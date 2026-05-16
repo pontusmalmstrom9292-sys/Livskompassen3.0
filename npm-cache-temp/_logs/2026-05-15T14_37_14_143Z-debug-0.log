@@ -1,0 +1,330 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@11.12.1
+2 info using node@v24.15.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/Livskompassen/livskompassen-v2/server/.npmrc
+5 silly config load:file:/Users/Livskompassen/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm install vite @vitejs/plugin-react
+8 verbose argv "install" "--cache" "/Users/Livskompassen/livskompassen-v2/npm-cache-temp" "vite" "@vitejs/plugin-react"
+9 verbose logfile logs-max:10 dir:/Users/Livskompassen/livskompassen-v2/npm-cache-temp/_logs/2026-05-15T14_37_14_143Z-
+10 verbose logfile /Users/Livskompassen/livskompassen-v2/npm-cache-temp/_logs/2026-05-15T14_37_14_143Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:2348810240 maxSize:587202560 maxEntrySize:293601280
+13 silly idealTree buildDeps
+14 silly fetch manifest vite@^8.0.13
+15 silly packumentCache full:https://registry.npmjs.org/vite cache-miss
+16 http cache https://registry.npmjs.org/vite 68ms (cache hit)
+17 silly packumentCache full:https://registry.npmjs.org/vite set size:38838042 disposed:false
+18 silly fetch manifest @types/node@latest
+19 silly packumentCache full:https://registry.npmjs.org/@types%2fnode cache-miss
+20 http cache https://registry.npmjs.org/@types%2fnode 15ms (cache hit)
+21 silly packumentCache full:https://registry.npmjs.org/@types%2fnode set size:11008407 disposed:false
+22 silly fetch manifest @vitejs/devtools@^0.1.18
+23 silly packumentCache full:https://registry.npmjs.org/@vitejs%2fdevtools cache-miss
+24 http cache https://registry.npmjs.org/@vitejs%2fdevtools 3ms (cache hit)
+25 silly packumentCache full:https://registry.npmjs.org/@vitejs%2fdevtools set size:211252 disposed:false
+26 silly fetch manifest esbuild@^0.27.0 || ^0.28.0
+27 silly packumentCache full:https://registry.npmjs.org/esbuild cache-miss
+28 http cache https://registry.npmjs.org/esbuild 3ms (cache hit)
+29 silly packumentCache full:https://registry.npmjs.org/esbuild set size:1254708 disposed:false
+30 silly fetch manifest jiti@>=1.21.0
+31 silly packumentCache full:https://registry.npmjs.org/jiti cache-miss
+32 http cache https://registry.npmjs.org/jiti 2ms (cache hit)
+33 silly packumentCache full:https://registry.npmjs.org/jiti set size:387989 disposed:false
+34 silly fetch manifest less@^4.0.0
+35 silly packumentCache full:https://registry.npmjs.org/less cache-miss
+36 http cache https://registry.npmjs.org/less 3ms (cache hit)
+37 silly packumentCache full:https://registry.npmjs.org/less set size:461684 disposed:false
+38 silly fetch manifest sass@^1.70.0
+39 silly packumentCache full:https://registry.npmjs.org/sass cache-miss
+40 http cache https://registry.npmjs.org/sass 3ms (cache hit)
+41 silly packumentCache full:https://registry.npmjs.org/sass set size:726244 disposed:false
+42 silly fetch manifest sass-embedded@^1.70.0
+43 silly packumentCache full:https://registry.npmjs.org/sass-embedded cache-miss
+44 http cache https://registry.npmjs.org/sass-embedded 4ms (cache hit)
+45 silly packumentCache full:https://registry.npmjs.org/sass-embedded set size:415594 disposed:false
+46 silly fetch manifest stylus@>=0.54.8
+47 silly packumentCache full:https://registry.npmjs.org/stylus cache-miss
+48 http cache https://registry.npmjs.org/stylus 5ms (cache hit)
+49 silly packumentCache full:https://registry.npmjs.org/stylus set size:286766 disposed:false
+50 silly fetch manifest sugarss@^5.0.0
+51 silly packumentCache full:https://registry.npmjs.org/sugarss cache-miss
+52 http cache https://registry.npmjs.org/sugarss 2ms (cache hit)
+53 silly packumentCache full:https://registry.npmjs.org/sugarss set size:44975 disposed:false
+54 silly fetch manifest postcss@^8.3.3
+55 silly packumentCache full:https://registry.npmjs.org/postcss cache-miss
+56 http cache https://registry.npmjs.org/postcss 8ms (cache hit)
+57 silly packumentCache full:https://registry.npmjs.org/postcss set size:720302 disposed:false
+58 silly fetch manifest terser@^5.16.0
+59 silly packumentCache full:https://registry.npmjs.org/terser cache-miss
+60 http cache https://registry.npmjs.org/terser 2ms (cache hit)
+61 silly packumentCache full:https://registry.npmjs.org/terser set size:800268 disposed:false
+62 silly fetch manifest tsx@latest
+63 silly packumentCache full:https://registry.npmjs.org/tsx cache-miss
+64 http cache https://registry.npmjs.org/tsx 1ms (cache hit)
+65 silly packumentCache full:https://registry.npmjs.org/tsx set size:294629 disposed:false
+66 silly fetch manifest yaml@^2.4.2
+67 silly packumentCache full:https://registry.npmjs.org/yaml cache-miss
+68 http cache https://registry.npmjs.org/yaml 2ms (cache hit)
+69 silly packumentCache full:https://registry.npmjs.org/yaml set size:385754 disposed:false
+70 silly fetch manifest @vitejs/plugin-react@*
+71 silly packumentCache full:https://registry.npmjs.org/@vitejs%2fplugin-react cache-miss
+72 http fetch GET 200 https://registry.npmjs.org/@vitejs%2fplugin-react 143ms (cache miss)
+73 silly packumentCache full:https://registry.npmjs.org/@vitejs%2fplugin-react set size:undefined disposed:false
+74 silly fetch manifest @rolldown/plugin-babel@^0.1.7 || ^0.2.0
+75 silly packumentCache full:https://registry.npmjs.org/@rolldown%2fplugin-babel cache-miss
+76 http fetch GET 200 https://registry.npmjs.org/@rolldown%2fplugin-babel 262ms (cache miss)
+77 silly packumentCache full:https://registry.npmjs.org/@rolldown%2fplugin-babel set size:undefined disposed:false
+78 silly fetch manifest @babel/core@^7.29.0 || ^8.0.0-rc.1
+79 silly packumentCache full:https://registry.npmjs.org/@babel%2fcore cache-miss
+80 http fetch GET 200 https://registry.npmjs.org/@babel%2fcore 75ms (cache miss)
+81 silly packumentCache full:https://registry.npmjs.org/@babel%2fcore set size:undefined disposed:false
+82 silly fetch manifest @babel/plugin-transform-runtime@^7.29.0 || ^8.0.0-rc.1
+83 silly packumentCache full:https://registry.npmjs.org/@babel%2fplugin-transform-runtime cache-miss
+84 http fetch GET 200 https://registry.npmjs.org/@babel%2fplugin-transform-runtime 68ms (cache miss)
+85 silly packumentCache full:https://registry.npmjs.org/@babel%2fplugin-transform-runtime set size:undefined disposed:false
+86 silly fetch manifest @babel/runtime@^7.27.0 || ^8.0.0-rc.1
+87 silly packumentCache full:https://registry.npmjs.org/@babel%2fruntime cache-miss
+88 http fetch GET 200 https://registry.npmjs.org/@babel%2fruntime 135ms (cache miss)
+89 silly packumentCache full:https://registry.npmjs.org/@babel%2fruntime set size:undefined disposed:false
+90 silly fetch manifest rolldown@^1.0.0-rc.5
+91 silly packumentCache full:https://registry.npmjs.org/rolldown cache-miss
+92 http cache https://registry.npmjs.org/rolldown 7ms (cache hit)
+93 silly packumentCache full:https://registry.npmjs.org/rolldown set size:3707856 disposed:false
+94 silly fetch manifest babel-plugin-react-compiler@^1.0.0
+95 silly packumentCache full:https://registry.npmjs.org/babel-plugin-react-compiler cache-miss
+96 http fetch GET 200 https://registry.npmjs.org/babel-plugin-react-compiler 229ms (cache miss)
+97 silly packumentCache full:https://registry.npmjs.org/babel-plugin-react-compiler set size:undefined disposed:false
+98 silly placeDep ROOT @vitejs/plugin-react@6.0.2 OK for: livskompassen-backend@1.0.0 want: *
+99 silly placeDep ROOT vite@8.0.13 REPLACE for: livskompassen-backend@1.0.0 want: ^8.0.13
+100 silly reify moves {}
+101 silly audit bulk request {
+101 silly audit   '@emnapi/core': [ '1.10.0' ],
+101 silly audit   '@emnapi/runtime': [ '1.10.0' ],
+101 silly audit   '@emnapi/wasi-threads': [ '1.2.1' ],
+101 silly audit   '@esbuild/aix-ppc64': [ '0.28.0' ],
+101 silly audit   '@esbuild/android-arm': [ '0.28.0' ],
+101 silly audit   '@esbuild/android-arm64': [ '0.28.0' ],
+101 silly audit   '@esbuild/android-x64': [ '0.28.0' ],
+101 silly audit   '@esbuild/darwin-arm64': [ '0.28.0' ],
+101 silly audit   '@esbuild/darwin-x64': [ '0.28.0' ],
+101 silly audit   '@esbuild/freebsd-arm64': [ '0.28.0' ],
+101 silly audit   '@esbuild/freebsd-x64': [ '0.28.0' ],
+101 silly audit   '@esbuild/linux-arm': [ '0.28.0' ],
+101 silly audit   '@esbuild/linux-arm64': [ '0.28.0' ],
+101 silly audit   '@esbuild/linux-ia32': [ '0.28.0' ],
+101 silly audit   '@esbuild/linux-loong64': [ '0.28.0' ],
+101 silly audit   '@esbuild/linux-mips64el': [ '0.28.0' ],
+101 silly audit   '@esbuild/linux-ppc64': [ '0.28.0' ],
+101 silly audit   '@esbuild/linux-riscv64': [ '0.28.0' ],
+101 silly audit   '@esbuild/linux-s390x': [ '0.28.0' ],
+101 silly audit   '@esbuild/linux-x64': [ '0.28.0' ],
+101 silly audit   '@esbuild/netbsd-arm64': [ '0.28.0' ],
+101 silly audit   '@esbuild/netbsd-x64': [ '0.28.0' ],
+101 silly audit   '@esbuild/openbsd-arm64': [ '0.28.0' ],
+101 silly audit   '@esbuild/openbsd-x64': [ '0.28.0' ],
+101 silly audit   '@esbuild/openharmony-arm64': [ '0.28.0' ],
+101 silly audit   '@esbuild/sunos-x64': [ '0.28.0' ],
+101 silly audit   '@esbuild/win32-arm64': [ '0.28.0' ],
+101 silly audit   '@esbuild/win32-ia32': [ '0.28.0' ],
+101 silly audit   '@esbuild/win32-x64': [ '0.28.0' ],
+101 silly audit   '@google/generative-ai': [ '0.24.1' ],
+101 silly audit   '@hexagon/base64': [ '1.1.28' ],
+101 silly audit   '@levischuck/tiny-cbor': [ '0.2.11' ],
+101 silly audit   '@napi-rs/wasm-runtime': [ '1.1.4' ],
+101 silly audit   '@oxc-project/types': [ '0.130.0' ],
+101 silly audit   '@peculiar/asn1-android': [ '2.7.0' ],
+101 silly audit   '@peculiar/asn1-cms': [ '2.7.0' ],
+101 silly audit   '@peculiar/asn1-csr': [ '2.7.0' ],
+101 silly audit   '@peculiar/asn1-ecc': [ '2.7.0' ],
+101 silly audit   '@peculiar/asn1-pfx': [ '2.7.0' ],
+101 silly audit   '@peculiar/asn1-pkcs8': [ '2.7.0' ],
+101 silly audit   '@peculiar/asn1-pkcs9': [ '2.7.0' ],
+101 silly audit   '@peculiar/asn1-rsa': [ '2.7.0' ],
+101 silly audit   '@peculiar/asn1-schema': [ '2.7.0' ],
+101 silly audit   '@peculiar/asn1-x509': [ '2.7.0' ],
+101 silly audit   '@peculiar/asn1-x509-attr': [ '2.7.0' ],
+101 silly audit   '@peculiar/utils': [ '2.0.3' ],
+101 silly audit   '@peculiar/x509': [ '1.14.3' ],
+101 silly audit   '@rolldown/binding-android-arm64': [ '1.0.1' ],
+101 silly audit   '@rolldown/binding-darwin-arm64': [ '1.0.1' ],
+101 silly audit   '@rolldown/binding-darwin-x64': [ '1.0.1' ],
+101 silly audit   '@rolldown/binding-freebsd-x64': [ '1.0.1' ],
+101 silly audit   '@rolldown/binding-linux-arm-gnueabihf': [ '1.0.1' ],
+101 silly audit   '@rolldown/binding-linux-arm64-gnu': [ '1.0.1' ],
+101 silly audit   '@rolldown/binding-linux-arm64-musl': [ '1.0.1' ],
+101 silly audit   '@rolldown/binding-linux-ppc64-gnu': [ '1.0.1' ],
+101 silly audit   '@rolldown/binding-linux-s390x-gnu': [ '1.0.1' ],
+101 silly audit   '@rolldown/binding-linux-x64-gnu': [ '1.0.1' ],
+101 silly audit   '@rolldown/binding-linux-x64-musl': [ '1.0.1' ],
+101 silly audit   '@rolldown/binding-openharmony-arm64': [ '1.0.1' ],
+101 silly audit   '@rolldown/binding-wasm32-wasi': [ '1.0.1' ],
+101 silly audit   '@rolldown/binding-win32-arm64-msvc': [ '1.0.1' ],
+101 silly audit   '@rolldown/binding-win32-x64-msvc': [ '1.0.1' ],
+101 silly audit   '@rolldown/pluginutils': [ '1.0.1' ],
+101 silly audit   '@simplewebauthn/server': [ '13.3.0' ],
+101 silly audit   '@simplewebauthn/types': [ '12.0.0' ],
+101 silly audit   '@tybys/wasm-util': [ '0.10.2' ],
+101 silly audit   '@types/body-parser': [ '1.19.6' ],
+101 silly audit   '@types/connect': [ '3.4.38' ],
+101 silly audit   '@types/cookie-parser': [ '1.4.10' ],
+101 silly audit   '@types/express': [ '5.0.6' ],
+101 silly audit   '@types/express-serve-static-core': [ '5.1.1' ],
+101 silly audit   '@types/http-errors': [ '2.0.5' ],
+101 silly audit   '@types/multer': [ '2.1.0' ],
+101 silly audit   '@types/node': [ '25.8.0' ],
+101 silly audit   '@types/qs': [ '6.15.1' ],
+101 silly audit   '@types/range-parser': [ '1.2.7' ],
+101 silly audit   '@types/send': [ '1.2.1' ],
+101 silly audit   '@types/serve-static': [ '2.2.0' ],
+101 silly audit   accepts: [ '2.0.0' ],
+101 silly audit   'agent-base': [ '7.1.4' ],
+101 silly audit   'append-field': [ '1.0.0' ],
+101 silly audit   asn1js: [ '3.0.10' ],
+101 silly audit   'base64-js': [ '1.5.1' ],
+101 silly audit   'bignumber.js': [ '9.3.1' ],
+101 silly audit   'body-parser': [ '2.2.2' ],
+101 silly audit   'buffer-equal-constant-time': [ '1.0.1' ],
+101 silly audit   'buffer-from': [ '1.1.2' ],
+101 silly audit   busboy: [ '1.6.0' ],
+101 silly audit   bytes: [ '3.1.2' ],
+101 silly audit   'call-bind-apply-helpers': [ '1.0.2' ],
+101 silly audit   'call-bound': [ '1.0.4' ],
+101 silly audit   'concat-stream': [ '2.0.0' ],
+101 silly audit   'content-disposition': [ '1.1.0' ],
+101 silly audit   'content-type': [ '1.0.5', '2.0.0' ],
+101 silly audit   cookie: [ '0.7.2' ],
+101 silly audit   'cookie-parser': [ '1.4.7' ],
+101 silly audit   'cookie-signature': [ '1.0.6', '1.2.2' ],
+101 silly audit   cors: [ '2.8.6' ],
+101 silly audit   'data-uri-to-buffer': [ '4.0.1' ],
+101 silly audit   debug: [ '4.4.3' ],
+101 silly audit   depd: [ '2.0.0' ],
+101 silly audit   'detect-libc': [ '2.1.2' ],
+101 silly audit   dotenv: [ '17.4.2' ],
+101 silly audit   'dunder-proto': [ '1.0.1' ],
+101 silly audit   'ecdsa-sig-formatter': [ '1.0.11' ],
+101 silly audit   'ee-first': [ '1.1.1' ],
+101 silly audit   encodeurl: [ '2.0.0' ],
+101 silly audit   'es-define-property': [ '1.0.1' ],
+101 silly audit   'es-errors': [ '1.3.0' ],
+101 silly audit   'es-object-atoms': [ '1.1.1' ],
+101 silly audit   esbuild: [ '0.28.0' ],
+101 silly audit   'escape-html': [ '1.0.3' ],
+101 silly audit   etag: [ '1.8.1' ],
+101 silly audit   express: [ '5.2.1' ],
+101 silly audit   extend: [ '3.0.2' ],
+101 silly audit   fdir: [ '6.5.0' ],
+101 silly audit   'fetch-blob': [ '3.2.0' ],
+101 silly audit   finalhandler: [ '2.1.1' ],
+101 silly audit   'formdata-polyfill': [ '4.0.10' ],
+101 silly audit   forwarded: [ '0.2.0' ],
+101 silly audit   fresh: [ '2.0.0' ],
+101 silly audit   fsevents: [ '2.3.3' ],
+101 silly audit   'function-bind': [ '1.1.2' ],
+101 silly audit   gaxios: [ '7.1.4' ],
+101 silly audit   'gcp-metadata': [ '8.1.2' ],
+101 silly audit   'get-intrinsic': [ '1.3.0' ],
+101 silly audit   'get-proto': [ '1.0.1' ],
+101 silly audit   'google-auth-library': [ '10.6.2' ],
+101 silly audit   'google-logging-utils': [ '1.1.3' ],
+101 silly audit   googleapis: [ '171.4.0' ],
+101 silly audit   'googleapis-common': [ '8.0.1' ],
+101 silly audit   gopd: [ '1.2.0' ],
+101 silly audit   'has-symbols': [ '1.1.0' ],
+101 silly audit   hasown: [ '2.0.3' ],
+101 silly audit   'http-errors': [ '2.0.1' ],
+101 silly audit   'https-proxy-agent': [ '7.0.6' ],
+101 silly audit   'iconv-lite': [ '0.7.2' ],
+101 silly audit   inherits: [ '2.0.4' ],
+101 silly audit   'ipaddr.js': [ '1.9.1' ],
+101 silly audit   'is-promise': [ '4.0.0' ],
+101 silly audit   'json-bigint': [ '1.0.0' ],
+101 silly audit   jwa: [ '2.0.1' ],
+101 silly audit   jws: [ '4.0.1' ],
+101 silly audit   lightningcss: [ '1.32.0' ],
+101 silly audit   'lightningcss-android-arm64': [ '1.32.0' ],
+101 silly audit   'lightningcss-darwin-arm64': [ '1.32.0' ],
+101 silly audit   'lightningcss-darwin-x64': [ '1.32.0' ],
+101 silly audit   'lightningcss-freebsd-x64': [ '1.32.0' ],
+101 silly audit   'lightningcss-linux-arm-gnueabihf': [ '1.32.0' ],
+101 silly audit   'lightningcss-linux-arm64-gnu': [ '1.32.0' ],
+101 silly audit   'lightningcss-linux-arm64-musl': [ '1.32.0' ],
+101 silly audit   'lightningcss-linux-x64-gnu': [ '1.32.0' ],
+101 silly audit   'lightningcss-linux-x64-musl': [ '1.32.0' ],
+101 silly audit   'lightningcss-win32-arm64-msvc': [ '1.32.0' ],
+101 silly audit   'lightningcss-win32-x64-msvc': [ '1.32.0' ],
+101 silly audit   'math-intrinsics': [ '1.1.0' ],
+101 silly audit   'media-typer': [ '1.1.0', '0.3.0' ],
+101 silly audit   'merge-descriptors': [ '2.0.0' ],
+101 silly audit   'mime-db': [ '1.54.0', '1.52.0' ],
+101 silly audit   'mime-types': [ '3.0.2', '2.1.35' ],
+101 silly audit   ms: [ '2.1.3' ],
+101 silly audit   multer: [ '2.1.1' ],
+101 silly audit   'type-is': [ '1.6.18', '2.1.0' ],
+101 silly audit   nanoid: [ '3.3.12' ],
+101 silly audit   negotiator: [ '1.0.0' ],
+101 silly audit   'node-domexception': [ '1.0.0' ],
+101 silly audit   'node-fetch': [ '3.3.2' ],
+101 silly audit   'object-assign': [ '4.1.1' ],
+101 silly audit   'object-inspect': [ '1.13.4' ],
+101 silly audit   'on-finished': [ '2.4.1' ],
+101 silly audit   once: [ '1.4.0' ],
+101 silly audit   parseurl: [ '1.3.3' ],
+101 silly audit   'path-to-regexp': [ '8.4.2' ],
+101 silly audit   picocolors: [ '1.1.1' ],
+101 silly audit   picomatch: [ '4.0.4' ],
+101 silly audit   postcss: [ '8.5.14' ],
+101 silly audit   'proxy-addr': [ '2.0.7' ],
+101 silly audit   pvtsutils: [ '1.3.6' ],
+101 silly audit   pvutils: [ '1.1.5' ],
+101 silly audit   qs: [ '6.15.1' ],
+101 silly audit   'range-parser': [ '1.2.1' ],
+101 silly audit   'raw-body': [ '3.0.2' ],
+101 silly audit   'readable-stream': [ '3.6.2' ],
+101 silly audit   'reflect-metadata': [ '0.2.2' ],
+101 silly audit   rolldown: [ '1.0.1' ],
+101 silly audit   router: [ '2.2.0' ],
+101 silly audit   'safe-buffer': [ '5.2.1' ],
+101 silly audit   'safer-buffer': [ '2.1.2' ],
+101 silly audit   send: [ '1.2.1' ],
+101 silly audit   'serve-static': [ '2.2.1' ],
+101 silly audit   setprototypeof: [ '1.2.0' ],
+101 silly audit   'side-channel': [ '1.1.0' ],
+101 silly audit   'side-channel-list': [ '1.0.1' ],
+101 silly audit   'side-channel-map': [ '1.0.1' ],
+101 silly audit   'side-channel-weakmap': [ '1.0.2' ],
+101 silly audit   'source-map-js': [ '1.2.1' ],
+101 silly audit   statuses: [ '2.0.2' ],
+101 silly audit   streamsearch: [ '1.1.0' ],
+101 silly audit   string_decoder: [ '1.3.0' ],
+101 silly audit   tinyglobby: [ '0.2.16' ],
+101 silly audit   toidentifier: [ '1.0.1' ],
+101 silly audit   tslib: [ '2.8.1', '1.14.1' ],
+101 silly audit   tsx: [ '4.22.0' ],
+101 silly audit   tsyringe: [ '4.10.0' ],
+101 silly audit   typedarray: [ '0.0.6' ],
+101 silly audit   typescript: [ '6.0.3' ],
+101 silly audit   'undici-types': [ '7.24.6' ],
+101 silly audit   unpipe: [ '1.0.0' ],
+101 silly audit   'url-template': [ '2.0.8' ],
+101 silly audit   'util-deprecate': [ '1.0.2' ],
+101 silly audit   vary: [ '1.1.2' ],
+101 silly audit   'web-streams-polyfill': [ '3.3.3' ],
+101 silly audit   wrappy: [ '1.0.2' ],
+101 silly audit   '@vitejs/plugin-react': [ '6.0.2' ],
+101 silly audit   vite: [ '8.0.13' ]
+101 silly audit }
+102 http cache @vitejs/plugin-react@https://registry.npmjs.org/@vitejs/plugin-react/-/plugin-react-6.0.2.tgz 0ms (cache hit)
+103 silly tarball no local data for @vitejs/plugin-react@https://registry.npmjs.org/@vitejs/plugin-react/-/plugin-react-6.0.2.tgz. Extracting by manifest.
+104 http fetch GET 200 https://registry.npmjs.org/@vitejs/plugin-react/-/plugin-react-6.0.2.tgz 110ms (cache miss)
+105 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 198ms
+106 silly audit report {}
+107 silly ADD node_modules/@vitejs/plugin-react
+108 verbose cwd /Users/Livskompassen/livskompassen-v2/server
+109 verbose os Darwin 25.4.0
+110 verbose node v24.15.0
+111 verbose npm  v11.12.1
+112 verbose exit 0
+113 info ok

@@ -1,0 +1,120 @@
+"use strict";
+/**
+ * DCAP - Digital Conversation Analysis Pipeline
+ * Livskompassen v2 - Fas 3, Steg 3.1
+ *
+ * En hybrid Regex + semantisk analys-motor för att identifiera narcissistiska
+ * missbruksmönster (DARVO, gaslighting, JADE-triggers, stonewalling) i
+ * text som skickas in av användaren för granskning.
+ *
+ * Arkitektur:
+ *  - Lager 1 (Snabb/Deterministisk): Regelbaserade Regex-mönster för explicita indikatorer.
+ *  - Lager 2 (Djup/Semantisk): Vertex AI (Gemini) för kontextuell analys av implicita mönster.
+ *  - Åtgärd: Returnerar en DcapResult med risknivå och föreslaget Grey Rock-svar.
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.analyzeDcap = analyzeDcap;
+const vertexai_1 = require("@google-cloud/vertexai");
+// --- Lager 1: Regelbaserade Regex-mönster ---
+const REGEX_PATTERNS = [
+    // DARVO: Förnekande och reversal av offer/förövare
+    { pattern: /du är alltid så (känslig|dramatisk|överdriftig)/i, technique: 'DARVO', weight: 30 },
+    { pattern: /du hittar på (allting|det där|det)/i, technique: 'GASLIGHTING', weight: 35 },
+    { pattern: /det har aldrig (hänt|sagts|gjorts)/i, technique: 'GASLIGHTING', weight: 35 },
+    { pattern: /du är (galen|psykisk|instabil)/i, technique: 'GASLIGHTING', weight: 40 },
+    // JADE-bete: Provocerar en att förklara/försvara sig
+    { pattern: /varför gör du (alltid|aldrig)/i, technique: 'JADE_BAIT', weight: 20 },
+    { pattern: /du måste (förklara|bevisa|motivera)/i, technique: 'JADE_BAIT', weight: 25 },
+    // Hot (direkta)
+    { pattern: /(annars|om inte).*konsekvens/i, technique: 'THREAT', weight: 50 },
+    { pattern: /jag ska se till att/i, technique: 'THREAT', weight: 45 },
+    // Love-bombing
+    { pattern: /ingen (älskar|förstår|vet) dig som jag/i, technique: 'LOVE_BOMBING', weight: 30 },
+];
+function runRegexLayer(text) {
+    let score = 0;
+    const detections = [];
+    for (const { pattern, technique, weight } of REGEX_PATTERNS) {
+        const match = text.match(pattern);
+        if (match) {
+            score += weight;
+            detections.push({
+                technique,
+                matchedPattern: match[0],
+                confidence: weight >= 35 ? 'HIGH' : 'MEDIUM',
+                layer: 'REGEX',
+            });
+        }
+    }
+    return { detections, score: Math.min(score, 60) }; // Regex ger max 60p
+}
+// --- Lager 2: Semantisk Analys via Vertex AI ---
+async function runSemanticLayer(text, projectId) {
+    const vertexai = new vertexai_1.VertexAI({ project: projectId, location: 'europe-west1' });
+    const model = vertexai.preview.getGenerativeModel({
+        model: 'gemini-1.5-flash-001', // Flash för snabb analys; Pro används av DCAP-scheduler
+        systemInstruction: {
+            role: 'system',
+            parts: [{
+                    text: `Du är en expert på narcissistiskt missbruk och psykologiska manipulationstekniker.
+Din uppgift är att analysera text för indikatorer på: DARVO, gaslighting, hot, love-bombing, stonewalling och JADE-bete.
+Svara ALLTID med ett JSON-objekt. Inga förklaringar utanför JSON.
+Format:
+{
+  "riskScore": <0-40>,
+  "technique": "<DARVO|GASLIGHTING|LOVE_BOMBING|SILENT_TREATMENT|JADE_BAIT|THREAT|UNKNOWN>",
+  "confidence": "<HIGH|MEDIUM|LOW>",
+  "greyRockSuggestion": "<ett kort, neutralt och känslokallt svar>"
+}`
+                }]
+        }
+    });
+    const result = await model.generateContent({
+        contents: [{ role: 'user', parts: [{ text: `Analysera denna text:\n\n"${text}"` }] }]
+    });
+    const responseText = result.response.candidates?.[0]?.content?.parts?.[0]?.text ?? '{}';
+    try {
+        const parsed = JSON.parse(responseText);
+        const detections = parsed.technique !== 'UNKNOWN' ? [{
+                technique: parsed.technique,
+                matchedPattern: 'Semantisk analys',
+                confidence: parsed.confidence ?? 'LOW',
+                layer: 'SEMANTIC',
+            }] : [];
+        return {
+            detections,
+            score: parsed.riskScore ?? 0,
+            greyRockResponse: parsed.greyRockSuggestion,
+        };
+    }
+    catch {
+        return { detections: [], score: 0 };
+    }
+}
+// --- Huvud-API ---
+/**
+ * Kör hela DCAP-pipelinen (Regex + Semantisk) mot given text.
+ * @param text Texten som ska analyseras (t.ex. ett mottaget SMS).
+ * @param projectId GCP-projekt-ID.
+ */
+async function analyzeDcap(text, projectId) {
+    // Kör båda lagren parallellt för snabbhet
+    const [regexResult, semanticResult] = await Promise.all([
+        Promise.resolve(runRegexLayer(text)),
+        runSemanticLayer(text, projectId),
+    ]);
+    const totalScore = Math.min(regexResult.score + semanticResult.score, 100);
+    const allDetections = [...regexResult.detections, ...semanticResult.detections];
+    let recommendedAction = 'NONE';
+    if (totalScore >= 70)
+        recommendedAction = 'ALERT';
+    else if (totalScore >= 30)
+        recommendedAction = 'COACHING';
+    return {
+        riskScore: totalScore,
+        detections: allDetections,
+        greyRockResponse: semanticResult.greyRockResponse,
+        recommendedAction,
+    };
+}
+//# sourceMappingURL=DCAP.js.map
