@@ -16,12 +16,14 @@ Vi använder Structured Prompt-Driven Development (SPDD). Applikationens obestri
 - Backend: GCP, Vertex AI Agent Engine, Agent2Agent (A2A), Cloud Run Jobs.
 - Databas: Cloud Firestore i Datastore-läge med CMEK. WORM-protokoll (Write Once, Read Many) för oföränderliga bevis i Verklighetsvalvet.
 - RAG: Vertex AI Vector Search 2.0 (textembedding-gecko) med Context Caching.
+- RAG: Vertex AI Vector Search 2.0 (textembedding-gecko) med Context Caching. Data struktureras via strikta RAG-scheman (VaultLog, EntityProfile, SystemSynapse) i JSONL för noll hallucinationer.
 - Säkerhet: WebAuthn Passkeys, DCAP (Regex + BERT), Firebase App Check, Shake-to-Kill trigger.
 - Frontend: React, TypeScript, Vite, Tailwind CSS, Zustand.
 
 ## 4. Kritiska Utvecklingsregler
 - **Säkerhet först (Layered Defense):** Implementera aldrig "mock-säkerhet". Använd riktiga WebAuthn/CMEK-anrop. PII måste filtreras av Gatekeeper-agenter. Känsligt kryptomaterial får aldrig exponeras i JS-heapen. RAM och lokala cacher ska rensas omedelbart vid utloggning eller panik (Zero Footprint). LLM får aldrig användas för deterministiska logikbeslut.
 - **Agent-Roller & Sacred Features:** Systemet drivs av specifika sub-agenter (Livs-Arkivarien, Analys-Agenten, Gräns-Arkitekten, Kod-Agenten, Speglings-Agenten). Kärnfunktioner som "Verklighetsvalvet" och "De Tre Kompasserna" prioriteras.
+- **Agent-Roller & Sacred Features:** Kärnfunktioner som "Verklighetsvalvet" prioriteras. AI-ekosystemet är strikt definierat i 8 roller: Sannings-Analytikern (Klinisk bevisföring/JSON), Brusfiltret (Kognitiv avlastning), BIFF-Skölden (Grey Rock), Paralys-Brytaren (Executive Dysfunction), RSD-Kylaren, Uppgifts-Krossaren, Speglings-Coachen, och Mönster-Arkivarien. Varje agent har exakta instruktioner för att förebygga stress, "bandwidth tax" och gaslighting.
 - **Kvalitet:** All kod måste vara strikt typad (TypeScript), modulär och inkludera felhantering för nätverksavbrott.
 - **GDPR/AADC:** Retentionsscript måste finnas. "High privacy" by default. Omfamna "Immutable Snapshots" via server-side tidsstämplar.
 - **Strikt Designspråk:** UI/UX ska ovillkorligen följa temana "Obsidian Calm" (mörka, djupsvarta/grå rymd-toner) och "Nordic Dusk" (kalla, eleganta accenter). Naturteman (träd, skog, vatten, salviagröna toner, "digitala plantor") är **STRIKT FÖRBJUDNA**. Äldre begrepp som "Atmospheric Zen" eller "Eco-Kingdom" måste konverteras till abstrakt, geometrisk/neural rymd-estetik.
