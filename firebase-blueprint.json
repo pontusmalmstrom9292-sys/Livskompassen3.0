@@ -1,0 +1,394 @@
+{
+    "entities": {
+      "User": {
+        "title": "Användarprofil",
+        "description": "Grundläggande information om användaren för personlig anpassning.",
+        "type": "object",
+        "properties": {
+          "displayName": { "type": "string" },
+          "email": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "DiaryEntry": {
+        "title": "Dagboksanteckning",
+        "description": "Varje inlägg i Livsarkivet med energi och reflektion.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "text": { "type": "string" },
+          "energy": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "category": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "text", "energy", "createdAt"]
+      },
+      "VaultLog": {
+        "title": "Valvbevis",
+        "description": "Sensitiv loggning för Verklighetsvalvet (gaslighting-bevis).",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "category": { "type": "string" },
+          "action": { "type": "string" },
+          "truth": { "type": "string" },
+          "childrenImpact": { "type": "string" },
+          "evidenceUrl": { "type": "string" },
+          "biffUsed": { "type": "boolean" },
+          "isLocked": { "type": "boolean" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "action", "truth", "createdAt"]
+      },
+      "CheckIn": {
+        "title": "Daglig Check-in",
+        "description": "Användarens svar på de dagliga frågorna samt mikrosteg.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "questionId": { "type": "string" },
+          "questionText": { "type": "string" },
+          "optionSelected": { "type": "string" },
+          "taskText": { "type": "string" },
+          "taskCompleted": { "type": "boolean" },
+          "taskCategory": { "type": "string" },
+          "taskNote": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "questionId", "optionSelected", "createdAt"]
+      },
+      "KnowledgeFolder": {
+        "title": "Dokumentmapp",
+        "description": "En kategori för dokument i Kunskapsbanken.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "iconName": { "type": "string" },
+          "colorClass": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "title", "createdAt"]
+      },
+      "KnowledgeDoc": {
+        "title": "Dokument",
+        "description": "Ett individuellt dokument/anteckning.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "folderId": { "type": "string" },
+          "title": { "type": "string" },
+          "content": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "folderId", "title", "content", "createdAt"]
+      },
+      "KnowledgeMedia": {
+        "title": "Mediafil",
+        "description": "En uppladdad eller länkad fil (video, dokument, kalkylark).",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "folderId": { "type": "string" },
+          "title": { "type": "string" },
+          "fileType": { "type": "string", "enum": ["video", "document", "sheet", "image", "other"] },
+          "url": { "type": "string" },
+          "driveId": { "type": "string" },
+          "thumbnail": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "title", "fileType", "url", "createdAt"]
+      },
+      "Transaction": {
+        "title": "Ekonomisk transaktion",
+        "description": "Logg över inkomster och utgifter.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "amount": { "type": "number" },
+          "description": { "type": "string" },
+          "category": { "type": "string" },
+          "date": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "amount", "description", "createdAt"]
+      },
+      "KidsRecord": {
+        "title": "Barn-logg/rutin",
+        "description": "Information eller loggpost gällande barnen.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "type": { "type": "string", "enum": ["ROUTINES", "INFO", "LOGS"] },
+          "title": { "type": "string" },
+          "content": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "type", "title", "content", "createdAt"]
+      },
+      "AIAgent": {
+        "title": "AI Agent Konfiguration",
+        "description": "Definition av en specialiserad AI-agent med sina systeminstruktioner.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "name": { "type": "string" },
+          "role": { "type": "string" },
+          "prompt": { "type": "string" },
+          "isActive": { "type": "boolean" },
+          "category": { "type": "string", "enum": ["DESIGN", "CODE", "ANALYSIS", "SAFETY", "ARCHITECT"] },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "name", "role", "prompt", "isActive", "category", "createdAt"]
+      },
+      "SystemSynapse": {
+        "title": "System-synaps",
+        "description": "En enhet av systemkunskap eller en grounding-punkt.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "title": { "type": "string" },
+          "category": { "type": "string", "enum": ["INTEGRITY", "GROWTH", "SECURITY", "BIOGRAPHY", "COGNITIVE", "SENSOR", "PROTECTION"] },
+          "analysis": { "type": "string" },
+          "groundingPoints": { "type": "array", "items": { "type": "string" } },
+          "hallucinationRisk": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH"] },
+          "lastScannedAt": { "type": "string", "format": "date-time" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "title", "category", "analysis", "createdAt"]
+      },
+      "SystemScan": {
+        "title": "Systemskanning",
+        "description": "Resultat av en integritets- eller säkerhetsskanning.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "scanType": { "type": "string" },
+          "status": { "type": "string", "enum": ["COMPLETED", "RUNNING", "FAILED"] },
+          "findings": { "type": "array", "items": { "type": "string" } },
+          "reportUrl": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "scanType", "status", "createdAt"]
+      },
+      "NetworkMember": {
+        "title": "Nätverksmedlem",
+        "description": "En person i användarens sociala nätverk.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "name": { "type": "string" },
+          "role": { "type": "string" },
+          "category": { "type": "string", "enum": ["SLÄKT", "MYNDIGHET", "SKOLA", "VÄNNER", "ÖVRIGT"] },
+          "importance": { "type": "string", "enum": ["HIGH", "MEDIUM", "LOW"] },
+          "notes": { "type": "string" },
+          "isAlly": { "type": "boolean" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "name", "role", "category", "importance", "createdAt"]
+      },
+      "Reflection": {
+        "title": "Spegling & Lärande",
+        "description": "Svar på systemets frågor för att bygga gemensam förståelse och kognitiv tillväxt.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "agentName": { "type": "string" },
+          "question": { "type": "string" },
+          "answer": { "type": "string" },
+          "category": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "question", "answer", "createdAt"]
+      },
+      "Project": {
+        "title": "Projekt",
+        "description": "Ett projekt i systemet.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "status": { "type": "string", "enum": ["PLANNING", "ACTIVE", "ON_HOLD", "COMPLETED"] },
+          "priority": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH"] },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "WorkLog": {
+        "title": "Arbetspass",
+        "description": "Loggad tid för ett projekt.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "projectId": { "type": "string" },
+          "startTime": { "type": "string", "format": "date-time" },
+          "duration": { "type": "integer" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "SavingsGoal": {
+        "title": "Sparmål",
+        "description": "Mål för sparande.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "title": { "type": "string" },
+          "target": { "type": "number" },
+          "current": { "type": "number" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Routine": {
+        "title": "Daglig Rutin",
+        "description": "En återkommande uppgift för ADHD-stöd.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "text": { "type": "string" },
+          "completed": { "type": "boolean" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "VaultItem": {
+        "title": "Verklighetsbevis",
+        "description": "Metadata för en uppladdad fil i Verklighetsvalvet.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "fileName": { "type": "string" },
+          "fileUrl": { "type": "string" },
+          "fileType": { "type": "string" },
+          "contextHint": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "fileName", "fileUrl", "createdAt"]
+      },
+      "ArchivalAnalysis": {
+        "title": "Arkivanalys",
+        "description": "AI-genererad analys av ett verklighetsbevis.",
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "vaultId": { "type": "string" },
+          "bbicCategory": { "type": "string" },
+          "summary": { "type": "string" },
+          "detectedLies": { "type": "array", "items": { "type": "string" } },
+          "psychologicalPatterns": { "type": "array", "items": { "type": "string" } },
+          "actors": { "type": "array", "items": { "type": "string" } },
+          "legalWeight": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH"] },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["userId", "vaultId", "bbicCategory", "summary", "createdAt"]
+      },
+      "SystemState": {
+        "title": "System-tillstånd",
+        "description": "Persistens för guider och AI-analyser.",
+        "type": "object",
+        "properties": {
+          "showGuide": { "type": "boolean" },
+          "guideStep": { "type": "integer" },
+          "proposals": { 
+            "type": "array",
+            "items": { "type": "object" }
+          },
+          "selectedProposals": { 
+            "type": "array", 
+            "items": { "type": "string" } 
+          },
+          "isDeliberating": { "type": "boolean" },
+          "deliberationProgress": { "type": "integer" },
+          "deliberationLog": { 
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "firestore": {
+      "/users/{userId}": {
+        "schema": "User",
+        "description": "Lagrar användarinställningar."
+      },
+      "/system_state/{userId}": {
+        "schema": "SystemState",
+        "description": "Lagrar guider, pågående analyser och användarval."
+      },
+      "/diary/{entryId}": {
+        "schema": "DiaryEntry",
+        "description": "Användarens personliga dagboksanteckningar."
+      },
+      "/vault/{logId}": {
+        "schema": "VaultLog",
+        "description": "Säker loggrymd för bevis (Verklighetsvalvet)."
+      },
+      "/checkins/{checkInId}": {
+        "schema": "CheckIn",
+        "description": "Logg över dagliga frågor och svar."
+      },
+      "/kb_folders/{folderId}": {
+        "schema": "KnowledgeFolder",
+        "description": "Mappar i kunskapsbanken."
+      },
+      "/kb_docs/{docId}": {
+        "schema": "KnowledgeDoc",
+        "description": "Dokument i kunskapsbanken."
+      },
+      "/kb_media/{mediaId}": {
+        "schema": "KnowledgeMedia",
+        "description": "Mediafiler och bilagor i kunskapsbanken."
+      },
+      "/transactions/{txId}": {
+        "schema": "Transaction",
+        "description": "Logg över ekonomiska transaktioner."
+      },
+      "/kids_records/{recordId}": {
+        "schema": "KidsRecord",
+        "description": "Loggar och rutiner kopplade till barnen."
+      },
+      "/ai_agents/{agentId}": {
+        "schema": "AIAgent",
+        "description": "Konfigurerade AI-agenter för systemet."
+      },
+      "/network/{memberId}": {
+        "schema": "NetworkMember",
+        "description": "Användarens sociala nätverk."
+      },
+      "/synapses/{synapseId}": {
+        "schema": "SystemSynapse",
+        "description": "Systemsynapser för grounding."
+      },
+      "/scans/{scanId}": {
+        "schema": "SystemScan",
+        "description": "Systemskanningar och analyser."
+      },
+      "/reflections/{reflectionId}": {
+        "schema": "Reflection",
+        "description": "Användarens reflektioner och svar på systemets frågor."
+      },
+      "/projects/{projectId}": {
+        "schema": "Project",
+        "description": "Användarens projekt."
+      },
+      "/work_logs/{logId}": {
+        "schema": "WorkLog",
+        "description": "Tidsloggar för projekt."
+      },
+      "/budget_savings/{goalId}": {
+        "schema": "SavingsGoal",
+        "description": "Sparmål för ekonomin."
+      },
+      "/routines/{routineId}": {
+        "schema": "Routine",
+        "description": "Dagliga rutiner och checklistor."
+      },
+      "/reality_vault/{vaultId}": {
+        "schema": "VaultItem",
+        "description": "Fiskyiska filer och metadata i verklighetsvalvet."
+      },
+      "/archival_analysis/{analysisId}": {
+        "schema": "ArchivalAnalysis",
+        "description": "Djupanalyser av verklighetsbevis."
+      }
+    }
+  }
