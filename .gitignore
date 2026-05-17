@@ -3,3 +3,6 @@ node_modules/
 .env
 firebase-debug.log
 .firebase/
+gcloud components install alpha beta skaffold minikube kubectl gke-gcloud-auth-plugin/
+*.vsix
+repomix-output.txt
