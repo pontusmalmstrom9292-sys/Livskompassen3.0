@@ -1,9 +1,11 @@
+import { onCall } from "firebase-functions/v2/https";
+import { askKnowledgeVault } from "./agents/vertexAgent";
+import { analyzeDriveFile } from "./agents/documentAgent";
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import { KompisSupervisor } from './agents/kompis-supervisor';
 
 admin.initializeApp();
-
 const supervisor = new KompisSupervisor();
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -124,7 +126,6 @@ export const scheduledRetentionJob = functions
 // ─────────────────────────────────────────────────────────────────────────────
 // Funktion 5: notifyNewFile
 // Anropas av Google Apps Script när en fil flyttats till Kunskapsvalvet.
-// Registrerar filen i Firestore för framtida RAG-bearbetning.
 // ─────────────────────────────────────────────────────────────────────────────
 export const notifyNewFile = functions.region('europe-west1').https.onRequest(async (req, res) => {
   if (req.method !== 'POST') {
@@ -134,27 +135,35 @@ export const notifyNewFile = functions.region('europe-west1').https.onRequest(as
 
   const { fileId, fileName, mimeType } = req.body;
 
-  if (!fileId || !fileName) {
-    res.status(400).send('Missing fileId or fileName');
+  if (!fileId || !fileName || !mimeType) {
+    res.status(400).send('Missing fileId, fileName or mimeType');
     return;
   }
 
   try {
-    const db = admin.firestore();
-    await db.collection('vault').add({
-      fileId,
-      fileName,
-      mimeType,
-      status: 'pending_index',
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
-      ownerId: 'SYSTEM_AUTONOMOUS', // Eller specifik uid om tillgänglig via token
+    // Kör din nya automatiska AI-pipeline i bakgrunden!
+    analyzeDriveFile(fileId, fileName, mimeType).catch(err => {
+      console.error("[Background Pipeline Error]", err);
     });
 
-    console.log(`[notifyNewFile] Fil registrerad: ${fileName}`);
-    res.status(200).json({ success: true, message: 'File registered in Knowledge Vault' });
+    res.status(200).send({ status: 'Processing started', fileId });
   } catch (error) {
     console.error('[notifyNewFile] Fel:', error);
     res.status(500).send('Internal Server Error');
   }
 });
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 6: knowledgeVaultQuery
+// Skapar en säker bro (endpoint) för appen (Android/Webb)
+// ─────────────────────────────────────────────────────────────────────────────
+export const knowledgeVaultQuery = onCall(async (request) => {
+  const prompt = request.data.prompt;
+  
+  if (!prompt) {
+    throw new Error("Ingen prompt skickades med från appen.");
+  }
+
+  const aiResponse = await askKnowledgeVault(prompt);
+  return { response: aiResponse };
+});
