@@ -515,3 +515,6 @@ Generated sources: react/package.json [460B] react/esm/index.esm.js [3269B] inde
  {"metadata":{"emulator":{"name":"dataconnect"},"message":"E0517 02:48:03.555116   67324 installsdk.go:88] Failed to install package: exit status 190\n"}}
 [debug] [2026-05-17T00:48:03.565Z] I0517 02:48:03.562093   67324 load.go:109] Finished reloading
  {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0517 02:48:03.562093   67324 load.go:109] Finished reloading\n"}}
+[info] ✔  Wrote .gemini/extensions/firebase/gemini-extension.json 
+[info] ✔  Wrote .gemini/extensions/firebase/contexts/FIREBASE-BASE.md 
+[info] ✔  Wrote .gemini/extensions/firebase/FIREBASE.md 
