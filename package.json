@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dataconnect/generated": "file:src/dataconnect-generated",
     "@types/react-router-dom": "^5.3.3",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
