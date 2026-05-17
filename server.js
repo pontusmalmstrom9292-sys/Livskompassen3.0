@@ -1,77 +1,54 @@
-require('dotenv').config();
-const express = require('express');
-const { SessionsClient } = require('@google-cloud/dialogflow-cx');
+const express = require("express");
+const admin = require("firebase-admin");
+const cors = require("cors");
+require("dotenv").config({ path: '.env.local' });
 
 const app = express();
-const port = process.env.PORT || 3000;
-
 app.use(express.json());
+app.use(cors());
 
-// Configuration för Vertex AI Agent Builder (Dialogflow CX)
-// Byt ut dessa mot dina faktiska värden från Google Cloud Console
-const projectId = process.env.PROJECT_ID || 'ditt-google-cloud-projekt-id';
-const location = process.env.LOCATION || 'global'; // t.ex. 'global', 'europe-west1'
-const agentId = process.env.AGENT_ID || 'ditt-agent-id';
-const languageCode = 'sv'; // Svenska
+// Initiera Firebase Admin SDK
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.applicationDefault(),
+    projectId: process.env.GOOGLE_CLOUD_PROJECT || "livskompassen-v2",
+  });
+}
+const db = admin.firestore();
 
-// Skapa en klient för att prata med agenten
-const client = new SessionsClient({
-  apiEndpoint: location === 'global' ? 'dialogflow.googleapis.com' : `${location}-dialogflow.googleapis.com`
-});
-
-app.get('/', (req, res) => {
-  res.send('Hej! Din backend för Livskompassen fungerar och är redo för Vertex AI.');
-});
-
-// Endpoint för att skicka meddelanden till Vertex AI Agenten
-app.post('/api/chat', async (req, res) => {
+// 🛡️ API-Route: Spara till Verklighetsvalvet (Oföränderligt)
+// Optimerad för Clean Input och strikt mappad mot firebase-blueprint.json (VaultLog)
+app.post("/api/vault/entry", async (req, res) => {
   try {
-    const { sessionId, text } = req.body;
+    const { userId, category, action, truth, childrenImpact, evidenceUrl, biffUsed } = req.body;
 
-    if (!sessionId || !text) {
-      return res.status(400).json({ error: 'sessionId och text krävs i request body.' });
+    if (!userId || !action || !truth) {
+      return res.status(400).json({ error: "Clean Input-fel: Saknar obligatoriska fält (userId, action, truth)." });
     }
 
-    // Skapa sessions-path
-    const sessionPath = client.projectLocationAgentSessionPath(
-      projectId,
-      location,
-      agentId,
-      sessionId
-    );
-
-    const request = {
-      session: sessionPath,
-      queryInput: {
-        text: {
-          text: text,
-        },
-        languageCode: languageCode,
-      },
+    const vaultRef = db.collection("vault");
+    
+    // Skapa ett Immutable Snapshot. (Oföränderlighets-flaggor för Clean Input)
+    const newEntry = {
+      userId: userId,
+      category: category || "Oklassificerad",
+      action: action,
+      truth: truth,
+      childrenImpact: childrenImpact || "",
+      evidenceUrl: evidenceUrl || "",
+      biffUsed: biffUsed || false,
+      isLocked: true,
+      isImmutable: true, 
+      createdAt: admin.firestore.FieldValue.serverTimestamp(), // Google sätter tiden obestridligt (Oföränderlig)
     };
 
-    // Skicka anropet till Vertex AI Agent Builder
-    const [response] = await client.detectIntent(request);
-    
-    // Hämta agentens svar
-    const responseMessages = response.queryResult.responseMessages;
-    const botTextResponses = responseMessages
-      .filter(msg => msg.text)
-      .map(msg => msg.text.text.join(' '))
-      .join('\n');
-
-    res.json({
-      reply: botTextResponses,
-      intent: response.queryResult.intent ? response.queryResult.intent.displayName : 'Inget matchat intent',
-    });
-
+    const docRef = await vaultRef.add(newEntry);
+    res.status(201).json({ success: true, id: docRef.id });
   } catch (error) {
-    console.error('Fel vid anrop till Vertex AI:', error);
-    res.status(500).json({ error: 'Ett internet fel uppstod vid kommunikation med Vertex AI.' });
+    console.error("[Säkerhetsvarning] Kunde inte skriva till valvet:", error);
+    res.status(500).json({ error: "Kunde inte säkra datan i valvet. Systemisolering bibehållen." });
   }
 });
 
-app.listen(port, () => {
-  console.log(`Servern körs på http://localhost:${port}`);
-  console.log('Kom ihåg att sätta miljövariablerna PROJECT_ID, LOCATION, och AGENT_ID i en .env-fil.');
-});
+const PORT = process.env.API_BACKEND_PORT || 5000;
+app.listen(PORT, () => console.log(`[Layered Defense] Server körs på port ${PORT}`));

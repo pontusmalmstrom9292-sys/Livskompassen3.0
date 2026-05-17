@@ -19,9 +19,9 @@ extend type Query {
     first: Movie_FirstRow
   ): Movie @fdc_generated(from: "Movie", purpose: QUERY_SINGLE)
   """
-  ✨ Look up a single `MovieList` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  ✨ Look up a single `MovieMetadata` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
   """
-  movieList(
+  movieMetadata(
     """
     The unique ID of the object.
     """
@@ -30,41 +30,17 @@ extend type Query {
     """
     The key used to identify the object.
     """
-    key: MovieList_Key
+    key: MovieMetadata_Key
 
     """
     Fetch the first row based on the filters and ordering.
     """
-    first: MovieList_FirstRow
-  ): MovieList @fdc_generated(from: "MovieList", purpose: QUERY_SINGLE)
-  """
-  ✨ Look up a single `MovieListEntry` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
-  """
-  movieListEntry(
-    """
-    The unique ID of the object.
-    """
-    id: UUID
-
-    """
-    The key used to identify the object.
-    """
-    key: MovieListEntry_Key
-
-    """
-    Fetch the first row based on the filters and ordering.
-    """
-    first: MovieListEntry_FirstRow
-  ): MovieListEntry @fdc_generated(from: "MovieListEntry", purpose: QUERY_SINGLE)
+    first: MovieMetadata_FirstRow
+  ): MovieMetadata @fdc_generated(from: "MovieMetadata", purpose: QUERY_SINGLE)
   """
   ✨ Look up a single `Review` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
   """
   review(
-    """
-    The unique ID of the object.
-    """
-    id: UUID
-
     """
     The key used to identify the object.
     """
@@ -82,7 +58,12 @@ extend type Query {
     """
     The unique ID of the object.
     """
-    id: UUID
+    id: String
+
+    """
+    ✨ `_expr` server value variant of `id` (The unique ID of the object.)
+    """
+    id_expr: String_Expr
 
     """
     The key used to identify the object.
@@ -94,25 +75,6 @@ extend type Query {
     """
     first: User_FirstRow
   ): User @fdc_generated(from: "User", purpose: QUERY_SINGLE)
-  """
-  ✨ Look up a single `Watch` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
-  """
-  watch(
-    """
-    The unique ID of the object.
-    """
-    id: UUID
-
-    """
-    The key used to identify the object.
-    """
-    key: Watch_Key
-
-    """
-    Fetch the first row based on the filters and ordering.
-    """
-    first: Watch_FirstRow
-  ): Watch @fdc_generated(from: "Watch", purpose: QUERY_SINGLE)
   """
   ✨ List `Movie` objects in the table and return selected fields, optionally filtered by `where` conditions
   """
@@ -148,18 +110,18 @@ extend type Query {
     having: Movie_Having
   ): [Movie!]! @fdc_generated(from: "Movie", purpose: QUERY_MULTIPLE)
   """
-  ✨ List `MovieList` objects in the table and return selected fields, optionally filtered by `where` conditions
+  ✨ List `MovieMetadata` objects in the table and return selected fields, optionally filtered by `where` conditions
   """
-  movieLists(
+  movieMetadatas(
     """
     Filter condition to narrow down the query results.
     """
-    where: MovieList_Filter
+    where: MovieMetadata_Filter
 
     """
     Order the query results by specific fields.
     """
-    orderBy: [MovieList_Order!]
+    orderBy: [MovieMetadata_Order!]
 
     """
     Number of rows to skip before starting to return the results.
@@ -179,42 +141,8 @@ extend type Query {
     """
     Filter condition to apply to the groups of aggregate queries.
     """
-    having: MovieList_Having
-  ): [MovieList!]! @fdc_generated(from: "MovieList", purpose: QUERY_MULTIPLE)
-  """
-  ✨ List `MovieListEntry` objects in the table and return selected fields, optionally filtered by `where` conditions
-  """
-  movieListEntries(
-    """
-    Filter condition to narrow down the query results.
-    """
-    where: MovieListEntry_Filter
-
-    """
-    Order the query results by specific fields.
-    """
-    orderBy: [MovieListEntry_Order!]
-
-    """
-    Number of rows to skip before starting to return the results.
-    """
-    offset: Int
-
-    """
-    Maximum number of rows to return (defaults to 100 rows).
-    """
-    limit: Int = 100
-
-    """
-    Set to true to return distinct results.
-    """
-    distinct: Boolean = false
-
-    """
-    Filter condition to apply to the groups of aggregate queries.
-    """
-    having: MovieListEntry_Having
-  ): [MovieListEntry!]! @fdc_generated(from: "MovieListEntry", purpose: QUERY_MULTIPLE)
+    having: MovieMetadata_Having
+  ): [MovieMetadata!]! @fdc_generated(from: "MovieMetadata", purpose: QUERY_MULTIPLE)
   """
   ✨ List `Review` objects in the table and return selected fields, optionally filtered by `where` conditions
   """
@@ -283,38 +211,4 @@ extend type Query {
     """
     having: User_Having
   ): [User!]! @fdc_generated(from: "User", purpose: QUERY_MULTIPLE)
-  """
-  ✨ List `Watch` objects in the table and return selected fields, optionally filtered by `where` conditions
-  """
-  watches(
-    """
-    Filter condition to narrow down the query results.
-    """
-    where: Watch_Filter
-
-    """
-    Order the query results by specific fields.
-    """
-    orderBy: [Watch_Order!]
-
-    """
-    Number of rows to skip before starting to return the results.
-    """
-    offset: Int
-
-    """
-    Maximum number of rows to return (defaults to 100 rows).
-    """
-    limit: Int = 100
-
-    """
-    Set to true to return distinct results.
-    """
-    distinct: Boolean = false
-
-    """
-    Filter condition to apply to the groups of aggregate queries.
-    """
-    having: Watch_Having
-  ): [Watch!]! @fdc_generated(from: "Watch", purpose: QUERY_MULTIPLE)
 }

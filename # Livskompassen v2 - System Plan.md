@@ -69,8 +69,8 @@ Denna plan är designad för att vara inkrementell. Vi fokuserar på en fas, och
 * **Mål:** Implementera plattformens oförstörbara, dolda beviskärna enligt WORM-protokollet och Zero-Footprint-design.
 * [ ] **Steg 6.1:** Dold Åtkomst & Panik-Stängning. Implementera 3-sekunders-triggern på den osynliga "Fyren"-ikonen samt `useShakeToKill` (15 m/s²) för att direkt rensa session och minne.
 * [ ] **Steg 6.2:** Kognitiv Kontrast. Skapa Arkivets tvåkolumns-layout ("Svart på vitt"): Vänster (Röd - manipulation/lögner) mot Höger (Blå/Kall - objektiv sanning/bevis).
-* [ ] **Steg 6.3:** WORM & Firestore-regler. Implementera strikt `VaultLog`-schema och kryptografisk oföränderlighet (`allow update, delete: if false`).
-* [ ] **Steg 6.4:** AI-Orkestrering & Extraktion. Sätt upp strukturerade JSON-scheman (deterministiska filter) för neutral analys med exportmöjlighet av BBIC-rapporter.
+* [x] **Steg 6.3:** WORM & Firestore-regler. Implementera strikt `VaultLog`-schema och kryptografisk oföränderlighet (`allow update, delete: if false`).
+* [x] **Steg 6.4:** AI-Orkestrering & Extraktion. Sätt upp strukturerade JSON-scheman (deterministiska filter) för neutral analys med exportmöjlighet av BBIC-rapporter.
 
 ## 5. Backend & Databassäkerhet
 Följande regler är heliga (Sacred Features) och utgör grunden för databasens (Firestore) integritet. Inga AI-genererade kodförslag får någonsin bryta mot dessa:

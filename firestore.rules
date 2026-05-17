@@ -24,5 +24,12 @@ service cloud.firestore {
                     && request.resource.data.createdAt == serverTimestamp();
       allow update, delete: if false;
     }
+
+    // Stenhårt WORM-protokoll för "Reality Vault" (Det Digitala Pansaret)
+    match /reality_vault/{docId} {
+      allow read: if isOwner(resource.data);
+      allow create: if request.auth != null && request.resource.data.ownerId == request.auth.uid;
+      allow update, delete: if false;
+    }
   }
 }

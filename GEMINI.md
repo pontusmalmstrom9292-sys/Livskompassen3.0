@@ -50,7 +50,8 @@ Som AI-assistent (Gemini/Cursor) i detta projekt måste du konsekvent anamma rol
 - **Anti-Hallucination:** Gissa aldrig. Bryt alltid ner komplexa (både tekniska och psykologiska) hotvektorer till deterministiska, säkra system (via Zod-scheman och RAG) och logiska flöden.
 - **Pedagogisk & Testbar:** Trots den strama tonen ska du alltid ge exakta, enkla testinstruktioner och arkitektoniskt motivera *varför* en ändring gjordes.
 
-## 7. Frontend-arkitektur & UI-Principer (Atmospheric Zen / Obsidian Calm)
+## 7. Frontend-arkitektur & UI-Principer (The Integrated Tactical-Glass-Stream)
 För att garantera 100 % kognitiv avlastning och Clean Input gäller följande arkitektoniska UI-regler. Det är strikt förbjudet att kräva textkommandon för systemnavigering eller funktionsaktivering:
+- **Färgpalett:** Ren, djup obsidian-svart bakgrund (`#000000`). Rökfärgade glaskort (Glassmorphism) med tunna neonkonturer: Cyber Emerald (Valvet/Sanning), Tactical Amber (BIFF/Sköld), Electric Indigo (AI-Synapser/Orkester) och Lavendel/Guld (`#818CF8` / `#FDE68A`) för "Den Trygga Hamnen".
 - **The Tactical Macro-Dock:** Systemet ska använda fasta, lättillgängliga makro-knappar (pills) i gränssnittet för alla kärnfunktioner (BIFF, Valv-uppladdning, Känslologg). Ett tryck ska omedelbart trigga funktionen via en glidande panel (drawer/sheet). Detta minimerar friktion och eliminerar kravet på textinmatning för initiering.
 - **Hub-and-Spoke Navigation (Kompass-noden):** Den centrala Kompass-noden fungerar uteslutande som en interaktiv filter-meny. Taktila interaktioner (klick) på kompassens olika vektorer ska filtrera det vertikala dataflödet omedelbart via state-mutation, utan att byta sida eller ladda om appen. Navigeringen ska vara taktil, omedelbar och deterministisk (Systemisolering).

@@ -5,17 +5,11 @@ It has the same format as `Movie_Key`, but is only used as mutation return value
 """
 scalar Movie_KeyOutput
 """
-✨ `MovieList_KeyOutput` returns the primary key fields of table type `MovieList`.
+✨ `MovieMetadata_KeyOutput` returns the primary key fields of table type `MovieMetadata`.
 
-It has the same format as `MovieList_Key`, but is only used as mutation return value.
+It has the same format as `MovieMetadata_Key`, but is only used as mutation return value.
 """
-scalar MovieList_KeyOutput
-"""
-✨ `MovieListEntry_KeyOutput` returns the primary key fields of table type `MovieListEntry`.
-
-It has the same format as `MovieListEntry_Key`, but is only used as mutation return value.
-"""
-scalar MovieListEntry_KeyOutput
+scalar MovieMetadata_KeyOutput
 """
 ✨ `Review_KeyOutput` returns the primary key fields of table type `Review`.
 
@@ -29,12 +23,6 @@ It has the same format as `User_Key`, but is only used as mutation return value.
 """
 scalar User_KeyOutput
 """
-✨ `Watch_KeyOutput` returns the primary key fields of table type `Watch`.
-
-It has the same format as `Watch_Key`, but is only used as mutation return value.
-"""
-scalar Watch_KeyOutput
-"""
 ✨ Generated data input type for table 'Movie'. It includes all necessary fields for creating or upserting rows into table.
 """
 input Movie_Data {
@@ -47,49 +35,21 @@ input Movie_Data {
   """
   id_expr: UUID_Expr @fdc_forbiddenInVariables
   """
-  ✨ Generated from Field `Movie`.`createdAt` of type `Timestamp!`
+  ✨ Generated from Field `Movie`.`genre` of type `String`
   """
-  createdAt: Timestamp
+  genre: String
   """
-  ✨ `_expr` server value variant of `createdAt` (✨ Generated from Field `Movie`.`createdAt` of type `Timestamp!`)
+  ✨ `_expr` server value variant of `genre` (✨ Generated from Field `Movie`.`genre` of type `String`)
   """
-  createdAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
+  genre_expr: String_Expr @fdc_forbiddenInVariables
   """
-  ✨ `_time` server value variant of `createdAt` (✨ Generated from Field `Movie`.`createdAt` of type `Timestamp!`)
+  ✨ Generated from Field `Movie`.`imageUrl` of type `String!`
   """
-  createdAt_time: Timestamp_Relative @fdc_forbiddenInVariables
+  imageUrl: String
   """
-  ✨ `_update` server value variant of `createdAt` (✨ Generated from Field `Movie`.`createdAt` of type `Timestamp!`)
+  ✨ `_expr` server value variant of `imageUrl` (✨ Generated from Field `Movie`.`imageUrl` of type `String!`)
   """
-  createdAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Movie`.`genres` of type `[String]`
-  """
-  genres: [String!]
-  """
-  ✨ `_update` server value variant of `genres` (✨ Generated from Field `Movie`.`genres` of type `[String]`)
-  """
-  genres_update: [String_ListUpdate!] @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Movie`.`runtime` of type `Int`
-  """
-  runtime: Int
-  """
-  ✨ `_expr` server value variant of `runtime` (✨ Generated from Field `Movie`.`runtime` of type `Int`)
-  """
-  runtime_expr: Int_Expr @fdc_forbiddenInVariables
-  """
-  ✨ `_update` server value variant of `runtime` (✨ Generated from Field `Movie`.`runtime` of type `Int`)
-  """
-  runtime_update: [Int_Update!] @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Movie`.`summary` of type `String`
-  """
-  summary: String
-  """
-  ✨ `_expr` server value variant of `summary` (✨ Generated from Field `Movie`.`summary` of type `String`)
-  """
-  summary_expr: String_Expr @fdc_forbiddenInVariables
+  imageUrl_expr: String_Expr @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `Movie`.`title` of type `String!`
   """
@@ -98,18 +58,6 @@ input Movie_Data {
   ✨ `_expr` server value variant of `title` (✨ Generated from Field `Movie`.`title` of type `String!`)
   """
   title_expr: String_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Movie`.`year` of type `Int!`
-  """
-  year: Int
-  """
-  ✨ `_expr` server value variant of `year` (✨ Generated from Field `Movie`.`year` of type `Int!`)
-  """
-  year_expr: Int_Expr @fdc_forbiddenInVariables
-  """
-  ✨ `_update` server value variant of `year` (✨ Generated from Field `Movie`.`year` of type `Int!`)
-  """
-  year_update: [Int_Update!] @fdc_forbiddenInVariables
 }
 """
 ✨ Generated filter input type for table 'Movie'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
@@ -132,41 +80,29 @@ input Movie_Filter {
   """
   id: UUID_Filter
   """
-  ✨ Generated from Field `Movie`.`createdAt` of type `Timestamp!`
+  ✨ Generated from Field `Movie`.`genre` of type `String`
   """
-  createdAt: Timestamp_Filter
+  genre: String_Filter
   """
-  ✨ Generated from Field `Movie`.`genres` of type `[String]`
+  ✨ Generated from Field `Movie`.`imageUrl` of type `String!`
   """
-  genres: String_ListFilter
-  """
-  ✨ Generated from Field `Movie`.`runtime` of type `Int`
-  """
-  runtime: Int_Filter
-  """
-  ✨ Generated from Field `Movie`.`summary` of type `String`
-  """
-  summary: String_Filter
+  imageUrl: String_Filter
   """
   ✨ Generated from Field `Movie`.`title` of type `String!`
   """
   title: String_Filter
   """
-  ✨ Generated from Field `Movie`.`year` of type `Int!`
-  """
-  year: Int_Filter
-  """
-  ✨ Generated from Field `Movie`.`movieListEntries_on_movie` of type `[MovieListEntry!]!`
-  """
-  movieListEntries_on_movie: MovieListEntry_ListFilter
-  """
   ✨ Generated from Field `Movie`.`reviews_on_movie` of type `[Review!]!`
   """
   reviews_on_movie: Review_ListFilter
   """
-  ✨ Generated from Field `Movie`.`watches_on_movie` of type `[Watch!]!`
+  ✨ Generated from Field `Movie`.`movieMetadata_on_movie` of type `MovieMetadata`
   """
-  watches_on_movie: Watch_ListFilter
+  movieMetadata_on_movie: MovieMetadata_Filter
+  """
+  ✨ Generated from Field `Movie`.`users_via_Review` of type `[User!]!`
+  """
+  users_via_Review: User_ListFilter
 }
 """
 ✨ Generated first-row input type for table 'Movie'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
@@ -206,69 +142,21 @@ input Movie_Having {
   """
   _count: Int_Filter
   """
-  ✨ Generated from Field `Movie`.`createdAt_count` of type `Int!`
+  ✨ Generated from Field `Movie`.`genre_count` of type `Int!`
   """
-  createdAt_count: Int_Filter
+  genre_count: Int_Filter
   """
   ✨ Generated from Field `Movie`.`id_count` of type `Int!`
   """
   id_count: Int_Filter
   """
-  ✨ Generated from Field `Movie`.`runtime_count` of type `Int!`
+  ✨ Generated from Field `Movie`.`imageUrl_count` of type `Int!`
   """
-  runtime_count: Int_Filter
-  """
-  ✨ Generated from Field `Movie`.`summary_count` of type `Int!`
-  """
-  summary_count: Int_Filter
+  imageUrl_count: Int_Filter
   """
   ✨ Generated from Field `Movie`.`title_count` of type `Int!`
   """
   title_count: Int_Filter
-  """
-  ✨ Generated from Field `Movie`.`year_count` of type `Int!`
-  """
-  year_count: Int_Filter
-  """
-  ✨ Generated from Field `Movie`.`runtime_sum` of type `Int`
-  """
-  runtime_sum: Int_Filter
-  """
-  ✨ Generated from Field `Movie`.`year_sum` of type `Int`
-  """
-  year_sum: Int_Filter
-  """
-  ✨ Generated from Field `Movie`.`runtime_avg` of type `Float`
-  """
-  runtime_avg: Float_Filter
-  """
-  ✨ Generated from Field `Movie`.`year_avg` of type `Float`
-  """
-  year_avg: Float_Filter
-  """
-  ✨ Generated from Field `Movie`.`createdAt_min` of type `Timestamp`
-  """
-  createdAt_min: Timestamp_Filter
-  """
-  ✨ Generated from Field `Movie`.`runtime_min` of type `Int`
-  """
-  runtime_min: Int_Filter
-  """
-  ✨ Generated from Field `Movie`.`year_min` of type `Int`
-  """
-  year_min: Int_Filter
-  """
-  ✨ Generated from Field `Movie`.`createdAt_max` of type `Timestamp`
-  """
-  createdAt_max: Timestamp_Filter
-  """
-  ✨ Generated from Field `Movie`.`runtime_max` of type `Int`
-  """
-  runtime_max: Int_Filter
-  """
-  ✨ Generated from Field `Movie`.`year_max` of type `Int`
-  """
-  year_max: Int_Filter
 }
 """
 ✨ Generated key input type for table 'Movie'. It represents the primary key fields used to uniquely identify a row in the table.
@@ -305,544 +193,157 @@ input Movie_Order {
   """
   id: OrderDirection
   """
-  ✨ Generated from Field `Movie`.`createdAt` of type `Timestamp!`
+  ✨ Generated from Field `Movie`.`genre` of type `String`
   """
-  createdAt: OrderDirection
+  genre: OrderDirection
   """
-  ✨ Generated from Field `Movie`.`runtime` of type `Int`
+  ✨ Generated from Field `Movie`.`imageUrl` of type `String!`
   """
-  runtime: OrderDirection
-  """
-  ✨ Generated from Field `Movie`.`summary` of type `String`
-  """
-  summary: OrderDirection
+  imageUrl: OrderDirection
   """
   ✨ Generated from Field `Movie`.`title` of type `String!`
   """
   title: OrderDirection
   """
-  ✨ Generated from Field `Movie`.`year` of type `Int!`
-  """
-  year: OrderDirection
-  """
   ✨ Generated from Field `Movie`.`_count` of type `Int!`
   """
   _count: OrderDirection
   """
-  ✨ Generated from Field `Movie`.`createdAt_count` of type `Int!`
+  ✨ Generated from Field `Movie`.`genre_count` of type `Int!`
   """
-  createdAt_count: OrderDirection
+  genre_count: OrderDirection
   """
   ✨ Generated from Field `Movie`.`id_count` of type `Int!`
   """
   id_count: OrderDirection
   """
-  ✨ Generated from Field `Movie`.`runtime_count` of type `Int!`
+  ✨ Generated from Field `Movie`.`imageUrl_count` of type `Int!`
   """
-  runtime_count: OrderDirection
-  """
-  ✨ Generated from Field `Movie`.`summary_count` of type `Int!`
-  """
-  summary_count: OrderDirection
+  imageUrl_count: OrderDirection
   """
   ✨ Generated from Field `Movie`.`title_count` of type `Int!`
   """
   title_count: OrderDirection
-  """
-  ✨ Generated from Field `Movie`.`year_count` of type `Int!`
-  """
-  year_count: OrderDirection
-  """
-  ✨ Generated from Field `Movie`.`runtime_sum` of type `Int`
-  """
-  runtime_sum: OrderDirection
-  """
-  ✨ Generated from Field `Movie`.`year_sum` of type `Int`
-  """
-  year_sum: OrderDirection
-  """
-  ✨ Generated from Field `Movie`.`runtime_avg` of type `Float`
-  """
-  runtime_avg: OrderDirection
-  """
-  ✨ Generated from Field `Movie`.`year_avg` of type `Float`
-  """
-  year_avg: OrderDirection
-  """
-  ✨ Generated from Field `Movie`.`createdAt_min` of type `Timestamp`
-  """
-  createdAt_min: OrderDirection
-  """
-  ✨ Generated from Field `Movie`.`runtime_min` of type `Int`
-  """
-  runtime_min: OrderDirection
-  """
-  ✨ Generated from Field `Movie`.`year_min` of type `Int`
-  """
-  year_min: OrderDirection
-  """
-  ✨ Generated from Field `Movie`.`createdAt_max` of type `Timestamp`
-  """
-  createdAt_max: OrderDirection
-  """
-  ✨ Generated from Field `Movie`.`runtime_max` of type `Int`
-  """
-  runtime_max: OrderDirection
-  """
-  ✨ Generated from Field `Movie`.`year_max` of type `Int`
-  """
-  year_max: OrderDirection
 }
 """
-✨ Generated data input type for table 'MovieList'. It includes all necessary fields for creating or upserting rows into table.
+✨ Generated data input type for table 'MovieMetadata'. It includes all necessary fields for creating or upserting rows into table.
 """
-input MovieList_Data {
+input MovieMetadata_Data {
   """
-  ✨ Generated from Field `MovieList`.`id` of type `UUID!`
+  ✨ Generated from Field `MovieMetadata`.`id` of type `UUID!`
   """
   id: UUID
   """
-  ✨ `_expr` server value variant of `id` (✨ Generated from Field `MovieList`.`id` of type `UUID!`)
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `MovieMetadata`.`id` of type `UUID!`)
   """
   id_expr: UUID_Expr @fdc_forbiddenInVariables
   """
-  ✨ Generated from Field `MovieList`.`userId` of type `UUID!`
-  """
-  userId: UUID
-  """
-  ✨ `_expr` server value variant of `userId` (✨ Generated from Field `MovieList`.`userId` of type `UUID!`)
-  """
-  userId_expr: UUID_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `MovieList`.`user` of type `User!`
-  """
-  user: User_Key @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `MovieList`.`createdAt` of type `Timestamp!`
-  """
-  createdAt: Timestamp
-  """
-  ✨ `_expr` server value variant of `createdAt` (✨ Generated from Field `MovieList`.`createdAt` of type `Timestamp!`)
-  """
-  createdAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
-  """
-  ✨ `_time` server value variant of `createdAt` (✨ Generated from Field `MovieList`.`createdAt` of type `Timestamp!`)
-  """
-  createdAt_time: Timestamp_Relative @fdc_forbiddenInVariables
-  """
-  ✨ `_update` server value variant of `createdAt` (✨ Generated from Field `MovieList`.`createdAt` of type `Timestamp!`)
-  """
-  createdAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `MovieList`.`description` of type `String`
-  """
-  description: String
-  """
-  ✨ `_expr` server value variant of `description` (✨ Generated from Field `MovieList`.`description` of type `String`)
-  """
-  description_expr: String_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `MovieList`.`isPublic` of type `Boolean!`
-  """
-  isPublic: Boolean
-  """
-  ✨ `_expr` server value variant of `isPublic` (✨ Generated from Field `MovieList`.`isPublic` of type `Boolean!`)
-  """
-  isPublic_expr: Boolean_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `MovieList`.`name` of type `String!`
-  """
-  name: String
-  """
-  ✨ `_expr` server value variant of `name` (✨ Generated from Field `MovieList`.`name` of type `String!`)
-  """
-  name_expr: String_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `MovieList`.`updatedAt` of type `Timestamp!`
-  """
-  updatedAt: Timestamp
-  """
-  ✨ `_expr` server value variant of `updatedAt` (✨ Generated from Field `MovieList`.`updatedAt` of type `Timestamp!`)
-  """
-  updatedAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
-  """
-  ✨ `_time` server value variant of `updatedAt` (✨ Generated from Field `MovieList`.`updatedAt` of type `Timestamp!`)
-  """
-  updatedAt_time: Timestamp_Relative @fdc_forbiddenInVariables
-  """
-  ✨ `_update` server value variant of `updatedAt` (✨ Generated from Field `MovieList`.`updatedAt` of type `Timestamp!`)
-  """
-  updatedAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
-}
-"""
-✨ Generated filter input type for table 'MovieList'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
-"""
-input MovieList_Filter {
-  """
-  Apply multiple filter conditions using `AND` logic.
-  """
-  _and: [MovieList_Filter!]
-  """
-  Negate the result of the provided filter condition.
-  """
-  _not: MovieList_Filter
-  """
-  Apply multiple filter conditions using `OR` logic.
-  """
-  _or: [MovieList_Filter!]
-  """
-  ✨ Generated from Field `MovieList`.`id` of type `UUID!`
-  """
-  id: UUID_Filter
-  """
-  ✨ Generated from Field `MovieList`.`userId` of type `UUID!`
-  """
-  userId: UUID_Filter
-  """
-  ✨ Generated from Field `MovieList`.`user` of type `User!`
-  """
-  user: User_Filter
-  """
-  ✨ Generated from Field `MovieList`.`createdAt` of type `Timestamp!`
-  """
-  createdAt: Timestamp_Filter
-  """
-  ✨ Generated from Field `MovieList`.`description` of type `String`
-  """
-  description: String_Filter
-  """
-  ✨ Generated from Field `MovieList`.`isPublic` of type `Boolean!`
-  """
-  isPublic: Boolean_Filter
-  """
-  ✨ Generated from Field `MovieList`.`name` of type `String!`
-  """
-  name: String_Filter
-  """
-  ✨ Generated from Field `MovieList`.`updatedAt` of type `Timestamp!`
-  """
-  updatedAt: Timestamp_Filter
-  """
-  ✨ Generated from Field `MovieList`.`movieListEntries_on_movieList` of type `[MovieListEntry!]!`
-  """
-  movieListEntries_on_movieList: MovieListEntry_ListFilter
-}
-"""
-✨ Generated first-row input type for table 'MovieList'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
-"""
-input MovieList_FirstRow {
-  """
-  Order the result by the specified fields.
-  """
-  orderBy: [MovieList_Order!]
-  """
-  Filters rows based on the specified conditions.
-  """
-  where: MovieList_Filter
-}
-"""
-✨ Generated having input type for table 'MovieList'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
-"""
-input MovieList_Having {
-  """
-  Apply multiple Having conditions using `AND` logic.
-  """
-  _and: [MovieList_Having!]
-  """
-  Whether to apply DISTINCT to the aggregate function.
-  """
-  _distinct: Boolean
-  """
-  Negate the result of the provided Having condition.
-  """
-  _not: MovieList_Having
-  """
-  Apply multiple Having conditions using `OR` logic.
-  """
-  _or: [MovieList_Having!]
-  """
-  ✨ Generated from Field `MovieList`.`_count` of type `Int!`
-  """
-  _count: Int_Filter
-  """
-  ✨ Generated from Field `MovieList`.`createdAt_count` of type `Int!`
-  """
-  createdAt_count: Int_Filter
-  """
-  ✨ Generated from Field `MovieList`.`description_count` of type `Int!`
-  """
-  description_count: Int_Filter
-  """
-  ✨ Generated from Field `MovieList`.`id_count` of type `Int!`
-  """
-  id_count: Int_Filter
-  """
-  ✨ Generated from Field `MovieList`.`isPublic_count` of type `Int!`
-  """
-  isPublic_count: Int_Filter
-  """
-  ✨ Generated from Field `MovieList`.`name_count` of type `Int!`
-  """
-  name_count: Int_Filter
-  """
-  ✨ Generated from Field `MovieList`.`updatedAt_count` of type `Int!`
-  """
-  updatedAt_count: Int_Filter
-  """
-  ✨ Generated from Field `MovieList`.`userId_count` of type `Int!`
-  """
-  userId_count: Int_Filter
-  """
-  ✨ Generated from Field `MovieList`.`createdAt_min` of type `Timestamp`
-  """
-  createdAt_min: Timestamp_Filter
-  """
-  ✨ Generated from Field `MovieList`.`updatedAt_min` of type `Timestamp`
-  """
-  updatedAt_min: Timestamp_Filter
-  """
-  ✨ Generated from Field `MovieList`.`createdAt_max` of type `Timestamp`
-  """
-  createdAt_max: Timestamp_Filter
-  """
-  ✨ Generated from Field `MovieList`.`updatedAt_max` of type `Timestamp`
-  """
-  updatedAt_max: Timestamp_Filter
-}
-"""
-✨ Generated key input type for table 'MovieList'. It represents the primary key fields used to uniquely identify a row in the table.
-"""
-input MovieList_Key {
-  """
-  ✨ Generated from Field `MovieList`.`id` of type `UUID!`
-  """
-  id: UUID
-  """
-  ✨ `_expr` server value variant of `id` (✨ Generated from Field `MovieList`.`id` of type `UUID!`)
-  """
-  id_expr: UUID_Expr @fdc_forbiddenInVariables
-}
-"""
-✨ Generated list filter input type for table 'MovieList'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
-"""
-input MovieList_ListFilter {
-  """
-  The desired number of objects that match the condition (defaults to at least one).
-  """
-  count: Int_Filter = {gt:0}
-  """
-  Condition of the related objects to filter for.
-  """
-  exist: MovieList_Filter
-}
-"""
-✨ Generated order input type for table 'MovieList'. This input defines the sorting order of rows in query results based on one or more fields.
-"""
-input MovieList_Order {
-  """
-  ✨ Generated from Field `MovieList`.`id` of type `UUID!`
-  """
-  id: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`userId` of type `UUID!`
-  """
-  userId: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`user` of type `User!`
-  """
-  user: User_Order
-  """
-  ✨ Generated from Field `MovieList`.`createdAt` of type `Timestamp!`
-  """
-  createdAt: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`description` of type `String`
-  """
-  description: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`isPublic` of type `Boolean!`
-  """
-  isPublic: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`name` of type `String!`
-  """
-  name: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`updatedAt` of type `Timestamp!`
-  """
-  updatedAt: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`_count` of type `Int!`
-  """
-  _count: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`createdAt_count` of type `Int!`
-  """
-  createdAt_count: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`description_count` of type `Int!`
-  """
-  description_count: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`id_count` of type `Int!`
-  """
-  id_count: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`isPublic_count` of type `Int!`
-  """
-  isPublic_count: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`name_count` of type `Int!`
-  """
-  name_count: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`updatedAt_count` of type `Int!`
-  """
-  updatedAt_count: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`userId_count` of type `Int!`
-  """
-  userId_count: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`createdAt_min` of type `Timestamp`
-  """
-  createdAt_min: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`updatedAt_min` of type `Timestamp`
-  """
-  updatedAt_min: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`createdAt_max` of type `Timestamp`
-  """
-  createdAt_max: OrderDirection
-  """
-  ✨ Generated from Field `MovieList`.`updatedAt_max` of type `Timestamp`
-  """
-  updatedAt_max: OrderDirection
-}
-"""
-✨ Generated data input type for table 'MovieListEntry'. It includes all necessary fields for creating or upserting rows into table.
-"""
-input MovieListEntry_Data {
-  """
-  ✨ Generated from Field `MovieListEntry`.`id` of type `UUID!`
-  """
-  id: UUID
-  """
-  ✨ `_expr` server value variant of `id` (✨ Generated from Field `MovieListEntry`.`id` of type `UUID!`)
-  """
-  id_expr: UUID_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `MovieListEntry`.`movieId` of type `UUID!`
+  ✨ Generated from Field `MovieMetadata`.`movieId` of type `UUID!`
   """
   movieId: UUID
   """
-  ✨ `_expr` server value variant of `movieId` (✨ Generated from Field `MovieListEntry`.`movieId` of type `UUID!`)
+  ✨ `_expr` server value variant of `movieId` (✨ Generated from Field `MovieMetadata`.`movieId` of type `UUID!`)
   """
   movieId_expr: UUID_Expr @fdc_forbiddenInVariables
   """
-  ✨ Generated from Field `MovieListEntry`.`movieListId` of type `UUID!`
-  """
-  movieListId: UUID
-  """
-  ✨ `_expr` server value variant of `movieListId` (✨ Generated from Field `MovieListEntry`.`movieListId` of type `UUID!`)
-  """
-  movieListId_expr: UUID_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `MovieListEntry`.`movie` of type `Movie!`
+  ✨ Generated from Field `MovieMetadata`.`movie` of type `Movie!`
   """
   movie: Movie_Key @fdc_forbiddenInVariables
   """
-  ✨ Generated from Field `MovieListEntry`.`movieList` of type `MovieList!`
+  ✨ Generated from Field `MovieMetadata`.`description` of type `String`
   """
-  movieList: MovieList_Key @fdc_forbiddenInVariables
+  description: String
   """
-  ✨ Generated from Field `MovieListEntry`.`note` of type `String`
+  ✨ `_expr` server value variant of `description` (✨ Generated from Field `MovieMetadata`.`description` of type `String`)
   """
-  note: String
+  description_expr: String_Expr @fdc_forbiddenInVariables
   """
-  ✨ `_expr` server value variant of `note` (✨ Generated from Field `MovieListEntry`.`note` of type `String`)
+  ✨ Generated from Field `MovieMetadata`.`rating` of type `Float`
   """
-  note_expr: String_Expr @fdc_forbiddenInVariables
+  rating: Float
   """
-  ✨ Generated from Field `MovieListEntry`.`position` of type `Int!`
+  ✨ `_expr` server value variant of `rating` (✨ Generated from Field `MovieMetadata`.`rating` of type `Float`)
   """
-  position: Int
+  rating_expr: Float_Expr @fdc_forbiddenInVariables
   """
-  ✨ `_expr` server value variant of `position` (✨ Generated from Field `MovieListEntry`.`position` of type `Int!`)
+  ✨ `_update` server value variant of `rating` (✨ Generated from Field `MovieMetadata`.`rating` of type `Float`)
   """
-  position_expr: Int_Expr @fdc_forbiddenInVariables
+  rating_update: [Float_Update!] @fdc_forbiddenInVariables
   """
-  ✨ `_update` server value variant of `position` (✨ Generated from Field `MovieListEntry`.`position` of type `Int!`)
+  ✨ Generated from Field `MovieMetadata`.`releaseYear` of type `Int`
   """
-  position_update: [Int_Update!] @fdc_forbiddenInVariables
+  releaseYear: Int
+  """
+  ✨ `_expr` server value variant of `releaseYear` (✨ Generated from Field `MovieMetadata`.`releaseYear` of type `Int`)
+  """
+  releaseYear_expr: Int_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `releaseYear` (✨ Generated from Field `MovieMetadata`.`releaseYear` of type `Int`)
+  """
+  releaseYear_update: [Int_Update!] @fdc_forbiddenInVariables
 }
 """
-✨ Generated filter input type for table 'MovieListEntry'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+✨ Generated filter input type for table 'MovieMetadata'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
 """
-input MovieListEntry_Filter {
+input MovieMetadata_Filter {
   """
   Apply multiple filter conditions using `AND` logic.
   """
-  _and: [MovieListEntry_Filter!]
+  _and: [MovieMetadata_Filter!]
   """
   Negate the result of the provided filter condition.
   """
-  _not: MovieListEntry_Filter
+  _not: MovieMetadata_Filter
   """
   Apply multiple filter conditions using `OR` logic.
   """
-  _or: [MovieListEntry_Filter!]
+  _or: [MovieMetadata_Filter!]
   """
-  ✨ Generated from Field `MovieListEntry`.`id` of type `UUID!`
+  ✨ Generated from Field `MovieMetadata`.`id` of type `UUID!`
   """
   id: UUID_Filter
   """
-  ✨ Generated from Field `MovieListEntry`.`movieId` of type `UUID!`
+  ✨ Generated from Field `MovieMetadata`.`movieId` of type `UUID!`
   """
   movieId: UUID_Filter
   """
-  ✨ Generated from Field `MovieListEntry`.`movieListId` of type `UUID!`
-  """
-  movieListId: UUID_Filter
-  """
-  ✨ Generated from Field `MovieListEntry`.`movie` of type `Movie!`
+  ✨ Generated from Field `MovieMetadata`.`movie` of type `Movie!`
   """
   movie: Movie_Filter
   """
-  ✨ Generated from Field `MovieListEntry`.`movieList` of type `MovieList!`
+  ✨ Generated from Field `MovieMetadata`.`description` of type `String`
   """
-  movieList: MovieList_Filter
+  description: String_Filter
   """
-  ✨ Generated from Field `MovieListEntry`.`note` of type `String`
+  ✨ Generated from Field `MovieMetadata`.`rating` of type `Float`
   """
-  note: String_Filter
+  rating: Float_Filter
   """
-  ✨ Generated from Field `MovieListEntry`.`position` of type `Int!`
+  ✨ Generated from Field `MovieMetadata`.`releaseYear` of type `Int`
   """
-  position: Int_Filter
+  releaseYear: Int_Filter
 }
 """
-✨ Generated first-row input type for table 'MovieListEntry'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+✨ Generated first-row input type for table 'MovieMetadata'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
 """
-input MovieListEntry_FirstRow {
+input MovieMetadata_FirstRow {
   """
   Order the result by the specified fields.
   """
-  orderBy: [MovieListEntry_Order!]
+  orderBy: [MovieMetadata_Order!]
   """
   Filters rows based on the specified conditions.
   """
-  where: MovieListEntry_Filter
+  where: MovieMetadata_Filter
 }
 """
-✨ Generated having input type for table 'MovieListEntry'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+✨ Generated having input type for table 'MovieMetadata'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
 """
-input MovieListEntry_Having {
+input MovieMetadata_Having {
   """
   Apply multiple Having conditions using `AND` logic.
   """
-  _and: [MovieListEntry_Having!]
+  _and: [MovieMetadata_Having!]
   """
   Whether to apply DISTINCT to the aggregate function.
   """
@@ -850,69 +351,85 @@ input MovieListEntry_Having {
   """
   Negate the result of the provided Having condition.
   """
-  _not: MovieListEntry_Having
+  _not: MovieMetadata_Having
   """
   Apply multiple Having conditions using `OR` logic.
   """
-  _or: [MovieListEntry_Having!]
+  _or: [MovieMetadata_Having!]
   """
-  ✨ Generated from Field `MovieListEntry`.`_count` of type `Int!`
+  ✨ Generated from Field `MovieMetadata`.`_count` of type `Int!`
   """
   _count: Int_Filter
   """
-  ✨ Generated from Field `MovieListEntry`.`id_count` of type `Int!`
+  ✨ Generated from Field `MovieMetadata`.`description_count` of type `Int!`
+  """
+  description_count: Int_Filter
+  """
+  ✨ Generated from Field `MovieMetadata`.`id_count` of type `Int!`
   """
   id_count: Int_Filter
   """
-  ✨ Generated from Field `MovieListEntry`.`movieId_count` of type `Int!`
+  ✨ Generated from Field `MovieMetadata`.`movieId_count` of type `Int!`
   """
   movieId_count: Int_Filter
   """
-  ✨ Generated from Field `MovieListEntry`.`movieListId_count` of type `Int!`
+  ✨ Generated from Field `MovieMetadata`.`rating_count` of type `Int!`
   """
-  movieListId_count: Int_Filter
+  rating_count: Int_Filter
   """
-  ✨ Generated from Field `MovieListEntry`.`note_count` of type `Int!`
+  ✨ Generated from Field `MovieMetadata`.`releaseYear_count` of type `Int!`
   """
-  note_count: Int_Filter
+  releaseYear_count: Int_Filter
   """
-  ✨ Generated from Field `MovieListEntry`.`position_count` of type `Int!`
+  ✨ Generated from Field `MovieMetadata`.`rating_sum` of type `Float`
   """
-  position_count: Int_Filter
+  rating_sum: Float_Filter
   """
-  ✨ Generated from Field `MovieListEntry`.`position_sum` of type `Int`
+  ✨ Generated from Field `MovieMetadata`.`releaseYear_sum` of type `Int`
   """
-  position_sum: Int_Filter
+  releaseYear_sum: Int_Filter
   """
-  ✨ Generated from Field `MovieListEntry`.`position_avg` of type `Float`
+  ✨ Generated from Field `MovieMetadata`.`rating_avg` of type `Float`
   """
-  position_avg: Float_Filter
+  rating_avg: Float_Filter
   """
-  ✨ Generated from Field `MovieListEntry`.`position_min` of type `Int`
+  ✨ Generated from Field `MovieMetadata`.`releaseYear_avg` of type `Float`
   """
-  position_min: Int_Filter
+  releaseYear_avg: Float_Filter
   """
-  ✨ Generated from Field `MovieListEntry`.`position_max` of type `Int`
+  ✨ Generated from Field `MovieMetadata`.`rating_min` of type `Float`
   """
-  position_max: Int_Filter
+  rating_min: Float_Filter
+  """
+  ✨ Generated from Field `MovieMetadata`.`releaseYear_min` of type `Int`
+  """
+  releaseYear_min: Int_Filter
+  """
+  ✨ Generated from Field `MovieMetadata`.`rating_max` of type `Float`
+  """
+  rating_max: Float_Filter
+  """
+  ✨ Generated from Field `MovieMetadata`.`releaseYear_max` of type `Int`
+  """
+  releaseYear_max: Int_Filter
 }
 """
-✨ Generated key input type for table 'MovieListEntry'. It represents the primary key fields used to uniquely identify a row in the table.
+✨ Generated key input type for table 'MovieMetadata'. It represents the primary key fields used to uniquely identify a row in the table.
 """
-input MovieListEntry_Key {
+input MovieMetadata_Key {
   """
-  ✨ Generated from Field `MovieListEntry`.`id` of type `UUID!`
+  ✨ Generated from Field `MovieMetadata`.`id` of type `UUID!`
   """
   id: UUID
   """
-  ✨ `_expr` server value variant of `id` (✨ Generated from Field `MovieListEntry`.`id` of type `UUID!`)
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `MovieMetadata`.`id` of type `UUID!`)
   """
   id_expr: UUID_Expr @fdc_forbiddenInVariables
 }
 """
-✨ Generated list filter input type for table 'MovieListEntry'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+✨ Generated list filter input type for table 'MovieMetadata'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
 """
-input MovieListEntry_ListFilter {
+input MovieMetadata_ListFilter {
   """
   The desired number of objects that match the condition (defaults to at least one).
   """
@@ -920,93 +437,97 @@ input MovieListEntry_ListFilter {
   """
   Condition of the related objects to filter for.
   """
-  exist: MovieListEntry_Filter
+  exist: MovieMetadata_Filter
 }
 """
-✨ Generated order input type for table 'MovieListEntry'. This input defines the sorting order of rows in query results based on one or more fields.
+✨ Generated order input type for table 'MovieMetadata'. This input defines the sorting order of rows in query results based on one or more fields.
 """
-input MovieListEntry_Order {
+input MovieMetadata_Order {
   """
-  ✨ Generated from Field `MovieListEntry`.`id` of type `UUID!`
+  ✨ Generated from Field `MovieMetadata`.`id` of type `UUID!`
   """
   id: OrderDirection
   """
-  ✨ Generated from Field `MovieListEntry`.`movieId` of type `UUID!`
+  ✨ Generated from Field `MovieMetadata`.`movieId` of type `UUID!`
   """
   movieId: OrderDirection
   """
-  ✨ Generated from Field `MovieListEntry`.`movieListId` of type `UUID!`
-  """
-  movieListId: OrderDirection
-  """
-  ✨ Generated from Field `MovieListEntry`.`movie` of type `Movie!`
+  ✨ Generated from Field `MovieMetadata`.`movie` of type `Movie!`
   """
   movie: Movie_Order
   """
-  ✨ Generated from Field `MovieListEntry`.`movieList` of type `MovieList!`
+  ✨ Generated from Field `MovieMetadata`.`description` of type `String`
   """
-  movieList: MovieList_Order
+  description: OrderDirection
   """
-  ✨ Generated from Field `MovieListEntry`.`note` of type `String`
+  ✨ Generated from Field `MovieMetadata`.`rating` of type `Float`
   """
-  note: OrderDirection
+  rating: OrderDirection
   """
-  ✨ Generated from Field `MovieListEntry`.`position` of type `Int!`
+  ✨ Generated from Field `MovieMetadata`.`releaseYear` of type `Int`
   """
-  position: OrderDirection
+  releaseYear: OrderDirection
   """
-  ✨ Generated from Field `MovieListEntry`.`_count` of type `Int!`
+  ✨ Generated from Field `MovieMetadata`.`_count` of type `Int!`
   """
   _count: OrderDirection
   """
-  ✨ Generated from Field `MovieListEntry`.`id_count` of type `Int!`
+  ✨ Generated from Field `MovieMetadata`.`description_count` of type `Int!`
+  """
+  description_count: OrderDirection
+  """
+  ✨ Generated from Field `MovieMetadata`.`id_count` of type `Int!`
   """
   id_count: OrderDirection
   """
-  ✨ Generated from Field `MovieListEntry`.`movieId_count` of type `Int!`
+  ✨ Generated from Field `MovieMetadata`.`movieId_count` of type `Int!`
   """
   movieId_count: OrderDirection
   """
-  ✨ Generated from Field `MovieListEntry`.`movieListId_count` of type `Int!`
+  ✨ Generated from Field `MovieMetadata`.`rating_count` of type `Int!`
   """
-  movieListId_count: OrderDirection
+  rating_count: OrderDirection
   """
-  ✨ Generated from Field `MovieListEntry`.`note_count` of type `Int!`
+  ✨ Generated from Field `MovieMetadata`.`releaseYear_count` of type `Int!`
   """
-  note_count: OrderDirection
+  releaseYear_count: OrderDirection
   """
-  ✨ Generated from Field `MovieListEntry`.`position_count` of type `Int!`
+  ✨ Generated from Field `MovieMetadata`.`rating_sum` of type `Float`
   """
-  position_count: OrderDirection
+  rating_sum: OrderDirection
   """
-  ✨ Generated from Field `MovieListEntry`.`position_sum` of type `Int`
+  ✨ Generated from Field `MovieMetadata`.`releaseYear_sum` of type `Int`
   """
-  position_sum: OrderDirection
+  releaseYear_sum: OrderDirection
   """
-  ✨ Generated from Field `MovieListEntry`.`position_avg` of type `Float`
+  ✨ Generated from Field `MovieMetadata`.`rating_avg` of type `Float`
   """
-  position_avg: OrderDirection
+  rating_avg: OrderDirection
   """
-  ✨ Generated from Field `MovieListEntry`.`position_min` of type `Int`
+  ✨ Generated from Field `MovieMetadata`.`releaseYear_avg` of type `Float`
   """
-  position_min: OrderDirection
+  releaseYear_avg: OrderDirection
   """
-  ✨ Generated from Field `MovieListEntry`.`position_max` of type `Int`
+  ✨ Generated from Field `MovieMetadata`.`rating_min` of type `Float`
   """
-  position_max: OrderDirection
+  rating_min: OrderDirection
+  """
+  ✨ Generated from Field `MovieMetadata`.`releaseYear_min` of type `Int`
+  """
+  releaseYear_min: OrderDirection
+  """
+  ✨ Generated from Field `MovieMetadata`.`rating_max` of type `Float`
+  """
+  rating_max: OrderDirection
+  """
+  ✨ Generated from Field `MovieMetadata`.`releaseYear_max` of type `Int`
+  """
+  releaseYear_max: OrderDirection
 }
 """
 ✨ Generated data input type for table 'Review'. It includes all necessary fields for creating or upserting rows into table.
 """
 input Review_Data {
-  """
-  ✨ Generated from Field `Review`.`id` of type `UUID!`
-  """
-  id: UUID
-  """
-  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Review`.`id` of type `UUID!`)
-  """
-  id_expr: UUID_Expr @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `Review`.`movieId` of type `UUID!`
   """
@@ -1016,21 +537,13 @@ input Review_Data {
   """
   movieId_expr: UUID_Expr @fdc_forbiddenInVariables
   """
-  ✨ Generated from Field `Review`.`userId` of type `UUID!`
+  ✨ Generated from Field `Review`.`userId` of type `String!`
   """
-  userId: UUID
+  userId: String
   """
-  ✨ `_expr` server value variant of `userId` (✨ Generated from Field `Review`.`userId` of type `UUID!`)
+  ✨ `_expr` server value variant of `userId` (✨ Generated from Field `Review`.`userId` of type `String!`)
   """
-  userId_expr: UUID_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Review`.`watchId` of type `UUID!`
-  """
-  watchId: UUID
-  """
-  ✨ `_expr` server value variant of `watchId` (✨ Generated from Field `Review`.`watchId` of type `UUID!`)
-  """
-  watchId_expr: UUID_Expr @fdc_forbiddenInVariables
+  userId_expr: String_Expr @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `Review`.`movie` of type `Movie!`
   """
@@ -1040,45 +553,33 @@ input Review_Data {
   """
   user: User_Key @fdc_forbiddenInVariables
   """
-  ✨ Generated from Field `Review`.`watch` of type `Watch!`
-  """
-  watch: Watch_Key @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Review`.`createdAt` of type `Timestamp!`
-  """
-  createdAt: Timestamp
-  """
-  ✨ `_expr` server value variant of `createdAt` (✨ Generated from Field `Review`.`createdAt` of type `Timestamp!`)
-  """
-  createdAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
-  """
-  ✨ `_time` server value variant of `createdAt` (✨ Generated from Field `Review`.`createdAt` of type `Timestamp!`)
-  """
-  createdAt_time: Timestamp_Relative @fdc_forbiddenInVariables
-  """
-  ✨ `_update` server value variant of `createdAt` (✨ Generated from Field `Review`.`createdAt` of type `Timestamp!`)
-  """
-  createdAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Review`.`isPublic` of type `Boolean!`
-  """
-  isPublic: Boolean
-  """
-  ✨ `_expr` server value variant of `isPublic` (✨ Generated from Field `Review`.`isPublic` of type `Boolean!`)
-  """
-  isPublic_expr: Boolean_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Review`.`rating` of type `Int!`
+  ✨ Generated from Field `Review`.`rating` of type `Int`
   """
   rating: Int
   """
-  ✨ `_expr` server value variant of `rating` (✨ Generated from Field `Review`.`rating` of type `Int!`)
+  ✨ `_expr` server value variant of `rating` (✨ Generated from Field `Review`.`rating` of type `Int`)
   """
   rating_expr: Int_Expr @fdc_forbiddenInVariables
   """
-  ✨ `_update` server value variant of `rating` (✨ Generated from Field `Review`.`rating` of type `Int!`)
+  ✨ `_update` server value variant of `rating` (✨ Generated from Field `Review`.`rating` of type `Int`)
   """
   rating_update: [Int_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Review`.`reviewDate` of type `Date!`
+  """
+  reviewDate: Date
+  """
+  ✨ `_date` server value variant of `reviewDate` (✨ Generated from Field `Review`.`reviewDate` of type `Date!`)
+  """
+  reviewDate_date: Date_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_expr` server value variant of `reviewDate` (✨ Generated from Field `Review`.`reviewDate` of type `Date!`)
+  """
+  reviewDate_expr: Date_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `reviewDate` (✨ Generated from Field `Review`.`reviewDate` of type `Date!`)
+  """
+  reviewDate_update: [Date_Update!] @fdc_forbiddenInVariables
   """
   ✨ Generated from Field `Review`.`reviewText` of type `String`
   """
@@ -1087,30 +588,6 @@ input Review_Data {
   ✨ `_expr` server value variant of `reviewText` (✨ Generated from Field `Review`.`reviewText` of type `String`)
   """
   reviewText_expr: String_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Review`.`shareToken` of type `String`
-  """
-  shareToken: String
-  """
-  ✨ `_expr` server value variant of `shareToken` (✨ Generated from Field `Review`.`shareToken` of type `String`)
-  """
-  shareToken_expr: String_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Review`.`updatedAt` of type `Timestamp!`
-  """
-  updatedAt: Timestamp
-  """
-  ✨ `_expr` server value variant of `updatedAt` (✨ Generated from Field `Review`.`updatedAt` of type `Timestamp!`)
-  """
-  updatedAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
-  """
-  ✨ `_time` server value variant of `updatedAt` (✨ Generated from Field `Review`.`updatedAt` of type `Timestamp!`)
-  """
-  updatedAt_time: Timestamp_Relative @fdc_forbiddenInVariables
-  """
-  ✨ `_update` server value variant of `updatedAt` (✨ Generated from Field `Review`.`updatedAt` of type `Timestamp!`)
-  """
-  updatedAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
 }
 """
 ✨ Generated filter input type for table 'Review'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
@@ -1129,21 +606,13 @@ input Review_Filter {
   """
   _or: [Review_Filter!]
   """
-  ✨ Generated from Field `Review`.`id` of type `UUID!`
-  """
-  id: UUID_Filter
-  """
   ✨ Generated from Field `Review`.`movieId` of type `UUID!`
   """
   movieId: UUID_Filter
   """
-  ✨ Generated from Field `Review`.`userId` of type `UUID!`
+  ✨ Generated from Field `Review`.`userId` of type `String!`
   """
-  userId: UUID_Filter
-  """
-  ✨ Generated from Field `Review`.`watchId` of type `UUID!`
-  """
-  watchId: UUID_Filter
+  userId: String_Filter
   """
   ✨ Generated from Field `Review`.`movie` of type `Movie!`
   """
@@ -1153,33 +622,17 @@ input Review_Filter {
   """
   user: User_Filter
   """
-  ✨ Generated from Field `Review`.`watch` of type `Watch!`
-  """
-  watch: Watch_Filter
-  """
-  ✨ Generated from Field `Review`.`createdAt` of type `Timestamp!`
-  """
-  createdAt: Timestamp_Filter
-  """
-  ✨ Generated from Field `Review`.`isPublic` of type `Boolean!`
-  """
-  isPublic: Boolean_Filter
-  """
-  ✨ Generated from Field `Review`.`rating` of type `Int!`
+  ✨ Generated from Field `Review`.`rating` of type `Int`
   """
   rating: Int_Filter
+  """
+  ✨ Generated from Field `Review`.`reviewDate` of type `Date!`
+  """
+  reviewDate: Date_Filter
   """
   ✨ Generated from Field `Review`.`reviewText` of type `String`
   """
   reviewText: String_Filter
-  """
-  ✨ Generated from Field `Review`.`shareToken` of type `String`
-  """
-  shareToken: String_Filter
-  """
-  ✨ Generated from Field `Review`.`updatedAt` of type `Timestamp!`
-  """
-  updatedAt: Timestamp_Filter
 }
 """
 ✨ Generated first-row input type for table 'Review'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
@@ -1219,18 +672,6 @@ input Review_Having {
   """
   _count: Int_Filter
   """
-  ✨ Generated from Field `Review`.`createdAt_count` of type `Int!`
-  """
-  createdAt_count: Int_Filter
-  """
-  ✨ Generated from Field `Review`.`id_count` of type `Int!`
-  """
-  id_count: Int_Filter
-  """
-  ✨ Generated from Field `Review`.`isPublic_count` of type `Int!`
-  """
-  isPublic_count: Int_Filter
-  """
   ✨ Generated from Field `Review`.`movieId_count` of type `Int!`
   """
   movieId_count: Int_Filter
@@ -1239,25 +680,17 @@ input Review_Having {
   """
   rating_count: Int_Filter
   """
+  ✨ Generated from Field `Review`.`reviewDate_count` of type `Int!`
+  """
+  reviewDate_count: Int_Filter
+  """
   ✨ Generated from Field `Review`.`reviewText_count` of type `Int!`
   """
   reviewText_count: Int_Filter
   """
-  ✨ Generated from Field `Review`.`shareToken_count` of type `Int!`
-  """
-  shareToken_count: Int_Filter
-  """
-  ✨ Generated from Field `Review`.`updatedAt_count` of type `Int!`
-  """
-  updatedAt_count: Int_Filter
-  """
   ✨ Generated from Field `Review`.`userId_count` of type `Int!`
   """
   userId_count: Int_Filter
-  """
-  ✨ Generated from Field `Review`.`watchId_count` of type `Int!`
-  """
-  watchId_count: Int_Filter
   """
   ✨ Generated from Field `Review`.`rating_sum` of type `Int`
   """
@@ -1267,42 +700,42 @@ input Review_Having {
   """
   rating_avg: Float_Filter
   """
-  ✨ Generated from Field `Review`.`createdAt_min` of type `Timestamp`
-  """
-  createdAt_min: Timestamp_Filter
-  """
   ✨ Generated from Field `Review`.`rating_min` of type `Int`
   """
   rating_min: Int_Filter
   """
-  ✨ Generated from Field `Review`.`updatedAt_min` of type `Timestamp`
+  ✨ Generated from Field `Review`.`reviewDate_min` of type `Date`
   """
-  updatedAt_min: Timestamp_Filter
-  """
-  ✨ Generated from Field `Review`.`createdAt_max` of type `Timestamp`
-  """
-  createdAt_max: Timestamp_Filter
+  reviewDate_min: Date_Filter
   """
   ✨ Generated from Field `Review`.`rating_max` of type `Int`
   """
   rating_max: Int_Filter
   """
-  ✨ Generated from Field `Review`.`updatedAt_max` of type `Timestamp`
+  ✨ Generated from Field `Review`.`reviewDate_max` of type `Date`
   """
-  updatedAt_max: Timestamp_Filter
+  reviewDate_max: Date_Filter
 }
 """
 ✨ Generated key input type for table 'Review'. It represents the primary key fields used to uniquely identify a row in the table.
 """
 input Review_Key {
   """
-  ✨ Generated from Field `Review`.`id` of type `UUID!`
+  ✨ Generated from Field `Review`.`movieId` of type `UUID!`
   """
-  id: UUID
+  movieId: UUID
   """
-  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Review`.`id` of type `UUID!`)
+  ✨ `_expr` server value variant of `movieId` (✨ Generated from Field `Review`.`movieId` of type `UUID!`)
   """
-  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  movieId_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Review`.`userId` of type `String!`
+  """
+  userId: String
+  """
+  ✨ `_expr` server value variant of `userId` (✨ Generated from Field `Review`.`userId` of type `String!`)
+  """
+  userId_expr: String_Expr @fdc_forbiddenInVariables
 }
 """
 ✨ Generated list filter input type for table 'Review'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
@@ -1322,21 +755,13 @@ input Review_ListFilter {
 """
 input Review_Order {
   """
-  ✨ Generated from Field `Review`.`id` of type `UUID!`
-  """
-  id: OrderDirection
-  """
   ✨ Generated from Field `Review`.`movieId` of type `UUID!`
   """
   movieId: OrderDirection
   """
-  ✨ Generated from Field `Review`.`userId` of type `UUID!`
+  ✨ Generated from Field `Review`.`userId` of type `String!`
   """
   userId: OrderDirection
-  """
-  ✨ Generated from Field `Review`.`watchId` of type `UUID!`
-  """
-  watchId: OrderDirection
   """
   ✨ Generated from Field `Review`.`movie` of type `Movie!`
   """
@@ -1346,49 +771,21 @@ input Review_Order {
   """
   user: User_Order
   """
-  ✨ Generated from Field `Review`.`watch` of type `Watch!`
-  """
-  watch: Watch_Order
-  """
-  ✨ Generated from Field `Review`.`createdAt` of type `Timestamp!`
-  """
-  createdAt: OrderDirection
-  """
-  ✨ Generated from Field `Review`.`isPublic` of type `Boolean!`
-  """
-  isPublic: OrderDirection
-  """
-  ✨ Generated from Field `Review`.`rating` of type `Int!`
+  ✨ Generated from Field `Review`.`rating` of type `Int`
   """
   rating: OrderDirection
+  """
+  ✨ Generated from Field `Review`.`reviewDate` of type `Date!`
+  """
+  reviewDate: OrderDirection
   """
   ✨ Generated from Field `Review`.`reviewText` of type `String`
   """
   reviewText: OrderDirection
   """
-  ✨ Generated from Field `Review`.`shareToken` of type `String`
-  """
-  shareToken: OrderDirection
-  """
-  ✨ Generated from Field `Review`.`updatedAt` of type `Timestamp!`
-  """
-  updatedAt: OrderDirection
-  """
   ✨ Generated from Field `Review`.`_count` of type `Int!`
   """
   _count: OrderDirection
-  """
-  ✨ Generated from Field `Review`.`createdAt_count` of type `Int!`
-  """
-  createdAt_count: OrderDirection
-  """
-  ✨ Generated from Field `Review`.`id_count` of type `Int!`
-  """
-  id_count: OrderDirection
-  """
-  ✨ Generated from Field `Review`.`isPublic_count` of type `Int!`
-  """
-  isPublic_count: OrderDirection
   """
   ✨ Generated from Field `Review`.`movieId_count` of type `Int!`
   """
@@ -1398,25 +795,17 @@ input Review_Order {
   """
   rating_count: OrderDirection
   """
+  ✨ Generated from Field `Review`.`reviewDate_count` of type `Int!`
+  """
+  reviewDate_count: OrderDirection
+  """
   ✨ Generated from Field `Review`.`reviewText_count` of type `Int!`
   """
   reviewText_count: OrderDirection
   """
-  ✨ Generated from Field `Review`.`shareToken_count` of type `Int!`
-  """
-  shareToken_count: OrderDirection
-  """
-  ✨ Generated from Field `Review`.`updatedAt_count` of type `Int!`
-  """
-  updatedAt_count: OrderDirection
-  """
   ✨ Generated from Field `Review`.`userId_count` of type `Int!`
   """
   userId_count: OrderDirection
-  """
-  ✨ Generated from Field `Review`.`watchId_count` of type `Int!`
-  """
-  watchId_count: OrderDirection
   """
   ✨ Generated from Field `Review`.`rating_sum` of type `Int`
   """
@@ -1426,82 +815,42 @@ input Review_Order {
   """
   rating_avg: OrderDirection
   """
-  ✨ Generated from Field `Review`.`createdAt_min` of type `Timestamp`
-  """
-  createdAt_min: OrderDirection
-  """
   ✨ Generated from Field `Review`.`rating_min` of type `Int`
   """
   rating_min: OrderDirection
   """
-  ✨ Generated from Field `Review`.`updatedAt_min` of type `Timestamp`
+  ✨ Generated from Field `Review`.`reviewDate_min` of type `Date`
   """
-  updatedAt_min: OrderDirection
-  """
-  ✨ Generated from Field `Review`.`createdAt_max` of type `Timestamp`
-  """
-  createdAt_max: OrderDirection
+  reviewDate_min: OrderDirection
   """
   ✨ Generated from Field `Review`.`rating_max` of type `Int`
   """
   rating_max: OrderDirection
   """
-  ✨ Generated from Field `Review`.`updatedAt_max` of type `Timestamp`
+  ✨ Generated from Field `Review`.`reviewDate_max` of type `Date`
   """
-  updatedAt_max: OrderDirection
+  reviewDate_max: OrderDirection
 }
 """
 ✨ Generated data input type for table 'User'. It includes all necessary fields for creating or upserting rows into table.
 """
 input User_Data {
   """
-  ✨ Generated from Field `User`.`id` of type `UUID!`
+  ✨ Generated from Field `User`.`id` of type `String!`
   """
-  id: UUID
+  id: String
   """
-  ✨ `_expr` server value variant of `id` (✨ Generated from Field `User`.`id` of type `UUID!`)
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `User`.`id` of type `String!`)
   """
-  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  id_expr: String_Expr @fdc_forbiddenInVariables
   """
-  ✨ Generated from Field `User`.`createdAt` of type `Timestamp!`
+  ✨ Generated from Field `User`.`username` of type `String!`
   """
-  createdAt: Timestamp
+  username: String
   """
-  ✨ `_expr` server value variant of `createdAt` (✨ Generated from Field `User`.`createdAt` of type `Timestamp!`)
+  ✨ `_expr` server value variant of `username` (✨ Generated from Field `User`.`username` of type `String!`)
   """
-  createdAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
-  """
-  ✨ `_time` server value variant of `createdAt` (✨ Generated from Field `User`.`createdAt` of type `Timestamp!`)
-  """
-  createdAt_time: Timestamp_Relative @fdc_forbiddenInVariables
-  """
-  ✨ `_update` server value variant of `createdAt` (✨ Generated from Field `User`.`createdAt` of type `Timestamp!`)
-  """
-  createdAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `User`.`displayName` of type `String!`
-  """
-  displayName: String
-  """
-  ✨ `_expr` server value variant of `displayName` (✨ Generated from Field `User`.`displayName` of type `String!`)
-  """
-  displayName_expr: String_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `User`.`email` of type `String`
-  """
-  email: String
-  """
-  ✨ `_expr` server value variant of `email` (✨ Generated from Field `User`.`email` of type `String`)
-  """
-  email_expr: String_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `User`.`photoUrl` of type `String`
-  """
-  photoUrl: String
-  """
-  ✨ `_expr` server value variant of `photoUrl` (✨ Generated from Field `User`.`photoUrl` of type `String`)
-  """
-  photoUrl_expr: String_Expr @fdc_forbiddenInVariables
+  username_expr: String_Expr @fdc_forbiddenInVariables
 }
 """
 ✨ Generated filter input type for table 'User'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
@@ -1520,37 +869,21 @@ input User_Filter {
   """
   _or: [User_Filter!]
   """
-  ✨ Generated from Field `User`.`id` of type `UUID!`
+  ✨ Generated from Field `User`.`id` of type `String!`
   """
-  id: UUID_Filter
+  id: String_Filter
   """
-  ✨ Generated from Field `User`.`createdAt` of type `Timestamp!`
+  ✨ Generated from Field `User`.`username` of type `String!`
   """
-  createdAt: Timestamp_Filter
-  """
-  ✨ Generated from Field `User`.`displayName` of type `String!`
-  """
-  displayName: String_Filter
-  """
-  ✨ Generated from Field `User`.`email` of type `String`
-  """
-  email: String_Filter
-  """
-  ✨ Generated from Field `User`.`photoUrl` of type `String`
-  """
-  photoUrl: String_Filter
-  """
-  ✨ Generated from Field `User`.`movieLists_on_user` of type `[MovieList!]!`
-  """
-  movieLists_on_user: MovieList_ListFilter
+  username: String_Filter
   """
   ✨ Generated from Field `User`.`reviews_on_user` of type `[Review!]!`
   """
   reviews_on_user: Review_ListFilter
   """
-  ✨ Generated from Field `User`.`watches_on_user` of type `[Watch!]!`
+  ✨ Generated from Field `User`.`movies_via_Review` of type `[Movie!]!`
   """
-  watches_on_user: Watch_ListFilter
+  movies_via_Review: Movie_ListFilter
 }
 """
 ✨ Generated first-row input type for table 'User'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
@@ -1590,46 +923,26 @@ input User_Having {
   """
   _count: Int_Filter
   """
-  ✨ Generated from Field `User`.`createdAt_count` of type `Int!`
-  """
-  createdAt_count: Int_Filter
-  """
-  ✨ Generated from Field `User`.`displayName_count` of type `Int!`
-  """
-  displayName_count: Int_Filter
-  """
-  ✨ Generated from Field `User`.`email_count` of type `Int!`
-  """
-  email_count: Int_Filter
-  """
   ✨ Generated from Field `User`.`id_count` of type `Int!`
   """
   id_count: Int_Filter
   """
-  ✨ Generated from Field `User`.`photoUrl_count` of type `Int!`
+  ✨ Generated from Field `User`.`username_count` of type `Int!`
   """
-  photoUrl_count: Int_Filter
-  """
-  ✨ Generated from Field `User`.`createdAt_min` of type `Timestamp`
-  """
-  createdAt_min: Timestamp_Filter
-  """
-  ✨ Generated from Field `User`.`createdAt_max` of type `Timestamp`
-  """
-  createdAt_max: Timestamp_Filter
+  username_count: Int_Filter
 }
 """
 ✨ Generated key input type for table 'User'. It represents the primary key fields used to uniquely identify a row in the table.
 """
 input User_Key {
   """
-  ✨ Generated from Field `User`.`id` of type `UUID!`
+  ✨ Generated from Field `User`.`id` of type `String!`
   """
-  id: UUID
+  id: String
   """
-  ✨ `_expr` server value variant of `id` (✨ Generated from Field `User`.`id` of type `UUID!`)
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `User`.`id` of type `String!`)
   """
-  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  id_expr: String_Expr @fdc_forbiddenInVariables
 }
 """
 ✨ Generated list filter input type for table 'User'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
@@ -1649,370 +962,23 @@ input User_ListFilter {
 """
 input User_Order {
   """
-  ✨ Generated from Field `User`.`id` of type `UUID!`
+  ✨ Generated from Field `User`.`id` of type `String!`
   """
   id: OrderDirection
   """
-  ✨ Generated from Field `User`.`createdAt` of type `Timestamp!`
+  ✨ Generated from Field `User`.`username` of type `String!`
   """
-  createdAt: OrderDirection
-  """
-  ✨ Generated from Field `User`.`displayName` of type `String!`
-  """
-  displayName: OrderDirection
-  """
-  ✨ Generated from Field `User`.`email` of type `String`
-  """
-  email: OrderDirection
-  """
-  ✨ Generated from Field `User`.`photoUrl` of type `String`
-  """
-  photoUrl: OrderDirection
+  username: OrderDirection
   """
   ✨ Generated from Field `User`.`_count` of type `Int!`
   """
   _count: OrderDirection
   """
-  ✨ Generated from Field `User`.`createdAt_count` of type `Int!`
-  """
-  createdAt_count: OrderDirection
-  """
-  ✨ Generated from Field `User`.`displayName_count` of type `Int!`
-  """
-  displayName_count: OrderDirection
-  """
-  ✨ Generated from Field `User`.`email_count` of type `Int!`
-  """
-  email_count: OrderDirection
-  """
   ✨ Generated from Field `User`.`id_count` of type `Int!`
   """
   id_count: OrderDirection
   """
-  ✨ Generated from Field `User`.`photoUrl_count` of type `Int!`
+  ✨ Generated from Field `User`.`username_count` of type `Int!`
   """
-  photoUrl_count: OrderDirection
-  """
-  ✨ Generated from Field `User`.`createdAt_min` of type `Timestamp`
-  """
-  createdAt_min: OrderDirection
-  """
-  ✨ Generated from Field `User`.`createdAt_max` of type `Timestamp`
-  """
-  createdAt_max: OrderDirection
-}
-"""
-✨ Generated data input type for table 'Watch'. It includes all necessary fields for creating or upserting rows into table.
-"""
-input Watch_Data {
-  """
-  ✨ Generated from Field `Watch`.`id` of type `UUID!`
-  """
-  id: UUID
-  """
-  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Watch`.`id` of type `UUID!`)
-  """
-  id_expr: UUID_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Watch`.`movieId` of type `UUID!`
-  """
-  movieId: UUID
-  """
-  ✨ `_expr` server value variant of `movieId` (✨ Generated from Field `Watch`.`movieId` of type `UUID!`)
-  """
-  movieId_expr: UUID_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Watch`.`userId` of type `UUID!`
-  """
-  userId: UUID
-  """
-  ✨ `_expr` server value variant of `userId` (✨ Generated from Field `Watch`.`userId` of type `UUID!`)
-  """
-  userId_expr: UUID_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Watch`.`movie` of type `Movie!`
-  """
-  movie: Movie_Key @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Watch`.`user` of type `User!`
-  """
-  user: User_Key @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Watch`.`createdAt` of type `Timestamp!`
-  """
-  createdAt: Timestamp
-  """
-  ✨ `_expr` server value variant of `createdAt` (✨ Generated from Field `Watch`.`createdAt` of type `Timestamp!`)
-  """
-  createdAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
-  """
-  ✨ `_time` server value variant of `createdAt` (✨ Generated from Field `Watch`.`createdAt` of type `Timestamp!`)
-  """
-  createdAt_time: Timestamp_Relative @fdc_forbiddenInVariables
-  """
-  ✨ `_update` server value variant of `createdAt` (✨ Generated from Field `Watch`.`createdAt` of type `Timestamp!`)
-  """
-  createdAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Watch`.`location` of type `String`
-  """
-  location: String
-  """
-  ✨ `_expr` server value variant of `location` (✨ Generated from Field `Watch`.`location` of type `String`)
-  """
-  location_expr: String_Expr @fdc_forbiddenInVariables
-  """
-  ✨ Generated from Field `Watch`.`watchDate` of type `Date!`
-  """
-  watchDate: Date
-  """
-  ✨ `_date` server value variant of `watchDate` (✨ Generated from Field `Watch`.`watchDate` of type `Date!`)
-  """
-  watchDate_date: Date_Relative @fdc_forbiddenInVariables
-  """
-  ✨ `_expr` server value variant of `watchDate` (✨ Generated from Field `Watch`.`watchDate` of type `Date!`)
-  """
-  watchDate_expr: Date_Expr @fdc_forbiddenInVariables
-  """
-  ✨ `_update` server value variant of `watchDate` (✨ Generated from Field `Watch`.`watchDate` of type `Date!`)
-  """
-  watchDate_update: [Date_Update!] @fdc_forbiddenInVariables
-}
-"""
-✨ Generated filter input type for table 'Watch'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
-"""
-input Watch_Filter {
-  """
-  Apply multiple filter conditions using `AND` logic.
-  """
-  _and: [Watch_Filter!]
-  """
-  Negate the result of the provided filter condition.
-  """
-  _not: Watch_Filter
-  """
-  Apply multiple filter conditions using `OR` logic.
-  """
-  _or: [Watch_Filter!]
-  """
-  ✨ Generated from Field `Watch`.`id` of type `UUID!`
-  """
-  id: UUID_Filter
-  """
-  ✨ Generated from Field `Watch`.`movieId` of type `UUID!`
-  """
-  movieId: UUID_Filter
-  """
-  ✨ Generated from Field `Watch`.`userId` of type `UUID!`
-  """
-  userId: UUID_Filter
-  """
-  ✨ Generated from Field `Watch`.`movie` of type `Movie!`
-  """
-  movie: Movie_Filter
-  """
-  ✨ Generated from Field `Watch`.`user` of type `User!`
-  """
-  user: User_Filter
-  """
-  ✨ Generated from Field `Watch`.`createdAt` of type `Timestamp!`
-  """
-  createdAt: Timestamp_Filter
-  """
-  ✨ Generated from Field `Watch`.`location` of type `String`
-  """
-  location: String_Filter
-  """
-  ✨ Generated from Field `Watch`.`watchDate` of type `Date!`
-  """
-  watchDate: Date_Filter
-  """
-  ✨ Generated from Field `Watch`.`reviews_on_watch` of type `[Review!]!`
-  """
-  reviews_on_watch: Review_ListFilter
-}
-"""
-✨ Generated first-row input type for table 'Watch'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
-"""
-input Watch_FirstRow {
-  """
-  Order the result by the specified fields.
-  """
-  orderBy: [Watch_Order!]
-  """
-  Filters rows based on the specified conditions.
-  """
-  where: Watch_Filter
-}
-"""
-✨ Generated having input type for table 'Watch'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
-"""
-input Watch_Having {
-  """
-  Apply multiple Having conditions using `AND` logic.
-  """
-  _and: [Watch_Having!]
-  """
-  Whether to apply DISTINCT to the aggregate function.
-  """
-  _distinct: Boolean
-  """
-  Negate the result of the provided Having condition.
-  """
-  _not: Watch_Having
-  """
-  Apply multiple Having conditions using `OR` logic.
-  """
-  _or: [Watch_Having!]
-  """
-  ✨ Generated from Field `Watch`.`_count` of type `Int!`
-  """
-  _count: Int_Filter
-  """
-  ✨ Generated from Field `Watch`.`createdAt_count` of type `Int!`
-  """
-  createdAt_count: Int_Filter
-  """
-  ✨ Generated from Field `Watch`.`id_count` of type `Int!`
-  """
-  id_count: Int_Filter
-  """
-  ✨ Generated from Field `Watch`.`location_count` of type `Int!`
-  """
-  location_count: Int_Filter
-  """
-  ✨ Generated from Field `Watch`.`movieId_count` of type `Int!`
-  """
-  movieId_count: Int_Filter
-  """
-  ✨ Generated from Field `Watch`.`userId_count` of type `Int!`
-  """
-  userId_count: Int_Filter
-  """
-  ✨ Generated from Field `Watch`.`watchDate_count` of type `Int!`
-  """
-  watchDate_count: Int_Filter
-  """
-  ✨ Generated from Field `Watch`.`createdAt_min` of type `Timestamp`
-  """
-  createdAt_min: Timestamp_Filter
-  """
-  ✨ Generated from Field `Watch`.`watchDate_min` of type `Date`
-  """
-  watchDate_min: Date_Filter
-  """
-  ✨ Generated from Field `Watch`.`createdAt_max` of type `Timestamp`
-  """
-  createdAt_max: Timestamp_Filter
-  """
-  ✨ Generated from Field `Watch`.`watchDate_max` of type `Date`
-  """
-  watchDate_max: Date_Filter
-}
-"""
-✨ Generated key input type for table 'Watch'. It represents the primary key fields used to uniquely identify a row in the table.
-"""
-input Watch_Key {
-  """
-  ✨ Generated from Field `Watch`.`id` of type `UUID!`
-  """
-  id: UUID
-  """
-  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Watch`.`id` of type `UUID!`)
-  """
-  id_expr: UUID_Expr @fdc_forbiddenInVariables
-}
-"""
-✨ Generated list filter input type for table 'Watch'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
-"""
-input Watch_ListFilter {
-  """
-  The desired number of objects that match the condition (defaults to at least one).
-  """
-  count: Int_Filter = {gt:0}
-  """
-  Condition of the related objects to filter for.
-  """
-  exist: Watch_Filter
-}
-"""
-✨ Generated order input type for table 'Watch'. This input defines the sorting order of rows in query results based on one or more fields.
-"""
-input Watch_Order {
-  """
-  ✨ Generated from Field `Watch`.`id` of type `UUID!`
-  """
-  id: OrderDirection
-  """
-  ✨ Generated from Field `Watch`.`movieId` of type `UUID!`
-  """
-  movieId: OrderDirection
-  """
-  ✨ Generated from Field `Watch`.`userId` of type `UUID!`
-  """
-  userId: OrderDirection
-  """
-  ✨ Generated from Field `Watch`.`movie` of type `Movie!`
-  """
-  movie: Movie_Order
-  """
-  ✨ Generated from Field `Watch`.`user` of type `User!`
-  """
-  user: User_Order
-  """
-  ✨ Generated from Field `Watch`.`createdAt` of type `Timestamp!`
-  """
-  createdAt: OrderDirection
-  """
-  ✨ Generated from Field `Watch`.`location` of type `String`
-  """
-  location: OrderDirection
-  """
-  ✨ Generated from Field `Watch`.`watchDate` of type `Date!`
-  """
-  watchDate: OrderDirection
-  """
-  ✨ Generated from Field `Watch`.`_count` of type `Int!`
-  """
-  _count: OrderDirection
-  """
-  ✨ Generated from Field `Watch`.`createdAt_count` of type `Int!`
-  """
-  createdAt_count: OrderDirection
-  """
-  ✨ Generated from Field `Watch`.`id_count` of type `Int!`
-  """
-  id_count: OrderDirection
-  """
-  ✨ Generated from Field `Watch`.`location_count` of type `Int!`
-  """
-  location_count: OrderDirection
-  """
-  ✨ Generated from Field `Watch`.`movieId_count` of type `Int!`
-  """
-  movieId_count: OrderDirection
-  """
-  ✨ Generated from Field `Watch`.`userId_count` of type `Int!`
-  """
-  userId_count: OrderDirection
-  """
-  ✨ Generated from Field `Watch`.`watchDate_count` of type `Int!`
-  """
-  watchDate_count: OrderDirection
-  """
-  ✨ Generated from Field `Watch`.`createdAt_min` of type `Timestamp`
-  """
-  createdAt_min: OrderDirection
-  """
-  ✨ Generated from Field `Watch`.`watchDate_min` of type `Date`
-  """
-  watchDate_min: OrderDirection
-  """
-  ✨ Generated from Field `Watch`.`createdAt_max` of type `Timestamp`
-  """
-  createdAt_max: OrderDirection
-  """
-  ✨ Generated from Field `Watch`.`watchDate_max` of type `Date`
-  """
-  watchDate_max: OrderDirection
+  username_count: OrderDirection
 }

@@ -1,39 +1,5 @@
 extend type Movie {
   """
-  ✨ List `MovieListEntry` objects in a one-to-many relationship (where `MovieListEntry`.`movie` is this object).
-  """
-  movieListEntries_on_movie(
-    """
-    Filter condition to narrow down the query results.
-    """
-    where: MovieListEntry_Filter
-
-    """
-    Order the query results by specific fields.
-    """
-    orderBy: [MovieListEntry_Order!]
-
-    """
-    Number of rows to skip before starting to return the results.
-    """
-    offset: Int
-
-    """
-    Maximum number of rows to return (defaults to 100 rows).
-    """
-    limit: Int = 100
-
-    """
-    Set to true to return distinct results.
-    """
-    distinct: Boolean = false
-
-    """
-    Filter condition to apply to the groups of aggregate queries.
-    """
-    having: MovieListEntry_Having
-  ): [MovieListEntry!]! @fdc_generated(from: "MovieListEntry.movie", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
-  """
   ✨ List `Review` objects in a one-to-many relationship (where `Review`.`movie` is this object).
   """
   reviews_on_movie(
@@ -68,18 +34,22 @@ extend type Movie {
     having: Review_Having
   ): [Review!]! @fdc_generated(from: "Review.movie", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
   """
-  ✨ List `Watch` objects in a one-to-many relationship (where `Watch`.`movie` is this object).
+  ✨ List `MovieMetadata` objects in a one-to-one relationship (where `MovieMetadata`.`movie` is this object).
   """
-  watches_on_movie(
+  movieMetadata_on_movie: MovieMetadata @fdc_generated(from: "MovieMetadata.movie", purpose: QUERY_SINGLE_ONE_TO_ONE)
+  """
+  ✨ List `User` objects using `Review` as the join table (a `Review` object exists where its `movie` is this and its `user` is that).
+  """
+  users_via_Review(
     """
     Filter condition to narrow down the query results.
     """
-    where: Watch_Filter
+    where: Review_Filter
 
     """
     Order the query results by specific fields.
     """
-    orderBy: [Watch_Order!]
+    orderBy: [Review_Order!]
 
     """
     Number of rows to skip before starting to return the results.
@@ -99,8 +69,8 @@ extend type Movie {
     """
     Filter condition to apply to the groups of aggregate queries.
     """
-    having: Watch_Having
-  ): [Watch!]! @fdc_generated(from: "Watch.movie", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
+    having: Review_Having
+  ): [User!]! @fdc_generated(from: "Review", purpose: QUERY_MULTIPLE_MANY_TO_MANY)
   """
   Implicit metadata field that cannot be written. It provides extra information about query results.
   """
@@ -110,14 +80,14 @@ extend type Movie {
   """
   _count: Int! @fdc_generated(from: "Movie.", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `Movie` table where the `createdAt` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  ✨ Count the number of rows in the `Movie` table where the `genre` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
-  createdAt_count(
+  genre_count(
     """
     Set to true to count the number of distinct values.
     """
     distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Movie.createdAt", purpose: QUERY_COUNT)
+  ): Int! @fdc_generated(from: "Movie.genre", purpose: QUERY_COUNT)
   """
   ✨ Count the number of rows in the `Movie` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
@@ -128,23 +98,14 @@ extend type Movie {
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "Movie.id", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `Movie` table where the `runtime` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  ✨ Count the number of rows in the `Movie` table where the `imageUrl` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
-  runtime_count(
+  imageUrl_count(
     """
     Set to true to count the number of distinct values.
     """
     distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Movie.runtime", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `Movie` table where the `summary` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  summary_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Movie.summary", purpose: QUERY_COUNT)
+  ): Int! @fdc_generated(from: "Movie.imageUrl", purpose: QUERY_COUNT)
   """
   ✨ Count the number of rows in the `Movie` table where the `title` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
@@ -155,290 +116,120 @@ extend type Movie {
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "Movie.title", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `Movie` table where the `year` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  year_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Movie.year", purpose: QUERY_COUNT)
-  """
-  ✨ Sum the `runtime` field in the `Movie` table.
-  """
-  runtime_sum(
-    """
-    Set to true to sum the distinct values.
-    """
-    distinct: Boolean = false
-  ): Int @fdc_generated(from: "Movie.runtime", purpose: QUERY_SUM)
-  """
-  ✨ Sum the `year` field in the `Movie` table.
-  """
-  year_sum(
-    """
-    Set to true to sum the distinct values.
-    """
-    distinct: Boolean = false
-  ): Int @fdc_generated(from: "Movie.year", purpose: QUERY_SUM)
-  """
-  ✨ Average the `runtime` field in the `Movie` table.
-  """
-  runtime_avg(
-    """
-    Set to true to average the distinct values.
-    """
-    distinct: Boolean = false
-  ): Float @fdc_generated(from: "Movie.runtime", purpose: QUERY_AVG)
-  """
-  ✨ Average the `year` field in the `Movie` table.
-  """
-  year_avg(
-    """
-    Set to true to average the distinct values.
-    """
-    distinct: Boolean = false
-  ): Float @fdc_generated(from: "Movie.year", purpose: QUERY_AVG)
-  """
-  ✨ Minimum of the `createdAt` field in the `Movie` table.
-  """
-  createdAt_min: Timestamp @fdc_generated(from: "Movie.createdAt", purpose: QUERY_MIN)
-  """
-  ✨ Minimum of the `runtime` field in the `Movie` table.
-  """
-  runtime_min: Int @fdc_generated(from: "Movie.runtime", purpose: QUERY_MIN)
-  """
-  ✨ Minimum of the `year` field in the `Movie` table.
-  """
-  year_min: Int @fdc_generated(from: "Movie.year", purpose: QUERY_MIN)
-  """
-  ✨ Maximum of the `createdAt` field in the `Movie` table.
-  """
-  createdAt_max: Timestamp @fdc_generated(from: "Movie.createdAt", purpose: QUERY_MAX)
-  """
-  ✨ Maximum of the `runtime` field in the `Movie` table.
-  """
-  runtime_max: Int @fdc_generated(from: "Movie.runtime", purpose: QUERY_MAX)
-  """
-  ✨ Maximum of the `year` field in the `Movie` table.
-  """
-  year_max: Int @fdc_generated(from: "Movie.year", purpose: QUERY_MAX)
-  """
   A generated field that is used for caching results in SDKs.
   """
   _id: ID! @fdc_generated(from: "Movie.id", purpose: ENTITY_ID)
 }
-extend type MovieList {
-  """
-  ✨ List `MovieListEntry` objects in a one-to-many relationship (where `MovieListEntry`.`movieList` is this object).
-  """
-  movieListEntries_on_movieList(
-    """
-    Filter condition to narrow down the query results.
-    """
-    where: MovieListEntry_Filter
-
-    """
-    Order the query results by specific fields.
-    """
-    orderBy: [MovieListEntry_Order!]
-
-    """
-    Number of rows to skip before starting to return the results.
-    """
-    offset: Int
-
-    """
-    Maximum number of rows to return (defaults to 100 rows).
-    """
-    limit: Int = 100
-
-    """
-    Set to true to return distinct results.
-    """
-    distinct: Boolean = false
-
-    """
-    Filter condition to apply to the groups of aggregate queries.
-    """
-    having: MovieListEntry_Having
-  ): [MovieListEntry!]! @fdc_generated(from: "MovieListEntry.movieList", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
+extend type MovieMetadata {
   """
   Implicit metadata field that cannot be written. It provides extra information about query results.
   """
-  _metadata: _Metadata @fdc_generated(from: "MovieList", purpose: METADATA_FIELD)
+  _metadata: _Metadata @fdc_generated(from: "MovieMetadata", purpose: METADATA_FIELD)
   """
-  ✨ Count the number of rows in the `MovieList` table.
+  ✨ Count the number of rows in the `MovieMetadata` table.
   """
-  _count: Int! @fdc_generated(from: "MovieList.", purpose: QUERY_COUNT)
+  _count: Int! @fdc_generated(from: "MovieMetadata.", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `MovieList` table where the `createdAt` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  createdAt_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "MovieList.createdAt", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `MovieList` table where the `description` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  ✨ Count the number of rows in the `MovieMetadata` table where the `description` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
   description_count(
     """
     Set to true to count the number of distinct values.
     """
     distinct: Boolean = false
-  ): Int! @fdc_generated(from: "MovieList.description", purpose: QUERY_COUNT)
+  ): Int! @fdc_generated(from: "MovieMetadata.description", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `MovieList` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  id_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "MovieList.id", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `MovieList` table where the `isPublic` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  isPublic_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "MovieList.isPublic", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `MovieList` table where the `name` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  name_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "MovieList.name", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `MovieList` table where the `updatedAt` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  updatedAt_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "MovieList.updatedAt", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `MovieList` table where the `userId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  userId_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "MovieList.userId", purpose: QUERY_COUNT)
-  """
-  ✨ Minimum of the `createdAt` field in the `MovieList` table.
-  """
-  createdAt_min: Timestamp @fdc_generated(from: "MovieList.createdAt", purpose: QUERY_MIN)
-  """
-  ✨ Minimum of the `updatedAt` field in the `MovieList` table.
-  """
-  updatedAt_min: Timestamp @fdc_generated(from: "MovieList.updatedAt", purpose: QUERY_MIN)
-  """
-  ✨ Maximum of the `createdAt` field in the `MovieList` table.
-  """
-  createdAt_max: Timestamp @fdc_generated(from: "MovieList.createdAt", purpose: QUERY_MAX)
-  """
-  ✨ Maximum of the `updatedAt` field in the `MovieList` table.
-  """
-  updatedAt_max: Timestamp @fdc_generated(from: "MovieList.updatedAt", purpose: QUERY_MAX)
-  """
-  A generated field that is used for caching results in SDKs.
-  """
-  _id: ID! @fdc_generated(from: "MovieList.id", purpose: ENTITY_ID)
-}
-extend type MovieListEntry {
-  """
-  Implicit metadata field that cannot be written. It provides extra information about query results.
-  """
-  _metadata: _Metadata @fdc_generated(from: "MovieListEntry", purpose: METADATA_FIELD)
-  """
-  ✨ Count the number of rows in the `MovieListEntry` table.
-  """
-  _count: Int! @fdc_generated(from: "MovieListEntry.", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `MovieListEntry` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  ✨ Count the number of rows in the `MovieMetadata` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
   id_count(
     """
     Set to true to count the number of distinct values.
     """
     distinct: Boolean = false
-  ): Int! @fdc_generated(from: "MovieListEntry.id", purpose: QUERY_COUNT)
+  ): Int! @fdc_generated(from: "MovieMetadata.id", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `MovieListEntry` table where the `movieId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  ✨ Count the number of rows in the `MovieMetadata` table where the `movieId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
   movieId_count(
     """
     Set to true to count the number of distinct values.
     """
     distinct: Boolean = false
-  ): Int! @fdc_generated(from: "MovieListEntry.movieId", purpose: QUERY_COUNT)
+  ): Int! @fdc_generated(from: "MovieMetadata.movieId", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `MovieListEntry` table where the `movieListId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  ✨ Count the number of rows in the `MovieMetadata` table where the `rating` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
-  movieListId_count(
+  rating_count(
     """
     Set to true to count the number of distinct values.
     """
     distinct: Boolean = false
-  ): Int! @fdc_generated(from: "MovieListEntry.movieListId", purpose: QUERY_COUNT)
+  ): Int! @fdc_generated(from: "MovieMetadata.rating", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `MovieListEntry` table where the `note` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  ✨ Count the number of rows in the `MovieMetadata` table where the `releaseYear` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
-  note_count(
+  releaseYear_count(
     """
     Set to true to count the number of distinct values.
     """
     distinct: Boolean = false
-  ): Int! @fdc_generated(from: "MovieListEntry.note", purpose: QUERY_COUNT)
+  ): Int! @fdc_generated(from: "MovieMetadata.releaseYear", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `MovieListEntry` table where the `position` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  ✨ Sum the `rating` field in the `MovieMetadata` table.
   """
-  position_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "MovieListEntry.position", purpose: QUERY_COUNT)
-  """
-  ✨ Sum the `position` field in the `MovieListEntry` table.
-  """
-  position_sum(
+  rating_sum(
     """
     Set to true to sum the distinct values.
     """
     distinct: Boolean = false
-  ): Int @fdc_generated(from: "MovieListEntry.position", purpose: QUERY_SUM)
+  ): Float @fdc_generated(from: "MovieMetadata.rating", purpose: QUERY_SUM)
   """
-  ✨ Average the `position` field in the `MovieListEntry` table.
+  ✨ Sum the `releaseYear` field in the `MovieMetadata` table.
   """
-  position_avg(
+  releaseYear_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "MovieMetadata.releaseYear", purpose: QUERY_SUM)
+  """
+  ✨ Average the `rating` field in the `MovieMetadata` table.
+  """
+  rating_avg(
     """
     Set to true to average the distinct values.
     """
     distinct: Boolean = false
-  ): Float @fdc_generated(from: "MovieListEntry.position", purpose: QUERY_AVG)
+  ): Float @fdc_generated(from: "MovieMetadata.rating", purpose: QUERY_AVG)
   """
-  ✨ Minimum of the `position` field in the `MovieListEntry` table.
+  ✨ Average the `releaseYear` field in the `MovieMetadata` table.
   """
-  position_min: Int @fdc_generated(from: "MovieListEntry.position", purpose: QUERY_MIN)
+  releaseYear_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "MovieMetadata.releaseYear", purpose: QUERY_AVG)
   """
-  ✨ Maximum of the `position` field in the `MovieListEntry` table.
+  ✨ Minimum of the `rating` field in the `MovieMetadata` table.
   """
-  position_max: Int @fdc_generated(from: "MovieListEntry.position", purpose: QUERY_MAX)
+  rating_min: Float @fdc_generated(from: "MovieMetadata.rating", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `releaseYear` field in the `MovieMetadata` table.
+  """
+  releaseYear_min: Int @fdc_generated(from: "MovieMetadata.releaseYear", purpose: QUERY_MIN)
+  """
+  ✨ Maximum of the `rating` field in the `MovieMetadata` table.
+  """
+  rating_max: Float @fdc_generated(from: "MovieMetadata.rating", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `releaseYear` field in the `MovieMetadata` table.
+  """
+  releaseYear_max: Int @fdc_generated(from: "MovieMetadata.releaseYear", purpose: QUERY_MAX)
   """
   A generated field that is used for caching results in SDKs.
   """
-  _id: ID! @fdc_generated(from: "MovieListEntry.id", purpose: ENTITY_ID)
+  _id: ID! @fdc_generated(from: "MovieMetadata.id", purpose: ENTITY_ID)
 }
 extend type Review {
   """
@@ -449,33 +240,6 @@ extend type Review {
   ✨ Count the number of rows in the `Review` table.
   """
   _count: Int! @fdc_generated(from: "Review.", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `Review` table where the `createdAt` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  createdAt_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Review.createdAt", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `Review` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  id_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Review.id", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `Review` table where the `isPublic` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  isPublic_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Review.isPublic", purpose: QUERY_COUNT)
   """
   ✨ Count the number of rows in the `Review` table where the `movieId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
@@ -495,6 +259,15 @@ extend type Review {
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "Review.rating", purpose: QUERY_COUNT)
   """
+  ✨ Count the number of rows in the `Review` table where the `reviewDate` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  reviewDate_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Review.reviewDate", purpose: QUERY_COUNT)
+  """
   ✨ Count the number of rows in the `Review` table where the `reviewText` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
   reviewText_count(
@@ -504,24 +277,6 @@ extend type Review {
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "Review.reviewText", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `Review` table where the `shareToken` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  shareToken_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Review.shareToken", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `Review` table where the `updatedAt` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  updatedAt_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Review.updatedAt", purpose: QUERY_COUNT)
-  """
   ✨ Count the number of rows in the `Review` table where the `userId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
   userId_count(
@@ -530,15 +285,6 @@ extend type Review {
     """
     distinct: Boolean = false
   ): Int! @fdc_generated(from: "Review.userId", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `Review` table where the `watchId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  watchId_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Review.watchId", purpose: QUERY_COUNT)
   """
   ✨ Sum the `rating` field in the `Review` table.
   """
@@ -558,69 +304,27 @@ extend type Review {
     distinct: Boolean = false
   ): Float @fdc_generated(from: "Review.rating", purpose: QUERY_AVG)
   """
-  ✨ Minimum of the `createdAt` field in the `Review` table.
-  """
-  createdAt_min: Timestamp @fdc_generated(from: "Review.createdAt", purpose: QUERY_MIN)
-  """
   ✨ Minimum of the `rating` field in the `Review` table.
   """
   rating_min: Int @fdc_generated(from: "Review.rating", purpose: QUERY_MIN)
   """
-  ✨ Minimum of the `updatedAt` field in the `Review` table.
+  ✨ Minimum of the `reviewDate` field in the `Review` table.
   """
-  updatedAt_min: Timestamp @fdc_generated(from: "Review.updatedAt", purpose: QUERY_MIN)
-  """
-  ✨ Maximum of the `createdAt` field in the `Review` table.
-  """
-  createdAt_max: Timestamp @fdc_generated(from: "Review.createdAt", purpose: QUERY_MAX)
+  reviewDate_min: Date @fdc_generated(from: "Review.reviewDate", purpose: QUERY_MIN)
   """
   ✨ Maximum of the `rating` field in the `Review` table.
   """
   rating_max: Int @fdc_generated(from: "Review.rating", purpose: QUERY_MAX)
   """
-  ✨ Maximum of the `updatedAt` field in the `Review` table.
+  ✨ Maximum of the `reviewDate` field in the `Review` table.
   """
-  updatedAt_max: Timestamp @fdc_generated(from: "Review.updatedAt", purpose: QUERY_MAX)
+  reviewDate_max: Date @fdc_generated(from: "Review.reviewDate", purpose: QUERY_MAX)
   """
   A generated field that is used for caching results in SDKs.
   """
-  _id: ID! @fdc_generated(from: "Review.id", purpose: ENTITY_ID)
+  _id: ID! @fdc_generated(from: "Review.movieId,userId", purpose: ENTITY_ID)
 }
 extend type User {
-  """
-  ✨ List `MovieList` objects in a one-to-many relationship (where `MovieList`.`user` is this object).
-  """
-  movieLists_on_user(
-    """
-    Filter condition to narrow down the query results.
-    """
-    where: MovieList_Filter
-
-    """
-    Order the query results by specific fields.
-    """
-    orderBy: [MovieList_Order!]
-
-    """
-    Number of rows to skip before starting to return the results.
-    """
-    offset: Int
-
-    """
-    Maximum number of rows to return (defaults to 100 rows).
-    """
-    limit: Int = 100
-
-    """
-    Set to true to return distinct results.
-    """
-    distinct: Boolean = false
-
-    """
-    Filter condition to apply to the groups of aggregate queries.
-    """
-    having: MovieList_Having
-  ): [MovieList!]! @fdc_generated(from: "MovieList.user", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
   """
   ✨ List `Review` objects in a one-to-many relationship (where `Review`.`user` is this object).
   """
@@ -656,110 +360,9 @@ extend type User {
     having: Review_Having
   ): [Review!]! @fdc_generated(from: "Review.user", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
   """
-  ✨ List `Watch` objects in a one-to-many relationship (where `Watch`.`user` is this object).
+  ✨ List `Movie` objects using `Review` as the join table (a `Review` object exists where its `user` is this and its `movie` is that).
   """
-  watches_on_user(
-    """
-    Filter condition to narrow down the query results.
-    """
-    where: Watch_Filter
-
-    """
-    Order the query results by specific fields.
-    """
-    orderBy: [Watch_Order!]
-
-    """
-    Number of rows to skip before starting to return the results.
-    """
-    offset: Int
-
-    """
-    Maximum number of rows to return (defaults to 100 rows).
-    """
-    limit: Int = 100
-
-    """
-    Set to true to return distinct results.
-    """
-    distinct: Boolean = false
-
-    """
-    Filter condition to apply to the groups of aggregate queries.
-    """
-    having: Watch_Having
-  ): [Watch!]! @fdc_generated(from: "Watch.user", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
-  """
-  Implicit metadata field that cannot be written. It provides extra information about query results.
-  """
-  _metadata: _Metadata @fdc_generated(from: "User", purpose: METADATA_FIELD)
-  """
-  ✨ Count the number of rows in the `User` table.
-  """
-  _count: Int! @fdc_generated(from: "User.", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `User` table where the `createdAt` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  createdAt_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "User.createdAt", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `User` table where the `displayName` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  displayName_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "User.displayName", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `User` table where the `email` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  email_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "User.email", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `User` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  id_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "User.id", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `User` table where the `photoUrl` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  photoUrl_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "User.photoUrl", purpose: QUERY_COUNT)
-  """
-  ✨ Minimum of the `createdAt` field in the `User` table.
-  """
-  createdAt_min: Timestamp @fdc_generated(from: "User.createdAt", purpose: QUERY_MIN)
-  """
-  ✨ Maximum of the `createdAt` field in the `User` table.
-  """
-  createdAt_max: Timestamp @fdc_generated(from: "User.createdAt", purpose: QUERY_MAX)
-  """
-  A generated field that is used for caching results in SDKs.
-  """
-  _id: ID! @fdc_generated(from: "User.id", purpose: ENTITY_ID)
-}
-extend type Watch {
-  """
-  ✨ List `Review` objects in a one-to-many relationship (where `Review`.`watch` is this object).
-  """
-  reviews_on_watch(
+  movies_via_Review(
     """
     Filter condition to narrow down the query results.
     """
@@ -789,87 +392,35 @@ extend type Watch {
     Filter condition to apply to the groups of aggregate queries.
     """
     having: Review_Having
-  ): [Review!]! @fdc_generated(from: "Review.watch", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
+  ): [Movie!]! @fdc_generated(from: "Review", purpose: QUERY_MULTIPLE_MANY_TO_MANY)
   """
   Implicit metadata field that cannot be written. It provides extra information about query results.
   """
-  _metadata: _Metadata @fdc_generated(from: "Watch", purpose: METADATA_FIELD)
+  _metadata: _Metadata @fdc_generated(from: "User", purpose: METADATA_FIELD)
   """
-  ✨ Count the number of rows in the `Watch` table.
+  ✨ Count the number of rows in the `User` table.
   """
-  _count: Int! @fdc_generated(from: "Watch.", purpose: QUERY_COUNT)
+  _count: Int! @fdc_generated(from: "User.", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `Watch` table where the `createdAt` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  createdAt_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Watch.createdAt", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `Watch` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  ✨ Count the number of rows in the `User` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
   id_count(
     """
     Set to true to count the number of distinct values.
     """
     distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Watch.id", purpose: QUERY_COUNT)
+  ): Int! @fdc_generated(from: "User.id", purpose: QUERY_COUNT)
   """
-  ✨ Count the number of rows in the `Watch` table where the `location` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  ✨ Count the number of rows in the `User` table where the `username` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
   """
-  location_count(
+  username_count(
     """
     Set to true to count the number of distinct values.
     """
     distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Watch.location", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `Watch` table where the `movieId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  movieId_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Watch.movieId", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `Watch` table where the `userId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  userId_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Watch.userId", purpose: QUERY_COUNT)
-  """
-  ✨ Count the number of rows in the `Watch` table where the `watchDate` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
-  """
-  watchDate_count(
-    """
-    Set to true to count the number of distinct values.
-    """
-    distinct: Boolean = false
-  ): Int! @fdc_generated(from: "Watch.watchDate", purpose: QUERY_COUNT)
-  """
-  ✨ Minimum of the `createdAt` field in the `Watch` table.
-  """
-  createdAt_min: Timestamp @fdc_generated(from: "Watch.createdAt", purpose: QUERY_MIN)
-  """
-  ✨ Minimum of the `watchDate` field in the `Watch` table.
-  """
-  watchDate_min: Date @fdc_generated(from: "Watch.watchDate", purpose: QUERY_MIN)
-  """
-  ✨ Maximum of the `createdAt` field in the `Watch` table.
-  """
-  createdAt_max: Timestamp @fdc_generated(from: "Watch.createdAt", purpose: QUERY_MAX)
-  """
-  ✨ Maximum of the `watchDate` field in the `Watch` table.
-  """
-  watchDate_max: Date @fdc_generated(from: "Watch.watchDate", purpose: QUERY_MAX)
+  ): Int! @fdc_generated(from: "User.username", purpose: QUERY_COUNT)
   """
   A generated field that is used for caching results in SDKs.
   """
-  _id: ID! @fdc_generated(from: "Watch.id", purpose: ENTITY_ID)
+  _id: ID! @fdc_generated(from: "User.id", purpose: ENTITY_ID)
 }
