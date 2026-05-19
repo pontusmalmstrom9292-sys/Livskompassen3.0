@@ -1,5 +1,5 @@
 import { Compass, Heart, TrendingUp } from 'lucide-react';
-import { BentoCard } from '../../components/ui/BentoCard';
+import { BentoCard } from '../../core/ui/BentoCard';
 
 export function DashboardPage() {
   return (

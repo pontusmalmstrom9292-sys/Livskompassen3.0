@@ -1,5 +1,5 @@
 import { httpsCallable } from 'firebase/functions';
-import { functions } from '../firebase/init';
+import { functions } from '../../core/firebase/init';
 
 const knowledgeVaultQueryCallable = httpsCallable(functions, 'knowledgeVaultQuery');
 

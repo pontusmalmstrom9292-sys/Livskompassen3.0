@@ -128,40 +128,50 @@ export const scheduledRetentionJob = functions
 // Funktion 5: notifyNewFile
 // Anropas av Google Apps Script när en fil flyttats till Kunskapsvalvet.
 // ─────────────────────────────────────────────────────────────────────────────
-export const notifyNewFile = functions.region('europe-west1').https.onRequest(async (req, res) => {
-  if (req.method !== 'POST') {
-    res.status(405).send('Method Not Allowed');
-    return;
-  }
-
-  const webhookSecret = process.env.NOTIFY_WEBHOOK_SECRET;
-  if (webhookSecret) {
-    const provided = req.get('X-Livskompassen-Webhook-Secret');
-    if (provided !== webhookSecret) {
-      res.status(401).send('Unauthorized');
+export const notifyNewFile = functions
+  .region('europe-west1')
+  .runWith({ secrets: ['NOTIFY_WEBHOOK_SECRET'] })
+  .https.onRequest(async (req, res) => {
+    if (req.method !== 'POST') {
+      res.status(405).send('Method Not Allowed');
       return;
     }
-  }
 
-  const { fileId, fileName, mimeType } = req.body;
+    const isProduction = process.env.FUNCTIONS_EMULATOR !== 'true';
+    const webhookSecret = process.env.NOTIFY_WEBHOOK_SECRET;
 
-  if (!fileId || !fileName || !mimeType) {
-    res.status(400).send('Missing fileId, fileName or mimeType');
-    return;
-  }
+    if (isProduction && !webhookSecret) {
+      console.error('[notifyNewFile] NOTIFY_WEBHOOK_SECRET saknas — endpoint stängd (fail-closed)');
+      res.status(503).send('Service Unavailable');
+      return;
+    }
 
-  try {
-    // Kör din nya automatiska AI-pipeline i bakgrunden!
-    analyzeDriveFile(fileId, fileName, mimeType).catch(err => {
-      console.error("[Background Pipeline Error]", err);
-    });
+    if (webhookSecret) {
+      const provided = req.get('X-Livskompassen-Webhook-Secret');
+      if (provided !== webhookSecret) {
+        res.status(401).send('Unauthorized');
+        return;
+      }
+    }
 
-    res.status(200).send({ status: 'Processing started', fileId });
-  } catch (error) {
-    console.error('[notifyNewFile] Fel:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+    const { fileId, fileName, mimeType } = req.body;
+
+    if (!fileId || !fileName || !mimeType) {
+      res.status(400).send('Missing fileId, fileName or mimeType');
+      return;
+    }
+
+    try {
+      analyzeDriveFile(fileId, fileName, mimeType).catch((err) => {
+        console.error(`[Background Pipeline Error] fileId=${fileId} fileName=${fileName}:`, err);
+      });
+
+      res.status(200).send({ status: 'Processing started', fileId });
+    } catch (error) {
+      console.error(`[notifyNewFile] Fel fileId=${fileId}:`, error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Funktion 6: knowledgeVaultQuery

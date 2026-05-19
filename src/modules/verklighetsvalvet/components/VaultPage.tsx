@@ -1,6 +1,6 @@
 import { Lock, ShieldAlert } from 'lucide-react';
 import { useState } from 'react';
-import { BentoCard } from '../../components/ui/BentoCard';
+import { BentoCard } from '../../core/ui/BentoCard';
 
 export function VaultPage() {
   const [pin, setPin] = useState('');

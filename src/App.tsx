@@ -1,6 +1,9 @@
-import { MainLayout } from './components/layout/MainLayout';
-import KnowledgeVaultChat from './components/KnowledgeVaultChat';
-import { DashboardPage, EconomyPage, SafeHarborPage, VaultPage } from './pages/vault';
+import { MainLayout } from './modules/core';
+import { KnowledgeVaultChat } from './modules/kompis';
+import { DashboardPage } from './modules/kompasser';
+import { VaultPage } from './modules/verklighetsvalvet';
+import { SafeHarborPage } from './modules/safe_harbor';
+import { EconomyPage } from './modules/ekonomi';
 
 export default function App() {
   return (

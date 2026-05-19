@@ -13,7 +13,7 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] Sakerhet: auth pa `knowledgeVaultQuery`, webhook-secret pa `notifyNewFile`
 - [x] Enhetligt `GCP_PROJECT_ID` via `functions/src/config.ts`
 - [x] HOME-klonens unika `src`-integration (firebase, store, vault-chat)
-- [x] Vault-sidor portade till `src/pages/vault/`
+- [x] Vault-sidor portade till `src/modules/` (verklighetsvalvet, kompasser, safe_harbor, ekonomi)
 - [x] Aktiv backend konsoliderad till `functions/` (legacy `server/` arkiverad)
 - [x] Redundanta projektkartor raderade (v2, PROD, drive-download, cursor-workspace, HOME-klon)
 
@@ -26,6 +26,10 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [ ] Interaktivt Tidshjul
 - [x] Mobil-dashboard
 - [ ] Full Verklighetsvalv UI
+
+## Drive wire-up (Apps Script → notifyNewFile)
+- [x] Kod redo: Script Properties i `sorter.gs`, webhook-secret fail-closed, `docs/DRIVE_AUTOMATION.md`
+- [ ] Manuell GCP/Apps Script-konfiguration och verifiering (se `docs/DRIVE_AUTOMATION.md`)
 
 ## Kommande fas
 - [ ] Verklighetsvalvets UI (3 sek langtryck + biometrisk prompt)

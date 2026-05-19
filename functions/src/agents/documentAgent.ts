@@ -10,7 +10,7 @@ const ai = new GoogleGenAI({
 
 export const analyzeDriveFile = async (fileId: string, fileName: string, mimeType: string): Promise<string> => {
   try {
-    console.log(`[File Pipeline] Startar automatisk analys av: ${fileName} (${mimeType})`);
+    console.log(`[File Pipeline] Startar automatisk analys av: ${fileName} (fileId=${fileId}, ${mimeType})`);
 
     const auth = new google.auth.GoogleAuth({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'],

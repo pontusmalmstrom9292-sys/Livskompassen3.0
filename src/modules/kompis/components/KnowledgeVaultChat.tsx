@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { callKnowledgeVault } from '../api/knowledgeVaultService';
 
-const KnowledgeVaultChat: React.FC = () => {
+export function KnowledgeVaultChat() {
   const [inputText, setInputText] = useState<string>('');
   const [aiResponse, setAiResponse] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -61,6 +61,4 @@ const KnowledgeVaultChat: React.FC = () => {
       )}
     </div>
   );
-};
-
-export default KnowledgeVaultChat;
+}

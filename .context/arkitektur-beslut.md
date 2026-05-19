@@ -42,7 +42,7 @@ Markera steg `[x]` endast efter ditt uttryckliga godkännande och efter git-push
 |----|-------|------------|--------|--------|
 | 2.1 | Vault-skrivning | Callable Function / Admin API | _ | [ ] |
 | 2.2 | `server.js` legacy | Arkivera / radera | _ | [ ] |
-| 2.3 | `notifyNewFile` | Auth secret / App Check / avveckla | _ | [ ] |
+| 2.3 | `notifyNewFile` | Auth secret / App Check / avveckla | **Auth secret** | [ ] kod klar — pending deploy & verifiering |
 | 2.4 | WebAuthn challenges | Firestore / Redis | _ | [ ] |
 | 2.5 | E-postverifiering i rules | Ja / Nej | _ | [ ] |
 | 2.6 | GCP-projekt-ID (kanonisk) | `gen-lang-client-…` / annat | _ | [ ] |

@@ -1,6 +1,6 @@
 import { FloatingDock } from './FloatingDock';
 import { Compass, User } from 'lucide-react';
-import { KompisAvatar } from '../kompis/KompisAvatar';
+import { KompisAvatar } from '../../kompis/components/KompisAvatar';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   return (
