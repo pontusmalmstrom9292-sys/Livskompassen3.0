@@ -4,7 +4,7 @@
   "mcpServers": {
     "firebase": {
       "command": "npx",
-      "args": ["-y", "firebase-tools", "mcp", "--dir", "/Users/Livskompassen/Livskompassen2.0"]
+      "args": ["-y", "firebase-tools", "mcp", "--dir", "/Users/Livskompassen/StudioProjects/Livskompassen2.0"]
     }
   },
   "contextFileName": "FIREBASE.md"

@@ -41,9 +41,26 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] Mobil-dashboard (`--host`)
 - [x] Verklighetsvalv UI (long-press + PIN + VaultLog)
 
+## Fas 3 (Firebase-synk)
+- [x] Firestore rules + indexes deployade
+- [x] Functions deployade (utom `notifyNewFile` — kräver secret)
+- [x] Firebase Hosting: https://gen-lang-client-0481875058.web.app
+- [x] Dokumentation: `docs/FIREBASE_SYNC.md`
+- [ ] Manuell smoke: spara test i valv + barnen (Firestore Console)
+- [ ] `NOTIFY_WEBHOOK_SECRET` + deploy `notifyNewFile` (Drive)
+
 ## Drive wire-up (Apps Script → notifyNewFile)
 - [x] Kod redo: Script Properties i `sorter.gs`, webhook-secret fail-closed, `docs/DRIVE_AUTOMATION.md`
 - [ ] Manuell GCP/Apps Script-konfiguration och verifiering (se `docs/DRIVE_AUTOMATION.md`)
+
+## Firebase Fas 3 (synk)
+- [x] `.firebaserc` rättad; Firestore rules + indexes deployade
+- [x] Modul-Functions deployade (`europe-west1`); Hosting live — se `docs/DEPLOY.md`, `docs/FIREBASE_SYNC.md`
+- [ ] `notifyNewFile` — kräver `NOTIFY_WEBHOOK_SECRET` (användaren sätter secret)
+- [ ] Manuell smoke enligt `docs/SMOKE_CHECKLIST.md`
+
+## Data Connect
+- Deployat (example-schema); **appmoduler använder Firestore** — DC avvaktas tills ekonomi (se `docs/FIREBASE_SYNC.md`)
 
 ## Kommande fas
 - [ ] Biometrisk prompt for valv (Passkeys)

@@ -49,7 +49,7 @@ Gör detta **innan** deploy och trigger:
 | `VAULT_FOLDER_ID` | Ja | Drive-mapp Kunskapsvalvet |
 | `WEBHOOK_SECRET` | Ja (prod) | Samma värde som Firebase secret `NOTIFY_WEBHOOK_SECRET` |
 | `CLOUD_FUNCTION_URL` | Nej | Default: `https://europe-west1-gen-lang-client-0481875058.cloudfunctions.net/notifyNewFile` |
-| `FIREBASE_OWNER_UID` | Nej | Firebase Auth uid — skickas i webhook-body för framtida persistens |
+| `FIREBASE_OWNER_UID` | Nej | Firebase Auth uid — ingår i webhook-body för framtida persistens |
 
 Klistra in innehållet från [`scripts/google-apps-script/sorter.gs`](../scripts/google-apps-script/sorter.gs) i ett nytt Apps Script-projekt kopplat till samma Google-konto som äger Drive-mapparna.
 
@@ -57,7 +57,7 @@ Klistra in innehållet från [`scripts/google-apps-script/sorter.gs`](../scripts
 
 ## Deploy och koppling
 
-Kör från projektroten (`Livskompassen2.0`):
+Kör från projektroten (`Livskompassen2.0`). Samma steg finns i [DEPLOY.md](./DEPLOY.md#notifynewfile-drive-webhook).
 
 ```bash
 # 1. Sätt webhook-secret (interaktiv — klistra in värdet när CLI frågar)
@@ -66,9 +66,11 @@ firebase functions:secrets:set NOTIFY_WEBHOOK_SECRET
 # 2. Bygg Functions
 cd functions && npm run build && cd ..
 
-# 3. Deploy endast notifyNewFile
+# 3. Deploy endast notifyNewFile (misslyckas utan steg 1)
 firebase deploy --only functions:notifyNewFile
 ```
+
+**Fas 3:** Övriga modul-Functions kan deployas utan detta secret; endast `notifyNewFile` är blockerad tills secret finns.
 
 Efter deploy:
 
