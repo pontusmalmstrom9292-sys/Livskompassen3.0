@@ -1,11 +1,10 @@
 import { GoogleGenAI } from '@google/genai';
 import { LIVSKOMPASSEN_SYSTEM_CONFIG } from '../sharedRules';
+import { GCP_PROJECT_ID, GCP_REGION } from '../config';
 
-// Initiera det nya, enhetliga Google Gen AI SDK:et
-// Det läser automatiskt dina autentiseringsfiler (vertex-sa.json) från miljön
 const ai = new GoogleGenAI({
-  project: 'gen-lang-client-0481875058',
-  location: 'us-central1'
+  project: GCP_PROJECT_ID,
+  location: GCP_REGION,
 });
 
 export const askKnowledgeVault = async (prompt: string): Promise<string> => {

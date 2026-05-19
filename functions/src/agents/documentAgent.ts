@@ -1,10 +1,11 @@
 import { GoogleGenAI } from '@google/genai';
 import { google } from 'googleapis';
 import { LIVSKOMPASSEN_SYSTEM_CONFIG } from '../sharedRules';
+import { GCP_PROJECT_ID, GCP_REGION } from '../config';
 
 const ai = new GoogleGenAI({
-  project: 'gen-lang-client-0481875058',
-  location: 'us-central1'
+  project: GCP_PROJECT_ID,
+  location: GCP_REGION,
 });
 
 export const analyzeDriveFile = async (fileId: string, fileName: string, mimeType: string): Promise<string> => {

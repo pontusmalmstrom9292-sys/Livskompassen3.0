@@ -13,8 +13,10 @@
 import { VertexAI, HarmCategory, HarmBlockThreshold } from '@google-cloud/vertexai';
 
 
-const PROJECT_ID = process.env.GCP_PROJECT_ID ?? 'livskompassen-v2';
-const LOCATION = 'europe-west1';
+import { GCP_PROJECT_ID, GCP_REGION } from '../config';
+
+const PROJECT_ID = GCP_PROJECT_ID;
+const LOCATION = GCP_REGION;
 const MODEL_ID = 'gemini-1.5-pro-001'; // Pro för djupa DCAP-analyser
 
 // TTL: Context caches lever max 1h som standard; Vertex AI raderar dem automatiskt

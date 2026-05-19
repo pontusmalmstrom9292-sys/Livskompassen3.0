@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #020617; /* Den djupa, trygga midnattsblå färgen */
+  color: #f8fafc; /* Mjuk ljus text */
+  font-family: sans-serif;
+}

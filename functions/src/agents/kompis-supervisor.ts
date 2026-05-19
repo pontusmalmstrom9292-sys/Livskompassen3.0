@@ -1,16 +1,10 @@
 import { A2AMessage, AgentResponse } from './types';
-import { AvailableAgents } from './cards';
+import { AvailableAgents, routeFromDcap } from './cards';
+import { GCP_PROJECT_ID } from '../config';
+import { KOMPIS_SYSTEM_PROMPT } from '../sharedRules';
 import { analyzeDcap, DcapResult } from './DCAP';
 import { getOrCreateCache, generateWithCache, invalidateCache } from '../lib/vertexCache';
 
-const PROJECT_ID = process.env.GCP_PROJECT_ID ?? 'livskompassen-v2';
-
-// Systemprompten för Kompis — stabil, aldrig användardata (krypteras i cache)
-const KOMPIS_SYSTEM_PROMPT = `Du är Kompis, en empatisk och deterministisk AI-navigatör i Livskompassen.
-Din uppgift är att skydda och stärka användaren baserat på verifierade bevis ur deras Kampspår.
-Du HÅLLer dig till RAG-data. Du hallucinerar aldrig. Du påhitar aldrig fakta.
-Vid tecken på manipulation: svara lugnt, hänvisa till Grey Rock och avbryt eskalering.
-Svara alltid på svenska. Var kortfattad, varm och tydlig.`;
 
 /**
  * Kompis Supervisor Agent v2
@@ -34,7 +28,7 @@ export class KompisSupervisor {
 
     // ── Steg 1: DCAP-skanning (alltid, parallellt med cache-prep) ──────────────
     const [dcapResult, cachedCtx] = await Promise.all([
-      analyzeDcap(userInput, PROJECT_ID),
+      analyzeDcap(userInput, GCP_PROJECT_ID),
       getOrCreateCache(`kompis_${userId}`, {
         systemInstruction: KOMPIS_SYSTEM_PROMPT,
         backgroundDocuments: ragContext,
@@ -44,28 +38,12 @@ export class KompisSupervisor {
 
     console.log(`[Kompis] DCAP riskScore=${dcapResult.riskScore}, action=${dcapResult.recommendedAction}`);
 
-    // ── Steg 2: Routing baserat på DCAP-resultat ────────────────────────────────
-    let targetAgentId: string;
-    let intent: string;
-
-    if (dcapResult.recommendedAction === 'ALERT' || dcapResult.riskScore >= 70) {
-      // Hög risk → Gräns-Arkitekten + Grey Rock direkt
-      targetAgentId = 'agent_grans_arkitekten';
-      intent = 'generateGreyRockResponse';
-    } else if (
-      dcapResult.recommendedAction === 'COACHING' ||
-      dcapResult.riskScore >= 30
-    ) {
-      // Medel risk → Gräns-Arkitekten för coaching
-      targetAgentId = 'agent_grans_arkitekten';
-      intent = 'analyzeCommunication';
-    } else {
-      // Låg risk → Livs-Arkivarien hämtar historik
-      targetAgentId = 'agent_livs_arkivarien';
-      intent = 'searchKampspar';
-    }
+    // ── Steg 2: Deterministisk routing (DCAP → produktroll → executor) ─────────
+    const route = routeFromDcap(dcapResult.riskScore, dcapResult.recommendedAction);
+    const { productAgentId, executorId: targetAgentId, intent } = route;
 
     const targetCard = AvailableAgents[targetAgentId];
+    const productCard = AvailableAgents[productAgentId];
     if (!targetCard) {
       return {
         agentId: this.supervisorId,
@@ -74,7 +52,9 @@ export class KompisSupervisor {
       };
     }
 
-    console.log(`[Kompis] → ${targetCard.metadata.name} (${intent})`);
+    console.log(
+      `[Kompis] → ${productCard?.metadata.name ?? productAgentId} via ${targetCard.metadata.name} (${intent})`
+    );
 
     // ── Steg 3: A2A-delegering ──────────────────────────────────────────────────
     const message: A2AMessage = {
@@ -98,10 +78,11 @@ export class KompisSupervisor {
     const safeResponse = this.gatekeeperSanitize(aiResponse);
 
     return {
-      agentId: targetAgentId,
+      agentId: productAgentId,
       status: 'SUCCESS',
       data: {
         response: safeResponse,
+        executorId: targetAgentId,
         recommendedAction: dcapResult.recommendedAction,
         greyRockResponse: dcapResult.greyRockResponse,
         safeForUser: true,

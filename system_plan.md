@@ -38,6 +38,17 @@ Sandbox-föräldraskap: Du kan inte samarbeta med ett osäkert system. Bygg en i
 VIVIR-verktyget: (Vem, Inflytande, Viktigt, Intention, Redo). Ger en intern kognitiv struktur i mötet med narcissisten.
 Återhämtningsprotokoll: Vagusnerv-stimulering (4-7-8 andning, dykreflex, humming) tvingar systemet ur "Kamp/Flykt".
 
+## Fas 1 (Cleanup): Sanering & Mappstruktur
+- [x] Git-branch `cleanup-phase-1` — säker arbetskopia
+- [x] `.context/` systemlagar (arkitektur, säkerhet, databas, design)
+- [x] `.gitignore` — secrets, `dist/`, `functions/lib/`, genererad kod
+- [x] Borttaget från git: `vertex-sa.json`, `server/.env`, `spejaren.js`, `server.js`, build-artefakter
+- [x] Frontend merge från `livskompassen-v2` (`main.tsx`, layout, Kompis)
+- [x] Rensat: tomma placeholders, trasig `agentEngine.ts`, session-artefakter → `docs/archive/`
+- [x] Agent Cards: 8 produktroller + deterministisk `routeFromDcap` → executor
+- [x] Säkerhet: auth på `knowledgeVaultQuery`, webhook-secret på `notifyNewFile`
+- [x] Enhetligt `GCP_PROJECT_ID` via `functions/src/config.ts`
+
 ## 7. AKTUELL STATUS & PROGRESS
 - [x] Design-tokens & Färgpalett (Guld/Blå)
 - [x] Bas-layout med Sub-Synaptic Background (Canvas)

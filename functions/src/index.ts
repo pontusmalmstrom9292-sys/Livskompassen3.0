@@ -1,4 +1,5 @@
-import { onCall } from "firebase-functions/v2/https";
+import { onCall, HttpsError } from "firebase-functions/v2/https";
+import { GCP_PROJECT_ID } from "./config";
 import { askKnowledgeVault } from "./agents/vertexAgent";
 import { analyzeDriveFile } from "./agents/documentAgent";
 import * as functions from "firebase-functions";
@@ -27,7 +28,7 @@ export const generateEmbedding = functions.region('europe-west1').https.onCall(a
   }
 
   try {
-    const projectId = process.env.GCP_PROJECT_ID ?? 'livskompassen-v2';
+    const projectId = GCP_PROJECT_ID;
     const location = 'europe-west1';
 
     // Använd Vertex AI SDK (textembedding-gecko via REST för enklare typer)
@@ -133,6 +134,15 @@ export const notifyNewFile = functions.region('europe-west1').https.onRequest(as
     return;
   }
 
+  const webhookSecret = process.env.NOTIFY_WEBHOOK_SECRET;
+  if (webhookSecret) {
+    const provided = req.get('X-Livskompassen-Webhook-Secret');
+    if (provided !== webhookSecret) {
+      res.status(401).send('Unauthorized');
+      return;
+    }
+  }
+
   const { fileId, fileName, mimeType } = req.body;
 
   if (!fileId || !fileName || !mimeType) {
@@ -157,13 +167,23 @@ export const notifyNewFile = functions.region('europe-west1').https.onRequest(as
 // Funktion 6: knowledgeVaultQuery
 // Skapar en säker bro (endpoint) för appen (Android/Webb)
 // ─────────────────────────────────────────────────────────────────────────────
-export const knowledgeVaultQuery = onCall(async (request) => {
-  const prompt = request.data.prompt;
-  
-  if (!prompt) {
-    throw new Error("Ingen prompt skickades med från appen.");
-  }
+export const knowledgeVaultQuery = onCall(
+  { region: 'europe-west1' },
+  async (request) => {
+    if (!request.auth) {
+      throw new HttpsError('unauthenticated', 'Autentisering krävs för Kunskapsvalvet.');
+    }
 
-  const aiResponse = await askKnowledgeVault(prompt);
-  return { response: aiResponse };
-});
+    const prompt = request.data?.prompt;
+    if (!prompt || typeof prompt !== 'string') {
+      throw new HttpsError('invalid-argument', 'Fältet "prompt" (string) krävs.');
+    }
+
+    if (prompt.length > 8000) {
+      throw new HttpsError('invalid-argument', 'Prompten får vara max 8000 tecken.');
+    }
+
+    const aiResponse = await askKnowledgeVault(prompt);
+    return { response: aiResponse };
+  }
+);

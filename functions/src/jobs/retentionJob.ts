@@ -9,7 +9,9 @@
 
 import { Firestore, Timestamp } from '@google-cloud/firestore';
 
-const PROJECT_ID = process.env.GCP_PROJECT_ID ?? 'livskompassen-v2';
+import { GCP_PROJECT_ID } from '../config';
+
+const PROJECT_ID = GCP_PROJECT_ID;
 const RETENTION_DAYS = parseInt(process.env.RETENTION_DAYS ?? '90', 10);
 const COLLECTIONS_TO_PURGE = ['kampspar', 'interaction_logs', 'dcap_analysis_cache'];
 

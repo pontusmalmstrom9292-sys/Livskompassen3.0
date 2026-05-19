@@ -689,3 +689,29 @@ I0517 22:22:08.295791   24951 load.go:109] Finished reloading
  {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0517 22:22:08.297240   24951 dev.go:104] Listening on address (HTTP + gRPC): 127.0.0.1:50001\n"}}
 [debug] [2026-05-17T20:22:08.474Z] I0517 22:22:08.473949   24951 engine.go:209] [projects/emulator/locations/emulator/services/livskompassen20 65a1] ExecuteGraphqlRead query IntrospectionQuery: succeeded. 
  {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0517 22:22:08.473949   24951 engine.go:209] [projects/emulator/locations/emulator/services/livskompassen20 65a1] ExecuteGraphqlRead query IntrospectionQuery: succeeded. \n"}}
+[debug] [2026-05-17T20:28:07.630Z] [Firebase Plugin] Value of process.env.MONOSPACE_ENV: undefined
+[debug] [2026-05-17T20:28:07.631Z] [Firebase Plugin] requireAuthWrapper
+[debug] [2026-05-17T20:28:07.632Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-05-17T20:28:07.632Z] > authorizing via signed-in user (pontus.malmstrom9292@gmail.com)
+[debug] [2026-05-17T20:28:07.633Z] Checked if tokens are valid: true, expires at: 1779051719801
+[debug] [2026-05-17T20:28:07.633Z] [Firebase Plugin] User found:  pontus.malmstrom9292@gmail.com
+[info] [Firebase Plugin] (Core:Project) New user detected, fetching projects
+[debug] [2026-05-17T20:28:07.633Z] Checked if tokens are valid: true, expires at: 1779051719801
+[debug] [2026-05-17T20:28:07.634Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2026-05-17T20:28:07.637Z] [Firebase Plugin] Value of process.env.MONOSPACE_ENV: undefined
+[debug] [2026-05-17T20:28:07.638Z] [Firebase Plugin] requireAuthWrapper
+[debug] [2026-05-17T20:28:07.638Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-05-17T20:28:07.638Z] > authorizing via signed-in user (pontus.malmstrom9292@gmail.com)
+[debug] [2026-05-17T20:28:07.638Z] Checked if tokens are valid: true, expires at: 1779051719801
+[debug] [2026-05-17T20:28:07.638Z] [Firebase Plugin] User found:  pontus.malmstrom9292@gmail.com
+[info] [Firebase Plugin] (Core:Project) New user detected, fetching projects
+[debug] [2026-05-17T20:28:07.638Z] Checked if tokens are valid: true, expires at: 1779051719801
+[debug] [2026-05-17T20:28:07.639Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2026-05-17T20:28:08.290Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2026-05-17T20:28:08.291Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[debug] [2026-05-17T20:28:08.291Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2026-05-17T20:28:08.291Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[debug] [2026-05-17T23:49:32.402Z] [Firebase Plugin] Received CLI notification.
+[debug] [2026-05-17T23:49:32.526Z] [Firebase Plugin] Received emulators shutdown notification.
+[info] [Firebase Plugin] Stopping SQL Connect toolkit
+[warn] ⚠  SQL Connect Emulator has exited upon receiving signal: SIGINT 
