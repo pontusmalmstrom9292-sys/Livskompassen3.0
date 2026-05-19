@@ -8,8 +8,8 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 
 ## Before Writing Code
 
-1. Read `system_plan.md` to confirm the current phase and active risks.
-2. Read `GEMINI.md` for architecture, tone, Sacred Features, security invariants, and design language.
+1. Read `.context/system-plan.md` to confirm the current phase and active risks.
+2. Read `.context/architecture.md`, `.context/security.md`, `.context/database.md`, `.context/design-language.md`, and `.context/agents.md`.
 3. Apply the relevant `.cursor/rules/*.mdc` files before editing.
 4. For substantial changes, prepare a REASONS plan: Requirements, Entities, Approach, Structure, Operations, Norms, Safeguards.
 5. Preserve Sacred Features: Verklighetsvalvet, Sanningens Sköld, Morgonkompassen, Dossier-Generator, Speglings-Systemet, Zero Footprint, and Kill Switch.
@@ -17,10 +17,10 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 ## Stack
 
 - Frontend: React, TypeScript, Vite, Tailwind CSS, Zustand.
-- Backend: Firebase Cloud Functions, Express server routes, Google Cloud, Vertex AI, Gemini.
+- Backend: Firebase Cloud Functions, Google Cloud, Vertex AI, Gemini.
 - Data: Firestore/Data Connect, RAG-oriented evidence structures, immutable snapshots.
 - AI: Kompis Supervisor, A2A agent cards, DCAP, shared prompt rules in `functions/src/sharedRules.ts`.
-- Tooling: Cursor rules/hooks/MCP, Firebase skills in `.agents/skills/`, Firebase plugin in `.cursor/settings.json`.
+- Tooling: Cursor rules/hooks/MCP and Firebase plugin in `.cursor/settings.json`.
 
 ## Cursor Subagents
 
@@ -32,15 +32,7 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 
 ## Skills
 
-Use project skills eagerly when relevant:
-
-- Firebase basics: `.agents/skills/firebase-basics/SKILL.md`.
-- Firestore: `.agents/skills/firebase-firestore/SKILL.md`.
-- Auth: `.agents/skills/firebase-auth-basics/SKILL.md`.
-- Security rules auditor: `.agents/skills/firebase-security-rules-auditor/SKILL.md`.
-- Firebase AI Logic: `.agents/skills/firebase-ai-logic-basics/SKILL.md`.
-- Genkit JS: `.agents/skills/developing-genkit-js/SKILL.md`.
-- Xcode setup: `.agents/skills/xcode-project-setup/SKILL.md` when iOS dependencies or `.pbxproj` files are involved.
+Use system rules in `.context/` as the canonical source for architecture and security constraints.
 
 ## Product Agent Roles
 

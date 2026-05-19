@@ -1,0 +1,32 @@
+{
+  "name": "livskompassen-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@google/generative-ai": "latest",
+    "@simplewebauthn/server": "latest",
+    "@simplewebauthn/types": "latest",
+    "@vitejs/plugin-react": "^6.0.2",
+    "cookie-parser": "latest",
+    "cors": "latest",
+    "dotenv": "latest",
+    "express": "latest",
+    "google-auth-library": "latest",
+    "googleapis": "latest",
+    "multer": "latest",
+    "tsx": "latest",
+    "vite": "^8.0.13"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "latest",
+    "@types/express": "latest",
+    "@types/multer": "latest",
+    "@types/node": "latest",
+    "typescript": "latest"
+  }
+}
