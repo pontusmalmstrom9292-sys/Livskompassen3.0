@@ -9,11 +9,15 @@ vertex-sa.json
 **/serviceAccount*.json
 server/.env
 
-# Firebase
+# Firebase (local IDE/CLI logs may contain email, tokens, API metadata)
 .firebase/
+**/.firebase/
 firebase-debug.log
 firebase-debug.*.log
 .firebaserc.local
+
+# Personal Drive import — not project source (PII, family docs)
+docs/archive/drive-backup/
 
 # Build output
 dist/
