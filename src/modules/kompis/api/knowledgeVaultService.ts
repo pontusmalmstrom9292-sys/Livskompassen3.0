@@ -1,4 +1,4 @@
-import { httpsCallable } from 'firebase/functions';
+import { httpsCallable, type FunctionsError } from 'firebase/functions';
 import { functions } from '../../core/firebase/init';
 
 const knowledgeVaultQueryCallable = httpsCallable(functions, 'knowledgeVaultQuery');
@@ -13,6 +13,12 @@ export const callKnowledgeVault = async (query: string): Promise<string> => {
     return (result.data as KnowledgeVaultResponse).response;
   } catch (error) {
     console.error('Fel vid anrop till knowledgeVaultQuery:', error);
-    throw new Error('Kunde inte hamta svar fran Knowledge Vault. Forsok igen senare.');
+    const fnError = error as FunctionsError;
+    if (fnError.code === 'functions/unauthenticated') {
+      throw new Error('Autentisering krävs för Kunskapsvalvet.');
+    }
+    throw new Error(
+      fnError.message || 'Kunde inte hämta svar från Knowledge Vault. Försök igen senare.'
+    );
   }
 };

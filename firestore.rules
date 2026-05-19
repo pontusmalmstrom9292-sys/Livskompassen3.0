@@ -1,34 +1,61 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Hjälpfunktion för att verifiera ägarskap
-    function isOwner(data) {
-      return request.auth != null && data.ownerId == request.auth.uid;
+    function isAuthenticated() {
+      return request.auth != null;
     }
 
-    // Grundläggande WORM (Write Once Read Many) Protokoll
-    // Tillåter skapande men blockerar uppdatering och radering för alla dokument
-    match /{document=**} {
-      allow read: if isOwner(resource.data);
-      allow create: if request.auth != null 
-                    && request.resource.data.ownerId == request.auth.uid
-                    && request.resource.data.createdAt == request.time;
+    function isOwner() {
+      return isAuthenticated()
+        && (resource.data.userId == request.auth.uid
+            || resource.data.ownerId == request.auth.uid);
+    }
+
+    function isOwnerCreate() {
+      return isAuthenticated()
+        && (request.resource.data.userId == request.auth.uid
+            || request.resource.data.ownerId == request.auth.uid);
+    }
+
+    match /checkins/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
       allow update, delete: if false;
     }
 
-    // Specifika regler för "Kunskapsvalvet" (Vault)
-    match /vault/{docId} {
-      allow read: if isOwner(resource.data);
-      allow create: if request.auth != null 
-                    && request.resource.data.ownerId == request.auth.uid
-                    && request.resource.data.createdAt == serverTimestamp();
+    match /journal/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
       allow update, delete: if false;
     }
 
-    // Stenhårt WORM-protokoll för "Reality Vault" (Det Digitala Pansaret)
     match /reality_vault/{docId} {
-      allow read: if isOwner(resource.data);
-      allow create: if request.auth != null && request.resource.data.ownerId == request.auth.uid;
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
+      allow update, delete: if false;
+    }
+
+    match /children_logs/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
+      allow update, delete: if false;
+    }
+
+    match /vault/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
+      allow update, delete: if false;
+    }
+
+    match /routines/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
+      allow update, delete: if false;
+    }
+
+    match /kb_docs/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
       allow update, delete: if false;
     }
   }

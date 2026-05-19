@@ -15,19 +15,19 @@ export function Tidshjulet() {
       <motion.div 
         animate={{ rotate: -360 }}
         transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-4 rounded-full border border-kompass-gold/20"
+        className="absolute inset-4 rounded-full border border-[#FDE68A]/20"
       >
-        <div className="absolute -top-1 left-1/2 w-2 h-2 bg-kompass-gold rounded-full shadow-[0_0_10px_2px_var(--tw-shadow-color)] shadow-kompass-gold/50"></div>
+        <div className="absolute -top-1 left-1/2 w-2 h-2 bg-[#FDE68A] rounded-full shadow-[0_0_10px_2px_#FDE68A50]"></div>
       </motion.div>
 
       {/* Inre ring - Dåtid (Kampspår) */}
       <motion.div 
-        className="absolute inset-12 rounded-full border border-kompass-blue/50 bg-kompass-blue/10 backdrop-blur-sm"
+        className="absolute inset-12 rounded-full border border-indigo-500/50 bg-indigo-500/10 backdrop-blur-sm"
       />
 
       {/* Navet */}
-      <div className="relative z-10 w-20 h-20 rounded-full bg-kompass-dark border border-slate-700 flex items-center justify-center shadow-xl shadow-black/50">
-        <Compass className="w-8 h-8 text-kompass-gold" />
+      <div className="relative z-10 w-20 h-20 rounded-full bg-[#020617] border border-slate-700 flex items-center justify-center shadow-xl shadow-black/50">
+        <Compass className="w-8 h-8 text-[#FDE68A]" />
       </div>
 
       {/* Data noder - Exempel på milstolpar */}
