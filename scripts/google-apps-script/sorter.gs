@@ -71,9 +71,18 @@ function autonomousSorter() {
         options.headers = {
           'X-Livskompassen-Webhook-Secret': config.webhookSecret
         };
+      } else {
+        console.warn(
+          'WEBHOOK_SECRET saknas i Script Properties — notifyNewFile svarar 401/503 i produktion.'
+        );
       }
 
       var response = UrlFetchApp.fetch(config.cloudFunctionUrl, options);
+      if (response.getResponseCode() >= 400) {
+        console.error(
+          'Backend fel ' + response.getResponseCode() + ': ' + response.getContentText()
+        );
+      }
       console.log('Backend svar: ' + response.getContentText());
     } catch (e) {
       console.error('Kunde inte meddela backend: ' + e.toString());

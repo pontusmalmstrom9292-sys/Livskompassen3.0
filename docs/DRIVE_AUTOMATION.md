@@ -6,6 +6,16 @@ Kopplar Google Drive Inbox → Kunskapsvalvet → `notifyNewFile` → `analyzeDr
 Firebase-projekt: `gen-lang-client-0481875058`  
 Region: `europe-west1`
 
+### Implementationsstatus (repo)
+
+| Del | Status |
+|-----|--------|
+| `sorter.gs` (Script Properties + webhook-header) | Klar i repo |
+| `notifyNewFile` (fail-closed secret, logging) | Klar i repo |
+| `documentAgent.ts` (Gemini-analys, ingen persistens) | Klar i repo |
+| `npm run build` (functions + frontend) | Verifierad |
+| Firebase deploy + Apps Script trigger | **Kräver manuellt steg** (`firebase login --reauth`) |
+
 ## Flöde
 
 ```
