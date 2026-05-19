@@ -1,0 +1,35 @@
+---
+description: Firestore, data, and security invariants for Livskompassen
+alwaysApply: false
+globs: firestore.rules,functions/**,server/**,dataconnect/**
+---
+
+# Security And Data Invariants
+
+Security is Layered Defense. Never implement mock security for shipped behavior.
+
+Mandatory invariants:
+- `VaultLog` and `CheckIn` are immutable after creation.
+- Every user-owned document must bind to exactly one `userId`.
+- Users may only read or write their own data.
+- Verified email is required for write operations where auth is involved.
+- `NetworkMember` must validate category and importance.
+- `SystemSynapse` and `SystemScan` are owner-limited and critical.
+
+Block the Dirty Dozen:
+- Identity Spoofing on create or update.
+- Cross-User Leak on list or get.
+- Unauthenticated Write.
+- Bypassing Verification.
+- Malicious ID Injection.
+- Shadow Field Injection.
+- Resource Poisoning.
+- Vault Tampering.
+- State Shortcut for reconstructed CheckIn data.
+- System Synapse Hijack.
+
+Implementation rules:
+- LLMs must not decide deterministic authorization or data-integrity outcomes.
+- Prefer server timestamps for evidence and immutable snapshots.
+- Do not expose keys, PII, or cryptographic material to frontend JS memory.
+- Clear local caches on logout, panic, or vault lock paths.

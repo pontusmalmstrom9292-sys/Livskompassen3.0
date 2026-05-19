@@ -1,0 +1,21 @@
+---
+description: Firebase workflow and skill usage for Cursor agents
+alwaysApply: false
+---
+
+# Firebase Workflow
+
+Use Firebase skills and MCP whenever the task touches Firebase setup, Auth, Firestore, Hosting, App Hosting, Crashlytics, Remote Config, Data Connect, or security rules.
+
+Operational rules:
+- Prefer `npx -y firebase-tools@latest --version` when checking the Firebase CLI version.
+- Use Firebase MCP when project state, deployments, indexes, rules, or app configuration matter.
+- Never commit real `.env`, service-account JSON secrets, credentials, tokens, or generated auth cookies.
+- Keep `firebase.json`, `.firebaserc`, Firestore rules, and Data Connect config aligned with the active project.
+- For Firestore rules changes, activate the Firestore skill and audit security with the security-rules auditor skill.
+- For deployments, use the hosting skill for classic Hosting and the app-hosting skill for App Hosting.
+
+Cursor project setup:
+- Firebase MCP should be configured in `.cursor/mcp.json`.
+- Firebase plugin remains enabled in `.cursor/settings.json`.
+- Skills are tracked by `.agents/skills/` and `skills-lock.json`.
