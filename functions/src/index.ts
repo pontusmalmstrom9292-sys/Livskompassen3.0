@@ -2,10 +2,11 @@ import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { GCP_PROJECT_ID } from "./config";
 import { askKnowledgeVault } from "./agents/vertexAgent";
 import { weaveJournalEntry as runWeaver } from "./agents/weaverAgent";
-import { analyzeDriveFile } from "./agents/documentAgent";
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import { KompisSupervisor } from './agents/kompis-supervisor';
+import { adkOrchestrator, listAgentCards, applyParalysBreak } from './adk';
+import { emitSynapse } from './adk/synapses/synapseBus';
 
 admin.initializeApp();
 const supervisor = new KompisSupervisor();
@@ -163,7 +164,10 @@ export const notifyNewFile = functions
     }
 
     try {
-      analyzeDriveFile(fileId, fileName, mimeType).catch((err) => {
+      emitSynapse(adkOrchestrator, {
+        trigger: 'drive_file_ingested',
+        payload: { fileId, fileName, mimeType, ownerId: req.body.ownerId },
+      }).catch((err) => {
         console.error(`[Background Pipeline Error] fileId=${fileId} fileName=${fileName}:`, err);
       });
 
@@ -214,4 +218,37 @@ export const weaveJournalEntry = functions.region('europe-west1').https.onCall(a
   }
 
   return runWeaver(context.auth.uid, journalEntryId, mood, text);
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 8: getAgentRegistry
+// A2A AgentCard-registret — maskinläsbara capabilities för frontend/verktyg.
+// ─────────────────────────────────────────────────────────────────────────────
+export const getAgentRegistry = functions.region('europe-west1').https.onCall(async (_data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
+  }
+  return { agents: listAgentCards() };
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 9: breakDownResponse
+// Paralys-Brytaren — sub-synaps som atomiserar tunga svar till 30s-mikrosteg.
+// ─────────────────────────────────────────────────────────────────────────────
+export const breakDownResponse = functions.region('europe-west1').https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
+  }
+
+  const text = data.text;
+  if (!text || typeof text !== 'string') {
+    throw new functions.https.HttpsError('invalid-argument', 'Fältet "text" (string) krävs.');
+  }
+
+  if (text.length > 12000) {
+    throw new functions.https.HttpsError('invalid-argument', 'Text får vara max 12000 tecken.');
+  }
+
+  const microSteps = await applyParalysBreak(text);
+  return { microSteps };
 });

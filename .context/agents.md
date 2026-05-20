@@ -12,8 +12,9 @@
 
 ## Runtime-koppling
 - Agent cards: `functions/src/agents/cards/index.ts`
-- Supervisor-routing: `functions/src/agents/kompis-supervisor.ts`
-- Centrala AI-regler: `functions/src/sharedRules.ts`
+- ADK (orkestrering, synapser, executors): `functions/src/adk/`
+- Supervisor-routing: `functions/src/agents/kompis-supervisor.ts` → `AdkOrchestrator`
+- Centrala AI-regler: `functions/src/sharedRules.ts` (`getAgentSystemPrompt`)
 
 ## Hard rules
 - Ingen hardkodad prompt utanfor `functions/src/sharedRules.ts`.
