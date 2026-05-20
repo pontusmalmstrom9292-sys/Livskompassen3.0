@@ -72,9 +72,10 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 | Speglings-Systemet | `/speglar` | `.context/modules/speglingssystemet.md` | `src/modules/speglings_system/` |
 
 ## Kommande fas
-- [x] WebAuthn gate + Shake-to-Kill (15 m/s²)
-- [x] Vävaren async tagging (Gemini 1.5 Pro → reality_vault)
-- [x] Barnens: Kasper/Arvid, Balansmätare, fysiologi
+- [x] WebAuthn gate + Shake-to-Kill (15 m/s²) + Fyren progress
+- [x] Vävaren async tagging (Gemini 1.5 Pro → reality_vault) + kampsparRag
+- [x] Barnens: Kasper/Arvid, Balansmätare, fysiologi, JSON export
 - [x] Speglings-Systemet: ACT + VIVIR + valvjämförelse (`/speglar`)
+- [x] `weaveJournalEntry` + hosting deploy (natt-batch — se `docs/OVERNIGHT_REPORT.md`)
 - [ ] Kampspar-loggning (uppladdning, tidsstampel, vektorisering)
 - [ ] Ekonomi kopplad till Firestore/Data Connect

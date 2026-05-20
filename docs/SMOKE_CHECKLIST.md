@@ -13,6 +13,11 @@
 | 5 | Kompasser | `/kompasser` — check-in | Post i `checkins` |
 | 6 | BIFF | `/hamn` — skicka meddelande | Svar från callable `analyzeMessage` |
 | 7 | Kunskap | `/kunskap` — fråga | Svar från `knowledgeVaultQuery` |
+| 8 | Vävaren | `/dagbok` — spara post, vänta ~30s | Ny rad i `reality_vault`, `category: vävaren_metadata` |
+| 9 | Speglar | `/speglar` | ACT + VIVIR laddar; valvjämförelse efter unlock |
+| 10 | Barnen fysio | `/barnen` → Kasper → fysiologi | `children_logs` med `action: fysiologi`, `signals` |
+| 11 | WebAuthn | Håll Shield 3s (Fyren) | Passkey-prompt på enhet med stöd |
+| 12 | Kill switch | Skaka hårt (mobil) | Session rensad, navigerar till `/` |
 
 Verifiera dokument i [Firestore Console](https://console.firebase.google.com/project/gen-lang-client-0481875058/firestore).
 

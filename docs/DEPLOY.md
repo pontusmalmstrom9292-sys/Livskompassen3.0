@@ -24,7 +24,7 @@ npm run build
 ```bash
 cd Livskompassen2.0
 firebase deploy --only firestore:rules,firestore:indexes
-firebase deploy --only functions:analyzeMessage,functions:invalidateSession,functions:generateEmbedding,functions:knowledgeVaultQuery,functions:scheduledRetentionJob --force
+firebase deploy --only functions:analyzeMessage,functions:invalidateSession,functions:generateEmbedding,functions:knowledgeVaultQuery,functions:scheduledRetentionJob,functions:weaveJournalEntry --force
 ```
 
 **Obs:** En full deploy `firebase deploy --only functions` inkluderar `notifyNewFile`, som kräver secret (se nedan).
