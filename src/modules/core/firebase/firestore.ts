@@ -32,6 +32,11 @@ function withUserId(userId: string, data: FirestorePayload): FirestorePayload {
   return { ...data, userId, ownerId: userId, createdAt: serverTimestamp() };
 }
 
+/** List queries must constrain ownerId to satisfy Firestore rules (isOwner). */
+function ownerScopedQuery(ref: ReturnType<typeof collection>, ownerId: string) {
+  return query(ref, where('ownerId', '==', ownerId), orderBy('createdAt', 'desc'));
+}
+
 export async function saveCheckIn(userId: string, checkIn: Omit<CheckIn, 'userId' | 'createdAt'>) {
   const ref = collection(db, FIRESTORE_COLLECTIONS.checkins);
   const docRef = await addDoc(ref, withUserId(userId, { ...checkIn }));
@@ -89,8 +94,7 @@ export async function saveChildrenLog(
 
 export async function getVaultLogs(userId: string): Promise<(VaultLog & { id: string })[]> {
   const ref = collection(db, FIRESTORE_COLLECTIONS.reality_vault);
-  const q = query(ref, where('userId', '==', userId), orderBy('createdAt', 'desc'));
-  const snap = await getDocs(q);
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
   return snap.docs.map((d) => {
     const data = d.data();
     const createdAt =
@@ -103,8 +107,7 @@ export async function getVaultLogs(userId: string): Promise<(VaultLog & { id: st
 
 export async function getChildrenLogs(userId: string) {
   const ref = collection(db, 'children_logs');
-  const q = query(ref, where('userId', '==', userId), orderBy('createdAt', 'desc'));
-  const snap = await getDocs(q);
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
   return snap.docs.map((d) => ({
     id: d.id,
     ...d.data(),
@@ -117,8 +120,7 @@ export async function getChildrenLogs(userId: string) {
 
 export async function getJournalEntries(userId: string) {
   const ref = collection(db, 'journal');
-  const q = query(ref, where('userId', '==', userId), orderBy('createdAt', 'desc'));
-  const snap = await getDocs(q);
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
   return snap.docs.map((d) => ({
     id: d.id,
     ...d.data(),

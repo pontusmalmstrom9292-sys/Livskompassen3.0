@@ -7,8 +7,8 @@ function truncate(text: string, max = 120): string {
 async function fetchFirestoreRag(uid: string): Promise<string[]> {
   const db = admin.firestore();
   const [journalSnap, vaultSnap] = await Promise.all([
-    db.collection('journal').where('userId', '==', uid).orderBy('createdAt', 'desc').limit(5).get(),
-    db.collection('reality_vault').where('userId', '==', uid).orderBy('createdAt', 'desc').limit(5).get(),
+    db.collection('journal').where('ownerId', '==', uid).orderBy('createdAt', 'desc').limit(5).get(),
+    db.collection('reality_vault').where('ownerId', '==', uid).orderBy('createdAt', 'desc').limit(5).get(),
   ]);
 
   const lines: string[] = [];
@@ -23,7 +23,7 @@ async function fetchFirestoreRag(uid: string): Promise<string[]> {
   for (const coll of ['kampspar', 'kampspar_logs'] as const) {
     try {
       const field = coll === 'kampspar_logs' ? 'timestamp' : 'createdAt';
-      const snap = await db.collection(coll).where('userId', '==', uid).orderBy(field, 'desc').limit(5).get();
+      const snap = await db.collection(coll).where('ownerId', '==', uid).orderBy(field, 'desc').limit(5).get();
       for (const d of snap.docs) {
         const data = d.data();
         lines.push(`[${coll}:${d.id}] ${truncate(String(data.content ?? data.text ?? ''))}`);

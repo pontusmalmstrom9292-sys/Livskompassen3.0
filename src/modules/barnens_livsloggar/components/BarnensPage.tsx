@@ -202,7 +202,7 @@ export function BarnensPage() {
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           Spara dagens signaler
         </button>
-        <ChildSubLogPanel childAlias={activeChild} onSave={handleSaveObservation} />
+        <ChildSubLogPanel key={activeChild} childAlias={activeChild} onSave={handleSaveObservation} />
         {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
         <button
           type="button"
