@@ -1,5 +1,23 @@
 export type IsoDateTime = string;
 
+export type ThreatLevel = 'none' | 'low' | 'medium' | 'high';
+
+export interface RagAnchor {
+  source: 'journal' | 'reality_vault';
+  docId: string;
+  excerpt?: string;
+}
+
+export interface WeaverTags {
+  emotions: string[];
+  actors: string[];
+  threatLevel: ThreatLevel;
+  threatScore?: number;
+  ragAnchors: RagAnchor[];
+  model: 'gemini-1.5-pro';
+  journalEntryId: string;
+}
+
 export interface VaultLog {
   userId: string;
   category?: string;

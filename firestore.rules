@@ -7,14 +7,14 @@ service cloud.firestore {
 
     function isOwner() {
       return isAuthenticated()
-        && (resource.data.userId == request.auth.uid
-            || resource.data.ownerId == request.auth.uid);
+        && resource.data.userId == request.auth.uid
+        && resource.data.ownerId == request.auth.uid;
     }
 
     function isOwnerCreate() {
       return isAuthenticated()
-        && (request.resource.data.userId == request.auth.uid
-            || request.resource.data.ownerId == request.auth.uid);
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.ownerId == request.auth.uid;
     }
 
     match /checkins/{docId} {

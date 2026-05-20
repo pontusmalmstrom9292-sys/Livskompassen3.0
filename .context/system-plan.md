@@ -62,7 +62,19 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 ## Data Connect
 - Deployat (example-schema); **appmoduler använder Firestore** — DC avvaktas tills ekonomi (se `docs/FIREBASE_SYNC.md`)
 
+## Modulmappning (`.context/modules/`)
+
+| Modul | Route | Kontextfil | Kod |
+| --- | --- | --- | --- |
+| Verklighetsvalvet | `/valv` (Shield 3s + WebAuthn) | `.context/modules/verklighetsvalvet.md` | `src/modules/verklighetsvalvet/` |
+| Dagbokshubben | `/dagbok` | `.context/modules/dagbokshubben.md` | `src/modules/dagbok/` |
+| Barnens livsloggar | `/barnen` | `.context/modules/barnens_livsloggar.md` | `src/modules/barnens_livsloggar/` |
+| Speglings-Systemet | `/speglar` | `.context/modules/speglingssystemet.md` | `src/modules/speglings_system/` |
+
 ## Kommande fas
-- [ ] Biometrisk prompt for valv (Passkeys)
+- [x] WebAuthn gate + Shake-to-Kill (15 m/s²)
+- [x] Vävaren async tagging (Gemini 1.5 Pro → reality_vault)
+- [x] Barnens: Kasper/Arvid, Balansmätare, fysiologi
+- [x] Speglings-Systemet: ACT + VIVIR + valvjämförelse (`/speglar`)
 - [ ] Kampspar-loggning (uppladdning, tidsstampel, vektorisering)
 - [ ] Ekonomi kopplad till Firestore/Data Connect

@@ -1,15 +1,16 @@
 import { Link } from 'react-router-dom';
 import { BentoCard } from '../ui/BentoCard';
 import { KompisAvatar } from '../../kompis/components/KompisAvatar';
-import { Compass, Shield, Anchor, BookOpen, Heart, Sparkles, Wallet } from 'lucide-react';
+import { Compass, Shield, Anchor, BookOpen, Heart, Sparkles, Wallet, Brain } from 'lucide-react';
 
 const modules = [
   { to: '/kompasser', label: 'Kompasser', desc: 'Morgon, dag och kväll — ett steg i taget.', icon: Compass },
   { to: '/valv', label: 'Verklighetsvalvet', desc: 'WORM-bevis och sanning.', icon: Shield },
   { to: '/hamn', label: 'Safe Harbor', desc: 'BIFF och Grey Rock-svar.', icon: Anchor },
   { to: '/dagbok', label: 'Dagbok', desc: 'Humör och korta reflektioner.', icon: BookOpen },
+  { to: '/speglar', label: 'Speglar', desc: 'ACT + VIVIR — känsla vs fakta.', icon: Brain },
   { to: '/kunskap', label: 'Kunskapsvalvet', desc: 'Fråga Kompis om ditt Kampspår.', icon: Sparkles },
-  { to: '/barnen', label: 'Barnens livsloggar', desc: 'Neutrala, faktabaserade observationer.', icon: Heart },
+  { to: '/barnen', label: 'Barnens livsloggar', desc: 'Kasper, Arvid och Balansmätaren.', icon: Heart },
   { to: '/ekonomi', label: 'Ekonomi', desc: 'Budget och likviditet.', icon: Wallet },
 ];
 

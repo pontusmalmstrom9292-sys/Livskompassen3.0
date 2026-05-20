@@ -49,17 +49,28 @@ export async function saveChildrenLog(
     observation: string;
     childrenImpact?: string;
     category?: string;
+    action?: string;
+    signals?: { somn: number; angest: number; aptit: number };
   }
 ) {
   const ref = collection(db, 'children_logs');
-  const docRef = await addDoc(
-    ref,
-    withUserId(userId, {
-      ...log,
-      action: 'livslogg',
-      truth: log.observation,
-    })
-  );
+  const action = log.action ?? 'livslogg';
+  const payload: FirestorePayload = {
+    childAlias: log.childAlias,
+    action,
+    category: log.category,
+    childrenImpact: log.childrenImpact,
+  };
+
+  if (action === 'fysiologi') {
+    payload.signals = log.signals;
+    payload.observation = log.observation || undefined;
+  } else {
+    payload.observation = log.observation;
+    payload.truth = log.observation;
+  }
+
+  const docRef = await addDoc(ref, withUserId(userId, payload));
   return docRef.id;
 }
 

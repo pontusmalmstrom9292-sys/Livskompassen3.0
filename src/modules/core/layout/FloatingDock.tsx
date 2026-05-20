@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { useLongPress } from '../hooks/useLongPress';
 import { setVaultGate } from '../auth/sessionService';
+import { authenticateVaultGate } from '../auth/webauthn';
 import { clsx } from 'clsx';
 
 type DockItem = {
@@ -38,7 +39,9 @@ function DockButton({ item }: { item: DockItem }) {
   const Icon = item.icon;
 
   const longPress = useLongPress({
-    onLongPress: () => {
+    onLongPress: async () => {
+      const ok = await authenticateVaultGate();
+      if (!ok) return;
       setVaultGate();
       navigate(item.path);
     },
@@ -53,7 +56,7 @@ function DockButton({ item }: { item: DockItem }) {
     <button
       type="button"
       aria-label={item.label}
-      title={item.longPress ? `${item.label} — håll 3 sek` : item.label}
+      title={item.label}
       className={clsx(
         'p-2.5 rounded-2xl transition-colors shrink-0',
         isActive ? 'bg-white/10 text-[#FDE68A]' : 'text-slate-500 hover:text-white'

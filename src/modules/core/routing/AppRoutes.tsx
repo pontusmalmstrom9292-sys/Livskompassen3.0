@@ -9,6 +9,7 @@ import { EconomyPage } from '../../ekonomi';
 import { KunskapPage } from '../../kompis/components/KunskapPage';
 import { DagbokPage } from '../../dagbok';
 import { BarnensPage } from '../../barnens_livsloggar';
+import { SpeglingsSystem } from '../../speglings_system';
 
 export function AppRoutes() {
   return (
@@ -54,6 +55,14 @@ export function AppRoutes() {
           element={
             <AuthGate>
               <BarnensPage />
+            </AuthGate>
+          }
+        />
+        <Route
+          path="/speglar"
+          element={
+            <AuthGate>
+              <SpeglingsSystem />
             </AuthGate>
           }
         />

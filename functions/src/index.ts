@@ -1,6 +1,7 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { GCP_PROJECT_ID } from "./config";
 import { askKnowledgeVault } from "./agents/vertexAgent";
+import { weaveJournalEntry as runWeaver } from "./agents/weaverAgent";
 import { analyzeDriveFile } from "./agents/documentAgent";
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
@@ -197,3 +198,20 @@ export const knowledgeVaultQuery = onCall(
     return { response: aiResponse };
   }
 );
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 7: weaveJournalEntry
+// Vävaren — async RAG-tagging av dagboksposter till WORM reality_vault.
+// ─────────────────────────────────────────────────────────────────────────────
+export const weaveJournalEntry = functions.region('europe-west1').https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
+  }
+
+  const { journalEntryId, mood, text } = data;
+  if (!journalEntryId || !mood || !text) {
+    throw new functions.https.HttpsError('invalid-argument', 'journalEntryId, mood och text krävs.');
+  }
+
+  return runWeaver(context.auth.uid, journalEntryId, mood, text);
+});
