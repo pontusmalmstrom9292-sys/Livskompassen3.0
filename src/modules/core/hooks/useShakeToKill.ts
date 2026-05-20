@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { executeKillSwitch } from '../security/killSwitch';
 
 const SHAKE_THRESHOLD = 15; // m/s²
@@ -8,7 +9,9 @@ function magnitude(x: number, y: number, z: number): number {
   return Math.sqrt(x * x + y * y + z * z);
 }
 
+/** Shake-to-Kill: nollställ känslig state och navigera till neutral hemsida. */
 export function useShakeToKill(): void {
+  const navigate = useNavigate();
   const lastShake = useRef(0);
 
   useEffect(() => {
@@ -24,9 +27,10 @@ export function useShakeToKill(): void {
       lastShake.current = now;
 
       executeKillSwitch();
+      navigate('/', { replace: true });
     };
 
     window.addEventListener('devicemotion', handler);
     return () => window.removeEventListener('devicemotion', handler);
-  }, []);
+  }, [navigate]);
 }

@@ -2,36 +2,42 @@
 
 ## Overview
 
-Children's life logs — structured observations for co-parenting documentation (parallel parenting, "trygga hamnen"). No frontend code yet; vault types include `childrenImpact`.
+Den trygga hamnen — Kasper/Arvid sub-loggar, fysiologi, Balansmätare.
+
+Route: `/barnen`
 
 ## Files
 
 | Path | Role |
 |------|------|
-| _(none yet)_ | Planned: per-child timeline, neutral factual logs |
+| `components/BarnensPage.tsx` | PIN gate, tabs, export |
+| `components/ChildSubLogPanel.tsx` | Neutral livslogg per barn |
+| `components/PhysiologicalControls.tsx` | Sömn, ångest, aptit |
+| `components/BalansMatare.tsx` | 7-dagars stabilitetsindex |
+| `utils/balansIndex.ts` | Rullande medelvärde |
+| `utils/exportBalansReport.ts` | JSON export stub |
 
 ## Status
 
 | Area | Status |
 |------|--------|
-| UI | **missing** |
-| Data model | **partial** — `VaultLog.childrenImpact`, archival agents in backend |
-| WORM evidence | **backend** — via Verklighetsvalvet pipeline |
+| Kasper/Arvid tabs | **done** |
+| Fysiologi → `children_logs` | **done** |
+| BalansMatare 7 dagar | **done** |
+| Design #818CF8 / #FDE68A | **done** |
+| JSON export | **done** (stub) |
+| PDF juridisk rapport | **planned** |
 
-## Dependencies
+## Juridisk stabilitetsrapport (krav)
 
-- `verklighetsvalvet` for locked evidence
-- `core/types/firestore`
-- Agent: Mönster-Arkivarien / Livs-Arkivarien (`functions/src/agents/cards/`)
-
-## Next steps
-
-1. Define child entity schema (ids, aliases — no full names in client if possible).
-2. Build timeline UI with factual-only prompts (no emotional venting in stored logs).
-3. Optional export to vault as WORM entries.
+- Format: PDF + JSON (WORM-export från Firestore snapshot)
+- Innehåll: 7/30-dagars Balansindex, fysiologi-trend, tidsstämplade observationer
+- Metadata: hash + createdAt (integritet)
+- Ingen auto-delning till motpart — explicit användar-export
+- Nästa: PDF-generering client-side eller Cloud Function
 
 ## Security notes
 
-- Child data: minimize PII, GDPR/parental authority considerations.
-- Logs may become legal evidence — WORM + timestamp integrity required.
-- Never sync to shared/co-parent channels without explicit user action.
+- Child data: minimize PII, GDPR retention
+- Grey Rock neutrality in stored observations
+- Separate PIN, Zero Footprint on visibility change

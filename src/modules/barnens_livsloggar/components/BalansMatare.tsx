@@ -23,7 +23,9 @@ export function BalansMatare({ result }: Props) {
         />
       </div>
       <div className="flex justify-between text-xs">
-        <span className="text-slate-400">{result.daysWithData} dagar med data</span>
+        <span className="text-slate-400">
+          {result.daysWithData} / {7} dagar med data
+        </span>
         <span style={{ color: TRUST_GOLD }}>{result.index}/100</span>
       </div>
       <p className="text-sm text-slate-300">{result.label}</p>

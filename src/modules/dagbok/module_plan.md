@@ -2,35 +2,38 @@
 
 ## Overview
 
-Personal diary / check-in journal. Referenced in Firestore types (`CheckIn`, `routines`) but no frontend module yet.
+Dagbokshubben — Progressive Disclosure journal + async Vävaren tagging.
+
+Route: `/dagbok`
 
 ## Files
 
 | Path | Role |
 |------|------|
-| _(none yet)_ | Planned: daily entries, mood, micro-wins |
+| `components/DagbokPage.tsx` | Wizard: humör → text → bekräfta → sparad |
+| `api/weaverService.ts` | Fire-and-forget `weaveJournalEntry` |
+| `../../functions/src/agents/weaverAgent.ts` | Gemini 1.5 Pro tagging |
+| `../../functions/src/lib/kampsparRag.ts` | RAG: journal + valv + Kampspår |
 
 ## Status
 
 | Area | Status |
 |------|--------|
-| UI | **missing** |
-| Types | **partial** — `CheckIn`, `Routine` in `core/types/firestore.ts` |
-| Firestore collections | **defined** — `checkins`, `routines` |
+| Progressive Disclosure UI | **done** |
+| Journal persist (`journal`) | **done** |
+| Vävaren async callable | **done** — deploy `weaveJournalEntry` |
+| RAG Firestore | **done** |
+| RAG Vector Search 2.0 | **stub** — aktiveras med `VECTOR_SEARCH_INDEX_ID` |
+| DCAP → Speglings-Coachen | **planned** |
 
-## Dependencies
+## Röst-till-text (spec)
 
-- `core/types/firestore`
-- `core/store`
-- Future Firestore or Data Connect SDK
-
-## Next steps
-
-1. Create `components/DagbokPage.tsx` with single-entry form (progressive disclosure).
-2. Persist check-ins to Firestore with server timestamps.
-3. Link from FloatingDock Sprout or dedicated tab.
+- API: Web Speech API (`SpeechRecognition`) med `sv-SE`
+- Ett fält i taget: mikrofon-knapp endast på text-steg
+- Zero Footprint: röstdata stannar i browser tills explicit save
+- Fallback: manuell text om permission nekas
 
 ## Security notes
 
-- Journal entries are highly sensitive — encrypt at rest (CMEK), strict uid rules.
-- Zero Footprint: optional ephemeral draft mode before save.
+- Journal highly sensitive — CMEK, strict uid rules
+- Vävaren metadata → `reality_vault` (`category: vävaren_metadata`), WORM

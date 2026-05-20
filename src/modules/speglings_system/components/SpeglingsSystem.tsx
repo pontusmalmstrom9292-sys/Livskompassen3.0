@@ -38,6 +38,7 @@ export function SpeglingsSystem() {
 
   return (
     <div className="space-y-6">
+      <div className="rounded-2xl bg-[#0f172a]/60 backdrop-blur-xl border border-white/10 p-1">
       <BentoCard title="Speglings-Systemet" icon={<Brain className="h-4 w-4" style={{ color: SYNAPSE_INDIGO }} />}>
         <p className="text-sm text-slate-300 mb-4">
           Kognitiv sköld — separera känsla från fakta. Validera, aldrig fixa.
@@ -81,6 +82,7 @@ export function SpeglingsSystem() {
           </>
         )}
       </BentoCard>
+      </div>
     </div>
   );
 }

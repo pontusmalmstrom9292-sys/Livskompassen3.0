@@ -6,6 +6,7 @@ import { saveChildrenLog, getChildrenLogs } from '../../core/firebase/firestore'
 import { CHILD_ALIASES, TRUST_LAVENDER, type ChildAlias } from '../constants';
 import type { ChildrenLogEntry, PhysiologicalSignals } from '../types';
 import { computeBalansIndex } from '../utils/balansIndex';
+import { downloadBalansReportJson, exportBalansReport } from '../utils/exportBalansReport';
 import { BalansMatare } from './BalansMatare';
 import { PhysiologicalControls } from './PhysiologicalControls';
 import { ChildSubLogPanel } from './ChildSubLogPanel';
@@ -180,6 +181,13 @@ export function BarnensPage() {
 
       <BentoCard title={`${activeChild} — Balans`} icon={<Heart className="h-4 w-4" style={{ color: TRUST_LAVENDER }} />}>
         <BalansMatare result={balans} />
+        <button
+          type="button"
+          onClick={() => downloadBalansReportJson(exportBalansReport(activeChild, logs))}
+          className="mt-3 text-xs uppercase tracking-widest text-slate-500 hover:text-[#FDE68A]"
+        >
+          Exportera stabilitetsrapport (JSON)
+        </button>
       </BentoCard>
 
       <BentoCard title="Dagens signaler">

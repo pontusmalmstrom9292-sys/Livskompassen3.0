@@ -2,36 +2,38 @@
 
 ## Overview
 
-Sacred Feature: immutable evidence vault (WORM). UI placeholder with PIN unlock; full flow requires 3s long-press + biometrics per system plan.
+Sacred Feature: WORM evidence vault (Verklighetsvalvet). Route `/valv` via dold Fyren-åtkomst (Shield 3s + WebAuthn).
 
 ## Files
 
 | Path | Role |
 |------|------|
-| `components/VaultPage.tsx` | Bento card — PIN gate, unlock message |
+| `components/VaultPage.tsx` | Vault UI — PIN gate, WORM logs |
+| `../core/layout/FloatingDock.tsx` | Fyren — 3s progress + biometri |
+| `../core/auth/webauthn.ts` | Passkey-gate (client MVP) |
+| `../core/hooks/useShakeToKill.ts` | 15 m/s² → kill switch + `/` |
+| `../core/firebase/firestore.ts` | `assertWormPayload`, `saveVaultLog` |
 
 ## Status
 
 | Area | Status |
 |------|--------|
-| VaultPage UI | **partial** — demo PIN (`6469`), no long-press |
-| WORM storage | **backend** — Firestore `reality_vault`, rules TBD |
-| Store integration | **missing** — local `useState`, not `useStore.isVaultUnlocked` |
+| Fyren 3s + progress ring | **done** |
+| WebAuthn gate | **partial** — client MVP |
+| WORM rules | **done** — Firestore append-only |
+| WORM client guard | **done** — `assertWormPayload` |
+| Shake-to-Kill | **done** — RAM + navigate home |
+| Store integration | **partial** — vault gate via session |
 
-## Dependencies
+## CMEK-verifiering (nästa steg)
 
-- `core/ui/BentoCard`
-- `core/types/firestore` (`VaultLog`, `FIRESTORE_COLLECTIONS.reality_vault`)
-
-## Next steps
-
-1. Implement 3-second long-press on Fyren/Shield dock icon.
-2. Replace hardcoded PIN with secure gate + biometrics.
-3. Connect to Firestore vault logs; enforce WORM (append-only) in rules.
-4. Sync unlock state with `useStore.setVaultUnlocked`.
+1. Firebase Console → Firestore → Encryption → CMEK key ring
+2. Bekräfta att `reality_vault` och `journal` omfattas
+3. Cloud Audit Log: `Decrypt` + `Encrypt` events synliga
+4. Crypto-shredding testplan: key disable → data oläslig
 
 ## Security notes
 
-- **Never** ship production PIN in client code — remove demo PIN before release.
-- Vault access must be Zero Footprint: clear unlock flag on background/timeout.
-- Evidence uploads via Drive → `notifyNewFile` webhook (see `docs/DRIVE_AUTOMATION.md`).
+- Demo PIN endast för lokal utveckling — produktion via env/WebAuthn
+- Zero Footprint: vault unlock rensas vid background/timeout/kill switch
+- Evidence via Drive → `notifyNewFile` (se `docs/DRIVE_AUTOMATION.md`)

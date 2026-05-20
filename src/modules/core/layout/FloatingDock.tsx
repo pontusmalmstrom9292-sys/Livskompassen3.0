@@ -32,6 +32,29 @@ const dockItems: DockItem[] = [
   { path: '/ekonomi', icon: Map, label: 'Ekonomi' },
 ];
 
+function FyrenProgressRing({ progress }: { progress: number }) {
+  const pct = Math.round(progress * 100);
+  return (
+    <svg
+      className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none"
+      viewBox="0 0 36 36"
+      aria-hidden
+    >
+      <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(253,230,138,0.15)" strokeWidth="2" />
+      <circle
+        cx="18"
+        cy="18"
+        r="16"
+        fill="none"
+        stroke="#FDE68A"
+        strokeWidth="2"
+        strokeDasharray={`${pct} ${100 - pct}`}
+        pathLength={100}
+      />
+    </svg>
+  );
+}
+
 function DockButton({ item }: { item: DockItem }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,22 +71,28 @@ function DockButton({ item }: { item: DockItem }) {
     delayMs: 3000,
   });
 
+  const { progress, isHolding, ...longPressHandlers } = longPress;
+
   const handlers = item.longPress
-    ? longPress
+    ? longPressHandlers
     : { onClick: () => navigate(item.path) };
+
+  const showFyren = item.longPress && (isHolding || progress > 0);
 
   return (
     <button
       type="button"
-      aria-label={item.label}
-      title={item.label}
+      aria-label={item.longPress ? `${item.label} — håll 3 sek för dold åtkomst` : item.label}
+      title={item.longPress ? 'Fyren: håll 3 sek…' : item.label}
       className={clsx(
-        'p-2.5 rounded-2xl transition-colors shrink-0',
-        isActive ? 'bg-white/10 text-[#FDE68A]' : 'text-slate-500 hover:text-white'
+        'relative p-2.5 rounded-2xl transition-colors shrink-0',
+        isActive ? 'bg-white/10 text-[#FDE68A]' : 'text-slate-500 hover:text-white',
+        showFyren && 'text-[#FDE68A]'
       )}
       {...handlers}
     >
-      <Icon className="w-5 h-5" />
+      {showFyren && <FyrenProgressRing progress={progress} />}
+      <Icon className="w-5 h-5 relative z-10" />
     </button>
   );
 }

@@ -17,6 +17,17 @@ export const db = getFirestore(app);
 
 type FirestorePayload = Record<string, unknown>;
 
+const WORM_FORBIDDEN_KEYS = ['updatedAt', 'deletedAt', 'modifiedAt', 'revision'] as const;
+
+/** WORM — append-only payloads must not carry mutation fields. */
+function assertWormPayload(data: FirestorePayload, context: string): void {
+  for (const key of WORM_FORBIDDEN_KEYS) {
+    if (key in data) {
+      throw new Error(`WORM violation (${context}): field "${key}" is not allowed on create.`);
+    }
+  }
+}
+
 function withUserId(userId: string, data: FirestorePayload): FirestorePayload {
   return { ...data, userId, ownerId: userId, createdAt: serverTimestamp() };
 }
@@ -37,8 +48,10 @@ export async function saveJournalEntry(
 }
 
 export async function saveVaultLog(userId: string, log: Omit<VaultLog, 'userId' | 'createdAt'>) {
+  const payload = { ...log, isLocked: true } as FirestorePayload;
+  assertWormPayload(payload, 'reality_vault');
   const ref = collection(db, FIRESTORE_COLLECTIONS.reality_vault);
-  const docRef = await addDoc(ref, withUserId(userId, { ...log, isLocked: true }));
+  const docRef = await addDoc(ref, withUserId(userId, payload));
   return docRef.id;
 }
 

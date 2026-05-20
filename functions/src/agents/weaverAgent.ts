@@ -2,6 +2,7 @@ import * as admin from 'firebase-admin';
 import { GoogleGenAI } from '@google/genai';
 import { VÄVAREN_SYSTEM_PROMPT } from '../sharedRules';
 import { GCP_PROJECT_ID, GCP_REGION } from '../config';
+import { fetchWeaverRagContext } from '../lib/kampsparRag';
 
 const ai = new GoogleGenAI({
   project: GCP_PROJECT_ID,
@@ -18,25 +19,8 @@ export interface WeaverResult {
   ragAnchors: { source: string; docId: string; excerpt?: string }[];
 }
 
-function truncate(text: string, max = 120): string {
-  return text.length <= max ? text : `${text.slice(0, max)}…`;
-}
-
-async function fetchRagContext(uid: string): Promise<string> {
-  const db = admin.firestore();
-  const [journalSnap, vaultSnap] = await Promise.all([
-    db.collection('journal').where('userId', '==', uid).orderBy('createdAt', 'desc').limit(5).get(),
-    db.collection('reality_vault').where('userId', '==', uid).orderBy('createdAt', 'desc').limit(5).get(),
-  ]);
-
-  const journalLines = journalSnap.docs.map(
-    (d) => `[journal:${d.id}] ${truncate(String(d.data().text ?? ''))}`
-  );
-  const vaultLines = vaultSnap.docs.map(
-    (d) => `[reality_vault:${d.id}] ${truncate(String(d.data().truth ?? ''))}`
-  );
-
-  return [...journalLines, ...vaultLines].join('\n') || '(ingen tidigare kontext)';
+async function fetchRagContext(uid: string, text: string): Promise<string> {
+  return fetchWeaverRagContext(uid, text);
 }
 
 function parseWeaverJson(raw: string): WeaverResult | null {
@@ -56,7 +40,7 @@ export async function weaveJournalEntry(
   mood: string,
   text: string
 ): Promise<{ vaultMetadataId?: string; status: string }> {
-  const ragContext = await fetchRagContext(uid);
+  const ragContext = await fetchRagContext(uid, text);
 
   const prompt = `Journalpost (id: ${journalEntryId}):
 Humör: ${mood}

@@ -6,12 +6,13 @@ Function-based frontend modules under `src/modules/`. Each module owns its UI, h
 src/modules/
 ├── core/                 # Layout, UI primitives, store, Firebase init, shared types
 ├── kompis/               # Kompis Agent — avatar, chat, Knowledge Vault API
-├── verklighetsvalvet/    # Sacred Vault — WORM evidence, PIN unlock
+├── verklighetsvalvet/    # Sacred Vault — WORM evidence, Fyren 3s + WebAuthn
 ├── kompasser/            # Dagens fokus, Morgon/Dag/Kväll-kompass UI
 ├── safe_harbor/          # BIFF / Grey Rock, VIVIR, micro-steps
 ├── ekonomi/              # Budget, likviditet, sparmål
-├── dagbok/               # (planned) Personlig dagbok, check-ins
-└── barnens_livsloggar/   # (planned) Barnens livsloggar
+├── dagbok/               # Progressive journal + Vävaren async tagging
+├── barnens_livsloggar/   # Kasper/Arvid, Balansmätare, fysiologi
+└── speglings_system/     # ACT + VIVIR + valvjämförelse (/speglar)
 ```
 
 ## Import convention

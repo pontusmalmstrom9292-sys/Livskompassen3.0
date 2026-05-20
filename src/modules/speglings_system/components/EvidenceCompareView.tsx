@@ -13,20 +13,20 @@ export function EvidenceCompareView({ feeling, vivirSummary, matches, vaultLocke
   if (vaultLocked) {
     return (
       <div className="rounded-xl border border-amber-500/30 p-4 text-sm text-slate-300">
-        Valvet är låst. Long-press Shield (3 sek) → biometri → PIN för att jämföra med bevis.
+        Valvet är låst. Lås upp valv: håll Shield (Fyren) 3 sek → biometri → PIN.
       </div>
     );
   }
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      <div className="rounded-xl border p-3" style={{ borderColor: `${SYNAPSE_INDIGO}44` }}>
+      <div className="rounded-xl border border-white/10 bg-[#0f172a]/40 backdrop-blur-md p-3" style={{ borderColor: `${SYNAPSE_INDIGO}44` }}>
         <p className="text-[10px] uppercase tracking-widest text-white/40 mb-2">Känsla + VIVIR</p>
         {feeling && <p className="text-sm text-slate-300 mb-2">{feeling}</p>}
         <p className="text-sm text-slate-200 whitespace-pre-wrap">{vivirSummary}</p>
       </div>
 
-      <div className="rounded-xl border border-emerald-500/30 p-3">
+      <div className="rounded-xl border border-white/10 bg-[#0f172a]/40 backdrop-blur-md p-3">
         <p className="text-[10px] uppercase tracking-widest text-white/40 mb-2">Bevisankare (valv)</p>
         {matches.length === 0 ? (
           <p className="text-sm text-slate-500">Inga matchande poster i Verklighetsvalvet.</p>
