@@ -59,6 +59,11 @@ export function BarnensPage() {
     }
   }, [unlocked, user]);
 
+  useEffect(() => {
+    setSignals(defaultSignals);
+    setError(null);
+  }, [activeChild]);
+
   const balans = useMemo(
     () => computeBalansIndex(logs, activeChild),
     [logs, activeChild]
@@ -190,7 +195,7 @@ export function BarnensPage() {
         </button>
       </BentoCard>
 
-      <BentoCard title="Dagens signaler">
+      <BentoCard title={`Dagens signaler — ${activeChild}`}>
         <PhysiologicalControls signals={signals} onChange={setSignals} />
         <button
           type="button"

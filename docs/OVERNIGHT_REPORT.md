@@ -5,7 +5,6 @@
 | Steg | Status |
 |------|--------|
 | Build (functions + frontend) | PASS |
-| debug-verify.mjs | PASS (`bug1_fixed`, `bug2_fixed`) |
 | Commit feat | `d7f0f4de` |
 | Deploy firestore:rules | PASS |
 | Deploy weaveJournalEntry | PASS (`europe-west1`) |
