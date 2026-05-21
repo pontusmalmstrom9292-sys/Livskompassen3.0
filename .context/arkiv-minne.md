@@ -153,8 +153,9 @@ flowchart TB
 
 ## Planerat (MUST NOT tappas)
 
-- [x] **G1** Deploy `valvChatQuery`
-- [x] **G2–G3** Vector endpoint + ANN wire + embeddings live
+- [x] **G1** Deploy `valvChatQuery` (live 2026-05-21)
+- [ ] **G2** Vector endpoint deployad — prod env/secrets **VERIFY** ([`GCP-INVENTORY-LATEST`](../docs/GCP-INVENTORY-LATEST.md))
+- [ ] **G3** Embeddings smoke 768 — index 4 vectors, full ANN **VERIFY**
 - [ ] **G4** Avveckla legacy Python RAG (us-central1)
 - [x] **G5** Retention allowlist — exkludera WORM permanent
 - [ ] **G6** Drive smoke end-to-end (secret + Apps Script — manuellt)

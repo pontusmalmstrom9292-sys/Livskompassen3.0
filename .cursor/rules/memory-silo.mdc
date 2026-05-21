@@ -1,0 +1,33 @@
+---
+description: Three knowledge silos — no cross-RAG between Kunskap, Valv, Barnen
+alwaysApply: false
+globs: functions/src/lib/*Rag*.ts, functions/src/agents/valv*.ts, functions/src/agents/knowledgeVault*.ts
+---
+
+# Memory silos (tre kunskapsytor)
+
+Skills: `livskompassen-memory-silo-guard`, `livskompassen-arkiv-master`  
+Kanon: `.context/arkiv-minne.md`, `.context/arkitektur-beslut.md` §1.5
+
+| Silo | Collections | Callable |
+|------|-------------|----------|
+| Kunskap | `kampspar`, `kb_docs` | `knowledgeVaultQuery` |
+| Valv | `reality_vault` | `valvChatQuery` |
+| Barnen | `children_logs` | Dossier read; framtida dedikerad callable (G8) |
+
+## MUST NOT
+
+- `knowledgeVaultQuery` läser `reality_vault` eller `children_logs`.
+- `valvChatQuery` läser `kampspar` eller `children_logs`.
+- Gemensam vector-namespace som blandar bevis + livsminne utan isolering.
+- "Sök överallt"-UI utan silo-etikett.
+
+## Tillåtna korsläsningar (ej användar-RAG)
+
+- **Vävaren** (`kampsparRag.ts`): metadata-tagging journal+valv+kampspar.
+- **Dossier**: användarens valda källor i wizard.
+- **Speglar**: klient token-match på valv — Zero Footprint.
+
+## Verifiering
+
+Efter deploy: [`docs/GCP-INVENTORY-LATEST.md`](../../docs/GCP-INVENTORY-LATEST.md) — G1/G8 status.

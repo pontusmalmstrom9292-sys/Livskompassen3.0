@@ -37,9 +37,19 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 - Use `ci-investigator` only when a specific PR check or CI failure needs diagnosis.
 - Keep direct edits in the parent agent unless a separate isolated exploration is clearly useful.
 
-## Skills
+## Skills & rules (uppgift → vägledning)
 
-Use system rules in `.context/` as the canonical source for architecture and security constraints.
+| Uppgift | Skill | Cursor rule |
+| --- | --- | --- |
+| ADK synapser, auto-ingest | `livskompassen-synapser-adk` | `synapser-adk.mdc` |
+| RAG, silo, cross-read | `livskompassen-memory-silo-guard`, `livskompassen-rag-retrieval` | `memory-silo.mdc` |
+| Vector Search ANN | `livskompassen-vector-search` | — |
+| Hela arkivet / Dossier-minne | `livskompassen-arkiv-master` | `livskompassen-core.mdc` |
+| Agent cards / prompts | `livskompassen-memory-agents` | `backend-agents.mdc` |
+| Firebase deploy / inventering | plugin `firebase-basics` | `firebase-workflow.mdc` |
+
+Kanon för arkitektur och säkerhet: `.context/` (system-plan, arkiv-minne, security).  
+Live GCP-sanning: [`docs/GCP-INVENTORY-LATEST.md`](docs/GCP-INVENTORY-LATEST.md).
 
 ## Product Agent Roles
 

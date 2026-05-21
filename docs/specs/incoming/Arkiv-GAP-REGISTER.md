@@ -1,48 +1,56 @@
 # Arkiv-GAP-REGISTER — implementation efter låsning
 
-**Datum:** 2026-05-21 (konsoliderad)  
+**Datum:** 2026-05-21 (konsoliderad, live-synk)  
 **Regel:** Implementera **inte** kod förrän användaren säger `kör [GAP]`.  
-**Källor:** [`KONSOLIDERING-2026-05-21.md`](../../archive/repomix/KONSOLIDERING-2026-05-21.md), [`GCP-INVENTORY-2026-05-21.md`](../../archive/GCP-INVENTORY-2026-05-21.md), [`.context/arkiv-minne.md`](../../.context/arkiv-minne.md).
+**Sanning (moln):** [`docs/GCP-INVENTORY-LATEST.md`](../../GCP-INVENTORY-LATEST.md) — ersätter arkiv [`GCP-INVENTORY-2026-05-21.md`](../../archive/GCP-INVENTORY-2026-05-21.md).
+
+| ID | Status | Notering |
+|----|--------|----------|
+| G1 | **done** | `valvChatQuery` deployad west1 |
+| G2 | **verify** | Endpoint + deploy live; `VECTOR_SEARCH_*` ej i Secret Manager |
+| G3 | **verify** | 4 vectors i index; smoke embeddingDim 768 PASS |
+| G4 | **open** | 4 Python functions us-central1 |
+| G5 | **done** | WORM allowlist retention |
+| G6 | **open** | `NOTIFY_WEBHOOK_SECRET` saknas |
+| G7–G14 | **open** | Life OS utbyggnad |
+| V1 | **wait** | Genkit — ej migrera |
 
 ---
 
 ## Prioritet 1 — Prod-gaps (blockerar hela arkivet)
 
-### G1 — Deploy `valvChatQuery`
+### G1 — Deploy `valvChatQuery` — **done**
 
 | | |
 |---|---|
-| **Problem** | Finns i `functions/src/index.ts`, **ej** i `firebase functions:list` |
-| **Effekt** | Valv-Chat Sök fungerar inte i prod |
-| **Åtgärd** | `firebase deploy --only functions:valvChatQuery` + smoke valv |
+| **Status** | **done** (2026-05-21 live inventering) |
+| **Bevis** | `valvChatQuery` i `firebase functions:list`; `smoke:valv` PASS |
 | **Säkerhet** | Endast `reality_vault`; Zero Footprint session |
-| **Källa** | GCP inventory, alla Repomix-analyser |
 
-### G2 — Vector Search endpoint + ANN wire
-
-| | |
-|---|---|
-| **Problem** | 2 index i GCP, **0 endpoints**; kod stub |
-| **Index (välj en)** | west1 `2686894156982255616` (STREAM) **rekommenderas** (samma region som Functions) |
-| **Alternativ** | north1 `9094201410823651328` (BATCH) — skript pekar hit idag |
-| **Produkt** | Vertex AI **Vector Search ANN** — **inte** Vertex AI Search Data Store (repomix-linjen) |
-| **Åtgärd** | `gcloud ai index-endpoints create` + `deploy-index`; sätt env `VECTOR_SEARCH_INDEX_ID`, `VECTOR_SEARCH_ENDPOINT_ID` |
-| **Kod** | `functions/src/lib/kampsparQueryRag.ts` — ANN query, fallback token-match |
-| **Skript** | [`scripts/setup_vector_search.sh`](../../scripts/setup_vector_search.sh) (uppdatera region till west1 om kanonisk) |
-
-### G3 — Embeddings live (`embeddingDim null`)
+### G2 — Vector Search endpoint + ANN wire — **verify**
 
 | | |
 |---|---|
-| **Problem** | `generateEmbeddingInternal.ts` / ingest — dimension null i smoke |
-| **Åtgärd** | Verifiera Vertex Publisher API + modell `textembedding-gecko` eller `text-embedding-004` i `europe-west1` |
-| **Koppling** | Upsert vectors till valt index vid `ingestKampsparEntry` |
+| **Status** | **verify** — infra **done**, secrets optional |
+| **Live** | Endpoint `4956462078572363776`; index `2686894156982255616`; deploy `livskompassen_kv_deployed_v1` |
+| **Kvar** | Bekräfta prod function env om defaults i `vectorSearchClient.ts` räcker |
+| **Kod** | `functions/src/lib/kampsparQueryRag.ts` — ANN + token-match fallback |
+
+### G3 — Embeddings live — **verify**
+
+| | |
+|---|---|
+| **Status** | **verify** — smoke PASS, 4 vectors i index |
+| **Live** | `text-embedding-004`, `embeddingDim` 768 vid ingest |
+| **Kvar** | Full ANN-prod smoke efter fler upserts |
 
 ---
 
 ## Prioritet 2 — Arkitekturhygien
 
-### G4 — Legacy Python RAG (us-central1)
+### G4 — Legacy Python RAG (us-central1) — **open**
+
+| Status | **open** — 4 functions fortfarande deployade |
 
 | Function | Action |
 |----------|--------|
@@ -52,26 +60,29 @@
 
 **Kontext:** Repomix XML/cursor = Vertex AI Search + Cloud Run-linjen; GCP har **båda** stackarna live.
 
-### G5 — Retention vs permanent minne
+### G5 — Retention vs permanent minne — **done**
 
 | | |
 |---|---|
+| **Status** | **done** — WORM allowlist i `retentionJob.ts` |
 | **Problem** | `retentionJob.ts` purgar `users/{uid}/kampspar`; live data = top-level `kampspar` |
 | **GCS** | `livskompassen-knowledge-vault-worm` har 30d retention |
 | **Åtgärd** | Explicit allowlist: **aldrig** radera `children_logs`, `reality_vault`, `journal`, `dossier_snapshots`, top-level `kampspar` WORM |
 | **Källa** | walkthrough legacy path ≠ prod; repomix output.txt T6 |
 
-### G6 — Drive smoke end-to-end
+### G6 — Drive smoke end-to-end — **open**
 
 | | |
 |---|---|
-| **Status** | `notifyNewFile` deployad; Apps Script + `NOTIFY_WEBHOOK_SECRET` okänd |
+| **Status** | **open** — `NOTIFY_WEBHOOK_SECRET` saknas i Secret Manager (2026-05-21) |
+| **Deploy** | `notifyNewFile` deployad west1 |
 | **Åtgärd** | [`docs/DRIVE_AUTOMATION.md`](../../DRIVE_AUTOMATION.md) manuell verifiering |
 
-### G11 — Mock `Kampspar`-typ vs `KampsparEntry`
+### G11 — Mock `Kampspar`-typ vs `KampsparEntry` — **done**
 
 | | |
 |---|---|
+| **Status** | **done** — `KompisUiKampsparTrack` UI-only |
 | **Problem** | `src/modules/kompis/types/kompis.ts` har mock `Kampspar` (challenge/milestone/routine) identisk med repomix output.txt |
 | **Risk** | Felkoppling till ingest — WORM-schema är `KampsparEntry` |
 | **Åtgärd** | Isolera/renamna mock till UI-only; dokumentera i komponent; aldrig skicka till `ingestKampsparEntry` |

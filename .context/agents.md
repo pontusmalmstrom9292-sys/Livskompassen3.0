@@ -12,7 +12,7 @@
 
 ## Runtime-koppling
 - Agent cards: `functions/src/agents/cards/index.ts`
-- ADK (orkestrering, synapser, executors): `functions/src/adk/`
+- ADK (orkestrering, synapser, executors): `functions/src/adk/` — `synapseBus.ts` + `emitSynapse`; Cursor-regel `.cursor/rules/synapser-adk.mdc`
 - Supervisor-routing: `functions/src/agents/kompis-supervisor.ts` → `AdkOrchestrator`
 - Centrala AI-regler: `functions/src/sharedRules.ts` (`getAgentSystemPrompt`)
 

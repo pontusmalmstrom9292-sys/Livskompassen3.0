@@ -172,10 +172,10 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 - [`src/modules/kompis/module_plan.md`](../src/modules/kompis/module_plan.md)
 - [`docs/specs/incoming/Kunskap-SPEC.md`](./specs/incoming/Kunskap-SPEC.md)
 
-## G6 — Drive-pipeline (read-only verifiering, 2026-05-21)
+## G6 — Drive-pipeline (manuellt steg — användaren)
 
-**Källor:** [`DRIVE_AUTOMATION.md`](./DRIVE_AUTOMATION.md), `notifyNewFile`, `scripts/google-apps-script/sorter.gs`  
-**Deploy webhook:** **BLOCKERAD** — `NOTIFY_WEBHOOK_SECRET` saknas i Secret Manager.
+**Källor:** [`DRIVE_AUTOMATION.md`](./DRIVE_AUTOMATION.md), [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md) § Secret Manager  
+**Deploy webhook:** **BLOCKERAD** tills secret satt — `NOTIFY_WEBHOOK_SECRET` saknas i Secret Manager (2026-05-21).
 
 | Secret | Status |
 |--------|--------|
@@ -189,9 +189,25 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 | Prod idag | POST utan header → **200** (secret ej bunden — redeploy efter secret) |
 | E2E Drive → kb_docs | **Ej körd** — kräver secret + Apps Script |
 
-**Manuellt:** `openssl rand -base64 32` → `firebase functions:secrets:set NOTIFY_WEBHOOK_SECRET` → deploy `notifyNewFile` → Apps Script enligt [`DRIVE_AUTOMATION.md`](./DRIVE_AUTOMATION.md).
+### Steg (ett i taget)
 
-**Känd risk:** `sorter.gs` skickar `ownerUid`, handler läser `ownerId` — kb_docs-persist hoppas över tills alignat (separat fix).
+1. `openssl rand -base64 32` — kopiera värdet (spara i lösenordshanterare, inte i git).
+2. `firebase functions:secrets:set NOTIFY_WEBHOOK_SECRET` — klistra in värdet.
+3. `firebase deploy --only functions:notifyNewFile`
+4. Apps Script: uppdatera webhook-header enligt [`DRIVE_AUTOMATION.md`](./DRIVE_AUTOMATION.md).
+5. Ladda upp testfil i Drive-mappen → verifiera `kb_docs` + synapse `drive_file_ingested`.
+6. Uppdatera tabellen nedan med **PASS/FAIL** och datum.
+
+**Känd risk:** `sorter.gs` skickar `ownerUid`, handler läser `ownerId` — kb_docs-persist hoppas över tills alignat (separat fix, ej G6).
+
+## Nästa kod-GAP (efter grund-låsning)
+
+| Kommando | Innehåll |
+|----------|----------|
+| `kör G4` | Kartlägg/avveckla legacy Python RAG (us-central1) — separat session |
+| `kör G7` | Implementera `journal_woven` synaps (opt-in → `kampspar`) — separat session |
+
+Se [`Arkiv-GAP-REGISTER.md`](./specs/incoming/Arkiv-GAP-REGISTER.md).
 
 ## Multitask GAP-våg (2026-05-21) — våg 3 master review
 

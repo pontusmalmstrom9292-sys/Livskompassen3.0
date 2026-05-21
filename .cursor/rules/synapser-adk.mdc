@@ -1,0 +1,38 @@
+---
+description: ADK SynapseBus triggers, state, and ingest boundaries
+alwaysApply: false
+globs: functions/src/adk/**
+---
+
+# ADK Synapser
+
+Skill: `.cursor/skills/livskompassen-synapser-adk/SKILL.md`  
+Runtime: `functions/src/adk/synapses/synapseBus.ts`, `stateStore.ts`
+
+## Triggers
+
+| Trigger | Handler | Status | Effekt |
+|---------|---------|--------|--------|
+| `drive_file_ingested` | `driveIngestSynapse` | **live** | Drive → `kb_docs` only |
+| `user_overwhelm` | `paralysBrytarenSynapse` | **live** | Ett mikrosteg, max 30s |
+| `journal_woven` | stub log | **GAP G7** | Opt-in sammanfattning → `kampspar` |
+| `dcap_alert` | stub log | planerat | DCAP → säker routing |
+
+Koppling: `notifyNewFile` → `emitSynapse(..., drive_file_ingested)`.
+
+## ADK state ≠ SystemSynapse
+
+`firebase-blueprint.json` definierar Firestore `/synapses/{synapseId}` (`SystemSynapse`).  
+ADK använder in-memory `stateStore.ts` — **inte samma** schema (G9).
+
+## MUST
+
+- `hashPayload` i synapse state — ingen rå PII.
+- `clearSynapseState` vid utloggning (Zero Footprint).
+- Drive ingest → `kb_docs` only — **aldrig** auto till `reality_vault`.
+
+## MUST NOT
+
+- Auto-ingest trauma/Kladd till `kampspar` utan opt-in policy.
+- Dela synapse state mellan silor (Kunskap / Valv / Barnen).
+- Hardkoda prompts — kanon = `functions/src/sharedRules.ts`.

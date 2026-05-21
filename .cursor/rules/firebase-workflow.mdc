@@ -16,6 +16,6 @@ Operational rules:
 - For deployments, use the hosting skill for classic Hosting and the app-hosting skill for App Hosting.
 
 Cursor project setup:
-- Firebase MCP should be configured in `.cursor/mcp.json`.
-- Firebase plugin remains enabled in `.cursor/settings.json`.
-- Skills are tracked by `.agents/skills/` and `skills-lock.json`.
+- Firebase MCP: `.cursor/mcp.json` (`npx -y firebase-tools@latest mcp`).
+- Firebase plugin: `.cursor/settings.json` (`plugins.firebase.enabled`).
+- Project skills: `.cursor/skills/` (e.g. `livskompassen-rag-retrieval`, `firebase-basics` via plugin).
