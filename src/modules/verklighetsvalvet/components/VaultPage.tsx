@@ -1,10 +1,11 @@
-import { Lock, ShieldAlert, X } from 'lucide-react';
+import { FileText, Lock, Search, ShieldAlert, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { PinGate } from '../../core/ui/PinGate';
+import { TabBar } from '../../core/ui/TabBar';
 import { useStore } from '../../core/store';
-import { hasVaultGate } from '../../core/auth/sessionService';
+import { hasVaultGate, clearVaultGate } from '../../core/auth/sessionService';
 import { saveVaultLog, getVaultLogs } from '../../core/firebase/firestore';
 import type { VaultLog } from '../../core/types/firestore';
 import { VaultEntryForm } from './VaultEntryForm';
@@ -35,7 +36,19 @@ function hasPinConfigured(): boolean {
   return Boolean(localStorage.getItem(PIN_STORAGE_KEY) || import.meta.env.VITE_VAULT_PIN);
 }
 
-export function VaultPage() {
+export type VaultTab = 'logga' | 'sok';
+
+const VAULT_TABS = [
+  { id: 'logga' as const, label: 'Logga', icon: <FileText className="h-3 w-3" /> },
+  { id: 'sok' as const, label: 'Sök', icon: <Search className="h-3 w-3" /> },
+];
+
+type VaultPageProps = {
+  embedded?: boolean;
+  onClose?: () => void;
+};
+
+export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
   const navigate = useNavigate();
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
@@ -46,7 +59,14 @@ export function VaultPage() {
   const [logs, setLogs] = useState<(VaultLog & { id: string })[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [vaultTab, setVaultTab] = useState<VaultTab>('logga');
   const gateOk = hasVaultGate();
+
+  useEffect(() => {
+    if (!isVaultUnlocked) {
+      setVaultTab('logga');
+    }
+  }, [isVaultUnlocked]);
 
   useEffect(() => {
     if (isVaultUnlocked && user) {
@@ -90,7 +110,9 @@ export function VaultPage() {
   };
 
   const handleSaveLog = async (input: VaultLogInput) => {
-    if (!user) return;
+    if (!user) {
+      throw new Error('Inte inloggad');
+    }
     setLoading(true);
     setError(null);
     try {
@@ -99,17 +121,24 @@ export function VaultPage() {
       setLogs(updated);
     } catch {
       setError('Kunde inte spara till valvet.');
+      throw new Error('vault-save-failed');
     } finally {
       setLoading(false);
     }
   };
 
   const handleCloseToLayer1 = () => {
+    setVaultTab('logga');
     setVaultUnlocked(false);
-    navigate('/dagbok');
+    clearVaultGate();
+    if (embedded && onClose) {
+      onClose();
+    } else {
+      navigate('/dagbok');
+    }
   };
 
-  if (!gateOk) {
+  if (!embedded && !gateOk) {
     return (
       <BentoCard
         title="Verklighetsvalvet"
@@ -117,7 +146,8 @@ export function VaultPage() {
         icon={<ShieldAlert className="h-4 w-4" />}
       >
         <p className="text-sm text-text-dim">
-          Håll Shield-ikonen i bottenmenyn i 3 sekunder för att öppna valvet. Kort tryck räcker inte.
+          Håll Dagbok-ikonen i bottenmenyn i 3 sekunder (Fyren) för dold åtkomst till bevisvalvet.
+          Kort tryck räcker inte.
         </p>
       </BentoCard>
     );
@@ -126,7 +156,7 @@ export function VaultPage() {
   if (!isVaultUnlocked) {
     return (
       <BentoCard
-        title="Verklighetsvalvet"
+        title={embedded ? 'Bevis' : 'Verklighetsvalvet'}
         description="Ange PIN"
         icon={<ShieldAlert className="h-4 w-4" />}
       >
@@ -158,7 +188,7 @@ export function VaultPage() {
 
   return (
     <div className="space-y-4">
-      <BentoCard title="Verklighetsvalvet" icon={<Lock className="h-4 w-4" />}>
+      <BentoCard title={embedded ? 'Bevis' : 'Verklighetsvalvet'} icon={<Lock className="h-4 w-4" />}>
         <div className="mb-4 flex items-start justify-between gap-2">
           <p className="text-sm text-accent">
             Lager 2 — append-only (WORM). Ett fält i taget.
@@ -172,11 +202,26 @@ export function VaultPage() {
             <X className="h-3 w-3" /> Stäng
           </button>
         </div>
-        <VaultEntryForm userId={user.uid} saving={loading} onSave={handleSaveLog} />
-        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+        <TabBar<VaultTab> tabs={VAULT_TABS} active={vaultTab} onChange={setVaultTab} />
       </BentoCard>
 
-      <VaultLogList logs={logs} loading={loading} />
+      {vaultTab === 'logga' && (
+        <>
+          <BentoCard title="Ny post" description="Append-only bevis">
+            <VaultEntryForm userId={user.uid} saving={loading} onSave={handleSaveLog} />
+            {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+          </BentoCard>
+          <VaultLogList logs={logs} loading={loading} />
+        </>
+      )}
+
+      {vaultTab === 'sok' && (
+        <BentoCard title="Sök i Valvet" description="Valv-Chat — kommer snart">
+          <p className="text-sm text-text-muted">
+            Här kan du snart ställa frågor mot dina WORM-bevis och få svar med källhänvisningar.
+          </p>
+        </BentoCard>
+      )}
     </div>
   );
 }

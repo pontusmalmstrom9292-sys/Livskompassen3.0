@@ -9,7 +9,11 @@ import { MoodStep } from './MoodStep';
 import { ReflectionStep } from './ReflectionStep';
 import { SavedStep } from './SavedStep';
 
-export function DagbokPage() {
+type DagbokPageProps = {
+  embedded?: boolean;
+};
+
+export function DagbokPage({ embedded = false }: DagbokPageProps) {
   const user = useStore((s) => s.user);
   const {
     step,
@@ -27,7 +31,10 @@ export function DagbokPage() {
 
   return (
     <div className="space-y-6">
-      <BentoCard title="Dagbok" icon={<BookOpen className="h-4 w-4" />}>
+      <BentoCard
+        title={embedded ? 'Reflektion' : 'Dagbok'}
+        icon={<BookOpen className="h-4 w-4" />}
+      >
         <p className="mb-4 text-sm text-text-muted">
           Ett fält i taget — minimera sensorisk belastning.
         </p>

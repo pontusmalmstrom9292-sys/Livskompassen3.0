@@ -32,8 +32,9 @@ export function exportVaultRecordAsPdf(log: VaultLog & { id: string }): void {
 <style>body{font-family:Inter,sans-serif;padding:2rem;color:#0f172a;line-height:1.5}</style></head>
 <body>${body}</body></html>`;
 
-  const win = window.open('', '_blank', 'noopener,noreferrer');
+  const win = window.open('', '_blank');
   if (!win) return;
+  win.opener = null;
   win.document.write(html);
   win.document.close();
   win.focus();

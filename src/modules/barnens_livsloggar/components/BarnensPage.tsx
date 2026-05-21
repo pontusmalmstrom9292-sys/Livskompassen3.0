@@ -24,7 +24,11 @@ function hashPin(pin: string): string {
 
 const defaultSignals: PhysiologicalSignals = { somn: 3, angest: 3, aptit: 3 };
 
-export function BarnensPage() {
+type BarnensPageProps = {
+  embedded?: boolean;
+};
+
+export function BarnensPage({ embedded = false }: BarnensPageProps) {
   const user = useStore((s) => s.user);
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
@@ -133,7 +137,10 @@ export function BarnensPage() {
 
   if (!unlocked) {
     return (
-      <BentoCard title="Barnens livsloggar" icon={<Heart className="h-4 w-4" />}>
+      <BentoCard
+        title={embedded ? 'Livsloggar' : 'Barnens livsloggar'}
+        icon={<Heart className="h-4 w-4" />}
+      >
         <PinGate
           description="Kasper och Arvid — neutrala observationer. Separat PIN, Zero Footprint."
           pin={pin}

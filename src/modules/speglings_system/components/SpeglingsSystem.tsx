@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Brain } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
@@ -16,9 +16,16 @@ type Phase = 'act' | 'vivir' | 'compare';
 
 const INITIAL_PHASE: Phase = 'act';
 
-export function SpeglingsSystem() {
+type SpeglingsSystemProps = {
+  embedded?: boolean;
+};
+
+export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
   const location = useLocation();
-  const journalBridge = readJournalBridgeContext(location.state);
+  const { bridgeMood, bridgeText } = useMemo(() => {
+    const ctx = readJournalBridgeContext(location.state);
+    return { bridgeMood: ctx?.mood ?? '', bridgeText: ctx?.text ?? '' };
+  }, [location.state]);
   const user = useStore((s) => s.user);
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const [phase, setPhase] = useState<Phase>(INITIAL_PHASE);
@@ -27,11 +34,11 @@ export function SpeglingsSystem() {
   const [vivirAnswers, setVivirAnswers] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    if (!journalBridge) return;
-    const prefix = journalBridge.mood ? `Humör: ${journalBridge.mood}. ` : '';
-    setFeeling(`${prefix}${journalBridge.text}`);
-    setJournalMood(journalBridge.mood);
-  }, [journalBridge]);
+    if (!bridgeText) return;
+    const prefix = bridgeMood ? `Humör: ${bridgeMood}. ` : '';
+    setFeeling(`${prefix}${bridgeText}`);
+    setJournalMood(bridgeMood);
+  }, [bridgeMood, bridgeText]);
 
   useEffect(
     () => () => {
@@ -69,7 +76,7 @@ export function SpeglingsSystem() {
 
   return (
     <div className="space-y-6">
-      <BentoCard title="Speglings-Systemet" icon={<Brain className="h-4 w-4" />}>
+      <BentoCard title={embedded ? 'Speglar' : 'Speglings-Systemet'} icon={<Brain className="h-4 w-4" />}>
         <p className="mb-4 text-sm text-text-muted">
           Kognitiv sköld — separera känsla från fakta. Validera, aldrig fixa.
         </p>

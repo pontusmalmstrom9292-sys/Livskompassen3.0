@@ -137,8 +137,12 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
       if (!payload) return;
       await onSave(payload);
       resetForm();
-    } catch {
-      setAttachError('Kunde inte ladda upp bilaga. Försök igen.');
+    } catch (err) {
+      if (err instanceof Error && err.message === 'vault-save-failed') {
+        setAttachError('Kunde inte spara till valvet. Försök igen.');
+      } else {
+        setAttachError('Kunde inte ladda upp bilaga. Försök igen.');
+      }
     } finally {
       setUploading(false);
     }

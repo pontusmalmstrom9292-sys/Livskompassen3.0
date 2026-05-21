@@ -1,30 +1,40 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { MainLayout } from '../layout/MainLayout';
 import { AuthGate } from '../auth/AuthGate';
 import { HomePage } from '../pages/HomePage';
-import { DashboardPage } from '../../kompasser';
-import { VaultPage } from '../../verklighetsvalvet';
+import { VardagenPage, type VardagenTab } from '../../kompasser';
 import { SafeHarborPage } from '../../safe_harbor';
-import { EconomyPage } from '../../ekonomi';
-import { KunskapPage } from '../../kompis/components/KunskapPage';
-import { DagbokPage } from '../../dagbok';
-import { BarnensPage } from '../../barnens_livsloggar';
-import { SpeglingsSystem } from '../../speglings_system';
+import { HjartatPage } from '../../dagbok';
+import { FamiljenPage } from '../../barnens_livsloggar';
+
+function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
+  const location = useLocation();
+  return (
+    <Navigate
+      to={{ pathname: '/dagbok', search: `?tab=${tab}` }}
+      state={location.state}
+      replace
+    />
+  );
+}
+
+function RedirectToVardagenTab({ tab }: { tab: VardagenTab }) {
+  return (
+    <Navigate
+      to={{ pathname: '/vardagen', search: tab === 'kompasser' ? '' : `?tab=${tab}` }}
+      replace
+    />
+  );
+}
 
 export function AppRoutes() {
   return (
     <MainLayout>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/kompasser" element={<DashboardPage />} />
-        <Route
-          path="/valv"
-          element={
-            <AuthGate>
-              <VaultPage />
-            </AuthGate>
-          }
-        />
+        <Route path="/vardagen" element={<VardagenPage />} />
+        <Route path="/kompasser" element={<RedirectToVardagenTab tab="kompasser" />} />
+        <Route path="/valv" element={<RedirectToHjartatTab tab="bevis" />} />
         <Route
           path="/hamn"
           element={
@@ -33,39 +43,26 @@ export function AppRoutes() {
             </AuthGate>
           }
         />
-        <Route path="/ekonomi" element={<EconomyPage />} />
+        <Route path="/ekonomi" element={<RedirectToVardagenTab tab="ekonomi" />} />
         <Route
           path="/dagbok"
           element={
             <AuthGate>
-              <DagbokPage />
+              <HjartatPage />
             </AuthGate>
           }
         />
+        <Route path="/kunskap" element={<RedirectToVardagenTab tab="kunskap" />} />
         <Route
-          path="/kunskap"
+          path="/familjen"
           element={
             <AuthGate>
-              <KunskapPage />
+              <FamiljenPage />
             </AuthGate>
           }
         />
-        <Route
-          path="/barnen"
-          element={
-            <AuthGate>
-              <BarnensPage />
-            </AuthGate>
-          }
-        />
-        <Route
-          path="/speglar"
-          element={
-            <AuthGate>
-              <SpeglingsSystem />
-            </AuthGate>
-          }
-        />
+        <Route path="/barnen" element={<Navigate to="/familjen" replace />} />
+        <Route path="/speglar" element={<RedirectToHjartatTab tab="speglar" />} />
       </Routes>
     </MainLayout>
   );

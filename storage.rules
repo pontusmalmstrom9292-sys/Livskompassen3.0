@@ -2,9 +2,11 @@ rules_version = '2';
 
 service firebase.storage {
   match /b/{bucket}/o {
-    // WORM evidence media — uid-scoped read/write (Valv skärmdump/röst)
+    // WORM evidence media — uid-scoped, append-only (create + read, no update/delete)
     match /vault_evidence/{userId}/{allPaths=**} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if false;
     }
   }
 }

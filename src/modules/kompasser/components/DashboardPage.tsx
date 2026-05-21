@@ -30,7 +30,11 @@ const flows: { id: Flow; label: string; icon: typeof Sun; question: string; opti
   },
 ];
 
-export function DashboardPage() {
+type DashboardPageProps = {
+  embedded?: boolean;
+};
+
+export function DashboardPage({ embedded: _embedded = false }: DashboardPageProps) {
   const compassFilter = useStore((s) => s.ui.compassFilter);
   const setCompassFilter = useStore((s) => s.setCompassFilter);
   const user = useStore((s) => s.user);

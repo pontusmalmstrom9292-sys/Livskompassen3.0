@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight, Mic, MicOff } from 'lucide-react';
-import { useCallback } from 'react';
+import { useCallback, useRef, useEffect } from 'react';
 import { useSpeechToText } from '../../core/hooks/useSpeechToText';
 
 type ReflectionStepProps = {
@@ -10,12 +10,18 @@ type ReflectionStepProps = {
 };
 
 export function ReflectionStep({ text, onTextChange, onBack, onContinue }: ReflectionStepProps) {
+  const textRef = useRef(text);
+  useEffect(() => {
+    textRef.current = text;
+  }, [text]);
+
   const appendTranscript = useCallback(
     (chunk: string) => {
       if (!chunk) return;
-      onTextChange(text.trim() ? `${text.trim()} ${chunk}` : chunk);
+      const current = textRef.current.trim();
+      onTextChange(current ? `${current} ${chunk}` : chunk);
     },
-    [onTextChange, text],
+    [onTextChange],
   );
 
   const { supported, isListening, interim, error, start, stop } = useSpeechToText({

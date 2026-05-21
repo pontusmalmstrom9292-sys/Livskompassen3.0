@@ -4,7 +4,11 @@ import { SaldoHero } from '../../core/ui/SaldoHero';
 import { MetricTile } from '../../core/ui/MetricTile';
 import { EmptyState } from '../../core/ui/EmptyState';
 
-export function EconomyPage() {
+type EconomyPageProps = {
+  embedded?: boolean;
+};
+
+export function EconomyPage({ embedded = false }: EconomyPageProps) {
   return (
     <div className="space-y-4">
       <SaldoHero label="Vad har jag kvar" amount="— kr" hint="Veckopeng och matlåda — inga grafer." />
@@ -14,7 +18,11 @@ export function EconomyPage() {
         <MetricTile label="Matlåda" value="—" hint="Placeholder" />
       </div>
 
-      <BentoCard title="Transaktioner" icon={<Wallet className="h-4 w-4" />}>
+      <BentoCard
+        title={embedded ? 'Ekonomi' : 'Transaktioner'}
+        icon={<Wallet className="h-4 w-4" />}
+        description={embedded ? 'Veckopeng och matlåda — inga grafer.' : undefined}
+      >
         <EmptyState message="Inga transaktioner ännu. Firestore-schema kommer i nästa fas." />
       </BentoCard>
     </div>

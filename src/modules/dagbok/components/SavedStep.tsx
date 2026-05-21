@@ -19,11 +19,11 @@ export function SavedStep({ onNewEntry, journalContext }: SavedStepProps) {
           Ny post
         </button>
         <Link
-          to="/speglar"
+          to={{ pathname: '/dagbok', search: '?tab=speglar' }}
           state={{ journalContext }}
           className="btn-pill border-accent-secondary/40 text-accent-secondary hover:bg-accent-secondary/10"
         >
-          Känns det som gaslighting? → Gå till Speglings-systemet
+          Känns det som gaslighting? → Gå till Speglar
         </Link>
       </div>
     </>

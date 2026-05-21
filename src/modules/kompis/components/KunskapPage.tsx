@@ -12,7 +12,11 @@ const tabs = [
   { id: 'tidshjul' as const, label: 'Tidshjulet', icon: <Compass className="h-3 w-3" /> },
 ];
 
-export function KunskapPage() {
+type KunskapPageProps = {
+  embedded?: boolean;
+};
+
+export function KunskapPage({ embedded: _embedded = false }: KunskapPageProps) {
   const [tab, setTab] = useState<Tab>('chat');
 
   return (

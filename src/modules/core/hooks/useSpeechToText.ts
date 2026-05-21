@@ -23,6 +23,9 @@ export function useSpeechToText({ lang = 'sv-SE', onFinal }: UseSpeechToTextOpti
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const supported = getSpeechRecognition() !== null;
 
+  const onFinalRef = useRef(onFinal);
+  onFinalRef.current = onFinal;
+
   const stop = useCallback(() => {
     recognitionRef.current?.stop();
     recognitionRef.current = null;
@@ -50,7 +53,7 @@ export function useSpeechToText({ lang = 'sv-SE', onFinal }: UseSpeechToTextOpti
       for (let i = event.resultIndex; i < event.results.length; i += 1) {
         chunk += event.results[i][0].transcript;
         if (event.results[i].isFinal) {
-          onFinal?.(chunk.trim());
+          onFinalRef.current?.(chunk.trim());
           setInterim('');
         } else {
           setInterim(chunk.trim());
@@ -72,7 +75,7 @@ export function useSpeechToText({ lang = 'sv-SE', onFinal }: UseSpeechToTextOpti
     recognitionRef.current = recognition;
     recognition.start();
     setIsListening(true);
-  }, [lang, onFinal, stop]);
+  }, [lang, stop]);
 
   useEffect(() => () => stop(), [stop]);
 

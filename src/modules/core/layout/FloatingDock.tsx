@@ -1,14 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import {
-  Home,
-  Shield,
-  Sprout,
-  Map,
-  Anchor,
-  BookOpen,
-  Heart,
-  Sparkles,
-} from 'lucide-react';
+import { Home, Sprout, Anchor, BookOpen, Heart } from 'lucide-react';
 import { useLongPress } from '../hooks/useLongPress';
 import { setVaultGate } from '../auth/sessionService';
 import { authenticateVaultGate } from '../auth/webauthn';
@@ -20,17 +11,15 @@ type DockItem = {
   icon: typeof Home;
   label: string;
   longPress?: boolean;
+  search?: string;
 };
 
 const dockItems: DockItem[] = [
   { path: '/', icon: Home, label: 'Hem' },
-  { path: '/kompasser', icon: Sprout, label: 'Kompasser' },
-  { path: '/valv', icon: Shield, label: 'Valv', longPress: true },
+  { path: '/dagbok', icon: BookOpen, label: 'Hjärtat', longPress: true, search: '?tab=bevis' },
   { path: '/hamn', icon: Anchor, label: 'Hamn' },
-  { path: '/dagbok', icon: BookOpen, label: 'Dagbok' },
-  { path: '/kunskap', icon: Sparkles, label: 'Kunskap' },
-  { path: '/barnen', icon: Heart, label: 'Barnen' },
-  { path: '/ekonomi', icon: Map, label: 'Ekonomi' },
+  { path: '/familjen', icon: Heart, label: 'Familjen' },
+  { path: '/vardagen', icon: Sprout, label: 'Vardagen' },
 ];
 
 function FyrenProgressRing({ progress }: { progress: number }) {
@@ -41,16 +30,17 @@ function FyrenProgressRing({ progress }: { progress: number }) {
       viewBox="0 0 36 36"
       aria-hidden
     >
-      <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(194,65,12,0.15)" strokeWidth="2" />
+      <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(194,65,12,0.12)" strokeWidth="1.5" />
       <circle
         cx="18"
         cy="18"
         r="16"
         fill="none"
         stroke={DESIGN.accent}
-        strokeWidth="2"
+        strokeWidth="1.5"
         strokeDasharray={`${pct} ${100 - pct}`}
         pathLength={100}
+        opacity={0.85}
       />
     </svg>
   );
@@ -59,7 +49,10 @@ function FyrenProgressRing({ progress }: { progress: number }) {
 function DockButton({ item }: { item: DockItem }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const isActive = location.pathname === item.path;
+  const isActive =
+    item.path === '/'
+      ? location.pathname === '/'
+      : location.pathname === item.path || location.pathname.startsWith(`${item.path}/`);
   const Icon = item.icon;
 
   const longPress = useLongPress({
@@ -67,8 +60,10 @@ function DockButton({ item }: { item: DockItem }) {
       const ok = await authenticateVaultGate();
       if (!ok) return;
       setVaultGate();
-      navigate(item.path);
+      navigate({ pathname: item.path, search: item.search ?? '' });
     },
+    onClick: () =>
+      navigate(item.longPress ? { pathname: item.path, search: '' } : item.path),
     delayMs: 3000,
   });
 
@@ -83,21 +78,24 @@ function DockButton({ item }: { item: DockItem }) {
   return (
     <button
       type="button"
-      aria-label={item.longPress ? `${item.label} — håll 3 sek för dold åtkomst` : item.label}
+      aria-label={item.longPress ? `${item.label} — håll 3 sek för dold åtkomst till bevis` : item.label}
       title={item.longPress ? 'Fyren: håll 3 sek…' : item.label}
-      className={clsx('nav-item', (isActive || showFyren) && 'active')}
+      className={clsx('dock-item', (isActive || showFyren) && 'dock-item--active')}
       {...handlers}
     >
-      {showFyren && <FyrenProgressRing progress={progress} />}
-      <Icon className="relative z-10 h-5 w-5" />
+      <span className="dock-item__icon-wrap">
+        {showFyren && <FyrenProgressRing progress={progress} />}
+        <Icon className="relative z-10 h-4 w-4" strokeWidth={1.75} />
+      </span>
+      <span className="dock-item__label">{item.label}</span>
     </button>
   );
 }
 
 export function FloatingDock() {
   return (
-    <div className="fixed bottom-8 left-1/2 z-50 max-w-[95vw] -translate-x-1/2">
-      <nav className="glass-nav flex items-center gap-1 overflow-x-auto rounded-3xl px-3 py-2 shadow-2xl">
+    <div className="dock-shell">
+      <nav className="glass-nav dock-nav" aria-label="Huvudmeny">
         {dockItems.map((item) => (
           <DockButton key={item.path} item={item} />
         ))}

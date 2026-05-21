@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion';
-import { clsx, type ClassValue } from 'clsx';
+import type { ClassValue } from 'clsx';
+import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { Sparkles } from 'lucide-react';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -14,73 +15,35 @@ export interface KompisAvatarProps {
 
 export function KompisAvatar({ state = 'idle', className, size = 'md' }: KompisAvatarProps) {
   const sizeClasses = {
-    sm: 'w-12 h-12',
-    md: 'w-24 h-24',
-    lg: 'w-48 h-48',
-    xl: 'w-64 h-64',
+    sm: 'h-10 w-10',
+    md: 'h-16 w-16',
+    lg: 'h-24 w-24',
+    xl: 'h-32 w-32',
   };
 
-  const getAuraColor = () => {
-    switch (state) {
-      case 'active':
-        return 'bg-accent-light shadow-accent-glow-lg';
-      case 'analyzing':
-        return 'bg-accent shadow-accent-glow-lg';
-      case 'celebrating':
-        return 'bg-accent-light shadow-accent-glow-lg';
-      case 'supporting':
-        return 'bg-accent/80 shadow-accent-glow';
-      case 'idle':
-      default:
-        return 'bg-gradient-to-tr from-accent via-accent-light to-white/20 shadow-accent-glow';
-    }
+  const iconSizes = {
+    sm: 'h-4 w-4',
+    md: 'h-6 w-6',
+    lg: 'h-8 w-8',
+    xl: 'h-10 w-10',
   };
+
+  const ringClass =
+    state === 'active' || state === 'analyzing'
+      ? 'border-accent/50 bg-accent/10 text-accent'
+      : 'border-white/12 bg-surface/70 text-accent';
 
   return (
-    <div className={cn('relative flex items-center justify-center', sizeClasses[size], className)}>
-      <motion.div
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.6, 0.3],
-        }}
-        transition={{
-          duration: state === 'active' || state === 'analyzing' ? 2 : 4,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-        className={cn('absolute inset-0 rounded-full blur-xl', getAuraColor())}
-      />
-
-      <motion.div
-        animate={{
-          rotate: [0, 360],
-          scale: state === 'idle' ? 1 : 1.1,
-        }}
-        transition={{
-          rotate: {
-            duration: 20,
-            repeat: Infinity,
-            ease: 'linear',
-          },
-          scale: {
-            duration: 0.5,
-          },
-        }}
-        className="relative flex h-3/4 w-3/4 items-center justify-center overflow-hidden rounded-full border border-accent/30 bg-surface/60 backdrop-blur-sm"
-      >
-        <motion.div
-          animate={{ rotate: [-45, 45, -45] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute h-1/2 w-1/2 rotate-45 border border-accent/40"
-        />
-        <motion.div
-          animate={{ rotate: [45, -45, 45] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute h-1/2 w-1/2 border border-accent-light/40"
-        />
-
-        <div className="z-10 h-1/4 w-1/4 rounded-full bg-white shadow-[0_0_15px_5px_rgba(255,255,255,0.6)]" />
-      </motion.div>
+    <div
+      className={cn(
+        'flex items-center justify-center rounded-full border backdrop-blur-sm',
+        sizeClasses[size],
+        ringClass,
+        className,
+      )}
+      aria-hidden={state === 'idle'}
+    >
+      <Sparkles className={iconSizes[size]} strokeWidth={1.75} />
     </div>
   );
 }

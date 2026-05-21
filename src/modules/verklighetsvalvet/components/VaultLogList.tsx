@@ -9,17 +9,28 @@ type VaultLogListProps = {
   loading: boolean;
 };
 
+function asText(value: unknown): string {
+  if (value == null) return '';
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+  return String(value);
+}
+
 function formatLogBody(log: VaultLog): string {
   if (log.entryType === 'two_column' && (log.theirVersion || log.myReality)) {
-    return `Hens: ${log.theirVersion ?? '—'}\nMin: ${log.myReality ?? '—'}`;
+    return `Hens: ${asText(log.theirVersion) || '—'}\nMin: ${asText(log.myReality) || '—'}`;
   }
   if (log.entryType === 'three_shield') {
-    return [log.shieldWhat, log.shieldFeeling, log.shieldBoundary].filter(Boolean).join(' · ');
+    return [log.shieldWhat, log.shieldFeeling, log.shieldBoundary]
+      .map(asText)
+      .filter(Boolean)
+      .join(' · ');
   }
   if (log.entryType === 'body_signal' && log.bodySignals?.length) {
-    return `${log.bodySignals.join(', ')}${log.truth ? ` — ${log.truth}` : ''}`;
+    const truth = asText(log.truth);
+    return `${log.bodySignals.join(', ')}${truth ? ` — ${truth}` : ''}`;
   }
-  return log.truth ?? '';
+  return asText(log.truth);
 }
 
 function formatLogDate(createdAt: VaultLog['createdAt'] | undefined): string {
