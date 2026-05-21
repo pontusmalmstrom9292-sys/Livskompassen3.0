@@ -2,7 +2,6 @@ import {
   addDoc,
   collection,
   getFirestore,
-  orderBy,
   query,
   serverTimestamp,
   Timestamp,
@@ -34,7 +33,11 @@ function withUserId(userId: string, data: FirestorePayload): FirestorePayload {
 
 /** List queries must constrain ownerId to satisfy Firestore rules (isOwner). */
 function ownerScopedQuery(ref: ReturnType<typeof collection>, ownerId: string) {
-  return query(ref, where('ownerId', '==', ownerId), orderBy('createdAt', 'desc'));
+  return query(ref, where('ownerId', '==', ownerId));
+}
+
+function sortByCreatedAtDesc<T extends { createdAt?: string }>(rows: T[]): T[] {
+  return [...rows].sort((a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? ''));
 }
 
 export async function saveCheckIn(userId: string, checkIn: Omit<CheckIn, 'userId' | 'createdAt'>) {
@@ -95,38 +98,44 @@ export async function saveChildrenLog(
 export async function getVaultLogs(userId: string): Promise<(VaultLog & { id: string })[]> {
   const ref = collection(db, FIRESTORE_COLLECTIONS.reality_vault);
   const snap = await getDocs(ownerScopedQuery(ref, userId));
-  return snap.docs.map((d) => {
-    const data = d.data();
-    const createdAt =
-      data.createdAt instanceof Timestamp
-        ? data.createdAt.toDate().toISOString()
-        : String(data.createdAt ?? '');
-    return { id: d.id, ...(data as VaultLog), createdAt };
-  });
+  return sortByCreatedAtDesc(
+    snap.docs.map((d) => {
+      const data = d.data();
+      const createdAt =
+        data.createdAt instanceof Timestamp
+          ? data.createdAt.toDate().toISOString()
+          : String(data.createdAt ?? '');
+      return { id: d.id, ...(data as VaultLog), createdAt };
+    })
+  );
 }
 
 export async function getChildrenLogs(userId: string) {
   const ref = collection(db, 'children_logs');
   const snap = await getDocs(ownerScopedQuery(ref, userId));
-  return snap.docs.map((d) => ({
-    id: d.id,
-    ...d.data(),
-    createdAt:
-      d.data().createdAt instanceof Timestamp
-        ? d.data().createdAt.toDate().toISOString()
-        : String(d.data().createdAt ?? ''),
-  }));
+  return sortByCreatedAtDesc(
+    snap.docs.map((d) => ({
+      id: d.id,
+      ...d.data(),
+      createdAt:
+        d.data().createdAt instanceof Timestamp
+          ? d.data().createdAt.toDate().toISOString()
+          : String(d.data().createdAt ?? ''),
+    }))
+  );
 }
 
 export async function getJournalEntries(userId: string) {
   const ref = collection(db, 'journal');
   const snap = await getDocs(ownerScopedQuery(ref, userId));
-  return snap.docs.map((d) => ({
-    id: d.id,
-    ...d.data(),
-    createdAt:
-      d.data().createdAt instanceof Timestamp
-        ? d.data().createdAt.toDate().toISOString()
-        : String(d.data().createdAt ?? ''),
-  }));
+  return sortByCreatedAtDesc(
+    snap.docs.map((d) => ({
+      id: d.id,
+      ...d.data(),
+      createdAt:
+        d.data().createdAt instanceof Timestamp
+          ? d.data().createdAt.toDate().toISOString()
+          : String(d.data().createdAt ?? ''),
+    }))
+  );
 }
