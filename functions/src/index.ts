@@ -1,6 +1,7 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { GCP_PROJECT_ID } from "./config";
 import { askKnowledgeVault, askSpeglingsCoach } from "./agents/vertexAgent";
+import { askValvChat } from "./agents/valvChatAgent";
 import { weaveJournalEntry as runWeaver } from "./agents/weaverAgent";
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
@@ -202,6 +203,28 @@ export const knowledgeVaultQuery = onCall(
     return { response: aiResponse };
   }
 );
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 6b: valvChatQuery
+// Forensisk fråga/svar mot reality_vault (WORM) — skild från knowledgeVaultQuery.
+// ─────────────────────────────────────────────────────────────────────────────
+export const valvChatQuery = onCall({ region: 'europe-west1' }, async (request) => {
+  if (!request.auth) {
+    throw new HttpsError('unauthenticated', 'Autentisering krävs för Valv-Chat.');
+  }
+
+  const question = request.data?.question;
+  if (!question || typeof question !== 'string') {
+    throw new HttpsError('invalid-argument', 'Fältet "question" (string) krävs.');
+  }
+
+  if (question.length > 2000) {
+    throw new HttpsError('invalid-argument', 'Frågan får vara max 2000 tecken.');
+  }
+
+  const result = await askValvChat(request.auth.uid, question.trim());
+  return result;
+});
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Funktion 7: weaveJournalEntry

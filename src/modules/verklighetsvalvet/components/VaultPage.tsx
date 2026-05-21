@@ -10,6 +10,7 @@ import { saveVaultLog, getVaultLogs } from '../../core/firebase/firestore';
 import type { VaultLog } from '../../core/types/firestore';
 import { VaultEntryForm } from './VaultEntryForm';
 import { VaultLogList } from './VaultLogList';
+import { ValvChatPanel } from '../../valv_chatt';
 import type { VaultLogInput } from '../types/vaultEntry';
 
 const PIN_STORAGE_KEY = 'livskompassen_vault_pin_hash';
@@ -216,11 +217,7 @@ export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
       )}
 
       {vaultTab === 'sok' && (
-        <BentoCard title="Sök i Valvet" description="Valv-Chat — kommer snart">
-          <p className="text-sm text-text-muted">
-            Här kan du snart ställa frågor mot dina WORM-bevis och få svar med källhänvisningar.
-          </p>
-        </BentoCard>
+        <ValvChatPanel active={isVaultUnlocked && vaultTab === 'sok'} />
       )}
     </div>
   );
