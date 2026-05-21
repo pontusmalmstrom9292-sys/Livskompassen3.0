@@ -27,16 +27,16 @@ export function AccountAuthMenu() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="btn-pill--ghost flex items-center gap-1.5 px-3 py-1.5 text-xs text-text-dim"
+        className="header-glass-btn"
         aria-expanded={open}
         aria-haspopup="dialog"
       >
         {user.isAnonymous ? (
-          <Lock className="h-3.5 w-3.5" />
+          <Lock className="h-4 w-4" />
         ) : (
-          <ShieldCheck className="h-3.5 w-3.5 text-success" />
+          <ShieldCheck className="h-4 w-4 text-success" />
         )}
-        <span className="max-w-[5rem] truncate">{label}</span>
+        <span className="max-w-[6rem] truncate">{label}</span>
       </button>
 
       {open && (

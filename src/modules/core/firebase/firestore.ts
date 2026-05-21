@@ -56,6 +56,30 @@ export async function saveCheckIn(userId: string, checkIn: Omit<CheckIn, 'userId
   return docRef.id;
 }
 
+export type CheckInRow = CheckIn & { id: string };
+
+export async function getRecentCheckIns(userId: string, limit = 20): Promise<CheckInRow[]> {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.checkins);
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
+  return sortByCreatedAtDesc(
+    snap.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        userId: String(data.userId ?? userId),
+        questionId: data.questionId as string | undefined,
+        questionText: data.questionText as string | undefined,
+        optionSelected: data.optionSelected as string | undefined,
+        taskCategory: data.taskCategory as string | undefined,
+        taskNote: data.taskNote as string | undefined,
+        taskText: data.taskText as string | undefined,
+        taskCompleted: data.taskCompleted as boolean | undefined,
+        createdAt: normalizeCreatedAt(data.createdAt),
+      };
+    })
+  ).slice(0, limit);
+}
+
 export async function saveJournalEntry(
   userId: string,
   entry: { mood: string; text: string }
@@ -203,6 +227,8 @@ export async function getKampsparEntries(userId: string): Promise<KampsparEntryR
         title: String(data.title ?? ''),
         content: String(data.content ?? ''),
         category: data.category ?? null,
+        entryType: data.entryType ?? null,
+        tags: Array.isArray(data.tags) ? data.tags.map(String) : undefined,
         source: data.source ?? undefined,
         eventDate: data.eventDate ?? null,
         embeddingDim: data.embeddingDim ?? null,

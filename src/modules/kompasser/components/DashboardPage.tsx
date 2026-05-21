@@ -1,41 +1,24 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Sun, Cloud, Moon, Check, Loader2 } from 'lucide-react';
+import { useState, useEffect, useCallback, type ReactNode } from 'react';
+import { Sun, Check, Loader2 } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { useStore } from '../../core/store';
 import { getVaultLogs, saveCheckIn } from '../../core/firebase/firestore';
 import type { VaultLog } from '../../core/types/firestore';
-import { getDefaultCompassByTime, type CompassFlow } from '../utils/compassTime';
+import type { CompassFlow } from '../utils/compassTime';
+import {
+  COMPASS_FLOWS,
+  EVENING_HERO,
+  MORNING_ANCHOR,
+  getFlowConfig,
+} from '../config/compassFlows';
+import { useCompassTimeFlow } from '../hooks/useCompassTimeFlow';
 import { ParalysPanel } from './ParalysPanel';
 import { KasamEvening } from './KasamEvening';
 
-const MORNING_ANCHOR =
-  'Min hjärna är inte trasig. Den reagerar helt normalt på en onormal situation.';
-
-const flows: {
-  id: CompassFlow;
-  label: string;
-  icon: typeof Sun;
-  question: string;
-  options: string[];
-}[] = [
-  {
-    id: 'morning',
-    label: 'Morgon',
-    icon: Sun,
-    question: 'Vilket mikrosteg ger dig lugnast start idag?',
-    options: ['Andning 2 min', 'En uppgift', 'Inget — vila'],
-  },
-  {
-    id: 'day',
-    label: 'Dag',
-    icon: Cloud,
-    question: 'Hur mår kroppen just nu?',
-    options: ['Stabil', 'Trött', 'Spänd', 'Orolig'],
-  },
-];
-
 type DashboardPageProps = {
   embedded?: boolean;
+  variant?: 'page' | 'hero' | 'hub';
+  onCheckInSaved?: () => void;
 };
 
 function resetSessionState() {
@@ -48,21 +31,13 @@ function resetSessionState() {
   };
 }
 
-export function DashboardPage({ embedded: _embedded = false }: DashboardPageProps) {
-  const compassFilter = useStore((s) => s.ui.compassFilter);
-  const setCompassFilter = useStore((s) => s.setCompassFilter);
+export function DashboardPage({
+  embedded: _embedded = false,
+  variant = 'page',
+  onCheckInSaved,
+}: DashboardPageProps) {
+  const { activeFlow, timeFlow, switchFlow } = useCompassTimeFlow();
   const user = useStore((s) => s.user);
-
-  const [activeFlow, setActiveFlow] = useState<CompassFlow>(() => {
-    if (
-      compassFilter === 'morning' ||
-      compassFilter === 'day' ||
-      compassFilter === 'evening'
-    ) {
-      return compassFilter;
-    }
-    return getDefaultCompassByTime();
-  });
 
   const [session, setSession] = useState(resetSessionState);
   const [anchorLogs, setAnchorLogs] = useState<(VaultLog & { id: string })[]>([]);
@@ -71,19 +46,10 @@ export function DashboardPage({ embedded: _embedded = false }: DashboardPageProp
     setSession(resetSessionState());
   }, []);
 
-  useEffect(() => {
-    setCompassFilter(activeFlow);
-  }, [activeFlow, setCompassFilter]);
-
-  useEffect(() => {
-    if (
-      compassFilter === 'morning' ||
-      compassFilter === 'day' ||
-      compassFilter === 'evening'
-    ) {
-      setActiveFlow(compassFilter);
-    }
-  }, [compassFilter]);
+  const handleSwitchFlow = (id: CompassFlow) => {
+    switchFlow(id);
+    clearSession();
+  };
 
   useEffect(() => () => clearSession(), [clearSession]);
 
@@ -101,24 +67,43 @@ export function DashboardPage({ embedded: _embedded = false }: DashboardPageProp
       .catch(() => setAnchorLogs([]));
   }, [activeFlow, user]);
 
-  const switchFlow = (id: CompassFlow) => {
-    setActiveFlow(id);
-    clearSession();
-  };
+  const heroMeta =
+    activeFlow === 'evening'
+      ? EVENING_HERO
+      : getFlowConfig(activeFlow)!;
 
   if (activeFlow === 'evening') {
     if (!user) {
-      return <p className="text-sm text-text-muted">Logga in för att spara kvällskompass.</p>;
+      return (
+        <CompassShell
+          variant={variant}
+          heroMeta={heroMeta}
+          timeFlow={timeFlow}
+          activeFlow={activeFlow}
+        >
+          <FlowTabs activeFlow={activeFlow} onSwitch={handleSwitchFlow} />
+          <p className="text-sm text-text-muted">Logga in för att spara kvällskompass.</p>
+        </CompassShell>
+      );
     }
     return (
-      <div className="space-y-6">
-        <FlowTabs activeFlow={activeFlow} onSwitch={switchFlow} />
-        <KasamEvening userId={user.uid} onKlar={clearSession} />
-      </div>
+      <CompassShell
+        variant={variant}
+        heroMeta={heroMeta}
+        timeFlow={timeFlow}
+        activeFlow={activeFlow}
+      >
+        <FlowTabs activeFlow={activeFlow} onSwitch={handleSwitchFlow} />
+        <KasamEvening
+          userId={user.uid}
+          onKlar={clearSession}
+          onSaved={onCheckInSaved}
+        />
+      </CompassShell>
     );
   }
 
-  const flow = flows.find((f) => f.id === activeFlow)!;
+  const flow = getFlowConfig(activeFlow)!;
   const { selected, saved, saving, error, showParalys } = session;
 
   const handleSave = async () => {
@@ -132,6 +117,7 @@ export function DashboardPage({ embedded: _embedded = false }: DashboardPageProp
         taskCategory: activeFlow,
       });
       setSession((s) => ({ ...s, saved: true, saving: false }));
+      onCheckInSaved?.();
     } catch {
       setSession((s) => ({
         ...s,
@@ -142,8 +128,13 @@ export function DashboardPage({ embedded: _embedded = false }: DashboardPageProp
   };
 
   return (
-    <div className="space-y-6">
-      <FlowTabs activeFlow={activeFlow} onSwitch={switchFlow} />
+    <CompassShell
+      variant={variant}
+      heroMeta={heroMeta}
+      timeFlow={timeFlow}
+      activeFlow={activeFlow}
+    >
+      <FlowTabs activeFlow={activeFlow} onSwitch={handleSwitchFlow} />
 
       {activeFlow === 'morning' && (
         <div className="space-y-3">
@@ -169,72 +160,79 @@ export function DashboardPage({ embedded: _embedded = false }: DashboardPageProp
       )}
 
       <div className={showParalys ? 'pointer-events-none opacity-20' : ''}>
-      {!showParalys && (
-        <BentoCard title={flow.label} icon={<flow.icon className="h-4 w-4" />}>
-          <p className="mb-4 text-sm text-text-muted">{flow.question}</p>
-          <div className="space-y-2">
-            {flow.options.map((opt) => (
-              <button
-                key={opt}
-                type="button"
-                onClick={() =>
-                  setSession((s) => ({ ...s, selected: opt, saved: false, error: null }))
-                }
-                className={`w-full rounded-xl border px-4 py-3 text-left text-sm transition-colors ${
-                  selected === opt
-                    ? 'border-accent/50 bg-accent/10 text-accent'
-                    : 'border-border-strong text-text-muted hover:border-accent/20'
-                }`}
-              >
-                {opt}
-              </button>
-            ))}
-          </div>
-
-          {selected && !saved && (
-            <button
-              type="button"
-              onClick={handleSave}
-              disabled={saving}
-              className="btn-pill--success mt-4"
-            >
-              {saving ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Check className="h-4 w-4" />
-              )}
-              Spara check-in
-            </button>
-          )}
-
-          {saved && (
-            <div className="mt-4 space-y-2">
-              <p className="flex items-center gap-2 text-sm text-success">
-                <Check className="h-4 w-4" /> Check-in sparad.
-              </p>
-              <button type="button" onClick={clearSession} className="btn-pill--ghost text-sm">
-                Klar
-              </button>
+        {!showParalys && (
+          <BentoCard
+            title={variant === 'hero' ? undefined : flow.label}
+            icon={variant === 'hero' ? undefined : <flow.icon className="h-4 w-4" />}
+            className={variant === 'hero' ? 'border-0 bg-transparent p-0 shadow-none' : ''}
+          >
+            <p className="mb-4 text-sm text-text-muted">{flow.question}</p>
+            <div className="space-y-2">
+              {flow.options.map((opt) => (
+                <button
+                  key={opt}
+                  type="button"
+                  onClick={() =>
+                    setSession((s) => ({ ...s, selected: opt, saved: false, error: null }))
+                  }
+                  className={`w-full rounded-xl border px-4 py-3 text-left text-sm transition-colors ${
+                    selected === opt
+                      ? 'border-accent/50 bg-accent/10 text-accent'
+                      : 'border-border-strong text-text-muted hover:border-accent/20'
+                  }`}
+                >
+                  {opt}
+                </button>
+              ))}
             </div>
-          )}
 
-          {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+            {selected && !saved && (
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={saving || !user}
+                className="btn-pill--success mt-4"
+              >
+                {saving ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Check className="h-4 w-4" />
+                )}
+                Spara check-in
+              </button>
+            )}
 
-          {activeFlow === 'morning' && selected === 'Inget — vila' && !saved && (
-            <button
-              type="button"
-              onClick={() => {
-                setActiveFlow('day');
-                setCompassFilter('day');
-                setSession((s) => ({ ...s, showParalys: true, selected: null, saved: false }));
-              }}
-              className="btn-pill--ghost mt-3 w-full text-sm"
-            >
-              Vill du ha ett mikrosteg?
-            </button>
-          )}
-        </BentoCard>
-      )}
+            {saved && (
+              <div className="mt-4 space-y-2">
+                <p className="flex items-center gap-2 text-sm text-success">
+                  <Check className="h-4 w-4" /> Check-in sparad.
+                </p>
+                <button type="button" onClick={clearSession} className="btn-pill--ghost text-sm">
+                  Klar
+                </button>
+              </div>
+            )}
+
+            {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+
+            {!user && selected && !saved && (
+              <p className="mt-2 text-sm text-text-muted">Logga in för att spara.</p>
+            )}
+
+            {activeFlow === 'morning' && selected === 'Inget — vila' && !saved && (
+              <button
+                type="button"
+                onClick={() => {
+                  handleSwitchFlow('day');
+                  setSession((s) => ({ ...s, showParalys: true, selected: null, saved: false }));
+                }}
+                className="btn-pill--ghost mt-3 w-full text-sm"
+              >
+                Vill du ha ett mikrosteg?
+              </button>
+            )}
+          </BentoCard>
+        )}
       </div>
 
       {activeFlow === 'day' && (
@@ -249,15 +247,64 @@ export function DashboardPage({ embedded: _embedded = false }: DashboardPageProp
             </button>
           )}
           {showParalys && (
-            <ParalysPanel
-              onDone={() => setSession((s) => ({ ...s, showParalys: false }))}
-            />
+            <ParalysPanel onDone={() => setSession((s) => ({ ...s, showParalys: false }))} />
           )}
         </>
       )}
-    </div>
+    </CompassShell>
   );
 }
+
+type HeroMeta = {
+  heroTitle: string;
+  heroLead: string;
+  label: string;
+};
+
+function CompassShell({
+  variant,
+  heroMeta,
+  timeFlow,
+  activeFlow,
+  children,
+}: {
+  variant: 'page' | 'hero' | 'hub';
+  heroMeta: HeroMeta;
+  timeFlow: CompassFlow;
+  activeFlow: CompassFlow;
+  children: ReactNode;
+}) {
+  const autoHint =
+    activeFlow === timeFlow
+      ? 'Aktiv för tid på dygnet'
+      : `Tidsläge just nu: ${TIME_LABEL[timeFlow]}`;
+
+  if (variant === 'hero') {
+    return (
+      <div className="space-y-4">
+        <div>
+          <p className="home-page__eyebrow">Hem · {heroMeta.label}</p>
+          <h2 className="home-page__title">{heroMeta.heroTitle}</h2>
+          <p className="home-page__lead">{heroMeta.heroLead}</p>
+          <p className="mt-1 text-[10px] uppercase tracking-widest text-text-dim">{autoHint}</p>
+        </div>
+        {children}
+      </div>
+    );
+  }
+
+  if (variant === 'hub') {
+    return <div className="space-y-4">{children}</div>;
+  }
+
+  return <div className="space-y-6">{children}</div>;
+}
+
+const TIME_LABEL: Record<CompassFlow, string> = {
+  morning: 'Morgon',
+  day: 'Dag',
+  evening: 'Kväll',
+};
 
 function FlowTabs({
   activeFlow,
@@ -267,13 +314,12 @@ function FlowTabs({
   onSwitch: (id: CompassFlow) => void;
 }) {
   const tabs: { id: CompassFlow; label: string; icon: typeof Sun }[] = [
-    { id: 'morning', label: 'Morgon', icon: Sun },
-    { id: 'day', label: 'Dag', icon: Cloud },
-    { id: 'evening', label: 'Kväll', icon: Moon },
+    ...COMPASS_FLOWS.map((f) => ({ id: f.id, label: f.label, icon: f.icon })),
+    { id: 'evening', label: EVENING_HERO.label, icon: EVENING_HERO.icon },
   ];
 
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-wrap gap-2">
       {tabs.map(({ id, label, icon: Icon }) => (
         <button
           key={id}

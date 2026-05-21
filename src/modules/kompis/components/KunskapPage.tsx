@@ -78,8 +78,12 @@ export function KunskapPage({ embedded: _embedded = false }: KunskapPageProps) {
                     className={entry.id === highlightEntryId ? 'rounded-xl ring-2 ring-accent/50' : ''}
                   >
                     <TimelineEntry
-                      meta={`${entry.eventDate?.slice(0, 10) || entry.createdAt?.slice(0, 10) || '—'} · ${entry.title}`}
-                      body={entry.content}
+                      meta={`${entry.eventDate?.slice(0, 10) || entry.createdAt?.slice(0, 10) || '—'} · ${entry.entryType ? `${entry.entryType} · ` : ''}${entry.category ? `${entry.category} · ` : ''}${entry.title}`}
+                      body={
+                        entry.tags?.length
+                          ? `${entry.content}\n\nTaggar: ${entry.tags.join(', ')}`
+                          : entry.content
+                      }
                     />
                   </div>
                 ))}

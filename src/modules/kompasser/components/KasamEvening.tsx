@@ -15,9 +15,10 @@ type KasamData = Record<(typeof KASAM_STEPS)[number]['key'], string>;
 type Props = {
   userId: string;
   onKlar: () => void;
+  onSaved?: () => void;
 };
 
-export function KasamEvening({ userId, onKlar }: Props) {
+export function KasamEvening({ userId, onKlar, onSaved }: Props) {
   const [stepIndex, setStepIndex] = useState(0);
   const [kasam, setKasam] = useState<Partial<KasamData>>({});
   const [saving, setSaving] = useState(false);
@@ -62,6 +63,7 @@ export function KasamEvening({ userId, onKlar }: Props) {
         taskNote: JSON.stringify({ kasam: full }),
       });
       setSaved(true);
+      onSaved?.();
     } catch {
       setError('Kunde inte spara. Kontrollera Firestore-regler.');
     } finally {

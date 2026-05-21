@@ -5,6 +5,8 @@ export interface IngestKampsparInput {
   title: string;
   content: string;
   category?: string;
+  entryType?: string;
+  tags?: string[];
   source?: string;
   eventDate?: string;
 }

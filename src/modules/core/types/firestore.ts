@@ -70,6 +70,8 @@ export interface KampsparEntry {
   title: string;
   content: string;
   category?: string | null;
+  entryType?: string | null;
+  tags?: string[];
   source?: string;
   eventDate?: string | null;
   embeddingDim?: number | null;

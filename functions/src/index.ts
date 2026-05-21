@@ -219,8 +219,20 @@ export const ingestKampsparEntry = functions
   const title = typeof data.title === 'string' ? data.title.trim() : '';
   const content = typeof data.content === 'string' ? data.content.trim() : '';
   const category = typeof data.category === 'string' ? data.category.trim() : undefined;
+  const entryType = typeof data.entryType === 'string' ? data.entryType.trim() : undefined;
   const source = typeof data.source === 'string' ? data.source.trim() : 'manual';
   const eventDate = typeof data.eventDate === 'string' ? data.eventDate.trim() : undefined;
+
+  let tags: string[] | undefined;
+  if (Array.isArray(data.tags)) {
+    const parsed = (data.tags as unknown[])
+      .filter((t: unknown): t is string => typeof t === 'string')
+      .map((t) => t.trim().toLowerCase())
+      .filter((t) => t.length > 0)
+      .slice(0, 12)
+      .map((t) => t.slice(0, 40));
+    tags = parsed.length > 0 ? parsed : undefined;
+  }
 
   if (!title || title.length > 200) {
     throw new functions.https.HttpsError('invalid-argument', 'title krävs (max 200 tecken).');
@@ -232,7 +244,9 @@ export const ingestKampsparEntry = functions
   let embeddingDim: number | null = null;
   let embedding: number[] = [];
   try {
-    embedding = await generateEmbeddingInternal(`${title}\n${content}`);
+    embedding = await generateEmbeddingInternal(
+      [title, entryType, category, tags?.join(' '), content].filter(Boolean).join('\n')
+    );
     embeddingDim = embedding.length > 0 ? embedding.length : null;
   } catch (err) {
     console.warn('[ingestKampsparEntry] Embedding misslyckades — sparar utan index:', err);
@@ -245,6 +259,8 @@ export const ingestKampsparEntry = functions
     title,
     content,
     category: category || null,
+    entryType: entryType || null,
+    tags: tags ?? null,
     source,
     eventDate: eventDate || null,
     embeddingDim,

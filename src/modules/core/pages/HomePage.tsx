@@ -1,17 +1,21 @@
+import { useState } from 'react';
 import { ClusterGrid } from '../ui/ClusterGrid';
+import { AdaptiveMemoryCards } from '../home/AdaptiveMemoryCards';
+import { HomeHeroCompass } from '../home/HomeHeroCompass';
 
 export function HomePage() {
-  return (
-    <div className="home-page space-y-5">
-      <header className="home-page__hero">
-        <p className="home-page__eyebrow">Klusteröversikt</p>
-        <h2 className="home-page__title">Välkommen Hem</h2>
-        <p className="home-page__lead">
-          Välj ett livsområde nedan — eller använd menyn längst ner.
-        </p>
-      </header>
+  const [cardRefreshKey, setCardRefreshKey] = useState(0);
 
-      <ClusterGrid />
+  return (
+    <div className="home-page space-y-6">
+      <HomeHeroCompass onCheckInSaved={() => setCardRefreshKey((k) => k + 1)} />
+
+      <AdaptiveMemoryCards refreshKey={cardRefreshKey} />
+
+      <section aria-label="Livsområden">
+        <p className="mb-3 text-[10px] uppercase tracking-widest text-text-dim">Livsområden</p>
+        <ClusterGrid />
+      </section>
     </div>
   );
 }

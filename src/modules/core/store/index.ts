@@ -11,6 +11,7 @@ export type UiState = {
   activeDrawer: 'biff' | 'vault' | 'emotion' | 'kompis' | null;
   compassFilter: 'all' | 'morning' | 'day' | 'evening';
   isVaultUnlocked: boolean;
+  moduleHubOpen: boolean;
 };
 
 export type SystemState = {
@@ -27,6 +28,7 @@ export type AppState = {
   setActiveDrawer: (drawer: UiState['activeDrawer']) => void;
   setCompassFilter: (filter: UiState['compassFilter']) => void;
   setVaultUnlocked: (unlocked: boolean) => void;
+  setModuleHubOpen: (open: boolean) => void;
   system: SystemState;
   setLoading: (isLoading: boolean) => void;
   setError: (error: string | null) => void;
@@ -38,6 +40,7 @@ const initialUiState: UiState = {
   activeDrawer: null,
   compassFilter: 'all',
   isVaultUnlocked: false,
+  moduleHubOpen: false,
 };
 
 const initialSystemState: SystemState = {
@@ -55,6 +58,8 @@ export const useStore = create<AppState>((set) => ({
   setCompassFilter: (filter) => set((state) => ({ ui: { ...state.ui, compassFilter: filter } })),
   setVaultUnlocked: (unlocked) =>
     set((state) => ({ ui: { ...state.ui, isVaultUnlocked: unlocked } })),
+  setModuleHubOpen: (open) =>
+    set((state) => ({ ui: { ...state.ui, moduleHubOpen: open } })),
   system: initialSystemState,
   setLoading: (isLoading) => set((state) => ({ system: { ...state.system, isLoading } })),
   setError: (error) => set((state) => ({ system: { ...state.system, error } })),
