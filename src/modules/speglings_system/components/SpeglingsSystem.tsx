@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Brain } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Brain, Anchor } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { useStore } from '../../core/store';
 import { getVaultLogs } from '../../core/firebase/firestore';
@@ -106,6 +106,14 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
               matches={matches}
               vaultLocked={vaultLocked}
             />
+            <Link
+              to="/hamn"
+              state={{ prefilledMessage: feeling }}
+              className="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-accent hover:text-accent-light"
+            >
+              <Anchor className="h-3 w-3" />
+              Formulera BIFF-svar i Hamn
+            </Link>
             <button
               type="button"
               onClick={resetSession}

@@ -6,6 +6,8 @@ import { VardagenPage, type VardagenTab } from '../../kompasser';
 import { SafeHarborPage } from '../../safe_harbor';
 import { HjartatPage } from '../../dagbok';
 import { FamiljenPage } from '../../barnens_livsloggar';
+import { DossierPage } from '../../dossier';
+import { MabraPage } from '../../mabra';
 
 function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
   const location = useLocation();
@@ -63,6 +65,22 @@ export function AppRoutes() {
         />
         <Route path="/barnen" element={<Navigate to="/familjen" replace />} />
         <Route path="/speglar" element={<RedirectToHjartatTab tab="speglar" />} />
+        <Route
+          path="/dossier"
+          element={
+            <AuthGate>
+              <DossierPage />
+            </AuthGate>
+          }
+        />
+        <Route
+          path="/mabra"
+          element={
+            <AuthGate>
+              <MabraPage />
+            </AuthGate>
+          }
+        />
       </Routes>
     </MainLayout>
   );

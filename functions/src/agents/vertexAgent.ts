@@ -1,11 +1,7 @@
-import { GoogleGenAI } from '@google/genai';
 import { LIVSKOMPASSEN_SYSTEM_CONFIG, SPEGLINGS_COACHEN_SYSTEM_PROMPT } from '../sharedRules';
-import { GCP_PROJECT_ID, GCP_REGION } from '../config';
+import { createGenAI } from '../lib/genaiClient';
 
-const ai = new GoogleGenAI({
-  project: GCP_PROJECT_ID,
-  location: GCP_REGION,
-});
+const ai = createGenAI();
 
 export const askKnowledgeVault = async (prompt: string): Promise<string> => {
   try {

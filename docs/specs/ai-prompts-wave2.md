@@ -2,6 +2,8 @@
 
 Kopiera **master + en modul** per konversation till extern AI (Gemini m.m.).
 
+**Full modulöversikt (Kunskap, Dagbok, Måbra, kladd):** [`ai-prompts-moduler-master.md`](ai-prompts-moduler-master.md)
+
 ---
 
 ## Master-prompt
@@ -100,10 +102,12 @@ Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta 
 
 ## Övriga moduler (ej våg 2 i denna plan)
 
-Se [`ai-prompts-heart.md`](ai-prompts-heart.md) för Dagbok, Valv, Speglar.
+Se [`ai-prompts-heart.md`](ai-prompts-heart.md) för Dagbok, Valv, Speglar.  
+Se [`ai-prompts-moduler-master.md`](ai-prompts-moduler-master.md) för Kunskap, Måbra, kladd, batch.
 
 | Modul | Output |
 |-------|--------|
 | Ekonomi | `Ekonomi-SPEC.md` |
-| Kompis / Kunskap (Kampspår) | `Kompis-SPEC.md` |
+| Kompis / Kunskap (Kampspår) | `Kunskap-SPEC.md` |
+| Måbra-sidan | `Mabra-SPEC.md` |
 | Core | `Core-SPEC.md` |

@@ -9,7 +9,7 @@ import {
   getDocs,
 } from 'firebase/firestore';
 import { app } from './init';
-import type { CheckIn, VaultLog } from '../types/firestore';
+import type { CheckIn, VaultLog, KampsparEntryRow } from '../types/firestore';
 import { FIRESTORE_COLLECTIONS } from '../types/firestore';
 
 export const db = getFirestore(app);
@@ -138,5 +138,26 @@ export async function getJournalEntries(userId: string) {
       ...d.data(),
       createdAt: normalizeCreatedAt(d.data().createdAt),
     }))
+  );
+}
+
+export async function getKampsparEntries(userId: string): Promise<KampsparEntryRow[]> {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.kampspar);
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
+  return sortByCreatedAtDesc(
+    snap.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        userId: String(data.userId ?? userId),
+        title: String(data.title ?? ''),
+        content: String(data.content ?? ''),
+        category: data.category ?? null,
+        source: data.source ?? undefined,
+        eventDate: data.eventDate ?? null,
+        embeddingDim: data.embeddingDim ?? null,
+        createdAt: normalizeCreatedAt(data.createdAt),
+      };
+    })
   );
 }

@@ -3,6 +3,8 @@ import { MonsterArkivarienCard } from '../../agents/cards';
 import type { A2AMessage } from '../../agents/types';
 import type { AdkOrchestrator } from '../orchestrator';
 import type { DriveIngestPayload } from '../types';
+import { persistKbDocFromDrive } from '../../lib/persistKbDoc';
+import { generateEmbeddingInternal } from '../../lib/generateEmbeddingInternal';
 
 /**
  * Sub-synaps: Google Drive-ingest → Mönster-Arkivarien via A2A.
@@ -16,6 +18,30 @@ export async function handleDriveIngest(
   console.log(`[Synapse:drive_ingest] fileId=${fileId} name=${fileName}`);
 
   const analysisText = await analyzeDriveFile(fileId, fileName, mimeType);
+
+  if (ownerId) {
+    let embeddingDim: number | undefined;
+    try {
+      const embedding = await generateEmbeddingInternal(analysisText.slice(0, 4000));
+      embeddingDim = embedding.length > 0 ? embedding.length : undefined;
+    } catch (err) {
+      console.warn('[Synapse:drive_ingest] Embedding misslyckades:', err);
+    }
+
+    const persisted = await persistKbDocFromDrive({
+      ownerId,
+      title: fileName,
+      content: analysisText,
+      driveFileId: fileId,
+      mimeType,
+      embeddingDim,
+    });
+    console.log(
+      `[Synapse:drive_ingest] kb_docs docId=${persisted.docId} created=${persisted.created}`
+    );
+  } else {
+    console.warn('[Synapse:drive_ingest] ownerId saknas — hoppar över kb_docs persist');
+  }
 
   const message: A2AMessage = {
     fromAgentId: 'synapse_drive_ingest',

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import type { LucideIcon } from 'lucide-react';
-import { BookOpen, Anchor, Heart, Compass, ChevronRight } from 'lucide-react';
+import { BookOpen, Anchor, Heart, Compass, ChevronRight, Sparkles } from 'lucide-react';
 
 type ModuleLink = {
   label: string;
@@ -60,6 +60,14 @@ const clusters: Cluster[] = [
       { label: 'Ekonomi', to: '/vardagen', search: '?tab=ekonomi' },
       { label: 'Kunskap', to: '/vardagen', search: '?tab=kunskap' },
     ],
+  },
+  {
+    to: '/mabra',
+    label: 'Måbra',
+    desc: 'KBT, självmedkänsla och små vanor.',
+    icon: Sparkles,
+    tone: 'lavender',
+    modules: [{ label: 'Måbra-sidan', to: '/mabra' }],
   },
 ];
 

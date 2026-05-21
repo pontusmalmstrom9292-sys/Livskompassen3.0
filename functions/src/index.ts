@@ -1,6 +1,7 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
-import { GCP_PROJECT_ID } from "./config";
-import { askKnowledgeVault, askSpeglingsCoach } from "./agents/vertexAgent";
+import { askSpeglingsCoach } from "./agents/vertexAgent";
+import { askKnowledgeVaultWithRag } from "./agents/knowledgeVaultAgent";
+import { generateEmbeddingInternal } from "./lib/generateEmbeddingInternal";
 import { askValvChat } from "./agents/valvChatAgent";
 import { weaveJournalEntry as runWeaver } from "./agents/weaverAgent";
 import * as functions from "firebase-functions";
@@ -31,28 +32,7 @@ export const generateEmbedding = functions.region('europe-west1').https.onCall(a
   }
 
   try {
-    const projectId = GCP_PROJECT_ID;
-    const location = 'europe-west1';
-
-    // Använd Vertex AI SDK (textembedding-gecko via REST för enklare typer)
-    const url = `https://${location}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${location}/publishers/google/models/textembedding-gecko:predict`;
-    const { GoogleAuth } = await import('google-auth-library');
-    const auth = new GoogleAuth({ scopes: 'https://www.googleapis.com/auth/cloud-platform' });
-    const client = await auth.getClient();
-    const token = await client.getAccessToken();
-
-    const resp = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token.token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ instances: [{ content: text }] }),
-    });
-
-    const json = await resp.json() as { predictions?: { embeddings?: { values?: number[] } }[] };
-    const embedding = json.predictions?.[0]?.embeddings?.values ?? [];
-
+    const embedding = await generateEmbeddingInternal(text);
     console.log(`[generateEmbedding] OK för uid=${context.auth.uid}, dims=${embedding.length}`);
     return { embedding };
   } catch (error) {
@@ -199,10 +179,56 @@ export const knowledgeVaultQuery = onCall(
       throw new HttpsError('invalid-argument', 'Prompten får vara max 8000 tecken.');
     }
 
-    const aiResponse = await askKnowledgeVault(prompt);
-    return { response: aiResponse };
+    const result = await askKnowledgeVaultWithRag(request.auth.uid, prompt.trim());
+    return result;
   }
 );
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 6a: ingestKampsparEntry
+// WORM create för manuella Kampspår-poster + valfri embedding-dimension.
+// ─────────────────────────────────────────────────────────────────────────────
+export const ingestKampsparEntry = functions.region('europe-west1').https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
+  }
+
+  const title = typeof data.title === 'string' ? data.title.trim() : '';
+  const content = typeof data.content === 'string' ? data.content.trim() : '';
+  const category = typeof data.category === 'string' ? data.category.trim() : undefined;
+  const source = typeof data.source === 'string' ? data.source.trim() : 'manual';
+  const eventDate = typeof data.eventDate === 'string' ? data.eventDate.trim() : undefined;
+
+  if (!title || title.length > 200) {
+    throw new functions.https.HttpsError('invalid-argument', 'title krävs (max 200 tecken).');
+  }
+  if (!content || content.length > 8000) {
+    throw new functions.https.HttpsError('invalid-argument', 'content krävs (max 8000 tecken).');
+  }
+
+  let embeddingDim: number | null = null;
+  try {
+    const embedding = await generateEmbeddingInternal(`${title}\n${content}`);
+    embeddingDim = embedding.length > 0 ? embedding.length : null;
+  } catch (err) {
+    console.warn('[ingestKampsparEntry] Embedding misslyckades — sparar utan index:', err);
+  }
+
+  const uid = context.auth.uid;
+  const docRef = await admin.firestore().collection('kampspar').add({
+    userId: uid,
+    ownerId: uid,
+    title,
+    content,
+    category: category || null,
+    source,
+    eventDate: eventDate || null,
+    embeddingDim,
+    createdAt: admin.firestore.FieldValue.serverTimestamp(),
+  });
+
+  return { docId: docRef.id, embeddingDim };
+});
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Funktion 6b: valvChatQuery

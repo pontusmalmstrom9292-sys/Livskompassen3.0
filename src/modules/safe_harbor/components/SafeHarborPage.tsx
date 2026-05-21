@@ -1,14 +1,26 @@
-import { useState } from 'react';
-import { Anchor, Loader2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { Anchor, Loader2, Shield } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { analyzeBiffMessage, extractGreyRockReply } from '../api/biffService';
+import { useStore } from '../../core/store';
+import { saveVaultLog } from '../../core/firebase/firestore';
 
 export function SafeHarborPage() {
+  const location = useLocation();
+  const user = useStore((s) => s.user);
   const [message, setMessage] = useState('');
   const [reply, setReply] = useState<string | null>(null);
   const [riskScore, setRiskScore] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
+  const [savingEvidence, setSavingEvidence] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [evidenceSaved, setEvidenceSaved] = useState(false);
+
+  useEffect(() => {
+    const prefilled = (location.state as { prefilledMessage?: string } | null)?.prefilledMessage;
+    if (prefilled) setMessage(prefilled);
+  }, [location.state]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,6 +30,7 @@ export function SafeHarborPage() {
     setError(null);
     setReply(null);
     setRiskScore(null);
+    setEvidenceSaved(false);
 
     try {
       const result = await analyzeBiffMessage(message);
@@ -27,6 +40,26 @@ export function SafeHarborPage() {
       setError(err instanceof Error ? err.message : 'Analys misslyckades.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSaveAsEvidence = async () => {
+    if (!user || !message.trim()) return;
+    setSavingEvidence(true);
+    setError(null);
+    try {
+      await saveVaultLog(user.uid, {
+        action: 'hamn_biff',
+        truth: message.trim(),
+        category: 'kommunikation',
+        biffUsed: true,
+        entryType: 'simple',
+      });
+      setEvidenceSaved(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Kunde inte spara som bevis.');
+    } finally {
+      setSavingEvidence(false);
     }
   };
 
@@ -62,13 +95,31 @@ export function SafeHarborPage() {
             </p>
           )}
           <p className="whitespace-pre-wrap text-sm text-text-muted">{reply}</p>
-          <button
-            type="button"
-            onClick={() => navigator.clipboard.writeText(reply)}
-            className="mt-4 text-xs uppercase tracking-widest text-accent/70"
-          >
-            Kopiera svar
-          </button>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => navigator.clipboard.writeText(reply)}
+              className="text-xs uppercase tracking-widest text-accent/70"
+            >
+              Kopiera svar
+            </button>
+            <button
+              type="button"
+              onClick={handleSaveAsEvidence}
+              disabled={savingEvidence || !user}
+              className="btn-pill--secondary flex items-center gap-2 text-xs"
+            >
+              {savingEvidence ? (
+                <Loader2 className="h-3 w-3 animate-spin" />
+              ) : (
+                <Shield className="h-3 w-3" />
+              )}
+              Spara original som bevis
+            </button>
+          </div>
+          {evidenceSaved && (
+            <p className="mt-3 text-sm text-success">Sparat i Verklighetsvalvet under Hjärtat → Bevis.</p>
+          )}
         </BentoCard>
       )}
     </div>

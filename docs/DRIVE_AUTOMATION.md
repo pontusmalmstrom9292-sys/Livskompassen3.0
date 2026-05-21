@@ -112,10 +112,10 @@ Loggar: `firebase functions:log --only notifyNewFile`
 
 ## Kända begränsningar (wire-only)
 
-- Analysresultat sparas inte i Firestore.
-- Ingen embedding / Vector Search / RAG-kedja.
+- Analysresultat sparas i `kb_docs` när `ownerId` skickas i webhook-body (idempotent via `driveFileId`).
+- Embedding-dimension sparas; full Vector Search ANN avvaktar `VECTOR_SEARCH_INDEX_ID`.
 - En personlig Drive (single-user); ingen fleranvändar-OAuth i denna fas.
-- `ownerUid` i webhook-body ignoreras av backend tills persistens byggs.
+- `ownerUid` i webhook-body krävs för `kb_docs`-persist (annars analys-only).
 
 ---
 

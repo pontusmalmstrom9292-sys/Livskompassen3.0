@@ -53,12 +53,13 @@ Filter: exkludera `category: vävaren_metadata` som standard (samma som Speglar 
 
 **Idag i kod:**
 
-| Callable | Användning | Valv-scoped? |
-|----------|------------|--------------|
-| `knowledgeVaultQuery` | [`KnowledgeVaultChat`](../../../src/modules/kompis/components/KnowledgeVaultChat.tsx) på `/kunskap` | **Nej** — generisk `askKnowledgeVault`, ingen citation-JSON |
-| `getVaultLogs` + `matchVaultEvidence` | Speglar EvidenceCompare | **Ja** — klient-side, ingen LLM-svar |
+| Callable | Användning | Datakälla |
+|----------|------------|-----------|
+| `valvChatQuery` | [`ValvChatPanel`](../../../src/modules/valv_chatt/components/ValvChatPanel.tsx) i `/valv` (Sök-flik) | **`reality_vault` only** — JSON `{ answer, citations[] }` |
+| `knowledgeVaultQuery` | [`KnowledgeVaultChat`](../../../src/modules/kompis/components/KnowledgeVaultChat.tsx) på `/vardagen?tab=kunskap` | **`kampspar` + `kb_docs` only** — se [`Kunskap-SPEC.md`](./Kunskap-SPEC.md) |
+| `getVaultLogs` + `matchVaultEvidence` | Speglar EvidenceCompare | Klient-side token-match, ingen LLM-svar |
 
-*(Extern spec kopplade Valv-Chat till `knowledgeVaultQuery` — **fel modul**; kräver ny callable t.ex. `valvChatQuery` eller utökad pipeline med vault-RAG + citations.)*
+**Skott:** Koppla aldrig Valv-Chat till `knowledgeVaultQuery` eller Kunskapsvalv till `valvChatQuery`.
 
 ## 7. Säkerhet
 
@@ -69,16 +70,16 @@ Filter: exkludera `category: vävaren_metadata` som standard (samma som Speglar 
 
 ## 8. Status idag vs planerat
 
-**Idag:** `getVaultLogs`, `matchVaultEvidence`, valv unlock-gate — **ingen** Valv-Chat UI/route.
+**Idag:** `valvChatQuery` + `ValvChatPanel` i `VaultPage` (flik Sök efter unlock); `getVaultLogs`, `matchVaultEvidence` i Speglar.
 
-**Planerat:** `/valv/chat`, sök-UI, Sannings-Analytikern + citations, bro Speglar→"Behöver du processa detta?"
+**Planerat:** Egen route `/valv/chat` (valfritt); klickbara citations; bro Speglar→Hamn förfina.
 
 ## 9. Acceptanskriterier
 
 | # | Kriterium | Kod-status |
 |---|-----------|------------|
-| 1 | Svar endast från `reality_vault` | **planned** |
-| 2 | Varje påstående med källhänvisning | **planned** |
+| 1 | Svar endast från `reality_vault` | **done** (`valvChatQuery`) |
+| 2 | Varje påstående med källhänvisning | **partial** — citations JSON; UI ej klickbar |
 | 3 | Shake raderar chatt + stänger valv-kontext | **partial** — global shake |
 | 4 | Ingen spår vid utloggning/byt vy | **planned** |
 
@@ -86,7 +87,7 @@ Filter: exkludera `category: vävaren_metadata` som standard (samma som Speglar 
 
 - **Verklighetsvalvet** — föräldra; levererar WORM-data
 - **Speglings-Systemet** — valfri bro vid ångest efter fakta (planerad)
-- **Kunskap `/kunskap`** — **skild** — Kampspår, inte samma datakälla eller route
+- **Kunskap `/vardagen?tab=kunskap`** — **skild** — se [`Kunskap-SPEC.md`](./Kunskap-SPEC.md)
 
 ## 11. Navigation
 

@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Tidshjulet } from './Tidshjulet';
 import { KnowledgeVaultChat } from './KnowledgeVaultChat';
+import { KampsparIngestForm } from './KampsparIngestForm';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { TabBar } from '../../core/ui/TabBar';
+import { TimelineEntry } from '../../core/ui/TimelineEntry';
 import { Compass, Sparkles } from 'lucide-react';
+import { useStore } from '../../core/store';
+import { getKampsparEntries } from '../../core/firebase/firestore';
+import type { KampsparEntryRow } from '../../core/types/firestore';
 
 type Tab = 'chat' | 'tidshjul';
 
@@ -18,6 +23,26 @@ type KunskapPageProps = {
 
 export function KunskapPage({ embedded: _embedded = false }: KunskapPageProps) {
   const [tab, setTab] = useState<Tab>('chat');
+  const user = useStore((s) => s.user);
+  const [entries, setEntries] = useState<KampsparEntryRow[]>([]);
+  const [loadingEntries, setLoadingEntries] = useState(false);
+
+  const reloadEntries = useCallback(async () => {
+    if (!user) return;
+    setLoadingEntries(true);
+    try {
+      const rows = await getKampsparEntries(user.uid);
+      setEntries(rows);
+    } catch {
+      setEntries([]);
+    } finally {
+      setLoadingEntries(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    reloadEntries();
+  }, [reloadEntries]);
 
   return (
     <div className="space-y-6">
@@ -26,12 +51,29 @@ export function KunskapPage({ embedded: _embedded = false }: KunskapPageProps) {
       {tab === 'chat' ? (
         <KnowledgeVaultChat />
       ) : (
-        <BentoCard title="Tidshjulet — Kampspår" description="Interaktiv tidslinje">
-          <Tidshjulet />
-          <p className="mt-4 text-center text-sm text-text-dim">
-            Pulserande noder markerar prediktiva milstolpar i ditt Kampspår.
-          </p>
-        </BentoCard>
+        <>
+          <BentoCard title="Tidshjulet — Kampspår" description="Interaktiv tidslinje">
+            <Tidshjulet entries={entries} />
+          </BentoCard>
+
+          <KampsparIngestForm onSaved={reloadEntries} />
+
+          <BentoCard title="Senaste poster" description={loadingEntries ? 'Laddar…' : `${entries.length} poster`}>
+            {entries.length === 0 ? (
+              <p className="text-sm text-text-dim">Inga poster ännu.</p>
+            ) : (
+              <div className="space-y-3">
+                {entries.slice(0, 10).map((entry) => (
+                  <TimelineEntry
+                    key={entry.id}
+                    meta={`${entry.eventDate?.slice(0, 10) || entry.createdAt?.slice(0, 10) || '—'} · ${entry.title}`}
+                    body={entry.content}
+                  />
+                ))}
+              </div>
+            )}
+          </BentoCard>
+        </>
       )}
     </div>
   );

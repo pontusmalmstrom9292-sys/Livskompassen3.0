@@ -1,12 +1,8 @@
-import { GoogleGenAI } from '@google/genai';
 import { google } from 'googleapis';
 import { LIVSKOMPASSEN_SYSTEM_CONFIG } from '../sharedRules';
-import { GCP_PROJECT_ID, GCP_REGION } from '../config';
+import { createGenAI } from '../lib/genaiClient';
 
-const ai = new GoogleGenAI({
-  project: GCP_PROJECT_ID,
-  location: GCP_REGION,
-});
+const ai = createGenAI();
 
 export const analyzeDriveFile = async (fileId: string, fileName: string, mimeType: string): Promise<string> => {
   try {

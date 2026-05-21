@@ -70,6 +70,8 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 | Dagbokshubben | `/dagbok` | `.context/modules/dagbokshubben.md` | `src/modules/dagbok/` |
 | Barnens livsloggar | `/barnen` | `.context/modules/barnens_livsloggar.md` | `src/modules/barnens_livsloggar/` |
 | Speglings-Systemet | `/speglar` | `.context/modules/speglingssystemet.md` | `src/modules/speglings_system/` |
+| Måbra-sidan | `/mabra` | `.context/modules/mabra_sidan.md` | `src/modules/mabra/` |
+| Kompis / Kunskap | `/vardagen?tab=kunskap` | `.context/modules/kompis.md` | `src/modules/kompis/` |
 
 ## Kommande fas
 - [x] WebAuthn gate + Shake-to-Kill (15 m/s²) + Fyren progress
@@ -77,5 +79,6 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] Barnens: Kasper/Arvid, Balansmätare, fysiologi, JSON export
 - [x] Speglings-Systemet: ACT + VIVIR + valvjämförelse (`/speglar`)
 - [x] `weaveJournalEntry` + hosting deploy (natt-batch — se `docs/OVERNIGHT_REPORT.md`)
-- [ ] Kampspar-loggning (uppladdning, tidsstampel, vektorisering)
+- [ ] Kampspar-loggning (uppladdning, tidsstampel, vektorisering) — **delvis:** `ingestKampsparEntry`, Tidshjulet, Kunskap RAG; Vector Search ANN avvaktar
 - [ ] Ekonomi kopplad till Firestore/Data Connect
+- [ ] Måbra-sidan — KBT-övningsbibliotek, datamodell, AI-coach (shell `/mabra` + kluster **done**; se `.context/modules/mabra_sidan.md`, prompter i `docs/specs/ai-prompts-moduler-master.md`)

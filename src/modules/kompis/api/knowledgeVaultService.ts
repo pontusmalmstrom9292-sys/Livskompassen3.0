@@ -1,16 +1,25 @@
 import { httpsCallable, type FunctionsError } from 'firebase/functions';
 import { functions } from '../../core/firebase/init';
 
-const knowledgeVaultQueryCallable = httpsCallable(functions, 'knowledgeVaultQuery');
-
-interface KnowledgeVaultResponse {
-  response: string;
+export interface KnowledgeVaultCitation {
+  docId: string;
+  collection: 'kampspar' | 'kb_docs';
+  date: string;
+  title: string;
+  excerpt: string;
 }
 
-export const callKnowledgeVault = async (query: string): Promise<string> => {
+export interface KnowledgeVaultResult {
+  answer: string;
+  citations: KnowledgeVaultCitation[];
+}
+
+const knowledgeVaultQueryCallable = httpsCallable(functions, 'knowledgeVaultQuery');
+
+export const callKnowledgeVault = async (query: string): Promise<KnowledgeVaultResult> => {
   try {
     const result = await knowledgeVaultQueryCallable({ prompt: query });
-    return (result.data as KnowledgeVaultResponse).response;
+    return result.data as KnowledgeVaultResult;
   } catch (error) {
     console.error('Fel vid anrop till knowledgeVaultQuery:', error);
     const fnError = error as FunctionsError;

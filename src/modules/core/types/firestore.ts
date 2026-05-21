@@ -54,7 +54,26 @@ export interface KnowledgeDoc {
   folderId: string;
   title: string;
   content: string;
+  source?: string;
+  driveFileId?: string;
+  mimeType?: string;
+  embeddingDim?: number | null;
   createdAt: IsoDateTime;
+}
+
+export interface KampsparEntry {
+  userId: string;
+  title: string;
+  content: string;
+  category?: string | null;
+  source?: string;
+  eventDate?: string | null;
+  embeddingDim?: number | null;
+  createdAt: IsoDateTime;
+}
+
+export interface KampsparEntryRow extends KampsparEntry {
+  id: string;
 }
 
 export interface Routine {
@@ -77,6 +96,7 @@ export const FIRESTORE_COLLECTIONS = {
   vault: 'vault',
   checkins: 'checkins',
   kb_docs: 'kb_docs',
+  kampspar: 'kampspar',
   routines: 'routines',
   reality_vault: 'reality_vault',
   archival_analysis: 'archival_analysis',

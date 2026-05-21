@@ -2,6 +2,8 @@
 
 Kopiera **master + en modul** per konversation till extern AI (Gemini m.m.).
 
+**Full modulöversikt (Kunskap, Barnen, Måbra, kladd):** [`ai-prompts-moduler-master.md`](ai-prompts-moduler-master.md)
+
 ---
 
 ## Master-prompt

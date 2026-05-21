@@ -34,8 +34,8 @@ flowchart LR
 |------|-------------|
 | 1 | Användaren klistrar in ex-meddelande på `/hamn` |
 | 2 | `analyzeMessage` (Kompis Supervisor + DCAP) → Grey Rock/BIFF-svar |
-| 3 | Kopiera svar — **ingen** Firestore-write idag |
-| 4 | **Planerat:** bro från Speglar, Brusfilter-UI, "Spara som bevis" → `reality_vault` |
+| 3 | Kopiera svar — **valfritt** "Spara original som bevis" → `reality_vault` |
+| 4 | **Klart:** bro från Speglar (`prefilledMessage`), Brusfilter internt i DCAP |
 
 Spec: [`incoming/SafeHarbor-SPEC.md`](incoming/SafeHarbor-SPEC.md)
 

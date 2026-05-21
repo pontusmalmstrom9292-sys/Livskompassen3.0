@@ -1,12 +1,8 @@
-import { GoogleGenAI } from '@google/genai';
 import { SANNING_ANALYTIKERN_SYSTEM_PROMPT } from '../sharedRules';
-import { GCP_PROJECT_ID, GCP_REGION } from '../config';
 import { fetchVaultEvidenceForQuery } from '../lib/vaultRag';
+import { createGenAI } from '../lib/genaiClient';
 
-const ai = new GoogleGenAI({
-  project: GCP_PROJECT_ID,
-  location: GCP_REGION,
-});
+const ai = createGenAI();
 
 export interface ValvChatCitation {
   docId: string;

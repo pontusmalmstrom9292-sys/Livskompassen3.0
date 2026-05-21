@@ -27,8 +27,8 @@ Route: `/hamn` · Canonical: `.context/modules/safe_harbor.md` · Spec: `docs/sp
 | Användarens mål-fält | **planned** |
 | Flerstegs progressive disclosure | **planned** |
 | "Klar" + Zero Footprint unmount | **planned** |
-| Bro från `/speglar` | **planned** |
-| "Spara som bevis" → `reality_vault` | **planned** |
+| Bro från `/speglar` | **done** — länk med prefilledMessage |
+| "Spara som bevis" → `reality_vault` | **done** |
 
 ## Backend
 

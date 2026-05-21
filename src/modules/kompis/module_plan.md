@@ -1,41 +1,47 @@
 # kompis — module plan
 
+**Canonical spec:** [`docs/specs/incoming/Kunskap-SPEC.md`](../../docs/specs/incoming/Kunskap-SPEC.md) · **Context:** [`.context/modules/kompis.md`](../../.context/modules/kompis.md)
+
 ## Overview
 
-User-facing AI navigator: visual identity (avatar, tidshjul), Knowledge Vault chat UI, and callable wrapper to `knowledgeVaultQuery` Cloud Function.
+User-facing AI navigator: KompisAvatar, Knowledge Vault chat (Kampspår RAG), Tidshjulet, Kampspår ingest.
+
+**Route:** `/vardagen?tab=kunskap`
 
 ## Files
 
 | Path | Role |
 |------|------|
-| `components/KompisAvatar.tsx` | Animated agent avatar (states, sizes) |
-| `components/Tidshjulet.tsx` | Time wheel visualization (Kampspår) |
-| `components/KnowledgeVaultChat.tsx` | Chat form → AI response |
-| `api/knowledgeVaultService.ts` | `httpsCallable` to `knowledgeVaultQuery` |
-| `types/kompis.ts` | Kompis state, Kampspår, SubSynaptic data |
+| `components/KompisAvatar.tsx` | Header avatar (analyzing/idle) |
+| `components/KunskapPage.tsx` | Tabs: Kunskapsvalv + Tidshjulet |
+| `components/Tidshjulet.tsx` | Kampspår-noder från Firestore |
+| `components/KampsparIngestForm.tsx` | Lägg till i Kampspår |
+| `components/KnowledgeVaultChat.tsx` | Chat + citations |
+| `api/knowledgeVaultService.ts` | `knowledgeVaultQuery` |
+| `api/kampsparService.ts` | `ingestKampsparEntry` |
 
 ## Status
 
 | Area | Status |
 |------|--------|
-| KompisAvatar | **works** — shown in MainLayout |
-| KnowledgeVaultChat | **partial** — UI works; needs auth + deployed function |
-| Tidshjulet | **missing** — component exists, not routed |
-| Supervisor / DCAP routing | **backend** — `functions/src/agents/kompis-supervisor.ts` |
+| KompisAvatar | **done** — MainLayout header |
+| KnowledgeVaultChat | **done** — RAG + citations (backend deploy krävs) |
+| Tidshjulet | **done** — bound to `kampspar` |
+| Kampspår ingest | **done** — callable + form |
+| Drive → kb_docs | **done** — backend persist i driveIngestSynapse |
+| Supervisor / DCAP routing | **backend** — ej i Kunskap-UI |
 
 ## Dependencies
 
-- `core/firebase/init`
-- Backend: `knowledgeVaultQuery`, KompisSupervisor, Agent Cards
-
-## Next steps
-
-1. Route Tidshjulet into home or dedicated Kampspår view.
-2. Bind avatar state to store (`kompisAuraActive`, analyzing, etc.).
-3. Replace Knowledge Vault stub with full Kompis chat + BIFF handoff.
-4. Require Firebase Auth before callable invocations.
+- `core/firebase/firestore` — `getKampsparEntries`
+- Backend: `knowledgeVaultQuery`, `ingestKampsparEntry`, `generateEmbedding`
 
 ## Security notes
 
-- `knowledgeVaultQuery` is auth-protected server-side — client must sign in.
-- No prompts or secrets in frontend; system prompt lives in `functions/src/sharedRules.ts`.
+- Callables auth-protected server-side
+- Prompts i `functions/src/sharedRules.ts` only
+- Skild från Valv-Chat (`reality_vault` only)
+
+## Kladd-insamling
+
+Se [`docs/specs/ai-prompts-moduler-master.md`](../../docs/specs/ai-prompts-moduler-master.md) och [`ai-prompts-kladd-kampspar.md`](../../docs/specs/ai-prompts-kladd-kampspar.md).

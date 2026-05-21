@@ -1,8 +1,12 @@
 import { FloatingDock } from './FloatingDock';
 import { AmbientBackground } from './AmbientBackground';
-import { Compass, User } from 'lucide-react';
+import { KompisAvatar } from '../../kompis/components/KompisAvatar';
+import { Compass } from 'lucide-react';
+import { useStore } from '../store';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
+  const kompisAuraActive = useStore((s) => s.system.kompisAuraActive);
+
   return (
     <div className="relative min-h-screen bg-bg text-text font-sans selection:bg-accent/30">
       <AmbientBackground />
@@ -17,9 +21,11 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           </h1>
         </div>
 
-        <div className="flex h-9 w-9 items-center justify-center rounded-full border border-border-strong bg-surface/60">
-          <User className="h-4 w-4 text-text-dim" />
-        </div>
+        <KompisAvatar
+          size="sm"
+          state={kompisAuraActive ? 'analyzing' : 'idle'}
+          className="border-border-strong"
+        />
       </header>
 
       <main className="relative z-10 mx-auto max-w-2xl px-5 pb-36 pt-24">{children}</main>

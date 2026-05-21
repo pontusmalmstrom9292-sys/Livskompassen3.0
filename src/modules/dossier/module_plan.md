@@ -4,8 +4,7 @@
 
 Dossier-Generator — Sacred Feature. Samlad WORM-export till PDF med hash + `dossier_snapshot`.
 
-**Route:** `/dossier` (planerad) eller export från `/valv` / `/barnen`  
-**Canonical:** `.context/modules/dossier.md` · Spec: `docs/specs/incoming/Dossier-SPEC.md`
+**Route:** `/dossier` (stub) · export från `/valv` / `/barnen` · **Canonical:** `.context/modules/dossier.md`
 
 ## Relaterad kod idag (ej full Dossier)
 
@@ -30,7 +29,7 @@ Dessa utiliteter **ersätter inte** Dossier — de saknar aggregation, hash, `do
 
 | Area | Status |
 |------|--------|
-| Full Dossier UI | **planned** |
+| Full Dossier UI | **partial** — `/dossier` stub (EmptyState) |
 | `generateDossier` callable | **planned** |
 | `dossier_snapshot` WORM | **planned** |
 | Dossier-Agent (Genkit) | **planned** |
