@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Tidshjulet } from './Tidshjulet';
 import { KnowledgeVaultChat } from './KnowledgeVaultChat';
 import { KampsparIngestForm } from './KampsparIngestForm';
+import { ProfileSeedImport } from './ProfileSeedImport';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { TabBar } from '../../core/ui/TabBar';
 import { TimelineEntry } from '../../core/ui/TimelineEntry';
@@ -61,6 +62,8 @@ export function KunskapPage({ embedded: _embedded = false }: KunskapPageProps) {
           <BentoCard title="Tidshjulet — Minne" description="Interaktiv tidslinje">
             <Tidshjulet entries={entries} highlightEntryId={highlightEntryId} />
           </BentoCard>
+
+          <ProfileSeedImport entries={entries} onImported={reloadEntries} />
 
           <KampsparIngestForm onSaved={reloadEntries} />
 
