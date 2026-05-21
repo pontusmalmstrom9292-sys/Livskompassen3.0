@@ -208,7 +208,10 @@ export const knowledgeVaultQuery = onCall(
 // Funktion 6a: ingestKampsparEntry
 // WORM create för manuella Minne-poster + valfri embedding-dimension.
 // ─────────────────────────────────────────────────────────────────────────────
-export const ingestKampsparEntry = functions.region('europe-west1').https.onCall(async (data, context) => {
+export const ingestKampsparEntry = functions
+  .region('europe-west1')
+  .runWith({ memory: '512MB', timeoutSeconds: 60 })
+  .https.onCall(async (data, context) => {
   if (!context.auth) {
     throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
   }
