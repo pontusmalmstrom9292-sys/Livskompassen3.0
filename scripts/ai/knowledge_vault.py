@@ -72,7 +72,7 @@ class KnowledgeVault:
         relevant_context = self.search(question)
 
         if not relevant_context:
-            return "Jag kunde tyvärr inte hitta någon relevant information i ditt Kampspår just nu."
+            return "Jag kunde tyvärr inte hitta någon relevant information i ditt Minne just nu."
 
         # Personifierad Kompis-prompt enligt arkitekturen (Empatisk AI och RAG)
         prompt = f"""
@@ -83,7 +83,7 @@ class KnowledgeVault:
         STRIKTA REGLER:
         1. Svara ALLTID på SVENSKA.
         2. Använd ENDAST den bifogade kontexten för att svara på användarens fråga.
-        3. Om svaret inte finns i kontexten, säg: "Jag kunde tyvärr inte hitta någon information om detta i ditt Kampspår just nu. Vill du berätta mer så att jag kan lära mig?"
+        3. Om svaret inte finns i kontexten, säg: "Jag kunde tyvärr inte hitta någon information om detta i ditt Minne just nu. Vill du berätta mer så att jag kan lära mig?"
         4. NÄMNA ALDRIG, gissa aldrig eller hitta aldrig på information som inte uttryckligen står i kontexten.
         5. Om kontexten är tvetydig, be om förtydligande istället för att anta.
 

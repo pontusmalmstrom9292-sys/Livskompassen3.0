@@ -73,7 +73,7 @@
 
 ---
 
-## E. Kampspår-kandidater → `kampspar` / Kunskap
+## E. Minne-kandidater → `kampspar` / Kunskap
 
 Se [`Kladd-2026-05-21-kampspar-kandidater.md`](Kladd-2026-05-21-kampspar-kandidater.md).
 
@@ -131,7 +131,7 @@ Se [`Kladd-2026-05-21-kampspar-kandidater.md`](Kladd-2026-05-21-kampspar-kandida
 
 ## H. Låsta produktbeslut (2026-05-21)
 
-1. **Kunskap:** Trauma/beroende-historia endast opt-in manuella Kampspår-poster.
+1. **Kunskap:** Trauma/beroende-historia endast opt-in manuella Minne-poster.
 2. **Ingen gamification** (streak, stjärnor, frö/löv).
 3. **Obsidian Calm** — inga natur/grön-paletter.
 4. **Drive → valv:** manuellt godkännande; Drive → Kunskap auto (webhook).

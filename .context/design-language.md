@@ -12,7 +12,7 @@
 ## Centrala Element
 
 - **Kompis Avatar:** pulserande aura (viloläge), definierad struktur vid analys
-- **Tidshjulet:** flerlagrad tidslinje för Kampspår
+- **Tidshjulet:** flerlagrad tidslinje för Minne
 - **Sub-Synaptisk Bakgrund:** WebGL/Canvas (`SubSynapticBackground.tsx`) — bakom innehåll, inte på kontroller
 
 ## Tailwind / CSS

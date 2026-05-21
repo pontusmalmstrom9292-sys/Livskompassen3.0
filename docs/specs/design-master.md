@@ -171,7 +171,7 @@ Knapp-alias: se `BUTTON_VARIANTS` i [`tokens.ts`](../../src/modules/core/ui/toke
 - Magkänsel: chip-grid (planerat `BodySignalChip`)
 - Emerald = WORM sparad
 
-### Kunskap / Kampspår
+### Kunskap / Minne
 
 - `TabBar` + `Tidshjulet` (guld/indigo noder)
 - AI-svar: `glass-card--ai`

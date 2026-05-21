@@ -4,7 +4,7 @@ Livskompassen v2 representerar en fundamental utveckling från en traditionell a
 
 ## Kärnkomponenter
 - **Kompis:** En empatisk, AI-driven navigatör som interagerar med användaren genom ett visuellt gränssnitt.
-- **Sub-Synaptiska Nätverket:** En underliggande neural arkitektur som kopplar samman och analyserar livsdata såsom rutiner, budgetar och Kampspår (användarens utmaningar och milstolpar).
+- **Sub-Synaptiska Nätverket:** En underliggande neural arkitektur som kopplar samman och analyserar livsdata såsom rutiner, budgetar och Minne (användarens utmaningar och milstolpar).
 
 ## Arkitektoniskt Paradigmskifte
 Systemet designas som ett distribuerat multi-agent ekosystem där specialiserade agenter samarbetar under strikt orkestrering. Det bygger på:
@@ -23,7 +23,7 @@ För djupa, autonoma analyser (ex. 5-timmars prediktiv analys):
 - **Konfiguration:** Cloud Run-tjänstens CPU sätts till "always-allocated" med tillåten exekveringstid upp till 24 timmar.
 - **Utlösare:**
     - *Tidsstyrd:* Cloud Scheduler (ex. 09:00 varje morgon för batch-inferens).
-    - *Händelsestyrd:* Cloud Tasks (ex. triggas direkt av en panikattack registrerad i Kampspåret).
+    - *Händelsestyrd:* Cloud Tasks (ex. triggas direkt av en panikattack registrerad i Minneet).
 
 ## Kostnadsoptimering & Modellanvändning
 - **Context Caching:** Använd Vertex AI Context Caching för RAG för att spara/återanvända förberäknade tokens (raderas inom 24h).

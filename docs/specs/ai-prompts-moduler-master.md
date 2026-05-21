@@ -97,10 +97,10 @@ Modul:
 
 ---
 
-## D. Modul-block — Kunskapsvalvet / Kampspår
+## D. Modul-block — Kunskapsvalvet / Minne
 
 ```
-MODUL: Kunskapsvalvet och Kampspår (INTE samma som Valv-Chat).
+MODUL: Kunskapsvalvet och Minne (INTE samma som Valv-Chat).
 
 Route: /vardagen?tab=kunskap (redirect /kunskap). AuthGate på fliken.
 
@@ -123,7 +123,7 @@ SKILJ FRÅN:
 - Valv-Chat (valvChatQuery, reality_vault only, Sannings-Analytikern, Bevis-flik)
 - Kunskap utan RAG (äldre beteende — borttaget)
 
-AGENTER: Livs-Arkivarien / Mönster-Arkivarien (Kampspår RAG). Prompts i functions/src/sharedRules.ts.
+AGENTER: Livs-Arkivarien / Mönster-Arkivarien (Minne RAG). Prompts i functions/src/sharedRules.ts.
 
 Planera: Vector Search ANN när VECTOR_SEARCH_INDEX_ID är satt; full Kompis Supervisor i UI.
 
@@ -300,7 +300,7 @@ Konsolidera till:
 3. src/modules/[modul]/module_plan.md
 4. Synka docs/specs/p2-flode.md om flödet avviker
 
-Extrahera Kampspår-kandidater från Kladd-filer till strukturerad lista (title, date, category, content, source).
+Extrahera Minne-kandidater från Kladd-filer till strukturerad lista (title, date, category, content, source).
 
 Jämför mot befintlig kod. Rätta fel i spec. Dokumentera gap — implementera INTE kod om jag inte säger "kör".
 Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta inte förrän dokumentationen är konsekvent.
@@ -312,7 +312,7 @@ Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta 
 
 ```
 Sammanfatta allt bifogat material (chattar, dokument, specs) till uppdaterade SPEC-filer för:
-Dagbok, Kunskap/Kampspår, Barnen, Måbra, Hamn, Valv, Speglar, Dossier.
+Dagbok, Kunskap/Minne, Barnen, Måbra, Hamn, Valv, Speglar, Dossier.
 
 För varje modul: 11 sektioner enligt master ovan.
 Markera tydligt: klart / delvis / planerat / motsägelse mot nuvarande kod i Livskompassen2.0.

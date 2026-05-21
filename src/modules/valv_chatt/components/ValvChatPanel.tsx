@@ -4,9 +4,10 @@ import { useValvChatSession } from '../hooks/useValvChatSession';
 type ValvChatPanelProps = {
   /** Zero Footprint: rensa session när false (låsning / byte från Sök). */
   active: boolean;
+  onCitationClick?: (docId: string) => void;
 };
 
-export function ValvChatPanel({ active }: ValvChatPanelProps) {
+export function ValvChatPanel({ active, onCitationClick }: ValvChatPanelProps) {
   const { question, setQuestion, answer, citations, loading, error, submit } =
     useValvChatSession(active);
 
@@ -56,10 +57,18 @@ export function ValvChatPanel({ active }: ValvChatPanelProps) {
               <ul className="space-y-2">
                 {citations.map((c) => (
                   <li key={c.docId} className="rounded-lg border border-success/20 bg-success/5 p-3">
-                    <p className="text-xs text-success">
-                      {c.date || 'datum saknas'} · {c.docId.slice(0, 8)}…
-                    </p>
-                    <p className="mt-1 text-sm text-text-muted">{c.excerpt}</p>
+                    <button
+                      type="button"
+                      onClick={() => onCitationClick?.(c.docId)}
+                      className="w-full text-left hover:opacity-90"
+                      disabled={!onCitationClick}
+                    >
+                      <p className="text-xs text-success">
+                        {c.date || 'datum saknas'} · {c.docId.slice(0, 8)}…
+                        {onCitationClick ? ' · visa post' : ''}
+                      </p>
+                      <p className="mt-1 text-sm text-text-muted">{c.excerpt}</p>
+                    </button>
                   </li>
                 ))}
               </ul>

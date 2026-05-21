@@ -30,7 +30,7 @@ flowchart LR
 | Speglar | `reality_vault` | **read only** (klient SDK) |
 | Valv-Chat (planerad) | `reality_vault` | **read only** — inga chattloggar |
 
-Kampspår/Kunskap (`/kunskap`, `knowledgeVaultQuery`) är **skild** modul — se [`.context/modules/valv_chatt.md`](../../.context/modules/valv_chatt.md).
+Minne/Kunskap (`/kunskap`, `knowledgeVaultQuery`) är **skild** modul — se [`.context/modules/valv_chatt.md`](../../.context/modules/valv_chatt.md).
 
 ## Navigation (Variant A)
 

@@ -25,8 +25,8 @@ flowchart LR
   Journal --> Dossier
   Speglar -->|"prefilledMessage done"| Hamn
   Hamn -->|"Spara som bevis done"| Valv
-  Kompasser -.->|"kväll planerad"| Barnen
-  Kompasser -.->|"crazymaking planerad"| Valv
+  Kompasser -->|"kväll done"| Barnen
+  Kompasser -->|"crazymaking done"| Valv
   Barnen -->|"Spara som bevis done"| Valv
 ```
 

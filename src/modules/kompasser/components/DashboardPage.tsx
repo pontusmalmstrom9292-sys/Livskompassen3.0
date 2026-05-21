@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { Sun, Cloud, Moon, Check, Loader2 } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { useStore } from '../../core/store';
-import { saveCheckIn } from '../../core/firebase/firestore';
+import { getVaultLogs, saveCheckIn } from '../../core/firebase/firestore';
+import type { VaultLog } from '../../core/types/firestore';
 import { getDefaultCompassByTime, type CompassFlow } from '../utils/compassTime';
 import { ParalysPanel } from './ParalysPanel';
 import { KasamEvening } from './KasamEvening';
@@ -64,6 +65,7 @@ export function DashboardPage({ embedded: _embedded = false }: DashboardPageProp
   });
 
   const [session, setSession] = useState(resetSessionState);
+  const [anchorLogs, setAnchorLogs] = useState<(VaultLog & { id: string })[]>([]);
 
   const clearSession = useCallback(() => {
     setSession(resetSessionState());
@@ -84,6 +86,20 @@ export function DashboardPage({ embedded: _embedded = false }: DashboardPageProp
   }, [compassFilter]);
 
   useEffect(() => () => clearSession(), [clearSession]);
+
+  useEffect(() => {
+    if (activeFlow !== 'morning' || !user) {
+      setAnchorLogs([]);
+      return;
+    }
+    getVaultLogs(user.uid)
+      .then((logs) => {
+        const pinned = logs.filter((l) => l.pinned);
+        const pick = pinned.length > 0 ? pinned : logs.slice(0, 2);
+        setAnchorLogs(pick.slice(0, 3));
+      })
+      .catch(() => setAnchorLogs([]));
+  }, [activeFlow, user]);
 
   const switchFlow = (id: CompassFlow) => {
     setActiveFlow(id);
@@ -130,9 +146,26 @@ export function DashboardPage({ embedded: _embedded = false }: DashboardPageProp
       <FlowTabs activeFlow={activeFlow} onSwitch={switchFlow} />
 
       {activeFlow === 'morning' && (
-        <p className="rounded-xl border border-gold/20 bg-gold/5 px-4 py-3 text-sm text-gold/90">
-          {MORNING_ANCHOR}
-        </p>
+        <div className="space-y-3">
+          <p className="rounded-xl border border-gold/20 bg-gold/5 px-4 py-3 text-sm text-gold/90">
+            {MORNING_ANCHOR}
+          </p>
+          {anchorLogs.length > 0 && (
+            <div className="rounded-xl border border-border-strong bg-surface/30 px-4 py-3">
+              <p className="text-[10px] uppercase tracking-widest text-text-dim mb-2">
+                Sanningens Ankare (read-only)
+              </p>
+              <ul className="space-y-2">
+                {anchorLogs.map((log) => (
+                  <li key={log.id} className="text-sm text-text-muted line-clamp-2">
+                    {(log.truth || '').slice(0, 120)}
+                    {(log.truth || '').length > 120 ? '…' : ''}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
       )}
 
       <div className={showParalys ? 'pointer-events-none opacity-20' : ''}>

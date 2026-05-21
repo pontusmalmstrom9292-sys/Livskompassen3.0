@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Anchor, Loader2, Shield } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { analyzeBiffMessage, extractGreyRockReply } from '../api/biffService';
@@ -8,6 +8,7 @@ import { saveVaultLog } from '../../core/firebase/firestore';
 
 export function SafeHarborPage() {
   const location = useLocation();
+  const navigate = useNavigate();
   const user = useStore((s) => s.user);
   const [message, setMessage] = useState('');
   const [reply, setReply] = useState<string | null>(null);
@@ -17,10 +18,25 @@ export function SafeHarborPage() {
   const [error, setError] = useState<string | null>(null);
   const [evidenceSaved, setEvidenceSaved] = useState(false);
 
+  const wipeHamnFields = useCallback(() => {
+    setMessage('');
+    setReply(null);
+    setRiskScore(null);
+    setError(null);
+    setEvidenceSaved(false);
+  }, []);
+
+  const handleKlar = useCallback(() => {
+    wipeHamnFields();
+    navigate(location.pathname, { replace: true, state: null });
+  }, [wipeHamnFields, navigate, location.pathname]);
+
   useEffect(() => {
     const prefilled = (location.state as { prefilledMessage?: string } | null)?.prefilledMessage;
     if (prefilled) setMessage(prefilled);
   }, [location.state]);
+
+  useEffect(() => () => wipeHamnFields(), [wipeHamnFields]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -120,6 +136,13 @@ export function SafeHarborPage() {
           {evidenceSaved && (
             <p className="mt-3 text-sm text-success">Sparat i Verklighetsvalvet under Hjärtat → Bevis.</p>
           )}
+          <button
+            type="button"
+            onClick={handleKlar}
+            className="mt-4 btn-pill--ghost text-xs uppercase tracking-widest"
+          >
+            Klar — rensa
+          </button>
         </BentoCard>
       )}
     </div>

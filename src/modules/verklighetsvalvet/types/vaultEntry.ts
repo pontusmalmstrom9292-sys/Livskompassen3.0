@@ -12,4 +12,5 @@ export type VaultLogInput = {
   shieldFeeling?: string;
   shieldBoundary?: string;
   evidenceUrl?: string;
+  pinned?: boolean;
 };

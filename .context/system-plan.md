@@ -34,12 +34,12 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 ## Kladd-konsolidering (2026-05-21)
 
 - [x] Notebook #1–#7 → [`docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md`](docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
-- [x] Kampspår-kandidater → [`docs/specs/incoming/Kladd-2026-05-21-kampspar-kandidater.md`](docs/specs/incoming/Kladd-2026-05-21-kampspar-kandidater.md)
+- [x] Minne-kandidater → [`docs/specs/incoming/Kladd-2026-05-21-kampspar-kandidater.md`](docs/specs/incoming/Kladd-2026-05-21-kampspar-kandidater.md)
 - [x] Gap-tabeller i alla `.context/modules/*.md` + `src/modules/*/module_plan.md` (ingen kod)
 - [x] Back-merge Kladd → `[MODUL]-SPEC.md` (§8, §12–13, Kladd-synk)
 - [x] Nya SPEC: [`Ekonomi-SPEC.md`](docs/specs/incoming/Ekonomi-SPEC.md), [`Core-SPEC.md`](docs/specs/incoming/Core-SPEC.md)
 - [x] [`docs/specs/p2-flode.md`](docs/specs/p2-flode.md) synkad mot kod
-- [ ] Manuell ingest av kampspår-poster (opt-in trauma-policy)
+- [ ] Manuell ingest av minne-poster (opt-in trauma-policy)
 - [ ] Implementation per modul när användaren säger *kör [modul]*
 
 ## Aktuell status
@@ -79,7 +79,7 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 | --- | --- | --- | --- |
 | Verklighetsvalvet | `/valv` (Shield 3s + WebAuthn) | `.context/modules/verklighetsvalvet.md` | `src/modules/verklighetsvalvet/` |
 | Dagbokshubben | `/dagbok` | `.context/modules/dagbokshubben.md` | `src/modules/dagbok/` |
-| Barnens livsloggar | `/barnen` | `.context/modules/barnens_livsloggar.md` | `src/modules/barnens_livsloggar/` |
+| Barnens livsloggar | `/familjen` (redirect `/barnen`) | `.context/modules/barnens_livsloggar.md` | `src/modules/barnens_livsloggar/` |
 | Speglings-Systemet | `/speglar` | `.context/modules/speglingssystemet.md` | `src/modules/speglings_system/` |
 | Måbra-sidan | `/mabra` | `.context/modules/mabra_sidan.md` | `src/modules/mabra/` |
 | Kompis / Kunskap | `/vardagen?tab=kunskap` | `.context/modules/kompis.md` | `src/modules/kompis/` |
@@ -94,6 +94,11 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [ ] Kampspar-loggning (uppladdning, tidsstampel, vektorisering) — **delvis:** `ingestKampsparEntry`, Tidshjulet, Kunskap RAG; Vector Search ANN avvaktar
 - [x] Kompasser notebook #1–#5 → låst SPEC; MVP *kör kompasser* **done** (AuthGate, tids-default, Paralys, KASAM, broar)
 - [x] Dossier notebook #1–#4 → låst SPEC; UI wizard + `generateDossier` backend **done** — deploy `functions:generateDossier` + rules
-- [ ] Ekonomi kopplad till Firestore/Data Connect
+- [x] Ekonomi kopplad till Firestore (`transactions` WORM + `economy_profiles`)
 - [x] Måbra-sidan MVP — hub + 4-7-8 andning + `mabra_sessions` (SPEC **done** 2026-05; se `docs/specs/incoming/Mabra-SPEC.md`, `.context/modules/mabra_sidan.md`)
-- [ ] Måbra fas 2 — reframing/ACT, Måbra-coach callable, bro Dagbok in, Speglar guardrail
+- [x] Måbra fas 2a — reframing self_critical (4 steg + valfri 1-min andning, `exerciseType: reframing`)
+- [x] Måbra fas 2b — AkutLanding panic_rsd + panik-andning UX (tid kvar, fas-copy)
+- [x] Måbra fas 2c — hub-complete + Dagbok bro `?from=mabra&energy=low`
+- [x] Måbra fas 2d — ACT ValuesCompass + `mabra_progress/{uid}`
+- [x] Måbra fas 2e — coach callable + opt-in UI + Speglar guardrail
+- [x] Måbra fas 2f — Web Speech sv-SE (reframing + coach)

@@ -8,7 +8,7 @@ Källa: extern planerings-AI + Kladd 2026-05-21. Konsoliderad till `.context/mod
 
 Forensiskt sökverktyg **inuti Verklighetsvalvet** — ställ frågor mot din egen WORM-historik (`reality_vault`) för att snabbt motverka gaslighting. Kalla, objektiva fakta med källhänvisningar. **Ingen** sparad chatt (Zero Footprint).
 
-**Inte samma som `/kunskap`:** Kunskapsvalvet (Kampspår/Drive/RAG) är bredare livs-OS-navigering. Valv-Chat läser **endast** användarens `reality_vault`-bevis (exkl. `vävaren_metadata` som standard).
+**Inte samma som `/kunskap`:** Kunskapsvalvet (Minne/Drive/RAG) är bredare livs-OS-navigering. Valv-Chat läser **endast** användarens `reality_vault`-bevis (exkl. `vävaren_metadata` som standard).
 
 ## 2. Route och ingång
 

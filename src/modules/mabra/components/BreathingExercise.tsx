@@ -1,11 +1,15 @@
 import { motion } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { BREATH_PHASE_SECONDS, BREATHING_VARIANT_COPY } from '../constants';
+import {
+  BREATH_PHASE_SECONDS,
+  BREATHING_VARIANT_COPY,
+  PANIC_BREATH_PHASE_LABEL,
+} from '../constants';
 import type { MabraDurationMinutes, MabraSymptomHub } from '../types';
 
 type BreathPhase = keyof typeof BREATH_PHASE_SECONDS;
 
-const PHASE_LABEL: Record<BreathPhase, string> = {
+const DEFAULT_PHASE_LABEL: Record<BreathPhase, string> = {
   inhale: 'Andas in…',
   hold: 'Håll…',
   exhale: 'Andas ut…',
@@ -34,6 +38,8 @@ function nextPhase(phase: BreathPhase): BreathPhase {
 
 export function BreathingExercise({ durationMinutes, variant, onComplete, onExit }: Props) {
   const copy = BREATHING_VARIANT_COPY[variant];
+  const isPanic = variant === 'panic_rsd';
+  const phaseLabel = isPanic ? PANIC_BREATH_PHASE_LABEL : DEFAULT_PHASE_LABEL;
   const [phase, setPhase] = useState<BreathPhase>('inhale');
   const [cycleCount, setCycleCount] = useState(0);
   const [, setTick] = useState(0);
@@ -116,10 +122,10 @@ export function BreathingExercise({ durationMinutes, variant, onComplete, onExit
         }}
         className="flex h-40 w-40 items-center justify-center rounded-full border border-accent/30 bg-accent/10"
       >
-        <span className="text-center text-sm text-accent">{PHASE_LABEL[phase]}</span>
+        <span className="text-center text-sm text-accent">{phaseLabel[phase]}</span>
       </motion.div>
       <p className="text-sm text-text-muted">
-        Cykel {cycleCount + 1} · ca {secondsLeft}s kvar
+        {isPanic ? `Tid kvar: ${secondsLeft}s` : `Cykel ${cycleCount + 1} · ca ${secondsLeft}s kvar`}
       </p>
       <button type="button" onClick={handleExit} className="btn-pill--ghost text-sm">
         Avsluta nu

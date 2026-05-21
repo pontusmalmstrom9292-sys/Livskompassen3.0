@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Livskompassen v2 - Vertex AI Vector Search Setup
-# Detta skript provisionerar ett RAG-index (Vector Search) i Google Cloud för Kampspår.
+# Detta skript provisionerar ett RAG-index (Vector Search) i Google Cloud för Minne.
 # Det använder textembedding-gecko.
 
 PROJECT_ID="gen-lang-client-0481875058"
@@ -20,7 +20,7 @@ gcloud services enable aiplatform.googleapis.com
 echo "Skapar Vector Search Index (detta kan ta upp till 60 minuter i GCP)..."
 gcloud ai indexes create \
   --display-name=$INDEX_DISPLAY_NAME \
-  --description="Vektorindex för Livskompassens Kampspår (RAG)" \
+  --description="Vektorindex för Livskompassens Minne (RAG)" \
   --metadata-file="scripts/index_metadata.json" \
   --region=$LOCATION
 

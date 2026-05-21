@@ -4,7 +4,11 @@ import { useStore } from '../../core/store';
 import { Lock } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 
-export function KnowledgeVaultChat() {
+type KnowledgeVaultChatProps = {
+  onCitationClick?: (docId: string, collection: string) => void;
+};
+
+export function KnowledgeVaultChat({ onCitationClick }: KnowledgeVaultChatProps = {}) {
   const [inputText, setInputText] = useState<string>('');
   const [aiResponse, setAiResponse] = useState<string | null>(null);
   const [citations, setCitations] = useState<KnowledgeVaultCitation[]>([]);
@@ -92,15 +96,22 @@ export function KnowledgeVaultChat() {
             <div className="mt-4 space-y-2 border-t border-border pt-4">
               <p className="text-[10px] uppercase tracking-widest text-success">Källor</p>
               {citations.map((c) => (
-                <div key={`${c.collection}-${c.docId}`} className="rounded-xl border border-border bg-surface/40 p-3">
+                <button
+                  key={`${c.collection}-${c.docId}`}
+                  type="button"
+                  onClick={() => onCitationClick?.(c.docId, c.collection)}
+                  disabled={!onCitationClick}
+                  className="w-full rounded-xl border border-border bg-surface/40 p-3 text-left hover:border-accent/30 disabled:cursor-default"
+                >
                   <p className="text-xs font-medium text-text">
                     {c.title} · {c.date}
                   </p>
                   <p className="mt-1 text-[10px] uppercase tracking-wider text-text-dim">
                     {c.collection} · {c.docId.slice(0, 8)}…
+                    {onCitationClick ? ' · visa i Tidshjulet' : ''}
                   </p>
                   <p className="mt-1 text-sm text-text-muted">{c.excerpt}</p>
-                </div>
+                </button>
               ))}
             </div>
           )}

@@ -10,7 +10,11 @@ import { saveChildrenLog, getChildrenLogs } from '../../core/firebase/firestore'
 import { CHILD_ALIASES, type ChildAlias } from '../constants';
 import type { ChildrenLogEntry, PhysiologicalSignals } from '../types';
 import { computeBalansIndex } from '../utils/balansIndex';
-import { downloadBalansReportJson, exportBalansReport } from '../utils/exportBalansReport';
+import {
+  downloadBalansReportJson,
+  exportBalansReport,
+  printBalansReport,
+} from '../utils/exportBalansReport';
 import { BalansMatare } from './BalansMatare';
 import { PhysiologicalControls } from './PhysiologicalControls';
 import { ChildSubLogPanel } from './ChildSubLogPanel';
@@ -207,6 +211,12 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
 
       <BentoCard title={`${activeChild} — Balans`} icon={<Heart className="h-4 w-4" />}>
         <BalansMatare result={balans} />
+        {balans.index < 45 && balans.daysWithData >= 2 && (
+          <p className="mt-3 text-sm text-text-muted">
+            Senaste dagarna ser tyngre ut i fysiologin. Det är en signal — inte en dom. Ett kort
+            samtal eller vila kan räcka.
+          </p>
+        )}
         <div className="mt-3 flex flex-wrap gap-3">
           <button
             type="button"
@@ -215,7 +225,17 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
           >
             Exportera stabilitetsrapport (JSON)
           </button>
-          <Link to="/dossier" className="text-xs uppercase tracking-widest text-text-dim hover:text-accent">
+          <button
+            type="button"
+            onClick={() => printBalansReport(exportBalansReport(activeChild, logs))}
+            className="text-xs uppercase tracking-widest text-text-dim hover:text-accent"
+          >
+            Skriv ut / PDF
+          </button>
+          <Link
+            to={`/dossier?sources=children_logs&child=${encodeURIComponent(activeChild)}`}
+            className="text-xs uppercase tracking-widest text-text-dim hover:text-accent"
+          >
             Skapa dossier (samlad export)
           </Link>
         </div>

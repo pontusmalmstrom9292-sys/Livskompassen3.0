@@ -1,9 +1,12 @@
 import {
   addDoc,
   collection,
+  doc,
+  getDoc,
   getFirestore,
   query,
   serverTimestamp,
+  setDoc,
   Timestamp,
   where,
   getDocs,
@@ -84,7 +87,6 @@ export async function saveChildrenLog(
     signals?: { somn: number; angest: number; aptit: number };
   }
 ) {
-  const ref = collection(db, 'children_logs');
   const action = log.action ?? 'livslogg';
   const payload: FirestorePayload = {
     childAlias: log.childAlias,
@@ -101,6 +103,8 @@ export async function saveChildrenLog(
     payload.truth = log.observation;
   }
 
+  assertWormPayload(payload, 'children_logs');
+  const ref = collection(db, FIRESTORE_COLLECTIONS.children_logs);
   const docRef = await addDoc(ref, withUserId(userId, payload));
   return docRef.id;
 }
@@ -108,7 +112,7 @@ export async function saveChildrenLog(
 export async function saveMabraSession(
   userId: string,
   session: {
-    exerciseType: 'breathing' | 'grounding';
+    exerciseType: 'breathing' | 'grounding' | 'reframing';
     durationSeconds: number;
     hubSymptom?: string;
   }
@@ -124,6 +128,31 @@ export async function saveMabraSession(
   assertWormPayload(payload, 'mabra_sessions');
   const docRef = await addDoc(ref, withUserId(userId, payload));
   return docRef.id;
+}
+
+export async function getMabraProgress(userId: string): Promise<{ coreValues: string[] } | null> {
+  const ref = doc(db, FIRESTORE_COLLECTIONS.mabra_progress, userId);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return null;
+  const data = snap.data();
+  const coreValues = Array.isArray(data.coreValues)
+    ? data.coreValues.filter((v): v is string => typeof v === 'string')
+    : [];
+  return { coreValues };
+}
+
+export async function saveMabraProgress(userId: string, coreValues: string[]) {
+  const ref = doc(db, FIRESTORE_COLLECTIONS.mabra_progress, userId);
+  await setDoc(
+    ref,
+    {
+      userId,
+      ownerId: userId,
+      coreValues,
+      updatedAt: serverTimestamp(),
+    },
+    { merge: true },
+  );
 }
 
 export async function getVaultLogs(userId: string): Promise<(VaultLog & { id: string })[]> {
@@ -180,5 +209,66 @@ export async function getKampsparEntries(userId: string): Promise<KampsparEntryR
         createdAt: normalizeCreatedAt(data.createdAt),
       };
     })
+  );
+}
+
+export async function saveEconomyTransaction(
+  userId: string,
+  tx: { label: string; amountSek: number; category: 'veckopeng' | 'matlada' | 'vinst' | 'ovrigt' },
+) {
+  const payload: FirestorePayload = {
+    label: tx.label,
+    amountSek: tx.amountSek,
+    category: tx.category,
+  };
+  assertWormPayload(payload, 'transactions');
+  const ref = collection(db, FIRESTORE_COLLECTIONS.transactions);
+  const docRef = await addDoc(ref, withUserId(userId, payload));
+  return docRef.id;
+}
+
+export async function getEconomyTransactions(userId: string, limit = 30) {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.transactions);
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
+  return sortByCreatedAtDesc(
+    snap.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        label: String(data.label ?? ''),
+        amountSek: Number(data.amountSek ?? 0),
+        category: String(data.category ?? 'ovrigt'),
+        createdAt: normalizeCreatedAt(data.createdAt),
+      };
+    }),
+  ).slice(0, limit);
+}
+
+export async function getEconomyProfile(userId: string) {
+  const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return null;
+  const data = snap.data();
+  return {
+    weeklyBudgetSek: Number(data.weeklyBudgetSek ?? 0),
+    mealBoxPresetSek: Number(data.mealBoxPresetSek ?? 85),
+  };
+}
+
+export async function setEconomyProfile(
+  userId: string,
+  profile: { weeklyBudgetSek: number; mealBoxPresetSek: number },
+) {
+  const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
+  await setDoc(
+    ref,
+    {
+      userId,
+      ownerId: userId,
+      weeklyBudgetSek: profile.weeklyBudgetSek,
+      mealBoxPresetSek: profile.mealBoxPresetSek,
+      updatedAt: serverTimestamp(),
+    },
+    { merge: true },
   );
 }

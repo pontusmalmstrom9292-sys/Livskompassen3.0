@@ -196,7 +196,7 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 | **Valv-Chat** | Flik Sök i `VaultPage`; se [`Valv-Chat-SPEC.md`](./Valv-Chat-SPEC.md) |
 | **Speglings-Systemet** | `getVaultLogs` + `matchVaultEvidence` i EvidenceCompare |
 | **Hamn / BIFF** | `SafeHarborPage` kan `saveVaultLog` (valfri bevis-post) |
-| **Kunskap / Kampspår** | **Skild** — Drive → `kb_docs`; **ingen** gemensam RAG med Valv-Chat |
+| **Kunskap / Minne** | **Skild** — Drive → `kb_docs`; **ingen** gemensam RAG med Valv-Chat |
 | **Dossier** | Planerad aggregation från `reality_vault` + journal + barnen |
 | **Barnen** | `childrenImpact` i `children_logs` — **inte** i valv-form |
 

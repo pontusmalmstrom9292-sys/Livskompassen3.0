@@ -17,6 +17,8 @@ type Cluster = {
   modules: ModuleLink[];
 };
 
+const HIDE_BEVIS_TAB = import.meta.env.VITE_HIDE_BEVIS_TAB === 'true';
+
 const clusters: Cluster[] = [
   {
     to: '/dagbok',
@@ -113,9 +115,16 @@ function ModuleCard({ to, label, desc, icon: Icon, tone, modules }: Cluster) {
 }
 
 export function ClusterGrid() {
+  const visibleClusters = HIDE_BEVIS_TAB
+    ? clusters.map((c) => ({
+        ...c,
+        modules: c.modules.filter((m) => !m.search?.includes('tab=bevis')),
+      }))
+    : clusters;
+
   return (
     <section className="module-list" aria-label="Moduler och kluster">
-      {clusters.map((cluster) => (
+      {visibleClusters.map((cluster) => (
         <ModuleCard key={cluster.to} {...cluster} />
       ))}
     </section>

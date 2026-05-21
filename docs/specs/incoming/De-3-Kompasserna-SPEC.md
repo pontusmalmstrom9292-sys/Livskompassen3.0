@@ -125,7 +125,7 @@ Klient: [`firestore.ts`](../../../src/modules/core/firebase/firestore.ts).
 | **Speglings-Coachen** | `speglingsMirror` | **done** (bro kväll) |
 | **compassFilter** | Zustand + `getDefaultCompassByTime` vid öppning | **done** |
 | **Crazymaking-detektion** | Bro-UI efter KASAM | **done** — ingen auto-valv-write |
-| **Kampspår-ingest** | Auto från `checkins` | **planned** (Kunskap-SPEC; ej MVP) |
+| **Minne-ingest** | Auto från `checkins` | **planned** (Kunskap-SPEC; ej MVP) |
 
 Prompter: [`functions/src/sharedRules.ts`](../../../functions/src/sharedRules.ts).
 
@@ -192,7 +192,7 @@ Valv-bevis: behåll **Fyren 3s + PIN** (Sacred) — separat från Vardagen-inlog
 | **Speglar** | Alternativ bro vid känsla vs fakta |
 | **Måbra** | Låg energi dag/kväll — valfri länk efter kväll |
 | **Barnen** | Kväll — valfri påminnelse om livslogg (ej tvång) |
-| **Kunskap / Kampspår** | Historiska `checkins` → RAG (planerat, ej MVP) |
+| **Kunskap / Minne** | Historiska `checkins` → RAG (planerat, ej MVP) |
 | **Dossier** | `checkins` kan ingå i framtida export — ej MVP |
 
 ---

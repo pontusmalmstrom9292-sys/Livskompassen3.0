@@ -6,7 +6,7 @@ import {
   MABRA_DURATION_OPTIONS,
 } from '../constants';
 
-type BreathingHub = Extract<MabraSymptomHub, 'panic_rsd' | 'self_critical'>;
+type BreathingHub = Extract<MabraSymptomHub, 'panic_rsd'>;
 
 type Props = {
   hub: BreathingHub;

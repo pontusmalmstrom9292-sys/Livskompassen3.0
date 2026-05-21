@@ -22,7 +22,7 @@
 | Område | Syfte |
 |--------|--------|
 | **Ekonomi v1** | Veckopeng, "vad har jag kvar" — inga grafer |
-| **Kunskap / Kampspår** | RAG, Tidshjulet, Drive-ingest |
+| **Kunskap / Minne** | RAG, Tidshjulet, Drive-ingest |
 | **Dossier-Generator** | PDF/JSON för juridiskt ombud |
 | **Notiser** | Max 2–3 diskreta puffar/dag (kompasser) |
 

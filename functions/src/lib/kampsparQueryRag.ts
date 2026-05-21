@@ -51,7 +51,7 @@ function chunkFromDoc(
   data: admin.firestore.DocumentData
 ): KampsparEvidenceChunk {
   const content = String(data.content ?? data.text ?? '');
-  const title = String(data.title ?? data.fileName ?? 'Kampspår');
+  const title = String(data.title ?? data.fileName ?? 'Minne');
   const date = formatDate(data.eventDate ?? data.createdAt);
   return {
     docId: id,
@@ -63,7 +63,7 @@ function chunkFromDoc(
   };
 }
 
-/** Kampspår-scoped RAG: token-match över kampspar + kb_docs, fallback till senaste. */
+/** Minne-scoped RAG: token-match över kampspar + kb_docs, fallback till senaste. */
 export async function fetchKampsparEvidenceForQuery(
   uid: string,
   question: string,

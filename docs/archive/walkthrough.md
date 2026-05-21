@@ -4,7 +4,7 @@ Jag har slutfört den andra fasen av systemplanen, vilket etablerar intelligense
 
 ## 1. Vektorindexering (RAG)
 > [!IMPORTANT]
-> Vector Search 2.0 (via `textembedding-gecko`) används för att omvandla "Kampspår" till sökbara vektorer (RAG). Detta minskar risken för hallucinationer från LLM:en, då svar måste grunda sig i dokumenterade bevis.
+> Vector Search 2.0 (via `textembedding-gecko`) används för att omvandla "Minne" till sökbara vektorer (RAG). Detta minskar risken för hallucinationer från LLM:en, då svar måste grunda sig i dokumenterade bevis.
 
 Jag skapade ett konfigurationsskript:
 - **`scripts/setup_vector_search.sh`**: Innehåller nödvändiga `gcloud`-kommandon för att skapa ett Approximate Nearest Neighbor (ANN)-index, en endpoint och distribuera detta i Google Cloud för blixtsnabba RAG-uppslag.
@@ -15,7 +15,7 @@ Jag skapade ett konfigurationsskript:
 
 Följande logik byggdes upp i backend-miljön (`functions/src/agents/`):
 - **`types.ts`**: Typdefinitioner för AgentCards, AgentMetadata, Data Access Policies, och A2A-meddelandestrukturen.
-- **`cards/index.ts`**: Definition av våra Worker Agents. Jag har skapat "AgentCards" för **Livs-Arkivarien** (hanterar sökningar i Kampspår) och **Gräns-Arkitekten** (specialist på manipulativa mönster och BIFF/Grey Rock).
+- **`cards/index.ts`**: Definition av våra Worker Agents. Jag har skapat "AgentCards" för **Livs-Arkivarien** (hanterar sökningar i Minne) och **Gräns-Arkitekten** (specialist på manipulativa mönster och BIFF/Grey Rock).
 - **`kompis-supervisor.ts`**: Huvud-orkestratorn (Kompis). Den analyserar användarens avsikt och delegerar via A2A till rätt sub-agent. Exempelvis kan den detektera manipulativa sökord ("ex", "manipulation") och ruttar då direkt till Gräns-Arkitekten för krishantering istället för att bara returnera data.
 
 ## 3. Status

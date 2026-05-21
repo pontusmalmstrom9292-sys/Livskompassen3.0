@@ -63,7 +63,13 @@ export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [vaultTab, setVaultTab] = useState<VaultTab>('logga');
+  const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
   const gateOk = hasVaultGate();
+
+  const handleCitationClick = (docId: string) => {
+    setHighlightLogId(docId);
+    setVaultTab('logga');
+  };
 
   useEffect(() => {
     if (!isVaultUnlocked) {
@@ -214,12 +220,15 @@ export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
             <VaultEntryForm userId={user.uid} saving={loading} onSave={handleSaveLog} />
             {error && <p className="mt-2 text-sm text-danger">{error}</p>}
           </BentoCard>
-          <VaultLogList logs={logs} loading={loading} />
+          <VaultLogList logs={logs} loading={loading} highlightLogId={highlightLogId} />
         </>
       )}
 
       {vaultTab === 'sok' && (
-        <ValvChatPanel active={isVaultUnlocked && vaultTab === 'sok'} />
+        <ValvChatPanel
+          active={isVaultUnlocked && vaultTab === 'sok'}
+          onCitationClick={handleCitationClick}
+        />
       )}
 
       {vaultTab === 'dossier' && <DossierPage embedded />}

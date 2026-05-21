@@ -13,7 +13,7 @@
 ## 2. Projektets Vision och Nyckelkoncept
 * **Livskompassen:** Applikation för personlig utveckling och tillväxt.
 * **Kompis:** AI-driven designagent, personlig navigatör, och empatisk coach.
-* **Kampspår:** Dokumentation av användarens utmaningar, milstolpar och framsteg.
+* **Minne:** Dokumentation av användarens utmaningar, milstolpar och framsteg.
 * **Tidshjulet:** Interaktiv, flerlagrad kompassnål och tidslinje.
 * **Sub-Synaptiska Nätverket:** Avancerat (neuralt) nätverk för att koppla livsdata (rutiner, budget, karriär) för prediktiv automation och insikter.
 * **Unik Signatur/Biometrisk Låsning:** Mekanism som knyter Kompis till en specifik användares data och interaktionsmönster.
@@ -50,7 +50,7 @@ För att bibehålla kontroll, kvalitet och en övergripande systemförståelse g
 
 ### Fas 3: Tidshjulet (Kärnfunktionalitet UI)
 * [ ] **Steg 3.1:** Implementera formen för `Tidshjulet.tsx`.
-* [ ] **Steg 3.2:** Integrera mock-data för "Kampspår".
+* [ ] **Steg 3.2:** Integrera mock-data för "Minne".
 * [ ] **Steg 3.3:** Utveckla interaktionslogiken.
 
 ### Fas 4: Datastruktur & Sub-Synaptisk Logik

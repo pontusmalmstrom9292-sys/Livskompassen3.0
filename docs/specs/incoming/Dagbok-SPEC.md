@@ -151,7 +151,7 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 | **Verklighetsvalvet** | Vävaren skriver `vävaren_metadata` async; Fyren öppnar `?tab=bevis` |
 | **Speglar** | Länk från SavedStep; `journalContext` förifyller spegling |
 | **Måbra (`/mabra`)** | Planerad diskret länk vid låg energi — stub idag |
-| **Kunskap / Kampspår** | **Ingen** auto-pipeline från dagbok; Vävaren läser RAG-kontext only |
+| **Kunskap / Minne** | **Ingen** auto-pipeline från dagbok; Vävaren läser RAG-kontext only |
 | **Kompasser** | Separata `checkins`; ingen auto-ingest till dagbok |
 | **Hamn / BIFF** | Separat route; ingen direkt dagbok-koppling |
 

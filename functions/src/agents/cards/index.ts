@@ -10,13 +10,13 @@ export const LivsArkivarienCard: AgentCard = {
   metadata: {
     id: EXECUTOR_AGENT_IDS.livsArkivarien,
     name: 'Livs-Arkivarien',
-    description: 'Mönster-Arkivarien: historik, Kampspår och semantisk RAG.',
+    description: 'Mönster-Arkivarien: historik, Minne och semantisk RAG.',
     version: '1.1.0',
   },
   capabilities: [
     {
       name: 'searchKampspar',
-      description: 'Semantisk sökning (RAG) i användarens Kampspår.',
+      description: 'Semantisk sökning (RAG) i användarens Minne.',
       parameters: {
         type: 'object',
         properties: {
@@ -214,7 +214,7 @@ export const MonsterArkivarienCard: AgentCard = {
   metadata: {
     id: 'agent_monster_arkivarien',
     name: 'Mönster-Arkivarien',
-    description: 'Forensisk makroanalys över Kampspår och Drive-ingest.',
+    description: 'Forensisk makroanalys över Minne och Drive-ingest.',
     version: '1.0.0',
   },
   capabilities: [

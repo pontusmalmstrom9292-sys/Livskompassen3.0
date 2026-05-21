@@ -33,8 +33,10 @@ Route: `/dagbok` · Canonical: `.context/modules/dagbokshubben.md` · Spec: `doc
 | Fyren 3s → valv | Dold ingång | Ja | **done** |
 | Vävaren async | Taggar → valv metadata | Ja | **done** |
 | Bro Speglar | Efter sparad post | Ja | **done** |
-| Måbra-bro låg energi | Kladd | Nej | **planned** |
-| Humör-only save | Kladd | Nej | **planned** |
+| Måbra-bro in (låg energi) | Kladd | Ja (`mabraBridge.ts`) | **done** |
+| Måbra-bro ut (Låg/Spänd) | Kladd | Nej | **planned** |
+| Humör-only save (Måbra path) | Kladd | Ja | **done** |
+| Humör-only save (generellt) | Kladd | Nej | **planned** |
 | KBT per humör | Kladd | Nej | **planned** |
 | Vävaren godkännande | Master §I | Auto | **planned** |
 

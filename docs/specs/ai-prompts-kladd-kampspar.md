@@ -1,4 +1,4 @@
-# AI-prompter — Kladd & Kampspår
+# AI-prompter — Kladd & Minne
 
 Strukturera rörigt material för Livskompassen. **Modulöversikt och arkitektur:** [`ai-prompts-moduler-master.md`](ai-prompts-moduler-master.md).
 
@@ -23,7 +23,7 @@ OUTPUT: ETT markdown-dokument med exakt dessa sektioner:
 3. Brus 90% (anklagelser, projektioner, känslomässiga beten — märk [BRUS])
 4. Mönster (upprepning, DARVO, gaslighting — endast om texten stödjer)
 5. Beviskandidater (vad bör in i Verklighetsvalvet / reality_vault)
-6. Kampspår-kandidater (miljöer, utmaningar, milstolpar, rutiner)
+6. Minne-kandidater (miljöer, utmaningar, milstolpar, rutiner)
 7. Öppna frågor till mig (max 5)
 8. Föreslagen modul i appen (se routing nedan)
 9. Citat att bevara ordagrant (max 10 korta)
@@ -58,8 +58,8 @@ Modul: valv, dossier (planerat).
 
 ```
 KÄLLTYP: Terapi, coaching, KBT-anteckningar, självreflektion.
-Extrahera: Kampspår-milstolpar, coping, värderingar, övningsidéer för Måbra-sidan.
-Modul: mabra, kunskap (Kampspår), dagbok.
+Extrahera: Minne-milstolpar, coping, värderingar, övningsidéer för Måbra-sidan.
+Modul: mabra, kunskap (Minne), dagbok.
 Flagga [KÄNSLIGT] — inget till motpart.
 ```
 
@@ -86,7 +86,7 @@ Modul: barnen (+ ev. valv vid allvarlig incident).
 ```
 Jag laddar upp Kladd-*.md till docs/specs/incoming/.
 Konsolidera till rätt .context/modules/*.md + module_plan.md gap-tabell.
-Extrahera Kampspår-rader till strukturerad lista (title, date, category, content, source).
+Extrahera Minne-rader till strukturerad lista (title, date, category, content, source).
 Implementera INTE kod förrän jag säger "kör".
 Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta inte förrän dokumentationen är konsekvent.
 ```
@@ -97,7 +97,7 @@ Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta 
 
 ```
 Sammanfatta bifogat material till Kunskap-SPEC.md (11 sektioner enligt ai-prompts-moduler-master.md).
-Fokus: Kampspår datamodell, Kunskapsvalvet UX, Tidshjulet, ingest, skilj från Valv-Chat.
+Fokus: Minne datamodell, Kunskapsvalvet UX, Tidshjulet, ingest, skilj från Valv-Chat.
 Markera: klart / delvis / planerat / motsägelse mot kod.
 ```
 
@@ -111,7 +111,7 @@ Markera: klart / delvis / planerat / motsägelse mot kod.
 | Forensiska fakta, gaslighting-bevis | Verklighetsvalvet | `/dagbok?tab=bevis` | Dossier |
 | Känsla vs fakta, ACT | Speglar | `/dagbok?tab=speglar` | Hamn |
 | Daglig reflektion, humör | Dagbok | `/dagbok` | Speglar |
-| Livsminne, mönster, dokument-RAG | Kunskap / Kampspår | `/vardagen?tab=kunskap` | — |
+| Livsminne, mönster, dokument-RAG | Kunskap / Minne | `/vardagen?tab=kunskap` | — |
 | Kasper/Arvid, skola, sömn | Barnen | `/familjen` | Valv (incident) |
 | KBT, självmedkänsla, värderingar | **Måbra-sidan** | **`/mabra`** | Dagbok |
 | Budget, transaktioner | Ekonomi | `/vardagen?tab=ekonomi` | — |

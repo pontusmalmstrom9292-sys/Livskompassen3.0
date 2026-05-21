@@ -1,4 +1,4 @@
-# Kampspår-kandidater (från Kladd 2026-05-21)
+# Minne-kandidater (från Kladd 2026-05-21)
 
 **Policy:** Ingest endast manuellt via Tidshjulet / `ingestKampsparEntry`. Redigera bort PII innan molnlagring om möjligt.
 
@@ -17,4 +17,4 @@
 | Skola: mammaveckor korrelation | 2026-03-12 | barn | Ann: Kasper trött/hungrig mammaveckor — starkt BBIC-underlag. | Skolrapport |
 | Parallel föräldraskap | — | värdering | Neutral logg, validera barn utan att tala illa om mor. | Kladd #3 |
 
-**Ej Kampspår (→ valv):** Orosanmälan, läkarintyg, sms-PDF, barnsamtal som bevis.
+**Ej Minne (→ valv):** Orosanmälan, läkarintyg, sms-PDF, barnsamtal som bevis.

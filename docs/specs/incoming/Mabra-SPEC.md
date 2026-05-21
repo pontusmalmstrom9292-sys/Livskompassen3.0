@@ -134,18 +134,21 @@ Rules (planerat): `ownerId == auth.uid`; append/create only för sessions.
 | Område | Status |
 |--------|--------|
 | Route `/mabra` + AuthGate | **done** |
-| `MabraPage` orchestrator (hub → duration → breathing → complete) | **done** |
+| `MabraPage` orchestrator (hub → övning → complete) | **done** |
 | Kluster hem (`ClusterGrid`) | **done** |
 | Symptom-hub (3 val) + hub→övning routing | **done** (fas 1.5) |
 | 4-7-8 andning + 5-4-3-2-1 grounding (`find_self`) | **done** |
+| Reframing light (`self_critical`, 4 steg + valfri andning) | **done** (fas 2a) |
+| AkutLanding + panik-andning UX (`panic_rsd`) | **done** (fas 2b) |
 | `hubSymptom` + `exerciseType` i `mabra_sessions` | **done** |
 | `mabra_sessions` Firestore + rules/index | **done** (repo; deploy Firestore för prod) |
 | Complete + länk Dagbok / Kompasser | **done** |
-| `mabra_progress` / coreValues | **planned** |
-| Måbra-coach callable | **planned** (fas 2) |
-| Web Speech sv-SE | **planned** (återanvänd `useSpeechToText`) |
-| Bro Dagbok in (låg energi) | **planned** |
-| Guardrail → Speglar vid ex-text | **planned** |
+| Hub-specifik complete + Dagbok bro (`energy=low`) | **done** (fas 2c) |
+| `mabra_progress` / ACT ValuesCompass | **done** (fas 2d) |
+| Måbra-coach callable + opt-in UI | **done** (fas 2e) |
+| Web Speech sv-SE | **done** (fas 2f, `SpeechMicRow` + `useSpeechToText`) |
+| Bro Dagbok in (låg energi) | **done** (fas 2c) |
+| Guardrail → Speglar vid ex-text | **done** (fas 2e) |
 
 ## 9. Acceptanskriterier
 
@@ -158,9 +161,9 @@ Rules (planerat): `ownerId == auth.uid`; append/create only för sessions.
 | 5 | Obsidian Calm tokens — ingen förbjuden palett | **done** |
 | 6 | `mabra_sessions` metadata vid completed | **done** |
 | 7 | Fritext rensas vid unmount om ej sparad | **planned** |
-| 8 | AI-coach opt-in; `#6366F1` bubblor | **planned** |
+| 8 | AI-coach opt-in; `#6366F1` bubblor | **done** |
 | 9 | Valfri "Spara insikt till Dagbok" | **planned** |
-| 10 | Tydlig copy-skillnad mot Speglar | **planned** |
+| 10 | Tydlig copy-skillnad mot Speglar | **done** (guardrail fas 2e) |
 
 ## 10. Kopplingar till andra moduler
 
@@ -214,7 +217,7 @@ Rules (planerat): `ownerId == auth.uid`; append/create only för sessions.
 | Panik / RSD | 4-7-8 | **done** |
 | Självkritik | 4-7-8 | **done** |
 | Hitta mig | Grounding 5-4-3-2-1 | **done** |
-| Reframing coach | | **planned** fas 2 |
+| Reframing coach | | **done** fas 2e |
 
 ## 15. Öppna produktbeslut (låsta 2026-05)
 
@@ -231,7 +234,7 @@ Rules (planerat): `ownerId == auth.uid`; append/create only för sessions.
 | 9 | Kompasser | **Länk** efter övning — inte auto check-in | **Ja** |
 | 10 | Prokrastinering | **Kompasser** primärt; Måbra länk valfritt | **Ja** |
 | 11 | AI-accent | **`#6366F1`** coach; **`#818CF8`** knappar | **Ja** |
-| 12 | Röst | Opt-in **Web Speech sv-SE** i textövningar | **Ja** |
+| 12 | Röst | Opt-in **Web Speech sv-SE** i textövningar | **done** (fas 2f) |
 | 13 | Ex-konflikt i text | Föreslå **Speglar** — inte bearbeta i Måbra | **Ja** |
 | 14 | Andning | **Offline-first** lokal animation | **Ja** |
 

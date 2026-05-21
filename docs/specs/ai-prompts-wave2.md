@@ -72,7 +72,7 @@ Output: Dossier-SPEC.md
 
 ```
 MODUL: Valv-Chat — sök och få svar direkt från Verklighetsvalvet (reality_vault).
-INTE samma som /kunskap (Kampspår/RAG/Drive) — denna modul läser endast användarens WORM-bevis i reality_vault.
+INTE samma som /kunskap (Minne/RAG/Drive) — denna modul läser endast användarens WORM-bevis i reality_vault.
 Krav: AuthGate + valv unlocked (Shield 3s + PIN). Exkludera vävaren_metadata som standard.
 UX: en fråga i taget, kort svar med källhänvisning (datum, category, docId), ingen permanent chattlogg (Zero Footprint).
 Backend: klient getVaultLogs + matchVaultEvidence ELLER ny callable med Livs-Arkivarien/Mönster-Arkivarien — hallucinera aldrig utan bevis.
@@ -108,6 +108,6 @@ Se [`ai-prompts-moduler-master.md`](ai-prompts-moduler-master.md) för Kunskap, 
 | Modul | Output |
 |-------|--------|
 | Ekonomi | `Ekonomi-SPEC.md` |
-| Kompis / Kunskap (Kampspår) | `Kunskap-SPEC.md` |
+| Kompis / Kunskap (Minne) | `Kunskap-SPEC.md` |
 | Måbra-sidan | `Mabra-SPEC.md` |
 | Core | `Core-SPEC.md` |

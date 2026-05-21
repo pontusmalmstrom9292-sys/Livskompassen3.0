@@ -181,7 +181,7 @@
       "name": "🔒 Vault / RAG",
       "item": [
         {
-          "name": "POST RAG – Indexera Kampspår",
+          "name": "POST RAG – Indexera Minne",
           "request": {
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],

@@ -46,7 +46,7 @@ async function fetchVectorRagExcerpts(_uid: string, _text: string): Promise<stri
   return [];
 }
 
-/** RAG-kontext för Vävaren: journal + valv + Kampspår (+ Vector Search stub). */
+/** RAG-kontext för Vävaren: journal + valv + Minne (+ Vector Search stub). */
 export async function fetchWeaverRagContext(uid: string, journalText: string): Promise<string> {
   const firestoreLines = await fetchFirestoreRag(uid);
   const vectorLines = await fetchVectorRagExcerpts(uid, journalText);

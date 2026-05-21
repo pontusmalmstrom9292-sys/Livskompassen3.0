@@ -123,8 +123,8 @@ Loggar: `firebase functions:log --only notifyNewFile`
 
 Separat implementation enligt [`.context/arkitektur-beslut.md`](../.context/arkitektur-beslut.md) steg **1.1–1.5**:
 
-1. **Datamodell** — beslut om `userId` vs `ownerId`, collection-path för Vault/Kampspår.
+1. **Datamodell** — beslut om `userId` vs `ownerId`, collection-path för Vault/Minne.
 2. **Firestore metadata** — t.ex. `document_meta` / `kb_docs` vid lyckad analys.
 3. **Idempotens** — undvik dubbel indexering på samma `fileId`.
 4. **RAG-kedja** — `generateEmbedding` + Vector Search kopplat till uppladdade dokument.
-5. **UI** — Kampspår-uppladdning (system-plan Fas 4.2).
+5. **UI** — Minne-uppladdning (system-plan Fas 4.2).

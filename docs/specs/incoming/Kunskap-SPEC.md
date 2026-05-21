@@ -7,7 +7,7 @@ Konsoliderad till [`.context/modules/kompis.md`](../../../.context/modules/kompi
 
 Kunskapsvalvet är användarens **semantiskt livsminne** (Life-OS): rutiner, utmaningar, dokument och mönster över tid. Modulen avlastar kognitiv belastning vid ADHD/GAD genom att låta användaren ställa frågor mot **egna data** och få korta, objektiva svar med källhänvisningar — utan JADE.
 
-**Kampspår** (`kampspar`) är det underliggande minneslagret. **Kunskapsvalvet** är UI + RAG ovanpå `kampspar` och `kb_docs`.
+**Minne** (`kampspar`) är det underliggande minneslagret. **Kunskapsvalvet** är UI + RAG ovanpå `kampspar` och `kb_docs`.
 
 **Strikt skild från Valv-Chat:** forensisk bevisföring läser endast `reality_vault`. Livsminne och trauma/bevis får aldrig blandas (KASAM vs juridisk integritet).
 
@@ -197,8 +197,8 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 
 - **Google Apps Script / Kalkylark som databas** — avvisat; Firebase Cloud Functions + Firestore.
 - **Gemensam sök Valv + Kunskap** — avvisat (cross-contamination, PTSD-risk).
-- **Kampspår som egen dock-ikon** — avvisat; datalager under Kunskap/Valv.
-- **Redigera/radera Kampspår i UI** — avvisat (WORM); ny post = ny immutable snapshot.
+- **Minne som egen dock-ikon** — avvisat; datalager under Kunskap/Valv.
+- **Redigera/radera Minne i UI** — avvisat (WORM); ny post = ny immutable snapshot.
 - **Vertex AI Search som separat produktspår i MVP** — avvaktar; preferens **Firestore Vector Search** + `VECTOR_SEARCH_INDEX_ID` tills datamängd kräver mer.
 - **Auto-RAG från rå Kladd-filer** — avvisat (Kladd §E).
 - **Stjärnbilder / gamification** — avvisat (Kladd §G).

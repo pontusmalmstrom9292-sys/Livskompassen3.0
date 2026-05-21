@@ -36,6 +36,8 @@ export interface VaultLog {
   shieldWhat?: string;
   shieldFeeling?: string;
   shieldBoundary?: string;
+  /** Sanningens Ankare — satt endast vid create (WORM). */
+  pinned?: boolean;
   createdAt: IsoDateTime;
 }
 
@@ -93,6 +95,13 @@ export interface MabraSession {
   createdAt: IsoDateTime;
 }
 
+export interface MabraProgress {
+  userId: string;
+  ownerId: string;
+  coreValues: string[];
+  updatedAt?: IsoDateTime;
+}
+
 export interface JournalEntry {
   id: string;
   mood: string;
@@ -100,6 +109,23 @@ export interface JournalEntry {
   userId?: string;
   ownerId?: string;
   createdAt?: IsoDateTime;
+}
+
+export interface EconomyTransaction {
+  userId: string;
+  ownerId: string;
+  label: string;
+  amountSek: number;
+  category: 'veckopeng' | 'matlada' | 'vinst' | 'ovrigt';
+  createdAt: IsoDateTime;
+}
+
+export interface EconomyProfile {
+  userId: string;
+  ownerId: string;
+  weeklyBudgetSek: number;
+  mealBoxPresetSek: number;
+  updatedAt?: IsoDateTime;
 }
 
 export const FIRESTORE_COLLECTIONS = {
@@ -112,4 +138,8 @@ export const FIRESTORE_COLLECTIONS = {
   archival_analysis: 'archival_analysis',
   journal: 'journal',
   mabra_sessions: 'mabra_sessions',
+  mabra_progress: 'mabra_progress',
+  children_logs: 'children_logs',
+  transactions: 'transactions',
+  economy_profiles: 'economy_profiles',
 } as const;

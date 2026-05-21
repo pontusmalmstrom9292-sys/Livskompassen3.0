@@ -11,11 +11,14 @@ import { DagbokPage } from './DagbokPage';
 
 export type HjartatTab = 'reflektion' | 'bevis' | 'speglar';
 
-const TABS = [
+const ALL_TABS = [
   { id: 'reflektion' as const, label: 'Reflektion', icon: <BookOpen className="h-3 w-3" /> },
   { id: 'bevis' as const, label: 'Bevis', icon: <Shield className="h-3 w-3" /> },
   { id: 'speglar' as const, label: 'Speglar', icon: <Brain className="h-3 w-3" /> },
 ];
+
+const HIDE_BEVIS_TAB = import.meta.env.VITE_HIDE_BEVIS_TAB === 'true';
+const TABS = HIDE_BEVIS_TAB ? ALL_TABS.filter((t) => t.id !== 'bevis') : ALL_TABS;
 
 export function parseHjartatTab(raw: string | null): HjartatTab {
   if (raw === 'bevis' || raw === 'speglar') return raw;

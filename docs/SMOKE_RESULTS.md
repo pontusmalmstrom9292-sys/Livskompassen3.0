@@ -1,4 +1,4 @@
-# Smoke-resultat (Fas 3 + Kampspår)
+# Smoke-resultat (Fas 3 + Minne)
 
 **Datum:** 2026-05-21  
 **Branch:** `cleanup-phase-1`
@@ -7,7 +7,8 @@
 
 | Kontroll | Resultat |
 |----------|----------|
-| `npm run build` (frontend) | **PASS** |
+| `npm run build` (frontend) | **PASS** (additiv modulbyggplan 2026-05-21) |
+| `npm run smoke:valv` | **ny script** — kör manuellt med `.env` |
 | `cd functions && npm run build` | **PASS** |
 | Firestore rules inkl. `kampspar` | **PASS** (lokal fil) |
 | Firestore indexes `kampspar`, `kb_docs` | **PASS** (lokal fil) |
@@ -15,6 +16,33 @@
 | `node scripts/smoke_speglar.mjs` | **PASS** (2026-05-21) |
 | `npm run smoke:dossier` | **PASS** (2026-05-21) |
 | `npm run smoke:compass` | **PASS** (2026-05-21) |
+| `npm run smoke:mabra` | **PASS** (2026-05-21) |
+| `node scripts/seed_kampspar_profile.mjs --verify` | **PASS** (2026-05-21) |
+
+## Profil-seed Kunskapsvalvet (2026-05-21)
+
+Kör: `node scripts/seed_kampspar_profile.mjs --verify` (kräver `.env`, deployade callables).
+
+Manifest: [`docs/specs/incoming/Kampspar-PROFIL-SEED.json`](./specs/incoming/Kampspar-PROFIL-SEED.json) — **47 poster** (profil, diagnos, strategi, barn, coping, metod).
+
+| Steg | Resultat | Notering |
+|------|----------|----------|
+| `ingestKampsparEntry` × 47 | **PASS** | Alla poster WORM-create |
+| `embeddingDim` | **null** | Icke-blockerande (samma som Kunskap smoke) |
+| RAG 5 testfrågor | **PASS 5/5** | Samma auth-session som ingest (`--verify`) |
+| Diagnoser-fråga | **PASS** | ADHD F90.0B + GAD F41.1 |
+| Soc-strategi-fråga | **PASS** | Citations från strategi/metod |
+| Kasper skola-fråga | **PASS** | Citations från barn-profil |
+| Andning-fråga | **PASS** | 4-7-8 vagus |
+| Feb 2026-fråga | **PASS** | Slutenvård, sjukskrivning, allostatisk belastning |
+
+**Viktigt:** Utan `SEED_FIREBASE_EMAIL` + `SEED_FIREBASE_PASSWORD` i `.env` kopplas data till **anonymous uid** — syns inte i appen om du loggar in med annat konto. Sätt email/lösenord och kör om:
+
+```bash
+node scripts/seed_kampspar_profile.mjs --skip-existing --verify
+```
+
+**UI (manuell):** `/vardagen?tab=kunskap` → Tidshjulet — 47 noder efter seed på rätt uid.
 
 ## Kunskap smoke (automatiserat)
 
@@ -80,6 +108,23 @@ Kör: `npm run smoke:compass` (kräver `.env`, Anonymous Auth, deployad `breakDo
 
 **UI (manuell):** `/vardagen` → Kompasser → flikar Morgon/Dag/Kväll, Paralys, KASAM kväll.
 
+## Måbra smoke (automatiserat)
+
+Kör: `npm run smoke:mabra` (kräver `.env`, Anonymous Auth, deployad `mabraCoach`, Firestore rules `mabra_sessions`).
+
+| Steg | Resultat | Notering |
+|------|----------|----------|
+| Anonymous Auth | **PASS** | |
+| `mabra_sessions` WORM create | **PASS** | metadata only |
+| `mabraCoach` | **PASS** | `coach` string |
+
+```bash
+firebase deploy --only functions:mabraCoach --force
+npm run smoke:mabra
+```
+
+**UI (manuell):** Hem → Måbra → övning → *Få ett kort svar* på complete-skärmen (opt-in, `#6366F1` bubbla).
+
 ## Manuella tester (övriga moduler)
 
 Kör mot lokal `npm run dev` eller [Hosting](https://gen-lang-client-0481875058.web.app).
@@ -91,9 +136,10 @@ Kör mot lokal `npm run dev` eller [Hosting](https://gen-lang-client-0481875058.
 | 3 | Valv | `reality_vault` post | **Ej körd** |
 | 4 | Barnen | `children_logs` | **Ej körd** |
 | 5 | Kompasser (UI) | Paralys + KASAM + tids-default | **Ej körd** — backend OK via `smoke:compass` |
+| 5b | Måbra (UI) | Symptom-hub → övning → opt-in coach | **Ej körd** — backend OK via `smoke:mabra` |
 | 6 | Hamn BIFF | Grey Rock-svar | **Ej körd** |
 | 7 | Kunskap RAG (UI) | Svar + citations i chat | **Ej körd** — callables OK via script |
-| 8 | Kampspår ingest (UI) | Tidshjulet visar nod | **Ej körd** — callable OK via script |
+| 8 | Minne ingest (UI) | Tidshjulet visar nod | **Ej körd** — callable OK via script |
 | 9 | Hamn → bevis | Original sparas i `reality_vault` | **Ej körd** |
 | 10 | Speglar → Hamn | Länk med förifylld text | **Ej körd** — `speglingsMirror` OK via script |
 | 11 | Dossier (UI) | Valv → flik Dossier → PDF + hash | **Ej körd** — E2E OK via `smoke:dossier` |
@@ -118,6 +164,8 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 - `functions/src/agents/knowledgeVaultAgent.ts` — modell `gemini-2.0-flash-001` (ersatte `gemini-1.5-flash-001` 404)
 - `functions/src/agents/vertexAgent.ts` — `gemini-2.5-flash` + `GEMINI_API_KEY` via secret; degraded ACT-fallback vid LLM-fel
 - `functions/src/index.ts` — `speglingsMirror` `.runWith({ secrets: ['GEMINI_API_KEY'] })`
+- `functions/src/index.ts` — `mabraCoach` callable + `MABRA_COACHEN_SYSTEM_PROMPT` i `sharedRules.ts`
+- `src/modules/mabra/components/MabraCoachPanel.tsx` — opt-in *Få ett kort svar* efter övning
 
 ## Module plan sync
 

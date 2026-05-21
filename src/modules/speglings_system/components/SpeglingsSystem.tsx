@@ -72,19 +72,26 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
     setJournalMood(bridgeMood);
   }, [bridgeMood, bridgeText]);
 
-  useEffect(
-    () => () => {
-      revokeMediaAttachments(attachmentsRef.current);
-    },
-    [],
-  );
-
   const vivirSummary = VIVIR_STEPS.map(
     (s) => `${s.title}: ${vivirAnswers[s.key] ?? '—'}`
   ).join('\n');
 
   const vaultLocked = !isVaultUnlocked && !hasVaultGate();
   const [matches, setMatches] = useState<ReturnType<typeof matchVaultEvidence>>([]);
+
+  const resetSession = useCallback(() => {
+    revokeMediaAttachments(attachmentsRef.current);
+    setPhase(INITIAL_PHASE);
+    setFeeling('');
+    setJournalMood('');
+    setVivirAnswers({});
+    setAttachments([]);
+    setSavedAttachmentIds(new Set());
+    setSessionSavedEvidence([]);
+    setMatches([]);
+  }, []);
+
+  useEffect(() => () => resetSession(), [resetSession]);
 
   useEffect(() => {
     if (phase !== 'compare' || !user || vaultLocked) return;
@@ -95,17 +102,6 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
       })
       .catch(() => setMatches([]));
   }, [phase, user, vaultLocked, feeling, vivirAnswers]);
-
-  const resetSession = () => {
-    revokeMediaAttachments(attachments);
-    setPhase(INITIAL_PHASE);
-    setFeeling('');
-    setJournalMood('');
-    setVivirAnswers({});
-    setAttachments([]);
-    setSavedAttachmentIds(new Set());
-    setSessionSavedEvidence([]);
-  };
 
   return (
     <div className="space-y-6">

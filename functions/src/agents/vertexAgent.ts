@@ -1,7 +1,12 @@
-import { LIVSKOMPASSEN_SYSTEM_CONFIG, SPEGLINGS_COACHEN_SYSTEM_PROMPT } from '../sharedRules';
+import {
+  LIVSKOMPASSEN_SYSTEM_CONFIG,
+  MABRA_COACHEN_SYSTEM_PROMPT,
+  SPEGLINGS_COACHEN_SYSTEM_PROMPT,
+} from '../sharedRules';
 import { createGenAI } from '../lib/genaiClient';
 
 const SPEGLINGS_MODEL = 'gemini-2.5-flash';
+const MABRA_COACH_MODEL = 'gemini-2.5-flash';
 
 export const askKnowledgeVault = async (prompt: string): Promise<string> => {
   try {
@@ -35,6 +40,56 @@ function mirrorFeelingFallback(reflection: string): string {
 export function isSpeglingsFallback(text: string, reflection: string): boolean {
   return text === mirrorFeelingFallback(reflection);
 }
+
+function mabraCoachFallback(hubSymptom: string, exerciseType: string): string {
+  const hubLine =
+    hubSymptom === 'panic_rsd'
+      ? 'Kroppen fick en paus — det räcker som steg.'
+      : hubSymptom === 'self_critical'
+        ? 'Du gav dig ett ögonblick utan att prestera.'
+        : 'Du är här nu — det är ett steg i sig.';
+  const exerciseLine =
+    exerciseType === 'breathing'
+      ? 'Andningen är gjord.'
+      : exerciseType === 'grounding'
+        ? 'Groundingen är gjord.'
+        : 'Reframing-övningen är gjord.';
+  return `${exerciseLine} ${hubLine} Inget mer krävs av dig just nu.`;
+}
+
+export const askMabraCoach = async (
+  hubSymptom: string,
+  exerciseType: string,
+  optionalNote?: string,
+  geminiApiKey?: string
+): Promise<string> => {
+  const context = [
+    `Symptom-hub: ${hubSymptom}`,
+    `Övning: ${exerciseType}`,
+    optionalNote?.trim() ? `Valfri rad från användaren: ${optionalNote.trim()}` : '',
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  try {
+    const ai = createGenAI(geminiApiKey);
+    const response = await ai.models.generateContent({
+      model: MABRA_COACH_MODEL,
+      contents: context,
+      config: {
+        systemInstruction: MABRA_COACHEN_SYSTEM_PROMPT,
+        temperature: 0.2,
+      },
+    });
+
+    const text = response.text?.trim();
+    if (!text) throw new Error('Tomt måbra-coach-svar.');
+    return text;
+  } catch (error) {
+    console.error('[Måbra-Coachen] Fel — degraded fallback:', error);
+    return mabraCoachFallback(hubSymptom, exerciseType);
+  }
+};
 
 export const askSpeglingsCoach = async (
   reflection: string,

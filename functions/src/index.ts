@@ -1,5 +1,5 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
-import { askSpeglingsCoach } from "./agents/vertexAgent";
+import { askMabraCoach, askSpeglingsCoach } from "./agents/vertexAgent";
 import { askKnowledgeVaultWithRag } from "./agents/knowledgeVaultAgent";
 import { geminiApiKey } from "./lib/geminiSecret";
 import { generateEmbeddingInternal } from "./lib/generateEmbeddingInternal";
@@ -11,20 +11,33 @@ import { KompisSupervisor } from './agents/kompis-supervisor';
 import { adkOrchestrator, listAgentCards, applyParalysBreak } from './adk';
 import { emitSynapse } from './adk/synapses/synapseBus';
 import { generateDossierInternal } from './lib/generateDossierInternal';
+import {
+  MABRA_SPEGLAR_REDIRECT_MESSAGE,
+  shouldRedirectMabraCoachToSpeglar,
+} from './lib/mabraCoachGuard';
 
 admin.initializeApp();
 const supervisor = new KompisSupervisor();
 
+/** Speglings-Coachen: max 2–4 meningar (server-side guard). */
+function trimSpeglingsMirror(text: string): string {
+  const trimmed = text.trim();
+  if (!trimmed) return trimmed;
+  const parts = trimmed.match(/[^.!?…]+[.!?…]+|[^.!?…]+$/g) ?? [trimmed];
+  if (parts.length <= 4) return trimmed;
+  return parts.slice(0, 4).join(' ').trim();
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Funktion 1: generateEmbedding
-// Genererar en textembedding (textembedding-gecko) för ett Kampspår-dokument.
+// Genererar en textembedding (textembedding-gecko) för ett Minne-dokument.
 // Anropas av frontend för att indexera ny data i Vector Search.
 // ─────────────────────────────────────────────────────────────────────────────
 export const generateEmbedding = functions.region('europe-west1').https.onCall(async (data, context) => {
   if (!context.auth) {
     throw new functions.https.HttpsError(
       'unauthenticated',
-      'Endast inloggade användare får generera inbäddningar för Kampspår.'
+      'Endast inloggade användare får generera inbäddningar för Minne.'
     );
   }
 
@@ -192,7 +205,7 @@ export const knowledgeVaultQuery = onCall(
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Funktion 6a: ingestKampsparEntry
-// WORM create för manuella Kampspår-poster + valfri embedding-dimension.
+// WORM create för manuella Minne-poster + valfri embedding-dimension.
 // ─────────────────────────────────────────────────────────────────────────────
 export const ingestKampsparEntry = functions.region('europe-west1').https.onCall(async (data, context) => {
   if (!context.auth) {
@@ -313,8 +326,57 @@ export const speglingsMirror = functions
       throw new functions.https.HttpsError('invalid-argument', 'Reflection får vara max 4000 tecken.');
     }
 
-    const mirror = await askSpeglingsCoach(reflection, mood, process.env.GEMINI_API_KEY);
+    const rawMirror = await askSpeglingsCoach(reflection, mood, process.env.GEMINI_API_KEY);
+    const mirror = trimSpeglingsMirror(rawMirror);
     return { mirror };
+  });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 10b: mabraCoach
+// Måbra-Coachen — kort opt-in stöd efter övning (ingen RAG, ingen JADE).
+// ─────────────────────────────────────────────────────────────────────────────
+export const mabraCoach = functions
+  .region('europe-west1')
+  .runWith({ secrets: ['GEMINI_API_KEY'] })
+  .https.onCall(async (data, context) => {
+    if (!context.auth) {
+      throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
+    }
+
+    const hubSymptom = data.hubSymptom;
+    const exerciseType = data.exerciseType;
+    const optionalNote = typeof data.optionalNote === 'string' ? data.optionalNote : undefined;
+
+    const validHubs = ['panic_rsd', 'self_critical', 'find_self'];
+    const validExercises = ['breathing', 'grounding', 'reframing'];
+
+    if (!hubSymptom || typeof hubSymptom !== 'string' || !validHubs.includes(hubSymptom)) {
+      throw new functions.https.HttpsError(
+        'invalid-argument',
+        'Fältet "hubSymptom" krävs (panic_rsd | self_critical | find_self).',
+      );
+    }
+
+    if (!exerciseType || typeof exerciseType !== 'string' || !validExercises.includes(exerciseType)) {
+      throw new functions.https.HttpsError(
+        'invalid-argument',
+        'Fältet "exerciseType" krävs (breathing | grounding | reframing).',
+      );
+    }
+
+    if (optionalNote && optionalNote.length > 500) {
+      throw new functions.https.HttpsError('invalid-argument', 'optionalNote får vara max 500 tecken.');
+    }
+
+    if (shouldRedirectMabraCoachToSpeglar(optionalNote)) {
+      return {
+        coach: MABRA_SPEGLAR_REDIRECT_MESSAGE,
+        redirectToSpeglar: true,
+      };
+    }
+
+    const coach = await askMabraCoach(hubSymptom, exerciseType, optionalNote, process.env.GEMINI_API_KEY);
+    return { coach, redirectToSpeglar: false };
   });
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -5,9 +5,10 @@ import { EmptyState } from '../../core/ui/EmptyState';
 
 type Props = {
   entries: KampsparEntryRow[];
+  highlightEntryId?: string | null;
 };
 
-export function Tidshjulet({ entries }: Props) {
+export function Tidshjulet({ entries, highlightEntryId }: Props) {
   const nodes = entries.slice(0, 8);
 
   return (
@@ -44,7 +45,13 @@ export function Tidshjulet({ entries }: Props) {
             style={{ left: `${x}%`, top: `${y}%`, transform: 'translate(-50%, -50%)' }}
             title={entry.title}
           >
-            <div className="mx-auto h-3 w-3 rounded-full bg-accent-light shadow-accent-glow" />
+            <div
+              className={`mx-auto h-3 w-3 rounded-full shadow-accent-glow ${
+                entry.id === highlightEntryId
+                  ? 'bg-accent ring-2 ring-accent/60'
+                  : 'bg-accent-light'
+              }`}
+            />
             <p className="mt-1 truncate text-center text-[9px] uppercase tracking-wider text-text-dim">
               {label}
             </p>

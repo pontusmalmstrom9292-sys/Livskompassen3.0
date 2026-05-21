@@ -7,18 +7,25 @@
 
 Proaktiv rehab — KBT/ACT, vagus, självmedkänsla, värderingar. ADHD/GAD/RSD: kravlöst, ett steg i taget. **Inte** gaslighting-försvar (Speglar), **inte** ex (Hamn), **inte** daglig logg (Dagbok).
 
-## UI (MVP — klart, fas 1.5)
+## UI (MVP — klart, fas 1.5 + 2a + 2b)
 
 | Komponent | Roll |
 |-----------|------|
 | `MabraPage` | Orchestrator — routing per symptom-hub |
 | `SymptomHub` | 3 val: Panik/RSD, Självkritik, Hitta mig |
-| `DurationPicker` | 1 / 3 / 5 min (endast andning) |
-| `BreathingExercise` | 4-7-8 (panic_rsd \| self_critical) |
+| `AkutLanding` | Panik/RSD — validering före duration |
+| `DurationPicker` | 1 / 3 / 5 min (endast panic_rsd) |
+| `BreathingExercise` | 4-7-8 (panic: tid kvar; self_critical addon) |
 | `GroundingExercise` | 5-4-3-2-1 (find_self), offline |
-| `MabraComplete` | Mjukt avslut + länkar Dagbok / Kompasser |
+| `ReframingExercise` | 4 steg thought record light (self_critical), RAM-only |
+| `ValuesCompass` | ACT — välj 3–5 värderingar (länk under hub) |
+| `MabraComplete` | Avslut + länkar Dagbok/kväll (hub-copy + lågenergi-bro) |
+| `MabraCoachPanel` | Opt-in coach efter övning (`#6366F1`) + Speglar guardrail + röst |
 
-**Flöde:** hub → (duration om andning) → övning → `mabra_sessions` → complete.
+**Flöde:**
+- `panic_rsd`: hub → akut → duration → andning → complete
+- `self_critical`: hub → reframing (4 steg) → valfri 1-min andning → complete
+- `find_self`: hub → grounding → complete
 
 ## Navigation
 
@@ -31,32 +38,32 @@ Proaktiv rehab — KBT/ACT, vagus, självmedkänsla, värderingar. ADHD/GAD/RSD:
 ## Datamodell
 
 - **`mabra_sessions`:** `ownerId`, `exerciseType`, `hubSymptom?`, `durationSeconds`, `createdAt` — WORM (create/read)
-- **`mabra_progress`:** coreValues (ACT) — **planerat** fas 2
+- **`mabra_progress`:** `coreValues[]` (ACT) — mutable doc per user (`/{uid}`)
 - **Inte:** RAG/Kunskap; **inte** streak
 
 ## Backend
 
 - MVP: deterministiska övningar (klient) + `saveMabraSession()` → Firestore
-- Fas 2: Måbra-coach callable (Gemini, `sharedRules.ts`)
+- `mabraCoach` callable (Gemini, `MABRA_COACHEN_SYSTEM_PROMPT` i `sharedRules.ts`) — **done** fas 2e
 
 ## Status
 
-| Klart (MVP) | Delvis | Planerat (fas 2) |
-|-------------|--------|------------------|
-| Route, AuthGate, kluster | Deploy rules prod | Reframing / thought record |
-| Symptom-hub + hub→övning routing | | Måbra-coach callable (opt-in) |
-| 4-7-8 + 5-4-3-2-1 grounding | | `mabra_progress` / coreValues |
-| `mabra_sessions` + rules/index | | Bro Dagbok in (låg energi) |
-| Complete + länkar | | Guardrail → Speglar vid ex-text |
-| Obsidian Calm, ingen streak | | Trauma-RAG (ej auto — opt-in Kunskap) |
+| Klart (MVP + 2a–2f) | Delvis | Planerat |
+|---------------------|--------|----------|
+| Route, AuthGate, kluster | Deploy rules prod | Grounding-förbättringar (§3) |
+| Måbra-coach + Speglar guardrail + Web Speech sv-SE | | Trauma-RAG (ej auto — opt-in Kunskap) |
+| ACT ValuesCompass + `mabra_progress` | | |
+| `mabra_sessions` + rules/index | | |
+| Complete + länkar | | |
+| Obsidian Calm, ingen streak | | |
 
 ## Kladd 2026-05-21
 
 - **Kladd:** Vagus, 3-stegs återhämtning, självmedkänsla, "tänksamma nej-et".
 - **Avvisat:** Stjärnbilder, Nordisk skymning grön, VIVIR här (→ Speglar).
-- **Gap:** Reframing för självkritik-hub; coach RAG; ingen auto-ingest livshistoria.
+- **Gap:** coach RAG; ingen auto-ingest livshistoria.
 
-**Deploy:** `firebase deploy --only firestore` krävs för `mabra_sessions` rules/index i prod.
+**Deploy:** `firebase deploy --only firestore` krävs för `mabra_sessions` + `mabra_progress` rules i prod.
 
 ## Produktbeslut (låsta 2026-05)
 
@@ -66,9 +73,9 @@ Se §14 i [`Mabra-SPEC.md`](../../docs/specs/incoming/Mabra-SPEC.md).
 
 ## Kopplingar
 
-- **Dagbok** — länk efter övning; valfri insikt + bro in (planerat)
+- **Dagbok** — länk efter övning med `?from=mabra&hub=…&energy=low`; humör-only eller kort rad — **done** (fas 2c)
 - **Kompasser** — länk kväll (planerat)
-- **Speglar** — guardrail vid ex-text (planerat)
+- **Speglar** — guardrail vid ex-text → `/speglar` — **done** (fas 2e)
 - **Hamn / Valv / Kunskap** — **ingen** datakoppling
 
 Kod: `src/modules/mabra/` · Plan: [`src/modules/mabra/module_plan.md`](../../src/modules/mabra/module_plan.md)

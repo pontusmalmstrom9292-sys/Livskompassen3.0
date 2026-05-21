@@ -58,7 +58,8 @@ Canonical: `.context/modules/barnens_livsloggar.md` · Spec: `docs/specs/incomin
 
 ## Nästa fas (implementera när användaren säger kör)
 
-1. Knapp "Spara som bevis?" → `saveVaultLog` med `sourceRef`
-2. PDF-export (klient print eller Dossier)
-3. Wizard progressive disclosure
-4. Unmount cleanup i BarnensPage / ChildSubLogPanel
+1. ~~Knapp "Spara som bevis?"~~ → **done** (`SaveAsEvidencePrompt.tsx`)
+2. PDF-export (klient print eller Dossier deep-link)
+3. Wizard progressive disclosure (valfritt)
+4. ~~Unmount cleanup~~ → **done**
+5. Dossier deep-link med förvalda källor (`?child=Kasper`)

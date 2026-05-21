@@ -27,7 +27,7 @@ Markera steg `[x]` endast efter ditt uttryckliga godkännande och efter git-push
 | 1.1 | Ägarfält i Firestore | `userId` / `ownerId` | _ | [ ] |
 | 1.2 | Vault collection-path | `/vault/{id}` / `users/{uid}/vault/{id}` | _ | [ ] |
 | 1.3 | CheckIn path | `/checkins/{id}` / nestat under user | _ | [ ] |
-| 1.4 | Kampspår (kanonisk) | `users/{uid}/kampspar` / annat | **`kampspar` top-level + `ownerId`** (samma mönster som `journal`) | [x] |
+| 1.4 | Minne (kanonisk) | `users/{uid}/kampspar` / annat | **`kampspar` top-level + `ownerId`** (samma mönster som `journal`) | [x] |
 | 1.5 | `reality_vault` vs `vault` | En collection / två syften | **`reality_vault`** = WORM-bevis; **`kampspar`** = livsminne/RAG; **`kb_docs`** = Drive/importer | [x] |
 | 1.6 | `firebase-blueprint.json` | Rot / under `config/` | _ | [ ] |
 | 1.7 | Data Connect | Avvakta / ersätt Movie-schema | _ | [ ] |

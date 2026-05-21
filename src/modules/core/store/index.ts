@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { clearVaultGate } from '../auth/sessionService';
 
 export type User = {
   uid: string;
@@ -58,11 +59,13 @@ export const useStore = create<AppState>((set) => ({
   setLoading: (isLoading) => set((state) => ({ system: { ...state.system, isLoading } })),
   setError: (error) => set((state) => ({ system: { ...state.system, error } })),
   setKompisAura: (active) => set((state) => ({ system: { ...state.system, kompisAuraActive: active } })),
-  resetState: () =>
+  resetState: () => {
+    clearVaultGate();
     set({
       user: null,
       isAuthenticated: false,
       ui: initialUiState,
       system: initialSystemState,
-    }),
+    });
+  },
 }));

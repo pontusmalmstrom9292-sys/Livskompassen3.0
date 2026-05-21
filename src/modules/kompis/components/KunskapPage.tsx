@@ -23,6 +23,7 @@ type KunskapPageProps = {
 
 export function KunskapPage({ embedded: _embedded = false }: KunskapPageProps) {
   const [tab, setTab] = useState<Tab>('chat');
+  const [highlightEntryId, setHighlightEntryId] = useState<string | null>(null);
   const user = useStore((s) => s.user);
   const [entries, setEntries] = useState<KampsparEntryRow[]>([]);
   const [loadingEntries, setLoadingEntries] = useState(false);
@@ -49,11 +50,16 @@ export function KunskapPage({ embedded: _embedded = false }: KunskapPageProps) {
       <TabBar tabs={tabs} active={tab} onChange={(id) => setTab(id)} />
 
       {tab === 'chat' ? (
-        <KnowledgeVaultChat />
+        <KnowledgeVaultChat
+          onCitationClick={(docId) => {
+            setHighlightEntryId(docId);
+            setTab('tidshjul');
+          }}
+        />
       ) : (
         <>
           <BentoCard title="Tidshjulet — Kampspår" description="Interaktiv tidslinje">
-            <Tidshjulet entries={entries} />
+            <Tidshjulet entries={entries} highlightEntryId={highlightEntryId} />
           </BentoCard>
 
           <KampsparIngestForm onSaved={reloadEntries} />
@@ -64,11 +70,15 @@ export function KunskapPage({ embedded: _embedded = false }: KunskapPageProps) {
             ) : (
               <div className="space-y-3">
                 {entries.slice(0, 10).map((entry) => (
-                  <TimelineEntry
+                  <div
                     key={entry.id}
-                    meta={`${entry.eventDate?.slice(0, 10) || entry.createdAt?.slice(0, 10) || '—'} · ${entry.title}`}
-                    body={entry.content}
-                  />
+                    className={entry.id === highlightEntryId ? 'rounded-xl ring-2 ring-accent/50' : ''}
+                  >
+                    <TimelineEntry
+                      meta={`${entry.eventDate?.slice(0, 10) || entry.createdAt?.slice(0, 10) || '—'} · ${entry.title}`}
+                      body={entry.content}
+                    />
+                  </div>
                 ))}
               </div>
             )}

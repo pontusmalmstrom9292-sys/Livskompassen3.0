@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { FileText, Loader2, Lock, ShieldAlert } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { EmptyState } from '../../core/ui/EmptyState';
@@ -63,6 +63,7 @@ type DossierPageProps = {
 };
 
 export function DossierPage({ embedded = false }: DossierPageProps) {
+  const [searchParams] = useSearchParams();
   const user = useStore((s) => s.user);
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const vaultOpen = embedded || isVaultUnlocked || hasVaultGate();
@@ -102,6 +103,19 @@ export function DossierPage({ embedded = false }: DossierPageProps) {
 
   useEffect(() => () => clearSession(), [clearSession]);
 
+  const deepLinkChild = searchParams.get('child');
+  const deepLinkSources = searchParams.get('sources');
+
+  useEffect(() => {
+    if (deepLinkSources === 'children_logs') {
+      setSources({
+        reality_vault: false,
+        children_logs: true,
+        journal: false,
+      });
+    }
+  }, [deepLinkSources]);
+
   const filteredDocs = useMemo(
     () => filterCandidates(allCandidates, dateFrom, dateTo, sources, categoryFilter),
     [allCandidates, dateFrom, dateTo, sources, categoryFilter],
@@ -130,13 +144,20 @@ export function DossierPage({ embedded = false }: DossierPageProps) {
       ];
       setAllCandidates(docs);
       const visible = filterCandidates(docs, dateFrom, dateTo, sources, categoryFilter);
-      setIncludedIds(new Set(visible.map((d) => d.id)));
+      let ids = visible.map((d) => d.id);
+      if (deepLinkChild) {
+        const childDocs = visible.filter(
+          (d) => d.kind === 'children_logs' && d.title.startsWith(deepLinkChild),
+        );
+        if (childDocs.length > 0) ids = childDocs.map((d) => d.id);
+      }
+      setIncludedIds(new Set(ids));
     } catch {
       setError('Kunde inte läsa bevis från databasen.');
     } finally {
       setLoadingDocs(false);
     }
-  }, [user, dateFrom, dateTo, sources, categoryFilter]);
+  }, [user, dateFrom, dateTo, sources, categoryFilter, deepLinkChild]);
 
   useEffect(() => {
     if (step !== 'review' || !user || !vaultOpen) return;

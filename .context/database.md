@@ -9,8 +9,8 @@ Grunden för Livskompassen v2 är "Kunskapsvalvet" (The Knowledge Vault), implem
 
 ## Vektorsökning och RAG
 - **Teknologi:** Vertex AI Vector Search 2.0.
-- **Inbäddningsmodell:** `textembedding-gecko` (konverterar Kampspår till semantiska vektorer).
-- **Funktion:** RAG-motorn hämtar semantiskt liknande data från Kampspår och rutiner. LLM:er instrueras att uteslutande basera svar på hämtad information för att förhindra hallucinationer.
+- **Inbäddningsmodell:** `textembedding-gecko` (konverterar Minne till semantiska vektorer).
+- **Funktion:** RAG-motorn hämtar semantiskt liknande data från Minne och rutiner. LLM:er instrueras att uteslutande basera svar på hämtad information för att förhindra hallucinationer.
 
 ## Kontextuell Isolering och Minneshantering
 - **Sessionsgränser:** Strikta gränser baserade på domän (ex. arbetsstress vs. budget). Agenter får endast åtkomst till relevant vektorutrymme.

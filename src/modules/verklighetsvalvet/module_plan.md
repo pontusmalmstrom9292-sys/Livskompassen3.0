@@ -52,10 +52,11 @@ Canonical: `.context/modules/verklighetsvalvet.md` · Spec: `docs/specs/incoming
 
 ## Nästa fas (implementera när användaren säger kör)
 
-1. Dölj Bevis-flik + ClusterGrid-länk (Fyren only)
+1. Dölj Bevis-flik + ClusterGrid-länk (Fyren only, feature flag)
 2. Klickbara citations i ValvChatPanel
 3. Drive-ingest med manuellt godkännande → `reality_vault`
-4. Full Dossier-generator (samlad export)
+4. ~~Full Dossier-generator~~ → **done** (`DossierPage` + `generateDossier`; kvar: BBIC-mall, Vävaren försätt)
+5. Sanningens Ankare (`pinned`) + citation UX
 
 ## Security notes
 

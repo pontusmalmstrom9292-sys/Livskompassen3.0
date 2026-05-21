@@ -8,7 +8,7 @@
 
 Semantiskt livsminne (Life-OS): fråga/svar med källhänvisningar mot **egna** data. Avlastar kognitiv belastning. **Skild från Valv-Chat** (`reality_vault` = forensik only).
 
-**Kampspår** = datalager (`kampspar` + `kb_docs`). **Kunskapsvalvet** = UI + RAG ovanpå.
+**Minne** = datalager (`kampspar` + `kb_docs`). **Kunskapsvalvet** = UI + RAG ovanpå.
 
 ## UI (idag)
 
@@ -49,6 +49,7 @@ Semantiskt livsminne (Life-OS): fråga/svar med källhänvisningar mot **egna** 
 
 ## Kladd 2026-05-21
 
+- **Profil-seed:** 47 poster i [`Kampspar-PROFIL-SEED.json`](../../docs/specs/incoming/Kampspar-PROFIL-SEED.json) — batch via `scripts/seed_kampspar_profile.mjs` (2026-05-21).
 - **Routing:** Metodartiklar (gaslighting, BBIC-tips, coping) → Kunskap — **inte** Valv/Hamn.
 - **Policy (låst):** Trauma/LVU/beroende → opt-in manuell ingest per post ([`Kladd-2026-05-21-kampspar-kandidater.md`](../../docs/specs/incoming/Kladd-2026-05-21-kampspar-kandidater.md)).
 - **Gap:** Ingen auto-RAG från rå Kladd; Livs-Coachen ≠ Ekonomi.

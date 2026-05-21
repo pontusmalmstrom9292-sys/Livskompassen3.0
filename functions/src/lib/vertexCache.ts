@@ -24,7 +24,7 @@ const CACHE_TTL_SECONDS = 3600;
 
 export interface ContextCacheOptions {
   systemInstruction: string;
-  backgroundDocuments: string[]; // T.ex. RAG-hämtade Kampspår-textblock
+  backgroundDocuments: string[]; // T.ex. RAG-hämtade Minne-textblock
   ttlSeconds?: number;
 }
 
@@ -71,7 +71,7 @@ export async function getOrCreateCache(
     contents: [
       {
         role: 'user',
-        parts: [{ text: `BAKGRUNDSKONTEXT (Kampspår & historik):\n\n${contextContent}` }],
+        parts: [{ text: `BAKGRUNDSKONTEXT (Minne & historik):\n\n${contextContent}` }],
       },
     ],
     ttl: { seconds: options.ttlSeconds ?? CACHE_TTL_SECONDS },

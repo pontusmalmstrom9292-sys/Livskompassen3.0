@@ -1,11 +1,12 @@
 import type { MabraSymptomHub } from '../types';
-import { SYMPTOM_HUB_OPTIONS } from '../constants';
+import { SYMPTOM_HUB_OPTIONS, VALUES_COMPASS_COPY } from '../constants';
 
 type Props = {
   onSelect: (hub: MabraSymptomHub) => void;
+  onOpenValues: () => void;
 };
 
-export function SymptomHub({ onSelect }: Props) {
+export function SymptomHub({ onSelect, onOpenValues }: Props) {
   return (
     <div className="space-y-3">
       <p className="text-sm text-text-muted">Vad behöver hjärnan just nu?</p>
@@ -20,6 +21,9 @@ export function SymptomHub({ onSelect }: Props) {
           <p className="mt-1 text-sm text-text-dim">{option.hint}</p>
         </button>
       ))}
+      <button type="button" onClick={onOpenValues} className="btn-pill--ghost w-full text-sm">
+        {VALUES_COMPASS_COPY.hubLinkLabel}
+      </button>
     </div>
   );
 }

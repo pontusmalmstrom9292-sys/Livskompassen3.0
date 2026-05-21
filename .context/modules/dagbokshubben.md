@@ -46,7 +46,7 @@
 
 | Klart | Delvis | Planerat |
 |-------|--------|----------|
-| Wizard, journal, WORM, Vävaren, Speglar-bro, röst, Fyren, arkiv pagination, unmount cleanup | Vävaren auto utan godkännande | Måbra-bro, KBT-frågor, villkorlig Speglar, humör-only, KASAM-kväll |
+| Wizard, journal, WORM, Vävaren, Speglar-bro, röst, Fyren, arkiv pagination, unmount cleanup, inbound Måbra-bro (`?from=mabra`) | Vävaren auto utan godkännande | Outbound Måbra-länk, KBT-frågor, villkorlig Speglar, generellt humör-only |
 
 ## Kladd 2026-05-21
 

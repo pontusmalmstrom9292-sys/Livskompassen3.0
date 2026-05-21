@@ -6,7 +6,7 @@ export async function deleteOldInteractions(db: FirebaseFirestore.Firestore, ret
   const retentionDate = new Date();
   retentionDate.setDate(retentionDate.getDate() - retentionDays);
 
-  console.log(`[GDPR] Startar radering av Kampspår-händelser äldre än: ${retentionDate.toISOString()}`);
+  console.log(`[GDPR] Startar radering av Minne-händelser äldre än: ${retentionDate.toISOString()}`);
 
   const kampsparRef = db.collection('kampspar_logs');
   

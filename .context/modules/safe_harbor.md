@@ -15,7 +15,7 @@ Känslomässig brandvägg för ex-kommunikation. BIFF + Grey Rock utan JADE. Kog
 | Variant | Ingång |
 |---------|--------|
 | **A (aktiv)** | FloatingDock Anchor, HomePage bento |
-| **B (planerad)** | Bro från `/speglar` med meddelande/kontext |
+| **B (done)** | Bro från `/speglar` med `prefilledMessage` |
 
 ## 3. UX-flöde
 
@@ -32,7 +32,7 @@ Obsidian Calm enligt design-master. Guld/indigo/emerald. Fortsätt-knapp idigo i
 | Lagring | Standard | WORM |
 |---------|----------|------|
 | Hamn UI | Zero Footprint — inget sparas | — |
-| "Spara som bevis" | planerad → `reality_vault` | ja |
+| "Spara som bevis" | **done** → `reality_vault` (`action: hamn_biff`) | ja |
 
 ## 6. Backend
 
@@ -56,6 +56,8 @@ Obsidian Calm enligt design-master. Guld/indigo/emerald. Fortsätt-knapp idigo i
 | riskScore i UI | | Dölj sms tills "har energi" |
 | Bro Speglar→Hamn | | |
 | AuthGate, dock, bento | | |
+| Spara som bevis → valv | | |
+| Speglar-bro (`prefilledMessage`) | | |
 
 ## Kladd 2026-05-21
 
@@ -70,8 +72,8 @@ Se incoming SPEC — rad 1–2 delvis klara, 3–4 planerade.
 
 ## 10. Kopplingar
 
-- **Speglings-Systemet** — naturlig bro vid gaslighting (planerad)
-- **Verklighetsvalvet** — valfri WORM-export av ex-meddelande (planerad)
+- **Speglings-Systemet** — bro vid gaslighting (**done**, `prefilledMessage`)
+- **Verklighetsvalvet** — valfri WORM-export av ex-meddelande (**done**, `saveVaultLog`)
 
 ## 11. Navigation
 

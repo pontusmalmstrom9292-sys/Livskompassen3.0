@@ -25,6 +25,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [attachError, setAttachError] = useState<string | null>(null);
+  const [pinned, setPinned] = useState(false);
 
   const appendVoice = useCallback(
     (chunk: string) => {
@@ -51,6 +52,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
     setShieldBoundary('');
     setPendingFile(null);
     setAttachError(null);
+    setPinned(false);
   };
 
   const toggleSignal = (signal: string) => {
@@ -59,8 +61,11 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
     );
   };
 
-  const withEvidence = (payload: VaultLogInput, evidenceUrl?: string): VaultLogInput =>
-    evidenceUrl ? { ...payload, evidenceUrl } : payload;
+  const withEvidence = (payload: VaultLogInput, evidenceUrl?: string): VaultLogInput => {
+    let next = evidenceUrl ? { ...payload, evidenceUrl } : payload;
+    if (pinned) next = { ...next, pinned: true };
+    return next;
+  };
 
   const buildPayload = (evidenceUrl?: string): VaultLogInput | null => {
     const cat = category.trim() || 'allmänt';
@@ -326,6 +331,16 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
         )}
         {attachError && <p className="text-xs text-danger">{attachError}</p>}
       </div>
+
+      <label className="flex items-center gap-2 text-xs text-text-dim">
+        <input
+          type="checkbox"
+          checked={pinned}
+          onChange={(e) => setPinned(e.target.checked)}
+          className="rounded border-border-strong"
+        />
+        Sanningens Ankare — fäst post (read-only i Morgonkompassen)
+      </label>
 
       <button
         type="button"

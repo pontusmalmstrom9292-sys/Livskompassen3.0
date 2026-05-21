@@ -19,7 +19,7 @@ export interface KnowledgeVaultResult {
 }
 
 function buildContextBlock(chunks: Awaited<ReturnType<typeof fetchKampsparEvidenceForQuery>>): string {
-  if (chunks.length === 0) return '(inga poster i Kampspår eller kb_docs)';
+  if (chunks.length === 0) return '(inga poster i Minne eller kb_docs)';
   return chunks
     .map(
       (c) =>
@@ -108,7 +108,7 @@ export async function askKnowledgeVaultWithRag(
   if (chunks.length === 0) {
     return {
       answer:
-        'Inga poster i Kampspår ännu. Lägg till material under Tidshjulet-fliken eller importera via Drive.',
+        'Inga poster i Minne ännu. Lägg till material under Tidshjulet-fliken eller importera via Drive.',
       citations: [],
     };
   }
@@ -116,7 +116,7 @@ export async function askKnowledgeVaultWithRag(
   const prompt = `Användarens fråga:
 ${question}
 
-Kampspår-kontext — använd ENDAST dessa docId + collection i citations:
+Minne-kontext — använd ENDAST dessa docId + collection i citations:
 ${buildContextBlock(chunks)}
 
 Returnera JSON:
