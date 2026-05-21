@@ -1,7 +1,8 @@
 # Verklighetsvalvet-SPEC
 
-Källa: konsoliderad från 5 notebook-svar (2026-05) + kodgranskning mot `src/modules/verklighetsvalvet/`, `src/modules/valv_chatt/` och `functions/`.  
-Konsoliderad till [`.context/modules/verklighetsvalvet.md`](../../../.context/modules/verklighetsvalvet.md).
+Källa: konsoliderad från 5 notebook-svar (2026-05) + Kladd 2026-05-21 + kodgranskning.  
+Konsoliderad till [`.context/modules/verklighetsvalvet.md`](../../../.context/modules/verklighetsvalvet.md).  
+**Kladd-master:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §D–§H.
 
 ## 1. Syfte och användarbehov
 

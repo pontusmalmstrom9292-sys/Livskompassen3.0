@@ -1,5 +1,7 @@
 # ekonomi — module plan
 
+**Canonical spec:** [`docs/specs/incoming/Ekonomi-SPEC.md`](../../docs/specs/incoming/Ekonomi-SPEC.md) · **Context:** [`.context/modules/ekonomi.md`](../../.context/modules/ekonomi.md)
+
 ## Overview
 
 Personal economy module: liquidity, transactions, savings goals — aligned with Livskompassen "Life OS" budget tracking.

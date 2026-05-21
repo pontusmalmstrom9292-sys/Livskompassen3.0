@@ -40,7 +40,9 @@ firebase deploy --only storage
 
 Utan aktiverad Storage + deploy misslyckas skärmdump-uppladdning i prod.
 
-Valfritt i samma körning (redan i repo, ej kritisk för hjärtat): `breakDownResponse`, `getAgentRegistry`.
+Valfritt i samma körning (redan i repo, ej kritisk för hjärtat): `breakDownResponse`, `getAgentRegistry`, `generateDossier`.
+
+**Dossier smoke:** `npm run smoke:dossier` efter deploy av `functions:generateDossier`. Om signed URL failar i loggar: Functions service account behöver `iam.serviceAccounts.signBlob` — appen faller tillbaka till `pdfBase64` i svaret.
 
 **Obs:** En full deploy `firebase deploy --only functions` inkluderar `notifyNewFile`, som kräver secret (se nedan).
 

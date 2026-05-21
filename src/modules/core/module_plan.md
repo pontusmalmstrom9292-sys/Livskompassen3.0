@@ -1,5 +1,7 @@
 # core — module plan
 
+**Canonical spec:** [`docs/specs/incoming/Core-SPEC.md`](../../docs/specs/incoming/Core-SPEC.md) · **Context:** [`.context/modules/core.md`](../../.context/modules/core.md)
+
 ## Overview
 
 Shared shell: layout chrome, design-system UI, global Zustand store, Firebase client init, and cross-cutting Firestore type definitions.

@@ -18,7 +18,8 @@ Se Dossier-SPEC tabell. Fyren A, backend PDF, snapshot WORM evigt, hela dokument
 | `generateDossier` + hash | Sacred Feature | Ja | **done** |
 | `dossier_snapshots` WORM | Evigt snapshot | Ja | **done** |
 | BBIC `reportType` | §I.4 öppen | Nej | **planned** |
-| Bro från Valv/Barnen | Kladd | Nej | **planned** |
+| Flik Dossier i Valv | Logga/Sök/Dossier | Ja | **done** |
+| Bro från Barnen | Kladd | Nej | **planned** |
 | Vävaren försätt opt-in | AI endast försätt | Nej | **planned** |
 | Async `dossier_jobs` | Lång kö | Nej | **planned** |
 
@@ -32,7 +33,8 @@ Se Dossier-SPEC tabell. Fyren A, backend PDF, snapshot WORM evigt, hela dokument
 | `types.ts` | Input/result types | **done** |
 | `utils/dossierCandidates.ts` | Filter, kandidatlista | **done** |
 | `api/dossierService.ts` | `generateDossier` callable | **done** |
-| `functions/src/lib/generateDossierInternal.ts` | Hash, PDF, snapshot, signed URL | **done** |
+| `functions/src/lib/generateDossierInternal.ts` | Hash, PDF, snapshot, signed URL / pdfBase64 | **done** |
+| `scripts/smoke_dossier.mjs` | E2E smoke | **done** |
 
 ## Relaterad kod (snabbexport)
 
@@ -47,10 +49,19 @@ Se Dossier-SPEC tabell. Fyren A, backend PDF, snapshot WORM evigt, hela dokument
 firebase deploy --only firestore:rules,storage,functions:generateDossier
 ```
 
+## Smoke
+
+```bash
+npm run smoke:dossier
+```
+
+Se [`docs/SMOKE_RESULTS.md`](../../../docs/SMOKE_RESULTS.md) § Dossier smoke.
+
 ## Nästa fas
 
-1. Bro *Skapa Dossier* i Valv/Barnen
-2. Async `dossier_jobs` om PDF > ~10 s
+1. Bro *Skapa Dossier* i Barnen (Valv-flik klar)
+2. GCP: `signBlob` för signed URL (valfritt — base64 fungerar)
+3. Async `dossier_jobs` om PDF > ~10 s
 3. Vävaren opt-in försätt (AI)
 4. BBIC `reportType`
 
