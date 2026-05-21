@@ -1,8 +1,9 @@
 import { LIVS_ARKIVARIEN_SYSTEM_PROMPT } from '../sharedRules';
-import { fetchKampsparEvidenceForQuery } from '../lib/kampsparQueryRag';
 import { createGenAI } from '../lib/genaiClient';
+import { fetchKampsparEvidenceForQuery } from '../lib/kampsparQueryRag';
 
-const ai = createGenAI();
+/** Google AI / Vertex via @google/genai — kräver GEMINI_API_KEY i prod om Vertex-modeller saknas. */
+const KNOWLEDGE_VAULT_MODEL = 'gemini-2.0-flash';
 
 export interface KnowledgeVaultCitation {
   docId: string;
@@ -67,6 +68,26 @@ function parseKnowledgeVaultJson(
   }
 }
 
+function buildDegradedResponse(chunks: KampsparEvidenceChunk[]): KnowledgeVaultResult {
+  const top = chunks.slice(0, 3);
+  const lead = top[0];
+  const answer = lead
+    ? `Jag hittade ${chunks.length} relevanta poster. Senaste: «${lead.title}» — ${lead.excerpt}`
+    : 'Inga matchande poster hittades.';
+  return {
+    answer,
+    citations: top.map((c) => ({
+      docId: c.docId,
+      collection: c.collection,
+      date: c.date,
+      title: c.title,
+      excerpt: c.excerpt,
+    })),
+  };
+}
+
+type KampsparEvidenceChunk = Awaited<ReturnType<typeof fetchKampsparEvidenceForQuery>>[number];
+
 export async function askKnowledgeVaultWithRag(
   uid: string,
   question: string
@@ -100,13 +121,16 @@ ${buildContextBlock(chunks)}
 Returnera JSON:
 {"answer":"kort svar på svenska","citations":[{"docId":"...","collection":"kampspar|kb_docs","date":"YYYY-MM-DD","title":"...","excerpt":"..."}]}`;
 
+  const systemInstruction = `${LIVS_ARKIVARIEN_SYSTEM_PROMPT}
+Returnera ENDAST giltig JSON utan markdown. Hallucinera aldrig utan bevis i kontexten.`;
+
   try {
+    const ai = createGenAI();
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash-001',
+      model: KNOWLEDGE_VAULT_MODEL,
       contents: prompt,
       config: {
-        systemInstruction: `${LIVS_ARKIVARIEN_SYSTEM_PROMPT}
-Returnera ENDAST giltig JSON utan markdown. Hallucinera aldrig utan bevis i kontexten.`,
+        systemInstruction,
         temperature: 0.15,
         maxOutputTokens: 700,
       },
@@ -117,12 +141,9 @@ Returnera ENDAST giltig JSON utan markdown. Hallucinera aldrig utan bevis i kont
     if (parsed) return parsed;
 
     console.warn('[Knowledge Vault RAG] Kunde inte parsa JSON:', raw.slice(0, 200));
-    return {
-      answer: 'Kunde inte tolka AI-svaret. Försök formulera frågan kortare.',
-      citations: [],
-    };
+    return buildDegradedResponse(chunks);
   } catch (error) {
-    console.error('[Knowledge Vault RAG] Fel:', error);
-    throw new Error('Kunskapsvalvet kunde inte svara.');
+    console.error('[Knowledge Vault RAG] LLM fel — degraded RAG-fallback:', error);
+    return buildDegradedResponse(chunks);
   }
 }

@@ -49,10 +49,27 @@ Output: Dagbok-SPEC.md
 ## Verklighetsvalvet
 
 ```
-MODUL: Verklighetsvalvet (Sacred, Lager 2). Route /valv, Shield 3s, PIN, WORM.
-Befintlig: VaultPage, saveVaultLog, Shake-to-Kill.
-Planera: tvåspalt, magkänsel, trestegs-sköld, media, röst, PDF, panik-stäng.
-Output: Verklighetsvalvet-SPEC.md
+MODUL: Verklighetsvalvet (Sacred, Lager 2 — Sanningens Sköld).
+
+Route: /dagbok?tab=bevis (redirect /valv). AuthGate. Fyren: 3s long-press dock BookOpen → WebAuthn → PIN.
+
+SYFTE: WORM-bevisbank mot gaslighting. Skild från Dagbok (Lager 1) och Kunskap (kb_docs).
+
+FUNKTIONER IDAG:
+- VaultPage: PIN-gate, flikar Logga | Sök (Valv-Chat)
+- entryType: simple, two_column, three_shield, body_signal
+- Klient saveVaultLog → reality_vault (append-only, assertWormPayload)
+- Media: uploadVaultEvidence → evidenceUrl (en fil)
+- Röst: Web Speech sv-SE → truth (ingen ljud-Blob)
+- ValvChatPanel → valvChatQuery → Sannings-Analytikern (token-match vaultRag)
+- Per-post PDF: exportVaultRecordAsPdf
+- Shake-to-Kill (15 m/s², 2s debounce); flikbyte låser session
+
+PLANERAT: dölj synlig Bevis-flik (Fyren only), klickbara citations, Drive→valv manuellt, Dossier batch PDF, Sanningens Ankare
+
+KOPPLINGAR: Dagbok (vävaren_metadata), Valv-Chat, Speglar, Hamn (valfri save), Kunskap (skild — Drive→kb_docs)
+
+Output: [`docs/specs/incoming/Verklighetsvalvet-SPEC.md`](incoming/Verklighetsvalvet-SPEC.md) (konsoliderad 2026-05)
 ```
 
 ---

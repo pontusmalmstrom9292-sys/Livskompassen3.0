@@ -1,95 +1,77 @@
 # Verklighetsvalvet
 
-**Sacred Feature.** **Route:** `/valv` · **AuthGate:** ja  
-**Design:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md) (Obsidian Calm, Riktning A)  
-**Incoming spec:** [`docs/specs/incoming/Verklighetsvalvet-SPEC.md`](../../docs/specs/incoming/Verklighetsvalvet-SPEC.md)
+**Sacred Feature (Sanningens Sköld).** **Route:** `/dagbok?tab=bevis` · **Redirect:** `/valv` · **AuthGate:** ja  
+**Spec (konsoliderad):** [`docs/specs/incoming/Verklighetsvalvet-SPEC.md`](../../docs/specs/incoming/Verklighetsvalvet-SPEC.md)
 
----
+## Syfte
 
-## 1. Syfte och användarbehov
+**Lager 2** — WORM-bevisbank mot gaslighting. Append-only, tidsstämplade sanningar. Skild från Dagbok (Lager 1). Plausible deniability via **Fyren** (dold ingång).
 
-WORM-bevisbank (Lager 2) mot gaslighting. Append-only, tidsstämplade sanningar. Skild från Dagbok (Lager 1).
+## UI (idag)
 
-## 2. Route och ingång
+| Komponent | Roll |
+|-----------|------|
+| `HjartatPage` | Kluster: Reflektion \| Bevis \| Speglar |
+| `VaultPage` | PIN-gate, flikar Logga \| Sök, Stäng → Reflektion |
+| `VaultEntryForm` | Enkel / tvåspalt / tresteg / magkänsel + media + röst |
+| `VaultLogList` | Append-only lista + PDF per post |
+| `ValvChatPanel` | Sök-flik → `valvChatQuery` |
+| `FloatingDock` | Fyren: 3s BookOpen → WebAuthn → bevis |
 
-| Variant | Ingång |
-|---------|--------|
-| **A (aktiv)** | FloatingDock Shield — 3s long-press → PIN |
-| **B (planerad)** | Long-press BookOpen (Dagbok) → `/valv` |
+**Inmatning:** `entryType` + `truth`; media = **en** `evidenceUrl`. Röst = Web Speech → text.
 
-## 3. UX-flöde
+## Navigation
 
-1. Fyren 3s + PIN (WebAuthn partial)
-2. Välj inmatningstyp → spara → lista
-3. **Enkel** — fakta/text  
-4. **Tvåspalt** — hens version vs min verklighet  
-5. **Trestegs-sköld** — vad händer / känsla / gräns (progressive)  
-6. **Magkänsel** — snabbknappar + valfri notering  
-7. **Stäng** → `/dagbok`  
-8. **Shake** → `/` (kill switch)
+| Ingång | Beteende |
+|--------|----------|
+| **Fyren** (3s long-press BookOpen) | WebAuthn → PIN → `/dagbok?tab=bevis` |
+| Flik **Bevis** (synlig idag) | Direkt till valv (svagare plausible deniability) |
+| `/valv` | Redirect → `?tab=bevis`; standalone kräver gate |
+| **Mål:** dölj Bevis-flik | Endast Fyren — när muskelminne sitter |
 
-**Klart (kod):** media-uppladdning, röst-memo, per-post PDF (`exportVaultRecordAsPdf`).  
-**Planerat:** full Dossier-sammanställning — se [`.context/modules/dossier.md`](dossier.md).
+## Datamodell (WORM)
 
-## 4. Visuell design
+- **`reality_vault`:** action, truth, category, entryType, theirVersion, myReality, bodySignals, shield*, evidenceUrl, isLocked, weaverTags?, ownerId, createdAt — append-only
+- **Async:** `weaveJournalEntry` → `vävaren_metadata` (filtreras i Valv-Chat)
 
-Glass card, guld/indigo/emerald enligt design-master. PIN-fält obsidian.
+## Backend
 
-## 5. Datamodell
+| Path | Data |
+|------|------|
+| Klient `saveVaultLog` | `reality_vault` (inte callable) |
+| `uploadVaultEvidence` | Storage → `evidenceUrl` |
+| `valvChatQuery` | RAG token-match, Sannings-Analytikern |
+| `exportVaultRecordAsPdf` | Klient print per post |
 
-| Collection | Fält | WORM |
-|------------|------|------|
-| `reality_vault` | action, truth, category, entryType, theirVersion, myReality, bodySignals, shieldWhat/Feeling/Boundary, isLocked, serverTimestamp, weaverTags | ja |
+**Drive idag:** → `kb_docs` only. Till valv = **manuellt godkännande** (låst beslut).
 
-Vävaren från Dagbok: `category: vävaren_metadata`.
-
-## 6. Backend
-
-- `notifyNewFile` callable — Drive/webhook (**webhook planerad**)
-- Genkit entity extraction async (**planerat**)
-
-## 7. Säkerhet
-
-Fyren, PIN, Shake-to-Kill, Zero Footprint (vault session), CMEK, `assertWormPayload`.
-
-## 8. Status idag vs planerat
+## Status
 
 | Klart | Delvis | Planerat |
 |-------|--------|----------|
-| PIN, Fyren 3s, WORM rules + client guard | WebAuthn prod | Full Dossier-export |
-| Enkel, tvåspalt, tresteg, magkänsel | Vault session store | notifyNewFile webhook |
-| VaultLogList, saveVaultLog, media, röst-memo | | Variant B long-press Dagbok |
-| Per-post PDF (`exportVaultRecordAsPdf`) | | Valv-Chat |
-| Stäng → `/dagbok`, shake → `/` | | |
+| Fyren, WebAuthn, PIN, WORM, 4 entry modes, media, röst, PDF/post, Valv-Chat, shake, flik-lås | Synlig Bevis-flik (produktgap), Zero Footprint idle | Dölj Bevis-flik, klickbara citations, Drive→valv, Dossier batch, Sanningens Ankare, CMEK, duress-PIN |
 
-## 9. Acceptanskriterier
+## Säkerhet
 
-| # | Kriterium | Kod-status |
-|---|-----------|------------|
-| 1 | WORM — ingen update/delete | **done** (rules + assertWormPayload) |
-| 2 | Shake → `/` snabbt | **done** |
-| 3 | Tvåspalt + media/röst sparbar | **done** |
-| 4 | Per-post PDF (utskrift) | **done** — `exportVaultRecord.ts` |
-| 5 | Full Dossier (hash + snapshot) | **planned** — se `dossier.md` |
+- WORM rules + `assertWormPayload`
+- WebAuthn (Fyren) + PIN (VaultPage)
+- Valv-Chat RAM-reset vid flikbyte
+- Kill Switch: 15 m/s², debounce 2s
 
-## 10. Kopplingar
+## Produktbeslut (låsta 2026-05)
 
-- **Dagbok** — Vävaren async; Variant B dold route
-- **Speglings-Systemet** — EvidenceCompare läser valv
-- **Kunskap/Kampspår** — RAG indirekt
-- **Dossier** — per-post PDF idag; samlad export planerad → [`dossier.md`](dossier.md)
+1. Drive → valv: **manuellt godkännande**
+2. PDF: **klient per post**; Dossier callable senare
+3. Valv-Chat: **nollställ vid flikbyte**
+4. Auth: **WebAuthn + PIN** (duress senare)
+5. Bevis-flik: **dölj** när Fyren sitter i muskelminnet
 
-## 11. Navigation
+## Kopplingar
 
-Se [`docs/specs/navigation-master.md`](../../docs/specs/navigation-master.md): Variant A aktiv.
+- **Dagbok** — Vävaren + delad Fyren
+- **Valv-Chat** — [`valv_chatt.md`](valv_chatt.md)
+- **Speglar** — EvidenceCompare
+- **Kunskap** — skild RAG; Drive → kb_docs
+- **Dossier** — planerad aggregation
 
-## Kod
-
-`src/modules/verklighetsvalvet/` · plan: `src/modules/verklighetsvalvet/module_plan.md`
-
-## Gap — minimal nästa implementationsdiff
-
-1. Full Dossier — *Skapa Dossier* + `generateDossier` (se `dossier/module_plan.md`)  
-2. `notifyNewFile` webhook (se `docs/DRIVE_AUTOMATION.md`)  
-3. Variant B long-press på Dagbok (nav-beslut)  
-4. Valv-Chat
+Kod: `src/modules/verklighetsvalvet/` · Plan: [`src/modules/verklighetsvalvet/module_plan.md`](../../src/modules/verklighetsvalvet/module_plan.md) · Prompter: [`docs/specs/ai-prompts-heart.md`](../../docs/specs/ai-prompts-heart.md)

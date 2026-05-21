@@ -1,90 +1,63 @@
 # Speglings-Systemet
 
-**Sacred Feature.** **Route:** `/speglar` · **AuthGate:** ja · **Ej i dock**  
-**Design:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md) (Obsidian Calm, Riktning A)  
-**Incoming spec:** [`docs/specs/incoming/Speglar-SPEC.md`](../../docs/specs/incoming/Speglar-SPEC.md)
+**Sacred Feature** — reaktiv kognitiv sköld mot gaslighting/RSD.
 
----
+**Spec (konsoliderad):** [`docs/specs/incoming/Speglar-SPEC.md`](../../docs/specs/incoming/Speglar-SPEC.md)  
+**Design:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md) (Obsidian Calm)
 
-## 1. Syfte och användarbehov
+## Syfte
 
-Gaslighting-skydd: ACT (validera utan fixa), VIVIR, jämför känsla mot WORM-bevis. Copy max 2–4 meningar, Grey Rock, ingen JADE.
+ACT (validera, aldrig fixa) + VIVIR + jämför känsla mot WORM-bevis. Grey Rock, max 2–4 meningar, ingen JADE. **Skild från MåBra** (proaktiv KBT) och **Kunskap** (livsminne).
 
-## 2. Route och ingång
+## Route och ingång
 
-| Variant | Ingång |
-|---------|--------|
-| **A (aktiv)** | HomePage bento — **inte** FloatingDock |
-| **B (planerad)** | Bro från Dagbok sparad-steg (*gaslighting-copy*) |
+| | |
+|---|---|
+| **Route** | `/dagbok?tab=speglar` (redirect `/speglar`) |
+| **AuthGate** | `/dagbok` (Hjärtat) |
+| **Dock** | Inte i FloatingDock |
 
-## 3. UX-flöde
+**Ingång:** Dagbok `SavedStep` (`journalContext`) · flik **Speglar** i Hjärtat · ClusterGrid.
 
-Progressive disclosure — ett steg i taget:
+## UI-flöde
 
-1. ACT-kalibrering (`ActCalibrationView`)
-2. VIVIR fem steg (`VivirStepView`)
-3. Faktamatchning (`EvidenceCompareView`) mot `reality_vault`
+1. **ACT** — `ActCalibrationView` + valfri `speglingsMirror`
+2. **VIVIR** — fem steg (`VivirStepView`)
+3. **EvidenceCompare** — `matchVaultEvidence` mot `reality_vault` (kräver upplåst valv)
+4. **Hamn** — länk med `prefilledMessage` (redigerbart i Hamn)
 
-## 4. Visuell design
+Zero Footprint: state rensas vid unmount (`SpeglingsSystem`).
 
-- Obsidian Calm enligt design-master
-- Guld aktiv, indigo Fortsätt, emerald klar
-- AI-synapser `#6366F1` — **planerad** diskret accent
+## Datamodell
 
-## 5. Datamodell
+- **Läser:** `reality_vault` via klient `getVaultLogs(uid)`
+- **Match:** `matchVaultEvidence` (token + weaverTags; exkl. `vävaren_metadata`)
+- **Skriver:** inget permanent
 
-- **Läser** `reality_vault` via klient `getVaultLogs(uid)` (Firestore SDK)
-- `matchVaultEvidence` — token + `weaverTags`, exkluderar `vävaren_metadata`
-- Inga permanenta speglings-chattloggar
+## Backend
 
-## 6. Backend
+| Callable | Roll |
+|----------|------|
+| `speglingsMirror` | ACT-spegling (Speglings-Coachen prompt) |
 
-- **Idag:** Deterministisk UI, klient-side matchning
-- **Planerat:** Speglings-Coachen (Genkit/DCAP), max 4 meningar
+Fallback: `mirrorFeeling()` lokalt vid AI-fel.
 
-## 7. Säkerhet
+## Status
 
-- AuthGate; LLM är **inte** auktoritetskälla för bevis
-- Zero Footprint vid unmount — **planerat** (manuell "Ny kalibrering" finns)
-- Kill Switch: shake → `/`
+| Klart | Planerat |
+|-------|----------|
+| ACT, VIVIR, Compare, journalContext, valv-lås, mirror+fallback, `#6366F1`, Hamn-bro, unmount cleanup | Full DCAP/Genkit, Vector Search valv, enforced 4 meningar, Vävaren auto-bro |
 
-## 8. Status idag vs planerat
+## Säkerhet
 
-| Klart | Delvis | Planerat |
-|-------|--------|----------|
-| ACT, VIVIR, EvidenceCompare | Bro Dagbok→Speglar (copy) | Speglings-Coachen AI |
-| matchVaultEvidence + vävaren-filter | | `#6366F1` AI-accent |
-| getVaultLogs klientläsning | | Zero Footprint unmount |
-| HomePage bento-ingång | | journal/weaverTags som kontext |
-| | | Safe Harbor → BIFF |
+- Valv unlock (Fyren/PIN) före bevis
+- Kill Switch global
+- LLM ≠ auktoritet för bevis
 
-## 9. Acceptanskriterier
+## Kopplingar
 
-| # | Kriterium | Kod-status |
-|---|-----------|------------|
-| 1 | ACT+VIVIR+compare klickbar lokalt | **done** |
-| 2 | matchVaultEvidence exkluderar vävaren_metadata | **done** |
-| 3 | AI max 4 meningar, ingen JADE | **planned** |
-| 4 | State reset vid navigering bort | **planned** |
+- **Dagbok** → bro + context
+- **Verklighetsvalvet** → read-only bevis
+- **Hamn** → BIFF via `analyzeMessage`
 
-## 10. Kopplingar
-
-- **Dagbok** — bro SavedStep; weaverTags-kontext planerad
-- **Verklighetsvalvet** — WORM-bevis till compare
-- **Safe Harbor** — BIFF vid svar till ex (planerat)
-
-## 11. Navigation
-
-Se [`docs/specs/navigation-master.md`](../../docs/specs/navigation-master.md): Variant A aktiv.
-
-## Kod
-
-`src/modules/speglings_system/` · plan: `src/modules/speglings_system/module_plan.md`
-
-## Gap — minimal nästa implementationsdiff
-
-1. Speglings-Coachen Genkit-flow + DCAP-routing  
-2. Zero Footprint cleanup i `SpeglingsSystem` (unmount)  
-3. AI-accent `#6366F1` på coach-ytor  
-4. Route state från Dagbok (mood/text/weaverTags)  
-5. SavedStep copy synkad med Dagbok-SPEC (koordinera med dagbok-modulen)
+Kod: `src/modules/speglings_system/` · Plan: [`src/modules/speglings_system/module_plan.md`](../../src/modules/speglings_system/module_plan.md)

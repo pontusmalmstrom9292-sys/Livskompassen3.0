@@ -1,83 +1,248 @@
 # Verklighetsvalvet-SPEC
 
-Källa: extern planerings-AI. Konsoliderad till `.context/modules/verklighetsvalvet.md`.
+Källa: konsoliderad från 5 notebook-svar (2026-05) + kodgranskning mot `src/modules/verklighetsvalvet/`, `src/modules/valv_chatt/` och `functions/`.  
+Konsoliderad till [`.context/modules/verklighetsvalvet.md`](../../../.context/modules/verklighetsvalvet.md).
 
 ## 1. Syfte och användarbehov
 
-Sacred Feature — säker bevisbank (Lager 2). WORM-skydd (Write Once, Read Many) mot gaslighting: append-only, tidsstämplade sanningar. Komplexa bevis och känslomässiga observationer för att skydda verklighetsuppfattning.
+**Sacred Feature — Sanningens Sköld (Lager 2).** WORM-bevisbank mot gaslighting: append-only, tidsstämplade sanningar med objektiv struktur (tvåspalt, tresteg, magkänsel). Skyddar verklighetsuppfattning utan JADE — fakta före tolkning.
+
+**Strikt skild från Dagbok (Lager 1):** dagboken är mjuk och helande; valvet är kallt, forensiskt och juridiskt orienterat. **Plausible deniability:** appen ska kunna framstå som vanlig dagbok utåt; valv nås via **Fyren** (dold gest).
 
 ## 2. Route och ingång
 
-- **Route:** `/valv` (AuthGate)
-- **Variant A (aktiv):** Shield/Fyren i FloatingDock — 3s long-press + PIN (WebAuthn planerat i prod)
-- **Variant B (planerad):** Dold gest — long-press på Dagbok-ikon → `/valv`
+| | |
+|---|---|
+| **Route (primär)** | `/dagbok?tab=bevis` — `VaultPage` inbäddad i `HjartatPage` |
+| **Redirect** | `/valv` → `/dagbok?tab=bevis` |
+| **AuthGate** | Ja (Firebase Auth) |
+| **Kluster** | Hjärtat (flikar: Reflektion \| Bevis \| Speglar) |
+| **Fyren (dold ingång)** | **3s långtryck** på **dock BookOpen** → WebAuthn (`authenticateVaultGate`) → `setVaultGate()` → `/dagbok?tab=bevis` |
+| **Synlig ingång idag** | Flik **Bevis** i Hjärtat + `ClusterGrid` länk — **svagare** plausible deniability (se §14) |
+| **Standalone `/valv`** | Kräver `hasVaultGate()` — annars instruktion om Fyren |
+
+**Ingen egen Shield-ikon i dock** — Fyren sitter på BookOpen (Variant B i notebook = aktiv kod).
 
 ## 3. UX-flöde (Progressive Disclosure)
 
-Ett steg i taget vid stress/ångest:
+**Ett steg i taget vid stress/ångest.**
 
-1. **Ingång & auth** — 3s long-press → PIN
-2. **Inmatningstyp** — Enkel, Tvåspalt, Trestegs-sköld, Magkänsel
-3. **Trestegs-sköld** — vad händer / vad känner jag / hur vill jag att det ska vara
-4. **Tvåspalt** — hens version vs min verklighet/fakta
-5. **Magkänsel** — knappar (tunga axlar, klump i magen, svårt att andas) + valfri notering
-6. **Spara** — append-only till `reality_vault`
-7. **Stäng** — tillbaka till Lager 1 (`/dagbok` i kod idag)
-8. **Panik** — shake (`useShakeToKill`) → `/`
+### Ingång och auth
 
-**Planerat:** Bifoga media (skärmdump), röst-memo, PDF-export (Dossier).
+1. **Fyren:** 3s long-press BookOpen → WebAuthn → navigera till bevis-flik.
+2. **PIN-gate** (`PinGate` i `VaultPage`): första gången = skapa PIN (hash i `localStorage`); därefter verifiering. `VITE_VAULT_PIN` endast dev.
+3. **Upplåst valv:** flikar **Logga \| Sök** (Valv-Chat).
+
+### Inmatning (flik Logga)
+
+Välj `entryType` → fyll fält → spara → lista uppdateras.
+
+| `entryType` | UI | Sparade fält |
+|-------------|-----|--------------|
+| `simple` | Enkel text | `truth` |
+| `two_column` | Hens version / min verklighet | `theirVersion`, `myReality`, `truth` (kombinerad) |
+| `three_shield` | Vad händer / känsla / gräns (progressive) | `shieldWhat`, `shieldFeeling`, `shieldBoundary`, `truth` |
+| `body_signal` | Text-chips (`BODY_SIGNALS`) + valfri notering | `bodySignals[]`, `truth` |
+
+**Media:** en fil via `uploadVaultEvidence` → Storage `vault_evidence/{uid}/` → `evidenceUrl` (singular, **inte** `mediaUrls[]`).
+
+**Röst:** Web Speech API (`sv-SE`) — transkriberad text **appendas till `truth`**, ingen ljud-Blob till Storage.
+
+**Inte i valv-form idag:** `childImpact` / "Barnens citat" — det hör till `children_logs` (Barnen).
+
+### Sök (flik Sök)
+
+`ValvChatPanel` → `valvChatQuery` → Sannings-Analytikern. Session **nollställs** vid flikbyte/unmount (`useValvChatSession`).
+
+### Stäng och panik
+
+- **Stäng:** låser valv, rensar gate, tillbaka till Reflektion (`/dagbok`).
+- **Flikbyte** från Bevis: `clearVaultGate()` + `setVaultUnlocked(false)` i `HjartatPage`.
+- **Shake-to-Kill:** global `useShakeToKill` — tröskel **15 m/s²**, debounce **2s** → `executeKillSwitch()` + navigera `/`.
 
 ## 4. Visuell design (Obsidian Calm)
 
 Canonical: [`docs/specs/design-master.md`](../design-master.md)
 
-- Bakgrund `#020617`, yta `#0f172a` + glass blur
-- Guld `#FDE68A`, Fortsätt indigo `#818CF8`, spara emerald `#2DD4BF`
-- Outfit + Inter
-- Förbjudet: lila, turkos, regnbåge, naturteman, ljusa bakgrunder, count-up
+| Element | Token |
+|---------|--------|
+| Bakgrund | `#020617` (slate-950) |
+| Yta / glass | `#0f172a` + blur |
+| Aktiv / accent | `#FDE68A` (guld) |
+| Fortsätt | `#818CF8` (indigo) |
+| Spara / fakta | `#2DD4BF` (emerald) |
+| Typografi | Outfit + Inter |
+
+**Förbjudet:** lila (utöver indigo), turkos, regnbåge, naturteman, ljusa bakgrunder, count-up, gamification.
+
+**Magkänsel:** text-chips — **inte** SVG-ikoner (notebook #5).
 
 ## 5. Datamodell (Firestore, WORM)
 
-Collection `reality_vault`: append-only via Security Rules + `assertWormPayload`.
+Skrivskydd via Security Rules: `create` med `ownerId == auth.uid`; `update, delete: if false`. Klient: `assertWormPayload` blockerar mutationsfält.
 
-Fält (utökade): `action`, `truth`, `category`, `entryType`, `theirVersion`, `myReality`, `bodySignals`, `shieldWhat`, `shieldFeeling`, `shieldBoundary`, `isLocked`, `serverTimestamp`, `weaverTags` (async).
+### Collection: `reality_vault`
 
-Async från Dagbok: `weaveJournalEntry` → `category: vävaren_metadata`.
+| Fält | Typ | Notering |
+|------|-----|----------|
+| `ownerId` | string | Krävs (via `withUserId`) |
+| `userId` | string | Spegel av ownerId |
+| `action` | string | `'bevis'` (standard från form) |
+| `truth` | string | Huvudtext / sammanfattning |
+| `category` | string? | Valfri kategori |
+| `entryType` | string? | `simple`, `two_column`, `three_shield`, `body_signal` |
+| `theirVersion` | string? | Tvåspalt |
+| `myReality` | string? | Tvåspalt |
+| `shieldWhat/Feeling/Boundary` | string? | Tresteg |
+| `bodySignals` | string[]? | Magkänsel |
+| `evidenceUrl` | string? | **En** media-URL (Storage) |
+| `isLocked` | boolean | Sätts `true` vid create (`saveVaultLog`) |
+| `weaverTags` | object? | Async från Vävaren (`vävaren_metadata`) |
+| `createdAt` | timestamp | server-side |
+
+**Async från Dagbok:** `weaveJournalEntry` → `category: vävaren_metadata` (filtreras bort i Valv-Chat RAG som standard).
+
+**Drive idag:** `notifyNewFile` / ingest → **`kb_docs`** (Kunskap) — **inte** auto till `reality_vault`.
 
 ## 6. Backend och agenter
 
-- **Callable:** `notifyNewFile` — Drive/webhook för inkommande skärmdumpar (webhook **planerad**)
-- **Agenter:** Gemini/Genkit bearbetar bevis asynkront (planerat)
+Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sharedRules.ts).
+
+| Callable / lib | Roll |
+|----------------|------|
+| Klient `saveVaultLog` | Direkt Firestore `addDoc` → `reality_vault` — **inte** callable |
+| `uploadVaultEvidence` | Storage → `evidenceUrl` |
+| `weaveJournalEntry` | Dagbok → async WORM i `reality_vault` |
+| `valvChatQuery` | `valvChatAgent` + `fetchVaultEvidenceForQuery` (token-match) → JSON `{ answer, citations[] }` |
+| `getVaultLogs` | Klient-read för lista + Speglar |
+
+**Valv-Chat agent:** **Sannings-Analytikern** — **inte** Livs-Arkivarien / Mönster-Arkivarien.
+
+**RAG:** token-match på senaste ~100 poster (`vaultRag.ts`); exkluderar `vävaren_metadata`. **Ingen** ANN/Vector Search i MVP.
+
+**PDF:** klient `exportVaultRecordAsPdf` (utskriftsdialog) per post — **inte** server-side BBIC batch.
+
+**Planerat:** `generateDossier` (Dossier-modul), Drive → valv med manuellt godkännande, `notifyNewFile`-webhook för valv-kandidater.
 
 ## 7. Säkerhet
 
-- Kill Switch + shake → rensa state, navigera hem
-- Zero Footprint: formulär rensas vid timeout/bakgrund (delvis — vault session via store)
-- CMEK (drift)
-- Auth: PIN dev; WebAuthn prod (**partial** — client MVP)
+| Kontroll | Status |
+|----------|--------|
+| AuthGate + Firestore `ownerId` | **done** |
+| WORM `reality_vault` (rules + `assertWormPayload`) | **done** |
+| Fyren: WebAuthn + `setVaultGate` | **done** (client MVP) |
+| PIN-gate före innehåll | **done** |
+| Session lock vid flikbyte (`HjartatPage`) | **done** |
+| Valv-Chat RAM-reset (`useValvChatSession`) | **done** |
+| Kill Switch + shake | **done** (15 m/s², 2s debounce) |
+| Zero Footprint idle (`useZeroFootprint` 5 min) | **partial** |
+| PIN-hash i `localStorage` | **done** (medvetet avvägning vs full Zero Footprint) |
+| CMEK / crypto-shredding | **planned** (drift/GCP) |
+| Duress-PIN | **planned** (ej MVP) |
+
+**Inte i MVP:** dold decoy-PIN, justerbar shake-tröskel i UI.
 
 ## 8. Status idag vs planerat
 
-**Idag:** VaultPage, PIN, Fyren 3s, VaultEntryForm (enkel/tvåspalt/tresteg/magkänsel), VaultLogList, WORM client guard, Stäng → `/dagbok`, shake → `/`.
-
-**Planerat:** Media-uppladdning, röst-memo, PDF/Dossier-export, `notifyNewFile`-webhook, Variant B (long-press Dagbok), full WebAuthn prod.
-
-*(Extern spec listade tvåspalt/tresteg/magkänsel som "ska byggas" — det är **implementerat** i `VaultEntryForm.tsx`.)*
+| Område | Status |
+|--------|--------|
+| Fyren 3s + progress ring på BookOpen | **done** |
+| WebAuthn vid Fyren | **done** (client MVP) |
+| PIN setup/verify i VaultPage | **done** |
+| WORM rules + client guard | **done** |
+| Enkel / tvåspalt / tresteg / magkänsel | **done** |
+| Media upload (`evidenceUrl`) | **done** |
+| Röst → text i `truth` | **done** |
+| VaultLogList + per-post PDF | **done** |
+| Valv-Chat (Sök-flik, `valvChatQuery`) | **done** |
+| Stäng → Lager 1, flikbyte låser | **done** |
+| Shake-to-Kill | **done** |
+| Synlig Bevis-flik i Hjärtat | **done** (produktgap vs plausible deniability) |
+| Klickbara citations i Valv-Chat | **planned** |
+| Dölj Bevis-flik (endast Fyren) | **planned** (beslut §14) |
+| Drive → `reality_vault` (manuellt) | **planned** |
+| Full Dossier / BBIC batch PDF | **planned** (`generateDossier`) |
+| Sanningens Ankare (pinned WORM-poster) | **planned** |
+| CMEK-verifiering i drift | **planned** |
+| Duress-PIN | **planned** |
 
 ## 9. Acceptanskriterier
 
-1. Firestore Rules blockerar `update`/`delete` på `reality_vault`
-2. Shake rensar formulär och navigerar till `/` under ~500 ms
-3. Tvåspalt + skärmdump/röst-memo sparbar (media **planerat**)
-4. PDF-export med tidsstämpel, text och mediareferenser (**planerat**)
+| # | Kriterium | Kod-status |
+|---|-----------|------------|
+| 1 | Firestore Rules blockerar `update`/`delete` på `reality_vault` | **done** |
+| 2 | Spara via klient `saveVaultLog` med `serverTimestamp` | **done** |
+| 3 | Fyren 3s BookOpen → WebAuthn → bevis-flik | **done** |
+| 4 | PIN krävs före form/lista | **done** |
+| 5 | Alla fyra `entryType` sparbar | **done** |
+| 6 | Media → Storage → `evidenceUrl` | **done** |
+| 7 | Röst fyller text, ingen ljudfil | **done** |
+| 8 | Valv-Chat läser endast `reality_vault` (exkl. vävaren) | **done** |
+| 9 | Chat nollställs vid flikbyte/unmount | **done** |
+| 10 | Per-post PDF (print) | **done** |
+| 11 | Flikbyte från Bevis låser session | **done** |
+| 12 | Shake → kill switch + `/` | **done** |
+| 13 | Klickbara citations | **planned** |
+| 14 | Dold Bevis-flik (Fyren only) | **planned** |
+| 15 | BBIC/Dossier mass-export | **planned** |
 
-## 10. Kopplingar
+## 10. Kopplingar till andra moduler
 
-- **Dagbok** — Vävaren async metadata; Variant B dold ingång
-- **Speglings-Systemet** — EvidenceCompare hämtar WORM-bevis härifrån
-- **Kunskap/Kampspår** — RAG via valvdata (indirekt, ej egen collection-write från valv-UI)
+| Modul | Relation |
+|-------|----------|
+| **Dagbok** | Vävaren async → `vävaren_metadata`; Fyren delad ingång |
+| **Valv-Chat** | Flik Sök i `VaultPage`; se [`Valv-Chat-SPEC.md`](./Valv-Chat-SPEC.md) |
+| **Speglings-Systemet** | `getVaultLogs` + `matchVaultEvidence` i EvidenceCompare |
+| **Hamn / BIFF** | `SafeHarborPage` kan `saveVaultLog` (valfri bevis-post) |
+| **Kunskap / Kampspår** | **Skild** — Drive → `kb_docs`; **ingen** gemensam RAG med Valv-Chat |
+| **Dossier** | Planerad aggregation från `reality_vault` + journal + barnen |
+| **Barnen** | `childrenImpact` i `children_logs` — **inte** i valv-form |
 
 ## 11. Navigation
 
-- **Variant A (aktiv):** Egen Shield-ikon, 3s long-press
-- **Variant B (planerad):** Shield bort; long-press Dagbok → `/valv`
+- **Dock:** BookOpen kort klick → `/dagbok` (Reflektion); **Fyren** 3s → `/dagbok?tab=bevis`
+- **Kluster:** Hjärtat — Reflektion \| Bevis \| Speglar
+- **Redirects:** `/valv` → `/dagbok?tab=bevis`
+- **ClusterGrid:** länk "Verklighetsvalvet" → `?tab=bevis` (synlig idag)
+- **Mål (§14):** dölj synlig Bevis-flik — endast Fyren
+
+## 12. Tidigare diskussioner att bevara (vision)
+
+- **Plausible deniability:** yttre granskare ser dagbok; valv via dold gest.
+- **Tvåspaltssystemet:** hens version vs min verklighet — JADE-stop via struktur.
+- **Trestegs-sköld:** objektivt → känsla → gräns (progressive disclosure).
+- **Magkänsel:** somatosensorisk ankring under hypervigilans.
+- **Sanningens Ankare:** pinned WORM-poster som referens vid gaslighting (planerat).
+- **BBIC / juridisk dossier:** batch-export via Dossier — inte MVP per-post print.
+- **Drive som kladd:** auto till Kunskap; valv kräver mänskligt godkännande.
+
+## 13. Avvisade eller alternativa idéer
+
+- **Google Apps Script / Kalkylark** — avvisat; Firebase Firestore.
+- **Callable `saveVaultLog`** — avvisat; klient WORM create med rules.
+- **`mediaUrls[]` / flera filer per post i MVP** — avvisat; en `evidenceUrl`.
+- **Röstmemo som ljudfil i Storage** — avvisat; transkribera till `truth`.
+- **Gemensam databas dagbok + valv** — avvisat; separata collections.
+- **Redigera/radera bevis** — avvisat (WORM).
+- **Valv-Chat → Kunskapsvalv RAG** — avvisat (cross-contamination).
+- **Drive auto → `reality_vault`** — avvisat; manuellt godkännande (§14).
+- **Shield som egen dock-ikon (Variant A)** — avvisat; Fyren på BookOpen.
+- **Magkänsel SVG-ikoner** — avvisat; text-chips.
+- **Livs-Arkivarien i Valv-Chat** — avvisat; Sannings-Analytikern.
+
+## 14. Öppna produktbeslut (låsta 2026-05)
+
+| # | Fråga | Beslut | Låst |
+|---|-------|--------|------|
+| 1 | Drive → `reality_vault` | **Manuellt godkännande**; Drive-auto endast till `kb_docs` | **Ja** |
+| 2 | PDF-export | **Klient per post nu**; BBIC/mass via **Dossier callable** senare | **Ja** |
+| 3 | Valv-Chat session | **Nollställ vid flikbyte** (behåll `useValvChatSession`) | **Ja** |
+| 4 | Auth | **WebAuthn + PIN**; duress-PIN **inte** MVP | **Ja** |
+| 5 | Synlig Bevis-flik | **Dölj** — implementera när **Fyren sitter i muskelminnet**; synlig flik tills dess | **Ja** |
+
+---
+
+**Module plan (kod):** [`src/modules/verklighetsvalvet/module_plan.md`](../../../src/modules/verklighetsvalvet/module_plan.md)  
+**Valv-Chat:** [`docs/specs/incoming/Valv-Chat-SPEC.md`](./Valv-Chat-SPEC.md)  
+**Prompter:** [`docs/specs/ai-prompts-heart.md`](../ai-prompts-heart.md), [`docs/specs/ai-prompts-moduler-master.md`](../ai-prompts-moduler-master.md)  
+**Flöde:** [`docs/specs/hjartat-flode.md`](../hjartat-flode.md)

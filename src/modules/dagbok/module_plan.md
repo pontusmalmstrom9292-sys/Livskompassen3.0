@@ -42,7 +42,11 @@ Route: `/dagbok` · Canonical: `.context/modules/dagbokshubben.md` · Spec: `doc
 | SavedStep gaslighting-copy | **done** |
 | StepIndicator (core/ui) | **done** — DagbokStepIndicator wrapper |
 | TimelineEntry (core/ui) | **done** — JournalEntryCard |
-| Variant B: long-press dagbok→valv | **planned** (nav-beslut) |
+| Fyren: 3s long-press dock BookOpen → bevis | **done** — `FloatingDock` + WebAuthn + PIN |
+| Måbra-bro vid låg energi | **planned** |
+| KBT-frågor per humör | **planned** |
+| Villkorlig Speglar-bro (Vävaren hot) | **planned** |
+| Humör-only save | **planned** |
 | DCAP → Speglings-Coachen (utöver mirror) | **planned** |
 
 ## Security notes
@@ -53,5 +57,6 @@ Route: `/dagbok` · Canonical: `.context/modules/dagbokshubben.md` · Spec: `doc
 
 ## Nästa fas (implementera när användaren säger kör)
 
-1. Variant B navigation (long-press dagbok → valv)  
-2. Utökad Speglings-Coachen-koppling via DCAP
+1. Måbra-bro + villkorlig Speglar efter Vävaren-hotnivå  
+2. KBT/ACT-prompter per humör; valfritt humör-only save  
+3. Utökad Speglings-Coachen-koppling via DCAP

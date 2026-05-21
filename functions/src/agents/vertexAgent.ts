@@ -25,6 +25,14 @@ export const askKnowledgeVault = async (prompt: string): Promise<string> => {
   }
 };
 
+function mirrorFeelingFallback(reflection: string): string {
+  const trimmed = reflection.trim();
+  const lead = trimmed
+    ? `Det du beskriver — "${trimmed.slice(0, 120)}${trimmed.length > 120 ? '…' : ''}" — är en begriplig reaktion.`
+    : 'Du behöver inte formulera perfekt. Det du känner räcker som start.';
+  return `${lead} Jag fixar inget här; jag speglar bara. Nästa steg är att skilja känsla från fakta (VIVIR).`;
+}
+
 export const askSpeglingsCoach = async (reflection: string, mood?: string): Promise<string> => {
   const prompt = mood
     ? `Humör från dagbok: ${mood}\nKänsla/reflektion: ${reflection}`
@@ -32,7 +40,7 @@ export const askSpeglingsCoach = async (reflection: string, mood?: string): Prom
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-pro',
+      model: 'gemini-2.0-flash',
       contents: prompt,
       config: {
         systemInstruction: SPEGLINGS_COACHEN_SYSTEM_PROMPT,
@@ -45,7 +53,7 @@ export const askSpeglingsCoach = async (reflection: string, mood?: string): Prom
     if (!text) throw new Error('Tomt speglings-svar.');
     return text;
   } catch (error) {
-    console.error('[Speglings-Coachen] Fel:', error);
-    throw new Error('Speglings-Coachen kunde inte svara.');
+    console.error('[Speglings-Coachen] Fel — degraded fallback:', error);
+    return mirrorFeelingFallback(reflection);
   }
 };

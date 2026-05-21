@@ -142,18 +142,85 @@ Route: /dagbok (HjartatPage, flik reflektion). AuthGate. Kluster: Hjärtat.
 SYFTE: Tacksamhets- och reflektionsdagbok med låg kognitiv belastning. Appens lugna ansikte — skild från Verklighetsvalvet (Lager 2).
 
 FUNKTIONER IDAG:
-- Progressive disclosure wizard: (1) humör-pills Lugn/Trött/Spänd/Hoppfull/Låg → (2) fritext reflektion → (3) bekräfta preview → (4) sparad
+- Progressive disclosure wizard: (1) humör-pills Lugn/Trött/Spänd/Hoppfull/Låg → (2) fritext + Web Speech sv-SE → (3) bekräfta → (4) sparad
 - Firestore journal (WORM): mood, text, ownerId, createdAt
-- Async weaveJournalEntry → reality_vault med category vävaren_metadata (Vävaren-taggar)
-- JournalArchive (senaste poster)
+- Async weaveJournalEntry (callable) → reality_vault vävaren_metadata
+- JournalArchive pagination (Visa fler); dolt under steg 2–4
 - Bro till Speglar efter sparad post (journalContext)
-- Röst-till-text sv-SE: delvis/planerad (useSpeechToText, ReflectionStep)
+- Fyren: 3s long-press dock BookOpen → PIN → /dagbok?tab=bevis
 
-PLANERAT: obegränsat arkiv, wizard unmount cleanup, long-press dagbok→valv (Variant B), full röst
+PLANERAT: Måbra-bro, KBT-frågor per humör, villkorlig Speglar via Vävaren, humör-only save, KASAM-kväll
 
-KOPPLINGAR: Speglar (bro), Verklighetsvalvet (vävaren), Kunskap (indirekt via vävaren_metadata)
+KOPPLINGAR: Speglar (bro), Verklighetsvalvet (vävaren + Fyren), Kunskap (ingen auto — Vävaren läser RAG only)
 
-Output: Dagbok-SPEC.md
+Output: [`docs/specs/incoming/Dagbok-SPEC.md`](incoming/Dagbok-SPEC.md) (konsoliderad 2026-05)
+```
+
+---
+
+## D. Modul-block — Verklighetsvalvet
+
+```
+MODUL: Verklighetsvalvet (Sacred · Lager 2 — Sanningens Sköld).
+
+Route: /dagbok?tab=bevis (redirect /valv). AuthGate. Fyren: 3s long-press dock BookOpen → WebAuthn → PIN.
+
+SYFTE: WORM-bevisbank mot gaslighting — append-only, tidsstämplade sanningar. Plausible deniability via dold Fyren-ingång.
+
+FUNKTIONER IDAG:
+- VaultPage embedded i HjartatPage: PIN-gate, flikar Logga | Sök
+- VaultEntryForm: entryType simple | two_column | three_shield | body_signal
+- Klient saveVaultLog → reality_vault (WORM, isLocked, serverTimestamp)
+- uploadVaultEvidence → evidenceUrl (en fil, inte mediaUrls[])
+- Web Speech sv-SE → truth (ingen ljudfil)
+- ValvChatPanel → valvChatQuery → vaultRag token-match → Sannings-Analytikern
+- useValvChatSession: nollställ vid flikbyte (Zero Footprint)
+- exportVaultRecordAsPdf per post; Shake-to-Kill; session lock vid flikbyte
+
+DATAMODELL: reality_vault — truth, action, category, entryType, theirVersion, myReality, bodySignals, shield*, evidenceUrl, isLocked, weaverTags?, ownerId, createdAt
+
+SKILJ FRÅN:
+- Dagbok (journal, mjukt Lager 1)
+- Kunskap (kampspar + kb_docs; Drive auto-ingest)
+- Valv-Chat läser ENDAST reality_vault (exkl vävaren_metadata)
+
+PRODUKTBESLUT (låsta): Drive→valv manuellt; PDF klient nu / Dossier senare; WebAuthn+PIN; dölj Bevis-flik när Fyren sitter
+
+PLANERAT: dölj synlig Bevis-flik, klickbara citations, Drive manuellt till valv, generateDossier batch, Sanningens Ankare
+
+Output: [`docs/specs/incoming/Verklighetsvalvet-SPEC.md`](incoming/Verklighetsvalvet-SPEC.md) (konsoliderad 2026-05)
+```
+
+---
+
+## D. Modul-block — Speglar (Speglings-Systemet)
+
+```
+MODUL: Speglar — reaktiv kognitiv sköld (Sacred Feature).
+
+Route: /dagbok?tab=speglar (redirect /speglar). AuthGate via Hjärtat. Dock: nej.
+
+SYFTE: ACT (validera, aldrig fixa) + VIVIR + jämför känsla mot WORM-bevis. Grey Rock, max 2–4 meningar, ingen JADE. Skild från MåBra (proaktiv KBT) och Kunskap (livsminne).
+
+FUNKTIONER IDAG:
+- Sekventiellt: ACT → VIVIR → EvidenceCompare (SpeglingsSystem.tsx)
+- journalContext från Dagbok SavedStep (mood, text)
+- matchVaultEvidence: klient token-match + weaverTags; exkl vävaren_metadata
+- getVaultLogs endast när valv upplåst (Fyren/PIN)
+- speglingsMirror callable + mirrorFeeling fallback
+- Hamn-bro: prefilledMessage (aktivt klick)
+- Zero Footprint: state rensas vid unmount; AI-accent #6366F1
+
+SKILJ FRÅN:
+- MåBra — proaktiv KBT
+- Kunskap — kampspar RAG
+- Hamn — BIFF mot ex (Speglar skickar aldrig automatiskt)
+
+PLANERAT: full DCAP Genkit, Vector Search valv, enforced 4 meningar backend, Vävaren auto-bro (opt-in)
+
+KOPPLINGAR: Dagbok (bro), Verklighetsvalvet (read-only), Hamn (BIFF)
+
+Output: [`docs/specs/incoming/Speglar-SPEC.md`](incoming/Speglar-SPEC.md) (konsoliderad 2026-05)
 ```
 
 ---
@@ -252,7 +319,7 @@ Markera tydligt: klart / delvis / planerat / motsägelse mot nuvarande kod i Liv
 Inkludera modul-katalog (sektion B) som sanning om routes och datalager.
 Fokus på: hur Kunskapsvalvet är uppbyggt (tre ytor), Dagbok-funktioner, Barnen, Måbra (ny).
 
-Spara som separata filer: Dagbok-SPEC.md, Kunskap-SPEC.md, Barnen-SPEC.md, Mabra-SPEC.md, etc.
+Spara som separata filer: Dagbok-SPEC.md, Kunskap-SPEC.md, Speglar-SPEC.md, Barnen-SPEC.md, Mabra-SPEC.md, etc.
 ```
 
 ---

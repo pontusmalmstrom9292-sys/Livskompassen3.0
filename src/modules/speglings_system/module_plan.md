@@ -1,10 +1,12 @@
 # speglings_system — module plan
 
+**Canonical spec:** [`docs/specs/incoming/Speglar-SPEC.md`](../../docs/specs/incoming/Speglar-SPEC.md) · **Context:** [`.context/modules/speglingssystemet.md`](../../.context/modules/speglingssystemet.md)
+
 ## Overview
 
 Speglings-Coachen — ACT + VIVIR + valvjämförelse mot WORM-bevis.
 
-Route: `/speglar` · Canonical: `.context/modules/speglingssystemet.md` · Spec: `docs/specs/incoming/Speglar-SPEC.md`
+Route: `/dagbok?tab=speglar` (redirect `/speglar`)
 
 ## Files
 
@@ -28,13 +30,13 @@ Route: `/speglar` · Canonical: `.context/modules/speglingssystemet.md` · Spec:
 | Glassmorphism Obsidian Calm | **done** |
 | Valvjämförelse (evidence-only filter) | **done** |
 | Klient `getVaultLogs` + matchVaultEvidence | **done** |
-| HomePage bento-ingång | **done** |
 | Ingång från dagbok SavedStep | **done** — `journalContext` prefiller känsla/humör |
+| Synlig flik Speglar i Hjärtat | **done** |
 | `speglingsMirror` callable (AI-spegling) | **done** — deterministisk fallback vid fel |
 | AI-accent `#6366F1` | **done** — `glass-card--ai`, `accent-ai` |
 | Zero Footprint vid unmount | **done** — SpeglingsSystem cleanup |
 | Dagbok journal/weaverTags som initial kontext | **done** |
-| Safe Harbor → BIFF routing | **planned** |
+| Safe Harbor → BIFF routing | **done** — länk `/hamn` + `prefilledMessage` |
 | Full DCAP Genkit-pipeline | **planned** (mirror callable räcker för smoke) |
 
 ## Valv-integration
@@ -48,7 +50,8 @@ Route: `/speglar` · Canonical: `.context/modules/speglingssystemet.md` · Spec:
 
 - Callable: `speglingsMirror` — deploy krävs för prod (se `docs/DEPLOY.md`)
 
-## Nästa fas (implementera när användaren säger kör)
+## Nästa fas
 
-1. Bro till `/hamn` med meddelande/kontext  
+1. Smoke prod: `speglingsMirror` deploy + UI (#14–15 checklista)
 2. Full DCAP Genkit Speglings-Coachen (utöver mirror)
+3. Enforced max 4 meningar i backend; ev. Vector Search på valv

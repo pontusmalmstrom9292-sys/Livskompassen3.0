@@ -11,10 +11,26 @@
 | `cd functions && npm run build` | **PASS** |
 | Firestore rules inkl. `kampspar` | **PASS** (lokal fil) |
 | Firestore indexes `kampspar`, `kb_docs` | **PASS** (lokal fil) |
+| `node scripts/smoke_kunskap.mjs` | **PASS** (2026-05-21) |
 
-## Manuella tester (kräver deploy + inloggning)
+## Kunskap smoke (automatiserat)
 
-Kör mot lokal `npm run dev` eller [Hosting](https://gen-lang-client-0481875058.web.app) efter deploy av nya functions.
+Kör: `npm run smoke:kunskap` (kräver `.env` med `VITE_FIREBASE_*`, Anonymous Auth, deployade callables).
+
+| Steg | Resultat | Notering |
+|------|----------|----------|
+| Anonymous Auth | **PASS** | |
+| `ingestKampsparEntry` | **PASS** | WORM create + docId |
+| `knowledgeVaultQuery` | **PASS** | Svar + citations från `kampspar` |
+| Citation pekar på ingest-doc | **PASS** | Token-match RAG |
+| Full Gemini/Vertex LLM | _Efter deploy `gemini-2.0-flash-001`_ | Kör `npm run smoke:kunskap` |
+| `embeddingDim` vid ingest | **null** | Embedding API (textembedding-gecko) svarar inte i prod — icke-blockerande |
+
+**För full AI-syntes:** Sätt `GEMINI_API_KEY` som Firebase secret och bind till functions, eller aktivera Vertex Generative AI-modeller för projektet i GCP Console.
+
+## Manuella tester (övriga moduler)
+
+Kör mot lokal `npm run dev` eller [Hosting](https://gen-lang-client-0481875058.web.app).
 
 | # | Test | Förväntat | Status |
 |---|------|-----------|--------|
@@ -24,23 +40,28 @@ Kör mot lokal `npm run dev` eller [Hosting](https://gen-lang-client-0481875058.
 | 4 | Barnen | `children_logs` | **Ej körd** |
 | 5 | Kompasser | `checkins` | **Ej körd** |
 | 6 | Hamn BIFF | Grey Rock-svar | **Ej körd** |
-| 7 | Kunskap RAG | Svar + citations från `kampspar`/`kb_docs` | **Ej körd** — kräver `ingestKampsparEntry` + `knowledgeVaultQuery` deploy |
-| 8 | Kampspår ingest | Tidshjulet visar nod + lista | **Ej körd** |
+| 7 | Kunskap RAG (UI) | Svar + citations i chat | **Ej körd** — callables OK via script |
+| 8 | Kampspår ingest (UI) | Tidshjulet visar nod | **Ej körd** — callable OK via script |
 | 9 | Hamn → bevis | Original sparas i `reality_vault` | **Ej körd** |
 | 10 | Speglar → Hamn | Länk med förifylld text | **Ej körd** |
 | 11 | Dossier route | `/dossier` visar stub | **Ej körd** |
-| 12 | KompisAvatar | Header visar avatar vid Kunskap-laddning | **Ej körd** |
+| 12 | KompisAvatar | Header pulserar vid Kunskap-fråga | **Ej körd** |
 
-## Deploy-krav för nya features
+## Deploy-krav för Kunskap
 
 ```bash
 firebase deploy --only firestore:rules,firestore:indexes,functions:ingestKampsparEntry,functions:knowledgeVaultQuery
+npm run smoke:kunskap
 ```
 
 Se [`DEPLOY.md`](./DEPLOY.md).
 
-## Module plan sync (denna session)
+## Kodfixar under smoke (2026-05-21)
 
-- [`src/modules/valv_chatt/module_plan.md`](../src/modules/valv_chatt/module_plan.md) — uppdaterad till implementerad panel
-- [`src/modules/kompis/module_plan.md`](../src/modules/kompis/module_plan.md) — Tidshjulet + RAG + ingest
-- [`src/modules/dossier/module_plan.md`](../src/modules/dossier/module_plan.md) — route `/dossier` stub
+- `functions/src/lib/genaiClient.ts` — `vertexai: true` för @google/genai
+- `functions/src/agents/knowledgeVaultAgent.ts` — VertexAI SDK + degraded RAG-fallback vid LLM-fel
+
+## Module plan sync
+
+- [`src/modules/kompis/module_plan.md`](../src/modules/kompis/module_plan.md)
+- [`docs/specs/incoming/Kunskap-SPEC.md`](./specs/incoming/Kunskap-SPEC.md)

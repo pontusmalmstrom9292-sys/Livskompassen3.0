@@ -10,9 +10,9 @@ Forensiskt sökverktyg **inuti Verklighetsvalvet** — ställ frågor mot din eg
 
 ## 2. Route och ingång
 
-- **Route planerad:** `/valv/chat` (AuthGate + valv unlocked)
-- **Ingång:** knapp *"Sök i Valvet"* inuti upplåst `/valv` — **ingen** dock-ikon
-- **Idag:** route och UI **saknas**
+- **Route idag:** flik **Sök** i `/dagbok?tab=bevis` efter PIN (`VaultPage` → `ValvChatPanel`)
+- **Route valfri senare:** `/valv/chat` (egen route — ej MVP)
+- **Ingång:** endast från upplåst valv — **ingen** dock-ikon
 
 ## 3. UX-flöde (Progressive Disclosure)
 
@@ -70,9 +70,9 @@ Filter: exkludera `category: vävaren_metadata` som standard (samma som Speglar 
 
 ## 8. Status idag vs planerat
 
-**Idag:** `valvChatQuery` + `ValvChatPanel` i `VaultPage` (flik Sök efter unlock); `getVaultLogs`, `matchVaultEvidence` i Speglar.
+**Idag:** `valvChatQuery` + `ValvChatPanel` i `VaultPage` (flik Sök efter unlock); `useValvChatSession` nollställer vid flikbyte; `getVaultLogs`, `matchVaultEvidence` i Speglar.
 
-**Planerat:** Egen route `/valv/chat` (valfritt); klickbara citations; bro Speglar→Hamn förfina.
+**Planerat:** Klickbara citations; ev. egen route `/valv/chat`; bro Speglar→Hamn förfina.
 
 ## 9. Acceptanskriterier
 
@@ -81,7 +81,7 @@ Filter: exkludera `category: vävaren_metadata` som standard (samma som Speglar 
 | 1 | Svar endast från `reality_vault` | **done** (`valvChatQuery`) |
 | 2 | Varje påstående med källhänvisning | **partial** — citations JSON; UI ej klickbar |
 | 3 | Shake raderar chatt + stänger valv-kontext | **partial** — global shake |
-| 4 | Ingen spår vid utloggning/byt vy | **planned** |
+| 4 | Ingen spår vid flikbyte/unmount | **done** (`useValvChatSession`) |
 
 ## 10. Kopplingar
 
@@ -91,5 +91,5 @@ Filter: exkludera `category: vävaren_metadata` som standard (samma som Speglar 
 
 ## 11. Navigation
 
-- Ingång: *"Sök i Valvet"* i `/valv` (planerad)
-- Utgång: Stäng eller shake — Zero Footprint (planerad)
+- Ingång: flik **Sök** i upplåst Bevis (`/dagbok?tab=bevis`)
+- Utgång: flikbyte, Stäng eller shake — Zero Footprint (session reset **done**)

@@ -93,6 +93,12 @@ async function main() {
   }
   console.log('[smoke] answer excerpt:', rag.answer.slice(0, 200));
 
+  const degraded = rag.answer.startsWith('Jag hittade ') && rag.answer.includes('relevanta poster');
+  if (degraded) {
+    console.warn('[smoke] NOTE: LLM degraded mode (Vertex/Gemini ej tillgänglig) — RAG-fallback aktiv.');
+    console.warn('[smoke] För full AI: sätt GEMINI_API_KEY som Functions-secret eller aktivera Vertex-modell i GCP.');
+  }
+
   console.log('\n[smoke] PASS — Kunskap callables svarar.');
   process.exit(0);
 }

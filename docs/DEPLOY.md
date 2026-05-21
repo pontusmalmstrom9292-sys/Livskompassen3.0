@@ -44,6 +44,8 @@ Valfritt i samma körning (redan i repo, ej kritisk för hjärtat): `breakDownRe
 
 **Obs:** En full deploy `firebase deploy --only functions` inkluderar `notifyNewFile`, som kräver secret (se nedan).
 
+**Kunskap / Gemini:** Om Vertex-modeller ger 404 i prod använder `knowledgeVaultQuery` RAG-fallback (deterministiskt svar från chunks). För full LLM-syntes: `firebase functions:secrets:set GEMINI_API_KEY` och bind secret i `knowledgeVaultQuery` (eller aktivera Vertex Generative AI i GCP Console).
+
 ### `notifyNewFile` (Drive-webhook)
 
 Kräver secret innan deploy:
