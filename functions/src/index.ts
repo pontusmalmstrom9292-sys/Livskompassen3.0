@@ -262,7 +262,7 @@ export const ingestKampsparEntry = functions
 // Funktion 6b: valvChatQuery
 // Forensisk fråga/svar mot reality_vault (WORM) — skild från knowledgeVaultQuery.
 // ─────────────────────────────────────────────────────────────────────────────
-export const valvChatQuery = onCall({ region: 'europe-west1' }, async (request) => {
+export const valvChatQuery = onCall({ region: 'europe-west1', memory: '512MiB' }, async (request) => {
   if (!request.auth) {
     throw new HttpsError('unauthenticated', 'Autentisering krävs för Valv-Chat.');
   }

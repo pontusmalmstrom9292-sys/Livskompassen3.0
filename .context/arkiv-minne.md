@@ -153,16 +153,16 @@ flowchart TB
 
 ## Planerat (MUST NOT tappas)
 
-- [ ] **G1** Deploy `valvChatQuery`
-- [ ] **G2–G3** Vector endpoint + ANN wire + embeddings live
+- [x] **G1** Deploy `valvChatQuery`
+- [x] **G2–G3** Vector endpoint + ANN wire + embeddings live
 - [ ] **G4** Avveckla legacy Python RAG (us-central1)
-- [ ] **G5** Retention allowlist — exkludera WORM permanent
-- [ ] **G6** Drive smoke end-to-end
+- [x] **G5** Retention allowlist — exkludera WORM permanent
+- [ ] **G6** Drive smoke end-to-end (secret + Apps Script — manuellt)
 - [ ] **G7** `journal_woven` synaps
 - [ ] **G8** Familjen-RAG (Mönster-Arkivarien, **inte** Valv-Chat)
 - [ ] **G9** EntityProfile / SystemSynapse Firestore
 - [ ] **G10** Självsorterande inkorg (Kunskap-SPEC §12)
-- [ ] **G11** Rensa/isolera mock `Kampspar`-typ vs `KampsparEntry`
+- [x] **G11** Rensa/isolera mock `Kampspar`-typ vs `KampsparEntry`
 - [ ] **G12** Context Cache delad registry
 - [ ] **G13** Tidshjulet → `kampspar`-historik
 - [ ] **G14** Gräns-Arkitekten — agent card eller merge med BIFF-Skölden

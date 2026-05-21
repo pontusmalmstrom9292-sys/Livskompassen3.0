@@ -55,7 +55,7 @@ Kör: `npm run smoke:kunskap` (kräver `.env` med `VITE_FIREBASE_*`, Anonymous A
 | `knowledgeVaultQuery` | **PASS** | Svar + citations från `kampspar` |
 | Citation pekar på ingest-doc | **PASS** | Token-match RAG |
 | Full Gemini/Vertex LLM | **PASS** | `GEMINI_API_KEY` + `gemini-2.5-flash` via `defineSecret` (2026-05-21) |
-| `embeddingDim` vid ingest | **null** | Embedding API (textembedding-gecko) svarar inte i prod — icke-blockerande |
+| `embeddingDim` vid ingest | **768** | PASS efter G3 (`text-embedding-004`) |
 
 **Full AI-syntes:** `firebase functions:secrets:set GEMINI_API_KEY` + `secrets: [geminiApiKey]` på `knowledgeVaultQuery` (se `functions/src/lib/geminiSecret.ts`).
 
@@ -172,20 +172,37 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 - [`src/modules/kompis/module_plan.md`](../src/modules/kompis/module_plan.md)
 - [`docs/specs/incoming/Kunskap-SPEC.md`](./specs/incoming/Kunskap-SPEC.md)
 
-## G6 — Drive webhook (multitask 2026-05-21)
+## G6 — Drive-pipeline (read-only verifiering, 2026-05-21)
 
-| Kontroll | Resultat |
-|----------|----------|
-| `notifyNewFile` deployad | **PASS** |
-| `NOTIFY_WEBHOOK_SECRET` | **SAKNAS** (Secret Manager 404) — webhook fail-closed |
-| End-to-end Drive → kb_docs | **BLOCKERAD** tills secret + Apps Script |
+**Källor:** [`DRIVE_AUTOMATION.md`](./DRIVE_AUTOMATION.md), `notifyNewFile`, `scripts/google-apps-script/sorter.gs`  
+**Deploy webhook:** **BLOCKERAD** — `NOTIFY_WEBHOOK_SECRET` saknas i Secret Manager.
 
-## Multitask GAP-våg (2026-05-21)
+| Secret | Status |
+|--------|--------|
+| `NOTIFY_WEBHOOK_SECRET` | **SAKNAS** (404) |
+| `GEMINI_API_KEY` | Finns |
 
-| GAP | Resultat |
-|-----|----------|
-| G1 valvChatQuery | **PASS** — deploy + smoke:valv |
-| G3 embeddings | **PASS** — embeddingDim 768 |
-| G5 retention WORM | **Kod klar** — allowlist |
-| G11 mock Kampspar | **Kod klar** — `KompisUiKampsparTrack` |
-| G2 Vector ANN | **DELVIS** — kod wired; index deploy på endpoint pågår |
+| Del | Status |
+|-----|--------|
+| `notifyNewFile` deployad | **PASS** (europe-west1) |
+| Repo fail-closed | **Klar** — 503/401 när secret bunden |
+| Prod idag | POST utan header → **200** (secret ej bunden — redeploy efter secret) |
+| E2E Drive → kb_docs | **Ej körd** — kräver secret + Apps Script |
+
+**Manuellt:** `openssl rand -base64 32` → `firebase functions:secrets:set NOTIFY_WEBHOOK_SECRET` → deploy `notifyNewFile` → Apps Script enligt [`DRIVE_AUTOMATION.md`](./DRIVE_AUTOMATION.md).
+
+**Känd risk:** `sorter.gs` skickar `ownerUid`, handler läser `ownerId` — kb_docs-persist hoppas över tills alignat (separat fix).
+
+## Multitask GAP-våg (2026-05-21) — våg 3 master review
+
+| GAP | Resultat | Silo / arkiv-minne |
+|-----|----------|-------------------|
+| G1 `valvChatQuery` | **PASS** — deploy + smoke:valv, 512MiB | Endast `reality_vault` |
+| G2 Vector ANN | **PASS** — endpoint live, `livskompassen_kv_deployed_v1` | Kunskap silo only |
+| G3 embeddings | **PASS** — `text-embedding-004`, embeddingDim 768 | Upsert vid ingest |
+| G5 retention WORM | **PASS** — allowlist, aldrig purga permanent minne | WORM-källor skyddade |
+| G11 mock Kampspar | **PASS** — `KompisUiKampsparTrack` UI-only | Ej till ingest |
+| G6 Drive | **DOCS** — secret saknas, manuellt kvar | Kunskap/kb_docs silo |
+
+**Master review (våg 3):** Tre silos intakta. Ingen Valv↔Kunskap RAG-merge. WORM permanent minne skyddat i retention. Legacy Python RAG (us-central1) ej canonical — G4 kvar.
+

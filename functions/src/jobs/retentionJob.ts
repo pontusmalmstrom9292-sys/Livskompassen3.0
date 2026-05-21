@@ -36,13 +36,17 @@ function getCutoffTimestamp(): Timestamp {
   return Timestamp.fromMillis(cutoffMs);
 }
 
+export function isWormProtectedCollection(collection: string): boolean {
+  return (WORM_COLLECTIONS_NEVER_PURGE as readonly string[]).includes(collection);
+}
+
 async function purgeFirestoreCollection(
   db: Firestore,
   userId: string,
   collection: string,
   cutoff: Timestamp
 ): Promise<PurgeResult> {
-  if ((WORM_COLLECTIONS_NEVER_PURGE as readonly string[]).includes(collection)) {
+  if (isWormProtectedCollection(collection)) {
     console.warn(`[RetentionJob] Skippar WORM-skyddad collection: ${collection}`);
     return { collection, deletedCount: 0, prunedVectorIds: [] };
   }
