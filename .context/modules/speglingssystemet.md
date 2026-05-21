@@ -44,9 +44,15 @@ Fallback: `mirrorFeeling()` lokalt vid AI-fel.
 
 ## Status
 
-| Klart | Planerat |
-|-------|----------|
-| ACT, VIVIR, Compare, journalContext, valv-lås, mirror+fallback, `#6366F1`, Hamn-bro, unmount cleanup | Full DCAP/Genkit, Vector Search valv, enforced 4 meningar, Vävaren auto-bro |
+| Klart | Delvis | Planerat |
+|-------|--------|----------|
+| ACT, VIVIR, Compare, journalContext, valv-lås, mirror+fallback, Hamn-bro, media/WORM | Auto korsref barnen_logs | Full DCAP, Vector Search, projektionsdetektor UI |
+
+## Kladd 2026-05-21
+
+- **Kladd:** Projektion, gaslighting, "sanningens ankare" — **inte** Måbra.
+- **Gap:** Auto-länk Kasper/Arvid-loggar vid VIVIR — **planerat**, ej MVP.
+- **Användning:** Eget tvivel / patologisering från ex — inte proaktiv KBT.
 
 ## Säkerhet
 

@@ -83,6 +83,14 @@ export interface Routine {
   createdAt: IsoDateTime;
 }
 
+export interface MabraSession {
+  userId: string;
+  exerciseType: string;
+  durationSeconds: number;
+  hubSymptom?: string;
+  createdAt: IsoDateTime;
+}
+
 export interface JournalEntry {
   id: string;
   mood: string;
@@ -101,4 +109,5 @@ export const FIRESTORE_COLLECTIONS = {
   reality_vault: 'reality_vault',
   archival_analysis: 'archival_analysis',
   journal: 'journal',
+  mabra_sessions: 'mabra_sessions',
 } as const;

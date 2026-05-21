@@ -65,7 +65,9 @@ async function main() {
   const text = result.data?.mirror;
   assert(typeof text === 'string' && text.trim().length > 0, 'saknar mirror (string)');
 
-  const degraded = text.includes('Jag fixar inget här; jag speglar bara.');
+  const degraded =
+    text ===
+    `Det du beskriver — "${reflection.slice(0, 120)}${reflection.length > 120 ? '…' : ''}" — är en begriplig reaktion. Jag fixar inget här; jag speglar bara. Nästa steg är att skilja känsla från fakta (VIVIR).`;
   console.log('[smoke] mirror length:', text.length);
   console.log('[smoke] excerpt:', text.slice(0, 220));
   if (degraded) {

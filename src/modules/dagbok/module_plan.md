@@ -27,27 +27,18 @@ Route: `/dagbok` · Canonical: `.context/modules/dagbokshubben.md` · Spec: `doc
 
 ## Status
 
-| Area | Status |
-|------|--------|
-| Progressive Disclosure UI | **done** |
-| Komponent-split (Obsidian Calm) | **done** |
-| `JournalEntry` typ + `FIRESTORE_COLLECTIONS.journal` | **done** |
-| Journal persist (`journal`) | **done** |
-| Vävaren async callable | **done** |
-| Bro till `/speglar` efter sparad post | **done** — SavedStep + `journalContext` |
-| Röst-till-text (Web Speech sv-SE) | **done** — ReflectionStep + `useSpeechToText` |
-| Full journal-tidslinje (>5) | **done** — pagination i JournalArchive |
-| Wizard cleanup on unmount | **done** — useJournalFlow |
-| Fortsätt-knapp indigo (design-master) | **done** — btn-pill--secondary |
-| SavedStep gaslighting-copy | **done** |
-| StepIndicator (core/ui) | **done** — DagbokStepIndicator wrapper |
-| TimelineEntry (core/ui) | **done** — JournalEntryCard |
-| Fyren: 3s long-press dock BookOpen → bevis | **done** — `FloatingDock` + WebAuthn + PIN |
-| Måbra-bro vid låg energi | **planned** |
-| KBT-frågor per humör | **planned** |
-| Villkorlig Speglar-bro (Vävaren hot) | **planned** |
-| Humör-only save | **planned** |
-| DCAP → Speglings-Coachen (utöver mirror) | **planned** |
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| Wizard humör→text→sparad | Lager 1 fasad | Ja | **done** |
+| Fyren 3s → valv | Dold ingång | Ja | **done** |
+| Vävaren async | Taggar → valv metadata | Ja | **done** |
+| Bro Speglar | Efter sparad post | Ja | **done** |
+| Måbra-bro låg energi | Kladd | Nej | **planned** |
+| Humör-only save | Kladd | Nej | **planned** |
+| KBT per humör | Kladd | Nej | **planned** |
+| Vävaren godkännande | Master §I | Auto | **planned** |
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Security notes
 

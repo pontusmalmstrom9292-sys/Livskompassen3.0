@@ -46,7 +46,13 @@
 
 | Klart | Delvis | Planerat |
 |-------|--------|----------|
-| Wizard, journal, WORM, Vävaren, Speglar-bro, röst, Fyren, arkiv pagination, unmount cleanup | Zero Footprint audit | Måbra-bro, KBT-frågor, villkorlig Speglar, humör-only, KASAM-kväll |
+| Wizard, journal, WORM, Vävaren, Speglar-bro, röst, Fyren, arkiv pagination, unmount cleanup | Vävaren auto utan godkännande | Måbra-bro, KBT-frågor, villkorlig Speglar, humör-only, KASAM-kväll |
+
+## Kladd 2026-05-21
+
+- **Roll:** Lager 1 fasad — plausible deniability; Fyren → valv.
+- **Brus i Kladd:** People-pleasing, skam — **ej** valv; dagbok/Måbra.
+- **Gap:** Subjektiv utmattning → dagbok OK; kliniska PDF → valv.
 
 ## Säkerhet
 

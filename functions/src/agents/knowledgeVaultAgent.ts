@@ -3,7 +3,7 @@ import { createGenAI } from '../lib/genaiClient';
 import { fetchKampsparEvidenceForQuery } from '../lib/kampsparQueryRag';
 
 /** Google AI / Vertex via @google/genai — kräver GEMINI_API_KEY i prod om Vertex-modeller saknas. */
-const KNOWLEDGE_VAULT_MODEL = 'gemini-2.0-flash';
+const KNOWLEDGE_VAULT_MODEL = 'gemini-2.5-flash';
 
 export interface KnowledgeVaultCitation {
   docId: string;
@@ -90,7 +90,8 @@ type KampsparEvidenceChunk = Awaited<ReturnType<typeof fetchKampsparEvidenceForQ
 
 export async function askKnowledgeVaultWithRag(
   uid: string,
-  question: string
+  question: string,
+  geminiApiKey?: string
 ): Promise<KnowledgeVaultResult> {
   const chunks = await fetchKampsparEvidenceForQuery(uid, question);
   const allowed = new Map<string, KnowledgeVaultCitation>();
@@ -125,7 +126,7 @@ Returnera JSON:
 Returnera ENDAST giltig JSON utan markdown. Hallucinera aldrig utan bevis i kontexten.`;
 
   try {
-    const ai = createGenAI();
+    const ai = createGenAI(geminiApiKey);
     const response = await ai.models.generateContent({
       model: KNOWLEDGE_VAULT_MODEL,
       contents: prompt,

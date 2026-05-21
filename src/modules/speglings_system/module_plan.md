@@ -18,26 +18,24 @@ Route: `/dagbok?tab=speglar` (redirect `/speglar`)
 | `components/EvidenceCompareView.tsx` | Känsla vs valv (max 5 träffar) |
 | `api/speglingsCoachService.ts` | `fetchSpeglingsMirror` → callable |
 | `utils/matchVaultEvidence.ts` | Token + weaverTags; filter vävaren_metadata |
-| `constants/vivirSteps.ts` | VIVIR-steg + Grey Rock copy |
+| `components/SpeglarEvidencePanel.tsx` | Media + WORM-spara till valv (`action: speglar_bevis`) |
+| `../core/ui/EvidenceMediaAttach.tsx` | Delad UI: fil, kamera, ljudinspelning |
+| `../core/hooks/useAudioRecorder.ts` | MediaRecorder → webm |
 | `../core/types/journalBridge.ts` | Route state från Dagbok SavedStep |
 
 ## Status
 
-| Area | Status |
-|------|--------|
-| ACT flow | **done** |
-| VIVIR checklist | **done** |
-| Glassmorphism Obsidian Calm | **done** |
-| Valvjämförelse (evidence-only filter) | **done** |
-| Klient `getVaultLogs` + matchVaultEvidence | **done** |
-| Ingång från dagbok SavedStep | **done** — `journalContext` prefiller känsla/humör |
-| Synlig flik Speglar i Hjärtat | **done** |
-| `speglingsMirror` callable (AI-spegling) | **done** — deterministisk fallback vid fel |
-| AI-accent `#6366F1` | **done** — `glass-card--ai`, `accent-ai` |
-| Zero Footprint vid unmount | **done** — SpeglingsSystem cleanup |
-| Dagbok journal/weaverTags som initial kontext | **done** |
-| Safe Harbor → BIFF routing | **done** — länk `/hamn` + `prefilledMessage` |
-| Full DCAP Genkit-pipeline | **planned** (mirror callable räcker för smoke) |
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| ACT + VIVIR + Compare | Av-gaslighting, ej KBT | Ja | **done** |
+| Valv-jämförelse | Fakta vs känsla | Ja | **done** |
+| Hamn-bro | Efter compare | Ja | **done** |
+| Media → valv | WORM bevis | Ja | **done** |
+| Korsref barnen_logs auto | Kladd fråga | Nej | **planned** |
+| Projektionsdetektor logg | Notebook | Nej | **planned** |
+| Full DCAP pipeline | | Delvis | **planned** |
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Valv-integration
 

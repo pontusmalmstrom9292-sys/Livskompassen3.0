@@ -1,94 +1,81 @@
 # De 3 Kompasserna (Kompasser)
 
-**Route:** `/kompasser` · **AuthGate:** planerad (öppen idag) · **Dock:** Sprout  
-**Design:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md) (Obsidian Calm, Riktning A)  
-**Incoming spec:** [`docs/specs/incoming/De-3-Kompasserna-SPEC.md`](../../docs/specs/incoming/De-3-Kompasserna-SPEC.md)
+**Route:** `/vardagen` (kompasser-tab) · **Redirect:** `/kompasser` → `/vardagen`  
+**AuthGate:** planerad (Vardagen öppen idag) · **Dock:** Sprout  
+**Spec:** [`docs/specs/incoming/De-3-Kompasserna-SPEC.md`](../../docs/specs/incoming/De-3-Kompasserna-SPEC.md) (notebook #1–#5, beslut låsta 2026-05-21)  
+**Design:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md)
 
 ---
 
-## 1. Syfte och användarbehov
+## Låsta beslut (sammanfattning)
 
-Dygnsstöd mot stress och manipulationsloopar — ett mikrosteg i taget.
+Paralys **manuell**. Notiser **in-app först**, lokal push max 2–3/dag. Crazymaking **bro only** — ingen auto-`reality_vault`. `checkins` **WORM**. Missad morgon **ingen skuld**. Silo 1 skriver **inte** auto till Valv.
+
+---
+
+## 1. Syfte
+
+Dygnsrytm (morgon/dag/kväll) — ett mikrosteg i taget för ADHD/GAD.
 
 | Kompass | Roll |
 |---------|------|
-| **Morgon** (Sacred Feature) | Intention — Sanningens Ankare |
-| **Dag** | Nödbroms — people-pleasing |
-| **Kväll** | KASAM — stäng dagen, filtrera crazymaking |
+| **Morgon** (Sacred) | Intention — Sanningens Ankare (Silo 1 MVP) |
+| **Dag** | Pulskompass / nödbroms + Paralys-Brytaren |
+| **Kväll** | KASAM + crazymaking-bro |
 
-## 2. Route och ingång
+## 2. Route
 
-| Variant | Ingång |
-|---------|--------|
-| **A (aktiv)** | `/kompasser` — flikar Morgon/Dag/Kväll; dock Sprout, bento |
-| **Planerat** | `/morgon`, `/dag`, `/kvall`; push-notiser 2–3/dag |
+- **Aktiv:** `/vardagen` → `DashboardPage`
+- **Redirect:** `/kompasser` → `/vardagen`
+- **Planerat:** AuthGate, tids-default flik, notiser
 
-## 3. UX-flöde
+## 3. UX
 
-1. Välj kompass (flik)
-2. En fråga + val av alternativ
-3. Spara → `checkins`
+**Idag:** flikar, en fråga, pills synliga, spara.  
+**Planerat:** ett steg i taget, Paralys-UI, KASAM 3 steg, crazymaking-knapp.
 
-**Planerat:** strikt en skärm/interaktion, linjärt utan tillbaka, Paralys/Speglar-koppling per kompass.
+## 4. Design
 
-## 4. Visuell design
+Obsidian Calm — guld / indigo / emerald. Inga streaks, turkos, regnbåge.
 
-Obsidian Calm — guld aktiv, indigo Fortsätt, emerald spara. Inga count-ups.
+## 5. Data
 
-## 5. Datamodell
-
-| Collection | WORM | Nyckelfält |
-|------------|------|------------|
-| `checkins` | ja | questionId, optionSelected, taskCategory, createdAt |
+`checkins` WORM — se SPEC för planerade fält (`energyLevel`, `kasamData`, …).
 
 ## 6. Backend
 
-- **Idag:** klient `saveCheckIn`
-- **Planerat:** `breakDownResponse` (dag), `speglingsMirror` (kväll)
+- **done:** `saveCheckIn`, `compassFilter`, `breakDownResponse` (callable)
+- **planned:** UI-koppling Paralys, Speglar kväll, crazymaking-bro
 
 ## 7. Säkerhet
 
-- AuthGate — **planned**
-- Global kill switch; kompass Zero Footprint — **partial**
-- CMEK (drift)
+Silo, WORM, Zero Footprint partial, kill switch global.
 
-## 8. Status idag vs planerat
+## 8. Status
 
-| Klart | Delvis | Planerat |
-|-------|--------|----------|
-| Morgon/Dag/Kväll UI + save | Progressive disclosure (pills synliga) | Push-notiser |
-| checkins WORM | Shake → global `/` | Sub-rutter |
-| compassFilter synkad | AuthGate | Paralys-Brytaren UI |
-| | | Kväll → Barnen Balansmätare |
-| | | Crazymaking → valv |
+| done | partial | planned |
+|------|---------|---------|
+| UI + save + redirect | progressive disclosure | AuthGate, Paralys UI, KASAM, bro, notiser |
 
-## 9. Acceptanskriterier
+## Kladd 2026-05-21
 
-| # | Kriterium | Kod-status |
-|---|-----------|------------|
-| 1 | Notiser ≤3/dag | **planned** |
-| 2 | En interaktion i taget | **partial** |
-| 3 | Shake rensar osparad inmatning | **partial** |
-| 4 | checkins append-only | **done** |
+- **Kladd:** Morgon/dag/kväll, KASAM, Paralys vid överväldigande — **manuell** (låst §I.1).
+- **Gap:** `breakDownResponse` backend utan UI; crazymaking-bro utan auto-valv.
+- **Ej här:** Ex-sms (Hamn), VIVIR (Speglar), vinst-knapp (Ekonomi).
 
-## 10. Kopplingar
+## 9–11. AC, kopplingar, navigation
 
-- **Barnen** — kväll → Balansmätare (planerad)
-- **Verklighetsvalvet / Dossier** — crazymaking (planerad)
-- **Paralys-Brytaren / Speglings-Coachen** — agenter (planerad UI)
-
-## 11. Navigation
-
-Se [`docs/specs/navigation-master.md`](../../docs/specs/navigation-master.md).
+Se full SPEC §9–11.
 
 ## Kod
 
-`src/modules/kompasser/` · plan: `src/modules/kompasser/module_plan.md`
+`src/modules/kompasser/` · [`module_plan.md`](../../src/modules/kompasser/module_plan.md)
 
-## Gap — minimal nästa implementationsdiff
+## Nästa kod ("kör kompasser")
 
-1. AuthGate på `/kompasser`  
-2. Strikt progressive disclosure (ett val i taget)  
-3. `breakDownResponse` vid tung dagskompass  
-4. Push-notiser (max 3/dag)  
-5. Kväll → `children_logs` / Balansmätare  
+1. AuthGate `/vardagen`  
+2. Tids-default flik  
+3. Paralys UI  
+4. KASAM kväll  
+5. Crazymaking-bro  
+6. Notiser

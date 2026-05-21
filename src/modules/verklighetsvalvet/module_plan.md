@@ -27,30 +27,20 @@ Canonical: `.context/modules/verklighetsvalvet.md` · Spec: `docs/specs/incoming
 
 ## Status
 
-| Area | Status |
-|------|--------|
-| Fyren 3s + progress ring (BookOpen) | **done** |
-| WebAuthn gate | **done** — client MVP |
-| PIN setup/verify | **done** — localStorage hash |
-| WORM rules + client guard | **done** |
-| Shake-to-Kill | **done** |
-| Enkel / tvåspalt / tresteg / magkänsel | **done** |
-| VaultLogList + klient save | **done** |
-| Media upload → `evidenceUrl` | **done** |
-| Röst → text (Web Speech sv-SE) | **done** |
-| Per-post PDF (utskrift) | **done** |
-| Valv-Chat (Sök-flik) | **done** |
-| Stäng / flikbyte session lock | **done** |
-| Storage rules deploy | **required** — `firebase deploy --only storage` |
-| Synlig Bevis-flik | **gap** — plausible deniability |
-| Dölj Bevis-flik (Fyren only) | **planned** — efter muskelminne |
-| Klickbara citations | **planned** |
-| Drive → valv (manuellt godkännande) | **planned** |
-| Full Dossier / BBIC batch | **planned** — `dossier/module_plan.md` |
-| Sanningens Ankare (pinned posts) | **planned** |
-| CMEK drift-verifiering | **planned** |
-| Duress-PIN | **planned** — ej MVP |
-| Zero Footprint idle audit | **partial** |
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| Fyren 3s + WORM | Dold ingång, Sanningens Sköld | Ja | **done** |
+| Tvåspalt / tresteg / magkänsel | Hens version vs sanning | Ja | **done** |
+| Storage `evidenceUrl` | PDF/sms-export, ej Drive-auto | Ja | **done** |
+| Shake-to-Kill | Panik + iOS-test | Ja | **done** |
+| Orosanmälan + skolbevis | §D beviskandidater | Manuell | **use now** |
+| Vävaren godkännande | Önskat före permanent AI-tagg | Auto idag | **planned** |
+| Dölj Bevis-flik | Plausible deniability | Nej | **planned** |
+| BBIC-filter export | Soc/jurist | Nej | **planned** (Dossier fas 2) |
+| Sanningens Ankare landning | Notebook | Nej | **planned** |
+| Auto Storage-analys | Notebook vision | Nej | **rejected** |
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Produktbeslut (låsta 2026-05)
 

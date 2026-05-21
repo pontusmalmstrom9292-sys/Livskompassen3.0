@@ -1,89 +1,70 @@
 # Dossier-Generator
 
-**Sacred Feature.** **Route:** `/dossier` (planerad) eller kontextuell export från `/valv` / `/barnen`  
-**Design:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md) (Obsidian Calm, Riktning A)  
+**Sacred Feature.** **Route:** `/dossier` (AuthGate + Fyren A)  
+**Design:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md)  
 **Incoming spec:** [`docs/specs/incoming/Dossier-SPEC.md`](../../docs/specs/incoming/Dossier-SPEC.md)
 
 ---
 
-## 1. Syfte och användarbehov
+## Låsta beslut (#1–#4)
 
-Formell WORM-sammanställning (PDF) för ombud/myndighet. Aggregerar valv, dagbok och barnen utan att användaren återupplever traumat genom manuell omskrivning.
+Backend PDF · snapshot WORM evigt · PDF Storage TTL ~24 h · hela dokument i granskning · kanonisk hash · journal opt-in · AI endast försätt · manuell nedladdning · async job vid lång kö · Fyren A · ingen dock-ikon.
 
-## 2. Route och ingång
+---
 
-| Variant | Ingång |
-|---------|--------|
-| **A** | `/dossier` (AuthGate) |
-| **B (rekommenderad)** | *Skapa Dossier* i `/valv` och `/barnen` — ingen dock-ikon |
+## Syfte
 
-**Idag:** Ingen route. Delvis export via Valv-lista och Barnen JSON.
+Formell WORM-sammanställning (PDF) för ombud/myndighet. Aggregerar valv + barnen (+ valfritt journal) utan manuell omskrivning.
 
-## 3. UX-flöde
+---
 
-Urval (period + källor) → förhandsgranskning → generering (glass blur) → nedladdning → Zero Footprint.
+## UX (MVP)
 
-## 4. Visuell design
+Period → källor (journal varning) → granska hela poster → generera → hash + nedladdning → Zero Footprint.
 
-Obsidian Calm enligt design-master. Guld urval, indigo fortsätt, emerald klar.
+---
 
-## 5. Datamodell
+## Datamodell
 
-**Läser:** `reality_vault`, `journal`, `children_logs` (vävaren_metadata valfritt).  
-**Skriver:** `dossier_snapshot` (hash + createdAt + sourceDocIds).
+**Läser:** `reality_vault`, `children_logs`, opt-in `journal`.  
+**Skriver:** `dossier_snapshots` (WORM), PDF Storage kortlivad.
 
-## 6. Backend
+---
+
+## Backend
 
 | Komponent | Status |
 |-----------|--------|
-| `generateDossier` | **planned** |
-| Dossier-Agent (Genkit) | **planned** |
-| `exportVaultRecordAsPdf` | **done** — en post, print |
-| `exportBalansReport` | **done** — JSON stub per barn |
+| Wizard UI | **done** |
+| `generateDossier` | **done** |
+| `dossier_snapshots` rules | **done** |
+| pdf-lib PDF | **done** |
+| Vävaren försätt (opt-in) | **planned** |
+| `exportVaultRecordAsPdf` | **done** |
+| `exportBalansReport` | **done** |
 
-## 7. Säkerhet
+---
 
-AuthGate, CMEK, Zero Footprint, Kill Switch, ingen auto-delning, hash som integritetsbevis.
+## Säkerhet
 
-## 8. Gap-tabell
+Fyren A, AuthGate, CMEK, Zero Footprint, Kill Switch, hash-integritet, ingen auto-delning.
 
-| Area | Status | Kod |
-|------|--------|-----|
-| Route `/dossier` | **planned** | — |
-| Urval UI | **planned** | — |
-| Multi-källa aggregation | **planned** | — |
-| `generateDossier` | **planned** | — |
-| `dossier_snapshot` + hash | **planned** | — |
-| Genkit PDF-agent | **planned** | — |
-| Valv per-post PDF | **done** | `verklighetsvalvet/utils/exportVaultRecord.ts` |
-| Barnen JSON Balans | **done** (stub) | `barnens_livsloggar/utils/exportBalansReport.ts` |
-| *Skapa Dossier*-knappar | **planned** | — |
+---
 
-### Kodjämförelse (partial vs mål)
+## Gap
 
 | | Full Dossier | Valv export | Barnen export |
 |---|--------------|-------------|---------------|
-| Collections | 3+ | 1 post | `children_logs` |
-| Format | PDF + hash | Print-PDF | JSON |
-| Snapshot Firestore | ja | nej | nej |
-| Agent | ja | nej | nej |
-| Datumintervall | användarval | nej | 7 dagar fast |
+| Multi-källa | ja | 1 post | JSON |
+| Hash/snapshot | ja | nej | nej |
 
-## 9. Acceptanskriterier
+## Kladd 2026-05-21
 
-Se [`Dossier-SPEC.md`](../../docs/specs/incoming/Dossier-SPEC.md) §9.
+- **Kladd:** Samlad export för ombud/soc — aggregerar valv + barnen (+ journal opt-in).
+- **Bevis §D:** Orosanmälan, skola, läkarintyg, sms-PDF — **källor i valv**, dossier samlar.
+- **Gap:** BBIC-mall (`reportType`) fas 2; bro *Skapa Dossier* från Valv/Barnen.
+- **Implementerat:** `generateDossier` + kanonisk hash + snapshot WORM.
 
-## 10. Kopplingar
+Kod: `src/modules/dossier/`, `verklighetsvalvet/utils/exportVaultRecord.ts`, `barnens_livsloggar/utils/exportBalansReport.ts`.
 
-| Modul | Relation |
-|-------|----------|
-| Valv | Huvudbevis; per-post PDF är inte slutmål |
-| Barnen | `children_logs`; JSON-export matar framtida PDF |
-| Dagbok | `journal` + vävaren som valfri kontext |
-| Valv-Chat | Samma läs-källa — skild funktion |
-
-Flöde: [`docs/specs/p2-flode.md`](../../docs/specs/p2-flode.md).
-
-## 11. Navigation
-
-Variant B — kontextuella export-knappar, inte vardagsnav.
+Flöde: [`docs/specs/p2-flode.md`](../../docs/specs/p2-flode.md) · **Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)

@@ -31,6 +31,14 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] Telefon-MVP: `vite --host` i dev-script + `manifest.webmanifest` (lägg till på hemskärm)
 - [x] Firestore rules: checkins, journal, reality_vault, children_logs
 
+## Kladd-konsolidering (2026-05-21)
+
+- [x] Notebook #1–#7 → [`docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md`](docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
+- [x] Kampspår-kandidater → [`docs/specs/incoming/Kladd-2026-05-21-kampspar-kandidater.md`](docs/specs/incoming/Kladd-2026-05-21-kampspar-kandidater.md)
+- [x] Gap-tabeller i alla `.context/modules/*.md` + `src/modules/*/module_plan.md` (ingen kod)
+- [ ] Manuell ingest av kampspår-poster (opt-in trauma-policy)
+- [ ] Implementation per modul när användaren säger *kör [modul]*
+
 ## Aktuell status
 - [x] Design-tokens och fargpalett
 - [x] Bas-layout med Sub-Synaptic Background
@@ -80,5 +88,8 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] Speglings-Systemet: ACT + VIVIR + valvjämförelse (`/speglar`)
 - [x] `weaveJournalEntry` + hosting deploy (natt-batch — se `docs/OVERNIGHT_REPORT.md`)
 - [ ] Kampspar-loggning (uppladdning, tidsstampel, vektorisering) — **delvis:** `ingestKampsparEntry`, Tidshjulet, Kunskap RAG; Vector Search ANN avvaktar
+- [x] Kompasser notebook #1–#5 → låst SPEC (`docs/specs/incoming/De-3-Kompasserna-SPEC.md`); kod **ej** — väntar *kör kompasser*
+- [x] Dossier notebook #1–#4 → låst SPEC; UI wizard + `generateDossier` backend **done** — deploy `functions:generateDossier` + rules
 - [ ] Ekonomi kopplad till Firestore/Data Connect
-- [ ] Måbra-sidan — hub + andning + `mabra_sessions` (SPEC **done** 2026-05; shell `/mabra` + kluster **done**; se `docs/specs/incoming/Mabra-SPEC.md`, `.context/modules/mabra_sidan.md`)
+- [x] Måbra-sidan MVP — hub + 4-7-8 andning + `mabra_sessions` (SPEC **done** 2026-05; se `docs/specs/incoming/Mabra-SPEC.md`, `.context/modules/mabra_sidan.md`)
+- [ ] Måbra fas 2 — reframing/ACT, Måbra-coach callable, bro Dagbok in, Speglar guardrail

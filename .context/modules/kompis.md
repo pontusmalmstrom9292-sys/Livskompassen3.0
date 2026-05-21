@@ -41,11 +41,18 @@ Semantiskt livsminne (Life-OS): fråga/svar med källhänvisningar mot **egna** 
 
 ## Status
 
-| Klart | Delvis / pending | Planerat |
-|-------|------------------|----------|
+| Klart | Delvis | Planerat |
+|-------|--------|----------|
 | Flikar, RAG, Tidshjulet, ingest, silo från valv | Drive prod, deploy smoke | ANN, klickbara citations, supervisor, prediktivt Tidshjulet |
 
 **Inte klart:** Dagbok/Kompasser auto → `kampspar` (dagbok → Vävaren → `reality_vault` idag). Dossier → Kunskapsbank (stub).
+
+## Kladd 2026-05-21
+
+- **Routing:** Metodartiklar (gaslighting, BBIC-tips, coping) → Kunskap — **inte** Valv/Hamn.
+- **Policy (låst):** Trauma/LVU/beroende → opt-in manuell ingest per post ([`Kladd-2026-05-21-kampspar-kandidater.md`](../../docs/specs/incoming/Kladd-2026-05-21-kampspar-kandidater.md)).
+- **Gap:** Ingen auto-RAG från rå Kladd; Livs-Coachen ≠ Ekonomi.
+- **Avvisat:** Synaps personregister auto; Stjärnbilder/gamification.
 
 ## Säkerhet
 

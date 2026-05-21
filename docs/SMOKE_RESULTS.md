@@ -24,10 +24,10 @@ Kör: `npm run smoke:kunskap` (kräver `.env` med `VITE_FIREBASE_*`, Anonymous A
 | `ingestKampsparEntry` | **PASS** | WORM create + docId |
 | `knowledgeVaultQuery` | **PASS** | Svar + citations från `kampspar` |
 | Citation pekar på ingest-doc | **PASS** | Token-match RAG |
-| Full Gemini/Vertex LLM | **DEGRADED** | Vertex Publisher 404 — projekt saknar modellåtkomst; kräver `GEMINI_API_KEY` secret (se DEPLOY.md) |
+| Full Gemini/Vertex LLM | **PASS** | `GEMINI_API_KEY` + `gemini-2.5-flash` via `defineSecret` (2026-05-21) |
 | `embeddingDim` vid ingest | **null** | Embedding API (textembedding-gecko) svarar inte i prod — icke-blockerande |
 
-**För full AI-syntes:** Sätt `GEMINI_API_KEY` som Firebase secret och bind till functions, eller aktivera Vertex Generative AI-modeller för projektet i GCP Console.
+**Full AI-syntes:** `firebase functions:secrets:set GEMINI_API_KEY` + `secrets: [geminiApiKey]` på `knowledgeVaultQuery` (se `functions/src/lib/geminiSecret.ts`).
 
 ## Speglar smoke (automatiserat)
 
@@ -37,7 +37,7 @@ Kör: `npm run smoke:speglar` (kräver `.env`, Anonymous Auth, deployad `speglin
 |------|----------|----------|
 | Anonymous Auth | **PASS** | |
 | `speglingsMirror` | **PASS** | Svar med `mirror` (string) |
-| Full Gemini/Vertex LLM | **degraded** | Fallback spegling — samma som frontend `mirrorFeeling` |
+| Full Gemini/Vertex LLM | **OK** | `gemini-2.5-flash` + `GEMINI_API_KEY` (secret på callable) |
 
 ```bash
 firebase deploy --only functions:speglingsMirror --force
@@ -76,7 +76,8 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 
 - `functions/src/lib/genaiClient.ts` — `vertexai: true` för @google/genai
 - `functions/src/agents/knowledgeVaultAgent.ts` — VertexAI SDK + degraded RAG-fallback vid LLM-fel
-- `functions/src/agents/vertexAgent.ts` — `gemini-2.0-flash` + degraded ACT-fallback för `speglingsMirror`
+- `functions/src/agents/vertexAgent.ts` — `gemini-2.5-flash` + `GEMINI_API_KEY` via secret; degraded ACT-fallback vid LLM-fel
+- `functions/src/index.ts` — `speglingsMirror` `.runWith({ secrets: ['GEMINI_API_KEY'] })`
 
 ## Module plan sync
 

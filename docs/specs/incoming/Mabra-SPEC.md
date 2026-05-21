@@ -38,7 +38,9 @@ Syfte:
 
 ### Idag (kod)
 
-- `MabraPage` + `BentoCard` + global `EmptyState` placeholder — **inget övningsinnehåll**.
+- **MVP klart:** `MabraPage` orchestrerar hub → duration → breathing → complete.
+- `SymptomHub` (3 val), `DurationPicker` (1/3/5 min), `BreathingExercise` (4-7-8, offline), `MabraComplete` (länkar Dagbok/Kompasser).
+- `saveMabraSession()` → `mabra_sessions` (WORM rules + index i repo; deploy Firestore vid prod).
 
 ### Målbild (MVP)
 
@@ -132,15 +134,15 @@ Rules (planerat): `ownerId == auth.uid`; append/create only för sessions.
 | Område | Status |
 |--------|--------|
 | Route `/mabra` + AuthGate | **done** |
-| `MabraPage` shell + EmptyState placeholder | **done** |
+| `MabraPage` orchestrator (hub → duration → breathing → complete) | **done** |
 | Kluster hem (`ClusterGrid`) | **done** |
-| Symptom-hub + övningar | **planned** |
-| 4-7-8 andning (offline) | **planned** (MVP #1) |
-| `mabra_sessions` Firestore | **planned** |
+| Symptom-hub (3 val) | **done** |
+| 4-7-8 andning (offline) | **done** |
+| `mabra_sessions` Firestore + rules/index | **done** (repo; deploy Firestore för prod) |
+| Complete + länk Dagbok / Kompasser | **done** |
 | `mabra_progress` / coreValues | **planned** |
 | Måbra-coach callable | **planned** (fas 2) |
 | Web Speech sv-SE | **planned** (återanvänd `useSpeechToText`) |
-| Bro Dagbok / Kompasser (länk) | **planned** |
 | Bro Dagbok in (låg energi) | **planned** |
 | Guardrail → Speglar vid ex-text | **planned** |
 
@@ -149,11 +151,11 @@ Rules (planerat): `ownerId == auth.uid`; append/create only för sessions.
 | # | Kriterium | Kod-status |
 |---|-----------|------------|
 | 1 | AuthGate på `/mabra` | **done** |
-| 2 | Max ett aktivt val/instruktion per vy (MVP övning) | **planned** |
-| 3 | Andning startbar utan nätverk | **planned** |
-| 4 | Ingen streak/count-up UI | **planned** (designregel) |
-| 5 | Obsidian Calm tokens — ingen förbjuden palett | **done** (shell) |
-| 6 | `mabra_sessions` metadata vid completed | **planned** |
+| 2 | Max ett aktivt val/instruktion per vy (MVP övning) | **done** |
+| 3 | Andning startbar utan nätverk | **done** |
+| 4 | Ingen streak/count-up UI | **done** (designregel) |
+| 5 | Obsidian Calm tokens — ingen förbjuden palett | **done** |
+| 6 | `mabra_sessions` metadata vid completed | **done** |
 | 7 | Fritext rensas vid unmount om ej sparad | **planned** |
 | 8 | AI-coach opt-in; `#6366F1` bubblor | **planned** |
 | 9 | Valfri "Spara insikt till Dagbok" | **planned** |

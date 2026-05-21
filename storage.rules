@@ -8,5 +8,11 @@ service firebase.storage {
       allow create: if request.auth != null && request.auth.uid == userId;
       allow update, delete: if false;
     }
+
+    // Dossier PDF — skrivs av generateDossier (Admin SDK); nedladdning via signed URL
+    match /dossier_exports/{userId}/{fileName} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false;
+    }
   }
 }

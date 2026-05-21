@@ -21,15 +21,11 @@ firebase functions:secrets:set GEMINI_API_KEY
 
 Klistra in nyckeln när CLI frågar.
 
-### Steg 3 — Agent-läge i Cursor
-
-Be agenten: *"binda GEMINI_API_KEY till knowledgeVaultQuery och deploya"*.
-
-Eller manuellt: lägg till `secrets: ['GEMINI_API_KEY']` i `functions/src/index.ts` på `knowledgeVaultQuery`, sedan:
+### Steg 3 — Deploy (redan i repo)
 
 ```bash
 firebase deploy --only functions:knowledgeVaultQuery
 npm run smoke:kunskap
 ```
 
-**OK:** smoke-svar börjar **inte** med *"Jag hittade … relevanta poster"*.
+**OK:** smoke-svar börjar **inte** med *"Jag hittade … relevanta poster"* (modell: `gemini-2.5-flash`).

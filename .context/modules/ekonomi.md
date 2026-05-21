@@ -4,4 +4,16 @@
 
 Blueprint: veckopeng, matlåda-knapp, inga grafer. Placeholder — Firestore schema saknas.
 
-Kod: `src/modules/ekonomi/`
+## Status
+
+| Klart | Delvis | Planerat |
+|-------|--------|----------|
+| EconomyPage shell (SaldoHero, tiles) | Placeholder-värden | Firestore schema, transaktioner, vinst-knapp |
+
+## Kladd 2026-05-21
+
+- **Kladd:** Veckopeng, matlåda, "Vinst-knapp" — kognitiv avlastning utan grafer.
+- **Avvisat:** Livs-Coachen här (→ Kunskap/Kompis).
+- **Gap:** Ingen datamodell; Data Connect avvaktar (system-plan).
+
+Kod: `src/modules/ekonomi/` · Plan: [`src/modules/ekonomi/module_plan.md`](../../src/modules/ekonomi/module_plan.md) · **Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)

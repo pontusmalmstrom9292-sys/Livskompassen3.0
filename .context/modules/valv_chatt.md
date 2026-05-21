@@ -33,4 +33,10 @@ Forensiskt sökverktyg **inuti Verklighetsvalvet** — frågor mot WORM `reality
 |-------|----------|
 | valvChatQuery, ValvChatPanel, session reset | Klickbara citations, ev. egen route `/valv/chat` |
 
-Kod: `src/modules/valv_chatt/` · Förälder: [`verklighetsvalvet.md`](verklighetsvalvet.md)
+## Kladd 2026-05-21
+
+- **Roll:** Forensisk sök i `reality_vault` — skild från Kunskap (`kampspar`/`kb_docs`).
+- **Gap:** Klickbara citations; Sanningens Ankare som pin-vy (fas 2, förälder Valv).
+- **Policy:** Exkluderar `vävaren_metadata` tills godkännande-flöde.
+
+Kod: `src/modules/valv_chatt/` · Förälder: [`verklighetsvalvet.md`](verklighetsvalvet.md) · **Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)

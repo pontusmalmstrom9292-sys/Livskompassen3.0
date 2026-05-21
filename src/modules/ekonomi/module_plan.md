@@ -12,12 +12,15 @@ Personal economy module: liquidity, transactions, savings goals — aligned with
 
 ## Status
 
-| Area | Status |
-|------|--------|
-| EconomyPage layout (design-master §10) | **partial** — UI shell, no data |
-| SaldoHero + MetricTile | **done** — placeholder values |
-| Transaction CRUD | **missing** |
-| Firestore integration | **missing** |
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| UI shell (SaldoHero, tiles) | Inga grafer | Ja | **partial** |
+| Veckopeng / matlåda | Notebook | Nej | **planned** |
+| Vinst-knapp | Kladd | Nej | **planned** |
+| Firestore / DC schema | System-plan | Nej | **planned** |
+| Livs-Coachen här | **Avvisat** | Nej | **avvisat** |
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Dependencies
 

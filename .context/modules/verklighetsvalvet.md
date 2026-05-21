@@ -51,6 +51,13 @@
 |-------|--------|----------|
 | Fyren, WebAuthn, PIN, WORM, 4 entry modes, media, röst, PDF/post, Valv-Chat, shake, flik-lås | Synlig Bevis-flik (produktgap), Zero Footprint idle | Dölj Bevis-flik, klickbara citations, Drive→valv, Dossier batch, Sanningens Ankare, CMEK, duress-PIN |
 
+## Kladd 2026-05-21
+
+- **Bevisprioritet:** Orosanmälan 2026-03-05, skola (Ann), barnsamtal, läkarintyg, sms-PDF tvåspalt.
+- **Metod:** Hela sms-tråd som PDF — inte långa skärmdumpslingor.
+- **Gap:** Vävaren skriver auto `vävaren_metadata` — godkännande före permanent tagg **planerat**.
+- **Avvisat:** Auto Storage Agentic Vision; GAS-WORM; SVG magkänsel (→ text-chips).
+
 ## Säkerhet
 
 - WORM rules + `assertWormPayload`

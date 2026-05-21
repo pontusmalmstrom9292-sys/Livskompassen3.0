@@ -18,15 +18,17 @@ Canonical: `.context/modules/valv_chatt.md` · Spec: `docs/specs/incoming/Valv-C
 
 ## Status
 
-| Area | Status |
-|------|--------|
-| ValvChatPanel i VaultPage (flik sok) | **done** |
-| `valvChatQuery` callable + citations JSON | **done** |
-| Sannings-Analytikern integration | **done** |
-| Zero Footprint session | **done** |
-| Exkl. vävaren_metadata | **done** |
-| Dedikerad route `/valv/chat` | **optional** — panel räcker idag |
-| Bro Speglar → processa | **planned** |
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| ValvChatPanel (Sök-flik) | Forensik only | Ja | **done** |
+| `valvChatQuery` + citations | Sannings-Analytikern | Ja | **done** |
+| Session Zero Footprint | RAM only | Ja | **done** |
+| Exkl. vävaren_metadata | Tills godkännande | Ja | **done** |
+| Klickbara citations | Kladd | Nej | **planned** |
+| Sanningens Ankare pin | §I.3 fas 2 | Nej | **planned** |
+| Bro Speglar → processa | | Nej | **planned** |
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Security notes
 

@@ -51,11 +51,18 @@ Obsidian Calm enligt design-master. Guld/indigo/emerald. Fortsätt-knapp idigo i
 | Klart | Delvis | Planerat |
 |-------|--------|----------|
 | SafeHarborPage + formulär | Brusfilter (backend DCAP, ej UI-steg) | Flerstegs-wizard |
-| analyzeMessage + BIFF-svar | JADE-kvalitet via supervisor | Visuellt Brusfilter |
-| Kopiera svar | | Användarens mål-fält |
-| riskScore i UI | | Bro Speglar→Hamn |
-| AuthGate, dock, bento | | "Klar" + state reset |
-| | | "Spara som bevis" → valv |
+| analyzeMessage + BIFF-svar | | Visuellt Brusfilter |
+| Kopiera svar + spara bevis | | "Klar" + state reset |
+| riskScore i UI | | Dölj sms tills "har energi" |
+| Bro Speglar→Hamn | | |
+| AuthGate, dock, bento | | |
+
+## Kladd 2026-05-21
+
+- **Kladd:** Grey Rock 10/90, logistik vs brus, inga JADE-svar.
+- **Soc-strategi:** Kort, faktabaserat — barnets behov.
+- **Gap:** Brusfilter som synligt UI-steg; Zero Footprint unmount på råtext.
+- **Ej planerat nu:** Auto-dölj inkommande sms (fas 2).
 
 ## 9. Acceptanskriterier
 

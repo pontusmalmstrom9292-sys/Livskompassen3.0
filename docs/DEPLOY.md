@@ -25,7 +25,7 @@ npm run build
 cd Livskompassen2.0
 firebase deploy --only firestore:rules,firestore:indexes
 firebase deploy --only storage
-firebase deploy --only functions:analyzeMessage,functions:invalidateSession,functions:generateEmbedding,functions:ingestKampsparEntry,functions:knowledgeVaultQuery,functions:valvChatQuery,functions:scheduledRetentionJob,functions:weaveJournalEntry,functions:speglingsMirror --force
+firebase deploy --only functions:analyzeMessage,functions:invalidateSession,functions:generateEmbedding,functions:ingestKampsparEntry,functions:knowledgeVaultQuery,functions:valvChatQuery,functions:scheduledRetentionJob,functions:weaveJournalEntry,functions:speglingsMirror,functions:generateDossier --force
 ```
 
 **Hjärtat (Speglar):** `speglingsMirror` måste deployas för AI-spegling i prod.

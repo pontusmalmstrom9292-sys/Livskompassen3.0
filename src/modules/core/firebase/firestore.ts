@@ -105,6 +105,27 @@ export async function saveChildrenLog(
   return docRef.id;
 }
 
+export async function saveMabraSession(
+  userId: string,
+  session: {
+    exerciseType: 'breathing' | 'grounding';
+    durationSeconds: number;
+    hubSymptom?: string;
+  }
+) {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.mabra_sessions);
+  const payload: FirestorePayload = {
+    exerciseType: session.exerciseType,
+    durationSeconds: session.durationSeconds,
+  };
+  if (session.hubSymptom) {
+    payload.hubSymptom = session.hubSymptom;
+  }
+  assertWormPayload(payload, 'mabra_sessions');
+  const docRef = await addDoc(ref, withUserId(userId, payload));
+  return docRef.id;
+}
+
 export async function getVaultLogs(userId: string): Promise<(VaultLog & { id: string })[]> {
   const ref = collection(db, FIRESTORE_COLLECTIONS.reality_vault);
   const snap = await getDocs(ownerScopedQuery(ref, userId));

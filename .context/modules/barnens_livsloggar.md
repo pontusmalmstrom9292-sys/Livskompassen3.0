@@ -46,6 +46,13 @@
 |-------|--------|----------|
 | PIN, flikar, fysio, livslogg, balans, tidslinje, JSON, WORM rules | Unmount cleanup; kill switch raderar PIN-hash | Wizard, PDF, incident→valv, tredjepartstagg, Dossier, larm, Sandbox/Ankare UX |
 
+## Kladd 2026-05-21
+
+- **Bevis (valv):** Skola Ann/Lena — Kasper trötthet/utagerande mammaveckor; barnsamtal arg smiley.
+- **Barnen:** Neutral fysio (sömn/ångest/aptit) + livslogg `skola` — **inte** "dåliga hemligheter"-modul (→ livslogg + valv vid allvar).
+- **Gap:** Tredjepart-tagg — använd `category: skola` tills dedikerad tagg.
+- **Soc:** Undvik "narcissist"; fakta + barnets bästa.
+
 ## Säkerhet
 
 - Separat PIN (inte WebAuthn)

@@ -1,20 +1,19 @@
 import { LIVSKOMPASSEN_SYSTEM_CONFIG, SPEGLINGS_COACHEN_SYSTEM_PROMPT } from '../sharedRules';
 import { createGenAI } from '../lib/genaiClient';
 
-const ai = createGenAI();
+const SPEGLINGS_MODEL = 'gemini-2.5-flash';
 
 export const askKnowledgeVault = async (prompt: string): Promise<string> => {
   try {
     console.log(`[Knowledge Vault v2.0] Behandlar förfrågan med uppdaterade systemlagar...`);
 
-    // Anrop enligt den nya @google/genai-standarden
+    const ai = createGenAI();
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-pro', // Det nya paketet använder universella modellnamn
+      model: 'gemini-1.5-pro',
       contents: prompt,
       config: {
-        // Här tvingar vi in dina globala regler i molnhjärnan!
         systemInstruction: LIVSKOMPASSEN_SYSTEM_CONFIG.aiPersona.systemInstruction,
-        temperature: 0.2, // Håller AI:n fokuserad och strukturerad
+        temperature: 0.2,
       }
     });
 
@@ -33,19 +32,27 @@ function mirrorFeelingFallback(reflection: string): string {
   return `${lead} Jag fixar inget här; jag speglar bara. Nästa steg är att skilja känsla från fakta (VIVIR).`;
 }
 
-export const askSpeglingsCoach = async (reflection: string, mood?: string): Promise<string> => {
+export function isSpeglingsFallback(text: string, reflection: string): boolean {
+  return text === mirrorFeelingFallback(reflection);
+}
+
+export const askSpeglingsCoach = async (
+  reflection: string,
+  mood?: string,
+  geminiApiKey?: string
+): Promise<string> => {
   const prompt = mood
     ? `Humör från dagbok: ${mood}\nKänsla/reflektion: ${reflection}`
     : reflection;
 
   try {
+    const ai = createGenAI(geminiApiKey);
     const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',
+      model: SPEGLINGS_MODEL,
       contents: prompt,
       config: {
         systemInstruction: SPEGLINGS_COACHEN_SYSTEM_PROMPT,
         temperature: 0.2,
-        maxOutputTokens: 220,
       },
     });
 

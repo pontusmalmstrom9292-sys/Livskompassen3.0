@@ -65,5 +65,17 @@ service cloud.firestore {
       allow create: if isOwnerCreate();
       allow update, delete: if false;
     }
+
+    match /mabra_sessions/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
+      allow update, delete: if false;
+    }
+
+    // Dossier snapshots — WORM kvitto (skrivs endast av Cloud Functions Admin SDK)
+    match /dossier_snapshots/{docId} {
+      allow read: if isOwner();
+      allow create, update, delete: if false;
+    }
   }
 }

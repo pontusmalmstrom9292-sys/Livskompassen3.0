@@ -15,20 +15,17 @@ Route: `/hamn` · Canonical: `.context/modules/safe_harbor.md` · Spec: `docs/sp
 
 ## Status
 
-| Area | Status |
-|------|--------|
-| Route + AuthGate | **done** |
-| Dock Anchor + HomePage bento | **done** |
-| Klistra in + Generera BIFF-svar | **done** |
-| `analyzeMessage` → DCAP/supervisor | **done** |
-| Kopiera svar | **done** |
-| riskScore i UI | **done** |
-| Brusfilter som separat UI-steg | **planned** |
-| Användarens mål-fält | **planned** |
-| Flerstegs progressive disclosure | **planned** |
-| "Klar" + Zero Footprint unmount | **planned** |
-| Bro från `/speglar` | **done** — länk med prefilledMessage |
-| "Spara som bevis" → `reality_vault` | **done** |
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| BIFF/Grey Rock callable | Ex-sms, 10% logistik | Ja | **done** |
+| DCAP riskScore | Brus i backend | Ja | **done** |
+| Spara som bevis → valv | WORM original | Ja | **done** |
+| Bro Speglar | prefilledMessage | Ja | **done** |
+| Brusfilter UI-steg | Kladd #3 metod | Nej | **planned** |
+| "Klar" + unmount cleanup | Zero Footprint | Nej | **planned** |
+| Dölj tills energi | Kladd fråga | Nej | **planned** fas 2 |
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Backend
 

@@ -33,6 +33,14 @@
       ]
     },
     {
+      "collectionGroup": "mabra_sessions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "ownerId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "kb_docs",
       "queryScope": "COLLECTION",
       "fields": [

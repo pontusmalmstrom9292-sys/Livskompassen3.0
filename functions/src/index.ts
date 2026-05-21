@@ -1,6 +1,7 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { askSpeglingsCoach } from "./agents/vertexAgent";
 import { askKnowledgeVaultWithRag } from "./agents/knowledgeVaultAgent";
+import { geminiApiKey } from "./lib/geminiSecret";
 import { generateEmbeddingInternal } from "./lib/generateEmbeddingInternal";
 import { askValvChat } from "./agents/valvChatAgent";
 import { weaveJournalEntry as runWeaver } from "./agents/weaverAgent";
@@ -9,6 +10,7 @@ import * as admin from "firebase-admin";
 import { KompisSupervisor } from './agents/kompis-supervisor';
 import { adkOrchestrator, listAgentCards, applyParalysBreak } from './adk';
 import { emitSynapse } from './adk/synapses/synapseBus';
+import { generateDossierInternal } from './lib/generateDossierInternal';
 
 admin.initializeApp();
 const supervisor = new KompisSupervisor();
@@ -164,7 +166,7 @@ export const notifyNewFile = functions
 // Skapar en säker bro (endpoint) för appen (Android/Webb)
 // ─────────────────────────────────────────────────────────────────────────────
 export const knowledgeVaultQuery = onCall(
-  { region: 'europe-west1' },
+  { region: 'europe-west1', secrets: [geminiApiKey] },
   async (request) => {
     if (!request.auth) {
       throw new HttpsError('unauthenticated', 'Autentisering krävs för Kunskapsvalvet.');
@@ -179,7 +181,11 @@ export const knowledgeVaultQuery = onCall(
       throw new HttpsError('invalid-argument', 'Prompten får vara max 8000 tecken.');
     }
 
-    const result = await askKnowledgeVaultWithRag(request.auth.uid, prompt.trim());
+    const result = await askKnowledgeVaultWithRag(
+      request.auth.uid,
+      prompt.trim(),
+      geminiApiKey.value()
+    );
     return result;
   }
 );
@@ -288,24 +294,54 @@ export const getAgentRegistry = functions.region('europe-west1').https.onCall(as
 // Funktion 10: speglingsMirror
 // Speglings-Coachen — ACT-spegling max 2–4 meningar, fallback i frontend.
 // ─────────────────────────────────────────────────────────────────────────────
-export const speglingsMirror = functions.region('europe-west1').https.onCall(async (data, context) => {
+export const speglingsMirror = functions
+  .region('europe-west1')
+  .runWith({ secrets: ['GEMINI_API_KEY'] })
+  .https.onCall(async (data, context) => {
+    if (!context.auth) {
+      throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
+    }
+
+    const reflection = data.reflection;
+    const mood = typeof data.mood === 'string' ? data.mood : undefined;
+
+    if (!reflection || typeof reflection !== 'string') {
+      throw new functions.https.HttpsError('invalid-argument', 'Fältet "reflection" (string) krävs.');
+    }
+
+    if (reflection.length > 4000) {
+      throw new functions.https.HttpsError('invalid-argument', 'Reflection får vara max 4000 tecken.');
+    }
+
+    const mirror = await askSpeglingsCoach(reflection, mood, process.env.GEMINI_API_KEY);
+    return { mirror };
+  });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 11: generateDossier
+// Sacred Feature — WORM aggregation, canonical hash, backend PDF, dossier_snapshots.
+// ─────────────────────────────────────────────────────────────────────────────
+export const generateDossier = functions.region('europe-west1').https.onCall(async (data, context) => {
   if (!context.auth) {
     throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
   }
 
-  const reflection = data.reflection;
-  const mood = typeof data.mood === 'string' ? data.mood : undefined;
-
-  if (!reflection || typeof reflection !== 'string') {
-    throw new functions.https.HttpsError('invalid-argument', 'Fältet "reflection" (string) krävs.');
+  try {
+    return await generateDossierInternal(context.auth.uid, data);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Generering misslyckades.';
+    if (
+      message.includes('Ogiltigt') ||
+      message.includes('Minst ett') ||
+      message.includes('Max ') ||
+      message.includes('dateFrom') ||
+      message.includes('saknas eller')
+    ) {
+      throw new functions.https.HttpsError('invalid-argument', message);
+    }
+    console.error('[generateDossier] Fel:', error);
+    throw new functions.https.HttpsError('internal', message);
   }
-
-  if (reflection.length > 4000) {
-    throw new functions.https.HttpsError('invalid-argument', 'Reflection får vara max 4000 tecken.');
-  }
-
-  const mirror = await askSpeglingsCoach(reflection, mood);
-  return { mirror };
 });
 
 export const breakDownResponse = functions.region('europe-west1').https.onCall(async (data, context) => {

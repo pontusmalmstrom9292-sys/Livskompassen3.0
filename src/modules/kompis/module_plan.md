@@ -22,14 +22,17 @@ User-facing AI navigator: KompisAvatar, Knowledge Vault chat (Kampspår RAG), Ti
 
 ## Status
 
-| Area | Status |
-|------|--------|
-| KompisAvatar | **done** — MainLayout header |
-| KnowledgeVaultChat | **done** — RAG + citations (backend deploy krävs) |
-| Tidshjulet | **done** — bound to `kampspar` |
-| Kampspår ingest | **done** — callable + form |
-| Drive → kb_docs | **done** — backend persist i driveIngestSynapse |
-| Supervisor / DCAP routing | **backend** — ej i Kunskap-UI |
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| Kunskapsvalv RAG | Metod, ej forensik | Ja | **done** |
+| Tidshjulet + ingest | Opt-in trauma | Ja | **done** |
+| Drive → kb_docs | Auto kladd | Ja | **done** |
+| Kampspår från Kladd-filer | **Avvisat** auto | Nej | **policy** |
+| Klickbara citations | Kladd | Nej | **planned** |
+| Vector Search ANN | Notebook | Nej | **planned** |
+| Dagbok auto → kampspar | Ej valv | Nej | **planned** |
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md) · [`Kladd-2026-05-21-kampspar-kandidater.md`](../../docs/specs/incoming/Kladd-2026-05-21-kampspar-kandidater.md)
 
 ## Dependencies
 

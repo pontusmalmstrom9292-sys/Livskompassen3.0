@@ -57,7 +57,7 @@ flowchart LR
 | Barnen | `/familjen` | `children_logs` | — | **klart** (PDF/wizard planerat) |
 | Ekonomi | `/vardagen?tab=ekonomi` | — | — | **planerat** |
 | Dossier | `/dossier` | aggregation | `generateDossier` planerat | **stub** |
-| **Måbra-sidan** | **`/mabra`** | **`mabra_sessions`** (planerat) | Måbra-coach (planerat) | **shell klart** |
+| **Måbra-sidan** | **`/mabra`** | **`mabra_sessions`** | Måbra-coach (planerat) | **MVP klart** |
 
 **Tre kunskapsytor — blanda aldrig ihop:**
 
@@ -267,15 +267,14 @@ SYFTE: KBT/ACT, vagus, självmedkänsla, värderingar. ADHD/GAD/RSD — kravlös
 
 INTE SAMMA SOM: Speglar (gaslighting), Dagbok (humörlogg), Kompasser (mikrosteg), Hamn (BIFF/ex), Kunskap RAG
 
-FUNKTIONER IDAG:
-- MabraPage shell + EmptyState placeholder
+FUNKTIONER IDAG (MVP):
+- MabraPage: hub → duration → 4-7-8 andning → complete
+- SymptomHub (Panik/RSD, Självkritik, Hitta mig); DurationPicker 1/3/5 min
+- mabra_sessions metadata (WORM); länkar Dagbok/Kompasser — INTE auto check-in
 - ClusterGrid kluster på hem
 
-PLANERAT MVP:
-- Symptom-hub (Panik/RSD, Självkritik, Hitta mig)
-- 4-7-8 andning offline-first (framer/CSS)
-- mabra_sessions metadata (exerciseType, duration)
-- Mjukt avslut; valfri "Spara insikt till Dagbok"; länk kväll — INTE auto check-in
+PLANERAT (fas 2):
+- Reframing/ACT, Måbra-coach callable, bro Dagbok in, Speglar guardrail
 
 PRODUKTBESLUT (låsta): metadata sparas; Obsidian Calm; ingen streak/natur; AI opt-in; #6366F1 coach
 

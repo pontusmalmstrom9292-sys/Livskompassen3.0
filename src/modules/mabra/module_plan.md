@@ -11,43 +11,37 @@ Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget
 
 | Path | Role |
 |------|------|
-| `components/MabraPage.tsx` | Shell — placeholder; hub + övningar planerade |
-| `../core/ui/ClusterGrid.tsx` | Hem-kluster Måbra |
-| `../core/routing/AppRoutes.tsx` | Route + AuthGate |
-| Planerat: `components/BreathingExercise.tsx` | 4-7-8 offline |
-| Planerat: `hooks/useMabraSession.ts` | save session metadata |
-| Planerat: `../dagbok/` bro | Spara insikt |
+| `components/MabraPage.tsx` | Flow: hub → duration/exercise → complete (routing per symptom) |
+| `components/SymptomHub.tsx` | 3 symptom-knappar |
+| `components/DurationPicker.tsx` | 1 / 3 / 5 min |
+| `components/BreathingExercise.tsx` | 4-7-8 framer, offline (per hub-copy) |
+| `components/GroundingExercise.tsx` | 5-4-3-2-1 grounding, offline |
+| `components/MabraComplete.tsx` | Avslut + länkar Dagbok/kväll |
+| `constants.ts` / `types.ts` | Hub, duration, faser |
+| `../core/firebase/firestore.ts` | `saveMabraSession` |
 
 ## Status
 
-| Area | Status |
-|------|--------|
-| Route `/mabra` | **done** |
-| MabraPage shell + EmptyState | **done** |
-| ClusterGrid kluster | **done** |
-| Symptom-hub (3–4 knappar) | **planned** |
-| 4-7-8 andning offline | **planned** (MVP #1) |
-| Firestore `mabra_sessions` | **planned** |
-| `mabra_progress` / coreValues | **planned** |
-| Måbra-coach callable | **planned** (fas 2) |
-| Web Speech sv-SE | **planned** |
-| Bro Dagbok / Kompasser | **planned** |
-| Unmount cleanup | **planned** |
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| Route `/mabra` + kluster | Proaktiv rehab, ej ex | Ja | **done** |
+| Symptom-hub 3 val | Panik/självkritik/hitta mig | Ja | **done** |
+| Hub → andning / grounding | Vagus 4-7-8; 5-4-3-2-1 | Ja | **done** |
+| `mabra_sessions` WORM | Metadata, ej gamification | Ja | **done** |
+| Bro Dagbok/kväll | Länk, ej auto | Ja | **done** |
+| Reframing / thought record | Kladd coping | Nej | **planned** |
+| Måbra-coach + RAG dagbok | Kladd — opt-in only | Nej | **planned** |
+| Trauma-historia i Kunskap | **Policy: opt-in ingest** | Delvis | **policy** |
+| Stjärnbilder / streak | Notebook | Nej | **rejected** |
+| Nordisk skymning UI | Notebook | Nej | **rejected** |
 
-## Produktbeslut (låsta 2026-05)
+**Källa:** [`docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
-1. `mabra_sessions` metadata ON; fritext opt-in / RAM
-2. Symptom-hub; default 3 min (1/3/5 valfritt)
-3. Obsidian Calm; ingen natur/streak
-4. AI opt-in; ingen Kunskap RAG; ingen proaktiv dagbok
-5. Länk till Dagbok/Kompasser — inte auto
+## Nästa fas
 
-## Nästa fas (implementera när användaren säger kör)
-
-1. Symptom-hub UI i `MabraPage`
-2. `BreathingExercise` — framer/CSS, offline-first
-3. `saveMabraSession` + Firestore rules
-4. Avslut + valfri länk Dagbok/kväll
+1. Deploy Firestore rules + indexes (`firebase deploy --only firestore`)
+2. Reframing / thought record light
+3. Måbra-coach callable (opt-in)
 
 ## Avgränsning
 
@@ -56,6 +50,5 @@ Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget
 
 ## Security notes
 
-- AuthGate
-- Känslig fritext: RAM default; Kill Switch global
-- Prompts endast backend `sharedRules.ts`
+- AuthGate; WORM append-only `mabra_sessions`
+- Tidig exit ("Avsluta nu") sparar inte session

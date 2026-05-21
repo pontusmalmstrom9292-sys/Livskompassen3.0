@@ -22,24 +22,19 @@ Canonical: `.context/modules/barnens_livsloggar.md` · Spec: `docs/specs/incomin
 
 ## Status
 
-| Area | Status |
-|------|--------|
-| AuthGate `/familjen` | **done** |
-| Separat PIN + visibilitychange lock | **done** |
-| Kasper/Arvid tabs | **done** |
-| Fysiologi → `children_logs` | **done** |
-| Livslogg (kategori, observation, impact) | **done** |
-| BalansMatare 7 dagar | **done** |
-| Tidslinje per barn | **done** |
-| WORM Firestore rules | **done** |
-| JSON stabilitetsrapport | **done** |
-| Wizard UX | **planned** |
-| PDF juridisk + hash | **planned** (Dossier) |
-| Incident → `reality_vault` (explicit + sourceRef) | **planned** |
-| Tredjepartstagg | **planned** |
-| Unmount cleanup | **planned** |
-| Larmtrösklar (diskret) | **planned** |
-| Dagbok Variant B | **planned** |
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| Kasper/Arvid + fysio 1–5 | Grid Diary-lik logg | Ja | **done** |
+| Balans 7 dagar | BBIC-underlag | Ja | **done** |
+| Livslogg `skola` | Ann/Lena observationer | Ja | **done** |
+| WORM + separat PIN | Isolerad från valv | Ja | **done** |
+| 2026-03-12 skolincident | Beviskandidat + barnlogg | Manuell | **use now** |
+| Incident → valv knapp | Kladd explicit bro | Nej | **planned** |
+| Tredjepart-tagg filter | BBIC-export | `skola` idag | **planned** |
+| PDF + Dossier | Juridisk rapport | Dossier MVP | **partial** |
+| "Dåliga hemligheter" separat modul | Notebook | Nej | **rejected** → livslogg |
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Produktbeslut (låsta 2026-05)
 

@@ -29,13 +29,17 @@ Shared shell: layout chrome, design-system UI, global Zustand store, Firebase cl
 
 ## Status
 
-| Area | Status |
-|------|--------|
-| MainLayout + FloatingDock + AmbientBackground | **done** |
-| Design system (core/ui) | **done** — audit 2026-05 |
-| BentoCard + knapp-hierarki | **done** |
-| Store | **partial** — defined; consumed by auth/vault |
-| Firebase init | **works** — env vars with fallbacks |
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| Obsidian Calm tokens | Ej natur/grön | Ja | **done** |
+| Fyren 3s + WebAuthn hook | Valv-ingång | Ja | **done** |
+| Shake-to-Kill 15 m/s² | Kill Switch | Ja | **done** |
+| Gamification UI | **Avvisat** | Nej | **avvisat** |
+| Zero Footprint sign-out | Kladd | Partial | **planned** |
+| BodySignalChip (valv) | Text-chips idag | Nej | **planned** |
+| Dold nödknapp shake | iOS PWA test | Nej | **planned** |
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Dependencies
 

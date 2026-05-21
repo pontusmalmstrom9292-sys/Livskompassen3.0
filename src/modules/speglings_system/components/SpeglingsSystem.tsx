@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Brain, Anchor } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
@@ -6,11 +6,16 @@ import { useStore } from '../../core/store';
 import { getVaultLogs } from '../../core/firebase/firestore';
 import { hasVaultGate } from '../../core/auth/sessionService';
 import { readJournalBridgeContext } from '../../core/types/journalBridge';
+import {
+  revokeMediaAttachments,
+  type MediaAttachment,
+} from '../../core/media/mediaAttachment';
 import { VIVIR_STEPS } from '../constants/vivirSteps';
 import { matchVaultEvidence } from '../utils/matchVaultEvidence';
 import { ActCalibrationView } from './ActCalibrationView';
 import { VivirStepView } from './VivirStepView';
 import { EvidenceCompareView } from './EvidenceCompareView';
+import { SpeglarEvidencePanel, type SavedSpeglarEvidence } from './SpeglarEvidencePanel';
 
 type Phase = 'act' | 'vivir' | 'compare';
 
@@ -32,6 +37,33 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
   const [feeling, setFeeling] = useState('');
   const [journalMood, setJournalMood] = useState('');
   const [vivirAnswers, setVivirAnswers] = useState<Record<string, string>>({});
+  const [attachments, setAttachments] = useState<MediaAttachment[]>([]);
+  const [savedAttachmentIds, setSavedAttachmentIds] = useState<Set<string>>(() => new Set());
+  const [sessionSavedEvidence, setSessionSavedEvidence] = useState<SavedSpeglarEvidence[]>([]);
+  const attachmentsRef = useRef<MediaAttachment[]>([]);
+  attachmentsRef.current = attachments;
+
+  const addAttachment = useCallback((attachment: MediaAttachment) => {
+    setAttachments((prev) => [...prev, attachment]);
+  }, []);
+
+  const removeAttachment = useCallback((id: string) => {
+    setAttachments((prev) => {
+      const target = prev.find((item) => item.id === id);
+      if (target) URL.revokeObjectURL(target.previewUrl);
+      return prev.filter((item) => item.id !== id);
+    });
+    setSavedAttachmentIds((prev) => {
+      const next = new Set(prev);
+      next.delete(id);
+      return next;
+    });
+  }, []);
+
+  const handleEvidenceSaved = useCallback((saved: SavedSpeglarEvidence) => {
+    setSavedAttachmentIds((prev) => new Set(prev).add(saved.attachmentId));
+    setSessionSavedEvidence((prev) => [...prev, saved]);
+  }, []);
 
   useEffect(() => {
     if (!bridgeText) return;
@@ -42,10 +74,7 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
 
   useEffect(
     () => () => {
-      setPhase(INITIAL_PHASE);
-      setFeeling('');
-      setJournalMood('');
-      setVivirAnswers({});
+      revokeMediaAttachments(attachmentsRef.current);
     },
     [],
   );
@@ -68,10 +97,14 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
   }, [phase, user, vaultLocked, feeling, vivirAnswers]);
 
   const resetSession = () => {
+    revokeMediaAttachments(attachments);
     setPhase(INITIAL_PHASE);
     setFeeling('');
     setJournalMood('');
     setVivirAnswers({});
+    setAttachments([]);
+    setSavedAttachmentIds(new Set());
+    setSessionSavedEvidence([]);
   };
 
   return (
@@ -82,12 +115,23 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
         </p>
 
         {phase === 'act' && (
-          <ActCalibrationView
-            feeling={feeling}
-            journalMood={journalMood}
-            onFeelingChange={setFeeling}
-            onContinue={() => setPhase('vivir')}
-          />
+          <>
+            <ActCalibrationView
+              feeling={feeling}
+              journalMood={journalMood}
+              onFeelingChange={setFeeling}
+              onContinue={() => setPhase('vivir')}
+            />
+            <SpeglarEvidencePanel
+              userId={user?.uid}
+              feeling={feeling}
+              attachments={attachments}
+              savedIds={savedAttachmentIds}
+              onAdd={addAttachment}
+              onRemove={removeAttachment}
+              onSaved={handleEvidenceSaved}
+            />
+          </>
         )}
 
         {phase === 'vivir' && (
@@ -105,6 +149,8 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
               vivirSummary={vivirSummary}
               matches={matches}
               vaultLocked={vaultLocked}
+              sessionAttachments={attachments}
+              sessionSavedEvidence={sessionSavedEvidence}
             />
             <Link
               to="/hamn"
