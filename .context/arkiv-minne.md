@@ -102,17 +102,17 @@ flowchart TB
 
 ---
 
-## RAG idag vs mål (GCP 2026-05-21)
+## RAG idag vs mål (GCP 2026-05-21, live-inventering)
 
-| Lager | Idag | GCP | Mål |
-|-------|------|-----|-----|
-| Kunskap retrieval | Token-match `kampsparQueryRag.ts` | 2 VS-index, **0 endpoints** | ANN + citations |
-| Embeddings | `embeddingDim` often null | Buckets finns | Gecko/004 live |
-| LLM syntes | `GEMINI_API_KEY` | Secret satt | Behåll |
-| Legacy Python RAG | — | 4 functions us-central1 | Avveckla eller migrera (G4) |
-| Context Cache | `vertexCache.ts` (TTL 1h, in-memory) | Deploy okänd | Delad registry planerat (G12) |
+| Lager | Idag | GCP (live) | Mål |
+|-------|------|------------|-----|
+| Kunskap retrieval | Token-match + ANN-kod `kampsparQueryRag.ts` | Endpoint `4956462078572363776`, index deployad, 4 vectors | ANN prod secrets **VERIFY** (G2) |
+| Embeddings | `generateEmbedding` + ingest | Index synkad | Full smoke **VERIFY** (G3) |
+| LLM syntes | `GEMINI_API_KEY` | Secret finns | Behåll |
+| Legacy Python RAG | — | 4 functions us-central1 | Avveckla (G4) |
+| Context Cache | `vertexCache.ts` (TTL 1h, in-memory) | — | Delad registry (G12) |
 
-**Deploy-sanning:** GCP inventory + aktiv kod — **inte** walkthrough/legacy-system-plan ("Vector live" är falskt).
+**Deploy-sanning:** [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md) — ersätter arkiv-PDF som säger 0 endpoints / ej deployad valv.
 
 **Kanonisk index (välj vid wire):**
 

@@ -11,8 +11,8 @@ Region Functions: `europe-west1`
 | Firestore rules (WORM) | Deployad |
 | Firestore indexes | Deployad |
 | Hosting | https://gen-lang-client-0481875058.web.app |
-| `generateEmbedding`, `analyzeMessage`, `invalidateSession`, `scheduledRetentionJob`, `knowledgeVaultQuery` | Deployade |
-| `notifyNewFile` | **Väntar** på `NOTIFY_WEBHOOK_SECRET` (se Drive nedan) |
+| `generateEmbedding`, `analyzeMessage`, `invalidateSession`, `scheduledRetentionJob`, `knowledgeVaultQuery`, `valvChatQuery`, `ingestKampsparEntry`, `generateDossier`, `weaveJournalEntry`, m.fl. | Deployade (se [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md)) |
+| `notifyNewFile` | Deployad — **kräver** `NOTIFY_WEBHOOK_SECRET` (saknas i Secret Manager 2026-05-21) |
 
 ## Data Connect vs Firestore
 
