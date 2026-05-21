@@ -180,7 +180,7 @@ export const notifyNewFile = functions
 // Skapar en säker bro (endpoint) för appen (Android/Webb)
 // ─────────────────────────────────────────────────────────────────────────────
 export const knowledgeVaultQuery = onCall(
-  { region: 'europe-west1', secrets: [geminiApiKey] },
+  { region: 'europe-west1', memory: '512MiB', secrets: [geminiApiKey] },
   async (request) => {
     if (!request.auth) {
       throw new HttpsError('unauthenticated', 'Autentisering krävs för Kunskapsvalvet.');
