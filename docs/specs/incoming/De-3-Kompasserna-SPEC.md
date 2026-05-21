@@ -44,7 +44,7 @@ Kognitivt avlastande dygnsrytm för ADHD/GAD under hypervigilans och allostatisk
 | **Primär route** | `/vardagen` (kluster Vardagen, tab kompasser) |
 | **Redirect** | `/kompasser` → `/vardagen` (tom `?tab` = kompasser) |
 | **Komponent** | `DashboardPage` (embedded i `VardagenPage`) |
-| **AuthGate** | **Planerat** på `/vardagen` (idag öppen) |
+| **AuthGate** | **done** på `/vardagen` |
 | **Ingång** | FloatingDock Sprout, HomePage bento |
 | **Notiser (fas 2)** | Deep-link till rätt tidskompass, max 2–3/dag |
 
@@ -64,7 +64,7 @@ Sub-rutter `/morgon`, `/dag`, `/kvall` — **post-MVP** (idag: flikar + tids-def
 
 ### Idag (kod)
 
-[`DashboardPage.tsx`](../../../src/modules/kompasser/components/DashboardPage.tsx): flikar Morgon/Dag/Kväll, **en fråga + alla pills synliga**, `saveCheckIn`. **Partial** progressive disclosure.
+[`DashboardPage.tsx`](../../../src/modules/kompasser/components/DashboardPage.tsx): flikar Morgon/Dag/Kväll, KASAM kväll, Paralys, tids-default, `saveCheckIn`. **MVP done**.
 
 ---
 
@@ -121,10 +121,10 @@ Klient: [`firestore.ts`](../../../src/modules/core/firebase/firestore.ts).
 | Del | Implementation | Status |
 |-----|----------------|--------|
 | **Spara check-in** | Klient `saveCheckIn` | **done** |
-| **Paralys-Brytaren** | Callable `breakDownResponse` | **backend done**, UI **planned** |
-| **Speglings-Coachen** | `speglingsMirror` | **backend done**, kväll **planned** |
-| **compassFilter** | Zustand `ui.compassFilter` | **done** (aktiv flik; tids-default **planned**) |
-| **Crazymaking-detektion** | Klient/lättvikts-klassificering → bro-UI | **planned** — ingen auto-valv-write |
+| **Paralys-Brytaren** | Callable `breakDownResponse` + `ParalysPanel` | **done** |
+| **Speglings-Coachen** | `speglingsMirror` | **done** (bro kväll) |
+| **compassFilter** | Zustand + `getDefaultCompassByTime` vid öppning | **done** |
+| **Crazymaking-detektion** | Bro-UI efter KASAM | **done** — ingen auto-valv-write |
 | **Kampspår-ingest** | Auto från `checkins` | **planned** (Kunskap-SPEC; ej MVP) |
 
 Prompter: [`functions/src/sharedRules.ts`](../../../functions/src/sharedRules.ts).
@@ -137,7 +137,7 @@ Prompter: [`functions/src/sharedRules.ts`](../../../functions/src/sharedRules.ts
 |-----------|--------|
 | **Silo 1 → Lager 2** | Kompass skriver **inte** auto till `reality_vault` |
 | **WORM checkins** | **done** (rules) |
-| **AuthGate** | **planned** (`/vardagen`) |
+| **AuthGate** | **done** (`/vardagen`) |
 | **Zero Footprint** | Form state rensas vid Klar/unmount; morgon-session reset vid ny dag/logout — **partial** |
 | **Kill Switch** | Global `useShakeToKill` → `/` — **done**; kompass-specifik reset **planned** |
 | **CMEK** | GCP drift |
@@ -156,14 +156,14 @@ Valv-bevis: behåll **Fyren 3s + PIN** (Sacred) — separat från Vardagen-inlog
 | `compassFilter` synkad med flik | **done** |
 | `/kompasser` → `/vardagen` redirect | **done** |
 | WORM Firestore rules | **done** |
-| Strikt ett steg i taget (UI) | **partial** |
-| Tids-default flik (klocka) | **planned** |
-| AuthGate `/vardagen` | **planned** |
-| Paralys-Brytaren UI + `breakDownResponse` | **planned** |
-| KASAM kväll (3 steg) | **planned** |
-| Crazymaking-bro (ej auto-valv) | **planned** |
-| Notiser in-app → lokal push | **planned** |
-| Kväll → Måbra / Barnen | **planned** |
+| Strikt ett steg i taget (UI) | **done** (KASAM + Paralys) |
+| Tids-default flik (klocka) | **done** |
+| AuthGate `/vardagen` | **done** |
+| Paralys-Brytaren UI + `breakDownResponse` | **done** |
+| KASAM kväll (3 steg) | **done** |
+| Crazymaking-bro (ej auto-valv) | **done** |
+| Notiser in-app → lokal push | **planned** fas 2 |
+| Kväll → Måbra / Barnen | **done** |
 | `checkins` → `kampspar` | **planned** |
 | Sanningens Ankare (morgon, read-only preview) | **planned** |
 
@@ -173,12 +173,12 @@ Valv-bevis: behåll **Fyren 3s + PIN** (Sacred) — separat från Vardagen-inlog
 
 | # | Kriterium | Kod |
 |---|-----------|-----|
-| 1 | Max en primär fråga/interaktion synlig (mikrosteg ett i taget vid Paralys) | **partial** |
-| 2 | Paralys returnerar max 3 steg; *"Ge mig 3 till"* fungerar i session | **planned** |
-| 3 | Crazymaking = **knapp** till Valv/Speglar — ingen auto-WORM | **planned** |
+| 1 | Max en primär fråga/interaktion synlig (mikrosteg ett i taget vid Paralys) | **done** |
+| 2 | Paralys returnerar mikrosteg; *"Ge mig 3 till"* fungerar i session | **done** |
+| 3 | Crazymaking = **knapp** till Valv/Speglar — ingen auto-WORM | **done** |
 | 4 | `saveCheckIn` WORM — ingen frontend-edit efter spara | **done** |
-| 5 | Zero Footprint vid Klar / unmount från kompass | **partial** |
-| 6 | Default flik efter tid; missad morgon utan skuld | **planned** |
+| 5 | Zero Footprint vid Klar / unmount från kompass | **done** |
+| 6 | Default flik efter tid; missad morgon utan skuld | **done** |
 | 7 | ≤3 notiser per kalenderdygn (fas 2) | **planned** |
 | 8 | Kompass isolerad från `reality_vault` utan explicit användarval | **done** (ingen auto-write) |
 
@@ -242,21 +242,18 @@ Se [`docs/specs/navigation-master.md`](../navigation-master.md).
 | Kladd | Kod |
 |-------|-----|
 | Morgon/dag/kväll + checkins | **done** |
-| Paralys UI | **planned** (*kör kompasser*) |
-| KASAM kväll | **planned** |
-| Crazymaking-bro (ej auto-valv) | **planned** |
+| Paralys UI | **done** |
+| KASAM kväll | **done** |
+| Crazymaking-bro (ej auto-valv) | **done** |
 
 ---
 
 ## Implementera ("kör kompasser")
 
-Ordning rekommenderad:
+**MVP done** (2026-05-21). Smoke: `npm run smoke:compass`.
 
-1. AuthGate på `/vardagen`
-2. Tids-default + valfri dold flik-UI
-3. Paralys-Brytaren UI + `breakDownResponse`
-4. KASAM kväll (3 steg)
-5. Crazymaking-bro
-6. Notiser (in-app → lokal push)
+**Nästa fas:**
 
-Jämför alltid mot hela projektets kontext före kod.
+1. Notiser (lokal push max 2–3/dag)
+2. Sanningens Ankare från valv (read-only preview)
+3. `checkins` → `kampspar` (Kunskap, ej MVP)

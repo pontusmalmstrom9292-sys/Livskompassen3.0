@@ -1,10 +1,12 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Sprout, Wallet, Sparkles } from 'lucide-react';
 import { TabBar } from '../../core/ui/TabBar';
 import { BentoCard } from '../../core/ui/BentoCard';
+import { useStore } from '../../core/store';
 import { EconomyPage } from '../../ekonomi';
 import { KunskapPage } from '../../kompis/components/KunskapPage';
+import { getDefaultCompassByTime } from '../utils/compassTime';
 import { DashboardPage } from './DashboardPage';
 
 export type VardagenTab = 'kompasser' | 'ekonomi' | 'kunskap';
@@ -23,6 +25,14 @@ export function parseVardagenTab(raw: string | null): VardagenTab {
 export function VardagenPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const tab = parseVardagenTab(searchParams.get('tab'));
+  const setCompassFilter = useStore((s) => s.setCompassFilter);
+
+  /** In-app tids-default när användaren öppnar Kompasser-fliken (SPEC §3). */
+  useEffect(() => {
+    if (tab === 'kompasser') {
+      setCompassFilter(getDefaultCompassByTime());
+    }
+  }, [tab, setCompassFilter]);
 
   const setTab = useCallback(
     (next: VardagenTab) => {

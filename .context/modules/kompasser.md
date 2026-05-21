@@ -1,7 +1,7 @@
 # De 3 Kompasserna (Kompasser)
 
 **Route:** `/vardagen` (kompasser-tab) · **Redirect:** `/kompasser` → `/vardagen`  
-**AuthGate:** planerad (Vardagen öppen idag) · **Dock:** Sprout  
+**AuthGate:** **done** på `/vardagen` · **Dock:** Sprout  
 **Spec:** [`docs/specs/incoming/De-3-Kompasserna-SPEC.md`](../../docs/specs/incoming/De-3-Kompasserna-SPEC.md) (notebook #1–#5, beslut låsta 2026-05-21)  
 **Design:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md)
 
@@ -20,19 +20,23 @@ Dygnsrytm (morgon/dag/kväll) — ett mikrosteg i taget för ADHD/GAD.
 | Kompass | Roll |
 |---------|------|
 | **Morgon** (Sacred) | Intention — Sanningens Ankare (Silo 1 MVP) |
-| **Dag** | Pulskompass / nödbroms + Paralys-Brytaren |
-| **Kväll** | KASAM + crazymaking-bro |
+| **Dag** | Pulskompass + Paralys-Brytaren |
+| **Kväll** | KASAM 3 steg + crazymaking-bro |
 
 ## 2. Route
 
-- **Aktiv:** `/vardagen` → `DashboardPage`
+- **Aktiv:** `/vardagen` → `DashboardPage` (AuthGate)
 - **Redirect:** `/kompasser` → `/vardagen`
-- **Planerat:** AuthGate, tids-default flik, notiser
+- **Planerat:** Notiser fas 2 (lokal push)
 
-## 3. UX
+## 3. UX (MVP done)
 
-**Idag:** flikar, en fråga, pills synliga, spara.  
-**Planerat:** ett steg i taget, Paralys-UI, KASAM 3 steg, crazymaking-knapp.
+- Tids-default vid öppning Kompasser-flik (`getDefaultCompassByTime`)
+- Morgon/dag/kväll-flikar, fri navigering
+- Paralys manuell + *Ge mig 3 till* + Klar
+- KASAM kväll 3 steg
+- Crazymaking-broar (Speglar, Bevis, Måbra, Barnen)
+- Morgon låg energi: *Vill du ha ett mikrosteg?* (diskret, ej auto)
 
 ## 4. Design
 
@@ -40,43 +44,27 @@ Obsidian Calm — guld / indigo / emerald. Inga streaks, turkos, regnbåge.
 
 ## 5. Data
 
-`checkins` WORM — se SPEC för planerade fält (`energyLevel`, `kasamData`, …).
+`checkins` WORM — `taskNote` för KASAM JSON på kväll.
 
 ## 6. Backend
 
-- **done:** `saveCheckIn`, `compassFilter`, `breakDownResponse` (callable)
-- **planned:** UI-koppling Paralys, Speglar kväll, crazymaking-bro
+| Komponent | Status |
+|-----------|--------|
+| `saveCheckIn` | **done** |
+| `breakDownResponse` | **done** |
+| Paralys UI | **done** |
+| KASAM UI | **done** |
 
 ## 7. Säkerhet
 
-Silo, WORM, Zero Footprint partial, kill switch global.
+Silo, WORM, Zero Footprint (session clear), kill switch global.
 
 ## 8. Status
 
-| done | partial | planned |
-|------|---------|---------|
-| UI + save + redirect + AuthGate | progressive disclosure (morgon pills) | Notiser fas 2, Sanningens Ankare pin |
-| Paralys UI + KASAM kväll + broar | | |
+| Area | Status |
+|------|--------|
+| MVP *kör kompasser* | **done** |
+| Notiser push | **planned** fas 2 |
+| Sanningens Ankare från valv | **planned** |
 
-## Kladd 2026-05-21
-
-- **Kladd:** Morgon/dag/kväll, KASAM, Paralys vid överväldigande — **manuell** (låst §I.1).
-- **Gap:** `breakDownResponse` backend utan UI; crazymaking-bro utan auto-valv.
-- **Ej här:** Ex-sms (Hamn), VIVIR (Speglar), vinst-knapp (Ekonomi).
-
-## 9–11. AC, kopplingar, navigation
-
-Se full SPEC §9–11.
-
-## Kod
-
-`src/modules/kompasser/` · [`module_plan.md`](../../src/modules/kompasser/module_plan.md)
-
-## Nästa kod ("kör kompasser")
-
-1. AuthGate `/vardagen`  
-2. Tids-default flik  
-3. Paralys UI  
-4. KASAM kväll  
-5. Crazymaking-bro  
-6. Notiser
+Kod: `src/modules/kompasser/`. Smoke: `npm run smoke:compass`.

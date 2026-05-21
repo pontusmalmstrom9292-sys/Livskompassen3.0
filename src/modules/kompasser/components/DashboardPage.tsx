@@ -73,6 +73,16 @@ export function DashboardPage({ embedded: _embedded = false }: DashboardPageProp
     setCompassFilter(activeFlow);
   }, [activeFlow, setCompassFilter]);
 
+  useEffect(() => {
+    if (
+      compassFilter === 'morning' ||
+      compassFilter === 'day' ||
+      compassFilter === 'evening'
+    ) {
+      setActiveFlow(compassFilter);
+    }
+  }, [compassFilter]);
+
   useEffect(() => () => clearSession(), [clearSession]);
 
   const switchFlow = (id: CompassFlow) => {
@@ -125,6 +135,7 @@ export function DashboardPage({ embedded: _embedded = false }: DashboardPageProp
         </p>
       )}
 
+      <div className={showParalys ? 'pointer-events-none opacity-20' : ''}>
       {!showParalys && (
         <BentoCard title={flow.label} icon={<flow.icon className="h-4 w-4" />}>
           <p className="mb-4 text-sm text-text-muted">{flow.question}</p>
@@ -175,8 +186,23 @@ export function DashboardPage({ embedded: _embedded = false }: DashboardPageProp
           )}
 
           {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+
+          {activeFlow === 'morning' && selected === 'Inget — vila' && !saved && (
+            <button
+              type="button"
+              onClick={() => {
+                setActiveFlow('day');
+                setCompassFilter('day');
+                setSession((s) => ({ ...s, showParalys: true, selected: null, saved: false }));
+              }}
+              className="btn-pill--ghost mt-3 w-full text-sm"
+            >
+              Vill du ha ett mikrosteg?
+            </button>
+          )}
         </BentoCard>
       )}
+      </div>
 
       {activeFlow === 'day' && (
         <>

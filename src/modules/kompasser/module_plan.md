@@ -63,14 +63,17 @@ De 3 Kompasserna — Morgonkompassen (Sacred), Dagskompassen, Kvällskompassen. 
 ## Security notes
 
 - Check-in uid-scoped — Firestore `isOwnerCreate`
-- AuthGate på Vardagen — **planned**
+- AuthGate på `/vardagen` — **done**
 - Ingen auto-skriv till `reality_vault`
 
-## Nästa fas (när användaren säger *kör kompasser*)
+## Smoke
 
-1. AuthGate på `/vardagen`  
-2. Tids-default kompass + valfritt dolda flikar  
-3. Paralys-Brytaren UI + *Ge mig 3 till*  
-4. KASAM kväll  
-5. Crazymaking-bro  
-6. Notiser (in-app → lokal push)
+```bash
+npm run smoke:compass
+```
+
+## Nästa fas
+
+1. Notiser (lokal push max 2–3/dag)
+2. Sanningens Ankare från valv (ej auto)
+3. `energyLevel` / `kasamData` som strukturerade fält (valfritt)

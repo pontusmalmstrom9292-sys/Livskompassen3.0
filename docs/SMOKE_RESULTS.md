@@ -14,6 +14,7 @@
 | `node scripts/smoke_kunskap.mjs` | **PASS** (2026-05-21) |
 | `node scripts/smoke_speglar.mjs` | **PASS** (2026-05-21) |
 | `npm run smoke:dossier` | **PASS** (2026-05-21) |
+| `npm run smoke:compass` | **PASS** (2026-05-21) |
 
 ## Kunskap smoke (automatiserat)
 
@@ -67,6 +68,18 @@ npm run smoke:dossier
 
 **Valfri GCP-fix för signed URL:** ge Functions service account `roles/iam.serviceAccountTokenCreator` (self) så `getSignedUrl` fungerar utan base64.
 
+## Kompasser smoke (automatiserat)
+
+Kör: `npm run smoke:compass` (kräver `.env`, Anonymous Auth, deployad `breakDownResponse`).
+
+| Steg | Resultat | Notering |
+|------|----------|----------|
+| Anonymous Auth | **PASS** | |
+| `checkins` WORM create | **PASS** | `compass_day` |
+| `breakDownResponse` | **PASS** | `microSteps` array |
+
+**UI (manuell):** `/vardagen` → Kompasser → flikar Morgon/Dag/Kväll, Paralys, KASAM kväll.
+
 ## Manuella tester (övriga moduler)
 
 Kör mot lokal `npm run dev` eller [Hosting](https://gen-lang-client-0481875058.web.app).
@@ -77,7 +90,7 @@ Kör mot lokal `npm run dev` eller [Hosting](https://gen-lang-client-0481875058.
 | 2 | Dagbok spara | `journal` post | **Ej körd** |
 | 3 | Valv | `reality_vault` post | **Ej körd** |
 | 4 | Barnen | `children_logs` | **Ej körd** |
-| 5 | Kompasser | `checkins` | **Ej körd** |
+| 5 | Kompasser (UI) | Paralys + KASAM + tids-default | **Ej körd** — backend OK via `smoke:compass` |
 | 6 | Hamn BIFF | Grey Rock-svar | **Ej körd** |
 | 7 | Kunskap RAG (UI) | Svar + citations i chat | **Ej körd** — callables OK via script |
 | 8 | Kampspår ingest (UI) | Tidshjulet visar nod | **Ej körd** — callable OK via script |

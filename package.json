@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "smoke:kunskap": "node scripts/smoke_kunskap.mjs",
     "smoke:speglar": "node scripts/smoke_speglar.mjs",
-    "smoke:dossier": "node scripts/smoke_dossier.mjs"
+    "smoke:dossier": "node scripts/smoke_dossier.mjs",
+    "smoke:compass": "node scripts/smoke_compass.mjs"
   },
   "dependencies": {
     "@dataconnect/generated": "file:src/dataconnect-generated",
