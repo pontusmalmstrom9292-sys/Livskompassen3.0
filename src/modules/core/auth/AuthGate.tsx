@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import { useStore } from '../store';
 import { BentoCard } from '../ui/BentoCard';
-import { EmailAuthPanel } from './EmailAuthPanel';
 import { Lock } from 'lucide-react';
 
 export function AuthGate({ children }: { children: ReactNode }) {
@@ -18,14 +17,11 @@ export function AuthGate({ children }: { children: ReactNode }) {
 
   if (!isAuthenticated) {
     return (
-      <div className="space-y-4">
-        <BentoCard title="Inloggning krävs" icon={<Lock className="h-4 w-4" />}>
-          <p className="text-sm text-text-muted">
-            Skapa konto eller logga in för att använda denna modul.
-          </p>
-        </BentoCard>
-        <EmailAuthPanel compact defaultMode="signin" />
-      </div>
+      <BentoCard title="Inloggning krävs" icon={<Lock className="h-4 w-4" />}>
+        <p className="text-sm text-text-muted">
+          Tryck på <strong>Konto</strong> uppe till höger i headern för att logga in.
+        </p>
+      </BentoCard>
     );
   }
 

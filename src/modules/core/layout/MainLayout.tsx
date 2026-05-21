@@ -1,6 +1,7 @@
 import { FloatingDock } from './FloatingDock';
 import { AmbientBackground } from './AmbientBackground';
 import { KompisAvatar } from '../../kompis/components/KompisAvatar';
+import { AccountAuthMenu } from '../auth/AccountAuthMenu';
 import { Compass } from 'lucide-react';
 import { useStore } from '../store';
 
@@ -21,11 +22,14 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           </h1>
         </div>
 
-        <KompisAvatar
-          size="sm"
-          state={kompisAuraActive ? 'analyzing' : 'idle'}
-          className="border-border-strong"
-        />
+        <div className="flex items-center gap-2">
+          <AccountAuthMenu />
+          <KompisAvatar
+            size="sm"
+            state={kompisAuraActive ? 'analyzing' : 'idle'}
+            className="border-border-strong"
+          />
+        </div>
       </header>
 
       <main className="relative z-10 mx-auto max-w-2xl px-5 pb-36 pt-24">{children}</main>

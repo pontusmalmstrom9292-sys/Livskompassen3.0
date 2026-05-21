@@ -9,9 +9,10 @@ type Mode = 'create' | 'signin';
 type Props = {
   compact?: boolean;
   defaultMode?: Mode;
+  onSuccess?: () => void;
 };
 
-export function EmailAuthPanel({ compact = false, defaultMode = 'create' }: Props) {
+export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSuccess }: Props) {
   const [mode, setMode] = useState<Mode>(defaultMode);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -51,6 +52,7 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create' }: Prop
       }
       setPassword('');
       setConfirm('');
+      onSuccess?.();
     } catch (err) {
       const code = err instanceof FirebaseError ? err.code : '';
       setError(mapAuthError(code));
