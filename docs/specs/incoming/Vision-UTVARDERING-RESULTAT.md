@@ -1,7 +1,7 @@
 # Vision — utvärderingsresultat (A–D)
 
-**Datum:** 2026-05-21  
-**Källor:** [`Vision-UTVARDERING-UNDERAGENTER.md`](./Vision-UTVARDERING-UNDERAGENTER.md), [`Vision-AI-Native-Blueprint.md`](./Vision-AI-Native-Blueprint.md) S01–S23, hela Livskompassen2.0 repo (read-only)
+**Datum:** 2026-05-21 (audit) · **Synkad:** 2026-05-22 mot [`.context/system-plan.md`](../../../.context/system-plan.md) § Permanent minne, [`docs/SMOKE_RESULTS.md`](../../SMOKE_RESULTS.md)  
+**Källor:** [`Vision-UTVARDERING-UNDERAGENTER.md`](./Vision-UTVARDERING-UNDERAGENTER.md), [`Vision-AI-Native-Blueprint.md`](./Vision-AI-Native-Blueprint.md) S01–S23
 
 ---
 
@@ -13,12 +13,12 @@
 - **Deterministisk orkestrering** — 10 AgentCards, 2 executors, `routeFromDcap` i `kompis-supervisor.ts`; DCAP före LLM.
 - **Beviskedja delvis live** — server timestamps, Dossier SHA-256 (`dossierCanonicalHash.ts`), PDF export utan edit av WORM-källa.
 - **Livs-Arkivarien korrekt scope** — `agent_livs_arkivarien` + Kunskap-RAG (`kampspar`, `kb_docs`); valv via Sannings-Analytikern/valvChat.
-- **Infrastruktur catch-up** — `valvChatQuery` **deployad**; Vector endpoint **1 st** i west1 med deployed index (2026-05-21 kväll).
+- **Infrastruktur live** — `valvChatQuery` deployad (G1 **done**); Vector endpoint + ANN smoke **PASS** (G2–G3); synkat i `system-plan.md` (`69bce012`).
 
 ### Största GAP (prioritet)
 
-1. **`.context/system-plan.md` föråldrad** — säger G1 ej deployad och 0 endpoints; moln har båda (C3 FAIL).
-2. **ANN wire i prod** — env finns lokalt; verifiera att deployade functions använder Vector Search (G2–G3).
+1. **G6 Drive-webhook** — `notifyNewFile` deployad men `NOTIFY_WEBHOOK_SECRET` + Apps Script oklar (manuellt steg).
+2. **G2–G3 verify prod** — smoke PASS lokalt; bekräfta ANN i deployade function-loggar (inte bara token-match fallback).
 3. **EntityProfile / kontext-motorn (G9, S22)** — `NetworkMember` + seed finns; runtime `$context.variables` saknas.
 4. **Synaps-stubs (G7)** — `journal_woven`, `dcap_alert` log-only; ingen auto journal→kampspar (korrekt policy, men vision S04/S10 delvis).
 5. **Legacy Python stack (G4)** — 4 functions us-central1 parallellt med Node-repo; risk dubbel Drive/RAG-pipeline.
@@ -26,10 +26,10 @@
 ### Nästa steg för Pontus (ett kommando)
 
 ```bash
-cd /Users/Livskompassen/StudioProjects/Livskompassen2.0 && npm run smoke:kunskap && npm run smoke:valv
+cd /Users/Livskompassen/StudioProjects/Livskompassen2.0 && firebase functions:secrets:set NOTIFY_WEBHOOK_SECRET --project gen-lang-client-0481875058
 ```
 
-(Om `smoke:valv` saknas: anropa deployad `valvChatQuery` manuellt en gång och bekräfta citations JSON.)
+(Samma värde i Apps Script `WEBHOOK_SECRET` — se [`docs/DRIVE_AUTOMATION.md`](../../DRIVE_AUTOMATION.md). Smoke G1/G2 redan **PASS** enligt [`docs/SMOKE_RESULTS.md`](../../SMOKE_RESULTS.md).)
 
 ---
 
@@ -63,10 +63,10 @@ cd /Users/Livskompassen/StudioProjects/Livskompassen2.0 && npm run smoke:kunskap
 
 - **C1: PASS** — `valvChatQuery` v2 callable `europe-west1` i functions:list (uppdaterat vs archive-doc).
 - **C2: PASS** — 1 index-endpoint west1: `livskompassen-kv-endpoint`, deployed index `livskompassen_kv_deployed_v1`.
-- **C3: FAIL** — `.context/system-plan.md` L106–107: "0 endpoints", "`valvChatQuery` ej deployad" **strider** mot live moln och [`docs/GCP-INVENTORY-LATEST.md`](../../GCP-INVENTORY-LATEST.md).
+- **C3: PASS** — `.context/system-plan.md` L105–111 synkad (2026-05-21): G1 deployad, endpoint live, smoke:valv PASS — matchar [`docs/GCP-INVENTORY-LATEST.md`](../../GCP-INVENTORY-LATEST.md) och [`docs/SMOKE_RESULTS.md`](../../SMOKE_RESULTS.md). *(Ursprunglig audit: FAIL — åtgärdat i `69bce012`.)*
 - **C4: PASS** — 4 legacy Python functions i `us-central1` noterade i functions:list.
 
-**Sammanfattning:** Molnet har hunnit före system-plan; uppdatera `.context/system-plan.md` och verifiera ANN-smoke. **Ej BLOCKED** — inventering lyckades.
+**Sammanfattning:** Docs och moln i linje för G1/G2/G3. Kvar: G6 secret, G4 avveckling. **Ej BLOCKED**.
 
 **Env (inga värden loggade):** `functions/.env.gen-lang-client-0481875058` innehåller `VECTOR_SEARCH_INDEX_ID`, `VECTOR_SEARCH_ENDPOINT_ID`, `VECTOR_SEARCH_DEPLOYED_INDEX_ID`.
 
@@ -77,10 +77,10 @@ cd /Users/Livskompassen/StudioProjects/Livskompassen2.0 && npm run smoke:kunskap
 - **D1: PASS** — `.cursor/rules/livskompassen-core.mdc`: `alwaysApply: true`.
 - **D2: PASS** — `.cursor/rules/synapser-adk.mdc` **skapad** (glob `functions/src/adk/**`).
 - **D3: PASS** — `.cursor/rules/memory-silo.mdc` **skapad** (glob `*Rag*`, valv/knowledge agents).
-- **D4: FAIL** — `AGENTS.md` § Skills pekar bara på `.context/`; länkar **inte** till `.cursor/skills/livskompassen-rag-retrieval`, `livskompassen-memory-silo-guard`, `livskompassen-synapser-adk`.
-- **D5: PASS** — `.context/arkiv-minne.md` L176 länkar `Vision-AI-Native-Blueprint.md` (text säger S01–S14 — bör uppdateras till S01–S23).
+- **D4: PASS** — `AGENTS.md` § Skills & rules (tabell: synapser, silo/RAG, vector, arkiv) — tillagd i `69bce012`.
+- **D5: PARTIAL** — Vision-doc länkad från [`MIND-SAFE-vs-Livskompassen-DIFF.md`](./MIND-SAFE-vs-Livskompassen-DIFF.md) och [`vision-slides/README.md`](./vision-slides/README.md); `.context/arkiv-minne.md` saknar direktlänk (valfritt tillägg).
 
-**Saknade regler (före denna körning):** `synapser-adk.mdc`, `memory-silo.mdc` — **nu skapade**.
+**Saknade regler (före vision-körning):** `synapser-adk.mdc`, `memory-silo.mdc` — **skapade** (`69bce012`).
 
 **Vision § Röda tråden vs rules:**
 
@@ -93,11 +93,11 @@ cd /Users/Livskompassen/StudioProjects/Livskompassen2.0 && npm run smoke:kunskap
 | sharedRules kanon | `backend-agents.mdc`, `AGENTS.md` hard rule |
 | Vision-doc S15–S23 | Ej i alwaysApply — docs only |
 
-**Rekommendation:** Uppdatera `AGENTS.md` § Skills med tabell (RAG / silo / synapser / vector) — **ej gjort** (utanför steg 5 scope om tid).
+**Rekommendation (kvar):** Lägg valfri Vision-länk i `.context/arkiv-minne.md` § Relaterade filer.
 
 ---
 
-## Relaterade filer (denna körning)
+## Relaterade filer (vision-paketet)
 
 | Fil | Åtgärd |
 |-----|--------|
@@ -108,4 +108,4 @@ cd /Users/Livskompassen/StudioProjects/Livskompassen2.0 && npm run smoke:kunskap
 | `.cursor/rules/synapser-adk.mdc` | **Ny** |
 | `.cursor/rules/memory-silo.mdc` | **Ny** |
 
-**BLOCKED:** Inget — steg 1–5 klara.
+**BLOCKED:** Inget — steg 1–5 klara. **Doc-synk 2026-05-22:** C3/D4 uppdaterade; nästa fokus G6.

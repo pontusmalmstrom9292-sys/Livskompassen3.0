@@ -38,7 +38,7 @@ Read-only audit A–D: [`Vision-UTVARDERING-RESULTAT.md`](./Vision-UTVARDERING-R
 |------------|----------|-------|
 | **A** Silo & WORM | **PASS** (5/5) | Retention WORM via exklusion, ej explicit kommentar |
 | **B** Orkester | **PASS** (5/5) | 10 cards, 2 executors, inga `.prompt` |
-| **C** Infrastruktur | **3/4 PASS** | C3 FAIL: `system-plan.md` föråldrad vs moln |
+| **C** Infrastruktur | **PASS** (4/4) | Synkad 2026-05-22 — se [`Vision-UTVARDERING-RESULTAT.md`](./Vision-UTVARDERING-RESULTAT.md) § C |
 | **D** Cursor rules | **4/5 PASS** | D4: AGENTS.md saknar skill-tabell |
 
 **Live delta:** `valvChatQuery` deployad; 1 Vector endpoint west1 (se [`GCP-INVENTORY-LATEST.md`](../../GCP-INVENTORY-LATEST.md)).
@@ -199,8 +199,7 @@ Från vision-doc (skärmdump MIND-SAFE):
 
 ## Nästa uppdatering
 
-1. Smoke: `npm run smoke:kunskap` + valv-chat (se RESULTAT slutrapport).
-2. Synka `.context/system-plan.md` med [`GCP-INVENTORY-LATEST.md`](../../GCP-INVENTORY-LATEST.md) (G1/G2).
-3. `AGENTS.md` § Skills — tabell för RAG/silo/synapser (D4).
+1. G6: `NOTIFY_WEBHOOK_SECRET` + Apps Script (se [`docs/DRIVE_AUTOMATION.md`](../../DRIVE_AUTOMATION.md)).
+2. G4: legacy Python RAG (us-central1) — avveckla eller isolera.
 
 **Vision-kanon:** [`Vision-AI-Native-Blueprint.md`](./Vision-AI-Native-Blueprint.md) · **Relaterad plan:** Grund SDK Synapser.
