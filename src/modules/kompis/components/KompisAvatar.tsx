@@ -23,23 +23,21 @@ export function KompisAvatar({ state = 'idle', className, size = 'md' }: KompisA
   const getAuraColor = () => {
     switch (state) {
       case 'active':
-        return 'bg-blue-400 shadow-[0_0_40px_10px_rgba(96,165,250,0.6)]';
+        return 'bg-accent-light shadow-accent-glow-lg';
       case 'analyzing':
-        return 'bg-purple-400 shadow-[0_0_40px_10px_rgba(192,132,252,0.6)]';
+        return 'bg-accent shadow-accent-glow-lg';
       case 'celebrating':
-        return 'bg-yellow-400 shadow-[0_0_40px_10px_rgba(250,204,21,0.6)]';
+        return 'bg-accent-light shadow-accent-glow-lg';
       case 'supporting':
-        return 'bg-emerald-400 shadow-[0_0_40px_10px_rgba(52,211,153,0.6)]';
+        return 'bg-accent/80 shadow-accent-glow';
       case 'idle':
       default:
-        // Guld och blåtoner
-        return 'bg-gradient-to-tr from-blue-600 via-blue-400 to-amber-300 shadow-[0_0_30px_5px_rgba(96,165,250,0.4)]';
+        return 'bg-gradient-to-tr from-accent via-accent-light to-white/20 shadow-accent-glow';
     }
   };
 
   return (
-    <div className={cn("relative flex items-center justify-center", sizeClasses[size], className)}>
-      {/* Outer pulsing aura */}
+    <div className={cn('relative flex items-center justify-center', sizeClasses[size], className)}>
       <motion.div
         animate={{
           scale: [1, 1.2, 1],
@@ -48,12 +46,11 @@ export function KompisAvatar({ state = 'idle', className, size = 'md' }: KompisA
         transition={{
           duration: state === 'active' || state === 'analyzing' ? 2 : 4,
           repeat: Infinity,
-          ease: "easeInOut",
+          ease: 'easeInOut',
         }}
-        className={cn("absolute inset-0 rounded-full blur-xl", getAuraColor())}
+        className={cn('absolute inset-0 rounded-full blur-xl', getAuraColor())}
       />
-      
-      {/* Inner core - Sub-Synaptic Network visual */}
+
       <motion.div
         animate={{
           rotate: [0, 360],
@@ -63,28 +60,26 @@ export function KompisAvatar({ state = 'idle', className, size = 'md' }: KompisA
           rotate: {
             duration: 20,
             repeat: Infinity,
-            ease: "linear",
+            ease: 'linear',
           },
           scale: {
             duration: 0.5,
-          }
+          },
         }}
-        className="relative w-3/4 h-3/4 rounded-full border border-amber-300/30 flex items-center justify-center overflow-hidden bg-slate-900/40 backdrop-blur-sm"
+        className="relative flex h-3/4 w-3/4 items-center justify-center overflow-hidden rounded-full border border-accent/30 bg-surface/60 backdrop-blur-sm"
       >
-        {/* Geometric center / Compass rose hint */}
-        <motion.div 
-           animate={{ rotate: [-45, 45, -45] }}
-           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-           className="absolute w-1/2 h-1/2 border border-blue-400/50 rotate-45"
+        <motion.div
+          animate={{ rotate: [-45, 45, -45] }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute h-1/2 w-1/2 rotate-45 border border-accent/40"
         />
-        <motion.div 
-           animate={{ rotate: [45, -45, 45] }}
-           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-           className="absolute w-1/2 h-1/2 border border-amber-300/50"
+        <motion.div
+          animate={{ rotate: [45, -45, 45] }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute h-1/2 w-1/2 border border-accent-light/40"
         />
-        
-        {/* Central light particle */}
-        <div className="w-1/4 h-1/4 bg-white rounded-full shadow-[0_0_15px_5px_rgba(255,255,255,0.8)] z-10" />
+
+        <div className="z-10 h-1/4 w-1/4 rounded-full bg-white shadow-[0_0_15px_5px_rgba(255,255,255,0.6)]" />
       </motion.div>
     </div>
   );

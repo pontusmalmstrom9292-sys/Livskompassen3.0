@@ -1,5 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
-import { LIVSKOMPASSEN_SYSTEM_CONFIG } from '../sharedRules';
+import { LIVSKOMPASSEN_SYSTEM_CONFIG, SPEGLINGS_COACHEN_SYSTEM_PROMPT } from '../sharedRules';
 import { GCP_PROJECT_ID, GCP_REGION } from '../config';
 
 const ai = new GoogleGenAI({
@@ -26,5 +26,30 @@ export const askKnowledgeVault = async (prompt: string): Promise<string> => {
   } catch (error) {
     console.error("[Knowledge Vault] Fel vid anrop till det nya Google Gen AI SDK:", error);
     throw new Error("Kunde inte nå den uppgraderade AI-motorn.");
+  }
+};
+
+export const askSpeglingsCoach = async (reflection: string, mood?: string): Promise<string> => {
+  const prompt = mood
+    ? `Humör från dagbok: ${mood}\nKänsla/reflektion: ${reflection}`
+    : reflection;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-1.5-pro',
+      contents: prompt,
+      config: {
+        systemInstruction: SPEGLINGS_COACHEN_SYSTEM_PROMPT,
+        temperature: 0.2,
+        maxOutputTokens: 220,
+      },
+    });
+
+    const text = response.text?.trim();
+    if (!text) throw new Error('Tomt speglings-svar.');
+    return text;
+  } catch (error) {
+    console.error('[Speglings-Coachen] Fel:', error);
+    throw new Error('Speglings-Coachen kunde inte svara.');
   }
 };

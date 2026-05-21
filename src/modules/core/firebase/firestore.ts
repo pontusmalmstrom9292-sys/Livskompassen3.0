@@ -36,6 +36,13 @@ function ownerScopedQuery(ref: ReturnType<typeof collection>, ownerId: string) {
   return query(ref, where('ownerId', '==', ownerId));
 }
 
+function normalizeCreatedAt(value: unknown): string {
+  if (value instanceof Timestamp) return value.toDate().toISOString();
+  if (typeof value === 'string') return value;
+  if (value == null) return '';
+  return String(value);
+}
+
 function sortByCreatedAtDesc<T extends { createdAt?: string }>(rows: T[]): T[] {
   return [...rows].sort((a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? ''));
 }
@@ -55,7 +62,10 @@ export async function saveJournalEntry(
   return docRef.id;
 }
 
-export async function saveVaultLog(userId: string, log: Omit<VaultLog, 'userId' | 'createdAt'>) {
+export async function saveVaultLog(
+  userId: string,
+  log: Omit<VaultLog, 'userId' | 'createdAt'>
+) {
   const payload = { ...log, isLocked: true } as FirestorePayload;
   assertWormPayload(payload, 'reality_vault');
   const ref = collection(db, FIRESTORE_COLLECTIONS.reality_vault);
@@ -101,11 +111,8 @@ export async function getVaultLogs(userId: string): Promise<(VaultLog & { id: st
   return sortByCreatedAtDesc(
     snap.docs.map((d) => {
       const data = d.data();
-      const createdAt =
-        data.createdAt instanceof Timestamp
-          ? data.createdAt.toDate().toISOString()
-          : String(data.createdAt ?? '');
-      return { id: d.id, ...(data as VaultLog), createdAt };
+      const { createdAt: _rawCreatedAt, ...rest } = data;
+      return { id: d.id, ...(rest as VaultLog), createdAt: normalizeCreatedAt(_rawCreatedAt) };
     })
   );
 }
@@ -117,10 +124,7 @@ export async function getChildrenLogs(userId: string) {
     snap.docs.map((d) => ({
       id: d.id,
       ...d.data(),
-      createdAt:
-        d.data().createdAt instanceof Timestamp
-          ? d.data().createdAt.toDate().toISOString()
-          : String(d.data().createdAt ?? ''),
+      createdAt: normalizeCreatedAt(d.data().createdAt),
     }))
   );
 }
@@ -132,10 +136,7 @@ export async function getJournalEntries(userId: string) {
     snap.docs.map((d) => ({
       id: d.id,
       ...d.data(),
-      createdAt:
-        d.data().createdAt instanceof Timestamp
-          ? d.data().createdAt.toDate().toISOString()
-          : String(d.data().createdAt ?? ''),
+      createdAt: normalizeCreatedAt(d.data().createdAt),
     }))
   );
 }

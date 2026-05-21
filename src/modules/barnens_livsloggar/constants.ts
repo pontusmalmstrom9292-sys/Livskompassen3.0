@@ -8,5 +8,3 @@ export const SIGNAL_LABELS = {
 } as const;
 
 export const BALANS_WINDOW_DAYS = 7;
-export const TRUST_LAVENDER = '#818CF8';
-export const TRUST_GOLD = '#FDE68A';

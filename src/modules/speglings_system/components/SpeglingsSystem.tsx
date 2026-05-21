@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Brain } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { useStore } from '../../core/store';
 import { getVaultLogs } from '../../core/firebase/firestore';
 import { hasVaultGate } from '../../core/auth/sessionService';
-import { VIVIR_STEPS, SYNAPSE_INDIGO } from '../constants/vivirSteps';
+import { readJournalBridgeContext } from '../../core/types/journalBridge';
+import { VIVIR_STEPS } from '../constants/vivirSteps';
 import { matchVaultEvidence } from '../utils/matchVaultEvidence';
 import { ActCalibrationView } from './ActCalibrationView';
 import { VivirStepView } from './VivirStepView';
@@ -12,12 +14,34 @@ import { EvidenceCompareView } from './EvidenceCompareView';
 
 type Phase = 'act' | 'vivir' | 'compare';
 
+const INITIAL_PHASE: Phase = 'act';
+
 export function SpeglingsSystem() {
+  const location = useLocation();
+  const journalBridge = readJournalBridgeContext(location.state);
   const user = useStore((s) => s.user);
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
-  const [phase, setPhase] = useState<Phase>('act');
+  const [phase, setPhase] = useState<Phase>(INITIAL_PHASE);
   const [feeling, setFeeling] = useState('');
+  const [journalMood, setJournalMood] = useState('');
   const [vivirAnswers, setVivirAnswers] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    if (!journalBridge) return;
+    const prefix = journalBridge.mood ? `Humör: ${journalBridge.mood}. ` : '';
+    setFeeling(`${prefix}${journalBridge.text}`);
+    setJournalMood(journalBridge.mood);
+  }, [journalBridge]);
+
+  useEffect(
+    () => () => {
+      setPhase(INITIAL_PHASE);
+      setFeeling('');
+      setJournalMood('');
+      setVivirAnswers({});
+    },
+    [],
+  );
 
   const vivirSummary = VIVIR_STEPS.map(
     (s) => `${s.title}: ${vivirAnswers[s.key] ?? '—'}`
@@ -36,17 +60,24 @@ export function SpeglingsSystem() {
       .catch(() => setMatches([]));
   }, [phase, user, vaultLocked, feeling, vivirAnswers]);
 
+  const resetSession = () => {
+    setPhase(INITIAL_PHASE);
+    setFeeling('');
+    setJournalMood('');
+    setVivirAnswers({});
+  };
+
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl bg-[#0f172a]/60 backdrop-blur-xl border border-white/10 p-1">
-      <BentoCard title="Speglings-Systemet" icon={<Brain className="h-4 w-4" style={{ color: SYNAPSE_INDIGO }} />}>
-        <p className="text-sm text-slate-300 mb-4">
+      <BentoCard title="Speglings-Systemet" icon={<Brain className="h-4 w-4" />}>
+        <p className="mb-4 text-sm text-text-muted">
           Kognitiv sköld — separera känsla från fakta. Validera, aldrig fixa.
         </p>
 
         {phase === 'act' && (
           <ActCalibrationView
             feeling={feeling}
+            journalMood={journalMood}
             onFeelingChange={setFeeling}
             onContinue={() => setPhase('vivir')}
           />
@@ -70,19 +101,14 @@ export function SpeglingsSystem() {
             />
             <button
               type="button"
-              onClick={() => {
-                setPhase('act');
-                setFeeling('');
-                setVivirAnswers({});
-              }}
-              className="mt-4 text-xs text-slate-500 uppercase tracking-widest"
+              onClick={resetSession}
+              className="mt-4 text-xs uppercase tracking-widest text-text-dim hover:text-accent"
             >
               Ny kalibrering
             </button>
           </>
         )}
       </BentoCard>
-      </div>
     </div>
   );
 }

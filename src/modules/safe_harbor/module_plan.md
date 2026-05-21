@@ -2,34 +2,49 @@
 
 ## Overview
 
-Safe Harbor / BIFF-Skölden surface: cognitive offloading, VIVIR (facts vs noise), Grey Rock reply coaching without JADE.
+Safe Harbor / BIFF-Skölden — Grey Rock-svar på ex-meddelanden utan JADE.
+
+Route: `/hamn` · Canonical: `.context/modules/safe_harbor.md` · Spec: `docs/specs/incoming/SafeHarbor-SPEC.md`
 
 ## Files
 
 | Path | Role |
 |------|------|
-| `components/SafeHarborPage.tsx` | Static feature list bento card |
+| `components/SafeHarborPage.tsx` | Textarea, submit, svar, kopiera |
+| `api/biffService.ts` | `analyzeMessage` callable + `extractGreyRockReply` |
 
 ## Status
 
 | Area | Status |
 |------|--------|
-| SafeHarborPage | **partial** — marketing copy only |
-| BIFF generator | **missing** — planned in chat UI |
-| DCAP / Gräns-Arkitekten | **backend** — Agent Card exists |
+| Route + AuthGate | **done** |
+| Dock Anchor + HomePage bento | **done** |
+| Klistra in + Generera BIFF-svar | **done** |
+| `analyzeMessage` → DCAP/supervisor | **done** |
+| Kopiera svar | **done** |
+| riskScore i UI | **done** |
+| Brusfilter som separat UI-steg | **planned** |
+| Användarens mål-fält | **planned** |
+| Flerstegs progressive disclosure | **planned** |
+| "Klar" + Zero Footprint unmount | **planned** |
+| Bro från `/speglar` | **planned** |
+| "Spara som bevis" → `reality_vault` | **planned** |
 
-## Dependencies
+## Backend
 
-- `core/ui/BentoCard`
-- Future: `kompis` chat for BIFF output
-
-## Next steps
-
-1. Add drawer or route from FloatingDock Shield icon.
-2. Integrate BIFF response flow via Kompis → BIFF-Skölden agent.
-3. Optional: paste ex-sms and get structured Grey Rock reply.
+- Callable: `analyzeMessage` (inte `generateBiffResponse`)
+- Agent: KompisSupervisor → DCAP + Grey Rock-svar
+- Brusfiltret: internt i supervisor/DCAP; ej exponerat som eget UI-steg
 
 ## Security notes
 
-- Ex-message content is sensitive — process via authenticated callable, not client-side LLM keys.
-- Do not persist raw messages without user consent and encryption (CMEK).
+- Ex-meddelanden: auth-only callable, max 5000 tecken
+- Ingen persistent lagring utan explicit "Spara som bevis"
+- CMEK vid valv-export (drift)
+
+## Nästa fas (implementera när användaren säger kör)
+
+1. Wizard: inmatning → brusfilter → mål → svar  
+2. State reset on unmount + Klar-knapp  
+3. Route state från Speglar  
+4. Valfri WORM-export till valv

@@ -34,12 +34,12 @@ export function ChildSubLogPanel({ childAlias, onSave }: Props) {
   };
 
   return (
-    <div className="space-y-2 pt-4 border-t border-white/10">
-      <p className="text-xs uppercase tracking-widest text-white/40">Observation — {childAlias}</p>
+    <div className="space-y-2 border-t border-border-strong pt-4">
+      <p className="text-xs uppercase tracking-widest text-text-dim">Observation — {childAlias}</p>
       <select
         value={category}
         onChange={(e) => setCategory(e.target.value)}
-        className="w-full rounded-xl border border-white/20 bg-black/20 px-3 py-2 text-sm"
+        className="input-glass rounded-xl px-3 py-2"
       >
         <option value="vardag">Vardag</option>
         <option value="skola">Skola</option>
@@ -51,20 +51,20 @@ export function ChildSubLogPanel({ childAlias, onSave }: Props) {
         onChange={(e) => setObservation(e.target.value)}
         placeholder="Neutral, faktabaserad observation..."
         rows={3}
-        className="w-full rounded-xl border border-white/20 bg-black/20 px-3 py-2 text-sm resize-none"
+        className="input-glass rounded-xl px-3 py-2"
       />
       <textarea
         value={childrenImpact}
         onChange={(e) => setChildrenImpact(e.target.value)}
         placeholder="Påverkan på barn (valfritt)..."
         rows={2}
-        className="w-full rounded-xl border border-white/20 bg-black/20 px-3 py-2 text-sm resize-none"
+        className="input-glass rounded-xl px-3 py-2"
       />
       <button
         type="button"
         onClick={handleSave}
         disabled={loading || !observation.trim()}
-        className="flex items-center gap-2 rounded-full border border-[#FDE68A]/30 px-4 py-2 text-xs uppercase tracking-widest text-[#FDE68A] disabled:opacity-50"
+        className="btn-pill--accent disabled:opacity-50"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
         Spara livslogg

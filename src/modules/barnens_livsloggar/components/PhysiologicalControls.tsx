@@ -21,9 +21,9 @@ function SignalRow({
 }) {
   return (
     <div className="space-y-1">
-      <p className="text-xs text-slate-400">
+      <p className="text-xs text-text-dim">
         {label}
-        {invertHint && <span className="text-white/30 ml-1">({invertHint})</span>}
+        {invertHint && <span className="ml-1 text-text-dim/70">({invertHint})</span>}
       </p>
       <div className="flex gap-1">
         {scales.map((s) => (
@@ -31,10 +31,8 @@ function SignalRow({
             key={s}
             type="button"
             onClick={() => onSelect(s)}
-            className={`flex-1 rounded-lg py-2 text-xs border ${
-              value === s
-                ? 'border-[#818CF8]/50 bg-[#818CF8]/15 text-[#818CF8]'
-                : 'border-white/10 text-slate-500'
+            className={`flex-1 rounded-lg border py-2 text-xs tabular-nums ${
+              value === s ? 'chip--active' : 'chip--idle'
             }`}
           >
             {s}

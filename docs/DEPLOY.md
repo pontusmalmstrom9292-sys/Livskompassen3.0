@@ -19,13 +19,28 @@ cd functions && npm run build && cd ..
 npm run build
 ```
 
-## Deploy — Firestore + modul-Functions
+## Deploy — Firestore + Storage + modul-Functions
 
 ```bash
 cd Livskompassen2.0
 firebase deploy --only firestore:rules,firestore:indexes
-firebase deploy --only functions:analyzeMessage,functions:invalidateSession,functions:generateEmbedding,functions:knowledgeVaultQuery,functions:scheduledRetentionJob,functions:weaveJournalEntry --force
+firebase deploy --only storage
+firebase deploy --only functions:analyzeMessage,functions:invalidateSession,functions:generateEmbedding,functions:knowledgeVaultQuery,functions:scheduledRetentionJob,functions:weaveJournalEntry,functions:speglingsMirror --force
 ```
+
+**Hjärtat (Speglar):** `speglingsMirror` måste deployas för AI-spegling i prod.
+
+**Storage:** `storage.rules` krävs för valv-media (`vault_evidence/{uid}/**`).
+
+**Första gången:** Aktivera Storage i [Firebase Console → Storage](https://console.firebase.google.com/project/gen-lang-client-0481875058/storage) (*Get Started*), välj region (t.ex. `europe-west1`), sedan:
+
+```bash
+firebase deploy --only storage
+```
+
+Utan aktiverad Storage + deploy misslyckas skärmdump-uppladdning i prod.
+
+Valfritt i samma körning (redan i repo, ej kritisk för hjärtat): `breakDownResponse`, `getAgentRegistry`.
 
 **Obs:** En full deploy `firebase deploy --only functions` inkluderar `notifyNewFile`, som kräver secret (se nedan).
 

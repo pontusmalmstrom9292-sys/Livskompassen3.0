@@ -1,9 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Heart, Lock, Loader2 } from 'lucide-react';
+import { Heart, Loader2 } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
+import { PinGate } from '../../core/ui/PinGate';
+import { EmptyState } from '../../core/ui/EmptyState';
+import { TimelineEntry } from '../../core/ui/TimelineEntry';
 import { useStore } from '../../core/store';
 import { saveChildrenLog, getChildrenLogs } from '../../core/firebase/firestore';
-import { CHILD_ALIASES, TRUST_LAVENDER, type ChildAlias } from '../constants';
+import { CHILD_ALIASES, type ChildAlias } from '../constants';
 import type { ChildrenLogEntry, PhysiologicalSignals } from '../types';
 import { computeBalansIndex } from '../utils/balansIndex';
 import { downloadBalansReportJson, exportBalansReport } from '../utils/exportBalansReport';
@@ -131,36 +134,17 @@ export function BarnensPage() {
   if (!unlocked) {
     return (
       <BentoCard title="Barnens livsloggar" icon={<Heart className="h-4 w-4" />}>
-        <p className="text-sm text-slate-300 mb-4">
-          Kasper och Arvid — neutrala observationer. Separat PIN, Zero Footprint.
-        </p>
-        <div className="space-y-2">
-          <input
-            type="password"
-            value={pin}
-            onChange={(e) => setPin(e.target.value)}
-            placeholder={needsSetup ? 'Skapa PIN' : 'PIN'}
-            className="w-full rounded-xl border border-white/20 bg-black/20 px-3 py-2 text-sm"
-          />
-          {needsSetup && (
-            <input
-              type="password"
-              value={confirmPin}
-              onChange={(e) => setConfirmPin(e.target.value)}
-              placeholder="Bekräfta PIN"
-              className="w-full rounded-xl border border-white/20 bg-black/20 px-3 py-2 text-sm"
-            />
-          )}
-          <button
-            type="button"
-            onClick={handleUnlock}
-            className="flex items-center gap-2 rounded-xl border border-[#FDE68A]/30 px-4 py-2 text-xs uppercase tracking-widest text-[#FDE68A]"
-          >
-            <Lock className="h-4 w-4" />
-            {needsSetup ? 'Skapa PIN' : 'Lås upp'}
-          </button>
-        </div>
-        {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+        <PinGate
+          description="Kasper och Arvid — neutrala observationer. Separat PIN, Zero Footprint."
+          pin={pin}
+          confirmPin={confirmPin}
+          setupMode={needsSetup}
+          error={error}
+          icon={<Heart className="h-4 w-4" />}
+          onPinChange={setPin}
+          onConfirmPinChange={setConfirmPin}
+          onSubmit={handleUnlock}
+        />
       </BentoCard>
     );
   }
@@ -173,10 +157,8 @@ export function BarnensPage() {
             key={name}
             type="button"
             onClick={() => setActiveChild(name)}
-            className={`flex-1 rounded-xl py-2 text-sm border ${
-              activeChild === name
-                ? 'border-[#818CF8]/50 text-[#818CF8] bg-[#818CF8]/10'
-                : 'border-white/10 text-slate-400'
+            className={`flex-1 rounded-xl border py-2 text-sm ${
+              activeChild === name ? 'chip--active' : 'chip--idle'
             }`}
           >
             {name}
@@ -184,12 +166,12 @@ export function BarnensPage() {
         ))}
       </div>
 
-      <BentoCard title={`${activeChild} — Balans`} icon={<Heart className="h-4 w-4" style={{ color: TRUST_LAVENDER }} />}>
+      <BentoCard title={`${activeChild} — Balans`} icon={<Heart className="h-4 w-4" />}>
         <BalansMatare result={balans} />
         <button
           type="button"
           onClick={() => downloadBalansReportJson(exportBalansReport(activeChild, logs))}
-          className="mt-3 text-xs uppercase tracking-widest text-slate-500 hover:text-[#FDE68A]"
+          className="mt-3 text-xs uppercase tracking-widest text-text-dim hover:text-accent"
         >
           Exportera stabilitetsrapport (JSON)
         </button>
@@ -201,21 +183,20 @@ export function BarnensPage() {
           type="button"
           onClick={handleSavePhysio}
           disabled={loading}
-          className="mt-4 flex items-center gap-2 rounded-full border border-[#818CF8]/40 px-4 py-2 text-xs uppercase tracking-widest disabled:opacity-50"
-          style={{ color: TRUST_LAVENDER }}
+          className="btn-pill--accent mt-4 disabled:opacity-50"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           Spara dagens signaler
         </button>
         <ChildSubLogPanel key={activeChild} childAlias={activeChild} onSave={handleSaveObservation} />
-        {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
         <button
           type="button"
           onClick={() => {
             setUnlocked(false);
             setVaultUnlocked(false);
           }}
-          className="mt-4 text-xs text-slate-500 uppercase tracking-widest"
+          className="mt-4 text-xs uppercase tracking-widest text-text-dim"
         >
           Lås modul
         </button>
@@ -223,22 +204,21 @@ export function BarnensPage() {
 
       <BentoCard title={`Tidslinje — ${activeChild}`}>
         {childLogs.length === 0 ? (
-          <p className="text-sm text-slate-400">Inga loggar ännu.</p>
+          <EmptyState message="Inga loggar ännu." />
         ) : (
           <ul className="space-y-3">
             {childLogs.map((log) => (
-              <li key={log.id} className="rounded-xl border border-white/10 p-3 text-sm">
-                <p className="text-[10px] uppercase tracking-widest text-white/40">
-                  {log.action ?? 'livslogg'} · {(log.createdAt ?? '').slice(0, 10)}
-                </p>
-                {log.signals ? (
-                  <p className="text-slate-200 mt-1">
-                    Sömn {log.signals.somn} · Ångest {log.signals.angest} · Aptit {log.signals.aptit}
-                  </p>
-                ) : (
-                  <p className="text-slate-200 mt-1">{log.observation ?? log.truth}</p>
-                )}
-              </li>
+              <TimelineEntry
+                key={log.id}
+                as="li"
+                meta={`${log.action ?? 'livslogg'} · ${(log.createdAt ?? '').slice(0, 10)}`}
+                body={
+                  log.signals
+                    ? `Sömn ${log.signals.somn} · Ångest ${log.signals.angest} · Aptit ${log.signals.aptit}`
+                    : (log.observation ?? log.truth ?? '')
+                }
+                truncateAt={0}
+              />
             ))}
           </ul>
         )}

@@ -10,8 +10,19 @@ Shared shell: layout chrome, design-system UI, global Zustand store, Firebase cl
 |------|------|
 | `layout/MainLayout.tsx` | App shell — header, main area, floating Kompis |
 | `layout/FloatingDock.tsx` | Bottom navigation dock |
-| `layout/SubSynapticBackground.tsx` | Animated background (not yet wired into layout) |
-| `ui/BentoCard.tsx` | Bento grid card primitive |
+| `layout/AmbientBackground.tsx` | Obsidian gradient + blur blobs |
+| `layout/SubSynapticBackground.tsx` | Re-export AmbientBackground (deprecated alias) |
+| `ui/index.ts` | Design system barrel export |
+| `ui/BentoCard.tsx` | Glass card primitive |
+| `ui/StepIndicator.tsx` | Wizard steg-rad (guld/emerald) |
+| `ui/PinGate.tsx` | PIN unlock/setup |
+| `ui/TimelineEntry.tsx` | Tidslinje-rad |
+| `ui/TabBar.tsx` | Tab-växlare |
+| `ui/MetricTile.tsx` / `SaldoHero.tsx` | Siffror utan grafer |
+| `ui/EmptyState.tsx` | Tom lista |
+| `ui/AlertBanner.tsx` / `StatusBadge.tsx` | Varning + WORM/locked/AI |
+| `ui/tokens.ts` | DESIGN + BUTTON_VARIANTS |
+| `utils/truncateText.ts` | Delad text-trunkering |
 | `store/index.ts` | Global UI/auth/system state |
 | `firebase/init.ts` | Firebase app + Functions (europe-west1) |
 | `types/firestore.ts` | Shared collection schemas |
@@ -20,10 +31,10 @@ Shared shell: layout chrome, design-system UI, global Zustand store, Firebase cl
 
 | Area | Status |
 |------|--------|
-| MainLayout + FloatingDock | **works** — renders on home |
-| SubSynapticBackground | **partial** — built, unused in MainLayout |
-| BentoCard | **works** — used by all feature modules |
-| Store | **partial** — defined; not yet consumed by pages |
+| MainLayout + FloatingDock + AmbientBackground | **done** |
+| Design system (core/ui) | **done** — audit 2026-05 |
+| BentoCard + knapp-hierarki | **done** |
+| Store | **partial** — defined; consumed by auth/vault |
 | Firebase init | **works** — env vars with fallbacks |
 
 ## Dependencies
@@ -33,9 +44,9 @@ Shared shell: layout chrome, design-system UI, global Zustand store, Firebase cl
 
 ## Next steps
 
-1. Wire `SubSynapticBackground` into `MainLayout`.
-2. Connect `useStore` compass filter + vault unlock to Verklighetsvalvet and FloatingDock.
-3. Add auth listener and Zero Footprint `resetState` on sign-out.
+1. `BodySignalChip` för Valv magkänsel (planerat)
+2. SubSynapticBackground WebGL när performance kräver det
+3. Zero Footprint `resetState` audit on sign-out
 
 ## Security notes
 

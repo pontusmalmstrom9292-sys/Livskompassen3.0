@@ -27,6 +27,13 @@ export interface VaultLog {
   evidenceUrl?: string;
   biffUsed?: boolean;
   isLocked?: boolean;
+  entryType?: 'simple' | 'two_column' | 'three_shield' | 'body_signal';
+  theirVersion?: string;
+  myReality?: string;
+  bodySignals?: string[];
+  shieldWhat?: string;
+  shieldFeeling?: string;
+  shieldBoundary?: string;
   createdAt: IsoDateTime;
 }
 
@@ -57,6 +64,15 @@ export interface Routine {
   createdAt: IsoDateTime;
 }
 
+export interface JournalEntry {
+  id: string;
+  mood: string;
+  text: string;
+  userId?: string;
+  ownerId?: string;
+  createdAt?: IsoDateTime;
+}
+
 export const FIRESTORE_COLLECTIONS = {
   vault: 'vault',
   checkins: 'checkins',
@@ -64,4 +80,5 @@ export const FIRESTORE_COLLECTIONS = {
   routines: 'routines',
   reality_vault: 'reality_vault',
   archival_analysis: 'archival_analysis',
+  journal: 'journal',
 } as const;

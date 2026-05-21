@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { VIVIR_STEPS, SYNAPSE_INDIGO } from '../constants/vivirSteps';
+import { VIVIR_STEPS } from '../constants/vivirSteps';
 
 interface Props {
   answers: Record<string, string>;
@@ -20,38 +20,30 @@ export function VivirStepView({ answers, onChange, onComplete }: Props) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
-        <span
-          className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium"
-          style={{ backgroundColor: `${SYNAPSE_INDIGO}33`, color: SYNAPSE_INDIGO }}
-        >
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent/20 text-sm font-medium text-accent">
           {step.letter}
         </span>
         <div>
-          <p className="text-xs text-white/40">
+          <p className="text-xs text-text-dim">
             Steg {stepIndex + 1} av {VIVIR_STEPS.length}
           </p>
-          <p className="text-sm font-medium text-slate-200">{step.title}</p>
+          <p className="text-sm font-medium text-text-muted">{step.title}</p>
         </div>
       </div>
 
-      <p className="text-sm text-slate-300">{step.prompt}</p>
+      <p className="text-sm text-text-muted">{step.prompt}</p>
 
       <textarea
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder={step.placeholder}
         rows={3}
-        className="w-full rounded-xl border border-white/10 bg-black/30 p-3 text-sm resize-none focus:outline-none"
-        style={{ borderColor: value ? `${SYNAPSE_INDIGO}44` : undefined }}
+        className={`input-glass rounded-xl p-3 ${value ? 'border-accent/30' : ''}`}
       />
 
       <div className="flex gap-2">
         {stepIndex > 0 && (
-          <button
-            type="button"
-            onClick={() => setStepIndex((i) => i - 1)}
-            className="flex items-center gap-1 rounded-full border border-white/10 px-4 py-2 text-xs text-slate-400"
-          >
+          <button type="button" onClick={() => setStepIndex((i) => i - 1)} className="btn-pill--ghost">
             <ChevronLeft className="h-4 w-4" /> Tillbaka
           </button>
         )}
@@ -60,8 +52,7 @@ export function VivirStepView({ answers, onChange, onComplete }: Props) {
             type="button"
             disabled={!value.trim()}
             onClick={() => setStepIndex((i) => i + 1)}
-            className="flex items-center gap-2 rounded-full border px-5 py-2 text-xs uppercase tracking-widest disabled:opacity-50"
-            style={{ borderColor: `${SYNAPSE_INDIGO}66`, color: SYNAPSE_INDIGO }}
+            className="btn-pill--secondary disabled:opacity-50"
           >
             Nästa <ChevronRight className="h-4 w-4" />
           </button>
@@ -70,8 +61,7 @@ export function VivirStepView({ answers, onChange, onComplete }: Props) {
             type="button"
             disabled={!value.trim()}
             onClick={onComplete}
-            className="flex items-center gap-2 rounded-full border px-5 py-2 text-xs uppercase tracking-widest disabled:opacity-50"
-            style={{ borderColor: `${SYNAPSE_INDIGO}66`, color: SYNAPSE_INDIGO }}
+            className="btn-pill--secondary disabled:opacity-50"
           >
             Jämför med valvet
           </button>

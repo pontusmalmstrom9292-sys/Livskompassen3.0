@@ -1,10 +1,15 @@
-import { Lock, ShieldAlert, Plus, Loader2 } from 'lucide-react';
+import { Lock, ShieldAlert, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BentoCard } from '../../core/ui/BentoCard';
+import { PinGate } from '../../core/ui/PinGate';
 import { useStore } from '../../core/store';
 import { hasVaultGate } from '../../core/auth/sessionService';
 import { saveVaultLog, getVaultLogs } from '../../core/firebase/firestore';
 import type { VaultLog } from '../../core/types/firestore';
+import { VaultEntryForm } from './VaultEntryForm';
+import { VaultLogList } from './VaultLogList';
+import type { VaultLogInput } from '../types/vaultEntry';
 
 const PIN_STORAGE_KEY = 'livskompassen_vault_pin_hash';
 
@@ -31,6 +36,7 @@ function hasPinConfigured(): boolean {
 }
 
 export function VaultPage() {
+  const navigate = useNavigate();
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
   const user = useStore((s) => s.user);
@@ -39,8 +45,6 @@ export function VaultPage() {
   const [confirmPin, setConfirmPin] = useState('');
   const [logs, setLogs] = useState<(VaultLog & { id: string })[]>([]);
   const [loading, setLoading] = useState(false);
-  const [truth, setTruth] = useState('');
-  const [category, setCategory] = useState('');
   const [error, setError] = useState<string | null>(null);
   const gateOk = hasVaultGate();
 
@@ -55,6 +59,10 @@ export function VaultPage() {
   }, [isVaultUnlocked, user]);
 
   const handleUnlock = () => {
+    if (!user) {
+      setError('Väntar på inloggning — försök igen om ett ögonblick.');
+      return;
+    }
     if (isSetup) {
       if (pin.length < 4) {
         setError('PIN måste vara minst 4 tecken.');
@@ -81,17 +89,12 @@ export function VaultPage() {
     }
   };
 
-  const handleSaveLog = async () => {
-    if (!user || !truth.trim()) return;
+  const handleSaveLog = async (input: VaultLogInput) => {
+    if (!user) return;
     setLoading(true);
+    setError(null);
     try {
-      await saveVaultLog(user.uid, {
-        action: 'bevis',
-        truth: truth.trim(),
-        category: category.trim() || 'allmänt',
-      });
-      setTruth('');
-      setCategory('');
+      await saveVaultLog(user.uid, input);
       const updated = await getVaultLogs(user.uid);
       setLogs(updated);
     } catch {
@@ -101,6 +104,11 @@ export function VaultPage() {
     }
   };
 
+  const handleCloseToLayer1 = () => {
+    setVaultUnlocked(false);
+    navigate('/dagbok');
+  };
+
   if (!gateOk) {
     return (
       <BentoCard
@@ -108,7 +116,7 @@ export function VaultPage() {
         description="Sacred Feature — long-press krävs"
         icon={<ShieldAlert className="h-4 w-4" />}
       >
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-text-dim">
           Håll Shield-ikonen i bottenmenyn i 3 sekunder för att öppna valvet. Kort tryck räcker inte.
         </p>
       </BentoCard>
@@ -122,39 +130,28 @@ export function VaultPage() {
         description="Ange PIN"
         icon={<ShieldAlert className="h-4 w-4" />}
       >
-        <p className="text-sm text-slate-300 mb-3">
-          {isSetup
-            ? 'Skapa din PIN (sparas lokalt, aldrig hårdkodad).'
-            : 'Ange PIN för att låsa upp.'}
-        </p>
-        <div className="space-y-2">
-          <input
-            type="password"
-            inputMode="numeric"
-            value={pin}
-            onChange={(e) => setPin(e.target.value)}
-            placeholder="PIN"
-            className="w-full rounded-xl border border-white/20 bg-black/20 px-3 py-2 text-sm"
-          />
-          {isSetup && (
-            <input
-              type="password"
-              inputMode="numeric"
-              value={confirmPin}
-              onChange={(e) => setConfirmPin(e.target.value)}
-              placeholder="Bekräfta PIN"
-              className="w-full rounded-xl border border-white/20 bg-black/20 px-3 py-2 text-sm"
-            />
-          )}
-          <button
-            type="button"
-            onClick={handleUnlock}
-            className="rounded-xl border border-[#FDE68A]/30 px-4 py-2 text-xs uppercase tracking-widest text-[#FDE68A]"
-          >
-            {isSetup ? 'Skapa PIN' : 'Lås upp'}
-          </button>
-        </div>
-        {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+        <PinGate
+          description={
+            isSetup
+              ? 'Skapa din PIN (sparas lokalt, aldrig hårdkodad).'
+              : 'Ange PIN för att låsa upp.'
+          }
+          pin={pin}
+          confirmPin={confirmPin}
+          setupMode={isSetup}
+          error={error}
+          onPinChange={setPin}
+          onConfirmPinChange={setConfirmPin}
+          onSubmit={handleUnlock}
+        />
+      </BentoCard>
+    );
+  }
+
+  if (!user) {
+    return (
+      <BentoCard title="Verklighetsvalvet" icon={<Lock className="h-4 w-4" />}>
+        <p className="text-sm text-text-dim">Ansluter till valvet…</p>
       </BentoCard>
     );
   }
@@ -162,54 +159,24 @@ export function VaultPage() {
   return (
     <div className="space-y-4">
       <BentoCard title="Verklighetsvalvet" icon={<Lock className="h-4 w-4" />}>
-        <p className="text-sm text-emerald-300 mb-4">
-          Valvet är upplåst. Poster är append-only (WORM).
-        </p>
-        <div className="space-y-2">
-          <input
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            placeholder="Kategori (valfritt)"
-            className="w-full rounded-xl border border-white/20 bg-black/20 px-3 py-2 text-sm"
-          />
-          <textarea
-            value={truth}
-            onChange={(e) => setTruth(e.target.value)}
-            placeholder="Sanning / bevis (fakta, datum, händelse)..."
-            rows={4}
-            className="w-full rounded-xl border border-white/20 bg-black/20 px-3 py-2 text-sm resize-none"
-          />
+        <div className="mb-4 flex items-start justify-between gap-2">
+          <p className="text-sm text-accent">
+            Lager 2 — append-only (WORM). Ett fält i taget.
+          </p>
           <button
             type="button"
-            onClick={handleSaveLog}
-            disabled={loading || !truth.trim()}
-            className="flex items-center gap-2 rounded-full border border-[#FDE68A]/30 px-4 py-2 text-xs uppercase tracking-widest text-[#FDE68A] disabled:opacity-50"
+            onClick={handleCloseToLayer1}
+            className="btn-pill--ghost shrink-0 flex items-center gap-1"
+            title="Stäng valv — tillbaka till dagbok"
           >
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-            Spara bevis
+            <X className="h-3 w-3" /> Stäng
           </button>
         </div>
-        {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+        <VaultEntryForm userId={user.uid} saving={loading} onSave={handleSaveLog} />
+        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
       </BentoCard>
 
-      <BentoCard title="VaultLog">
-        {loading && logs.length === 0 ? (
-          <p className="text-sm text-slate-400">Laddar...</p>
-        ) : logs.length === 0 ? (
-          <p className="text-sm text-slate-400">Inga poster ännu.</p>
-        ) : (
-          <ul className="space-y-3">
-            {logs.map((log) => (
-              <li key={log.id} className="rounded-xl border border-white/10 p-3 text-sm">
-                <p className="text-[10px] uppercase tracking-widest text-white/40">
-                  {log.category ?? 'allmänt'} · {log.createdAt.slice(0, 10)}
-                </p>
-                <p className="text-slate-200 mt-1">{log.truth}</p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </BentoCard>
+      <VaultLogList logs={logs} loading={loading} />
     </div>
   );
 }

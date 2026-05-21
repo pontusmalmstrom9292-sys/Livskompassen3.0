@@ -3,36 +3,29 @@ import { Compass } from 'lucide-react';
 
 export function Tidshjulet() {
   return (
-    <div className="relative w-full max-w-md mx-auto aspect-square flex items-center justify-center my-12">
-      {/* Yttre ring - Framtid */}
-      <motion.div 
+    <div className="relative mx-auto my-12 flex aspect-square w-full max-w-md items-center justify-center">
+      <motion.div
         animate={{ rotate: 360 }}
-        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-0 rounded-full border border-slate-800 border-dashed"
+        transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+        className="absolute inset-0 rounded-full border border-dashed border-surface-3"
       />
-      
-      {/* Mellanring - Nutid */}
-      <motion.div 
+
+      <motion.div
         animate={{ rotate: -360 }}
-        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-4 rounded-full border border-[#FDE68A]/20"
+        transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+        className="absolute inset-4 rounded-full border border-accent/20"
       >
-        <div className="absolute -top-1 left-1/2 w-2 h-2 bg-[#FDE68A] rounded-full shadow-[0_0_10px_2px_#FDE68A50]"></div>
+        <div className="absolute -top-1 left-1/2 h-2 w-2 rounded-full bg-accent shadow-accent-glow" />
       </motion.div>
 
-      {/* Inre ring - Dåtid (Kampspår) */}
-      <motion.div 
-        className="absolute inset-12 rounded-full border border-indigo-500/50 bg-indigo-500/10 backdrop-blur-sm"
-      />
+      <motion.div className="absolute inset-12 rounded-full border border-accent/30 bg-accent/5 backdrop-blur-sm" />
 
-      {/* Navet */}
-      <div className="relative z-10 w-20 h-20 rounded-full bg-[#020617] border border-slate-700 flex items-center justify-center shadow-xl shadow-black/50">
-        <Compass className="w-8 h-8 text-[#FDE68A]" />
+      <div className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full border border-surface-3 bg-bg shadow-xl shadow-black/50">
+        <Compass className="h-8 w-8 text-accent" />
       </div>
 
-      {/* Data noder - Exempel på milstolpar */}
-      <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-emerald-400 rounded-full shadow-[0_0_10px_var(--tw-shadow-color)] shadow-emerald-400/80 z-20"></div>
-      <div className="absolute bottom-1/3 right-1/4 w-2 h-2 bg-purple-400 rounded-full shadow-[0_0_10px_var(--tw-shadow-color)] shadow-purple-400/80 z-20"></div>
+      <div className="absolute left-1/4 top-1/4 z-20 h-3 w-3 rounded-full bg-accent-light shadow-accent-glow" />
+      <div className="absolute bottom-1/3 right-1/4 z-20 h-2 w-2 rounded-full bg-accent/80 shadow-accent-glow" />
     </div>
   );
 }

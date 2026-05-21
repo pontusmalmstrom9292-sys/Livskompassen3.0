@@ -36,8 +36,6 @@ export const VIVIR_STEPS = [
   },
 ] as const;
 
-export const SYNAPSE_INDIGO = '#6366F1';
-
 export const ACT_MIRRORS = [
   (input: string) =>
     input.trim()

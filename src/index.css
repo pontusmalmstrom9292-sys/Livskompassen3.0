@@ -2,8 +2,274 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: #020617; /* Den djupa, trygga midnattsblå färgen */
-  color: #f8fafc; /* Mjuk ljus text */
-  font-family: sans-serif;
+:root {
+  --bg: #020617;
+  --surface: #0f172a;
+  --surface-2: #1e293b;
+  --surface-3: #334155;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --accent: #fde68a;
+  --accent-secondary: #818cf8;
+  --accent-light: #fef3c7;
+  --accent-glow: rgba(253, 230, 138, 0.15);
+  --success: #2dd4bf;
+  --glass: rgba(15, 23, 42, 0.6);
+  --glass-hero: rgba(15, 23, 42, 0.72);
+  --border: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.1);
+  --warning: #a16207;
+  --danger: #dc2626;
+}
+
+@layer base {
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  .ambient-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    background: radial-gradient(ellipse 120% 80% at 50% -20%, #0f172a 0%, var(--bg) 55%);
+  }
+
+  .ambient-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .ambient-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    will-change: transform;
+  }
+
+  .ambient-blob--gold {
+    background: rgba(253, 230, 138, 0.1);
+  }
+
+  .ambient-blob--indigo {
+    background: rgba(129, 140, 248, 0.08);
+  }
+
+  .ambient-blob--white {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .glass-card {
+    position: relative;
+    background: var(--glass);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    border: 1px solid var(--border-strong);
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.12),
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  .glass-hero {
+    position: relative;
+    background: var(--glass-hero);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    border: 1px solid var(--border-strong);
+    border-radius: 1.25rem;
+    box-shadow: 0 0 48px var(--accent-glow);
+    overflow: hidden;
+  }
+
+  .glass-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.14),
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  .glass-nav {
+    background: var(--glass);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    border: 1px solid var(--border-strong);
+  }
+
+  .nav-item {
+    @apply relative p-2.5 rounded-2xl transition-colors shrink-0 text-text-dim hover:text-text;
+  }
+
+  .nav-item.active {
+    @apply bg-surface-3 text-accent;
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+
+  .btn-pill {
+    @apply inline-flex items-center gap-2 rounded-full border px-5 py-2 text-xs uppercase tracking-widest transition-colors disabled:opacity-50;
+  }
+
+  .btn-pill--accent {
+    @apply btn-pill border-accent/40 text-accent hover:bg-accent/10;
+  }
+
+  .btn-pill--ghost {
+    @apply btn-pill border-border-strong text-text-muted hover:text-text;
+  }
+
+  .btn-pill--primary {
+    @apply btn-pill border-accent/50 bg-accent/15 text-accent-light hover:bg-accent/25;
+  }
+
+  .btn-pill--secondary {
+    @apply btn-pill border-accent-secondary/50 text-accent-secondary hover:bg-accent-secondary/10;
+  }
+
+  .btn-pill--success {
+    @apply btn-pill border-success/40 text-success hover:bg-success/10;
+  }
+
+  .alert-banner {
+    @apply rounded-xl border px-4 py-3 text-sm;
+  }
+
+  .alert-banner--info {
+    @apply alert-banner border-border-strong bg-surface/60 text-text-muted;
+  }
+
+  .alert-banner--warning {
+    @apply alert-banner border-warning/30 bg-warning/5 text-text-muted;
+  }
+
+  .alert-banner--danger {
+    @apply alert-banner border-danger/30 bg-danger/5 text-text-muted;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-widest;
+  }
+
+  .badge-worm {
+    @apply badge border-success/40 text-success;
+  }
+
+  .badge-locked {
+    @apply badge border-accent/30 text-accent;
+  }
+
+  .badge-risk {
+    @apply badge border-warning/40 text-warning;
+  }
+
+  .badge-ai {
+    @apply badge border-accent-ai/40 text-accent-ai;
+  }
+
+  .glass-card--ai {
+    @apply glass-card border-accent-ai/30;
+  }
+
+  .input-glass {
+    @apply w-full rounded-2xl border border-border-strong bg-surface/80 p-4 text-sm text-text resize-none focus:border-accent/40 focus:outline-none;
+  }
+
+  .chip {
+    @apply rounded-full border px-3 py-1 text-xs transition-colors;
+  }
+
+  .chip--active {
+    @apply chip border-accent/50 bg-accent/10 text-accent;
+  }
+
+  .chip--idle {
+    @apply chip border-border-strong text-text-muted hover:border-border-strong hover:text-text-muted;
+  }
+}
+
+@keyframes ambient-drift-1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(30px, -20px) scale(1.05);
+  }
+}
+
+@keyframes ambient-drift-2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-25px, 15px) scale(0.95);
+  }
+}
+
+@keyframes ambient-drift-3 {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(15px, 25px);
+  }
+}
+
+.ambient-blob--1 {
+  animation: ambient-drift-1 28s ease-in-out infinite;
+}
+
+.ambient-blob--2 {
+  animation: ambient-drift-2 34s ease-in-out infinite;
+}
+
+.ambient-blob--3 {
+  animation: ambient-drift-3 40s ease-in-out infinite;
 }

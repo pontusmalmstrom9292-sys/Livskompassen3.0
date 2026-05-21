@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { callKnowledgeVault } from '../api/knowledgeVaultService';
 import { useStore } from '../../core/store';
 import { Lock } from 'lucide-react';
+import { BentoCard } from '../../core/ui/BentoCard';
 
 export function KnowledgeVaultChat() {
   const [inputText, setInputText] = useState<string>('');
@@ -46,49 +47,46 @@ export function KnowledgeVaultChat() {
   };
 
   if (authLoading) {
-    return <p className="text-sm text-slate-400">Ansluter...</p>;
+    return <p className="text-sm text-text-dim">Ansluter...</p>;
   }
 
   if (!isAuthenticated) {
     return (
-      <div className="bg-white/5 border border-white/10 rounded-[2rem] p-6 w-full flex items-center gap-3">
-        <Lock className="h-5 w-5 text-[#FDE68A]" />
-        <p className="text-sm text-slate-300">
-          Logga in via Firebase Auth för att ställa frågor till Kunskapsvalvet.
-        </p>
-      </div>
+      <BentoCard>
+        <div className="flex items-center gap-3">
+          <Lock className="h-5 w-5 text-accent" />
+          <p className="text-sm text-text-muted">
+            Logga in via Firebase Auth för att ställa frågor till Kunskapsvalvet.
+          </p>
+        </div>
+      </BentoCard>
     );
   }
 
   return (
-    <div className="bg-white/5 border border-white/10 rounded-[2rem] p-6 w-full">
-      <h2 className="text-2xl font-outfit mb-4 text-emerald-400">Knowledge Vault</h2>
+    <BentoCard title="Knowledge Vault">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <textarea
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           placeholder="Ställ din fråga till AI-agenten här..."
           rows={3}
-          className="w-full bg-black/50 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:border-emerald-500/50 resize-none"
+          className="input-glass"
           disabled={isLoading}
         />
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="self-end px-6 py-2 bg-emerald-500/20 text-emerald-400 rounded-full border border-emerald-500/50 hover:bg-emerald-500/30 transition-colors disabled:opacity-50"
-        >
+        <button type="submit" disabled={isLoading} className="btn-pill--secondary self-end">
           {isLoading ? 'Skickar...' : 'Skicka fråga'}
         </button>
       </form>
 
-      {error && <p className="text-red-400 mt-4 px-4">{error}</p>}
+      {error && <p className="mt-4 px-4 text-danger">{error}</p>}
 
       {aiResponse && (
-        <div className="mt-6 border border-indigo-500/30 bg-indigo-500/10 p-6 rounded-[2rem]">
-          <h3 className="text-indigo-400 font-semibold mb-2">AI-svar:</h3>
-          <p className="whitespace-pre-wrap">{aiResponse}</p>
+        <div className="glass-card mt-6 p-6">
+          <h3 className="mb-2 font-display font-semibold text-accent">AI-svar:</h3>
+          <p className="whitespace-pre-wrap text-text-muted">{aiResponse}</p>
         </div>
       )}
-    </div>
+    </BentoCard>
   );
 }

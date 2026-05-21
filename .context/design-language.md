@@ -1,15 +1,31 @@
 # Visuell Estetik och Designspråk
 
-Användargränssnittet för Livskompassen v2 ska spegla en levande, trygg och avancerad upplevelse.
+**Canonical:** [`docs/specs/design-master.md`](../docs/specs/design-master.md) — **Obsidian Calm (Riktning A)**
+
+## Estetik
+
+- Mörk obsidian-bas (`#020617` → `#0f172a`), glass cards, lågaffektiv
+- Accents: Tactical Amber `#FDE68A`, Electric Indigo `#818CF8`, Cyber Emerald `#2DD4BF`
+- Typografi: **Outfit** (rubriker), **Inter** (bröd)
+- Progressive disclosure — ett steg i taget
 
 ## Centrala Element
-- **Kompis Avatar:** Agentens fysiska form på skärmen.
-    - *Viloläge:* En pulserande aura.
-    - *Aktivt läge:* Definierad struktur (geometrisk stjärna/kompassros) när den processar data.
-- **Tidshjulet:** En interaktiv, flerlagrad kompassnål och tidslinje för navigering genom tid och "Kampspår". Prediktiva analyser framhävs med visuella pulseringar.
-- **Sub-Synaptisk Bakgrund:** Visuell representation av nätverket (neuralt nätverk, gyllene trådar) implementerat via WebGL/Canvas för hög prestanda utan att tynga UI.
 
-## Styling (Tailwind CSS)
-- **Färgpalett:** Fokuserar på guld- och blåtoner.
-- Måste kännas modern, "alive" och polerad med konsekvent spacing, typografi och interaktiv feedback.
-- Undvik tunga, prestandakrävande DOM-manipulationer för bakgrundsanimationer; använd WebGL/Canvas (`SubSynapticBackground.tsx`) enligt arkitekturen.
+- **Kompis Avatar:** pulserande aura (viloläge), definierad struktur vid analys
+- **Tidshjulet:** flerlagrad tidslinje för Kampspår
+- **Sub-Synaptisk Bakgrund:** WebGL/Canvas (`SubSynapticBackground.tsx`) — bakom innehåll, inte på kontroller
+
+## Tailwind / CSS
+
+- Tokens: `src/modules/core/ui/tokens.ts`, `:root` i `src/index.css`
+- Glass: `border-white/10`, `bg-[#0f172a]/60`, `backdrop-blur-xl`
+- Geometry: `rounded-2xl`, pills, soft cards
+
+## Förbjudet
+
+Nature themes, lila/turkos/regnbåge, ljusa bakgrunder, count-up på siffror, sensorisk noise.
+
+## Modul-specifikt
+
+- **Speglar:** Electric Indigo `#6366F1` för AI-ytor
+- **Barnen:** `#818CF8` + `#FDE68A`

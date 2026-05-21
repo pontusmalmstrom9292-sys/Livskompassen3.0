@@ -1,16 +1,22 @@
-import { PieChart, Wallet } from 'lucide-react';
+import { Wallet } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
+import { SaldoHero } from '../../core/ui/SaldoHero';
+import { MetricTile } from '../../core/ui/MetricTile';
+import { EmptyState } from '../../core/ui/EmptyState';
 
 export function EconomyPage() {
   return (
-    <BentoCard title="Ekonomi" icon={<Wallet className="h-4 w-4" />}>
-      <div className="space-y-3 text-sm text-slate-300">
-        <p>Likviditet, transaktioner och sparmal samlas i samma vy.</p>
-        <div className="flex items-center gap-2 text-[#FDE68A]">
-          <PieChart className="h-4 w-4" />
-          Kernlogg aktiv: budget + sparande
-        </div>
+    <div className="space-y-4">
+      <SaldoHero label="Vad har jag kvar" amount="— kr" hint="Veckopeng och matlåda — inga grafer." />
+
+      <div className="grid grid-cols-2 gap-3">
+        <MetricTile label="Veckopeng" value="—" hint="Placeholder" />
+        <MetricTile label="Matlåda" value="—" hint="Placeholder" />
       </div>
-    </BentoCard>
+
+      <BentoCard title="Transaktioner" icon={<Wallet className="h-4 w-4" />}>
+        <EmptyState message="Inga transaktioner ännu. Firestore-schema kommer i nästa fas." />
+      </BentoCard>
+    </div>
   );
 }

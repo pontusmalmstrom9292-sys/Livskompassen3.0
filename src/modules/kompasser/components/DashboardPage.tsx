@@ -81,10 +81,8 @@ export function DashboardPage() {
               setSelected(null);
               setSaved(false);
             }}
-            className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-widest border ${
-              activeFlow === id
-                ? 'border-[#FDE68A]/40 bg-[#FDE68A]/10 text-[#FDE68A]'
-                : 'border-white/10 text-slate-400'
+            className={`flex items-center gap-2 rounded-full border px-4 py-2 text-xs uppercase tracking-widest ${
+              activeFlow === id ? 'chip--active' : 'chip--idle'
             }`}
           >
             <Icon className="h-3 w-3" />
@@ -94,7 +92,7 @@ export function DashboardPage() {
       </div>
 
       <BentoCard title={flow.label} icon={<flow.icon className="h-4 w-4" />}>
-        <p className="text-sm text-slate-300 mb-4">{flow.question}</p>
+        <p className="mb-4 text-sm text-text-muted">{flow.question}</p>
         <div className="space-y-2">
           {flow.options.map((opt) => (
             <button
@@ -104,10 +102,10 @@ export function DashboardPage() {
                 setSelected(opt);
                 setSaved(false);
               }}
-              className={`w-full text-left rounded-xl px-4 py-3 text-sm border transition-colors ${
+              className={`w-full rounded-xl border px-4 py-3 text-left text-sm transition-colors ${
                 selected === opt
-                  ? 'border-[#FDE68A]/50 bg-[#FDE68A]/10 text-[#FDE68A]'
-                  : 'border-white/10 text-slate-300 hover:border-white/20'
+                  ? 'border-accent/50 bg-accent/10 text-accent'
+                  : 'border-border-strong text-text-muted hover:border-accent/20'
               }`}
             >
               {opt}
@@ -120,7 +118,7 @@ export function DashboardPage() {
             type="button"
             onClick={handleSave}
             disabled={saving}
-            className="mt-4 flex items-center gap-2 rounded-full border border-emerald-500/40 px-5 py-2 text-xs uppercase tracking-widest text-emerald-400 disabled:opacity-50"
+            className="btn-pill--success mt-4"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
             Spara check-in
@@ -128,12 +126,12 @@ export function DashboardPage() {
         )}
 
         {saved && (
-          <p className="mt-4 text-sm text-emerald-400 flex items-center gap-2">
+          <p className="mt-4 flex items-center gap-2 text-sm text-success">
             <Check className="h-4 w-4" /> Check-in sparad.
           </p>
         )}
 
-        {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
+        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
       </BentoCard>
     </div>
   );

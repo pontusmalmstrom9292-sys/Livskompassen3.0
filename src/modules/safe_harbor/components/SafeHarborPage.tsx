@@ -33,7 +33,7 @@ export function SafeHarborPage() {
   return (
     <div className="space-y-4">
       <BentoCard title="Safe Harbor — BIFF-Skölden" icon={<Anchor className="h-4 w-4" />}>
-        <p className="mb-4 text-sm text-slate-300">
+        <p className="mb-4 text-sm text-text-muted">
           Klistra in ett sms eller mejl. Få ett kort, affärsmässigt Grey Rock-svar utan JADE.
         </p>
         <form onSubmit={handleSubmit} className="space-y-3">
@@ -42,34 +42,30 @@ export function SafeHarborPage() {
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Klistra in meddelandet här..."
             rows={5}
-            className="w-full rounded-2xl border border-white/10 bg-black/30 p-4 text-sm text-white resize-none focus:outline-none focus:border-[#FDE68A]/40"
+            className="input-glass"
             disabled={loading}
           />
-          <button
-            type="submit"
-            disabled={loading || !message.trim()}
-            className="flex items-center gap-2 rounded-full border border-[#FDE68A]/30 px-5 py-2 text-xs uppercase tracking-widest text-[#FDE68A] disabled:opacity-50"
-          >
+          <button type="submit" disabled={loading || !message.trim()} className="btn-pill--accent">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
             Generera BIFF-svar
           </button>
         </form>
       </BentoCard>
 
-      {error && <p className="text-red-400 text-sm">{error}</p>}
+      {error && <p className="text-sm text-danger">{error}</p>}
 
       {reply && (
         <BentoCard title="Föreslaget svar">
           {riskScore !== null && (
-            <p className="text-[10px] uppercase tracking-widest text-white/40 mb-2">
+            <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">
               Riskpoäng: {riskScore}
             </p>
           )}
-          <p className="text-sm text-slate-200 whitespace-pre-wrap">{reply}</p>
+          <p className="whitespace-pre-wrap text-sm text-text-muted">{reply}</p>
           <button
             type="button"
             onClick={() => navigator.clipboard.writeText(reply)}
-            className="mt-4 text-xs text-[#FDE68A]/70 uppercase tracking-widest"
+            className="mt-4 text-xs uppercase tracking-widest text-accent/70"
           >
             Kopiera svar
           </button>

@@ -17,21 +17,21 @@ const modules = [
 export function HomePage() {
   return (
     <div className="space-y-8">
-      <div className="text-center space-y-4">
+      <div className="glass-hero space-y-4 p-8 text-center">
         <div className="flex justify-center">
           <KompisAvatar state="idle" size="md" />
         </div>
-        <h2 className="text-3xl text-[#FDE68A] font-light">Välkommen Hem</h2>
-        <p className="text-slate-400 text-sm leading-relaxed max-w-xs mx-auto italic">
+        <h2 className="font-display text-3xl font-light text-accent">Välkommen Hem</h2>
+        <p className="mx-auto max-w-xs text-sm italic leading-relaxed text-text-muted">
           En trygg plats för din sanning, din ekonomi och din återhämtning.
         </p>
       </div>
 
       <div className="grid gap-3">
         {modules.map(({ to, label, desc, icon: Icon }) => (
-          <Link key={to} to={to}>
+          <Link key={to} to={to} className="block transition-transform hover:scale-[1.01]">
             <BentoCard title={label} icon={<Icon className="h-4 w-4" />}>
-              <p className="text-sm text-slate-300">{desc}</p>
+              <p className="text-sm text-text-muted">{desc}</p>
             </BentoCard>
           </Link>
         ))}

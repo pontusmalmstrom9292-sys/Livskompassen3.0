@@ -1,6 +1,6 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { GCP_PROJECT_ID } from "./config";
-import { askKnowledgeVault } from "./agents/vertexAgent";
+import { askKnowledgeVault, askSpeglingsCoach } from "./agents/vertexAgent";
 import { weaveJournalEntry as runWeaver } from "./agents/weaverAgent";
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
@@ -235,6 +235,30 @@ export const getAgentRegistry = functions.region('europe-west1').https.onCall(as
 // Funktion 9: breakDownResponse
 // Paralys-Brytaren — sub-synaps som atomiserar tunga svar till 30s-mikrosteg.
 // ─────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 10: speglingsMirror
+// Speglings-Coachen — ACT-spegling max 2–4 meningar, fallback i frontend.
+// ─────────────────────────────────────────────────────────────────────────────
+export const speglingsMirror = functions.region('europe-west1').https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
+  }
+
+  const reflection = data.reflection;
+  const mood = typeof data.mood === 'string' ? data.mood : undefined;
+
+  if (!reflection || typeof reflection !== 'string') {
+    throw new functions.https.HttpsError('invalid-argument', 'Fältet "reflection" (string) krävs.');
+  }
+
+  if (reflection.length > 4000) {
+    throw new functions.https.HttpsError('invalid-argument', 'Reflection får vara max 4000 tecken.');
+  }
+
+  const mirror = await askSpeglingsCoach(reflection, mood);
+  return { mirror };
+});
+
 export const breakDownResponse = functions.region('europe-west1').https.onCall(async (data, context) => {
   if (!context.auth) {
     throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');

@@ -10,7 +10,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
   if (isLoading) {
     return (
       <BentoCard title="Laddar">
-        <p className="text-sm text-slate-400">Ansluter till Livskompassen...</p>
+        <p className="text-sm text-text-dim">Ansluter till Livskompassen...</p>
       </BentoCard>
     );
   }
@@ -18,10 +18,10 @@ export function AuthGate({ children }: { children: ReactNode }) {
   if (!isAuthenticated) {
     return (
       <BentoCard title="Inloggning krävs" icon={<Lock className="h-4 w-4" />}>
-        <p className="text-sm text-slate-300">
+        <p className="text-sm text-text-muted">
           Kunskapsvalvet och känsliga moduler kräver Firebase Auth. Kontrollera att{' '}
-          <code className="text-[#FDE68A]/80">VITE_FIREBASE_*</code> finns i din{' '}
-          <code className="text-[#FDE68A]/80">.env</code>.
+          <code className="text-accent/80">VITE_FIREBASE_*</code> finns i din{' '}
+          <code className="text-accent/80">.env</code>.
         </p>
       </BentoCard>
     );
