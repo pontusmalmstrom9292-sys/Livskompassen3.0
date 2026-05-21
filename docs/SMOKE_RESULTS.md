@@ -171,3 +171,91 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 
 - [`src/modules/kompis/module_plan.md`](../src/modules/kompis/module_plan.md)
 - [`docs/specs/incoming/Kunskap-SPEC.md`](./specs/incoming/Kunskap-SPEC.md)
+
+## G6 — Drive-pipeline (read-only verifiering, 2026-05-21)
+
+**Branch:** `gap/g6-drive-verify`  
+**Källor:** [`DRIVE_AUTOMATION.md`](./DRIVE_AUTOMATION.md), `functions/src/index.ts` (`notifyNewFile`), `scripts/google-apps-script/sorter.gs`  
+**Deploy:** **Ej utförd** — `NOTIFY_WEBHOOK_SECRET` saknas i Secret Manager.
+
+### Secret Manager
+
+| Secret | Status |
+|--------|--------|
+| `NOTIFY_WEBHOOK_SECRET` | **SAKNAS** (404 — inget secret i projektet) |
+| `GEMINI_API_KEY` | Finns (används av andra callables) |
+
+Verifiering: `gcloud secrets list --project=gen-lang-client-0481875058` — endast `GEMINI_API_KEY` (+ legacy django-secrets).  
+`firebase functions:secrets:access NOTIFY_WEBHOOK_SECRET` → **404 Not Found**. Värdet exponerades **inte**.
+
+### Function deploy
+
+| Del | Status |
+|-----|--------|
+| `notifyNewFile` | **Deployad** (v1 HTTPS, `europe-west1`, 256 MiB) |
+| Repo-kod fail-closed | **Klar** — 503 om secret saknas i prod, 401 vid fel header |
+| Prod-beteende idag | **Avvikelse** — POST utan header → **200** (secret ej bunden / gammal revision) |
+| GET | **405** (korrekt) |
+
+**Prod-prober (2026-05-21):**
+
+```text
+POST utan X-Livskompassen-Webhook-Secret     → 200  (bör vara 401/503 efter korrekt redeploy)
+POST med fel X-Livskompassen-Webhook-Secret  → 200  (bör vara 401)
+GET                                          → 405
+```
+
+### Repo vs prod (wire-only)
+
+| Del | Repo | Prod / manuellt |
+|-----|------|-----------------|
+| `sorter.gs` | Klar — default URL `gen-lang-client-0481875058` | Apps Script **ej verifierad** (Script Properties okänd) |
+| `notifyNewFile` → `emitSynapse(drive_file_ingested)` | Klar | Anrop når endpoint (200) |
+| `documentAgent` / Gemini | Klar i repo | Bakgrundsanalys **ej verifierad** i loggar |
+| `kb_docs` persist | Kräver `ownerId` i webhook-body | **Risk:** `sorter.gs` skickar `ownerUid`, handler läser `req.body.ownerId` — persist hoppas över tills fält alignas (separat fix) |
+| Firestore efter ingest | Wire-only / idempotent `kb_docs` när `ownerId` finns | **Ej verifierad** E2E |
+
+### Manuella steg (blockerar säker prod)
+
+Kör **i ordning** från projektroten:
+
+```bash
+# 1. Generera secret (spara i password manager — committa aldrig)
+openssl rand -base64 32
+
+# 2. Sätt Firebase secret (klistra in värdet när CLI frågar)
+firebase functions:secrets:set NOTIFY_WEBHOOK_SECRET --project gen-lang-client-0481875058
+
+# 3. Bygg och deploy endast notifyNewFile
+cd functions && npm run build && cd ..
+firebase deploy --only functions:notifyNewFile --project gen-lang-client-0481875058
+```
+
+**Apps Script (samma Google-konto som Drive):**
+
+1. Script Properties: `INBOX_FOLDER_ID`, `VAULT_FOLDER_ID`, `WEBHOOK_SECRET` (= samma som steg 2), valfritt `FIREBASE_OWNER_UID`.
+2. Klistra in [`scripts/google-apps-script/sorter.gs`](../scripts/google-apps-script/sorter.gs).
+3. Dela Vault-mappen med `gen-lang-client-0481875058@appspot.gserviceaccount.com` (minst Viewer).
+4. Kör `createTrigger()` en gång (timtrigger) eller kör `autonomousSorter` manuellt.
+
+**Verifiering efter deploy:**
+
+```bash
+curl -X POST "https://europe-west1-gen-lang-client-0481875058.cloudfunctions.net/notifyNewFile" \
+  -H "Content-Type: application/json" \
+  -H "X-Livskompassen-Webhook-Secret: DITT_SECRET" \
+  -d '{"fileId":"DRIVE_FILE_ID","fileName":"test.pdf","mimeType":"application/pdf","ownerId":"FIREBASE_UID"}'
+
+firebase functions:log --only notifyNewFile --project gen-lang-client-0481875058
+```
+
+Förväntat: utan header → **401**; utan secret i Functions → **503**; med giltig header → **200** + logg `[File Pipeline]` / synapse.
+
+### G6 sammanfattning
+
+| Kontroll | Resultat |
+|----------|----------|
+| Kod + docs i repo | **PASS** (wire-only dokumenterad) |
+| `NOTIFY_WEBHOOK_SECRET` | **FAIL** — saknas |
+| Säker prod-deploy | **BLOCKERAD** — väntar på steg ovan |
+| E2E Drive → kb_docs | **Ej körd** — kräver secret + Apps Script + `ownerId`-align |
