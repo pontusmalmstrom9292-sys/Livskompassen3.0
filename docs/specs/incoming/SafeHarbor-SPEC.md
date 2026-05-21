@@ -1,28 +1,32 @@
 # SafeHarbor-SPEC
 
-Källa: extern planerings-AI. Konsoliderad till `.context/modules/safe_harbor.md`.
+Källa: extern planerings-AI + Kladd 2026-05-21. Konsoliderad till `.context/modules/safe_harbor.md`.
+
+**Kladd-master:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §F, §G, §H.
 
 ## 1. Syfte och användarbehov
 
 Sacred Feature — känslomässig brandvägg för kommunikation med högkonflikt-expartner. Minskar kognitiv stress via BIFF (Brief, Informative, Friendly, Firm) och Grey Rock — ingen JADE.
 
+**Kladd:** 10% logistik / 90% känslomässigt brus ignoreras. Soc-strategi: kort, faktabaserat — barnets behov.
+
 ## 2. Route och ingång
 
 - **Route:** `/hamn` (AuthGate)
 - **Variant A (aktiv):** FloatingDock Anchor, HomePage bento
-- **Variant B (planerad):** Primär ingång som bro från `/speglar` efter gaslighting-spegling
+- **Variant B (aktiv):** Bro från `/speglar` med `prefilledMessage`
 
 ## 3. UX-flöde (Progressive Disclosure)
 
-**Spec (målbild):**
+**Målbild (planerad):**
 
 1. Inmatning — klistra in exets meddelande
-2. Brusfiltret — objektiv kärnfråga utan skuld/gaslighting
-3. Användarens mål — kort avsikt (t.ex. "säg nej till fredag")
-4. Generering — BIFF/Grey Rock-svar
+2. Brusfiltret — objektiv kärnfråga
+3. Användarens mål — kort avsikt
+4. Generering — BIFF/Grey Rock
 5. Kopiera + Klar — Zero Footprint
 
-**Idag (kod):** ett steg — klistra in → `analyzeMessage` → svar + kopiera. Brusfilter, mål-steg, Klar-knapp och valv-export saknas i UI.
+**Idag (kod):** klistra in → `analyzeMessage` → svar + kopiera + valfritt *Spara original som bevis*. Brusfilter/mål/Klar som separata UI-steg saknas.
 
 ## 4. Visuell design (Obsidian Calm)
 
@@ -35,47 +39,71 @@ Canonical: [`docs/specs/design-master.md`](../design-master.md)
 
 ## 5. Datamodell (Firestore, WORM)
 
-Zero Footprint som standard — inga toxiska meddelanden lagras permanent.
+Standard: inga toxiska meddelanden lagrade utan explicit val.
 
-**Planerat:** valfritt "Spara som bevis" → async append till `reality_vault` (WORM).
-
-**Idag:** ingen Firestore-write från Hamn-modulen.
+**Idag:** *Spara original som bevis* → `saveVaultLog` → `reality_vault` (WORM).
 
 ## 6. Backend och agenter
 
-- **Callable:** `analyzeMessage` — Kompis Supervisor + DCAP (inte separat `generateBiffResponse`)
-- **Agenter:** Gräns-Arkitekten / BIFF-Skölden via supervisor-routing; Brusfiltret internt i DCAP
-
-*(Extern spec nämnde `generateBiffResponse` — finns inte som egen callable i [`functions/src/index.ts`](../../../functions/src/index.ts).)*
+- **Callable:** `analyzeMessage` — Kompis Supervisor + DCAP
+- **Agenter:** BIFF-Skölden via supervisor; Brusfiltret internt i DCAP
 
 ## 7. Säkerhet
 
 - AuthGate på `/hamn`
-- Zero Footprint vid Klar/unmount/kill switch — **delvis** (global kill switch; ingen Klar-knapp i UI)
-- CMEK vid eventuell valv-export (drift)
-- Ex-meddelanden: endast via autentiserad callable, aldrig klient-LLM
+- Zero Footprint: global kill switch; Klar-knapp **planerad**
+- Ex-meddelanden: endast via autentiserad callable
 
 ## 8. Status idag vs planerat
 
-**Idag:** `SafeHarborPage`, `biffService` → `analyzeMessage`, kopiera svar, riskScore.
-
-**Planerat:** visuellt Brusfilter-steg, mål-fält, flerstegs-wizard, bro Speglar→Hamn, "Klar" + state reset, "Spara som bevis" → valv.
+| Område | Kladd 2026-05-21 | Kod |
+|--------|------------------|-----|
+| BIFF/Grey Rock + kopiera | Ex-sms | **done** |
+| `riskScore` (DCAP) | Brus backend | **done** |
+| Spara som bevis → valv | WORM original | **done** |
+| Bro Speglar | `prefilledMessage` | **done** |
+| Brusfilter UI-steg | Metod Kladd #3 | **planned** |
+| Klar + unmount cleanup | Zero Footprint | **planned** |
+| Dölj tills energi | Fas 2 | **planned** |
 
 ## 9. Acceptanskriterier
 
 | # | Kriterium | Kod-status |
 |---|-----------|------------|
-| 1 | Brusfilter visar kärnfråga utan laddade ord | **partial** — DCAP backend, ej separat UI-steg |
-| 2 | BIFF-svar utan JADE | **partial** — svar genereras; kvalitet via supervisor |
-| 3 | Navigering bort / kill switch nollställer formulär | **planned** — unmount/Klar saknas |
-| 4 | "Spara som bevis" → `reality_vault` | **planned** |
+| 1 | Brusfilter visar kärnfråga utan laddade ord | **partial** — DCAP backend |
+| 2 | BIFF-svar utan JADE | **partial** — supervisor |
+| 3 | Kill switch nollställer formulär | **partial** |
+| 4 | Spara som bevis → `reality_vault` | **done** |
+| 5 | Speglar-bro med meddelande | **done** |
 
 ## 10. Kopplingar
 
-- **Speglings-Systemet** — bro `/speglar` → `/hamn` med meddelande som kontext (planerad)
-- **Verklighetsvalvet** — WORM vid "Spara som bevis" (planerad)
+- **Speglar** — `prefilledMessage` → `/hamn` (**done**)
+- **Verklighetsvalvet** — WORM vid *Spara som bevis* (**done**)
+- **Kunskap** — metodartiklar (gaslighting) — **inte** Hamn
 
 ## 11. Navigation
 
-- **Variant A (aktiv):** synlig Anchor i dock + bento
-- **Variant B (planerad):** primär ingång från Speglar efter gaslighting
+- **Variant A:** Anchor i dock + bento
+- **Variant B:** Bro från Speglar efter compare (**done**)
+
+## 12. Tidigare diskussioner att bevara (vision)
+
+- Grey Rock: svara, reagera inte — strikt logistisk dialog.
+- BIFF stoppar JADE — appen försvarar inte användaren mot ex automatiskt.
+- 10/90-regeln: logistik vs emotionella beten.
+- Soc: fakta + tredjepart — inte diagnostiserande etiketter mot motpart (Kladd §C).
+- SMS som PDF-export (hel tråd) → valv, inte skärmdumpslängd.
+
+## 13. Avvisade eller alternativa idéer
+
+- **Auto-svar till ex** — avvisat; all utgång manuell.
+- **Spara alla inkommande sms automatiskt** — avvisat; explicit bevis-knapp only.
+- **Separat `generateBiffResponse` callable** — avvisat; `analyzeMessage` only.
+- **Livs-Coachen i Hamn** — avvisat → Kunskap.
+- **Dölj alla sms permanent utan användarval** — avvisat MVP; *dölj tills energi* fas 2.
+
+---
+
+**Module plan:** [`src/modules/safe_harbor/module_plan.md`](../../../src/modules/safe_harbor/module_plan.md)  
+**Flöde:** [`docs/specs/p2-flode.md`](../p2-flode.md)

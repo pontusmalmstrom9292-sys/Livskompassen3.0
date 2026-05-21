@@ -119,7 +119,7 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 | Fyren: 3s long-press dock BookOpen → bevis | **done** |
 | Wizard unmount cleanup | **done** |
 | Villkorlig Speglar-bro (Vävaren hotnivå) | **planned** |
-| Måbra-bro vid låg energi | **planned** (`/mabra` stub) |
+| Måbra-bro vid låg energi | **planned** (Måbra MVP **done** — bro ej kopplad) |
 | KBT/ACT-prompter per humör | **planned** |
 | Humör-only save | **planned** |
 | KASAM-kväll / Morgonkompass-utkast | **planned** |
@@ -178,8 +178,21 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 - **Redigera/radera journal** — avvisat (WORM); ny post = ny immutable snapshot.
 - **Ljud-Blob i Storage/Valv** — avvisat för Lager 1; transkribera lokalt only.
 - **Humör-gradient** — avvaktar (konflikt med Obsidian Calm möjlig).
+- **People-pleasing/skam i valv** — avvisat; dagbok/Måbra (Kladd routing).
+- **Stjärnbilder / gamification** — avvisat (Kladd §G).
 
-## 14. Öppna produktbeslut (MVP-rekommendation)
+## 14. Kladd-synk (2026-05-21)
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §F.
+
+| Kladd | Kod |
+|-------|-----|
+| Lager 1 fasad / plausible deniability | **done** |
+| Vävaren → `vävaren_metadata` auto | **done** (godkännande **planned**) |
+| Subjektiv utmattning → dagbok OK | **done** |
+| Kliniska PDF → valv | policy |
+
+## 15. Öppna produktbeslut (MVP-rekommendation)
 
 | Fråga | Rekommendation | Låst? |
 |-------|----------------|-------|

@@ -36,6 +36,9 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] Notebook #1–#7 → [`docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md`](docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
 - [x] Kampspår-kandidater → [`docs/specs/incoming/Kladd-2026-05-21-kampspar-kandidater.md`](docs/specs/incoming/Kladd-2026-05-21-kampspar-kandidater.md)
 - [x] Gap-tabeller i alla `.context/modules/*.md` + `src/modules/*/module_plan.md` (ingen kod)
+- [x] Back-merge Kladd → `[MODUL]-SPEC.md` (§8, §12–13, Kladd-synk)
+- [x] Nya SPEC: [`Ekonomi-SPEC.md`](docs/specs/incoming/Ekonomi-SPEC.md), [`Core-SPEC.md`](docs/specs/incoming/Core-SPEC.md)
+- [x] [`docs/specs/p2-flode.md`](docs/specs/p2-flode.md) synkad mot kod
 - [ ] Manuell ingest av kampspår-poster (opt-in trauma-policy)
 - [ ] Implementation per modul när användaren säger *kör [modul]*
 

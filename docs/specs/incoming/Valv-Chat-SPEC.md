@@ -1,6 +1,8 @@
 # Valv-Chat-SPEC
 
-Källa: extern planerings-AI. Konsoliderad till `.context/modules/valv_chatt.md`.
+Källa: extern planerings-AI + Kladd 2026-05-21. Konsoliderad till `.context/modules/valv_chatt.md`.
+
+**Kladd-master:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §F, §G, §I.3.
 
 ## 1. Syfte och användarbehov
 
@@ -93,3 +95,23 @@ Filter: exkludera `category: vävaren_metadata` som standard (samma som Speglar 
 
 - Ingång: flik **Sök** i upplåst Bevis (`/dagbok?tab=bevis`)
 - Utgång: flikbyte, Stäng eller shake — Zero Footprint (session reset **done**)
+
+## 12. Tidigare diskussioner att bevara (vision)
+
+- **Sanningens Ankare:** pinned WORM-poster som snabb referens vid gaslighting (fas 2 pin-vy; idag senaste + Sök).
+- Forensisk sök ska kännas kall och faktabaserad — inte empati-coach.
+- Citations som juridisk fotnot — användaren ska kunna öppna originalpost.
+- Exkludera `vävaren_metadata` tills användaren godkänt taggar (Kladd §I.2).
+
+## 13. Avvisade eller alternativa idéer
+
+- **Gemensam RAG med Kunskap** — avvisat (cross-contamination).
+- **Sparad chattlogg i Firestore** — avvisat (Zero Footprint).
+- **Livs-Arkivarien i Valv-Chat** — avvisat; Sannings-Analytikern only.
+- **Route `/valv/chat` som krav** — avvisat MVP; panel i VaultPage räcker.
+- **Auto-ingest Kladd-filer till valv** — avvisat; manuell bevis-uppladdning.
+
+---
+
+**Module plan:** [`src/modules/valv_chatt/module_plan.md`](../../../src/modules/valv_chatt/module_plan.md)  
+**Flöde:** [`docs/specs/p2-flode.md`](../p2-flode.md)

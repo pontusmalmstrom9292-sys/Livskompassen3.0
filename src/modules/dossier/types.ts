@@ -35,6 +35,7 @@ export interface GenerateDossierResult {
   dossierId: string;
   documentHash: string;
   downloadUrl?: string;
+  pdfBase64?: string;
   jobId?: string;
   status: 'ready' | 'pending';
 }

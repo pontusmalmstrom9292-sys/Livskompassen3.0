@@ -57,10 +57,15 @@ function resetWizardState() {
   };
 }
 
-export function DossierPage() {
+type DossierPageProps = {
+  /** Inbäddad i Verklighetsvalvet — Fyren/PIN redan uppfylld av förälder. */
+  embedded?: boolean;
+};
+
+export function DossierPage({ embedded = false }: DossierPageProps) {
   const user = useStore((s) => s.user);
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
-  const vaultOpen = isVaultUnlocked || hasVaultGate();
+  const vaultOpen = embedded || isVaultUnlocked || hasVaultGate();
 
   const [step, setStep] = useState<DossierWizardStep>('period');
   const [dateFrom, setDateFrom] = useState(defaultDateRange().dateFrom);
@@ -199,17 +204,17 @@ export function DossierPage() {
 
   if (!vaultOpen) {
     return (
-      <div className="space-y-6">
+      <div className={embedded ? 'space-y-4' : 'space-y-6'}>
         <BentoCard title="Dossier-Generator" icon={<Lock className="h-4 w-4" />}>
           <p className="mb-4 text-sm text-text-muted">
-            Öppna Verklighetsvalvet (Fyren) innan du sammanställer bevis. Dossier läser WORM-data
-            från Lager 2.
+            Dossier kräver upplåst Valv (Fyren). I bottenmenyn: tryck på <strong>Hjärtat</strong>{' '}
+            (bok-ikonen) och <strong>håll 3 sekunder</strong>, eller öppna fliken Bevis och ange PIN.
           </p>
           <Link
             to="/dagbok?tab=bevis"
             className="inline-flex rounded-lg bg-indigo-500/20 px-4 py-2 text-sm font-medium text-indigo-200 hover:bg-indigo-500/30"
           >
-            Gå till Valv
+            Öppna Bevis / Valv
           </Link>
         </BentoCard>
       </div>
@@ -217,12 +222,23 @@ export function DossierPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <BentoCard title="Dossier-Generator" icon={<FileText className="h-4 w-4" />}>
-        <p className="mb-4 text-sm text-text-muted">
-          Sacred Feature — samlad WORM-export. Inget skickas automatiskt; du laddar ner när du är
-          redo.
-        </p>
+    <div className={embedded ? 'space-y-4' : 'space-y-6'}>
+      <BentoCard
+        title={embedded ? 'Dossier' : 'Dossier-Generator'}
+        description={embedded ? 'Samlad WORM-export' : undefined}
+        icon={<FileText className="h-4 w-4" />}
+      >
+        {!embedded && (
+          <p className="mb-4 text-sm text-text-muted">
+            Sacred Feature — samlad WORM-export. Inget skickas automatiskt; du laddar ner när du är
+            redo.
+          </p>
+        )}
+        {embedded && (
+          <p className="mb-4 text-sm text-text-muted">
+            Inget skickas automatiskt. Du laddar ner PDF lokalt när den är klar.
+          </p>
+        )}
 
         {step === 'period' && (
           <div className="space-y-4">
@@ -466,7 +482,7 @@ export function DossierPage() {
 
         {step === 'result' && (
           <div className="space-y-4">
-            {result?.status === 'ready' && result.downloadUrl ? (
+            {result?.status === 'ready' && (result.downloadUrl || result.pdfBase64) ? (
               <>
                 <p className="text-sm text-emerald-200/90">
                   Dossier skapad. Inget har skickats externt.
@@ -481,10 +497,16 @@ export function DossierPage() {
                   <code className="break-all text-xs text-amber-100/90">{result.documentHash}</code>
                 </p>
                 <p className="text-xs text-text-dim">
-                  Nedladdningslänk gäller ca 24 timmar (Zero Footprint i molnet).
+                  {result.downloadUrl
+                    ? 'Nedladdningslänk gäller ca 24 timmar (Zero Footprint i molnet).'
+                    : 'PDF levereras direkt (signed URL ej tillgänglig i projektet).'}
                 </p>
                 <a
-                  href={result.downloadUrl}
+                  href={
+                    result.downloadUrl ??
+                    `data:application/pdf;base64,${result.pdfBase64 ?? ''}`
+                  }
+                  download={result.dossierId ? `dossier-${result.dossierId}.pdf` : 'dossier.pdf'}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-full rounded-lg bg-emerald-500/25 py-2.5 text-center text-sm font-medium text-emerald-100"

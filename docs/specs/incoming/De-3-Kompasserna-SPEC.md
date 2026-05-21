@@ -231,6 +231,20 @@ Se [`docs/specs/navigation-master.md`](../navigation-master.md).
 | FCM-notiser i MVP | Integritet/komplexitet — lokal först |
 | `checkins` redigerbar samma dag | Bryter WORM-invariant |
 | Turkos/regnbåge UI | Bryter design-master |
+| Stjärnbilder / gamification | Kladd §G — avvisat |
+| Paralys auto vid lågt humör | Kladd §I.1 — **avvisat**; manuell knapp |
+| Livs-Coachen i Ekonomi | Kladd routing — avvisat |
+
+## 14. Kladd-synk (2026-05-21)
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §F, §I.
+
+| Kladd | Kod |
+|-------|-----|
+| Morgon/dag/kväll + checkins | **done** |
+| Paralys UI | **planned** (*kör kompasser*) |
+| KASAM kväll | **planned** |
+| Crazymaking-bro (ej auto-valv) | **planned** |
 
 ---
 

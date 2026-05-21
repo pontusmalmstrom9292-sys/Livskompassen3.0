@@ -104,6 +104,8 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 | AI-accent `#6366F1` | **done** |
 | Zero Footprint unmount | **done** |
 | Bro till Hamn (`prefilledMessage`) | **done** |
+| Media → valv (WORM) | **done** |
+| Korsref `children_logs` auto vid VIVIR | **planned** |
 | Prompt Grey Rock / max 2–4 meningar | **done** (prompt; ej enforced) |
 | Full DCAP Genkit Speglings-Coachen | **planned** |
 | Vävaren → auto-bro Speglar | **planned** (opt-in) |
@@ -159,8 +161,20 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 - **Quiz/inlärning** — avvisat; reaktiv krisnavigering only.
 - **Auto-sms till förövare** — avvisat; all utgång via Hamn + manuell granskning.
 - **`matchVaultEvidence` som Cloud Function** — avvisat i MVP; klient + rules räcker.
+- **VIVIR i Måbra** — avvisat (Kladd routing).
+- **Proaktiv KBT-coach** — avvisat → Måbra opt-in.
 
-## 14. Öppna produktbeslut (MVP-rekommendation)
+## 14. Kladd-synk (2026-05-21)
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §F, §C.
+
+| Kladd | Kod |
+|-------|-----|
+| Projektion / gaslighting / sanningens ankare | **done** (ACT/VIVIR/compare) |
+| Auto-länk Kasper/Arvid-loggar | **planned** |
+| Patologisering från ex — reaktiv, ej proaktiv KBT | **done** (design) |
+
+## 15. Öppna produktbeslut (MVP-rekommendation)
 
 | Fråga | Rekommendation | Låst? |
 |-------|----------------|-------|

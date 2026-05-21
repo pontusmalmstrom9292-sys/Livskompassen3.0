@@ -16,4 +16,6 @@ Navigation: [`docs/specs/navigation-master.md`](../docs/specs/navigation-master.
 - **Avvisat:** Stjärnbilder, gamification, Nordisk skymning grön.
 - **Gap:** `resetState` audit vid utloggning; iOS PWA shake-test.
 
+**Spec:** [`docs/specs/incoming/Core-SPEC.md`](../../docs/specs/incoming/Core-SPEC.md)
+
 Kod: `src/modules/core/` · Plan: [`src/modules/core/module_plan.md`](../../src/modules/core/module_plan.md) · **Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)

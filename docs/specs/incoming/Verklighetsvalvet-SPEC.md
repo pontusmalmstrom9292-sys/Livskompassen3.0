@@ -161,7 +161,8 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 | Klickbara citations i Valv-Chat | **planned** |
 | Dölj Bevis-flik (endast Fyren) | **planned** (beslut §14) |
 | Drive → `reality_vault` (manuellt) | **planned** |
-| Full Dossier / BBIC batch PDF | **planned** (`generateDossier`) |
+| `generateDossier` multi-källa + hash | **done** (deploy callable) |
+| BBIC `reportType` / mass-mall | **planned** fas 2 |
 | Sanningens Ankare (pinned WORM-poster) | **planned** |
 | CMEK-verifiering i drift | **planned** |
 | Duress-PIN | **planned** |
@@ -229,8 +230,23 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 - **Shield som egen dock-ikon (Variant A)** — avvisat; Fyren på BookOpen.
 - **Magkänsel SVG-ikoner** — avvisat; text-chips.
 - **Livs-Arkivarien i Valv-Chat** — avvisat; Sannings-Analytikern.
+- **Stjärnbilder / gamification** — avvisat (Kladd §G).
+- **Nordisk skymning grön UI** — avvisat; Obsidian Calm.
+- **GAS / FastAPI / Kalkylark-WORM** — avvisat; Firebase Functions + Firestore.
+- **Auto Storage → Agentic Vision → valv** — avvisat MVP; manuellt godkännande.
 
-## 14. Öppna produktbeslut (låsta 2026-05)
+## 14. Kladd-synk (2026-05-21)
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §D–§H.
+
+| Prioritet bevis | Status produkt |
+|-----------------|----------------|
+| Orosanmälan 2026-03-05 | Användaren laddar PDF manuellt |
+| Skola Ann/Lena, barnsamtal | Manuellt + ev. Barnen `skola` |
+| SMS tvåspalt som PDF-export | **done** entry modes; metod: hel tråd |
+| Vävaren-godkännande före permanent tagg | **planned** fas 2 |
+
+## 15. Öppna produktbeslut (låsta 2026-05)
 
 | # | Fråga | Beslut | Låst |
 |---|-------|--------|------|

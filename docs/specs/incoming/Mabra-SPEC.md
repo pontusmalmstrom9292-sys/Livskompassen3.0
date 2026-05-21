@@ -136,8 +136,9 @@ Rules (planerat): `ownerId == auth.uid`; append/create only för sessions.
 | Route `/mabra` + AuthGate | **done** |
 | `MabraPage` orchestrator (hub → duration → breathing → complete) | **done** |
 | Kluster hem (`ClusterGrid`) | **done** |
-| Symptom-hub (3 val) | **done** |
-| 4-7-8 andning (offline) | **done** |
+| Symptom-hub (3 val) + hub→övning routing | **done** (fas 1.5) |
+| 4-7-8 andning + 5-4-3-2-1 grounding (`find_self`) | **done** |
+| `hubSymptom` + `exerciseType` i `mabra_sessions` | **done** |
 | `mabra_sessions` Firestore + rules/index | **done** (repo; deploy Firestore för prod) |
 | Complete + länk Dagbok / Kompasser | **done** |
 | `mabra_progress` / coreValues | **planned** |
@@ -200,8 +201,22 @@ Rules (planerat): `ownerId == auth.uid`; append/create only för sessions.
 - **Auto check-in Kvällskompass** — avvisat MVP
 - **100% Zero Footprint** — avvisat; metadata `mabra_sessions` sparas
 - **Integration mot ex/BIFF** — avvisat; Hamn modul
+- **Stjärnbilder / Nordisk skymning grön** — avvisat (Kladd §G)
+- **VIVIR / gaslighting-spegling här** — avvisat → Speglar
+- **Auto trauma-RAG från Kladd** — avvisat → Kunskap opt-in only
 
-## 14. Öppna produktbeslut (låsta 2026-05)
+## 14. Kladd-synk (2026-05-21)
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §F.
+
+| Hub (Kladd) | Övning | Kod |
+|-------------|--------|-----|
+| Panik / RSD | 4-7-8 | **done** |
+| Självkritik | 4-7-8 | **done** |
+| Hitta mig | Grounding 5-4-3-2-1 | **done** |
+| Reframing coach | | **planned** fas 2 |
+
+## 15. Öppna produktbeslut (låsta 2026-05)
 
 | # | Fråga | Beslut | Låst |
 |---|-------|--------|------|

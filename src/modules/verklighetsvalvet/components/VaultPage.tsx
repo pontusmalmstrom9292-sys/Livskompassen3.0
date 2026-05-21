@@ -1,4 +1,4 @@
-import { FileText, Lock, Search, ShieldAlert, X } from 'lucide-react';
+import { FileText, Lock, ScrollText, Search, ShieldAlert, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BentoCard } from '../../core/ui/BentoCard';
@@ -11,6 +11,7 @@ import type { VaultLog } from '../../core/types/firestore';
 import { VaultEntryForm } from './VaultEntryForm';
 import { VaultLogList } from './VaultLogList';
 import { ValvChatPanel } from '../../valv_chatt';
+import { DossierPage } from '../../dossier';
 import type { VaultLogInput } from '../types/vaultEntry';
 
 const PIN_STORAGE_KEY = 'livskompassen_vault_pin_hash';
@@ -37,11 +38,12 @@ function hasPinConfigured(): boolean {
   return Boolean(localStorage.getItem(PIN_STORAGE_KEY) || import.meta.env.VITE_VAULT_PIN);
 }
 
-export type VaultTab = 'logga' | 'sok';
+export type VaultTab = 'logga' | 'sok' | 'dossier';
 
 const VAULT_TABS = [
   { id: 'logga' as const, label: 'Logga', icon: <FileText className="h-3 w-3" /> },
   { id: 'sok' as const, label: 'Sök', icon: <Search className="h-3 w-3" /> },
+  { id: 'dossier' as const, label: 'Dossier', icon: <ScrollText className="h-3 w-3" /> },
 ];
 
 type VaultPageProps = {
@@ -219,6 +221,8 @@ export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
       {vaultTab === 'sok' && (
         <ValvChatPanel active={isVaultUnlocked && vaultTab === 'sok'} />
       )}
+
+      {vaultTab === 'dossier' && <DossierPage embedded />}
     </div>
   );
 }

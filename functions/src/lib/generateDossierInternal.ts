@@ -35,6 +35,8 @@ export type GenerateDossierResult = {
   dossierId: string;
   documentHash: string;
   downloadUrl?: string;
+  /** Fallback när signed URL saknar IAM signBlob — klient laddar ner via blob. */
+  pdfBase64?: string;
   status: 'ready' | 'pending';
   jobId?: string;
 };
@@ -142,10 +144,21 @@ export async function generateDossierInternal(
     },
   });
 
-  const [downloadUrl] = await file.getSignedUrl({
-    action: 'read',
-    expires: Date.now() + SIGNED_URL_TTL_MS,
-  });
+  let downloadUrl: string | undefined;
+  let pdfBase64: string | undefined;
+  try {
+    const [signed] = await file.getSignedUrl({
+      action: 'read',
+      expires: Date.now() + SIGNED_URL_TTL_MS,
+    });
+    downloadUrl = signed;
+  } catch (signErr) {
+    console.warn(
+      '[generateDossier] Signed URL misslyckades — returnerar pdfBase64 fallback:',
+      signErr,
+    );
+    pdfBase64 = Buffer.from(pdfBytes).toString('base64');
+  }
 
   const downloadUrlExpiresAt = admin.firestore.Timestamp.fromMillis(
     Date.now() + SIGNED_URL_TTL_MS,
@@ -180,6 +193,7 @@ export async function generateDossierInternal(
     dossierId,
     documentHash,
     downloadUrl,
+    pdfBase64,
     status: 'ready',
   };
 }

@@ -1,114 +1,125 @@
-# P2 — dataflöde (Hamn, Barnen, Dossier)
+# P2 — dataflöde (Hamn, Barnen, Dossier, Kompasser, Valv-Chat)
 
 Kompletterar [`hjartat-flode.md`](hjartat-flode.md) (Dagbok → Valv → Speglar).
 
+**Synkad mot kod + Kladd:** [`incoming/Kladd-2026-05-21-PERSONAL-MASTER.md`](incoming/Kladd-2026-05-21-PERSONAL-MASTER.md) (2026-05-21).
+
 ```mermaid
 flowchart LR
-  Speglar["/speglar"]
+  Speglar["/dagbok?tab=speglar"]
   Hamn["/hamn BIFF"]
-  Barnen["/barnen children_logs"]
-  Valv["/valv reality_vault"]
-  ValvChat["/valv/chat planerad"]
-  Kunskap["/kunskap Kampspår"]
+  Barnen["/familjen children_logs"]
+  Valv["/dagbok?tab=bevis reality_vault"]
+  ValvChat["ValvChatPanel Sök-flik"]
+  Kunskap["/vardagen?tab=kunskap"]
   Journal["journal + vävaren"]
-  Dossier["Dossier export"]
+  Dossier["/dossier generateDossier"]
   PartialV["exportVaultRecord PDF"]
   PartialB["exportBalansReport JSON"]
-  Kompasser["/kompasser checkins"]
+  Kompasser["/vardagen checkins"]
   Valv --> ValvChat
   Valv --> PartialV
-  Barnen --> PartialB
-  Speglar -->|"bro planerad"| Hamn
-  Barnen --> Dossier
   Valv --> Dossier
+  Barnen --> PartialB
+  Barnen --> Dossier
   Journal --> Dossier
+  Speglar -->|"prefilledMessage done"| Hamn
+  Hamn -->|"Spara som bevis done"| Valv
   Kompasser -.->|"kväll planerad"| Barnen
   Kompasser -.->|"crazymaking planerad"| Valv
-  Barnen -.->|"incident planerad"| Valv
-  Hamn -.->|"Spara som bevis planerad"| Valv
+  Barnen -.->|"incident explicit planerad"| Valv
 ```
 
 ## Hamn (Safe Harbor)
 
-| Steg | Beskrivning |
-|------|-------------|
-| 1 | Användaren klistrar in ex-meddelande på `/hamn` |
-| 2 | `analyzeMessage` (Kompis Supervisor + DCAP) → Grey Rock/BIFF-svar |
-| 3 | Kopiera svar — **valfritt** "Spara original som bevis" → `reality_vault` |
-| 4 | **Klart:** bro från Speglar (`prefilledMessage`), Brusfilter internt i DCAP |
+| Steg | Beskrivning | Status |
+|------|-------------|--------|
+| 1 | Klistra in ex-meddelande på `/hamn` | **done** |
+| 2 | `analyzeMessage` (Supervisor + DCAP) → BIFF/Grey Rock | **done** |
+| 3 | Kopiera svar; valfritt **Spara original som bevis** → `reality_vault` | **done** |
+| 4 | Bro från Speglar (`prefilledMessage`) | **done** |
+| 5 | Visuellt Brusfilter-steg, mål-fält, Klar + unmount | **planned** |
+| 6 | Dölj inkommande tills energi | **planned** fas 2 |
 
 Spec: [`incoming/SafeHarbor-SPEC.md`](incoming/SafeHarbor-SPEC.md)
 
 ## Barnen (livsloggar)
 
-| Steg | Beskrivning |
-|------|-------------|
-| 1 | PIN → välj Kasper eller Arvid |
-| 2 | Fysiologi och/eller livslogg → `children_logs` (WORM) |
-| 3 | Balansmätare uppdateras (7-dagars deterministisk index) |
-| 4 | JSON-export idag; **planerat:** PDF juridisk rapport → Dossier |
+| Steg | Beskrivning | Status |
+|------|-------------|--------|
+| 1 | PIN → Kasper eller Arvid | **done** |
+| 2 | Fysiologi / livslogg → `children_logs` (WORM) | **done** |
+| 3 | Balansmätare (7 dagar, fysiologi only) | **done** |
+| 4 | JSON-export per barn | **done** |
+| 5 | **Spara som bevis?** → valv med `sourceRef` | **planned** |
+| 6 | Full Dossier inkl. barnen | **done** via `/dossier` |
+
+**Kladd (bevis i valv, ej auto):** skola Ann/Lena, barnsamtal 2026-03-12 — `category: skola` tills tredjepartstagg.
 
 Spec: [`incoming/Barnen-SPEC.md`](incoming/Barnen-SPEC.md)
 
-## Dossier (planerad — Sacred Feature)
-
-Samlad export från:
+## Dossier (Sacred Feature)
 
 | Källa | Collection | Idag |
 |-------|------------|------|
-| Verklighetsvalvet | `reality_vault` | Per-post PDF via `exportVaultRecordAsPdf` |
-| Dagbok | `journal` | Ingen export |
-| Vävaren (valfritt) | `reality_vault` (`vävaren_metadata`) | Ingen export — ofta exkluderad |
-| Barnen | `children_logs` | JSON via `exportBalansReport` (7 dagar, ett barn) |
+| Verklighetsvalvet | `reality_vault` | Wizard + `generateDossier` + hash + `dossier_snapshots` |
+| Dagbok | `journal` | Opt-in i wizard |
+| Barnen | `children_logs` | Opt-in i wizard |
+| Delexport valv | — | Per-post PDF (`exportVaultRecordAsPdf`) |
+| Delexport barnen | — | JSON (`exportBalansReport`) |
 
-**Full Dossier (planerad):** `generateDossier` → `dossier_snapshot` (hash) → PDF via Genkit-agent. Explicit användar-trigger — ingen auto-delning.
+| Steg | Beskrivning | Status |
+|------|-------------|--------|
+| 1 | Period + källor (valv, journal, barnen) | **done** |
+| 2 | Granskning hela poster | **done** |
+| 3 | `generateDossier` → snapshot + PDF (TTL Storage) | **done** (deploy callable) |
+| 4 | Bro *Skapa Dossier* från Valv/Barnen | **planned** |
+| 5 | BBIC `reportType`, Vävaren försätt | **planned** fas 2 |
 
-**Delvis idag:** Valv-PDF och Barnen-JSON är byggstenar — de aggregerar inte flera källor och skriver ingen snapshot.
-
-| Steg | Beskrivning |
-|------|-------------|
-| 1 | Användaren väljer period + källor (valv, journal, barnen) |
-| 2 | Förhandsgranskning — lista docId/datum, inga textväggar |
-| 3 | *Skapa Dossier* — callable + agent |
-| 4 | PDF nedladdning → Zero Footprint |
-
-Ingång rekommenderad från `/valv` och `/barnen` (Variant B), inte dock.
-
-Spec: [`dossier-generator.md`](dossier-generator.md) · [`incoming/Dossier-SPEC.md`](incoming/Dossier-SPEC.md)
+Spec: [`incoming/Dossier-SPEC.md`](incoming/Dossier-SPEC.md) · [`dossier-generator.md`](dossier-generator.md)
 
 ## De 3 Kompasserna
 
-| Steg | Beskrivning |
-|------|-------------|
-| 1 | Välj Morgon / Dag / Kväll på `/kompasser` |
-| 2 | Svara på en fråga → `saveCheckIn` → `checkins` (WORM) |
-| 3 | **Planerat:** Paralys-Brytaren (dag), Speglings-Coachen (kväll) |
-| 4 | **Planerat:** kväll → `children_logs` / Balansmätare; crazymaking → valv |
+| Steg | Beskrivning | Status |
+|------|-------------|--------|
+| 1 | Morgon / Dag / Kväll på `/vardagen` | **done** |
+| 2 | `saveCheckIn` → `checkins` (WORM) | **done** |
+| 3 | Paralys-Brytaren UI (`breakDownResponse`) | **planned** |
+| 4 | KASAM kväll, crazymaking-bro, notiser | **planned** |
+| 5 | Kväll → Barnen / Måbra | **planned** |
+
+**Kladd:** Paralys **inte** auto vid lågt humör — manuell knapp.
 
 Spec: [`incoming/De-3-Kompasserna-SPEC.md`](incoming/De-3-Kompasserna-SPEC.md)
 
-## Valv-Chat (planerad — skild från Kunskap)
+## Valv-Chat (skild från Kunskap)
 
-Forensisk fråga/svar mot **egna** WORM-poster i `reality_vault`. Ingen sparad chatt.
+| | Valv-Chat | Kunskap |
+|---|-----------|---------|
+| Route | Flik **Sök** i `/dagbok?tab=bevis` | `/vardagen?tab=kunskap` |
+| Data | `reality_vault` | `kampspar` + `kb_docs` |
+| Callable | `valvChatQuery` **done** | `knowledgeVaultQuery` **done** |
+| UI | `ValvChatPanel` **done** | `KnowledgeVaultChat` **done** |
 
-| | Valv-Chat | Kunskap (`/kunskap`) |
-|---|-----------|----------------------|
-| Route | `/valv/chat` (planerad) | `/kunskap` |
-| Data | `reality_vault` | Kampspår, Drive, kb_docs |
-| Unlock | Valv PIN + Fyren | AuthGate |
-| Callable | `valvChatQuery` (planerad) | `knowledgeVaultQuery` (idag) |
-| UI | **saknas** | `KnowledgeVaultChat` |
+| Steg | Beskrivning | Status |
+|------|-------------|--------|
+| 1 | Upplåst valv → flik Sök | **done** |
+| 2 | Fråga → svar + citations JSON | **done** |
+| 3 | Zero Footprint vid flikbyte | **done** |
+| 4 | Klickbara citations | **planned** |
+| 5 | Sanningens Ankare pin-vy | **planned** fas 2 |
 
-| Steg | Beskrivning |
-|------|-------------|
-| 1 | Användaren öppnar valv → *"Sök i Valvet"* |
-| 2 | Fråga → läs `getVaultLogs` + agent/RAG (planerad) |
-| 3 | Svar med källhänvisningar (docId, datum) — **ingen** Firestore-write |
-| 4 | Stäng / shake → Zero Footprint |
-
-**Idag:** `matchVaultEvidence` i Speglar är närmaste byggsten (deterministisk, ej chat).
+**Speglar:** `matchVaultEvidence` = deterministisk compare, ej chat.
 
 Spec: [`incoming/Valv-Chat-SPEC.md`](incoming/Valv-Chat-SPEC.md)
+
+## Kladd — låsta beslut (P2-scope)
+
+1. Drive → `kb_docs` auto; Drive → valv **manuellt**.
+2. Hamn → valv endast explicit *Spara som bevis*.
+3. Barnen → valv endast explicit knapp + `sourceRef`.
+4. Ingen gamification; Obsidian Calm only.
+5. Soc-strategi: fakta + barnets bästa — undvik diagnostiserande etiketter i export.
 
 ## Spec-källor P2
 
@@ -117,3 +128,5 @@ Spec: [`incoming/Valv-Chat-SPEC.md`](incoming/Valv-Chat-SPEC.md)
 - [`incoming/De-3-Kompasserna-SPEC.md`](incoming/De-3-Kompasserna-SPEC.md)
 - [`incoming/Valv-Chat-SPEC.md`](incoming/Valv-Chat-SPEC.md)
 - [`incoming/Dossier-SPEC.md`](incoming/Dossier-SPEC.md)
+- [`incoming/Kladd-2026-05-21-PERSONAL-MASTER.md`](incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
+- [`incoming/Ekonomi-SPEC.md`](incoming/Ekonomi-SPEC.md) · [`incoming/Core-SPEC.md`](incoming/Core-SPEC.md)

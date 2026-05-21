@@ -214,10 +214,37 @@ Se [`docs/specs/p2-flode.md`](../p2-flode.md).
 
 ---
 
-## 13. Implementationsordning
+## 13. Avvisade eller alternativa idéer
+
+- **jsPDF / frontend layout av hel dossier** — avvisat; backend pdf-lib.
+- **Genkit skriver beviskropp** — avvisat; ordagrant från WORM.
+- **GAS / HtmlService** — avvisat.
+- **Permanent PDF i Storage** — avvisat; TTL ~24 h.
+- **Auto-delning till soc/ex** — avvisat; manuell nedladdning only.
+- **Stjärnbilder / gamification i export** — avvisat (Kladd §G).
+
+## 14. Tidigare diskussioner att bevara (vision)
+
+- Dossier för **ombud/myndighet** — inte motpartskommunikation (Hamn separat).
+- BBIC-teman: barnets utveckling, föräldraförmåga, skydd, relationer (Kladd §I.4 — bekräfta med ombud).
+- Kanonisk hash = integritet vid senare granskning.
+- Bevisprioritet från Kladd §D aggregeras här — källor matas in via valv/barnen först.
+
+## 15. Kladd-synk (2026-05-21)
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §D, §F, §G.
+
+| Kladd | Kod |
+|-------|-----|
+| `generateDossier` + hash | **done** |
+| Wizard period/källor/granskning | **done** |
+| BBIC-mall | **planned** fas 2 |
+| Bro Valv/Barnen | **planned** |
+
+## 16. Implementationsordning
 
 1. **UI wizard** — **done**
-2. `dossier_snapshots` Firestore rules + schema — **done**
-3. `generateDossier` + hash + PDF + signed URL — **done** (deploy krävs)
-4. Async job + Vävaren försätt + BBIC — **planerat**
-5. Bro-knappar Valv/Barnen; BBIC `reportType` fas 2
+2. `dossier_snapshots` + rules — **done**
+3. `generateDossier` + hash + PDF — **done** (deploy krävs)
+4. Bro-knappar Valv/Barnen — **planerat**
+5. Async job + Vävaren försätt + BBIC — **planerat**

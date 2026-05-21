@@ -200,8 +200,21 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 - **Kampspår som egen dock-ikon** — avvisat; datalager under Kunskap/Valv.
 - **Redigera/radera Kampspår i UI** — avvisat (WORM); ny post = ny immutable snapshot.
 - **Vertex AI Search som separat produktspår i MVP** — avvaktar; preferens **Firestore Vector Search** + `VECTOR_SEARCH_INDEX_ID` tills datamängd kräver mer.
+- **Auto-RAG från rå Kladd-filer** — avvisat (Kladd §E).
+- **Stjärnbilder / gamification** — avvisat (Kladd §G).
+- **Livs-Coachen i Ekonomi** — avvisat (Kladd routing).
 
-## 14. Öppna produktbeslut (MVP-rekommendation)
+## 14. Kladd-synk (2026-05-21)
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §E, §H · [`Kladd-2026-05-21-kampspar-kandidater.md`](./Kladd-2026-05-21-kampspar-kandidater.md).
+
+| Policy | Status |
+|--------|--------|
+| Trauma/LVU/beroende → opt-in manuell ingest | **låst** |
+| Metodartiklar (gaslighting, BBIC-tips) | manuell / Drive → `kb_docs` |
+| Blaze/GCP för LLM (ej AI Studio gratis) | **låst** drift |
+
+## 15. Öppna produktbeslut (MVP-rekommendation)
 
 | Fråga | Rekommendation | Låst? |
 |-------|----------------|-------|

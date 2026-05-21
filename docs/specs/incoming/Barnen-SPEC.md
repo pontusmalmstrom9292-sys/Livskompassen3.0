@@ -215,8 +215,19 @@ Index: `ownerId` + `createdAt` (desc). Barn filter **klient-side** (`childAlias`
 - **Callable `saveChildLog`** — avvisat; klient WORM create med rules.
 - **Nested schema** (`physiology{}`, `lifeLog{}`) — avvisat; platta fält + `action`.
 - **Offline LocalForage MVP** — avvisat; planerat senare.
+- **"Narcissist" i formulär/export** — avvisat; fakta + barnets bästa (Kladd §C).
 
-## 14. Öppna produktbeslut (låsta 2026-05)
+## 14. Kladd-synk (2026-05-21)
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §D, §F.
+
+| Bevis / observation (Kladd) | Modul | Valv |
+|----------------------------|-------|------|
+| Skola Ann/Lena, mammaveckor | `category: skola` | manuell PDF |
+| Barnsamtal 2026-03-12 | livslogg neutral | ev. valv |
+| Kasper utagerande / trötthet | fysio + livslogg | **inte** auto |
+
+## 15. Öppna produktbeslut (låsta 2026-05)
 
 | # | Fråga | Beslut | Låst |
 |---|-------|--------|------|
