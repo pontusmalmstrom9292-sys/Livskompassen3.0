@@ -1,5 +1,7 @@
 # GITHUB_SETUP — Nytt GitHub-repo för Livskompassen_PROD
 
+> **Aktivt projekt (Livskompassen2.0):** se [`GITHUB_STANDALONE_SETUP.md`](GITHUB_STANDALONE_SETUP.md) — `main` på GitHub ska följa `cleanup-phase-1`.
+
 Följ stegen i ordning. Byt ut `DITT_ANVÄNDARNAMN` och ev. repnamn.
 
 ---
