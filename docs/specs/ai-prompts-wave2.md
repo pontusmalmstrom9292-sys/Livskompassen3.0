@@ -44,10 +44,10 @@ Output: SafeHarbor-SPEC.md
 ## Barnens livsloggar
 
 ```
-MODUL: Barnens livsloggar. Route /barnen, AuthGate, dock Heart.
-Befintlig: Kasper/Arvid, fysiologi (sömn/ångest/aptit), Balansmätare 7 dagar, children_logs WORM, JSON-export.
-Planera: PDF juridisk stabilitetsrapport (7/30 dagar, hash, tidsstämpel, ingen auto-delning).
-Output: Barnen-SPEC.md
+MODUL: Barnens livsloggar (Familjen). Route /familjen (redirect /barnen), AuthGate, dock Heart.
+Befintlig: PIN, Kasper/Arvid, fysiologi, livslogg, Balansmätare 7d, JSON-export, children_logs WORM.
+Planera: wizard, PDF/Dossier per barn, incident→valv explicit med sourceRef.
+Output: [`docs/specs/incoming/Barnen-SPEC.md`](incoming/Barnen-SPEC.md) (konsoliderad 2026-05)
 ```
 
 ## De 3 Kompasserna

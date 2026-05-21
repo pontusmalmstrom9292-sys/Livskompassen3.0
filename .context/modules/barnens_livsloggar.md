@@ -1,96 +1,65 @@
 # Barnens livsloggar
 
-**Route:** `/barnen` · **AuthGate:** ja · **Dock:** Heart  
-**Design:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md) (Obsidian Calm, Riktning A)  
-**Incoming spec:** [`docs/specs/incoming/Barnen-SPEC.md`](../../docs/specs/incoming/Barnen-SPEC.md)
+**Route:** `/familjen` · **Redirect:** `/barnen` · **AuthGate:** ja · **Dock:** Heart  
+**Spec (konsoliderad):** [`docs/specs/incoming/Barnen-SPEC.md`](../../docs/specs/incoming/Barnen-SPEC.md)
 
----
+## Syfte
 
-## 1. Syfte och användarbehov
+**Den trygga hamnen** — neutral Grey Rock-dokumentation för **Kasper** och **Arvid**. BBIC-orienterade basbehov. Skild från dagbok, valv och vuxenkonflikt.
 
-Den trygga hamnen — neutral dokumentation för **Kasper** och **Arvid**. Balansmätare (7 dagar) utan dom. Juridisk PDF-export planerad.
+## UI (idag)
 
-## 2. Route och ingång
+| Komponent | Roll |
+|-----------|------|
+| `FamiljenPage` | Kluster-wrapper |
+| `BarnensPage` | PIN, barn-flikar, balans, fysio, livslogg, tidslinje |
+| `PhysiologicalControls` | Sömn, ångest, aptit 1–5 |
+| `ChildSubLogPanel` | Kategori, observation, barnpåverkan |
+| `BalansMatare` | 7-dagars bar + text |
+| `exportBalansReport` | JSON-export per barn |
 
-| Variant | Ingång |
-|---------|--------|
-| **A (aktiv)** | FloatingDock Heart, HomePage bento |
-| **B (planerad)** | Dagbok-tagg → barn-specifik Balansmätare |
+**UX idag:** en sida, två spara-knappar (fysiologi \| livslogg) — **inte** wizard.
 
-PIN-gate separat från valv (lokal hash).
+## Navigation
 
-## 3. UX-flöde
+| Ingång | Beteende |
+|--------|----------|
+| Dock Heart | `/familjen` |
+| `/barnen` | Redirect → `/familjen` |
+| Titlar | Kluster **Familjen**; innehåll **Livsloggar** |
 
-1. PIN → lås upp modul  
-2. Välj Kasper / Arvid  
-3. Balansmätare + JSON-export  
-4. Fysiologi — sömn, ångest, aptit (1–5)  
-5. Livslogg — kategori, observation, valfri barnpåverkan  
-6. Tidslinje per barn  
+## Datamodell (WORM)
 
-**Planerat:** steg-wizard, PDF-knapp, unmount cleanup.
+- **`children_logs`:** childAlias, action (`fysiologi`|`livslogg`), signals?, observation, category?, childrenImpact?, ownerId, createdAt — append-only
 
-## 4. Visuell design
+## Backend
 
-- Obsidian Calm enligt design-master
-- Guld `#FDE68A` — aktiv flik, Balansmätare-bar
-- Indigo `#818CF8` — sekundär (spec Balansmätare)
-- Inga count-ups eller regnbågsgrafer
+| Path | Data |
+|------|------|
+| Klient `saveChildrenLog` | `children_logs` |
+| `computeBalansIndex` | Endast fysiologi, 7 dagar |
+| JSON export | Klient per barn |
 
-## 5. Datamodell
-
-| Collection | WORM | Nyckelfält |
-|------------|------|------------|
-| `children_logs` | ja | childAlias, action, signals, observation, category, childrenImpact, createdAt |
-
-## 6. Backend
-
-- Klient: `saveChildrenLog` / `getChildrenLogs`
-- Planerat: Genkit Dossier-agent för PDF-sammanställning
-
-## 7. Säkerhet
-
-- AuthGate + separat PIN
-- Zero Footprint: lås vid bakgrund (`visibilitychange`); global kill switch
-- CMEK (drift)
-- Minimera PII; neutral Grey Rock-ton i observationer
-
-## 8. Status idag vs planerat
+## Status
 
 | Klart | Delvis | Planerat |
 |-------|--------|----------|
-| Kasper/Arvid-flikar, fysiologi, livslogg | Zero Footprint unmount | Steg-wizard enligt spec |
-| Balansmätare 7 dagar, tidslinje | | Incident → valv |
-| JSON-export (stub) — `exportBalansReport.ts` | | Full Dossier / PDF juridisk rapport |
-| | | Dagbok Variant B |
+| PIN, flikar, fysio, livslogg, balans, tidslinje, JSON, WORM rules | Unmount cleanup; kill switch raderar PIN-hash | Wizard, PDF, incident→valv, tredjepartstagg, Dossier, larm, Sandbox/Ankare UX |
 
-## 9. Acceptanskriterier
+## Säkerhet
 
-| # | Kriterium | Kod-status |
-|---|-----------|------------|
-| 1 | Logg per barn + timestamp | **done** |
-| 2 | WORM rules | **done** |
-| 3 | PDF juridisk export | **planned** |
-| 4 | Balansmätare utan count-up | **done** |
-| 5 | State reset vid navigering bort | **partial** |
+- Separat PIN (inte WebAuthn)
+- Lås vid `visibilitychange` + manuell **Lås modul**
+- WORM rules
 
-## 10. Kopplingar
+## Produktbeslut (låsta 2026-05)
 
-- **Verklighetsvalvet** — allvarliga incidenter som WORM-bevis (planerad)
-- **Dossier** — JSON stub idag; samlad export valv + journal + barnen (planerad) → [`dossier.md`](dossier.md)
-- **Dagbok** — taggning Variant B (planerad)
+Se §14 i [`Barnen-SPEC.md`](../../docs/specs/incoming/Barnen-SPEC.md): enkel PIN, visibilitychange-lås, incident explicit med sourceRef, balans=fysiologi only, export per barn, Dossier opt-in.
 
-## 11. Navigation
+## Kopplingar
 
-Se [`docs/specs/navigation-master.md`](../../docs/specs/navigation-master.md): Variant A aktiv.
+- **Valv** — isolerad; planerad explicit bro
+- **Dossier** — opt-in PDF/hash
+- **Dagbok** — ingen auto; Variant B planerad
 
-## Kod
-
-`src/modules/barnens_livsloggar/` · plan: `src/modules/barnens_livsloggar/module_plan.md`
-
-## Gap — minimal nästa implementationsdiff
-
-1. Full Dossier / PDF juridisk stabilitetsrapport (7/30 dagar, hash) — se [`dossier.md`](../../.context/modules/dossier.md)  
-2. `useEffect` cleanup formulär vid unmount  
-3. *Skapa juridisk rapport*-knapp (PDF, inte bara JSON)  
-4. Valfri kopiering allvarlig incident → `reality_vault`  
+Kod: `src/modules/barnens_livsloggar/` · Plan: [`src/modules/barnens_livsloggar/module_plan.md`](../../src/modules/barnens_livsloggar/module_plan.md)

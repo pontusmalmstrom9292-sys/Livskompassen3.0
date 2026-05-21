@@ -2,58 +2,63 @@
 
 ## Overview
 
-Den trygga hamnen — Kasper/Arvid sub-loggar, fysiologi, Balansmätare, juridisk export.
+Den trygga hamnen — neutral WORM-logg för Kasper/Arvid. Route `/familjen`; redirect `/barnen`.
 
-Route: `/barnen` · Canonical: `.context/modules/barnens_livsloggar.md` · Spec: `docs/specs/incoming/Barnen-SPEC.md`
+Canonical: `.context/modules/barnens_livsloggar.md` · Spec: `docs/specs/incoming/Barnen-SPEC.md`
 
 ## Files
 
 | Path | Role |
 |------|------|
-| `components/BarnensPage.tsx` | PIN gate, barn-flikar, orkestrator |
-| `components/ChildSubLogPanel.tsx` | Neutral livslogg per barn |
-| `components/PhysiologicalControls.tsx` | Sömn, ångest, aptit (1–5) |
-| `components/BalansMatare.tsx` | 7-dagars stabilitetsindex (bar, ingen count-up) |
-| `utils/balansIndex.ts` | Deterministisk aggregering |
-| `utils/exportBalansReport.ts` | JSON-export (juridisk stub) |
-| `constants.ts` | Kasper/Arvid, BALANS_WINDOW_DAYS |
-| `types.ts` | ChildrenLogEntry, BalansResult, signals |
+| `components/FamiljenPage.tsx` | Kluster-wrapper |
+| `components/BarnensPage.tsx` | PIN, flikar, orkestrator |
+| `components/ChildSubLogPanel.tsx` | Livslogg per barn |
+| `components/PhysiologicalControls.tsx` | Sömn, ångest, aptit 1–5 |
+| `components/BalansMatare.tsx` | 7-dagars bar (ingen count-up) |
+| `utils/balansIndex.ts` | Deterministisk aggregering — fysiologi only |
+| `utils/exportBalansReport.ts` | JSON-export per barn |
+| `constants.ts` | Kasper/Arvid, BALANS_WINDOW_DAYS=7 |
+| `../core/firebase/firestore.ts` | `saveChildrenLog`, `getChildrenLogs` |
 
 ## Status
 
 | Area | Status |
 |------|--------|
-| AuthGate route | **done** |
-| Separat PIN + lås vid visibilitychange | **done** |
+| AuthGate `/familjen` | **done** |
+| Separat PIN + visibilitychange lock | **done** |
 | Kasper/Arvid tabs | **done** |
 | Fysiologi → `children_logs` | **done** |
 | Livslogg (kategori, observation, impact) | **done** |
 | BalansMatare 7 dagar | **done** |
 | Tidslinje per barn | **done** |
 | WORM Firestore rules | **done** |
-| JSON stabilitetsrapport | **done** (stub) |
-| PDF juridisk rapport | **planned** |
-| Steg-wizard (spec målbild) | **planned** |
-| Formulär unmount cleanup | **planned** |
-| Incident → reality_vault | **planned** |
-| Dagbok-tagg Variant B | **planned** |
-| Dossier-agent PDF (backend) | **planned** |
+| JSON stabilitetsrapport | **done** |
+| Wizard UX | **planned** |
+| PDF juridisk + hash | **planned** (Dossier) |
+| Incident → `reality_vault` (explicit + sourceRef) | **planned** |
+| Tredjepartstagg | **planned** |
+| Unmount cleanup | **planned** |
+| Larmtrösklar (diskret) | **planned** |
+| Dagbok Variant B | **planned** |
 
-## Balansmätare
+## Produktbeslut (låsta 2026-05)
 
-- `computeBalansIndex(logs, childAlias)` — 7-dagars fönster
-- UI: horisontell bar, guld accent — **inte** count-up animation
-- Export: `downloadBalansReportJson` — PDF saknas
+1. Enkel PIN; lås vid visibilitychange; fel PIN = meddelande only
+2. Incident→valv: explicit knapp + sourceRef — aldrig auto
+3. Balans: fysiologi only, 7 dagar
+4. Export: JSON klient; PDF/Dossier per barn senare
+5. Dossier opt-in; tredjepart via kategori skola senare
 
 ## Security notes
 
-- Child data: minimize PII, GDPR retention
+- Separat PIN från valv (`CHILDREN_PIN_KEY`)
+- **Known:** `executeKillSwitch` raderar barn-PIN-hash — dokumenterat i SPEC
 - Grey Rock neutrality in stored observations
-- Separat PIN från valv; Zero Footprint partial
+- Minimize PII; GDPR retention
 
 ## Nästa fas (implementera när användaren säger kör)
 
-1. PDF-export (client print eller Cloud Function)  
-2. Unmount cleanup i ChildSubLogPanel / BarnensPage  
-3. "Skapa juridisk rapport"-knapp med hash-metadata  
-4. Valfri bro till valv för allvarliga incidenter  
+1. Knapp "Spara som bevis?" → `saveVaultLog` med `sourceRef`
+2. PDF-export (klient print eller Dossier)
+3. Wizard progressive disclosure
+4. Unmount cleanup i BarnensPage / ChildSubLogPanel

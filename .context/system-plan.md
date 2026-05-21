@@ -81,4 +81,4 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] `weaveJournalEntry` + hosting deploy (natt-batch — se `docs/OVERNIGHT_REPORT.md`)
 - [ ] Kampspar-loggning (uppladdning, tidsstampel, vektorisering) — **delvis:** `ingestKampsparEntry`, Tidshjulet, Kunskap RAG; Vector Search ANN avvaktar
 - [ ] Ekonomi kopplad till Firestore/Data Connect
-- [ ] Måbra-sidan — KBT-övningsbibliotek, datamodell, AI-coach (shell `/mabra` + kluster **done**; se `.context/modules/mabra_sidan.md`, prompter i `docs/specs/ai-prompts-moduler-master.md`)
+- [ ] Måbra-sidan — hub + andning + `mabra_sessions` (SPEC **done** 2026-05; shell `/mabra` + kluster **done**; se `docs/specs/incoming/Mabra-SPEC.md`, `.context/modules/mabra_sidan.md`)

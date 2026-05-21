@@ -2,45 +2,60 @@
 
 ## Overview
 
-Måbra-sidan — proaktivt självarbete: KBT, självmedkänsla, värderingar, stressreglering. Eget kluster på hem.
+Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget kluster på hem.
 
 **Route:** `/mabra` · **AuthGate:** ja  
-**Canonical:** `.context/modules/mabra_sidan.md`  
-**Prompter:** `docs/specs/ai-prompts-moduler-master.md` (Måbra-block)
+**Canonical:** `.context/modules/mabra_sidan.md` · **Spec:** `docs/specs/incoming/Mabra-SPEC.md`
 
 ## Files
 
 | Path | Role |
 |------|------|
-| `components/MabraPage.tsx` | Shell — EmptyState, placeholder för övningar |
+| `components/MabraPage.tsx` | Shell — placeholder; hub + övningar planerade |
+| `../core/ui/ClusterGrid.tsx` | Hem-kluster Måbra |
+| `../core/routing/AppRoutes.tsx` | Route + AuthGate |
+| Planerat: `components/BreathingExercise.tsx` | 4-7-8 offline |
+| Planerat: `hooks/useMabraSession.ts` | save session metadata |
+| Planerat: `../dagbok/` bro | Spara insikt |
 
 ## Status
 
 | Area | Status |
 |------|--------|
 | Route `/mabra` | **done** |
-| MabraPage shell | **done** |
+| MabraPage shell + EmptyState | **done** |
 | ClusterGrid kluster | **done** |
-| Övningsbibliotek | **planned** |
-| Firestore `mabra_*` | **planned** |
-| AI-coach callable | **planned** |
+| Symptom-hub (3–4 knappar) | **planned** |
+| 4-7-8 andning offline | **planned** (MVP #1) |
+| Firestore `mabra_sessions` | **planned** |
+| `mabra_progress` / coreValues | **planned** |
+| Måbra-coach callable | **planned** (fas 2) |
+| Web Speech sv-SE | **planned** |
 | Bro Dagbok / Kompasser | **planned** |
+| Unmount cleanup | **planned** |
+
+## Produktbeslut (låsta 2026-05)
+
+1. `mabra_sessions` metadata ON; fritext opt-in / RAM
+2. Symptom-hub; default 3 min (1/3/5 valfritt)
+3. Obsidian Calm; ingen natur/streak
+4. AI opt-in; ingen Kunskap RAG; ingen proaktiv dagbok
+5. Länk till Dagbok/Kompasser — inte auto
+
+## Nästa fas (implementera när användaren säger kör)
+
+1. Symptom-hub UI i `MabraPage`
+2. `BreathingExercise` — framer/CSS, offline-first
+3. `saveMabraSession` + Firestore rules
+4. Avslut + valfri länk Dagbok/kväll
 
 ## Avgränsning
 
-- **INTE** Speglar (gaslighting/ACT-skydd)
-- **INTE** Dagbok (daglig reflektion)
-- **INTE** Hamn (BIFF mot ex)
-
-## Next steps (efter Mabra-SPEC från extern AI)
-
-1. Konsolidera `docs/specs/incoming/Mabra-SPEC.md` → `.context/modules/mabra_sidan.md`
-2. Övningskomponenter (progressive disclosure)
-3. Datamodell + ev. callable
-4. Bro från Dagbok
+- **INTE** Speglar, Hamn, Valv, Kunskap RAG
+- **INTE** FloatingDock
 
 ## Security notes
 
-- AuthGate på route
-- Zero Footprint för övningssvar i RAM som default
-- Inga prompts i frontend
+- AuthGate
+- Känslig fritext: RAM default; Kill Switch global
+- Prompts endast backend `sharedRules.ts`

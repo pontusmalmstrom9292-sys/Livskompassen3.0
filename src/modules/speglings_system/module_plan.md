@@ -52,6 +52,6 @@ Route: `/dagbok?tab=speglar` (redirect `/speglar`)
 
 ## Nästa fas
 
-1. Smoke prod: `speglingsMirror` deploy + UI (#14–15 checklista)
+1. ~~Smoke prod: `speglingsMirror` deploy + script~~ **done** (`npm run smoke:speglar`)
 2. Full DCAP Genkit Speglings-Coachen (utöver mirror)
 3. Enforced max 4 meningar i backend; ev. Vector Search på valv

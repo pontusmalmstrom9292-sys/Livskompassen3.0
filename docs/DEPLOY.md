@@ -44,7 +44,18 @@ Valfritt i samma körning (redan i repo, ej kritisk för hjärtat): `breakDownRe
 
 **Obs:** En full deploy `firebase deploy --only functions` inkluderar `notifyNewFile`, som kräver secret (se nedan).
 
-**Kunskap / Gemini:** Om Vertex-modeller ger 404 i prod använder `knowledgeVaultQuery` RAG-fallback (deterministiskt svar från chunks). För full LLM-syntes: `firebase functions:secrets:set GEMINI_API_KEY` och bind secret i `knowledgeVaultQuery` (eller aktivera Vertex Generative AI i GCP Console).
+**Kunskap / Gemini:** Projektet `gen-lang-client-*` har ofta **ingen** Vertex Publisher-modellåtkomst (404 i loggar). RAG-fallback fungerar utan LLM. För full syntes:
+
+```bash
+# 1) Skapa nyckel på https://aistudio.google.com/apikey (server-only, aldrig VITE_*)
+firebase functions:secrets:set GEMINI_API_KEY
+
+# 2) I functions/src/index.ts — lägg till secrets på knowledgeVaultQuery:
+#    { region: 'europe-west1', secrets: ['GEMINI_API_KEY'] }
+
+firebase deploy --only functions:knowledgeVaultQuery
+npm run smoke:kunskap
+```
 
 ### `notifyNewFile` (Drive-webhook)
 

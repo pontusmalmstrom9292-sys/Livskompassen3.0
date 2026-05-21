@@ -12,6 +12,7 @@
 | Firestore rules inkl. `kampspar` | **PASS** (lokal fil) |
 | Firestore indexes `kampspar`, `kb_docs` | **PASS** (lokal fil) |
 | `node scripts/smoke_kunskap.mjs` | **PASS** (2026-05-21) |
+| `node scripts/smoke_speglar.mjs` | **PASS** (2026-05-21) |
 
 ## Kunskap smoke (automatiserat)
 
@@ -23,10 +24,25 @@ Kör: `npm run smoke:kunskap` (kräver `.env` med `VITE_FIREBASE_*`, Anonymous A
 | `ingestKampsparEntry` | **PASS** | WORM create + docId |
 | `knowledgeVaultQuery` | **PASS** | Svar + citations från `kampspar` |
 | Citation pekar på ingest-doc | **PASS** | Token-match RAG |
-| Full Gemini/Vertex LLM | _Efter deploy `gemini-2.0-flash-001`_ | Kör `npm run smoke:kunskap` |
+| Full Gemini/Vertex LLM | **DEGRADED** | Vertex Publisher 404 — projekt saknar modellåtkomst; kräver `GEMINI_API_KEY` secret (se DEPLOY.md) |
 | `embeddingDim` vid ingest | **null** | Embedding API (textembedding-gecko) svarar inte i prod — icke-blockerande |
 
 **För full AI-syntes:** Sätt `GEMINI_API_KEY` som Firebase secret och bind till functions, eller aktivera Vertex Generative AI-modeller för projektet i GCP Console.
+
+## Speglar smoke (automatiserat)
+
+Kör: `npm run smoke:speglar` (kräver `.env`, Anonymous Auth, deployad `speglingsMirror`).
+
+| Steg | Resultat | Notering |
+|------|----------|----------|
+| Anonymous Auth | **PASS** | |
+| `speglingsMirror` | **PASS** | Svar med `mirror` (string) |
+| Full Gemini/Vertex LLM | **degraded** | Fallback spegling — samma som frontend `mirrorFeeling` |
+
+```bash
+firebase deploy --only functions:speglingsMirror --force
+npm run smoke:speglar
+```
 
 ## Manuella tester (övriga moduler)
 
@@ -43,7 +59,7 @@ Kör mot lokal `npm run dev` eller [Hosting](https://gen-lang-client-0481875058.
 | 7 | Kunskap RAG (UI) | Svar + citations i chat | **Ej körd** — callables OK via script |
 | 8 | Kampspår ingest (UI) | Tidshjulet visar nod | **Ej körd** — callable OK via script |
 | 9 | Hamn → bevis | Original sparas i `reality_vault` | **Ej körd** |
-| 10 | Speglar → Hamn | Länk med förifylld text | **Ej körd** |
+| 10 | Speglar → Hamn | Länk med förifylld text | **Ej körd** — `speglingsMirror` OK via script |
 | 11 | Dossier route | `/dossier` visar stub | **Ej körd** |
 | 12 | KompisAvatar | Header pulserar vid Kunskap-fråga | **Ej körd** |
 
@@ -60,6 +76,7 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 
 - `functions/src/lib/genaiClient.ts` — `vertexai: true` för @google/genai
 - `functions/src/agents/knowledgeVaultAgent.ts` — VertexAI SDK + degraded RAG-fallback vid LLM-fel
+- `functions/src/agents/vertexAgent.ts` — `gemini-2.0-flash` + degraded ACT-fallback för `speglingsMirror`
 
 ## Module plan sync
 

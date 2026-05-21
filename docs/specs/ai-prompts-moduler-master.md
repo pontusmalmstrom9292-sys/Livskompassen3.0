@@ -54,10 +54,10 @@ flowchart LR
 | Kunskapsvalvet | `/vardagen?tab=kunskap` | `kampspar`, `kb_docs` | `knowledgeVaultQuery`, `ingestKampsparEntry` | **klart** (deploy krävs) |
 | Kompasser | `/vardagen` | `checkins` | Paralys-Brytaren (backend) | **klart** |
 | Hamn / BIFF | `/hamn` | valfri → `reality_vault` | `analyzeMessage` | **klart** |
-| Barnen | `/familjen` | `children_logs` | — | **klart** (PDF planerat) |
+| Barnen | `/familjen` | `children_logs` | — | **klart** (PDF/wizard planerat) |
 | Ekonomi | `/vardagen?tab=ekonomi` | — | — | **planerat** |
 | Dossier | `/dossier` | aggregation | `generateDossier` planerat | **stub** |
-| **Måbra-sidan** | **`/mabra`** | **TBD** | **TBD** | **planerat** |
+| **Måbra-sidan** | **`/mabra`** | **`mabra_sessions`** (planerat) | Måbra-coach (planerat) | **shell klart** |
 
 **Tre kunskapsytor — blanda aldrig ihop:**
 
@@ -228,27 +228,30 @@ Output: [`docs/specs/incoming/Speglar-SPEC.md`](incoming/Speglar-SPEC.md) (konso
 ## D. Modul-block — Barnen (Familjen)
 
 ```
-MODUL: Barnens livsloggar (Familjen).
+MODUL: Barnens livsloggar (Familjen — Den trygga hamnen).
 
-Route: /familjen (redirect /barnen). AuthGate. Egen PIN (skild från valv-PIN).
+Route: /familjen (redirect /barnen). AuthGate. Dock Heart. Egen enkel PIN (skild från valv — INTE WebAuthn).
 
-SYFTE: Neutral dokumentation för Kasper och Arvid. Den trygga hamnen — utan dom. Balansmätare 7 dagar.
+SYFTE: Neutral Grey Rock-dokumentation för Kasper och Arvid. BBIC-orienterat. Skild från dagbok, valv, Kunskap-RAG.
 
 FUNKTIONER IDAG:
-- PIN-gate → välj barn (Kasper / Arvid)
-- Fysiologi: sömn, ångest, aptit (skala 1–5) → children_logs action fysiologi
-- Livslogg: kategori, observation, valfri barnpåverkan → children_logs
-- Balansmätare: deterministiskt 7-dagars index (balansIndex.ts)
-- Tidslinje per barn
-- JSON-export (exportBalansReport.ts — stub/juridisk PDF planerad)
+- FamiljenPage + BarnensPage embedded
+- PIN-gate (CHILDREN_PIN_KEY) → Kasper / Arvid-flikar
+- En sida (INTE wizard): fysiologi 1–5 + livslogg — två separata saveChildrenLog
+- action: fysiologi | livslogg — separata WORM-dokument
+- Balansmätare: computeBalansIndex — endast fysiologi, 7 dagar, bar+text
+- Tidslinje per barn; JSON-export per barn (exportBalansReport)
+- PIN låses vid visibilitychange; manuell Lås modul
 
 DATAMODELL: children_logs WORM — childAlias, action, signals, observation, category, childrenImpact, ownerId, createdAt
 
-PLANERAT: PDF juridisk stabilitetsrapport, incident→reality_vault, wizard UX, full Dossier-koppling
+PRODUKTBESLUT (låsta): visibilitychange-lås; incident→valv explicit med sourceRef; balans=fysiologi only; export per barn; Dossier opt-in
 
-KOPPLINGAR: Dossier (aggregation), Verklighetsvalvet (allvarliga incidenter planerat), Dagbok Variant B
+PLANERAT: wizard UX, PDF+hash (Dossier), tredjepartstagg, larm diskret, Sandbox/Ankare copy per flik
 
-Output: Barnen-SPEC.md
+KOPPLINGAR: Dossier (opt-in), Verklighetsvalvet (explicit bro planerad), Dagbok Variant B
+
+Output: [`docs/specs/incoming/Barnen-SPEC.md`](incoming/Barnen-SPEC.md) (konsoliderad 2026-05)
 ```
 
 ---
@@ -258,27 +261,25 @@ Output: Barnen-SPEC.md
 ```
 MODUL: Måbra-sidan — proaktivt självarbete och återhämtning.
 
-Route: /mabra (eget kluster på hemskärmen). AuthGate: ja.
+Route: /mabra (eget kluster på hemskärmen). AuthGate: ja. INTE i FloatingDock.
 
-SYFTE: KBT-inspirerade övningar, självmedkänsla, värderingar (ACT), små vanor, stressreglering efter allostatisk belastning. Anpassat ADHD (F90.0B), GAD, RSD — ett steg i taget.
+SYFTE: KBT/ACT, vagus, självmedkänsla, värderingar. ADHD/GAD/RSD — kravlöst, ett steg i taget.
 
-INTE SAMMA SOM:
-- Speglar (/dagbok?tab=speglar) — reaktivt gaslighting/ACT-skydd, validera utan fixa mot manipulation
-- Dagbok — daglig humör+reflektion, låg tröskel
-- Kompasser — mikrosteg morgon/dag/kväll, inte djupa KBT-spår
-- Hamn — BIFF/Grey Rock mot ex, inte självutveckling
+INTE SAMMA SOM: Speglar (gaslighting), Dagbok (humörlogg), Kompasser (mikrosteg), Hamn (BIFF/ex), Kunskap RAG
 
-PLANERA:
-- Övningsbibliotek (t.ex. andning, värderingskompass, thought record light, självmedkänsla)
-- Progressive disclosure: en övning i taget, max 5–10 min
-- Valfri AI-coach: lågaffektiv, Speglings-Coachen-liknande ton men proaktiv (inte JADE)
-- Zero Footprint: session i RAM eller explicit spara; inga känsliga övningssvar till motpart
-- Datamodell: föreslå mabra_sessions eller mabra_progress (WORM eller ephemeral-only — motivera)
-- Kopplingar: bro från Dagbok vid låg energi; Kompasser kväll; INTE Hamn/ex
+FUNKTIONER IDAG:
+- MabraPage shell + EmptyState placeholder
+- ClusterGrid kluster på hem
 
-Status idag: route /mabra shell + kluster; inget övningsinnehåll än.
+PLANERAT MVP:
+- Symptom-hub (Panik/RSD, Självkritik, Hitta mig)
+- 4-7-8 andning offline-first (framer/CSS)
+- mabra_sessions metadata (exerciseType, duration)
+- Mjukt avslut; valfri "Spara insikt till Dagbok"; länk kväll — INTE auto check-in
 
-Output: Mabra-SPEC.md
+PRODUKTBESLUT (låsta): metadata sparas; Obsidian Calm; ingen streak/natur; AI opt-in; #6366F1 coach
+
+Output: [`docs/specs/incoming/Mabra-SPEC.md`](incoming/Mabra-SPEC.md) (konsoliderad 2026-05)
 ```
 
 ---

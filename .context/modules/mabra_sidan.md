@@ -1,84 +1,55 @@
 # Måbra-sidan
 
-**Route:** `/mabra` · **AuthGate:** ja · **Kluster:** eget på hemskärmen (Måbra / Inre kompass)
+**Route:** `/mabra` · **AuthGate:** ja · **Kluster:** hem (Måbra) · **Ej i dock**  
+**Spec (konsoliderad):** [`docs/specs/incoming/Mabra-SPEC.md`](../../docs/specs/incoming/Mabra-SPEC.md)
 
-Proaktivt självarbete: KBT-inspirerade övningar, självmedkänsla, värderingar (ACT), små vanor, stressreglering. Anpassat ADHD/GAD/RSD — progressive disclosure, ett steg i taget.
+## Syfte
 
-**Prompter:** [`docs/specs/ai-prompts-moduler-master.md`](../../docs/specs/ai-prompts-moduler-master.md) (Måbra-block) · **Kladd-routing:** [`ai-prompts-kladd-kampspar.md`](../../docs/specs/ai-prompts-kladd-kampspar.md) §8
+Proaktiv rehab — KBT/ACT, vagus, självmedkänsla, värderingar. ADHD/GAD/RSD: kravlöst, ett steg i taget. **Inte** gaslighting-försvar (Speglar), **inte** ex (Hamn), **inte** daglig logg (Dagbok).
 
----
+## UI (idag)
 
-## Avgränsning
+| Komponent | Roll |
+|-----------|------|
+| `MabraPage` | Shell — placeholder `EmptyState` |
 
-| Modul | Syfte | Inte Måbra |
-|-------|--------|------------|
-| **Måbra-sidan** | Proaktiv rehab, KBT, hitta sig själv | — |
-| Speglar | Reaktivt gaslighting-skydd, ACT validera | Ja |
-| Dagbok | Daglig humör + reflektion | Ja |
-| Kompasser | Mikrosteg morgon/dag/kväll | Ja |
-| Hamn | BIFF mot ex | Ja |
+**Planerat MVP:** symptom-hub → 4-7-8 andning (offline) → mjukt avslut.
 
----
+## Navigation
 
-## 1. Syfte och användarbehov
+| Ingång | Beteende |
+|--------|----------|
+| Hem kluster Måbra | `/mabra` |
+| FloatingDock | **Nej** |
 
-Trygg plats för egen utveckling efter lång stress — utan koppling till vårdnadskonflikt eller ex. Kognitiv avlastning: korta övningar, ingen prestation.
+## Datamodell (planerat)
 
-## 2. Route och ingång
+- **`mabra_sessions`:** exerciseType, durationSeconds, ownerId, completedAt
+- **`mabra_progress`:** coreValues (ACT) — senare
+- **Inte:** RAG/Kunskap; **inte** streak
 
-| Ingång | Status |
-|--------|--------|
-| Hem → kluster **Måbra** | **done** (shell) |
-| Direkt `/mabra` | **done** (shell) |
-| Bro från Dagbok (låg energi) | **planned** |
+## Backend
 
-## 3. UX-flöde (planerat)
+- MVP: deterministiska övningar (klient)
+- Fas 2: Måbra-coach callable (Gemini, `sharedRules.ts`)
 
-1. Välj övning (t.ex. andning, värderingskompass, thought record light)
-2. Ett steg i taget — max 5–10 min
-3. Valfri avslut / spara framsteg (Zero Footprint default: RAM)
+## Status
 
-## 4. Visuell design
+| Klart | Planerat |
+|-------|----------|
+| Route, AuthGate, kluster, shell | Hub, andning, Firestore, coach, bro Dagbok/Kompasser |
 
-Obsidian Calm — samma tokens som design-master. Lugn emerald/lavender accent (ej lila/regnbåge).
+## Produktbeslut (låsta 2026-05)
 
-## 5. Datamodell
+Metadata sparas; symptom-hub; Obsidian Calm; ingen streak/natur; AI opt-in; länk inte auto till Kompasser/Dagbok.
 
-**Planerat:** `mabra_sessions` eller `mabra_progress` — WORM vs ephemeral-only ska beslutas i Mabra-SPEC.
+Se §14 i [`Mabra-SPEC.md`](../../docs/specs/incoming/Mabra-SPEC.md).
 
-## 6. Backend
+## Kopplingar
 
-**Planerat:** valfri coach-callable (lågaffektiv, ej JADE). Prompts endast i `sharedRules.ts`.
+- **Dagbok** — valfri insikt + bro in (planerat)
+- **Kompasser** — länk kväll (planerat)
+- **Speglar** — guardrail vid ex-text (planerat)
+- **Hamn / Valv / Kunskap** — **ingen** datakoppling
 
-## 7. Säkerhet
-
-AuthGate. Zero Footprint för känsliga övningssvar. Ingen auto-delning.
-
-## 8. Status
-
-| Klart | Delvis | Planerat |
-|-------|--------|----------|
-| Route `/mabra`, MabraPage shell | | Övningsbibliotek |
-| Kluster på hem | | Firestore schema |
-| | | AI-coach |
-| | | Bro Dagbok/Kompasser |
-
-## 9. Acceptanskriterier (planerat)
-
-- En övning startbar utan textkommandon
-- State reset vid navigering bort (Zero Footprint)
-- Tydlig skillnad mot Speglar i copy
-
-## 10. Kopplingar
-
-- **Dagbok** — bro vid låg energi (planerat)
-- **Kompasser** — kvällsritual (planerat)
-- **INTE Hamn/ex**
-
-## 11. Navigation
-
-Eget kluster; ej i FloatingDock initialt (nås via hem).
-
-## Kod
-
-`src/modules/mabra/` · plan: `src/modules/mabra/module_plan.md`
+Kod: `src/modules/mabra/` · Plan: [`src/modules/mabra/module_plan.md`](../../src/modules/mabra/module_plan.md)
