@@ -30,7 +30,6 @@ export function detectKnowledgeGap(entries: KampsparEntryRow[]): {
   const definedSubjects = new Set<string>();
 
   for (const entry of entries) {
-    const blob = `${entry.title} ${entry.content}`.toLowerCase();
     if (
       entry.category === 'profil' ||
       entry.category === 'relation' ||

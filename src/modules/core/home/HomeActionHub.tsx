@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import { clsx } from 'clsx';
-import { DashboardPage } from '../../../kompasser/components/DashboardPage';
-import { getDefaultCompassByTime } from '../../../kompasser/utils/compassTime';
-import { EVENING_HERO, getFlowConfig } from '../../../kompasser/config/compassFlows';
+import { DashboardPage } from '../../kompasser/components/DashboardPage';
+import { getDefaultCompassByTime } from '../../kompasser/utils/compassTime';
+import { EVENING_HERO, getFlowConfig } from '../../kompasser/config/compassFlows';
 import {
   HOME_ACTION_CATEGORIES,
   getHomeActionCategory,
