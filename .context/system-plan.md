@@ -91,7 +91,7 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] Speglings-Systemet: ACT + VIVIR + valvjämförelse (`/speglar`)
 - [x] `weaveJournalEntry` + hosting deploy (natt-batch — se `docs/OVERNIGHT_REPORT.md`)
 - [ ] Kampspar-loggning (uppladdning, tidsstampel, vektorisering) — **delvis:** `ingestKampsparEntry`, Tidshjulet, Kunskap RAG; Vector Search ANN avvaktar
-- [x] Kompasser notebook #1–#5 → låst SPEC (`docs/specs/incoming/De-3-Kompasserna-SPEC.md`); kod **ej** — väntar *kör kompasser*
+- [x] Kompasser notebook #1–#5 → låst SPEC; MVP *kör kompasser* **done** (AuthGate, tids-default, Paralys, KASAM, broar)
 - [x] Dossier notebook #1–#4 → låst SPEC; UI wizard + `generateDossier` backend **done** — deploy `functions:generateDossier` + rules
 - [ ] Ekonomi kopplad till Firestore/Data Connect
 - [x] Måbra-sidan MVP — hub + 4-7-8 andning + `mabra_sessions` (SPEC **done** 2026-05; se `docs/specs/incoming/Mabra-SPEC.md`, `.context/modules/mabra_sidan.md`)

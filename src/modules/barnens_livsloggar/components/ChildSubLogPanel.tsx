@@ -1,55 +1,99 @@
-import { useState } from 'react';
-import { Plus, Loader2 } from 'lucide-react';
-import type { ChildAlias } from '../constants';
+import { useState, useEffect } from 'react';
+import { Plus, Loader2, Check } from 'lucide-react';
+import { LIVSLOGG_CATEGORIES, type ChildAlias, type LivsloggCategory } from '../constants';
+import { SaveAsEvidencePrompt } from './SaveAsEvidencePrompt';
 
 interface Props {
   childAlias: ChildAlias;
+  userId: string;
   onSave: (data: {
     observation: string;
     category: string;
     childrenImpact?: string;
-  }) => Promise<void>;
+  }) => Promise<string>;
 }
 
-export function ChildSubLogPanel({ childAlias, onSave }: Props) {
+export function ChildSubLogPanel({ childAlias, userId, onSave }: Props) {
+  const [step, setStep] = useState<'form' | 'saved'>('form');
   const [observation, setObservation] = useState('');
   const [childrenImpact, setChildrenImpact] = useState('');
-  const [category, setCategory] = useState('vardag');
+  const [category, setCategory] = useState<LivsloggCategory>('vardag');
   const [loading, setLoading] = useState(false);
+  const [savedLogId, setSavedLogId] = useState<string | null>(null);
+
+  useEffect(() => {
+    return () => {
+      setObservation('');
+      setChildrenImpact('');
+      setCategory('vardag');
+      setStep('form');
+      setSavedLogId(null);
+    };
+  }, [childAlias]);
+
+  const resetForm = () => {
+    setObservation('');
+    setChildrenImpact('');
+    setCategory('vardag');
+    setStep('form');
+    setSavedLogId(null);
+  };
 
   const handleSave = async () => {
     if (!observation.trim()) return;
     setLoading(true);
     try {
-      await onSave({
+      const id = await onSave({
         observation: observation.trim(),
         category,
         childrenImpact: childrenImpact.trim() || undefined,
       });
-      setObservation('');
-      setChildrenImpact('');
+      setSavedLogId(id);
+      setStep('saved');
     } finally {
       setLoading(false);
     }
   };
 
+  if (step === 'saved' && savedLogId) {
+    return (
+      <div className="space-y-2 border-t border-border-strong pt-4">
+        <p className="flex items-center gap-2 text-sm text-success">
+          <Check className="h-4 w-4" /> Livslogg sparad.
+        </p>
+        <SaveAsEvidencePrompt
+          userId={userId}
+          childAlias={childAlias}
+          childrenLogId={savedLogId}
+          observation={observation.trim()}
+          category={category}
+          childrenImpact={childrenImpact.trim() || undefined}
+          onDone={resetForm}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-2 border-t border-border-strong pt-4">
-      <p className="text-xs uppercase tracking-widest text-text-dim">Observation — {childAlias}</p>
+      <p className="text-xs uppercase tracking-widest text-text-dim">
+        Steg 1 — Observation ({childAlias})
+      </p>
       <select
         value={category}
-        onChange={(e) => setCategory(e.target.value)}
+        onChange={(e) => setCategory(e.target.value as LivsloggCategory)}
         className="input-glass rounded-xl px-3 py-2"
       >
-        <option value="vardag">Vardag</option>
-        <option value="skola">Skola</option>
-        <option value="halsa">Hälsa</option>
-        <option value="overlamning">Överlämning</option>
+        {LIVSLOGG_CATEGORIES.map((c) => (
+          <option key={c.value} value={c.value}>
+            {c.label}
+          </option>
+        ))}
       </select>
       <textarea
         value={observation}
         onChange={(e) => setObservation(e.target.value)}
-        placeholder="Neutral, faktabaserad observation..."
+        placeholder="Neutral, faktabaserad observation (vad hände — inte tolkning mot motpart)..."
         rows={3}
         className="input-glass rounded-xl px-3 py-2"
       />

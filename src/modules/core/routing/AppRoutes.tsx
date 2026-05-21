@@ -34,7 +34,14 @@ export function AppRoutes() {
     <MainLayout>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/vardagen" element={<VardagenPage />} />
+        <Route
+          path="/vardagen"
+          element={
+            <AuthGate>
+              <VardagenPage />
+            </AuthGate>
+          }
+        />
         <Route path="/kompasser" element={<RedirectToVardagenTab tab="kompasser" />} />
         <Route path="/valv" element={<RedirectToHjartatTab tab="bevis" />} />
         <Route

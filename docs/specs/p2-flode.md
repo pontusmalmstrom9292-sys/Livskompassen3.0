@@ -84,9 +84,10 @@ Spec: [`incoming/Dossier-SPEC.md`](incoming/Dossier-SPEC.md) · [`dossier-genera
 |------|-------------|--------|
 | 1 | Morgon / Dag / Kväll på `/vardagen` | **done** |
 | 2 | `saveCheckIn` → `checkins` (WORM) | **done** |
-| 3 | Paralys-Brytaren UI (`breakDownResponse`) | **planned** |
-| 4 | KASAM kväll, crazymaking-bro, notiser | **planned** |
-| 5 | Kväll → Barnen / Måbra | **planned** |
+| 3 | Paralys-Brytaren UI (`breakDownResponse`) | **done** |
+| 4 | KASAM kväll, crazymaking-bro | **done** |
+| 5 | Kväll → Barnen / Måbra | **done** |
+| 6 | Notiser in-app → lokal push | **planned** |
 
 **Kladd:** Paralys **inte** auto vid lågt humör — manuell knapp.
 

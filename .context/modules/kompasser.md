@@ -55,7 +55,8 @@ Silo, WORM, Zero Footprint partial, kill switch global.
 
 | done | partial | planned |
 |------|---------|---------|
-| UI + save + redirect | progressive disclosure | AuthGate, Paralys UI, KASAM, bro, notiser |
+| UI + save + redirect + AuthGate | progressive disclosure (morgon pills) | Notiser fas 2, Sanningens Ankare pin |
+| Paralys UI + KASAM kväll + broar | | |
 
 ## Kladd 2026-05-21
 
