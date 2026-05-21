@@ -23,6 +23,12 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 - AI: Kompis Supervisor, A2A agent cards, DCAP, shared prompt rules in `functions/src/sharedRules.ts`.
 - Tooling: Cursor rules/hooks/MCP and Firebase plugin in `.cursor/settings.json`.
 
+## Development
+
+- **Frontend:** `npm run dev` from repo root (Vite, port 5173).
+- **Functions:** `npm run build` from `functions/` compiles TypeScript.
+- **Lint:** `npx eslint .` from repo root (`eslint.config.js`).
+
 ## Cursor Subagents
 
 - Use `explore` for broad, read-only codebase mapping and architecture discovery.
