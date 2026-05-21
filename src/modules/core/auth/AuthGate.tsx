@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { useStore } from '../store';
 import { BentoCard } from '../ui/BentoCard';
+import { EmailAuthPanel } from './EmailAuthPanel';
 import { Lock } from 'lucide-react';
 
 export function AuthGate({ children }: { children: ReactNode }) {
@@ -17,13 +18,14 @@ export function AuthGate({ children }: { children: ReactNode }) {
 
   if (!isAuthenticated) {
     return (
-      <BentoCard title="Inloggning krävs" icon={<Lock className="h-4 w-4" />}>
-        <p className="text-sm text-text-muted">
-          Kunskapsvalvet och känsliga moduler kräver Firebase Auth. Kontrollera att{' '}
-          <code className="text-accent/80">VITE_FIREBASE_*</code> finns i din{' '}
-          <code className="text-accent/80">.env</code>.
-        </p>
-      </BentoCard>
+      <div className="space-y-4">
+        <BentoCard title="Inloggning krävs" icon={<Lock className="h-4 w-4" />}>
+          <p className="text-sm text-text-muted">
+            Skapa konto eller logga in för att använda denna modul.
+          </p>
+        </BentoCard>
+        <EmailAuthPanel compact defaultMode="signin" />
+      </div>
     );
   }
 
