@@ -71,12 +71,12 @@ export function KnowledgeVaultChat({ onCitationClick }: KnowledgeVaultChatProps 
   }
 
   return (
-    <BentoCard title="Kunskapsvalvet" description="Frågor mot ditt Kampspår — med källhänvisningar">
+    <BentoCard title="Kunskapsvalvet" description="Frågor mot ditt Minne — med källhänvisningar">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <textarea
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          placeholder="Ställ din fråga mot Kampspår..."
+          placeholder="Ställ din fråga mot Minne..."
           rows={3}
           className="input-glass"
           disabled={isLoading}

@@ -23,8 +23,8 @@ export async function ingestKampsparEntry(input: IngestKampsparInput): Promise<I
   } catch (error) {
     const fnError = error as FunctionsError;
     if (fnError.code === 'functions/unauthenticated') {
-      throw new Error('Autentisering krävs för att spara i Kampspår.');
+      throw new Error('Autentisering krävs för att spara i Minne.');
     }
-    throw new Error(fnError.message || 'Kunde inte spara i Kampspår.');
+    throw new Error(fnError.message || 'Kunde inte spara i Minne.');
   }
 }

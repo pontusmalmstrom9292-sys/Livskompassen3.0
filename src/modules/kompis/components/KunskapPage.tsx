@@ -58,7 +58,7 @@ export function KunskapPage({ embedded: _embedded = false }: KunskapPageProps) {
         />
       ) : (
         <>
-          <BentoCard title="Tidshjulet — Kampspår" description="Interaktiv tidslinje">
+          <BentoCard title="Tidshjulet — Minne" description="Interaktiv tidslinje">
             <Tidshjulet entries={entries} highlightEntryId={highlightEntryId} />
           </BentoCard>
 

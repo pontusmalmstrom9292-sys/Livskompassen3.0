@@ -46,7 +46,7 @@ export function KampsparIngestForm({ onSaved }: Props) {
   };
 
   return (
-    <BentoCard title="Lägg till i Kampspår" description="Ett steg — titel och text räcker">
+    <BentoCard title="Lägg till i Minne" description="Ett steg — titel och text räcker">
       <form onSubmit={handleSubmit} className="space-y-3">
         <input
           type="text"
@@ -88,7 +88,7 @@ export function KampsparIngestForm({ onSaved }: Props) {
           className="btn-pill--success flex items-center gap-2"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-          Spara i Kampspår
+          Spara i Minne
         </button>
       </form>
 

@@ -4,7 +4,7 @@
 
 ## Overview
 
-User-facing AI navigator: KompisAvatar, Knowledge Vault chat (Kampspår RAG), Tidshjulet, Kampspår ingest.
+User-facing AI navigator: KompisAvatar, Knowledge Vault chat (Minne RAG), Tidshjulet, Minne ingest.
 
 **Route:** `/vardagen?tab=kunskap`
 
@@ -14,8 +14,8 @@ User-facing AI navigator: KompisAvatar, Knowledge Vault chat (Kampspår RAG), Ti
 |------|------|
 | `components/KompisAvatar.tsx` | Header avatar (analyzing/idle) |
 | `components/KunskapPage.tsx` | Tabs: Kunskapsvalv + Tidshjulet |
-| `components/Tidshjulet.tsx` | Kampspår-noder från Firestore |
-| `components/KampsparIngestForm.tsx` | Lägg till i Kampspår |
+| `components/Tidshjulet.tsx` | Minne-noder från Firestore |
+| `components/KampsparIngestForm.tsx` | Lägg till i Minne |
 | `components/KnowledgeVaultChat.tsx` | Chat + citations |
 | `api/knowledgeVaultService.ts` | `knowledgeVaultQuery` |
 | `api/kampsparService.ts` | `ingestKampsparEntry` |
@@ -27,7 +27,7 @@ User-facing AI navigator: KompisAvatar, Knowledge Vault chat (Kampspår RAG), Ti
 | Kunskapsvalv RAG | Metod, ej forensik | Ja | **done** |
 | Tidshjulet + ingest | Opt-in trauma | Ja | **done** |
 | Drive → kb_docs | Auto kladd | Ja | **done** |
-| Kampspår från Kladd-filer | **Avvisat** auto | Nej | **policy** |
+| Minne från Kladd-filer | **Avvisat** auto | Nej | **policy** |
 | Klickbara citations | Kladd | Nej | **planned** |
 | Vector Search ANN | Notebook | Nej | **planned** |
 | Dagbok auto → kampspar | Ej valv | Nej | **planned** |

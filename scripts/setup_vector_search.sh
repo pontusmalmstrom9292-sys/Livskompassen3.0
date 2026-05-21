@@ -44,7 +44,7 @@ ENDPOINT_ID=$(gcloud ai index-endpoints list --region=$LOCATION --filter="displa
 echo "Distribuerar Indexet till Endpointen (detta tar också tid)..."
 gcloud ai index-endpoints deploy-index $ENDPOINT_ID \
   --deployed-index-id="kampspar_deployed_v1" \
-  --display-name="Kampspar Deployed" \
+  --display-name="Minne Deployed" \
   --index=$INDEX_ID \
   --region=$LOCATION
 

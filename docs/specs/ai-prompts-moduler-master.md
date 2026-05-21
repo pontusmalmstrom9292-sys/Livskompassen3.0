@@ -19,7 +19,7 @@ flowchart LR
   end
   subgraph vardagen [Vardagen]
     Kompasser["checkins"]
-    Kunskap["Kampspar RAG"]
+    Kunskap["Minne RAG"]
     Ekonomi["placeholder"]
   end
   subgraph familj [Familjen]
