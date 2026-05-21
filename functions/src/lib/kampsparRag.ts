@@ -1,5 +1,8 @@
 import * as admin from 'firebase-admin';
 
+import { generateEmbeddingInternal } from './generateEmbeddingInternal';
+import { isVectorSearchConfigured, queryKampsparVectorNeighbors } from './vectorSearchClient';
+
 function truncate(text: string, max = 120): string {
   return text.length <= max ? text : `${text.slice(0, max)}…`;
 }
@@ -36,14 +39,29 @@ async function fetchFirestoreRag(uid: string): Promise<string[]> {
   return lines;
 }
 
-/** Vector Search stub — aktiveras när VECTOR_SEARCH_INDEX_ID är satt i miljön. */
-async function fetchVectorRagExcerpts(_uid: string, _text: string): Promise<string[]> {
-  const indexId = process.env.VECTOR_SEARCH_INDEX_ID;
-  if (!indexId) return [];
+/** Vector Search ANN för Vävaren — fallback tom om endpoint ej live. */
+async function fetchVectorRagExcerpts(uid: string, text: string): Promise<string[]> {
+  if (!isVectorSearchConfigured()) return [];
 
-  // Full ANN-query kräver deployat endpoint — fallback till Firestore tills index är live.
-  console.log('[kampsparRag] VECTOR_SEARCH_INDEX_ID satt men ANN-query ej wired — Firestore-fallback.');
-  return [];
+  try {
+    const embedding = await generateEmbeddingInternal(text);
+    const docIds = await queryKampsparVectorNeighbors(embedding, 5);
+    if (docIds.length === 0) return [];
+
+    const db = admin.firestore();
+    const lines: string[] = [];
+    for (const id of docIds) {
+      const snap = await db.collection('kampspar').doc(id).get();
+      if (!snap.exists) continue;
+      const data = snap.data()!;
+      if (data.ownerId !== uid && data.userId !== uid) continue;
+      lines.push(`[kampspar:${id}] ${truncate(String(data.content ?? data.text ?? ''))}`);
+    }
+    return lines;
+  } catch (err) {
+    console.warn('[kampsparRag] ANN misslyckades — Firestore-fallback:', err);
+    return [];
+  }
 }
 
 /** RAG-kontext för Vävaren: journal + valv + Minne (+ Vector Search stub). */

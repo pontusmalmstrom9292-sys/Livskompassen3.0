@@ -126,7 +126,7 @@ UI (`Tidshjulet.tsx`) har "Dåtid (Kampspår)"-ring; repomix hade statiska noder
 - [x] `Arkiv-GAP-REGISTER.md` — denna fil (G11–G14 tillagda)
 - [x] `docs/archive/repomix/KONSOLIDERING-2026-05-21.md`
 - [x] `system-plan.md` § Permanent minne
-- [ ] `system-plan.md` — uppdatera notifyNewFile/valvChat rader efter deploy (manuell)
+- [x] `system-plan.md` — uppdatera notifyNewFile/valvChat rader efter deploy (2026-05-21 multitask)
 
 ---
 

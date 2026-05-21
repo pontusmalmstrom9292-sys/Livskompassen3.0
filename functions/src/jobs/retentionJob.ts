@@ -2,9 +2,7 @@
  * GDPR Data Retention Job (körbar modul)
  * Livskompassen v2 - Fas 3, Steg 3.1
  *
- * Exporterar en default-funktion så att den kan anropas både
- * som ett fristående Cloud Run Job (process.argv) och
- * som en inlineimport från scheduledRetentionJob i index.ts.
+ * Permanent minne (G5): WORM-källor raderas ALDRIG — se .context/arkiv-minne.md
  */
 
 import { Firestore, Timestamp } from '@google-cloud/firestore';
@@ -13,7 +11,19 @@ import { GCP_PROJECT_ID } from '../config';
 
 const PROJECT_ID = GCP_PROJECT_ID;
 const RETENTION_DAYS = parseInt(process.env.RETENTION_DAYS ?? '90', 10);
-const COLLECTIONS_TO_PURGE = ['kampspar', 'interaction_logs', 'dcap_analysis_cache'];
+
+/** WORM / permanent minne — får ALDRIG purgas. */
+export const WORM_COLLECTIONS_NEVER_PURGE = [
+  'children_logs',
+  'reality_vault',
+  'journal',
+  'dossier_snapshots',
+  'kampspar',
+  'kb_docs',
+] as const;
+
+/** Endast ephemeral cache under users/{uid}/. Live Minne = top-level kampspar. */
+const COLLECTIONS_TO_PURGE = ['interaction_logs', 'dcap_analysis_cache'];
 
 interface PurgeResult {
   collection: string;
@@ -32,6 +42,11 @@ async function purgeFirestoreCollection(
   collection: string,
   cutoff: Timestamp
 ): Promise<PurgeResult> {
+  if ((WORM_COLLECTIONS_NEVER_PURGE as readonly string[]).includes(collection)) {
+    console.warn(`[RetentionJob] Skippar WORM-skyddad collection: ${collection}`);
+    return { collection, deletedCount: 0, prunedVectorIds: [] };
+  }
+
   const ref = db.collection(`users/${userId}/${collection}`);
   const snapshot = await ref.where('createdAt', '<', cutoff).get();
 
@@ -55,7 +70,6 @@ async function removeVectors(vectorIds: string[]): Promise<void> {
   const indexId = process.env.VECTOR_SEARCH_INDEX_ID;
   if (!indexId || vectorIds.length === 0) return;
 
-  // Dynamic import för att undvika onödigt beroende vid inline-körning
   const { IndexServiceClient } = await import('@google-cloud/aiplatform');
   const client = new IndexServiceClient({ apiEndpoint: `europe-west1-aiplatform.googleapis.com` });
 
@@ -69,14 +83,13 @@ async function removeVectors(vectorIds: string[]): Promise<void> {
 
 export default async function runRetention(): Promise<void> {
   console.log(`[RetentionJob] Startar. Retention: ${RETENTION_DAYS} dagar.`);
+  console.log(`[RetentionJob] WORM-skydd: ${WORM_COLLECTIONS_NEVER_PURGE.join(', ')}`);
 
   const db = new Firestore({ projectId: PROJECT_ID });
   const cutoff = getCutoffTimestamp();
 
   const usersSnap = await db.collection('users').select().get();
   const userIds = usersSnap.docs.map((d) => d.id);
-
-  console.log(`[RetentionJob] ${userIds.length} användare att bearbeta.`);
 
   const allVectorIds: string[] = [];
   let totalDeleted = 0;
@@ -94,7 +107,6 @@ export default async function runRetention(): Promise<void> {
   console.log(`[RetentionJob] Klart. ${totalDeleted} dok., ${allVectorIds.length} vektorer raderade.`);
 }
 
-// Kör direkt om filen anropas som Cloud Run Job
 if (require.main === module) {
   runRetention().catch((err) => {
     console.error('[RetentionJob] Kritiskt fel:', err);

@@ -1,34 +1,45 @@
 export type KompisState = 'idle' | 'active' | 'analyzing' | 'celebrating' | 'supporting';
 
-export interface Kampspar {
+/**
+ * UI-only mock for Kompis dashboard — MUST NOT be sent to ingestKampsparEntry (G11).
+ * WORM schema: KampsparEntry in src/modules/core/types/firestore.ts
+ */
+export interface KompisUiKampsparTrack {
   id: string;
   title: string;
   description: string;
   type: 'challenge' | 'milestone' | 'routine';
-  intensity: number; // 1-10
+  intensity: number;
   date: string;
   tags: string[];
 }
 
+/** @deprecated Use KompisUiKampsparTrack */
+export type Kampspar = KompisUiKampsparTrack;
+
 export interface SubSynapticData {
-  stressLevel: number; // 1-100
-  focusScore: number; // 1-100
-  energyLevel: number; // 1-100
-  recentKampspar: Kampspar[];
+  stressLevel: number;
+  focusScore: number;
+  energyLevel: number;
+  recentUiTracks: KompisUiKampsparTrack[];
+  /** @deprecated Use recentUiTracks */
+  recentKampspar: KompisUiKampsparTrack[];
 }
 
 export interface KompisContextType {
   state: KompisState;
   subSynapticData: SubSynapticData;
-  biometricSignature: string; // The unique data-fingerprint
+  biometricSignature: string;
   setState: (state: KompisState) => void;
-  analyzeKampspar: (track: Kampspar) => void;
+  analyzeUiTrack: (track: KompisUiKampsparTrack) => void;
+  /** @deprecated Use analyzeUiTrack */
+  analyzeKampspar: (track: KompisUiKampsparTrack) => void;
 }
 
-// Mocks for initial integration
 export const initialSubSynapticData: SubSynapticData = {
   stressLevel: 30,
   focusScore: 75,
   energyLevel: 80,
-  recentKampspar: []
+  recentUiTracks: [],
+  recentKampspar: [],
 };

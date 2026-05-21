@@ -3,6 +3,7 @@ import { askMabraCoach, askSpeglingsCoach } from "./agents/vertexAgent";
 import { askKnowledgeVaultWithRag } from "./agents/knowledgeVaultAgent";
 import { geminiApiKey } from "./lib/geminiSecret";
 import { generateEmbeddingInternal } from "./lib/generateEmbeddingInternal";
+import { upsertKampsparVector } from "./lib/vectorSearchClient";
 import { askValvChat } from "./agents/valvChatAgent";
 import { weaveJournalEntry as runWeaver } from "./agents/weaverAgent";
 import * as functions from "firebase-functions";
@@ -226,8 +227,9 @@ export const ingestKampsparEntry = functions.region('europe-west1').https.onCall
   }
 
   let embeddingDim: number | null = null;
+  let embedding: number[] = [];
   try {
-    const embedding = await generateEmbeddingInternal(`${title}\n${content}`);
+    embedding = await generateEmbeddingInternal(`${title}\n${content}`);
     embeddingDim = embedding.length > 0 ? embedding.length : null;
   } catch (err) {
     console.warn('[ingestKampsparEntry] Embedding misslyckades — sparar utan index:', err);
@@ -245,6 +247,10 @@ export const ingestKampsparEntry = functions.region('europe-west1').https.onCall
     embeddingDim,
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
   });
+
+  if (embedding.length > 0) {
+    await upsertKampsparVector(docRef.id, embedding);
+  }
 
   return { docId: docRef.id, embeddingDim };
 });

@@ -102,13 +102,14 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 
 **Repomix → kanon (legacy):** `vault`→`reality_vault`, `kids_records`→`children_logs`, `diary`→`journal`. Mock `Kampspar`-typ ≠ `KampsparEntry` (G11).
 
-**Idag (2026-05-21, GCP-inventory):**
-- Kunskap RAG token-match — smoke PASS; 2 Vector Search-index i GCP, **0 endpoints**, kod stub
-- `valvChatQuery` — kod finns, **ej deployad** (G1)
+**Idag (2026-05-21, efter multitask GAP-våg):**
+- Kunskap RAG — smoke PASS; token-match + ANN-kod wired; `embeddingDim: 768`
+- Vector Search — endpoint `4956462078572363776` (west1); index deploy `livskompassen_kv_deployed_v1` pågår/klar
+- `valvChatQuery` — **deployad**; smoke:valv PASS (G1)
 - Dossier `generateDossier` — **klart** (smoke PASS)
-- `notifyNewFile` — **deployad**; Apps Script + secret verifiering kvar (G6)
+- `notifyNewFile` — **deployad**; `NOTIFY_WEBHOOK_SECRET` saknas (G6 manuellt steg)
 - Legacy Python RAG us-central1 — **4 functions** parallellt med Node (G4)
-- Walkthrough "Vector live" — **falskt**; GCP + kod är sanning
+- Retention G5 — WORM allowlist i `retentionJob.ts`; mock Kampspar G11 isolerad
 
 **Planerat (får inte tappas):** G1–G14 i [`Arkiv-GAP-REGISTER.md`](docs/specs/incoming/Arkiv-GAP-REGISTER.md). Implementation: `kör [GAP]`.
 

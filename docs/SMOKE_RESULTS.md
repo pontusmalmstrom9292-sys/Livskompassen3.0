@@ -8,7 +8,7 @@
 | Kontroll | Resultat |
 |----------|----------|
 | `npm run build` (frontend) | **PASS** (additiv modulbyggplan 2026-05-21) |
-| `npm run smoke:valv` | **ny script** — kör manuellt med `.env` |
+| `smoke:valv` | **PASS** (2026-05-21 efter G1 deploy) |
 | `cd functions && npm run build` | **PASS** |
 | Firestore rules inkl. `kampspar` | **PASS** (lokal fil) |
 | Firestore indexes `kampspar`, `kb_docs` | **PASS** (lokal fil) |
@@ -28,7 +28,7 @@ Manifest: [`docs/specs/incoming/Kampspar-PROFIL-SEED.json`](./specs/incoming/Kam
 | Steg | Resultat | Notering |
 |------|----------|----------|
 | `ingestKampsparEntry` × 47 | **PASS** | Alla poster WORM-create |
-| `embeddingDim` | **null** | Icke-blockerande (samma som Kunskap smoke) |
+| `embeddingDim` | **768** | PASS efter G3 fix (textembedding-gecko@003 / text-embedding-004) |
 | RAG 5 testfrågor | **PASS 5/5** | Samma auth-session som ingest (`--verify`) |
 | Diagnoser-fråga | **PASS** | ADHD F90.0B + GAD F41.1 |
 | Soc-strategi-fråga | **PASS** | Citations från strategi/metod |
@@ -171,3 +171,21 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 
 - [`src/modules/kompis/module_plan.md`](../src/modules/kompis/module_plan.md)
 - [`docs/specs/incoming/Kunskap-SPEC.md`](./specs/incoming/Kunskap-SPEC.md)
+
+## G6 — Drive webhook (multitask 2026-05-21)
+
+| Kontroll | Resultat |
+|----------|----------|
+| `notifyNewFile` deployad | **PASS** |
+| `NOTIFY_WEBHOOK_SECRET` | **SAKNAS** (Secret Manager 404) — webhook fail-closed |
+| End-to-end Drive → kb_docs | **BLOCKERAD** tills secret + Apps Script |
+
+## Multitask GAP-våg (2026-05-21)
+
+| GAP | Resultat |
+|-----|----------|
+| G1 valvChatQuery | **PASS** — deploy + smoke:valv |
+| G3 embeddings | **PASS** — embeddingDim 768 |
+| G5 retention WORM | **Kod klar** — allowlist |
+| G11 mock Kampspar | **Kod klar** — `KompisUiKampsparTrack` |
+| G2 Vector ANN | **DELVIS** — kod wired; index deploy på endpoint pågår |

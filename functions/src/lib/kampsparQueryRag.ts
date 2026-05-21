@@ -1,4 +1,6 @@
 import * as admin from 'firebase-admin';
+import { generateEmbeddingInternal } from './generateEmbeddingInternal';
+import { isVectorSearchConfigured, queryKampsparVectorNeighbors } from './vectorSearchClient';
 
 const STOPWORDS = new Set(['och', 'att', 'som', 'det', 'en', 'i', 'på', 'är', 'för', 'med', 'av', 'till']);
 
@@ -63,8 +65,16 @@ function chunkFromDoc(
   };
 }
 
-/** Minne-scoped RAG: token-match över kampspar + kb_docs, fallback till senaste. */
-export async function fetchKampsparEvidenceForQuery(
+function tokenMatchRank(
+  uid: string,
+  question: string,
+  limit: number
+): Promise<KampsparEvidenceChunk[]> {
+  return fetchKampsparEvidenceTokenMatch(uid, question, limit);
+}
+
+/** Token-match över kampspar + kb_docs — fallback när ANN saknas eller misslyckas. */
+async function fetchKampsparEvidenceTokenMatch(
   uid: string,
   question: string,
   limit = 12
@@ -99,4 +109,60 @@ export async function fetchKampsparEvidenceForQuery(
     excerpt,
     content,
   }));
+}
+
+async function fetchKampsparEvidenceAnn(
+  uid: string,
+  question: string,
+  limit: number
+): Promise<KampsparEvidenceChunk[]> {
+  const embedding = await generateEmbeddingInternal(question);
+  const neighborDocIds = await queryKampsparVectorNeighbors(embedding, limit);
+  if (neighborDocIds.length === 0) return [];
+
+  const db = admin.firestore();
+  const chunks: KampsparEvidenceChunk[] = [];
+
+  for (const docId of neighborDocIds) {
+    const doc = await db.collection('kampspar').doc(docId).get();
+    if (!doc.exists) continue;
+    const data = doc.data();
+    if (!data || data.ownerId !== uid) continue;
+    chunks.push(chunkFromDoc('kampspar', docId, data));
+  }
+
+  if (chunks.length > 0) {
+    console.log(`[kampsparQueryRag] ANN ${chunks.length} träffar för uid=${uid}`);
+  }
+  return chunks;
+}
+
+/** Minne-scoped RAG: ANN (kampspar) + token-match fallback för kampspar + kb_docs. */
+export async function fetchKampsparEvidenceForQuery(
+  uid: string,
+  question: string,
+  limit = 12
+): Promise<KampsparEvidenceChunk[]> {
+  if (isVectorSearchConfigured()) {
+    try {
+      const annChunks = await fetchKampsparEvidenceAnn(uid, question, limit);
+      if (annChunks.length > 0) {
+        const annIds = new Set(annChunks.map((c) => c.docId));
+        const tokenChunks = await tokenMatchRank(uid, question, limit);
+        const kbExtras = tokenChunks.filter(
+          (c) => c.collection === 'kb_docs' || !annIds.has(c.docId)
+        );
+        const merged = [...annChunks];
+        for (const extra of kbExtras) {
+          if (merged.length >= limit) break;
+          if (!annIds.has(extra.docId)) merged.push(extra);
+        }
+        return merged.slice(0, limit);
+      }
+    } catch (err) {
+      console.warn('[kampsparQueryRag] ANN misslyckades — token-match fallback:', err);
+    }
+  }
+
+  return fetchKampsparEvidenceTokenMatch(uid, question, limit);
 }
