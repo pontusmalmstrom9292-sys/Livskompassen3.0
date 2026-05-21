@@ -56,7 +56,7 @@ flowchart LR
 | Hamn / BIFF | `/hamn` | valfri → `reality_vault` | `analyzeMessage` | **klart** |
 | Barnen | `/familjen` | `children_logs` | — | **klart** (PDF/wizard planerat) |
 | Ekonomi | `/vardagen?tab=ekonomi` | — | — | **planerat** |
-| Dossier | `/dossier` | aggregation | `generateDossier` planerat | **stub** |
+| Dossier | `/dossier` | aggregation | `generateDossier` | **klart** (smoke 2026-05-21) |
 | **Måbra-sidan** | **`/mabra`** | **`mabra_sessions`** | Måbra-coach (planerat) | **MVP klart** |
 
 **Tre kunskapsytor — blanda aldrig ihop:**
@@ -66,6 +66,25 @@ flowchart LR
 | Kunskapsvalvet | `/vardagen?tab=kunskap` | `kampspar` + `kb_docs` | Livs-OS, mönster, brett minne |
 | Valv-Chat | Bevis-flik efter unlock | `reality_vault` | Forensisk bevisföring |
 | Kunskap (chat) | samma som rad 1 | RAG + citations | Frågor mot *dina* poster |
+
+**Permanent minne:** WORM-poster raderas inte av design. Valv-Chat ≠ hela systemets minne. Barnfrågor → `children_logs` + Dossier (+ planerad Familjen-RAG). Se [`.context/arkiv-minne.md`](../../.context/arkiv-minne.md) och [`Arkiv-SPEC.md`](incoming/Arkiv-SPEC.md).
+
+---
+
+## G. Hela arkivet (Life OS-minne)
+
+Canonical: [`.context/arkiv-minne.md`](../../.context/arkiv-minne.md) · GCP: [`docs/archive/GCP-INVENTORY-2026-05-21.md`](../../docs/archive/GCP-INVENTORY-2026-05-21.md).
+
+| Domän | Skill | GAP |
+|-------|-------|-----|
+| Master | `livskompassen-arkiv-master` | Helhetsreview |
+| RAG | `livskompassen-rag-retrieval` | token-match → ANN |
+| Vector | `livskompassen-vector-search` | 2 index, 0 endpoints |
+| Synapser | `livskompassen-synapser-adk` | journal_woven stub |
+| Agenter | `livskompassen-memory-agents` | sharedRules |
+| Silo-vakt | `livskompassen-memory-silo-guard` | cross-RAG |
+
+Implementationsbacklog: [`Arkiv-GAP-REGISTER.md`](incoming/Arkiv-GAP-REGISTER.md).
 
 ---
 

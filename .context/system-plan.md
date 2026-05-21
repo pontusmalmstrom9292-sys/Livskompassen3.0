@@ -54,11 +54,11 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 
 ## Fas 3 (Firebase-synk)
 - [x] Firestore rules + indexes deployade
-- [x] Functions deployade (utom `notifyNewFile` — kräver secret)
+- [x] Functions deployade; `notifyNewFile` deployad (webhook-secret + Apps Script verifiering kvar)
 - [x] Firebase Hosting: https://gen-lang-client-0481875058.web.app
 - [x] Dokumentation: `docs/FIREBASE_SYNC.md`
 - [ ] Manuell smoke: spara test i valv + barnen (Firestore Console)
-- [ ] `NOTIFY_WEBHOOK_SECRET` + deploy `notifyNewFile` (Drive)
+- [ ] `NOTIFY_WEBHOOK_SECRET` verifiering + Apps Script (Drive) — function deployad enligt GCP-inventering 2026-05-21
 
 ## Drive wire-up (Apps Script → notifyNewFile)
 - [x] Kod redo: Script Properties i `sorter.gs`, webhook-secret fail-closed, `docs/DRIVE_AUTOMATION.md`
@@ -83,6 +83,36 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 | Speglings-Systemet | `/speglar` | `.context/modules/speglingssystemet.md` | `src/modules/speglings_system/` |
 | Måbra-sidan | `/mabra` | `.context/modules/mabra_sidan.md` | `src/modules/mabra/` |
 | Kompis / Kunskap | `/vardagen?tab=kunskap` | `.context/modules/kompis.md` | `src/modules/kompis/` |
+
+## Permanent minne (låst princip)
+
+**Konsoliderad:** 2026-05-21 — se [`docs/archive/repomix/KONSOLIDERING-2026-05-21.md`](docs/archive/repomix/KONSOLIDERING-2026-05-21.md).
+
+Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns, utan arkitekturinvariant.
+
+| Collection | Roll | Glömmer? |
+|------------|------|----------|
+| `children_logs` | Barnens livslogg + fysiologi | Nej — append-only WORM |
+| `reality_vault` | Bevis (Sanningens Sköld) | Nej — append-only WORM |
+| `journal` | Dagbok Lager 1 | Nej — append-only WORM |
+| `kampspar` / `kb_docs` | Kunskapsvalvet (RAG) | WORM create; separat retention — **ersätter inte** barn/valv |
+| `dossier_snapshots` | Bevisad export | WORM snapshot |
+
+**Tre kunskapsytor** (se `arkitektur-beslut.md` §1.5) — blanda aldrig RAG mellan silor.
+
+**Repomix → kanon (legacy):** `vault`→`reality_vault`, `kids_records`→`children_logs`, `diary`→`journal`. Mock `Kampspar`-typ ≠ `KampsparEntry` (G11).
+
+**Idag (2026-05-21, GCP-inventory):**
+- Kunskap RAG token-match — smoke PASS; 2 Vector Search-index i GCP, **0 endpoints**, kod stub
+- `valvChatQuery` — kod finns, **ej deployad** (G1)
+- Dossier `generateDossier` — **klart** (smoke PASS)
+- `notifyNewFile` — **deployad**; Apps Script + secret verifiering kvar (G6)
+- Legacy Python RAG us-central1 — **4 functions** parallellt med Node (G4)
+- Walkthrough "Vector live" — **falskt**; GCP + kod är sanning
+
+**Planerat (får inte tappas):** G1–G14 i [`Arkiv-GAP-REGISTER.md`](docs/specs/incoming/Arkiv-GAP-REGISTER.md). Implementation: `kör [GAP]`.
+
+**Sacred:** Permanent minne + korrekt silo = Zero Footprint + Kill Switch.
 
 ## Kommande fas
 - [x] WebAuthn gate + Shake-to-Kill (15 m/s²) + Fyren progress
