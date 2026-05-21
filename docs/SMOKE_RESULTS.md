@@ -102,7 +102,7 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 - `scripts/smoke_dossier.mjs` — automatiserad E2E (vault seed + snapshot + PDF)
 
 - `functions/src/lib/genaiClient.ts` — `vertexai: true` för @google/genai
-- `functions/src/agents/knowledgeVaultAgent.ts` — VertexAI SDK + degraded RAG-fallback vid LLM-fel
+- `functions/src/agents/knowledgeVaultAgent.ts` — modell `gemini-2.0-flash-001` (ersatte `gemini-1.5-flash-001` 404)
 - `functions/src/agents/vertexAgent.ts` — `gemini-2.5-flash` + `GEMINI_API_KEY` via secret; degraded ACT-fallback vid LLM-fel
 - `functions/src/index.ts` — `speglingsMirror` `.runWith({ secrets: ['GEMINI_API_KEY'] })`
 

@@ -27,7 +27,7 @@ flowchart LR
   Hamn -->|"Spara som bevis done"| Valv
   Kompasser -.->|"kväll planerad"| Barnen
   Kompasser -.->|"crazymaking planerad"| Valv
-  Barnen -.->|"incident explicit planerad"| Valv
+  Barnen -->|"Spara som bevis done"| Valv
 ```
 
 ## Hamn (Safe Harbor)
@@ -51,7 +51,7 @@ Spec: [`incoming/SafeHarbor-SPEC.md`](incoming/SafeHarbor-SPEC.md)
 | 2 | Fysiologi / livslogg → `children_logs` (WORM) | **done** |
 | 3 | Balansmätare (7 dagar, fysiologi only) | **done** |
 | 4 | JSON-export per barn | **done** |
-| 5 | **Spara som bevis?** → valv med `sourceRef` | **planned** |
+| 5 | **Spara som bevis?** → valv med `sourceRef` | **done** |
 | 6 | Full Dossier inkl. barnen | **done** via `/dossier` |
 
 **Kladd (bevis i valv, ej auto):** skola Ann/Lena, barnsamtal 2026-03-12 — `category: skola` tills tredjepartstagg.

@@ -44,7 +44,7 @@
 
 | Klart | Delvis | Planerat |
 |-------|--------|----------|
-| PIN, flikar, fysio, livslogg, balans, tidslinje, JSON, WORM rules | Unmount cleanup; kill switch raderar PIN-hash | Wizard, PDF, incident→valv, tredjepartstagg, Dossier, larm, Sandbox/Ankare UX |
+| PIN, fysio, livslogg, balans, JSON, incident→valv, tredjepart-filter, Dossier-länk | Full wizard; kill switch raderar PIN-hash | PDF per barn, larm, Sandbox/Ankare UX |
 
 ## Kladd 2026-05-21
 

@@ -88,6 +88,7 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] WebAuthn gate + Shake-to-Kill (15 m/s²) + Fyren progress
 - [x] Vävaren async tagging (Gemini 1.5 Pro → reality_vault) + kampsparRag
 - [x] Barnens: Kasper/Arvid, Balansmätare, fysiologi, JSON export
+- [x] Barnens *kör barnen* **done** — Spara som bevis + `sourceRef`, tredjepart-filter, Dossier-länk (`/familjen`)
 - [x] Speglings-Systemet: ACT + VIVIR + valvjämförelse (`/speglar`)
 - [x] `weaveJournalEntry` + hosting deploy (natt-batch — se `docs/OVERNIGHT_REPORT.md`)
 - [ ] Kampspar-loggning (uppladdning, tidsstampel, vektorisering) — **delvis:** `ingestKampsparEntry`, Tidshjulet, Kunskap RAG; Vector Search ANN avvaktar

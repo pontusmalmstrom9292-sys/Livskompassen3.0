@@ -3,7 +3,6 @@ import { useSearchParams } from 'react-router-dom';
 import { Sprout, Wallet, Sparkles } from 'lucide-react';
 import { TabBar } from '../../core/ui/TabBar';
 import { BentoCard } from '../../core/ui/BentoCard';
-import { AuthGate } from '../../core/auth/AuthGate';
 import { EconomyPage } from '../../ekonomi';
 import { KunskapPage } from '../../kompis/components/KunskapPage';
 import { DashboardPage } from './DashboardPage';
@@ -43,11 +42,7 @@ export function VardagenPage() {
 
       {tab === 'kompasser' && <DashboardPage embedded />}
       {tab === 'ekonomi' && <EconomyPage embedded />}
-      {tab === 'kunskap' && (
-        <AuthGate>
-          <KunskapPage embedded />
-        </AuthGate>
-      )}
+      {tab === 'kunskap' && <KunskapPage embedded />}
     </div>
   );
 }

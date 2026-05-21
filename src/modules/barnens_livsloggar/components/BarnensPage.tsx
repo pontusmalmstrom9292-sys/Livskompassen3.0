@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { Heart, Loader2 } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { PinGate } from '../../core/ui/PinGate';
@@ -13,6 +14,7 @@ import { downloadBalansReportJson, exportBalansReport } from '../utils/exportBal
 import { BalansMatare } from './BalansMatare';
 import { PhysiologicalControls } from './PhysiologicalControls';
 import { ChildSubLogPanel } from './ChildSubLogPanel';
+import { SaveAsEvidencePrompt } from './SaveAsEvidencePrompt';
 
 const CHILDREN_PIN_KEY = 'livskompassen_children_pin_hash';
 
@@ -23,6 +25,8 @@ function hashPin(pin: string): string {
 }
 
 const defaultSignals: PhysiologicalSignals = { somn: 3, angest: 3, aptit: 3 };
+
+type LogFilter = 'all' | 'skola' | 'livslogg';
 
 type BarnensPageProps = {
   embedded?: boolean;
@@ -41,6 +45,8 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
   const [logs, setLogs] = useState<ChildrenLogEntry[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [logFilter, setLogFilter] = useState<LogFilter>('all');
+  const [evidenceForLogId, setEvidenceForLogId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isVaultUnlocked) setUnlocked(false);
@@ -52,6 +58,14 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
     };
     document.addEventListener('visibilitychange', onVisibility);
     return () => document.removeEventListener('visibilitychange', onVisibility);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      setPin('');
+      setConfirmPin('');
+      setEvidenceForLogId(null);
+    };
   }, []);
 
   const refreshLogs = async () => {
@@ -69,14 +83,27 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
   useEffect(() => {
     setSignals(defaultSignals);
     setError(null);
+    setEvidenceForLogId(null);
   }, [activeChild]);
 
   const balans = useMemo(
     () => computeBalansIndex(logs, activeChild),
-    [logs, activeChild]
+    [logs, activeChild],
   );
 
-  const childLogs = logs.filter((l) => l.childAlias === activeChild);
+  const childLogs = useMemo(() => {
+    let rows = logs.filter((l) => l.childAlias === activeChild);
+    if (logFilter === 'skola') {
+      rows = rows.filter(
+        (l) =>
+          l.action === 'livslogg' &&
+          (l.category === 'skola' || l.category === 'tredjepart'),
+      );
+    } else if (logFilter === 'livslogg') {
+      rows = rows.filter((l) => l.action === 'livslogg');
+    }
+    return rows;
+  }, [logs, activeChild, logFilter]);
 
   const handleUnlock = () => {
     if (needsSetup) {
@@ -125,14 +152,15 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
     category: string;
     childrenImpact?: string;
   }) => {
-    if (!user) return;
+    if (!user) throw new Error('Ej inloggad');
     setError(null);
-    await saveChildrenLog(user.uid, {
+    const id = await saveChildrenLog(user.uid, {
       childAlias: activeChild,
       ...data,
       action: 'livslogg',
     });
     await refreshLogs();
+    return id;
   };
 
   if (!unlocked) {
@@ -156,6 +184,10 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
     );
   }
 
+  if (!user) {
+    return <p className="text-sm text-text-muted">Logga in för att spara livsloggar.</p>;
+  }
+
   return (
     <div className="space-y-4">
       <div className="flex gap-2">
@@ -175,13 +207,18 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
 
       <BentoCard title={`${activeChild} — Balans`} icon={<Heart className="h-4 w-4" />}>
         <BalansMatare result={balans} />
-        <button
-          type="button"
-          onClick={() => downloadBalansReportJson(exportBalansReport(activeChild, logs))}
-          className="mt-3 text-xs uppercase tracking-widest text-text-dim hover:text-accent"
-        >
-          Exportera stabilitetsrapport (JSON)
-        </button>
+        <div className="mt-3 flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={() => downloadBalansReportJson(exportBalansReport(activeChild, logs))}
+            className="text-xs uppercase tracking-widest text-text-dim hover:text-accent"
+          >
+            Exportera stabilitetsrapport (JSON)
+          </button>
+          <Link to="/dossier" className="text-xs uppercase tracking-widest text-text-dim hover:text-accent">
+            Skapa dossier (samlad export)
+          </Link>
+        </div>
       </BentoCard>
 
       <BentoCard title={`Dagens signaler — ${activeChild}`}>
@@ -195,7 +232,12 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           Spara dagens signaler
         </button>
-        <ChildSubLogPanel key={activeChild} childAlias={activeChild} onSave={handleSaveObservation} />
+        <ChildSubLogPanel
+          key={activeChild}
+          childAlias={activeChild}
+          userId={user.uid}
+          onSave={handleSaveObservation}
+        />
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}
         <button
           type="button"
@@ -210,22 +252,63 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
       </BentoCard>
 
       <BentoCard title={`Tidslinje — ${activeChild}`}>
+        <div className="mb-3 flex flex-wrap gap-2">
+          {(
+            [
+              { id: 'all' as const, label: 'Alla' },
+              { id: 'livslogg' as const, label: 'Livslogg' },
+              { id: 'skola' as const, label: 'Skola / tredjepart' },
+            ] as const
+          ).map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              onClick={() => setLogFilter(f.id)}
+              className={`rounded-full border px-3 py-1 text-xs ${
+                logFilter === f.id ? 'chip--active' : 'chip--idle'
+              }`}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
         {childLogs.length === 0 ? (
-          <EmptyState message="Inga loggar ännu." />
+          <EmptyState message="Inga loggar i detta filter." />
         ) : (
           <ul className="space-y-3">
             {childLogs.map((log) => (
-              <TimelineEntry
-                key={log.id}
-                as="li"
-                meta={`${log.action ?? 'livslogg'} · ${(log.createdAt ?? '').slice(0, 10)}`}
-                body={
-                  log.signals
-                    ? `Sömn ${log.signals.somn} · Ångest ${log.signals.angest} · Aptit ${log.signals.aptit}`
-                    : (log.observation ?? log.truth ?? '')
-                }
-                truncateAt={0}
-              />
+              <li key={log.id}>
+                <TimelineEntry
+                  as="div"
+                  meta={`${log.action ?? 'livslogg'}${log.category ? ` · ${log.category}` : ''} · ${(log.createdAt ?? '').slice(0, 10)}`}
+                  body={
+                    log.signals
+                      ? `Sömn ${log.signals.somn} · Ångest ${log.signals.angest} · Aptit ${log.signals.aptit}`
+                      : (log.observation ?? log.truth ?? '')
+                  }
+                  truncateAt={0}
+                />
+                {log.action === 'livslogg' && log.id && evidenceForLogId !== log.id && (
+                  <button
+                    type="button"
+                    onClick={() => setEvidenceForLogId(log.id)}
+                    className="mt-2 text-xs uppercase tracking-widest text-text-dim hover:text-gold"
+                  >
+                    Spara som bevis?
+                  </button>
+                )}
+                {evidenceForLogId === log.id && log.id && (
+                  <SaveAsEvidencePrompt
+                    userId={user.uid}
+                    childAlias={activeChild}
+                    childrenLogId={log.id}
+                    observation={log.observation ?? log.truth ?? ''}
+                    category={log.category ?? 'vardag'}
+                    childrenImpact={log.childrenImpact}
+                    onDone={() => setEvidenceForLogId(null)}
+                  />
+                )}
+              </li>
             ))}
           </ul>
         )}

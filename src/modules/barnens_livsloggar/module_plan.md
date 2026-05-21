@@ -12,7 +12,9 @@ Canonical: `.context/modules/barnens_livsloggar.md` · Spec: `docs/specs/incomin
 |------|------|
 | `components/FamiljenPage.tsx` | Kluster-wrapper |
 | `components/BarnensPage.tsx` | PIN, flikar, orkestrator |
-| `components/ChildSubLogPanel.tsx` | Livslogg per barn |
+| `components/ChildSubLogPanel.tsx` | Livslogg steg 1 + bevis-val |
+| `components/SaveAsEvidencePrompt.tsx` | `saveVaultLog` + `sourceRef` |
+| `utils/childLogEvidence.ts` | Vault-payload från livslogg |
 | `components/PhysiologicalControls.tsx` | Sömn, ångest, aptit 1–5 |
 | `components/BalansMatare.tsx` | 7-dagars bar (ingen count-up) |
 | `utils/balansIndex.ts` | Deterministisk aggregering — fysiologi only |
@@ -29,8 +31,11 @@ Canonical: `.context/modules/barnens_livsloggar.md` · Spec: `docs/specs/incomin
 | Livslogg `skola` | Ann/Lena observationer | Ja | **done** |
 | WORM + separat PIN | Isolerad från valv | Ja | **done** |
 | 2026-03-12 skolincident | Beviskandidat + barnlogg | Manuell | **use now** |
-| Incident → valv knapp | Kladd explicit bro | Nej | **planned** |
-| Tredjepart-tagg filter | BBIC-export | `skola` idag | **planned** |
+| Incident → valv knapp | Kladd explicit bro | Ja | **done** |
+| Tredjepart-tagg filter | BBIC-export | Ja | **done** |
+| Livslogg steg 1 → bevis-val | Wizard-lätt | Ja | **partial** |
+| Unmount cleanup | Zero Footprint | Ja | **done** |
+| Bro → Dossier | Samlad export | Länk | **done** |
 | PDF + Dossier | Juridisk rapport | Dossier MVP | **partial** |
 | "Dåliga hemligheter" separat modul | Notebook | Nej | **rejected** → livslogg |
 

@@ -23,7 +23,11 @@ De 3 Kompasserna — Morgonkompassen (Sacred), Dagskompassen, Kvällskompassen. 
 | Path | Role |
 |------|------|
 | `components/VardagenPage.tsx` | Tab kompasser / ekonomi / kunskap |
-| `components/DashboardPage.tsx` | Flikar Morgon/Dag/Kväll, fråga, pills, saveCheckIn |
+| `components/DashboardPage.tsx` | Tids-default, morgon/dag/kväll, Klar-reset |
+| `components/ParalysPanel.tsx` | `breakDownResponse`, Ge mig 3 till |
+| `components/KasamEvening.tsx` | KASAM 3 steg + crazymaking-broar |
+| `api/compassService.ts` | Callable wrapper |
+| `utils/compassTime.ts` | `getDefaultCompassByTime` |
 | `../core/store/index.ts` | `compassFilter` — synkas med aktiv flik |
 | `../core/routing/AppRoutes.tsx` | `/kompasser` redirect |
 | `../core/firebase/firestore.ts` | `saveCheckIn` → `checkins` |
@@ -42,12 +46,12 @@ De 3 Kompasserna — Morgonkompassen (Sacred), Dagskompassen, Kvällskompassen. 
 |------|------------------|-----|--------|
 | Morgon/Dag/Kväll + checkins | Dygnsrytm ADHD | Ja | **done** |
 | Paralys auto vid lågt humör | **Nej** — manuell | Nej | **avvisat** |
-| Paralys-Brytaren UI | Master §G | Backend only | **planned** |
-| KASAM kväll 3 steg | Kladd | Nej | **planned** |
-| Crazymaking-bro | Ej auto-WORM | Nej | **planned** |
-| AuthGate + tids-default | Kladd | Nej | **planned** |
+| Paralys-Brytaren UI | Master §G | Ja | **done** |
+| KASAM kväll 3 steg | Kladd | Ja | **done** |
+| Crazymaking-bro | Ej auto-WORM | Ja | **done** |
+| AuthGate + tids-default | Kladd | Ja | **done** |
 | Notiser 2–3/dag | In-app först | Nej | **planned** |
-| Bro Måbra/Barnen kväll | Kladd | Nej | **planned** |
+| Bro Måbra/Barnen kväll | Kladd | Ja | **done** |
 
 **Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
 

@@ -35,26 +35,24 @@ Syfte:
 
 ### Idag (kod)
 
-**En sida** — inte steg-wizard. Två **separata** WORM-sparningar.
+**En sida** — fysiologi och livslogg separata sparningar. Livslogg: steg 1 spara → valfritt **Spara som bevis?** (ej auto).
 
 1. **PIN:** skapa/ange familje-PIN (`CHILDREN_PIN_KEY` i `localStorage`).
 2. **Barnval:** flikar Kasper \| Arvid.
-3. **Balansmätare:** 7-dagars index + knapp **Exportera stabilitetsrapport (JSON)**.
-4. **Fysiologi:** skala 1–5 sömn, ångest, aptit → **Spara dagens signaler** → `action: 'fysiologi'`.
-5. **Livslogg:** kategori + observation + valfri barnpåverkan → **Spara livslogg** → `action: 'livslogg'`.
-6. **Tidslinje:** poster filtrerade per barn.
-7. **Lås modul:** manuell knapp.
+3. **Balansmätare:** 7-dagars index + **Exportera stabilitetsrapport (JSON)** + länk **Skapa dossier**.
+4. **Fysiologi:** skala 1–5 → **Spara dagens signaler** → `action: 'fysiologi'`.
+5. **Livslogg:** kategori + observation → **Spara livslogg** → valfritt **Spara som bevis?** → `reality_vault` med `sourceRef: children_logs/{id}`.
+6. **Tidslinje:** filter Alla \| Livslogg \| Skola/tredjepart; retroaktiv **Spara som bevis?** per livslogg-post.
+7. **Lås modul:** manuell knapp; unmount rensar osparad PIN-input.
 
-**Kategorier (livslogg):** `vardag`, `skola`, `halsa`, `overlamning`.
+**Kategorier (livslogg):** `vardag`, `skola`, `tredjepart`, `halsa`, `overlamning` — se `LIVSLOGG_CATEGORIES` i kod.
 
-**Inte idag:** wizard steg-för-steg, "Allvarlig incident"-knapp, tredjepartstagg, PDF, larmtrösklar, offline-kö.
+**Inte idag:** full wizard fysiologi→livslogg→bekräfta, PDF per barn, larmtrösklar, offline-kö.
 
 ### Målbild (planerad)
 
-- Wizard: fysiologi → livslogg → bekräfta (ett steg i taget)
-- Knapp **"Spara som bevis?"** → ny post i `reality_vault` med `sourceRef` (§14)
-- Tredjepart: kategori/tag (t.ex. skola/resurslärare)
-- PDF juridisk stabilitetsrapport + hash via Dossier
+- Wizard: fysiologi → livslogg → bekräfta (full sekventiell vy)
+- PDF juridisk stabilitetsrapport + hash via Dossier (utöver JSON + dossier-wizard)
 - Diskret larmtext vid lågt 7-dagars-snitt ( **ingen** röd flagga MVP)
 - Sandbox/Ankare: samma data, olika copy/UX per barn-flik
 
@@ -129,7 +127,7 @@ Index: `ownerId` + `createdAt` (desc). Barn filter **klient-side** (`childAlias`
 | Manuell **Lås modul** | **done** |
 | Kill Switch global | **done** — **OBS:** `executeKillSwitch` **raderar** `CHILDREN_PIN_KEY` (måste skapa PIN igen) |
 | Formulär rensas efter livslogg-save | **done** |
-| Unmount cleanup osparad input | **partial** |
+| Unmount cleanup osparad input | **done** (`BarnensPage`, `ChildSubLogPanel`) |
 | CMEK | **planned** (drift/GCP) |
 | Offline LocalForage | **planned** — ej MVP |
 
@@ -148,10 +146,13 @@ Index: `ownerId` + `createdAt` (desc). Barn filter **klient-side** (`childAlias`
 | Tidslinje per barn | **done** |
 | JSON-export per barn | **done** |
 | WORM Firestore | **done** |
-| Wizard progressive disclosure | **planned** |
-| PDF juridisk rapport + hash | **planned** (Dossier) |
-| Incident → `reality_vault` | **planned** |
-| Tredjepartstagg / BBIC-exportmall | **planned** |
+| Livslogg → bevis-val (2-steg) | **done** (`ChildSubLogPanel`, `SaveAsEvidencePrompt`) |
+| `sourceRef` på valv-post | **done** (`VaultLog.sourceRef`, `childLogEvidence.ts`) |
+| Tidslinje filter skola/tredjepart | **done** |
+| Länk till `/dossier` | **done** |
+| Wizard progressive disclosure (full) | **partial** — livslogg+bevis; ej fysio-wizard |
+| PDF juridisk rapport + hash | **planned** (Dossier wizard) |
+| BBIC-exportmall | **planned** |
 | Larmtrösklar (diskret) | **planned** |
 | Umgängesschema-korrelation | **planned** (post-MVP) |
 | Sandbox / Identitets-Ankare UX | **planned** (vision; flikar idag) |
@@ -170,17 +171,17 @@ Index: `ownerId` + `createdAt` (desc). Barn filter **klient-side** (`childAlias`
 | 5 | JSON-export innehåller endast `children_logs` för valt barn | **done** |
 | 6 | Separat PIN från valv | **done** |
 | 7 | PIN låses vid `visibilitychange` | **done** |
-| 8 | Wizard steg-för-steg | **planned** |
+| 8 | Wizard steg-för-steg (livslogg + bevis-val) | **partial** |
 | 9 | PDF + hash | **planned** |
-| 10 | Incident-bro explicit till valv | **planned** |
-| 11 | Unmount cleanup osparad input | **partial** |
+| 10 | Incident-bro explicit till valv + `sourceRef` | **done** |
+| 11 | Unmount cleanup osparad input | **done** |
 
 ## 10. Kopplingar till andra moduler
 
 | Modul | Relation |
 |-------|----------|
-| **Verklighetsvalvet** | Isolerad datasilo; planerad **envägs**-bro med explicit knapp + `sourceRef` |
-| **Dossier** | Opt-in aggregation; PDF/hash — **inte** auto-bifoga (§14) |
+| **Verklighetsvalvet** | Explicit **Spara som bevis?** → `reality_vault` med `sourceRef` — **aldrig** auto |
+| **Dossier** | Länk från Barnen; opt-in wizard — **inte** auto-bifoga (§14) |
 | **Dagbok** | **Ingen** auto-ingest; Variant B tagg → balans **planerad** |
 | **Kunskap / RAG** | **Ingen** standardläsning av `children_logs` |
 | **Hamn / BIFF** | Separata moduler; vuxenkommunikation inte i barnlogg |

@@ -23,6 +23,8 @@ export interface VaultLog {
   category?: string;
   action: string;
   truth: string;
+  /** WORM-länk till `children_logs/{id}` vid explicit bro från Barnen. */
+  sourceRef?: string;
   childrenImpact?: string;
   evidenceUrl?: string;
   biffUsed?: boolean;
