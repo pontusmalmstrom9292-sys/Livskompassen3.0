@@ -5,6 +5,8 @@ node_modules/
 .env
 .env.*
 !.env.example
+.drive-setup.json
+scripts/google-apps-script/.script-properties.local.txt
 vertex-sa.json
 **/serviceAccount*.json
 server/.env

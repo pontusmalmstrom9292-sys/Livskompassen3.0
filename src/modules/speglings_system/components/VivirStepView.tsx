@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { JadeGuardBanner } from '../../core/ui/JadeGuardBanner';
 import { VIVIR_STEPS } from '../constants/vivirSteps';
 
 interface Props {
@@ -40,6 +41,7 @@ export function VivirStepView({ answers, onChange, onComplete }: Props) {
         rows={3}
         className={`input-glass rounded-xl p-3 ${value ? 'border-accent/30' : ''}`}
       />
+      <JadeGuardBanner text={value} className="mt-2" />
 
       <div className="flex gap-2">
         {stepIndex > 0 && (

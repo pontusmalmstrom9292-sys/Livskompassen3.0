@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { mirrorFeeling } from '../constants/vivirSteps';
+import { JadeGuardBanner } from '../../core/ui/JadeGuardBanner';
 import { fetchSpeglingsMirror } from '../api/speglingsCoachService';
 
 interface Props {
@@ -55,6 +56,7 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
             rows={4}
             className="input-glass rounded-lg p-3"
           />
+          <JadeGuardBanner text={feeling} className="mt-2" />
           <button
             type="button"
             onClick={handleMirror}

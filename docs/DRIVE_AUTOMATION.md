@@ -31,9 +31,25 @@ Drive Inbox → Apps Script (sorter.gs) → Drive Vault
 
 ---
 
+## Snabbstart (automatiserat)
+
+```bash
+# 1. Engång: kopiera och fyll Drive-mapp-ID (från drive.google.com/.../folders/ID)
+cp .drive-setup.json.example .drive-setup.json
+
+# 2. Sätt DRIVE_INGEST_OWNER_UID i functions/.env.gen-lang-client-0481875058 (Firebase Auth uid)
+
+# 3. En kommando — deploy + smoke + utskrift Apps Script Properties
+npm run drive:wireup
+```
+
+Klistra Script Properties i [Apps Script](../scripts/google-apps-script/README.md), dela Vault med SA, kör `createTrigger()` en gång. Därefter: lägg fil i Inbox → automatiskt varje timme.
+
+---
+
 ## Förberedelsechecklista (du)
 
-Gör detta **innan** deploy och trigger:
+Gör detta **innan** deploy och trigger (eller använd `npm run drive:wireup` för Firebase-delen):
 
 | # | Uppgift | Anteckning |
 |---|---------|------------|
@@ -52,7 +68,7 @@ Gör detta **innan** deploy och trigger:
 | `VAULT_FOLDER_ID` | Ja | Drive-mapp Kunskapsvalvet |
 | `WEBHOOK_SECRET` | Ja (prod) | Samma värde som Firebase secret `NOTIFY_WEBHOOK_SECRET` |
 | `CLOUD_FUNCTION_URL` | Nej | Default: `https://europe-west1-gen-lang-client-0481875058.cloudfunctions.net/notifyNewFile` |
-| `FIREBASE_OWNER_UID` | Ja för `kb_docs` | Firebase Auth uid — `sorter.gs` skickar `ownerUid` + `ownerId`; backend accepterar båda |
+| `FIREBASE_OWNER_UID` | Dokumentation | Ska matcha `DRIVE_INGEST_OWNER_UID` i functions env — body ignoreras av backend (P0) |
 
 Klistra in innehållet från [`scripts/google-apps-script/sorter.gs`](../scripts/google-apps-script/sorter.gs) i ett nytt Apps Script-projekt kopplat till samma Google-konto som äger Drive-mapparna.
 

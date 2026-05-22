@@ -21,7 +21,7 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 - Backend: Firebase Cloud Functions, Google Cloud, Vertex AI, Gemini.
 - Data: Firestore/Data Connect, RAG-oriented evidence structures, immutable snapshots.
 - AI: Kompis Supervisor, A2A agent cards, DCAP, shared prompt rules in `functions/src/sharedRules.ts`.
-- Tooling: Cursor rules/hooks/MCP and Firebase plugin in `.cursor/settings.json`.
+- Tooling: Cursor rules/skills/agents, Firebase plugin (`.cursor/settings.json`), Firebase MCP (`.cursor/mcp.json`). Team-setup: [`docs/DEPLOY.md`](docs/DEPLOY.md) § Cursor IDE (Fas D).
 
 ## Development
 
@@ -82,6 +82,7 @@ Parent: `livskompassen-master-architect`. Baseline: [`docs/archive/evaluations-2
 | Frontend UI (Obsidian Calm) | — | `ui-design.mdc` + agent `livskompassen-ui-obsidian` |
 
 Kanon för arkitektur och säkerhet: `.context/` (system-plan, arkiv-minne, security). Dokumentationsindex: [`docs/README.md`](docs/README.md). **Systemkontroll / röda tråden:** [`docs/SYSTEMKONTROLL.md`](docs/SYSTEMKONTROLL.md).  
+**Cursor Fas D (MCP + settings):** [`docs/DEPLOY.md`](docs/DEPLOY.md) § Cursor IDE — regler, MCP, agenter.
 Live GCP-sanning: [`docs/GCP-INVENTORY-LATEST.md`](docs/GCP-INVENTORY-LATEST.md).  
 GCP-konsolidering: [`docs/GCP-KONSOLIDERING-BESLUT.md`](docs/GCP-KONSOLIDERING-BESLUT.md).
 

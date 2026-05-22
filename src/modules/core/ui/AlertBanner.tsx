@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 
 type AlertBannerProps = {
-  variant?: 'info' | 'warning' | 'danger';
+  variant?: 'info' | 'warning' | 'danger' | 'accent';
   children: ReactNode;
   className?: string;
 };
@@ -14,6 +14,7 @@ export function AlertBanner({ variant = 'info', children, className }: AlertBann
         variant === 'warning' && 'alert-banner--warning',
         variant === 'danger' && 'alert-banner--danger',
         variant === 'info' && 'alert-banner--info',
+        variant === 'accent' && 'alert-banner--accent',
         className
       )}
       role={variant === 'danger' ? 'alert' : 'status'}

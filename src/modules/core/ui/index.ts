@@ -1,4 +1,5 @@
 export { AlertBanner } from './AlertBanner';
+export { JadeGuardBanner } from './JadeGuardBanner';
 export { BentoCard } from './BentoCard';
 export { EmptyState } from './EmptyState';
 export { MetricTile } from './MetricTile';

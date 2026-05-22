@@ -37,6 +37,11 @@ Dokumentation: [`../DRIVE_AUTOMATION.md`](../DRIVE_AUTOMATION.md), [`.context/se
 | Manuell smoke #3–#17 | **pending** — användaren klickar |
 | `@cursor/sdk` Natt-CI-paket | **WAIT** — [`../NATT-CI.md`](../NATT-CI.md) |
 
+## Drive auto (2026-05-22 senare)
+
+- `npm run drive:wireup` — deploy + `smoke:drive` PASS
+- Google Apps Script: se [`docs/DRIVE_SETUP_STATUS.md`](../DRIVE_SETUP_STATUS.md)
+
 ## Ett nästa steg
 
-Sätt `DRIVE_INGEST_OWNER_UID` till ditt Auth-uid och spara en dagbokspost lokalt (#2 i smoke-checklistan).
+Skapa `.drive-setup.json` med Inbox/Vault folder IDs → kör `npm run drive:wireup` → klistra Script Properties (se terminal).

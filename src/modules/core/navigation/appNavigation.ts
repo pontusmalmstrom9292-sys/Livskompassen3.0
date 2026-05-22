@@ -1,5 +1,12 @@
+/**
+ * Ikonbeslut (2026-05-22, synkat med design-master):
+ * - Hjärtat: BookOpen — yttre ska läsa "dagbok/reflektion", inte valv (plausible deniability).
+ * - Familjen: Users — neutral loggning, skiljs från Hjärtat (Heart reserverad semantiskt för känsla).
+ * - Vardagen: Compass på hem/kluster; Sprout i Modulhub-tile (vardagsrytm).
+ * - Hamn: Anchor · Måbra: Sparkles · Bevis/valv: Shield (endast i chips/Fyren, ej egen dock-ikon).
+ */
 import type { LucideIcon } from 'lucide-react';
-import { BookOpen, Anchor, Heart, Sprout, Sparkles, Compass } from 'lucide-react';
+import { BookOpen, Anchor, Users, Sprout, Sparkles, Compass } from 'lucide-react';
 
 export type ClusterTone = 'gold' | 'indigo' | 'lavender' | 'emerald';
 export type HubPosition = 'center' | 'side';
@@ -87,7 +94,7 @@ const FAMILIEN_CLUSTER: LifeCluster = {
   label: 'Familjen',
   hubLabel: 'Familjen',
   desc: 'Neutral loggning för Kasper och Arvid.',
-  icon: Heart,
+  icon: Users,
   tone: 'lavender',
   hubPosition: 'side',
   chips: [

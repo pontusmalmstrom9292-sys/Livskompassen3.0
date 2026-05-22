@@ -97,6 +97,46 @@ firebase deploy --only hosting
 **Produktions-URL:** https://gen-lang-client-0481875058.web.app  
 Alternativ: https://gen-lang-client-0481875058.firebaseapp.com
 
+## Cursor IDE — regler, MCP, agenter (Fas D)
+
+Team-setup för AI-assistenter i detta repo (dev only — inget i prod-appen).
+
+### Filer
+
+| Fil | Syfte |
+|-----|--------|
+| [`.cursor/settings.json`](../.cursor/settings.json) | Firebase-plugin på; `livskompassen`-metadata (parent agent, always-on rules) |
+| [`.cursor/mcp.json`](../.cursor/mcp.json) | Firebase MCP via `npx firebase-tools@latest mcp` |
+| [`.cursor/rules/*.mdc`](../.cursor/rules/) | Projektregler (bl.a. `grunder-kanon`, `anti-hallucination`) |
+| [`.cursor/skills/`](../.cursor/skills/) | Uppgifts-skills (Grunder, silo, DCAP, Safe Harbor, …) |
+| [`.cursor/agents/`](../.cursor/agents/) | Custom agents (U1–U5 revision + U6–U10 operativa) |
+| [`AGENTS.md`](../AGENTS.md) | Index: triggers, skills ↔ rules |
+
+### MCP aktivera (ny maskin)
+
+1. Öppna repot i **Cursor**.
+2. Kontrollera att [`.cursor/mcp.json`](../.cursor/mcp.json) finns (committad i repo).
+3. **Cursor Settings → MCP** — servern `firebase` ska peka på samma kommando som i `mcp.json`:
+   ```json
+   "command": "npx",
+   "args": ["-y", "firebase-tools@latest", "mcp"]
+   ```
+4. `firebase login` och `firebase use gen-lang-client-0481875058` i terminal.
+5. Vid deploy/rules: använd agent **`livskompassen-firebase-gcp`** eller plugin-skill **`firebase-basics`**.
+
+### Vanliga triggers (Agent-chatt)
+
+| Kommando | Agent / effekt |
+|----------|----------------|
+| `kör grunder U1` … `U5` | Read-only Grunder-revision |
+| `kör kanon-vakt` | PASS/FAIL med `fil:rad` (anti-hallucination) |
+| RAG / silo-PR | `livskompassen-memory-silo` |
+| Ex-sms / Hamn | `livskompassen-safe-harbor` |
+
+Kanon mot slides: [`docs/specs/modules/grunder-slides/INVENTAR.md`](./specs/modules/grunder-slides/INVENTAR.md). U1–U5-resultat: [`docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md`](./archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md).
+
+**Ej bygga från slides utan `kör [GAP]`:** Genkit/Dotprompt (G01, G28, G29); avvisat G05, G42.
+
 ## Smoke-test (manuellt)
 
 Se [SMOKE_CHECKLIST.md](./SMOKE_CHECKLIST.md). Kräver inloggad app (Anonymous Auth) och Firestore Console.

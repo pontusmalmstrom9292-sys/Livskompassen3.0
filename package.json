@@ -19,6 +19,8 @@
     "smoke:cache": "node scripts/smoke_context_cache.mjs",
     "smoke:tidshjul": "node scripts/smoke_tidshjul.mjs",
     "smoke:grans": "node scripts/smoke_grans_arkitekt.mjs",
+    "smoke:drive": "node scripts/smoke_notify_new_file.mjs",
+    "drive:wireup": "node scripts/drive_wireup.mjs",
     "seed:kampspar": "node scripts/seed_kampspar_profile.mjs --verify"
   },
   "dependencies": {

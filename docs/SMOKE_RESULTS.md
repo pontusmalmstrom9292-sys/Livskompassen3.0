@@ -41,6 +41,7 @@
 | `smoke:mabra` | **PASS** |
 | Lokal dev | **PASS** — http://localhost:5175 (5173–5174 upptagna) |
 | `notifyNewFile` deploy | **PASS** — P0 body ownerId ignoreras |
+| `smoke:drive` / `drive:wireup` | **PASS** — webhook 401 utan secret; auth OK |
 
 ## Byggpass audit (2026-05-22 kväll)
 

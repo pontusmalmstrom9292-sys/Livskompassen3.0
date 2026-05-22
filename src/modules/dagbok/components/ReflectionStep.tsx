@@ -2,6 +2,7 @@ import { ChevronLeft, ChevronRight, Mic, MicOff } from 'lucide-react';
 import { useCallback, useRef, useEffect } from 'react';
 import { useSpeechToText } from '../../core/hooks/useSpeechToText';
 import { MABRA_BRIDGE_LABELS } from '../constants/mabraBridge';
+import { JadeGuardBanner } from '../../core/ui/JadeGuardBanner';
 import { MOOD_REFLECTION_PROMPTS } from '../constants/moodPrompts';
 
 type ReflectionStepProps = {
@@ -65,6 +66,7 @@ export function ReflectionStep({
         rows={4}
         className="input-glass"
       />
+      <JadeGuardBanner text={text} className="mt-2" />
       {supported && (
         <div className="mt-2 flex flex-wrap items-center gap-2">
           <button

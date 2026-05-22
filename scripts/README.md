@@ -2,6 +2,15 @@
 
 **Senast:** 2026-05-22 (byggpass audit)
 
+## Drive (Firebase auto + Google engång)
+
+| Script | Kommando | Syfte |
+|--------|----------|-------|
+| Wire-up | `npm run drive:wireup` | Deploy `notifyNewFile`, smoke webhook, skriv Script Properties till terminal |
+| Smoke webhook | `npm run smoke:drive` | 401 utan secret + auth med secret |
+
+Kopiera `.drive-setup.json.example` → `.drive-setup.json` (gitignored) med Drive folder IDs.
+
 ## Smoke (kräver ADC + deployad backend)
 
 | Script | Kommando | Modul / GAP |

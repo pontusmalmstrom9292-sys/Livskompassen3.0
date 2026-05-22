@@ -112,8 +112,10 @@ Se [`design-brief.md`](design-brief.md). Nature themes, regnbåge, ljusa bakgrun
 | Modul | Extra accent |
 |-------|----------------|
 | Speglar | Indigo `#6366F1` för AI-synapser |
-| Barnen | Lavendel `#818CF8` + guld `#FDE68A` |
-| Dagbok | Guld/indigo/emerald enligt hierarki ovan |
+| Barnen / Familjen | Lavendel `#818CF8` + guld `#FDE68A` |
+| Dagbok / Hjärtat | Guld/indigo/emerald enligt hierarki ovan |
+
+**Ikoner (Lucide, `appNavigation.ts`):** Hjärtat `BookOpen`, Hamn `Anchor`, Familjen `Users`, Vardagen `Compass` (hub-tile `Sprout`), Måbra `Sparkles`. Ingen separat Shield i dock — Fyren på Hjärtat.
 
 Moduler följer alltid bas-paletten; modul-accent är tillägg, inte ny palett.
 

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Anchor, Loader2, Shield } from 'lucide-react';
+import { Anchor, Loader2 } from 'lucide-react';
 import { ClusterShell } from '../../core/ui/ClusterShell';
 import { BentoCard } from '../../core/ui/BentoCard';
 import {
@@ -10,6 +10,8 @@ import {
 } from '../api/biffService';
 import { useStore } from '../../core/store';
 import { saveVaultLog } from '../../core/firebase/firestore';
+import { BiffTriagePanel } from './BiffTriagePanel';
+import { GreyRockVariants } from './GreyRockVariants';
 
 export function SafeHarborPage() {
   const location = useLocation();
@@ -104,111 +106,39 @@ export function SafeHarborPage() {
       hint="Klistra in meddelande — ett steg i taget."
     >
       <div className="space-y-4">
-      <BentoCard icon={<Anchor className="h-4 w-4" />}>
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Klistra in meddelandet här..."
-            rows={5}
-            className="input-glass"
-            disabled={loading}
+        <BentoCard icon={<Anchor className="h-4 w-4" />}>
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Klistra in meddelandet här..."
+              rows={5}
+              className="input-glass"
+              disabled={loading}
+            />
+            <button type="submit" disabled={loading || !message.trim()} className="btn-pill--accent">
+              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              Generera BIFF-svar
+            </button>
+          </form>
+        </BentoCard>
+
+        {error && <p className="text-sm text-danger">{error}</p>}
+
+        {grans && <BiffTriagePanel grans={grans} />}
+
+        {reply && (
+          <GreyRockVariants
+            reply={reply}
+            agentName={agentName}
+            riskScore={riskScore}
+            hitlRequired={hitlRequired}
+            onSaveEvidence={handleSaveAsEvidence}
+            savingEvidence={savingEvidence}
+            evidenceSaved={evidenceSaved}
+            onKlar={handleKlar}
           />
-          <button type="submit" disabled={loading || !message.trim()} className="btn-pill--accent">
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-            Generera BIFF-svar
-          </button>
-        </form>
-      </BentoCard>
-
-      {error && <p className="text-sm text-danger">{error}</p>}
-
-      {grans && (
-        <BentoCard title="Brusfiltret — vad som gäller">
-          {grans.cleanFacts.length > 0 && (
-            <div className="mb-3">
-              <p className="mb-1 text-[10px] uppercase tracking-widest text-text-dim">Logistik (10%)</p>
-              <ul className="list-inside list-disc text-sm text-text-muted">
-                {grans.cleanFacts.map((fact) => (
-                  <li key={fact}>{fact}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {grans.emotionalBait.length > 0 && (
-            <div className="mb-3">
-              <p className="mb-1 text-[10px] uppercase tracking-widest text-text-dim">
-                Beten att ignorera (90%)
-              </p>
-              <ul className="list-inside list-disc text-sm text-text-muted">
-                {grans.emotionalBait.map((bait) => (
-                  <li key={bait}>{bait}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {grans.techniques.length > 0 && (
-            <p className="text-[10px] uppercase tracking-widest text-text-dim">
-              Tekniker: {grans.techniques.join(', ')}
-            </p>
-          )}
-          {grans.coachingNote && (
-            <p className="mt-2 text-sm text-text-muted">{grans.coachingNote}</p>
-          )}
-        </BentoCard>
-      )}
-
-      {reply && (
-        <BentoCard title="Föreslaget svar">
-          {agentName && (
-            <p className="mb-2 text-[10px] uppercase tracking-widest text-accent/60">{agentName}</p>
-          )}
-          {hitlRequired && (
-            <div className="mb-3 rounded-xl border border-border-strong bg-surface/50 px-3 py-2 text-sm text-text-muted">
-              Hög risk flaggad. AI-svaret är ett förslag — överväg att prata med någon du litar på.
-              Eskalering registrerad för manuell uppföljning (HITL).
-            </div>
-          )}
-          {riskScore !== null && (
-            <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">
-              Riskpoäng: {riskScore}
-            </p>
-          )}
-          <p className="whitespace-pre-wrap text-sm text-text-muted">{reply}</p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={() => navigator.clipboard.writeText(reply)}
-              className="text-xs uppercase tracking-widest text-accent/70"
-            >
-              Kopiera svar
-            </button>
-            <button
-              type="button"
-              onClick={handleSaveAsEvidence}
-              disabled={savingEvidence || !user}
-              className="btn-pill--secondary flex items-center gap-2 text-xs"
-            >
-              {savingEvidence ? (
-                <Loader2 className="h-3 w-3 animate-spin" />
-              ) : (
-                <Shield className="h-3 w-3" />
-              )}
-              Spara original som bevis
-            </button>
-          </div>
-          {evidenceSaved && (
-            <p className="mt-3 text-sm text-success">Sparat i Verklighetsvalvet under Hjärtat → Bevis.</p>
-          )}
-          <button
-            type="button"
-            onClick={handleKlar}
-            className="mt-4 btn-pill--ghost text-xs uppercase tracking-widest"
-          >
-            Klar — rensa
-          </button>
-        </BentoCard>
-      )}
+        )}
       </div>
     </ClusterShell>
   );

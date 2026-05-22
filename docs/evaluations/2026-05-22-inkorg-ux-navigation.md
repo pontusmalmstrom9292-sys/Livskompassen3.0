@@ -14,7 +14,10 @@
 | 1b | Gemini mockups navigering (7 skärmdumpar) | [`artifacts/screenshots-gemini-2026-05-22/`](./artifacts/screenshots-gemini-2026-05-22/) |
 | 1c | Gemini dashboard/moduler (9 skärmdumpar) | [`2026-05-22-inkorg-gemini-dashboard-funktioner.md`](./2026-05-22-inkorg-gemini-dashboard-funktioner.md) · **lås:** [`Gemini-Dashboard-FUNKTIONSLOCK.md`](../specs/incoming/Gemini-Dashboard-FUNKTIONSLOCK.md) |
 | 2 | Gemini React-prototyp (mock, en fil `App`) | [`2026-05-22-inkorg-gemini-prototype.md`](./2026-05-22-inkorg-gemini-prototype.md) → [`artifacts/gemini-cognitive-exoskeleton-App.tsx`](./artifacts/gemini-cognitive-exoskeleton-App.tsx) |
+| 2b | Gemini 3.0 interaktiv dashboard (mock) | [`artifacts/gemini-dashboard-interactive-App.tsx`](./artifacts/gemini-dashboard-interactive-App.tsx) |
 | 3 | UI/UX-analys Navigation, ikonografi, menyer | Sektion nedan (klistrad 2026-05-22) |
+| 3b | Desktop RTF (ClusterGrid) | [`2026-05-22-inkorg-rtf-clustergrid.md`](./2026-05-22-inkorg-rtf-clustergrid.md) |
+| 3c | Desktop RTF (ModuleHubPanel) | [`2026-05-22-inkorg-rtf-modulehub.md`](./2026-05-22-inkorg-rtf-modulehub.md) |
 | 4 | Cursor-förhandgranskning (ej låst) | Namnmappning repo Variant C ↔ extern ”Variant A” — se § Namnkrock |
 
 **Regel:** Innehåll här är **ritning**, inte source of truth. Kanon: `.context/design-language.md`, `docs/specs/design-master.md`, `docs/specs/navigation-master.md`, kod i `src/`.

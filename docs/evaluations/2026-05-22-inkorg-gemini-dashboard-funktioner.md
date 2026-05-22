@@ -41,7 +41,7 @@ Full spec: **Gemini-Dashboard-FUNKTIONSLOCK.md**.
 ## Behöver du skicka kod?
 
 **Nej** — för att **låsa design och funktion** räcker skärmdumparna + FUNKTIONSLOCK.  
-**Ja, gärna** om Gemini gav en separat React-fil för denna dashboard (flikar + minnesankare) — då arkiveras som `artifacts/gemini-dashboard-*.tsx` och diffas mot `gemini-cognitive-exoskeleton-App.tsx`.
+**Arkiverad:** [`artifacts/gemini-dashboard-interactive-App.tsx`](./artifacts/gemini-dashboard-interactive-App.tsx) (3.0, flikar + mock WORM/JADE). Jämför med [`gemini-cognitive-exoskeleton-App.tsx`](./artifacts/gemini-cognitive-exoskeleton-App.tsx).
 
 ---
 

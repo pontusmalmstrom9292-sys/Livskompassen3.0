@@ -679,6 +679,21 @@
     @apply alert-banner border-danger/30 bg-danger/5 text-text-muted;
   }
 
+  .alert-banner--accent {
+    @apply alert-banner border-accent/40 bg-accent/10 text-text;
+  }
+
+  .biff-triage-bait {
+    @apply rounded-lg border border-border-strong bg-surface/80 px-3 py-2 text-sm text-text-dim select-none;
+    filter: blur(4px);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .biff-triage-fact {
+    @apply rounded-lg border border-success/25 bg-success/5 px-3 py-2 text-sm text-text-muted;
+  }
+
   .badge {
     @apply inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-widest;
   }
