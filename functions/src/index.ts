@@ -557,7 +557,10 @@ export const weaveJournalEntry = functions.region('europe-west1').https.onCall(a
 // Funktion 7b: journalWovenToKampspar
 // G7 — opt-in synaps dagbok → kampspar (MUST NOT auto-ingest).
 // ─────────────────────────────────────────────────────────────────────────────
-export const journalWovenToKampspar = functions.region('europe-west1').https.onCall(async (data, context) => {
+export const journalWovenToKampspar = functions
+  .region('europe-west1')
+  .runWith({ memory: '512MB', timeoutSeconds: 60 })
+  .https.onCall(async (data, context) => {
   if (!context.auth) {
     throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
   }

@@ -15,7 +15,7 @@ Runtime: `functions/src/adk/synapses/synapseBus.ts`, `stateStore.ts`
 |---------|---------|--------|--------|
 | `drive_file_ingested` | `driveIngestSynapse` | **live** | Drive → `kb_docs` only |
 | `user_overwhelm` | `paralysBrytarenSynapse` | **live** | Ett mikrosteg, max 30s |
-| `journal_woven` | stub log | **GAP G7** | Opt-in sammanfattning → `kampspar` |
+| `journal_woven` | `journalWovenSynapse` | **done G7** | Opt-in → `kampspar`; idempotent per `journalEntryId` |
 | `dcap_alert` | stub log | planerat | DCAP → säker routing |
 
 Koppling: `notifyNewFile` → `emitSynapse(..., drive_file_ingested)`.

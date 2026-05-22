@@ -33,6 +33,15 @@
       ]
     },
     {
+      "collectionGroup": "kampspar",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "ownerId", "order": "ASCENDING" },
+        { "fieldPath": "journalEntryId", "order": "ASCENDING" },
+        { "fieldPath": "source", "order": "ASCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "mabra_sessions",
       "queryScope": "COLLECTION",
       "fields": [

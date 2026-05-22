@@ -24,6 +24,8 @@ Route: `/dagbok` · Canonical: `.context/modules/dagbokshubben.md` · Spec: `doc
 | `types/journal.ts` | `JournalEntry`, `JournalStep` |
 | `utils/formatJournalDate.ts` | Svensk datumformatering + text-trunkering |
 | `api/weaverService.ts` | Fire-and-forget `weaveJournalEntry` |
+| `api/journalWovenService.ts` | Opt-in `journalWovenToKampspar` (G7) |
+| `components/ConfirmStep.tsx` | Opt-in checkbox → Kampspár |
 
 ## Status
 
@@ -39,6 +41,7 @@ Route: `/dagbok` · Canonical: `.context/modules/dagbokshubben.md` · Spec: `doc
 | Humör-only save (generellt) | Kladd | Nej | **planned** |
 | KBT per humör | Kladd | Nej | **planned** |
 | Vävaren godkännande | Master §I | Auto | **planned** |
+| G7 journal_woven → kampspar | Opt-in only | Ja | **done** |
 
 **Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
 

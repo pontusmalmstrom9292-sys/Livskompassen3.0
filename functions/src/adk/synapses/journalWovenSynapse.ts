@@ -1,19 +1,15 @@
 import * as admin from 'firebase-admin';
 import { generateEmbeddingInternal } from '../../lib/generateEmbeddingInternal';
 import { upsertKampsparVector } from '../../lib/vectorSearchClient';
+import type { JournalWovenPayload } from '../types';
 
-export interface JournalWovenPayload {
-  ownerId: string;
-  journalEntryId: string;
-  mood: string;
-  text: string;
-  /** MUST be true — G7 opt-in only; auto-ingest blockeras. */
-  optIn: boolean;
-}
+export type { JournalWovenPayload };
 
 export interface JournalWovenResult {
   kampsparDocId: string;
   embeddingDim: number | null;
+  /** True when same journalEntryId already woven (idempotent). */
+  idempotent?: boolean;
 }
 
 /**
@@ -28,6 +24,28 @@ export async function handleJournalWoven(payload: JournalWovenPayload): Promise<
   const { ownerId, journalEntryId, mood, text } = payload;
   if (!ownerId || !journalEntryId || !mood) {
     throw new Error('journal_woven: ownerId, journalEntryId och mood krävs');
+  }
+
+  const existing = await admin
+    .firestore()
+    .collection('kampspar')
+    .where('ownerId', '==', ownerId)
+    .where('journalEntryId', '==', journalEntryId)
+    .where('source', '==', 'journal_woven')
+    .limit(1)
+    .get();
+
+  if (!existing.empty) {
+    const doc = existing.docs[0];
+    const data = doc.data();
+    console.log(
+      `[Synapse:journal_woven] idempotent skip docId=${doc.id} journalEntryId=${journalEntryId}`
+    );
+    return {
+      kampsparDocId: doc.id,
+      embeddingDim: typeof data.embeddingDim === 'number' ? data.embeddingDim : null,
+      idempotent: true,
+    };
   }
 
   const trimmed = text?.trim() ?? '';

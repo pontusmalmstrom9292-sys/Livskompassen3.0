@@ -1,5 +1,6 @@
 import type { SynapseEvent, SynapseTrigger } from '../types';
 import type { AdkOrchestrator } from '../orchestrator';
+import { appendMutation } from '../stateStore';
 import { handleDriveIngest } from './driveIngestSynapse';
 import { handleDcapAlert } from './dcapAlertSynapse';
 import { handleJournalWoven } from './journalWovenSynapse';
@@ -18,7 +19,20 @@ const handlers: Record<SynapseTrigger, SynapseHandler> = {
   },
   journal_woven: async (_orchestrator, event) => {
     const p = event.payload as unknown as JournalWovenPayload;
-    return handleJournalWoven(p);
+    const result = await handleJournalWoven(p);
+    const contextId = event.contextId ?? p.ownerId;
+    appendMutation(contextId, {
+      fromAgentId: 'synapse_journal_woven',
+      toAgentId: 'kampspar',
+      intent: 'journal_woven',
+      payload: {
+        journalEntryId: p.journalEntryId,
+        mood: p.mood,
+        optIn: true,
+        idempotent: result.idempotent === true,
+      },
+    });
+    return result;
   },
   dcap_alert: async (_orchestrator, event) => {
     const p = event.payload as unknown as DcapAlertPayload;

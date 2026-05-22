@@ -35,7 +35,7 @@ Tacksamhets- och reflektionsdagbok (ACT/KBT-inspirerad). Appens oskyldiga fasad.
 |------------|----------|
 | `journal` | mood, text, ownerId — WORM append-only |
 
-**Inte:** auto-write till `kampspar`.
+**Kampspár:** endast med opt-in checkbox (G7) — aldrig auto.
 
 ## Beror på
 
@@ -56,7 +56,7 @@ Tacksamhets- och reflektionsdagbok (ACT/KBT-inspirerad). Appens oskyldiga fasad.
 | **Permanent lagring** | `journal` — WORM |
 | **RAG / chatt** | Nej (Vävaren → `reality_vault` metadata, ej Kunskap) |
 | **PDF / samlad export** | Dossier opt-in |
-| **Planerat** | `journal_woven` synaps → opt-in `kampspar` |
+| **Opt-in minne** | `journalWovenToKampspar` → `kampspar` (checkbox ConfirmStep) |
 
 ## Mer läsning
 

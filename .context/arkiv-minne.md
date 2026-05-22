@@ -146,7 +146,7 @@ flowchart TB
 | Livs-Arkivarien | `sharedRules.ts`, `knowledgeVaultAgent.ts` | Kunskap RAG-svar |
 | Mönster-Arkivarien | `sharedRules.ts`, `driveIngestSynapse` | Drive → `kb_docs`, långtidsmönster |
 | Sannings-Analytikern | `valvChatAgent.ts` | Forensisk JSON |
-| ADK SynapseBus | `synapseBus.ts` | `drive_ingest` live; `journal_woven` stub |
+| ADK SynapseBus | `synapseBus.ts` | `drive_ingest` live; `journal_woven` opt-in → `kampspar` (G7) |
 
 ---
 
@@ -177,7 +177,7 @@ flowchart TB
 - [ ] **G4** Avveckla legacy Python RAG (us-central1)
 - [x] **G5** Retention allowlist — exkludera WORM permanent
 - [x] **G6** Drive E2E — webhook + `kb_docs` PASS 2026-05-22; drift `npm run drive:wireup` ([`docs/DRIVE_AUTOMATION.md`](../docs/DRIVE_AUTOMATION.md))
-- [ ] **G7** `journal_woven` synaps
+- [x] **G7** `journal_woven` synaps — opt-in `journalWovenToKampspar` (2026-05-22)
 - [ ] **G8** Familjen-RAG (Mönster-Arkivarien, **inte** Valv-Chat)
 - [x] **G9** EntityProfile / SystemSynapse Firestore + agent grounding
 - [x] **G10** Självsorterande inkorg (Kunskap-SPEC §12)

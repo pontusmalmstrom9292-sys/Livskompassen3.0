@@ -61,7 +61,7 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] Functions deployade; `notifyNewFile` deployad (webhook fail-closed, P0 `DRIVE_INGEST_OWNER_UID`)
 - [x] Firebase Hosting: https://gen-lang-client-0481875058.web.app
 - [x] Dokumentation: `docs/FIREBASE_SYNC.md`
-- [ ] Manuell smoke: spara test i valv + barnen (Firestore Console)
+- [x] Manuell smoke: spara test i valv + barnen (Firestore Console) — **done** (användare 2026-05-22)
 - [x] `NOTIFY_WEBHOOK_SECRET` + `npm run smoke:drive` — **done** 2026-05-22
 - [ ] Apps Script Script Properties klistrade på din Mac (engång) — se Drive wire-up nedan
 
