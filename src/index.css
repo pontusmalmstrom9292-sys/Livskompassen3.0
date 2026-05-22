@@ -239,7 +239,7 @@
   }
 
   .dock-nav--hub {
-    @apply max-w-none justify-center bg-transparent p-0;
+    @apply mx-auto w-fit max-w-none justify-center bg-transparent p-0;
     border: none;
     box-shadow: none;
     backdrop-filter: none;
@@ -286,6 +286,7 @@
   .dock-compass-hub__rose {
     @apply absolute inset-2 h-[calc(100%-1rem)] w-[calc(100%-1rem)] text-accent;
     opacity: 0.55;
+    pointer-events: none;
   }
 
   .dock-compass-hub__core {

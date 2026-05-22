@@ -92,7 +92,7 @@ firebase deploy --only firestore:rules,storage,functions:generateDossier
 npm run smoke:dossier
 ```
 
-**UI (manuell):** Hjärtat → Bevis → PIN → flik **Dossier** → wizard → *Generera låst dossier* → *Ladda ner PDF*.
+**UI (manuell):** Hjärtat → Bevis → PIN → flik **Dossier** → wizard → *Generera låst dossier* → *Ladda ner PDF*. **PASS** (2026-05-22, localhost) — valv-post + PDF genererad via `pdfBase64`.
 
 **Valfri GCP-fix för signed URL:** ge Functions service account `roles/iam.serviceAccountTokenCreator` (self) så `getSignedUrl` fungerar utan base64.
 
@@ -106,7 +106,7 @@ Kör: `npm run smoke:compass` (kräver `.env`, Anonymous Auth, deployad `breakDo
 | `checkins` WORM create | **PASS** | `compass_day` |
 | `breakDownResponse` | **PASS** | `microSteps` array |
 
-**UI (manuell):** `/vardagen` → Kompasser → flikar Morgon/Dag/Kväll, Paralys, KASAM kväll.
+**UI (manuell):** `/vardagen` → Kompasser → flikar Morgon/Dag/Kväll, Paralys, KASAM kväll. **PASS** (2026-05-22) — Kväll KASAM steg 1→2, Nästa fungerar.
 
 ## Måbra smoke (automatiserat)
 
@@ -123,7 +123,7 @@ firebase deploy --only functions:mabraCoach --force
 npm run smoke:mabra
 ```
 
-**UI (manuell):** Hem → Måbra → övning → *Få ett kort svar* på complete-skärmen (opt-in, `#6366F1` bubbla).
+**UI (manuell):** Hem → Måbra → övning → *Få ett kort svar* på complete-skärmen (opt-in, `#6366F1` bubbla). **PASS** (2026-05-22) — `mabraCoach` 200, AI-svar visas.
 
 ## Manuella tester (övriga moduler)
 
@@ -135,14 +135,14 @@ Kör mot lokal `npm run dev` eller [Hosting](https://gen-lang-client-0481875058.
 | 2 | Dagbok spara | `journal` post | **Ej körd** |
 | 3 | Valv | `reality_vault` post | **Ej körd** |
 | 4 | Barnen | `children_logs` | **Ej körd** |
-| 5 | Kompasser (UI) | Paralys + KASAM + tids-default | **Ej körd** — backend OK via `smoke:compass` |
-| 5b | Måbra (UI) | Symptom-hub → övning → opt-in coach | **Ej körd** — backend OK via `smoke:mabra` |
+| 5 | Kompasser (UI) | Paralys + KASAM + tids-default | **PASS** (2026-05-22) |
+| 5b | Måbra (UI) | Symptom-hub → övning → opt-in coach | **PASS** (2026-05-22) |
 | 6 | Hamn BIFF | Grey Rock-svar | **Ej körd** |
 | 7 | Kunskap RAG (UI) | Svar + citations i chat | **Ej körd** — callables OK via script |
 | 8 | Minne ingest (UI) | Tidshjulet visar nod | **Ej körd** — callable OK via script |
 | 9 | Hamn → bevis | Original sparas i `reality_vault` | **Ej körd** |
 | 10 | Speglar → Hamn | Länk med förifylld text | **Ej körd** — `speglingsMirror` OK via script |
-| 11 | Dossier (UI) | Valv → flik Dossier → PDF + hash | **Ej körd** — E2E OK via `smoke:dossier` |
+| 11 | Dossier (UI) | Valv → flik Dossier → PDF + hash | **PASS** (2026-05-22) |
 | 12 | KompisAvatar | Header pulserar vid Kunskap-fråga | **Ej körd** |
 
 ## Deploy-krav för Kunskap
@@ -166,6 +166,11 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 - `functions/src/index.ts` — `speglingsMirror` `.runWith({ secrets: ['GEMINI_API_KEY'] })`
 - `functions/src/index.ts` — `mabraCoach` callable + `MABRA_COACHEN_SYSTEM_PROMPT` i `sharedRules.ts`
 - `src/modules/mabra/components/MabraCoachPanel.tsx` — opt-in *Få ett kort svar* efter övning
+
+## Kodfixar under smoke (2026-05-22)
+
+- `src/modules/core/layout/MainLayout.tsx` — `pb-48` så CTA-knappar inte hamnar under FloatingDock
+- `src/index.css` — `.dock-nav--hub { w-fit }` + `pointer-events: none` på kompassros — bottenknappar klickbara igen
 
 ## Module plan sync
 
