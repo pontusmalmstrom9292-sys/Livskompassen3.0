@@ -19,6 +19,7 @@ import { BalansMatare } from './BalansMatare';
 import { PhysiologicalControls } from './PhysiologicalControls';
 import { ChildSubLogPanel } from './ChildSubLogPanel';
 import { SaveAsEvidencePrompt } from './SaveAsEvidencePrompt';
+import { ChildrenLogsChat } from './ChildrenLogsChat';
 
 const CHILDREN_PIN_KEY = 'livskompassen_children_pin_hash';
 
@@ -270,6 +271,8 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
           Lås modul
         </button>
       </BentoCard>
+
+      <ChildrenLogsChat activeChild={activeChild} />
 
       <BentoCard title={`Tidslinje — ${activeChild}`}>
         <div className="mb-3 flex flex-wrap gap-2">

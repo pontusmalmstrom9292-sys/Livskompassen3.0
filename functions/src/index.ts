@@ -5,6 +5,7 @@ import { geminiApiKey } from "./lib/geminiSecret";
 import { generateEmbeddingInternal } from "./lib/generateEmbeddingInternal";
 import { upsertKampsparVector } from "./lib/vectorSearchClient";
 import { askValvChat } from "./agents/valvChatAgent";
+import { askChildrenLogsQuery } from "./agents/childrenLogsAgent";
 import { weaveJournalEntry as runWeaver } from "./agents/weaverAgent";
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
@@ -221,6 +222,41 @@ export const knowledgeVaultQuery = onCall(
     const result = await askKnowledgeVaultWithRag(
       request.auth.uid,
       trimmedPrompt,
+      geminiApiKey.value()
+    );
+    return result;
+  }
+);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 6c: childrenLogsQuery (G8)
+// Familjen-RAG — ENDAST children_logs. MUST NOT route via valvChatQuery.
+// ─────────────────────────────────────────────────────────────────────────────
+export const childrenLogsQuery = onCall(
+  { region: 'europe-west1', memory: '512MiB', secrets: [geminiApiKey] },
+  async (request) => {
+    if (!request.auth) {
+      throw new HttpsError('unauthenticated', 'Autentisering krävs för Familjen-frågor.');
+    }
+
+    const question = request.data?.question;
+    if (!question || typeof question !== 'string') {
+      throw new HttpsError('invalid-argument', 'Fältet "question" (string) krävs.');
+    }
+
+    if (question.length > 2000) {
+      throw new HttpsError('invalid-argument', 'Frågan får vara max 2000 tecken.');
+    }
+
+    const childAlias =
+      typeof request.data?.childAlias === 'string' && request.data.childAlias.trim()
+        ? request.data.childAlias.trim()
+        : undefined;
+
+    const result = await askChildrenLogsQuery(
+      request.auth.uid,
+      question.trim(),
+      childAlias,
       geminiApiKey.value()
     );
     return result;

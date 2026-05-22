@@ -295,6 +295,19 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 
 **FAS 4 avveckling:** steg 1–7 **klart**.
 
+## G8 — Familjen-RAG childrenLogsQuery (2026-05-22)
+
+| Kontroll | Resultat |
+|----------|----------|
+| `childrenLogsQueryRag.ts` — endast `children_logs` | **done** |
+| `MONSTER_ARKIVARIEN_BARNEN_SYSTEM_PROMPT` i `sharedRules.ts` | **done** |
+| Callable `childrenLogsQuery` + `ChildrenLogsChat` i Familjen | **done** |
+| Deploy `childrenLogsQuery` | **PASS** |
+| `npm run smoke:children` | **PASS** |
+| Post-G8 smoke valv/kunskap/dossier | **PASS** |
+
+**Silo:** Ej `valvChatQuery`; Kunskap redirect (U5.5) oförändrad.
+
 ## U5.5 — Kompis → Barnen routing (2026-05-22)
 
 | Kontroll | Resultat |
@@ -346,8 +359,8 @@ Se [`LEGACY-KB-MIGRATION-2026-05-22.md`](LEGACY-KB-MIGRATION-2026-05-22.md).
 
 | Kommando | Innehåll |
 |----------|----------|
-| `kör G8` | Familjen-RAG (`childrenLogsQuery`) — separat session |
-| `kör grunder` | U1–U5 runtime **klart** — se [`GRUNDER-UTVARDERING-RESULTAT.md`](specs/incoming/GRUNDER-UTVARDERING-RESULTAT.md) |
+| `kör G8` | ~~Familjen-RAG~~ **done** 2026-05-22 |
+| `kör G9` | EntityProfile / SystemSynapse — separat session |
 
 Se [`Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md).
 

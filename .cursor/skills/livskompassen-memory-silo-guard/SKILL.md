@@ -11,7 +11,7 @@ description: Enforces three knowledge silos — blocks cross-RAG between Kunskap
 |------|-------------|----------|
 | Kunskap | `kampspar`, `kb_docs` | `knowledgeVaultQuery` |
 | Valv | `reality_vault` | `valvChatQuery` |
-| Barnen | `children_logs` | Dossier read; future dedicated callable |
+| Barnen | `children_logs` | `childrenLogsQuery` (G8) |
 
 ## Red flags (block merge)
 

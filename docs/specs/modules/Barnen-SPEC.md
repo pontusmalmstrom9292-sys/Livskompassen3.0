@@ -112,7 +112,7 @@ Index: `ownerId` + `createdAt` (desc). Barn filter **klient-side** (`childAlias`
 - `generateDossier` — PDF + hash, BBIC-struktur, per barn
 - Incident-bro: ny `reality_vault`-post med `sourceRef` + sammanfattning
 - Opt-in AI Grey Rock-granskare före save ( **inte** MVP)
-- Ingen RAG/Kunskap på `children_logs` som standard
+- ~~`childrenLogsQuery` (G8)~~ — **done** 2026-05-22 — Mönster-Arkivarien, endast `children_logs`
 
 **Prompts:** eventuell Dossier-agent i `sharedRules.ts` — Grey Rock, ingen JADE.
 

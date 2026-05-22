@@ -13,7 +13,8 @@
 | G5 | **done** | WORM allowlist retention |
 | G6 | **done** | Drive E2E → `kb_docs` 2026-05-22 — [`GCP-FAS4-RUNBOOK.md`](../../GCP-FAS4-RUNBOOK.md) steg 2 |
 | G7 | **done** | `journal_woven` opt-in → `kampspar` + `journalWovenToKampspar` (2026-05-22) |
-| G8–G14 | **open** | Life OS utbyggnad |
+| G8 | **done** | `childrenLogsQuery` + Mönster-Arkivarien Barnen (2026-05-22) |
+| G9–G14 | **open** | Life OS utbyggnad |
 | G15–G16 | **done** | G15 + G16 + U5.5 **done** 2026-05-22 |
 | V1 | **wait** | Genkit — ej migrera |
 
@@ -99,9 +100,9 @@
 
 `journalWovenSynapse.ts` + callable `journalWovenToKampspar` + opt-in checkbox i Dagbok ConfirmStep. **MUST NOT** auto-ingest.
 
-### G8 — Familjen-RAG
+### G8 — Familjen-RAG — **done** 2026-05-22
 
-Ny callable: `childrenLogsQuery` + Mönster-Arkivarien. **MUST NOT** route via `valvChatQuery`.
+`childrenLogsQuery` + `childrenLogsQueryRag` + `ChildrenLogsChat` i Familjen. **MUST NOT** route via `valvChatQuery`.
 
 ### G9 — EntityProfile / SystemSynapse
 
