@@ -17,6 +17,15 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 
 ---
 
+## Tier 1b — Systemkontroll (när det känns rörigt)
+
+| Fil | Innehåll |
+|-----|----------|
+| [`SYSTEMKONTROLL.md`](SYSTEMKONTROLL.md) | Färdiga Cursor-prompter, Sacred-register, var sanning bor |
+| [`evaluations/`](evaluations/) | Dina sparade analysrapporter (datum + A–E) |
+
+---
+
 ## Tier 2 — Drift och GCP (live sanning)
 
 | Fil | Innehåll |
@@ -60,6 +69,7 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 
 | Uppgift | Börja här |
 |---------|-----------|
+| **Det känns rörigt / tappa inte bort sanning** | **[`SYSTEMKONTROLL.md`](SYSTEMKONTROLL.md)** — färdiga analysprompter A–E |
 | Implementera modul | `specs/modules/[Modul]-SPEC.md` + `.context/modules/` + `src/modules/*/module_plan.md` |
 | Säkerhetsgranskning | `.context/security.md` + `SMOKE_CHECKLIST.md` |
 | Deploy | `DEPLOY.md` → `GCP-INVENTORY-LATEST.md` |

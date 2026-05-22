@@ -8,6 +8,9 @@ export interface PersistKbDocInput {
   mimeType: string;
   folderId?: string;
   embeddingDim?: number;
+  inboxTags?: string[];
+  inboxCategory?: string;
+  proposedRouting?: string;
 }
 
 /** Idempotent WORM create för Drive-analys → kb_docs. */
@@ -34,6 +37,9 @@ export async function persistKbDocFromDrive(input: PersistKbDocInput): Promise<{
     driveFileId: input.driveFileId,
     mimeType: input.mimeType,
     embeddingDim: input.embeddingDim ?? null,
+    inboxTags: input.inboxTags ?? null,
+    inboxCategory: input.inboxCategory ?? null,
+    proposedRouting: input.proposedRouting ?? null,
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
   });
 

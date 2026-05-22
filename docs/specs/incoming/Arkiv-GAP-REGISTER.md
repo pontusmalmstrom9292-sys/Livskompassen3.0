@@ -106,9 +106,9 @@ Ny callable: `childrenLogsQuery` + Mönster-Arkivarien. **MUST NOT** route via `
 
 `entity_profiles` + `system_synapses`, `getEntityProfileRegistry`, agent grounding i valv/kunskap/barn (metadata only).
 
-### G10 — Självsorterande inkorg
+### G10 — Självsorterande inkorg — **done** 2026-05-22
 
-Kunskap-SPEC §12 — GCS/Vertex auto-tag. Repomix `SuperArchive`-koncept — **MUST NOT** spara bevis till `kb_docs`.
+Drive G10-klassificering, silo-routing, `inbox_queue` HITL. **MUST NOT** bevis → `kb_docs`.
 
 ### G12 — Context Cache delad registry
 

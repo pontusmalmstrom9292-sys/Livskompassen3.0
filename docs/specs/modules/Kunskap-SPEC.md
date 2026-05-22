@@ -186,7 +186,7 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 
 ## 12. Tidigare diskussioner att bevara (vision)
 
-- **Smart arkiv / självsorterande AI:** GCS/Vertex taggar inkorg automatiskt (framtida).
+- **Smart arkiv / självsorterande AI:** **done G10** — Drive → klassificering → silo (bevis ej i `kb_docs`).
 - **Framtidsfönstret / prediktiv tidslinje:** Tidshjulet varnar/förutspår cykler utifrån `eventDate`.
 - **Entity Recognition (kontextmotor):** Aktörer (barn, myndigheter) i loggar.
 - **Dumpa och glöm:** E-post/Telegram → `kampspar` (framtida friktion minskad).

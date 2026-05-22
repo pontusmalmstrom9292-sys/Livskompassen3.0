@@ -80,8 +80,10 @@ flowchart TB
   Drive[Drive notifyNewFile]
   Modules[WORM moduler]
   Manual --> Kampspar[kampspar]
-  Drive --> Synapse[driveIngestSynapse]
+  Drive --> Synapse[driveIngestSynapse G10]
   Synapse --> KbDocs[kb_docs]
+  Synapse --> Valv[reality_vault bevis]
+  Synapse --> InboxQ[inbox_queue HITL]
   Modules --> Valv[reality_vault]
   Modules --> Barn[children_logs]
   Modules --> Journal[journal]
@@ -95,7 +97,7 @@ flowchart TB
 | Källa | Mål | Auto? |
 |-------|-----|-------|
 | Manuell ingest | `kampspar` | Användaren |
-| Drive webhook | `kb_docs` | Ja (när Apps Script + ownerId) |
+| Drive webhook | `kb_docs` / `reality_vault` / `children_logs` / `inbox_queue` | Ja (G10 klassificering + HITL) |
 | Dagbok | `journal` → Vävaren → `reality_vault` metadata | Async |
 | Barnen | `children_logs` | Per save |
 | Kladd/trauma | `kampspar` | **Endast opt-in manuell** |
@@ -162,7 +164,7 @@ flowchart TB
 - [ ] **G7** `journal_woven` synaps
 - [ ] **G8** Familjen-RAG (Mönster-Arkivarien, **inte** Valv-Chat)
 - [x] **G9** EntityProfile / SystemSynapse Firestore + agent grounding
-- [ ] **G10** Självsorterande inkorg (Kunskap-SPEC §12)
+- [x] **G10** Självsorterande inkorg (Kunskap-SPEC §12)
 - [x] **G11** Rensa/isolera mock `Kampspar`-typ vs `KampsparEntry`
 - [ ] **G12** Context Cache delad registry
 - [ ] **G13** Tidshjulet → `kampspar`-historik

@@ -60,6 +60,8 @@ export interface DriveIngestPayload {
   fileName: string;
   mimeType: string;
   ownerId?: string;
+  /** G10 — explicit opt-in för trauma/LVU auto-ingest (default false). */
+  optInTrauma?: boolean;
 }
 
 export interface JournalWovenPayload {

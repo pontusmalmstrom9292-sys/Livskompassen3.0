@@ -127,5 +127,11 @@ service cloud.firestore {
       allow read: if isOwner();
       allow create, update, delete: if false;
     }
+
+    // G10 — Självsorterande inkorg HITL-kö (skrivs av Cloud Functions Admin SDK)
+    match /inbox_queue/{docId} {
+      allow read: if isOwner();
+      allow create, update, delete: if false;
+    }
   }
 }

@@ -3,44 +3,44 @@ import { MonsterArkivarienCard } from '../../agents/cards';
 import type { A2AMessage } from '../../agents/types';
 import type { AdkOrchestrator } from '../orchestrator';
 import type { DriveIngestPayload } from '../types';
-import { persistKbDocFromDrive } from '../../lib/persistKbDoc';
-import { generateEmbeddingInternal } from '../../lib/generateEmbeddingInternal';
+import { classifyInboxDocument } from '../../lib/inboxClassifier';
+import { routeInboxToWorm } from '../../lib/inboxPersist';
 
 /**
- * Sub-synaps: Google Drive-ingest → Mönster-Arkivarien via A2A.
- * Triggas av notifyNewFile (webhook) eller framtida Pub/Sub.
+ * G10 — Självsorterande inkorg: Drive → klassificering → rätt silo.
+ * MUST NOT spara bevis till kb_docs (bevis → reality_vault).
+ * Trauma/LVU utan optIn → inbox_queue (HITL).
  */
 export async function handleDriveIngest(
   orchestrator: AdkOrchestrator,
   payload: DriveIngestPayload
-): Promise<{ analysisStarted: boolean; fileId: string }> {
-  const { fileId, fileName, mimeType, ownerId } = payload;
+): Promise<{ analysisStarted: boolean; fileId: string; routing?: string }> {
+  const { fileId, fileName, mimeType, ownerId, optInTrauma } = payload;
   console.log(`[Synapse:drive_ingest] fileId=${fileId} name=${fileName}`);
 
   const analysisText = await analyzeDriveFile(fileId, fileName, mimeType);
+  let routing: string | undefined;
 
   if (ownerId) {
-    let embeddingDim: number | undefined;
-    try {
-      const embedding = await generateEmbeddingInternal(analysisText.slice(0, 4000));
-      embeddingDim = embedding.length > 0 ? embedding.length : undefined;
-    } catch (err) {
-      console.warn('[Synapse:drive_ingest] Embedding misslyckades:', err);
-    }
-
-    const persisted = await persistKbDocFromDrive({
+    const classification = await classifyInboxDocument(analysisText, fileName);
+    const routeResult = await routeInboxToWorm({
       ownerId,
-      title: fileName,
-      content: analysisText,
-      driveFileId: fileId,
+      fileId,
+      fileName,
       mimeType,
-      embeddingDim,
+      classification,
+      analysisText,
+      optInTrauma,
     });
+
+    routing = classification.routing;
     console.log(
-      `[Synapse:drive_ingest] kb_docs docId=${persisted.docId} created=${persisted.created}`
+      `[Synapse:drive_ingest] G10 routing=${classification.routing} action=${routeResult.action}` +
+        (routeResult.collection ? ` collection=${routeResult.collection}` : '') +
+        (routeResult.queueId ? ` queueId=${routeResult.queueId}` : '')
     );
   } else {
-    console.warn('[Synapse:drive_ingest] ownerId saknas — hoppar över kb_docs persist');
+    console.warn('[Synapse:drive_ingest] ownerId saknas — hoppar över persist (G10)');
   }
 
   const message: A2AMessage = {
@@ -53,6 +53,7 @@ export async function handleDriveIngest(
       fileName,
       mimeType,
       analysisExcerpt: analysisText.slice(0, 2000),
+      inboxRouting: routing,
     },
     contextId: ownerId,
   };
@@ -63,7 +64,7 @@ export async function handleDriveIngest(
     productAgentId: MonsterArkivarienCard.metadata.id,
   });
 
-  return { analysisStarted: true, fileId };
+  return { analysisStarted: true, fileId, routing };
 }
 
 function isHeavyResponse(text: string): boolean {

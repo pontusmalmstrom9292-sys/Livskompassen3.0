@@ -23,6 +23,12 @@ import {
   shouldRouteKompisToBarnen,
 } from './lib/barnenModuleRouteGuard';
 import { loadEntityProfileBundle } from './lib/entityProfileStore';
+import { classifyInboxDocument } from './lib/inboxClassifier';
+import {
+  confirmInboxQueueItem,
+  dismissInboxQueueItem,
+  listPendingInboxQueue,
+} from './lib/inboxPersist';
 
 admin.initializeApp();
 const supervisor = new KompisSupervisor();
@@ -171,6 +177,7 @@ export const notifyNewFile = functions
         : typeof req.body.ownerUid === 'string' && req.body.ownerUid.trim()
           ? req.body.ownerUid.trim()
           : undefined;
+    const optInTrauma = req.body.optInTrauma === true;
 
     if (!fileId || !fileName || !mimeType) {
       res.status(400).send('Missing fileId, fileName or mimeType');
@@ -180,7 +187,7 @@ export const notifyNewFile = functions
     try {
       await emitSynapse(adkOrchestrator, {
         trigger: 'drive_file_ingested',
-        payload: { fileId, fileName, mimeType, ownerId },
+        payload: { fileId, fileName, mimeType, ownerId, optInTrauma },
       });
 
       res.status(200).send({ status: 'Processing complete', fileId });
@@ -293,6 +300,109 @@ export const getEntityProfileRegistry = onCall({ region: 'europe-west1' }, async
     })),
   };
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 6e: getInboxQueue (G10)
+// HITL-kö — poster som kräver manuell silo-bekräftelse.
+// ─────────────────────────────────────────────────────────────────────────────
+export const getInboxQueue = onCall({ region: 'europe-west1' }, async (request) => {
+  if (!request.auth) {
+    throw new HttpsError('unauthenticated', 'Autentisering krävs för inkorgen.');
+  }
+
+  const items = await listPendingInboxQueue(request.auth.uid);
+  return { items };
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 6f: confirmInboxItem (G10)
+// Bekräfta routing → WORM i rätt silo (bevis|kunskap|barnen).
+// ─────────────────────────────────────────────────────────────────────────────
+export const confirmInboxItem = onCall({ region: 'europe-west1' }, async (request) => {
+  if (!request.auth) {
+    throw new HttpsError('unauthenticated', 'Autentisering krävs.');
+  }
+
+  const queueId = request.data?.queueId;
+  const routing = request.data?.routing;
+  if (!queueId || typeof queueId !== 'string') {
+    throw new HttpsError('invalid-argument', 'queueId krävs.');
+  }
+  if (routing !== 'kunskap' && routing !== 'bevis' && routing !== 'barnen') {
+    throw new HttpsError('invalid-argument', 'routing måste vara kunskap, bevis eller barnen.');
+  }
+
+  const childAlias =
+    typeof request.data?.childAlias === 'string' && request.data.childAlias.trim()
+      ? request.data.childAlias.trim()
+      : undefined;
+
+  try {
+    return await confirmInboxQueueItem({
+      uid: request.auth.uid,
+      queueId,
+      routing,
+      childAlias,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Bekräftelse misslyckades.';
+    throw new HttpsError('failed-precondition', message);
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 6g: dismissInboxItem (G10)
+// ─────────────────────────────────────────────────────────────────────────────
+export const dismissInboxItem = onCall({ region: 'europe-west1' }, async (request) => {
+  if (!request.auth) {
+    throw new HttpsError('unauthenticated', 'Autentisering krävs.');
+  }
+
+  const queueId = request.data?.queueId;
+  if (!queueId || typeof queueId !== 'string') {
+    throw new HttpsError('invalid-argument', 'queueId krävs.');
+  }
+
+  try {
+    await dismissInboxQueueItem(request.auth.uid, queueId);
+    return { success: true };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Avvisning misslyckades.';
+    throw new HttpsError('failed-precondition', message);
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 6h: previewInboxClassification (G10 smoke / dev)
+// ─────────────────────────────────────────────────────────────────────────────
+export const previewInboxClassification = onCall(
+  { region: 'europe-west1', secrets: [geminiApiKey] },
+  async (request) => {
+    if (!request.auth) {
+      throw new HttpsError('unauthenticated', 'Autentisering krävs.');
+    }
+
+    const text = request.data?.text;
+    const fileName =
+      typeof request.data?.fileName === 'string' && request.data.fileName.trim()
+        ? request.data.fileName.trim()
+        : 'dokument.txt';
+
+    if (!text || typeof text !== 'string') {
+      throw new HttpsError('invalid-argument', 'text (string) krävs.');
+    }
+    if (text.length > 12000) {
+      throw new HttpsError('invalid-argument', 'text max 12000 tecken.');
+    }
+
+    const classification = await classifyInboxDocument(
+      text,
+      fileName,
+      geminiApiKey.value()
+    );
+    return { classification };
+  }
+);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Funktion 6a: ingestKampsparEntry

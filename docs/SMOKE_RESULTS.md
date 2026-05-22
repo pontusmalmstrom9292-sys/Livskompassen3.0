@@ -295,6 +295,14 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 
 **FAS 4 avveckling:** steg 1–7 **klart**.
 
+## G10 — Självsorterande inkorg (2026-05-22)
+
+| Kontroll | Resultat |
+|----------|----------|
+| `inboxClassifier` + `routeInboxToWorm` (bevis → valv) | **done** |
+| `inbox_queue` HITL + `InboxQueueCard` | **done** |
+| Deploy + `npm run smoke:inbox` | **PASS** — bevis/kunskap/trauma heuristik + LLM |
+
 ## G9 — EntityProfile / SystemSynapse (2026-05-22)
 
 | Kontroll | Resultat |
@@ -372,6 +380,7 @@ Se [`LEGACY-KB-MIGRATION-2026-05-22.md`](LEGACY-KB-MIGRATION-2026-05-22.md).
 |----------|----------|
 | `kör G8` | ~~Familjen-RAG~~ **done** 2026-05-22 |
 | `kör G9` | ~~EntityProfile / SystemSynapse~~ **done** 2026-05-22 — `npm run smoke:entities` |
+| `kör G10` | ~~Självsorterande inkorg~~ **done** 2026-05-22 — `npm run smoke:inbox` |
 
 Se [`Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md).
 

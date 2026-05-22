@@ -108,9 +108,9 @@
 
 `entity_profiles` + `system_synapses` (WORM, owner-bound), idempotent seed (`KEY_ENTITY_SEEDS`), `loadEntityProfileBundle` injiceras i valv/kunskap/barn-agenter (metadata — **MUST NOT** cross-RAG), callable `getEntityProfileRegistry`, UI `EntityRegistryCard` i Kunskap.
 
-### G10 — Självsorterande inkorg
+### G10 — Självsorterande inkorg — **done** 2026-05-22
 
-Kunskap-SPEC §12 — GCS/Vertex auto-tag. Repomix `SuperArchive`-koncept — **MUST NOT** spara bevis till `kb_docs`.
+`INKORG_SORTERARE` + `classifyInboxDocument` i `driveIngestSynapse`: bevis → `reality_vault`, kunskap → `kb_docs`, barnen → `children_logs`, trauma/oklar → `inbox_queue` (HITL). **MUST NOT** spara bevis till `kb_docs`. Callables: `getInboxQueue`, `confirmInboxItem`, `previewInboxClassification`. UI `InboxQueueCard`.
 
 ### G12 — Context Cache delad registry
 
