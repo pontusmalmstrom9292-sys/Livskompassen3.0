@@ -1,89 +1,32 @@
 import { Link } from 'react-router-dom';
-import type { LucideIcon } from 'lucide-react';
-import { BookOpen, Anchor, Heart, Compass, ChevronRight, Sparkles } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
+import {
+  clusterChipHref,
+  getHomeClusters,
+  type ClusterTone,
+  type LifeCluster,
+} from '../navigation/appNavigation';
 
-type ModuleLink = {
-  label: string;
-  to: string;
-  search?: string;
-};
-
-type Cluster = {
-  to: string;
-  label: string;
-  desc: string;
-  icon: LucideIcon;
-  tone: 'gold' | 'indigo' | 'lavender' | 'emerald';
-  modules: ModuleLink[];
-};
-
-const HIDE_BEVIS_TAB = import.meta.env.VITE_HIDE_BEVIS_TAB === 'true';
-
-const clusters: Cluster[] = [
-  {
-    to: '/dagbok',
-    label: 'Hjärtat',
-    desc: 'Sanning, reflektion och spegling.',
-    icon: BookOpen,
-    tone: 'gold',
-    modules: [
-      { label: 'Dagbok', to: '/dagbok' },
-      { label: 'Verklighetsvalvet', to: '/dagbok', search: '?tab=bevis' },
-      { label: 'Speglar', to: '/dagbok', search: '?tab=speglar' },
-    ],
-  },
-  {
-    to: '/hamn',
-    label: 'Hamnen',
-    desc: 'Gränser och kommunikation mot ex.',
-    icon: Anchor,
-    tone: 'indigo',
-    modules: [{ label: 'Safe Harbor · BIFF', to: '/hamn' }],
-  },
-  {
-    to: '/familjen',
-    label: 'Familjen',
-    desc: 'Neutral loggning för Kasper och Arvid.',
-    icon: Heart,
-    tone: 'lavender',
-    modules: [
-      { label: 'Livsloggar', to: '/familjen' },
-      { label: 'Balansmätare', to: '/familjen' },
-    ],
-  },
-  {
-    to: '/vardagen',
-    label: 'Vardagen',
-    desc: 'Daglig rytm och vardagsstress.',
-    icon: Compass,
-    tone: 'emerald',
-    modules: [
-      { label: 'Kompasser', to: '/vardagen' },
-      { label: 'Ekonomi', to: '/vardagen', search: '?tab=ekonomi' },
-      { label: 'Kunskap', to: '/vardagen', search: '?tab=kunskap' },
-    ],
-  },
-  {
-    to: '/mabra',
-    label: 'Måbra',
-    desc: 'KBT, självmedkänsla och små vanor.',
-    icon: Sparkles,
-    tone: 'lavender',
-    modules: [{ label: 'Måbra-sidan', to: '/mabra' }],
-  },
-];
-
-const toneClass: Record<Cluster['tone'], string> = {
+const toneClass: Record<ClusterTone, string> = {
   gold: 'module-card--gold',
   indigo: 'module-card--indigo',
   lavender: 'module-card--lavender',
   emerald: 'module-card--emerald',
 };
 
-function ModuleChip({ label, to, search }: ModuleLink) {
+function ModuleChip({
+  cluster,
+  label,
+  tab,
+}: {
+  cluster: LifeCluster;
+  label: string;
+  tab?: string;
+}) {
+  const href = clusterChipHref(cluster, { label, tab });
   return (
     <Link
-      to={{ pathname: to, search: search ?? '' }}
+      to={href}
       className="module-chip"
       onClick={(e) => e.stopPropagation()}
     >
@@ -92,22 +35,28 @@ function ModuleChip({ label, to, search }: ModuleLink) {
   );
 }
 
-function ModuleCard({ to, label, desc, icon: Icon, tone, modules }: Cluster) {
+function ModuleCard(cluster: LifeCluster) {
+  const Icon = cluster.icon;
   return (
-    <Link to={to} className={`module-card ${toneClass[tone]}`}>
+    <Link to={cluster.path} className={`module-card ${toneClass[cluster.tone]}`}>
       <div className="module-card__head">
         <span className="module-card__icon">
           <Icon className="h-5 w-5" strokeWidth={1.75} />
         </span>
         <div className="min-w-0 flex-1">
-          <h3 className="module-card__title">{label}</h3>
-          <p className="module-card__desc">{desc}</p>
+          <h3 className="module-card__title">{cluster.label}</h3>
+          <p className="module-card__desc">{cluster.desc}</p>
         </div>
         <ChevronRight className="module-card__chevron h-5 w-5 shrink-0" aria-hidden />
       </div>
       <div className="module-card__modules">
-        {modules.map((mod) => (
-          <ModuleChip key={`${mod.to}-${mod.label}`} {...mod} />
+        {cluster.chips.map((chip) => (
+          <ModuleChip
+            key={`${chip.label}-${chip.tab ?? ''}`}
+            cluster={cluster}
+            label={chip.label}
+            tab={chip.tab}
+          />
         ))}
       </div>
     </Link>
@@ -115,17 +64,12 @@ function ModuleCard({ to, label, desc, icon: Icon, tone, modules }: Cluster) {
 }
 
 export function ClusterGrid() {
-  const visibleClusters = HIDE_BEVIS_TAB
-    ? clusters.map((c) => ({
-        ...c,
-        modules: c.modules.filter((m) => !m.search?.includes('tab=bevis')),
-      }))
-    : clusters;
+  const clusters = getHomeClusters();
 
   return (
     <section className="module-list" aria-label="Moduler och kluster">
-      {visibleClusters.map((cluster) => (
-        <ModuleCard key={cluster.to} {...cluster} />
+      {clusters.map((cluster) => (
+        <ModuleCard key={cluster.id} {...cluster} />
       ))}
     </section>
   );

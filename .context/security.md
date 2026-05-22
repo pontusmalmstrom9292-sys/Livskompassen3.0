@@ -144,7 +144,7 @@ Digital Conversation Analysis Pipeline skyddar mot psykologiskt missbruk och pro
 | U2.5 | HITL för känsliga exports | **open** |
 | Fas 3 smoke | Manuell valv + barnen Firestore | **open** |
 | **P0** | `analyzeMessage` client `ragContext` | **done** 2026-05-22 — `fetchKampsparRagBackgroundDocuments` |
-| **P0** | `notifyNewFile` obunden `ownerId` | **open** — bind till Drive/service identity |
+| **P0** | `notifyNewFile` obunden `ownerId` | **done** 2026-05-22 — `DRIVE_INGEST_OWNER_UID` secret; body ignoreras |
 | **P0** | Valv/Barnen client-PIN gate | **open** — server/WebAuthn verify |
 | **P1** | DCAP prompt utanför `sharedRules.ts` | **open** |
 

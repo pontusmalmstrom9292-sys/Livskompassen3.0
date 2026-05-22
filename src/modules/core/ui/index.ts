@@ -9,6 +9,7 @@ export { StepIndicator } from './StepIndicator';
 export type { StepIndicatorItem } from './StepIndicator';
 export { TabBar } from './TabBar';
 export type { TabBarItem } from './TabBar';
+export { ClusterShell } from './ClusterShell';
 export { TimelineEntry } from './TimelineEntry';
 export { ClusterGrid } from './ClusterGrid';
 export { DESIGN, BUTTON_VARIANTS } from './tokens';

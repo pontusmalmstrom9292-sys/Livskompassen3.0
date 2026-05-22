@@ -3,6 +3,30 @@
 **Datum:** 2026-05-22  
 **Branch:** `main` (Livskompassen3.0 — clean baseline)
 
+## Ikväll 3h Autorun (2026-05-22 sen kväll)
+
+**Trigger:** Parallellplan Autorun + app igång · **Logg:** [`2026-05-22-BUILD-LOG.md`](evaluations/2026-05-22-BUILD-LOG.md)
+
+| Kontroll | Resultat |
+|----------|----------|
+| `cd functions && npm run build` | **PASS** |
+| `npm run build` (frontend) | **PASS** |
+| `npx eslint . --max-warnings 0` | **PASS** |
+| `smoke:valv` | **PASS** |
+| `smoke:kunskap` | **PASS** |
+| `smoke:dossier` | **PASS** (pdfBase64 fallback) |
+| `smoke:children` | **PASS** |
+| `smoke:inbox` | **PASS** |
+| `smoke:grans` | **PASS** |
+| `smoke:entities` | **PASS** |
+| `smoke:cache` | **PASS** |
+| `smoke:tidshjul` | **PASS** |
+| `smoke:speglar` | **PASS** |
+| `smoke:compass` | **PASS** |
+| `smoke:mabra` | **PASS** |
+| Lokal dev | **PASS** — http://localhost:5175 (5173–5174 upptagna) |
+| `notifyNewFile` deploy | **PASS** — P0 body ownerId ignoreras |
+
 ## Byggpass audit (2026-05-22 kväll)
 
 **Gren:** `audit-byggpass-2026-05-22` · **Logg:** [`docs/evaluations/2026-05-22-BUILD-LOG.md`](evaluations/2026-05-22-BUILD-LOG.md)

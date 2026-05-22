@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, Loader2 } from 'lucide-react';
+import { dossierHref } from '../../core/navigation/appNavigation';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { PinGate } from '../../core/ui/PinGate';
 import { EmptyState } from '../../core/ui/EmptyState';
@@ -234,7 +235,10 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
             Skriv ut / PDF
           </button>
           <Link
-            to={`/dossier?sources=children_logs&child=${encodeURIComponent(activeChild)}`}
+            to={dossierHref({
+              sources: 'children_logs',
+              child: activeChild,
+            })}
             className="text-xs uppercase tracking-widest text-text-dim hover:text-accent"
           >
             Skapa dossier (samlad export)

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Check, Loader2, Moon } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { bevisTabHref, speglarTabHref } from '../../core/navigation/appNavigation';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { saveCheckIn } from '../../core/firebase/firestore';
 
@@ -79,10 +80,13 @@ export function KasamEvening({ userId, onKlar, onSaved }: Props) {
         </p>
         <BentoCard title="Crazymaking?" description="Bro only — inget sparas automatiskt">
           <div className="flex flex-col gap-2">
-            <Link to="/dagbok?tab=speglar" className="btn-pill--ghost text-sm">
+            <Link
+              to={speglarTabHref()}
+              className="btn-pill--ghost text-sm"
+            >
               Jämför känsla med fakta (Speglar)
             </Link>
-            <Link to="/dagbok?tab=bevis" className="btn-pill--ghost text-sm">
+            <Link to={bevisTabHref()} className="btn-pill--ghost text-sm">
               Dokumentera neutralt (Bevis)
             </Link>
           </div>

@@ -1,5 +1,6 @@
 import { Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { speglarTabHref } from '../../core/navigation/appNavigation';
 import type { JournalBridgeContext } from '../../core/types/journalBridge';
 
 type SavedStepProps = {
@@ -19,7 +20,7 @@ export function SavedStep({ onNewEntry, journalContext }: SavedStepProps) {
           Ny post
         </button>
         <Link
-          to={{ pathname: '/dagbok', search: '?tab=speglar' }}
+          to={speglarTabHref()}
           state={{ journalContext }}
           className="btn-pill border-accent-secondary/40 text-accent-secondary hover:bg-accent-secondary/10"
         >

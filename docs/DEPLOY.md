@@ -75,6 +75,16 @@ firebase deploy --only functions:notifyNewFile
 
 Samma värde ska sättas som `WEBHOOK_SECRET` i Apps Script (se [DRIVE_AUTOMATION.md](./DRIVE_AUTOMATION.md)).
 
+**P0 ownerId (2026-05-22):** Webhook-body `ownerId`/`ownerUid` ignoreras. Sätt server-side uid (samma som ditt Firebase Auth-konto i appen):
+
+```bash
+# Rekommenderat: Secret Manager (valfritt — kan också läggas i functions/.env.gen-lang-client-0481875058)
+firebase functions:secrets:set DRIVE_INGEST_OWNER_UID
+# Om secret används: lägg till 'DRIVE_INGEST_OWNER_UID' i notifyNewFile runWith.secrets i index.ts
+```
+
+Alternativ utan Secret Manager: `DRIVE_INGEST_OWNER_UID=<din-uid>` i `functions/.env.gen-lang-client-0481875058` (laddas vid deploy).
+
 ## Deploy — Hosting (SPA)
 
 Efter frontend-ändringar:

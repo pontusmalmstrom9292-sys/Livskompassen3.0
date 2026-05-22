@@ -1,15 +1,15 @@
-import { BentoCard } from '../../core/ui/BentoCard';
+import { ClusterShell } from '../../core/ui/ClusterShell';
 import { BarnensPage } from './BarnensPage';
 
 export function FamiljenPage() {
   return (
-    <div className="space-y-6">
-      <BentoCard title="Familjen" description="Trygg hamn · neutral loggning">
-        <p className="text-sm text-text-muted">
-          Kasper och Arvid — livsloggar och Balansmätaren i ett kluster.
-        </p>
-      </BentoCard>
+    <ClusterShell
+      title="Familjen"
+      description="Trygg hamn · neutral loggning"
+      tone="lavender"
+      hint="Välj barn — ett steg i taget."
+    >
       <BarnensPage embedded />
-    </div>
+    </ClusterShell>
   );
 }

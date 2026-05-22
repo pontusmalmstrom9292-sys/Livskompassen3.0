@@ -100,8 +100,10 @@ Efter deploy:
 curl -X POST "https://europe-west1-gen-lang-client-0481875058.cloudfunctions.net/notifyNewFile" \
   -H "Content-Type: application/json" \
   -H "X-Livskompassen-Webhook-Secret: DITT_SECRET" \
-  -d '{"fileId":"DRIVE_FILE_ID","fileName":"test.pdf","mimeType":"application/pdf","ownerId":"FIREBASE_AUTH_UID"}'
+  -d '{"fileId":"DRIVE_FILE_ID","fileName":"test.pdf","mimeType":"application/pdf"}'
 ```
+
+(`ownerId` i body ignoreras — sätt `DRIVE_INGEST_OWNER_UID` server-side.)
 
 Loggar: `firebase functions:log --only notifyNewFile`
 
@@ -113,14 +115,22 @@ Loggar: `firebase functions:log --only notifyNewFile`
 
 ---
 
-## Webhook-body: `ownerId` / `ownerUid`
+## `ownerId` — server secret (P0, 2026-05-22)
 
-| Fält | Källa | Backend |
-|------|--------|---------|
-| `ownerId` | Apps Script (samma värde som `FIREBASE_OWNER_UID`) | Primärt fält i `notifyNewFile` |
-| `ownerUid` | Apps Script (legacy namn) | Accepteras som fallback: `ownerId ?? ownerUid` |
+| Källa | Används för `kb_docs`? |
+|--------|-------------------------|
+| Firebase secret `DRIVE_INGEST_OWNER_UID` | **Ja** — enda giltiga `ownerId` i `notifyNewFile` |
+| Body `ownerId` / `ownerUid` | **Nej** — ignoreras (spoof-skydd) |
 
-Utan uid: analys körs, men `driveIngestSynapse` hoppar över `kb_docs` (logg: `ownerId saknas`).
+Sätt secret (samma uid som ditt Firebase Auth-konto i appen):
+
+```bash
+firebase functions:secrets:set DRIVE_INGEST_OWNER_UID
+```
+
+`FIREBASE_OWNER_UID` i Apps Script ska matcha secret-värdet (dokumentation); webhook-body skickar fortfarande fält men backend läser **inte** body för ägarskap.
+
+Utan secret: analys körs, men `driveIngestSynapse` hoppar över `kb_docs` (logg: `ownerId saknas`).
 
 ## Kända begränsningar
 

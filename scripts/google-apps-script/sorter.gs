@@ -7,7 +7,7 @@
  *    - VAULT_FOLDER_ID     — Google Drive folder ID för Kunskapsvalvet
  *    - WEBHOOK_SECRET      — samma värde som Firebase NOTIFY_WEBHOOK_SECRET
  *    - CLOUD_FUNCTION_URL  — (valfritt) notifyNewFile-URL; default nedan
- *    - FIREBASE_OWNER_UID  — Firebase Auth uid → webhook ownerUid + ownerId (kb_docs)
+ *    - FIREBASE_OWNER_UID  — (legacy doc) uid must match Firebase secret DRIVE_INGEST_OWNER_UID
  * 2. Klistra in detta script, spara, kör createTrigger() en gång.
  * 3. Dela Vault-mappen med Functions service account (se docs/DRIVE_AUTOMATION.md).
  *
@@ -56,6 +56,8 @@ function autonomousSorter() {
         timestamp: new Date().toISOString()
       };
 
+      // ownerId/ownerUid in body are ignored by notifyNewFile (P0) — kb_docs owner comes from
+      // Firebase secret DRIVE_INGEST_OWNER_UID. FIREBASE_OWNER_UID here is documentation only.
       if (config.ownerUid) {
         payload.ownerUid = config.ownerUid;
         payload.ownerId = config.ownerUid;

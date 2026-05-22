@@ -26,7 +26,7 @@ type KunskapPageProps = {
   embedded?: boolean;
 };
 
-export function KunskapPage({ embedded: _embedded = false }: KunskapPageProps) {
+export function KunskapPage({ embedded = false }: KunskapPageProps) {
   const [tab, setTab] = useState<Tab>('chat');
   const [highlightEntryId, setHighlightEntryId] = useState<string | null>(null);
   const [selectedEntry, setSelectedEntry] = useState<KampsparEntryRow | null>(null);
@@ -87,7 +87,12 @@ export function KunskapPage({ embedded: _embedded = false }: KunskapPageProps) {
 
   return (
     <div className="space-y-6">
-      <TabBar tabs={tabs} active={tab} onChange={(id) => setTab(id)} />
+      <TabBar
+        tabs={tabs}
+        active={tab}
+        onChange={(id) => setTab(id)}
+        variant={embedded ? 'cluster' : 'module'}
+      />
 
       {tab === 'chat' ? (
         <>

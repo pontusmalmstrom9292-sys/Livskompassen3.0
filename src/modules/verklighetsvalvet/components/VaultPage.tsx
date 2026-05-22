@@ -11,7 +11,7 @@ import type { VaultLog } from '../../core/types/firestore';
 import { VaultEntryForm } from './VaultEntryForm';
 import { VaultLogList } from './VaultLogList';
 import { ValvChatPanel } from '../../valv_chatt';
-import { DossierPage } from '../../dossier';
+import { VaultDossierBridge } from './VaultDossierBridge';
 import type { VaultLogInput } from '../types/vaultEntry';
 
 const PIN_STORAGE_KEY = 'livskompassen_vault_pin_hash';
@@ -211,7 +211,7 @@ export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
             <X className="h-3 w-3" /> Stäng
           </button>
         </div>
-        <TabBar<VaultTab> tabs={VAULT_TABS} active={vaultTab} onChange={setVaultTab} />
+        <TabBar<VaultTab> tabs={VAULT_TABS} active={vaultTab} onChange={setVaultTab} variant="module" />
       </BentoCard>
 
       {vaultTab === 'logga' && (
@@ -231,7 +231,7 @@ export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
         />
       )}
 
-      {vaultTab === 'dossier' && <DossierPage embedded />}
+      {vaultTab === 'dossier' && <VaultDossierBridge />}
     </div>
   );
 }

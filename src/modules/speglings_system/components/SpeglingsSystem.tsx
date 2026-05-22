@@ -103,14 +103,15 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
       .catch(() => setMatches([]));
   }, [phase, user, vaultLocked, feeling, vivirAnswers]);
 
-  return (
-    <div className="space-y-6">
-      <BentoCard title={embedded ? 'Speglar' : 'Speglings-Systemet'} icon={<Brain className="h-4 w-4" />}>
+  const body = (
+    <>
+      {!embedded && (
         <p className="mb-4 text-sm text-text-muted">
           Kognitiv sköld — separera känsla från fakta. Validera, aldrig fixa.
         </p>
+      )}
 
-        {phase === 'act' && (
+      {phase === 'act' && (
           <>
             <ActCalibrationView
               feeling={feeling}
@@ -165,7 +166,18 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
             </button>
           </>
         )}
-      </BentoCard>
+    </>
+  );
+
+  return (
+    <div className="space-y-6">
+      {embedded ? (
+        <BentoCard>{body}</BentoCard>
+      ) : (
+        <BentoCard title="Speglings-Systemet" icon={<Brain className="h-4 w-4" />}>
+          {body}
+        </BentoCard>
+      )}
     </div>
   );
 }

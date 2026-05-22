@@ -718,4 +718,65 @@
   .chip--idle {
     @apply chip border-border-strong text-text-muted hover:border-border-strong hover:text-text-muted;
   }
+
+  .tab-bar__track {
+    @apply flex gap-2;
+  }
+
+  .tab-bar__track--cluster {
+    @apply w-full gap-0 rounded-2xl border border-border-strong bg-surface/50 p-1 backdrop-blur-sm;
+  }
+
+  .tab-bar--cluster {
+    @apply -mx-0;
+  }
+
+  .tab-bar__track--cluster {
+    @apply overflow-x-auto;
+    scrollbar-width: none;
+  }
+
+  .tab-bar__track--cluster::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-bar__item--cluster {
+    @apply flex flex-1 min-w-[4.5rem] items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-medium uppercase tracking-wider text-text-muted transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40;
+  }
+
+  .tab-bar__item--cluster-active {
+    @apply bg-accent/10 text-accent shadow-sm;
+  }
+
+  .tab-bar__item--module {
+    @apply flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-widest;
+  }
+
+  .cluster-shell__header {
+    @apply space-y-1;
+  }
+
+  .cluster-shell__title {
+    @apply font-display text-2xl font-light text-accent;
+  }
+
+  .cluster-shell__desc {
+    @apply text-sm text-text-muted;
+  }
+
+  .cluster-shell__hint {
+    @apply text-xs text-text-dim;
+  }
+
+  .cluster-shell--indigo .cluster-shell__title {
+    @apply text-accent-secondary;
+  }
+
+  .cluster-shell--emerald .cluster-shell__title {
+    @apply text-success;
+  }
+
+  .cluster-shell--lavender .cluster-shell__title {
+    @apply text-accent-secondary;
+  }
 }

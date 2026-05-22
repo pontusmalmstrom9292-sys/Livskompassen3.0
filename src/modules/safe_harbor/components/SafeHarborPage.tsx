@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Anchor, Loader2, Shield } from 'lucide-react';
+import { ClusterShell } from '../../core/ui/ClusterShell';
 import { BentoCard } from '../../core/ui/BentoCard';
 import {
   analyzeBiffMessage,
@@ -96,12 +97,14 @@ export function SafeHarborPage() {
   };
 
   return (
-    <div className="space-y-4">
-      <BentoCard title="Safe Harbor — Gräns-Arkitekten" icon={<Anchor className="h-4 w-4" />}>
-        <p className="mb-4 text-sm text-text-muted">
-          Klistra in ett sms eller mejl. Brusfiltret extraherar logistik; Gräns-Arkitekten ger ett
-          kort Grey Rock/BIFF-svar utan JADE.
-        </p>
+    <ClusterShell
+      title="Hamnen"
+      description="BIFF · gränser · Grey Rock"
+      tone="indigo"
+      hint="Klistra in meddelande — ett steg i taget."
+    >
+      <div className="space-y-4">
+      <BentoCard icon={<Anchor className="h-4 w-4" />}>
         <form onSubmit={handleSubmit} className="space-y-3">
           <textarea
             value={message}
@@ -206,6 +209,7 @@ export function SafeHarborPage() {
           </button>
         </BentoCard>
       )}
-    </div>
+      </div>
+    </ClusterShell>
   );
 }

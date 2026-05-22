@@ -186,12 +186,18 @@ export const notifyNewFile = functions
     }
 
     const { fileId, fileName, mimeType } = req.body;
-    const ownerId =
-      typeof req.body.ownerId === 'string' && req.body.ownerId.trim()
-        ? req.body.ownerId.trim()
-        : typeof req.body.ownerUid === 'string' && req.body.ownerUid.trim()
-          ? req.body.ownerUid.trim()
-          : undefined;
+    // P0: ownerId binds to server secret only — body ownerId/ownerUid is ignored (spoof-resistant).
+    const driveIngestOwnerUid = process.env.DRIVE_INGEST_OWNER_UID?.trim();
+    const ownerId = driveIngestOwnerUid || undefined;
+    if (
+      isProduction &&
+      (req.body.ownerId || req.body.ownerUid) &&
+      !driveIngestOwnerUid
+    ) {
+      console.warn(
+        '[notifyNewFile] Body ownerId/ownerUid ignored — set DRIVE_INGEST_OWNER_UID secret'
+      );
+    }
     const optInTrauma = req.body.optInTrauma === true;
 
     if (!fileId || !fileName || !mimeType) {

@@ -74,7 +74,13 @@ Core äger inga produktcollections — delar `types/firestore.ts` schemas.
 
 ## 11. Navigation
 
-Se [`docs/specs/navigation-master.md`](../navigation-master.md).
+**Aktiv:** Modulhub Variant C — se [`docs/specs/navigation-master.md`](../navigation-master.md).
+
+- **L1:** [`FloatingDock`](../../src/modules/core/layout/FloatingDock.tsx) + [`ModuleHubPanel`](../../src/modules/core/layout/ModuleHubPanel.tsx) — fem livsområden
+- **L2:** Kluster-flikar på `/dagbok` och `/vardagen` (`?tab=`)
+- **L3:** Modul-läge lokalt (t.ex. Valv Logga/Sök; Dossier → `/dossier`)
+- **Config:** [`src/modules/core/navigation/appNavigation.ts`](../../src/modules/core/navigation/appNavigation.ts) — single source för hub, hem och flikar
+- **UI:** [`ClusterShell`](../../src/modules/core/ui/ClusterShell.tsx) på klustersidor
 
 ## 12. Tidigare diskussioner att bevara (vision)
 

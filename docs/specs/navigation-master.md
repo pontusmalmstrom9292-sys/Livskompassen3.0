@@ -1,52 +1,83 @@
 # Navigation Master — Livskompassen v2
 
-**Status:** Variant A aktiv (8 ikoner). Variant B dokumenterad för framtida beslut.
+**Status:** Variant C aktiv (Modulhub + kluster). Variant A/B arkiverade.
+
+**Kod:** [`src/modules/core/navigation/appNavigation.ts`](../../src/modules/core/navigation/appNavigation.ts)
 
 ---
 
-## Variant A (nuvarande — aktiv)
+## Variant C (nuvarande — aktiv)
 
-**FloatingDock** ([`FloatingDock.tsx`](../../src/modules/core/layout/FloatingDock.tsx)):
+### L1 — Primär navigation
 
-| Ikon | Route | AuthGate | Notering |
-|------|-------|----------|----------|
-| Hem | `/` | nej | Bento-översikt alla moduler |
-| Kompasser | `/kompasser` | nej | Morgon/dag/kväll |
-| Valv (Shield) | `/valv` | ja | **3s long-press** + WebAuthn → Fyren |
-| Hamn | `/hamn` | ja | BIFF |
-| Dagbok | `/dagbok` | ja | Lager 1 |
-| Kunskap | `/kunskap` | ja | Kompis + Tidshjulet |
-| Barnen | `/barnen` | ja | PIN |
-| Ekonomi | `/ekonomi` | nej | Placeholder |
+| Ingång | Komponent | Route |
+|--------|-----------|-------|
+| Hem | Header `Home`-knapp | `/` |
+| Modulhub | [`FloatingDock`](../../src/modules/core/layout/FloatingDock.tsx) → [`ModuleHubPanel`](../../src/modules/core/layout/ModuleHubPanel.tsx) | Öppnas från kompass-centrum; navigerar till livsområde |
 
-**Ej i dock:**
+**FloatingDock:** en kompass-hub (inte 8 ikoner). På `/dagbok` visar hubben Hjärtat-ikon; annars Kompass.
 
-| Route | Ingång |
-|-------|--------|
-| `/speglar` | HomePage bento + bro från dagbok (efter sparad post) |
+### Livsområden (L1)
+
+| Område | Route | AuthGate | Hub-position |
+|--------|-------|----------|--------------|
+| Hjärtat | `/dagbok` | ja | centrum (Fyren 3s → `?tab=bevis`) |
+| Hamn | `/hamn` | ja | topp vänster |
+| Familjen | `/familjen` | ja | topp höger |
+| Vardagen | `/vardagen` | ja | botten vänster |
+| Måbra | `/mabra` | ja | botten höger |
+| Dossier | `/dossier` | ja | ej i hub — canonical export |
+
+**Hem:** [`ClusterGrid`](../../src/modules/core/ui/ClusterGrid.tsx) listar samma livsområden + djup-länkar till kluster-flikar.
+
+### L2 — Kluster-flikar (`?tab=`)
+
+| Kluster | Route | Flikar |
+|---------|-------|--------|
+| Hjärtat | `/dagbok` | `reflektion` (default), `bevis`, `speglar` |
+| Vardagen | `/vardagen` | `kompasser` (default), `ekonomi`, `kunskap` |
+
+**Regel:** URL speglar livsområde + kluster-flik. Wizard-steg hålls lokalt.
+
+### L3 — Modul-läge (lokal state)
+
+| Modul | Flikar | Mekanism |
+|-------|--------|----------|
+| Verklighetsvalvet (inuti Bevis) | `logga`, `sok`, `dossier` | lokal state; `dossier` → bro till `/dossier` |
+| Kompasser (inuti Vardagen) | morgon / dag / kväll | lokal `FlowTabs` i Dashboard |
+
+### Fyren (Sacred)
+
+- **3s long-press** på Hjärtat-rutan i Modulhub → WebAuthn/PIN → `/dagbok?tab=bevis`
+- Vault unlock rensas vid byte från Bevis-flik ([`HjartatPage.tsx`](../../src/modules/dagbok/components/HjartatPage.tsx))
+
+### Legacy-redirects
+
+| Gammal route | Ny destination |
+|--------------|----------------|
+| `/kompasser`, `/ekonomi`, `/kunskap` | `/vardagen?tab=…` |
+| `/valv`, `/speglar` | `/dagbok?tab=bevis` / `speglar` |
+| `/barnen` | `/familjen` |
+
+Definieras i [`AppRoutes.tsx`](../../src/modules/core/routing/AppRoutes.tsx) + `LEGACY_REDIRECTS` i `appNavigation.ts`.
 
 ---
 
-## Variant B (blueprint — planerad)
+## Variant A (arkiv — 2025)
 
-Förenklad dock (4–5 ikoner):
+Åtta ikoner i dock (Hem, Kompasser, Valv, Hamn, Dagbok, Kunskap, Barnen, Ekonomi). Ersatt av Variant C.
 
-| Ikon | Route |
-|------|-------|
-| Hem | `/` |
-| Kompasser | `/kompasser` |
-| Dagbok | `/dagbok` |
-| Hamn | `/hamn` |
-| (valfritt) Barnen | `/barnen` |
+---
 
-- **Verklighetsvalvet:** långtryck 3s på **Dagbok-ikon** (Shield försvinner från dock)
-- Kunskap/Ekonomi: sekundärt från Hem-bento
+## Variant B (arkiv — blueprint)
+
+Fyra–fem ikoner; long-press Dagbok → valv. Delar av idén finns i Variant C (Fyren på Hjärtat, inte separat Shield-ikon).
 
 ---
 
 ## AuthGate-routes
 
-Se [`AppRoutes.tsx`](../../src/modules/core/routing/AppRoutes.tsx): `/valv`, `/hamn`, `/dagbok`, `/kunskap`, `/barnen`, `/speglar`
+`/dagbok`, `/hamn`, `/familjen`, `/vardagen`, `/mabra`, `/dossier`
 
 ---
 
@@ -54,5 +85,7 @@ Se [`AppRoutes.tsx`](../../src/modules/core/routing/AppRoutes.tsx): `/valv`, `/h
 
 | Fråga | Status |
 |-------|--------|
-| A vs B | **A aktiv** — omställning när hjärtklustret är stabiliserat |
-| Speglar i dock | **Nej** — nås via Hem + dagbok-bro |
+| A vs B vs C | **C aktiv** |
+| Speglar i dock | **Nej** — Hjärtat-flik + Hem-chips |
+| Dossier canonical | **`/dossier`** — Valv-flik är bro, inte embedded wizard |
+| Config single source | **`appNavigation.ts`** för hub, hem, kluster-flikar |

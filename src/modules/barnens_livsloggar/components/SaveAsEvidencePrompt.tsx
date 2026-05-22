@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { bevisTabHref } from '../../core/navigation/appNavigation';
 import { Loader2, Shield } from 'lucide-react';
 import { saveVaultLog } from '../../core/firebase/firestore';
 import { buildVaultPayloadFromChildLog } from '../utils/childLogEvidence';
@@ -54,7 +55,7 @@ export function SaveAsEvidencePrompt({
     return (
       <div className="mt-4 space-y-2 rounded-xl border border-success/30 bg-success/5 px-4 py-3">
         <p className="text-sm text-success">Sparat som bevis med länk till livsloggen.</p>
-        <Link to="/dagbok?tab=bevis" className="btn-pill--ghost text-sm">
+        <Link to={bevisTabHref()} className="btn-pill--ghost text-sm">
           Öppna Bevis (Hjärtat)
         </Link>
         <button type="button" onClick={onDone} className="btn-pill--secondary mt-2 text-sm">

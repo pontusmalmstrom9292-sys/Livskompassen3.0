@@ -51,24 +51,22 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
     lowEnergyBridge,
   });
 
-  return (
-    <div className="space-y-6">
-      <BentoCard
-        title={embedded ? 'Reflektion' : 'Dagbok'}
-        icon={<BookOpen className="h-4 w-4" />}
-      >
-        {lowEnergyBridge && bridgeIntro && step !== 'done' && (
-          <div className="mb-4 rounded-xl border border-border-strong bg-surface/40 px-4 py-3 text-center">
-            <p className="text-sm text-accent">{bridgeIntro.title}</p>
-            <p className="mt-1 text-xs text-text-muted">{bridgeIntro.detail}</p>
-          </div>
-        )}
+  const flow = (
+    <>
+      {lowEnergyBridge && bridgeIntro && step !== 'done' && (
+        <div className="mb-4 rounded-xl border border-border-strong bg-surface/40 px-4 py-3 text-center">
+          <p className="text-sm text-accent">{bridgeIntro.title}</p>
+          <p className="mt-1 text-xs text-text-muted">{bridgeIntro.detail}</p>
+        </div>
+      )}
 
+      {!embedded && (
         <p className="mb-4 text-sm text-text-muted">
           Ett fält i taget — minimera sensorisk belastning.
         </p>
+      )}
 
-        <DagbokStepIndicator currentStep={step} />
+      <DagbokStepIndicator currentStep={step} />
 
         {step === 'mood' && (
           <MoodStep
@@ -111,8 +109,19 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
           <SavedStep onNewEntry={resetFlow} journalContext={{ mood, text: text.trim() }} />
         )}
 
-        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
-      </BentoCard>
+      {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+    </>
+  );
+
+  return (
+    <div className="space-y-6">
+      {embedded ? (
+        <BentoCard>{flow}</BentoCard>
+      ) : (
+        <BentoCard title="Dagbok" icon={<BookOpen className="h-4 w-4" />}>
+          {flow}
+        </BentoCard>
+      )}
 
       {step === 'mood' && !lowEnergyBridge && <JournalArchive entries={entries} />}
     </div>
