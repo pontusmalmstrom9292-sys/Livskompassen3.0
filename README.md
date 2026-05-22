@@ -1,4 +1,4 @@
-# Livskompassen v2
+# Livskompassen v3.0
 
 Life OS för Lagen om Autonomi — React/Vite frontend, Firebase Cloud Functions, Vertex/Gemini multi-agent backend.
 
