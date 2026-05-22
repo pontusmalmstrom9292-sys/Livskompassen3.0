@@ -198,7 +198,7 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 5. Ladda upp testfil i Drive-mappen → verifiera `kb_docs` + synapse `drive_file_ingested`.
 6. Uppdatera tabellen nedan med **PASS/FAIL** och datum.
 
-**Känd risk:** `sorter.gs` skickar `ownerUid`, handler läser `ownerId` — kb_docs-persist hoppas över tills alignat (separat fix, ej G6).
+**kb_docs:** `notifyNewFile` accepterar `ownerId` och `ownerUid` (2026-05-21). Sätt `FIREBASE_OWNER_UID` i Apps Script; uppdatera `sorter.gs` i Apps Script om du inte skickar `ownerId` än.
 
 ## Nästa kod-GAP (efter grund-låsning)
 

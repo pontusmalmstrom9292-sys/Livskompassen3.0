@@ -1,7 +1,7 @@
-# Drive-automation (wire-only)
+# Drive-automation
 
-Kopplar Google Drive Inbox → Kunskapsvalvet → `notifyNewFile` → `analyzeDriveFile` (Gemini).  
-**Denna fas sparar inget i Firestore** — endast sortering, webhook och bakgrundsanalys.
+Kopplar Google Drive Inbox → Kunskapsvalvet → `notifyNewFile` → `driveIngestSynapse` → Gemini-analys.  
+Med `FIREBASE_OWNER_UID` i Apps Script sparas analys i Firestore **`kb_docs`** (Kunskap-silo, idempotent per `driveFileId`).
 
 Firebase-projekt: `gen-lang-client-0481875058`  
 Region: `europe-west1`
@@ -12,9 +12,10 @@ Region: `europe-west1`
 |-----|--------|
 | `sorter.gs` (Script Properties + webhook-header) | Klar i repo |
 | `notifyNewFile` (fail-closed secret, logging) | Klar i repo |
-| `documentAgent.ts` (Gemini-analys, ingen persistens) | Klar i repo |
+| `documentAgent.ts` (Gemini-analys) | Klar i repo |
+| `driveIngestSynapse` → `kb_docs` vid `ownerId` | Klar i repo (`ownerId` ← `ownerUid` i webhook) |
 | `npm run build` (functions + frontend) | Verifierad |
-| Firebase deploy + Apps Script trigger | **Kräver manuellt steg** (`firebase login --reauth`) |
+| Firebase deploy + Apps Script + `NOTIFY_WEBHOOK_SECRET` | Manuellt (G6) — webhook **200** när secret synkat |
 
 ## Flöde
 
@@ -23,7 +24,9 @@ Drive Inbox → Apps Script (sorter.gs) → Drive Vault
                     ↓
             notifyNewFile (Cloud Function)
                     ↓
-            analyzeDriveFile (Gemini 1.5 Pro)
+            driveIngestSynapse → analyzeDriveFile (Gemini)
+                    ↓
+            kb_docs (om ownerId/ownerUid + FIREBASE_OWNER_UID)
 ```
 
 ---
@@ -49,7 +52,7 @@ Gör detta **innan** deploy och trigger:
 | `VAULT_FOLDER_ID` | Ja | Drive-mapp Kunskapsvalvet |
 | `WEBHOOK_SECRET` | Ja (prod) | Samma värde som Firebase secret `NOTIFY_WEBHOOK_SECRET` |
 | `CLOUD_FUNCTION_URL` | Nej | Default: `https://europe-west1-gen-lang-client-0481875058.cloudfunctions.net/notifyNewFile` |
-| `FIREBASE_OWNER_UID` | Nej | Firebase Auth uid — ingår i webhook-body för framtida persistens |
+| `FIREBASE_OWNER_UID` | Ja för `kb_docs` | Firebase Auth uid — `sorter.gs` skickar `ownerUid` + `ownerId`; backend accepterar båda |
 
 Klistra in innehållet från [`scripts/google-apps-script/sorter.gs`](../scripts/google-apps-script/sorter.gs) i ett nytt Apps Script-projekt kopplat till samma Google-konto som äger Drive-mapparna.
 
@@ -89,7 +92,7 @@ Efter deploy:
 | Anrop **utan** header `X-Livskompassen-Webhook-Secret` | `401 Unauthorized` |
 | Secret saknas i Functions (prod) | `503 Service Unavailable` (fail-closed) |
 | Cloud Functions-loggar | `[File Pipeline] Startar automatisk analys av: ...` och Gemini-anrop |
-| Firestore | **Ingen** ny `document_meta` — medvetet i wire-only-fasen |
+| Firestore `kb_docs` | Ny rad när `FIREBASE_OWNER_UID` satt + Vault delad med Functions SA |
 
 ### Manuellt webhook-test (efter deploy)
 
@@ -97,7 +100,7 @@ Efter deploy:
 curl -X POST "https://europe-west1-gen-lang-client-0481875058.cloudfunctions.net/notifyNewFile" \
   -H "Content-Type: application/json" \
   -H "X-Livskompassen-Webhook-Secret: DITT_SECRET" \
-  -d '{"fileId":"DRIVE_FILE_ID","fileName":"test.pdf","mimeType":"application/pdf"}'
+  -d '{"fileId":"DRIVE_FILE_ID","fileName":"test.pdf","mimeType":"application/pdf","ownerId":"FIREBASE_AUTH_UID"}'
 ```
 
 Loggar: `firebase functions:log --only notifyNewFile`
@@ -110,12 +113,21 @@ Loggar: `firebase functions:log --only notifyNewFile`
 
 ---
 
-## Kända begränsningar (wire-only)
+## Webhook-body: `ownerId` / `ownerUid`
 
-- Analysresultat sparas i `kb_docs` när `ownerId` skickas i webhook-body (idempotent via `driveFileId`).
-- Embedding-dimension sparas; full Vector Search ANN avvaktar `VECTOR_SEARCH_INDEX_ID`.
+| Fält | Källa | Backend |
+|------|--------|---------|
+| `ownerId` | Apps Script (samma värde som `FIREBASE_OWNER_UID`) | Primärt fält i `notifyNewFile` |
+| `ownerUid` | Apps Script (legacy namn) | Accepteras som fallback: `ownerId ?? ownerUid` |
+
+Utan uid: analys körs, men `driveIngestSynapse` hoppar över `kb_docs` (logg: `ownerId saknas`).
+
+## Kända begränsningar
+
+- `kb_docs` kräver `FIREBASE_OWNER_UID` i Script Properties + Vault delad med `gen-lang-client-0481875058@appspot.gserviceaccount.com`.
+- Embedding-dimension sparas; full Vector Search ANN-koppling avvaktar prod-verify (G2/G3).
 - En personlig Drive (single-user); ingen fleranvändar-OAuth i denna fas.
-- `ownerUid` i webhook-body krävs för `kb_docs`-persist (annars analys-only).
+- Filer som redan flyttats till Vault körs inte om från Inbox — lägg ny testfil i Inbox för omkörning.
 
 ---
 

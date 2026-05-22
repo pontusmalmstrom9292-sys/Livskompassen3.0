@@ -154,6 +154,12 @@ export const notifyNewFile = functions
     }
 
     const { fileId, fileName, mimeType } = req.body;
+    const ownerId =
+      typeof req.body.ownerId === 'string' && req.body.ownerId.trim()
+        ? req.body.ownerId.trim()
+        : typeof req.body.ownerUid === 'string' && req.body.ownerUid.trim()
+          ? req.body.ownerUid.trim()
+          : undefined;
 
     if (!fileId || !fileName || !mimeType) {
       res.status(400).send('Missing fileId, fileName or mimeType');
@@ -163,7 +169,7 @@ export const notifyNewFile = functions
     try {
       emitSynapse(adkOrchestrator, {
         trigger: 'drive_file_ingested',
-        payload: { fileId, fileName, mimeType, ownerId: req.body.ownerId },
+        payload: { fileId, fileName, mimeType, ownerId },
       }).catch((err) => {
         console.error(`[Background Pipeline Error] fileId=${fileId} fileName=${fileName}:`, err);
       });
