@@ -13,6 +13,7 @@ export function SafeHarborPage() {
   const [message, setMessage] = useState('');
   const [reply, setReply] = useState<string | null>(null);
   const [riskScore, setRiskScore] = useState<number | null>(null);
+  const [hitlRequired, setHitlRequired] = useState(false);
   const [loading, setLoading] = useState(false);
   const [savingEvidence, setSavingEvidence] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -22,6 +23,7 @@ export function SafeHarborPage() {
     setMessage('');
     setReply(null);
     setRiskScore(null);
+    setHitlRequired(false);
     setError(null);
     setEvidenceSaved(false);
   }, []);
@@ -46,12 +48,14 @@ export function SafeHarborPage() {
     setError(null);
     setReply(null);
     setRiskScore(null);
+    setHitlRequired(false);
     setEvidenceSaved(false);
 
     try {
       const result = await analyzeBiffMessage(message);
       setReply(extractGreyRockReply(result));
       setRiskScore(result.dcap?.riskScore ?? null);
+      setHitlRequired(result.data?.hitlRequired === true);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Analys misslyckades.');
     } finally {
@@ -105,6 +109,12 @@ export function SafeHarborPage() {
 
       {reply && (
         <BentoCard title="Föreslaget svar">
+          {hitlRequired && (
+            <div className="mb-3 rounded-xl border border-border-strong bg-surface/50 px-3 py-2 text-sm text-text-muted">
+              Hög risk flaggad. AI-svaret är ett förslag — överväg att prata med någon du litar på.
+              Eskalering registrerad för manuell uppföljning (HITL).
+            </div>
+          )}
           {riskScore !== null && (
             <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">
               Riskpoäng: {riskScore}

@@ -52,10 +52,10 @@
 | ~~`drive_sync_tool`~~ | us-central1 | — | `notifyNewFile` (Node) | **raderad** steg 3 |
 | ~~`biff_generator_tool`~~ | us-central1 | — | `analyzeMessage` (BIFF-Skölden) | **raderad** steg 1 |
 | ~~`brusfiltret_tool`~~ | us-central1 | — | `analyzeMessage` (Brusfiltret) | **raderad** steg 1 |
-| `knowledge-base-bucket-*` | us-central1 | ~10 KB | Firestore `kb_docs` + Vector west1 | **Steg 5** (migrering **done** steg 4 — 0 poster) |
-| `knowledge-base-docs-*` | us-central1 | 0 B | — | **Steg 5** |
-| `gcf-v2-*` us-central1 | us-central1 | ~9 KB | — | **Steg 5** |
-| `1084026575972-us-central1-blueprint-config` | us-central1 | ~4 MB | Google Solution blueprint | **Steg 5** |
+| `knowledge-base-bucket-*` | us-central1 | ~10 KB | Firestore `kb_docs` + Vector west1 | **raderad** legacy pass 2026-05-22 |
+| `knowledge-base-docs-*` | us-central1 | 0 B | — | **raderad** legacy pass |
+| `gcf-v2-*` us-central1 | us-central1 | ~9 KB | — | **raderad** legacy pass |
+| `1084026575972-us-central1-blueprint-config` | us-central1 | ~4 MB | Google Solution blueprint | **raderad** legacy pass |
 
 **Migreringsregel:** Endast till **Kunskap-silo** (`kb_docs`, `kampspar`). **MUST NOT** skriva till `reality_vault`.
 
@@ -111,4 +111,4 @@
 
 ## STOPP 4 — FAS 4 klart
 
-**Steg 1–7 klart** (2026-05-22). Kvar legacy KB-buckets (~10 KB, steg 5 scope) och lågprioritet `adc-*` bucket. Nästa kod-GAP: `kör grunder U2.5` (HITL) eller `kör G7` (journal_woven synaps).
+**Steg 1–7 klart** (2026-05-22). Legacy KB-buckets **raderade** (parallell pass). Nästa arkiv-GAP: **G8** Familjen-RAG.

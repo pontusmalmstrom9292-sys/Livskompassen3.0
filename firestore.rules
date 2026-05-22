@@ -66,6 +66,12 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    // DCAP HITL-eskalering — WORM (skrivs endast av Cloud Functions Admin SDK)
+    match /dcap_alerts/{docId} {
+      allow read: if isOwner();
+      allow create, update, delete: if false;
+    }
+
     match /mabra_sessions/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreate();

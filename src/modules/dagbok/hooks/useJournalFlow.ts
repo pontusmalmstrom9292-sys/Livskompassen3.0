@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { saveJournalEntry, getJournalEntries } from '../../core/firebase/firestore';
 import { weaveJournalEntry } from '../api/weaverService';
+import { journalWovenToKampspar } from '../api/journalWovenService';
 import type { MabraBridgeHub } from '../constants/mabraBridge';
 import { MABRA_MOOD_ONLY_TEXT } from '../constants/mabraBridge';
 import { MOOD_ONLY_STUB } from '../constants/moodPrompts';
@@ -21,6 +22,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [entries, setEntries] = useState<JournalEntry[]>([]);
+  const [weaveToKampspar, setWeaveToKampspar] = useState(false);
 
   const refreshEntries = useCallback(async () => {
     if (!userId) return;
@@ -45,13 +47,17 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
 
   const goToStep = (next: JournalStep) => setStep(next);
 
-  const persistEntry = async (entryText: string) => {
+  const persistEntry = async (entryText: string, optInKampspar = weaveToKampspar) => {
     if (!userId || !mood) return;
     setSaving(true);
     setError(null);
     try {
       const id = await saveJournalEntry(userId, { mood, text: entryText });
       weaveJournalEntry({ journalEntryId: id, mood, text: entryText });
+      if (optInKampspar) {
+        journalWovenToKampspar({ journalEntryId: id, mood, text: entryText });
+      }
+      setWeaveToKampspar(false);
       setStep('done');
       await refreshEntries();
     } catch {
@@ -83,6 +89,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
   const resetFlow = () => {
     setMood('');
     setText('');
+    setWeaveToKampspar(false);
     setStep(INITIAL_STEP);
   };
 
@@ -93,6 +100,8 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     saving,
     error,
     entries,
+    weaveToKampspar,
+    setWeaveToKampspar,
     lowEnergyBridge,
     setMood,
     setText,

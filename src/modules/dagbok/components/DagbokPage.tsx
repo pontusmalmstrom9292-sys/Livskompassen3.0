@@ -36,6 +36,8 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
     saving,
     error,
     entries,
+    weaveToKampspar,
+    setWeaveToKampspar,
     setMood,
     setText,
     goToStep,
@@ -98,6 +100,8 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
             mood={mood}
             text={text}
             saving={saving}
+            weaveToKampspar={weaveToKampspar}
+            onWeaveToKampsparChange={setWeaveToKampspar}
             onBack={() => goToStep('text')}
             onSave={handleSave}
           />

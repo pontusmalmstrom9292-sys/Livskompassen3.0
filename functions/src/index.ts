@@ -337,6 +337,45 @@ export const weaveJournalEntry = functions.region('europe-west1').https.onCall(a
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Funktion 7b: journalWovenToKampspar
+// G7 — opt-in synaps dagbok → kampspar (MUST NOT auto-ingest).
+// ─────────────────────────────────────────────────────────────────────────────
+export const journalWovenToKampspar = functions.region('europe-west1').https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
+  }
+
+  if (data?.optIn !== true) {
+    throw new functions.https.HttpsError(
+      'invalid-argument',
+      'optIn: true krävs — journal_woven körs endast med explicit samtycke.'
+    );
+  }
+
+  const journalEntryId = typeof data.journalEntryId === 'string' ? data.journalEntryId.trim() : '';
+  const mood = typeof data.mood === 'string' ? data.mood.trim() : '';
+  const text = typeof data.text === 'string' ? data.text : '';
+
+  if (!journalEntryId || !mood) {
+    throw new functions.https.HttpsError('invalid-argument', 'journalEntryId och mood krävs.');
+  }
+
+  const result = await emitSynapse(adkOrchestrator, {
+    trigger: 'journal_woven',
+    contextId: context.auth.uid,
+    payload: {
+      ownerId: context.auth.uid,
+      journalEntryId,
+      mood,
+      text,
+      optIn: true,
+    },
+  });
+
+  return result;
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Funktion 8: getAgentRegistry
 // A2A AgentCard-registret — maskinläsbara capabilities för frontend/verktyg.
 // ─────────────────────────────────────────────────────────────────────────────

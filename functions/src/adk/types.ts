@@ -61,3 +61,19 @@ export interface DriveIngestPayload {
   mimeType: string;
   ownerId?: string;
 }
+
+export interface JournalWovenPayload {
+  ownerId: string;
+  journalEntryId: string;
+  mood: string;
+  text: string;
+  optIn: boolean;
+}
+
+export interface DcapAlertPayload {
+  ownerId: string;
+  riskScore: number;
+  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
+  inputHash: string;
+  detectionCount?: number;
+}

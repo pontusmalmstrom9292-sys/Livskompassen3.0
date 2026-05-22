@@ -265,7 +265,22 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 | FAS4 steg 5 — delete `knowledge-base-webhook` | **PASS** |
 | Post-steg5 smoke (kunskap, dossier) | **PASS** |
 
-**Kvar öppet:** U2.5 HITL · legacy KB-buckets (~10 KB, steg 5 scope).
+**Kvar öppet:** — (Grunder U1–U5 runtime **klart**; nästa G8–G14).
+
+## Parallellt pass U2.5 + G7 + legacy buckets (2026-05-22)
+
+| Kontroll | Resultat |
+|----------|----------|
+| Checkpoint commit (U5.5, FAS4, docs) | **done** |
+| Baseline smoke (valv, kunskap, dossier) | **PASS** |
+| U2.5 — `dcapAlertSynapse` + `dcap_alerts` WORM + SafeHarbor HITL | **done** |
+| G7 — `journalWovenSynapse` + opt-in ConfirmStep + `journalWovenToKampspar` | **done** |
+| Legacy buckets (5 st, ~4.3 MB totalt) | **raderade** |
+| `functions` + frontend build | **PASS** |
+| Deploy `analyzeMessage`, `journalWovenToKampspar`, `firestore.rules` | **PASS** |
+| Post-deploy smoke ×3 | **PASS** |
+
+**Legacy buckets raderade:** `knowledge-base-bucket-*`, `knowledge-base-docs-*`, `blueprint-config`, `gcf-v2-*` us-central1.
 
 ## FAS4 steg 7 — VERIFY experiment-buckets (2026-05-22)
 
@@ -331,8 +346,8 @@ Se [`LEGACY-KB-MIGRATION-2026-05-22.md`](LEGACY-KB-MIGRATION-2026-05-22.md).
 
 | Kommando | Innehåll |
 |----------|----------|
-| `kör G7` | Implementera `journal_woven` synaps (opt-in → `kampspar`) — separat session |
-| `kör grunder U2.5` | HITL / human fallback stub |
+| `kör G8` | Familjen-RAG (`childrenLogsQuery`) — separat session |
+| `kör grunder` | U1–U5 runtime **klart** — se [`GRUNDER-UTVARDERING-RESULTAT.md`](specs/incoming/GRUNDER-UTVARDERING-RESULTAT.md) |
 
 Se [`Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md).
 

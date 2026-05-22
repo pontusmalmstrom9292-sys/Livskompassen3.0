@@ -36,6 +36,7 @@
 | `speglingsMirror` | v1 | ja |
 | `generateDossier` | v1 | ja |
 | `weaveJournalEntry` | v1 | ja |
+| `journalWovenToKampspar` | v1 | ja |
 | `mabraCoach` | v1 | ja |
 | `breakDownResponse` | v1 | ja |
 | `getAgentRegistry` | v1 | ja |
@@ -78,7 +79,7 @@
 
 ---
 
-## Cloud Storage (15 buckets efter steg 7)
+## Cloud Storage (10 buckets efter legacy-städ 2026-05-22)
 
 | Bucket | Storlek (ca) | Beslut |
 |--------|--------------|--------|
@@ -87,10 +88,10 @@
 | `livskompassen-knowledge-vault-worm` | 0 | **KEEP** |
 | `livskompassenv2` | 0 | **KEEP** (CMEK) |
 | `gcf-v2-*` europe-west1 | system | **KEEP** |
-| `knowledge-base-bucket-gen-lang-client-0481875058` | 10 KB | **MIGRATE → DEPRECATE** |
-| `knowledge-base-docs-gen-lang-client-0481875058` | 0 | **DEPRECATE** |
-| `gcf-v2-*` us-central1` | 9 KB | **DEPRECATE** |
-| `1084026575972-us-central1-blueprint-config` | 4 MB | **DEPRECATE** |
+| ~~`knowledge-base-bucket-gen-lang-client-0481875058`~~ | — | **raderad** legacy pass |
+| ~~`knowledge-base-docs-gen-lang-client-0481875058`~~ | — | **raderad** legacy pass |
+| ~~`gcf-v2-*` us-central1~~ | — | **raderad** legacy pass |
+| ~~`1084026575972-us-central1-blueprint-config`~~ | — | **raderad** legacy pass |
 | ~~`ekonomichefen`~~ | — | **raderad** steg 6 |
 | ~~`helthcoach`~~ | — | **raderad** steg 6 |
 | ~~`media-gen-lang-client-0481875058-0ebe`~~ | — | **raderad** steg 6 |
@@ -136,7 +137,8 @@
 | G4 | **done** | All legacy Python borta (steg 1–5) |
 | G5 | **done** |
 | G6 | **done** | E2E kb_docs PASS 2026-05-22 |
-| G7–G14 | **open** |
+| G7 | **done** | `journal_woven` opt-in 2026-05-22 |
+| G8–G14 | **open** |
 | G15 | **done** | Injection-parity i `.context/security.md` 2026-05-22 |
 | G16 | **done** | RSD-prompt + PA appendix + U5.5 barn routing **done** 2026-05-22 |
 | V1 Genkit | **wait** |
@@ -145,9 +147,9 @@
 
 ## Nästa steg
 
-1. **FAS4 steg 1–7 klart** — legacy Python 0 fn; experiment-buckets borta; smoke ×3 PASS
-2. **Kvar DEPRECATE (låg risk):** legacy KB-buckets ~10 KB, `gcf-v2-*` us-central1, blueprint-config
-3. **Grunder GAP:** U2.5 HITL **open**
+1. **Grunder U1–U5 runtime klart** — U2.5 HITL + U5.5 routing + G7 journal_woven
+2. **GCP legacy buckets städade** — 5 buckets borta (2026-05-22)
+3. **Nästa arkiv-GAP:** G8 Familjen-RAG eller G8–G14 enligt [`Arkiv-GAP-REGISTER.md`](specs/modules/Arkiv-GAP-REGISTER.md)
 4. **`@cursor/sdk`:** **WAIT** — [`docs/NATT-CI.md`](NATT-CI.md)
 
 ---

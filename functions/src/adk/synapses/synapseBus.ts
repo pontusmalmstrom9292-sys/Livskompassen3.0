@@ -1,8 +1,10 @@
 import type { SynapseEvent, SynapseTrigger } from '../types';
 import type { AdkOrchestrator } from '../orchestrator';
 import { handleDriveIngest } from './driveIngestSynapse';
+import { handleDcapAlert } from './dcapAlertSynapse';
+import { handleJournalWoven } from './journalWovenSynapse';
 import { applyParalysBreak } from './paralysBrytarenSynapse';
-import type { DriveIngestPayload } from '../types';
+import type { DriveIngestPayload, JournalWovenPayload, DcapAlertPayload } from '../types';
 
 type SynapseHandler = (
   orchestrator: AdkOrchestrator,
@@ -15,12 +17,12 @@ const handlers: Record<SynapseTrigger, SynapseHandler> = {
     return handleDriveIngest(orchestrator, p);
   },
   journal_woven: async (_orchestrator, event) => {
-    console.log('[Synapse:bus] journal_woven stub', event.contextId);
-    return { ok: true };
+    const p = event.payload as unknown as JournalWovenPayload;
+    return handleJournalWoven(p);
   },
   dcap_alert: async (_orchestrator, event) => {
-    console.log('[Synapse:bus] dcap_alert stub', event.contextId);
-    return { ok: true };
+    const p = event.payload as unknown as DcapAlertPayload;
+    return handleDcapAlert(p);
   },
   user_overwhelm: async (_orchestrator, event) => {
     const text = String(event.payload.text ?? '');

@@ -12,8 +12,9 @@
 | G4 | **done** | All legacy Python borta (steg 1–5 2026-05-22) |
 | G5 | **done** | WORM allowlist retention |
 | G6 | **done** | Drive E2E → `kb_docs` 2026-05-22 — [`GCP-FAS4-RUNBOOK.md`](../../GCP-FAS4-RUNBOOK.md) steg 2 |
-| G7–G14 | **open** | Life OS utbyggnad |
-| G15–G16 | **partial** | G15 **done**; G16 RSD+PA **done**, U5.5 routing **open** |
+| G7 | **done** | `journal_woven` opt-in → `kampspar` + `journalWovenToKampspar` (2026-05-22) |
+| G8–G14 | **open** | Life OS utbyggnad |
+| G15–G16 | **done** | G15 + G16 + U5.5 **done** 2026-05-22 |
 | V1 | **wait** | Genkit — ej migrera |
 
 ---
@@ -94,9 +95,9 @@
 
 ## Prioritet 3 — Life OS utbyggnad
 
-### G7 — `journal_woven` synaps
+### G7 — `journal_woven` synaps — **done** 2026-05-22
 
-Stub i `synapseBus.ts` → opt-in sammanfattning till `kampspar` (policy).
+`journalWovenSynapse.ts` + callable `journalWovenToKampspar` + opt-in checkbox i Dagbok ConfirmStep. **MUST NOT** auto-ingest.
 
 ### G8 — Familjen-RAG
 

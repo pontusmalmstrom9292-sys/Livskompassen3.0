@@ -23,18 +23,19 @@
 1. ~~**U1.5** — Indirect prompt injection ↔ projektion (G10)~~ — **done** 2026-05-22 (`.context/security.md`)
 2. ~~**U4.3** — RSD-Kylaren dedikerad prompt~~ — **done** 2026-05-22 (`RSD_KYLAREN_SYSTEM_PROMPT`)
 3. ~~**U5.3** — Parental alienation (G52) i Barnen-SPEC~~ — **done** 2026-05-22 (Appendix A)
-4. **U5.5** — Kompis saknar routing till Barnen-modul (neutral ton) — **open**
-5. **U2.5** — Human-in-the-loop (G38) vision-only; `dcap_alert` stub — **open** (dokumenterat)
+4. ~~**U5.5** — Kompis routing till Barnen-modul (neutral ton)~~ — **done** 2026-05-22 (`barnenModuleRouteGuard` + `moduleRoute`)
+5. ~~**U2.5** — Human-in-the-loop (G38); `dcap_alert` stub~~ — **done** 2026-05-22 (`dcapAlertSynapse` + `dcap_alerts` WORM + SafeHarbor HITL-notis)
 
 ### Nästa runtime (endast efter `kör [GAP]`)
 
 - ~~RSD dedikerad prompt i `sharedRules.ts`~~ — **done** 2026-05-22
 - ~~PA-referens i `Barnen-SPEC.md` § appendix~~ — **done** 2026-05-22
 - ~~Injection-parity notis i `.context/security.md`~~ — **done** 2026-05-22
-- `runExecutor.ts` → `gemini-2.5-flash` — **done** 2026-05-22 (ADK 404 fix)
-- Kompis → Barnen routing (U5.5) — separat session
+- ~~`runExecutor.ts` → `gemini-2.5-flash`~~ — **done** 2026-05-22
+- ~~Kompis → Barnen routing (U5.5)~~ — **done** 2026-05-22
+- ~~HITL eskalering (U2.5)~~ — **done** 2026-05-22
 
-**Ej starta:** Genkit/Dotprompt (G01, G28, G29 vision-only).
+**Ej starta:** Genkit/Dotprompt (G01, G28, G29 vision-only). **Nästa arkiv-GAP:** G8–G14.
 
 ---
 
@@ -54,11 +55,11 @@
 
 - **U2.1: PASS** — ALERT → BIFF
 - **U2.2: PASS** — Inga LLM auth-beslut
-- **U2.3: PASS** — `dcap_alert` stub dokumenterad
+- **U2.3: PASS** — `dcap_alert` live i `dcapAlertSynapse.ts` (2026-05-22)
 - **U2.4: PASS** — Kill Switch + Zero Footprint
-- **U2.5: PASS (GAP)** — G38 human fallback saknas i prod
+- **U2.5: PASS** — HITL: WORM `dcap_alerts` + `hitlRequired` i SafeHarbor (2026-05-22)
 
-**Sammanfattning:** Circuit breaker delvis (routing); eskalering/HITL vision-only.
+**Sammanfattning:** Circuit breaker + BIFF live; HITL eskalering **done** (fas 1 — ingen extern notifiering).
 
 ---
 
@@ -92,9 +93,9 @@
 - **U5.2: PASS** — Ingen cross-RAG med kampspar/valv
 - **U5.3: PASS** — G52 PA appendix i `Barnen-SPEC.md` (2026-05-22)
 - **U5.4: PASS** — Dossier aggregerar barn-data
-- **U5.5: FAIL** — Kompis barn-routing saknas
+- **U5.5: PASS** — `barnenModuleRouteGuard` → `moduleRoute` `/familjen` (2026-05-22)
 
-**Sammanfattning:** Silo 3 säker; PA-dokumentation och Kompis-routing GAP.
+**Sammanfattning:** Silo 3 säker; PA-dokumentation och Kompis-routing **done** (2026-05-22).
 
 ---
 

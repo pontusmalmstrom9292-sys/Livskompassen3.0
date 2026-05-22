@@ -17,8 +17,8 @@ description: ADK SynapseBus, driveIngestSynapse, journal_woven stubs, Zero Footp
 |---------|--------|
 | `drive_file_ingested` | **live** → `kb_docs` (via `notifyNewFile`) |
 | `user_overwhelm` | **live** (Paralys-Brytaren) |
-| `journal_woven` | **stub** (G7) |
-| `dcap_alert` | **stub** |
+| `journal_woven` | **live** → opt-in `kampspar` (G7) |
+| `dcap_alert` | **live** → WORM `dcap_alerts` (U2.5 HITL) |
 
 ## MUST
 

@@ -11,6 +11,8 @@ export type BiffAnalysisResult = {
     response?: string;
     greyRockResponse?: string;
     recommendedAction?: string;
+    hitlRequired?: boolean;
+    alertId?: string;
   };
   greyRockResponse?: string;
   suggestedReply?: string;
