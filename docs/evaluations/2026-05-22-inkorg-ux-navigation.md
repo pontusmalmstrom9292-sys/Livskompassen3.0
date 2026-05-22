@@ -11,7 +11,8 @@
 | # | Källa | Fil / plats |
 |---|--------|-------------|
 | 1 | Gemini share (ej läsbar utan login) | Titel: *Designkoncept för kognitiv avlastning* — https://g.co/gemini/share/17884ddf39a5 |
-| 1b | Gemini mockups (7 skärmdumpar) | [`artifacts/screenshots-gemini-2026-05-22/`](./artifacts/screenshots-gemini-2026-05-22/) |
+| 1b | Gemini mockups navigering (7 skärmdumpar) | [`artifacts/screenshots-gemini-2026-05-22/`](./artifacts/screenshots-gemini-2026-05-22/) |
+| 1c | Gemini dashboard/moduler (9 skärmdumpar) | [`2026-05-22-inkorg-gemini-dashboard-funktioner.md`](./2026-05-22-inkorg-gemini-dashboard-funktioner.md) · **lås:** [`Gemini-Dashboard-FUNKTIONSLOCK.md`](../specs/incoming/Gemini-Dashboard-FUNKTIONSLOCK.md) |
 | 2 | Gemini React-prototyp (mock, en fil `App`) | [`2026-05-22-inkorg-gemini-prototype.md`](./2026-05-22-inkorg-gemini-prototype.md) → [`artifacts/gemini-cognitive-exoskeleton-App.tsx`](./artifacts/gemini-cognitive-exoskeleton-App.tsx) |
 | 3 | UI/UX-analys Navigation, ikonografi, menyer | Sektion nedan (klistrad 2026-05-22) |
 | 4 | Cursor-förhandgranskning (ej låst) | Namnmappning repo Variant C ↔ extern ”Variant A” — se § Namnkrock |
