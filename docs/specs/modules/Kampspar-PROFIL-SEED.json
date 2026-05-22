@@ -1,0 +1,335 @@
+{
+  "version": "2026-05-21",
+  "source_policy": "full_batch_approved",
+  "entries": [
+    {
+      "title": "Pontus — profilöversikt",
+      "content": "Pontus, född november 1992. Användare av Livskompassen v2. Diagnoser: ADHD (F90.0B), Generaliserat ångestsyndrom GAD (F41.1). Substansutlöst psykos F155 februari 2026 — engångsepisod driven av extrem miljöstress. Sjukskrivning stegvis våren 2026. Lever med hypervigilans, kognitiv trötthet, Rejection Sensitive Dysphoria (RSD) och medicinbiverkningar (dagtrötthet).",
+      "category": "profil",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Rehab-mål 2026",
+      "content": "Primära mål: bygga upp självkänsla efter mobbning och relation; leva här och nu; utmana RSD; unna sig saker utan dåligt samvete. Kommunikation: Grey Rock och BIFF mot ex; sortera logistik (10%) från känslomässiga beten (90%); undvika JADE. Föräldraskap: acceptera parallellt föräldraskap; vara stabil motpol — Den trygga hamnen — för pojkarna Kasper och Arvid.",
+      "category": "profil",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Aktörskarta",
+      "content": "Pontus (pappa, användare). Isabelle (ex, barnens mor, vårdnadskonflikt). Kasper (son, född 2018-08-19). Arvid (son, född 2021-06-02). Elisabeth Franck (farmor). Anna Fagergren (socialtjänst Mölndal, samordning mars 2026). Ann (skolresurs) och Lena Törning (rektor) — tredjepart kring Kaspers skolbeteende. Vårdteam: Szczecinska, Pietruczuk, Spano, Djalali (slutenvård, GAD, medicinjustering).",
+      "category": "profil",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Tidslinje nyckeldatum våren 2026",
+      "content": "2026-02-15: identitetsinsikt (people-pleasing). 2026-02-23–26: slutenvård F155, sjukskrivning 100%. 2026-03-02: soc-möte, frivilliga drogtester. 2026-03-05: orosanmälan farmor. 2026-03-10: soc + psykiatri samordning. 2026-03-12: Kasper biter i skola, barnsamtal. 2026-03-25: GAD F41.1 fastställt. 2026-03-27: planerat 50/50 umgänge. 2026-04-01: Alimemazin-biverkningar. 2026-04-02: behandlingskonferens Spano. 2026-04-14: distanskontakt neuropsykiatri.",
+      "category": "profil",
+      "eventDate": "2026-03-25",
+      "source": "profile_seed"
+    },
+    {
+      "title": "Sjukskrivningssteg våren 2026",
+      "content": "100% sjukskrivning 23 februari – 12 april 2026. 75% 13 april – 26 april 2026. 50% 27 april – 24 maj 2026. Stegvis återgång efter slutenvård och GAD-bedömning. Miljödriven dekompensation som underlag för vårdförlopp.",
+      "category": "profil",
+      "eventDate": "2026-02-23",
+      "source": "profile_seed"
+    },
+    {
+      "title": "Ifrågasätter maktbalans",
+      "content": "Efter år av psykisk misshandel trott att motparten har rätt i allt — börjar ifrågasätta.",
+      "category": "insikt",
+      "eventDate": "2025-06-08",
+      "source": "profile_seed"
+    },
+    {
+      "title": "Identitet / ordbajs",
+      "content": "Insikt om people-pleasing och att leva som skal före barnen.",
+      "category": "insikt",
+      "eventDate": "2026-02-15",
+      "source": "profile_seed"
+    },
+    {
+      "title": "ADHD F90.0B — profil",
+      "content": "ADHD kombinerad typ (F90.0B). Typiska utmaningar: exekutiv dysfunktion, tidsblindhet, impulsivitet, hyperfokus, svårighet att prioritera vid överbelastning. RSD (Rejection Sensitive Dysphoria) är vanligt vid ADHD — neurologisk sårbarhet, inte karaktärsbrist. Strategi: ett mikrosteg i taget, kognitiv avlastning via system (Kompasser, Paralys-Brytaren).",
+      "category": "diagnos",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "GAD F41.1 — profil",
+      "content": "Generaliserat ångestsyndrom (F41.1) fastställt 2026-03-25. Symtom: hypervigilans, kronisk oro, kognitiv trötthet, fysiologisk stressreaktion. Utlöst av långvarig psykosocial stress (allostatisk belastning) i vårdnadskonflikt. Behandling: stegvis sjukskrivning, medicinjustering, ACT/KBT-inspirerade metoder i appen.",
+      "category": "diagnos",
+      "eventDate": "2026-03-25",
+      "source": "profile_seed"
+    },
+    {
+      "title": "Hypervigilans och kognitiv trötthet",
+      "content": "Nervsystemet i hypervigilans efter långvarig konflikt och gaslighting. Kognitiv trötthet: minskad arbetsminne, långsammare beslutsfattande, behov av avlastning. Fysiologisk krasch februari 2026 var normal biologisk reaktion på onormal stressnivå — inte tecken på personlig svaghet.",
+      "category": "diagnos",
+      "eventDate": "2026-02-23",
+      "source": "profile_seed"
+    },
+    {
+      "title": "Slutenvård F155",
+      "content": "Substansutlöst psykos, miljödriven extrem stress.",
+      "category": "medicin",
+      "eventDate": "2026-02-23",
+      "source": "profile_seed"
+    },
+    {
+      "title": "F155 — engångsepisod kontext",
+      "content": "F155 substansutlöst psykos februari 2026. Engångsepisod, stressdriven, inte kronisk psykos. Slutenvård 23–26 februari. Utlöst av extrem psykosocial belastning (vårdnadskonflikt, allostatisk överbelastning). Vårdteam: Szczecinska, Pietruczuk, Spano, Djalali.",
+      "category": "medicin",
+      "eventDate": "2026-02-23",
+      "source": "profile_seed"
+    },
+    {
+      "title": "Alimemazin-biverkningar",
+      "content": "1177-kontakt 2026-04-01: Alimemazin ger markant somnolens och dagtrötthet. Biverkning påverkar vardagsfunktion och kognitiv kapacitet. Dokumentera vid behov inför vårdkontakter.",
+      "category": "medicin",
+      "eventDate": "2026-04-01",
+      "source": "profile_seed"
+    },
+    {
+      "title": "RSD som neurologi",
+      "content": "RSD som sårbarhet, inte karaktär — Måbra fas 2.",
+      "category": "coping",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Allostatisk belastning",
+      "content": "Långvarig psykosocial stress (vårdnadskonflikt, hypervigilans) ledde till allostatisk belastning — kroppen kunde inte återhämta sig. Fysiologisk krasch februari 2026 var förutsägbart resultat, inte personligt misslyckande. Rehabilitering kräver både medicinsk och miljömässig stabilisering.",
+      "category": "diagnos",
+      "eventDate": "2026-02-23",
+      "source": "profile_seed"
+    },
+    {
+      "title": "Grey Rock 10/90",
+      "content": "10% logistik, 90% brus ignoreras — Hamn.",
+      "category": "strategi",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "BIFF-metoden",
+      "content": "BIFF = Brief (kort), Informative (informativ), Friendly (vänlig), Firm (fast). Används för svar till ex i vårdnadskonflikt. Affärsmässig ton utan JADE (Justify, Argue, Defend, Explain). Hamn-modulen genererar BIFF-svar via DCAP + Gräns-Arkitekten.",
+      "category": "strategi",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Soc: fakta före känsla",
+      "content": "Undvik narcissist — barnets bästa + dokumentation.",
+      "category": "strategi",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Soc samordning mars",
+      "content": "Samordning psykiatri och socialtjänst etablerad.",
+      "category": "myndighet",
+      "eventDate": "2026-03-10",
+      "source": "profile_seed"
+    },
+    {
+      "title": "Drogtester frivilliga",
+      "content": "Transparens kring drogtester — trovärdighetskapital hos soc.",
+      "category": "myndighet",
+      "eventDate": "2026-03-02",
+      "source": "profile_seed"
+    },
+    {
+      "title": "Undvik JADE",
+      "content": "JADE = Justify (rättfärdiga), Argue (argumentera), Defend (försvara), Explain (förklara). I konflikt med ex: svara inte på känslomässiga beten. Håll svar logistiska. Illdska hos motpart är inte bevis på eget fel — ofta bevis på att en gräns satts.",
+      "category": "strategi",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Systemisolering moduler",
+      "content": "Strikt separation: Känsla och validering → Speglar. Forensiska bevis → Verklighetsvalvet. Ex-sms och BIFF → Hamn. Livsminne och strategi → Kunskapsvalvet. Barnlogg → Barnen. Daglig reflektion → Dagbok. Blanda aldrig trauma/bevis i samma RAG-silo.",
+      "category": "strategi",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "DARVO — mönster",
+      "content": "DARVO = Deny (förneka), Attack (attackera), Reverse Victim and Offender (vänd offer och förövare). Vanligt mönster i högkonflikt-relationer. Observerat: projektion och syndabock (Kasper i skola). Dokumentera fakta neutralt — inte diagnostisera motpart inför myndigheter.",
+      "category": "metod",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Gaslighting och crazymaking",
+      "content": "Observerade mönster: Det har aldrig hänt, Din hjärna är trasig. Crazymaking skapar tvivel på egen verklighetsuppfattning. Motmedel: Verklighetsvalvet (WORM-bevis), Speglar (känsla vs fakta), neutral tidsstämplad logg. Sanningen behöver inte försvaras i affekt.",
+      "category": "metod",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Silent treatment och hot",
+      "content": "Observerade beteenden: silent treatment ( tyst behandling ), hot mot barn (flytt till pappa). Logistiskt svar via BIFF. Dokumentera datum och innehåll i valvet vid behov. Barnens trygghet prioriteras — neutral logg utan att tala illa om mor.",
+      "category": "metod",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Social kameleont",
+      "content": "Observerat mönster: facad utåt (social kameleont) vs privat beteende. Soc-möte 2026-03-10: mamma beskriven som kameleont, farmor som medberoende. Strategi: tredjepartsobservationer (skola, BVC, soc) väger tyngre än sms ensamt.",
+      "category": "metod",
+      "eventDate": "2026-03-10",
+      "source": "profile_seed"
+    },
+    {
+      "title": "Kasper — profil",
+      "content": "Kasper, född 2018-08-19. Autism nivå 1 + ADHD (kombinerad). Neuropsykiatrisk utredning nov–dec 2025. Utagerande i skola. Skolans observation: trött och hungrig under mammaveckor (Ann, Lena Törning). Incident 2026-03-12: beteende i skola, barnsamtal.",
+      "category": "barn",
+      "eventDate": "2018-08-19",
+      "source": "profile_seed"
+    },
+    {
+      "title": "Arvid — profil",
+      "content": "Arvid, född 2021-06-02. Yngre son. Observationer: regression och emotionell smitta enligt föräldraobservationer. Loggas neutralt i Barnen-modulen. Validera utan att tala illa om mor.",
+      "category": "barn",
+      "eventDate": "2021-06-02",
+      "source": "profile_seed"
+    },
+    {
+      "title": "Skola: mammaveckor korrelation",
+      "content": "Ann: Kasper trött/hungrig mammaveckor — starkt BBIC-underlag.",
+      "category": "barn",
+      "eventDate": "2026-03-12",
+      "source": "profile_seed"
+    },
+    {
+      "title": "Den trygga hamnen",
+      "content": "Pontus roll som stabil motpol för Kasper och Arvid i parallellt föräldraskap. Neutral Grey Rock-dokumentation. Validera barnens upplevelser utan att tala illa om mor. Barnen behöver en pappa som stannar kvar i verkligheten.",
+      "category": "värdering",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Parallel föräldraskap",
+      "content": "Neutral logg, validera barn utan att tala illa om mor.",
+      "category": "värdering",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "BBIC-orientering",
+      "content": "BBIC = Barns Behov i Centrum. Fyra dimensioner: barnets utveckling, föräldraförmåga, skydd, relationer och nätverk. Tredjepartsdata (skola, BVC, soc) ger starkare underlag än sms. Skolans observation om mammaveckor är relevant BBIC-material.",
+      "category": "barn",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Neutral barnlogg",
+      "content": "Barnen-modulen: logga fysiologi (1–5), balans (7 dagar), händelser neutralt. Kopiera till valv endast vid explicit val (allvarlig incident). Separera barnlogg från vuxenkonflikt. JSON-export tillgänglig.",
+      "category": "barn",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "4-7-8 vagus",
+      "content": "Andningsmetod som bryter kamp/flykt — Måbra MVP.",
+      "category": "coping",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Kroppslig reglering vagus",
+      "content": "Effektivaste reglering för ADHD-hjärna är kroppslig: 4-7-8 andning, kallt vatten i ansiktet, nynnande/summande (vagusstimulering). Använd vid panik, hypervigilans, RSD-trigger. Måbra-modulen: andning, grounding, reframing.",
+      "category": "coping",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Tappa inte bort dig själv",
+      "content": "Alkohol/stress — varningssignal att prioritera egen hälsa.",
+      "category": "varning",
+      "eventDate": "2025-10-18",
+      "source": "profile_seed"
+    },
+    {
+      "title": "ACT — känsla vs fakta",
+      "content": "Acceptance and Commitment Therapy: känsla ≠ fakta. Validera känslan utan att agera på den. Speglar-modulen (VIVIR) separerar upplevelse från bevis. Sanningen behöver inte försvaras i affekt — andas, vänta, svara inte.",
+      "category": "coping",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Självmedkänsla utan skuld",
+      "content": "Rehab-mål: unna sig saker utan dåligt samvete. Trötthet och svårigheter var normal biologisk reaktion på omänsklig stress — inte personlig svaghet. Min hjärna är inte trasig — den reagerar normalt på onormal situation.",
+      "category": "coping",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Måbra-modulöversikt",
+      "content": "Måbra-sidan (/mabra): proaktiv rehab — KBT/ACT, vagus, självmedkänsla, värderingar. Övningar: andning (4-7-8), grounding, reframing, värderingskompass, symptomhub. ADHD/GAD/RSD: kravlöst, ett steg i taget. Inte gaslighting-försvar (→ Speglar), inte ex (→ Hamn).",
+      "category": "coping",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Panikprotokoll",
+      "content": "Vid akut ångest/panik: 1) Stoppa — svara inte på sms/mejl. 2) 4-7-8 andning × 4 cykler. 3) Kallt vatten eller is i handflatorna. 4) Nynnande/låg frekvens ljud. 5) Ett mikrosteg (Paralys-Brytaren). Måbra akutlandning tillgänglig.",
+      "category": "coping",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Narcissistiska dynamiker — generellt",
+      "content": "Vanliga mönster i högkonflikt-relationer (generell metod, inte diagnos): grandiositet, brist på empati, projektion, DARVO, gaslighting, silent treatment, social kameleont. Strategi: dokumentera fakta, tredjepart, barnets bästa. Undvik diagnostiserande etiketter inför soc/rätt.",
+      "category": "metod",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "ADHD — ett steg i taget",
+      "content": "Exekutiv dysfunktion kräver kognitiv avlastning: visa exakt ett mikrosteg (Paralys-Brytaren). Kompasser: morgon/dag/kväll med ett steg per fas. Undvik listor och val — progressive disclosure. Uppgifts-Krossaren bryter ner uppgifter i testbara atomer.",
+      "category": "metod",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "GAD — fysiologisk krasch",
+      "content": "Generaliserat ångestsyndrom vid långvarig stress: kroppen går in i konstant beredskap (hypervigilans). Fysiologisk krasch är förutsägbar konsekvens av allostatisk belastning — inte tecken på att man tappat kontrollen permanent. Reglering via kroppen (vagus) före kognitiv analys.",
+      "category": "metod",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Vårdnad — dokumentationsmetod",
+      "content": "Exportera hela sms-trådar till PDF med tidsstämpel (iMazing/Decipher). Sms ensamt = lägre bevisvärde; tredjepart (skola, BVC, soc) starkare. Bevis → Verklighetsvalvet. Strategi och mönster → Kunskapsvalvet. Dossier samlar export för ombud.",
+      "category": "metod",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Projektion och syndabock",
+      "content": "Observerat mönster: DARVO, projektion, syndabock — Kasper i skola pekas ut. Dokumentera skolans neutrala observationer (Ann, Lena) som tredjepart. Separera barnets beteende från vuxenkonflikt i loggning.",
+      "category": "metod",
+      "eventDate": "2026-03-12",
+      "source": "profile_seed"
+    },
+    {
+      "title": "Grey Rock-principer",
+      "content": "Grey Rock: var ointressant som mål för manipulation. Korta, neutrala svar. 10% logistik (tider, leveranser, schema), 90% brus ignoreras. Svara, reagera inte. Håll dialogen strikt logistisk. Hamn-modulen stödjer BIFF-generering.",
+      "category": "metod",
+      "eventDate": null,
+      "source": "profile_seed"
+    },
+    {
+      "title": "Citat — verklighetsankare",
+      "content": "Bevarade formuleringar: Min hjärna är inte trasig — den reagerar normalt på onormal situation. Andas. Vänta. Svara inte. Sanningen behöver inte försvaras i affekt. Hennes ilska är inte bevis på att jag gjort fel — det är bevis på att jag satt en gräns. Fakta ändras inte för att hon höjer rösten.",
+      "category": "värdering",
+      "eventDate": null,
+      "source": "profile_seed"
+    }
+  ]
+}

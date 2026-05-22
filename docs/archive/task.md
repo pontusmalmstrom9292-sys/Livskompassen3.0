@@ -1,0 +1,7 @@
+- [ ] Initialize Terraform in `infra/` and apply the `vector_index.tf`.
+- [ ] Build Docker image for `backend/search-docs` and push to Container Registry.
+- [ ] Create Service Account `search-docs-sa` with Secret Manager access to the service‑account key.
+- [ ] Deploy Cloud Run Job using `ingest_job.yaml`.
+- [ ] Configure Cloud Scheduler to trigger the job at the desired interval.
+- [ ] Verify ingestion by placing a test file in the Google Drive folder and checking Firestore `document_meta` collection.
+- [ ] Add DCAP Gatekeeper step to scrub PII before embedding (future enhancement).

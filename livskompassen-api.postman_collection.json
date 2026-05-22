@@ -1,0 +1,277 @@
+{
+  "info": {
+    "name": "Livskompassen v2 – API",
+    "description": "Komplett API-testsvit för Livskompassen v2 backend. Server: http://localhost:3000.\n\nGrupper:\n• Health – Systemstatus\n• Auth – WebAuthn Passkeys (registrering & verifiering)\n• AI / Gemini – Textgenerering, JSON, Media, Vertex Agent\n• Vault – RAG Kunskapsvalvet (indexering & sökning)\n• Google Drive – OAuth & filhantering",
+    "_postman_id": "lk-v2-api-collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl",  "value": "http://localhost:3000", "type": "string" },
+    { "key": "userId",   "value": "test-user-001",         "type": "string" },
+    { "key": "username", "value": "navigator@test.se",     "type": "string" }
+  ],
+  "item": [
+
+    {
+      "name": "🩺 Health",
+      "item": [
+        {
+          "name": "GET Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/health", "host": ["{{baseUrl}}"], "path": ["api","health"] }
+          },
+          "response": [{
+            "name": "200 OK",
+            "status": "OK",
+            "code": 200,
+            "body": "{ \"status\": \"ok\", \"app\": \"LivsKompassen\" }"
+          }]
+        }
+      ]
+    },
+
+    {
+      "name": "🔑 WebAuthn Auth",
+      "item": [
+        {
+          "name": "POST Register – Hämta Options",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/auth/register-options", "host": ["{{baseUrl}}"], "path": ["api","auth","register-options"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"{{username}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "_testScript": "pm.test('Status 200', () => pm.response.to.have.status(200));\npm.test('Has challenge', () => pm.expect(pm.response.json()).to.have.property('challenge'));\npm.environment.set('challenge', pm.response.json().challenge);"
+        },
+        {
+          "name": "POST Register – Verifiera Svar (mock)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/auth/register-verify", "host": ["{{baseUrl}}"], "path": ["api","auth","register-verify"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"{{username}}\",\n  \"attestationResponse\": {\n    \"id\": \"mock-credential-id\",\n    \"rawId\": \"mock-credential-id\",\n    \"type\": \"public-key\",\n    \"response\": {\n      \"clientDataJSON\": \"eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIn0=\",\n      \"attestationObject\": \"o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YVik\"\n    }\n  }\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "POST Auth – Hämta Options",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/auth/auth-options", "host": ["{{baseUrl}}"], "path": ["api","auth","auth-options"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"{{username}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "_testScript": "pm.test('Status 200', () => pm.response.to.have.status(200));\npm.test('Has challenge', () => pm.expect(pm.response.json()).to.have.property('challenge'));"
+        },
+        {
+          "name": "POST Auth – Verifiera Svar (mock)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/auth/auth-verify", "host": ["{{baseUrl}}"], "path": ["api","auth","auth-verify"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"{{username}}\",\n  \"assertionResponse\": {\n    \"id\": \"mock-credential-id\",\n    \"rawId\": \"mock-credential-id\",\n    \"type\": \"public-key\",\n    \"response\": {\n      \"clientDataJSON\": \"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0In0=\",\n      \"authenticatorData\": \"SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2M\",\n      \"signature\": \"mock-signature\"\n    }\n  }\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "🤖 AI / Gemini",
+      "item": [
+        {
+          "name": "POST Gemini – Generera JSON",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/ai/gemini", "host": ["{{baseUrl}}"], "path": ["api","ai","gemini"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"systemInstruction\": \"Du är Kompis, en empatisk AI-navigatör i Livskompassen. Svara alltid på svenska. Returnera svaret som JSON med nyckeln 'response' och 'emotionalTone'.\",\n  \"prompt\": \"Jag känner mig överväldigad idag. Ge mig ett kort, roligt stöd.\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "_testScript": "pm.test('Status 200', () => pm.response.to.have.status(200));\npm.test('Has response key', () => pm.expect(pm.response.json()).to.have.property('response'));"
+        },
+        {
+          "name": "POST Gemini – Generera Fritext",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/ai/gemini/text", "host": ["{{baseUrl}}"], "path": ["api","ai","gemini","text"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"systemInstruction\": \"Du är Gräns-Arkitekten. Din uppgift är att omformulera manipulativa meddelanden till neutral BIFF-format. Svara enbart med det omformulerade meddelandet.\",\n  \"prompt\": \"Omformulera detta till BIFF: 'Du förstör alltid allt. Barnen mår dåligt på grund av dig.'\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "_testScript": "pm.test('Status 200', () => pm.response.to.have.status(200));\npm.test('Has text key', () => pm.expect(pm.response.json()).to.have.property('text'));"
+        },
+        {
+          "name": "POST Gemini – Mediaanalys (PDF/Bild)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/ai/gemini/media", "host": ["{{baseUrl}}"], "path": ["api","ai","gemini","media"] },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "mediaData",
+                  "type": "file",
+                  "src": "",
+                  "description": "Ladda upp en PDF, bild eller textfil för DCAP-analys"
+                },
+                {
+                  "key": "systemInstruction",
+                  "value": "Analysera detta dokument och identifiera eventuella tecken på narcissistisk kommunikation eller DARVO-mönster. Returnera JSON med nycklarna: 'dcapFlags', 'summary', 'riskLevel' (low/medium/high).",
+                  "type": "text"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST Vertex Agent – Orkestrera Kompis",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/ai/vertex-agent", "host": ["{{baseUrl}}"], "path": ["api","ai","vertex-agent"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"prompt\": \"Jag fick ett SMS som sa 'för barnens skull borde du ge med dig'. Hur ska jag tolka detta och vad bör jag göra?\",\n  \"userId\": \"{{userId}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "_testScript": "pm.test('Status 200', () => pm.response.to.have.status(200));\npm.test('Has text', () => pm.expect(pm.response.json()).to.have.property('text'));\npm.test('Has agentId', () => pm.expect(pm.response.json()).to.have.property('agentId'));\nconst dcap = pm.response.json().dcapAlert;\npm.test('DCAP field present', () => pm.expect(dcap !== undefined).to.be.true);\nif (dcap) {\n  console.log('⚠️ DCAP Alert:', dcap);\n}"
+        },
+        {
+          "name": "POST Vertex Agent – DCAP Test (Gaslighting)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/ai/vertex-agent", "host": ["{{baseUrl}}"], "path": ["api","ai","vertex-agent"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"prompt\": \"Hen sa 'du hittar på allt detta, du är ju galen och ingen tror dig'. Jag vet inte vad jag ska tro längre.\",\n  \"userId\": \"{{userId}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "🔒 Vault / RAG",
+      "item": [
+        {
+          "name": "POST RAG – Indexera Minne",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/vault/rag/index", "host": ["{{baseUrl}}"], "path": ["api","vault","rag","index"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"content\": \"Idag fick jag ett SMS om att jag är en dålig förälder. Fick panikattack och hörde ett konstant oljud i öronen. Använde 4-7-8 andning och det hjälpte efter 5 minuter.\",\n  \"metadata\": {\n    \"type\": \"kampspar\",\n    \"eventType\": \"panic_attack\",\n    \"intensity\": 8,\n    \"date\": \"2026-05-15\",\n    \"tags\": [\"sms\", \"panikattack\", \"andning\"]\n  }\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "_testScript": "pm.test('Status 200', () => pm.response.to.have.status(200));\npm.test('Success true', () => pm.expect(pm.response.json().success).to.be.true);\npm.environment.set('lastIndexedId', pm.response.json().id);"
+        },
+        {
+          "name": "POST RAG – Semantisk Sökning",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/vault/rag/search", "host": ["{{baseUrl}}"], "path": ["api","vault","rag","search"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"query\": \"panikattack och andning\",\n  \"limit\": 5\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "_testScript": "pm.test('Status 200', () => pm.response.to.have.status(200));\npm.test('Has results array', () => pm.expect(pm.response.json().results).to.be.an('array'));"
+        },
+        {
+          "name": "POST Vault – Analysera Upload",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/vault/upload-analysis", "host": ["{{baseUrl}}"], "path": ["api","vault","upload-analysis"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Bevis: SMS-konversation 2026-04-10 där hen skriver 'du kan inte ta hand om barnen'. Bifogad skärmbild visar tidsstämpel 14:32.\",\n  \"userId\": \"{{userId}}\",\n  \"evidenceType\": \"sms_screenshot\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "☁️ Google Drive",
+      "item": [
+        {
+          "name": "GET OAuth URL",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/google/url", "host": ["{{baseUrl}}"], "path": ["api","google","url"] }
+          },
+          "_testScript": "pm.test('Status 200', () => pm.response.to.have.status(200));\npm.test('Has authUrl', () => pm.expect(pm.response.json()).to.have.property('authUrl'));\nif (pm.response.json().authUrl) {\n  console.log('Open this URL in browser:', pm.response.json().authUrl);\n}"
+        },
+        {
+          "name": "GET OAuth Callback (simulerad)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/google/callback?code=PASTE_GOOGLE_AUTH_CODE_HERE",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","google","callback"],
+              "query": [{ "key": "code", "value": "PASTE_GOOGLE_AUTH_CODE_HERE" }]
+            }
+          }
+        },
+        {
+          "name": "GET Listfiler i Drive",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/google/files", "host": ["{{baseUrl}}"], "path": ["api","google","files"] }
+          },
+          "_testScript": "pm.test('Status 200', () => pm.response.to.have.status(200));\npm.test('Has files array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+        },
+        {
+          "name": "GET Exportera fil från Drive",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/google/export/REPLACE_WITH_FILE_ID",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","google","export","REPLACE_WITH_FILE_ID"]
+            }
+          }
+        }
+      ]
+    }
+
+  ]
+}

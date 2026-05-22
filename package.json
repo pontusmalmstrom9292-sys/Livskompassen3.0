@@ -1,0 +1,53 @@
+{
+  "name": "livskompassen-v2",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "smoke:kunskap": "node scripts/smoke_kunskap.mjs",
+    "smoke:speglar": "node scripts/smoke_speglar.mjs",
+    "smoke:dossier": "node scripts/smoke_dossier.mjs",
+    "smoke:compass": "node scripts/smoke_compass.mjs",
+    "smoke:mabra": "node scripts/smoke_mabra.mjs",
+    "smoke:valv": "node scripts/smoke_valv_chat.mjs",
+    "smoke:children": "node scripts/smoke_children_logs.mjs",
+    "smoke:entities": "node scripts/smoke_entity_profiles.mjs",
+    "smoke:inbox": "node scripts/smoke_inbox_sort.mjs",
+    "seed:kampspar": "node scripts/seed_kampspar_profile.mjs --verify"
+  },
+  "dependencies": {
+    "@dataconnect/generated": "file:src/dataconnect-generated",
+    "@google-cloud/notebooks": "^4.2.2",
+    "@types/react-router-dom": "^5.3.3",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "@tanstack-query-firebase/react": "^2.0.0",
+    "firebase": "^12.11.0",
+    "framer-motion": "^11.0.24",
+    "lucide-react": "^0.368.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^7.15.1",
+    "tailwind-merge": "^2.2.2",
+    "zustand": "^5.0.13"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^10.4.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.2.2",
+    "typescript-eslint": "^8.59.4",
+    "vite": "^5.2.0"
+  }
+}

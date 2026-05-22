@@ -1,0 +1,14 @@
+{
+  "contentsDeltaUri": "",
+  "config": {
+    "dimensions": 768,
+    "approximateNeighborsCount": 150,
+    "distanceMeasureType": "DOT_PRODUCT_DISTANCE",
+    "algorithm_config": {
+      "treeAhConfig": {
+        "leafNodeEmbeddingCount": 1000,
+        "leafNodesToSearchPercent": 10
+      }
+    }
+  }
+}

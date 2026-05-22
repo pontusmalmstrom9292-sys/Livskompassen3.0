@@ -1,0 +1,27 @@
+---
+description: Backend AI agent architecture rules for functions and server code
+alwaysApply: false
+globs: functions/**,server/**,scripts/ai/**
+---
+
+# Backend Agents
+
+The central AI brain lives in `functions/src/sharedRules.ts`.
+
+Rules:
+- Do not hardcode agent prompts in individual agent files.
+- Keep agent personality, tone, and system instructions centralized in `sharedRules.ts`.
+- Use official Google SDKs for Gemini/Vertex integrations; avoid legacy or duplicate provider layers.
+- Preserve A2A boundaries: agent cards describe capability, handlers execute deterministic routing.
+- DCAP and safety scans may classify risk, but deterministic code must enforce permissions and data boundaries.
+- Document and media processing runs through the cloud pipeline and converts evidence into structured data before storage.
+
+Current product roles to preserve:
+- Sannings-Analytikern: clinical evidence and strict JSON.
+- Brusfiltret: removes manipulation and extracts facts.
+- BIFF-Skölden: Grey Rock and neutral replies.
+- Paralys-Brytaren: one micro-step at a time.
+- RSD-Kylaren: rational alternatives for social triggers.
+- Uppgifts-Krossaren: breaks tasks into small atoms.
+- Speglings-Coachen: validates without fixing.
+- Mönster-Arkivarien: forensic long-term pattern analysis.
