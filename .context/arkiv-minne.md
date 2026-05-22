@@ -161,7 +161,7 @@ flowchart TB
 - [ ] **G6** Drive smoke end-to-end (secret + Apps Script — manuellt)
 - [ ] **G7** `journal_woven` synaps
 - [ ] **G8** Familjen-RAG (Mönster-Arkivarien, **inte** Valv-Chat)
-- [ ] **G9** EntityProfile / SystemSynapse Firestore
+- [x] **G9** EntityProfile / SystemSynapse Firestore + agent grounding
 - [ ] **G10** Självsorterande inkorg (Kunskap-SPEC §12)
 - [x] **G11** Rensa/isolera mock `Kampspar`-typ vs `KampsparEntry`
 - [ ] **G12** Context Cache delad registry

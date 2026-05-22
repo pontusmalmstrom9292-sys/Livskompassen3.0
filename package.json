@@ -14,6 +14,7 @@
     "smoke:mabra": "node scripts/smoke_mabra.mjs",
     "smoke:valv": "node scripts/smoke_valv_chat.mjs",
     "smoke:children": "node scripts/smoke_children_logs.mjs",
+    "smoke:entities": "node scripts/smoke_entity_profiles.mjs",
     "seed:kampspar": "node scripts/seed_kampspar_profile.mjs --verify"
   },
   "dependencies": {

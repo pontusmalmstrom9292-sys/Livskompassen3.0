@@ -295,6 +295,17 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 
 **FAS 4 avveckling:** steg 1–7 **klart**.
 
+## G9 — EntityProfile / SystemSynapse (2026-05-22)
+
+| Kontroll | Resultat |
+|----------|----------|
+| `entityProfileTypes.ts` + `entityProfileStore.ts` | **done** |
+| WORM `entity_profiles` + `system_synapses` + rules | **done** |
+| Agent grounding (valv, kunskap, barn) | **done** — metadata only |
+| Callable `getEntityProfileRegistry` + `EntityRegistryCard` | **done** |
+| Deploy `getEntityProfileRegistry` + uppdaterade agenter | **PASS** |
+| `npm run smoke:entities` | **PASS** — 7 profiler, 3 synapses, Isabelle MOTPART |
+
 ## G8 — Familjen-RAG childrenLogsQuery (2026-05-22)
 
 | Kontroll | Resultat |
@@ -360,7 +371,7 @@ Se [`LEGACY-KB-MIGRATION-2026-05-22.md`](LEGACY-KB-MIGRATION-2026-05-22.md).
 | Kommando | Innehåll |
 |----------|----------|
 | `kör G8` | ~~Familjen-RAG~~ **done** 2026-05-22 |
-| `kör G9` | EntityProfile / SystemSynapse — separat session |
+| `kör G9` | ~~EntityProfile / SystemSynapse~~ **done** 2026-05-22 — `npm run smoke:entities` |
 
 Se [`Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md).
 

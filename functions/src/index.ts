@@ -22,6 +22,7 @@ import {
   BARNEN_MODULE_ROUTE,
   shouldRouteKompisToBarnen,
 } from './lib/barnenModuleRouteGuard';
+import { loadEntityProfileBundle } from './lib/entityProfileStore';
 
 admin.initializeApp();
 const supervisor = new KompisSupervisor();
@@ -262,6 +263,36 @@ export const childrenLogsQuery = onCall(
     return result;
   }
 );
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 6d: getEntityProfileRegistry (G9)
+// KEY_ENTITIES + SystemSynapse grounding — metadata only, NOT cross-RAG.
+// ─────────────────────────────────────────────────────────────────────────────
+export const getEntityProfileRegistry = onCall({ region: 'europe-west1' }, async (request) => {
+  if (!request.auth) {
+    throw new HttpsError('unauthenticated', 'Autentisering krävs för aktörskartan.');
+  }
+
+  const bundle = await loadEntityProfileBundle(request.auth.uid);
+  return {
+    profiles: bundle.profiles.map((p) => ({
+      entityKey: p.entityKey,
+      role: p.role,
+      displayName: p.displayName,
+      aliases: p.aliases,
+      category: p.category ?? null,
+      isKeyEntity: p.isKeyEntity,
+    })),
+    synapses: bundle.synapses.map((s) => ({
+      title: s.title,
+      category: s.category,
+      analysis: s.analysis,
+      groundingPoints: s.groundingPoints,
+      hallucinationRisk: s.hallucinationRisk,
+      relatedEntityKeys: s.relatedEntityKeys ?? [],
+    })),
+  };
+});
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Funktion 6a: ingestKampsparEntry

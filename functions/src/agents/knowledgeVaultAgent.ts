@@ -1,5 +1,6 @@
 import { LIVS_ARKIVARIEN_SYSTEM_PROMPT } from '../sharedRules';
 import { createGenAI } from '../lib/genaiClient';
+import { loadEntityProfileBundle } from '../lib/entityProfileStore';
 import { fetchKampsparEvidenceForQuery } from '../lib/kampsparQueryRag';
 
 /** Google AI / Vertex via @google/genai — kräver GEMINI_API_KEY i prod om Vertex-modeller saknas. */
@@ -98,7 +99,10 @@ export async function askKnowledgeVaultWithRag(
   question: string,
   geminiApiKey?: string
 ): Promise<KnowledgeVaultResult> {
-  const chunks = await fetchKampsparEvidenceForQuery(uid, question);
+  const [chunks, entityBundle] = await Promise.all([
+    fetchKampsparEvidenceForQuery(uid, question),
+    loadEntityProfileBundle(uid),
+  ]);
   const allowed = new Map<string, KnowledgeVaultCitation>();
   for (const c of chunks) {
     allowed.set(citationKey(c), {
@@ -120,6 +124,9 @@ export async function askKnowledgeVaultWithRag(
 
   const prompt = `Användarens fråga:
 ${question}
+
+EntityProfile (metadata — ej bevis, hallucinera aldrig nya personer):
+${entityBundle.contextBlock}
 
 Minne-kontext — använd ENDAST dessa docId + collection i citations:
 ${buildContextBlock(chunks)}

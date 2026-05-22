@@ -1,4 +1,5 @@
 import { SANNING_ANALYTIKERN_SYSTEM_PROMPT } from '../sharedRules';
+import { loadEntityProfileBundle } from '../lib/entityProfileStore';
 import { fetchVaultEvidenceForQuery } from '../lib/vaultRag';
 import { createGenAI } from '../lib/genaiClient';
 
@@ -51,7 +52,10 @@ function parseValvChatJson(raw: string, allowedDocIds: Set<string>): ValvChatRes
 }
 
 export async function askValvChat(uid: string, question: string): Promise<ValvChatResult> {
-  const chunks = await fetchVaultEvidenceForQuery(uid, question);
+  const [chunks, entityBundle] = await Promise.all([
+    fetchVaultEvidenceForQuery(uid, question),
+    loadEntityProfileBundle(uid),
+  ]);
   const allowedDocIds = new Set(chunks.map((c) => c.docId));
 
   if (chunks.length === 0) {
@@ -63,6 +67,9 @@ export async function askValvChat(uid: string, question: string): Promise<ValvCh
 
   const prompt = `Användarens fråga:
 ${question}
+
+EntityProfile (metadata — ej bevis, hallucinera aldrig nya personer):
+${entityBundle.contextBlock}
 
 WORM-bevis (reality_vault) — använd ENDAST dessa docId i citations:
 ${buildContextBlock(chunks)}

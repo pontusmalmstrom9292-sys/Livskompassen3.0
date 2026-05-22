@@ -3,6 +3,7 @@ import { Tidshjulet } from './Tidshjulet';
 import { KnowledgeVaultChat } from './KnowledgeVaultChat';
 import { KampsparIngestForm } from './KampsparIngestForm';
 import { ProfileSeedImport } from './ProfileSeedImport';
+import { EntityRegistryCard } from './EntityRegistryCard';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { TabBar } from '../../core/ui/TabBar';
 import { TimelineEntry } from '../../core/ui/TimelineEntry';
@@ -51,12 +52,15 @@ export function KunskapPage({ embedded: _embedded = false }: KunskapPageProps) {
       <TabBar tabs={tabs} active={tab} onChange={(id) => setTab(id)} />
 
       {tab === 'chat' ? (
-        <KnowledgeVaultChat
-          onCitationClick={(docId) => {
-            setHighlightEntryId(docId);
-            setTab('tidshjul');
-          }}
-        />
+        <>
+          <KnowledgeVaultChat
+            onCitationClick={(docId) => {
+              setHighlightEntryId(docId);
+              setTab('tidshjul');
+            }}
+          />
+          <EntityRegistryCard />
+        </>
       ) : (
         <>
           <BentoCard title="Tidshjulet — Minne" description="Interaktiv tidslinje">

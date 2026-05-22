@@ -151,7 +151,7 @@
 
 1. **Grunder U1–U5 runtime klart** — U2.5 HITL + U5.5 routing + G7 journal_woven
 2. **GCP legacy buckets städade** — 5 buckets borta (2026-05-22)
-3. **Nästa arkiv-GAP:** G9 EntityProfile eller G10–G14 enligt [`Arkiv-GAP-REGISTER.md`](specs/modules/Arkiv-GAP-REGISTER.md)
+3. **G9 EntityProfile done** (2026-05-22) — nästa: G10–G14 enligt [`Arkiv-GAP-REGISTER.md`](specs/modules/Arkiv-GAP-REGISTER.md)
 4. **`@cursor/sdk`:** **WAIT** — [`docs/NATT-CI.md`](NATT-CI.md)
 
 ---

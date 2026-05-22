@@ -116,5 +116,16 @@ service cloud.firestore {
       allow read: if isOwner();
       allow create, update, delete: if false;
     }
+
+    // G9 — EntityProfile / SystemSynapse (WORM metadata, seed via Admin SDK)
+    match /entity_profiles/{docId} {
+      allow read: if isOwner();
+      allow create, update, delete: if false;
+    }
+
+    match /system_synapses/{docId} {
+      allow read: if isOwner();
+      allow create, update, delete: if false;
+    }
   }
 }

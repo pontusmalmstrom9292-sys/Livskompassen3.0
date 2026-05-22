@@ -102,9 +102,9 @@ Stub i `synapseBus.ts` → opt-in sammanfattning till `kampspar` (policy).
 
 Ny callable: `childrenLogsQuery` + Mönster-Arkivarien. **MUST NOT** route via `valvChatQuery`.
 
-### G9 — EntityProfile / SystemSynapse
+### G9 — EntityProfile / SystemSynapse — **done** 2026-05-22
 
-Blueprint (`firebase-blueprint.json`) → Firestore schema + agent grounding. Repomix hade `actors`, `VaultMap`, `KEY_ENTITIES`.
+`entity_profiles` + `system_synapses`, `getEntityProfileRegistry`, agent grounding i valv/kunskap/barn (metadata only).
 
 ### G10 — Självsorterande inkorg
 

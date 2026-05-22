@@ -104,9 +104,9 @@
 
 `childrenLogsQuery` + `childrenLogsQueryRag` + `ChildrenLogsChat` i Familjen. **MUST NOT** route via `valvChatQuery`.
 
-### G9 — EntityProfile / SystemSynapse
+### G9 — EntityProfile / SystemSynapse — **done** 2026-05-22
 
-Blueprint (`firebase-blueprint.json`) → Firestore schema + agent grounding. Repomix hade `actors`, `VaultMap`, `KEY_ENTITIES`.
+`entity_profiles` + `system_synapses` (WORM, owner-bound), idempotent seed (`KEY_ENTITY_SEEDS`), `loadEntityProfileBundle` injiceras i valv/kunskap/barn-agenter (metadata — **MUST NOT** cross-RAG), callable `getEntityProfileRegistry`, UI `EntityRegistryCard` i Kunskap.
 
 ### G10 — Självsorterande inkorg
 

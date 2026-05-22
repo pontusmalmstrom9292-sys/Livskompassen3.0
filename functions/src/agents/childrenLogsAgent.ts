@@ -1,4 +1,5 @@
 import { MONSTER_ARKIVARIEN_BARNEN_SYSTEM_PROMPT } from '../sharedRules';
+import { loadEntityProfileBundle } from '../lib/entityProfileStore';
 import { fetchChildrenLogsForQuery } from '../lib/childrenLogsQueryRag';
 import { createGenAI } from '../lib/genaiClient';
 
@@ -85,7 +86,10 @@ export async function askChildrenLogsQuery(
   childAlias?: string,
   geminiApiKey?: string
 ): Promise<ChildrenLogsQueryResult> {
-  const chunks = await fetchChildrenLogsForQuery(uid, question, childAlias);
+  const [chunks, entityBundle] = await Promise.all([
+    fetchChildrenLogsForQuery(uid, question, childAlias),
+    loadEntityProfileBundle(uid),
+  ]);
   const allowed = new Map<string, ChildrenLogCitation>();
   for (const c of chunks) {
     allowed.set(c.docId, {
@@ -108,6 +112,9 @@ export async function askChildrenLogsQuery(
   const prompt = `Användarens fråga (Familjen · Livsloggar):
 ${question}
 ${childAlias ? `\nFiltrera tolkning till barn: ${childAlias}` : ''}
+
+EntityProfile (metadata — ej bevis, hallucinera aldrig nya personer):
+${entityBundle.contextBlock}
 
 children_logs — använd ENDAST dessa docId i citations:
 ${buildContextBlock(chunks)}
