@@ -3,6 +3,15 @@
 **Datum:** 2026-05-22  
 **Branch:** `main` (Livskompassen3.0 — clean baseline)
 
+## G7 journal_woven (2026-05-22 — kör G7)
+
+| Kontroll | Resultat |
+|----------|----------|
+| Manuell smoke #3 valv + #4 barnen | **PASS** (användare) |
+| `journalWovenToKampspar` deploy (512MB) | **PASS** |
+| `smoke:journal` | **PASS** — optIn:false reject, optIn:true + idempotent |
+| Firestore index `kampspar` (ownerId + journalEntryId + source) | deployad |
+
 ## Byggpass-kedja (2026-05-22 — agent)
 
 **Trigger:** `scripts/README.md` byggpass-kedja + `docs/evaluations/2026-05-22-A-helhetsstatus.md` (inga öppna P0 utan designbeslut).

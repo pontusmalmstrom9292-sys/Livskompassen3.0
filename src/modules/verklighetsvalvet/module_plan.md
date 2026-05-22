@@ -11,7 +11,8 @@ Canonical: `.context/modules/verklighetsvalvet.md` · Spec: `docs/specs/modules/
 | Path | Role |
 |------|------|
 | `components/VaultEntryForm.tsx` | Enkel/tvåspalt/tresteg/magkänsel + media + röst |
-| `components/VaultPage.tsx` | PIN gate, Logga/Sök-flikar, Stäng → Reflektion |
+| `components/VaultPage.tsx` | PIN gate, Logga/Korsreferens/Sök/Dossier, Stäng → Reflektion |
+| `components/VaultCrossReference.tsx` | FUNKTIONSLOCK F-07/F-08 — WORM-korsreferens + minnesbevis |
 | `components/VaultLogList.tsx` | Append-only lista + PDF-knapp per post |
 | `utils/exportVaultRecord.ts` | Per-post PDF via utskriftsdialog |
 | `constants/vaultEntry.ts` | BODY_SIGNALS, VAULT_ENTRY_MODES, SHIELD_STEPS |

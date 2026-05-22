@@ -9,9 +9,16 @@ type VaultEntryFormProps = {
   userId: string;
   saving: boolean;
   onSave: (input: VaultLogInput) => Promise<void>;
+  /** F-08: enkel rubrik + fakta, CTA «Lås inlägg i Valvet». */
+  variant?: 'full' | 'wormLock';
 };
 
-export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) {
+export function VaultEntryForm({
+  userId,
+  saving,
+  onSave,
+  variant = 'full',
+}: VaultEntryFormProps) {
   const [mode, setMode] = useState<VaultEntryType>('simple');
   const [category, setCategory] = useState('');
   const [truth, setTruth] = useState('');
@@ -169,6 +176,36 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
           : canSaveBody;
 
   const busy = saving || uploading;
+
+  if (variant === 'wormLock') {
+    return (
+      <div className="space-y-3">
+        <input
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          placeholder="Rubrik — datum, plats eller händelse (objektivt)"
+          className="input-glass rounded-xl px-3 py-2 w-full"
+        />
+        <textarea
+          value={truth}
+          onChange={(e) => setTruth(e.target.value)}
+          placeholder="Objektiva fakta: vem, vad, när. Undvik tolkning och känsloor."
+          rows={5}
+          className="input-glass rounded-xl px-3 py-2 resize-none w-full font-mono text-sm"
+        />
+        {attachError && <p className="text-xs text-danger">{attachError}</p>}
+        <button
+          type="button"
+          onClick={handleSubmit}
+          disabled={busy || !category.trim() || !truth.trim()}
+          className="btn-pill--success disabled:opacity-50 flex items-center gap-2"
+        >
+          {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+          Lås inlägg i Valvet
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">

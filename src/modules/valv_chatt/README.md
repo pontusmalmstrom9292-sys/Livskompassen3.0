@@ -10,7 +10,7 @@ Sök med källhänvisningar (Sannings-Analytikern). Zero Footprint: ingen sparad
 
 | | |
 |---|---|
-| **Route** | flik **Sök** i `/dagbok?tab=bevis` (efter PIN) |
+| **Route** | flik **Sök** i `/dagbok?tab=bevis` (efter PIN). **Korsreferens** (F-07/F-08) = egen flik i samma valv. |
 | **AuthGate** | ja |
 | **Valv unlock** | ja |
 | **Dock** | ej i dock |

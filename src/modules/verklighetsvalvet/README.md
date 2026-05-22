@@ -19,7 +19,8 @@ Append-only, tidsstämplade sanningar. Skild från Dagbok (Lager 1). Plausible d
 
 | Fil | Roll |
 |-----|------|
-| `components/VaultPage.tsx` | PIN, flikar Logga \| Sök |
+| `components/VaultPage.tsx` | PIN, flikar Logga \| Korsreferens (F-07/F-08) \| Sök \| Dossier |
+| `components/VaultCrossReference.tsx` | F-07 sök/filter + F-08 WORM-skriv (`reality_vault` + `children_logs`) |
 | `components/VaultEntryForm.tsx` | 4 inmatningslägen + media + röst |
 | `components/VaultLogList.tsx` | Append-only lista + PDF/post |
 | `utils/exportVaultRecord.ts` | Klient-PDF per post |

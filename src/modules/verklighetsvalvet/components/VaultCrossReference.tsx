@@ -3,10 +3,9 @@ import { Loader2, Lock, Search, ShieldCheck } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { EmptyState } from '../../core/ui/EmptyState';
 import { useStore } from '../../core/store';
-import { getChildrenLogs, getVaultLogs } from '../../core/firebase/firestore';
+import { getChildrenLogs, getVaultLogs, saveVaultLog } from '../../core/firebase/firestore';
 import type { VaultLog } from '../../core/types/firestore';
 import { VaultEntryForm } from './VaultEntryForm';
-import { saveVaultLog } from '../../core/firebase/firestore';
 import type { VaultLogInput } from '../types/vaultEntry';
 
 type CrossRefFilter = 'all' | 'skola' | 'somn' | 'hamtning';
@@ -28,10 +27,21 @@ type CrossRefHit = {
 };
 
 function formatVaultBody(log: VaultLog): string {
-  if (log.entryType === 'two_column') {
-    return `Min verklighet: ${log.myReality ?? '—'}`;
+  if (log.entryType === 'two_column' && (log.theirVersion || log.myReality)) {
+    return `Hens: ${log.theirVersion ?? '—'}\nMin: ${log.myReality ?? '—'}`;
+  }
+  if (log.entryType === 'three_shield') {
+    return [log.shieldWhat, log.shieldFeeling, log.shieldBoundary].filter(Boolean).join(' · ');
+  }
+  if (log.entryType === 'body_signal' && log.bodySignals?.length) {
+    const note = String(log.truth ?? '');
+    return `${log.bodySignals.join(', ')}${note ? ` — ${note}` : ''}`;
   }
   return String(log.truth ?? log.shieldWhat ?? '');
+}
+
+function hitRowLabel(hit: CrossRefHit): string {
+  return hit.source === 'reality_vault' ? 'SÄKRAD POST' : 'BARNLOGG';
 }
 
 function matchesFilter(hit: CrossRefHit, filter: CrossRefFilter): boolean {
@@ -68,6 +78,7 @@ export function VaultCrossReference() {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [highlightId, setHighlightId] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
     if (!user) return;
@@ -124,9 +135,16 @@ export function VaultCrossReference() {
   const handleSaveVault = async (input: VaultLogInput) => {
     if (!user) throw new Error('Ej inloggad');
     setSaving(true);
+    setError(null);
     try {
-      await saveVaultLog(user.uid, input);
+      const id = await saveVaultLog(user.uid, input);
+      setHighlightId(id);
+      setFilter('all');
+      setQuery('');
       await refresh();
+    } catch {
+      setError('Kunde inte låsa inlägg i valvet.');
+      throw new Error('vault-save-failed');
     } finally {
       setSaving(false);
     }
@@ -192,9 +210,20 @@ export function VaultCrossReference() {
         ) : (
           <ul className="space-y-3">
             {hits.map((hit) => (
-              <li key={`${hit.source}-${hit.id}`} className="vault-cross-ref-row glass-card p-3">
-                <p className="text-[10px] uppercase tracking-widest text-gold/90">
-                  SÄKRAD POST · {hit.date}
+              <li
+                key={`${hit.source}-${hit.id}`}
+                className={`vault-cross-ref-row glass-card p-3 ${
+                  hit.source === 'reality_vault' && hit.id === highlightId
+                    ? 'ring-2 ring-gold/40'
+                    : ''
+                }`}
+              >
+                <p
+                  className={`text-[10px] uppercase tracking-widest ${
+                    hit.source === 'reality_vault' ? 'text-gold/90' : 'text-accent-secondary'
+                  }`}
+                >
+                  {hitRowLabel(hit)} · {hit.date}
                 </p>
                 <p className="mt-1 font-display text-sm text-text">{hit.title}</p>
                 <p className="mt-2 font-mono text-xs text-text-muted whitespace-pre-wrap">
@@ -219,7 +248,12 @@ export function VaultCrossReference() {
 
       {isVaultUnlocked && (
         <BentoCard title="Säkra nytt minnesbevis" description="Objektiva fakta — lås i Valvet">
-          <VaultEntryForm userId={user.uid} saving={saving} onSave={handleSaveVault} />
+          <VaultEntryForm
+            userId={user.uid}
+            saving={saving}
+            onSave={handleSaveVault}
+            variant="wormLock"
+          />
         </BentoCard>
       )}
     </div>

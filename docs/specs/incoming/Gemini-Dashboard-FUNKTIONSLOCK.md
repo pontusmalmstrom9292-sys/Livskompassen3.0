@@ -115,7 +115,7 @@
 | F-07.3 | Verklighetskontroll-text när träffar finns (mot gaslighting) — faktabaserad, inte terapi. |
 | F-07.4 | Läser `reality_vault` + ev. `children_logs` — **server/silo-guard**, ingen klient-only mock. |
 
-**Repo idag:** Delvis — `VaultPage`, `valv_chatt`, `VaultLogList`; **GAP:** enhetlig korsreferens-vy + barnlogg i samma UI.
+**Repo idag:** **PASS (runtime)** — `VaultPage` flik Korsreferens + `VaultCrossReference` (`reality_vault` + `children_logs`, ägare-scopad klientläsning). Valv-Chat kvar på Sök-flik.
 
 ---
 
@@ -129,7 +129,7 @@
 | F-08.2 | CTA “Lås inlägg i Valvet” → `saveVaultLog` / WORM, **inte** toast-mock. |
 | F-08.3 | Efter spar: post visas som F-07.2 med OFÖRÄNDERLIG-markering. |
 
-**Repo idag:** Delvis — `VaultEntryForm`, `assertWormPayload`.
+**Repo idag:** **PASS (runtime)** — `VaultEntryForm` `variant="wormLock"`, `saveVaultLog` + `assertWormPayload` (`firestore.ts:26-31`, `93-101`).
 
 ---
 

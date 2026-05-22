@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ClusterShell } from '../../core/ui/ClusterShell';
 import { TabBar } from '../../core/ui/TabBar';
-import { VaultCrossReference } from '../../verklighetsvalvet/components/VaultCrossReference';
+import { VaultCrossReference } from '../../verklighetsvalvet';
 import { BarnensPage } from './BarnensPage';
 import { BarnfokusBanner } from './BarnfokusBanner';
 import { ChildProfileCards } from './ChildProfileCards';

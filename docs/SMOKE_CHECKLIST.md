@@ -33,4 +33,6 @@
 
 Verifiera dokument i [Firestore Console](https://console.firebase.google.com/project/gen-lang-client-0481875058/firestore).
 
+**G7 opt-in minne:** `/dagbok` → checkbox "Spara i Minne (Kampspár)" vid spara → `kampspar` med `source: journal_woven`. Automatiserat: `npm run smoke:journal`.
+
 **Ej i denna checklista:** Drive-pipeline (`notifyNewFile`) — se [DRIVE_AUTOMATION.md](./DRIVE_AUTOMATION.md).
