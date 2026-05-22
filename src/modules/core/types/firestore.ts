@@ -130,6 +130,14 @@ export interface EconomyProfile {
   updatedAt?: IsoDateTime;
 }
 
+/** F-05 — positiva minnesankare (ej WORM-bevis, ej RAG Kunskap). */
+export interface MemoryAnchor {
+  userId: string;
+  ownerId: string;
+  text: string;
+  createdAt: IsoDateTime;
+}
+
 export const FIRESTORE_COLLECTIONS = {
   vault: 'vault',
   checkins: 'checkins',
@@ -144,4 +152,5 @@ export const FIRESTORE_COLLECTIONS = {
   children_logs: 'children_logs',
   transactions: 'transactions',
   economy_profiles: 'economy_profiles',
+  memory_anchors: 'memory_anchors',
 } as const;

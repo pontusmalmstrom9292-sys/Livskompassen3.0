@@ -6,6 +6,7 @@ import { AccountAuthMenu } from '../auth/AccountAuthMenu';
 import { Compass, Home } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useStore } from '../store';
+import { CognitiveLoadBar } from '../cognitive/CognitiveLoadBar';
 
 function HeaderHomeButton() {
   const navigate = useNavigate();
@@ -32,9 +33,15 @@ function HeaderHomeButton() {
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const kompisAuraActive = useStore((s) => s.system.kompisAuraActive);
+  const safeMode = useStore((s) => s.ui.safeMode);
 
   return (
-    <div className="relative min-h-screen bg-bg text-text font-sans selection:bg-accent/30">
+    <div
+      className={clsx(
+        'relative min-h-screen bg-bg text-text font-sans selection:bg-accent/30',
+        safeMode && 'app-layout--safe-mode',
+      )}
+    >
       <AmbientBackground />
 
       <header className="app-header">
@@ -44,6 +51,10 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
               <Compass className="h-4 w-4 text-accent" strokeWidth={1.75} />
             </div>
             <h1 className="app-header__title">Livskompassen</h1>
+          </div>
+
+          <div className="app-header__cognitive hidden sm:block">
+            <CognitiveLoadBar />
           </div>
 
           <div className="app-header__actions">

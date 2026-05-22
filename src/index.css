@@ -779,4 +779,76 @@
   .cluster-shell--lavender .cluster-shell__title {
     @apply text-accent-secondary;
   }
+
+  .cognitive-load-bar {
+    @apply flex flex-col gap-1.5 min-w-[10rem];
+  }
+
+  .cognitive-load-bar__row {
+    @apply flex items-center gap-2;
+  }
+
+  .cognitive-load-bar__label {
+    @apply text-[9px] uppercase tracking-widest text-text-dim;
+  }
+
+  .cognitive-load-bar__scale {
+    @apply flex gap-1;
+  }
+
+  .cognitive-load-bar__dot {
+    @apply h-2.5 w-2.5 rounded-full border border-white/15 bg-white/5 transition-colors;
+  }
+
+  .cognitive-load-bar__dot--active {
+    @apply border-accent/50 bg-accent/30;
+  }
+
+  .cognitive-load-bar__dot--fatigue {
+    @apply border-amber-400/60 bg-amber-400/25;
+  }
+
+  .cognitive-load-bar__safe-hint {
+    @apply text-[10px] text-amber-300/90;
+  }
+
+  .cognitive-load-bar__select {
+    @apply w-full rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-[10px] text-text-dim;
+  }
+
+  .cognitive-load-bar--safe {
+    @apply rounded-xl border border-amber-500/20 bg-amber-500/5 p-2;
+  }
+
+  .app-header__cognitive {
+    @apply flex-1 max-w-xs mx-2;
+  }
+
+  .app-layout--safe-mode .ambient-blob {
+    opacity: 0.4;
+  }
+
+  .app-layout--safe-mode .floating-dock {
+    @apply opacity-90;
+  }
+
+  .child-profile-grid {
+    @apply grid gap-3 sm:grid-cols-2;
+  }
+
+  .child-profile-card__initial {
+    @apply flex h-10 w-10 items-center justify-center rounded-full border border-accent-secondary/30 bg-accent-secondary/10 font-display text-lg text-accent-secondary;
+  }
+
+  .daily-compass-advice {
+    @apply border border-white/5;
+  }
+
+  .barnfokus-banner {
+    @apply border-l-2 border-accent-secondary/40;
+  }
+
+  .vault-cross-ref-row {
+    border-left: 2px solid rgba(253, 230, 138, 0.35);
+  }
 }

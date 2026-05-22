@@ -1,5 +1,14 @@
 import { create } from 'zustand';
 import { clearVaultGate } from '../auth/sessionService';
+import {
+  isExtremeFatigue,
+  loadCognitiveLoad,
+  loadKasamMode,
+  saveCognitiveLoad,
+  saveKasamMode,
+  type CognitiveLoadLevel,
+  type KasamModeId,
+} from '../cognitive/cognitiveLoadStorage';
 
 export type User = {
   uid: string;
@@ -12,6 +21,9 @@ export type UiState = {
   compassFilter: 'all' | 'morning' | 'day' | 'evening';
   isVaultUnlocked: boolean;
   moduleHubOpen: boolean;
+  cognitiveLoad: CognitiveLoadLevel;
+  kasamMode: KasamModeId;
+  safeMode: boolean;
 };
 
 export type SystemState = {
@@ -29,6 +41,8 @@ export type AppState = {
   setCompassFilter: (filter: UiState['compassFilter']) => void;
   setVaultUnlocked: (unlocked: boolean) => void;
   setModuleHubOpen: (open: boolean) => void;
+  setCognitiveLoad: (level: CognitiveLoadLevel) => void;
+  setKasamMode: (mode: KasamModeId) => void;
   system: SystemState;
   setLoading: (isLoading: boolean) => void;
   setError: (error: string | null) => void;
@@ -36,11 +50,16 @@ export type AppState = {
   resetState: () => void;
 };
 
+const initialLoad = loadCognitiveLoad();
+
 const initialUiState: UiState = {
   activeDrawer: null,
   compassFilter: 'all',
   isVaultUnlocked: false,
   moduleHubOpen: false,
+  cognitiveLoad: initialLoad,
+  kasamMode: loadKasamMode(),
+  safeMode: isExtremeFatigue(initialLoad),
 };
 
 const initialSystemState: SystemState = {
@@ -60,6 +79,15 @@ export const useStore = create<AppState>((set) => ({
     set((state) => ({ ui: { ...state.ui, isVaultUnlocked: unlocked } })),
   setModuleHubOpen: (open) =>
     set((state) => ({ ui: { ...state.ui, moduleHubOpen: open } })),
+  setCognitiveLoad: (level) => {
+    saveCognitiveLoad(level);
+    const safeMode = isExtremeFatigue(level);
+    set((state) => ({ ui: { ...state.ui, cognitiveLoad: level, safeMode } }));
+  },
+  setKasamMode: (mode) => {
+    saveKasamMode(mode);
+    set((state) => ({ ui: { ...state.ui, kasamMode: mode } }));
+  },
   system: initialSystemState,
   setLoading: (isLoading) => set((state) => ({ system: { ...state.system, isLoading } })),
   setError: (error) => set((state) => ({ system: { ...state.system, error } })),

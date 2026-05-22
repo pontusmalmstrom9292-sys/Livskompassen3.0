@@ -13,7 +13,7 @@ import {
   onSnapshot,
 } from 'firebase/firestore';
 import { app } from './init';
-import type { CheckIn, VaultLog, KampsparEntryRow } from '../types/firestore';
+import type { CheckIn, VaultLog, KampsparEntryRow, MemoryAnchor } from '../types/firestore';
 import { FIRESTORE_COLLECTIONS } from '../types/firestore';
 
 export const db = getFirestore(app);
@@ -189,6 +189,33 @@ export async function getVaultLogs(userId: string): Promise<(VaultLog & { id: st
       const { createdAt: _rawCreatedAt, ...rest } = data;
       return { id: d.id, ...(rest as VaultLog), createdAt: normalizeCreatedAt(_rawCreatedAt) };
     })
+  );
+}
+
+export type MemoryAnchorRow = MemoryAnchor & { id: string };
+
+export async function saveMemoryAnchor(userId: string, text: string) {
+  const payload: FirestorePayload = { text: text.trim().slice(0, 280) };
+  assertWormPayload(payload, 'memory_anchors');
+  const ref = collection(db, FIRESTORE_COLLECTIONS.memory_anchors);
+  const docRef = await addDoc(ref, withUserId(userId, payload));
+  return docRef.id;
+}
+
+export async function getMemoryAnchors(userId: string): Promise<MemoryAnchorRow[]> {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.memory_anchors);
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
+  return sortByCreatedAtDesc(
+    snap.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        userId: String(data.userId ?? userId),
+        ownerId: String(data.ownerId ?? userId),
+        text: String(data.text ?? ''),
+        createdAt: normalizeCreatedAt(data.createdAt),
+      };
+    }),
   );
 }
 

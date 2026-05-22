@@ -30,6 +30,16 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    // F-05 — positiva minnesankare (ej WORM-bevis, append-only)
+    match /memory_anchors/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0
+        && request.resource.data.text.size() <= 280;
+      allow update, delete: if false;
+    }
+
     match /reality_vault/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreate();
