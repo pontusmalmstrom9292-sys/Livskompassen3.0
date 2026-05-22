@@ -129,7 +129,11 @@ export const scheduledRetentionJob = functions
 // ─────────────────────────────────────────────────────────────────────────────
 export const notifyNewFile = functions
   .region('europe-west1')
-  .runWith({ secrets: ['NOTIFY_WEBHOOK_SECRET'] })
+  .runWith({
+    secrets: ['NOTIFY_WEBHOOK_SECRET'],
+    timeoutSeconds: 300,
+    memory: '512MB',
+  })
   .https.onRequest(async (req, res) => {
     if (req.method !== 'POST') {
       res.status(405).send('Method Not Allowed');
@@ -167,17 +171,15 @@ export const notifyNewFile = functions
     }
 
     try {
-      emitSynapse(adkOrchestrator, {
+      await emitSynapse(adkOrchestrator, {
         trigger: 'drive_file_ingested',
         payload: { fileId, fileName, mimeType, ownerId },
-      }).catch((err) => {
-        console.error(`[Background Pipeline Error] fileId=${fileId} fileName=${fileName}:`, err);
       });
 
-      res.status(200).send({ status: 'Processing started', fileId });
+      res.status(200).send({ status: 'Processing complete', fileId });
     } catch (error) {
-      console.error(`[notifyNewFile] Fel fileId=${fileId}:`, error);
-      res.status(500).send('Internal Server Error');
+      console.error(`[notifyNewFile] Pipeline fel fileId=${fileId} fileName=${fileName}:`, error);
+      res.status(500).send('Pipeline failed');
     }
   });
 

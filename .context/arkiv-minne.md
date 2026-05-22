@@ -1,7 +1,7 @@
 # Hela arkivet — canonical minnesarkitektur (Life OS)
 
 **Status:** Låst princip (2026-05-21). Konsoliderad mot alla Repomix-analyser + GCP.  
-**Källor:** Repo, [`GCP-INVENTORY-2026-05-21.md`](../docs/archive/GCP-INVENTORY-2026-05-21.md), [`Arkiv-SPEC.md`](../docs/specs/incoming/Arkiv-SPEC.md), [`KONSOLIDERING-2026-05-21.md`](../docs/archive/repomix/KONSOLIDERING-2026-05-21.md).
+**Källor:** Repo, [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md), [`Arkiv-SPEC.md`](../docs/specs/incoming/Arkiv-SPEC.md), [`GRUNDER-UTVARDERING-RESULTAT.md`](../docs/specs/incoming/GRUNDER-UTVARDERING-RESULTAT.md), [`KONSOLIDERING-2026-05-21.md`](../docs/archive/repomix/KONSOLIDERING-2026-05-21.md).
 
 ---
 

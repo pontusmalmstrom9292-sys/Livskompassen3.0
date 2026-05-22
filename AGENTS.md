@@ -47,9 +47,12 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 | Hela arkivet / Dossier-minne | `livskompassen-arkiv-master` | `livskompassen-core.mdc` |
 | Agent cards / prompts | `livskompassen-memory-agents` | `backend-agents.mdc` |
 | Firebase deploy / inventering | plugin `firebase-basics` | `firebase-workflow.mdc` |
+| Firestore rules / WORM | plugin `firebase-firestore-standard` | `security-firestore.mdc` |
+| Frontend UI (Obsidian Calm) | — | `ui-design.mdc` |
 
 Kanon för arkitektur och säkerhet: `.context/` (system-plan, arkiv-minne, security).  
-Live GCP-sanning: [`docs/GCP-INVENTORY-LATEST.md`](docs/GCP-INVENTORY-LATEST.md).
+Live GCP-sanning: [`docs/GCP-INVENTORY-LATEST.md`](docs/GCP-INVENTORY-LATEST.md).  
+GCP-konsolidering: [`docs/GCP-KONSOLIDERING-BESLUT.md`](docs/GCP-KONSOLIDERING-BESLUT.md).
 
 ## Product Agent Roles
 

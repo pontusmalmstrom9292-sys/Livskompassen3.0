@@ -15,10 +15,10 @@ description: ADK SynapseBus, driveIngestSynapse, journal_woven stubs, Zero Footp
 
 | Trigger | Status |
 |---------|--------|
-| `drive_ingest` | **live** → `kb_docs` |
-| `journal_woven` | **stub** |
+| `drive_file_ingested` | **live** → `kb_docs` (via `notifyNewFile`) |
+| `user_overwhelm` | **live** (Paralys-Brytaren) |
+| `journal_woven` | **stub** (G7) |
 | `dcap_alert` | **stub** |
-| `paralys_break` | live (Paralys-Brytaren) |
 
 ## MUST
 

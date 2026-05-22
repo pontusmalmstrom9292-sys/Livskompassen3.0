@@ -39,6 +39,8 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] Back-merge Kladd → `[MODUL]-SPEC.md` (§8, §12–13, Kladd-synk)
 - [x] Nya SPEC: [`Ekonomi-SPEC.md`](docs/specs/incoming/Ekonomi-SPEC.md), [`Core-SPEC.md`](docs/specs/incoming/Core-SPEC.md)
 - [x] [`docs/specs/p2-flode.md`](docs/specs/p2-flode.md) synkad mot kod
+- [x] Grunder Fas A — [`docs/specs/incoming/grunder-slides/`](docs/specs/incoming/grunder-slides/) + [`INVENTAR.md`](docs/specs/incoming/grunder-slides/INVENTAR.md)
+- [x] Grunder U1–U5 + Fas C — [`GRUNDER-UTVARDERING-RESULTAT.md`](docs/specs/incoming/GRUNDER-UTVARDERING-RESULTAT.md)
 - [ ] Manuell ingest av minne-poster (opt-in trauma-policy)
 - [ ] Implementation per modul när användaren säger *kör [modul]*
 
@@ -62,12 +64,12 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 
 ## Drive wire-up (Apps Script → notifyNewFile)
 - [x] Kod redo: Script Properties i `sorter.gs`, webhook-secret fail-closed, `docs/DRIVE_AUTOMATION.md`
-- [ ] Manuell GCP/Apps Script-konfiguration och verifiering (se `docs/DRIVE_AUTOMATION.md`) — secret bunden 2026-05-22
+- [x] G6 Drive E2E — `kb_docs` PASS 2026-05-22 ([`GCP-FAS4-RUNBOOK.md`](docs/GCP-FAS4-RUNBOOK.md) steg 2)
 
 ## Firebase Fas 3 (synk)
 - [x] `.firebaserc` rättad; Firestore rules + indexes deployade
 - [x] Modul-Functions deployade (`europe-west1`); Hosting live — se `docs/DEPLOY.md`, `docs/FIREBASE_SYNC.md`
-- [ ] `notifyNewFile` — secret bunden (401 utan header); Apps Script E2E kvar
+- [ ] `notifyNewFile` — G6 fork (403 → kb_docs); FAS4 steg 1 **done** (biff/brusfiltret borta)
 - [ ] Manuell smoke enligt `docs/SMOKE_CHECKLIST.md`
 
 ## Data Connect
@@ -106,8 +108,8 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 - Kunskap RAG — smoke PASS; ANN G2/G3 **VERIFY PASS** (54 vectors, defaults)
 - `valvChatQuery` — **deployad** (G1 **done**); smoke:valv PASS
 - Dossier `generateDossier` — **klart** (smoke PASS)
-- `notifyNewFile` — **deployad**, secret bunden; G6 E2E Apps Script kvar
-- Legacy Python RAG us-central1 — **4 functions** (G4 **open**, kartlagt)
+- `notifyNewFile` — **deployad**; G6 **done** 2026-05-22
+- Legacy Python us-central1 — **2 functions** kvar (G4 steg 1 **done**)
 - Retention G5 **done**; mock Kampspar G11 **done**
 
 **Planerat (får inte tappas):** G1–G14 i [`Arkiv-GAP-REGISTER.md`](docs/specs/incoming/Arkiv-GAP-REGISTER.md). Implementation: `kör [GAP]`.

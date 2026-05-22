@@ -9,10 +9,11 @@
 | G1 | **done** | `valvChatQuery` deployad west1 |
 | G2 | **done** | VERIFY PASS 2026-05-22 — endpoint live, kod-defaults, 54 vectors |
 | G3 | **done** | VERIFY PASS 2026-05-22 — embeddingDim 768, indexSync under ingest |
-| G4 | **open** | 4 Python functions us-central1 |
+| G4 | **open** | 2 Python fn kvar (steg 1 **done** 2026-05-22: biff/brusfiltret borta) |
 | G5 | **done** | WORM allowlist retention |
-| G6 | **open** | Secret finns; Apps Script E2E kvar |
+| G6 | **done** | Drive E2E → `kb_docs` 2026-05-22 — [`GCP-FAS4-RUNBOOK.md`](../../GCP-FAS4-RUNBOOK.md) steg 2 |
 | G7–G14 | **open** | Life OS utbyggnad |
+| G15–G16 | **open** | Grunder runtime-docs — [`GRUNDER-UTVARDERING-RESULTAT.md`](GRUNDER-UTVARDERING-RESULTAT.md) |
 | V1 | **wait** | Genkit — ej migrera |
 
 ---
@@ -50,14 +51,14 @@
 
 ### G4 — Legacy Python RAG (us-central1) — **open**
 
-| Status | **open** — 4 functions deployade (inventering 2026-05-22) |
+| Status | **open** — 2 functions kvar (FAS4 steg 1 **done** 2026-05-22) |
 
 | Function | Legacy roll | Node-motsvarighet | Avvecklingsprioritet |
 |----------|-------------|-------------------|----------------------|
 | `knowledge-base-webhook` | Vertex AI Search Knowledge Base webhook → legacy datastore | `notifyNewFile` → `driveIngestSynapse` → `kb_docs` + Vector ANN | **3** (sist) |
 | `drive_sync_tool` | Drive → legacy knowledge base sync | Apps Script `sorter.gs` + `notifyNewFile` | **2** (efter G6 E2E) |
-| `biff_generator_tool` | HTTP BIFF-prototyp | `analyzeMessage` (BIFF-Skölden) | **1** |
-| `brusfiltret_tool` | HTTP brusfilter-prototyp | `analyzeMessage` (Brusfiltret) | **1** |
+| ~~`biff_generator_tool`~~ | HTTP BIFF-prototyp | `analyzeMessage` (BIFF-Skölden) | **raderad** steg 1 |
+| ~~`brusfiltret_tool`~~ | HTTP brusfilter-prototyp | `analyzeMessage` (Brusfiltret) | **raderad** steg 1 |
 
 **Dataflödesrisk:** Dubbel Drive-ingest om legacy trigger **och** Apps Script pekar på samma Inbox.  
 **Kontext:** Repomix/GCP har båda stackarna live; kod finns **inte** i aktiv `functions/src/index.ts`.  
@@ -73,13 +74,13 @@
 | **Åtgärd** | Explicit allowlist: **aldrig** radera `children_logs`, `reality_vault`, `journal`, `dossier_snapshots`, top-level `kampspar` WORM |
 | **Källa** | walkthrough legacy path ≠ prod; repomix output.txt T6 |
 
-### G6 — Drive smoke end-to-end — **open**
+### G6 — Drive smoke end-to-end — **done** 2026-05-22
 
 | | |
 |---|---|
-| **Status** | **open** — secret **finns** i Secret Manager; webhook **401** utan header (2026-05-22); Apps Script E2E kvar |
-| **Deploy** | `notifyNewFile` deployad west1, secret bunden |
-| **Åtgärd** | [`docs/DRIVE_AUTOMATION.md`](../../DRIVE_AUTOMATION.md) — Script Properties + testfil → `kb_docs` |
+| **Status** | **done** — webhook → `kb_docs` · docId `irQNlDTYgcr15DFIuA3w` · `smoke:kunskap` PASS |
+| **Fix** | `documentAgent.ts` export för Google Docs; `await emitSynapse`; `gemini-2.5-flash` |
+| **Deploy** | `notifyNewFile` west1 — se [`GCP-FAS4-RUNBOOK.md`](../../GCP-FAS4-RUNBOOK.md) steg 2 |
 
 ### G11 — Mock `Kampspar`-typ vs `KampsparEntry` — **done**
 
@@ -130,6 +131,22 @@ UI (`Tidshjulet.tsx`) — Tidshjulet mot live `kampspar`; repomix hade statisk "
 | **Problem** | Nämns i repomix `SYSTEM_MEMORY.md` + UI; **saknas** i `functions/src/agents/cards/` |
 | **Beslut** | Nionde agent card **eller** merge med BIFF-Skölden / `analyzeMessage` |
 | **Källa** | cursor.txt + walkthrough legacy |
+
+### G15 — Grunder: injection-parity kanon (U1.5)
+
+| | |
+|---|---|
+| **Status** | **open** — G10 vision-only |
+| **Problem** | Indirect prompt injection ↔ projektion saknas i `sharedRules` / `.context/security.md` |
+| **Källa** | [`GRUNDER-UTVARDERING-RESULTAT.md`](GRUNDER-UTVARDERING-RESULTAT.md) U1.5 |
+
+### G16 — Grunder: RSD-prompt + Barnen-routing (U4.3, U5.3, U5.5)
+
+| | |
+|---|---|
+| **Status** | **open** |
+| **Problem** | RSD → Kompis-fallback; G52 PA saknas i Barnen-SPEC; Kompis barn-routing |
+| **Källa** | [`GRUNDER-UTVARDERING-RESULTAT.md`](GRUNDER-UTVARDERING-RESULTAT.md) |
 
 ---
 

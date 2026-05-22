@@ -226,7 +226,7 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 | `notifyNewFile` deployad | **PASS** (europe-west1) |
 | Secret bunden på function | **PASS** — POST utan header → **401** (curl 2026-05-22) |
 | Repo fail-closed | **Klar** — 503 om secret saknas i runtime |
-| Apps Script + E2E Drive → kb_docs | **Ej körd** — kräver Script Properties + testfil |
+| Apps Script + E2E Drive → kb_docs | **PASS** 2026-05-22 — docId `irQNlDTYgcr15DFIuA3w` |
 
 ### Steg imorgon (6 steg — ett i taget)
 

@@ -15,7 +15,7 @@ Region: `europe-west1`
 | `documentAgent.ts` (Gemini-analys) | Klar i repo |
 | `driveIngestSynapse` → `kb_docs` vid `ownerId` | Klar i repo (`ownerId` ← `ownerUid` i webhook) |
 | `npm run build` (functions + frontend) | Verifierad |
-| Firebase deploy + Apps Script + `NOTIFY_WEBHOOK_SECRET` | Manuellt (G6) — webhook **200** när secret synkat |
+| Firebase deploy + Apps Script + `NOTIFY_WEBHOOK_SECRET` | **E2E PASS** 2026-05-22 — `kb_docs` skapad via webhook |
 
 ## Flöde
 
@@ -39,7 +39,7 @@ Gör detta **innan** deploy och trigger:
 |---|---------|------------|
 | 1 | **Drive-mappar** | Skapa eller öppna `Inbox` och `Kunskapsvalvet` (Vault). Kopiera **folder ID** från URL: `drive.google.com/.../folders/{ID}` |
 | 2 | **Script Properties** | I Apps Script: Project Settings → Script Properties (se tabell nedan) |
-| 3 | **Dela Vault med Functions SA** | Dela Vault-mappen (minst **Viewer**) med service account för projektet, t.ex. `gen-lang-client-0481875058@appspot.gserviceaccount.com` (verifiera exakt e-post i [GCP Console → IAM](https://console.cloud.google.com/iam-admin/iam?project=gen-lang-client-0481875058)) |
+| 3 | **Dela Vault med Functions SA** | Dela Vault-mappen (minst **Viewer**) med **`gen-lang-client-0481875058@appspot.gserviceaccount.com`** — verifierat runtime SA för `notifyNewFile` (2026-05-22 G6). **Inte** compute-SA om appspot redan delad. |
 | 4 | **NOTIFY_WEBHOOK_SECRET** | Generera långt slumpvärde (t.ex. `openssl rand -base64 32`). Spara i password manager — **committa aldrig** |
 | 5 | **Firebase CLI** | `firebase login` och `firebase use gen-lang-client-0481875058` |
 | 6 | **URL-mismatch (fixat i repo)** | Gammal `sorter.gs` pekade på `livskompassen-v2.cloudfunctions.net`. Korrekt default är `gen-lang-client-0481875058` — verifiera URL efter deploy i Firebase Console |
@@ -125,7 +125,8 @@ Utan uid: analys körs, men `driveIngestSynapse` hoppar över `kb_docs` (logg: `
 ## Kända begränsningar
 
 - `kb_docs` kräver `FIREBASE_OWNER_UID` i Script Properties + Vault delad med `gen-lang-client-0481875058@appspot.gserviceaccount.com`.
-- Embedding-dimension sparas; full Vector Search ANN-koppling avvaktar prod-verify (G2/G3).
+- **Google Docs/Sheets/Slides** (`application/vnd.google-apps.*`) exporteras via Drive API — `alt=media` ger 403 (fixat i `documentAgent.ts`).
+- `notifyNewFile` **väntar** på pipeline (synkront) — svar `Processing complete` när `kb_docs` är skriven.
 - En personlig Drive (single-user); ingen fleranvändar-OAuth i denna fas.
 - Filer som redan flyttats till Vault körs inte om från Inbox — lägg ny testfil i Inbox för omkörning.
 

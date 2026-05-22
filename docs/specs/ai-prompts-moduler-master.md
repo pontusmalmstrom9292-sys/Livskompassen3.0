@@ -79,7 +79,7 @@ Canonical: [`.context/arkiv-minne.md`](../../.context/arkiv-minne.md) · GCP: [`
 |-------|-------|-----|
 | Master | `livskompassen-arkiv-master` | Helhetsreview |
 | RAG | `livskompassen-rag-retrieval` | token-match → ANN |
-| Vector | `livskompassen-vector-search` | 2 index, 0 endpoints |
+| Vector | `livskompassen-vector-search` | west1 endpoint live (~102 vektorer); north1 legacy — se [`GCP-INVENTORY-LATEST.md`](../GCP-INVENTORY-LATEST.md) |
 | Synapser | `livskompassen-synapser-adk` | journal_woven stub |
 | Agenter | `livskompassen-memory-agents` | sharedRules |
 | Silo-vakt | `livskompassen-memory-silo-guard` | cross-RAG |

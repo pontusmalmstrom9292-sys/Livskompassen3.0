@@ -2,7 +2,7 @@
 
 Grunden för Livskompassen v2 är "Kunskapsvalvet" (The Knowledge Vault), implementerat för extrem säkerhet och snabb semantisk hämtning (RAG).
 
-**Canonical arkiv:** [`.context/arkiv-minne.md`](./arkiv-minne.md) · **GCP live:** [`docs/archive/GCP-INVENTORY-2026-05-21.md`](../docs/archive/GCP-INVENTORY-2026-05-21.md)
+**Canonical arkiv:** [`.context/arkiv-minne.md`](./arkiv-minne.md) · **GCP live:** [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md)
 
 ## Tre silor (MUST NOT blandas)
 
@@ -18,22 +18,24 @@ Grunden för Livskompassen v2 är "Kunskapsvalvet" (The Knowledge Vault), implem
 - **Säkerhetskrav:** Customer-Managed Encryption Keys (CMEK) via Cloud KMS där bucket/Firestore policy kräver det (`scripts/setup_gcp_cmek.sh`, `gs://livskompassenv2`).
 - **Permanent minne:** WORM collections (`children_logs`, `reality_vault`, `journal`, `dossier_snapshots`) — retention får **inte** radera dessa.
 
-## Vektorsökning och RAG (repo vs GCP 2026-05-21)
+## Vektorsökning och RAG (repo vs GCP 2026-05-22)
 
 | Lager | Repo | GCP |
 |-------|------|-----|
-| Retrieval (prod) | Token-match [`kampsparQueryRag.ts`](../functions/src/lib/kampsparQueryRag.ts) | — |
-| Vector Search index | Stub env `VECTOR_SEARCH_INDEX_ID` | **2 index**, **0 endpoints** |
+| Retrieval (prod) | ANN + token-match fallback [`kampsparQueryRag.ts`](../functions/src/lib/kampsparQueryRag.ts) | Endpoint live west1 |
+| Vector Search index | [`vectorSearchClient.ts`](../functions/src/lib/vectorSearchClient.ts) defaults | **west1 kanonisk**, 102 vectors |
 | Embeddings | `generateEmbeddingInternal.ts` | Buckets `livskompassen-knowledge-vault-*` |
-| Inbäddningsmodell | `textembedding-gecko` / `text-embedding-004` | 768 dim i index metadata |
+| Inbäddningsmodell | `text-embedding-004` | 768 dim |
 | LLM syntes | `GEMINI_API_KEY` secret | Satt på `knowledgeVaultQuery` |
 
-**Kanoniska index (välj vid wire):**
+**Kanoniskt index (prod):**
 
 - `projects/1084026575972/locations/europe-west1/indexes/2686894156982255616` (`livskompassen-kv-index`)
-- `projects/1084026575972/locations/europe-north1/indexes/9094201410823651328` (`kampspar_index`)
+- Endpoint `4956462078572363776`, deployed `livskompassen_kv_deployed_v1`
 
-**GAP:** Deploy endpoint + wire ANN — se [`Arkiv-GAP-REGISTER.md`](../docs/specs/incoming/Arkiv-GAP-REGISTER.md) G2.
+**Avvecklas:** `kampspar_index` north1 (BATCH, 0 endpoints) — se [`GCP-KONSOLIDERING-BESLUT.md`](../docs/GCP-KONSOLIDERING-BESLUT.md).
+
+**GAP:** G2/G3 **done**. G4 legacy Python **open**.
 
 ## Kunskapsbank (blueprint → kod)
 

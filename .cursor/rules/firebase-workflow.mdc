@@ -12,8 +12,8 @@ Operational rules:
 - Use Firebase MCP when project state, deployments, indexes, rules, or app configuration matter.
 - Never commit real `.env`, service-account JSON secrets, credentials, tokens, or generated auth cookies.
 - Keep `firebase.json`, `.firebaserc`, Firestore rules, and Data Connect config aligned with the active project.
-- For Firestore rules changes, activate the Firestore skill and audit security with the security-rules auditor skill.
-- For deployments, use the hosting skill for classic Hosting and the app-hosting skill for App Hosting.
+- For Firestore rules changes, use plugin skill `firebase-firestore-standard` (or `firebase-firestore-enterprise-native-mode`).
+- For deployments, use plugin skill `firebase-hosting-basics` (classic Hosting) or `firebase-app-hosting-basics` (App Hosting).
 
 Cursor project setup:
 - Firebase MCP: `.cursor/mcp.json` (`npx -y firebase-tools@latest mcp`).

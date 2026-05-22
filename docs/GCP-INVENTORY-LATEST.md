@@ -1,9 +1,10 @@
 # GCP / Firebase-inventering — LIVE (senast)
 
-**Datum:** 2026-05-22  
+**Datum:** 2026-05-22 (U6 live audit · FAS4 steg 1 klart)  
 **Projekt:** `gen-lang-client-0481875058` (number `1084026575972`)  
-**Metod:** `firebase functions:list`, `gcloud ai index-endpoints list`, `gcloud secrets list`, nattpass smoke 2026-05-22  
-**Ersätter för beslut:** [`docs/archive/GCP-INVENTORY-2026-05-21.md`](archive/GCP-INVENTORY-2026-05-21.md) (föråldrad: 0 endpoints, valv ej deployad)
+**Metod:** `firebase functions:list`, `gcloud ai indexes/endpoints list`, `gcloud storage du`, `gcloud compute instances list`, `gcloud secrets list`  
+**Beslut:** [`GCP-KONSOLIDERING-BESLUT.md`](GCP-KONSOLIDERING-BESLUT.md)  
+**Ersätter för beslut:** [`docs/archive/GCP-INVENTORY-2026-05-21.md`](archive/GCP-INVENTORY-2026-05-21.md)
 
 ---
 
@@ -12,122 +13,141 @@
 | Fynd | Status | Gap |
 |------|--------|-----|
 | `valvChatQuery` deployad (west1) | **done** | G1 |
-| Vector endpoint + deployed index `livskompassen_kv_deployed_v1` | **done** | G2 **VERIFY PASS** 2026-05-22 |
-| Index `2686894156982255616`, **54 vectors** | **done** | G3 **VERIFY PASS** 2026-05-22 |
-| `NOTIFY_WEBHOOK_SECRET` | **finns** — bunden på `notifyNewFile` (401 utan header) | G6 E2E Apps Script kvar |
-| Legacy Python (4 fn, us-central1) | **aktiv** | G4 |
-| `GEMINI_API_KEY` secret | **finns** | — |
+| Vector endpoint + `livskompassen_kv_deployed_v1` | **done** | G2 **VERIFY PASS** |
+| Index west1, **102 vectors** | **done** | G3 **VERIFY PASS** |
+| `NOTIFY_WEBHOOK_SECRET` | **finns** | G6 **done** — E2E kb_docs 2026-05-22 |
+| Legacy Python (2 fn kvar, us-central1) | **delvis avvecklad** | G4 — steg 1 **done** 2026-05-22 |
+| Compute Engine VMs | **0** | — |
+| `@cursor/sdk` | **saknas** | **WAIT** (Natt-CI) |
 
 ---
 
 ## Deployade Cloud Functions
 
-### Node.js (repo — europe-west1)
+### Node.js (repo — europe-west1) — **KEEP**
 
-| Function | I repo | Deployad | Notering |
-|----------|--------|----------|----------|
-| `knowledgeVaultQuery` | ja | ja (v2) | |
-| `valvChatQuery` | ja | ja (v2) | G1 **done** |
-| `ingestKampsparEntry` | ja | ja (v1) | |
-| `generateEmbedding` | ja | ja (v1) | |
-| `analyzeMessage` | ja | ja (v1) | |
-| `speglingsMirror` | ja | ja (v1) | |
-| `generateDossier` | ja | ja (v1) | |
-| `weaveJournalEntry` | ja | ja (v1) | |
-| `mabraCoach` | ja | ja (v1) | |
-| `breakDownResponse` | ja | ja (v1) | |
-| `getAgentRegistry` | ja | ja (v1) | |
-| `invalidateSession` | ja | ja (v1) | |
-| `notifyNewFile` | ja | ja (v1) | Secret **saknas** → fail-closed |
-| `scheduledRetentionJob` | ja | ja (v1) | G5 allowlist i kod |
+| Function | Version | I repo |
+|----------|---------|--------|
+| `knowledgeVaultQuery` | v2 | ja |
+| `valvChatQuery` | v2 | ja |
+| `ingestKampsparEntry` | v1 | ja |
+| `generateEmbedding` | v1 | ja |
+| `analyzeMessage` | v1 | ja |
+| `speglingsMirror` | v1 | ja |
+| `generateDossier` | v1 | ja |
+| `weaveJournalEntry` | v1 | ja |
+| `mabraCoach` | v1 | ja |
+| `breakDownResponse` | v1 | ja |
+| `getAgentRegistry` | v1 | ja |
+| `invalidateSession` | v1 | ja |
+| `notifyNewFile` | v1 | ja |
+| `scheduledRetentionJob` | v1 | ja |
 
-### Python legacy (ej i aktiv `functions/src/index.ts`)
+### Python legacy (ej i `functions/src/index.ts`) — **DEPRECATE G4**
 
-| Function | Region | Status |
-|----------|--------|--------|
-| `knowledge-base-webhook` | us-central1 | deployad — G4 |
-| `drive_sync_tool` | us-central1 | deployad — G4 |
-| `biff_generator_tool` | us-central1 | deployad — G4 |
-| `brusfiltret_tool` | us-central1 | deployad — G4 |
+| Function | Region | Runtime | Memory | Status |
+|----------|--------|---------|--------|--------|
+| `knowledge-base-webhook` | us-central1 | python312 | ~3.8 GB | aktiv |
+| `drive_sync_tool` | us-central1 | python311 | ~244 MB | aktiv |
+| ~~`biff_generator_tool`~~ | us-central1 | python311 | — | **raderad** steg 1 |
+| ~~`brusfiltret_tool`~~ | us-central1 | python311 | — | **raderad** steg 1 |
+
+**Ersatt av:** `analyzeMessage` (Node, europe-west1). **Smoke steg 1:** `smoke:valv` **PASS** 2026-05-22.
 
 ---
 
-## Vertex AI Vector Search (west1)
+## Vertex AI Vector Search
+
+### west1 — **KEEP (kanonisk)**
 
 | Resurs | ID / namn | Status |
 |--------|-----------|--------|
 | Index | `2686894156982255616` (`livskompassen-kv-index`, STREAM, 768 dim) | aktiv |
 | Endpoint | `4956462078572363776` (`livskompassen-kv-endpoint`) | aktiv |
-| Deployed index | `livskompassen_kv_deployed_v1` | synkad 2026-05-21 |
-| Vectors count | 4 | G3 — verifiera ingest/smoke |
+| Deployed index | `livskompassen_kv_deployed_v1` | synkad 2026-05-22T09:03:05Z |
+| Vectors count | **102** | live |
 
-**Repo defaults:** [`functions/src/lib/vectorSearchClient.ts`](../functions/src/lib/vectorSearchClient.ts) matchar ovan IDs.  
-**Lokal env:** [`functions/.env.gen-lang-client-0481875058`](../functions/.env.gen-lang-client-0481875058)
+### north1 — **DEPRECATE**
 
-**VERIFY:** `VECTOR_SEARCH_*` finns **inte** i `gcloud secrets list` — ANN i prod kan använda kod-defaults eller sakna secret-bindning på gen2 functions.
+| Resurs | ID | Status |
+|--------|-----|--------|
+| Index | `9094201410823651328` (`kampspar_index`, BATCH) | **0 endpoints**, inga vectors |
+| Endpoints | — | 0 items |
+
+**Repo defaults:** [`functions/src/lib/vectorSearchClient.ts`](../functions/src/lib/vectorSearchClient.ts)
+
+---
+
+## Cloud Storage (20 buckets)
+
+| Bucket | Storlek (ca) | Beslut |
+|--------|--------------|--------|
+| `gen-lang-client-0481875058.firebasestorage.app` | 13 KB | **KEEP** |
+| `livskompassen-knowledge-vault-embeddings` | 0 | **KEEP** |
+| `livskompassen-knowledge-vault-worm` | 0 | **KEEP** |
+| `livskompassenv2` | 0 | **KEEP** (CMEK) |
+| `gcf-v2-*` europe-west1 | system | **KEEP** |
+| `knowledge-base-bucket-gen-lang-client-0481875058` | 10 KB | **MIGRATE → DEPRECATE** |
+| `knowledge-base-docs-gen-lang-client-0481875058` | 0 | **DEPRECATE** |
+| `gcf-v2-*` us-central1` | 9 KB | **DEPRECATE** |
+| `1084026575972-us-central1-blueprint-config` | 4 MB | **DEPRECATE** |
+| `ekonomichefen` | 0 | **DEPRECATE** |
+| `helthcoach` | 0 | **DEPRECATE** |
+| `media-gen-lang-client-0481875058-0ebe` | 0 | **DEPRECATE** |
+| `ai-studio-bucket-1084026575972-europe-west2` | **121 MB** | **VERIFY** |
+| `cloud-ai-platform-365ee315-6b86-4041-b623-5121d5135266` | **69 MB** | **VERIFY** |
+| `gen-lang-client-0481875058` | 20 KB | **KEEP** |
+| `gen-lang-client-0481875058_cloudbuild` | — | **KEEP** (system) |
+
+---
+
+## Compute Engine
+
+**0 instances** — inga VMs att stänga.
 
 ---
 
 ## Secret Manager (namn endast)
 
-| Secret | Status |
-|--------|--------|
-| `GEMINI_API_KEY` | finns |
-| `NOTIFY_WEBHOOK_SECRET` | **finns** (2026-05-21) — bunden; POST utan header → 401 |
-| `VECTOR_SEARCH_INDEX_ID` | **saknas** (ej blockerande — kod-defaults verifierade 2026-05-22) |
+| Secret | Status | Beslut |
+|--------|--------|--------|
+| `GEMINI_API_KEY` | finns | **KEEP** |
+| `NOTIFY_WEBHOOK_SECRET` | finns | **KEEP** |
+| `django_admin_password-0ebe` | finns | **DEPRECATE** (legacy) |
+| `django_settings-0ebe` | finns | **DEPRECATE** (legacy) |
 
 ---
 
 ## SDK / npm (repo)
 
-| Paket | Plats | Roll planerad | Gör idag | Beslut |
-|-------|-------|---------------|----------|--------|
-| `firebase` | root | Klient Auth/Firestore/callables | Aktiv | **ACTIVE** |
-| `firebase-admin` + `firebase-functions` | functions | Server | Aktiv | **ACTIVE** |
-| `@google-cloud/vertexai` | functions | Vertex/Gemini | Installerad | **ACTIVE** (granska vs genai) |
-| `@google/genai` | functions | Gemini | `genaiClient.ts`, knowledgeVault | **ACTIVE** |
-| `@google/generative-ai` | functions | Legacy Gemini | Endast `docs/archive/server-legacy` | **DEPRECATE** (ej prod) |
-| `@google-cloud/aiplatform` | functions | Vector ANN | `vectorSearchClient.ts` | **ACTIVE** |
-| `googleapis` | functions | Drive | `driveIngestSynapse` | **ACTIVE** |
-| `@google-cloud/firestore` | functions | Retention job | `retentionJob.ts` only | **ACTIVE** (behåll) |
-| `@dataconnect/generated` | root | Framtida DC | Ej importerad i app | **WAIT** |
-| `@google-cloud/notebooks` | root | — | 0 imports i src | **DEPRECATE** (ta bort vid cleanup) |
-| `@cursor/sdk` | — | Natt-CI | Saknas | **WAIT** |
+| Paket | Beslut |
+|-------|--------|
+| `@cursor/sdk` | **WAIT** — Natt-CI, ej installerad |
+| `@dataconnect/generated` | **WAIT** |
+| `@google-cloud/notebooks` | **DEPRECATE** (0 imports) |
 
 ---
 
-## GCP-tjänster (konsol)
+## GAP-status
 
-| Tjänst | Beslut | Notering |
-|--------|--------|----------|
-| Firestore + WORM rules | **ACTIVE** | |
-| Firebase Auth | **ACTIVE** | |
-| Firebase Hosting | **ACTIVE** | |
-| Cloud Functions Node west1 | **ACTIVE** | Lista matchar repo |
-| Cloud Functions Python us-central1 | **DEPRECATE** | G4 |
-| Vertex Vector Search | **ACTIVE** | Endpoint deployad |
-| Vertex/Gemini API | **ACTIVE** | GEMINI secret |
-| Cloud Storage | **ACTIVE** | WORM/embedding buckets |
-| Secret Manager | **VERIFY** | NOTIFY saknas |
-| Cloud Scheduler | **ACTIVE** | retention job |
-| Data Connect | **WAIT** | example only |
-| Firebase MCP (Cursor) | **ACTIVE** | plugin i `.cursor/settings.json` |
+| ID | Status |
+|----|--------|
+| G1–G3 | **done** |
+| G4 | **open** — 2 Python fn kvar (steg 1 done: biff/brusfiltret borta) |
+| G5 | **done** |
+| G6 | **done** | E2E kb_docs PASS 2026-05-22 |
+| G7–G14 | **open** |
+| G15–G16 | **open** — Grunder U1–U5 ([`GRUNDER-UTVARDERING-RESULTAT.md`](specs/incoming/GRUNDER-UTVARDERING-RESULTAT.md)) |
+| V1 Genkit | **wait** |
 
 ---
 
-## GAP-status (synkad 2026-05-21)
+## Nästa steg
 
-| ID | Status | Bevis |
-|----|--------|-------|
-| G1 | **done** | `valvChatQuery` i `firebase functions:list` |
-| G2 | **done** | VERIFY PASS 2026-05-22 — 54 vectors, defaults |
-| G3 | **done** | VERIFY PASS 2026-05-22 — embeddingDim 768, indexSync |
-| G4 | **open** | 4 Python functions live — kartlagt nattpass |
-| G5 | **done** | Kod allowlist (multitask) |
-| G6 | **open** | Secret finns; Apps Script E2E kvar |
-| G7–G14 | **open** | Se [`Arkiv-GAP-REGISTER.md`](specs/incoming/Arkiv-GAP-REGISTER.md) |
-| V1 Genkit Flow | **wait** | Vision — ej migrera |
-| V2 Dotprompt | **n/a** | Kanon = `sharedRules.ts` |
+1. **FAS4 steg 1 klart** — `biff_generator_tool` + `brusfiltret_tool` raderade; `smoke:valv` PASS
+2. **Nästa:** `OK steg 3` — avveckla `drive_sync_tool` ([`GCP-FAS4-RUNBOOK.md`](GCP-FAS4-RUNBOOK.md))
+3. **Grunder:** [`GRUNDER-UTVARDERING-RESULTAT.md`](specs/incoming/GRUNDER-UTVARDERING-RESULTAT.md)
+4. **`@cursor/sdk`:** **WAIT** — [`docs/NATT-CI.md`](NATT-CI.md)
 
 ---
 
@@ -136,14 +156,9 @@
 ```bash
 cd /Users/Livskompassen/StudioProjects/Livskompassen2.0
 firebase functions:list --project gen-lang-client-0481875058
+gcloud ai indexes list --region=europe-west1 --project=gen-lang-client-0481875058
 gcloud ai index-endpoints list --region=europe-west1 --project=gen-lang-client-0481875058
+gcloud storage ls --project=gen-lang-client-0481875058
+gcloud compute instances list --project=gen-lang-client-0481875058
 gcloud secrets list --project=gen-lang-client-0481875058
 ```
-
----
-
-## Nästa steg (efter grund-låsning)
-
-1. **Manuellt:** `firebase functions:secrets:set NOTIFY_WEBHOOK_SECRET` + Drive smoke → [`docs/SMOKE_RESULTS.md`](SMOKE_RESULTS.md)
-2. **`kör G4`** — kartlägg/avveckla legacy Python (separat session)
-3. **`kör G7`** — `journal_woven` synaps (separat session)
