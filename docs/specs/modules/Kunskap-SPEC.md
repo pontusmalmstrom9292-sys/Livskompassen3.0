@@ -29,7 +29,7 @@ KompisAvatar sitter i `MainLayout` (global header) och pulserar vid AI-anrop i K
 1. **Flikar:** `KunskapPage` — *Kunskapsvalv (chat)* | *Tidshjulet* (synlig `TabBar`, inte dolda).
 2. **Chat:** `KnowledgeVaultChat` — textarea + Skicka; svar i `BentoCard` med citations-lista.
 3. **Laddning:** KompisAvatar pulserar (`setKompisAura`) under `knowledgeVaultQuery`.
-4. **Tidshjulet:** Cirkulär vy (`Tidshjulet.tsx`, senaste 8 noder) + `TimelineEntry`-lista + `KampsparIngestForm`.
+4. **Tidshjulet:** Live `kampspar` (G13) — ringar Dåtid/Nutid/Framtid, klick + detaljkort + Mönster-hint + `TimelineEntry`-lista.
 5. **Ingest:** Formulär på **Tidshjuls-fliken** (inte diskret plus-knapp på chat-fliken).
 
 **Målbild (planerad):**

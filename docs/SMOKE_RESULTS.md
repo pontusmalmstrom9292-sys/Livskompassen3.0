@@ -306,6 +306,14 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 
 **FAS 4 avveckling:** steg 1–7 **klart**.
 
+## G13 — Tidshjulet live kampspar (2026-05-22)
+
+| Kontroll | Resultat |
+|----------|----------|
+| `tidshjulTimeline` partition Dåtid/Nutid/Framtid | **done** |
+| `subscribeKampsparEntries` + klickbara noder | **done** |
+| `npm run smoke:tidshjul` | **PASS** |
+
 ## G12 — Context Cache registry (2026-05-22)
 
 | Kontroll | Resultat |
@@ -401,6 +409,7 @@ Se [`LEGACY-KB-MIGRATION-2026-05-22.md`](LEGACY-KB-MIGRATION-2026-05-22.md).
 | `kör G9` | ~~EntityProfile / SystemSynapse~~ **done** 2026-05-22 — `npm run smoke:entities` |
 | `kör G10` | ~~Självsorterande inkorg~~ **done** 2026-05-22 — `npm run smoke:inbox` |
 | `kör G12` | ~~Context Cache registry~~ **done** 2026-05-22 — `npm run smoke:cache` |
+| `kör G13` | ~~Tidshjulet live kampspar~~ **done** 2026-05-22 — `npm run smoke:tidshjul` |
 
 Se [`Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md).
 

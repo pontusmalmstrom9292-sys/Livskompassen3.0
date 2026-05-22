@@ -116,9 +116,9 @@
 
 `context_cache_registry` (Firestore, delad mellan instanser), `contentHash` för RAG-invalidering, `invalidateCachesForUser` vid Kill Switch, `purgeExpiredRegistryEntries` i retention. Callable `getContextCacheStatus`. Best-effort Vertex cache create (fail-open).
 
-### G13 — Tidshjulet → `kampspar`-historik
+### G13 — Tidshjulet → `kampspar`-historik — **done** 2026-05-22
 
-UI (`Tidshjulet.tsx`) — Tidshjulet mot live `kampspar`; repomix hade statisk "Dåtid"-ring. Wire + ev. Mönster-Arkivarien.
+Live `subscribeKampsparEntries`, ringar Dåtid/Nutid/Framtid via `eventDate`, klickbara noder, `TidshjulDetailCard`, deterministisk Mönster-hint. Citation → Tidshjulet för `kampspar`.
 
 ### G14 — Gräns-Arkitekten agent card
 

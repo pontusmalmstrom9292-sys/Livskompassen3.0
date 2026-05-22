@@ -10,6 +10,7 @@ import {
   Timestamp,
   where,
   getDocs,
+  onSnapshot,
 } from 'firebase/firestore';
 import { app } from './init';
 import type { CheckIn, VaultLog, KampsparEntryRow } from '../types/firestore';
@@ -215,26 +216,46 @@ export async function getJournalEntries(userId: string) {
   );
 }
 
+function mapKampsparDoc(
+  d: { id: string; data: () => import('firebase/firestore').DocumentData },
+  userId: string
+): KampsparEntryRow {
+  const data = d.data();
+  return {
+    id: d.id,
+    userId: String(data.userId ?? userId),
+    title: String(data.title ?? ''),
+    content: String(data.content ?? ''),
+    category: data.category ?? null,
+    entryType: data.entryType ?? null,
+    tags: Array.isArray(data.tags) ? data.tags.map(String) : undefined,
+    source: data.source ?? undefined,
+    eventDate: data.eventDate ?? null,
+    embeddingDim: data.embeddingDim ?? null,
+    createdAt: normalizeCreatedAt(data.createdAt),
+  };
+}
+
 export async function getKampsparEntries(userId: string): Promise<KampsparEntryRow[]> {
   const ref = collection(db, FIRESTORE_COLLECTIONS.kampspar);
   const snap = await getDocs(ownerScopedQuery(ref, userId));
-  return sortByCreatedAtDesc(
-    snap.docs.map((d) => {
-      const data = d.data();
-      return {
-        id: d.id,
-        userId: String(data.userId ?? userId),
-        title: String(data.title ?? ''),
-        content: String(data.content ?? ''),
-        category: data.category ?? null,
-        entryType: data.entryType ?? null,
-        tags: Array.isArray(data.tags) ? data.tags.map(String) : undefined,
-        source: data.source ?? undefined,
-        eventDate: data.eventDate ?? null,
-        embeddingDim: data.embeddingDim ?? null,
-        createdAt: normalizeCreatedAt(data.createdAt),
-      };
-    })
+  return sortByCreatedAtDesc(snap.docs.map((d) => mapKampsparDoc(d, userId)));
+}
+
+/** G13 — live Tidshjulet: real-time kampspar listener (silo: kunskap only). */
+export function subscribeKampsparEntries(
+  userId: string,
+  onData: (rows: KampsparEntryRow[]) => void,
+  onError?: (err: Error) => void
+): () => void {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.kampspar);
+  return onSnapshot(
+    ownerScopedQuery(ref, userId),
+    (snap) => {
+      const rows = sortByCreatedAtDesc(snap.docs.map((d) => mapKampsparDoc(d, userId)));
+      onData(rows);
+    },
+    (err) => onError?.(err instanceof Error ? err : new Error(String(err)))
   );
 }
 

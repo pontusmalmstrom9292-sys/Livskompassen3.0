@@ -167,7 +167,7 @@ flowchart TB
 - [x] **G10** Självsorterande inkorg (Kunskap-SPEC §12)
 - [x] **G11** Rensa/isolera mock `Kampspar`-typ vs `KampsparEntry`
 - [x] **G12** Context Cache delad registry
-- [ ] **G13** Tidshjulet → `kampspar`-historik
+- [x] **G13** Tidshjulet → `kampspar`-historik (live + ringar)
 - [ ] **G14** Gräns-Arkitekten — agent card eller merge med BIFF-Skölden
 
 Se [`Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md). Implementation: `kör [GAP]`.
