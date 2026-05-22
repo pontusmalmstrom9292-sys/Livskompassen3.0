@@ -16,7 +16,7 @@
 | **KEEP** | Node 14 fn, Vector west1, kärnbuckets | Behåll — prod |
 | **MIGRATE → DEPRECATE** | Legacy KB stack (Python G4) | Migrera ev. dokument → `kb_docs`/`kampspar`, stäng sedan |
 | **DEPRECATE** | north1-index (0 vektorer), tomma agent-buckets, django-secrets | Efter verifiering |
-| **VERIFY** | ai-studio (~121 MB), cloud-ai-platform (~69 MB) | Granska innehåll före radering |
+| **VERIFY** | ~~ai-studio (~121 MB), cloud-ai-platform (~69 MB)~~ | **raderade** steg 7 2026-05-22 |
 | **WAIT** | `@cursor/sdk`, Data Connect | Ej implementera nu |
 
 **Compute Engine VMs:** **0** — inga idle VMs.
@@ -48,11 +48,11 @@
 
 | Resurs | Region | Storlek | Node-motsvarighet | Avvecklingssteg |
 |--------|--------|---------|-------------------|-----------------|
-| `knowledge-base-webhook` | us-central1 | 3.8 GB RAM fn | `notifyNewFile` → `driveIngestSynapse` → `kb_docs` | **Steg 5** |
+| `knowledge-base-webhook` | us-central1 | 3.8 GB RAM fn | `notifyNewFile` → `driveIngestSynapse` → `kb_docs` | **raderad** steg 5 |
 | ~~`drive_sync_tool`~~ | us-central1 | — | `notifyNewFile` (Node) | **raderad** steg 3 |
 | ~~`biff_generator_tool`~~ | us-central1 | — | `analyzeMessage` (BIFF-Skölden) | **raderad** steg 1 |
 | ~~`brusfiltret_tool`~~ | us-central1 | — | `analyzeMessage` (Brusfiltret) | **raderad** steg 1 |
-| `knowledge-base-bucket-*` | us-central1 | ~10 KB | Firestore `kb_docs` + Vector west1 | **Steg 5** |
+| `knowledge-base-bucket-*` | us-central1 | ~10 KB | Firestore `kb_docs` + Vector west1 | **Steg 5** (migrering **done** steg 4 — 0 poster) |
 | `knowledge-base-docs-*` | us-central1 | 0 B | — | **Steg 5** |
 | `gcf-v2-*` us-central1 | us-central1 | ~9 KB | — | **Steg 5** |
 | `1084026575972-us-central1-blueprint-config` | us-central1 | ~4 MB | Google Solution blueprint | **Steg 5** |
@@ -65,21 +65,21 @@
 
 | Resurs | Region | Bevis | Villkor |
 |--------|--------|-------|---------|
-| `kampspar_index` | europe-north1 | BATCH, **0 endpoints**, inga vectorsCount | west1 är kanon — **Steg 6** |
-| `ekonomichefen` | — | 0 B | Tom — **Steg 6** |
-| `helthcoach` | — | 0 B | Tom — **Steg 6** |
-| `media-gen-lang-client-0481875058-0ebe` | — | 0 B | Tom — **Steg 6** |
-| `django_admin_password-0ebe`, `django_settings-0ebe` | us-central1 secrets | Gammal django-deploy | **Steg 6** efter fn bort |
+| `kampspar_index` | europe-north1 | BATCH, **0 endpoints** | **raderad** steg 6 2026-05-22 |
+| ~~`ekonomichefen`~~ | — | 0 B | **raderad** steg 6 |
+| ~~`helthcoach`~~ | — | 0 B | **raderad** steg 6 |
+| ~~`media-gen-lang-client-0481875058-0ebe`~~ | — | 0 B | **raderad** steg 6 |
+| ~~`django_admin_password-0ebe`, `django_settings-0ebe`~~ | us-central1 secrets | Gammal django-deploy | **raderade** steg 6 |
 
 ---
 
-## VERIFY (granska före radering)
+## VERIFY (avvecklad steg 7)
 
-| Resurs | Storlek | Notering |
-|--------|---------|----------|
-| `ai-studio-bucket-1084026575972-europe-west2` | ~121 MB | AI Studio-experiment — lista objekt före beslut |
-| `cloud-ai-platform-365ee315-6b86-4041-b623-5121d5135266` | ~69 MB | Vertex AI-plattform — kan vara modell/training artefakter |
-| `adc-158a9856-7ab2-4504-afd7-7872260e16db` | ej mätt | ADC-relaterad — verifiera |
+| Resurs | Innehåll | Status |
+|--------|----------|--------|
+| ~~`ai-studio-bucket-1084026575972-europe-west2`~~ | AI Studio `build_artifacts.tar.gz` (121 MB) | **raderad** 2026-05-22 |
+| ~~`cloud-ai-platform-365ee315-6b86-4041-b623-5121d5135266`~~ | Vertex `prompt-data/` 58 objekt (69 MB) | **raderad** 2026-05-22 |
+| `adc-158a9856-7ab2-4504-afd7-7872260e16db` | ej mätt | ADC-relaterad — låg prioritet |
 
 ---
 
@@ -100,15 +100,15 @@
 | 1 | ~~Avveckla `biff_generator_tool` + `brusfiltret_tool`~~ | **done** — `smoke:valv` PASS 2026-05-22 |
 | 2 | **G6** Drive E2E | **done** 2026-05-22 — kb_docs + smoke:kunskap PASS |
 | 3 | Avveckla `drive_sync_tool` | **done** 2026-05-22 — `smoke:kunskap` PASS |
-| 4 | Migrera legacy KB → `kb_docs`/`kampspar` (scope-OK) | `smoke:kunskap` |
-| 5 | Avveckla `knowledge-base-webhook` + legacy buckets | `smoke:kunskap`, `smoke:dossier` |
-| 6 | Ta bort north1-index, tomma buckets, django-secrets | Full smoke ×3 |
-| 7 | VERIFY buckets (ai-studio, cloud-ai-platform) — radera om oanvända | — |
+| 4 | Migrera legacy KB → `kb_docs`/`kampspar` | **done** 2026-05-22 — 0 poster; inventering + smoke PASS |
+| 5 | ~~Avveckla `knowledge-base-webhook`~~ | **done** 2026-05-22 — `smoke:kunskap` + `smoke:dossier` PASS (buckets orörda) |
+| 6 | ~~Ta bort north1-index, tomma buckets, django-secrets~~ | **done** 2026-05-22 — smoke valv/kunskap/dossier PASS |
+| 7 | ~~VERIFY buckets (ai-studio, cloud-ai-platform) — radera om oanvända~~ | **done** 2026-05-22 — smoke ×3 PASS |
 
 **Trigger:** `OK steg N` → agent kör dokumenterat kommando.
 
 ---
 
-## STOPP 3 — nästa steg
+## STOPP 4 — FAS 4 klart
 
-**Steg 1–3 klart.** Nästa: `OK steg 4` (migrera legacy KB) eller `OK steg 5` (knowledge-base-webhook).
+**Steg 1–7 klart** (2026-05-22). Kvar legacy KB-buckets (~10 KB, steg 5 scope) och lågprioritet `adc-*` bucket. Nästa kod-GAP: `kör grunder U2.5` (HITL) eller `kör G7` (journal_woven synaps).

@@ -2,7 +2,7 @@
 
 Källa: app-shell + Kladd 2026-05-21. Konsoliderad till `.context/modules/core.md`.
 
-**Kladd-master:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §G, §H.
+**Kladd-master:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md) §G, §H.
 
 ## 1. Syfte och användarbehov
 

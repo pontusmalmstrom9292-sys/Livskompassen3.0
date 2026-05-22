@@ -2,7 +2,7 @@
 
 **Sacred Feature** — reaktiv kognitiv sköld mot gaslighting/RSD.
 
-**Spec (konsoliderad):** [`docs/specs/incoming/Speglar-SPEC.md`](../../docs/specs/incoming/Speglar-SPEC.md)  
+**Spec (konsoliderad):** [`docs/specs/modules/Speglar-SPEC.md`](../../docs/specs/modules/Speglar-SPEC.md)  
 **Design:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md) (Obsidian Calm)
 
 ## Syfte

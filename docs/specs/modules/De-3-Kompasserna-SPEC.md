@@ -237,7 +237,7 @@ Se [`docs/specs/navigation-master.md`](../navigation-master.md).
 
 ## 14. Kladd-synk (2026-05-21)
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §F, §I.
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md) §F, §I.
 
 | Kladd | Kod |
 |-------|-----|

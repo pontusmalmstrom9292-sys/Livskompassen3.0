@@ -1,7 +1,7 @@
 # Hela arkivet — canonical minnesarkitektur (Life OS)
 
 **Status:** Låst princip (2026-05-21). Konsoliderad mot alla Repomix-analyser + GCP.  
-**Källor:** Repo, [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md), [`Arkiv-SPEC.md`](../docs/specs/incoming/Arkiv-SPEC.md), [`GRUNDER-UTVARDERING-RESULTAT.md`](../docs/specs/incoming/GRUNDER-UTVARDERING-RESULTAT.md), [`KONSOLIDERING-2026-05-21.md`](../docs/archive/repomix/KONSOLIDERING-2026-05-21.md).
+**Källor:** Repo, [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md), [`Arkiv-SPEC.md`](../docs/specs/modules/Arkiv-SPEC.md), [`GRUNDER-UTVARDERING-RESULTAT.md`](../docs/specs/modules/GRUNDER-UTVARDERING-RESULTAT.md), [`KONSOLIDERING-2026-05-21.md`](../docs/archive/repomix/KONSOLIDERING-2026-05-21.md).
 
 ---
 
@@ -168,13 +168,13 @@ flowchart TB
 - [ ] **G13** Tidshjulet → `kampspar`-historik
 - [ ] **G14** Gräns-Arkitekten — agent card eller merge med BIFF-Skölden
 
-Se [`Arkiv-GAP-REGISTER.md`](../docs/specs/incoming/Arkiv-GAP-REGISTER.md). Implementation: `kör [GAP]`.
+Se [`Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md). Implementation: `kör [GAP]`.
 
 ---
 
 ## Relaterade filer
 
-- [`Arkiv-SPEC.md`](../docs/specs/incoming/Arkiv-SPEC.md)
+- [`Arkiv-SPEC.md`](../docs/specs/modules/Arkiv-SPEC.md)
 - [`.context/database.md`](./database.md)
 - [`.context/arkitektur-beslut.md`](./arkitektur-beslut.md) §1.5
 - [`docs/specs/ai-prompts-moduler-master.md`](../docs/specs/ai-prompts-moduler-master.md) §G

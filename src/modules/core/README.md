@@ -54,5 +54,5 @@ Alla moduler importerar från `core` (t.ex. `import { BentoCard } from '../core'
 
 - [module_plan.md](./module_plan.md)
 - [Kontext (.context)](../../../.context/modules/core.md)
-- [Core-SPEC](../../../docs/specs/incoming/Core-SPEC.md)
+- [Core-SPEC](../../../docs/specs/modules/Core-SPEC.md)
 - [navigation-master](../../../docs/specs/navigation-master.md)

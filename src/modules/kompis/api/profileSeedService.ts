@@ -1,4 +1,4 @@
-import manifest from '../../../../docs/specs/incoming/Kampspar-PROFIL-SEED.json';
+import manifest from '../../../../docs/specs/modules/Kampspar-PROFIL-SEED.json';
 import { ingestKampsparEntry } from './kampsparService';
 
 export type ProfileSeedEntry = {

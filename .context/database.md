@@ -35,7 +35,7 @@ Grunden för Livskompassen v2 är "Kunskapsvalvet" (The Knowledge Vault), implem
 
 **Avvecklas:** `kampspar_index` north1 (BATCH, 0 endpoints) — se [`GCP-KONSOLIDERING-BESLUT.md`](../docs/GCP-KONSOLIDERING-BESLUT.md).
 
-**GAP:** G2/G3 **done**. G4 legacy Python **open**.
+**GAP:** G2/G3/G4 **done** (2026-05-22). Öppet: G7–G14 i [`Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md).
 
 ## Kunskapsbank (blueprint → kod)
 
@@ -47,6 +47,6 @@ Grunden för Livskompassen v2 är "Kunskapsvalvet" (The Knowledge Vault), implem
 - Vävaren (`kampsparRag.ts`) läser journal+valv+kampspar för **metadata-tagging** — skild från användar-facing Kunskap-chat.
 - Memory Management: ADK SynapseBus + Zero Footprint (`clearSynapseState`).
 
-## Legacy (GCP, ej i aktiv repo)
+## Legacy (GCP, avvecklad)
 
-Python functions `us-central1`: `knowledge-base-webhook` endast kvar — avveckla steg 5 (GAP G4).
+Python functions `us-central1`: **0 kvar** (G4 **done** 2026-05-22). Se [`LEGACY-KB-MIGRATION-2026-05-22.md`](../docs/LEGACY-KB-MIGRATION-2026-05-22.md).

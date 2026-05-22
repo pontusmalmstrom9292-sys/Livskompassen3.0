@@ -51,7 +51,7 @@
 
 Kör: `node scripts/seed_kampspar_profile.mjs --verify` (kräver `.env`, deployade callables).
 
-Manifest: [`docs/specs/incoming/Kampspar-PROFIL-SEED.json`](./specs/incoming/Kampspar-PROFIL-SEED.json) — **47 poster** (profil, diagnos, strategi, barn, coping, metod).
+Manifest: [`docs/specs/modules/Kampspar-PROFIL-SEED.json`](./specs/modules/Kampspar-PROFIL-SEED.json) — **47 poster** (profil, diagnos, strategi, barn, coping, metod).
 
 | Steg | Resultat | Notering |
 |------|----------|----------|
@@ -209,7 +209,7 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 ## Module plan sync
 
 - [`src/modules/kompis/module_plan.md`](../src/modules/kompis/module_plan.md)
-- [`docs/specs/incoming/Kunskap-SPEC.md`](./specs/incoming/Kunskap-SPEC.md)
+- [`docs/specs/modules/Kunskap-SPEC.md`](./specs/modules/Kunskap-SPEC.md)
 
 ## G6 — Drive-pipeline — **prod verify** 2026-05-22
 
@@ -247,6 +247,66 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 | Secret bunden på function | **PASS** — POST utan header → **401** |
 | Repo fail-closed | **Klar** — 503 om secret saknas i runtime |
 
+## Parallellt obevakat pass (2026-05-22)
+
+**Scope:** Grunder GAP + GCP FAS4 steg 5 + functions deploy.
+
+| Kontroll | Resultat |
+|----------|----------|
+| Baseline smoke (valv, kunskap, dossier) | **PASS** |
+| Grunder GAP — `RSD_KYLAREN_SYSTEM_PROMPT` | **done** |
+| Grunder GAP — PA appendix `Barnen-SPEC.md` | **done** |
+| Grunder GAP — injection-parity `.context/security.md` | **done** |
+| `runExecutor.ts` → `gemini-2.5-flash` | **done** |
+| `cd functions && npm run build` + frontend build | **PASS** |
+| Full smoke (valv, kunskap, speglar, dossier, compass, mabra) | **PASS** |
+| `npx eslint . --max-warnings 0` | **PASS** |
+| `firebase deploy --only functions` | **PASS** — 14 Node functions west1 |
+| FAS4 steg 5 — delete `knowledge-base-webhook` | **PASS** |
+| Post-steg5 smoke (kunskap, dossier) | **PASS** |
+
+**Kvar öppet:** U2.5 HITL · legacy KB-buckets (~10 KB, steg 5 scope).
+
+## FAS4 steg 7 — VERIFY experiment-buckets (2026-05-22)
+
+| Kontroll | Resultat |
+|----------|----------|
+| `ai-studio-bucket` — 1 objekt, `build_artifacts.tar.gz` (121 MB) | Legacy AI Studio — **raderad** |
+| `cloud-ai-platform` — 58 objekt, `prompt-data/` (69 MB) | Vertex prompt-cache — **raderad** |
+| Kodreferens i `functions/` | **0** — kanon = `sharedRules.ts` + west1 Vector |
+| Post-steg7 `smoke:valv` | **PASS** |
+| Post-steg7 `smoke:kunskap` | **PASS** |
+| Post-steg7 `smoke:dossier` | **PASS** |
+
+**FAS 4 avveckling:** steg 1–7 **klart**.
+
+## U5.5 — Kompis → Barnen routing (2026-05-22)
+
+| Kontroll | Resultat |
+|----------|----------|
+| `barnenModuleRouteGuard.ts` + `moduleRoute` i `knowledgeVaultQuery` | **done** |
+| Frontend `KnowledgeVaultChat` länk till `/familjen` | **done** |
+| `firebase deploy --only functions:knowledgeVaultQuery` | **PASS** |
+| `npm run smoke:kunskap` (Minne-fråga, ingen redirect) | **PASS** |
+| Live redirect: "Hur loggar jag barnens sömn i livsloggen?" | **PASS** — `moduleRoute.path=/familjen`, 0 citations |
+
+**Silo:** Ingen läsning av `children_logs`; Valv/forensik blockeras av guard.
+
+## FAS4 steg 6 — north1-index + tomma buckets + django-secrets (2026-05-22)
+
+| Kontroll | Resultat |
+|----------|----------|
+| Verifiering: north1 `kampspar_index` (0 endpoints) | **PASS** |
+| Verifiering: 3 buckets 0 B | **PASS** |
+| Delete `9094201410823651328` (europe-north1) | **PASS** |
+| Delete `ekonomichefen`, `helthcoach`, `media-gen-lang-client-0481875058-0ebe` | **PASS** |
+| Delete `django_admin_password-0ebe`, `django_settings-0ebe` | **PASS** |
+| Post-steg6 `smoke:valv` | **PASS** |
+| Post-steg6 `smoke:kunskap` | **PASS** |
+| Post-steg6 `smoke:dossier` | **PASS** |
+
+**Ej rört:** west1 Vector Search (102 vectors), WORM-collections, legacy KB-buckets (~10 KB).
+
 ## FAS4 steg 3 — drive_sync_tool (2026-05-22)
 
 | Kontroll | Resultat |
@@ -256,15 +316,25 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 
 **Kvar legacy Python:** `knowledge-base-webhook` endast.
 
+## FAS4 steg 4 — legacy KB migrering (2026-05-22)
+
+| Kontroll | Resultat |
+|----------|----------|
+| Discovery Engine data stores | **0** |
+| GCS legacy user documents | **0** |
+| `migrate_legacy_kb.mjs --inventory-only` | **PASS** — tom manifest |
+| `npm run smoke:kunskap` | **PASS** |
+
+Se [`LEGACY-KB-MIGRATION-2026-05-22.md`](LEGACY-KB-MIGRATION-2026-05-22.md).
+
 ## Nästa kod-GAP (efter grund-låsning)
 
 | Kommando | Innehåll |
 |----------|----------|
-| `OK steg 4` | Migrera legacy KB → `kb_docs`/`kampspar` |
-| `OK steg 5` | Avveckla `knowledge-base-webhook` |
 | `kör G7` | Implementera `journal_woven` synaps (opt-in → `kampspar`) — separat session |
+| `kör grunder U2.5` | HITL / human fallback stub |
 
-Se [`Arkiv-GAP-REGISTER.md`](./specs/incoming/Arkiv-GAP-REGISTER.md).
+Se [`Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md).
 
 ## Multitask GAP-våg (2026-05-21) — våg 3 master review
 

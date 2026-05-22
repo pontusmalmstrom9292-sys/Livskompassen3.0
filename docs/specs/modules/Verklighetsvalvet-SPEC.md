@@ -2,7 +2,7 @@
 
 Källa: konsoliderad från 5 notebook-svar (2026-05) + Kladd 2026-05-21 + kodgranskning.  
 Konsoliderad till [`.context/modules/verklighetsvalvet.md`](../../../.context/modules/verklighetsvalvet.md).  
-**Kladd-master:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §D–§H.
+**Kladd-master:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md) §D–§H.
 
 ## 1. Syfte och användarbehov
 
@@ -238,7 +238,7 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 
 ## 14. Kladd-synk (2026-05-21)
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §D–§H.
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md) §D–§H.
 
 | Prioritet bevis | Status produkt |
 |-----------------|----------------|
@@ -260,6 +260,6 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 ---
 
 **Module plan (kod):** [`src/modules/verklighetsvalvet/module_plan.md`](../../../src/modules/verklighetsvalvet/module_plan.md)  
-**Valv-Chat:** [`docs/specs/incoming/Valv-Chat-SPEC.md`](./Valv-Chat-SPEC.md)  
+**Valv-Chat:** [`docs/specs/modules/Valv-Chat-SPEC.md`](./Valv-Chat-SPEC.md)  
 **Prompter:** [`docs/specs/ai-prompts-heart.md`](../ai-prompts-heart.md), [`docs/specs/ai-prompts-moduler-master.md`](../ai-prompts-moduler-master.md)  
 **Flöde:** [`docs/specs/hjartat-flode.md`](../hjartat-flode.md)

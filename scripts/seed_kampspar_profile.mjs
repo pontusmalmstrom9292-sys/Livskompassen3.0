@@ -28,7 +28,7 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 const envPath = resolve(root, '.env');
-const manifestPath = resolve(root, 'docs/specs/incoming/Kampspar-PROFIL-SEED.json');
+const manifestPath = resolve(root, 'docs/specs/modules/Kampspar-PROFIL-SEED.json');
 
 function loadEnv() {
   if (!existsSync(envPath)) {

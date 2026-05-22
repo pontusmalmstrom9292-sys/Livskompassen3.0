@@ -1,7 +1,7 @@
 # Dagbokshubben
 
 **Route:** `/dagbok` (flik `reflektion` i Hjärtat) · **AuthGate:** ja  
-**Spec (konsoliderad):** [`docs/specs/incoming/Dagbok-SPEC.md`](../../docs/specs/incoming/Dagbok-SPEC.md)
+**Spec (konsoliderad):** [`docs/specs/modules/Dagbok-SPEC.md`](../../docs/specs/modules/Dagbok-SPEC.md)
 
 ## Syfte
 

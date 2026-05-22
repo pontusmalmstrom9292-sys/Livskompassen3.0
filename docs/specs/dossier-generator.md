@@ -2,7 +2,7 @@
 
 **Sacred Feature.** Samlad WORM-export till PDF med hash och explicit användar-trigger.
 
-**Kanonisk spec:** [`incoming/Dossier-SPEC.md`](incoming/Dossier-SPEC.md)  
+**Kanonisk spec:** [`modules/Dossier-SPEC.md`](modules/Dossier-SPEC.md)  
 **Context:** [`.context/modules/dossier.md`](../../.context/modules/dossier.md)  
 **Module plan:** [`src/modules/dossier/module_plan.md`](../../src/modules/dossier/module_plan.md)
 

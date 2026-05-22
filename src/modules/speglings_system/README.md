@@ -59,4 +59,4 @@ Validera utan att fixa. Jämför känsla mot WORM-bevis. Grey Rock, max 2–4 me
 
 - [module_plan.md](./module_plan.md)
 - [Kontext (.context)](../../../.context/modules/speglingssystemet.md)
-- [Speglar-SPEC](../../../docs/specs/incoming/Speglar-SPEC.md)
+- [Speglar-SPEC](../../../docs/specs/modules/Speglar-SPEC.md)

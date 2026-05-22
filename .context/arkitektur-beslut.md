@@ -16,7 +16,7 @@ Markera steg `[x]` endast efter ditt uttryckliga godkännande och efter git-push
 | 0.1 | Aktiv produktionsmapp | Livskompassen_PROD | **Livskompassen_PROD** | [x] |
 | 0.2 | Legacy (v2, 2.0, cursor) | Referens / arkiv / ignorera | **Referens endast** | [x] |
 | 0.3 | Konfliktkarta | `.cursorrules` | **Aktiv** | [x] |
-| 0.4 | GitHub remote | URL | _väntar — se `GITHUB_SETUP.md`_ | [ ] |
+| 0.4 | GitHub remote | URL | Se [`docs/GITHUB_STANDALONE_SETUP.md`](../docs/GITHUB_STANDALONE_SETUP.md) | [ ] |
 
 ---
 

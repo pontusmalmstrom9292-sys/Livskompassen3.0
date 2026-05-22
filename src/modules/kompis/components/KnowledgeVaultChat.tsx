@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { callKnowledgeVault, type KnowledgeVaultCitation } from '../api/knowledgeVaultService';
+import { Link } from 'react-router-dom';
+import { callKnowledgeVault, type KnowledgeVaultCitation, type KnowledgeVaultResult } from '../api/knowledgeVaultService';
 import { useStore } from '../../core/store';
 import { Lock } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
@@ -12,6 +13,7 @@ export function KnowledgeVaultChat({ onCitationClick }: KnowledgeVaultChatProps 
   const [inputText, setInputText] = useState<string>('');
   const [aiResponse, setAiResponse] = useState<string | null>(null);
   const [citations, setCitations] = useState<KnowledgeVaultCitation[]>([]);
+  const [moduleRoute, setModuleRoute] = useState<KnowledgeVaultResult['moduleRoute']>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const isAuthenticated = useStore((s) => s.isAuthenticated);
@@ -33,12 +35,14 @@ export function KnowledgeVaultChat({ onCitationClick }: KnowledgeVaultChatProps 
     setError(null);
     setAiResponse(null);
     setCitations([]);
+    setModuleRoute(undefined);
     setKompisAura(true);
 
     try {
       const result = await callKnowledgeVault(inputText);
       setAiResponse(result.answer);
       setCitations(result.citations ?? []);
+      setModuleRoute(result.moduleRoute);
       setInputText('');
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Ett okänt fel inträffade.';
@@ -92,6 +96,14 @@ export function KnowledgeVaultChat({ onCitationClick }: KnowledgeVaultChatProps 
         <div className="glass-card mt-6 p-6">
           <h3 className="mb-2 font-display font-semibold text-accent">Svar</h3>
           <p className="whitespace-pre-wrap text-text-muted">{aiResponse}</p>
+          {moduleRoute && (
+            <Link
+              to={moduleRoute.path}
+              className="btn-pill--secondary mt-4 inline-flex text-sm"
+            >
+              Öppna {moduleRoute.label}
+            </Link>
+          )}
           {citations.length > 0 && (
             <div className="mt-4 space-y-2 border-t border-border pt-4">
               <p className="text-[10px] uppercase tracking-widest text-success">Källor</p>

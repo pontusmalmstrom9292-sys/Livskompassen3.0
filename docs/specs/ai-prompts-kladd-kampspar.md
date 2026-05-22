@@ -3,7 +3,7 @@
 Strukturera rörigt material för Livskompassen. **Modulöversikt och arkitektur:** [`ai-prompts-moduler-master.md`](ai-prompts-moduler-master.md).
 
 Kopiera **en prompt** per konversation till extern AI (NotebookLM, Gemini, Apple Notes).  
-Spara output som `docs/specs/incoming/Kladd-YYYY-MM-DD-kort-titel.md` och konsolidera i Cursor.
+Spara output som `docs/archive/kladd/Kladd-YYYY-MM-DD-kort-titel.md` och konsolidera i Cursor.
 
 Relaterat: [`ai-prompts-heart.md`](ai-prompts-heart.md), [`ai-prompts-wave2.md`](ai-prompts-wave2.md).
 
@@ -84,7 +84,7 @@ Modul: barnen (+ ev. valv vid allvarlig incident).
 ## C. Konsolidering i Cursor
 
 ```
-Jag laddar upp Kladd-*.md till docs/specs/incoming/.
+Jag laddar upp Kladd-*.md till docs/specs/modules/.
 Konsolidera till rätt .context/modules/*.md + module_plan.md gap-tabell.
 Extrahera Minne-rader till strukturerad lista (title, date, category, content, source).
 Implementera INTE kod förrän jag säger "kör".
@@ -124,7 +124,7 @@ Markera: klart / delvis / planerat / motsägelse mot kod.
 | Steg | Var | Åtgärd |
 |------|-----|--------|
 | 1 | Extern AI | Kör prompt A (+ ev. B) |
-| 2 | `docs/specs/incoming/` | Spara `Kladd-*.md` |
+| 2 | `docs/specs/modules/` | Spara `Kladd-*.md` |
 | 3 | Cursor | Kör prompt C |
 | 4 | (Valfritt) Drive Inbox | PDF → kb_docs när webhook + ownerId är konfigurerade |
 

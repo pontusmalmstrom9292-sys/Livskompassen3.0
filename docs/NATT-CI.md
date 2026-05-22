@@ -14,7 +14,7 @@ Automatiserad nattpass-loop via [`@cursor/sdk`](https://www.npmjs.com/package/@c
 3. `npx eslint . --max-warnings 0`
 4. `npm run smoke:valv` / `smoke:kunskap` / `smoke:dossier`
 
-Ersätter manuella overnight-sessioner dokumenterade i [`docs/OVERNIGHT_REPORT.md`](OVERNIGHT_REPORT.md).
+Ersätter manuella overnight-sessioner (historik: [`docs/archive/OVERNIGHT_REPORT.md`](archive/OVERNIGHT_REPORT.md)).
 
 ---
 

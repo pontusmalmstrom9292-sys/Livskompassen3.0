@@ -4,7 +4,7 @@
 
 Dossier-Generator — Sacred Feature. Samlad WORM-export till PDF med hash + `dossier_snapshots`.
 
-**Route:** `/dossier` (AuthGate + Fyren A) · **Canonical:** [`docs/specs/incoming/Dossier-SPEC.md`](../../../docs/specs/incoming/Dossier-SPEC.md), `.context/modules/dossier.md`
+**Route:** `/dossier` (AuthGate + Fyren A) · **Canonical:** [`docs/specs/modules/Dossier-SPEC.md`](../../../docs/specs/modules/Dossier-SPEC.md), `.context/modules/dossier.md`
 
 ## Låsta beslut (#1–#4)
 
@@ -23,7 +23,7 @@ Se Dossier-SPEC tabell. Fyren A, backend PDF, snapshot WORM evigt, hela dokument
 | Vävaren försätt opt-in | AI endast försätt | Nej | **planned** |
 | Async `dossier_jobs` | Lång kö | Nej | **planned** |
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Files
 

@@ -2,7 +2,7 @@
 
 Kompletterar [`hjartat-flode.md`](hjartat-flode.md) (Dagbok → Valv → Speglar).
 
-**Synkad mot kod + Kladd:** [`incoming/Kladd-2026-05-21-PERSONAL-MASTER.md`](incoming/Kladd-2026-05-21-PERSONAL-MASTER.md) (2026-05-21).
+**Synkad mot kod + Kladd:** [`../archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md`](../archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md) (2026-05-21).
 
 ```mermaid
 flowchart LR
@@ -41,7 +41,7 @@ flowchart LR
 | 5 | Visuellt Brusfilter-steg, mål-fält, Klar + unmount | **planned** |
 | 6 | Dölj inkommande tills energi | **planned** fas 2 |
 
-Spec: [`incoming/SafeHarbor-SPEC.md`](incoming/SafeHarbor-SPEC.md)
+Spec: [`modules/SafeHarbor-SPEC.md`](modules/SafeHarbor-SPEC.md)
 
 ## Barnen (livsloggar)
 
@@ -56,7 +56,7 @@ Spec: [`incoming/SafeHarbor-SPEC.md`](incoming/SafeHarbor-SPEC.md)
 
 **Kladd (bevis i valv, ej auto):** skola Ann/Lena, barnsamtal 2026-03-12 — `category: skola` tills tredjepartstagg.
 
-Spec: [`incoming/Barnen-SPEC.md`](incoming/Barnen-SPEC.md)
+Spec: [`modules/Barnen-SPEC.md`](modules/Barnen-SPEC.md)
 
 ## Dossier (Sacred Feature)
 
@@ -76,7 +76,7 @@ Spec: [`incoming/Barnen-SPEC.md`](incoming/Barnen-SPEC.md)
 | 4 | Bro *Skapa Dossier* från Valv/Barnen | **planned** |
 | 5 | BBIC `reportType`, Vävaren försätt | **planned** fas 2 |
 
-Spec: [`incoming/Dossier-SPEC.md`](incoming/Dossier-SPEC.md) · [`dossier-generator.md`](dossier-generator.md)
+Spec: [`modules/Dossier-SPEC.md`](modules/Dossier-SPEC.md) · [`dossier-generator.md`](dossier-generator.md)
 
 ## De 3 Kompasserna
 
@@ -91,7 +91,7 @@ Spec: [`incoming/Dossier-SPEC.md`](incoming/Dossier-SPEC.md) · [`dossier-genera
 
 **Kladd:** Paralys **inte** auto vid lågt humör — manuell knapp.
 
-Spec: [`incoming/De-3-Kompasserna-SPEC.md`](incoming/De-3-Kompasserna-SPEC.md)
+Spec: [`modules/De-3-Kompasserna-SPEC.md`](modules/De-3-Kompasserna-SPEC.md)
 
 ## Valv-Chat (skild från Kunskap)
 
@@ -112,7 +112,7 @@ Spec: [`incoming/De-3-Kompasserna-SPEC.md`](incoming/De-3-Kompasserna-SPEC.md)
 
 **Speglar:** `matchVaultEvidence` = deterministisk compare, ej chat.
 
-Spec: [`incoming/Valv-Chat-SPEC.md`](incoming/Valv-Chat-SPEC.md)
+Spec: [`modules/Valv-Chat-SPEC.md`](modules/Valv-Chat-SPEC.md)
 
 ## Kladd — låsta beslut (P2-scope)
 
@@ -124,10 +124,10 @@ Spec: [`incoming/Valv-Chat-SPEC.md`](incoming/Valv-Chat-SPEC.md)
 
 ## Spec-källor P2
 
-- [`incoming/SafeHarbor-SPEC.md`](incoming/SafeHarbor-SPEC.md)
-- [`incoming/Barnen-SPEC.md`](incoming/Barnen-SPEC.md)
-- [`incoming/De-3-Kompasserna-SPEC.md`](incoming/De-3-Kompasserna-SPEC.md)
-- [`incoming/Valv-Chat-SPEC.md`](incoming/Valv-Chat-SPEC.md)
-- [`incoming/Dossier-SPEC.md`](incoming/Dossier-SPEC.md)
-- [`incoming/Kladd-2026-05-21-PERSONAL-MASTER.md`](incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
-- [`incoming/Ekonomi-SPEC.md`](incoming/Ekonomi-SPEC.md) · [`incoming/Core-SPEC.md`](incoming/Core-SPEC.md)
+- [`modules/SafeHarbor-SPEC.md`](modules/SafeHarbor-SPEC.md)
+- [`modules/Barnen-SPEC.md`](modules/Barnen-SPEC.md)
+- [`modules/De-3-Kompasserna-SPEC.md`](modules/De-3-Kompasserna-SPEC.md)
+- [`modules/Valv-Chat-SPEC.md`](modules/Valv-Chat-SPEC.md)
+- [`modules/Dossier-SPEC.md`](modules/Dossier-SPEC.md)
+- [`../archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md`](../archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
+- [`modules/Ekonomi-SPEC.md`](modules/Ekonomi-SPEC.md) · [`modules/Core-SPEC.md`](modules/Core-SPEC.md)

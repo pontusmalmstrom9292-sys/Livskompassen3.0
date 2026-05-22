@@ -206,7 +206,7 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 
 ## 14. Kladd-synk (2026-05-21)
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §E, §H · [`Kladd-2026-05-21-kampspar-kandidater.md`](./Kladd-2026-05-21-kampspar-kandidater.md).
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md) §E, §H · [`Kladd-2026-05-21-kampspar-kandidater.md`](../../archive/kladd/Kladd-2026-05-21-kampspar-kandidater.md).
 
 | Policy | Status |
 |--------|--------|

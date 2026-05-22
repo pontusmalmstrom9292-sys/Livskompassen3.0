@@ -69,7 +69,7 @@ PLANERAT: dölj synlig Bevis-flik (Fyren only), klickbara citations, Drive→val
 
 KOPPLINGAR: Dagbok (vävaren_metadata), Valv-Chat, Speglar, Hamn (valfri save), Kunskap (skild — Drive→kb_docs)
 
-Output: [`docs/specs/incoming/Verklighetsvalvet-SPEC.md`](incoming/Verklighetsvalvet-SPEC.md) (konsoliderad 2026-05)
+Output: [`docs/specs/modules/Verklighetsvalvet-SPEC.md`](modules/Verklighetsvalvet-SPEC.md) (konsoliderad 2026-05)
 ```
 
 ---

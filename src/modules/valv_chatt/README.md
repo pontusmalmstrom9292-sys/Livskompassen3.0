@@ -60,5 +60,5 @@ Sök med källhänvisningar (Sannings-Analytikern). Zero Footprint: ingen sparad
 
 - [module_plan.md](./module_plan.md)
 - [Kontext (.context)](../../../.context/modules/valv_chatt.md)
-- [Valv-Chat-SPEC](../../../docs/specs/incoming/Valv-Chat-SPEC.md)
+- [Valv-Chat-SPEC](../../../docs/specs/modules/Valv-Chat-SPEC.md)
 - [verklighetsvalvet README](../verklighetsvalvet/README.md)

@@ -67,7 +67,7 @@ flowchart LR
 | Valv-Chat | Bevis-flik efter unlock | `reality_vault` | Forensisk bevisföring |
 | Kunskap (chat) | samma som rad 1 | RAG + citations | Frågor mot *dina* poster |
 
-**Permanent minne:** WORM-poster raderas inte av design. Valv-Chat ≠ hela systemets minne. Barnfrågor → `children_logs` + Dossier (+ planerad Familjen-RAG). Se [`.context/arkiv-minne.md`](../../.context/arkiv-minne.md) och [`Arkiv-SPEC.md`](incoming/Arkiv-SPEC.md).
+**Permanent minne:** WORM-poster raderas inte av design. Valv-Chat ≠ hela systemets minne. Barnfrågor → `children_logs` + Dossier (+ planerad Familjen-RAG). Se [`.context/arkiv-minne.md`](../../.context/arkiv-minne.md) och [`Arkiv-SPEC.md`](modules/Arkiv-SPEC.md).
 
 ---
 
@@ -84,7 +84,7 @@ Canonical: [`.context/arkiv-minne.md`](../../.context/arkiv-minne.md) · GCP: [`
 | Agenter | `livskompassen-memory-agents` | sharedRules |
 | Silo-vakt | `livskompassen-memory-silo-guard` | cross-RAG |
 
-Implementationsbacklog: [`Arkiv-GAP-REGISTER.md`](incoming/Arkiv-GAP-REGISTER.md).
+Implementationsbacklog: [`Arkiv-GAP-REGISTER.md`](modules/Arkiv-GAP-REGISTER.md).
 
 ---
 
@@ -146,7 +146,7 @@ AGENTER: Livs-Arkivarien / Mönster-Arkivarien (Minne RAG). Prompts i functions/
 
 Planera: Vector Search ANN när VECTOR_SEARCH_INDEX_ID är satt; full Kompis Supervisor i UI.
 
-Output: [`docs/specs/incoming/Kunskap-SPEC.md`](incoming/Kunskap-SPEC.md) (konsoliderad 2026-05)
+Output: [`docs/specs/modules/Kunskap-SPEC.md`](modules/Kunskap-SPEC.md) (konsoliderad 2026-05)
 ```
 
 ---
@@ -172,7 +172,7 @@ PLANERAT: Måbra-bro, KBT-frågor per humör, villkorlig Speglar via Vävaren, h
 
 KOPPLINGAR: Speglar (bro), Verklighetsvalvet (vävaren + Fyren), Kunskap (ingen auto — Vävaren läser RAG only)
 
-Output: [`docs/specs/incoming/Dagbok-SPEC.md`](incoming/Dagbok-SPEC.md) (konsoliderad 2026-05)
+Output: [`docs/specs/modules/Dagbok-SPEC.md`](modules/Dagbok-SPEC.md) (konsoliderad 2026-05)
 ```
 
 ---
@@ -207,7 +207,7 @@ PRODUKTBESLUT (låsta): Drive→valv manuellt; PDF klient nu / Dossier senare; W
 
 PLANERAT: dölj synlig Bevis-flik, klickbara citations, Drive manuellt till valv, generateDossier batch, Sanningens Ankare
 
-Output: [`docs/specs/incoming/Verklighetsvalvet-SPEC.md`](incoming/Verklighetsvalvet-SPEC.md) (konsoliderad 2026-05)
+Output: [`docs/specs/modules/Verklighetsvalvet-SPEC.md`](modules/Verklighetsvalvet-SPEC.md) (konsoliderad 2026-05)
 ```
 
 ---
@@ -239,7 +239,7 @@ PLANERAT: full DCAP Genkit, Vector Search valv, enforced 4 meningar backend, Vä
 
 KOPPLINGAR: Dagbok (bro), Verklighetsvalvet (read-only), Hamn (BIFF)
 
-Output: [`docs/specs/incoming/Speglar-SPEC.md`](incoming/Speglar-SPEC.md) (konsoliderad 2026-05)
+Output: [`docs/specs/modules/Speglar-SPEC.md`](modules/Speglar-SPEC.md) (konsoliderad 2026-05)
 ```
 
 ---
@@ -270,7 +270,7 @@ PLANERAT: wizard UX, PDF+hash (Dossier), tredjepartstagg, larm diskret, Sandbox/
 
 KOPPLINGAR: Dossier (opt-in), Verklighetsvalvet (explicit bro planerad), Dagbok Variant B
 
-Output: [`docs/specs/incoming/Barnen-SPEC.md`](incoming/Barnen-SPEC.md) (konsoliderad 2026-05)
+Output: [`docs/specs/modules/Barnen-SPEC.md`](modules/Barnen-SPEC.md) (konsoliderad 2026-05)
 ```
 
 ---
@@ -297,24 +297,24 @@ PLANERAT (fas 2):
 
 PRODUKTBESLUT (låsta): metadata sparas; Obsidian Calm; ingen streak/natur; AI opt-in; #6366F1 coach
 
-Output: [`docs/specs/incoming/Mabra-SPEC.md`](incoming/Mabra-SPEC.md) (konsoliderad 2026-05)
+Output: [`docs/specs/modules/Mabra-SPEC.md`](modules/Mabra-SPEC.md) (konsoliderad 2026-05)
 ```
 
 ---
 
 ## D. Modul-block — Kladd-sanerare
 
-Se fullständig prompt i [`ai-prompts-kladd-kampspar.md`](ai-prompts-kladd-kampspar.md). Output: `Kladd-YYYY-MM-DD-titel.md` → `docs/specs/incoming/`.
+Se fullständig prompt i [`ai-prompts-kladd-kampspar.md`](ai-prompts-kladd-kampspar.md). Output: `Kladd-YYYY-MM-DD-titel.md` → `docs/specs/modules/`.
 
 ---
 
 ## E. Cursor-konsolidering
 
 ```
-Jag laddar upp [MODUL]-SPEC.md eller Kladd-*.md till docs/specs/incoming/.
+Jag laddar upp [MODUL]-SPEC.md eller Kladd-*.md till docs/specs/modules/.
 
 Konsolidera till:
-1. docs/specs/incoming/[MODUL]-SPEC.md (ren markdown, 11 sektioner)
+1. docs/specs/modules/[MODUL]-SPEC.md (ren markdown, 11 sektioner)
 2. .context/modules/[modul].md med gap-tabell (klart / delvis / planerat)
 3. src/modules/[modul]/module_plan.md
 4. Synka docs/specs/p2-flode.md om flödet avviker
@@ -347,6 +347,6 @@ Spara som separata filer: Dagbok-SPEC.md, Kunskap-SPEC.md, Speglar-SPEC.md, Barn
 
 | Steg | Verktyg | Resultat |
 |------|---------|----------|
-| 1 | NotebookLM + master + modul-block | `docs/specs/incoming/*-SPEC.md` |
+| 1 | NotebookLM + master + modul-block | `docs/specs/modules/*-SPEC.md` |
 | 2 | Cursor + konsoliderings-prompt | `.context/modules/` uppdaterad |
 | 3 | Säg "kör" i Cursor | Implementation av gap |

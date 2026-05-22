@@ -1,7 +1,7 @@
 # Barnens livsloggar
 
 **Route:** `/familjen` · **Redirect:** `/barnen` · **AuthGate:** ja · **Dock:** Heart  
-**Spec (konsoliderad):** [`docs/specs/incoming/Barnen-SPEC.md`](../../docs/specs/incoming/Barnen-SPEC.md)
+**Spec (konsoliderad):** [`docs/specs/modules/Barnen-SPEC.md`](../../docs/specs/modules/Barnen-SPEC.md)
 
 ## Syfte
 
@@ -61,7 +61,7 @@
 
 ## Produktbeslut (låsta 2026-05)
 
-Se §14 i [`Barnen-SPEC.md`](../../docs/specs/incoming/Barnen-SPEC.md): enkel PIN, visibilitychange-lås, incident explicit med sourceRef, balans=fysiologi only, export per barn, Dossier opt-in.
+Se §14 i [`Barnen-SPEC.md`](../../docs/specs/modules/Barnen-SPEC.md): enkel PIN, visibilitychange-lås, incident explicit med sourceRef, balans=fysiologi only, export per barn, Dossier opt-in.
 
 ## Kopplingar
 

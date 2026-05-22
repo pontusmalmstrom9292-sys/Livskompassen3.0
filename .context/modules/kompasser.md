@@ -2,7 +2,7 @@
 
 **Route:** `/vardagen` (kompasser-tab) · **Redirect:** `/kompasser` → `/vardagen`  
 **AuthGate:** **done** på `/vardagen` · **Dock:** Sprout  
-**Spec:** [`docs/specs/incoming/De-3-Kompasserna-SPEC.md`](../../docs/specs/incoming/De-3-Kompasserna-SPEC.md) (notebook #1–#5, beslut låsta 2026-05-21)  
+**Spec:** [`docs/specs/modules/De-3-Kompasserna-SPEC.md`](../../docs/specs/modules/De-3-Kompasserna-SPEC.md) (notebook #1–#5, beslut låsta 2026-05-21)  
 **Design:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md)
 
 ---

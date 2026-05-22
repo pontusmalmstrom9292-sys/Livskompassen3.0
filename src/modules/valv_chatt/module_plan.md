@@ -6,7 +6,7 @@ Valv-Chat — forensisk fråga/svar mot `reality_vault` (WORM). **Skild från** 
 
 **Ingång:** flik *Sök* i upplåst Verklighetsvalvet (`/dagbok?tab=bevis`)
 
-Canonical: `.context/modules/valv_chatt.md` · Spec: `docs/specs/incoming/Valv-Chat-SPEC.md`
+Canonical: `.context/modules/valv_chatt.md` · Spec: `docs/specs/modules/Valv-Chat-SPEC.md`
 
 ## Files
 
@@ -28,7 +28,7 @@ Canonical: `.context/modules/valv_chatt.md` · Spec: `docs/specs/incoming/Valv-C
 | Sanningens Ankare pin | §I.3 fas 2 | Nej | **planned** |
 | Bro Speglar → processa | | Nej | **planned** |
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Security notes
 

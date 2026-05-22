@@ -376,7 +376,7 @@
 | **Saknas** | **`EntityProfile` runtime-modell (G9)**; formell `$context.variables`-motor; SystemSynapse Firestore ≠ ADK synaps |
 | **Strider** | Repomix/blueprint EntityProfile — **planerat**, ej prod |
 
-**Kod:** `firebase-blueprint.json`, `firestore.rules`, `docs/specs/incoming/Arkiv-GAP-REGISTER.md` G9
+**Kod:** `firebase-blueprint.json`, `firestore.rules`, `docs/specs/modules/Arkiv-GAP-REGISTER.md` G9
 
 ---
 

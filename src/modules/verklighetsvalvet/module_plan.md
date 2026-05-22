@@ -4,7 +4,7 @@
 
 Sacred Feature: WORM evidence vault (Verklighetsvalvet / Sanningens Sköld). Route `/dagbok?tab=bevis`; redirect `/valv`. Dold ingång via Fyren (3s long-press BookOpen + WebAuthn + PIN).
 
-Canonical: `.context/modules/verklighetsvalvet.md` · Spec: `docs/specs/incoming/Verklighetsvalvet-SPEC.md`
+Canonical: `.context/modules/verklighetsvalvet.md` · Spec: `docs/specs/modules/Verklighetsvalvet-SPEC.md`
 
 ## Files
 
@@ -40,7 +40,7 @@ Canonical: `.context/modules/verklighetsvalvet.md` · Spec: `docs/specs/incoming
 | Sanningens Ankare landning | Notebook | Nej | **planned** |
 | Auto Storage-analys | Notebook vision | Nej | **rejected** |
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Produktbeslut (låsta 2026-05)
 

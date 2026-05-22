@@ -54,4 +54,4 @@ Känslomässig brandvägg: Brusfilter → BIFF-svar. Kognitiv avlastning vid hö
 
 - [module_plan.md](./module_plan.md)
 - [Kontext (.context)](../../../.context/modules/safe_harbor.md)
-- [SafeHarbor-SPEC](../../../docs/specs/incoming/SafeHarbor-SPEC.md)
+- [SafeHarbor-SPEC](../../../docs/specs/modules/SafeHarbor-SPEC.md)

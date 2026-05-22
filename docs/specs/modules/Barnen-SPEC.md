@@ -220,7 +220,7 @@ Index: `ownerId` + `createdAt` (desc). Barn filter **klient-side** (`childAlias`
 
 ## 14. Kladd-synk (2026-05-21)
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §D, §F.
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md) §D, §F.
 
 | Bevis / observation (Kladd) | Modul | Valv |
 |----------------------------|-------|------|
@@ -245,6 +245,22 @@ Index: `ownerId` + `createdAt` (desc). Barn filter **klient-side** (`childAlias`
 | 11 | WORM | Firestore rules (**klart**) + hash vid export senare | **Ja** |
 | 12 | Route/titel | Route **`/familjen`**, dock **Familjen**, innehåll **Livsloggar** | **Ja** |
 | 13 | AI JADE-granskare | Opt-in **planerat** — inte MVP | **Ja** |
+
+---
+
+## Appendix A — Parental alienation (domänreferens, G52)
+
+**Källa:** Grunder slide [`G52-parental-alienation-anatomy.png`](./grunder-slides/09-barn-domän/G52-parental-alienation-anatomy.png) — **domänkunskap**, inte ny agent och **ingen** RAG över `children_logs`.
+
+| Princip | Livskompassen-regel |
+|---------|---------------------|
+| Observerbara barnsignaler | Livslogg + fysiologi — fakta, datum, BBIC-kategorier; ingen vuxenkonflikt i posten |
+| Dokumentation | WORM `children_logs`; export JSON/PDF **per barn** — rent från valv-ton |
+| Motpartens narrativ | **Ej** i Barnen-silo — Hamn/Valv/Dossier vid behov, separat silo |
+| AI i Barnen MVP | Ingen autonom PA-analys; opt-in JADE-granskare **planerad**, ej MVP (§15) |
+| Dossier | Aggregering enligt §14 — opt-in, hash vid export |
+
+**MUST NOT:** Cross-RAG mellan `children_logs` och `kampspar`/`reality_vault`. PA-innehåll förklarar *varför* silon hålls isär — implementera inte som ny ingest-kanal.
 
 ---
 

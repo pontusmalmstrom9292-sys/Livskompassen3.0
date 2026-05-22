@@ -61,6 +61,6 @@ Kravlösa övningar: panik/RSD, självkritik, grounding. Ett steg i taget. **Int
 
 - [module_plan.md](./module_plan.md)
 - [Kontext (.context)](../../../.context/modules/mabra_sidan.md)
-- [Mabra-SPEC](../../../docs/specs/incoming/Mabra-SPEC.md)
+- [Mabra-SPEC](../../../docs/specs/modules/Mabra-SPEC.md)
 
 **Deploy:** `firebase deploy --only firestore` för rules i prod.

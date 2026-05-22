@@ -58,5 +58,5 @@ Aggregerar valv + barnen (+ valfritt journal) utan manuell omskrivning. Kanonisk
 
 - [module_plan.md](./module_plan.md)
 - [Kontext (.context)](../../../.context/modules/dossier.md)
-- [Dossier-SPEC](../../../docs/specs/incoming/Dossier-SPEC.md)
+- [Dossier-SPEC](../../../docs/specs/modules/Dossier-SPEC.md)
 - [p2-flode](../../../docs/specs/p2-flode.md)

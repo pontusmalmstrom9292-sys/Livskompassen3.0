@@ -1,6 +1,6 @@
 # kompis — module plan
 
-**Canonical spec:** [`docs/specs/incoming/Kunskap-SPEC.md`](../../docs/specs/incoming/Kunskap-SPEC.md) · **Context:** [`.context/modules/kompis.md`](../../.context/modules/kompis.md)
+**Canonical spec:** [`docs/specs/modules/Kunskap-SPEC.md`](../../docs/specs/modules/Kunskap-SPEC.md) · **Context:** [`.context/modules/kompis.md`](../../.context/modules/kompis.md)
 
 ## Overview
 
@@ -32,7 +32,7 @@ User-facing AI navigator: KompisAvatar, Knowledge Vault chat (Minne RAG), Tidshj
 | Vector Search ANN | Notebook | Nej | **planned** |
 | Dagbok auto → kampspar | Ej valv | Nej | **planned** |
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md) · [`Kladd-2026-05-21-kampspar-kandidater.md`](../../docs/specs/incoming/Kladd-2026-05-21-kampspar-kandidater.md)
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md) · [`Kladd-2026-05-21-kampspar-kandidater.md`](../../docs/archive/kladd/Kladd-2026-05-21-kampspar-kandidater.md)
 
 ## Dependencies
 

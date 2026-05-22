@@ -1,6 +1,6 @@
 # speglings_system — module plan
 
-**Canonical spec:** [`docs/specs/incoming/Speglar-SPEC.md`](../../docs/specs/incoming/Speglar-SPEC.md) · **Context:** [`.context/modules/speglingssystemet.md`](../../.context/modules/speglingssystemet.md)
+**Canonical spec:** [`docs/specs/modules/Speglar-SPEC.md`](../../docs/specs/modules/Speglar-SPEC.md) · **Context:** [`.context/modules/speglingssystemet.md`](../../.context/modules/speglingssystemet.md)
 
 ## Overview
 
@@ -35,7 +35,7 @@ Route: `/dagbok?tab=speglar` (redirect `/speglar`)
 | Projektionsdetektor logg | Notebook | Nej | **planned** |
 | Full DCAP pipeline | | Delvis | **planned** |
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Valv-integration
 

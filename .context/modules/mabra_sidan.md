@@ -1,7 +1,7 @@
 # Måbra-sidan
 
 **Route:** `/mabra` · **AuthGate:** ja · **Kluster:** hem (Måbra) · **Ej i dock**  
-**Spec (konsoliderad):** [`docs/specs/incoming/Mabra-SPEC.md`](../../docs/specs/incoming/Mabra-SPEC.md)
+**Spec (konsoliderad):** [`docs/specs/modules/Mabra-SPEC.md`](../../docs/specs/modules/Mabra-SPEC.md)
 
 ## Syfte
 
@@ -69,7 +69,7 @@ Proaktiv rehab — KBT/ACT, vagus, självmedkänsla, värderingar. ADHD/GAD/RSD:
 
 Metadata sparas; symptom-hub; Obsidian Calm; ingen streak/natur; AI opt-in; länk inte auto till Kompasser/Dagbok.
 
-Se §14 i [`Mabra-SPEC.md`](../../docs/specs/incoming/Mabra-SPEC.md).
+Se §14 i [`Mabra-SPEC.md`](../../docs/specs/modules/Mabra-SPEC.md).
 
 ## Kopplingar
 

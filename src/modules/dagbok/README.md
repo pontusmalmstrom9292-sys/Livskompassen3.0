@@ -62,4 +62,4 @@ Tacksamhets- och reflektionsdagbok (ACT/KBT-inspirerad). Appens oskyldiga fasad.
 
 - [module_plan.md](./module_plan.md)
 - [Kontext (.context)](../../../.context/modules/dagbokshubben.md)
-- [Dagbok-SPEC](../../../docs/specs/incoming/Dagbok-SPEC.md)
+- [Dagbok-SPEC](../../../docs/specs/modules/Dagbok-SPEC.md)

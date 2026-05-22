@@ -4,7 +4,7 @@
 
 Dagbokshubben — Progressive Disclosure journal + async Vävaren tagging.
 
-Route: `/dagbok` · Canonical: `.context/modules/dagbokshubben.md` · Spec: `docs/specs/incoming/Dagbok-SPEC.md`
+Route: `/dagbok` · Canonical: `.context/modules/dagbokshubben.md` · Spec: `docs/specs/modules/Dagbok-SPEC.md`
 
 ## Files
 
@@ -40,7 +40,7 @@ Route: `/dagbok` · Canonical: `.context/modules/dagbokshubben.md` · Spec: `doc
 | KBT per humör | Kladd | Nej | **planned** |
 | Vävaren godkännande | Master §I | Auto | **planned** |
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Security notes
 

@@ -4,7 +4,7 @@ Function-based frontend modules under `src/modules/`. Varje modul har en **READM
 
 Delad infrastruktur: **`core/`**. Backend (Cloud Functions, Agent Cards): **`functions/`** — anropas via Firebase callables från modulernas `api/`.
 
-**Hela arkivet / permanent minne:** [`.context/arkiv-minne.md`](../../.context/arkiv-minne.md) · [`Arkiv-SPEC.md`](../../docs/specs/incoming/Arkiv-SPEC.md) · GCP [`GCP-INVENTORY-2026-05-21.md`](../../docs/archive/GCP-INVENTORY-2026-05-21.md)
+**Hela arkivet / permanent minne:** [`.context/arkiv-minne.md`](../../.context/arkiv-minne.md) · [`Arkiv-SPEC.md`](../../docs/specs/modules/Arkiv-SPEC.md) · GCP [`GCP-INVENTORY-2026-05-21.md`](../../docs/archive/GCP-INVENTORY-2026-05-21.md)
 
 ## Moduler (index)
 

@@ -58,7 +58,7 @@ Etablerar Livskompassen_PROD som Single Source of Truth.
 
 ### Första gången (GitHub)
 
-Se `GITHUB_SETUP.md`.
+Se [`GITHUB_STANDALONE_SETUP.md`](GITHUB_STANDALONE_SETUP.md).
 
 ### Efter godkänt steg
 

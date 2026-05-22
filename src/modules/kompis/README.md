@@ -61,5 +61,5 @@ Se [arkiv-minne.md](../../../.context/arkiv-minne.md).
 
 - [module_plan.md](./module_plan.md)
 - [Kontext (.context)](../../../.context/modules/kompis.md)
-- [Kunskap-SPEC](../../../docs/specs/incoming/Kunskap-SPEC.md)
+- [Kunskap-SPEC](../../../docs/specs/modules/Kunskap-SPEC.md)
 - [ai-prompts-moduler-master](../../../docs/specs/ai-prompts-moduler-master.md)

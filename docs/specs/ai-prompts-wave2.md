@@ -47,7 +47,7 @@ Output: SafeHarbor-SPEC.md
 MODUL: Barnens livsloggar (Familjen). Route /familjen (redirect /barnen), AuthGate, dock Heart.
 Befintlig: PIN, Kasper/Arvid, fysiologi, livslogg, Balansmätare 7d, JSON-export, children_logs WORM.
 Planera: wizard, PDF/Dossier per barn, incident→valv explicit med sourceRef.
-Output: [`docs/specs/incoming/Barnen-SPEC.md`](incoming/Barnen-SPEC.md) (konsoliderad 2026-05)
+Output: [`docs/specs/modules/Barnen-SPEC.md`](modules/Barnen-SPEC.md) (konsoliderad 2026-05)
 ```
 
 ## De 3 Kompasserna
@@ -88,7 +88,7 @@ Output: Valv-Chat-SPEC.md
 Konsolidera uppladdad [MODUL]-SPEC.md — endast dokument, ingen kod.
 
 Gör samma som Dagbok:
-1. docs/specs/incoming/[MODUL]-SPEC.md (ren markdown, 11 sektioner)
+1. docs/specs/modules/[MODUL]-SPEC.md (ren markdown, 11 sektioner)
 2. .context/modules/[modul].md med gap-tabell (klart / delvis / planerat)
 3. src/modules/[modul]/module_plan.md (eller stub om modul saknas)
 4. Synka docs/specs/p2-flode.md om flödet avviker

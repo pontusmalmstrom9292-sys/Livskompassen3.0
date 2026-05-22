@@ -4,7 +4,7 @@
 
 Den trygga hamnen — neutral WORM-logg för Kasper/Arvid. Route `/familjen`; redirect `/barnen`.
 
-Canonical: `.context/modules/barnens_livsloggar.md` · Spec: `docs/specs/incoming/Barnen-SPEC.md`
+Canonical: `.context/modules/barnens_livsloggar.md` · Spec: `docs/specs/modules/Barnen-SPEC.md`
 
 ## Files
 
@@ -39,7 +39,7 @@ Canonical: `.context/modules/barnens_livsloggar.md` · Spec: `docs/specs/incomin
 | PDF + Dossier | Juridisk rapport | Dossier MVP | **partial** |
 | "Dåliga hemligheter" separat modul | Notebook | Nej | **rejected** → livslogg |
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Produktbeslut (låsta 2026-05)
 

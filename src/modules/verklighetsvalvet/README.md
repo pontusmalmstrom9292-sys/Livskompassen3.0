@@ -61,5 +61,5 @@ Append-only, tidsstämplade sanningar. Skild från Dagbok (Lager 1). Plausible d
 
 - [module_plan.md](./module_plan.md)
 - [Kontext (.context)](../../../.context/modules/verklighetsvalvet.md)
-- [Verklighetsvalvet-SPEC](../../../docs/specs/incoming/Verklighetsvalvet-SPEC.md)
+- [Verklighetsvalvet-SPEC](../../../docs/specs/modules/Verklighetsvalvet-SPEC.md)
 - [valv_chatt README](../valv_chatt/README.md)

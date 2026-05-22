@@ -56,6 +56,6 @@ ADHD/GAD-stöd: Morgon (intention), Dag (puls + Paralys-Brytaren), Kväll (KASAM
 
 - [module_plan.md](./module_plan.md)
 - [Kontext (.context)](../../../.context/modules/kompasser.md)
-- [De-3-Kompasserna-SPEC](../../../docs/specs/incoming/De-3-Kompasserna-SPEC.md)
+- [De-3-Kompasserna-SPEC](../../../docs/specs/modules/De-3-Kompasserna-SPEC.md)
 
 **Smoke:** `npm run smoke:compass`

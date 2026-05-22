@@ -5,7 +5,7 @@
 Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget kluster på hem.
 
 **Route:** `/mabra` · **AuthGate:** ja  
-**Canonical:** `.context/modules/mabra_sidan.md` · **Spec:** `docs/specs/incoming/Mabra-SPEC.md`
+**Canonical:** `.context/modules/mabra_sidan.md` · **Spec:** `docs/specs/modules/Mabra-SPEC.md`
 
 ## Files
 
@@ -44,7 +44,7 @@ Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget
 | Stjärnbilder / streak | Notebook | Nej | **rejected** |
 | Nordisk skymning UI | Notebook | Nej | **rejected** |
 
-**Källa:** [`docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
+**Källa:** [`docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Nästa fas
 

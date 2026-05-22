@@ -52,57 +52,65 @@ npm run smoke:kunskap  # PASS
 
 ---
 
-## Steg 4 — Migrera legacy KB
+## Steg 4 — Migrera legacy KB — **done** 2026-05-22
 
-**Scope:** Endast Kunskap-silo (`kb_docs`, `kampspar`). **MUST NOT** `reality_vault`.
+**Scope:** Endast Kunskap-silo (`kb_docs`, `kampspar`). **MUST NOT** `reality_vault`. **Ingen bucket-radering.**
 
-Legacy buckets är ~10 KB i GCS — huvuddatan kan sitta i Vertex AI Search webhook-index.
+**Inventering:** Discovery Engine **0** data stores; GCS legacy **0** användardokument; Firestore `kb_docs` **1** (redan G6/kanonisk).
 
-1. Inventera `knowledge-base-webhook` loggar / datastore.
-2. Exportera dokument → manuell eller batch `ingestKampsparEntry`.
-3. `npm run smoke:kunskap` — citation match.
+**Utfört:**
+1. Live inventering — se [`LEGACY-KB-MIGRATION-2026-05-22.md`](LEGACY-KB-MIGRATION-2026-05-22.md)
+2. Manifest [`specs/modules/LEGACY-KB-MIGRATION-MANIFEST.json`](specs/modules/LEGACY-KB-MIGRATION-MANIFEST.json) (tom `entries`)
+3. `node scripts/migrate_legacy_kb.mjs --inventory-only`
+4. `npm run smoke:kunskap` — **PASS**
 
 ---
 
-## Steg 5 — Avveckla knowledge-base-webhook + legacy buckets
+## Steg 5 — Avveckla knowledge-base-webhook — **done** 2026-05-22
 
+**Utfört:**
 ```bash
 firebase functions:delete knowledge-base-webhook --project gen-lang-client-0481875058 --force
-# Buckets (efter backup/export):
-# gcloud storage rm -r gs://knowledge-base-bucket-gen-lang-client-0481875058/**
-# gcloud storage rm -r gs://knowledge-base-docs-gen-lang-client-0481875058/**
-npm run smoke:kunskap && npm run smoke:dossier
+npm run smoke:kunskap && npm run smoke:dossier  # PASS
 ```
+
+**Ej i detta steg:** bucket-radering (`knowledge-base-bucket-*`) — kräver separat OK.
 
 ---
 
-## Steg 6 — north1-index + tomma buckets + django-secrets
+## Steg 6 — north1-index + tomma buckets + django-secrets — **done** 2026-05-22
 
+**Verifiering före radering:**
+- `kampspar_index` north1 — ID `9094201410823651328`, 0 endpoints
+- `gs://ekonomichefen`, `gs://helthcoach`, `gs://media-gen-lang-client-0481875058-0ebe` — **0 B** vardera
+- `django_admin_password-0ebe`, `django_settings-0ebe` — legacy, inga aktiva fn
+
+**Utfört:**
 ```bash
-# north1 index (0 endpoints, 0 vectors):
-gcloud ai indexes delete 9094201410823651328 --region=europe-north1 --project=gen-lang-client-0481875058
-
-# Tomma buckets (verifiera du -s 0 först):
-# gs://ekonomichefen, gs://helthcoach, gs://media-gen-lang-client-0481875058-0ebe
-
-# Legacy django secrets:
-# gcloud secrets delete django_admin_password-0ebe --project=gen-lang-client-0481875058
-# gcloud secrets delete django_settings-0ebe --project=gen-lang-client-0481875058
+gcloud ai indexes delete 9094201410823651328 --region=europe-north1 --project=gen-lang-client-0481875058 --quiet
+gcloud storage rm -r gs://ekonomichefen gs://helthcoach gs://media-gen-lang-client-0481875058-0ebe
+gcloud secrets delete django_admin_password-0ebe django_settings-0ebe --project=gen-lang-client-0481875058 --quiet
+npm run smoke:valv && npm run smoke:kunskap && npm run smoke:dossier  # PASS
 ```
+
+**Ej i detta steg:** VERIFY-buckets (`ai-studio`, `cloud-ai-platform`) — kräver `OK steg 7`.
 
 ---
 
-## Steg 7 — VERIFY stora buckets
+## Steg 7 — VERIFY stora buckets — **done** 2026-05-22
 
-| Bucket | Storlek | Åtgärd |
-|--------|---------|--------|
-| `ai-studio-bucket-*` | ~121 MB | Lista objekt; radera om experiment |
-| `cloud-ai-platform-*` | ~69 MB | Lista objekt; radera om oanvänt |
+| Bucket | Innehåll | Beslut |
+|--------|----------|--------|
+| `ai-studio-bucket-1084026575972-europe-west2` | 1 objekt — `build_artifacts.tar.gz` (121 MB), AI Studio `livskompassen` v1 | **raderad** — legacy experiment, ej i repo |
+| `cloud-ai-platform-365ee315-6b86-4041-b623-5121d5135266` | 58 objekt — Vertex `prompt-data/` (69 MB), apr–maj 2026 | **raderad** — prompt-cache, kanon = `sharedRules.ts` |
 
+**Utfört:**
 ```bash
-gcloud storage ls -l gs://ai-studio-bucket-1084026575972-europe-west2/** | head -20
-gcloud storage ls -l gs://cloud-ai-platform-365ee315-6b86-4041-b623-5121d5135266/** | head -20
+gcloud storage rm -r gs://ai-studio-bucket-1084026575972-europe-west2 gs://cloud-ai-platform-365ee315-6b86-4041-b623-5121d5135266
+npm run smoke:valv && npm run smoke:kunskap && npm run smoke:dossier  # PASS
 ```
+
+**FAS 4 avveckling:** steg 1–7 **klart**.
 
 ---
 

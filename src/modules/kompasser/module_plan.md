@@ -5,7 +5,7 @@
 De 3 Kompasserna — Morgonkompassen (Sacred), Dagskompassen, Kvällskompassen. Mikro-check-ins → Firestore `checkins`.
 
 **Route:** `/vardagen` (tab kompasser) · **Redirect:** `/kompasser` → `/vardagen`  
-**Canonical:** `.context/modules/kompasser.md` · **Spec:** `docs/specs/incoming/De-3-Kompasserna-SPEC.md` (notebook #1–#5 konsoliderad, beslut låsta 2026-05-21)
+**Canonical:** `.context/modules/kompasser.md` · **Spec:** `docs/specs/modules/De-3-Kompasserna-SPEC.md` (notebook #1–#5 konsoliderad, beslut låsta 2026-05-21)
 
 ## Låsta beslut (implementationsreferens)
 
@@ -53,7 +53,7 @@ De 3 Kompasserna — Morgonkompassen (Sacred), Dagskompassen, Kvällskompassen. 
 | Notiser 2–3/dag | In-app först | Nej | **planned** |
 | Bro Måbra/Barnen kväll | Kladd | Ja | **done** |
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Dependencies
 

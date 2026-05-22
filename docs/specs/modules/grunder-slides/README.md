@@ -2,10 +2,10 @@
 
 **Datum:** 2026-05-22  
 **Inventar:** [`INVENTAR.md`](./INVENTAR.md)  
-**Underagenter:** [`GRUNDER-UTVARDERING-UNDERAGENTER.md`](../GRUNDER-UTVARDERING-UNDERAGENTER.md)  
-**Kanon (Fas C):** [`GRUNDER-SYSTEMET-ANALYS.md`](../GRUNDER-SYSTEMET-ANALYS.md) · [`GRUNDER-UTVARDERING-RESULTAT.md`](../GRUNDER-UTVARDERING-RESULTAT.md)
+**Underagenter:** [`GRUNDER-UTVARDERING-UNDERAGENTER.md`](../../../archive/evaluations-2026-05/GRUNDER-UTVARDERING-UNDERAGENTER.md)  
+**Kanon (Fas C):** [`GRUNDER-SYSTEMET-ANALYS.md`](../GRUNDER-SYSTEMET-ANALYS.md) · [`GRUNDER-UTVARDERING-RESULTAT.md`](../../../archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md)
 
-Flyttad från [`docs/archive/Grunder systemet för analys/`](../../archive/Grunder%20systemet%20f%C3%B6r%20analys/).
+Flyttad från `docs/archive/Grunder systemet för analys/` (mapp borttagen 2026-05-22).
 
 ## Mappar
 

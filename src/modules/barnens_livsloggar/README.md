@@ -62,6 +62,6 @@ Grey Rock-dokumentation av barnens basbehov. Skild från dagbok, valv och vuxenk
 
 - [module_plan.md](./module_plan.md)
 - [Kontext (.context)](../../../.context/modules/barnens_livsloggar.md)
-- [Barnen-SPEC](../../../docs/specs/incoming/Barnen-SPEC.md)
+- [Barnen-SPEC](../../../docs/specs/modules/Barnen-SPEC.md)
 
 **Kopiera modulen:** denna mapp + länkade kontextfiler ovan räcker för översikt; data exporteras från appen (JSON).

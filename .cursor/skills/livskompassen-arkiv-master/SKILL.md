@@ -8,7 +8,7 @@ description: Editorial review of Hela arkivet / Life OS memory architecture. Use
 ## Canonical sources (read first)
 
 - [`.context/arkiv-minne.md`](../../.context/arkiv-minne.md)
-- [`docs/specs/incoming/Arkiv-SPEC.md`](../../docs/specs/incoming/Arkiv-SPEC.md)
+- [`docs/specs/modules/Arkiv-SPEC.md`](../../docs/specs/modules/Arkiv-SPEC.md)
 - [`docs/GCP-INVENTORY-LATEST.md`](../../docs/GCP-INVENTORY-LATEST.md)
 - [`docs/archive/repomix/KONSOLIDERING-2026-05-21.md`](../../docs/archive/repomix/KONSOLIDERING-2026-05-21.md)
 

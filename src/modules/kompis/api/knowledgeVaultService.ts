@@ -12,6 +12,11 @@ export interface KnowledgeVaultCitation {
 export interface KnowledgeVaultResult {
   answer: string;
   citations: KnowledgeVaultCitation[];
+  moduleRoute?: {
+    path: string;
+    label: string;
+    silo: 'barnen';
+  };
 }
 
 const knowledgeVaultQueryCallable = httpsCallable(functions, 'knowledgeVaultQuery');

@@ -4,7 +4,7 @@
 
 Safe Harbor / BIFF-Skölden — Grey Rock-svar på ex-meddelanden utan JADE.
 
-Route: `/hamn` · Canonical: `.context/modules/safe_harbor.md` · Spec: `docs/specs/incoming/SafeHarbor-SPEC.md`
+Route: `/hamn` · Canonical: `.context/modules/safe_harbor.md` · Spec: `docs/specs/modules/SafeHarbor-SPEC.md`
 
 ## Files
 
@@ -25,7 +25,7 @@ Route: `/hamn` · Canonical: `.context/modules/safe_harbor.md` · Spec: `docs/sp
 | "Klar" + unmount cleanup | Zero Footprint | Nej | **planned** |
 | Dölj tills energi | Kladd fråga | Nej | **planned** fas 2 |
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Backend
 

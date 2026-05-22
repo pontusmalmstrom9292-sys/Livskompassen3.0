@@ -1,6 +1,6 @@
 # ekonomi — module plan
 
-**Canonical spec:** [`docs/specs/incoming/Ekonomi-SPEC.md`](../../docs/specs/incoming/Ekonomi-SPEC.md) · **Context:** [`.context/modules/ekonomi.md`](../../.context/modules/ekonomi.md)
+**Canonical spec:** [`docs/specs/modules/Ekonomi-SPEC.md`](../../docs/specs/modules/Ekonomi-SPEC.md) · **Context:** [`.context/modules/ekonomi.md`](../../.context/modules/ekonomi.md)
 
 ## Overview
 
@@ -22,7 +22,7 @@ Personal economy module: liquidity, transactions, savings goals — aligned with
 | Firestore / DC schema | System-plan | Nej | **planned** |
 | Livs-Coachen här | **Avvisat** | Nej | **avvisat** |
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
 
 ## Dependencies
 

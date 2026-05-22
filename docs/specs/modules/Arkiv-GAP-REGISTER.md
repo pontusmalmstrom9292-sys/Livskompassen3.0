@@ -13,7 +13,7 @@
 | G5 | **done** | WORM allowlist retention |
 | G6 | **done** | Drive E2E → `kb_docs` 2026-05-22 — [`GCP-FAS4-RUNBOOK.md`](../../GCP-FAS4-RUNBOOK.md) steg 2 |
 | G7–G14 | **open** | Life OS utbyggnad |
-| G15–G16 | **done** | G15 + G16 (RSD, PA, U5.5) **done** 2026-05-22 |
+| G15–G16 | **partial** | G15 **done**; G16 RSD+PA **done**, U5.5 routing **open** |
 | V1 | **wait** | Genkit — ej migrera |
 
 ---
@@ -141,7 +141,7 @@ UI (`Tidshjulet.tsx`) — Tidshjulet mot live `kampspar`; repomix hade statisk "
 
 | | |
 |---|---|
-| **Status** | **done** — RSD-prompt + PA appendix + U5.5 `moduleRoute` **done** 2026-05-22 |
+| **Status** | **partial** — RSD-prompt + PA appendix **done** 2026-05-22; U5.5 Kompis routing **open** |
 | **Källa** | [`GRUNDER-UTVARDERING-RESULTAT.md`](GRUNDER-UTVARDERING-RESULTAT.md) |
 
 ---

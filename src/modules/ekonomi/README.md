@@ -45,4 +45,4 @@ Inga datakopplingar till Valv, Dagbok eller Kunskap.
 
 - [module_plan.md](./module_plan.md)
 - [Kontext (.context)](../../../.context/modules/ekonomi.md)
-- [Ekonomi-SPEC](../../../docs/specs/incoming/Ekonomi-SPEC.md)
+- [Ekonomi-SPEC](../../../docs/specs/modules/Ekonomi-SPEC.md)

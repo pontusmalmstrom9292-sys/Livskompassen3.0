@@ -4,7 +4,7 @@ import { GCP_PROJECT_ID, GCP_REGION } from '../../config';
 import { getAgentSystemPrompt } from '../../sharedRules';
 import { getOrCreateCache, generateWithCache } from '../../lib/vertexCache';
 
-const MODEL_ID = 'gemini-1.5-flash-001';
+const MODEL_ID = 'gemini-2.5-flash';
 
 function buildUserPrompt(message: A2AMessage): string {
   const lines = [

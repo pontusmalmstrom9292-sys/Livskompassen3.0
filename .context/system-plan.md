@@ -33,14 +33,14 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 
 ## Kladd-konsolidering (2026-05-21)
 
-- [x] Notebook #1–#7 → [`docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md`](docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
-- [x] Minne-kandidater → [`docs/specs/incoming/Kladd-2026-05-21-kampspar-kandidater.md`](docs/specs/incoming/Kladd-2026-05-21-kampspar-kandidater.md)
+- [x] Notebook #1–#7 → [`docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md`](docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
+- [x] Minne-kandidater → [`docs/archive/kladd/Kladd-2026-05-21-kampspar-kandidater.md`](docs/archive/kladd/Kladd-2026-05-21-kampspar-kandidater.md)
 - [x] Gap-tabeller i alla `.context/modules/*.md` + `src/modules/*/module_plan.md` (ingen kod)
 - [x] Back-merge Kladd → `[MODUL]-SPEC.md` (§8, §12–13, Kladd-synk)
-- [x] Nya SPEC: [`Ekonomi-SPEC.md`](docs/specs/incoming/Ekonomi-SPEC.md), [`Core-SPEC.md`](docs/specs/incoming/Core-SPEC.md)
+- [x] Nya SPEC: [`Ekonomi-SPEC.md`](docs/specs/modules/Ekonomi-SPEC.md), [`Core-SPEC.md`](docs/specs/modules/Core-SPEC.md)
 - [x] [`docs/specs/p2-flode.md`](docs/specs/p2-flode.md) synkad mot kod
-- [x] Grunder Fas A — [`docs/specs/incoming/grunder-slides/`](docs/specs/incoming/grunder-slides/) + [`INVENTAR.md`](docs/specs/incoming/grunder-slides/INVENTAR.md)
-- [x] Grunder U1–U5 + Fas C — [`GRUNDER-UTVARDERING-RESULTAT.md`](docs/specs/incoming/GRUNDER-UTVARDERING-RESULTAT.md)
+- [x] Grunder Fas A — [`docs/specs/modules/grunder-slides/`](docs/specs/modules/grunder-slides/) + [`INVENTAR.md`](docs/specs/modules/grunder-slides/INVENTAR.md)
+- [x] Grunder U1–U5 + Fas C — [`docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md`](docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md)
 - [ ] Manuell ingest av minne-poster (opt-in trauma-policy)
 - [ ] Implementation per modul när användaren säger *kör [modul]*
 
@@ -109,10 +109,10 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 - `valvChatQuery` — **deployad** (G1 **done**); smoke:valv PASS
 - Dossier `generateDossier` — **klart** (smoke PASS)
 - `notifyNewFile` — **deployad**; G6 **done** 2026-05-22
-- Legacy Python us-central1 — **1 fn kvar** (`knowledge-base-webhook`; steg 1+3 **done**)
+- Legacy Python us-central1 — **0 fn kvar** (FAS4 steg 1–5 **done** 2026-05-22)
 - Retention G5 **done**; mock Kampspar G11 **done**
 
-**Planerat (får inte tappas):** G1–G14 i [`Arkiv-GAP-REGISTER.md`](docs/specs/incoming/Arkiv-GAP-REGISTER.md). Implementation: `kör [GAP]`.
+**Planerat (får inte tappas):** G1–G14 i [`Arkiv-GAP-REGISTER.md`](docs/specs/modules/Arkiv-GAP-REGISTER.md). Implementation: `kör [GAP]`.
 
 **Sacred:** Permanent minne + korrekt silo = Zero Footprint + Kill Switch.
 
@@ -122,12 +122,12 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 - [x] Barnens: Kasper/Arvid, Balansmätare, fysiologi, JSON export
 - [x] Barnens *kör barnen* **done** — Spara som bevis + `sourceRef`, tredjepart-filter, Dossier-länk (`/familjen`)
 - [x] Speglings-Systemet: ACT + VIVIR + valvjämförelse (`/speglar`)
-- [x] `weaveJournalEntry` + hosting deploy (natt-batch — se `docs/OVERNIGHT_REPORT.md`)
+- [x] `weaveJournalEntry` + hosting deploy (natt-batch — se `docs/NATT-CI.md`, historik: `docs/archive/OVERNIGHT_REPORT.md`)
 - [ ] Minneloggning (uppladdning, tidsstampel, vektorisering) — **delvis:** `ingestKampsparEntry`, Tidshjulet, Kunskap RAG; Vector Search ANN **VERIFY PASS** (G2/G3)
 - [x] Kompasser notebook #1–#5 → låst SPEC; MVP *kör kompasser* **done** (AuthGate, tids-default, Paralys, KASAM, broar)
 - [x] Dossier notebook #1–#4 → låst SPEC; UI wizard + `generateDossier` backend **done** — deploy `functions:generateDossier` + rules
 - [x] Ekonomi kopplad till Firestore (`transactions` WORM + `economy_profiles`)
-- [x] Måbra-sidan MVP — hub + 4-7-8 andning + `mabra_sessions` (SPEC **done** 2026-05; se `docs/specs/incoming/Mabra-SPEC.md`, `.context/modules/mabra_sidan.md`)
+- [x] Måbra-sidan MVP — hub + 4-7-8 andning + `mabra_sessions` (SPEC **done** 2026-05; se `docs/specs/modules/Mabra-SPEC.md`, `.context/modules/mabra_sidan.md`)
 - [x] Måbra fas 2a — reframing self_critical (4 steg + valfri 1-min andning, `exerciseType: reframing`)
 - [x] Måbra fas 2b — AkutLanding panic_rsd + panik-andning UX (tid kvar, fas-copy)
 - [x] Måbra fas 2c — hub-complete + Dagbok bro `?from=mabra&energy=low`

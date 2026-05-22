@@ -166,7 +166,7 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 
 ## 14. Kladd-synk (2026-05-21)
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §F, §C.
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md) §F, §C.
 
 | Kladd | Kod |
 |-------|-----|

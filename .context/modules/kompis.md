@@ -2,7 +2,7 @@
 
 **Route:** `/vardagen?tab=kunskap` (redirect `/kunskap`) · **AuthGate:** ja (kunskap-flik i Vardagen)
 
-**Spec (konsoliderad):** [`docs/specs/incoming/Kunskap-SPEC.md`](../../docs/specs/incoming/Kunskap-SPEC.md)
+**Spec (konsoliderad):** [`docs/specs/modules/Kunskap-SPEC.md`](../../docs/specs/modules/Kunskap-SPEC.md)
 
 ## Syfte
 
@@ -49,9 +49,9 @@ Semantiskt livsminne (Life-OS): fråga/svar med källhänvisningar mot **egna** 
 
 ## Kladd 2026-05-21
 
-- **Profil-seed:** 47 poster i [`Kampspar-PROFIL-SEED.json`](../../docs/specs/incoming/Kampspar-PROFIL-SEED.json) — batch via `scripts/seed_kampspar_profile.mjs` (2026-05-21).
+- **Profil-seed:** 47 poster i [`Kampspar-PROFIL-SEED.json`](../../docs/specs/modules/Kampspar-PROFIL-SEED.json) — batch via `scripts/seed_kampspar_profile.mjs` (2026-05-21).
 - **Routing:** Metodartiklar (gaslighting, BBIC-tips, coping) → Kunskap — **inte** Valv/Hamn.
-- **Policy (låst):** Trauma/LVU/beroende → opt-in manuell ingest per post ([`Kladd-2026-05-21-kampspar-kandidater.md`](../../docs/specs/incoming/Kladd-2026-05-21-kampspar-kandidater.md)).
+- **Policy (låst):** Trauma/LVU/beroende → opt-in manuell ingest per post ([`Kladd-2026-05-21-kampspar-kandidater.md`](../../docs/archive/kladd/Kladd-2026-05-21-kampspar-kandidater.md)).
 - **Gap:** Ingen auto-RAG från rå Kladd; Livs-Coachen ≠ Ekonomi.
 - **Avvisat:** Synaps personregister auto; Stjärnbilder/gamification.
 

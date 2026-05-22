@@ -16,6 +16,11 @@ import {
   MABRA_SPEGLAR_REDIRECT_MESSAGE,
   shouldRedirectMabraCoachToSpeglar,
 } from './lib/mabraCoachGuard';
+import {
+  BARNEN_MODULE_REDIRECT_MESSAGE,
+  BARNEN_MODULE_ROUTE,
+  shouldRouteKompisToBarnen,
+} from './lib/barnenModuleRouteGuard';
 
 admin.initializeApp();
 const supervisor = new KompisSupervisor();
@@ -203,9 +208,19 @@ export const knowledgeVaultQuery = onCall(
       throw new HttpsError('invalid-argument', 'Prompten får vara max 8000 tecken.');
     }
 
+    const trimmedPrompt = prompt.trim();
+    if (shouldRouteKompisToBarnen(trimmedPrompt)) {
+      console.log(`[knowledgeVaultQuery] U5.5 barnen moduleRoute uid=${request.auth.uid}`);
+      return {
+        answer: BARNEN_MODULE_REDIRECT_MESSAGE,
+        citations: [],
+        moduleRoute: BARNEN_MODULE_ROUTE,
+      };
+    }
+
     const result = await askKnowledgeVaultWithRag(
       request.auth.uid,
-      prompt.trim(),
+      trimmedPrompt,
       geminiApiKey.value()
     );
     return result;

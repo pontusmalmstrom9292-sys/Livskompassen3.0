@@ -210,7 +210,7 @@ Rules (planerat): `ownerId == auth.uid`; append/create only för sessions.
 
 ## 14. Kladd-synk (2026-05-21)
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §F.
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md) §F.
 
 | Hub (Kladd) | Övning | Kod |
 |-------------|--------|-----|

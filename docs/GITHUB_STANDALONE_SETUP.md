@@ -143,6 +143,6 @@ GitHub behövs inte för att appen ska fungera lokalt (`npm run dev`).
 
 ## Relaterat
 
-- [`GITHUB_SETUP.md`](GITHUB_SETUP.md) — äldre PROD-mall  
+- [`archive/GITHUB_SETUP.md`](archive/GITHUB_SETUP.md) — äldre PROD-mall (arkiverad)  
 - [`MONOREPO_LAYOUT.md`](MONOREPO_LAYOUT.md) — var mappen ska ligga  
 - [`DEPLOY.md`](DEPLOY.md) — Firebase deploy (separat från Git)

@@ -232,7 +232,7 @@ Se [`docs/specs/p2-flode.md`](../p2-flode.md).
 
 ## 15. Kladd-synk (2026-05-21)
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](./Kladd-2026-05-21-PERSONAL-MASTER.md) §D, §F, §G.
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md) §D, §F, §G.
 
 | Kladd | Kod |
 |-------|-----|

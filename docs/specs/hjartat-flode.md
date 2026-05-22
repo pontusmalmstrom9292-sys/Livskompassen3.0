@@ -51,8 +51,8 @@ Variant B (planerad): long-press Dagbok → `/valv`; Shield bort från dock.
 
 ## Spec-källor
 
-- [`docs/specs/incoming/Dagbok-SPEC.md`](incoming/Dagbok-SPEC.md)
-- [`docs/specs/incoming/Speglar-SPEC.md`](incoming/Speglar-SPEC.md)
-- [`docs/specs/incoming/Verklighetsvalvet-SPEC.md`](incoming/Verklighetsvalvet-SPEC.md)
-- [`docs/specs/incoming/Valv-Chat-SPEC.md`](incoming/Valv-Chat-SPEC.md)
-- [`docs/specs/incoming/Dossier-SPEC.md`](incoming/Dossier-SPEC.md) · [`dossier-generator.md`](dossier-generator.md)
+- [`docs/specs/modules/Dagbok-SPEC.md`](modules/Dagbok-SPEC.md)
+- [`docs/specs/modules/Speglar-SPEC.md`](modules/Speglar-SPEC.md)
+- [`docs/specs/modules/Verklighetsvalvet-SPEC.md`](modules/Verklighetsvalvet-SPEC.md)
+- [`docs/specs/modules/Valv-Chat-SPEC.md`](modules/Valv-Chat-SPEC.md)
+- [`docs/specs/modules/Dossier-SPEC.md`](modules/Dossier-SPEC.md) · [`dossier-generator.md`](dossier-generator.md)

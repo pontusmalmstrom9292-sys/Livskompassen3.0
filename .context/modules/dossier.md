@@ -2,7 +2,7 @@
 
 **Sacred Feature.** **Route:** `/dossier` (AuthGate + Fyren A)  
 **Design:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md)  
-**Incoming spec:** [`docs/specs/incoming/Dossier-SPEC.md`](../../docs/specs/incoming/Dossier-SPEC.md)
+**Incoming spec:** [`docs/specs/modules/Dossier-SPEC.md`](../../docs/specs/modules/Dossier-SPEC.md)
 
 ---
 
@@ -67,4 +67,4 @@ Fyren A, AuthGate, CMEK, Zero Footprint, Kill Switch, hash-integritet, ingen aut
 
 Kod: `src/modules/dossier/`, `verklighetsvalvet/utils/exportVaultRecord.ts`, `barnens_livsloggar/utils/exportBalansReport.ts`.
 
-Flöde: [`docs/specs/p2-flode.md`](../../docs/specs/p2-flode.md) · **Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/specs/incoming/Kladd-2026-05-21-PERSONAL-MASTER.md)
+Flöde: [`docs/specs/p2-flode.md`](../../docs/specs/p2-flode.md) · **Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)

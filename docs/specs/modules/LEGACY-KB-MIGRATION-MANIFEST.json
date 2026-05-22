@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "migratedAt": "2026-05-22",
+  "projectId": "gen-lang-client-0481875058",
+  "scope": ["kb_docs", "kampspar"],
+  "mustNotWrite": ["reality_vault", "children_logs", "journal", "dossier_snapshots"],
+  "inventory": {
+    "discoveryEngineDataStores": 0,
+    "gcsUserDocuments": 0,
+    "firestoreKbDocsPreMigration": 1,
+    "note": "Enda kb_docs-posten kom från G6 Drive (redan kanonisk). Legacy GCS innehöll endast placeholder-index och webhook Python-källkod."
+  },
+  "entries": []
+}
