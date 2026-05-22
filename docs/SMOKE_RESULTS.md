@@ -3,6 +3,21 @@
 **Datum:** 2026-05-22  
 **Branch:** `main` (Livskompassen3.0 — clean baseline)
 
+## Byggpass-kedja (2026-05-22 — agent)
+
+**Trigger:** `scripts/README.md` byggpass-kedja + `docs/evaluations/2026-05-22-A-helhetsstatus.md` (inga öppna P0 utan designbeslut).
+
+| Kontroll | Resultat |
+|----------|----------|
+| `cd functions && npm run build` | **PASS** |
+| `npm run build` (frontend) | **PASS** |
+| `npx eslint . --max-warnings 0` | **PASS** |
+| `smoke:valv` | **PASS** — citation match seed |
+| `smoke:kunskap` | **PASS** — embeddingDim 768, citation match |
+| `smoke:dossier` | **PASS** — pdfBase64 fallback |
+
+**Helhetsstatus A:** Ingen kodändring — P0 (`notifyNewFile` ownerId, server-PIN) kräver säkerhetsbeslut enligt `.context/security.md`.
+
 ## Ikväll 3h Autorun (2026-05-22 sen kväll)
 
 **Trigger:** Parallellplan Autorun + app igång · **Logg:** [`2026-05-22-BUILD-LOG.md`](evaluations/2026-05-22-BUILD-LOG.md)
