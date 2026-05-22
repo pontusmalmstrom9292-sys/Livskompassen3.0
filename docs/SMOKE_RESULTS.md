@@ -3,6 +3,22 @@
 **Datum:** 2026-05-22  
 **Branch:** `main` (Livskompassen3.0 — clean baseline)
 
+## Byggpass audit (2026-05-22 kväll)
+
+**Gren:** `audit-byggpass-2026-05-22` · **Logg:** [`docs/evaluations/2026-05-22-BUILD-LOG.md`](evaluations/2026-05-22-BUILD-LOG.md)
+
+| Kontroll | Resultat |
+|----------|----------|
+| `cd functions && npm run build` | **PASS** |
+| `npm run build` (frontend) | **PASS** |
+| `npx eslint . --max-warnings 0` | **PASS** |
+| `smoke:valv` | **PASS** |
+| `smoke:kunskap` | **PASS** |
+| `smoke:dossier` | **PASS** (pdfBase64 fallback) |
+| `smoke:children` | **PASS** |
+| `smoke:inbox` | **PASS** |
+| `smoke:grans` | **PASS** |
+
 ## Clean repo baseline (2026-05-22)
 
 | Kontroll | Resultat |

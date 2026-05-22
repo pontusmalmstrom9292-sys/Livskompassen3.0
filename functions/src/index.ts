@@ -30,6 +30,7 @@ import {
   listPendingInboxQueue,
 } from './lib/inboxPersist';
 import { listRegistryEntriesForUser } from './lib/contextCacheRegistry';
+import { fetchKampsparRagBackgroundDocuments } from './lib/kampsparQueryRag';
 
 admin.initializeApp();
 const supervisor = new KompisSupervisor();
@@ -83,7 +84,12 @@ export const analyzeMessage = functions.region('europe-west1').https.onCall(asyn
   }
 
   const message = data.message;
-  const ragContext: string[] = data.ragContext ?? []; // RAG-data hämtas av frontend via Vector Search
+
+  if (data.ragContext !== undefined) {
+    console.warn(
+      `[analyzeMessage] Client ragContext ignoreras (P0) — uid=${context.auth.uid}`
+    );
+  }
 
   if (!message || typeof message !== 'string') {
     throw new functions.https.HttpsError('invalid-argument', 'Fältet "message" (string) krävs.');
@@ -95,6 +101,8 @@ export const analyzeMessage = functions.region('europe-west1').https.onCall(asyn
 
   const preferGransArkitekten =
     data.module === 'safe_harbor' || data.preferGransArkitekten === true;
+
+  const ragContext = await fetchKampsparRagBackgroundDocuments(context.auth.uid, message, 8);
 
   try {
     const result = await supervisor.handleUserRequest(message, context.auth.uid, ragContext, {

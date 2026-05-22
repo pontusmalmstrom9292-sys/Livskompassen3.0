@@ -14,7 +14,7 @@
 | G6 | **done** | Drive E2E → `kb_docs` 2026-05-22 — [`GCP-FAS4-RUNBOOK.md`](../../GCP-FAS4-RUNBOOK.md) steg 2 |
 | G7 | **done** | `journal_woven` opt-in → `kampspar` + `journalWovenToKampspar` (2026-05-22) |
 | G8 | **done** | `childrenLogsQuery` + Mönster-Arkivarien Barnen (2026-05-22) |
-| G9–G14 | **open** | Life OS utbyggnad |
+| G9–G14 | **done** | Life OS utbyggnad (2026-05-22) |
 | G15–G16 | **done** | G15 + G16 + U5.5 **done** 2026-05-22 |
 | V1 | **wait** | Genkit — ej migrera |
 
@@ -140,7 +140,7 @@ Live `subscribeKampsparEntries`, ringar Dåtid/Nutid/Framtid via `eventDate`, kl
 
 | | |
 |---|---|
-| **Status** | **partial** — RSD-prompt + PA appendix **done** 2026-05-22; U5.5 Kompis routing **open** |
+| **Status** | **done** — RSD-prompt + PA appendix + U5.5 `barnenModuleRouteGuard` **done** 2026-05-22 |
 | **Källa** | [`GRUNDER-UTVARDERING-RESULTAT.md`](GRUNDER-UTVARDERING-RESULTAT.md) |
 
 ---

@@ -46,7 +46,7 @@ Dessa funktioner får **inte** försvagas eller mockas. Verifiera via [`docs/SMO
 |------|-----------|--------------|-------|
 | Kunskap | `kampspar`, `kb_docs` | `knowledgeVaultQuery` | Livs-Arkivarien |
 | Valv | `reality_vault` | `valvChatQuery` | Sannings-Analytikern |
-| Barnen | `children_logs` | — (Dossier read) | Mönster-Arkivarien (planerad) |
+| Barnen | `children_logs` | `childrenLogsQuery` | Mönster-Arkivarien (G8 **done**) |
 
 **Blocker:** Cross-silo RAG är ett säkerhetsbrott. Vävaren (`weaveJournalEntry`) taggar metadata — skild från användar-facing chat.
 
@@ -55,7 +55,7 @@ Dessa funktioner får **inte** försvagas eller mockas. Verifiera via [`docs/SMO
 ## Zero Footprint
 
 - Vault-unlock och Valv-Chat-state hålls **endast i session** (RAM).
-- Rensning triggas vid: `visibilitychange` (blur), timeout, `invalidateSession` callable, Kill Switch.
+- Rensning triggas vid: idle timeout (5 min), `invalidateSession` callable, Kill Switch. *(visibilitychange borttagen 2026-05 — se `useZeroFootprint.ts`.)*
 - ADK SynapseBus: `clearSynapseState` vid logout.
 - **Förbjudet:** Persista dekrypterat valv-innehåll i localStorage/IndexedDB utan explicit användargodkännande.
 
@@ -139,10 +139,14 @@ Digital Conversation Analysis Pipeline skyddar mot psykologiskt missbruk och pro
 
 | ID | Beskrivning | Status |
 |----|-------------|--------|
-| G7–G14 | Life OS utbyggnad (minne, routing) | **open** |
-| U5.5 | Kompis → Barnen routing guard | **open** |
+| G7–G14 | Life OS utbyggnad (minne, routing) | **done** 2026-05-22 |
+| U5.5 | Kompis → Barnen routing guard | **done** (`barnenModuleRouteGuard.ts`) |
 | U2.5 | HITL för känsliga exports | **open** |
 | Fas 3 smoke | Manuell valv + barnen Firestore | **open** |
+| **P0** | `analyzeMessage` client `ragContext` | **done** 2026-05-22 — `fetchKampsparRagBackgroundDocuments` |
+| **P0** | `notifyNewFile` obunden `ownerId` | **open** — bind till Drive/service identity |
+| **P0** | Valv/Barnen client-PIN gate | **open** — server/WebAuthn verify |
+| **P1** | DCAP prompt utanför `sharedRules.ts` | **open** |
 
 Full lista: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md)
 

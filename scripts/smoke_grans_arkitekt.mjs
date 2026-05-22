@@ -60,7 +60,6 @@ async function main() {
   console.log('[smoke] analyzeMessage (safe_harbor)…');
   const result = await analyze({
     message: TEST_MESSAGE,
-    ragContext: [],
     module: 'safe_harbor',
   });
   const data = result.data;

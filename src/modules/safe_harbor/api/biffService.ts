@@ -33,7 +33,6 @@ export async function analyzeBiffMessage(message: string): Promise<BiffAnalysisR
   try {
     const result = await analyzeMessageCallable({
       message,
-      ragContext: [],
       module: 'safe_harbor',
     });
     return result.data as BiffAnalysisResult;

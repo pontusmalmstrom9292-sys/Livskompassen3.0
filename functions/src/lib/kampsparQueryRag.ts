@@ -166,3 +166,16 @@ export async function fetchKampsparEvidenceForQuery(
 
   return fetchKampsparEvidenceTokenMatch(uid, question, limit);
 }
+
+/** Kunskap-silo RAG som Vertex context cache backgroundDocuments — endast server-side (P0). */
+export async function fetchKampsparRagBackgroundDocuments(
+  uid: string,
+  query: string,
+  limit = 8
+): Promise<string[]> {
+  const chunks = await fetchKampsparEvidenceForQuery(uid, query, limit);
+  return chunks.map(
+    (c) =>
+      `[collection:${c.collection} docId:${c.docId} datum:${c.date} titel:${c.title}] ${c.content.slice(0, 400)}`
+  );
+}

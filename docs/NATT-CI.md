@@ -1,7 +1,7 @@
 # Natt-CI — `@cursor/sdk` (WAIT)
 
 **Datum:** 2026-05-22  
-**Status:** **WAIT** — implementera **inte** före G6 PASS + doc-synk + GCP-konsolidering steg 3–7.
+**Status:** **READY (manuell)** — G6 PASS 2026-05-22; FAS4 steg 1–7 **done**. `@cursor/sdk` saknas — kör byggpass-kedja via Agent/`scripts/README.md` tills Natt-CI paketeras.
 
 ---
 
@@ -22,7 +22,7 @@ Ersätter manuella overnight-sessioner (historik: [`docs/archive/OVERNIGHT_REPOR
 
 | Krav | Status |
 |------|--------|
-| G6 Drive E2E → `kb_docs` | **open** (fork — Drive 403) |
+| G6 Drive E2E → `kb_docs` | **done** 2026-05-22 |
 | GCP FAS4 steg 3–7 | Väntar G6 + `OK steg N` |
 | `@cursor/sdk` i repo | **Saknas** — se [`docs/GCP-INVENTORY-LATEST.md`](GCP-INVENTORY-LATEST.md) |
 
