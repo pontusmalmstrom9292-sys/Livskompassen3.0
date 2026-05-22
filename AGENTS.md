@@ -43,6 +43,16 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 
 Parent: `livskompassen-master-architect`. Baseline: [`docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md`](docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md). Kör **en** U i taget efter större säkerhets-/agent-PR.
 
+### Operativa projektunderagenter (`.cursor/agents/`)
+
+| Trigger | Agent | Domän |
+| --- | --- | --- |
+| RAG / silo / Dossier-minne | `livskompassen-memory-silo` | Tre silor, cross-RAG-block |
+| Firebase deploy / GCP | `livskompassen-firebase-gcp` | Rules, Hosting, Functions, smoke |
+| UI / Obsidian Calm | `livskompassen-ui-obsidian` | `src/modules`, Tailwind, disclosure |
+| Ex-meddelande / Hamn | `livskompassen-safe-harbor` | BIFF, Grey Rock, `analyzeMessage` |
+| `kör kanon-vakt` | `livskompassen-kanon-vakt` | Read-only PASS/FAIL med `fil:rad` |
+
 ### Cursor inbyggda subagents
 
 - Use `explore` for broad, read-only codebase mapping and architecture discovery.
@@ -55,17 +65,21 @@ Parent: `livskompassen-master-architect`. Baseline: [`docs/archive/evaluations-2
 
 | Uppgift | Skill | Cursor rule |
 | --- | --- | --- |
-| Grunder G01–G52 / slide vs runtime | — | `grunder-kanon.mdc` (always) |
-| PASS/FAIL/GAP, inga gissningar | — | `anti-hallucination.mdc` (always) |
+| Grunder G01–G52 / slide vs runtime | `livskompassen-grunder-kanon` | `grunder-kanon.mdc` (always) |
+| PASS/FAIL/GAP, inga gissningar | `livskompassen-anti-hallucination` | `anti-hallucination.mdc` (always) |
+| Pre-merge / `kör [GAP]` | `livskompassen-grunder-gap` | `grunder-kanon.mdc` |
 | Grunder revision U1–U5 | — | `.cursor/agents/grunder-u1-hotvektorer` … `grunder-u5-barn` (readonly) |
+| Kanon-vakt / “stämmer det?” | `livskompassen-anti-hallucination`, `livskompassen-grunder-gap` | agent `livskompassen-kanon-vakt` (readonly) |
+| DCAP / Kompis routing | `livskompassen-dcap-kompis` | `backend-agents.mdc` |
+| Safe Harbor / ex-sms | `livskompassen-safe-harbor` | agent `livskompassen-safe-harbor` |
 | ADK synapser, auto-ingest | `livskompassen-synapser-adk` | `synapser-adk.mdc` |
-| RAG, silo, cross-read | `livskompassen-memory-silo-guard`, `livskompassen-rag-retrieval` | `memory-silo.mdc` |
+| RAG, silo, cross-read | `livskompassen-memory-silo-guard`, `livskompassen-rag-retrieval` | `memory-silo.mdc` + agent `livskompassen-memory-silo` |
 | Vector Search ANN | `livskompassen-vector-search` | — |
 | Hela arkivet / Dossier-minne | `livskompassen-arkiv-master` | `livskompassen-core.mdc` |
 | Agent cards / prompts | `livskompassen-memory-agents` | `backend-agents.mdc` |
-| Firebase deploy / inventering | plugin `firebase-basics` | `firebase-workflow.mdc` |
+| Firebase deploy / inventering | plugin `firebase-basics` | `firebase-workflow.mdc` + agent `livskompassen-firebase-gcp` |
 | Firestore rules / WORM | plugin `firebase-firestore-standard` | `security-firestore.mdc` |
-| Frontend UI (Obsidian Calm) | — | `ui-design.mdc` |
+| Frontend UI (Obsidian Calm) | — | `ui-design.mdc` + agent `livskompassen-ui-obsidian` |
 
 Kanon för arkitektur och säkerhet: `.context/` (system-plan, arkiv-minne, security). Dokumentationsindex: [`docs/README.md`](docs/README.md). **Systemkontroll / röda tråden:** [`docs/SYSTEMKONTROLL.md`](docs/SYSTEMKONTROLL.md).  
 Live GCP-sanning: [`docs/GCP-INVENTORY-LATEST.md`](docs/GCP-INVENTORY-LATEST.md).  
