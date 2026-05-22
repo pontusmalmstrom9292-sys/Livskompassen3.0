@@ -3,5 +3,17 @@
     "firebase": {
       "enabled": true
     }
+  },
+  "livskompassen": {
+    "plan": "cursor-governance-2026-05-22",
+    "parentAgent": "livskompassen-master-architect",
+    "mcpConfigPath": ".cursor/mcp.json",
+    "alwaysApplyRules": [
+      "livskompassen-core.mdc",
+      "grunder-kanon.mdc",
+      "anti-hallucination.mdc"
+    ],
+    "projectSkillsDir": ".cursor/skills",
+    "projectAgentsDir": ".cursor/agents"
   }
 }
