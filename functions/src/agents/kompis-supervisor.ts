@@ -1,7 +1,13 @@
-import { AvailableAgents, routeFromDcap } from './cards';
+import {
+  AvailableAgents,
+  EXECUTOR_AGENT_IDS,
+  GransArkitektenCard,
+  routeFromDcap,
+} from './cards';
 import type { AgentResponse } from './types';
 import { GCP_PROJECT_ID } from '../config';
 import { analyzeDcap, DcapResult } from './DCAP';
+import { askGransArkitekten } from './gransArkitektenAgent';
 import { getOrCreateCache, invalidateCachesForUser } from '../lib/vertexCache';
 import { KOMPIS_SYSTEM_PROMPT } from '../sharedRules';
 import { adkOrchestrator } from '../adk/orchestrator';
@@ -18,7 +24,8 @@ export class KompisSupervisor {
   public async handleUserRequest(
     userInput: string,
     userId: string,
-    ragContext: string[] = []
+    ragContext: string[] = [],
+    options?: { preferGransArkitekten?: boolean }
   ): Promise<AgentResponse & { dcap?: DcapResult }> {
     console.log(`[Kompis] Anrop från uid=${userId}, inputlängd=${userInput.length}`);
 
@@ -36,7 +43,13 @@ export class KompisSupervisor {
 
     console.log(`[Kompis] DCAP riskScore=${dcapResult.riskScore}, action=${dcapResult.recommendedAction}`);
 
-    const route = routeFromDcap(dcapResult.riskScore, dcapResult.recommendedAction);
+    const route = options?.preferGransArkitekten
+      ? {
+          productAgentId: GransArkitektenCard.metadata.id,
+          executorId: EXECUTOR_AGENT_IDS.gransArkitekten,
+          intent: 'analyzeCommunication' as const,
+        }
+      : routeFromDcap(dcapResult.riskScore, dcapResult.recommendedAction);
     const productCard = AvailableAgents[route.productAgentId];
 
     let hitlRequired = false;
@@ -61,6 +74,24 @@ export class KompisSupervisor {
     console.log(
       `[Kompis] → ${productCard?.metadata.name ?? route.productAgentId} via ${route.executorId} (${route.intent})`
     );
+
+    if (route.executorId === EXECUTOR_AGENT_IDS.gransArkitekten) {
+      const grans = await askGransArkitekten(userInput, dcapResult);
+      return {
+        agentId: route.productAgentId,
+        status: 'SUCCESS',
+        data: {
+          agentName: productCard?.metadata.name ?? GransArkitektenCard.metadata.name,
+          gransAnalysis: grans,
+          response: grans.greyRockReply,
+          greyRockResponse: grans.greyRockReply,
+          recommendedAction: dcapResult.recommendedAction,
+          hitlRequired,
+          alertId: alertId || undefined,
+        },
+        dcap: dcapResult,
+      };
+    }
 
     const orchestration = await adkOrchestrator.dispatchFromSupervisor(
       route,

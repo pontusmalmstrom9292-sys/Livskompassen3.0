@@ -124,8 +124,9 @@ Live `subscribeKampsparEntries`, ringar Dåtid/Nutid/Framtid via `eventDate`, kl
 
 | | |
 |---|---|
-| **Problem** | Nämns i repomix `SYSTEM_MEMORY.md` + UI; **saknas** i `functions/src/agents/cards/` |
-| **Beslut** | Nionde agent card **eller** merge med BIFF-Skölden / `analyzeMessage` |
+| **Status** | **done** — 2026-05-22 |
+| **Leverans** | `GransArkitektenCard`, `gransArkitektenAgent.ts`, Kompis-routing (DCAP + `module: safe_harbor`), Hamn-UI (Brusfilter + BIFF), `npm run smoke:grans` |
+| **Beslut** | Nionde produktroll = Gräns-Arkitekten (executor `agent_grans_arkitekten`); BIFF/Brusfiltret som produktkort kvar i A2A-registret |
 | **Källa** | cursor.txt + walkthrough legacy |
 
 ### G15 — Grunder: injection-parity kanon (U1.5)

@@ -3,11 +3,21 @@ import { functions } from '../../core/firebase/init';
 
 const analyzeMessageCallable = httpsCallable(functions, 'analyzeMessage');
 
+export type GransAnalysis = {
+  cleanFacts: string[];
+  emotionalBait: string[];
+  greyRockReply: string;
+  techniques: string[];
+  coachingNote: string;
+};
+
 export type BiffAnalysisResult = {
   agentId?: string;
   status?: string;
   dcap?: { riskScore?: number; greyRockResponse?: string; categories?: string[] };
   data?: {
+    agentName?: string;
+    gransAnalysis?: GransAnalysis;
     response?: string;
     greyRockResponse?: string;
     recommendedAction?: string;
@@ -21,7 +31,11 @@ export type BiffAnalysisResult = {
 
 export async function analyzeBiffMessage(message: string): Promise<BiffAnalysisResult> {
   try {
-    const result = await analyzeMessageCallable({ message, ragContext: [] });
+    const result = await analyzeMessageCallable({
+      message,
+      ragContext: [],
+      module: 'safe_harbor',
+    });
     return result.data as BiffAnalysisResult;
   } catch (error) {
     console.error('Fel vid analyzeMessage:', error);

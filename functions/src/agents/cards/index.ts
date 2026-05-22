@@ -277,7 +277,7 @@ export function routeFromDcap(
 ): SupervisorRoute {
   if (recommendedAction === 'ALERT' || riskScore >= 70) {
     return {
-      productAgentId: BiffSkoldenCard.metadata.id,
+      productAgentId: GransArkitektenCard.metadata.id,
       executorId: EXECUTOR_AGENT_IDS.gransArkitekten,
       intent: 'generateGreyRockResponse',
     };

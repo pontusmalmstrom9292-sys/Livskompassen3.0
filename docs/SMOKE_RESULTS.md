@@ -306,6 +306,15 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 
 **FAS 4 avveckling:** steg 1–7 **klart**.
 
+## G14 — Gräns-Arkitekten (2026-05-22)
+
+| Kontroll | Resultat |
+|----------|----------|
+| `gransArkitektenAgent.ts` + JSON (Brusfilter + BIFF) | **done** |
+| Kompis routing + `module: safe_harbor` | **done** |
+| Hamn UI (logistik / beten / Grey Rock) | **done** |
+| `npm run smoke:grans` | **PASS** |
+
 ## G13 — Tidshjulet live kampspar (2026-05-22)
 
 | Kontroll | Resultat |
@@ -410,6 +419,7 @@ Se [`LEGACY-KB-MIGRATION-2026-05-22.md`](LEGACY-KB-MIGRATION-2026-05-22.md).
 | `kör G10` | ~~Självsorterande inkorg~~ **done** 2026-05-22 — `npm run smoke:inbox` |
 | `kör G12` | ~~Context Cache registry~~ **done** 2026-05-22 — `npm run smoke:cache` |
 | `kör G13` | ~~Tidshjulet live kampspar~~ **done** 2026-05-22 — `npm run smoke:tidshjul` |
+| `kör G14` | ~~Gräns-Arkitekten~~ **done** 2026-05-22 — `npm run smoke:grans` |
 
 Se [`Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md).
 

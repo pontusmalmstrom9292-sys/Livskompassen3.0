@@ -168,7 +168,7 @@ flowchart TB
 - [x] **G11** Rensa/isolera mock `Kampspar`-typ vs `KampsparEntry`
 - [x] **G12** Context Cache delad registry
 - [x] **G13** Tidshjulet → `kampspar`-historik (live + ringar)
-- [ ] **G14** Gräns-Arkitekten — agent card eller merge med BIFF-Skölden
+- [x] **G14** Gräns-Arkitekten — agent card + Hamn (Brusfilter + BIFF)
 
 Se [`Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md). Implementation: `kör [GAP]`.
 

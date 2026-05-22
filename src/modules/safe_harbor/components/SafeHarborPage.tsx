@@ -2,7 +2,11 @@ import { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Anchor, Loader2, Shield } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
-import { analyzeBiffMessage, extractGreyRockReply } from '../api/biffService';
+import {
+  analyzeBiffMessage,
+  extractGreyRockReply,
+  type GransAnalysis,
+} from '../api/biffService';
 import { useStore } from '../../core/store';
 import { saveVaultLog } from '../../core/firebase/firestore';
 
@@ -12,6 +16,8 @@ export function SafeHarborPage() {
   const user = useStore((s) => s.user);
   const [message, setMessage] = useState('');
   const [reply, setReply] = useState<string | null>(null);
+  const [grans, setGrans] = useState<GransAnalysis | null>(null);
+  const [agentName, setAgentName] = useState<string | null>(null);
   const [riskScore, setRiskScore] = useState<number | null>(null);
   const [hitlRequired, setHitlRequired] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -22,6 +28,8 @@ export function SafeHarborPage() {
   const wipeHamnFields = useCallback(() => {
     setMessage('');
     setReply(null);
+    setGrans(null);
+    setAgentName(null);
     setRiskScore(null);
     setHitlRequired(false);
     setError(null);
@@ -47,6 +55,8 @@ export function SafeHarborPage() {
     setLoading(true);
     setError(null);
     setReply(null);
+    setGrans(null);
+    setAgentName(null);
     setRiskScore(null);
     setHitlRequired(false);
     setEvidenceSaved(false);
@@ -54,6 +64,8 @@ export function SafeHarborPage() {
     try {
       const result = await analyzeBiffMessage(message);
       setReply(extractGreyRockReply(result));
+      setGrans(result.data?.gransAnalysis ?? null);
+      setAgentName(result.data?.agentName ?? null);
       setRiskScore(result.dcap?.riskScore ?? null);
       setHitlRequired(result.data?.hitlRequired === true);
     } catch (err) {
@@ -85,9 +97,10 @@ export function SafeHarborPage() {
 
   return (
     <div className="space-y-4">
-      <BentoCard title="Safe Harbor — BIFF-Skölden" icon={<Anchor className="h-4 w-4" />}>
+      <BentoCard title="Safe Harbor — Gräns-Arkitekten" icon={<Anchor className="h-4 w-4" />}>
         <p className="mb-4 text-sm text-text-muted">
-          Klistra in ett sms eller mejl. Få ett kort, affärsmässigt Grey Rock-svar utan JADE.
+          Klistra in ett sms eller mejl. Brusfiltret extraherar logistik; Gräns-Arkitekten ger ett
+          kort Grey Rock/BIFF-svar utan JADE.
         </p>
         <form onSubmit={handleSubmit} className="space-y-3">
           <textarea
@@ -107,8 +120,46 @@ export function SafeHarborPage() {
 
       {error && <p className="text-sm text-danger">{error}</p>}
 
+      {grans && (
+        <BentoCard title="Brusfiltret — vad som gäller">
+          {grans.cleanFacts.length > 0 && (
+            <div className="mb-3">
+              <p className="mb-1 text-[10px] uppercase tracking-widest text-text-dim">Logistik (10%)</p>
+              <ul className="list-inside list-disc text-sm text-text-muted">
+                {grans.cleanFacts.map((fact) => (
+                  <li key={fact}>{fact}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {grans.emotionalBait.length > 0 && (
+            <div className="mb-3">
+              <p className="mb-1 text-[10px] uppercase tracking-widest text-text-dim">
+                Beten att ignorera (90%)
+              </p>
+              <ul className="list-inside list-disc text-sm text-text-muted">
+                {grans.emotionalBait.map((bait) => (
+                  <li key={bait}>{bait}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {grans.techniques.length > 0 && (
+            <p className="text-[10px] uppercase tracking-widest text-text-dim">
+              Tekniker: {grans.techniques.join(', ')}
+            </p>
+          )}
+          {grans.coachingNote && (
+            <p className="mt-2 text-sm text-text-muted">{grans.coachingNote}</p>
+          )}
+        </BentoCard>
+      )}
+
       {reply && (
         <BentoCard title="Föreslaget svar">
+          {agentName && (
+            <p className="mb-2 text-[10px] uppercase tracking-widest text-accent/60">{agentName}</p>
+          )}
           {hitlRequired && (
             <div className="mb-3 rounded-xl border border-border-strong bg-surface/50 px-3 py-2 text-sm text-text-muted">
               Hög risk flaggad. AI-svaret är ett förslag — överväg att prata med någon du litar på.

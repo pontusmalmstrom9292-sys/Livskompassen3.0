@@ -118,12 +118,9 @@ Firestore `context_cache_registry`, Kill Switch, retention purge, `getContextCac
 
 Live kampspar, Dåtid/Nutid/Framtid-ringar, detaljkort, Mönster-hint.
 
-### G14 — Gräns-Arkitekten agent card
+### G14 — Gräns-Arkitekten agent card — **done** 2026-05-22
 
-| | |
-|---|---|
-| **Problem** | Nämns i repomix `SYSTEM_MEMORY.md` + UI; **saknas** i `functions/src/agents/cards/` |
-| **Beslut** | Nionde agent card **eller** merge med BIFF-Skölden / `analyzeMessage` |
+`gransArkitektenAgent.ts`, Kompis-routing, Hamn UI, `npm run smoke:grans`.
 | **Källa** | cursor.txt + walkthrough legacy |
 
 ### G15 — Grunder: injection-parity kanon (U1.5)

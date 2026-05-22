@@ -93,9 +93,16 @@ export const analyzeMessage = functions.region('europe-west1').https.onCall(asyn
     throw new functions.https.HttpsError('invalid-argument', 'Meddelandet får vara max 5000 tecken.');
   }
 
+  const preferGransArkitekten =
+    data.module === 'safe_harbor' || data.preferGransArkitekten === true;
+
   try {
-    const result = await supervisor.handleUserRequest(message, context.auth.uid, ragContext);
-    console.log(`[analyzeMessage] DCAP riskScore=${result.dcap?.riskScore} för uid=${context.auth.uid}`);
+    const result = await supervisor.handleUserRequest(message, context.auth.uid, ragContext, {
+      preferGransArkitekten,
+    });
+    console.log(
+      `[analyzeMessage] agent=${result.agentId} DCAP riskScore=${result.dcap?.riskScore} för uid=${context.auth.uid}`
+    );
     return result;
   } catch (error) {
     console.error('[analyzeMessage] Fel:', error);

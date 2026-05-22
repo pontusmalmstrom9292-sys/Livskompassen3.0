@@ -85,7 +85,7 @@ async function runSemanticLayer(
 ): Promise<{ detections: DcapDetection[]; score: number; greyRockResponse?: string }> {
   const vertexai = new VertexAI({ project: projectId, location: 'europe-west1' });
   const model = vertexai.preview.getGenerativeModel({
-    model: 'gemini-1.5-flash-001', // Flash för snabb analys; Pro används av DCAP-scheduler
+    model: 'gemini-2.5-flash',
     systemInstruction: {
       role: 'system',
       parts: [{
@@ -136,11 +136,16 @@ Format:
  * @param projectId GCP-projekt-ID.
  */
 export async function analyzeDcap(text: string, projectId: string): Promise<DcapResult> {
-  // Kör båda lagren parallellt för snabbhet
-  const [regexResult, semanticResult] = await Promise.all([
-    Promise.resolve(runRegexLayer(text)),
-    runSemanticLayer(text, projectId),
-  ]);
+  const regexResult = runRegexLayer(text);
+  let semanticResult: Awaited<ReturnType<typeof runSemanticLayer>> = {
+    detections: [],
+    score: 0,
+  };
+  try {
+    semanticResult = await runSemanticLayer(text, projectId);
+  } catch (err) {
+    console.warn('[DCAP] Semantic layer skipped (regex-only):', err);
+  }
 
   const totalScore = Math.min(regexResult.score + semanticResult.score, 100);
   const allDetections = [...regexResult.detections, ...semanticResult.detections];

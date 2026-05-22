@@ -18,6 +18,7 @@
     "smoke:inbox": "node scripts/smoke_inbox_sort.mjs",
     "smoke:cache": "node scripts/smoke_context_cache.mjs",
     "smoke:tidshjul": "node scripts/smoke_tidshjul.mjs",
+    "smoke:grans": "node scripts/smoke_grans_arkitekt.mjs",
     "seed:kampspar": "node scripts/seed_kampspar_profile.mjs --verify"
   },
   "dependencies": {
