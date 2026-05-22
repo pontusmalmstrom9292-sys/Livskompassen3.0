@@ -31,6 +31,20 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 
 ## Cursor Subagents
 
+### Grunder revisionsunderagenter (read-only, `.cursor/agents/`)
+
+| Trigger | Agent | Domän |
+| --- | --- | --- |
+| `kör grunder U1` | `grunder-u1-hotvektorer` | DCAP, Gräns-Arkitekten, injection-parity |
+| `kör grunder U2` | `grunder-u2-systemforsvar` | Circuit breaker, Kill Switch, `dcap_alert`/HITL |
+| `kör grunder U3` | `grunder-u3-life-os` | Tre silor, WORM, offentligt/dolt lager |
+| `kör grunder U4` | `grunder-u4-orkester` | Cards, ADK, sharedRules vs Genkit vision |
+| `kör grunder U5` | `grunder-u5-barn` | Barnen-silo, PA, Dossier, routing |
+
+Parent: `livskompassen-master-architect`. Baseline: [`docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md`](docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md). Kör **en** U i taget efter större säkerhets-/agent-PR.
+
+### Cursor inbyggda subagents
+
 - Use `explore` for broad, read-only codebase mapping and architecture discovery.
 - Use `shell` for terminal-heavy workflows such as builds, Firebase CLI checks, and Git inspection.
 - Use `generalPurpose` for complex multi-step investigations when the right search path is unclear.
@@ -43,6 +57,7 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 | --- | --- | --- |
 | Grunder G01–G52 / slide vs runtime | — | `grunder-kanon.mdc` (always) |
 | PASS/FAIL/GAP, inga gissningar | — | `anti-hallucination.mdc` (always) |
+| Grunder revision U1–U5 | — | `.cursor/agents/grunder-u1-hotvektorer` … `grunder-u5-barn` (readonly) |
 | ADK synapser, auto-ingest | `livskompassen-synapser-adk` | `synapser-adk.mdc` |
 | RAG, silo, cross-read | `livskompassen-memory-silo-guard`, `livskompassen-rag-retrieval` | `memory-silo.mdc` |
 | Vector Search ANN | `livskompassen-vector-search` | — |
