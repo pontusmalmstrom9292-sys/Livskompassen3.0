@@ -37,6 +37,7 @@
 | `generateDossier` | v1 | ja |
 | `weaveJournalEntry` | v1 | ja |
 | `journalWovenToKampspar` | v1 | ja |
+| `childrenLogsQuery` | v2 | ja |
 | `mabraCoach` | v1 | ja |
 | `breakDownResponse` | v1 | ja |
 | `getAgentRegistry` | v1 | ja |
@@ -138,7 +139,8 @@
 | G5 | **done** |
 | G6 | **done** | E2E kb_docs PASS 2026-05-22 |
 | G7 | **done** | `journal_woven` opt-in 2026-05-22 |
-| G8–G14 | **open** |
+| G8 | **done** | `childrenLogsQuery` Familjen-RAG 2026-05-22 |
+| G9–G14 | **open** |
 | G15 | **done** | Injection-parity i `.context/security.md` 2026-05-22 |
 | G16 | **done** | RSD-prompt + PA appendix + U5.5 barn routing **done** 2026-05-22 |
 | V1 Genkit | **wait** |
@@ -149,7 +151,7 @@
 
 1. **Grunder U1–U5 runtime klart** — U2.5 HITL + U5.5 routing + G7 journal_woven
 2. **GCP legacy buckets städade** — 5 buckets borta (2026-05-22)
-3. **Nästa arkiv-GAP:** G8 Familjen-RAG eller G8–G14 enligt [`Arkiv-GAP-REGISTER.md`](specs/modules/Arkiv-GAP-REGISTER.md)
+3. **Nästa arkiv-GAP:** G9 EntityProfile eller G10–G14 enligt [`Arkiv-GAP-REGISTER.md`](specs/modules/Arkiv-GAP-REGISTER.md)
 4. **`@cursor/sdk`:** **WAIT** — [`docs/NATT-CI.md`](NATT-CI.md)
 
 ---

@@ -302,8 +302,8 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 | `childrenLogsQueryRag.ts` — endast `children_logs` | **done** |
 | `MONSTER_ARKIVARIEN_BARNEN_SYSTEM_PROMPT` i `sharedRules.ts` | **done** |
 | Callable `childrenLogsQuery` + `ChildrenLogsChat` i Familjen | **done** |
-| Deploy `childrenLogsQuery` | **PASS** |
-| `npm run smoke:children` | **PASS** |
+| Deploy `childrenLogsQuery` | **PASS** (efter ~2 min IAM-propagering) |
+| `npm run smoke:children` | **PASS** — citation match seed |
 | Post-G8 smoke valv/kunskap/dossier | **PASS** |
 
 **Silo:** Ej `valvChatQuery`; Kunskap redirect (U5.5) oförändrad.
