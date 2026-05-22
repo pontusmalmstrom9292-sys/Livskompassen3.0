@@ -51,7 +51,7 @@ Livskompassen ska **aldrig glömma** användarens WORM-data. Det är **inte** en
 |-----|------------------|-------|
 | Synaps | CSS / Firestore `synapses` | ADK `SynapseBus`-händelse |
 | Silo 3 | Ex-partner / `vault` | Barnen → `children_logs` |
-| Kampspår | Mock-typ `Kampspar` | WORM `KampsparEntry` |
+| Minne | Mock-typ `Kampspar` | WORM `KampsparEntry` |
 | Vector Search | Vertex AI Search Data Store | Vertex AI Vector Search ANN (768 dim) |
 
 **Förbjudna repomix-mönster:** `SuperArchive` → `kb_docs` för bevis; Kunskap inbäddad i VaultPage; hårdkodad PIN; prompts utanför `sharedRules.ts`.

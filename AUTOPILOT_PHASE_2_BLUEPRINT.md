@@ -33,7 +33,7 @@ export interface VaultQueryResponse {
   };
 }
 
-// Payload för att ställa frågor eller lagra Kampspår
+// Payload för att ställa frågor eller lagra Minne
 export interface VaultQueryRequest {
   query: string;
   contextType: 'EVIDENCE' | 'REFLECTION' | 'BIFF_DRAFT';

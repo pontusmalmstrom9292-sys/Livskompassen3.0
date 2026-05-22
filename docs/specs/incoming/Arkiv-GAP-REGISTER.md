@@ -118,7 +118,7 @@ Kunskap-SPEC §12 — GCS/Vertex auto-tag. Repomix `SuperArchive`-koncept — **
 
 ### G13 — Tidshjulet → `kampspar`-historik
 
-UI (`Tidshjulet.tsx`) har "Dåtid (Kampspår)"-ring; repomix hade statiska noder. Wire till live `kampspar` + ev. Mönster-Arkivarien.
+UI (`Tidshjulet.tsx`) — Tidshjulet mot live `kampspar`; repomix hade statisk "Dåtid"-ring. Wire + ev. Mönster-Arkivarien.
 
 ### G14 — Gräns-Arkitekten agent card
 
