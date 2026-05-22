@@ -15,6 +15,8 @@ Historiskt material — **läs-only**. Använd inte som aktiv sanning.
 | [`Kompis.md`](Kompis.md) | Tidigt konceptdokument |
 | [`GCP-INVENTORY-2026-05-21.md`](GCP-INVENTORY-2026-05-21.md) | Superseded — se [`docs/GCP-INVENTORY-LATEST.md`](../GCP-INVENTORY-LATEST.md) |
 | [`legacy-system-plan.md`](legacy-system-plan.md) | Superseded — se [`.context/system-plan.md`](../../.context/system-plan.md) |
+| [`AUTOPILOT_PHASE_2_BLUEPRINT.md`](AUTOPILOT_PHASE_2_BLUEPRINT.md) | Superseded Fas 4-utkast (Cyber/Tactical UI) — se [`Verklighetsvalvet-SPEC.md`](../specs/modules/Verklighetsvalvet-SPEC.md) |
+| ~~`evaluations-2026-05/incoming-stash/`~~ | Borttagen 2026-05-22 (duplicat raderat; kanon i `specs/modules/` + `evaluations-2026-05/`) |
 
 ## Aktiva referenser (ej arkiv)
 

@@ -53,7 +53,7 @@ Append-only, tidsstämplade sanningar. Skild från Dagbok (Lager 1). Plausible d
 | | |
 |---|---|
 | **Permanent lagring** | `reality_vault` — WORM, glömmer inte |
-| **RAG / chatt** | Valv-Chat via `valvChatQuery` (**deploy saknas i prod**) |
+| **RAG / chatt** | Valv-Chat via `valvChatQuery` (**deployad** west1; `smoke:valv` PASS 2026-05-22) |
 | **PDF / samlad export** | per post + Dossier |
 | **Planerat** | klickbara citations |
 

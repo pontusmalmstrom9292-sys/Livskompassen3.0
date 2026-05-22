@@ -49,6 +49,7 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 | Mapp / fil | Innehåll |
 |------------|----------|
 | [`specs/modules/`](specs/modules/) | Modul-SPECs, GAP-register, grunder-slides |
+| [`specs/incoming/`](specs/incoming/) | Pekare — duplicerade utkast städade 2026-05-22; kanon i `specs/modules/` |
 | [`specs/modules/Arkiv-GAP-REGISTER.md`](specs/modules/Arkiv-GAP-REGISTER.md) | **Implementation queue** — `kör [GAP]` |
 | [`specs/design-master.md`](specs/design-master.md) | UI-kanon (Obsidian Calm) |
 | [`specs/product-vision.md`](specs/product-vision.md) | Produktvision |

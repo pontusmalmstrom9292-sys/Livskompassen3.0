@@ -50,7 +50,7 @@ Sök med källhänvisningar (Sannings-Analytikern). Zero Footprint: ingen sparad
 | | |
 |---|---|
 | **Permanent lagring** | läser `reality_vault` only |
-| **RAG / chatt** | Ja — `valvChatQuery`, Sannings-Analytikern (**ej deployad**) |
+| **RAG / chatt** | Ja — `valvChatQuery`, Sannings-Analytikern (**deployad**; `smoke:valv` PASS 2026-05-22) |
 | **PDF / samlad export** | — (→ Dossier) |
 | **Planerat** | — |
 

@@ -23,7 +23,7 @@ Ersätter manuella overnight-sessioner (historik: [`docs/archive/OVERNIGHT_REPOR
 | Krav | Status |
 |------|--------|
 | G6 Drive E2E → `kb_docs` | **done** 2026-05-22 |
-| GCP FAS4 steg 3–7 | Väntar G6 + `OK steg N` |
+| GCP FAS4 steg 3–7 | **done** 2026-05-22 (G6 förutsatt) |
 | `@cursor/sdk` i repo | **Saknas** — se [`docs/GCP-INVENTORY-LATEST.md`](GCP-INVENTORY-LATEST.md) |
 
 ---
