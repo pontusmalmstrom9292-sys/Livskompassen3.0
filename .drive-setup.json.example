@@ -2,5 +2,5 @@
   "inboxFolderId": "KOPIERA_FRÅN_DRIVE_URL",
   "vaultFolderId": "KOPIERA_FRÅN_DRIVE_URL",
   "firebaseOwnerUid": "SAMMA_SOM_DRIVE_INGEST_OWNER_UID",
-  "testDriveFileId": "VALFRITT_FÖR_FULL_E2E"
+  "testDriveFileId": ""
 }
