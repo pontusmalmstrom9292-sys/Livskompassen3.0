@@ -49,4 +49,4 @@ Grunden för Livskompassen v2 är "Kunskapsvalvet" (The Knowledge Vault), implem
 
 ## Legacy (GCP, ej i aktiv repo)
 
-Python functions `us-central1`: `knowledge-base-webhook`, `drive_sync_tool` — kartlägg/avveckla (GAP G4).
+Python functions `us-central1`: `knowledge-base-webhook` endast kvar — avveckla steg 5 (GAP G4).

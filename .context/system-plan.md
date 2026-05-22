@@ -109,7 +109,7 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 - `valvChatQuery` — **deployad** (G1 **done**); smoke:valv PASS
 - Dossier `generateDossier` — **klart** (smoke PASS)
 - `notifyNewFile` — **deployad**; G6 **done** 2026-05-22
-- Legacy Python us-central1 — **2 functions** kvar (G4 steg 1 **done**)
+- Legacy Python us-central1 — **1 fn kvar** (`knowledge-base-webhook`; steg 1+3 **done**)
 - Retention G5 **done**; mock Kampspar G11 **done**
 
 **Planerat (får inte tappas):** G1–G14 i [`Arkiv-GAP-REGISTER.md`](docs/specs/incoming/Arkiv-GAP-REGISTER.md). Implementation: `kör [GAP]`.

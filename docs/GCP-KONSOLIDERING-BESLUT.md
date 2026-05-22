@@ -49,7 +49,7 @@
 | Resurs | Region | Storlek | Node-motsvarighet | Avvecklingssteg |
 |--------|--------|---------|-------------------|-----------------|
 | `knowledge-base-webhook` | us-central1 | 3.8 GB RAM fn | `notifyNewFile` → `driveIngestSynapse` → `kb_docs` | **Steg 5** |
-| `drive_sync_tool` | us-central1 | — | Apps Script + `notifyNewFile` | **Steg 3** (efter G6) |
+| ~~`drive_sync_tool`~~ | us-central1 | — | `notifyNewFile` (Node) | **raderad** steg 3 |
 | ~~`biff_generator_tool`~~ | us-central1 | — | `analyzeMessage` (BIFF-Skölden) | **raderad** steg 1 |
 | ~~`brusfiltret_tool`~~ | us-central1 | — | `analyzeMessage` (Brusfiltret) | **raderad** steg 1 |
 | `knowledge-base-bucket-*` | us-central1 | ~10 KB | Firestore `kb_docs` + Vector west1 | **Steg 5** |
@@ -99,7 +99,7 @@
 |------|--------|-------------|
 | 1 | ~~Avveckla `biff_generator_tool` + `brusfiltret_tool`~~ | **done** — `smoke:valv` PASS 2026-05-22 |
 | 2 | **G6** Drive E2E | **done** 2026-05-22 — kb_docs + smoke:kunskap PASS |
-| 3 | Avveckla `drive_sync_tool` | `smoke:kunskap` |
+| 3 | Avveckla `drive_sync_tool` | **done** 2026-05-22 — `smoke:kunskap` PASS |
 | 4 | Migrera legacy KB → `kb_docs`/`kampspar` (scope-OK) | `smoke:kunskap` |
 | 5 | Avveckla `knowledge-base-webhook` + legacy buckets | `smoke:kunskap`, `smoke:dossier` |
 | 6 | Ta bort north1-index, tomma buckets, django-secrets | Full smoke ×3 |
@@ -111,4 +111,4 @@
 
 ## STOPP 3 — nästa steg
 
-**Steg 1–2 klart.** Nästa: `OK steg 3` (avveckla `drive_sync_tool`).
+**Steg 1–3 klart.** Nästa: `OK steg 4` (migrera legacy KB) eller `OK steg 5` (knowledge-base-webhook).

@@ -40,13 +40,14 @@ npm run smoke:dossier
 
 ---
 
-## Steg 3 — Avveckla drive_sync_tool
+## Steg 3 — Avveckla drive_sync_tool — **done** 2026-05-22
 
 **Förutsättning:** G6 PASS — undvik dubbel Drive-ingest.
 
+**Utfört:**
 ```bash
 firebase functions:delete drive_sync_tool --project gen-lang-client-0481875058 --force
-npm run smoke:kunskap
+npm run smoke:kunskap  # PASS
 ```
 
 ---

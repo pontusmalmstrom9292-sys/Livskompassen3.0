@@ -9,7 +9,7 @@
 | G1 | **done** | `valvChatQuery` deployad west1 |
 | G2 | **done** | VERIFY PASS 2026-05-22 — endpoint live, kod-defaults, 54 vectors |
 | G3 | **done** | VERIFY PASS 2026-05-22 — embeddingDim 768, indexSync under ingest |
-| G4 | **open** | 2 Python fn kvar (steg 1 **done** 2026-05-22: biff/brusfiltret borta) |
+| G4 | **open** | 1 Python fn kvar: `knowledge-base-webhook` (steg 1+3 **done** 2026-05-22) |
 | G5 | **done** | WORM allowlist retention |
 | G6 | **done** | Drive E2E → `kb_docs` 2026-05-22 — [`GCP-FAS4-RUNBOOK.md`](../../GCP-FAS4-RUNBOOK.md) steg 2 |
 | G7–G14 | **open** | Life OS utbyggnad |
@@ -56,7 +56,7 @@
 | Function | Legacy roll | Node-motsvarighet | Avvecklingsprioritet |
 |----------|-------------|-------------------|----------------------|
 | `knowledge-base-webhook` | Vertex AI Search Knowledge Base webhook → legacy datastore | `notifyNewFile` → `driveIngestSynapse` → `kb_docs` + Vector ANN | **3** (sist) |
-| `drive_sync_tool` | Drive → legacy knowledge base sync | Apps Script `sorter.gs` + `notifyNewFile` | **2** (efter G6 E2E) |
+| ~~`drive_sync_tool`~~ | Drive → legacy knowledge base sync | `notifyNewFile` (Node) | **raderad** steg 3 |
 | ~~`biff_generator_tool`~~ | HTTP BIFF-prototyp | `analyzeMessage` (BIFF-Skölden) | **raderad** steg 1 |
 | ~~`brusfiltret_tool`~~ | HTTP brusfilter-prototyp | `analyzeMessage` (Brusfiltret) | **raderad** steg 1 |
 

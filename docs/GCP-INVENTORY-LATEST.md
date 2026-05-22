@@ -1,6 +1,6 @@
 # GCP / Firebase-inventering — LIVE (senast)
 
-**Datum:** 2026-05-22 (U6 live audit · FAS4 steg 1 klart)  
+**Datum:** 2026-05-22 (U6 live audit · FAS4 steg 1+3 klart)  
 **Projekt:** `gen-lang-client-0481875058` (number `1084026575972`)  
 **Metod:** `firebase functions:list`, `gcloud ai indexes/endpoints list`, `gcloud storage du`, `gcloud compute instances list`, `gcloud secrets list`  
 **Beslut:** [`GCP-KONSOLIDERING-BESLUT.md`](GCP-KONSOLIDERING-BESLUT.md)  
@@ -16,7 +16,7 @@
 | Vector endpoint + `livskompassen_kv_deployed_v1` | **done** | G2 **VERIFY PASS** |
 | Index west1, **102 vectors** | **done** | G3 **VERIFY PASS** |
 | `NOTIFY_WEBHOOK_SECRET` | **finns** | G6 **done** — E2E kb_docs 2026-05-22 |
-| Legacy Python (2 fn kvar, us-central1) | **delvis avvecklad** | G4 — steg 1 **done** 2026-05-22 |
+| Legacy Python (1 fn kvar, us-central1) | **delvis avvecklad** | G4 — steg 1+3 **done** 2026-05-22 |
 | Compute Engine VMs | **0** | — |
 | `@cursor/sdk` | **saknas** | **WAIT** (Natt-CI) |
 
@@ -48,7 +48,7 @@
 | Function | Region | Runtime | Memory | Status |
 |----------|--------|---------|--------|--------|
 | `knowledge-base-webhook` | us-central1 | python312 | ~3.8 GB | aktiv |
-| `drive_sync_tool` | us-central1 | python311 | ~244 MB | aktiv |
+| ~~`drive_sync_tool`~~ | us-central1 | python311 | — | **raderad** steg 3 |
 | ~~`biff_generator_tool`~~ | us-central1 | python311 | — | **raderad** steg 1 |
 | ~~`brusfiltret_tool`~~ | us-central1 | python311 | — | **raderad** steg 1 |
 
@@ -133,7 +133,7 @@
 | ID | Status |
 |----|--------|
 | G1–G3 | **done** |
-| G4 | **open** — 2 Python fn kvar (steg 1 done: biff/brusfiltret borta) |
+| G4 | **open** — 1 Python fn kvar (`knowledge-base-webhook`; steg 1+3 **done**) |
 | G5 | **done** |
 | G6 | **done** | E2E kb_docs PASS 2026-05-22 |
 | G7–G14 | **open** |
@@ -144,8 +144,8 @@
 
 ## Nästa steg
 
-1. **FAS4 steg 1 klart** — `biff_generator_tool` + `brusfiltret_tool` raderade; `smoke:valv` PASS
-2. **Nästa:** `OK steg 3` — avveckla `drive_sync_tool` ([`GCP-FAS4-RUNBOOK.md`](GCP-FAS4-RUNBOOK.md))
+1. **FAS4 steg 1+3 klart** — biff/brus + `drive_sync_tool` raderade; `smoke:kunskap` PASS
+2. **Nästa:** `OK steg 4` — migrera legacy KB ([`GCP-FAS4-RUNBOOK.md`](GCP-FAS4-RUNBOOK.md))
 3. **Grunder:** [`GRUNDER-UTVARDERING-RESULTAT.md`](specs/incoming/GRUNDER-UTVARDERING-RESULTAT.md)
 4. **`@cursor/sdk`:** **WAIT** — [`docs/NATT-CI.md`](NATT-CI.md)
 

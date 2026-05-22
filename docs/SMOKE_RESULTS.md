@@ -211,37 +211,57 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 - [`src/modules/kompis/module_plan.md`](../src/modules/kompis/module_plan.md)
 - [`docs/specs/incoming/Kunskap-SPEC.md`](./specs/incoming/Kunskap-SPEC.md)
 
-## G6 — Drive-pipeline (manuellt steg — användaren)
+## G6 — Drive-pipeline — **prod verify** 2026-05-22
 
-**Källor:** [`DRIVE_AUTOMATION.md`](./DRIVE_AUTOMATION.md), [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md) § Secret Manager  
-**Uppdaterat:** 2026-05-22 nattpass
+**Källor:** [`DRIVE_AUTOMATION.md`](./DRIVE_AUTOMATION.md), [`GCP-FAS4-RUNBOOK.md`](./GCP-FAS4-RUNBOOK.md) steg 2  
+**Commit:** `193f3ff1` — `fix(drive): G6 pipeline` (`documentAgent.ts`, `index.ts`)
+
+### Prod-deploy (ingen redeploy behövdes)
+
+| Kontroll | Resultat |
+|----------|----------|
+| `notifyNewFile` revision | **9** — `updateTime` **2026-05-22T10:30:04Z** (europe-west1) |
+| Memory / timeout | **512MB** / **300s** — matchar G6-fix i repo |
+| `await emitSynapse` | **PASS** — synkront flöde; svar `Processing complete` |
+| `documentAgent` export + modell | **PASS** — logg `[File Pipeline] … gemini-2.5-flash` |
+| E2E Drive → `kb_docs` | **PASS** — docId `irQNlDTYgcr15DFIuA3w` (`created=true`, PDF `LivsKompassen_System_Manifest.pdf`) |
+| `smoke:kunskap` (re-run) | **PASS** 2026-05-22T10:38 — docId `DGMNHxSIAlqtPoEuQ53K`, citation match |
+| `cd functions && npm run build` | **PASS** (verify compile) |
+
+**Prod-logg (notifyNewFile, execution ~10:31 UTC):** `[File Pipeline] Startar … application/pdf` → `Fil nedladdad. Skickar till gemini-2.5-flash` → `[Synapse:drive_ingest] kb_docs docId=irQNlDTYgcr15DFIuA3w created=true` → HTTP **200** (51s).
 
 | Secret | Status |
 |--------|--------|
-| `NOTIFY_WEBHOOK_SECRET` | **FINNS** i Secret Manager (skapad 2026-05-21) — värde ej läsbart här |
+| `NOTIFY_WEBHOOK_SECRET` | **FINNS** (Secret Manager v2) |
 | `GEMINI_API_KEY` | Finns |
+
+**Känd icke-blockerare (ej G6):** ADK `runExecutor` loggar `[ADK] Executor-fel` p.g.a. `gemini-1.5-flash-001` 404 efter `kb_docs`-persist — Mönster-Arkivarien-dispatch; separat GAP (`runExecutor.ts`).
+
+---
+
+## G6 — historik (nattpass 2026-05-22)
 
 | Del | Status |
 |-----|--------|
 | `notifyNewFile` deployad | **PASS** (europe-west1) |
-| Secret bunden på function | **PASS** — POST utan header → **401** (curl 2026-05-22) |
+| Secret bunden på function | **PASS** — POST utan header → **401** |
 | Repo fail-closed | **Klar** — 503 om secret saknas i runtime |
-| Apps Script + E2E Drive → kb_docs | **PASS** 2026-05-22 — docId `irQNlDTYgcr15DFIuA3w` |
 
-### Steg imorgon (6 steg — ett i taget)
+## FAS4 steg 3 — drive_sync_tool (2026-05-22)
 
-1. **Hämta/spara secret:** Om du inte har värdet i lösenordshanterare: `openssl rand -base64 32` → `firebase functions:secrets:set NOTIFY_WEBHOOK_SECRET` → redeploy `notifyNewFile`.
-2. **Apps Script:** Klistra in [`scripts/google-apps-script/sorter.gs`](../scripts/google-apps-script/sorter.gs); sätt Script Property `WEBHOOK_SECRET` = samma värde som Firebase secret.
-3. **Övriga Script Properties:** `INBOX_FOLDER_ID`, `VAULT_FOLDER_ID`, `FIREBASE_OWNER_UID` (din Auth uid).
-4. **Dela Vault-mappen** med `gen-lang-client-0481875058@appspot.gserviceaccount.com` (Viewer).
-5. **Trigger:** Kör `createTrigger()` en gång i Apps Script; lägg testfil i Inbox (eller kör `autonomousSorter` manuellt).
-6. **Verifiera:** Firestore `kb_docs` + Functions-logg `[File Pipeline]`; uppdatera tabellen nedan med PASS/FAIL.
+| Kontroll | Resultat |
+|----------|----------|
+| `firebase functions:delete drive_sync_tool` | **PASS** — us-central1 Python borta |
+| `npm run smoke:kunskap` | **PASS** — ingest + query + citation |
+
+**Kvar legacy Python:** `knowledge-base-webhook` endast.
 
 ## Nästa kod-GAP (efter grund-låsning)
 
 | Kommando | Innehåll |
 |----------|----------|
-| `kör G4` | Kartlägg/avveckla legacy Python RAG (us-central1) — separat session |
+| `OK steg 4` | Migrera legacy KB → `kb_docs`/`kampspar` |
+| `OK steg 5` | Avveckla `knowledge-base-webhook` |
 | `kör G7` | Implementera `journal_woven` synaps (opt-in → `kampspar`) — separat session |
 
 Se [`Arkiv-GAP-REGISTER.md`](./specs/incoming/Arkiv-GAP-REGISTER.md).
