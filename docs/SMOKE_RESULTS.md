@@ -1,7 +1,18 @@
 # Smoke-resultat (Fas 3 + Minne)
 
 **Datum:** 2026-05-22  
-**Branch:** `cleanup-phase-1`
+**Branch:** `main` (Livskompassen3.0 — clean baseline)
+
+## Clean repo baseline (2026-05-22)
+
+| Kontroll | Resultat |
+|----------|----------|
+| Nytt repo push | **PASS** — `Livskompassen3.0` / `main` |
+| Arkiv tag `origin-old` | **PASS** — `archive/pre-clean-repo-2026-05-22` |
+| Finder-kopia | **PASS** — `Livskompassen2.0-ARKIV-2026-05-22` |
+| `npm run build` (frontend) | **PASS** |
+| `cd functions && npm run build` | **PASS** |
+| Utskriftsguide | **PASS** — `docs/GITHUB_ANVANDARGUIDE.md` |
 
 ## Automatiserade kontroller (nattpass 2026-05-22)
 
@@ -294,6 +305,14 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 | Post-steg7 `smoke:dossier` | **PASS** |
 
 **FAS 4 avveckling:** steg 1–7 **klart**.
+
+## G12 — Context Cache registry (2026-05-22)
+
+| Kontroll | Resultat |
+|----------|----------|
+| `context_cache_registry` Firestore + rules | **done** |
+| `invalidateCachesForUser` + retention purge | **done** |
+| `getContextCacheStatus` + `npm run smoke:cache` | *(efter deploy)* |
 
 ## G10 — Självsorterande inkorg (2026-05-22)
 

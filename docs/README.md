@@ -39,6 +39,8 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 | [`SMOKE_CHECKLIST.md`](SMOKE_CHECKLIST.md) | Manuell verifiering (Sacred Features) |
 | [`SMOKE_RESULTS.md`](SMOKE_RESULTS.md) | Senaste smoke-resultat |
 | [`NATT-CI.md`](NATT-CI.md) | Nattlig CI (ersätter manuella overnight-körningar) |
+| [`GITHUB_ANVANDARGUIDE.md`](GITHUB_ANVANDARGUIDE.md) | **Utskriftsguide** — repo, branches, daglig rutin |
+| [`GITHUB_STANDALONE_SETUP.md`](GITHUB_STANDALONE_SETUP.md) | Teknisk GitHub-setup (arkiv/alternativ) |
 
 ---
 

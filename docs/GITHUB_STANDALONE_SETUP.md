@@ -1,5 +1,7 @@
 # Fristående GitHub-repo — Livskompassen2.0
 
+> **2026-05-22:** Ny clean baseline finns i **Livskompassen3.0**. För utskriftsguide och daglig rutin, se **[`GITHUB_ANVANDARGUIDE.md`](GITHUB_ANVANDARGUIDE.md)**.
+
 Steg-för-steg på svenska. Målet: **en tydlig huvudlinje** med all app-kod, utan merge-röra.
 
 ---
