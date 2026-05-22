@@ -133,5 +133,12 @@ service cloud.firestore {
       allow read: if isOwner();
       allow create, update, delete: if false;
     }
+
+    // G12 — Vertex Context Cache registry (ephemeral metadata, Admin SDK write)
+    match /context_cache_registry/{cacheKey} {
+      allow read: if isAuthenticated()
+        && resource.data.ownerId == request.auth.uid;
+      allow create, update, delete: if false;
+    }
   }
 }

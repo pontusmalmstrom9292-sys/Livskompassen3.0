@@ -8,6 +8,7 @@
 import { Firestore, Timestamp } from '@google-cloud/firestore';
 
 import { GCP_PROJECT_ID } from '../config';
+import { purgeExpiredRegistryEntries } from '../lib/contextCacheRegistry';
 
 const PROJECT_ID = GCP_PROJECT_ID;
 const RETENTION_DAYS = parseInt(process.env.RETENTION_DAYS ?? '90', 10);
@@ -110,7 +111,14 @@ export default async function runRetention(): Promise<void> {
 
   await removeVectors(allVectorIds);
 
-  console.log(`[RetentionJob] Klart. ${totalDeleted} dok., ${allVectorIds.length} vektorer raderade.`);
+  const expiredCaches = await purgeExpiredRegistryEntries();
+  if (expiredCaches > 0) {
+    console.log(`[RetentionJob] context_cache_registry: ${expiredCaches} utgångna poster raderade.`);
+  }
+
+  console.log(
+    `[RetentionJob] Klart. ${totalDeleted} dok., ${allVectorIds.length} vektorer, ${expiredCaches} cache-registry.`
+  );
 }
 
 if (require.main === module) {

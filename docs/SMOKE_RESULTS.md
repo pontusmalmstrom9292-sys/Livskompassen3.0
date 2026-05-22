@@ -312,7 +312,7 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 |----------|----------|
 | `context_cache_registry` Firestore + rules | **done** |
 | `invalidateCachesForUser` + retention purge | **done** |
-| `getContextCacheStatus` + `npm run smoke:cache` | *(efter deploy)* |
+| Deploy + `npm run smoke:cache` | **PASS** |
 
 ## G10 — Självsorterande inkorg (2026-05-22)
 
@@ -400,6 +400,7 @@ Se [`LEGACY-KB-MIGRATION-2026-05-22.md`](LEGACY-KB-MIGRATION-2026-05-22.md).
 | `kör G8` | ~~Familjen-RAG~~ **done** 2026-05-22 |
 | `kör G9` | ~~EntityProfile / SystemSynapse~~ **done** 2026-05-22 — `npm run smoke:entities` |
 | `kör G10` | ~~Självsorterande inkorg~~ **done** 2026-05-22 — `npm run smoke:inbox` |
+| `kör G12` | ~~Context Cache registry~~ **done** 2026-05-22 — `npm run smoke:cache` |
 
 Se [`Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md).
 

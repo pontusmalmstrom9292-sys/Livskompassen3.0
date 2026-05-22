@@ -29,6 +29,7 @@ import {
   dismissInboxQueueItem,
   listPendingInboxQueue,
 } from './lib/inboxPersist';
+import { listRegistryEntriesForUser } from './lib/contextCacheRegistry';
 
 admin.initializeApp();
 const supervisor = new KompisSupervisor();
@@ -112,7 +113,7 @@ export const invalidateSession = functions.region('europe-west1').https.onCall(a
     throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
   }
 
-  supervisor.invalidateUserSession(context.auth.uid);
+  await supervisor.invalidateUserSession(context.auth.uid);
   console.log(`[invalidateSession] Session rensad för uid=${context.auth.uid}`);
   return { success: true };
 });
@@ -128,7 +129,6 @@ export const scheduledRetentionJob = functions
   .timeZone('Europe/Stockholm')
   .onRun(async (_context) => {
     console.log('[scheduledRetentionJob] Startar GDPR-rensning...');
-    // Importera och kör retention-jobbet inline
     const { default: runRetention } = await import('./jobs/retentionJob');
     if (typeof runRetention === 'function') {
       await runRetention();
@@ -403,6 +403,25 @@ export const previewInboxClassification = onCall(
     return { classification };
   }
 );
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 6i: getContextCacheStatus (G12)
+// Read-only registry-status för Zero Footprint / smoke.
+// ─────────────────────────────────────────────────────────────────────────────
+export const getContextCacheStatus = onCall({ region: 'europe-west1' }, async (request) => {
+  if (!request.auth) {
+    throw new HttpsError('unauthenticated', 'Autentisering krävs.');
+  }
+
+  const entries = await listRegistryEntriesForUser(request.auth.uid);
+  return {
+    registry: 'firestore',
+    collection: 'context_cache_registry',
+    ttlSeconds: 3600,
+    count: entries.length,
+    entries,
+  };
+});
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Funktion 6a: ingestKampsparEntry

@@ -2,7 +2,7 @@ import { AvailableAgents, routeFromDcap } from './cards';
 import type { AgentResponse } from './types';
 import { GCP_PROJECT_ID } from '../config';
 import { analyzeDcap, DcapResult } from './DCAP';
-import { getOrCreateCache, invalidateCache } from '../lib/vertexCache';
+import { getOrCreateCache, invalidateCachesForUser } from '../lib/vertexCache';
 import { KOMPIS_SYSTEM_PROMPT } from '../sharedRules';
 import { adkOrchestrator } from '../adk/orchestrator';
 import { emitSynapse } from '../adk/synapses/synapseBus';
@@ -28,6 +28,9 @@ export class KompisSupervisor {
         systemInstruction: KOMPIS_SYSTEM_PROMPT,
         backgroundDocuments: ragContext,
         ttlSeconds: 3600,
+      }).catch((err) => {
+        console.warn('[Kompis] Context cache skipped (best-effort):', err);
+        return null;
       }),
     ]);
 
@@ -90,9 +93,9 @@ export class KompisSupervisor {
     };
   }
 
-  public invalidateUserSession(userId: string): void {
-    invalidateCache(`kompis_${userId}`);
+  public async invalidateUserSession(userId: string): Promise<void> {
+    await invalidateCachesForUser(userId);
     adkOrchestrator.clearContext(userId);
-    console.log(`[Kompis] Session + ADK-state rensad för uid=${userId}`);
+    console.log(`[Kompis] Session + ADK-state + context cache rensad för uid=${userId}`);
   }
 }

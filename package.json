@@ -16,6 +16,7 @@
     "smoke:children": "node scripts/smoke_children_logs.mjs",
     "smoke:entities": "node scripts/smoke_entity_profiles.mjs",
     "smoke:inbox": "node scripts/smoke_inbox_sort.mjs",
+    "smoke:cache": "node scripts/smoke_context_cache.mjs",
     "seed:kampspar": "node scripts/seed_kampspar_profile.mjs --verify"
   },
   "dependencies": {

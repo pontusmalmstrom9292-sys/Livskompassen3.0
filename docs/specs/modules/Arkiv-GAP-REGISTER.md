@@ -112,13 +112,9 @@
 
 `INKORG_SORTERARE` + `classifyInboxDocument` i `driveIngestSynapse`: bevis → `reality_vault`, kunskap → `kb_docs`, barnen → `children_logs`, trauma/oklar → `inbox_queue` (HITL). **MUST NOT** spara bevis till `kb_docs`. Callables: `getInboxQueue`, `confirmInboxItem`, `previewInboxClassification`. UI `InboxQueueCard`.
 
-### G12 — Context Cache delad registry
+### G12 — Context Cache delad registry — **done** 2026-05-22
 
-| | |
-|---|---|
-| **Problem** | `vertexCache.ts` — TTL 1h, in-memory registry; deploy-status okänd |
-| **Åtgärd** | Beslut: Firestore-backed vs in-memory; koppla till DCAP/RAG-kostnad |
-| **Källa** | baseline backend-analys |
+`context_cache_registry` (Firestore, delad mellan instanser), `contentHash` för RAG-invalidering, `invalidateCachesForUser` vid Kill Switch, `purgeExpiredRegistryEntries` i retention. Callable `getContextCacheStatus`. Best-effort Vertex cache create (fail-open).
 
 ### G13 — Tidshjulet → `kampspar`-historik
 

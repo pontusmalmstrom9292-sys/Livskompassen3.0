@@ -80,7 +80,7 @@ Synapser: [`functions/src/adk/synapses/synapseBus.ts`](../../functions/src/adk/s
 | `valvChatQuery` deploy | **planerat** — kod finns (G1) |
 | Legacy Python RAG (us-central1) | **motsägelse** — avveckla (G4) |
 | Mock `Kampspar`-typ vs `KampsparEntry` | **risk** — isolera (G11) |
-| Context Cache (`vertexCache.ts`) | **repo only** — delad registry planerat (G12) |
+| Context Cache (`vertexCache.ts` + `context_cache_registry`) | **done** G12 — Firestore delad registry, Kill Switch |
 | Familjen naturligt språk | **planerat** (G8) |
 | SystemSynapse Firestore | **planerat** (G9) |
 | Tidshjulet → `kampspar`-historik | **planerat** (G13) |

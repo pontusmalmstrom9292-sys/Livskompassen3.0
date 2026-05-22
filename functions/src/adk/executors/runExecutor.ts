@@ -30,8 +30,13 @@ export async function runExecutor(
       systemInstruction,
       backgroundDocuments: ragContext,
       ttlSeconds: 3600,
+    }).catch((err) => {
+      console.warn(`[runExecutor] Context cache skipped for ${executorId}:`, err);
+      return null;
     });
-    return generateWithCache(cached, buildUserPrompt(message));
+    if (cached) {
+      return generateWithCache(cached, buildUserPrompt(message));
+    }
   }
 
   const vertexai = new VertexAI({ project: GCP_PROJECT_ID, location: GCP_REGION });

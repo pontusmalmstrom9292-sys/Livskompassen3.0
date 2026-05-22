@@ -112,7 +112,7 @@ flowchart TB
 | Embeddings | `generateEmbedding` + ingest | Index synkad | Full smoke **VERIFY** (G3) |
 | LLM syntes | `GEMINI_API_KEY` | Secret finns | Behåll |
 | Legacy Python RAG | — | 4 functions us-central1 | Avveckla (G4) |
-| Context Cache | `vertexCache.ts` (TTL 1h, in-memory) | — | Delad registry (G12) |
+| Context Cache | `vertexCache.ts` + `context_cache_registry` (G12) | Firestore delad registry | **done** G12 |
 
 **Deploy-sanning:** [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md) — ersätter arkiv-PDF som säger 0 endpoints / ej deployad valv.
 
@@ -166,7 +166,7 @@ flowchart TB
 - [x] **G9** EntityProfile / SystemSynapse Firestore + agent grounding
 - [x] **G10** Självsorterande inkorg (Kunskap-SPEC §12)
 - [x] **G11** Rensa/isolera mock `Kampspar`-typ vs `KampsparEntry`
-- [ ] **G12** Context Cache delad registry
+- [x] **G12** Context Cache delad registry
 - [ ] **G13** Tidshjulet → `kampspar`-historik
 - [ ] **G14** Gräns-Arkitekten — agent card eller merge med BIFF-Skölden
 

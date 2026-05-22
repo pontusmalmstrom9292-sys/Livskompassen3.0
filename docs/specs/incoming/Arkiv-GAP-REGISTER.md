@@ -110,13 +110,9 @@ Ny callable: `childrenLogsQuery` + Mönster-Arkivarien. **MUST NOT** route via `
 
 Drive G10-klassificering, silo-routing, `inbox_queue` HITL. **MUST NOT** bevis → `kb_docs`.
 
-### G12 — Context Cache delad registry
+### G12 — Context Cache delad registry — **done** 2026-05-22
 
-| | |
-|---|---|
-| **Problem** | `vertexCache.ts` — TTL 1h, in-memory registry; deploy-status okänd |
-| **Åtgärd** | Beslut: Firestore-backed vs in-memory; koppla till DCAP/RAG-kostnad |
-| **Källa** | baseline backend-analys |
+Firestore `context_cache_registry`, Kill Switch, retention purge, `getContextCacheStatus`.
 
 ### G13 — Tidshjulet → `kampspar`-historik
 
