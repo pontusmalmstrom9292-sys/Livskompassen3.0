@@ -1,0 +1,73 @@
+---
+description: Grunder truth layers — runtime vs spec vs vision-only slides (G01–G52)
+alwaysApply: true
+---
+
+# Grunder kanon (tre sanningsslager)
+
+Before claiming a Grunder slide (G01–G52) is **live**, classify evidence into exactly one layer.
+
+## Layer 1 — Runtime kanon (implementerat / delvis i kod)
+
+| Source | Use for |
+|--------|---------|
+| `.context/*.md` (especially `security.md`, `arkiv-minne.md`) | Architecture, silos, Sacred Features |
+| `firestore.rules` | WORM, owner-bound collections |
+| `functions/src/sharedRules.ts` | Agent prompts — **only** allowed prompt source |
+| `functions/src/agents/`, `functions/src/adk/` | DCAP, Kompis, cards, synapses |
+
+**Confirmed runtime (U1–U5, 2026-05-22):** DCAP before LLM; three silos; Gräns-Arkitekten; BIFF at high risk; Zero Footprint + Kill Switch; Drive → `kb_docs`; 10 cards / 2 executors; Barnen routing + PA appendix. See [`docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md`](../../docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md).
+
+## Layer 2 — Spec / GAP (planned, not live until coded)
+
+| Source | Use for |
+|--------|---------|
+| `docs/specs/modules/*-SPEC.md` | Module intent, appendices |
+| `docs/specs/modules/Arkiv-GAP-REGISTER.md` | Open gaps — do not treat as shipped |
+
+Label claims as **GAP** or **spec-only** until Layer 1 evidence exists.
+
+## Layer 3 — Grunder slides (vision / rejected)
+
+| Source | Use for |
+|--------|---------|
+| [`docs/specs/modules/grunder-slides/INVENTAR.md`](../../docs/specs/modules/grunder-slides/INVENTAR.md) | Per-slide status: implementerat · delvis · vision-only · **avvisat** |
+
+**Slides are not runtime proof.** A PNG/PDF slide does not mean the feature exists in prod.
+
+### Avvisat — never implement
+
+| G | Item |
+|---|------|
+| **G05** | Cirkulär MåBra flow-vy |
+| **G42** | Plant / gamification i offentligt lager |
+
+### Vision-only — do not migrate without explicit `kör [GAP]`
+
+| G | Topic |
+|---|--------|
+| **G01** | Dotprompt — separera logik från kod |
+| **G28** | Supervisor + Firebase Genkit |
+| **G29** | Dotprompts som IaC |
+| **G33** | Stateless backend via Genkit (partial overlap — keep ADK as runtime) |
+
+**Do not start:** Genkit/Dotprompt migration, `.prompt` files, or replacing `sharedRules.ts` with slide-only architecture.
+
+### INVENTAR summary (Fas A)
+
+- **implementerat:** 2 (e.g. G35 RBAC, G48 tre silor)
+- **delvis:** 18
+- **vision-only:** 30
+- **avvisat:** 2 (G05, G42)
+
+When a slide is **delvis**, describe what exists in Layer 1 and what remains in Layer 2 — never imply full slide coverage.
+
+## Runtime changes from Grunder
+
+- Allowed only when user says **`kör [GAP]`** or a tracked item in `Arkiv-GAP-REGISTER.md`.
+- Re-run read-only check `kör grunder U1` … `U5` after major agent/security PRs (see evaluation doc).
+
+## Related rules
+
+- [`anti-hallucination.mdc`](./anti-hallucination.mdc) — PASS requires `filepath:line`
+- [`livskompassen-core.mdc`](./livskompassen-core.mdc) — Sacred Features, REASONS, no guessing

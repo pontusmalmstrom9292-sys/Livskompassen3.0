@@ -11,7 +11,7 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 1. Read `.context/system-plan.md` to confirm the current phase and active risks.
 2. Read `.context/arkiv-minne.md` for Hela arkivet / permanent minne / three silos (required for RAG, Dossier, or cross-module memory work).
 3. Read `.context/architecture.md`, `.context/arkitektur-beslut.md`, `.context/security.md`, `.context/database.md`, `.context/design-language.md`, and `.context/agents.md`.
-4. Apply the relevant `.cursor/rules/*.mdc` files before editing.
+4. Apply the relevant `.cursor/rules/*.mdc` files before editing (always-on: `livskompassen-core.mdc`, `grunder-kanon.mdc`, `anti-hallucination.mdc`).
 5. For substantial changes, prepare a REASONS plan: Requirements, Entities, Approach, Structure, Operations, Norms, Safeguards.
 6. Preserve Sacred Features: Verklighetsvalvet, Sanningens Sköld, Morgonkompassen, Dossier-Generator, Speglings-Systemet, Zero Footprint, and Kill Switch.
 
@@ -41,6 +41,8 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 
 | Uppgift | Skill | Cursor rule |
 | --- | --- | --- |
+| Grunder G01–G52 / slide vs runtime | — | `grunder-kanon.mdc` (always) |
+| PASS/FAIL/GAP, inga gissningar | — | `anti-hallucination.mdc` (always) |
 | ADK synapser, auto-ingest | `livskompassen-synapser-adk` | `synapser-adk.mdc` |
 | RAG, silo, cross-read | `livskompassen-memory-silo-guard`, `livskompassen-rag-retrieval` | `memory-silo.mdc` |
 | Vector Search ANN | `livskompassen-vector-search` | — |

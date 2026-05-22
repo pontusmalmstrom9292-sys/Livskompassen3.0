@@ -1,0 +1,52 @@
+---
+description: Evidence-based claims — file:line required for PASS; no guessing on runtime status
+alwaysApply: true
+---
+
+# Anti-hallucination (evidence protocol)
+
+Livskompassen agents must not invent features, security controls, or Grunder coverage.
+
+## Claim types
+
+Use exactly one label per factual claim:
+
+| Label | Meaning | Evidence required |
+|-------|---------|-------------------|
+| **PASS (runtime)** | Behavior exists in prod code path | `path:line` or `startLine:endLine:path` citation |
+| **DELVIS** | Part of slide/spec implemented | Layer 1 cites + explicit **GAP** list |
+| **SPEC** | Documented intent only | SPEC or `.context` path — not `functions/` |
+| **VISION** | Grunder slide / blueprint only | `INVENTAR.md` status vision-only |
+| **AVVISAT** | Must not be built | G05, G42 — see [`grunder-kanon.mdc`](./grunder-kanon.mdc) |
+| **GAP** | Known missing work | `Arkiv-GAP-REGISTER.md` or evaluation GAP section |
+
+## PASS rules
+
+1. **No PASS without citation** — e.g. `kompis-supervisor.ts:22-40`, not "DCAP is wired."
+2. **Grep is not proof** — confirm the cited lines perform the claimed behavior.
+3. **Slides ≠ PASS** — a Grunder PNG never counts as runtime PASS.
+4. **Prompts** — PASS for agent text only if in `functions/src/sharedRules.ts` (U4.4: zero `.prompt` files).
+5. **Security** — PASS for WORM/silo/auth only with `firestore.rules` and/or callable path citations.
+
+## Forbidden patterns
+
+- "Genkit supervisor is used" (vision-only — runtime is ADK + `kompis-supervisor.ts`)
+- "Human fallback is fully automated" without checking `dcapAlertSynapse` / SafeHarbor HITL docs
+- "Cross-silo RAG works" — three silos **MUST NOT** mix (see `memory-silo.mdc`)
+- "Gamification / plant progress" — **avvisat** (G05, G42)
+- Guessing file paths, env vars, or GCP resource names — read [`docs/GCP-INVENTORY-LATEST.md`](../../docs/GCP-INVENTORY-LATEST.md) or config
+
+## When uncertain
+
+1. Read the relevant `.context/` file or SPEC.
+2. Search the codebase; if no match → **GAP**, not PASS.
+3. State what was checked and what is missing — do not fill gaps with plausible fiction.
+
+## Grunder evaluation anchor
+
+For U1–U5 status, prefer [`docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md`](../../docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md) over memory. Re-verify citations if the repo changed after 2026-05-22.
+
+## Related
+
+- [`grunder-kanon.mdc`](./grunder-kanon.mdc) — three truth layers
+- [`livskompassen-core.mdc`](./livskompassen-core.mdc) — "Do not guess"
