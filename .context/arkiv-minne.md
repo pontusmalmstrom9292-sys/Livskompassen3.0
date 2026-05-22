@@ -104,6 +104,22 @@ flowchart TB
 
 ---
 
+## Drive automation (kanon 2026-05-22)
+
+| Vad | Var |
+|-----|-----|
+| Drift (auto) | `npm run drive:wireup` + `npm run smoke:drive` |
+| Ägare `kb_docs` | `DRIVE_INGEST_OWNER_UID` i `functions/.env.gen-lang-client-0481875058` |
+| Mapp-ID + uid (lokal) | `.drive-setup.json` (gitignored) |
+| Mall i git | `.drive-setup.json.example` — placeholders only |
+| Status | [`docs/DRIVE_SETUP_STATUS.md`](../docs/DRIVE_SETUP_STATUS.md) |
+
+**P0:** `notifyNewFile` läser **inte** `ownerId`/`ownerUid` från webhook-body — endast server-env ovan.
+
+**Google engång:** Apps Script [`sorter.gs`](../scripts/google-apps-script/sorter.gs), Vault delad med `gen-lang-client-0481875058@appspot.gserviceaccount.com`, timtrigger `createTrigger()`.
+
+---
+
 ## RAG idag vs mål (GCP 2026-05-21, live-inventering)
 
 | Lager | Idag | GCP (live) | Mål |
@@ -160,7 +176,7 @@ flowchart TB
 - [ ] **G3** Embeddings smoke 768 — index 4 vectors, full ANN **VERIFY**
 - [ ] **G4** Avveckla legacy Python RAG (us-central1)
 - [x] **G5** Retention allowlist — exkludera WORM permanent
-- [ ] **G6** Drive smoke end-to-end (secret + Apps Script — manuellt)
+- [x] **G6** Drive E2E — webhook + `kb_docs` PASS 2026-05-22; drift `npm run drive:wireup` ([`docs/DRIVE_AUTOMATION.md`](../docs/DRIVE_AUTOMATION.md))
 - [ ] **G7** `journal_woven` synaps
 - [ ] **G8** Familjen-RAG (Mönster-Arkivarien, **inte** Valv-Chat)
 - [x] **G9** EntityProfile / SystemSynapse Firestore + agent grounding

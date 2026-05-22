@@ -27,6 +27,7 @@
 | **0 — Fas & prioritering** | [`.context/system-plan.md`](../.context/system-plan.md) | Vilken fas, vad som är klart / öppet |
 | **1 — Säkerhet & Sacred** | [`.context/security.md`](../.context/security.md) | Layered Defense, WORM, silos, Kill Switch |
 | **2 — Minne & silos** | [`.context/arkiv-minne.md`](../.context/arkiv-minne.md) | Permanent minne, tre kunskapsytor |
+| **2b — Drive → Kunskap** | [`DRIVE_AUTOMATION.md`](./DRIVE_AUTOMATION.md), `npm run drive:wireup` | Inbox/Vault webhook, `DRIVE_INGEST_OWNER_UID` |
 | **3 — Live moln** | [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md) | Functions, indexes, secrets (ersätter arkiv) |
 | **4 — Implementation kö** | [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) | `kör [GAP]` — vad som är open/done |
 | **5 — Senaste grunder** | [`archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md`](./archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md) | U1–U5 PASS/GAP (2026-05-22) |

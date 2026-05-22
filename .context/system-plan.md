@@ -58,15 +58,26 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 
 ## Fas 3 (Firebase-synk)
 - [x] Firestore rules + indexes deployade
-- [x] Functions deployade; `notifyNewFile` deployad (webhook-secret + Apps Script verifiering kvar)
+- [x] Functions deployade; `notifyNewFile` deployad (webhook fail-closed, P0 `DRIVE_INGEST_OWNER_UID`)
 - [x] Firebase Hosting: https://gen-lang-client-0481875058.web.app
 - [x] Dokumentation: `docs/FIREBASE_SYNC.md`
 - [ ] Manuell smoke: spara test i valv + barnen (Firestore Console)
-- [ ] `NOTIFY_WEBHOOK_SECRET` verifiering + Apps Script (Drive) — secret bunden (401); manuell Apps Script-koll kvar
+- [x] `NOTIFY_WEBHOOK_SECRET` + `npm run smoke:drive` — **done** 2026-05-22
+- [ ] Apps Script Script Properties klistrade på din Mac (engång) — se Drive wire-up nedan
 
 ## Drive wire-up (Apps Script → notifyNewFile)
+
+**Drift (Firebase, auto):** `npm run drive:wireup` → deploy `notifyNewFile`, `smoke:drive`, [`docs/DRIVE_SETUP_STATUS.md`](../docs/DRIVE_SETUP_STATUS.md). Vid `.drive-setup.json`: skriver `scripts/google-apps-script/.script-properties.local.txt` (gitignored).
+
+**Ägare (server):** `DRIVE_INGEST_OWNER_UID` i `functions/.env.gen-lang-client-0481875058` — samma Firebase Auth uid som appen. Webhook-body `ownerId`/`ownerUid` **ignoreras** (P0). **Inte** i rot-`.env`.
+
+**Lokalt (gitignored):** `.drive-setup.json` — `inboxFolderId`, `vaultFolderId`, `firebaseOwnerUid`. Mall `.drive-setup.json.example` = endast placeholders (**aldrig** riktiga ID i git). `testDriveFileId` valfritt (tom).
+
+**Google (engång per konto):** [`scripts/google-apps-script/sorter.gs`](../scripts/google-apps-script/sorter.gs), Script Properties, Vault delad med `gen-lang-client-0481875058@appspot.gserviceaccount.com`, `createTrigger()` en gång. Se [`docs/DRIVE_AUTOMATION.md`](../docs/DRIVE_AUTOMATION.md).
+
 - [x] Kod redo: Script Properties i `sorter.gs`, webhook-secret fail-closed, `docs/DRIVE_AUTOMATION.md`
 - [x] G6 Drive E2E — `kb_docs` PASS 2026-05-22 ([`GCP-FAS4-RUNBOOK.md`](docs/GCP-FAS4-RUNBOOK.md) steg 2)
+- [x] Wire-up tooling — `drive:wireup`, `smoke:drive` ([`scripts/README.md`](../scripts/README.md))
 
 ## Firebase Fas 3 (synk)
 - [x] `.firebaserc` rättad; Firestore rules + indexes deployade
