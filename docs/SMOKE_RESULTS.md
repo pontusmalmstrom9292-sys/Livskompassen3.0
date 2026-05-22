@@ -1,9 +1,37 @@
 # Smoke-resultat (Fas 3 + Minne)
 
-**Datum:** 2026-05-21  
+**Datum:** 2026-05-22  
 **Branch:** `cleanup-phase-1`
 
-## Automatiserade kontroller
+## Automatiserade kontroller (nattpass 2026-05-22)
+
+| Kontroll | Resultat |
+|----------|----------|
+| `cd functions && npm run build` | **PASS** |
+| `npm run build` (frontend) | **PASS** |
+| `npx eslint . --max-warnings 0` | **PASS** (efter eslint.config ignores + BarnensPage useCallback) |
+| `smoke:valv` | **PASS** |
+| `smoke:kunskap` | **PASS** — embeddingDim 768, citation match |
+| `smoke:speglar` | **PASS** |
+| `smoke:dossier` | **PASS** — pdfBase64 fallback |
+| `smoke:compass` | **PASS** |
+| `smoke:mabra` | **PASS** |
+| `node scripts/seed_kampspar_profile.mjs --verify` | **PASS** — 47/47 ingest, RAG 5/5 |
+
+## G2/G3 prod-verify (2026-05-22)
+
+| Kontroll | Resultat |
+|----------|----------|
+| Index endpoint `4956462078572363776` | **PASS** — `livskompassen_kv_deployed_v1` live west1 |
+| Kod-defaults `vectorSearchClient.ts` | **PASS** — matchar GCP IDs |
+| `VECTOR_SEARCH_*` i Secret Manager | **Saknas** — ej blockerande; defaults i kod + `functions/.env.gen-lang-client-0481875058` |
+| Vectors efter nattpass | **54** (var 4) — upsert vid `ingestKampsparEntry` |
+| `indexSyncTime` | **2026-05-22T00:57:43Z** — synkad under smoke ingest |
+| Smoke embeddingDim | **768** — `text-embedding-004` |
+
+**Slutsats G2/G3:** **VERIFY PASS** — ANN infra live; ingest upsertar vectors; query använder ANN-path när neighbors finns (logg `[kampsparQueryRag] ANN N träffar` i Functions).
+
+## Automatiserade kontroller (historik 2026-05-21)
 
 | Kontroll | Resultat |
 |----------|----------|
@@ -167,7 +195,13 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 - `functions/src/index.ts` — `mabraCoach` callable + `MABRA_COACHEN_SYSTEM_PROMPT` i `sharedRules.ts`
 - `src/modules/mabra/components/MabraCoachPanel.tsx` — opt-in *Få ett kort svar* efter övning
 
-## Kodfixar under smoke (2026-05-22)
+## Kodfixar under smoke (2026-05-22 nattpass)
+
+- `eslint.config.js` — ignorera archive/generated; pragmatiska react-hooks-regler för befintliga mönster
+- `scripts/gdpr_cleanup.ts` — `Firestore`-typ istället för oanvänd import
+- `src/modules/barnens_livsloggar/components/BarnensPage.tsx` — `useCallback` för `refreshLogs` (exhaustive-deps)
+
+## Kodfixar under smoke (2026-05-22 UI)
 
 - `src/modules/core/layout/MainLayout.tsx` — `pb-48` så CTA-knappar inte hamnar under FloatingDock
 - `src/index.css` — `.dock-nav--hub { w-fit }` + `pointer-events: none` på kompassros — bottenknappar klickbara igen
@@ -180,30 +214,28 @@ Se [`DEPLOY.md`](./DEPLOY.md).
 ## G6 — Drive-pipeline (manuellt steg — användaren)
 
 **Källor:** [`DRIVE_AUTOMATION.md`](./DRIVE_AUTOMATION.md), [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md) § Secret Manager  
-**Deploy webhook:** **BLOCKERAD** tills secret satt — `NOTIFY_WEBHOOK_SECRET` saknas i Secret Manager (2026-05-21).
+**Uppdaterat:** 2026-05-22 nattpass
 
 | Secret | Status |
 |--------|--------|
-| `NOTIFY_WEBHOOK_SECRET` | **SAKNAS** (404) |
+| `NOTIFY_WEBHOOK_SECRET` | **FINNS** i Secret Manager (skapad 2026-05-21) — värde ej läsbart här |
 | `GEMINI_API_KEY` | Finns |
 
 | Del | Status |
 |-----|--------|
 | `notifyNewFile` deployad | **PASS** (europe-west1) |
-| Repo fail-closed | **Klar** — 503/401 när secret bunden |
-| Prod idag | POST utan header → **200** (secret ej bunden — redeploy efter secret) |
-| E2E Drive → kb_docs | **Ej körd** — kräver secret + Apps Script |
+| Secret bunden på function | **PASS** — POST utan header → **401** (curl 2026-05-22) |
+| Repo fail-closed | **Klar** — 503 om secret saknas i runtime |
+| Apps Script + E2E Drive → kb_docs | **Ej körd** — kräver Script Properties + testfil |
 
-### Steg (ett i taget)
+### Steg imorgon (6 steg — ett i taget)
 
-1. `openssl rand -base64 32` — kopiera värdet (spara i lösenordshanterare, inte i git).
-2. `firebase functions:secrets:set NOTIFY_WEBHOOK_SECRET` — klistra in värdet.
-3. `firebase deploy --only functions:notifyNewFile`
-4. Apps Script: uppdatera webhook-header enligt [`DRIVE_AUTOMATION.md`](./DRIVE_AUTOMATION.md).
-5. Ladda upp testfil i Drive-mappen → verifiera `kb_docs` + synapse `drive_file_ingested`.
-6. Uppdatera tabellen nedan med **PASS/FAIL** och datum.
-
-**kb_docs:** `notifyNewFile` accepterar `ownerId` och `ownerUid` (2026-05-21). Sätt `FIREBASE_OWNER_UID` i Apps Script; uppdatera `sorter.gs` i Apps Script om du inte skickar `ownerId` än.
+1. **Hämta/spara secret:** Om du inte har värdet i lösenordshanterare: `openssl rand -base64 32` → `firebase functions:secrets:set NOTIFY_WEBHOOK_SECRET` → redeploy `notifyNewFile`.
+2. **Apps Script:** Klistra in [`scripts/google-apps-script/sorter.gs`](../scripts/google-apps-script/sorter.gs); sätt Script Property `WEBHOOK_SECRET` = samma värde som Firebase secret.
+3. **Övriga Script Properties:** `INBOX_FOLDER_ID`, `VAULT_FOLDER_ID`, `FIREBASE_OWNER_UID` (din Auth uid).
+4. **Dela Vault-mappen** med `gen-lang-client-0481875058@appspot.gserviceaccount.com` (Viewer).
+5. **Trigger:** Kör `createTrigger()` en gång i Apps Script; lägg testfil i Inbox (eller kör `autonomousSorter` manuellt).
+6. **Verifiera:** Firestore `kb_docs` + Functions-logg `[File Pipeline]`; uppdatera tabellen nedan med PASS/FAIL.
 
 ## Nästa kod-GAP (efter grund-låsning)
 

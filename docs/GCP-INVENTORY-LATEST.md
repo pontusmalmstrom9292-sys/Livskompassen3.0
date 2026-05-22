@@ -1,8 +1,8 @@
 # GCP / Firebase-inventering — LIVE (senast)
 
-**Datum:** 2026-05-21  
+**Datum:** 2026-05-22  
 **Projekt:** `gen-lang-client-0481875058` (number `1084026575972`)  
-**Metod:** `firebase functions:list`, `gcloud ai index-endpoints list`, `gcloud secrets list`  
+**Metod:** `firebase functions:list`, `gcloud ai index-endpoints list`, `gcloud secrets list`, nattpass smoke 2026-05-22  
 **Ersätter för beslut:** [`docs/archive/GCP-INVENTORY-2026-05-21.md`](archive/GCP-INVENTORY-2026-05-21.md) (föråldrad: 0 endpoints, valv ej deployad)
 
 ---
@@ -12,9 +12,9 @@
 | Fynd | Status | Gap |
 |------|--------|-----|
 | `valvChatQuery` deployad (west1) | **done** | G1 |
-| Vector endpoint + deployed index `livskompassen_kv_deployed_v1` | **done** (infra) | G2 — **VERIFY** prod function secrets/env |
-| Index `2686894156982255616`, 4 vectors | **verify** | G3 embeddings i prod |
-| `NOTIFY_WEBHOOK_SECRET` | **saknas** i Secret Manager | G6 |
+| Vector endpoint + deployed index `livskompassen_kv_deployed_v1` | **done** | G2 **VERIFY PASS** 2026-05-22 |
+| Index `2686894156982255616`, **54 vectors** | **done** | G3 **VERIFY PASS** 2026-05-22 |
+| `NOTIFY_WEBHOOK_SECRET` | **finns** — bunden på `notifyNewFile` (401 utan header) | G6 E2E Apps Script kvar |
 | Legacy Python (4 fn, us-central1) | **aktiv** | G4 |
 | `GEMINI_API_KEY` secret | **finns** | — |
 
@@ -73,8 +73,8 @@
 | Secret | Status |
 |--------|--------|
 | `GEMINI_API_KEY` | finns |
-| `NOTIFY_WEBHOOK_SECRET` | **saknas** |
-| `VECTOR_SEARCH_INDEX_ID` | **saknas** (ej blockerande om defaults i kod räcker) |
+| `NOTIFY_WEBHOOK_SECRET` | **finns** (2026-05-21) — bunden; POST utan header → 401 |
+| `VECTOR_SEARCH_INDEX_ID` | **saknas** (ej blockerande — kod-defaults verifierade 2026-05-22) |
 
 ---
 
@@ -120,11 +120,11 @@
 | ID | Status | Bevis |
 |----|--------|-------|
 | G1 | **done** | `valvChatQuery` i `firebase functions:list` |
-| G2 | **verify** | Endpoint + deploy finns; secrets/env på functions |
-| G3 | **verify** | 4 vectors; `embeddingDim` / smoke kunskap |
-| G4 | **open** | 4 Python functions live |
+| G2 | **done** | VERIFY PASS 2026-05-22 — 54 vectors, defaults |
+| G3 | **done** | VERIFY PASS 2026-05-22 — embeddingDim 768, indexSync |
+| G4 | **open** | 4 Python functions live — kartlagt nattpass |
 | G5 | **done** | Kod allowlist (multitask) |
-| G6 | **open** | `NOTIFY_WEBHOOK_SECRET` saknas |
+| G6 | **open** | Secret finns; Apps Script E2E kvar |
 | G7–G14 | **open** | Se [`Arkiv-GAP-REGISTER.md`](specs/incoming/Arkiv-GAP-REGISTER.md) |
 | V1 Genkit Flow | **wait** | Vision — ej migrera |
 | V2 Dotprompt | **n/a** | Kanon = `sharedRules.ts` |

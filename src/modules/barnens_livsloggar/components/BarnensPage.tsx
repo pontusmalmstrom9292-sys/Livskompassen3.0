@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, Loader2 } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
@@ -72,17 +72,17 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
     };
   }, []);
 
-  const refreshLogs = async () => {
+  const refreshLogs = useCallback(async () => {
     if (!user) return;
     const data = await getChildrenLogs(user.uid);
     setLogs(data as ChildrenLogEntry[]);
-  };
+  }, [user]);
 
   useEffect(() => {
     if (unlocked && user) {
       refreshLogs().catch(() => setError('Kunde inte hämta loggar.'));
     }
-  }, [unlocked, user]);
+  }, [unlocked, user, refreshLogs]);
 
   useEffect(() => {
     setSignals(defaultSignals);

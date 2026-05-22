@@ -7,11 +7,11 @@
 | ID | Status | Notering |
 |----|--------|----------|
 | G1 | **done** | `valvChatQuery` deployad west1 |
-| G2 | **verify** | Endpoint + deploy live; `VECTOR_SEARCH_*` ej i Secret Manager |
-| G3 | **verify** | 4 vectors i index; smoke embeddingDim 768 PASS |
+| G2 | **done** | VERIFY PASS 2026-05-22 — endpoint live, kod-defaults, 54 vectors |
+| G3 | **done** | VERIFY PASS 2026-05-22 — embeddingDim 768, indexSync under ingest |
 | G4 | **open** | 4 Python functions us-central1 |
 | G5 | **done** | WORM allowlist retention |
-| G6 | **open** | `NOTIFY_WEBHOOK_SECRET` saknas |
+| G6 | **open** | Secret finns; Apps Script E2E kvar |
 | G7–G14 | **open** | Life OS utbyggnad |
 | V1 | **wait** | Genkit — ej migrera |
 
@@ -27,22 +27,22 @@
 | **Bevis** | `valvChatQuery` i `firebase functions:list`; `smoke:valv` PASS |
 | **Säkerhet** | Endast `reality_vault`; Zero Footprint session |
 
-### G2 — Vector Search endpoint + ANN wire — **verify**
+### G2 — Vector Search endpoint + ANN wire — **done**
 
 | | |
 |---|---|
-| **Status** | **verify** — infra **done**, secrets optional |
-| **Live** | Endpoint `4956462078572363776`; index `2686894156982255616`; deploy `livskompassen_kv_deployed_v1` |
-| **Kvar** | Bekräfta prod function env om defaults i `vectorSearchClient.ts` räcker |
+| **Status** | **done** — VERIFY PASS 2026-05-22 |
+| **Live** | Endpoint `4956462078572363776`; index `2686894156982255616`; deploy `livskompassen_kv_deployed_v1`; **54 vectors** |
+| **Secrets** | `VECTOR_SEARCH_*` saknas i Secret Manager — kod-defaults i `vectorSearchClient.ts` räcker |
 | **Kod** | `functions/src/lib/kampsparQueryRag.ts` — ANN + token-match fallback |
 
-### G3 — Embeddings live — **verify**
+### G3 — Embeddings live — **done**
 
 | | |
 |---|---|
-| **Status** | **verify** — smoke PASS, 4 vectors i index |
-| **Live** | `text-embedding-004`, `embeddingDim` 768 vid ingest |
-| **Kvar** | Full ANN-prod smoke efter fler upserts |
+| **Status** | **done** — VERIFY PASS 2026-05-22 |
+| **Live** | `text-embedding-004`, `embeddingDim` 768 vid ingest; indexSync 2026-05-22T00:57:43Z |
+| **Bevis** | Smoke + seed 47 poster; vectorsCount 54 i gcloud |
 
 ---
 
@@ -50,15 +50,18 @@
 
 ### G4 — Legacy Python RAG (us-central1) — **open**
 
-| Status | **open** — 4 functions fortfarande deployade |
+| Status | **open** — 4 functions deployade (inventering 2026-05-22) |
 
-| Function | Action |
-|----------|--------|
-| `knowledge-base-webhook` | Kartlägg dataflöde → migrera till Node `notifyNewFile` eller avveckla |
-| `drive_sync_tool` | Undvik dubbel Drive-ingest |
-| `biff_generator_tool`, `brusfiltret_tool` | Ersatt av Node `analyzeMessage` |
+| Function | Legacy roll | Node-motsvarighet | Avvecklingsprioritet |
+|----------|-------------|-------------------|----------------------|
+| `knowledge-base-webhook` | Vertex AI Search Knowledge Base webhook → legacy datastore | `notifyNewFile` → `driveIngestSynapse` → `kb_docs` + Vector ANN | **3** (sist) |
+| `drive_sync_tool` | Drive → legacy knowledge base sync | Apps Script `sorter.gs` + `notifyNewFile` | **2** (efter G6 E2E) |
+| `biff_generator_tool` | HTTP BIFF-prototyp | `analyzeMessage` (BIFF-Skölden) | **1** |
+| `brusfiltret_tool` | HTTP brusfilter-prototyp | `analyzeMessage` (Brusfiltret) | **1** |
 
-**Kontext:** Repomix XML/cursor = Vertex AI Search + Cloud Run-linjen; GCP har **båda** stackarna live.
+**Dataflödesrisk:** Dubbel Drive-ingest om legacy trigger **och** Apps Script pekar på samma Inbox.  
+**Kontext:** Repomix/GCP har båda stackarna live; kod finns **inte** i aktiv `functions/src/index.ts`.  
+**Beslut nattpass 2026-05-22:** Kartlagt — **ingen prod-radering** utan explicit OK.
 
 ### G5 — Retention vs permanent minne — **done**
 
@@ -74,9 +77,9 @@
 
 | | |
 |---|---|
-| **Status** | **open** — `NOTIFY_WEBHOOK_SECRET` saknas i Secret Manager (2026-05-21) |
-| **Deploy** | `notifyNewFile` deployad west1 |
-| **Åtgärd** | [`docs/DRIVE_AUTOMATION.md`](../../DRIVE_AUTOMATION.md) manuell verifiering |
+| **Status** | **open** — secret **finns** i Secret Manager; webhook **401** utan header (2026-05-22); Apps Script E2E kvar |
+| **Deploy** | `notifyNewFile` deployad west1, secret bunden |
+| **Åtgärd** | [`docs/DRIVE_AUTOMATION.md`](../../DRIVE_AUTOMATION.md) — Script Properties + testfil → `kb_docs` |
 
 ### G11 — Mock `Kampspar`-typ vs `KampsparEntry` — **done**
 

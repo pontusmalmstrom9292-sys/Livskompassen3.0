@@ -58,16 +58,16 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] Firebase Hosting: https://gen-lang-client-0481875058.web.app
 - [x] Dokumentation: `docs/FIREBASE_SYNC.md`
 - [ ] Manuell smoke: spara test i valv + barnen (Firestore Console)
-- [ ] `NOTIFY_WEBHOOK_SECRET` verifiering + Apps Script (Drive) — function deployad enligt GCP-inventering 2026-05-21
+- [ ] `NOTIFY_WEBHOOK_SECRET` verifiering + Apps Script (Drive) — secret bunden (401); E2E kb_docs kvar
 
 ## Drive wire-up (Apps Script → notifyNewFile)
 - [x] Kod redo: Script Properties i `sorter.gs`, webhook-secret fail-closed, `docs/DRIVE_AUTOMATION.md`
-- [ ] Manuell GCP/Apps Script-konfiguration och verifiering (se `docs/DRIVE_AUTOMATION.md`)
+- [ ] Manuell GCP/Apps Script-konfiguration och verifiering (se `docs/DRIVE_AUTOMATION.md`) — secret bunden 2026-05-22
 
 ## Firebase Fas 3 (synk)
 - [x] `.firebaserc` rättad; Firestore rules + indexes deployade
 - [x] Modul-Functions deployade (`europe-west1`); Hosting live — se `docs/DEPLOY.md`, `docs/FIREBASE_SYNC.md`
-- [ ] `notifyNewFile` — kräver `NOTIFY_WEBHOOK_SECRET` (användaren sätter secret)
+- [ ] `notifyNewFile` — secret bunden (401 utan header); Apps Script E2E kvar
 - [ ] Manuell smoke enligt `docs/SMOKE_CHECKLIST.md`
 
 ## Data Connect
@@ -102,12 +102,12 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 
 **Repomix → kanon (legacy):** `vault`→`reality_vault`, `kids_records`→`children_logs`, `diary`→`journal`. Mock `Kampspar`-typ ≠ `KampsparEntry` (G11).
 
-**Idag (2026-05-21, live — [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md)):**
-- Kunskap RAG — smoke PASS; ANN-kod + endpoint deployad; G2/G3 **verify** (secrets/ANN prod)
+**Idag (2026-05-22, live — [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md)):**
+- Kunskap RAG — smoke PASS; ANN G2/G3 **VERIFY PASS** (54 vectors, defaults)
 - `valvChatQuery` — **deployad** (G1 **done**); smoke:valv PASS
 - Dossier `generateDossier` — **klart** (smoke PASS)
-- `notifyNewFile` — **deployad**; `NOTIFY_WEBHOOK_SECRET` saknas (G6 **open**, manuellt)
-- Legacy Python RAG us-central1 — **4 functions** (G4 **open**)
+- `notifyNewFile` — **deployad**, secret bunden; G6 E2E Apps Script kvar
+- Legacy Python RAG us-central1 — **4 functions** (G4 **open**, kartlagt)
 - Retention G5 **done**; mock Kampspar G11 **done**
 
 **Planerat (får inte tappas):** G1–G14 i [`Arkiv-GAP-REGISTER.md`](docs/specs/incoming/Arkiv-GAP-REGISTER.md). Implementation: `kör [GAP]`.
@@ -121,7 +121,7 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 - [x] Barnens *kör barnen* **done** — Spara som bevis + `sourceRef`, tredjepart-filter, Dossier-länk (`/familjen`)
 - [x] Speglings-Systemet: ACT + VIVIR + valvjämförelse (`/speglar`)
 - [x] `weaveJournalEntry` + hosting deploy (natt-batch — se `docs/OVERNIGHT_REPORT.md`)
-- [ ] Minneloggning (uppladdning, tidsstampel, vektorisering) — **delvis:** `ingestKampsparEntry`, Tidshjulet, Kunskap RAG; Vector Search ANN avvaktar
+- [ ] Minneloggning (uppladdning, tidsstampel, vektorisering) — **delvis:** `ingestKampsparEntry`, Tidshjulet, Kunskap RAG; Vector Search ANN **VERIFY PASS** (G2/G3)
 - [x] Kompasser notebook #1–#5 → låst SPEC; MVP *kör kompasser* **done** (AuthGate, tids-default, Paralys, KASAM, broar)
 - [x] Dossier notebook #1–#4 → låst SPEC; UI wizard + `generateDossier` backend **done** — deploy `functions:generateDossier` + rules
 - [x] Ekonomi kopplad till Firestore (`transactions` WORM + `economy_profiles`)

@@ -1,8 +1,8 @@
-import { getFirestore } from 'firebase-admin/firestore';
+import type { Firestore } from 'firebase-admin/firestore';
 // Obs: Detta skript är avsett att köras i en säker Node.js miljö (Backend / Cloud Run Job)
 // med Firebase Admin SDK, därav används firebase-admin och inte webb-klienten.
 
-export async function deleteOldInteractions(db: FirebaseFirestore.Firestore, retentionDays: number = 30) {
+export async function deleteOldInteractions(db: Firestore, retentionDays: number = 30) {
   const retentionDate = new Date();
   retentionDate.setDate(retentionDate.getDate() - retentionDays);
 
