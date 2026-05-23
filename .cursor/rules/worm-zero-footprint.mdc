@@ -1,0 +1,36 @@
+---
+description: WORM immutability, Admin callables, Kill Switch, Zero Footprint — Layered Defense
+alwaysApply: false
+globs: firestore.rules,functions/**,src/modules/core/firebase/**
+---
+
+# WORM & Zero Footprint
+
+Skill: `.cursor/skills/livskompassen-worm-lock/SKILL.md`
+
+## Firestore WORM (client)
+
+Evidence collections: **no** client `update` or `delete` (`firestore.rules`). Includes `reality_vault`, `journal`, `dcap_alerts`, `payslip_snapshots`, `dossier_snapshots`, `inbox_queue`, `system_synapses`, `kampspar`, `kb_docs`.
+
+## Server writes
+
+Immutable snapshots and HITL inbox actions **only** via Cloud Functions Admin SDK, with `ownerId`/`userId` = authenticated uid from callable context.
+
+## Client create
+
+- Set `isLocked: true` where applicable; use `assertWormPayload` — no forbidden mutation fields on create.
+- **MUST NOT** rely on client update to enforce immutability (rules deny updates).
+
+## Zero Footprint
+
+On logout / Kill Switch: clear local vault/session flags; call `invalidateSession` so backend runs `clearSynapseState` + cache invalidation.
+
+## GAP (do not claim PASS)
+
+- **G17:** Server PIN/WebAuthn for Valv — client gate only today.
+- **emailVerified:** Not in `firestore.rules` — policy TBD.
+
+## MUST NOT
+
+- Use LLM output for authorization or WORM decisions.
+- Expose service account keys or raw PII in frontend memory.

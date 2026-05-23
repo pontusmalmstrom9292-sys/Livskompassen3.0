@@ -12,7 +12,7 @@ Mandatory invariants:
 - `VaultLog` and `CheckIn` are immutable after creation.
 - Every user-owned document must bind to exactly one `userId`.
 - Users may only read or write their own data.
-- Verified email is required for write operations where auth is involved.
+- **GAP:** Verified email is not enforced in `firestore.rules` today — do not implement or claim PASS without an explicit policy + rules change.
 - `NetworkMember` must validate category and importance.
 - `SystemSynapse` and `SystemScan` are owner-limited and critical.
 

@@ -10,7 +10,7 @@ import { weaveJournalEntry as runWeaver } from "./agents/weaverAgent";
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import { KompisSupervisor } from './agents/kompis-supervisor';
-import { adkOrchestrator, listAgentCards, applyParalysBreak } from './adk';
+import { adkOrchestrator, listAgentCards } from './adk';
 import { emitSynapse } from './adk/synapses/synapseBus';
 import { generateDossierInternal } from './lib/generateDossierInternal';
 import {
@@ -766,6 +766,11 @@ export const breakDownResponse = functions.region('europe-west1').https.onCall(a
     throw new functions.https.HttpsError('invalid-argument', 'Text får vara max 12000 tecken.');
   }
 
-  const microSteps = await applyParalysBreak(text);
-  return { microSteps };
+  const result = (await emitSynapse(adkOrchestrator, {
+    trigger: 'user_overwhelm',
+    contextId: context.auth.uid,
+    payload: { text },
+  })) as { microSteps?: unknown[] };
+
+  return { microSteps: result?.microSteps ?? [] };
 });

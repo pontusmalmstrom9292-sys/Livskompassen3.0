@@ -44,7 +44,7 @@
 | Agenter | Isolerade underagenter per Flow | **10 AgentCards**, **2 executors** (`livs_arkivarien`, `grans_arkitekten`) |
 | Tool-loop | Modell pausar → tool → Genkit backend → injicera → JSON | RAG i `kampsparQueryRag.ts`; `analyzeMessage`; ingest callables |
 | Routing | Flows + output `action` i schema | `routeFromDcap`, `resolveExecutorId` |
-| Synapser | (implicit i flows) | `synapseBus.ts`: `drive_file_ingested`, `user_overwhelm` live; `journal_woven`, `dcap_alert` stub |
+| Synapser | (implicit i flows) | `synapseBus.ts`: all four triggers live (`drive_file_ingested` G10, `journal_woven` G7, `dcap_alert`, `user_overwhelm`) |
 | Batch/natt | Cloud Scheduler + långa jobb | `weaveJournalEntry`, `scheduledRetentionJob`; Cloud Run Jobs = vision |
 | Dev-test | Genkit Developer UI | `npm run smoke:*`, `functions` build |
 
@@ -79,7 +79,7 @@
 | | Livskompassen |
 |---|---------------|
 | **Stämmer** | DCAP; separata callables; ADK inte delad PII-state (`hashPayload`) |
-| **Saknas** | `dcap_alert` synaps (stub); Gatekeeper-UI överallt |
+| **Saknas** | Extern HITL-notifiering; Gatekeeper-UI överallt |
 | **Strider** | Firestore `/synapses` blueprint ≠ ADK synaps (G9) |
 
 ---
@@ -426,7 +426,7 @@
 | **Dotprompt** | `.prompt` per agent | `sharedRules.ts` | Policy, inte GAP-kod |
 | **Firebase WORM** | Append-Only tidlås | Firestore rules | G5 verifiera prod |
 | **Storage-trigger** | All upload → CF | Drive + valv delvis | G6, ny spec |
-| **DCAP / risk** | Före LLM | `DCAP.ts`, `routeFromDcap` | `dcap_alert` stub |
+| **DCAP / risk** | Före LLM | `DCAP.ts`, `routeFromDcap` | `dcap_alert` → WORM `dcap_alerts` (live) |
 | **Silo 3** | 2 lådor i bild, 3 i kanon | `arkiv-minne.md` | G8 |
 | **MCP** | DevEx-hörn | Cursor Firebase MCP | Dev only |
 | **SHA-256 kedja** (S18) | Alla bevis hash-länkade | Dossier + synaps hash | Delvis på valv-poster |

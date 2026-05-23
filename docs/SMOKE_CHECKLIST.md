@@ -29,6 +29,7 @@
 | 19 | Legacy redirect | `/valv`, `/kunskap`, `/barnen` | Redirect till `/dagbok?tab=bevis`, `/vardagen?tab=kunskap`, `/familjen` |
 | 20 | Vault unlock reset | Efter Fyren: Stäng valv / byt till Reflektion | `isVaultUnlocked` false; gate rensad |
 | 21 | Ekonomi | `/vardagen?tab=ekonomi` — flikar Tid/Pengar/Logg; stämpla; logga utgift | `time_entries`, `economy_ledger`, period |
+| 22 | Synapser / Zero Footprint | Logga ut (eller Kill Switch) efter Kompis/Paralys | `invalidateSession` OK; inga synapse-fel i Functions-logg; ADK state cleared |
 
 **Prod-smoke:** Kör #11–20 mot [Hosting-URL](https://gen-lang-client-0481875058.web.app) efter deploy.
 

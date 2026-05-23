@@ -7,29 +7,36 @@ globs: functions/src/adk/**
 # ADK Synapser
 
 Skill: `.cursor/skills/livskompassen-synapser-adk/SKILL.md`  
+Connections: `.cursor/skills/livskompassen-synapse-connections/SKILL.md`  
 Runtime: `functions/src/adk/synapses/synapseBus.ts`, `stateStore.ts`
 
 ## Triggers
 
 | Trigger | Handler | Status | Effekt |
 |---------|---------|--------|--------|
-| `drive_file_ingested` | `driveIngestSynapse` | **live** | Drive → `kb_docs` only |
-| `user_overwhelm` | `paralysBrytarenSynapse` | **live** | Ett mikrosteg, max 30s |
+| `drive_file_ingested` | `driveIngestSynapse` | **live G10** | Drive → klassificering → `reality_vault` / `kb_docs` / `children_logs` / `inbox_queue` — **MUST NOT** bevis → `kb_docs` |
 | `journal_woven` | `journalWovenSynapse` | **done G7** | Opt-in → `kampspar`; idempotent per `journalEntryId` |
-| `dcap_alert` | stub log | planerat | DCAP → säker routing |
+| `dcap_alert` | `dcapAlertSynapse` | **live** | DCAP risk ≥70 / ALERT → WORM `dcap_alerts` (hashed input) |
+| `user_overwhelm` | `paralysBrytarenSynapse` | **live** | Ett mikrosteg via bus (`breakDownResponse`) |
 
-Koppling: `notifyNewFile` → `emitSynapse(..., drive_file_ingested)`.
+## emitSynapse call sites
 
-## ADK state ≠ SystemSynapse
+| Emitter | Trigger |
+|---------|---------|
+| `notifyNewFile` (`index.ts`) | `drive_file_ingested` |
+| `journalWovenToKampspar` (`index.ts`) | `journal_woven` |
+| `KompisSupervisor.handleUserRequest` | `dcap_alert` |
+| `breakDownResponse` (`index.ts`) | `user_overwhelm` |
 
-`firebase-blueprint.json` definierar Firestore `/synapses/{synapseId}` (`SystemSynapse`).  
-ADK använder in-memory `stateStore.ts` — **inte samma** schema (G9).
+## ADK state ≠ SystemSynapse (G9)
+
+Firestore `system_synapses` (WORM, Admin seed) ≠ in-memory `stateStore.ts`.
 
 ## MUST
 
 - `hashPayload` i synapse state — ingen rå PII.
 - `clearSynapseState` vid utloggning (Zero Footprint).
-- Drive ingest → `kb_docs` only — **aldrig** auto till `reality_vault`.
+- G10: bevis → `reality_vault` / HITL — **aldrig** auto till `kb_docs`.
 
 ## MUST NOT
 

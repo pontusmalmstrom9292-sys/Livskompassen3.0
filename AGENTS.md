@@ -52,6 +52,7 @@ Parent: `livskompassen-master-architect`. Baseline: [`docs/archive/evaluations-2
 | UI / Obsidian Calm | `livskompassen-ui-obsidian` | `src/modules`, Tailwind, disclosure |
 | Ex-meddelande / Hamn | `livskompassen-safe-harbor` | BIFF, Grey Rock, `analyzeMessage` |
 | `kör kanon-vakt` | `livskompassen-kanon-vakt` | Read-only PASS/FAIL med `fil:rad` |
+| `kör synapser` | `livskompassen-synapser` | emitSynapse call-sites, G10/G7/G9, PASS/GAP |
 | `/mabra`, panik, GAD, RSD | `livskompassen-mabra` (U11) | Ångest, vagus-first, `mabraCoach` |
 | `/vardagen`, Paralys, ADHD | `livskompassen-kompasser` (U12) | Mikrosteg, `breakDownResponse` |
 | `/familjen`, BBIC, barnlogg | `livskompassen-barnen` (U13) | Operativ föräldraskap (≠ U5 audit) |
@@ -84,6 +85,8 @@ Parent: `livskompassen-master-architect`. Baseline: [`docs/archive/evaluations-2
 | Återhämtning / F155 | `livskompassen-aterhamtning` | agent `livskompassen-aterhamtning` (U15) |
 | Billig drift + domänkart | — | [`docs/BILLIG-DRIFT-OCH-DOMAN-EXPERTER.md`](docs/BILLIG-DRIFT-OCH-DOMAN-EXPERTER.md) |
 | ADK synapser, auto-ingest | `livskompassen-synapser-adk` | `synapser-adk.mdc` |
+| Synapse module wiring / new `emitSynapse` | `livskompassen-synapse-connections` | `synapser-adk.mdc` |
+| WORM / låsning / Zero Footprint / callables | `livskompassen-worm-lock` | `worm-zero-footprint.mdc` + `security-firestore.mdc` |
 | RAG, silo, cross-read | `livskompassen-memory-silo-guard`, `livskompassen-rag-retrieval` | `memory-silo.mdc` + agent `livskompassen-memory-silo` |
 | Vector Search ANN | `livskompassen-vector-search` | — |
 | Hela arkivet / Dossier-minne | `livskompassen-arkiv-master` | `livskompassen-core.mdc` |

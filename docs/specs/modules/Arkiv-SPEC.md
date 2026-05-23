@@ -115,7 +115,7 @@ Index IDs i [`GCP-INVENTORY-2026-05-21.md`](../archive/GCP-INVENTORY-2026-05-21.
 
 ## Appendix C — Synapser
 
-`drive_ingest` live. `journal_woven`, `dcap_alert` stub.
+**Runtime (2026-05-23):** All four ADK triggers live in `synapseBus.ts` — `drive_file_ingested` (G10), `journal_woven` (G7), `dcap_alert` (U2.5), `user_overwhelm` (`breakDownResponse`). Firestore `system_synapses` (G9) is separate from ADK `stateStore`. See [`Arkiv-GAP-REGISTER.md`](./Arkiv-GAP-REGISTER.md) G7/G9/G10.
 
 ## Appendix D — GAP-register
 
