@@ -59,8 +59,9 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 | | |
 |---|---|
-| **Spec** | `docs/design/WIDGET-BAR-SPEC.md` |
-| **Krav** | W1–W4 dokumenterade; **ingen synlig REC** för barn vid tyst inspelning (förälder) |
+| **Spec** | `docs/design/WIDGET-BAR-SPEC.md`, `docs/design/HOMESCREEN-WIDGETS-SPEC.md` |
+| **Kod** | `FyrenWidgetBar.tsx`, `/widget/inspelning`, `ingestWidgetRecording` |
+| **Krav** | WH1: datumstämpel, AI-titel, WORM, sammanfattning i `truth`, ljudfil `evidenceUrl`; **ingen synlig REC** |
 | **Data** | `reality_vault` WORM, `category: tyst_inspelning` |
 | **Smoke** | Spec-fil + nyckelsträngar |
 

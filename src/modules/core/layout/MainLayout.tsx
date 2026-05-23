@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FloatingDock } from './FloatingDock';
+import { FyrenWidgetBar } from '../components/FyrenWidgetBar';
 import { AmbientBackground } from './AmbientBackground';
 import { KompisAvatar } from '../../kompis/components/KompisAvatar';
 import { AccountAuthMenu } from '../auth/AccountAuthMenu';
@@ -62,6 +63,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
       <main className="relative z-10 mx-auto max-w-2xl px-4 pb-28 pt-[4.75rem]">{children}</main>
 
+      <FyrenWidgetBar />
       <FloatingDock />
     </div>
   );

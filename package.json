@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "vite --host",
     "build": "tsc -b && vite build",
+    "cap:sync": "npm run build && npx cap sync android",
+    "android:open": "npx cap open android",
+    "android:run": "npm run cap:sync && npx cap run android",
     "preview": "vite preview",
     "smoke:kunskap": "node scripts/smoke_kunskap.mjs",
     "smoke:speglar": "node scripts/smoke_speglar.mjs",
@@ -23,12 +26,16 @@
     "seed:kampspar": "node scripts/seed_kampspar_profile.mjs --verify"
   },
   "dependencies": {
+    "@capacitor/android": "^6.2.1",
+    "@capacitor/app": "^6.0.3",
+    "@capacitor/cli": "^6.2.1",
+    "@capacitor/core": "^6.2.1",
     "@dataconnect/generated": "file:src/dataconnect-generated",
     "@google-cloud/notebooks": "^4.2.2",
+    "@tanstack-query-firebase/react": "^2.0.0",
     "@types/react-router-dom": "^5.3.3",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
-    "@tanstack-query-firebase/react": "^2.0.0",
     "firebase": "^12.11.0",
     "framer-motion": "^11.0.24",
     "lucide-react": "^0.368.0",

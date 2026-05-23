@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { MainLayout } from '../layout/MainLayout';
+import { WidgetRoutes } from '../../widgets/routing/WidgetRoutes';
 import { AuthGate } from '../auth/AuthGate';
 import { HomePage } from '../pages/HomePage';
 import { VardagenPage, type VardagenTab } from '../../kompasser';
@@ -29,10 +30,9 @@ function RedirectToVardagenTab({ tab }: { tab: VardagenTab }) {
   );
 }
 
-export function AppRoutes() {
+function MainAppRoutes() {
   return (
-    <MainLayout>
-      <Routes>
+    <Routes>
         <Route path="/" element={<HomePage />} />
         <Route
           path="/vardagen"
@@ -88,7 +88,22 @@ export function AppRoutes() {
             </AuthGate>
           }
         />
-      </Routes>
-    </MainLayout>
+    </Routes>
+  );
+}
+
+export function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/widget/*" element={<WidgetRoutes />} />
+      <Route
+        path="/*"
+        element={
+          <MainLayout>
+            <MainAppRoutes />
+          </MainLayout>
+        }
+      />
+    </Routes>
   );
 }

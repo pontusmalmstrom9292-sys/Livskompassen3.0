@@ -17,11 +17,11 @@ export function FamiljenTillsammansTab({ shell }: Props) {
 
   return (
     <div className="space-y-4">
-      <BentoCard
-        title="Dagens ankare"
-        description="Senaste positiva minnet i familjen"
-        icon={<Anchor className="h-4 w-4" />}
-      >
+      <div className="familjen-anchor-card">
+        <div className="mb-2 flex items-center gap-2">
+          <Anchor className="h-4 w-4 text-accent" />
+          <p className="text-[10px] uppercase tracking-widest text-accent/90">Dagens ankare</p>
+        </div>
         {anchorText ? (
           <p className="text-sm leading-relaxed text-text-muted">&ldquo;{anchorText}&rdquo;</p>
         ) : (
@@ -30,7 +30,7 @@ export function FamiljenTillsammansTab({ shell }: Props) {
             minnesankare.
           </p>
         )}
-      </BentoCard>
+      </div>
 
       <BentoCard
         title="Familjeöversikt"
@@ -49,7 +49,7 @@ export function FamiljenTillsammansTab({ shell }: Props) {
             return (
               <div key={familyWeekStats.labels[i]} className="flex flex-1 flex-col items-center gap-1">
                 <div
-                  className="w-full max-w-[2rem] rounded-t-md bg-accent/70"
+                  className="familjen-week-bar w-full max-w-[2rem]"
                   style={{ height: `${h}px` }}
                   title={`${count} stunder`}
                 />

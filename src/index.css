@@ -239,7 +239,7 @@
   }
 
   .dock-nav--hub {
-    @apply mx-auto w-fit max-w-none justify-center rounded-2xl border border-white/8 px-2 py-1.5;
+    @apply mx-auto w-fit max-w-none justify-center rounded-2xl border border-white/10 px-2 py-1.5;
     background: rgba(15, 23, 42, 0.72);
     backdrop-filter: blur(20px) saturate(150%);
     -webkit-backdrop-filter: blur(20px) saturate(150%);
@@ -267,7 +267,7 @@
   }
 
   .dock-classic__side-icon {
-    @apply flex h-10 w-10 items-center justify-center rounded-xl border border-white/6;
+    @apply flex h-10 w-10 items-center justify-center rounded-xl border border-white/10;
     background: rgba(15, 23, 42, 0.55);
   }
 
@@ -961,6 +961,70 @@
     @apply flex flex-col gap-2.5;
   }
 
+  .widget-shell {
+    @apply min-h-screen px-4 pb-8 pt-6;
+    padding-top: max(1.5rem, env(safe-area-inset-top));
+    padding-bottom: max(2rem, env(safe-area-inset-bottom));
+  }
+
+  .widget-shell__header {
+    @apply mb-6;
+  }
+
+  .widget-shell__brand {
+    @apply mb-3 inline-flex items-center gap-2;
+  }
+
+  .widget-shell__title {
+    @apply font-display text-xl font-light text-accent;
+  }
+
+  .widget-shell__lead {
+    @apply mt-1 text-xs text-text-muted;
+  }
+
+  .widget-record__dot {
+    @apply mx-auto block h-3 w-3 rounded-full bg-accent/80;
+    box-shadow: 0 0 12px rgba(253, 230, 138, 0.45);
+    animation: widget-pulse 1.6s ease-in-out infinite;
+  }
+
+  @keyframes widget-pulse {
+    0%,
+    100% {
+      opacity: 0.55;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+  }
+
+  .fyren-widget-bar {
+    @apply pointer-events-none fixed right-0 top-1/2 z-[60] flex -translate-y-1/2 flex-col items-end;
+  }
+
+  .fyren-widget-bar__prick {
+    @apply pointer-events-auto mr-2 h-8 w-2 rounded-full border-0;
+    background: linear-gradient(180deg, rgba(253, 230, 138, 0.55), rgba(212, 175, 55, 0.35));
+    box-shadow: 0 0 12px rgba(253, 230, 138, 0.2);
+  }
+
+  .fyren-widget-bar__strip {
+    @apply pointer-events-auto mr-1 mt-2 flex flex-col gap-1 rounded-xl border border-white/10 p-1.5;
+    background: rgba(15, 23, 42, 0.88);
+    backdrop-filter: blur(16px);
+  }
+
+  .fyren-widget-bar__action {
+    @apply flex items-center gap-2 rounded-lg px-2.5 py-2 text-xs text-text-muted transition-colors hover:bg-white/5 hover:text-accent;
+  }
+
+  .fyren-widget-bar__label {
+    @apply whitespace-nowrap;
+  }
+
   .module-list {
     @apply flex flex-col gap-3;
   }
@@ -1116,5 +1180,93 @@
 
   .chip--idle {
     @apply chip border-border-strong text-text-muted hover:border-border-strong hover:text-text-muted;
+  }
+
+  /* Familjen hub — aurora + guld (mockup E / barnfokus) */
+  .familjen-hub {
+    @apply relative isolate;
+  }
+
+  .familjen-hub__aurora {
+    @apply pointer-events-none absolute inset-x-0 top-0 h-56 overflow-hidden;
+  }
+
+  .familjen-hub__aurora::before {
+    content: '';
+    @apply absolute left-1/2 top-0 h-48 w-[120%] -translate-x-1/2;
+    background: radial-gradient(
+      ellipse 70% 100% at 50% 0%,
+      rgba(45, 212, 191, 0.14) 0%,
+      rgba(129, 140, 248, 0.06) 45%,
+      transparent 72%
+    );
+    filter: blur(2px);
+  }
+
+  .familjen-hub__header {
+    @apply relative text-center;
+  }
+
+  .familjen-hub__title {
+    @apply mt-2 font-display text-2xl tracking-tight text-text;
+    text-shadow: 0 0 40px rgba(45, 212, 191, 0.12);
+  }
+
+  .familjen-hub__tabs {
+    @apply relative -mx-1 overflow-x-auto pb-1;
+    scrollbar-width: none;
+  }
+
+  .familjen-hub__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .familjen-hub__tabs .flex {
+    @apply min-w-max flex-nowrap gap-2 px-1;
+  }
+
+  .familjen-child-chip {
+    @apply flex-1 rounded-2xl border py-2.5 text-sm font-medium transition;
+  }
+
+  .familjen-child-chip--active {
+    @apply border-emerald-400/45 bg-emerald-500/10 text-emerald-200;
+    box-shadow: 0 0 28px rgba(45, 212, 191, 0.18);
+  }
+
+  .familjen-child-chip--idle {
+    @apply border-border-strong bg-surface/40 text-text-muted hover:border-white/15;
+  }
+
+  .familjen-barnfokus-wrap {
+    @apply relative rounded-3xl;
+  }
+
+  .familjen-barnfokus-wrap::before {
+    content: '';
+    @apply pointer-events-none absolute -inset-px rounded-3xl opacity-80;
+    background: linear-gradient(
+      135deg,
+      rgba(253, 230, 138, 0.22) 0%,
+      rgba(45, 212, 191, 0.08) 50%,
+      transparent 100%
+    );
+  }
+
+  .familjen-barnfokus-wrap > * {
+    @apply relative;
+  }
+
+  .familjen-anchor-card {
+    @apply rounded-2xl border border-accent/25 bg-gradient-to-br from-accent/10 to-transparent p-4;
+  }
+
+  .familjen-week-bar {
+    @apply rounded-t-md bg-gradient-to-t from-emerald-500/80 to-emerald-300/90;
+    box-shadow: 0 0 12px rgba(45, 212, 191, 0.25);
+  }
+
+  .familjen-kunskap-panel {
+    @apply rounded-2xl border border-emerald-500/15 bg-[#0a1628]/60 p-1;
   }
 }

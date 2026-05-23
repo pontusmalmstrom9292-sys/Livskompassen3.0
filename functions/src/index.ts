@@ -3,7 +3,6 @@ import { askMabraCoach, askSpeglingsCoach } from "./agents/vertexAgent";
 import { askKnowledgeVaultWithRag } from "./agents/knowledgeVaultAgent";
 import { geminiApiKey } from "./lib/geminiSecret";
 import { generateEmbeddingInternal } from "./lib/generateEmbeddingInternal";
-import { upsertKampsparVector } from "./lib/vectorSearchClient";
 import { askValvChat } from "./agents/valvChatAgent";
 import { askChildrenLogsQuery } from "./agents/childrenLogsAgent";
 import { weaveJournalEntry as runWeaver } from "./agents/weaverAgent";
@@ -17,6 +16,7 @@ import {
   MABRA_SPEGLAR_REDIRECT_MESSAGE,
   shouldRedirectMabraCoachToSpeglar,
 } from './lib/mabraCoachGuard';
+import { analyzeWidgetRecording } from './lib/widgetRecordingAnalyze';
 import {
   BARNEN_MODULE_REDIRECT_MESSAGE,
   BARNEN_MODULE_ROUTE,
@@ -30,6 +30,8 @@ import {
   listPendingInboxQueue,
 } from './lib/inboxPersist';
 import { listRegistryEntriesForUser } from './lib/contextCacheRegistry';
+import { analyzeUploadForKnowledge } from './lib/analyzeUploadForKnowledge';
+import { ingestKampsparForUser } from './lib/ingestKampsparInternal';
 
 admin.initializeApp();
 const supervisor = new KompisSupervisor();
@@ -467,38 +469,104 @@ export const ingestKampsparEntry = functions
     throw new functions.https.HttpsError('invalid-argument', 'content krävs (max 8000 tecken).');
   }
 
-  let embeddingDim: number | null = null;
-  let embedding: number[] = [];
-  try {
-    embedding = await generateEmbeddingInternal(
-      [title, entryType, category, tags?.join(' '), content].filter(Boolean).join('\n')
-    );
-    embeddingDim = embedding.length > 0 ? embedding.length : null;
-  } catch (err) {
-    console.warn('[ingestKampsparEntry] Embedding misslyckades — sparar utan index:', err);
-  }
-
   const uid = context.auth.uid;
-  const docRef = await admin.firestore().collection('kampspar').add({
-    userId: uid,
-    ownerId: uid,
+  return ingestKampsparForUser(uid, {
     title,
     content,
-    category: category || null,
-    entryType: entryType || null,
-    tags: tags ?? null,
+    category,
+    entryType,
+    tags,
     source,
-    eventDate: eventDate || null,
-    embeddingDim,
-    createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    eventDate,
   });
-
-  if (embedding.length > 0) {
-    await upsertKampsparVector(docRef.id, embedding);
-  }
-
-  return { docId: docRef.id, embeddingDim };
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ingestKnowledgeDocument — PDF/bild/text → Gemini extraktion → kampspar (Kunskapsvalv)
+// ─────────────────────────────────────────────────────────────────────────────
+const KNOWLEDGE_UPLOAD_MIMES = new Set([
+  'application/pdf',
+  'text/plain',
+  'text/markdown',
+  'text/csv',
+  'application/json',
+  'image/png',
+  'image/jpeg',
+  'image/webp',
+]);
+
+export const ingestKnowledgeDocument = functions
+  .region('europe-west1')
+  .runWith({ memory: '1GB', timeoutSeconds: 120, secrets: ['GEMINI_API_KEY'] })
+  .https.onCall(async (data, context) => {
+    if (!context.auth) {
+      throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
+    }
+
+    const fileName = typeof data.fileName === 'string' ? data.fileName.trim() : '';
+    const mimeType = typeof data.mimeType === 'string' ? data.mimeType.trim() : '';
+    const base64 = typeof data.base64 === 'string' ? data.base64.trim() : '';
+    const sourceLabel =
+      typeof data.sourceLabel === 'string' ? data.sourceLabel.trim() : 'kunskap_upload';
+
+    if (!fileName || fileName.length > 200) {
+      throw new functions.https.HttpsError('invalid-argument', 'fileName krävs (max 200 tecken).');
+    }
+    if (!mimeType || !KNOWLEDGE_UPLOAD_MIMES.has(mimeType)) {
+      throw new functions.https.HttpsError('invalid-argument', 'mimeType stöds inte för kunskaps-index.');
+    }
+    if (!base64 || base64.length < 16) {
+      throw new functions.https.HttpsError('invalid-argument', 'base64 saknas.');
+    }
+
+    let buffer: Buffer;
+    try {
+      buffer = Buffer.from(base64, 'base64');
+    } catch {
+      throw new functions.https.HttpsError('invalid-argument', 'Ogiltig base64.');
+    }
+
+    let title = fileName;
+    let content = '';
+
+    const isPlainText =
+      mimeType.startsWith('text/') ||
+      mimeType === 'application/json' ||
+      /\.(txt|md|csv|json)$/i.test(fileName);
+
+    if (isPlainText) {
+      content = buffer.toString('utf8').trim();
+      if (content.length < 12) {
+        throw new functions.https.HttpsError('invalid-argument', 'Textfilen är tom eller för kort.');
+      }
+    } else {
+      const extracted = await analyzeUploadForKnowledge(buffer, mimeType, fileName);
+      title = extracted.title;
+      content = extracted.content;
+    }
+
+    let tags: string[] | undefined;
+    if (Array.isArray(data.tags)) {
+      const parsed = (data.tags as unknown[])
+        .filter((t: unknown): t is string => typeof t === 'string')
+        .map((t) => t.trim().toLowerCase())
+        .filter((t) => t.length > 0)
+        .slice(0, 12);
+      tags = parsed.length > 0 ? parsed : undefined;
+    }
+
+    const uid = context.auth.uid;
+    const result = await ingestKampsparForUser(uid, {
+      title,
+      content: content.slice(0, 48_000),
+      category: 'dokument',
+      entryType: 'fakta',
+      source: 'kunskap_fil',
+      tags: ['kunskap_upload', sourceLabel, ...(tags ?? [])],
+    });
+
+    return { ...result, fileName, mimeType, analyzed: !isPlainText };
+  });
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Funktion 6b: valvChatQuery
@@ -667,6 +735,36 @@ export const mabraCoach = functions
 
     const coach = await askMabraCoach(hubSymptom, exerciseType, optionalNote, process.env.GEMINI_API_KEY);
     return { coach, redirectToSpeglar: false };
+  });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ingestWidgetRecording — titel + sammanfattning för WH1 / tyst inspelning
+// ─────────────────────────────────────────────────────────────────────────────
+export const ingestWidgetRecording = functions
+  .region('europe-west1')
+  .runWith({ secrets: ['GEMINI_API_KEY'] })
+  .https.onCall(async (data, context) => {
+    if (!context.auth) {
+      throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
+    }
+
+    const transcript = typeof data.transcript === 'string' ? data.transcript : '';
+    const recordedAt =
+      typeof data.recordedAt === 'string' ? data.recordedAt : new Date().toISOString();
+    const durationSeconds =
+      typeof data.durationSeconds === 'number' ? data.durationSeconds : undefined;
+
+    if (transcript.length > 12000) {
+      throw new functions.https.HttpsError('invalid-argument', 'Transkript max 12000 tecken.');
+    }
+
+    const analysis = await analyzeWidgetRecording(
+      transcript,
+      recordedAt,
+      durationSeconds,
+      process.env.GEMINI_API_KEY,
+    );
+    return analysis;
   });
 
 // ─────────────────────────────────────────────────────────────────────────────

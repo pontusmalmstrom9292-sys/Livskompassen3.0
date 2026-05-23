@@ -86,6 +86,7 @@ export function FamiljenKunskapHubTab({ activeChild }: Props) {
 
   return (
     <div className="space-y-4">
+      <div className="familjen-kunskap-panel">
       <BentoCard
         title="Kunskapshub"
         description="En ingång — flera silos. Upload går alltid till Kunskapsvalvet."
@@ -168,8 +169,10 @@ export function FamiljenKunskapHubTab({ activeChild }: Props) {
           </ul>
         )}
       </BentoCard>
+      </div>
 
       <KunskapsvalvFileIngest
+        variant="familjen"
         sourceLabel="familjen_hub"
         onIngested={(doc) => setScopedDocs((prev) => [doc, ...prev].slice(0, 8))}
       />

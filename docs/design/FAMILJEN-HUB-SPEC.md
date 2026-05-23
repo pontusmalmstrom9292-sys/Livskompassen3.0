@@ -17,7 +17,7 @@
 - **Hela Minnet:** `knowledgeVaultQuery` (kampspar + kb_docs)
 - **Valv-Chat:** `valvChatQuery` (kräver valv-PIN)
 - **Barnloggar:** `childrenLogsQuery` (barn-silo)
-- **Filer:** `KunskapsvalvFileIngest` → `ingestKampsparEntry` — samma bank överallt
+- **Filer:** `KunskapsvalvFileIngest` → text: `ingestKampsparEntry` · PDF/bild: `ingestKnowledgeDocument` (Gemini) — samma bank överallt
 
 **Regel:** Filuppladdning i Familjen (och framtida moduler) ska använda `KunskapsvalvFileIngest` — inte parallell index.
 
@@ -29,3 +29,8 @@
 ## URL
 
 `?tab=reflektion|livslogg|tillsammans|monster|kunskap`
+
+## Visuell polish (2026-05)
+
+- CSS: `.familjen-hub` i `src/index.css` — aurora (emerald), guld ankare, barn-chips
+- Mockup-nära utan nature-regnbåge (Obsidian Calm + emerald accent)

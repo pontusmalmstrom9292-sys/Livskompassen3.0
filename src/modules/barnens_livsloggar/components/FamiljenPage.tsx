@@ -13,6 +13,15 @@ import { FamiljenTillsammansTab } from './familjen/FamiljenTillsammansTab';
 import { FamiljenMonsterTab } from './familjen/FamiljenMonsterTab';
 import { FamiljenKunskapHubTab } from './familjen/FamiljenKunskapHubTab';
 
+function FamiljenHeader() {
+  return (
+    <header className="familjen-hub__header">
+      <p className="text-[10px] uppercase tracking-[0.35em] text-emerald-300/90">Familjen</p>
+      <h1 className="familjen-hub__title">Små steg. Stora minnen. Tillsammans.</h1>
+    </header>
+  );
+}
+
 export function FamiljenPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const tabParam = searchParams.get('tab');
@@ -36,16 +45,12 @@ export function FamiljenPage() {
 
   if (!shell.unlocked) {
     return (
-      <div className="space-y-6">
-        <header className="text-center">
-          <p className="text-[10px] uppercase tracking-[0.35em] text-accent">Familjen</p>
-          <h1 className="mt-2 font-display text-2xl text-text-primary">
-            Små steg. Stora minnen. Tillsammans.
-          </h1>
-          <p className="mt-2 text-sm text-text-muted">
-            Reflektion, livslogg och kunskapshub — trygg hamn för Kasper och Arvid.
-          </p>
-        </header>
+      <div className="familjen-hub space-y-6">
+        <div className="familjen-hub__aurora" aria-hidden />
+        <FamiljenHeader />
+        <p className="relative text-center text-sm text-text-muted">
+          Reflektion, livslogg och kunskapshub — trygg hamn för Kasper och Arvid.
+        </p>
         <BentoCard title="Familjen" icon={<Users className="h-4 w-4" />}>
           <PinGate
             description="Separat PIN från Valv. Låses vid tab-byte (Zero Footprint)."
@@ -70,26 +75,24 @@ export function FamiljenPage() {
   const showChildPicker = activeTab !== 'tillsammans' && activeTab !== 'kunskap';
 
   return (
-    <div className="space-y-5 pb-8">
-      <header className="text-center">
-        <p className="text-[10px] uppercase tracking-[0.35em] text-accent">Familjen</p>
-        <h1 className="mt-2 font-display text-2xl text-text-primary">
-          Små steg. Stora minnen. Tillsammans.
-        </h1>
-      </header>
+    <div className="familjen-hub space-y-5 pb-8">
+      <div className="familjen-hub__aurora" aria-hidden />
+      <FamiljenHeader />
 
-      <TabBar
-        tabs={FAMILJEN_TABS.map((t) => {
-          const Icon = t.icon;
-          return {
-            id: t.id,
-            label: t.label,
-            icon: <Icon className="h-3 w-3" />,
-          };
-        })}
-        active={activeTab}
-        onChange={setTab}
-      />
+      <div className="familjen-hub__tabs relative">
+        <TabBar
+          tabs={FAMILJEN_TABS.map((t) => {
+            const Icon = t.icon;
+            return {
+              id: t.id,
+              label: t.label,
+              icon: <Icon className="h-3 w-3" />,
+            };
+          })}
+          active={activeTab}
+          onChange={setTab}
+        />
+      </div>
 
       {showChildPicker && (
         <FamiljenChildPicker
@@ -99,11 +102,13 @@ export function FamiljenPage() {
         />
       )}
 
-      {activeTab === 'reflektion' && <FamiljenReflektionTab shell={shell} />}
-      {activeTab === 'livslogg' && <FamiljenLivsloggTab shell={shell} />}
-      {activeTab === 'tillsammans' && <FamiljenTillsammansTab shell={shell} />}
-      {activeTab === 'monster' && <FamiljenMonsterTab shell={shell} />}
-      {activeTab === 'kunskap' && <FamiljenKunskapHubTab activeChild={shell.activeChild} />}
+      <div className="relative space-y-4">
+        {activeTab === 'reflektion' && <FamiljenReflektionTab shell={shell} />}
+        {activeTab === 'livslogg' && <FamiljenLivsloggTab shell={shell} />}
+        {activeTab === 'tillsammans' && <FamiljenTillsammansTab shell={shell} />}
+        {activeTab === 'monster' && <FamiljenMonsterTab shell={shell} />}
+        {activeTab === 'kunskap' && <FamiljenKunskapHubTab activeChild={shell.activeChild} />}
+      </div>
     </div>
   );
 }

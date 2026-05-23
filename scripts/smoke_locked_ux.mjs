@@ -127,6 +127,11 @@ function main() {
     'reality_vault',
     'W1',
   );
+  mustInclude('docs/design/HOMESCREEN-WIDGETS-SPEC.md', 'WH1', 'ingestWidgetRecording');
+  mustInclude('src/modules/core/components/FyrenWidgetBar.tsx', 'FyrenWidgetBar');
+  mustInclude('src/modules/widgets/pages/WidgetRecordPage.tsx', 'useWidgetVaultRecording');
+  mustInclude('src/modules/widgets/api/widgetVaultRecording.ts', 'SAMMANFATTNING');
+  mustInclude('public/manifest.webmanifest', '/widget/inspelning');
 
   // Barnporten (design lock)
   mustInclude(

@@ -27,12 +27,14 @@ export function FamiljenReflektionTab({ shell }: Props) {
 
   return (
     <div className="space-y-4">
-      <BarnfokusFraganPanel
-        key={`barnfokus-${activeChild}`}
-        childAlias={activeChild}
-        memoryRows={barnfokusMemory}
-        onSave={handleSaveBarnfokus}
-      />
+      <div className="familjen-barnfokus-wrap">
+        <BarnfokusFraganPanel
+          key={`barnfokus-${activeChild}`}
+          childAlias={activeChild}
+          memoryRows={barnfokusMemory}
+          onSave={handleSaveBarnfokus}
+        />
+      </div>
 
       <BentoCard title={`${activeChild} — mående (7 dagar)`} icon={<Heart className="h-4 w-4" />}>
         <BalansMatare result={balans} />

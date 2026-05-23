@@ -1,6 +1,7 @@
 # Widget Bar — Fyren Edge (spec)
 
-**Status:** Planerad implementation (P1)  
+**Status:** P0 implementerad (in-app `FyrenWidgetBar` + hemskärms-genvägar)  
+**Hemskärm:** [`HOMESCREEN-WIDGETS-SPEC.md`](./HOMESCREEN-WIDGETS-SPEC.md) — WH1–WH5  
 **Tema:** E — Nordic Skymning (guld, diskret)  
 **Varianter:** W1–W4 — se [`planering/variants/README.md`](./planering/variants/README.md)
 
@@ -51,13 +52,15 @@ Mockup: [`galleri/widget/v2/W1-kompakt-projekt.png`](./galleri/widget/v2/W1-komp
 - **Ej** spara till `children_logs` automatiskt — valfritt efteråt “Spara som bevis”
 - Silo: **inte** Kunskap-RAG
 
-## Kod (planerat)
+## Kod
 
 ```
-src/modules/core/components/FyrenWidgetBar.tsx      // W1
-src/modules/core/hooks/useDiscreetRecording.ts
-src/modules/core/hooks/useQuickVaultNote.ts
-src/modules/planering/                              // Planeringssida
+src/modules/core/components/FyrenWidgetBar.tsx
+src/modules/widgets/pages/WidgetRecordPage.tsx    // WH1
+src/modules/widgets/hooks/useWidgetVaultRecording.ts
+src/modules/widgets/api/widgetVaultRecording.ts
+functions: ingestWidgetRecording
+public/manifest.webmanifest → shortcuts[]
 ```
 
-Monteras i `MainLayout`.
+Monteras i `MainLayout`. WH1 pipeline: se [`HOMESCREEN-WIDGETS-SPEC.md`](./HOMESCREEN-WIDGETS-SPEC.md).

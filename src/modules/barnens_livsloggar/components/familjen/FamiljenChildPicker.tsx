@@ -14,11 +14,9 @@ export function FamiljenChildPicker({ activeChild, children, onChange }: Props) 
           key={name}
           type="button"
           onClick={() => onChange(name)}
-          className={`flex-1 rounded-2xl border py-2.5 text-sm font-medium transition ${
-            activeChild === name
-              ? 'border-accent/50 bg-accent/10 text-accent shadow-[0_0_24px_rgba(45,212,191,0.12)]'
-              : 'chip--idle'
-          }`}
+          className={
+            activeChild === name ? 'familjen-child-chip familjen-child-chip--active' : 'familjen-child-chip familjen-child-chip--idle'
+          }
         >
           {name}
         </button>
