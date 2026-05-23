@@ -229,6 +229,27 @@
     color: inherit;
   }
 
+  .header-glass-btn--mark {
+    @apply flex h-11 w-11 items-center justify-center p-0;
+  }
+
+  .header-glass-btn__mark {
+    @apply h-7 w-7 text-accent;
+    opacity: 0.88;
+  }
+
+  .header-glass-btn--mark-active {
+    border-color: rgba(253, 230, 138, 0.42);
+    background: rgba(253, 230, 138, 0.1);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 0 18px rgba(253, 230, 138, 0.18);
+  }
+
+  .header-glass-btn--mark-active .header-glass-btn__mark {
+    opacity: 1;
+  }
+
   .dock-shell {
     @apply pointer-events-none fixed bottom-0 left-0 right-0 z-50 px-3 pb-3 pt-2;
     background: linear-gradient(to top, rgba(2, 6, 23, 0.92), rgba(2, 6, 23, 0));
@@ -800,36 +821,62 @@
     @apply border border-white/5;
   }
 
-  .home-page .module-list {
-    @apply gap-2;
+  .module-scroll {
+    @apply -mx-1;
   }
 
-  .home-page .module-card {
-    @apply rounded-xl p-2.5;
+  .module-scroll__track {
+    @apply flex gap-2 overflow-x-auto pb-1 pt-0.5;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
 
-  .home-page .module-card__head {
-    @apply gap-2;
+  .module-scroll__track::-webkit-scrollbar {
+    display: none;
   }
 
-  .home-page .module-card__icon {
-    @apply h-8 w-8 rounded-lg;
+  .module-scroll-card {
+    @apply flex w-[6.75rem] shrink-0 snap-start flex-col items-center gap-1.5 rounded-xl border border-white/10 px-2 py-2.5 text-center transition-colors;
+    background: rgba(15, 23, 42, 0.55);
   }
 
-  .home-page .module-card__title {
-    @apply text-sm font-semibold;
+  .module-scroll-card:hover {
+    @apply border-white/20;
+    background: rgba(15, 23, 42, 0.72);
   }
 
-  .home-page .module-card__desc {
-    @apply mt-0 line-clamp-1 text-xs;
+  .module-scroll-card__icon {
+    @apply flex h-9 w-9 items-center justify-center rounded-lg border border-white/10;
+    background: rgba(255, 255, 255, 0.03);
   }
 
-  .home-page .module-card__modules {
-    @apply mt-2 gap-1.5 border-t border-white/10 pt-2;
+  .module-scroll-card__title {
+    @apply font-display text-xs font-semibold leading-tight text-text;
   }
 
-  .home-page .module-chip {
-    @apply px-2 py-0.5 text-[10px];
+  .module-scroll-card__hint {
+    @apply line-clamp-1 text-[9px] leading-snug text-text-dim;
+  }
+
+  .module-scroll-card--gold .module-scroll-card__icon {
+    border-color: rgba(253, 230, 138, 0.25);
+    color: #fde68a;
+  }
+
+  .module-scroll-card--indigo .module-scroll-card__icon {
+    border-color: rgba(129, 140, 248, 0.25);
+    color: #818cf8;
+  }
+
+  .module-scroll-card--lavender .module-scroll-card__icon {
+    border-color: rgba(129, 140, 248, 0.2);
+    color: #a5b4fc;
+  }
+
+  .module-scroll-card--emerald .module-scroll-card__icon {
+    border-color: rgba(45, 212, 191, 0.25);
+    color: #2dd4bf;
   }
 
   .home-page .adaptive-card-grid {

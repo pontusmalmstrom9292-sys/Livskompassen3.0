@@ -60,12 +60,14 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           <div className="app-header__actions">
             <HeaderHomeButton />
             <AccountAuthMenu />
-            <div className="header-glass-btn header-glass-btn--avatar" aria-hidden>
-              <KompisAvatar
-                size="sm"
-                state={kompisAuraActive ? 'analyzing' : 'idle'}
-                className="border-0 bg-transparent"
-              />
+            <div
+              className={clsx(
+                'header-glass-btn header-glass-btn--avatar header-glass-btn--mark',
+                kompisAuraActive && 'header-glass-btn--mark-active',
+              )}
+              aria-hidden
+            >
+              <LivskompassMark className="header-glass-btn__mark" />
             </div>
           </div>
         </div>

@@ -21,7 +21,10 @@ export function HomePage() {
 
       {!safeMode && (
         <section aria-label="Livsområden">
-          <p className="mb-2 text-[9px] uppercase tracking-widest text-text-dim">Livsområden</p>
+          <div className="mb-2 flex items-baseline justify-between gap-2">
+            <p className="text-[9px] uppercase tracking-widest text-text-dim">Livsområden</p>
+            <p className="text-[9px] text-text-dim">Svep →</p>
+          </div>
           <ClusterGrid />
         </section>
       )}
