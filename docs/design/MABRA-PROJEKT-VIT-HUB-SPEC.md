@@ -1,0 +1,90 @@
+# MåBra — egna projekt + Vit hub i Valvet
+
+**Beslut 2026-05-23** · Koppling: MåBra startar → Valvet/arkivet levererar **plan** → sparas i **din Vit hub** (personlig silo, inte bevis-WORM mot ex).
+
+---
+
+## Syfte
+
+Du ska tydligt kunna **starta ett eget projekt** (t.ex. *Självkänsla*) utan att blanda ihop det med Hamn/BIFF eller juridiskt valv.
+
+| Lager | Roll |
+|-------|------|
+| **MåBra** | Välj projekt · akut-stöd · övningar |
+| **Valv (Vit)** | Plan, minnen, statistik, utveckling över tid |
+| **Bevis-valv** | Oförändrat — WORM, ex, dossier (separat flik) |
+
+---
+
+## MåBra-fliken — layout
+
+```
+MåBra
+├── Akut nu (avlånga moduler)
+│   ├── Panik / RSD
+│   ├── Självkritik
+│   └── Hitta mig
+├── Egna projekt
+│   ├── Självkänsla          → Vit hub + plan
+│   ├── Känslominnen         → frågekort-serie
+│   ├── Lär tillsammans      → chatt (Kompis, inåtvänd)
+│   └── Vem är jag?          → identitetskartläggning
+└── Mina värderingar (ACT)   → befintlig ValuesCompass
+```
+
+Varje rad = **samma avlånga modul** som kompasserna (`elongated-module`).
+
+---
+
+## Projekt: Självkänsla (exempel)
+
+1. Tryck **Självkänsla** på MåBra.
+2. Valvet visar **planväljare** (ett steg i taget):
+   - **Frågekort** — korta prompts, ett kort = ett steg
+   - **Lär tillsammans** — lågaffektiv chatt (Kompis-coach, silo `vit`)
+   - **Känslominnen** — *Vem är jag?* · *Hur känner jag kring denna upplevelse?*
+3. Svar sparas i **`vit_hub/{userId}`** (Firestore, planerat).
+4. **Vit hub** i Valv: dashboard med streak, teman, mål, “vad jag tycker är kul”, utvecklingskurva.
+
+---
+
+## Frågekort (plan-typ)
+
+| Fas | Exempelfrågor |
+|-----|----------------|
+| Identitet | Vem är jag när ingen tittar? Vad är jag stolt över? |
+| Känsla | Hur känns den här upplevelsen i kroppen? Vad behöver den? |
+| Mål | Ett litet mål denna vecka — inte prestation. |
+| Glädje | Vad tycker jag är kul / lugnt / meningsfullt? |
+
+Kort sparas som `vit_entries` med `kind: 'card' | 'memory' | 'chat_turn'`.
+
+---
+
+## Vit hub i Valv (UI)
+
+Ny underflik eller sektion: **「Mitt Vit」** (namn TBD).
+
+| Widget | Innehåll |
+|--------|----------|
+| Översikt | Senaste 3 minnen + streak |
+| Statistik | Check-ins / projekt / humör (deterministisk, ingen LLM-sanning) |
+| Projekt | Lista aktiva MåBra-projekt |
+| Export | Framtida: PDF till dig själv (inte dossier) |
+
+**Skilj från:** Mönster/Orkester (ex-mönster), WORM-bevis.
+
+---
+
+## Implementation-faser
+
+| Fas | Leverans |
+|-----|----------|
+| **P0** (nu) | `MabraProjectHub` UI + konstanter + länk till Vit-förhandsvisning |
+| **P1** | Firestore `vit_hub`, frågekort-flöde, spara entry |
+| **P2** | Valv-flik Mitt Vit + enkel statistik |
+| **P3** | Chatt «Lär tillsammans» via `mabraCoach` + silo-guard |
+
+Kod P0: `mabraProjects.ts`, `MabraProjectHub.tsx`, `VitHubPreview.tsx`.
+
+Mockup: [`mabra-projekt-vit-hub.png`](./references/mabra-projekt-vit-hub.png).

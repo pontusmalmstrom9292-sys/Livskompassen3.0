@@ -1,7 +1,8 @@
 # Hem-hero — kanonisk layout (Tema E)
 
 **Referensbild:** [`E-home-hero-kanon.png`](./E-home-hero-kanon.png)  
-**Princip:** Detaljerade guldikoner **endast** i kompassen — övrigt UI förblir tunna linjeikoner (inte för mycket).
+**Kompakt variant (sjö + Kognitiv sköld):** [`LIVSKOMPASSEN-hem-kompakt-ref.png`](./LIVSKOMPASSEN-hem-kompakt-ref.png) · mockups [`../compact/`](../compact/)  
+**Princip:** Detaljerade guldikoner **endast** i kompassen — övrigt UI tunna linjeikoner (L2) men **mer detaljerade kortkanter** i kompakt läge.
 
 ---
 
@@ -13,10 +14,10 @@
 | **Hälsning** | `God kväll, {namn} ✦` + tagline guld | `HomeGreeting.tsx` |
 | **Din eld** | Liten glass-ruta: flamma + siffra (streak/energi) | `HomeStreakChip.tsx` — **IDÉ** gamification, kan vara dold |
 | **Kompass-hub** | Cirkel med geometrisk grid, guld nål, 3–4 **emboss-ikoner** + pill-knappar | `LivskompassHero.tsx` |
-| **Pills på kompass** | `rutiner` · `budget` · `personlig utveckling` | Navigerar till moduler |
+| **Pills på kompass** | `rutiner` · **mynt-ikon (utan text «budget»)** · `personlig utveckling` | Navigerar till moduler |
 | **Dagens riktning** | Glass-kort + kompass-ikon + citat + chevron | `DagensRiktningCard.tsx` |
 | **Pager dots** | 5 prickar (karusell copy) | valfritt |
-| **Dock** | Familjen · **Hamn** (aktiv guld-ring) · Valv | `FloatingDock` — Planering tillkommer som 4:e **IDÉ** |
+| **Dock** | Familjen · **kompass utan text** · Valv | Se [`DOCK-KANON.md`](./DOCK-KANON.md) — Hamn nås via menyn/hem-kort, inte som dock-etikett |
 
 ---
 
@@ -58,7 +59,7 @@
 | Pill / nav | Route |
 |------------|-------|
 | rutiner | `/vardagen?tab=kompasser` |
-| budget | `/vardagen?tab=ekonomi` |
+| mynt (ekonomi, **ingen text**) | `/vardagen?tab=ekonomi` |
 | personlig utveckling | `/mabra` eller framtida “Växa” |
 | Familjen | `/familjen` |
 | Hamn (centrum) | `/` hem eller hub |

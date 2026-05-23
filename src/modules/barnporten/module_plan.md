@@ -5,7 +5,9 @@
 
 ## P1 — BYGGS
 
-- [ ] `BarnportenPage.tsx` — barn-UI hub (4 kort)
+**UI-kanon:** `docs/design/references/BARNPORTEN-HUB-KANON.png` (2×2 kort, guldlinjer 2px)
+
+- [ ] `BarnportenPage.tsx` — barn-UI hub (4 kort enligt kanon)
 - [ ] `BarnportenWidget.tsx` — CB1 stjärn-prick
 - [ ] `BarnportenKompisPanel.tsx` — barn-Orkester
 - [ ] `saveBarnportenLog` → `children_logs` (`authorRole: 'child'`, `channel: 'barnporten'`)

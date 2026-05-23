@@ -98,10 +98,12 @@ flowchart TD
 |----|------|--------|----------|
 | **P1** | **Trippel-flik** | Inkorg \| Kalender \| Handling (tabs) | Tydlig ADHD-struktur |
 | **P2** | **Dags-tidslinje** | En vertikal dag: e-post nålar + händelser + uppgifter | “Vad händer idag?” |
-| **P3** | **Byrå-kanban** | Kolumner: Att göra \| Väntar \| Klart | Många parallella ärenden |
-| **P4** | **Handlingskö** | En lista med regelfilter överst + snabb “Lägg till” | Minsta kognitiva val |
+| **P3** | **Byrå-kanban** · **KANON** | Att göra \| Väntar \| Klart + under-nav | **Default** `/planering` — se [`planering/PLANERING-P3-KANBAN-SPEC.md`](./planering/PLANERING-P3-KANBAN-SPEC.md) |
+| **P4** | **Handlingskö** | En lista med regelfilter överst + snabb “Lägg till” | Backup om kanban känns tungt |
 
-Mockups: `docs/design/planering/variants/P1–P4.png`
+Mockups: `docs/design/planering/variants/` · kanon [`references/PLANERING-P3-KANBAN-KANON.png`](./references/PLANERING-P3-KANBAN-KANON.png)
+
+**Rekommendation:** **P3** som huvudvy + **P1 inkorg** + **P2 kalender** som delroutes (hybrid).
 
 ---
 

@@ -27,25 +27,41 @@ function mustInclude(relPath, ...needles) {
 }
 
 function main() {
-  // Middagsfrågan
+  // Barnfokus-frågor (ev. Middagsfrågan)
   mustInclude(
-    'src/modules/barnens_livsloggar/components/MiddagsfraganPanel.tsx',
-    'Middagsfrågan',
+    'src/modules/barnens_livsloggar/components/BarnfokusFraganPanel.tsx',
+    'Barnfokus',
     'Minneslista',
     'Spara till',
     's logg',
+    'Annan fråga',
   );
   mustInclude(
     'src/modules/barnens_livsloggar/components/BarnensPage.tsx',
-    'MiddagsfraganPanel',
-    'handleSaveMiddag',
-    "category: 'middag'",
+    'BarnfokusFraganPanel',
+    'handleSaveBarnfokus',
+  );
+  mustInclude(
+    'src/modules/barnens_livsloggar/hooks/useFamiljenShell.ts',
+    "category: 'barnfokus'",
+    'handleSaveBarnfokus',
+  );
+  mustInclude(
+    'src/modules/barnens_livsloggar/components/FamiljenPage.tsx',
+    'FamiljenReflektionTab',
+    'FamiljenKunskapHubTab',
+    "'kunskap'",
+  );
+  mustInclude(
+    'src/modules/barnens_livsloggar/components/familjen/FamiljenReflektionTab.tsx',
+    'BarnfokusFraganPanel',
+    'handleSaveBarnfokus',
   );
   mustInclude(
     'src/modules/barnens_livsloggar/constants.ts',
-    'MIDDAGS_QUESTIONS',
-    'middagsQuestionForToday',
-    "value: 'middag'",
+    'BARNFOKUS_QUESTIONS',
+    'barnfokusQuestionForToday',
+    'valv_safe',
   );
 
   // Valv Mönster + Orkester
@@ -72,6 +88,26 @@ function main() {
   mustInclude(
     'src/modules/verklighetsvalvet/utils/vaultPatternScan.ts',
     'buildVaultFrequencyReport',
+  );
+
+  mustInclude('src/modules/core/ui/ValvArchIcon.tsx', 'ValvArchIcon');
+  mustInclude('src/modules/core/layout/DockClassicTriad.tsx', 'ValvArchIcon', 'aria-label="Hem"');
+  mustInclude('src/index.css', '.dock-classic');
+
+  mustInclude(
+    'docs/design/PLANERING-PROJEKT-HYBRID.md',
+    'Handling ligger fast',
+    'PLANERING-P3-KANBAN-KANON',
+    'PROJEKT-SPEC',
+    'W1-kompakt-projekt',
+  );
+  assert(
+    existsSync(resolve(root, 'docs/design/references/PLANERING-P3-KANBAN-KANON.png')),
+    'saknar: PLANERING-P3-KANBAN-KANON.png',
+  );
+  assert(
+    existsSync(resolve(root, 'docs/design/galleri/widget/v2/W1-kompakt-projekt.png')),
+    'saknar: widget v2 W1-kompakt-projekt.png',
   );
 
   // Planeringssidan (design lock)
@@ -115,6 +151,18 @@ function main() {
 
   const mockDir = resolve(root, 'docs/design/barnporten/mockups');
   assert(existsSync(mockDir), 'saknar mapp: docs/design/barnporten/mockups');
+
+  mustInclude(
+    'docs/design/references/MENU-DRAWER-KANON.md',
+    'MENU-DRAWER-KANON.png',
+    'Hem Kompass',
+    'Planering',
+    'Inställningar',
+  );
+  assert(
+    existsSync(resolve(root, 'docs/design/references/MENU-DRAWER-KANON.png')),
+    'saknar: docs/design/references/MENU-DRAWER-KANON.png',
+  );
 
   console.log(
     '[smoke:locked-ux] PASS — Middagsfrågan, Valv Mönster/Orkester, Planering, Widget, Barnporten.',

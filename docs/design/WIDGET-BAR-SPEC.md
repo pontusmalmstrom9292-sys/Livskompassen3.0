@@ -13,15 +13,20 @@
 | **Dubbeltryck prick** | **Tyst inspelning** start/stopp |
 | **Long-press prick 3s** | Fyren → Valv (befintligt) |
 
-## Åtgärder
+## Åtgärder (v2 — kompakt + Projekt)
 
 | Ikon | Etikett | Dataflöde | Status |
 |------|---------|-----------|------|
-| Öra / våg (diskret) | Tyst inspelning | MediaRecorder → Storage + `reality_vault` metadata WORM | **BYGGS** |
-| Mikrofon | Röstanteckning | STT → bekräftelse → `saveVaultLog` | **BYGGS** |
-| Penna | Snabbanteckning | Modal → `saveVaultLog` | **BYGGS** |
-| Kalender | Planering | `/planering` | **BYGGS** |
+| **+ Projekt** | Nytt projekt | `/projekt/ny` picker (lista, anteckning, bild…) | **BYGGS** |
+| Öra / våg (diskret) | Tyst inspelning | `reality_vault` WORM | **BYGGS** |
+| Lista | Snabb lista | Nytt projekt-block `list` | **BYGGS** |
+| Penna | Anteckning | Block `note` eller Valv | **BYGGS** |
+| Bild | Foto | Block `image` + Storage | **BYGGS** |
+| Kalender | Planering | `/planering` (kanban) | **BYGGS** |
 | Valv | Bevis | `/dagbok?tab=bevis` + PIN | **BYGGS** |
+
+Mockup: [`galleri/widget/v2/W1-kompakt-projekt.png`](./galleri/widget/v2/W1-kompakt-projekt.png)  
+Äldre enklare W1–W4: [`galleri/widget/`](./galleri/widget/) (behålls som referens).
 
 ### Tyst inspelning — krav
 

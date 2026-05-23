@@ -15,7 +15,9 @@ import type {
   MabraFlowStep,
   MabraSymptomHub,
 } from '../types';
-import { SymptomHub } from './SymptomHub';
+import { MabraProjectHub } from './MabraProjectHub';
+import { VitHubPreview } from './VitHubPreview';
+import { MABRA_PROJECTS, type MabraPlanKind, type MabraProjectId } from '../constants/mabraProjects';
 import { AkutLanding } from './AkutLanding';
 import { DurationPicker } from './DurationPicker';
 import { BreathingExercise } from './BreathingExercise';
@@ -33,11 +35,19 @@ export function MabraPage() {
   const [completedExerciseType, setCompletedExerciseType] = useState<MabraExerciseType>('breathing');
   const [addonBreathing, setAddonBreathing] = useState(false);
   const [valuesSavedHint, setValuesSavedHint] = useState(false);
+  const [activeProjectId, setActiveProjectId] = useState<MabraProjectId | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<MabraPlanKind | null>(null);
   const sessionStartedAt = useRef<number | null>(null);
+
+  const activeProject = activeProjectId
+    ? MABRA_PROJECTS.find((p) => p.id === activeProjectId) ?? null
+    : null;
 
   const resetFlow = useCallback(() => {
     setStep('hub');
     setHub(null);
+    setActiveProjectId(null);
+    setSelectedPlan(null);
     setDurationMinutes(DEFAULT_MABRA_DURATION);
     setSaveError(null);
     setAddonBreathing(false);
@@ -113,20 +123,25 @@ export function MabraPage() {
   const activeExerciseType = hub && !addonBreathing ? exerciseTypeForHub(hub) : null;
 
   return (
-    <div className="space-y-6">
-      <BentoCard
-        title="Måbra-sidan"
-        icon={<Sparkles className="h-4 w-4" />}
-        description="Proaktivt självarbete — KBT, värderingar, små vanor"
-      >
-        <p className="mb-4 text-sm text-text-muted">
-          En trygg plats för dig — inte mot någon annan. Ett steg i taget.
+    <div className="space-y-4">
+      <header className="px-0.5">
+        <p className="home-page__eyebrow">MåBra</p>
+        <h1 className="home-page__title text-xl">För dig — ett steg i taget</h1>
+        <p className="home-page__lead text-xs">
+          Akut-stöd, egna projekt och Vit hub i Valvet. Inte mot någon annan.
         </p>
+      </header>
 
+      <div className="space-y-4">
         {step === 'hub' && (
           <>
-            <SymptomHub
-              onSelect={handleHubSelect}
+            <MabraProjectHub
+              onSelectAkut={handleHubSelect}
+              onSelectProject={(id) => {
+                setActiveProjectId(id);
+                setSelectedPlan(null);
+                setStep('project_plan');
+              }}
               onOpenValues={() => {
                 setValuesSavedHint(false);
                 setStep('values');
@@ -138,7 +153,21 @@ export function MabraPage() {
           </>
         )}
 
+        {step === 'project_plan' && activeProject && (
+          <VitHubPreview
+            project={activeProject}
+            selectedPlan={selectedPlan}
+            onSelectPlan={setSelectedPlan}
+            onBack={() => {
+              setStep('hub');
+              setActiveProjectId(null);
+              setSelectedPlan(null);
+            }}
+          />
+        )}
+
         {step === 'values' && userId && (
+          <BentoCard title={VALUES_COMPASS_COPY.title} icon={<Sparkles className="h-4 w-4" />}>
           <ValuesCompass
             userId={userId}
             onDone={() => {
@@ -147,6 +176,7 @@ export function MabraPage() {
             }}
             onExit={resetFlow}
           />
+          </BentoCard>
         )}
 
         {step === 'values' && !userId && (
@@ -209,12 +239,12 @@ export function MabraPage() {
         )}
 
         {step === 'complete' && (
-          <>
+          <BentoCard title="Klart" icon={<Sparkles className="h-4 w-4" />}>
             <MabraComplete hub={hub} exerciseType={completedExerciseType} onDone={resetFlow} />
             {saveError && <p className="mt-2 text-sm text-text-dim">{saveError}</p>}
-          </>
+          </BentoCard>
         )}
-      </BentoCard>
+      </div>
     </div>
   );
 }

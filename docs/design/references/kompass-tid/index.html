@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tre kompasser — tid på dygnet</title>
+  <style>
+    body { margin:0; font-family:Inter,system-ui; background:#0a1218; color:#f5f0e8; padding:2rem; }
+    h1 { color:#d4af37; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1rem; margin-top:1.5rem; }
+    figure { margin:0; border:1px solid rgba(212,175,55,0.25); border-radius:0.75rem; overflow:hidden; }
+    figure img { width:100%; display:block; cursor:pointer; }
+    figcaption { padding:0.6rem; font-size:0.8rem; color:#a8a29e; }
+    figcaption strong { color:#d4af37; display:block; }
+    a { color:#d4af37; }
+  </style>
+</head>
+<body>
+  <h1>Tre kompasser (sammanhängande)</h1>
+  <p style="color:#a8a29e;max-width:40rem">K1 Kväll · K2 Skymning/gryning · K3 Soluppgång. Ingen «budget»-text — diskret mynt-ikon. Dock: kompass utan «Hamn».</p>
+  <p><a href="../KOMPASS-TRE-TIDPUNKTER.md">Spec</a></p>
+  <div class="grid">
+    <figure><img src="K-kvall-hub.png" alt="" /><figcaption><strong>K1 Kväll — hub</strong></figcaption></figure>
+    <figure><img src="K1-kvall-appicon.png" alt="" /><figcaption><strong>K1 — appikon</strong></figcaption></figure>
+    <figure><img src="K-skymning-hub.png" alt="" /><figcaption><strong>K2 Skymning</strong></figcaption></figure>
+    <figure><img src="K1-skymning-appicon.png" alt="" /><figcaption><strong>K2 appikon</strong></figcaption></figure>
+    <figure><img src="K-soluppgang-hub.png" alt="" /><figcaption><strong>K3 Soluppgång</strong></figcaption></figure>
+    <figure><img src="K1-soluppgang-appicon.png" alt="" /><figcaption><strong>K3 appikon</strong></figcaption></figure>
+  </div>
+</body>
+</html>

@@ -12,12 +12,12 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 1. **Do not remove, hide behind feature flags, or rename** these user-visible flows without explicit user/product approval and an update to `.context/locked-ux-features.md`.
 2. **Before merging** refactors touching `BarnensPage`, `VaultPage`, or related panels: run `npm run smoke:locked-ux` and keep it passing.
 
-## Middagsfrågan (Familjen)
+## Barnfokus-frågor (Familjen)
 
-- Component: `src/modules/barnens_livsloggar/components/MiddagsfraganPanel.tsx`
-- Mounted in `BarnensPage` with optimistic `category: 'middag'` saves
-- Button copy must remain: **Spara till {ChildAlias}s logg**
-- **Minneslista** directly under the form (not only in bottom timeline)
+- Component: `src/modules/barnens_livsloggar/components/BarnfokusFraganPanel.tsx`
+- Pool: `BARNFOKUS_QUESTIONS` (gladje, kunskap, knas, lara_kanna, utveckling, valv_safe) — not middag-only label
+- Mounted in `BarnensPage` with optimistic `category: 'barnfokus'` saves (read legacy `middag`)
+- Button copy: **Spara till {ChildAlias}s logg** · **Minneslista** under form
 
 ## Valv — Pansaret (Mönster + Orkester)
 
@@ -25,10 +25,23 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 - `VaultMonsterPanel` — deterministic frequency (no LLM as source of truth)
 - `VaultOrkesterPanel` — agent registry + SMS thread pattern search via `analyzeMessage`
 
+## Planering + Projekt (design lock — hybrid)
+
+- Canonical: `docs/design/PLANERING-PROJEKT-HYBRID.md`
+- **Handling fixed:** P3 Kanban must remain at `/planering` (todo/waiting/done)
+- **Projekt flexible:** lists, notes, images, custom plans at `/projekt`
+- Widget v2: `galleri/widget/v2/W1-kompakt-projekt.png` — do not revert to boring W1-only without approval
+
 ## Planeringssidan + Fyren widget (design lock)
 
 - Specs: `docs/design/PLANERINGSSIDA-SPEC.md`, `docs/design/WIDGET-BAR-SPEC.md`
 - Do not remove P1–P4 / W1–W4 documentation or email-routing design without approval
+
+## Sidomeny (hamburger — design lock)
+
+- Kanon: `docs/design/references/MENU-DRAWER-KANON.png` + `MENU-DRAWER-KANON.md`
+- Rows: Hem Kompass, Familjen, Hamn, Valv, Planering, MåBra, Inställningar
+- Active row: gold only (not teal/turquoise)
 
 ## Barnporten (barnens hub — design lock)
 
@@ -39,7 +52,7 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 
 ## Forbidden without approval
 
-- Deleting `MIDDAGS_QUESTIONS`, `MiddagsfraganPanel`, `VaultMonsterPanel`, `VaultOrkesterPanel`, or `vaultPatternScan.ts`
+- Deleting `BARNFOKUS_QUESTIONS`, `BarnfokusFraganPanel`, `VaultMonsterPanel`, `VaultOrkesterPanel`, or `vaultPatternScan.ts`
 - Collapsing Mönster/Orkester into Dossier-only or removing tab bar entries
 - Replacing optimistic middag save with “refresh only after server” (degrades ADHD-safe feedback)
 - Removing Barnporten spec, agents registry, or Valv HITL bridge design

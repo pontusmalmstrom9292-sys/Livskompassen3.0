@@ -6,15 +6,16 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
-## 1. Middagsfrågan (Familjen / Barnen)
+## 1. Barnfokus-frågor (Familjen / Barnen — ev. «Middagsfrågan»)
 
 | | |
 |---|---|
 | **Route** | `/familjen` → `BarnensPage` |
-| **Syfte** | Lekfulla middagssvar → omedelbar minneslista (dopamin + trygghet) |
-| **Kod** | `MiddagsfraganPanel.tsx`, `middagsQuestionForToday`, `category: 'middag'` |
-| **Krav** | Knapp **Spara till {barn}s logg**; optimistisk minneslista under formuläret |
-| **Smoke** | `npm run smoke:locked-ux` (statisk) · manuell #19 i `docs/SMOKE_CHECKLIST.md` |
+| **Syfte** | Roterande frågor (roligt, kunskap, knas, lära känna, utveckling, valv-bank) → minneslista |
+| **Kod** | `BarnfokusFraganPanel.tsx`, `barnfokusQuestionForToday`, `BARNFOKUS_QUESTIONS`, `category: 'barnfokus'` |
+| **Spec** | `docs/design/FAMILJEN-BARNFOKUS-FRAGOR-SPEC.md` |
+| **Krav** | Knapp **Spara till {barn}s logg**; **Annan fråga**; optimistisk minneslista; **inte** enbart middag-rubrik |
+| **Smoke** | `npm run smoke:locked-ux` · manuell #19 |
 
 ---
 
@@ -30,18 +31,31 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
-## 3. Planeringssidan (design låst)
+## 3. Planering + Projekt (design låst — hybrid)
+
+| | |
+|---|---|
+| **Beslut** | [`docs/design/PLANERING-PROJEKT-HYBRID.md`](../docs/design/PLANERING-PROJEKT-HYBRID.md) |
+| **Handling (fast)** | P3 Kanban ATT GÖRA · VÄNTAR · KLART — `/planering` |
+| **Projekt (flex)** | Lista, anteckning, bild, egna planeringar — `/projekt` |
+| **Widget** | v2 [`galleri/widget/v2/W1-kompakt-projekt.png`](../docs/design/galleri/widget/v2/W1-kompakt-projekt.png) |
+| **Spec** | `PROJEKT-SPEC.md`, `PLANERING-P3-KANBAN-SPEC.md`, `WIDGET-BAR-SPEC.md` |
+| **Smoke** | Hybrid-spec + kanon-PNG finns |
+
+---
+
+## 4. Planeringssidan (äldre register — se §3 hybrid)
 
 | | |
 |---|---|
 | **Route (plan)** | `/planering` |
 | **Spec** | `docs/design/PLANERINGSSIDA-SPEC.md`, mockups `docs/design/planering/` |
-| **Krav** | P1–P4 layouter dokumenterade; e-postregler `planning_email_rules`; **inte** ex-brus hit |
+| **Krav** | P1–P4 + Projekt; e-postregler `planning_email_rules`; **inte** ex-brus hit |
 | **Smoke** | Spec-fil + nyckelsträngar i `smoke_locked_ux.mjs` |
 
 ---
 
-## 4. Fyren Edge — widget + tyst inspelning (design låst)
+## 5. Fyren Edge — widget + tyst inspelning (design låst)
 
 | | |
 |---|---|
@@ -52,7 +66,19 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
-## 5. Barnporten — barnens hub (design låst)
+## 6. Sidomeny / hamburger (design låst)
+
+| | |
+|---|---|
+| **Kanonbild** | `docs/design/references/MENU-DRAWER-KANON.png` |
+| **Spec** | `docs/design/references/MENU-DRAWER-KANON.md` |
+| **Rader** | Hem Kompass · Familjen · Hamn · Valv · Planering · MåBra · Inställningar |
+| **Krav** | Samma skymningsbakgrund som hem; aktiv rad **guld** (inte turkos) |
+| **Smoke** | Kanonfil + spec finns |
+
+---
+
+## 7. Barnporten — barnens hub (design låst)
 
 | | |
 |---|---|

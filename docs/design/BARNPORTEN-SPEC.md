@@ -4,7 +4,8 @@
 **Produktnamn (UI):** **Barnporten** · undertitel *Din trygga hamn*  
 **Route (barn):** `/barnporten` · **Route (förälder):** `/familjen?tab=barnporten` (inbox)  
 **Install:** PWA på barnens telefon/surfplatta (egen manifest, egen ikon)  
-**Tema:** Varm skymning (mjukare än föräldra-Valv) — guld/amber, **ingen** turkos/lila, **ingen** juridisk monospace för barn
+**Tema:** Varm skymning (mjukare än föräldra-Valv) — guld/amber, **ingen** turkos/lila, **ingen** juridisk monospace för barn  
+**Kanon UI (barn-hub):** [`references/BARNPORTEN-HUB-KANON.png`](./references/BARNPORTEN-HUB-KANON.png) — 2×2 kort: Prata · Skriv till pappa · Humör · Bara för mig
 
 ---
 
