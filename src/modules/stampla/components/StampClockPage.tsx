@@ -9,6 +9,7 @@ import type { TimeEntryRow } from '../../core/types/firestore';
 import {
   getEconomyProfileExtended,
   getFlexHoursRemaining,
+  getOpenTimeEntry,
   getRecentTimeEntries,
   getTodayTimeStatus,
   getWeekTimeCalendar,
@@ -32,6 +33,7 @@ export function StampClockPage() {
   const [logs, setLogs] = useState<TimeEntryRow[]>([]);
   const [calendar, setCalendar] = useState<{ namn: string; datum: string; timmar: number; idag: boolean }[]>([]);
   const [stampCategory, setStampCategory] = useState<string>('Arbete');
+  const [openEntryId, setOpenEntryId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -42,18 +44,20 @@ export function StampClockPage() {
     setError(null);
     try {
       const profile = await getEconomyProfileExtended(user.uid);
-      const [today, week, recent, cal, flex] = await Promise.all([
+      const [today, week, recent, cal, flex, open] = await Promise.all([
         getTodayTimeStatus(user.uid),
         getWeekTimeStats(user.uid),
         getRecentTimeEntries(user.uid, 20),
         getWeekTimeCalendar(user.uid),
         getFlexHoursRemaining(user.uid, profile.flexHoursTarget),
+        getOpenTimeEntry(user.uid),
       ]);
       setStatus(today);
       setWeekTotal(week.total);
       setFlexLeft(flex);
       setLogs(recent);
       setCalendar(cal.dagar);
+      setOpenEntryId(open?.id ?? null);
     } catch {
       setError('Kunde inte läsa tidsdata.');
     } finally {
@@ -65,16 +69,35 @@ export function StampClockPage() {
     void reload();
   }, [reload]);
 
+  const canStampOut = status.instamplad || openEntryId != null;
+
   const stamp = async (type: 'IN' | 'UT') => {
     if (!user) return;
     setBusy(true);
     setError(null);
     try {
-      if (type === 'IN') await recordTimeIn(user.uid, stampCategory);
-      else await recordTimeOut(user.uid);
+      if (type === 'IN') {
+        const created = await recordTimeIn(user.uid, stampCategory);
+        setOpenEntryId(created.id);
+        setStatus({
+          instamplad: true,
+          inTid: created.clockIn,
+          kat: created.category,
+          dagensTimmar: 0,
+        });
+      } else {
+        await recordTimeOut(user.uid, openEntryId ?? undefined);
+        setOpenEntryId(null);
+        setStatus((s) => ({ ...s, instamplad: false, inTid: '', kat: '' }));
+      }
       await reload();
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Stämpling misslyckades.');
+      const msg = e instanceof Error ? e.message : 'Stämpling misslyckades.';
+      setError(
+        msg.includes('permission') || msg.includes('Permission')
+          ? 'Sparning nekad — deploya Firestore-regler (time_entries).'
+          : msg,
+      );
     } finally {
       setBusy(false);
     }
@@ -125,7 +148,7 @@ export function StampClockPage() {
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
-                disabled={busy || status.instamplad}
+                disabled={busy || status.instamplad || openEntryId != null}
                 onClick={() => void stamp('IN')}
                 className="btn-pill--primary disabled:opacity-40"
               >
@@ -133,7 +156,7 @@ export function StampClockPage() {
               </button>
               <button
                 type="button"
-                disabled={busy || !status.instamplad}
+                disabled={busy || !canStampOut}
                 onClick={() => void stamp('UT')}
                 className="btn-pill--ghost disabled:opacity-40"
               >
