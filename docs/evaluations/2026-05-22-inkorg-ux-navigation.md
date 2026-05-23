@@ -1,6 +1,7 @@
 # Inkorg — UX/Navigation & Gemini designkoncept — 2026-05-22
 
 **Status:** Inkorg (ej analyserad / ej låst)  
+**Senast tillagt:** 2026-05-23  
 **Trigger:** Extern AI-idéer (Gemini) + UI/UX-spec från chatt — ska utvärderas mot repo innan implementation.  
 **Nästa steg:** Specialist-analys → PASS/GAP → låsning i `navigation-master.md` / `design-master.md` → ett byggsteg.
 
@@ -19,6 +20,9 @@
 | 3b | Desktop RTF (ClusterGrid) | [`2026-05-22-inkorg-rtf-clustergrid.md`](./2026-05-22-inkorg-rtf-clustergrid.md) |
 | 3c | Desktop RTF (ModuleHubPanel) | [`2026-05-22-inkorg-rtf-modulehub.md`](./2026-05-22-inkorg-rtf-modulehub.md) |
 | 4 | Cursor-förhandgranskning (ej låst) | Namnmappning repo Variant C ↔ extern ”Variant A” — se § Namnkrock |
+| 5 | Gemini 3.0 — nyheter + F-09 (sammanfattning) | [`2026-05-23-inkorg-gemini-3-sammanfattning.md`](./2026-05-23-inkorg-gemini-3-sammanfattning.md) → [`artifacts/gemini-dashboard-interactive-App.tsx`](./artifacts/gemini-dashboard-interactive-App.tsx) |
+| 6 | Skärmdumpar — samlad batch (16 st, hardlinks) | [`2026-05-23-inkorg-skarmdumpar.md`](./2026-05-23-inkorg-skarmdumpar.md) → [`artifacts/screenshots-inkorg-2026-05-23/`](./artifacts/screenshots-inkorg-2026-05-23/) |
+| 7 | Transcript återställning (c7586bb5) | [`2026-05-23-inkorg-transcript-kallor.md`](./2026-05-23-inkorg-transcript-kallor.md) |
 
 **Regel:** Innehåll här är **ritning**, inte source of truth. Kanon: `.context/design-language.md`, `docs/specs/design-master.md`, `docs/specs/navigation-master.md`, kod i `src/`.
 
@@ -57,10 +61,11 @@ Full kod: [`2026-05-22-inkorg-gemini-prototype.md`](./2026-05-22-inkorg-gemini-p
 
 | Specialist | Fråga | Rapportfil (planerad) |
 |------------|-------|------------------------|
-| Navigation | Extern Variant A vs repo Variant C, dock 1 vs 5 ikoner | `2026-05-22-UX-navigation-analys.md` |
-| UI/design | Obsidian Calm, ikoner, #05080E vs tokens | samma eller `design-inkorg` |
-| Hamn/BIFF | Maskering, tre svar, JADE L3 | `modul-safe_harbor` uppdatering |
+| Navigation | Extern Variant A vs repo Variant C, dock 1 vs 5 ikoner | `2026-05-23-UX-navigation-analys.md` |
+| UI/design | Obsidian Calm, ikoner, #05080E vs tokens; 16 skärmdumpar batch | samma eller `2026-05-23-design-inkorg.md` |
+| Hamn/BIFF | Maskering, tre svar, JADE L3, F-09 eget svar | `modul-safe_harbor` uppdatering |
 | Security | Mock WORM vs `assertWormPayload` | utdrag i navigation-analys |
+| Gemini 3.0 | F-01–F-09 vs shippat 2026-05-23 | utdrag i navigation-analys (FUNKTIONSLOCK redan låst) |
 
 ---
 
@@ -213,4 +218,4 @@ Tap-räkning högre (2.6 snitt).
 
 ---
 
-*Skapad av Cursor Agent 2026-05-22. Analys och låsning väntar på explicit `kör UX-inkorg-analys`.*
+*Skapad av Cursor Agent 2026-05-22. Utökad 2026-05-23 (transcript c7586bb5). Analys och låsning väntar på explicit `kör UX-inkorg-analys`.*

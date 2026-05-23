@@ -1,13 +1,16 @@
 import type { VaultLog } from '../../core/types/firestore';
+import { formatVaultLogBody } from './formatVaultLogBody';
 
 function formatRecord(log: VaultLog & { id: string }): string {
+  const created =
+    typeof log.createdAt === 'string' ? log.createdAt.slice(0, 19) : String(log.createdAt ?? '');
   const lines = [
     'LIVSKOMPASSEN — VERKLIGHETSVALV (WORM)',
-    `Datum: ${(log.createdAt ?? '').slice(0, 19)}`,
+    `Datum: ${created}`,
     `Kategori: ${log.category ?? 'bevis'}`,
     `Typ: ${log.entryType ?? 'simple'}`,
     '',
-    log.truth ?? '',
+    formatVaultLogBody(log),
   ];
 
   if (log.theirVersion || log.myReality) {

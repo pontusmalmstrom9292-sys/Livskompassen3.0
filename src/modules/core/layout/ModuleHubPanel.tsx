@@ -4,6 +4,7 @@ import { useLongPress } from '../hooks/useLongPress';
 import { setVaultGate } from '../auth/sessionService';
 import { authenticateVaultGate } from '../auth/webauthn';
 import { useStore } from '../store';
+import { FYREN_BEVIS_HINT } from '../navigation/appNavigation';
 import { DESIGN } from '../ui/tokens';
 import {
   HUB_BOTTOM,
@@ -47,6 +48,7 @@ function HubTile({ module, size = 'side' }: { module: HubModule; size?: 'side' |
   const navigate = useNavigate();
   const location = useLocation();
   const setModuleHubOpen = useStore((s) => s.setModuleHubOpen);
+  const setSystemError = useStore((s) => s.setError);
   const Icon = module.icon;
 
   const isActive =
@@ -54,8 +56,12 @@ function HubTile({ module, size = 'side' }: { module: HubModule; size?: 'side' |
       ? location.pathname === '/'
       : location.pathname === module.path || location.pathname.startsWith(`${module.path}/`);
 
-  const go = (search = '') => {
+  const navigateToModule = (search = '') => {
     navigate({ pathname: module.path, search });
+  };
+
+  const go = (search = '') => {
+    navigateToModule(search);
     setModuleHubOpen(true);
   };
 
@@ -63,9 +69,13 @@ function HubTile({ module, size = 'side' }: { module: HubModule; size?: 'side' |
     onLongPress: async () => {
       if (!module.longPress) return;
       const ok = await authenticateVaultGate();
-      if (!ok) return;
+      if (!ok) {
+        setSystemError(`Fyren avbruten. ${FYREN_BEVIS_HINT}`);
+        return;
+      }
       setVaultGate();
-      go(module.search ?? '');
+      navigateToModule(module.search ?? '');
+      setModuleHubOpen(false);
     },
     onClick: () => go(module.longPress ? '' : ''),
     delayMs: 3000,
@@ -108,9 +118,23 @@ function HubTile({ module, size = 'side' }: { module: HubModule; size?: 'side' |
 
 export function ModuleHubPanel() {
   const setModuleHubOpen = useStore((s) => s.setModuleHubOpen);
+  const systemError = useStore((s) => s.system.error);
+  const setSystemError = useStore((s) => s.setError);
 
   return (
     <div className="module-hub-panel" role="dialog" aria-label="Modulväljare">
+      {systemError && (
+        <p className="module-hub-panel__alert text-sm text-danger" role="alert">
+          {systemError}
+          <button
+            type="button"
+            className="ml-2 underline"
+            onClick={() => setSystemError(null)}
+          >
+            Stäng
+          </button>
+        </p>
+      )}
       <div className="module-hub-panel__grid">
         <div className="module-hub-panel__row">
           {HUB_TOP.map((mod) => (

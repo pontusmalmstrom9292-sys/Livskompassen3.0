@@ -7,6 +7,7 @@ import { getChildrenLogs, getVaultLogs, saveVaultLog } from '../../core/firebase
 import type { VaultLog } from '../../core/types/firestore';
 import { VaultEntryForm } from './VaultEntryForm';
 import type { VaultLogInput } from '../types/vaultEntry';
+import { formatVaultLogBody } from '../utils/formatVaultLogBody';
 
 type CrossRefFilter = 'all' | 'skola' | 'somn' | 'hamtning';
 
@@ -25,20 +26,6 @@ type CrossRefHit = {
   body: string;
   tags: string[];
 };
-
-function formatVaultBody(log: VaultLog): string {
-  if (log.entryType === 'two_column' && (log.theirVersion || log.myReality)) {
-    return `Hens: ${log.theirVersion ?? '—'}\nMin: ${log.myReality ?? '—'}`;
-  }
-  if (log.entryType === 'three_shield') {
-    return [log.shieldWhat, log.shieldFeeling, log.shieldBoundary].filter(Boolean).join(' · ');
-  }
-  if (log.entryType === 'body_signal' && log.bodySignals?.length) {
-    const note = String(log.truth ?? '');
-    return `${log.bodySignals.join(', ')}${note ? ` — ${note}` : ''}`;
-  }
-  return String(log.truth ?? log.shieldWhat ?? '');
-}
 
 function hitRowLabel(hit: CrossRefHit): string {
   return hit.source === 'reality_vault' ? 'SÄKRAD POST' : 'BARNLOGG';
@@ -111,7 +98,7 @@ export function VaultCrossReference() {
         source: 'reality_vault',
         date: String(log.createdAt ?? '').slice(0, 10),
         title: log.category ?? 'Bevis',
-        body: formatVaultBody(log),
+        body: formatVaultLogBody(log),
         tags: [log.category ?? 'valv', log.entryType ?? 'post', 'OFÖRÄNDERLIG'],
       });
     }

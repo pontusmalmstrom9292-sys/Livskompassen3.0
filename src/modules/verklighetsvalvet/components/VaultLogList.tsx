@@ -4,42 +4,13 @@ import { BentoCard } from '../../core/ui/BentoCard';
 import { EmptyState } from '../../core/ui/EmptyState';
 import type { VaultLog } from '../../core/types/firestore';
 import { exportVaultRecordAsPdf } from '../utils/exportVaultRecord';
+import { formatVaultLogBody, formatVaultLogDate } from '../utils/formatVaultLogBody';
 
 type VaultLogListProps = {
   logs: (VaultLog & { id: string })[];
   loading: boolean;
   highlightLogId?: string | null;
 };
-
-function asText(value: unknown): string {
-  if (value == null) return '';
-  if (typeof value === 'string') return value;
-  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
-  return String(value);
-}
-
-function formatLogBody(log: VaultLog): string {
-  if (log.entryType === 'two_column' && (log.theirVersion || log.myReality)) {
-    return `Hens: ${asText(log.theirVersion) || '—'}\nMin: ${asText(log.myReality) || '—'}`;
-  }
-  if (log.entryType === 'three_shield') {
-    return [log.shieldWhat, log.shieldFeeling, log.shieldBoundary]
-      .map(asText)
-      .filter(Boolean)
-      .join(' · ');
-  }
-  if (log.entryType === 'body_signal' && log.bodySignals?.length) {
-    const truth = asText(log.truth);
-    return `${log.bodySignals.join(', ')}${truth ? ` — ${truth}` : ''}`;
-  }
-  return asText(log.truth);
-}
-
-function formatLogDate(createdAt: VaultLog['createdAt'] | undefined): string {
-  if (typeof createdAt === 'string') return createdAt.slice(0, 10);
-  if (createdAt == null) return '—';
-  return String(createdAt).slice(0, 10);
-}
 
 function LogRow({
   log,
@@ -62,7 +33,7 @@ function LogRow({
         <p className="text-[10px] uppercase tracking-widest text-text-dim">
           {log.pinned ? 'Ankare · ' : ''}
           {log.category ?? 'allmänt'}
-          {log.entryType ? ` · ${log.entryType}` : ''} · {formatLogDate(log.createdAt)}
+          {log.entryType ? ` · ${log.entryType}` : ''} · {formatVaultLogDate(log.createdAt)}
         </p>
         <button
           type="button"
@@ -73,7 +44,7 @@ function LogRow({
           <FileDown className="h-3 w-3" /> PDF
         </button>
       </div>
-      <p className="mt-1 text-text-muted whitespace-pre-wrap">{formatLogBody(log)}</p>
+      <p className="mt-1 text-text-muted whitespace-pre-wrap">{formatVaultLogBody(log)}</p>
       {log.evidenceUrl && (
         <a
           href={log.evidenceUrl}

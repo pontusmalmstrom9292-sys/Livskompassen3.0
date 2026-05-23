@@ -49,3 +49,5 @@ Full spec: **Gemini-Dashboard-FUNKTIONSLOCK.md**.
 
 - Navigation & första mock: [`2026-05-22-inkorg-ux-navigation.md`](./2026-05-22-inkorg-ux-navigation.md)
 - Prototyp kod: [`2026-05-22-inkorg-gemini-prototype.md`](./2026-05-22-inkorg-gemini-prototype.md)
+- Gemini 3.0 sammanfattning: [`2026-05-23-inkorg-gemini-3-sammanfattning.md`](./2026-05-23-inkorg-gemini-3-sammanfattning.md)
+- Samlade skärmdumpar: [`2026-05-23-inkorg-skarmdumpar.md`](./2026-05-23-inkorg-skarmdumpar.md)
