@@ -23,10 +23,14 @@ import { GroundingExercise } from './GroundingExercise';
 import { ReframingExercise } from './ReframingExercise';
 import { ValuesCompass } from './ValuesCompass';
 import { MabraComplete } from './MabraComplete';
+import { MabraReflectionSection } from './MabraReflectionSection';
+import type { CognitivePlayId } from './CognitivePlaysList';
+import type { EmotionCompassValue } from './EmotionCompass';
 
 export function MabraPage() {
   const user = useStore((s) => s.user);
   const [step, setStep] = useState<MabraFlowStep>('hub');
+  const [sessionMood, setSessionMood] = useState<EmotionCompassValue | null>(null);
   const [hub, setHub] = useState<MabraSymptomHub | null>(null);
   const [durationMinutes, setDurationMinutes] = useState<MabraDurationMinutes>(DEFAULT_MABRA_DURATION);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -43,6 +47,25 @@ export function MabraPage() {
     setAddonBreathing(false);
     setValuesSavedHint(false);
     sessionStartedAt.current = null;
+  }, []);
+
+  const handleCognitivePlay = useCallback((play: CognitivePlayId) => {
+    setAddonBreathing(false);
+    setSaveError(null);
+    if (play === 'grounding') {
+      setHub('find_self');
+      setStep('exercise');
+      return;
+    }
+    if (play === 'breathing') {
+      setHub('panic_rsd');
+      setDurationMinutes(1);
+      setStep('exercise');
+      return;
+    }
+    setHub('self_critical');
+    sessionStartedAt.current = Date.now();
+    setStep('exercise');
   }, []);
 
   const handleHubSelect = (selected: MabraSymptomHub) => {
@@ -125,6 +148,11 @@ export function MabraPage() {
 
         {step === 'hub' && (
           <>
+            <MabraReflectionSection
+              mood={sessionMood}
+              onMoodChange={setSessionMood}
+              onStartPlay={handleCognitivePlay}
+            />
             <SymptomHub
               onSelect={handleHubSelect}
               onOpenValues={() => {

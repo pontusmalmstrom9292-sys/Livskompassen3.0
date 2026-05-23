@@ -60,6 +60,7 @@ function HubTile({ module, size = 'side' }: { module: HubModule; size?: 'side' |
       )}
       {...handlers}
     >
+      <span className="module-hub-tile__glow" aria-hidden />
       <span className="module-hub-tile__icon">
         {showFyren && <FyrenProgressRing progress={progress} />}
         <Icon className="relative z-10 h-5 w-5" strokeWidth={1.75} />
