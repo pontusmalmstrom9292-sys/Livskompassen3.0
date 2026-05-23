@@ -3,23 +3,31 @@
 @tailwind utilities;
 
 :root {
-  --bg: #020617;
-  --surface: #0f172a;
-  --surface-2: #1e293b;
-  --surface-3: #334155;
-  --text: #f1f5f9;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
-  --accent: #fde68a;
-  --accent-secondary: #818cf8;
-  --accent-light: #fef3c7;
-  --accent-glow: rgba(253, 230, 138, 0.15);
+  /* Tema E — Nordic Skymning + Guld (kanon) */
+  --bg-teal-deep: #0a1614;
+  --bg-dusk: #12151f;
+  --compass-disk: #0d3b3b;
+  --text-gold: #d4af37;
+  --text-gold-dim: #9a7b2f;
+  --accent-ember: #f59e0b;
+
+  --bg: var(--bg-teal-deep);
+  --surface: #0f1a18;
+  --surface-2: #142220;
+  --surface-3: #1a2b28;
+  --text: #f5f0e8;
+  --text-muted: #c4bdb4;
+  --text-dim: #a8a29e;
+  --accent: var(--text-gold);
+  --accent-secondary: var(--accent-ember);
+  --accent-light: #e8d48a;
+  --accent-glow: rgba(212, 175, 55, 0.18);
   --success: #2dd4bf;
-  --glass: rgba(15, 23, 42, 0.6);
-  --glass-hero: rgba(15, 23, 42, 0.72);
-  --border: rgba(255, 255, 255, 0.06);
-  --border-strong: rgba(255, 255, 255, 0.1);
-  --warning: #a16207;
+  --glass: rgba(10, 22, 20, 0.75);
+  --glass-hero: rgba(10, 22, 20, 0.82);
+  --border: rgba(212, 175, 55, 0.12);
+  --border-strong: rgba(212, 175, 55, 0.25);
+  --warning: #b45309;
   --danger: #dc2626;
 }
 
@@ -52,7 +60,7 @@
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
-    background: radial-gradient(ellipse 120% 80% at 50% -20%, #0f172a 0%, var(--bg) 55%);
+    background: radial-gradient(ellipse 120% 80% at 50% -20%, var(--bg-dusk) 0%, var(--bg-teal-deep) 55%);
   }
 
   .ambient-bg::before {
@@ -71,11 +79,11 @@
   }
 
   .ambient-blob--gold {
-    background: rgba(253, 230, 138, 0.1);
+    background: rgba(212, 175, 55, 0.12);
   }
 
   .ambient-blob--indigo {
-    background: rgba(129, 140, 248, 0.08);
+    background: rgba(13, 59, 59, 0.35);
   }
 
   .ambient-blob--white {
@@ -181,8 +189,8 @@
 
   .app-header__logo {
     @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl;
-    background: rgba(253, 230, 138, 0.1);
-    border: 1px solid rgba(253, 230, 138, 0.22);
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.22);
     backdrop-filter: blur(10px);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
@@ -211,12 +219,12 @@
   }
 
   .header-glass-btn--active {
-    color: #fde68a;
-    background: rgba(253, 230, 138, 0.14);
-    border-color: rgba(253, 230, 138, 0.38);
+    color: #d4af37;
+    background: rgba(212, 175, 55, 0.14);
+    border-color: rgba(212, 175, 55, 0.38);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 0 20px rgba(253, 230, 138, 0.12);
+      0 0 20px rgba(212, 175, 55, 0.12);
   }
 
   .header-glass-btn--avatar {
@@ -272,8 +280,8 @@
   }
 
   .dock-classic__side--active .dock-classic__side-icon {
-    border-color: rgba(253, 230, 138, 0.28);
-    box-shadow: 0 0 16px rgba(253, 230, 138, 0.08);
+    border-color: rgba(212, 175, 55, 0.28);
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.08);
   }
 
   .dock-classic__side-label {
@@ -300,17 +308,17 @@
       rgba(15, 23, 42, 0.82) 55%,
       rgba(2, 6, 23, 0.75) 100%
     );
-    border: 1px solid rgba(253, 230, 138, 0.22);
+    border: 1px solid rgba(212, 175, 55, 0.22);
     box-shadow:
       0 8px 24px rgba(2, 6, 23, 0.5),
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .dock-classic__center--active .dock-classic__plate {
-    border-color: rgba(253, 230, 138, 0.42);
+    border-color: rgba(212, 175, 55, 0.42);
     box-shadow:
       0 8px 24px rgba(2, 6, 23, 0.5),
-      0 0 24px rgba(253, 230, 138, 0.14);
+      0 0 24px rgba(212, 175, 55, 0.14);
   }
 
   .dock-classic__mark {
@@ -356,7 +364,7 @@
     border-radius: 9999px;
     border: 1px solid rgba(255, 255, 255, 0.05);
     background: transparent;
-    box-shadow: inset 0 0 0 1px rgba(253, 230, 138, 0.04);
+    box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.04);
     pointer-events: none;
   }
 
@@ -434,7 +442,7 @@
   }
 
   .dock-hub-fan--orbit .dock-hub-sat--gold .dock-hub-sat__halo {
-    box-shadow: 0 0 18px rgba(253, 230, 138, 0.28);
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.28);
   }
 
   .dock-hub-fan--orbit .dock-hub-sat--indigo.dock-hub-sat--active .dock-hub-sat__glass {
@@ -527,18 +535,18 @@
   }
 
   .dock-hub-sat--active .dock-hub-sat__glass {
-    border-color: rgba(253, 230, 138, 0.38);
+    border-color: rgba(212, 175, 55, 0.38);
     box-shadow:
       0 10px 28px rgba(2, 6, 23, 0.5),
-      0 0 22px rgba(253, 230, 138, 0.14);
+      0 0 22px rgba(212, 175, 55, 0.14);
   }
 
   .dock-hub-sat--indigo .dock-hub-sat__icon {
-    color: #818cf8;
+    color: #d4af37;
   }
 
   .dock-hub-sat--lavender .dock-hub-sat__icon {
-    color: #a5b4fc;
+    color: #9a7b2f;
   }
 
   .dock-hub-sat--emerald .dock-hub-sat__icon {
@@ -546,7 +554,7 @@
   }
 
   .dock-hub-sat--gold .dock-hub-sat__icon {
-    color: #fde68a;
+    color: #d4af37;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -578,11 +586,11 @@
     );
     backdrop-filter: blur(26px) saturate(170%);
     -webkit-backdrop-filter: blur(26px) saturate(170%);
-    border: 1px solid rgba(253, 230, 138, 0.22);
+    border: 1px solid rgba(212, 175, 55, 0.22);
     box-shadow:
       0 16px 48px rgba(2, 6, 23, 0.62),
       inset 0 1px 0 rgba(255, 255, 255, 0.14),
-      0 0 40px rgba(253, 230, 138, 0.16);
+      0 0 40px rgba(212, 175, 55, 0.16);
   }
 
   .dock-hub-fan--orbit .dock-compass-hub__plate {
@@ -590,7 +598,7 @@
     box-shadow:
       0 8px 24px rgba(2, 6, 23, 0.5),
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 0 24px rgba(253, 230, 138, 0.12);
+      0 0 24px rgba(212, 175, 55, 0.12);
   }
 
   .dock-compass-hub__plate::before {
@@ -602,7 +610,7 @@
       145deg,
       rgba(255, 255, 255, 0.1) 0%,
       transparent 42%,
-      rgba(253, 230, 138, 0.06) 100%
+      rgba(212, 175, 55, 0.06) 100%
     );
     pointer-events: none;
   }
@@ -616,7 +624,7 @@
   .dock-compass-hub__overlay {
     @apply absolute inset-0 z-10 flex items-center justify-center rounded-full;
     background: rgba(2, 6, 23, 0.42);
-    border: 1px solid rgba(253, 230, 138, 0.28);
+    border: 1px solid rgba(212, 175, 55, 0.28);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
   }
@@ -631,33 +639,33 @@
   }
 
   .dock-compass-hub--fyren .dock-compass-hub__plate {
-    border-color: rgba(253, 230, 138, 0.55);
+    border-color: rgba(212, 175, 55, 0.55);
     box-shadow:
       0 16px 48px rgba(2, 6, 23, 0.62),
-      0 0 48px rgba(253, 230, 138, 0.28);
+      0 0 48px rgba(212, 175, 55, 0.28);
   }
 
 
   .dock-compass-hub:hover .dock-compass-hub__plate {
-    border-color: rgba(253, 230, 138, 0.38);
+    border-color: rgba(212, 175, 55, 0.38);
     box-shadow:
       0 18px 52px rgba(2, 6, 23, 0.66),
       inset 0 1px 0 rgba(255, 255, 255, 0.14),
-      0 0 44px rgba(253, 230, 138, 0.22);
+      0 0 44px rgba(212, 175, 55, 0.22);
   }
 
   .dock-compass-hub--active .dock-compass-hub__plate {
-    border-color: rgba(253, 230, 138, 0.42);
+    border-color: rgba(212, 175, 55, 0.42);
     background: rgba(15, 23, 42, 0.68);
     box-shadow:
       0 16px 48px rgba(2, 6, 23, 0.62),
       inset 0 1px 0 rgba(255, 255, 255, 0.14),
-      0 0 40px rgba(253, 230, 138, 0.24);
+      0 0 40px rgba(212, 175, 55, 0.24);
   }
 
   .dock-compass-hub--open .dock-compass-hub__plate {
     transform: scale(1.04);
-    border-color: rgba(253, 230, 138, 0.5);
+    border-color: rgba(212, 175, 55, 0.5);
   }
 
   .dock-hub-fan--orbit .dock-compass-hub__label {
@@ -691,7 +699,7 @@
 
   .module-hub-tile--active {
     @apply border-accent/40 text-accent;
-    background: rgba(253, 230, 138, 0.08);
+    background: rgba(212, 175, 55, 0.08);
   }
 
   .module-hub-tile--center {
@@ -699,9 +707,9 @@
   }
 
   .module-hub-tile--gold.module-hub-tile--active {
-    border-color: rgba(253, 230, 138, 0.4);
-    color: #fde68a;
-    background: rgba(253, 230, 138, 0.08);
+    border-color: rgba(212, 175, 55, 0.4);
+    color: #d4af37;
+    background: rgba(212, 175, 55, 0.08);
   }
 
   .module-hub-tile--indigo.module-hub-tile--active {
@@ -749,7 +757,7 @@
 
   .dock-item--active {
     @apply text-accent;
-    background: rgba(253, 230, 138, 0.08);
+    background: rgba(212, 175, 55, 0.08);
   }
 
   .dock-item__icon-wrap {
@@ -807,14 +815,14 @@
   }
 
   .home-action-chip--active {
-    color: #fde68a;
-    border-color: rgba(253, 230, 138, 0.38);
-    background: rgba(253, 230, 138, 0.1);
-    box-shadow: 0 0 20px rgba(253, 230, 138, 0.1);
+    color: #d4af37;
+    border-color: rgba(212, 175, 55, 0.38);
+    background: rgba(212, 175, 55, 0.1);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
   }
 
   .home-action-chip--gold.home-action-chip--active {
-    color: #fde68a;
+    color: #d4af37;
   }
 
   .home-action-chip--emerald.home-action-chip--active {
@@ -885,7 +893,7 @@
     @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-lg;
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(2, 6, 23, 0.35);
-    color: #fde68a;
+    color: #d4af37;
   }
 
   .elongated-module__text {
@@ -902,9 +910,9 @@
 
   .elongated-module__badge {
     @apply rounded-full px-1.5 py-0.5 text-[9px] uppercase tracking-widest;
-    color: #fde68a;
-    border: 1px solid rgba(253, 230, 138, 0.35);
-    background: rgba(253, 230, 138, 0.08);
+    color: #d4af37;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    background: rgba(212, 175, 55, 0.08);
   }
 
   .elongated-module__lead {
@@ -934,12 +942,12 @@
   }
 
   .elongated-module--indigo {
-    border-color: rgba(129, 140, 248, 0.22);
+    border-color: rgba(212, 175, 55, 0.22);
   }
 
   .elongated-module--indigo .elongated-module__icon {
-    color: #a5b4fc;
-    border-color: rgba(129, 140, 248, 0.2);
+    color: #d4af37;
+    border-color: rgba(212, 175, 55, 0.2);
   }
 
   .elongated-module--lavender {
@@ -954,7 +962,7 @@
   .elongated-module--gold.elongated-module--expanded {
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.06),
-      0 0 20px rgba(253, 230, 138, 0.06);
+      0 0 20px rgba(212, 175, 55, 0.06);
   }
 
   .home-module-stack {
@@ -985,7 +993,7 @@
 
   .widget-record__dot {
     @apply mx-auto block h-3 w-3 rounded-full bg-accent/80;
-    box-shadow: 0 0 12px rgba(253, 230, 138, 0.45);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
     animation: widget-pulse 1.6s ease-in-out infinite;
   }
 
@@ -1011,18 +1019,18 @@
 
   .fyren-widget-bar__prick {
     @apply pointer-events-auto mr-2 h-8 w-2 rounded-full border-0;
-    background: linear-gradient(180deg, rgba(253, 230, 138, 0.55), rgba(212, 175, 55, 0.35));
-    box-shadow: 0 0 12px rgba(253, 230, 138, 0.2);
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.55), rgba(212, 175, 55, 0.35));
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
   }
 
   .fyren-widget-bar__prick--holding {
     background: linear-gradient(
       180deg,
-      rgba(253, 230, 138, 0.85) var(--fyren-hold, 0%),
+      rgba(212, 175, 55, 0.85) var(--fyren-hold, 0%),
       rgba(212, 175, 55, 0.5) var(--fyren-hold, 0%),
       rgba(15, 23, 42, 0.55) var(--fyren-hold, 0%)
     );
-    box-shadow: 0 0 16px rgba(253, 230, 138, 0.45);
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.45);
   }
 
   .widget-record-discreet-overlay {
@@ -1120,17 +1128,17 @@
 
   .module-chip:hover {
     @apply border-accent/30 text-accent;
-    background: rgba(253, 230, 138, 0.08);
+    background: rgba(212, 175, 55, 0.08);
   }
 
   .module-card--gold .module-card__icon {
-    border-color: rgba(253, 230, 138, 0.25);
-    color: #fde68a;
+    border-color: rgba(212, 175, 55, 0.25);
+    color: #d4af37;
   }
 
   .module-card--indigo .module-card__icon {
     border-color: rgba(129, 140, 248, 0.25);
-    color: #818cf8;
+    color: #d4af37;
   }
 
   .module-card--lavender .module-card__icon {
@@ -1288,7 +1296,7 @@
     @apply pointer-events-none absolute -inset-px rounded-3xl opacity-80;
     background: linear-gradient(
       135deg,
-      rgba(253, 230, 138, 0.22) 0%,
+      rgba(212, 175, 55, 0.22) 0%,
       rgba(45, 212, 191, 0.08) 50%,
       transparent 100%
     );

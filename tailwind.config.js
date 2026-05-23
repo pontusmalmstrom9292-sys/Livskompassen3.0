@@ -4,22 +4,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: '#020617',
+        bg: '#0a1614',
         surface: {
-          DEFAULT: '#0f172a',
-          2: '#1e293b',
-          3: '#334155',
+          DEFAULT: '#0f1a18',
+          2: '#142220',
+          3: '#1a2b28',
         },
         text: {
-          DEFAULT: '#F1F5F9',
-          muted: '#94A3B8',
-          dim: '#64748B',
+          DEFAULT: '#f5f0e8',
+          muted: '#c4bdb4',
+          dim: '#a8a29e',
         },
         accent: {
-          DEFAULT: '#FDE68A',
-          light: '#FEF3C7',
-          secondary: '#818CF8',
-          ai: '#6366F1',
+          DEFAULT: '#d4af37',
+          light: '#e8d48a',
+          secondary: '#f59e0b',
+          ai: '#d4af37',
         },
         success: '#2DD4BF',
         border: {
@@ -34,8 +34,8 @@ export default {
         sans: ['Inter', 'sans-serif'],
       },
       boxShadow: {
-        'accent-glow': '0 0 24px rgba(253, 230, 138, 0.15)',
-        'accent-glow-lg': '0 0 48px rgba(253, 230, 138, 0.15)',
+        'accent-glow': '0 0 24px rgba(212, 175, 55, 0.18)',
+        'accent-glow-lg': '0 0 48px rgba(212, 175, 55, 0.18)',
       },
       animation: {
         'spin-slow': 'spin 12s linear infinite',

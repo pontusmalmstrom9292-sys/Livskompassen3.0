@@ -98,6 +98,25 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    match /planning_tasks/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.title.size() <= 200
+        && request.resource.data.status in ['todo', 'waiting', 'done']
+        && request.resource.data.source in ['email', 'school', 'calendar', 'manual', 'authority'];
+      allow update: if isOwner()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.title == resource.data.title
+        && request.resource.data.source == resource.data.source
+        && request.resource.data.status in ['todo', 'waiting', 'done']
+        && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['status', 'microStep', 'dueAt', 'summary']);
+      allow delete: if false;
+    }
+
     match /economy_profiles/{uid} {
       allow read: if isAuthenticated() && request.auth.uid == uid;
       allow create: if isAuthenticated()

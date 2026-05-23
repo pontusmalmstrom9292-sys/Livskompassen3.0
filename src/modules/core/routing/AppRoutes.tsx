@@ -9,6 +9,8 @@ import { HjartatPage } from '../../dagbok';
 import { FamiljenPage } from '../../barnens_livsloggar';
 import { DossierPage } from '../../dossier';
 import { MabraPage } from '../../mabra';
+import { PlaneringPage } from '../../planering';
+import { ProjektHubPage } from '../../projekt';
 
 function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
   const location = useLocation();
@@ -88,6 +90,23 @@ function MainAppRoutes() {
             </AuthGate>
           }
         />
+        <Route
+          path="/planering"
+          element={
+            <AuthGate>
+              <PlaneringPage />
+            </AuthGate>
+          }
+        />
+        <Route
+          path="/projekt"
+          element={
+            <AuthGate>
+              <ProjektHubPage />
+            </AuthGate>
+          }
+        />
+        <Route path="/projekt/ny" element={<Navigate to="/projekt" replace />} />
     </Routes>
   );
 }

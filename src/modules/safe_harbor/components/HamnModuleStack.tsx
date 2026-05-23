@@ -31,13 +31,13 @@ export function HamnModuleStack({ biffPanel }: Props) {
         title="Kompassråd"
         lead={meta.heroTitle}
         icon={Compass}
-        tone="indigo"
+        tone="gold"
         expanded={compassOpen}
         recommended
         onToggle={() => setCompassOpen((o) => !o)}
       >
         <p className="home-module-panel__lead">{meta.heroLead}</p>
-        <p className="rounded-lg border border-indigo-500/25 bg-indigo-500/5 px-3 py-2.5 text-sm text-text-muted">
+        <p className="rounded-lg border border-accent/25 bg-accent/5 px-3 py-2.5 text-sm text-text-muted">
           {advice}
         </p>
         <p className="mt-2 text-[10px] uppercase tracking-widest text-text-dim">
@@ -50,7 +50,7 @@ export function HamnModuleStack({ biffPanel }: Props) {
         title="BIFF · Grey Rock"
         lead="Klistra in meddelande — få kort, affärsmässigt svar"
         icon={Anchor}
-        tone="indigo"
+        tone="gold"
         expanded={biffOpen}
         onToggle={() => setBiffOpen((o) => !o)}
       >

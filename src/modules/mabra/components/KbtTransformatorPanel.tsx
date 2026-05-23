@@ -78,7 +78,6 @@ export function KbtTransformatorPanel() {
 
       {result && (
         <div className="mt-4 grid gap-3">
-          {result.usedLocalFallback toFallback
           {result.usedLocalFallback && (
             <p className="text-xs text-text-dim">
               Lokal vägledning — uppdatera mabraCoach i molnet för AI.
@@ -95,12 +94,12 @@ export function KbtTransformatorPanel() {
               },
             ] as const
           ).map((card) => (
-            <motion.div key={card.key} className="glass-card p-3 text-sm">
+            <div key={card.key} className="glass-card p-3 text-sm">
               <p className="text-[10px] uppercase tracking-widest text-accent/80">{card.title}</p>
-              <p className="mt-1 text-text-muted whitespace-pre-wrap">{card.body}</p>
-            </motion.div>
+              <p className="mt-1 whitespace-pre-wrap text-text-muted">{card.body}</p>
+            </div>
           ))}
-        </motion.div>
+        </div>
       )}
     </BentoCard>
   );

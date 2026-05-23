@@ -6,10 +6,11 @@
 
 ## P1 — BYGGS
 
-- [ ] `/planering` → **Kanban P3** (default — handling fast)
-- [ ] `/planering/inkorg` · `/planering/kalender`
-- [ ] `planning_tasks` + kolumner todo/waiting/done
-- [ ] Sub-nav: Handling · Projekt · Inkorg · Regler
+- [x] `/planering` → **Kanban P3** (default — handling fast)
+- [x] Inkorg-flik (klistra in mejl → uppgift)
+- [x] `planning_tasks` + kolumner todo/waiting/done
+- [x] Sub-nav: Handling · Fokus · Inkorg + länk Projekt
+- [ ] `/planering/kalender` (P2)
 - [ ] Bro `projectId` på uppgifter från [`../projekt/`](../projekt/)
 
 ## P2 — IDÉ

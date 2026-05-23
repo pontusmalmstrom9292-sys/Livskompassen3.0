@@ -1,6 +1,6 @@
 # Designmoduler D1–D29 (mockup → kod)
 
-**Senast:** 2026-05-23 · **Tema:** interim Obsidian Calm (temaval A/B/C/D väntar — se `docs/design/themes/`)
+**Senast:** 2026-05-23 · **Tema:** **E — Nordic Skymning + Guld** (tokens i `src/index.css`)
 
 | ID | Modul | Status | Kod |
 |----|-------|--------|-----|
@@ -26,4 +26,6 @@
 
 **Smoke:** `npm run smoke:design-modules` · **Locked UX:** `npm run smoke:locked-ux`
 
-**Nästa:** användaren väljer tema (A/B/C/D) → tokens i `src/index.css` + `ui-design.mdc`.
+**Planering P1:** `/planering` kanban + inkorg · `planning_tasks` · `/projekt` hub (stub).
+
+**Nästa:** deploy `firestore.rules` · användaren väljer tema (A/B/C/D) → tokens.

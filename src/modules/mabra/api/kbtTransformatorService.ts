@@ -19,10 +19,17 @@ const mabraCoachCallable = httpsCallable<
   { transform?: KbtTransformResult; redirectToSpeglar?: boolean; coach?: string }
 >(functions, 'mabraCoach');
 
+function errorText(err: unknown): string {
+  if (err instanceof FirebaseError) {
+    return `${err.code} ${err.message} ${JSON.stringify(err.customData ?? '')}`;
+  }
+  if (err instanceof Error) return err.message;
+  return String(err);
+}
+
 function isStaleMabraCoachBackend(err: unknown): boolean {
-  if (!(err instanceof FirebaseError)) return false;
-  if (err.code !== 'functions/invalid-argument') return false;
-  return err.message.includes('hubSymptom');
+  const text = errorText(err);
+  return text.includes('hubSymptom') || text.includes('exerciseType');
 }
 
 export async function fetchKbtTransformator(thought: string): Promise<KbtTransformResponse> {
@@ -34,7 +41,7 @@ export async function fetchKbtTransformator(thought: string): Promise<KbtTransfo
     }
     const transform = result.data?.transform;
     if (!transform?.distortion || !transform.clinicalFact || !transform.compassionateRewrite) {
-      throw new Error('Ofullständigt KBT-svar.');
+      return { ...kbtTransformClientFallback(trimmed), usedLocalFallback: true };
     }
     return transform;
   } catch (err) {
