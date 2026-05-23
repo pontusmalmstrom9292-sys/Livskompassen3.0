@@ -7,9 +7,8 @@ import { TimelineEntry } from '../../core/ui/TimelineEntry';
 import { useStore } from '../../core/store';
 import type { TimeEntryRow } from '../../core/types/firestore';
 import {
-  getEconomyProfileExtended,
-  getFlexHoursRemaining,
   getOpenTimeEntry,
+  getWeekFlexDetail,
   getRecentTimeEntries,
   getTodayTimeStatus,
   getWeekTimeCalendar,
@@ -29,6 +28,8 @@ export function StampClockPage() {
     dagensTimmar: 0,
   });
   const [flexLeft, setFlexLeft] = useState(0);
+  const [flexTarget, setFlexTarget] = useState(40);
+  const [weekTypeLabel, setWeekTypeLabel] = useState('');
   const [weekTotal, setWeekTotal] = useState(0);
   const [logs, setLogs] = useState<TimeEntryRow[]>([]);
   const [calendar, setCalendar] = useState<{ namn: string; datum: string; timmar: number; idag: boolean }[]>([]);
@@ -43,18 +44,19 @@ export function StampClockPage() {
     setLoading(true);
     setError(null);
     try {
-      const profile = await getEconomyProfileExtended(user.uid);
-      const [today, week, recent, cal, flex, open] = await Promise.all([
+      const [today, week, recent, cal, flexDetail, open] = await Promise.all([
         getTodayTimeStatus(user.uid),
         getWeekTimeStats(user.uid),
         getRecentTimeEntries(user.uid, 20),
         getWeekTimeCalendar(user.uid),
-        getFlexHoursRemaining(user.uid, profile.flexHoursTarget),
+        getWeekFlexDetail(user.uid),
         getOpenTimeEntry(user.uid),
       ]);
       setStatus(today);
       setWeekTotal(week.total);
-      setFlexLeft(flex);
+      setFlexLeft(flexDetail.flexLeft);
+      setFlexTarget(flexDetail.flexTarget);
+      setWeekTypeLabel(flexDetail.weekTypeLabel);
       setLogs(recent);
       setCalendar(cal.dagar);
       setOpenEntryId(open?.id ?? null);
@@ -113,7 +115,11 @@ export function StampClockPage() {
       {error && <p className="text-sm text-danger">{error}</p>}
 
       <div className="grid grid-cols-2 gap-3">
-        <MetricTile label="Flex kvar" value={`${flexLeft} h`} hint="Denna vecka" />
+        <MetricTile
+          label="Flex kvar"
+          value={`${flexLeft} h`}
+          hint={weekTypeLabel || `Mål ${flexTarget} h`}
+        />
         <MetricTile label="Vecka totalt" value={`${weekTotal} h`} hint="Alla kategorier" />
       </div>
 

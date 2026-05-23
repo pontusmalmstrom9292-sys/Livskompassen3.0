@@ -1,23 +1,19 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Clock, Loader2 } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
-import { MetricTile } from '../../core/ui/MetricTile';
-import { EmptyState } from '../../core/ui/EmptyState';
-import { TimelineEntry } from '../../core/ui/TimelineEntry';
 import { useStore } from '../../core/store';
-import type { TimeEntryRow } from '../../core/types/firestore';
 import {
   getEconomyProfileExtended,
-  getFlexHoursRemaining,
+  getOpenTimeEntry,
   getRecentTimeEntries,
   getTodayTimeStatus,
+  getWeekFlexDetail,
   getWeekTimeStats,
   recordTimeIn,
   recordTimeOut,
 } from '../../core/firebase/timeEconomyFirestore';
-
-const STAMP_CATEGORIES = ['Arbete', 'Semester', 'VAB', 'Sjuk', 'Sjuk dag 15+'] as const;
+import { StampClockPanel } from './StampClockPanel';
+import { WorkWeekSummary } from './WorkWeekSummary';
 
 export function TimeAndPayPanel() {
   const user = useStore((s) => s.user);
@@ -32,38 +28,48 @@ export function TimeAndPayPanel() {
   const [flexLeft, setFlexLeft] = useState(0);
   const [hourlyRate, setHourlyRate] = useState(0);
   const [flexTarget, setFlexTarget] = useState(40);
-  const [logs, setLogs] = useState<TimeEntryRow[]>([]);
+  const [weekTypeLabel, setWeekTypeLabel] = useState('');
+  const [logs, setLogs] = useState<Awaited<ReturnType<typeof getRecentTimeEntries>>>([]);
   const [stampCategory, setStampCategory] = useState<string>('Arbete');
-  const [loading, setLoading] = useState(true);
+  const [openEntryId, setOpenEntryId] = useState<string | null>(null);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const reload = useCallback(async () => {
-    if (!user) return;
-    setLoading(true);
-    setError(null);
-    try {
-      const profile = await getEconomyProfileExtended(user.uid);
-      setHourlyRate(profile.hourlyRateSek);
-      setFlexTarget(profile.flexHoursTarget);
-
-      const [today, week, recent, flex] = await Promise.all([
-        getTodayTimeStatus(user.uid),
-        getWeekTimeStats(user.uid),
-        getRecentTimeEntries(user.uid, 5),
-        getFlexHoursRemaining(user.uid, profile.flexHoursTarget),
-      ]);
-      setStatus(today);
-      setWeekTotal(week.total);
-      setWorkHoursWeek(week.perKat.find((k) => k.kat === 'Arbete')?.timmar ?? week.total);
-      setFlexLeft(flex);
-      setLogs(recent);
-    } catch {
-      setError('Kunde inte läsa tid och lön.');
-    } finally {
-      setLoading(false);
-    }
-  }, [user]);
+  const reload = useCallback(
+    async (opts?: { silent?: boolean }) => {
+      if (!user) return;
+      if (opts?.silent) setRefreshing(true);
+      else setInitialLoading(true);
+      setError(null);
+      try {
+        const profile = await getEconomyProfileExtended(user.uid);
+        setHourlyRate(profile.hourlyRateSek);
+        const [today, week, recent, flexDetail, open] = await Promise.all([
+          getTodayTimeStatus(user.uid),
+          getWeekTimeStats(user.uid),
+          getRecentTimeEntries(user.uid, 5),
+          getWeekFlexDetail(user.uid),
+          getOpenTimeEntry(user.uid),
+        ]);
+        setStatus(today);
+        setWeekTotal(week.total);
+        setFlexTarget(flexDetail.flexTarget);
+        setWeekTypeLabel(flexDetail.weekTypeLabel);
+        setWorkHoursWeek(flexDetail.workHoursWeek);
+        setFlexLeft(flexDetail.flexLeft);
+        setLogs(recent);
+        setOpenEntryId(open?.id ?? null);
+      } catch {
+        setError('Kunde inte läsa tid och lön.');
+      } finally {
+        setInitialLoading(false);
+        setRefreshing(false);
+      }
+    },
+    [user],
+  );
 
   useEffect(() => {
     void reload();
@@ -79,110 +85,85 @@ export function TimeAndPayPanel() {
     setBusy(true);
     setError(null);
     try {
-      if (type === 'IN') await recordTimeIn(user.uid, stampCategory);
-      else await recordTimeOut(user.uid);
-      await reload();
+      if (type === 'IN') {
+        const created = await recordTimeIn(user.uid, stampCategory);
+        setOpenEntryId(created.id);
+        setStatus({
+          instamplad: true,
+          inTid: created.clockIn,
+          kat: created.category,
+          dagensTimmar: 0,
+        });
+      } else {
+        await recordTimeOut(user.uid, openEntryId ?? undefined);
+        setOpenEntryId(null);
+        setStatus((s) => ({
+          ...s,
+          instamplad: false,
+          inTid: '',
+          kat: '',
+        }));
+      }
+      await reload({ silent: true });
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Stämpling misslyckades.');
+      const msg = e instanceof Error ? e.message : 'Stämpling misslyckades.';
+      if (msg.includes('permission') || msg.includes('Permission')) {
+        setError('Sparning nekad — Firestore-regler behöver deployas (time_entries).');
+      } else {
+        setError(msg);
+      }
     } finally {
       setBusy(false);
     }
   };
 
+  const canStampOut = status.instamplad || openEntryId != null;
+  const statusLine = status.instamplad
+    ? `Pågående pass sedan ${status.inTid} (${status.kat})`
+    : `${weekTotal} h denna vecka`;
+
   return (
     <BentoCard
       title="Tid och lön"
       icon={<Clock className="h-4 w-4" />}
-      description="Stämpelklocka — sparas i Firestore."
+      description="Stämpelklocka — Firestore time_entries (inte Kalkylark)."
     >
       {error && <p className="mb-2 text-sm text-danger">{error}</p>}
 
-      {loading ? (
+      {initialLoading ? (
         <p className="flex items-center gap-2 text-sm text-text-dim">
           <Loader2 className="h-4 w-4 animate-spin" /> Laddar…
         </p>
       ) : (
         <>
-          <div className="mb-3 grid grid-cols-2 gap-3">
-            <MetricTile label="Idag" value={`${status.dagensTimmar} h`} hint="Registrerat" />
-            <MetricTile
-              label="Flex kvar"
-              value={`${flexLeft} h`}
-              hint={`Mål ${flexTarget} h/vecka`}
-            />
-          </div>
-
-          {estimatedWeekPay != null && (
-            <p className="mb-3 text-sm text-text-dim">
-              Uppskattad lön denna vecka:{' '}
-              <span className="font-medium text-text">{estimatedWeekPay} kr</span>
-              {' '}({workHoursWeek} h × {hourlyRate} kr/h)
-            </p>
-          )}
-          {hourlyRate <= 0 && (
-            <p className="mb-3 text-xs text-text-dim">
-              Sätt timlön under Profil nedan för uppskattad veckolön.
+          {refreshing && (
+            <p className="mb-2 flex items-center gap-2 text-xs text-text-dim">
+              <Loader2 className="h-3 w-3 animate-spin" /> Uppdaterar…
             </p>
           )}
 
-          <p className="mb-3 text-sm text-text-dim">
-            {status.instamplad
-              ? `Pågående pass sedan ${status.inTid} (${status.kat})`
-              : `${weekTotal} h totalt denna vecka`}
-          </p>
+          <WorkWeekSummary
+            dagensTimmar={status.dagensTimmar}
+            weekTotal={weekTotal}
+            flexLeft={flexLeft}
+            flexTarget={flexTarget}
+            weekTypeLabel={weekTypeLabel}
+            hourlyRate={hourlyRate}
+            workHoursWeek={workHoursWeek}
+            estimatedWeekPay={estimatedWeekPay}
+            statusLine={statusLine}
+          />
 
-          <label className="mb-3 flex flex-col gap-1 text-sm">
-            <span className="text-text-dim">Kategori vid instämpling</span>
-            <select
-              value={stampCategory}
-              onChange={(e) => setStampCategory(e.target.value)}
-              className="input-glass"
-              disabled={status.instamplad || busy}
-            >
-              {STAMP_CATEGORIES.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <div className="mb-4 grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              disabled={busy || status.instamplad}
-              onClick={() => void stamp('IN')}
-              className="btn-pill--primary disabled:opacity-40"
-            >
-              Stämpla in
-            </button>
-            <button
-              type="button"
-              disabled={busy || !status.instamplad}
-              onClick={() => void stamp('UT')}
-              className="btn-pill--ghost disabled:opacity-40"
-            >
-              Stämpla ut
-            </button>
-          </div>
-
-          {logs.length === 0 ? (
-            <EmptyState message="Inga pass ännu." />
-          ) : (
-            <div className="mb-3 space-y-2">
-              {logs.map((log) => (
-                <TimelineEntry
-                  key={log.id}
-                  meta={`${log.date} · ${log.category}`}
-                  body={`${log.clockIn}–${log.clockOut ?? '…'} · ${log.hoursWorked} h`}
-                />
-              ))}
-            </div>
-          )}
-
-          <Link to="/stampla" className="text-xs text-accent-primary hover:underline">
-            Full stämpelvy och veckokalender →
-          </Link>
+          <StampClockPanel
+            instamplad={status.instamplad}
+            stampCategory={stampCategory}
+            onStampCategoryChange={setStampCategory}
+            busy={busy}
+            canStampOut={canStampOut}
+            logs={logs}
+            onStampIn={() => void stamp('IN')}
+            onStampOut={() => void stamp('UT')}
+          />
         </>
       )}
     </BentoCard>

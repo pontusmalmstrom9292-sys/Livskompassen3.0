@@ -1,40 +1,28 @@
 # ekonomi — module plan
 
-**Canonical spec:** [`docs/specs/modules/Ekonomi-SPEC.md`](../../docs/specs/modules/Ekonomi-SPEC.md) · **Context:** [`.context/modules/ekonomi.md`](../../.context/modules/ekonomi.md)
+**Canonical spec:** [`docs/specs/modules/Ekonomi-SPEC.md`](../../docs/specs/modules/Ekonomi-SPEC.md)
 
 ## Overview
 
-Personal economy module: liquidity, transactions, savings goals — aligned with Livskompassen "Life OS" budget tracking.
+Personal economy: Tid / Pengar / Logg i Vardagen. Valv (PIN) för frånvaro. No graphs, no LLM.
 
-## Files
+## UI (Fas 3)
 
-| Path | Role |
-|------|------|
-| `components/EconomyPage.tsx` | SaldoHero + MetricTile + EmptyState placeholder |
+| Flik | Innehåll |
+|------|----------|
+| **Tid** | `TimeAndPayPanel`, länk `/stampla` |
+| **Pengar** | Saldo, period, lönespec, veckopeng, sparmål, profil, WORM-transaktioner |
+| **Logg** | Ledger, fasta räkningar, senaste rader |
 
 ## Status
 
-| Area | Kladd 2026-05-21 | Kod | Status |
-|------|------------------|-----|--------|
-| UI shell (SaldoHero, tiles) | Inga grafer | Ja | **partial** |
-| Veckopeng / matlåda | Notebook | Nej | **planned** |
-| Vinst-knapp | Kladd | Nej | **planned** |
-| Firestore / DC schema | System-plan | Nej | **planned** |
-| Livs-Coachen här | **Avvisat** | Nej | **avvisat** |
+| Area | Status |
+|------|--------|
+| Fas 1 stämpel/flex | **done** |
+| Fas 2 lön/skatt | **done** |
+| Fas 3 Vardagen TID/PENGAR/LOGG | **done** |
 
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
+## Security
 
-## Dependencies
-
-- `core/ui`: `SaldoHero`, `MetricTile`, `BentoCard`, `EmptyState`, `TimelineEntry` (planned for list)
-
-## Next steps
-
-1. Define Firestore schema for transactions/budgets (or Data Connect).
-2. Wire `TimelineEntry` for transaction list; `btn-pill--success` on save.
-3. Optional: export for legal/economy evidence (vault handoff).
-
-## Security notes
-
-- Financial data is PII — uid-scoped rules, no cross-user reads.
-- Consider separate collection from vault logs with explicit user export.
+- uid-scoped rules; WORM på `transactions` och `payslip_snapshots`
+- Frånvaro kvar i Valv (PIN)

@@ -1,23 +1,28 @@
 # Ekonomi
 
-**Route:** `/ekonomi` · **Dock:** Map
+**Route:** `/vardagen?tab=ekonomi` (redirect från `/ekonomi`) · **Dock:** Map
 
-Blueprint: veckopeng, matlåda-knapp, sparmål, inga grafer. Lön/räkningar → Valv (PIN).
+Kognitiv avlastning: veckopeng, matlåda, stämpelklocka, lön — **inga grafer**.
 
-## Status
+## Status (2026-05-23, Fas 0–3)
 
-| Klart | Delvis | Planerat |
-|-------|--------|----------|
-| EconomyPage + WORM transactions | Sparmål `budget_savings` | — |
-| Valv Lön-flik (`valv_ekonomi`) | | |
-| Stämpelklocka `/stampla` | | |
+| Klart |
+|-------|
+| Stämpelklocka + flex (Fas 1) |
+| Lön/skatt/lönespec (Fas 2) |
+| **Vardagen:** flikar **Tid · Pengar · Logg** (Fas 3) |
+| Periodsammanfattning, lönespec-kort, ledger/fasta i Logg |
+| Valv (PIN): frånvaro + tidshistorik |
 
-## Kladd 2026-05-21
+## Firestore
 
-- **Kladd:** Veckopeng, matlåda, "Vinst-knapp" — kognitiv avlastning utan grafer.
-- **Avvisat:** Livs-Coachen här (→ Kunskap/Kompis).
-- **Gap:** Ingen datamodell; Data Connect avvaktar (system-plan).
+| Collection | Syfte |
+|------------|--------|
+| `transactions` | WORM — veckopeng, matlåda |
+| `time_entries` | Stämpelklocka |
+| `economy_ledger` | Utgift/inkomst-logg |
+| `economy_fixed_bills` | Fasta räkningar |
+| `payslip_snapshots` | WORM lönespec |
+| `economy_profiles/{uid}` | Profil |
 
 **Spec:** [`docs/specs/modules/Ekonomi-SPEC.md`](../../docs/specs/modules/Ekonomi-SPEC.md)
-
-Kod: `src/modules/ekonomi/` · Plan: [`src/modules/ekonomi/module_plan.md`](../../src/modules/ekonomi/module_plan.md) · **Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)

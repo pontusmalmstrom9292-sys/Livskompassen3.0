@@ -1,48 +1,9 @@
-# ekonomi
+# Ekonomi-modul
 
-> Budget och likviditet — placeholder utan Firestore-schema ännu.
+Vardagsekonomi + stämpelklocka i Firestore (inte Google Kalkylark).
 
-## Syfte
+- **UI:** `components/EconomyPage.tsx`, `TimeAndPayPanel`, `StampClockPanel`, `WorkWeekSummary`
+- **Data:** `core/firebase/firestore.ts` (transactions), `timeEconomyFirestore.ts` (tid, ledger, sparmål)
+- **Tid:** `utils/workTime.ts` → `core/utils/timeMath.ts`
 
-Veckopeng, matlåda-knapp, inga grafer. Kognitiv avlastning för vardagsekonomi. **Inte** Livs-Coachen (→ Kunskap).
-
-## Route och ingång
-
-| | |
-|---|---|
-| **Route** | `/ekonomi` |
-| **AuthGate** | ja |
-| **Dock** | Map |
-
-## Viktiga filer
-
-| Fil | Roll |
-|-----|------|
-| `components/EconomyPage.tsx` | SaldoHero + MetricTile + EmptyState (placeholder) |
-
-## Data
-
-Ingen Firestore-collection ännu. Data Connect avvaktas (system-plan).
-
-## Beror på
-
-- `core` — SaldoHero, MetricTile, layout, auth
-
-## Kopplingar
-
-Inga datakopplingar till Valv, Dagbok eller Kunskap.
-
-## Minne / AI
-
-| | |
-|---|---|
-| **Permanent lagring** | `transactions`, `economy_profiles` |
-| **RAG / chatt** | Nej |
-| **PDF / samlad export** | — |
-| **Planerat** | — |
-
-## Mer läsning
-
-- [module_plan.md](./module_plan.md)
-- [Kontext (.context)](../../../.context/modules/ekonomi.md)
-- [Ekonomi-SPEC](../../../docs/specs/modules/Ekonomi-SPEC.md)
+Spec: [`docs/specs/modules/Ekonomi-SPEC.md`](../../../docs/specs/modules/Ekonomi-SPEC.md)

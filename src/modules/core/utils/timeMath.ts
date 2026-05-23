@@ -27,7 +27,20 @@ export function formatDateLocal(date = new Date()): string {
 }
 
 export function formatTimeLocal(date = new Date()): string {
-  return TIME_FMT.format(date).replace('.', ':');
+  const parts = TIME_FMT.formatToParts(date);
+  const h = parts.find((p) => p.type === 'hour')?.value ?? '00';
+  const min = parts.find((p) => p.type === 'minute')?.value ?? '00';
+  return `${h.padStart(2, '0')}:${min.padStart(2, '0')}`;
+}
+
+/** Normaliserar "09.30", "9:5" → "09:05" för robust parsning. */
+export function normalizeClock(clock: string): string {
+  const cleaned = clock.trim().replace(/\./g, ':').replace(/\s/g, '');
+  const [hRaw, minRaw = '0'] = cleaned.split(':');
+  const h = Number(hRaw);
+  const min = Number(minRaw);
+  if (Number.isNaN(h) || Number.isNaN(min)) return '00:00';
+  return `${String(h).padStart(2, '0')}:${String(min).padStart(2, '0')}`;
 }
 
 export function parseDateOnly(dateStr: string): Date {
@@ -36,7 +49,8 @@ export function parseDateOnly(dateStr: string): Date {
 }
 
 export function parseClockOnDate(dateStr: string, clock: string): Date {
-  const [h, min] = clock.split(':').map(Number);
+  const normalized = normalizeClock(clock);
+  const [h, min] = normalized.split(':').map(Number);
   const base = parseDateOnly(dateStr);
   base.setHours(h, min, 0, 0);
   return base;

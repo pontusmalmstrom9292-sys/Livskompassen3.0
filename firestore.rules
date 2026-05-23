@@ -163,6 +163,12 @@ service cloud.firestore {
       allow create, update, delete: if false;
     }
 
+    // Lönespec — WORM (skrivs endast av Cloud Functions Admin SDK)
+    match /payslip_snapshots/{docId} {
+      allow read: if isOwner();
+      allow create, update, delete: if false;
+    }
+
     // G9 — EntityProfile / SystemSynapse (WORM metadata, seed via Admin SDK)
     match /entity_profiles/{docId} {
       allow read: if isOwner();

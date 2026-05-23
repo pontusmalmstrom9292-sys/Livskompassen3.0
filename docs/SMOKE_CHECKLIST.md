@@ -28,11 +28,12 @@
 | 18 | Dossier bro | Bevis → flik Dossier → Öppna generator | Navigerar till `/dossier` (canonical) |
 | 19 | Legacy redirect | `/valv`, `/kunskap`, `/barnen` | Redirect till `/dagbok?tab=bevis`, `/vardagen?tab=kunskap`, `/familjen` |
 | 20 | Vault unlock reset | Efter Fyren: Stäng valv / byt till Reflektion | `isVaultUnlocked` false; gate rensad |
+| 21 | Ekonomi | `/vardagen?tab=ekonomi` — flikar Tid/Pengar/Logg; stämpla; logga utgift | `time_entries`, `economy_ledger`, period |
 
 **Prod-smoke:** Kör #11–20 mot [Hosting-URL](https://gen-lang-client-0481875058.web.app) efter deploy.
 
 **Mall för manuell rapport:** [`docs/evaluations/2026-05-23-smoke-manuell.md`](evaluations/2026-05-23-smoke-manuell.md)  
-**Automatiserad aggregat:** `npm run smoke:all` (callables) · `npm run smoke:build` (TypeScript)
+**Automatiserad aggregat:** `npm run smoke:all` (callables + `smoke:ekonomi`) · `npm run smoke:build` (TypeScript) · `npm test` (payTimeRules)
 
 Verifiera dokument i [Firestore Console](https://console.firebase.google.com/project/gen-lang-client-0481875058/firestore).
 

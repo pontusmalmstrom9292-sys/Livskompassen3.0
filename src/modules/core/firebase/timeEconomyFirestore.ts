@@ -18,12 +18,22 @@ import type {
   EconomyFixedBillRow,
   EconomyLedgerRow,
   EconomyLedgerType,
+  PayslipSnapshotRow,
   TimeEntryRow,
 } from '../types/firestore';
 import {
+  computeHoursWorkedOnClockOut,
+  computeWeekFlexDetail,
+} from '../../ekonomi/rules/payTimeRules';
+import {
+  computePeriodEconomySummary,
+  type PeriodEconomySummary,
+} from '../../ekonomi/rules/periodSummary';
+import { getPayslipPeriodForPayday } from '../../ekonomi/rules/generatePayslipCore';
+import type { TimeEntryLike, WeekFlexDetail } from '../../ekonomi/rules/payTimeRules';
+import {
   buildCategoryName,
   categoryBase,
-  computeHoursWorked,
   DEFAULT_BREAK_MINUTES,
   DEFAULT_HELDAG,
   DEFAULT_SCOPE_PERCENT,
@@ -33,8 +43,11 @@ import {
   formatTimeLocal,
   getMonday,
   getWeekNumber,
+  normalizeClock,
   parseDateOnly,
 } from '../utils/timeMath';
+
+export type { WeekFlexDetail, PeriodEconomySummary };
 
 type FirestorePayload = Record<string, unknown>;
 
@@ -55,18 +68,24 @@ function normalizeCreatedAt(value: unknown): string {
 }
 
 function mapTimeEntry(id: string, data: FirestorePayload, userId: string): TimeEntryRow {
+  const clockOutRaw = data.clockOut;
+  const clockOut =
+    clockOutRaw != null && String(clockOutRaw).trim() !== '' ? String(clockOutRaw) : null;
+  const isOpen =
+    data.isOpen === true || (data.isOpen !== false && clockOut == null);
+
   return {
     id,
     userId: String(data.userId ?? userId),
     ownerId: String(data.ownerId ?? userId),
     date: String(data.date ?? ''),
-    clockIn: String(data.clockIn ?? ''),
-    clockOut: data.clockOut != null ? String(data.clockOut) : null,
+    clockIn: normalizeClock(String(data.clockIn ?? '00:00')),
+    clockOut: clockOut ? normalizeClock(clockOut) : null,
     category: String(data.category ?? 'Arbete'),
     breakMinutes: Number(data.breakMinutes ?? DEFAULT_BREAK_MINUTES),
     scopePercent: Number(data.scopePercent ?? DEFAULT_SCOPE_PERCENT),
     hoursWorked: Number(data.hoursWorked ?? 0),
-    isOpen: Boolean(data.isOpen),
+    isOpen,
     createdAt: normalizeCreatedAt(data.createdAt),
     updatedAt: data.updatedAt ? normalizeCreatedAt(data.updatedAt) : undefined,
   };
@@ -84,31 +103,48 @@ export async function recordTimeIn(userId: string, category = 'Arbete') {
   const open = await getOpenTimeEntry(userId);
   if (open) throw new Error('Du är redan instämplad.');
 
+  const profile = await getEconomyProfileExtended(userId);
+  const breakMinutes = profile.defaultBreakMinutes ?? DEFAULT_BREAK_MINUTES;
+
   const now = new Date();
+  const date = formatDateLocal(now);
+  const clockIn = formatTimeLocal(now);
   const ref = collection(db, FIRESTORE_COLLECTIONS.time_entries);
   const docRef = await addDoc(
     ref,
     withUserId(userId, {
-      date: formatDateLocal(now),
-      clockIn: formatTimeLocal(now),
+      date,
+      clockIn,
       clockOut: null,
       category: category.trim() || 'Arbete',
-      breakMinutes: DEFAULT_BREAK_MINUTES,
+      breakMinutes,
       scopePercent: DEFAULT_SCOPE_PERCENT,
       hoursWorked: 0,
       isOpen: true,
     }),
   );
-  return docRef.id;
+  return { id: docRef.id, date, clockIn, category: category.trim() || 'Arbete' };
 }
 
-export async function recordTimeOut(userId: string) {
-  const open = await getOpenTimeEntry(userId);
+export async function recordTimeOut(userId: string, entryId?: string) {
+  let open: TimeEntryRow | null = null;
+
+  if (entryId) {
+    const snap = await getDoc(doc(db, FIRESTORE_COLLECTIONS.time_entries, entryId));
+    if (snap.exists() && snap.data().ownerId === userId) {
+      open = mapTimeEntry(entryId, snap.data() as FirestorePayload, userId);
+      if (!open.isOpen) open = null;
+    }
+  }
+
+  if (!open) {
+    open = await getOpenTimeEntry(userId);
+  }
   if (!open) throw new Error('Ingen pågående stämpling att stämpla ut från.');
 
   const now = new Date();
   const clockOut = formatTimeLocal(now);
-  const hoursWorked = computeHoursWorked({
+  const { breakMinutes, hoursWorked } = computeHoursWorkedOnClockOut({
     date: open.date,
     clockIn: open.clockIn,
     clockOut,
@@ -116,13 +152,17 @@ export async function recordTimeOut(userId: string) {
     scopePercent: open.scopePercent,
   });
 
-  await updateDoc(doc(db, FIRESTORE_COLLECTIONS.time_entries, open.id), {
+  const ref = doc(db, FIRESTORE_COLLECTIONS.time_entries, open.id);
+  await updateDoc(ref, {
+    userId,
+    ownerId: userId,
     clockOut,
+    breakMinutes,
     hoursWorked,
     isOpen: false,
     updatedAt: serverTimestamp(),
   });
-  return { id: open.id, hoursWorked };
+  return { id: open.id, hoursWorked, breakMinutes };
 }
 
 export async function getOpenTimeEntry(userId: string): Promise<TimeEntryRow | null> {
@@ -152,7 +192,13 @@ export async function addManualTimeEntries(
   const ids: string[] = [];
 
   for (const date of dates) {
-    const hoursWorked = computeHoursWorked({ date, clockIn, clockOut, breakMinutes, scopePercent });
+    const { breakMinutes: resolvedBreak, hoursWorked } = computeHoursWorkedOnClockOut({
+      date,
+      clockIn,
+      clockOut,
+      breakMinutes,
+      scopePercent,
+    });
     const docRef = await addDoc(
       ref,
       withUserId(userId, {
@@ -160,7 +206,7 @@ export async function addManualTimeEntries(
         clockIn,
         clockOut,
         category,
-        breakMinutes,
+        breakMinutes: resolvedBreak,
         scopePercent,
         hoursWorked,
         isOpen: false,
@@ -188,7 +234,7 @@ export async function updateTimeEntry(
 
   const date = String(snap.data().date);
   const category = buildCategoryName(patch.category, patch.scopePercent);
-  const hoursWorked = computeHoursWorked({
+  const { breakMinutes, hoursWorked } = computeHoursWorkedOnClockOut({
     date,
     clockIn: patch.clockIn,
     clockOut: patch.clockOut,
@@ -200,7 +246,7 @@ export async function updateTimeEntry(
     category,
     clockIn: patch.clockIn,
     clockOut: patch.clockOut,
-    breakMinutes: patch.breakMinutes,
+    breakMinutes,
     scopePercent: patch.scopePercent,
     hoursWorked,
     isOpen: false,
@@ -296,10 +342,30 @@ export async function getWeekTimeCalendar(userId: string) {
   return { dagar, vecka: getWeekNumber() };
 }
 
-export async function getFlexHoursRemaining(userId: string, flexTarget: number) {
-  const stats = await getWeekTimeStats(userId);
-  const arbete = stats.perKat.find((k) => k.kat === 'Arbete')?.timmar ?? stats.total;
-  return Math.round((flexTarget - arbete) * 10) / 10;
+function toTimeEntryLike(row: TimeEntryRow): TimeEntryLike {
+  return {
+    date: row.date,
+    clockIn: row.clockIn,
+    clockOut: row.clockOut,
+    category: row.category,
+    breakMinutes: row.breakMinutes,
+    scopePercent: row.scopePercent,
+    hoursWorked: row.hoursWorked,
+  };
+}
+
+export async function getWeekFlexDetail(
+  userId: string,
+  referenceDate = new Date(),
+): Promise<WeekFlexDetail> {
+  const rows = await getAllTimeEntries(userId);
+  return computeWeekFlexDetail(rows.map(toTimeEntryLike), referenceDate);
+}
+
+/** @deprecated flexTarget ignoreras — veckomål från payTimeRules (jämn/ojämn ISO-vecka). */
+export async function getFlexHoursRemaining(userId: string, _flexTarget?: number) {
+  const detail = await getWeekFlexDetail(userId);
+  return detail.flexLeft;
 }
 
 // ─── Economy profile (extended) ─────────────────────────────────────────────
@@ -314,6 +380,7 @@ export async function getEconomyProfileExtended(userId: string) {
       monthlySalarySek: 0,
       hourlyRateSek: 0,
       flexHoursTarget: 40,
+      defaultBreakMinutes: DEFAULT_BREAK_MINUTES,
     };
   }
   const data = snap.data();
@@ -323,6 +390,7 @@ export async function getEconomyProfileExtended(userId: string) {
     monthlySalarySek: Number(data.monthlySalarySek ?? 0),
     hourlyRateSek: Number(data.hourlyRateSek ?? 0),
     flexHoursTarget: Number(data.flexHoursTarget ?? 40),
+    defaultBreakMinutes: Number(data.defaultBreakMinutes ?? DEFAULT_BREAK_MINUTES),
   };
 }
 
@@ -334,6 +402,7 @@ export async function setEconomyProfileExtended(
     monthlySalarySek?: number;
     hourlyRateSek?: number;
     flexHoursTarget?: number;
+    defaultBreakMinutes?: number;
   },
 ) {
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
@@ -428,6 +497,37 @@ export async function getMonthEconomySummary(userId: string) {
   };
 }
 
+export async function getPeriodEconomySummary(
+  userId: string,
+  period?: { from: string; to: string },
+): Promise<PeriodEconomySummary> {
+  const [profile, bills, ledger] = await Promise.all([
+    getEconomyProfileExtended(userId),
+    getEconomyFixedBills(userId),
+    getEconomyLedgerEntries(userId, 500),
+  ]);
+
+  const payslipPeriod = period
+    ? {
+        from: period.from,
+        to: period.to,
+        label: `${period.from} – ${period.to}`,
+      }
+    : getPayslipPeriodForPayday();
+
+  return computePeriodEconomySummary({
+    period: payslipPeriod,
+    monthlySalarySek: profile.monthlySalarySek || 0,
+    fixedBillsSumSek: bills.reduce((s, b) => s + b.amountSek, 0),
+    ledgerRows: ledger.map((r) => ({
+      date: r.date,
+      category: r.category,
+      amountSek: r.amountSek,
+      type: r.type,
+    })),
+  });
+}
+
 export async function getEconomyOverview(userId: string) {
   const [profile, bills, ledger] = await Promise.all([
     getEconomyProfileExtended(userId),
@@ -453,6 +553,10 @@ export async function getEconomyOverview(userId: string) {
   const lon = profile.monthlySalarySek;
   const saldo = Math.round(lon - fastaSumma - appUtgifter + appInkomster);
 
+  const flexDetail = computeWeekFlexDetail(
+    (await getAllTimeEntries(userId)).map(toTimeEntryLike),
+  );
+
   return {
     lon,
     fastaSumma: Math.round(fastaSumma),
@@ -460,7 +564,9 @@ export async function getEconomyOverview(userId: string) {
     appUtgifter: Math.round(appUtgifter),
     appInkomster: Math.round(appInkomster),
     rorligaUtgifter: Math.round(rorliga),
-    flex: profile.flexHoursTarget,
+    flex: flexDetail.flexLeft,
+    flexTarget: flexDetail.flexTarget,
+    weekTypeLabel: flexDetail.weekTypeLabel,
     vecka: getWeekNumber(),
   };
 }
@@ -562,4 +668,45 @@ export async function deleteBudgetSaving(userId: string, goalId: string) {
   const snap = await getDoc(ref);
   if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Sparmål hittades inte.');
   await deleteDoc(ref);
+}
+
+// ─── Payslip snapshots (WORM — läs via klient, skriv via generatePayslip) ───
+
+function mapPayslipSnapshot(id: string, data: FirestorePayload, userId: string): PayslipSnapshotRow {
+  return {
+    id,
+    userId: String(data.userId ?? userId),
+    ownerId: String(data.ownerId ?? userId),
+    payslipId: String(data.payslipId ?? id),
+    periodFrom: String(data.periodFrom ?? ''),
+    periodTo: String(data.periodTo ?? ''),
+    periodLabel: String(data.periodLabel ?? ''),
+    baseSalarySek: Number(data.baseSalarySek ?? 0),
+    grossBeforeDeductionsSek: Number(data.grossBeforeDeductionsSek ?? 0),
+    absenceDeductionSek: Number(data.absenceDeductionSek ?? 0),
+    taxableGrossSek: Number(data.taxableGrossSek ?? 0),
+    taxSek: Number(data.taxSek ?? 0),
+    netSalarySek: Number(data.netSalarySek ?? 0),
+    expectedIncomeAdjustmentSek: Number(data.expectedIncomeAdjustmentSek ?? 0),
+    hourlyRateSek: Number(data.hourlyRateSek ?? 0),
+    pbb2026Sek: Number(data.pbb2026Sek ?? 0),
+    karensDaysLast365: Number(data.karensDaysLast365 ?? 0),
+    karensWaived: Boolean(data.karensWaived),
+    absenceLines: Array.isArray(data.absenceLines) ? (data.absenceLines as PayslipSnapshotRow['absenceLines']) : [],
+    taxTable: Number(data.taxTable ?? 32),
+    taxColumn: Number(data.taxColumn ?? 1),
+    isLocked: Boolean(data.isLocked),
+    status: String(data.status ?? 'ready'),
+    createdAt: normalizeCreatedAt(data.createdAt),
+  };
+}
+
+export async function getLatestPayslipSnapshot(userId: string): Promise<PayslipSnapshotRow | null> {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.payslip_snapshots);
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
+  if (snap.empty) return null;
+  const rows = snap.docs
+    .map((d) => mapPayslipSnapshot(d.id, d.data() as FirestorePayload, userId))
+    .sort((a, b) => b.periodTo.localeCompare(a.periodTo));
+  return rows[0] ?? null;
 }

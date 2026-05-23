@@ -30,6 +30,19 @@ Kopiera `.drive-setup.json.example` → `.drive-setup.json` (gitignored) med Dri
 
 Kör från repo-rot. Resultat loggas i [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md).
 
+## Ekonomi / stämpel (Firestore)
+
+| Script | Kommando | Syfte |
+|--------|----------|-------|
+| Import Kalkylark | `node scripts/import-pontus-sheet.mjs --stamp-csv <fil> --dry-run` | Engångsimport `time_entries` från CSV |
+| Import ledger | `node scripts/import-pontus-sheet.mjs --ledger-csv <fil>` | Engångsimport `economy_ledger` |
+| Smoke stämpel | `npm run smoke:ekonomi` | `time_entries` in/ut + cleanup |
+| Enhetstester | `npm test` | `payTimeRules`, `taxTable32`, `payAbsenceRules`, `generatePayslipCore` |
+| Smoke lönespec | `npm run smoke:payslip` | Callable `generatePayslip` + `payslip_snapshots` |
+| Sync till Functions | `node scripts/sync-payroll-to-functions.mjs` | Körs automatiskt vid `cd functions && npm run build` |
+
+Manuell smoke: [`docs/SMOKE_EKONOMI_TID.md`](../docs/SMOKE_EKONOMI_TID.md).
+
 ## Natt-CI (byggpass + SDK)
 
 | Script | Kommando | Syfte |

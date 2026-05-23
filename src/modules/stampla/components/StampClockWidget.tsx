@@ -4,8 +4,8 @@ import { Clock, Loader2 } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { useStore } from '../../core/store';
 import {
-  getEconomyProfileExtended,
-  getFlexHoursRemaining,
+  getOpenTimeEntry,
+  getWeekFlexDetail,
   getTodayTimeStatus,
   recordTimeIn,
   recordTimeOut,
@@ -19,7 +19,9 @@ export function StampClockWidget() {
     kat: '',
     dagensTimmar: 0,
   });
+  const [openEntryId, setOpenEntryId] = useState<string | null>(null);
   const [flexLeft, setFlexLeft] = useState(0);
+  const [flexHint, setFlexHint] = useState('');
   const [loading, setLoading] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -28,12 +30,15 @@ export function StampClockWidget() {
     if (!user) return;
     setLoading(true);
     try {
-      const [today, profile] = await Promise.all([
+      const [today, flexDetail, open] = await Promise.all([
         getTodayTimeStatus(user.uid),
-        getEconomyProfileExtended(user.uid),
+        getWeekFlexDetail(user.uid),
+        getOpenTimeEntry(user.uid),
       ]);
       setStatus(today);
-      setFlexLeft(await getFlexHoursRemaining(user.uid, profile.flexHoursTarget));
+      setOpenEntryId(open?.id ?? null);
+      setFlexLeft(flexDetail.flexLeft);
+      setFlexHint(flexDetail.weekTypeLabel);
     } catch {
       setError('Kunde inte läsa stämpelklocka.');
     } finally {
@@ -45,16 +50,35 @@ export function StampClockWidget() {
     void reload();
   }, [reload]);
 
+  const canStampOut = status.instamplad || openEntryId != null;
+
   const stamp = async (type: 'IN' | 'UT') => {
     if (!user) return;
     setBusy(true);
     setError(null);
     try {
-      if (type === 'IN') await recordTimeIn(user.uid, 'Arbete');
-      else await recordTimeOut(user.uid);
+      if (type === 'IN') {
+        const created = await recordTimeIn(user.uid, 'Arbete');
+        setOpenEntryId(created.id);
+        setStatus({
+          instamplad: true,
+          inTid: created.clockIn,
+          kat: created.category,
+          dagensTimmar: 0,
+        });
+      } else {
+        await recordTimeOut(user.uid, openEntryId ?? undefined);
+        setOpenEntryId(null);
+        setStatus((s) => ({ ...s, instamplad: false, inTid: '', kat: '' }));
+      }
       await reload();
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Stämpling misslyckades.');
+      const msg = e instanceof Error ? e.message : 'Stämpling misslyckades.';
+      setError(
+        msg.includes('permission') || msg.includes('Permission')
+          ? 'Sparning nekad — deploya Firestore-regler (time_entries).'
+          : msg,
+      );
     } finally {
       setBusy(false);
     }
@@ -67,7 +91,7 @@ export function StampClockWidget() {
       description={
         status.instamplad
           ? `Instämplad ${status.inTid} · ${status.kat}`
-          : `${status.dagensTimmar} h idag · ${flexLeft} h flex kvar`
+          : `${status.dagensTimmar} h idag · ${flexLeft} h flex kvar${flexHint ? ` (${flexHint})` : ''}`
       }
     >
       {error && <p className="mb-2 text-sm text-danger">{error}</p>}
@@ -79,7 +103,7 @@ export function StampClockWidget() {
         <div className="grid grid-cols-2 gap-2">
           <button
             type="button"
-            disabled={busy || status.instamplad}
+            disabled={busy || status.instamplad || openEntryId != null}
             onClick={() => void stamp('IN')}
             className="btn-pill--primary text-sm disabled:opacity-40"
           >
@@ -87,7 +111,7 @@ export function StampClockWidget() {
           </button>
           <button
             type="button"
-            disabled={busy || !status.instamplad}
+            disabled={busy || !canStampOut}
             onClick={() => void stamp('UT')}
             className="btn-pill--ghost text-sm disabled:opacity-40"
           >

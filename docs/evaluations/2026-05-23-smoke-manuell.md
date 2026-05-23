@@ -74,6 +74,7 @@ Markera **PASS** / **FAIL** / **SKIP** efter test i appen (telefon rekommenderas
 | 18 | Dossier bro | Bevis → Dossier | | `/dossier` |
 | 19 | Legacy redirect | `/valv`, `/barnen` | | |
 | 20 | Vault unlock reset | Bevis → Reflektion | | |
+| 21 | Ekonomi / stämpel | `/vardagen?tab=ekonomi` + `/stampla` | | `time_entries`; `npm run smoke:ekonomi` |
 
 ---
 

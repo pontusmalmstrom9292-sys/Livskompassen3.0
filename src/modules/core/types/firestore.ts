@@ -176,6 +176,8 @@ export interface EconomyProfile {
   monthlySalarySek?: number;
   hourlyRateSek?: number;
   flexHoursTarget?: number;
+  /** Standard rast (min) vid nya pass — default 30. */
+  defaultBreakMinutes?: number;
   updatedAt?: IsoDateTime;
 }
 
@@ -225,5 +227,43 @@ export const FIRESTORE_COLLECTIONS = {
   economy_fixed_bills: 'economy_fixed_bills',
   budget_savings: 'budget_savings',
   time_entries: 'time_entries',
+  payslip_snapshots: 'payslip_snapshots',
   memory_anchors: 'memory_anchors',
 } as const;
+
+/** WORM — skrivs endast av Cloud Functions (generatePayslip). */
+export interface PayslipSnapshot {
+  userId: string;
+  ownerId: string;
+  payslipId: string;
+  periodFrom: string;
+  periodTo: string;
+  periodLabel: string;
+  baseSalarySek: number;
+  grossBeforeDeductionsSek: number;
+  absenceDeductionSek: number;
+  taxableGrossSek: number;
+  taxSek: number;
+  netSalarySek: number;
+  expectedIncomeAdjustmentSek: number;
+  hourlyRateSek: number;
+  pbb2026Sek: number;
+  karensDaysLast365: number;
+  karensWaived: boolean;
+  absenceLines: Array<{
+    date: string;
+    category: string;
+    description: string;
+    deductionSek: number;
+    expectedIncomeSek: number;
+  }>;
+  taxTable: number;
+  taxColumn: number;
+  isLocked: boolean;
+  status: string;
+  createdAt: IsoDateTime;
+}
+
+export interface PayslipSnapshotRow extends PayslipSnapshot {
+  id: string;
+}

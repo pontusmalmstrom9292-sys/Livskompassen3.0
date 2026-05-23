@@ -19,6 +19,7 @@ export const WORM_COLLECTIONS_NEVER_PURGE = [
   'reality_vault',
   'journal',
   'dossier_snapshots',
+  'payslip_snapshots',
   'kampspar',
   'kb_docs',
   'entity_profiles',
