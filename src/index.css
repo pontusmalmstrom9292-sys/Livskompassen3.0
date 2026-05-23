@@ -1241,11 +1241,11 @@
   }
 
   .cluster-shell__header {
-    @apply space-y-1;
+    @apply space-y-1.5;
   }
 
   .cluster-shell__title {
-    @apply font-display text-2xl font-light text-accent;
+    @apply font-display text-3xl font-medium tracking-tight sm:text-4xl;
   }
 
   .cluster-shell__desc {
@@ -1256,16 +1256,23 @@
     @apply text-xs text-text-dim;
   }
 
+  .cluster-shell--gold .cluster-shell__title {
+    background: linear-gradient(120deg, #fef3c7 0%, #fde68a 42%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
   .cluster-shell--indigo .cluster-shell__title {
-    @apply text-accent-secondary;
+    @apply text-indigo-300;
   }
 
   .cluster-shell--emerald .cluster-shell__title {
-    @apply text-success;
+    @apply text-emerald-300;
   }
 
   .cluster-shell--lavender .cluster-shell__title {
-    @apply text-accent-secondary;
+    @apply text-violet-300;
   }
 
   .cognitive-load-bar {
