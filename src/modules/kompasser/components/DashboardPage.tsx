@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback, type ReactNode } from 'react';
-import { Sun, Check, Loader2 } from 'lucide-react';
+import { Sun, Check, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
+import type { HomeActionId } from '../../core/home/homeActionCategories';
+import { LifeAreaActivationBar } from '../../core/home/LifeAreaActivationBar';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { useStore } from '../../core/store';
 import { getVaultLogs, saveCheckIn } from '../../core/firebase/firestore';
@@ -19,6 +21,8 @@ type DashboardPageProps = {
   embedded?: boolean;
   variant?: 'page' | 'hero' | 'hub';
   onCheckInSaved?: () => void;
+  onLifeAreaActivate?: (id: HomeActionId) => void;
+  onShowFact?: (text: string) => void;
 };
 
 function resetSessionState() {
@@ -35,12 +39,16 @@ export function DashboardPage({
   embedded: _embedded = false,
   variant = 'page',
   onCheckInSaved,
+  onLifeAreaActivate,
+  onShowFact,
 }: DashboardPageProps) {
   const { activeFlow, timeFlow, switchFlow } = useCompassTimeFlow();
   const user = useStore((s) => s.user);
+  const isHub = variant === 'hub';
 
   const [session, setSession] = useState(resetSessionState);
   const [anchorLogs, setAnchorLogs] = useState<(VaultLog & { id: string })[]>([]);
+  const [morningExpanded, setMorningExpanded] = useState(false);
 
   const clearSession = useCallback(() => {
     setSession(resetSessionState());
@@ -49,6 +57,7 @@ export function DashboardPage({
   const handleSwitchFlow = (id: CompassFlow) => {
     switchFlow(id);
     clearSession();
+    setMorningExpanded(false);
   };
 
   useEffect(() => () => clearSession(), [clearSession]);
@@ -134,21 +143,56 @@ export function DashboardPage({
       timeFlow={timeFlow}
       activeFlow={activeFlow}
     >
-      <FlowTabs activeFlow={activeFlow} onSwitch={handleSwitchFlow} />
+      <FlowTabs activeFlow={activeFlow} onSwitch={handleSwitchFlow} compact={isHub} />
 
       {activeFlow === 'morning' && (
-        <div className="space-y-3">
-          <p className="rounded-xl border border-gold/20 bg-gold/5 px-4 py-3 text-sm text-gold/90">
-            {MORNING_ANCHOR}
-          </p>
-          {anchorLogs.length > 0 && (
-            <div className="rounded-xl border border-border-strong bg-surface/30 px-4 py-3">
-              <p className="text-[10px] uppercase tracking-widest text-text-dim mb-2">
+        <div className={isHub ? 'space-y-2' : 'space-y-3'}>
+          {isHub && !morningExpanded ? (
+            <p className="compass-anchor-compact line-clamp-2 text-xs leading-snug text-gold/85">
+              {MORNING_ANCHOR}
+            </p>
+          ) : (
+            <p
+              className={
+                isHub
+                  ? 'rounded-lg border border-gold/20 bg-gold/5 px-3 py-2 text-xs text-gold/90'
+                  : 'rounded-xl border border-gold/20 bg-gold/5 px-4 py-3 text-sm text-gold/90'
+              }
+            >
+              {MORNING_ANCHOR}
+            </p>
+          )}
+          {isHub && (
+            <button
+              type="button"
+              className="compass-expand-btn"
+              onClick={() => setMorningExpanded((v) => !v)}
+            >
+              {morningExpanded ? (
+                <>
+                  <ChevronUp className="h-3 w-3" /> Dölj ankare
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="h-3 w-3" /> Visa ankare & bevis
+                </>
+              )}
+            </button>
+          )}
+          {(!isHub || morningExpanded) && anchorLogs.length > 0 && (
+            <div
+              className={
+                isHub
+                  ? 'rounded-lg border border-border-strong bg-surface/30 px-3 py-2'
+                  : 'rounded-xl border border-border-strong bg-surface/30 px-4 py-3'
+              }
+            >
+              <p className="mb-1.5 text-[10px] uppercase tracking-widest text-text-dim">
                 Sanningens Ankare (read-only)
               </p>
-              <ul className="space-y-2">
+              <ul className="space-y-1">
                 {anchorLogs.map((log) => (
-                  <li key={log.id} className="text-sm text-text-muted line-clamp-2">
+                  <li key={log.id} className="text-xs text-text-muted line-clamp-2">
                     {(log.truth || '').slice(0, 120)}
                     {(log.truth || '').length > 120 ? '…' : ''}
                   </li>
@@ -162,12 +206,22 @@ export function DashboardPage({
       <div className={showParalys ? 'pointer-events-none opacity-20' : ''}>
         {!showParalys && (
           <BentoCard
-            title={variant === 'hero' ? undefined : flow.label}
-            icon={variant === 'hero' ? undefined : <flow.icon className="h-4 w-4" />}
-            className={variant === 'hero' ? 'border-0 bg-transparent p-0 shadow-none' : ''}
+            title={variant === 'hero' || isHub ? undefined : flow.label}
+            icon={variant === 'hero' || isHub ? undefined : <flow.icon className="h-4 w-4" />}
+            className={
+              variant === 'hero' || isHub
+                ? 'border-0 bg-transparent p-0 shadow-none'
+                : ''
+            }
           >
-            <p className="mb-4 text-sm text-text-muted">{flow.question}</p>
-            <div className="space-y-2">
+            <p className={isHub ? 'mb-2 text-xs text-text-muted' : 'mb-4 text-sm text-text-muted'}>
+              {flow.question}
+            </p>
+            <div
+              className={
+                isHub ? 'compass-option-row' : 'space-y-2'
+              }
+            >
               {flow.options.map((opt) => (
                 <button
                   key={opt}
@@ -175,11 +229,17 @@ export function DashboardPage({
                   onClick={() =>
                     setSession((s) => ({ ...s, selected: opt, saved: false, error: null }))
                   }
-                  className={`w-full rounded-xl border px-4 py-3 text-left text-sm transition-colors ${
-                    selected === opt
-                      ? 'border-accent/50 bg-accent/10 text-accent'
-                      : 'border-border-strong text-text-muted hover:border-accent/20'
-                  }`}
+                  className={
+                    isHub
+                      ? `compass-option-chip ${
+                          selected === opt ? 'compass-option-chip--active' : ''
+                        }`
+                      : `w-full rounded-xl border px-4 py-3 text-left text-sm transition-colors ${
+                          selected === opt
+                            ? 'border-accent/50 bg-accent/10 text-accent'
+                            : 'border-border-strong text-text-muted hover:border-accent/20'
+                        }`
+                  }
                 >
                   {opt}
                 </button>
@@ -191,7 +251,7 @@ export function DashboardPage({
                 type="button"
                 onClick={handleSave}
                 disabled={saving || !user}
-                className="btn-pill--success mt-4"
+                className={isHub ? 'btn-pill--success mt-3 text-xs' : 'btn-pill--success mt-4'}
               >
                 {saving ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -251,6 +311,16 @@ export function DashboardPage({
           )}
         </>
       )}
+
+      {isHub && onLifeAreaActivate && onShowFact && activeFlow !== 'evening' && (
+        <LifeAreaActivationBar
+          flow={activeFlow}
+          option={selected}
+          saved={saved}
+          onHomeAction={onLifeAreaActivate}
+          onShowFact={onShowFact}
+        />
+      )}
     </CompassShell>
   );
 }
@@ -294,7 +364,7 @@ function CompassShell({
   }
 
   if (variant === 'hub') {
-    return <div className="space-y-4">{children}</div>;
+    return <div className="space-y-3">{children}</div>;
   }
 
   return <div className="space-y-6">{children}</div>;
@@ -309,9 +379,11 @@ const TIME_LABEL: Record<CompassFlow, string> = {
 function FlowTabs({
   activeFlow,
   onSwitch,
+  compact = false,
 }: {
   activeFlow: CompassFlow;
   onSwitch: (id: CompassFlow) => void;
+  compact?: boolean;
 }) {
   const tabs: { id: CompassFlow; label: string; icon: typeof Sun }[] = [
     ...COMPASS_FLOWS.map((f) => ({ id: f.id, label: f.label, icon: f.icon })),
@@ -319,15 +391,19 @@ function FlowTabs({
   ];
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className={compact ? 'compass-flow-tabs' : 'flex flex-wrap gap-2'}>
       {tabs.map(({ id, label, icon: Icon }) => (
         <button
           key={id}
           type="button"
           onClick={() => onSwitch(id)}
-          className={`flex items-center gap-2 rounded-full border px-4 py-2 text-xs uppercase tracking-widest ${
-            activeFlow === id ? 'chip--active' : 'chip--idle'
-          }`}
+          className={
+            compact
+              ? `compass-flow-tab ${activeFlow === id ? 'compass-flow-tab--active' : ''}`
+              : `flex items-center gap-2 rounded-full border px-4 py-2 text-xs uppercase tracking-widest ${
+                  activeFlow === id ? 'chip--active' : 'chip--idle'
+                }`
+          }
         >
           <Icon className="h-3 w-3" />
           {label}

@@ -684,6 +684,125 @@
     background: rgba(2, 6, 23, 0.35);
   }
 
+  .home-action-hub__kompass-kicker {
+    @apply mb-2 text-[10px] leading-snug text-text-dim;
+  }
+
+  .compass-flow-tabs {
+    @apply flex gap-1.5;
+  }
+
+  .compass-flow-tab {
+    @apply flex flex-1 items-center justify-center gap-1 rounded-lg border border-white/10 px-2 py-1.5 text-[10px] font-medium uppercase tracking-wider text-text-muted transition-colors;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .compass-flow-tab--active {
+    @apply border-accent/40 text-accent;
+    background: rgba(253, 230, 138, 0.1);
+  }
+
+  .compass-anchor-compact {
+    @apply rounded-lg border border-gold/15 bg-gold/5 px-2.5 py-1.5;
+  }
+
+  .compass-expand-btn {
+    @apply inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-accent hover:text-accent/90;
+  }
+
+  .compass-option-row {
+    @apply flex flex-wrap gap-1.5;
+  }
+
+  .compass-option-chip {
+    @apply rounded-lg border border-border-strong px-2.5 py-2 text-left text-xs text-text-muted transition-colors;
+    flex: 1 1 calc(50% - 0.25rem);
+    min-width: 7rem;
+  }
+
+  .compass-option-chip--active {
+    @apply border-accent/50 bg-accent/10 text-accent;
+  }
+
+  .life-area-bar {
+    @apply mt-3 border-t border-white/10 pt-3;
+  }
+
+  .life-area-bar__eyebrow {
+    @apply mb-2 text-[9px] uppercase tracking-widest text-text-dim;
+  }
+
+  .life-area-bar__grid {
+    @apply grid grid-cols-2 gap-2;
+  }
+
+  .life-area-tile {
+    @apply rounded-xl border border-white/10 p-2 transition-opacity;
+    background: rgba(2, 6, 23, 0.4);
+    opacity: 0.55;
+  }
+
+  .life-area-tile--live {
+    opacity: 1;
+  }
+
+  .life-area-tile__head {
+    @apply mb-1.5 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-text-dim;
+  }
+
+  .life-area-tile__name {
+    @apply text-text-muted;
+  }
+
+  .life-area--indigo .life-area-tile__head {
+    color: #a5b4fc;
+  }
+
+  .life-area--lavender .life-area-tile__head {
+    color: #c4b5fd;
+  }
+
+  .life-area--emerald .life-area-tile__head {
+    color: #2dd4bf;
+  }
+
+  .life-area--gold .life-area-tile__head {
+    color: #fde68a;
+  }
+
+  .life-area-tile__action {
+    @apply w-full rounded-lg border border-white/10 px-2 py-1.5 text-left transition-colors hover:border-white/20;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .life-area-tile__action:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  .life-area-tile__action-label {
+    @apply block text-xs font-medium text-text;
+  }
+
+  .life-area-tile__action-hint {
+    @apply block text-[9px] text-text-dim;
+  }
+
+  .life-area-tile__preview {
+    @apply text-[9px] leading-snug text-text-dim;
+  }
+
+  .life-area-tile__more {
+    @apply mt-1.5 flex flex-wrap gap-1;
+  }
+
+  .life-area-tile__chip {
+    @apply rounded-full border border-white/10 px-2 py-0.5 text-[9px] text-text-muted hover:border-accent/30 hover:text-accent;
+  }
+
+  .home-fakta-panel {
+    @apply mb-3 rounded-xl border border-indigo-400/25 bg-indigo-500/10 px-3 py-2.5;
+  }
+
   .home-module-panel__lead {
     @apply mb-3 text-sm text-text-muted;
   }
@@ -810,7 +929,11 @@
   }
 
   .home-page .home-action-hub__panel {
-    @apply rounded-xl p-3;
+    @apply rounded-xl p-2.5;
+  }
+
+  .home-page .home-action-hub__kompass-kicker {
+    @apply mb-1.5;
   }
 
   .home-page .glass-card {
