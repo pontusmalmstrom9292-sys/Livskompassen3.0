@@ -60,7 +60,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto max-w-2xl px-5 pb-48 pt-24">{children}</main>
+      <main className="relative z-10 mx-auto max-w-2xl px-4 pb-36 pt-[4.75rem]">{children}</main>
 
       <FloatingDock />
     </div>
