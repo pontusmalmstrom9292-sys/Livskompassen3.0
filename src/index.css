@@ -703,7 +703,7 @@
   }
 
   .compass-anchor-compact {
-    @apply rounded-lg border border-gold/15 bg-gold/5 px-2.5 py-1.5;
+    @apply rounded-lg border border-accent/20 bg-accent/5 px-2.5 py-1.5;
   }
 
   .compass-expand-btn {

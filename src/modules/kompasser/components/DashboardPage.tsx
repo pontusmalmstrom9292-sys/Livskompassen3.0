@@ -312,7 +312,7 @@ export function DashboardPage({
         </>
       )}
 
-      {isHub && onLifeAreaActivate && onShowFact && activeFlow !== 'evening' && (
+      {isHub && onLifeAreaActivate && onShowFact && (
         <LifeAreaActivationBar
           flow={activeFlow}
           option={selected}
