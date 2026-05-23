@@ -230,8 +230,8 @@
   }
 
   .dock-shell {
-    @apply pointer-events-none fixed bottom-0 left-0 right-0 z-50 px-3 pb-3 pt-2;
-    background: linear-gradient(to top, rgba(2, 6, 23, 0.92), rgba(2, 6, 23, 0));
+    @apply pointer-events-none fixed bottom-0 left-0 right-0 z-50 px-3 pb-2 pt-1;
+    background: linear-gradient(to top, rgba(2, 6, 23, 0.88), rgba(2, 6, 23, 0));
   }
 
   .dock-nav {
@@ -239,17 +239,13 @@
   }
 
   .dock-nav--hub {
-    @apply mx-auto w-fit max-w-none justify-center rounded-[1.75rem] border border-white/10 px-4 py-3;
-    background: linear-gradient(
-      180deg,
-      rgba(15, 23, 42, 0.78) 0%,
-      rgba(2, 6, 23, 0.55) 100%
-    );
-    backdrop-filter: blur(28px) saturate(165%);
-    -webkit-backdrop-filter: blur(28px) saturate(165%);
+    @apply mx-auto w-fit max-w-none justify-center rounded-2xl border border-white/8 px-2 py-1.5;
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
     box-shadow:
-      0 -4px 48px rgba(2, 6, 23, 0.55),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      0 -2px 24px rgba(2, 6, 23, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 
   .dock-orbit-stage {
@@ -260,16 +256,15 @@
     content: '';
     position: absolute;
     left: 50%;
-    top: 58%;
-    width: 14rem;
-    height: 9rem;
+    top: 55%;
+    width: 9.5rem;
+    height: 6rem;
     transform: translate(-50%, -50%);
     border-radius: 9999px;
     background: radial-gradient(
       ellipse at center,
-      rgba(253, 230, 138, 0.1) 0%,
-      rgba(129, 140, 248, 0.06) 38%,
-      transparent 72%
+      rgba(253, 230, 138, 0.06) 0%,
+      transparent 70%
     );
     pointer-events: none;
   }
@@ -295,9 +290,9 @@
 
   .dock-hub-fan--orbit {
     @apply relative;
-    grid-template-columns: 3.15rem 5.15rem 3.15rem;
-    grid-template-rows: 3.15rem 5.15rem 3.15rem;
-    gap: 0.28rem;
+    grid-template-columns: 2.35rem 3.65rem 2.35rem;
+    grid-template-rows: 2.35rem 3.65rem 2.35rem;
+    gap: 0.12rem;
     z-index: 1;
   }
 
@@ -306,41 +301,22 @@
     left: 50%;
     top: 50%;
     z-index: 0;
-    width: 10.75rem;
-    height: 10.75rem;
+    width: 7.75rem;
+    height: 7.75rem;
     transform: translate(-50%, -50%);
     border-radius: 9999px;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    background: radial-gradient(
-      circle at 50% 45%,
-      rgba(255, 255, 255, 0.04) 0%,
-      transparent 62%
-    );
-    box-shadow:
-      inset 0 0 0 1px rgba(253, 230, 138, 0.06),
-      0 0 32px rgba(129, 140, 248, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: transparent;
+    box-shadow: inset 0 0 0 1px rgba(253, 230, 138, 0.04);
     pointer-events: none;
   }
 
   .dock-orbit-stage__spokes {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
+    display: none;
   }
 
   .dock-orbit-stage__spoke {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 1px;
-    height: 2.35rem;
-    transform-origin: center top;
-    background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.16),
-      rgba(255, 255, 255, 0.02)
-    );
+    display: none;
   }
 
   .dock-orbit-stage__spoke--tl {
@@ -360,22 +336,18 @@
   }
 
   .dock-hub-fan--orbit .dock-hub-sat {
-    @apply relative z-[2] opacity-100;
+    @apply relative z-[2] gap-0.5 opacity-100;
     transform: scale(1);
     pointer-events: auto;
   }
 
   .dock-hub-fan--orbit .dock-hub-sat__glass {
-    @apply relative h-11 w-11 overflow-hidden rounded-full;
-    background: linear-gradient(
-      165deg,
-      rgba(30, 41, 59, 0.92) 0%,
-      rgba(15, 23, 42, 0.88) 100%
-    );
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    @apply relative h-9 w-9 overflow-hidden rounded-full;
+    background: rgba(15, 23, 42, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow:
-      0 8px 22px rgba(2, 6, 23, 0.45),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      0 4px 12px rgba(2, 6, 23, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 
   .dock-hub-fan--orbit .dock-hub-sat__halo {
@@ -393,12 +365,11 @@
   }
 
   .dock-hub-fan--orbit .dock-hub-sat__icon {
-    @apply h-[1.05rem] w-[1.05rem];
+    @apply h-[0.9rem] w-[0.9rem];
   }
 
   .dock-hub-fan--orbit .dock-hub-sat__label {
-    @apply max-w-[4rem] text-[8px] font-medium tracking-[0.18em] text-text-muted;
-    text-shadow: 0 1px 6px rgba(2, 6, 23, 0.9);
+    @apply max-w-[3.25rem] text-[6px] font-medium tracking-[0.14em] text-text-dim;
   }
 
   .dock-hub-fan--orbit .dock-hub-sat--indigo .dock-hub-sat__halo {
@@ -439,7 +410,7 @@
   }
 
   .dock-hub-fan--orbit .dock-hub-sat:hover .dock-hub-sat__glass {
-    transform: translateY(-3px) scale(1.04);
+    transform: translateY(-1px) scale(1.03);
   }
 
   .dock-hub-fan .dock-compass-hub {
@@ -537,7 +508,7 @@
   }
 
   .dock-compass-hub {
-    @apply pointer-events-auto flex flex-col items-center gap-2 border-0 bg-transparent p-0 text-accent transition-transform;
+    @apply pointer-events-auto flex flex-col items-center gap-1 border-0 bg-transparent p-0 text-accent transition-transform;
   }
 
   .dock-compass-hub:hover {
@@ -566,7 +537,11 @@
   }
 
   .dock-hub-fan--orbit .dock-compass-hub__plate {
-    @apply h-[5rem] w-[5rem];
+    @apply h-[3.65rem] w-[3.65rem];
+    box-shadow:
+      0 8px 24px rgba(2, 6, 23, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 0 24px rgba(253, 230, 138, 0.12);
   }
 
   .dock-compass-hub__plate::before {
@@ -584,8 +559,8 @@
   }
 
   .dock-compass-hub__mark {
-    @apply absolute inset-3 h-[calc(100%-1.5rem)] w-[calc(100%-1.5rem)] text-accent transition-all duration-300;
-    opacity: 0.9;
+    @apply absolute inset-2 h-[calc(100%-1rem)] w-[calc(100%-1rem)] text-accent transition-all duration-300;
+    opacity: 0.88;
     pointer-events: none;
   }
 
@@ -598,7 +573,7 @@
   }
 
   .dock-compass-hub__icon {
-    @apply h-[1.35rem] w-[1.35rem] text-accent-light;
+    @apply h-[1.1rem] w-[1.1rem] text-accent-light;
   }
 
   .dock-compass-hub--heart .dock-compass-hub__mark {
@@ -613,31 +588,6 @@
       0 0 48px rgba(253, 230, 138, 0.28);
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    .dock-hub-fan--orbit .dock-compass-hub__plate {
-      animation: dock-compass-breathe 5s ease-in-out infinite;
-    }
-
-    .dock-compass-hub--fyren .dock-compass-hub__plate {
-      animation: none;
-    }
-  }
-
-  @keyframes dock-compass-breathe {
-    0%,
-    100% {
-      box-shadow:
-        0 16px 48px rgba(2, 6, 23, 0.62),
-        inset 0 1px 0 rgba(255, 255, 255, 0.14),
-        0 0 36px rgba(253, 230, 138, 0.14);
-    }
-    50% {
-      box-shadow:
-        0 18px 52px rgba(2, 6, 23, 0.66),
-        inset 0 1px 0 rgba(255, 255, 255, 0.14),
-        0 0 44px rgba(253, 230, 138, 0.22);
-    }
-  }
 
   .dock-compass-hub:hover .dock-compass-hub__plate {
     border-color: rgba(253, 230, 138, 0.38);
@@ -662,7 +612,7 @@
   }
 
   .dock-hub-fan--orbit .dock-compass-hub__label {
-    @apply text-[9px] font-semibold tracking-[0.2em] text-accent-light/90;
+    @apply text-[7px] font-medium tracking-[0.16em] text-text-muted;
   }
 
   .module-hub-panel {
