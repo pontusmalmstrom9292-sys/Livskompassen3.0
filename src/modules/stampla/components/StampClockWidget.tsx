@@ -9,6 +9,7 @@ import {
   getTodayTimeStatus,
   recordTimeIn,
   recordTimeOut,
+  repairOpenTimeEntryFlags,
 } from '../../core/firebase/timeEconomyFirestore';
 
 export function StampClockWidget() {
@@ -25,11 +26,14 @@ export function StampClockWidget() {
   const [loading, setLoading] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const reload = useCallback(async () => {
     if (!user) return;
     setLoading(true);
+    setError(null);
     try {
+      await repairOpenTimeEntryFlags(user.uid);
       const [today, flexDetail, open] = await Promise.all([
         getTodayTimeStatus(user.uid),
         getWeekFlexDetail(user.uid),
@@ -50,26 +54,25 @@ export function StampClockWidget() {
     void reload();
   }, [reload]);
 
-  const canStampOut = status.instamplad || openEntryId != null;
+  const isClockedIn = Boolean(openEntryId) || status.instamplad;
 
   const stamp = async (type: 'IN' | 'UT') => {
-    if (!user) return;
+    if (!user) {
+      setError('Logga in för att stämpla.');
+      return;
+    }
     setBusy(true);
     setError(null);
+    setSuccess(null);
     try {
       if (type === 'IN') {
         const created = await recordTimeIn(user.uid, 'Arbete');
         setOpenEntryId(created.id);
-        setStatus({
-          instamplad: true,
-          inTid: created.clockIn,
-          kat: created.category,
-          dagensTimmar: 0,
-        });
+        setSuccess(`Instämplad ${created.clockIn}`);
       } else {
-        await recordTimeOut(user.uid, openEntryId ?? undefined);
+        const result = await recordTimeOut(user.uid, openEntryId ?? undefined);
         setOpenEntryId(null);
-        setStatus((s) => ({ ...s, instamplad: false, inTid: '', kat: '' }));
+        setSuccess(`Utstämplad — ${result.hoursWorked} h räknades`);
       }
       await reload();
     } catch (e) {
@@ -84,42 +87,73 @@ export function StampClockWidget() {
     }
   };
 
+  if (!user) {
+    return (
+      <BentoCard title="Stämpelklocka" icon={<Clock className="h-4 w-4" />}>
+        <p className="text-sm text-text-muted">Logga in under Konto för att stämpla.</p>
+      </BentoCard>
+    );
+  }
+
   return (
     <BentoCard
       title="Stämpelklocka"
       icon={<Clock className="h-4 w-4" />}
       description={
-        status.instamplad
-          ? `Instämplad ${status.inTid} · ${status.kat}`
+        isClockedIn
+          ? `Instämplad sedan ${status.inTid || '—'} · ${status.kat || 'Arbete'}`
           : `${status.dagensTimmar} h idag · ${flexLeft} h flex kvar${flexHint ? ` (${flexHint})` : ''}`
       }
     >
-      {error && <p className="mb-2 text-sm text-danger">{error}</p>}
+      {error && (
+        <p className="mb-2 rounded-lg border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger">
+          {error}
+        </p>
+      )}
+      {success && !error && (
+        <p className="mb-2 rounded-lg border border-success/30 bg-success/10 px-3 py-2 text-sm text-success">
+          {success}
+        </p>
+      )}
+
       {loading ? (
         <p className="flex items-center gap-2 text-sm text-text-dim">
           <Loader2 className="h-4 w-4 animate-spin" /> Laddar…
         </p>
       ) : (
-        <div className="grid grid-cols-2 gap-2">
-          <button
-            type="button"
-            disabled={busy || status.instamplad || openEntryId != null}
-            onClick={() => void stamp('IN')}
-            className="btn-pill--primary text-sm disabled:opacity-40"
-          >
-            Stämpla in
-          </button>
-          <button
-            type="button"
-            disabled={busy || !canStampOut}
-            onClick={() => void stamp('UT')}
-            className="btn-pill--ghost text-sm disabled:opacity-40"
-          >
-            Stämpla ut
-          </button>
-        </div>
+        <>
+          <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">
+            {isClockedIn ? 'Pågående pass' : 'Inte instämplad'}
+          </p>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              disabled={busy || isClockedIn}
+              onClick={() => void stamp('IN')}
+              className="btn-pill--primary text-sm disabled:opacity-40"
+            >
+              {busy && !isClockedIn ? (
+                <Loader2 className="mx-auto h-4 w-4 animate-spin" />
+              ) : (
+                'Stämpla in'
+              )}
+            </button>
+            <button
+              type="button"
+              disabled={busy || !isClockedIn}
+              onClick={() => void stamp('UT')}
+              className="btn-pill--success text-sm disabled:opacity-40"
+            >
+              {busy && isClockedIn ? (
+                <Loader2 className="mx-auto h-4 w-4 animate-spin" />
+              ) : (
+                'Stämpla ut'
+              )}
+            </button>
+          </div>
+        </>
       )}
-      <Link to="/stampla" className="mt-3 inline-block text-xs text-accent-primary hover:underline">
+      <Link to="/stampla" className="mt-3 inline-block text-xs text-accent hover:underline">
         Öppna full vy →
       </Link>
     </BentoCard>

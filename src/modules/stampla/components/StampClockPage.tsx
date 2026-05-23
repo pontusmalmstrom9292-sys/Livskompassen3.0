@@ -15,6 +15,7 @@ import {
   getWeekTimeStats,
   recordTimeIn,
   recordTimeOut,
+  repairOpenTimeEntryFlags,
 } from '../../core/firebase/timeEconomyFirestore';
 
 const CATEGORIES = ['Arbete', 'Semester', 'VAB', 'Sjuk', 'Sjuk dag 15+'] as const;
@@ -44,6 +45,7 @@ export function StampClockPage() {
     setLoading(true);
     setError(null);
     try {
+      await repairOpenTimeEntryFlags(user.uid);
       const [today, week, recent, cal, flexDetail, open] = await Promise.all([
         getTodayTimeStatus(user.uid),
         getWeekTimeStats(user.uid),
@@ -71,7 +73,7 @@ export function StampClockPage() {
     void reload();
   }, [reload]);
 
-  const canStampOut = status.instamplad || openEntryId != null;
+  const isClockedIn = Boolean(openEntryId) || status.instamplad;
 
   const stamp = async (type: 'IN' | 'UT') => {
     if (!user) return;
@@ -132,7 +134,7 @@ export function StampClockPage() {
         {!loading && (
           <>
             <p className="mb-3 text-sm text-text-dim">
-              {status.instamplad
+              {isClockedIn
                 ? `Pågående pass sedan ${status.inTid} (${status.kat})`
                 : `${status.dagensTimmar} h registrerade idag`}
             </p>
@@ -142,7 +144,7 @@ export function StampClockPage() {
                 value={stampCategory}
                 onChange={(e) => setStampCategory(e.target.value)}
                 className="input-glass"
-                disabled={status.instamplad}
+                disabled={isClockedIn}
               >
                 {CATEGORIES.map((c) => (
                   <option key={c} value={c}>
@@ -154,7 +156,7 @@ export function StampClockPage() {
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
-                disabled={busy || status.instamplad || openEntryId != null}
+                disabled={busy || isClockedIn}
                 onClick={() => void stamp('IN')}
                 className="btn-pill--primary disabled:opacity-40"
               >
@@ -162,7 +164,7 @@ export function StampClockPage() {
               </button>
               <button
                 type="button"
-                disabled={busy || !canStampOut}
+                disabled={busy || !isClockedIn}
                 onClick={() => void stamp('UT')}
                 className="btn-pill--ghost disabled:opacity-40"
               >

@@ -71,8 +71,8 @@ function mapTimeEntry(id: string, data: FirestorePayload, userId: string): TimeE
   const clockOutRaw = data.clockOut;
   const clockOut =
     clockOutRaw != null && String(clockOutRaw).trim() !== '' ? String(clockOutRaw) : null;
-  const isOpen =
-    data.isOpen === true || (data.isOpen !== false && clockOut == null);
+  /** Öppet pass = saknar utstämpling (källa: Pontus/äldre rader kan ha fel isOpen-flagga). */
+  const isOpen = clockOut == null;
 
   return {
     id,
@@ -133,7 +133,7 @@ export async function recordTimeOut(userId: string, entryId?: string) {
     const snap = await getDoc(doc(db, FIRESTORE_COLLECTIONS.time_entries, entryId));
     if (snap.exists() && snap.data().ownerId === userId) {
       open = mapTimeEntry(entryId, snap.data() as FirestorePayload, userId);
-      if (!open.isOpen) open = null;
+      if (open.clockOut != null) open = null;
     }
   }
 
@@ -167,7 +167,24 @@ export async function recordTimeOut(userId: string, entryId?: string) {
 
 export async function getOpenTimeEntry(userId: string): Promise<TimeEntryRow | null> {
   const rows = await getAllTimeEntries(userId);
-  return rows.find((r) => r.isOpen) ?? null;
+  return rows.find((r) => r.clockOut == null) ?? null;
+}
+
+/** Stänger öppna pass utan clockOut (äldre data med isOpen:false). */
+export async function repairOpenTimeEntryFlags(userId: string): Promise<number> {
+  const rows = await getAllTimeEntries(userId);
+  const stuck = rows.filter((r) => r.clockOut == null && r.isOpen === false);
+  await Promise.all(
+    stuck.map((r) =>
+      updateDoc(doc(db, FIRESTORE_COLLECTIONS.time_entries, r.id), {
+        userId,
+        ownerId: userId,
+        isOpen: true,
+        updatedAt: serverTimestamp(),
+      }),
+    ),
+  );
+  return stuck.length;
 }
 
 export async function addManualTimeEntries(
@@ -270,7 +287,7 @@ export async function getTodayTimeStatus(userId: string) {
   const today = formatDateLocal();
   const rows = await getAllTimeEntries(userId);
   const todayRows = rows.filter((r) => r.date === today);
-  const open = todayRows.find((r) => r.isOpen) ?? rows.find((r) => r.isOpen) ?? null;
+  const open = rows.find((r) => r.clockOut == null) ?? null;
   const dagensTimmar = todayRows.reduce((sum, r) => sum + r.hoursWorked, 0);
   let senasteUt = '';
   for (const r of todayRows) {
