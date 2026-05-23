@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { BentoCard } from '../../core/ui/BentoCard';
+import { useMemo, useState } from 'react';
+import { clsx } from 'clsx';
 import { EmptyState } from '../../core/ui/EmptyState';
+import { MOOD_OPTIONS } from '../constants/moods';
 import type { JournalEntry } from '../types/journal';
 import { JournalEntryCard } from './JournalEntryCard';
 
@@ -9,18 +10,59 @@ type JournalArchiveProps = {
   pageSize?: number;
 };
 
-export function JournalArchive({ entries, pageSize = 5 }: JournalArchiveProps) {
+export function JournalArchive({ entries, pageSize = 8 }: JournalArchiveProps) {
   const [visibleCount, setVisibleCount] = useState(pageSize);
-  const visible = entries.slice(0, visibleCount);
-  const hasMore = entries.length > visibleCount;
+  const [filter, setFilter] = useState<string | 'all'>('all');
+
+  const filtered = useMemo(() => {
+    if (filter === 'all') return entries;
+    return entries.filter((e) => e.mood === filter);
+  }, [entries, filter]);
+
+  const visible = filtered.slice(0, visibleCount);
+  const hasMore = filtered.length > visibleCount;
 
   return (
-    <BentoCard title="Tidslinje">
+    <section className="dagbok-archive glass-card p-4" aria-label="Tidslinje">
+      <div className="dagbok-archive__head">
+        <h2 className="font-display text-sm font-semibold text-accent">Tidslinje</h2>
+        <p className="text-xs text-text-dim">{entries.length} poster totalt</p>
+      </div>
+
+      <div className="dagbok-archive__filters" role="group" aria-label="Filtrera humör">
+        <button
+          type="button"
+          className={clsx('dagbok-filter-chip', filter === 'all' && 'dagbok-filter-chip--active')}
+          onClick={() => {
+            setFilter('all');
+            setVisibleCount(pageSize);
+          }}
+        >
+          Alla
+        </button>
+        {MOOD_OPTIONS.map((m) => (
+          <button
+            key={m}
+            type="button"
+            className={clsx(
+              'dagbok-filter-chip',
+              filter === m && 'dagbok-filter-chip--active',
+            )}
+            onClick={() => {
+              setFilter(m);
+              setVisibleCount(pageSize);
+            }}
+          >
+            {m}
+          </button>
+        ))}
+      </div>
+
       {visible.length === 0 ? (
-        <EmptyState message="Inga poster ännu." />
+        <EmptyState message={filter === 'all' ? 'Inga poster ännu.' : `Inga poster med humör ${filter}.`} />
       ) : (
         <>
-          <ul className="space-y-3">
+          <ul className="dagbok-archive__list">
             {visible.map((entry) => (
               <JournalEntryCard key={entry.id} entry={entry} />
             ))}
@@ -29,13 +71,13 @@ export function JournalArchive({ entries, pageSize = 5 }: JournalArchiveProps) {
             <button
               type="button"
               onClick={() => setVisibleCount((n) => n + pageSize)}
-              className="btn-pill--ghost mt-4"
+              className="btn-pill--ghost mt-4 w-full text-sm"
             >
-              Visa fler ({entries.length - visibleCount} kvar)
+              Visa fler ({filtered.length - visibleCount} kvar)
             </button>
           )}
         </>
       )}
-    </BentoCard>
+    </section>
   );
 }

@@ -4,6 +4,7 @@ import { useSpeechToText } from '../../core/hooks/useSpeechToText';
 import { MABRA_BRIDGE_LABELS } from '../constants/mabraBridge';
 import { JadeGuardBanner } from '../../core/ui/JadeGuardBanner';
 import { MOOD_REFLECTION_PROMPTS } from '../constants/moodPrompts';
+import { TEXT_STARTERS } from '../constants/moodMeta';
 
 type ReflectionStepProps = {
   text: string;
@@ -51,8 +52,25 @@ export function ReflectionStep({
         Steg 2 — Reflektion{lowEnergyBridge ? ' (valfritt)' : ''}
       </p>
       {mood && MOOD_REFLECTION_PROMPTS[mood] && (
-        <p className="mb-2 text-sm text-text-muted">{MOOD_REFLECTION_PROMPTS[mood]}</p>
+        <p className="dagbok-reflection-prompt">{MOOD_REFLECTION_PROMPTS[mood]}</p>
       )}
+
+      <div className="dagbok-starters" role="group" aria-label="Skrivstöd">
+        {TEXT_STARTERS.map((starter) => (
+          <button
+            key={starter}
+            type="button"
+            className="dagbok-starter-chip"
+            onClick={() => {
+              const cur = text.trim();
+              onTextChange(cur ? `${cur} ${starter}` : starter);
+            }}
+          >
+            {starter}
+          </button>
+        ))}
+      </div>
+
       <textarea
         value={text}
         onChange={(e) => onTextChange(e.target.value)}

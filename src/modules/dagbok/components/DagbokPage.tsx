@@ -1,6 +1,4 @@
-import { BookOpen } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
-import { BentoCard } from '../../core/ui/BentoCard';
 import { useStore } from '../../core/store';
 import {
   isMabraLowEnergyBridge,
@@ -10,6 +8,7 @@ import {
 import { useJournalFlow } from '../hooks/useJournalFlow';
 import { ConfirmStep } from './ConfirmStep';
 import { DagbokStepIndicator } from './DagbokStepIndicator';
+import { DagbokTodayStrip } from './DagbokTodayStrip';
 import { JournalArchive } from './JournalArchive';
 import { MoodStep } from './MoodStep';
 import { ReflectionStep } from './ReflectionStep';
@@ -45,28 +44,68 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
     handleSaveMoodOnly,
     handleSaveWithoutText,
     resetFlow,
+    quickText,
+    setQuickText,
+    handleQuickSave,
+    quickSaved,
   } = useJournalFlow({
     userId: user?.uid,
     mabraHub,
     lowEnergyBridge,
   });
 
-  const flow = (
-    <>
+  if (embedded) {
+    return (
+      <div className="space-y-4 glass-card p-4">
+        <DagbokStepIndicator currentStep={step} />
+        {step === 'mood' && (
+          <MoodStep
+            mood={mood}
+            onMoodChange={setMood}
+            onContinue={() => goToStep('text')}
+            lowEnergyBridge={lowEnergyBridge}
+            saving={saving}
+            onSaveMoodOnly={handleSaveMoodOnly}
+            showMoodOnlyButton
+          />
+        )}
+        {error && <p className="text-sm text-danger">{error}</p>}
+      </div>
+    );
+  }
+
+  return (
+    <div className="dagbok-page space-y-4">
       {lowEnergyBridge && bridgeIntro && step !== 'done' && (
-        <div className="mb-4 rounded-xl border border-border-strong bg-surface/40 px-4 py-3 text-center">
+        <div className="rounded-xl border border-border-strong bg-surface/40 px-4 py-3 text-center">
           <p className="text-sm text-accent">{bridgeIntro.title}</p>
           <p className="mt-1 text-xs text-text-muted">{bridgeIntro.detail}</p>
         </div>
       )}
 
-      {!embedded && (
-        <p className="mb-4 text-sm text-text-muted">
-          Ett fält i taget — minimera sensorisk belastning.
+      {step !== 'done' && user && (
+        <DagbokTodayStrip
+          entries={entries}
+          quickText={quickText}
+          onQuickTextChange={setQuickText}
+          onQuickSave={handleQuickSave}
+          saving={saving}
+        />
+      )}
+
+      {quickSaved && (
+        <p className="rounded-lg border border-success/30 bg-success/10 px-3 py-2 text-sm text-success">
+          Snabb rad sparad.
         </p>
       )}
 
-      <DagbokStepIndicator currentStep={step} />
+      <section className="dagbok-wizard glass-card p-4">
+        <header className="dagbok-wizard__head">
+          <h2 className="font-display text-sm font-semibold text-accent">Ny reflektion</h2>
+          <p className="text-xs text-text-dim">Ett steg i taget — du kan alltid spara tidigt</p>
+        </header>
+
+        <DagbokStepIndicator currentStep={step} />
 
         {step === 'mood' && (
           <MoodStep
@@ -109,21 +148,10 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
           <SavedStep onNewEntry={resetFlow} journalContext={{ mood, text: text.trim() }} />
         )}
 
-      {error && <p className="mt-2 text-sm text-danger">{error}</p>}
-    </>
-  );
+        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+      </section>
 
-  return (
-    <div className="space-y-6">
-      {embedded ? (
-        <BentoCard>{flow}</BentoCard>
-      ) : (
-        <BentoCard title="Dagbok" icon={<BookOpen className="h-4 w-4" />}>
-          {flow}
-        </BentoCard>
-      )}
-
-      {step === 'mood' && !lowEnergyBridge && <JournalArchive entries={entries} />}
+      <JournalArchive entries={entries} />
     </div>
   );
 }

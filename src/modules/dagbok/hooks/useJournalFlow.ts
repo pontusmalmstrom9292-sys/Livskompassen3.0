@@ -23,6 +23,8 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
   const [error, setError] = useState<string | null>(null);
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [weaveToKampspar, setWeaveToKampspar] = useState(false);
+  const [quickText, setQuickText] = useState('');
+  const [quickSaved, setQuickSaved] = useState(false);
 
   const refreshEntries = useCallback(async () => {
     if (!userId) return;
@@ -47,18 +49,23 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
 
   const goToStep = (next: JournalStep) => setStep(next);
 
-  const persistEntry = async (entryText: string, optInKampspar = weaveToKampspar) => {
-    if (!userId || !mood) return;
+  const persistEntry = async (
+    entryText: string,
+    optInKampspar = weaveToKampspar,
+    options?: { moodOverride?: string; keepStep?: boolean },
+  ) => {
+    const entryMood = options?.moodOverride ?? mood;
+    if (!userId || !entryMood) return;
     setSaving(true);
     setError(null);
     try {
-      const id = await saveJournalEntry(userId, { mood, text: entryText });
-      weaveJournalEntry({ journalEntryId: id, mood, text: entryText });
+      const id = await saveJournalEntry(userId, { mood: entryMood, text: entryText });
+      weaveJournalEntry({ journalEntryId: id, mood: entryMood, text: entryText });
       if (optInKampspar) {
-        journalWovenToKampspar({ journalEntryId: id, mood, text: entryText });
+        journalWovenToKampspar({ journalEntryId: id, mood: entryMood, text: entryText });
       }
       setWeaveToKampspar(false);
-      setStep('done');
+      if (!options?.keepStep) setStep('done');
       await refreshEntries();
     } catch {
       setError('Kunde inte spara. Kontrollera Firestore-regler.');
@@ -90,7 +97,17 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     setMood('');
     setText('');
     setWeaveToKampspar(false);
+    setQuickSaved(false);
     setStep(INITIAL_STEP);
+  };
+
+  const handleQuickSave = async () => {
+    const trimmed = quickText.trim();
+    if (!trimmed) return;
+    setQuickSaved(false);
+    await persistEntry(trimmed, false, { moodOverride: 'Lugn', keepStep: true });
+    setQuickText('');
+    setQuickSaved(true);
   };
 
   return {
@@ -110,5 +127,9 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     handleSaveMoodOnly,
     handleSaveWithoutText,
     resetFlow,
+    quickText,
+    setQuickText,
+    handleQuickSave,
+    quickSaved,
   };
 }
