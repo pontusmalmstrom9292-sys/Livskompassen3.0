@@ -3,6 +3,7 @@
 **Package:** `com.livskompassen.app`  
 **Widgets:** WH1 Inspelning · WH2 Anteckning · WH3 Kompass · WH4 Hamn
 
+**Byggguide (svenska, steg för steg + kostnad):** [`docs/design/BUILD-ANDROID-WIDGETS-SV.md`](../docs/design/BUILD-ANDROID-WIDGETS-SV.md)  
 Spec: [`docs/design/ANDROID-WIDGETS-SPEC.md`](../docs/design/ANDROID-WIDGETS-SPEC.md)
 
 ---

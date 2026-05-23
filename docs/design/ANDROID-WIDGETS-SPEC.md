@@ -2,6 +2,8 @@
 
 **Beslut 2026-05-23** · **P1 implementerad** (Capacitor 6 + `AppWidgetProvider`)
 
+**Byggguide:** [`BUILD-ANDROID-WIDGETS-SV.md`](./BUILD-ANDROID-WIDGETS-SV.md) — förutsättningar, `cap:sync`, Android Studio, hemskärm, kostnad.
+
 ---
 
 ## Arkitektur
@@ -73,4 +75,5 @@ iOS WidgetKit: separat spec (ej denna fil).
 
 ## Installera (användare)
 
-Se [`android/README.md`](../../android/README.md).
+- **Steg för steg + gratis/kostnad:** [`BUILD-ANDROID-WIDGETS-SV.md`](./BUILD-ANDROID-WIDGETS-SV.md)
+- **Kort teknisk översikt:** [`android/README.md`](../../android/README.md)
