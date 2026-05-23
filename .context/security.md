@@ -75,6 +75,7 @@ Dessa funktioner får **inte** försvagas eller mockas. Verifiera via [`docs/SMO
 Append-only collections (create ja, update/delete nej):
 
 - `reality_vault`, `journal`, `children_logs`, `dossier_snapshots`, `checkins`, `transactions`
+- `memory_anchors` (F-05): append-only känslomässig återhämtning — **ej** juridisk valvtext; **ej** RAG; kan purgas av retention (ej permanent minne)
 - `kampspar` / `kb_docs`: WORM create; separat retention tillåten (ersätter **inte** barn/valv)
 
 **Retention:** `scheduledRetentionJob` (G5 **done**) — allowlist exkluderar permanent minne.
@@ -145,7 +146,7 @@ Digital Conversation Analysis Pipeline skyddar mot psykologiskt missbruk och pro
 | Fas 3 smoke | Manuell valv + barnen Firestore | **open** |
 | **P0** | `analyzeMessage` client `ragContext` | **done** 2026-05-22 — `fetchKampsparRagBackgroundDocuments` |
 | **P0** | `notifyNewFile` obunden `ownerId` | **done** 2026-05-22 — `DRIVE_INGEST_OWNER_UID` secret; body ignoreras |
-| **P0** | Valv/Barnen client-PIN gate | **open** — server/WebAuthn verify |
+| **P0** | Valv/Barnen client-PIN gate | **open** — plan [`G17-Server-PIN-WebAuthn-GAP.md`](../docs/specs/modules/G17-Server-PIN-WebAuthn-GAP.md); `kör G17` |
 | **P1** | DCAP prompt utanför `sharedRules.ts` | **open** |
 
 Full lista: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md)

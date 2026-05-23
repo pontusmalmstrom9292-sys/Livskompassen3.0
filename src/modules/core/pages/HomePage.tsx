@@ -3,7 +3,6 @@ import { ClusterGrid } from '../ui/ClusterGrid';
 import { AdaptiveMemoryCards } from '../home/AdaptiveMemoryCards';
 import { HomeHeroCompass } from '../home/HomeHeroCompass';
 import { DailyCompassAdvice } from '../home/DailyCompassAdvice';
-import { CognitiveLoadBar } from '../cognitive/CognitiveLoadBar';
 import { useStore } from '../store';
 
 export function HomePage() {
@@ -12,9 +11,6 @@ export function HomePage() {
 
   return (
     <div className="home-page space-y-6">
-      <div className="sm:hidden">
-        <CognitiveLoadBar />
-      </div>
       <DailyCompassAdvice />
       <HomeHeroCompass onCheckInSaved={() => setCardRefreshKey((k) => k + 1)} />
 

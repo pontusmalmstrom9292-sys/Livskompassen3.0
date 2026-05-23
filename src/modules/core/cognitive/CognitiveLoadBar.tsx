@@ -5,7 +5,12 @@ import { KASAM_MODES, type CognitiveLoadLevel } from './cognitiveLoadStorage';
 
 const LEVELS: CognitiveLoadLevel[] = [1, 2, 3, 4, 5];
 
-export function CognitiveLoadBar() {
+type Props = {
+  /** Header på mobil — kompakt rad utan extra etikett. */
+  variant?: 'default' | 'compact';
+};
+
+export function CognitiveLoadBar({ variant = 'default' }: Props) {
   const load = useStore((s) => s.ui.cognitiveLoad);
   const kasamMode = useStore((s) => s.ui.kasamMode);
   const safeMode = useStore((s) => s.ui.safeMode);
@@ -16,6 +21,7 @@ export function CognitiveLoadBar() {
     <div
       className={clsx(
         'cognitive-load-bar',
+        variant === 'compact' && 'cognitive-load-bar--compact',
         safeMode && 'cognitive-load-bar--safe',
       )}
       aria-label="Kognitiv laddning och KASAM-läge"
@@ -25,7 +31,14 @@ export function CognitiveLoadBar() {
           className={clsx('h-3.5 w-3.5', safeMode ? 'text-amber-300' : 'text-text-dim')}
           strokeWidth={1.75}
         />
-        <span className="cognitive-load-bar__label">Belastning</span>
+        <span
+          className={clsx(
+            'cognitive-load-bar__label',
+            variant === 'compact' && 'cognitive-load-bar__label--compact',
+          )}
+        >
+          Belastning
+        </span>
         <div className="cognitive-load-bar__scale" role="group" aria-label="Skala 1 till 5">
           {LEVELS.map((n) => (
             <button

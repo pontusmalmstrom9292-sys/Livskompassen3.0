@@ -103,7 +103,7 @@ export function SafeHarborPage() {
       title="Hamnen"
       description="BIFF · gränser · Grey Rock"
       tone="indigo"
-      hint="Klistra in meddelande — ett steg i taget."
+      hint="10% logistik · 90% beten ignoreras — klistra in, ett steg, inget JADE."
     >
       <div className="space-y-4">
         <BentoCard icon={<Anchor className="h-4 w-4" />}>

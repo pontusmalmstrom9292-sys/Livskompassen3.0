@@ -140,7 +140,7 @@
 | G6 | **done** | E2E kb_docs PASS 2026-05-22 |
 | G7 | **done** | `journal_woven` opt-in 2026-05-22 |
 | G8 | **done** | `childrenLogsQuery` Familjen-RAG 2026-05-22 |
-| G9–G14 | **open** |
+| G9–G14 | **done** | EntityProfile, Inbox, Context Cache, Tidshjulet, Gräns-Arkitekten (2026-05-22) |
 | G15 | **done** | Injection-parity i `.context/security.md` 2026-05-22 |
 | G16 | **done** | RSD-prompt + PA appendix + U5.5 barn routing **done** 2026-05-22 |
 | V1 Genkit | **wait** |

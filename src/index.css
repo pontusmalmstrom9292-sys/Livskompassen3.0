@@ -188,7 +188,7 @@
   }
 
   .app-header__title {
-    @apply truncate font-display text-sm font-semibold uppercase tracking-[0.18em] text-text;
+    @apply hidden truncate font-display text-sm font-semibold uppercase tracking-[0.18em] text-text sm:block;
   }
 
   .app-header__actions {
@@ -836,7 +836,23 @@
   }
 
   .app-header__cognitive {
-    @apply flex-1 max-w-xs mx-2;
+    @apply flex-1 min-w-0 max-w-[11rem] mx-1 sm:max-w-xs sm:mx-2;
+  }
+
+  .cognitive-load-bar--compact {
+    @apply min-w-0 gap-1;
+  }
+
+  .cognitive-load-bar--compact .cognitive-load-bar__label--compact {
+    @apply sr-only;
+  }
+
+  .cognitive-load-bar--compact .cognitive-load-bar__select {
+    @apply max-w-[7.5rem] py-0.5 text-[9px];
+  }
+
+  .cognitive-load-bar--compact .cognitive-load-bar__safe-hint {
+    @apply text-[9px];
   }
 
   .app-layout--safe-mode .ambient-blob {

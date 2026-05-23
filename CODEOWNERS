@@ -1,0 +1,9 @@
+# Sacred / security — kräver explicit review innan merge
+firestore.rules @Livskompassen
+functions/src/sharedRules.ts @Livskompassen
+functions/src/agents/ @Livskompassen
+functions/src/adk/ @Livskompassen
+.context/security.md @Livskompassen
+.context/arkiv-minne.md @Livskompassen
+docs/specs/incoming/Gemini-Dashboard-FUNKTIONSLOCK.md @Livskompassen
+docs/specs/modules/Arkiv-GAP-REGISTER.md @Livskompassen

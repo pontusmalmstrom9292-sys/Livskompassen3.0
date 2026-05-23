@@ -21,6 +21,8 @@
     "smoke:tidshjul": "node scripts/smoke_tidshjul.mjs",
     "smoke:grans": "node scripts/smoke_grans_arkitekt.mjs",
     "smoke:drive": "node scripts/smoke_notify_new_file.mjs",
+    "smoke:all": "npm run smoke:kunskap && npm run smoke:speglar && npm run smoke:dossier && npm run smoke:compass && npm run smoke:mabra && npm run smoke:valv && npm run smoke:journal && npm run smoke:children && npm run smoke:entities && npm run smoke:inbox && npm run smoke:cache && npm run smoke:tidshjul && npm run smoke:grans",
+    "smoke:build": "cd functions && npm run build && cd .. && npm run build",
     "drive:wireup": "node scripts/drive_wireup.mjs",
     "seed:kampspar": "node scripts/seed_kampspar_profile.mjs --verify",
     "deploy:hosting": "npm run build && firebase deploy --only hosting",

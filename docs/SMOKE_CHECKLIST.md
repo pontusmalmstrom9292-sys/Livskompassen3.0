@@ -31,6 +31,9 @@
 
 **Prod-smoke:** Kör #11–20 mot [Hosting-URL](https://gen-lang-client-0481875058.web.app) efter deploy.
 
+**Mall för manuell rapport:** [`docs/evaluations/2026-05-23-smoke-manuell.md`](evaluations/2026-05-23-smoke-manuell.md)  
+**Automatiserad aggregat:** `npm run smoke:all` (callables) · `npm run smoke:build` (TypeScript)
+
 Verifiera dokument i [Firestore Console](https://console.firebase.google.com/project/gen-lang-client-0481875058/firestore).
 
 **G7 opt-in minne:** `/dagbok` → checkbox "Spara i Minne (Kampspár)" vid spara → `kampspar` med `source: journal_woven`. Automatiserat: `npm run smoke:journal`.

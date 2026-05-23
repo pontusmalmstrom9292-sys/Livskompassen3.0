@@ -53,8 +53,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
             <h1 className="app-header__title">Livskompassen</h1>
           </div>
 
-          <div className="app-header__cognitive hidden sm:block">
-            <CognitiveLoadBar />
+          <div className="app-header__cognitive">
+            <CognitiveLoadBar variant="compact" />
           </div>
 
           <div className="app-header__actions">

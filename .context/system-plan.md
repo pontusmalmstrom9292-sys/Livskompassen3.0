@@ -125,7 +125,9 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 - Legacy Python us-central1 — **0 fn kvar** (FAS4 steg 1–5 **done** 2026-05-22)
 - Retention G5 **done**; mock Kampspar G11 **done**
 
-**Planerat (får inte tappas):** G1–G14 i [`Arkiv-GAP-REGISTER.md`](docs/specs/modules/Arkiv-GAP-REGISTER.md). Implementation: `kör [GAP]`.
+**Arkiv G1–G16:** **done** i [`Arkiv-GAP-REGISTER.md`](docs/specs/modules/Arkiv-GAP-REGISTER.md) (2026-05-22). **Öppet:** G17 server/WebAuthn PIN ([`G17-Server-PIN-WebAuthn-GAP.md`](docs/specs/modules/G17-Server-PIN-WebAuthn-GAP.md)) — `kör [GAP]` vid skarp prod.
+
+**UX kanon:** F-01–F-08 **PASS** — [`Gemini-Dashboard-FUNKTIONSLOCK.md`](docs/specs/incoming/Gemini-Dashboard-FUNKTIONSLOCK.md) (synkad 2026-05-23).
 
 **Sacred:** Permanent minne + korrekt silo = Zero Footprint + Kill Switch.
 

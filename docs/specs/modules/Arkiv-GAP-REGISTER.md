@@ -16,6 +16,7 @@
 | G8 | **done** | `childrenLogsQuery` + Mönster-Arkivarien Barnen (2026-05-22) |
 | G9–G14 | **done** | Life OS utbyggnad (2026-05-22) |
 | G15–G16 | **done** | G15 + G16 + U5.5 **done** 2026-05-22 |
+| G17 | **open** | Server/WebAuthn PIN — [`G17-Server-PIN-WebAuthn-GAP.md`](G17-Server-PIN-WebAuthn-GAP.md) |
 | V1 | **wait** | Genkit — ej migrera |
 
 ---
@@ -142,6 +143,15 @@ Live `subscribeKampsparEntries`, ringar Dåtid/Nutid/Framtid via `eventDate`, kl
 |---|---|
 | **Status** | **done** — RSD-prompt + PA appendix + U5.5 `barnenModuleRouteGuard` **done** 2026-05-22 |
 | **Källa** | [`GRUNDER-UTVARDERING-RESULTAT.md`](GRUNDER-UTVARDERING-RESULTAT.md) |
+
+### G17 — Server/WebAuthn PIN (P0 prod)
+
+| | |
+|---|---|
+| **Status** | **open** — plan i [`G17-Server-PIN-WebAuthn-GAP.md`](G17-Server-PIN-WebAuthn-GAP.md) |
+| **Problem** | Valv/Barnen `PinGate` verifierar PIN i klient (`VITE_VAULT_PIN`) |
+| **Åtgärd** | `verifyVaultGate` + `setVaultPin` callables; WebAuthn server verify; smoke |
+| **Trigger** | `kör G17` eller `kör [GAP] G17` |
 
 ---
 
