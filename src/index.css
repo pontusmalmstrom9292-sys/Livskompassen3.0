@@ -17,10 +17,27 @@
   --success: #2dd4bf;
   --glass: rgba(15, 23, 42, 0.6);
   --glass-hero: rgba(15, 23, 42, 0.72);
+  --glass-warm: rgba(18, 16, 28, 0.78);
   --border: rgba(255, 255, 255, 0.06);
   --border-strong: rgba(255, 255, 255, 0.1);
   --warning: #a16207;
   --danger: #dc2626;
+  --tile-gold-surface: #14120e;
+  --tile-gold-surface-hover: #1a1710;
+  --tile-gold-border: rgba(245, 158, 11, 0.22);
+  --tile-gold-glow: rgba(245, 158, 11, 0.14);
+  --tile-indigo-surface: #0d101a;
+  --tile-indigo-surface-hover: #121629;
+  --tile-indigo-border: rgba(99, 102, 241, 0.22);
+  --tile-indigo-glow: rgba(99, 102, 241, 0.14);
+  --tile-lavender-surface: #110d14;
+  --tile-lavender-surface-hover: #16101c;
+  --tile-lavender-border: rgba(167, 139, 250, 0.2);
+  --tile-lavender-glow: rgba(167, 139, 250, 0.12);
+  --tile-emerald-surface: #0d1311;
+  --tile-emerald-surface-hover: #121f1a;
+  --tile-emerald-border: rgba(16, 185, 129, 0.22);
+  --tile-emerald-glow: rgba(16, 185, 129, 0.14);
 }
 
 @layer base {
@@ -71,11 +88,11 @@
   }
 
   .ambient-blob--gold {
-    background: rgba(253, 230, 138, 0.1);
+    background: rgba(245, 158, 11, 0.12);
   }
 
   .ambient-blob--indigo {
-    background: rgba(129, 140, 248, 0.08);
+    background: rgba(99, 102, 241, 0.1);
   }
 
   .ambient-blob--white {
@@ -488,17 +505,86 @@
     pointer-events: auto;
   }
 
+  .dock-hub-fan--orbit .dock-hub-sat__glow {
+    position: absolute;
+    top: -0.35rem;
+    right: -0.35rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 9999px;
+    filter: blur(14px);
+    opacity: 0.55;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--gold .dock-hub-sat__glow {
+    background: var(--tile-gold-glow);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--indigo .dock-hub-sat__glow {
+    background: var(--tile-indigo-glow);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--lavender .dock-hub-sat__glow {
+    background: var(--tile-lavender-glow);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--emerald .dock-hub-sat__glow {
+    background: var(--tile-emerald-glow);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat:hover .dock-hub-sat__glow,
+  .dock-hub-fan--orbit .dock-hub-sat--active .dock-hub-sat__glow {
+    opacity: 0.9;
+  }
+
   .dock-hub-fan--orbit .dock-hub-sat__glass {
     @apply relative h-11 w-11 overflow-hidden rounded-full;
-    background: linear-gradient(
-      165deg,
-      rgba(30, 41, 59, 0.92) 0%,
-      rgba(15, 23, 42, 0.88) 100%
-    );
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     box-shadow:
       0 8px 22px rgba(2, 6, 23, 0.45),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--gold .dock-hub-sat__glass {
+    background: linear-gradient(
+      155deg,
+      rgba(245, 158, 11, 0.16) 0%,
+      var(--tile-gold-surface) 55%,
+      rgba(15, 23, 42, 0.92) 100%
+    );
+    border-color: var(--tile-gold-border);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--indigo .dock-hub-sat__glass {
+    background: linear-gradient(
+      155deg,
+      rgba(99, 102, 241, 0.16) 0%,
+      var(--tile-indigo-surface) 55%,
+      rgba(15, 23, 42, 0.92) 100%
+    );
+    border-color: var(--tile-indigo-border);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--lavender .dock-hub-sat__glass {
+    background: linear-gradient(
+      155deg,
+      rgba(167, 139, 250, 0.14) 0%,
+      var(--tile-lavender-surface) 55%,
+      rgba(15, 23, 42, 0.92) 100%
+    );
+    border-color: var(--tile-lavender-border);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--emerald .dock-hub-sat__glass {
+    background: linear-gradient(
+      155deg,
+      rgba(16, 185, 129, 0.16) 0%,
+      var(--tile-emerald-surface) 55%,
+      rgba(15, 23, 42, 0.92) 100%
+    );
+    border-color: var(--tile-emerald-border);
   }
 
   .dock-hub-fan--orbit .dock-hub-sat__halo {
@@ -605,15 +691,88 @@
     grid-row: 3;
   }
 
+  .dock-hub-sat__glow {
+    position: absolute;
+    top: -0.4rem;
+    right: -0.4rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    filter: blur(16px);
+    opacity: 0.5;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .dock-hub-sat--gold .dock-hub-sat__glow {
+    background: var(--tile-gold-glow);
+  }
+
+  .dock-hub-sat--indigo .dock-hub-sat__glow {
+    background: var(--tile-indigo-glow);
+  }
+
+  .dock-hub-sat--lavender .dock-hub-sat__glow {
+    background: var(--tile-lavender-glow);
+  }
+
+  .dock-hub-sat--emerald .dock-hub-sat__glow {
+    background: var(--tile-emerald-glow);
+  }
+
+  .dock-hub-sat:hover .dock-hub-sat__glow,
+  .dock-hub-sat--active .dock-hub-sat__glow {
+    opacity: 0.85;
+  }
+
   .dock-hub-sat__glass {
-    @apply relative flex h-12 w-12 items-center justify-center rounded-2xl transition-all duration-200;
-    background: rgba(15, 23, 42, 0.72);
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    @apply relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl transition-all duration-200;
+    backdrop-filter: blur(20px) saturate(165%);
+    -webkit-backdrop-filter: blur(20px) saturate(165%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow:
       0 10px 28px rgba(2, 6, 23, 0.5),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .dock-hub-sat--gold .dock-hub-sat__glass {
+    background: linear-gradient(
+      155deg,
+      rgba(245, 158, 11, 0.14) 0%,
+      var(--tile-gold-surface) 50%,
+      rgba(15, 23, 42, 0.88) 100%
+    );
+    border-color: var(--tile-gold-border);
+  }
+
+  .dock-hub-sat--indigo .dock-hub-sat__glass {
+    background: linear-gradient(
+      155deg,
+      rgba(99, 102, 241, 0.14) 0%,
+      var(--tile-indigo-surface) 50%,
+      rgba(15, 23, 42, 0.88) 100%
+    );
+    border-color: var(--tile-indigo-border);
+  }
+
+  .dock-hub-sat--lavender .dock-hub-sat__glass {
+    background: linear-gradient(
+      155deg,
+      rgba(167, 139, 250, 0.12) 0%,
+      var(--tile-lavender-surface) 50%,
+      rgba(15, 23, 42, 0.88) 100%
+    );
+    border-color: var(--tile-lavender-border);
+  }
+
+  .dock-hub-sat--emerald .dock-hub-sat__glass {
+    background: linear-gradient(
+      155deg,
+      rgba(16, 185, 129, 0.14) 0%,
+      var(--tile-emerald-surface) 50%,
+      rgba(15, 23, 42, 0.88) 100%
+    );
+    border-color: var(--tile-emerald-border);
   }
 
   .dock-hub-sat:hover .dock-hub-sat__glass {
@@ -789,11 +948,18 @@
   }
 
   .module-hub-panel {
-    @apply pointer-events-auto mx-auto mb-3 max-w-sm rounded-2xl border border-white/10 p-4;
-    background: rgba(15, 23, 42, 0.92);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    box-shadow: 0 8px 32px rgba(2, 6, 23, 0.55);
+    @apply pointer-events-auto relative mx-auto mb-3 max-w-sm overflow-hidden rounded-2xl border border-white/10 p-4;
+    background: linear-gradient(
+      165deg,
+      rgba(30, 27, 45, 0.94) 0%,
+      var(--glass-warm) 45%,
+      rgba(15, 23, 42, 0.94) 100%
+    );
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    box-shadow:
+      0 8px 32px rgba(2, 6, 23, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 
   .module-hub-panel__grid {
@@ -805,17 +971,85 @@
   }
 
   .module-hub-tile {
-    @apply flex flex-col items-center justify-center gap-1 rounded-xl border border-white/10 px-3 py-3 text-center transition-colors;
-    background: rgba(15, 23, 42, 0.55);
+    @apply relative flex flex-col items-center justify-center gap-1 overflow-hidden rounded-xl border px-3 py-3 text-center transition-all duration-200;
   }
 
-  .module-hub-tile:hover {
-    border-color: rgba(255, 255, 255, 0.18);
+  .module-hub-tile__glow {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 9999px;
+    filter: blur(18px);
+    opacity: 0.45;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .module-hub-tile:hover .module-hub-tile__glow,
+  .module-hub-tile--active .module-hub-tile__glow {
+    opacity: 0.8;
+  }
+
+  .module-hub-tile--gold {
+    background: var(--tile-gold-surface);
+    border-color: var(--tile-gold-border);
+  }
+
+  .module-hub-tile--gold .module-hub-tile__glow {
+    background: var(--tile-gold-glow);
+  }
+
+  .module-hub-tile--gold:hover {
+    background: var(--tile-gold-surface-hover);
+    border-color: rgba(253, 230, 138, 0.32);
+  }
+
+  .module-hub-tile--indigo {
+    background: var(--tile-indigo-surface);
+    border-color: var(--tile-indigo-border);
+  }
+
+  .module-hub-tile--indigo .module-hub-tile__glow {
+    background: var(--tile-indigo-glow);
+  }
+
+  .module-hub-tile--indigo:hover {
+    background: var(--tile-indigo-surface-hover);
+    border-color: rgba(129, 140, 248, 0.32);
+  }
+
+  .module-hub-tile--lavender {
+    background: var(--tile-lavender-surface);
+    border-color: var(--tile-lavender-border);
+  }
+
+  .module-hub-tile--lavender .module-hub-tile__glow {
+    background: var(--tile-lavender-glow);
+  }
+
+  .module-hub-tile--lavender:hover {
+    background: var(--tile-lavender-surface-hover);
+    border-color: rgba(196, 181, 253, 0.3);
+  }
+
+  .module-hub-tile--emerald {
+    background: var(--tile-emerald-surface);
+    border-color: var(--tile-emerald-border);
+  }
+
+  .module-hub-tile--emerald .module-hub-tile__glow {
+    background: var(--tile-emerald-glow);
+  }
+
+  .module-hub-tile--emerald:hover {
+    background: var(--tile-emerald-surface-hover);
+    border-color: rgba(45, 212, 191, 0.32);
   }
 
   .module-hub-tile--active {
-    @apply border-accent/40 text-accent;
-    background: rgba(253, 230, 138, 0.08);
+    @apply text-accent;
   }
 
   .module-hub-tile--center {
@@ -1071,7 +1305,7 @@
   }
 
   .compass-option-tile:hover {
-    @apply border-white/22;
+    @apply border-white/20;
     transform: translateY(-1px);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.08),
@@ -1931,6 +2165,94 @@
   .dagbok-starter-chip {
     @apply rounded-full border border-white/10 px-2.5 py-1 text-[10px] text-text-muted transition-colors hover:border-accent-secondary/30 hover:text-accent-secondary;
     background: rgba(255, 255, 255, 0.04);
+  }
+
+  /* Måbra — F-V10 frågekort + känslokompass (Obsidian Calm, varm mörk) */
+  .mabra-reflection-kicker {
+    @apply mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent/90;
+  }
+
+  .mabra-reflection-block {
+    @apply rounded-2xl border border-amber-500/15 p-4;
+    background: linear-gradient(165deg, rgba(15, 23, 42, 0.92) 0%, rgba(2, 6, 23, 0.88) 100%);
+    box-shadow: 0 0 32px rgba(253, 230, 138, 0.04);
+  }
+
+  .mabra-compass-grid {
+    @apply grid grid-cols-3 gap-2;
+  }
+
+  .mabra-compass-card {
+    @apply flex flex-col items-center gap-2 rounded-xl border border-white/10 px-2 py-3 transition-all;
+    background: rgba(2, 6, 23, 0.45);
+  }
+
+  .mabra-compass-card:hover {
+    @apply border-amber-500/25;
+  }
+
+  .mabra-compass-card--active {
+    @apply border-accent/45 bg-accent/10;
+    box-shadow: 0 0 20px rgba(253, 230, 138, 0.12);
+  }
+
+  .mabra-compass-card__label {
+    @apply text-[10px] font-semibold tracking-wider text-text-muted;
+  }
+
+  .mabra-compass--heavy {
+    color: #94a3b8;
+  }
+
+  .mabra-compass--neutral {
+    color: #fbbf24;
+  }
+
+  .mabra-compass--light {
+    color: #fde68a;
+  }
+
+  .mabra-card-refresh {
+    @apply flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-text-muted transition-colors hover:border-accent/35 hover:text-accent;
+    background: rgba(2, 6, 23, 0.5);
+  }
+
+  .mabra-flip-scene {
+    @apply block w-full cursor-pointer border-0 bg-transparent p-0 text-left;
+    perspective: 1000px;
+  }
+
+  .mabra-flip-inner {
+    @apply relative min-h-[9.5rem] w-full transition-transform duration-500;
+    transform-style: preserve-3d;
+  }
+
+  .mabra-flip-inner--flipped {
+    transform: rotateY(180deg);
+  }
+
+  .mabra-flip-face {
+    @apply absolute inset-0 flex flex-col items-center justify-center rounded-xl border border-amber-500/20 px-5 py-6;
+    backface-visibility: hidden;
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.55) 0%, rgba(15, 23, 42, 0.85) 100%);
+  }
+
+  .mabra-flip-face--front {
+    transform: rotateY(180deg);
+  }
+
+  .mabra-plays-list {
+    @apply space-y-2;
+  }
+
+  .mabra-play-row {
+    @apply flex w-full items-center gap-3 rounded-xl border border-white/10 px-3 py-3 text-left transition-colors hover:border-accent-secondary/30;
+    background: rgba(2, 6, 23, 0.4);
+  }
+
+  .mabra-play-go {
+    @apply inline-flex shrink-0 items-center gap-0.5 rounded-full border border-accent-secondary/40 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-accent-secondary;
+    background: rgba(129, 140, 248, 0.08);
   }
 
   .dagbok-archive__head {
