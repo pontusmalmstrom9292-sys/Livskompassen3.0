@@ -23,6 +23,7 @@ Historik: [`docs/archive/OVERNIGHT_REPORT.md`](archive/OVERNIGHT_REPORT.md).
 | Kommando | Kräver | Beskrivning |
 |----------|--------|-------------|
 | `npm run natt-ci` | ADC för smoke | Deterministisk kedja — [`run-byggpass.mjs`](../scripts/natt-ci/run-byggpass.mjs) |
+| `npm run natt-ci:overnight` | ADC för smoke | Byggpass + `smoke:all` → logg i `docs/evaluations/overnight-YYYY-MM-DD-log.txt` |
 | `npm run natt-ci:agent` | `CURSOR_API_KEY` + ADC | Byggpass + SDK `Agent.prompt` review |
 
 **Första gång:** `cd scripts/natt-ci && npm install`

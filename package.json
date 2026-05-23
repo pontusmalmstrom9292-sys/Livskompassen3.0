@@ -28,6 +28,7 @@
     "deploy:hosting": "npm run build && firebase deploy --only hosting",
     "deploy:hosting:preview": "node scripts/deploy-hosting-preview.mjs",
     "natt-ci": "node scripts/natt-ci/run-byggpass.mjs",
+    "natt-ci:overnight": "bash scripts/natt-ci/run-overnight.sh",
     "natt-ci:agent": "node scripts/natt-ci/run-agent-review.mjs"
   },
   "dependencies": {
