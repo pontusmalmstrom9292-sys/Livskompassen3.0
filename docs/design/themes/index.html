@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Livskompassen — Design System v2 (4 teman)</title>
+  <style>
+    :root {
+      --bg: #020617;
+      --surface: #0f172a;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #818cf8;
+      --gold: #d4af37;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: linear-gradient(180deg, var(--bg), var(--surface));
+      color: var(--text);
+      line-height: 1.5;
+    }
+    header {
+      padding: 2rem 1.5rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    header h1 { font-size: 1.5rem; font-weight: 600; margin: 0 0 0.5rem; }
+    header p { color: var(--muted); max-width: 42rem; margin: 0 auto; font-size: 0.95rem; }
+    .themes-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      background: rgba(2,6,23,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .themes-nav a {
+      color: var(--text);
+      text-decoration: none;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 0.85rem;
+    }
+    .themes-nav a:hover { border-color: var(--accent); }
+    .themes-nav a.a { border-color: var(--gold); color: var(--gold); }
+    section.theme {
+      padding: 2rem 1rem 3rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    section.theme h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.25rem;
+    }
+    section.theme .desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    figure {
+      margin: 0;
+      background: rgba(15,23,42,0.6);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+    figure img {
+      width: 100%;
+      height: auto;
+      display: block;
+      cursor: zoom-in;
+    }
+    figcaption {
+      padding: 0.75rem 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    figcaption strong { color: var(--text); display: block; margin-bottom: 0.15rem; }
+    .compare {
+      padding: 2rem 1rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .compare h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+    .row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 1100px) {
+      .row { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .row { grid-template-columns: repeat(2, 1fr); }
+    }
+    .row h3 {
+      grid-column: 1 / -1;
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin: 0 0 0.5rem;
+      font-weight: 500;
+    }
+    .row figure { border-radius: 0.75rem; }
+    .row figcaption { display: none; }
+    .row img { aspect-ratio: 9/16; object-fit: cover; object-position: top; }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    dialog {
+      border: none;
+      background: transparent;
+      max-width: 95vw;
+      padding: 0;
+    }
+    dialog img { max-height: 90vh; border-radius: 1rem; }
+    dialog::backdrop { background: rgba(0,0,0,0.85); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Livskompassen — Design System v2</h1>
+    <p>35 mockups · teman A–D + <strong>E (hybrid)</strong>. Skriv <code>valt tema E</code> i Cursor när du bestämt dig.</p>
+  </header>
+
+  <nav class="themes-nav">
+    <a href="#theme-a" class="a">A — Sacred Compass</a>
+    <a href="#theme-b">B — Obsidian Elevated</a>
+    <a href="#theme-c">C — Nordic Aurora</a>
+    <a href="#theme-d">D — Tactical Harbor</a>
+    <a href="#theme-e" class="a">E — Aurora Obsidian Compass ★</a>
+    <a href="#compare">Jämför sida vid sida</a>
+    <a href="./E-aurora-obsidian-compass/app-icon-livskompassen.png">Appikon</a>
+  </nav>
+
+  <section id="theme-a" class="theme">
+    <h2>A — Sacred Compass</h2>
+    <p class="desc">Guld-kompass · rutiner · budget · personlig utveckling · premium trygghet.</p>
+    <div class="grid" data-theme="A-sacred-compass"></div>
+  </section>
+
+  <section id="theme-b" class="theme">
+    <h2>B — Obsidian Elevated</h2>
+    <p class="desc">Nuvarande Obsidian Calm med mer djup, glass och diskret guld.</p>
+    <div class="grid" data-theme="B-obsidian-elevated"></div>
+  </section>
+
+  <section id="theme-c" class="theme">
+    <h2>C — Nordic Aurora Glass</h2>
+    <p class="desc">Frostad glass · indigo/emerald · klinisk lugn.</p>
+    <div class="grid" data-theme="C-nordic-aurora"></div>
+  </section>
+
+  <section id="theme-d" class="theme">
+    <h2>D — Tactical Harbor</h2>
+    <p class="desc">Grey Rock · hög kontrast · amber endast på handling.</p>
+    <div class="grid" data-theme="D-tactical-harbor"></div>
+  </section>
+
+  <section id="theme-e" class="theme">
+    <h2>E — Aurora Obsidian Compass ★</h2>
+    <p class="desc">Hybrid: mörkare Nordic Aurora · Obsidian glass-menyer · guld-kompass från A · <a href="./E-aurora-obsidian-compass/app-icon-livskompassen.png" style="color: var(--gold)">appikon</a></p>
+    <figure style="max-width: 200px; margin: 0 auto 1.5rem; border-radius: 2rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.12);">
+      <img src="./E-aurora-obsidian-compass/app-icon-livskompassen.png" alt="Livskompassen appikon" style="width: 100%; display: block;" />
+      <figcaption style="padding: 0.5rem; text-align: center; font-size: 0.75rem; color: var(--muted);">Appikon (Tema E)</figcaption>
+    </figure>
+    <div class="grid" data-theme="E-aurora-obsidian-compass"></div>
+  </section>
+
+  <div id="compare" class="compare">
+    <h2>Jämför samma modul i alla teman</h2>
+    <div id="compare-rows"></div>
+  </div>
+
+  <footer>
+    <p><a href="./THEME-COMPARISON.md" style="color: var(--accent)">THEME-COMPARISON.md</a> · Livskompassen v2 · 2026-05-23</p>
+  </footer>
+
+  <dialog id="lightbox">
+    <img id="lightbox-img" alt="" />
+  </dialog>
+
+  <script>
+    const modules = [
+      { file: '00-hero-livskompass.png', title: 'Livskompass-hero', desc: 'D2 — rutiner, budget, personlig utveckling' },
+      { file: '01-kompis.png', title: 'Kompis', desc: 'D1 — AI-livsarkitekt' },
+      { file: '02-trygg-hamn-hub.png', title: 'Trygg hamn-hub', desc: 'D3–D8 — kompassråd, flikar' },
+      { file: '03-barnfokus.png', title: 'Barnfokus', desc: 'D11–D14 — minnesankare' },
+      { file: '04-biff-triage.png', title: 'BIFF-Triage', desc: 'D22–D23 — kognitiv sköld' },
+      { file: '05-pansaret-valv.png', title: 'Pansaret / Valv', desc: 'D16–D20 — WORM' },
+      { file: '06-kbt-transformator.png', title: 'KBT-Transformatorn', desc: 'D29 — 3 kort' },
+    ];
+    const themes = [
+      { id: 'A-sacred-compass', label: 'A' },
+      { id: 'B-obsidian-elevated', label: 'B' },
+      { id: 'C-nordic-aurora', label: 'C' },
+      { id: 'D-tactical-harbor', label: 'D' },
+      { id: 'E-aurora-obsidian-compass', label: 'E ★' },
+    ];
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    function openLightbox(src, alt) {
+      lightboxImg.src = src;
+      lightboxImg.alt = alt;
+      lightbox.showModal();
+    }
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) lightbox.close();
+    });
+
+    document.querySelectorAll('.grid[data-theme]').forEach((grid) => {
+      const themeId = grid.dataset.theme;
+      modules.forEach((m) => {
+        const src = `${themeId}/${m.file}`;
+        const fig = document.createElement('figure');
+        fig.innerHTML = `
+          <img src="${src}" alt="${m.title} — ${themeId}" loading="lazy" />
+          <figcaption><strong>${m.title}</strong>${m.desc}</figcaption>
+        `;
+        fig.querySelector('img').addEventListener('click', () => openLightbox(src, m.title));
+        grid.appendChild(fig);
+      });
+    });
+
+    const compareRows = document.getElementById('compare-rows');
+    modules.forEach((m) => {
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.innerHTML = `<h3>${m.title} — ${m.desc}</h3>`;
+      themes.forEach((t) => {
+        const src = `${t.id}/${m.file}`;
+        const fig = document.createElement('figure');
+        fig.innerHTML = `<img src="${src}" alt="${t.label} ${m.title}" loading="lazy" title="${t.label}" />`;
+        fig.querySelector('img').addEventListener('click', () => openLightbox(src, `${t.label} — ${m.title}`));
+        row.appendChild(fig);
+      });
+      compareRows.appendChild(row);
+    });
+  </script>
+</body>
+</html>

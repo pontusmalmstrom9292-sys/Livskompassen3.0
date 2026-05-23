@@ -19,6 +19,7 @@
     "smoke:cache": "node scripts/smoke_context_cache.mjs",
     "smoke:tidshjul": "node scripts/smoke_tidshjul.mjs",
     "smoke:grans": "node scripts/smoke_grans_arkitekt.mjs",
+    "smoke:locked-ux": "node scripts/smoke_locked_ux.mjs",
     "seed:kampspar": "node scripts/seed_kampspar_profile.mjs --verify"
   },
   "dependencies": {

@@ -1,0 +1,45 @@
+---
+description: Låsta UX-flöden — Middagsfrågan och Valv Mönster/Orkester får inte tas bort
+alwaysApply: true
+---
+
+# Locked UX Features (MUST NOT REMOVE)
+
+Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-features.md)
+
+## Hard rules
+
+1. **Do not remove, hide behind feature flags, or rename** these user-visible flows without explicit user/product approval and an update to `.context/locked-ux-features.md`.
+2. **Before merging** refactors touching `BarnensPage`, `VaultPage`, or related panels: run `npm run smoke:locked-ux` and keep it passing.
+
+## Middagsfrågan (Familjen)
+
+- Component: `src/modules/barnens_livsloggar/components/MiddagsfraganPanel.tsx`
+- Mounted in `BarnensPage` with optimistic `category: 'middag'` saves
+- Button copy must remain: **Spara till {ChildAlias}s logg**
+- **Minneslista** directly under the form (not only in bottom timeline)
+
+## Valv — Pansaret (Mönster + Orkester)
+
+- Tabs on `VaultPage`: `monster` (label **Mönster**), `orkester` (label **Orkester**)
+- `VaultMonsterPanel` — deterministic frequency (no LLM as source of truth)
+- `VaultOrkesterPanel` — agent registry + SMS thread pattern search via `analyzeMessage`
+
+## Planeringssidan + Fyren widget (design lock)
+
+- Specs: `docs/design/PLANERINGSSIDA-SPEC.md`, `docs/design/WIDGET-BAR-SPEC.md`
+- Do not remove P1–P4 / W1–W4 documentation or email-routing design without approval
+
+## Barnporten (barnens hub — design lock)
+
+- Spec: `docs/design/BARNPORTEN-SPEC.md`, infografik `docs/design/barnporten/infographic.html`
+- Registry: `src/modules/barnporten/constants/barnportenAgents.ts` (egen barn-Orkester)
+- Valv: only via parent HITL — never auto-promote private child logs
+- Child widget CB1–CB4 is **not** parent discreet recording (W1)
+
+## Forbidden without approval
+
+- Deleting `MIDDAGS_QUESTIONS`, `MiddagsfraganPanel`, `VaultMonsterPanel`, `VaultOrkesterPanel`, or `vaultPatternScan.ts`
+- Collapsing Mönster/Orkester into Dossier-only or removing tab bar entries
+- Replacing optimistic middag save with “refresh only after server” (degrades ADHD-safe feedback)
+- Removing Barnporten spec, agents registry, or Valv HITL bridge design

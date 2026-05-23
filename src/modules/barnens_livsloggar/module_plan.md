@@ -34,6 +34,7 @@ Canonical: `.context/modules/barnens_livsloggar.md` · Spec: `docs/specs/modules
 | Incident → valv knapp | Kladd explicit bro | Ja | **done** |
 | Tredjepart-tagg filter | BBIC-export | Ja | **done** |
 | Livslogg steg 1 → bevis-val | Wizard-lätt | Ja | **partial** |
+| **Middagsfrågan** (låst UX) | Lekfull fråga + minneslista + optimistisk save | Ja | **done** — `MiddagsfraganPanel`, `smoke:locked-ux` |
 | Unmount cleanup | Zero Footprint | Ja | **done** |
 | Bro → Dossier | Samlad export | Länk | **done** |
 | PDF + Dossier | Juridisk rapport | Dossier MVP | **partial** |

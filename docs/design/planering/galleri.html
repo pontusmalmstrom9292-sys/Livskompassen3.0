@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Planering + Widget — varianter</title>
+  <style>
+    :root { --gold: #d4af37; --bg: #0a1614; --cream: #f5f0e8; --muted: #a8a29e; }
+    body { font-family: Inter, system-ui; background: var(--bg); color: var(--cream); margin: 0; padding: 2rem; }
+    h1 { color: var(--gold); font-weight: 600; }
+    h2 { color: var(--gold); font-size: 1.1rem; margin-top: 2rem; }
+    .ref { max-width: 320px; border: 1px solid rgba(212,175,55,0.3); border-radius: 1rem; margin: 1rem 0; }
+    .ref img { width: 100%; display: block; border-radius: 1rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+    .card { border: 1px solid rgba(212,175,55,0.2); border-radius: 0.75rem; padding: 1rem; background: rgba(18,21,31,0.6); }
+    .card h3 { color: var(--gold); margin: 0 0 0.5rem; font-size: 0.95rem; }
+    .card p { color: var(--muted); font-size: 0.85rem; line-height: 1.5; margin: 0; }
+    .tag { font-size: 0.65rem; letter-spacing: 0.1em; color: var(--gold); }
+    a { color: var(--gold); }
+  </style>
+</head>
+<body>
+  <h1>Planering + Widget</h1>
+  <p style="color: var(--muted); max-width: 40rem;">Samma visuella språk som hem-kanon: guld text, skymning, detaljerade ikoner <strong>endast</strong> i kompassen.</p>
+
+  <figure class="ref">
+    <img src="../references/E-home-hero-kanon.png" alt="Hem kanon" />
+    <figcaption style="padding:0.5rem;font-size:0.8rem;color:var(--muted)">Kanon — Tema E hem</figcaption>
+  </figure>
+
+  <h2>Planeringssidan — välj P1–P4</h2>
+  <div class="grid">
+    <div class="card"><span class="tag">P1 · REK</span><h3>Trippel-flik</h3><p>Inkorg, Kalender, Handling. Tydligast.</p></div>
+    <div class="card"><span class="tag">P2</span><h3>Dags-tidslinje</h3><p>Allt som händer idag i en kolumn.</p></div>
+    <div class="card"><span class="tag">P3</span><h3>Byrå-kanban</h3><p>Många ärenden parallellt.</p></div>
+    <div class="card"><span class="tag">P4</span><h3>Handlingskö</h3><p>En lista + regler överst.</p></div>
+  </div>
+
+  <h2>Widget — välj W1–W4</h2>
+  <div class="grid">
+    <div class="card"><span class="tag">W1 · REK</span><h3>Kant-prick</h3><p>Dubbeltryck = tyst inspelning. Ingen REC synlig.</p></div>
+    <div class="card"><span class="tag">W2</span><h3>Nedre båge</h3><p>Långtryck båge.</p></div>
+    <div class="card"><span class="tag">W3</span><h3>Dock 1s</h3><p>Håll kompass i dock.</p></div>
+    <div class="card"><span class="tag">W4</span><h3>Hörn-zon</h3><p>Trippeltryck osynlig pixel.</p></div>
+  </div>
+
+  <p style="margin-top:2rem"><a href="../PLANERINGSSIDA-SPEC.md">PLANERINGSSIDA-SPEC.md</a> · <a href="../WIDGET-BAR-SPEC.md">WIDGET-BAR-SPEC.md</a></p>
+</body>
+</html>

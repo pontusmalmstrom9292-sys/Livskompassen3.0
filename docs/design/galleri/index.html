@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Livskompassen — Designgalleri (26 bilder)</title>
+  <style>
+    :root { --gold: #d4af37; --bg: #0a1614; --cream: #f5f0e8; --muted: #a8a29e; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, system-ui; background: var(--bg); color: var(--cream); }
+    header { padding: 2rem; text-align: center; border-bottom: 1px solid rgba(212,175,55,0.2); }
+    header h1 { color: var(--gold); font-size: 1.6rem; margin: 0 0 0.5rem; }
+    header p { color: var(--muted); max-width: 36rem; margin: 0 auto; font-size: 0.9rem; line-height: 1.6; }
+    nav { position: sticky; top: 0; z-index: 10; background: rgba(10,22,20,0.95); backdrop-filter: blur(8px); padding: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    nav a { color: var(--gold); text-decoration: none; font-size: 0.8rem; padding: 0.35rem 0.75rem; border: 1px solid rgba(212,175,55,0.25); border-radius: 999px; }
+    nav a:hover { background: rgba(212,175,55,0.1); }
+    section { padding: 2rem 1.5rem; max-width: 1200px; margin: 0 auto; }
+    section h2 { color: var(--gold); font-size: 1.2rem; margin: 0 0 0.25rem; }
+    section .sub { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.25rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+    figure { margin: 0; background: rgba(18,21,31,0.5); border: 1px solid rgba(212,175,55,0.15); border-radius: 0.75rem; overflow: hidden; }
+    figure.hero { grid-column: 1 / -1; max-width: 360px; margin: 0 auto 1rem; }
+    figure img { width: 100%; display: block; cursor: zoom-in; }
+    figcaption { padding: 0.6rem 0.75rem; font-size: 0.75rem; color: var(--muted); }
+    figcaption strong { color: var(--gold); display: block; margin-bottom: 0.15rem; }
+    .lock { display: inline-block; background: rgba(212,175,55,0.2); color: var(--gold); font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 4px; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+    dialog { border: none; background: transparent; max-width: 95vw; }
+    dialog img { max-height: 90vh; border-radius: 0.5rem; }
+    dialog::backdrop { background: rgba(0,0,0,0.9); }
+  </style>
+</head>
+<body>
+  <header>
+    <p class="lock">KOMPASS LÅST</p>
+    <h1>Designgalleri — Tema E mix</h1>
+    <p>26 exempelbilder · nordisk skymning · guldtext · inga blå/turkos accenter. Klicka för stor bild. Jämför och skriv <code>valt mix E · P? · W?</code>.</p>
+  </header>
+  <nav>
+    <a href="#kompass">Kompass</a>
+    <a href="#mix">Mix hem</a>
+    <a href="#e2">Tema E2 (återställd)</a>
+    <a href="#widget">Widget ×4</a>
+    <a href="#planering">Planering ×5</a>
+    <a href="#skarmar">Skärmar</a>
+    <a href="#ikoner">Ikoner</a>
+    <a href="#barnporten">Barnporten</a>
+  </nav>
+
+  <section id="kompass">
+    <h2>Kompass — låst (din kanon)</h2>
+    <p class="sub">Alla varianter bygger på denna. Detaljerade ikoner endast här.</p>
+    <figure class="hero">
+      <img src="KOMPASS-LOCKED-kanon.png" alt="Kanon" data-caption="Din referens — LÅST" />
+      <figcaption><strong>KOMPASS-LOCKED-kanon.png</strong>Din uppladdade bild — ändra inte kompassen.</figcaption>
+    </figure>
+  </section>
+
+  <section id="mix">
+    <h2>Mix — föreslagen slut-hem</h2>
+    <p class="sub">Kompiss + skymning + dock med Planering-flik.</p>
+    <figure class="hero">
+      <img src="mix-E-final-hem.png" alt="Mix hem" />
+      <figcaption><strong>mix-E-final-hem.png</strong>Förslag: slutlig hemskärm att koda mot.</figcaption>
+    </figure>
+  </section>
+
+  <section id="e2">
+    <h2>Tema E2 — återställd batch (guld + skymning)</h2>
+    <p class="sub">Avbruten tidigare — nu sparad. Jämför med mix-hem och låst kompass.</p>
+    <div class="grid">
+      <figure><img src="e2-aterstallda/E2-app-icon.png" alt="" /><figcaption><strong>E2 appikon</strong>Skymning + guld kompass</figcaption></figure>
+      <figure><img src="e2-aterstallda/E2-00-hero.png" alt="" /><figcaption><strong>E2 hero</strong>Guldtext, samma kompass-språk</figcaption></figure>
+      <figure><img src="e2-aterstallda/E2-05-pansaret.png" alt="" /><figcaption><strong>E2 Valv</strong>SERVER-TIDSSTÄMPEL guld</figcaption></figure>
+      <figure><img src="e2-aterstallda/E2-widget-discreet.png" alt="" /><figcaption><strong>E2 widget</strong>Tyst inspelning, ingen REC</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="widget">
+    <h2>Widget bar — 4 varianter</h2>
+    <p class="sub">W1 rekommenderad (kant-prick + tyst inspelning). Ingen synlig REC för barnen.</p>
+    <div class="grid">
+      <figure><img src="widget/W1-discreet.png" alt="" /><figcaption><strong>W1 · REK</strong>Kant-prick, dubbeltryck inspelning</figcaption></figure>
+      <figure><img src="widget/W2-bage.png" alt="" /><figcaption><strong>W2</strong>Nedre guldbåge</figcaption></figure>
+      <figure><img src="widget/W3-dock.png" alt="" /><figcaption><strong>W3</strong>Håll dock 1s</figcaption></figure>
+      <figure><img src="widget/W4-horn.png" alt="" /><figcaption><strong>W4</strong>Trippeltryck hörn</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="planering">
+    <h2>Planeringssidan — 4 layouter + e-postregler</h2>
+    <p class="sub">Route <code>/planering</code> · koppla vissa e-post hit (se email-regler.png).</p>
+    <div class="grid">
+      <figure><img src="planering/P1-trippel-flik.png" alt="" /><figcaption><strong>P1 · REK</strong>Inkorg | Kalender | Handling</figcaption></figure>
+      <figure><img src="planering/P2-tidslinje.png" alt="" /><figcaption><strong>P2</strong>Dags-tidslinje</figcaption></figure>
+      <figure><img src="planering/P3-kanban.png" alt="" /><figcaption><strong>P3</strong>Kanban</figcaption></figure>
+      <figure><img src="planering/P4-handlingsko.png" alt="" /><figcaption><strong>P4</strong>Handlingskö</figcaption></figure>
+      <figure><img src="planering/email-regler.png" alt="" /><figcaption><strong>E-postregler</strong>Ex → Hamn, skola → Planering</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="skarmar">
+    <h2>Övriga skärmar (samma tema)</h2>
+    <div class="grid">
+      <figure><img src="skarmar/valv-pansaret.png" alt="" /><figcaption><strong>Valv</strong>Guld WORM-text</figcaption></figure>
+      <figure><img src="skarmar/kompis.png" alt="" /><figcaption><strong>Kompis</strong>AI-livsarkitekt</figcaption></figure>
+      <figure><img src="skarmar/familjen.png" alt="" /><figcaption><strong>Familjen</strong>Barnfokus</figcaption></figure>
+      <figure><img src="skarmar/hamn-biff.png" alt="" /><figcaption><strong>Hamn</strong>BIFF-Triage</figcaption></figure>
+      <figure><img src="skarmar/meny-drawer.png" alt="" /><figcaption><strong>Meny</strong>Hamburger drawer</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="barnporten">
+    <h2>Barnporten — barnens hub (låst)</h2>
+    <p class="sub">PWA på barnens enhet · egen widget CB1 · egen Orkester · Valv endast via förälder HITL. <a href="../barnporten/infographic.html" style="color:var(--gold)">Systeminfografik →</a></p>
+    <div class="grid">
+      <figure><img src="barnporten/barnporten-app-icon.png" alt="" /><figcaption><strong>Appikon</strong>Barn-PWA install</figcaption></figure>
+      <figure><img src="barnporten/barnporten-hero-hub.png" alt="" /><figcaption><strong>Hub</strong>Prata · Skriv · Humör · Mitt rum</figcaption></figure>
+      <figure><img src="barnporten/barnporten-widget-CB1.png" alt="" /><figcaption><strong>CB1 · REK</strong>Stjärn-widget (inte förälder W1)</figcaption></figure>
+      <figure><img src="barnporten/barnporten-skriv-till-pappa.png" alt="" /><figcaption><strong>Skriv till pappa</strong></figcaption></figure>
+      <figure><img src="barnporten/barnporten-orkester.png" alt="" /><figcaption><strong>Barn-Orkester</strong>Trygg-Kompisen</figcaption></figure>
+      <figure><img src="barnporten/barnporten-valv-bro.png" alt="" /><figcaption><strong>Valv-bro</strong>Förälder HITL → bevis</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="ikoner">
+    <h2>Loggor & ikon-set</h2>
+    <div class="grid">
+      <figure><img src="ikoner/app-icon.png" alt="" /><figcaption><strong>Appikon</strong>PWA / hemskärm</figcaption></figure>
+      <figure style="grid-column:1/-1;max-width:700px;margin:0 auto;"><img src="ikoner/meny-loggor-sheet.png" alt="" /><figcaption><strong>Meny-ikoner</strong>Line gold L2 — inte 3D överallt</figcaption></figure>
+    </div>
+  </section>
+
+  <dialog id="lb"><img id="lb-img" alt="" /></dialog>
+  <script>
+    const lb = document.getElementById('lb');
+    const lbImg = document.getElementById('lb-img');
+    document.querySelectorAll('figure img').forEach((img) => {
+      img.addEventListener('click', () => {
+        lbImg.src = img.src;
+        lbImg.alt = img.alt;
+        lb.showModal();
+      });
+    });
+    lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+  </script>
+</body>
+</html>

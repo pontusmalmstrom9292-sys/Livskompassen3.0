@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Livskompassen — Roadmap & Design (bildspel)</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --gold: #d4af37;
+      --cream: #f5f0e8;
+      --muted: #94a3b8;
+      --build: #6b8f71;
+      --idea: #a16207;
+    }
+    * { box-sizing: border-box; margin: 0; }
+    html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--cream); font-family: Inter, system-ui, sans-serif; }
+    h1, h2, h3 { font-family: Outfit, sans-serif; font-weight: 600; }
+    .deck { height: 100%; position: relative; }
+    .slide {
+      position: absolute; inset: 0;
+      padding: 3rem 4rem;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      overflow-y: auto;
+    }
+    .slide.active { display: flex; opacity: 1; }
+    .slide h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--gold); margin-bottom: 0.75rem; }
+    .slide h2 { font-size: 1.35rem; color: var(--gold); margin-bottom: 1rem; letter-spacing: 0.05em; }
+  .label-build, .label-idea {
+      display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em;
+      padding: 0.2rem 0.6rem; border-radius: 4px; margin-right: 0.5rem; vertical-align: middle;
+    }
+    .label-build { background: rgba(107,143,113,0.25); color: #9fd4a6; }
+    .label-idea { background: rgba(161,98,7,0.3); color: #fde68a; }
+    ul { margin: 0.5rem 0 0 1.2rem; line-height: 1.7; color: var(--muted); max-width: 52rem; }
+    li strong { color: var(--cream); }
+    p.sub { color: var(--muted); max-width: 40rem; margin-bottom: 1.5rem; line-height: 1.6; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; max-width: 1100px; }
+    .grid-3 figure { border: 1px solid rgba(212,175,55,0.2); border-radius: 0.75rem; overflow: hidden; background: #111; }
+    .grid-3 img { width: 100%; display: block; }
+    .grid-3 figcaption { padding: 0.5rem; font-size: 0.75rem; color: var(--gold); }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; max-width: 1000px; }
+    .two img { max-width: 100%; border-radius: 0.75rem; border: 1px solid rgba(255,255,255,0.1); }
+    table { border-collapse: collapse; font-size: 0.9rem; margin-top: 0.5rem; }
+    th, td { border: 1px solid rgba(255,255,255,0.1); padding: 0.5rem 0.75rem; text-align: left; }
+    th { color: var(--gold); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .nav {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100;
+      display: flex; gap: 0.5rem; align-items: center;
+    }
+    .nav button {
+      background: rgba(212,175,55,0.15); border: 1px solid var(--gold); color: var(--gold);
+      padding: 0.5rem 1rem; border-radius: 999px; cursor: pointer; font-size: 0.85rem;
+    }
+    .nav span { color: var(--muted); font-size: 0.8rem; min-width: 4rem; text-align: center; }
+    .compass-note {
+      border-left: 3px solid var(--gold); padding-left: 1rem; margin: 1rem 0;
+      color: var(--cream); font-size: 1.05rem;
+    }
+    @media (max-width: 800px) {
+      .slide { padding: 2rem 1.25rem; }
+      .grid-3, .two { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck" id="deck">
+
+    <section class="slide active" data-i="0">
+      <h1>Livskompassen v2</h1>
+      <p class="sub">Design & roadmap — vad som byggs vs idéer. Piltangenter ← → eller knappar nedtill.</p>
+      <p class="compass-note">Guld-kompassen behålls i alla nya teman.</p>
+      <p style="color: var(--muted); font-size: 0.85rem;">2026-05-23 · Ingen blå/turkos i nya riktningen</p>
+    </section>
+
+    <section class="slide" data-i="1">
+      <h2>Färgpolicy</h2>
+      <p class="sub">Blå, turkos, indigo och cyan avvecklas från produkt-UI. Accenter: guld, amber, varm grå, cream.</p>
+      <ul>
+        <li><strong>Ersätter</strong> Tema C/E (aurora blå-grön)</li>
+        <li><strong>Nya teman:</strong> F Guld Pansar · G Varm Hamn · H Grafit Grey Rock</li>
+        <li>Se <code>docs/design/COLOR-POLICY.md</code></li>
+      </ul>
+    </section>
+
+    <section class="slide" data-i="2">
+      <h2>Tema F — Guld Pansar</h2>
+      <p class="sub">Valv-textstil: SERVER-TIDSSTÄMPEL, SÄKRAD POST, monospace. Moduler: Hero, Valv, BIFF, Widget.</p>
+      <div class="grid-3">
+        <figure><img src="../themes/F-guld-pansar/00-hero-livskompass.png" alt="" /><figcaption>Hero + kompass</figcaption></figure>
+        <figure><img src="../themes/F-guld-pansar/05-pansaret-valv.png" alt="" /><figcaption>Pansaret / Valv</figcaption></figure>
+        <figure><img src="../themes/F-guld-pansar/widget-bar.png" alt="" /><figcaption>Widget bar</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="slide" data-i="3">
+      <h2>Tema G — Varm Hamn</h2>
+      <p class="sub">Espresso + rose-gold. Moduler: Hero, Barnfokus, KBT-Transformatorn, Widget.</p>
+      <div class="grid-3">
+        <figure><img src="../themes/G-varm-hamn/00-hero-livskompass.png" alt="" /><figcaption>Hero</figcaption></figure>
+        <figure><img src="../themes/G-varm-hamn/03-barnfokus.png" alt="" /><figcaption>Barnfokus</figcaption></figure>
+        <figure><img src="../themes/G-varm-hamn/widget-bar.png" alt="" /><figcaption>Widget</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="slide" data-i="4">
+      <h2>Tema H — Grafit Grey Rock</h2>
+      <p class="sub">Slate + endast guld som accent. Moduler: Hero, Hub, Kompis, Valv, Widget.</p>
+      <div class="grid-3">
+        <figure><img src="../themes/H-grafit-greyrock/00-hero-livskompass.png" alt="" /><figcaption>Hero</figcaption></figure>
+        <figure><img src="../themes/H-grafit-greyrock/02-trygg-hamn-hub.png" alt="" /><figcaption>Trygg hamn</figcaption></figure>
+        <figure><img src="../themes/H-grafit-greyrock/widget-bar.png" alt="" /><figcaption>Widget</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="slide" data-i="5">
+      <h2><span class="label-build">BYGGS</span> Widget bar (Fyren Edge)</h2>
+      <div class="two">
+        <div>
+          <ul>
+            <li><strong>Mikrofon</strong> → röst till text → WORM i <code>reality_vault</code></li>
+            <li><strong>Snabbanteckning</strong> → ett fält objektiva fakta → lås i Valvet</li>
+            <li><strong>Dold</strong> — kompass-prick på kanten, expanderar vid tryck</li>
+            <li>Spec: <code>docs/design/WIDGET-BAR-SPEC.md</code></li>
+          </ul>
+        </div>
+        <img src="widget-flow.png" alt="Widget dataflöde" />
+      </div>
+    </section>
+
+    <section class="slide" data-i="6">
+      <h2><span class="label-build">REDAN I KOD</span> Locked & Sacred</h2>
+      <table>
+        <tr><th>Feature</th><th>Route</th></tr>
+        <tr><td>Middagsfrågan</td><td>/familjen</td></tr>
+        <tr><td>Valv Mönster + Orkester</td><td>/dagbok?tab=bevis</td></tr>
+        <tr><td>Verklighetsvalvet WORM</td><td>reality_vault</td></tr>
+        <tr><td>BIFF / Hamn</td><td>/hamn · analyzeMessage</td></tr>
+        <tr><td>MåBra reframing (manuell)</td><td>/mabra</td></tr>
+        <tr><td>Dossier, Speglar, Kompasser</td><td>deployade MVP</td></tr>
+      </table>
+    </section>
+
+    <section class="slide" data-i="7">
+      <h2><span class="label-build">BYGGS P1</span> Nästa kodvåg</h2>
+      <ul>
+        <li><strong>FyrenWidgetBar</strong> + quick vault save</li>
+        <li><strong>KBT-Transformatorn</strong> (3 kort, strukturerad mabraCoach)</li>
+        <li><strong>BIFF Triage-UI</strong> (brus dolt + logistik 10/90)</li>
+        <li><strong>Barnfokus</strong> — profilkort, minnesankare, påminnelse</li>
+        <li><strong>Kompassråd</strong> + valt tema F/G/H tokens</li>
+        <li><strong>Valv-typografi</strong> enligt F (SÄKRAD POST-kort)</li>
+      </ul>
+    </section>
+
+    <section class="slide" data-i="8">
+      <h2><span class="label-build">BYGGS P2</span></h2>
+      <ul>
+        <li>Svart på vitt → lås bevis (Speglar/Valv)</li>
+        <li>VIVIR-snabbkoll (akutingång)</li>
+        <li>Orkester-trio UI (Vävaren / Spejaren / Säkraren)</li>
+        <li>Klickbara citations i Valv-Chat</li>
+      </ul>
+    </section>
+
+    <section class="slide" data-i="9">
+      <h2><span class="label-idea">IDÉ</span> Handlingshub (e-post)</h2>
+      <div class="two">
+        <div>
+          <p class="sub">Koppla utvalda adresser (t.ex. advokat, skola, myndighet) till egen hub — kalender + anteckningsbok. <strong>Inte i Fas 1.</strong></p>
+          <ul>
+            <li>Åtkomst via widget ( fjärde ikon, streckad i mockup)</li>
+            <li>Zero Footprint för känslig läsning</li>
+            <li>Separat silo — får inte blanda Valv-RAG med Kunskap</li>
+          </ul>
+        </div>
+        <img src="ide-handlingshub.png" alt="Handlingshub idé" />
+      </div>
+    </section>
+
+    <section class="slide" data-i="10">
+      <h2><span class="label-idea">IDÉER</span> Övrigt (backlog)</h2>
+      <ul>
+        <li>Macro-dock NEXUS / BARN / VÄXA / VALV (ersätt FloatingDock?)</li>
+        <li>E-post → automatisk inkorg-sortering (G10 finns delvis)</li>
+        <li>Dölj Bevis-flik (plausible deniability)</li>
+        <li>Genkit-migrering (V1 wait)</li>
+        <li>Payroll / lönespec i ekonomi (Fas 2, server-only)</li>
+      </ul>
+    </section>
+
+    <section class="slide" data-i="11">
+      <h2>Kompassen stannar</h2>
+      <p class="compass-note">Guld-kompassen är produktidentitet — hero, appikon, widget-prick, Fyren long-press.</p>
+      <div class="two">
+        <figure><img src="../themes/F-guld-pansar/app-icon.png" alt="Appikon" style="max-width: 180px; border-radius: 2rem;" /></figure>
+        <figure><img src="../themes/F-guld-pansar/00-hero-livskompass.png" alt="Hero" /></figure>
+      </div>
+    </section>
+
+    <section class="slide" data-i="12">
+      <h2>Nästa steg för dig</h2>
+      <ul>
+        <li>Välj tema: <strong>F</strong>, <strong>G</strong> eller <strong>H</strong> (eller kombination: F för Valv, G för Familjen)</li>
+        <li>Skriv <code>valt tema F</code> i Cursor</li>
+        <li>Bläddra mockups: <code>docs/design/themes/</code></li>
+        <li>Detta bildspel: <code>docs/design/slideshow/index.html</code></li>
+      </ul>
+    </section>
+
+  </div>
+
+  <nav class="nav">
+    <button type="button" id="prev">←</button>
+    <span id="counter">1 / 13</span>
+    <button type="button" id="next">→</button>
+  </nav>
+
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    let i = 0;
+    const counter = document.getElementById('counter');
+    function show(n) {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, j) => s.classList.toggle('active', j === i));
+      counter.textContent = `${i + 1} / ${slides.length}`;
+    }
+    document.getElementById('prev').onclick = () => show(i - 1);
+    document.getElementById('next').onclick = () => show(i + 1);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+      if (e.key === 'ArrowLeft') show(i - 1);
+    });
+  </script>
+</body>
+</html>

@@ -53,6 +53,16 @@ Verifiera mot kod + [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md). Detaljer i [`.
 
 **Permanent minne (får inte raderas av retention):** `children_logs`, `reality_vault`, `journal`, `dossier_snapshots`.
 
+## Locked UX Features (låsta produktflöden)
+
+Får **inte** tas bort vid refaktor. Register: [`.context/locked-ux-features.md`](../.context/locked-ux-features.md). Guard: `npm run smoke:locked-ux`.
+
+| Feature | Route | Verifiering |
+|---------|-------|-------------|
+| **Middagsfrågan** | `/familjen` | Smoke #19 · minneslista + `category: middag` |
+| **Valv Mönster** | `/dagbok?tab=bevis` → flik Mönster | Smoke #20 · `VaultMonsterPanel` |
+| **Valv Orkester** | samma → flik Orkester | Smoke #20 · SMS mönstersökning |
+
 ---
 
 ## Var sparas resultat?

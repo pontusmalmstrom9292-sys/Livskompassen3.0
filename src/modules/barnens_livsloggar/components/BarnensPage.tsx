@@ -20,6 +20,7 @@ import { PhysiologicalControls } from './PhysiologicalControls';
 import { ChildSubLogPanel } from './ChildSubLogPanel';
 import { SaveAsEvidencePrompt } from './SaveAsEvidencePrompt';
 import { ChildrenLogsChat } from './ChildrenLogsChat';
+import { MiddagsfraganPanel } from './MiddagsfraganPanel';
 
 const CHILDREN_PIN_KEY = 'livskompassen_children_pin_hash';
 
@@ -96,6 +97,19 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
     [logs, activeChild],
   );
 
+  const middagMemory = useMemo(
+    () =>
+      logs
+        .filter(
+          (l) =>
+            l.childAlias === activeChild &&
+            l.action === 'livslogg' &&
+            l.category === 'middag',
+        )
+        .slice(0, 8),
+    [logs, activeChild],
+  );
+
   const childLogs = useMemo(() => {
     let rows = logs.filter((l) => l.childAlias === activeChild);
     if (logFilter === 'skola') {
@@ -168,6 +182,37 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
     return id;
   };
 
+  const handleSaveMiddag = async (observation: string) => {
+    if (!user) throw new Error('Ej inloggad');
+    const optimisticId = `pending-${Date.now()}`;
+    const optimistic: ChildrenLogEntry = {
+      id: optimisticId,
+      childAlias: activeChild,
+      action: 'livslogg',
+      category: 'middag',
+      observation,
+      truth: observation,
+      createdAt: new Date().toISOString(),
+    };
+    setLogs((prev) => [optimistic, ...prev]);
+    setError(null);
+    try {
+      const id = await saveChildrenLog(user.uid, {
+        childAlias: activeChild,
+        observation,
+        category: 'middag',
+        action: 'livslogg',
+      });
+      setLogs((prev) =>
+        prev.map((row) => (row.id === optimisticId ? { ...row, id } : row)),
+      );
+      return id;
+    } catch {
+      setLogs((prev) => prev.filter((row) => row.id !== optimisticId));
+      throw new Error('Kunde inte spara middagssvar.');
+    }
+  };
+
   if (!unlocked) {
     return (
       <BentoCard
@@ -209,6 +254,13 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
           </button>
         ))}
       </div>
+
+      <MiddagsfraganPanel
+        key={`middag-${activeChild}`}
+        childAlias={activeChild}
+        memoryRows={middagMemory}
+        onSave={handleSaveMiddag}
+      />
 
       <BentoCard title={`${activeChild} — Balans`} icon={<Heart className="h-4 w-4" />}>
         <BalansMatare result={balans} />
