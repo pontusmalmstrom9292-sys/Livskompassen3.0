@@ -387,6 +387,30 @@
     transform: translateY(-4px);
   }
 
+  .dock-hub-fan--orbit {
+    grid-template-columns: 2.75rem 4.35rem 2.75rem;
+    grid-template-rows: 2.75rem 4.35rem 2.75rem;
+    gap: 0.15rem;
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat {
+    @apply opacity-100;
+    transform: scale(0.9);
+    pointer-events: auto;
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat__glass {
+    @apply h-10 w-10 rounded-xl;
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat__icon {
+    @apply h-4 w-4;
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat__label {
+    @apply max-w-[3.25rem] text-[7px] tracking-[0.14em];
+  }
+
   .dock-hub-fan .dock-compass-hub {
     grid-column: 2;
     grid-row: 2;
@@ -587,21 +611,6 @@
 
   .dock-compass-hub--heart .dock-compass-hub__core {
     border-color: rgba(253, 230, 138, 0.45);
-    background: rgba(253, 230, 138, 0.1);
-  }
-
-  .dock-compass-hub__label {
-    @apply rounded-full px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-text-muted;
-    background: rgba(15, 23, 42, 0.72);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 6px 20px rgba(2, 6, 23, 0.45);
-  }
-
-  .dock-compass-hub--active .dock-compass-hub__label {
-    color: #fde68a;
-    border-color: rgba(253, 230, 138, 0.28);
     background: rgba(253, 230, 138, 0.1);
   }
 
@@ -812,18 +821,135 @@
     @apply inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-accent hover:text-accent/90;
   }
 
-  .compass-option-row {
-    @apply flex flex-wrap gap-1.5;
+  .compass-option-question {
+    @apply text-xs font-medium leading-snug text-text-muted;
   }
 
-  .compass-option-chip {
-    @apply rounded-lg border border-border-strong px-2.5 py-2 text-left text-xs text-text-muted transition-colors;
-    flex: 1 1 calc(50% - 0.25rem);
-    min-width: 7rem;
+  .compass-option-question--comfortable {
+    @apply text-sm;
   }
 
-  .compass-option-chip--active {
-    @apply border-accent/50 bg-accent/10 text-accent;
+  .compass-option-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .compass-option-grid--comfortable {
+    gap: 0.625rem;
+  }
+
+  .compass-option-tile {
+    @apply flex flex-col items-start gap-1 rounded-xl border border-white/10 px-3 py-2.5 text-left transition-all;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .compass-option-tile:hover {
+    @apply border-white/20;
+    transform: translateY(-1px);
+  }
+
+  .compass-option-tile--wide {
+    grid-column: 1 / -1;
+  }
+
+  .compass-option-tile__icon {
+    @apply flex h-8 w-8 items-center justify-center rounded-lg border border-white/10;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .compass-option-tile__label {
+    @apply text-xs font-semibold leading-tight text-text;
+  }
+
+  .compass-option-tile__hint {
+    @apply text-[10px] leading-tight text-text-dim;
+  }
+
+  .compass-option-grid--comfortable .compass-option-tile {
+    @apply px-4 py-3;
+  }
+
+  .compass-option-grid--comfortable .compass-option-tile__label {
+    @apply text-sm;
+  }
+
+  .compass-option-grid--comfortable .compass-option-tile__icon {
+    @apply h-9 w-9;
+  }
+
+  .compass-option-tile--active {
+    @apply border-accent/45;
+    background: rgba(253, 230, 138, 0.08);
+    box-shadow:
+      inset 0 1px 0 rgba(253, 230, 138, 0.12),
+      0 8px 24px rgba(2, 6, 23, 0.35);
+  }
+
+  .compass-option-tile--active .compass-option-tile__label {
+    @apply text-accent;
+  }
+
+  .compass-option-tile--active .compass-option-tile__hint {
+    color: rgba(253, 230, 138, 0.65);
+  }
+
+  .compass-option-tile--lavender .compass-option-tile__icon {
+    color: #c4b5fd;
+    border-color: rgba(196, 181, 253, 0.35);
+    background: rgba(196, 181, 253, 0.1);
+  }
+
+  .compass-option-tile--emerald .compass-option-tile__icon {
+    color: #2dd4bf;
+    border-color: rgba(45, 212, 191, 0.35);
+    background: rgba(45, 212, 191, 0.1);
+  }
+
+  .compass-option-tile--gold .compass-option-tile__icon {
+    color: #fde68a;
+    border-color: rgba(253, 230, 138, 0.35);
+    background: rgba(253, 230, 138, 0.1);
+  }
+
+  .compass-option-tile--indigo .compass-option-tile__icon {
+    color: #a5b4fc;
+    border-color: rgba(129, 140, 248, 0.35);
+    background: rgba(129, 140, 248, 0.1);
+  }
+
+  .compass-option-tile--amber .compass-option-tile__icon {
+    color: #fbbf24;
+    border-color: rgba(251, 191, 36, 0.35);
+    background: rgba(251, 191, 36, 0.1);
+  }
+
+  .compass-option-tile--lavender.compass-option-tile--active {
+    border-color: rgba(196, 181, 253, 0.45);
+    background: rgba(196, 181, 253, 0.08);
+  }
+
+  .compass-option-tile--emerald.compass-option-tile--active {
+    border-color: rgba(45, 212, 191, 0.45);
+    background: rgba(45, 212, 191, 0.08);
+  }
+
+  .compass-option-tile--gold.compass-option-tile--active {
+    border-color: rgba(253, 230, 138, 0.5);
+    background: rgba(253, 230, 138, 0.1);
+  }
+
+  .compass-option-tile--indigo.compass-option-tile--active {
+    border-color: rgba(129, 140, 248, 0.45);
+    background: rgba(129, 140, 248, 0.08);
+  }
+
+  .compass-option-tile--amber.compass-option-tile--active {
+    border-color: rgba(251, 191, 36, 0.45);
+    background: rgba(251, 191, 36, 0.08);
   }
 
   .life-area-bar {
@@ -1134,6 +1260,10 @@
 
   .btn-pill--success {
     @apply btn-pill border-success/40 text-success hover:bg-success/10;
+  }
+
+  .btn-pill--success-solid {
+    @apply btn-pill border-success/50 bg-success/15 text-emerald-200 hover:bg-success/25;
   }
 
   .alert-banner {

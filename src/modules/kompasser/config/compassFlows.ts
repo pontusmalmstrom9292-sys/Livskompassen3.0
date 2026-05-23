@@ -23,7 +23,7 @@ export const COMPASS_FLOWS: CompassFlowConfig[] = [
     question: 'Vilket mikrosteg ger dig lugnast start idag?',
     options: ['Andning 2 min', 'En uppgift', 'Inget — vila'],
     heroTitle: 'Morgonkompass',
-    heroLead: 'Ett mikrosteg för lugn start — anpassas efter morgon (05–11).',
+    heroLead: 'Ett mikrosteg för lugn start — anpassas efter morgon (05–10).',
   },
   {
     id: 'day',
@@ -32,7 +32,7 @@ export const COMPASS_FLOWS: CompassFlowConfig[] = [
     question: 'Hur mår kroppen just nu?',
     options: ['Stabil', 'Trött', 'Spänd', 'Orolig'],
     heroTitle: 'Dagskompass',
-    heroLead: 'Kroppscheck — anpassas efter dag (12–16).',
+    heroLead: 'Kroppscheck — synlig från 11:00, anpassas efter ditt humör.',
   },
 ];
 

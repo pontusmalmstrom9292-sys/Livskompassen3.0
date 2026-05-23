@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { BookOpen, X } from 'lucide-react';
+import { useRef } from 'react';
+import { BookOpen } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useLocation } from 'react-router-dom';
 import { authenticateVaultGate } from '../auth/webauthn';
@@ -52,13 +52,9 @@ function FyrenRing({ progress }: { progress: number }) {
 function DockHubSatellite({
   module,
   slot,
-  open,
-  index,
 }: {
   module: HubModule;
   slot: 'tl' | 'tr' | 'bl' | 'br';
-  open: boolean;
-  index: number;
 }) {
   const { isActive, handlers, showFyren, progress } = useHubModuleNav(module);
   const Icon = module.icon;
@@ -69,12 +65,11 @@ function DockHubSatellite({
       aria-label={module.label}
       className={clsx(
         'dock-hub-sat',
+        'dock-hub-sat--visible',
         `dock-hub-sat--${slot}`,
         toneClass[module.tone],
-        open && 'dock-hub-sat--visible',
         (isActive || showFyren) && 'dock-hub-sat--active',
       )}
-      style={{ transitionDelay: open ? `${index * 45}ms` : '0ms' }}
       {...handlers}
     >
       <span className="dock-hub-sat__glass">
@@ -89,15 +84,13 @@ function DockHubSatellite({
 export function CompassHubOrb() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
-  const moduleHubOpen = useStore((s) => s.ui.moduleHubOpen);
-  const setModuleHubOpen = useStore((s) => s.setModuleHubOpen);
   const setSystemError = useStore((s) => s.setError);
 
   const onDagbok =
     location.pathname === HUB_CENTER.path ||
     location.pathname.startsWith(`${HUB_CENTER.path}/`);
   const { isActive: centerRouteActive, navigateToModule } = useHubModuleNav(HUB_CENTER);
-  const isCenterActive = moduleHubOpen || onDagbok || centerRouteActive;
+  const isCenterActive = onDagbok || centerRouteActive;
 
   const centerPress = useLongPress({
     onLongPress: async () => {
@@ -108,104 +101,48 @@ export function CompassHubOrb() {
       }
       setVaultGate();
       navigateToModule(HUB_CENTER.search ?? '');
-      setModuleHubOpen(false);
     },
-    onClick: () => {
-      if (moduleHubOpen) {
-        setModuleHubOpen(false);
-        return;
-      }
-      navigateToModule();
-      setModuleHubOpen(true);
-    },
+    onClick: () => navigateToModule(),
     delayMs: 3000,
   });
 
   const { progress, isHolding, ...centerHandlers } = centerPress;
   const showFyren = isHolding || progress > 0;
-
-  useEffect(() => {
-    if (!moduleHubOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setModuleHubOpen(false);
-    };
-    const onPointer = (e: PointerEvent) => {
-      if (!wrapRef.current?.contains(e.target as Node)) {
-        setModuleHubOpen(false);
-      }
-    };
-    document.addEventListener('keydown', onKey);
-    document.addEventListener('pointerdown', onPointer);
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.removeEventListener('pointerdown', onPointer);
-    };
-  }, [moduleHubOpen, setModuleHubOpen]);
-
-  const CenterIcon = moduleHubOpen ? X : onDagbok ? BookOpen : null;
+  const CenterIcon = onDagbok ? BookOpen : null;
 
   return (
-    <>
-      {moduleHubOpen && (
-        <button
-          type="button"
-          className="dock-hub-backdrop"
-          aria-label="Stäng modulväljare"
-          onClick={() => setModuleHubOpen(false)}
-        />
-      )}
-      <div
-        ref={wrapRef}
-        className={clsx('dock-hub-fan', moduleHubOpen && 'dock-hub-fan--open')}
-      >
-        {SATELLITES.map(({ module, slot }, i) => (
-          <DockHubSatellite
-            key={module.path}
-            module={module}
-            slot={slot}
-            open={moduleHubOpen}
-            index={i}
-          />
-        ))}
+    <div ref={wrapRef} className="dock-hub-fan dock-hub-fan--orbit" aria-label="Livsområden">
+      {SATELLITES.map(({ module, slot }) => (
+        <DockHubSatellite key={module.path} module={module} slot={slot} />
+      ))}
 
-        <button
-          type="button"
-          aria-label={
-            moduleHubOpen
-              ? 'Stäng modulväljare'
-              : showFyren
-                ? 'Hjärtat — håll för Fyren'
-                : 'Öppna modulväljare'
-          }
-          aria-expanded={moduleHubOpen}
-          className={clsx(
-            'dock-compass-hub',
-            isCenterActive && 'dock-compass-hub--active',
-            moduleHubOpen && 'dock-compass-hub--open',
-            onDagbok && !moduleHubOpen && 'dock-compass-hub--heart',
-          )}
-          {...(moduleHubOpen ? { onClick: () => setModuleHubOpen(false) } : centerHandlers)}
-        >
-          <span className="dock-compass-hub__plate">
-            {showFyren && !moduleHubOpen && <FyrenRing progress={progress} />}
-            <LivskompassMark className="dock-compass-hub__mark" />
-            <span
-              className={clsx(
-                'dock-compass-hub__core',
-                CenterIcon && 'dock-compass-hub__core--icon',
-              )}
-            >
-              {CenterIcon ? (
-                <CenterIcon className="dock-compass-hub__icon" strokeWidth={1.65} />
-              ) : null}
-            </span>
-            <span className="dock-compass-hub__shine" aria-hidden />
+      <button
+        type="button"
+        aria-label={showFyren ? 'Hjärtat — håll för Fyren' : onDagbok ? 'Hjärtat' : 'Öppna dagbok'}
+        className={clsx(
+          'dock-compass-hub',
+          isCenterActive && 'dock-compass-hub--active',
+          onDagbok && 'dock-compass-hub--heart',
+        )}
+        {...centerHandlers}
+      >
+        <span className="dock-compass-hub__plate">
+          {showFyren && <FyrenRing progress={progress} />}
+          <LivskompassMark className="dock-compass-hub__mark" />
+          <span
+            className={clsx(
+              'dock-compass-hub__core',
+              CenterIcon && 'dock-compass-hub__core--icon',
+            )}
+          >
+            {CenterIcon ? (
+              <CenterIcon className="dock-compass-hub__icon" strokeWidth={1.65} />
+            ) : null}
           </span>
-          <span className="dock-compass-hub__label">
-            {moduleHubOpen ? 'Stäng' : onDagbok ? 'Hjärtat' : 'Kompass'}
-          </span>
-        </button>
-      </div>
-    </>
+          <span className="dock-compass-hub__shine" aria-hidden />
+        </span>
+        <span className="dock-compass-hub__label">{onDagbok ? 'Hjärtat' : 'Kompass'}</span>
+      </button>
+    </div>
   );
 }

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { ClusterGrid } from '../ui/ClusterGrid';
 import { AdaptiveMemoryCards } from '../home/AdaptiveMemoryCards';
 import { StampClockWidget } from '../../stampla';
 import { HomeHeroCompass } from '../home/HomeHeroCompass';
@@ -18,16 +17,6 @@ export function HomePage() {
       {!safeMode && <StampClockWidget />}
 
       {!safeMode && <AdaptiveMemoryCards refreshKey={cardRefreshKey} />}
-
-      {!safeMode && (
-        <section aria-label="Livsområden">
-          <div className="mb-2 flex items-baseline justify-between gap-2">
-            <p className="text-[9px] uppercase tracking-widest text-text-dim">Livsområden</p>
-            <p className="text-[9px] text-text-dim">Svep →</p>
-          </div>
-          <ClusterGrid />
-        </section>
-      )}
     </div>
   );
 }

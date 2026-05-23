@@ -130,7 +130,9 @@ export function StampClockWidget() {
               type="button"
               disabled={busy || isClockedIn}
               onClick={() => void stamp('IN')}
-              className="btn-pill--primary text-sm disabled:opacity-40"
+              className={`text-sm ${
+                isClockedIn || busy ? 'btn-pill--ghost opacity-40' : 'btn-pill--primary'
+              }`}
             >
               {busy && !isClockedIn ? (
                 <Loader2 className="mx-auto h-4 w-4 animate-spin" />
@@ -142,7 +144,9 @@ export function StampClockWidget() {
               type="button"
               disabled={busy || !isClockedIn}
               onClick={() => void stamp('UT')}
-              className="btn-pill--success text-sm disabled:opacity-40"
+              className={`text-sm ${
+                isClockedIn && !busy ? 'btn-pill--success-solid' : 'btn-pill--ghost opacity-40'
+              }`}
             >
               {busy && isClockedIn ? (
                 <Loader2 className="mx-auto h-4 w-4 animate-spin" />

@@ -4,9 +4,10 @@ import type { HomeActionId } from '../../core/home/homeActionCategories';
 import { LifeAreaActivationBar } from '../../core/home/LifeAreaActivationBar';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { useStore } from '../../core/store';
-import { getVaultLogs, saveCheckIn } from '../../core/firebase/firestore';
+import { getRecentCheckIns, getVaultLogs, saveCheckIn } from '../../core/firebase/firestore';
 import type { VaultLog } from '../../core/types/firestore';
-import type { CompassFlow } from '../utils/compassTime';
+import { isDayCompassUnlocked, type CompassFlow } from '../utils/compassTime';
+import { getDayFlowTabPresentation } from '../config/compassDayTab';
 import {
   COMPASS_FLOWS,
   EVENING_HERO,
@@ -16,6 +17,7 @@ import {
 import { useCompassTimeFlow } from '../hooks/useCompassTimeFlow';
 import { ParalysPanel } from './ParalysPanel';
 import { KasamEvening } from './KasamEvening';
+import { CompassOptionPicker } from './CompassOptionPicker';
 
 type DashboardPageProps = {
   embedded?: boolean;
@@ -49,10 +51,31 @@ export function DashboardPage({
   const [session, setSession] = useState(resetSessionState);
   const [anchorLogs, setAnchorLogs] = useState<(VaultLog & { id: string })[]>([]);
   const [morningExpanded, setMorningExpanded] = useState(false);
+  const [todayDayMood, setTodayDayMood] = useState<string | null>(null);
+  const dayUnlocked = isDayCompassUnlocked();
 
   const clearSession = useCallback(() => {
     setSession(resetSessionState());
   }, []);
+
+  const refreshTodayDayMood = useCallback(async () => {
+    if (!user) {
+      setTodayDayMood(null);
+      return;
+    }
+    try {
+      const rows = await getRecentCheckIns(user.uid, 24);
+      const today = new Date().toISOString().slice(0, 10);
+      const hit = rows.find(
+        (c) =>
+          c.createdAt?.slice(0, 10) === today &&
+          (c.taskCategory === 'day' || c.questionId === 'compass_day'),
+      );
+      setTodayDayMood(hit?.optionSelected ?? null);
+    } catch {
+      setTodayDayMood(null);
+    }
+  }, [user]);
 
   const handleSwitchFlow = (id: CompassFlow) => {
     switchFlow(id);
@@ -61,6 +84,17 @@ export function DashboardPage({
   };
 
   useEffect(() => () => clearSession(), [clearSession]);
+
+  useEffect(() => {
+    void refreshTodayDayMood();
+  }, [refreshTodayDayMood]);
+
+  useEffect(() => {
+    if (!dayUnlocked && activeFlow === 'day') {
+      switchFlow(timeFlow);
+      clearSession();
+    }
+  }, [dayUnlocked, activeFlow, timeFlow, switchFlow, clearSession]);
 
   useEffect(() => {
     if (activeFlow !== 'morning' || !user) {
@@ -90,7 +124,12 @@ export function DashboardPage({
           timeFlow={timeFlow}
           activeFlow={activeFlow}
         >
-          <FlowTabs activeFlow={activeFlow} onSwitch={handleSwitchFlow} />
+          <FlowTabs
+            activeFlow={activeFlow}
+            onSwitch={handleSwitchFlow}
+            dayUnlocked={dayUnlocked}
+            dayTabMood={dayTabMood}
+          />
           <p className="text-sm text-text-muted">Logga in för att spara kvällskompass.</p>
         </CompassShell>
       );
@@ -102,7 +141,12 @@ export function DashboardPage({
         timeFlow={timeFlow}
         activeFlow={activeFlow}
       >
-        <FlowTabs activeFlow={activeFlow} onSwitch={handleSwitchFlow} />
+        <FlowTabs
+          activeFlow={activeFlow}
+          onSwitch={handleSwitchFlow}
+          dayUnlocked={dayUnlocked}
+          dayTabMood={dayTabMood}
+        />
         <KasamEvening
           userId={user.uid}
           onKlar={clearSession}
@@ -114,6 +158,8 @@ export function DashboardPage({
 
   const flow = getFlowConfig(activeFlow)!;
   const { selected, saved, saving, error, showParalys } = session;
+  const dayTabMood =
+    activeFlow === 'day' && selected ? selected : todayDayMood;
 
   const handleSave = async () => {
     if (!selected || !user) return;
@@ -126,6 +172,10 @@ export function DashboardPage({
         taskCategory: activeFlow,
       });
       setSession((s) => ({ ...s, saved: true, saving: false }));
+      if (activeFlow === 'day') {
+        setTodayDayMood(selected);
+      }
+      void refreshTodayDayMood();
       onCheckInSaved?.();
     } catch {
       setSession((s) => ({
@@ -143,7 +193,13 @@ export function DashboardPage({
       timeFlow={timeFlow}
       activeFlow={activeFlow}
     >
-      <FlowTabs activeFlow={activeFlow} onSwitch={handleSwitchFlow} compact={isHub} />
+      <FlowTabs
+        activeFlow={activeFlow}
+        onSwitch={handleSwitchFlow}
+        compact={isHub}
+        dayUnlocked={dayUnlocked}
+        dayTabMood={dayTabMood}
+      />
 
       {activeFlow === 'morning' && (
         <div className={isHub ? 'space-y-2' : 'space-y-3'}>
@@ -214,37 +270,23 @@ export function DashboardPage({
                 : ''
             }
           >
-            <p className={isHub ? 'mb-2 text-xs text-text-muted' : 'mb-4 text-sm text-text-muted'}>
-              {flow.question}
-            </p>
-            <div
+            <p
               className={
-                isHub ? 'compass-option-row' : 'space-y-2'
+                isHub
+                  ? 'compass-option-question mb-2.5'
+                  : 'compass-option-question compass-option-question--comfortable mb-4'
               }
             >
-              {flow.options.map((opt) => (
-                <button
-                  key={opt}
-                  type="button"
-                  onClick={() =>
-                    setSession((s) => ({ ...s, selected: opt, saved: false, error: null }))
-                  }
-                  className={
-                    isHub
-                      ? `compass-option-chip ${
-                          selected === opt ? 'compass-option-chip--active' : ''
-                        }`
-                      : `w-full rounded-xl border px-4 py-3 text-left text-sm transition-colors ${
-                          selected === opt
-                            ? 'border-accent/50 bg-accent/10 text-accent'
-                            : 'border-border-strong text-text-muted hover:border-accent/20'
-                        }`
-                  }
-                >
-                  {opt}
-                </button>
-              ))}
-            </div>
+              {flow.question}
+            </p>
+            <CompassOptionPicker
+              options={flow.options}
+              selected={selected}
+              onSelect={(opt) =>
+                setSession((s) => ({ ...s, selected: opt, saved: false, error: null }))
+              }
+              density={isHub ? 'compact' : 'comfortable'}
+            />
 
             {selected && !saved && (
               <button
