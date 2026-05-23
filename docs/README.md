@@ -38,7 +38,8 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 | [`DRIVE_AUTOMATION.md`](DRIVE_AUTOMATION.md) | Apps Script → `notifyNewFile` |
 | [`SMOKE_CHECKLIST.md`](SMOKE_CHECKLIST.md) | Manuell verifiering (Sacred Features) |
 | [`SMOKE_RESULTS.md`](SMOKE_RESULTS.md) | Senaste smoke-resultat |
-| [`NATT-CI.md`](NATT-CI.md) | Nattlig CI (ersätter manuella overnight-körningar) |
+| [`NATT-CI.md`](NATT-CI.md) | Nattlig CI — `npm run natt-ci` |
+| [`TELEFON-HOSTING.md`](TELEFON-HOSTING.md) | PWA på hemskärmen + `deploy:hosting` |
 | [`GITHUB_ANVANDARGUIDE.md`](GITHUB_ANVANDARGUIDE.md) | **Utskriftsguide** — repo, branches, daglig rutin |
 | [`GITHUB_STANDALONE_SETUP.md`](GITHUB_STANDALONE_SETUP.md) | Teknisk GitHub-setup (arkiv/alternativ) |
 

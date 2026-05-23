@@ -70,5 +70,7 @@ Full checklista: [DRIVE_AUTOMATION.md](./DRIVE_AUTOMATION.md)
 |------|----------------|
 | Utveckling | `npm run dev` → http://localhost:5173 eller Mac-IP:5173 |
 | Produktion/test | https://gen-lang-client-0481875058.web.app |
+| Deploy UI till telefon | `npm run deploy:hosting` |
+| Preview (ej prod) | `npm run deploy:hosting:preview` |
 
-Lägg till på hemskärm via Safari (manifest finns i `public/manifest.webmanifest`).
+**PWA på hemskärmen:** Safari → prod-URL → Dela → Lägg till på hemskärmen. Full guide: [`TELEFON-HOSTING.md`](./TELEFON-HOSTING.md).

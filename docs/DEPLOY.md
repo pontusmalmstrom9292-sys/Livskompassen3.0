@@ -90,9 +90,16 @@ Alternativ utan Secret Manager: `DRIVE_INGEST_OWNER_UID=<din-uid>` i `functions/
 Efter frontend-ändringar:
 
 ```bash
-npm run build
-firebase deploy --only hosting
+npm run deploy:hosting
 ```
+
+Preview-kanal (egen URL, 7 dagar — bra för telefontest utan att skriva över prod):
+
+```bash
+npm run deploy:hosting:preview
+```
+
+**Telefon (PWA):** [`TELEFON-HOSTING.md`](./TELEFON-HOSTING.md)
 
 **Produktions-URL:** https://gen-lang-client-0481875058.web.app  
 Alternativ: https://gen-lang-client-0481875058.firebaseapp.com

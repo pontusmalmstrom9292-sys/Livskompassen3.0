@@ -1,7 +1,36 @@
 # Smoke-resultat (Fas 3 + Minne)
 
-**Datum:** 2026-05-22  
+**Datum:** 2026-05-23  
 **Branch:** `main` (Livskompassen3.0 — clean baseline)
+
+## Telefon prod-smoke (Hosting #11–20)
+
+**URL:** https://gen-lang-client-0481875058.web.app  
+**Guide:** [`TELEFON-HOSTING.md`](./TELEFON-HOSTING.md) · Checklista: [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md)
+
+| # | Test | Resultat | Notering |
+|---|------|----------|----------|
+| 11 | WebAuthn (Fyren 3s) | **PENDING** | Kräver fysisk iPhone + prod deploy |
+| 12 | Kill switch (skaka) | **PENDING** | Mobil |
+| 13 | Dagbok röst sv-SE | **PENDING** | Mobil |
+| 14 | Dagbok → Speglar länk | **PENDING** | Mobil |
+| 15 | Speglar AI | **PENDING** | Mobil |
+| 16 | Valv media / skärmdump | **PENDING** | Mobil + Storage deploy |
+| 17 | Valv PDF | **PENDING** | Mobil |
+| 18 | Dossier bro | **PENDING** | Mobil |
+| 19 | Legacy redirects | **PENDING** | Mobil |
+| 20 | Vault unlock reset | **PENDING** | Mobil |
+
+**Hosting reachability (agent 2026-05-23):** HTTP 200 på prod-URL (curl). Uppdatera tabellen när du kört testerna på telefon.
+
+## Natt-CI setup (2026-05-23)
+
+| Kontroll | Resultat |
+|----------|----------|
+| `scripts/natt-ci` + `@cursor/sdk@1.0.13` | **PASS** — installerad |
+| `npm run natt-ci` | **PASS** — 51s (build + eslint + smoke:valv/kunskap/dossier) |
+| `npm run deploy:hosting` | Skript tillagt (kör vid UI-deploy) |
+| `npm run deploy:hosting:preview` | Skript tillagt |
 
 ## G7 journal_woven (2026-05-22 — kör G7)
 

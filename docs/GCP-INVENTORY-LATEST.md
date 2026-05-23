@@ -18,7 +18,7 @@
 | `NOTIFY_WEBHOOK_SECRET` | **finns** | G6 **done** — E2E kb_docs 2026-05-22 |
 | Legacy Python (0 fn kvar) | **avvecklad** | G4 **done** — steg 1–5 2026-05-22 |
 | Compute Engine VMs | **0** | — |
-| `@cursor/sdk` | **saknas** | **WAIT** (Natt-CI) |
+| `@cursor/sdk` | **READY** | `scripts/natt-ci/` — `npm run natt-ci` |
 
 ---
 
@@ -124,7 +124,7 @@
 
 | Paket | Beslut |
 |-------|--------|
-| `@cursor/sdk` | **WAIT** — Natt-CI, ej installerad |
+| `@cursor/sdk` | **READY** — [`scripts/natt-ci/`](../scripts/natt-ci/), [`docs/NATT-CI.md`](NATT-CI.md) |
 | `@dataconnect/generated` | **WAIT** |
 | `@google-cloud/notebooks` | **DEPRECATE** (0 imports) |
 
@@ -152,7 +152,7 @@
 1. **Grunder U1–U5 runtime klart** — U2.5 HITL + U5.5 routing + G7 journal_woven
 2. **GCP legacy buckets städade** — 5 buckets borta (2026-05-22)
 3. **G14 Gräns-Arkitekten done** (2026-05-22) — nästa GAP enligt [`Arkiv-GAP-REGISTER.md`](specs/modules/Arkiv-GAP-REGISTER.md)
-4. **`@cursor/sdk`:** **WAIT** — [`docs/NATT-CI.md`](NATT-CI.md)
+4. **`@cursor/sdk`:** **READY** — `npm run natt-ci` · agent: `CURSOR_API_KEY` + `npm run natt-ci:agent`
 
 ---
 

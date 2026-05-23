@@ -1,0 +1,13 @@
+{
+  "name": "livskompassen-natt-ci",
+  "private": true,
+  "type": "module",
+  "description": "Byggpass-kedja + valfri Cursor SDK agent-review",
+  "scripts": {
+    "byggpass": "node run-byggpass.mjs",
+    "agent": "node run-agent-review.mjs"
+  },
+  "dependencies": {
+    "@cursor/sdk": "^1.0.13"
+  }
+}

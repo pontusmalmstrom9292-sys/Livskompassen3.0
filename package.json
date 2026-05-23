@@ -22,7 +22,11 @@
     "smoke:grans": "node scripts/smoke_grans_arkitekt.mjs",
     "smoke:drive": "node scripts/smoke_notify_new_file.mjs",
     "drive:wireup": "node scripts/drive_wireup.mjs",
-    "seed:kampspar": "node scripts/seed_kampspar_profile.mjs --verify"
+    "seed:kampspar": "node scripts/seed_kampspar_profile.mjs --verify",
+    "deploy:hosting": "npm run build && firebase deploy --only hosting",
+    "deploy:hosting:preview": "node scripts/deploy-hosting-preview.mjs",
+    "natt-ci": "node scripts/natt-ci/run-byggpass.mjs",
+    "natt-ci:agent": "node scripts/natt-ci/run-agent-review.mjs"
   },
   "dependencies": {
     "@dataconnect/generated": "file:src/dataconnect-generated",

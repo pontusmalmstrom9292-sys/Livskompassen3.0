@@ -30,7 +30,7 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] Verklighetsvalvet: long-press gate, PIN (lokal/env), VaultLog WORM
 - [x] Dagbok: DagbokPage + journal-persistens
 - [x] Barnens livsloggar: `/barnen`, PIN, Firestore `children_logs`
-- [x] Telefon-MVP: `vite --host` i dev-script + `manifest.webmanifest` (lägg till på hemskärm)
+- [x] Telefon-MVP: `vite --host` + PWA manifest + Hosting deploy (`npm run deploy:hosting`) — [`docs/TELEFON-HOSTING.md`](../docs/TELEFON-HOSTING.md)
 - [x] Firestore rules: checkins, journal, reality_vault, children_logs
 
 ## Kladd-konsolidering (2026-05-21)
@@ -63,7 +63,7 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] Dokumentation: `docs/FIREBASE_SYNC.md`
 - [x] Manuell smoke: spara test i valv + barnen (Firestore Console) — **done** (användare 2026-05-22)
 - [x] `NOTIFY_WEBHOOK_SECRET` + `npm run smoke:drive` — **done** 2026-05-22
-- [ ] Apps Script Script Properties klistrade på din Mac (engång) — se Drive wire-up nedan
+- [x] Apps Script Script Properties — **klar** 2026-05-22 ([`docs/DRIVE_SETUP_STATUS.md`](../docs/DRIVE_SETUP_STATUS.md))
 
 ## Drive wire-up (Apps Script → notifyNewFile)
 
@@ -83,7 +83,7 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] `.firebaserc` rättad; Firestore rules + indexes deployade
 - [x] Modul-Functions deployade (`europe-west1`); Hosting live — se `docs/DEPLOY.md`, `docs/FIREBASE_SYNC.md`
 - [x] `notifyNewFile` — G6 E2E **done** 2026-05-22 (`kb_docs`); FAS4 steg 1–7 **done**
-- [ ] Manuell smoke enligt `docs/SMOKE_CHECKLIST.md`
+- [ ] Manuell smoke #11–20 på telefon (Hosting) — se [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) § Telefon prod-smoke; #1–10 **done** 2026-05-22
 
 ## Data Connect
 - Deployat (example-schema); **appmoduler använder Firestore** — DC avvaktas tills ekonomi (se `docs/FIREBASE_SYNC.md`)

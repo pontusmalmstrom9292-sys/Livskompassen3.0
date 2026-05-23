@@ -30,13 +30,33 @@ Kopiera `.drive-setup.json.example` → `.drive-setup.json` (gitignored) med Dri
 
 Kör från repo-rot. Resultat loggas i [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md).
 
-## Byggpass-kedja (Natt-CI-förstadium)
+## Natt-CI (byggpass + SDK)
+
+| Script | Kommando | Syfte |
+|--------|----------|-------|
+| Byggpass | `npm run natt-ci` | build + eslint + smoke:valv/kunskap/dossier |
+| Agent review | `npm run natt-ci:agent` | byggpass + `@cursor/sdk` (kräver `CURSOR_API_KEY`) |
+
+Första gång: `cd scripts/natt-ci && npm install`. Se [`docs/NATT-CI.md`](../docs/NATT-CI.md).
+
+## Hosting (telefon / PWA)
+
+| Script | Kommando |
+|--------|----------|
+| Prod deploy | `npm run deploy:hosting` |
+| Preview channel | `npm run deploy:hosting:preview` |
+
+Guide: [`docs/TELEFON-HOSTING.md`](../docs/TELEFON-HOSTING.md).
+
+## Byggpass-kedja (manuell, samma som natt-ci)
 
 ```bash
-cd functions && npm run build
-cd .. && npm run build
-npx eslint . --max-warnings 0
-npm run smoke:valv && npm run smoke:kunskap && npm run smoke:dossier
+npm run natt-ci
+```
+
+Utökad kedja:
+
+```bash
 npm run smoke:children && npm run smoke:inbox && npm run smoke:grans
 ```
 

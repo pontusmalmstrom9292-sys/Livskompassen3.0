@@ -87,7 +87,7 @@
 
 | Resurs | Beslut |
 |--------|--------|
-| `@cursor/sdk` Natt-CI | **WAIT** — dokumentera, implementera inte |
+| `@cursor/sdk` Natt-CI | **READY** — `scripts/natt-ci/`, `npm run natt-ci` |
 | Firebase Data Connect | **WAIT** — example schema only |
 | Genkit / Dotprompt (V1) | **WAIT** — kanon = `sharedRules.ts` |
 
