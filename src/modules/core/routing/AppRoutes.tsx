@@ -8,6 +8,7 @@ import { HjartatPage } from '../../dagbok';
 import { FamiljenPage } from '../../barnens_livsloggar';
 import { DossierPage } from '../../dossier';
 import { MabraPage } from '../../mabra';
+import { StampClockPage } from '../../stampla';
 
 function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
   const location = useLocation();
@@ -53,6 +54,14 @@ export function AppRoutes() {
           }
         />
         <Route path="/ekonomi" element={<RedirectToVardagenTab tab="ekonomi" />} />
+        <Route
+          path="/stampla"
+          element={
+            <AuthGate>
+              <StampClockPage />
+            </AuthGate>
+          }
+        />
         <Route
           path="/dagbok"
           element={

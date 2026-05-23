@@ -5,6 +5,7 @@ import { MetricTile } from '../../core/ui/MetricTile';
 import { EmptyState } from '../../core/ui/EmptyState';
 import { TimelineEntry } from '../../core/ui/TimelineEntry';
 import { useStore } from '../../core/store';
+import type { TimeEntryRow } from '../../core/types/firestore';
 import {
   getEconomyProfileExtended,
   getFlexHoursRemaining,
@@ -28,9 +29,7 @@ export function StampClockPage() {
   });
   const [flexLeft, setFlexLeft] = useState(0);
   const [weekTotal, setWeekTotal] = useState(0);
-  const [logs, setLogs] = useState<
-    { id: string; date: string; clockIn: string; clockOut: string | null; category: string; hoursWorked: number }[]
-  >([]);
+  const [logs, setLogs] = useState<TimeEntryRow[]>([]);
   const [calendar, setCalendar] = useState<{ namn: string; datum: string; timmar: number; idag: boolean }[]>([]);
   const [stampCategory, setStampCategory] = useState<string>('Arbete');
   const [loading, setLoading] = useState(true);

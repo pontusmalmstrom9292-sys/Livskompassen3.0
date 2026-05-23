@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ClusterGrid } from '../ui/ClusterGrid';
 import { AdaptiveMemoryCards } from '../home/AdaptiveMemoryCards';
+import { StampClockWidget } from '../../stampla';
 import { HomeHeroCompass } from '../home/HomeHeroCompass';
 import { DailyCompassAdvice } from '../home/DailyCompassAdvice';
 import { useStore } from '../store';
@@ -13,6 +14,8 @@ export function HomePage() {
     <div className="home-page space-y-6">
       <DailyCompassAdvice />
       <HomeHeroCompass onCheckInSaved={() => setCardRefreshKey((k) => k + 1)} />
+
+      {!safeMode && <StampClockWidget />}
 
       {!safeMode && <AdaptiveMemoryCards refreshKey={cardRefreshKey} />}
 

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Wallet, Loader2 } from 'lucide-react';
+import { Wallet, Loader2, PiggyBank } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { SaldoHero } from '../../core/ui/SaldoHero';
 import { MetricTile } from '../../core/ui/MetricTile';
@@ -12,6 +12,7 @@ import {
   saveEconomyTransaction,
   setEconomyProfile,
 } from '../../core/firebase/firestore';
+import { getBudgetSavings, setBudgetSaving } from '../../core/firebase/timeEconomyFirestore';
 
 type EconomyPageProps = {
   embedded?: boolean;
@@ -30,17 +31,24 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [savings, setSavings] = useState<
+    { id: string; title: string; targetSek: number; currentSek: number }[]
+  >([]);
+  const [goalTitle, setGoalTitle] = useState('');
+  const [goalTarget, setGoalTarget] = useState('1000');
 
   const reload = useCallback(async () => {
     if (!user) return;
     setLoading(true);
     setError(null);
     try {
-      const [txs, profile] = await Promise.all([
+      const [txs, profile, goals] = await Promise.all([
         getEconomyTransactions(user.uid),
         getEconomyProfile(user.uid),
+        getBudgetSavings(user.uid),
       ]);
       setTransactions(txs);
+      setSavings(goals);
       if (profile) {
         setWeeklyBudget(profile.weeklyBudgetSek || DEFAULT_WEEKLY);
         setMealPreset(profile.mealBoxPresetSek || DEFAULT_MEAL);
@@ -140,6 +148,71 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
       >
         Vinst-knapp — markera ett litet steg
       </button>
+
+      <BentoCard title="Sparmål" icon={<PiggyBank className="h-4 w-4" />} description="Enkla mål — inga grafer">
+        {savings.length === 0 ? (
+          <EmptyState message="Inga sparmål ännu." />
+        ) : (
+          <ul className="mb-3 space-y-2 text-sm">
+            {savings.map((g) => (
+              <li key={g.id} className="flex items-center justify-between gap-2">
+                <span>
+                  {g.title}: {g.currentSek} / {g.targetSek} kr
+                </span>
+                <button
+                  type="button"
+                  className="text-xs text-accent-primary"
+                  disabled={saving || !user}
+                  onClick={() =>
+                    void setBudgetSaving(user!.uid, {
+                      id: g.id,
+                      title: g.title,
+                      targetSek: g.targetSek,
+                      currentSek: Math.min(g.targetSek, g.currentSek + 100),
+                    }).then(reload)
+                  }
+                >
+                  +100
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+        <div className="flex flex-wrap gap-2">
+          <input
+            className="input-glass flex-1 min-w-[120px]"
+            placeholder="Mål (t.ex. Simkort)"
+            value={goalTitle}
+            onChange={(e) => setGoalTitle(e.target.value)}
+          />
+          <input
+            type="number"
+            className="input-glass w-24"
+            value={goalTarget}
+            onChange={(e) => setGoalTarget(e.target.value)}
+          />
+          <button
+            type="button"
+            disabled={saving || !user || !goalTitle.trim()}
+            className="btn-pill--ghost text-sm"
+            onClick={() =>
+              void setBudgetSaving(user!.uid, {
+                title: goalTitle.trim(),
+                targetSek: Number(goalTarget) || 0,
+                currentSek: 0,
+              }).then(() => {
+                setGoalTitle('');
+                return reload();
+              })
+            }
+          >
+            Lägg till
+          </button>
+        </div>
+        <p className="mt-2 text-xs text-text-dim">
+          Lön, räkningar och sjuklogg finns under Hjärtat → Bevis → Lön (PIN).
+        </p>
+      </BentoCard>
 
       <BentoCard title="Profil" description="Firestore economy_profiles">
         <div className="flex flex-wrap gap-3 text-sm">

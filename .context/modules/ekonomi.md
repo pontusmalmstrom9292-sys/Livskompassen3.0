@@ -2,13 +2,15 @@
 
 **Route:** `/ekonomi` · **Dock:** Map
 
-Blueprint: veckopeng, matlåda-knapp, inga grafer. Placeholder — Firestore schema saknas.
+Blueprint: veckopeng, matlåda-knapp, sparmål, inga grafer. Lön/räkningar → Valv (PIN).
 
 ## Status
 
 | Klart | Delvis | Planerat |
 |-------|--------|----------|
-| EconomyPage shell (SaldoHero, tiles) | Placeholder-värden | Firestore schema, transaktioner, vinst-knapp |
+| EconomyPage + WORM transactions | Sparmål `budget_savings` | — |
+| Valv Lön-flik (`valv_ekonomi`) | | |
+| Stämpelklocka `/stampla` | | |
 
 ## Kladd 2026-05-21
 
