@@ -3,7 +3,7 @@ import { FloatingDock } from './FloatingDock';
 import { AmbientBackground } from './AmbientBackground';
 import { AccountAuthMenu } from '../auth/AccountAuthMenu';
 import { LivskompassMark } from '../ui/LivskompassMark';
-import { Compass, Home } from 'lucide-react';
+import { Home } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useStore } from '../store';
 import { CognitiveLoadBar } from '../cognitive/CognitiveLoadBar';
@@ -47,8 +47,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       <header className="app-header">
         <div className="glass-header-bar">
           <div className="app-header__brand">
-            <div className="app-header__logo">
-              <Compass className="h-4 w-4 text-accent" strokeWidth={1.75} />
+            <div className="app-header__logo" aria-hidden>
+              <LivskompassMark className="app-header__logo-mark" />
             </div>
             <h1 className="app-header__title">Livskompassen</h1>
           </div>
