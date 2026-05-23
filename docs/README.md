@@ -54,6 +54,7 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 | [`specs/modules/Arkiv-GAP-REGISTER.md`](specs/modules/Arkiv-GAP-REGISTER.md) | **Implementation queue** — `kör [GAP]` |
 | [`specs/design-master.md`](specs/design-master.md) | UI-kanon (Obsidian Calm) |
 | [`specs/product-vision.md`](specs/product-vision.md) | Produktvision |
+| [`specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md) | **Låst:** yttre lugnet vs inre försvaret, Orkestern, Mönstersökaren |
 | [`src/modules/README.md`](../src/modules/README.md) | Kod ↔ spec ↔ `.context/modules/` |
 
 ---

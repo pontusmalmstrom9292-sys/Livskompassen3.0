@@ -7,7 +7,7 @@ Konsoliderad till [`.context/modules/dagbokshubben.md`](../../../.context/module
 
 Dagbokshubben är **Lager 1 (Hjärtat)** — appens lugna, oskyldiga fasad utåt. En kravlös tacksamhets- och reflektionsdagbok med låg kognitiv belastning (ADHD/GAD). Syftet är identitetsrekonstruktion och KASAM via ACT/KBT-inspirerad reflektion — **inte** forensisk bevisföring.
 
-**Strikt skild från Verklighetsvalvet (Lager 2):** dagboken är mjuk och helande; valvet är kallt, juridiskt och forensiskt. De får prata i backend (Vävaren) men UI-upplevelsen förblir separerad (**plausible deniability**).
+**Strikt skild från Verklighetsvalvet (Lager 2):** dagboken är **Det yttre lugnet** — mjuk och helande; valvet är **Det inre försvaret** — kallt, juridiskt och forensiskt. De får prata i backend (Vävaren) men UI-upplevelsen förblir separerad (**plausible deniability**). Kanon: [`ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](../ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md).
 
 ## 2. Route och ingång
 

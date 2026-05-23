@@ -27,5 +27,7 @@ Nature themes, lila/turkos/regnbåge, ljusa bakgrunder, count-up på siffror, se
 
 ## Modul-specifikt
 
+- **Det yttre lugnet (Lager 1):** varm, helande — ingen forensisk copy; se [`docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](../docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md)
+- **Det inre försvaret (Lager 2 / Valv):** kall struktur, guld/emerald för fakta — Orkestern-panel Obsidian Calm (G19)
 - **Speglar:** Electric Indigo `#6366F1` för AI-ytor
 - **Barnen:** `#818CF8` + `#FDE68A`

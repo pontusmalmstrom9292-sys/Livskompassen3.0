@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { FileText, Loader2, Lock, ShieldAlert } from 'lucide-react';
-import { bevisTabHref } from '../../core/navigation/appNavigation';
+import { HIDE_BEVIS_TAB, FYREN_BEVIS_HINT, bevisTabHref, hjartatTabHref } from '../../core/navigation/appNavigation';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { EmptyState } from '../../core/ui/EmptyState';
 import { useStore } from '../../core/store';
@@ -229,14 +229,21 @@ export function DossierPage({ embedded = false }: DossierPageProps) {
       <div className={embedded ? 'space-y-4' : 'space-y-6'}>
         <BentoCard title="Dossier-Generator" icon={<Lock className="h-4 w-4" />}>
           <p className="mb-4 text-sm text-text-muted">
-            Dossier kräver upplåst Valv (Fyren). I bottenmenyn: tryck på <strong>Hjärtat</strong>{' '}
-            (bok-ikonen) och <strong>håll 3 sekunder</strong>, eller öppna fliken Bevis och ange PIN.
+            Dossier kräver upplåst Valv (Fyren).{' '}
+            {HIDE_BEVIS_TAB ? (
+              FYREN_BEVIS_HINT
+            ) : (
+              <>
+                I bottenmenyn: tryck på <strong>Hjärtat</strong> och <strong>håll 3 sekunder</strong>,
+                eller öppna fliken Bevis och ange PIN.
+              </>
+            )}
           </p>
           <Link
-            to={bevisTabHref()}
+            to={HIDE_BEVIS_TAB ? hjartatTabHref('reflektion') : bevisTabHref()}
             className="inline-flex rounded-lg bg-indigo-500/20 px-4 py-2 text-sm font-medium text-indigo-200 hover:bg-indigo-500/30"
           >
-            Öppna Bevis / Valv
+            {HIDE_BEVIS_TAB ? 'Gå till Hjärtat' : 'Öppna Bevis / Valv'}
           </Link>
         </BentoCard>
       </div>

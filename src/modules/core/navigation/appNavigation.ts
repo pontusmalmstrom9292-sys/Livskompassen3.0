@@ -39,7 +39,11 @@ export type LifeCluster = {
   chips: ClusterChip[];
 };
 
-export const HIDE_BEVIS_TAB = import.meta.env.VITE_HIDE_BEVIS_TAB === 'true';
+/** G18 — default: dold Bevis-flik (Fyren-only). Dev/smoke: `VITE_SHOW_BEVIS_TAB=true`. */
+export const HIDE_BEVIS_TAB = import.meta.env.VITE_SHOW_BEVIS_TAB !== 'true';
+
+export const FYREN_BEVIS_HINT =
+  'Öppna modulhubben (Kompass), tryck Hjärtat och håll 3 sekunder (Fyren), verifiera och ange PIN.';
 
 export const DOSSIER_PATH = '/dossier';
 
@@ -63,7 +67,7 @@ const HJARTAT_CLUSTER: LifeCluster = {
   path: HJARTAT_PATH,
   label: 'Hjärtat',
   hubLabel: 'Hjärtat',
-  desc: 'Sanning, reflektion och spegling.',
+  desc: HIDE_BEVIS_TAB ? 'Reflektion och spegling.' : 'Sanning, reflektion och spegling.',
   icon: BookOpen,
   tone: 'gold',
   hubPosition: 'center',
@@ -151,10 +155,13 @@ export type HubModule = {
 };
 
 function clusterToHubModule(c: LifeCluster): HubModule {
+  const centerHubDesc = HIDE_BEVIS_TAB
+    ? 'Dagbok och spegling'
+    : 'Dagbok · bevis · spegling';
   return {
     path: c.path,
     label: c.hubLabel,
-    desc: c.hubPosition === 'center' ? 'Dagbok · bevis · spegling' : c.desc.split('.')[0] ?? c.desc,
+    desc: c.hubPosition === 'center' ? centerHubDesc : c.desc.split('.')[0] ?? c.desc,
     icon: c.hubPosition === 'center' ? c.icon : c.id === 'vardagen' ? Sprout : c.icon,
     tone: c.tone,
     longPress: c.longPress,
@@ -189,6 +196,14 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
 export function parseHjartatTab(raw: string | null): HjartatTab {
   if (raw === 'bevis' || raw === 'speglar') return raw;
   return 'reflektion';
+}
+
+/** G18: `?tab=bevis` utan Fyren-gate → reflektion (yttre lugnet). Gate vinner alltid. */
+export function resolveHjartatTab(raw: string | null, vaultGateOpen: boolean): HjartatTab {
+  const parsed = parseHjartatTab(raw);
+  if (vaultGateOpen && parsed === 'bevis') return 'bevis';
+  if (parsed === 'bevis' && HIDE_BEVIS_TAB && !vaultGateOpen) return 'reflektion';
+  return parsed;
 }
 
 export function parseVardagenTab(raw: string | null): VardagenTab {

@@ -6,6 +6,7 @@ import { PinGate } from '../../core/ui/PinGate';
 import { TabBar } from '../../core/ui/TabBar';
 import { useStore } from '../../core/store';
 import { hasVaultGate, clearVaultGate } from '../../core/auth/sessionService';
+import { FYREN_BEVIS_HINT } from '../../core/navigation/appNavigation';
 import { saveVaultLog, getVaultLogs } from '../../core/firebase/firestore';
 import type { VaultLog } from '../../core/types/firestore';
 import { VaultEntryForm } from './VaultEntryForm';
@@ -158,10 +159,7 @@ export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
         description="Sacred Feature — long-press krävs"
         icon={<ShieldAlert className="h-4 w-4" />}
       >
-        <p className="text-sm text-text-dim">
-          Håll Dagbok-ikonen i bottenmenyn i 3 sekunder (Fyren) för dold åtkomst till bevisvalvet.
-          Kort tryck räcker inte.
-        </p>
+        <p className="text-sm text-text-dim">{FYREN_BEVIS_HINT} Kort tryck räcker inte.</p>
       </BentoCard>
     );
   }

@@ -45,6 +45,9 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] Grunder U1–U5 + Fas C — [`docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md`](docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md)
 - [ ] Manuell ingest av minne-poster (opt-in trauma-policy)
 - [ ] Implementation per modul när användaren säger *kör [modul]*
+- [x] Arkitektur **yttre lugnet / inre försvaret** dokumenterad — [`docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](../docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md)
+- [x] **G18** dölj Bevis-flik (Fyren-only) — 2026-05-23
+- [ ] **G19–G21** Orkestern + Mönstersökaren
 
 ## Aktuell status
 - [x] Design-tokens och fargpalett

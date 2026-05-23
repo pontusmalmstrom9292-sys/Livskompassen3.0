@@ -2,7 +2,7 @@
 
 **Syfte:** När det känns rörigt — ett ställe att starta, färdiga analysprompter, och var sanningen bor. Du behöver inte minnas hela projektet; kör en analys och spara resultatet.
 
-**Senast uppdaterad:** 2026-05-22
+**Senast uppdaterad:** 2026-05-23
 
 ---
 
@@ -26,6 +26,7 @@
 |------|-----|----------------|
 | **0 — Fas & prioritering** | [`.context/system-plan.md`](../.context/system-plan.md) | Vilken fas, vad som är klart / öppet |
 | **1 — Säkerhet & Sacred** | [`.context/security.md`](../.context/security.md) | Layered Defense, WORM, silos, Kill Switch |
+| **1b — Yttre lugnet / Inre försvaret** | [`specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](./specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md) | UI-skiljning Lager 1 vs 2, Orkestern, Mönstersökaren (G18–G21) |
 | **2 — Minne & silos** | [`.context/arkiv-minne.md`](../.context/arkiv-minne.md) | Permanent minne, tre kunskapsytor |
 | **2b — Drive → Kunskap** | [`DRIVE_AUTOMATION.md`](./DRIVE_AUTOMATION.md), `npm run drive:wireup` | Inbox/Vault webhook, `DRIVE_INGEST_OWNER_UID` |
 | **3 — Live moln** | [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md) | Functions, indexes, secrets (ersätter arkiv) |

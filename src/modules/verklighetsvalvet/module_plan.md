@@ -4,7 +4,7 @@
 
 Sacred Feature: WORM evidence vault (Verklighetsvalvet / Sanningens Sköld). Route `/dagbok?tab=bevis`; redirect `/valv`. Dold ingång via Fyren (3s long-press BookOpen + WebAuthn + PIN).
 
-Canonical: `.context/modules/verklighetsvalvet.md` · Spec: `docs/specs/modules/Verklighetsvalvet-SPEC.md`
+Canonical: `.context/modules/verklighetsvalvet.md` · Spec: `docs/specs/modules/Verklighetsvalvet-SPEC.md` · Arkitektur: `docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`
 
 ## Files
 
@@ -36,7 +36,9 @@ Canonical: `.context/modules/verklighetsvalvet.md` · Spec: `docs/specs/modules/
 | Shake-to-Kill | Panik + iOS-test | Ja | **done** |
 | Orosanmälan + skolbevis | §D beviskandidater | Manuell | **use now** |
 | Vävaren godkännande | Önskat före permanent AI-tagg | Auto idag | **planned** |
-| Dölj Bevis-flik | Plausible deniability | Nej | **planned** |
+| Dölj Bevis-flik | Plausible deniability (yttre lugnet) | Ja | **done** — **G18** 2026-05-23 |
+| Orkestern-flik | Vävaren/Spejaren/Säkraren panel | Nej | **planned** — **G19–G20** |
+| Mönstersökaren | gaslighting/lojalitetspress/projektion trender | Nej | **planned** — **G21** |
 | BBIC-filter export | Soc/jurist | Nej | **planned** (Dossier fas 2) |
 | Sanningens Ankare landning | Notebook | Nej | **planned** |
 | Auto Storage-analys | Notebook vision | Nej | **rejected** |
@@ -53,7 +55,7 @@ Canonical: `.context/modules/verklighetsvalvet.md` · Spec: `docs/specs/modules/
 
 ## Nästa fas (implementera när användaren säger kör)
 
-1. Dölj Bevis-flik + ClusterGrid-länk (Fyren only, feature flag)
+1. ~~Dölj Bevis-flik + ClusterGrid-länk~~ — **done** G18 (`VITE_SHOW_BEVIS_TAB=true` för dev)
 2. Klickbara citations i ValvChatPanel
 3. Drive-ingest med manuellt godkännande → `reality_vault`
 4. ~~Full Dossier-generator~~ → **done** (`DossierPage` + `generateDossier`; kvar: BBIC-mall, Vävaren försätt)

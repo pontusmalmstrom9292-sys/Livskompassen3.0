@@ -2,6 +2,17 @@
 
 Livskompassen v2 representerar en fundamental utveckling från en traditionell applikation för personlig utveckling till ett avancerat, prediktivt och autonomt ekosystem.
 
+## Det yttre lugnet vs Det inre försvaret (låst 2026-05-23)
+
+**Canonical:** [`docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](../docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md)
+
+| Rum | UX | Data |
+|-----|-----|------|
+| **Utanför Valvet** — helande, stoisk, varm | Dagbok Reflektion, Kompasser, Måbra, Barnen (positivt), Kompis | Ingen ex/rättstvist/WORM i öppen UI |
+| **Innanför Valvet** — forensiskt försvar | Fyren (3s) + PIN/WebAuthn → Bevis, Orkestern, Mönstersökaren | `reality_vault` WORM, Valv-Chat |
+
+Implementation: **G18–G21** i [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md). Läs kanonfilen före varje valv-/dagbok-UI-PR.
+
 ## Kärnkomponenter
 - **Kompis:** En empatisk, AI-driven navigatör som interagerar med användaren genom ett visuellt gränssnitt.
 - **Sub-Synaptiska Nätverket:** En underliggande neural arkitektur som kopplar samman och analyserar livsdata såsom rutiner, budgetar och Minne (användarens utmaningar och milstolpar).

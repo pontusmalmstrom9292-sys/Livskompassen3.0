@@ -158,9 +158,9 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 | Valv-Chat (Sök-flik, `valvChatQuery`) | **done** |
 | Stäng → Lager 1, flikbyte låser | **done** |
 | Shake-to-Kill | **done** |
-| Synlig Bevis-flik i Hjärtat | **done** (produktgap vs plausible deniability) |
+| Synlig Bevis-flik i Hjärtat | **avvisat** — G18 **done** 2026-05-23 (Fyren-only) |
 | Klickbara citations i Valv-Chat | **planned** |
-| Dölj Bevis-flik (endast Fyren) | **planned** (beslut §14) |
+| Dölj Bevis-flik (endast Fyren) | **done** — `HIDE_BEVIS_TAB`, `resolveHjartatTab` |
 | Drive → `reality_vault` (manuellt) | **planned** |
 | `generateDossier` multi-källa + hash | **done** (deploy callable) |
 | BBIC `reportType` / mass-mall | **planned** fas 2 |
@@ -255,7 +255,19 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 | 2 | PDF-export | **Klient per post nu**; BBIC/mass via **Dossier callable** senare | **Ja** |
 | 3 | Valv-Chat session | **Nollställ vid flikbyte** (behåll `useValvChatSession`) | **Ja** |
 | 4 | Auth | **WebAuthn + PIN**; duress-PIN **inte** MVP | **Ja** |
-| 5 | Synlig Bevis-flik | **Dölj** — implementera när **Fyren sitter i muskelminnet**; synlig flik tills dess | **Ja** |
+| 5 | Synlig Bevis-flik | **Dölj** — implementera när **Fyren sitter i muskelminnet**; synlig flik tills dess | **Ja** (**G18**) |
+
+## 16. Arkitektur — yttre lugnet, Orkestern, Mönstersökaren (2026-05-23)
+
+**Canonical:** [`ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](../ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md)
+
+| Del | Status | GAP |
+|-----|--------|-----|
+| Det inre försvaret (WORM, Fyren, logg, sök) | **PASS** — kärna + G18 dölj Bevis-flik | G19–G21 |
+| Orkestern-flik (Vävaren, Spejaren, Säkraren) | **GAP** | G19, G20 |
+| Mönstersökaren (gaslighting, lojalitetspress, projektion) | **GAP** | G21 |
+
+**Flikar mål i upplåst valv:** Logga \| Sök \| Dossier \| **Orkestern** \| **Mönster** (sista två = G19–G21).
 
 ---
 

@@ -175,7 +175,7 @@ export function StampClockPage() {
       </BentoCard>
 
       <p className="text-xs text-text-dim">
-        Frånvaro, manuella pass och löneöversikt finns under Hjärtat → Bevis → Lön (efter PIN).
+        Frånvaro, manuella pass och löneöversikt finns i Valvet under Lön (Fyren: håll Hjärtat 3 sek i modulhubben, sedan PIN).
       </p>
     </div>
   );

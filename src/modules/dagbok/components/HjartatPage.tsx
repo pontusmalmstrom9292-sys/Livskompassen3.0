@@ -4,10 +4,11 @@ import { BookOpen, Shield, Brain } from 'lucide-react';
 import { ClusterShell } from '../../core/ui/ClusterShell';
 import type { TabBarItem } from '../../core/ui/TabBar';
 import { useStore } from '../../core/store';
-import { clearVaultGate } from '../../core/auth/sessionService';
+import { clearVaultGate, hasVaultGate } from '../../core/auth/sessionService';
 import {
   getVisibleHjartatTabs,
   parseHjartatTab,
+  resolveHjartatTab,
   type HjartatTab,
 } from '../../core/navigation/appNavigation';
 import { VaultPage } from '../../verklighetsvalvet';
@@ -15,7 +16,7 @@ import { SpeglingsSystem } from '../../speglings_system';
 import { DagbokPage } from './DagbokPage';
 
 export type { HjartatTab } from '../../core/navigation/appNavigation';
-export { parseHjartatTab } from '../../core/navigation/appNavigation';
+export { parseHjartatTab, resolveHjartatTab } from '../../core/navigation/appNavigation';
 
 const TAB_ICONS: Record<HjartatTab, ReactNode> = {
   reflektion: <BookOpen className="h-3 w-3" />,
@@ -33,7 +34,10 @@ function buildTabItems(): TabBarItem<HjartatTab>[] {
 
 export function HjartatPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const tab = parseHjartatTab(searchParams.get('tab'));
+  const gateOpen = hasVaultGate();
+  const requestedTab = parseHjartatTab(searchParams.get('tab'));
+  const tab = resolveHjartatTab(searchParams.get('tab'), gateOpen);
+  const inVaultSession = tab === 'bevis' && gateOpen;
   const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
   const tabs = buildTabItems();
 
@@ -48,22 +52,45 @@ export function HjartatPage() {
     [tab, setSearchParams, setVaultUnlocked],
   );
 
+  /** Fyren satte gate men router hann inte till ?tab=bevis — återställ URL. */
+  useEffect(() => {
+    if (!gateOpen) return;
+    if (searchParams.get('tab') !== 'bevis') {
+      setSearchParams({ tab: 'bevis' }, { replace: true });
+    }
+  }, [gateOpen, searchParams, setSearchParams]);
+
+  /** G18: bokmärke ?tab=bevis utan gate — städa URL (inte när Fyren just öppnat). */
+  useEffect(() => {
+    if (requestedTab === 'bevis' && tab === 'reflektion' && !gateOpen) {
+      setSearchParams({}, { replace: true });
+    }
+  }, [requestedTab, tab, gateOpen, setSearchParams]);
+
+  /** Lås upp-state följer flik — rör inte sessionStorage-gate (Fyren). */
   useEffect(() => {
     if (tab !== 'bevis') {
       setVaultUnlocked(false);
-      clearVaultGate();
     }
   }, [tab, setVaultUnlocked]);
 
   return (
     <ClusterShell
-      title="Hjärtat"
-      description="Sanning · reflektion · spegling"
+      title={inVaultSession ? 'Verklighetsvalvet' : 'Hjärtat'}
+      description={
+        inVaultSession
+          ? 'Forensiskt försvar — stäng när du är klar.'
+          : 'Reflektion och spegling'
+      }
       tone="gold"
-      hint="Ett kluster — välj flik, sedan ett steg i taget."
-      tabs={tabs}
-      activeTab={tab}
-      onTabChange={setTab}
+      hint={
+        inVaultSession
+          ? undefined
+          : 'Ett kluster — välj flik, sedan ett steg i taget.'
+      }
+      tabs={inVaultSession ? undefined : tabs}
+      activeTab={inVaultSession ? undefined : tab}
+      onTabChange={inVaultSession ? undefined : setTab}
     >
       {tab === 'reflektion' && <DagbokPage embedded />}
       {tab === 'bevis' && <VaultPage embedded onClose={() => setTab('reflektion')} />}

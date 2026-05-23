@@ -7,10 +7,12 @@
 
 ## Kärna (MVP+)
 
+**Arkitektur (låst):** [`ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md) — *Det yttre lugnet* utanför valvet, *Det inre försvaret* innanför Fyren.
+
 | Område | Syfte |
 |--------|--------|
-| **Dagbok (Lager 1)** | Tacksamhet/humör — appens lugna ansikte utåt |
-| **Verklighetsvalvet (Lager 2)** | WORM-bevisbank mot gaslighting |
+| **Dagbok (Lager 1)** | Tacksamhet/humör — **Det yttre lugnet**; appens lugna ansikte utåt |
+| **Verklighetsvalvet (Lager 2)** | **Det inre försvaret** — WORM-bevisbank, Orkestern, Mönstersökaren (G19–G21) |
 | **Speglings-Systemet** | ACT + VIVIR + känsla vs bevis |
 | **Safe Harbor** | BIFF/Grey Rock för ex-kommunikation |
 | **Barnens livsloggar** | Neutral dokumentation, Balansmätare |

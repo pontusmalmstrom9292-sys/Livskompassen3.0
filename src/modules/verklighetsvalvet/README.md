@@ -1,6 +1,6 @@
 # verklighetsvalvet
 
-> Sacred Feature — Sanningens Sköld. WORM-bevisbank (Lager 2) mot gaslighting.
+> Sacred Feature — Sanningens Sköld. **Det inre försvaret** (Lager 2) — WORM-bevisbank mot gaslighting. Arkitektur: [`docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](../../docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md).
 
 ## Syfte
 

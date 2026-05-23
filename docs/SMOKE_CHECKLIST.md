@@ -10,7 +10,7 @@
 |---|------|----------------|-----------|
 | 1 | Auth | Öppna app | Ingen auth-fel i konsol; uid i Firebase Auth |
 | 2 | Dagbok | `/dagbok` (Reflektion) — spara post | Dokument i Firestore `journal` med `userId` = ditt uid |
-| 3 | Valv | Modulhub → Hjärtat **3s long-press** → PIN → Bevis-flik | Post i `reality_vault` |
+| 3 | Valv | Modulhub → Hjärtat **3s long-press** (Fyren) → PIN → valv (ingen synlig Bevis-flik, G18) | Post i `reality_vault` |
 | 4 | Barnen | `/familjen` — spara logg | Post i `children_logs` |
 | 5 | Kompasser | `/vardagen` (Kompasser-flik) — check-in | Post i `checkins` |
 | 6 | BIFF | `/hamn` — skicka meddelande | Svar från callable `analyzeMessage` |
@@ -27,7 +27,7 @@
 | 17 | Valv PDF | Bevis → Logga → PDF-knapp på post | Utskriftsdialog öppnas (spara som PDF) |
 | 18 | Dossier bro | Bevis → flik Dossier → Öppna generator | Navigerar till `/dossier` (canonical) |
 | 19 | Legacy redirect | `/valv`, `/kunskap`, `/barnen` | Redirect till `/dagbok?tab=bevis`, `/vardagen?tab=kunskap`, `/familjen` |
-| 20 | Vault unlock reset | Bevis-flik → byt till Reflektion | `isVaultUnlocked` false; gate rensad |
+| 20 | Vault unlock reset | Efter Fyren: Stäng valv / byt till Reflektion | `isVaultUnlocked` false; gate rensad |
 
 **Prod-smoke:** Kör #11–20 mot [Hosting-URL](https://gen-lang-client-0481875058.web.app) efter deploy.
 

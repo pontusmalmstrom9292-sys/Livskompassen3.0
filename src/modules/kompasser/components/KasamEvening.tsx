@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { Check, Loader2, Moon } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { bevisTabHref, speglarTabHref } from '../../core/navigation/appNavigation';
+import {
+  HIDE_BEVIS_TAB,
+  FYREN_BEVIS_HINT,
+  bevisTabHref,
+  speglarTabHref,
+} from '../../core/navigation/appNavigation';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { saveCheckIn } from '../../core/firebase/firestore';
 
@@ -86,9 +91,13 @@ export function KasamEvening({ userId, onKlar, onSaved }: Props) {
             >
               Jämför känsla med fakta (Speglar)
             </Link>
-            <Link to={bevisTabHref()} className="btn-pill--ghost text-sm">
-              Dokumentera neutralt (Bevis)
-            </Link>
+            {!HIDE_BEVIS_TAB ? (
+              <Link to={bevisTabHref()} className="btn-pill--ghost text-sm">
+                Dokumentera neutralt (Bevis)
+              </Link>
+            ) : (
+              <p className="text-xs text-text-dim">{FYREN_BEVIS_HINT}</p>
+            )}
           </div>
         </BentoCard>
         <div className="flex flex-col gap-2">

@@ -80,6 +80,7 @@ Parent: `livskompassen-master-architect`. Baseline: [`docs/archive/evaluations-2
 | Firebase deploy / inventering | plugin `firebase-basics` | `firebase-workflow.mdc` + agent `livskompassen-firebase-gcp` |
 | Firestore rules / WORM | plugin `firebase-firestore-standard` | `security-firestore.mdc` |
 | Frontend UI (Obsidian Calm) | — | `ui-design.mdc` + agent `livskompassen-ui-obsidian` |
+| Yttre lugnet / inre försvaret, Orkestern, Mönstersökaren | — | [`docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md) + GAP **G18–G21** |
 
 Kanon för arkitektur och säkerhet: `.context/` (system-plan, arkiv-minne, security). Dokumentationsindex: [`docs/README.md`](docs/README.md). **Systemkontroll / röda tråden:** [`docs/SYSTEMKONTROLL.md`](docs/SYSTEMKONTROLL.md).  
 **Cursor Fas D (MCP + settings):** [`docs/DEPLOY.md`](docs/DEPLOY.md) § Cursor IDE — regler, MCP, agenter.

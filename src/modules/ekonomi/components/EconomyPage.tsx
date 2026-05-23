@@ -7,12 +7,16 @@ import { EmptyState } from '../../core/ui/EmptyState';
 import { TimelineEntry } from '../../core/ui/TimelineEntry';
 import { useStore } from '../../core/store';
 import {
-  getEconomyProfile,
   getEconomyTransactions,
   saveEconomyTransaction,
-  setEconomyProfile,
 } from '../../core/firebase/firestore';
-import { getBudgetSavings, setBudgetSaving } from '../../core/firebase/timeEconomyFirestore';
+import {
+  getBudgetSavings,
+  getEconomyProfileExtended,
+  setBudgetSaving,
+  setEconomyProfileExtended,
+} from '../../core/firebase/timeEconomyFirestore';
+import { TimeAndPayPanel } from './TimeAndPayPanel';
 
 type EconomyPageProps = {
   embedded?: boolean;
@@ -28,6 +32,9 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
   >([]);
   const [weeklyBudget, setWeeklyBudget] = useState(DEFAULT_WEEKLY);
   const [mealPreset, setMealPreset] = useState(DEFAULT_MEAL);
+  const [hourlyRate, setHourlyRate] = useState(0);
+  const [flexTarget, setFlexTarget] = useState(40);
+  const [monthlySalary, setMonthlySalary] = useState(0);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -44,15 +51,16 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
     try {
       const [txs, profile, goals] = await Promise.all([
         getEconomyTransactions(user.uid),
-        getEconomyProfile(user.uid),
+        getEconomyProfileExtended(user.uid),
         getBudgetSavings(user.uid),
       ]);
       setTransactions(txs);
       setSavings(goals);
-      if (profile) {
-        setWeeklyBudget(profile.weeklyBudgetSek || DEFAULT_WEEKLY);
-        setMealPreset(profile.mealBoxPresetSek || DEFAULT_MEAL);
-      }
+      setWeeklyBudget(profile.weeklyBudgetSek || DEFAULT_WEEKLY);
+      setMealPreset(profile.mealBoxPresetSek || DEFAULT_MEAL);
+      setHourlyRate(profile.hourlyRateSek || 0);
+      setFlexTarget(profile.flexHoursTarget || 40);
+      setMonthlySalary(profile.monthlySalarySek || 0);
     } catch {
       setError('Kunde inte läsa ekonomi.');
     } finally {
@@ -102,9 +110,12 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
   const persistProfile = async () => {
     if (!user) return;
     try {
-      await setEconomyProfile(user.uid, {
+      await setEconomyProfileExtended(user.uid, {
         weeklyBudgetSek: weeklyBudget,
         mealBoxPresetSek: mealPreset,
+        hourlyRateSek: hourlyRate,
+        flexHoursTarget: flexTarget,
+        monthlySalarySek: monthlySalary,
       });
     } catch {
       setError('Kunde inte spara profil.');
@@ -120,6 +131,8 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
         amount={loading ? '— kr' : saldoLabel}
         hint={`Veckobudget ${weeklyBudget} kr · matlåda ${mealPreset} kr`}
       />
+
+      <TimeAndPayPanel />
 
       <div className="grid grid-cols-2 gap-3">
         <button
@@ -210,11 +223,11 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
           </button>
         </div>
         <p className="mt-2 text-xs text-text-dim">
-          Lön, räkningar och sjuklogg finns under Hjärtat → Bevis → Lön (PIN).
+          Fasta räkningar, utgiftslogg och frånvaro finns i Valvet under Lön (Fyren: håll Hjärtat 3 sek i modulhubben, sedan PIN).
         </p>
       </BentoCard>
 
-      <BentoCard title="Profil" description="Firestore economy_profiles">
+      <BentoCard title="Profil" description="Veckopeng, matlåda och lön">
         <div className="flex flex-wrap gap-3 text-sm">
           <label className="flex flex-col gap-1">
             <span className="text-text-dim">Veckobudget (kr)</span>
@@ -232,6 +245,36 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
               type="number"
               value={mealPreset}
               onChange={(e) => setMealPreset(Number(e.target.value) || 0)}
+              onBlur={() => void persistProfile()}
+              className="input-glass w-28"
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="text-text-dim">Timlön (kr/h)</span>
+            <input
+              type="number"
+              value={hourlyRate}
+              onChange={(e) => setHourlyRate(Number(e.target.value) || 0)}
+              onBlur={() => void persistProfile()}
+              className="input-glass w-28"
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="text-text-dim">Flexmål (h/vecka)</span>
+            <input
+              type="number"
+              value={flexTarget}
+              onChange={(e) => setFlexTarget(Number(e.target.value) || 0)}
+              onBlur={() => void persistProfile()}
+              className="input-glass w-28"
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="text-text-dim">Månadslön (kr)</span>
+            <input
+              type="number"
+              value={monthlySalary}
+              onChange={(e) => setMonthlySalary(Number(e.target.value) || 0)}
               onBlur={() => void persistProfile()}
               className="input-glass w-28"
             />

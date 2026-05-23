@@ -17,6 +17,10 @@
 | G9–G14 | **done** | Life OS utbyggnad (2026-05-22) |
 | G15–G16 | **done** | G15 + G16 + U5.5 **done** 2026-05-22 |
 | G17 | **open** | Server/WebAuthn PIN — [`G17-Server-PIN-WebAuthn-GAP.md`](G17-Server-PIN-WebAuthn-GAP.md) |
+| G18 | **done** | Yttre lugnet — dölj synlig Bevis-flik (Fyren-only) — 2026-05-23 |
+| G19 | **open** | Valv Orkestern — visuell panel Vävaren/Spejaren/Säkraren |
+| G20 | **open** | Orkestern batch — SMS/orosanmälan/inkorg → WORM-mönster |
+| G21 | **open** | Mönstersökaren — gaslighting/lojalitetspress/projektion + trender |
 | V1 | **wait** | Genkit — ej migrera |
 
 ---
@@ -152,6 +156,48 @@ Live `subscribeKampsparEntries`, ringar Dåtid/Nutid/Framtid via `eventDate`, kl
 | **Problem** | Valv/Barnen `PinGate` verifierar PIN i klient (`VITE_VAULT_PIN`) |
 | **Åtgärd** | `verifyVaultGate` + `setVaultPin` callables; WebAuthn server verify; smoke |
 | **Trigger** | `kör G17` eller `kör [GAP] G17` |
+
+### G18 — Det yttre lugnet (dölj Bevis-flik) — **done** 2026-05-23
+
+| | |
+|---|---|
+| **Status** | **done** |
+| **Kanon** | [`ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](../ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md) §1, §3 |
+| **Leverans** | `HIDE_BEVIS_TAB` default on (`appNavigation.ts`); `resolveHjartatTab` + gate; `getHomeClusters` utan Verklighetsvalvet-chip; valvsession utan Hjärtat-flikar; copy Fyren-only |
+| **Dev override** | `VITE_SHOW_BEVIS_TAB=true` i `.env` för smoke med synlig Bevis-flik |
+| **Trigger** | `kör G18` |
+
+### G19 — Orkestern (Valv-flik + agentpanel)
+
+| | |
+|---|---|
+| **Status** | **open** |
+| **Kanon** | [`ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](../ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md) §4 |
+| **Problem** | Ingen dedikerad Orkestern-UI; Vävaren körs async utan synlig panel |
+| **Åtgärd** | Ny flik i `VaultPage`: statuskort Vävaren (done), Spejaren (ingest/scan), Säkraren (WORM-sigill); Obsidian Calm, ingen Lager 1-copy |
+| **Runtime delvis** | `weaverAgent.ts`, `assertWormPayload`, `inboxClassifier` |
+| **Trigger** | `kör G19` |
+
+### G20 — Orkestern batch-analys (SMS, orosanmälan)
+
+| | |
+|---|---|
+| **Status** | **open** |
+| **Kanon** | [`ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](../ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md) §2, §4 |
+| **Problem** | Användaren kan inte från Orkestern köra sökning/analys av SMS-loggar och orosanmälningar med emotionell-alienation-mönster → WORM |
+| **Åtgärd** | Callable/jobb: välj källa (Storage/PDF/inkorg) → DCAP + Sannings-Analytikern/Brusfiltret → append `reality_vault` med strukturerade taggar; logg i Orkestern-panel |
+| **MUST NOT** | Auto-spara till valv utan explicit start i Orkestern |
+| **Trigger** | `kör G20` |
+
+### G21 — Mönstersökaren (frekvenstrender)
+
+| | |
+|---|---|
+| **Status** | **open** |
+| **Kanon** | [`ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](../ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md) §5 |
+| **Problem** | Ingen valv-UI för filter på gaslighting, lojalitetspress, projektion över tid |
+| **Åtgärd** | Aggregera `reality_vault` (+ DCAP/weaverTags) → trenddiagram + tabell med WORM-citat; export via Dossier |
+| **Trigger** | `kör G21` |
 
 ---
 

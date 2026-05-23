@@ -1,11 +1,14 @@
 # Verklighetsvalvet
 
 **Sacred Feature (Sanningens Sköld).** **Route:** `/dagbok?tab=bevis` · **Redirect:** `/valv` · **AuthGate:** ja  
-**Spec (konsoliderad):** [`docs/specs/modules/Verklighetsvalvet-SPEC.md`](../../docs/specs/modules/Verklighetsvalvet-SPEC.md)
+**Spec (konsoliderad):** [`docs/specs/modules/Verklighetsvalvet-SPEC.md`](../../docs/specs/modules/Verklighetsvalvet-SPEC.md)  
+**Arkitektur (yttre/inre):** [`docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](../../docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md) — **läs före UI-PR**
 
 ## Syfte
 
-**Lager 2** — WORM-bevisbank mot gaslighting. Append-only, tidsstämplade sanningar. Skild från Dagbok (Lager 1). Plausible deniability via **Fyren** (dold ingång).
+**Lager 2 — Det inre försvaret** (forensiskt försvarsrum): WORM-bevisbank mot gaslighting. Append-only, tidsstämplade sanningar. **Strikt skild** från Dagbok **Lager 1 — Det yttre lugnet**. Plausible deniability via **Fyren** (taktilt trycklås, dold ingång).
+
+**Planerat i valvet (GAP):** flik **Orkestern** (Vävaren, Spejaren, Säkraren) + **Mönstersökaren** (gaslighting, lojalitetspress, projektion) — se **G19–G21**.
 
 ## UI (idag)
 
@@ -27,7 +30,7 @@
 | **Fyren** (3s long-press BookOpen) | WebAuthn → PIN → `/dagbok?tab=bevis` |
 | Flik **Bevis** (synlig idag) | Direkt till valv (svagare plausible deniability) |
 | `/valv` | Redirect → `?tab=bevis`; standalone kräver gate |
-| **Mål:** dölj Bevis-flik | Endast Fyren — när muskelminne sitter |
+| **Bevis-flik** | **Dold (G18)** — endast Fyren + `hasVaultGate()` → `?tab=bevis` |
 
 ## Datamodell (WORM)
 
@@ -49,7 +52,7 @@
 
 | Klart | Delvis | Planerat |
 |-------|--------|----------|
-| Fyren, WebAuthn, PIN, WORM, 4 entry modes, media, röst, PDF/post, Valv-Chat, shake, flik-lås | Synlig Bevis-flik (produktgap), Zero Footprint idle | Dölj Bevis-flik, klickbara citations, Drive→valv, Dossier batch, Sanningens Ankare, CMEK, duress-PIN |
+| Fyren, WebAuthn, PIN, WORM, 4 entry modes, media, röst, PDF/post, Valv-Chat, shake, flik-lås, **G18 dölj Bevis-flik** | Zero Footprint idle | klickbara citations, Drive→valv, Dossier batch, Sanningens Ankare, CMEK, duress-PIN |
 
 ## Kladd 2026-05-21
 

@@ -16,6 +16,10 @@ Visual rules:
 - Typography: Outfit for headings, Inter for body copy.
 - Nature themes are forbidden.
 
+Layered UX (mandatory — [`docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](../../docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md)):
+- **Det yttre lugnet** (utanför Valv): no ex/conflict/legal/WORM reminders on home, Dagbok Reflektion, Måbra, or Barnen happy views.
+- **Det inre försvaret** (Fyren → `?tab=bevis`): forensic copy, Orkestern panel, Mönstersökaren — GAP G18–G21 until shipped.
+
 Interaction rules:
 - Prioritize Clean Input and progressive disclosure.
 - Do not require text commands to start core workflows.
