@@ -1,9 +1,9 @@
 # Inkorg — UX/Navigation & Gemini designkoncept — 2026-05-22
 
-**Status:** Inkorg (ej analyserad / ej låst)  
+**Status:** **Analyserad 2026-05-23** — låst intent **behålls**, bygg ut (ej ta bort)  
 **Senast tillagt:** 2026-05-23  
-**Trigger:** Extern AI-idéer (Gemini) + UI/UX-spec från chatt — ska utvärderas mot repo innan implementation.  
-**Nästa steg:** Specialist-analys → PASS/GAP → låsning i `navigation-master.md` / `design-master.md` → ett byggsteg.
+**Analysrapport:** [`2026-05-23-UX-navigation-analys.md`](./2026-05-23-UX-navigation-analys.md)  
+**Nästa steg:** Ett P0-byggsteg i taget (`kör [GAP]` eller explicit implementation) — börja med F-V13 Valv-chatt-UI.
 
 ---
 
@@ -23,6 +23,13 @@
 | 5 | Gemini 3.0 — nyheter + F-09 (sammanfattning) | [`2026-05-23-inkorg-gemini-3-sammanfattning.md`](./2026-05-23-inkorg-gemini-3-sammanfattning.md) → [`artifacts/gemini-dashboard-interactive-App.tsx`](./artifacts/gemini-dashboard-interactive-App.tsx) |
 | 6 | Skärmdumpar — samlad batch (16 st, hardlinks) | [`2026-05-23-inkorg-skarmdumpar.md`](./2026-05-23-inkorg-skarmdumpar.md) → [`artifacts/screenshots-inkorg-2026-05-23/`](./artifacts/screenshots-inkorg-2026-05-23/) |
 | 7 | Transcript återställning (c7586bb5) | [`2026-05-23-inkorg-transcript-kallor.md`](./2026-05-23-inkorg-transcript-kallor.md) |
+| 8 | Dagens frågekort (Valvet) + Känslokompassen | [`2026-05-23-inkorg-fragekort-valvet.md`](./2026-05-23-inkorg-fragekort-valvet.md) → [`artifacts/screenshots-inkorg-2026-05-23/17-18-fragekort-*.png`](./artifacts/screenshots-inkorg-2026-05-23/) · **utkast lås:** F-V10 |
+| 9 | Barnen — frågekort + livslogg | [`2026-05-23-inkorg-barnen-fragekort.md`](./2026-05-23-inkorg-barnen-fragekort.md) → [`19-barnen-livsloggar-fragekort.png`](./artifacts/screenshots-inkorg-2026-05-23/19-barnen-livsloggar-fragekort.png) · **F-B11** |
+| 9b | Barnen — Barnfokus profilkort | [`2026-05-23-inkorg-barnfokus-profiler.md`](./2026-05-23-inkorg-barnfokus-profiler.md) → [`gemini-child-focus-ChildFocus.tsx`](./artifacts/gemini-child-focus-ChildFocus.tsx) · **F-B12** |
+| 10 | Orkestern / Analys-hub — **endast Valvet** (Fyren) | [`2026-05-23-inkorg-orkestern-analys-hub.md`](./2026-05-23-inkorg-orkestern-analys-hub.md) → [`20-orkestern-analys-hub-valvet.png`](./artifacts/screenshots-inkorg-2026-05-23/20-orkestern-analys-hub-valvet.png) · **utkast lås:** F-V11 → **G19–G21** |
+| 11 | BIFF-Detektor — ex-meddelande → korta svar | [`2026-05-23-inkorg-biff-detektor-valvet.md`](./2026-05-23-inkorg-biff-detektor-valvet.md) → skärm + [`gemini-biff-detector-BiffDetector.tsx`](./artifacts/gemini-biff-detector-BiffDetector.tsx) · **utkast lås:** F-V12 |
+| 12 | Valv-chatt UX (bild + `KompisChat.tsx` låsta) | [`2026-05-23-inkorg-valv-chatt-ux.md`](./2026-05-23-inkorg-valv-chatt-ux.md) → bild 23 + [`gemini-kompis-chat-KompisChat.tsx`](./artifacts/gemini-kompis-chat-KompisChat.tsx) · **F-V13** |
+| 13 | Verklighetsvalvet — mock UI (loggar + Svart på Vitt) | [`2026-05-23-inkorg-verklighetsvalvet-mock.md`](./2026-05-23-inkorg-verklighetsvalvet-mock.md) → [`gemini-reality-vault-RealityVault.tsx`](./artifacts/gemini-reality-vault-RealityVault.tsx) · **F-V14** |
 
 **Regel:** Innehåll här är **ritning**, inte source of truth. Kanon: `.context/design-language.md`, `docs/specs/design-master.md`, `docs/specs/navigation-master.md`, kod i `src/`.
 
@@ -57,15 +64,22 @@ Full kod: [`2026-05-22-inkorg-gemini-prototype.md`](./2026-05-22-inkorg-gemini-p
 
 ---
 
-## Analyskö (tom — fylls vid specialistpass)
+## Analyskö (klar 2026-05-23)
 
-| Specialist | Fråga | Rapportfil (planerad) |
-|------------|-------|------------------------|
-| Navigation | Extern Variant A vs repo Variant C, dock 1 vs 5 ikoner | `2026-05-23-UX-navigation-analys.md` |
-| UI/design | Obsidian Calm, ikoner, #05080E vs tokens; 16 skärmdumpar batch | samma eller `2026-05-23-design-inkorg.md` |
-| Hamn/BIFF | Maskering, tre svar, JADE L3, F-09 eget svar | `modul-safe_harbor` uppdatering |
-| Security | Mock WORM vs `assertWormPayload` | utdrag i navigation-analys |
-| Gemini 3.0 | F-01–F-09 vs shippat 2026-05-23 | utdrag i navigation-analys (FUNKTIONSLOCK redan låst) |
+| Specialist | Verdict | Rapport |
+|------------|---------|---------|
+| Navigation | Behåll Variant C + Fyren; ej 5-ikon dock | [`2026-05-23-UX-navigation-analys.md`](./2026-05-23-UX-navigation-analys.md) §1 |
+| UI/design | Obsidian Calm; mock-färger ej låsta | samma §4 |
+| Hamn/BIFF | API PASS; Valv-flik GAP; behåll `/hamn` | samma § F-V12 |
+| Security | WORM PASS `firestore.rules:43-52` | samma § F-V14 |
+| Gemini F-01–F-08 | Låst — ingen borttagning | FUNKTIONSLOCK + analys §2 |
+| F-V10 | Lager 1 → `/mabra` | [`2026-05-23-inkorg-fragekort-valvet.md`](./2026-05-23-inkorg-fragekort-valvet.md) |
+| F-B11 | Utöka Barnen, `children_logs` | [`2026-05-23-inkorg-barnen-fragekort.md`](./2026-05-23-inkorg-barnen-fragekort.md) |
+| F-B12 | F-04 PASS; datakoppling P1 | [`2026-05-23-inkorg-barnfokus-profiler.md`](./2026-05-23-inkorg-barnfokus-profiler.md) |
+| F-V11 | → G19–G21 | [`2026-05-23-inkorg-orkestern-analys-hub.md`](./2026-05-23-inkorg-orkestern-analys-hub.md) |
+| F-V12 | Valv-flik + delad callable | [`2026-05-23-inkorg-biff-detektor-valvet.md`](./2026-05-23-inkorg-biff-detektor-valvet.md) |
+| F-V13 | UI GAP; backend PASS | [`2026-05-23-inkorg-valv-chatt-ux.md`](./2026-05-23-inkorg-valv-chatt-ux.md) |
+| F-V14 | Fliksamordning VaultPage | [`2026-05-23-inkorg-verklighetsvalvet-mock.md`](./2026-05-23-inkorg-verklighetsvalvet-mock.md) |
 
 ---
 
@@ -218,4 +232,4 @@ Tap-räkning högre (2.6 snitt).
 
 ---
 
-*Skapad av Cursor Agent 2026-05-22. Utökad 2026-05-23 (transcript c7586bb5). Analys och låsning väntar på explicit `kör UX-inkorg-analys`.*
+*Skapad 2026-05-22. Utökad 2026-05-23. Analys: [`2026-05-23-UX-navigation-analys.md`](./2026-05-23-UX-navigation-analys.md). Låst intent (#8–#13, FUNKTIONSLOCK) ska **byggas ut**, inte tas bort.*

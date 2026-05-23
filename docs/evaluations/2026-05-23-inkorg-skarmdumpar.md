@@ -1,6 +1,7 @@
 # Inkorg — Skärmdumpar (samlad batch 2026-05-23)
 
-**Status:** Inkorg (ej analyserad / ej låst)  
+**Status:** **Analyserad 2026-05-23** — bilder **behålls** (låsta referenser)  
+**Analys:** [`2026-05-23-UX-navigation-analys.md`](./2026-05-23-UX-navigation-analys.md)  
 **Källa:** Återställd från Cursor-chatt `c7586bb5-9167-4eb4-ac61-0f9f47d88709` + befintliga artifacts 2026-05-22  
 **Mapp:** [`artifacts/screenshots-inkorg-2026-05-23/`](./artifacts/screenshots-inkorg-2026-05-23/)  
 **Kanoniska kopior:** [`screenshots-gemini-dashboard-2026-05-22/`](./artifacts/screenshots-gemini-dashboard-2026-05-22/) · [`screenshots-gemini-2026-05-22/`](./artifacts/screenshots-gemini-2026-05-22/)
@@ -43,6 +44,58 @@
 
 ---
 
+## Frågekort / Valvet (2 st, 2026-05-23)
+
+| # | Fil i inkorg-mapp | Innehåll |
+|---|-------------------|----------|
+| 17 | `17-fragekort-valvet-baksida.png` | DAGENS FRÅGEKORT — baksida, TRYCK FÖR ATT VÄNDA |
+| 18 | `18-fragekort-valvet-framsida.png` | Framsida med reflektionsfråga + refresh |
+
+**Detalj-inkorg:** [`2026-05-23-inkorg-fragekort-valvet.md`](./2026-05-23-inkorg-fragekort-valvet.md) · utkast **F-V10**
+
+---
+
+## Barnen — frågekort / logg (1 st, 2026-05-23)
+
+| # | Fil i inkorg-mapp | Innehåll |
+|---|-------------------|----------|
+| 19 | `19-barnen-livsloggar-fragekort.png` | **Barnens Livs-Loggar** — slumpfråga, svar, Spara till Kaspers logg |
+
+**Detalj-inkorg:** [`2026-05-23-inkorg-barnen-fragekort.md`](./2026-05-23-inkorg-barnen-fragekort.md) · utkast **F-B11**
+
+---
+
+## Orkestern / Analys-hub — Valvet (1 st, 2026-05-23)
+
+| # | Fil i inkorg-mapp | Innehåll |
+|---|-------------------|----------|
+| 20 | `20-orkestern-analys-hub-valvet.png` | Orkestern: Vävaren/Spejaren/Säkraren, dokumentlista, mönstersökning — **bakom skölden** |
+
+**Detalj-inkorg:** [`2026-05-23-inkorg-orkestern-analys-hub.md`](./2026-05-23-inkorg-orkestern-analys-hub.md) · utkast **F-V11** → G19–G21
+
+---
+
+## BIFF-Detektor — Valvet (2 st, 2026-05-23)
+
+| # | Fil i inkorg-mapp | Innehåll |
+|---|-------------------|----------|
+| 21 | `21-biff-detektor-inkommande.png` | Kognitiv sköld — inkommande text, JADE-filter copy |
+| 22 | `22-biff-detektor-triage-resultat.png` | Triage: känslomässigt brus (dolt) + logistisk kärna |
+
+**Detalj-inkorg:** [`2026-05-23-inkorg-biff-detektor-valvet.md`](./2026-05-23-inkorg-biff-detektor-valvet.md) · utkast **F-V12**
+
+---
+
+## Valv-chatt UX-referens (1 st, 2026-05-23)
+
+| # | Fil i inkorg-mapp | Innehåll |
+|---|-------------------|----------|
+| 23 | `23-valv-chatt-ux-referens.png` | Mål-UX Valv-chatt (låst med `KompisChat.tsx`) |
+
+**Detalj-inkorg:** [`2026-05-23-inkorg-valv-chatt-ux.md`](./2026-05-23-inkorg-valv-chatt-ux.md) · **F-V13** · kod: [`gemini-kompis-chat-KompisChat.tsx`](./artifacts/gemini-kompis-chat-KompisChat.tsx)
+
+---
+
 ## Notering
 
-Filer i `screenshots-inkorg-2026-05-23/` är **hardlinks** till 2026-05-22-mapparna (ingen dubbel lagring). Nya PNG från chatten läggs här med nästa lediga `10-…` / `08-…` nummer.
+Filer `dashboard-*` och `nav-*` är **hardlinks** till 2026-05-22-mapparna. `17–23-*` är **egna kopior** från chatt 2026-05-23.
