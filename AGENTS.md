@@ -52,6 +52,11 @@ Parent: `livskompassen-master-architect`. Baseline: [`docs/archive/evaluations-2
 | UI / Obsidian Calm | `livskompassen-ui-obsidian` | `src/modules`, Tailwind, disclosure |
 | Ex-meddelande / Hamn | `livskompassen-safe-harbor` | BIFF, Grey Rock, `analyzeMessage` |
 | `kör kanon-vakt` | `livskompassen-kanon-vakt` | Read-only PASS/FAIL med `fil:rad` |
+| `/mabra`, panik, GAD, RSD | `livskompassen-mabra` (U11) | Ångest, vagus-first, `mabraCoach` |
+| `/vardagen`, Paralys, ADHD | `livskompassen-kompasser` (U12) | Mikrosteg, `breakDownResponse` |
+| `/familjen`, BBIC, barnlogg | `livskompassen-barnen` (U13) | Operativ föräldraskap (≠ U5 audit) |
+| `/dagbok`, humör, Speglar-bro | `livskompassen-hjartat` (U14) | Yttre lugnet, journal |
+| F155, substans, återhämtning | `livskompassen-aterhamtning` (U15) | Harm reduction, opt-in minne |
 
 ### Cursor inbyggda subagents
 
@@ -72,6 +77,12 @@ Parent: `livskompassen-master-architect`. Baseline: [`docs/archive/evaluations-2
 | Kanon-vakt / “stämmer det?” | `livskompassen-anti-hallucination`, `livskompassen-grunder-gap` | agent `livskompassen-kanon-vakt` (readonly) |
 | DCAP / Kompis routing | `livskompassen-dcap-kompis` | `backend-agents.mdc` |
 | Safe Harbor / ex-sms | `livskompassen-safe-harbor` | agent `livskompassen-safe-harbor` |
+| Måbra / ångest / RSD | `livskompassen-mabra` | agent `livskompassen-mabra` (U11) |
+| Kompasser / ADHD | `livskompassen-kompasser` | agent `livskompassen-kompasser` (U12) |
+| Barnen / föräldraskap | `livskompassen-barnen` | agent `livskompassen-barnen` (U13) |
+| Dagbok / känslor | `livskompassen-hjartat` | agent `livskompassen-hjartat` (U14) |
+| Återhämtning / F155 | `livskompassen-aterhamtning` | agent `livskompassen-aterhamtning` (U15) |
+| Billig drift + domänkart | — | [`docs/BILLIG-DRIFT-OCH-DOMAN-EXPERTER.md`](docs/BILLIG-DRIFT-OCH-DOMAN-EXPERTER.md) |
 | ADK synapser, auto-ingest | `livskompassen-synapser-adk` | `synapser-adk.mdc` |
 | RAG, silo, cross-read | `livskompassen-memory-silo-guard`, `livskompassen-rag-retrieval` | `memory-silo.mdc` + agent `livskompassen-memory-silo` |
 | Vector Search ANN | `livskompassen-vector-search` | — |

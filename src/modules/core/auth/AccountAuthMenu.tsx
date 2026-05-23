@@ -4,7 +4,7 @@ import { useStore } from '../store';
 import { EmailAuthPanel } from './EmailAuthPanel';
 import { signOutUser } from './authService';
 
-export function AccountAuthMenu() {
+export function AccountAuthMenu({ compact = false }: { compact?: boolean }) {
   const user = useStore((s) => s.user);
   const [open, setOpen] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
@@ -27,16 +27,17 @@ export function AccountAuthMenu() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="header-glass-btn"
+        className={compact ? 'header-segment__btn' : 'header-glass-btn'}
         aria-expanded={open}
         aria-haspopup="dialog"
+        aria-label={compact ? `Konto — ${label}` : undefined}
       >
         {user.isAnonymous ? (
-          <Lock className="h-4 w-4" />
+          <Lock className="h-4 w-4" strokeWidth={1.75} />
         ) : (
-          <ShieldCheck className="h-4 w-4 text-success" />
+          <ShieldCheck className="h-4 w-4 text-success" strokeWidth={1.75} />
         )}
-        <span className="max-w-[6rem] truncate">{label}</span>
+        {!compact && <span className="max-w-[6rem] truncate">{label}</span>}
       </button>
 
       {open && (

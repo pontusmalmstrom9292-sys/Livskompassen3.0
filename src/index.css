@@ -149,14 +149,14 @@
   }
 
   .glass-header-bar {
-    @apply pointer-events-auto relative mx-auto flex h-[3.75rem] max-w-2xl items-center justify-between gap-3 overflow-hidden rounded-2xl px-4;
-    background: rgba(15, 23, 42, 0.52);
-    backdrop-filter: blur(28px) saturate(165%);
-    -webkit-backdrop-filter: blur(28px) saturate(165%);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    @apply pointer-events-auto relative mx-auto flex h-12 max-w-2xl items-center justify-between gap-2 rounded-2xl px-2.5;
+    background: rgba(15, 23, 42, 0.62);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow:
-      0 12px 40px rgba(2, 6, 23, 0.5),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      0 8px 28px rgba(2, 6, 23, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 
   .glass-header-bar::before {
@@ -176,25 +176,121 @@
   }
 
   .app-header__brand {
-    @apply relative z-10 flex min-w-0 items-center gap-3;
+    @apply relative z-10 flex min-w-0 items-center gap-2 rounded-xl border-0 bg-transparent p-1 text-left transition-colors hover:bg-white/5;
   }
 
   .app-header__logo {
-    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl;
-    background: rgba(15, 23, 42, 0.65);
-    border: 1px solid rgba(253, 230, 138, 0.28);
-    backdrop-filter: blur(12px);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 0 20px rgba(253, 230, 138, 0.12);
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-lg;
+    background: rgba(2, 6, 23, 0.45);
+    border: 1px solid rgba(253, 230, 138, 0.22);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 
   .app-header__logo-mark {
-    @apply h-[1.65rem] w-[1.65rem] text-accent;
+    @apply h-[1.35rem] w-[1.35rem] text-accent;
   }
 
   .app-header__title {
-    @apply hidden truncate font-display text-sm font-semibold uppercase tracking-[0.18em] text-text sm:block;
+    @apply hidden truncate font-display text-xs font-semibold uppercase tracking-[0.14em] text-text sm:block;
+  }
+
+  .app-header__tray {
+    @apply relative z-10 flex shrink-0 items-center gap-1.5;
+  }
+
+  .header-segment {
+    @apply flex overflow-hidden rounded-xl border border-white/10;
+    background: rgba(2, 6, 23, 0.35);
+  }
+
+  .header-segment__btn {
+    @apply inline-flex h-9 w-9 items-center justify-center border-0 bg-transparent text-text-muted transition-colors;
+  }
+
+  .header-segment__btn:not(:last-child) {
+    @apply border-r border-white/10;
+  }
+
+  .header-segment__btn:hover {
+    @apply bg-white/5 text-text;
+  }
+
+  .header-segment__btn--active {
+    @apply bg-accent/10 text-accent;
+  }
+
+  .header-cog-menu {
+    @apply relative;
+  }
+
+  .header-cog-menu__trigger {
+    @apply inline-flex h-9 items-center gap-1.5 rounded-xl border border-white/10 px-2 text-text-muted transition-colors;
+    background: rgba(2, 6, 23, 0.35);
+  }
+
+  .header-cog-menu__trigger:hover,
+  .header-cog-menu__trigger--open {
+    @apply border-white/20 bg-white/5 text-text;
+  }
+
+  .header-cog-menu__dots {
+    @apply flex items-center gap-0.5;
+  }
+
+  .header-cog-menu__dot {
+    @apply h-1.5 w-1.5 rounded-full bg-white/10;
+  }
+
+  .header-cog-menu__dot--on {
+    @apply bg-accent/70;
+  }
+
+  .header-cog-menu__dot--fatigue {
+    @apply bg-amber-400/80;
+  }
+
+  .header-cog-menu__chev {
+    @apply text-text-dim transition-transform;
+  }
+
+  .header-cog-menu__trigger--open .header-cog-menu__chev {
+    transform: rotate(180deg);
+  }
+
+  .header-cog-menu__panel {
+    @apply absolute right-0 top-[calc(100%+0.35rem)] z-50 w-52 rounded-xl border border-white/10 p-3;
+    background: rgba(15, 23, 42, 0.96);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 12px 40px rgba(2, 6, 23, 0.55);
+  }
+
+  .header-cog-menu__eyebrow {
+    @apply mb-1.5 text-[9px] uppercase tracking-widest text-text-dim;
+  }
+
+  .header-cog-menu__scale {
+    @apply mb-3 flex gap-1;
+  }
+
+  .header-cog-menu__level {
+    @apply flex h-8 flex-1 items-center justify-center rounded-lg border border-white/10 text-xs text-text-muted transition-colors;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .header-cog-menu__level--active {
+    @apply border-accent/40 bg-accent/10 text-accent;
+  }
+
+  .header-cog-menu__level--fatigue {
+    @apply border-amber-400/50 bg-amber-400/15 text-amber-200;
+  }
+
+  .header-cog-menu__select {
+    @apply mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-2 py-1.5 text-xs text-text-muted;
+  }
+
+  .header-cog-menu__safe {
+    @apply mt-2 text-[10px] text-amber-300/90;
   }
 
   .app-header__actions {

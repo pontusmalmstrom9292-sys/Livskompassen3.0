@@ -32,6 +32,8 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 |-----|----------|
 | [`GCP-INVENTORY-LATEST.md`](GCP-INVENTORY-LATEST.md) | **Live** functions, indexes, secrets |
 | [`GCP-KONSOLIDERING-BESLUT.md`](GCP-KONSOLIDERING-BESLUT.md) | GCP-beslut och avveckling |
+| [`BILLIG-DRIFT-OCH-DOMAN-EXPERTER.md`](BILLIG-DRIFT-OCH-DOMAN-EXPERTER.md) | **Domänkart** U11–U15, minne, billigaste drift |
+| [`MINNE-MANUELL-INGEST-DOMANER.md`](MINNE-MANUELL-INGEST-DOMANER.md) | Mallar för manuell kampspar-ingest |
 | [`GCP-FAS4-RUNBOOK.md`](GCP-FAS4-RUNBOOK.md) | FAS4 steg-för-steg |
 | [`DEPLOY.md`](DEPLOY.md) | Deploy hosting + functions |
 | [`FIREBASE_SYNC.md`](FIREBASE_SYNC.md) | Firebase-projekt, rules, indexes |
@@ -52,6 +54,7 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 | [`specs/modules/`](specs/modules/) | Modul-SPECs, GAP-register, grunder-slides |
 | [`specs/incoming/`](specs/incoming/) | Pekare — duplicerade utkast städade 2026-05-22; kanon i `specs/modules/` |
 | [`specs/modules/Arkiv-GAP-REGISTER.md`](specs/modules/Arkiv-GAP-REGISTER.md) | **Implementation queue** — `kör [GAP]` |
+| [`specs/modules/Doman-Agenter-GAP.md`](specs/modules/Doman-Agenter-GAP.md) | Domänagenter D1–D6 (runtime efter budget) |
 | [`specs/design-master.md`](specs/design-master.md) | UI-kanon (Obsidian Calm) |
 | [`specs/product-vision.md`](specs/product-vision.md) | Produktvision |
 | [`specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md) | **Låst:** yttre lugnet vs inre försvaret, Orkestern, Mönstersökaren |

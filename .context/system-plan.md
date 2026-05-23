@@ -43,7 +43,8 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] [`docs/specs/p2-flode.md`](docs/specs/p2-flode.md) synkad mot kod
 - [x] Grunder Fas A — [`docs/specs/modules/grunder-slides/`](docs/specs/modules/grunder-slides/) + [`INVENTAR.md`](docs/specs/modules/grunder-slides/INVENTAR.md)
 - [x] Grunder U1–U5 + Fas C — [`docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md`](docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md)
-- [ ] Manuell ingest av minne-poster (opt-in trauma-policy)
+- [ ] Manuell ingest av minne-poster (opt-in trauma-policy) — mall: [`docs/MINNE-MANUELL-INGEST-DOMANER.md`](docs/MINNE-MANUELL-INGEST-DOMANER.md)
+- [x] Cursor domänexperter U11–U15 + billig-drift-karta — [`docs/BILLIG-DRIFT-OCH-DOMAN-EXPERTER.md`](docs/BILLIG-DRIFT-OCH-DOMAN-EXPERTER.md) (2026-05-23)
 - [ ] Implementation per modul när användaren säger *kör [modul]*
 - [x] Arkitektur **yttre lugnet / inre försvaret** dokumenterad — [`docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](../docs/specs/ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md)
 - [x] **G18** dölj Bevis-flik (Fyren-only) — 2026-05-23
