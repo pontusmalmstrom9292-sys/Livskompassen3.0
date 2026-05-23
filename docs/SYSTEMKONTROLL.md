@@ -2,7 +2,7 @@
 
 **Syfte:** När det känns rörigt — ett ställe att starta, färdiga analysprompter, och var sanningen bor. Du behöver inte minnas hela projektet; kör en analys och spara resultatet.
 
-**Senast uppdaterad:** 2026-05-22
+**Senast uppdaterad:** 2026-05-23
 
 ---
 
@@ -242,7 +242,7 @@ Kör när du vill dubbelkolla utan Cursor:
 | GCP Fas 4 | [`GCP-FAS4-RUNBOOK.md`](./GCP-FAS4-RUNBOOK.md) |
 | Produkt-MVP klar per modul | [`src/modules/README.md`](../src/modules/README.md) + respektive `*-SPEC.md` |
 
-**Aktuell huvudfas (2026-05-22):** Fas 2–3 i stort sett klara; öppet: manuell smoke, opt-in minne-ingest, G9–G14 Life OS. Se live-rader i `system-plan.md` under "Idag" och "Kommande fas".
+**Aktuell huvudfas (2026-05-23):** Fas 4 — verifiering + Ekonomi doc-synk **done**; öppet: manuell smoke (#18 ekonomi), opt-in minne-ingest. G9–G14 **done** (se `Arkiv-GAP-REGISTER.md`). Utvärdering: [`evaluations/2026-05-23-A-helhetsstatus.md`](./evaluations/2026-05-23-A-helhetsstatus.md).
 
 ---
 

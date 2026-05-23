@@ -23,6 +23,7 @@ export const WORM_COLLECTIONS_NEVER_PURGE = [
   'kb_docs',
   'entity_profiles',
   'system_synapses',
+  'transactions',
 ] as const;
 
 /** Endast ephemeral cache under users/{uid}/. Live Minne = top-level kampspar. */

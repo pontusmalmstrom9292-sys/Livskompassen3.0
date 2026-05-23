@@ -4,37 +4,41 @@
 
 ## Overview
 
-Personal economy module: liquidity, transactions, savings goals — aligned with Livskompassen "Life OS" budget tracking.
+Personal economy module: liquidity, transactions, weekly budget presets — aligned with Livskompassen "Life OS" budget tracking. No graphs, no LLM.
 
 ## Files
 
 | Path | Role |
 |------|------|
-| `components/EconomyPage.tsx` | SaldoHero + MetricTile + EmptyState placeholder |
+| `components/EconomyPage.tsx` | SaldoHero, MetricTile, quick-add, vinst, TimelineEntry, profil |
+| `../../core/firebase/firestore.ts` | `saveEconomyTransaction`, `getEconomyTransactions`, `economy_profiles` |
 
 ## Status
 
-| Area | Kladd 2026-05-21 | Kod | Status |
-|------|------------------|-----|--------|
-| UI shell (SaldoHero, tiles) | Inga grafer | Ja | **partial** |
-| Veckopeng / matlåda | Notebook | Nej | **planned** |
-| Vinst-knapp | Kladd | Nej | **planned** |
-| Firestore / DC schema | System-plan | Nej | **planned** |
-| Livs-Coachen här | **Avvisat** | Nej | **avvisat** |
-
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
+| Area | Kod | Status |
+|------|-----|--------|
+| UI shell (SaldoHero, tiles) | Ja | **done** |
+| Veckopeng / matlåda | Ja | **done** |
+| Vinst-knapp | Ja | **done** |
+| Firestore transactions + profiles | Ja | **done** |
+| Spar-bekräftelse | Ja | **done** |
+| `budgets` / “kvar av budget” | Nej | **planned** |
+| Lönespec (`economy/vendor`) | Backend Fas 2 | **planned** |
+| Livs-Coachen här | Nej | **avvisat** |
 
 ## Dependencies
 
-- `core/ui`: `SaldoHero`, `MetricTile`, `BentoCard`, `EmptyState`, `TimelineEntry` (planned for list)
+- `core/ui`: `SaldoHero`, `MetricTile`, `BentoCard`, `EmptyState`, `TimelineEntry`
+- `core/firebase/firestore.ts`, `AuthGate` via `/vardagen`
 
 ## Next steps
 
-1. Define Firestore schema for transactions/budgets (or Data Connect).
-2. Wire `TimelineEntry` for transaction list; `btn-pill--success` on save.
-3. Optional: export for legal/economy evidence (vault handoff).
+1. Optional: `budgets` eller tydlig “kvar av veckobudget”-semantik i UI.
+2. Optional: explicit export till valv (användarval).
+3. Fas 2: callable `generatePayslip` från `functions/src/economy/vendor/` (server-only, tester mot skattetabell).
 
 ## Security notes
 
 - Financial data is PII — uid-scoped rules, no cross-user reads.
-- Consider separate collection from vault logs with explicit user export.
+- Separate collection from `reality_vault`; no RAG.
+- `transactions` on retention WORM allowlist.

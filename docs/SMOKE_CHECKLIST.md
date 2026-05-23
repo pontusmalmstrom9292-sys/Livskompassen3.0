@@ -23,6 +23,7 @@
 | 15 | Speglar AI | `/speglar` → Spegla | AI-svar från `speglingsMirror` (eller deterministisk fallback) |
 | 16 | Valv media | Long-press Fyren → PIN → `/valv` → skärmdump | `evidenceUrl` i `reality_vault`; fil i Storage `vault_evidence/{uid}/` |
 | 17 | Valv PDF | Valv-lista → PDF-knapp på post | Utskriftsdialog öppnas (spara som PDF) |
+| 18 | Ekonomi | `/vardagen?tab=ekonomi` — veckopeng | Post i `transactions` med `ownerId` = uid; profil i `economy_profiles` vid budgetändring |
 
 **Prod-smoke:** Kör #13–17 mot [Hosting-URL](https://gen-lang-client-0481875058.web.app) efter deploy (storage + `speglingsMirror` + hosting).
 

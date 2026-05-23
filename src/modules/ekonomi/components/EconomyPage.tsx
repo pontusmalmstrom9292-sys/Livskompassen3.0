@@ -29,6 +29,7 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
   const [mealPreset, setMealPreset] = useState(DEFAULT_MEAL);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [savedFlash, setSavedFlash] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const reload = useCallback(async () => {
@@ -80,6 +81,8 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
     try {
       await saveEconomyTransaction(user.uid, { label, amountSek, category });
       await reload();
+      setSavedFlash(true);
+      window.setTimeout(() => setSavedFlash(false), 2000);
     } catch {
       setError('Kunde inte spara transaktion.');
     } finally {
@@ -172,6 +175,9 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
         description={embedded ? 'Veckopeng och matlåda — inga grafer.' : undefined}
       >
         {error && <p className="mb-2 text-sm text-danger">{error}</p>}
+        {savedFlash && !saving && (
+          <p className="mb-2 text-sm text-emerald-400">Sparat.</p>
+        )}
         {saving && (
           <p className="mb-2 flex items-center gap-2 text-sm text-text-dim">
             <Loader2 className="h-4 w-4 animate-spin" /> Sparar…

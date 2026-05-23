@@ -1,20 +1,19 @@
 # Ekonomi
 
-**Route:** `/ekonomi` · **Dock:** Map
+**Route:** `/ekonomi` → `/vardagen?tab=ekonomi` · **Dock:** Map → Vardagen
 
-Blueprint: veckopeng, matlåda-knapp, inga grafer. Placeholder — Firestore schema saknas.
+Blueprint: veckopeng, matlåda, vinst — inga grafer. Firestore `transactions` (WORM) + `economy_profiles`.
 
 ## Status
 
-| Klart | Delvis | Planerat |
-|-------|--------|----------|
-| EconomyPage shell (SaldoHero, tiles) | Placeholder-värden | Firestore schema, transaktioner, vinst-knapp |
+| Klart | Planerat |
+|-------|----------|
+| EconomyPage, Firestore, rules, retention allowlist | `budgets`, lönespec Fas 2 (vendor) |
 
 ## Kladd 2026-05-21
 
 - **Kladd:** Veckopeng, matlåda, "Vinst-knapp" — kognitiv avlastning utan grafer.
-- **Avvisat:** Livs-Coachen här (→ Kunskap/Kompis).
-- **Gap:** Ingen datamodell; Data Connect avvaktar (system-plan).
+- **Avvisat:** Livs-Coachen här (→ Kunskap/Kompis); grafer; gemensam valv-collection.
 
 **Spec:** [`docs/specs/modules/Ekonomi-SPEC.md`](../../docs/specs/modules/Ekonomi-SPEC.md)
 

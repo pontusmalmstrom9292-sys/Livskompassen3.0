@@ -61,8 +61,8 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] Functions deployade; `notifyNewFile` deployad (webhook-secret + Apps Script verifiering kvar)
 - [x] Firebase Hosting: https://gen-lang-client-0481875058.web.app
 - [x] Dokumentation: `docs/FIREBASE_SYNC.md`
-- [ ] Manuell smoke: spara test i valv + barnen (Firestore Console)
-- [ ] `NOTIFY_WEBHOOK_SECRET` verifiering + Apps Script (Drive) — secret bunden (401); E2E kb_docs kvar
+- [ ] Manuell smoke: spara test i valv + barnen + ekonomi (#18) — se `docs/SMOKE_CHECKLIST.md`
+- [x] `NOTIFY_WEBHOOK_SECRET` + Drive E2E → `kb_docs` (G6 **done** 2026-05-22)
 
 ## Drive wire-up (Apps Script → notifyNewFile)
 - [x] Kod redo: Script Properties i `sorter.gs`, webhook-secret fail-closed, `docs/DRIVE_AUTOMATION.md`
@@ -71,8 +71,8 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 ## Firebase Fas 3 (synk)
 - [x] `.firebaserc` rättad; Firestore rules + indexes deployade
 - [x] Modul-Functions deployade (`europe-west1`); Hosting live — se `docs/DEPLOY.md`, `docs/FIREBASE_SYNC.md`
-- [ ] `notifyNewFile` — G6 fork (403 → kb_docs); FAS4 steg 1 **done** (biff/brusfiltret borta)
-- [ ] Manuell smoke enligt `docs/SMOKE_CHECKLIST.md`
+- [x] `notifyNewFile` — G6 **done** 2026-05-22 (`kb_docs` E2E)
+- [ ] Manuell smoke enligt `docs/SMOKE_CHECKLIST.md` (#1–7, #18)
 
 ## Data Connect
 - Deployat (example-schema); **appmoduler använder Firestore** — DC avvaktas tills ekonomi (se `docs/FIREBASE_SYNC.md`)
