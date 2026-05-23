@@ -1,4 +1,14 @@
-import { FileText, Lock, ScrollText, Search, ShieldAlert, ShieldCheck, Wallet, X } from 'lucide-react';
+import {
+  FileText,
+  Lock,
+  ScrollText,
+  Search,
+  ShieldAlert,
+  ShieldCheck,
+  Users,
+  Wallet,
+  X,
+} from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BentoCard } from '../../core/ui/BentoCard';
@@ -15,6 +25,8 @@ import { ValvChatPanel } from '../../valv_chatt';
 import { VaultDossierBridge } from './VaultDossierBridge';
 import { VaultCrossReference } from './VaultCrossReference';
 import { VaultEconomyPanel } from '../../valv_ekonomi';
+import { BiffFlowPanel } from '../../safe_harbor/components/BiffFlowPanel';
+import { VaultOrkesternPanel } from './VaultOrkesternPanel';
 import type { VaultLogInput } from '../types/vaultEntry';
 
 const PIN_STORAGE_KEY = 'livskompassen_vault_pin_hash';
@@ -41,14 +53,23 @@ function hasPinConfigured(): boolean {
   return Boolean(localStorage.getItem(PIN_STORAGE_KEY) || import.meta.env.VITE_VAULT_PIN);
 }
 
-export type VaultTab = 'logga' | 'korsref' | 'sok' | 'dossier' | 'lon';
+export type VaultTab =
+  | 'logga'
+  | 'korsref'
+  | 'sok'
+  | 'biff'
+  | 'orkestern'
+  | 'dossier'
+  | 'lon';
 
 const VAULT_TABS = [
   { id: 'logga' as const, label: 'Logga', icon: <FileText className="h-3 w-3" /> },
-  { id: 'lon' as const, label: 'Lön', icon: <Wallet className="h-3 w-3" /> },
-  { id: 'korsref' as const, label: 'Korsreferens', icon: <ShieldCheck className="h-3 w-3" /> },
+  { id: 'korsref' as const, label: 'Korsref', icon: <ShieldCheck className="h-3 w-3" /> },
   { id: 'sok' as const, label: 'Sök', icon: <Search className="h-3 w-3" /> },
+  { id: 'biff' as const, label: 'BIFF', icon: <ShieldAlert className="h-3 w-3" /> },
+  { id: 'orkestern' as const, label: 'Orkestern', icon: <Users className="h-3 w-3" /> },
   { id: 'dossier' as const, label: 'Dossier', icon: <ScrollText className="h-3 w-3" /> },
+  { id: 'lon' as const, label: 'Lön', icon: <Wallet className="h-3 w-3" /> },
 ];
 
 type VaultPageProps = {
@@ -218,7 +239,7 @@ export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
 
       {vaultTab === 'logga' && (
         <>
-          <BentoCard title="Ny post" description="Append-only bevis">
+          <BentoCard title="Nytt objektivt bevis" description="Svart på vitt · append-only WORM">
             <VaultEntryForm userId={user.uid} saving={loading} onSave={handleSaveLog} />
             {error && <p className="mt-2 text-sm text-danger">{error}</p>}
           </BentoCard>
@@ -236,6 +257,12 @@ export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
           onCitationClick={handleCitationClick}
         />
       )}
+
+      {vaultTab === 'biff' && (
+        <BiffFlowPanel active={isVaultUnlocked && vaultTab === 'biff'} variant="vault" />
+      )}
+
+      {vaultTab === 'orkestern' && <VaultOrkesternPanel logs={logs} loading={loading} />}
 
       {vaultTab === 'dossier' && <VaultDossierBridge />}
     </div>

@@ -144,8 +144,8 @@ export function VaultCrossReference() {
   return (
     <div className="space-y-4">
       <BentoCard
-        title="Oföränderliga Verklighetsvalvet"
-        description="Korsreferens — fakta, inte terapi"
+        title="Korsreferens"
+        description="WORM-bevis och barnloggar — sök utan att blanda silor"
         icon={<ShieldCheck className="h-4 w-4" />}
       >
         <div className="relative">

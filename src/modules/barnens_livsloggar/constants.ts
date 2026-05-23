@@ -16,6 +16,10 @@ export const LIVSLOGG_CATEGORIES = [
   { value: 'tredjepart', label: 'Tredjepart (skola/resurs)' },
   { value: 'halsa', label: 'Hälsa' },
   { value: 'overlamning', label: 'Överlämning' },
+  { value: 'vitals', label: 'Vitals' },
+  { value: 'citat', label: 'Citat' },
+  { value: 'milstolpe', label: 'Milstolpe' },
+  { value: 'lek', label: 'Lek' },
 ] as const;
 
 export type LivsloggCategory = (typeof LIVSLOGG_CATEGORIES)[number]['value'];

@@ -30,10 +30,13 @@ function LogRow({
       }`}
     >
       <div className="flex items-start justify-between gap-2">
-        <p className="text-[10px] uppercase tracking-widest text-text-dim">
-          {log.pinned ? 'Ankare · ' : ''}
-          {log.category ?? 'allmänt'}
-          {log.entryType ? ` · ${log.entryType}` : ''} · {formatVaultLogDate(log.createdAt)}
+        <p className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-widest text-text-dim">
+          {log.pinned && <span className="badge-worm">Ankare</span>}
+          <span className="badge-locked">WORM</span>
+          <span>
+            {log.category ?? 'allmänt'}
+            {log.entryType ? ` · ${log.entryType}` : ''} · {formatVaultLogDate(log.createdAt)}
+          </span>
         </p>
         <button
           type="button"
@@ -71,7 +74,7 @@ export function VaultLogList({ logs, loading, highlightLogId }: VaultLogListProp
   }, [highlightLogId, logs.length]);
 
   return (
-    <BentoCard title="VaultLog">
+    <BentoCard title="Säkrade poster" description="Append-only WORM — Sanningens Ankare överst">
       {loading && logs.length === 0 ? (
         <p className="text-sm text-text-dim flex items-center gap-2">
           <Loader2 className="h-4 w-4 animate-spin" /> Laddar...
