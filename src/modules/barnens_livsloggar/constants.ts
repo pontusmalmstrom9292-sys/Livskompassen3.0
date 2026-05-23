@@ -18,6 +18,8 @@ export const LIVSLOGG_CATEGORIES = [
   { value: 'tredjepart', label: 'Tredjepart (skola/resurs)' },
   { value: 'halsa', label: 'Hälsa' },
   { value: 'overlamning', label: 'Överlämning' },
+  { value: 'ankare', label: 'Positivt ankare' },
+  { value: 'positivt', label: 'Positiv stund' },
 ] as const;
 
 export type BarnfokusQuestionKind =
@@ -103,3 +105,17 @@ export function middagsQuestionForToday(date = new Date()): string {
 }
 
 export type LivsloggCategory = (typeof LIVSLOGG_CATEGORIES)[number]['value'];
+
+/** D12 — profilkort (UI; inte juridisk bedömning). */
+export const CHILD_PROFILES = [
+  {
+    alias: 'Kasper' as const,
+    focus: 'Trygghet & struktur',
+    traits: ['Nyfiken', 'Behöver tydlighet', 'Älskar lek och rörelse'],
+  },
+  {
+    alias: 'Arvid' as const,
+    focus: 'Kreativitet & närhet',
+    traits: ['Känslig', 'Humor som bro', 'Behöver lugn vid övergångar'],
+  },
+] as const;
