@@ -85,6 +85,47 @@ firebase functions:secrets:set DRIVE_INGEST_OWNER_UID
 
 Alternativ utan Secret Manager: `DRIVE_INGEST_OWNER_UID=<din-uid>` i `functions/.env.gen-lang-client-0481875058` (laddas vid deploy).
 
+## Cloud Build (CI/CD)
+
+Filer i repo:
+
+| Fil | Syfte |
+|-----|--------|
+| [`cloudbuild.yaml`](../cloudbuild.yaml) | Bygg functions + SPA, deploy hosting, rules, storage, modul-Functions |
+| [`cloudbuild.hosting-only.yaml`](../cloudbuild.hosting-only.yaml) | Endast `npm run build` + `hosting` |
+| [`scripts/cloudbuild/sync-vite-secrets.sh`](../scripts/cloudbuild/sync-vite-secrets.sh) | Kopiera `VITE_FIREBASE_*` från lokal `.env` → Secret Manager |
+
+`notifyNewFile` ingår **inte** i standard-pipelinen (kräver `NOTIFY_WEBHOOK_SECRET` — deploy manuellt enligt avsnittet nedan).
+
+### Engångs-setup (GCP)
+
+1. **API:er** — Cloud Build, Firebase, Resource Manager (Console → APIs).
+2. **Cloud Build-behörigheter** — [Cloud Build → Settings → Service account permissions](https://console.cloud.google.com/cloud-build/settings/service-account?project=gen-lang-client-0481875058): aktivera **Firebase Admin** och **API Keys Viewer** (enligt [Google Cloud-dokumentation](https://cloud.google.com/build/docs/deploying-builds/deploy-firebase)).
+3. **Vite-secrets** (från maskin med ifylld `.env`):
+
+```bash
+chmod +x scripts/cloudbuild/sync-vite-secrets.sh
+./scripts/cloudbuild/sync-vite-secrets.sh
+```
+
+4. **Manuell build** (första test):
+
+```bash
+gcloud builds submit --config=cloudbuild.yaml --project=gen-lang-client-0481875058 .
+```
+
+5. **Trigger** (valfritt) — Cloud Build → Triggers → koppla GitHub-repo, branch `main`, config `cloudbuild.yaml`.
+
+**Endast frontend:** `gcloud builds submit --config=cloudbuild.hosting-only.yaml --project=gen-lang-client-0481875058 .`
+
+**Anpassa deploy-mål:** substitution `_DEPLOY_ONLY` i trigger eller:
+
+```bash
+gcloud builds submit --config=cloudbuild.yaml \
+  --substitutions=_DEPLOY_ONLY=hosting \
+  --project=gen-lang-client-0481875058 .
+```
+
 ## Deploy — Hosting (SPA)
 
 Efter frontend-ändringar:
