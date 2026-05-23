@@ -1,0 +1,301 @@
+=== Overnight start 2026-05-23T04:37:29+02:00 ===
+Repo: /Users/Livskompassen/StudioProjects/Livskompassen2.0
+
+▶ natt-ci byggpass
+
+> livskompassen-v2@1.0.0 natt-ci
+> node scripts/natt-ci/run-byggpass.mjs
+
+Natt-CI byggpass — repo: /Users/Livskompassen/StudioProjects/Livskompassen2.0
+
+▶ functions build
+
+> build
+> tsc
+
+✓ functions build
+
+▶ frontend build
+
+> livskompassen-v2@1.0.0 build
+> tsc -b && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 2056 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     1.10 kB │ gzip:   0.52 kB
+dist/assets/index-7whnhQae.css     52.84 kB │ gzip:   9.20 kB
+dist/assets/index-CDbFM7SQ.js   1,104.60 kB │ gzip: 305.00 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 3.11s
+✓ frontend build
+
+▶ eslint
+✓ eslint
+
+▶ smoke:valv
+
+> livskompassen-v2@1.0.0 smoke:valv
+> node scripts/smoke_valv_chat.mjs
+
+[smoke] Anonymous sign-in…
+[smoke] uid: rjeshE4D3IPtS7mXy20uYrOYI9y1
+[smoke] Seed reality_vault…
+[smoke] vault docId: rn1vTAO8Ctv0PJDbrcx6
+[smoke] valvChatQuery…
+[smoke] citations: 1 match seed: YES
+
+[smoke] PASS — valvChatQuery svarar.
+✓ smoke:valv
+
+▶ smoke:kunskap
+
+> livskompassen-v2@1.0.0 smoke:kunskap
+> node scripts/smoke_kunskap.mjs
+
+[smoke] Anonymous sign-in…
+[smoke] uid: juyvWDqGr5U38Vqf4g0dFBL3VQd2
+[smoke] ingestKampsparEntry…
+[smoke] ingest OK — docId: g85vadpyv7V5scBGsamw embeddingDim: 768
+[smoke] knowledgeVaultQuery…
+[smoke] query OK — answer length: 158 citations: 1
+[smoke] citation match smoke doc: YES
+[smoke] first citation: {
+  "docId": "g85vadpyv7V5scBGsamw",
+  "collection": "kampspar",
+  "date": "2026-05-23",
+  "title": "Smoke-test 2026-05-23T02:38:02",
+  "excerpt": "Morgonrutin: lämning 07:45, andning 4-7-8 innan skolgården. Trigger: sms från skola."
+}
+[smoke] answer excerpt: Enligt smoke-testet var din morgonrutin för skol lämning att lämna 07:45 och utföra andningsövningen 4-7-8 innan skolgården. Triggern var ett SMS från skolan.
+
+[smoke] PASS — Kunskap callables svarar.
+✓ smoke:kunskap
+
+▶ smoke:dossier
+
+> livskompassen-v2@1.0.0 smoke:dossier
+> node scripts/smoke_dossier.mjs
+
+[smoke] Anonymous sign-in…
+[smoke] uid: TTAG61QIe2YjG1A5TL6T04I4CmU2
+[smoke] Skapar reality_vault smoke-post…
+[smoke] vault docId: XN7MeOtL8FRd8UbjL2BX
+[smoke] generateDossier…
+[smoke] generate OK — dossierId: fb4585de-5300-4981-99ae-8d37742c9b04
+[smoke] hash: 58657b66c2124eb9…
+[smoke] NOTE: signed URL fallback (pdfBase64) — IAM signBlob saknas i GCP.
+[smoke] Verifierar dossier_snapshots i Firestore…
+[smoke] snapshot OK — includedDocIds: {"children_logs":[],"reality_vault":["XN7MeOtL8FRd8UbjL2BX"],"journal":[]}
+[smoke] Verifierar PDF-bytes…
+[smoke] PDF OK — bytes: 2159
+
+[smoke] PASS — Dossier end-to-end.
+✓ smoke:dossier
+
+✓ Natt-CI byggpass complete (58.0s)
+✓ npm
+
+▶ smoke:all (remaining)
+
+> livskompassen-v2@1.0.0 smoke:all
+> npm run smoke:kunskap && npm run smoke:speglar && npm run smoke:dossier && npm run smoke:compass && npm run smoke:mabra && npm run smoke:valv && npm run smoke:journal && npm run smoke:children && npm run smoke:entities && npm run smoke:inbox && npm run smoke:cache && npm run smoke:tidshjul && npm run smoke:grans
+
+
+> livskompassen-v2@1.0.0 smoke:kunskap
+> node scripts/smoke_kunskap.mjs
+
+[smoke] Anonymous sign-in…
+[smoke] uid: edqqvREj75ZKvwzBIINEanCZm333
+[smoke] ingestKampsparEntry…
+[smoke] ingest OK — docId: hjZhifGw1MCD32xpgBbT embeddingDim: 768
+[smoke] knowledgeVaultQuery…
+[smoke] query OK — answer length: 170 citations: 1
+[smoke] citation match smoke doc: YES
+[smoke] first citation: {
+  "docId": "hjZhifGw1MCD32xpgBbT",
+  "collection": "kampspar",
+  "date": "2026-05-23",
+  "title": "Smoke-test 2026-05-23T02:38:28",
+  "excerpt": "Morgonrutin: lämning 07:45, andning 4-7-8 innan skolgården. Trigger: sms från skola."
+}
+[smoke] answer excerpt: Enligt smoke-testet var morgonrutinen för skol lämning att lämna klockan 07:45 och utföra andningsövningen 4-7-8 innan skolgården. Rutinen triggas av ett SMS från skolan.
+
+[smoke] PASS — Kunskap callables svarar.
+
+> livskompassen-v2@1.0.0 smoke:speglar
+> node scripts/smoke_speglar.mjs
+
+[smoke] Anonymous sign-in…
+[smoke] uid: q12uigiNK9XQSlQ49DUNEda2BZq1
+[smoke] speglingsMirror…
+[smoke] mirror length: 136
+[smoke] excerpt: Det är förståeligt att du känner dig spänd och osäker. Att uppleva att ens version av händelsen inte räknas kan vara mycket påfrestande.
+[smoke] AI mirror OK
+
+[smoke] PASS — speglingsMirror svarar.
+
+> livskompassen-v2@1.0.0 smoke:dossier
+> node scripts/smoke_dossier.mjs
+
+[smoke] Anonymous sign-in…
+[smoke] uid: GjiyoUoRNAekYJgqr8S6NjA6Hzu1
+[smoke] Skapar reality_vault smoke-post…
+[smoke] vault docId: cRsDFUJT4u3bDQ258iQ8
+[smoke] generateDossier…
+[smoke] generate OK — dossierId: 6a57fe0e-683b-448e-8743-f2b2cd998f3b
+[smoke] hash: 9da4e0f61fc3c5e0…
+[smoke] NOTE: signed URL fallback (pdfBase64) — IAM signBlob saknas i GCP.
+[smoke] Verifierar dossier_snapshots i Firestore…
+[smoke] snapshot OK — includedDocIds: {"children_logs":[],"journal":[],"reality_vault":["cRsDFUJT4u3bDQ258iQ8"]}
+[smoke] Verifierar PDF-bytes…
+[smoke] PDF OK — bytes: 2165
+
+[smoke] PASS — Dossier end-to-end.
+
+> livskompassen-v2@1.0.0 smoke:compass
+> node scripts/smoke_compass.mjs
+
+[smoke] Anonymous sign-in…
+[smoke] saveCheckIn (checkins WORM)…
+[smoke] checkin OK — fefcYSpm65j84UdBOkLv
+[smoke] breakDownResponse…
+[smoke] Paralys OK — 1 steg
+
+[smoke] PASS — Kompasser backend.
+
+> livskompassen-v2@1.0.0 smoke:mabra
+> node scripts/smoke_mabra.mjs
+
+[smoke] Anonymous sign-in…
+[smoke] mabra_sessions WORM create…
+[smoke] session OK — 7quKsvvzZZ5jsKhzhwFp
+[smoke] mabraCoach guardrail (ex-text)…
+[smoke] guardrail OK
+[smoke] mabraCoach…
+[smoke] coach excerpt: Fint att du genomförde andningsövningen. Att ge kroppen utrymme att lugna nervsystemet är värdefullt, särskilt vid starka känslor som panik och RSD.
+
+[smoke] PASS — Måbra backend.
+
+> livskompassen-v2@1.0.0 smoke:valv
+> node scripts/smoke_valv_chat.mjs
+
+[smoke] Anonymous sign-in…
+[smoke] uid: dFwH9O4QZSNHTcfOPS2tHh7Dlw52
+[smoke] Seed reality_vault…
+[smoke] vault docId: eFOtTJu5Z6M0disBYRTq
+[smoke] valvChatQuery…
+[smoke] citations: 1 match seed: YES
+
+[smoke] PASS — valvChatQuery svarar.
+
+> livskompassen-v2@1.0.0 smoke:journal
+> node scripts/smoke_journal_woven.mjs
+
+[smoke:journal_woven] Anonymous sign-in…
+[smoke:journal_woven] Seed journal…
+[smoke:journal_woven] journalEntryId: Z0VckqShPCSIumguv69P
+[smoke:journal_woven] optIn=false ska faila…
+[smoke:journal_woven] optIn=true första anrop…
+[smoke:journal_woven] kampsparDocId: YdmAgMav6Xrn4DFPQQDx
+[smoke:journal_woven] idempotent andra anrop…
+[smoke:journal_woven] PASS
+
+=== Overnight resume 2026-05-23T05:13:50+02:00 ===
+
+▶ smoke:children
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> livskompassen-v2@1.0.0 smoke:children
+> node scripts/smoke_children_logs.mjs
+
+[smoke] Anonymous sign-in…
+[smoke] uid: F1zDt8JV1ES3fo0xaNutZ6J64012
+[smoke] Seed children_logs…
+[smoke] children_logs docId: sTlTLPApFzoPUHaWdPBX
+[smoke] childrenLogsQuery…
+[smoke] citations: 1 match seed: YES
+[smoke] answer excerpt: Enligt en livslogg från 2026-05-23 sov Kasper dåligt och vaknade klockan 04:30.
+
+[smoke] PASS — childrenLogsQuery svarar.
+✓ smoke:children
+
+▶ smoke:entities
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> livskompassen-v2@1.0.0 smoke:entities
+> node scripts/smoke_entity_profiles.mjs
+
+[smoke] Anonymous sign-in…
+[smoke] uid: vLjgkAomJITvpeVCBB1m9dGOlh43
+[smoke] getEntityProfileRegistry…
+[smoke] profiles: 7 synapses: 3
+
+[smoke] PASS — EntityProfile registry.
+✓ smoke:entities
+
+▶ smoke:inbox
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> livskompassen-v2@1.0.0 smoke:inbox
+> node scripts/smoke_inbox_sort.mjs
+
+[smoke] Anonymous sign-in…
+[smoke] previewInboxClassification (bevis)…
+[smoke] bevis routing OK, tags: kommunikation, bevis
+[smoke] previewInboxClassification (kunskap)…
+[smoke] kunskap routing: kunskap
+[smoke] previewInboxClassification (trauma → review)…
+[smoke] trauma: review sensitive: true
+[smoke] inbox queue pending: 0
+
+[smoke] PASS — G10 inbox classification.
+✓ smoke:inbox
+
+▶ smoke:cache
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> livskompassen-v2@1.0.0 smoke:cache
+> node scripts/smoke_context_cache.mjs
+
+[smoke] Anonymous sign-in…
+[smoke] uid: vpwgY7wXb0Y5KuAKcPyNqNd5G3C3
+[smoke] getContextCacheStatus…
+[smoke] entries before: 0
+[smoke] invalidateSession (Kill Switch)…
+
+[smoke] PASS — G12 context cache registry.
+✓ smoke:cache
+
+▶ smoke:tidshjul
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> livskompassen-v2@1.0.0 smoke:tidshjul
+> node scripts/smoke_tidshjul.mjs
+
+[smoke] partition: { 'dåtid': 1, nutid: 1, framtid: 1 }
+
+[smoke] PASS — G13 Tidshjulet partition.
+✓ smoke:tidshjul
+
+▶ smoke:grans
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> livskompassen-v2@1.0.0 smoke:grans
+> node scripts/smoke_grans_arkitekt.mjs
+
+[smoke] Anonymous sign-in…
+[smoke] analyzeMessage (safe_harbor)…
+[smoke] agent: agent_grans_arkitekten risk: 60
+[smoke] greyRock: Tack för informationen. Jag återkommer vid behov av logistik. …
+
+[smoke] PASS — G14 Gräns-Arkitekten.
+✓ smoke:grans
+
+=== Overnight PASS 2026-05-23T05:14:47+02:00 ===
