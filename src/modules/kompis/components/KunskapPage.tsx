@@ -96,6 +96,10 @@ export function KunskapPage({ embedded = false }: KunskapPageProps) {
 
       {tab === 'chat' ? (
         <>
+          <ProfileSeedImport entries={entries} onImported={reloadEntries} />
+
+          <KampsparIngestForm onSaved={reloadEntries} />
+
           <KnowledgeVaultChat
             onCitationClick={(docId, collection) => {
               setTab('tidshjul');
@@ -137,14 +141,6 @@ export function KunskapPage({ embedded = false }: KunskapPageProps) {
           </BentoCard>
 
           <TidshjulDetailCard entry={selectedEntry} />
-
-          <ProfileSeedImport entries={entries} onImported={reloadEntries} />
-
-          <KampsparIngestForm
-            onSaved={() => {
-              reloadEntries();
-            }}
-          />
 
           <BentoCard title="Senaste poster" description={loadingEntries ? 'Laddar…' : `${entries.length} poster`}>
             {entries.length === 0 ? (

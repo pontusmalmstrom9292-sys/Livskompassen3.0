@@ -10,6 +10,8 @@ export const KAMPSPAR_CATEGORY_PRESETS = [
   { value: 'kommunikation', label: 'Kommunikation' },
   { value: 'skola', label: 'Skola' },
   { value: 'ekonomi', label: 'Ekonomi' },
+  { value: 'aterhamtning', label: 'Återhämtning' },
+  { value: 'insikt', label: 'Insikt' },
   { value: '__custom__', label: 'Egen kategori…' },
 ] as const;
 

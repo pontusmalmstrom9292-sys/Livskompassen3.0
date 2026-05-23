@@ -10,6 +10,10 @@ import {
   parseTagsInput,
   type KampsparEntryType,
 } from '../constants/kampsparFormOptions';
+import {
+  KAMPSPAR_DOMAIN_TEMPLATES,
+  type KampsparDomainTemplate,
+} from '../constants/kampsparDomainTemplates';
 
 type Props = {
   onSaved?: () => void;
@@ -36,6 +40,19 @@ export function KampsparIngestForm({ onSaved }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [activeTemplateId, setActiveTemplateId] = useState<string | null>(null);
+
+  const applyTemplate = (template: KampsparDomainTemplate) => {
+    setActiveTemplateId(template.id);
+    setTitle(template.title);
+    setContent(template.content);
+    setEntryType(template.entryType);
+    setCategoryPreset(template.category);
+    setCustomCategory('');
+    setTagsInput(template.tags);
+    setError(null);
+    setSuccess(null);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,6 +97,7 @@ export function KampsparIngestForm({ onSaved }: Props) {
       setTagsInput('');
       setEventDate('');
       setAlsoSaveToVault(false);
+      setActiveTemplateId(null);
       onSaved?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Kunde inte spara.');
@@ -89,7 +107,34 @@ export function KampsparIngestForm({ onSaved }: Props) {
   };
 
   return (
-    <BentoCard title="Lägg till i Minne" description="Typ, kategori och taggar — valfritt bevis i Valvet">
+    <BentoCard
+      title="Lägg till i Minne"
+      description="Välj mall, fyll i rutorna, tryck Spara — då minns Kompis"
+    >
+      <div className="mb-4 space-y-2">
+        <p className="text-xs text-text-dim">
+          Välj område (mall fyller i formuläret — du redigerar sedan):
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {KAMPSPAR_DOMAIN_TEMPLATES.map((template) => (
+            <button
+              key={template.id}
+              type="button"
+              onClick={() => applyTemplate(template)}
+              disabled={loading}
+              className={`rounded-full border px-3 py-1.5 text-xs transition ${
+                activeTemplateId === template.id
+                  ? 'border-accent/50 bg-accent/10 text-text'
+                  : 'border-white/10 bg-white/[0.04] text-text-muted hover:border-accent/40 hover:text-text'
+              }`}
+              title={template.hint}
+            >
+              {template.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <form onSubmit={handleSubmit} className="space-y-3">
         <div>
           <label className="mb-1 block text-[10px] uppercase tracking-widest text-text-dim">Typ</label>
