@@ -122,12 +122,81 @@ export interface EconomyTransaction {
   createdAt: IsoDateTime;
 }
 
+export type EconomyLedgerType = 'utgift' | 'inkomst';
+
+/** Mutable utgift/inkomst (Valv) — ej WORM som transactions. */
+export interface EconomyLedgerEntry {
+  userId: string;
+  ownerId: string;
+  date: string;
+  category: string;
+  description: string;
+  amountSek: number;
+  type: EconomyLedgerType;
+  createdAt: IsoDateTime;
+  updatedAt?: IsoDateTime;
+}
+
+export interface EconomyLedgerRow extends EconomyLedgerEntry {
+  id: string;
+}
+
+export interface EconomyFixedBill {
+  userId: string;
+  ownerId: string;
+  name: string;
+  amountSek: number;
+  createdAt: IsoDateTime;
+  updatedAt?: IsoDateTime;
+}
+
+export interface EconomyFixedBillRow extends EconomyFixedBill {
+  id: string;
+}
+
+export interface BudgetSavings {
+  userId: string;
+  ownerId: string;
+  title: string;
+  targetSek: number;
+  currentSek: number;
+  createdAt: IsoDateTime;
+  updatedAt?: IsoDateTime;
+}
+
+export interface BudgetSavingsRow extends BudgetSavings {
+  id: string;
+}
+
 export interface EconomyProfile {
   userId: string;
   ownerId: string;
   weeklyBudgetSek: number;
   mealBoxPresetSek: number;
+  monthlySalarySek?: number;
+  hourlyRateSek?: number;
+  flexHoursTarget?: number;
   updatedAt?: IsoDateTime;
+}
+
+/** Stämpelklocka / frånvaropass — mutable (redigera/radera tillåtet). */
+export interface TimeEntry {
+  userId: string;
+  ownerId: string;
+  date: string;
+  clockIn: string;
+  clockOut?: string | null;
+  category: string;
+  breakMinutes: number;
+  scopePercent: number;
+  hoursWorked: number;
+  isOpen: boolean;
+  createdAt: IsoDateTime;
+  updatedAt?: IsoDateTime;
+}
+
+export interface TimeEntryRow extends TimeEntry {
+  id: string;
 }
 
 /** F-05 — positiva minnesankare (ej WORM-bevis, ej RAG Kunskap). */
@@ -152,5 +221,9 @@ export const FIRESTORE_COLLECTIONS = {
   children_logs: 'children_logs',
   transactions: 'transactions',
   economy_profiles: 'economy_profiles',
+  economy_ledger: 'economy_ledger',
+  economy_fixed_bills: 'economy_fixed_bills',
+  budget_savings: 'budget_savings',
+  time_entries: 'time_entries',
   memory_anchors: 'memory_anchors',
 } as const;

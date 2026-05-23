@@ -121,6 +121,42 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    match /time_entries/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
+      allow update: if isOwner()
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid;
+      allow delete: if isOwner();
+    }
+
+    match /economy_ledger/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
+      allow update: if isOwner()
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid;
+      allow delete: if isOwner();
+    }
+
+    match /economy_fixed_bills/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
+      allow update: if isOwner()
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid;
+      allow delete: if isOwner();
+    }
+
+    match /budget_savings/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
+      allow update: if isOwner()
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid;
+      allow delete: if isOwner();
+    }
+
     // Dossier snapshots — WORM kvitto (skrivs endast av Cloud Functions Admin SDK)
     match /dossier_snapshots/{docId} {
       allow read: if isOwner();
