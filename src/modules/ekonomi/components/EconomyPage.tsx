@@ -35,6 +35,7 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
   const [hourlyRate, setHourlyRate] = useState(0);
   const [flexTarget, setFlexTarget] = useState(40);
   const [monthlySalary, setMonthlySalary] = useState(0);
+  const [defaultBreak, setDefaultBreak] = useState(30);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -61,6 +62,7 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
       setHourlyRate(profile.hourlyRateSek || 0);
       setFlexTarget(profile.flexHoursTarget || 40);
       setMonthlySalary(profile.monthlySalarySek || 0);
+      setDefaultBreak(profile.defaultBreakMinutes ?? 30);
     } catch {
       setError('Kunde inte läsa ekonomi.');
     } finally {
@@ -116,6 +118,7 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
         hourlyRateSek: hourlyRate,
         flexHoursTarget: flexTarget,
         monthlySalarySek: monthlySalary,
+        defaultBreakMinutes: defaultBreak,
       });
     } catch {
       setError('Kunde inte spara profil.');
@@ -223,7 +226,7 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
           </button>
         </div>
         <p className="mt-2 text-xs text-text-dim">
-          Fasta räkningar, utgiftslogg och frånvaro finns i Valvet under Lön (Fyren: håll Hjärtat 3 sek i modulhubben, sedan PIN).
+          Utgift/inkomst-logg och fasta räkningar finns också under Valv → Lön (PIN).
         </p>
       </BentoCard>
 
@@ -275,6 +278,16 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
               type="number"
               value={monthlySalary}
               onChange={(e) => setMonthlySalary(Number(e.target.value) || 0)}
+              onBlur={() => void persistProfile()}
+              className="input-glass w-28"
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="text-text-dim">Standard rast (min)</span>
+            <input
+              type="number"
+              value={defaultBreak}
+              onChange={(e) => setDefaultBreak(Number(e.target.value) || 0)}
               onBlur={() => void persistProfile()}
               className="input-glass w-28"
             />
