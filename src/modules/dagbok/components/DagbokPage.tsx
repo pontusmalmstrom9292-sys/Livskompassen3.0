@@ -1,6 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { useStore } from '../../core/store';
 import {
+  isLowEnergyMood,
   isMabraLowEnergyBridge,
   MABRA_BRIDGE_INTRO,
   parseMabraBridgeHub,
@@ -145,7 +146,11 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
         )}
 
         {step === 'done' && (
-          <SavedStep onNewEntry={resetFlow} journalContext={{ mood, text: text.trim() }} />
+          <SavedStep
+            onNewEntry={resetFlow}
+            journalContext={{ mood, text: text.trim() }}
+            showMabraReturn={lowEnergyBridge || isLowEnergyMood(mood)}
+          />
         )}
 
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}

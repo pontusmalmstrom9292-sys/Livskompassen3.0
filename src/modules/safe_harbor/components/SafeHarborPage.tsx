@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Anchor, Loader2 } from 'lucide-react';
 import { ClusterShell } from '../../core/ui/ClusterShell';
 import { BentoCard } from '../../core/ui/BentoCard';
+import { JadeGuardBanner } from '../../core/ui/JadeGuardBanner';
 import {
   analyzeBiffMessage,
   extractGreyRockReply,
@@ -43,6 +44,9 @@ export function SafeHarborPage() {
     wipeHamnFields();
     navigate(location.pathname, { replace: true, state: null });
   }, [wipeHamnFields, navigate, location.pathname]);
+
+  const hasHamnSession =
+    Boolean(message.trim()) || Boolean(grans) || Boolean(reply) || Boolean(error);
 
   useEffect(() => {
     const prefilled = (location.state as { prefilledMessage?: string } | null)?.prefilledMessage;
@@ -116,10 +120,18 @@ export function SafeHarborPage() {
               className="input-glass"
               disabled={loading}
             />
-            <button type="submit" disabled={loading || !message.trim()} className="btn-pill--accent">
-              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-              Generera BIFF-svar
-            </button>
+            <JadeGuardBanner text={message} className="mt-2" />
+            <div className="flex flex-wrap items-center gap-2">
+              <button type="submit" disabled={loading || !message.trim()} className="btn-pill--accent">
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                Generera BIFF-svar
+              </button>
+              {hasHamnSession && (
+                <button type="button" onClick={handleKlar} className="btn-pill--ghost text-xs">
+                  Klar — rensa
+                </button>
+              )}
+            </div>
           </form>
         </BentoCard>
 

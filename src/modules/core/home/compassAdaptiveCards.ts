@@ -219,7 +219,7 @@ function cardsFromDay(option: string): AdaptiveMemoryCard[] {
           prompt: 'Kroppen behöver bränsle. Ett litet mål räcker — utan att lösa hela dagen.',
           actionLabel: 'Uppgift',
           to: '/vardagen',
-          tone: 'amber',
+          tone: 'gold',
         },
       ];
     case 'Behöver kontakt':

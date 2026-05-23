@@ -1,14 +1,20 @@
+import { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import type { GransAnalysis } from '../api/biffService';
 
 type BiffTriagePanelProps = {
   grans: GransAnalysis;
+  layout?: 'grid' | 'stacked';
 };
 
-export function BiffTriagePanel({ grans }: BiffTriagePanelProps) {
+export function BiffTriagePanel({ grans, layout = 'grid' }: BiffTriagePanelProps) {
+  const [showBait, setShowBait] = useState(false);
+  const hasBait = grans.emotionalBait.length > 0;
+
   return (
     <BentoCard title="Brusfiltret — triage">
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className={layout === 'stacked' ? 'grid gap-4' : 'grid gap-4 md:grid-cols-2'}>
         <section aria-label="Logistik tio procent">
           <p className="mb-2 text-[10px] uppercase tracking-widest text-success">
             Logistik (10%)
@@ -27,13 +33,30 @@ export function BiffTriagePanel({ grans }: BiffTriagePanelProps) {
         </section>
 
         <section aria-label="Beten nittio procent">
-          <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">
-            Känslomässiga beten (90%) — ignorera
-          </p>
-          {grans.emotionalBait.length > 0 ? (
+          <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+            <p className="text-[10px] uppercase tracking-widest text-text-dim">
+              Känslomässiga beten (90%) — ignorera
+            </p>
+            {hasBait && (
+              <button
+                type="button"
+                onClick={() => setShowBait((v) => !v)}
+                className="btn-pill--ghost flex items-center gap-1 text-[10px] uppercase tracking-widest"
+                aria-pressed={showBait}
+              >
+                {showBait ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                {showBait ? 'Dölj brus' : 'Visa brus'}
+              </button>
+            )}
+          </div>
+          {hasBait ? (
             <ul className="space-y-2">
               {grans.emotionalBait.map((bait) => (
-                <li key={bait} className="biff-triage-bait" title="Maskerat — kopiera inte">
+                <li
+                  key={bait}
+                  className={showBait ? 'biff-triage-bait--revealed' : 'biff-triage-bait'}
+                  title={showBait ? undefined : 'Maskerat — kopiera inte'}
+                >
                   {bait}
                 </li>
               ))}
