@@ -44,4 +44,12 @@ export const MABRA_BRIDGE_LABELS = {
   saveMoodOnly: 'Spara bara humör',
   skipText: 'Spara utan text',
   continueOptional: 'Lägg till kort rad (valfritt)',
+  returnToMabra: 'Tillbaka till Måbra',
 } as const;
+
+/** Retur efter dagbok-save vid låg energi (P0 bro Dagbok ↔ Måbra). */
+export const DAGBOK_MABRA_RETURN_URL = '/mabra?from=dagbok&energy=low';
+
+export function isLowEnergyMood(mood: string): boolean {
+  return mood === 'Trött' || mood === 'Låg';
+}

@@ -2,13 +2,15 @@ import { Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { speglarTabHref } from '../../core/navigation/appNavigation';
 import type { JournalBridgeContext } from '../../core/types/journalBridge';
+import { DAGBOK_MABRA_RETURN_URL, MABRA_BRIDGE_LABELS } from '../constants/mabraBridge';
 
 type SavedStepProps = {
   onNewEntry: () => void;
   journalContext: JournalBridgeContext;
+  showMabraReturn?: boolean;
 };
 
-export function SavedStep({ onNewEntry, journalContext }: SavedStepProps) {
+export function SavedStep({ onNewEntry, journalContext, showMabraReturn = false }: SavedStepProps) {
   return (
     <>
       <div className="mb-2 flex items-center gap-2 text-success">
@@ -26,6 +28,11 @@ export function SavedStep({ onNewEntry, journalContext }: SavedStepProps) {
         >
           Känns det som gaslighting? → Gå till Speglar
         </Link>
+        {showMabraReturn && (
+          <Link to={DAGBOK_MABRA_RETURN_URL} className="btn-pill--ghost text-sm">
+            {MABRA_BRIDGE_LABELS.returnToMabra}
+          </Link>
+        )}
       </div>
     </>
   );

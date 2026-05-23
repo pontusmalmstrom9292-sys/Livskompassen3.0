@@ -1687,6 +1687,10 @@
     pointer-events: none;
   }
 
+  .biff-triage-bait--revealed {
+    @apply rounded-lg border border-danger/20 bg-danger/5 px-3 py-2 text-sm text-text-muted;
+  }
+
   .biff-triage-fact {
     @apply rounded-lg border border-success/25 bg-success/5 px-3 py-2 text-sm text-text-muted;
   }

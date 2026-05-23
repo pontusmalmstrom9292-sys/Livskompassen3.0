@@ -5,15 +5,16 @@ import type { GransAnalysis } from '../api/biffService';
 
 type BiffTriagePanelProps = {
   grans: GransAnalysis;
+  layout?: 'grid' | 'stacked';
 };
 
-export function BiffTriagePanel({ grans }: BiffTriagePanelProps) {
+export function BiffTriagePanel({ grans, layout = 'grid' }: BiffTriagePanelProps) {
   const [showBait, setShowBait] = useState(false);
   const hasBait = grans.emotionalBait.length > 0;
 
   return (
     <BentoCard title="Brusfiltret — triage">
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className={layout === 'stacked' ? 'grid gap-4' : 'grid gap-4 md:grid-cols-2'}>
         <section aria-label="Logistik tio procent">
           <p className="mb-2 text-[10px] uppercase tracking-widest text-success">
             Logistik (10%)
