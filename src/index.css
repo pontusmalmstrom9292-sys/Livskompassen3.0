@@ -1071,7 +1071,7 @@
   }
 
   .compass-option-tile:hover {
-    @apply border-white/22;
+    @apply border-white/20;
     transform: translateY(-1px);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.08),
@@ -1931,6 +1931,94 @@
   .dagbok-starter-chip {
     @apply rounded-full border border-white/10 px-2.5 py-1 text-[10px] text-text-muted transition-colors hover:border-accent-secondary/30 hover:text-accent-secondary;
     background: rgba(255, 255, 255, 0.04);
+  }
+
+  /* Måbra — F-V10 frågekort + känslokompass (Obsidian Calm, varm mörk) */
+  .mabra-reflection-kicker {
+    @apply mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent/90;
+  }
+
+  .mabra-reflection-block {
+    @apply rounded-2xl border border-amber-500/15 p-4;
+    background: linear-gradient(165deg, rgba(15, 23, 42, 0.92) 0%, rgba(2, 6, 23, 0.88) 100%);
+    box-shadow: 0 0 32px rgba(253, 230, 138, 0.04);
+  }
+
+  .mabra-compass-grid {
+    @apply grid grid-cols-3 gap-2;
+  }
+
+  .mabra-compass-card {
+    @apply flex flex-col items-center gap-2 rounded-xl border border-white/10 px-2 py-3 transition-all;
+    background: rgba(2, 6, 23, 0.45);
+  }
+
+  .mabra-compass-card:hover {
+    @apply border-amber-500/25;
+  }
+
+  .mabra-compass-card--active {
+    @apply border-accent/45 bg-accent/10;
+    box-shadow: 0 0 20px rgba(253, 230, 138, 0.12);
+  }
+
+  .mabra-compass-card__label {
+    @apply text-[10px] font-semibold tracking-wider text-text-muted;
+  }
+
+  .mabra-compass--heavy {
+    color: #94a3b8;
+  }
+
+  .mabra-compass--neutral {
+    color: #fbbf24;
+  }
+
+  .mabra-compass--light {
+    color: #fde68a;
+  }
+
+  .mabra-card-refresh {
+    @apply flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-text-muted transition-colors hover:border-accent/35 hover:text-accent;
+    background: rgba(2, 6, 23, 0.5);
+  }
+
+  .mabra-flip-scene {
+    @apply block w-full cursor-pointer border-0 bg-transparent p-0 text-left;
+    perspective: 1000px;
+  }
+
+  .mabra-flip-inner {
+    @apply relative min-h-[9.5rem] w-full transition-transform duration-500;
+    transform-style: preserve-3d;
+  }
+
+  .mabra-flip-inner--flipped {
+    transform: rotateY(180deg);
+  }
+
+  .mabra-flip-face {
+    @apply absolute inset-0 flex flex-col items-center justify-center rounded-xl border border-amber-500/20 px-5 py-6;
+    backface-visibility: hidden;
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.55) 0%, rgba(15, 23, 42, 0.85) 100%);
+  }
+
+  .mabra-flip-face--front {
+    transform: rotateY(180deg);
+  }
+
+  .mabra-plays-list {
+    @apply space-y-2;
+  }
+
+  .mabra-play-row {
+    @apply flex w-full items-center gap-3 rounded-xl border border-white/10 px-3 py-3 text-left transition-colors hover:border-accent-secondary/30;
+    background: rgba(2, 6, 23, 0.4);
+  }
+
+  .mabra-play-go {
+    @apply inline-flex shrink-0 items-center gap-0.5 rounded-full border border-accent-secondary/40 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-accent-secondary;
+    background: rgba(129, 140, 248, 0.08);
   }
 
   .dagbok-archive__head {

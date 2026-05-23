@@ -74,6 +74,7 @@ function DockHubSatellite({
       {...handlers}
     >
       <span className="dock-hub-sat__glass">
+        <span className="dock-hub-sat__glow" aria-hidden />
         <span className="dock-hub-sat__halo" aria-hidden />
         {showFyren && <FyrenRing progress={progress} />}
         <Icon className="dock-hub-sat__icon" strokeWidth={1.65} />

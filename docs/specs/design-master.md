@@ -1,14 +1,16 @@
-# Design Master — Obsidian Calm (Riktning A)
+# Design Master — Obsidian Calm + Riktning B (hub/kluster)
 
-**Status:** Låst 2026-05-21  
+**Status:** Låst bas 2026-05-21 · **Riktning B** hub/kluster 2026-05-23 ([`ADR-design-riktning-B-varmare-mork.md`](../decisions/ADR-design-riktning-B-varmare-mork.md))  
 **Canonical källa för:** all UI i Livskompassen v2  
-**Kod:** [`src/modules/core/ui/tokens.ts`](../../src/modules/core/ui/tokens.ts), [`src/index.css`](../../src/index.css), [`tailwind.config.js`](../../tailwind.config.js)
+**Kod:** [`src/modules/core/ui/tokens.ts`](../../src/modules/core/ui/tokens.ts) (`DESIGN`, `CLUSTER_TILE`), [`src/index.css`](../../src/index.css), [`tailwind.config.js`](../../tailwind.config.js)
 
 ---
 
 ## 1. Filosofi
 
-- **Obsidian Calm / Nordic Dusk (mörk):** djup obsidian-bas, glass-ytor, sparsamma accenter
+- **Obsidian Calm / Nordic Dusk (mörk):** djup obsidian-bas (`#020617` → `#0f172a`), sparsamma accenter
+- **Riktning B (hub/kluster):** varmtonade kort per kluster (`CLUSTER_TILE`), tydliga ikonplattor, subtil hörnglow — referens `nav-01-horizon-dashboard` (ej 5-ikon dock)
+- **Riktning A (övriga glass-ytor):** `glass-card`, modulpaneler utanför hub — slate glass tills vidare
 - **Progressive disclosure:** ett fält, ett val, ett steg
 - **Neuroinkluderande:** låg arousal, hög läsbarhet, deterministisk feedback
 - Blueprint v1.1 (lugn, enkelhet, inga grafer) gäller som **UX** — inte ljus off-white-palett
@@ -36,6 +38,18 @@
 | `border` | `rgba(255,255,255,0.06)` | Standard kant |
 | `borderStrong` | `rgba(255,255,255,0.10)` | Glass card kant |
 | `accentGlow` | `rgba(253, 230, 138, 0.15)` | Aktiv nav, subtil glow |
+| `glassWarm` | `rgba(18, 16, 28, 0.78)` | Modulhub-panel (B) |
+
+### Kluster-tiles (Riktning B)
+
+| Tone | Surface | Border / glow | Ikon |
+|------|---------|---------------|------|
+| `gold` | `#14120e` | amber `rgba(245,158,11,0.22)` | `#fde68a` |
+| `indigo` | `#0d101a` | indigo `rgba(99,102,241,0.22)` | `#a5b4fc` |
+| `lavender` | `#110d14` | violet `rgba(167,139,250,0.2)` | `#c4b5fd` |
+| `emerald` | `#0d1311` | emerald `rgba(16,185,129,0.22)` | `#5eead4` |
+
+Kod: `CLUSTER_TILE` i `tokens.ts`; CSS `--tile-*` i `index.css`. Komponenter: `ClusterGrid`, `ModuleHubPanel`, `CompassHubOrb`.
 
 ### Accent-hierarki
 
@@ -121,18 +135,19 @@ Moduler följer alltid bas-paletten; modul-accent är tillägg, inte ny palett.
 
 ---
 
-## 8. Alternativ (ej valda)
+## 8. Riktningar
 
 | Riktning | Status |
 |----------|--------|
-| B — Copper Dark Glass | Arkiverad referens i [`DESIGN.md`](../../DESIGN.md) |
-| C — Nordic Dusk Dark | Ej vald |
+| A — Slate glass (global kort) | **Bas** — `glass-card`, moduler utanför hub |
+| B — Varm mörk hub/kluster | **Aktiv** 2026-05-23 — ADR + tokens ovan |
+| C — Nordic Dusk Dark (ljus variant) | Ej vald |
 
 ---
 
 ## 9. Referens för externa AI
 
-All modul-spec ska säga: *"Visuell design enligt docs/specs/design-master.md (Obsidian Calm, riktning A)."*
+All modul-spec ska säga: *"Visuell design enligt docs/specs/design-master.md (Obsidian Calm; hub/kluster enligt Riktning B)."*
 
 ---
 

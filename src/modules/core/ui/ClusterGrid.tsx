@@ -19,6 +19,7 @@ function ClusterScrollCard(cluster: LifeCluster) {
       to={cluster.path}
       className={`module-scroll-card ${toneClass[cluster.tone]}`}
     >
+      <span className="module-scroll-card__glow" aria-hidden />
       <span className="module-scroll-card__icon">
         <Icon className="h-4 w-4" strokeWidth={1.75} />
       </span>
