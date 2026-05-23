@@ -83,6 +83,16 @@ async function main() {
   assert(typeof coach === 'string' && coach.trim().length > 0, 'saknar coach (string)');
   console.log('[smoke] coach excerpt:', coach.slice(0, 180));
 
+  console.log('[smoke] mabraCoach transformator…');
+  const transformResult = await coachFn({
+    mode: 'transformator',
+    thought: 'Jag är värdelös och kommer aldrig klara föräldraskapet.',
+  });
+  const transform = transformResult.data?.transform;
+  assert(transform?.distortion && transform.clinicalFact && transform.compassionateRewrite, 'saknar 3-korts transform');
+  assert(transformResult.data?.redirectToSpeglar !== true, 'transformator ska inte redirecta neutral tanke');
+  console.log('[smoke] transformator OK —', transform.compassionateRewrite.slice(0, 80));
+
   console.log('\n[smoke] PASS — Måbra backend.');
   process.exit(0);
 }

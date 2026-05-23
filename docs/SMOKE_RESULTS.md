@@ -1,5 +1,23 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+**Datum:** 2026-05-23  
+**Branch:** `main`
+
+## Life OS orchestrering våg 0–2a (2026-05-23)
+
+| Kontroll | Resultat |
+|----------|----------|
+| `npm run smoke:locked-ux` | **PASS** |
+| `npm run smoke:design-modules` | **PASS** |
+| `npm run build` (frontend) | **PASS** |
+| `cd functions && npm run build` | **PASS** |
+
+**P1 synlig:** `/` Kompassråd · `/hamn` BIFF Triage · `/familjen` barnkort/ankare · Valv Arkiv/Triage/Pansaret · `/mabra` KBT (Vit hub → frågekort).
+
+**Manuellt kvar:** smoke #1–7, #18–20 (se `docs/SMOKE_CHECKLIST.md`) · temaval A/B/C/D.
+
+---
+
 **Datum:** 2026-05-22  
 **Branch:** `main` (Livskompassen3.0 — clean baseline)
 

@@ -3,6 +3,7 @@ import { Archive } from 'lucide-react';
 import type { MabraProject } from '../constants/mabraProjects';
 import { PLAN_KIND_LABELS } from '../constants/mabraProjects';
 import type { MabraPlanKind } from '../constants/mabraProjects';
+import { KbtTransformatorPanel } from './KbtTransformatorPanel';
 
 type Props = {
   project: MabraProject;
@@ -48,15 +49,20 @@ export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack }: P
         ))}
       </div>
 
-      {selectedPlan && (
+      {selectedPlan === 'cards' && <KbtTransformatorPanel />}
+
+      {selectedPlan === 'chat' && (
         <div className="home-module-panel__question-box">
           <p className="text-sm text-text-muted">
-            {selectedPlan === 'cards' &&
-              'Frågekort kommer här — ett kort i taget, sparas i Vit hub.'}
-            {selectedPlan === 'chat' &&
-              'Coach-dialog — lågaffektiv, inåtvänd. (P1: mabraCoach + silo vit)'}
-            {selectedPlan === 'memory' &&
-              'Känslominne: Vem är jag? · Hur känner jag kring denna upplevelse?'}
+            Coach-dialog — lågaffektiv, inåtvänd (mabraCoach efter övning).
+          </p>
+        </div>
+      )}
+
+      {selectedPlan === 'memory' && (
+        <div className="home-module-panel__question-box">
+          <p className="text-sm text-text-muted">
+            Känslominne: Vem är jag? · Hur känner jag kring denna upplevelse?
           </p>
           <Link
             to="/dagbok?tab=bevis"

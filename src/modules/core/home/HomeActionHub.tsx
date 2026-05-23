@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { CompassModuleStrip } from '../../kompasser/components/CompassModuleStrip';
+import { KompassradPanel } from '../../kompasser/components/KompassradPanel';
 import { getDefaultCompassByTime } from '../../kompasser/utils/compassTime';
 import { EVENING_HERO, getFlowConfig } from '../../kompasser/config/compassFlows';
 import { HomeQuickModules } from './HomeQuickModules';
@@ -30,6 +31,7 @@ export function HomeActionHub({ onCheckInSaved }: Props) {
         <p className="home-page__lead text-xs">{greeting.lead}</p>
       </div>
 
+      <KompassradPanel />
       <CompassModuleStrip onCheckInSaved={onCheckInSaved} />
       <HomeQuickModules onSaved={onCheckInSaved} />
     </header>

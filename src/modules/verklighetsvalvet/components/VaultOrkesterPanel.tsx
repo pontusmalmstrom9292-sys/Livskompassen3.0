@@ -1,20 +1,39 @@
 /** @locked-ux Valv Orkester — do not remove; see `.context/locked-ux-features.md` */
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Loader2, Network } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import {
   analyzeBiffMessage,
   type GransAnalysis,
 } from '../../safe_harbor/api/biffService';
+import type { VaultLog } from '../../core/types/firestore';
 import { PRODUCT_AGENTS } from '../constants/productAgents';
+import { OrkesterAgentTrio } from './OrkesterAgentTrio';
+import { scanTechniquesForLog } from '../utils/vaultPatternScan';
 
-export function VaultOrkesterPanel() {
+type Props = {
+  logs?: (VaultLog & { id: string })[];
+};
+
+export function VaultOrkesterPanel({ logs = [] }: Props) {
   const [thread, setThread] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [grans, setGrans] = useState<GransAnalysis | null>(null);
   const [riskScore, setRiskScore] = useState<number | null>(null);
   const [agentName, setAgentName] = useState<string | null>(null);
+
+  const registeredDocs = useMemo(
+    () =>
+      logs
+        .filter((log) =>
+          /sms|mejl|kommunikation|myndighet|dokument/i.test(
+            `${log.category ?? ''} ${log.action ?? ''}`,
+          ),
+        )
+        .slice(0, 8),
+    [logs],
+  );
 
   const handleScan = async () => {
     if (!thread.trim()) return;
@@ -37,6 +56,8 @@ export function VaultOrkesterPanel() {
 
   return (
     <div className="space-y-4">
+      <OrkesterAgentTrio />
+
       <BentoCard
         title="AI-Orkestern"
         description="Det Digitala Pansaret · produktroller"
@@ -53,6 +74,38 @@ export function VaultOrkesterPanel() {
           ))}
         </ul>
       </BentoCard>
+
+      {registeredDocs.length > 0 && (
+        <BentoCard title="Registrerade dokument" description="SMS, mejl, myndighet">
+          <ul className="space-y-2">
+            {registeredDocs.map((log) => {
+              const tags = scanTechniquesForLog(log);
+              return (
+                <li key={log.id} className="glass-card p-3 text-sm">
+                  <p className="text-[10px] uppercase tracking-widest text-text-dim">
+                    {log.category ?? 'dokument'} · {(log.createdAt ?? '').slice(0, 10)}
+                  </p>
+                  <p className="mt-1 line-clamp-2 text-text-muted">
+                    {(log.truth ?? '').slice(0, 120) || '—'}
+                  </p>
+                  {tags.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full border border-accent/20 px-2 py-0.5 text-[10px] text-accent/80"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </BentoCard>
+      )}
 
       <BentoCard
         title="Mönstersökning i SMS-tråd"

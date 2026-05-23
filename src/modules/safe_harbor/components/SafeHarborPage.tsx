@@ -9,6 +9,7 @@ import {
 import { useStore } from '../../core/store';
 import { saveVaultLog } from '../../core/firebase/firestore';
 import { HamnModuleStack } from './HamnModuleStack';
+import { BiffTriagePanel } from './BiffTriagePanel';
 
 export function SafeHarborPage() {
   const location = useLocation();
@@ -108,36 +109,18 @@ export function SafeHarborPage() {
         />
         <button type="submit" disabled={loading || !message.trim()} className="btn-pill--accent w-full">
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-          Generera BIFF-svar
+          Kör BIFF Triage
         </button>
       </form>
 
       {error && <p className="text-sm text-danger">{error}</p>}
 
-      {grans && (
-        <div className="rounded-xl border border-white/10 bg-surface/30 px-3 py-3 text-sm">
-          {grans.cleanFacts.length > 0 && (
-            <div className="mb-2">
-              <p className="text-[10px] uppercase tracking-widest text-text-dim">Logistik (10%)</p>
-              <ul className="list-inside list-disc text-text-muted">
-                {grans.cleanFacts.map((fact) => (
-                  <li key={fact}>{fact}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {grans.emotionalBait.length > 0 && (
-            <div>
-              <p className="text-[10px] uppercase tracking-widest text-text-dim">Beten (90%)</p>
-              <ul className="list-inside list-disc text-text-muted">
-                {grans.emotionalBait.map((bait) => (
-                  <li key={bait}>{bait}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      )}
+      <BiffTriagePanel
+        grans={grans}
+        riskScore={riskScore}
+        hitlRequired={hitlRequired}
+        agentName={agentName}
+      />
 
       {reply && (
         <div className="rounded-xl border border-accent/20 bg-accent/5 px-3 py-3">

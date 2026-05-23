@@ -25,6 +25,7 @@ import { GroundingExercise } from './GroundingExercise';
 import { ReframingExercise } from './ReframingExercise';
 import { ValuesCompass } from './ValuesCompass';
 import { MabraComplete } from './MabraComplete';
+import { KbtTransformatorPanel } from './KbtTransformatorPanel';
 
 export function MabraPage() {
   const user = useStore((s) => s.user);
@@ -150,6 +151,10 @@ export function MabraPage() {
             {valuesSavedHint && (
               <p className="text-center text-sm text-text-muted">{VALUES_COMPASS_COPY.savedHint}</p>
             )}
+            <div>
+              <p className="home-page__eyebrow mb-2">Automatiska tankar</p>
+              <KbtTransformatorPanel />
+            </div>
           </>
         )}
 

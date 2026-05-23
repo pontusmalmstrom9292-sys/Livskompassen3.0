@@ -90,3 +90,13 @@ export function buildVaultFrequencyReport(
     topTechniques,
   };
 }
+
+/** D19/D20 — teknik-taggar för en enskild post (deterministiskt). */
+export function scanTechniquesForLog(log: VaultLog): VaultTechnique[] {
+  const text = logText(log);
+  const found = new Set<VaultTechnique>();
+  for (const { pattern, technique } of SCAN_PATTERNS) {
+    if (pattern.test(text)) found.add(technique);
+  }
+  return [...found];
+}

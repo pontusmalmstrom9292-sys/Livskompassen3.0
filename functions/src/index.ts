@@ -1,5 +1,5 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
-import { askMabraCoach, askSpeglingsCoach } from "./agents/vertexAgent";
+import { askMabraCoach, askKbtTransformator, askSpeglingsCoach } from "./agents/vertexAgent";
 import { askKnowledgeVaultWithRag } from "./agents/knowledgeVaultAgent";
 import { geminiApiKey } from "./lib/geminiSecret";
 import { generateEmbeddingInternal } from "./lib/generateEmbeddingInternal";
@@ -704,6 +704,25 @@ export const mabraCoach = functions
     const hubSymptom = data.hubSymptom;
     const exerciseType = data.exerciseType;
     const optionalNote = typeof data.optionalNote === 'string' ? data.optionalNote : undefined;
+    const mode = typeof data.mode === 'string' ? data.mode : 'coach';
+    const thought = typeof data.thought === 'string' ? data.thought.trim() : '';
+
+    if (mode === 'transformator') {
+      if (!thought || thought.length > 500) {
+        throw new functions.https.HttpsError(
+          'invalid-argument',
+          'Fältet "thought" krävs (max 500 tecken) för transformator-läge.',
+        );
+      }
+      if (shouldRedirectMabraCoachToSpeglar(thought)) {
+        return {
+          redirectToSpeglar: true,
+          coach: MABRA_SPEGLAR_REDIRECT_MESSAGE,
+        };
+      }
+      const transform = await askKbtTransformator(thought, process.env.GEMINI_API_KEY);
+      return { transform, redirectToSpeglar: false };
+    }
 
     const validHubs = ['panic_rsd', 'self_critical', 'find_self'];
     const validExercises = ['breathing', 'grounding', 'reframing'];

@@ -94,7 +94,7 @@ export function FamiljenPage() {
         />
       </div>
 
-      {showChildPicker && (
+      {showChildPicker && activeTab !== 'reflektion' && (
         <FamiljenChildPicker
           activeChild={shell.activeChild}
           children={shell.childAliases}

@@ -14,6 +14,7 @@ import { ValvChatPanel } from '../../valv_chatt';
 import { DossierPage } from '../../dossier';
 import { VaultMonsterPanel } from './VaultMonsterPanel';
 import { VaultOrkesterPanel } from './VaultOrkesterPanel';
+import { PansaretHeader } from './PansaretHeader';
 import type { VaultLogInput } from '../types/vaultEntry';
 
 const PIN_STORAGE_KEY = 'livskompassen_vault_pin_hash';
@@ -43,8 +44,8 @@ function hasPinConfigured(): boolean {
 export type VaultTab = 'logga' | 'sok' | 'monster' | 'orkester' | 'dossier';
 
 const VAULT_TABS = [
-  { id: 'logga' as const, label: 'Logga', icon: <FileText className="h-3 w-3" /> },
-  { id: 'sok' as const, label: 'Sök', icon: <Search className="h-3 w-3" /> },
+  { id: 'logga' as const, label: 'Arkiv', icon: <FileText className="h-3 w-3" /> },
+  { id: 'sok' as const, label: 'Triage', icon: <Search className="h-3 w-3" /> },
   { id: 'monster' as const, label: 'Mönster', icon: <BarChart3 className="h-3 w-3" /> },
   { id: 'orkester' as const, label: 'Orkester', icon: <Network className="h-3 w-3" /> },
   { id: 'dossier' as const, label: 'Dossier', icon: <ScrollText className="h-3 w-3" /> },
@@ -235,9 +236,14 @@ export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
         />
       )}
 
-      {vaultTab === 'monster' && <VaultMonsterPanel logs={logs} />}
+      {vaultTab === 'monster' && (
+        <>
+          <PansaretHeader />
+          <VaultMonsterPanel logs={logs} />
+        </>
+      )}
 
-      {vaultTab === 'orkester' && <VaultOrkesterPanel />}
+      {vaultTab === 'orkester' && <VaultOrkesterPanel logs={logs} />}
 
       {vaultTab === 'dossier' && <DossierPage embedded />}
     </div>

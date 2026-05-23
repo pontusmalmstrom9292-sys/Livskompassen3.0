@@ -48,7 +48,7 @@ export function BiffTriagePanel({ grans, riskScore, hitlRequired, agentName }: P
       </div>
       {riskScore != null && (
         <p className={`text-xs ${riskTone(riskScore)}`}>
-          Riskindikator (DCAP): {(riskScore * 100).toFixed(0)}%
+          Riskindikator (DCAP): {riskScore}%
           {hitlRequired ? ' · granska manuellt innan svar' : ''}
         </p>
       )}

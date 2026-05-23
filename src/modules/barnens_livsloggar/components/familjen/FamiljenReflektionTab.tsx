@@ -2,6 +2,10 @@ import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import { BarnfokusFraganPanel } from '../BarnfokusFraganPanel';
+import { PositivaMinnesankare } from '../PositivaMinnesankare';
+import { ParentReminderFooter } from '../ParentReminderFooter';
+import { ChildProfileCards } from '../ChildProfileCards';
+import type { ChildAlias } from '../../constants';
 import { BalansMatare } from '../BalansMatare';
 import { ChildrenLogsChat } from '../ChildrenLogsChat';
 import {
@@ -19,6 +23,7 @@ type Props = {
 export function FamiljenReflektionTab({ shell }: Props) {
   const {
     activeChild,
+    setActiveChild,
     balans,
     barnfokusMemory,
     logs,
@@ -27,6 +32,11 @@ export function FamiljenReflektionTab({ shell }: Props) {
 
   return (
     <div className="space-y-4">
+      <ChildProfileCards
+        selected={activeChild}
+        onSelect={setActiveChild}
+      />
+
       <div className="familjen-barnfokus-wrap">
         <BarnfokusFraganPanel
           key={`barnfokus-${activeChild}`}
@@ -35,6 +45,8 @@ export function FamiljenReflektionTab({ shell }: Props) {
           onSave={handleSaveBarnfokus}
         />
       </div>
+
+      <PositivaMinnesankare logs={logs} childAlias={activeChild as ChildAlias} />
 
       <BentoCard title={`${activeChild} — mående (7 dagar)`} icon={<Heart className="h-4 w-4" />}>
         <BalansMatare result={balans} />
@@ -69,6 +81,8 @@ export function FamiljenReflektionTab({ shell }: Props) {
       </BentoCard>
 
       <ChildrenLogsChat activeChild={activeChild} />
+
+      <ParentReminderFooter />
     </div>
   );
 }

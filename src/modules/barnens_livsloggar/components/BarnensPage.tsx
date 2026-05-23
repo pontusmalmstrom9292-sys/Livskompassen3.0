@@ -5,6 +5,10 @@ import { PinGate } from '../../core/ui/PinGate';
 import { EmptyState } from '../../core/ui/EmptyState';
 import { TimelineEntry } from '../../core/ui/TimelineEntry';
 import { BarnfokusFraganPanel } from './BarnfokusFraganPanel';
+import { ChildProfileCards } from './ChildProfileCards';
+import { PositivaMinnesankare } from './PositivaMinnesankare';
+import { ParentReminderFooter } from './ParentReminderFooter';
+import type { ChildAlias } from '../constants';
 import { BalansMatare } from './BalansMatare';
 import { PhysiologicalControls } from './PhysiologicalControls';
 import { ChildSubLogPanel } from './ChildSubLogPanel';
@@ -52,7 +56,6 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
 
   const {
     activeChild,
-    childAliases,
     setActiveChild,
     balans,
     barnfokusMemory,
@@ -74,20 +77,10 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-2">
-        {childAliases.map((name) => (
-          <button
-            key={name}
-            type="button"
-            onClick={() => setActiveChild(name)}
-            className={`flex-1 rounded-xl border py-2 text-sm ${
-              activeChild === name ? 'chip--active' : 'chip--idle'
-            }`}
-          >
-            {name}
-          </button>
-        ))}
-      </div>
+      <ChildProfileCards
+        selected={activeChild as ChildAlias}
+        onSelect={(alias) => setActiveChild(alias)}
+      />
 
       <BarnfokusFraganPanel
         key={`barnfokus-${activeChild}`}
@@ -95,6 +88,8 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
         memoryRows={barnfokusMemory}
         onSave={handleSaveBarnfokus}
       />
+
+      <PositivaMinnesankare logs={logs} childAlias={activeChild as ChildAlias} />
 
       <BentoCard title={`${activeChild} — Balans`} icon={<Heart className="h-4 w-4" />}>
         <BalansMatare result={balans} />
@@ -219,6 +214,8 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
           </ul>
         )}
       </BentoCard>
+
+      <ParentReminderFooter />
     </div>
   );
 }

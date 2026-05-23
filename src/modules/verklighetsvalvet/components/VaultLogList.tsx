@@ -4,6 +4,7 @@ import { BentoCard } from '../../core/ui/BentoCard';
 import { EmptyState } from '../../core/ui/EmptyState';
 import type { VaultLog } from '../../core/types/firestore';
 import { exportVaultRecordAsPdf } from '../utils/exportVaultRecord';
+import { scanTechniquesForLog } from '../utils/vaultPatternScan';
 
 type VaultLogListProps = {
   logs: (VaultLog & { id: string })[];
@@ -41,6 +42,12 @@ function formatLogDate(createdAt: VaultLog['createdAt'] | undefined): string {
   return String(createdAt).slice(0, 10);
 }
 
+function formatServerTimestamp(createdAt: VaultLog['createdAt'] | undefined): string {
+  if (typeof createdAt === 'string') return createdAt;
+  if (createdAt == null) return '—';
+  return String(createdAt);
+}
+
 function LogRow({
   log,
   highlightLogId,
@@ -50,6 +57,7 @@ function LogRow({
   highlightLogId?: string | null;
   highlightRef: RefObject<HTMLLIElement | null>;
 }) {
+  const tags = scanTechniquesForLog(log);
   return (
     <li
       key={log.id}
@@ -59,11 +67,17 @@ function LogRow({
       }`}
     >
       <div className="flex items-start justify-between gap-2">
-        <p className="text-[10px] uppercase tracking-widest text-text-dim">
-          {log.pinned ? 'Ankare · ' : ''}
-          {log.category ?? 'allmänt'}
-          {log.entryType ? ` · ${log.entryType}` : ''} · {formatLogDate(log.createdAt)}
-        </p>
+        <div>
+          <p className="text-[10px] uppercase tracking-widest text-text-dim">
+            SERVER-TIDSSTÄMPEL · {formatServerTimestamp(log.createdAt)}
+          </p>
+          <p className="text-[10px] text-text-dim">ID · {log.id.slice(0, 12)}…</p>
+          <p className="mt-1 text-[10px] uppercase tracking-widest text-text-dim">
+            {log.pinned ? 'Ankare · ' : ''}
+            {log.category ?? 'allmänt'}
+            {log.entryType ? ` · ${log.entryType}` : ''} · {formatLogDate(log.createdAt)}
+          </p>
+        </div>
         <button
           type="button"
           onClick={() => exportVaultRecordAsPdf(log)}
@@ -74,6 +88,18 @@ function LogRow({
         </button>
       </div>
       <p className="mt-1 text-text-muted whitespace-pre-wrap">{formatLogBody(log)}</p>
+      {tags.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1">
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full border border-accent/20 px-2 py-0.5 text-[10px] text-accent/80"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
       {log.evidenceUrl && (
         <a
           href={log.evidenceUrl}
