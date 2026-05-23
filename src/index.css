@@ -1002,7 +1002,11 @@
   }
 
   .fyren-widget-bar {
-    @apply pointer-events-none fixed right-0 top-1/2 z-[60] flex -translate-y-1/2 flex-col items-end;
+    @apply pointer-events-none fixed bottom-[5.75rem] right-0 z-[55] flex flex-col items-end;
+  }
+
+  .fyren-widget-bar__backdrop {
+    @apply fixed inset-0 z-[54] border-0 bg-black/25 backdrop-blur-[1px];
   }
 
   .fyren-widget-bar__prick {
@@ -1027,17 +1031,39 @@
   }
 
   .fyren-widget-bar__strip {
-    @apply pointer-events-auto mr-1 mt-2 flex flex-col gap-1 rounded-xl border border-white/10 p-1.5;
-    background: rgba(15, 23, 42, 0.88);
+    @apply pointer-events-auto mr-1 flex flex-col gap-0.5 rounded-xl border border-white/10 p-1;
+    background: rgba(15, 23, 42, 0.92);
     backdrop-filter: blur(16px);
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease;
+  }
+
+  .fyren-widget-bar__strip--closed {
+    @apply pointer-events-none translate-x-[110%] opacity-0;
   }
 
   .fyren-widget-bar__action {
-    @apply flex items-center gap-2 rounded-lg px-2.5 py-2 text-xs text-text-muted transition-colors hover:bg-white/5 hover:text-accent;
+    @apply flex h-10 w-10 items-center justify-center rounded-lg text-text-muted transition-colors hover:bg-white/5 hover:text-accent;
   }
 
+  /* Mobil/tablet: bara ikoner (aria-label) — täcker inte Familjen-formulär */
   .fyren-widget-bar__label {
-    @apply whitespace-nowrap;
+    @apply hidden;
+  }
+
+  @media (min-width: 1280px) {
+    .fyren-widget-bar__strip {
+      @apply gap-1 p-1.5;
+    }
+
+    .fyren-widget-bar__action {
+      @apply h-auto w-auto justify-start gap-2 px-2.5 py-2;
+    }
+
+    .fyren-widget-bar__label {
+      @apply inline whitespace-nowrap text-xs;
+    }
   }
 
   .module-list {
