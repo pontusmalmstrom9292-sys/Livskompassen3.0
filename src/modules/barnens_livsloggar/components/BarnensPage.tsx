@@ -19,6 +19,7 @@ import {
 import { BalansMatare } from './BalansMatare';
 import { PhysiologicalControls } from './PhysiologicalControls';
 import { ChildSubLogPanel } from './ChildSubLogPanel';
+import { LivsloggQuestionCard } from './LivsloggQuestionCard';
 import { SaveAsEvidencePrompt } from './SaveAsEvidencePrompt';
 import { ChildrenLogsChat } from './ChildrenLogsChat';
 
@@ -257,6 +258,11 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           Spara dagens signaler
         </button>
+        <LivsloggQuestionCard
+          key={`frage-${activeChild}`}
+          childAlias={activeChild}
+          onSave={handleSaveObservation}
+        />
         <ChildSubLogPanel
           key={activeChild}
           childAlias={activeChild}
