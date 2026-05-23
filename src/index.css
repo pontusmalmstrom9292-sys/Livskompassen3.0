@@ -1071,7 +1071,7 @@
   }
 
   .compass-option-tile:hover {
-    @apply border-white/22;
+    @apply border-white/20;
     transform: translateY(-1px);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.08),
