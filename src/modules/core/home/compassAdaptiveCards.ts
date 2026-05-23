@@ -1,5 +1,9 @@
 import type { CompassFlow } from '../../kompasser/utils/compassTime';
-import { getDefaultCompassByTime } from '../../kompasser/utils/compassTime';
+import {
+  getDefaultCompassByTime,
+  isDayCompassUnlocked,
+  isEveningCompassUnlocked,
+} from '../../kompasser/utils/compassTime';
 
 export type CheckInSnapshot = {
   id: string;
@@ -100,6 +104,40 @@ function cardsFromMorning(option: string): AdaptiveMemoryCard[] {
           tone: 'emerald',
         },
       ];
+    case 'Rörelse 5 min':
+      return [
+        {
+          id: 'morning-move',
+          title: 'Morgon — rörelse',
+          prompt: 'Fem minuters rörelse kan väcka kroppen mjukt. Vill du sätta en timer?',
+          actionLabel: 'Måbra',
+          to: '/mabra',
+          tone: 'indigo',
+        },
+      ];
+    case 'Skriv en rad':
+      return [
+        {
+          id: 'morning-journal',
+          title: 'Morgon — en rad',
+          prompt: 'Skriv en neutral rad om hur du vill ha dagen — inget mål, bara riktning.',
+          actionLabel: 'Dagbok',
+          to: '/dagbok',
+          tone: 'gold',
+        },
+      ];
+    case 'Läs ankaret':
+      return [
+        {
+          id: 'morning-anchor',
+          title: 'Morgon — ankare',
+          prompt: 'Läs Sanningens Ankare lugnt. Vill du öppna bevisfliken?',
+          actionLabel: 'Fyren',
+          to: '/dagbok',
+          search: '?tab=bevis',
+          tone: 'emerald',
+        },
+      ];
     case 'Inget — vila':
       return [
         {
@@ -173,6 +211,28 @@ function cardsFromDay(option: string): AdaptiveMemoryCard[] {
           tone: 'emerald',
         },
       ];
+    case 'Hungrig':
+      return [
+        {
+          id: 'day-fuel',
+          title: 'Dag — bränsle',
+          prompt: 'Kroppen behöver bränsle. Ett litet mål räcker — utan att lösa hela dagen.',
+          actionLabel: 'Uppgift',
+          to: '/vardagen',
+          tone: 'amber',
+        },
+      ];
+    case 'Behöver kontakt':
+      return [
+        {
+          id: 'day-contact',
+          title: 'Dag — kontakt',
+          prompt: 'Behöver du nå en trygg person? Planera ett kort samtal — inget måste fixas nu.',
+          actionLabel: 'Dagbok',
+          to: '/dagbok',
+          tone: 'lavender',
+        },
+      ];
     default:
       return [];
   }
@@ -203,7 +263,7 @@ export function buildAdaptiveMemoryCards(
         tone: 'emerald',
       });
     }
-    if (flow === 'day' && !day && morning) {
+    if (flow === 'day' && isDayCompassUnlocked() && !day && morning) {
       cards.push({
         id: 'prompt-day',
         title: 'Dagskompass',
@@ -213,7 +273,7 @@ export function buildAdaptiveMemoryCards(
         tone: 'emerald',
       });
     }
-    if (flow === 'evening' && !evening) {
+    if (flow === 'evening' && isEveningCompassUnlocked() && !evening) {
       cards.push({
         id: 'prompt-evening',
         title: 'Kvällskompass',

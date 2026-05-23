@@ -63,6 +63,7 @@ function DockHubSatellite({
     <button
       type="button"
       aria-label={module.label}
+      title={module.desc}
       className={clsx(
         'dock-hub-sat',
         'dock-hub-sat--visible',
@@ -73,8 +74,9 @@ function DockHubSatellite({
       {...handlers}
     >
       <span className="dock-hub-sat__glass">
+        <span className="dock-hub-sat__halo" aria-hidden />
         {showFyren && <FyrenRing progress={progress} />}
-        <Icon className="dock-hub-sat__icon" strokeWidth={1.75} />
+        <Icon className="dock-hub-sat__icon" strokeWidth={1.65} />
       </span>
       <span className="dock-hub-sat__label">{module.label}</span>
     </button>
@@ -108,10 +110,17 @@ export function CompassHubOrb() {
 
   const { progress, isHolding, ...centerHandlers } = centerPress;
   const showFyren = isHolding || progress > 0;
-  const CenterIcon = onDagbok ? BookOpen : null;
 
   return (
     <div ref={wrapRef} className="dock-hub-fan dock-hub-fan--orbit" aria-label="Livsområden">
+      <div className="dock-orbit-stage__ring" aria-hidden />
+      <div className="dock-orbit-stage__spokes" aria-hidden>
+        <span className="dock-orbit-stage__spoke dock-orbit-stage__spoke--tl" />
+        <span className="dock-orbit-stage__spoke dock-orbit-stage__spoke--tr" />
+        <span className="dock-orbit-stage__spoke dock-orbit-stage__spoke--bl" />
+        <span className="dock-orbit-stage__spoke dock-orbit-stage__spoke--br" />
+      </div>
+
       {SATELLITES.map(({ module, slot }) => (
         <DockHubSatellite key={module.path} module={module} slot={slot} />
       ))}
@@ -123,23 +132,18 @@ export function CompassHubOrb() {
           'dock-compass-hub',
           isCenterActive && 'dock-compass-hub--active',
           onDagbok && 'dock-compass-hub--heart',
+          showFyren && 'dock-compass-hub--fyren',
         )}
         {...centerHandlers}
       >
         <span className="dock-compass-hub__plate">
           {showFyren && <FyrenRing progress={progress} />}
           <LivskompassMark className="dock-compass-hub__mark" />
-          <span
-            className={clsx(
-              'dock-compass-hub__core',
-              CenterIcon && 'dock-compass-hub__core--icon',
-            )}
-          >
-            {CenterIcon ? (
-              <CenterIcon className="dock-compass-hub__icon" strokeWidth={1.65} />
-            ) : null}
-          </span>
-          <span className="dock-compass-hub__shine" aria-hidden />
+          {onDagbok && (
+            <span className="dock-compass-hub__overlay">
+              <BookOpen className="dock-compass-hub__icon" strokeWidth={1.65} />
+            </span>
+          )}
         </span>
         <span className="dock-compass-hub__label">{onDagbok ? 'Hjärtat' : 'Kompass'}</span>
       </button>

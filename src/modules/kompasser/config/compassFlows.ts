@@ -21,7 +21,14 @@ export const COMPASS_FLOWS: CompassFlowConfig[] = [
     label: 'Morgon',
     icon: Sun,
     question: 'Vilket mikrosteg ger dig lugnast start idag?',
-    options: ['Andning 2 min', 'En uppgift', 'Inget — vila'],
+    options: [
+      'Andning 2 min',
+      'En uppgift',
+      'Rörelse 5 min',
+      'Skriv en rad',
+      'Läs ankaret',
+      'Inget — vila',
+    ],
     heroTitle: 'Morgonkompass',
     heroLead: 'Ett mikrosteg för lugn start — anpassas efter morgon (05–10).',
   },
@@ -30,7 +37,7 @@ export const COMPASS_FLOWS: CompassFlowConfig[] = [
     label: 'Dag',
     icon: Cloud,
     question: 'Hur mår kroppen just nu?',
-    options: ['Stabil', 'Trött', 'Spänd', 'Orolig'],
+    options: ['Stabil', 'Trött', 'Spänd', 'Orolig', 'Hungrig', 'Behöver kontakt'],
     heroTitle: 'Dagskompass',
     heroLead: 'Kroppscheck — synlig från 11:00, anpassas efter ditt humör.',
   },
@@ -38,7 +45,7 @@ export const COMPASS_FLOWS: CompassFlowConfig[] = [
 
 export const EVENING_HERO = {
   heroTitle: 'Kvällskompass',
-  heroLead: 'Land dagen med KASAM — anpassas efter kväll (17–04).',
+  heroLead: 'KASAM — synlig från 18:00, anpassas efter dina kvällssvar.',
   label: 'Kväll',
   icon: Moon,
 };

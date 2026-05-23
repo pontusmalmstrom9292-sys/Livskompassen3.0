@@ -92,6 +92,58 @@ function morningActivations(option: string): LifeAreaActivation[] {
           homeAction: 'lucka',
         },
       ];
+    case 'Rörelse 5 min':
+      return [
+        {
+          id: 'vila-rorelse',
+          area: 'vila',
+          label: 'Paus',
+          hint: 'Kort rörelse / andning',
+          path: '/mabra',
+        },
+        {
+          id: 'utv-faktum-move',
+          area: 'utveckling',
+          label: 'Rolig fakta',
+          hint: 'Om rörelse & stress',
+          factKey: `morning-move-${option}`,
+        },
+      ];
+    case 'Skriv en rad':
+      return [
+        {
+          id: 'praktik-dagbok-line',
+          area: 'praktik',
+          label: 'Dagbok',
+          hint: 'En rad räcker',
+          homeAction: 'dagbok',
+        },
+        {
+          id: 'utv-faktum-write',
+          area: 'utveckling',
+          label: 'Rolig fakta',
+          hint: 'Skrivande lugnar ofta',
+          factKey: `morning-write-${option}`,
+        },
+      ];
+    case 'Läs ankaret':
+      return [
+        {
+          id: 'utv-ankare',
+          area: 'utveckling',
+          label: 'Ankare',
+          hint: 'Sanningens ankare',
+          path: '/dagbok',
+          search: '?tab=bevis',
+        },
+        {
+          id: 'vila-las',
+          area: 'vila',
+          label: 'Läsläge',
+          hint: 'Utan prestation',
+          factKey: `morning-anchor-${option}`,
+        },
+      ];
     case 'Inget — vila':
       return [
         {
@@ -181,6 +233,40 @@ function dayActivations(option: string): LifeAreaActivation[] {
           hint: 'Känsla vs fakta',
           path: '/dagbok',
           search: '?tab=speglar',
+        },
+      ];
+    case 'Hungrig':
+      return [
+        {
+          id: 'praktik-maltid',
+          area: 'praktik',
+          label: 'Måltid',
+          hint: 'Ett litet steg',
+          homeAction: 'uppgift',
+        },
+        {
+          id: 'utv-faktum-fuel',
+          area: 'utveckling',
+          label: 'Rolig fakta',
+          hint: 'Om energi & hjärna',
+          factKey: `day-fuel-${option}`,
+        },
+      ];
+    case 'Behöver kontakt':
+      return [
+        {
+          id: 'rel-kontakt',
+          area: 'relation',
+          label: 'Plan',
+          hint: 'Trygg kontakt',
+          homeAction: 'dagbok',
+        },
+        {
+          id: 'vila-paus-kontakt',
+          area: 'vila',
+          label: 'Andning',
+          hint: 'Först landa',
+          path: '/mabra',
         },
       ];
     case 'Stabil':

@@ -1,3 +1,4 @@
+import { Check } from 'lucide-react';
 import { clsx } from 'clsx';
 import { getCompassOptionMeta } from '../config/compassOptionMeta';
 
@@ -35,7 +36,6 @@ export function CompassOptionPicker({
             className={clsx(
               'compass-option-tile',
               meta && `compass-option-tile--${meta.tone}`,
-              meta?.wide && 'compass-option-tile--wide',
               isActive && 'compass-option-tile--active',
             )}
           >
@@ -44,9 +44,16 @@ export function CompassOptionPicker({
                 <Icon className="h-4 w-4" strokeWidth={1.75} />
               </span>
             ) : null}
-            <span className="compass-option-tile__label">{opt}</span>
-            {meta?.hint ? (
-              <span className="compass-option-tile__hint">{meta.hint}</span>
+            <span className="compass-option-tile__copy">
+              <span className="compass-option-tile__label">{opt}</span>
+              {meta?.hint ? (
+                <span className="compass-option-tile__hint">{meta.hint}</span>
+              ) : null}
+            </span>
+            {isActive ? (
+              <span className="compass-option-tile__check" aria-hidden>
+                <Check className="h-3.5 w-3.5" strokeWidth={2.5} />
+              </span>
             ) : null}
           </button>
         );

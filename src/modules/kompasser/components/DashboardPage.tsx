@@ -6,8 +6,17 @@ import { BentoCard } from '../../core/ui/BentoCard';
 import { useStore } from '../../core/store';
 import { getRecentCheckIns, getVaultLogs, saveCheckIn } from '../../core/firebase/firestore';
 import type { VaultLog } from '../../core/types/firestore';
-import { isDayCompassUnlocked, type CompassFlow } from '../utils/compassTime';
+import {
+  isDayCompassUnlocked,
+  isEveningCompassUnlocked,
+  type CompassFlow,
+} from '../utils/compassTime';
+import { findTodayCheckInForFlow } from '../utils/compassCheckIns';
 import { getDayFlowTabPresentation } from '../config/compassDayTab';
+import {
+  getEveningFlowTabPresentation,
+  type EveningCheckInSnapshot,
+} from '../config/compassEveningTab';
 import {
   COMPASS_FLOWS,
   EVENING_HERO,
@@ -52,28 +61,37 @@ export function DashboardPage({
   const [anchorLogs, setAnchorLogs] = useState<(VaultLog & { id: string })[]>([]);
   const [morningExpanded, setMorningExpanded] = useState(false);
   const [todayDayMood, setTodayDayMood] = useState<string | null>(null);
+  const [todayEveningCheckIn, setTodayEveningCheckIn] =
+    useState<EveningCheckInSnapshot>(null);
   const dayUnlocked = isDayCompassUnlocked();
+  const eveningUnlocked = isEveningCompassUnlocked();
 
   const clearSession = useCallback(() => {
     setSession(resetSessionState());
   }, []);
 
-  const refreshTodayDayMood = useCallback(async () => {
+  const refreshTodayTabCheckIns = useCallback(async () => {
     if (!user) {
       setTodayDayMood(null);
+      setTodayEveningCheckIn(null);
       return;
     }
     try {
       const rows = await getRecentCheckIns(user.uid, 24);
-      const today = new Date().toISOString().slice(0, 10);
-      const hit = rows.find(
-        (c) =>
-          c.createdAt?.slice(0, 10) === today &&
-          (c.taskCategory === 'day' || c.questionId === 'compass_day'),
+      const dayHit = findTodayCheckInForFlow(rows, 'day');
+      const eveningHit = findTodayCheckInForFlow(rows, 'evening');
+      setTodayDayMood(dayHit?.optionSelected ?? null);
+      setTodayEveningCheckIn(
+        eveningHit
+          ? {
+              optionSelected: eveningHit.optionSelected,
+              taskNote: eveningHit.taskNote,
+            }
+          : null,
       );
-      setTodayDayMood(hit?.optionSelected ?? null);
     } catch {
       setTodayDayMood(null);
+      setTodayEveningCheckIn(null);
     }
   }, [user]);
 
@@ -86,8 +104,8 @@ export function DashboardPage({
   useEffect(() => () => clearSession(), [clearSession]);
 
   useEffect(() => {
-    void refreshTodayDayMood();
-  }, [refreshTodayDayMood]);
+    void refreshTodayTabCheckIns();
+  }, [refreshTodayTabCheckIns]);
 
   useEffect(() => {
     if (!dayUnlocked && activeFlow === 'day') {
@@ -95,6 +113,13 @@ export function DashboardPage({
       clearSession();
     }
   }, [dayUnlocked, activeFlow, timeFlow, switchFlow, clearSession]);
+
+  useEffect(() => {
+    if (!eveningUnlocked && activeFlow === 'evening') {
+      switchFlow(timeFlow);
+      clearSession();
+    }
+  }, [eveningUnlocked, activeFlow, timeFlow, switchFlow, clearSession]);
 
   useEffect(() => {
     if (activeFlow !== 'morning' || !user) {
@@ -115,6 +140,11 @@ export function DashboardPage({
       ? EVENING_HERO
       : getFlowConfig(activeFlow)!;
 
+  const dayTabMood =
+    activeFlow === 'day' && session.selected ? session.selected : todayDayMood;
+
+  const eveningTabCheckIn = todayEveningCheckIn;
+
   if (activeFlow === 'evening') {
     if (!user) {
       return (
@@ -129,6 +159,8 @@ export function DashboardPage({
             onSwitch={handleSwitchFlow}
             dayUnlocked={dayUnlocked}
             dayTabMood={dayTabMood}
+            eveningUnlocked={eveningUnlocked}
+            eveningTabCheckIn={eveningTabCheckIn}
           />
           <p className="text-sm text-text-muted">Logga in för att spara kvällskompass.</p>
         </CompassShell>
@@ -146,11 +178,16 @@ export function DashboardPage({
           onSwitch={handleSwitchFlow}
           dayUnlocked={dayUnlocked}
           dayTabMood={dayTabMood}
+          eveningUnlocked={eveningUnlocked}
+          eveningTabCheckIn={eveningTabCheckIn}
         />
         <KasamEvening
           userId={user.uid}
           onKlar={clearSession}
-          onSaved={onCheckInSaved}
+          onSaved={() => {
+            void refreshTodayTabCheckIns();
+            onCheckInSaved?.();
+          }}
         />
       </CompassShell>
     );
@@ -158,8 +195,6 @@ export function DashboardPage({
 
   const flow = getFlowConfig(activeFlow)!;
   const { selected, saved, saving, error, showParalys } = session;
-  const dayTabMood =
-    activeFlow === 'day' && selected ? selected : todayDayMood;
 
   const handleSave = async () => {
     if (!selected || !user) return;
@@ -175,7 +210,7 @@ export function DashboardPage({
       if (activeFlow === 'day') {
         setTodayDayMood(selected);
       }
-      void refreshTodayDayMood();
+      void refreshTodayTabCheckIns();
       onCheckInSaved?.();
     } catch {
       setSession((s) => ({
@@ -199,6 +234,8 @@ export function DashboardPage({
         compact={isHub}
         dayUnlocked={dayUnlocked}
         dayTabMood={dayTabMood}
+        eveningUnlocked={eveningUnlocked}
+        eveningTabCheckIn={eveningTabCheckIn}
       />
 
       {activeFlow === 'morning' && (
@@ -422,29 +459,89 @@ function FlowTabs({
   activeFlow,
   onSwitch,
   compact = false,
+  dayUnlocked,
+  dayTabMood,
+  eveningUnlocked,
+  eveningTabCheckIn,
 }: {
   activeFlow: CompassFlow;
   onSwitch: (id: CompassFlow) => void;
   compact?: boolean;
+  dayUnlocked: boolean;
+  dayTabMood: string | null;
+  eveningUnlocked: boolean;
+  eveningTabCheckIn: EveningCheckInSnapshot;
 }) {
-  const tabs: { id: CompassFlow; label: string; icon: typeof Sun }[] = [
-    ...COMPASS_FLOWS.map((f) => ({ id: f.id, label: f.label, icon: f.icon })),
-    { id: 'evening', label: EVENING_HERO.label, icon: EVENING_HERO.icon },
+  const dayPresentation = getDayFlowTabPresentation(dayTabMood);
+  const eveningPresentation = getEveningFlowTabPresentation(eveningTabCheckIn);
+
+  const tabs: {
+    id: CompassFlow;
+    label: string;
+    icon: typeof Sun;
+    ariaLabel: string;
+    tone: string | null;
+    moodMarked?: boolean;
+  }[] = [
+    ...COMPASS_FLOWS.filter((f) => f.id !== 'day' || dayUnlocked).map((f) => {
+      if (f.id === 'day') {
+        return {
+          id: f.id,
+          label: dayPresentation.label,
+          icon: dayPresentation.icon,
+          ariaLabel: dayPresentation.ariaLabel,
+          tone: dayPresentation.tone,
+          moodMarked: Boolean(dayTabMood),
+        };
+      }
+      return {
+        id: f.id,
+        label: f.label,
+        icon: f.icon,
+        ariaLabel: f.label,
+        tone: null,
+      };
+    }),
+    ...(eveningUnlocked
+      ? [
+          {
+            id: 'evening' as const,
+            label: eveningPresentation.label,
+            icon: eveningPresentation.icon,
+            ariaLabel: eveningPresentation.ariaLabel,
+            tone: eveningPresentation.tone,
+            moodMarked: eveningTabCheckIn?.optionSelected === 'kasam',
+          },
+        ]
+      : []),
   ];
 
   return (
     <div className={compact ? 'compass-flow-tabs' : 'flex flex-wrap gap-2'}>
-      {tabs.map(({ id, label, icon: Icon }) => (
+      {tabs.map(({ id, label, icon: Icon, ariaLabel, tone, moodMarked }) => (
         <button
           key={id}
           type="button"
+          aria-label={ariaLabel}
           onClick={() => onSwitch(id)}
           className={
             compact
-              ? `compass-flow-tab ${activeFlow === id ? 'compass-flow-tab--active' : ''}`
-              : `flex items-center gap-2 rounded-full border px-4 py-2 text-xs uppercase tracking-widest ${
-                  activeFlow === id ? 'chip--active' : 'chip--idle'
-                }`
+              ? [
+                  'compass-flow-tab',
+                  activeFlow === id && 'compass-flow-tab--active',
+                  tone && `compass-flow-tab--tone-${tone}`,
+                  id === 'day' && moodMarked && 'compass-flow-tab--day-mood',
+                  id === 'evening' && moodMarked && 'compass-flow-tab--evening-kasam',
+                ]
+                  .filter(Boolean)
+                  .join(' ')
+              : [
+                  'flex items-center gap-2 rounded-full border px-4 py-2 text-xs uppercase tracking-widest',
+                  activeFlow === id ? 'chip--active' : 'chip--idle',
+                  tone && `compass-flow-tab--tone-${tone}`,
+                ]
+                  .filter(Boolean)
+                  .join(' ')
           }
         >
           <Icon className="h-3 w-3" />

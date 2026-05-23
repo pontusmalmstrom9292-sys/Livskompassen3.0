@@ -3,10 +3,15 @@ import {
   Wind,
   ListChecks,
   Moon,
+  Footprints,
+  PenLine,
+  Anchor,
   ShieldCheck,
   BatteryLow,
   Activity,
   CloudRain,
+  Droplets,
+  HeartHandshake,
 } from 'lucide-react';
 
 export type CompassOptionTone = 'emerald' | 'lavender' | 'gold' | 'indigo' | 'amber';
@@ -15,8 +20,6 @@ export type CompassOptionMeta = {
   icon: LucideIcon;
   hint: string;
   tone: CompassOptionTone;
-  /** Span both columns in the 2-column hub grid */
-  wide?: boolean;
 };
 
 export const COMPASS_OPTION_META: Record<string, CompassOptionMeta> = {
@@ -30,11 +33,25 @@ export const COMPASS_OPTION_META: Record<string, CompassOptionMeta> = {
     hint: 'Ett steg',
     tone: 'emerald',
   },
+  'Rörelse 5 min': {
+    icon: Footprints,
+    hint: 'Ute eller inne',
+    tone: 'indigo',
+  },
+  'Skriv en rad': {
+    icon: PenLine,
+    hint: 'Dagbok utan krav',
+    tone: 'gold',
+  },
+  'Läs ankaret': {
+    icon: Anchor,
+    hint: 'Sanningens ankare',
+    tone: 'emerald',
+  },
   'Inget — vila': {
     icon: Moon,
     hint: 'Ingen prestation',
     tone: 'gold',
-    wide: true,
   },
   Stabil: {
     icon: ShieldCheck,
@@ -54,6 +71,16 @@ export const COMPASS_OPTION_META: Record<string, CompassOptionMeta> = {
   Orolig: {
     icon: CloudRain,
     hint: 'Behöver landning',
+    tone: 'lavender',
+  },
+  Hungrig: {
+    icon: Droplets,
+    hint: 'Första bränsle',
+    tone: 'amber',
+  },
+  'Behöver kontakt': {
+    icon: HeartHandshake,
+    hint: 'Trygg person',
     tone: 'lavender',
   },
 };
