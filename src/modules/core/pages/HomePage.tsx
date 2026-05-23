@@ -11,7 +11,7 @@ export function HomePage() {
   const safeMode = useStore((s) => s.ui.safeMode);
 
   return (
-    <div className="home-page space-y-6">
+    <div className="home-page space-y-3.5">
       <DailyCompassAdvice />
       <HomeHeroCompass onCheckInSaved={() => setCardRefreshKey((k) => k + 1)} />
 
@@ -21,7 +21,7 @@ export function HomePage() {
 
       {!safeMode && (
         <section aria-label="Livsområden">
-          <p className="mb-3 text-[10px] uppercase tracking-widest text-text-dim">Livsområden</p>
+          <p className="mb-2 text-[9px] uppercase tracking-widest text-text-dim">Livsområden</p>
           <ClusterGrid />
         </section>
       )}

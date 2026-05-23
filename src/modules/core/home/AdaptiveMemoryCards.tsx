@@ -45,7 +45,7 @@ export function AdaptiveMemoryCards({ refreshKey = 0 }: { refreshKey?: number })
   if (!user) return null;
 
   return (
-    <section className="space-y-3" aria-label="Anpassade minneskort">
+    <section className="space-y-2" aria-label="Anpassade minneskort">
       <div className="flex items-center gap-2">
         <Sparkles className="h-4 w-4 text-accent" strokeWidth={1.75} />
         <h3 className="font-display text-sm font-semibold text-text">För dig just nu</h3>
@@ -66,7 +66,7 @@ export function AdaptiveMemoryCards({ refreshKey = 0 }: { refreshKey?: number })
               className={`adaptive-card rounded-2xl border p-4 ${toneBorder[card.tone]}`}
             >
               <p className="text-[10px] uppercase tracking-widest text-text-dim">{card.title}</p>
-              <p className="mt-2 text-sm text-text-muted">{card.prompt}</p>
+              <p className="mt-1.5 text-xs text-text-muted">{card.prompt}</p>
               <Link
                 to={{ pathname: card.to, search: card.search ?? '' }}
                 className="btn-pill--ghost mt-3 inline-flex text-xs"

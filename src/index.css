@@ -230,7 +230,7 @@
   }
 
   .dock-shell {
-    @apply pointer-events-none fixed bottom-0 left-0 right-0 z-50 px-3 pb-4 pt-2;
+    @apply pointer-events-none fixed bottom-0 left-0 right-0 z-50 px-3 pb-3 pt-2;
     background: linear-gradient(to top, rgba(2, 6, 23, 0.92), rgba(2, 6, 23, 0));
   }
 
@@ -243,6 +243,119 @@
     border: none;
     box-shadow: none;
     backdrop-filter: none;
+  }
+
+  .dock-hub-backdrop {
+    @apply pointer-events-auto fixed inset-0 z-40 border-0 bg-slate-950/35 p-0;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  .dock-hub-fan {
+    @apply relative mx-auto grid items-center justify-items-center;
+    grid-template-columns: 3.1rem 4.65rem 3.1rem;
+    grid-template-rows: 3.1rem 4.65rem 3.1rem;
+    gap: 0.2rem;
+    width: min-content;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .dock-hub-fan--open {
+    transform: translateY(-4px);
+  }
+
+  .dock-hub-fan .dock-compass-hub {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .dock-hub-sat {
+    @apply flex flex-col items-center gap-1 border-0 bg-transparent p-0 opacity-0;
+    transform: scale(0.35);
+    pointer-events: none;
+    transition:
+      opacity 0.28s ease,
+      transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .dock-hub-sat--visible {
+    @apply opacity-100;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+
+  .dock-hub-sat--tl {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .dock-hub-sat--tr {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .dock-hub-sat--bl {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .dock-hub-sat--br {
+    grid-column: 3;
+    grid-row: 3;
+  }
+
+  .dock-hub-sat__glass {
+    @apply relative flex h-12 w-12 items-center justify-center rounded-2xl transition-all duration-200;
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow:
+      0 10px 28px rgba(2, 6, 23, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .dock-hub-sat:hover .dock-hub-sat__glass {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.22);
+  }
+
+  .dock-hub-sat__icon {
+    @apply relative z-10 h-[1.15rem] w-[1.15rem];
+  }
+
+  .dock-hub-sat__label {
+    @apply max-w-[4.5rem] truncate text-[8px] font-semibold uppercase tracking-[0.16em] text-text-dim;
+  }
+
+  .dock-hub-sat--active .dock-hub-sat__glass {
+    border-color: rgba(253, 230, 138, 0.38);
+    box-shadow:
+      0 10px 28px rgba(2, 6, 23, 0.5),
+      0 0 22px rgba(253, 230, 138, 0.14);
+  }
+
+  .dock-hub-sat--indigo .dock-hub-sat__icon {
+    color: #818cf8;
+  }
+
+  .dock-hub-sat--lavender .dock-hub-sat__icon {
+    color: #a5b4fc;
+  }
+
+  .dock-hub-sat--emerald .dock-hub-sat__icon {
+    color: #2dd4bf;
+  }
+
+  .dock-hub-sat--gold .dock-hub-sat__icon {
+    color: #fde68a;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dock-hub-sat,
+    .dock-hub-fan {
+      transition-duration: 0.01ms;
+    }
   }
 
   .dock-compass-hub {
@@ -283,19 +396,32 @@
     pointer-events: none;
   }
 
-  .dock-compass-hub__rose {
-    @apply absolute inset-2 h-[calc(100%-1rem)] w-[calc(100%-1rem)] text-accent;
-    opacity: 0.55;
+  .dock-compass-hub__mark {
+    @apply absolute inset-2.5 h-[calc(100%-1.25rem)] w-[calc(100%-1.25rem)] text-accent transition-opacity duration-200;
+    opacity: 0.78;
     pointer-events: none;
   }
 
+  .dock-compass-hub--open .dock-compass-hub__mark,
+  .dock-compass-hub--heart .dock-compass-hub__mark {
+    opacity: 0;
+  }
+
   .dock-compass-hub__core {
-    @apply relative z-10 flex h-11 w-11 items-center justify-center rounded-xl;
+    @apply relative z-10 flex h-11 w-11 items-center justify-center rounded-xl transition-opacity duration-200;
     background: rgba(2, 6, 23, 0.45);
     border: 1px solid rgba(253, 230, 138, 0.28);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.08),
       0 0 18px rgba(253, 230, 138, 0.16);
+  }
+
+  .dock-compass-hub__core:not(.dock-compass-hub__core--icon) {
+    @apply h-0 w-0 border-0 bg-transparent shadow-none;
+  }
+
+  .dock-compass-hub__core--icon {
+    @apply border-accent/40 bg-accent/10;
   }
 
   .dock-compass-hub__icon {
@@ -339,11 +465,6 @@
   .dock-compass-hub--heart .dock-compass-hub__core {
     border-color: rgba(253, 230, 138, 0.45);
     background: rgba(253, 230, 138, 0.1);
-  }
-
-  .dock-compass-hub--heart .dock-compass-hub__rose {
-    color: #fde68a;
-    opacity: 0.65;
   }
 
   .dock-compass-hub__label {
@@ -639,6 +760,86 @@
     color: #2dd4bf;
   }
 
+  /* Kompakt hemmeny — mindre vertikal footprint på / */
+  .home-page .home-page__title {
+    @apply text-xl;
+  }
+
+  .home-page .home-page__lead {
+    @apply mt-1 text-xs leading-snug;
+  }
+
+  .home-page .home-action-hub__glass {
+    @apply rounded-2xl p-3.5;
+    box-shadow:
+      0 10px 32px rgba(2, 6, 23, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .home-page .home-action-hub__head {
+    @apply mb-2.5;
+  }
+
+  .home-page .home-action-hub__scroll {
+    @apply mb-2.5 gap-1.5;
+  }
+
+  .home-page .home-action-chip {
+    @apply px-2.5 py-1.5 text-[10px] tracking-wide;
+  }
+
+  .home-page .home-action-hub__panel {
+    @apply rounded-xl p-3;
+  }
+
+  .home-page .glass-card {
+    @apply p-3.5;
+  }
+
+  .home-page .daily-compass-advice {
+    @apply border border-white/5;
+  }
+
+  .home-page .module-list {
+    @apply gap-2;
+  }
+
+  .home-page .module-card {
+    @apply rounded-xl p-2.5;
+  }
+
+  .home-page .module-card__head {
+    @apply gap-2;
+  }
+
+  .home-page .module-card__icon {
+    @apply h-8 w-8 rounded-lg;
+  }
+
+  .home-page .module-card__title {
+    @apply text-sm font-semibold;
+  }
+
+  .home-page .module-card__desc {
+    @apply mt-0 line-clamp-1 text-xs;
+  }
+
+  .home-page .module-card__modules {
+    @apply mt-2 gap-1.5 border-t border-white/10 pt-2;
+  }
+
+  .home-page .module-chip {
+    @apply px-2 py-0.5 text-[10px];
+  }
+
+  .home-page .adaptive-card-grid {
+    @apply gap-2;
+  }
+
+  .home-page .adaptive-card {
+    @apply rounded-xl p-3;
+  }
+
   .btn-pill {
     @apply inline-flex items-center gap-2 rounded-full border px-5 py-2 text-xs uppercase tracking-widest transition-colors disabled:opacity-50;
   }
@@ -869,10 +1070,6 @@
 
   .child-profile-card__initial {
     @apply flex h-10 w-10 items-center justify-center rounded-full border border-accent-secondary/30 bg-accent-secondary/10 font-display text-lg text-accent-secondary;
-  }
-
-  .daily-compass-advice {
-    @apply border border-white/5;
   }
 
   .barnfokus-banner {

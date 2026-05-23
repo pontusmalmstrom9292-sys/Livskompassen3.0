@@ -1,8 +1,8 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FloatingDock } from './FloatingDock';
 import { AmbientBackground } from './AmbientBackground';
-import { KompisAvatar } from '../../kompis/components/KompisAvatar';
 import { AccountAuthMenu } from '../auth/AccountAuthMenu';
+import { LivskompassMark } from '../ui/LivskompassMark';
 import { Compass, Home } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useStore } from '../store';
@@ -71,7 +71,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto max-w-2xl px-5 pb-48 pt-24">{children}</main>
+      <main className="relative z-10 mx-auto max-w-2xl px-4 pb-36 pt-[5.25rem]">{children}</main>
 
       <FloatingDock />
     </div>

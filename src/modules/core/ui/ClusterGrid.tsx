@@ -41,13 +41,13 @@ function ModuleCard(cluster: LifeCluster) {
     <Link to={cluster.path} className={`module-card ${toneClass[cluster.tone]}`}>
       <div className="module-card__head">
         <span className="module-card__icon">
-          <Icon className="h-5 w-5" strokeWidth={1.75} />
+          <Icon className="h-4 w-4" strokeWidth={1.75} />
         </span>
         <div className="min-w-0 flex-1">
           <h3 className="module-card__title">{cluster.label}</h3>
           <p className="module-card__desc">{cluster.desc}</p>
         </div>
-        <ChevronRight className="module-card__chevron h-5 w-5 shrink-0" aria-hidden />
+        <ChevronRight className="module-card__chevron h-4 w-4 shrink-0" aria-hidden />
       </div>
       <div className="module-card__modules">
         {cluster.chips.map((chip) => (

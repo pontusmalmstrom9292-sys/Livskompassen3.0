@@ -1,6 +1,6 @@
 # Morgon-test — efter nattkörning 2026-05-24
 
-**Nattlogg:** [`overnight-2026-05-24-log.txt`](./overnight-2026-05-24-log.txt) (skapas när `npm run natt-ci:overnight` körs)
+**Nattlogg:** [`overnight-2026-05-23-log.txt`](./overnight-2026-05-23-log.txt) — **`=== Overnight PASS`** 2026-05-23 (första körningen stannade efter journal; återstående smoke kördes klart)
 
 ---
 

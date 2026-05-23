@@ -172,6 +172,7 @@ Live `subscribeKampsparEntries`, ringar Dåtid/Nutid/Framtid via `eventDate`, kl
 | | |
 |---|---|
 | **Status** | **open** |
+| **Inkorg (låst)** | **F-V11** — [`2026-05-23-inkorg-orkestern-analys-hub.md`](../../evaluations/2026-05-23-inkorg-orkestern-analys-hub.md) · analys [`2026-05-23-UX-navigation-analys.md`](../../evaluations/2026-05-23-UX-navigation-analys.md) |
 | **Kanon** | [`ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md`](../ARKITEKTUR-YTTRE-LUGN-INRE-FORSVAR.md) §4 |
 | **Problem** | Ingen dedikerad Orkestern-UI; Vävaren körs async utan synlig panel |
 | **Åtgärd** | Ny flik i `VaultPage`: statuskort Vävaren (done), Spejaren (ingest/scan), Säkraren (WORM-sigill); Obsidian Calm, ingen Lager 1-copy |
