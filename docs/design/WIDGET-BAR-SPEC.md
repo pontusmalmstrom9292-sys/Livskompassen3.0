@@ -18,13 +18,13 @@
 
 | Ikon | Etikett | Dataflöde | Status |
 |------|---------|-----------|------|
-| **+ Projekt** | Nytt projekt | `/projekt/ny` picker (lista, anteckning, bild…) | **BYGGS** |
-| Öra / våg (diskret) | Tyst inspelning | `reality_vault` WORM | **BYGGS** |
-| Lista | Snabb lista | Nytt projekt-block `list` | **BYGGS** |
-| Penna | Anteckning | Block `note` eller Valv | **BYGGS** |
+| **+ Projekt** | Nytt projekt | `/projekt/ny` picker (lista, anteckning, bild…) | **KLAR** (route) |
+| Öra / våg (diskret) | Tyst inspelning | `reality_vault` WORM | **KLAR** |
+| Lista | Snabb lista | Nytt projekt-block `list` | **KLAR** (→ `/projekt/ny`) |
+| Penna | Anteckning | Block `note` eller Valv | **KLAR** |
 | Bild | Foto | Block `image` + Storage | **BYGGS** |
-| Kalender | Planering | `/planering` (kanban) | **BYGGS** |
-| Valv | Bevis | `/dagbok?tab=bevis` + PIN | **BYGGS** |
+| Kalender | Planering | `/planering` (kanban) | **KLAR** |
+| Valv | Bevis | `/dagbok?tab=bevis` + PIN | **KLAR** |
 
 Mockup: [`galleri/widget/v2/W1-kompakt-projekt.png`](./galleri/widget/v2/W1-kompakt-projekt.png)  
 Äldre enklare W1–W4: [`galleri/widget/`](./galleri/widget/) (behålls som referens).

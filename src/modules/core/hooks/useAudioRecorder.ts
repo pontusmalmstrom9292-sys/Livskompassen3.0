@@ -62,5 +62,25 @@ export function useAudioRecorder({ onRecorded }: UseAudioRecorderOptions = {}) {
     setIsRecording(false);
   }, []);
 
-  return { isRecording, error, start, stop, supported: Boolean(navigator.mediaDevices?.getUserMedia) };
+  /** Kill switch — stoppar utan att trigga onRecorded. */
+  const abort = useCallback(() => {
+    const recorder = mediaRecorderRef.current;
+    if (recorder && recorder.state !== 'inactive') {
+      recorder.onstop = null;
+      recorder.stop();
+    }
+    mediaRecorderRef.current = null;
+    chunksRef.current = [];
+    setIsRecording(false);
+    stopTracks();
+  }, [stopTracks]);
+
+  return {
+    isRecording,
+    error,
+    start,
+    stop,
+    abort,
+    supported: Boolean(navigator.mediaDevices?.getUserMedia),
+  };
 }

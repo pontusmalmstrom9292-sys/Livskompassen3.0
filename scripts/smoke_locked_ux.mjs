@@ -128,10 +128,17 @@ function main() {
     'W1',
   );
   mustInclude('docs/design/HOMESCREEN-WIDGETS-SPEC.md', 'WH1', 'ingestWidgetRecording');
-  mustInclude('src/modules/core/components/FyrenWidgetBar.tsx', 'FyrenWidgetBar');
+  mustInclude('src/modules/core/components/FyrenWidgetBar.tsx', 'FyrenWidgetBar', 'useLongPress', 'delayMs: 3000');
   mustInclude('src/modules/widgets/pages/WidgetRecordPage.tsx', 'useWidgetVaultRecording');
+  mustInclude('src/modules/widgets/pages/WidgetFamiljenPage.tsx', 'widget_snabb');
   mustInclude('src/modules/widgets/api/widgetVaultRecording.ts', 'SAMMANFATTNING');
-  mustInclude('public/manifest.webmanifest', '/widget/inspelning');
+  mustInclude('public/manifest.webmanifest', '/widget/inspelning', '/widget/familjen');
+  mustInclude('docs/design/ANDROID-WIDGETS-SPEC.md', 'RecordWidgetProvider', 'Capacitor');
+  mustInclude(
+    'android/app/src/main/java/com/livskompassen/app/widgets/RecordWidgetProvider.java',
+    'WidgetLaunch',
+  );
+  mustInclude('src/modules/widgets/WidgetDeepLinkBridge.tsx', 'livskompassen-widget-nav');
 
   // Barnporten (design lock)
   mustInclude(

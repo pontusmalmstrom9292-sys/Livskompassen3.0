@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { CSSProperties } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Calendar,
@@ -9,6 +10,7 @@ import {
   Shield,
 } from 'lucide-react';
 import { clsx } from 'clsx';
+import { useLongPress } from '../hooks/useLongPress';
 
 const WIDGET_ACTIONS = [
   { id: 'record', label: 'Inspelning', icon: Mic, to: '/widget/inspelning?autostart=1' },
@@ -25,6 +27,14 @@ export function FyrenWidgetBar() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const prickPress = useLongPress({
+    onLongPress: () => navigate('/dagbok?tab=bevis'),
+    onClick: () => setOpen((o) => !o),
+    delayMs: 3000,
+  });
+
+  const { progress, isHolding, onClick: prickClick, ...prickHandlers } = prickPress;
+
   if (location.pathname.startsWith('/widget')) return null;
 
   return (
@@ -34,14 +44,23 @@ export function FyrenWidgetBar() {
     >
       <button
         type="button"
-        className="fyren-widget-bar__prick"
+        className={clsx(
+          'fyren-widget-bar__prick',
+          isHolding && 'fyren-widget-bar__prick--holding',
+        )}
         aria-expanded={open}
         aria-label={open ? 'Stäng snabbmeny' : 'Öppna snabbwidget'}
-        onClick={() => setOpen((o) => !o)}
+        style={
+          progress > 0
+            ? ({ '--fyren-hold': `${Math.round(progress * 100)}%` } as CSSProperties)
+            : undefined
+        }
+        onClick={prickClick}
         onDoubleClick={(e) => {
           e.preventDefault();
           navigate('/widget/inspelning?autostart=1');
         }}
+        {...prickHandlers}
       />
 
       <div className="fyren-widget-bar__strip" hidden={!open}>

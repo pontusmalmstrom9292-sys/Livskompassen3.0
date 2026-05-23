@@ -1,7 +1,7 @@
 # Hemskärms-widgets (utanför appen)
 
-**Beslut 2026-05-23** · **P0:** PWA-genvägar (iOS/Android «Lägg till på hemskärmen» → egna ikoner)  
-**P2:** Native WidgetKit / Android App Widget (Capacitor) — samma API som genvägarna.
+**Beslut 2026-05-23** · **P0:** PWA-genvägar · **P1:** Native Android `AppWidgetProvider` (Capacitor)  
+**Android-spec:** [`ANDROID-WIDGETS-SPEC.md`](./ANDROID-WIDGETS-SPEC.md) · **iOS WidgetKit:** P2
 
 ---
 
@@ -10,7 +10,7 @@
 | Plattform | P0 (nu) | P2 |
 |-----------|---------|-----|
 | **iOS** | `manifest.shortcuts` → öppnar `/widget/…` i standalone | WidgetKit + App Groups |
-| **Android** | «Genvägar» från installerad PWA | `AppWidgetProvider` |
+| **Android** | Native widgets WH1–WH4 (`android/…/widgets/`) | Foreground service inspelning (P2) |
 
 Varje genväg = **egen hemskärms-ikon** med **minimal skärm** (ingen dock, ingen distraktion).
 

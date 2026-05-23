@@ -1,6 +1,7 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAudioRecorder } from '../../core/hooks/useAudioRecorder';
 import { useSpeechToText } from '../../core/hooks/useSpeechToText';
+import { KILL_SWITCH_EVENT } from '../../core/security/killSwitch';
 import { ingestWidgetRecordingToVault } from '../api/widgetVaultRecording';
 
 type Phase = 'idle' | 'recording' | 'processing' | 'done' | 'error';
@@ -86,12 +87,29 @@ export function useWidgetVaultRecording(userId: string | undefined) {
 
   const reset = useCallback(() => {
     speech.stop();
+    audio.abort();
     transcriptParts.current = [];
     startedAt.current = null;
     setPhase('idle');
     setError(null);
     setResult(null);
-  }, [speech]);
+  }, [audio, speech]);
+
+  const abort = useCallback(() => {
+    speech.stop();
+    audio.abort();
+    transcriptParts.current = [];
+    startedAt.current = null;
+    setPhase('idle');
+    setError(null);
+    setResult(null);
+  }, [audio, speech]);
+
+  useEffect(() => {
+    const onKill = () => abort();
+    window.addEventListener(KILL_SWITCH_EVENT, onKill);
+    return () => window.removeEventListener(KILL_SWITCH_EVENT, onKill);
+  }, [abort]);
 
   return {
     phase,
@@ -105,5 +123,6 @@ export function useWidgetVaultRecording(userId: string | undefined) {
     start,
     stop,
     reset,
+    abort,
   };
 }

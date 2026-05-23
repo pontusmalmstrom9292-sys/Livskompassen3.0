@@ -47,7 +47,11 @@ function WidgetRecordInner() {
   }
 
   return (
-    <WidgetShell
+    <>
+      {rec.phase === 'recording' && (
+        <div className="widget-record-discreet-overlay" aria-hidden />
+      )}
+      <WidgetShell
       title="Inspelning → Valv"
       lead={
         rec.phase === 'recording'
@@ -117,6 +121,7 @@ function WidgetRecordInner() {
         )}
       </div>
     </WidgetShell>
+    </>
   );
 }
 
