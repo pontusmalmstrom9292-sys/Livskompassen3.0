@@ -873,6 +873,312 @@
     @apply mt-2 text-sm leading-relaxed text-text-muted;
   }
 
+  .glass-header-bar--kanon {
+    @apply grid grid-cols-[auto_1fr_auto] items-center gap-2 px-3;
+    background: var(--glass);
+    border-color: var(--border-strong);
+  }
+
+  .header-menu-btn {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-accent transition-colors;
+    border: 1px solid var(--border);
+    background: rgba(212, 175, 55, 0.06);
+  }
+
+  .header-menu-btn:hover {
+    background: rgba(212, 175, 55, 0.12);
+  }
+
+  .app-header__brand--kanon {
+    @apply justify-center;
+  }
+
+  .app-header__title--kanon {
+    @apply text-center text-accent tracking-[0.22em];
+    font-size: 0.68rem;
+  }
+
+  .app-header__actions--kanon {
+    @apply justify-end;
+  }
+
+  .nav-drawer__backdrop {
+    @apply fixed inset-0 z-[55] bg-black/55 backdrop-blur-[2px];
+  }
+
+  .nav-drawer {
+    @apply fixed inset-y-0 left-0 z-[56] flex w-[min(68vw,20rem)] flex-col border-r pt-[env(safe-area-inset-top)];
+    border-color: var(--border-strong);
+    background: var(--glass-hero);
+    backdrop-filter: blur(24px) saturate(160%);
+    box-shadow: 16px 0 48px rgba(2, 6, 23, 0.55);
+  }
+
+  .nav-drawer__header {
+    @apply relative px-5 pb-4 pt-6;
+  }
+
+  .nav-drawer__close {
+    @apply absolute left-4 top-5 flex h-9 w-9 items-center justify-center rounded-full text-accent;
+    border: 1px solid var(--border);
+  }
+
+  .nav-drawer__brand {
+    @apply mt-8 flex flex-col items-center gap-2;
+  }
+
+  .nav-drawer__mark {
+    @apply h-10 w-10 text-accent;
+  }
+
+  .nav-drawer__title {
+    @apply font-display text-xs font-semibold uppercase tracking-[0.28em] text-accent;
+  }
+
+  .nav-drawer__list {
+    @apply flex flex-1 flex-col gap-1 px-3;
+  }
+
+  .nav-drawer__row {
+    @apply flex w-full items-center gap-3 rounded-2xl border-0 px-3 py-3 text-left transition-colors;
+    background: transparent;
+    color: var(--text);
+  }
+
+  .nav-drawer__row:hover {
+    background: rgba(212, 175, 55, 0.06);
+  }
+
+  .nav-drawer__row--active {
+    background: rgba(212, 175, 55, 0.14);
+    box-shadow: inset 3px 0 0 var(--text-gold);
+  }
+
+  .nav-drawer__row-icon {
+    @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-accent;
+    border: 1px solid var(--border-strong);
+    background: rgba(212, 175, 55, 0.08);
+  }
+
+  .nav-drawer__row-label {
+    @apply flex-1 text-sm font-medium;
+  }
+
+  .nav-drawer__row-chevron {
+    @apply h-4 w-4 shrink-0 text-text-dim opacity-60;
+  }
+
+  .home-greeting__title {
+    @apply font-display text-2xl font-light leading-tight text-accent;
+  }
+
+  .home-greeting__star {
+    @apply text-accent/80;
+  }
+
+  .home-greeting__tagline {
+    @apply mt-2 text-sm text-text-muted;
+  }
+
+  .home-hero-kanon__top {
+    @apply flex items-start justify-between gap-3;
+  }
+
+  .home-streak-chip {
+    @apply flex shrink-0 flex-col items-center rounded-xl px-3 py-2;
+    border: 1px solid var(--border);
+    background: var(--glass);
+  }
+
+  .home-streak-chip__icon {
+    @apply h-4 w-4 text-[var(--accent-ember)];
+  }
+
+  .home-streak-chip__value {
+    @apply text-lg font-medium text-text;
+  }
+
+  .home-streak-chip__label {
+    @apply text-[9px] uppercase tracking-widest text-text-dim;
+  }
+
+  .livskompass-hero {
+    @apply flex flex-col items-center;
+  }
+
+  .livskompass-hero__stage {
+    @apply relative mx-auto w-full max-w-[min(100%,18.5rem)] aspect-square;
+  }
+
+  .livskompass-hero__grid {
+    @apply absolute inset-[12%] rounded-full;
+    border: 1px solid rgba(212, 175, 55, 0.12);
+    background:
+      radial-gradient(circle at 50% 50%, rgba(13, 59, 59, 0.55) 0%, transparent 70%),
+      repeating-conic-gradient(
+        from 0deg,
+        rgba(212, 175, 55, 0.04) 0deg 15deg,
+        transparent 15deg 30deg
+      );
+  }
+
+  .livskompass-hero__disk {
+    @apply absolute inset-[6%] rounded-full;
+    background: var(--compass-disk);
+    border: 1px solid rgba(212, 175, 55, 0.28);
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.35) inset,
+      0 20px 50px rgba(2, 6, 23, 0.45);
+  }
+
+  .livskompass-hero--kvall .livskompass-hero__disk {
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.35) inset,
+      0 0 40px rgba(245, 158, 11, 0.12),
+      0 20px 50px rgba(2, 6, 23, 0.45);
+  }
+
+  .livskompass-hero--soluppgang .livskompass-hero__disk {
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.35) inset,
+      0 0 36px rgba(251, 191, 36, 0.1),
+      0 20px 50px rgba(2, 6, 23, 0.45);
+  }
+
+  .livskompass-hero__orbit-btn {
+    @apply absolute z-10 flex h-11 w-11 items-center justify-center rounded-full transition-transform;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    background: rgba(10, 22, 20, 0.85);
+    color: var(--text-gold);
+    box-shadow: 0 4px 16px rgba(2, 6, 23, 0.4);
+  }
+
+  .livskompass-hero__orbit-btn:hover {
+    transform: scale(1.05);
+    border-color: rgba(212, 175, 55, 0.55);
+  }
+
+  .livskompass-hero__orbit-icon {
+    @apply h-5 w-5;
+    filter: drop-shadow(0 1px 2px rgba(201, 162, 39, 0.35));
+  }
+
+  .livskompass-hero__center {
+    @apply absolute left-1/2 top-1/2 z-20 flex h-[42%] w-[42%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    background: rgba(10, 22, 20, 0.92);
+    color: var(--text-gold);
+    box-shadow: 0 0 28px rgba(212, 175, 55, 0.15);
+  }
+
+  .livskompass-hero__center:hover {
+    box-shadow: 0 0 36px rgba(212, 175, 55, 0.22);
+  }
+
+  .livskompass-hero__mark {
+    @apply h-[70%] w-[70%];
+  }
+
+  .livskompass-hero__pills {
+    @apply mt-4 flex w-full max-w-md flex-wrap items-center justify-center gap-2 px-2;
+  }
+
+  .livskompass-hero__pill {
+    @apply rounded-full border px-4 py-2 text-[11px] font-medium uppercase tracking-widest text-text-muted transition-colors;
+    border-color: var(--border);
+    background: rgba(10, 22, 20, 0.65);
+  }
+
+  .livskompass-hero__pill:hover {
+    color: var(--text-gold);
+    border-color: var(--border-strong);
+  }
+
+  .livskompass-hero__pill--icon {
+    @apply px-3;
+    color: var(--text-gold);
+  }
+
+  .livskompass-hero__pill--wide {
+    @apply normal-case tracking-normal text-xs;
+  }
+
+  .dagens-riktning-card {
+    @apply flex items-start gap-3 rounded-2xl p-4 transition-colors;
+    border: 1px solid var(--border-strong);
+    background: var(--glass);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .dagens-riktning-card:hover {
+    border-color: rgba(212, 175, 55, 0.4);
+    background: rgba(10, 22, 20, 0.88);
+  }
+
+  .dagens-riktning-card__icon-wrap {
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-accent;
+    border: 1px solid var(--border);
+    background: rgba(212, 175, 55, 0.08);
+  }
+
+  .dagens-riktning-card__eyebrow {
+    @apply text-[10px] uppercase tracking-widest text-text-dim;
+  }
+
+  .dagens-riktning-card__quote {
+    @apply mt-1 font-display text-base leading-snug text-text;
+  }
+
+  .dagens-riktning-card__meta {
+    @apply mt-1 text-xs text-text-muted;
+  }
+
+  .dagens-riktning-card__chevron {
+    @apply mt-2 h-5 w-5 shrink-0 text-accent opacity-70;
+  }
+
+  .home-check-in__trigger {
+    @apply flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left text-sm font-medium text-text-muted transition-colors;
+    border-color: var(--border);
+    background: rgba(10, 22, 20, 0.5);
+  }
+
+  .home-check-in__trigger--open {
+    color: var(--text-gold);
+    border-color: var(--border-strong);
+  }
+
+  .home-check-in__panel {
+    @apply mt-2 rounded-2xl border p-4;
+    border-color: var(--border);
+    background: rgba(15, 26, 24, 0.65);
+  }
+
+  .home-hero-kanon__dots {
+    @apply flex justify-center gap-1.5 pt-1;
+  }
+
+  .home-hero-kanon__dot {
+    @apply h-1.5 w-1.5 rounded-full bg-text-dim/35;
+  }
+
+  .home-hero-kanon__dot--active {
+    @apply w-4 bg-accent;
+  }
+
+  .home-more {
+    @apply rounded-2xl border border-border/60 bg-surface/30 px-4 py-3;
+  }
+
+  .home-more__summary {
+    @apply cursor-pointer text-xs font-medium uppercase tracking-widest text-text-dim;
+  }
+
+  .home-more[open] .home-more__summary {
+    @apply mb-4 text-accent;
+  }
+
   .elongated-module {
     @apply overflow-hidden rounded-[0.875rem] transition-colors;
     border: 1.5px solid rgba(212, 175, 55, 0.22);

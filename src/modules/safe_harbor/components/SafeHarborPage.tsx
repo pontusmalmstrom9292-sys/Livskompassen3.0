@@ -8,7 +8,7 @@ import {
 } from '../api/biffService';
 import { useStore } from '../../core/store';
 import { saveVaultLog } from '../../core/firebase/firestore';
-import { HamnModuleStack } from './HamnModuleStack';
+import { TryggHamnHub } from './TryggHamnHub';
 import { BiffTriagePanel } from './BiffTriagePanel';
 
 export function SafeHarborPage() {
@@ -175,7 +175,7 @@ export function SafeHarborPage() {
         <h1 className="home-page__title text-xl">Gränser & BIFF</h1>
         <p className="home-page__lead text-xs">Kompassråd och affärsmässiga svar — utan JADE.</p>
       </header>
-      <HamnModuleStack biffPanel={biffPanel} />
+      <TryggHamnHub biffPanel={biffPanel} />
     </div>
   );
 }

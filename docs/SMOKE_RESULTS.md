@@ -9,12 +9,28 @@
 |----------|----------|
 | `npm run smoke:locked-ux` | **PASS** |
 | `npm run smoke:design-modules` | **PASS** |
+| `npm run smoke:all` | **PASS** |
 | `npm run build` (frontend) | **PASS** |
 | `cd functions && npm run build` | **PASS** |
 
-**P1 synlig:** `/` Kompassråd · `/hamn` BIFF Triage · `/familjen` barnkort/ankare · Valv Arkiv/Triage/Pansaret · `/mabra` KBT (Vit hub → frågekort).
+**P1 synlig:** `/` LivskompassHero + Kompassråd · `/hamn` TryggHamnHub + BIFF Triage · `/familjen` barnkort/ankare · Valv Arkiv/Triage/Pansaret · `/mabra` KBT · Speglar VIVIR + Svart på vitt.
 
-**Manuellt kvar:** smoke #1–7, #18–20 (se `docs/SMOKE_CHECKLIST.md`) · temaval A/B/C/D.
+**Tema E** dokumenterat i `.context/design-language.md`.
+
+## Våg 3 — manuell smoke (användaren kör)
+
+| # | Scenario | Kryss | Datum |
+|---|----------|-------|-------|
+| 1 | Hem — kompass-hub + check-in | ☐ | |
+| 2 | Hamn — BIFF Triage | ☐ | |
+| 3 | Familjen — barnfokus spara | ☐ | |
+| 4 | Valv — Mönster/Orkester locked | ☐ | |
+| 5 | MåBra — KBT Transformatorn | ☐ | |
+| 6 | Speglar — VIVIR snabb | ☐ | |
+| 7 | Kunskap — RAG svar | ☐ | |
+| 18 | Ekonomi — budget läsa | ☐ | |
+| 19 | Dossier — export | ☐ | |
+| 20 | Widget — inspelning route | ☐ | |
 
 ---
 

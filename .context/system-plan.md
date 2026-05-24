@@ -136,3 +136,11 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 - [x] Måbra fas 2d — ACT ValuesCompass + `mabra_progress/{uid}`
 - [x] Måbra fas 2e — coach callable + opt-in UI + Speglar guardrail
 - [x] Måbra fas 2f — Web Speech sv-SE (reframing + coach)
+
+## Life OS orchestrering (2026-05-23)
+
+- [x] Locked UX smoke + P1 design-moduler (D3, D11–D14, D16–D20, D22–D23, D29)
+- [x] Tema E tokens + `HomeHeroKanon` / `LivskompassHero` på Hem
+- [x] Evaluations A–F + 6 modul-rapporter (`docs/evaluations/2026-05-23-*.md`)
+- [x] `npm run smoke:all` + `.context/design-modules-mockup.md`
+- [ ] Manuell smoke #1–7, #18–20 (användaren — checklista i `docs/SMOKE_RESULTS.md`)

@@ -31,6 +31,8 @@
 
 **Automatisk kod-guard (låsta UX):** `npm run smoke:locked-ux` — ska exit 0 före merge som rör Barnen/Valv.
 
+**Automatisk batch (Life OS):** `npm run smoke:all` — locked-ux + design-modules + modul-smokes (kunskap, speglar, dossier, compass, mabra, valv, children, grans).
+
 **Prod-smoke:** Kör #13–17 mot [Hosting-URL](https://gen-lang-client-0481875058.web.app) efter deploy (storage + `speglingsMirror` + hosting).
 
 Verifiera dokument i [Firestore Console](https://console.firebase.google.com/project/gen-lang-client-0481875058/firestore).

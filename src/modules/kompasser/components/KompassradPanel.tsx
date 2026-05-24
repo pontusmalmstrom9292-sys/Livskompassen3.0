@@ -1,5 +1,4 @@
-import { getDefaultCompassByTime } from '../utils/compassTime';
-import { getFlowConfig, EVENING_HERO } from '../config/compassFlows';
+import { getCompassAdvice, getCompassFlowMeta } from '../utils/compassAdvice';
 
 const TAGS = [
   { id: 'biff', label: 'BIFF' },
@@ -9,15 +8,8 @@ const TAGS = [
 
 /** D3 — dagens kompassråd + taggar (Hamn/Hem). */
 export function KompassradPanel() {
-  const flow = getDefaultCompassByTime();
-  const meta = flow === 'evening' ? EVENING_HERO : getFlowConfig(flow)!;
-
-  const advice =
-    flow === 'morning'
-      ? 'Ett mikrosteg räcker. Du behöver inte lösa hela dagen nu.'
-      : flow === 'day'
-        ? 'Sortera kroppen först — sedan logistik mot ex.'
-        : 'Land dagen. Gränser kan vänta till imorgon om det känns tungt.';
+  const meta = getCompassFlowMeta();
+  const advice = getCompassAdvice(meta.flow);
 
   return (
     <div className="elongated-module elongated-module--gold p-4">

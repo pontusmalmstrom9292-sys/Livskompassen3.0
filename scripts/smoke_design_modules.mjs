@@ -28,7 +28,9 @@ function mustInclude(relPath, ...needles) {
 
 function main() {
   mustInclude('src/modules/core/home/HomeActionHub.tsx', 'KompassradPanel');
-  mustInclude('src/modules/safe_harbor/components/SafeHarborPage.tsx', 'BiffTriagePanel', 'Kör BIFF Triage');
+  mustInclude('src/modules/safe_harbor/components/SafeHarborPage.tsx', 'BiffTriagePanel', 'TryggHamnHub');
+  mustInclude('src/modules/core/home/HomeHeroCompass.tsx', 'HomeHeroKanon');
+  mustInclude('src/modules/speglings_system/components/SpeglingsSystem.tsx', 'VivirQuickEntry', 'SvartPaVittForm');
   mustInclude(
     'src/modules/barnens_livsloggar/components/familjen/FamiljenReflektionTab.tsx',
     'ChildProfileCards',

@@ -5,9 +5,9 @@
 | ID | Modul | Status | Kod |
 |----|-------|--------|-----|
 | D1 | Kompis AI-livsarkitekt | partial | `KnowledgeVaultChat` |
-| D2 | Livskompass-hero | partial | `HomeActionHub`, `CompassModuleStrip` |
+| D2 | Livskompass-hero | **wired** | `HomeHeroKanon`, `LivskompassHero` |
 | D3 | Kompassråd + taggar | **wired** | `KompassradPanel` → Hem |
-| D4–D6 | Kognitiv laddning / Trygg Hamn-hub | partial | `CognitiveLoadStrip` (P2) |
+| D4–D6 | Kognitiv laddning / Trygg Hamn-hub | **wired** | `TryggHamnHub`, `CognitiveLoadStrip` |
 | D7–D10 | Valv-entry, WORM | done | `VaultEntryForm` |
 | D11 | Barnfokus hero | **wired** | `BarnfokusFraganPanel`, Familjen |
 | D12 | Barnprofilkort | **wired** | `ChildProfileCards` |
@@ -22,6 +22,7 @@
 | D21 | Barnfokus-frågor (locked) | done | `BarnfokusFraganPanel` |
 | D22–D23 | BIFF + extra | **wired** | `BiffTriagePanel` → Hamn |
 | D24–D28 | Lager 2 copy, dock macro | partial/P3 | — |
+| D25–D27 | VIVIR akut, Svart på vitt | **wired** | `VivirQuickEntry`, `SvartPaVittForm` |
 | D29 | KBT-Transformatorn | **wired** | `KbtTransformatorPanel` + `mabraCoach` transformator |
 
 **Smoke:** `npm run smoke:design-modules` · **Locked UX:** `npm run smoke:locked-ux`
