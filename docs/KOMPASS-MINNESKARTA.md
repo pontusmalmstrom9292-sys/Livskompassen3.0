@@ -127,4 +127,8 @@ npm run smoke:locked-ux   # låst UX
 
 ---
 
+**Alla lathundar:** [`LATHUND-INDEX.html`](./LATHUND-INDEX.html) · utskrift: [`KOMPASS-MINNESKARTA.html`](./KOMPASS-MINNESKARTA.html)
+
+**Snygg visning:** Preview i Cursor (`⌘⇧V`) · utskrift: [`KOMPASS-MINNESKARTA.html`](./KOMPASS-MINNESKARTA.html) · alla: [`LATHUND-INDEX.html`](./LATHUND-INDEX.html)
+
 *Skriv ut · lägg vid skärmen · börja varje session med rad 1 i §2*

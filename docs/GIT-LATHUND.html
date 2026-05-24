@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Git-lathund — Livskompassen</title>
+  <style>
+@media print { .no-print { display: none; } body { font-size: 10pt; } }
+body { font-family: Inter, system-ui, sans-serif; max-width: 720px; margin: 1.5rem auto; padding: 0 1rem; color: #111; line-height: 1.45; }
+h1 { font-size: 1.35rem; border-bottom: 2px solid #333; padding-bottom: 0.35rem; }
+h2 { font-size: 1.05rem; margin-top: 1.25rem; color: #222; }
+h3 { font-size: 0.95rem; }
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 0.6rem 0 1rem; }
+th, td { border: 1px solid #ccc; padding: 0.4rem 0.55rem; text-align: left; vertical-align: top; }
+th { background: #f0f0f0; font-weight: 600; }
+code { font-size: 0.82rem; background: #f4f4f4; padding: 0.1rem 0.25rem; border-radius: 3px; }
+pre { background: #f4f4f4; padding: 0.75rem; border-radius: 6px; overflow-x: auto; font-size: 0.82rem; }
+pre code { background: none; padding: 0; }
+p { margin: 0.5rem 0; }
+hr { border: none; border-top: 1px solid #ddd; margin: 1.25rem 0; }
+strong { font-weight: 600; }
+.nav { margin: 0.75rem 0 1.25rem; }
+.btn { display: inline-block; margin: 0.2rem 0.5rem 0.2rem 0; padding: 0.55rem 0.9rem; background: #1a1a1a; color: #fff !important; text-decoration: none; border-radius: 6px; font-size: 0.88rem; }
+.btn:hover { background: #333; }
+a { color: #0969da; }
+em { color: #555; }
+</style>
+</head>
+<body>
+  <div class="nav no-print">
+    <a class="btn" href="#" onclick="window.print();return false;">Skriv ut (⌘P)</a>
+    <a class="btn" href="LATHUND-INDEX.html">Alla lathundar</a>
+  </div>
+  <article class="content">
+<h1>Git-lathund — Livskompassen (1 sida)</h1>
+<p><strong>Version:</strong> 2026-05-24 · Skriv ut och lägg vid datorn.</p>
+<p><strong>Helhet (moduler + öppet + silos):</strong> <a href="./KOMPASS-MINNESKARTA.md"><code>KOMPASS-MINNESKARTA.md</code></a></p>
+<hr>
+<h2>Var bor sanningen?</h2>
+<table>
+<thead>
+<tr>
+<th>Vad</th>
+<th>Var</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Kod du jobbar i</td>
+<td><code>~/StudioProjects/Livskompassen2.0</code></td>
+</tr>
+<tr>
+<td>Molnet (backup)</td>
+<td>GitHub <strong>Livskompassen3.0</strong> → branch <strong><code>main</code></strong></td>
+</tr>
+<tr>
+<td>Gammalt repo</td>
+<td><code>origin-old</code> (2.0) — titta, <strong>pusha inte</strong></td>
+</tr>
+<tr>
+<td>App-data</td>
+<td>Firebase/GCP — inte GitHub</td>
+</tr>
+<tr>
+<td>Plan / fas</td>
+<td><code>.context/system-plan.md</code></td>
+</tr>
+<tr>
+<td>Låst UX</td>
+<td><code>.context/locked-ux-features.md</code></td>
+</tr>
+<tr>
+<td>Grenstatus</td>
+<td><code>docs/BRANCH-KARTA.md</code></td>
+</tr>
+<tr>
+<td>Merge-beslut</td>
+<td><code>docs/MERGE-IMPACT-RAPPORT.md</code> (mall)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Daglig rutin (3 steg)</h2>
+<ol>
+<li><code>git checkout main</code> &amp;&amp; <code>git pull --ff-only origin main</code></li>
+<li>Jobba i Cursor — spara (<code>Cmd + S</code>)</li>
+<li>Klart → <em>&quot;Committa och pusha main&quot;</em> eller <em>&quot;Synka main — PMIR&quot;</em></li>
+</ol>
+<hr>
+<h2>När agenten ska hjälpa dig städa</h2>
+<table>
+<thead>
+<tr>
+<th>Du säger</th>
+<th>Agent gör</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em>&quot;Förbered merge av [gren] till main&quot;</em></td>
+<td>Skriver <strong>PMIR</strong> (följer med / försvinner / regelanalys)</td>
+</tr>
+<tr>
+<td><em>&quot;godkänn merge&quot;</em></td>
+<td>Merge, smoke, push, ev. stäng gren</td>
+</tr>
+<tr>
+<td><em>&quot;Är jag på rätt branch?&quot;</em></td>
+<td>Visar branch, remote, parked grenar</td>
+</tr>
+<tr>
+<td><em>&quot;Kör check:main-trunk&quot;</em></td>
+<td>Branch + remote + <code>smoke:locked-ux</code> (ingen push)</td>
+</tr>
+</tbody></table>
+<p>Regel (alltid aktiv): <code>.cursor/rules/git-main-trunk.mdc</code></p>
+<hr>
+<h2>Gör aldrig</h2>
+<ul>
+<li>Ny branch för vardagsjobb</li>
+<li><code>git push origin-old</code></li>
+<li><code>git push --force</code> på <code>main</code></li>
+<li>Merge hela <code>feat/*</code>-inkorgen</li>
+<li>Committa <code>.env</code>, <code>.orkester/state.json</code></li>
+</ul>
+<hr>
+<h2>Snabb-kontroll (30 sek)</h2>
+<pre><code class="language-bash">git status -sb
+git remote -v    # origin = Livskompassen3.0
+git branch       # * main
+npm run check:main-trunk
+</code></pre>
+<hr>
+<h2>Prompt till agent</h2>
+<pre><code>Synka main: inventera grenar, skriv PMIR, vänta på mitt OK.
+Kör smoke:locked-ux. Pusha bara origin (Livskompassen3.0).
+Pusha INTE till origin-old.
+Ändra inte security eller Sacred utan explicit order.
+</code></pre>
+<hr>
+<h2>Del A / Del B</h2>
+<table>
+<thead>
+<tr>
+<th>Fas</th>
+<th>Innehåll</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Del A</strong></td>
+<td>Git, main, stäng mergade grenar, regler (denna lathund)</td>
+</tr>
+<tr>
+<td><strong>Del B</strong></td>
+<td>Helhetsstädning docs/moduler — starta med <em>&quot;starta Del B&quot;</em> efter Del A</td>
+</tr>
+</tbody></table>
+<p>Full guide: <a href="./GITHUB_ANVANDARGUIDE.md"><code>GITHUB_ANVANDARGUIDE.md</code></a></p>
+
+  </article>
+  <div class="nav no-print">
+    <a class="btn" href="#" onclick="window.print();return false;">Skriv ut (⌘P)</a>
+    <a class="btn" href="LATHUND-INDEX.html">Alla lathundar</a>
+  </div>
+</body>
+</html>

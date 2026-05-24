@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Minneskarta — Livskompassen</title>
+  <style>
+@media print { .no-print { display: none; } body { font-size: 10pt; } }
+body { font-family: Inter, system-ui, sans-serif; max-width: 720px; margin: 1.5rem auto; padding: 0 1rem; color: #111; line-height: 1.45; }
+h1 { font-size: 1.35rem; border-bottom: 2px solid #333; padding-bottom: 0.35rem; }
+h2 { font-size: 1.05rem; margin-top: 1.25rem; color: #222; }
+h3 { font-size: 0.95rem; }
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 0.6rem 0 1rem; }
+th, td { border: 1px solid #ccc; padding: 0.4rem 0.55rem; text-align: left; vertical-align: top; }
+th { background: #f0f0f0; font-weight: 600; }
+code { font-size: 0.82rem; background: #f4f4f4; padding: 0.1rem 0.25rem; border-radius: 3px; }
+pre { background: #f4f4f4; padding: 0.75rem; border-radius: 6px; overflow-x: auto; font-size: 0.82rem; }
+pre code { background: none; padding: 0; }
+p { margin: 0.5rem 0; }
+hr { border: none; border-top: 1px solid #ddd; margin: 1.25rem 0; }
+strong { font-weight: 600; }
+.nav { margin: 0.75rem 0 1.25rem; }
+.btn { display: inline-block; margin: 0.2rem 0.5rem 0.2rem 0; padding: 0.55rem 0.9rem; background: #1a1a1a; color: #fff !important; text-decoration: none; border-radius: 6px; font-size: 0.88rem; }
+.btn:hover { background: #333; }
+a { color: #0969da; }
+em { color: #555; }
+</style>
+</head>
+<body>
+  <div class="nav no-print">
+    <a class="btn" href="#" onclick="window.print();return false;">Skriv ut (⌘P)</a>
+    <a class="btn" href="LATHUND-INDEX.html">Alla lathundar</a>
+  </div>
+  <article class="content">
+<h1>Livskompassen — minneskarta (1 sida · utskrift)</h1>
+<p><strong>Version:</strong> 2026-05-24 · <strong>Gren:</strong> <code>main</code> · <strong>GitHub:</strong> Livskompassen3.0</p>
+<hr>
+<h2>1. Var sanningen bor (läs detta först)</h2>
+<table>
+<thead>
+<tr>
+<th>Fråga</th>
+<th>Fil</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Var är vi i projektet?</td>
+<td><code>docs/evaluations/SENASTE-SAMMANFATTNING.md</code></td>
+</tr>
+<tr>
+<td>Git / push / grenar?</td>
+<td><code>docs/GIT-LATHUND.md</code></td>
+</tr>
+<tr>
+<td>Vilken modul gör vad?</td>
+<td><code>docs/MODUL-FUNKTIONS-REGISTER.md</code></td>
+</tr>
+<tr>
+<td>Rörigt / analys?</td>
+<td><code>docs/SYSTEMKONTROLL.md</code></td>
+</tr>
+<tr>
+<td>Teman &amp; designbilder?</td>
+<td><code>docs/design/DESIGN-LATHUND.md</code></td>
+</tr>
+<tr>
+<td>Cursor-menyer (kub, …, Actions)?</td>
+<td><code>docs/CURSOR-MENY-LATHUND.md</code></td>
+</tr>
+<tr>
+<td>Merge / stäng gren?</td>
+<td><code>docs/MERGE-IMPACT-RAPPORT.md</code> (mall)</td>
+</tr>
+<tr>
+<td>Grenstatus</td>
+<td><code>docs/BRANCH-KARTA.md</code></td>
+</tr>
+</tbody></table>
+<p><strong>Kod på Mac:</strong> <code>~/StudioProjects/Livskompassen2.0</code> · <strong>Moln:</strong> <code>origin</code> = Livskompassen3.0 · <strong>Aldrig pusha:</strong> <code>origin-old</code></p>
+<hr>
+<h2>2. Daglig rutin (3 steg)</h2>
+<ol>
+<li><code>git checkout main</code> → <code>git pull --ff-only origin main</code></li>
+<li>Jobba i Cursor · spara (<code>Cmd + S</code>) · <code>npm run dev</code> → <a href="http://localhost:5173">http://localhost:5173</a></li>
+<li>Klart → <em>&quot;Committa och pusha main&quot;</em> (eller <code>npm run check:main-trunk</code>)</li>
+</ol>
+<hr>
+<h2>3. Undvik sidogrenar</h2>
+<table>
+<thead>
+<tr>
+<th>Gör</th>
+<th>Gör inte</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Alltid <strong><code>main</code></strong></td>
+<td>Ny branch för vardagsfix</td>
+</tr>
+<tr>
+<td>Push <strong><code>origin</code></strong> (3.0)</td>
+<td>Push <code>origin-old</code> · force push</td>
+</tr>
+<tr>
+<td>Agent: <em>&quot;Synka main — PMIR&quot;</em></td>
+<td>Klicka &quot;Publish Branch&quot; utan att förstå</td>
+</tr>
+<tr>
+<td>Stäng gren efter merge + ditt OK</td>
+<td>Lämna <code>cursor/*</code> kvar på GitHub</td>
+</tr>
+</tbody></table>
+<p><strong>Parked (rör ej utan beslut):</strong> <code>feat/mabra-fragekort</code> m.fl. — se <code>BRANCH-KARTA.md</code></p>
+<hr>
+<h2>4. Agenten hjälper dig</h2>
+<table>
+<thead>
+<tr>
+<th>Du säger</th>
+<th>Agent gör</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em>Synka main — PMIR</em></td>
+<td>Inventerar · följer med / försvinner · väntar på OK</td>
+</tr>
+<tr>
+<td><em>godkänn merge</em></td>
+<td>Merge · smoke · push</td>
+</tr>
+<tr>
+<td><em>Jobba med Familjen</em></td>
+<td>Fokus <code>src/modules/barnens_livsloggar/</code></td>
+</tr>
+<tr>
+<td><em>check:main-trunk</em></td>
+<td>Branch + smoke (ingen push)</td>
+</tr>
+</tbody></table>
+<p><strong>Regel (alltid i Cursor):</strong> <code>.cursor/rules/git-main-trunk.mdc</code></p>
+<hr>
+<h2>5. Öppet just nu (ej kod-städning)</h2>
+<table>
+<thead>
+<tr>
+<th>Punkt</th>
+<th>Var</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Manuell smoke #1–7, #18–22</td>
+<td><code>docs/SMOKE_CHECKLIST.md</code></td>
+</tr>
+<tr>
+<td>Opt-in minne-ingest</td>
+<td><code>.context/system-plan.md</code></td>
+</tr>
+<tr>
+<td>Barnporten full PWA</td>
+<td><code>docs/design/BARNPORTEN-SPEC.md</code></td>
+</tr>
+<tr>
+<td>Mabra frågekort (beslut)</td>
+<td><code>feat/mabra-fragekort</code> — parked</td>
+</tr>
+</tbody></table>
+<p><strong>Klart i kod:</strong> G1–G16 · låst UX · <code>/planering</code> · Theme I · tre silos · Drive-sortering</p>
+<hr>
+<h2>6. Jobba med EN sida / modul</h2>
+<p><strong>Mönster:</strong> Route → modulmapp → hub/flikar → en komponent per funktion</p>
+<table>
+<thead>
+<tr>
+<th>Sida</th>
+<th>Mapp</th>
+<th>Route</th>
+<th>Smoke</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Familjen / Barnen</strong></td>
+<td><code>src/modules/barnens_livsloggar/</code></td>
+<td><code>/familjen</code></td>
+<td><code>smoke:locked-ux</code>, <code>smoke:children</code></td>
+</tr>
+<tr>
+<td>Valv / bevis</td>
+<td><code>verklighetsvalvet/</code> + <code>valv_chatt/</code></td>
+<td><code>/dagbok?tab=bevis</code></td>
+<td><code>smoke:locked-ux</code>, <code>smoke:valv</code></td>
+</tr>
+<tr>
+<td>Hamn / BIFF</td>
+<td><code>safe_harbor/</code></td>
+<td><code>/hamn</code></td>
+<td><code>analyzeMessage</code></td>
+</tr>
+<tr>
+<td>Planering</td>
+<td><code>planering/</code></td>
+<td><code>/planering</code></td>
+<td><code>smoke:locked-ux</code></td>
+</tr>
+<tr>
+<td>MåBra</td>
+<td><code>mabra/</code></td>
+<td><code>/mabra</code></td>
+<td><code>smoke:mabra</code></td>
+</tr>
+<tr>
+<td>Kunskap / Kompis</td>
+<td><code>kompis/</code></td>
+<td><code>/vardagen?tab=kunskap</code></td>
+<td><code>smoke:kunskap</code></td>
+</tr>
+<tr>
+<td>Dagbok / Hjärtat</td>
+<td><code>dagbok/</code> + speglar</td>
+<td><code>/dagbok</code></td>
+<td><code>smoke:speglar</code></td>
+</tr>
+<tr>
+<td>Hem / tema</td>
+<td><code>core/</code></td>
+<td><code>/</code>, <code>/dev/themes</code></td>
+<td><code>smoke:design-modules</code></td>
+</tr>
+</tbody></table>
+<p><strong>Innan du kodar en modul:</strong> läs <code>src/modules/&lt;namn&gt;/README.md</code> + <code>docs/specs/modules/&lt;Namn&gt;-SPEC.md</code></p>
+<hr>
+<h2>7. Tre silos (aldrig blanda AI-minne)</h2>
+<table>
+<thead>
+<tr>
+<th>Silo</th>
+<th>Data</th>
+<th>Backend</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Kunskap</td>
+<td><code>kampspar</code>, <code>kb_docs</code></td>
+<td><code>knowledgeVaultQuery</code></td>
+</tr>
+<tr>
+<td>Valv</td>
+<td><code>reality_vault</code></td>
+<td><code>valvChatQuery</code>, <code>analyzeMessage</code></td>
+</tr>
+<tr>
+<td>Barnen</td>
+<td><code>children_logs</code></td>
+<td><code>childrenLogsQuery</code></td>
+</tr>
+</tbody></table>
+<p><strong>Drive →</strong> <code>notifyNewFile</code> → självsortering → <code>kb_docs</code> (Kunskap-silo)</p>
+<hr>
+<h2>8. Låst UX (får inte tas bort)</h2>
+<p>Barnfokus (lära känna m.fl.) · Valv <strong>Mönster</strong> + <strong>Orkester</strong> · Planering kanban · Fyren widget · Barnporten-agents · sidomeny</p>
+<p>Verifiera: <code>npm run smoke:locked-ux</code> · Register: <code>.context/locked-ux-features.md</code></p>
+<hr>
+<h2>9. Sacred (säkerhet)</h2>
+<p>Verklighetsvalvet · Sanningens Sköld · Morgonkompassen · Dossier · Speglar · Zero Footprint · Kill Switch</p>
+<p><code>.context/security.md</code> — agent ändrar <strong>inte</strong> utan din explicit order.</p>
+<hr>
+<h2>10. Snabbkommandon</h2>
+<pre><code class="language-bash">cd ~/StudioProjects/Livskompassen2.0
+git checkout main &amp;&amp; git pull --ff-only origin main
+npm run dev
+npm run check:main-trunk    # branch + smoke, ingen push
+npm run smoke:locked-ux   # låst UX
+</code></pre>
+<hr>
+<p><strong>Alla lathundar:</strong> <a href="./LATHUND-INDEX.html"><code>LATHUND-INDEX.html</code></a> · utskrift: <a href="./KOMPASS-MINNESKARTA.html"><code>KOMPASS-MINNESKARTA.html</code></a></p>
+<p><em>Skriv ut · lägg vid skärmen · börja varje session med rad 1 i §2</em></p>
+
+  </article>
+  <div class="nav no-print">
+    <a class="btn" href="#" onclick="window.print();return false;">Skriv ut (⌘P)</a>
+    <a class="btn" href="LATHUND-INDEX.html">Alla lathundar</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Design-lathund — Livskompassen</title>
+  <style>
+@media print { .no-print { display: none; } body { font-size: 10pt; } }
+body { font-family: Inter, system-ui, sans-serif; max-width: 720px; margin: 1.5rem auto; padding: 0 1rem; color: #111; line-height: 1.45; }
+h1 { font-size: 1.35rem; border-bottom: 2px solid #333; padding-bottom: 0.35rem; }
+h2 { font-size: 1.05rem; margin-top: 1.25rem; color: #222; }
+h3 { font-size: 0.95rem; }
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 0.6rem 0 1rem; }
+th, td { border: 1px solid #ccc; padding: 0.4rem 0.55rem; text-align: left; vertical-align: top; }
+th { background: #f0f0f0; font-weight: 600; }
+code { font-size: 0.82rem; background: #f4f4f4; padding: 0.1rem 0.25rem; border-radius: 3px; }
+pre { background: #f4f4f4; padding: 0.75rem; border-radius: 6px; overflow-x: auto; font-size: 0.82rem; }
+pre code { background: none; padding: 0; }
+p { margin: 0.5rem 0; }
+hr { border: none; border-top: 1px solid #ddd; margin: 1.25rem 0; }
+strong { font-weight: 600; }
+.nav { margin: 0.75rem 0 1.25rem; }
+.btn { display: inline-block; margin: 0.2rem 0.5rem 0.2rem 0; padding: 0.55rem 0.9rem; background: #1a1a1a; color: #fff !important; text-decoration: none; border-radius: 6px; font-size: 0.88rem; }
+.btn:hover { background: #333; }
+a { color: #0969da; }
+em { color: #555; }
+</style>
+</head>
+<body>
+  <div class="nav no-print">
+    <a class="btn" href="#" onclick="window.print();return false;">Skriv ut (⌘P)</a>
+    <a class="btn" href="../LATHUND-INDEX.html">Alla lathundar</a>
+  </div>
+  <article class="content">
+<h1>Design-lathund — teman, bilder, flik-idéer (1 sida · utskrift)</h1>
+<p><strong>Version:</strong> 2026-05-24 · <strong>Gren:</strong> <code>main</code></p>
+<hr>
+<h2>1. Två lager — bild vs kod</h2>
+<table>
+<thead>
+<tr>
+<th>Lager</th>
+<th>Vad</th>
+<th>Var</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Kör i appen</strong></td>
+<td>Theme Pack I (skins, CSS)</td>
+<td><code>src/modules/core/theme/themeRegistry.ts</code></td>
+</tr>
+<tr>
+<td><strong>Välj tema lokalt</strong></td>
+<td>Förhandsvisa alla skins</td>
+<td><a href="http://localhost:5173/dev/themes">http://localhost:5173/dev/themes</a></td>
+</tr>
+<tr>
+<td><strong>Bilder &amp; idéer</strong></td>
+<td>Mockups, flik-skärmar, lab-teman</td>
+<td><code>docs/design/</code> (denna lathund)</td>
+</tr>
+</tbody></table>
+<p><strong>Regel:</strong> Ändra <strong>prod</strong>-tema i kod (<code>themeRegistry</code>) — lab-teman A–O är referensbilder tills du aktivt flyttar in dem.</p>
+<hr>
+<h2>2. Öppna i webbläsaren (dubbelklicka HTML)</h2>
+<table>
+<thead>
+<tr>
+<th>Galleri</th>
+<th>Fil</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Alla teman A–O</strong></td>
+<td><code>docs/design/themes/index.html</code></td>
+</tr>
+<tr>
+<td><strong>Widget, planering, skärmar</strong></td>
+<td><code>docs/design/galleri/index.html</code></td>
+</tr>
+<tr>
+<td><strong>Bildspel / idéer</strong></td>
+<td><code>docs/design/slideshow/index.html</code></td>
+</tr>
+<tr>
+<td><strong>Barnporten-infografik</strong></td>
+<td><code>docs/design/barnporten/infographic.html</code></td>
+</tr>
+<tr>
+<td><strong>Kompakt tema per modul</strong></td>
+<td><code>docs/design/compact/index.html</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>3. Tema I — produktion (Architect Vault)</h2>
+<table>
+<thead>
+<tr>
+<th>Vad</th>
+<th>Mapp</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Spec</strong></td>
+<td><code>docs/design/themes/I-architect-vault/THEME-I-SPEC.md</code></td>
+</tr>
+<tr>
+<td><strong>Pack-format (5 skins)</strong></td>
+<td><code>docs/design/themes/I-architect-vault/THEME-PACK-FORMAT.md</code></td>
+</tr>
+<tr>
+<td><strong>PNG (design)</strong></td>
+<td><code>docs/design/themes/I-architect-vault/*.png</code></td>
+</tr>
+<tr>
+<td><strong>PNG (app preview)</strong></td>
+<td><code>public/design/themes/I-architect-vault/</code></td>
+</tr>
+</tbody></table>
+<p><strong>Skins i kod:</strong> stone · alchemical gold · nordic skymning · trygg hamn (+ fler i <code>themeRegistry.ts</code>)</p>
+<hr>
+<h2>4. Lab-teman (referens — sparade sedan innan)</h2>
+<table>
+<thead>
+<tr>
+<th>Tema</th>
+<th>Mapp</th>
+<th>Typisk användning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>E</td>
+<td><code>themes/E-aurora-obsidian-compass/</code></td>
+<td>Äldre prod-referens, guld kompass</td>
+</tr>
+<tr>
+<td>F</td>
+<td><code>themes/F-guld-pansar/</code></td>
+<td>Valv / WORM-känsla</td>
+</tr>
+<tr>
+<td>G</td>
+<td><code>themes/G-varm-hamn/</code></td>
+<td>Hamn</td>
+</tr>
+<tr>
+<td>H</td>
+<td><code>themes/H-grafit-greyrock/</code></td>
+<td>Grey Rock</td>
+</tr>
+<tr>
+<td>J–O</td>
+<td><code>themes/J-brutalist-sten/</code> … <code>O-ultra-grey-calm/</code></td>
+<td>Experiment</td>
+</tr>
+</tbody></table>
+<p><strong>Jämförelsetabell:</strong> <code>docs/design/themes/THEME-COMPARISON.md</code></p>
+<p><strong>Namngivning PNG per modul (i varje temamapp):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Fil</th>
+<th>Modul / idé</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>00-hero-livskompass.png</code></td>
+<td>Hem</td>
+</tr>
+<tr>
+<td><code>01-kompis.png</code></td>
+<td>Kunskap / Kompis</td>
+</tr>
+<tr>
+<td><code>02-trygg-hamn-hub.png</code></td>
+<td>Hamn</td>
+</tr>
+<tr>
+<td><code>03-barnfokus.png</code></td>
+<td>Familjen / Barnfokus</td>
+</tr>
+<tr>
+<td><code>04-biff-triage.png</code></td>
+<td>BIFF</td>
+</tr>
+<tr>
+<td><code>05-pansaret-valv.png</code></td>
+<td>Valv</td>
+</tr>
+<tr>
+<td><code>06-kbt-transformator.png</code></td>
+<td>MåBra / KBT</td>
+</tr>
+<tr>
+<td><code>widget-bar*.png</code></td>
+<td>Fyren / widget</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>5. Modul- &amp; flik-idéer (galleri)</h2>
+<table>
+<thead>
+<tr>
+<th>Område</th>
+<th>Mapp / fil</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Index 18+ bilder</strong></td>
+<td><code>docs/design/galleri/</code></td>
+</tr>
+<tr>
+<td><strong>Sidomeny (LÅST)</strong></td>
+<td><code>references/MENU-DRAWER-KANON.png</code> + <code>.md</code></td>
+</tr>
+<tr>
+<td><strong>Hem kompass (LÅST)</strong></td>
+<td><code>galleri/KOMPASS-LOCKED-kanon.png</code></td>
+</tr>
+<tr>
+<td><strong>Familjen-skärm</strong></td>
+<td><code>galleri/skarmar/familjen.png</code></td>
+</tr>
+<tr>
+<td><strong>Valv</strong></td>
+<td><code>galleri/skarmar/valv-pansaret.png</code></td>
+</tr>
+<tr>
+<td><strong>Hamn</strong></td>
+<td><code>galleri/skarmar/hamn-biff.png</code></td>
+</tr>
+<tr>
+<td><strong>Planering P1–P4</strong></td>
+<td><code>galleri/planering/</code></td>
+</tr>
+<tr>
+<td><strong>Planering varianter</strong></td>
+<td><code>galleri/planering-variants/</code></td>
+</tr>
+<tr>
+<td><strong>Widget W1–W4</strong></td>
+<td><code>galleri/widget/</code> · <strong>v2:</strong> <code>galleri/widget/v2/</code></td>
+</tr>
+<tr>
+<td><strong>Barnporten</strong></td>
+<td><code>galleri/barnporten/</code></td>
+</tr>
+<tr>
+<td><strong>Planering+Projekt (beslut)</strong></td>
+<td><code>PLANERING-PROJEKT-HYBRID.md</code></td>
+</tr>
+</tbody></table>
+<p><strong>Hela design-index:</strong> <code>docs/design/README.md</code></p>
+<hr>
+<h2>6. Specs (text — inte bara bilder)</h2>
+<table>
+<thead>
+<tr>
+<th>Modul</th>
+<th>Spec</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Planering</td>
+<td><code>PLANERINGSSIDA-SPEC.md</code>, <code>planering/PLANERING-P3-KANBAN-SPEC.md</code></td>
+</tr>
+<tr>
+<td>Widget / Fyren</td>
+<td><code>WIDGET-BAR-SPEC.md</code>, <code>HOMESCREEN-WIDGETS-SPEC.md</code></td>
+</tr>
+<tr>
+<td>Familjen / Barnfokus</td>
+<td><code>FAMILJEN-BARNFOKUS-FRAGOR-SPEC.md</code>, <code>FAMILJEN-HUB-SPEC.md</code></td>
+</tr>
+<tr>
+<td>Barnporten</td>
+<td><code>BARNPORTEN-SPEC.md</code></td>
+</tr>
+<tr>
+<td>Färger</td>
+<td><code>COLOR-POLICY.md</code> (ingen turkos text)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>7. Flikar i kod (Familjen-exempel)</h2>
+<p>Route: <code>/familjen</code> → <code>src/modules/barnens_livsloggar/</code></p>
+<table>
+<thead>
+<tr>
+<th>Fil</th>
+<th>Flik / funktion</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>FamiljenPage.tsx</code></td>
+<td>Hub</td>
+</tr>
+<tr>
+<td><code>familjen/FamiljenReflektionTab.tsx</code></td>
+<td>Reflektion + Barnfokus</td>
+</tr>
+<tr>
+<td><code>familjen/FamiljenLivsloggTab.tsx</code></td>
+<td>Livslogg</td>
+</tr>
+<tr>
+<td><code>familjen/FamiljenKunskapHubTab.tsx</code></td>
+<td>Kunskap</td>
+</tr>
+<tr>
+<td><code>BarnfokusFraganPanel.tsx</code></td>
+<td>Låst frågekort</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>8. Relaterade lathundar</h2>
+<table>
+<thead>
+<tr>
+<th>Fil</th>
+<th>Innehåll</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>docs/KOMPASS-MINNESKARTA.md</code></td>
+<td>Git, moduler, silos</td>
+</tr>
+<tr>
+<td><code>docs/GIT-LATHUND.md</code></td>
+<td>Main trunk</td>
+</tr>
+<tr>
+<td><code>docs/MODUL-FUNKTIONS-REGISTER.md</code></td>
+<td>Route → mapp → callable</td>
+</tr>
+</tbody></table>
+<hr>
+<p><em>Skriv ut · <code>Cmd+P</code> · lägg bredvid <code>KOMPASS-MINNESKARTA.md</code></em></p>
+
+  </article>
+  <div class="nav no-print">
+    <a class="btn" href="#" onclick="window.print();return false;">Skriv ut (⌘P)</a>
+    <a class="btn" href="../LATHUND-INDEX.html">Alla lathundar</a>
+  </div>
+</body>
+</html>

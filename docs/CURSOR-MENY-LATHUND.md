@@ -4,6 +4,8 @@
 
 **Inte samma som:** [`GIT-LATHUND.md`](./GIT-LATHUND.md) (git) · [`DESIGN-LATHUND.md`](./design/DESIGN-LATHUND.md) (teman)
 
+**Snygg visning:** I Cursor → öppna denna fil → **Preview** (`⌘⇧V`). I webbläsare → [`CURSOR-MENY-LATHUND.html`](./CURSOR-MENY-LATHUND.html) eller [`LATHUND-INDEX.html`](./LATHUND-INDEX.html).
+
 ---
 
 ## A. Cursor-menyn (kub-ikon i Mac-menyraden)
@@ -93,5 +95,7 @@ Kör smoke:locked-ux om jag rört Barnen eller Valv.
 | [`design/DESIGN-LATHUND.md`](./design/DESIGN-LATHUND.md) | Teman · galleri · flik-bilder |
 
 ---
+
+**Alla lathundar (länkar + utskrift):** [`LATHUND-INDEX.html`](./LATHUND-INDEX.html) · full HTML: [`CURSOR-MENY-LATHUND.html`](./CURSOR-MENY-LATHUND.html)
 
 *Skriv ut · `Cmd+P` · lägg vid skärmen*

@@ -2,65 +2,255 @@
 <html lang="sv">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cursor-menylathund — Livskompassen</title>
   <style>
-    @media print { body { font-size: 10pt; } .no-print { display: none; } }
-    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 1.5rem auto; padding: 0 1rem; color: #111; line-height: 1.35; }
-    h1 { font-size: 1.25rem; border-bottom: 2px solid #333; }
-    h2 { font-size: 1rem; margin-top: 1.2rem; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 0.5rem 0; }
-    th, td { border: 1px solid #ccc; padding: 0.35rem 0.5rem; text-align: left; vertical-align: top; }
-    th { background: #f0f0f0; }
-    code { font-size: 0.8rem; }
-    .btn { display: inline-block; margin: 1rem 0; padding: 0.6rem 1rem; background: #1a1a1a; color: #fff; text-decoration: none; border-radius: 6px; }
-  </style>
+@media print { .no-print { display: none; } body { font-size: 10pt; } }
+body { font-family: Inter, system-ui, sans-serif; max-width: 720px; margin: 1.5rem auto; padding: 0 1rem; color: #111; line-height: 1.45; }
+h1 { font-size: 1.35rem; border-bottom: 2px solid #333; padding-bottom: 0.35rem; }
+h2 { font-size: 1.05rem; margin-top: 1.25rem; color: #222; }
+h3 { font-size: 0.95rem; }
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 0.6rem 0 1rem; }
+th, td { border: 1px solid #ccc; padding: 0.4rem 0.55rem; text-align: left; vertical-align: top; }
+th { background: #f0f0f0; font-weight: 600; }
+code { font-size: 0.82rem; background: #f4f4f4; padding: 0.1rem 0.25rem; border-radius: 3px; }
+pre { background: #f4f4f4; padding: 0.75rem; border-radius: 6px; overflow-x: auto; font-size: 0.82rem; }
+pre code { background: none; padding: 0; }
+p { margin: 0.5rem 0; }
+hr { border: none; border-top: 1px solid #ddd; margin: 1.25rem 0; }
+strong { font-weight: 600; }
+.nav { margin: 0.75rem 0 1.25rem; }
+.btn { display: inline-block; margin: 0.2rem 0.5rem 0.2rem 0; padding: 0.55rem 0.9rem; background: #1a1a1a; color: #fff !important; text-decoration: none; border-radius: 6px; font-size: 0.88rem; }
+.btn:hover { background: #333; }
+a { color: #0969da; }
+em { color: #555; }
+</style>
 </head>
 <body>
-  <p class="no-print"><a class="btn" href="#" onclick="window.print();return false;">Skriv ut nu (⌘P)</a></p>
+  <div class="nav no-print">
+    <a class="btn" href="#" onclick="window.print();return false;">Skriv ut (⌘P)</a>
+    <a class="btn" href="LATHUND-INDEX.html">Alla lathundar</a>
+  </div>
+  <article class="content">
+<h1>Cursor &amp; editor — menylathund (1 sida · utskrift)</h1>
+<p><strong>Version:</strong> 2026-05-24 · Gäller <strong>Cursor på Mac</strong> + fil du redigerar (GitHub web / Preview)</p>
+<p><strong>Inte samma som:</strong> <a href="./GIT-LATHUND.md"><code>GIT-LATHUND.md</code></a> (git) · <a href="./design/DESIGN-LATHUND.md"><code>DESIGN-LATHUND.md</code></a> (teman)</p>
+<hr>
+<h2>A. Cursor-menyn (kub-ikon i Mac-menyraden)</h2>
+<p>Ikonen kan visa en <strong>siffra</strong> = olästa notiser från agenter.</p>
+<table>
+<thead>
+<tr>
+<th>Menyval</th>
+<th>Vad det gör</th>
+<th>Livskompassen-tips</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Senaste agenter</strong> (lista)</td>
+<td>Öppnar en <strong>gammal AI-chatt</strong> igen</td>
+<td>Bra för att hitta &quot;viktig laga github&quot; — <strong>sanning</strong> ligger ändå i <code>main</code> + docs</td>
+</tr>
+<tr>
+<td><strong>View More</strong></td>
+<td>Fler gamla chattar</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Clear All Notifications</strong></td>
+<td>Rensar siffran på ikonen</td>
+<td>Gör när det känns rörigt — påverkar inte kod</td>
+</tr>
+<tr>
+<td><strong>New Agent</strong></td>
+<td><strong>Ny tom chatt</strong></td>
+<td>Använd när ny uppgift; klistra in prompt från <code>GIT-LATHUND</code></td>
+</tr>
+<tr>
+<td><strong>Open Cursor</strong></td>
+<td>Visar editorfönstret</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Settings</strong></td>
+<td><strong>Cursor-appens</strong> inställningar</td>
+<td>Inte Firebase/Git — bara editor</td>
+</tr>
+<tr>
+<td><strong>Quit</strong></td>
+<td>Stänger Cursor</td>
+<td>Spara/commit först om du har ändringar</td>
+</tr>
+</tbody></table>
+<p><strong>Kom ihåg:</strong> Agent-listan = <strong>historik</strong>. Projektets sanning = <strong><code>main</code></strong> + <a href="./evaluations/SENASTE-SAMMANFATTNING.md"><code>SENASTE-SAMMANFATTNING.md</code></a>.</p>
+<hr>
+<h2>B. Filmenyn <code>…</code> (vid en öppen fil, t.ex. <code>.md</code>)</h2>
+<p>Ofta när du redigerar på <strong>GitHub i webbläsaren</strong> eller Preview. Samma idé i Cursor: <strong>Save</strong> = spara fil.</p>
+<table>
+<thead>
+<tr>
+<th>Menyval</th>
+<th>Vad det gör</th>
+<th>Varning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Save File</strong> (<code>⌘S</code>)</td>
+<td>Sparar filen</td>
+<td>Lokalt i Cursor → sedan <em>committa + pusha main</em></td>
+</tr>
+<tr>
+<td><strong>Discard Changes</strong></td>
+<td><strong>Kastar</strong> alla osparade ändringar</td>
+<td>Kan inte ångras</td>
+</tr>
+<tr>
+<td><strong>Copy Relative Path</strong></td>
+<td>t.ex. <code>docs/BRANCH-KARTA.md</code></td>
+<td>Bra i markdown-länkar</td>
+</tr>
+<tr>
+<td><strong>Copy Remote URL</strong></td>
+<td>GitHub-länk till filen</td>
+<td>Dela / bokmärka</td>
+</tr>
+<tr>
+<td><strong>Diff View</strong></td>
+<td>Visar vad du ändrat vs senast sparade</td>
+<td>Bra före commit</td>
+</tr>
+<tr>
+<td><strong>Line Numbers</strong></td>
+<td>Radnummer på/av</td>
+<td>Smak</td>
+</tr>
+<tr>
+<td><strong>Word Wrap</strong></td>
+<td>Radbrytning</td>
+<td>Bekvämt för långa md-filer</td>
+</tr>
+<tr>
+<td><strong>Auto Save</strong></td>
+<td>Sparar medan du skriver</td>
+<td>På = säkrare; <strong>ersätter inte</strong> git push</td>
+</tr>
+</tbody></table>
+<p><strong>Preview / Markdown:</strong> växla mellan <strong>utseende</strong> och <strong>rå text</strong>.</p>
+<hr>
+<h2>C. Cursor i projektfönstret (vanliga knappar)</h2>
+<table>
+<thead>
+<tr>
+<th>Visar</th>
+<th>Betyder</th>
+<th>Du ska</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>M</strong> vid fil</td>
+<td>Ändrad, ej committad</td>
+<td>Spara · commit när klart</td>
+</tr>
+<tr>
+<td><strong>↑</strong> (ahead)</td>
+<td>Commits ej pushade</td>
+<td><em>&quot;Pusha main&quot;</em></td>
+</tr>
+<tr>
+<td><strong>↓</strong> (behind)</td>
+<td>GitHub har nyare kod</td>
+<td><code>git pull --ff-only origin main</code></td>
+</tr>
+<tr>
+<td><strong>Sync / Publish Branch</strong></td>
+<td>Vill skapa/pusha gren</td>
+<td><strong>Avbryt</strong> — jobba på <code>main</code></td>
+</tr>
+<tr>
+<td><strong>Merge</strong></td>
+<td>Slå ihop grenar</td>
+<td><strong>Avbryt</strong> om du redan är på <code>main</code></td>
+</tr>
+</tbody></table>
+<p>Mer: <a href="./GITHUB_ANVANDARGUIDE.md"><code>GITHUB_ANVANDARGUIDE.md</code></a> § Cursor-knappar.</p>
+<hr>
+<h2>D. Vad är &quot;Actions&quot;?</h2>
+<table>
+<thead>
+<tr>
+<th>Var du ser det</th>
+<th>Betyder</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Allmänt</strong></td>
+<td>Åtgärder = något som <strong>gör</strong> något (spara, pusha, köra smoke)</td>
+</tr>
+<tr>
+<td><strong>Cursor AI / Agent</strong></td>
+<td>Verktyg agenten får använda: läsa filer, terminal, redigera — enligt <a href="../.cursor/rules/git-main-trunk.mdc"><code>.cursor/rules/git-main-trunk.mdc</code></a></td>
+</tr>
+<tr>
+<td><strong>GitHub &quot;Actions&quot;</strong> (annat!)</td>
+<td>Automatisk CI i molnet — <strong>inte</strong> filmenyn <code>…</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>E. Var du redigerar Livskompassen (rekommenderat)</h2>
+<table>
+<thead>
+<tr>
+<th>Plats</th>
+<th>När</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Cursor</strong> → <code>~/StudioProjects/Livskompassen2.0</code></td>
+<td>Kod + docs + commit</td>
+</tr>
+<tr>
+<td><strong>GitHub web</strong></td>
+<td>Snabb läsning / en rad md — committa gärna via Cursor efteråt</td>
+</tr>
+<tr>
+<td><strong><code>docs/design/.../index.html</code></strong></td>
+<td>Bläddra teman (Finder → dubbelklick)</td>
+</tr>
+</tbody></table>
+<p><strong>Prompt efter ändring:</strong></p>
+<pre><code>Committa och pusha main till origin (Livskompassen3.0).
+Kör smoke:locked-ux om jag rört Barnen eller Valv.
+</code></pre>
+<hr>
+<h2>F. Övriga lathundar (skriv ut tillsammans)</h2>
+<table>
+<thead>
+<tr>
+<th>Fil</th>
+<th>Innehåll</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="./KOMPASS-MINNESKARTA.md"><code>KOMPASS-MINNESKARTA.md</code></a></td>
+<td>Helhet · moduler · git · öppet</td>
+</tr>
+<tr>
+<td><a href="./GIT-LATHUND.md"><code>GIT-LATHUND.md</code></a></td>
+<td>Main · PMIR · inga sidogrenar</td>
+</tr>
+<tr>
+<td><a href="./design/DESIGN-LATHUND.md"><code>design/DESIGN-LATHUND.md</code></a></td>
+<td>Teman · galleri · flik-bilder</td>
+</tr>
+</tbody></table>
+<hr>
+<p><strong>Alla lathundar (länkar + utskrift):</strong> <a href="./LATHUND-INDEX.html"><code>LATHUND-INDEX.html</code></a> · full HTML: <a href="./CURSOR-MENY-LATHUND.html"><code>CURSOR-MENY-LATHUND.html</code></a></p>
+<p><em>Skriv ut · <code>Cmd+P</code> · lägg vid skärmen</em></p>
 
-  <h1>Cursor &amp; editor — menylathund</h1>
-  <p><strong>2026-05-24</strong> · Cursor på Mac + GitHub web</p>
-
-  <h2>A. Cursor-menyn (kub-ikon, menyraden)</h2>
-  <table>
-    <tr><th>Meny</th><th>Gör</th><th>Tips</th></tr>
-    <tr><td>Senaste agenter</td><td>Öppnar gammal chatt</td><td>Historik — sanning i <code>main</code></td></tr>
-    <tr><td>Clear All Notifications</td><td>Rensar siffran</td><td>Påverkar inte kod</td></tr>
-    <tr><td>New Agent</td><td>Ny tom chatt</td><td>Ny uppgift</td></tr>
-    <tr><td>Settings</td><td>Cursor-inställningar</td><td>Inte Firebase</td></tr>
-    <tr><td>Quit</td><td>Stänger Cursor</td><td>Spara först</td></tr>
-  </table>
-
-  <h2>B. Filmenyn … (vid fil)</h2>
-  <table>
-    <tr><th>Meny</th><th>Gör</th><th>Varning</th></tr>
-    <tr><td>Save (⌘S)</td><td>Sparar</td><td>Sedan pusha main</td></tr>
-    <tr><td>Discard Changes</td><td>Kastar ändringar</td><td>Kan inte ångras</td></tr>
-    <tr><td>Diff View</td><td>Visar skillnad</td><td>Före commit</td></tr>
-    <tr><td>Auto Save</td><td>Sparar automatiskt</td><td>Ersätter inte git push</td></tr>
-  </table>
-
-  <h2>C. Git i Cursor</h2>
-  <table>
-    <tr><th>Visar</th><th>Du ska</th></tr>
-    <tr><td>↑ ahead</td><td>Pusha main</td></tr>
-    <tr><td>↓ behind</td><td><code>git pull --ff-only origin main</code></td></tr>
-    <tr><td>Publish Branch</td><td><strong>Avbryt</strong> — bara main</td></tr>
-  </table>
-
-  <h2>D. Vad är Actions?</h2>
-  <table>
-    <tr><td>Allmänt</td><td>Åtgärder som gör något (spara, pusha)</td></tr>
-    <tr><td>Cursor Agent</td><td>Verktyg: läsa filer, terminal (enligt projektregler)</td></tr>
-    <tr><td>GitHub Actions</td><td>CI i molnet — <strong>inte</strong> filmenyn …</td></tr>
-  </table>
-
-  <h2>E. Redigera Livskompassen</h2>
-  <p><code>~/StudioProjects/Livskompassen2.0</code> i Cursor · push <code>origin</code> = Livskompassen3.0</p>
-
-  <h2>F. Fler lathundar</h2>
-  <p>KOMPASS-MINNESKARTA · GIT-LATHUND · design/DESIGN-LATHUND (i <code>docs/</code>)</p>
-
-  <p class="no-print"><a class="btn" href="#" onclick="window.print();return false;">Skriv ut (⌘P)</a></p>
+  </article>
+  <div class="nav no-print">
+    <a class="btn" href="#" onclick="window.print();return false;">Skriv ut (⌘P)</a>
+    <a class="btn" href="LATHUND-INDEX.html">Alla lathundar</a>
+  </div>
 </body>
 </html>

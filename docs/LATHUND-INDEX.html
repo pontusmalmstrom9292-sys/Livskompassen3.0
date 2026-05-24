@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Livskompassen — alla lathundar</title>
+  <style>
+    @media print { .no-print { display: none; } }
+    body { font-family: Inter, system-ui, sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; line-height: 1.45; color: #111; }
+    h1 { font-size: 1.35rem; border-bottom: 2px solid #333; padding-bottom: 0.35rem; }
+    .card { border: 1px solid #ccc; border-radius: 8px; padding: 1rem 1.1rem; margin: 1rem 0; background: #fafafa; }
+    .card h2 { margin: 0 0 0.35rem; font-size: 1.05rem; }
+    .card p { margin: 0.35rem 0 0.6rem; font-size: 0.9rem; color: #444; }
+    a.btn { display: inline-block; margin: 0.2rem 0.45rem 0.2rem 0; padding: 0.5rem 0.85rem; background: #1a1a1a; color: #fff !important; text-decoration: none; border-radius: 6px; font-size: 0.88rem; }
+    a.btn.blue { background: #0969da; }
+    a.btn.grey { background: #555; }
+    .hint { font-size: 0.88rem; color: #555; margin-top: 0.75rem; }
+    code { background: #eee; padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <h1>Livskompassen — lathundar</h1>
+  <p><strong>Fullständig + snygg layout</strong> (tabeller, rubriker) — samma typ som temagalleriet.</p>
+  <p class="hint no-print"><strong>I Cursor:</strong> öppna <code>.md</code>-filen → <strong>Preview</strong> (<code>⌘⇧V</code>) = snygg text utan webbläsare.<br>
+  <strong>I webbläsare:</strong> klicka <strong>Öppna HTML</strong> nedan → <code>⌘P</code> för utskrift.</p>
+
+  <div class="card">
+    <h2>1. Minneskarta (börja här)</h2>
+    <p>Helhet · moduler · git · silos · öppet</p>
+    <a class="btn" href="KOMPASS-MINNESKARTA.html">Öppna HTML</a>
+    <a class="btn grey" href="KOMPASS-MINNESKARTA.md">Markdown</a>
+  </div>
+
+  <div class="card">
+    <h2>2. Git-lathund</h2>
+    <p>Main · PMIR · inga sidogrenar</p>
+    <a class="btn" href="GIT-LATHUND.html">Öppna HTML</a>
+    <a class="btn grey" href="GIT-LATHUND.md">Markdown</a>
+  </div>
+
+  <div class="card">
+    <h2>3. Design-lathund</h2>
+    <p>Teman · galleri · flik-bilder</p>
+    <a class="btn" href="design/DESIGN-LATHUND.html">Öppna HTML</a>
+    <a class="btn grey" href="design/DESIGN-LATHUND.md">Markdown</a>
+    <p class="hint">Bildgalleri: <a href="design/themes/index.html">themes</a> · <a href="design/galleri/index.html">galleri</a></p>
+  </div>
+
+  <div class="card">
+    <h2>4. Cursor-menylathund</h2>
+    <p>Kub-meny · filmeny · Actions</p>
+    <a class="btn" href="CURSOR-MENY-LATHUND.html">Öppna HTML</a>
+    <a class="btn grey" href="CURSOR-MENY-LATHUND.md">Markdown</a>
+  </div>
+
+  <div class="card">
+    <h2>5. Övrigt (markdown i Cursor)</h2>
+    <p><a href="evaluations/SENASTE-SAMMANFATTNING.md">Senaste sammanfattning</a> ·
+    <a href="MODUL-FUNKTIONS-REGISTER.md">Modulregister</a> ·
+    <a href="MERGE-IMPACT-RAPPORT.md">PMIR-mall</a></p>
+  </div>
+
+  <p class="hint">Efter ändring i <code>.md</code>: kör <code>npm run build:lathund-html</code> för att uppdatera HTML.</p>
+</body>
+</html>
