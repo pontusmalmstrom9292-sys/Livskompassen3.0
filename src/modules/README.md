@@ -4,7 +4,9 @@ Function-based frontend modules under `src/modules/`. Varje modul har en **READM
 
 Delad infrastruktur: **`core/`**. Backend (Cloud Functions, Agent Cards): **`functions/`** — anropas via Firebase callables från modulernas `api/`.
 
-**Hela arkivet / permanent minne:** [`.context/arkiv-minne.md`](../../.context/arkiv-minne.md) · [`Arkiv-SPEC.md`](../../docs/specs/modules/Arkiv-SPEC.md) · GCP [`GCP-INVENTORY-2026-05-21.md`](../../docs/archive/GCP-INVENTORY-2026-05-21.md)
+**Hela arkivet / permanent minne:** [`.context/arkiv-minne.md`](../../.context/arkiv-minne.md) · [`Arkiv-SPEC.md`](../../docs/specs/modules/Arkiv-SPEC.md) · live GCP [`GCP-INVENTORY-LATEST.md`](../../docs/GCP-INVENTORY-LATEST.md)
+
+**Sammanställd register (Del B):** [`docs/MODUL-FUNKTIONS-REGISTER.md`](../../docs/MODUL-FUNKTIONS-REGISTER.md)
 
 ## Moduler (index)
 
@@ -22,6 +24,9 @@ Delad infrastruktur: **`core/`**. Backend (Cloud Functions, Agent Cards): **`fun
 | **barnens_livsloggar** | `/familjen` | [barnens_livsloggar/README.md](./barnens_livsloggar/README.md) | [barnens_livsloggar.md](../../.context/modules/barnens_livsloggar.md) |
 | **mabra** | `/mabra` | [mabra/README.md](./mabra/README.md) | [mabra_sidan.md](../../.context/modules/mabra_sidan.md) |
 | **planering** | `/planering` | [planering/module_plan.md](./planering/module_plan.md) | — |
+| **projekt** | `/projekt` | [projekt/components/ProjektHubPage.tsx](./projekt/components/ProjektHubPage.tsx) | — |
+| **barnporten** | (PWA plan) | [barnporten/module_plan.md](./barnporten/module_plan.md) | agents: `barnportenAgents.ts` |
+| **widgets** | `/widget/*` | `src/modules/widgets/` | WH1 i core/Fyren |
 | **dossier** | `/dossier` | [dossier/README.md](./dossier/README.md) | [dossier.md](../../.context/modules/dossier.md) |
 
 ## Kluster (navigation)

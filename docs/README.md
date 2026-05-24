@@ -22,7 +22,10 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 | Fil | Innehåll |
 |-----|----------|
 | [`SYSTEMKONTROLL.md`](SYSTEMKONTROLL.md) | Färdiga Cursor-prompter, Sacred-register, var sanning bor |
-| [`evaluations/`](evaluations/) | Dina sparade analysrapporter (datum + A–E) |
+| [`evaluations/SENASTE-SAMMANFATTNING.md`](evaluations/SENASTE-SAMMANFATTNING.md) | **Aktuell** status (läs denna först) |
+| [`MODUL-FUNKTIONS-REGISTER.md`](MODUL-FUNKTIONS-REGISTER.md) | Modul · route · callable · smoke |
+| [`DOC-DRIFT-RAPPORT.md`](DOC-DRIFT-RAPPORT.md) | Doc vs kod (Del B) |
+| [`evaluations/`](evaluations/) | Historiska analysrapporter (2026-05-23 m.fl.) |
 
 ---
 

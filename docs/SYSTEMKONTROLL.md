@@ -254,7 +254,7 @@ Kör när du vill dubbelkolla utan Cursor:
 | GCP Fas 4 | [`GCP-FAS4-RUNBOOK.md`](./GCP-FAS4-RUNBOOK.md) |
 | Produkt-MVP klar per modul | [`src/modules/README.md`](../src/modules/README.md) + respektive `*-SPEC.md` |
 
-**Aktuell huvudfas (2026-05-23):** Fas 4 — verifiering + Ekonomi doc-synk **done**; öppet: manuell smoke (#18 ekonomi), opt-in minne-ingest. G9–G14 **done** (se `Arkiv-GAP-REGISTER.md`). Utvärdering: [`evaluations/2026-05-23-A-helhetsstatus.md`](./evaluations/2026-05-23-A-helhetsstatus.md).
+**Aktuell huvudfas (2026-05-24):** Fas 4 — verifiering + polish. **Status:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md) · **Moduler:** [`MODUL-FUNKTIONS-REGISTER.md`](./MODUL-FUNKTIONS-REGISTER.md). Öppet: manuell smoke (#18 ekonomi), opt-in minne-ingest, Barnporten full PWA. G1–G16 **done** — `Arkiv-GAP-REGISTER.md`.
 
 ---
 
