@@ -39,7 +39,10 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 | [`SMOKE_CHECKLIST.md`](SMOKE_CHECKLIST.md) | Manuell verifiering (Sacred Features) |
 | [`SMOKE_RESULTS.md`](SMOKE_RESULTS.md) | Senaste smoke-resultat |
 | [`NATT-CI.md`](NATT-CI.md) | Nattlig CI (ersätter manuella overnight-körningar) |
+| [`GIT-LATHUND.md`](GIT-LATHUND.md) | **1 sida** — main trunk, PMIR, daglig rutin |
 | [`GITHUB_ANVANDARGUIDE.md`](GITHUB_ANVANDARGUIDE.md) | **Utskriftsguide** — repo, branches, daglig rutin |
+| [`BRANCH-KARTA.md`](BRANCH-KARTA.md) | Aktiva / stängda / parked grenar |
+| [`MERGE-IMPACT-RAPPORT.md`](MERGE-IMPACT-RAPPORT.md) | Mall före merge/stängning |
 | [`GITHUB_STANDALONE_SETUP.md`](GITHUB_STANDALONE_SETUP.md) | Teknisk GitHub-setup (arkiv/alternativ) |
 
 ---

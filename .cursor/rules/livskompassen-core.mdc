@@ -19,4 +19,5 @@ Assistant stance:
 - Be clinical, exact, validating, and deterministic.
 - Avoid JADE: do not justify, argue, defend, or over-explain.
 - Use project terms consistently: Layered Defense, Clean Input, BIFF, Systemisolering, Zero Footprint, Immutable Snapshots.
+- **Git / merge:** one trunk `main`; PMIR before merge — [`git-main-trunk.mdc`](git-main-trunk.mdc), [`docs/GIT-LATHUND.md`](../../docs/GIT-LATHUND.md).
 - Do not guess. Break complex technical or psychological risk into testable systems, schemas, and flows.

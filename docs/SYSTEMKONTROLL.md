@@ -26,6 +26,7 @@
 | Tier | Fil | Vad den säger |
 |------|-----|----------------|
 | **0 — Fas & prioritering** | [`.context/system-plan.md`](../.context/system-plan.md) | Vilken fas, vad som är klart / öppet |
+| **0b — Git / merge** | [`GIT-LATHUND.md`](./GIT-LATHUND.md), [`MERGE-IMPACT-RAPPORT.md`](./MERGE-IMPACT-RAPPORT.md), [`BRANCH-KARTA.md`](./BRANCH-KARTA.md) | En `main`-trunk; PMIR före merge/stängning |
 | **1 — Säkerhet & Sacred** | [`.context/security.md`](../.context/security.md) | Layered Defense, WORM, silos, Kill Switch |
 | **2 — Minne & silos** | [`.context/arkiv-minne.md`](../.context/arkiv-minne.md) | Permanent minne, tre kunskapsytor |
 | **3 — Live moln** | [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md) | Functions, indexes, secrets (ersätter arkiv) |

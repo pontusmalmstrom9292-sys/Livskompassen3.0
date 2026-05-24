@@ -2,7 +2,7 @@
 
 Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 
-**När det känns rörigt:** färdiga analysprompter och Sacred-register → [`docs/SYSTEMKONTROLL.md`](../docs/SYSTEMKONTROLL.md).
+**När det känns rörigt:** färdiga analysprompter och Sacred-register → [`docs/SYSTEMKONTROLL.md`](../docs/SYSTEMKONTROLL.md). **Git / grenar:** [`docs/GIT-LATHUND.md`](../docs/GIT-LATHUND.md) · [`docs/BRANCH-KARTA.md`](../docs/BRANCH-KARTA.md).
 
 ## Fas 1 (Cleanup): Sanering & Mappstruktur
 - [x] Git-branch `cleanup-phase-1` - saker arbetskopia

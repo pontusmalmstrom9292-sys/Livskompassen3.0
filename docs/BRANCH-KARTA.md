@@ -1,0 +1,57 @@
+# Branch-karta — var sanningen bor
+
+**Syfte:** En aktiv utvecklingsgren (`main`). Inget förstört — historik finns i git.
+
+**Senast:** 2026-05-24 (Del A — trunk-städning)
+
+---
+
+## Aktiv gren
+
+| Branch | Innehåll | Stäng-kriterium |
+|--------|----------|-----------------|
+| **`main`** | All produktkod: Planering, Theme Pack I, Orkester, låst UX, Fyren (hidden/expanded) | Daglig utveckling; `npm run smoke:locked-ux` före "klart" |
+
+**Remote:** `origin` = https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0.git
+
+---
+
+## Stängda grenar (2026-05-24)
+
+| Branch | Status | Anmärkning |
+|--------|--------|------------|
+| `cursor/planering-kbt-p1` | **Merged + stängd** | PR #2 + Fyren-fix cherry-pick `b82f9ab8` |
+| `split/orkester-autorun` | **Stängd** | Innehåll redan på `main` via PR #2 |
+| `audit-byggpass-2026-05-22` | **Stängd** | Äldre bas; låst UX fanns på `main` |
+
+---
+
+## Parked — inkorg (raderas inte utan ditt OK)
+
+| Branch | Innehåll | Beslut |
+|--------|----------|--------|
+| `feat/mabra-fragekort` | Frågekort / känslokompass (konflikt med KBT på main) | Produktbeslut senare |
+| `feat/barnen-fragekort` | Inkorg | Cherry-pick vid behov |
+| `feat/broar-inkorg` | Inkorg | Cherry-pick vid behov |
+| `feat/design-inkorg` | Inkorg | Cherry-pick vid behov |
+| `feat/valv-inkorg-ui` | Inkorg | Cherry-pick vid behov |
+
+**Regel:** Ingen wholesale-merge av `feat/*`. Se [`MERGE-IMPACT-RAPPORT.md`](./MERGE-IMPACT-RAPPORT.md).
+
+---
+
+## Untracked lokalt (committa inte)
+
+| Mapp/fil | Åtgärd |
+|----------|--------|
+| `.orkester/` | Lokal körlogg |
+| `.orkester-backup-cursor-hooks/` | Backup — ignoreras |
+| `scripts/google-apps-script/.script-properties.local.txt` | Hemligheter |
+
+---
+
+## Hjälp
+
+- **Lathund:** [`GIT-LATHUND.md`](./GIT-LATHUND.md)
+- **Merge-beslut:** [`MERGE-IMPACT-RAPPORT.md`](./MERGE-IMPACT-RAPPORT.md)
+- **Git-guide:** [`GITHUB_ANVANDARGUIDE.md`](./GITHUB_ANVANDARGUIDE.md)

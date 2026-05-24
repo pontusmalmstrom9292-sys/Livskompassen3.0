@@ -58,3 +58,7 @@ studio/
 # Python
 __pycache__/
 *.pyc
+
+# Orkester local state (not committed)
+.orkester/state.json
+.orkester-backup-cursor-hooks/

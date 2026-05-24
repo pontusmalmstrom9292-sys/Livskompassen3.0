@@ -1,0 +1,32 @@
+---
+description: Main trunk, PMIR före merge, regelanalys system/design/säkerhet, hjälp merge efter godkännande
+alwaysApply: true
+---
+
+# Git main trunk & merge hygiene (CANON)
+
+Canonical mall: [`docs/MERGE-IMPACT-RAPPORT.md`](../../docs/MERGE-IMPACT-RAPPORT.md) · Lathund: [`docs/GIT-LATHUND.md`](../../docs/GIT-LATHUND.md)
+
+## Default
+
+- Develop on **`main`**; push only **`origin`** (Livskompassen3.0). Never **`origin-old`**.
+- Branch map: [`docs/BRANCH-KARTA.md`](../../docs/BRANCH-KARTA.md).
+
+## When user approves work ("klart", "godkänt", "merge")
+
+1. **Do NOT merge/delete yet.** Produce **Pre-Merge Impact Report (PMIR)** per `docs/MERGE-IMPACT-RAPPORT.md`.
+2. **Wait** for explicit user OK ("godkänn merge", "kör stängning").
+3. **Then help:** checkout main, pull --ff-only, merge/cherry-pick, smoke, push origin main.
+4. **Close branch** only if PMIR said so and smoke PASS; update `docs/BRANCH-KARTA.md`.
+
+## MUST NOT
+
+- Final merge or `git push origin --delete` without PMIR + user OK.
+- Delete **parked** `feat/*` without user OK.
+- Wholesale-merge diverged `feat/*` inkorg.
+- Change `firestore.rules` or Sacred paths without explicit user order.
+
+## Proactive
+
+- Warn if not on `main` for routine work.
+- Keep evaluations in `docs/evaluations/`, not `.orkester/`.

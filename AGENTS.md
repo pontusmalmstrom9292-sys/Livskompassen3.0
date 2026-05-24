@@ -71,6 +71,15 @@ GCP-konsolidering: [`docs/GCP-KONSOLIDERING-BESLUT.md`](docs/GCP-KONSOLIDERING-B
 
 These roles are project terminology in Cursor now. Runtime backend implementation happens through `functions/src/agents/`, `functions/src/agents/cards/`, and `functions/src/sharedRules.ts`.
 
+## Git & merge (HARD)
+
+- **Single trunk:** develop on `main`; push only `origin` (Livskompassen3.0). Never push `origin-old`.
+- Before merge/branch delete: write **Pre-Merge Impact Report** per [`docs/MERGE-IMPACT-RAPPORT.md`](docs/MERGE-IMPACT-RAPPORT.md) (följer med / försvinner / regelanalys).
+- Analyze: `.context/system-plan.md`, `grunder-kanon.mdc`, `locked-ux-features.md`, `.context/security.md` (Sacred, WORM, silos).
+- Run `npm run smoke:locked-ux` on `main` before calling merge complete.
+- **Wait for user OK** ("godkänn merge") before merge, push, or `git push origin --delete`.
+- Rule: [`.cursor/rules/git-main-trunk.mdc`](.cursor/rules/git-main-trunk.mdc) (`alwaysApply`). Quick ref: [`docs/GIT-LATHUND.md`](docs/GIT-LATHUND.md). Branches: [`docs/BRANCH-KARTA.md`](docs/BRANCH-KARTA.md).
+
 ## Hard Rules
 
 - Do not commit secrets, `.env`, service-account keys, OAuth tokens, or credential JSON files.

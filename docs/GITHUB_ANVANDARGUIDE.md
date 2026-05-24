@@ -1,6 +1,8 @@
 # Livskompassen — GitHub & projekt (utskriftsguide)
 
-**Version:** 2026-05-22 · **Läs tid:** 8 min · Skriv ut och lägg vid datorn.
+**Version:** 2026-05-24 · **Läs tid:** 8 min · Skriv ut och lägg vid datorn.
+
+**Snabbversion (1 sida):** [`GIT-LATHUND.md`](./GIT-LATHUND.md) · Merge-beslut: [`MERGE-IMPACT-RAPPORT.md`](./MERGE-IMPACT-RAPPORT.md)
 
 ---
 
