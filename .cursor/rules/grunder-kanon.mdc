@@ -1,0 +1,36 @@
+---
+description: Grunder U1–U5 — Life OS, tre silos, permanent minne, DCAP före LLM
+alwaysApply: true
+---
+
+# Grunder-kanon (U1–U5)
+
+Baseline: [`docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md`](../../docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md)
+
+## U1 — Tre silos (aldrig cross-RAG)
+
+| Silo | Collections / route | Callable |
+|------|---------------------|----------|
+| Kunskap | `kampspar`, `kb_docs` | `knowledgeVaultQuery` |
+| Valv | `reality_vault` | `valvChatQuery`, `analyzeMessage` |
+| Barnen | `children_logs` | `childrenLogsQuery` |
+
+## U2 — DCAP före LLM
+
+Riskklassning och routing i kod (`routeFromDcap`, `resolveExecutorId`). LLM får inte besluta auth eller WORM.
+
+## U3 — Permanent minne (WORM)
+
+`children_logs`, `reality_vault`, `journal`, `dossier_snapshots` — append-only; retention får inte purga dessa.
+
+## U4 — Zero Footprint + Kill Switch
+
+Session/synapse state rensas vid logout, blur, panic. Speglar utan persistent RAG.
+
+## U5 — Orkestrering
+
+`AdkOrchestrator` + AgentCards + `emitSynapse`. Utöka executors utan att blanda silor.
+
+## Vid implementation
+
+Läs `.context/arkiv-minne.md` och skill `livskompassen-memory-silo-guard` vid RAG/query-ändringar.

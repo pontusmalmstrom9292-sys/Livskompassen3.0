@@ -1,0 +1,40 @@
+---
+description: Orkestrerad natt-/batch-autorun med specialister — Conductor delegerar i fast ordning
+alwaysApply: false
+globs: .cursor/agents/**,.orkester/**,scripts/orkester*.mjs,docs/ORKESTER-AUTORUN.md
+---
+
+# Orkester Autorun
+
+Kanon: [`docs/ORKESTER-AUTORUN.md`](../../docs/ORKESTER-AUTORUN.md)
+
+## När detta gäller
+
+Användaren säger **kör orkester**, **nattpass**, **autorun**, eller `npm run orkester:night`.
+
+## Conductor (`.cursor/agents/orkester-conductor.md`)
+
+1. Läs `.orkester/state.json` — fortsätt `nextPhase` om pågår.
+2. Delegera specialister i ordning: UX → ADK → Security → Smoke.
+3. Uppdatera state efter varje fas.
+4. Skriv rapport i `docs/evaluations/YYYY-MM-DD-orkester-natt.md`.
+
+## Terminal (utan Cursor)
+
+```bash
+npm run orkester:night
+```
+
+Deterministisk — ingen LLM. Rapport + `.orkester/runs/*.json`.
+
+## MUST
+
+- Bevara Locked UX och Sacred Features.
+- Synapse `journal_woven` kräver `optIn === true`.
+- Prompts endast i `functions/src/sharedRules.ts`.
+
+## MUST NOT
+
+- Hoppa över `smoke:locked-ux` före merge som rör Valv/Familjen.
+- Auto-promote barnloggar till Valv.
+- Force-push eller commit utan explicit användarord.

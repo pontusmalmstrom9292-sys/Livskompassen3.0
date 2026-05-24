@@ -2,7 +2,7 @@
 
 **Syfte:** När det känns rörigt — ett ställe att starta, färdiga analysprompter, och var sanningen bor. Du behöver inte minnas hela projektet; kör en analys och spara resultatet.
 
-**Senast uppdaterad:** 2026-05-23
+**Senast uppdaterad:** 2026-05-24
 
 ---
 
@@ -15,6 +15,7 @@
 | Osäker på moln vs dokumentation | **C** GCP live-synk |
 | Grunder / Life OS / silos känns oklara | **D** Grunder (U1–U5) |
 | Många filer, kladd, flera chattar | **E** Kaos → samlad rapport |
+| **Nattpass / batch utan LLM** | **`npm run orkester:night`** → [`ORKESTER-AUTORUN.md`](./ORKESTER-AUTORUN.md) |
 
 **Ett steg i taget:** Välj **en** bokstav. Klistra in prompten i Cursor (`Cmd + I`). Spara svaret enligt [Var sparas resultat?](#var-sparas-resultat) nedan.
 

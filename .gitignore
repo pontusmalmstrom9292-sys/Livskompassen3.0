@@ -37,7 +37,9 @@ repomix-output.txt
 repomix-output*.txt
 repomix-output*.xml
 
-# Logs
+# Orkester nattpass run logs (state.json may be kept locally)
+.orkester/runs/
+
 *.log
 npm-debug.log*
 

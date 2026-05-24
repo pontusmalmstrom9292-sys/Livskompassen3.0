@@ -36,6 +36,7 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 - Use `shell` for terminal-heavy workflows such as builds, Firebase CLI checks, and Git inspection.
 - Use `generalPurpose` for complex multi-step investigations when the right search path is unclear.
 - Use `ci-investigator` only when a specific PR check or CI failure needs diagnosis.
+- **Orkester nattpass:** `npm run orkester:night` (deterministisk) eller Conductor + specialister i `.cursor/agents/` — se [`docs/ORKESTER-AUTORUN.md`](docs/ORKESTER-AUTORUN.md).
 - Keep direct edits in the parent agent unless a separate isolated exploration is clearly useful.
 
 ## Skills & rules (uppgift → vägledning)
@@ -49,7 +50,7 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 | Agent cards / prompts | `livskompassen-memory-agents` | `backend-agents.mdc` |
 | Firebase deploy / inventering | plugin `firebase-basics` | `firebase-workflow.mdc` |
 | Firestore rules / WORM | plugin `firebase-firestore-standard` | `security-firestore.mdc` |
-| Frontend UI (Obsidian Calm) | — | `ui-design.mdc` |
+| Natt-/batch-autorun | — | `orkester-autorun.mdc`, `grunder-kanon.mdc`, `anti-hallucination.mdc` |
 
 Kanon för arkitektur och säkerhet: `.context/` (system-plan, arkiv-minne, security). Dokumentationsindex: [`docs/README.md`](docs/README.md). **Systemkontroll / röda tråden:** [`docs/SYSTEMKONTROLL.md`](docs/SYSTEMKONTROLL.md).  
 Live GCP-sanning: [`docs/GCP-INVENTORY-LATEST.md`](docs/GCP-INVENTORY-LATEST.md).  
