@@ -44,6 +44,7 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 | [`NATT-CI.md`](NATT-CI.md) | Nattlig CI (ersätter manuella overnight-körningar) |
 | [`KOMPASS-MINNESKARTA.md`](KOMPASS-MINNESKARTA.md) | **Utskrift** — pyramid, moduler, git, öppet |
 | [`design/DESIGN-LATHUND.md`](design/DESIGN-LATHUND.md) | **Utskrift** — teman, galleri, flik-idéer, HTML |
+| [`CURSOR-MENY-LATHUND.md`](CURSOR-MENY-LATHUND.md) | **Utskrift** — kub-meny, filmeny …, Actions |
 | [`GIT-LATHUND.md`](GIT-LATHUND.md) | **1 sida** — main trunk, PMIR, daglig rutin |
 | [`GITHUB_ANVANDARGUIDE.md`](GITHUB_ANVANDARGUIDE.md) | **Utskriftsguide** — repo, branches, daglig rutin |
 | [`BRANCH-KARTA.md`](BRANCH-KARTA.md) | Aktiva / stängda / parked grenar |

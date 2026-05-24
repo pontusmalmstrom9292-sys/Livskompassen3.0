@@ -13,6 +13,7 @@
 | Vilken modul gör vad? | `docs/MODUL-FUNKTIONS-REGISTER.md` |
 | Rörigt / analys? | `docs/SYSTEMKONTROLL.md` |
 | Teman & designbilder? | `docs/design/DESIGN-LATHUND.md` |
+| Cursor-menyer (kub, …, Actions)? | `docs/CURSOR-MENY-LATHUND.md` |
 | Merge / stäng gren? | `docs/MERGE-IMPACT-RAPPORT.md` (mall) |
 | Grenstatus | `docs/BRANCH-KARTA.md` |
 
