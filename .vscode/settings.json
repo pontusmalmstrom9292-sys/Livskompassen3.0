@@ -1,0 +1,6 @@
+{
+  "terminal.integrated.env.osx": {
+    "GCP_PROJECT_ID": "gen-lang-client-0481875058",
+    "GOOGLE_CLOUD_PROJECT": "gen-lang-client-0481875058"
+  }
+}

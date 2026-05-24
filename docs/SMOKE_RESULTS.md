@@ -1,5 +1,22 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+**Datum:** 2026-05-24  
+**Branch:** `main`  
+**Miljö:** [Hosting prod](https://gen-lang-client-0481875058.web.app) — manuell Fas 3 (`docs/SMOKE_CHECKLIST.md` #1–7, #18)
+
+| # | Test | Resultat | Datum |
+|---|------|----------|-------|
+| 1 | Auth — app öppnas, anonym uid (Konto synlig) | **PASS** | 2026-05-24 |
+| 2 | Dagbok — spara post → `journal` | **PASS** | 2026-05-24 |
+| 3 | Valv — Shield/PIN → `reality_vault` | | |
+| 4 | Barnen — logg → `children_logs` | | |
+| 5 | Kompasser — check-in → `checkins` | | |
+| 6 | Hamn BIFF — `analyzeMessage` | | |
+| 7 | Kunskap — `knowledgeVaultQuery` | | |
+| 18 | Ekonomi — veckopeng → `transactions` | | |
+
+---
+
 **Datum:** 2026-05-23  
 **Branch:** `main`
 
@@ -204,8 +221,8 @@ Kör mot lokal `npm run dev` eller [Hosting](https://gen-lang-client-0481875058.
 
 | # | Test | Förväntat | Status |
 |---|------|-----------|--------|
-| 1 | Auth | uid i Firebase Auth | **Ej körd** — manuell |
-| 2 | Dagbok spara | `journal` post | **Ej körd** |
+| 1 | Auth | uid i Firebase Auth | **PASS** (2026-05-24, prod Hosting — Konto synlig, app laddad) |
+| 2 | Dagbok spara | `journal` post | **PASS** (2026-05-24, prod `/dagbok` wizard) |
 | 3 | Valv | `reality_vault` post | **Ej körd** |
 | 4 | Barnen | `children_logs` | **Ej körd** |
 | 5 | Kompasser (UI) | Paralys + KASAM + tids-default | **PASS** (2026-05-22) |
