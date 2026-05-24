@@ -17,7 +17,7 @@
 | Merge / stäng gren? | `docs/MERGE-IMPACT-RAPPORT.md` (mall) |
 | Grenstatus | `docs/BRANCH-KARTA.md` |
 
-**Kod på Mac:** `~/StudioProjects/Livskompassen2.0` · **Moln:** `origin` = Livskompassen3.0 · **Aldrig pusha:** `origin-old`
+**Kod på Mac:** `~/StudioProjects/Livskompassen3.0` · **Moln:** `origin` = Livskompassen3.0 · **Aldrig pusha:** `origin-old`
 
 ---
 
@@ -118,7 +118,7 @@ Verklighetsvalvet · Sanningens Sköld · Morgonkompassen · Dossier · Speglar 
 ## 10. Snabbkommandon
 
 ```bash
-cd ~/StudioProjects/Livskompassen2.0
+cd ~/StudioProjects/Livskompassen3.0
 git checkout main && git pull --ff-only origin main
 npm run dev
 npm run check:main-trunk    # branch + smoke, ingen push

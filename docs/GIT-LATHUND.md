@@ -10,7 +10,7 @@
 
 | Vad | Var |
 |-----|-----|
-| Kod du jobbar i | `~/StudioProjects/Livskompassen2.0` |
+| Kod du jobbar i | `~/StudioProjects/Livskompassen3.0` |
 | Molnet (backup) | GitHub **Livskompassen3.0** → branch **`main`** |
 | Gammalt repo | `origin-old` (2.0) — titta, **pusha inte** |
 | App-data | Firebase/GCP — inte GitHub |

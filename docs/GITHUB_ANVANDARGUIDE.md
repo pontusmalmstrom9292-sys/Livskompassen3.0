@@ -26,7 +26,7 @@
 ```
 Din Mac (Cursor)          GitHub (molnet)           Firebase/GCP
 StudioProjects/           Livskompassen3.0          gen-lang-client-0481875058
-Livskompassen2.0/    ←→   repo / main          ✗   Firestore, Functions, data
+Livskompassen3.0/    ←→   repo / main          ✗   Firestore, Functions, data
      kod                    backup kod                appens data (ej GitHub)
 ```
 
@@ -51,10 +51,9 @@ Livskompassen2.0/    ←→   repo / main          ✗   Firestore, Functions, d
 
 | Vad | Var |
 |-----|-----|
-| **Aktiv kod** | Mac: `StudioProjects/Livskompassen2.0/` |
+| **Aktiv kod** | Mac: `StudioProjects/Livskompassen3.0/` |
 | **Molnsbackup kod** | https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0 |
-| **Arkiv (gammal historik)** | https://github.com/pontusmalmstrom9292-sys/Livskompassen2.0 (tag: `archive/pre-clean-repo-2026-05-22`) |
-| **Finder-säkerhetskopia** | `StudioProjects/Livskompassen2.0-ARKIV-2026-05-22/` |
+| **Arkiv (gammal historik)** | https://github.com/pontusmalmstrom9292-sys/Livskompassen2.0 (tag: `archive/pre-clean-repo-2026-05-22`) — GitHub only |
 | **Hemligheter (.env)** | Bara på Mac — **aldrig** i GitHub |
 | **App-data** | Firebase/GCP — separat från Git |
 | **Repomix (helhetsanalys)** | `StudioProjects/Repomix bygge/` — **utanför** projektmappen |
@@ -142,7 +141,7 @@ Arbeta autonomt och sluta inte förrän koden är helt felfri och appen går att
 ## 6. Starta appen lokalt
 
 ```bash
-cd ~/StudioProjects/Livskompassen2.0
+cd ~/StudioProjects/Livskompassen3.0
 npm run dev
 ```
 
@@ -201,7 +200,7 @@ Se [`DEPLOY.md`](DEPLOY.md) och [`GCP-INVENTORY-LATEST.md`](GCP-INVENTORY-LATEST
 - [x] `origin` pekar på Livskompassen3.0 (push går hit automatiskt)
 - [x] Gammalt repo sparat som `origin-old`
 - [x] Tag `archive/pre-clean-repo-2026-05-22` på gamla repot
-- [x] Finder-kopia: `Livskompassen2.0-ARKIV-2026-05-22`
+- [x] Kanonisk Mac-mapp: **Livskompassen3.0**
 - [x] Alla stale branches bortstädade lokalt
 - [ ] Efter 1–2 veckor: bekräfta att allt fungerar, **sedan** ev. arkivera/radera gamla repot på GitHub
 

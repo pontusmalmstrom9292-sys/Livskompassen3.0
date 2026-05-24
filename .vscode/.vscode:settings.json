@@ -1,9 +1,0 @@
-
-{
-    "cSpell.enabled": false,
-    "cSpell.ignoreRegExpList": ["/[^\\x00-\\x7F]+/g"],
-    "cSpell.excludedFiles": [
-        "**/*.md",
-        "**/*.txt"
-    ]
-}
