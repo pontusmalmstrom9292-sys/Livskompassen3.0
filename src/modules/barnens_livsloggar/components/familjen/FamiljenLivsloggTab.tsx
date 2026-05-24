@@ -27,7 +27,6 @@ export function FamiljenLivsloggTab({ shell }: Props) {
     setEvidenceForLogId,
     handleSavePhysio,
     handleSaveObservation,
-    lockModule,
   } = shell;
 
   if (!user) return null;
@@ -52,13 +51,6 @@ export function FamiljenLivsloggTab({ shell }: Props) {
           onSave={handleSaveObservation}
         />
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}
-        <button
-          type="button"
-          onClick={lockModule}
-          className="mt-4 text-xs uppercase tracking-widest text-text-dim"
-        >
-          Lås modul
-        </button>
       </BentoCard>
 
       <BentoCard title={`Tidslinje — ${activeChild}`} icon={<Heart className="h-4 w-4" />}>

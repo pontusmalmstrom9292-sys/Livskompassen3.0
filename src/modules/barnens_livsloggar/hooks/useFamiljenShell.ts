@@ -5,27 +5,14 @@ import { CHILD_ALIASES, type BarnfokusQuestion, type ChildAlias } from '../const
 import type { ChildrenLogEntry, PhysiologicalSignals } from '../types';
 import { computeBalansIndex } from '../utils/balansIndex';
 
-const CHILDREN_PIN_KEY = 'livskompassen_children_pin_hash';
-
-function hashPin(pin: string): string {
-  let h = 0;
-  for (let i = 0; i < pin.length; i++) h = (Math.imul(31, h) + pin.charCodeAt(i)) | 0;
-  return String(h);
-}
-
 const defaultSignals: PhysiologicalSignals = { somn: 3, angest: 3, aptit: 3 };
 
 export type FamiljenLogFilter = 'all' | 'skola' | 'livslogg';
 
+/** Familjen shell — publikt utan separat PIN; forensic-flikar gateas via VaultZoneGate. */
 export function useFamiljenShell() {
   const user = useStore((s) => s.user);
-  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
-  const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
 
-  const [unlocked, setUnlocked] = useState(false);
-  const [pin, setPin] = useState('');
-  const [needsSetup, setNeedsSetup] = useState(!localStorage.getItem(CHILDREN_PIN_KEY));
-  const [confirmPin, setConfirmPin] = useState('');
   const [activeChild, setActiveChild] = useState<ChildAlias>('Kasper');
   const [signals, setSignals] = useState<PhysiologicalSignals>(defaultSignals);
   const [logs, setLogs] = useState<ChildrenLogEntry[]>([]);
@@ -34,22 +21,10 @@ export function useFamiljenShell() {
   const [logFilter, setLogFilter] = useState<FamiljenLogFilter>('all');
   const [evidenceForLogId, setEvidenceForLogId] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!isVaultUnlocked) setUnlocked(false);
-  }, [isVaultUnlocked]);
-
-  useEffect(() => {
-    const onVisibility = () => {
-      if (document.visibilityState === 'hidden') setUnlocked(false);
-    };
-    document.addEventListener('visibilitychange', onVisibility);
-    return () => document.removeEventListener('visibilitychange', onVisibility);
-  }, []);
+  const unlocked = !!user;
 
   useEffect(() => {
     return () => {
-      setPin('');
-      setConfirmPin('');
       setEvidenceForLogId(null);
     };
   }, []);
@@ -61,10 +36,10 @@ export function useFamiljenShell() {
   }, [user]);
 
   useEffect(() => {
-    if (unlocked && user) {
+    if (user) {
       refreshLogs().catch(() => setError('Kunde inte hämta loggar.'));
     }
-  }, [unlocked, user, refreshLogs]);
+  }, [user, refreshLogs]);
 
   useEffect(() => {
     setSignals(defaultSignals);
@@ -122,34 +97,6 @@ export function useFamiljenShell() {
       labels: ['M', 'T', 'O', 'T', 'F', 'L', 'S'] as const,
     };
   }, [logs]);
-
-  const handleUnlock = () => {
-    if (needsSetup) {
-      if (pin.length < 4 || pin !== confirmPin) {
-        setError('PIN måste matcha (minst 4 tecken).');
-        return;
-      }
-      localStorage.setItem(CHILDREN_PIN_KEY, hashPin(pin));
-      setNeedsSetup(false);
-      setUnlocked(true);
-      setPin('');
-      setConfirmPin('');
-      setError(null);
-      return;
-    }
-    if (localStorage.getItem(CHILDREN_PIN_KEY) === hashPin(pin)) {
-      setUnlocked(true);
-      setPin('');
-      setError(null);
-    } else {
-      setError('Fel PIN.');
-    }
-  };
-
-  const lockModule = () => {
-    setUnlocked(false);
-    setVaultUnlocked(false);
-  };
 
   const handleSavePhysio = async () => {
     if (!user) return;
@@ -221,11 +168,6 @@ export function useFamiljenShell() {
   return {
     user,
     unlocked,
-    pin,
-    setPin,
-    confirmPin,
-    setConfirmPin,
-    needsSetup,
     error,
     setError,
     activeChild,
@@ -243,8 +185,6 @@ export function useFamiljenShell() {
     barnfokusMemory,
     childLogs,
     familyWeekStats,
-    handleUnlock,
-    lockModule,
     handleSavePhysio,
     handleSaveObservation,
     handleSaveBarnfokus,

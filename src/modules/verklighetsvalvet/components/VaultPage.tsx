@@ -17,29 +17,7 @@ import { VaultOrkesterPanel } from './VaultOrkesterPanel';
 import { PansaretHeader } from './PansaretHeader';
 import type { VaultLogInput } from '../types/vaultEntry';
 
-const PIN_STORAGE_KEY = 'livskompassen_vault_pin_hash';
-
-function hashPin(pin: string): string {
-  let h = 0;
-  for (let i = 0; i < pin.length; i++) h = (Math.imul(31, h) + pin.charCodeAt(i)) | 0;
-  return String(h);
-}
-
-function verifyPin(pin: string): boolean {
-  const envPin = import.meta.env.VITE_VAULT_PIN as string | undefined;
-  if (envPin && pin === envPin) return true;
-  const stored = localStorage.getItem(PIN_STORAGE_KEY);
-  if (!stored) return false;
-  return stored === hashPin(pin);
-}
-
-function setupPin(pin: string) {
-  localStorage.setItem(PIN_STORAGE_KEY, hashPin(pin));
-}
-
-function hasPinConfigured(): boolean {
-  return Boolean(localStorage.getItem(PIN_STORAGE_KEY) || import.meta.env.VITE_VAULT_PIN);
-}
+import { hasPinConfigured, setupPin, verifyPin } from '../../core/security/vaultPin';
 
 export type VaultTab = 'logga' | 'sok' | 'monster' | 'orkester' | 'dossier';
 

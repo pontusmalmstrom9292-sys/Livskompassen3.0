@@ -1,8 +1,5 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Heart, Users } from 'lucide-react';
-import { BentoCard } from '../../core/ui/BentoCard';
-import { PinGate } from '../../core/ui/PinGate';
 import { TabBar } from '../../core/ui/TabBar';
 import { FAMILJEN_TABS, isFamiljenTabId, type FamiljenTabId } from '../constants/familjenTabs';
 import { useFamiljenShell } from '../hooks/useFamiljenShell';
@@ -12,6 +9,7 @@ import { FamiljenLivsloggTab } from './familjen/FamiljenLivsloggTab';
 import { FamiljenTillsammansTab } from './familjen/FamiljenTillsammansTab';
 import { FamiljenMonsterTab } from './familjen/FamiljenMonsterTab';
 import { FamiljenKunskapHubTab } from './familjen/FamiljenKunskapHubTab';
+import { VaultZoneGate } from '../../core/security/VaultZoneGate';
 
 function FamiljenHeader() {
   return (
@@ -42,31 +40,6 @@ export function FamiljenPage() {
       setTab('reflektion');
     }
   }, [tabParam]);
-
-  if (!shell.unlocked) {
-    return (
-      <div className="familjen-hub space-y-6">
-        <div className="familjen-hub__aurora" aria-hidden />
-        <FamiljenHeader />
-        <p className="relative text-center text-sm text-text-muted">
-          Reflektion, livslogg och kunskapshub — trygg hamn för Kasper och Arvid.
-        </p>
-        <BentoCard title="Familjen" icon={<Users className="h-4 w-4" />}>
-          <PinGate
-            description="Separat PIN från Valv. Låses vid tab-byte (Zero Footprint)."
-            pin={shell.pin}
-            confirmPin={shell.confirmPin}
-            setupMode={shell.needsSetup}
-            error={shell.error}
-            icon={<Heart className="h-4 w-4" />}
-            onPinChange={shell.setPin}
-            onConfirmPinChange={shell.setConfirmPin}
-            onSubmit={shell.handleUnlock}
-          />
-        </BentoCard>
-      </div>
-    );
-  }
 
   if (!shell.user) {
     return <p className="text-sm text-text-muted">Logga in för att öppna Familjen.</p>;
@@ -106,8 +79,16 @@ export function FamiljenPage() {
         {activeTab === 'reflektion' && <FamiljenReflektionTab shell={shell} />}
         {activeTab === 'livslogg' && <FamiljenLivsloggTab shell={shell} />}
         {activeTab === 'tillsammans' && <FamiljenTillsammansTab shell={shell} />}
-        {activeTab === 'monster' && <FamiljenMonsterTab shell={shell} />}
-        {activeTab === 'kunskap' && <FamiljenKunskapHubTab activeChild={shell.activeChild} />}
+        {(activeTab === 'monster' || activeTab === 'kunskap') && (
+          <VaultZoneGate
+            zone="familjen_forensic"
+            title="Familjen — analys & kunskap"
+            description="Mönster och RAG-sökning. Samma PIN som Valv. Sessionen gäller tills du lämnar fliken eller varit inaktiv 15 min."
+          >
+            {activeTab === 'monster' && <FamiljenMonsterTab shell={shell} />}
+            {activeTab === 'kunskap' && <FamiljenKunskapHubTab activeChild={shell.activeChild} />}
+          </VaultZoneGate>
+        )}
       </div>
     </div>
   );

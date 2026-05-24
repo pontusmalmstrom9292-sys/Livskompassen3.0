@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Heart, Loader2 } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
-import { PinGate } from '../../core/ui/PinGate';
 import { EmptyState } from '../../core/ui/EmptyState';
 import { TimelineEntry } from '../../core/ui/TimelineEntry';
 import { BarnfokusFraganPanel } from './BarnfokusFraganPanel';
@@ -26,29 +25,8 @@ type BarnensPageProps = {
 };
 
 /** @deprecated embedded — använd `/familjen` med underflikar. Behålls för smoke + legacy embed. */
-export function BarnensPage({ embedded = false }: BarnensPageProps) {
+export function BarnensPage({ embedded: _embedded = false }: BarnensPageProps) {
   const shell = useFamiljenShell();
-
-  if (!shell.unlocked) {
-    return (
-      <BentoCard
-        title={embedded ? 'Livsloggar' : 'Barnens livsloggar'}
-        icon={<Heart className="h-4 w-4" />}
-      >
-        <PinGate
-          description="Kasper och Arvid — neutrala observationer. Separat PIN, Zero Footprint."
-          pin={shell.pin}
-          confirmPin={shell.confirmPin}
-          setupMode={shell.needsSetup}
-          error={shell.error}
-          icon={<Heart className="h-4 w-4" />}
-          onPinChange={shell.setPin}
-          onConfirmPinChange={shell.setConfirmPin}
-          onSubmit={shell.handleUnlock}
-        />
-      </BentoCard>
-    );
-  }
 
   if (!shell.user) {
     return <p className="text-sm text-text-muted">Logga in för att spara livsloggar.</p>;
@@ -72,7 +50,6 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
     handleSavePhysio,
     handleSaveObservation,
     handleSaveBarnfokus,
-    lockModule,
   } = shell;
 
   return (
@@ -141,13 +118,6 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
           onSave={handleSaveObservation}
         />
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}
-        <button
-          type="button"
-          onClick={lockModule}
-          className="mt-4 text-xs uppercase tracking-widest text-text-dim"
-        >
-          Lås modul
-        </button>
       </BentoCard>
 
       <ChildrenLogsChat activeChild={activeChild} />

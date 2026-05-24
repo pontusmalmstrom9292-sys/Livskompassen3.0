@@ -5,6 +5,7 @@ type ConfirmStepProps = {
   text: string;
   saving: boolean;
   weaveToKampspar: boolean;
+  showWeaveOptIn?: boolean;
   onWeaveToKampsparChange: (value: boolean) => void;
   onBack: () => void;
   onSave: () => void;
@@ -15,6 +16,7 @@ export function ConfirmStep({
   text,
   saving,
   weaveToKampspar,
+  showWeaveOptIn = false,
   onWeaveToKampsparChange,
   onBack,
   onSave,
@@ -28,18 +30,20 @@ export function ConfirmStep({
         </p>
         <p className="text-text-muted">{text}</p>
       </div>
-      <label className="mb-4 flex cursor-pointer items-start gap-2 text-sm text-text-muted">
-        <input
-          type="checkbox"
-          checked={weaveToKampspar}
-          onChange={(e) => onWeaveToKampsparChange(e.target.checked)}
-          disabled={saving}
-          className="mt-0.5"
-        />
-        <span>
-          Spara en kort sammanfattning i Minne (Kampspár) — valfritt, separat från dagboken.
-        </span>
-      </label>
+      {showWeaveOptIn && (
+        <label className="mb-4 flex cursor-pointer items-start gap-2 text-sm text-text-muted">
+          <input
+            type="checkbox"
+            checked={weaveToKampspar}
+            onChange={(e) => onWeaveToKampsparChange(e.target.checked)}
+            disabled={saving}
+            className="mt-0.5"
+          />
+          <span>
+            Spara en kort sammanfattning i Minne (Kampspár) — valfritt, separat från dagboken.
+          </span>
+        </label>
+      )}
       <div className="flex gap-2">
         <button type="button" onClick={onBack} className="btn-pill--ghost">
           <ChevronLeft className="h-4 w-4" /> Tillbaka

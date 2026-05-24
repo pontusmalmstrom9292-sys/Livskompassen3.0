@@ -78,8 +78,37 @@ function main() {
     'src/modules/dagbok/hooks/useJournalFlow.ts',
     'weaveJournalEntry',
     'journalWovenToKampspar',
+    "hasVaultZone('dagbok_forensic')",
   );
   mustInclude('functions/src/index.ts', 'journalWovenToKampspar', "trigger: 'journal_woven'");
+
+  console.log('[smoke:orkester] Valv-zoner...');
+  mustInclude(
+    'docs/specs/modules/VAULT-ZONE-REGISTER.md',
+    'familjen_forensic',
+    'dagbok_forensic',
+    'hamn_forensic',
+  );
+  mustInclude(
+    'src/modules/barnens_livsloggar/components/FamiljenPage.tsx',
+    'VaultZoneGate',
+    'familjen_forensic',
+  );
+  mustInclude(
+    'src/modules/dagbok/components/DagbokPage.tsx',
+    'VaultZoneGate',
+    'dagbok_forensic',
+  );
+  mustInclude(
+    'src/modules/safe_harbor/components/TryggHamnHub.tsx',
+    'BiffPublicPanel',
+    'hamn_forensic',
+  );
+  mustInclude(
+    'src/modules/core/security/useVaultZoneIdle.ts',
+    '15 * 60 * 1000',
+    'pointerdown',
+  );
 
   console.log('[smoke:orkester] Orkester UI registry...');
   mustInclude(

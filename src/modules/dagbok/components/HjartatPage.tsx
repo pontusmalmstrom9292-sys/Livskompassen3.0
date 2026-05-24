@@ -4,7 +4,7 @@ import { BookOpen, Shield, Brain } from 'lucide-react';
 import { TabBar } from '../../core/ui/TabBar';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { useStore } from '../../core/store';
-import { clearVaultGate } from '../../core/auth/sessionService';
+import { clearVaultGate, clearVaultZone } from '../../core/auth/sessionService';
 import { VaultPage } from '../../verklighetsvalvet';
 import { SpeglingsSystem } from '../../speglings_system';
 import { DagbokPage } from './DagbokPage';
@@ -36,6 +36,9 @@ export function HjartatPage() {
         setVaultUnlocked(false);
         clearVaultGate();
       }
+      if (tab === 'reflektion' && next !== 'reflektion') {
+        clearVaultZone('dagbok_forensic');
+      }
       setSearchParams(next === 'reflektion' ? {} : { tab: next }, { replace: true });
     },
     [tab, setSearchParams, setVaultUnlocked],
@@ -45,6 +48,9 @@ export function HjartatPage() {
     if (tab !== 'bevis') {
       setVaultUnlocked(false);
       clearVaultGate();
+    }
+    if (tab !== 'reflektion') {
+      clearVaultZone('dagbok_forensic');
     }
   }, [tab, setVaultUnlocked]);
 

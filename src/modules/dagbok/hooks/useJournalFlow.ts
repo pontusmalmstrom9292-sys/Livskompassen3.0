@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { saveJournalEntry, getJournalEntries } from '../../core/firebase/firestore';
+import { hasVaultZone } from '../../core/auth/sessionService';
 import { weaveJournalEntry } from '../api/weaverService';
 import { journalWovenToKampspar } from '../api/journalWovenService';
 import type { MabraBridgeHub } from '../constants/mabraBridge';
@@ -53,8 +54,10 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     setError(null);
     try {
       const id = await saveJournalEntry(userId, { mood, text: entryText });
-      weaveJournalEntry({ journalEntryId: id, mood, text: entryText });
-      if (optInKampspar) {
+      if (hasVaultZone('dagbok_forensic')) {
+        weaveJournalEntry({ journalEntryId: id, mood, text: entryText });
+      }
+      if (optInKampspar && hasVaultZone('dagbok_forensic')) {
         journalWovenToKampspar({ journalEntryId: id, mood, text: entryText });
       }
       setWeaveToKampspar(false);

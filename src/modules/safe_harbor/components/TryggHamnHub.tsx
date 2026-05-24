@@ -1,25 +1,28 @@
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Anchor, Compass, Heart, Sparkles } from 'lucide-react';
+import { Anchor, Compass, Heart, Shield, Sparkles } from 'lucide-react';
 import { TabBar } from '../../core/ui/TabBar';
 import { KompassradPanel } from '../../kompasser/components/KompassradPanel';
 import { CognitiveLoadStrip } from '../../core/ui/CognitiveLoadStrip';
+import { VaultZoneGate } from '../../core/security/VaultZoneGate';
+import { BiffPublicPanel, HamnForensicPanel } from './BiffPublicPanel';
 
-type HamnTab = 'oversikt' | 'biff' | 'speglar' | 'barn';
+type HamnTab = 'oversikt' | 'biff' | 'analys' | 'speglar' | 'barn';
 
 const TABS = [
   { id: 'oversikt' as const, label: 'Översikt', icon: <Compass className="h-3 w-3" /> },
   { id: 'biff' as const, label: 'BIFF', icon: <Anchor className="h-3 w-3" /> },
+  { id: 'analys' as const, label: 'Analys', icon: <Shield className="h-3 w-3" /> },
   { id: 'speglar' as const, label: 'Speglar', icon: <Sparkles className="h-3 w-3" /> },
   { id: 'barn' as const, label: 'Barnfokus', icon: <Heart className="h-3 w-3" /> },
 ];
 
 type Props = {
-  biffPanel: ReactNode;
+  initialMessage?: string;
 };
 
-/** D6 — Trygg Hamn hub med progressive disclosure (4 flikar). */
-export function TryggHamnHub({ biffPanel }: Props) {
+/** D6 — Trygg Hamn hub med progressive disclosure. BIFF publikt; Analys bakom valv-zon. */
+export function TryggHamnHub({ initialMessage = '' }: Props) {
   const [tab, setTab] = useState<HamnTab>('biff');
 
   return (
@@ -31,12 +34,22 @@ export function TryggHamnHub({ biffPanel }: Props) {
           <CognitiveLoadStrip />
           <KompassradPanel />
           <p className="text-xs text-text-dim">
-            BIFF och Grey Rock finns under fliken BIFF. Ett steg i taget.
+            BIFF och Grey Rock finns under fliken BIFF. Riskanalys och bevis under Analys (Valv-PIN).
           </p>
         </div>
       )}
 
-      {tab === 'biff' && biffPanel}
+      {tab === 'biff' && <BiffPublicPanel initialMessage={initialMessage} />}
+
+      {tab === 'analys' && (
+        <VaultZoneGate
+          zone="hamn_forensic"
+          title="Hamn — fördjupad analys"
+          description="Risk, agentrouting och spara bevis. Samma PIN som Valv."
+        >
+          <HamnForensicPanel initialMessage={initialMessage} />
+        </VaultZoneGate>
+      )}
 
       {tab === 'speglar' && (
         <div className="elongated-module p-4 text-sm text-text-muted">

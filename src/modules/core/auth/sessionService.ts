@@ -1,5 +1,7 @@
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '../firebase/init';
+import type { VaultZoneId } from '../security/vaultZones';
+import { vaultZoneStorageKey, ALL_VAULT_ZONE_IDS } from '../security/vaultZones';
 
 const invalidateSessionCallable = httpsCallable(functions, 'invalidateSession');
 
@@ -12,16 +14,37 @@ export async function invalidateServerSession(): Promise<void> {
   }
 }
 
-export const VAULT_GATE_KEY = 'livskompassen_vault_gate';
+/** @deprecated use vaultZoneStorageKey('valv_core') */
+export const VAULT_GATE_KEY = vaultZoneStorageKey('valv_core');
 
 export function setVaultGate(): void {
-  sessionStorage.setItem(VAULT_GATE_KEY, '1');
+  setVaultZone('valv_core');
 }
 
 export function clearVaultGate(): void {
-  sessionStorage.removeItem(VAULT_GATE_KEY);
+  clearVaultZone('valv_core');
 }
 
 export function hasVaultGate(): boolean {
-  return sessionStorage.getItem(VAULT_GATE_KEY) === '1';
+  return hasVaultZone('valv_core');
 }
+
+export function setVaultZone(zone: VaultZoneId): void {
+  sessionStorage.setItem(vaultZoneStorageKey(zone), '1');
+}
+
+export function clearVaultZone(zone: VaultZoneId): void {
+  sessionStorage.removeItem(vaultZoneStorageKey(zone));
+}
+
+export function hasVaultZone(zone: VaultZoneId): boolean {
+  return sessionStorage.getItem(vaultZoneStorageKey(zone)) === '1';
+}
+
+export function clearAllVaultZones(): void {
+  for (const zone of ALL_VAULT_ZONE_IDS) {
+    clearVaultZone(zone);
+  }
+}
+
+export type { VaultZoneId };

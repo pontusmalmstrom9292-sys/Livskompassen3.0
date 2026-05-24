@@ -9,7 +9,6 @@ import {
 } from '../../../kompis/components/KunskapsvalvFileIngest';
 import { callValvChat, type ValvChatCitation } from '../../../valv_chatt/api/valvChatService';
 import { callChildrenLogsQuery, type ChildrenLogCitation } from '../../api/childrenLogsService';
-import { useStore } from '../../../core/store';
 import type { ChildAlias } from '../../constants';
 
 type SearchMode = 'hela' | 'valv' | 'barn' | 'dokument';
@@ -19,7 +18,6 @@ type Props = {
 };
 
 export function FamiljenKunskapHubTab({ activeChild }: Props) {
-  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const [mode, setMode] = useState<SearchMode>('hela');
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
@@ -55,10 +53,6 @@ export function FamiljenKunskapHubTab({ activeChild }: Props) {
         setAnswer(result.answer);
         setKvCitations(result.citations ?? []);
       } else if (mode === 'valv') {
-        if (!isVaultUnlocked) {
-          setError('Lås upp Valv (PIN) under Dagbok → Bevis för att söka i WORM-bevis.');
-          return;
-        }
         const result = await callValvChat(q);
         setAnswer(result.answer);
         setValvCitations(result.citations ?? []);

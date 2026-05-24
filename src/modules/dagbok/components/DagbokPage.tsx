@@ -1,7 +1,11 @@
 import { BookOpen } from 'lucide-react';
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { useStore } from '../../core/store';
+import { hasVaultZone } from '../../core/auth/sessionService';
+import { VaultZoneGate } from '../../core/security/VaultZoneGate';
+import { useVaultZoneIdle } from '../../core/security/useVaultZoneIdle';
 import {
   isMabraLowEnergyBridge,
   MABRA_BRIDGE_INTRO,
@@ -50,6 +54,12 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
     mabraHub,
     lowEnergyBridge,
   });
+
+  const [forensicUnlocked, setForensicUnlocked] = useState(() =>
+    hasVaultZone('dagbok_forensic'),
+  );
+
+  useVaultZoneIdle('dagbok_forensic', forensicUnlocked, () => setForensicUnlocked(false));
 
   return (
     <div className="space-y-6">
@@ -101,6 +111,7 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
             text={text}
             saving={saving}
             weaveToKampspar={weaveToKampspar}
+            showWeaveOptIn={forensicUnlocked}
             onWeaveToKampsparChange={setWeaveToKampspar}
             onBack={() => goToStep('text')}
             onSave={handleSave}
@@ -114,7 +125,18 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}
       </BentoCard>
 
-      {step === 'mood' && !lowEnergyBridge && <JournalArchive entries={entries} />}
+      {step === 'mood' && !lowEnergyBridge && (
+        <VaultZoneGate
+          zone="dagbok_forensic"
+          clearOnUnmount={false}
+          title="Journalarkiv & vävare"
+          description="Tidslinje, vävning och Kampspár-opt-in. Samma PIN som Valv."
+          onUnlocked={() => setForensicUnlocked(true)}
+          onLock={() => setForensicUnlocked(false)}
+        >
+          <JournalArchive entries={entries} />
+        </VaultZoneGate>
+      )}
     </div>
   );
 }

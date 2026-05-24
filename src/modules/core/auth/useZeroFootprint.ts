@@ -1,11 +1,8 @@
 import { useEffect } from 'react';
 import { useStore } from '../store';
-import {
-  clearVaultGate,
-  invalidateServerSession,
-} from './sessionService';
+import { clearAllVaultZones, invalidateServerSession } from './sessionService';
 
-const VAULT_TIMEOUT_MS = 5 * 60 * 1000;
+const VAULT_TIMEOUT_MS = 15 * 60 * 1000;
 
 /**
  * Zero Footprint for vault session.
@@ -23,7 +20,7 @@ export function useZeroFootprint() {
     const endVaultSession = () => {
       setVaultUnlocked(false);
       setActiveDrawer(null);
-      clearVaultGate();
+      clearAllVaultZones();
       if (useStore.getState().isAuthenticated) {
         void invalidateServerSession();
       }

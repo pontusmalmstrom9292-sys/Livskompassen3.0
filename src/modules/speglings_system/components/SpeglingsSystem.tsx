@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Brain, Anchor } from 'lucide-react';
+import { Brain, Anchor, Lock } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { useStore } from '../../core/store';
 import { getVaultLogs } from '../../core/firebase/firestore';
@@ -10,6 +10,7 @@ import {
   revokeMediaAttachments,
   type MediaAttachment,
 } from '../../core/media/mediaAttachment';
+import { VaultZoneGate } from '../../core/security/VaultZoneGate';
 import { VIVIR_STEPS } from '../constants/vivirSteps';
 import { matchVaultEvidence } from '../utils/matchVaultEvidence';
 import { ActCalibrationView } from './ActCalibrationView';
@@ -19,14 +20,13 @@ import { SpeglarEvidencePanel, type SavedSpeglarEvidence } from './SpeglarEviden
 import { VivirQuickEntry } from './VivirQuickEntry';
 import { SvartPaVittForm } from './SvartPaVittForm';
 
-type Phase = 'act' | 'vivir' | 'compare';
-
-const INITIAL_PHASE: Phase = 'act';
+type ForensicPhase = 'vivir' | 'compare';
 
 type SpeglingsSystemProps = {
   embedded?: boolean;
 };
 
+/** Publikt: ACT-kalibrering. Forensic: VIVIR, Svart på vitt, bevisjämförelse. */
 export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
   const location = useLocation();
   const { bridgeMood, bridgeText } = useMemo(() => {
@@ -34,10 +34,63 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
     return { bridgeMood: ctx?.mood ?? '', bridgeText: ctx?.text ?? '' };
   }, [location.state]);
   const user = useStore((s) => s.user);
-  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
-  const [phase, setPhase] = useState<Phase>(INITIAL_PHASE);
   const [feeling, setFeeling] = useState('');
   const [journalMood, setJournalMood] = useState('');
+  const [showForensic, setShowForensic] = useState(false);
+
+  useEffect(() => {
+    if (!bridgeText) return;
+    const prefix = bridgeMood ? `Humör: ${bridgeMood}. ` : '';
+    setFeeling(`${prefix}${bridgeText}`);
+    setJournalMood(bridgeMood);
+  }, [bridgeMood, bridgeText]);
+
+  return (
+    <div className="space-y-6">
+      <BentoCard title={embedded ? 'Speglar' : 'Speglings-Systemet'} icon={<Brain className="h-4 w-4" />}>
+        <p className="mb-4 text-sm text-text-muted">
+          Kognitiv sköld — validera känslan (ACT). Fördjupad spegling kräver Valv-PIN.
+        </p>
+        <ActCalibrationView
+          feeling={feeling}
+          journalMood={journalMood}
+          onFeelingChange={setFeeling}
+          onContinue={() => setShowForensic(true)}
+        />
+        {!showForensic && (
+          <button
+            type="button"
+            onClick={() => setShowForensic(true)}
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-accent/20 px-3 py-2 text-xs uppercase tracking-widest text-accent/80 hover:bg-accent/5"
+          >
+            <Lock className="h-3 w-3" />
+            Fortsätt till fördjupad spegling (PIN)
+          </button>
+        )}
+      </BentoCard>
+
+      {showForensic && (
+        <VaultZoneGate
+          zone="speglar_forensic"
+          title="Fördjupad spegling"
+          description="VIVIR, Svart på vitt och bevisjämförelse. Samma PIN som Valv."
+        >
+          <SpeglingsForensicPanel userId={user?.uid} initialFeeling={feeling} />
+        </VaultZoneGate>
+      )}
+    </div>
+  );
+}
+
+type ForensicProps = {
+  userId?: string;
+  initialFeeling?: string;
+};
+
+function SpeglingsForensicPanel({ userId, initialFeeling = '' }: ForensicProps) {
+  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
+  const [phase, setPhase] = useState<ForensicPhase>('vivir');
+  const [feeling, setFeeling] = useState(initialFeeling);
   const [vivirAnswers, setVivirAnswers] = useState<Record<string, string>>({});
   const [attachments, setAttachments] = useState<MediaAttachment[]>([]);
   const [savedAttachmentIds, setSavedAttachmentIds] = useState<Set<string>>(() => new Set());
@@ -67,13 +120,6 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
     setSessionSavedEvidence((prev) => [...prev, saved]);
   }, []);
 
-  useEffect(() => {
-    if (!bridgeText) return;
-    const prefix = bridgeMood ? `Humör: ${bridgeMood}. ` : '';
-    setFeeling(`${prefix}${bridgeText}`);
-    setJournalMood(bridgeMood);
-  }, [bridgeMood, bridgeText]);
-
   const vivirSummary = VIVIR_STEPS.map(
     (s) => `${s.title}: ${vivirAnswers[s.key] ?? '—'}`
   ).join('\n');
@@ -83,94 +129,78 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
 
   const resetSession = useCallback(() => {
     revokeMediaAttachments(attachmentsRef.current);
-    setPhase(INITIAL_PHASE);
-    setFeeling('');
-    setJournalMood('');
+    setPhase('vivir');
+    setFeeling(initialFeeling);
     setVivirAnswers({});
     setAttachments([]);
     setSavedAttachmentIds(new Set());
     setSessionSavedEvidence([]);
     setMatches([]);
-  }, []);
+  }, [initialFeeling]);
 
   useEffect(() => () => resetSession(), [resetSession]);
 
   useEffect(() => {
-    if (phase !== 'compare' || !user || vaultLocked) return;
-    getVaultLogs(user.uid)
+    if (phase !== 'compare' || !userId || vaultLocked) return;
+    getVaultLogs(userId)
       .then((logs) => {
         const searchText = `${feeling} ${Object.values(vivirAnswers).join(' ')}`;
         setMatches(matchVaultEvidence(searchText, logs));
       })
       .catch(() => setMatches([]));
-  }, [phase, user, vaultLocked, feeling, vivirAnswers]);
+  }, [phase, userId, vaultLocked, feeling, vivirAnswers]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <VivirQuickEntry onStart={() => setPhase('vivir')} />
       <SvartPaVittForm />
 
-      <BentoCard title={embedded ? 'Speglar' : 'Speglings-Systemet'} icon={<Brain className="h-4 w-4" />}>
-        <p className="mb-4 text-sm text-text-muted">
-          Kognitiv sköld — separera känsla från fakta. Validera, aldrig fixa.
-        </p>
-
-        {phase === 'act' && (
-          <>
-            <ActCalibrationView
-              feeling={feeling}
-              journalMood={journalMood}
-              onFeelingChange={setFeeling}
-              onContinue={() => setPhase('vivir')}
-            />
-            <SpeglarEvidencePanel
-              userId={user?.uid}
-              feeling={feeling}
-              attachments={attachments}
-              savedIds={savedAttachmentIds}
-              onAdd={addAttachment}
-              onRemove={removeAttachment}
-              onSaved={handleEvidenceSaved}
-            />
-          </>
-        )}
-
-        {phase === 'vivir' && (
+      {phase === 'vivir' && (
+        <>
           <VivirStepView
             answers={vivirAnswers}
             onChange={setVivirAnswers}
             onComplete={() => setPhase('compare')}
           />
-        )}
+          <SpeglarEvidencePanel
+            userId={userId}
+            feeling={feeling}
+            attachments={attachments}
+            savedIds={savedAttachmentIds}
+            onAdd={addAttachment}
+            onRemove={removeAttachment}
+            onSaved={handleEvidenceSaved}
+          />
+        </>
+      )}
 
-        {phase === 'compare' && (
-          <>
-            <EvidenceCompareView
-              feeling={feeling}
-              vivirSummary={vivirSummary}
-              matches={matches}
-              vaultLocked={vaultLocked}
-              sessionAttachments={attachments}
-              sessionSavedEvidence={sessionSavedEvidence}
-            />
-            <Link
-              to="/hamn"
-              state={{ prefilledMessage: feeling }}
-              className="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-accent hover:text-accent-light"
-            >
-              <Anchor className="h-3 w-3" />
-              Formulera BIFF-svar i Hamn
-            </Link>
-            <button
-              type="button"
-              onClick={resetSession}
-              className="mt-4 text-xs uppercase tracking-widest text-text-dim hover:text-accent"
-            >
-              Ny kalibrering
-            </button>
-          </>
-        )}
-      </BentoCard>
+      {phase === 'compare' && (
+        <>
+          <EvidenceCompareView
+            feeling={feeling}
+            vivirSummary={vivirSummary}
+            matches={matches}
+            vaultLocked={vaultLocked}
+            sessionAttachments={attachments}
+            sessionSavedEvidence={sessionSavedEvidence}
+          />
+          <Link
+            to="/hamn"
+            state={{ prefilledMessage: feeling }}
+            className="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-accent hover:text-accent-light"
+          >
+            <Anchor className="h-3 w-3" />
+            Formulera BIFF-svar i Hamn
+          </Link>
+          <button
+            type="button"
+            onClick={resetSession}
+            className="mt-4 text-xs uppercase tracking-widest text-text-dim hover:text-accent"
+          >
+            Ny kalibrering
+          </button>
+        </>
+      )}
     </div>
   );
 }
