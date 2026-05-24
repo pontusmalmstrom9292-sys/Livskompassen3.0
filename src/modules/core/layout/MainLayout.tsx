@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FloatingDock } from './FloatingDock';
-import { FyrenWidgetBar } from '../components/FyrenWidgetBar';
+import { FyrenSmartWidgetBar } from '../components/FyrenSmartWidgetBar';
 import { AmbientBackground } from './AmbientBackground';
 import { KompisAvatar } from '../../kompis/components/KompisAvatar';
 import { AccountAuthMenu } from '../auth/AccountAuthMenu';
@@ -60,9 +60,9 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         onOpenSettings={() => setAccountOpen(true)}
       />
 
-      <main className="relative z-10 mx-auto max-w-2xl px-4 pb-28 pt-[4.75rem]">{children}</main>
+      <main className="relative z-10 mx-auto max-w-2xl px-4 pb-36 pt-[4.75rem]">{children}</main>
 
-      <FyrenWidgetBar />
+      <FyrenSmartWidgetBar />
       <FloatingDock />
     </div>
   );

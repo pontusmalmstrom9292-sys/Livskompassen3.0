@@ -128,7 +128,8 @@ function main() {
     'W1',
   );
   mustInclude('docs/design/HOMESCREEN-WIDGETS-SPEC.md', 'WH1', 'ingestWidgetRecording');
-  mustInclude('src/modules/core/components/FyrenWidgetBar.tsx', 'FyrenWidgetBar', 'useLongPress', 'delayMs: 3000');
+  mustInclude('src/modules/core/components/FyrenSmartWidgetBar.tsx', 'FyrenSmartWidgetBar', 'useLongPress', 'delayMs: 3000');
+  mustInclude('src/modules/core/layout/MainLayout.tsx', 'FyrenSmartWidgetBar');
   mustInclude('src/modules/widgets/pages/WidgetRecordPage.tsx', 'useWidgetVaultRecording');
   mustInclude('src/modules/widgets/pages/WidgetFamiljenPage.tsx', 'widget_snabb');
   mustInclude('src/modules/widgets/api/widgetVaultRecording.ts', 'SAMMANFATTNING');

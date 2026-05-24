@@ -3,6 +3,7 @@ import { MainLayout } from '../layout/MainLayout';
 import { WidgetRoutes } from '../../widgets/routing/WidgetRoutes';
 import { AuthGate } from '../auth/AuthGate';
 import { HomePage } from '../pages/HomePage';
+import { ThemePreviewPage } from '../pages/ThemePreviewPage';
 import { VardagenPage, type VardagenTab } from '../../kompasser';
 import { SafeHarborPage } from '../../safe_harbor';
 import { HjartatPage } from '../../dagbok';
@@ -107,6 +108,7 @@ function MainAppRoutes() {
           }
         />
         <Route path="/projekt/ny" element={<Navigate to="/projekt" replace />} />
+        <Route path="/dev/themes" element={<ThemePreviewPage />} />
     </Routes>
   );
 }

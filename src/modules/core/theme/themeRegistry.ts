@@ -1,0 +1,143 @@
+import type { ThemePack } from './types';
+
+const shared = {
+  '--text': '#f5f0e8',
+  '--text-muted': '#c4bdb4',
+  '--text-dim': '#a8a29e',
+  '--warning': '#b45309',
+  '--danger': '#dc2626',
+} as const;
+
+/** Canonical theme packs — add new cool themes here only. */
+export const THEME_REGISTRY: ThemePack[] = [
+  {
+    id: 'I-stone',
+    label: 'Architect Stone',
+    description: 'Svart sten, guld klocka, smart widget expanded.',
+    background: 'texture-stone',
+    cssVars: {
+      ...shared,
+      '--bg': '#0a0a0a',
+      '--bg-dusk': '#121212',
+      '--surface': '#111111',
+      '--surface-2': '#1a1a1a',
+      '--surface-3': '#222222',
+      '--accent': '#d4af37',
+      '--accent-secondary': '#f59e0b',
+      '--accent-light': '#e8d48a',
+      '--accent-glow': 'rgba(212, 175, 55, 0.18)',
+      '--success': '#6b8f71',
+      '--glass': 'rgba(8, 8, 8, 0.72)',
+      '--glass-hero': 'rgba(8, 8, 8, 0.85)',
+      '--border': 'rgba(212, 175, 55, 0.12)',
+      '--border-strong': 'rgba(212, 175, 55, 0.45)',
+      '--compass-disk': '#1a1a1a',
+    },
+  },
+  {
+    id: 'I-alchemical',
+    label: 'Alchemical Gold',
+    description: 'Marmor, glödande guld — Kompass, Rutiner, Budget.',
+    background: 'texture-marble',
+    cssVars: {
+      ...shared,
+      '--bg': '#050505',
+      '--bg-dusk': '#0a0a0a',
+      '--surface': '#0f0f0f',
+      '--surface-2': '#161616',
+      '--surface-3': '#1e1e1e',
+      '--accent': '#e8c547',
+      '--accent-secondary': '#f59e0b',
+      '--accent-light': '#f5dfa0',
+      '--accent-glow': 'rgba(232, 197, 71, 0.22)',
+      '--success': '#6b8f71',
+      '--glass': 'rgba(5, 5, 5, 0.78)',
+      '--glass-hero': 'rgba(5, 5, 5, 0.88)',
+      '--border': 'rgba(232, 197, 71, 0.14)',
+      '--border-strong': 'rgba(232, 197, 71, 0.5)',
+      '--compass-disk': '#1a1510',
+    },
+  },
+  {
+    id: 'I-skymning',
+    label: 'Nordic Skymning',
+    description: 'Aurora glass — MåBra, KBT (modul-scoped mint).',
+    background: 'aurora',
+    cssVars: {
+      ...shared,
+      '--bg': '#0a1614',
+      '--bg-dusk': '#12151f',
+      '--surface': '#0f1a18',
+      '--surface-2': '#142220',
+      '--surface-3': '#1a2b28',
+      '--accent': '#4fd1c5',
+      '--accent-secondary': '#2dd4bf',
+      '--accent-light': '#99f6e4',
+      '--accent-glow': 'rgba(79, 209, 197, 0.18)',
+      '--success': '#2dd4bf',
+      '--glass': 'rgba(10, 30, 35, 0.55)',
+      '--glass-hero': 'rgba(10, 30, 35, 0.72)',
+      '--border': 'rgba(79, 209, 197, 0.12)',
+      '--border-strong': 'rgba(79, 209, 197, 0.28)',
+      '--compass-disk': '#0d3b3b',
+    },
+  },
+  {
+    id: 'I-hamn',
+    label: 'Trygg Hamn',
+    description: 'Nautical guld — Hamn, kompassråd, lågaffektiv trygghet.',
+    background: 'nautical',
+    cssVars: {
+      ...shared,
+      '--bg': '#2c2f33',
+      '--bg-dusk': '#23262a',
+      '--surface': '#36393f',
+      '--surface-2': '#3d4148',
+      '--surface-3': '#454950',
+      '--accent': '#d4af37',
+      '--accent-secondary': '#c9a87c',
+      '--accent-light': '#e8d48a',
+      '--accent-glow': 'rgba(212, 175, 55, 0.15)',
+      '--success': '#6b8f71',
+      '--glass': 'rgba(44, 47, 51, 0.82)',
+      '--glass-hero': 'rgba(44, 47, 51, 0.92)',
+      '--border': 'rgba(212, 175, 55, 0.14)',
+      '--border-strong': 'rgba(212, 175, 55, 0.35)',
+      '--compass-disk': '#2a2d31',
+    },
+  },
+  {
+    id: 'I-glass',
+    label: 'Dual Glass',
+    description: 'Kompakt peek — Snabbanteckning + Röst till Valv.',
+    background: 'texture-stone',
+    cssVars: {
+      ...shared,
+      '--bg': '#0a0a0a',
+      '--bg-dusk': '#121212',
+      '--surface': '#141010',
+      '--surface-2': '#1a1510',
+      '--surface-3': '#221c16',
+      '--accent': '#d4af37',
+      '--accent-secondary': '#f59e0b',
+      '--accent-light': '#e8d48a',
+      '--accent-glow': 'rgba(212, 175, 55, 0.25)',
+      '--success': '#6b8f71',
+      '--glass': 'rgba(20, 15, 10, 0.65)',
+      '--glass-hero': 'rgba(20, 15, 10, 0.78)',
+      '--border': 'rgba(212, 175, 55, 0.18)',
+      '--border-strong': 'rgba(212, 175, 55, 0.55)',
+      '--compass-disk': '#1a1410',
+    },
+  },
+];
+
+export const DEFAULT_THEME_ID = 'I-stone';
+
+export const THEME_BY_ID = Object.fromEntries(
+  THEME_REGISTRY.map((t) => [t.id, t]),
+) as Record<string, ThemePack>;
+
+export function getTheme(id: string): ThemePack {
+  return THEME_BY_ID[id] ?? THEME_BY_ID[DEFAULT_THEME_ID];
+}
