@@ -84,3 +84,25 @@ gh auth login
 | Build fail — `YOUR_API_KEY` i app | Saknade `VITE_FIREBASE_*` secrets. |
 | Deploy permission denied | SA saknar `Firebase Hosting Admin`. |
 | App oförändrad på telefon | PWA-cache — öppna i privat flik eller rensa webbplatsdata. |
+| Android Studio: `Could not read script …cordova.variables.gradle` | Kör `npm run cap:sync:prod` i repo-root → Android Studio **Sync Project with Gradle Files**. |
+
+---
+
+## Android (Capacitor) — UI från Hosting
+
+| Vad | Uppdateras vid push till `main`? |
+|-----|----------------------------------|
+| Webb + surfplatta (PWA) | Ja (Hosting CI) |
+| Motorola **innehåll** (React) med prod-APK | Ja — om APK byggts med `cap:sync:prod` |
+| Native widgets (WH1–WH4) | Nej — ny APK vid ändring i `android/.../widgets/` |
+
+**Engång efter kodändring:**
+
+```bash
+npm run cap:sync:prod
+npm run android:open   # Android Studio → Run (USB)
+```
+
+`cap:sync:prod` sätter `CAPACITOR_SERVER_URL=https://gen-lang-client-0481875058.web.app` så WebView laddar live UI. Lokalt dev: `npm run cap:sync` (bundlad `dist/`).
+
+**JSON-nyckel:** lägg i `~/Downloads/` eller `~/Livskompassen-secrets/` — **inte** i repo. Se [`android/README.md`](../android/README.md).

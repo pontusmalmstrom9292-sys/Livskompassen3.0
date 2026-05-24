@@ -8,6 +8,8 @@ Spec: [`docs/design/ANDROID-WIDGETS-SPEC.md`](../docs/design/ANDROID-WIDGETS-SPE
 
 ---
 
+**App-ikon (guld kompass):** `npm run android:icons` från repo-root (källa: `docs/design/themes/app-icon-livskompassen.png`).
+
 ## Krav
 
 - Android Studio (Ladybug eller nyare)
@@ -19,12 +21,18 @@ Spec: [`docs/design/ANDROID-WIDGETS-SPEC.md`](../docs/design/ANDROID-WIDGETS-SPE
 ## Bygg & kör
 
 ```bash
-# Från repo-root
-npm run cap:sync          # build web + kopiera till android/
-npm run android:open      # öppnar Android Studio
+# Från repo-root — lokal dev (bundlad dist/)
+npm run cap:sync
+npm run android:open
+
+# Prod: WebView laddar live Hosting (uppdateras vid push till main)
+npm run cap:sync:prod
+npm run android:open      # Run i Studio (USB) — engång eller vid widget-ändring
 ```
 
 I Android Studio: **Run** på enhet/emulator.
+
+**Gradle sync fail** (`Could not read script …/capacitor-cordova-android-plugins/…`): kör `npm run cap:sync:prod` i repo-root, sedan **File → Sync Project with Gradle Files**.
 
 ---
 
