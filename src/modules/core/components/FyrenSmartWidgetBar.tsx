@@ -9,7 +9,7 @@ import { LivskompassMark } from '../ui/LivskompassMark';
 import { ValvArchIcon } from '../ui/ValvArchIcon';
 import { WidgetGridIcon, WidgetMicIcon, WidgetNoteIcon } from '../ui/widget-icons';
 
-type BarState = 'hidden' | 'peek' | 'expanded';
+type BarState = 'hidden' | 'expanded';
 
 type ExpandedIconKind = 'widgets' | 'record' | 'note' | 'valv' | 'kompass';
 
@@ -46,17 +46,9 @@ function renderExpandedIcon(kind: ExpandedIconKind): ReactNode {
   }
 }
 
-function getInitialHidden(): boolean {
-  try {
-    return localStorage.getItem(STORAGE_HIDDEN) === 'true';
-  } catch {
-    return false;
-  }
-}
-
-/** Smart bottom widget bar — hidden / peek (dual glass) / expanded (klocka + ikonrad). */
+/** Smart bottom widget bar — hidden (handle) / expanded (klocka + ikonrad). */
 export function FyrenSmartWidgetBar() {
-  const [state, setState] = useState<BarState>(() => (getInitialHidden() ? 'hidden' : 'peek'));
+  const [state, setState] = useState<BarState>('hidden');
   const [noteOpen, setNoteOpen] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
@@ -73,11 +65,7 @@ export function FyrenSmartWidgetBar() {
   const handlePress = useLongPress({
     onLongPress: () => navigate('/dagbok?tab=bevis'),
     onClick: () => {
-      setState((s) => {
-        if (s === 'hidden') return 'peek';
-        if (s === 'peek') return 'expanded';
-        return 'hidden';
-      });
+      setState((s) => (s === 'hidden' ? 'expanded' : 'hidden'));
     },
     delayMs: 3000,
   });
@@ -85,7 +73,7 @@ export function FyrenSmartWidgetBar() {
   const { progress, isHolding, onClick: handleClick, ...handleHandlers } = handlePress;
 
   useEffect(() => {
-    setState((s) => (s === 'expanded' ? 'peek' : s));
+    setState((s) => (s === 'expanded' ? 'hidden' : s));
   }, [location.pathname]);
 
   useEffect(() => {
@@ -96,17 +84,17 @@ export function FyrenSmartWidgetBar() {
   if (location.pathname.startsWith('/widget')) return null;
 
   const cycleDown = () => {
-    setState((s) => (s === 'expanded' ? 'peek' : 'hidden'));
+    setState('hidden');
   };
 
   const onAction = (item: (typeof EXPANDED_ACTIONS)[number]) => {
     if (item.toggle) {
-      setState((s) => (s === 'expanded' ? 'peek' : 'expanded'));
+      setState((s) => (s === 'expanded' ? 'hidden' : 'expanded'));
       return;
     }
     if (item.to) {
       navigate(item.to);
-      setState('peek');
+      setState('hidden');
     }
   };
 
@@ -117,7 +105,7 @@ export function FyrenSmartWidgetBar() {
           type="button"
           className="fyren-smart-bar__backdrop"
           aria-label="Stäng widgetpanel"
-          onClick={() => setState('peek')}
+          onClick={() => setState('hidden')}
         />
       ) : null}
 
@@ -125,7 +113,6 @@ export function FyrenSmartWidgetBar() {
         className={clsx(
           'fyren-smart-bar',
           state === 'hidden' && 'fyren-smart-bar--hidden',
-          state === 'peek' && 'fyren-smart-bar--peek fyren-smart-bar--glass-skin',
           state === 'expanded' && 'fyren-smart-bar--expanded',
         )}
         aria-label="Snabbwidget"
@@ -144,7 +131,7 @@ export function FyrenSmartWidgetBar() {
                 ? ({ '--fyren-hold': `${Math.round(progress * 100)}%` } as CSSProperties)
                 : undefined
             }
-            onClick={() => setState('peek')}
+            onClick={() => setState('expanded')}
             onDoubleClick={(e) => {
               e.preventDefault();
               navigate('/widget/inspelning?autostart=1');
@@ -153,50 +140,6 @@ export function FyrenSmartWidgetBar() {
           >
             <ChevronUp className="h-3 w-3 text-accent" strokeWidth={1.5} />
           </button>
-        ) : null}
-
-        {state === 'peek' ? (
-          <div className="fyren-smart-bar__peek-panel">
-            <button
-              type="button"
-              className="fyren-smart-bar__compass-btn"
-              aria-label="Expandera widget"
-              onClick={() => setState('expanded')}
-            >
-              <LivskompassMark className="h-7 w-7 text-accent" />
-            </button>
-            <div className="fyren-smart-bar__dual">
-              <Link
-                to="/widget/anteckning"
-                className="fyren-smart-bar__dual-action"
-                onClick={() => setState('peek')}
-              >
-                <span className="fyren-smart-bar__orbit-icon" aria-hidden>
-                  <WidgetNoteIcon className="h-6 w-6 text-accent" />
-                </span>
-                <span>Snabbanteckning</span>
-              </Link>
-              <div className="fyren-smart-bar__dual-divider" aria-hidden />
-              <Link
-                to="/widget/inspelning?autostart=1"
-                className="fyren-smart-bar__dual-action"
-                onClick={() => setState('peek')}
-              >
-                <span className="fyren-smart-bar__orbit-icon" aria-hidden>
-                  <WidgetMicIcon className="h-6 w-6 text-accent" />
-                </span>
-                <span>Röst till Valv</span>
-              </Link>
-            </div>
-            <button
-              type="button"
-              className="fyren-smart-bar__peek-chevron"
-              aria-label="Expandera"
-              onClick={() => setState('expanded')}
-            >
-              <ChevronUp className="h-3 w-3" strokeWidth={1.5} />
-            </button>
-          </div>
         ) : null}
 
         {state === 'expanded' ? (
@@ -250,7 +193,7 @@ export function FyrenSmartWidgetBar() {
               <Link
                 to="/widget/anteckning"
                 className="fyren-smart-bar__note-link"
-                onClick={() => setState('peek')}
+                onClick={() => setState('hidden')}
               >
                 Öppna snabbanteckning →
               </Link>
