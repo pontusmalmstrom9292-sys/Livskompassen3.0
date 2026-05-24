@@ -1,4 +1,5 @@
 export { ThemeProvider, useTheme } from './ThemeProvider';
+export { useModuleTheme } from './useModuleTheme';
 export { applyTheme, applyDefaultTheme, getStoredThemeOverride, setStoredThemeOverride } from './applyTheme';
 export {
   MODULE_THEME_MAP,

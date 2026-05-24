@@ -15,6 +15,7 @@ export const THEME_REGISTRY: ThemePack[] = [
     label: 'Architect Stone',
     description: 'Svart sten, guld klocka, smart widget expanded.',
     background: 'texture-stone',
+    preview: '/design/themes/I-architect-vault/00-smart-widget-expanded.png',
     cssVars: {
       ...shared,
       '--bg': '#0a0a0a',
@@ -39,6 +40,7 @@ export const THEME_REGISTRY: ThemePack[] = [
     label: 'Alchemical Gold',
     description: 'Marmor, glödande guld — Kompass, Rutiner, Budget.',
     background: 'texture-marble',
+    preview: '/design/themes/I-architect-vault/02-alchemical-gold.png',
     cssVars: {
       ...shared,
       '--bg': '#050505',
@@ -63,6 +65,7 @@ export const THEME_REGISTRY: ThemePack[] = [
     label: 'Nordic Skymning',
     description: 'Aurora glass — MåBra, KBT (modul-scoped mint).',
     background: 'aurora',
+    preview: '/design/themes/I-architect-vault/03-nordic-skymning.png',
     cssVars: {
       ...shared,
       '--bg': '#0a1614',
@@ -87,6 +90,7 @@ export const THEME_REGISTRY: ThemePack[] = [
     label: 'Trygg Hamn',
     description: 'Nautical guld — Hamn, kompassråd, lågaffektiv trygghet.',
     background: 'nautical',
+    preview: '/design/themes/I-architect-vault/04-trygg-hamn.png',
     cssVars: {
       ...shared,
       '--bg': '#2c2f33',
@@ -111,6 +115,7 @@ export const THEME_REGISTRY: ThemePack[] = [
     label: 'Dual Glass',
     description: 'Kompakt peek — Snabbanteckning + Röst till Valv.',
     background: 'texture-stone',
+    preview: '/design/themes/I-architect-vault/01-glass-dual-actions.png',
     cssVars: {
       ...shared,
       '--bg': '#0a0a0a',
