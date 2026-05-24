@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": ".cursor/hooks/orkester-session-start.sh"
+      }
+    ],
+    "stop": [
+      {
+        "command": ".cursor/hooks/orkester-stop-chain.sh",
+        "loop_limit": 3
+      }
+    ]
+  }
+}

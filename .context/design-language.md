@@ -1,31 +1,37 @@
 # Visuell Estetik och Designspråk
 
-**Canonical:** [`docs/specs/design-master.md`](../docs/specs/design-master.md) — **Obsidian Calm (Riktning A)**
+**Canonical:** [`docs/specs/design-master.md`](../docs/specs/design-master.md)  
+**Aktivt tema:** **Theme Pack I** — [`THEME-I-SPEC.md`](../docs/design/themes/I-architect-vault/THEME-I-SPEC.md)
 
-## Estetik
+## Theme Pack I (prod 2026-05-24)
 
-- Mörk obsidian-bas (`#020617` → `#0f172a`), glass cards, lågaffektiv
-- Accents: Tactical Amber `#FDE68A`, Electric Indigo `#818CF8`, Cyber Emerald `#2DD4BF`
+| ID | Modul |
+|----|-------|
+| I-stone | Hem, Valv, Widget expanded |
+| I-alchemical | Kompass, Rutiner, Budget |
+| I-skymning | MåBra, KBT, Familjen |
+| I-hamn | Hamn |
+| I-glass | Widget peek |
+
+**Runtime:** `src/modules/core/theme/themeRegistry.ts` · **Preview:** `/dev/themes`  
+**Default:** `I-stone` · **Auto per route:** `moduleThemeMap.ts`
+
+## Estetik (I-stone / guld kärna)
+
+- Bakgrund: obsidian `#0a0a0a`, guld `#d4af37`
 - Typografi: **Outfit** (rubriker), **Inter** (bröd)
+- Smart widget: `FyrenSmartWidgetBar` — hidden / peek / expanded
 - Progressive disclosure — ett steg i taget
+- **Förbjudet globalt:** indigo/lila text-accent, natur-tapeter
 
 ## Centrala Element
 
-- **Kompis Avatar:** pulserande aura (viloläge), definierad struktur vid analys
-- **Tidshjulet:** flerlagrad tidslinje för Minne
-- **Sub-Synaptisk Bakgrund:** WebGL/Canvas (`SubSynapticBackground.tsx`) — bakom innehåll, inte på kontroller
+- **LivskompassHero:** guld kompass-hub på Hem
+- **FyrenSmartWidgetBar:** klocka, Fokus·Struktur·Närvaro, WORM-routes
+- **Sub-Synaptisk Bakgrund:** `AmbientBackground` + `data-theme-bg`
 
 ## Tailwind / CSS
 
-- Tokens: `src/modules/core/ui/tokens.ts`, `:root` i `src/index.css`
-- Glass: `border-white/10`, `bg-[#0f172a]/60`, `backdrop-blur-xl`
-- Geometry: `rounded-2xl`, pills, soft cards
-
-## Förbjudet
-
-Nature themes, lila/turkos/regnbåge, ljusa bakgrunder, count-up på siffror, sensorisk noise.
-
-## Modul-specifikt
-
-- **Speglar:** Electric Indigo `#6366F1` för AI-ytor
-- **Barnen:** `#818CF8` + `#FDE68A`
+- Tokens: `themeRegistry.ts` → `applyTheme()` → `:root` + `html[data-theme]`
+- Glass: guld border 2px, accent-glow på widget-ikoner
+- Modul-scoped mint (I-skymning): endast MåBra/Familjen — se [COLOR-POLICY.md](../docs/design/COLOR-POLICY.md)

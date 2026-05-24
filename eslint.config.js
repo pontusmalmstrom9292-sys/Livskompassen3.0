@@ -8,9 +8,11 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 export default defineConfig([
   globalIgnores([
     'dist',
+    'android/**',
     'docs/archive/**',
     'src/dataconnect-generated/**',
     'functions/lib/**',
+    '.orkester/runs/**',
   ]),
   {
     files: ['**/*.{ts,tsx}'],

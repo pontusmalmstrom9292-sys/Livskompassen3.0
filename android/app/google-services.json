@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1084026575972",
+    "project_id": "gen-lang-client-0481875058",
+    "storage_bucket": "gen-lang-client-0481875058.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084026575972:android:a64e211553821b3fdbd371",
+        "android_client_info": {
+          "package_name": "com.livskompassen.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084026575972-d8l61jmqh30m3i49t21ukk9r7e9p13b2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQYBmlcU01w190pwZaKkDKGlAhyxOmATs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1084026575972-3krqittffu56is33534r39ucdetk4pdk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

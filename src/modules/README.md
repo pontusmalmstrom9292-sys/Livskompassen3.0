@@ -21,6 +21,7 @@ Delad infrastruktur: **`core/`**. Backend (Cloud Functions, Agent Cards): **`fun
 | **speglings_system** | `/dagbok?tab=speglar` | [speglings_system/README.md](./speglings_system/README.md) | [speglingssystemet.md](../../.context/modules/speglingssystemet.md) |
 | **barnens_livsloggar** | `/familjen` | [barnens_livsloggar/README.md](./barnens_livsloggar/README.md) | [barnens_livsloggar.md](../../.context/modules/barnens_livsloggar.md) |
 | **mabra** | `/mabra` | [mabra/README.md](./mabra/README.md) | [mabra_sidan.md](../../.context/modules/mabra_sidan.md) |
+| **planering** | `/planering` | [planering/module_plan.md](./planering/module_plan.md) | — |
 | **dossier** | `/dossier` | [dossier/README.md](./dossier/README.md) | [dossier.md](../../.context/modules/dossier.md) |
 
 ## Kluster (navigation)

@@ -1,13 +1,17 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { MainLayout } from '../layout/MainLayout';
+import { WidgetRoutes } from '../../widgets/routing/WidgetRoutes';
 import { AuthGate } from '../auth/AuthGate';
 import { HomePage } from '../pages/HomePage';
+import { ThemePreviewPage } from '../pages/ThemePreviewPage';
 import { VardagenPage, type VardagenTab } from '../../kompasser';
 import { SafeHarborPage } from '../../safe_harbor';
 import { HjartatPage } from '../../dagbok';
 import { FamiljenPage } from '../../barnens_livsloggar';
 import { DossierPage } from '../../dossier';
 import { MabraPage } from '../../mabra';
+import { PlaneringPage } from '../../planering';
+import { ProjektHubPage } from '../../projekt';
 
 function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
   const location = useLocation();
@@ -29,10 +33,9 @@ function RedirectToVardagenTab({ tab }: { tab: VardagenTab }) {
   );
 }
 
-export function AppRoutes() {
+function MainAppRoutes() {
   return (
-    <MainLayout>
-      <Routes>
+    <Routes>
         <Route path="/" element={<HomePage />} />
         <Route
           path="/vardagen"
@@ -88,7 +91,40 @@ export function AppRoutes() {
             </AuthGate>
           }
         />
-      </Routes>
-    </MainLayout>
+        <Route
+          path="/planering"
+          element={
+            <AuthGate>
+              <PlaneringPage />
+            </AuthGate>
+          }
+        />
+        <Route
+          path="/projekt"
+          element={
+            <AuthGate>
+              <ProjektHubPage />
+            </AuthGate>
+          }
+        />
+        <Route path="/projekt/ny" element={<Navigate to="/projekt" replace />} />
+        <Route path="/dev/themes" element={<ThemePreviewPage />} />
+    </Routes>
+  );
+}
+
+export function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/widget/*" element={<WidgetRoutes />} />
+      <Route
+        path="/*"
+        element={
+          <MainLayout>
+            <MainAppRoutes />
+          </MainLayout>
+        }
+      />
+    </Routes>
   );
 }

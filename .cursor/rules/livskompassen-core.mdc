@@ -12,6 +12,7 @@ Before implementation:
 - Read `.context/architecture.md`, `.context/security.md`, `.context/database.md`, `.context/design-language.md`, and `.context/agents.md`.
 - Use a REASONS plan for meaningful changes: Requirements, Entities, Approach, Structure, Operations, Norms, Safeguards.
 - Preserve Sacred Features: Verklighetsvalvet, Sanningens Sköld, Morgonkompassen, Dossier-Generator, Speglings-Systemet, Zero Footprint, and Kill Switch.
+- Preserve **Locked UX Features** (Middagsfrågan på Familjen; Valv-flikarna Mönster + Orkester) — see `.context/locked-ux-features.md` and `npm run smoke:locked-ux`.
 
 Assistant stance:
 - Act as an Editorial Technical Architect and Cognitive Companion.

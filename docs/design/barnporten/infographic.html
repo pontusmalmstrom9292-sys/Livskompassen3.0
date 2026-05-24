@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Barnporten — systeminfografik</title>
+  <style>
+    :root {
+      --gold: #d4af37;
+      --child-amber: #f59e0b;
+      --child-rose: #c9a87c;
+      --bg: #1a1410;
+      --cream: #f5f0e8;
+      --muted: #a8a29e;
+      --vault: #2c2418;
+      --silo-barn: #3d2e1f;
+      --silo-valv: #1c1c1e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: linear-gradient(180deg, #12151f 0%, var(--bg) 40%);
+      color: var(--cream);
+      line-height: 1.5;
+    }
+    header {
+      padding: 2rem 1.5rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    }
+    header h1 { color: var(--gold); margin: 0 0 0.5rem; font-size: 1.5rem; }
+    header p { color: var(--muted); max-width: 42rem; margin: 0 auto; font-size: 0.9rem; }
+    main { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    h2 { color: var(--child-amber); font-size: 1.1rem; margin: 2rem 0 1rem; }
+    .flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: stretch;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      align-items: stretch;
+    }
+    .box {
+      flex: 1 1 200px;
+      max-width: 280px;
+      padding: 1rem 1.1rem;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      background: rgba(18, 21, 31, 0.6);
+    }
+    .box.child { border-color: rgba(245, 158, 11, 0.4); background: rgba(61, 46, 31, 0.5); }
+    .box.parent { border-color: rgba(212, 175, 55, 0.35); }
+    .box.vault { border-color: rgba(212, 175, 55, 0.5); background: var(--silo-valv); }
+    .box h3 { margin: 0 0 0.35rem; font-size: 0.95rem; color: var(--gold); }
+    .box.child h3 { color: var(--child-amber); }
+    .box p { margin: 0; font-size: 0.8rem; color: var(--muted); }
+    .arrow {
+      text-align: center;
+      color: var(--child-rose);
+      font-size: 1.25rem;
+      padding: 0.25rem;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+    .tag.worm { background: rgba(212, 175, 55, 0.2); color: var(--gold); }
+    .tag.hitl { background: rgba(245, 158, 11, 0.25); color: var(--child-amber); }
+    .tag.forbidden { background: rgba(180, 80, 80, 0.2); color: #e8a0a0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.6rem 0.75rem;
+      text-align: left;
+    }
+    th { color: var(--gold); background: rgba(0, 0, 0, 0.2); }
+    a { color: var(--gold); }
+    .legend { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; font-size: 0.8rem; color: var(--muted); }
+    .legend span::before {
+      content: '';
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      margin-right: 0.35rem;
+      vertical-align: middle;
+    }
+    .legend .c::before { background: var(--child-amber); }
+    .legend .p::before { background: var(--gold); }
+    .legend .v::before { background: #555; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Barnporten — hur allt hänger ihop</h1>
+    <p>För byggteam: barnens PWA → <code>children_logs</code> (silo) → förälder Familjen → Valv endast via HITL. Egen barn-Orkester, skild från Pansaret-Orkester.</p>
+  </header>
+  <main>
+    <h2>1. Flöde (översikt)</h2>
+    <div class="flow">
+      <div class="row">
+        <div class="box child">
+          <span class="tag">Barn</span>
+          <h3>Barnporten PWA</h3>
+          <p>Installeras på telefon/surfplatta. Hub: prata, skriv, humör, mitt rum.</p>
+        </div>
+        <div class="box child">
+          <span class="tag">Barn</span>
+          <h3>Widget CB1</h3>
+          <p>Liten stjärn-prick — snabb avsig. <strong>Inte</strong> förälderns tysta inspelning.</p>
+        </div>
+      </div>
+      <div class="arrow">↓ append WORM · authorRole: child</div>
+      <div class="row">
+        <div class="box child" style="max-width:100%">
+          <span class="tag worm">Silo 3</span>
+          <h3>children_logs</h3>
+          <p>channel: barnporten · visibility: private_child | parent | vault_candidate</p>
+        </div>
+      </div>
+      <div class="arrow">↓ parent-visible posts</div>
+      <div class="row">
+        <div class="box parent">
+          <span class="tag">Förälder</span>
+          <h3>/familjen · Barnporten-flik</h3>
+          <p>Inkorg, humör, “Granska i Valv?” vid allvarligt.</p>
+        </div>
+        <div class="box parent">
+          <span class="tag">Förälder</span>
+          <h3>Barnporten-Orkester</h3>
+          <p>Trygg-Kompisen m.fl. — aggregat, länk till Valv Mönster/Orkester.</p>
+        </div>
+      </div>
+      <div class="arrow">↓ endast HITL godkännande</div>
+      <div class="row">
+        <div class="box vault">
+          <span class="tag hitl">HITL</span>
+          <h3>reality_vault (Valv)</h3>
+          <p>promoteChildLogToVault · sourceRef · SERVER-TIDSSTÄMPEL · WORM</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span class="c">Barn-UI (varm amber)</span>
+      <span class="p">Förälder-UI (guld)</span>
+      <span class="v">Valv (bevis)</span>
+    </div>
+
+    <h2>2. Två orkestrar (får inte slås ihop)</h2>
+    <table>
+      <thead>
+        <tr><th></th><th>Barnporten-Orkester</th><th>Valv-Orkester (Pansaret)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Var</td><td>/barnporten/kompis</td><td>/dagbok?tab=bevis → Orkester</td></tr>
+        <tr><td>Agenter</td><td>Trygg-Kompisen, Speglingen, Steg-Kompisen, Röst-Vännen</td><td>Sannings-Analytikern, Mönster-Arkivarien, BIFF-Skölden…</td></tr>
+        <tr><td>Data</td><td>children_logs (barnsilo)</td><td>reality_vault + SMS (vuxen bevis)</td></tr>
+        <tr><td>LLM</td><td>Validering, inget juridiskt råd</td><td>BIFF, mönster — aldrig barns privatdagbok</td></tr>
+      </tbody>
+    </table>
+
+    <h2>3. Förbjudet (säkerhet)</h2>
+    <div class="row">
+      <div class="box" style="border-color:rgba(200,100,100,0.4)">
+        <span class="tag forbidden">Nej</span>
+        <p>Auto-flytta “Bara för mig” till Valv</p>
+      </div>
+      <div class="box" style="border-color:rgba(200,100,100,0.4)">
+        <span class="tag forbidden">Nej</span>
+        <p>Cross-RAG Kunskap ↔ barnporten</p>
+      </div>
+      <div class="box" style="border-color:rgba(200,100,100,0.4)">
+        <span class="tag forbidden">Nej</span>
+        <p>Hamn/BIFF i barn-UI</p>
+      </div>
+    </div>
+
+    <h2>4. Låsta syskon-moduler</h2>
+    <table>
+      <thead><tr><th>Modul</th><th>Spec</th></tr></thead>
+      <tbody>
+        <tr><td>Middagsfrågan</td><td>/familjen</td></tr>
+        <tr><td>Valv Mönster + Orkester</td><td>/dagbok?tab=bevis</td></tr>
+        <tr><td>Planeringssidan</td><td>/planering</td></tr>
+        <tr><td>Fyren widget (förälder)</td><td>W1 tyst inspelning → Valv</td></tr>
+        <tr><td><strong>Barnporten</strong></td><td>/barnporten PWA</td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:2rem;color:var(--muted);font-size:0.85rem">
+      Kanon-spec: <a href="../BARNPORTEN-SPEC.md">BARNPORTEN-SPEC.md</a> ·
+      Mockups: <a href="./mockups/">mockups/</a> ·
+      <a href="../galleri/index.html">Designgalleri</a>
+    </p>
+  </main>
+</body>
+</html>

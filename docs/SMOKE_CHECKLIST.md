@@ -23,6 +23,15 @@
 | 15 | Speglar AI | `/speglar` → Spegla | AI-svar från `speglingsMirror` (eller deterministisk fallback) |
 | 16 | Valv media | Long-press Fyren → PIN → `/valv` → skärmdump | `evidenceUrl` i `reality_vault`; fil i Storage `vault_evidence/{uid}/` |
 | 17 | Valv PDF | Valv-lista → PDF-knapp på post | Utskriftsdialog öppnas (spara som PDF) |
+| 18 | Ekonomi | `/vardagen?tab=ekonomi` — veckopeng | Post i `transactions` med `ownerId` = uid; profil i `economy_profiles` vid budgetändring |
+| 19 | Middagsfrågan (låst) | `/familjen` → Arvid → Middagsfrågan → spara | Rad i **minneslista** direkt; `children_logs` med `category: middag` |
+| 20 | Valv Mönster/Orkester (låst) | Fyren → Bevis → flikar **Mönster** + **Orkester** | Frekvensvy + agentlista; SMS-tråd → mönstersökning svarar |
+| 21 | WH1 tyst inspelning (låst) | `/widget/inspelning` — etik → inspelning 10s → stopp | `reality_vault` med `category: tyst_inspelning`, `evidenceUrl`, `SAMMANFATTNING` i `truth` |
+| 22 | WH5 Familjen widget | `/widget/familjen` — spara rad | `children_logs` med `category: widget_snabb` |
+
+**Automatisk kod-guard (låsta UX):** `npm run smoke:locked-ux` — ska exit 0 före merge som rör Barnen/Valv.
+
+**Automatisk batch (Life OS):** `npm run smoke:all` — locked-ux + design-modules + modul-smokes (kunskap, speglar, dossier, compass, mabra, valv, children, grans).
 
 **Prod-smoke:** Kör #13–17 mot [Hosting-URL](https://gen-lang-client-0481875058.web.app) efter deploy (storage + `speglingsMirror` + hosting).
 

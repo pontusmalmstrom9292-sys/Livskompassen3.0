@@ -1,5 +1,12 @@
 # mabra — module plan
 
+## Egna projekt + Vit hub (2026-05-23)
+
+- **Spec:** [`docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md`](../../docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md)
+- **P0:** `MabraProjectHub`, `VitHubPreview`, `constants/mabraProjects.ts`
+- **P1:** Firestore `vit_hub` + frågekort
+- **P2:** Valv «Mitt Vit» + statistik
+
 ## Overview
 
 Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget kluster på hem.
@@ -24,6 +31,13 @@ Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget
 | `api/mabraCoachService.ts` | Callable `mabraCoach` |
 | `constants.ts` / `types.ts` | Hub, duration, faser |
 | `../core/firebase/firestore.ts` | `saveMabraSession` |
+
+## MåBra — egna projekt + Vit hub (2026-05-23)
+
+- **Spec:** [`docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md`](../../docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md)
+- **P0:** `MabraProjectHub`, `VitHubPreview`, `mabraProjects.ts`
+- **P1:** Firestore `vit_hub` + frågekort-flöde
+- **P2:** Valv-flik «Mitt Vit» + statistik
 
 ## Status
 

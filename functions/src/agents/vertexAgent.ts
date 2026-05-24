@@ -1,9 +1,15 @@
 import {
   LIVSKOMPASSEN_SYSTEM_CONFIG,
+  KBT_TRANSFORMATOR_SYSTEM_PROMPT,
   MABRA_COACHEN_SYSTEM_PROMPT,
   SPEGLINGS_COACHEN_SYSTEM_PROMPT,
 } from '../sharedRules';
 import { createGenAI } from '../lib/genaiClient';
+import {
+  kbtTransformFallback,
+  parseKbtTransformJson,
+  type KbtTransformResult,
+} from '../lib/kbtTransformatorParse';
 
 const SPEGLINGS_MODEL = 'gemini-2.5-flash';
 const MABRA_COACH_MODEL = 'gemini-2.5-flash';
@@ -88,6 +94,29 @@ export const askMabraCoach = async (
   } catch (error) {
     console.error('[Måbra-Coachen] Fel — degraded fallback:', error);
     return mabraCoachFallback(hubSymptom, exerciseType);
+  }
+};
+
+export const askKbtTransformator = async (
+  thought: string,
+  geminiApiKey?: string,
+): Promise<KbtTransformResult> => {
+  try {
+    const ai = createGenAI(geminiApiKey);
+    const response = await ai.models.generateContent({
+      model: MABRA_COACH_MODEL,
+      contents: thought.trim(),
+      config: {
+        systemInstruction: KBT_TRANSFORMATOR_SYSTEM_PROMPT,
+        temperature: 0.2,
+      },
+    });
+    const text = response.text?.trim();
+    if (!text) throw new Error('Tomt KBT-svar.');
+    return parseKbtTransformJson(text);
+  } catch (error) {
+    console.error('[KBT-Transformator] Fel — degraded fallback:', error);
+    return kbtTransformFallback(thought);
   }
 };
 

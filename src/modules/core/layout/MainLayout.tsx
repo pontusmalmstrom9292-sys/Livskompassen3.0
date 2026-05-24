@@ -1,54 +1,48 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import { FloatingDock } from './FloatingDock';
+import { FyrenSmartWidgetBar } from '../components/FyrenSmartWidgetBar';
 import { AmbientBackground } from './AmbientBackground';
 import { KompisAvatar } from '../../kompis/components/KompisAvatar';
 import { AccountAuthMenu } from '../auth/AccountAuthMenu';
-import { Compass, Home } from 'lucide-react';
-import { clsx } from 'clsx';
+import { NavigationDrawer } from './NavigationDrawer';
+import { Menu } from 'lucide-react';
 import { useStore } from '../store';
-
-function HeaderHomeButton() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const setModuleHubOpen = useStore((s) => s.setModuleHubOpen);
-  const isActive = location.pathname === '/';
-
-  return (
-    <button
-      type="button"
-      aria-label="Hem"
-      aria-current={isActive ? 'page' : undefined}
-      onClick={() => {
-        setModuleHubOpen(false);
-        navigate('/');
-      }}
-      className={clsx('header-glass-btn', isActive && 'header-glass-btn--active')}
-    >
-      <Home className="h-4 w-4" strokeWidth={1.75} />
-      <span>Hem</span>
-    </button>
-  );
-}
+import { LivskompassMark } from '../ui/LivskompassMark';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const kompisAuraActive = useStore((s) => s.system.kompisAuraActive);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
 
   return (
     <div className="relative min-h-screen bg-bg text-text font-sans selection:bg-accent/30">
       <AmbientBackground />
 
       <header className="app-header">
-        <div className="glass-header-bar">
-          <div className="app-header__brand">
+        <div className="glass-header-bar glass-header-bar--kanon">
+          <button
+            type="button"
+            className="header-menu-btn"
+            aria-label="Öppna meny"
+            aria-expanded={drawerOpen}
+            onClick={() => setDrawerOpen(true)}
+          >
+            <Menu className="h-5 w-5" strokeWidth={1.5} />
+          </button>
+
+          <div className="app-header__brand app-header__brand--kanon">
             <div className="app-header__logo">
-              <Compass className="h-4 w-4 text-accent" strokeWidth={1.75} />
+              <LivskompassMark className="h-6 w-6 text-accent" />
             </div>
-            <h1 className="app-header__title">Livskompassen</h1>
+            <h1 className="app-header__title app-header__title--kanon">LIVSKOMPASSEN</h1>
           </div>
 
-          <div className="app-header__actions">
-            <HeaderHomeButton />
-            <AccountAuthMenu />
+          <div className="app-header__actions app-header__actions--kanon">
+            <AccountAuthMenu
+              open={accountOpen}
+              onOpenChange={setAccountOpen}
+              compactTrigger
+            />
             <div className="header-glass-btn header-glass-btn--avatar" aria-hidden>
               <KompisAvatar
                 size="sm"
@@ -60,8 +54,15 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto max-w-2xl px-5 pb-48 pt-24">{children}</main>
+      <NavigationDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        onOpenSettings={() => setAccountOpen(true)}
+      />
 
+      <main className="relative z-10 mx-auto max-w-2xl px-4 pb-36 pt-[4.75rem]">{children}</main>
+
+      <FyrenSmartWidgetBar />
       <FloatingDock />
     </div>
   );

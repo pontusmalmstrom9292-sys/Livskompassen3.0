@@ -3,9 +3,39 @@ import { app } from './init';
 
 const storage = getStorage(app);
 
+function slugifyForPath(input: string): string {
+  return (
+    input
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+      .slice(0, 48) || 'inspelning'
+  );
+}
+
 export async function uploadVaultEvidence(userId: string, file: File): Promise<string> {
   const safeName = file.name.replace(/[^\w.-]+/g, '_').slice(0, 80);
   const path = `vault_evidence/${userId}/${Date.now()}_${safeName}`;
+  const storageRef = ref(storage, path);
+  await uploadBytes(storageRef, file, { contentType: file.type });
+  return getDownloadURL(storageRef);
+}
+
+/** WH1 — diskret inspelning med ISO-stämpel + slug från analys-titel. */
+export async function uploadDiscreetRecording(
+  userId: string,
+  file: File,
+  recordedAt: Date,
+  titleSlug: string,
+): Promise<string> {
+  const iso =
+    recordedAt.toISOString().replace(/:/g, '-').replace(/\.\d{3}Z$/, 'Z') ??
+    `${Date.now()}`;
+  const ext = file.name.includes('.') ? file.name.split('.').pop() : 'webm';
+  const slug = slugifyForPath(titleSlug);
+  const path = `vault_evidence/${userId}/discreet/${iso}_${slug}.${ext}`;
   const storageRef = ref(storage, path);
   await uploadBytes(storageRef, file, { contentType: file.type });
   return getDownloadURL(storageRef);

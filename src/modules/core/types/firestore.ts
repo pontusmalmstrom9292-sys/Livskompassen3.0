@@ -144,4 +144,5 @@ export const FIRESTORE_COLLECTIONS = {
   children_logs: 'children_logs',
   transactions: 'transactions',
   economy_profiles: 'economy_profiles',
+  planning_tasks: 'planning_tasks',
 } as const;

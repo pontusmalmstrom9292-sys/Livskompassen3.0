@@ -17,7 +17,9 @@ import { KasamEvening } from './KasamEvening';
 
 type DashboardPageProps = {
   embedded?: boolean;
-  variant?: 'page' | 'hero' | 'hub';
+  variant?: 'page' | 'hero' | 'hub' | 'module';
+  /** När satt (t.ex. CompassModuleStrip): ingen FlowTabs, låst flöde. */
+  forcedFlow?: CompassFlow;
   onCheckInSaved?: () => void;
 };
 
@@ -34,9 +36,13 @@ function resetSessionState() {
 export function DashboardPage({
   embedded: _embedded = false,
   variant = 'page',
+  forcedFlow,
   onCheckInSaved,
 }: DashboardPageProps) {
-  const { activeFlow, timeFlow, switchFlow } = useCompassTimeFlow();
+  const timeHook = useCompassTimeFlow();
+  const { timeFlow, switchFlow } = timeHook;
+  const activeFlow = forcedFlow ?? timeHook.activeFlow;
+  const hideFlowTabs = variant === 'module' || forcedFlow != null;
   const user = useStore((s) => s.user);
 
   const [session, setSession] = useState(resetSessionState);
@@ -81,7 +87,9 @@ export function DashboardPage({
           timeFlow={timeFlow}
           activeFlow={activeFlow}
         >
-          <FlowTabs activeFlow={activeFlow} onSwitch={handleSwitchFlow} />
+          {!hideFlowTabs && (
+            <FlowTabs activeFlow={activeFlow} onSwitch={handleSwitchFlow} />
+          )}
           <p className="text-sm text-text-muted">Logga in för att spara kvällskompass.</p>
         </CompassShell>
       );
@@ -93,7 +101,9 @@ export function DashboardPage({
         timeFlow={timeFlow}
         activeFlow={activeFlow}
       >
-        <FlowTabs activeFlow={activeFlow} onSwitch={handleSwitchFlow} />
+        {!hideFlowTabs && (
+          <FlowTabs activeFlow={activeFlow} onSwitch={handleSwitchFlow} />
+        )}
         <KasamEvening
           userId={user.uid}
           onKlar={clearSession}
@@ -134,7 +144,9 @@ export function DashboardPage({
       timeFlow={timeFlow}
       activeFlow={activeFlow}
     >
-      <FlowTabs activeFlow={activeFlow} onSwitch={handleSwitchFlow} />
+      {!hideFlowTabs && (
+        <FlowTabs activeFlow={activeFlow} onSwitch={handleSwitchFlow} />
+      )}
 
       {activeFlow === 'morning' && (
         <div className="space-y-3">
@@ -162,9 +174,17 @@ export function DashboardPage({
       <div className={showParalys ? 'pointer-events-none opacity-20' : ''}>
         {!showParalys && (
           <BentoCard
-            title={variant === 'hero' ? undefined : flow.label}
-            icon={variant === 'hero' ? undefined : <flow.icon className="h-4 w-4" />}
-            className={variant === 'hero' ? 'border-0 bg-transparent p-0 shadow-none' : ''}
+            title={variant === 'hero' || variant === 'module' ? undefined : flow.label}
+            icon={
+              variant === 'hero' || variant === 'module' ? undefined : (
+                <flow.icon className="h-4 w-4" />
+              )
+            }
+            className={
+              variant === 'hero' || variant === 'module'
+                ? 'border-0 bg-transparent p-0 shadow-none'
+                : ''
+            }
           >
             <p className="mb-4 text-sm text-text-muted">{flow.question}</p>
             <div className="space-y-2">
@@ -268,7 +288,7 @@ function CompassShell({
   activeFlow,
   children,
 }: {
-  variant: 'page' | 'hero' | 'hub';
+  variant: 'page' | 'hero' | 'hub' | 'module';
   heroMeta: HeroMeta;
   timeFlow: CompassFlow;
   activeFlow: CompassFlow;
@@ -293,8 +313,8 @@ function CompassShell({
     );
   }
 
-  if (variant === 'hub') {
-    return <div className="space-y-4">{children}</div>;
+  if (variant === 'hub' || variant === 'module') {
+    return <div className="space-y-3">{children}</div>;
   }
 
   return <div className="space-y-6">{children}</div>;

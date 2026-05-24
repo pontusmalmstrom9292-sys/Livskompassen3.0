@@ -156,13 +156,13 @@ flowchart TB
 ## Planerat (MUST NOT tappas)
 
 - [x] **G1** Deploy `valvChatQuery` (live 2026-05-21)
-- [ ] **G2** Vector endpoint deployad — prod env/secrets **VERIFY** ([`GCP-INVENTORY-LATEST`](../docs/GCP-INVENTORY-LATEST.md))
-- [ ] **G3** Embeddings smoke 768 — index 4 vectors, full ANN **VERIFY**
+- [x] **G2** Vector endpoint deployad — VERIFY PASS 2026-05-22 ([`GCP-INVENTORY-LATEST`](../docs/GCP-INVENTORY-LATEST.md))
+- [x] **G3** Embeddings smoke 768 — VERIFY PASS 2026-05-22
 - [ ] **G4** Avveckla legacy Python RAG (us-central1)
 - [x] **G5** Retention allowlist — exkludera WORM permanent
 - [ ] **G6** Drive smoke end-to-end (secret + Apps Script — manuellt)
 - [ ] **G7** `journal_woven` synaps
-- [ ] **G8** Familjen-RAG (Mönster-Arkivarien, **inte** Valv-Chat)
+- [x] **G8** Familjen-RAG — **done** 2026-05-22 (`childrenLogsQuery` + Mönster-Arkivarien Barnen)
 - [x] **G9** EntityProfile / SystemSynapse Firestore + agent grounding
 - [x] **G10** Självsorterande inkorg (Kunskap-SPEC §12)
 - [x] **G11** Rensa/isolera mock `Kampspar`-typ vs `KampsparEntry`

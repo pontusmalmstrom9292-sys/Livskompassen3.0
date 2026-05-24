@@ -10,7 +10,9 @@ Canonical: `.context/modules/barnens_livsloggar.md` · Spec: `docs/specs/modules
 
 | Path | Role |
 |------|------|
-| `components/FamiljenPage.tsx` | Kluster-wrapper |
+| `components/FamiljenPage.tsx` | Hub + 5 underflikar (`?tab=`) |
+| `components/familjen/*` | Reflektion, Livslogg, Tillsammans, Mönster, Kunskapshub |
+| `hooks/useFamiljenShell.ts` | Delad PIN, loggar, barn |
 | `components/BarnensPage.tsx` | PIN, flikar, orkestrator |
 | `components/ChildSubLogPanel.tsx` | Livslogg steg 1 + bevis-val |
 | `components/SaveAsEvidencePrompt.tsx` | `saveVaultLog` + `sourceRef` |
@@ -34,6 +36,7 @@ Canonical: `.context/modules/barnens_livsloggar.md` · Spec: `docs/specs/modules
 | Incident → valv knapp | Kladd explicit bro | Ja | **done** |
 | Tredjepart-tagg filter | BBIC-export | Ja | **done** |
 | Livslogg steg 1 → bevis-val | Wizard-lätt | Ja | **partial** |
+| **Barnfokus-frågor** (låst UX) | Roterande kategorier + minneslista + optimistisk save | Ja | **done** — `BarnfokusFraganPanel`, `smoke:locked-ux` |
 | Unmount cleanup | Zero Footprint | Ja | **done** |
 | Bro → Dossier | Samlad export | Länk | **done** |
 | PDF + Dossier | Juridisk rapport | Dossier MVP | **partial** |

@@ -1,0 +1,133 @@
+{
+  "version": "2026-05-24",
+  "source_policy": "reference_batch_approved",
+  "default_source": "barn_referens_seed",
+  "entries": [
+    {
+      "title": "Barns utveckling — åldersnormer 0–12",
+      "content": "Utveckling sker i vågor, inte i rak linje. BBIC-dimensionen barnets utveckling omfattar motorik, språk, kognition, socialt samspel och självständighet.\n\n0–2 år: grundtrygghet och anknytning. Barnet söker närhet, imiterar, utvecklar språk och rörelse. Regression vid stress är normalt.\n\n3–5 år: lek blir symbolisk; barn testar gränser; starka känslor utan full självreglering. Behov av förutsägbarhet och vuxen som reglerar tempot.\n\n6–8 år: skolstart, jämnåriga, skam och skuld blir tydligare. Barn jämför sig. Konflikter i syskonskap och kamratrelationer är vanliga.\n\n9–12 år: abstrakt tänkande växer; identitet och lojalitetskonflikter i separation kan intensifieras. Barn kan dölja känslor för att skydda förälder.\n\nViktigt: avvikelse från norm behöver inte vara patologi — stress, sömnbrist, konflikt hemma och NPF påverkar beteende markant. Dokumentera observationer neutralt (datum, kontext, vem såg), inte tolkningar.",
+      "category": "barn",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "Anknytning och trygg bas",
+      "content": "Anknytningsteori (Bowlby/Ainsworth): barn behöver minst en konsekvent trygg vuxen som är tillgänglig, responsiv och icke-hotfull. Trygg bas gör att barn vågar utforska världen och återvända vid stress.\n\nTrygg anknytning byggs genom: förutsägbarhet, validering av känslor, reparation efter missförstånd (vuxen tar ansvar när relationen spricker), och fysisk närvaro utan att kräva att barnet \"mår bra\".\n\nOsäker anknytning kan uppstå när vuxen är inkonsekvent, emotionellt otillgänglig, eller när barnet måste trösta vuxen (parentification). Det är ett mönster — inte ett permanent stämpel på barnet.\n\nFör parallellt föräldraskap: barn kan ha olika anknytningsupplevelser i olika hem. En stabil pappa som är \"hamn\" kompenserar delvis — men ersätter inte behovet av skydd i båda hem.\n\nPraktiskt: hälsa barnet, möt blick, namnge känsla (\"du verkar trött/arg/ledsen\"), erbjud val inom ram (\"vill du sitta här eller där?\"), håll övergångar förutsägbara.",
+      "category": "barn",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "Barns känslor — validering utan JADE",
+      "content": "Barns känslor är biologiska signaler, inte manipulation. Emotionell utveckling: spädbarn regleras helt av vuxen; små barn delreglerar; skolbarn lär sig namnge och pausa; tonåringar utvecklar identitet kring känslor.\n\nValidering = bekräfta att upplevelsen är förståelig, utan att godkänna destruktivt beteende. Struktur: 1) Spegla (\"Jag ser att du är arg\"). 2) Normalisera (\"Det är okej att känna så\"). 3) Gräns om behov (\"Vi slår inte\"). 4) Ett val eller mikrosteg.\n\nUndvik JADE mot barn: rättfärdiga inte, argumentera inte bort känslan, försvara inte andra vuxna, förklara inte bort med \"men mamma menar väl…\". Barn i lojalitetsfällor behöver att deras upplevelse tas på allvar utan att du talar illa om mor.\n\nEmotionell invalidation (\"sluta gråta\", \"det var inget\", \"du överdriver\") lär barn att dölja känslor och tvivla på egen perception — samma mekanism som gaslighting hos vuxna.\n\nCo-regulation: ditt lugna nervsystem reglerar barnets. Andas långsamt, sänk rösten, minska stimuli vid överbelastning (särskilt NPF-barn).",
+      "category": "barn",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "Emotionell co-regulation — pappa som hamn",
+      "content": "Co-regulation: vuxen bär en del av barnets affekt tills barnet kan återhämta sig. \"Den trygga hamnen\" är inte att lösa allt — det är att vara stabil när barnet stormar.\n\nProtokoll vid akut barnstress: 1) Stoppa input (skärm, frågor, konflikt). 2) Närhet utan krav (sitta bredvid, erbjud filt). 3) Namnge känsla kort. 4) Vänta — tystnad är okej. 5) Ett konkret nästa steg (vatten, promenad, vila).\n\nEfter separation/överlämning: barn kan vara utmattade, regressiva eller \"hyperglada\". Ge 30–60 min dekompression utan krav. Fråga inte direkt \"vad hände hos mamma\" — erbjud istället \"hur känns kroppen nu?\".\n\nFör syskon (t.ex. Kasper + Arvid): yngre kan imitera äldres stress (emotionell smitta). Ge varje barn enskild tid. Undvik att äldre syskon blir medförälder.\n\nDin egen dysreglering (ADHD/GAD, trötthet) påverkar barnet. Det är okej att säga \"pappa behöver andas en minut — jag är tillbaka\" — det modellerar reparation.",
+      "category": "barn",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "Barns stresssignaler — kropp och beteende",
+      "content": "Stress hos barn syns ofta i kroppen före ord. BBIC: observera utveckling + skydd + relationer tillsammans.\n\nFysiska signaler: sömnstörning, magsmärta/huvudvärk, aptitförändring, trötthet, återkommande infektioner, enures (kissning) efter tidigare torrhet.\n\nBeteendesignaler: regression (babytalk, klängighet), aggression, tillbakadragenhet, perfektionism, överanpassning (\"glad flicka/pojke\"-fasad), skolproblem, somatisering.\n\nKontext som förstärker stress: hög konflikt mellan föräldrar, oförutsägbara överlämningar, att vara budbärare, att höra en förälder prata illa om den andra, ekonomisk osäkerhet, skolmobbing.\n\nLoggning (Barnen-modulen): fysiologi 1–5, sömn, humör, händelser — neutralt och datat. Mönster över tid (t.ex. mammaveckor vs pappaveckor) är starkare underlag än enstaka incidenter.\n\nVid oro: kontakta BVC/skola/hälsocentral. Dokumentera observationer, inte diagnoser på vuxna.",
+      "category": "barn",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "NPF-barn i högkonflikt familj",
+      "content": "Barn med autism (nivå 1) och/eller ADHD har ofta: känslighet för sensorisk input, svårare exekutiv funktion, impulsivitet, svårighet att läsa sociala nyanser, och lägre tolerans för oförutsägbarhet.\n\nI vårdnadskonflikt: NPF-barn riskerar dubbel belastning — neurologisk sårbarhet plus lojalitetsstress. Utagerande i skola kan vara överbelastning, inte \"dålig uppfostran\".\n\nStödstrategier: visuellt schema, fasta rutiner vid överlämning, förvarning före byten, låg stimuli-vila efter skola, protein/hydration (trött/hungrig korrelerar med beteende — skolobservationer är relevanta), inte flera nya regler samtidigt.\n\nSkola som tredjepart: dela neutral logg, inte sms-krig. Be om observationer (sömn, mat, koncentration) per vecka. Extra anpassningar (IUP) ska följa barnet i båda hem om möjligt.\n\nValidera barnets upplevelse utan att etikettera mor. Fokus: barnets behov nu + dokumentation för BBIC.",
+      "category": "barn",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "Högkonflikt separation — barns grundbehov",
+      "content": "Forskning på höga konflikter (inte lågintensiv skilsmässa generellt): det som skadar barn mest är ihållande konflikt och att barn utnyttjas som budbärare eller allierade — inte nödvändigtvis att bo i två hem.\n\nGrundbehov enligt BBIC och barnrättsperspektiv: fysisk trygghet, emotionell trygghet, förutsägbarhet, lojalitetsfrihet (får älska båda föräldrar), adekvat sömn/mat/skola, skydd från vuxenkonflikt.\n\nParallel parenting: minimera direkt kontakt mellan föräldrar; affärsmässig kommunikation (BIFF); separata skolaktiviteter om behov; samma regler kring skola och hälsa där möjligt.\n\nBarn ska inte: bära meddelanden, vittna om vuxenbeteende, trösta förälder emotionellt, välja sida, eller höra detaljer om rättsprocess.\n\nDin roll: var den förutsägbara parenten. Håll barnet utanför 90%-bruset. Logistik 10% via Hamn.",
+      "category": "barn",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "Narcissistisk förälder — barnets perspektiv",
+      "content": "Generell metod — inte diagnos på individ. Observerbara mönster i vissa högkonfliktfamiljer där en förälder dominerar barnets narrativ:\n\nBarnets upplevelse: kärlek kan kännas villkorad (prestation, lojalitet); barnet är spegel eller förlängning snarare än egen person; känslor hos barnet bagatelliseras om de hotar vuxens självbild; barn lär sig överanpassning och \"fasad\" utåt.\n\nVanliga dynamiker: idealisering och devalvering (splitting); ett barn som \"guldkorn\", ett som syndabock; barn som emotionell ventil eller stödjeperson för vuxen.\n\nLångsiktig risk: svårighet att lita på egen perception, perfektionism, people-pleasing, relationsmönster med gränsöverträdelser, för tidig mognad (parentification).\n\nSkydd: en stabil andra förälder, neutral dokumentation, terapeutiskt stöd för barn (skolkurator/BUP), tredjepart som ser barnet regelbundet.\n\nInför myndigheter: beskriv beteenden och barnets behov — undvik etiketter (\"narcissist\"). Använd BBIC + observationer.",
+      "category": "metod",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "Parentification — när barn blir vuxen",
+      "content": "Parentification: barn tar emotionella, praktiska eller medierande roller som tillhör vuxen. Typer: 1) Emotionell — tröstar, medlar, bär hemligheter. 2) Instrumentell — sköter syskon, mat, städning utöver ålder. 3) Medierande — budbärare mellan föräldrar.\n\nTecken: barn som \"mogen för sin ålder\", minimiserar egna behov, ängslan för att göra förälder ledsen, överdriven ansvarskänsla, svårt att leka/spontant.\n\nSkada: missad barndom, utbrändhet, skam, svårigheter med gränser som vuxen. Syskon kan ha olika roller (en parentifierad, en \"problem\").\n\nMotåtgärder: explicit ge tillbaka ansvar till vuxna (\"det här är pappas/mammans jobb, inte ditt\"); skydda barn från konflikt; professionellt stöd; validera att barn får vara barn.\n\nI parallellt föräldraskap: du kan inte kontrollera andra hemmet — skapa tydlig \"här är du barn\"-struktur i ditt hem. Dokumentera om barnet uttrycker otillbörligt ansvar.",
+      "category": "metod",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "Emotionell invalidation hos barn",
+      "content": "Emotionell invalidation: systematiskt avfärda, skämma ut eller tysta barnets känslor. Exempel: \"sluta gråta\", \"du är känslig\", \"det hände inte\", \"du hittar på\", \"tänk på hur mamma mår\".\n\nEffekt: barn lär sig att dölja affekt; ökad somatisering; svårare emotionell reglering; ökad risk för att normalisera relationer där gränser ignoreras.\n\nKoppling till gaslighting: när barnets minne/kropp motsägs av auktoritetsfigur växer osäker anknytning och självförtroende urholkas.\n\nMotgift hos trygg förälder: \"Jag tror dig\"; \"det är förståeligt att du känner så\"; skilj fakta och känsla (Speglar-princip); skriv neutral logg vid upprepade mönster.\n\nUndvik att överkorrigera genom att prata illa om mor — fokusera på barnets nuvarande upplevelse och trygghet.",
+      "category": "metod",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "Guldkorn och syndabock — syskondynamik",
+      "content": "I vissa dysfunktionella familjesystem (generellt mönster): ett barn idealiseras (\"guldkorn\"), ett annat bär skuld (\"syndabock\"). Rollerna kan bytas men syskon splittras.\n\nGuldkorn: höga förväntningar, perfektionism, dold stress, svårt att visa sårbarhet.\n\nSyndabock: allt fel projiceras hit; DARVO mot barn; skolproblem kan vara uttryck för stress, inte \"karaktär\".\n\nSyskon: kan utveckla rivalitet, skuld eller sammanhållning mot omvärlden. Ge varje barn egen relation med dig — undvik jämförelser.\n\nStrategi: neutral logg per barn; skolans observationer som tredjepart; aldrig be barnet förklara syskons eller förälders beteende.\n\nKasper/Arvid: separata profiler i Barnen; individuell tid; ingen roll som medförälder för äldre syskon.",
+      "category": "metod",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "Strategi — skydda barn utan att tala illa om mor",
+      "content": "Barn i separation har lojalitetsbindning till båda föräldrar. Att höra en förälder förringa den andra skadar barnet — även om kritiken är sann.\n\nGör: validera barnets känsla (\"det låter jobbigt\"); håll vuxenlogik borta; erbjud stabil rutin; dokumentera neutralt; använd BIFF/Grey Rock i vuxenkontakt; involvera skola/BVC vid mönster.\n\nGör inte: detaljanalys av mors beteende framför barn; fråga barnet vittna; belöna avstånd från mor; hota med flytt; använda barn som ventil.\n\nOm barn uttrycker rädsla: lyssna, skriv datum och citat ordagrant i Barnen/Valv enligt policy; kontakta professionell (skolkurator, soc) vid skyddsfråga — fakta och barnets bästa, inte etiketter.\n\nSoc: barnets bästa + dokumentation + tredjepart. Se \"Soc: fakta före känsla\".",
+      "category": "strategi",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "Lojalitetsfälla och splitting",
+      "content": "Lojalitetsfälla: barn känner att de måste välja sida eller dölja kärlek till en förälder. Splitting (svart/vitt): en förälder idealiseras, den andra demoniseras — barnet internaliserar modellen.\n\nTecken hos barn: överdriven lojalitet mot en vuxen; skuld efter rolig tid hos andra parenten; hemligheter; \"dual life\"-beteende mellan hem.\n\nSkydd: explicit tillstånd att älska båda (\"det är okej att du saknar mamma här och tvärtom\"); inga frågor som tvingar position; stabil identitet hos dig (\"här behöver du inte välja\").\n\nMot splitting från vuxen: svara inte i samma register; dokumentera; håll barnet utanför narrativet.\n\nTerapeutiskt stöd för barn kan normalisera lojalitetskonflikt utan att barnet behöver \"sida med\" någon.",
+      "category": "metod",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "Utvecklingsmilstolpar 3–7 år",
+      "content": "Förskoleåldern: lek blir regelstyrd; fantasi och rädslor (monster, separation); börjar förstå perspektiv hos andra; impulskontroll fortfarande svag.\n\nSocialt: vänskap byter snabbt; tar tid att lära sig dela och förlora; fysisk aggression kan förekomma vid frustration — normalt men behöver gräns.\n\nKognitivt: frågar \"varför\" konstant; magiskt tänkande (orsak/korrelation blandas).\n\nEmotionellt: starka känslor, korta toppar; behöver vuxen som namnger och håller ram.\n\nArvid-ålder (född 2021): regression vid stress är förväntat; ge extra närhet; undvik att kräva \"stora pojken\"-beteende när syskon eller separation belastar.\n\nVarningstecken att logga: långvarig regression, isolering, nattterrors, aggressivitet som eskalerar, eller uttryck för otillbörligt ansvar.",
+      "category": "barn",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "Utvecklingsmilstolpar 8–12 år",
+      "content": "Skolåldern: jämförelse med kamrater; skam blir central; behov av att höra till.\n\nKognitivt: logiskt tänkande växer; kan planera enklare uppgifter; läsning och skrivning central för självkänsla i skola.\n\nSocialt: kamratgrupper, exclusivity, tidiga hierarkier; mobbing kan börja — särskilt för NPF-barn.\n\nEmotionellt: kan dölja känslor för att inte belasta vuxen; perfektionism; \"allt är fine\"-fasad trots stress.\n\nKasper-ålder (född 2018): autism+ADHD innebär ofta sensorisk/trötthets-känslighet; skolans struktur avgörande; hemma behövs decompression.\n\nStöd: tydliga rutiner, förhandsinformation om schemaändringar, validera utan att fixa allt, involvera skola med IUP/anpassningar, individuell tid med pappa.\n\nLogga skolbeteende neutralt — korrelation med vecka/boende ger BBIC-underlag.",
+      "category": "barn",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "Barn och skam — healthy vs toxic",
+      "content": "Skam är normal utvecklingskänsla när barn lär sig sociala regler. Healthy shame: kort, kopplad till handling (\"jag gjorde fel\"), repareras med vuxen.\n\nToxic shame: barnet känner sig fundamentalt fel (\"jag är fel\"). Uppstår vid upprepad kritik, jämförelse, publik förödmjukelse, eller när barn bär vuxens skuld.\n\nTecken: undvikande blick, överdriven ursäkt, perfektionism, aggression som sköld, somatisering.\n\nMotgift: separera barn och beteende (\"du är okej — slå inte\"); modellera reparation; ingen skam som disciplin; erkänn dina misstag som vuxen.\n\nI konflikt där ett barn pekas ut (syndabock): motverka genom att inte projicera skuld tillbaka på barnet — dokumentera systemiska mönster neutralt.",
+      "category": "barn",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "Professionellt stöd för barn — vägar",
+      "content": "När involvera profession: ihållande sömn-/matproblem, skolfrånvaro, våld/ hot, uttryckt rädsla, självskada, extrem regression, parentification.\n\nSverige — vanliga ingångar: BVC (yngre barn), skolhälsovård/skolsköterska, skolkurator, BUP (remiss via VC), familjerådgivning, socialtjänst vid skyddsbedömning.\n\nFörberedelse: neutral tidslinje (datum, observation, vem såg); undvik diagnos-etiketter på förälder; fokus barnets behov och funktion hem/skola.\n\nSamtycke: båda vårdnadshavare kan behövas för vissa insatser — dokumentera om samtycke blockeras och barnets behov kvarstår.\n\nDitt stöd hemma: förutsägbarhet, validering, ingen lojalitetspress — professionellt stöd kompletterar, ersätter inte trygg bas.",
+      "category": "barn",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    },
+    {
+      "title": "DARVO och barn — projektion mot syskon",
+      "content": "DARVO (Deny, Attack, Reverse Victim and Offender) kan riktas mot barn: vuxen förnekar beteende, attackerar barnets trovärdighet, framställer sig som offer och barnet som problemet.\n\nI skola: syndabocks-barn får ofta etikett (\"svår\", \"aggressiv\") medan kontext (konflikt hemma, sömn, hunger) ignoreras.\n\nSkydd: samla tredjepartsdata (Ann, Lena Törning — skolans neutrala observationer); separera barnets beteende från vuxenkonflikt i logg; begär funktionsbedömning (NPF) före moralisk etikett.\n\nPrata med barn: \"vuxna ansvarar för sitt beteende — inte du\"; validera utan att detaljanalysera mor.\n\nValv/Kunskap: mönster → Kunskap (metod); specifik incident → Barnen eller Valv enligt allvar.",
+      "category": "metod",
+      "eventDate": null,
+      "source": "barn_referens_seed"
+    }
+  ]
+}

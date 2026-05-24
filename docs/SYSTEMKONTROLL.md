@@ -2,7 +2,7 @@
 
 **Syfte:** När det känns rörigt — ett ställe att starta, färdiga analysprompter, och var sanningen bor. Du behöver inte minnas hela projektet; kör en analys och spara resultatet.
 
-**Senast uppdaterad:** 2026-05-22
+**Senast uppdaterad:** 2026-05-24
 
 ---
 
@@ -15,6 +15,7 @@
 | Osäker på moln vs dokumentation | **C** GCP live-synk |
 | Grunder / Life OS / silos känns oklara | **D** Grunder (U1–U5) |
 | Många filer, kladd, flera chattar | **E** Kaos → samlad rapport |
+| **Nattpass / batch utan LLM** | **`npm run orkester:night`** → [`ORKESTER-AUTORUN.md`](./ORKESTER-AUTORUN.md) |
 
 **Ett steg i taget:** Välj **en** bokstav. Klistra in prompten i Cursor (`Cmd + I`). Spara svaret enligt [Var sparas resultat?](#var-sparas-resultat) nedan.
 
@@ -52,6 +53,16 @@ Verifiera mot kod + [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md). Detaljer i [`.
 | Kill Switch | skaka ≥15 m/s² | → `/`, session rensad |
 
 **Permanent minne (får inte raderas av retention):** `children_logs`, `reality_vault`, `journal`, `dossier_snapshots`.
+
+## Locked UX Features (låsta produktflöden)
+
+Får **inte** tas bort vid refaktor. Register: [`.context/locked-ux-features.md`](../.context/locked-ux-features.md). Guard: `npm run smoke:locked-ux`.
+
+| Feature | Route | Verifiering |
+|---------|-------|-------------|
+| **Middagsfrågan** | `/familjen` | Smoke #19 · minneslista + `category: middag` |
+| **Valv Mönster** | `/dagbok?tab=bevis` → flik Mönster | Smoke #20 · `VaultMonsterPanel` |
+| **Valv Orkester** | samma → flik Orkester | Smoke #20 · SMS mönstersökning |
 
 ---
 
@@ -242,7 +253,7 @@ Kör när du vill dubbelkolla utan Cursor:
 | GCP Fas 4 | [`GCP-FAS4-RUNBOOK.md`](./GCP-FAS4-RUNBOOK.md) |
 | Produkt-MVP klar per modul | [`src/modules/README.md`](../src/modules/README.md) + respektive `*-SPEC.md` |
 
-**Aktuell huvudfas (2026-05-22):** Fas 2–3 i stort sett klara; öppet: manuell smoke, opt-in minne-ingest, G9–G14 Life OS. Se live-rader i `system-plan.md` under "Idag" och "Kommande fas".
+**Aktuell huvudfas (2026-05-23):** Fas 4 — verifiering + Ekonomi doc-synk **done**; öppet: manuell smoke (#18 ekonomi), opt-in minne-ingest. G9–G14 **done** (se `Arkiv-GAP-REGISTER.md`). Utvärdering: [`evaluations/2026-05-23-A-helhetsstatus.md`](./evaluations/2026-05-23-A-helhetsstatus.md).
 
 ---
 

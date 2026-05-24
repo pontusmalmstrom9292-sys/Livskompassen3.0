@@ -1,0 +1,25 @@
+---
+description: Anti-hallucination — verifiera mot kod/moln innan påståenden; inga gissningar om deploy eller GAP-status
+alwaysApply: true
+---
+
+# Anti-hallucination
+
+## MUST
+
+1. **Läsa innan påstående** — grep/read `functions/src`, `firestore.rules`, `package.json` scripts.
+2. **Live sanning** — GCP: `docs/GCP-INVENTORY-LATEST.md`; GAP: `docs/specs/modules/Arkiv-GAP-REGISTER.md`.
+3. **Stub vs live** — kontrollera `synapseBus.ts` handlers, inte bara äldre docs.
+4. **Citat** — fil:rad när du refererar beteende.
+5. **Osäkerhet** — säg "ej verifierat" och ange exakt kommando för bevis.
+
+## MUST NOT
+
+- Markera GAP som done/open utan att läsa register + kod.
+- Hitta på deploy-status, secrets, eller Vector-index utan inventering/smoke.
+- Använda LLM-output som källa för auth, ägarskap eller immutable evidence.
+- Skapa mock-säkerhet och kalla det WORM/CMEK.
+
+## Smoke före "klart"
+
+Minst: `npm run build`, `npm run smoke:locked-ux`, `npm run smoke:orkester` för ändringar som rör agents/synapser/UX locks.

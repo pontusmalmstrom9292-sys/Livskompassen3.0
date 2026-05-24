@@ -1,36 +1,41 @@
 # ekonomi
 
-> Budget och likviditet — placeholder utan Firestore-schema ännu.
+> Vardagsekonomi — veckopeng, matlåda, vinst. Firestore live, inga grafer.
 
 ## Syfte
 
-Veckopeng, matlåda-knapp, inga grafer. Kognitiv avlastning för vardagsekonomi. **Inte** Livs-Coachen (→ Kunskap).
+Veckopeng, matlåda-knapp, vinst-knapp, transaktionslista. Kognitiv avlastning. **Inte** Livs-Coachen (→ Kunskap).
 
 ## Route och ingång
 
 | | |
 |---|---|
-| **Route** | `/ekonomi` |
-| **AuthGate** | ja |
-| **Dock** | Map |
+| **Route** | `/ekonomi` → `/vardagen?tab=ekonomi` |
+| **AuthGate** | ja (via `/vardagen`) |
+| **Dock** | Map → Vardagen |
 
 ## Viktiga filer
 
 | Fil | Roll |
 |-----|------|
-| `components/EconomyPage.tsx` | SaldoHero + MetricTile + EmptyState (placeholder) |
+| `components/EconomyPage.tsx` | SaldoHero, snabbknappar, lista, profil |
 
 ## Data
 
-Ingen Firestore-collection ännu. Data Connect avvaktas (system-plan).
+| Collection | Roll |
+|------------|------|
+| `transactions` | WORM append-only |
+| `economy_profiles` | veckobudget, matlåda-preset |
+
+Lönespec (Fas 2): `functions/src/economy/vendor/` — ej kopplad till UI.
 
 ## Beror på
 
-- `core` — SaldoHero, MetricTile, layout, auth
+- `core` — SaldoHero, MetricTile, firestore helpers, auth
 
 ## Kopplingar
 
-Inga datakopplingar till Valv, Dagbok eller Kunskap.
+Inga datakopplingar till Valv, Dagbok eller Kunskap RAG.
 
 ## Minne / AI
 
@@ -38,8 +43,7 @@ Inga datakopplingar till Valv, Dagbok eller Kunskap.
 |---|---|
 | **Permanent lagring** | `transactions`, `economy_profiles` |
 | **RAG / chatt** | Nej |
-| **PDF / samlad export** | — |
-| **Planerat** | — |
+| **PDF / samlad export** | Planerat (explicit val) |
 
 ## Mer läsning
 

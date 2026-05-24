@@ -1,174 +1,35 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, Loader2 } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { PinGate } from '../../core/ui/PinGate';
 import { EmptyState } from '../../core/ui/EmptyState';
 import { TimelineEntry } from '../../core/ui/TimelineEntry';
-import { useStore } from '../../core/store';
-import { saveChildrenLog, getChildrenLogs } from '../../core/firebase/firestore';
-import { CHILD_ALIASES, type ChildAlias } from '../constants';
-import type { ChildrenLogEntry, PhysiologicalSignals } from '../types';
-import { computeBalansIndex } from '../utils/balansIndex';
-import {
-  downloadBalansReportJson,
-  exportBalansReport,
-  printBalansReport,
-} from '../utils/exportBalansReport';
+import { BarnfokusFraganPanel } from './BarnfokusFraganPanel';
+import { ChildProfileCards } from './ChildProfileCards';
+import { PositivaMinnesankare } from './PositivaMinnesankare';
+import { ParentReminderFooter } from './ParentReminderFooter';
+import type { ChildAlias } from '../constants';
 import { BalansMatare } from './BalansMatare';
 import { PhysiologicalControls } from './PhysiologicalControls';
 import { ChildSubLogPanel } from './ChildSubLogPanel';
 import { SaveAsEvidencePrompt } from './SaveAsEvidencePrompt';
 import { ChildrenLogsChat } from './ChildrenLogsChat';
-
-const CHILDREN_PIN_KEY = 'livskompassen_children_pin_hash';
-
-function hashPin(pin: string): string {
-  let h = 0;
-  for (let i = 0; i < pin.length; i++) h = (Math.imul(31, h) + pin.charCodeAt(i)) | 0;
-  return String(h);
-}
-
-const defaultSignals: PhysiologicalSignals = { somn: 3, angest: 3, aptit: 3 };
-
-type LogFilter = 'all' | 'skola' | 'livslogg';
+import { useFamiljenShell } from '../hooks/useFamiljenShell';
+import {
+  downloadBalansReportJson,
+  exportBalansReport,
+  printBalansReport,
+} from '../utils/exportBalansReport';
 
 type BarnensPageProps = {
   embedded?: boolean;
 };
 
+/** @deprecated embedded — använd `/familjen` med underflikar. Behålls för smoke + legacy embed. */
 export function BarnensPage({ embedded = false }: BarnensPageProps) {
-  const user = useStore((s) => s.user);
-  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
-  const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
-  const [unlocked, setUnlocked] = useState(false);
-  const [pin, setPin] = useState('');
-  const [needsSetup, setNeedsSetup] = useState(!localStorage.getItem(CHILDREN_PIN_KEY));
-  const [confirmPin, setConfirmPin] = useState('');
-  const [activeChild, setActiveChild] = useState<ChildAlias>('Kasper');
-  const [signals, setSignals] = useState<PhysiologicalSignals>(defaultSignals);
-  const [logs, setLogs] = useState<ChildrenLogEntry[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [logFilter, setLogFilter] = useState<LogFilter>('all');
-  const [evidenceForLogId, setEvidenceForLogId] = useState<string | null>(null);
+  const shell = useFamiljenShell();
 
-  useEffect(() => {
-    if (!isVaultUnlocked) setUnlocked(false);
-  }, [isVaultUnlocked]);
-
-  useEffect(() => {
-    const onVisibility = () => {
-      if (document.visibilityState === 'hidden') setUnlocked(false);
-    };
-    document.addEventListener('visibilitychange', onVisibility);
-    return () => document.removeEventListener('visibilitychange', onVisibility);
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      setPin('');
-      setConfirmPin('');
-      setEvidenceForLogId(null);
-    };
-  }, []);
-
-  const refreshLogs = useCallback(async () => {
-    if (!user) return;
-    const data = await getChildrenLogs(user.uid);
-    setLogs(data as ChildrenLogEntry[]);
-  }, [user]);
-
-  useEffect(() => {
-    if (unlocked && user) {
-      refreshLogs().catch(() => setError('Kunde inte hämta loggar.'));
-    }
-  }, [unlocked, user, refreshLogs]);
-
-  useEffect(() => {
-    setSignals(defaultSignals);
-    setError(null);
-    setEvidenceForLogId(null);
-  }, [activeChild]);
-
-  const balans = useMemo(
-    () => computeBalansIndex(logs, activeChild),
-    [logs, activeChild],
-  );
-
-  const childLogs = useMemo(() => {
-    let rows = logs.filter((l) => l.childAlias === activeChild);
-    if (logFilter === 'skola') {
-      rows = rows.filter(
-        (l) =>
-          l.action === 'livslogg' &&
-          (l.category === 'skola' || l.category === 'tredjepart'),
-      );
-    } else if (logFilter === 'livslogg') {
-      rows = rows.filter((l) => l.action === 'livslogg');
-    }
-    return rows;
-  }, [logs, activeChild, logFilter]);
-
-  const handleUnlock = () => {
-    if (needsSetup) {
-      if (pin.length < 4 || pin !== confirmPin) {
-        setError('PIN måste matcha (minst 4 tecken).');
-        return;
-      }
-      localStorage.setItem(CHILDREN_PIN_KEY, hashPin(pin));
-      setNeedsSetup(false);
-      setUnlocked(true);
-      setPin('');
-      setConfirmPin('');
-      setError(null);
-      return;
-    }
-    if (localStorage.getItem(CHILDREN_PIN_KEY) === hashPin(pin)) {
-      setUnlocked(true);
-      setPin('');
-      setError(null);
-    } else {
-      setError('Fel PIN.');
-    }
-  };
-
-  const handleSavePhysio = async () => {
-    if (!user) return;
-    setLoading(true);
-    setError(null);
-    try {
-      await saveChildrenLog(user.uid, {
-        childAlias: activeChild,
-        observation: '',
-        action: 'fysiologi',
-        signals,
-      });
-      await refreshLogs();
-    } catch {
-      setError('Kunde inte spara signaler.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSaveObservation = async (data: {
-    observation: string;
-    category: string;
-    childrenImpact?: string;
-  }) => {
-    if (!user) throw new Error('Ej inloggad');
-    setError(null);
-    const id = await saveChildrenLog(user.uid, {
-      childAlias: activeChild,
-      ...data,
-      action: 'livslogg',
-    });
-    await refreshLogs();
-    return id;
-  };
-
-  if (!unlocked) {
+  if (!shell.unlocked) {
     return (
       <BentoCard
         title={embedded ? 'Livsloggar' : 'Barnens livsloggar'}
@@ -176,39 +37,59 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
       >
         <PinGate
           description="Kasper och Arvid — neutrala observationer. Separat PIN, Zero Footprint."
-          pin={pin}
-          confirmPin={confirmPin}
-          setupMode={needsSetup}
-          error={error}
+          pin={shell.pin}
+          confirmPin={shell.confirmPin}
+          setupMode={shell.needsSetup}
+          error={shell.error}
           icon={<Heart className="h-4 w-4" />}
-          onPinChange={setPin}
-          onConfirmPinChange={setConfirmPin}
-          onSubmit={handleUnlock}
+          onPinChange={shell.setPin}
+          onConfirmPinChange={shell.setConfirmPin}
+          onSubmit={shell.handleUnlock}
         />
       </BentoCard>
     );
   }
 
-  if (!user) {
+  if (!shell.user) {
     return <p className="text-sm text-text-muted">Logga in för att spara livsloggar.</p>;
   }
 
+  const {
+    activeChild,
+    setActiveChild,
+    balans,
+    barnfokusMemory,
+    logs,
+    signals,
+    setSignals,
+    loading,
+    error,
+    logFilter,
+    setLogFilter,
+    childLogs,
+    evidenceForLogId,
+    setEvidenceForLogId,
+    handleSavePhysio,
+    handleSaveObservation,
+    handleSaveBarnfokus,
+    lockModule,
+  } = shell;
+
   return (
     <div className="space-y-4">
-      <div className="flex gap-2">
-        {CHILD_ALIASES.map((name) => (
-          <button
-            key={name}
-            type="button"
-            onClick={() => setActiveChild(name)}
-            className={`flex-1 rounded-xl border py-2 text-sm ${
-              activeChild === name ? 'chip--active' : 'chip--idle'
-            }`}
-          >
-            {name}
-          </button>
-        ))}
-      </div>
+      <ChildProfileCards
+        selected={activeChild as ChildAlias}
+        onSelect={(alias) => setActiveChild(alias)}
+      />
+
+      <BarnfokusFraganPanel
+        key={`barnfokus-${activeChild}`}
+        childAlias={activeChild}
+        memoryRows={barnfokusMemory}
+        onSave={handleSaveBarnfokus}
+      />
+
+      <PositivaMinnesankare logs={logs} childAlias={activeChild as ChildAlias} />
 
       <BentoCard title={`${activeChild} — Balans`} icon={<Heart className="h-4 w-4" />}>
         <BalansMatare result={balans} />
@@ -246,7 +127,7 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
         <PhysiologicalControls signals={signals} onChange={setSignals} />
         <button
           type="button"
-          onClick={handleSavePhysio}
+          onClick={() => void handleSavePhysio()}
           disabled={loading}
           className="btn-pill--accent mt-4 disabled:opacity-50"
         >
@@ -256,16 +137,13 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
         <ChildSubLogPanel
           key={activeChild}
           childAlias={activeChild}
-          userId={user.uid}
+          userId={shell.user.uid}
           onSave={handleSaveObservation}
         />
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}
         <button
           type="button"
-          onClick={() => {
-            setUnlocked(false);
-            setVaultUnlocked(false);
-          }}
+          onClick={lockModule}
           className="mt-4 text-xs uppercase tracking-widest text-text-dim"
         >
           Lås modul
@@ -314,7 +192,7 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
                 {log.action === 'livslogg' && log.id && evidenceForLogId !== log.id && (
                   <button
                     type="button"
-                    onClick={() => setEvidenceForLogId(log.id)}
+                    onClick={() => setEvidenceForLogId(log.id!)}
                     className="mt-2 text-xs uppercase tracking-widest text-text-dim hover:text-gold"
                   >
                     Spara som bevis?
@@ -322,7 +200,7 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
                 )}
                 {evidenceForLogId === log.id && log.id && (
                   <SaveAsEvidencePrompt
-                    userId={user.uid}
+                    userId={shell.user.uid}
                     childAlias={activeChild}
                     childrenLogId={log.id}
                     observation={log.observation ?? log.truth ?? ''}
@@ -336,6 +214,8 @@ export function BarnensPage({ embedded = false }: BarnensPageProps) {
           </ul>
         )}
       </BentoCard>
+
+      <ParentReminderFooter />
     </div>
   );
 }

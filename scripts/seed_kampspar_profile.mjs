@@ -5,6 +5,7 @@
  *   node scripts/seed_kampspar_profile.mjs
  *   node scripts/seed_kampspar_profile.mjs --skip-existing
  *   node scripts/seed_kampspar_profile.mjs --category=diagnos
+ *   node scripts/seed_kampspar_profile.mjs --manifest=barn-referens
  *   node scripts/seed_kampspar_profile.mjs --anonymous
  *   node scripts/seed_kampspar_profile.mjs --verify
  *
@@ -28,7 +29,10 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 const envPath = resolve(root, '.env');
-const manifestPath = resolve(root, 'docs/specs/modules/Kampspar-PROFIL-SEED.json');
+const MANIFESTS = {
+  profil: resolve(root, 'docs/specs/modules/Kampspar-PROFIL-SEED.json'),
+  'barn-referens': resolve(root, 'docs/specs/modules/Kampspar-BARN-REFERENS-SEED.json'),
+};
 
 function loadEnv() {
   if (!existsSync(envPath)) {
@@ -54,13 +58,21 @@ const VERIFY_PROMPTS = [
 ];
 
 function parseArgs(argv) {
-  const args = { dryRun: false, skipExisting: false, category: null, anonymous: false, verify: false };
+  const args = {
+    dryRun: false,
+    skipExisting: false,
+    category: null,
+    manifest: 'profil',
+    anonymous: false,
+    verify: false,
+  };
   for (const arg of argv) {
     if (arg === '--dry-run') args.dryRun = true;
     else if (arg === '--skip-existing') args.skipExisting = true;
     else if (arg === '--anonymous') args.anonymous = true;
     else if (arg === '--verify') args.verify = true;
     else if (arg.startsWith('--category=')) args.category = arg.slice('--category='.length);
+    else if (arg.startsWith('--manifest=')) args.manifest = arg.slice('--manifest='.length);
   }
   return args;
 }
@@ -87,11 +99,20 @@ function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-function loadManifest() {
-  if (!existsSync(manifestPath)) {
-    throw new Error(`Saknar manifest: ${manifestPath}`);
+function resolveManifestPath(key) {
+  const path = MANIFESTS[key];
+  if (!path) {
+    throw new Error(`Okänt manifest "${key}". Tillgängliga: ${Object.keys(MANIFESTS).join(', ')}`);
   }
-  const raw = JSON.parse(readFileSync(manifestPath, 'utf8'));
+  if (!existsSync(path)) {
+    throw new Error(`Saknar manifest: ${path}`);
+  }
+  return path;
+}
+
+function loadManifest(key) {
+  const path = resolveManifestPath(key);
+  const raw = JSON.parse(readFileSync(path, 'utf8'));
   if (!Array.isArray(raw.entries)) {
     throw new Error('Manifest saknar entries-array');
   }
@@ -105,7 +126,7 @@ async function fetchExistingTitles(db, uid) {
   const titles = new Set();
   for (const doc of snap.docs) {
     const data = doc.data();
-    if (data.source === 'profile_seed' && typeof data.title === 'string') {
+    if (typeof data.title === 'string') {
       titles.add(data.title);
     }
   }
@@ -143,15 +164,18 @@ async function main() {
     throw new Error('VITE_FIREBASE_API_KEY och VITE_FIREBASE_PROJECT_ID krävs i .env');
   }
 
-  const manifest = loadManifest();
+  const manifest = loadManifest(args.manifest);
   let entries = manifest.entries;
+  const defaultSource = manifest.default_source || 'profile_seed';
 
   if (args.category) {
     entries = entries.filter((e) => e.category === args.category);
     console.log(`[seed] Filtrerar category=${args.category} → ${entries.length} poster`);
   }
 
-  console.log(`[seed] Manifest v${manifest.version} — ${entries.length} poster (${args.dryRun ? 'DRY-RUN' : 'LIVE'})`);
+  console.log(
+    `[seed] Manifest=${args.manifest} v${manifest.version} — ${entries.length} poster (${args.dryRun ? 'DRY-RUN' : 'LIVE'})`,
+  );
 
   if (args.dryRun) {
     for (const [i, e] of entries.entries()) {
@@ -181,7 +205,7 @@ async function main() {
   let existingTitles = new Set();
   if (args.skipExisting) {
     existingTitles = await fetchExistingTitles(db, uid);
-    console.log(`[seed] --skip-existing: ${existingTitles.size} befintliga profile_seed-titlar`);
+    console.log(`[seed] --skip-existing: ${existingTitles.size} befintliga titlar`);
   }
 
   const results = { ok: 0, skip: 0, fail: 0 };
@@ -207,7 +231,7 @@ async function main() {
         title: entry.title,
         content: entry.content,
         category: entry.category || undefined,
-        source: entry.source || 'profile_seed',
+        source: entry.source || defaultSource,
       };
       if (entry.eventDate) payload.eventDate = entry.eventDate;
 

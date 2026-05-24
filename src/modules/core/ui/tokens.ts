@@ -1,24 +1,28 @@
-/** Design tokens — canonical: docs/specs/design-master.md (Obsidian Calm, Riktning A) */
+/** Design tokens — synced from themeRegistry (Theme Pack I-stone default). */
+import { getTheme, DEFAULT_THEME_ID } from '../theme/themeRegistry';
+
+const stone = getTheme(DEFAULT_THEME_ID).cssVars;
+
 export const DESIGN = {
-  bg: '#020617',
-  surface: '#0f172a',
-  surface2: '#1e293b',
-  surface3: '#334155',
-  text: '#F1F5F9',
-  textMuted: '#94A3B8',
-  textDim: '#64748B',
-  accent: '#FDE68A',
-  accentSecondary: '#818CF8',
-  accentAi: '#6366F1',
-  accentLight: '#FEF3C7',
-  accentGlow: 'rgba(253, 230, 138, 0.15)',
-  success: '#2DD4BF',
-  warning: '#A16207',
-  danger: '#DC2626',
-  glass: 'rgba(15, 23, 42, 0.6)',
-  glassHero: 'rgba(15, 23, 42, 0.72)',
-  border: 'rgba(255, 255, 255, 0.06)',
-  borderStrong: 'rgba(255, 255, 255, 0.10)',
+  bg: stone['--bg'] ?? '#0a0a0a',
+  surface: stone['--surface'] ?? '#111111',
+  surface2: stone['--surface-2'] ?? '#1a1a1a',
+  surface3: stone['--surface-3'] ?? '#222222',
+  text: stone['--text'] ?? '#f5f0e8',
+  textMuted: stone['--text-muted'] ?? '#c4bdb4',
+  textDim: stone['--text-dim'] ?? '#a8a29e',
+  accent: stone['--accent'] ?? '#d4af37',
+  accentSecondary: stone['--accent-secondary'] ?? '#f59e0b',
+  accentAi: stone['--accent'] ?? '#d4af37',
+  accentLight: stone['--accent-light'] ?? '#e8d48a',
+  accentGlow: stone['--accent-glow'] ?? 'rgba(212, 175, 55, 0.18)',
+  success: stone['--success'] ?? '#6b8f71',
+  warning: stone['--warning'] ?? '#b45309',
+  danger: stone['--danger'] ?? '#dc2626',
+  glass: stone['--glass'] ?? 'rgba(8, 8, 8, 0.72)',
+  glassHero: stone['--glass-hero'] ?? 'rgba(8, 8, 8, 0.85)',
+  border: stone['--border'] ?? 'rgba(212, 175, 55, 0.12)',
+  borderStrong: stone['--border-strong'] ?? 'rgba(212, 175, 55, 0.45)',
 } as const;
 
 /** Knapp-hierarki (design-master §4) */

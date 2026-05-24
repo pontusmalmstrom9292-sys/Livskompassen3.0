@@ -14,6 +14,7 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 4. Apply the relevant `.cursor/rules/*.mdc` files before editing.
 5. For substantial changes, prepare a REASONS plan: Requirements, Entities, Approach, Structure, Operations, Norms, Safeguards.
 6. Preserve Sacred Features: Verklighetsvalvet, Sanningens Sköld, Morgonkompassen, Dossier-Generator, Speglings-Systemet, Zero Footprint, and Kill Switch.
+7. Preserve **Locked UX Features** (do not remove): Middagsfrågan; Valv **Mönster** + **Orkester**; design locks for **Planering**, **Fyren widget**, **Barnporten** (barn PWA + egen Orkester + Valv HITL). Register: [`.context/locked-ux-features.md`](.context/locked-ux-features.md). Verify: `npm run smoke:locked-ux`.
 
 ## Stack
 
@@ -35,6 +36,7 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 - Use `shell` for terminal-heavy workflows such as builds, Firebase CLI checks, and Git inspection.
 - Use `generalPurpose` for complex multi-step investigations when the right search path is unclear.
 - Use `ci-investigator` only when a specific PR check or CI failure needs diagnosis.
+- **Orkester nattpass:** `npm run orkester:night` (deterministisk) eller Conductor + specialister i `.cursor/agents/` — se [`docs/ORKESTER-AUTORUN.md`](docs/ORKESTER-AUTORUN.md).
 - Keep direct edits in the parent agent unless a separate isolated exploration is clearly useful.
 
 ## Skills & rules (uppgift → vägledning)
@@ -48,7 +50,7 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 | Agent cards / prompts | `livskompassen-memory-agents` | `backend-agents.mdc` |
 | Firebase deploy / inventering | plugin `firebase-basics` | `firebase-workflow.mdc` |
 | Firestore rules / WORM | plugin `firebase-firestore-standard` | `security-firestore.mdc` |
-| Frontend UI (Obsidian Calm) | — | `ui-design.mdc` |
+| Natt-/batch-autorun | — | `orkester-autorun.mdc`, `grunder-kanon.mdc`, `anti-hallucination.mdc` |
 
 Kanon för arkitektur och säkerhet: `.context/` (system-plan, arkiv-minne, security). Dokumentationsindex: [`docs/README.md`](docs/README.md). **Systemkontroll / röda tråden:** [`docs/SYSTEMKONTROLL.md`](docs/SYSTEMKONTROLL.md).  
 Live GCP-sanning: [`docs/GCP-INVENTORY-LATEST.md`](docs/GCP-INVENTORY-LATEST.md).  

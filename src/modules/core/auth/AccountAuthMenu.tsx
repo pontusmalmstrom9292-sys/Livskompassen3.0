@@ -4,10 +4,20 @@ import { useStore } from '../store';
 import { EmailAuthPanel } from './EmailAuthPanel';
 import { signOutUser } from './authService';
 
-export function AccountAuthMenu() {
+type Props = {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  /** Mindre trigger i kanon-header (ikon utan etikett på smal skärm). */
+  compactTrigger?: boolean;
+};
+
+export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTrigger }: Props) {
   const user = useStore((s) => s.user);
-  const [open, setOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
+
+  const open = controlledOpen ?? internalOpen;
+  const setOpen = onOpenChange ?? setInternalOpen;
 
   useEffect(() => {
     if (!open) return;
@@ -16,7 +26,7 @@ export function AccountAuthMenu() {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [open]);
+  }, [open, setOpen]);
 
   if (!user) return null;
 
@@ -30,25 +40,26 @@ export function AccountAuthMenu() {
         className="header-glass-btn"
         aria-expanded={open}
         aria-haspopup="dialog"
+        aria-label={label}
       >
         {user.isAnonymous ? (
           <Lock className="h-4 w-4" />
         ) : (
           <ShieldCheck className="h-4 w-4 text-success" />
         )}
-        <span className="max-w-[6rem] truncate">{label}</span>
+        {!compactTrigger ? <span className="max-w-[6rem] truncate">{label}</span> : null}
       </button>
 
       {open && (
         <>
           <button
             type="button"
-            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-[2px]"
+            className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-[2px]"
             aria-label="Stäng konto"
             onClick={() => setOpen(false)}
           />
           <div
-            className="fixed left-5 right-5 top-[4.25rem] z-50 mx-auto max-w-sm"
+            className="fixed left-5 right-5 top-[4.25rem] z-[60] mx-auto max-w-sm"
             role="dialog"
             aria-label="Konto"
           >

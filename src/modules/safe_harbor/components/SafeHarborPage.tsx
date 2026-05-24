@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Anchor, Loader2, Shield } from 'lucide-react';
-import { BentoCard } from '../../core/ui/BentoCard';
+import { Loader2, Shield } from 'lucide-react';
 import {
   analyzeBiffMessage,
   extractGreyRockReply,
@@ -9,6 +8,8 @@ import {
 } from '../api/biffService';
 import { useStore } from '../../core/store';
 import { saveVaultLog } from '../../core/firebase/firestore';
+import { TryggHamnHub } from './TryggHamnHub';
+import { BiffTriagePanel } from './BiffTriagePanel';
 
 export function SafeHarborPage() {
   const location = useLocation();
@@ -95,90 +96,52 @@ export function SafeHarborPage() {
     }
   };
 
-  return (
-    <div className="space-y-4">
-      <BentoCard title="Safe Harbor — Gräns-Arkitekten" icon={<Anchor className="h-4 w-4" />}>
-        <p className="mb-4 text-sm text-text-muted">
-          Klistra in ett sms eller mejl. Brusfiltret extraherar logistik; Gräns-Arkitekten ger ett
-          kort Grey Rock/BIFF-svar utan JADE.
-        </p>
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Klistra in meddelandet här..."
-            rows={5}
-            className="input-glass"
-            disabled={loading}
-          />
-          <button type="submit" disabled={loading || !message.trim()} className="btn-pill--accent">
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-            Generera BIFF-svar
-          </button>
-        </form>
-      </BentoCard>
+  const biffPanel = (
+    <div className="space-y-3">
+      <form onSubmit={handleSubmit} className="space-y-3">
+        <textarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Klistra in meddelandet här..."
+          rows={4}
+          className="input-glass text-sm"
+          disabled={loading}
+        />
+        <button type="submit" disabled={loading || !message.trim()} className="btn-pill--accent w-full">
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+          Kör BIFF Triage
+        </button>
+      </form>
 
       {error && <p className="text-sm text-danger">{error}</p>}
 
-      {grans && (
-        <BentoCard title="Brusfiltret — vad som gäller">
-          {grans.cleanFacts.length > 0 && (
-            <div className="mb-3">
-              <p className="mb-1 text-[10px] uppercase tracking-widest text-text-dim">Logistik (10%)</p>
-              <ul className="list-inside list-disc text-sm text-text-muted">
-                {grans.cleanFacts.map((fact) => (
-                  <li key={fact}>{fact}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {grans.emotionalBait.length > 0 && (
-            <div className="mb-3">
-              <p className="mb-1 text-[10px] uppercase tracking-widest text-text-dim">
-                Beten att ignorera (90%)
-              </p>
-              <ul className="list-inside list-disc text-sm text-text-muted">
-                {grans.emotionalBait.map((bait) => (
-                  <li key={bait}>{bait}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {grans.techniques.length > 0 && (
-            <p className="text-[10px] uppercase tracking-widest text-text-dim">
-              Tekniker: {grans.techniques.join(', ')}
-            </p>
-          )}
-          {grans.coachingNote && (
-            <p className="mt-2 text-sm text-text-muted">{grans.coachingNote}</p>
-          )}
-        </BentoCard>
-      )}
+      <BiffTriagePanel
+        grans={grans}
+        riskScore={riskScore}
+        hitlRequired={hitlRequired}
+        agentName={agentName}
+      />
 
       {reply && (
-        <BentoCard title="Föreslaget svar">
-          {agentName && (
-            <p className="mb-2 text-[10px] uppercase tracking-widest text-accent/60">{agentName}</p>
-          )}
+        <div className="rounded-xl border border-accent/20 bg-accent/5 px-3 py-3">
+          <p className="text-[10px] uppercase tracking-widest text-accent/70">
+            Föreslaget svar
+            {agentName ? ` · ${agentName}` : ''}
+          </p>
           {hitlRequired && (
-            <div className="mb-3 rounded-xl border border-border-strong bg-surface/50 px-3 py-2 text-sm text-text-muted">
-              Hög risk flaggad. AI-svaret är ett förslag — överväg att prata med någon du litar på.
-              Eskalering registrerad för manuell uppföljning (HITL).
-            </div>
+            <p className="mt-1 text-xs text-text-muted">Hög risk — överväg mänsklig uppföljning (HITL).</p>
           )}
           {riskScore !== null && (
-            <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">
-              Riskpoäng: {riskScore}
-            </p>
+            <p className="text-[10px] text-text-dim">Riskpoäng: {riskScore}</p>
           )}
-          <p className="whitespace-pre-wrap text-sm text-text-muted">{reply}</p>
-          <div className="mt-4 flex flex-wrap gap-3">
+          <p className="mt-2 whitespace-pre-wrap text-sm text-text-muted">{reply}</p>
+          <div className="mt-3 flex flex-wrap gap-2">
             <button
               type="button"
               onClick={() => navigator.clipboard.writeText(reply)}
-              className="text-xs uppercase tracking-widest text-accent/70"
+              className="text-xs text-accent/80"
             >
-              Kopiera svar
+              Kopiera
             </button>
             <button
               type="button"
@@ -191,21 +154,28 @@ export function SafeHarborPage() {
               ) : (
                 <Shield className="h-3 w-3" />
               )}
-              Spara original som bevis
+              Spara som bevis
             </button>
           </div>
           {evidenceSaved && (
-            <p className="mt-3 text-sm text-success">Sparat i Verklighetsvalvet under Hjärtat → Bevis.</p>
+            <p className="mt-2 text-xs text-success">Sparat i Valv → Bevis.</p>
           )}
-          <button
-            type="button"
-            onClick={handleKlar}
-            className="mt-4 btn-pill--ghost text-xs uppercase tracking-widest"
-          >
+          <button type="button" onClick={handleKlar} className="btn-pill--ghost mt-3 w-full text-xs">
             Klar — rensa
           </button>
-        </BentoCard>
+        </div>
       )}
+    </div>
+  );
+
+  return (
+    <div className="space-y-4">
+      <header className="px-0.5">
+        <p className="home-page__eyebrow">Trygg hamn</p>
+        <h1 className="home-page__title text-xl">Gränser & BIFF</h1>
+        <p className="home-page__lead text-xs">Kompassråd och affärsmässiga svar — utan JADE.</p>
+      </header>
+      <TryggHamnHub biffPanel={biffPanel} />
     </div>
   );
 }

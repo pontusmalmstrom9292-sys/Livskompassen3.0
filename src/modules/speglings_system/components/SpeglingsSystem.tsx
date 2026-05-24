@@ -16,6 +16,8 @@ import { ActCalibrationView } from './ActCalibrationView';
 import { VivirStepView } from './VivirStepView';
 import { EvidenceCompareView } from './EvidenceCompareView';
 import { SpeglarEvidencePanel, type SavedSpeglarEvidence } from './SpeglarEvidencePanel';
+import { VivirQuickEntry } from './VivirQuickEntry';
+import { SvartPaVittForm } from './SvartPaVittForm';
 
 type Phase = 'act' | 'vivir' | 'compare';
 
@@ -105,6 +107,9 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
 
   return (
     <div className="space-y-6">
+      <VivirQuickEntry onStart={() => setPhase('vivir')} />
+      <SvartPaVittForm />
+
       <BentoCard title={embedded ? 'Speglar' : 'Speglings-Systemet'} icon={<Brain className="h-4 w-4" />}>
         <p className="mb-4 text-sm text-text-muted">
           Kognitiv sköld — separera känsla från fakta. Validera, aldrig fixa.

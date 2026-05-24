@@ -3,23 +3,31 @@
 @tailwind utilities;
 
 :root {
-  --bg: #020617;
-  --surface: #0f172a;
-  --surface-2: #1e293b;
-  --surface-3: #334155;
-  --text: #f1f5f9;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
-  --accent: #fde68a;
-  --accent-secondary: #818cf8;
-  --accent-light: #fef3c7;
-  --accent-glow: rgba(253, 230, 138, 0.15);
+  /* Theme Pack I — default stone (overridden by applyTheme at runtime) */
+  --bg-teal-deep: #0a1614;
+  --bg-dusk: #12151f;
+  --compass-disk: #0d3b3b;
+  --text-gold: #d4af37;
+  --text-gold-dim: #9a7b2f;
+  --accent-ember: #f59e0b;
+
+  --bg: var(--bg-teal-deep);
+  --surface: #0f1a18;
+  --surface-2: #142220;
+  --surface-3: #1a2b28;
+  --text: #f5f0e8;
+  --text-muted: #c4bdb4;
+  --text-dim: #a8a29e;
+  --accent: var(--text-gold);
+  --accent-secondary: var(--accent-ember);
+  --accent-light: #e8d48a;
+  --accent-glow: rgba(212, 175, 55, 0.18);
   --success: #2dd4bf;
-  --glass: rgba(15, 23, 42, 0.6);
-  --glass-hero: rgba(15, 23, 42, 0.72);
-  --border: rgba(255, 255, 255, 0.06);
-  --border-strong: rgba(255, 255, 255, 0.1);
-  --warning: #a16207;
+  --glass: rgba(10, 22, 20, 0.75);
+  --glass-hero: rgba(10, 22, 20, 0.82);
+  --border: rgba(212, 175, 55, 0.12);
+  --border-strong: rgba(212, 175, 55, 0.25);
+  --warning: #b45309;
   --danger: #dc2626;
 }
 
@@ -43,6 +51,38 @@
   .tabular-nums {
     font-variant-numeric: tabular-nums;
   }
+
+  /* Theme Pack I — CSS fallbacks (runtime: applyTheme + themeRegistry.ts) */
+  html[data-theme='I-stone'] {
+    --bg: #0a0a0a;
+    --accent: #d4af37;
+    --border-strong: rgba(212, 175, 55, 0.45);
+  }
+
+  html[data-theme='I-alchemical'] {
+    --bg: #050505;
+    --accent: #e8c547;
+    --border-strong: rgba(232, 197, 71, 0.5);
+  }
+
+  html[data-theme='I-skymning'] {
+    --bg: #0a1614;
+    --accent: #4fd1c5;
+    --border-strong: rgba(79, 209, 197, 0.28);
+  }
+
+  html[data-theme='I-hamn'] {
+    --bg: #2c2f33;
+    --accent: #d4af37;
+    --border-strong: rgba(212, 175, 55, 0.35);
+  }
+
+  html[data-theme='I-glass'] {
+    --bg: #0a0a0a;
+    --accent: #d4af37;
+    --glass: rgba(20, 15, 10, 0.65);
+    --border-strong: rgba(212, 175, 55, 0.55);
+  }
 }
 
 @layer components {
@@ -52,7 +92,7 @@
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
-    background: radial-gradient(ellipse 120% 80% at 50% -20%, #0f172a 0%, var(--bg) 55%);
+    background: radial-gradient(ellipse 120% 80% at 50% -20%, var(--bg-dusk) 0%, var(--bg-teal-deep) 55%);
   }
 
   .ambient-bg::before {
@@ -71,11 +111,41 @@
   }
 
   .ambient-blob--gold {
-    background: rgba(253, 230, 138, 0.1);
+    background: rgba(212, 175, 55, 0.12);
   }
 
   .ambient-blob--indigo {
-    background: rgba(129, 140, 248, 0.08);
+    background: rgba(13, 59, 59, 0.35);
+  }
+
+  .ambient-blob--accent-secondary {
+    background: color-mix(in srgb, var(--accent-secondary) 28%, transparent);
+  }
+
+  /* Theme Pack backgrounds (data-theme-bg on html) */
+  html[data-theme-bg='texture-stone'] .ambient-bg {
+    background: radial-gradient(ellipse 120% 80% at 50% -20%, var(--bg-dusk) 0%, var(--bg) 55%);
+  }
+
+  html[data-theme-bg='texture-marble'] .ambient-bg {
+    background:
+      radial-gradient(ellipse 100% 60% at 50% 0%, rgba(232, 197, 71, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse 120% 80% at 50% -20%, var(--bg-dusk) 0%, var(--bg) 55%);
+  }
+
+  html[data-theme-bg='aurora'] .ambient-bg {
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 10%, rgba(79, 209, 197, 0.14) 0%, transparent 55%),
+      radial-gradient(ellipse 70% 45% at 80% 20%, rgba(45, 212, 191, 0.1) 0%, transparent 50%),
+      radial-gradient(ellipse 120% 80% at 50% -20%, var(--bg-dusk) 0%, var(--bg) 55%);
+  }
+
+  html[data-theme-bg='nautical'] .ambient-bg {
+    background: radial-gradient(ellipse 120% 80% at 50% -20%, var(--bg-dusk) 0%, var(--bg) 55%);
+  }
+
+  html[data-theme-bg='gradient'] .ambient-bg {
+    background: radial-gradient(ellipse 120% 80% at 50% -20%, var(--bg-dusk) 0%, var(--bg) 55%);
   }
 
   .ambient-blob--white {
@@ -181,8 +251,8 @@
 
   .app-header__logo {
     @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl;
-    background: rgba(253, 230, 138, 0.1);
-    border: 1px solid rgba(253, 230, 138, 0.22);
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.22);
     backdrop-filter: blur(10px);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
@@ -211,12 +281,12 @@
   }
 
   .header-glass-btn--active {
-    color: #fde68a;
-    background: rgba(253, 230, 138, 0.14);
-    border-color: rgba(253, 230, 138, 0.38);
+    color: #d4af37;
+    background: rgba(212, 175, 55, 0.14);
+    border-color: rgba(212, 175, 55, 0.38);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 0 20px rgba(253, 230, 138, 0.12);
+      0 0 20px rgba(212, 175, 55, 0.12);
   }
 
   .header-glass-btn--avatar {
@@ -230,8 +300,8 @@
   }
 
   .dock-shell {
-    @apply pointer-events-none fixed bottom-0 left-0 right-0 z-50 px-3 pb-4 pt-2;
-    background: linear-gradient(to top, rgba(2, 6, 23, 0.92), rgba(2, 6, 23, 0));
+    @apply pointer-events-none fixed bottom-0 left-0 right-0 z-50 px-3 pb-2 pt-1;
+    background: linear-gradient(to top, rgba(2, 6, 23, 0.88), rgba(2, 6, 23, 0));
   }
 
   .dock-nav {
@@ -239,14 +309,325 @@
   }
 
   .dock-nav--hub {
-    @apply mx-auto w-fit max-w-none justify-center bg-transparent p-0;
-    border: none;
-    box-shadow: none;
-    backdrop-filter: none;
+    @apply mx-auto w-fit max-w-none justify-center rounded-2xl border border-white/10 px-2 py-1.5;
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    box-shadow:
+      0 -2px 24px rgba(2, 6, 23, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .dock-orbit-stage {
+    @apply relative flex items-center justify-center;
+  }
+
+  /* Båge under kompass borttagen 2026-05-23 — se VALV-ICON-KANON / DOCK-KANON */
+
+  .dock-classic {
+    @apply pointer-events-auto flex w-full max-w-md items-end justify-between gap-1 px-1;
+  }
+
+  .dock-classic__side {
+    @apply flex min-w-0 flex-1 flex-col items-center gap-1 border-0 bg-transparent p-0 text-accent/75 transition-colors;
+  }
+
+  .dock-classic__side--active {
+    @apply text-accent;
+  }
+
+  .dock-classic__side-icon {
+    @apply flex h-10 w-10 items-center justify-center rounded-xl border border-white/10;
+    background: rgba(15, 23, 42, 0.55);
+  }
+
+  .dock-classic__side--active .dock-classic__side-icon {
+    border-color: rgba(212, 175, 55, 0.28);
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.08);
+  }
+
+  .dock-classic__side-label {
+    @apply text-[9px] font-medium tracking-[0.12em] text-text-muted;
+  }
+
+  .dock-classic__side--active .dock-classic__side-label {
+    @apply text-accent/90;
+  }
+
+  .dock-classic__center {
+    @apply flex shrink-0 flex-col items-center border-0 bg-transparent p-0 text-accent transition-transform;
+  }
+
+  .dock-classic__center:hover {
+    transform: translateY(-2px);
+  }
+
+  .dock-classic__plate {
+    @apply relative flex h-[3.65rem] w-[3.65rem] items-center justify-center rounded-full;
+    background: linear-gradient(
+      165deg,
+      rgba(30, 41, 59, 0.9) 0%,
+      rgba(15, 23, 42, 0.82) 55%,
+      rgba(2, 6, 23, 0.75) 100%
+    );
+    border: 1px solid rgba(212, 175, 55, 0.22);
+    box-shadow:
+      0 8px 24px rgba(2, 6, 23, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .dock-classic__center--active .dock-classic__plate {
+    border-color: rgba(212, 175, 55, 0.42);
+    box-shadow:
+      0 8px 24px rgba(2, 6, 23, 0.5),
+      0 0 24px rgba(212, 175, 55, 0.14);
+  }
+
+  .dock-classic__mark {
+    @apply h-[calc(100%-1rem)] w-[calc(100%-1rem)] text-accent;
+    opacity: 0.9;
+  }
+
+  .dock-hub-backdrop {
+    @apply pointer-events-auto fixed inset-0 z-40 border-0 bg-slate-950/35 p-0;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  .dock-hub-fan {
+    @apply relative mx-auto grid items-center justify-items-center;
+    grid-template-columns: 3.1rem 4.65rem 3.1rem;
+    grid-template-rows: 3.1rem 4.65rem 3.1rem;
+    gap: 0.2rem;
+    width: min-content;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .dock-hub-fan--open {
+    transform: translateY(-4px);
+  }
+
+  .dock-hub-fan--orbit {
+    @apply relative;
+    grid-template-columns: 2.35rem 3.65rem 2.35rem;
+    grid-template-rows: 2.35rem 3.65rem 2.35rem;
+    gap: 0.12rem;
+    z-index: 1;
+  }
+
+  .dock-orbit-stage__ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 0;
+    width: 7.75rem;
+    height: 7.75rem;
+    transform: translate(-50%, -50%);
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: transparent;
+    box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.04);
+    pointer-events: none;
+  }
+
+  .dock-orbit-stage__spokes {
+    display: none;
+  }
+
+  .dock-orbit-stage__spoke {
+    display: none;
+  }
+
+  .dock-orbit-stage__spoke--tl {
+    transform: translate(-50%, -100%) rotate(-135deg);
+  }
+
+  .dock-orbit-stage__spoke--tr {
+    transform: translate(-50%, -100%) rotate(-45deg);
+  }
+
+  .dock-orbit-stage__spoke--bl {
+    transform: translate(-50%, -100%) rotate(135deg);
+  }
+
+  .dock-orbit-stage__spoke--br {
+    transform: translate(-50%, -100%) rotate(45deg);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat {
+    @apply relative z-[2] gap-0.5 opacity-100;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat__glass {
+    @apply relative h-9 w-9 overflow-hidden rounded-full;
+    background: rgba(15, 23, 42, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+      0 4px 12px rgba(2, 6, 23, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat__halo {
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat:hover .dock-hub-sat__halo,
+  .dock-hub-fan--orbit .dock-hub-sat--active .dock-hub-sat__halo {
+    opacity: 1;
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat__icon {
+    @apply h-[0.9rem] w-[0.9rem];
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat__label {
+    @apply max-w-[3.25rem] text-[6px] font-medium tracking-[0.14em] text-text-dim;
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--indigo .dock-hub-sat__halo {
+    box-shadow: 0 0 18px rgba(129, 140, 248, 0.35);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--lavender .dock-hub-sat__halo {
+    box-shadow: 0 0 18px rgba(165, 180, 252, 0.32);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--emerald .dock-hub-sat__halo {
+    box-shadow: 0 0 18px rgba(45, 212, 191, 0.32);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--gold .dock-hub-sat__halo {
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.28);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--indigo.dock-hub-sat--active .dock-hub-sat__glass {
+    border-color: rgba(129, 140, 248, 0.55);
+    box-shadow:
+      0 8px 22px rgba(2, 6, 23, 0.45),
+      0 0 20px rgba(129, 140, 248, 0.22);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--lavender.dock-hub-sat--active .dock-hub-sat__glass {
+    border-color: rgba(165, 180, 252, 0.55);
+    box-shadow:
+      0 8px 22px rgba(2, 6, 23, 0.45),
+      0 0 20px rgba(165, 180, 252, 0.2);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--emerald.dock-hub-sat--active .dock-hub-sat__glass {
+    border-color: rgba(45, 212, 191, 0.55);
+    box-shadow:
+      0 8px 22px rgba(2, 6, 23, 0.45),
+      0 0 20px rgba(45, 212, 191, 0.2);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat:hover .dock-hub-sat__glass {
+    transform: translateY(-1px) scale(1.03);
+  }
+
+  .dock-hub-fan .dock-compass-hub {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .dock-hub-sat {
+    @apply flex flex-col items-center gap-1 border-0 bg-transparent p-0 opacity-0;
+    transform: scale(0.35);
+    pointer-events: none;
+    transition:
+      opacity 0.28s ease,
+      transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .dock-hub-sat--visible {
+    @apply opacity-100;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+
+  .dock-hub-sat--tl {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .dock-hub-sat--tr {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .dock-hub-sat--bl {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .dock-hub-sat--br {
+    grid-column: 3;
+    grid-row: 3;
+  }
+
+  .dock-hub-sat__glass {
+    @apply relative flex h-12 w-12 items-center justify-center rounded-2xl transition-all duration-200;
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow:
+      0 10px 28px rgba(2, 6, 23, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .dock-hub-sat:hover .dock-hub-sat__glass {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.22);
+  }
+
+  .dock-hub-sat__icon {
+    @apply relative z-10 h-[1.15rem] w-[1.15rem];
+  }
+
+  .dock-hub-sat__label {
+    @apply max-w-[4.5rem] truncate text-[8px] font-semibold uppercase tracking-[0.16em] text-text-dim;
+  }
+
+  .dock-hub-sat--active .dock-hub-sat__glass {
+    border-color: rgba(212, 175, 55, 0.38);
+    box-shadow:
+      0 10px 28px rgba(2, 6, 23, 0.5),
+      0 0 22px rgba(212, 175, 55, 0.14);
+  }
+
+  .dock-hub-sat--indigo .dock-hub-sat__icon {
+    color: #d4af37;
+  }
+
+  .dock-hub-sat--lavender .dock-hub-sat__icon {
+    color: #9a7b2f;
+  }
+
+  .dock-hub-sat--emerald .dock-hub-sat__icon {
+    color: #2dd4bf;
+  }
+
+  .dock-hub-sat--gold .dock-hub-sat__icon {
+    color: #d4af37;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dock-hub-sat,
+    .dock-hub-fan {
+      transition-duration: 0.01ms;
+    }
   }
 
   .dock-compass-hub {
-    @apply pointer-events-auto flex flex-col items-center gap-2 border-0 bg-transparent p-0 text-accent transition-transform;
+    @apply pointer-events-auto flex flex-col items-center gap-1 border-0 bg-transparent p-0 text-accent transition-transform;
   }
 
   .dock-compass-hub:hover {
@@ -258,15 +639,28 @@
   }
 
   .dock-compass-hub__plate {
-    @apply relative flex h-[4.75rem] w-[4.75rem] items-center justify-center rounded-[1.35rem] transition-all duration-300;
-    background: rgba(15, 23, 42, 0.58);
+    @apply relative flex h-[4.85rem] w-[4.85rem] items-center justify-center rounded-full transition-all duration-300;
+    background: linear-gradient(
+      165deg,
+      rgba(30, 41, 59, 0.9) 0%,
+      rgba(15, 23, 42, 0.82) 55%,
+      rgba(2, 6, 23, 0.75) 100%
+    );
     backdrop-filter: blur(26px) saturate(170%);
     -webkit-backdrop-filter: blur(26px) saturate(170%);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(212, 175, 55, 0.22);
     box-shadow:
       0 16px 48px rgba(2, 6, 23, 0.62),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12),
-      0 0 36px rgba(253, 230, 138, 0.14);
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      0 0 40px rgba(212, 175, 55, 0.16);
+  }
+
+  .dock-hub-fan--orbit .dock-compass-hub__plate {
+    @apply h-[3.65rem] w-[3.65rem];
+    box-shadow:
+      0 8px 24px rgba(2, 6, 23, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 0 24px rgba(212, 175, 55, 0.12);
   }
 
   .dock-compass-hub__plate::before {
@@ -278,87 +672,66 @@
       145deg,
       rgba(255, 255, 255, 0.1) 0%,
       transparent 42%,
-      rgba(253, 230, 138, 0.06) 100%
+      rgba(212, 175, 55, 0.06) 100%
     );
     pointer-events: none;
   }
 
-  .dock-compass-hub__rose {
-    @apply absolute inset-2 h-[calc(100%-1rem)] w-[calc(100%-1rem)] text-accent;
-    opacity: 0.55;
+  .dock-compass-hub__mark {
+    @apply absolute inset-2 h-[calc(100%-1rem)] w-[calc(100%-1rem)] text-accent transition-all duration-300;
+    opacity: 0.88;
     pointer-events: none;
   }
 
-  .dock-compass-hub__core {
-    @apply relative z-10 flex h-11 w-11 items-center justify-center rounded-xl;
-    background: rgba(2, 6, 23, 0.45);
-    border: 1px solid rgba(253, 230, 138, 0.28);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.08),
-      0 0 18px rgba(253, 230, 138, 0.16);
+  .dock-compass-hub__overlay {
+    @apply absolute inset-0 z-10 flex items-center justify-center rounded-full;
+    background: rgba(2, 6, 23, 0.42);
+    border: 1px solid rgba(212, 175, 55, 0.28);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
 
   .dock-compass-hub__icon {
-    @apply h-[1.35rem] w-[1.35rem];
+    @apply h-[1.1rem] w-[1.1rem] text-accent-light;
   }
 
-  .dock-compass-hub__shine {
-    position: absolute;
-    top: 7px;
-    left: 12px;
-    width: 18px;
-    height: 8px;
-    border-radius: 9999px;
-    background: rgba(255, 255, 255, 0.22);
-    filter: blur(3px);
-    pointer-events: none;
+  .dock-compass-hub--heart .dock-compass-hub__mark {
+    opacity: 0.28;
+    transform: scale(0.92);
   }
+
+  .dock-compass-hub--fyren .dock-compass-hub__plate {
+    border-color: rgba(212, 175, 55, 0.55);
+    box-shadow:
+      0 16px 48px rgba(2, 6, 23, 0.62),
+      0 0 48px rgba(212, 175, 55, 0.28);
+  }
+
 
   .dock-compass-hub:hover .dock-compass-hub__plate {
-    border-color: rgba(253, 230, 138, 0.38);
+    border-color: rgba(212, 175, 55, 0.38);
     box-shadow:
       0 18px 52px rgba(2, 6, 23, 0.66),
       inset 0 1px 0 rgba(255, 255, 255, 0.14),
-      0 0 44px rgba(253, 230, 138, 0.22);
+      0 0 44px rgba(212, 175, 55, 0.22);
   }
 
   .dock-compass-hub--active .dock-compass-hub__plate {
-    border-color: rgba(253, 230, 138, 0.42);
+    border-color: rgba(212, 175, 55, 0.42);
     background: rgba(15, 23, 42, 0.68);
     box-shadow:
       0 16px 48px rgba(2, 6, 23, 0.62),
       inset 0 1px 0 rgba(255, 255, 255, 0.14),
-      0 0 40px rgba(253, 230, 138, 0.24);
+      0 0 40px rgba(212, 175, 55, 0.24);
   }
 
   .dock-compass-hub--open .dock-compass-hub__plate {
     transform: scale(1.04);
-    border-color: rgba(253, 230, 138, 0.5);
+    border-color: rgba(212, 175, 55, 0.5);
   }
 
-  .dock-compass-hub--heart .dock-compass-hub__core {
-    border-color: rgba(253, 230, 138, 0.45);
-    background: rgba(253, 230, 138, 0.1);
-  }
-
-  .dock-compass-hub--heart .dock-compass-hub__rose {
-    color: #fde68a;
-    opacity: 0.65;
-  }
-
-  .dock-compass-hub__label {
-    @apply rounded-full px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-text-muted;
-    background: rgba(15, 23, 42, 0.72);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 6px 20px rgba(2, 6, 23, 0.45);
-  }
-
-  .dock-compass-hub--active .dock-compass-hub__label {
-    color: #fde68a;
-    border-color: rgba(253, 230, 138, 0.28);
-    background: rgba(253, 230, 138, 0.1);
+  .dock-hub-fan--orbit .dock-compass-hub__label {
+    @apply text-[7px] font-medium tracking-[0.16em] text-text-muted;
   }
 
   .module-hub-panel {
@@ -388,7 +761,7 @@
 
   .module-hub-tile--active {
     @apply border-accent/40 text-accent;
-    background: rgba(253, 230, 138, 0.08);
+    background: rgba(212, 175, 55, 0.08);
   }
 
   .module-hub-tile--center {
@@ -396,9 +769,9 @@
   }
 
   .module-hub-tile--gold.module-hub-tile--active {
-    border-color: rgba(253, 230, 138, 0.4);
-    color: #fde68a;
-    background: rgba(253, 230, 138, 0.08);
+    border-color: rgba(212, 175, 55, 0.4);
+    color: #d4af37;
+    background: rgba(212, 175, 55, 0.08);
   }
 
   .module-hub-tile--indigo.module-hub-tile--active {
@@ -446,7 +819,7 @@
 
   .dock-item--active {
     @apply text-accent;
-    background: rgba(253, 230, 138, 0.08);
+    background: rgba(212, 175, 55, 0.08);
   }
 
   .dock-item__icon-wrap {
@@ -504,14 +877,14 @@
   }
 
   .home-action-chip--active {
-    color: #fde68a;
-    border-color: rgba(253, 230, 138, 0.38);
-    background: rgba(253, 230, 138, 0.1);
-    box-shadow: 0 0 20px rgba(253, 230, 138, 0.1);
+    color: #d4af37;
+    border-color: rgba(212, 175, 55, 0.38);
+    background: rgba(212, 175, 55, 0.1);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
   }
 
   .home-action-chip--gold.home-action-chip--active {
-    color: #fde68a;
+    color: #d4af37;
   }
 
   .home-action-chip--emerald.home-action-chip--active {
@@ -560,6 +933,678 @@
 
   .home-page__lead {
     @apply mt-2 text-sm leading-relaxed text-text-muted;
+  }
+
+  .glass-header-bar--kanon {
+    @apply grid grid-cols-[auto_1fr_auto] items-center gap-2 px-3;
+    background: var(--glass);
+    border-color: var(--border-strong);
+  }
+
+  .header-menu-btn {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-accent transition-colors;
+    border: 1px solid var(--border);
+    background: rgba(212, 175, 55, 0.06);
+  }
+
+  .header-menu-btn:hover {
+    background: rgba(212, 175, 55, 0.12);
+  }
+
+  .app-header__brand--kanon {
+    @apply justify-center;
+  }
+
+  .app-header__title--kanon {
+    @apply text-center text-accent tracking-[0.22em];
+    font-size: 0.68rem;
+  }
+
+  .app-header__actions--kanon {
+    @apply justify-end;
+  }
+
+  .nav-drawer__backdrop {
+    @apply fixed inset-0 z-[55] bg-black/55 backdrop-blur-[2px];
+  }
+
+  .nav-drawer {
+    @apply fixed inset-y-0 left-0 z-[56] flex w-[min(68vw,20rem)] flex-col border-r pt-[env(safe-area-inset-top)];
+    border-color: var(--border-strong);
+    background: var(--glass-hero);
+    backdrop-filter: blur(24px) saturate(160%);
+    box-shadow: 16px 0 48px rgba(2, 6, 23, 0.55);
+  }
+
+  .nav-drawer__header {
+    @apply relative px-5 pb-4 pt-6;
+  }
+
+  .nav-drawer__close {
+    @apply absolute left-4 top-5 flex h-9 w-9 items-center justify-center rounded-full text-accent;
+    border: 1px solid var(--border);
+  }
+
+  .nav-drawer__brand {
+    @apply mt-8 flex flex-col items-center gap-2;
+  }
+
+  .nav-drawer__mark {
+    @apply h-10 w-10 text-accent;
+  }
+
+  .nav-drawer__title {
+    @apply font-display text-xs font-semibold uppercase tracking-[0.28em] text-accent;
+  }
+
+  .nav-drawer__list {
+    @apply flex flex-1 flex-col gap-1 px-3;
+  }
+
+  .nav-drawer__row {
+    @apply flex w-full items-center gap-3 rounded-2xl border-0 px-3 py-3 text-left transition-colors;
+    background: transparent;
+    color: var(--text);
+  }
+
+  .nav-drawer__row:hover {
+    background: rgba(212, 175, 55, 0.06);
+  }
+
+  .nav-drawer__row--active {
+    background: rgba(212, 175, 55, 0.14);
+    box-shadow: inset 3px 0 0 var(--text-gold);
+  }
+
+  .nav-drawer__row-icon {
+    @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-accent;
+    border: 1px solid var(--border-strong);
+    background: rgba(212, 175, 55, 0.08);
+  }
+
+  .nav-drawer__row-label {
+    @apply flex-1 text-sm font-medium;
+  }
+
+  .nav-drawer__row-chevron {
+    @apply h-4 w-4 shrink-0 text-text-dim opacity-60;
+  }
+
+  .home-greeting__title {
+    @apply font-display text-2xl font-light leading-tight text-accent;
+  }
+
+  .home-greeting__star {
+    @apply text-accent/80;
+  }
+
+  .home-greeting__tagline {
+    @apply mt-2 text-sm text-text-muted;
+  }
+
+  .home-hero-kanon__top {
+    @apply flex items-start justify-between gap-3;
+  }
+
+  .home-streak-chip {
+    @apply flex shrink-0 flex-col items-center rounded-xl px-3 py-2;
+    border: 1px solid var(--border);
+    background: var(--glass);
+  }
+
+  .home-streak-chip__icon {
+    @apply h-4 w-4 text-[var(--accent-ember)];
+  }
+
+  .home-streak-chip__value {
+    @apply text-lg font-medium text-text;
+  }
+
+  .home-streak-chip__label {
+    @apply text-[9px] uppercase tracking-widest text-text-dim;
+  }
+
+  .livskompass-hero {
+    @apply flex flex-col items-center;
+  }
+
+  .livskompass-hero__stage {
+    @apply relative mx-auto w-full max-w-[min(100%,18.5rem)] aspect-square;
+  }
+
+  .livskompass-hero__grid {
+    @apply absolute inset-[12%] rounded-full;
+    border: 1px solid rgba(212, 175, 55, 0.12);
+    background:
+      radial-gradient(circle at 50% 50%, rgba(13, 59, 59, 0.55) 0%, transparent 70%),
+      repeating-conic-gradient(
+        from 0deg,
+        rgba(212, 175, 55, 0.04) 0deg 15deg,
+        transparent 15deg 30deg
+      );
+  }
+
+  .livskompass-hero__disk {
+    @apply absolute inset-[6%] rounded-full;
+    background: var(--compass-disk);
+    border: 1px solid rgba(212, 175, 55, 0.28);
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.35) inset,
+      0 20px 50px rgba(2, 6, 23, 0.45);
+  }
+
+  .livskompass-hero--kvall .livskompass-hero__disk {
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.35) inset,
+      0 0 40px rgba(245, 158, 11, 0.12),
+      0 20px 50px rgba(2, 6, 23, 0.45);
+  }
+
+  .livskompass-hero--soluppgang .livskompass-hero__disk {
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.35) inset,
+      0 0 36px rgba(251, 191, 36, 0.1),
+      0 20px 50px rgba(2, 6, 23, 0.45);
+  }
+
+  .livskompass-hero__orbit-btn {
+    @apply absolute z-10 flex h-11 w-11 items-center justify-center rounded-full transition-transform;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    background: rgba(10, 22, 20, 0.85);
+    color: var(--text-gold);
+    box-shadow: 0 4px 16px rgba(2, 6, 23, 0.4);
+  }
+
+  .livskompass-hero__orbit-btn:hover {
+    transform: scale(1.05);
+    border-color: rgba(212, 175, 55, 0.55);
+  }
+
+  .livskompass-hero__orbit-icon {
+    @apply h-5 w-5;
+    filter: drop-shadow(0 1px 2px rgba(201, 162, 39, 0.35));
+  }
+
+  .livskompass-hero__center {
+    @apply absolute left-1/2 top-1/2 z-20 flex h-[42%] w-[42%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    background: rgba(10, 22, 20, 0.92);
+    color: var(--text-gold);
+    box-shadow: 0 0 28px rgba(212, 175, 55, 0.15);
+  }
+
+  .livskompass-hero__center:hover {
+    box-shadow: 0 0 36px rgba(212, 175, 55, 0.22);
+  }
+
+  .livskompass-hero__mark {
+    @apply h-[70%] w-[70%];
+  }
+
+  .livskompass-hero__pills {
+    @apply mt-4 flex w-full max-w-md flex-wrap items-center justify-center gap-2 px-2;
+  }
+
+  .livskompass-hero__pill {
+    @apply rounded-full border px-4 py-2 text-[11px] font-medium uppercase tracking-widest text-text-muted transition-colors;
+    border-color: var(--border);
+    background: rgba(10, 22, 20, 0.65);
+  }
+
+  .livskompass-hero__pill:hover {
+    color: var(--text-gold);
+    border-color: var(--border-strong);
+  }
+
+  .livskompass-hero__pill--icon {
+    @apply px-3;
+    color: var(--text-gold);
+  }
+
+  .livskompass-hero__pill--wide {
+    @apply normal-case tracking-normal text-xs;
+  }
+
+  .dagens-riktning-card {
+    @apply flex items-start gap-3 rounded-2xl p-4 transition-colors;
+    border: 1px solid var(--border-strong);
+    background: var(--glass);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .dagens-riktning-card:hover {
+    border-color: rgba(212, 175, 55, 0.4);
+    background: rgba(10, 22, 20, 0.88);
+  }
+
+  .dagens-riktning-card__icon-wrap {
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-accent;
+    border: 1px solid var(--border);
+    background: rgba(212, 175, 55, 0.08);
+  }
+
+  .dagens-riktning-card__eyebrow {
+    @apply text-[10px] uppercase tracking-widest text-text-dim;
+  }
+
+  .dagens-riktning-card__quote {
+    @apply mt-1 font-display text-base leading-snug text-text;
+  }
+
+  .dagens-riktning-card__meta {
+    @apply mt-1 text-xs text-text-muted;
+  }
+
+  .dagens-riktning-card__chevron {
+    @apply mt-2 h-5 w-5 shrink-0 text-accent opacity-70;
+  }
+
+  .home-check-in__trigger {
+    @apply flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left text-sm font-medium text-text-muted transition-colors;
+    border-color: var(--border);
+    background: rgba(10, 22, 20, 0.5);
+  }
+
+  .home-check-in__trigger--open {
+    color: var(--text-gold);
+    border-color: var(--border-strong);
+  }
+
+  .home-check-in__panel {
+    @apply mt-2 rounded-2xl border p-4;
+    border-color: var(--border);
+    background: rgba(15, 26, 24, 0.65);
+  }
+
+  .home-hero-kanon__dots {
+    @apply flex justify-center gap-1.5 pt-1;
+  }
+
+  .home-hero-kanon__dot {
+    @apply h-1.5 w-1.5 rounded-full bg-text-dim/35;
+  }
+
+  .home-hero-kanon__dot--active {
+    @apply w-4 bg-accent;
+  }
+
+  .home-more {
+    @apply rounded-2xl border border-border/60 bg-surface/30 px-4 py-3;
+  }
+
+  .home-more__summary {
+    @apply cursor-pointer text-xs font-medium uppercase tracking-widest text-text-dim;
+  }
+
+  .home-more[open] .home-more__summary {
+    @apply mb-4 text-accent;
+  }
+
+  .elongated-module {
+    @apply overflow-hidden rounded-[0.875rem] transition-colors;
+    border: 1.5px solid rgba(212, 175, 55, 0.22);
+    background: rgba(15, 23, 42, 0.48);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .elongated-module--expanded {
+    border-color: rgba(212, 175, 55, 0.34);
+    background: rgba(15, 23, 42, 0.62);
+  }
+
+  .elongated-module__trigger {
+    @apply flex w-full items-center gap-3 border-0 bg-transparent px-3.5 py-3 text-left;
+  }
+
+  .elongated-module__icon {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-lg;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(2, 6, 23, 0.35);
+    color: #d4af37;
+  }
+
+  .elongated-module__text {
+    @apply min-w-0 flex-1;
+  }
+
+  .elongated-module__title-row {
+    @apply flex items-center gap-2;
+  }
+
+  .elongated-module__title {
+    @apply font-display text-sm font-medium text-text;
+  }
+
+  .elongated-module__badge {
+    @apply rounded-full px-1.5 py-0.5 text-[9px] uppercase tracking-widest;
+    color: #d4af37;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    background: rgba(212, 175, 55, 0.08);
+  }
+
+  .elongated-module__lead {
+    @apply mt-0.5 line-clamp-1 text-xs leading-snug text-text-muted;
+  }
+
+  .elongated-module__chevron {
+    @apply h-4 w-4 shrink-0 text-text-dim transition-transform duration-200;
+  }
+
+  .elongated-module__chevron--open {
+    transform: rotate(180deg);
+  }
+
+  .elongated-module__body {
+    @apply border-t px-3.5 pb-3.5 pt-2;
+    border-color: rgba(212, 175, 55, 0.12);
+  }
+
+  .elongated-module--emerald {
+    border-color: rgba(45, 212, 191, 0.22);
+  }
+
+  .elongated-module--emerald .elongated-module__icon {
+    color: #2dd4bf;
+    border-color: rgba(45, 212, 191, 0.2);
+  }
+
+  .elongated-module--indigo {
+    border-color: rgba(212, 175, 55, 0.22);
+  }
+
+  .elongated-module--indigo .elongated-module__icon {
+    color: #d4af37;
+    border-color: rgba(212, 175, 55, 0.2);
+  }
+
+  .elongated-module--lavender {
+    border-color: rgba(167, 139, 250, 0.2);
+  }
+
+  .elongated-module--lavender .elongated-module__icon {
+    color: #c4b5fd;
+    border-color: rgba(167, 139, 250, 0.18);
+  }
+
+  .elongated-module--gold.elongated-module--expanded {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 0 20px rgba(212, 175, 55, 0.06);
+  }
+
+  .home-module-stack {
+    @apply flex flex-col gap-2.5;
+  }
+
+  .widget-shell {
+    @apply min-h-screen px-4 pb-8 pt-6;
+    padding-top: max(1.5rem, env(safe-area-inset-top));
+    padding-bottom: max(2rem, env(safe-area-inset-bottom));
+  }
+
+  .widget-shell__header {
+    @apply mb-6;
+  }
+
+  .widget-shell__brand {
+    @apply mb-3 inline-flex items-center gap-2;
+  }
+
+  .widget-shell__title {
+    @apply font-display text-xl font-light text-accent;
+  }
+
+  .widget-shell__lead {
+    @apply mt-1 text-xs text-text-muted;
+  }
+
+  .widget-record__dot {
+    @apply mx-auto block h-3 w-3 rounded-full bg-accent/80;
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
+    animation: widget-pulse 1.6s ease-in-out infinite;
+  }
+
+  @keyframes widget-pulse {
+    0%,
+    100% {
+      opacity: 0.55;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+  }
+
+  .fyren-widget-bar {
+    @apply pointer-events-none fixed bottom-[5.75rem] right-0 z-[55] flex flex-col items-end;
+  }
+
+  .fyren-widget-bar__backdrop {
+    @apply fixed inset-0 z-[54] border-0 bg-black/25 backdrop-blur-[1px];
+  }
+
+  .fyren-widget-bar__prick {
+    @apply pointer-events-auto mr-2 h-8 w-2 rounded-full border-0;
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.55), rgba(212, 175, 55, 0.35));
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
+  }
+
+  .fyren-widget-bar__prick--holding {
+    background: linear-gradient(
+      180deg,
+      rgba(212, 175, 55, 0.85) var(--fyren-hold, 0%),
+      rgba(212, 175, 55, 0.5) var(--fyren-hold, 0%),
+      rgba(15, 23, 42, 0.55) var(--fyren-hold, 0%)
+    );
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.45);
+  }
+
+  .widget-record-discreet-overlay {
+    @apply pointer-events-none fixed inset-0 z-[100];
+    background: rgba(0, 0, 0, 0.95);
+  }
+
+  .fyren-widget-bar__strip {
+    @apply pointer-events-auto mr-1 flex flex-col gap-0.5 rounded-xl border border-white/10 p-1;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(16px);
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease;
+  }
+
+  .fyren-widget-bar__strip--closed {
+    @apply pointer-events-none translate-x-[110%] opacity-0;
+  }
+
+  .fyren-widget-bar__action {
+    @apply flex h-10 w-10 items-center justify-center rounded-lg text-text-muted transition-colors hover:bg-white/5 hover:text-accent;
+  }
+
+  /* Mobil/tablet: bara ikoner (aria-label) — täcker inte Familjen-formulär */
+  .fyren-widget-bar__label {
+    @apply hidden;
+  }
+
+  @media (min-width: 1280px) {
+    .fyren-widget-bar__strip {
+      @apply gap-1 p-1.5;
+    }
+
+    .fyren-widget-bar__action {
+      @apply h-auto w-auto justify-start gap-2 px-2.5 py-2;
+    }
+
+    .fyren-widget-bar__label {
+      @apply inline whitespace-nowrap text-xs;
+    }
+  }
+
+  /* Smart widget bar (Theme I — bottom sheet) */
+  .fyren-smart-bar {
+    @apply pointer-events-none fixed inset-x-0 z-[55] flex flex-col items-center;
+    bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .fyren-smart-bar--hidden {
+    @apply bottom-0;
+  }
+
+  .fyren-smart-bar__backdrop {
+    @apply fixed inset-0 z-[54] border-0 bg-black/40 backdrop-blur-[2px];
+    pointer-events: auto;
+  }
+
+  .fyren-smart-bar__handle {
+    @apply pointer-events-auto mb-2 flex h-8 w-16 items-center justify-center rounded-full border border-[var(--border-strong)];
+    background: var(--glass);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 0 16px var(--accent-glow);
+  }
+
+  .fyren-smart-bar__handle--holding {
+    background: linear-gradient(
+      180deg,
+      rgba(212, 175, 55, 0.85) var(--fyren-hold, 0%),
+      rgba(212, 175, 55, 0.5) var(--fyren-hold, 0%),
+      var(--glass) var(--fyren-hold, 0%)
+    );
+  }
+
+  .fyren-smart-bar__peek-panel {
+    @apply pointer-events-auto relative mx-3 w-full max-w-md rounded-[1.75rem] px-3 pb-2 pt-10;
+    background: var(--glass);
+    backdrop-filter: blur(22px);
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 0 32px var(--accent-glow);
+  }
+
+  .fyren-smart-bar--glass-skin .fyren-smart-bar__peek-panel {
+    background: rgba(20, 15, 10, 0.65);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.2);
+  }
+
+  .fyren-smart-bar__compass-btn {
+    @apply absolute -top-5 left-1/2 flex h-11 w-11 -translate-x-1/2 items-center justify-center rounded-full;
+    border: 1px solid var(--border-strong);
+    background: var(--glass-hero);
+    box-shadow: 0 0 24px var(--accent-glow);
+  }
+
+  .fyren-smart-bar__dual {
+    @apply flex items-stretch gap-0;
+  }
+
+  .fyren-smart-bar__dual-action {
+    @apply flex flex-1 flex-col items-center gap-2 rounded-xl px-3 py-3 text-sm text-text transition-colors hover:bg-white/5 sm:flex-row sm:items-center;
+  }
+
+  .fyren-smart-bar__orbit-icon {
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-accent;
+    border: 2px solid var(--border-strong);
+    background: rgba(0, 0, 0, 0.35);
+    box-shadow: 0 0 16px var(--accent-glow);
+  }
+
+  .fyren-smart-bar__dual-divider {
+    @apply w-px self-stretch;
+    background: var(--border-strong);
+  }
+
+  .fyren-smart-bar__peek-chevron {
+    @apply mx-auto mt-1 flex h-6 w-full items-center justify-center text-accent/70;
+  }
+
+  .fyren-smart-bar__expanded-panel {
+    @apply pointer-events-auto mx-3 w-full max-w-md rounded-[1.75rem] border p-4;
+    background: var(--glass-hero);
+    backdrop-filter: blur(22px);
+    border-color: var(--border-strong);
+    box-shadow: 0 0 36px var(--accent-glow);
+  }
+
+  .fyren-smart-bar__drag-handle {
+    @apply mx-auto mb-3 block h-1 w-10 rounded-full border-0;
+    background: var(--accent);
+    opacity: 0.55;
+  }
+
+  .fyren-smart-bar__clock {
+    @apply mb-4 text-center;
+  }
+
+  .fyren-smart-bar__time {
+    @apply font-display text-4xl font-extralight text-accent;
+  }
+
+  .fyren-smart-bar__date {
+    @apply mt-1 text-sm capitalize text-text-muted;
+  }
+
+  .fyren-smart-bar__motto-line {
+    @apply mt-3 flex items-center justify-center gap-2;
+  }
+
+  .fyren-smart-bar__motto-dash {
+    @apply h-px w-8;
+    background: var(--border-strong);
+  }
+
+  .fyren-smart-bar__motto-diamond {
+    @apply text-[8px] text-accent;
+  }
+
+  .fyren-smart-bar__motto {
+    @apply mt-2 text-xs tracking-wide text-text-muted;
+  }
+
+  .fyren-smart-bar__note-row {
+    @apply flex w-full items-center gap-3 rounded-xl border border-[var(--border)] p-3 text-left transition-colors hover:bg-white/5;
+  }
+
+  .fyren-smart-bar__note-link {
+    @apply mb-3 mt-2 block text-center text-xs text-accent hover:underline;
+  }
+
+  .fyren-smart-bar__icon-grid {
+    @apply grid grid-cols-5 gap-2 py-2;
+  }
+
+  .fyren-smart-bar__icon-tile {
+    @apply flex h-11 w-11 items-center justify-center rounded-xl text-accent;
+    border: 2px solid var(--border-strong);
+    background: rgba(0, 0, 0, 0.28);
+    box-shadow: 0 0 14px var(--accent-glow);
+    filter: drop-shadow(0 1px 2px rgba(212, 175, 55, 0.25));
+  }
+
+  .fyren-smart-bar__icon-tile--sm {
+    @apply h-9 w-9 rounded-lg;
+    box-shadow: 0 0 10px var(--accent-glow);
+  }
+
+  .fyren-smart-bar__icon-btn {
+    @apply flex flex-col items-center gap-1.5 rounded-xl p-1 transition-transform hover:scale-[1.03];
+  }
+
+  .fyren-smart-bar__icon-btn:hover .fyren-smart-bar__icon-tile {
+    border-color: rgba(212, 175, 55, 0.65);
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+
+  .fyren-smart-bar__icon-label {
+    @apply text-[9px] leading-tight text-accent/90;
+  }
+
+  .fyren-smart-bar__footer {
+    @apply mt-2 flex items-center justify-center gap-1.5 border-t border-[var(--border)] pt-3 text-[10px] text-text-dim;
+  }
+
+  .fyren-smart-bar__hide-btn {
+    @apply ml-1 flex h-6 w-6 items-center justify-center rounded-full text-accent/80 hover:bg-white/5;
   }
 
   .module-list {
@@ -616,17 +1661,17 @@
 
   .module-chip:hover {
     @apply border-accent/30 text-accent;
-    background: rgba(253, 230, 138, 0.08);
+    background: rgba(212, 175, 55, 0.08);
   }
 
   .module-card--gold .module-card__icon {
-    border-color: rgba(253, 230, 138, 0.25);
-    color: #fde68a;
+    border-color: rgba(212, 175, 55, 0.25);
+    color: #d4af37;
   }
 
   .module-card--indigo .module-card__icon {
     border-color: rgba(129, 140, 248, 0.25);
-    color: #818cf8;
+    color: #d4af37;
   }
 
   .module-card--lavender .module-card__icon {
@@ -717,5 +1762,93 @@
 
   .chip--idle {
     @apply chip border-border-strong text-text-muted hover:border-border-strong hover:text-text-muted;
+  }
+
+  /* Familjen hub — aurora + guld (mockup E / barnfokus) */
+  .familjen-hub {
+    @apply relative isolate;
+  }
+
+  .familjen-hub__aurora {
+    @apply pointer-events-none absolute inset-x-0 top-0 h-56 overflow-hidden;
+  }
+
+  .familjen-hub__aurora::before {
+    content: '';
+    @apply absolute left-1/2 top-0 h-48 w-[120%] -translate-x-1/2;
+    background: radial-gradient(
+      ellipse 70% 100% at 50% 0%,
+      rgba(45, 212, 191, 0.14) 0%,
+      rgba(129, 140, 248, 0.06) 45%,
+      transparent 72%
+    );
+    filter: blur(2px);
+  }
+
+  .familjen-hub__header {
+    @apply relative text-center;
+  }
+
+  .familjen-hub__title {
+    @apply mt-2 font-display text-2xl tracking-tight text-text;
+    text-shadow: 0 0 40px rgba(45, 212, 191, 0.12);
+  }
+
+  .familjen-hub__tabs {
+    @apply relative -mx-1 overflow-x-auto pb-1;
+    scrollbar-width: none;
+  }
+
+  .familjen-hub__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .familjen-hub__tabs .flex {
+    @apply min-w-max flex-nowrap gap-2 px-1;
+  }
+
+  .familjen-child-chip {
+    @apply flex-1 rounded-2xl border py-2.5 text-sm font-medium transition;
+  }
+
+  .familjen-child-chip--active {
+    @apply border-emerald-400/45 bg-emerald-500/10 text-emerald-200;
+    box-shadow: 0 0 28px rgba(45, 212, 191, 0.18);
+  }
+
+  .familjen-child-chip--idle {
+    @apply border-border-strong bg-surface/40 text-text-muted hover:border-white/15;
+  }
+
+  .familjen-barnfokus-wrap {
+    @apply relative rounded-3xl;
+  }
+
+  .familjen-barnfokus-wrap::before {
+    content: '';
+    @apply pointer-events-none absolute -inset-px rounded-3xl opacity-80;
+    background: linear-gradient(
+      135deg,
+      rgba(212, 175, 55, 0.22) 0%,
+      rgba(45, 212, 191, 0.08) 50%,
+      transparent 100%
+    );
+  }
+
+  .familjen-barnfokus-wrap > * {
+    @apply relative;
+  }
+
+  .familjen-anchor-card {
+    @apply rounded-2xl border border-accent/25 bg-gradient-to-br from-accent/10 to-transparent p-4;
+  }
+
+  .familjen-week-bar {
+    @apply rounded-t-md bg-gradient-to-t from-emerald-500/80 to-emerald-300/90;
+    box-shadow: 0 0 12px rgba(45, 212, 191, 0.25);
+  }
+
+  .familjen-kunskap-panel {
+    @apply rounded-2xl border border-emerald-500/15 bg-[#0a1628]/60 p-1;
   }
 }
