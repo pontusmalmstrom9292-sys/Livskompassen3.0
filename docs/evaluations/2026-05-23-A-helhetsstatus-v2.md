@@ -1,3 +1,6 @@
+> **HISTORISK (2026-05-23):** För aktuell status se [`SENASTE-SAMMANFATTNING.md`](./SENASTE-SAMMANFATTNING.md). Planering `/planering` är live på `main`.
+>
+
 # Systemkontroll — A — Helhetsstatus v2 — 2026-05-23
 
 **Trigger:** Multi-agent utvärderingsvåg (read-only). Uppdaterar [`2026-05-23-A-helhetsstatus.md`](./2026-05-23-A-helhetsstatus.md) med bredare kodverifiering.
