@@ -12,7 +12,7 @@
 |-----------|------------|
 | "Har vi tappat något viktigt?" | **A** Helhetsstatus |
 | Deploy eller mycket kod ändrats | **B** Sacred Features + säkerhet |
-| Osäker på moln vs dokumentation | **C** GCP live-synk |
+| Osäker på moln vs dokumentation | **C** GCP live-synk · lathund [`MOLN-KREDITER-LATHUND.md`](./MOLN-KREDITER-LATHUND.md) |
 | Grunder / Life OS / silos känns oklara | **D** Grunder (U1–U5) |
 | Många filer, kladd, flera chattar | **E** Kaos → samlad rapport |
 | **Nattpass / batch utan LLM** | **`npm run orkester:night`** → [`ORKESTER-AUTORUN.md`](./ORKESTER-AUTORUN.md) |
@@ -27,6 +27,7 @@
 |------|-----|----------------|
 | **0 — Fas & prioritering** | [`.context/system-plan.md`](../.context/system-plan.md) | Vilken fas, vad som är klart / öppet |
 | **0b — Git / merge** | [`GIT-LATHUND.md`](./GIT-LATHUND.md), [`MERGE-IMPACT-RAPPORT.md`](./MERGE-IMPACT-RAPPORT.md), [`BRANCH-KARTA.md`](./BRANCH-KARTA.md) | En `main`-trunk; PMIR före merge/stängning |
+| **0c — Moln & krediter** | [`MOLN-KREDITER-LATHUND.md`](./MOLN-KREDITER-LATHUND.md), [`WORKFLOW_AND_AI_CREDITS.md`](./WORKFLOW_AND_AI_CREDITS.md) | GCP vs Cursor vs gratis; rutiner; molncheck |
 | **1 — Säkerhet & Sacred** | [`.context/security.md`](../.context/security.md) | Layered Defense, WORM, silos, Kill Switch |
 | **2 — Minne & silos** | [`.context/arkiv-minne.md`](../.context/arkiv-minne.md) | Permanent minne, tre kunskapsytor |
 | **3 — Live moln** | [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md) | Functions, indexes, secrets (ersätter arkiv) |

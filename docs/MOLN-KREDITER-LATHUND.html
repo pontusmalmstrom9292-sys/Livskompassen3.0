@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Moln & krediter — Livskompassen</title>
+  <style>
+@media print { .no-print { display: none; } body { font-size: 10pt; } }
+body { font-family: Inter, system-ui, sans-serif; max-width: 720px; margin: 1.5rem auto; padding: 0 1rem; color: #111; line-height: 1.45; }
+h1 { font-size: 1.35rem; border-bottom: 2px solid #333; padding-bottom: 0.35rem; }
+h2 { font-size: 1.05rem; margin-top: 1.25rem; color: #222; }
+h3 { font-size: 0.95rem; }
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 0.6rem 0 1rem; }
+th, td { border: 1px solid #ccc; padding: 0.4rem 0.55rem; text-align: left; vertical-align: top; }
+th { background: #f0f0f0; font-weight: 600; }
+code { font-size: 0.82rem; background: #f4f4f4; padding: 0.1rem 0.25rem; border-radius: 3px; }
+pre { background: #f4f4f4; padding: 0.75rem; border-radius: 6px; overflow-x: auto; font-size: 0.82rem; }
+pre code { background: none; padding: 0; }
+p { margin: 0.5rem 0; }
+hr { border: none; border-top: 1px solid #ddd; margin: 1.25rem 0; }
+strong { font-weight: 600; }
+.nav { margin: 0.75rem 0 1.25rem; }
+.btn { display: inline-block; margin: 0.2rem 0.5rem 0.2rem 0; padding: 0.55rem 0.9rem; background: #1a1a1a; color: #fff !important; text-decoration: none; border-radius: 6px; font-size: 0.88rem; }
+.btn:hover { background: #333; }
+a { color: #0969da; }
+em { color: #555; }
+</style>
+</head>
+<body>
+  <div class="nav no-print">
+    <a class="btn" href="#" onclick="window.print();return false;">Skriv ut (⌘P)</a>
+    <a class="btn" href="LATHUND-INDEX.html">Alla lathundar</a>
+  </div>
+  <article class="content">
+<h1>Moln &amp; krediter — lathund (1 sida)</h1>
+<p><strong>Version:</strong> 2026-05-24 · Projekt: <code>gen-lang-client-0481875058</code> (Livskompassen)</p>
+<p><strong>Relaterat:</strong> <a href="./GIT-LATHUND.md"><code>GIT-LATHUND.md</code></a> · <a href="./WORKFLOW_AND_AI_CREDITS.md"><code>WORKFLOW_AND_AI_CREDITS.md</code></a> · <a href="./GCP-INVENTORY-LATEST.md"><code>GCP-INVENTORY-LATEST.md</code></a> · <a href="./ORKESTER-AUTORUN.md"><code>ORKESTER-AUTORUN.md</code></a></p>
+<p><strong>Cursor begränsad ~25 dagar:</strong> använd <strong>gratis</strong> lokalt + <strong>GCP</strong> för AI i prod — spara Cursor för korta agent-uppdrag.</p>
+<hr>
+<h2>Var bor sanningen?</h2>
+<table>
+<thead>
+<tr>
+<th>Vad</th>
+<th>Var</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Live moln (functions, vector, secrets)</td>
+<td><a href="./GCP-INVENTORY-LATEST.md"><code>GCP-INVENTORY-LATEST.md</code></a></td>
+</tr>
+<tr>
+<td>Kreditstrategi (~12 000 kr + test)</td>
+<td><a href="./WORKFLOW_AND_AI_CREDITS.md"><code>WORKFLOW_AND_AI_CREDITS.md</code></a></td>
+</tr>
+<tr>
+<td>Firebase MCP-konfig</td>
+<td><a href="../.cursor/mcp.json"><code>.cursor/mcp.json</code></a></td>
+</tr>
+<tr>
+<td>Fas &amp; prioritering</td>
+<td><a href="../.context/system-plan.md"><code>.context/system-plan.md</code></a></td>
+</tr>
+<tr>
+<td>Nästa kodbit (GAP)</td>
+<td><a href="./specs/modules/Arkiv-GAP-REGISTER.md"><code>specs/modules/Arkiv-GAP-REGISTER.md</code></a></td>
+</tr>
+<tr>
+<td>Nattpass utan LLM</td>
+<td><code>npm run orkester:night</code> → <a href="./ORKESTER-AUTORUN.md"><code>ORKESTER-AUTORUN.md</code></a></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Ordlista (kort)</h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Betyder</th>
+<th>Du använder det när…</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>IDE</strong></td>
+<td>Cursor (VS Code-fork)</td>
+<td>Du redigerar React/Functions</td>
+</tr>
+<tr>
+<td><strong>Agent-läge</strong></td>
+<td>Cursor-chat med terminal + MCP</td>
+<td>Du säger <em>&quot;kör molncheck&quot;</em> — <strong>sparsamt</strong> under limit</td>
+</tr>
+<tr>
+<td><strong>MCP</strong></td>
+<td>Model Context Protocol — verktyg agenten anropar</td>
+<td>Firebase deploy/loggar utan Console-klick</td>
+</tr>
+<tr>
+<td><strong>Firebase MCP</strong></td>
+<td><code>npx firebase-tools mcp</code></td>
+<td>Backend-status, deploy, regler</td>
+</tr>
+<tr>
+<td><strong>ADC</strong></td>
+<td><code>gcloud auth application-default login</code></td>
+<td>Lokala skript ska använda <strong>GCP-krediter</strong></td>
+</tr>
+<tr>
+<td><strong>GCP-krediter</strong></td>
+<td>Billing på Google Cloud (~12 000 kr + ev. test)</td>
+<td><strong>Deployade</strong> Functions + Gemini/Vertex + Vector</td>
+</tr>
+<tr>
+<td><strong>Spark (gratis)</strong></td>
+<td>Firebase free tier</td>
+<td><code>npm run dev</code>, måttlig Auth/Firestore i dev</td>
+</tr>
+<tr>
+<td><strong>ADK</strong></td>
+<td><code>AdkOrchestrator</code>, <code>SynapseBus</code>, executors i <code>functions/src/adk/</code></td>
+<td>Händelser mellan moduler (Drive→kb_docs) — <strong>inte</strong> Firestore <code>/synapses</code> blueprint</td>
+</tr>
+<tr>
+<td><strong>Orkester</strong></td>
+<td>Nattpass / specialister</td>
+<td><code>orkester:night</code> (<strong>gratis</strong>) eller <em>&quot;kör orkester&quot;</em> i chat (<strong>Cursor</strong>)</td>
+</tr>
+<tr>
+<td><strong>PMIR</strong></td>
+<td>Pre-Merge Impact Report</td>
+<td>Före merge — se <a href="./GIT-LATHUND.md"><code>GIT-LATHUND.md</code></a></td>
+</tr>
+<tr>
+<td><strong>Smoke</strong></td>
+<td>Automatiska kontroller</td>
+<td><code>smoke:locked-ux</code>, <code>smoke:orkester</code> — <strong>gratis</strong> lokalt</td>
+</tr>
+<tr>
+<td><strong>Silos U1</strong></td>
+<td>Kunskap / Valv / Barnen — aldrig cross-RAG</td>
+<td>All RAG/query-ändring</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Tre plånböcker</h2>
+<table>
+<thead>
+<tr>
+<th>Plånbok</th>
+<th>Vad</th>
+<th>När det kostar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Gratis</strong></td>
+<td><code>npm run dev</code>, <code>npm run build</code>, alla <code>smoke:*</code>, <code>orkester:night</code></td>
+<td>Aldrig (bara din tid)</td>
+</tr>
+<tr>
+<td><strong>GCP</strong></td>
+<td>Deployade AI-functions, Vector ANN, hög Firestore/Storage</td>
+<td>När du <strong>använder appen mot prod</strong> eller tunga molnjobb</td>
+</tr>
+<tr>
+<td><strong>Cursor</strong></td>
+<td>Chat, Composer, långa agent-loopar</td>
+<td><strong>Nu begränsat</strong> — korta uppdrag</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Rutin (när / hur ofta / vem)</h2>
+<table>
+<thead>
+<tr>
+<th>När</th>
+<th>Vad</th>
+<th>Hur ofta</th>
+<th>Du</th>
+<th>Agent</th>
+<th>Kostnad</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Första gången / token död</td>
+<td><code>gcloud auth application-default login</code></td>
+<td>Vid behov</td>
+<td>Terminal 2 min</td>
+<td>Verifiera</td>
+<td>Gratis</td>
+</tr>
+<tr>
+<td>Varje arbetsdag</td>
+<td><code>git pull</code> + <code>npm run dev</code></td>
+<td>Dagligen</td>
+<td>Ja</td>
+<td>—</td>
+<td>Gratis</td>
+</tr>
+<tr>
+<td>Efter backend-ändring</td>
+<td><code>cd functions &amp;&amp; npm run build</code></td>
+<td>Per ändring</td>
+<td>Eller agent</td>
+<td>Ja</td>
+<td>Gratis</td>
+</tr>
+<tr>
+<td>Efter Valv/Familjen</td>
+<td><code>npm run smoke:locked-ux</code></td>
+<td>Per relevant ändring</td>
+<td>Eller agent</td>
+<td>Ja</td>
+<td>Gratis</td>
+</tr>
+<tr>
+<td>Efter agents/synapser</td>
+<td><code>npm run smoke:orkester</code></td>
+<td>Per ändring</td>
+<td>Eller agent</td>
+<td>Ja</td>
+<td>Gratis</td>
+</tr>
+<tr>
+<td>Aktiv utvecklingsvecka</td>
+<td><code>npm run orkester:night</code></td>
+<td>Max 1×/natt</td>
+<td>Terminal</td>
+<td>Läsa rapport</td>
+<td>Gratis</td>
+</tr>
+<tr>
+<td>Osäker moln vs docs</td>
+<td><em>&quot;kör molncheck&quot;</em> (prompt nedan)</td>
+<td>Veckovis / före deploy</td>
+<td>—</td>
+<td>Ja</td>
+<td>Låg Cursor</td>
+</tr>
+<tr>
+<td>Före deploy prod</td>
+<td><code>firebase deploy</code></td>
+<td>Sällan</td>
+<td>Godkänn</td>
+<td>MCP/CLI</td>
+<td>Körning = GCP</td>
+</tr>
+<tr>
+<td>Testa AI</td>
+<td><code>/kunskap</code>, <code>/valv</code>, … mot prod</td>
+<td>Vid behov</td>
+<td>Ja</td>
+<td>—</td>
+<td><strong>GCP</strong></td>
+</tr>
+<tr>
+<td>Kvarvarande kr</td>
+<td><a href="https://console.cloud.google.com/billing">Cloud Billing</a></td>
+<td>1×/månad</td>
+<td>5 min</td>
+<td>Guider URL</td>
+<td>Gratis att titta</td>
+</tr>
+<tr>
+<td>Merge</td>
+<td>PMIR → ditt OK</td>
+<td>Per gren</td>
+<td><a href="./GIT-LATHUND.md"><code>GIT-LATHUND</code></a></td>
+<td>Ja</td>
+<td>Gratis</td>
+</tr>
+<tr>
+<td>Helhetskaos</td>
+<td>SYSTEMKONTROLL A–E</td>
+<td>Vid behov</td>
+<td><a href="./SYSTEMKONTROLL.md"><code>SYSTEMKONTROLL.md</code></a></td>
+<td>En bokstav</td>
+<td>Medel Cursor</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Operativa lägen (inte Cursor Pro-planer)</h2>
+<table>
+<thead>
+<tr>
+<th>Läge</th>
+<th>Aktivera med</th>
+<th>Exempel</th>
+<th>Cursor?</th>
+<th>GCP?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Lokal dev</strong></td>
+<td><code>npm run dev</code></td>
+<td>UI utan moln-AI</td>
+<td>Nej</td>
+<td>Nej</td>
+</tr>
+<tr>
+<td><strong>Kvalitet</strong></td>
+<td><code>smoke:locked-ux</code> + <code>smoke:orkester</code></td>
+<td>Barnfokus, Mönster/Orkester, ADK</td>
+<td>Nej</td>
+<td>Nej</td>
+</tr>
+<tr>
+<td><strong>Nattpass</strong></td>
+<td><code>npm run orkester:night</code></td>
+<td>Build + smoke + rapport</td>
+<td>Nej</td>
+<td>Nej</td>
+</tr>
+<tr>
+<td><strong>Molncheck</strong></td>
+<td>Prompt nedan</td>
+<td>Status, loggar</td>
+<td>Lite</td>
+<td>Nej</td>
+</tr>
+<tr>
+<td><strong>Prod-AI-test</strong></td>
+<td>Deployad app</td>
+<td>RAG, BIFF, Valv-chat</td>
+<td>Nej</td>
+<td><strong>Ja</strong></td>
+</tr>
+<tr>
+<td><strong>Deploy</strong></td>
+<td><code>firebase deploy</code> / MCP</td>
+<td>Ny backend</td>
+<td>Lite</td>
+<td>Ja vid användning</td>
+</tr>
+<tr>
+<td><strong>Conductor</strong></td>
+<td><em>&quot;Kör orkester nattpass&quot;</em></td>
+<td>Specialister</td>
+<td><strong>Hög — undvik nu</strong></td>
+<td>Ev.</td>
+</tr>
+<tr>
+<td><strong>Natt-CI SDK</strong></td>
+<td>—</td>
+<td><strong>WAIT</strong> <a href="./NATT-CI.md"><code>NATT-CI.md</code></a></td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Parallellt (snabb utveckling)</h2>
+<table>
+<thead>
+<tr>
+<th>OK?</th>
+<th>Kombination</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ja</td>
+<td><code>npm run dev</code> + du kodar</td>
+</tr>
+<tr>
+<td>Ja</td>
+<td><code>orkester:night</code> medan du sover</td>
+</tr>
+<tr>
+<td>Ja</td>
+<td>Agent molncheck + du läser rapport</td>
+</tr>
+<tr>
+<td>Nej</td>
+<td>Lång Composer <strong>och</strong> Conductor samma kväll</td>
+</tr>
+<tr>
+<td>Nej</td>
+<td>Deploy prod <strong>utan</strong> smoke PASS</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Snabb väg till färdig app</h2>
+<ol>
+<li>Dagligen: dev → functions build → <code>smoke:locked-ux</code> + <code>smoke:orkester</code>.</li>
+<li>En <strong>GAP</strong> i taget från <a href="./specs/modules/Arkiv-GAP-REGISTER.md"><code>Arkiv-GAP-REGISTER.md</code></a>.</li>
+<li>Testa AI i <strong>prod</strong> (GCP), inte genom att fråga Cursor om sanning.</li>
+<li>Deploy <strong>sällan</strong> — bara när smoke PASS och du behöver telefon mot riktig backend.</li>
+<li>Under Cursor-limit: <code>orkester:night</code> + korta agent-prompter istället för mass-Composer.</li>
+</ol>
+<hr>
+<h2>ADC (engång / när token dör)</h2>
+<pre><code class="language-bash">gcloud auth application-default login
+gcloud config set project gen-lang-client-0481875058
+</code></pre>
+<p>Verifiera: <code>gcloud auth application-default print-access-token</code> → ska lyckas utan fel.</p>
+<hr>
+<h2>Firebase MCP — vad agenten kan</h2>
+<table>
+<thead>
+<tr>
+<th>Område</th>
+<th>Verktyg (exempel)</th>
+<th>GCP-kostnad?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Miljö</td>
+<td><code>firebase_get_environment</code></td>
+<td>Nej</td>
+</tr>
+<tr>
+<td>Functions</td>
+<td><code>functions_list_functions</code>, <code>functions_get_logs</code></td>
+<td>Nej</td>
+</tr>
+<tr>
+<td>Firestore</td>
+<td>query/list (dev försiktigt)</td>
+<td>Låg vid skrivning</td>
+</tr>
+<tr>
+<td>Deploy</td>
+<td><code>firebase_deploy</code></td>
+<td>Körning efter deploy = GCP</td>
+</tr>
+<tr>
+<td>Regler</td>
+<td><code>firebase_validate_security_rules</code></td>
+<td>Nej</td>
+</tr>
+</tbody></table>
+<p>MCP kan <strong>inte</strong> visa exakt kron-saldo — använd <a href="https://console.cloud.google.com/billing">Billing Console</a>.</p>
+<hr>
+<h2>Prompt — Molncheck (Agent-läge)</h2>
+<pre><code>Kör molncheck för Livskompassen — inga kodändringar.
+1) firebase_get_environment
+2) gcloud auth application-default print-access-token
+3) functions_list + functions_get_logs (senaste fel)
+4) Jämför med docs/GCP-INVENTORY-LATEST.md — vad är aktivt, vad saknas
+5) Ett manuellt steg för mig om något kräver webbläsare
+6) Rekommendera EN nästa åtgärd för snabbast väg mot färdig app
+Projekt: gen-lang-client-0481875058
+</code></pre>
+<hr>
+<h2>Prompt — Jobba vidare (minimal Cursor)</h2>
+<pre><code>Hjälp mig jobba vidare mot färdig app med minimal Cursor-användning:
+- Kör smoke:locked-ux och smoke:orkester
+- Lista öppna GAP från docs/specs/modules/Arkiv-GAP-REGISTER.md (topp 3)
+- Föreslå endast ETT GAP att implementera härnäst med minsta diff
+- Använd Firebase MCP för loggar om smoke failar
+Jämför mot hela projektet. Sluta inte förrän smoke PASS eller tydlig blocker med ett manuellt steg för mig.
+</code></pre>
+<hr>
+<h2>Gör aldrig</h2>
+<ul>
+<li>Bränna Cursor på stora Composer-refactors under limit-perioden</li>
+<li>Deploy utan smoke PASS</li>
+<li>Nya Vertex-index / träning utan behov (dyrt)</li>
+<li><code>@cursor/sdk</code> / Natt-CI — <strong>WAIT</strong> tills GAP och konsolidering säger klart</li>
+<li>Fråga Cursor om auth, WORM eller silo-sanning — läs kod + inventering</li>
+</ul>
+<hr>
+<h2>Snabb-kontroll (60 sek)</h2>
+<pre><code class="language-bash">gcloud config get-value project    # gen-lang-client-0481875058
+firebase projects:list | head -8
+gcloud auth application-default print-access-token &gt;/dev/null &amp;&amp; echo ADC OK || echo ADC — kör login ovan
+npm run smoke:locked-ux
+</code></pre>
+
+  </article>
+  <div class="nav no-print">
+    <a class="btn" href="#" onclick="window.print();return false;">Skriv ut (⌘P)</a>
+    <a class="btn" href="LATHUND-INDEX.html">Alla lathundar</a>
+  </div>
+</body>
+</html>

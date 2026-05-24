@@ -46,6 +46,8 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 | [`design/DESIGN-LATHUND.md`](design/DESIGN-LATHUND.md) | **Utskrift** — teman, galleri, flik-idéer, HTML |
 | [`CURSOR-MENY-LATHUND.md`](CURSOR-MENY-LATHUND.md) | **Utskrift** — kub-meny, filmeny …, Actions |
 | [`GIT-LATHUND.md`](GIT-LATHUND.md) | **1 sida** — main trunk, PMIR, daglig rutin |
+| [`MOLN-KREDITER-LATHUND.md`](MOLN-KREDITER-LATHUND.md) | **1 sida** — GCP/Firebase MCP, ADC, gratis vs krediter, rutiner |
+| [`LATHUND-INDEX.html`](LATHUND-INDEX.html) | Alla lathundar (HTML-index) |
 | [`GITHUB_ANVANDARGUIDE.md`](GITHUB_ANVANDARGUIDE.md) | **Utskriftsguide** — repo, branches, daglig rutin |
 | [`BRANCH-KARTA.md`](BRANCH-KARTA.md) | Aktiva / stängda / parked grenar |
 | [`MERGE-IMPACT-RAPPORT.md`](MERGE-IMPACT-RAPPORT.md) | Mall före merge/stängning |

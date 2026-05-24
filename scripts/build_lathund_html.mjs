@@ -68,6 +68,7 @@ const files = [
   { src: 'GIT-LATHUND.md', out: 'GIT-LATHUND.html', title: 'Git-lathund', index: 'LATHUND-INDEX.html' },
   { src: 'design/DESIGN-LATHUND.md', out: 'design/DESIGN-LATHUND.html', title: 'Design-lathund', index: '../LATHUND-INDEX.html' },
   { src: 'CURSOR-MENY-LATHUND.md', out: 'CURSOR-MENY-LATHUND.html', title: 'Cursor-menylathund', index: 'LATHUND-INDEX.html' },
+  { src: 'MOLN-KREDITER-LATHUND.md', out: 'MOLN-KREDITER-LATHUND.html', title: 'Moln & krediter', index: 'LATHUND-INDEX.html' },
 ];
 
 for (const f of files) {
