@@ -38,15 +38,24 @@ export function ThemePreviewPage() {
           <button
             key={pack.id}
             type="button"
-            className={`glass-card p-4 text-left transition-all ${
+            className={`glass-card overflow-hidden p-0 text-left transition-all ${
               themeId === pack.id ? 'ring-2 ring-accent' : ''
             }`}
             onClick={() => setTheme(pack.id)}
           >
-            <p className="text-[10px] uppercase tracking-widest text-text-dim">{pack.id}</p>
-            <h2 className="mt-1 font-display text-lg text-accent">{pack.label}</h2>
-            <p className="mt-2 text-sm text-text-muted">{pack.description}</p>
-            <p className="mt-3 text-xs text-text-dim">Bakgrund: {pack.background}</p>
+            {pack.preview ? (
+              <img
+                src={pack.preview}
+                alt=""
+                className="h-28 w-full object-cover object-top opacity-90"
+              />
+            ) : null}
+            <div className="p-4">
+              <p className="text-[10px] uppercase tracking-widest text-text-dim">{pack.id}</p>
+              <h2 className="mt-1 font-display text-lg text-accent">{pack.label}</h2>
+              <p className="mt-2 text-sm text-text-muted">{pack.description}</p>
+              <p className="mt-3 text-xs text-text-dim">Bakgrund: {pack.background}</p>
+            </div>
           </button>
         ))}
       </div>

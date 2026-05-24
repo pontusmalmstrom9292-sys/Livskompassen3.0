@@ -51,6 +51,38 @@
   .tabular-nums {
     font-variant-numeric: tabular-nums;
   }
+
+  /* Theme Pack I — CSS fallbacks (runtime: applyTheme + themeRegistry.ts) */
+  html[data-theme='I-stone'] {
+    --bg: #0a0a0a;
+    --accent: #d4af37;
+    --border-strong: rgba(212, 175, 55, 0.45);
+  }
+
+  html[data-theme='I-alchemical'] {
+    --bg: #050505;
+    --accent: #e8c547;
+    --border-strong: rgba(232, 197, 71, 0.5);
+  }
+
+  html[data-theme='I-skymning'] {
+    --bg: #0a1614;
+    --accent: #4fd1c5;
+    --border-strong: rgba(79, 209, 197, 0.28);
+  }
+
+  html[data-theme='I-hamn'] {
+    --bg: #2c2f33;
+    --accent: #d4af37;
+    --border-strong: rgba(212, 175, 55, 0.35);
+  }
+
+  html[data-theme='I-glass'] {
+    --bg: #0a0a0a;
+    --accent: #d4af37;
+    --glass: rgba(20, 15, 10, 0.65);
+    --border-strong: rgba(212, 175, 55, 0.55);
+  }
 }
 
 @layer components {

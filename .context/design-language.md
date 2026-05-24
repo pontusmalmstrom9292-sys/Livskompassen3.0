@@ -1,42 +1,37 @@
 # Visuell Estetik och Designspråk
 
 **Canonical:** [`docs/specs/design-master.md`](../docs/specs/design-master.md)  
-**Aktivt tema:** **E — Nordic Skymning + Guld** ([`THEME-E-SPEC.md`](../docs/design/themes/E-aurora-obsidian-compass/THEME-E-SPEC.md))
+**Aktivt tema:** **Theme Pack I** — [`THEME-I-SPEC.md`](../docs/design/themes/I-architect-vault/THEME-I-SPEC.md)
 
-## Riktning A–D (Design System v2)
+## Theme Pack I (prod 2026-05-24)
 
-| ID | Namn | Status |
-|----|------|--------|
-| **E** | Nordic Skymning + Guld | **Prod (2026-05-23)** — tokens i `src/index.css` |
-| F | Guld Pansar (Valv) | Referens för bevis/WORM-copy |
-| G | Varm hamn | Alternativ mockup |
-| H | Grafit Grey Rock | Alternativ mockup |
+| ID | Modul |
+|----|-------|
+| I-stone | Hem, Valv, Widget expanded |
+| I-alchemical | Kompass, Rutiner, Budget |
+| I-skymning | MåBra, KBT, Familjen |
+| I-hamn | Hamn |
+| I-glass | Widget peek |
 
-**Avvecklat som prod-mål:** platt Obsidian Calm utan identitet, lila `#818CF8` som primär accent, regnbågs-glow.
+**Runtime:** `src/modules/core/theme/themeRegistry.ts` · **Preview:** `/dev/themes`  
+**Default:** `I-stone` · **Auto per route:** `moduleThemeMap.ts`
 
-## Estetik (Tema E)
+## Estetik (I-stone / guld kärna)
 
-- Bakgrund: skog-teal `#0a1614` → skymning `#12151f`
-- Accents: guld `#d4af37`, ember `#f59e0b` (CTA), emerald endast för success
+- Bakgrund: obsidian `#0a0a0a`, guld `#d4af37`
 - Typografi: **Outfit** (rubriker), **Inter** (bröd)
+- Smart widget: `FyrenSmartWidgetBar` — hidden / peek / expanded
 - Progressive disclosure — ett steg i taget
-- **Förbjudet:** indigo/lila text-accent, turkos glow, natur-tapeter, count-up
+- **Förbjudet globalt:** indigo/lila text-accent, natur-tapeter
 
 ## Centrala Element
 
-- **LivskompassHero:** guld kompass-hub på Hem ([`HOME-HERO-KANON.md`](../docs/design/references/HOME-HERO-KANON.md))
-- **Kompis Avatar:** pulserande aura (viloläge)
-- **Tidshjulet:** flerlagrad tidslinje för Minne
-- **Sub-Synaptisk Bakgrund:** bakom innehåll, inte på kontroller
+- **LivskompassHero:** guld kompass-hub på Hem
+- **FyrenSmartWidgetBar:** klocka, Fokus·Struktur·Närvaro, WORM-routes
+- **Sub-Synaptisk Bakgrund:** `AmbientBackground` + `data-theme-bg`
 
 ## Tailwind / CSS
 
-- Tokens: `:root` i `src/index.css`, `tailwind.config.js`
-- Glass: guld border `rgba(212,175,55,0.25)`, teal glass cards
-- Ikonnivåer: L1 hero emboss (max 4), L2 dock guld line, L3 listor 16px
-
-## Modul-specifikt
-
-- **Valv / Pansaret:** guld SERVER-TIDSSTÄMPEL, WORM badges
-- **Familjen:** emerald aurora accent (barn), guld barnfokus
-- **Speglar:** lågaffektiv indigo **ersatt** — neutral glass + guld CTA
+- Tokens: `themeRegistry.ts` → `applyTheme()` → `:root` + `html[data-theme]`
+- Glass: guld border 2px, accent-glow på widget-ikoner
+- Modul-scoped mint (I-skymning): endast MåBra/Familjen — se [COLOR-POLICY.md](../docs/design/COLOR-POLICY.md)
