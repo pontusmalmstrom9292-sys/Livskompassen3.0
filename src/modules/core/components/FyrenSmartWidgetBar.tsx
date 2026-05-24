@@ -121,7 +121,7 @@ export function FyrenSmartWidgetBar() {
         />
       ) : null}
 
-      <motion.div
+      <div
         className={clsx(
           'fyren-smart-bar',
           state === 'hidden' && 'fyren-smart-bar--hidden',
@@ -176,7 +176,7 @@ export function FyrenSmartWidgetBar() {
                 </span>
                 <span>Snabbanteckning</span>
               </Link>
-              <motion.div className="fyren-smart-bar__dual-divider" aria-hidden />
+              <div className="fyren-smart-bar__dual-divider" aria-hidden />
               <Link
                 to="/widget/inspelning?autostart=1"
                 className="fyren-smart-bar__dual-action"
@@ -238,7 +238,10 @@ export function FyrenSmartWidgetBar() {
                 <p className="text-xs text-text-muted">Fånga tanken. Bevara fokus.</p>
               </div>
               <ChevronDown
-                className={clsx('h-4 w-4 shrink-0 text-accent/70 transition-transform', noteOpen && 'rotate-180')}
+                className={clsx(
+                  'h-4 w-4 shrink-0 text-accent/70 transition-transform',
+                  noteOpen && 'rotate-180',
+                )}
                 strokeWidth={1.5}
               />
             </button>
@@ -282,40 +285,7 @@ export function FyrenSmartWidgetBar() {
             </footer>
           </div>
         ) : null}
-      </motion.div>
+      </div>
     </>
-  );
-}
-
-function motion({
-  className,
-  children,
-  ...rest
-}: {
-  className?: string;
-  children?: React.ReactNode;
-  'aria-label'?: string;
-  'aria-hidden'?: boolean;
-}) {
-  return (
-    <div className={className} {...rest}>
-      {children}
-    </motion.div>
-  );
-}
-
-function motionDiv({
-  className,
-  children,
-  ...rest
-}: {
-  className?: string;
-  children?: React.ReactNode;
-  'aria-hidden'?: boolean;
-}) {
-  return (
-    <div className={className} {...rest}>
-      {children}
-    </motion.div>
   );
 }
