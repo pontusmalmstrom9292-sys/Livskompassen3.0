@@ -10,7 +10,7 @@ export function ThemePreviewPage() {
       <header className="glass-card p-4">
         <h1 className="font-display text-xl font-light text-accent">Theme Pack Preview</h1>
         <p className="mt-2 text-sm text-text-muted">
-          Byt skin live. Auto per modul: {mode === 'auto' ? 'på' : 'av'}.
+          Byt skin live. Standard: Architect Stone på alla sidor. Auto: {mode === 'auto' ? 'på' : 'av'}.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           <button
@@ -64,9 +64,9 @@ export function ThemePreviewPage() {
         <h2 className="text-sm uppercase tracking-widest text-text-dim">Modul-mapping</h2>
         <ul className="mt-3 space-y-1 text-sm text-text-muted">
           {[
-            ['/', 'I-alchemical'],
-            ['/hamn', 'I-hamn'],
-            ['/mabra', 'I-skymning'],
+            ['/', 'I-stone'],
+            ['/hamn', 'I-stone'],
+            ['/mabra', 'I-stone'],
             ['/dagbok', 'I-stone'],
           ].map(([path, id]) => (
             <li key={path}>

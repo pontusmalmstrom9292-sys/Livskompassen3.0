@@ -2,21 +2,21 @@ import { DEFAULT_THEME_ID } from './themeRegistry';
 
 /** Route prefix → default theme pack id. Longest match wins. */
 export const MODULE_THEME_MAP: { prefix: string; themeId: string }[] = [
-  { prefix: '/hamn', themeId: 'I-hamn' },
-  { prefix: '/mabra', themeId: 'I-skymning' },
-  { prefix: '/familjen', themeId: 'I-skymning' },
-  { prefix: '/barnen', themeId: 'I-skymning' },
-  { prefix: '/vardagen', themeId: 'I-alchemical' },
-  { prefix: '/kompasser', themeId: 'I-alchemical' },
-  { prefix: '/ekonomi', themeId: 'I-alchemical' },
-  { prefix: '/kunskap', themeId: 'I-alchemical' },
-  { prefix: '/widget', themeId: 'I-stone' },
-  { prefix: '/dagbok', themeId: 'I-stone' },
-  { prefix: '/valv', themeId: 'I-stone' },
-  { prefix: '/planering', themeId: 'I-stone' },
-  { prefix: '/projekt', themeId: 'I-stone' },
-  { prefix: '/dossier', themeId: 'I-stone' },
-  { prefix: '/', themeId: 'I-alchemical' },
+  { prefix: '/hamn', themeId: DEFAULT_THEME_ID },
+  { prefix: '/mabra', themeId: DEFAULT_THEME_ID },
+  { prefix: '/familjen', themeId: DEFAULT_THEME_ID },
+  { prefix: '/barnen', themeId: DEFAULT_THEME_ID },
+  { prefix: '/vardagen', themeId: DEFAULT_THEME_ID },
+  { prefix: '/kompasser', themeId: DEFAULT_THEME_ID },
+  { prefix: '/ekonomi', themeId: DEFAULT_THEME_ID },
+  { prefix: '/kunskap', themeId: DEFAULT_THEME_ID },
+  { prefix: '/widget', themeId: DEFAULT_THEME_ID },
+  { prefix: '/dagbok', themeId: DEFAULT_THEME_ID },
+  { prefix: '/valv', themeId: DEFAULT_THEME_ID },
+  { prefix: '/planering', themeId: DEFAULT_THEME_ID },
+  { prefix: '/projekt', themeId: DEFAULT_THEME_ID },
+  { prefix: '/dossier', themeId: DEFAULT_THEME_ID },
+  { prefix: '/', themeId: DEFAULT_THEME_ID },
 ];
 
 const AUTO_KEY = 'livskompassen_theme_auto_module';
