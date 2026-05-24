@@ -42,6 +42,7 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 | [`SMOKE_CHECKLIST.md`](SMOKE_CHECKLIST.md) | Manuell verifiering (Sacred Features) |
 | [`SMOKE_RESULTS.md`](SMOKE_RESULTS.md) | Senaste smoke-resultat |
 | [`NATT-CI.md`](NATT-CI.md) | Nattlig CI (ersätter manuella overnight-körningar) |
+| [`KOMPASS-MINNESKARTA.md`](KOMPASS-MINNESKARTA.md) | **Utskrift 1 sida** — pyramid, moduler, git, öppet |
 | [`GIT-LATHUND.md`](GIT-LATHUND.md) | **1 sida** — main trunk, PMIR, daglig rutin |
 | [`GITHUB_ANVANDARGUIDE.md`](GITHUB_ANVANDARGUIDE.md) | **Utskriftsguide** — repo, branches, daglig rutin |
 | [`BRANCH-KARTA.md`](BRANCH-KARTA.md) | Aktiva / stängda / parked grenar |

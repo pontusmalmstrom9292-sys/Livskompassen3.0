@@ -2,6 +2,8 @@
 
 **Version:** 2026-05-24 · Skriv ut och lägg vid datorn.
 
+**Helhet (moduler + öppet + silos):** [`KOMPASS-MINNESKARTA.md`](./KOMPASS-MINNESKARTA.md)
+
 ---
 
 ## Var bor sanningen?

@@ -39,6 +39,8 @@
 
 ## Dokumentation — vad som gäller
 
+**Utskrift (1 sida):** [`KOMPASS-MINNESKARTA.md`](../KOMPASS-MINNESKARTA.md)
+
 | Tier | Kanon |
 |------|--------|
 | Systemlagar | `.context/*` |
