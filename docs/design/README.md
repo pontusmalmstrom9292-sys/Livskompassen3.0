@@ -1,5 +1,7 @@
 # Livskompassen — Designpaket
 
+**Utskrift 1 sida:** [`DESIGN-LATHUND.md`](./DESIGN-LATHUND.md) — teman, galleri, HTML-index, specs.
+
 | Vad | Var |
 |-----|-----|
 | **★ 18 exempelbilder (NY)** | [galleri/index.html](./galleri/index.html) — widget, planering, skärmar, ikoner |
