@@ -127,6 +127,29 @@
     background: radial-gradient(ellipse 120% 80% at 50% -20%, var(--bg-dusk) 0%, var(--bg) 55%);
   }
 
+  /* Hem — Architect Stone scenic (mockup: sjö/skymning) */
+  html[data-theme='I-stone'] .ambient-bg--home-scenic {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(2, 8, 18, 0.35) 0%,
+        rgba(10, 10, 10, 0.72) 55%,
+        rgba(10, 10, 10, 0.92) 100%
+      ),
+      url('/design/home-hero-scenic.png') center 20% / cover no-repeat;
+  }
+
+  html[data-theme='I-stone'] .ambient-bg--home-scenic .ambient-blob--gold {
+    background: rgba(212, 175, 55, 0.08);
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  html[data-theme='I-stone'] .ambient-bg--home-scenic .ambient-blob--accent-secondary {
+    opacity: 0.35;
+  }
+
   html[data-theme-bg='texture-marble'] .ambient-bg {
     background:
       radial-gradient(ellipse 100% 60% at 50% 0%, rgba(232, 197, 71, 0.06) 0%, transparent 50%),
@@ -300,22 +323,23 @@
   }
 
   .dock-shell {
-    @apply pointer-events-none fixed bottom-0 left-0 right-0 z-50 px-3 pb-2 pt-1;
-    background: linear-gradient(to top, rgba(2, 6, 23, 0.88), rgba(2, 6, 23, 0));
+    @apply pointer-events-none fixed bottom-0 left-0 right-0 z-50 flex justify-center px-2 pb-[max(0.35rem,env(safe-area-inset-bottom))] pt-0;
+    background: linear-gradient(to top, rgba(2, 6, 23, 0.65) 0%, transparent 72%);
   }
 
   .dock-nav {
-    @apply pointer-events-auto mx-auto flex max-w-lg items-end justify-center gap-3 rounded-2xl px-3 py-2;
+    @apply pointer-events-auto flex items-center justify-center;
   }
 
   .dock-nav--hub {
-    @apply mx-auto w-fit max-w-none justify-center rounded-2xl border border-white/10 px-2 py-1.5;
-    background: rgba(15, 23, 42, 0.72);
-    backdrop-filter: blur(20px) saturate(150%);
-    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    @apply inline-flex w-auto items-center justify-center gap-0.5 rounded-full border px-1 py-0.5;
+    border-color: rgba(212, 175, 55, 0.22);
+    background: rgba(10, 10, 10, 0.78);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
     box-shadow:
-      0 -2px 24px rgba(2, 6, 23, 0.45),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      0 4px 20px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(212, 175, 55, 0.08);
   }
 
   .dock-orbit-stage {
@@ -325,11 +349,11 @@
   /* Båge under kompass borttagen 2026-05-23 — se VALV-ICON-KANON / DOCK-KANON */
 
   .dock-classic {
-    @apply pointer-events-auto flex w-full max-w-md items-end justify-between gap-1 px-1;
+    @apply pointer-events-auto inline-flex w-auto items-center justify-center gap-1 px-0.5;
   }
 
   .dock-classic__side {
-    @apply flex min-w-0 flex-1 flex-col items-center gap-1 border-0 bg-transparent p-0 text-accent/75 transition-colors;
+    @apply flex w-[3.25rem] shrink-0 flex-col items-center gap-0 border-0 bg-transparent p-0 text-accent/75 transition-colors;
   }
 
   .dock-classic__side--active {
@@ -337,17 +361,18 @@
   }
 
   .dock-classic__side-icon {
-    @apply flex h-10 w-10 items-center justify-center rounded-xl border border-white/10;
-    background: rgba(15, 23, 42, 0.55);
+    @apply flex h-8 w-8 items-center justify-center rounded-full border;
+    border-color: rgba(212, 175, 55, 0.28);
+    background: rgba(10, 10, 10, 0.55);
   }
 
   .dock-classic__side--active .dock-classic__side-icon {
-    border-color: rgba(212, 175, 55, 0.28);
-    box-shadow: 0 0 16px rgba(212, 175, 55, 0.08);
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.16);
   }
 
   .dock-classic__side-label {
-    @apply text-[9px] font-medium tracking-[0.12em] text-text-muted;
+    @apply max-w-[3.25rem] truncate text-[8px] font-medium leading-none tracking-wide text-text-muted;
   }
 
   .dock-classic__side--active .dock-classic__side-label {
@@ -359,33 +384,40 @@
   }
 
   .dock-classic__center:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
+  }
+
+  /* Dölj eventuell centrum-text — endast kompass (DOCK-KANON) */
+  .dock-classic__center .dock-classic__side-label,
+  .dock-center__label {
+    display: none !important;
   }
 
   .dock-classic__plate {
-    @apply relative flex h-[3.65rem] w-[3.65rem] items-center justify-center rounded-full;
+    @apply relative flex h-10 w-10 items-center justify-center rounded-full;
     background: linear-gradient(
       165deg,
-      rgba(30, 41, 59, 0.9) 0%,
-      rgba(15, 23, 42, 0.82) 55%,
-      rgba(2, 6, 23, 0.75) 100%
+      rgba(26, 20, 16, 0.95) 0%,
+      rgba(10, 10, 10, 0.88) 55%,
+      rgba(2, 6, 23, 0.8) 100%
     );
-    border: 1px solid rgba(212, 175, 55, 0.22);
+    border: 1.5px solid rgba(212, 175, 55, 0.38);
     box-shadow:
-      0 8px 24px rgba(2, 6, 23, 0.5),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      0 4px 14px rgba(0, 0, 0, 0.45),
+      0 0 12px rgba(212, 175, 55, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 
   .dock-classic__center--active .dock-classic__plate {
-    border-color: rgba(212, 175, 55, 0.42);
+    border-color: rgba(212, 175, 55, 0.48);
     box-shadow:
-      0 8px 24px rgba(2, 6, 23, 0.5),
-      0 0 24px rgba(212, 175, 55, 0.14);
+      0 4px 14px rgba(0, 0, 0, 0.5),
+      0 0 14px rgba(212, 175, 55, 0.14);
   }
 
   .dock-classic__mark {
-    @apply h-[calc(100%-1rem)] w-[calc(100%-1rem)] text-accent;
-    opacity: 0.9;
+    @apply h-5 w-5 text-accent;
+    opacity: 0.92;
   }
 
   .dock-hub-backdrop {
@@ -942,9 +974,11 @@
   }
 
   .header-menu-btn {
-    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-accent transition-colors;
+    @apply relative z-50 flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-xl text-accent transition-colors;
     border: 1px solid var(--border);
     background: rgba(212, 175, 55, 0.06);
+    pointer-events: auto;
+    touch-action: manipulation;
   }
 
   .header-menu-btn:hover {
@@ -964,70 +998,220 @@
     @apply justify-end;
   }
 
+  @keyframes nav-drawer-in {
+    from {
+      transform: translateX(-100%);
+      opacity: 0.6;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
   .nav-drawer__backdrop {
-    @apply fixed inset-0 z-[55] bg-black/55 backdrop-blur-[2px];
+    @apply fixed inset-0 z-[200] cursor-pointer border-0 bg-black/50 backdrop-blur-[3px];
+    pointer-events: auto;
   }
 
   .nav-drawer {
-    @apply fixed inset-y-0 left-0 z-[56] flex w-[min(68vw,20rem)] flex-col border-r pt-[env(safe-area-inset-top)];
-    border-color: var(--border-strong);
-    background: var(--glass-hero);
-    backdrop-filter: blur(24px) saturate(160%);
-    box-shadow: 16px 0 48px rgba(2, 6, 23, 0.55);
+    @apply fixed inset-y-0 left-0 z-[201] flex w-[68vw] max-w-[22rem] flex-col overflow-hidden border-r pt-[env(safe-area-inset-top)];
+    pointer-events: auto;
+    touch-action: manipulation;
+    border-color: rgba(212, 175, 55, 0.2);
+    background: rgba(10, 10, 10, 0.82);
+    box-shadow: 20px 0 56px rgba(0, 0, 0, 0.65);
+    animation: nav-drawer-in 0.26s ease-out;
+  }
+
+  .nav-drawer__scenic {
+    @apply pointer-events-none absolute inset-0;
+    background:
+      linear-gradient(
+        105deg,
+        rgba(10, 10, 10, 0.78) 0%,
+        rgba(10, 10, 10, 0.55) 45%,
+        rgba(10, 10, 10, 0.72) 100%
+      ),
+      url('/design/home-hero-scenic.png') center 30% / cover no-repeat;
+    filter: blur(0);
+  }
+
+  .nav-drawer__scenic::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 10, 0.52);
+    backdrop-filter: blur(6px);
+    pointer-events: none;
+  }
+
+  .nav-drawer__header,
+  .nav-drawer__list {
+    position: relative;
+    z-index: 1;
   }
 
   .nav-drawer__header {
-    @apply relative px-5 pb-4 pt-6;
+    @apply relative px-5 pb-5 pt-6;
   }
 
   .nav-drawer__close {
-    @apply absolute left-4 top-5 flex h-9 w-9 items-center justify-center rounded-full text-accent;
-    border: 1px solid var(--border);
+    @apply absolute left-4 top-5 z-20 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-accent transition-colors;
+    border: none;
+    background: transparent;
+    pointer-events: auto;
+    touch-action: manipulation;
+  }
+
+  .nav-drawer__close:hover {
+    color: var(--accent-light);
+    background: rgba(212, 175, 55, 0.1);
   }
 
   .nav-drawer__brand {
-    @apply mt-8 flex flex-col items-center gap-2;
+    @apply mt-10 flex flex-col items-center gap-2.5;
   }
 
   .nav-drawer__mark {
-    @apply h-10 w-10 text-accent;
+    @apply h-11 w-11 text-accent;
+    filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.35));
   }
 
   .nav-drawer__title {
-    @apply font-display text-xs font-semibold uppercase tracking-[0.28em] text-accent;
+    font-family: 'Outfit', serif;
+    @apply text-sm font-semibold uppercase tracking-[0.32em] text-accent;
+    text-shadow: 0 1px 12px rgba(212, 175, 55, 0.3);
+  }
+
+  .nav-drawer__ornament {
+    @apply mt-1 flex items-center gap-1.5;
+  }
+
+  .nav-drawer__ornament span {
+    @apply block h-1.5 w-1.5 rounded-sm;
+    background: rgba(212, 175, 55, 0.55);
+    border: 1px solid rgba(212, 175, 55, 0.75);
+  }
+
+  .nav-drawer__ornament span:nth-child(2) {
+    @apply h-2 w-2;
+    background: rgba(212, 175, 55, 0.75);
   }
 
   .nav-drawer__list {
-    @apply flex flex-1 flex-col gap-1 px-3;
+    @apply flex flex-1 flex-col gap-0.5 overflow-y-auto px-3 pb-8;
   }
 
   .nav-drawer__row {
-    @apply flex w-full items-center gap-3 rounded-2xl border-0 px-3 py-3 text-left transition-colors;
+    @apply relative z-10 flex w-full cursor-pointer items-center gap-3 rounded-xl border-0 px-2 py-2.5 text-left transition-colors;
     background: transparent;
     color: var(--text);
+    pointer-events: auto;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(212, 175, 55, 0.15);
   }
 
   .nav-drawer__row:hover {
-    background: rgba(212, 175, 55, 0.06);
+    background: rgba(212, 175, 55, 0.08);
   }
 
   .nav-drawer__row--active {
-    background: rgba(212, 175, 55, 0.14);
-    box-shadow: inset 3px 0 0 var(--text-gold);
+    background: linear-gradient(
+      90deg,
+      rgba(212, 175, 55, 0.24) 0%,
+      rgba(212, 175, 55, 0.06) 72%,
+      transparent 100%
+    );
+    box-shadow: inset 4px 0 0 #d4af37;
+  }
+
+  .nav-drawer__row--active .nav-drawer__row-label {
+    color: var(--accent-light);
   }
 
   .nav-drawer__row-icon {
     @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-accent;
-    border: 1px solid var(--border-strong);
-    background: rgba(212, 175, 55, 0.08);
+    border: 1.5px solid rgba(212, 175, 55, 0.45);
+    background: rgba(10, 10, 10, 0.55);
+    box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.08);
+  }
+
+  .nav-drawer__row--active .nav-drawer__row-icon {
+    border-color: rgba(212, 175, 55, 0.7);
+    background: rgba(212, 175, 55, 0.14);
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.22);
   }
 
   .nav-drawer__row-label {
-    @apply flex-1 text-sm font-medium;
+    @apply flex-1 text-[15px] font-medium tracking-wide;
   }
 
   .nav-drawer__row-chevron {
-    @apply h-4 w-4 shrink-0 text-text-dim opacity-60;
+    @apply h-4 w-4 shrink-0 text-accent/50;
+  }
+
+  .nav-drawer__row--active .nav-drawer__row-chevron {
+    @apply text-accent opacity-90;
+  }
+
+  /* Block underliggande widget/dock när menyn är öppen */
+  body.nav-drawer-open .fyren-smart-bar,
+  body.nav-drawer-open .fyren-home-rail,
+  body.nav-drawer-open .dock-nav--hub,
+  body.nav-drawer-open .dock-classic {
+    pointer-events: none !important;
+  }
+
+  /* Hem — höger widget-rail (I-stone mockup) */
+  .fyren-home-rail {
+    @apply pointer-events-auto fixed right-0 z-[45] flex flex-col gap-0.5 rounded-l-2xl border border-r-0 py-2 pl-1 pr-1;
+    top: calc(4.75rem + env(safe-area-inset-top, 0px));
+    bottom: calc(3.75rem + env(safe-area-inset-bottom, 0px));
+    max-height: min(72vh, 520px);
+    overflow-y: auto;
+    border-color: rgba(212, 175, 55, 0.35);
+    background: rgba(10, 10, 10, 0.72);
+    backdrop-filter: blur(14px);
+    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.45);
+  }
+
+  .fyren-home-rail__row {
+    @apply flex cursor-pointer flex-col items-center gap-1 rounded-xl border-0 px-2 py-2.5 text-center transition-colors;
+    background: transparent;
+    color: var(--text);
+    touch-action: manipulation;
+    min-width: 4.25rem;
+  }
+
+  .fyren-home-rail__row:hover {
+    background: rgba(212, 175, 55, 0.1);
+  }
+
+  .fyren-home-rail__icon {
+    @apply flex h-11 w-11 items-center justify-center rounded-full text-accent;
+    border: 1.5px solid rgba(212, 175, 55, 0.45);
+    background: rgba(10, 10, 10, 0.65);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.12);
+  }
+
+  .fyren-home-rail__label {
+    @apply max-w-[4.5rem] text-[9px] font-medium leading-tight text-accent/90;
+  }
+
+  .home-page--scenic .home-greeting__title {
+    @apply text-[1.65rem] sm:text-2xl;
+    text-shadow: 0 2px 24px rgba(212, 175, 55, 0.25);
+  }
+
+  .home-page--scenic .home-greeting__tagline {
+    @apply text-accent-light/90;
+  }
+
+  .home-page--scenic .home-streak-chip {
+    border-color: rgba(212, 175, 55, 0.35);
+    background: rgba(10, 10, 10, 0.55);
+    backdrop-filter: blur(12px);
   }
 
   .home-greeting__title {
@@ -1068,29 +1252,74 @@
     @apply flex flex-col items-center;
   }
 
+  .livskompass-hero__shield-label {
+    @apply mb-2 text-center text-[10px] font-medium uppercase tracking-[0.35em] text-accent/90;
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.35);
+  }
+
   .livskompass-hero__stage {
-    @apply relative mx-auto w-full max-w-[min(100%,18.5rem)] aspect-square;
+    @apply relative mx-auto w-full max-w-[min(100%,20rem)] aspect-square;
+  }
+
+  .livskompass-hero__ring {
+    @apply pointer-events-none absolute inset-0 rounded-full;
+    border: 1px solid rgba(212, 175, 55, 0.18);
+  }
+
+  .livskompass-hero__ring--outer {
+    inset: -2%;
+    border-width: 2px;
+    border-color: rgba(212, 175, 55, 0.22);
+    box-shadow:
+      0 0 0 1px rgba(212, 175, 55, 0.08),
+      0 0 48px rgba(212, 175, 55, 0.12);
   }
 
   .livskompass-hero__grid {
-    @apply absolute inset-[12%] rounded-full;
-    border: 1px solid rgba(212, 175, 55, 0.12);
+    @apply absolute inset-[10%] rounded-full;
+    border: 1px solid rgba(212, 175, 55, 0.2);
     background:
-      radial-gradient(circle at 50% 50%, rgba(13, 59, 59, 0.55) 0%, transparent 70%),
+      radial-gradient(circle at 50% 45%, rgba(212, 175, 55, 0.12) 0%, transparent 55%),
+      radial-gradient(circle at 50% 50%, rgba(26, 26, 26, 0.85) 0%, rgba(10, 10, 10, 0.95) 72%),
       repeating-conic-gradient(
         from 0deg,
-        rgba(212, 175, 55, 0.04) 0deg 15deg,
-        transparent 15deg 30deg
+        rgba(212, 175, 55, 0.06) 0deg 12deg,
+        transparent 12deg 24deg
       );
   }
 
+  html[data-theme='I-stone'] .livskompass-hero__grid {
+    border-color: rgba(212, 175, 55, 0.28);
+    box-shadow: inset 0 0 40px rgba(212, 175, 55, 0.08);
+  }
+
   .livskompass-hero__disk {
-    @apply absolute inset-[6%] rounded-full;
-    background: var(--compass-disk);
-    border: 1px solid rgba(212, 175, 55, 0.28);
+    @apply absolute inset-[5%] rounded-full;
+    background:
+      radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+      var(--compass-disk);
+    border: 2px solid rgba(212, 175, 55, 0.38);
     box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.35) inset,
-      0 20px 50px rgba(2, 6, 23, 0.45);
+      0 0 0 1px rgba(0, 0, 0, 0.4) inset,
+      0 0 32px rgba(212, 175, 55, 0.18),
+      0 24px 56px rgba(2, 6, 23, 0.55);
+  }
+
+  html[data-theme='I-stone'] .livskompass-hero__disk {
+    --compass-disk: #141210;
+    background:
+      radial-gradient(circle at 50% 38%, rgba(245, 200, 90, 0.22) 0%, transparent 45%),
+      radial-gradient(circle at 50% 50%, #1c1610 0%, #0a0a0a 82%),
+      repeating-conic-gradient(
+        from 22deg,
+        rgba(212, 175, 55, 0.07) 0deg 8deg,
+        transparent 8deg 16deg
+      );
+    border-color: rgba(212, 175, 55, 0.48);
+    box-shadow:
+      0 0 0 1px rgba(212, 175, 55, 0.15) inset,
+      0 0 48px rgba(212, 175, 55, 0.22),
+      0 28px 64px rgba(0, 0, 0, 0.65);
   }
 
   .livskompass-hero--kvall .livskompass-hero__disk {
@@ -1115,6 +1344,14 @@
     box-shadow: 0 4px 16px rgba(2, 6, 23, 0.4);
   }
 
+  html[data-theme='I-stone'] .livskompass-hero__orbit-btn {
+    background: rgba(10, 10, 10, 0.78);
+    border-color: rgba(212, 175, 55, 0.45);
+    box-shadow:
+      0 0 12px rgba(212, 175, 55, 0.15),
+      0 4px 16px rgba(0, 0, 0, 0.5);
+  }
+
   .livskompass-hero__orbit-btn:hover {
     transform: scale(1.05);
     border-color: rgba(212, 175, 55, 0.55);
@@ -1126,11 +1363,18 @@
   }
 
   .livskompass-hero__center {
-    @apply absolute left-1/2 top-1/2 z-20 flex h-[42%] w-[42%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full;
+    @apply absolute left-1/2 top-1/2 z-20 flex h-[38%] w-[38%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full;
     border: 1px solid rgba(212, 175, 55, 0.4);
     background: rgba(10, 22, 20, 0.92);
     color: var(--text-gold);
     box-shadow: 0 0 28px rgba(212, 175, 55, 0.15);
+  }
+
+  html[data-theme='I-stone'] .livskompass-hero__center {
+    background: rgba(10, 10, 10, 0.55);
+    border-width: 2px;
+    border-color: rgba(212, 175, 55, 0.55);
+    backdrop-filter: blur(4px);
   }
 
   .livskompass-hero__center:hover {
@@ -1165,39 +1409,49 @@
     @apply normal-case tracking-normal text-xs;
   }
 
+  .home-page--scenic .dagens-riktning-card {
+    background: rgba(10, 10, 10, 0.55);
+    backdrop-filter: blur(10px);
+    border-color: rgba(212, 175, 55, 0.26);
+  }
+
+  .home-page--scenic .dagens-riktning-card__quote {
+    @apply text-text/90;
+  }
+
   .dagens-riktning-card {
-    @apply flex items-start gap-3 rounded-2xl p-4 transition-colors;
-    border: 1px solid var(--border-strong);
-    background: var(--glass);
+    @apply flex items-center gap-2.5 rounded-xl border px-3 py-2.5 transition-colors;
+    border-color: rgba(212, 175, 55, 0.22);
+    background: rgba(10, 10, 10, 0.5);
     color: inherit;
     text-decoration: none;
   }
 
   .dagens-riktning-card:hover {
-    border-color: rgba(212, 175, 55, 0.4);
-    background: rgba(10, 22, 20, 0.88);
+    border-color: rgba(212, 175, 55, 0.36);
+    background: rgba(10, 10, 10, 0.68);
   }
 
   .dagens-riktning-card__icon-wrap {
-    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-accent;
-    border: 1px solid var(--border);
-    background: rgba(212, 175, 55, 0.08);
+    @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-accent;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    background: rgba(212, 175, 55, 0.06);
+  }
+
+  .dagens-riktning-card__body {
+    @apply min-w-0 flex-1;
   }
 
   .dagens-riktning-card__eyebrow {
-    @apply text-[10px] uppercase tracking-widest text-text-dim;
+    @apply text-[9px] font-medium uppercase tracking-[0.2em] text-text-dim leading-none;
   }
 
   .dagens-riktning-card__quote {
-    @apply mt-1 font-display text-base leading-snug text-text;
-  }
-
-  .dagens-riktning-card__meta {
-    @apply mt-1 text-xs text-text-muted;
+    @apply mt-1 line-clamp-2 text-[13px] leading-snug text-text-muted;
   }
 
   .dagens-riktning-card__chevron {
-    @apply mt-2 h-5 w-5 shrink-0 text-accent opacity-70;
+    @apply h-4 w-4 shrink-0 text-accent/60;
   }
 
   .home-check-in__trigger {
@@ -1378,7 +1632,7 @@
   }
 
   .fyren-widget-bar {
-    @apply pointer-events-none fixed bottom-[5.75rem] right-0 z-[55] flex flex-col items-end;
+    @apply pointer-events-none fixed bottom-[3.75rem] right-0 z-[55] flex flex-col items-end;
   }
 
   .fyren-widget-bar__backdrop {
@@ -1445,7 +1699,7 @@
   /* Smart widget bar (Theme I — bottom sheet) */
   .fyren-smart-bar {
     @apply pointer-events-none fixed inset-x-0 z-[55] flex flex-col items-center;
-    bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+    bottom: calc(3.75rem + env(safe-area-inset-bottom, 0px));
   }
 
   .fyren-smart-bar--hidden {

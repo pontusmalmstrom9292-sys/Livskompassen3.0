@@ -7,7 +7,7 @@ export function HomePage() {
   const [cardRefreshKey, setCardRefreshKey] = useState(0);
 
   return (
-    <div className="home-page home-page--kanon space-y-6">
+    <div className="home-page home-page--kanon home-page--scenic space-y-6">
       <HomeHeroKanon onCheckInSaved={() => setCardRefreshKey((k) => k + 1)} />
 
       <AdaptiveMemoryCards refreshKey={cardRefreshKey} />

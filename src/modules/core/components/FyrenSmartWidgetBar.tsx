@@ -1,7 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ChevronDown, ChevronUp, Lock } from 'lucide-react';
+import {
+  Calendar,
+  ChevronDown,
+  ChevronUp,
+  Image,
+  List,
+  Lock,
+  Mic,
+  PenLine,
+  Plus,
+} from 'lucide-react';
 import { clsx } from 'clsx';
 import { useLiveClock } from '../hooks/useLiveClock';
 import { useLongPress } from '../hooks/useLongPress';
@@ -27,6 +37,17 @@ const EXPANDED_ACTIONS: {
   { id: 'valv', label: 'Valv', to: '/dagbok?tab=bevis' },
   { id: 'kompass', label: 'Kompass', to: '/' },
 ];
+
+/** Hem — höger rail enligt I-stone mockup (parallell med bottom sheet). */
+const HOME_RAIL_ACTIONS = [
+  { id: 'projekt', label: 'Nytt projekt', to: '/projekt/ny', Icon: Plus },
+  { id: 'lista', label: 'Lista', to: '/projekt/ny', Icon: List },
+  { id: 'anteckning', label: 'Anteckning', to: '/widget/anteckning', Icon: PenLine },
+  { id: 'bild', label: 'Bild', to: '/projekt/ny', Icon: Image },
+  { id: 'inspelning', label: 'Tyst inspelning', to: '/widget/inspelning?autostart=1', Icon: Mic },
+  { id: 'planering', label: 'Planering', to: '/planering', Icon: Calendar },
+  { id: 'valv', label: 'Valv', to: '/dagbok?tab=bevis', Icon: ValvArchIcon },
+] as const;
 
 function renderExpandedIcon(kind: ExpandedIconKind): ReactNode {
   const cls = 'h-5 w-5 text-accent';
@@ -83,6 +104,9 @@ export function FyrenSmartWidgetBar() {
 
   if (location.pathname.startsWith('/widget')) return null;
 
+  const isHome = location.pathname === '/';
+  const showHomeRail = isHome && state === 'hidden';
+
   const cycleDown = () => {
     setState('hidden');
   };
@@ -100,6 +124,29 @@ export function FyrenSmartWidgetBar() {
 
   return (
     <>
+      {showHomeRail ? (
+        <nav className="fyren-home-rail" aria-label="Snabbåtgärder hem">
+          {HOME_RAIL_ACTIONS.map(({ id, label, to, Icon }) => (
+            <button
+              key={id}
+              type="button"
+              className="fyren-home-rail__row"
+              aria-label={label}
+              onClick={() => navigate(to)}
+            >
+              <span className="fyren-home-rail__icon" aria-hidden>
+                {id === 'valv' ? (
+                  <Icon className="h-5 w-5" />
+                ) : (
+                  <Icon className="h-5 w-5" strokeWidth={1.35} />
+                )}
+              </span>
+              <span className="fyren-home-rail__label">{label}</span>
+            </button>
+          ))}
+        </nav>
+      ) : null}
+
       {state === 'expanded' ? (
         <button
           type="button"

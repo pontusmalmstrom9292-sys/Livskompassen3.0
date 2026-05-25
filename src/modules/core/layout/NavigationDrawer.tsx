@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { X, ChevronRight } from 'lucide-react';
 import { clsx } from 'clsx';
@@ -23,11 +24,15 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
   const navigate = useNavigate();
   useEffect(() => {
     if (!open) return;
+    document.body.classList.add('nav-drawer-open');
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    return () => {
+      document.body.classList.remove('nav-drawer-open');
+      window.removeEventListener('keydown', onKey);
+    };
   }, [open, onClose]);
 
   useEffect(() => {
@@ -47,7 +52,7 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
     onClose();
   };
 
-  return (
+  return createPortal(
     <>
       <button
         type="button"
@@ -55,7 +60,13 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
         aria-label="Stäng meny"
         onClick={onClose}
       />
-      <aside className="nav-drawer" role="dialog" aria-label="Huvudmeny">
+      <aside
+        className="nav-drawer"
+        role="dialog"
+        aria-label="Huvudmeny"
+        aria-modal="true"
+      >
+        <div className="nav-drawer__scenic" aria-hidden />
         <div className="nav-drawer__header">
           <button
             type="button"
@@ -63,11 +74,16 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
             aria-label="Stäng"
             onClick={onClose}
           >
-            <X className="h-5 w-5" strokeWidth={1.5} />
+            <X className="h-6 w-6" strokeWidth={1.5} />
           </button>
           <div className="nav-drawer__brand">
             <LivskompassMark className="nav-drawer__mark" />
             <span className="nav-drawer__title">LIVSKOMPASSEN</span>
+            <div className="nav-drawer__ornament" aria-hidden>
+              <span />
+              <span />
+              <span />
+            </div>
           </div>
         </div>
 
@@ -93,6 +109,7 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
         </nav>
 
       </aside>
-    </>
+    </>,
+    document.body,
   );
 }

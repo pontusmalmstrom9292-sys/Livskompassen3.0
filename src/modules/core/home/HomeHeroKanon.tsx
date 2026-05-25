@@ -9,7 +9,7 @@ type Props = {
   onCheckInSaved?: () => void;
 };
 
-/** Hem enligt Tema E — HOME-HERO-KANON.md */
+/** Hem — scenic I-stone + Kognitiv sköld (HOME-HERO-KANON.md) */
 export function HomeHeroKanon({ onCheckInSaved }: Props) {
   const [checkInOpen, setCheckInOpen] = useState(false);
 

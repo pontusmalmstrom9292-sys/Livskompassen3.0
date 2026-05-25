@@ -37,7 +37,7 @@ export function DockClassicTriad() {
       <DockSideLink
         to="/familjen"
         label="Familjen"
-        icon={<Users className="h-[1.35rem] w-[1.35rem]" strokeWidth={1.5} />}
+        icon={<Users className="h-4 w-4" strokeWidth={1.5} />}
       />
 
       <NavLink
@@ -56,7 +56,7 @@ export function DockClassicTriad() {
       <DockSideLink
         to="/dagbok?tab=bevis"
         label="Valv"
-        icon={<ValvArchIcon className="h-[1.35rem] w-[1.35rem]" />}
+        icon={<ValvArchIcon className="h-4 w-4" />}
       />
     </div>
   );

@@ -55,9 +55,11 @@ export function LivskompassHero({ onCenterPress }: Props) {
   return (
     <section
       className={clsx('livskompass-hero', `livskompass-hero--${theme}`)}
-      aria-label="Livskompassen"
+      aria-label="Livskompassen — Kognitiv sköld"
     >
+      <p className="livskompass-hero__shield-label">Kognitiv sköld</p>
       <div className="livskompass-hero__stage">
+        <div className="livskompass-hero__ring livskompass-hero__ring--outer" aria-hidden />
         <div className="livskompass-hero__grid" aria-hidden />
         <div className="livskompass-hero__disk">
           {ORBIT_ICONS.map(({ id, label, to, Icon, style }) => (

@@ -60,7 +60,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         onOpenSettings={() => setAccountOpen(true)}
       />
 
-      <main className="relative z-10 mx-auto max-w-2xl px-4 pb-36 pt-[4.75rem]">{children}</main>
+      <main className="relative z-10 mx-auto max-w-2xl px-4 pb-24 pt-[4.75rem]">{children}</main>
 
       <FyrenSmartWidgetBar />
       <FloatingDock />
