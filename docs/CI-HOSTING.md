@@ -106,3 +106,5 @@ npm run android:open   # Android Studio → Run (USB)
 `cap:sync:prod` sätter `CAPACITOR_SERVER_URL=https://gen-lang-client-0481875058.web.app` så WebView laddar live UI. Lokalt dev: `npm run cap:sync` (bundlad `dist/`).
 
 **JSON-nyckel:** lägg i `~/Downloads/` eller `~/Livskompassen-secrets/` — **inte** i repo. Se [`android/README.md`](../android/README.md).
+
+**Install-checklista (du):** [`INSTALL-CHECKLIST.md`](./INSTALL-CHECKLIST.md) · valfri APK-CI: [`CI-ANDROID-DISTRIBUTION.md`](./CI-ANDROID-DISTRIBUTION.md)

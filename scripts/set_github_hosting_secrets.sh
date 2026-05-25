@@ -69,3 +69,6 @@ fi
 
 echo ""
 echo "Klart. Verifiera: https://github.com/$GITHUB_REPO/settings/secrets/actions"
+echo ""
+echo "Utan gh: sätt samma secrets manuellt i GitHub → Settings → Secrets and variables → Actions"
+echo "  (se docs/CI-HOSTING.md). SA-JSON: New secret FIREBASE_SERVICE_ACCOUNT = hela filen."
