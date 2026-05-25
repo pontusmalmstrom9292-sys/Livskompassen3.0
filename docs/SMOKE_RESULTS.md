@@ -8,7 +8,7 @@
 |---|------|----------|-------|
 | 1 | Auth — app öppnas, anonym uid (Konto synlig) | **PASS** | 2026-05-24 |
 | 2 | Dagbok — spara post → `journal` | **PASS** | 2026-05-24 |
-| 3 | Valv — Shield/PIN → `reality_vault` | | |
+| 3 | Valv — Shield/PIN → `reality_vault` | **Öppen** | |
 | 4 | Barnen — logg → `children_logs` | | |
 | 5 | Kompasser — check-in → `checkins` | | |
 | 6 | Hamn BIFF — `analyzeMessage` | | |
@@ -223,7 +223,7 @@ Kör mot lokal `npm run dev` eller [Hosting](https://gen-lang-client-0481875058.
 |---|------|-----------|--------|
 | 1 | Auth | uid i Firebase Auth | **PASS** (2026-05-24, prod Hosting — Konto synlig, app laddad) |
 | 2 | Dagbok spara | `journal` post | **PASS** (2026-05-24, prod `/dagbok` wizard) |
-| 3 | Valv | `reality_vault` post | **Ej körd** |
+| 3 | Valv | `reality_vault` post | **Öppen** |
 | 4 | Barnen | `children_logs` | **Ej körd** |
 | 5 | Kompasser (UI) | Paralys + KASAM + tids-default | **PASS** (2026-05-22) |
 | 5b | Måbra (UI) | Symptom-hub → övning → opt-in coach | **PASS** (2026-05-22) |
