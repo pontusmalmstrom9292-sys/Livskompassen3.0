@@ -1,46 +1,52 @@
-import type { CSSProperties } from 'react';
+import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BookOpen, CheckSquare, Coins, Sprout } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { clsx } from 'clsx';
 import { LivskompassMark } from '../ui/LivskompassMark';
+import { HERO_ORBIT_ICONS } from '../ui/HeroOrbitIcons';
 import { getCompassThemeByTime } from '../../kompasser/utils/compassTheme';
 
-type OrbitIcon = {
-  id: string;
+type OrbitSlot = {
+  id: keyof typeof HERO_ORBIT_ICONS;
   label: string;
+  shortLabel: string;
+  blurb: string;
   to: string;
-  Icon: typeof CheckSquare;
-  style: CSSProperties;
+  position: 'north' | 'east' | 'south' | 'west';
 };
 
-const ORBIT_ICONS: OrbitIcon[] = [
+const ORBIT_SLOTS: OrbitSlot[] = [
   {
     id: 'rutiner',
     label: 'Rutiner och kompasser',
+    shortLabel: 'Rutiner',
+    blurb: 'Morgon · dag · kväll',
     to: '/vardagen?tab=kompasser',
-    Icon: CheckSquare,
-    style: { top: '4%', left: '50%', transform: 'translate(-50%, 0)' },
+    position: 'north',
   },
   {
     id: 'ekonomi',
     label: 'Ekonomi',
-    to: '/ekonomi',
-    Icon: Coins,
-    style: { top: '50%', right: '2%', transform: 'translate(0, -50%)' },
+    shortLabel: 'Ekonomi',
+    blurb: 'Veckopeng · matlåda',
+    to: '/vardagen?tab=ekonomi',
+    position: 'east',
   },
   {
     id: 'mabra',
     label: 'Personlig utveckling',
+    shortLabel: 'Utveckling',
+    blurb: 'Övningar · MåBra',
     to: '/mabra',
-    Icon: Sprout,
-    style: { bottom: '4%', left: '50%', transform: 'translate(-50%, 0)' },
+    position: 'south',
   },
   {
     id: 'kunskap',
     label: 'Kunskap',
-    to: '/kunskap',
-    Icon: BookOpen,
-    style: { top: '50%', left: '2%', transform: 'translate(0, -50%)' },
+    shortLabel: 'Kunskap',
+    blurb: 'Kunskapsvalvet · RAG',
+    to: '/vardagen?tab=kunskap',
+    position: 'west',
   },
 ];
 
@@ -51,64 +57,112 @@ type Props = {
 export function LivskompassHero({ onCenterPress }: Props) {
   const navigate = useNavigate();
   const theme = getCompassThemeByTime();
+  const [openOrbitId, setOpenOrbitId] = useState<string | null>(null);
+
+  const closeMenus = useCallback(() => setOpenOrbitId(null), []);
+
+  const toggleOrbit = (id: string) => {
+    setOpenOrbitId((prev) => (prev === id ? null : id));
+  };
+
+  const goOrbit = (to: string) => {
+    navigate(to);
+    closeMenus();
+  };
 
   return (
     <section
-      className={clsx('livskompass-hero', `livskompass-hero--${theme}`)}
+      className={clsx('livskompass-hero livskompass-hero--v2', `livskompass-hero--${theme}`)}
       aria-label="Livskompassen — Kognitiv sköld"
     >
-      <p className="livskompass-hero__shield-label">Kognitiv sköld</p>
-      <div className="livskompass-hero__stage">
-        <div className="livskompass-hero__ring livskompass-hero__ring--outer" aria-hidden />
-        <div className="livskompass-hero__grid" aria-hidden />
-        <div className="livskompass-hero__disk">
-          {ORBIT_ICONS.map(({ id, label, to, Icon, style }) => (
-            <button
-              key={id}
-              type="button"
-              className="livskompass-hero__orbit-btn"
-              style={style}
-              aria-label={label}
-              onClick={() => navigate(to)}
-            >
-              <Icon className="livskompass-hero__orbit-icon" strokeWidth={1.35} aria-hidden />
-            </button>
-          ))}
+      <div className="livskompass-hero__panel">
+        <p className="livskompass-hero__shield-label">Kognitiv sköld</p>
 
-          <button
-            type="button"
-            className="livskompass-hero__center"
-            aria-label="Checka in — dagens kompass"
-            onClick={onCenterPress}
-          >
-            <LivskompassMark className="livskompass-hero__mark" />
-          </button>
+        <div
+          className="livskompass-hero__stage"
+          onClick={closeMenus}
+          onKeyDown={(e) => e.key === 'Escape' && closeMenus()}
+          role="presentation"
+        >
+          <div className="livskompass-hero__face">
+            <div className="livskompass-hero__ring livskompass-hero__ring--outer" aria-hidden />
+            <div className="livskompass-hero__ring livskompass-hero__ring--inner" aria-hidden />
+            <div className="livskompass-hero__grid" aria-hidden />
+            <div className="livskompass-hero__ticks" aria-hidden />
+
+            <div className="livskompass-hero__disk">
+              {ORBIT_SLOTS.map(({ id, label, shortLabel, blurb, to, position }) => {
+                const open = openOrbitId === id;
+                const Icon = HERO_ORBIT_ICONS[id];
+                return (
+                  <div
+                    key={id}
+                    className={clsx(
+                      'livskompass-hero__orbit-wrap',
+                      `livskompass-hero__orbit-wrap--${position}`,
+                      open && 'livskompass-hero__orbit-wrap--open',
+                    )}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button
+                      type="button"
+                      className={clsx(
+                        'livskompass-hero__orbit-node',
+                        open && 'livskompass-hero__orbit-node--open',
+                      )}
+                      aria-label={label}
+                      aria-expanded={open}
+                      aria-haspopup="true"
+                      onClick={() => toggleOrbit(id)}
+                    >
+                      <span className="livskompass-hero__orbit-gem" aria-hidden />
+                      <span className="livskompass-hero__orbit-node-ring" aria-hidden />
+                      <Icon className="livskompass-hero__orbit-icon" />
+                    </button>
+
+                    <div
+                      className={clsx(
+                        'livskompass-hero__orbit-menu',
+                        open && 'livskompass-hero__orbit-menu--visible',
+                      )}
+                      role="menu"
+                      hidden={!open}
+                    >
+                      <p className="livskompass-hero__orbit-menu-label">{shortLabel}</p>
+                      <p className="livskompass-hero__orbit-menu-blurb">{blurb}</p>
+                      <button
+                        type="button"
+                        className="livskompass-hero__orbit-menu-go"
+                        role="menuitem"
+                        onClick={() => goOrbit(to)}
+                      >
+                        Öppna
+                        <ChevronRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+
+              <button
+                type="button"
+                className="livskompass-hero__center"
+                aria-label="Checka in — dagens kompass"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  closeMenus();
+                  onCenterPress?.();
+                }}
+              >
+                <span className="livskompass-hero__center-halo" aria-hidden />
+                <span className="livskompass-hero__center-gem" aria-hidden />
+                <LivskompassMark className="livskompass-hero__mark" />
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div className="livskompass-hero__pills" role="navigation" aria-label="Snabbnavigering">
-        <button
-          type="button"
-          className="livskompass-hero__pill"
-          onClick={() => navigate('/vardagen?tab=kompasser')}
-        >
-          rutiner
-        </button>
-        <button
-          type="button"
-          className="livskompass-hero__pill livskompass-hero__pill--icon"
-          aria-label="Ekonomi"
-          onClick={() => navigate('/ekonomi')}
-        >
-          <Coins className="h-4 w-4" strokeWidth={1.5} aria-hidden />
-        </button>
-        <button
-          type="button"
-          className="livskompass-hero__pill livskompass-hero__pill--wide"
-          onClick={() => navigate('/mabra')}
-        >
-          personlig utveckling
-        </button>
+        <p className="livskompass-hero__hint">Tryck en symbol · mitten = check-in</p>
       </div>
     </section>
   );

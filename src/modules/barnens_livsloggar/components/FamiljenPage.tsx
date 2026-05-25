@@ -10,15 +10,8 @@ import { FamiljenTillsammansTab } from './familjen/FamiljenTillsammansTab';
 import { FamiljenMonsterTab } from './familjen/FamiljenMonsterTab';
 import { FamiljenKunskapHubTab } from './familjen/FamiljenKunskapHubTab';
 import { VaultZoneGate } from '../../core/security/VaultZoneGate';
-
-function FamiljenHeader() {
-  return (
-    <header className="familjen-hub__header">
-      <p className="text-[10px] uppercase tracking-[0.35em] text-emerald-300/90">Familjen</p>
-      <h1 className="familjen-hub__title">Små steg. Stora minnen. Tillsammans.</h1>
-    </header>
-  );
-}
+import { HubPageShell } from '../../core/layout/HubPageShell';
+import { ParentReminderFooter } from './ParentReminderFooter';
 
 export function FamiljenPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -48,10 +41,14 @@ export function FamiljenPage() {
   const showChildPicker = activeTab !== 'tillsammans' && activeTab !== 'kunskap';
 
   return (
-    <div className="familjen-hub space-y-5 pb-8">
+    <div className="familjen-hub relative">
       <div className="familjen-hub__aurora" aria-hidden />
-      <FamiljenHeader />
-
+      <HubPageShell
+        className="relative z-[1]"
+        eyebrow="Familjen"
+        title="Små steg. Stora minnen. Tillsammans."
+        footerSlot={activeTab === 'reflektion' ? <ParentReminderFooter /> : undefined}
+      >
       <div className="familjen-hub__tabs relative">
         <TabBar
           tabs={FAMILJEN_TABS.map((t) => {
@@ -90,6 +87,7 @@ export function FamiljenPage() {
           </VaultZoneGate>
         )}
       </div>
+      </HubPageShell>
     </div>
   );
 }

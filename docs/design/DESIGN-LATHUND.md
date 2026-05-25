@@ -97,6 +97,9 @@
 | Familjen / Barnfokus | `FAMILJEN-BARNFOKUS-FRAGOR-SPEC.md`, `FAMILJEN-HUB-SPEC.md` |
 | Barnporten | `BARNPORTEN-SPEC.md` |
 | Färger | `COLOR-POLICY.md` (ingen turkos text) |
+| Typografi | `TYPE-SCALE.md` · `typeScale.ts` |
+| Chrome / sidfötter | `CHROME-POLICY.md` · `HubPageShell.tsx` |
+| Nav sanning | `navTruth.ts` |
 
 ---
 

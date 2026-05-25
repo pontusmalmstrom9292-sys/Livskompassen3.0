@@ -2,9 +2,14 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAudioRecorder } from '../../core/hooks/useAudioRecorder';
 import { useSpeechToText } from '../../core/hooks/useSpeechToText';
 import { KILL_SWITCH_EVENT } from '../../core/security/killSwitch';
-import { ingestWidgetRecordingToVault } from '../api/widgetVaultRecording';
+import {
+  lockWidgetRecordingToVault,
+  prepareWidgetRecording,
+  type PreparedWidgetRecording,
+  type WidgetRecordingMetadata,
+} from '../api/widgetVaultRecording';
 
-type Phase = 'idle' | 'recording' | 'processing' | 'done' | 'error';
+type Phase = 'idle' | 'recording' | 'processing' | 'metadata' | 'done' | 'error';
 
 export function useWidgetVaultRecording(userId: string | undefined) {
   const [phase, setPhase] = useState<Phase>('idle');
@@ -14,6 +19,7 @@ export function useWidgetVaultRecording(userId: string | undefined) {
     summary: string;
     vaultId: string;
   } | null>(null);
+  const [prepared, setPrepared] = useState<PreparedWidgetRecording | null>(null);
   const transcriptParts = useRef<string[]>([]);
   const startedAt = useRef<Date | null>(null);
 
@@ -27,7 +33,7 @@ export function useWidgetVaultRecording(userId: string | undefined) {
   const onRecorded = useCallback(
     async (file: File) => {
       if (!userId) {
-        setError('Logga in för att låsa inspelningen i Valvet.');
+        setError('Logga in för att spara i Valvet.');
         setPhase('error');
         return;
       }
@@ -42,21 +48,17 @@ export function useWidgetVaultRecording(userId: string | undefined) {
       const transcript = transcriptParts.current.join(' ').trim();
 
       try {
-        const { vaultId, analysis } = await ingestWidgetRecordingToVault(
+        const prep = await prepareWidgetRecording(
           userId,
           file,
           transcript,
           recordedAt,
           durationSeconds,
         );
-        setResult({
-          title: analysis.title,
-          summary: analysis.summary,
-          vaultId,
-        });
-        setPhase('done');
+        setPrepared(prep);
+        setPhase('metadata');
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Kunde inte spara i Valvet.');
+        setError(err instanceof Error ? err.message : 'Kunde inte förbereda sparning.');
         setPhase('error');
       }
     },
@@ -73,6 +75,7 @@ export function useWidgetVaultRecording(userId: string | undefined) {
     }
     setError(null);
     setResult(null);
+    setPrepared(null);
     transcriptParts.current = [];
     startedAt.current = new Date();
     setPhase('recording');
@@ -85,11 +88,34 @@ export function useWidgetVaultRecording(userId: string | undefined) {
     audio.stop();
   }, [audio, speech]);
 
+  const lockWithMetadata = useCallback(
+    async (metadata: WidgetRecordingMetadata) => {
+      if (!userId || !prepared) return;
+      setPhase('processing');
+      setError(null);
+      try {
+        const vaultId = await lockWidgetRecordingToVault(userId, prepared, metadata);
+        setResult({
+          title: prepared.analysis.title,
+          summary: prepared.analysis.summary,
+          vaultId,
+        });
+        setPrepared(null);
+        setPhase('done');
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Kunde inte låsa i Valvet.');
+        setPhase('metadata');
+      }
+    },
+    [prepared, userId],
+  );
+
   const reset = useCallback(() => {
     speech.stop();
     audio.abort();
     transcriptParts.current = [];
     startedAt.current = null;
+    setPrepared(null);
     setPhase('idle');
     setError(null);
     setResult(null);
@@ -100,6 +126,7 @@ export function useWidgetVaultRecording(userId: string | undefined) {
     audio.abort();
     transcriptParts.current = [];
     startedAt.current = null;
+    setPrepared(null);
     setPhase('idle');
     setError(null);
     setResult(null);
@@ -115,6 +142,7 @@ export function useWidgetVaultRecording(userId: string | undefined) {
     phase,
     error,
     result,
+    prepared,
     isRecording: phase === 'recording' && audio.isRecording,
     interim: speech.interim,
     audioError: audio.error,
@@ -124,5 +152,6 @@ export function useWidgetVaultRecording(userId: string | undefined) {
     stop,
     reset,
     abort,
+    lockWithMetadata,
   };
 }

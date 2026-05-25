@@ -91,7 +91,13 @@ function main() {
   );
 
   mustInclude('src/modules/core/ui/ValvArchIcon.tsx', 'ValvArchIcon');
-  mustInclude('src/modules/core/layout/DockClassicTriad.tsx', 'ValvArchIcon', 'aria-label="Hem"');
+  mustInclude(
+    'src/modules/core/layout/DockClassicTriad.tsx',
+    'getPageContextSummary',
+    'Dagbok',
+    'delayMs: 3000',
+  );
+  mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", '/vardagen');
   mustInclude('src/index.css', '.dock-classic');
 
   mustInclude(
@@ -171,14 +177,33 @@ function main() {
     'Hem Kompass',
     'Planering',
     'Inställningar',
+    'navTruth.ts',
+    'HubPageShell',
   );
   assert(
     existsSync(resolve(root, 'docs/design/references/MENU-DRAWER-KANON.png')),
     'saknar: docs/design/references/MENU-DRAWER-KANON.png',
   );
 
+  // Theme Pack J — hub chrome (navTruth, typeScale, drawer quick actions)
+  mustInclude('src/modules/core/navigation/navTruth.ts', 'NAV_TRUTH', 'DRAWER_NAV_TRUTH', 'Trygg hamn');
+  mustInclude('src/modules/core/navigation/drawerNav.ts', 'DRAWER_NAV_TRUTH', 'navTruth');
+  mustInclude('src/modules/core/layout/HubPageShell.tsx', 'hubHeaderClasses', 'hub-page-shell');
+  mustInclude('src/modules/core/ui/typeScale.ts', 'hubHeaderClasses', 'titleHub');
+  mustInclude('src/modules/core/layout/NavigationDrawer.tsx', 'DrawerHomeQuickActions');
+  mustInclude('src/modules/core/components/DrawerHomeQuickActions.tsx', 'FYREN_HOME_QUICK_ACTIONS');
+  mustInclude('src/modules/barnens_livsloggar/components/FamiljenPage.tsx', 'HubPageShell', 'ParentReminderFooter');
+  mustInclude('src/modules/mabra/components/MabraPage.tsx', 'HubPageShell');
+  mustInclude(
+    'src/modules/planering/components/PlaneringPage.tsx',
+    'HubPageShell',
+    'PlanningKanbanBoard',
+  );
+  assert(existsSync(resolve(root, 'docs/design/CHROME-POLICY.md')), 'saknar: CHROME-POLICY.md');
+  assert(existsSync(resolve(root, 'docs/design/TYPE-SCALE.md')), 'saknar: TYPE-SCALE.md');
+
   console.log(
-    '[smoke:locked-ux] PASS — Middagsfrågan, Valv Mönster/Orkester, Planering, Widget, Barnporten.',
+    '[smoke:locked-ux] PASS — Middagsfrågan, Valv Mönster/Orkester, Planering, Widget, Barnporten, Theme Pack J hub.',
   );
 }
 

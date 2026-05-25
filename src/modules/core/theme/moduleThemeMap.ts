@@ -2,7 +2,7 @@ import { DEFAULT_THEME_ID } from './themeRegistry';
 
 /**
  * Auto-modul → tema. Längsta prefix vinner.
- * Theme Pack J (2026-05-25): ett tema per hub — se docs/design/themes/J-PACK-EIGHT-HUBS.md
+ * Theme Pack J (xcc2026-05-25): ett tema per hub — se docs/design/themes/J-PACK-EIGHT-HUBS.md
  * Manuellt val i Inställningar överstyr när Auto modul är av.
  */
 export const MODULE_THEME_MAP: { prefix: string; themeId: string }[] = [

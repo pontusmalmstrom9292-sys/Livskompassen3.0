@@ -5,9 +5,12 @@
     <string name="package_name">com.livskompassen.app</string>
     <string name="custom_url_scheme">com.livskompassen.app</string>
 
-    <string name="widget_record_title">Inspelning</string>
-    <string name="widget_record_sub">Tyst → Valv WORM</string>
-    <string name="widget_record_desc">Spela in, datumstämpel, AI-titel, lås i Valvet</string>
+    <!-- WH1 diskret — ser ut som anteckningar på hemskärmen -->
+    <string name="widget_record_title">Anteckningar</string>
+    <string name="widget_record_sub"></string>
+    <string name="widget_record_desc">Öppnar tyst logg — ljud sparas i Valvet med datum (ingen REC-indikator på widgeten)</string>
+    <string name="widget_discreet_title">Anteckningar</string>
+    <string name="widget_discreet_desc">Anteckningar</string>
 
     <string name="widget_note_title">Anteckning</string>
     <string name="widget_note_sub">En rad → Valv</string>

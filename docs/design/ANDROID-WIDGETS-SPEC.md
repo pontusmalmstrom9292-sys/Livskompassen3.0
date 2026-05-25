@@ -26,14 +26,14 @@ Samma WORM-pipeline som PWA (WH1 → ingestWidgetRecording)
 
 ## Widget-katalog (Android)
 
-| Provider | Label | Route |
-|----------|-------|-------|
-| `RecordWidgetProvider` | Inspelning | `/widget/inspelning?autostart=1` |
+| Provider | Label (hemskärm) | Route |
+|----------|------------------|-------|
+| `RecordWidgetProvider` | **Anteckningar** (diskret) | `/widget/inspelning?autostart=1&discreet=1` |
 | `NoteWidgetProvider` | Anteckning | `/widget/anteckning` |
 | `CompassWidgetProvider` | Kompass | `/widget/kompass` |
 | `HamnWidgetProvider` | Hamn · BIFF | `/widget/hamn` |
 
-Layout: `widget_tile.xml` — nordisk skymning, guldkant 1.5dp.
+WH1-layout: `widget_discreet_note.xml` — anteckningsikon, guldkant, **ingen** «Inspelning»-text. Övriga widgets: `widget_tile.xml`.
 
 ---
 
@@ -50,12 +50,13 @@ Layout: `widget_tile.xml` — nordisk skymning, guldkant 1.5dp.
 
 ---
 
-## WH1 på Android
+## WH1 på Android (diskret)
 
-1. Användaren trycker **Inspelning**-widget.
+1. Användaren trycker **Anteckningar**-widget (neutral etikett utåt).
 2. App startar → autostart inspelning (efter etik-dialog första gången).
-3. Stopp → upload `discreet/{ISO}_{slug}.webm` → `ingestWidgetRecording` → `saveVaultLog`.
-4. Post låst; sammanfattning i `truth`.
+3. Stopp → upload `discreet/{ISO}_{slug}.webm` → `ingestWidgetRecording` (titel/sammanfattning).
+4. **Metadata-steg (valfritt):** vem / vad / varför i appen → `lockWidgetRecordingToVault` → `saveVaultLog` WORM.
+5. Post låst; kontext + sammanfattning i `truth`.
 
 Behörighet: `RECORD_AUDIO` i manifest + runtime (WebView `getUserMedia`).
 

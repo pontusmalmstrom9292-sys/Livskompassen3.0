@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Calendar, ChevronDown, ChevronUp, Clock, List, Lock } from 'lucide-react';
+import { Calendar, ChevronDown, ChevronUp, Clock, List, Lock, Wallet } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useLongPress } from '../hooks/useLongPress';
 import { LivskompassMark } from '../ui/LivskompassMark';
-import { ValvArchIcon } from '../ui/ValvArchIcon';
 import { WidgetMicIcon, WidgetNoteIcon } from '../ui/widget-icons';
+import { getPageContextSummary } from '../navigation/pageContextSummary';
 
-type BarState = 'hidden' | 'expanded';
+type BarState = 'hidden' | 'peek' | 'expanded';
 
 type QuickActionId =
   | 'inkop'
@@ -16,7 +16,7 @@ type QuickActionId =
   | 'arbetsliv'
   | 'note'
   | 'record'
-  | 'valv'
+  | 'ekonomi'
   | 'kompass';
 
 const STORAGE_HIDDEN = 'livskompassen_smart_widget_hidden';
@@ -27,8 +27,13 @@ const QUICK_ACTIONS: { id: QuickActionId; label: string; to: string }[] = [
   { id: 'arbetsliv', label: 'Arbetsliv', to: '/arbetsliv?tab=stampla' },
   { id: 'note', label: 'Anteckning', to: '/widget/anteckning' },
   { id: 'record', label: 'Inspelning', to: '/widget/inspelning?autostart=1' },
-  { id: 'valv', label: 'Valv', to: '/dagbok?tab=bevis' },
+  { id: 'ekonomi', label: 'Ekonomi', to: '/vardagen?tab=ekonomi' },
   { id: 'kompass', label: 'Hem', to: '/' },
+];
+
+const PEEK_DUAL = [
+  { id: 'note' as const, label: 'Snabbanteckning', to: '/widget/anteckning' },
+  { id: 'record' as const, label: 'Tyst inspelning', to: '/widget/inspelning?autostart=1' },
 ];
 
 function renderQuickIcon(id: QuickActionId): ReactNode {
@@ -44,8 +49,8 @@ function renderQuickIcon(id: QuickActionId): ReactNode {
       return <WidgetNoteIcon className={cls} />;
     case 'record':
       return <WidgetMicIcon className={cls} />;
-    case 'valv':
-      return <ValvArchIcon className={cls} />;
+    case 'ekonomi':
+      return <Wallet className={cls} strokeWidth={1.5} />;
     case 'kompass':
       return <LivskompassMark className="h-5 w-5 text-accent" />;
     default:
@@ -53,11 +58,13 @@ function renderQuickIcon(id: QuickActionId): ReactNode {
   }
 }
 
-/** Kompakt snabbwidget — genvägar utan klocka (long-press 3s → Valv). */
+/** Snabbwidget — hidden → peek (I-glass dual) → expanded. */
 export function FyrenSmartWidgetBar() {
   const [state, setState] = useState<BarState>('hidden');
   const location = useLocation();
   const navigate = useNavigate();
+  const isHome = location.pathname === '/';
+  const pageSummary = getPageContextSummary(location.pathname, location.search);
 
   const persistHidden = useCallback((hidden: boolean) => {
     try {
@@ -67,18 +74,29 @@ export function FyrenSmartWidgetBar() {
     }
   }, []);
 
-  const handlePress = useLongPress({
+  const valvLongPress = useLongPress({
     onLongPress: () => navigate('/dagbok?tab=bevis'),
-    onClick: () => {
-      setState((s) => (s === 'hidden' ? 'expanded' : 'hidden'));
-    },
+    onClick: () => {},
     delayMs: 3000,
   });
 
-  const { progress, isHolding, onClick: handleClick, ...handleHandlers } = handlePress;
+  const { progress, isHolding, ...valvHandlers } = valvLongPress;
 
   useEffect(() => {
-    setState((s) => (s === 'expanded' ? 'hidden' : s));
+    if (location.pathname.startsWith('/widget')) return;
+    try {
+      if (localStorage.getItem(STORAGE_HIDDEN) === 'true') {
+        setState('hidden');
+        return;
+      }
+    } catch {
+      /* ignore */
+    }
+    if (location.pathname === '/') {
+      setState('peek');
+    } else {
+      setState((s) => (s === 'expanded' ? 'hidden' : s));
+    }
   }, [location.pathname]);
 
   useEffect(() => {
@@ -100,7 +118,7 @@ export function FyrenSmartWidgetBar() {
           type="button"
           className="fyren-smart-bar__backdrop"
           aria-label="Stäng widgetpanel"
-          onClick={() => setState('hidden')}
+          onClick={() => setState(isHome ? 'peek' : 'hidden')}
         />
       ) : null}
 
@@ -108,7 +126,9 @@ export function FyrenSmartWidgetBar() {
         className={clsx(
           'fyren-smart-bar',
           state === 'hidden' && 'fyren-smart-bar--hidden',
+          state === 'peek' && 'fyren-smart-bar--peek',
           state === 'expanded' && 'fyren-smart-bar--expanded',
+          isHome && 'fyren-smart-bar--glass-skin',
         )}
         aria-label="Snabbwidget"
       >
@@ -120,21 +140,64 @@ export function FyrenSmartWidgetBar() {
               isHolding && 'fyren-smart-bar__handle--holding',
             )}
             aria-expanded={false}
-            aria-label="Visa snabbwidget"
+            aria-label="Visa snabbanteckning och tyst inspelning"
             style={
               progress > 0
                 ? ({ '--fyren-hold': `${Math.round(progress * 100)}%` } as CSSProperties)
                 : undefined
             }
-            onClick={() => setState('expanded')}
-            onDoubleClick={(e) => {
-              e.preventDefault();
-              navigate('/widget/inspelning?autostart=1');
-            }}
-            {...handleHandlers}
+            onClick={() => setState('peek')}
+            {...valvHandlers}
           >
             <ChevronUp className="h-3 w-3 text-accent" strokeWidth={1.5} />
           </button>
+        ) : null}
+
+        {state === 'peek' ? (
+          <div className="fyren-smart-bar__peek-panel">
+            <button
+              type="button"
+              className="fyren-smart-bar__compass-btn"
+              aria-label="Fler snabbval"
+              onClick={() => setState('expanded')}
+              {...valvHandlers}
+            >
+              <LivskompassMark className="h-6 w-6 text-accent" />
+            </button>
+
+            <div className="fyren-smart-bar__dual">
+              {PEEK_DUAL.map((item, index) => (
+                <div key={item.id} className="flex min-w-0 flex-1 items-stretch">
+                  {index > 0 ? <div className="fyren-smart-bar__dual-divider" aria-hidden /> : null}
+                  <button
+                    type="button"
+                    className="fyren-smart-bar__dual-action"
+                    onClick={() => goTo(item.to)}
+                  >
+                    <span className="fyren-smart-bar__orbit-icon" aria-hidden>
+                      {item.id === 'note' ? (
+                        <WidgetNoteIcon className="h-5 w-5" />
+                      ) : (
+                        <WidgetMicIcon className="h-5 w-5" />
+                      )}
+                    </span>
+                    <span className="text-center text-xs font-medium text-text sm:text-sm">
+                      {item.label}
+                    </span>
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              className="fyren-smart-bar__peek-chevron"
+              aria-label="Dölj snabbpanel"
+              onClick={() => setState('hidden')}
+            >
+              <ChevronDown className="h-4 w-4" strokeWidth={1.5} />
+            </button>
+          </div>
         ) : null}
 
         {state === 'expanded' ? (
@@ -142,16 +205,16 @@ export function FyrenSmartWidgetBar() {
             <button
               type="button"
               className="fyren-smart-bar__drag-handle"
-              aria-label="Dra nedåt för att dölja"
-              onClick={handleClick}
-              onDoubleClick={(e) => {
-                e.preventDefault();
-                navigate('/widget/inspelning?autostart=1');
-              }}
-              {...handleHandlers}
+              aria-label="Tillbaka till snabbpanel"
+              onClick={() => setState('peek')}
             />
 
             <p className="fyren-smart-bar__panel-title">Snabbåtkomst</p>
+            {!isHome ? (
+              <p className="fyren-smart-bar__context-hint text-xs text-text-dim">
+                <span className="text-text-muted">{pageSummary.title}</span> — {pageSummary.body}
+              </p>
+            ) : null}
 
             <div className="fyren-smart-bar__icon-grid">
               {QUICK_ACTIONS.map((item) => (
@@ -170,7 +233,7 @@ export function FyrenSmartWidgetBar() {
 
             <footer className="fyren-smart-bar__footer">
               <Lock className="h-3 w-3 shrink-0 text-accent/80" strokeWidth={1.5} />
-              <span>Håll 3s → Valv</span>
+              <span>Håll 3s på kompass · låst zon</span>
               <button
                 type="button"
                 className="fyren-smart-bar__hide-btn"

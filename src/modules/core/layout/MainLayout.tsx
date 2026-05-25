@@ -1,9 +1,6 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { clsx } from 'clsx';
+import { useEffect, useState } from 'react';
 import { FloatingDock } from './FloatingDock';
 import { FyrenSmartWidgetBar } from '../components/FyrenSmartWidgetBar';
-import { FyrenHeaderQuickStrip } from '../components/FyrenHeaderQuickStrip';
 import { AppHeaderBar } from '../components/AppHeaderBar';
 import { AmbientBackground } from './AmbientBackground';
 import { KompisAvatar } from '../../kompis/components/KompisAvatar';
@@ -12,11 +9,13 @@ import { NavigationDrawer } from './NavigationDrawer';
 import { useStore } from '../store';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
-  const location = useLocation();
+  const user = useStore((s) => s.user);
   const kompisAuraActive = useStore((s) => s.system.kompisAuraActive);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
-  const isHome = location.pathname === '/';
+  useEffect(() => {
+    if (!user) setDrawerOpen(false);
+  }, [user]);
 
   return (
     <div className="app-shell relative min-h-screen text-text font-sans selection:bg-accent/30">
@@ -44,7 +43,6 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
               </>
             }
           />
-          <FyrenHeaderQuickStrip />
         </div>
       </header>
 
@@ -54,12 +52,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         onOpenSettings={() => setAccountOpen(true)}
       />
 
-      <main
-        className={clsx(
-          'relative z-10 mx-auto max-w-2xl px-4 pb-24',
-          isHome ? 'pt-[8.5rem]' : 'pt-[5.75rem]',
-        )}
-      >
+      <main className="relative z-10 mx-auto max-w-2xl px-4 pb-24 pt-[5.75rem]">
         {children}
       </main>
 

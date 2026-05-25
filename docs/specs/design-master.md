@@ -55,6 +55,8 @@
 
 Ingen count-up på siffror — direkt textuppdatering.
 
+**Runtime storlekar:** [`docs/design/TYPE-SCALE.md`](../design/TYPE-SCALE.md) · `HubPageShell` · `typeScale.ts`.
+
 ---
 
 ## 4. Komponentmönster

@@ -8,18 +8,17 @@ import type { PlaneringTab } from '../types';
 import { PlanningKanbanBoard } from './PlanningKanbanBoard';
 import { PlaneringFokusPanel } from './PlaneringFokusPanel';
 import { PlaneringInkorgPanel } from './PlaneringInkorgPanel';
+import { HubPageShell } from '../../core/layout/HubPageShell';
 
 export function PlaneringPage() {
   const [tab, setTab] = useState<PlaneringTab>('handling');
 
   return (
-    <div className="space-y-4">
-      <header className="flex items-start justify-between gap-2 px-0.5">
-        <div>
-          <p className="home-page__eyebrow">Planering</p>
-          <h1 className="home-page__title text-xl">Handling</h1>
-          <p className="home-page__lead text-xs">{PLANERING_TAGLINE}</p>
-        </div>
+    <HubPageShell
+      eyebrow="Planering"
+      title="Handling"
+      lead={PLANERING_TAGLINE}
+      headerAside={
         <button
           type="button"
           className="btn-pill--ghost shrink-0 p-2"
@@ -28,8 +27,8 @@ export function PlaneringPage() {
         >
           <Calendar className="h-4 w-4 text-accent/70" />
         </button>
-      </header>
-
+      }
+    >
       <CognitiveLoadStrip hint="En kolumn, ett kort — eller bara Fokus-fliken." />
 
       <div className="flex flex-wrap items-center gap-2">
@@ -46,6 +45,6 @@ export function PlaneringPage() {
       {tab === 'handling' && <PlanningKanbanBoard />}
       {tab === 'fokus' && <PlaneringFokusPanel />}
       {tab === 'inkorg' && <PlaneringInkorgPanel />}
-    </div>
+    </HubPageShell>
   );
 }

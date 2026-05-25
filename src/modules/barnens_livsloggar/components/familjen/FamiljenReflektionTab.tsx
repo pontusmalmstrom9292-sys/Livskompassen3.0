@@ -3,7 +3,6 @@ import { Heart } from 'lucide-react';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import { BarnfokusFraganPanel } from '../BarnfokusFraganPanel';
 import { PositivaMinnesankare } from '../PositivaMinnesankare';
-import { ParentReminderFooter } from '../ParentReminderFooter';
 import { ChildProfileCards } from '../ChildProfileCards';
 import type { ChildAlias } from '../../constants';
 import { BalansMatare } from '../BalansMatare';
@@ -81,8 +80,6 @@ export function FamiljenReflektionTab({ shell }: Props) {
       </BentoCard>
 
       <ChildrenLogsChat activeChild={activeChild} />
-
-      <ParentReminderFooter />
     </div>
   );
 }

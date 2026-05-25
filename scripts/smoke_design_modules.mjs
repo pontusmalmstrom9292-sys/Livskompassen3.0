@@ -28,15 +28,18 @@ function mustInclude(relPath, ...needles) {
 
 function main() {
   mustInclude('src/modules/core/home/HomeActionHub.tsx', 'KompassradPanel');
-  mustInclude('src/modules/safe_harbor/components/SafeHarborPage.tsx', 'BiffTriagePanel', 'TryggHamnHub');
+  mustInclude('src/modules/safe_harbor/components/SafeHarborPage.tsx', 'TryggHamnHub');
+  mustInclude('src/modules/safe_harbor/components/BiffPublicPanel.tsx', 'BiffTriagePanel');
+  mustInclude('src/modules/safe_harbor/components/TryggHamnHub.tsx', 'BiffPublicPanel');
   mustInclude('src/modules/core/home/HomeHeroCompass.tsx', 'HomeHeroKanon');
   mustInclude('src/modules/speglings_system/components/SpeglingsSystem.tsx', 'VivirQuickEntry', 'SvartPaVittForm');
   mustInclude(
     'src/modules/barnens_livsloggar/components/familjen/FamiljenReflektionTab.tsx',
     'ChildProfileCards',
     'PositivaMinnesankare',
-    'ParentReminderFooter',
+    'BarnfokusFraganPanel',
   );
+  mustInclude('src/modules/barnens_livsloggar/components/FamiljenPage.tsx', 'ParentReminderFooter');
   mustInclude('src/modules/barnens_livsloggar/components/BarnensPage.tsx', 'ChildProfileCards', 'ParentReminderFooter');
   mustInclude('src/modules/verklighetsvalvet/components/VaultPage.tsx', "label: 'Arkiv'", "label: 'Triage'", 'PansaretHeader');
   mustInclude('src/modules/verklighetsvalvet/components/VaultOrkesterPanel.tsx', 'OrkesterAgentTrio', 'Registrerade dokument');

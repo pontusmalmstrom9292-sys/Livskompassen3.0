@@ -26,10 +26,12 @@
 | 1 | **Hem Kompass** | `/` | Kompassros |
 | 2 | **Familjen** | `/familjen` | Familj (3 figurer) |
 | 3 | **Trygg hamn** | `/hamn` | Ratt / ankare (UI-text — inte «Hamn» ensamt) |
-| 4 | **Valv** | `/dagbok?tab=bevis` | Valvbåge |
-| 5 | **Planering** | `/planering` (plan) | Kalender |
-| 6 | **MåBra** | `/mabra` | Lotus / gnista |
-| 7 | **Inställningar** | `/installningar` eller konto-meny | Kugghjul |
+| 4 | **Vardagen** | `/vardagen` | Rutiner / ekonomi / kunskap (flikar) |
+| 5 | **Valv** | `/dagbok?tab=bevis` | Valvbåge |
+| 6 | **Planering** | `/planering` | Kalender |
+| 7 | **Arbetsliv** | `/arbetsliv` | Klocka |
+| 8 | **MåBra** | `/mabra` | Lotus / gnista |
+| 9 | **Inställningar** | `/installningar` eller konto-meny | Kugghjul |
 
 ---
 
@@ -49,7 +51,8 @@
 | Komponent | Fil (plan) |
 |-----------|------------|
 | `NavigationDrawer` | `src/modules/core/layout/NavigationDrawer.tsx` |
-| `DRAWER_NAV_ITEMS` | `src/modules/core/navigation/drawerNav.ts` |
+| `DRAWER_NAV_ITEMS` | `src/modules/core/navigation/drawerNav.ts` (paths från `navTruth.ts`) |
+| `HubPageShell` | `src/modules/core/layout/HubPageShell.tsx` |
 | Bakgrund | Delad `AmbientBackground` / samma asset som hem |
 
 Koppla till befintliga `LIFE_CLUSTERS` + Planering + Inställningar.

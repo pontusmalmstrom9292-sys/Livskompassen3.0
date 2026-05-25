@@ -26,6 +26,8 @@ import { ReframingExercise } from './ReframingExercise';
 import { ValuesCompass } from './ValuesCompass';
 import { MabraComplete } from './MabraComplete';
 import { KbtTransformatorPanel } from './KbtTransformatorPanel';
+import { HubPageShell } from '../../core/layout/HubPageShell';
+import { sectionEyebrowClass } from '../../core/ui/typeScale';
 
 export function MabraPage() {
   const user = useStore((s) => s.user);
@@ -124,16 +126,11 @@ export function MabraPage() {
   const activeExerciseType = hub && !addonBreathing ? exerciseTypeForHub(hub) : null;
 
   return (
-    <div className="space-y-4">
-      <header className="px-0.5">
-        <p className="home-page__eyebrow">MåBra</p>
-        <h1 className="home-page__title text-xl">För dig — ett steg i taget</h1>
-        <p className="home-page__lead text-xs">
-          Akut-stöd, egna projekt och Vit hub i Valvet. Inte mot någon annan.
-        </p>
-      </header>
-
-      <div className="space-y-4">
+    <HubPageShell
+      eyebrow="MåBra"
+      title="För dig — ett steg i taget"
+      lead="Akut-stöd, egna projekt och Vit hub i Valvet. Inte mot någon annan."
+    >
         {step === 'hub' && (
           <>
             <MabraProjectHub
@@ -152,7 +149,7 @@ export function MabraPage() {
               <p className="text-center text-sm text-text-muted">{VALUES_COMPASS_COPY.savedHint}</p>
             )}
             <div>
-              <p className="home-page__eyebrow mb-2">Automatiska tankar</p>
+              <p className={`${sectionEyebrowClass} mb-2`}>Automatiska tankar</p>
               <KbtTransformatorPanel />
             </div>
           </>
@@ -249,7 +246,6 @@ export function MabraPage() {
             {saveError && <p className="mt-2 text-sm text-text-dim">{saveError}</p>}
           </BentoCard>
         )}
-      </div>
-    </div>
+    </HubPageShell>
   );
 }
