@@ -78,4 +78,5 @@ Se §14 i [`Mabra-SPEC.md`](../../docs/specs/modules/Mabra-SPEC.md).
 - **Speglar** — guardrail vid ex-text → `/speglar` — **done** (fas 2e)
 - **Hamn / Valv / Kunskap** — **ingen** datakoppling
 
-Kod: `src/modules/mabra/` · Plan: [`src/modules/mabra/module_plan.md`](../../src/modules/mabra/module_plan.md)
+Kod: `src/modules/mabra/` · Plan: [`src/modules/mabra/module_plan.md`](../../src/modules/mabra/module_plan.md)  
+**Innehållsbank (frågekort, lekar, quiz-seed):** [`docs/specs/modules/Mabra-CONTENT-BANK.md`](../../docs/specs/modules/Mabra-CONTENT-BANK.md) · Kurator: `.cursor/agents/specialist-mabra-curator.md`

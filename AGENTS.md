@@ -37,6 +37,7 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 - Use `generalPurpose` for complex multi-step investigations when the right search path is unclear.
 - Use `ci-investigator` only when a specific PR check or CI failure needs diagnosis.
 - **Orkester nattpass:** `npm run orkester:night` (deterministisk) eller Conductor + specialister i `.cursor/agents/` — se [`docs/ORKESTER-AUTORUN.md`](docs/ORKESTER-AUTORUN.md).
+- **MåBra-innehåll:** `specialist-mabra-curator` — kuraterar frågekort/quiz/lekar till [`docs/specs/modules/Mabra-CONTENT-BANK.md`](docs/specs/modules/Mabra-CONTENT-BANK.md).
 - Keep direct edits in the parent agent unless a separate isolated exploration is clearly useful.
 
 ## Skills & rules (uppgift → vägledning)
