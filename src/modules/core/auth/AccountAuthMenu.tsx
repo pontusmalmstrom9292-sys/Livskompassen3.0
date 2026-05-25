@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Lock, LogOut, ShieldCheck, X } from 'lucide-react';
-import { HeaderToolButton } from '../components/HeaderToolButton';
-import { IconKonto } from '../ui/livskompassModuleIcons';
 import { useStore } from '../store';
 import { EmailAuthPanel } from './EmailAuthPanel';
 import { signOutUser } from './authService';
@@ -37,20 +35,20 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
   return (
     <>
       {compactTrigger ? (
-        <HeaderToolButton
-          ariaLabel={label}
-          title={label}
-          active={open}
-          expanded={open}
-          hasPopup
+        <button
+          type="button"
           onClick={() => setOpen(true)}
+          className="header-glass-btn"
+          aria-expanded={open}
+          aria-haspopup="dialog"
+          aria-label={label}
         >
           {user.isAnonymous ? (
-            <IconKonto className="module-gem__icon-svg" />
+            <Lock className="h-4 w-4" />
           ) : (
-            <ShieldCheck className="module-gem__icon-svg text-success" strokeWidth={1.5} />
+            <ShieldCheck className="h-4 w-4 text-success" />
           )}
-        </HeaderToolButton>
+        </button>
       ) : (
         <button
           type="button"

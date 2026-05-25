@@ -1,57 +1,63 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ChevronDown, ChevronUp, Lock } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Calendar, ChevronDown, ChevronUp, Clock, List, Lock } from 'lucide-react';
 import { clsx } from 'clsx';
-import { useLiveClock } from '../hooks/useLiveClock';
 import { useLongPress } from '../hooks/useLongPress';
 import { LivskompassMark } from '../ui/LivskompassMark';
 import { ValvArchIcon } from '../ui/ValvArchIcon';
-import { WidgetGridIcon, WidgetMicIcon, WidgetNoteIcon } from '../ui/widget-icons';
+import { WidgetMicIcon, WidgetNoteIcon } from '../ui/widget-icons';
+
 type BarState = 'hidden' | 'expanded';
 
-type ExpandedIconKind = 'widgets' | 'record' | 'note' | 'valv' | 'kompass';
+type QuickActionId =
+  | 'inkop'
+  | 'planering'
+  | 'arbetsliv'
+  | 'note'
+  | 'record'
+  | 'valv'
+  | 'kompass';
 
 const STORAGE_HIDDEN = 'livskompassen_smart_widget_hidden';
 
-const EXPANDED_ACTIONS: {
-  id: ExpandedIconKind;
-  label: string;
-  to?: string;
-  toggle?: boolean;
-}[] = [
-  { id: 'widgets', label: 'Widgetar', toggle: true },
-  { id: 'record', label: 'Röstanteckning', to: '/widget/inspelning?autostart=1' },
-  { id: 'note', label: 'Anteckningar', to: '/widget/anteckning' },
+const QUICK_ACTIONS: { id: QuickActionId; label: string; to: string }[] = [
+  { id: 'inkop', label: 'Inköpslista', to: '/projekt/ny' },
+  { id: 'planering', label: 'Planering', to: '/planering' },
+  { id: 'arbetsliv', label: 'Arbetsliv', to: '/arbetsliv?tab=stampla' },
+  { id: 'note', label: 'Anteckning', to: '/widget/anteckning' },
+  { id: 'record', label: 'Inspelning', to: '/widget/inspelning?autostart=1' },
   { id: 'valv', label: 'Valv', to: '/dagbok?tab=bevis' },
-  { id: 'kompass', label: 'Kompass', to: '/' },
+  { id: 'kompass', label: 'Hem', to: '/' },
 ];
 
-function renderExpandedIcon(kind: ExpandedIconKind): ReactNode {
-  const cls = 'h-5 w-5 text-accent';
-  switch (kind) {
-    case 'widgets':
-      return <WidgetGridIcon className={cls} />;
-    case 'record':
-      return <WidgetMicIcon className={cls} />;
+function renderQuickIcon(id: QuickActionId): ReactNode {
+  const cls = 'h-[1.15rem] w-[1.15rem] text-accent';
+  switch (id) {
+    case 'inkop':
+      return <List className={cls} strokeWidth={1.5} />;
+    case 'planering':
+      return <Calendar className={cls} strokeWidth={1.5} />;
+    case 'arbetsliv':
+      return <Clock className={cls} strokeWidth={1.5} />;
     case 'note':
       return <WidgetNoteIcon className={cls} />;
+    case 'record':
+      return <WidgetMicIcon className={cls} />;
     case 'valv':
       return <ValvArchIcon className={cls} />;
     case 'kompass':
-      return <LivskompassMark className="h-6 w-6 text-accent" />;
+      return <LivskompassMark className="h-5 w-5 text-accent" />;
     default:
       return null;
   }
 }
 
-/** Smart bottom widget bar — hidden (handle) / expanded (klocka + ikonrad). */
+/** Kompakt snabbwidget — genvägar utan klocka (long-press 3s → Valv). */
 export function FyrenSmartWidgetBar() {
   const [state, setState] = useState<BarState>('hidden');
-  const [noteOpen, setNoteOpen] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
-  const { time, date } = useLiveClock();
 
   const persistHidden = useCallback((hidden: boolean) => {
     try {
@@ -82,19 +88,9 @@ export function FyrenSmartWidgetBar() {
 
   if (location.pathname.startsWith('/widget')) return null;
 
-  const cycleDown = () => {
+  const goTo = (to: string) => {
+    navigate(to);
     setState('hidden');
-  };
-
-  const onAction = (item: (typeof EXPANDED_ACTIONS)[number]) => {
-    if (item.toggle) {
-      setState((s) => (s === 'expanded' ? 'hidden' : 'expanded'));
-      return;
-    }
-    if (item.to) {
-      navigate(item.to);
-      setState('hidden');
-    }
   };
 
   return (
@@ -155,59 +151,18 @@ export function FyrenSmartWidgetBar() {
               {...handleHandlers}
             />
 
-            <div className="fyren-smart-bar__clock">
-              <time className="fyren-smart-bar__time tabular-nums">{time}</time>
-              <p className="fyren-smart-bar__date">{date}</p>
-              <div className="fyren-smart-bar__motto-line" aria-hidden>
-                <span className="fyren-smart-bar__motto-dash" />
-                <span className="fyren-smart-bar__motto-diamond">◆</span>
-                <span className="fyren-smart-bar__motto-dash" />
-              </div>
-              <p className="fyren-smart-bar__motto">Fokus • Struktur • Närvaro</p>
-            </div>
-
-            <button
-              type="button"
-              className="fyren-smart-bar__note-row"
-              aria-expanded={noteOpen}
-              onClick={() => setNoteOpen((o) => !o)}
-            >
-              <span className="fyren-smart-bar__icon-tile fyren-smart-bar__icon-tile--sm" aria-hidden>
-                <WidgetNoteIcon className="h-4 w-4 text-accent" />
-              </span>
-              <div className="min-w-0 flex-1 text-left">
-                <p className="text-sm text-text">Snabbanteckning</p>
-                <p className="text-xs text-text-muted">Fånga tanken. Bevara fokus.</p>
-              </div>
-              <ChevronDown
-                className={clsx(
-                  'h-4 w-4 shrink-0 text-accent/70 transition-transform',
-                  noteOpen && 'rotate-180',
-                )}
-                strokeWidth={1.5}
-              />
-            </button>
-
-            {noteOpen ? (
-              <Link
-                to="/widget/anteckning"
-                className="fyren-smart-bar__note-link"
-                onClick={() => setState('hidden')}
-              >
-                Öppna snabbanteckning →
-              </Link>
-            ) : null}
+            <p className="fyren-smart-bar__panel-title">Snabbåtkomst</p>
 
             <div className="fyren-smart-bar__icon-grid">
-              {EXPANDED_ACTIONS.map((item) => (
+              {QUICK_ACTIONS.map((item) => (
                 <button
                   key={item.id}
                   type="button"
                   className="fyren-smart-bar__icon-btn"
                   aria-label={item.label}
-                  onClick={() => onAction(item)}
+                  onClick={() => goTo(item.to)}
                 >
-                  <span className="fyren-smart-bar__icon-tile">{renderExpandedIcon(item.id)}</span>
+                  <span className="fyren-smart-bar__icon-tile">{renderQuickIcon(item.id)}</span>
                   <span className="fyren-smart-bar__icon-label">{item.label}</span>
                 </button>
               ))}
@@ -215,12 +170,12 @@ export function FyrenSmartWidgetBar() {
 
             <footer className="fyren-smart-bar__footer">
               <Lock className="h-3 w-3 shrink-0 text-accent/80" strokeWidth={1.5} />
-              <span>Diskret åtkomst – dra nedåt för att dölja</span>
+              <span>Håll 3s → Valv</span>
               <button
                 type="button"
                 className="fyren-smart-bar__hide-btn"
                 aria-label="Dölj widget"
-                onClick={cycleDown}
+                onClick={() => setState('hidden')}
               >
                 <ChevronDown className="h-4 w-4" strokeWidth={1.5} />
               </button>

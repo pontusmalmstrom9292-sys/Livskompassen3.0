@@ -1923,75 +1923,36 @@
   }
 
   .fyren-smart-bar__expanded-panel {
-    @apply pointer-events-auto mx-3 w-full max-w-md rounded-[1.75rem] border p-4;
+    @apply pointer-events-auto mx-3 w-full max-w-sm rounded-2xl border px-2.5 pb-2 pt-2;
     background: var(--glass-hero);
-    backdrop-filter: blur(22px);
+    backdrop-filter: blur(18px);
     border-color: var(--border-strong);
-    box-shadow: 0 0 36px var(--accent-glow);
+    box-shadow: 0 0 24px var(--accent-glow);
   }
 
   .fyren-smart-bar__drag-handle {
-    @apply mx-auto mb-3 block h-1 w-10 rounded-full border-0;
+    @apply mx-auto mb-2 block h-1 w-9 rounded-full border-0;
     background: var(--accent);
     opacity: 0.55;
   }
 
-  .fyren-smart-bar__clock {
-    @apply mb-4 text-center;
-  }
-
-  .fyren-smart-bar__time {
-    @apply font-display text-4xl font-extralight text-accent;
-  }
-
-  .fyren-smart-bar__date {
-    @apply mt-1 text-sm capitalize text-text-muted;
-  }
-
-  .fyren-smart-bar__motto-line {
-    @apply mt-3 flex items-center justify-center gap-2;
-  }
-
-  .fyren-smart-bar__motto-dash {
-    @apply h-px w-8;
-    background: var(--border-strong);
-  }
-
-  .fyren-smart-bar__motto-diamond {
-    @apply text-[8px] text-accent;
-  }
-
-  .fyren-smart-bar__motto {
-    @apply mt-2 text-xs tracking-wide text-text-muted;
-  }
-
-  .fyren-smart-bar__note-row {
-    @apply flex w-full items-center gap-3 rounded-xl border border-[var(--border)] p-3 text-left transition-colors hover:bg-white/5;
-  }
-
-  .fyren-smart-bar__note-link {
-    @apply mb-3 mt-2 block text-center text-xs text-accent hover:underline;
+  .fyren-smart-bar__panel-title {
+    @apply mb-2 text-center text-[10px] font-medium uppercase tracking-[0.2em] text-text-dim;
   }
 
   .fyren-smart-bar__icon-grid {
-    @apply grid grid-cols-5 gap-2 py-2;
+    @apply grid grid-cols-4 gap-1.5;
   }
 
   .fyren-smart-bar__icon-tile {
-    @apply flex h-11 w-11 items-center justify-center rounded-xl text-accent;
-    border: 2px solid var(--border-strong);
-    background: rgba(0, 0, 0, 0.28);
-    box-shadow: 0 0 14px var(--accent-glow);
-    filter: drop-shadow(0 1px 2px rgba(212, 175, 55, 0.25));
-  }
-
-  .fyren-smart-bar__icon-tile--sm {
-    @apply h-9 w-9 rounded-lg;
+    @apply flex h-9 w-9 items-center justify-center rounded-lg text-accent;
+    border: 1px solid var(--border-strong);
+    background: rgba(0, 0, 0, 0.32);
     box-shadow: 0 0 10px var(--accent-glow);
   }
 
   .fyren-smart-bar__icon-btn {
-    @apply flex flex-col items-center gap-1.5 rounded-xl p-1 transition-transform hover:scale-[1.03];
+    @apply flex flex-col items-center gap-1 rounded-lg p-0.5 transition-transform hover:scale-[1.04];
   }
 
   .fyren-smart-bar__icon-btn:hover .fyren-smart-bar__icon-tile {
@@ -2000,11 +1961,11 @@
   }
 
   .fyren-smart-bar__icon-label {
-    @apply text-[9px] leading-tight text-accent/90;
+    @apply max-w-[4.25rem] truncate text-center text-[8px] leading-tight text-accent/85;
   }
 
   .fyren-smart-bar__footer {
-    @apply mt-2 flex items-center justify-center gap-1.5 border-t border-[var(--border)] pt-3 text-[10px] text-text-dim;
+    @apply mt-2 flex items-center justify-center gap-1 border-t border-[var(--border)] pt-2 text-[9px] text-text-dim;
   }
 
   .fyren-smart-bar__hide-btn {

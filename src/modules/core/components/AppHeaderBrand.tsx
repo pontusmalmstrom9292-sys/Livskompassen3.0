@@ -1,11 +1,17 @@
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { LivskompassMark } from '../ui/LivskompassMark';
+import { getHeaderPageLabel } from '../navigation/headerPageLabel';
 
 type Props = {
   showTagline?: boolean;
 };
 
 export function AppHeaderBrand({ showTagline = false }: Props) {
+  const location = useLocation();
+  const pageLabel = getHeaderPageLabel(location.pathname);
+  const showPageBadge = pageLabel && pageLabel !== 'Hem';
+
   return (
     <Link
       to="/"
@@ -19,6 +25,9 @@ export function AppHeaderBrand({ showTagline = false }: Props) {
         <span className="app-header__title app-header__title--kanon">LIVSKOMPASSEN</span>
         {showTagline ? (
           <span className="app-header__tagline">Kognitiv sköld</span>
+        ) : null}
+        {showPageBadge ? (
+          <span className="app-header__page-badge">{pageLabel}</span>
         ) : null}
       </div>
     </Link>
