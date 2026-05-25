@@ -2,7 +2,7 @@
 
 **Syfte:** En aktiv utvecklingsgren (`main`). Inget förstört — historik finns i git.
 
-**Senast:** 2026-05-25 (stadguide-gren borttagen från GitHub)
+**Senast:** 2026-05-25 (Arbetsliv-hub på `origin/main`)
 
 ---
 
@@ -10,7 +10,20 @@
 
 | Branch | Innehåll | Stäng-kriterium |
 |--------|----------|-----------------|
-| **`main`** | All produktkod: Planering, Theme Pack I, Orkester, låst UX, Fyren (hidden/expanded) | Daglig utveckling; `npm run smoke:locked-ux` före "klart" |
+| **`main`** | All produktkod: Planering, Theme Pack I, Orkester, låst UX, Fyren, **Arbetsliv-hub** (`/arbetsliv`, `514c8c80`) | Daglig utveckling; `npm run smoke:locked-ux` före "klart" |
+
+### Arbetsliv — kanon på main (2026-05-25)
+
+| Commit | Innehåll |
+|--------|----------|
+| `9979df47` | Stämpelklocka, `time_entries`, hem-widget |
+| `514c8c80` | Hub `/arbetsliv`, frånvaro/lön (PIN `arbetsliv_forensic`), `generatePayslip` |
+
+**Route:** `/arbetsliv` (meny **Arbetsliv**). `/stampla` redirectar hit. Vardagen-ekonomi = enkel veckopeng.
+
+**Tag (återställning):** `arbetsliv-hub-2026-05-25` på `main`.
+
+**OBS:** `feat/valv-inkorg-ui` har *inte* hubben — cherry-pick från main, ingen wholesale-merge (se regel nedan).
 
 **Remote:** `origin` = https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0.git
 
@@ -37,7 +50,7 @@
 | `feat/barnen-fragekort` | Inkorg | Cherry-pick vid behov |
 | `feat/broar-inkorg` | Inkorg | Cherry-pick vid behov |
 | `feat/design-inkorg` | Inkorg | Cherry-pick vid behov |
-| `feat/valv-inkorg-ui` | Inkorg | Cherry-pick vid behov |
+| `feat/valv-inkorg-ui` | Valv-inkorg UI (äldre; **ekonomi → main** via stämpel+arbetsliv) | Cherry-pick UI; **arbetstid alltid från `main`** |
 
 **Regel:** Ingen wholesale-merge av `feat/*`. Se [`MERGE-IMPACT-RAPPORT.md`](./MERGE-IMPACT-RAPPORT.md).
 

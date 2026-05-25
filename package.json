@@ -27,6 +27,7 @@
     "smoke:tidshjul": "node scripts/smoke_tidshjul.mjs",
     "smoke:grans": "node scripts/smoke_grans_arkitekt.mjs",
     "smoke:stampla": "node scripts/smoke_stampla.mjs",
+    "smoke:arbetsliv": "node scripts/smoke_arbetsliv_hub.mjs",
     "smoke:locked-ux": "node scripts/smoke_locked_ux.mjs",
     "smoke:design-modules": "node scripts/smoke_design_modules.mjs",
     "smoke:innehall": "node scripts/smoke_innehall_register.mjs",
