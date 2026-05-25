@@ -104,6 +104,16 @@ function main() {
     'BiffPublicPanel',
     'hamn_forensic',
   );
+
+  console.log('[smoke:orkester] Stämpelklocka...');
+  mustInclude(
+    'src/modules/stampla/components/StampClockPage.tsx',
+    'recordTimeIn',
+    'recordTimeOut',
+  );
+  mustInclude('src/modules/core/firebase/timeEconomyFirestore.ts', 'time_entries');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/stampla', 'StampClockPage');
+  mustInclude('firestore.rules', 'match /time_entries/{docId}');
   mustInclude(
     'src/modules/core/security/useVaultZoneIdle.ts',
     '15 * 60 * 1000',

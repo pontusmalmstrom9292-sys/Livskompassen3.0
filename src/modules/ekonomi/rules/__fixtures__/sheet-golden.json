@@ -1,0 +1,72 @@
+{
+  "_comment": "Golden vectors för payTimeRules — verifiera mot Pontus Stämpelklocka/CSV. ISO-vecka: jämn=30h, ojämn=50h.",
+  "weekTargets": {
+    "evenWeekExample": { "isoDate": "2026-05-25", "isoWeek": 22, "expectEven": true, "flexTargetHours": 30 },
+    "oddWeekExample": { "isoDate": "2026-05-19", "isoWeek": 21, "expectEven": false, "flexTargetHours": 50 }
+  },
+  "autoBreak": {
+    "longShiftNoBreak": {
+      "date": "2026-05-20",
+      "clockIn": "08:00",
+      "clockOut": "14:01",
+      "breakMinutesIn": 0,
+      "expectBreakMinutes": 30,
+      "expectHoursWorkedMin": 5.5
+    },
+    "shortShiftNoBreak": {
+      "date": "2026-05-20",
+      "clockIn": "08:00",
+      "clockOut": "12:00",
+      "breakMinutesIn": 0,
+      "expectBreakMinutes": 0,
+      "expectHoursWorked": 4
+    },
+    "alreadyHasBreak": {
+      "date": "2026-05-20",
+      "clockIn": "08:00",
+      "clockOut": "14:01",
+      "breakMinutesIn": 30,
+      "expectBreakMinutes": 30
+    }
+  },
+  "flexWeek": {
+    "arbeteOnly": [
+      { "date": "2026-05-19", "clockIn": "08:00", "clockOut": "16:00", "category": "Arbete", "breakMinutes": 30, "scopePercent": 100, "hoursWorked": 7.5, "isOpen": false },
+      { "date": "2026-05-20", "clockIn": "08:00", "clockOut": "12:00", "category": "Arbete", "breakMinutes": 0, "scopePercent": 100, "hoursWorked": 4, "isOpen": false }
+    ],
+    "expectWorkHoursWeek": 11.5,
+    "absenceExcluded": [
+      { "date": "2026-05-19", "clockIn": "08:00", "clockOut": "16:00", "category": "Arbete", "breakMinutes": 30, "scopePercent": 100, "hoursWorked": 7.5, "isOpen": false },
+      { "date": "2026-05-20", "clockIn": "08:00", "clockOut": "16:00", "category": "VAB", "breakMinutes": 30, "scopePercent": 100, "hoursWorked": 7.5, "isOpen": false }
+    ],
+    "expectWorkHoursWeekAbsence": 7.5
+  },
+  "dayFlex": {
+    "arbeteEightHours": {
+      "entry": {
+        "date": "2026-05-19",
+        "clockIn": "08:00",
+        "clockOut": "16:30",
+        "category": "Arbete",
+        "breakMinutes": 30,
+        "scopePercent": 100,
+        "hoursWorked": 8,
+        "isOpen": false
+      },
+      "expectDayFlexDelta": 0
+    },
+    "arbeteUnderTarget": {
+      "entry": {
+        "date": "2026-05-19",
+        "clockIn": "08:00",
+        "clockOut": "12:00",
+        "category": "Arbete",
+        "breakMinutes": 0,
+        "scopePercent": 100,
+        "hoursWorked": 4,
+        "isOpen": false
+      },
+      "expectDayFlexDelta": -4
+    }
+  }
+}
