@@ -122,32 +122,43 @@
     background: color-mix(in srgb, var(--accent-secondary) 28%, transparent);
   }
 
-  /* Theme Pack backgrounds (data-theme-bg on html) */
-  html[data-theme-bg='texture-stone'] .ambient-bg {
+  /* Theme Pack — gradient fallback när ingen scenic */
+  html[data-theme-bg='texture-stone'] .ambient-bg:not(.ambient-bg--scenic) {
     background: radial-gradient(ellipse 120% 80% at 50% -20%, var(--bg-dusk) 0%, var(--bg) 55%);
   }
 
-  /* Hem — scenic photo (alltid på /, oberoende av theme override) */
-  .ambient-bg--home-scenic {
+  /* Alla huvudflikar — sjö/skymning (mockup I-stone), vinner över texture-stone-regeln */
+  .ambient-bg.ambient-bg--scenic,
+  html[data-theme-bg='texture-stone'] .ambient-bg.ambient-bg--scenic {
     background:
       linear-gradient(
         180deg,
-        rgba(2, 8, 18, 0.35) 0%,
-        rgba(10, 10, 10, 0.72) 55%,
-        rgba(10, 10, 10, 0.92) 100%
+        rgba(2, 8, 18, 0.38) 0%,
+        rgba(10, 10, 10, 0.68) 50%,
+        rgba(10, 10, 10, 0.88) 100%
       ),
-      url('/design/home-hero-scenic.png') center 20% / cover no-repeat;
+      url('/design/home-hero-scenic.png') center 22% / cover no-repeat;
   }
 
-  .ambient-bg--home-scenic .ambient-blob--gold {
+  .ambient-bg--scenic .ambient-blob--gold {
     background: rgba(212, 175, 55, 0.08);
     top: 12%;
     left: 50%;
     transform: translateX(-50%);
   }
 
-  .ambient-bg--home-scenic .ambient-blob--accent-secondary {
+  .ambient-bg--scenic .ambient-blob--accent-secondary {
     opacity: 0.35;
+  }
+
+  .app-shell {
+    background: transparent;
+  }
+
+  .app-shell .glass-card,
+  .app-shell .module-list .glass-card {
+    background: rgba(10, 10, 10, 0.55);
+    backdrop-filter: blur(12px);
   }
 
   html[data-theme-bg='texture-marble'] .ambient-bg {

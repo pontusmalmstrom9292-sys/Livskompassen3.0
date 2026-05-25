@@ -1,23 +1,22 @@
 import { DEFAULT_THEME_ID } from './themeRegistry';
 
-/** Route prefix → default theme pack id. Longest match wins. */
+/** Architect Stone (I-stone) på alla flikar — mockup-kanon. */
 export const MODULE_THEME_MAP: { prefix: string; themeId: string }[] = [
-  { prefix: '/hamn', themeId: 'I-hamn' },
-  { prefix: '/mabra', themeId: 'G-varm-hamn' },
-  { prefix: '/familjen', themeId: 'G-varm-hamn' },
-  { prefix: '/barnen', themeId: 'G-varm-hamn' },
-  { prefix: '/vardagen', themeId: 'I-alchemical' },
-  { prefix: '/kompasser', themeId: 'I-alchemical' },
-  { prefix: '/ekonomi', themeId: 'I-alchemical' },
-  { prefix: '/kunskap', themeId: 'I-alchemical' },
-  { prefix: '/widget', themeId: 'I-glass' },
-  { prefix: '/dagbok', themeId: 'I-stone' },
-  { prefix: '/valv', themeId: 'I-stone' },
-  { prefix: '/planering', themeId: 'I-stone' },
-  { prefix: '/projekt', themeId: 'I-stone' },
-  { prefix: '/dossier', themeId: 'I-stone' },
-  /** Hem — Architect Stone + scenic bg (mockup I-stone) */
-  { prefix: '/', themeId: 'I-stone' },
+  { prefix: '/hamn', themeId: DEFAULT_THEME_ID },
+  { prefix: '/mabra', themeId: DEFAULT_THEME_ID },
+  { prefix: '/familjen', themeId: DEFAULT_THEME_ID },
+  { prefix: '/barnen', themeId: DEFAULT_THEME_ID },
+  { prefix: '/vardagen', themeId: DEFAULT_THEME_ID },
+  { prefix: '/kompasser', themeId: DEFAULT_THEME_ID },
+  { prefix: '/ekonomi', themeId: DEFAULT_THEME_ID },
+  { prefix: '/kunskap', themeId: DEFAULT_THEME_ID },
+  { prefix: '/widget', themeId: DEFAULT_THEME_ID },
+  { prefix: '/dagbok', themeId: DEFAULT_THEME_ID },
+  { prefix: '/valv', themeId: DEFAULT_THEME_ID },
+  { prefix: '/planering', themeId: DEFAULT_THEME_ID },
+  { prefix: '/projekt', themeId: DEFAULT_THEME_ID },
+  { prefix: '/dossier', themeId: DEFAULT_THEME_ID },
+  { prefix: '/', themeId: DEFAULT_THEME_ID },
 ];
 
 const AUTO_KEY = 'livskompassen_theme_auto_module';

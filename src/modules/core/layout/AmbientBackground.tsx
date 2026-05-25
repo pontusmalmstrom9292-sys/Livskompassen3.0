@@ -1,14 +1,14 @@
 import { clsx } from 'clsx';
 import { useLocation } from 'react-router-dom';
 
-/** Theme-aware ambient background — scenic photo on Hem (I-stone). */
+/** Scenic I-stone bakgrund på alla huvudflikar (ej widget-routes). */
 export function AmbientBackground() {
   const { pathname } = useLocation();
-  const isHome = pathname === '/';
+  const showScenic = !pathname.startsWith('/widget');
 
   return (
     <div
-      className={clsx('ambient-bg', isHome && 'ambient-bg--home-scenic')}
+      className={clsx('ambient-bg', showScenic && 'ambient-bg--scenic')}
       aria-hidden
     >
       <div

@@ -15,7 +15,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   const [accountOpen, setAccountOpen] = useState(false);
 
   return (
-    <div className="relative min-h-screen bg-bg text-text font-sans selection:bg-accent/30">
+    <div className="app-shell relative min-h-screen text-text font-sans selection:bg-accent/30">
       <AmbientBackground />
 
       <header className="app-header">
