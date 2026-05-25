@@ -99,6 +99,7 @@ Regler:
 | Merge | [`MERGE-IMPACT-RAPPORT.md`](./MERGE-IMPACT-RAPPORT.md) |
 | Cursor-menyer | [`CURSOR-MENY-LATHUND.md`](./CURSOR-MENY-LATHUND.md) |
 | Moln/krediter | [`MOLN-KREDITER-LATHUND.md`](./MOLN-KREDITER-LATHUND.md) |
+| Fakta vs lek / kurator | [`INNEHALL-REGISTER.md`](./INNEHALL-REGISTER.md) |
 | Låst UX | `.context/locked-ux-features.md` |
 
 ---

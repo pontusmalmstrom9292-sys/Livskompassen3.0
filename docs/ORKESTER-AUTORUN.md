@@ -66,6 +66,7 @@ export ORKESTER_AUTORUN=1
 ## Smoke:orkester (ny)
 
 ```bash
+npm run smoke:innehall   # U6 innehållskanon (ingår även i orkester)
 npm run smoke:orkester
 ```
 

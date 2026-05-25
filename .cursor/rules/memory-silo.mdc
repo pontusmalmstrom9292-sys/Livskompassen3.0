@@ -13,7 +13,10 @@ Kanon: `.context/arkiv-minne.md`, `.context/arkitektur-beslut.md` §1.5
 |------|-------------|----------|
 | Kunskap | `kampspar`, `kb_docs` | `knowledgeVaultQuery` |
 | Valv | `reality_vault` | `valvChatQuery` |
-| Barnen | `children_logs` | Dossier read; framtida dedikerad callable (G8) |
+| Barnen | `children_logs` | `childrenLogsQuery` |
+| Utveckling (Vit) | `mabra_sessions`, `vit_hub` / `vit_entries` | **Ingen RAG** — `mabraCoach` parafras bank |
+
+Kanon U6: [`docs/INNEHALL-REGISTER.md`](../../docs/INNEHALL-REGISTER.md)
 
 ## MUST NOT
 
@@ -21,6 +24,7 @@ Kanon: `.context/arkiv-minne.md`, `.context/arkitektur-beslut.md` §1.5
 - `valvChatQuery` läser `kampspar` eller `children_logs`.
 - Gemensam vector-namespace som blandar bevis + livsminne utan isolering.
 - "Sök överallt"-UI utan silo-etikett.
+- `mabra_*` / `vit_*` → `knowledgeVaultQuery` eller Vector ingest (Mabra-SPEC §14).
 
 ## Tillåtna korsläsningar (ej användar-RAG)
 

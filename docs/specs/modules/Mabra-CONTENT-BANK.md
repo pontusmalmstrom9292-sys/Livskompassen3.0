@@ -4,7 +4,7 @@
 **Kurator:** `.cursor/agents/specialist-mabra-curator.md`  
 **Syfte:** Godkänd grund för frågekort, milda quiz och utvecklingslekar — **inte** medicinsk rådgivning.
 
-**Källor (läs före utökning):** [`Mabra-SPEC.md`](Mabra-SPEC.md) · [`Mabra-RESEARCH-BRIEF.md`](Mabra-RESEARCH-BRIEF.md) · [`MABRA-PROJEKT-VIT-HUB-SPEC.md`](../../design/MABRA-PROJEKT-VIT-HUB-SPEC.md)
+**Källor (läs före utökning):** [`Mabra-SPEC.md`](Mabra-SPEC.md) · [`Mabra-RESEARCH-BRIEF.md`](Mabra-RESEARCH-BRIEF.md) · [`MABRA-PROJEKT-VIT-HUB-SPEC.md`](../../design/MABRA-PROJEKT-VIT-HUB-SPEC.md) · **register:** [`INNEHALL-REGISTER.md`](../../INNEHALL-REGISTER.md)
 
 ---
 

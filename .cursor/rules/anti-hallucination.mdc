@@ -19,7 +19,9 @@ alwaysApply: true
 - Hitta på deploy-status, secrets, eller Vector-index utan inventering/smoke.
 - Använda LLM-output som källa för auth, ägarskap eller immutable evidence.
 - Skapa mock-säkerhet och kalla det WORM/CMEK.
+- Skapa `FACT` eller frågekort i prod utan godkänd content-bank (`INNEHALL-REGISTER`, U6).
 
 ## Smoke före "klart"
 
-Minst: `npm run build`, `npm run smoke:locked-ux`, `npm run smoke:orkester` för ändringar som rör agents/synapser/UX locks.
+Minst: `npm run build`, `npm run smoke:locked-ux`, `npm run smoke:orkester` för ändringar som rör agents/synapser/UX locks.  
+Innehåll/kurator/bank: `npm run smoke:innehall`.

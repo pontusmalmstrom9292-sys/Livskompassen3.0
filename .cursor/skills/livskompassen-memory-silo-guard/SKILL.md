@@ -13,6 +13,8 @@ description: Enforces three knowledge silos — blocks cross-RAG between Kunskap
 | Valv | `reality_vault` | `valvChatQuery` |
 | Barnen | `children_logs` | `childrenLogsQuery` (G8) |
 
+**U6 Utveckling (Vit):** `mabra_sessions`, `vit_*` — **no RAG**, no ingest to Kunskap. Content: [`docs/INNEHALL-REGISTER.md`](../../docs/INNEHALL-REGISTER.md).
+
 ## Red flags (block merge)
 
 - `knowledgeVaultQuery` reading `reality_vault` or `children_logs`

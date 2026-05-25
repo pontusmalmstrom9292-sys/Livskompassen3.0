@@ -11,6 +11,7 @@ description: Build + smoke orchestration. Kör functions build, frontend build, 
 ```bash
 cd functions && npm run build
 cd .. && npm run build
+npm run smoke:innehall
 npm run smoke:orkester
 npm run smoke:locked-ux
 npm run smoke:design-modules

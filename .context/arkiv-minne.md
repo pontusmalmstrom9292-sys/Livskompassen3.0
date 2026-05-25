@@ -45,6 +45,8 @@ Livskompassen ska **aldrig glömma** användarens WORM-data. Det är **inte** en
 
 **MUST NOT:** `valvChatQuery` mot `kampspar`. **MUST NOT:** `knowledgeVaultQuery` mot `reality_vault` som standard.
 
+**U6 — Utvecklingszon (Vit):** `mabra_sessions`, planerat `vit_hub` / `vit_entries` — **ingen** RAG, **ingen** ingest till `kampspar`. Innehåll via content-banker — se [`.context/innehall-kanon.md`](./innehall-kanon.md), [`docs/INNEHALL-REGISTER.md`](../docs/INNEHALL-REGISTER.md).
+
 **Terminologifällor (repomix → kanon):**
 
 | Ord | Repomix (legacy) | Kanon |
@@ -146,7 +148,7 @@ flowchart TB
 | dossier | `dossier_snapshots` | nej | **ja** (hela urval) |
 | safe_harbor | valfri → valv | nej | — |
 | kompasser | `checkins` | nej | — |
-| mabra | `mabra_sessions` | nej | — |
+| mabra | `mabra_sessions`, `vit_*` *(P1)* | nej | `mabraCoach` (parafras bank); zon Vit U6 |
 | speglings_system | — (Zero Footprint) | nej | — |
 | ekonomi | `transactions` | nej | — |
 | core | delade helpers | — | — |

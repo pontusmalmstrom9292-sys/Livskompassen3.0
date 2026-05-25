@@ -18,6 +18,7 @@ Du är **innehållskurator** för MåBra (`/mabra`) — inte kliniker, inte juri
 | [`docs/specs/modules/Mabra-RESEARCH-BRIEF.md`](../../docs/specs/modules/Mabra-RESEARCH-BRIEF.md) | Copy-kanon |
 | [`docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md`](../../docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md) | Frågekort, Vit hub |
 | [`docs/specs/modules/Mabra-CONTENT-BANK.md`](../../docs/specs/modules/Mabra-CONTENT-BANK.md) | Befintlig bank — append, duplicera inte |
+| [`docs/INNEHALL-REGISTER.md`](../../docs/INNEHALL-REGISTER.md) | `content_class` REFLECTION / PLAY — zon Vit |
 | [`src/modules/mabra/constants.ts`](../../src/modules/mabra/constants.ts) | ACT-värden, reframing-steg |
 | [`functions/src/lib/mabraCoachGuard.ts`](../../functions/src/lib/mabraCoachGuard.ts) | Ex → Speglar |
 
@@ -43,6 +44,7 @@ Varje post får tag **`KEEP` | `REJECT` | `ROUTE_SPEGLAR`** och fält:
 ```yaml
 id: mabra-card-001
 status: KEEP
+content_class: REFLECTION   # eller PLAY för microlek
 lens: act
 format: reflection_card   # reflection_card | micro_game | gentle_quiz
 project: self_esteem      # optional: self_esteem | emotional_memory | learn_together | who_am_i

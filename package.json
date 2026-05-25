@@ -28,6 +28,7 @@
     "smoke:grans": "node scripts/smoke_grans_arkitekt.mjs",
     "smoke:locked-ux": "node scripts/smoke_locked_ux.mjs",
     "smoke:design-modules": "node scripts/smoke_design_modules.mjs",
+    "smoke:innehall": "node scripts/smoke_innehall_register.mjs",
     "smoke:orkester": "node scripts/smoke_orkester_wiring.mjs",
     "orkester:night": "node scripts/orkester_autorun.mjs",
     "smoke:all": "npm run smoke:locked-ux && npm run smoke:design-modules && npm run smoke:kunskap && npm run smoke:speglar && npm run smoke:dossier && npm run smoke:compass && npm run smoke:mabra && npm run smoke:valv && npm run smoke:children && npm run smoke:grans",

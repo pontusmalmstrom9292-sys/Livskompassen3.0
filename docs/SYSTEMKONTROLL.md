@@ -35,8 +35,9 @@
 | **5 — Senaste grunder** | [`archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md`](./archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md) | U1–U5 PASS/GAP (2026-05-22) |
 | **6 — Manuell smoke** | [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md) | 17 tester efter deploy |
 | **7 — Dokumentindex** | [`README.md`](./README.md) | Alla länkar tier 1–4 |
+| **7b — Innehåll fakta/lek** | [`INNEHALL-REGISTER.md`](./INNEHALL-REGISTER.md) | Dirigent + content-banker, ingen silo 4 RAG |
 
-**Röda tråden i en mening:** DCAP före LLM · tre silor (Kunskap / Valv / Barnen) · WORM på bevis · Zero Footprint + Kill Switch · inga LLM-beslut om auth eller ägarskap.
+**Röda tråden i en mening:** DCAP före LLM · tre silor (Kunskap / Valv / Barnen) · **U6** innehåll (FACT/REFLECTION/PLAY/EVIDENCE, Vit utan RAG) · WORM på bevis · Zero Footprint + Kill Switch · inga LLM-beslut om auth eller ägarskap.
 
 ---
 

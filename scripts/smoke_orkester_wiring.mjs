@@ -125,9 +125,15 @@ function main() {
     'specialist-security-auditor.md',
     'specialist-smoke-runner.md',
     'specialist-ux-guardian.md',
+    'specialist-innehall-dirigent.md',
+    'specialist-mabra-curator.md',
+    'specialist-kunskap-seed.md',
   ]) {
     assert(existsSync(resolve(root, '.cursor/agents', agent)), `saknar .cursor/agents/${agent}`);
   }
+
+  console.log('[smoke:orkester] Innehållskanon U6...');
+  run('npm run smoke:innehall', root);
 
   console.log('[smoke:orkester] functions build...');
   run('npm run build', resolve(root, 'functions'));

@@ -31,6 +31,21 @@ Session/synapse state rensas vid logout, blur, panic. Speglar utan persistent RA
 
 `AdkOrchestrator` + AgentCards + `emitSynapse`. Utöka executors utan att blanda silor.
 
+## U6 — Innehåll (fakta vs lek, låst)
+
+Utvecklingszon **Vit** (`mabra_*`, `vit_*`) — **ingen** cross-RAG till Kunskap. `content_class`: FACT | REFLECTION | PLAY | EVIDENCE.
+
+| Klass | Zon | Kurator |
+|-------|-----|---------|
+| FACT | Kunskap | `specialist-kunskap-seed` |
+| REFLECTION / PLAY | Vit / MåBra | `specialist-mabra-curator` |
+| EVIDENCE | Valv / Barnen | ingest — ej lek-bank |
+
+**Dirigent:** `specialist-innehall-dirigent` · Register: [`docs/INNEHALL-REGISTER.md`](../../docs/INNEHALL-REGISTER.md) · [`.context/innehall-kanon.md`](../../.context/innehall-kanon.md)
+
+**MUST NOT:** fjärde RAG-silo · LLM-FACT utan seed-bank · frågekort i prod utan Mabra-CONTENT-BANK (P1 `bankId`).
+
 ## Vid implementation
 
-Läs `.context/arkiv-minne.md` och skill `livskompassen-memory-silo-guard` vid RAG/query-ändringar.
+Läs `.context/arkiv-minne.md` och skill `livskompassen-memory-silo-guard` vid RAG/query-ändringar.  
+Nytt innehåll (kort, fakta, lek): [`innehall-register.mdc`](innehall-register.mdc) + dirigent/kurator.

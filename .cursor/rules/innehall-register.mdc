@@ -1,0 +1,37 @@
+---
+description: Innehållskanon U6 — FACT/REFLECTION/PLAY/EVIDENCE, dirigent, content-banker, ingen silo-4-RAG
+alwaysApply: true
+---
+
+# Innehållsregister (låst med Grunder)
+
+Kanon: [`docs/INNEHALL-REGISTER.md`](../../docs/INNEHALL-REGISTER.md) · [`.context/innehall-kanon.md`](../../.context/innehall-kanon.md)
+
+## U6 (utökar U1 — ingen fjärde RAG-silo)
+
+| Zon | content_class | Kurator |
+|-----|---------------|---------|
+| Kunskap | FACT | `specialist-kunskap-seed` |
+| Utveckling (Vit) | REFLECTION, PLAY | `specialist-mabra-curator` |
+| Barnen | PLAY *(plan)*, EVIDENCE | `specialist-barn-lek` *(plan)* |
+| Valv | EVIDENCE | ingest — ingen content-kurator |
+
+**Osäker idé:** `specialist-innehall-dirigent` — dirigerar, skriver inte innehåll.
+
+## MUST
+
+- Läs INNEHALL-REGISTER före ny frågekort/fakta/lek/RAG-ändring
+- Varje KEEP-post: `content_class`, `source_tier`, `status`
+- Prod-coach: parafras bank + `bankId` (P1) — inga nya FACT/REFLECTION utan bank
+- Ex/konflikt → Speglar/Hamn (`mabraCoachGuard`) — inte MåBra-bank
+
+## MUST NOT
+
+- Fjärde RAG-silo · Vit → `kampspar` auto-ingest
+- FACT i `Mabra-CONTENT-BANK` utan ROUTE till Kunskap-seed
+- Gamification (streak, XP) i MåBra-bank (Mabra-SPEC)
+- Kurator ändrar `sharedRules.ts` / `firestore.rules`
+
+## Smoke
+
+`npm run smoke:innehall` · ingår i `npm run smoke:orkester`

@@ -37,7 +37,9 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 - Use `generalPurpose` for complex multi-step investigations when the right search path is unclear.
 - Use `ci-investigator` only when a specific PR check or CI failure needs diagnosis.
 - **Orkester nattpass:** `npm run orkester:night` (deterministisk) eller Conductor + specialister i `.cursor/agents/` — se [`docs/ORKESTER-AUTORUN.md`](docs/ORKESTER-AUTORUN.md).
-- **MåBra-innehåll:** `specialist-mabra-curator` — kuraterar frågekort/quiz/lekar till [`docs/specs/modules/Mabra-CONTENT-BANK.md`](docs/specs/modules/Mabra-CONTENT-BANK.md).
+- **Innehåll (routing):** `specialist-innehall-dirigent` — klassar FACT/REFLECTION/PLAY/EVIDENCE → rätt kurator; kanon [`docs/INNEHALL-REGISTER.md`](docs/INNEHALL-REGISTER.md).
+- **MåBra-innehåll:** `specialist-mabra-curator` — REFLECTION/PLAY → [`docs/specs/modules/Mabra-CONTENT-BANK.md`](docs/specs/modules/Mabra-CONTENT-BANK.md).
+- **Kunskap-fakta:** `specialist-kunskap-seed` — FACT → [`docs/specs/modules/Kunskap-CONTENT-SEED.md`](docs/specs/modules/Kunskap-CONTENT-SEED.md) (ingest separat).
 - Keep direct edits in the parent agent unless a separate isolated exploration is clearly useful.
 
 ## Skills & rules (uppgift → vägledning)
@@ -52,6 +54,7 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 | Firebase deploy / inventering | plugin `firebase-basics` | `firebase-workflow.mdc` |
 | Firestore rules / WORM | plugin `firebase-firestore-standard` | `security-firestore.mdc` |
 | Natt-/batch-autorun | — | `orkester-autorun.mdc`, `grunder-kanon.mdc`, `anti-hallucination.mdc` |
+| Innehåll fakta/lek (U6) | — | `innehall-register.mdc`, `grunder-kanon.mdc` |
 
 Kanon för arkitektur och säkerhet: `.context/` (system-plan, arkiv-minne, security). Dokumentationsindex: [`docs/README.md`](docs/README.md). **Systemkontroll / röda tråden:** [`docs/SYSTEMKONTROLL.md`](docs/SYSTEMKONTROLL.md).  
 Live GCP-sanning: [`docs/GCP-INVENTORY-LATEST.md`](docs/GCP-INVENTORY-LATEST.md).  
