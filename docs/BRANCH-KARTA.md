@@ -2,7 +2,7 @@
 
 **Syfte:** En aktiv utvecklingsgren (`main`). Inget förstört — historik finns i git.
 
-**Senast:** 2026-05-24 (Del A — trunk-städning)
+**Senast:** 2026-05-25 (stadguide-gren borttagen från GitHub)
 
 ---
 
@@ -23,10 +23,13 @@
 | `cursor/planering-kbt-p1` | **Merged + stängd** | PR #2 + Fyren-fix cherry-pick `b82f9ab8` |
 | `split/orkester-autorun` | **Stängd** | Innehåll redan på `main` via PR #2 |
 | `audit-byggpass-2026-05-22` | **Stängd** | Äldre bas; låst UX fanns på `main` |
+| `cursor/stadguide-enkel-svenska` | **Raderad 2026-05-25** | Innehåll ersatt/uppdaterat på `main` (`stadguide_enkel_svenska.md`) |
+
+**GitHub remote (3.0):** endast **`main`** — inga andra aktiva grenar.
 
 ---
 
-## Parked — inkorg (raderas inte utan ditt OK)
+## Parked — inkorg (lokalt på Mac, ej på GitHub)
 
 | Branch | Innehåll | Beslut |
 |--------|----------|--------|
