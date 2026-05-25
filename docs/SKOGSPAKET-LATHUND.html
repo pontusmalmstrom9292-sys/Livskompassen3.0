@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Skogspaket — Livskompassen</title>
+  <style>
+@media print { .no-print { display: none; } body { font-size: 10pt; } }
+body { font-family: Inter, system-ui, sans-serif; max-width: 720px; margin: 1.5rem auto; padding: 0 1rem; color: #111; line-height: 1.45; }
+h1 { font-size: 1.35rem; border-bottom: 2px solid #333; padding-bottom: 0.35rem; }
+h2 { font-size: 1.05rem; margin-top: 1.25rem; color: #222; }
+h3 { font-size: 0.95rem; }
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 0.6rem 0 1rem; }
+th, td { border: 1px solid #ccc; padding: 0.4rem 0.55rem; text-align: left; vertical-align: top; }
+th { background: #f0f0f0; font-weight: 600; }
+code { font-size: 0.82rem; background: #f4f4f4; padding: 0.1rem 0.25rem; border-radius: 3px; }
+pre { background: #f4f4f4; padding: 0.75rem; border-radius: 6px; overflow-x: auto; font-size: 0.82rem; }
+pre code { background: none; padding: 0; }
+p { margin: 0.5rem 0; }
+hr { border: none; border-top: 1px solid #ddd; margin: 1.25rem 0; }
+strong { font-weight: 600; }
+.nav { margin: 0.75rem 0 1.25rem; }
+.btn { display: inline-block; margin: 0.2rem 0.5rem 0.2rem 0; padding: 0.55rem 0.9rem; background: #1a1a1a; color: #fff !important; text-decoration: none; border-radius: 6px; font-size: 0.88rem; }
+.btn:hover { background: #333; }
+a { color: #0969da; }
+em { color: #555; }
+</style>
+</head>
+<body>
+  <div class="nav no-print">
+    <a class="btn" href="#" onclick="window.print();return false;">Skriv ut (⌘P)</a>
+    <a class="btn" href="LATHUND-INDEX.html">Alla lathundar</a>
+  </div>
+  <article class="content">
+<h1>Skogspaket — viktiga app-saker på distans (1 sida)</h1>
+<p><strong>Version:</strong> 2026-05-25 · Skriv ut eller spara offline på telefon.</p>
+<p><strong>Helhet hemma:</strong> <a href="./KOMPASS-MINNESKARTA.md"><code>KOMPASS-MINNESKARTA.md</code></a> · <strong>Git:</strong> <a href="./GIT-LATHUND.md"><code>GIT-LATHUND.md</code></a></p>
+<hr>
+<h2>Regel i ett stycke</h2>
+<p><strong>I skogen:</strong> samla och godkänn — bygg inte kod. <strong>Vid Mac:</strong> klistra in en uppgift + Cursor-prompt (§5). <strong>Innan du går:</strong> kör nattpass eller push <code>main</code> om du vill ha deploy/smoke i molnet.</p>
+<hr>
+<h2>A — I skogen (telefon)</h2>
+<table>
+<thead>
+<tr>
+<th>Gör</th>
+<th>Gör inte</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Anteckna med mall (§3)</td>
+<td>Öppna Cursor och &quot;fixa snabbt&quot;</td>
+</tr>
+<tr>
+<td>Läs status på GitHub</td>
+<td>Force-push · nya grenar</td>
+</tr>
+<tr>
+<td>Testa live-app (länk nedan)</td>
+<td>Ändra <code>firestore.rules</code> / Sacred</td>
+</tr>
+<tr>
+<td>Svara <em>godkänn merge</em> om PMIR finns</td>
+<td>Committa kod utan Mac</td>
+</tr>
+</tbody></table>
+<p><strong>Live-app (test):</strong> <a href="https://gen-lang-client-0481875058.web.app">https://gen-lang-client-0481875058.web.app</a><br><strong>GitHub repo:</strong> <a href="https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0">https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0</a><br><strong>Actions (deploy/smoke i CI):</strong> repo → <strong>Actions</strong> → <em>Deploy Hosting (main)</em></p>
+<p><strong>Läs på telefon (markdown):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Fil</th>
+<th>Innehåll</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="./evaluations/SENASTE-SAMMANFATTNING.md"><code>evaluations/SENASTE-SAMMANFATTNING.md</code></a></td>
+<td>Var projektet står</td>
+</tr>
+<tr>
+<td><code>docs/evaluations/*-orkester-natt.md</code></td>
+<td>Senaste nattpass</td>
+</tr>
+<tr>
+<td><a href="./BRANCH-KARTA.md"><code>BRANCH-KARTA.md</code></a></td>
+<td>Grenar — rör ej parked utan beslut</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>B — Innan du lämnar Mac (välj ett)</h2>
+<table>
+<thead>
+<tr>
+<th>Mål</th>
+<th>Gör</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Säkerhetsnät (smoke + build, ingen LLM)</td>
+<td><code>npm run orkester:night</code> → läs rapport i <code>docs/evaluations/</code></td>
+</tr>
+<tr>
+<td>Agent väver vidare (Cursor)</td>
+<td><em>&quot;Kör orkester nattpass — fortsätt från <code>.orkester/state.json</code>&quot;</em></td>
+</tr>
+<tr>
+<td>Ny version på telefon/PWA</td>
+<td>Push <code>main</code> → GitHub Actions deployar (<a href="./CI-HOSTING.md"><code>CI-HOSTING.md</code></a>)</td>
+</tr>
+</tbody></table>
+<p>Kanon nattpass: <a href="./ORKESTER-AUTORUN.md"><code>ORKESTER-AUTORUN.md</code></a></p>
+<hr>
+<h2>C — Mall (kopiera till Anteckningar / röstmemo)</h2>
+<pre><code>[APP] Modul: Familjen | Valv | Planering | MåBra | Kunskap | Core | Annat
+Vad: (max 1 mening)
+Varför viktigt:
+Smoke om kod: locked-ux | orkester | ingen
+Godkänn merge: ja/nej (bara om PMIR redan skriven)
+</code></pre>
+<hr>
+<h2>D — Smoke-minne (agent ska köra vid kod)</h2>
+<table>
+<thead>
+<tr>
+<th>Du rörde</th>
+<th>Kör</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Familjen / Barnfokus / Valv Mönster·Orkester / Planering</td>
+<td><code>npm run smoke:locked-ux</code></td>
+</tr>
+<tr>
+<td>Synapser / agents / functions</td>
+<td><code>npm run smoke:orkester</code></td>
+</tr>
+<tr>
+<td>Bara docs</td>
+<td>Ofta ingen smoke</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>E — Prompt för Cursor (när du är vid Mac)</h2>
+<p>Klistra in <strong>en</strong> uppgift från §C:</p>
+<pre><code>Jag var borta (skog/distans). Läs min uppgift nedan och gör ENDAST den — inget extra.
+
+UPPGIFT:
+[klistra in från Anteckningar]
+
+Regler:
+- Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta inte förrän koden är helt felfri och appen går att använda.
+- main + origin Livskompassen3.0 only — aldrig origin-old
+- Bevara Locked UX (Barnfokus, Valv Mönster/Orkester, Planering, Barnporten, sidomeny)
+- Kör smoke enligt SKOGSPAKET §D om kod rörts
+- PMIR före merge — vänta på mitt &quot;godkänn merge&quot;
+- Committa/pusha bara om jag skriver &quot;committa&quot; eller &quot;pusha main&quot;
+</code></pre>
+<p>Öppna chat: <code>Cmd + L</code> · projekt: <code>~/StudioProjects/Livskompassen3.0</code></p>
+<hr>
+<h2>F — Snabb länkar</h2>
+<table>
+<thead>
+<tr>
+<th>Behov</th>
+<th>Fil</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Merge</td>
+<td><a href="./MERGE-IMPACT-RAPPORT.md"><code>MERGE-IMPACT-RAPPORT.md</code></a></td>
+</tr>
+<tr>
+<td>Cursor-menyer</td>
+<td><a href="./CURSOR-MENY-LATHUND.md"><code>CURSOR-MENY-LATHUND.md</code></a></td>
+</tr>
+<tr>
+<td>Moln/krediter</td>
+<td><a href="./MOLN-KREDITER-LATHUND.md"><code>MOLN-KREDITER-LATHUND.md</code></a></td>
+</tr>
+<tr>
+<td>Låst UX</td>
+<td><code>.context/locked-ux-features.md</code></td>
+</tr>
+</tbody></table>
+<hr>
+<p><strong>Utskrift / offline:</strong> <a href="./SKOGSPAKET-LATHUND.html"><code>SKOGSPAKET-LATHUND.html</code></a> · alla lathundar: <a href="./LATHUND-INDEX.html"><code>LATHUND-INDEX.html</code></a></p>
+<p><em>Spara denna sida som PDF på iPhone: Öppna HTML → Dela → Lägg till på hemskärmen / Skriv ut som PDF.</em></p>
+
+  </article>
+  <div class="nav no-print">
+    <a class="btn" href="#" onclick="window.print();return false;">Skriv ut (⌘P)</a>
+    <a class="btn" href="LATHUND-INDEX.html">Alla lathundar</a>
+  </div>
+</body>
+</html>
