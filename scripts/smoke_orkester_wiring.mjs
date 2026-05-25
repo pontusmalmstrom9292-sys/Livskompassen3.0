@@ -105,15 +105,19 @@ function main() {
     'hamn_forensic',
   );
 
-  console.log('[smoke:orkester] Stämpelklocka...');
+  console.log('[smoke:orkester] Arbetsliv hub...');
   mustInclude(
     'src/modules/stampla/components/StampClockPage.tsx',
     'recordTimeIn',
     'recordTimeOut',
   );
   mustInclude('src/modules/core/firebase/timeEconomyFirestore.ts', 'time_entries');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/stampla', 'StampClockPage');
+  mustInclude('src/modules/arbetsliv/components/ArbetslivHubPage.tsx', 'arbetsliv_forensic', 'VaultEconomyPanel');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/arbetsliv', 'ArbetslivHubPage');
+  mustInclude('functions/src/index.ts', 'generatePayslip');
   mustInclude('firestore.rules', 'match /time_entries/{docId}');
+  mustInclude('firestore.rules', 'payslip_snapshots');
+  mustInclude('docs/specs/modules/VAULT-ZONE-REGISTER.md', 'arbetsliv_forensic');
   mustInclude(
     'src/modules/core/security/useVaultZoneIdle.ts',
     '15 * 60 * 1000',

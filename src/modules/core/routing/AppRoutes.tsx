@@ -13,7 +13,7 @@ import { DossierPage } from '../../dossier';
 import { MabraPage } from '../../mabra';
 import { PlaneringPage } from '../../planering';
 import { ProjektHubPage } from '../../projekt';
-import { StampClockPage } from '../../stampla';
+import { ArbetslivHubPage } from '../../arbetsliv';
 
 function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
   const location = useLocation();
@@ -59,13 +59,14 @@ function MainAppRoutes() {
         />
         <Route path="/ekonomi" element={<RedirectToVardagenTab tab="ekonomi" />} />
         <Route
-          path="/stampla"
+          path="/arbetsliv"
           element={
             <AuthGate>
-              <StampClockPage />
+              <ArbetslivHubPage />
             </AuthGate>
           }
         />
+        <Route path="/stampla" element={<Navigate to="/arbetsliv?tab=stampla" replace />} />
         <Route
           path="/dagbok"
           element={

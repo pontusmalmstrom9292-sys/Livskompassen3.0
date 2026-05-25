@@ -9,6 +9,7 @@
 | `speglar_forensic` | PIN per session | VIVIR, Svart på vitt, bevisjämförelse | ACT-validering |
 | `familjen_forensic` | PIN per session | Mönster-flik, Kunskap valv/barn-RAG | Barnfokus, livslogg, tillsammans |
 | `dagbok_forensic` | PIN per session | Journalarkiv, vävare, kampspar-opt-in | Humör + reflektion spara |
+| `arbetsliv_forensic` | PIN per session | Frånvaro (sjuk/VAB), lönespec | Stämpel, flex, ledger-logg (`/arbetsliv`) |
 
 **Zero Footprint (solo-läge):** Rensas vid flik-byte och 15 min idle — **inte** vid blur.
 

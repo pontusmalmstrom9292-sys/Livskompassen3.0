@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Lock, LogOut, ShieldCheck, X } from 'lucide-react';
+import { HeaderToolButton } from '../components/HeaderToolButton';
+import { IconKonto } from '../ui/livskompassModuleIcons';
 import { useStore } from '../store';
 import { EmailAuthPanel } from './EmailAuthPanel';
 import { signOutUser } from './authService';
@@ -34,21 +36,38 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="header-glass-btn"
-        aria-expanded={open}
-        aria-haspopup="dialog"
-        aria-label={label}
-      >
-        {user.isAnonymous ? (
-          <Lock className="h-4 w-4" />
-        ) : (
-          <ShieldCheck className="h-4 w-4 text-success" />
-        )}
-        {!compactTrigger ? <span className="max-w-[6rem] truncate">{label}</span> : null}
-      </button>
+      {compactTrigger ? (
+        <HeaderToolButton
+          ariaLabel={label}
+          title={label}
+          active={open}
+          expanded={open}
+          hasPopup
+          onClick={() => setOpen(true)}
+        >
+          {user.isAnonymous ? (
+            <IconKonto className="module-gem__icon-svg" />
+          ) : (
+            <ShieldCheck className="module-gem__icon-svg text-success" strokeWidth={1.5} />
+          )}
+        </HeaderToolButton>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="header-glass-btn"
+          aria-expanded={open}
+          aria-haspopup="dialog"
+          aria-label={label}
+        >
+          {user.isAnonymous ? (
+            <Lock className="h-4 w-4" />
+          ) : (
+            <ShieldCheck className="h-4 w-4 text-success" />
+          )}
+          <span className="max-w-[6rem] truncate">{label}</span>
+        </button>
+      )}
 
       {open && (
         <>

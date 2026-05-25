@@ -13,6 +13,10 @@ import { adkOrchestrator, listAgentCards, applyParalysBreak } from './adk';
 import { emitSynapse } from './adk/synapses/synapseBus';
 import { generateDossierInternal } from './lib/generateDossierInternal';
 import {
+  generatePayslipInternal,
+  generatePayslipsForAllProfiles,
+} from './economy/generatePayslipInternal';
+import {
   MABRA_SPEGLAR_REDIRECT_MESSAGE,
   shouldRedirectMabraCoachToSpeglar,
 } from './lib/mabraCoachGuard';
@@ -829,4 +833,36 @@ export const breakDownResponse = functions.region('europe-west1').https.onCall(a
 
   const microSteps = await applyParalysBreak(text);
   return { microSteps };
+});
+
+// Ekonomi: lönespec (WORM payslip_snapshots) — ingen LLM
+export const scheduledGeneratePayslip = functions
+  .region('europe-west1')
+  .pubsub.schedule('0 8 16 * *')
+  .timeZone('Europe/Stockholm')
+  .onRun(async () => {
+    console.log('[scheduledGeneratePayslip] Startar…');
+    const count = await generatePayslipsForAllProfiles();
+    console.log(`[scheduledGeneratePayslip] Klar. ${count} lönespec(er).`);
+  });
+
+export const generatePayslip = functions.region('europe-west1').https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
+  }
+
+  const period =
+    data?.periodFrom && data?.periodTo
+      ? { from: String(data.periodFrom), to: String(data.periodTo) }
+      : undefined;
+
+  try {
+    return await generatePayslipInternal(context.auth.uid, { period });
+  } catch (error) {
+    console.error('[generatePayslip] Fel:', error);
+    throw new functions.https.HttpsError(
+      'internal',
+      error instanceof Error ? error.message : 'Lönespec misslyckades.',
+    );
+  }
 });

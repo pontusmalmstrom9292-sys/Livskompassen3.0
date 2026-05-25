@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Wallet, Loader2 } from 'lucide-react';
+import { Briefcase, Wallet, Loader2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { SaldoHero } from '../../core/ui/SaldoHero';
 import { MetricTile } from '../../core/ui/MetricTile';
@@ -115,6 +116,16 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
         amount={loading ? '— kr' : saldoLabel}
         hint={`Veckobudget ${weeklyBudget} kr · matlåda ${mealPreset} kr`}
       />
+
+      <BentoCard
+        title="Arbetsliv"
+        icon={<Briefcase className="h-4 w-4" />}
+        description="Stämpel, flex, sjuk/VAB och lönespec"
+      >
+        <Link to="/arbetsliv" className="text-sm text-accent hover:underline">
+          Öppna Arbetsliv-hubben
+        </Link>
+      </BentoCard>
 
       <div className="grid grid-cols-2 gap-3">
         <button

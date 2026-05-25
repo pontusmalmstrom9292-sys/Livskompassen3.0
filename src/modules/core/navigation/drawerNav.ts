@@ -31,7 +31,7 @@ export const DRAWER_NAV_ITEMS: DrawerNavItem[] = [
   { id: 'hamn', label: 'Trygg hamn', path: '/hamn', icon: Anchor },
   { id: 'valv', label: 'Valv', path: '/dagbok?tab=bevis', icon: ValvArchIcon },
   { id: 'planering', label: 'Planering', path: '/planering', icon: Calendar },
-  { id: 'stampla', label: 'Stämpla', path: '/stampla', icon: Clock },
+  { id: 'arbetsliv', label: 'Arbetsliv', path: '/arbetsliv', icon: Clock },
   { id: 'mabra', label: 'MåBra', path: '/mabra', icon: Sparkles },
   { id: 'installningar', label: 'Inställningar', path: '/installningar', icon: Settings },
 ];

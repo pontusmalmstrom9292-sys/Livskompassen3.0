@@ -4,7 +4,8 @@ export type VaultZoneId =
   | 'hamn_forensic'
   | 'speglar_forensic'
   | 'familjen_forensic'
-  | 'dagbok_forensic';
+  | 'dagbok_forensic'
+  | 'arbetsliv_forensic';
 
 const ZONE_KEYS: Record<VaultZoneId, string> = {
   valv_core: 'livskompassen_vault_gate',
@@ -12,6 +13,7 @@ const ZONE_KEYS: Record<VaultZoneId, string> = {
   speglar_forensic: 'livskompassen_vault_zone_speglar',
   familjen_forensic: 'livskompassen_vault_zone_familjen',
   dagbok_forensic: 'livskompassen_vault_zone_dagbok',
+  arbetsliv_forensic: 'livskompassen_vault_zone_arbetsliv',
 };
 
 export function vaultZoneStorageKey(zone: VaultZoneId): string {
@@ -24,4 +26,5 @@ export const ALL_VAULT_ZONE_IDS: VaultZoneId[] = [
   'speglar_forensic',
   'familjen_forensic',
   'dagbok_forensic',
+  'arbetsliv_forensic',
 ];
