@@ -15,6 +15,14 @@
 
 **Live preview:** `/dev/themes` i appen · **Spec:** [THEME-I-SPEC.md](./I-architect-vault/THEME-I-SPEC.md)
 
+## Theme Pack G — Varm Hamn (2026-05-25)
+
+| ID | Label | Auto-modul (om Auto på) | Preview |
+|----|-------|-------------------------|---------|
+| **G-varm-hamn** | Varm Hamn | `/familjen`, `/barnen`, `/mabra` | [hero](./G-varm-hamn/00-hero-livskompass.png) |
+
+Espresso `#1a1410`, guld kompass, cream, rose-gold `#c9a87c` — **ingen blå/turkos.** Mjukare än F. **Spec:** [THEME-G-SPEC.md](./G-varm-hamn/THEME-G-SPEC.md)
+
 ## Legacy teman (A–E, F/G/H mockups)
 
 | ID | Mapp | Känsla |

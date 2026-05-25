@@ -135,6 +135,31 @@ export const THEME_REGISTRY: ThemePack[] = [
       '--compass-disk': '#1a1410',
     },
   },
+  {
+    id: 'G-varm-hamn',
+    label: 'Varm Hamn',
+    description: 'Espresso, guld kompass, rose-gold — Barnfokus, KBT, Familjen.',
+    background: 'texture-stone',
+    preview: '/design/themes/G-varm-hamn/00-hero-livskompass.png',
+    cssVars: {
+      ...shared,
+      '--bg': '#1a1410',
+      '--bg-dusk': '#151008',
+      '--surface': '#221c16',
+      '--surface-2': '#2a2218',
+      '--surface-3': '#332a1f',
+      '--accent': '#d4af37',
+      '--accent-secondary': '#c9a87c',
+      '--accent-light': '#e8d48a',
+      '--accent-glow': 'rgba(201, 168, 124, 0.2)',
+      '--success': '#6b8f71',
+      '--glass': 'rgba(26, 20, 16, 0.72)',
+      '--glass-hero': 'rgba(26, 20, 16, 0.88)',
+      '--border': 'rgba(201, 168, 124, 0.14)',
+      '--border-strong': 'rgba(212, 175, 55, 0.4)',
+      '--compass-disk': '#1a1410',
+    },
+  },
 ];
 
 export const DEFAULT_THEME_ID = 'I-stone';

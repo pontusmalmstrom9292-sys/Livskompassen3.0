@@ -127,8 +127,8 @@
     background: radial-gradient(ellipse 120% 80% at 50% -20%, var(--bg-dusk) 0%, var(--bg) 55%);
   }
 
-  /* Hem — Architect Stone scenic (mockup: sjö/skymning) */
-  html[data-theme='I-stone'] .ambient-bg--home-scenic {
+  /* Hem — scenic photo (alltid på /, oberoende av theme override) */
+  .ambient-bg--home-scenic {
     background:
       linear-gradient(
         180deg,
@@ -139,14 +139,14 @@
       url('/design/home-hero-scenic.png') center 20% / cover no-repeat;
   }
 
-  html[data-theme='I-stone'] .ambient-bg--home-scenic .ambient-blob--gold {
+  .ambient-bg--home-scenic .ambient-blob--gold {
     background: rgba(212, 175, 55, 0.08);
     top: 12%;
     left: 50%;
     transform: translateX(-50%);
   }
 
-  html[data-theme='I-stone'] .ambient-bg--home-scenic .ambient-blob--accent-secondary {
+  .ambient-bg--home-scenic .ambient-blob--accent-secondary {
     opacity: 0.35;
   }
 
