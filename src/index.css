@@ -161,6 +161,52 @@
     backdrop-filter: blur(12px);
   }
 
+  /* Theme Lab — /dev/theme-lab */
+  .theme-lab-strip {
+    @apply rounded-xl border p-4;
+    border-color: var(--border-strong);
+    background: var(--glass);
+  }
+
+  .theme-lab-strip__dock {
+    @apply mx-auto flex w-fit items-center gap-2 rounded-full border px-2 py-1;
+    border-color: var(--border);
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  .theme-lab-strip__dock-side,
+  .theme-lab-strip__dock-center {
+    @apply flex h-7 w-7 items-center justify-center rounded-full text-accent;
+    border: 1px solid var(--border);
+  }
+
+  .theme-lab-strip__row {
+    @apply mt-3 flex items-center gap-2;
+  }
+
+  .theme-lab-strip__row-icon {
+    @apply flex h-9 w-9 items-center justify-center rounded-full text-accent;
+    border: 1px solid var(--border-strong);
+  }
+
+  .theme-lab-strip__row-label {
+    @apply text-sm text-text;
+  }
+
+  .theme-lab-strip__compass {
+    @apply relative mx-auto mt-4 flex h-20 w-20 items-center justify-center;
+  }
+
+  .theme-lab-strip__compass-ring {
+    @apply absolute inset-0 rounded-full border-2;
+    border-color: var(--border-strong);
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+
+  .theme-lab-strip__compass-mark {
+    @apply relative z-10 h-8 w-8 text-accent;
+  }
+
   html[data-theme-bg='texture-marble'] .ambient-bg {
     background:
       radial-gradient(ellipse 100% 60% at 50% 0%, rgba(232, 197, 71, 0.06) 0%, transparent 50%),

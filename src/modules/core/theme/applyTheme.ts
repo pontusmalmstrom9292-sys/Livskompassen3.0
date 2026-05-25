@@ -1,4 +1,12 @@
+import { THEME_LAB_DRAFTS } from './themeLabVariants';
 import { getTheme, DEFAULT_THEME_ID } from './themeRegistry';
+import type { ThemePack } from './types';
+
+function resolveThemePack(themeId: string): ThemePack {
+  const draft = THEME_LAB_DRAFTS.find((d) => d.id === themeId);
+  if (draft) return draft;
+  return getTheme(themeId);
+}
 
 const STORAGE_KEY = 'livskompassen_theme_override';
 
@@ -20,7 +28,7 @@ export function setStoredThemeOverride(id: string | null): void {
 }
 
 export function applyTheme(themeId: string): void {
-  const pack = getTheme(themeId);
+  const pack = resolveThemePack(themeId);
   const root = document.documentElement;
 
   root.dataset.theme = pack.id;

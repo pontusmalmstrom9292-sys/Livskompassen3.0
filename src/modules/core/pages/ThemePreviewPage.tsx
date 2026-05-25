@@ -27,6 +27,9 @@ export function ThemePreviewPage() {
           >
             Manuellt val
           </button>
+          <Link to="/dev/theme-lab" className="btn-pill--accent">
+            Theme Lab
+          </Link>
           <Link to="/" className="btn-pill--ghost">
             Till hem
           </Link>
