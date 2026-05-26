@@ -148,9 +148,10 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 
 ## Life OS kopplingar (backlog — komihåg 2026-05-26)
 
-**Kanon:** [`docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md`](../docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md)
+**Kanon:** [`docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md`](../docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md) · Landning: [`docs/evaluations/2026-05-26-session-landning.md`](../docs/evaluations/2026-05-26-session-landning.md)
 
-- [ ] **LifeHubPreset** — ~4 exempelhubbar (förälder trygg, rehab låg, vardag/arbete, minimal) som styr extra material per route
-- [ ] **RoutineTemplate + ModuleLink** — rutiner i Planering/Projekt med deep links till MåBra, Familjen, Kompasser, Dagbok (samma mönster som `mabraBridge`)
-- [ ] **MaterialPack** — kuraterat innehåll per hub via U6-banker (ingen fjärde RAG-silo)
-- [ ] Implementation: `kör life hub MVP` (Fas A) · `kör kopplingar` (Fas B–D) · se komihåg för fasering
+- [x] **LifeHubPreset (Fas A)** — 4 presets i `src/modules/core/lifeOs/`, Hem-väljare, `materialFlags` per route
+- [x] **RoutineTemplate + ModuleLink (Fas B)** — `routineTemplates.ts`, `RoutinesPanel` på `/planering`, deep links
+- [ ] **MaterialPack (Fas C)** — kuraterat innehåll per hub via U6-banker (ingen fjärde RAG-silo)
+- [ ] **Projekt P1 + kopplingar (Fas D)** — Firestore `projects`, `projectId` på kanban, MaterialPack light
+- [ ] Implementation: `kör kopplingar C` · `kör projekt P1` · se komihåg för fasering
