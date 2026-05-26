@@ -178,10 +178,36 @@ Kurator-pass 2026-05-25 · linser: **identitet** (5) + **KBT light** (5). Ej dup
 
 ---
 
+## Daglig mix (daglig_mix) — KEEP 2026-05-27
+
+**Kurator:** `specialist-mabra-curator` · **Dirigent:** U6 Vit · **Klass:** REFLECTION + PLAY (en kort + ett mikrospel per kalenderdag).
+
+| bankId | content_class | source_tier | status | Användning |
+|--------|---------------|-------------|--------|------------|
+| DM-CARD-01 | REFLECTION | P1 | KEEP | Rotationspool (parafras C-joy-01) |
+| DM-CARD-02 | REFLECTION | P1 | KEEP | Rotationspool (parafras C-rsd-03) |
+| DM-CARD-03 | REFLECTION | P1 | KEEP | Rotationspool (parafras C-se-01) |
+| DM-CARD-04 | REFLECTION | P1 | KEEP | Rotationspool (parafras C-se-04) |
+| DM-CARD-05 | REFLECTION | P1 | KEEP | Rotationspool (parafras C-feel-01) |
+| DM-CARD-06 | REFLECTION | P1 | KEEP | Rotationspool (parafras C-identity-01) |
+| DM-CARD-07 | REFLECTION | P1 | KEEP | Rotationspool (parafras C-kbt-03) |
+| DM-CARD-08 | REFLECTION | P1 | KEEP | Rotationspool (parafras C-goal-02) |
+| DM-PLAY-01 | PLAY | P1 | KEEP | Mikrospel (parafras G1) |
+| DM-PLAY-02 | PLAY | P1 | KEEP | Mikrospel (parafras G3) |
+| DM-PLAY-03 | PLAY | P1 | KEEP | Mikrospel (parafras G6) |
+
+**Kanon i kod:** `src/modules/mabra/content/dagligMixCatalog.ts` — prod-coach och UI ska referera `bankId`, inte fri LLM-text.
+
+**MUST NOT:** streak, XP, “missad dag”, Kunskap-RAG (`knowledgeVaultQuery`), veckoutmaning.
+
+**Beteende:** Deterministisk daglig nyckel (`YYYY-MM-DD` + valfritt `uid`) — samma kort+spel hela dagen; ny mix vid midnatt lokal tid. Valfri rad i `mabra_sessions` med `exerciseType: daglig_mix` (WORM metadata, ingen gamification).
+
+---
+
 ## Nästa implementation (P1)
 
-- Firestore `vit_hub` / `vit_entries` med `kind: card | memory | chat_turn`
-- Komponent: ett frågekort i taget från `MABRA_PROJECTS` + bank-id
+- Firestore `vit_hub` / `vit_entries` med `kind: card | memory | chat_turn` *(efter Daglig mix P0 — client-bank klar)*
+- Komponent: ett frågekort i taget från `MABRA_PROJECTS` + bank-id (projektflöde, utöver Daglig mix)
 - Deterministisk rotation — **ingen** LLM som genererar nya fakta i prod utan curator-pass
 
-**Smoke:** `npm run smoke:mabra`
+**Smoke:** `npm run smoke:mabra` · `npm run smoke:innehall` (bankId DM-*)
