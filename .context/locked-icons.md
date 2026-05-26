@@ -4,7 +4,7 @@
 
 | ID | Plats | Komponent / fil |
 |----|-------|-----------------|
-| **B1** Kanon ros | Hemskärm, PWA, favicon | `public/favicon.svg` |
+| **B1** Kanon ros | Hemskärm, PWA, favicon, Android launcher | `public/favicon.svg` · `docs/design/themes/app-icon-b1-kanon-ros-1024.png` |
 | **D1** Helros | Header, dock-mitt, hero-centrum, drawer-mark | `src/modules/core/ui/LivskompassMark.tsx` |
 | **M3** Fyrens själ | Kompis-avatar (header) | `src/modules/kompis/components/KompisMark.tsx` |
 

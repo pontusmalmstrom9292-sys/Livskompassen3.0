@@ -25,7 +25,8 @@
 | **Bildspel / idéer** | `docs/design/slideshow/index.html` |
 | **Barnporten-infografik** | `docs/design/barnporten/infographic.html` |
 | **Kompakt tema per modul** | `docs/design/compact/index.html` |
-| **Ikoner — låst B1/D1/M3** | `docs/design/ICON-STYLE-GUIDE.md` |
+| **Ikoner v3 (50)** | `docs/design/icons-proposals/2026-05-26-v3-chassis/preview.html` · `npm run icons:proposals-v3` |
+| **Ikoner — låst B1/D1/M3** | `docs/design/ICON-STYLE-GUIDE.md` · Android: `npm run android:icons` |
 | **Ikoner — välj resten** | `docs/design/icons-proposals/2026-05-26-remaining/preview.html` |
 
 ---

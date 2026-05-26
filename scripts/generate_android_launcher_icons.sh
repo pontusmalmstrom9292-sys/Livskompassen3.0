@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Generate Android mipmap launcher icons from design PNG (macOS sips).
-# Source: docs/design/themes/app-icon-livskompassen.png
+# Default source: B1 Kanon ros (locked) — docs/design/themes/app-icon-b1-kanon-ros-1024.png
 
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-SRC="${1:-$REPO_ROOT/docs/design/themes/app-icon-livskompassen.png}"
+SRC="${1:-$REPO_ROOT/docs/design/themes/app-icon-b1-kanon-ros-1024.png}"
 RES="$REPO_ROOT/android/app/src/main/res"
 TMP="$REPO_ROOT/android/.icon-build"
 

@@ -1,7 +1,8 @@
 # Ikonstil — Premium Helros (kanon från 2026-05-26)
 
 **Låsta produktikoner:** [`.context/locked-icons.md`](../../.context/locked-icons.md) (B1 · D1 · M3)  
-**Väntar val:** [`icons-proposals/2026-05-26-remaining/`](./icons-proposals/2026-05-26-remaining/)
+**Väntar val (primär):** [`icons-proposals/2026-05-26-v3-chassis/`](./icons-proposals/2026-05-26-v3-chassis/) — 5×10 SVG, `npm run icons:proposals-v3`  
+**Äldre:** [`icons-proposals/2026-05-26-remaining/`](./icons-proposals/2026-05-26-remaining/) (3 varianter)
 
 ## Referensbilder
 
@@ -14,7 +15,7 @@
 
 | Element | Värde |
 |---------|--------|
-| Disk / bakgrund | Radial `#1e3a35` → `#030606` eller `#141210` → `#080808` |
+| Disk / bakgrund | **D1-låst:** `#3d3420` → `#141210` → `#080808`; alternativ teal-kant `#1e3a35` |
 | Metall | Linear guld `#f5e6b8` → `#d4af37` → `#8a6b1a` |
 | Eld / aktiv | `#fff3c4` → `#e8a020` / `#ffb74d` |
 | Glöd | `feGaussianBlur` 1–6px, vit-guld prick |
@@ -27,6 +28,7 @@
 | Nivå | Användning | Detalj |
 |------|------------|--------|
 | **L3** | Appikon B1 | Full ros, ringar, stjärnglöd |
+| **Android** | B1 PNG 1024 | `npm run android:icons` → `mipmap-*/ic_launcher*.png` |
 | **L2** | D1, M3, Valv, hub-ikoner | Disk + guld + 1 accent |
 | **L1** | Hero-orbit, små submenyer | Förenklad emboss, `currentColor` + disk valfritt |
 

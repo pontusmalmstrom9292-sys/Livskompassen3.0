@@ -45,7 +45,16 @@ function main() {
   mustInclude('public/favicon.svg', 'ICON-B1', 'b1bg', 'b1needle');
   mustNotInclude('public/favicon.svg', '#863bff', '7e14ff');
 
-  console.log('[smoke:locked-icons] PASS — B1 favicon, D1 LivskompassMark, M3 KompisMark.');
+  assert(
+    existsSync(resolve(root, 'docs/design/themes/app-icon-b1-kanon-ros-1024.png')),
+    'saknar Android-käll-PNG B1',
+  );
+  assert(
+    existsSync(resolve(root, 'android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png')),
+    'saknar mipmap launcher',
+  );
+
+  console.log('[smoke:locked-icons] PASS — B1 favicon+Android, D1 LivskompassMark, M3 KompisMark.');
 }
 
 try {
