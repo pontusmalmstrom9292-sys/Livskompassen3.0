@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+  <title>F6 — Aurora 3D</title>
+  <defs>
+    <radialGradient id="drfamiljenaurora3d" cx="50%" cy="38%" r="68%">
+      <stop offset="0%" stop-color="#3d3420"/>
+      <stop offset="48%" stop-color="#141210"/>
+      <stop offset="100%" stop-color="#080808"/>
+    </radialGradient>
+    <linearGradient id="grfamiljenaurora3d" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5e6b8"/>
+      <stop offset="45%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#6b5212"/>
+    </linearGradient>
+    <linearGradient id="frfamiljenaurora3d" x1="24" y1="4" x2="30" y2="20">
+      <stop offset="0%" stop-color="#fff8e0"/>
+      <stop offset="55%" stop-color="#ffb74d"/>
+      <stop offset="100%" stop-color="#c97808"/>
+    </linearGradient>
+    <filter id="glrfamiljenaurora3d" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="rimrfamiljenaurora3d" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5eead4"/>
+      <stop offset="40%" stop-color="#818cf8"/>
+      <stop offset="75%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#2dd4bf"/>
+    </linearGradient>
+    <filter id="bvrfamiljenaurora3d" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="1.2" stdDeviation="0.8" flood-color="#000" flood-opacity="0.55"/>
+      <feDropShadow dx="0" dy="-0.6" stdDeviation="0.4" flood-color="#fff8e0" flood-opacity="0.12"/>
+    </filter></defs>
+  
+  <circle cx="24" cy="24" r="22" fill="url(#drfamiljenaurora3d)" stroke="url(#grfamiljenaurora3d)" stroke-width="1.15" stroke-opacity="0.72"/>
+  <circle cx="24" cy="24" r="20.5" stroke="url(#grfamiljenaurora3d)" stroke-opacity="0.08" stroke-width="0.35" fill="none"/>
+  
+  <g stroke="url(#grfamiljenaurora3d)" stroke-opacity="0.1" stroke-width="0.32">
+    <line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(0 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(22.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(45 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(67.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(90 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(112.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(135 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(157.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(180 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(202.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(225 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(247.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(270 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(292.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(315 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(337.5 24 24)"/>
+  </g>
+  
+  <circle cx="24" cy="24" r="20.5" stroke="url(#rimrfamiljenaurora3d)" stroke-opacity="0.55" stroke-width="0.85" fill="none"/>
+  <circle cx="24" cy="24" r="17" stroke="url(#grfamiljenaurora3d)" stroke-opacity="0.22" stroke-width="0.5" fill="none"/>
+  <polygon points="24,9 26,17 34,17 27.5,21.5 29.5,29 24,25 18.5,29 20.5,21.5 14,17 22,17" fill="none" stroke="url(#grfamiljenaurora3d)" stroke-width="0.45" opacity="0.4"/>
+  <path d="M24 8 L25.5 17 L24 21 L22.5 17 Z" fill="url(#frfamiljenaurora3d)" opacity="0.7" filter="url(#bvrfamiljenaurora3d)"/>
+  
+  <circle cx="11" cy="14" r="2.8" stroke="url(#grfamiljenaurora3d)" stroke-width="0.55" fill="url(#grfamiljenaurora3d)" fill-opacity="0.22"/>
+  <circle cx="24" cy="12" r="3.2" stroke="url(#grfamiljenaurora3d)" stroke-width="0.6" fill="url(#grfamiljenaurora3d)" fill-opacity="0.32"/>
+  <circle cx="37" cy="14" r="2.8" stroke="url(#grfamiljenaurora3d)" stroke-width="0.55" fill="url(#grfamiljenaurora3d)" fill-opacity="0.22"/>
+  <path d="M8 28 Q24 22 40 28 Q24 34 8 28" stroke="url(#grfamiljenaurora3d)" stroke-width="0.75" fill="url(#grfamiljenaurora3d)" fill-opacity="0.14"/>
+  <circle cx="24" cy="22" r="1.2" fill="url(#frfamiljenaurora3d)"/>
+  <circle cx="24" cy="24" r="2.8" fill="url(#grfamiljenaurora3d)" stroke="#0a0a0a" stroke-width="0.45"/>
+</svg>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+  <title>M4 — Eldnål 3D</title>
+  <defs>
+    <radialGradient id="dkmpeldnal3d" cx="50%" cy="38%" r="68%">
+      <stop offset="0%" stop-color="#3d3420"/>
+      <stop offset="48%" stop-color="#141210"/>
+      <stop offset="100%" stop-color="#080808"/>
+    </radialGradient>
+    <linearGradient id="gkmpeldnal3d" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5e6b8"/>
+      <stop offset="45%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#6b5212"/>
+    </linearGradient>
+    <linearGradient id="fkmpeldnal3d" x1="24" y1="4" x2="30" y2="20">
+      <stop offset="0%" stop-color="#fff8e0"/>
+      <stop offset="55%" stop-color="#ffb74d"/>
+      <stop offset="100%" stop-color="#c97808"/>
+    </linearGradient>
+    <filter id="glkmpeldnal3d" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="rimkmpeldnal3d" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5eead4"/>
+      <stop offset="40%" stop-color="#818cf8"/>
+      <stop offset="75%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#2dd4bf"/>
+    </linearGradient>
+    <filter id="bvkmpeldnal3d" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="1.2" stdDeviation="0.8" flood-color="#000" flood-opacity="0.55"/>
+      <feDropShadow dx="0" dy="-0.6" stdDeviation="0.4" flood-color="#fff8e0" flood-opacity="0.12"/>
+    </filter></defs>
+  <circle cx="24" cy="24" r="22" fill="url(#dkmpeldnal3d)" stroke="url(#gkmpeldnal3d)" stroke-width="0.95" stroke-opacity="0.55"/>
+  
+  <circle cx="24" cy="24" r="20" fill="url(#gkmpeldnal3d)" fill-opacity="0.08"/>
+  <path d="M24 8 L24 32" stroke="url(#fkmpeldnal3d)" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>
+  <path d="M20 32 H28 V36 H20 Z" fill="url(#gkmpeldnal3d)" fill-opacity="0.35"/>
+  <circle cx="24" cy="8" r="2.5" fill="url(#fkmpeldnal3d)" filter="url(#glkmpeldnal3d)"/>
+  <circle cx="24" cy="22" r="2" fill="#fff8e0"/>
+</svg>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" aria-hidden="true">
+  <title>B8 — Stjärn 3D</title>
+  <defs>
+    <radialGradient id="dappstjarn3d" cx="50%" cy="40%" r="75%">
+      <stop offset="0%" stop-color="#1e3a35"/>
+      <stop offset="55%" stop-color="#0c1816"/>
+      <stop offset="100%" stop-color="#030606"/>
+    </radialGradient>
+    <linearGradient id="gappstjarn3d" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f2e4b8"/><stop offset="50%" stop-color="#d4af37"/><stop offset="100%" stop-color="#7a5f15"/>
+    </linearGradient>
+    <linearGradient id="fappstjarn3d" x1="256" y1="80" x2="256" y2="280" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#fff9e6"/><stop offset="40%" stop-color="#ffb74d"/><stop offset="100%" stop-color="#c9a227"/>
+    </linearGradient>
+    <filter id="glappstjarn3d"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <linearGradient id="rimappstjarn3d" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5eead4"/><stop offset="35%" stop-color="#818cf8"/><stop offset="70%" stop-color="#d4af37"/><stop offset="100%" stop-color="#2dd4bf"/>
+    </linearGradient>
+    <filter id="bvappstjarn3d"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.5"/><feDropShadow dx="0" dy="-2" stdDeviation="2" flood-color="#fff8e0" flood-opacity="0.15"/></filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#dappstjarn3d)"/>
+  <rect x="20" y="20" width="472" height="472" rx="100" stroke="url(#gappstjarn3d)" stroke-opacity="0.45" stroke-width="3"/>
+  <circle cx="256" cy="256" r="188" stroke="url(#gappstjarn3d)" stroke-opacity="0.35" stroke-width="3" fill="none"/>
+  <circle cx="256" cy="256" r="156" stroke="url(#gappstjarn3d)" stroke-opacity="0.18" stroke-width="1.5" stroke-dasharray="8 10" fill="none"/>
+  <g stroke="url(#gappstjarn3d)" stroke-opacity="0.12" stroke-width="1.5">
+    <line x1="256" y1="68" x2="256" y2="444"/><line x1="68" y1="256" x2="444" y2="256"/>
+    <line x1="123" y1="123" x2="389" y2="389"/><line x1="389" y1="123" x2="123" y2="389"/>
+  </g>
+  <g transform="translate(256 256)">
+    <path d="M0-148 L18-20 L0 8 L-18-20 Z" fill="url(#fappstjarn3d)" filter="url(#glappstjarn3d)"/>
+    <path d="M0 148 L-18 20 L0 -8 L18 20 Z" fill="url(#gappstjarn3d)" fill-opacity="0.35"/>
+    <path d="M-148 0 L-20 18 L8 0 L-20-18 Z" fill="url(#gappstjarn3d)" fill-opacity="0.28"/>
+    <path d="M148 0 L20-18 L-8 0 L20 18 Z" fill="url(#gappstjarn3d)" fill-opacity="0.28"/>
+    <polygon points="0,-120 28,-28 120,-28 44,8 72,100 0,60 -72,100 -44,8 -120,-28 -28,-28" fill="none" stroke="url(#gappstjarn3d)" stroke-width="2" opacity="0.4"/>
+  </g>
+  <circle cx="256" cy="256" r="28" fill="#0a0a0a" stroke="url(#gappstjarn3d)" stroke-width="3"/>
+  <circle cx="256" cy="256" r="12" fill="url(#fappstjarn3d)" filter="url(#glappstjarn3d)"/>
+</svg>

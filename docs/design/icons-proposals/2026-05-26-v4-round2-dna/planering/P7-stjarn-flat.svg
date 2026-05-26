@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+  <title>P7 — Stjärn flat</title>
+  <defs>
+    <radialGradient id="drplaneringstjarnflat" cx="50%" cy="38%" r="68%">
+      <stop offset="0%" stop-color="#3d3420"/>
+      <stop offset="48%" stop-color="#141210"/>
+      <stop offset="100%" stop-color="#080808"/>
+    </radialGradient>
+    <linearGradient id="grplaneringstjarnflat" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5e6b8"/>
+      <stop offset="45%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#6b5212"/>
+    </linearGradient>
+    <linearGradient id="frplaneringstjarnflat" x1="24" y1="4" x2="30" y2="20">
+      <stop offset="0%" stop-color="#fff8e0"/>
+      <stop offset="55%" stop-color="#ffb74d"/>
+      <stop offset="100%" stop-color="#c97808"/>
+    </linearGradient>
+    <filter id="glrplaneringstjarnflat" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="rimrplaneringstjarnflat" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5eead4"/>
+      <stop offset="40%" stop-color="#818cf8"/>
+      <stop offset="75%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#2dd4bf"/>
+    </linearGradient></defs>
+  
+  <circle cx="24" cy="24" r="22" fill="url(#drplaneringstjarnflat)" stroke="url(#grplaneringstjarnflat)" stroke-width="1.15" stroke-opacity="0.72"/>
+  <circle cx="24" cy="24" r="20.5" stroke="url(#grplaneringstjarnflat)" stroke-opacity="0.08" stroke-width="0.35" fill="none"/>
+  
+  <g stroke="url(#grplaneringstjarnflat)" stroke-opacity="0.1" stroke-width="0.32">
+    <line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(0 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(22.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(45 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(67.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(90 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(112.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(135 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(157.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(180 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(202.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(225 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(247.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(270 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(292.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(315 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(337.5 24 24)"/>
+  </g>
+  
+  <circle cx="24" cy="24" r="22" fill="url(#grplaneringstjarnflat)" fill-opacity="0.06"/>
+  <polygon points="24,7 26.5,17 37,17 28.5,23 31.5,33 24,27 16.5,33 19.5,23 11,17 21.5,17" fill="url(#grplaneringstjarnflat)" fill-opacity="0.28" stroke="url(#grplaneringstjarnflat)" stroke-width="0.55"/>
+  <polygon points="24,11 25.5,17 31,17 27,20 28.5,26 24,23 19.5,26 21,20 17,17 22.5,17" fill="url(#frplaneringstjarnflat)" fill-opacity="0.88"/>
+  
+  <rect x="9" y="14" width="5" height="14" rx="0.6" stroke="url(#grplaneringstjarnflat)" stroke-width="0.55" fill="url(#grplaneringstjarnflat)" fill-opacity="0.16"/>
+  <rect x="16.5" y="11" width="5" height="17" rx="0.6" stroke="url(#grplaneringstjarnflat)" stroke-width="0.55" fill="url(#grplaneringstjarnflat)" fill-opacity="0.26"/>
+  <rect x="24" y="16" width="5" height="12" rx="0.6" stroke="url(#grplaneringstjarnflat)" stroke-width="0.55" fill="url(#grplaneringstjarnflat)" fill-opacity="0.12"/>
+  <circle cx="31" cy="13" r="1.3" fill="url(#frplaneringstjarnflat)"/>
+  <circle cx="24" cy="24" r="2.8" fill="url(#grplaneringstjarnflat)" stroke="#0a0a0a" stroke-width="0.45"/>
+</svg>
