@@ -12,6 +12,7 @@ import {
   where,
 } from 'firebase/firestore';
 import { db } from './firestore';
+import { assertOfflineWriteAllowed } from './offlineWritePolicy';
 import { FIRESTORE_COLLECTIONS } from '../types/firestore';
 import type {
   BudgetSavingsRow,
@@ -100,6 +101,7 @@ async function getAllTimeEntries(userId: string): Promise<TimeEntryRow[]> {
 }
 
 export async function recordTimeIn(userId: string, category = 'Arbete') {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
   const open = await getOpenTimeEntry(userId);
   if (open) throw new Error('Du är redan instämplad.');
 
@@ -127,6 +129,7 @@ export async function recordTimeIn(userId: string, category = 'Arbete') {
 }
 
 export async function recordTimeOut(userId: string, entryId?: string) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
   let open: TimeEntryRow | null = null;
 
   if (entryId) {
@@ -172,6 +175,7 @@ export async function getOpenTimeEntry(userId: string): Promise<TimeEntryRow | n
 
 /** Stänger öppna pass utan clockOut (äldre data med isOpen:false). */
 export async function repairOpenTimeEntryFlags(userId: string): Promise<number> {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
   const rows = await getAllTimeEntries(userId);
   const stuck = rows.filter((r) => r.clockOut == null && r.isOpen === false);
   await Promise.all(
@@ -199,6 +203,7 @@ export async function addManualTimeEntries(
     scopePercent?: number;
   },
 ) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
   const dates = eachDateInclusive(input.fromDate, input.toDate);
   const clockIn = input.clockIn ?? DEFAULT_HELDAG.in;
   const clockOut = input.clockOut ?? DEFAULT_HELDAG.out;
@@ -245,6 +250,7 @@ export async function updateTimeEntry(
     scopePercent: number;
   },
 ) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
   const ref = doc(db, FIRESTORE_COLLECTIONS.time_entries, entryId);
   const snap = await getDoc(ref);
   if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Pass hittades inte.');
@@ -272,6 +278,7 @@ export async function updateTimeEntry(
 }
 
 export async function deleteTimeEntry(userId: string, entryId: string) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
   const ref = doc(db, FIRESTORE_COLLECTIONS.time_entries, entryId);
   const snap = await getDoc(ref);
   if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Pass hittades inte.');
@@ -422,6 +429,7 @@ export async function setEconomyProfileExtended(
     defaultBreakMinutes?: number;
   },
 ) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_profiles);
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
   await setDoc(
     ref,
@@ -462,12 +470,14 @@ export async function addEconomyLedgerEntry(
     type: EconomyLedgerType;
   },
 ) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_ledger);
   const ref = collection(db, FIRESTORE_COLLECTIONS.economy_ledger);
   const docRef = await addDoc(ref, withUserId(userId, entry));
   return docRef.id;
 }
 
 export async function deleteEconomyLedgerEntry(userId: string, entryId: string) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_ledger);
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_ledger, entryId);
   const snap = await getDoc(ref);
   if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Rad hittades inte.');
@@ -612,6 +622,7 @@ export async function setEconomyFixedBill(
   userId: string,
   bill: { id?: string; name: string; amountSek: number },
 ) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_fixed_bills);
   if (bill.id) {
     const ref = doc(db, FIRESTORE_COLLECTIONS.economy_fixed_bills, bill.id);
     await updateDoc(ref, {
@@ -627,6 +638,7 @@ export async function setEconomyFixedBill(
 }
 
 export async function deleteEconomyFixedBill(userId: string, billId: string) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_fixed_bills);
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_fixed_bills, billId);
   const snap = await getDoc(ref);
   if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Rad hittades inte.');
@@ -658,6 +670,7 @@ export async function setBudgetSaving(
   userId: string,
   goal: { id?: string; title: string; targetSek: number; currentSek: number },
 ) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.budget_savings);
   if (goal.id) {
     const ref = doc(db, FIRESTORE_COLLECTIONS.budget_savings, goal.id);
     await updateDoc(ref, {
@@ -681,6 +694,7 @@ export async function setBudgetSaving(
 }
 
 export async function deleteBudgetSaving(userId: string, goalId: string) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.budget_savings);
   const ref = doc(db, FIRESTORE_COLLECTIONS.budget_savings, goalId);
   const snap = await getDoc(ref);
   if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Sparmål hittades inte.');

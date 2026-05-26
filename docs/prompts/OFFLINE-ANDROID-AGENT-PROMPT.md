@@ -10,7 +10,8 @@ Repo: Livskompassen3.0 (main). Läs [`docs/OFFLINE-ANDROID.md`](../OFFLINE-ANDRO
 
 Bakgrund (redan i repo):
 - Firestore: `initializeFirestore` + `persistentLocalCache` + `persistentSingleTabManager` i [`firestore.ts`](../../src/modules/core/firebase/firestore.ts).
-- Nätstatus: [`FirestoreNetworkChip.tsx`](../../src/modules/core/components/FirestoreNetworkChip.tsx) i MainLayout.
+- Skrivpolicy: [`offlineWritePolicy.ts`](../../src/modules/core/firebase/offlineWritePolicy.ts) — bred allowlist (dagbok, planering, projekt, MåBra, ekonomi/tid); **block** endast `reality_vault` + `children_logs`. Ekonomi-mutationer även i [`timeEconomyFirestore.ts`](../../src/modules/core/firebase/timeEconomyFirestore.ts).
+- Nätstatus: [`FirestoreNetworkChip.tsx`](../../src/modules/core/components/FirestoreNetworkChip.tsx) + [`firestoreNetworkStatus.ts`](../../src/modules/core/firebase/firestoreNetworkStatus.ts) (offline + «Synkar…»).
 
 Välj **ett** av följande spår (skriv vilket i början av svaret):
 

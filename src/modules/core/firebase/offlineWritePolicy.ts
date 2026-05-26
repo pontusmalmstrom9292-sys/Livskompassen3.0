@@ -1,21 +1,39 @@
 /**
- * Offline write policy — minimal safe surface for Firestore persistence queue.
- * WORM / evidence collections require network so queued writes cannot surprise-sync later.
+ * Offline Firestore write policy — persistence köar till IndexedDB och synkar när nät finns.
+ *
+ * - **Tillåtet:** vardagsdata (dagbok, planering, projekt, MåBra, ekonomi/tid) som får ligga i SDK-kön.
+ * - **Blockerat:** Valv + barnloggar (evidens/WORM-känsligt — ingen tyst kö innan server validerat).
+ *
+ * Server-regler i `firestore.rules` gäller vid commit; misslyckade writes loggas av SDK.
  */
-export const OFFLINE_WRITE_ALLOWLIST = new Set<string>(['checkins']);
+import { FIRESTORE_COLLECTIONS } from '../types/firestore';
 
-/** U3 append-only / evidence — never queue offline writes. */
-export const OFFLINE_WRITE_WORM_COLLECTIONS = new Set<string>([
-  'reality_vault',
-  'children_logs',
-  'journal',
-  'vault',
-  'kampspar',
-  'kb_docs',
-  'mabra_sessions',
-  'transactions',
-  'routines',
-  'archival_analysis',
+const C = FIRESTORE_COLLECTIONS;
+
+/**
+ * Collections whose client writes may queue offline and sync when `navigator.onLine` + Firestore.
+ * Håll listan i synk med alla `assertOfflineWriteAllowed`-anrop i repo.
+ */
+export const OFFLINE_WRITE_ALLOWLIST = new Set<string>([
+  C.checkins,
+  C.journal,
+  C.planning_tasks,
+  C.projects,
+  C.project_blocks,
+  C.mabra_sessions,
+  C.mabra_progress,
+  C.economy_profiles,
+  C.transactions,
+  C.time_entries,
+  C.economy_ledger,
+  C.economy_fixed_bills,
+  C.budget_savings,
+]);
+
+/** Evidence paths — måste inte köas offline (produkt + integritet). */
+export const OFFLINE_WRITE_BLOCKED_COLLECTIONS = new Set<string>([
+  C.reality_vault,
+  C.children_logs,
 ]);
 
 export class OfflineWriteBlockedError extends Error {
@@ -33,15 +51,19 @@ export function isBrowserOffline(): boolean {
 }
 
 export function offlineWriteUserMessage(collection: string): string {
-  if (OFFLINE_WRITE_WORM_COLLECTIONS.has(collection)) {
-    return 'Bevis och Valv kräver nätverk — vänta tills du är online innan du sparar.';
+  if (OFFLINE_WRITE_BLOCKED_COLLECTIONS.has(collection)) {
+    return 'Valv och barnloggar kräver nätverk — anslut innan du sparar.';
   }
-  return 'Den här åtgärden kräver nätverk just nu. Check-ins kan sparas offline.';
+  return 'Den här åtgärden går inte offline ännu. Anslut till nätverket.';
 }
 
-/** Throws when offline and collection is not on the allowlist. */
+/** Throws when offline and collection is not allowed to queue writes. */
 export function assertOfflineWriteAllowed(collection: string): void {
   if (!isBrowserOffline()) return;
-  if (OFFLINE_WRITE_ALLOWLIST.has(collection)) return;
-  throw new OfflineWriteBlockedError(collection);
+  if (OFFLINE_WRITE_BLOCKED_COLLECTIONS.has(collection)) {
+    throw new OfflineWriteBlockedError(collection);
+  }
+  if (!OFFLINE_WRITE_ALLOWLIST.has(collection)) {
+    throw new OfflineWriteBlockedError(collection);
+  }
 }

@@ -6,28 +6,35 @@
 |-----|------------------|
 | **Lokal cache (IndexedDB)** | [`firestore.ts`](../src/modules/core/firebase/firestore.ts) — `initializeFirestore` med `persistentLocalCache` + `persistentSingleTabManager` (en WebView-tab, passar Capacitor). Ersätter äldre `enableIndexedDbPersistence`. |
 | **Init-fallback** | Vid dubbel init (HMR, multitab) fångas fel → `getFirestore(app)` utan krasch; dev-logg i konsolen. |
-| **Skrivpolicy offline** | [`offlineWritePolicy.ts`](../src/modules/core/firebase/offlineWritePolicy.ts) — `assertOfflineWriteAllowed` före skrivningar. |
+| **Skrivpolicy offline** | [`offlineWritePolicy.ts`](../src/modules/core/firebase/offlineWritePolicy.ts) — `OFFLINE_WRITE_ALLOWLIST` + block för Valv/barn; `assertOfflineWriteAllowed` före skrivningar (inkl. [`timeEconomyFirestore.ts`](../src/modules/core/firebase/timeEconomyFirestore.ts)). |
 | **Nät / synk-chip** | [`FirestoreNetworkChip`](../src/modules/core/components/FirestoreNetworkChip.tsx) — offline eller «Synkar…» via [`firestoreNetworkStatus.ts`](../src/modules/core/firebase/firestoreNetworkStatus.ts). |
 
-## Vad får köas offline?
+## Vad får köas offline? (synkas när nät finns)
 
-| Tillåtet offline | Blockerat offline (kräver nät) |
-|------------------|--------------------------------|
-| **checkins** (Morgonkompass / check-in) | **reality_vault** (Valv), **children_logs**, **journal**, **mabra_sessions**, **transactions** |
-| Läsning från cache (listor du redan hämtat) | **planning_tasks**, **projects**, **project_blocks**, profiler (setDoc) |
+Skrivningar till följande collections får ligga i Firestore SDK-kön när `navigator.onLine === false` (samma cache som IndexedDB):
 
-WORM/evidence-sparning kastar `OfflineWriteBlockedError` med svensk text — UI får visa felet; inget tyst SDK-kö för Valv.
+- **checkins**, **journal**, **planning_tasks**, **projects**, **project_blocks**
+- **mabra_sessions**, **mabra_progress**
+- **economy_profiles**, **transactions**
+- **time_entries**, **economy_ledger**, **economy_fixed_bills**, **budget_savings**
 
-Server-regler i [`firestore.rules`](../firestore.rules) gäller fortfarande vid sync.
+**Blockerat offline** (kräver nät innan skrivning — `OfflineWriteBlockedError`):
+
+- **reality_vault** (Valv)
+- **children_logs** (Barnloggar / evidens)
+
+**Övrigt:** Kunskapsingest (`ingestKampsparEntry` m.m.) går via Cloud Functions — kräver nät oavsett. Läsning från cache fungerar för data som redan hämtats.
+
+Server-regler i [`firestore.rules`](../firestore.rules) gäller vid commit efter sync.
 
 ## Test (Android)
 
 1. Prod WebView: `npm run cap:sync:prod` → kör från Android Studio.
 2. Logga in med nät på.
-3. **Flygplansläge** → chip: «Offline — check-ins sparas lokalt; Valv kräver nät». Navigera till sidor med cachad Firestore-data.
-4. Försök spara Valv/barnlogg → ska misslyckas direkt med felmeddelande (inte bara hänga).
-5. Spara en check-in offline (om flödet finns i UI) → ska gå lokalt.
-6. Stäng av flygplansläge → chip «Synkar…» kort, sedan försvinner; data uppdateras.
+3. **Flygplansläge** → chip med text om offline + Valv.
+4. Spara **dagbok** eller **planeringsuppgift** offline → ska lyckas lokalt; slå på nät → «Synkar…» sedan synkad data.
+5. Försök **Valv**- eller **barnlogg**-sparning offline → tydligt fel direkt.
+6. Stäng av flygplansläge → väntande writes skickas.
 
 ## Capacitor / shell
 

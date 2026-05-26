@@ -29,7 +29,7 @@ export function FirestoreNetworkChip() {
           <Loader2 className="h-3 w-3 shrink-0 animate-spin text-accent/90" aria-hidden />
         )}
         {isOffline
-          ? 'Offline — check-ins sparas lokalt; Valv kräver nät'
+          ? 'Offline — dagbok, planering och ekonomi sparas lokalt; Valv kräver nät'
           : 'Synkar ändringar…'}
       </span>
     </div>
