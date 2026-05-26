@@ -1,33 +1,34 @@
 import { useCallback, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { BookOpen, Shield, Brain } from 'lucide-react';
+import { BookOpen, Brain } from 'lucide-react';
 import { TabBar } from '../../core/ui/TabBar';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { useStore } from '../../core/store';
 import { clearVaultGate, clearVaultZone } from '../../core/auth/sessionService';
-import { VaultPage } from '../../verklighetsvalvet';
+import { VaultPage, parseVaultTab, type VaultTab } from '../../verklighetsvalvet';
 import { SpeglingsSystem } from '../../speglings_system';
 import { DagbokPage } from './DagbokPage';
 
 export type HjartatTab = 'reflektion' | 'bevis' | 'speglar';
 
-const ALL_TABS = [
+const PUBLIC_TABS = [
   { id: 'reflektion' as const, label: 'Reflektion', icon: <BookOpen className="h-3 w-3" /> },
-  { id: 'bevis' as const, label: 'Bevis', icon: <Shield className="h-3 w-3" /> },
   { id: 'speglar' as const, label: 'Speglar', icon: <Brain className="h-3 w-3" /> },
 ];
 
-const HIDE_BEVIS_TAB = import.meta.env.VITE_HIDE_BEVIS_TAB === 'true';
-const TABS = HIDE_BEVIS_TAB ? ALL_TABS.filter((t) => t.id !== 'bevis') : ALL_TABS;
-
 export function parseHjartatTab(raw: string | null): HjartatTab {
-  if (raw === 'bevis' || raw === 'speglar') return raw;
+  if (raw === 'bevis') return 'bevis';
+  if (raw === 'speglar') return 'speglar';
   return 'reflektion';
 }
 
 export function HjartatPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const tab = parseHjartatTab(searchParams.get('tab'));
+  const vaultTabParam = searchParams.get('vaultTab');
+  const tabParam = searchParams.get('tab');
+  const tab: HjartatTab =
+    vaultTabParam || tabParam === 'bevis' ? 'bevis' : parseHjartatTab(tabParam);
+  const vaultTab: VaultTab = parseVaultTab(vaultTabParam);
   const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
 
   const setTab = useCallback(
@@ -44,6 +45,21 @@ export function HjartatPage() {
     [tab, setSearchParams, setVaultUnlocked],
   );
 
+  const setVaultTab = useCallback(
+    (next: VaultTab) => {
+      setSearchParams(
+        (prev) => {
+          const params = new URLSearchParams(prev);
+          params.set('tab', 'bevis');
+          params.set('vaultTab', next);
+          return params;
+        },
+        { replace: true },
+      );
+    },
+    [setSearchParams],
+  );
+
   useEffect(() => {
     if (tab !== 'bevis') {
       setVaultUnlocked(false);
@@ -56,15 +72,22 @@ export function HjartatPage() {
 
   return (
     <div className="space-y-6">
-      <BentoCard title="Hjärtat" description="Sanning · reflektion · spegling">
+      <BentoCard title="Hjärtat" description="Reflektion · spegling">
         <p className="mb-4 text-sm text-text-muted">
-          Ett kluster — ett livsområde. Välj flik nedan.
+          Dagbok och spegling här. Bevis, kunskap och analys finns bakom Valv — öppna via menyn.
         </p>
-        <TabBar tabs={TABS} active={tab} onChange={setTab} />
+        <TabBar tabs={PUBLIC_TABS} active={tab === 'bevis' ? 'reflektion' : tab} onChange={setTab} />
       </BentoCard>
 
       {tab === 'reflektion' && <DagbokPage embedded />}
-      {tab === 'bevis' && <VaultPage embedded onClose={() => setTab('reflektion')} />}
+      {tab === 'bevis' && (
+        <VaultPage
+          embedded
+          initialVaultTab={vaultTab}
+          onVaultTabChange={setVaultTab}
+          onClose={() => setTab('reflektion')}
+        />
+      )}
       {tab === 'speglar' && <SpeglingsSystem embedded />}
     </div>
   );

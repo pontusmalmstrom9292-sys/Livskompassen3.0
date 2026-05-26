@@ -44,8 +44,8 @@ const ORBIT_SLOTS: OrbitSlot[] = [
     id: 'kunskap',
     label: 'Kunskap',
     shortLabel: 'Kunskap',
-    blurb: 'Kunskapsvalvet · RAG',
-    to: '/vardagen?tab=kunskap',
+    blurb: 'Kunskapsbank · bakom Valv-PIN',
+    to: '/dagbok?tab=bevis&vaultTab=kunskapsbank',
     position: 'west',
   },
 ];

@@ -85,8 +85,11 @@ Appen **Livskompassen** installeras. Logga in med samma Firebase-konto som på w
 | **Anteckning** (WH2) | Snabb rad → Valv |
 | **Kompass** (WH3) | Check-in (morgon/dag/kväll) |
 | **Hamn · BIFF** (WH4) | Grey Rock / BIFF |
+| **Stämpel** (WH6) | **In** / **Ut** — stämplar direkt (kräver inloggning) |
 
-Tryck på widgeten → appen öppnar rätt `/widget/…`-sida.
+Tryck på widgeten → appen öppnar rätt `/widget/…`-sida. **Stämpel:** vänster = in, höger = ut.
+
+**Hem i appen:** stämpelkortet är **minimerat** som standard — expandera med pilen om du vill se full vy.
 
 **Motorola (och andra):** Om du hade en äldre **Inspelning**-widget — ta bort den från hemskärmen, kör `npm run cap:sync`, installera appen igen (**Run**), lägg sedan till **Anteckningar**.
 

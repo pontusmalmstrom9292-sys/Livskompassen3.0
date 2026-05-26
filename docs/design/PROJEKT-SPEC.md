@@ -70,6 +70,16 @@ Nav: Planering-modulen har under-flikar **Kanban · Projekt · Regler · Inkorg*
 
 ---
 
+## Framtida: rutiner och modulkopplingar
+
+**Komihåg (ej P1):** [`LIFE-OS-KOPPLINGAR-KOMIHAG.md`](./LIFE-OS-KOPPLINGAR-KOMIHAG.md)
+
+- **RoutineTemplate** — sparade rutiner (steg) som kan skapa `planning_tasks` eller öppna MåBra/Familjen/Kompasser via deep link.
+- **LifeHubPreset** — ~4 exempelhubbar som styr extra material på sidor (ADHD: en aktiv hub).
+- Projekt-block kan referera `module_links[]`; MåBra “egna projekt” förblir separata från `/projekt` (inte duplicera begrepp).
+
+---
+
 ## Widget — genväg
 
 Se [`WIDGET-BAR-SPEC.md`](./WIDGET-BAR-SPEC.md) v2:

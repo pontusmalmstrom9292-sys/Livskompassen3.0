@@ -113,7 +113,7 @@ export const THEME_REGISTRY: ThemePack[] = [
   {
     id: 'I-glass',
     label: 'Dual Glass',
-    description: 'Kompakt peek — Snabbanteckning + Röst till Valv.',
+    description: 'Kompakt peek — Snabbanteckning + tyst inspelning.',
     background: 'texture-stone',
     preview: '/design/themes/I-architect-vault/01-glass-dual-actions.png',
     cssVars: {

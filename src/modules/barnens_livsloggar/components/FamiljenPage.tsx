@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 import { TabBar } from '../../core/ui/TabBar';
 import { FAMILJEN_TABS, isFamiljenTabId, type FamiljenTabId } from '../constants/familjenTabs';
 import { useFamiljenShell } from '../hooks/useFamiljenShell';
@@ -7,18 +7,22 @@ import { FamiljenChildPicker } from './familjen/FamiljenChildPicker';
 import { FamiljenReflektionTab } from './familjen/FamiljenReflektionTab';
 import { FamiljenLivsloggTab } from './familjen/FamiljenLivsloggTab';
 import { FamiljenTillsammansTab } from './familjen/FamiljenTillsammansTab';
-import { FamiljenMonsterTab } from './familjen/FamiljenMonsterTab';
-import { FamiljenKunskapHubTab } from './familjen/FamiljenKunskapHubTab';
-import { VaultZoneGate } from '../../core/security/VaultZoneGate';
 import { HubPageShell } from '../../core/layout/HubPageShell';
 import { ParentReminderFooter } from './ParentReminderFooter';
+import { vaultDrawerPath } from '../../core/navigation/navTruth';
+import { LifeHubHubHint, useLifeHubPreset } from '../../core/lifeOs';
+
+function vaultRedirectSearch(vaultTab: string): string {
+  const vaultPath = vaultDrawerPath(vaultTab);
+  const qIndex = vaultPath.indexOf('?');
+  return qIndex >= 0 ? vaultPath.slice(qIndex) : '';
+}
 
 export function FamiljenPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const tabParam = searchParams.get('tab');
-  const activeTab: FamiljenTabId = isFamiljenTabId(tabParam) ? tabParam : 'reflektion';
-
   const shell = useFamiljenShell();
+  const { preset } = useLifeHubPreset();
 
   const setTab = (id: FamiljenTabId) => {
     setSearchParams((prev) => {
@@ -29,16 +33,26 @@ export function FamiljenPage() {
   };
 
   useEffect(() => {
-    if (tabParam && !isFamiljenTabId(tabParam)) {
+    if (tabParam && !isFamiljenTabId(tabParam) && tabParam !== 'kunskap' && tabParam !== 'monster') {
       setTab('reflektion');
     }
   }, [tabParam]);
+
+  if (tabParam === 'kunskap') {
+    return <Navigate to={{ pathname: '/dagbok', search: vaultRedirectSearch('kunskapsbank') }} replace />;
+  }
+
+  if (tabParam === 'monster') {
+    return <Navigate to={{ pathname: '/dagbok', search: vaultRedirectSearch('familjen_monster') }} replace />;
+  }
+
+  const activeTab: FamiljenTabId = isFamiljenTabId(tabParam) ? tabParam : 'reflektion';
 
   if (!shell.user) {
     return <p className="text-sm text-text-muted">Logga in för att öppna Familjen.</p>;
   }
 
-  const showChildPicker = activeTab !== 'tillsammans' && activeTab !== 'kunskap';
+  const showChildPicker = activeTab !== 'tillsammans';
 
   return (
     <div className="familjen-hub relative">
@@ -49,44 +63,36 @@ export function FamiljenPage() {
         title="Små steg. Stora minnen. Tillsammans."
         footerSlot={activeTab === 'reflektion' ? <ParentReminderFooter /> : undefined}
       >
-      <div className="familjen-hub__tabs relative">
-        <TabBar
-          tabs={FAMILJEN_TABS.map((t) => {
-            const Icon = t.icon;
-            return {
-              id: t.id,
-              label: t.label,
-              icon: <Icon className="h-3 w-3" />,
-            };
-          })}
-          active={activeTab}
-          onChange={setTab}
-        />
-      </div>
+        <LifeHubHubHint preset={preset} hub="familjen" />
 
-      {showChildPicker && activeTab !== 'reflektion' && (
-        <FamiljenChildPicker
-          activeChild={shell.activeChild}
-          children={shell.childAliases}
-          onChange={shell.setActiveChild}
-        />
-      )}
+        <div className="familjen-hub__tabs relative">
+          <TabBar
+            tabs={FAMILJEN_TABS.map((t) => {
+              const Icon = t.icon;
+              return {
+                id: t.id,
+                label: t.label,
+                icon: <Icon className="h-3 w-3" />,
+              };
+            })}
+            active={activeTab}
+            onChange={setTab}
+          />
+        </div>
 
-      <div className="relative space-y-4">
-        {activeTab === 'reflektion' && <FamiljenReflektionTab shell={shell} />}
-        {activeTab === 'livslogg' && <FamiljenLivsloggTab shell={shell} />}
-        {activeTab === 'tillsammans' && <FamiljenTillsammansTab shell={shell} />}
-        {(activeTab === 'monster' || activeTab === 'kunskap') && (
-          <VaultZoneGate
-            zone="familjen_forensic"
-            title="Familjen — analys & kunskap"
-            description="Mönster och RAG-sökning. Samma PIN som Valv. Sessionen gäller tills du lämnar fliken eller varit inaktiv 15 min."
-          >
-            {activeTab === 'monster' && <FamiljenMonsterTab shell={shell} />}
-            {activeTab === 'kunskap' && <FamiljenKunskapHubTab activeChild={shell.activeChild} />}
-          </VaultZoneGate>
+        {showChildPicker && activeTab !== 'reflektion' && (
+          <FamiljenChildPicker
+            activeChild={shell.activeChild}
+            children={shell.childAliases}
+            onChange={shell.setActiveChild}
+          />
         )}
-      </div>
+
+        <div className="relative space-y-4">
+          {activeTab === 'reflektion' && <FamiljenReflektionTab shell={shell} />}
+          {activeTab === 'livslogg' && <FamiljenLivsloggTab shell={shell} />}
+          {activeTab === 'tillsammans' && <FamiljenTillsammansTab shell={shell} />}
+        </div>
       </HubPageShell>
     </div>
   );

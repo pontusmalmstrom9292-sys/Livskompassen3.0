@@ -1,7 +1,7 @@
 import type { ClassValue } from 'clsx';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { Sparkles } from 'lucide-react';
+import { LivskompassMark } from '../../core/ui/LivskompassMark';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -21,29 +21,28 @@ export function KompisAvatar({ state = 'idle', className, size = 'md' }: KompisA
     xl: 'h-32 w-32',
   };
 
-  const iconSizes = {
-    sm: 'h-4 w-4',
-    md: 'h-6 w-6',
-    lg: 'h-8 w-8',
-    xl: 'h-10 w-10',
+  const markSizes = {
+    sm: 'h-5 w-5',
+    md: 'h-8 w-8',
+    lg: 'h-11 w-11',
+    xl: 'h-14 w-14',
   };
 
-  const ringClass =
-    state === 'active' || state === 'analyzing'
-      ? 'border-accent/50 bg-accent/10 text-accent'
-      : 'border-white/12 bg-surface/70 text-accent';
+  const live = state === 'active' || state === 'analyzing';
 
   return (
     <div
       className={cn(
-        'flex items-center justify-center rounded-full border backdrop-blur-sm',
+        'kompis-avatar flex items-center justify-center rounded-full border backdrop-blur-md',
         sizeClasses[size],
-        ringClass,
+        live && 'kompis-avatar--live',
         className,
       )}
       aria-hidden={state === 'idle'}
+      aria-label={live ? 'Kompis analyserar' : undefined}
     >
-      <Sparkles className={iconSizes[size]} strokeWidth={1.75} />
+      <span className="kompis-avatar__ring" aria-hidden />
+      <LivskompassMark className={cn('relative z-[1] text-accent', markSizes[size])} />
     </div>
   );
 }

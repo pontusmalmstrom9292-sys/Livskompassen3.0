@@ -1,44 +1,394 @@
 /**
- * Single source for hub labels, paths, and chrome flags.
+ * Single source for hub labels, paths, drawer sections, and chrome flags.
  * Drawer icons stay in drawerNav.ts (Lucide map by id).
  */
+import { HIDE_BEVIS_TAB } from './appNavigation';
+import {
+  FORENSIC_VAULT_TAB_IDS,
+  forensicVaultTabLabel,
+  MAIN_VAULT_TAB_IDS,
+} from '../../verklighetsvalvet/utils/vaultTabs';
+
+export type NavDrawerSection = 'vardag' | 'valv';
+
 export type NavTruthEntry = {
   id: string;
   label: string;
   path: string;
+  section: NavDrawerSection;
   inDrawer: boolean;
+  requiresVaultPin?: boolean;
+  /** Sub-rad under hub eller Valv-grupp */
+  parentId?: string;
+  /** Valv: expanderbar grupp utan egen navigation */
+  isGroupHeader?: boolean;
+  /** Dölj i drawer när G18 döljer publik Bevis-flik */
+  omitWhenHideBevis?: boolean;
   inDock?: boolean;
   fyrenHomeQuick?: boolean;
   /** Theme Pack J id when auto-module theme is on */
   themeId?: string;
 };
 
+/** Deep-link till Valv-baksida (PIN i VaultPage). */
+export function vaultDrawerPath(vaultTab: string): string {
+  return `/dagbok?tab=bevis&vaultTab=${vaultTab}`;
+}
+
+const VAULT_MAIN_LABELS: Record<(typeof MAIN_VAULT_TAB_IDS)[number], string> = {
+  logga: 'Arkiv',
+  sok: 'Triage',
+  monster: 'Mönster',
+  orkester: 'Orkester',
+  dossier: 'Dossier',
+  kunskapsbank: 'Kunskapsbank',
+};
+
+function valvLeaf(
+  id: string,
+  vaultTab: string,
+  parentId: string,
+  label?: string,
+): NavTruthEntry {
+  return {
+    id,
+    label: label ?? VAULT_MAIN_LABELS[vaultTab as keyof typeof VAULT_MAIN_LABELS] ?? vaultTab,
+    path: vaultDrawerPath(vaultTab),
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    parentId,
+  };
+}
+
 export const NAV_TRUTH: NavTruthEntry[] = [
-  { id: 'hem', label: 'Hem Kompass', path: '/', inDrawer: true, fyrenHomeQuick: false, themeId: 'J-fyren-hem' },
-  { id: 'familjen', label: 'Familjen', path: '/familjen', inDrawer: true, inDock: true, themeId: 'J-familjen-varm' },
-  { id: 'hamn', label: 'Trygg hamn', path: '/hamn', inDrawer: true, themeId: 'J-hamn-greyrock' },
+  // —— Vardag ——
+  { id: 'hem', label: 'Hem Kompass', path: '/', section: 'vardag', inDrawer: true, themeId: 'J-fyren-hem' },
+  {
+    id: 'hem_inkast',
+    label: 'Inkast',
+    path: '/#inkast-lite',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'hem',
+  },
+  {
+    id: 'dagbok',
+    label: 'Dagbok',
+    path: '/dagbok',
+    section: 'vardag',
+    inDrawer: true,
+    themeId: 'J-valv-pansar',
+  },
+  {
+    id: 'dagbok_reflektion',
+    label: 'Reflektion',
+    path: '/dagbok?tab=reflektion',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'dagbok',
+  },
+  {
+    id: 'dagbok_speglar',
+    label: 'Speglar',
+    path: '/dagbok?tab=speglar',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'dagbok',
+  },
+  {
+    id: 'dagbok_bevis',
+    label: 'Bevis (Valv)',
+    path: vaultDrawerPath('logga'),
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'dagbok',
+    requiresVaultPin: true,
+    omitWhenHideBevis: true,
+  },
+  {
+    id: 'familjen',
+    label: 'Familjen',
+    path: '/familjen',
+    section: 'vardag',
+    inDrawer: true,
+    inDock: true,
+    themeId: 'J-familjen-varm',
+  },
+  {
+    id: 'familjen_reflektion',
+    label: 'Reflektion',
+    path: '/familjen?tab=reflektion',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'familjen',
+  },
+  {
+    id: 'familjen_livslogg',
+    label: 'Livslogg',
+    path: '/familjen?tab=livslogg',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'familjen',
+  },
+  {
+    id: 'familjen_tillsammans',
+    label: 'Tillsammans',
+    path: '/familjen?tab=tillsammans',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'familjen',
+  },
+  {
+    id: 'hamn',
+    label: 'Trygg hamn',
+    path: '/hamn',
+    section: 'vardag',
+    inDrawer: true,
+    themeId: 'J-hamn-greyrock',
+  },
+  {
+    id: 'hamn_oversikt',
+    label: 'Översikt',
+    path: '/hamn?tab=oversikt',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'hamn',
+  },
+  {
+    id: 'hamn_biff',
+    label: 'BIFF',
+    path: '/hamn?tab=biff',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'hamn',
+  },
+  {
+    id: 'hamn_speglar',
+    label: 'Speglar',
+    path: '/hamn?tab=speglar',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'hamn',
+  },
+  {
+    id: 'hamn_barn',
+    label: 'Barnfokus',
+    path: '/hamn?tab=barn',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'hamn',
+  },
   {
     id: 'vardagen',
     label: 'Vardagen',
     path: '/vardagen',
+    section: 'vardag',
     inDrawer: true,
     fyrenHomeQuick: true,
     themeId: 'J-vardagen-orbit',
   },
-  { id: 'valv', label: 'Valv', path: '/dagbok?tab=bevis', inDrawer: true, fyrenHomeQuick: false, themeId: 'J-valv-pansar' },
-  { id: 'planering', label: 'Planering', path: '/planering', inDrawer: true, fyrenHomeQuick: true, themeId: 'J-planering-fyren' },
-  { id: 'arbetsliv', label: 'Arbetsliv', path: '/arbetsliv', inDrawer: true, themeId: 'J-vardagen-orbit' },
-  { id: 'mabra', label: 'MåBra', path: '/mabra', inDrawer: true, themeId: 'J-mabra-lavendel' },
+  {
+    id: 'vardagen_kompasser',
+    label: 'Kompasser',
+    path: '/vardagen?tab=kompasser',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'vardagen',
+  },
+  {
+    id: 'vardagen_ekonomi',
+    label: 'Ekonomi',
+    path: '/vardagen?tab=ekonomi',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'vardagen',
+  },
+  {
+    id: 'planering',
+    label: 'Planering',
+    path: '/planering',
+    section: 'vardag',
+    inDrawer: true,
+    fyrenHomeQuick: true,
+    themeId: 'J-planering-fyren',
+  },
+  {
+    id: 'planering_handling',
+    label: 'Handling',
+    path: '/planering?tab=handling',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'planering',
+  },
+  {
+    id: 'planering_fokus',
+    label: 'Fokus',
+    path: '/planering?tab=fokus',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'planering',
+  },
+  {
+    id: 'planering_inkorg',
+    label: 'Inkorg',
+    path: '/planering?tab=inkorg',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'planering',
+  },
+  {
+    id: 'arbetsliv',
+    label: 'Arbetsliv',
+    path: '/arbetsliv',
+    section: 'vardag',
+    inDrawer: true,
+    themeId: 'J-vardagen-orbit',
+  },
+  {
+    id: 'arbetsliv_stampla',
+    label: 'Stämpel',
+    path: '/arbetsliv?tab=stampla',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'arbetsliv',
+  },
+  {
+    id: 'arbetsliv_tid',
+    label: 'Tid & flex',
+    path: '/arbetsliv?tab=tid',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'arbetsliv',
+  },
+  {
+    id: 'arbetsliv_logg',
+    label: 'Logg',
+    path: '/arbetsliv?tab=logg',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'arbetsliv',
+  },
+  {
+    id: 'mabra',
+    label: 'MåBra',
+    path: '/mabra',
+    section: 'vardag',
+    inDrawer: true,
+    themeId: 'J-mabra-lavendel',
+  },
+  {
+    id: 'projekt',
+    label: 'Projekt',
+    path: '/projekt',
+    section: 'vardag',
+    inDrawer: true,
+    themeId: 'J-planering-fyren',
+  },
+  {
+    id: 'projekt_ny',
+    label: 'Nytt projekt',
+    path: '/projekt/ny',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'projekt',
+  },
   {
     id: 'installningar',
     label: 'Inställningar',
     path: '/installningar',
+    section: 'vardag',
     inDrawer: true,
   },
+
+  // —— Valv (PIN) — grupperade accordion ——
+  {
+    id: 'valv_grp_pansaret',
+    label: 'Pansaret',
+    path: '',
+    section: 'valv',
+    inDrawer: true,
+    isGroupHeader: true,
+    requiresVaultPin: true,
+    themeId: 'J-valv-pansar',
+  },
+  valvLeaf('valv_arkiv', 'logga', 'valv_grp_pansaret'),
+  valvLeaf('valv_triage', 'sok', 'valv_grp_pansaret'),
+  valvLeaf('valv_monster', 'monster', 'valv_grp_pansaret'),
+  valvLeaf('valv_orkester', 'orkester', 'valv_grp_pansaret'),
+  valvLeaf('valv_dossier', 'dossier', 'valv_grp_pansaret'),
+  {
+    id: 'valv_dossier_export',
+    label: 'Dossier · full vy',
+    path: '/dossier',
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    parentId: 'valv_grp_pansaret',
+  },
+  {
+    id: 'valv_grp_kunskap',
+    label: 'Kunskap',
+    path: '',
+    section: 'valv',
+    inDrawer: true,
+    isGroupHeader: true,
+    requiresVaultPin: true,
+  },
+  valvLeaf('valv_kunskapsbank', 'kunskapsbank', 'valv_grp_kunskap'),
+  {
+    id: 'valv_grp_forensik',
+    label: 'Forensik',
+    path: '',
+    section: 'valv',
+    inDrawer: true,
+    isGroupHeader: true,
+    requiresVaultPin: true,
+  },
+  ...FORENSIC_VAULT_TAB_IDS.map((tab) => ({
+    id: `valv_${tab}`,
+    label: forensicVaultTabLabel(tab),
+    path: vaultDrawerPath(tab),
+    section: 'valv' as const,
+    inDrawer: true,
+    requiresVaultPin: true,
+    parentId: 'valv_grp_forensik',
+  })),
 ];
 
 export const DRAWER_NAV_TRUTH = NAV_TRUTH.filter((e) => e.inDrawer);
 
+export function isDrawerEntryVisible(entry: NavTruthEntry): boolean {
+  if (entry.omitWhenHideBevis && HIDE_BEVIS_TAB) return false;
+  return true;
+}
+
+export function getVisibleDrawerTruth(section: NavDrawerSection): NavTruthEntry[] {
+  return DRAWER_NAV_TRUTH.filter((e) => e.section === section && isDrawerEntryVisible(e));
+}
+
+export const DRAWER_VARDAG_ENTRIES = getVisibleDrawerTruth('vardag');
+
+export const DRAWER_VALV_ENTRIES = getVisibleDrawerTruth('valv');
+
+/** Hub-rader utan parentId (legacy drawerNav). */
+export const DRAWER_HUB_TRUTH = DRAWER_NAV_TRUTH.filter((e) => !e.parentId && isDrawerEntryVisible(e));
+
 export function getNavTruthById(id: string): NavTruthEntry | undefined {
   return NAV_TRUTH.find((e) => e.id === id);
+}
+
+export function getDrawerChildren(parentId: string, section: NavDrawerSection): NavTruthEntry[] {
+  return getVisibleDrawerTruth(section).filter((e) => e.parentId === parentId);
+}
+
+/** Vardag: hubbar utan parent. Valv: grupp-rubriker. */
+export function getDrawerRoots(section: NavDrawerSection): NavTruthEntry[] {
+  const visible = getVisibleDrawerTruth(section);
+  if (section === 'valv') return visible.filter((e) => e.isGroupHeader);
+  return visible.filter((e) => !e.parentId);
+}
+
+export function drawerHubHasChildren(hubId: string, section: NavDrawerSection): boolean {
+  return getDrawerChildren(hubId, section).length > 0;
 }

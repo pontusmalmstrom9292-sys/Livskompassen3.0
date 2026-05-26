@@ -145,3 +145,12 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 - [x] Evaluations A–F + 6 modul-rapporter (`docs/evaluations/2026-05-23-*.md`)
 - [x] `npm run smoke:all` + `.context/design-modules-mockup.md`
 - [ ] Manuell smoke #1–7, #18–20 (användaren — checklista i `docs/SMOKE_RESULTS.md`)
+
+## Life OS kopplingar (backlog — komihåg 2026-05-26)
+
+**Kanon:** [`docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md`](../docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md)
+
+- [ ] **LifeHubPreset** — ~4 exempelhubbar (förälder trygg, rehab låg, vardag/arbete, minimal) som styr extra material per route
+- [ ] **RoutineTemplate + ModuleLink** — rutiner i Planering/Projekt med deep links till MåBra, Familjen, Kompasser, Dagbok (samma mönster som `mabraBridge`)
+- [ ] **MaterialPack** — kuraterat innehåll per hub via U6-banker (ingen fjärde RAG-silo)
+- [ ] Implementation: `kör life hub MVP` (Fas A) · `kör kopplingar` (Fas B–D) · se komihåg för fasering

@@ -25,6 +25,7 @@ Varje genväg = **egen hemskärms-ikon** med **minimal skärm** (ingen dock, ing
 | **WH3** | Kompass | `/widget/kompass` | Aktiv tidskompass, ett check-in |
 | **WH4** | Hamn | `/widget/hamn` | Klistra SMS → BIFF (kort) |
 | **WH5** | Familjen | `/widget/familjen` | Snabb barnfokus-rad (neutral) |
+| **WH6** | **Stämpel** | `/widget/stampla` | Stämpla **in** / **ut** (Android: två knappar på widget) |
 
 **WH1 är kritisk** — se inspelningspipeline nedan.
 

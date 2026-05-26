@@ -18,6 +18,7 @@ export type AdaptiveMemoryCard = {
   actionLabel: string;
   to: string;
   search?: string;
+  hash?: string;
   tone: 'gold' | 'indigo' | 'lavender' | 'emerald';
 };
 
@@ -83,9 +84,9 @@ function cardsFromMorning(option: string): AdaptiveMemoryCard[] {
           id: 'morning-minne',
           title: 'Minne',
           prompt: 'Skriv en rad om dagens intention — så minns Kunskapsvalvet.',
-          actionLabel: 'Kunskap',
-          to: '/vardagen',
-          search: '?tab=kunskap',
+          actionLabel: 'Inkast',
+          to: '/',
+          hash: 'inkast-lite',
           tone: 'emerald',
         },
       ];
@@ -143,9 +144,9 @@ function cardsFromDay(option: string): AdaptiveMemoryCard[] {
           id: 'day-minne-tense',
           title: 'Minne',
           prompt: 'Logga vad som spände — neutralt, utan att lösa.',
-          actionLabel: 'Skriv i Minne',
-          to: '/vardagen',
-          search: '?tab=kunskap',
+          actionLabel: 'Inkast',
+          to: '/',
+          hash: 'inkast-lite',
           tone: 'emerald',
         },
       ];
@@ -167,9 +168,9 @@ function cardsFromDay(option: string): AdaptiveMemoryCard[] {
           id: 'day-stable',
           title: 'Dag — stabil',
           prompt: 'Stabil bas idag. Vad är ett faktum du vill minnas i Kunskapsvalvet?',
-          actionLabel: 'Lägg i Minne',
-          to: '/vardagen',
-          search: '?tab=kunskap',
+          actionLabel: 'Inkast',
+          to: '/',
+          hash: 'inkast-lite',
           tone: 'emerald',
         },
       ];
@@ -239,9 +240,9 @@ export function buildAdaptiveMemoryCards(
         id: 'evening-done',
         title: 'Kväll klar',
         prompt: 'KASAM sparad. Vill du lägga en rad i Minne om dagen?',
-        actionLabel: 'Minne',
-        to: '/vardagen',
-        search: '?tab=kunskap',
+        actionLabel: 'Inkast',
+        to: '/',
+        hash: 'inkast-lite',
         tone: 'emerald',
       });
     }

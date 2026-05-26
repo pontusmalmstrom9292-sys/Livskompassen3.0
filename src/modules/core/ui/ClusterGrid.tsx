@@ -60,7 +60,7 @@ const clusters: Cluster[] = [
     modules: [
       { label: 'Kompasser', to: '/vardagen' },
       { label: 'Ekonomi', to: '/vardagen', search: '?tab=ekonomi' },
-      { label: 'Kunskap', to: '/vardagen', search: '?tab=kunskap' },
+      { label: 'Kunskap', to: '/dagbok', search: '?tab=bevis&vaultTab=kunskapsbank' },
     ],
   },
   {

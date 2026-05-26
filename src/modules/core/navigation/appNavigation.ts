@@ -12,7 +12,7 @@ export type ClusterTone = 'gold' | 'indigo' | 'lavender' | 'emerald';
 export type HubPosition = 'center' | 'side';
 
 export type HjartatTab = 'reflektion' | 'bevis' | 'speglar';
-export type VardagenTab = 'kompasser' | 'ekonomi' | 'kunskap';
+export type VardagenTab = 'kompasser' | 'ekonomi';
 
 export type ClusterChip = {
   label: string;
@@ -59,7 +59,6 @@ export const HJARTAT_TABS: ClusterTabDef<HjartatTab>[] = [
 export const VARDAGEN_TABS: ClusterTabDef<VardagenTab>[] = [
   { id: 'kompasser', label: 'Kompasser', isDefault: true },
   { id: 'ekonomi', label: 'Ekonomi' },
-  { id: 'kunskap', label: 'Kunskap' },
 ];
 
 const HJARTAT_CLUSTER: LifeCluster = {
@@ -119,7 +118,6 @@ const VARDAGEN_CLUSTER: LifeCluster = {
   chips: [
     { label: 'Kompasser', tab: 'kompasser' },
     { label: 'Ekonomi', tab: 'ekonomi' },
-    { label: 'Kunskap', tab: 'kunskap' },
   ],
 };
 
@@ -187,7 +185,7 @@ export type LegacyRedirect = {
 export const LEGACY_REDIRECTS: LegacyRedirect[] = [
   { from: '/kompasser', to: VARDAGEN_PATH },
   { from: '/ekonomi', to: VARDAGEN_PATH, search: '?tab=ekonomi' },
-  { from: '/kunskap', to: VARDAGEN_PATH, search: '?tab=kunskap' },
+  { from: '/kunskap', to: '/dagbok', search: '?tab=bevis&vaultTab=kunskapsbank' },
   { from: '/valv', to: HJARTAT_PATH, search: '?tab=bevis' },
   { from: '/speglar', to: HJARTAT_PATH, search: '?tab=speglar' },
   { from: '/barnen', to: '/familjen' },
@@ -207,7 +205,7 @@ export function resolveHjartatTab(raw: string | null, vaultGateOpen: boolean): H
 }
 
 export function parseVardagenTab(raw: string | null): VardagenTab {
-  if (raw === 'ekonomi' || raw === 'kunskap') return raw;
+  if (raw === 'ekonomi') return 'ekonomi';
   return 'kompasser';
 }
 

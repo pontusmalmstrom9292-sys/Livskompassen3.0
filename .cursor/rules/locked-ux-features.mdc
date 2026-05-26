@@ -19,11 +19,20 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 - Mounted in `BarnensPage` with optimistic `category: 'barnfokus'` saves (read legacy `middag`)
 - Button copy: **Spara till {ChildAlias}s logg** · **Minneslista** under form
 
-## Valv — Pansaret (Mönster + Orkester)
+## Valv — Pansaret (Mönster + Orkester + Kunskapsbank)
 
-- Tabs on `VaultPage`: `monster` (label **Mönster**), `orkester` (label **Orkester**)
-- `VaultMonsterPanel` — deterministic frequency (no LLM as source of truth)
-- `VaultOrkesterPanel` — agent registry + SMS thread pattern search via `analyzeMessage`
+- Entry: drawer section **Valv** → `/dagbok?tab=bevis&vaultTab=…` (PIN in `VaultPage`)
+- Tabs: `logga`, `sok`, `monster`, `orkester`, `dossier`, **`kunskapsbank`**
+- `VaultKunskapsbankPanel` — all Kunskap UI behind PIN (no public `/vardagen?tab=kunskap`)
+- `VaultMonsterPanel` / `VaultOrkesterPanel` — unchanged locked behavior
+
+## Sidomeny (hamburger — design lock)
+
+- Kanon: `docs/design/references/MENU-DRAWER-KANON.md`
+- **Two sections:** Vardag (public hubs + sub-rows) · Valv (PIN destinations)
+- Source: `navTruth.ts` → `DRAWER_VARDAG_ITEMS` / `DRAWER_VALV_ITEMS`
+- Active row: gold only (not teal/turquoise)
+- Quick actions (`DrawerHomeQuickActions`) on all screens
 
 ## Planering + Projekt (design lock — hybrid)
 
@@ -36,12 +45,6 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 
 - Specs: `docs/design/PLANERINGSSIDA-SPEC.md`, `docs/design/WIDGET-BAR-SPEC.md`
 - Do not remove P1–P4 / W1–W4 documentation or email-routing design without approval
-
-## Sidomeny (hamburger — design lock)
-
-- Kanon: `docs/design/references/MENU-DRAWER-KANON.png` + `MENU-DRAWER-KANON.md`
-- Rows: Hem Kompass, Familjen, Hamn, Valv, Planering, MåBra, Inställningar
-- Active row: gold only (not teal/turquoise)
 
 ## Barnporten (barnens hub — design lock)
 

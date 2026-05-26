@@ -1,4 +1,14 @@
-import { BarChart3, FileText, Lock, Network, ScrollText, Search, ShieldAlert, X } from 'lucide-react';
+import {
+  BarChart3,
+  BookOpen,
+  FileText,
+  Lock,
+  Network,
+  ScrollText,
+  Search,
+  ShieldAlert,
+  X,
+} from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BentoCard } from '../../core/ui/BentoCard';
@@ -15,11 +25,20 @@ import { DossierPage } from '../../dossier';
 import { VaultMonsterPanel } from './VaultMonsterPanel';
 import { VaultOrkesterPanel } from './VaultOrkesterPanel';
 import { PansaretHeader } from './PansaretHeader';
+import { VaultKunskapsbankPanel } from './VaultKunskapsbankPanel';
+import { VaultForensicPanel } from './VaultForensicPanel';
 import type { VaultLogInput } from '../types/vaultEntry';
+import {
+  type MainVaultTab,
+  type VaultTab,
+  isForensicVaultTab,
+  forensicVaultTabLabel,
+} from '../utils/vaultTabs';
 
 import { hasPinConfigured, setupPin, verifyPin } from '../../core/security/vaultPin';
 
-export type VaultTab = 'logga' | 'sok' | 'monster' | 'orkester' | 'dossier';
+export type { VaultTab, MainVaultTab } from '../utils/vaultTabs';
+export { parseVaultTab } from '../utils/vaultTabs';
 
 const VAULT_TABS = [
   { id: 'logga' as const, label: 'Arkiv', icon: <FileText className="h-3 w-3" /> },
@@ -27,14 +46,22 @@ const VAULT_TABS = [
   { id: 'monster' as const, label: 'Mönster', icon: <BarChart3 className="h-3 w-3" /> },
   { id: 'orkester' as const, label: 'Orkester', icon: <Network className="h-3 w-3" /> },
   { id: 'dossier' as const, label: 'Dossier', icon: <ScrollText className="h-3 w-3" /> },
+  { id: 'kunskapsbank' as const, label: 'Kunskapsbank', icon: <BookOpen className="h-3 w-3" /> },
 ];
 
 type VaultPageProps = {
   embedded?: boolean;
   onClose?: () => void;
+  initialVaultTab?: VaultTab;
+  onVaultTabChange?: (tab: VaultTab) => void;
 };
 
-export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
+export function VaultPage({
+  embedded = false,
+  onClose,
+  initialVaultTab = 'logga',
+  onVaultTabChange,
+}: VaultPageProps) {
   const navigate = useNavigate();
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
@@ -45,9 +72,19 @@ export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
   const [logs, setLogs] = useState<(VaultLog & { id: string })[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [vaultTab, setVaultTab] = useState<VaultTab>('logga');
+  const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
   const gateOk = hasVaultGate();
+  const forensicActive = isForensicVaultTab(vaultTab);
+
+  const setVaultTab = (next: VaultTab) => {
+    setVaultTabState(next);
+    onVaultTabChange?.(next);
+  };
+
+  useEffect(() => {
+    setVaultTabState(initialVaultTab);
+  }, [initialVaultTab]);
 
   const handleCitationClick = (docId: string) => {
     setHighlightLogId(docId);
@@ -56,7 +93,7 @@ export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
 
   useEffect(() => {
     if (!isVaultUnlocked) {
-      setVaultTab('logga');
+      setVaultTabState('logga');
     }
   }, [isVaultUnlocked]);
 
@@ -148,7 +185,7 @@ export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
   if (!isVaultUnlocked) {
     return (
       <BentoCard
-        title={embedded ? 'Bevis' : 'Verklighetsvalvet'}
+        title={embedded ? 'Valv · Baksida' : 'Verklighetsvalvet'}
         description="Ange PIN"
         icon={<ShieldAlert className="h-4 w-4" />}
       >
@@ -156,7 +193,7 @@ export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
           description={
             isSetup
               ? 'Skapa din PIN (sparas lokalt, aldrig hårdkodad).'
-              : 'Ange PIN för att låsa upp.'
+              : 'Ange PIN för att låsa upp Valv-baksidan.'
           }
           pin={pin}
           confirmPin={confirmPin}
@@ -180,24 +217,42 @@ export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
 
   return (
     <div className="space-y-4">
-      <BentoCard title={embedded ? 'Bevis' : 'Verklighetsvalvet'} icon={<Lock className="h-4 w-4" />}>
+      <BentoCard title={embedded ? 'Valv · Baksida' : 'Verklighetsvalvet'} icon={<Lock className="h-4 w-4" />}>
         <div className="mb-4 flex items-start justify-between gap-2">
           <p className="text-sm text-accent">
-            Lager 2 — append-only (WORM). Ett fält i taget.
+            {forensicActive
+              ? forensicVaultTabLabel(vaultTab)
+              : 'Lager 2 — append-only (WORM). Kunskap och bevis bakom PIN.'}
           </p>
           <button
             type="button"
             onClick={handleCloseToLayer1}
             className="btn-pill--ghost shrink-0 flex items-center gap-1"
-            title="Stäng valv — tillbaka till dagbok"
+            title="Stäng valv — tillbaka till vardag"
           >
             <X className="h-3 w-3" /> Stäng
           </button>
         </div>
-        <TabBar<VaultTab> tabs={VAULT_TABS} active={vaultTab} onChange={setVaultTab} />
+        {!forensicActive ? (
+          <TabBar<MainVaultTab>
+            tabs={VAULT_TABS}
+            active={vaultTab as MainVaultTab}
+            onChange={(id) => setVaultTab(id)}
+          />
+        ) : (
+          <button
+            type="button"
+            className="text-xs uppercase tracking-widest text-accent/80 hover:text-accent"
+            onClick={() => setVaultTab('logga')}
+          >
+            ← Tillbaka till Valv
+          </button>
+        )}
       </BentoCard>
 
-      {vaultTab === 'logga' && (
+      {forensicActive && <VaultForensicPanel tab={vaultTab} />}
+
+      {!forensicActive && vaultTab === 'logga' && (
         <>
           <BentoCard title="Ny post" description="Append-only bevis">
             <VaultEntryForm userId={user.uid} saving={loading} onSave={handleSaveLog} />
@@ -207,23 +262,25 @@ export function VaultPage({ embedded = false, onClose }: VaultPageProps) {
         </>
       )}
 
-      {vaultTab === 'sok' && (
+      {!forensicActive && vaultTab === 'sok' && (
         <ValvChatPanel
           active={isVaultUnlocked && vaultTab === 'sok'}
           onCitationClick={handleCitationClick}
         />
       )}
 
-      {vaultTab === 'monster' && (
+      {!forensicActive && vaultTab === 'monster' && (
         <>
           <PansaretHeader />
           <VaultMonsterPanel logs={logs} />
         </>
       )}
 
-      {vaultTab === 'orkester' && <VaultOrkesterPanel logs={logs} />}
+      {!forensicActive && vaultTab === 'orkester' && <VaultOrkesterPanel logs={logs} />}
 
-      {vaultTab === 'dossier' && <DossierPage embedded />}
+      {!forensicActive && vaultTab === 'dossier' && <DossierPage embedded />}
+
+      {!forensicActive && vaultTab === 'kunskapsbank' && <VaultKunskapsbankPanel />}
     </div>
   );
 }

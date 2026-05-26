@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Calendar, FolderKanban } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useCallback, useMemo } from 'react';
+import { Calendar } from 'lucide-react';
+import { Navigate, useSearchParams } from 'react-router-dom';
 import { TabBar } from '../../core/ui/TabBar';
 import { CognitiveLoadStrip } from '../../core/ui/CognitiveLoadStrip';
 import { PLANERING_TAGLINE, PLANERING_TABS } from '../constants';
@@ -9,14 +9,54 @@ import { PlanningKanbanBoard } from './PlanningKanbanBoard';
 import { PlaneringFokusPanel } from './PlaneringFokusPanel';
 import { PlaneringInkorgPanel } from './PlaneringInkorgPanel';
 import { HubPageShell } from '../../core/layout/HubPageShell';
+import { RoutinesPanel } from './RoutinesPanel';
+
+function parsePlaneringTab(raw: string | null): PlaneringTab {
+  if (raw === 'fokus' || raw === 'inkorg') return raw;
+  return 'handling';
+}
+
+const TAB_TITLES: Record<PlaneringTab, string> = {
+  handling: 'Handling',
+  fokus: 'Fokus',
+  inkorg: 'Inkorg',
+};
 
 export function PlaneringPage() {
-  const [tab, setTab] = useState<PlaneringTab>('handling');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabParam = searchParams.get('tab');
+  const tab = parsePlaneringTab(tabParam);
+
+  const setTab = useCallback(
+    (next: PlaneringTab) => {
+      setSearchParams(next === 'handling' ? {} : { tab: next }, { replace: true });
+    },
+    [setSearchParams],
+  );
+
+  if (tabParam && tabParam !== 'handling' && tabParam !== 'fokus' && tabParam !== 'inkorg') {
+    return <Navigate to="/planering" replace />;
+  }
+
+  const title = TAB_TITLES[tab];
+
+  const panel = useMemo(() => {
+    switch (tab) {
+      case 'handling':
+        return <PlanningKanbanBoard />;
+      case 'fokus':
+        return <PlaneringFokusPanel />;
+      case 'inkorg':
+        return <PlaneringInkorgPanel />;
+      default:
+        return null;
+    }
+  }, [tab]);
 
   return (
     <HubPageShell
       eyebrow="Planering"
-      title="Handling"
+      title={title}
       lead={PLANERING_TAGLINE}
       headerAside={
         <button
@@ -31,20 +71,11 @@ export function PlaneringPage() {
     >
       <CognitiveLoadStrip hint="En kolumn, ett kort — eller bara Fokus-fliken." />
 
-      <div className="flex flex-wrap items-center gap-2">
-        <TabBar<PlaneringTab> tabs={PLANERING_TABS} active={tab} onChange={setTab} />
-        <Link
-          to="/projekt"
-          className="ml-auto flex items-center gap-1 text-xs uppercase tracking-widest text-text-dim hover:text-accent"
-        >
-          <FolderKanban className="h-3 w-3" />
-          Projekt
-        </Link>
-      </div>
+      <RoutinesPanel />
 
-      {tab === 'handling' && <PlanningKanbanBoard />}
-      {tab === 'fokus' && <PlaneringFokusPanel />}
-      {tab === 'inkorg' && <PlaneringInkorgPanel />}
+      <TabBar<PlaneringTab> tabs={PLANERING_TABS} active={tab} onChange={setTab} />
+
+      {panel}
     </HubPageShell>
   );
 }

@@ -155,6 +155,7 @@ Spec: [`WIDGET-BAR-SPEC.md`](./WIDGET-BAR-SPEC.md) (uppdateras).
 | **Widget → Planering** | fjärde ikon i expanderad widget | 1 |
 | **Koppla en kalender** | Google Calendar read-only | 2 |
 | **Uppgift → ekonomi** | Förfallen faktura → `/vardagen?tab=ekonomi` | 3 |
+| **L-01 Kopplingssystem** | Rutiner, modullänkar, 4 exempelhubbar — se [`LIFE-OS-KOPPLINGAR-KOMIHAG.md`](./LIFE-OS-KOPPLINGAR-KOMIHAG.md) | A–D |
 
 ---
 

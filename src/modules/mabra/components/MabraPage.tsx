@@ -28,9 +28,11 @@ import { MabraComplete } from './MabraComplete';
 import { KbtTransformatorPanel } from './KbtTransformatorPanel';
 import { HubPageShell } from '../../core/layout/HubPageShell';
 import { sectionEyebrowClass } from '../../core/ui/typeScale';
+import { LifeHubHubHint, useLifeHubPreset } from '../../core/lifeOs';
 
 export function MabraPage() {
   const user = useStore((s) => s.user);
+  const { preset } = useLifeHubPreset();
   const [step, setStep] = useState<MabraFlowStep>('hub');
   const [hub, setHub] = useState<MabraSymptomHub | null>(null);
   const [durationMinutes, setDurationMinutes] = useState<MabraDurationMinutes>(DEFAULT_MABRA_DURATION);
@@ -133,6 +135,7 @@ export function MabraPage() {
     >
         {step === 'hub' && (
           <>
+            <LifeHubHubHint preset={preset} hub="mabra" />
             <MabraProjectHub
               onSelectAkut={handleHubSelect}
               onSelectProject={(id) => {

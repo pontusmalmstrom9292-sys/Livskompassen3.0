@@ -32,8 +32,9 @@ Samma WORM-pipeline som PWA (WH1 → ingestWidgetRecording)
 | `NoteWidgetProvider` | Anteckning | `/widget/anteckning` |
 | `CompassWidgetProvider` | Kompass | `/widget/kompass` |
 | `HamnWidgetProvider` | Hamn · BIFF | `/widget/hamn` |
+| `StampWidgetProvider` | **Stämpel** (In / Ut) | `/widget/stampla?action=in` · `?action=out` |
 
-WH1-layout: `widget_discreet_note.xml` — anteckningsikon, guldkant, **ingen** «Inspelning»-text. Övriga widgets: `widget_tile.xml`.
+WH1-layout: `widget_discreet_note.xml` — anteckningsikon, guldkant, **ingen** «Inspelning»-text. WH6: `widget_stamp.xml` (In | Ut). Övriga widgets: `widget_tile.xml`.
 
 ---
 

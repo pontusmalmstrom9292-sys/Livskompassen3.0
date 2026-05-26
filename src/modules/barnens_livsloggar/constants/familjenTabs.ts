@@ -1,12 +1,11 @@
 import type { LucideIcon } from 'lucide-react';
-import { BookHeart, LineChart, Search, Sparkles, Users } from 'lucide-react';
+import { BookHeart, Sparkles, Users } from 'lucide-react';
 
+/** Publika Familjen-flikar — kunskap/mönster finns i Valv-menyn. */
 export const FAMILJEN_TABS = [
   { id: 'reflektion', label: 'Reflektion', icon: Sparkles },
   { id: 'livslogg', label: 'Livslogg', icon: BookHeart },
   { id: 'tillsammans', label: 'Tillsammans', icon: Users },
-  { id: 'monster', label: 'Mönster', icon: LineChart },
-  { id: 'kunskap', label: 'Kunskapshub', icon: Search },
 ] as const;
 
 export type FamiljenTabId = (typeof FAMILJEN_TABS)[number]['id'];

@@ -2,25 +2,42 @@ import { useState } from 'react';
 import { AdaptiveMemoryCards } from '../home/AdaptiveMemoryCards';
 import { HomeHeroKanon } from '../home/HomeHeroKanon';
 import { HomeQuickModules } from '../home/HomeQuickModules';
-import { StampClockWidget } from '../../stampla';
+import { StampClockHomeSection } from '../../stampla';
+import { InkastLiteCard } from '../../inkast';
+import {
+  LifeHubPresetPicker,
+  materialEnabled,
+  useLifeHubPreset,
+} from '../lifeOs';
 import { useStore } from '../store';
 
 export function HomePage() {
   const [cardRefreshKey, setCardRefreshKey] = useState(0);
   const isAuthenticated = useStore((s) => s.isAuthenticated);
+  const { preset, presetId, setPresetId } = useLifeHubPreset();
 
   return (
     <div className="home-page home-page--kanon home-page--scenic space-y-6">
-      <HomeHeroKanon onCheckInSaved={() => setCardRefreshKey((k) => k + 1)} />
+      <LifeHubPresetPicker activeId={presetId} onSelect={setPresetId} />
 
-      {isAuthenticated && <StampClockWidget />}
+      {materialEnabled(preset, 'home_hero_checkin') && (
+        <HomeHeroKanon onCheckInSaved={() => setCardRefreshKey((k) => k + 1)} />
+      )}
 
-      <AdaptiveMemoryCards refreshKey={cardRefreshKey} />
+      {isAuthenticated && materialEnabled(preset, 'home_stamp') && <StampClockHomeSection />}
 
-      <details className="home-more">
-        <summary className="home-more__summary">Snabbval</summary>
-        <HomeQuickModules onSaved={() => setCardRefreshKey((k) => k + 1)} />
-      </details>
+      {materialEnabled(preset, 'home_inkast') && <InkastLiteCard />}
+
+      {materialEnabled(preset, 'home_adaptive_cards') && (
+        <AdaptiveMemoryCards refreshKey={cardRefreshKey} presetId={presetId} />
+      )}
+
+      {materialEnabled(preset, 'home_snabbval') && (
+        <details className="home-more">
+          <summary className="home-more__summary">Snabbval</summary>
+          <HomeQuickModules onSaved={() => setCardRefreshKey((k) => k + 1)} />
+        </details>
+      )}
     </div>
   );
 }

@@ -23,4 +23,9 @@
     <string name="widget_hamn_title">Hamn · BIFF</string>
     <string name="widget_hamn_sub">Grey Rock-svar</string>
     <string name="widget_hamn_desc">Klistra SMS, få kort svar</string>
+
+    <string name="widget_stamp_title">Stämpel</string>
+    <string name="widget_stamp_in">In</string>
+    <string name="widget_stamp_out">Ut</string>
+    <string name="widget_stamp_desc">Stämpla in eller ut — öppnar appen ett steg</string>
 </resources>

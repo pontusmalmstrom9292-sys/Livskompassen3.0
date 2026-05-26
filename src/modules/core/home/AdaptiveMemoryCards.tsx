@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Loader2, Sparkles } from 'lucide-react';
 import { useStore } from '../store';
 import { getRecentCheckIns } from '../firebase/firestore';
+import { filterAdaptiveCardsForPreset, type LifeHubPresetId } from '../lifeOs/lifeHubPresets';
 import {
   buildAdaptiveMemoryCards,
   type AdaptiveMemoryCard,
@@ -15,7 +16,13 @@ const toneBorder: Record<AdaptiveMemoryCard['tone'], string> = {
   emerald: 'border-accent/25 bg-accent/5',
 };
 
-export function AdaptiveMemoryCards({ refreshKey = 0 }: { refreshKey?: number }) {
+export function AdaptiveMemoryCards({
+  refreshKey = 0,
+  presetId = 'foralder_trygg',
+}: {
+  refreshKey?: number;
+  presetId?: LifeHubPresetId;
+}) {
   const user = useStore((s) => s.user);
   const location = useLocation();
   const [cards, setCards] = useState<AdaptiveMemoryCard[]>([]);
@@ -30,13 +37,14 @@ export function AdaptiveMemoryCards({ refreshKey = 0 }: { refreshKey?: number })
     setLoading(true);
     try {
       const checkins = await getRecentCheckIns(user.uid, 24);
-      setCards(buildAdaptiveMemoryCards(checkins, { omitCompassPrompts: true }));
+      const built = buildAdaptiveMemoryCards(checkins, { omitCompassPrompts: true });
+      setCards(filterAdaptiveCardsForPreset(built, presetId));
     } catch {
       setCards([]);
     } finally {
       setLoading(false);
     }
-  }, [user]);
+  }, [user, presetId]);
 
   useEffect(() => {
     load();
@@ -68,7 +76,11 @@ export function AdaptiveMemoryCards({ refreshKey = 0 }: { refreshKey?: number })
               <p className="text-[10px] uppercase tracking-widest text-text-dim">{card.title}</p>
               <p className="mt-2 text-sm text-text-muted">{card.prompt}</p>
               <Link
-                to={{ pathname: card.to, search: card.search ?? '' }}
+                to={{
+                  pathname: card.to,
+                  search: card.search ?? '',
+                  hash: card.hash ? `#${card.hash.replace(/^#/, '')}` : '',
+                }}
                 className="btn-pill--ghost mt-3 inline-flex text-xs"
               >
                 {card.actionLabel}

@@ -33,13 +33,11 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                   onOpenChange={setAccountOpen}
                   compactTrigger
                 />
-                <div className="header-glass-btn header-glass-btn--avatar" aria-hidden>
-                  <KompisAvatar
-                    size="sm"
-                    state={kompisAuraActive ? 'analyzing' : 'idle'}
-                    className="border-0 bg-transparent"
-                  />
-                </div>
+                <KompisAvatar
+                  size="sm"
+                  state={kompisAuraActive ? 'analyzing' : 'idle'}
+                  className="shrink-0"
+                />
               </>
             }
           />

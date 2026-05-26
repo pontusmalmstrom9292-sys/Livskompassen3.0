@@ -1,11 +1,13 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { X, ChevronRight } from 'lucide-react';
-import { clsx } from 'clsx';
-import { DRAWER_NAV_ITEMS, type DrawerNavItem } from '../navigation/drawerNav';
+import { X } from 'lucide-react';
+import type { DrawerNavItem } from '../navigation/drawerNav';
+import { getVisibleDrawerTruth, type NavDrawerSection } from '../navigation/navTruth';
 import { LivskompassMark } from '../ui/LivskompassMark';
 import { DrawerHomeQuickActions } from '../components/DrawerHomeQuickActions';
+import { DrawerModeToggle } from './DrawerModeToggle';
+import { DrawerHubAccordion, isDrawerItemActive } from './DrawerHubAccordion';
 
 type Props = {
   open: boolean;
@@ -15,24 +17,48 @@ type Props = {
 
 const SWIPE_CLOSE_THRESHOLD_PX = 56;
 
-function isItemActive(item: DrawerNavItem, pathname: string, search: string): boolean {
-  const qIndex = item.path.indexOf('?');
-  const itemPath = qIndex >= 0 ? item.path.slice(0, qIndex) : item.path;
-  const itemQuery = qIndex >= 0 ? item.path.slice(qIndex + 1) : '';
-  if (pathname !== itemPath) return false;
-  if (!itemQuery) return pathname === itemPath;
-  const current = new URLSearchParams(search.replace(/^\?/, ''));
-  const expected = new URLSearchParams(itemQuery);
-  for (const [key, value] of expected.entries()) {
-    if (current.get(key) !== value) return false;
+function collectActiveAncestorIds(
+  section: NavDrawerSection,
+  pathname: string,
+  search: string,
+  hash: string,
+): Set<string> {
+  const expanded = new Set<string>();
+  const visible = getVisibleDrawerTruth(section);
+  for (const entry of visible) {
+    if (!entry.parentId) continue;
+    const item = {
+      id: entry.id,
+      label: entry.label,
+      path: entry.path,
+      section: entry.section,
+      icon: () => null,
+    } as DrawerNavItem;
+    if (isDrawerItemActive(item, pathname, search, hash)) {
+      expanded.add(entry.parentId);
+    }
   }
-  return true;
+  return expanded;
 }
 
 export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
   const location = useLocation();
   const navigate = useNavigate();
   const touchStartX = useRef(0);
+  const [mode, setMode] = useState<NavDrawerSection>('vardag');
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set());
+
+  const pathname = location.pathname;
+  const search = location.search;
+  const hash = location.hash;
+
+  const activeAncestors = useMemo(
+    () => ({
+      vardag: collectActiveAncestorIds('vardag', pathname, search, hash),
+      valv: collectActiveAncestorIds('valv', pathname, search, hash),
+    }),
+    [pathname, search, hash],
+  );
 
   useEffect(() => {
     if (!open) return;
@@ -49,7 +75,14 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
 
   useEffect(() => {
     onClose();
-  }, [location.pathname, location.search, onClose]);
+  }, [location.pathname, location.search, location.hash, onClose]);
+
+  useEffect(() => {
+    if (!open) return;
+    const valvActive = activeAncestors.valv.size > 0 || pathname.includes('vaultTab=');
+    setMode(valvActive ? 'valv' : 'vardag');
+    setExpandedIds(new Set([...activeAncestors.vardag, ...activeAncestors.valv]));
+  }, [open, pathname, activeAncestors, search]);
 
   const handleTouchStart = (clientX: number) => {
     touchStartX.current = clientX;
@@ -60,9 +93,16 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
     if (delta < -SWIPE_CLOSE_THRESHOLD_PX) onClose();
   };
 
-  if (!open) return null;
+  const toggleExpand = (id: string) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
-  const isHome = location.pathname === '/';
+  if (!open) return null;
 
   const go = (item: DrawerNavItem) => {
     if (item.id === 'installningar') {
@@ -70,10 +110,21 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
       onClose();
       return;
     }
+
+    const hashIndex = item.path.indexOf('#');
     const qIndex = item.path.indexOf('?');
-    const path = qIndex >= 0 ? item.path.slice(0, qIndex) : item.path;
-    const search = qIndex >= 0 ? `?${item.path.slice(qIndex + 1)}` : '';
-    navigate({ pathname: path, search });
+    const pathEnd = [hashIndex, qIndex].filter((i) => i >= 0);
+    const end = pathEnd.length ? Math.min(...pathEnd) : item.path.length;
+    const path = item.path.slice(0, end);
+    const itemHash = hashIndex >= 0 ? item.path.slice(hashIndex + 1) : '';
+    const itemSearch =
+      qIndex >= 0 ? `?${item.path.slice(qIndex + 1, hashIndex >= 0 ? hashIndex : undefined)}` : '';
+
+    navigate({
+      pathname: path || '/',
+      search: itemSearch,
+      hash: itemHash ? `#${itemHash}` : '',
+    });
     onClose();
   };
 
@@ -114,27 +165,23 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
           </div>
         </div>
 
-        {isHome ? <DrawerHomeQuickActions onNavigate={onClose} /> : null}
+        <DrawerModeToggle mode={mode} onChange={setMode} />
 
-        <nav className="nav-drawer__list">
-          {DRAWER_NAV_ITEMS.map((item) => {
-            const Icon = item.icon;
-            const active = isItemActive(item, location.pathname, location.search);
-            return (
-              <button
-                key={item.id}
-                type="button"
-                className={clsx('nav-drawer__row', active && 'nav-drawer__row--active')}
-                onClick={() => go(item)}
-              >
-                <span className="nav-drawer__row-icon" aria-hidden>
-                  <Icon className="h-5 w-5" strokeWidth={1.5} />
-                </span>
-                <span className="nav-drawer__row-label">{item.label}</span>
-                <ChevronRight className="nav-drawer__row-chevron" strokeWidth={1.5} aria-hidden />
-              </button>
-            );
-          })}
+        {mode === 'vardag' && <DrawerHomeQuickActions onNavigate={onClose} />}
+
+        <nav className="nav-drawer__sections" aria-label="Moduler">
+          <div className="nav-drawer__section">
+            <p className="nav-drawer__section-title">{mode === 'vardag' ? 'Vardag' : 'Valv'}</p>
+            <DrawerHubAccordion
+              section={mode}
+              pathname={pathname}
+              search={search}
+              hash={hash}
+              expandedIds={expandedIds}
+              onToggleExpand={toggleExpand}
+              onGo={go}
+            />
+          </div>
         </nav>
       </aside>
     </>,

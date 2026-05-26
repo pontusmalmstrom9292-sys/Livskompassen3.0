@@ -1,6 +1,6 @@
 # Sidomeny (hamburger) — KANON
 
-**Status:** **Låst** 2026-05-23 — denna layout ska vi ha.  
+**Status:** **Låst** 2026-05-26 — helhetsindex med Vardag/Valv-växlare + accordion-hubbar.  
 **Bild:** [`MENU-DRAWER-KANON.png`](./MENU-DRAWER-KANON.png)
 
 ---
@@ -13,25 +13,45 @@
 | **Bredd** | ~68% skärm, glid in från vänster |
 | **Header** | `LIVSKOMPASSEN` serif guld + dekoration (tre rutor) |
 | **Stäng** | Guld `×` uppe vänster |
-| **Rad** | Cirkel-ikon guld (48px) · etikett · chevron `›` |
+| **Lägesväxlare** | Segment **Vardag** \| **Valv** (guld aktiv) |
+| **Rad** | Cirkel-ikon guld (48px hub / 36px sub) · etikett · chevron |
 | **Aktiv rad** | **Guld** bakgrundsstreck (inte turkos/teal) |
-| **Ikoner** | Detaljerade guld line-in-circle (L2) |
+| **Sektion** | Rubrik speglar aktivt läge |
 
 ---
 
-## Menyrader (ordning)
+## Läge Vardag (publikt)
 
-| # | Etikett | Route | Ikon (mål) |
-|---|---------|-------|------------|
-| 1 | **Hem Kompass** | `/` | Kompassros |
-| 2 | **Familjen** | `/familjen` | Familj (3 figurer) |
-| 3 | **Trygg hamn** | `/hamn` | Ratt / ankare (UI-text — inte «Hamn» ensamt) |
-| 4 | **Vardagen** | `/vardagen` | Rutiner / ekonomi / kunskap (flikar) |
-| 5 | **Valv** | `/dagbok?tab=bevis` | Valvbåge |
-| 6 | **Planering** | `/planering` | Kalender |
-| 7 | **Arbetsliv** | `/arbetsliv` | Klocka |
-| 8 | **MåBra** | `/mabra` | Lotus / gnista |
-| 9 | **Inställningar** | `/installningar` eller konto-meny | Kugghjul |
+Snabbåtgärder (chips) visas **endast i Vardag-läge**.
+
+| Hub | Underflikar |
+|-----|-------------|
+| Hem Kompass | Inkast (`/#inkast-lite`) |
+| Dagbok | Reflektion · Speglar *(Bevis dold vid G18)* |
+| Familjen | Reflektion · Livslogg · Tillsammans |
+| Trygg hamn | Översikt · BIFF · Speglar · Barnfokus |
+| Vardagen | Kompasser · Ekonomi |
+| Planering | Handling · Fokus · Inkorg |
+| Arbetsliv | Stämpel · Tid & flex · Logg |
+| MåBra | — |
+| Projekt | Nytt projekt |
+| Inställningar | — |
+
+**MUST NOT:** publik `/vardagen?tab=kunskap` — Kunskap endast via Valv `kunskapsbank`.
+
+---
+
+## Läge Valv (PIN i VaultPage)
+
+Tre expanderbara grupper:
+
+| Grupp | Rader |
+|-------|--------|
+| **Pansaret** | Arkiv · Triage · Mönster · Orkester · Dossier · full vy (`/dossier`) |
+| **Kunskap** | Kunskapsbank |
+| **Forensik** | Hamn · Analys · Speglar · Fördjupat · Dagbok · Arkiv · Familjen · Mönster · Arbetsliv · Frånvaro · Arbetsliv · Lön |
+
+Alla Valv-rader (utom Dossier-export) → `/dagbok?tab=bevis&vaultTab=…`
 
 ---
 
@@ -39,26 +59,25 @@
 
 | Gest | Resultat |
 |------|----------|
-| Öppna | Hamburgermeny i header (alla skärmar med `MainLayout`) |
-| Stäng | `×`, swipe vänster, tap utanför |
-| Rad-tryck | Navigera + stäng drawer |
-| Zero Footprint | Stäng drawer vid utloggning |
+| Öppna | Hamburgermeny i header (`AppHeaderBar`) |
+| Vardag \| Valv | Visar endast relevant index |
+| Hub med barn | Ikon+etikett → hub-path; **chevron** fäller ut underflikar |
+| Valv-grupp | Rad fäller ut (ingen path) |
+| Stäng | `×`, swipe vänster, tap utanför, route change |
+| Valv-rad | Navigera → PIN-gate → Valv-baksida |
+
+Widget-routes `/widget/*` ingår **inte** i drawer (deep links / PWA).
 
 ---
 
-## Implementation (P1)
+## Implementation
 
-| Komponent | Fil (plan) |
-|-----------|------------|
+| Komponent | Fil |
+|-----------|-----|
 | `NavigationDrawer` | `src/modules/core/layout/NavigationDrawer.tsx` |
-| `DRAWER_NAV_ITEMS` | `src/modules/core/navigation/drawerNav.ts` (paths från `navTruth.ts`) |
-| `HubPageShell` | `src/modules/core/layout/HubPageShell.tsx` |
-| Bakgrund | Delad `AmbientBackground` / samma asset som hem |
+| `DrawerModeToggle` | `src/modules/core/layout/DrawerModeToggle.tsx` |
+| `DrawerHubAccordion` | `src/modules/core/layout/DrawerHubAccordion.tsx` |
+| Sanning | `src/modules/core/navigation/navTruth.ts` |
+| Ikoner | `src/modules/core/navigation/drawerNav.ts` |
 
-Koppla till befintliga `LIFE_CLUSTERS` + Planering + Inställningar.
-
----
-
-## Färgkorrigering vs mockup
-
-Mockup visar **teal** markering på Hamn — **produktion:** aktiv rad endast **guld** `#d4af37` (se [`COLOR-POLICY.md`](../COLOR-POLICY.md)).
+Kanon: [`COLOR-POLICY.md`](../COLOR-POLICY.md) — aktiv rad endast **guld** `#d4af37`.
