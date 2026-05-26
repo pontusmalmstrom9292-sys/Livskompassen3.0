@@ -136,7 +136,14 @@ export function FyrenSmartWidgetBar() {
             }
             {...valvHandlers}
           >
-            <ChevronUp className="h-3 w-3 text-accent" strokeWidth={1.5} />
+            <span className="fyren-smart-bar__handle-body" aria-hidden>
+              <span className="fyren-smart-bar__handle-grip">
+                <span className="fyren-smart-bar__handle-grip-line" />
+                <span className="fyren-smart-bar__handle-grip-line" />
+                <span className="fyren-smart-bar__handle-grip-line" />
+              </span>
+              <ChevronUp className="fyren-smart-bar__handle-chevron" strokeWidth={2.25} />
+            </span>
           </button>
         ) : null}
 

@@ -3,6 +3,17 @@ import { useLocation } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import { AppHeaderBrand } from './AppHeaderBrand';
 
+const HEADER_PANEL_STYLES = ['ember', 'obsidian', 'aurora'] as const;
+export type HeaderPanelStyle = (typeof HEADER_PANEL_STYLES)[number];
+
+function resolveHeaderPanelStyle(): HeaderPanelStyle {
+  const v = import.meta.env.VITE_HEADER_PANEL_STYLE;
+  if (typeof v === 'string' && HEADER_PANEL_STYLES.includes(v as HeaderPanelStyle)) {
+    return v as HeaderPanelStyle;
+  }
+  return 'ember';
+}
+
 type Props = {
   menuExpanded: boolean;
   onMenuClick: () => void;
@@ -12,9 +23,13 @@ type Props = {
 export function AppHeaderBar({ menuExpanded, onMenuClick, actions }: Props) {
   const location = useLocation();
   const showTagline = location.pathname === '/';
+  const panelStyle = resolveHeaderPanelStyle();
 
   return (
-    <div className="glass-header-bar glass-header-bar--kanon">
+    <div
+      className="glass-header-bar glass-header-bar--kanon"
+      data-panel-style={panelStyle}
+    >
       <span className="glass-header-bar__corner glass-header-bar__corner--tl" aria-hidden />
       <span className="glass-header-bar__corner glass-header-bar__corner--tr" aria-hidden />
       <span className="glass-header-bar__corner glass-header-bar__corner--bl" aria-hidden />
@@ -27,7 +42,7 @@ export function AppHeaderBar({ menuExpanded, onMenuClick, actions }: Props) {
         aria-expanded={menuExpanded}
         onClick={onMenuClick}
       >
-        <Menu className="h-5 w-5" strokeWidth={1.5} />
+        <Menu className="h-5 w-5" strokeWidth={2} />
       </button>
 
       <AppHeaderBrand showTagline={showTagline} />

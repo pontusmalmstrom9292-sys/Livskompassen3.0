@@ -21,7 +21,7 @@ import type { HubContextIconId } from './hubContextBar';
 
 export function renderHubContextIcon(id: HubContextIconId, className: string): ReactNode {
   const cls = className;
-  const stroke = 1.5;
+  const stroke = 1.65;
   switch (id) {
     case 'list':
       return <List className={cls} strokeWidth={stroke} />;

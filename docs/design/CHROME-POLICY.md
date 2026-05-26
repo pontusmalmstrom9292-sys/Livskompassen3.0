@@ -1,13 +1,13 @@
 # Chrome-policy — dock, widget, sidfötter
 
-**Version:** 2026-05-26 · **Sanning:** `src/modules/core/navigation/navTruth.ts`  
+**Version:** 2026-05-27 · **Sanning:** `src/modules/core/navigation/navTruth.ts`  
 **Ikoner:** låst B1/D1/M2 — [`ICON-STYLE-GUIDE.md`](./ICON-STYLE-GUIDE.md) · övriga: [`icons-proposals/2026-05-26-remaining/`](./icons-proposals/2026-05-26-remaining/)
 
 ## Lager (botten → topp)
 
 | Lager | Komponent | Var | Policy |
 |-------|-----------|-----|--------|
-| 1 | **FloatingDock** | `DockClassicTriad` | Alltid på `MainLayout` — Familjen · Kompass · Valv ([DOCK-KANON](references/DOCK-KANON.md)) |
+| 1 | **FloatingDock** | `FloatingDock.tsx` | `DockHubBand` (standard) eller `CompassHubOrb` om `VITE_DOCK_ORBIT=true` — se [DOCK-KANON](references/DOCK-KANON.md) |
 | 2 | **FyrenSmartWidgetBar** | `FyrenSmartWidgetBar.tsx` | Kanonisk W1–W4; dold på `/widget/*` |
 | 3 | **NavigationDrawer** | Portal vänster | Vardag-hubbar; Valv-meny endast efter PIN på Valv-route ([MENU-DRAWER-KANON](references/MENU-DRAWER-KANON.md)) |
 | 4 | **Hem snabbåtgärder (legacy)** | `DrawerHomeQuickActions.tsx` | **Ej** monterad i drawer; Fyren/widget om snabbvägar behövs |
@@ -28,3 +28,19 @@
 ## Scroll-padding
 
 `MainLayout` `main` använder `pb-24` så innehåll inte döljs under dock + widget.
+
+## App-header — panelstilar (3D)
+
+`AppHeaderBar` sätter `data-panel-style` på `glass-header-bar--kanon`. Tre varianter (gradient, dubbel kant, inset-skugga, tjockare hörn):
+
+| Värde | Känsla |
+|-------|--------|
+| `ember` | Varm guld/brons (standard om env saknas) |
+| `obsidian` | Kall slate, silver highlight |
+| `aurora` | Teal + indigo glöd |
+
+`.env`: `VITE_HEADER_PANEL_STYLE=ember` · `obsidian` · `aurora`
+
+## Hub «Mer» (duplicering)
+
+Extra snabbval («Mer») finns i **Fyren**-widgetraden och i **hamburgermenyn** — **inte** som egen knapp i `DockHubBand` (undviker dubbel UI).
