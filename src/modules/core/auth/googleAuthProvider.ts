@@ -1,4 +1,5 @@
 import { GoogleAuthProvider } from 'firebase/auth';
+import { isCapacitorNative } from './capacitorPlatform';
 
 /** Valfri hint i Google-popup (t.ex. din primära e-post i `.env`). */
 export function createGoogleProvider(): GoogleAuthProvider {
@@ -35,9 +36,10 @@ export function consumeSkipAnonymousOnce(): boolean {
   }
 }
 
-/** Popup-flödet kraschar ofta i mobilwebbläsare — använd redirect. */
+/** Popup-flödet kraschar ofta i mobilwebbläsare — använd redirect (ej Capacitor native). */
 export function shouldUseGoogleRedirect(): boolean {
   if (typeof navigator === 'undefined') return false;
+  if (isCapacitorNative()) return false;
   if (import.meta.env.VITE_GOOGLE_SIGNIN_REDIRECT === 'true') return true;
   const coarse =
     typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches === true;

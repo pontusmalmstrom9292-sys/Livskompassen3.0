@@ -156,6 +156,17 @@ function main() {
   console.log('[smoke:orkester] Innehållskanon U6...');
   run('npm run smoke:innehall', root);
 
+  console.log('[smoke:orkester] Capacitor Google auth (Android)...');
+  mustInclude(
+    'src/modules/core/auth/authService.ts',
+    'isCapacitorNative',
+    'capacitorGoogleSignIn',
+  );
+  mustInclude('src/modules/core/auth/googleAuthProvider.ts', 'isCapacitorNative()');
+  mustInclude('capacitor.config.ts', 'FirebaseAuthentication', 'google.com');
+  mustInclude('android/variables.gradle', 'rgcfaIncludeGoogle');
+  mustInclude('package.json', '@capacitor-firebase/authentication');
+
   console.log('[smoke:orkester] functions build...');
   run('npm run build', resolve(root, 'functions'));
 

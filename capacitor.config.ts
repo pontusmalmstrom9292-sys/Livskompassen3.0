@@ -18,6 +18,11 @@ const config: CapacitorConfig = {
     androidScheme: 'https',
     ...(prodServerUrl ? { url: prodServerUrl, cleartext: false } : {}),
   },
+  plugins: {
+    FirebaseAuthentication: {
+      providers: ['google.com'],
+    },
+  },
 };
 
 export default config;

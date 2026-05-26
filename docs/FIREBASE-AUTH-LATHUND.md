@@ -51,18 +51,22 @@ Efter `.env`-ändring: **starta om** `npm run dev`.
 
 ---
 
-## Android (Android Studio / Capacitor) — **nuläge**
+## Android (Android Studio / Capacitor)
 
 | Del | Vad som gäller |
 |-----|----------------|
+| **Google i appen** | Native in-app via `@capacitor-firebase/authentication` + Firebase JS (`nativeGoogleAuth.ts`) — **inte** web-redirect till Chrome. |
+| **SHA-1 (krävs för native Google)** | Firebase Console → Project settings → Your apps → Android → lägg till **SHA-1** (debug: `cd android && ./gradlew signingReport`). Ladda ner ny `google-services.json` om OAuth-klient saknas. |
 | **Internet** | `AndroidManifest.xml` har `INTERNET` — appen **får** nät. |
 | **Prod-WebView** | `npm run cap:sync:prod` sätter `CAPACITOR_SERVER_URL=https://gen-lang-client-0481875058.web.app` → WebView laddar **live** UI från Hosting (kräver nät för att hämta sidan). |
 | **Dev** | `npm run cap:sync` utan URL → byggd `dist` i APK (färre “live”-koppling till Hosting). |
 | **HTTPS** | `capacitor.config.ts`: `androidScheme: 'https'`, `allowMixedContent: false`. |
+| **Efter auth-kodändring** | `npm run build:web && npx cap sync android` → Run i Android Studio. |
+| **Prod-WebView + ny auth-kod** | Med `cap:sync:prod` laddas **JS från Hosting** — pusha/deploya frontend till `main` **eller** testa med `npm run cap:sync` (bundlad `dist` i APK) tills Hosting är uppdaterad. |
 
 **Firestore offline (cache + kö vid nät)** — se [`OFFLINE-ANDROID.md`](./OFFLINE-ANDROID.md). Auth-lathunden rör bara **inloggning**; offline är separat.
 
-**Din checklista (Firebase Console)** — bocka av manuellt när klart: `[ ]` Authorized domains · `[ ]` Google påslaget · `[ ]` Anonymous på (om du använder anonym dev) — detaljer ovan.
+**Din checklista (Firebase Console)** — bocka av manuellt när klart: `[ ]` Authorized domains · `[ ]` Google påslaget · `[ ]` Android SHA-1 · `[ ]` Anonymous på (om du använder anonym dev) — detaljer ovan.
 
 ---
 
@@ -71,5 +75,7 @@ Efter `.env`-ändring: **starta om** `npm run dev`.
 | Symptom | Titta först |
 |---------|-------------|
 | `auth/unauthorized-domain` | Authorized domains + rätt host i adressfältet |
+| Google i app → Chrome + vit skärm | Gammal build utan native auth — kör `cap:sync` och installera om APK |
+| `DEVELOPER_ERROR` / Google avbryts direkt i app | SHA-1 saknas i Firebase för `com.livskompassen.app` |
 | Fel Google-konto | **Logga in**-fliken i appen (inte Skapa konto) + välj rätt konto i Google |
-| Vit skärm mobil | Redirect-flöde + att du kommer tillbaka till **samma** URL efter Google |
+| Vit skärm mobil (webbläsare) | Redirect-flöde + att du kommer tillbaka till **samma** URL efter Google |

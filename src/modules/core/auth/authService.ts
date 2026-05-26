@@ -12,6 +12,8 @@ import {
 } from 'firebase/auth';
 import { auth } from './AuthProvider';
 import { clearAppUnlockSession } from './appUnlockPrefs';
+import { isCapacitorNative } from './capacitorPlatform';
+import { capacitorGoogleSignIn, capacitorNativeSignOut } from './nativeGoogleAuth';
 import {
   createGoogleProvider,
   markSkipAnonymousOnce,
@@ -44,7 +46,13 @@ export function mapAuthError(code: string): string {
       return 'Domänen är inte godkänd i Firebase. Lägg till denna URL under Authentication → Settings → Authorized domains.';
     case 'auth/operation-not-supported-in-this-environment':
       return 'Inloggning stöds inte i den här webbläsaren. Prova Chrome/Safari eller dator.';
+    case 'auth/cancelled-popup-request':
+    case 'auth/user-cancelled':
+      return 'Inloggningen avbröts.';
     default:
+      if (code.includes('cancel') || code.includes('12501')) {
+        return 'Inloggningen avbröts.';
+      }
       return 'Inloggning misslyckades. Försök igen.';
   }
 }
@@ -85,6 +93,20 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
   const provider = createGoogleProvider();
   const current = auth.currentUser;
   const linkAnonymous = options.linkAnonymous ?? false;
+
+  if (isCapacitorNative()) {
+    if (current?.isAnonymous && linkAnonymous) {
+      return capacitorGoogleSignIn(true);
+    }
+    if (current) {
+      markSkipAnonymousOnce();
+      await signOut(auth);
+    } else {
+      markSkipAnonymousOnce();
+    }
+    return capacitorGoogleSignIn(false);
+  }
+
   const useRedirect = shouldUseGoogleRedirect();
 
   if (current?.isAnonymous && linkAnonymous) {
@@ -114,5 +136,8 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
 
 export async function signOutUser(): Promise<void> {
   clearAppUnlockSession();
+  if (isCapacitorNative()) {
+    await capacitorNativeSignOut();
+  }
   await signOut(auth);
 }

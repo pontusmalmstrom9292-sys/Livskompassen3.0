@@ -2,6 +2,8 @@ import { useEffect, type ReactNode } from 'react';
 import { getAuth, getRedirectResult, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 import { app } from '../firebase/init';
 import { useStore } from '../store';
+import { isCapacitorAndroid } from './capacitorPlatform';
+import { tryCompletePendingNativeGoogleSignIn } from './nativeGoogleAuth';
 import { consumeSkipAnonymousOnce } from './googleAuthProvider';
 import { isEmailAuthRequired } from './requireEmailAuth';
 
@@ -16,8 +18,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     let unsub: (() => void) | undefined;
 
-    void getRedirectResult(auth)
-      .then((cred) => {
+    void (async () => {
+      if (isCapacitorAndroid()) {
+        const pendingUser = await tryCompletePendingNativeGoogleSignIn();
+        if (pendingUser) {
+          setUser({
+            uid: pendingUser.uid,
+            email: pendingUser.email ?? undefined,
+            isAnonymous: pendingUser.isAnonymous,
+          });
+        }
+      }
+
+      try {
+        const cred = await getRedirectResult(auth);
         if (cred?.user) {
           setUser({
             uid: cred.user.uid,
@@ -25,11 +39,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             isAnonymous: cred.user.isAnonymous,
           });
         }
-      })
-      .catch(() => {
+      } catch {
         /* ogiltig redirect-state — ignorera */
-      })
-      .finally(() => {
+      }
+    })().finally(() => {
         unsub = onAuthStateChanged(auth, async (firebaseUser) => {
           if (firebaseUser) {
             setUser({
