@@ -1,19 +1,24 @@
 /**
- * v4 — 10 stilar (flat + 3D) × (3 kärn-ikoner + 10 chrome-kategorier).
- * Stil-DNA: v2 andra omgången D3 Eldnål · B2 Aurora · M1 Stjärnkompis (ej prod B1/D1/M3).
+ * v4 — 10 varianter × (3 kärn-ikoner + 10 chrome-kategorier).
+ * Slot 1 (ankare): v2-premium B1 Kanon ros · D1 Helros · M1 Stjärnkompis (lästa SVG:er, unika id:n).
+ * Slot 2–10: variationer (samma familj som tidigare eldnål/aurora/stjärn m.m.).
  * Output: docs/design/icons-proposals/2026-05-26-v4-round2-dna/
  */
-import { mkdirSync, writeFileSync } from 'fs';
+import { mkdirSync, readFileSync, writeFileSync, copyFileSync, existsSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 const outDir = join(root, 'docs/design/icons-proposals/2026-05-26-v4-round2-dna');
+const v2Premium = join(root, 'docs/design/icons-proposals/2026-05-26-v2-premium');
 
-/** 10 stilar — jämnt flat / 3D-bevel */
-const STYLES = [
-  { id: 'helros-flat', name: 'Helros flat', mode: 'flat', family: 'helros' },
+const PATH_B1 = join(v2Premium, 'app/B1-kanon-ros.svg');
+const PATH_D1 = join(v2Premium, 'kompass/D1-helros.svg');
+const PATH_M1 = join(v2Premium, 'kompis/M1-stjarnkompis.svg');
+
+/** Varianter 2–10 (slot 1 = separata ankare ovan) */
+const VARIANT_STYLES = [
   { id: 'helros-3d', name: 'Helros 3D', mode: '3d', family: 'helros' },
   { id: 'eldnal-flat', name: 'Eldnål flat', mode: 'flat', family: 'eldnal' },
   { id: 'eldnal-3d', name: 'Eldnål 3D', mode: '3d', family: 'eldnal' },
@@ -24,6 +29,25 @@ const STYLES = [
   { id: 'sacred-flat', name: 'Sacred oktagon', mode: 'flat', family: 'sacred' },
   { id: 'obsidian-3d', name: 'Obsidian djup', mode: '3d', family: 'obsidian' },
 ];
+
+const ALL_STYLES = [
+  { id: 'b1-kanon-ros-v2', name: 'B1 Kanon ros (v2-premium)', mode: 'flat', family: 'anchor', anchor: 'app' },
+  ...VARIANT_STYLES,
+];
+
+function slugCore(channel, index) {
+  if (index === 0) {
+    if (channel === 'app') return 'b1-kanon-ros-v2';
+    if (channel === 'kompass') return 'd1-helros-v2';
+    return 'm1-stjarnkompis-v2';
+  }
+  return VARIANT_STYLES[index - 1].id;
+}
+
+function slugChrome(index) {
+  if (index === 0) return 'd1-helros-chrome';
+  return VARIANT_STYLES[index - 1].id;
+}
 
 const CATEGORIES = [
   { dir: 'familjen', prefix: 'F', key: 'familjen' },
@@ -38,64 +62,125 @@ const CATEGORIES = [
   { dir: 'hero/kunskap', prefix: 'Kn', key: 'kunskap' },
 ];
 
+/** Kategori-glyfer (L2) — samma D1-skiva, unika symboler (ej kompass-ros). */
 const GLYPHS = {
-  familjen: (g, f) => `
-  <circle cx="11" cy="14" r="2.8" stroke="url(#${g})" stroke-width="0.55" fill="url(#${g})" fill-opacity="0.22"/>
-  <circle cx="24" cy="12" r="3.2" stroke="url(#${g})" stroke-width="0.6" fill="url(#${g})" fill-opacity="0.32"/>
-  <circle cx="37" cy="14" r="2.8" stroke="url(#${g})" stroke-width="0.55" fill="url(#${g})" fill-opacity="0.22"/>
-  <path d="M8 28 Q24 22 40 28 Q24 34 8 28" stroke="url(#${g})" stroke-width="0.75" fill="url(#${g})" fill-opacity="0.14"/>
-  <circle cx="24" cy="22" r="1.2" fill="url(#${f})"/>`,
-  hamn: (g, f) => `
-  <path d="M24 10 L28 18 L24 16 L20 18 Z" fill="url(#${f})" opacity="0.9"/>
-  <path d="M16 20 H32 V22 H16 Z" stroke="url(#${g})" stroke-width="0.7" fill="url(#${g})" fill-opacity="0.18"/>
+  familjen: (g, f, gl) => `
+  <path d="M7 27 Q24 20 41 27" stroke="url(#${g})" stroke-width="0.8" fill="url(#${g})" fill-opacity="0.1"/>
+  <circle cx="11" cy="15" r="3" stroke="url(#${g})" stroke-width="0.6" fill="url(#${g})" fill-opacity="0.25"/>
+  <circle cx="24" cy="11.5" r="3.4" stroke="url(#${g})" stroke-width="0.65" fill="url(#${g})" fill-opacity="0.35"/>
+  <circle cx="37" cy="15" r="3" stroke="url(#${g})" stroke-width="0.6" fill="url(#${g})" fill-opacity="0.25"/>
+  <path d="M11 18 L24 14 L37 18" stroke="url(#${g})" stroke-width="0.45" stroke-opacity="0.5"/>
+  <path d="M24 20 Q24 17 24 14" stroke="url(#${f})" stroke-width="0.5" opacity="0.6"/>
+  <circle cx="24" cy="23" r="1.4" fill="url(#${f})" filter="url(#${gl})"/>`,
+  hamn: (g, f, gl) => `
+  <path d="M11 34 H37" stroke="url(#${g})" stroke-width="0.95" stroke-linecap="round"/>
+  <path d="M14 34 Q24 28 34 34" stroke="url(#${g})" stroke-width="0.55" fill="none" opacity="0.45"/>
   <path d="M18 22 V34 M30 22 V34" stroke="url(#${g})" stroke-width="0.85" stroke-linecap="round"/>
-  <path d="M14 34 H34" stroke="url(#${g})" stroke-width="0.9" stroke-linecap="round"/>`,
-  valv: (g, f) => `
-  <path d="M10 22 V34 H38 V22" stroke="url(#${g})" stroke-width="0.85" stroke-linejoin="round" fill="none"/>
-  <path d="M10 22 Q24 8 38 22" stroke="url(#${g})" stroke-width="0.85" fill="none"/>
-  <path d="M17 34 V26 H31 V34" stroke="url(#${g})" stroke-width="0.65"/>
-  <circle cx="24" cy="20" r="1.1" fill="url(#${f})"/>`,
-  dagbok: (g, f) => `
-  <path d="M12 12 H20 V32 H12 Q10 22 12 12 Z" stroke="url(#${g})" stroke-width="0.65" fill="url(#${g})" fill-opacity="0.14"/>
-  <path d="M36 12 H28 V32 H36 Q38 22 36 12 Z" stroke="url(#${g})" stroke-width="0.65" fill="url(#${g})" fill-opacity="0.22"/>
-  <path d="M20 12 V32" stroke="url(#${g})" stroke-opacity="0.35" stroke-width="0.45"/>
-  <circle cx="30" cy="20" r="3.5" stroke="url(#${g})" stroke-width="0.4" fill="none" opacity="0.5"/>
-  <path d="M30 17.2 L30.6 20 L30 21.5 L29.4 20 Z" fill="url(#${f})"/>`,
-  planering: (g, f) => `
-  <rect x="9" y="14" width="5" height="14" rx="0.6" stroke="url(#${g})" stroke-width="0.55" fill="url(#${g})" fill-opacity="0.16"/>
-  <rect x="16.5" y="11" width="5" height="17" rx="0.6" stroke="url(#${g})" stroke-width="0.55" fill="url(#${g})" fill-opacity="0.26"/>
-  <rect x="24" y="16" width="5" height="12" rx="0.6" stroke="url(#${g})" stroke-width="0.55" fill="url(#${g})" fill-opacity="0.12"/>
-  <circle cx="31" cy="13" r="1.3" fill="url(#${f})"/>`,
-  mabra: (g, f) => `
-  <path d="M24 30 Q18 22 20 16 Q22 12 24 14 Q26 12 28 16 Q30 22 24 30" stroke="url(#${g})" stroke-width="0.85" fill="url(#${g})" fill-opacity="0.2"/>
-  <path d="M24 14 L24 10 M20 16 L17 14 M28 16 L31 14" stroke="url(#${g})" stroke-width="0.45" stroke-linecap="round"/>
-  <circle cx="24" cy="26" r="1.8" fill="url(#${f})"/>`,
-  rutiner: (g, f) => `
-  <circle cx="24" cy="22" r="9" stroke="url(#${g})" stroke-width="0.65" fill="url(#${g})" fill-opacity="0.1"/>
-  <path d="M18 22 L21.5 25.5 L30 17" stroke="url(#${g})" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  <path d="M15 12 H33 M15 32 H27" stroke="url(#${g})" stroke-opacity="0.35" stroke-width="0.55" stroke-linecap="round"/>
-  <circle cx="24" cy="10" r="1.2" fill="url(#${f})"/>`,
-  ekonomi: (g, f) => `
-  <ellipse cx="16" cy="19" rx="4.5" ry="2.4" stroke="url(#${g})" stroke-width="0.65" fill="url(#${g})" fill-opacity="0.14"/>
-  <ellipse cx="32" cy="23" rx="4.5" ry="2.4" stroke="url(#${g})" stroke-width="0.65" fill="url(#${g})" fill-opacity="0.22"/>
-  <circle cx="32" cy="18" r="2.2" fill="url(#${f})"/>
-  <circle cx="16" cy="24" r="2.2" fill="url(#${g})" fill-opacity="0.45"/>
-  <path d="M12 28 H36" stroke="url(#${g})" stroke-opacity="0.25" stroke-width="0.45"/>`,
-  utveckling: (g, f) => `
-  <path d="M24 28 Q20 20 22 14 Q24 10 26 14 Q28 20 24 28" stroke="url(#${g})" stroke-width="0.75" fill="url(#${g})" fill-opacity="0.22"/>
-  <path d="M24 28 Q28 20 30 16 Q32 14 30 18 Q28 22 24 28" stroke="url(#${g})" stroke-width="0.65" fill="url(#${g})" fill-opacity="0.16"/>
-  <path d="M24 28 Q16 20 14 16 Q12 14 14 18 Q16 22 24 28" stroke="url(#${g})" stroke-width="0.65" fill="url(#${g})" fill-opacity="0.16"/>
-  <circle cx="24" cy="12" r="1.5" fill="url(#${f})"/>`,
-  kunskap: (g, f) => `
-  <path d="M11 13 H17 V31 H11 Q9.5 22 11 13 Z" stroke="url(#${g})" stroke-width="0.55" fill="url(#${g})" fill-opacity="0.12"/>
-  <path d="M37 13 H31 V31 H37 Q38.5 22 37 13 Z" stroke="url(#${g})" stroke-width="0.55" fill="url(#${g})" fill-opacity="0.18"/>
-  <path d="M17 13 V31" stroke="url(#${g})" stroke-opacity="0.3" stroke-width="0.4"/>
-  <circle cx="28" cy="22" r="5" stroke="url(#${g})" stroke-width="0.45" fill="none" opacity="0.45"/>
-  <path d="M28 18.5 L29 22 L28 24.5 L27 22 Z" fill="url(#${f})"/>`,
+  <path d="M16 22 H32 V24 H16 Z" stroke="url(#${g})" stroke-width="0.65" fill="url(#${g})" fill-opacity="0.2"/>
+  <path d="M24 9 L29 19 L24 17 L19 19 Z" fill="url(#${f})" filter="url(#${gl})"/>
+  <circle cx="24" cy="9" r="1.2" fill="#fff8e0" filter="url(#${gl})"/>`,
+  valv: (g, f, gl) => `
+  <path d="M9 22 V35 H39 V22" stroke="url(#${g})" stroke-width="0.9" stroke-linejoin="round" fill="none"/>
+  <path d="M9 22 Q24 7 39 22" stroke="url(#${g})" stroke-width="0.9" fill="none"/>
+  <path d="M16 35 V27 H32 V35" stroke="url(#${g})" stroke-width="0.7"/>
+  <circle cx="24" cy="19" r="3.2" stroke="url(#${g})" stroke-width="0.5" fill="#0a0a0a"/>
+  <circle cx="24" cy="19" r="1.1" fill="url(#${f})" filter="url(#${gl})"/>
+  <path d="M12 14 L16 18 M32 14 L28 18" stroke="url(#${g})" stroke-width="0.45" stroke-opacity="0.4"/>`,
+  dagbok: (g, f, gl) => `
+  <path d="M11 11 H19 V33 H11 Q9 22 11 11 Z" stroke="url(#${g})" stroke-width="0.7" fill="url(#${g})" fill-opacity="0.16"/>
+  <path d="M37 11 H29 V33 H37 Q39 22 37 11 Z" stroke="url(#${g})" stroke-width="0.7" fill="url(#${g})" fill-opacity="0.24"/>
+  <path d="M19 11 V33" stroke="url(#${g})" stroke-opacity="0.35" stroke-width="0.5"/>
+  <path d="M29 14 Q33 18 29 22 Q25 18 29 14" stroke="url(#${g})" stroke-width="0.45" fill="none" opacity="0.5"/>
+  <path d="M31 16 L32.2 19.5 L31 21 L29.8 19.5 Z" fill="url(#${f})" filter="url(#${gl})"/>
+  <path d="M14 26 H18 M14 29 H17" stroke="url(#${g})" stroke-width="0.4" stroke-opacity="0.35" stroke-linecap="round"/>`,
+  planering: (g, f, gl) => `
+  <rect x="8.5" y="15" width="5.5" height="13" rx="0.7" stroke="url(#${g})" stroke-width="0.55" fill="url(#${g})" fill-opacity="0.14"/>
+  <rect x="16" y="11" width="5.5" height="17" rx="0.7" stroke="url(#${g})" stroke-width="0.55" fill="url(#${g})" fill-opacity="0.26"/>
+  <rect x="23.5" y="17" width="5.5" height="11" rx="0.7" stroke="url(#${g})" stroke-width="0.55" fill="url(#${g})" fill-opacity="0.12"/>
+  <circle cx="31" cy="12" r="5" stroke="url(#${g})" stroke-width="0.5" fill="none" opacity="0.45"/>
+  <path d="M31 9 V15 M28 12 H34" stroke="url(#${g})" stroke-width="0.45" stroke-linecap="round"/>
+  <circle cx="31" cy="12" r="1.2" fill="url(#${f})" filter="url(#${gl})"/>`,
+  mabra: (g, f, gl) => `
+  <path d="M24 31 Q17 22 19.5 15 Q22 10 24 12.5 Q26 10 28.5 15 Q31 22 24 31" stroke="url(#${g})" stroke-width="0.85" fill="url(#${g})" fill-opacity="0.18"/>
+  <path d="M24 12.5 L24 8 M19.5 15 L16 13 M28.5 15 L32 13" stroke="url(#${g})" stroke-width="0.45" stroke-linecap="round"/>
+  <path d="M20 24 Q24 20 28 24" stroke="url(#${f})" stroke-width="0.55" fill="none" opacity="0.7"/>
+  <circle cx="24" cy="27" r="2" fill="url(#${f})" filter="url(#${gl})"/>
+  <circle cx="18" cy="20" r="0.9" fill="url(#${f})" opacity="0.5"/>
+  <circle cx="30" cy="20" r="0.9" fill="url(#${f})" opacity="0.5"/>`,
+  rutiner: (g, f, gl) => `
+  <circle cx="24" cy="21" r="9.5" stroke="url(#${g})" stroke-width="0.65" fill="url(#${g})" fill-opacity="0.08"/>
+  <path d="M17.5 21 L20.5 24.5 L30.5 15.5" stroke="url(#${g})" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M14 11 H34" stroke="url(#${g})" stroke-width="0.5" stroke-opacity="0.35" stroke-linecap="round"/>
+  <path d="M18 11 L20 8 H28 L30 11" stroke="url(#${g})" stroke-width="0.45" fill="none" opacity="0.4"/>
+  <circle cx="24" cy="9.5" r="1.5" fill="url(#${f})" filter="url(#${gl})"/>`,
+  ekonomi: (g, f, gl) => `
+  <ellipse cx="15" cy="20" rx="5" ry="2.6" stroke="url(#${g})" stroke-width="0.65" fill="url(#${g})" fill-opacity="0.14"/>
+  <ellipse cx="33" cy="24" rx="5" ry="2.6" stroke="url(#${g})" stroke-width="0.65" fill="url(#${g})" fill-opacity="0.22"/>
+  <circle cx="33" cy="18" r="2.5" fill="url(#${f})" filter="url(#${gl})"/>
+  <circle cx="15" cy="25" r="2.5" fill="url(#${g})" fill-opacity="0.5"/>
+  <path d="M11 30 H37" stroke="url(#${g})" stroke-width="0.55" stroke-opacity="0.3"/>
+  <path d="M24 12 L24 16" stroke="url(#${g})" stroke-width="0.5" stroke-opacity="0.4"/>`,
+  utveckling: (g, f, gl) => `
+  <path d="M24 30 Q20 21 22.5 14.5 Q24 10 25.5 14.5 Q28 21 24 30" stroke="url(#${g})" stroke-width="0.8" fill="url(#${g})" fill-opacity="0.2"/>
+  <path d="M24 30 Q29 21 31 16 Q32.5 13.5 30.5 17 Q28 21 24 30" stroke="url(#${g})" stroke-width="0.7" fill="url(#${g})" fill-opacity="0.14"/>
+  <path d="M24 30 Q19 21 17 16 Q15.5 13.5 17.5 17 Q19 21 24 30" stroke="url(#${g})" stroke-width="0.7" fill="url(#${g})" fill-opacity="0.14"/>
+  <circle cx="24" cy="11.5" r="1.8" fill="url(#${f})" filter="url(#${gl})"/>
+  <path d="M24 11.5 L24 8" stroke="url(#${f})" stroke-width="0.4" opacity="0.6"/>`,
+  kunskap: (g, f, gl) => `
+  <path d="M10 12 H18 V32 H10 Q8 22 10 12 Z" stroke="url(#${g})" stroke-width="0.6" fill="url(#${g})" fill-opacity="0.12"/>
+  <path d="M38 12 H30 V32 H38 Q40 22 38 12 Z" stroke="url(#${g})" stroke-width="0.6" fill="url(#${g})" fill-opacity="0.2"/>
+  <path d="M18 12 V32" stroke="url(#${g})" stroke-opacity="0.32" stroke-width="0.45"/>
+  <circle cx="29" cy="21" r="5.5" stroke="url(#${g})" stroke-width="0.5" fill="none" opacity="0.4"/>
+  <path d="M29 16.5 L30 21 L29 23.5 L28 21 Z" fill="url(#${f})" opacity="0.85"/>
+  <path d="M22 18 H26 M22 21 H25" stroke="url(#${g})" stroke-width="0.35" stroke-opacity="0.35" stroke-linecap="round"/>`,
 };
+
+/** D1-skiva för chrome — ringar + ticks, ingen 8-spets ros (den är bara D1-kompass). */
+function d1ChromePlate(ids) {
+  const { d, g } = ids;
+  return `
+  <circle cx="24" cy="24" r="22" fill="url(#${d})" stroke="url(#${g})" stroke-width="1.2" stroke-opacity="0.72"/>
+  <circle cx="24" cy="24" r="18" stroke="url(#${g})" stroke-opacity="0.26" stroke-width="0.6" stroke-dasharray="2 3" fill="none"/>
+  <circle cx="24" cy="24" r="14" stroke="url(#${g})" stroke-opacity="0.14" stroke-width="0.45" fill="none"/>
+  <g stroke="url(#${g})" stroke-opacity="0.1" stroke-width="0.35">
+    <line x1="24" y1="8" x2="24" y2="40"/><line x1="8" y1="24" x2="40" y2="24"/>
+    <line x1="12.7" y1="12.7" x2="35.3" y2="35.3"/><line x1="35.3" y1="12.7" x2="12.7" y2="35.3"/>
+  </g>
+  ${tickRing(g)}`;
+}
 
 function uid(parts) {
   return parts.join('').replace(/[^a-zA-Z0-9]/g, '');
+}
+
+/** Prefix all id="x" / url(#x) in an SVG fragment */
+function scopeSvgIds(svgText, prefix) {
+  const seen = new Set();
+  const idRe = /\bid="([^"]+)"/g;
+  let m;
+  while ((m = idRe.exec(svgText)) !== null) seen.add(m[1]);
+  const ids = [...seen].sort((a, b) => b.length - a.length);
+  let out = svgText;
+  for (const id of ids) {
+    const nid = `${prefix}${id}`;
+    out = out.split(`url(#${id})`).join(`url(#${nid})`);
+    out = out.split(`id="${id}"`).join(`id="${nid}"`);
+    out = out.split(`href="#${id}"`).join(`href="#${nid}"`);
+  }
+  return out;
+}
+
+function insertAfterOpenSvg(svgText, insert) {
+  const idx = svgText.indexOf('>');
+  if (idx === -1) return svgText;
+  return `${svgText.slice(0, idx + 1)}\n  ${insert}\n${svgText.slice(idx + 1)}`;
+}
+
+function loadAnchoredSvg(filePath, scopePrefix, title) {
+  let raw = readFileSync(filePath, 'utf8').trim();
+  raw = raw.replace(/<\?xml[^?]*\?>\s*/i, '');
+  const scoped = scopeSvgIds(raw, scopePrefix);
+  return insertAfterOpenSvg(scoped, `<title>${title}</title>`);
 }
 
 function defsBlock(id, mode) {
@@ -203,7 +288,6 @@ function styleLayer(style, ids) {
   </g>
   <circle cx="33" cy="13" r="1.4" fill="#fff8e0" filter="url(#${gl})"/>`;
   }
-  // obsidian deep 3d
   return `
   <circle cx="24" cy="24" r="19" stroke="url(#${g})" stroke-opacity="0.35" stroke-width="0.5" fill="none"/>
   <circle cx="24" cy="24" r="15.5" stroke="url(#${g})" stroke-opacity="0.22" stroke-width="0.4" stroke-dasharray="3 5" fill="none"/>
@@ -212,27 +296,40 @@ function styleLayer(style, ids) {
   <ellipse cx="24" cy="26" rx="8" ry="3" fill="#000" opacity="0.35"${filter3d}/>`;
 }
 
-function buildRoundIcon(catKey, style, styleIndex, catPrefix) {
-  const id = uid(['r', catKey, style.id]);
+/** Chrome/meny/hero — D1-platta + unik kategori-symbol + valfri stil-overlay. */
+function buildChromeIcon(catKey, style, styleIndex, catPrefix) {
+  const id = uid(['ch', catKey, style.id, String(styleIndex)]);
   const ids = defsBlock(id, style.mode);
-  const outer = `
-  <circle cx="24" cy="24" r="22" fill="url(#${ids.d})" stroke="url(#${ids.g})" stroke-width="1.15" stroke-opacity="0.72"/>
-  <circle cx="24" cy="24" r="20.5" stroke="url(#${ids.g})" stroke-opacity="0.08" stroke-width="0.35" fill="none"/>
-  ${tickRing(ids.g)}
-  ${styleLayer(style, ids)}
-  ${GLYPHS[catKey](ids.g, ids.f)}
-  <circle cx="24" cy="24" r="2.8" fill="url(#${ids.g})" stroke="#0a0a0a" stroke-width="0.45"/>`;
+  const glyph = GLYPHS[catKey](ids.g, ids.f, ids.gl);
+  const overlay = styleIndex === 0 ? '' : styleLayer(style, ids);
+  const plate = d1ChromePlate(ids);
+  const hub = `<circle cx="24" cy="24" r="2.5" fill="url(#${ids.g})" stroke="#0a0a0a" stroke-width="0.5"/>`;
+  const label =
+    styleIndex === 0
+      ? `${catPrefix}1 — D1 skiva + ${catKey}`
+      : `${catPrefix}${styleIndex + 1} — ${style.name}`;
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-  <title>${catPrefix}${styleIndex + 1} — ${style.name}</title>
+  <title>${label}</title>
   <defs>${ids.defs}</defs>
-  ${outer}
+  ${plate}
+  ${overlay}
+  <g opacity="0.93">${glyph}</g>
+  ${hub}
 </svg>
 `;
 }
 
+function buildRoundIcon(catKey, style, styleIndex, catPrefix) {
+  return buildChromeIcon(catKey, style, styleIndex, catPrefix);
+}
+
 function buildCompassMark(style, idx) {
+  if (idx === 0) {
+    const p = uid(['v4d1', String(idx), 'x']);
+    return loadAnchoredSvg(PATH_D1, p, `D1 — D1 Helros (v2-premium)`);
+  }
   const id = uid(['cmp', style.id]);
   const ids = defsBlock(id, style.mode);
   const rose = `
@@ -260,6 +357,10 @@ function buildCompassMark(style, idx) {
 }
 
 function buildKompisMark(style, idx) {
+  if (idx === 0) {
+    const p = uid(['v4m1', String(idx), 'x']);
+    return loadAnchoredSvg(PATH_M1, p, `M1 — M1 Stjärnkompis (v2-premium)`);
+  }
   const id = uid(['kmp', style.id]);
   const ids = defsBlock(id, style.mode);
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -267,19 +368,18 @@ function buildKompisMark(style, idx) {
   <title>M${idx + 1} — ${style.name}</title>
   <defs>${ids.defs}</defs>
   <circle cx="24" cy="24" r="22" fill="url(#${ids.d})" stroke="url(#${ids.g})" stroke-width="0.95" stroke-opacity="0.55"/>
-  ${style.family === 'stjarn'
-    ? styleLayer(style, ids)
-    : `
-  <circle cx="24" cy="24" r="20" fill="url(#${ids.g})" fill-opacity="0.08"/>
-  <path d="M24 8 L24 32" stroke="url(#${ids.f})" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>
-  <path d="M20 32 H28 V36 H20 Z" fill="url(#${ids.g})" fill-opacity="0.35"/>
-  <circle cx="24" cy="8" r="2.5" fill="url(#${ids.f})" filter="url(#${ids.gl})"/>`}
+  ${styleLayer(style, ids)}
+  <polygon points="24,10 26,18 34,18 28,22.5 30,30 24,26 18,30 20,22.5 14,18 22,18" fill="url(#${ids.f})" fill-opacity="0.55" stroke="url(#${ids.g})" stroke-width="0.45"/>
   <circle cx="24" cy="22" r="2" fill="#fff8e0"/>
 </svg>
 `;
 }
 
 function buildAppIcon(style, idx) {
+  if (idx === 0) {
+    const p = uid(['v4b1', String(idx), 'x']);
+    return loadAnchoredSvg(PATH_B1, p, `B1 — B1 Kanon ros (v2-premium)`);
+  }
   const id = uid(['app', style.id]);
   const cx = 256;
   const cy = 256;
@@ -332,9 +432,29 @@ function buildAppIcon(style, idx) {
 `;
 }
 
-function main() {
-  let count = 0;
+function copyReferencePngs() {
+  const refDir = join(outDir, 'reference');
+  mkdirSync(refDir, { recursive: true });
+  const assets =
+    '/Users/Livskompassen/.cursor/projects/Users-Livskompassen-StudioProjects-Livskompassen3-0/assets';
+  const map = [
+    ['icons-proposals-app-row.png', 'reference-app-b1-b2-b3.png'],
+    ['icons-proposals-kompass-row.png', 'reference-kompass-d1-d2-d3.png'],
+    ['icons-proposals-kompis-row.png', 'reference-kompis-m1-m2-m3.png'],
+  ];
+  for (const [srcName, destName] of map) {
+    const src = join(assets, srcName);
+    const dest = join(refDir, destName);
+    if (existsSync(src)) copyFileSync(src, dest);
+  }
+}
 
+function main() {
+  for (const p of [PATH_B1, PATH_D1, PATH_M1]) {
+    if (!existsSync(p)) throw new Error(`Saknar ankare: ${p}`);
+  }
+
+  let count = 0;
   const coreApp = join(outDir, 'core/app');
   const coreKompass = join(outDir, 'core/kompass');
   const coreKompis = join(outDir, 'core/kompis');
@@ -342,23 +462,38 @@ function main() {
   mkdirSync(coreKompass, { recursive: true });
   mkdirSync(coreKompis, { recursive: true });
 
-  STYLES.forEach((style, i) => {
-    writeFileSync(join(coreApp, `B${i + 1}-${style.id}.svg`), buildAppIcon(style, i), 'utf8');
-    writeFileSync(join(coreKompass, `D${i + 1}-${style.id}.svg`), buildCompassMark(style, i), 'utf8');
-    writeFileSync(join(coreKompis, `M${i + 1}-${style.id}.svg`), buildKompisMark(style, i), 'utf8');
+  ALL_STYLES.forEach((rowStyle, i) => {
+    const variantStyle = i === 0 ? rowStyle : VARIANT_STYLES[i - 1];
+    writeFileSync(
+      join(coreApp, `B${i + 1}-${slugCore('app', i)}.svg`),
+      buildAppIcon(variantStyle, i),
+      'utf8',
+    );
+    writeFileSync(
+      join(coreKompass, `D${i + 1}-${slugCore('kompass', i)}.svg`),
+      buildCompassMark(variantStyle, i),
+      'utf8',
+    );
+    writeFileSync(
+      join(coreKompis, `M${i + 1}-${slugCore('kompis', i)}.svg`),
+      buildKompisMark(variantStyle, i),
+      'utf8',
+    );
     count += 3;
   });
 
   for (const cat of CATEGORIES) {
     const sub = join(outDir, cat.dir);
     mkdirSync(sub, { recursive: true });
-    STYLES.forEach((style, idx) => {
-      const fn = `${cat.prefix}${idx + 1}-${style.id}.svg`;
-      writeFileSync(join(sub, fn), buildRoundIcon(cat.key, style, idx, cat.prefix), 'utf8');
+    ALL_STYLES.forEach((style, idx) => {
+      const fn = `${cat.prefix}${idx + 1}-${slugChrome(idx)}.svg`;
+      const variantForBuild = idx === 0 ? style : VARIANT_STYLES[idx - 1];
+      writeFileSync(join(sub, fn), buildRoundIcon(cat.key, variantForBuild, idx, cat.prefix), 'utf8');
       count++;
     });
   }
 
+  copyReferencePngs();
   console.log(`[generate_icon_proposals_v4] Wrote ${count} SVGs → ${outDir}`);
 }
 

@@ -33,9 +33,11 @@
     </filter></defs>
   <circle cx="24" cy="24" r="22" fill="url(#dkmpobsidian3d)" stroke="url(#gkmpobsidian3d)" stroke-width="0.95" stroke-opacity="0.55"/>
   
-  <circle cx="24" cy="24" r="20" fill="url(#gkmpobsidian3d)" fill-opacity="0.08"/>
-  <path d="M24 8 L24 32" stroke="url(#fkmpobsidian3d)" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>
-  <path d="M20 32 H28 V36 H20 Z" fill="url(#gkmpobsidian3d)" fill-opacity="0.35"/>
-  <circle cx="24" cy="8" r="2.5" fill="url(#fkmpobsidian3d)" filter="url(#glkmpobsidian3d)"/>
+  <circle cx="24" cy="24" r="19" stroke="url(#gkmpobsidian3d)" stroke-opacity="0.35" stroke-width="0.5" fill="none"/>
+  <circle cx="24" cy="24" r="15.5" stroke="url(#gkmpobsidian3d)" stroke-opacity="0.22" stroke-width="0.4" stroke-dasharray="3 5" fill="none"/>
+  <circle cx="24" cy="24" r="11.5" stroke="url(#gkmpobsidian3d)" stroke-opacity="0.14" stroke-width="0.35" fill="none"/>
+  <path d="M24 6 L27.5 20 L24 24 L20.5 20 Z" fill="url(#fkmpobsidian3d)" filter="url(#glkmpobsidian3d)"/>
+  <ellipse cx="24" cy="26" rx="8" ry="3" fill="#000" opacity="0.35" filter="url(#bvkmpobsidian3d)"/>
+  <polygon points="24,10 26,18 34,18 28,22.5 30,30 24,26 18,30 20,22.5 14,18 22,18" fill="url(#fkmpobsidian3d)" fill-opacity="0.55" stroke="url(#gkmpobsidian3d)" stroke-width="0.45"/>
   <circle cx="24" cy="22" r="2" fill="#fff8e0"/>
 </svg>

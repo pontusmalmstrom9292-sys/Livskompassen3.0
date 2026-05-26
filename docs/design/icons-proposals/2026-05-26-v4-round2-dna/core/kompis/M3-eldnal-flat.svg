@@ -29,9 +29,12 @@
     </linearGradient></defs>
   <circle cx="24" cy="24" r="22" fill="url(#dkmpeldnalflat)" stroke="url(#gkmpeldnalflat)" stroke-width="0.95" stroke-opacity="0.55"/>
   
-  <circle cx="24" cy="24" r="20" fill="url(#gkmpeldnalflat)" fill-opacity="0.08"/>
-  <path d="M24 8 L24 32" stroke="url(#fkmpeldnalflat)" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>
-  <path d="M20 32 H28 V36 H20 Z" fill="url(#gkmpeldnalflat)" fill-opacity="0.35"/>
-  <circle cx="24" cy="8" r="2.5" fill="url(#fkmpeldnalflat)" filter="url(#glkmpeldnalflat)"/>
+  <circle cx="24" cy="24" r="19" stroke="url(#gkmpeldnalflat)" stroke-opacity="0.2" stroke-width="0.45" stroke-dasharray="1.5 4" fill="none"/>
+  <circle cx="24" cy="24" r="12" stroke="url(#gkmpeldnalflat)" stroke-opacity="0.12" stroke-width="0.35" fill="none"/>
+  <circle cx="24" cy="24" r="8" stroke="url(#gkmpeldnalflat)" stroke-opacity="0.1" stroke-width="0.3" fill="none"/>
+  <path d="M24 5 L27 19 L24 23 L21 19 Z" fill="url(#fkmpeldnalflat)" filter="url(#glkmpeldnalflat)"/>
+  <circle cx="31" cy="13" r="2.2" fill="#fff8dc" filter="url(#glkmpeldnalflat)"/>
+  <path d="M31 13 L29 15.5 L31 17.5 L33 15.5 Z" fill="url(#fkmpeldnalflat)" opacity="0.9"/>
+  <polygon points="24,10 26,18 34,18 28,22.5 30,30 24,26 18,30 20,22.5 14,18 22,18" fill="url(#fkmpeldnalflat)" fill-opacity="0.55" stroke="url(#gkmpeldnalflat)" stroke-width="0.45"/>
   <circle cx="24" cy="22" r="2" fill="#fff8e0"/>
 </svg>

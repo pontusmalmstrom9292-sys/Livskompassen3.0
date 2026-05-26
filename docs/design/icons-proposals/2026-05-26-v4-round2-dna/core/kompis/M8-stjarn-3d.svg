@@ -36,5 +36,6 @@
   <circle cx="24" cy="24" r="22" fill="url(#gkmpstjarn3d)" fill-opacity="0.06"/>
   <polygon points="24,7 26.5,17 37,17 28.5,23 31.5,33 24,27 16.5,33 19.5,23 11,17 21.5,17" fill="url(#gkmpstjarn3d)" fill-opacity="0.28" stroke="url(#gkmpstjarn3d)" stroke-width="0.55"/>
   <polygon points="24,11 25.5,17 31,17 27,20 28.5,26 24,23 19.5,26 21,20 17,17 22.5,17" fill="url(#fkmpstjarn3d)" fill-opacity="0.88" filter="url(#bvkmpstjarn3d)"/>
+  <polygon points="24,10 26,18 34,18 28,22.5 30,30 24,26 18,30 20,22.5 14,18 22,18" fill="url(#fkmpstjarn3d)" fill-opacity="0.55" stroke="url(#gkmpstjarn3d)" stroke-width="0.45"/>
   <circle cx="24" cy="22" r="2" fill="#fff8e0"/>
 </svg>

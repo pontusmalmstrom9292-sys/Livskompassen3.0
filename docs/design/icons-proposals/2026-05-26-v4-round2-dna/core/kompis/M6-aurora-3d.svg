@@ -33,9 +33,10 @@
     </filter></defs>
   <circle cx="24" cy="24" r="22" fill="url(#dkmpaurora3d)" stroke="url(#gkmpaurora3d)" stroke-width="0.95" stroke-opacity="0.55"/>
   
-  <circle cx="24" cy="24" r="20" fill="url(#gkmpaurora3d)" fill-opacity="0.08"/>
-  <path d="M24 8 L24 32" stroke="url(#fkmpaurora3d)" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>
-  <path d="M20 32 H28 V36 H20 Z" fill="url(#gkmpaurora3d)" fill-opacity="0.35"/>
-  <circle cx="24" cy="8" r="2.5" fill="url(#fkmpaurora3d)" filter="url(#glkmpaurora3d)"/>
+  <circle cx="24" cy="24" r="20.5" stroke="url(#rimkmpaurora3d)" stroke-opacity="0.55" stroke-width="0.85" fill="none"/>
+  <circle cx="24" cy="24" r="17" stroke="url(#gkmpaurora3d)" stroke-opacity="0.22" stroke-width="0.5" fill="none"/>
+  <polygon points="24,9 26,17 34,17 27.5,21.5 29.5,29 24,25 18.5,29 20.5,21.5 14,17 22,17" fill="none" stroke="url(#gkmpaurora3d)" stroke-width="0.45" opacity="0.4"/>
+  <path d="M24 8 L25.5 17 L24 21 L22.5 17 Z" fill="url(#fkmpaurora3d)" opacity="0.7" filter="url(#bvkmpaurora3d)"/>
+  <polygon points="24,10 26,18 34,18 28,22.5 30,30 24,26 18,30 20,22.5 14,18 22,18" fill="url(#fkmpaurora3d)" fill-opacity="0.55" stroke="url(#gkmpaurora3d)" stroke-width="0.45"/>
   <circle cx="24" cy="22" r="2" fill="#fff8e0"/>
 </svg>

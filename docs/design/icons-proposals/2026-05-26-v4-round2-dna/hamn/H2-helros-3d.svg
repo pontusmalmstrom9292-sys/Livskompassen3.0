@@ -2,55 +2,62 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true">
   <title>H2 — Helros 3D</title>
   <defs>
-    <radialGradient id="drhamnhelros3d" cx="50%" cy="38%" r="68%">
+    <radialGradient id="dchhamnhelros3d1" cx="50%" cy="38%" r="68%">
       <stop offset="0%" stop-color="#3d3420"/>
       <stop offset="48%" stop-color="#141210"/>
       <stop offset="100%" stop-color="#080808"/>
     </radialGradient>
-    <linearGradient id="grhamnhelros3d" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="gchhamnhelros3d1" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#f5e6b8"/>
       <stop offset="45%" stop-color="#d4af37"/>
       <stop offset="100%" stop-color="#6b5212"/>
     </linearGradient>
-    <linearGradient id="frhamnhelros3d" x1="24" y1="4" x2="30" y2="20">
+    <linearGradient id="fchhamnhelros3d1" x1="24" y1="4" x2="30" y2="20">
       <stop offset="0%" stop-color="#fff8e0"/>
       <stop offset="55%" stop-color="#ffb74d"/>
       <stop offset="100%" stop-color="#c97808"/>
     </linearGradient>
-    <filter id="glrhamnhelros3d" x="-50%" y="-50%" width="200%" height="200%">
+    <filter id="glchhamnhelros3d1" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur stdDeviation="1.4" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <linearGradient id="rimrhamnhelros3d" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="rimchhamnhelros3d1" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#5eead4"/>
       <stop offset="40%" stop-color="#818cf8"/>
       <stop offset="75%" stop-color="#d4af37"/>
       <stop offset="100%" stop-color="#2dd4bf"/>
     </linearGradient>
-    <filter id="bvrhamnhelros3d" x="-30%" y="-30%" width="160%" height="160%">
+    <filter id="bvchhamnhelros3d1" x="-30%" y="-30%" width="160%" height="160%">
       <feDropShadow dx="0" dy="1.2" stdDeviation="0.8" flood-color="#000" flood-opacity="0.55"/>
       <feDropShadow dx="0" dy="-0.6" stdDeviation="0.4" flood-color="#fff8e0" flood-opacity="0.12"/>
     </filter></defs>
   
-  <circle cx="24" cy="24" r="22" fill="url(#drhamnhelros3d)" stroke="url(#grhamnhelros3d)" stroke-width="1.15" stroke-opacity="0.72"/>
-  <circle cx="24" cy="24" r="20.5" stroke="url(#grhamnhelros3d)" stroke-opacity="0.08" stroke-width="0.35" fill="none"/>
-  
-  <g stroke="url(#grhamnhelros3d)" stroke-opacity="0.1" stroke-width="0.32">
-    <line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(0 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(22.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(45 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(67.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(90 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(112.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(135 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(157.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(180 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(202.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(225 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(247.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(270 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(292.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(315 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(337.5 24 24)"/>
-  </g>
-  
-  <circle cx="24" cy="24" r="18" stroke="url(#grhamnhelros3d)" stroke-opacity="0.3" stroke-width="0.55" stroke-dasharray="2 3" fill="none"/>
-  <circle cx="24" cy="24" r="14" stroke="url(#grhamnhelros3d)" stroke-opacity="0.16" stroke-width="0.45" fill="none"/>
-  <g stroke="url(#grhamnhelros3d)" stroke-opacity="0.12" stroke-width="0.35">
+  <circle cx="24" cy="24" r="22" fill="url(#dchhamnhelros3d1)" stroke="url(#gchhamnhelros3d1)" stroke-width="1.2" stroke-opacity="0.72"/>
+  <circle cx="24" cy="24" r="18" stroke="url(#gchhamnhelros3d1)" stroke-opacity="0.26" stroke-width="0.6" stroke-dasharray="2 3" fill="none"/>
+  <circle cx="24" cy="24" r="14" stroke="url(#gchhamnhelros3d1)" stroke-opacity="0.14" stroke-width="0.45" fill="none"/>
+  <g stroke="url(#gchhamnhelros3d1)" stroke-opacity="0.1" stroke-width="0.35">
     <line x1="24" y1="8" x2="24" y2="40"/><line x1="8" y1="24" x2="40" y2="24"/>
     <line x1="12.7" y1="12.7" x2="35.3" y2="35.3"/><line x1="35.3" y1="12.7" x2="12.7" y2="35.3"/>
   </g>
-  <circle cx="32" cy="14" r="1.6" fill="#fff8e0" opacity="0.85" filter="url(#glrhamnhelros3d)"/>
-  <path d="M32 14 L30.6 15.4 L32 16.8 L33.4 15.4 Z" fill="url(#frhamnhelros3d)" opacity="0.85" filter="url(#bvrhamnhelros3d)"/>
   
-  <path d="M24 10 L28 18 L24 16 L20 18 Z" fill="url(#frhamnhelros3d)" opacity="0.9"/>
-  <path d="M16 20 H32 V22 H16 Z" stroke="url(#grhamnhelros3d)" stroke-width="0.7" fill="url(#grhamnhelros3d)" fill-opacity="0.18"/>
-  <path d="M18 22 V34 M30 22 V34" stroke="url(#grhamnhelros3d)" stroke-width="0.85" stroke-linecap="round"/>
-  <path d="M14 34 H34" stroke="url(#grhamnhelros3d)" stroke-width="0.9" stroke-linecap="round"/>
-  <circle cx="24" cy="24" r="2.8" fill="url(#grhamnhelros3d)" stroke="#0a0a0a" stroke-width="0.45"/>
+  <g stroke="url(#gchhamnhelros3d1)" stroke-opacity="0.1" stroke-width="0.32">
+    <line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(0 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(22.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(45 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(67.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(90 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(112.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(135 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(157.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(180 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(202.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(225 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(247.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(270 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(292.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(315 24 24)"/><line x1="24" y1="6.5" x2="24" y2="9.2" transform="rotate(337.5 24 24)"/>
+  </g>
+  
+  <circle cx="24" cy="24" r="18" stroke="url(#gchhamnhelros3d1)" stroke-opacity="0.3" stroke-width="0.55" stroke-dasharray="2 3" fill="none"/>
+  <circle cx="24" cy="24" r="14" stroke="url(#gchhamnhelros3d1)" stroke-opacity="0.16" stroke-width="0.45" fill="none"/>
+  <g stroke="url(#gchhamnhelros3d1)" stroke-opacity="0.12" stroke-width="0.35">
+    <line x1="24" y1="8" x2="24" y2="40"/><line x1="8" y1="24" x2="40" y2="24"/>
+    <line x1="12.7" y1="12.7" x2="35.3" y2="35.3"/><line x1="35.3" y1="12.7" x2="12.7" y2="35.3"/>
+  </g>
+  <circle cx="32" cy="14" r="1.6" fill="#fff8e0" opacity="0.85" filter="url(#glchhamnhelros3d1)"/>
+  <path d="M32 14 L30.6 15.4 L32 16.8 L33.4 15.4 Z" fill="url(#fchhamnhelros3d1)" opacity="0.85" filter="url(#bvchhamnhelros3d1)"/>
+  <g opacity="0.93">
+  <path d="M11 34 H37" stroke="url(#gchhamnhelros3d1)" stroke-width="0.95" stroke-linecap="round"/>
+  <path d="M14 34 Q24 28 34 34" stroke="url(#gchhamnhelros3d1)" stroke-width="0.55" fill="none" opacity="0.45"/>
+  <path d="M18 22 V34 M30 22 V34" stroke="url(#gchhamnhelros3d1)" stroke-width="0.85" stroke-linecap="round"/>
+  <path d="M16 22 H32 V24 H16 Z" stroke="url(#gchhamnhelros3d1)" stroke-width="0.65" fill="url(#gchhamnhelros3d1)" fill-opacity="0.2"/>
+  <path d="M24 9 L29 19 L24 17 L19 19 Z" fill="url(#fchhamnhelros3d1)" filter="url(#glchhamnhelros3d1)"/>
+  <circle cx="24" cy="9" r="1.2" fill="#fff8e0" filter="url(#glchhamnhelros3d1)"/></g>
+  <circle cx="24" cy="24" r="2.5" fill="url(#gchhamnhelros3d1)" stroke="#0a0a0a" stroke-width="0.5"/>
 </svg>
