@@ -2,7 +2,7 @@
 
 **Stilguide:** [`ICON-STYLE-GUIDE.md`](../ICON-STYLE-GUIDE.md)  
 **Låst:** [`.context/locked-icons.md`](../../../.context/locked-icons.md) · smoke: `npm run smoke:locked-icons`  
-**Väntar val (senaste — v4):** [`icons-proposals/2026-05-26-v4-round2-dna/`](../icons-proposals/2026-05-26-v4-round2-dna/) — rad 1 = v2 **B1/D1/M1** ankare + 9 varianter × chrome. `npm run icons:proposals-v4`  
+**Väntar val (senaste — v4):** [`icons-proposals/2026-05-26-v4-round2-dna/`](../icons-proposals/2026-05-26-v4-round2-dna/) — rad 1 = v2 **B1/D1/M2** ankare + 9 varianter × chrome. `npm run icons:proposals-v4`  
 **v3 (5 stilar):** [`icons-proposals/2026-05-26-v3-chassis/`](../icons-proposals/2026-05-26-v3-chassis/) — `npm run icons:proposals-v3`  
 **Äldre enkla:** [`icons-proposals/2026-05-26-remaining/`](../icons-proposals/2026-05-26-remaining/) (3 varianter)
 
@@ -12,7 +12,7 @@
 |----|-------|-----|--------|
 | **B1** Kanon ros | App / favicon / PWA | `public/favicon.svg` | LÅST |
 | **D1** Helros | Header, dock, hero, drawer-mark | `LivskompassMark.tsx` | LÅST |
-| **M3** Fyrens själ | Kompis-avatar | `KompisMark.tsx` | LÅST |
+| **M2** Orakelöga | Kompis-avatar | `KompisMark.tsx` | LÅST |
 
 ## Chrome — väntar val (v4: 10 per kategori)
 

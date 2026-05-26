@@ -1,5 +1,5 @@
 /**
- * Locked product icons B1 / D1 / M3 must remain in source.
+ * Locked product icons B1 / D1 / M2 must remain in source.
  * Usage: npm run smoke:locked-icons
  */
 import { readFileSync, existsSync } from 'fs';
@@ -38,7 +38,7 @@ function main() {
   assert(existsSync(resolve(root, 'docs/design/ICON-STYLE-GUIDE.md')), 'saknar ICON-STYLE-GUIDE.md');
 
   mustInclude('src/modules/core/ui/LivskompassMark.tsx', '@locked ICON-D1', 'Helros', 'lk-disk-');
-  mustInclude('src/modules/kompis/components/KompisMark.tsx', '@locked ICON-M3', 'Fyrens själ', 'km-bg-');
+  mustInclude('src/modules/kompis/components/KompisMark.tsx', '@locked ICON-M2', 'Orakelöga', 'km2g-');
   mustInclude('src/modules/kompis/components/KompisAvatar.tsx', 'KompisMark');
   mustNotInclude('src/modules/kompis/components/KompisAvatar.tsx', 'LivskompassMark');
 
@@ -54,7 +54,7 @@ function main() {
     'saknar mipmap launcher',
   );
 
-  console.log('[smoke:locked-icons] PASS — B1 favicon+Android, D1 LivskompassMark, M3 KompisMark.');
+  console.log('[smoke:locked-icons] PASS — B1 favicon+Android, D1 LivskompassMark, M2 KompisMark.');
 }
 
 try {

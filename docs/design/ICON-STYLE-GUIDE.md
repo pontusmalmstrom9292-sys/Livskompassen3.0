@@ -1,6 +1,6 @@
 # Ikonstil — Premium Helros (kanon från 2026-05-26)
 
-**Låsta produktikoner:** [`.context/locked-icons.md`](../../.context/locked-icons.md) (B1 · D1 · M3)  
+**Låsta produktikoner:** [`.context/locked-icons.md`](../../.context/locked-icons.md) (B1 · D1 · M2)  
 **Chrome (meny/dock/hero):** [`icons-proposals/2026-05-26-v4-round2-dna/`](./icons-proposals/2026-05-26-v4-round2-dna/) — 10×10 kategorier, D1-skiva + unik glyph. `npm run icons:proposals-v4`  
 **v3 (5 stilar):** [`icons-proposals/2026-05-26-v3-chassis/`](./icons-proposals/2026-05-26-v3-chassis/)  
 **Äldre:** [`icons-proposals/2026-05-26-remaining/`](./icons-proposals/2026-05-26-remaining/) (3 varianter)
@@ -30,7 +30,7 @@
 |------|------------|--------|
 | **L3** | Appikon B1 | Full ros, ringar, stjärnglöd |
 | **Android** | B1 PNG 1024 | `npm run android:icons` → `mipmap-*/ic_launcher*.png` |
-| **L2** | D1, M3, Valv, hub-ikoner | Disk + guld + 1 accent |
+| **L2** | D1, M2, Valv, hub-ikoner | Disk + guld + 1 accent |
 | **L1** | Hero-orbit, små submenyer | Förenklad emboss, `currentColor` + disk valfritt |
 
 ## Teknik (React)
@@ -49,7 +49,7 @@ Hub-ikoner kan ta **disk-tint** från hub (teal Familjen, hamn-guld, etc.) men b
 1. Matchar L2/L3-tabellen ovan?
 2. Fungerar på 24px (testa i `preview.html`)?
 3. Registrerad i [`theme-lab/ICON-DECISIONS.md`](./theme-lab/ICON-DECISIONS.md)?
-4. Inte samma form som låst B1/D1/M3 (ingen förvirring)?
+4. Inte samma form som låst B1/D1/M2 (ingen förvirring)?
 
 ## Förbjudet utan beslut
 

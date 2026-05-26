@@ -122,13 +122,13 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
-## 10. Produktikoner B1 · D1 · M3 (låst 2026-05-26)
+## 10. Produktikoner B1 · D1 · M2 (låst 2026-05-26)
 
 | ID | Plats | Fil |
 |----|-------|-----|
 | **B1** | App / favicon | `public/favicon.svg` |
 | **D1** | Header, dock, hero | `LivskompassMark.tsx` |
-| **M3** | Kompis-avatar | `KompisMark.tsx` |
+| **M2** | Kompis-avatar | `KompisMark.tsx` |
 
 | | |
 |---|---|

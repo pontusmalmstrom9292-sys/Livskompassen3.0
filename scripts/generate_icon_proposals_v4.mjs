@@ -1,6 +1,6 @@
 /**
  * v4 — 10 varianter × (3 kärn-ikoner + 10 chrome-kategorier).
- * Slot 1 (ankare): v2-premium B1 Kanon ros · D1 Helros · M1 Stjärnkompis (lästa SVG:er, unika id:n).
+ * Slot 1 (ankare): v2-premium B1 Kanon ros · D1 Helros · M2 Orakelöga (lästa SVG:er, unika id:n).
  * Slot 2–10: variationer (samma familj som tidigare eldnål/aurora/stjärn m.m.).
  * Output: docs/design/icons-proposals/2026-05-26-v4-round2-dna/
  */
@@ -15,7 +15,7 @@ const v2Premium = join(root, 'docs/design/icons-proposals/2026-05-26-v2-premium'
 
 const PATH_B1 = join(v2Premium, 'app/B1-kanon-ros.svg');
 const PATH_D1 = join(v2Premium, 'kompass/D1-helros.svg');
-const PATH_M1 = join(v2Premium, 'kompis/M1-stjarnkompis.svg');
+const PATH_M2 = join(v2Premium, 'kompis/M2-orakeloga.svg');
 
 /** Varianter 2–10 (slot 1 = separata ankare ovan) */
 const VARIANT_STYLES = [
@@ -39,7 +39,7 @@ function slugCore(channel, index) {
   if (index === 0) {
     if (channel === 'app') return 'b1-kanon-ros-v2';
     if (channel === 'kompass') return 'd1-helros-v2';
-    return 'm1-stjarnkompis-v2';
+    return 'm2-orakel-v2';
   }
   return VARIANT_STYLES[index - 1].id;
 }
@@ -358,8 +358,8 @@ function buildCompassMark(style, idx) {
 
 function buildKompisMark(style, idx) {
   if (idx === 0) {
-    const p = uid(['v4m1', String(idx), 'x']);
-    return loadAnchoredSvg(PATH_M1, p, `M1 — M1 Stjärnkompis (v2-premium)`);
+    const p = uid(['v4m2', String(idx), 'x']);
+    return loadAnchoredSvg(PATH_M2, p, `M2 — M2 Orakelöga (v2-premium)`);
   }
   const id = uid(['kmp', style.id]);
   const ids = defsBlock(id, style.mode);
@@ -441,6 +441,13 @@ function copyReferencePngs() {
     ['icons-proposals-app-row.png', 'reference-app-b1-b2-b3.png'],
     ['icons-proposals-kompass-row.png', 'reference-kompass-d1-d2-d3.png'],
     ['icons-proposals-kompis-row.png', 'reference-kompis-m1-m2-m3.png'],
+    ['premium-app-row-d5c20533-9698-4b2e-bc39-4ef02b1319b5.png', 'reference-premium-app-row.png'],
+    ['premium-kompass-row-9bf2aceb-e3b9-4090-bbca-323ca8be583c.png', 'reference-premium-kompass-row.png'],
+    ['premium-kompis-row-a6957f3c-6120-46cd-b2f0-65f495399e35.png', 'reference-premium-kompis-row.png'],
+    [
+      'Ska_rmavbild_2026-05-26_kl._22.59.57-d670b554-3ae6-4c0b-8dca-ae54c2e5af61.png',
+      'reference-premium-b1-single.png',
+    ],
   ];
   for (const [srcName, destName] of map) {
     const src = join(assets, srcName);
@@ -450,7 +457,7 @@ function copyReferencePngs() {
 }
 
 function main() {
-  for (const p of [PATH_B1, PATH_D1, PATH_M1]) {
+  for (const p of [PATH_B1, PATH_D1, PATH_M2]) {
     if (!existsSync(p)) throw new Error(`Saknar ankare: ${p}`);
   }
 

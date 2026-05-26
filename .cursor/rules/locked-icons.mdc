@@ -1,5 +1,5 @@
 ---
-description: Locked product icons B1 D1 M3 — do not replace without approval
+description: Locked product icons B1 D1 M2 — do not replace without approval
 alwaysApply: true
 ---
 
@@ -11,7 +11,7 @@ Canonical: [`.context/locked-icons.md`](../../.context/locked-icons.md)
 |----|------|
 | B1 | `public/favicon.svg` |
 | D1 | `src/modules/core/ui/LivskompassMark.tsx` |
-| M3 | `src/modules/kompis/components/KompisMark.tsx` |
+| M2 | `src/modules/kompis/components/KompisMark.tsx` |
 
 ## MUST
 

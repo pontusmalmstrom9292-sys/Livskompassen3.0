@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <title>M2 — M2 Orakelöga (v2-premium)</title>
+
+  <defs>
+    <linearGradient id="v4m20xm2g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0dfa0"/>
+      <stop offset="100%" stop-color="#c9a227"/>
+    </linearGradient>
+    <radialGradient id="v4m20xm2eye" cx="50%" cy="45%" r="40%">
+      <stop offset="0%" stop-color="#fff8e0"/>
+      <stop offset="100%" stop-color="#e8a020"/>
+    </radialGradient>
+  </defs>
+  <circle cx="24" cy="24" r="21" stroke="url(#v4m20xm2g)" stroke-width="0.8" fill="#0c1218" fill-opacity="0.6"/>
+  <circle cx="24" cy="24" r="17" stroke="url(#v4m20xm2g)" stroke-opacity="0.25" stroke-width="0.5" stroke-dasharray="2 3" fill="none"/>
+  <path d="M8 24 Q24 10 40 24 Q24 38 8 24 Z" stroke="url(#v4m20xm2g)" stroke-width="1.1" fill="none"/>
+  <circle cx="24" cy="24" r="8" stroke="url(#v4m20xm2g)" stroke-opacity="0.4" stroke-width="0.6" fill="none"/>
+  <circle cx="24" cy="24" r="4.5" fill="url(#v4m20xm2eye)"/>
+  <polygon points="24,20 25,23 28,23 25.5,25 26.5,28 24,26 21.5,28 22.5,25 20,23 23,23" fill="#0a0a0a" fill-opacity="0.5"/>
+</svg>

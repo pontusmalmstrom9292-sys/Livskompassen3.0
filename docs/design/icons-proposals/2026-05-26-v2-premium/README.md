@@ -1,5 +1,7 @@
 # Premium ikoner v2 — hero-kompass-stil
 
+**Prod-låst trio:** [`.context/locked-icons.md`](../../../.context/locked-icons.md) — **B1** app · **D1** kompass · **M2** Kompis (Orakelöga). Övriga rader (B2/B3, M1/M3, …) är förslag.
+
 **Utan** minimal-I-stone-begränsning. Referens: `KOMPASS-LOCKED-kanon.png`, hem-`livskompass-hero__grid` (koncentriska ringar + 8-spets + glödande nord).
 
 Öppna [`preview.html`](./preview.html).

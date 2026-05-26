@@ -5,14 +5,13 @@ type Props = {
 };
 
 /**
- * @locked ICON-M3 Fyrens själ — Kompis-avatar. Ändra endast med .context/locked-icons.md + smoke:locked-icons
- * Premium 2026-05-26.
+ * @locked ICON-M2 Orakelöga — Kompis-avatar. Ändra endast med .context/locked-icons.md + smoke:locked-icons
+ * Premium 2026-05-26 (v2-premium M2-orakeloga.svg, unika gradient-id).
  */
 export function KompisMark({ className }: Props) {
   const uid = useId().replace(/:/g, '');
-  const bg = `km-bg-${uid}`;
-  const beam = `km-beam-${uid}`;
-  const gold = `km-gold-${uid}`;
+  const g = `km2g-${uid}`;
+  const eye = `km2e-${uid}`;
 
   return (
     <svg
@@ -23,40 +22,55 @@ export function KompisMark({ className }: Props) {
       aria-hidden
     >
       <defs>
-        <radialGradient id={bg} cx="50%" cy="80%" r="55%">
-          <stop offset="0%" stopColor="#1a2830" />
-          <stop offset="100%" stopColor="#060a0c" />
+        <linearGradient id={g} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#f0dfa0" />
+          <stop offset="100%" stopColor="#c9a227" />
+        </linearGradient>
+        <radialGradient id={eye} cx="50%" cy="45%" r="40%">
+          <stop offset="0%" stopColor="#fff8e0" />
+          <stop offset="100%" stopColor="#e8a020" />
         </radialGradient>
-        <linearGradient id={beam} x1="24" y1="8" x2="24" y2="36">
-          <stop offset="0%" stopColor="#fff9e6" />
-          <stop offset="50%" stopColor="#ffb74d" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#d4af37" stopOpacity="0.1" />
-        </linearGradient>
-        <linearGradient id={gold} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#e8d5a0" />
-          <stop offset="100%" stopColor="#b8942a" />
-        </linearGradient>
       </defs>
       <circle
         cx="24"
         cy="24"
-        r="22"
-        fill={`url(#${bg})`}
-        stroke={`url(#${gold})`}
-        strokeWidth="0.85"
+        r="21"
+        stroke={`url(#${g})`}
+        strokeWidth="0.8"
+        fill="#0c1218"
+        fillOpacity="0.6"
+      />
+      <circle
+        cx="24"
+        cy="24"
+        r="17"
+        stroke={`url(#${g})`}
+        strokeOpacity="0.25"
+        strokeWidth="0.5"
+        strokeDasharray="2 3"
+        fill="none"
       />
       <path
-        d="M24 10 L34 34 L24 30 L14 34 Z"
-        fill={`url(#${beam})`}
-        opacity="0.55"
+        d="M8 24 Q24 10 40 24 Q24 38 8 24 Z"
+        stroke={`url(#${g})`}
+        strokeWidth="1.1"
+        fill="none"
       />
-      <path
-        d="M24 12 L30 32 L24 28 L18 32 Z"
-        fill={`url(#${beam})`}
-        opacity="0.75"
+      <circle
+        cx="24"
+        cy="24"
+        r="8"
+        stroke={`url(#${g})`}
+        strokeOpacity="0.4"
+        strokeWidth="0.6"
+        fill="none"
       />
-      <rect x="20" y="30" width="8" height="10" rx="1" fill={`url(#${gold})`} opacity="0.5" />
-      <circle cx="24" cy="26" r="3" fill="#fff8e0" opacity="0.95" />
+      <circle cx="24" cy="24" r="4.5" fill={`url(#${eye})`} />
+      <polygon
+        points="24,20 25,23 28,23 25.5,25 26.5,28 24,26 21.5,28 22.5,25 20,23 23,23"
+        fill="#0a0a0a"
+        fillOpacity="0.5"
+      />
     </svg>
   );
 }

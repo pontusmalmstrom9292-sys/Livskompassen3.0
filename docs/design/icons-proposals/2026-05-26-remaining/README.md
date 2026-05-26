@@ -3,7 +3,7 @@
 **Ny huvudbatch:** **[`../2026-05-26-v3-chassis/`](../2026-05-26-v3-chassis/)** — 5 stilar × 10 kategorier (50), samma DNA som **D1/M3**. Öppna `v3-chassis/preview.html`.
 
 **Stil:** Premium Helros — [`ICON-STYLE-GUIDE.md`](../../ICON-STYLE-GUIDE.md)  
-**Låst (byt ej):** B1 · D1 · M3 — [`.context/locked-icons.md`](../../../.context/locked-icons.md)
+**Låst (byt ej):** B1 · D1 · M2 — [`.context/locked-icons.md`](../../../.context/locked-icons.md)
 
 Öppna [`preview.html`](./preview.html).
 
