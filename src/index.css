@@ -1503,6 +1503,10 @@
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
   }
 
+  .nav-drawer__mode-btn--solo {
+    @apply w-full flex-none;
+  }
+
   .nav-drawer__sections {
     @apply flex flex-1 flex-col gap-1 overflow-y-auto pb-2;
   }

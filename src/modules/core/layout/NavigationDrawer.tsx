@@ -4,8 +4,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Lock, X } from 'lucide-react';
 import type { DrawerNavItem } from '../navigation/drawerNav';
 import { getVisibleDrawerTruth, type NavDrawerSection } from '../navigation/navTruth';
+import { hasVaultGate } from '../auth/sessionService';
+import { useStore } from '../store';
 import { LivskompassMark } from '../ui/LivskompassMark';
-import { DrawerHomeQuickActions } from '../components/DrawerHomeQuickActions';
 import { DrawerModeToggle } from './DrawerModeToggle';
 import { DrawerHubAccordion, isDrawerItemActive } from './DrawerHubAccordion';
 
@@ -16,6 +17,12 @@ type Props = {
 };
 
 const SWIPE_CLOSE_THRESHOLD_PX = 56;
+
+function isInValvDrawerContext(pathname: string, search: string, vaultOpen: boolean): boolean {
+  if (!vaultOpen) return false;
+  if (search.includes('tab=bevis') || search.includes('vaultTab=')) return true;
+  return pathname === '/dossier' || pathname.startsWith('/dossier/');
+}
 
 function collectActiveAncestorIds(
   section: NavDrawerSection,
@@ -45,12 +52,19 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
   const location = useLocation();
   const navigate = useNavigate();
   const touchStartX = useRef(0);
-  const [mode, setMode] = useState<NavDrawerSection>('vardag');
+  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
+  const vaultOpen = isVaultUnlocked || hasVaultGate();
   const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set());
 
   const pathname = location.pathname;
   const search = location.search;
   const hash = location.hash;
+
+  const inValvContext = useMemo(
+    () => isInValvDrawerContext(pathname, search, vaultOpen),
+    [pathname, search, vaultOpen],
+  );
+  const mode: NavDrawerSection = inValvContext ? 'valv' : 'vardag';
 
   const activeAncestors = useMemo(
     () => ({
@@ -82,10 +96,9 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
 
   useEffect(() => {
     if (!open) return;
-    const valvActive = activeAncestors.valv.size > 0 || pathname.includes('vaultTab=');
-    setMode(valvActive ? 'valv' : 'vardag');
-    setExpandedIds(new Set([...activeAncestors.vardag, ...activeAncestors.valv]));
-  }, [open, pathname, activeAncestors, search]);
+    const sectionAncestors = inValvContext ? activeAncestors.valv : activeAncestors.vardag;
+    setExpandedIds(new Set(sectionAncestors));
+  }, [open, pathname, activeAncestors, inValvContext]);
 
   const handleTouchStart = (clientX: number) => {
     touchStartX.current = clientX;
@@ -131,18 +144,17 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
     onClose();
   };
 
+  const handleBackToVardag = () => {
+    navigate({ pathname: '/dagbok', search: '?tab=reflektion' });
+    onClose();
+  };
+
   return createPortal(
     <>
-      <button
-        type="button"
-        className="nav-drawer__backdrop"
-        aria-label="Stäng meny"
-        onClick={onClose}
-      />
       <aside
         className="nav-drawer"
         role="dialog"
-        aria-label="Huvudmeny"
+        aria-label={inValvContext ? 'Valv-meny' : 'Huvudmeny'}
         aria-modal="true"
         onTouchStart={(e) => handleTouchStart(e.touches[0]?.clientX ?? 0)}
         onTouchEnd={(e) => handleTouchEnd(e.changedTouches[0]?.clientX ?? 0)}
@@ -168,9 +180,7 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
           </div>
         </div>
 
-        <DrawerModeToggle mode={mode} onChange={setMode} />
-
-        {mode === 'vardag' && <DrawerHomeQuickActions onNavigate={onClose} />}
+        <DrawerModeToggle showValvShell={inValvContext} onBackToVardag={handleBackToVardag} />
 
         <nav className="nav-drawer__sections" aria-label="Moduler">
           <div className="nav-drawer__section">
@@ -201,6 +211,12 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
           </button>
         </div>
       </aside>
+      <button
+        type="button"
+        className="nav-drawer__backdrop"
+        aria-label="Stäng meny"
+        onClick={onClose}
+      />
     </>,
     document.body,
   );

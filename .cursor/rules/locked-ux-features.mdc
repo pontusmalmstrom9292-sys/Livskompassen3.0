@@ -29,10 +29,10 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 ## Sidomeny (hamburger — design lock)
 
 - Kanon: `docs/design/references/MENU-DRAWER-KANON.md`
-- **Two sections:** Vardag (public hubs + sub-rows) · Valv (PIN destinations)
-- Source: `navTruth.ts` → `DRAWER_VARDAG_ITEMS` / `DRAWER_VALV_ITEMS`
+- **Two sections:** Vardag (public hubs + sub-rows) · Valv (PIN — only when unlocked on Valv-route)
+- Source: `navTruth.ts` → `DRAWER_VARDAG_ITEMS` / `DRAWER_VALV_ITEMS`; gate: `isInValvDrawerContext`
 - Active row: gold only (not teal/turquoise)
-- Quick actions (`DrawerHomeQuickActions`) on all screens
+- **No** Valv toggle or drawer quick chips in public mode (`DrawerModeToggle` `showValvShell` only inside Valv)
 
 ## Planering + Projekt (design lock — hybrid)
 

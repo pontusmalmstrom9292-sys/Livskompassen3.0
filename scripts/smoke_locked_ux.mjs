@@ -215,6 +215,8 @@ function main() {
     'Kunskapsbank',
     'navTruth.ts',
     'DrawerModeToggle',
+    'isInValvDrawerContext',
+    'showValvShell',
     'Pansaret',
     'Forensik',
   );
@@ -242,10 +244,11 @@ function main() {
   mustInclude('src/modules/core/ui/typeScale.ts', 'hubHeaderClasses', 'titleHub');
   mustInclude(
     'src/modules/core/layout/NavigationDrawer.tsx',
-    'DrawerHomeQuickActions',
     'DrawerModeToggle',
     'DrawerHubAccordion',
     'nav-drawer__section-title',
+    'isInValvDrawerContext',
+    'showValvShell',
   );
   mustInclude('src/modules/core/layout/DrawerHubAccordion.tsx', 'nav-drawer__row--sub', 'isDrawerItemActive');
   mustInclude('src/modules/core/components/DrawerHomeQuickActions.tsx', 'FYREN_HOME_QUICK_ACTIONS');

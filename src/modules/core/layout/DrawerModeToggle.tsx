@@ -1,31 +1,20 @@
-import { clsx } from 'clsx';
-import type { NavDrawerSection } from '../navigation/navTruth';
-
 type Props = {
-  mode: NavDrawerSection;
-  onChange: (mode: NavDrawerSection) => void;
+  /** Endast när Valv är upplåst — en diskret väg tillbaka utan att exponera Valv i publikt läge. */
+  showValvShell: boolean;
+  onBackToVardag: () => void;
 };
 
-export function DrawerModeToggle({ mode, onChange }: Props) {
+export function DrawerModeToggle({ showValvShell, onBackToVardag }: Props) {
+  if (!showValvShell) return null;
+
   return (
-    <div className="nav-drawer__mode" role="tablist" aria-label="Menyläge">
+    <div className="nav-drawer__mode" role="navigation" aria-label="Tillbaka från Valv">
       <button
         type="button"
-        role="tab"
-        aria-selected={mode === 'vardag'}
-        className={clsx('nav-drawer__mode-btn', mode === 'vardag' && 'nav-drawer__mode-btn--active')}
-        onClick={() => onChange('vardag')}
+        className="nav-drawer__mode-btn nav-drawer__mode-btn--active nav-drawer__mode-btn--solo"
+        onClick={onBackToVardag}
       >
         Vardag
-      </button>
-      <button
-        type="button"
-        role="tab"
-        aria-selected={mode === 'valv'}
-        className={clsx('nav-drawer__mode-btn', mode === 'valv' && 'nav-drawer__mode-btn--active')}
-        onClick={() => onChange('valv')}
-      >
-        Valv
       </button>
     </div>
   );

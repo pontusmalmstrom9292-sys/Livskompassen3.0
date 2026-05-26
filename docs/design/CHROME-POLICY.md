@@ -9,8 +9,8 @@
 |-------|-----------|-----|--------|
 | 1 | **FloatingDock** | `DockClassicTriad` | Alltid på `MainLayout` — Familjen · Kompass · Valv ([DOCK-KANON](references/DOCK-KANON.md)) |
 | 2 | **FyrenSmartWidgetBar** | `FyrenSmartWidgetBar.tsx` | Kanonisk W1–W4; dold på `/widget/*` |
-| 3 | **Hem snabbåtgärder** | `DrawerHomeQuickActions.tsx` i `NavigationDrawer` | **Endast `/`** — öppnas via hamburger (ej separat strip i header) |
-| 4 | **NavigationDrawer** | Portal vänster | 8 rader från `navTruth` / `drawerNav` |
+| 3 | **NavigationDrawer** | Portal vänster | Vardag-hubbar; Valv-meny endast efter PIN på Valv-route ([MENU-DRAWER-KANON](references/MENU-DRAWER-KANON.md)) |
+| 4 | **Hem snabbåtgärder (legacy)** | `DrawerHomeQuickActions.tsx` | **Ej** monterad i drawer; Fyren/widget om snabbvägar behövs |
 | 5 | **Modul-footer** | `HubPageShell.footerSlot` | Valfri diskret rad — inte tredje fast bar |
 
 ## Modul-footer (P1)

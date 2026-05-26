@@ -74,10 +74,10 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 |---|---|
 | **Kanonbild** | `docs/design/references/MENU-DRAWER-KANON.png` |
 | **Spec** | `docs/design/references/MENU-DRAWER-KANON.md` |
-| **Sektioner** | **Vardag** (hub + sub-rader) · **Valv** (PIN — alla känsliga flikar) |
-| **Kod** | `navTruth.ts`, `NavigationDrawer.tsx`, `DrawerHomeQuickActions.tsx` |
-| **Krav** | Samma skymningsbakgrund; aktiv rad **guld**; snabbåtgärder på alla skärmar |
-| **Smoke** | Kanonfil + spec + `DRAWER_VARDAG_ITEMS` / `DRAWER_VALV_ITEMS` |
+| **Sektioner** | **Vardag** (publikt) · **Valv** (endast efter PIN/gate på Valv-route) |
+| **Kod** | `navTruth.ts`, `NavigationDrawer.tsx`, `DrawerModeToggle.tsx` |
+| **Krav** | Skymningsbakgrund; aktiv rad **guld**; **ingen** Valv-växlare/snabbchips i publikt läge |
+| **Smoke** | Kanonfil + spec + `DRAWER_VARDAG_ITEMS` / `DRAWER_VALV_ENTRIES` + `isInValvDrawerContext` |
 
 ---
 

@@ -1,28 +1,30 @@
 # Sidomeny (hamburger) — KANON
 
-**Status:** **Låst** 2026-05-26 — helhetsindex med Vardag/Valv-växlare + accordion-hubbar.  
-**Bild:** [`MENU-DRAWER-KANON.png`](./MENU-DRAWER-KANON.png)
+**Status:** **Låst** 2026-05-27 — Vardag (publikt) + Valv (endast efter PIN/gate) · accordion-hubbar.  
+**Bild:** [`MENU-DRAWER-KANON.png`](./MENU-DRAWER-KANON.png) *(referens; UI kan sakna Valv-växlare i publikt läge)*
 
 ---
 
-## Visuellt (oförändrat)
+## Visuellt
 
 | Element | Spec |
 |---------|------|
 | **Bakgrund** | Samma nordiska skymningsfoto som hem (blur + mörk overlay ~55%) |
 | **Bredd** | ~68% skärm, glid in från vänster |
+| **DOM** | `<aside class="nav-drawer">` före `.nav-drawer__backdrop` (drawer `z-[201]`, backdrop `z-[200]`) |
 | **Header** | `LIVSKOMPASSEN` serif guld + dekoration (tre rutor) |
 | **Stäng** | Guld `×` uppe vänster |
-| **Lägesväxlare** | Segment **Vardag** \| **Valv** (guld aktiv) |
+| **Lägesväxlare** | **Ingen** i publikt läge. I Valv: en diskret **Vardag**-knapp (tillbaka), **inte** synlig **Valv**-flik |
+| **Snabbåtgärder** | **Ej** i drawer (`nav-drawer__quick-grid` borttagen). Snabbvägar via Fyren-widget / hubbar |
 | **Rad** | Cirkel-ikon guld (48px hub / 36px sub) · etikett · chevron |
 | **Aktiv rad** | **Guld** bakgrundsstreck (inte turkos/teal) |
-| **Sektion** | Rubrik speglar aktivt läge |
+| **Sektion** | Rubrik **Vardag** eller **Valv** efter aktivt läge |
 
 ---
 
-## Läge Vardag (publikt)
+## Läge Vardag (publikt — standard)
 
-Snabbåtgärder (chips) visas **endast i Vardag-läge**.
+Visas när Valv **inte** är upplåst på en Valv-route.
 
 | Hub | Underflikar |
 |-----|-------------|
@@ -37,11 +39,14 @@ Snabbåtgärder (chips) visas **endast i Vardag-läge**.
 | Projekt | Nytt projekt |
 | Inställningar | — |
 
-**MUST NOT:** publik `/vardagen?tab=kunskap` — Kunskap endast via Valv `kunskapsbank`.
+**MUST NOT:** publik `/vardagen?tab=kunskap` — Kunskap endast via Valv `kunskapsbank`.  
+**MUST NOT:** exponera Valv (växlare, Valv-flik, snabbchips) i publikt drawer-läge.
 
 ---
 
 ## Läge Valv (PIN i VaultPage)
+
+Visas **endast** när `isVaultUnlocked` eller `hasVaultGate()` **och** route är Valv (`?tab=bevis`, `vaultTab=…`, eller `/dossier`).
 
 Tre expanderbara grupper:
 
@@ -53,6 +58,8 @@ Tre expanderbara grupper:
 
 Alla Valv-rader (utom Dossier-export) → `/dagbok?tab=bevis&vaultTab=…`
 
+**Tillbaka:** `DrawerModeToggle` med **Vardag** → `/dagbok?tab=reflektion` (stänger drawer).
+
 ---
 
 ## Beteende
@@ -60,7 +67,8 @@ Alla Valv-rader (utom Dossier-export) → `/dagbok?tab=bevis&vaultTab=…`
 | Gest | Resultat |
 |------|----------|
 | Öppna | Hamburgermeny i header (`AppHeaderBar`) |
-| Vardag \| Valv | Visar endast relevant index |
+| Publikt | Endast Vardag-index — ingen Valv-växlare |
+| Valv upplåst + Valv-route | Valv-index + **Vardag**-tillbaka |
 | Hub med barn | Ikon+etikett → hub-path; **chevron** fäller ut underflikar |
 | Valv-grupp | Rad fäller ut (ingen path) |
 | Stäng | `×`, swipe vänster, tap utanför, route change |
@@ -74,8 +82,8 @@ Widget-routes `/widget/*` ingår **inte** i drawer (deep links / PWA).
 
 | Komponent | Fil |
 |-----------|-----|
-| `NavigationDrawer` | `src/modules/core/layout/NavigationDrawer.tsx` |
-| `DrawerModeToggle` | `src/modules/core/layout/DrawerModeToggle.tsx` |
+| `NavigationDrawer` | `src/modules/core/layout/NavigationDrawer.tsx` (`isInValvDrawerContext`) |
+| `DrawerModeToggle` | `src/modules/core/layout/DrawerModeToggle.tsx` (`showValvShell`) |
 | `DrawerHubAccordion` | `src/modules/core/layout/DrawerHubAccordion.tsx` |
 | Sanning | `src/modules/core/navigation/navTruth.ts` |
 | Ikoner | `src/modules/core/navigation/drawerNav.ts` |
