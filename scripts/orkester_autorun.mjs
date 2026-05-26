@@ -22,6 +22,8 @@ const reportPath = resolve(root, 'docs/evaluations', `${today}-orkester-natt.md`
 
 const PHASES = [
   { id: 'ux', label: 'UX Guardian', cmd: 'npm run smoke:locked-ux && npm run smoke:design-modules' },
+  { id: 'innehall', label: 'Innehall U6', cmd: 'npm run smoke:innehall' },
+  { id: 'locked-icons', label: 'Locked icons', cmd: 'npm run smoke:locked-icons' },
   { id: 'adk', label: 'ADK Weaver', cmd: 'npm run smoke:orkester' },
   { id: 'functions-build', label: 'Functions build', cmd: 'npm run build', cwd: 'functions' },
   { id: 'frontend-build', label: 'Frontend build', cmd: 'npm run build' },

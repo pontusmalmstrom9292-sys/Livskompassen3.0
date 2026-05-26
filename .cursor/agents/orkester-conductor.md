@@ -10,9 +10,10 @@ Du dirigerar **specialister** i deterministisk ordning. Ingen LLM-routing för a
 
 ## Startprotokoll
 
-1. Läs `.context/system-plan.md` och `docs/ORKESTER-AUTORUN.md`.
+1. Läs `.context/system-plan.md`, `docs/ORKESTER-AUTORUN.md`, och `docs/ORKESTER-BACKLOG-PLANS.md`.
 2. Läs `.orkester/state.json` om den finns — fortsätt på `nextPhase`.
 3. Kör **en fas i taget**; spara resultat efter varje fas.
+4. Efter terminal `orkester:night` **PASS**: backlog **Fas B** (ikoner, om generator ändrats) och **Fas C** (git/secrets) — agent, inte auto i nattpasset.
 
 ## Fasordning (MUST)
 

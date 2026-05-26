@@ -2,7 +2,7 @@
 
 **Syfte:** Deterministisk batch-körning medan du sover + Cursor-specialister för fortsatt vävning imorgon.
 
-**Senast uppdaterad:** 2026-05-24
+**Senast uppdaterad:** 2026-05-26
 
 ---
 
@@ -14,12 +14,15 @@
 npm run orkester:night
 ```
 
-Kör i ordning:
+Kör i ordning (se även [`ORKESTER-BACKLOG-PLANS.md`](./ORKESTER-BACKLOG-PLANS.md)):
 
 1. `smoke:locked-ux` + `smoke:design-modules`
-2. `smoke:orkester` (ADK wiring + functions build)
-3. Frontend `npm run build`
-4. ESLint (optional — fail soft)
+2. `smoke:innehall` (U6)
+3. `smoke:locked-icons` (B1/D1/M2)
+4. `smoke:orkester` (ADK wiring)
+5. Functions `npm run build`
+6. Frontend `npm run build`
+7. ESLint (optional — fail soft)
 
 **Output:**
 
@@ -90,6 +93,7 @@ Statisk verifiering:
 
 ## Relaterat
 
+- [`ORKESTER-BACKLOG-PLANS.md`](./ORKESTER-BACKLOG-PLANS.md) — backlog av delplaner (ikoner, git, Fas A–D)
 - [`SYSTEMKONTROLL.md`](./SYSTEMKONTROLL.md) — analyser A–E
 - [`.context/system-plan.md`](../.context/system-plan.md) — fas & öppna punkter
 - [`Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) — G1–G14 done
