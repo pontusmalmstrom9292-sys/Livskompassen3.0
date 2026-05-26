@@ -91,8 +91,9 @@ function main() {
   );
   mustInclude(
     'src/modules/barnens_livsloggar/components/FamiljenPage.tsx',
-    'VaultZoneGate',
-    'familjen_forensic',
+    'vaultDrawerPath',
+    'familjen_monster',
+    'kunskapsbank',
   );
   mustInclude(
     'src/modules/dagbok/components/DagbokPage.tsx',
@@ -102,7 +103,8 @@ function main() {
   mustInclude(
     'src/modules/safe_harbor/components/TryggHamnHub.tsx',
     'BiffPublicPanel',
-    'hamn_forensic',
+    'vaultDrawerPath',
+    'hamn_analys',
   );
 
   console.log('[smoke:orkester] Arbetsliv hub...');
@@ -112,7 +114,12 @@ function main() {
     'recordTimeOut',
   );
   mustInclude('src/modules/core/firebase/timeEconomyFirestore.ts', 'time_entries');
-  mustInclude('src/modules/arbetsliv/components/ArbetslivHubPage.tsx', 'arbetsliv_forensic', 'VaultEconomyPanel');
+  mustInclude(
+    'src/modules/arbetsliv/components/ArbetslivHubPage.tsx',
+    'vaultDrawerPath',
+    'arbetsliv_franvaro',
+    'arbetsliv_lon',
+  );
   mustInclude('src/modules/core/routing/AppRoutes.tsx', '/arbetsliv', 'ArbetslivHubPage');
   mustInclude('functions/src/index.ts', 'generatePayslip');
   mustInclude('firestore.rules', 'match /time_entries/{docId}');

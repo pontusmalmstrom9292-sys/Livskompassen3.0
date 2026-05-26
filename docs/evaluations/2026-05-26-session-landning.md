@@ -1,8 +1,8 @@
 # Session landning — 2026-05-26
 
-**Gren vid commit:** `theme-pack-j` @ `de9a856e`  
-**Verifiering:** `npm run build` PASS · `npm run smoke:locked-ux` PASS  
-**PMIR:** [`2026-05-26-pmir-theme-pack-j.md`](./2026-05-26-pmir-theme-pack-j.md) — merge väntar på *godkänn merge*
+**Gren:** `theme-pack-j` → **`main`** (merged 2026-05-26)  
+**Verifiering på main:** `npm run build` PASS · `npm run smoke:locked-ux` PASS · `npm run smoke:orkester` PASS  
+**PMIR:** [`2026-05-26-pmir-theme-pack-j.md`](./2026-05-26-pmir-theme-pack-j.md) — **merge utförd**
 
 ---
 

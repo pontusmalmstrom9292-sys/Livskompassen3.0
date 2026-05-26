@@ -2,7 +2,7 @@
 
 **Syfte:** En aktiv utvecklingsgren (`main`). Inget förstört — historik finns i git.
 
-**Senast:** 2026-05-25 (Arbetsliv-hub på `origin/main`)
+**Senast:** 2026-05-26 (`theme-pack-j` → `main`, drawer Vardag/Valv, Inkast Lite, Life Hub, Theme Pack J)
 
 ---
 
@@ -10,7 +10,15 @@
 
 | Branch | Innehåll | Stäng-kriterium |
 |--------|----------|-----------------|
-| **`main`** | All produktkod: Planering, Theme Pack I, Orkester, låst UX, Fyren, **Arbetsliv-hub** (`/arbetsliv`, `514c8c80`) | Daglig utveckling; `npm run smoke:locked-ux` före "klart" |
+| **`main`** | Drawer helhetsindex, Valv-baksida, Inkast Lite, Life Hub Fas A+B, Theme Pack J, Fyren hub-kontextrad, Arbetsliv-hub | `npm run smoke:locked-ux` + `smoke:orkester` före "klart" |
+
+### theme-pack-j — merged 2026-05-26
+
+| Detalj | Värde |
+|--------|--------|
+| **PMIR** | [`evaluations/2026-05-26-pmir-theme-pack-j.md`](./evaluations/2026-05-26-pmir-theme-pack-j.md) |
+| **Gren** | `theme-pack-j` mergad till `main`; remote kan raderas efter verifiering |
+| **Smoke** | build + locked-ux + orkester **PASS** på `main` |
 
 ### Arbetsliv — kanon på main (2026-05-25)
 

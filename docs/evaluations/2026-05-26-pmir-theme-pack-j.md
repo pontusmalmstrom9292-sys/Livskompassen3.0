@@ -55,31 +55,31 @@
 | `npm run smoke:locked-ux` | **PASS** |
 | `npm run smoke:orkester` | Ej körd i landning — kör på `main` efter merge |
 
-## Smoke (på `main` efter merge — fyll i vid merge)
+## Smoke (på `main` efter merge — 2026-05-26)
 
 | Kommando | Resultat |
 |----------|----------|
-| `npm run build` | PASS / FAIL |
-| `npm run smoke:locked-ux` | PASS / FAIL |
-| `npm run smoke:orkester` | PASS / FAIL / skip |
+| `npm run build` | **PASS** |
+| `npm run smoke:locked-ux` | **PASS** |
+| `npm run smoke:orkester` | **PASS** (smoke uppdaterad: Valv-redirect i Familjen/Hamn/Arbetsliv) |
+
+**Merge-commit:** merge `theme-pack-j` → `main` (ort strategy).
 
 ---
 
 ## Rekommendation
 
-- [x] Merge till `main` + push `origin` — **efter användarens OK**
-- [ ] Merge **utan** gren-radering
+- [x] Merge till `main` + push `origin` — **utförd**
+- [x] Merge **utan** gren-radering (behåll `theme-pack-j` tills manuell städning)
 - [ ] Cherry-pick specifika commits: ___
 - [ ] **Avbryt** — anledning: ___
-
-**Ej merge i denna session** — väntar på *"godkänn merge"*.
 
 ---
 
 ## Godkännande
 
-**Användaren:** ☐ godkänn merge · ☐ avbryt  
-**Datum:** ___________
+**Användaren:** ☑ godkänn merge (*"kör pmir och merge"*)  
+**Datum:** 2026-05-26
 
 ---
 
