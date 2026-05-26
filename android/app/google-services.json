@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1084026575972-u96b1us003tjtci0cgdrmgk0199f5bk2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.livskompassen.app",
+            "certificate_hash": "9c84fa709960d01adf6e19375c4175e17a07c9d4"
+          }
+        },
+        {
           "client_id": "1084026575972-d8l61jmqh30m3i49t21ukk9r7e9p13b2.apps.googleusercontent.com",
           "client_type": 3
         }
