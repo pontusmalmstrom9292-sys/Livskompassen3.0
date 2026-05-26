@@ -2,7 +2,8 @@
 
 **Stilguide:** [`ICON-STYLE-GUIDE.md`](../ICON-STYLE-GUIDE.md)  
 **Låst:** [`.context/locked-icons.md`](../../../.context/locked-icons.md) · smoke: `npm run smoke:locked-icons`  
-**Väntar val (primär uppsättning):** [`icons-proposals/2026-05-26-v3-chassis/`](../icons-proposals/2026-05-26-v3-chassis/) — 5 stilar × 10 kategorier (50 SVG). Regenerera: `npm run icons:proposals-v3`  
+**Väntar val (senaste — 10 stilar, flat+3D):** [`icons-proposals/2026-05-26-v4-round2-dna/`](../icons-proposals/2026-05-26-v4-round2-dna/) — 130 SVG (kärn B/D/M + 10 chrome). `npm run icons:proposals-v4`  
+**v3 (5 stilar):** [`icons-proposals/2026-05-26-v3-chassis/`](../icons-proposals/2026-05-26-v3-chassis/) — `npm run icons:proposals-v3`  
 **Äldre enkla:** [`icons-proposals/2026-05-26-remaining/`](../icons-proposals/2026-05-26-remaining/) (3 varianter)
 
 ## Låsta (MUST NOT ändra utan produktbeslut)

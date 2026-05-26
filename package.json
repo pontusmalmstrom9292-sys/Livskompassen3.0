@@ -14,6 +14,7 @@
     "android:run:prod": "npm run cap:sync:prod && npx cap run android",
     "android:icons": "./scripts/generate_android_launcher_icons.sh",
     "icons:proposals-v3": "node scripts/generate_icon_proposals_v3.mjs",
+    "icons:proposals-v4": "node scripts/generate_icon_proposals_v4.mjs",
     "preview": "vite preview",
     "smoke:kunskap": "node scripts/smoke_kunskap.mjs",
     "smoke:speglar": "node scripts/smoke_speglar.mjs",
