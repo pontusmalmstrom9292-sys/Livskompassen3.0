@@ -38,6 +38,7 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 | [`GCP-FAS4-RUNBOOK.md`](GCP-FAS4-RUNBOOK.md) | FAS4 steg-för-steg |
 | [`DEPLOY.md`](DEPLOY.md) | Deploy hosting + functions |
 | [`FIREBASE-AUTH-LATHUND.md`](FIREBASE-AUTH-LATHUND.md) | **1 sida** — Authorized domains, Google, Android-nuläge |
+| [`.context/android-capacitor.md`](../.context/android-capacitor.md) | **Projektminne** — cap sync före Run, SHA-1, native Google |
 | [`OFFLINE-ANDROID.md`](OFFLINE-ANDROID.md) | Firestore offline cache, nät-chip, WORM-notering |
 | [`prompts/OFFLINE-ANDROID-AGENT-PROMPT.md`](prompts/OFFLINE-ANDROID-AGENT-PROMPT.md) | **Klistra in** i ny chatt för uppföljning |
 | [`FIREBASE_SYNC.md`](FIREBASE_SYNC.md) | Firebase-projekt, rules, indexes |

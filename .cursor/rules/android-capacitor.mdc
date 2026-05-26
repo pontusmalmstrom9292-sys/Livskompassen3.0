@@ -1,0 +1,29 @@
+---
+description: Android Capacitor build, SHA-1 Google auth, cap sync — påminn användaren
+alwaysApply: true
+---
+
+# Android / Capacitor (MUST remind)
+
+Kanon: [`.context/android-capacitor.md`](../../.context/android-capacitor.md)
+
+## Before Android Studio Run (efter kodändring)
+
+```bash
+npm run build:web && npx cap sync android
+```
+
+Gradle Sync → Clean → Run. Auth-strul → avinstallera APK och kör igen.
+
+## Google Sign-In
+
+- **Telefon:** native (`nativeGoogleAuth.ts`) — **inte** samma som Mac web-popup.
+- **SHA-1** i Firebase för `com.livskompassen.app`; `google-services.json` måste ha OAuth **`client_type: 1`**.
+- **Logga in**-fliken för befintligt konto.
+
+## MUST NOT
+
+- Anta att Mac-auth-debug räcker för Android utan SHA-1 / cap sync.
+- Committa secrets utöver redan spårade Firebase client IDs i `google-services.json`.
+
+Lathund: [`docs/FIREBASE-AUTH-LATHUND.md`](../../docs/FIREBASE-AUTH-LATHUND.md) · offline: [`docs/OFFLINE-ANDROID.md`](../../docs/OFFLINE-ANDROID.md)

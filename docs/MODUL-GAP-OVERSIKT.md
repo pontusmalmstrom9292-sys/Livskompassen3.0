@@ -33,7 +33,7 @@ Ny arkiv-implementation: säg `kör [GAP]` (regel i GAP-register) — inget nytt
 | **dossier** | `/dossier` | BBIC `reportType` **planned** | Spec §I.4 |
 | **verklighetsvalvet** | Valv | Vävaren försätt / polish kvar | Spec/module_plan |
 | **ekonomi** | vardagen | Smoke #18 manuell | Du |
-| **auth/android** | app | SHA-1 i Firebase **done** om `google-services.json` uppdaterad; `cap:sync` + ominstallera APK | Du · [`FIREBASE-AUTH-LATHUND.md`](./FIREBASE-AUTH-LATHUND.md) |
+| **auth/android** | app | **Verifierad 2026-05** — SHA-1 + `client_type: 1` i `google-services.json`; native Google på telefon. Rutin: `build:web` → `cap sync` → Clean → Run · offline: [`OFFLINE-ANDROID.md`](./OFFLINE-ANDROID.md) | [`.context/android-capacitor.md`](../.context/android-capacitor.md) · [`FIREBASE-AUTH-LATHUND.md`](./FIREBASE-AUTH-LATHUND.md) |
 
 **Låst UX (ska inte tas bort):** Barnfokus, Valv Mönster/Orkester/Kunskapsbank, Planering P3, ikoner B1/D1/M2 — `npm run smoke:locked-ux`.
 
