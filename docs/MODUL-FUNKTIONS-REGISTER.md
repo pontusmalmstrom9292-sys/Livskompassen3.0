@@ -89,7 +89,7 @@ Verklighetsvalvet · Sanningens Sköld · Morgonkompassen · Dossier-Generator �
 | [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) | G1–G16 **done** (kod) |
 | [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md) | Live moln |
 
-**Öppet (produkt):** manuell smoke checklist; opt-in minne-ingest; Barnporten full PWA-route.
+**Öppet (produkt):** manuell smoke checklist; opt-in minne-ingest; Barnporten full PWA-route. **Modul-GAP-översikt:** [`MODUL-GAP-OVERSIKT.md`](./MODUL-GAP-OVERSIKT.md).
 
 ---
 
