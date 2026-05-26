@@ -12,7 +12,7 @@ import { FamiljenPage } from '../../barnens_livsloggar';
 import { DossierPage } from '../../dossier';
 import { MabraPage } from '../../mabra';
 import { PlaneringPage } from '../../planering';
-import { ProjektHubPage } from '../../projekt';
+import { ProjektHubPage, ProjektNyPage } from '../../projekt';
 import { ArbetslivHubPage } from '../../arbetsliv';
 
 function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
@@ -75,7 +75,7 @@ function MainAppRoutes() {
             </AuthGate>
           }
         />
-        <Route path="/kunskap" element={<RedirectToVardagenTab tab="kunskap" />} />
+        <Route path="/kunskap" element={<Navigate to="/dagbok?tab=bevis&vaultTab=kunskapsbank" replace />} />
         <Route
           path="/familjen"
           element={
@@ -118,7 +118,14 @@ function MainAppRoutes() {
             </AuthGate>
           }
         />
-        <Route path="/projekt/ny" element={<Navigate to="/projekt" replace />} />
+        <Route
+          path="/projekt/ny"
+          element={
+            <AuthGate>
+              <ProjektNyPage />
+            </AuthGate>
+          }
+        />
         <Route path="/dev/themes" element={<ThemePreviewPage />} />
         <Route path="/dev/theme-lab" element={<ThemeLabPage />} />
     </Routes>

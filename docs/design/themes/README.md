@@ -11,4 +11,6 @@
 
 Öppna [`index.html`](./index.html) i webbläsaren för sidovisning. PNG-export (28 bilder) är valfri referens — **kod följer Tema E** via `src/index.css`.
 
+**Pack J (8 hubb-teman):** [`J-PACK-EIGHT-HUBS.md`](./J-PACK-EIGHT-HUBS.md)
+
 Jämförelse: [`THEME-COMPARISON.md`](./THEME-COMPARISON.md)

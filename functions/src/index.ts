@@ -33,6 +33,7 @@ import {
   dismissInboxQueueItem,
   listPendingInboxQueue,
 } from './lib/inboxPersist';
+import { submitInkastLiteForUser } from './lib/submitInkastLite';
 import { listRegistryEntriesForUser } from './lib/contextCacheRegistry';
 import { analyzeUploadForKnowledge } from './lib/analyzeUploadForKnowledge';
 import { ingestKampsparForUser } from './lib/ingestKampsparInternal';
@@ -414,6 +415,37 @@ export const previewInboxClassification = onCall(
       geminiApiKey.value()
     );
     return { classification };
+  }
+);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// submitInkastLite — Hem Inkast Lite (G10 routing, fail-safe review)
+// ─────────────────────────────────────────────────────────────────────────────
+export const submitInkastLite = onCall(
+  { region: 'europe-west1', secrets: [geminiApiKey], memory: '512MiB', timeoutSeconds: 120 },
+  async (request) => {
+    if (!request.auth) {
+      throw new HttpsError('unauthenticated', 'Autentisering krävs.');
+    }
+
+    const text = typeof request.data?.text === 'string' ? request.data.text : undefined;
+    const base64 = typeof request.data?.base64 === 'string' ? request.data.base64 : undefined;
+    const fileName =
+      typeof request.data?.fileName === 'string' ? request.data.fileName : undefined;
+    const mimeType =
+      typeof request.data?.mimeType === 'string' ? request.data.mimeType : undefined;
+    const optInTrauma = request.data?.optInTrauma === true;
+
+    try {
+      return await submitInkastLiteForUser(
+        request.auth.uid,
+        { text, base64, fileName, mimeType, optInTrauma },
+        geminiApiKey.value()
+      );
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Inkast misslyckades.';
+      throw new HttpsError('invalid-argument', message);
+    }
   }
 );
 

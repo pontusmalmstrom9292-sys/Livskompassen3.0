@@ -51,10 +51,19 @@ export function ProjektHubPage() {
         })}
       </div>
 
-      <Link to="/planering" className="btn-pill--secondary flex w-full items-center justify-center gap-2">
-        <FolderKanban className="h-4 w-4" />
-        Till Handling (kanban)
-      </Link>
+      <div className="flex flex-col gap-2">
+        <Link
+          to="/projekt/ny"
+          className="btn-pill--accent flex w-full items-center justify-center gap-2"
+        >
+          <FolderKanban className="h-4 w-4" />
+          Nytt projekt
+        </Link>
+        <Link to="/planering" className="btn-pill--secondary flex w-full items-center justify-center gap-2">
+          <FolderKanban className="h-4 w-4" />
+          Till Handling (kanban)
+        </Link>
+      </div>
     </div>
   );
 }

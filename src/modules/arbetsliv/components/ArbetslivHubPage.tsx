@@ -1,78 +1,50 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Navigate, useSearchParams } from 'react-router-dom';
 import { Briefcase } from 'lucide-react';
-import { clearVaultZone } from '../../core/auth/sessionService';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { TabBar, type TabBarItem } from '../../core/ui/TabBar';
-import { VaultZoneGate } from '../../core/security/VaultZoneGate';
 import { StampClockPage } from '../../stampla/components/StampClockPage';
 import { EconomyTidPanel } from '../../ekonomi/components/EconomyTidPanel';
 import { EconomyLogPanel } from '../../ekonomi/components/EconomyLogPanel';
-import { EconomyPeriodSummary } from '../../ekonomi/components/EconomyPeriodSummary';
-import { EconomyPayslipCard } from '../../ekonomi/components/EconomyPayslipCard';
-import { VaultEconomyPanel } from '../../valv_ekonomi';
-import { useStore } from '../../core/store';
-import {
-  getPeriodEconomySummary,
-  type PeriodEconomySummary,
-} from '../../core/firebase/timeEconomyFirestore';
+import { vaultDrawerPath } from '../../core/navigation/navTruth';
 
-export type ArbetslivTab = 'stampla' | 'tid' | 'franvaro' | 'lon' | 'logg';
+export type ArbetslivTab = 'stampla' | 'tid' | 'logg';
 
 const TABS: TabBarItem<ArbetslivTab>[] = [
   { id: 'stampla', label: 'Stämpel' },
   { id: 'tid', label: 'Tid & flex' },
-  { id: 'franvaro', label: 'Frånvaro' },
-  { id: 'lon', label: 'Lön & spec' },
   { id: 'logg', label: 'Logg' },
 ];
 
 function parseArbetslivTab(raw: string | null): ArbetslivTab {
-  if (raw === 'tid' || raw === 'franvaro' || raw === 'lon' || raw === 'logg') return raw;
+  if (raw === 'tid' || raw === 'logg') return raw;
   return 'stampla';
 }
 
-function LonTab() {
-  const user = useStore((s) => s.user);
-  const [summary, setSummary] = useState<PeriodEconomySummary | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const reload = useCallback(async () => {
-    if (!user) return;
-    setLoading(true);
-    try {
-      setSummary(await getPeriodEconomySummary(user.uid));
-    } finally {
-      setLoading(false);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    void reload();
-  }, [reload]);
-
-  return (
-    <div className="space-y-4">
-      <EconomyPeriodSummary summary={summary} loading={loading} />
-      <EconomyPayslipCard />
-    </div>
-  );
+function vaultRedirectSearch(vaultTab: string): string {
+  const vaultPath = vaultDrawerPath(vaultTab);
+  const qIndex = vaultPath.indexOf('?');
+  return qIndex >= 0 ? vaultPath.slice(qIndex) : '';
 }
 
-/** Arbetsliv — stämpel, tid, frånvaro, lönespec (PIN på känsliga flikar). */
+/** Arbetsliv — stämpel, tid, logg publikt. Frånvaro/lön via Valv-menyn. */
 export function ArbetslivHubPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const tab = parseArbetslivTab(searchParams.get('tab'));
+  const tabParam = searchParams.get('tab');
+
+  if (tabParam === 'franvaro') {
+    return <Navigate to={{ pathname: '/dagbok', search: vaultRedirectSearch('arbetsliv_franvaro') }} replace />;
+  }
+
+  if (tabParam === 'lon') {
+    return <Navigate to={{ pathname: '/dagbok', search: vaultRedirectSearch('arbetsliv_lon') }} replace />;
+  }
+
+  const tab = parseArbetslivTab(tabParam);
 
   const setTab = (next: ArbetslivTab) => {
     setSearchParams(next === 'stampla' ? {} : { tab: next }, { replace: true });
   };
-
-  const isForensicTab = tab === 'franvaro' || tab === 'lon';
-
-  useEffect(() => {
-    if (!isForensicTab) clearVaultZone('arbetsliv_forensic');
-  }, [isForensicTab]);
 
   const publicPanel = useMemo(() => {
     switch (tab) {
@@ -87,35 +59,19 @@ export function ArbetslivHubPage() {
     }
   }, [tab]);
 
-  const forensicPanel = useMemo(() => {
-    if (tab === 'franvaro') return <VaultEconomyPanel />;
-    if (tab === 'lon') return <LonTab />;
-    return null;
-  }, [tab]);
-
   return (
     <div className="arbetsliv-hub space-y-5 pb-8">
       <header>
         <p className="text-[10px] uppercase tracking-[0.35em] text-accent/80">Arbetsliv</p>
-        <h1 className="text-xl font-display text-text">Tid · frånvaro · lön</h1>
+        <h1 className="text-xl font-display text-text">Tid · stämpel · logg</h1>
         <p className="mt-1 text-xs text-text-dim">
-          Stämpel och flex är öppna. Frånvaro och lönespec kräver samma PIN som Valv.
+          Stämpel och flex är öppna. Frånvaro och lönespec finns under Valv i menyn.
         </p>
       </header>
 
       <TabBar tabs={TABS} active={tab} onChange={setTab} />
 
-      {isForensicTab ? (
-        <VaultZoneGate
-          zone="arbetsliv_forensic"
-          title="Arbetsliv — låst"
-          description="Frånvaro, sjuk/VAB och lönespec. Samma PIN som Valv."
-        >
-          {forensicPanel}
-        </VaultZoneGate>
-      ) : (
-        publicPanel
-      )}
+      {publicPanel}
 
       <BentoCard
         title="Vardagsekonomi"

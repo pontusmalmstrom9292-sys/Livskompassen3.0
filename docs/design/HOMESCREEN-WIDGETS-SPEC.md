@@ -20,11 +20,12 @@ Varje genväg = **egen hemskärms-ikon** med **minimal skärm** (ingen dock, ing
 
 | ID | Namn | Route | Kärnfunktion |
 |----|------|-------|----------------|
-| **WH1** | **Inspelning** | `/widget/inspelning` | Mikrofon → transkription → **AI-titel** → WORM + ljudfil + textsammanfattning |
+| **WH1** | **Anteckningar** (diskret) | `/widget/inspelning` | Mikrofon → transkription → **AI-titel** → vem/vad/varför (valfritt) → WORM + ljudfil |
 | **WH2** | Anteckning | `/widget/anteckning` | En rad → valv (`widget_anteckning`) |
 | **WH3** | Kompass | `/widget/kompass` | Aktiv tidskompass, ett check-in |
 | **WH4** | Hamn | `/widget/hamn` | Klistra SMS → BIFF (kort) |
 | **WH5** | Familjen | `/widget/familjen` | Snabb barnfokus-rad (neutral) |
+| **WH6** | **Stämpel** | `/widget/stampla` | Stämpla **in** / **ut** (Android: två knappar på widget) |
 
 **WH1 är kritisk** — se inspelningspipeline nedan.
 
@@ -41,10 +42,11 @@ Mockups: [`references/homescreen-widgets.png`](./references/homescreen-widgets.p
     → upload Storage: vault_evidence/{uid}/discreet/{ISO}_{slug}.webm
     → Callable ingestWidgetRecording(transcript, recordedAt)
     → { title, summary, category }
+[UI metadata] vem / vad / varför (valfritt) → «Lås i Valvet»
     → saveVaultLog WORM:
          action: widget_inspelning
          category: tyst_inspelning (eller analys)
-         truth: SAMMANFATTNING + TRANSKRIPT + metadata
+         truth: SAMMANFATTNING + KONTEXT (VEM/VAD/VARFÖR) + TRANSKRIPT
          evidenceUrl: ljudfil
          isLocked: true
 [UI] «Låst i Valvet» + titel + öppna Valv
@@ -58,7 +60,7 @@ Mockups: [`references/homescreen-widgets.png`](./references/homescreen-widgets.p
 | **Namn efter analys** | `ingestWidgetRecording` (Gemini) eller fallback från transkript |
 | **Lås i valvet** | `saveVaultLog` + `isLocked: true` + WORM |
 | **Textsammanfattning** | I `truth` under `SAMMANFATTNING:` |
-| **Ingen synlig REC** | WH1-widget: diskret våg/dot — **inte** röd REC (barn-säkerhet) |
+| **Ingen synlig REC** | Hemskärm: **Anteckningar** + anteckningsikon; in-app: diskret dot — **inte** röd REC |
 | **Kill switch** | Avbryt inspelning, rensa buffer (befintlig store) |
 
 ### Valv-visning

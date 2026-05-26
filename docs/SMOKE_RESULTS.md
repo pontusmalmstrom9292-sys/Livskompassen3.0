@@ -1,5 +1,59 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Orkester-smoke 2026-05-25 (theme-pack-j)
+
+**Branch:** `theme-pack-j` · **Commit:** `b7450580`  
+**Miljö:** lokal `npm run dev` → http://localhost:5173/  
+**Körare:** Cursor agent (automatiserat + route-probe; Firestore Console ej öppnad i denna session)
+
+### Bygg
+
+| Kontroll | Resultat |
+|----------|----------|
+| `cd functions && npm run build` | **PASS** |
+| `npm run build` (frontend) | **PASS** |
+| Dev-server (`npm run dev`) | **PASS** — port 5173, HTTP 200 på `/`, `/dagbok`, `/hamn`, `/kunskap`, `/vardagen`, `/familjen`, `/valv`, `/planering`, `/vardagen?tab=ekonomi` |
+
+### `npm run smoke:all`
+
+| Steg | Resultat | Orsak vid FAIL |
+|------|----------|----------------|
+| `smoke:locked-ux` | **PASS** | — |
+| `smoke:design-modules` | **FAIL** | `SafeHarborPage.tsx` saknar strängen `BiffTriagePanel` i filen. Panelen finns kvar via `TryggHamnHub` → `BiffPublicPanel` → `BiffTriagePanel` (`BiffPublicPanel.tsx:164`). Smoke-scriptet är **inaktuellt** (söker direkt i `SafeHarborPage.tsx`). |
+| `smoke:kunskap` … `smoke:grans` | **PASS** (kördes manuellt efter avbrott) | `smoke:all` avbröts vid design-modules; övriga modul-smokes kördes separat — alla exit 0. |
+
+**Sammanfattning `smoke:all`:** **FAIL** (blockerad av `smoke:design-modules`).
+
+| Modul-smoke | Resultat |
+|-------------|----------|
+| `smoke:kunskap` | **PASS** — ingest + `knowledgeVaultQuery`, citation match, embeddingDim 768 |
+| `smoke:speglar` | **PASS** — `speglingsMirror` |
+| `smoke:dossier` | **PASS** — `reality_vault` seed + `generateDossier` + PDF bytes |
+| `smoke:compass` | **PASS** — `checkins` WORM + `breakDownResponse` |
+| `smoke:mabra` | **PASS** — `mabra_sessions` + `mabraCoach` |
+| `smoke:valv` | **PASS** — `valvChatQuery` + `reality_vault` seed |
+| `smoke:children` | **PASS** — `children_logs` seed + `childrenLogsQuery` |
+| `smoke:grans` | **PASS** — `analyzeMessage` (Grey Rock) |
+
+### Manuell checklista (`docs/SMOKE_CHECKLIST.md` #1–7, #18–20)
+
+| # | Test | Resultat | Notering / varför |
+|---|------|----------|-------------------|
+| 1 | Auth | **PASS (proxy)** | Alla modul-smokes: Anonymous Auth + uid loggat. Ingen browser-konsol verifierad i denna session. |
+| 2 | Dagbok → `journal` | **Öppen** | Ingen dedikerad smoke-script i batchen. Kräver UI: `/dagbok` spara + Firestore Console `journal`. |
+| 3 | Valv → `reality_vault` | **PASS (proxy)** | `smoke:valv` + `smoke:dossier` skapar `reality_vault`-poster via callable/API. UI-flöde Shield 3s → PIN **ej** klicktestat. |
+| 4 | Barnen → `children_logs` | **PASS (proxy)** | `smoke:children` WORM-seed + `childrenLogsQuery`. UI `/familjen` spara **ej** klicktestat. |
+| 5 | Kompasser → `checkins` | **PASS** | `smoke:compass` — `checkins` WORM + `breakDownResponse`. |
+| 6 | Hamn BIFF → `analyzeMessage` | **PASS** | `smoke:grans` — agent `agent_grans_arkitekten`, Grey Rock-svar. Route `/hamn` HTTP 200. |
+| 7 | Kunskap → `knowledgeVaultQuery` | **PASS** | `smoke:kunskap`. Route `/kunskap` → redirect `/vardagen?tab=kunskap`, HTTP 200. |
+| 18 | Ekonomi → `transactions` / `economy_profiles` | **Öppen** | Route `/vardagen?tab=ekonomi` HTTP 200; `EconomyPage` har veckopeng-knapp (`category: 'veckopeng'`). Ingen automatiserad Firestore-skrivning i denna körning. |
+| 19 | Middagsfrågan (låst) | **PASS (statisk)** | `smoke:locked-ux` — `BarnfokusFraganPanel`, `BARNFOKUS_QUESTIONS`, `handleSaveBarnfokus`, minneslista-kopia. Firestore `children_logs` + optimistisk minneslista **ej** verifierad i Console. |
+| 20 | Valv Mönster/Orkester (låst) | **PASS (statisk)** | `smoke:locked-ux` — flikar Mönster/Orkester, `VaultMonsterPanel`, `VaultOrkesterPanel`, `analyzeBiffMessage`. SMS-tråd → mönstersökning **ej** klicktestat. |
+
+**Åtgärd före merge (rekommenderat, ej gjort i denna session):** uppdatera `scripts/smoke_design_modules.mjs` rad 31 så Hamn-wire söker `BiffTriagePanel` i `BiffPublicPanel.tsx` eller `TryggHamnHub.tsx` (produktkod oförändrad — endast smoke-guard).
+
+---
+
 **Datum:** 2026-05-24  
 **Branch:** `main`  
 **Miljö:** [Hosting prod](https://gen-lang-client-0481875058.web.app) — manuell Fas 3 (`docs/SMOKE_CHECKLIST.md` #1–7, #18)

@@ -1,7 +1,7 @@
 # Visuell Estetik och Designspråk
 
 **Canonical:** [`docs/specs/design-master.md`](../docs/specs/design-master.md)  
-**Aktivt tema:** **Theme Pack I** — [`THEME-I-SPEC.md`](../docs/design/themes/I-architect-vault/THEME-I-SPEC.md)
+**Aktivt tema:** **Theme Pack I** (default) + **Pack J** (auto per hub) — [`THEME-I-SPEC.md`](../docs/design/themes/I-architect-vault/THEME-I-SPEC.md) · [`J-PACK-EIGHT-HUBS.md`](../docs/design/themes/J-PACK-EIGHT-HUBS.md)
 
 ## Theme Pack I (prod 2026-05-24)
 
@@ -19,7 +19,7 @@
 ## Estetik (I-stone / guld kärna)
 
 - Bakgrund: obsidian `#0a0a0a`, guld `#d4af37`
-- Typografi: **Outfit** (rubriker), **Inter** (bröd)
+- Typografi: **Outfit** (rubriker), **Inter** (bröd) — skala: [`TYPE-SCALE.md`](../docs/design/TYPE-SCALE.md) · `HubPageShell`
 - Smart widget: `FyrenSmartWidgetBar` — hidden / peek / expanded
 - Progressive disclosure — ett steg i taget
 - **Förbjudet globalt:** indigo/lila text-accent, natur-tapeter
@@ -34,4 +34,5 @@
 
 - Tokens: `themeRegistry.ts` → `applyTheme()` → `:root` + `html[data-theme]`
 - Glass: guld border 2px, accent-glow på widget-ikoner
-- Modul-scoped mint (I-skymning): endast MåBra/Familjen — se [COLOR-POLICY.md](../docs/design/COLOR-POLICY.md)
+- Chrome (dock/widget/meny): [CHROME-POLICY.md](../docs/design/CHROME-POLICY.md) · nav: `navTruth.ts`
+- Hub-färger (J-pack): se [COLOR-POLICY.md](../docs/design/COLOR-POLICY.md)

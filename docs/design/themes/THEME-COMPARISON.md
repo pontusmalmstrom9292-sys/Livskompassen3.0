@@ -36,6 +36,23 @@ Espresso `#1a1410`, guld kompass, cream, rose-gold `#c9a87c` — **ingen blå/tu
 | **G** | [G-varm-hamn](./G-varm-hamn/) | Barnfokus, KBT |
 | **H** | [H-grafit-greyrock](./H-grafit-greyrock/) | Grey Rock minimal |
 
+## Theme Pack J — åtta hubb-teman (2026-05-25)
+
+**Spec:** [J-PACK-EIGHT-HUBS.md](./J-PACK-EIGHT-HUBS.md) · **Auto-modul:** `moduleThemeMap.ts`
+
+| ID | Label | Hubb | Widget |
+|----|-------|------|--------|
+| **J-fyren-hem** | Fyren Hem | `/` | W1 + WH3 |
+| **J-valv-pansar** | Valv Pansar | `/dagbok`, `/valv` | WH1 |
+| **J-planering-fyren** | Planering Fyren | `/planering`, `/projekt` | +Projekt, Kalender |
+| **J-familjen-varm** | Familjen Varm | `/familjen` | WH5 |
+| **J-hamn-greyrock** | Hamn Grey Rock | `/hamn` | WH4 |
+| **J-mabra-lavendel** | MåBra Lavendel | `/mabra` | — |
+| **J-barnporten-ljus** | Barnporten Ljus | `/barnporten` *(plan)* | CB1–CB4 |
+| **J-vardagen-orbit** | Vardagen Orbit | `/vardagen`, `/arbetsliv`, `/kunskap` | WH2 |
+
+**Preview:** `/dev/themes` · **Default prod:** fortfarande `I-stone` tills godkänt.
+
 ## Nästa steg — nytt skin
 
 1. Kopiera [THEME-PACK-TEMPLATE.ts](../../src/modules/core/theme/THEME-PACK-TEMPLATE.ts) → `themeRegistry.ts`

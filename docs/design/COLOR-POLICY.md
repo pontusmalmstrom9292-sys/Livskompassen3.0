@@ -1,6 +1,6 @@
 # Färgpolicy — inga blå/turkosa accenter (globalt)
 
-**Datum:** 2026-05-23 · uppdaterad **2026-05-24** (Theme Pack I)  
+**Datum:** 2026-05-23 · uppdaterad **2026-05-25** (Theme Pack I + J hub-auto)  
 **Beslut:** Avveckla indigo, cyan, teal, electric blue i **kärn-UI** (Valv, Widget, BIFF, dock).
 
 ## Ersättning
@@ -23,9 +23,21 @@
 
 **Registry:** `src/modules/core/theme/themeRegistry.ts` · **Preview:** `/dev/themes`
 
-### Undantag — modul-scoped accent
+### Theme Pack J — auto per hub (2026-05-25)
 
-**I-skymning** får mint `#4fd1c5` **endast** via `moduleThemeMap` på `/mabra`, `/familjen` — inte som global `:root`.
+När **Auto-modul** är på i Inställningar sätter `moduleThemeMap.ts` hub-tema (lavendel MåBra, amber Planering, varm Familjen, …). Se [`themes/J-PACK-EIGHT-HUBS.md`](themes/J-PACK-EIGHT-HUBS.md).
+
+| Route | J-tema | Accent (primär) |
+|-------|--------|-----------------|
+| `/mabra` | `J-mabra-lavendel` | Lavendel + guld — **inte** mint |
+| `/planering` | `J-planering-fyren` | Amber / guld |
+| `/familjen` | `J-familjen-varm` | Rose-gold / varm |
+
+**Sidomeny:** aktiv rad alltid **guld** — oberoende av hub-tema.
+
+### Legacy — I-skymning mint (referens)
+
+**I-skymning** mint `#4fd1c5` finns kvar i registry för lab/preview — **inte** prod-default för `/mabra` när J-pack auto är aktivt.
 
 ## Legacy mockups (referens)
 

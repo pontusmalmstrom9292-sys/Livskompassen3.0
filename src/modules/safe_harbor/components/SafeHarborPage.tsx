@@ -5,7 +5,8 @@ import { TryggHamnHub } from './TryggHamnHub';
 export function SafeHarborPage() {
   const location = useLocation();
   const prefilledMessage =
-  (location.state as { prefilledMessage?: string } | null)?.prefilledMessage ?? '';
+    (location.state as { prefilledMessage?: string } | null)?.prefilledMessage ?? '';
+  const initialTab = new URLSearchParams(location.search).get('tab');
 
   useEffect(() => {
     return () => {
@@ -20,7 +21,7 @@ export function SafeHarborPage() {
         <h1 className="home-page__title text-xl">Gränser & BIFF</h1>
         <p className="home-page__lead text-xs">Kompassråd och affärsmässiga svar — utan JADE.</p>
       </header>
-      <TryggHamnHub initialMessage={prefilledMessage} />
+      <TryggHamnHub initialMessage={prefilledMessage} initialTab={initialTab} />
     </div>
   );
 }

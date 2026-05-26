@@ -38,22 +38,22 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="header-glass-btn"
+          className="header-glass-btn header-glass-btn--kanon"
           aria-expanded={open}
           aria-haspopup="dialog"
           aria-label={label}
         >
           {user.isAnonymous ? (
-            <Lock className="h-4 w-4" />
+            <Lock className="h-4 w-4 text-accent/90" strokeWidth={1.5} />
           ) : (
-            <ShieldCheck className="h-4 w-4 text-success" />
+            <ShieldCheck className="h-4 w-4 text-success" strokeWidth={1.5} />
           )}
         </button>
       ) : (
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="header-glass-btn"
+          className="header-glass-btn header-glass-btn--kanon"
           aria-expanded={open}
           aria-haspopup="dialog"
           aria-label={label}

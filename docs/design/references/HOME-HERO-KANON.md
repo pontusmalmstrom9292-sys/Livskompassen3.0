@@ -13,8 +13,10 @@
 | **Top bar** | Hamburgermeny (guld) · `LIVSKOMPASSEN` serif caps · liten kompass-ros | `MainLayout` header |
 | **Hälsning** | `God kväll, {namn} ✦` + tagline guld | `HomeGreeting.tsx` |
 | **Din eld** | Liten glass-ruta: flamma + siffra (streak/energi) | `HomeStreakChip.tsx` — **IDÉ** gamification, kan vara dold |
-| **Kompass-hub** | Cirkel med geometrisk grid, guld nål, 3–4 **emboss-ikoner** + pill-knappar | `LivskompassHero.tsx` |
-| **Pills på kompass** | `rutiner` · **mynt-ikon (utan text «budget»)** · `personlig utveckling` | Navigerar till moduler |
+| **Kompass-hub** | **Avlång** ellips (16:9), geometriskt grid, tick-märken, guld centrum | `LivskompassHero.tsx` · klass `livskompass-hero--elongated` |
+| **Disk-offset** | `inset` + `transform: translate(-5px, -3px)` på `.livskompass-hero__disk` | `index.css` |
+| **Dolda menyer** | 4 orbit-symboler — tryck visar glass-meny «Öppna» (progressive disclosure) | Ej synliga pills under skivan |
+| **Centrum** | Check-in — dagens kompass | `onCenterPress` → `HomeCheckInPanel` |
 | **Dagens riktning** | Glass-kort + kompass-ikon + citat + chevron | `DagensRiktningCard.tsx` |
 | **Pager dots** | 5 prickar (karusell copy) | valfritt |
 | **Dock** | Familjen · **kompass utan text** · Valv | Se [`DOCK-KANON.md`](./DOCK-KANON.md) — Hamn nås via menyn/hem-kort, inte som dock-etikett |

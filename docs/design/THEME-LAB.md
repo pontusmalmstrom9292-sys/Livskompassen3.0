@@ -1,4 +1,4 @@
-# Theme Lab — jämför och bestäm design
+x# Theme Lab — jämför och bestäm design
 
 **Preview:** http://localhost:5173/dev/theme-lab  
 **Enklare väljare:** http://localhost:5173/dev/themes
@@ -7,7 +7,7 @@
 
 ## Så här jobbar du
 
-1. Kör `npm run dev`
+1. Kör `pnpm run dev`
 2. Öppna **Theme Lab** i webbläsaren
 3. Klicka på ett **utkast** → se mini-previews (dock, meny-rad, kompass-färger)
 4. Klicka **Använd i appen** → testa på Hem, Familjen, Hamn

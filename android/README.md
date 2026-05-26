@@ -1,7 +1,7 @@
 # Livskompassen — Android (Capacitor + native widgets)
 
 **Package:** `com.livskompassen.app`  
-**Widgets:** WH1 Inspelning · WH2 Anteckning · WH3 Kompass · WH4 Hamn
+**Widgets:** WH1 Anteckningar (diskret) · WH2 Anteckning · WH3 Kompass · WH4 Hamn
 
 **Byggguide (svenska, steg för steg + kostnad):** [`docs/design/BUILD-ANDROID-WIDGETS-SV.md`](../docs/design/BUILD-ANDROID-WIDGETS-SV.md)  
 Spec: [`docs/design/ANDROID-WIDGETS-SPEC.md`](../docs/design/ANDROID-WIDGETS-SPEC.md)
@@ -40,8 +40,8 @@ I Android Studio: **Run** på enhet/emulator.
 
 1. Installera appen (debug eller release APK).
 2. Långtryck hemskärmen → **Widgets** / **Miniprogram**.
-3. Sök **Livskompassen** — välj t.ex. **Inspelning**.
-4. Tryck widgeten → appen öppnar `/widget/inspelning?autostart=1`.
+3. Sök **Livskompassen** — välj **Anteckningar** (WH1, diskret).
+4. Tryck widgeten → appen öppnar `/widget/inspelning?autostart=1&discreet=1`.
 
 WH1 inspelning: datumstämpel, AI-titel, WORM i Valvet (samma pipeline som web).
 
@@ -51,9 +51,10 @@ WH1 inspelning: datumstämpel, AI-titel, WORM i Valvet (samma pipeline som web).
 
 | Sökväg | Roll |
 |--------|------|
-| `app/.../widgets/RecordWidgetProvider.java` | WH1 |
+| `app/.../widgets/RecordWidgetProvider.java` | WH1 diskret → inspelning |
 | `app/.../widgets/WidgetLaunch.java` | Deep-link till WebView |
 | `app/.../MainActivity.java` | `livskompassen-widget-nav` event |
-| `res/layout/widget_tile.xml` | Guld kant, mörk bakgrund |
+| `res/layout/widget_discreet_note.xml` | WH1: anteckningsikon + guldkant |
+| `res/layout/widget_tile.xml` | WH2–WH4: guld kant, mörk bakgrund |
 
 Web bridge: `src/modules/widgets/WidgetDeepLinkBridge.tsx`

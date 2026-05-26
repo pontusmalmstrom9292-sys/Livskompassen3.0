@@ -19,14 +19,15 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
-## 2. Pansaret — Mönster & Orkester (Valv / Bevis)
+## 2. Pansaret — Mönster & Orkester (Valv-baksida)
 
 | | |
 |---|---|
-| **Route** | `/dagbok?tab=bevis` → `VaultPage` |
-| **Flikar** | **Mönster** · **Orkester** (bredvid Logga, Sök, Dossier) |
+| **Route** | `/dagbok?tab=bevis&vaultTab=…` → `VaultPage` (PIN) |
+| **Flikar** | **Arkiv** · **Triage** · **Mönster** · **Orkester** · **Dossier** · **Kunskapsbank** |
 | **Mönster** | `VaultMonsterPanel` + `buildVaultFrequencyReport` (deterministisk regex, ingen LLM-sanning) |
 | **Orkester** | `VaultOrkesterPanel` + `PRODUCT_AGENTS` + SMS-tråd → `analyzeMessage` |
+| **Kunskapsbank** | `VaultKunskapsbankPanel` — `KunskapPage` + `FamiljenKunskapHubTab` (U1 silos) |
 | **Smoke** | `npm run smoke:locked-ux` · manuell #20 i `docs/SMOKE_CHECKLIST.md` |
 
 ---
@@ -67,15 +68,16 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
-## 6. Sidomeny / hamburger (design låst)
+## 6. Sidomeny / hamburger (design låst — Vardag + Valv)
 
 | | |
 |---|---|
 | **Kanonbild** | `docs/design/references/MENU-DRAWER-KANON.png` |
 | **Spec** | `docs/design/references/MENU-DRAWER-KANON.md` |
-| **Rader** | Hem Kompass · Familjen · Hamn · Valv · Planering · **Arbetsliv** · MåBra · Inställningar |
-| **Krav** | Samma skymningsbakgrund som hem; aktiv rad **guld** (inte turkos) |
-| **Smoke** | Kanonfil + spec finns |
+| **Sektioner** | **Vardag** (hub + sub-rader) · **Valv** (PIN — alla känsliga flikar) |
+| **Kod** | `navTruth.ts`, `NavigationDrawer.tsx`, `DrawerHomeQuickActions.tsx` |
+| **Krav** | Samma skymningsbakgrund; aktiv rad **guld**; snabbåtgärder på alla skärmar |
+| **Smoke** | Kanonfil + spec + `DRAWER_VARDAG_ITEMS` / `DRAWER_VALV_ITEMS` |
 
 ---
 
@@ -98,13 +100,25 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 |---|---|
 | **Route** | `/arbetsliv` · redirect `/stampla` → `?tab=stampla` |
 | **Kod** | `src/modules/arbetsliv/components/ArbetslivHubPage.tsx` |
-| **Flikar** | Stämpel · Tid & flex · Frånvaro · Lön & spec · Logg |
-| **Zon** | `arbetsliv_forensic` (PIN på Frånvaro + Lön) — `vaultZones.ts` |
-| **Vardagen** | `/vardagen?tab=ekonomi` = veckopeng/matlåda; stämpel/lön endast i hub |
+| **Publikt** | Stämpel · Tid & flex · Logg |
+| **Valv-menyn** | Frånvaro · Lön & spec → `vaultTab=arbetsliv_*` |
+| **Vardagen** | `/vardagen?tab=ekonomi` = veckopeng/matlåda |
 | **Eval** | `docs/evaluations/2026-05-25-arbetsliv-hub.md` |
 | **Smoke** | `npm run smoke:arbetsliv` |
 
-**Får inte:** slå ihop hub med Valv-flik, ta bort menyrad Arbetsliv, eller flytta stämpel/lönespec tillbaka under Valv utan produktbeslut.
+**Får inte:** ta bort menyrad Arbetsliv eller stämpel-hub utan produktbeslut.
+
+---
+
+## 9. Valv-baksida — samlad PIN-vägg (2026-05-25)
+
+| | |
+|---|---|
+| **Ingång** | Hamburgermeny → sektion **Valv** · `/dagbok?tab=bevis&vaultTab=…` |
+| **Kunskap** | All kunskap (Vardagen, Familjen, Hem) → **Kunskapsbank** — **inte** publik `/vardagen?tab=kunskap` |
+| **Forensic** | Hamn analys, Speglar fördjupat, Dagbok arkiv, Familjen mönster, Arbetsliv frånvaro/lön |
+| **U1** | Kunskapsbank anropar `knowledgeVaultQuery` — **aldrig** cross-RAG till Valv/Barnen |
+| **Kod** | `VaultPage.tsx`, `VaultKunskapsbankPanel.tsx`, `VaultForensicPanel.tsx`, `navTruth.ts` |
 
 ---
 

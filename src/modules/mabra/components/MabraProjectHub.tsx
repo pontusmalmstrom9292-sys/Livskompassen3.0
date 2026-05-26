@@ -1,5 +1,6 @@
 import { CloudRain, HeartCrack, Leaf } from 'lucide-react';
 import { ElongatedModule } from '../../core/ui/ElongatedModule';
+import { sectionEyebrowClass } from '../../core/ui/typeScale';
 import { MABRA_PROJECTS } from '../constants/mabraProjects';
 import type { MabraProjectId } from '../constants/mabraProjects';
 import { SYMPTOM_HUB_OPTIONS, VALUES_COMPASS_COPY } from '../constants';
@@ -22,7 +23,7 @@ export function MabraProjectHub({ onSelectProject, onSelectAkut, onOpenValues }:
   return (
     <div className="space-y-5">
       <div>
-        <p className="home-page__eyebrow mb-2">Akut nu</p>
+        <p className={`${sectionEyebrowClass} mb-2`}>Akut nu</p>
         <div className="home-module-stack">
           {SYMPTOM_HUB_OPTIONS.map((option) => (
             <ElongatedModule
@@ -40,7 +41,7 @@ export function MabraProjectHub({ onSelectProject, onSelectAkut, onOpenValues }:
       </div>
 
       <div>
-        <p className="home-page__eyebrow mb-2">Egna projekt</p>
+        <p className={`${sectionEyebrowClass} mb-2`}>Egna projekt</p>
         <p className="mb-2 text-xs text-text-muted">
           Valvet skapar en plan — frågekort, chatt eller känslominnen — sparat i din Vit hub.
         </p>

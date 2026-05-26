@@ -11,3 +11,7 @@
 - [ ] `projects` + `project_blocks`
 - [ ] Uppgift-block → `planning_tasks` → **Handling kanban** (fast)
 - [ ] Widget → `/projekt/ny`
+
+## Kopplingar (backlog)
+
+- Se [`docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md`](../../docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md) — rutiner, modullänkar, exempelhubbar (`kör kopplingar` / `kör life hub MVP`).

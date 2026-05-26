@@ -87,7 +87,7 @@ type ForensicProps = {
   initialFeeling?: string;
 };
 
-function SpeglingsForensicPanel({ userId, initialFeeling = '' }: ForensicProps) {
+export function SpeglingsForensicPanel({ userId, initialFeeling = '' }: ForensicProps) {
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const [phase, setPhase] = useState<ForensicPhase>('vivir');
   const [feeling, setFeeling] = useState(initialFeeling);

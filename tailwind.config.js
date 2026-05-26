@@ -33,6 +33,10 @@ export default {
         display: ['Outfit', 'sans-serif'],
         sans: ['Inter', 'sans-serif'],
       },
+      fontSize: {
+        'hub-title': ['1.25rem', { lineHeight: '1.35', fontWeight: '300' }],
+        eyebrow: ['0.625rem', { lineHeight: '1.2', letterSpacing: '0.24em' }],
+      },
       boxShadow: {
         'accent-glow': '0 0 24px rgba(212, 175, 55, 0.18)',
         'accent-glow-lg': '0 0 48px rgba(212, 175, 55, 0.18)',

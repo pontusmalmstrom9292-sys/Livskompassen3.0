@@ -13,6 +13,10 @@
 - [ ] `/planering/kalender` (P2)
 - [ ] Bro `projectId` på uppgifter från [`../projekt/`](../projekt/)
 
+## Kopplingar (backlog)
+
+- Se [`docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md`](../../docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md) — rutiner, modullänkar, exempelhubbar (`kör kopplingar` / `kör life hub MVP`).
+
 ## P2 — IDÉ
 
 - Drag-and-drop kolumner · Gmail sync · Google Calendar

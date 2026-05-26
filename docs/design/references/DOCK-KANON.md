@@ -10,9 +10,11 @@
 |----------|---------|------------------------------|
 | Vänster | Ikon + **Familjen** | Familjen |
 | **Mitten** | **Kompass-ikon endast** (guld ring) — **ingen synlig text** | **`Hem`** (aria-label) |
-| Höger | Ikon + **Valv** | Valv |
+| Höger | Ikon + **Dagbok** | Dagbok (`/dagbok`) — **inte** Valv-etikett i dock |
 
 **Route mitten:** `/` (hem) — inte `/hamn` i dock (Hamn-innehåll nås via menyn eller hem-kort).
+
+**Snabbtryck mitten (ej hem):** kort sammanfattning av aktuell sida. **Håll 3s** på kompass → låst beviszon (`/dagbok?tab=bevis`) — utan synlig «Valv»-text i dock.
 
 ---
 

@@ -1,6 +1,6 @@
 # Bygga Android-widgets (WH1–WH4) — steg för steg
 
-**Mål:** Native hemskärms-widgets (Inspelning, Anteckning, Kompass, Hamn) via Capacitor + Android `AppWidgetProvider`.  
+**Mål:** Native hemskärms-widgets (Anteckningar/WH1, Anteckning, Kompass, Hamn) via Capacitor + Android `AppWidgetProvider`.  
 **Teknisk spec:** [`ANDROID-WIDGETS-SPEC.md`](./ANDROID-WIDGETS-SPEC.md)
 
 ---
@@ -39,7 +39,7 @@ Projektet innehåller redan:
 
 ## Steg 1 — Synka webben till Android
 
-Öppna terminal i **repo-root** (`Livskompassen2.0`):
+Öppna terminal i **repo-root** (`Livskompassen3.0`):
 
 ```bash
 npm install
@@ -77,18 +77,23 @@ Appen **Livskompassen** installeras. Logga in med samma Firebase-konto som på w
 1. **Långtryck** på hemskärmen (tom yta).
 2. Välj **Widgets** (svenska Android kan visa **Miniprogram** eller **Widgetar**).
 3. Scrolla till **Livskompassen**.
-4. Dra widget till skärmen — t.ex. **Inspelning** (WH1).
+4. Dra widget till skärmen — t.ex. **Anteckningar** (WH1, diskret).
 
-| Widget | Funktion |
-|--------|----------|
-| **Inspelning** | Öppnar inspelning → datum, AI-titel, lås i Valvet |
-| **Anteckning** | Snabb rad → Valv |
-| **Kompass** | Check-in (morgon/dag/kväll) |
-| **Hamn · BIFF** | Grey Rock / BIFF |
+| Widget (hemskärm) | Funktion |
+|-------------------|----------|
+| **Anteckningar** (WH1) | Neutral anteckningsikon + etikett — ljud → vem/vad/varför → lås i Valvet |
+| **Anteckning** (WH2) | Snabb rad → Valv |
+| **Kompass** (WH3) | Check-in (morgon/dag/kväll) |
+| **Hamn · BIFF** (WH4) | Grey Rock / BIFF |
+| **Stämpel** (WH6) | **In** / **Ut** — stämplar direkt (kräver inloggning) |
 
-Tryck på widgeten → appen öppnar rätt `/widget/…`-sida.
+Tryck på widgeten → appen öppnar rätt `/widget/…`-sida. **Stämpel:** vänster = in, höger = ut.
 
-**WH1 första gången:** kort etik-info → godkänn → inspelning kan starta automatiskt. Mikrofonbehörighet godkänns i appen.
+**Hem i appen:** stämpelkortet är **minimerat** som standard — expandera med pilen om du vill se full vy.
+
+**Motorola (och andra):** Om du hade en äldre **Inspelning**-widget — ta bort den från hemskärmen, kör `npm run cap:sync`, installera appen igen (**Run**), lägg sedan till **Anteckningar**.
+
+**WH1 första gången:** kort etik-info → godkänn → inspelning startar automatiskt (`?autostart=1&discreet=1`). Efter **Stoppa:** valfritt formulär vem / vad / varför → **Lås i Valvet** (eller hoppa över kontext). Mikrofonbehörighet godkänns i appen.
 
 ---
 

@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import type { ReactNode } from 'react';
-import { Users } from 'lucide-react';
+import { BookOpen, Users, X } from 'lucide-react';
 import { clsx } from 'clsx';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { LivskompassMark } from '../ui/LivskompassMark';
-import { ValvArchIcon } from '../ui/ValvArchIcon';
+import { useLongPress } from '../hooks/useLongPress';
+import { getPageContextSummary } from '../navigation/pageContextSummary';
 
 function DockSideLink({
   to,
@@ -30,8 +32,34 @@ function DockSideLink({
   );
 }
 
-/** Kanon: Familjen · kompass (ingen text) · Valv — se DOCK-KANON.md */
+/** Kanon: Familjen · kompass (kontext vid tryck) · Dagbok — Valv endast 3s-håll på kompass. */
 export function DockClassicTriad() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [contextOpen, setContextOpen] = useState(false);
+  const summary = getPageContextSummary(location.pathname, location.search);
+  const isHome = location.pathname === '/';
+
+  const valvLongPress = useLongPress({
+    onLongPress: () => {
+      setContextOpen(false);
+      navigate('/dagbok?tab=bevis');
+    },
+    onClick: () => {},
+    delayMs: 3000,
+  });
+
+  const { progress, isHolding, ...centerHoldHandlers } = valvLongPress;
+
+  const onCenterTap = () => {
+    if (isHome) {
+      navigate('/');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    setContextOpen(true);
+  };
+
   return (
     <div className="dock-classic">
       <DockSideLink
@@ -40,24 +68,48 @@ export function DockClassicTriad() {
         icon={<Users className="h-4 w-4" strokeWidth={1.5} />}
       />
 
-      <NavLink
-        to="/"
-        end
-        className={({ isActive }) =>
-          clsx('dock-classic__center', isActive && 'dock-classic__center--active')
+      <button
+        type="button"
+        className={clsx(
+          'dock-classic__center',
+          isHome && location.pathname === '/' && 'dock-classic__center--active',
+          isHolding && 'dock-classic__center--holding',
+        )}
+        aria-label={isHome ? 'Hem' : `Var du är: ${summary.title}`}
+        aria-expanded={contextOpen}
+        style={
+          progress > 0
+            ? ({ '--dock-hold': `${Math.round(progress * 100)}%` } as React.CSSProperties)
+            : undefined
         }
-        aria-label="Hem"
+        onClick={onCenterTap}
+        {...centerHoldHandlers}
       >
         <span className="dock-classic__plate">
           <LivskompassMark className="dock-classic__mark" />
         </span>
-      </NavLink>
+      </button>
 
       <DockSideLink
-        to="/dagbok?tab=bevis"
-        label="Valv"
-        icon={<ValvArchIcon className="h-4 w-4" />}
+        to="/dagbok"
+        label="Dagbok"
+        icon={<BookOpen className="h-4 w-4" strokeWidth={1.5} />}
       />
+
+      {contextOpen ? (
+        <div className="dock-classic__context" role="dialog" aria-label={summary.title}>
+          <p className="dock-classic__context-title">{summary.title}</p>
+          <p className="dock-classic__context-body">{summary.body}</p>
+          <button
+            type="button"
+            className="dock-classic__context-close"
+            aria-label="Stäng sammanfattning"
+            onClick={() => setContextOpen(false)}
+          >
+            <X className="h-4 w-4" strokeWidth={1.5} />
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }

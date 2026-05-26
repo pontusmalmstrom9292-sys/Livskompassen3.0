@@ -145,3 +145,13 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 - [x] Evaluations A–F + 6 modul-rapporter (`docs/evaluations/2026-05-23-*.md`)
 - [x] `npm run smoke:all` + `.context/design-modules-mockup.md`
 - [ ] Manuell smoke #1–7, #18–20 (användaren — checklista i `docs/SMOKE_RESULTS.md`)
+
+## Life OS kopplingar (backlog — komihåg 2026-05-26)
+
+**Kanon:** [`docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md`](../docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md) · Landning: [`docs/evaluations/2026-05-26-session-landning.md`](../docs/evaluations/2026-05-26-session-landning.md)
+
+- [x] **LifeHubPreset (Fas A)** — 4 presets i `src/modules/core/lifeOs/`, Hem-väljare, `materialFlags` per route
+- [x] **RoutineTemplate + ModuleLink (Fas B)** — `routineTemplates.ts`, `RoutinesPanel` på `/planering`, deep links
+- [ ] **MaterialPack (Fas C)** — kuraterat innehåll per hub via U6-banker (ingen fjärde RAG-silo)
+- [ ] **Projekt P1 + kopplingar (Fas D)** — Firestore `projects`, `projectId` på kanban, MaterialPack light
+- [ ] Implementation: `kör kopplingar C` · `kör projekt P1` · se komihåg för fasering

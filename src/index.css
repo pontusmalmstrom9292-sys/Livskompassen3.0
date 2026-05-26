@@ -346,9 +346,11 @@
 
   .header-glass-btn {
     @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-xs font-medium uppercase tracking-widest text-text-muted transition-all;
-    background: rgba(15, 23, 42, 0.78);
+    background: rgba(15, 23, 42, 0.92);
     border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .header-glass-btn:hover {
@@ -403,7 +405,7 @@
   /* Båge under kompass borttagen 2026-05-23 — se VALV-ICON-KANON / DOCK-KANON */
 
   .dock-classic {
-    @apply pointer-events-auto inline-flex w-auto items-center justify-center gap-1 px-0.5;
+    @apply pointer-events-auto relative inline-flex w-auto items-center justify-center gap-1 px-0.5;
   }
 
   .dock-classic__side {
@@ -472,6 +474,32 @@
   .dock-classic__mark {
     @apply h-5 w-5 text-accent;
     opacity: 0.92;
+  }
+
+  .dock-classic__center--holding .dock-classic__plate {
+    border-color: rgba(212, 175, 55, 0.62);
+    box-shadow:
+      0 0 0 1px rgba(212, 175, 55, 0.2),
+      0 0 calc(8px + var(--dock-hold, 0) * 0.12) rgba(212, 175, 55, 0.22);
+  }
+
+  .dock-classic__context {
+    @apply pointer-events-auto absolute bottom-[calc(100%+0.5rem)] left-1/2 z-50 w-[min(18rem,calc(100vw-2rem))] -translate-x-1/2 rounded-2xl border p-3 text-left shadow-lg;
+    border-color: rgba(212, 175, 55, 0.22);
+    background: rgba(10, 10, 10, 0.92);
+    backdrop-filter: blur(8px);
+  }
+
+  .dock-classic__context-title {
+    @apply pr-6 text-sm font-medium text-accent;
+  }
+
+  .dock-classic__context-body {
+    @apply mt-1 text-xs leading-relaxed text-text-muted;
+  }
+
+  .dock-classic__context-close {
+    @apply absolute right-2 top-2 rounded-full border-0 bg-transparent p-1 text-text-dim transition-colors hover:text-text;
   }
 
   .dock-hub-backdrop {
@@ -1014,11 +1042,19 @@
   }
 
   .home-page__title {
-    @apply mt-1 font-display text-2xl font-light text-accent;
+    @apply mt-1 font-display text-xl font-light text-accent;
   }
 
   .home-page__lead {
     @apply mt-2 text-sm leading-relaxed text-text-muted;
+  }
+
+  .hub-page-shell__header {
+    @apply px-0.5;
+  }
+
+  .hub-page-shell__footer {
+    @apply border-t border-border pt-4;
   }
 
   .app-header__inner {
@@ -1029,6 +1065,27 @@
     @apply relative grid h-[4.5rem] grid-cols-[auto_1fr_auto] items-center gap-2 px-3;
     background: var(--glass);
     border-color: var(--border-strong);
+  }
+
+  .glass-header-bar--home-quick {
+    @apply grid-cols-[minmax(0,1fr)_auto_auto] gap-1.5 px-2;
+  }
+
+  .glass-header-bar__leading {
+    @apply relative z-10 flex min-w-0 items-center gap-1.5;
+  }
+
+  .glass-header-bar--home-quick .app-header__brand--kanon {
+    @apply min-w-0;
+  }
+
+  .glass-header-bar--home-quick .app-header__title--kanon {
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+  }
+
+  .glass-header-bar--home-quick .app-header__tagline {
+    @apply hidden sm:block;
   }
 
   .glass-header-bar__corner {
@@ -1091,7 +1148,7 @@
   }
 
   .app-header__logo--kanon {
-    @apply h-12 w-12 rounded-xl;
+    @apply flex h-12 w-12 items-center justify-center rounded-xl border;
     background: rgba(212, 175, 55, 0.12);
     border-color: rgba(212, 175, 55, 0.38);
     box-shadow:
@@ -1124,22 +1181,40 @@
     scrollbar-width: thin;
   }
 
+  .fyren-header-strip--in-bar {
+    @apply mt-0 min-w-0 flex-1 gap-1.5 overflow-x-auto pb-0;
+    max-width: none;
+    mask-image: linear-gradient(90deg, #000 92%, transparent 100%);
+  }
+
+  .fyren-header-strip--in-bar .fyren-header-strip__chip {
+    @apply gap-1.5 px-2 py-1.5;
+  }
+
+  .fyren-header-strip--in-bar .fyren-header-strip__icon {
+    @apply h-7 w-7;
+  }
+
+  .fyren-header-strip--in-bar .fyren-header-strip__label {
+    @apply text-[10px];
+  }
+
   .fyren-header-strip__chip {
     @apply flex shrink-0 cursor-pointer items-center gap-2 rounded-full border-0 px-3 py-2 text-left transition-colors;
-    border: 1px solid rgba(212, 175, 55, 0.32);
+    border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
     background: rgba(10, 10, 10, 0.72);
     color: var(--text);
     touch-action: manipulation;
   }
 
   .fyren-header-strip__chip:hover {
-    background: rgba(212, 175, 55, 0.1);
-    border-color: rgba(212, 175, 55, 0.48);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 48%, transparent);
   }
 
   .fyren-header-strip__icon {
     @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-accent;
-    border: 1px solid rgba(212, 175, 55, 0.4);
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
     background: rgba(10, 10, 10, 0.65);
   }
 
@@ -1167,7 +1242,7 @@
     @apply fixed inset-y-0 left-0 z-[201] flex w-[68vw] max-w-[22rem] flex-col overflow-hidden border-r pt-[env(safe-area-inset-top)];
     pointer-events: auto;
     touch-action: manipulation;
-    border-color: rgba(212, 175, 55, 0.2);
+    border-color: color-mix(in srgb, var(--accent) 20%, transparent);
     background: rgba(10, 10, 10, 0.82);
     box-shadow: 20px 0 56px rgba(0, 0, 0, 0.65);
     animation: nav-drawer-in 0.26s ease-out;
@@ -1215,7 +1290,7 @@
 
   .nav-drawer__close:hover {
     color: var(--accent-light);
-    background: rgba(212, 175, 55, 0.1);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   .nav-drawer__brand {
@@ -1224,13 +1299,13 @@
 
   .nav-drawer__mark {
     @apply h-11 w-11 text-accent;
-    filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.35));
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 35%, transparent));
   }
 
   .nav-drawer__title {
     font-family: 'Outfit', serif;
     @apply text-sm font-semibold uppercase tracking-[0.32em] text-accent;
-    text-shadow: 0 1px 12px rgba(212, 175, 55, 0.3);
+    text-shadow: 0 1px 12px color-mix(in srgb, var(--accent) 30%, transparent);
   }
 
   .nav-drawer__ornament {
@@ -1239,17 +1314,118 @@
 
   .nav-drawer__ornament span {
     @apply block h-1.5 w-1.5 rounded-sm;
-    background: rgba(212, 175, 55, 0.55);
-    border: 1px solid rgba(212, 175, 55, 0.75);
+    background: color-mix(in srgb, var(--accent) 55%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 75%, transparent);
   }
 
   .nav-drawer__ornament span:nth-child(2) {
     @apply h-2 w-2;
-    background: rgba(212, 175, 55, 0.75);
+    background: color-mix(in srgb, var(--accent) 75%, transparent);
+  }
+
+  .nav-drawer__quick {
+    @apply relative z-10 border-b px-4 pb-4 pt-1;
+    border-color: color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .nav-drawer__quick-eyebrow {
+    @apply mb-2.5 text-center text-[10px] font-medium uppercase tracking-[0.28em] text-text-dim;
+  }
+
+  .nav-drawer__quick-grid {
+    @apply grid grid-cols-2 gap-2;
+  }
+
+  .nav-drawer__quick-chip {
+    @apply flex cursor-pointer items-center gap-2 rounded-xl border-0 px-2.5 py-2 text-left transition-colors;
+    border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+    background: rgba(10, 10, 10, 0.55);
+    color: var(--text);
+    touch-action: manipulation;
+  }
+
+  .nav-drawer__quick-chip:hover {
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+  }
+
+  .nav-drawer__quick-chip-icon {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-accent;
+    border: 1px solid color-mix(in srgb, var(--accent) 38%, transparent);
+    background: rgba(10, 10, 10, 0.65);
+  }
+
+  .nav-drawer__quick-chip-label {
+    @apply text-xs font-medium text-accent/95;
+  }
+
+  .nav-drawer__mode {
+    @apply relative z-10 mx-4 mb-3 flex rounded-xl border p-0.5;
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+    background: rgba(10, 10, 10, 0.55);
+  }
+
+  .nav-drawer__mode-btn {
+    @apply flex-1 cursor-pointer rounded-[0.65rem] border-0 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors;
+    color: var(--text-muted);
+    background: transparent;
+    touch-action: manipulation;
+  }
+
+  .nav-drawer__mode-btn--active {
+    color: var(--accent-light);
+    background: color-mix(in srgb, var(--accent) 18%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  .nav-drawer__sections {
+    @apply flex flex-1 flex-col gap-1 overflow-y-auto pb-8;
+  }
+
+  .nav-drawer__hub-children {
+    @apply flex flex-col gap-0.5;
+  }
+
+  .nav-drawer__row-wrap--sub {
+    @apply pl-1;
+  }
+
+  .nav-drawer__row--group .nav-drawer__row-label {
+    @apply font-semibold uppercase tracking-[0.12em] text-accent/90;
+  }
+
+  .nav-drawer__row-expand {
+    @apply flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg text-accent/60 transition-colors;
+    touch-action: manipulation;
+  }
+
+  .nav-drawer__row-expand:hover {
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .nav-drawer__section {
+    @apply flex flex-col;
+  }
+
+  .nav-drawer__section-title {
+    @apply px-5 pb-1 pt-3 text-[10px] font-semibold uppercase tracking-[0.35em] text-accent/70;
   }
 
   .nav-drawer__list {
-    @apply flex flex-1 flex-col gap-0.5 overflow-y-auto px-3 pb-8;
+    @apply flex flex-col gap-0.5 overflow-visible px-3 pb-2;
+  }
+
+  .nav-drawer__row--sub {
+    @apply pl-4;
+  }
+
+  .nav-drawer__row--sub .nav-drawer__row-icon {
+    @apply h-9 w-9;
+  }
+
+  .nav-drawer__row--sub .nav-drawer__row-label {
+    @apply text-sm text-text-muted;
   }
 
   .nav-drawer__row {
@@ -1258,21 +1434,21 @@
     color: var(--text);
     pointer-events: auto;
     touch-action: manipulation;
-    -webkit-tap-highlight-color: rgba(212, 175, 55, 0.15);
+    -webkit-tap-highlight-color: color-mix(in srgb, var(--accent) 15%, transparent);
   }
 
   .nav-drawer__row:hover {
-    background: rgba(212, 175, 55, 0.08);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
   }
 
   .nav-drawer__row--active {
     background: linear-gradient(
       90deg,
-      rgba(212, 175, 55, 0.24) 0%,
-      rgba(212, 175, 55, 0.06) 72%,
+      color-mix(in srgb, var(--accent) 24%, transparent) 0%,
+      color-mix(in srgb, var(--accent) 6%, transparent) 72%,
       transparent 100%
     );
-    box-shadow: inset 4px 0 0 #d4af37;
+    box-shadow: inset 4px 0 0 var(--accent);
   }
 
   .nav-drawer__row--active .nav-drawer__row-label {
@@ -1281,15 +1457,15 @@
 
   .nav-drawer__row-icon {
     @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-accent;
-    border: 1.5px solid rgba(212, 175, 55, 0.45);
+    border: 1.5px solid color-mix(in srgb, var(--accent) 45%, transparent);
     background: rgba(10, 10, 10, 0.55);
-    box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.08);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 8%, transparent);
   }
 
   .nav-drawer__row--active .nav-drawer__row-icon {
-    border-color: rgba(212, 175, 55, 0.7);
-    background: rgba(212, 175, 55, 0.14);
-    box-shadow: 0 0 18px rgba(212, 175, 55, 0.22);
+    border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 22%, transparent);
   }
 
   .nav-drawer__row-label {
@@ -1399,164 +1575,404 @@
   }
 
   .livskompass-hero {
-    @apply flex flex-col items-center;
+    @apply flex w-full flex-col items-center;
+  }
+
+  .livskompass-hero__panel {
+    @apply w-full rounded-[1.75rem] border px-4 pb-4 pt-3;
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+    background:
+      radial-gradient(ellipse 120% 80% at 50% 0%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 55%),
+      rgba(8, 10, 14, 0.72);
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.35) inset,
+      0 20px 48px rgba(2, 6, 23, 0.45);
+    backdrop-filter: blur(14px);
+  }
+
+  html[data-theme='I-stone'] .livskompass-hero__panel {
+    background:
+      radial-gradient(ellipse 100% 70% at 50% 0%, color-mix(in srgb, var(--accent-light) 14%, transparent) 0%, transparent 50%),
+      rgba(10, 10, 10, 0.78);
+    border-color: color-mix(in srgb, var(--accent) 36%, transparent);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent) inset,
+      0 24px 56px rgba(0, 0, 0, 0.55);
   }
 
   .livskompass-hero__shield-label {
-    @apply mb-2 text-center text-[10px] font-medium uppercase tracking-[0.35em] text-accent/90;
+    @apply mb-3 text-center text-[10px] font-medium uppercase tracking-[0.35em] text-accent/90;
     text-shadow: 0 0 20px rgba(212, 175, 55, 0.35);
   }
 
-  .livskompass-hero__stage {
-    @apply relative mx-auto aspect-square w-full max-w-[min(100%,22rem)];
+  .livskompass-hero--v2 .livskompass-hero__stage {
+    @apply relative mx-auto w-full max-w-[18.5rem];
   }
 
-  .livskompass-hero__ring {
+  .livskompass-hero--v2 .livskompass-hero__face {
+    @apply relative mx-auto aspect-square w-full max-w-[17rem];
+  }
+
+  .livskompass-hero--v2 .livskompass-hero__ring,
+  .livskompass-hero--elongated .livskompass-hero__ring {
     @apply pointer-events-none absolute inset-0 rounded-full;
-    border: 1px solid rgba(212, 175, 55, 0.18);
+    border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
   }
 
   .livskompass-hero__ring--outer {
-    inset: -2%;
+    inset: -3% -2%;
     border-width: 2px;
-    border-color: rgba(212, 175, 55, 0.22);
+    border-color: color-mix(in srgb, var(--accent) 24%, transparent);
     box-shadow:
-      0 0 0 1px rgba(212, 175, 55, 0.08),
-      0 0 48px rgba(212, 175, 55, 0.12);
+      0 0 0 1px color-mix(in srgb, var(--accent) 8%, transparent),
+      0 0 56px color-mix(in srgb, var(--accent) 14%, transparent);
   }
 
-  .livskompass-hero__grid {
-    @apply absolute inset-[10%] rounded-full;
-    border: 1px solid rgba(212, 175, 55, 0.2);
+  .livskompass-hero__ring--inner {
+    inset: 6% 8%;
+    border-width: 1px;
+    border-style: dashed;
+    border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+    opacity: 0.85;
+  }
+
+  .livskompass-hero--v2 .livskompass-hero__grid,
+  .livskompass-hero--elongated .livskompass-hero__grid {
+    @apply absolute rounded-full;
+    inset: 8%;
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
     background:
-      radial-gradient(circle at 50% 45%, rgba(212, 175, 55, 0.12) 0%, transparent 55%),
-      radial-gradient(circle at 50% 50%, rgba(26, 26, 26, 0.85) 0%, rgba(10, 10, 10, 0.95) 72%),
+      radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 52%),
+      radial-gradient(circle at 50% 50%, rgba(26, 26, 26, 0.9) 0%, rgba(10, 10, 10, 0.97) 72%),
       repeating-conic-gradient(
         from 0deg,
-        rgba(212, 175, 55, 0.06) 0deg 12deg,
-        transparent 12deg 24deg
-      );
-  }
-
-  html[data-theme='I-stone'] .livskompass-hero__grid {
-    border-color: rgba(212, 175, 55, 0.28);
-    box-shadow: inset 0 0 40px rgba(212, 175, 55, 0.08);
-  }
-
-  .livskompass-hero__disk {
-    @apply absolute inset-[5%] rounded-full;
-    background:
-      radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
-      var(--compass-disk);
-    border: 2px solid rgba(212, 175, 55, 0.38);
-    box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.4) inset,
-      0 0 32px rgba(212, 175, 55, 0.18),
-      0 24px 56px rgba(2, 6, 23, 0.55);
-  }
-
-  html[data-theme='I-stone'] .livskompass-hero__disk {
-    --compass-disk: #141210;
-    background:
-      radial-gradient(circle at 50% 38%, rgba(245, 200, 90, 0.22) 0%, transparent 45%),
-      radial-gradient(circle at 50% 50%, #1c1610 0%, #0a0a0a 82%),
-      repeating-conic-gradient(
-        from 22deg,
-        rgba(212, 175, 55, 0.07) 0deg 8deg,
+        color-mix(in srgb, var(--accent) 8%, transparent) 0deg 8deg,
         transparent 8deg 16deg
       );
-    border-color: rgba(212, 175, 55, 0.48);
-    box-shadow:
-      0 0 0 1px rgba(212, 175, 55, 0.15) inset,
-      0 0 48px rgba(212, 175, 55, 0.22),
-      0 28px 64px rgba(0, 0, 0, 0.65);
   }
 
-  .livskompass-hero--kvall .livskompass-hero__disk {
+  html[data-theme='I-stone'] .livskompass-hero--elongated .livskompass-hero__grid {
+    border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+    box-shadow: inset 0 0 48px color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .livskompass-hero__ticks {
+    @apply pointer-events-none absolute rounded-full;
+    inset: 10%;
+    opacity: 0.55;
+    background: repeating-conic-gradient(
+      from -4deg,
+      transparent 0deg 28deg,
+      color-mix(in srgb, var(--accent) 35%, transparent) 28deg 29deg
+    );
+    mask-image: radial-gradient(ellipse 72% 62% at 50% 50%, #000 35%, transparent 72%);
+  }
+
+  .livskompass-hero--v2 .livskompass-hero__disk,
+  .livskompass-hero--elongated .livskompass-hero__disk {
+    @apply absolute rounded-full;
+    inset: 6%;
+    background:
+      radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--accent) 20%, transparent) 0%, transparent 50%),
+      var(--compass-disk, rgba(12, 14, 18, 0.95));
+    border: 2px solid color-mix(in srgb, var(--accent) 44%, transparent);
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.45) inset,
+      0 0 48px color-mix(in srgb, var(--accent) 22%, transparent),
+      0 12px 32px rgba(2, 6, 23, 0.45);
+  }
+
+  html[data-theme='I-stone'] .livskompass-hero--v2 .livskompass-hero__disk,
+  html[data-theme='I-stone'] .livskompass-hero--elongated .livskompass-hero__disk {
+    --compass-disk: #141210;
+    background:
+      radial-gradient(ellipse 65% 50% at 50% 36%, color-mix(in srgb, var(--accent-light) 24%, transparent) 0%, transparent 48%),
+      radial-gradient(ellipse at 50% 50%, #1c1610 0%, #0a0a0a 84%),
+      repeating-conic-gradient(
+        from 18deg,
+        color-mix(in srgb, var(--accent) 8%, transparent) 0deg 7deg,
+        transparent 7deg 14deg
+      );
+    border-color: color-mix(in srgb, var(--accent) 52%, transparent);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent) inset,
+      0 0 52px color-mix(in srgb, var(--accent) 24%, transparent),
+      0 24px 60px rgba(0, 0, 0, 0.68);
+  }
+
+  .livskompass-hero--kvall.livskompass-hero--elongated .livskompass-hero__disk {
     box-shadow:
       0 0 0 1px rgba(0, 0, 0, 0.35) inset,
-      0 0 40px rgba(245, 158, 11, 0.12),
-      0 20px 50px rgba(2, 6, 23, 0.45);
+      0 0 44px rgba(245, 158, 11, 0.14),
+      0 18px 46px rgba(2, 6, 23, 0.48);
   }
 
-  .livskompass-hero--soluppgang .livskompass-hero__disk {
+  .livskompass-hero--soluppgang.livskompass-hero--elongated .livskompass-hero__disk {
     box-shadow:
       0 0 0 1px rgba(0, 0, 0, 0.35) inset,
-      0 0 36px rgba(251, 191, 36, 0.1),
-      0 20px 50px rgba(2, 6, 23, 0.45);
+      0 0 40px rgba(251, 191, 36, 0.12),
+      0 18px 46px rgba(2, 6, 23, 0.45);
   }
 
-  .livskompass-hero__orbit-btn {
-    @apply absolute z-10 flex h-14 w-14 items-center justify-center rounded-full transition-transform;
-    border: 1px solid rgba(212, 175, 55, 0.35);
-    background: rgba(10, 22, 20, 0.85);
-    color: var(--text-gold);
-    box-shadow: 0 4px 16px rgba(2, 6, 23, 0.4);
+  .livskompass-hero__orbit-wrap {
+    @apply absolute z-10;
   }
 
-  html[data-theme='I-stone'] .livskompass-hero__orbit-btn {
-    background: rgba(10, 10, 10, 0.78);
-    border-color: rgba(212, 175, 55, 0.45);
+  .livskompass-hero__orbit-wrap--north {
+    top: 2%;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  .livskompass-hero__orbit-wrap--south {
+    bottom: 2%;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  .livskompass-hero__orbit-wrap--east {
+    top: 50%;
+    right: 1%;
+    transform: translate(0, -50%);
+  }
+
+  .livskompass-hero__orbit-wrap--west {
+    top: 50%;
+    left: 1%;
+    transform: translate(0, -50%);
+  }
+
+  .livskompass-hero__orbit-node {
+    @apply relative flex h-14 w-14 items-center justify-center rounded-full transition-[transform,box-shadow,border-color];
+    border: 1.5px solid color-mix(in srgb, var(--accent) 48%, transparent);
+    background: linear-gradient(165deg, rgba(22, 18, 12, 0.95) 0%, rgba(8, 8, 8, 0.92) 100%);
+    color: var(--accent);
     box-shadow:
-      0 0 12px rgba(212, 175, 55, 0.15),
-      0 4px 16px rgba(0, 0, 0, 0.5);
+      0 0 18px color-mix(in srgb, var(--accent) 20%, transparent),
+      0 4px 16px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 
-  .livskompass-hero__orbit-btn:hover {
-    transform: scale(1.05);
-    border-color: rgba(212, 175, 55, 0.55);
+  .livskompass-hero__orbit-gem {
+    @apply pointer-events-none absolute inset-[3px] rounded-full;
+    background: radial-gradient(circle at 35% 28%, color-mix(in srgb, var(--accent-light) 22%, transparent), transparent 58%);
+    opacity: 0.85;
+  }
+
+  .livskompass-hero__orbit-node-ring {
+    @apply absolute inset-[5px] rounded-full;
+    border: 1px solid color-mix(in srgb, var(--accent-light) 42%, transparent);
+    opacity: 0.85;
+  }
+
+  .livskompass-hero__orbit-node--open,
+  .livskompass-hero__orbit-node:hover {
+    border-color: color-mix(in srgb, var(--accent) 62%, transparent);
+    box-shadow:
+      0 0 22px color-mix(in srgb, var(--accent) 28%, transparent),
+      0 6px 18px rgba(0, 0, 0, 0.5);
+    transform: scale(1.06);
   }
 
   .livskompass-hero__orbit-icon {
-    @apply h-6 w-6;
-    filter: drop-shadow(0 1px 2px rgba(201, 162, 39, 0.35));
+    @apply relative z-[2] h-7 w-7;
+    filter: drop-shadow(0 1px 4px color-mix(in srgb, var(--accent) 50%, transparent));
+  }
+
+  .livskompass-hero__orbit-menu-blurb {
+    @apply mt-0.5 text-center text-[10px] leading-snug text-text-dim;
+  }
+
+  .livskompass-hero__orbit-menu {
+    @apply pointer-events-none absolute left-1/2 z-20 min-w-[7.5rem] -translate-x-1/2 rounded-xl border px-3 py-2 opacity-0 transition-all duration-200;
+    border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+    background: rgba(8, 8, 8, 0.92);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+    transform: translate(-50%, 4px) scale(0.96);
+  }
+
+  .livskompass-hero__orbit-menu--visible {
+    @apply pointer-events-auto opacity-100;
+    transform: translate(-50%, 0) scale(1);
+  }
+
+  .livskompass-hero__orbit-wrap--north .livskompass-hero__orbit-menu {
+    top: calc(100% + 6px);
+  }
+
+  .livskompass-hero__orbit-wrap--south .livskompass-hero__orbit-menu {
+    bottom: calc(100% + 6px);
+    top: auto;
+  }
+
+  .livskompass-hero__orbit-wrap--east .livskompass-hero__orbit-menu {
+    left: auto;
+    right: calc(100% + 8px);
+    top: 50%;
+    transform: translate(0, -50%) scale(0.96);
+  }
+
+  .livskompass-hero__orbit-wrap--east .livskompass-hero__orbit-menu--visible {
+    transform: translate(0, -50%) scale(1);
+  }
+
+  .livskompass-hero__orbit-wrap--west .livskompass-hero__orbit-menu {
+    left: calc(100% + 8px);
+    top: 50%;
+    transform: translate(0, -50%) scale(0.96);
+  }
+
+  .livskompass-hero__orbit-wrap--west .livskompass-hero__orbit-menu--visible {
+    transform: translate(0, -50%) scale(1);
+  }
+
+  .livskompass-hero__orbit-menu-label {
+    @apply text-center text-[10px] font-medium uppercase tracking-[0.18em] text-accent;
+  }
+
+  .livskompass-hero__orbit-menu-go {
+    @apply mt-1.5 flex w-full items-center justify-center gap-1 rounded-lg border-0 py-1.5 text-xs font-medium text-text transition-colors;
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    color: var(--accent-light);
+  }
+
+  .livskompass-hero__orbit-menu-go:hover {
+    background: color-mix(in srgb, var(--accent) 22%, transparent);
   }
 
   .livskompass-hero__center {
-    @apply absolute left-1/2 top-1/2 z-20 flex h-[38%] w-[38%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full;
-    border: 1px solid rgba(212, 175, 55, 0.4);
-    background: rgba(10, 22, 20, 0.92);
+    @apply absolute left-1/2 top-1/2 z-20 flex h-[38%] max-h-[5.25rem] w-[38%] min-w-[4.75rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full;
+    border: 2px solid color-mix(in srgb, var(--accent) 52%, transparent);
+    background: rgba(10, 10, 10, 0.68);
     color: var(--text-gold);
-    box-shadow: 0 0 28px rgba(212, 175, 55, 0.15);
+    box-shadow:
+      0 0 36px color-mix(in srgb, var(--accent) 26%, transparent),
+      0 0 0 5px color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .livskompass-hero__center-gem {
+    @apply pointer-events-none absolute inset-[8%] rounded-full;
+    border: 1px solid color-mix(in srgb, var(--accent-light) 30%, transparent);
+    background: radial-gradient(circle at 40% 32%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 65%);
+  }
+
+  .livskompass-hero__center-halo {
+    @apply pointer-events-none absolute inset-[-6px] rounded-full;
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    animation: hero-center-pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes hero-center-pulse {
+    0%,
+    100% {
+      opacity: 0.45;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.9;
+      transform: scale(1.04);
+    }
   }
 
   html[data-theme='I-stone'] .livskompass-hero__center {
-    background: rgba(10, 10, 10, 0.55);
-    border-width: 2px;
-    border-color: rgba(212, 175, 55, 0.55);
-    backdrop-filter: blur(4px);
+    background: rgba(10, 10, 10, 0.5);
+    border-color: color-mix(in srgb, var(--accent) 58%, transparent);
+    backdrop-filter: blur(6px);
   }
 
   .livskompass-hero__center:hover {
-    box-shadow: 0 0 36px rgba(212, 175, 55, 0.22);
+    box-shadow:
+      0 0 44px color-mix(in srgb, var(--accent) 30%, transparent),
+      0 0 0 5px color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
   .livskompass-hero__mark {
-    @apply h-[70%] w-[70%];
+    @apply relative z-[1] h-[68%] w-[68%];
   }
 
-  .livskompass-hero__pills {
-    @apply mt-4 flex w-full max-w-md flex-wrap items-center justify-center gap-2 px-2;
+  .livskompass-hero__hint {
+    @apply mt-3 text-center text-[10px] uppercase tracking-[0.18em] text-text-dim;
   }
 
-  .livskompass-hero__pill {
-    @apply rounded-full border px-4 py-2 text-[11px] font-medium uppercase tracking-widest text-text-muted transition-colors;
-    border-color: var(--border);
-    background: rgba(10, 22, 20, 0.65);
+  .kompis-avatar {
+    border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+    background: rgba(10, 10, 10, 0.65);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 0 14px color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
-  .livskompass-hero__pill:hover {
-    color: var(--text-gold);
-    border-color: var(--border-strong);
+  .kompis-avatar__ring {
+    @apply pointer-events-none absolute inset-[2px] rounded-full;
+    border: 1px solid color-mix(in srgb, var(--accent-light) 28%, transparent);
   }
 
-  .livskompass-hero__pill--icon {
-    @apply px-3;
-    color: var(--text-gold);
+  .kompis-avatar--live {
+    border-color: color-mix(in srgb, var(--accent) 58%, transparent);
+    box-shadow:
+      0 0 20px color-mix(in srgb, var(--accent) 28%, transparent),
+      inset 0 0 12px color-mix(in srgb, var(--accent) 12%, transparent);
+    animation: kompis-avatar-pulse 2.2s ease-in-out infinite;
   }
 
-  .livskompass-hero__pill--wide {
-    @apply normal-case tracking-normal text-xs;
+  @keyframes kompis-avatar-pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.04);
+    }
+  }
+
+  .header-glass-btn--kanon {
+    @apply flex h-10 min-w-10 items-center justify-center gap-1.5 rounded-xl px-2.5;
+    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+    background: rgba(10, 10, 10, 0.55);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .stamp-home-strip {
+    @apply rounded-2xl border px-3 py-2.5;
+    border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+    background: rgba(8, 10, 14, 0.72);
+    backdrop-filter: blur(10px);
+  }
+
+  .stamp-home-strip__main {
+    @apply flex items-center gap-2;
+  }
+
+  .stamp-home-strip__expand {
+    @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border-0 bg-transparent text-accent transition-colors hover:bg-accent/10;
+  }
+
+  .stamp-home-strip__hint {
+    @apply mt-2 text-[10px] leading-snug text-text-dim;
+  }
+
+  .stamp-home-expanded__toolbar {
+    @apply mb-2 flex items-center justify-between gap-2;
+  }
+
+  .stamp-home-expanded__hide,
+  .stamp-home-expanded__widget-link {
+    @apply inline-flex items-center gap-1 rounded-lg border-0 px-2 py-1 text-[10px] uppercase tracking-wide transition-colors;
+  }
+
+  .stamp-home-expanded__hide {
+    @apply bg-transparent text-text-dim hover:text-text;
+  }
+
+  .stamp-home-expanded__widget-link {
+    @apply text-accent hover:underline;
+  }
+
+  .widget-stamp__status {
+    @apply mb-4 flex items-center gap-3 rounded-xl border px-3 py-3;
+    border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+    background: rgba(10, 10, 10, 0.55);
   }
 
   .home-page--scenic .dagens-riktning-card {
@@ -1643,6 +2059,45 @@
 
   .home-more[open] .home-more__summary {
     @apply mb-4 text-accent;
+  }
+
+  .life-hub-picker {
+    @apply rounded-2xl border bg-surface/40 px-4 py-4;
+    border-color: rgba(212, 175, 55, 0.22);
+  }
+
+  .life-hub-picker__eyebrow {
+    @apply text-[10px] font-medium uppercase tracking-widest text-accent;
+  }
+
+  .life-hub-picker__lead {
+    @apply mt-1 mb-3;
+  }
+
+  .life-hub-picker__grid {
+    @apply grid grid-cols-1 gap-2 sm:grid-cols-2;
+  }
+
+  .life-hub-picker__card {
+    @apply rounded-xl border border-white/10 px-3 py-2.5 text-left transition-colors;
+    background: rgba(15, 23, 42, 0.55);
+  }
+
+  .life-hub-picker__card:hover {
+    border-color: rgba(212, 175, 55, 0.35);
+  }
+
+  .life-hub-picker__card--active {
+    border-color: rgba(212, 175, 55, 0.5);
+    background: rgba(212, 175, 55, 0.08);
+  }
+
+  .life-hub-picker__label {
+    @apply block text-sm font-medium text-accent;
+  }
+
+  .life-hub-picker__hint {
+    @apply mt-0.5 block text-[11px] leading-snug text-text-muted;
   }
 
   .elongated-module {
@@ -1856,6 +2311,59 @@
     @apply bottom-0;
   }
 
+  .fyren-smart-bar--peek {
+    @apply pointer-events-auto bottom-[calc(3.75rem+env(safe-area-inset-bottom,0px))];
+  }
+
+  .fyren-smart-bar--bar {
+    @apply pointer-events-auto bottom-[calc(3.75rem+env(safe-area-inset-bottom,0px))];
+  }
+
+  .fyren-smart-bar--more {
+    @apply pointer-events-auto bottom-[calc(3.75rem+env(safe-area-inset-bottom,0px))];
+  }
+
+  .fyren-smart-bar__context-panel {
+    @apply pointer-events-auto relative mx-3 w-full max-w-md rounded-[1.5rem] px-2 pb-1 pt-2;
+    background: var(--glass);
+    backdrop-filter: blur(22px);
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 0 28px var(--accent-glow);
+  }
+
+  .fyren-smart-bar--glass-skin .fyren-smart-bar__context-panel {
+    background: rgba(20, 15, 10, 0.65);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    box-shadow: 0 0 36px rgba(212, 175, 55, 0.18);
+  }
+
+  .fyren-smart-bar__context-row {
+    @apply grid grid-cols-5 gap-0.5;
+  }
+
+  .fyren-smart-bar__context-slot {
+    @apply flex min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-0.5 py-2 transition-colors hover:bg-white/5;
+  }
+
+  .fyren-smart-bar__context-slot--active {
+    @apply bg-white/10;
+  }
+
+  .fyren-smart-bar__context-slot--active .fyren-smart-bar__context-icon {
+    border-color: rgba(212, 175, 55, 0.75);
+    box-shadow: 0 0 18px var(--accent-glow);
+  }
+
+  .fyren-smart-bar__context-icon {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-accent;
+    border: 1px solid var(--border-strong);
+    background: rgba(0, 0, 0, 0.32);
+  }
+
+  .fyren-smart-bar__context-label {
+    @apply max-w-[3.5rem] truncate text-center text-[8px] leading-tight text-accent/90;
+  }
+
   .fyren-smart-bar__backdrop {
     @apply fixed inset-0 z-[54] border-0 bg-black/40 backdrop-blur-[2px];
     pointer-events: auto;
@@ -1903,7 +2411,7 @@
   }
 
   .fyren-smart-bar__dual-action {
-    @apply flex flex-1 flex-col items-center gap-2 rounded-xl px-3 py-3 text-sm text-text transition-colors hover:bg-white/5 sm:flex-row sm:items-center;
+    @apply flex w-full flex-1 flex-col items-center justify-center gap-2 rounded-xl px-2 py-3 text-sm text-text transition-colors hover:bg-white/5;
   }
 
   .fyren-smart-bar__orbit-icon {
@@ -1934,6 +2442,10 @@
     @apply mx-auto mb-2 block h-1 w-9 rounded-full border-0;
     background: var(--accent);
     opacity: 0.55;
+  }
+
+  .fyren-smart-bar__context-hint {
+    @apply mb-2 px-0.5 leading-snug;
   }
 
   .fyren-smart-bar__panel-title {
