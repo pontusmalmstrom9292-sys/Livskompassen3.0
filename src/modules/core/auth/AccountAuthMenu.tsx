@@ -42,6 +42,13 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
     };
   }, [open, setOpen]);
 
+  /** Google redirect / native sign-in uppdaterar store utan EmailAuthPanel onSuccess — stäng dialogen. */
+  useEffect(() => {
+    if (open && user && !user.isAnonymous) {
+      setOpen(false);
+    }
+  }, [open, user, setOpen]);
+
   const isAnonymous = user?.isAnonymous ?? true;
   const label = !user ? 'Logga in' : user.isAnonymous ? 'Konto' : user.email?.split('@')[0] ?? 'Konto';
 

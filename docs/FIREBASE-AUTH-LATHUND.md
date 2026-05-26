@@ -101,6 +101,7 @@ Efter `.env`-ändring: **starta om** `npm run dev`.
 | Google i app → Chrome + vit skärm               | Gammal build utan native auth — kör `cap:sync` och installera om APK      |
 | `DEVELOPER_ERROR` / Google avbryts direkt i app | SHA-1 saknas i Firebase för `com.livskompassen.app`                       |
 | Fel Google-konto                                | **Logga in**-fliken i appen (inte Skapa konto) + välj rätt konto i Google |
+| Inloggningsrutan kvar efter Google (redirect)  | Konsolen: `getRedirectResult failed` → fel domän/nyckel. Dev: Strict Mode + dubbel `getRedirectResult` (hanteras i kod). Dialog stängs när `user` slutar vara anonym. |
 | Vit skärm mobil (webbläsare)                    | Redirect-flöde + att du kommer tillbaka till **samma** URL efter Google   |
 
 
