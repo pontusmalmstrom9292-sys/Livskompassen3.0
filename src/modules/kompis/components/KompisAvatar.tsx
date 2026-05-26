@@ -1,7 +1,7 @@
 import type { ClassValue } from 'clsx';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { LivskompassMark } from '../../core/ui/LivskompassMark';
+import { KompisMark } from './KompisMark';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -42,7 +42,7 @@ export function KompisAvatar({ state = 'idle', className, size = 'md' }: KompisA
       aria-label={live ? 'Kompis analyserar' : undefined}
     >
       <span className="kompis-avatar__ring" aria-hidden />
-      <LivskompassMark className={cn('relative z-[1] text-accent', markSizes[size])} />
+      <KompisMark className={cn('relative z-[1]', markSizes[size])} />
     </div>
   );
 }

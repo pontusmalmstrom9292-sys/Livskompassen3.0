@@ -25,6 +25,8 @@
 | **Bildspel / idéer** | `docs/design/slideshow/index.html` |
 | **Barnporten-infografik** | `docs/design/barnporten/infographic.html` |
 | **Kompakt tema per modul** | `docs/design/compact/index.html` |
+| **Ikoner — låst B1/D1/M3** | `docs/design/ICON-STYLE-GUIDE.md` |
+| **Ikoner — välj resten** | `docs/design/icons-proposals/2026-05-26-remaining/preview.html` |
 
 ---
 

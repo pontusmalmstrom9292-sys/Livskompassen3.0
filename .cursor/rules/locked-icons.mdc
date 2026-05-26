@@ -1,0 +1,24 @@
+---
+description: Locked product icons B1 D1 M3 — do not replace without approval
+alwaysApply: true
+---
+
+# Locked icons (MUST NOT replace)
+
+Canonical: [`.context/locked-icons.md`](../../.context/locked-icons.md)
+
+| ID | File |
+|----|------|
+| B1 | `public/favicon.svg` |
+| D1 | `src/modules/core/ui/LivskompassMark.tsx` |
+| M3 | `src/modules/kompis/components/KompisMark.tsx` |
+
+## MUST
+
+- Run `npm run smoke:locked-icons` when touching these files.
+- New chrome icons follow [`docs/design/ICON-STYLE-GUIDE.md`](../../docs/design/ICON-STYLE-GUIDE.md).
+
+## MUST NOT
+
+- Revert to Vite purple favicon or minimal line-only `LivskompassMark` without user approval.
+- Use `LivskompassMark` inside `KompisAvatar` (use `KompisMark` only).

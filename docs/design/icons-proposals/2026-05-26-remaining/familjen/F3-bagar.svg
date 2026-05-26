@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs>
+    <radialGradient id="f3d" cx="50%" cy="55%" r="60%"><stop offset="0%" stop-color="#1a2830"/><stop offset="100%" stop-color="#050508"/></radialGradient>
+    <linearGradient id="f3g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e8d5a0"/><stop offset="100%" stop-color="#9a7b1f"/></linearGradient>
+  </defs>
+  <circle cx="12" cy="12" r="11" fill="url(#f3d)" stroke="url(#f3g)" stroke-width="0.7" stroke-opacity="0.45"/>
+  <path d="M5 14 A7 7 0 0 1 19 14" stroke="url(#f3g)" stroke-width="0.9" fill="none"/>
+  <circle cx="7" cy="12" r="1.8" fill="url(#f3g)"/><circle cx="12" cy="10" r="2" fill="url(#f3g)"/><circle cx="17" cy="12" r="1.8" fill="url(#f3g)"/>
+  <circle cx="12" cy="14" r="1" fill="#fff8e0" opacity="0.8"/>
+</svg>

@@ -1,6 +1,7 @@
 # Chrome-policy — dock, widget, sidfötter
 
-**Version:** 2026-05-25 · **Sanning:** `src/modules/core/navigation/navTruth.ts`
+**Version:** 2026-05-26 · **Sanning:** `src/modules/core/navigation/navTruth.ts`  
+**Ikoner:** låst B1/D1/M3 — [`ICON-STYLE-GUIDE.md`](./ICON-STYLE-GUIDE.md) · övriga: [`icons-proposals/2026-05-26-remaining/`](./icons-proposals/2026-05-26-remaining/)
 
 ## Lager (botten → topp)
 

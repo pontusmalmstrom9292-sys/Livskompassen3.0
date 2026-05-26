@@ -99,9 +99,9 @@ function main() {
 
   mustInclude('src/modules/core/ui/ValvArchIcon.tsx', 'ValvArchIcon');
   mustInclude(
-    'src/modules/core/layout/DockClassicTriad.tsx',
-    'getPageContextSummary',
-    'Dagbok',
+    'src/modules/core/layout/DockHubBand.tsx',
+    'getDockSideLinks',
+    'HubPresetSheet',
     'delayMs: 3000',
   );
   mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", '/vardagen');
@@ -124,10 +124,11 @@ function main() {
     'LIFE_HUB_PRESETS',
     'materialEnabled',
   );
-  mustInclude('src/modules/core/pages/HomePage.tsx', 'LifeHubPresetPicker', 'useLifeHubPreset');
+  mustInclude('src/modules/core/pages/HomePage.tsx', 'useLifeHubPreset');
+  mustInclude('src/modules/core/lifeOs/HubPresetSheet.tsx', 'LifeHubPresetPicker');
   mustInclude('src/modules/planering/components/RoutinesPanel.tsx', 'runRoutine');
   mustInclude('src/modules/projekt/components/ProjektNyPage.tsx', '/projekt/ny');
-  mustInclude('src/index.css', '.dock-classic');
+  mustInclude('src/index.css', '.dock-hub-band');
 
   mustInclude(
     'docs/design/PLANERING-PROJEKT-HYBRID.md',
@@ -257,6 +258,9 @@ function main() {
   );
   assert(existsSync(resolve(root, 'docs/design/CHROME-POLICY.md')), 'saknar: CHROME-POLICY.md');
   assert(existsSync(resolve(root, 'docs/design/TYPE-SCALE.md')), 'saknar: TYPE-SCALE.md');
+  assert(existsSync(resolve(root, '.context/locked-icons.md')), 'saknar: .context/locked-icons.md');
+  assert(existsSync(resolve(root, 'docs/design/ICON-STYLE-GUIDE.md')), 'saknar: ICON-STYLE-GUIDE.md');
+  mustInclude('src/modules/kompis/components/KompisAvatar.tsx', 'KompisMark');
 
   console.log(
     '[smoke:locked-ux] PASS — Barnfokus, Valv-baksida (Mönster/Orkester/Kunskapsbank), drawer Vardag+Valv, Planering, Widget, Barnporten.',

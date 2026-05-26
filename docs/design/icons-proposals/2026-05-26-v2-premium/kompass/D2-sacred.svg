@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <defs>
+    <radialGradient id="d2bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1a2830"/>
+      <stop offset="100%" stop-color="#060a0c"/>
+    </radialGradient>
+    <linearGradient id="d2g" x1="0" y1="0" x2="48" y2="48">
+      <stop offset="0%" stop-color="#e8d5a0"/>
+      <stop offset="100%" stop-color="#b8942a"/>
+    </linearGradient>
+  </defs>
+  <circle cx="24" cy="24" r="22" fill="url(#d2bg)" stroke="url(#d2g)" stroke-width="1"/>
+  <polygon points="24,7 27,17 37,17 29,23 32,33 24,27 16,33 19,23 11,17 21,17" fill="none" stroke="url(#d2g)" stroke-width="0.7" stroke-opacity="0.5"/>
+  <polygon points="24,11 26,18 33,18 28,22 30,29 24,25 18,29 20,22 15,18 22,18" fill="url(#d2g)" fill-opacity="0.15" stroke="url(#d2g)" stroke-width="0.5"/>
+  <path d="M24 8 L25.5 20 L24 24 L22.5 20 Z" fill="url(#d2g)"/>
+  <path d="M24 40 L22.5 28 L24 24 L25.5 28 Z" fill="url(#d2g)" fill-opacity="0.3"/>
+  <circle cx="30" cy="12" r="1.8" fill="#ffe9a8" opacity="0.95"/>
+  <circle cx="24" cy="24" r="2" fill="url(#d2g)"/>
+</svg>

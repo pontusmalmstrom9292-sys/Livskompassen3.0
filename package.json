@@ -29,6 +29,7 @@
     "smoke:stampla": "node scripts/smoke_stampla.mjs",
     "smoke:arbetsliv": "node scripts/smoke_arbetsliv_hub.mjs",
     "smoke:locked-ux": "node scripts/smoke_locked_ux.mjs",
+    "smoke:locked-icons": "node scripts/smoke_locked_icons.mjs",
     "smoke:design-modules": "node scripts/smoke_design_modules.mjs",
     "smoke:innehall": "node scripts/smoke_innehall_register.mjs",
     "smoke:orkester": "node scripts/smoke_orkester_wiring.mjs",

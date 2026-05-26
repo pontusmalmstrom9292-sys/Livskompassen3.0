@@ -24,6 +24,12 @@
 - Progressive disclosure — ett steg i taget
 - **Förbjudet globalt:** indigo/lila text-accent, natur-tapeter
 
+## Ikoner (Premium Helros)
+
+- **Låst:** B1 app · D1 kompass · M3 Kompis — [`.context/locked-icons.md`](locked-icons.md)
+- **Stilguide:** [`docs/design/ICON-STYLE-GUIDE.md`](../docs/design/ICON-STYLE-GUIDE.md)
+- **Övriga:** förslag i `docs/design/icons-proposals/2026-05-26-remaining/`
+
 ## Centrala Element
 
 - **LivskompassHero:** guld kompass-hub på Hem
