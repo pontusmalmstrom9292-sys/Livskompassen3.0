@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ikoner v3 — Helros × 5 × 10</title>
+  <style>
+    :root { --bg:#0a0a0a; --gold:#d4af37; --dim:#8a8680; --text:#e8e6e3; }
+    body { margin:0; font-family:Inter,system-ui,sans-serif; background:radial-gradient(ellipse 100% 50% at 50% 0%,#1e3a35,#030606); color:var(--text); padding:1.5rem 1rem 3rem; }
+    h1 { text-align:center; font-size:1.1rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); }
+    p.lead { text-align:center; color:var(--dim); font-size:.85rem; max-width:40rem; margin:.5rem auto 1.5rem; line-height:1.5; }
+    .legend { display:flex; flex-wrap:wrap; justify-content:center; gap:.5rem 1rem; font-size:.72rem; color:var(--dim); margin-bottom:2rem; }
+    .legend span { color:var(--gold); }
+    section { max-width:1100px; margin:0 auto 2rem; }
+    h2 { font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--dim); border-bottom:1px solid rgba(212,175,55,.2); padding-bottom:.35rem; margin-bottom:.75rem; }
+    .row { display:grid; grid-template-columns:repeat(5,1fr); gap:.6rem; }
+    @media(max-width:700px){ .row{ grid-template-columns:repeat(2,1fr);} }
+    figure { margin:0; padding:.75rem .5rem; text-align:center; border-radius:10px; border:1px solid rgba(212,175,55,.12); background:rgba(0,0,0,.35); }
+    figure img { width:56px; height:56px; image-rendering:auto; }
+    figcaption { font-size:.65rem; color:var(--gold); margin-top:.4rem; letter-spacing:.04em; }
+    figcaption small { display:block; color:var(--dim); font-size:.58rem; margin-top:.15rem; }
+  </style>
+</head>
+<body>
+  <h1>Ikoner v3</h1>
+  <p class="lead">5 chassi-stilar per kategori — samma språk som <strong>D1 Helros</strong> (disk, guld, ticks, glöd). Välj t.ex. <code>F3 H1 V5 …</code> för inbyggnad.</p>
+  <div class="legend">
+    <span>1</span> Helros · <span>2</span> Stjärn-eld · <span>3</span> Sacred · <span>4</span> Pansar-ringar · <span>5</span> Eldnål
+  </div>
+
+  <script>
+    const cats = [
+      { title: 'Familjen', base: 'familjen', files: ['F1-helros.svg','F2-stjarneld.svg','F3-sacred.svg','F4-pansarringar.svg','F5-eldnal.svg'], names:['Helros','Stjärn-eld','Sacred','Pansar','Eldnål'] },
+      { title: 'Hamn', base: 'hamn', files: ['H1-helros.svg','H2-stjarneld.svg','H3-sacred.svg','H4-pansarringar.svg','H5-eldnal.svg'], names:['Helros','Stjärn-eld','Sacred','Pansar','Eldnål'] },
+      { title: 'Valv', base: 'valv', files: ['V1-helros.svg','V2-stjarneld.svg','V3-sacred.svg','V4-pansarringar.svg','V5-eldnal.svg'], names:['Helros','Stjärn-eld','Sacred','Pansar','Eldnål'] },
+      { title: 'Dagbok', base: 'dagbok', files: ['J1-helros.svg','J2-stjarneld.svg','J3-sacred.svg','J4-pansarringar.svg','J5-eldnal.svg'], names:['Helros','Stjärn-eld','Sacred','Pansar','Eldnål'] },
+      { title: 'Planering', base: 'planering', files: ['P1-helros.svg','P2-stjarneld.svg','P3-sacred.svg','P4-pansarringar.svg','P5-eldnal.svg'], names:['Helros','Stjärn-eld','Sacred','Pansar','Eldnål'] },
+      { title: 'MåBra', base: 'mabra', files: ['A1-helros.svg','A2-stjarneld.svg','A3-sacred.svg','A4-pansarringar.svg','A5-eldnal.svg'], names:['Helros','Stjärn-eld','Sacred','Pansar','Eldnål'] },
+      { title: 'Hero — Rutiner', base: 'hero/rutiner', files: ['R1-helros.svg','R2-stjarneld.svg','R3-sacred.svg','R4-pansarringar.svg','R5-eldnal.svg'], names:['Helros','Stjärn-eld','Sacred','Pansar','Eldnål'] },
+      { title: 'Hero — Ekonomi', base: 'hero/ekonomi', files: ['E1-helros.svg','E2-stjarneld.svg','E3-sacred.svg','E4-pansarringar.svg','E5-eldnal.svg'], names:['Helros','Stjärn-eld','Sacred','Pansar','Eldnål'] },
+      { title: 'Hero — Utveckling', base: 'hero/utveckling', files: ['U1-helros.svg','U2-stjarneld.svg','U3-sacred.svg','U4-pansarringar.svg','U5-eldnal.svg'], names:['Helros','Stjärn-eld','Sacred','Pansar','Eldnål'] },
+      { title: 'Hero — Kunskap', base: 'hero/kunskap', files: ['Kn1-helros.svg','Kn2-stjarneld.svg','Kn3-sacred.svg','Kn4-pansarringar.svg','Kn5-eldnal.svg'], names:['Helros','Stjärn-eld','Sacred','Pansar','Eldnål'] },
+    ];
+    for (const c of cats) {
+      const sec = document.createElement('section');
+      const h = document.createElement('h2');
+      h.textContent = c.title;
+      sec.appendChild(h);
+      const row = document.createElement('div');
+      row.className = 'row';
+      c.files.forEach((fn, i) => {
+        const fig = document.createElement('figure');
+        const img = document.createElement('img');
+        img.src = `${c.base}/${fn}`;
+        img.alt = fn;
+        const cap = document.createElement('figcaption');
+        cap.innerHTML = `${i + 1} · ${c.names[i]}<small>${fn}</small>`;
+        fig.appendChild(img);
+        fig.appendChild(cap);
+        row.appendChild(fig);
+      });
+      sec.appendChild(row);
+      document.body.appendChild(sec);
+    }
+  </script>
+</body>
+</html>
