@@ -41,6 +41,8 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 | [`.context/android-capacitor.md`](../.context/android-capacitor.md) | **Projektminne** — cap sync före Run, SHA-1, native Google |
 | [`OFFLINE-ANDROID.md`](OFFLINE-ANDROID.md) | Firestore offline cache, nät-chip, WORM-notering |
 | [`prompts/OFFLINE-ANDROID-AGENT-PROMPT.md`](prompts/OFFLINE-ANDROID-AGENT-PROMPT.md) | **Klistra in** i ny chatt för uppföljning |
+| [`prompts/MABRA-DAGLIG-MIX-PROMPT.md`](prompts/MABRA-DAGLIG-MIX-PROMPT.md) | Nästa produktchatt efter Android-landning |
+| [`evaluations/2026-05-27-android-landning.md`](evaluations/2026-05-27-android-landning.md) | Android landning — definition of done |
 | [`FIREBASE_SYNC.md`](FIREBASE_SYNC.md) | Firebase-projekt, rules, indexes |
 | [`DRIVE_AUTOMATION.md`](DRIVE_AUTOMATION.md) | Apps Script → `notifyNewFile` |
 | [`SMOKE_CHECKLIST.md`](SMOKE_CHECKLIST.md) | Manuell verifiering (Sacred Features) |

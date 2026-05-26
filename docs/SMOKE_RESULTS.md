@@ -541,3 +541,15 @@ Se [`Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md).
 
 **Master review (våg 3):** Tre silos intakta. Ingen Valv↔Kunskap RAG-merge. WORM permanent minne skyddat i retention. Legacy Python RAG (us-central1) ej canonical — G4 kvar.
 
+## Android-landning (2026-05-27)
+
+| Kontroll | Resultat | Notering |
+|----------|----------|----------|
+| `google-services.json` `client_type: 1` | **PASS** | Commit `0e9710de` |
+| Native Google **Logga in** (telefon) | **PASS** | Användare verifierat |
+| `npm run build:web && npx cap sync android` | **PASS** | Agent 2026-05-27 |
+| `npm run orkester:night` | **PASS** | [`evaluations/2026-05-26-orkester-natt.md`](./evaluations/2026-05-26-orkester-natt.md) |
+| Offline flygplansläge (dagbok / Valv) | **PENDING** | Du — [`OFFLINE-ANDROID.md`](./OFFLINE-ANDROID.md) |
+
+Landning: [`evaluations/2026-05-27-android-landning.md`](./evaluations/2026-05-27-android-landning.md)
+
