@@ -1,55 +1,64 @@
 import { Link } from 'react-router-dom';
 import { FolderKanban, List, Image, FileText, CheckSquare } from 'lucide-react';
+import { useActiveProjects } from '../hooks/useProjects';
+import type { ProjectBlockType } from '../types';
 
-const BLOCK_TYPES = [
-  { id: 'list', label: 'Lista', icon: List, status: 'P1' as const },
-  { id: 'note', label: 'Anteckning', icon: FileText, status: 'P1' as const },
-  { id: 'image', label: 'Bild', icon: Image, status: 'P1' as const },
-  { id: 'task', label: 'Uppgift → Handling', icon: CheckSquare, status: 'live' as const },
-];
+const BLOCK_ICONS: Record<ProjectBlockType, typeof List> = {
+  list: List,
+  note: FileText,
+  image: Image,
+  task: CheckSquare,
+};
 
-/** P0 hub — flexibla projekt (handling/kanban ligger på /planering). */
+/** Projekt-hub — aktiva projekt från Firestore (P1). */
 export function ProjektHubPage() {
+  const { user, projects, loading } = useActiveProjects();
+
   return (
     <div className="space-y-4">
       <header className="px-0.5">
         <p className="home-page__eyebrow">Projekt</p>
         <h1 className="home-page__title text-xl">Egna planeringar</h1>
         <p className="home-page__lead text-xs">
-          Listor, anteckningar och bilder — uppgifter med status hamnar alltid i Handling.
+          Listor, anteckningar och uppgifter — status i Handling med valfritt projekt-ID.
         </p>
       </header>
 
-      <div className="home-module-stack">
-        {BLOCK_TYPES.map((block) => {
-          const Icon = block.icon;
-          const live = block.id === 'task';
-          return live ? (
-            <Link
-              key={block.id}
-              to="/planering"
-              className="elongated-module elongated-module--gold flex items-center gap-3 p-4"
-            >
-              <Icon className="h-5 w-5 text-accent" />
-              <div>
-                <p className="font-medium text-accent">{block.label}</p>
-                <p className="text-xs text-text-muted">Öppna kanban på Planering</p>
-              </div>
-            </Link>
-          ) : (
-            <div
-              key={block.id}
-              className="elongated-module flex items-center gap-3 border-white/10 p-4 opacity-80"
-            >
-              <Icon className="h-5 w-5 text-text-dim" />
-              <div>
-                <p className="text-sm text-text-muted">{block.label}</p>
-                <p className="text-[10px] uppercase tracking-widest text-text-dim">Byggs · {block.status}</p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      {!user && (
+        <p className="text-sm text-text-muted">Logga in för att spara projekt.</p>
+      )}
+
+      {user && loading && <p className="text-sm text-text-dim">Laddar projekt…</p>}
+
+      {user && !loading && projects.length === 0 && (
+        <p className="text-sm text-text-dim">Inga aktiva projekt — skapa ett nedan.</p>
+      )}
+
+      {user && projects.length > 0 && (
+        <div className="home-module-stack">
+          {projects.map((project) => {
+            const Icon = project.primaryBlockType
+              ? BLOCK_ICONS[project.primaryBlockType]
+              : FolderKanban;
+            return (
+              <Link
+                key={project.id}
+                to={`/projekt/${project.id}`}
+                className="elongated-module elongated-module--gold flex items-center gap-3 p-4"
+              >
+                <Icon className="h-5 w-5 text-accent" />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-medium text-accent">{project.title}</p>
+                  <p className="text-xs text-text-muted">
+                    {project.primaryBlockType ?? 'projekt'}
+                    {project.updatedAt ? ` · ${new Date(project.updatedAt).toLocaleDateString('sv-SE')}` : ''}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      )}
 
       <div className="flex flex-col gap-2">
         <Link
@@ -60,7 +69,6 @@ export function ProjektHubPage() {
           Nytt projekt
         </Link>
         <Link to="/planering" className="btn-pill--secondary flex w-full items-center justify-center gap-2">
-          <FolderKanban className="h-4 w-4" />
           Till Handling (kanban)
         </Link>
       </div>

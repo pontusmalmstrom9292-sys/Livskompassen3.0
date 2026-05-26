@@ -10,7 +10,10 @@ export {
   type LifeHubPresetId,
 } from './lifeHubPresets';
 export { LifeHubHubHint } from './LifeHubHubHint';
+export { getMaterialShortcuts, type MaterialPackHub, type MaterialShortcut } from './materialPacks';
+export { MaterialPackShortcuts } from './MaterialPackShortcuts';
 export { LifeHubPresetPicker } from './LifeHubPresetPicker';
+export { HubPresetSheet } from './HubPresetSheet';
 export { useLifeHubPreset } from './useLifeHubPreset';
 export { resolveModuleLink, moduleLinkToString, type ModuleLinkTarget } from './moduleLink';
 export { ROUTINE_TEMPLATES, routinesForPreset, type RoutineTemplate } from './routineTemplates';

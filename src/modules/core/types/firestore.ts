@@ -256,4 +256,6 @@ export const FIRESTORE_COLLECTIONS = {
   time_entries: 'time_entries',
   payslip_snapshots: 'payslip_snapshots',
   planning_tasks: 'planning_tasks',
+  projects: 'projects',
+  project_blocks: 'project_blocks',
 } as const;

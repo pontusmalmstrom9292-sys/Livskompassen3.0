@@ -294,7 +294,7 @@
   }
 
   .app-header {
-    @apply pointer-events-none fixed top-0 left-0 right-0 z-40;
+    @apply pointer-events-none fixed top-0 left-0 right-0 z-[220];
     background: linear-gradient(to bottom, rgba(2, 6, 23, 0.88), rgba(2, 6, 23, 0));
   }
 
@@ -500,6 +500,131 @@
 
   .dock-classic__context-close {
     @apply absolute right-2 top-2 rounded-full border-0 bg-transparent p-1 text-text-dim transition-colors hover:text-text;
+  }
+
+  /* Dock hub band — kontext + sidolänkar kring kompass */
+  .dock-hub-band {
+    @apply pointer-events-auto relative mx-auto flex max-w-[min(100vw-1rem,28rem)] items-end justify-center gap-0.5 rounded-2xl border px-1 py-1.5;
+    border-color: rgba(212, 175, 55, 0.22);
+    background: rgba(10, 10, 10, 0.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  }
+
+  .dock-hub-band__side {
+    @apply flex w-[3rem] shrink-0 flex-col items-center gap-0 border-0 bg-transparent p-0 text-accent/75 transition-colors;
+  }
+
+  .dock-hub-band__side--active {
+    @apply text-accent;
+  }
+
+  .dock-hub-band__side-icon {
+    @apply flex h-7 w-7 items-center justify-center rounded-full border;
+    border-color: rgba(212, 175, 55, 0.28);
+    background: rgba(10, 10, 10, 0.55);
+  }
+
+  .dock-hub-band__side--active .dock-hub-band__side-icon {
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.14);
+  }
+
+  .dock-hub-band__side-label {
+    @apply max-w-[3rem] truncate text-[7px] font-medium leading-none tracking-wide text-text-muted;
+  }
+
+  .dock-hub-band__side--active .dock-hub-band__side-label {
+    @apply text-accent/90;
+  }
+
+  .dock-hub-band__context {
+    @apply flex min-w-0 flex-1 items-end justify-center gap-0.5;
+  }
+
+  .dock-hub-band__slot {
+    @apply flex min-w-0 flex-1 max-w-[3.25rem] flex-col items-center gap-0 border-0 bg-transparent p-0 text-accent/80;
+  }
+
+  .dock-hub-band__slot--active {
+    @apply text-accent;
+  }
+
+  .dock-hub-band__slot-icon {
+    @apply flex h-7 w-7 items-center justify-center rounded-xl border border-border/60 bg-bg/40;
+  }
+
+  .dock-hub-band__slot--active .dock-hub-band__slot-icon {
+    border-color: rgba(212, 175, 55, 0.45);
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.12);
+  }
+
+  .dock-hub-band__slot-label {
+    @apply max-w-full truncate text-[7px] font-medium leading-none text-text-muted;
+  }
+
+  .dock-hub-band__slot--active .dock-hub-band__slot-label {
+    @apply text-accent/90;
+  }
+
+  .dock-hub-band__center {
+    @apply relative mx-0.5 flex shrink-0 flex-col items-center border-0 bg-transparent p-0;
+  }
+
+  .dock-hub-band__plate {
+    @apply relative flex h-10 w-10 items-center justify-center rounded-full;
+    background: linear-gradient(
+      165deg,
+      rgba(26, 20, 16, 0.95) 0%,
+      rgba(10, 10, 10, 0.88) 55%,
+      rgba(2, 6, 23, 0.8) 100%
+    );
+    border: 1.5px solid rgba(212, 175, 55, 0.38);
+    box-shadow:
+      0 4px 14px rgba(0, 0, 0, 0.45),
+      0 0 12px rgba(212, 175, 55, 0.1);
+  }
+
+  .dock-hub-band__center--active .dock-hub-band__plate,
+  .dock-hub-band__center--holding .dock-hub-band__plate {
+    border-color: rgba(212, 175, 55, 0.52);
+  }
+
+  .dock-hub-band__center--holding .dock-hub-band__plate {
+    box-shadow:
+      0 0 0 1px rgba(212, 175, 55, 0.2),
+      0 0 calc(8px + var(--dock-hold, 0) * 0.12) rgba(212, 175, 55, 0.22);
+  }
+
+  .dock-hub-band__mark {
+    @apply h-5 w-5 text-accent;
+    opacity: 0.92;
+  }
+
+  .dock-hub-band__preset-badge {
+    @apply mt-0.5 max-w-[3.5rem] truncate text-[7px] font-semibold uppercase tracking-wider text-accent/85;
+  }
+
+  .dock-hub-band__more {
+    @apply pointer-events-auto fixed left-1/2 z-[48] w-[min(20rem,calc(100vw-2rem))] -translate-x-1/2;
+    bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .hub-preset-sheet__backdrop {
+    @apply fixed inset-0 z-[232] cursor-pointer border-0 bg-black/55 backdrop-blur-[2px];
+  }
+
+  .hub-preset-sheet {
+    @apply fixed left-4 right-4 top-1/2 z-[233] mx-auto max-w-md -translate-y-1/2 rounded-[2rem] border border-border bg-bg/95 p-5 shadow-xl;
+  }
+
+  .hub-preset-sheet__close {
+    @apply absolute right-3 top-3 rounded-full border border-border bg-bg p-1.5 text-text-dim;
+  }
+
+  body.hub-preset-sheet-open {
+    overflow: hidden;
   }
 
   .dock-hub-backdrop {
@@ -1379,7 +1504,16 @@
   }
 
   .nav-drawer__sections {
-    @apply flex flex-1 flex-col gap-1 overflow-y-auto pb-8;
+    @apply flex flex-1 flex-col gap-1 overflow-y-auto pb-2;
+  }
+
+  .nav-drawer__footer {
+    @apply shrink-0 border-t border-white/10 px-4 py-3;
+  }
+
+  .nav-drawer__account-btn {
+    @apply flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-accent/35 bg-accent/10 px-4 py-3 text-sm font-medium text-accent transition-colors hover:bg-accent/15;
+    touch-action: manipulation;
   }
 
   .nav-drawer__hub-children {
@@ -1480,12 +1614,37 @@
     @apply text-accent opacity-90;
   }
 
+  /* Konto / inlogg — portal till body (inte klippt i header) */
+  body.account-auth-open {
+    overflow: hidden;
+  }
+
+  .account-auth-backdrop {
+    @apply fixed inset-0 z-[230] cursor-pointer border-0 bg-black/50 backdrop-blur-[2px];
+    pointer-events: auto;
+  }
+
+  .account-auth-dialog {
+    @apply fixed left-4 right-4 top-1/2 z-[231] mx-auto max-w-sm -translate-y-1/2;
+    pointer-events: auto;
+  }
+
+  .app-unlock-gate {
+    @apply fixed inset-0 z-[225] flex items-center justify-center bg-black/40 px-6;
+    pointer-events: auto;
+  }
+
+  .app-unlock-gate__card {
+    @apply w-full max-w-sm rounded-[2rem] border border-border p-6;
+  }
+
   /* Block underliggande widget/dock när menyn är öppen */
   body.nav-drawer-open .fyren-smart-bar,
   body.nav-drawer-open .fyren-home-rail,
   body.nav-drawer-open .fyren-header-strip,
   body.nav-drawer-open .dock-nav--hub,
-  body.nav-drawer-open .dock-classic {
+  body.nav-drawer-open .dock-classic,
+  body.nav-drawer-open .dock-hub-band {
     pointer-events: none !important;
   }
 
@@ -2312,15 +2471,15 @@
   }
 
   .fyren-smart-bar--peek {
-    @apply pointer-events-auto bottom-[calc(3.75rem+env(safe-area-inset-bottom,0px))];
+    @apply bottom-[calc(3.75rem+env(safe-area-inset-bottom,0px))];
   }
 
   .fyren-smart-bar--bar {
-    @apply pointer-events-auto bottom-[calc(3.75rem+env(safe-area-inset-bottom,0px))];
+    @apply bottom-[calc(3.75rem+env(safe-area-inset-bottom,0px))];
   }
 
   .fyren-smart-bar--more {
-    @apply pointer-events-auto bottom-[calc(3.75rem+env(safe-area-inset-bottom,0px))];
+    @apply bottom-[calc(3.75rem+env(safe-area-inset-bottom,0px))];
   }
 
   .fyren-smart-bar__context-panel {

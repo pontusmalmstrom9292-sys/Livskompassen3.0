@@ -1,85 +1,20 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { CSSProperties, ReactNode } from 'react';
+import type { CSSProperties } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {
-  Anchor,
-  BookHeart,
-  BookOpen,
-  Brain,
-  Calendar,
-  ChevronDown,
-  ChevronUp,
-  Clock,
-  Focus,
-  FolderKanban,
-  List,
-  Lock,
-  Mail,
-  MoreHorizontal,
-  Plus,
-  Sparkles,
-  Sprout,
-  Users,
-  Wallet,
-} from 'lucide-react';
+import { ChevronDown, ChevronUp, Lock, MoreHorizontal } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useLongPress } from '../hooks/useLongPress';
-import { WidgetMicIcon, WidgetNoteIcon } from '../ui/widget-icons';
 import { getPageContextSummary } from '../navigation/pageContextSummary';
 import {
   getHubContextSlots,
   HUB_MORE_ACTIONS,
-  type HubContextIconId,
   type HubContextSlot,
-  type HubMoreActionId,
 } from '../navigation/hubContextBar';
+import { renderHubContextIcon } from '../navigation/hubContextIcons';
 
 type BarState = 'hidden' | 'bar' | 'more';
 
 const STORAGE_HIDDEN = 'livskompassen_smart_widget_hidden';
-
-function renderHubIcon(id: HubContextIconId | HubMoreActionId, className: string): ReactNode {
-  const cls = className;
-  const stroke = 1.5;
-  switch (id) {
-    case 'list':
-      return <List className={cls} strokeWidth={stroke} />;
-    case 'calendar':
-      return <Calendar className={cls} strokeWidth={stroke} />;
-    case 'clock':
-      return <Clock className={cls} strokeWidth={stroke} />;
-    case 'note':
-      return <WidgetNoteIcon className={cls} />;
-    case 'record':
-      return <WidgetMicIcon className={cls} />;
-    case 'wallet':
-      return <Wallet className={cls} strokeWidth={stroke} />;
-    case 'mail':
-      return <Mail className={cls} strokeWidth={stroke} />;
-    case 'folder':
-      return <FolderKanban className={cls} strokeWidth={stroke} />;
-    case 'focus':
-      return <Focus className={cls} strokeWidth={stroke} />;
-    case 'plus':
-      return <Plus className={cls} strokeWidth={stroke} />;
-    case 'sprout':
-      return <Sprout className={cls} strokeWidth={stroke} />;
-    case 'book':
-      return <BookOpen className={cls} strokeWidth={stroke} />;
-    case 'brain':
-      return <Brain className={cls} strokeWidth={stroke} />;
-    case 'anchor':
-      return <Anchor className={cls} strokeWidth={stroke} />;
-    case 'sparkles':
-      return <Sparkles className={cls} strokeWidth={stroke} />;
-    case 'users':
-      return <Users className={cls} strokeWidth={stroke} />;
-    case 'bookheart':
-      return <BookHeart className={cls} strokeWidth={stroke} />;
-    default:
-      return null;
-  }
-}
 
 function ContextSlotButton({
   slot,
@@ -100,7 +35,7 @@ function ContextSlotButton({
       onClick={() => onGo(slot.to)}
     >
       <span className="fyren-smart-bar__context-icon" aria-hidden>
-        {renderHubIcon(slot.icon, 'h-[1.1rem] w-[1.1rem] text-accent')}
+        {renderHubContextIcon(slot.icon, 'h-[1.1rem] w-[1.1rem] text-accent')}
       </span>
       <span className="fyren-smart-bar__context-label">{slot.label}</span>
     </button>
@@ -130,7 +65,7 @@ export function FyrenSmartWidgetBar() {
 
   const valvLongPress = useLongPress({
     onLongPress: () => navigate('/dagbok?tab=bevis'),
-    onClick: () => {},
+    onClick: () => setState('bar'),
     delayMs: 3000,
   });
 
@@ -155,6 +90,9 @@ export function FyrenSmartWidgetBar() {
   }, [state, persistHidden]);
 
   if (location.pathname.startsWith('/widget')) return null;
+
+  /** Hem: kontextrad sitter i dock (DockHubBand). */
+  if (isHome && state !== 'more') return null;
 
   const goTo = (to: string) => {
     navigate(to);
@@ -196,7 +134,6 @@ export function FyrenSmartWidgetBar() {
                 ? ({ '--fyren-hold': `${Math.round(progress * 100)}%` } as CSSProperties)
                 : undefined
             }
-            onClick={() => setState('bar')}
             {...valvHandlers}
           >
             <ChevronUp className="h-3 w-3 text-accent" strokeWidth={1.5} />
@@ -258,7 +195,7 @@ export function FyrenSmartWidgetBar() {
                   onClick={() => goTo(item.to)}
                 >
                   <span className="fyren-smart-bar__icon-tile">
-                    {renderHubIcon(item.icon, 'h-[1.15rem] w-[1.15rem] text-accent')}
+                    {renderHubContextIcon(item.icon, 'h-[1.15rem] w-[1.15rem] text-accent')}
                   </span>
                   <span className="fyren-smart-bar__icon-label">{item.label}</span>
                 </button>

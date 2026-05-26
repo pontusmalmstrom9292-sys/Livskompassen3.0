@@ -152,6 +152,7 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 
 - [x] **LifeHubPreset (Fas A)** — 4 presets i `src/modules/core/lifeOs/`, Hem-väljare, `materialFlags` per route
 - [x] **RoutineTemplate + ModuleLink (Fas B)** — `routineTemplates.ts`, `RoutinesPanel` på `/planering`, deep links
-- [ ] **MaterialPack (Fas C)** — kuraterat innehåll per hub via U6-banker (ingen fjärde RAG-silo)
-- [ ] **Projekt P1 + kopplingar (Fas D)** — Firestore `projects`, `projectId` på kanban, MaterialPack light
+- [x] **MaterialPack (Fas C)** — `materialPacks.ts`, `MaterialPackShortcuts` på Familjen/MåBra/Hamn
+- [x] **Projekt P1 (del)** — `projects`, `project_blocks`, `/projekt/:id`, `projectId` på kanban
+- [ ] **Projekt P2+ / Fas D** — regler, bild-uppladdning, widget-sheet, full MaterialPack-editor
 - [ ] Implementation: `kör kopplingar C` · `kör projekt P1` · se komihåg för fasering

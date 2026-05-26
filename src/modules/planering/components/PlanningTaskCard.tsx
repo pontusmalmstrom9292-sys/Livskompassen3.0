@@ -36,6 +36,7 @@ export function PlanningTaskCard({ task, onSelect }: Props) {
             <span>{SOURCE_LABELS[task.source] ?? task.source}</span>
             {task.dueAt && <span>{task.dueAt}</span>}
             {task.microStep && <span className="text-accent/80">Mikrosteg</span>}
+            {task.projectId && <span className="text-accent/80">Projekt</span>}
           </div>
         </div>
       </div>

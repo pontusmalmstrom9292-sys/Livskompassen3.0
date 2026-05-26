@@ -5,6 +5,8 @@ import { VAULT_PIN_STORAGE_KEY } from '../security/vaultPin';
 const VAULT_PIN_KEY = VAULT_PIN_STORAGE_KEY;
 const CHILDREN_PIN_KEY = 'livskompassen_children_pin_hash';
 const PASSKEY_ID_KEY = 'livskompassen_passkey_id';
+const APP_UNLOCK_PASSKEY_KEY = 'livskompassen_app_unlock_passkey_id';
+const APP_UNLOCK_ENABLED_KEY = 'livskompassen_app_unlock_enabled';
 
 export const KILL_SWITCH_EVENT = 'livskompassen:kill-switch';
 
@@ -18,5 +20,7 @@ export function executeKillSwitch(): void {
   localStorage.removeItem(VAULT_PIN_KEY);
   localStorage.removeItem(CHILDREN_PIN_KEY);
   localStorage.removeItem(PASSKEY_ID_KEY);
+  localStorage.removeItem(APP_UNLOCK_PASSKEY_KEY);
+  localStorage.removeItem(APP_UNLOCK_ENABLED_KEY);
   void invalidateServerSession();
 }

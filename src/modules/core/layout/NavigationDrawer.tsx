@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { X } from 'lucide-react';
+import { Lock, X } from 'lucide-react';
 import type { DrawerNavItem } from '../navigation/drawerNav';
 import { getVisibleDrawerTruth, type NavDrawerSection } from '../navigation/navTruth';
 import { LivskompassMark } from '../ui/LivskompassMark';
@@ -73,9 +73,12 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
     };
   }, [open, onClose]);
 
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
   useEffect(() => {
-    onClose();
-  }, [location.pathname, location.search, location.hash, onClose]);
+    onCloseRef.current();
+  }, [location.pathname, location.search, location.hash]);
 
   useEffect(() => {
     if (!open) return;
@@ -183,6 +186,20 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
             />
           </div>
         </nav>
+
+        <div className="nav-drawer__footer">
+          <button
+            type="button"
+            className="nav-drawer__account-btn"
+            onClick={() => {
+              onOpenSettings?.();
+              onClose();
+            }}
+          >
+            <Lock className="h-4 w-4" strokeWidth={1.5} aria-hidden />
+            Konto &amp; inloggning
+          </button>
+        </div>
       </aside>
     </>,
     document.body,

@@ -4,22 +4,16 @@ import { HomeHeroKanon } from '../home/HomeHeroKanon';
 import { HomeQuickModules } from '../home/HomeQuickModules';
 import { StampClockHomeSection } from '../../stampla';
 import { InkastLiteCard } from '../../inkast';
-import {
-  LifeHubPresetPicker,
-  materialEnabled,
-  useLifeHubPreset,
-} from '../lifeOs';
+import { materialEnabled, useLifeHubPreset } from '../lifeOs';
 import { useStore } from '../store';
 
 export function HomePage() {
   const [cardRefreshKey, setCardRefreshKey] = useState(0);
   const isAuthenticated = useStore((s) => s.isAuthenticated);
-  const { preset, presetId, setPresetId } = useLifeHubPreset();
+  const { preset, presetId } = useLifeHubPreset();
 
   return (
     <div className="home-page home-page--kanon home-page--scenic space-y-6">
-      <LifeHubPresetPicker activeId={presetId} onSelect={setPresetId} />
-
       {materialEnabled(preset, 'home_hero_checkin') && (
         <HomeHeroKanon onCheckInSaved={() => setCardRefreshKey((k) => k + 1)} />
       )}

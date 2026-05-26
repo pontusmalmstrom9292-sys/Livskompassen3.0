@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { KANBAN_COLUMNS } from '../constants';
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
 import type { PlanningTask, PlanningTaskStatus } from '../types';
@@ -6,15 +7,21 @@ import { PlanningKanbanColumn } from './PlanningKanbanColumn';
 import { PlanningTaskDetail } from './PlanningTaskDetail';
 
 export function PlanningKanbanBoard() {
+  const [searchParams] = useSearchParams();
+  const projectId = searchParams.get('projectId')?.trim() || undefined;
   const { user, tasks, loading, error, setError, addTask, moveTask, setMicroStep } =
     usePlanningTasks();
+  const visibleTasks = useMemo(
+    () => (projectId ? tasks.filter((t) => t.projectId === projectId) : tasks),
+    [tasks, projectId],
+  );
   const [selected, setSelected] = useState<PlanningTask | null>(null);
   const [quickTitle, setQuickTitle] = useState('');
   const [quickColumn, setQuickColumn] = useState<PlanningTaskStatus | null>(null);
   const [saving, setSaving] = useState(false);
 
   const tasksByStatus = (status: PlanningTaskStatus) =>
-    tasks.filter((t) => t.status === status);
+    visibleTasks.filter((t) => t.status === status);
 
   const openQuickAdd = (status: PlanningTaskStatus) => {
     setQuickColumn(status);
@@ -26,7 +33,7 @@ export function PlanningKanbanBoard() {
     setSaving(true);
     setError(null);
     try {
-      await addTask({ title: quickTitle.trim(), status: quickColumn });
+      await addTask({ title: quickTitle.trim(), status: quickColumn, projectId });
       setQuickColumn(null);
       setQuickTitle('');
     } catch (err) {
@@ -46,6 +53,18 @@ export function PlanningKanbanBoard() {
 
   return (
     <div className="space-y-4">
+      {projectId && (
+        <p className="rounded-xl border border-accent/25 bg-accent/5 px-3 py-2 text-xs text-text-muted">
+          Visar uppgifter för projekt.{' '}
+          <Link to={`/projekt/${projectId}`} className="text-accent">
+            Öppna projekt
+          </Link>
+          {' · '}
+          <Link to="/planering" className="text-accent">
+            Visa alla
+          </Link>
+        </p>
+      )}
       {error && <p className="text-sm text-danger">{error}</p>}
 
       <div className="-mx-1 flex gap-3 overflow-x-auto pb-2">

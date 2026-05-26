@@ -34,6 +34,7 @@ export function usePlanningTasks() {
     source?: PlanningTaskSource;
     dueAt?: string;
     summary?: string;
+    projectId?: string;
   }) => {
     if (!user) throw new Error('Inte inloggad');
     await createPlanningTask(user.uid, {
@@ -42,6 +43,7 @@ export function usePlanningTasks() {
       source: input.source ?? 'manual',
       dueAt: input.dueAt,
       summary: input.summary,
+      projectId: input.projectId,
     });
   };
 

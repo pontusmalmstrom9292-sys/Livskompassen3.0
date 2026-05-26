@@ -15,7 +15,8 @@
 | **Inkast Lite Fas 0–1** | **done** | `InkastLiteCard`, `submitInkastLite`, `functions/src/lib/submitInkastLite.ts` |
 | **Life Hub Fas A** | **done** | `src/modules/core/lifeOs/` — 4 presets, Hem-väljare, materialFlags |
 | **Rutiner Fas B** | **done** | `routineTemplates.ts`, `RoutinesPanel` på `/planering` |
-| **Projekt minimal** | **partial** | `/projekt/ny` + `ProjektNyPage` — Firestore `projects` / `projectId` på kanban **ej** |
+| **Projekt P1** | **done** | `projects`, `project_blocks`, `/projekt/:id`, `projectId` på kanban |
+| **MaterialPack Fas C** | **done** | `materialPacks.ts`, `MaterialPackShortcuts` |
 | **Fyren hub-kontextrad** | **done** | `hubContextBar.ts` + `FyrenSmartWidgetBar` (4 slots + Mer) |
 | **Fyren W1 rutnät 4×2** | **cancelled** | Life Hub + drawer räcker; se galleri nedan |
 | **Widget inspelning WH1** | **done** | `/widget/inspelning` → `tyst_inspelning` |
@@ -51,8 +52,7 @@
 |------|----------------|
 | Inkast Fas 2–5 | `kör inkast fas 2` |
 | MåBra Daglig Mix | `kör måbra daglig mix` |
-| Projekt P1 full | `kör projekt P1` |
-| Life OS Fas C | `kör kopplingar C` |
+| Projekt P2 (bild, regler, widget) | `kör projekt P2` |
 | Fyren polish (ej W1) | `kör fyren kontextrad finish` |
 | Header polish (rest) | `kör header utan blur` (endast om full plan) |
 | Merge | `godkänn merge` efter PMIR-granskning |

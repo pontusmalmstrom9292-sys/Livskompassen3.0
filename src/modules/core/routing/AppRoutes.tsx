@@ -12,7 +12,7 @@ import { FamiljenPage } from '../../barnens_livsloggar';
 import { DossierPage } from '../../dossier';
 import { MabraPage } from '../../mabra';
 import { PlaneringPage } from '../../planering';
-import { ProjektHubPage, ProjektNyPage } from '../../projekt';
+import { ProjektDetailPage, ProjektHubPage, ProjektNyPage } from '../../projekt';
 import { ArbetslivHubPage } from '../../arbetsliv';
 
 function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
@@ -123,6 +123,14 @@ function MainAppRoutes() {
           element={
             <AuthGate>
               <ProjektNyPage />
+            </AuthGate>
+          }
+        />
+        <Route
+          path="/projekt/:projectId"
+          element={
+            <AuthGate>
+              <ProjektDetailPage />
             </AuthGate>
           }
         />

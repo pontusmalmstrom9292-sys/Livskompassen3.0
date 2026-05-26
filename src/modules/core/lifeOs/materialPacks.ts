@@ -1,0 +1,94 @@
+/**
+ * MaterialPack (Fas C) — kuraterade genvägar per hub + preset. U6: inga nya FACT/RAG.
+ * Kanon: docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md
+ */
+
+import type { LifeHubPresetId } from './lifeHubPresets';
+import { materialEnabled, getLifeHubPreset, type LifeHubMaterialKey } from './lifeHubPresets';
+import type { ModuleLinkTarget } from './moduleLink';
+
+export type MaterialPackHub = 'familjen' | 'mabra' | 'hamn';
+
+export type MaterialShortcut = {
+  label: string;
+  target: ModuleLinkTarget;
+  /** Referens till bank (dokumentation — ingen auto-RAG). */
+  bankRef?: string;
+};
+
+type PackRow = {
+  presetIds: LifeHubPresetId[];
+  materialKey: LifeHubMaterialKey;
+  hub: MaterialPackHub;
+  shortcuts: MaterialShortcut[];
+};
+
+const PACK_ROWS: PackRow[] = [
+  {
+    presetIds: ['foralder_trygg'],
+    materialKey: 'familjen_hub_hint',
+    hub: 'familjen',
+    shortcuts: [
+      {
+        label: 'Barnfokus',
+        target: { module: 'familjen', tab: 'reflektion' },
+        bankRef: 'panel:barnfokus',
+      },
+      {
+        label: 'Planering',
+        target: { module: 'planering', tab: 'handling' },
+      },
+      {
+        label: 'Projekt',
+        target: { module: 'projekt' },
+      },
+    ],
+  },
+  {
+    presetIds: ['rehab_lag'],
+    materialKey: 'mabra_hub_hint',
+    hub: 'mabra',
+    shortcuts: [
+      {
+        label: 'Andning 4-7-8',
+        target: { module: 'mabra' },
+        bankRef: 'PLAY:G7',
+      },
+      {
+        label: 'Akut — låg stimulus',
+        target: { module: 'mabra', hub: 'panic_rsd' },
+        bankRef: 'REFLECTION:C-rsd-01',
+      },
+      {
+        label: 'Dagbok',
+        target: { module: 'dagbok', from: 'mabra', energy: 'low' },
+      },
+    ],
+  },
+  {
+    presetIds: ['foralder_trygg'],
+    materialKey: 'hamn_hub_hint',
+    hub: 'hamn',
+    shortcuts: [
+      {
+        label: 'BIFF / Grey Rock',
+        target: { module: 'hamn', tab: 'biff' },
+      },
+      {
+        label: 'Speglar',
+        target: { module: 'dagbok', tab: 'speglar' },
+      },
+    ],
+  },
+];
+
+export function getMaterialShortcuts(
+  presetId: LifeHubPresetId,
+  hub: MaterialPackHub,
+): MaterialShortcut[] {
+  const preset = getLifeHubPreset(presetId);
+  const row = PACK_ROWS.find(
+    (r) => r.hub === hub && r.presetIds.includes(presetId) && materialEnabled(preset, r.materialKey),
+  );
+  return row?.shortcuts ?? [];
+}

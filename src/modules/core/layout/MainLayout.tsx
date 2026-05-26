@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FloatingDock } from './FloatingDock';
 import { FyrenSmartWidgetBar } from '../components/FyrenSmartWidgetBar';
 import { AppHeaderBar } from '../components/AppHeaderBar';
@@ -16,6 +16,9 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!user) setDrawerOpen(false);
   }, [user]);
+
+  const closeDrawer = useCallback(() => setDrawerOpen(false), []);
+  const openAccount = useCallback(() => setAccountOpen(true), []);
 
   return (
     <div className="app-shell relative min-h-screen text-text font-sans selection:bg-accent/30">
@@ -36,7 +39,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                 <KompisAvatar
                   size="sm"
                   state={kompisAuraActive ? 'analyzing' : 'idle'}
-                  className="shrink-0"
+                  className="pointer-events-none shrink-0"
                 />
               </>
             }
@@ -46,8 +49,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
       <NavigationDrawer
         open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        onOpenSettings={() => setAccountOpen(true)}
+        onClose={closeDrawer}
+        onOpenSettings={openAccount}
       />
 
       <main className="relative z-10 mx-auto max-w-2xl px-4 pb-24 pt-[5.75rem]">

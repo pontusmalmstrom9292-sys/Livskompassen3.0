@@ -6,7 +6,7 @@ import { KompassradPanel } from '../../kompasser/components/KompassradPanel';
 import { CognitiveLoadStrip } from '../../core/ui/CognitiveLoadStrip';
 import { BiffPublicPanel } from './BiffPublicPanel';
 import { vaultDrawerPath } from '../../core/navigation/navTruth';
-import { LifeHubHubHint, useLifeHubPreset } from '../../core/lifeOs';
+import { MaterialPackShortcuts, useLifeHubPreset } from '../../core/lifeOs';
 
 type HamnTab = 'oversikt' | 'biff' | 'speglar' | 'barn';
 
@@ -43,7 +43,7 @@ export function TryggHamnHub({ initialMessage = '', initialTab = null }: Props) 
 
   return (
     <div className="space-y-4">
-      <LifeHubHubHint preset={preset} hub="hamn" />
+      <MaterialPackShortcuts preset={preset} hub="hamn" />
       <TabBar<HamnTab> tabs={TABS} active={tab} onChange={setTab} />
 
       {tab === 'oversikt' && (

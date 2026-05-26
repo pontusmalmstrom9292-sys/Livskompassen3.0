@@ -2,6 +2,8 @@ import { useEffect, type ReactNode } from 'react';
 import { getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 import { app } from '../firebase/init';
 import { useStore } from '../store';
+import { consumeSkipAnonymousOnce } from './googleAuthProvider';
+import { isEmailAuthRequired } from './requireEmailAuth';
 
 const auth = getAuth(app);
 
@@ -19,7 +21,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           email: firebaseUser.email ?? undefined,
           isAnonymous: firebaseUser.isAnonymous,
         });
-      } else {
+      } else if (!isEmailAuthRequired()) {
+        if (consumeSkipAnonymousOnce()) {
+          resetState();
+          setLoading(false);
+          return;
+        }
         try {
           const cred = await signInAnonymously(auth);
           setUser({
@@ -29,6 +36,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         } catch {
           resetState();
         }
+      } else {
+        resetState();
       }
       setLoading(false);
     });

@@ -1,8 +1,14 @@
 import { useState } from 'react';
 import { Loader2, Lock, Mail } from 'lucide-react';
-import { FirebaseError } from 'firebase/app';
 import { BentoCard } from '../ui/BentoCard';
-import { linkOrCreateEmailAccount, mapAuthError, signInWithEmail } from './authService';
+import { FirebaseError } from 'firebase/app';
+import {
+  linkOrCreateEmailAccount,
+  mapAuthError,
+  signInWithEmail,
+  signInWithGoogle,
+} from './authService';
+import { getExpectedLoginEmail } from './googleAuthProvider';
 
 type Mode = 'create' | 'signin';
 
@@ -14,12 +20,30 @@ type Props = {
 
 export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSuccess }: Props) {
   const [mode, setMode] = useState<Mode>(defaultMode);
-  const [email, setEmail] = useState('');
+  const loginHint = getExpectedLoginEmail();
+  const [email, setEmail] = useState(() => loginHint ?? '');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+
+  const handleGoogle = async () => {
+    setError(null);
+    setSuccess(null);
+    setGoogleLoading(true);
+    try {
+      await signInWithGoogle({ linkAnonymous: mode === 'create' });
+      setSuccess('Inloggad med Google.');
+      onSuccess?.();
+    } catch (err) {
+      const code = err instanceof FirebaseError ? err.code : '';
+      setError(mapAuthError(code));
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,6 +102,23 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
             : 'Loggar du in på samma konto som tidigare följer Kunskapen med. Annat konto = annan data.'}
         </p>
       )}
+
+      <button
+        type="button"
+        disabled={loading || googleLoading}
+        onClick={() => void handleGoogle()}
+        className="btn-pill--ghost mb-4 flex w-full items-center justify-center gap-2 border border-border"
+      >
+        {googleLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+        Fortsätt med Google
+      </button>
+      {loginHint && mode === 'signin' && (
+        <p className="mb-3 text-center text-xs text-text-dim">
+          Välj <span className="text-text-muted">{loginHint}</span> i Google-fönstret.
+        </p>
+      )}
+
+      <p className="mb-3 text-center text-xs text-text-dim">eller med e-post</p>
 
       <div className="mb-4 flex gap-2">
         <button

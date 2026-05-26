@@ -98,6 +98,42 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    match /projects/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.title.size() <= 200
+        && request.resource.data.status in ['active', 'paused', 'archived'];
+      allow update: if isOwner()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.title.size() <= 200
+        && request.resource.data.status in ['active', 'paused', 'archived'];
+      allow delete: if false;
+    }
+
+    match /project_blocks/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.projectId is string
+        && request.resource.data.projectId.size() > 0
+        && request.resource.data.type in ['list', 'note', 'image', 'task']
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.title.size() <= 200
+        && request.resource.data.order is int;
+      allow update: if isOwner()
+        && request.resource.data.projectId == resource.data.projectId
+        && request.resource.data.type == resource.data.type
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.title.size() <= 200;
+      allow delete: if false;
+    }
+
     match /planning_tasks/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreate()

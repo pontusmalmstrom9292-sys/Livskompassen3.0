@@ -1,5 +1,5 @@
 import { CompassHubOrb } from './CompassHubOrb';
-import { DockClassicTriad } from './DockClassicTriad';
+import { DockHubBand } from './DockHubBand';
 
 /** Orbit-modulhub: sätt `VITE_DOCK_ORBIT=true` i .env */
 const useOrbitDock = import.meta.env.VITE_DOCK_ORBIT === 'true';
@@ -16,7 +16,7 @@ export function FloatingDock() {
             <CompassHubOrb />
           </div>
         ) : (
-          <DockClassicTriad />
+          <DockHubBand />
         )}
       </nav>
     </div>

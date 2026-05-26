@@ -10,7 +10,7 @@ import { FamiljenTillsammansTab } from './familjen/FamiljenTillsammansTab';
 import { HubPageShell } from '../../core/layout/HubPageShell';
 import { ParentReminderFooter } from './ParentReminderFooter';
 import { vaultDrawerPath } from '../../core/navigation/navTruth';
-import { LifeHubHubHint, useLifeHubPreset } from '../../core/lifeOs';
+import { MaterialPackShortcuts, useLifeHubPreset } from '../../core/lifeOs';
 
 function vaultRedirectSearch(vaultTab: string): string {
   const vaultPath = vaultDrawerPath(vaultTab);
@@ -63,7 +63,7 @@ export function FamiljenPage() {
         title="Små steg. Stora minnen. Tillsammans."
         footerSlot={activeTab === 'reflektion' ? <ParentReminderFooter /> : undefined}
       >
-        <LifeHubHubHint preset={preset} hub="familjen" />
+        <MaterialPackShortcuts preset={preset} hub="familjen" />
 
         <div className="familjen-hub__tabs relative">
           <TabBar

@@ -1,12 +1,16 @@
 import {
   EmailAuthProvider,
   linkWithCredential,
+  linkWithPopup,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
   type User,
 } from 'firebase/auth';
 import { auth } from './AuthProvider';
+import { clearAppUnlockSession } from './appUnlockPrefs';
+import { createGoogleProvider, markSkipAnonymousOnce } from './googleAuthProvider';
 
 export function mapAuthError(code: string): string {
   switch (code) {
@@ -24,6 +28,12 @@ export function mapAuthError(code: string): string {
       return 'För många försök. Vänta en stund och försök igen.';
     case 'auth/credential-already-in-use':
       return 'E-postadressen är kopplad till ett annat konto.';
+    case 'auth/popup-closed-by-user':
+      return 'Inloggningen avbröts.';
+    case 'auth/popup-blocked':
+      return 'Popup blockerades. Tillåt popups för den här sidan och försök igen.';
+    case 'auth/account-exists-with-different-credential':
+      return 'E-posten finns redan med annan inloggning. Prova Logga in med e-post.';
     default:
       return 'Inloggning misslyckades. Försök igen.';
   }
@@ -49,6 +59,37 @@ export async function signInWithEmail(email: string, password: string): Promise<
   return result.user;
 }
 
+export type SignInWithGoogleOptions = {
+  /**
+   * true = koppla Google till nuvarande anonym uid (Skapa konto).
+   * false = logga in på befintligt Firebase-konto (välj rätt Google i popup).
+   */
+  linkAnonymous?: boolean;
+};
+
+/** Google — vid Logga in: befintligt konto. Vid Skapa konto: koppla anonym uid. */
+export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): Promise<User> {
+  const provider = createGoogleProvider();
+  const current = auth.currentUser;
+  const linkAnonymous = options.linkAnonymous ?? false;
+
+  if (current?.isAnonymous && linkAnonymous) {
+    const result = await linkWithPopup(current, provider);
+    return result.user;
+  }
+
+  if (current) {
+    markSkipAnonymousOnce();
+    await signOut(auth);
+  } else {
+    markSkipAnonymousOnce();
+  }
+
+  const result = await signInWithPopup(auth, provider);
+  return result.user;
+}
+
 export async function signOutUser(): Promise<void> {
+  clearAppUnlockSession();
   await signOut(auth);
 }
