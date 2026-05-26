@@ -37,6 +37,9 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 | [`GCP-KONSOLIDERING-BESLUT.md`](GCP-KONSOLIDERING-BESLUT.md) | GCP-beslut och avveckling |
 | [`GCP-FAS4-RUNBOOK.md`](GCP-FAS4-RUNBOOK.md) | FAS4 steg-för-steg |
 | [`DEPLOY.md`](DEPLOY.md) | Deploy hosting + functions |
+| [`FIREBASE-AUTH-LATHUND.md`](FIREBASE-AUTH-LATHUND.md) | **1 sida** — Authorized domains, Google, Android-nuläge |
+| [`OFFLINE-ANDROID.md`](OFFLINE-ANDROID.md) | Firestore offline cache, nät-chip, WORM-notering |
+| [`prompts/OFFLINE-ANDROID-AGENT-PROMPT.md`](prompts/OFFLINE-ANDROID-AGENT-PROMPT.md) | **Klistra in** i ny chatt för uppföljning |
 | [`FIREBASE_SYNC.md`](FIREBASE_SYNC.md) | Firebase-projekt, rules, indexes |
 | [`DRIVE_AUTOMATION.md`](DRIVE_AUTOMATION.md) | Apps Script → `notifyNewFile` |
 | [`SMOKE_CHECKLIST.md`](SMOKE_CHECKLIST.md) | Manuell verifiering (Sacred Features) |

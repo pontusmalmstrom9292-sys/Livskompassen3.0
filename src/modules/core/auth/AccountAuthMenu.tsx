@@ -69,7 +69,15 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
             {!user || user.isAnonymous ? (
               <EmailAuthPanel
                 compact
-                defaultMode={user ? 'create' : 'signin'}
+                defaultMode={
+                  !user
+                    ? 'signin'
+                    : user.isAnonymous && getExpectedLoginEmail()
+                      ? 'signin'
+                      : user.isAnonymous
+                        ? 'create'
+                        : 'signin'
+                }
                 onSuccess={() => setOpen(false)}
               />
             ) : (

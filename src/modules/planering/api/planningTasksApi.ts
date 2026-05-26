@@ -11,6 +11,7 @@ import {
   type Unsubscribe,
 } from 'firebase/firestore';
 import { db } from '../../core/firebase/firestore';
+import { assertOfflineWriteAllowed } from '../../core/firebase/offlineWritePolicy';
 import { FIRESTORE_COLLECTIONS } from '../../core/types/firestore';
 import type { PlanningTask, PlanningTaskSource, PlanningTaskStatus } from '../types';
 
@@ -78,6 +79,7 @@ export async function createPlanningTask(
     projectId?: string;
   },
 ): Promise<string> {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.planning_tasks);
   const ref = collection(db, FIRESTORE_COLLECTIONS.planning_tasks);
   const docRef = await addDoc(ref, {
     userId,
@@ -99,6 +101,7 @@ export async function updatePlanningTask(
   taskId: string,
   patch: { status?: PlanningTaskStatus; microStep?: string; dueAt?: string; summary?: string },
 ): Promise<void> {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.planning_tasks);
   const ref = doc(db, FIRESTORE_COLLECTIONS.planning_tasks, taskId);
   const payload: Record<string, string | undefined> = {};
   if (patch.status) payload.status = patch.status;

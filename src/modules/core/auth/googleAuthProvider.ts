@@ -34,3 +34,15 @@ export function consumeSkipAnonymousOnce(): boolean {
     return false;
   }
 }
+
+/** Popup-flödet kraschar ofta i mobilwebbläsare — använd redirect. */
+export function shouldUseGoogleRedirect(): boolean {
+  if (typeof navigator === 'undefined') return false;
+  if (import.meta.env.VITE_GOOGLE_SIGNIN_REDIRECT === 'true') return true;
+  const coarse =
+    typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches === true;
+  const mobileUa = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(
+    navigator.userAgent,
+  );
+  return coarse || mobileUa;
+}

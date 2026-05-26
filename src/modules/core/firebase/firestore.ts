@@ -4,6 +4,9 @@ import {
   doc,
   getDoc,
   getFirestore,
+  initializeFirestore,
+  persistentLocalCache,
+  persistentSingleTabManager,
   query,
   serverTimestamp,
   setDoc,
@@ -13,10 +16,28 @@ import {
   onSnapshot,
 } from 'firebase/firestore';
 import { app } from './init';
+import { assertOfflineWriteAllowed } from './offlineWritePolicy';
 import type { CheckIn, VaultLog, KampsparEntryRow } from '../types/firestore';
 import { FIRESTORE_COLLECTIONS } from '../types/firestore';
 
-export const db = getFirestore(app);
+/** IndexedDB persistence via Firebase v12 local cache (ersätter enableIndexedDbPersistence). */
+function initFirestoreDb() {
+  try {
+    return initializeFirestore(app, {
+      localCache: persistentLocalCache({
+        tabManager: persistentSingleTabManager({}),
+      }),
+    });
+  } catch (err) {
+    /* HMR / redan initierad / multitab — återanvänd befintlig instans */
+    if (import.meta.env.DEV) {
+      console.debug('[firestore] persistence init skipped, using existing instance', err);
+    }
+    return getFirestore(app);
+  }
+}
+
+export const db = initFirestoreDb();
 
 type FirestorePayload = Record<string, unknown>;
 
@@ -52,6 +73,7 @@ function sortByCreatedAtDesc<T extends { createdAt?: string }>(rows: T[]): T[] {
 }
 
 export async function saveCheckIn(userId: string, checkIn: Omit<CheckIn, 'userId' | 'createdAt'>) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.checkins);
   const ref = collection(db, FIRESTORE_COLLECTIONS.checkins);
   const docRef = await addDoc(ref, withUserId(userId, { ...checkIn }));
   return docRef.id;
@@ -85,6 +107,7 @@ export async function saveJournalEntry(
   userId: string,
   entry: { mood: string; text: string }
 ) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.journal);
   const ref = collection(db, 'journal');
   const docRef = await addDoc(ref, withUserId(userId, entry));
   return docRef.id;
@@ -94,6 +117,7 @@ export async function saveVaultLog(
   userId: string,
   log: Omit<VaultLog, 'userId' | 'createdAt'>
 ) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.reality_vault);
   const payload = { ...log, isLocked: true } as FirestorePayload;
   assertWormPayload(payload, 'reality_vault');
   const ref = collection(db, FIRESTORE_COLLECTIONS.reality_vault);
@@ -112,6 +136,7 @@ export async function saveChildrenLog(
     signals?: { somn: number; angest: number; aptit: number };
   }
 ) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.children_logs);
   const action = log.action ?? 'livslogg';
   const payload: FirestorePayload = {
     childAlias: log.childAlias,
@@ -142,6 +167,7 @@ export async function saveMabraSession(
     hubSymptom?: string;
   }
 ) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.mabra_sessions);
   const ref = collection(db, FIRESTORE_COLLECTIONS.mabra_sessions);
   const payload: FirestorePayload = {
     exerciseType: session.exerciseType,
@@ -167,6 +193,7 @@ export async function getMabraProgress(userId: string): Promise<{ coreValues: st
 }
 
 export async function saveMabraProgress(userId: string, coreValues: string[]) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.mabra_progress);
   const ref = doc(db, FIRESTORE_COLLECTIONS.mabra_progress, userId);
   await setDoc(
     ref,
@@ -263,6 +290,7 @@ export async function saveEconomyTransaction(
   userId: string,
   tx: { label: string; amountSek: number; category: 'veckopeng' | 'matlada' | 'vinst' | 'ovrigt' },
 ) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.transactions);
   const payload: FirestorePayload = {
     label: tx.label,
     amountSek: tx.amountSek,
@@ -306,6 +334,7 @@ export async function setEconomyProfile(
   userId: string,
   profile: { weeklyBudgetSek: number; mealBoxPresetSek: number },
 ) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_profiles);
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
   await setDoc(
     ref,

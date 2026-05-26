@@ -34,9 +34,13 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
     setSuccess(null);
     setGoogleLoading(true);
     try {
-      await signInWithGoogle({ linkAnonymous: mode === 'create' });
-      setSuccess('Inloggad med Google.');
-      onSuccess?.();
+      const googleUser = await signInWithGoogle({ linkAnonymous: mode === 'create' });
+      if (googleUser) {
+        setSuccess('Inloggad med Google.');
+        onSuccess?.();
+      } else {
+        setSuccess('Öppnar Google… (kom tillbaka hit efter inloggning)');
+      }
     } catch (err) {
       const code = err instanceof FirebaseError ? err.code : '';
       setError(mapAuthError(code));

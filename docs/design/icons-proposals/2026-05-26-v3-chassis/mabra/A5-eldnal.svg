@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+  <title>A 5 — Eldnål</title>
+  <defs>
+    <radialGradient id="dv3mabraeldnal4" cx="50%" cy="38%" r="68%">
+      <stop offset="0%" stop-color="#3d3420"/>
+      <stop offset="48%" stop-color="#141210"/>
+      <stop offset="100%" stop-color="#080808"/>
+    </radialGradient>
+    <linearGradient id="gv3mabraeldnal4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5e6b8"/>
+      <stop offset="45%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#6b5212"/>
+    </linearGradient>
+    <linearGradient id="fv3mabraeldnal4" x1="24" y1="4" x2="30" y2="20">
+      <stop offset="0%" stop-color="#fff8e0"/>
+      <stop offset="55%" stop-color="#ffb74d"/>
+      <stop offset="100%" stop-color="#c97808"/>
+    </linearGradient>
+    <filter id="glv3mabraeldnal4" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="1.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter></defs>
+  
+  <circle cx="24" cy="24" r="22" fill="url(#dv3mabraeldnal4)" stroke="url(#gv3mabraeldnal4)" stroke-width="1.15" stroke-opacity="0.72"/>
+  <circle cx="24" cy="24" r="20.5" stroke="url(#gv3mabraeldnal4)" stroke-opacity="0.08" stroke-width="0.35" fill="none"/>
+  <g stroke="url(#gv3mabraeldnal4)" stroke-opacity="0.09" stroke-width="0.32">
+    <line x1="24" y1="6.5" x2="24" y2="8.8" transform="rotate(0 24 24)"/><line x1="24" y1="6.5" x2="24" y2="8.8" transform="rotate(22.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="8.8" transform="rotate(45 24 24)"/><line x1="24" y1="6.5" x2="24" y2="8.8" transform="rotate(67.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="8.8" transform="rotate(90 24 24)"/><line x1="24" y1="6.5" x2="24" y2="8.8" transform="rotate(112.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="8.8" transform="rotate(135 24 24)"/><line x1="24" y1="6.5" x2="24" y2="8.8" transform="rotate(157.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="8.8" transform="rotate(180 24 24)"/><line x1="24" y1="6.5" x2="24" y2="8.8" transform="rotate(202.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="8.8" transform="rotate(225 24 24)"/><line x1="24" y1="6.5" x2="24" y2="8.8" transform="rotate(247.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="8.8" transform="rotate(270 24 24)"/><line x1="24" y1="6.5" x2="24" y2="8.8" transform="rotate(292.5 24 24)"/><line x1="24" y1="6.5" x2="24" y2="8.8" transform="rotate(315 24 24)"/><line x1="24" y1="6.5" x2="24" y2="8.8" transform="rotate(337.5 24 24)"/>
+  </g>
+  
+  <path d="M24 5 L27 20 L24 23 L21 20 Z" fill="url(#fv3mabraeldnal4)" filter="url(#glv3mabraeldnal4)"/>
+  <path d="M24 43 L21 28 L24 25 L27 28 Z" fill="url(#gv3mabraeldnal4)" fill-opacity="0.25"/>
+  <circle cx="31" cy="14" r="2" fill="#fff8e0" opacity="0.9" filter="url(#glv3mabraeldnal4)"/>
+  <circle cx="24" cy="24" r="16" stroke="url(#gv3mabraeldnal4)" stroke-opacity="0.12" stroke-width="0.35" fill="none"/>
+  
+  <path d="M24 30 Q18 22 20 16 Q22 12 24 14 Q26 12 28 16 Q30 22 24 30" stroke="url(#gv3mabraeldnal4)" stroke-width="0.85" fill="url(#gv3mabraeldnal4)" fill-opacity="0.18"/>
+  <path d="M24 14 L24 10 M20 16 L17 14 M28 16 L31 14" stroke="url(#gv3mabraeldnal4)" stroke-width="0.45" stroke-linecap="round"/>
+  <circle cx="24" cy="26" r="1.8" fill="url(#fv3mabraeldnal4)" opacity="0.9"/>
+  
+  <circle cx="24" cy="24" r="2.8" fill="url(#gv3mabraeldnal4)" stroke="#0a0a0a" stroke-width="0.45"/>
+</svg>

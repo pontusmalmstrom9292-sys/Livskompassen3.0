@@ -11,6 +11,7 @@ import {
   type Unsubscribe,
 } from 'firebase/firestore';
 import { db } from '../../core/firebase/firestore';
+import { assertOfflineWriteAllowed } from '../../core/firebase/offlineWritePolicy';
 import { FIRESTORE_COLLECTIONS } from '../../core/types/firestore';
 import type { Project, ProjectBlockType, ProjectStatus } from '../types';
 
@@ -65,6 +66,7 @@ export async function createProject(
   userId: string,
   input: { title: string; primaryBlockType?: ProjectBlockType },
 ): Promise<string> {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.projects);
   const ref = collection(db, FIRESTORE_COLLECTIONS.projects);
   const docRef = await addDoc(ref, {
     userId,
@@ -79,6 +81,7 @@ export async function createProject(
 }
 
 export async function updateProjectTitle(_userId: string, projectId: string, title: string): Promise<void> {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.projects);
   const ref = doc(db, FIRESTORE_COLLECTIONS.projects, projectId);
   await updateDoc(ref, {
     title: title.trim(),

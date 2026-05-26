@@ -6,6 +6,7 @@ import { AmbientBackground } from './AmbientBackground';
 import { KompisAvatar } from '../../kompis/components/KompisAvatar';
 import { AccountAuthMenu } from '../auth/AccountAuthMenu';
 import { NavigationDrawer } from './NavigationDrawer';
+import { FirestoreNetworkChip } from '../components/FirestoreNetworkChip';
 import { useStore } from '../store';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
@@ -52,6 +53,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         onClose={closeDrawer}
         onOpenSettings={openAccount}
       />
+
+      <FirestoreNetworkChip />
 
       <main className="relative z-10 mx-auto max-w-2xl px-4 pb-24 pt-[5.75rem]">
         {children}

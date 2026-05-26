@@ -2,15 +2,21 @@ import {
   EmailAuthProvider,
   linkWithCredential,
   linkWithPopup,
+  linkWithRedirect,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signInWithRedirect,
   signOut,
   type User,
 } from 'firebase/auth';
 import { auth } from './AuthProvider';
 import { clearAppUnlockSession } from './appUnlockPrefs';
-import { createGoogleProvider, markSkipAnonymousOnce } from './googleAuthProvider';
+import {
+  createGoogleProvider,
+  markSkipAnonymousOnce,
+  shouldUseGoogleRedirect,
+} from './googleAuthProvider';
 
 export function mapAuthError(code: string): string {
   switch (code) {
@@ -34,6 +40,10 @@ export function mapAuthError(code: string): string {
       return 'Popup blockerades. Tillåt popups för den här sidan och försök igen.';
     case 'auth/account-exists-with-different-credential':
       return 'E-posten finns redan med annan inloggning. Prova Logga in med e-post.';
+    case 'auth/unauthorized-domain':
+      return 'Domänen är inte godkänd i Firebase. Lägg till denna URL under Authentication → Settings → Authorized domains.';
+    case 'auth/operation-not-supported-in-this-environment':
+      return 'Inloggning stöds inte i den här webbläsaren. Prova Chrome/Safari eller dator.';
     default:
       return 'Inloggning misslyckades. Försök igen.';
   }
@@ -67,13 +77,21 @@ export type SignInWithGoogleOptions = {
   linkAnonymous?: boolean;
 };
 
-/** Google — vid Logga in: befintligt konto. Vid Skapa konto: koppla anonym uid. */
-export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): Promise<User> {
+/**
+ * Google — vid Logga in: befintligt konto. Vid Skapa konto: koppla anonym uid.
+ * Returnerar `null` när redirect startats (sidan lämnar appen — vänta på återkomst).
+ */
+export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): Promise<User | null> {
   const provider = createGoogleProvider();
   const current = auth.currentUser;
   const linkAnonymous = options.linkAnonymous ?? false;
+  const useRedirect = shouldUseGoogleRedirect();
 
   if (current?.isAnonymous && linkAnonymous) {
+    if (useRedirect) {
+      await linkWithRedirect(current, provider);
+      return null;
+    }
     const result = await linkWithPopup(current, provider);
     return result.user;
   }
@@ -83,6 +101,11 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
     await signOut(auth);
   } else {
     markSkipAnonymousOnce();
+  }
+
+  if (useRedirect) {
+    await signInWithRedirect(auth, provider);
+    return null;
   }
 
   const result = await signInWithPopup(auth, provider);

@@ -1,5 +1,5 @@
 import { useEffect, type ReactNode } from 'react';
-import { getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
+import { getAuth, getRedirectResult, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 import { app } from '../firebase/init';
 import { useStore } from '../store';
 import { consumeSkipAnonymousOnce } from './googleAuthProvider';
@@ -14,34 +14,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setLoading(true);
-    const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        setUser({
-          uid: firebaseUser.uid,
-          email: firebaseUser.email ?? undefined,
-          isAnonymous: firebaseUser.isAnonymous,
-        });
-      } else if (!isEmailAuthRequired()) {
-        if (consumeSkipAnonymousOnce()) {
-          resetState();
-          setLoading(false);
-          return;
-        }
-        try {
-          const cred = await signInAnonymously(auth);
+    let unsub: (() => void) | undefined;
+
+    void getRedirectResult(auth)
+      .then((cred) => {
+        if (cred?.user) {
           setUser({
             uid: cred.user.uid,
-            isAnonymous: true,
+            email: cred.user.email ?? undefined,
+            isAnonymous: cred.user.isAnonymous,
           });
-        } catch {
-          resetState();
         }
-      } else {
-        resetState();
-      }
-      setLoading(false);
-    });
-    return unsub;
+      })
+      .catch(() => {
+        /* ogiltig redirect-state — ignorera */
+      })
+      .finally(() => {
+        unsub = onAuthStateChanged(auth, async (firebaseUser) => {
+          if (firebaseUser) {
+            setUser({
+              uid: firebaseUser.uid,
+              email: firebaseUser.email ?? undefined,
+              isAnonymous: firebaseUser.isAnonymous,
+            });
+          } else if (!isEmailAuthRequired()) {
+            if (consumeSkipAnonymousOnce()) {
+              resetState();
+              setLoading(false);
+              return;
+            }
+            try {
+              const cred = await signInAnonymously(auth);
+              setUser({
+                uid: cred.user.uid,
+                isAnonymous: true,
+              });
+            } catch {
+              resetState();
+            }
+          } else {
+            resetState();
+          }
+          setLoading(false);
+        });
+      });
+
+    return () => {
+      unsub?.();
+    };
   }, [setUser, setLoading, resetState]);
 
   return <>{children}</>;

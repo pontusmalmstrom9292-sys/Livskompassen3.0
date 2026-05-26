@@ -7,9 +7,10 @@ Region (Functions): `europe-west1`
 
 ## Förutsättningar
 
-1. `.env` i projektroten med alla `VITE_FIREBASE_*` från [Firebase Console → Project settings](https://console.firebase.google.com/project/gen-lang-client-0481875058/settings/general).
-2. Firebase CLI inloggad: `firebase login` och `firebase use gen-lang-client-0481875058`.
-3. **Authentication → Anonymous** aktiverad i Firebase Console.
+1. **Auth-domäner + Google:** [`FIREBASE-AUTH-LATHUND.md`](./FIREBASE-AUTH-LATHUND.md) (Console-steg du gör själv).
+2. `.env` i projektroten med alla `VITE_FIREBASE_*` från [Firebase Console → Project settings](https://console.firebase.google.com/project/gen-lang-client-0481875058/settings/general).
+3. Firebase CLI inloggad: `firebase login` och `firebase use gen-lang-client-0481875058`.
+4. **Authentication → Anonymous** aktiverad i Firebase Console.
 
 ## Bygg (lokalt)
 
