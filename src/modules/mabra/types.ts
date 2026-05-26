@@ -1,6 +1,6 @@
 export type MabraSymptomHub = 'panic_rsd' | 'self_critical' | 'find_self';
 
-export type MabraExerciseType = 'breathing' | 'grounding' | 'reframing';
+export type MabraExerciseType = 'breathing' | 'grounding' | 'reframing' | 'daglig_mix';
 
 export type MabraDurationMinutes = 1 | 3 | 5;
 

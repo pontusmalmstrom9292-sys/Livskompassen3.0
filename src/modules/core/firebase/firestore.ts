@@ -162,9 +162,12 @@ export async function saveChildrenLog(
 export async function saveMabraSession(
   userId: string,
   session: {
-    exerciseType: 'breathing' | 'grounding' | 'reframing';
+    exerciseType: 'breathing' | 'grounding' | 'reframing' | 'daglig_mix';
     durationSeconds: number;
     hubSymptom?: string;
+    cardBankId?: string;
+    playBankId?: string;
+    mixDateKey?: string;
   }
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.mabra_sessions);
@@ -175,6 +178,15 @@ export async function saveMabraSession(
   };
   if (session.hubSymptom) {
     payload.hubSymptom = session.hubSymptom;
+  }
+  if (session.cardBankId) {
+    payload.cardBankId = session.cardBankId;
+  }
+  if (session.playBankId) {
+    payload.playBankId = session.playBankId;
+  }
+  if (session.mixDateKey) {
+    payload.mixDateKey = session.mixDateKey;
   }
   assertWormPayload(payload, 'mabra_sessions');
   const docRef = await addDoc(ref, withUserId(userId, payload));
