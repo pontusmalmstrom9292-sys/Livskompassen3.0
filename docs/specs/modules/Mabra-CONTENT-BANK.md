@@ -1,6 +1,6 @@
 # MåBra — Content Bank (kuraterad)
 
-**Datum:** 2026-05-25 (senast kuraterat: 2026-05-25, pass `self_esteem`)  
+**Datum:** 2026-05-27 (senast kuraterat: 2026-05-27, pass `values_rsd_recovery`)  
 **Kurator:** `.cursor/agents/specialist-mabra-curator.md`  
 **Syfte:** Godkänd grund för frågekort, milda quiz och utvecklingslekar — **inte** medicinsk rådgivning.
 
@@ -201,6 +201,46 @@ Kurator-pass 2026-05-25 · linser: **identitet** (5) + **KBT light** (5). Ej dup
 **MUST NOT:** streak, XP, “missad dag”, Kunskap-RAG (`knowledgeVaultQuery`), veckoutmaning.
 
 **Beteende:** Deterministisk daglig nyckel (`YYYY-MM-DD` + valfritt `uid`) — samma kort+spel hela dagen; ny mix vid midnatt lokal tid. Valfri rad i `mabra_sessions` med `exerciseType: daglig_mix` (WORM metadata, ingen gamification).
+
+---
+
+## 2026-05-27 curator batch
+
+**Kurator:** `specialist-mabra-curator` · **Teman:** värden (ACT), RSD-säkert, låg energi, landning efter inre uppvaknande (ej ex/konflikt med andra). **Ej duplicerar:** `DM-*`, `C-*`, `G*` — separat pool för Vit hub / framtida rotation utöver Daglig mix.
+
+### REFLECTION (`MB-REF-*`)
+
+| bankId | content_class | source_tier | status | lens | hub | text_sv | why |
+|--------|---------------|-------------|--------|------|-----|---------|-----|
+| MB-REF-01 | REFLECTION | product_copy | KEEP | act | who_am_i | Vilket värde är **lättast att bära** idag — inte det svåraste, bara det som finns nära? | ACT utan prestation; ett steg |
+| MB-REF-02 | REFLECTION | product_copy | KEEP | act | who_am_i | En handling under fem minuter som stämmer med ett värde du redan valt — vad skulle den vara? | Committed action, kravlöst tak |
+| MB-REF-03 | REFLECTION | psychoeducation_general | KEEP | rsd | panic_rsd | Om kroppen fortfarande reagerar på en upplevelse av “nej” — vilken **behovssignal** kan den bära, utan att du måste agera? | RSD utan skam eller analys av andras avsikt |
+| MB-REF-04 | REFLECTION | psychoeducation_general | KEEP | rsd | panic_rsd | Tre neutrala fakta om **din** upplevelse just nu — inga domar om dig eller någon annan. | RSD-Kylaren-ljus: fakta vs tolkning, inåtvänd |
+| MB-REF-05 | REFLECTION | product_copy | KEEP | vagus | find_self | Vad är det **minsta** som räknas som “nog” idag — ett andetag, en paus, en rad? | Låg energi; motverkar allt-eller-inget |
+| MB-REF-06 | REFLECTION | psychoeducation_general | KEEP | vagus | find_self | Efter att pulsen legat högt — var i kroppen känns det **lugnast** just nu, även lite? | Landning efter hyperarousal; ej ex/Speglar-ämne |
+
+**P1-koppling:** `vit_entries` / hub-rotation med `bankId: MB-REF-01` … `MB-REF-06` · prod-coach parafras endast via `bankId`.
+
+### PLAY (`MB-PLAY-*`)
+
+| bankId | content_class | source_tier | status | format | title_sv | rule_sv | why |
+|--------|---------------|-------------|--------|--------|----------|---------|-----|
+| MB-PLAY-01 | PLAY | product_copy | KEEP | micro_game | Paus-streck | Mellan två utandningar: föreställ dig ett kort streck — inget att rita perfekt, inget mål. | Kropp före tanke; offline; ≠ G7 cykel-räknare |
+| MB-PLAY-02 | PLAY | product_copy | KEEP | micro_game | Värde-touch | Peka på ett föremål i rummet som påminner om ett värde — säg ett ord högt eller tyst. | ACT-handling ≤2 min; ≠ G3 (redan “välj värde”) |
+| MB-PLAY-03 | PLAY | psychoeducation_general | KEEP | micro_game | Utandning fyra | Räkna bara **utandningar** till fyra — om du tappar räkningen, börja om utan kommentar. | Låg energi; ingen poäng/streak |
+| MB-PLAY-04 | PLAY | product_copy | KEEP | micro_game | Ett ord, vik | Skriv **ett** ord som beskriver dagens tyngd; vik ihop pappret eller markera “klar” på skärmen — symboliskt släpp. | Känsloutlopp utan lång journaling; ≠ DM-PLAY/G6 glädje-miniatyr |
+
+**MUST NOT:** streak, XP, “missad dag”, veckoutmaning, Kunskap-RAG.
+
+### Kurator-logg (batch 2026-05-27)
+
+| id (utkast) | status | why |
+|-------------|--------|-----|
+| “Skriv vad din ex sa som triggade dig” | **ROUTE_SPEGLAR** | Ex/konflikt — Hamn/Speglar |
+| “Räkna dagar sedan du landade lugnt” | **REJECT** | Streak / gamification |
+| “Du borde ha valt annorlunda i konflikten” | **REJECT** | Skuld, JADE |
+| “Lista 5 värden och rangordna dem” | **REJECT** | För många steg (kognitiv belastning) |
+| MB-REF-* / MB-PLAY-* ovan | **KEEP** | Grind OK; ej DM-duplikat |
 
 ---
 

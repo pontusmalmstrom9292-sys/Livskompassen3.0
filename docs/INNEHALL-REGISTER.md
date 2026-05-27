@@ -1,6 +1,6 @@
 # Innehållsregister — fakta, lek och utveckling (1 sida)
 
-**Version:** 2026-05-25 · **Status:** **LÅST** med Grunder **U6** (`.cursor/rules/grunder-kanon.mdc`, `.cursor/rules/innehall-register.mdc`).
+**Version:** 2026-05-27 · **Status:** **LÅST** med Grunder **U6** (`.cursor/rules/grunder-kanon.mdc`, `.cursor/rules/innehall-register.mdc`).
 
 **Syfte:** Hålla isär **fakta**, **reflektion/lek** och **bevis** så LLM inte blir sanning. Ingen fjärde RAG-silo — **Utvecklingszon (Vit)** utan cross-RAG. **Smoke:** `npm run smoke:innehall`.
 
@@ -40,7 +40,7 @@
 |------|-----|--------|----------------|
 | MåBra | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) | **aktiv** | P1: `vit_entries` + `bankId` |
 | MåBra Daglig mix | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) § Daglig mix | **aktiv** | `dagligMixCatalog.ts` · DM-* · ingen streak/RAG |
-| Kunskap seed | [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) | **skelett** | Manuell/`seed_kampspar_profile.mjs` |
+| Kunskap seed | [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) | **aktiv** | Batch 2026-05-27 · `kunskap-fact-001`–`010` · ingest efter granskning |
 | Barnen lek | [`specs/modules/Barnen-PLAY-BANK.md`](./specs/modules/Barnen-PLAY-BANK.md) | **planerad** | Barnfokus-pool, ej Valv-promote |
 
 **Fält per KEEP-post (alla banker):** `id`, `status`, `content_class`, `source_tier`, `text_sv`, `why`.
@@ -85,10 +85,33 @@ Prompts: endast `functions/src/sharedRules.ts`.
 
 ---
 
+## Kunskap seed — KEEP 2026-05-27
+
+**Kurator:** `specialist-kunskap-seed` · **Klass:** FACT · **Silo:** `kampspar` / `kb_docs` · **Callable:** `knowledgeVaultQuery` only.
+
+| id | content_class | source_tier | status | category |
+|----|---------------|-------------|--------|----------|
+| kunskap-fact-001 | FACT | P2 | KEEP | adhd_vardag |
+| kunskap-fact-002 | FACT | P2 | KEEP | adhd_vardag |
+| kunskap-fact-003 | FACT | P2 | KEEP | medforaldraskap |
+| kunskap-fact-004 | FACT | P2 | KEEP | medforaldraskap |
+| kunskap-fact-005 | FACT | P1 | KEEP | kommunikation_metod |
+| kunskap-fact-006 | FACT | P1 | KEEP | kommunikation_metod |
+| kunskap-fact-007 | FACT | P2 | KEEP | barn_neuro |
+| kunskap-fact-008 | FACT | P2 | KEEP | barn_neuro |
+| kunskap-fact-009 | FACT | P1 | KEEP | ekonomi_vardag |
+| kunskap-fact-010 | FACT | P2 | KEEP | juridik_logistik |
+
+**Kanon i bank:** [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) § Batch 2026-05-27.
+
+**MUST NOT:** ingest utan mänsklig granskning · BIFF-svar på konkret sms (→ Speglar/Hamn) · cross-RAG till `reality_vault` / `children_logs`.
+
+---
+
 ## Nästa steg (implementation)
 
 1. P1 `vit_hub` / `vit_entries` från MåBra-bank  
-2. Första `KEEP` i Kunskap-CONTENT-SEED → `seed_kampspar_profile.mjs`  
+2. Exportera `kunskap-fact-001`–`010` till JSON-manifest → `seed_kampspar_profile.mjs`  
 3. Harmonisera Vit-hub copy: ingen skuld-streak (se Mabra-SPEC)
 
 **Utskrift:** lägg vid [`SKOGSPAKET-LATHUND.md`](./SKOGSPAKET-LATHUND.md) om du jobbar på distans.
