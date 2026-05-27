@@ -33,7 +33,7 @@
 | `komihåg_kopplingssystem` | **completed** | Fas A+B i kod; C–D öppna |
 | `hub-kontextrad_4_knappar` | **completed** | W1 cancelled |
 | `inkast_life_os` | **partial** | Fas 0–1 done → **ny chatt** fas 2 |
-| `måbra_daglig_mix` | **open** | **ny chatt** |
+| `måbra_daglig_mix` | **done** | Hub `DagligMixPanel` + DM-* bank |
 | `header_utan_blur` | **partial** | `remove-btn-blur` done; övrigt cancelled/deferred |
 | `p0_ux_inkorg_build` | **cancelled** | Ersatt av Inkast Lite |
 | `måbra_hub_utbyggnad` | **cancelled** | Superseded → `måbra_daglig_mix` |

@@ -133,6 +133,10 @@ export const COMPLETE_COPY: Record<
     title: 'Du har landat.',
     subtitle: 'Du gav dig ett ögonblick — inget att prestera.',
   },
+  daglig_mix: {
+    title: 'Bra jobbat',
+    subtitle: 'Dagens mix är klar — inga poäng, ingen missad dag.',
+  },
 };
 
 export const HUB_COMPLETE_COPY: Record<

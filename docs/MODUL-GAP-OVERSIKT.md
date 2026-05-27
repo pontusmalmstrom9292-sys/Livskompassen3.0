@@ -28,7 +28,7 @@ Ny arkiv-implementation: säg `kör [GAP]` (regel i GAP-register) — inget nytt
 | **projekt** | `/projekt` | **P2+:** regler, bild-uppladdning, widget-sheet, MaterialPack-editor | `kör projekt P2` |
 | **planering** | `/planering` | P3 kanban **done**; kopplingar C–D (Life OS) | `kör kopplingar C` |
 | **barnporten** | (plan PWA) | Hub, widget CB1–4, HITL promote — **ej full route** | `kör barnporten` · [`BARNPORTEN-SPEC.md`](./design/BARNPORTEN-SPEC.md) |
-| **mabra** | `/mabra` | MVP **done**; **Daglig Mix** plan öppen | `kör måbra daglig mix` |
+| **mabra** | `/mabra` | MVP **done**; **Daglig Mix** **done** (hub) | — |
 | **dagbok** | `/dagbok` | Inkast **fas 2–5** | `kör inkast fas 2` |
 | **dossier** | `/dossier` | BBIC `reportType` **planned** | Spec §I.4 |
 | **verklighetsvalvet** | Valv | Vävaren försätt / polish kvar | Spec/module_plan |

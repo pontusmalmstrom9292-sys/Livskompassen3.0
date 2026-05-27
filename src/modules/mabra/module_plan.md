@@ -30,6 +30,9 @@ Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget
 | `../core/ui/SpeechMicRow.tsx` | Delad Web Speech sv-SE (reframing + coach) |
 | `api/mabraCoachService.ts` | Callable `mabraCoach` |
 | `constants.ts` / `types.ts` | Hub, duration, faser |
+| `content/dagligMixCatalog.ts` | Daglig mix KEEP DM-* |
+| `lib/pickDagligMix.ts` | Deterministisk daglig rotation |
+| `components/DagligMixPanel.tsx` | Hub: kort + mikrospel, ingen streak |
 | `../core/firebase/firestore.ts` | `saveMabraSession` |
 
 ## MåBra — egna projekt + Vit hub (2026-05-23)
@@ -55,6 +58,7 @@ Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget
 | Speglar guardrail vid ex-text | Heuristik → `/speglar` | Ja | **done** (fas 2e) |
 | Web Speech sv-SE | Reframing + coach (`SpeechMicRow`) | Ja | **done** (fas 2f) |
 | Trauma-historia i Kunskap | **Policy: opt-in ingest** | Delvis | **policy** |
+| Daglig mix (DM-*) | Hub panel + `mabra_sessions` metadata | Ja | **done** |
 | Stjärnbilder / streak | Notebook | Nej | **rejected** |
 | Nordisk skymning UI | Notebook | Nej | **rejected** |
 

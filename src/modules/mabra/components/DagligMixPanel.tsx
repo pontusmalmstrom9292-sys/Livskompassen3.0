@@ -34,12 +34,11 @@ export function DagligMixPanel({ uid, onComplete }: Props) {
   const startedAt = useMemo(() => Date.now(), []);
 
   const finish = () => {
-    const elapsedSeconds = Math.max(1, Math.round((Date.now() - startedAt) / 1000));
     onComplete({
       cardBankId: mix.card.bankId,
       playBankId: mix.play.bankId,
       dateKey: mix.dateKey,
-      elapsedSeconds,
+      elapsedSeconds: Math.max(1, Math.round((Date.now() - startedAt) / 1000)),
     });
     setStep('done');
   };

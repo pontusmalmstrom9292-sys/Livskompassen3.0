@@ -26,6 +26,7 @@ import { ReframingExercise } from './ReframingExercise';
 import { ValuesCompass } from './ValuesCompass';
 import { MabraComplete } from './MabraComplete';
 import { KbtTransformatorPanel } from './KbtTransformatorPanel';
+import { DagligMixPanel } from './DagligMixPanel';
 import { HubPageShell } from '../../core/layout/HubPageShell';
 import { sectionEyebrowClass } from '../../core/ui/typeScale';
 import { MaterialPackShortcuts, useLifeHubPreset } from '../../core/lifeOs';
@@ -125,6 +126,31 @@ export function MabraPage() {
     setStep('breathing_addon');
   }, []);
 
+
+  const handleDagligMixComplete = useCallback(
+    async (payload: {
+      cardBankId: string;
+      playBankId: string;
+      dateKey: string;
+      elapsedSeconds: number;
+    }) => {
+      if (!userId) return;
+      setSaveError(null);
+      try {
+        await saveMabraSession(userId, {
+          exerciseType: 'daglig_mix',
+          durationSeconds: payload.elapsedSeconds,
+          cardBankId: payload.cardBankId,
+          playBankId: payload.playBankId,
+          mixDateKey: payload.dateKey,
+        });
+      } catch {
+        setSaveError('Kunde inte spara daglig mix — klart ändå lokalt.');
+      }
+    },
+    [userId],
+  );
+
   const activeExerciseType = hub && !addonBreathing ? exerciseTypeForHub(hub) : null;
 
   return (
@@ -136,6 +162,7 @@ export function MabraPage() {
         {step === 'hub' && (
           <>
             <MaterialPackShortcuts preset={preset} hub="mabra" />
+            <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
             <MabraProjectHub
               onSelectAkut={handleHubSelect}
               onSelectProject={(id) => {

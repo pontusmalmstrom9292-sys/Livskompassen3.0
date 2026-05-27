@@ -44,6 +44,9 @@ function main() {
   mustInclude('docs/specs/modules/Kunskap-CONTENT-SEED.md', 'content_class: FACT', 'ROUTE_MABRA');
   mustInclude('docs/specs/modules/Barnen-PLAY-BANK.md', 'barnfokus', 'reality_vault');
 
+  mustInclude('docs/specs/modules/Mabra-CONTENT-BANK.md', 'DM-CARD-01', 'daglig_mix');
+  mustInclude('src/modules/mabra/content/dagligMixCatalog.ts', 'DM-CARD-01', 'DAGLIG_MIX_CARDS');
+
   console.log('[smoke:innehall] Cursor rules + grunder U6...');
   mustInclude('.cursor/rules/innehall-register.mdc', 'alwaysApply: true', 'U6');
   mustInclude('.cursor/rules/grunder-kanon.mdc', 'U6', 'INNEHALL-REGISTER');
