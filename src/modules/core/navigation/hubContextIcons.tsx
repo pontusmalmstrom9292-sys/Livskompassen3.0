@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { clsx } from 'clsx';
 import {
   BookHeart,
   Brain,
@@ -12,8 +13,21 @@ import {
   Wallet,
 } from 'lucide-react';
 import { ChromeV4Icon } from '../ui/chromeIcons';
-import { WidgetMicIcon, WidgetNoteIcon } from '../ui/widget-icons';
 import type { HubContextIconId } from './hubContextBar';
+
+/** PWA shortcut-glyph (samma assets som `manifest.webmanifest` WH1–WH2). */
+function PwaShortcutImg({ src, className }: { src: string; className: string }) {
+  return (
+    <img
+      src={src}
+      alt=""
+      aria-hidden
+      draggable={false}
+      decoding="async"
+      className={clsx('shrink-0 object-contain', className)}
+    />
+  );
+}
 
 export function renderHubContextIcon(id: HubContextIconId, className: string): ReactNode {
   const cls = className;
@@ -26,9 +40,9 @@ export function renderHubContextIcon(id: HubContextIconId, className: string): R
     case 'clock':
       return <Clock className={cls} strokeWidth={stroke} />;
     case 'note':
-      return <WidgetNoteIcon className={cls} />;
+      return <PwaShortcutImg src="/icons/shortcuts/wh-anteckning.svg" className={cls} />;
     case 'record':
-      return <WidgetMicIcon className={cls} />;
+      return <PwaShortcutImg src="/icons/shortcuts/wh-inspelning.svg" className={cls} />;
     case 'wallet':
       return <Wallet className={cls} strokeWidth={stroke} />;
     case 'mail':
