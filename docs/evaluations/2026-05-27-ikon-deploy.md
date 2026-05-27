@@ -1,6 +1,6 @@
 # Ikon-deploy — B1 + chrome v4 (2026-05-27)
 
-**Masterplan:** `IKON-WIDGET-MASTER.md` · **Smoke:** `npm run smoke:locked-icons` · `npm run smoke:locked-ux`
+**Masterplan:** `IKON-WIDGET-MASTER.md` · **Smoke:** `npm run smoke:locked-icons` PASS · `npm run smoke:locked-ux` PASS · `npm run build` PASS
 
 ---
 
@@ -10,7 +10,7 @@
 |------|------|------------|
 | `smoke:locked-icons` | PASS — `public/favicon.svg`, B1 PNG finns | — |
 | `npm run android:icons` | `mipmap-*/ic_launcher*.png` från `app-icon-b1-kanon-ros-1024.png` | — |
-| `npm run build:web && npx cap sync android` | `dist/` + Android assets | Android Studio **Run** |
+| `npm run build:web && npx cap sync android` | PASS 2026-05-27 — `dist/` + Android assets | Android Studio **Run** |
 | Gammal ikon på telefon | — | **Avinstallera** Livskompassen → installera om |
 | PWA / Hosting | `favicon.svg` i `dist` | `firebase deploy --only hosting` (vid behov) |
 | PWA-hemskärm (iPhone/Mac) | manifest → `/favicon.svg` | Ta bort genväg → **Lägg till på hemskärmen** igen |
