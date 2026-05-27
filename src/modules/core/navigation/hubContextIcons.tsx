@@ -1,21 +1,17 @@
 import type { ReactNode } from 'react';
 import {
-  Anchor,
   BookHeart,
-  BookOpen,
   Brain,
-  Calendar,
   Clock,
   Focus,
   FolderKanban,
   List,
   Mail,
   Plus,
-  Sparkles,
   Sprout,
-  Users,
   Wallet,
 } from 'lucide-react';
+import { ChromeV4Icon } from '../ui/chromeIcons';
 import { WidgetMicIcon, WidgetNoteIcon } from '../ui/widget-icons';
 import type { HubContextIconId } from './hubContextBar';
 
@@ -26,7 +22,7 @@ export function renderHubContextIcon(id: HubContextIconId, className: string): R
     case 'list':
       return <List className={cls} strokeWidth={stroke} />;
     case 'calendar':
-      return <Calendar className={cls} strokeWidth={stroke} />;
+      return <ChromeV4Icon category="planering" className={cls} />;
     case 'clock':
       return <Clock className={cls} strokeWidth={stroke} />;
     case 'note':
@@ -46,15 +42,15 @@ export function renderHubContextIcon(id: HubContextIconId, className: string): R
     case 'sprout':
       return <Sprout className={cls} strokeWidth={stroke} />;
     case 'book':
-      return <BookOpen className={cls} strokeWidth={stroke} />;
+      return <ChromeV4Icon category="dagbok" className={cls} />;
     case 'brain':
       return <Brain className={cls} strokeWidth={stroke} />;
     case 'anchor':
-      return <Anchor className={cls} strokeWidth={stroke} />;
+      return <ChromeV4Icon category="hamn" className={cls} />;
     case 'sparkles':
-      return <Sparkles className={cls} strokeWidth={stroke} />;
+      return <ChromeV4Icon category="mabra" className={cls} />;
     case 'users':
-      return <Users className={cls} strokeWidth={stroke} />;
+      return <ChromeV4Icon category="familjen" className={cls} />;
     case 'bookheart':
       return <BookHeart className={cls} strokeWidth={stroke} />;
     default:

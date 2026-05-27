@@ -1755,6 +1755,10 @@
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 8%, transparent);
   }
 
+  .nav-drawer__row-icon .chrome-v4-icon {
+    @apply h-9 w-9;
+  }
+
   .nav-drawer__row--active .nav-drawer__row-icon {
     border-color: color-mix(in srgb, var(--accent) 70%, transparent);
     background: color-mix(in srgb, var(--accent) 14%, transparent);

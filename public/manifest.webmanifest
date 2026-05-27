@@ -21,42 +21,42 @@
       "short_name": "Inspelning",
       "description": "Spela in → datum, AI-titel, lås i Valvet med sammanfattning",
       "url": "/widget/inspelning",
-      "icons": [{ "src": "/favicon.svg", "sizes": "96x96", "type": "image/svg+xml" }]
+      "icons": [{ "src": "/icons/shortcuts/wh-inspelning.svg", "sizes": "96x96", "type": "image/svg+xml" }]
     },
     {
       "name": "Snabbanteckning",
       "short_name": "Anteckning",
       "description": "En rad → WORM i Valvet",
       "url": "/widget/anteckning",
-      "icons": [{ "src": "/favicon.svg", "sizes": "96x96", "type": "image/svg+xml" }]
+      "icons": [{ "src": "/icons/shortcuts/wh-anteckning.svg", "sizes": "96x96", "type": "image/svg+xml" }]
     },
     {
       "name": "Kompass",
       "short_name": "Kompass",
       "description": "Check-in för aktiv tid på dygnet",
       "url": "/widget/kompass",
-      "icons": [{ "src": "/favicon.svg", "sizes": "96x96", "type": "image/svg+xml" }]
+      "icons": [{ "src": "/icons/shortcuts/wh-kompass.svg", "sizes": "96x96", "type": "image/svg+xml" }]
     },
     {
       "name": "BIFF · Hamn",
       "short_name": "Hamn",
       "description": "Grey Rock-svar mot ex",
       "url": "/widget/hamn",
-      "icons": [{ "src": "/favicon.svg", "sizes": "96x96", "type": "image/svg+xml" }]
+      "icons": [{ "src": "/icons/shortcuts/wh-hamn.svg", "sizes": "96x96", "type": "image/svg+xml" }]
     },
     {
       "name": "Familjen",
       "short_name": "Familjen",
       "description": "Snabb neutral barnlogg-rad",
       "url": "/widget/familjen",
-      "icons": [{ "src": "/favicon.svg", "sizes": "96x96", "type": "image/svg+xml" }]
+      "icons": [{ "src": "/icons/shortcuts/wh-familjen.svg", "sizes": "96x96", "type": "image/svg+xml" }]
     },
     {
       "name": "Stämpel",
       "short_name": "Stämpel",
       "description": "Stämpla in eller ut",
       "url": "/widget/stampla",
-      "icons": [{ "src": "/favicon.svg", "sizes": "96x96", "type": "image/svg+xml" }]
+      "icons": [{ "src": "/icons/shortcuts/wh-stampla.svg", "sizes": "96x96", "type": "image/svg+xml" }]
     }
   ]
 }

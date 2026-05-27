@@ -8,7 +8,7 @@ Spec: [`docs/design/ANDROID-WIDGETS-SPEC.md`](../docs/design/ANDROID-WIDGETS-SPE
 
 ---
 
-**App-ikon (guld kompass):** `npm run android:icons` från repo-root (källa: `docs/design/themes/app-icon-livskompassen.png`).
+**App-ikon (B1 Kanon ros, låst):** `npm run android:icons` från repo-root (källa: `docs/design/themes/app-icon-b1-kanon-ros-1024.png`). Efter ändring: avinstallera appen på enheten och installera om — Android cachar launcher-ikoner.
 
 ## Krav
 
