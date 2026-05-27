@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Navigate, useSearchParams } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { Briefcase } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { TabBar, type TabBarItem } from '../../core/ui/TabBar';
@@ -7,19 +7,9 @@ import { StampClockPage } from '../../stampla/components/StampClockPage';
 import { EconomyTidPanel } from '../../ekonomi/components/EconomyTidPanel';
 import { EconomyLogPanel } from '../../ekonomi/components/EconomyLogPanel';
 import { vaultDrawerPath } from '../../core/navigation/navTruth';
+import { useHubTab } from '../../core/navigation/hooks/useHubTab';
 
 export type ArbetslivTab = 'stampla' | 'tid' | 'logg';
-
-const TABS: TabBarItem<ArbetslivTab>[] = [
-  { id: 'stampla', label: 'Stämpel' },
-  { id: 'tid', label: 'Tid & flex' },
-  { id: 'logg', label: 'Logg' },
-];
-
-function parseArbetslivTab(raw: string | null): ArbetslivTab {
-  if (raw === 'tid' || raw === 'logg') return raw;
-  return 'stampla';
-}
 
 function vaultRedirectSearch(vaultTab: string): string {
   const vaultPath = vaultDrawerPath(vaultTab);
@@ -29,22 +19,17 @@ function vaultRedirectSearch(vaultTab: string): string {
 
 /** Arbetsliv — stämpel, tid, logg publikt. Frånvaro/lön via Valv-menyn. */
 export function ArbetslivHubPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const tabParam = searchParams.get('tab');
+  const { tabs, activeTab, setTab, legacyRedirect } = useHubTab('arbetsliv', {
+    legacyTabRedirects: {
+      franvaro: { pathname: '/dagbok', search: vaultRedirectSearch('arbetsliv_franvaro') },
+      lon: { pathname: '/dagbok', search: vaultRedirectSearch('arbetsliv_lon') },
+    },
+  });
+  const tab = activeTab as ArbetslivTab;
 
-  if (tabParam === 'franvaro') {
-    return <Navigate to={{ pathname: '/dagbok', search: vaultRedirectSearch('arbetsliv_franvaro') }} replace />;
+  if (legacyRedirect) {
+    return <Navigate to={legacyRedirect} replace />;
   }
-
-  if (tabParam === 'lon') {
-    return <Navigate to={{ pathname: '/dagbok', search: vaultRedirectSearch('arbetsliv_lon') }} replace />;
-  }
-
-  const tab = parseArbetslivTab(tabParam);
-
-  const setTab = (next: ArbetslivTab) => {
-    setSearchParams(next === 'stampla' ? {} : { tab: next }, { replace: true });
-  };
 
   const publicPanel = useMemo(() => {
     switch (tab) {
@@ -69,7 +54,11 @@ export function ArbetslivHubPage() {
         </p>
       </header>
 
-      <TabBar tabs={TABS} active={tab} onChange={setTab} />
+      <TabBar<ArbetslivTab>
+        tabs={tabs as TabBarItem<ArbetslivTab>[]}
+        active={tab}
+        onChange={(id) => setTab(id)}
+      />
 
       {publicPanel}
 

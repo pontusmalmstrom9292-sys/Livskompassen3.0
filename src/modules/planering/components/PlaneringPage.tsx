@@ -1,20 +1,15 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Calendar } from 'lucide-react';
-import { Navigate, useSearchParams } from 'react-router-dom';
-import { TabBar } from '../../core/ui/TabBar';
+import { TabBar, type TabBarItem } from '../../core/ui/TabBar';
 import { CognitiveLoadStrip } from '../../core/ui/CognitiveLoadStrip';
-import { PLANERING_TAGLINE, PLANERING_TABS } from '../constants';
+import { PLANERING_TAGLINE } from '../constants';
 import type { PlaneringTab } from '../types';
 import { PlanningKanbanBoard } from './PlanningKanbanBoard';
 import { PlaneringFokusPanel } from './PlaneringFokusPanel';
 import { PlaneringInkorgPanel } from './PlaneringInkorgPanel';
 import { HubPageShell } from '../../core/layout/HubPageShell';
 import { RoutinesPanel } from './RoutinesPanel';
-
-function parsePlaneringTab(raw: string | null): PlaneringTab {
-  if (raw === 'fokus' || raw === 'inkorg') return raw;
-  return 'handling';
-}
+import { useHubTab } from '../../core/navigation/hooks/useHubTab';
 
 const TAB_TITLES: Record<PlaneringTab, string> = {
   handling: 'Handling',
@@ -23,20 +18,8 @@ const TAB_TITLES: Record<PlaneringTab, string> = {
 };
 
 export function PlaneringPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const tabParam = searchParams.get('tab');
-  const tab = parsePlaneringTab(tabParam);
-
-  const setTab = useCallback(
-    (next: PlaneringTab) => {
-      setSearchParams(next === 'handling' ? {} : { tab: next }, { replace: true });
-    },
-    [setSearchParams],
-  );
-
-  if (tabParam && tabParam !== 'handling' && tabParam !== 'fokus' && tabParam !== 'inkorg') {
-    return <Navigate to="/planering" replace />;
-  }
+  const { tabs, activeTab, setTab } = useHubTab('planering');
+  const tab = activeTab as PlaneringTab;
 
   const title = TAB_TITLES[tab];
 
@@ -73,7 +56,11 @@ export function PlaneringPage() {
 
       <RoutinesPanel />
 
-      <TabBar<PlaneringTab> tabs={PLANERING_TABS} active={tab} onChange={setTab} />
+      <TabBar<PlaneringTab>
+        tabs={tabs as TabBarItem<PlaneringTab>[]}
+        active={tab}
+        onChange={(id) => setTab(id)}
+      />
 
       {panel}
     </HubPageShell>

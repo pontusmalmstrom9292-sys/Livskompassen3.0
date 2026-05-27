@@ -30,14 +30,15 @@ Visas när Valv **inte** är upplåst på en Valv-route.
 |-----|-------------|
 | Hem Kompass | Inkast (`/#inkast-lite`) |
 | Dagbok | Reflektion · Speglar *(Bevis dold vid G18)* |
-| Familjen | Reflektion · Livslogg · Tillsammans |
-| Trygg hamn | Översikt · BIFF · Speglar · Barnfokus |
 | Vardagen | Kompasser · Ekonomi |
+| MåBra | — |
+| Familjen | Reflektion · Livslogg · Tillsammans |
 | Planering | Handling · Fokus · Inkorg |
 | Arbetsliv | Stämpel · Tid & flex · Logg |
-| MåBra | — |
+| Trygg hamn | Översikt · BIFF · Speglar · Barnfokus |
 | Projekt | Nytt projekt |
-| Inställningar | — |
+| Drogfrihet | Idag · Stöd · Reflektion · Kunskap |
+| Inställningar | Allmänt · Drogfrihet |
 
 **MUST NOT:** publik `/vardagen?tab=kunskap` — Kunskap endast via Valv `kunskapsbank`.  
 **MUST NOT:** exponera Valv (växlare, Valv-flik, snabbchips) i publikt drawer-läge.
@@ -86,6 +87,7 @@ Widget-routes `/widget/*` ingår **inte** i drawer (deep links / PWA).
 | `DrawerModeToggle` | `src/modules/core/layout/DrawerModeToggle.tsx` (`showValvShell`) |
 | `DrawerHubAccordion` | `src/modules/core/layout/DrawerHubAccordion.tsx` |
 | Sanning | `src/modules/core/navigation/navTruth.ts` |
+| Hub-flikar (synk med drawer) | `src/modules/core/navigation/hubTabs.tsx` · `hooks/useHubTab.ts` |
 | Ikoner | `src/modules/core/navigation/drawerNav.ts` |
 
 Kanon: [`COLOR-POLICY.md`](../COLOR-POLICY.md) — aktiv rad endast **guld** `#d4af37`.

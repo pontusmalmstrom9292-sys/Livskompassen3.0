@@ -33,24 +33,24 @@ Koppling: `notifyNewFile` → `emitSynapse(drive_file_ingested)` — `functions/
 
 ## Frontend-moduler
 
-| Modul | Route(s) | Nyckelfunktioner | Spec | Smoke |
-|-------|----------|------------------|------|-------|
-| **core** | `/`, `/dev/themes`, `/widget/*` | App-shell, Theme Pack I, FyrenSmartWidgetBar, drawer, Zero Footprint | `Core-SPEC.md` | `smoke:locked-ux`, `smoke:design-modules` |
-| **kompasser** | `/vardagen`, `/kompasser` → redirect | Morgon/dag/kväll, checkins | `De-3-Kompasserna-SPEC.md` | `smoke:compass` |
-| **kompis** | `/vardagen?tab=kunskap` | Kunskapsvalv, Tidshjul, RAG | `Kunskap-SPEC.md` | `smoke:kunskap`, `smoke:tidshjul` |
-| **ekonomi** | `/ekonomi` → vardagen | Ekonomi-flik | `Ekonomi-SPEC.md` | manuell #18 |
-| **dagbok** | `/dagbok` | Hjärtat-hub, journal | `Dagbok-SPEC.md` | — |
-| **verklighetsvalvet** | `/dagbok?tab=bevis`, `/valv` | WORM bevis, **Mönster**, **Orkester**, PIN/Shield | `Verklighetsvalvet-SPEC.md` | `smoke:locked-ux`, `smoke:valv` |
-| **valv_chatt** | Bevis → Sök | Valv-Chat (egen silo) | `Valv-Chat-SPEC.md` | `smoke:valv` |
-| **speglings_system** | `/dagbok?tab=speglar` | Speglar, Zero Footprint session | — | `smoke:speglar` |
-| **safe_harbor** | `/hamn` | BIFF, Grey Rock, `analyzeMessage` | `SafeHarbor-SPEC.md` | — |
-| **barnens_livsloggar** | `/familjen` | **Barnfokus** (glädje, kunskap, knas, **lara_kanna**, …), livslogg | `Barnen-SPEC.md`, `FAMILJEN-BARNFOKUS-FRAGOR-SPEC.md` | `smoke:locked-ux`, `smoke:children` |
-| **barnporten** | (PWA plan `/barnporten`) | `barnportenAgents.ts`, HITL promote — **delvis** | `BARNPORTEN-SPEC.md` | `smoke:locked-ux` (agents) |
-| **mabra** | `/mabra` | KBT Transformator, reglering | `Mabra-SPEC.md` | `smoke:mabra` |
-| **planering** | `/planering` | P3 Kanban, `planning_tasks` | `PLANERING-P3-KANBAN-SPEC.md`, hybrid | `smoke:locked-ux` |
-| **projekt** | `/projekt` | Flexibla projekt (handling på `/planering`) | `PROJEKT-SPEC.md` | hybrid-spec |
-| **dossier** | `/dossier` | Dossier-Generator, snapshots | `Dossier-SPEC.md` | `smoke:dossier` |
-| **widgets** | `/widget/*` | WH1 tyst inspelning, `ingestWidgetRecording` | `WIDGET-BAR-SPEC.md` | `smoke:locked-ux` |
+| Modul | Kluster (logisk) | Route(s) | Nyckelfunktioner | Spec | Smoke |
+|-------|------------------|----------|------------------|------|-------|
+| **core** | övrigt | `/`, `/dev/themes`, `/widget/*` | App-shell, Theme Pack I, FyrenSmartWidgetBar, drawer, Zero Footprint | `Core-SPEC.md` | `smoke:locked-ux`, `smoke:design-modules` |
+| **kompasser** | vardag | `/vardagen`, `/kompasser` → redirect | Morgon/dag/kväll, checkins | `De-3-Kompasserna-SPEC.md` | `smoke:compass` |
+| **kompis** | övrigt | Valv `kunskapsbank` | Kunskapsvalv, Tidshjul, RAG | `Kunskap-SPEC.md` | `smoke:kunskap`, `smoke:tidshjul` |
+| **ekonomi** | vardag | `/vardagen?tab=ekonomi` | Ekonomi-flik | `Ekonomi-SPEC.md` | manuell #18 |
+| **dagbok** | loggar | `/dagbok` | Hjärtat-hub, journal | `Dagbok-SPEC.md` | — |
+| **verklighetsvalvet** | valv | `/dagbok?tab=bevis`, `/valv` | WORM bevis, **Mönster**, **Orkester**, PIN/Shield | `Verklighetsvalvet-SPEC.md` | `smoke:locked-ux`, `smoke:valv` |
+| **valv_chatt** | valv | Bevis → Sök | Valv-Chat (egen silo) | `Valv-Chat-SPEC.md` | `smoke:valv` |
+| **speglings_system** | övrigt | `/dagbok?tab=speglar` | Speglar, Zero Footprint session | — | `smoke:speglar` |
+| **safe_harbor** | livsstod | `/hamn` | BIFF, Grey Rock, `analyzeMessage` | `SafeHarbor-SPEC.md` | — |
+| **barnens_livsloggar** | loggar | `/familjen` | **Barnfokus** (glädje, kunskap, knas, **lara_kanna**, …), livslogg | `Barnen-SPEC.md`, `FAMILJEN-BARNFOKUS-FRAGOR-SPEC.md` | `smoke:locked-ux`, `smoke:children` |
+| **barnporten** | övrigt | (PWA plan `/barnporten`) | `barnportenAgents.ts`, HITL promote — **delvis** | `BARNPORTEN-SPEC.md` | `smoke:locked-ux` (agents) |
+| **mabra** | vardag | `/mabra` | KBT Transformator, reglering | `Mabra-SPEC.md` | `smoke:mabra` |
+| **planering** | livsos | `/planering` | P3 Kanban, `planning_tasks` | `PLANERING-P3-KANBAN-SPEC.md`, hybrid | `smoke:locked-ux` |
+| **projekt** | livsos | `/projekt` | Flexibla projekt (handling på `/planering`) | `PROJEKT-SPEC.md` | hybrid-spec |
+| **dossier** | valv | `/dossier` | Dossier-Generator, snapshots | `Dossier-SPEC.md` | `smoke:dossier` |
+| **widgets** | övrigt | `/widget/*` | WH1 tyst inspelning, `ingestWidgetRecording` | `WIDGET-BAR-SPEC.md` | `smoke:locked-ux` |
 
 ---
 

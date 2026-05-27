@@ -1,20 +1,15 @@
-import { useCallback, useEffect } from 'react';
-import { Navigate, useSearchParams } from 'react-router-dom';
-import { Sprout, Wallet } from 'lucide-react';
-import { TabBar } from '../../core/ui/TabBar';
+import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 import { BentoCard } from '../../core/ui/BentoCard';
+import { TabBar } from '../../core/ui/TabBar';
 import { useStore } from '../../core/store';
 import { EconomyPage } from '../../ekonomi';
 import { getDefaultCompassByTime } from '../utils/compassTime';
 import { DashboardPage } from './DashboardPage';
 import { vaultDrawerPath } from '../../core/navigation/navTruth';
+import { useHubTab } from '../../core/navigation/hooks/useHubTab';
 
 export type VardagenTab = 'kompasser' | 'ekonomi';
-
-const TABS = [
-  { id: 'kompasser' as const, label: 'Kompasser', icon: <Sprout className="h-3 w-3" /> },
-  { id: 'ekonomi' as const, label: 'Ekonomi', icon: <Wallet className="h-3 w-3" /> },
-];
 
 export function parseVardagenTab(raw: string | null): VardagenTab {
   if (raw === 'ekonomi') return 'ekonomi';
@@ -22,9 +17,19 @@ export function parseVardagenTab(raw: string | null): VardagenTab {
 }
 
 export function VardagenPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const tabParam = searchParams.get('tab');
-  const tab = parseVardagenTab(tabParam);
+  const { tabs, activeTab, setTab, legacyRedirect } = useHubTab('vardagen', {
+    legacyTabRedirects: {
+      kunskap: {
+        pathname: '/dagbok',
+        search: (() => {
+          const vaultPath = vaultDrawerPath('kunskapsbank');
+          const qIndex = vaultPath.indexOf('?');
+          return qIndex >= 0 ? vaultPath.slice(qIndex) : '';
+        })(),
+      },
+    },
+  });
+  const tab = activeTab as VardagenTab;
   const setCompassFilter = useStore((s) => s.setCompassFilter);
 
   useEffect(() => {
@@ -33,18 +38,8 @@ export function VardagenPage() {
     }
   }, [tab, setCompassFilter]);
 
-  const setTab = useCallback(
-    (next: VardagenTab) => {
-      setSearchParams(next === 'kompasser' ? {} : { tab: next }, { replace: true });
-    },
-    [setSearchParams],
-  );
-
-  if (tabParam === 'kunskap') {
-    const vaultPath = vaultDrawerPath('kunskapsbank');
-    const qIndex = vaultPath.indexOf('?');
-    const search = qIndex >= 0 ? vaultPath.slice(qIndex) : '';
-    return <Navigate to={{ pathname: '/dagbok', search }} replace />;
+  if (legacyRedirect) {
+    return <Navigate to={legacyRedirect} replace />;
   }
 
   return (
@@ -53,7 +48,7 @@ export function VardagenPage() {
         <p className="mb-4 text-sm text-text-muted">
           Daglig struktur och vardagsstress. Kunskap finns bakom Valv — se menyn.
         </p>
-        <TabBar tabs={TABS} active={tab} onChange={setTab} />
+        <TabBar tabs={tabs} active={activeTab} onChange={setTab} />
       </BentoCard>
 
       {tab === 'kompasser' && <DashboardPage embedded />}

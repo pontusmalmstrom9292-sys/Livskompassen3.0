@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { BookOpen, Brain } from 'lucide-react';
 import { TabBar } from '../../core/ui/TabBar';
+import { getHubTabsFromNav } from '../../core/navigation/hubTabs';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { useStore } from '../../core/store';
 import { clearVaultGate, clearVaultZone } from '../../core/auth/sessionService';
@@ -11,10 +11,7 @@ import { DagbokPage } from './DagbokPage';
 
 export type HjartatTab = 'reflektion' | 'bevis' | 'speglar';
 
-const PUBLIC_TABS = [
-  { id: 'reflektion' as const, label: 'Reflektion', icon: <BookOpen className="h-3 w-3" /> },
-  { id: 'speglar' as const, label: 'Speglar', icon: <Brain className="h-3 w-3" /> },
-];
+const DAGBOK_HUB_TABS = getHubTabsFromNav('dagbok');
 
 export function parseHjartatTab(raw: string | null): HjartatTab {
   if (raw === 'bevis') return 'bevis';
@@ -76,7 +73,11 @@ export function HjartatPage() {
         <p className="mb-4 text-sm text-text-muted">
           Dagbok och spegling här. Bevis, kunskap och analys finns bakom Valv — öppna via menyn.
         </p>
-        <TabBar tabs={PUBLIC_TABS} active={tab === 'bevis' ? 'reflektion' : tab} onChange={setTab} />
+        <TabBar
+          tabs={DAGBOK_HUB_TABS}
+          active={tab === 'bevis' ? 'reflektion' : tab}
+          onChange={(id) => setTab(id as HjartatTab)}
+        />
       </BentoCard>
 
       {tab === 'reflektion' && <DagbokPage embedded />}

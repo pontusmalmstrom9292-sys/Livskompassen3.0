@@ -235,6 +235,7 @@ export function VaultPage({
         </div>
         {!forensicActive ? (
           <TabBar<MainVaultTab>
+            size="compact"
             tabs={VAULT_TABS}
             active={vaultTab as MainVaultTab}
             onChange={(id) => setVaultTab(id)}

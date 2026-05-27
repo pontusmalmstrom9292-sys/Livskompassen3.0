@@ -1,10 +1,10 @@
 import { HeartHandshake, Shield } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { HubPageShell } from '../../core/layout/HubPageShell';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { TabBar, type TabBarItem } from '../../core/ui/TabBar';
 import { useStore } from '../../core/store';
+import { useHubTab } from '../../core/navigation/hooks/useHubTab';
 import { DROGFRIHET_CARDS } from '../content/drogfrihetCatalog';
 import { DROGFRIHET_FACTS } from '../constants/kunskapFacts';
 import { DROGFRIHET_DISCLAIMER, DROGFRIHET_RESOURCES } from '../constants/resources';
@@ -13,28 +13,12 @@ import { DrogfrihetCounterBadge } from './DrogfrihetCounterBadge';
 
 export type DrogfrihetTab = 'idag' | 'resurser' | 'reflektion' | 'kunskap';
 
-const TABS: TabBarItem<DrogfrihetTab>[] = [
-  { id: 'idag', label: 'Idag' },
-  { id: 'resurser', label: 'Stöd' },
-  { id: 'reflektion', label: 'Reflektion' },
-  { id: 'kunskap', label: 'Kunskap' },
-];
-
-function parseTab(raw: string | null): DrogfrihetTab {
-  if (raw === 'resurser' || raw === 'reflektion' || raw === 'kunskap') return raw;
-  return 'idag';
-}
-
 export function DrogfrihetHubPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const tab = parseTab(searchParams.get('tab'));
+  const { tabs, activeTab, setTab } = useHubTab('drogfrihet');
+  const tab = activeTab as DrogfrihetTab;
   const user = useStore((s) => s.user);
   const idag = useMemo(() => pickDrogfrihetIdag({ uid: user?.uid }), [user?.uid]);
   const [reflectionIndex, setReflectionIndex] = useState(0);
-
-  const setTab = (next: DrogfrihetTab) => {
-    setSearchParams(next === 'idag' ? {} : { tab: next }, { replace: true });
-  };
 
   const reflectionCard = DROGFRIHET_CARDS[reflectionIndex % DROGFRIHET_CARDS.length]!;
 
@@ -44,7 +28,11 @@ export function DrogfrihetHubPage() {
       title="Nykterhet · ett steg i taget"
       lead="Dagräknare, reflektion och fakta — nollställning bara under Inställningar. Akut: 113."
     >
-      <TabBar tabs={TABS} active={tab} onChange={setTab} />
+      <TabBar<DrogfrihetTab>
+        tabs={tabs as TabBarItem<DrogfrihetTab>[]}
+        active={tab}
+        onChange={(id) => setTab(id)}
+      />
 
       {tab === 'idag' && (
         <>

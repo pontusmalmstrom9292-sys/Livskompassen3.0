@@ -10,9 +10,9 @@ Fråga/svar med källhänvisningar mot egna data (`kampspar` + `kb_docs`). Avlas
 
 | | |
 |---|---|
-| **Route** | `/vardagen?tab=kunskap` (redirect `/kunskap`) |
-| **AuthGate** | ja |
-| **Dock** | Vardagen (Sprout) — ingen egen Kunskap-ikon |
+| **Route** | Valv → Kunskapsbank: `/dagbok?tab=bevis&vaultTab=kunskapsbank` (redirect `/kunskap`) |
+| **AuthGate** | ja (PIN i Valv) |
+| **Dock** | Vardagen (Sprout) — ingen egen Kunskap-ikon i publikt läge |
 
 ## Viktiga filer
 
