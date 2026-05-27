@@ -244,6 +244,29 @@ Kurator-pass 2026-05-25 · linser: **identitet** (5) + **KBT light** (5). Ej dup
 
 ---
 
+## Drogfrihet (drogfrihet) — KEEP 2026-05-27
+
+**Hub:** `/drogfrihet` · **Kurator:** `specialist-mabra-curator` · **Klass:** REFLECTION · **Tagg:** `drogfrihet`
+
+| bankId | content_class | source_tier | status | lens | text_sv (kort) |
+|--------|---------------|-------------|--------|------|----------------|
+| DF-REF-01 | REFLECTION | product_copy | KEEP | mikrosteg | Minsta steg idag för nykterhet |
+| DF-REF-02 | REFLECTION | psychoeducation_general | KEEP | trigger | Vad hände före impulsen |
+| DF-REF-03 | REFLECTION | psychoeducation_general | KEEP | halt | HALT — hungrig/arg/ensam/trött |
+| DF-REF-04 | REFLECTION | psychoeducation_general | KEEP | aterfall | Återfall utan skam |
+| DF-REF-05 | REFLECTION | product_copy | KEEP | stodnat | Vem kan du nå idag |
+| DF-REF-06 | REFLECTION | product_copy | KEEP | substitut | 2-minuters substitut |
+| DF-REF-07 | REFLECTION | psychoeducation_general | KEEP | varde | Nykterhet som värdeval |
+| DF-REF-08 | REFLECTION | product_copy | KEEP | idag | Ett beslut för idag |
+| DF-REF-09 | REFLECTION | psychoeducation_general | KEEP | rsd | Skam ≠ identitet |
+| DF-REF-10 | REFLECTION | product_copy | KEEP | kropp | Kropp först — vatten/mat/paus |
+
+**Kanon i kod:** `src/modules/drogfrihet/content/drogfrihetCatalog.ts` · `pickDrogfrihetIdag.ts`
+
+**MUST NOT:** streak, XP, Kunskap-RAG, ex/konflikt-coaching (→ Speglar/Hamn), FACT i denna bank.
+
+---
+
 ## Nästa implementation (P1)
 
 - Firestore `vit_hub` / `vit_entries` med `kind: card | memory | chat_turn` *(efter Daglig mix P0 — client-bank klar)*

@@ -46,6 +46,8 @@ function main() {
 
   mustInclude('docs/specs/modules/Mabra-CONTENT-BANK.md', 'DM-CARD-01', 'daglig_mix');
   mustInclude('src/modules/mabra/content/dagligMixCatalog.ts', 'DM-CARD-01', 'DAGLIG_MIX_CARDS');
+  mustInclude('docs/specs/modules/Mabra-CONTENT-BANK.md', 'DF-REF-01', 'drogfrihet');
+  mustInclude('src/modules/drogfrihet/content/drogfrihetCatalog.ts', 'DF-REF-01', 'DROGFRIHET_CARDS');
 
   console.log('[smoke:innehall] Cursor rules + grunder U6...');
   mustInclude('.cursor/rules/innehall-register.mdc', 'alwaysApply: true', 'U6');

@@ -173,6 +173,100 @@ citation_hint: "Föräldrabalken 6 kap. (SFS översikt); ej rådgivning"
 why: "Neutral fakta — ROUTE_VALV vid konkret tvist/bevis"
 ```
 
+---
+
+## Batch 2026-05-27 — Drogfrihet (FACT)
+
+**Kurator:** `specialist-kunskap-seed` · **Hub UI:** statisk lista (ingen live RAG i `/drogfrihet`).
+
+```yaml
+id: kunskap-fact-df-001
+status: KEEP
+content_class: FACT
+title: "Beroende som sjukdom — översikt"
+content: "Beroende kan involvera förlust av kontroll över intag trots skada, och påverkar hjärnans belöningssystem. Det klassas som en sjukdom i internationell klassificering. Behandling kan inkludera samtal, medicin och strukturerat stöd — individuellt."
+category: beroende
+entryType: fakta
+tags: [beroende, sjukdom, 1177]
+source_tier: P2
+citation_hint: "1177.se beroende; ICD-11 substance use disorders (översikt)"
+why: "Referensfakta — ej terapi eller personlig profil"
+```
+
+```yaml
+id: kunskap-fact-df-002
+status: KEEP
+content_class: FACT
+title: "SAMT — kort"
+content: "Samtalsterapi med motivationsstöd hjälper många att utforska ambivalens kring förändring utan press. Etablerat stöd inom beroendevård."
+category: beroende
+entryType: fakta
+tags: [samt, motivationsstod, beroende]
+source_tier: P2
+citation_hint: "Socialstyrelsen beroende; MI (översikt)"
+why: "Neutral metodfakta"
+```
+
+```yaml
+id: kunskap-fact-df-003
+status: KEEP
+content_class: FACT
+title: "Självhjälpsgrupper — neutralt"
+content: "Självhjälpsgrupper bygger på delat erfarenhetsutbyte och anonymitet. Frivilliga; kompletterar ofta professionell vård."
+category: beroende
+entryType: fakta
+tags: [sjalvhjalp, grupp]
+source_tier: P2
+citation_hint: "Anonyma Nykterister (översikt)"
+why: "Info utan rekrytering"
+```
+
+```yaml
+id: kunskap-fact-df-004
+status: KEEP
+content_class: FACT
+title: "Akut hjälp"
+content: "Vid akut fara: 113. Råd om vård: 1177. Psykiatrisk akutmottagning vid akut psykisk kris."
+category: beroende
+entryType: fakta
+tags: [113, 1177, akut]
+source_tier: P1
+citation_hint: "1177; SOS Alarm 113"
+why: "Akut säkerhet — produktcopy"
+```
+
+```yaml
+id: kunskap-fact-df-005
+status: KEEP
+content_class: FACT
+title: "Regional beroendevård"
+content: "Regioner erbjuder öppenvård och ibland sluten vård för beroende. Remiss via vårdcentral eller beroendemottagning."
+category: beroende
+entryType: fakta
+tags: [region, oppenvard]
+source_tier: P2
+citation_hint: "1177; regionala vårdprogram"
+why: "Navigering till vård"
+```
+
+```yaml
+id: kunskap-fact-df-006
+status: KEEP
+content_class: FACT
+title: "ADHD och beroende"
+content: "ADHD och substansbruk kan förekomma samtidigt. Struktur, medicin vid ADHD enligt läkare, och beroendebehandling kan behövas parallellt."
+category: beroende
+entryType: fakta
+tags: [adhd, comorbiditet, beroende]
+source_tier: P2
+citation_hint: "NICE; ADHD comorbidity (översikt)"
+why: "Samtidighet — ej diagnos i app"
+```
+
+**Kanon i kod:** `src/modules/drogfrihet/constants/kunskapFacts.ts`
+
+---
+
 **Mall för ny rad:**
 
 ```yaml

@@ -278,6 +278,14 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     themeId: 'J-mabra-lavendel',
   },
   {
+    id: 'drogfrihet',
+    label: 'Drogfrihet',
+    path: '/drogfrihet',
+    section: 'vardag',
+    inDrawer: true,
+    themeId: 'J-mabra-lavendel',
+  },
+  {
     id: 'projekt',
     label: 'Projekt',
     path: '/projekt',

@@ -14,6 +14,7 @@ import { MabraPage } from '../../mabra';
 import { PlaneringPage } from '../../planering';
 import { ProjektDetailPage, ProjektHubPage, ProjektNyPage } from '../../projekt';
 import { ArbetslivHubPage } from '../../arbetsliv';
+import { DrogfrihetHubPage } from '../../drogfrihet';
 
 function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
   const location = useLocation();
@@ -99,6 +100,14 @@ function MainAppRoutes() {
           element={
             <AuthGate>
               <MabraPage />
+            </AuthGate>
+          }
+        />
+        <Route
+          path="/drogfrihet"
+          element={
+            <AuthGate>
+              <DrogfrihetHubPage />
             </AuthGate>
           }
         />
