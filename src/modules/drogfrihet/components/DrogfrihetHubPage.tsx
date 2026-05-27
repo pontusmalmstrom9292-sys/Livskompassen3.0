@@ -9,6 +9,7 @@ import { DROGFRIHET_CARDS } from '../content/drogfrihetCatalog';
 import { DROGFRIHET_FACTS } from '../constants/kunskapFacts';
 import { DROGFRIHET_DISCLAIMER, DROGFRIHET_RESOURCES } from '../constants/resources';
 import { pickDrogfrihetIdag } from '../lib/pickDrogfrihetIdag';
+import { DrogfrihetCounterBadge } from './DrogfrihetCounterBadge';
 
 export type DrogfrihetTab = 'idag' | 'resurser' | 'reflektion' | 'kunskap';
 
@@ -41,11 +42,13 @@ export function DrogfrihetHubPage() {
     <HubPageShell
       eyebrow="Drogfrihet"
       title="Nykterhet · ett steg i taget"
-      lead="Reflektion och fakta från godkända banker — ingen streak, ingen RAG. Akut: 113."
+      lead="Dagräknare, reflektion och fakta — nollställning bara under Inställningar. Akut: 113."
     >
       <TabBar tabs={TABS} active={tab} onChange={setTab} />
 
       {tab === 'idag' && (
+        <>
+          <DrogfrihetCounterBadge uid={user?.uid} />
         <BentoCard title="Idag" icon={<HeartHandshake className="h-4 w-4" />}>
           <div className="home-module-panel__question-box">
             <p className="text-base text-accent">{idag.card.text_sv}</p>
@@ -55,6 +58,7 @@ export function DrogfrihetHubPage() {
           </div>
           <p className="mt-3 text-xs text-text-muted">{DROGFRIHET_DISCLAIMER}</p>
         </BentoCard>
+        </>
       )}
 
       {tab === 'resurser' && (

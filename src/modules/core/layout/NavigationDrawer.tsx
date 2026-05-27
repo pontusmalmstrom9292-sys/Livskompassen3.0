@@ -122,7 +122,7 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
 
   const go = (item: DrawerNavItem) => {
     if (item.id === 'installningar') {
-      onOpenSettings?.();
+      navigate({ pathname: '/installningar' });
       onClose();
       return;
     }

@@ -15,6 +15,7 @@ import { PlaneringPage } from '../../planering';
 import { ProjektDetailPage, ProjektHubPage, ProjektNyPage } from '../../projekt';
 import { ArbetslivHubPage } from '../../arbetsliv';
 import { DrogfrihetHubPage } from '../../drogfrihet';
+import { InstallningarPage } from '../pages/InstallningarPage';
 
 function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
   const location = useLocation();
@@ -140,6 +141,14 @@ function MainAppRoutes() {
           element={
             <AuthGate>
               <ProjektDetailPage />
+            </AuthGate>
+          }
+        />
+        <Route
+          path="/installningar"
+          element={
+            <AuthGate>
+              <InstallningarPage />
             </AuthGate>
           }
         />
