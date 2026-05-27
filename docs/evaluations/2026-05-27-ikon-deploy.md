@@ -1,6 +1,8 @@
 # Ikon-deploy — B1 + chrome v4 (2026-05-27)
 
-**Masterplan:** `IKON-WIDGET-MASTER.md` · **Smoke:** `npm run smoke:locked-icons` PASS · `npm run smoke:locked-ux` PASS · `npm run build` PASS
+**Masterplan:** [`IKON-WIDGET-MASTER.md`](../design/IKON-WIDGET-MASTER.md) · **Smoke:** `npm run smoke:locked-icons` + `smoke:locked-ux` körs efter kodändring · `npm run build` PASS
+
+**Verifierat (agent):** 2026-05-27 — `npm run android:icons` → mipmap uppdaterad · `npm run build:web && npx cap sync android` exit 0.
 
 ---
 
@@ -10,7 +12,7 @@
 |------|------|------------|
 | `smoke:locked-icons` | PASS — `public/favicon.svg`, B1 PNG finns | — |
 | `npm run android:icons` | `mipmap-*/ic_launcher*.png` från `app-icon-b1-kanon-ros-1024.png` | — |
-| `npm run build:web && npx cap sync android` | PASS 2026-05-27 — `dist/` + Android assets | Android Studio **Run** |
+| `npm run build:web && npx cap sync android` | PASS 2026-05-27 (omkörning) — `dist/` + `android/.../assets/public` | Android Studio **Run** |
 | Gammal ikon på telefon | — | **Avinstallera** Livskompassen → installera om |
 | PWA / Hosting | `favicon.svg` i `dist` | `firebase deploy --only hosting` (vid behov) |
 | PWA-hemskärm (iPhone/Mac) | manifest → `/favicon.svg` | Ta bort genväg → **Lägg till på hemskärmen** igen |
@@ -21,7 +23,7 @@
 
 ## Fas 2 — Appikon 3D?
 
-**Beslut (implementeringspass):** Behåll **flat B1** (prod-låst). v4 **Helros 3D / Eldnål 3D** finns i preview — byt endast om du säger t.ex. `byt in App 2`.
+**Status:** **deferred / cancelled** tills produkt säger annat — behåll **flat B1** (prod-låst). v4 **Helros 3D / Eldnål 3D** finns i preview — byt endast om du säger t.ex. `byt in App 2`.
 
 Preview: `docs/design/icons-proposals/2026-05-26-v4-round2-dna/serve-preview.sh` → http://127.0.0.1:8766/preview.html
 
@@ -55,6 +57,8 @@ Komponent: `src/modules/core/ui/chromeIcons/ChromeV4Icon.tsx`
 | WH6 Stämpel | `wh-stampla.svg` |
 
 Uppdaterat: `public/manifest.webmanifest`
+
+**In-app Fyren strip (`FyrenWidgetBar`):** samma visuella familj — WH1 `wh-inspelning.svg`, dagbok/planering/valv via `ChromeV4Icon`, lista/projekt Lucide där det saknas dedikerad chrome-glyph.
 
 ---
 

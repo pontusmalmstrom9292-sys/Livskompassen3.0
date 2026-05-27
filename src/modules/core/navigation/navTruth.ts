@@ -1,6 +1,6 @@
 /**
  * Single source for hub labels, paths, drawer sections, and chrome flags.
- * Drawer icons stay in drawerNav.ts (Lucide map by id).
+ * Drawer-ikoner: `drawerNav.ts` (v4 chrome `createChromeV4Icon` + Lucide där glyph saknas).
  */
 import { HIDE_BEVIS_TAB } from './appNavigation';
 import {

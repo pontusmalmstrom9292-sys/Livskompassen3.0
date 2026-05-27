@@ -50,6 +50,8 @@ Beslutlogg: [`theme-lab/ICON-DECISIONS.md`](./theme-lab/ICON-DECISIONS.md)
 
 Shortcut-ikoner: `public/icons/shortcuts/wh-*.svg`
 
+**Fyren in-app strip:** `FyrenWidgetBar.tsx` använder samma shortcut-SVG (WH1) + `ChromeV4Icon` (dagbok, planering, valv) som manifest/drawer — se [`evaluations/2026-05-27-ikon-deploy.md`](../evaluations/2026-05-27-ikon-deploy.md) Fas 4.
+
 ---
 
 ## Kommandon
