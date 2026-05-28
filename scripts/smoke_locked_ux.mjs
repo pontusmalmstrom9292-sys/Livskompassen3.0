@@ -253,7 +253,12 @@ function main() {
   mustInclude('src/modules/core/layout/DrawerHubAccordion.tsx', 'nav-drawer__row--sub', 'isDrawerItemActive');
   mustInclude('src/modules/core/components/DrawerHomeQuickActions.tsx', 'FYREN_HOME_QUICK_ACTIONS');
   mustInclude('src/modules/barnens_livsloggar/components/FamiljenPage.tsx', 'HubPageShell', 'ParentReminderFooter');
-  mustInclude('src/modules/mabra/components/MabraPage.tsx', 'HubPageShell');
+  mustInclude(
+    'src/modules/mabra/components/MabraPage.tsx',
+    'HubPageShell',
+    'DagligMixPanel',
+    'handleDagligMixComplete',
+  );
   mustInclude(
     'src/modules/planering/components/PlaneringPage.tsx',
     'HubPageShell',

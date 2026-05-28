@@ -47,6 +47,52 @@ function main() {
   mustInclude('docs/specs/modules/Mabra-CONTENT-BANK.md', 'DM-CARD-01', 'daglig_mix');
   mustInclude('src/modules/mabra/content/dagligMixCatalog.ts', 'DM-CARD-01', 'DAGLIG_MIX_CARDS');
   mustInclude('docs/specs/modules/Mabra-CONTENT-BANK.md', 'DF-REF-01', 'drogfrihet');
+
+  console.log('[smoke:innehall] Daglig mix — mount, bank parity, no RAG/streak...');
+  mustInclude(
+    'src/modules/mabra/components/MabraPage.tsx',
+    'DagligMixPanel',
+    "exerciseType: 'daglig_mix'",
+    'cardBankId',
+    'mixDateKey',
+  );
+  mustInclude('src/modules/mabra/components/DagligMixPanel.tsx', 'pickDagligMix', 'mix.card.bankId');
+  mustInclude('src/modules/mabra/lib/pickDagligMix.ts', 'fnv1a', 'DAGLIG_MIX_PLAYS');
+  const bankMd = read('docs/specs/modules/Mabra-CONTENT-BANK.md');
+  const catalogTs = read('src/modules/mabra/content/dagligMixCatalog.ts');
+  const dmBankIds = [
+    'DM-CARD-01',
+    'DM-CARD-02',
+    'DM-CARD-03',
+    'DM-CARD-04',
+    'DM-CARD-05',
+    'DM-CARD-06',
+    'DM-CARD-07',
+    'DM-CARD-08',
+    'DM-PLAY-01',
+    'DM-PLAY-02',
+    'DM-PLAY-03',
+  ];
+  for (const id of dmBankIds) {
+    assert(catalogTs.includes(id), `dagligMixCatalog.ts saknar ${id}`);
+    assert(bankMd.includes(id), `Mabra-CONTENT-BANK.md saknar ${id}`);
+  }
+  for (const rel of [
+    'src/modules/mabra/content/dagligMixCatalog.ts',
+    'src/modules/mabra/lib/pickDagligMix.ts',
+    'src/modules/mabra/components/DagligMixPanel.tsx',
+  ]) {
+    const text = read(rel);
+    assert(!text.includes('knowledgeVaultQuery'), `${rel} får inte anropa Kunskap-RAG`);
+    assert(!text.includes('kampspar'), `${rel} får inte läsa kampspar`);
+    for (const pattern of [/streakCount/i, /currentStreak/i, /dailyStreak/i, /\bXP\b/]) {
+      assert(!pattern.test(text), `${rel} får inte innehålla gamification: ${pattern}`);
+    }
+  }
+  assert(
+    catalogTs.includes('DAGLIG_MIX_BANK_IDS') && catalogTs.includes('DM-PLAY-03'),
+    'dagligMixCatalog.ts saknar DAGLIG_MIX_BANK_IDS / full DM-pool',
+  );
   mustInclude('src/modules/drogfrihet/content/drogfrihetCatalog.ts', 'DF-REF-01', 'DROGFRIHET_CARDS');
 
   console.log('[smoke:innehall] Cursor rules + grunder U6...');
