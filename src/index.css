@@ -4085,4 +4085,122 @@
   .hub-lab-card__body .planering-tool-card {
     pointer-events: none;
   }
+
+  /* MåBra — Vit hub (zoner + snabbstart) */
+  .mabra-vit-hub {
+    @apply space-y-4;
+  }
+
+  .mabra-vit-hub__profile .life-hub-hint {
+    @apply mb-0;
+  }
+
+  .mabra-vit-hub__quick {
+    @apply flex gap-2 overflow-x-auto pb-1;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    mask-image: linear-gradient(90deg, #000 92%, transparent 100%);
+  }
+
+  .mabra-vit-hub__chip {
+    @apply flex shrink-0 flex-col items-center gap-1 rounded-xl border border-border-strong/90 px-3 py-2 transition-[transform,border-color];
+    min-width: 4.75rem;
+    background: linear-gradient(165deg, rgba(28, 32, 40, 0.9) 0%, rgba(10, 12, 18, 0.85) 100%);
+  }
+
+  .mabra-vit-hub__chip:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  .mabra-vit-hub__chip-emoji {
+    @apply text-lg leading-none;
+  }
+
+  .mabra-vit-hub__chip-label {
+    @apply max-w-[5.5rem] truncate text-center text-[9px] font-semibold text-accent;
+  }
+
+  .mabra-vit-hub__zones {
+    @apply space-y-2;
+  }
+
+  .mabra-vit-hub__zone {
+    @apply overflow-hidden rounded-2xl border border-border-strong bg-bg/25;
+  }
+
+  .mabra-vit-hub__zone--open {
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  .mabra-vit-hub__zone-trigger {
+    @apply flex w-full items-center gap-2 px-4 py-3 text-left transition-colors hover:bg-surface/15;
+  }
+
+  .mabra-vit-hub__zone-label {
+    @apply flex-1 text-sm font-semibold text-accent;
+  }
+
+  .mabra-vit-hub__zone-meta {
+    @apply text-[10px] font-medium uppercase tracking-wider text-text-dim;
+  }
+
+  .mabra-vit-hub__zone-chevron {
+    @apply h-4 w-4 shrink-0 text-accent/70 transition-transform duration-200;
+  }
+
+  .mabra-vit-hub__zone--open .mabra-vit-hub__zone-chevron {
+    transform: rotate(180deg);
+  }
+
+  .mabra-vit-hub__zone-grid {
+    @apply grid grid-cols-2 gap-2 border-t border-border-strong/80 px-3 py-3 sm:grid-cols-3;
+  }
+
+  .mabra-vit-hub__tile {
+    @apply flex min-h-[4.25rem] flex-col items-start gap-0.5 rounded-xl border border-border-strong/80 px-2.5 py-2 text-left transition-[transform,border-color];
+    background: rgba(12, 16, 20, 0.55);
+  }
+
+  .mabra-vit-hub__tile:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+
+  .mabra-vit-hub__tile-emoji {
+    @apply text-base leading-none;
+  }
+
+  .mabra-vit-hub__tile-title {
+    @apply text-[11px] font-semibold leading-tight text-accent;
+  }
+
+  .mabra-vit-hub__tile-lead {
+    @apply line-clamp-2 text-[9px] leading-snug text-text-dim;
+  }
+
+  .mabra-feel-grid {
+    @apply grid grid-cols-4 gap-1.5 sm:grid-cols-5;
+  }
+
+  .mabra-feel-card {
+    @apply flex flex-col items-center justify-center gap-0.5 rounded-xl border border-border-strong/80 py-2 transition-colors;
+    background: rgba(12, 16, 20, 0.5);
+  }
+
+  .mabra-feel-card--active {
+    @apply border-accent/45 bg-accent/10;
+  }
+
+  .mabra-feel-card__emoji {
+    @apply text-lg leading-none;
+  }
+
+  .mabra-feel-card__label {
+    @apply text-[9px] font-medium text-text-muted;
+  }
+
+  .mabra-feel-card--active .mabra-feel-card__label {
+    @apply text-accent;
+  }
 }
