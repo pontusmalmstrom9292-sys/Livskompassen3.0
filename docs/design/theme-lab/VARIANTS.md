@@ -1,6 +1,6 @@
 # Theme Lab — variantbeslut
 
-**Uppdaterad:** 2026-05-28 (specialist-theme-lab)
+**Uppdaterad:** 2026-05-29 (specialist-theme-lab — Pack K wired)
 
 | ID | Label | Status | Test / beslut |
 |----|-------|--------|----------------|
@@ -30,16 +30,20 @@ Spec: [`../themes/J-PACK-EIGHT-HUBS.md`](../themes/J-PACK-EIGHT-HUBS.md)
 
 ## Theme Pack K (nya varianter, 2026-05-28)
 
+**Kod:** `themePackK.ts` → spread i `themeRegistry.ts` · sektion i `/dev/theme-lab` · alla 8 i `/dev/themes`.  
+**Verifiering:** `npm run build` PASS · `npm run smoke:locked-ux` PASS (2026-05-29).  
+**Auto per hub:** oförändrat Pack J (`moduleThemeMap.ts`).
+
 | ID | Label | Status | Notering |
 |----|-------|--------|----------|
-| `K-obsidian-deep` | Obsidian Djup | **utkast** | Brons + svart |
-| `K-copper-forge` | Koppar Smedja | **utkast** | Koppar/marmor |
-| `K-sage-calm` | Salvia Lugn | **utkast** | Salvia + guld |
-| `K-plum-night` | Plommon Natt | **utkast** | Plommon/vin |
-| `K-slate-balance` | Skiffer Balans | **utkast** | Neutral grå |
-| `K-honey-dawn` | Honung Gryning | **utkast** | Honung/amber |
-| `K-ivory-vault` | Elfenben Valv | **utkast** | Ljusare arkv |
-| `K-ember-focus` | Glöd Fokus | **utkast** | Ember + guld |
+| `K-obsidian-deep` | Obsidian Djup | **utkast** | wired · brons + svart |
+| `K-copper-forge` | Koppar Smedja | **utkast** | wired · koppar/marmor |
+| `K-sage-calm` | Salvia Lugn | **utkast** | wired · salvia + guld |
+| `K-plum-night` | Plommon Natt | **utkast** | wired · plommon/vin |
+| `K-slate-balance` | Skiffer Balans | **utkast** | wired · neutral grå |
+| `K-honey-dawn` | Honung Gryning | **utkast** | wired · honung/amber |
+| `K-ivory-vault` | Elfenben Valv | **utkast** | wired · ljusare arkv |
+| `K-ember-focus` | Glöd Fokus | **utkast** | wired · ember + guld |
 
 Spec: [`../themes/K-PACK-EIGHT-VARIANTS.md`](../themes/K-PACK-EIGHT-VARIANTS.md)
 
