@@ -2168,30 +2168,16 @@
   }
 
   .livskompass-hero__ring--mid {
-    inset: 2% 3%;
+    inset: 4% 5%;
     border-width: 1px;
-    border-style: dotted;
-    border-color: color-mix(in srgb, var(--accent) 16%, transparent);
-    opacity: 0.7;
+    border-style: solid;
+    border-color: color-mix(in srgb, var(--accent) 20%, transparent);
+    opacity: 0.55;
   }
 
-  .livskompass-hero__crosshair {
-    @apply pointer-events-none absolute inset-0 z-[1];
-  }
-
-  .livskompass-hero__crosshair-line {
-    @apply absolute left-1/2 top-1/2;
-    background: color-mix(in srgb, var(--accent) 22%, transparent);
-  }
-
-  .livskompass-hero__crosshair-line--ns {
-    @apply h-[78%] w-px -translate-x-1/2 -translate-y-1/2;
-    opacity: 0.45;
-  }
-
-  .livskompass-hero__crosshair-line--ew {
-    @apply h-px w-[78%] -translate-x-1/2 -translate-y-1/2;
-    opacity: 0.35;
+  .livskompass-hero__crosshair,
+  .livskompass-hero__needle {
+    display: none;
   }
 
   .livskompass-hero__cardinals {
@@ -2199,44 +2185,10 @@
   }
 
   .livskompass-hero__cardinal {
-    @apply absolute left-1/2 top-1/2 text-[9px] font-semibold uppercase tracking-[0.22em] text-accent/75;
+    @apply absolute left-1/2 top-1/2 text-[8px] font-semibold uppercase tracking-[0.2em] text-accent/65;
     transform: translate(-50%, -50%) rotate(var(--cardinal-angle))
-      translateY(calc(-1 * 46%)) rotate(calc(-1 * var(--cardinal-angle)));
-    text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 40%, transparent);
-  }
-
-  .livskompass-hero__needle {
-    @apply pointer-events-none absolute left-1/2 top-1/2 z-[3] h-[52%] w-3 -translate-x-1/2 -translate-y-[42%];
-    transform-origin: 50% 88%;
-    animation: hero-needle-sway 7s ease-in-out infinite;
-  }
-
-  @keyframes hero-needle-sway {
-    0%,
-    100% {
-      transform: translate(-50%, -42%) rotate(-4deg);
-    }
-    50% {
-      transform: translate(-50%, -42%) rotate(4deg);
-    }
-  }
-
-  .livskompass-hero__needle-shaft {
-    @apply absolute bottom-[18%] left-1/2 top-[8%] w-[2px] -translate-x-1/2 rounded-full;
-    background: linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--accent-light) 95%, white) 0%,
-      color-mix(in srgb, var(--accent) 70%, transparent) 55%,
-      color-mix(in srgb, var(--accent) 25%, transparent) 100%
-    );
-    box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 35%, transparent);
-  }
-
-  .livskompass-hero__needle-cap {
-    @apply absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 rotate-45;
-    border: 1.5px solid color-mix(in srgb, var(--accent-light) 80%, transparent);
-    background: color-mix(in srgb, var(--accent-light) 35%, transparent);
-    box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 45%, transparent);
+      translateY(calc(-1 * 48%)) rotate(calc(-1 * var(--cardinal-angle)));
+    text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 30%, transparent);
   }
 
   .livskompass-hero--v2 .livskompass-hero__ring,
@@ -2246,84 +2198,85 @@
   }
 
   .livskompass-hero__ring--outer {
-    inset: -3% -2%;
+    inset: -2% -1%;
     border-width: 2px;
-    border-color: color-mix(in srgb, var(--accent) 24%, transparent);
-    box-shadow:
-      0 0 0 1px color-mix(in srgb, var(--accent) 8%, transparent),
-      0 0 56px color-mix(in srgb, var(--accent) 14%, transparent);
-  }
-
-  .livskompass-hero__ring--inner {
-    inset: 6% 8%;
-    border-width: 1px;
-    border-style: dashed;
-    border-color: color-mix(in srgb, var(--accent) 22%, transparent);
-    opacity: 0.85;
-  }
-
-  .livskompass-hero--v2 .livskompass-hero__grid,
-  .livskompass-hero--elongated .livskompass-hero__grid {
-    @apply absolute rounded-full;
-    inset: 8%;
-    border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
-    background:
-      radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 52%),
-      radial-gradient(circle at 50% 50%, rgba(26, 26, 26, 0.9) 0%, rgba(10, 10, 10, 0.97) 72%),
-      repeating-conic-gradient(
-        from 0deg,
-        color-mix(in srgb, var(--accent) 8%, transparent) 0deg 8deg,
-        transparent 8deg 16deg
-      );
-  }
-
-  html[data-theme^='I-stone'] .livskompass-hero--elongated .livskompass-hero__grid {
     border-color: color-mix(in srgb, var(--accent) 30%, transparent);
-    box-shadow: inset 0 0 48px color-mix(in srgb, var(--accent) 10%, transparent);
-  }
-
-  .livskompass-hero__ticks {
-    @apply pointer-events-none absolute rounded-full;
-    inset: 10%;
-    opacity: 0.55;
-    background: repeating-conic-gradient(
-      from -4deg,
-      transparent 0deg 28deg,
-      color-mix(in srgb, var(--accent) 35%, transparent) 28deg 29deg
-    );
-    mask-image: radial-gradient(ellipse 72% 62% at 50% 50%, #000 35%, transparent 72%);
+    box-shadow: 0 0 40px color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
   .livskompass-hero--v2 .livskompass-hero__disk,
   .livskompass-hero--elongated .livskompass-hero__disk {
-    @apply absolute rounded-full;
-    inset: 6%;
-    background:
-      radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--accent) 20%, transparent) 0%, transparent 50%),
-      var(--compass-disk, rgba(12, 14, 18, 0.95));
-    border: 2px solid color-mix(in srgb, var(--accent) 44%, transparent);
+    @apply absolute overflow-visible rounded-full;
+    inset: 8%;
+    border: 2.5px solid color-mix(in srgb, var(--accent) 50%, transparent);
+    background: radial-gradient(
+      ellipse 70% 58% at 50% 32%,
+      rgba(62, 52, 34, 0.55) 0%,
+      rgba(14, 12, 10, 0.96) 52%,
+      rgba(4, 6, 10, 0.98) 100%
+    );
     box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.45) inset,
-      0 0 48px color-mix(in srgb, var(--accent) 22%, transparent),
-      0 12px 32px rgba(2, 6, 23, 0.45);
+      0 0 0 1px rgba(0, 0, 0, 0.5) inset,
+      0 1px 0 rgba(255, 243, 210, 0.14) inset,
+      0 -16px 36px rgba(0, 0, 0, 0.55) inset,
+      0 16px 40px rgba(0, 0, 0, 0.48),
+      0 0 36px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .livskompass-hero__disk::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: inherit;
+    background: linear-gradient(
+      168deg,
+      rgba(255, 248, 220, 0.1) 0%,
+      rgba(255, 248, 220, 0) 42%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .livskompass-hero__disk-surface {
+    @apply pointer-events-none absolute rounded-full;
+    inset: 6%;
+    z-index: 0;
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+    background:
+      radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 46%),
+      radial-gradient(circle at 50% 50%, rgba(8, 10, 14, 0.92) 0%, rgba(2, 4, 8, 0.98) 78%);
+    box-shadow: inset 0 8px 24px rgba(0, 0, 0, 0.45);
+  }
+
+  .livskompass-hero__disk-rose {
+    @apply pointer-events-none absolute rounded-full;
+    inset: 10%;
+    z-index: 2;
+    opacity: 0.55;
+    background:
+      linear-gradient(0deg, transparent 49.5%, color-mix(in srgb, var(--accent) 28%, transparent) 50%, transparent 50.5%),
+      linear-gradient(90deg, transparent 49.5%, color-mix(in srgb, var(--accent) 28%, transparent) 50%, transparent 50.5%),
+      linear-gradient(45deg, transparent 49.6%, color-mix(in srgb, var(--accent) 14%, transparent) 50%, transparent 50.4%),
+      linear-gradient(-45deg, transparent 49.6%, color-mix(in srgb, var(--accent) 14%, transparent) 50%, transparent 50.4%);
+  }
+
+  .livskompass-hero__disk-orbit-ring {
+    @apply pointer-events-none absolute rounded-full;
+    inset: 14%;
+    z-index: 2;
+    border: 1px dashed color-mix(in srgb, var(--accent) 24%, transparent);
+    opacity: 0.65;
   }
 
   html[data-theme^='I-stone'] .livskompass-hero--v2 .livskompass-hero__disk,
   html[data-theme^='I-stone'] .livskompass-hero--elongated .livskompass-hero__disk {
-    --compass-disk: #141210;
-    background:
-      radial-gradient(ellipse 65% 50% at 50% 36%, color-mix(in srgb, var(--accent-light) 24%, transparent) 0%, transparent 48%),
-      radial-gradient(ellipse at 50% 50%, #1c1610 0%, #0a0a0a 84%),
-      repeating-conic-gradient(
-        from 18deg,
-        color-mix(in srgb, var(--accent) 8%, transparent) 0deg 7deg,
-        transparent 7deg 14deg
-      );
-    border-color: color-mix(in srgb, var(--accent) 52%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 58%, transparent);
     box-shadow:
-      0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent) inset,
-      0 0 52px color-mix(in srgb, var(--accent) 24%, transparent),
-      0 24px 60px rgba(0, 0, 0, 0.68);
+      0 0 0 1px color-mix(in srgb, var(--accent) 16%, transparent) inset,
+      0 1px 0 rgba(255, 243, 210, 0.16) inset,
+      0 -18px 40px rgba(0, 0, 0, 0.58) inset,
+      0 20px 52px rgba(0, 0, 0, 0.62),
+      0 0 44px color-mix(in srgb, var(--accent) 22%, transparent);
   }
 
   .livskompass-hero--kvall.livskompass-hero--elongated .livskompass-hero__disk {
@@ -2347,48 +2300,69 @@
   }
 
   .livskompass-hero__orbit-wrap--inter .livskompass-hero__orbit-node {
-    @apply h-11 w-11;
+    @apply h-10 w-10;
   }
 
   .livskompass-hero__orbit-wrap--inter .livskompass-hero__orbit-icon {
-    @apply h-6 w-6;
+    @apply h-5 w-5;
   }
 
   .livskompass-hero__orbit-node {
-    @apply relative flex h-14 w-14 items-center justify-center rounded-full transition-[transform,box-shadow,border-color];
-    border: 1.5px solid color-mix(in srgb, var(--accent) 48%, transparent);
-    background: linear-gradient(165deg, rgba(22, 18, 12, 0.95) 0%, rgba(8, 8, 8, 0.92) 100%);
+    @apply relative z-[12] flex h-12 w-12 items-center justify-center overflow-hidden rounded-full transition-[transform,box-shadow,border-color];
+    border: 1.5px solid color-mix(in srgb, var(--accent) 44%, transparent);
+    background: linear-gradient(
+      168deg,
+      rgba(52, 44, 30, 0.97) 0%,
+      rgba(22, 18, 14, 0.95) 48%,
+      rgba(8, 10, 16, 0.93) 100%
+    );
     color: var(--accent);
     box-shadow:
-      0 0 18px color-mix(in srgb, var(--accent) 20%, transparent),
-      0 4px 16px rgba(0, 0, 0, 0.5),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      0 4px 14px rgba(0, 0, 0, 0.48),
+      0 1px 0 rgba(255, 243, 210, 0.12) inset,
+      0 -3px 9px rgba(0, 0, 0, 0.36) inset;
+    transform: translateY(-1px);
+  }
+
+  .livskompass-hero__orbit-node::before {
+    content: '';
+    position: absolute;
+    inset: 2px 2px auto;
+    height: 44%;
+    border-radius: 9999px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 248, 220, 0.12) 0%,
+      rgba(255, 248, 220, 0) 100%
+    );
+    pointer-events: none;
   }
 
   .livskompass-hero__orbit-gem {
-    @apply pointer-events-none absolute inset-[3px] rounded-full;
-    background: radial-gradient(circle at 35% 28%, color-mix(in srgb, var(--accent-light) 22%, transparent), transparent 58%);
-    opacity: 0.85;
+    display: none;
   }
 
   .livskompass-hero__orbit-node-ring {
-    @apply absolute inset-[5px] rounded-full;
-    border: 1px solid color-mix(in srgb, var(--accent-light) 42%, transparent);
-    opacity: 0.85;
+    @apply absolute inset-[4px] rounded-full;
+    border: 1px solid color-mix(in srgb, var(--accent-light) 32%, transparent);
+    opacity: 0.75;
   }
 
   .livskompass-hero__orbit-node--open,
   .livskompass-hero__orbit-node:hover {
-    border-color: color-mix(in srgb, var(--accent) 62%, transparent);
+    border-color: color-mix(in srgb, var(--accent-light) 58%, transparent);
     box-shadow:
-      0 0 22px color-mix(in srgb, var(--accent) 28%, transparent),
-      0 6px 18px rgba(0, 0, 0, 0.5);
-    transform: scale(1.06);
+      0 7px 18px rgba(0, 0, 0, 0.52),
+      0 0 16px color-mix(in srgb, var(--accent) 22%, transparent),
+      0 1px 0 rgba(255, 248, 220, 0.16) inset,
+      0 -3px 9px rgba(0, 0, 0, 0.32) inset;
+    transform: translateY(-2px) scale(1.05);
   }
 
   .livskompass-hero__orbit-icon {
-    @apply relative z-[2] h-7 w-7;
-    filter: drop-shadow(0 1px 4px color-mix(in srgb, var(--accent) 50%, transparent));
+    @apply relative z-[2] h-6 w-6;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5))
+      drop-shadow(0 0 8px color-mix(in srgb, var(--accent) 35%, transparent));
   }
 
   .livskompass-hero__orbit-menu-blurb {
@@ -2425,24 +2399,50 @@
   }
 
   .livskompass-hero__center {
-    @apply absolute left-1/2 top-1/2 z-[25] flex h-[34%] max-h-[4.75rem] w-[34%] min-w-[4.25rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full;
-    border: 2px solid color-mix(in srgb, var(--accent) 52%, transparent);
-    background: rgba(10, 10, 10, 0.68);
+    @apply absolute left-1/2 top-1/2 z-[25] flex h-[36%] max-h-[5rem] w-[36%] min-w-[4.5rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden rounded-full;
+    border: 2.5px solid color-mix(in srgb, var(--accent-light) 55%, transparent);
+    background: linear-gradient(
+      168deg,
+      rgba(58, 48, 32, 0.98) 0%,
+      rgba(24, 20, 14, 0.96) 46%,
+      rgba(6, 8, 12, 0.94) 100%
+    );
     color: var(--text-gold);
     box-shadow:
-      0 0 36px color-mix(in srgb, var(--accent) 26%, transparent),
-      0 0 0 5px color-mix(in srgb, var(--accent) 10%, transparent);
+      0 8px 24px rgba(0, 0, 0, 0.52),
+      0 0 28px color-mix(in srgb, var(--accent) 24%, transparent),
+      0 1px 0 rgba(255, 243, 210, 0.16) inset,
+      0 -6px 16px rgba(0, 0, 0, 0.4) inset;
+    transform: translate(-50%, -50%) translateY(-2px);
+    transition:
+      transform 0.16s ease,
+      box-shadow 0.16s ease,
+      border-color 0.16s ease;
+  }
+
+  .livskompass-hero__center::before {
+    content: '';
+    position: absolute;
+    inset: 3px 3px auto;
+    height: 46%;
+    border-radius: 9999px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 248, 220, 0.14) 0%,
+      rgba(255, 248, 220, 0) 100%
+    );
+    pointer-events: none;
   }
 
   .livskompass-hero__center-gem {
-    @apply pointer-events-none absolute inset-[8%] rounded-full;
-    border: 1px solid color-mix(in srgb, var(--accent-light) 30%, transparent);
-    background: radial-gradient(circle at 40% 32%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 65%);
+    @apply pointer-events-none absolute inset-[10%] rounded-full;
+    border: 1px solid color-mix(in srgb, var(--accent-light) 28%, transparent);
+    opacity: 0.8;
   }
 
   .livskompass-hero__center-halo {
-    @apply pointer-events-none absolute inset-[-6px] rounded-full;
-    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    @apply pointer-events-none absolute inset-[-8px] rounded-full;
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
     animation: hero-center-pulse 4s ease-in-out infinite;
   }
 
@@ -2465,13 +2465,19 @@
   }
 
   .livskompass-hero__center:hover {
+    transform: translate(-50%, -50%) translateY(-3px);
+    border-color: color-mix(in srgb, var(--accent-light) 68%, transparent);
     box-shadow:
-      0 0 44px color-mix(in srgb, var(--accent) 30%, transparent),
-      0 0 0 5px color-mix(in srgb, var(--accent) 12%, transparent);
+      0 10px 28px rgba(0, 0, 0, 0.55),
+      0 0 36px color-mix(in srgb, var(--accent) 30%, transparent),
+      0 1px 0 rgba(255, 248, 220, 0.2) inset,
+      0 -6px 16px rgba(0, 0, 0, 0.36) inset;
   }
 
   .livskompass-hero__mark {
-    @apply relative z-[1] h-[68%] w-[68%];
+    @apply relative z-[1] h-[62%] w-[62%];
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45))
+      drop-shadow(0 0 14px rgba(212, 175, 55, 0.38));
   }
 
   .livskompass-hero__hint {

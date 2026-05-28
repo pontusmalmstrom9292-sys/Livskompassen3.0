@@ -59,13 +59,6 @@ export function LivskompassHero({ onCenterPress }: Props) {
           <div className="livskompass-hero__face">
             <div className="livskompass-hero__ring livskompass-hero__ring--outer" aria-hidden />
             <div className="livskompass-hero__ring livskompass-hero__ring--mid" aria-hidden />
-            <div className="livskompass-hero__ring livskompass-hero__ring--inner" aria-hidden />
-            <div className="livskompass-hero__grid" aria-hidden />
-            <div className="livskompass-hero__ticks" aria-hidden />
-            <div className="livskompass-hero__crosshair" aria-hidden>
-              <span className="livskompass-hero__crosshair-line livskompass-hero__crosshair-line--ns" />
-              <span className="livskompass-hero__crosshair-line livskompass-hero__crosshair-line--ew" />
-            </div>
 
             <div className="livskompass-hero__cardinals" aria-hidden>
               {COMPASS_CARDINALS.map(({ id, label, angle }) => (
@@ -84,10 +77,9 @@ export function LivskompassHero({ onCenterPress }: Props) {
             </div>
 
             <div className="livskompass-hero__disk">
-              <div className="livskompass-hero__needle" aria-hidden>
-                <span className="livskompass-hero__needle-shaft" />
-                <span className="livskompass-hero__needle-cap" />
-              </div>
+              <div className="livskompass-hero__disk-surface" aria-hidden />
+              <div className="livskompass-hero__disk-rose" aria-hidden />
+              <div className="livskompass-hero__disk-orbit-ring" aria-hidden />
 
               {HERO_ORBIT_SLOTS.map(({ id, icon, label, shortLabel, blurb, to, angle, ring }) => {
                 const open = openOrbitId === id;
