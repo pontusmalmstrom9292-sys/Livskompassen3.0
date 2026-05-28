@@ -7,6 +7,8 @@ import { applyTheme } from '../theme/applyTheme';
 import { useTheme } from '../theme';
 import { THEME_LAB_DRAFTS } from '../theme/themeLabVariants';
 import { THEME_REGISTRY } from '../theme/themeRegistry';
+import { K_PACK_THEME_IDS, THEME_PACK_K } from '../theme/themePackK';
+import { J_PACK_THEME_IDS } from '../theme/themeRegistry';
 import type { ThemePack } from '../theme/types';
 
 const MOCKUP_LINKS = [
@@ -110,24 +112,48 @@ export function ThemeLabPage() {
         </ul>
       </section>
 
-      <section className="glass-card p-4">
-        <h2 className="text-xs uppercase tracking-widest text-text-dim">Prod-teman</h2>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          {THEME_REGISTRY.map((pack) => (
-            <ThemeLabCard
-              key={pack.id}
-              pack={pack}
-              active={previewId === pack.id}
-              applied={themeId === pack.id}
-              onPreview={() => applyPreview(pack.id)}
-              onApply={() => {
-                setTheme(pack.id);
-                setPreviewId(pack.id);
-              }}
-            />
-          ))}
-        </div>
-      </section>
+      <ThemeLabPackSection
+        title="Theme Pack K — nya (2026-05-28)"
+        packs={THEME_PACK_K}
+        previewId={previewId}
+        themeId={themeId}
+        onPreview={applyPreview}
+        onApply={(id) => {
+          setTheme(id);
+          setPreviewId(id);
+        }}
+        draft
+      />
+
+      <ThemeLabPackSection
+        title="Theme Pack J — hub auto"
+        packs={THEME_REGISTRY.filter((p) =>
+          (J_PACK_THEME_IDS as readonly string[]).includes(p.id),
+        )}
+        previewId={previewId}
+        themeId={themeId}
+        onPreview={applyPreview}
+        onApply={(id) => {
+          setTheme(id);
+          setPreviewId(id);
+        }}
+      />
+
+      <ThemeLabPackSection
+        title="Pack I / G (bas)"
+        packs={THEME_REGISTRY.filter(
+          (p) =>
+            !(J_PACK_THEME_IDS as readonly string[]).includes(p.id) &&
+            !(K_PACK_THEME_IDS as readonly string[]).includes(p.id),
+        )}
+        previewId={previewId}
+        themeId={themeId}
+        onPreview={applyPreview}
+        onApply={(id) => {
+          setTheme(id);
+          setPreviewId(id);
+        }}
+      />
 
       <section className="glass-card p-4">
         <h2 className="text-xs uppercase tracking-widest text-text-dim">Utkast (agent)</h2>
@@ -187,6 +213,43 @@ export function ThemeLabPage() {
         </p>
       </section>
     </div>
+  );
+}
+
+function ThemeLabPackSection({
+  title,
+  packs,
+  previewId,
+  themeId,
+  onPreview,
+  onApply,
+  draft,
+}: {
+  title: string;
+  packs: ThemePack[];
+  previewId: string;
+  themeId: string;
+  onPreview: (id: string) => void;
+  onApply: (id: string) => void;
+  draft?: boolean;
+}) {
+  return (
+    <section className="glass-card p-4">
+      <h2 className="text-xs uppercase tracking-widest text-text-dim">{title}</h2>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        {packs.map((pack) => (
+          <ThemeLabCard
+            key={pack.id}
+            pack={pack}
+            draft={draft}
+            active={previewId === pack.id}
+            applied={themeId === pack.id}
+            onPreview={() => onPreview(pack.id)}
+            onApply={() => onApply(pack.id)}
+          />
+        ))}
+      </div>
+    </section>
   );
 }
 

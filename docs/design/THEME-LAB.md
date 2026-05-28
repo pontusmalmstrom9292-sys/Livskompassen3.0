@@ -1,4 +1,4 @@
-x# Theme Lab — jämför och bestäm design
+# Theme Lab — jämför och bestäm design
 
 **Preview:** http://localhost:5173/dev/theme-lab  
 **Enklare väljare:** http://localhost:5173/dev/themes
@@ -35,6 +35,7 @@ Agent: `.cursor/agents/specialist-theme-lab.md`
 | `src/modules/core/theme/themeRegistry.ts` | Godkända teman |
 | `docs/design/theme-lab/VARIANTS.md` | Beslut logg |
 | `docs/design/theme-lab/ICON-DECISIONS.md` | Ikoner meny/dock/hero |
+| `docs/design/themes/K-PACK-EIGHT-VARIANTS.md` | **Pack K** — 8 nya varianter (2026-05-28) |
 
 ---
 

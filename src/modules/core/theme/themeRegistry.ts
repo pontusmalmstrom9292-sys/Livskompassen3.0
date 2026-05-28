@@ -1,12 +1,10 @@
 import type { ThemePack } from './types';
+import { THEME_SHARED_VARS } from './themeShared';
+import { THEME_PACK_K } from './themePackK';
 
-const shared = {
-  '--text': '#f5f0e8',
-  '--text-muted': '#c4bdb4',
-  '--text-dim': '#a8a29e',
-  '--warning': '#b45309',
-  '--danger': '#dc2626',
-} as const;
+const shared = THEME_SHARED_VARS;
+
+export { THEME_SHARED_VARS } from './themeShared';
 
 /** Canonical theme packs — add new cool themes here only. */
 export const THEME_REGISTRY: ThemePack[] = [
@@ -361,6 +359,8 @@ export const THEME_REGISTRY: ThemePack[] = [
       '--compass-disk': '#141418',
     },
   },
+  // Theme Pack K — åtta nya varianter (docs/design/themes/K-PACK-EIGHT-VARIANTS.md)
+  ...THEME_PACK_K,
 ];
 
 export const DEFAULT_THEME_ID = 'I-stone';

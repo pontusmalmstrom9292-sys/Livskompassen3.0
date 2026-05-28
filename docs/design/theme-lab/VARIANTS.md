@@ -1,6 +1,6 @@
 # Theme Lab — variantbeslut
 
-**Uppdaterad:** 2026-05-25
+**Uppdaterad:** 2026-05-28
 
 | ID | Label | Status | Beslut (du fyller i) |
 |----|-------|--------|----------------------|
@@ -22,6 +22,21 @@
 | `J-vardagen-orbit` | Vardagen Orbit | **utkast** | Vardagen-flikar, WH2 |
 
 Spec: [`../themes/J-PACK-EIGHT-HUBS.md`](../themes/J-PACK-EIGHT-HUBS.md)
+
+## Theme Pack K (nya varianter, 2026-05-28)
+
+| ID | Label | Status | Notering |
+|----|-------|--------|----------|
+| `K-obsidian-deep` | Obsidian Djup | **utkast** | Brons + svart |
+| `K-copper-forge` | Koppar Smedja | **utkast** | Koppar/marmor |
+| `K-sage-calm` | Salvia Lugn | **utkast** | Salvia + guld |
+| `K-plum-night` | Plommon Natt | **utkast** | Plommon/vin |
+| `K-slate-balance` | Skiffer Balans | **utkast** | Neutral grå |
+| `K-honey-dawn` | Honung Gryning | **utkast** | Honung/amber |
+| `K-ivory-vault` | Elfenben Valv | **utkast** | Ljusare arkv |
+| `K-ember-focus` | Glöd Fokus | **utkast** | Ember + guld |
+
+Spec: [`../themes/K-PACK-EIGHT-VARIANTS.md`](../themes/K-PACK-EIGHT-VARIANTS.md)
 
 ## Godkännande
 

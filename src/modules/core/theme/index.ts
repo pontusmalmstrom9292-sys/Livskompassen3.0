@@ -13,4 +13,6 @@ export {
   DEFAULT_THEME_ID,
   getTheme,
 } from './themeRegistry';
+export { K_PACK_THEME_IDS, THEME_PACK_K } from './themePackK';
+export { J_PACK_THEME_IDS } from './themeRegistry';
 export type { ThemePack, ThemeBackground, ThemeMode } from './types';
