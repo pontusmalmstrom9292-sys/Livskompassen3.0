@@ -32,7 +32,7 @@ export function MoodStep({
   return (
     <div className="reflektion-panel">
       <p className="reflektion-panel__lead">Hur känns det just nu?</p>
-      <p className="reflektion-panel__hint">Tryck en ruta — eller slumpa om du är osäker.</p>
+      <p className="reflektion-panel__hint">Tryck en liten ruta — eller slumpa.</p>
 
       <div className="reflektion-mood-grid" role="group" aria-label="Välj känsla">
         {MOOD_CATALOG.map((m) => {
@@ -57,8 +57,8 @@ export function MoodStep({
       </div>
 
       <button type="button" onClick={pickRandom} className="reflektion-shuffle">
-        <Shuffle className="h-4 w-4" aria-hidden />
-        Slumpa en känsla
+        <Shuffle className="h-3.5 w-3.5" aria-hidden />
+        Slumpa
       </button>
 
       {selected && (

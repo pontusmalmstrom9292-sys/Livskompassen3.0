@@ -11,7 +11,7 @@ Route: `/dagbok` · Canonical: `.context/modules/diary/diaryshubben.md` · Spec:
 | Path | Role |
 |------|------|
 | `components/DagbokPage.tsx` | Orkestrator — kopplar hook + steg + arkiv |
-| `components/DagbokStepIndicator.tsx` | Visuell steg-rad (Humör → Text → Bekräfta → Klar) |
+| Steg-indikator | Borttagen — ett steg i taget via innehåll + Tillbaka (skärmläsare: sr-only) |
 | `components/MoodStep.tsx` | Steg 1 — humör-pills |
 | `components/ReflectionStep.tsx` | Steg 2 — textarea + röst (Web Speech sv-SE) |
 | `components/ConfirmStep.tsx` | Steg 3 — preview + spara |

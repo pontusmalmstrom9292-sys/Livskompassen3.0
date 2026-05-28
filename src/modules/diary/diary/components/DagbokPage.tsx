@@ -12,8 +12,8 @@ import {
   parseMabraBridgeHub,
 } from '../constants/mabraBridge';
 import { useJournalFlow } from '../hooks/useJournalFlow';
+import { JOURNAL_STEPS } from '../constants/moods';
 import { ConfirmStep } from './ConfirmStep';
-import { DagbokStepIndicator } from './DagbokStepIndicator';
 import { JournalArchive } from './JournalArchive';
 import { MoodStep } from './MoodStep';
 import { ReflectionStep } from './ReflectionStep';
@@ -78,8 +78,11 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
           Ta det lugnt — ett litet steg i taget. Inget måste bli perfekt.
         </p>
 
-        <div className="reflektion-wizard">
-          <DagbokStepIndicator currentStep={step} />
+        <div className="reflektion-wizard" aria-live="polite">
+          <p className="sr-only">
+            Steg {JOURNAL_STEPS.findIndex((s) => s.key === step) + 1} av {JOURNAL_STEPS.length}:{' '}
+            {JOURNAL_STEPS.find((s) => s.key === step)?.label}
+          </p>
 
         {step === 'mood' && (
           <MoodStep
