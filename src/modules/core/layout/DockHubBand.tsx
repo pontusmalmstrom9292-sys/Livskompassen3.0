@@ -7,13 +7,13 @@ import { useLongPress } from '../hooks/useLongPress';
 import { useLifeHubPreset } from '../lifeOs/useLifeHubPreset';
 import { getHubContextSlots, type HubContextSlot } from '../navigation/hubContextBar';
 import { getDockHubBanner } from './dockHubBanner';
-import { getDockNavIcon, getDockSideIcon } from './dockNavIcons';
+import { renderDockNavIcon, renderDockSideIcon } from './dockNavIcons';
 import { DockNavButton, DockNavLinkFace } from './DockNavButton';
 import { getDockSideLinks } from './dockHubChrome';
 import type { DockSideLink } from './dockHubChrome';
 
 function DockSideNav({ link }: { link: DockSideLink }) {
-  const glyphId = getDockSideIcon(link.icon);
+  const icon = renderDockSideIcon(link.icon);
   return (
     <NavLink
       to={link.to}
@@ -23,7 +23,7 @@ function DockSideNav({ link }: { link: DockSideLink }) {
       aria-label={link.label}
     >
       {({ isActive }) => (
-        <DockNavLinkFace label={link.label} glyphId={glyphId} active={isActive} variant="side" />
+        <DockNavLinkFace label={link.label} icon={icon} active={isActive} variant="side" />
       )}
     </NavLink>
   );
@@ -36,11 +36,11 @@ function ContextSlotButton({
   slot: HubContextSlot;
   onGo: (to: string) => void;
 }) {
-  const glyphId = getDockNavIcon(slot);
+  const icon = renderDockNavIcon(slot);
   return (
     <DockNavButton
       label={slot.label}
-      glyphId={glyphId}
+      icon={icon}
       active={!!slot.active}
       variant="slot"
       onClick={() => onGo(slot.to)}
