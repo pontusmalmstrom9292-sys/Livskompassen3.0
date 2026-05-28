@@ -1,8 +1,8 @@
 import { ChevronDown } from 'lucide-react';
 import { clsx } from 'clsx';
-import { DashboardPage } from '../../kompasser/components/DashboardPage';
-import { getCompassFlowMeta } from '../../kompasser/utils/compassAdvice';
-import { getDefaultCompassByTime } from '../../kompasser/utils/compassTime';
+import { DashboardPage } from '../../wellbeing/compasses/components/DashboardPage';
+import { getCompassFlowMeta } from '../../wellbeing/compasses/utils/compassAdvice';
+import { getDefaultCompassByTime } from '../../wellbeing/compasses/utils/compassTime';
 
 type Props = {
   open: boolean;

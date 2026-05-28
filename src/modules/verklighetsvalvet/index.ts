@@ -1,1 +1,2 @@
-export { VaultPage, parseVaultTab, type VaultTab } from './components/VaultPage';
+/** @deprecated Import from `modules/evidence/vault` */
+export * from '../evidence/vault';

@@ -29,7 +29,7 @@ function mustInclude(relPath, ...needles) {
 function main() {
   // Barnfokus-frågor (ev. Middagsfrågan)
   mustInclude(
-    'src/modules/barnens_livsloggar/components/BarnfokusFraganPanel.tsx',
+    'src/modules/family/children/components/BarnfokusFraganPanel.tsx',
     'Barnfokus',
     'Minneslista',
     'Spara till',
@@ -37,63 +37,78 @@ function main() {
     'Annan fråga',
   );
   mustInclude(
-    'src/modules/barnens_livsloggar/components/BarnensPage.tsx',
+    'src/modules/family/children/components/BarnensPage.tsx',
     'BarnfokusFraganPanel',
     'handleSaveBarnfokus',
   );
   mustInclude(
-    'src/modules/barnens_livsloggar/hooks/useFamiljenShell.ts',
+    'src/modules/family/children/hooks/useFamiljenShell.ts',
     "category: 'barnfokus'",
     'handleSaveBarnfokus',
   );
   mustInclude(
-    'src/modules/barnens_livsloggar/components/FamiljenPage.tsx',
+    'src/modules/family/children/components/FamiljenPage.tsx',
     'FamiljenReflektionTab',
     'vaultDrawerPath',
   );
   mustInclude(
-    'src/modules/verklighetsvalvet/components/VaultKunskapsbankPanel.tsx',
+    'src/modules/evidence/knowledge/components/VaultKunskapsbankPanel.tsx',
     'FamiljenKunskapHubTab',
     'KunskapPage',
   );
   mustInclude(
-    'src/modules/barnens_livsloggar/components/familjen/FamiljenReflektionTab.tsx',
+    'src/modules/family/children/components/familjen/FamiljenReflektionTab.tsx',
     'BarnfokusFraganPanel',
     'handleSaveBarnfokus',
   );
   mustInclude(
-    'src/modules/barnens_livsloggar/constants.ts',
+    'src/modules/family/children/constants.ts',
     'BARNFOKUS_QUESTIONS',
     'barnfokusQuestionForToday',
     'valv_safe',
   );
 
-  // Valv Mönster + Orkester
+  // Valv Mönster + Orkester (tab labels: tabRegistry · panels: VaultPage)
   mustInclude(
-    'src/modules/verklighetsvalvet/components/VaultPage.tsx',
+    'src/modules/core/navigation/tabRegistry.ts',
+    'MAIN_VAULT_TAB_IDS',
+    'Mönster',
+    'Orkester',
+    'Kunskapsbank',
+    'getMainVaultTabBarItems',
+  );
+  mustInclude(
+    'src/modules/evidence/vault/utils/vaultTabs.ts',
     "'monster'",
     "'orkester'",
     "'kunskapsbank'",
-    'label: \'Mönster\'',
-    'label: \'Orkester\'',
-    'label: \'Kunskapsbank\'',
+  );
+  mustInclude(
+    'src/modules/evidence/vault/components/VaultPage.tsx',
+    'getMainVaultTabBarItems',
     'VaultMonsterPanel',
     'VaultOrkesterPanel',
     'VaultKunskapsbankPanel',
   );
   mustInclude(
-    'src/modules/verklighetsvalvet/components/VaultMonsterPanel.tsx',
+    'src/modules/core/navigation/tabRegistry.ts',
+    'TAB_CATEGORY_LABELS',
+    'groupVardagDrawerRoots',
+  );
+  mustInclude('src/modules/core/layout/DrawerHubAccordion.tsx', 'groupVardagDrawerRoots');
+  mustInclude(
+    'src/modules/evidence/vault/components/VaultMonsterPanel.tsx',
     'Frekvensanalys',
     'buildVaultFrequencyReport',
   );
   mustInclude(
-    'src/modules/verklighetsvalvet/components/VaultOrkesterPanel.tsx',
+    'src/modules/evidence/vault/components/VaultOrkesterPanel.tsx',
     'AI-Orkestern',
     'Kör mönstersökning',
     'analyzeBiffMessage',
   );
   mustInclude(
-    'src/modules/verklighetsvalvet/utils/vaultPatternScan.ts',
+    'src/modules/evidence/vault/utils/vaultPatternScan.ts',
     'buildVaultFrequencyReport',
   );
 
@@ -126,8 +141,8 @@ function main() {
   );
   mustInclude('src/modules/core/pages/HomePage.tsx', 'useLifeHubPreset');
   mustInclude('src/modules/core/lifeOs/HubPresetSheet.tsx', 'LifeHubPresetPicker');
-  mustInclude('src/modules/planering/components/RoutinesPanel.tsx', 'runRoutine');
-  mustInclude('src/modules/projekt/components/ProjektNyPage.tsx', '/projekt/ny');
+  mustInclude('src/modules/admin/planning/components/RoutinesPanel.tsx', 'runRoutine');
+  mustInclude('src/modules/admin/projects/components/ProjektNyPage.tsx', '/admin/projects/ny');
   mustInclude('src/index.css', '.dock-hub-band');
 
   mustInclude(
@@ -205,7 +220,7 @@ function main() {
   const mockDir = resolve(root, 'docs/design/barnporten/mockups');
   assert(existsSync(mockDir), 'saknar mapp: docs/design/barnporten/mockups');
 
-  mustInclude('src/modules/kompasser/components/VardagenPage.tsx', 'vaultDrawerPath', 'kunskap');
+  mustInclude('src/modules/wellbeing/compasses/components/VardagenPage.tsx', 'vaultDrawerPath', 'kunskap');
   mustInclude('src/modules/core/home/LivskompassHero.tsx', 'vaultTab=kunskapsbank');
   mustInclude(
     'docs/design/references/MENU-DRAWER-KANON.md',
@@ -252,15 +267,15 @@ function main() {
   );
   mustInclude('src/modules/core/layout/DrawerHubAccordion.tsx', 'nav-drawer__row--sub', 'isDrawerItemActive');
   mustInclude('src/modules/core/components/DrawerHomeQuickActions.tsx', 'FYREN_HOME_QUICK_ACTIONS');
-  mustInclude('src/modules/barnens_livsloggar/components/FamiljenPage.tsx', 'HubPageShell', 'ParentReminderFooter');
+  mustInclude('src/modules/family/children/components/FamiljenPage.tsx', 'HubPageShell', 'ParentReminderFooter');
   mustInclude(
-    'src/modules/mabra/components/MabraPage.tsx',
+    'src/modules/wellbeing/mabra/components/MabraPage.tsx',
     'HubPageShell',
     'DagligMixPanel',
     'handleDagligMixComplete',
   );
   mustInclude(
-    'src/modules/planering/components/PlaneringPage.tsx',
+    'src/modules/admin/planning/components/PlaneringPage.tsx',
     'HubPageShell',
     'PlanningKanbanBoard',
   );

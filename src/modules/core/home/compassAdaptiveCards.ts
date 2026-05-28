@@ -1,5 +1,5 @@
-import type { CompassFlow } from '../../kompasser/utils/compassTime';
-import { getDefaultCompassByTime } from '../../kompasser/utils/compassTime';
+import type { CompassFlow } from '../../wellbeing/compasses/utils/compassTime';
+import { getDefaultCompassByTime } from '../../wellbeing/compasses/utils/compassTime';
 
 export type CheckInSnapshot = {
   id: string;

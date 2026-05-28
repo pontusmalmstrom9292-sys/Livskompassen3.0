@@ -5,14 +5,14 @@ import { AuthGate } from '../auth/AuthGate';
 import { HomePage } from '../pages/HomePage';
 import { ThemePreviewPage } from '../pages/ThemePreviewPage';
 import { ThemeLabPage } from '../pages/ThemeLabPage';
-import { VardagenPage, type VardagenTab } from '../../kompasser';
+import { VardagenPage, type VardagenTab } from '../../wellbeing/compasses';
 import { SafeHarborPage } from '../../safe_harbor';
-import { HjartatPage } from '../../dagbok';
-import { FamiljenPage } from '../../barnens_livsloggar';
-import { DossierPage } from '../../dossier';
-import { MabraPage } from '../../mabra';
-import { PlaneringPage } from '../../planering';
-import { ProjektDetailPage, ProjektHubPage, ProjektNyPage } from '../../projekt';
+import { HjartatPage } from '../../diary/diary';
+import { FamiljenPage } from '../../family/children';
+import { DossierPage } from '../../evidence/vault/dossier';
+import { MabraPage } from '../../wellbeing/mabra';
+import { PlaneringPage } from '../../admin/planning';
+import { ProjektDetailPage, ProjektHubPage, ProjektNyPage } from '../../admin/projects';
 import { ArbetslivHubPage } from '../../arbetsliv';
 import { DrogfrihetHubPage } from '../../drogfrihet';
 import { InstallningarPage } from '../pages/InstallningarPage';
@@ -129,7 +129,7 @@ function MainAppRoutes() {
           }
         />
         <Route
-          path="/projekt/ny"
+          path="/admin/projects/ny"
           element={
             <AuthGate>
               <ProjektNyPage />
@@ -137,7 +137,7 @@ function MainAppRoutes() {
           }
         />
         <Route
-          path="/projekt/:projectId"
+          path="/admin/projects/:projectId"
           element={
             <AuthGate>
               <ProjektDetailPage />

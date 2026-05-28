@@ -4,7 +4,7 @@ import { Loader2 } from 'lucide-react';
 import { AuthGate } from '../../core/auth/AuthGate';
 import { saveChildrenLog } from '../../core/firebase/firestore';
 import { useStore } from '../../core/store';
-import { CHILD_ALIASES, type ChildAlias } from '../../barnens_livsloggar/constants';
+import { CHILD_ALIASES, type ChildAlias } from '../../family/children/constants';
 import { WidgetShell } from '../layout/WidgetShell';
 
 function WidgetFamiljenInner() {

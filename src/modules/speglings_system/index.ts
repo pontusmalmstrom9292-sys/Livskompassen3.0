@@ -1,1 +1,2 @@
-export { SpeglingsSystem } from './components/SpeglingsSystem';
+/** @deprecated Import from `modules/diary/mirror` */
+export * from '../diary/mirror';

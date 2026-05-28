@@ -1,6 +1,6 @@
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import { TabBar } from '../../core/ui/TabBar';
-import { KompassradPanel } from '../../kompasser/components/KompassradPanel';
+import { KompassradPanel } from '../../wellbeing/compasses/components/KompassradPanel';
 import { CognitiveLoadStrip } from '../../core/ui/CognitiveLoadStrip';
 import { BiffPublicPanel } from './BiffPublicPanel';
 import { vaultDrawerPath } from '../../core/navigation/navTruth';

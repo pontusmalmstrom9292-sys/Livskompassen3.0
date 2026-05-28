@@ -75,7 +75,7 @@ function main() {
 
   console.log('[smoke:orkester] Dagbok frontend weave...');
   mustInclude(
-    'src/modules/dagbok/hooks/useJournalFlow.ts',
+    'src/modules/diary/diary/hooks/useJournalFlow.ts',
     'weaveJournalEntry',
     'journalWovenToKampspar',
     "hasVaultZone('dagbok_forensic')",
@@ -90,13 +90,13 @@ function main() {
     'hamn_forensic',
   );
   mustInclude(
-    'src/modules/barnens_livsloggar/components/FamiljenPage.tsx',
+    'src/modules/family/children/components/FamiljenPage.tsx',
     'vaultDrawerPath',
     'familjen_monster',
     'kunskapsbank',
   );
   mustInclude(
-    'src/modules/dagbok/components/DagbokPage.tsx',
+    'src/modules/diary/diary/components/DagbokPage.tsx',
     'VaultZoneGate',
     'dagbok_forensic',
   );
@@ -133,11 +133,11 @@ function main() {
 
   console.log('[smoke:orkester] Orkester UI registry...');
   mustInclude(
-    'src/modules/verklighetsvalvet/components/VaultOrkesterPanel.tsx',
+    'src/modules/evidence/vault/components/VaultOrkesterPanel.tsx',
     'VaultOrkesterPanel',
     'OrkesterAgentTrio',
   );
-  mustInclude('src/modules/verklighetsvalvet/components/VaultPage.tsx', "'orkester'", 'VaultOrkesterPanel');
+  mustInclude('src/modules/evidence/vault/components/VaultPage.tsx', "'orkester'", 'VaultOrkesterPanel');
 
   console.log('[smoke:orkester] Specialist agents + conductor...');
   for (const agent of [

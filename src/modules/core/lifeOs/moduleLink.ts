@@ -49,7 +49,7 @@ export function resolveModuleLink(target: ModuleLinkTarget): ResolvedModuleLink 
     }
     case 'projekt':
       return target.projectId
-        ? { pathname: `/projekt/${target.projectId}` }
+        ? { pathname: `/admin/projects/${target.projectId}` }
         : { pathname: '/projekt' };
     case 'hem':
       return { pathname: '/', hash: target.hash };

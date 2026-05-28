@@ -8,18 +8,33 @@ Delad infrastruktur: **`core/`**. Backend (Cloud Functions, Agent Cards): **`fun
 
 **Sammanställd register (Del B):** [`docs/MODUL-FUNKTIONS-REGISTER.md`](../../docs/MODUL-FUNKTIONS-REGISTER.md)
 
-## Logisk modulcluster (målbild — fysiska mappar platta tills path-alias)
+## Mappstruktur (2026-05-28)
 
-| Kluster | Moduler (`src/modules/`) |
-|---------|--------------------------|
-| **loggar** | `dagbok`, `barnens_livsloggar`, `inkast` |
-| **valv** | `verklighetsvalvet`, `valv_chatt`, `valv_ekonomi`, `dossier` |
-| **vardag** | `kompasser`, `ekonomi`, `mabra` |
-| **livsstod** | `safe_harbor`, `drogfrihet` |
-| **livsos** | `planering`, `projekt`, `arbetsliv`, `stampla` |
-| **övrigt** | `core`, `kompis`, `speglings_system`, `widgets`, `barnporten` |
+```
+src/modules/
+├── core/
+├── evidence/           ← Valv + Kunskap + Valv-chatt
+│   ├── vault/         (verklighetsvalvet + dossier)
+│   ├── knowledge/
+│   └── vaultChat/
+├── diary/             ← Dagbok + Speglar
+│   ├── diary/
+│   └── mirror/
+├── wellbeing/         ← MåBra + Kompasser
+│   ├── mabra/
+│   └── compasses/
+├── admin/             ← Planering + Projekt
+│   ├── planning/
+│   └── projects/
+├── family/
+│   └── children/
+├── shared/
+└── (rot)              ← kompis, ekonomi, safe_harbor, …
+```
 
-Flikar i hubbar härleds från [`navTruth.ts`](./core/navigation/navTruth.ts) via [`hubTabs.tsx`](./core/navigation/hubTabs.tsx) + [`useHubTab`](./core/navigation/hooks/useHubTab.ts) (synkad `?tab=` med drawer).
+Legacy-import: `modules/dagbok` m.fl. → tunna `index.ts` som re-exporterar nya paths.
+
+Flikar: [`tabRegistry.ts`](./core/navigation/tabRegistry.ts) · [`TAB-REGISTRY.md`](../docs/design/TAB-REGISTRY.md) · [`navTruth.ts`](./core/navigation/navTruth.ts).
 
 ## Moduler (index)
 
@@ -27,25 +42,25 @@ Flikar i hubbar härleds från [`navTruth.ts`](./core/navigation/navTruth.ts) vi
 |-------|-------|--------|---------|
 | **core** | (app-shell) | [core/README.md](./core/README.md) | [.context/modules/core.md](../../.context/modules/core.md) |
 | **kompis** | Valv `kunskapsbank` (`/dagbok?tab=bevis&vaultTab=kunskapsbank`) | [kompis/README.md](./kompis/README.md) | [kompis.md](../../.context/modules/kompis.md) |
-| **verklighetsvalvet** | `/dagbok?tab=bevis` | [verklighetsvalvet/README.md](./verklighetsvalvet/README.md) | [verklighetsvalvet.md](../../.context/modules/verklighetsvalvet.md) |
-| **valv_chatt** | Bevis → Sök-flik | [valv_chatt/README.md](./valv_chatt/README.md) | [valv_chatt.md](../../.context/modules/valv_chatt.md) |
+| **verklighetsvalvet** | `/dagbok?tab=bevis` | [verklighetsvalvet/README.md](./evidence/vault/README.md) | [verklighetsvalvet.md](../../.context/modules/evidence/vault.md) |
+| **valv_chatt** | Bevis → Sök-flik | [valv_chatt/README.md](./evidence/vaultChat/README.md) | [valv_chatt.md](../../.context/modules/evidence/vaultChat.md) |
 | **valv_ekonomi** | Valv → Forensik | (paneler) | — |
-| **kompasser** | `/vardagen` | [kompasser/README.md](./kompasser/README.md) | [kompasser.md](../../.context/modules/kompasser.md) |
+| **kompasser** | `/vardagen` | [kompasser/README.md](./wellbeing/compasses/README.md) | [kompasser.md](../../.context/modules/wellbeing/compasses.md) |
 | **safe_harbor** | `/hamn` | [safe_harbor/README.md](./safe_harbor/README.md) | [safe_harbor.md](../../.context/modules/safe_harbor.md) |
 | **ekonomi** | `/vardagen?tab=ekonomi` | [ekonomi/README.md](./ekonomi/README.md) | [ekonomi.md](../../.context/modules/ekonomi.md) |
-| **dagbok** | `/dagbok` | [dagbok/README.md](./dagbok/README.md) | [dagbokshubben.md](../../.context/modules/dagbokshubben.md) |
-| **speglings_system** | `/dagbok?tab=speglar` | [speglings_system/README.md](./speglings_system/README.md) | [speglingssystemet.md](../../.context/modules/speglingssystemet.md) |
-| **barnens_livsloggar** | `/familjen` | [barnens_livsloggar/README.md](./barnens_livsloggar/README.md) | [barnens_livsloggar.md](../../.context/modules/barnens_livsloggar.md) |
-| **mabra** | `/mabra` | [mabra/README.md](./mabra/README.md) | [mabra_sidan.md](../../.context/modules/mabra_sidan.md) |
+| **dagbok** | `/dagbok` | [dagbok/README.md](./diary/diary/README.md) | [dagbokshubben.md](../../.context/modules/diary/diaryshubben.md) |
+| **speglings_system** | `/dagbok?tab=speglar` | [speglings_system/README.md](./diary/mirror/README.md) | [speglingssystemet.md](../../.context/modules/speglingssystemet.md) |
+| **barnens_livsloggar** | `/familjen` | [barnens_livsloggar/README.md](./family/children/README.md) | [barnens_livsloggar.md](../../.context/modules/family/children.md) |
+| **mabra** | `/mabra` | [mabra/README.md](./wellbeing/mabra/README.md) | [mabra_sidan.md](../../.context/modules/wellbeing/mabra_sidan.md) |
 | **drogfrihet** | `/drogfrihet` | — | — |
-| **planering** | `/planering` | [planering/module_plan.md](./planering/module_plan.md) | — |
-| **projekt** | `/projekt` | [projekt/components/ProjektHubPage.tsx](./projekt/components/ProjektHubPage.tsx) | — |
+| **planering** | `/planering` | [planering/module_plan.md](./admin/planning/module_plan.md) | — |
+| **projekt** | `/projekt` | [projekt/components/ProjektHubPage.tsx](./admin/projects/components/ProjektHubPage.tsx) | — |
 | **arbetsliv** | `/arbetsliv` | [arbetsliv/module_plan.md](./arbetsliv/module_plan.md) | — |
 | **stampla** | `/arbetsliv?tab=stampla` | [stampla/module_plan.md](./stampla/module_plan.md) | — |
 | **inkast** | Hem `#inkast-lite` | `inkast/` | — |
 | **barnporten** | (PWA plan) | [barnporten/module_plan.md](./barnporten/module_plan.md) | agents: `barnportenAgents.ts` |
 | **widgets** | `/widget/*` | `src/modules/widgets/` | WH1 i core/Fyren |
-| **dossier** | `/dossier` | [dossier/README.md](./dossier/README.md) | [dossier.md](../../.context/modules/dossier.md) |
+| **dossier** | `/dossier` | [dossier/README.md](./dossier/README.md) | [dossier.md](../../.context/modules/evidence/vault/dossier.md) |
 
 ## Kluster (navigation)
 
@@ -67,7 +82,7 @@ Flikar i hubbar härleds från [`navTruth.ts`](./core/navigation/navTruth.ts) vi
 ```tsx
 import { MainLayout, BentoCard, useStore } from './modules/core';
 import { KompisAvatar, KnowledgeVaultChat } from './modules/kompis';
-import { VaultPage } from './modules/verklighetsvalvet';
+import { VaultPage } from './modules/evidence/vault';
 ```
 
 ## Backend (not in src/modules)

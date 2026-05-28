@@ -1,5 +1,5 @@
 import type { NavigateFunction } from 'react-router-dom';
-import { createPlanningTask } from '../../planering/api/planningTasksApi';
+import { createPlanningTask } from '../../admin/planning/api/planningTasksApi';
 import { moduleLinkToString, resolveModuleLink } from './moduleLink';
 import type { RoutineTemplate } from './routineTemplates';
 

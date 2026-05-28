@@ -1,2 +1,2 @@
-export { HjartatPage } from './components/HjartatPage';
-export { DagbokPage } from './components/DagbokPage';
+/** @deprecated Import from `modules/diary/diary` */
+export * from '../diary/diary';

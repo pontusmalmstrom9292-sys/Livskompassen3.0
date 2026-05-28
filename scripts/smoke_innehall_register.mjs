@@ -45,21 +45,21 @@ function main() {
   mustInclude('docs/specs/modules/Barnen-PLAY-BANK.md', 'barnfokus', 'reality_vault');
 
   mustInclude('docs/specs/modules/Mabra-CONTENT-BANK.md', 'DM-CARD-01', 'daglig_mix');
-  mustInclude('src/modules/mabra/content/dagligMixCatalog.ts', 'DM-CARD-01', 'DAGLIG_MIX_CARDS');
+  mustInclude('src/modules/wellbeing/mabra/content/dagligMixCatalog.ts', 'DM-CARD-01', 'DAGLIG_MIX_CARDS');
   mustInclude('docs/specs/modules/Mabra-CONTENT-BANK.md', 'DF-REF-01', 'drogfrihet');
 
   console.log('[smoke:innehall] Daglig mix — mount, bank parity, no RAG/streak...');
   mustInclude(
-    'src/modules/mabra/components/MabraPage.tsx',
+    'src/modules/wellbeing/mabra/components/MabraPage.tsx',
     'DagligMixPanel',
     "exerciseType: 'daglig_mix'",
     'cardBankId',
     'mixDateKey',
   );
-  mustInclude('src/modules/mabra/components/DagligMixPanel.tsx', 'pickDagligMix', 'mix.card.bankId');
-  mustInclude('src/modules/mabra/lib/pickDagligMix.ts', 'fnv1a', 'DAGLIG_MIX_PLAYS');
+  mustInclude('src/modules/wellbeing/mabra/components/DagligMixPanel.tsx', 'pickDagligMix', 'mix.card.bankId');
+  mustInclude('src/modules/wellbeing/mabra/lib/pickDagligMix.ts', 'fnv1a', 'DAGLIG_MIX_PLAYS');
   const bankMd = read('docs/specs/modules/Mabra-CONTENT-BANK.md');
-  const catalogTs = read('src/modules/mabra/content/dagligMixCatalog.ts');
+  const catalogTs = read('src/modules/wellbeing/mabra/content/dagligMixCatalog.ts');
   const dmBankIds = [
     'DM-CARD-01',
     'DM-CARD-02',
@@ -78,9 +78,9 @@ function main() {
     assert(bankMd.includes(id), `Mabra-CONTENT-BANK.md saknar ${id}`);
   }
   for (const rel of [
-    'src/modules/mabra/content/dagligMixCatalog.ts',
-    'src/modules/mabra/lib/pickDagligMix.ts',
-    'src/modules/mabra/components/DagligMixPanel.tsx',
+    'src/modules/wellbeing/mabra/content/dagligMixCatalog.ts',
+    'src/modules/wellbeing/mabra/lib/pickDagligMix.ts',
+    'src/modules/wellbeing/mabra/components/DagligMixPanel.tsx',
   ]) {
     const text = read(rel);
     assert(!text.includes('knowledgeVaultQuery'), `${rel} får inte anropa Kunskap-RAG`);

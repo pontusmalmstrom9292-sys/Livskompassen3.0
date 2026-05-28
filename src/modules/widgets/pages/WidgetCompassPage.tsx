@@ -1,5 +1,5 @@
 import { AuthGate } from '../../core/auth/AuthGate';
-import { CompassModuleStrip } from '../../kompasser/components/CompassModuleStrip';
+import { CompassModuleStrip } from '../../wellbeing/compasses/components/CompassModuleStrip';
 import { WidgetShell } from '../layout/WidgetShell';
 
 function WidgetCompassInner() {

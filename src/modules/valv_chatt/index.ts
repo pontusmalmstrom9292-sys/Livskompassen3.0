@@ -1,3 +1,2 @@
-export { ValvChatPanel } from './components/ValvChatPanel';
-export { callValvChat } from './api/valvChatService';
-export type { ValvChatCitation, ValvChatResponse } from './api/valvChatService';
+/** @deprecated Import from `modules/evidence/vaultChat` */
+export * from '../evidence/vaultChat';

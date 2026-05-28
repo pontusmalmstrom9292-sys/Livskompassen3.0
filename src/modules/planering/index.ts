@@ -1,1 +1,2 @@
-export { PlaneringPage } from './components/PlaneringPage';
+/** @deprecated Import from `modules/admin/planning` */
+export * from '../admin/planning';

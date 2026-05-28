@@ -2,12 +2,12 @@
  * Single source for hub labels, paths, drawer sections, and chrome flags.
  * Drawer-ikoner: `drawerNav.ts` (v4 chrome `createChromeV4Icon` + Lucide där glyph saknas).
  */
-import { HIDE_BEVIS_TAB } from './appNavigation';
+import { HIDE_BEVIS_TAB } from './tabRegistry';
 import {
   FORENSIC_VAULT_TAB_IDS,
   forensicVaultTabLabel,
   MAIN_VAULT_TAB_IDS,
-} from '../../verklighetsvalvet/utils/vaultTabs';
+} from '../../evidence/vault/utils/vaultTabs';
 
 export type NavDrawerSection = 'vardag' | 'valv';
 
@@ -290,7 +290,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   {
     id: 'projekt_ny',
     label: 'Nytt projekt',
-    path: '/projekt/ny',
+    path: '/admin/projects/ny',
     section: 'vardag',
     inDrawer: true,
     parentId: 'projekt',

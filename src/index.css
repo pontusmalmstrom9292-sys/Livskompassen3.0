@@ -1705,6 +1705,14 @@
     @apply px-5 pb-1 pt-3 text-[10px] font-semibold uppercase tracking-[0.35em] text-accent/70;
   }
 
+  .nav-drawer__category-title {
+    @apply px-5 pb-0.5 pt-4 text-[9px] font-medium uppercase tracking-[0.28em] text-text-muted/80;
+  }
+
+  .nav-drawer__category:first-child .nav-drawer__category-title {
+    @apply pt-2;
+  }
+
   .nav-drawer__list {
     @apply flex flex-col gap-0.5 overflow-visible px-3 pb-2;
   }

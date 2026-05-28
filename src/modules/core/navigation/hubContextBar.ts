@@ -39,7 +39,7 @@ export type HubContextSlot = {
 };
 
 const DEFAULT_SLOTS: HubContextSlot[] = [
-  { id: 'inkop', label: 'Inköp', to: '/projekt/ny', icon: 'list' },
+  { id: 'inkop', label: 'Inköp', to: '/admin/projects/ny', icon: 'list' },
   { id: 'planering', label: 'Planering', to: '/planering', icon: 'calendar' },
   { id: 'arbetsliv', label: 'Arbetsliv', to: '/arbetsliv?tab=stampla', icon: 'clock' },
   { id: 'note', label: 'Anteckning', to: '/widget/anteckning', icon: 'note' },
@@ -56,7 +56,7 @@ function planeringSlots(tab: string | null, onProjekt: boolean): HubContextSlot[
       { id: 'projekt', label: 'Projekt', to: '/projekt', icon: 'folder', active: true },
       { id: 'handling', label: 'Handling', to: '/planering?tab=handling', icon: 'calendar' },
       { id: 'inkorg', label: 'Inkorg', to: '/planering?tab=inkorg', icon: 'mail' },
-      { id: 'ny', label: 'Nytt', to: '/projekt/ny', icon: 'plus' },
+      { id: 'ny', label: 'Nytt', to: '/admin/projects/ny', icon: 'plus' },
     ];
   }
   return [
@@ -269,7 +269,7 @@ export const HUB_MORE_ACTIONS: {
   to: string;
   icon: HubContextIconId;
 }[] = [
-  { id: 'inkop', label: 'Inköpslista', to: '/projekt/ny', icon: 'list' },
+  { id: 'inkop', label: 'Inköpslista', to: '/admin/projects/ny', icon: 'list' },
   { id: 'planering', label: 'Planering', to: '/planering', icon: 'calendar' },
   { id: 'arbetsliv', label: 'Arbetsliv', to: '/arbetsliv?tab=stampla', icon: 'clock' },
   { id: 'note', label: 'Anteckning', to: '/widget/anteckning', icon: 'note' },

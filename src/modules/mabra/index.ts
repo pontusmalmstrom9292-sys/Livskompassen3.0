@@ -1,1 +1,2 @@
-export { MabraPage } from './components/MabraPage';
+/** @deprecated Import from `modules/wellbeing/mabra` */
+export * from '../wellbeing/mabra';

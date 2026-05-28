@@ -1,2 +1,2 @@
-export { BarnensPage } from './components/BarnensPage';
-export { FamiljenPage } from './components/FamiljenPage';
+/** @deprecated Import from `modules/family/children` */
+export * from '../family/children';

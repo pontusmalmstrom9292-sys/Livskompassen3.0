@@ -1,3 +1,2 @@
-export { ProjektHubPage } from './components/ProjektHubPage';
-export { ProjektNyPage } from './components/ProjektNyPage';
-export { ProjektDetailPage } from './components/ProjektDetailPage';
+/** @deprecated Import from `modules/admin/projects` */
+export * from '../admin/projects';

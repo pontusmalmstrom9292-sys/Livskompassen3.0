@@ -1,3 +1,2 @@
-export { DashboardPage } from './components/DashboardPage';
-export { VardagenPage, parseVardagenTab } from './components/VardagenPage';
-export type { VardagenTab } from './components/VardagenPage';
+/** @deprecated Import from `modules/wellbeing/compasses` */
+export * from '../wellbeing/compasses';

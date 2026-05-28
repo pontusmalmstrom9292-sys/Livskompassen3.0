@@ -32,24 +32,24 @@ function main() {
   mustInclude('src/modules/safe_harbor/components/BiffPublicPanel.tsx', 'BiffTriagePanel');
   mustInclude('src/modules/safe_harbor/components/TryggHamnHub.tsx', 'BiffPublicPanel');
   mustInclude('src/modules/core/home/HomeHeroCompass.tsx', 'HomeHeroKanon');
-  mustInclude('src/modules/speglings_system/components/SpeglingsSystem.tsx', 'VivirQuickEntry', 'SvartPaVittForm');
+  mustInclude('src/modules/diary/mirror/components/SpeglingsSystem.tsx', 'VivirQuickEntry', 'SvartPaVittForm');
   mustInclude(
-    'src/modules/barnens_livsloggar/components/familjen/FamiljenReflektionTab.tsx',
+    'src/modules/family/children/components/familjen/FamiljenReflektionTab.tsx',
     'ChildProfileCards',
     'PositivaMinnesankare',
     'BarnfokusFraganPanel',
   );
-  mustInclude('src/modules/barnens_livsloggar/components/FamiljenPage.tsx', 'ParentReminderFooter');
-  mustInclude('src/modules/barnens_livsloggar/components/BarnensPage.tsx', 'ChildProfileCards', 'ParentReminderFooter');
-  mustInclude('src/modules/verklighetsvalvet/components/VaultPage.tsx', "label: 'Arkiv'", "label: 'Triage'", 'PansaretHeader');
-  mustInclude('src/modules/verklighetsvalvet/components/VaultOrkesterPanel.tsx', 'OrkesterAgentTrio', 'Registrerade dokument');
-  mustInclude('src/modules/verklighetsvalvet/components/VaultLogList.tsx', 'SERVER-TIDSSTÄMPEL', 'scanTechniquesForLog');
-  mustInclude('src/modules/mabra/components/VitHubPreview.tsx', 'KbtTransformatorPanel');
+  mustInclude('src/modules/family/children/components/FamiljenPage.tsx', 'ParentReminderFooter');
+  mustInclude('src/modules/family/children/components/BarnensPage.tsx', 'ChildProfileCards', 'ParentReminderFooter');
+  mustInclude('src/modules/evidence/vault/components/VaultPage.tsx', "label: 'Arkiv'", "label: 'Triage'", 'PansaretHeader');
+  mustInclude('src/modules/evidence/vault/components/VaultOrkesterPanel.tsx', 'OrkesterAgentTrio', 'Registrerade dokument');
+  mustInclude('src/modules/evidence/vault/components/VaultLogList.tsx', 'SERVER-TIDSSTÄMPEL', 'scanTechniquesForLog');
+  mustInclude('src/modules/wellbeing/mabra/components/VitHubPreview.tsx', 'KbtTransformatorPanel');
   mustInclude('functions/src/index.ts', "mode === 'transformator'");
   mustInclude('functions/src/sharedRules.ts', 'KBT_TRANSFORMATOR_SYSTEM_PROMPT');
   mustInclude('.context/design-modules-mockup.md', 'D29', 'D3');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/planering"', 'PlaneringPage');
-  mustInclude('src/modules/planering/components/PlaneringPage.tsx', 'PlanningKanbanBoard', 'PLANERING_TAGLINE');
+  mustInclude('src/modules/admin/planning/components/PlaneringPage.tsx', 'PlanningKanbanBoard', 'PLANERING_TAGLINE');
   mustInclude('firestore.rules', 'planning_tasks');
 
   console.log('smoke:design-modules PASS');

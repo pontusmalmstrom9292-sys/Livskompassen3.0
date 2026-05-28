@@ -11,8 +11,8 @@ import { BookOpen, Anchor, Users, Sprout, Sparkles, Compass } from 'lucide-react
 export type ClusterTone = 'gold' | 'indigo' | 'lavender' | 'emerald';
 export type HubPosition = 'center' | 'side';
 
-export type HjartatTab = 'reflektion' | 'bevis' | 'speglar';
-export type VardagenTab = 'kompasser' | 'ekonomi';
+export type { HjartatTab, VardagenTab } from './tabRegistry';
+import type { HjartatTab, VardagenTab } from './tabRegistry';
 
 export type ClusterChip = {
   label: string;
@@ -39,8 +39,8 @@ export type LifeCluster = {
   chips: ClusterChip[];
 };
 
-/** G18 — default: dold Bevis-flik (Fyren-only). Dev/smoke: `VITE_SHOW_BEVIS_TAB=true`. */
-export const HIDE_BEVIS_TAB = import.meta.env.VITE_SHOW_BEVIS_TAB !== 'true';
+export { HIDE_BEVIS_TAB } from './tabRegistry';
+import { HIDE_BEVIS_TAB } from './tabRegistry';
 
 export const FYREN_BEVIS_HINT =
   'Öppna modulhubben (Kompass), tryck Hjärtat och håll 3 sekunder (Fyren), verifiera och ange PIN.';
@@ -191,45 +191,19 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
   { from: '/barnen', to: '/familjen' },
 ];
 
-export function parseHjartatTab(raw: string | null): HjartatTab {
-  if (raw === 'bevis' || raw === 'speglar') return raw;
-  return 'reflektion';
-}
-
-/** G18: `?tab=bevis` utan Fyren-gate → reflektion (yttre lugnet). Gate vinner alltid. */
-export function resolveHjartatTab(raw: string | null, vaultGateOpen: boolean): HjartatTab {
-  const parsed = parseHjartatTab(raw);
-  if (vaultGateOpen && parsed === 'bevis') return 'bevis';
-  if (parsed === 'bevis' && HIDE_BEVIS_TAB && !vaultGateOpen) return 'reflektion';
-  return parsed;
-}
-
-export function parseVardagenTab(raw: string | null): VardagenTab {
-  if (raw === 'ekonomi') return 'ekonomi';
-  return 'kompasser';
-}
+export {
+  parseHjartatTab,
+  resolveHjartatTab,
+  parseVardagenTab,
+  clusterTabSearch,
+  hjartatTabHref,
+  vardagenTabHref,
+} from './tabRegistry';
+import { hjartatTabHref, vardagenTabHref } from './tabRegistry';
 
 export function getVisibleHjartatTabs(): ClusterTabDef<HjartatTab>[] {
   if (HIDE_BEVIS_TAB) return HJARTAT_TABS.filter((t) => t.id !== 'bevis');
   return HJARTAT_TABS;
-}
-
-export function clusterTabSearch(tab: string, defaultTab: string): string {
-  return tab === defaultTab ? '' : `?tab=${tab}`;
-}
-
-export function hjartatTabHref(tab: HjartatTab): { pathname: string; search: string } {
-  return {
-    pathname: HJARTAT_PATH,
-    search: clusterTabSearch(tab, 'reflektion'),
-  };
-}
-
-export function vardagenTabHref(tab: VardagenTab): { pathname: string; search: string } {
-  return {
-    pathname: VARDAGEN_PATH,
-    search: clusterTabSearch(tab, 'kompasser'),
-  };
 }
 
 export function bevisTabHref(): { pathname: string; search: string } {

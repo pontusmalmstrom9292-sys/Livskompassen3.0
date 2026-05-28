@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ChevronRight, Compass } from 'lucide-react';
-import { getCompassAdvice, getCompassFlowMeta } from '../../kompasser/utils/compassAdvice';
+import { getCompassAdvice, getCompassFlowMeta } from '../../wellbeing/compasses/utils/compassAdvice';
 
 export function DagensRiktningCard() {
   const meta = getCompassFlowMeta();

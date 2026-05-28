@@ -4,7 +4,7 @@ import { ChevronRight } from 'lucide-react';
 import { clsx } from 'clsx';
 import { LivskompassMark } from '../ui/LivskompassMark';
 import { HERO_ORBIT_ICONS } from '../ui/HeroOrbitIcons';
-import { getCompassThemeByTime } from '../../kompasser/utils/compassTheme';
+import { getCompassThemeByTime } from '../../wellbeing/compasses/utils/compassTheme';
 
 type OrbitSlot = {
   id: keyof typeof HERO_ORBIT_ICONS;

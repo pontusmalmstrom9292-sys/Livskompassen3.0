@@ -7,6 +7,7 @@ import {
   getDrawerRoots,
   type NavDrawerSection,
 } from '../navigation/navTruth';
+import { groupVardagDrawerRoots } from '../navigation/tabRegistry';
 import { toDrawerNavItem, type DrawerNavItem, type DrawerNavIcon } from '../navigation/drawerNav';
 
 export function isDrawerItemActive(
@@ -132,53 +133,69 @@ export function DrawerHubAccordion({
 }: Props) {
   const roots = useMemo(() => getDrawerRoots(section).map(toDrawerNavItem), [section]);
 
+  const vardagGroups = useMemo(
+    () => (section === 'vardag' ? groupVardagDrawerRoots(getDrawerRoots('vardag')) : []),
+    [section],
+  );
+
+  const renderHub = (hub: DrawerNavItem) => {
+    const children = getDrawerChildren(hub.id, section).map(toDrawerNavItem);
+    const hasChildren = drawerHubHasChildren(hub.id, section);
+    const expanded = expandedIds.has(hub.id);
+    const hubActive =
+      isDrawerItemActive(hub, pathname, search, hash) ||
+      children.some((c) => isDrawerItemActive(c, pathname, search, hash));
+
+    return (
+      <div key={hub.id} className="nav-drawer__hub">
+        <NavRow
+          item={hub}
+          active={hubActive && !hub.isGroupHeader}
+          group={hub.isGroupHeader}
+          expanded={expanded}
+          hasChildren={hasChildren}
+          onNavigate={() => {
+            if (hub.isGroupHeader) {
+              onToggleExpand(hub.id);
+              return;
+            }
+            if (!hasChildren) {
+              onGo(hub);
+              return;
+            }
+            onGo(hub);
+          }}
+          onToggleExpand={() => onToggleExpand(hub.id)}
+        />
+        {hasChildren && expanded && (
+          <div className="nav-drawer__hub-children">
+            {children.map((child) => (
+              <NavRow
+                key={child.id}
+                item={child}
+                sub
+                active={isDrawerItemActive(child, pathname, search, hash)}
+                onNavigate={() => onGo(child)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  if (section === 'valv') {
+    return <div className="nav-drawer__list">{roots.map(renderHub)}</div>;
+  }
+
   return (
     <div className="nav-drawer__list">
-      {roots.map((hub) => {
-        const children = getDrawerChildren(hub.id, section).map(toDrawerNavItem);
-        const hasChildren = drawerHubHasChildren(hub.id, section);
-        const expanded = expandedIds.has(hub.id);
-        const hubActive =
-          isDrawerItemActive(hub, pathname, search, hash) ||
-          children.some((c) => isDrawerItemActive(c, pathname, search, hash));
-
-        return (
-          <div key={hub.id} className="nav-drawer__hub">
-            <NavRow
-              item={hub}
-              active={hubActive && !hub.isGroupHeader}
-              group={hub.isGroupHeader}
-              expanded={expanded}
-              hasChildren={hasChildren}
-              onNavigate={() => {
-                if (hub.isGroupHeader) {
-                  onToggleExpand(hub.id);
-                  return;
-                }
-                if (!hasChildren) {
-                  onGo(hub);
-                  return;
-                }
-                onGo(hub);
-              }}
-              onToggleExpand={() => onToggleExpand(hub.id)}
-            />
-            {hasChildren && expanded && (
-              <div className="nav-drawer__hub-children">
-                {children.map((child) => (
-                  <NavRow
-                    key={child.id}
-                    item={child}
-                    sub
-                    active={isDrawerItemActive(child, pathname, search, hash)}
-                    onNavigate={() => onGo(child)}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        );
-      })}
+      {vardagGroups.map((group) => (
+        <div key={group.category} className="nav-drawer__category">
+          <p className="nav-drawer__category-title">{group.label}</p>
+          {group.entries.map((entry) => renderHub(toDrawerNavItem(entry)))}
+        </div>
+      ))}
     </div>
   );
 }

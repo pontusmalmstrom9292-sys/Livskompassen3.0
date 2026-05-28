@@ -1,0 +1,79 @@
+# kompasser — module plan
+
+## Overview
+
+De 3 Kompasserna — Morgonkompassen (Sacred), Dagskompassen, Kvällskompassen. Mikro-check-ins → Firestore `checkins`.
+
+**Route:** `/vardagen` (tab kompasser) · **Redirect:** `/kompasser` → `/vardagen`  
+**Canonical:** `.context/modules/wellbeing/compasses.md` · **Spec:** `docs/specs/modules/De-3-Kompasserna-SPEC.md` (notebook #1–#5 konsoliderad, beslut låsta 2026-05-21)
+
+## Låsta beslut (implementationsreferens)
+
+| Beslut | Val |
+|--------|-----|
+| Paralys | Manuell; *"Ge mig 3 till"* i session |
+| Notiser | In-app default → lokal push max 2–3/dag |
+| Crazymaking | Knapp till Valv/Speglar — **ingen** auto-WORM |
+| checkins | WORM append-only |
+| Missad morgon | Default dag, ingen skuld |
+| Silo | Ingen auto-write `reality_vault` |
+
+## Files
+
+| Path | Role |
+|------|------|
+| `components/VardagenPage.tsx` | Tab kompasser / ekonomi / kunskap |
+| `components/DashboardPage.tsx` | Tids-default, morgon/dag/kväll, Klar-reset |
+| `components/ParalysPanel.tsx` | `breakDownResponse`, Ge mig 3 till |
+| `components/KasamEvening.tsx` | KASAM 3 steg + crazymaking-broar |
+| `api/compassService.ts` | Callable wrapper |
+| `utils/compassTime.ts` | `getDefaultCompassByTime` |
+| `../core/store/index.ts` | `compassFilter` — synkas med aktiv flik |
+| `../core/routing/AppRoutes.tsx` | `/kompasser` redirect |
+| `../core/firebase/firestore.ts` | `saveCheckIn` → `checkins` |
+
+## Flows (DashboardPage)
+
+| id | Label | questionId | Syfte |
+|----|-------|------------|-------|
+| `morning` | Morgon | `compass_morning` | Sacred — intention |
+| `day` | Dag | `compass_day` | Puls / Paralys |
+| `evening` | Kväll | `compass_evening` | KASAM (planerat 3 steg) |
+
+## Status
+
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| Morgon/Dag/Kväll + checkins | Dygnsrytm ADHD | Ja | **done** |
+| Paralys auto vid lågt humör | **Nej** — manuell | Nej | **avvisat** |
+| Paralys-Brytaren UI | Master §G | Ja | **done** |
+| KASAM kväll 3 steg | Kladd | Ja | **done** |
+| Crazymaking-bro | Ej auto-WORM | Ja | **done** |
+| AuthGate + tids-default | Kladd | Ja | **done** |
+| Notiser 2–3/dag | In-app först | Nej | **planned** |
+| Bro Måbra/Barnen kväll | Kladd | Ja | **done** |
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
+
+## Dependencies
+
+- `core/ui/BentoCard`, chip-stilar
+- `functions:breakDownResponse`, `speglingsMirror` (UI ej kopplad)
+
+## Security notes
+
+- Check-in uid-scoped — Firestore `isOwnerCreate`
+- AuthGate på `/vardagen` — **done**
+- Ingen auto-skriv till `reality_vault`
+
+## Smoke
+
+```bash
+npm run smoke:compass
+```
+
+## Nästa fas
+
+1. Notiser (lokal push max 2–3/dag)
+2. Sanningens Ankare från valv (ej auto)
+3. `energyLevel` / `kasamData` som strukturerade fält (valfritt)
