@@ -30,6 +30,12 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 - **Functions:** `npm run build` from `functions/` compiles TypeScript.
 - **Lint:** `npx eslint .` from repo root (`eslint.config.js`).
 
+## Cursor Cloud specific instructions
+
+- The startup dependency refresh uses `npm ci --legacy-peer-deps` at the repo root because current npm strict peer resolution rejects the existing `firebase@12` and `@capacitor-firebase/authentication@6` peer range combination. Do not remove that flag until those package ranges are aligned.
+- Cloud shells may resolve `node` through `/exec-daemon` even after `nvm use`; when testing Functions runtime behavior, put the Node 20 nvm binary first in `PATH` before running `functions` commands.
+- Local app smoke tests need the ignored `.env` Firebase Web SDK values from `.env.example` / the active Firebase app config; do not commit `.env`.
+
 ## Cursor Subagents
 
 - Use `explore` for broad, read-only codebase mapping and architecture discovery.
