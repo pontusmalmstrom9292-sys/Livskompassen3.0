@@ -2,7 +2,7 @@
  * Single source for hub labels, paths, drawer sections, and chrome flags.
  * Drawer-ikoner: `drawerNav.ts` (v4 chrome `createChromeV4Icon` + Lucide där glyph saknas).
  */
-import { HIDE_BEVIS_TAB } from './tabRegistry';
+import { HIDE_BEVIS_TAB } from './navFlags';
 import {
   FORENSIC_VAULT_TAB_IDS,
   forensicVaultTabLabel,

@@ -39,8 +39,8 @@ export type LifeCluster = {
   chips: ClusterChip[];
 };
 
-export { HIDE_BEVIS_TAB } from './tabRegistry';
-import { HIDE_BEVIS_TAB } from './tabRegistry';
+export { HIDE_BEVIS_TAB } from './navFlags';
+import { HIDE_BEVIS_TAB } from './navFlags';
 
 export const FYREN_BEVIS_HINT =
   'Öppna modulhubben (Kompass), tryck Hjärtat och håll 3 sekunder (Fyren), verifiera och ange PIN.';
