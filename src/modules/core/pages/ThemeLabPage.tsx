@@ -158,6 +158,7 @@ export function ThemeLabPage() {
 
       <ThemeLabPackSection
         title="Theme Pack J — hub auto"
+        hubAuto
         packs={THEME_REGISTRY.filter((p) =>
           (J_PACK_THEME_IDS as readonly string[]).includes(p.id),
         )}
@@ -165,8 +166,9 @@ export function ThemeLabPage() {
         themeId={themeId}
         onPreview={applyPreview}
         onApply={(id) => {
-          setTheme(id);
+          setAutoMode(true);
           setPreviewId(id);
+          applyTheme(id);
         }}
       />
 
@@ -269,6 +271,7 @@ function ThemeLabPackSection({
   onPreview,
   onApply,
   draft,
+  hubAuto,
 }: {
   title: string;
   packs: ThemePack[];
@@ -277,6 +280,8 @@ function ThemeLabPackSection({
   onPreview: (id: string) => void;
   onApply: (id: string) => void;
   draft?: boolean;
+  /** J-pack: apply enables auto per hub (not global manual override). */
+  hubAuto?: boolean;
 }) {
   return (
     <section className="glass-card p-4">
@@ -291,6 +296,7 @@ function ThemeLabPackSection({
             applied={themeId === pack.id}
             onPreview={() => onPreview(pack.id)}
             onApply={() => onApply(pack.id)}
+            applyLabel={hubAuto ? 'Aktivera hub-auto' : undefined}
           />
         ))}
       </div>
@@ -305,6 +311,7 @@ function ThemeLabCard({
   draft,
   onPreview,
   onApply,
+  applyLabel,
   extra,
 }: {
   pack: ThemePack;
@@ -313,6 +320,7 @@ function ThemeLabCard({
   draft?: boolean;
   onPreview: () => void;
   onApply: () => void;
+  applyLabel?: string;
   extra?: ReactNode;
 }) {
   return (
@@ -336,7 +344,9 @@ function ThemeLabCard({
             Förhandsgranska
           </button>
           <button type="button" className="btn-pill--accent text-xs" onClick={onApply}>
-            {applied ? 'Aktiv i appen' : 'Använd i appen'}
+            {applied
+              ? 'Aktiv i appen'
+              : applyLabel ?? 'Använd i appen'}
           </button>
         </div>
       </div>

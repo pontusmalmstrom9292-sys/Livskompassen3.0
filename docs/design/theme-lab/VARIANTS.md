@@ -1,6 +1,6 @@
 # Theme Lab — variantbeslut
 
-**Uppdaterad:** 2026-05-29 (specialist-theme-lab — Pack K wired)
+**Uppdaterad:** 2026-05-29 (produktval Planering Fyren)
 
 | ID | Label | Status | Test / beslut |
 |----|-------|--------|----------------|
@@ -19,7 +19,7 @@
 |----|-------|--------|------|
 | `J-fyren-hem` | Fyren Hem | **utkast** | Hem, WH3 |
 | `J-valv-pansar` | Valv Pansar | **utkast** | Valv, WH1 |
-| `J-planering-fyren` | Planering Fyren | **utkast** | Planering, Projekt |
+| `J-planering-fyren` | Planering Fyren | **godkänd** | Planering, Projekt — **GODKÄND** (2026-05-29) |
 | `J-familjen-varm` | Familjen Varm | **utkast** | Familjen, WH5 |
 | `J-hamn-greyrock` | Hamn Grey Rock | **utkast** | Hamn, WH4 |
 | `J-mabra-lavendel` | MåBra Lavendel | **utkast** | MåBra |
@@ -49,4 +49,5 @@ Spec: [`../themes/K-PACK-EIGHT-VARIANTS.md`](../themes/K-PACK-EIGHT-VARIANTS.md)
 
 ## Godkännande
 
-När du valt vinnare: skriv **GODKÄND: &lt;id&gt;** här → agent flyttar till `themeRegistry.ts`.
+- **GODKÄND: `J-planering-fyren`** — Planering + Projekt (`moduleThemeMap.ts` rad 19–20). Övriga hubbar oförändrade.
+- Nästa val: skriv **GODKÄND: &lt;id&gt;** för global bas eller fler J-hubbar.
