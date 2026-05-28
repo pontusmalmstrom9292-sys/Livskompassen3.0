@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { planeringInkorgHref } from '../planeringInkorgViews';
 import { Calendar, ChevronLeft } from 'lucide-react';
 import { TabBar, type TabBarItem } from '../../../core/ui/TabBar';
 import { HubPageShell } from '../../../core/layout/HubPageShell';
@@ -51,14 +52,14 @@ export function PlaneringPage() {
       title={title}
       lead={lead}
       headerAside={
-        <button
-          type="button"
+        <Link
+          to={planeringInkorgHref('kalender')}
           className="btn-pill--ghost shrink-0 p-2"
-          title="Kalender (kommer)"
-          aria-label="Kalender — kommer snart"
+          title="Kalender i Inkorg"
+          aria-label="Öppna kalender i Inkorg"
         >
           <Calendar className="h-4 w-4 text-accent/70" />
-        </button>
+        </Link>
       }
     >
       {!isHub && (

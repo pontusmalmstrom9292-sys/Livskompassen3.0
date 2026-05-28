@@ -36,6 +36,7 @@ Agent: `.cursor/agents/specialist-theme-lab.md`
 | `docs/design/theme-lab/VARIANTS.md` | Beslut logg |
 | `docs/design/theme-lab/ICON-DECISIONS.md` | Ikoner meny/dock/hero |
 | `docs/design/themes/K-PACK-EIGHT-VARIANTS.md` | **Pack K** — 8 nya varianter (2026-05-28) |
+| [`HUB-LAB.md`](./HUB-LAB.md) | **Hub Lab** — 8 planeringshubbar med moduler |
 
 ---
 

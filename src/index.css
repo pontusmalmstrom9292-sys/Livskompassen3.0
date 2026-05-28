@@ -56,10 +56,22 @@
   }
 
   /* Theme Pack I — CSS fallbacks (runtime: applyTheme + themeRegistry.ts) */
-  html[data-theme='I-stone'] {
+  html[data-theme='I-stone'],
+  html[data-theme^='I-stone-draft'] {
     --bg: #0a0a0a;
     --accent: #d4af37;
     --border-strong: rgba(212, 175, 55, 0.45);
+  }
+
+  html[data-theme='I-stone-draft-twilight'] {
+    --bg: #060a10;
+    --accent: #c9a227;
+    --border-strong: rgba(201, 162, 39, 0.38);
+  }
+
+  html[data-theme='I-stone-draft-bronze'] {
+    --accent: #c9a66b;
+    --border-strong: rgba(201, 166, 107, 0.48);
   }
 
   html[data-theme='I-alchemical'] {
@@ -208,6 +220,18 @@
 
   .theme-lab-strip__compass-mark {
     @apply relative z-10 h-8 w-8 text-accent;
+  }
+
+  .theme-lab-strip__scenic {
+    @apply mt-3 h-14 overflow-hidden rounded-lg border;
+    border-color: var(--border);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(2, 8, 18, 0.35) 0%,
+        rgba(10, 10, 10, 0.75) 100%
+      ),
+      url('/design/home-hero-scenic.png') center 30% / cover no-repeat;
   }
 
   html[data-theme-bg='texture-marble'] .ambient-bg {
@@ -1283,39 +1307,6 @@
     @apply hidden sm:block;
   }
 
-  .glass-header-bar__corner {
-    @apply pointer-events-none absolute z-[2] h-3 w-3;
-    border-color: rgba(212, 175, 55, 0.42);
-  }
-
-  .glass-header-bar__corner--tl {
-    top: 7px;
-    left: 7px;
-    border-top: 1px solid;
-    border-left: 1px solid;
-  }
-
-  .glass-header-bar__corner--tr {
-    top: 7px;
-    right: 7px;
-    border-top: 1px solid;
-    border-right: 1px solid;
-  }
-
-  .glass-header-bar__corner--bl {
-    bottom: 7px;
-    left: 7px;
-    border-bottom: 1px solid;
-    border-left: 1px solid;
-  }
-
-  .glass-header-bar__corner--br {
-    bottom: 7px;
-    right: 7px;
-    border-bottom: 1px solid;
-    border-right: 1px solid;
-  }
-
   /* App header — tre panelstilar (3D, fylligare linjer). Välj: VITE_HEADER_PANEL_STYLE=ember|obsidian|aurora */
   .glass-header-bar--kanon[data-panel-style='ember'] {
     border-width: 2px;
@@ -1356,12 +1347,6 @@
       inset 0 -14px 32px rgba(0, 0, 0, 0.35);
   }
 
-  .glass-header-bar--kanon[data-panel-style='ember'] .glass-header-bar__corner {
-    @apply h-3.5 w-3.5;
-    border-color: rgba(245, 230, 184, 0.55);
-    border-width: 2px;
-  }
-
   .glass-header-bar--kanon[data-panel-style='obsidian'] {
     border-width: 2px;
     border-color: rgba(148, 163, 184, 0.35);
@@ -1397,12 +1382,6 @@
     box-shadow:
       inset 0 2px 0 rgba(255, 255, 255, 0.05),
       inset 0 -16px 36px rgba(0, 0, 0, 0.45);
-  }
-
-  .glass-header-bar--kanon[data-panel-style='obsidian'] .glass-header-bar__corner {
-    @apply h-3.5 w-3.5;
-    border-color: rgba(148, 163, 184, 0.5);
-    border-width: 2px;
   }
 
   .glass-header-bar--kanon[data-panel-style='aurora'] {
@@ -1444,26 +1423,59 @@
       inset 0 -14px 34px rgba(0, 0, 0, 0.42);
   }
 
-  .glass-header-bar--kanon[data-panel-style='aurora'] .glass-header-bar__corner {
-    @apply h-3.5 w-3.5;
-    border-color: rgba(94, 234, 212, 0.45);
-    border-width: 2px;
-  }
-
-  .header-menu-btn {
-    @apply relative z-50 flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-xl text-accent transition-colors;
-    border: 1px solid var(--border);
-    background: rgba(212, 175, 55, 0.06);
+  /* Header chrome — fylliga 3D-knappar som lyfts ur bannern */
+  .header-chrome-btn {
+    @apply relative z-50 flex shrink-0 cursor-pointer items-center justify-center text-accent;
     pointer-events: auto;
     touch-action: manipulation;
+    border-radius: 0.85rem;
+    border: 1px solid color-mix(in srgb, var(--accent) 38%, transparent);
+    background: linear-gradient(
+      168deg,
+      rgba(52, 44, 30, 0.98) 0%,
+      rgba(22, 18, 14, 0.96) 48%,
+      rgba(8, 10, 16, 0.94) 100%
+    );
+    box-shadow:
+      0 5px 14px rgba(0, 0, 0, 0.5),
+      0 1px 0 rgba(255, 243, 210, 0.16) inset,
+      0 -3px 10px rgba(0, 0, 0, 0.38) inset;
+    transform: translateY(-2px);
+    transition:
+      transform 0.16s ease,
+      box-shadow 0.16s ease,
+      border-color 0.16s ease;
+  }
+
+  .header-chrome-btn:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--accent-light) 55%, transparent);
+    box-shadow:
+      0 8px 20px rgba(0, 0, 0, 0.55),
+      0 0 18px rgba(212, 175, 55, 0.14),
+      0 1px 0 rgba(255, 248, 220, 0.2) inset,
+      0 -3px 10px rgba(0, 0, 0, 0.35) inset;
+  }
+
+  .header-chrome-btn:active {
+    transform: translateY(0);
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.45),
+      0 2px 6px rgba(0, 0, 0, 0.35) inset;
+  }
+
+  .header-chrome-btn--round {
+    border-radius: 9999px;
+    padding: 2px;
+  }
+
+  .header-chrome-btn__glyph {
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.55))
+      drop-shadow(0 0 8px rgba(212, 175, 55, 0.28));
   }
 
   .header-menu-btn--kanon {
     @apply h-12 w-12;
-  }
-
-  .header-menu-btn:hover {
-    background: rgba(212, 175, 55, 0.12);
   }
 
   .app-header__brand--kanon {
@@ -1476,13 +1488,14 @@
     touch-action: manipulation;
   }
 
-  .app-header__logo--kanon {
-    @apply flex h-12 w-12 items-center justify-center rounded-xl border;
-    background: rgba(212, 175, 55, 0.12);
-    border-color: rgba(212, 175, 55, 0.38);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.08),
-      0 0 16px rgba(212, 175, 55, 0.12);
+  .app-header__logo--kanon.header-chrome-btn {
+    @apply flex h-12 w-12 cursor-default items-center justify-center;
+    pointer-events: none;
+  }
+
+  .app-header__logo-mark {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45))
+      drop-shadow(0 0 12px rgba(212, 175, 55, 0.35));
   }
 
   .app-header__brand-text {
@@ -1490,14 +1503,30 @@
   }
 
   .app-header__title--kanon {
-    @apply text-center font-display font-semibold uppercase text-accent;
-    font-size: 1.05rem;
-    letter-spacing: 0.12em;
-    text-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+    @apply text-center font-display font-light tracking-[0.14em] text-accent-light;
+    font-size: 1.02rem;
+    line-height: 1.15;
+    background: linear-gradient(
+      180deg,
+      #faf3e0 0%,
+      #e8d48a 38%,
+      #d4af37 72%,
+      #a68b2e 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+  }
+
+  .app-header__page-badge {
+    @apply mt-1 max-w-[11rem] truncate text-center text-[0.72rem] font-medium tracking-[0.03em] text-text-muted;
+    font-family: Inter, sans-serif;
   }
 
   .app-header__tagline {
-    @apply mt-0.5 text-[10px] font-medium uppercase tracking-[0.2em] text-text-dim;
+    @apply mt-1 text-[10px] font-normal tracking-[0.12em] text-text-dim;
+    font-family: Inter, sans-serif;
   }
 
   .app-header__actions--kanon {
@@ -1998,7 +2027,7 @@
     backdrop-filter: blur(14px);
   }
 
-  html[data-theme='I-stone'] .livskompass-hero__panel {
+  html[data-theme^='I-stone'] .livskompass-hero__panel {
     background:
       radial-gradient(ellipse 100% 70% at 50% 0%, color-mix(in srgb, var(--accent-light) 14%, transparent) 0%, transparent 50%),
       rgba(10, 10, 10, 0.78);
@@ -2131,7 +2160,7 @@
       );
   }
 
-  html[data-theme='I-stone'] .livskompass-hero--elongated .livskompass-hero__grid {
+  html[data-theme^='I-stone'] .livskompass-hero--elongated .livskompass-hero__grid {
     border-color: color-mix(in srgb, var(--accent) 30%, transparent);
     box-shadow: inset 0 0 48px color-mix(in srgb, var(--accent) 10%, transparent);
   }
@@ -2162,8 +2191,8 @@
       0 12px 32px rgba(2, 6, 23, 0.45);
   }
 
-  html[data-theme='I-stone'] .livskompass-hero--v2 .livskompass-hero__disk,
-  html[data-theme='I-stone'] .livskompass-hero--elongated .livskompass-hero__disk {
+  html[data-theme^='I-stone'] .livskompass-hero--v2 .livskompass-hero__disk,
+  html[data-theme^='I-stone'] .livskompass-hero--elongated .livskompass-hero__disk {
     --compass-disk: #141210;
     background:
       radial-gradient(ellipse 65% 50% at 50% 36%, color-mix(in srgb, var(--accent-light) 24%, transparent) 0%, transparent 48%),
@@ -2312,7 +2341,7 @@
     }
   }
 
-  html[data-theme='I-stone'] .livskompass-hero__center {
+  html[data-theme^='I-stone'] .livskompass-hero__center {
     background: rgba(10, 10, 10, 0.5);
     border-color: color-mix(in srgb, var(--accent) 58%, transparent);
     backdrop-filter: blur(6px);
@@ -2388,11 +2417,25 @@
     }
   }
 
-  .header-glass-btn--kanon {
-    @apply flex h-10 min-w-10 items-center justify-center gap-1.5 rounded-xl px-2.5;
-    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
-    background: rgba(10, 10, 10, 0.55);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  .header-glass-btn--kanon.header-chrome-btn {
+    @apply flex h-11 min-w-11 items-center justify-center gap-1.5 px-2.5;
+  }
+
+  .kompis-avatar--header-chrome {
+    @apply h-10 w-10 border-0 bg-transparent;
+    box-shadow: none;
+  }
+
+  .kompis-avatar--header-chrome .kompis-avatar__ring {
+    border-width: 1.5px;
+    border-color: color-mix(in srgb, var(--accent-light) 45%, transparent);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  .kompis-avatar--header-chrome svg,
+  .kompis-avatar--header-chrome .kompis-mark {
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5))
+      drop-shadow(0 0 10px rgba(212, 175, 55, 0.32));
   }
 
   .stamp-home-strip {
@@ -3299,47 +3342,6 @@
     @apply rounded-2xl border border-accent/15 bg-surface/20 p-1;
   }
 
-  .reflektion-steps {
-    @apply flex items-stretch gap-1.5;
-  }
-
-  .reflektion-steps__item {
-    @apply flex min-w-0 flex-1 flex-col items-center gap-1 rounded-xl border border-border/80 bg-bg/30 px-1 py-2 transition-colors;
-  }
-
-  .reflektion-steps__item--active {
-    @apply border-accent/45 bg-accent/10;
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.12);
-  }
-
-  .reflektion-steps__item--done {
-    @apply border-success/35 bg-success/5;
-  }
-
-  .reflektion-steps__bubble {
-    @apply flex h-7 w-7 items-center justify-center rounded-full bg-surface-3 text-sm;
-  }
-
-  .reflektion-steps__item--active .reflektion-steps__bubble {
-    @apply bg-accent/20 text-accent;
-  }
-
-  .reflektion-steps__item--done .reflektion-steps__bubble {
-    @apply bg-success/15 text-success;
-  }
-
-  .reflektion-steps__label {
-    @apply truncate text-[10px] font-medium text-text-dim;
-  }
-
-  .reflektion-steps__item--active .reflektion-steps__label {
-    @apply text-accent;
-  }
-
-  .reflektion-steps__item--done .reflektion-steps__label {
-    @apply text-success/85;
-  }
-
   .reflektion-panel {
     @apply px-1 pb-1 pt-2;
   }
@@ -3353,58 +3355,107 @@
   }
 
   .reflektion-mood-grid {
-    @apply my-4 grid grid-cols-3 gap-2 sm:grid-cols-4;
+    @apply my-3 grid grid-cols-4 gap-1.5;
   }
 
   .reflektion-mood-card {
-    @apply flex flex-col items-center gap-1 rounded-2xl border border-border-strong bg-bg/40 px-2 py-3 transition-[transform,box-shadow,border-color];
+    @apply flex min-h-[3.1rem] flex-col items-center justify-center gap-0.5 rounded-xl border border-border-strong/90 px-1 py-1.5 transition-[transform,box-shadow,border-color,background];
+    background: linear-gradient(
+      165deg,
+      rgba(22, 28, 26, 0.72) 0%,
+      rgba(10, 14, 18, 0.55) 100%
+    );
   }
 
   .reflektion-mood-card:hover {
-    transform: translateY(-2px);
-    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+    background: linear-gradient(
+      165deg,
+      rgba(32, 36, 30, 0.82) 0%,
+      rgba(12, 16, 22, 0.65) 100%
+    );
   }
 
   .reflektion-mood-card--active {
-    @apply border-accent/55 bg-accent/10;
-    box-shadow: 0 0 18px rgba(212, 175, 55, 0.18);
-    transform: translateY(-2px);
+    @apply border-accent/50 bg-accent/10;
+    box-shadow:
+      0 0 12px rgba(212, 175, 55, 0.16),
+      inset 0 1px 0 rgba(255, 243, 210, 0.08);
+    transform: translateY(-1px);
   }
 
   .reflektion-mood-card__emoji {
-    @apply text-2xl leading-none;
+    @apply text-lg leading-none;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
   }
 
   .reflektion-mood-card__label {
-    @apply text-[11px] font-medium text-text-muted;
+    @apply max-w-full px-0.5 text-center text-[9px] font-medium leading-tight tracking-wide text-text-muted;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .reflektion-mood-card--active .reflektion-mood-card__label {
-    @apply text-accent;
+    @apply font-semibold text-accent;
+  }
+
+  .reflektion-mood-card--calm {
+    border-color: color-mix(in srgb, #2dd4bf 18%, transparent);
+  }
+
+  .reflektion-mood-card--warm {
+    border-color: color-mix(in srgb, #fbbf24 18%, transparent);
+  }
+
+  .reflektion-mood-card--cool {
+    border-color: color-mix(in srgb, #94a3b8 16%, transparent);
+  }
+
+  .reflektion-mood-card--gold {
+    border-color: color-mix(in srgb, #d4af37 22%, transparent);
+  }
+
+  .reflektion-mood-card--rose {
+    border-color: color-mix(in srgb, #f472b6 18%, transparent);
+  }
+
+  .reflektion-mood-card--slate {
+    border-color: color-mix(in srgb, #64748b 18%, transparent);
+  }
+
+  .reflektion-mood-card--amber {
+    border-color: color-mix(in srgb, #f59e0b 20%, transparent);
+  }
+
+  .reflektion-mood-card--indigo {
+    border-color: color-mix(in srgb, #818cf8 18%, transparent);
   }
 
   .reflektion-mood-card--warm.reflektion-mood-card--active {
-    box-shadow: 0 0 16px rgba(251, 191, 36, 0.2);
+    box-shadow: 0 0 12px rgba(251, 191, 36, 0.18);
   }
 
   .reflektion-mood-card--gold.reflektion-mood-card--active {
-    box-shadow: 0 0 16px rgba(212, 175, 55, 0.22);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
   }
 
   .reflektion-mood-card--rose.reflektion-mood-card--active {
-    box-shadow: 0 0 16px rgba(244, 114, 182, 0.18);
+    box-shadow: 0 0 12px rgba(244, 114, 182, 0.16);
   }
 
   .reflektion-mood-card--indigo.reflektion-mood-card--active {
-    box-shadow: 0 0 16px rgba(129, 140, 248, 0.2);
+    box-shadow: 0 0 12px rgba(129, 140, 248, 0.18);
   }
 
   .reflektion-shuffle {
-    @apply mx-auto mb-3 flex items-center justify-center gap-2 rounded-full border border-border-strong bg-surface/30 px-4 py-2 text-xs font-medium text-text-muted transition-colors hover:border-accent/35 hover:text-accent;
+    @apply mx-auto mb-2 flex items-center justify-center gap-1.5 rounded-full border border-border-strong/80 bg-surface/25 px-3 py-1.5 text-[10px] font-medium text-text-muted transition-colors hover:border-accent/35 hover:text-accent;
   }
 
   .reflektion-mood-selected {
-    @apply mb-3 text-center text-sm text-text-muted;
+    @apply mb-2 text-center text-xs text-text-muted;
   }
 
   .reflektion-actions {
@@ -3542,6 +3593,143 @@
 
   .planering-hub__minimal-rest {
     @apply mt-3 grid gap-3 sm:grid-cols-2;
+  }
+
+  .planering-hub--navigator {
+    @apply space-y-4;
+  }
+
+  .planering-hub__primary {
+    @apply w-full;
+  }
+
+  .planering-hub__accordions {
+    @apply space-y-2;
+  }
+
+  .planering-hub__category {
+    @apply overflow-hidden rounded-2xl border border-border-strong bg-bg/30;
+  }
+
+  .planering-hub__category--open {
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  .planering-hub__category-trigger {
+    @apply flex w-full items-center gap-2 px-4 py-3 text-left transition-colors hover:bg-surface/20;
+  }
+
+  .planering-hub__category-label {
+    @apply flex-1 text-sm font-semibold text-accent;
+  }
+
+  .planering-hub__category-meta {
+    @apply text-[10px] font-medium uppercase tracking-wider text-text-dim;
+  }
+
+  .planering-hub__category-chevron {
+    @apply h-4 w-4 shrink-0 text-accent/70 transition-transform duration-200;
+  }
+
+  .planering-hub__category--open .planering-hub__category-chevron {
+    transform: rotate(180deg);
+  }
+
+  .planering-hub__category-panel {
+    @apply grid gap-2 border-t border-border-strong/80 px-3 py-3 sm:grid-cols-2;
+  }
+
+  .planering-tool-card--chip {
+    @apply min-h-0 flex-row items-center gap-2 p-3;
+  }
+
+  .planering-tool-card--chip .planering-tool-card__emoji {
+    @apply shrink-0 text-lg leading-none;
+  }
+
+  .planering-tool-card--chip .planering-tool-card__title {
+    @apply min-w-0 flex-1 pr-0 text-sm;
+  }
+
+  .planering-tool-card--chip .planering-tool-card__lead {
+    @apply hidden;
+  }
+
+  .planering-tool-card--chip .planering-tool-card__icon-wrap {
+    @apply static ml-0 shrink-0 text-accent/45;
+  }
+
+  .planering-tool-card--chip .planering-tool-card__icon-wrap svg {
+    @apply h-4 w-4;
+  }
+
+  .planering-inbox-connect-grid {
+    @apply grid gap-3;
+  }
+
+  .planering-inbox-connect {
+    @apply rounded-2xl border border-border-strong bg-bg/40 p-4;
+  }
+
+  .planering-inbox-connect--prepared {
+    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+    background: linear-gradient(
+      165deg,
+      color-mix(in srgb, var(--accent) 6%, transparent) 0%,
+      rgba(8, 10, 14, 0.88) 100%
+    );
+  }
+
+  .planering-inbox-connect__head {
+    @apply flex items-start gap-3;
+  }
+
+  .planering-inbox-connect__icon {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-accent/25 bg-surface/30 text-accent;
+  }
+
+  .planering-inbox-connect__title {
+    @apply text-base font-semibold text-accent;
+  }
+
+  .planering-inbox-connect__lead {
+    @apply mt-0.5 text-xs leading-relaxed text-text-muted;
+  }
+
+  .planering-inbox-connect__status {
+    @apply flex shrink-0 items-center gap-1 rounded-full border border-border-strong px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-text-dim;
+  }
+
+  .planering-inbox-connect__status--on {
+    @apply border-emerald-500/35 text-emerald-300/90;
+  }
+
+  .planering-inbox-connect__account {
+    @apply mt-3 truncate text-sm text-text;
+  }
+
+  .planering-inbox-connect__note {
+    @apply mt-2 text-xs text-text-dim;
+  }
+
+  .planering-inbox-connect__badge {
+    @apply inline-flex items-center rounded-full border border-amber-500/35 bg-amber-500/10 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-200/90;
+  }
+
+  .planering-inbox-calendar-preview__days {
+    @apply mt-4 grid grid-cols-5 gap-2;
+  }
+
+  .planering-inbox-calendar-preview__day {
+    @apply flex flex-col gap-1;
+  }
+
+  .planering-inbox-calendar-preview__day-label {
+    @apply text-center text-[10px] font-semibold uppercase tracking-wider text-text-dim;
+  }
+
+  .planering-inbox-calendar-preview__day-slot {
+    @apply min-h-[3.5rem] rounded-lg border border-dashed border-border-strong/80 bg-surface/20;
   }
 
   .planering-tool-card--compact {

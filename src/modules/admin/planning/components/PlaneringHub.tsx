@@ -8,7 +8,7 @@ export function PlaneringHub() {
   return (
     <div className="space-y-4">
       <p className="planering-hub__hint">
-        Tänk som en låda med verktyg — välj layout ovan som passar din energi idag.
+        Starta projekt högst upp. Öppna en kategori nedan — en i taget.
       </p>
       <PlaneringHubBody layout={layout} />
     </div>

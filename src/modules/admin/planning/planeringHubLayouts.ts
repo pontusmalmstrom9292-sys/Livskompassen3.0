@@ -2,6 +2,7 @@ import type { PlaneringHubModuleId } from './planeringHubModules';
 
 export type PlaneringHubLayoutStyle =
   | 'grid'
+  | 'navigator'
   | 'list'
   | 'sections'
   | 'orbit'
@@ -39,11 +40,21 @@ export const PLANERING_HUB_LAYOUTS: PlaneringHubLayout[] = [
   {
     id: 'verktygslada',
     label: 'Verktygslåda',
-    lead: 'Klassiska kort — allt du behöver ofta.',
+    lead: 'Starta projekt först — övrigt i kategorier.',
     emoji: '🧰',
-    style: 'grid',
-    shell: 'gold',
-    modules: ['inkop', 'handling', 'fokus', 'inkorg', 'projekt', 'nytt-projekt'],
+    style: 'navigator',
+    shell: 'emerald',
+    featured: 'nytt-projekt',
+    modules: [
+      'nytt-projekt',
+      'handling',
+      'fokus',
+      'inkorg',
+      'inkop',
+      'projekt',
+      'tidtagning',
+      'anteckning',
+    ],
   },
   {
     id: 'kompakt',

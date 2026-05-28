@@ -6,6 +6,7 @@ import {
 } from '../planeringHubModules';
 import type { PlaneringHubLayout } from '../planeringHubLayouts';
 import { PlaneringHubModuleCard } from './PlaneringHubModuleCard';
+import { PlaneringHubNavigator } from './PlaneringHubNavigator';
 import { getPlaneringHubModule } from '../planeringHubModules';
 
 type Props = {
@@ -20,6 +21,17 @@ export function PlaneringHubBody({ layout, className }: Props) {
     : null;
 
   const shellClass = `planering-hub-shell--${layout.shell}`;
+
+  if (layout.style === 'navigator') {
+    return (
+      <PlaneringHubNavigator
+        moduleIds={layout.modules}
+        featuredId={layout.featured ?? 'nytt-projekt'}
+        shellClass={shellClass}
+        className={className}
+      />
+    );
+  }
 
   if (layout.style === 'list') {
     return (

@@ -14,7 +14,7 @@ const toneClass = {
 type Props = {
   module: PlaneringHubModule;
   className?: string;
-  size?: 'default' | 'compact' | 'hero' | 'tile';
+  size?: 'default' | 'compact' | 'hero' | 'tile' | 'chip';
 };
 
 export function PlaneringHubModuleCard({
@@ -45,6 +45,7 @@ export function PlaneringHubModuleCard({
     size === 'compact' && 'planering-tool-card--compact',
     size === 'hero' && 'planering-tool-card--hero',
     size === 'tile' && 'planering-tool-card--tile',
+    size === 'chip' && 'planering-tool-card--chip',
     module.soon && 'planering-tool-card--soon',
     className,
   );
