@@ -4,7 +4,18 @@
 
 **Senast:** 2026-05-28 (Copilot-gren `feature/hallucination-guard-and-structure` avvisad + raderad på GitHub)
 
-**Senast merge:** 2026-05-26 (`theme-pack-j` → `main`, drawer Vardag/Valv, Inkast Lite, Life Hub, Theme Pack J)
+**Senast merge:** 2026-05-28 (`cursor/capacitor-8-android-sdk36` → `main`, Capacitor 8 + Firebase 12 + Android SDK 36; PR #6 + uppföljning)
+
+### capacitor-8-android-sdk36 — merged 2026-05-28
+
+| Detalj | Värde |
+|--------|--------|
+| **PMIR** | [`evaluations/2026-05-28-pmir-capacitor-8-android-sdk36.md`](./evaluations/2026-05-28-pmir-capacitor-8-android-sdk36.md) |
+| **PR** | #6 (kärn-upgrade), #7 (smoke/docs — cherry-pick till `main`) |
+| **Smoke** | locked-ux + orkester + build **PASS** på `main` |
+| **JDK** | Android Studio + CI: **21** (Temurin) |
+
+### theme-pack-j — merged 2026-05-26
 
 ---
 
