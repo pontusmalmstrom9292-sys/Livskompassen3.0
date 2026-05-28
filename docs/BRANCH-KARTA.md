@@ -4,7 +4,16 @@
 
 **Senast:** 2026-05-28 (Copilot-gren `feature/hallucination-guard-and-structure` avvisad + raderad på GitHub)
 
-**Senast merge:** 2026-05-28 (`cursor/capacitor-8-android-sdk36` → `main`, Capacitor 8 + Firebase 12 + Android SDK 36; PR #6 + uppföljning)
+**Senast merge:** 2026-05-28 (`cursor/module-cluster-restructure` → `main`, modulkluster + TabRegistry)
+
+### module-cluster-restructure — merged + stängd 2026-05-28
+
+| Detalj | Värde |
+|--------|--------|
+| **PMIR** | [`evaluations/2026-05-28-pmir-module-cluster-restructure.md`](./evaluations/2026-05-28-pmir-module-cluster-restructure.md) |
+| **Commit** | `7d1aeaa9` — `evidence/`, `diary/`, `wellbeing/`, `admin/`, `family/` |
+| **Smoke** | locked-ux + orkester + build **PASS** på `main` |
+| **Remote** | `cursor/module-cluster-restructure` raderad efter godkännande |
 
 ### capacitor-8-android-sdk36 — merged 2026-05-28
 
@@ -23,7 +32,7 @@
 
 | Branch | Innehåll | Stäng-kriterium |
 |--------|----------|-----------------|
-| **`main`** | Drawer helhetsindex, Valv-baksida, Inkast Lite, Life Hub Fas A+B, Theme Pack J, Fyren hub-kontextrad, Arbetsliv-hub | `npm run smoke:locked-ux` + `smoke:orkester` före "klart" |
+| **`main`** | Modulkluster (`evidence/`, `diary/`, `wellbeing/`, `admin/`, `family/`), TabRegistry, drawer-livsområden, Capacitor 8, Valv/Arbetsliv | `npm run smoke:locked-ux` + `smoke:orkester` före "klart" |
 
 ### theme-pack-j — merged 2026-05-26
 
@@ -59,6 +68,7 @@
 | `audit-byggpass-2026-05-22` | **Stängd** | Äldre bas; låst UX fanns på `main` |
 | `cursor/stadguide-enkel-svenska` | **Raderad 2026-05-25** | Innehåll ersatt/uppdaterat på `main` (`stadguide_enkel_svenska.md`) |
 | `feature/hallucination-guard-and-structure` | **Avvisad + raderad 2026-05-28** | Copilot: oanslutna `hallucinationGuard.ts` / `agentAuditLog.ts` — **ej mergad** till `main`. Se [`evaluations/2026-05-28-copilot-hallucination-branch-rejected.md`](./evaluations/2026-05-28-copilot-hallucination-branch-rejected.md) |
+| `cursor/module-cluster-restructure` | **Merged + stängd 2026-05-28** | Samma träd som `7d1aeaa9` på `main`; PMIR [`2026-05-28-pmir-module-cluster-restructure.md`](./evaluations/2026-05-28-pmir-module-cluster-restructure.md) |
 
 **GitHub remote (3.0):** endast **`main`** (+ tillfälliga `cursor/*` vid behov) — **merga inte** Copilot-säkerhetsgrenar utan PMIR.
 
