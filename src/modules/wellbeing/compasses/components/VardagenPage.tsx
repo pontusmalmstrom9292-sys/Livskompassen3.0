@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import { TabBar } from '../../../core/ui/TabBar';
 import { useStore } from '../../../core/store';
-import { EconomyPage } from '../../../ekonomi';
+import { EconomyPage } from '../../economy';
 import { getDefaultCompassByTime } from '../utils/compassTime';
 import { DashboardPage } from './DashboardPage';
 import { vaultDrawerPath } from '../../../core/navigation/navTruth';

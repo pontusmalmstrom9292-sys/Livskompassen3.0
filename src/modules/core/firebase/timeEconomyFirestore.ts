@@ -25,13 +25,13 @@ import type {
 import {
   computeHoursWorkedOnClockOut,
   computeWeekFlexDetail,
-} from '../../ekonomi/rules/payTimeRules';
+} from '../../wellbeing/economy/rules/payTimeRules';
 import {
   computePeriodEconomySummary,
   type PeriodEconomySummary,
-} from '../../ekonomi/rules/periodSummary';
-import { getPayslipPeriodForPayday } from '../../ekonomi/rules/generatePayslipCore';
-import type { TimeEntryLike, WeekFlexDetail } from '../../ekonomi/rules/payTimeRules';
+} from '../../wellbeing/economy/rules/periodSummary';
+import { getPayslipPeriodForPayday } from '../../wellbeing/economy/rules/generatePayslipCore';
+import type { TimeEntryLike, WeekFlexDetail } from '../../wellbeing/economy/rules/payTimeRules';
 import {
   buildCategoryName,
   categoryBase,

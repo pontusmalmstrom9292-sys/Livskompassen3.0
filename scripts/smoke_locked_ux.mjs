@@ -2,8 +2,8 @@
  * Static smoke: Locked UX features must exist in source (no Firebase).
  * Usage: npm run smoke:locked-ux
  */
-import { readFileSync, existsSync } from 'fs';
-import { resolve, dirname } from 'path';
+import fs, { readFileSync, existsSync } from 'fs';
+import path, { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -283,7 +283,53 @@ function main() {
   assert(existsSync(resolve(root, 'docs/design/TYPE-SCALE.md')), 'saknar: TYPE-SCALE.md');
   assert(existsSync(resolve(root, '.context/locked-icons.md')), 'saknar: .context/locked-icons.md');
   assert(existsSync(resolve(root, 'docs/design/ICON-STYLE-GUIDE.md')), 'saknar: ICON-STYLE-GUIDE.md');
-  mustInclude('src/modules/kompis/components/KompisAvatar.tsx', 'KompisMark');
+  mustInclude(
+    'src/modules/evidence/kompis/components/KompisAvatar.tsx',
+    'KompisMark',
+  );
+
+  // Post-kluster: produktionskod ska inte importera via borttagna rot-shims
+  const legacyImportRoots = [
+    'modules/dagbok',
+    'modules/kompasser',
+    'modules/verklighetsvalvet',
+    'modules/planering',
+    'modules/mabra',
+    'modules/speglings_system',
+    'modules/barnens_livsloggar',
+    'modules/projekt',
+    'modules/valv_chatt',
+    'modules/dossier',
+    'modules/kompis',
+    'modules/ekonomi',
+    'modules/safe_harbor',
+    'modules/stampla',
+  ];
+  const srcFiles = [];
+  function walkSrc(dir) {
+    for (const name of fs.readdirSync(dir)) {
+      const full = path.join(dir, name);
+      if (fs.statSync(full).isDirectory()) {
+        if (name === 'node_modules' || name === 'dist') continue;
+        walkSrc(full);
+      } else if (/\.(tsx?)$/.test(name)) {
+        srcFiles.push(full);
+      }
+    }
+  }
+  walkSrc(resolve(root, 'src'));
+  const shimIndexOnly = /^src\/modules\/(kompis|ekonomi|safe_harbor|stampla)\/index\.ts$/;
+  for (const file of srcFiles) {
+    const rel = path.relative(root, file).replace(/\\/g, '/');
+    if (shimIndexOnly.test(rel)) continue;
+    const text = readFileSync(file, 'utf8');
+    for (const shim of legacyImportRoots) {
+      assert(
+        !new RegExp(`from ['"]${shim.replace('/', '\\/')}`).test(text),
+        `${rel} importerar legacy-shim ${shim}`,
+      );
+    }
+  }
 
   console.log(
     '[smoke:locked-ux] PASS — Barnfokus, Valv-baksida (Mönster/Orkester/Kunskapsbank), drawer Vardag+Valv, Planering, Widget, Barnporten.',

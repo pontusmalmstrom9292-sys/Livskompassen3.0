@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { callKnowledgeVault, type KnowledgeVaultCitation, type KnowledgeVaultResult } from '../api/knowledgeVaultService';
-import { useStore } from '../../core/store';
+import { useStore } from '../../../core/store';
 import { Lock } from 'lucide-react';
-import { BentoCard } from '../../core/ui/BentoCard';
+import { BentoCard } from '../../../core/ui/BentoCard';
 
 type KnowledgeVaultChatProps = {
   onCitationClick?: (docId: string, collection: string) => void;

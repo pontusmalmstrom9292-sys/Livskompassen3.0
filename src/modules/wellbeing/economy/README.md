@@ -48,5 +48,5 @@ Inga datakopplingar till Valv, Dagbok eller Kunskap RAG.
 ## Mer läsning
 
 - [module_plan.md](./module_plan.md)
-- [Kontext (.context)](../../../.context/modules/ekonomi.md)
+- [Kontext (.context)](../../../.context/modules/wellbeing/economy.md)
 - [Ekonomi-SPEC](../../../docs/specs/modules/Ekonomi-SPEC.md)

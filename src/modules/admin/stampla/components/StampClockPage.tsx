@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Clock, Loader2 } from 'lucide-react';
-import { BentoCard } from '../../core/ui/BentoCard';
-import { MetricTile } from '../../core/ui/MetricTile';
-import { EmptyState } from '../../core/ui/EmptyState';
-import { TimelineEntry } from '../../core/ui/TimelineEntry';
-import { useStore } from '../../core/store';
-import type { TimeEntryRow } from '../../core/types/firestore';
+import { BentoCard } from '../../../core/ui/BentoCard';
+import { MetricTile } from '../../../core/ui/MetricTile';
+import { EmptyState } from '../../../core/ui/EmptyState';
+import { TimelineEntry } from '../../../core/ui/TimelineEntry';
+import { useStore } from '../../../core/store';
+import type { TimeEntryRow } from '../../../core/types/firestore';
 import {
   getOpenTimeEntry,
   getWeekFlexDetail,
@@ -16,7 +16,7 @@ import {
   recordTimeIn,
   recordTimeOut,
   repairOpenTimeEntryFlags,
-} from '../../core/firebase/timeEconomyFirestore';
+} from '../../../core/firebase/timeEconomyFirestore';
 
 const CATEGORIES = ['Arbete', 'Semester', 'VAB', 'Sjuk', 'Sjuk dag 15+'] as const;
 

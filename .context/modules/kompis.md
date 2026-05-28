@@ -1,6 +1,7 @@
 # Kompis / Kunskap
 
-**Route:** `/vardagen?tab=kunskap` (redirect `/kunskap`) · **AuthGate:** ja (kunskap-flik i Vardagen)
+**Kanonisk kod:** `src/modules/evidence/kompis/` (legacy: `modules/kompis` shim)  
+**Route:** Valv `kunskapsbank` (`/dagbok?tab=bevis&vaultTab=kunskapsbank`) · **AuthGate:** ja (kunskap-flik i Vardagen)
 
 **Spec (konsoliderad):** [`docs/specs/modules/Kunskap-SPEC.md`](../../docs/specs/modules/Kunskap-SPEC.md)
 

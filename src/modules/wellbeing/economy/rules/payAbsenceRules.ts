@@ -1,7 +1,7 @@
 /**
  * Frånvaro — sjuk, VAB, karens (365 dagar). Port PontusArbetsapp Fas 2.
  */
-import { categoryBase, eachDateInclusive, parseDateOnly } from '../../core/utils/timeMath';
+import { categoryBase, eachDateInclusive, parseDateOnly } from '../../../core/utils/timeMath';
 import type { TimeEntryLike } from './payTimeRules';
 import {
   DAILY_RATE_SEK,

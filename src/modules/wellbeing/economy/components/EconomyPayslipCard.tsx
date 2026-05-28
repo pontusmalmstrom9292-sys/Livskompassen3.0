@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FileText, Loader2 } from 'lucide-react';
 import { httpsCallable } from 'firebase/functions';
-import { BentoCard } from '../../core/ui/BentoCard';
-import { functions } from '../../core/firebase/init';
-import { useStore } from '../../core/store';
-import { getLatestPayslipSnapshot } from '../../core/firebase/timeEconomyFirestore';
-import type { PayslipSnapshotRow } from '../../core/types/firestore';
+import { BentoCard } from '../../../core/ui/BentoCard';
+import { functions } from '../../../core/firebase/init';
+import { useStore } from '../../../core/store';
+import { getLatestPayslipSnapshot } from '../../../core/firebase/timeEconomyFirestore';
+import type { PayslipSnapshotRow } from '../../../core/types/firestore';
 
 export function EconomyPayslipCard() {
   const user = useStore((s) => s.user);

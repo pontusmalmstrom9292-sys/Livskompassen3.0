@@ -4,7 +4,7 @@
 
 Safe Harbor / BIFF-Skölden — Grey Rock-svar på ex-meddelanden utan JADE.
 
-Route: `/hamn` · Canonical: `.context/modules/safe_harbor.md` · Spec: `docs/specs/modules/SafeHarbor-SPEC.md`
+Route: `/hamn` · Canonical: `.context/modules/family/safeHarbor.md` · Spec: `docs/specs/modules/SafeHarbor-SPEC.md`
 
 ## Files
 

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Inbox } from 'lucide-react';
-import { BentoCard } from '../../core/ui/BentoCard';
-import { useStore } from '../../core/store';
+import { BentoCard } from '../../../core/ui/BentoCard';
+import { useStore } from '../../../core/store';
 import {
   confirmInbox,
   dismissInbox,

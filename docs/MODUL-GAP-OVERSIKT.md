@@ -1,4 +1,4 @@
-# Modul-GAP — översikt (2026-05-27)
+# Modul-GAP — översikt (2026-05-28)
 
 **Syfte:** En sida — vad som är **klart i kod**, vad som är **öppet per modul**, och vad som körs **autonomt** vs **kräver dig**.
 
@@ -23,16 +23,17 @@ Ny arkiv-implementation: säg `kör [GAP]` (regel i GAP-register) — inget nytt
 
 | Modul | Route | Gap / nästa | Kommando / vem |
 |-------|-------|-------------|----------------|
-| **core** | `/` | Manuell smoke #1–7, #18–20; NavigationDrawer (D24) saknas i kod | Du · [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md) |
-| **kompis** | Kunskap (Valv PIN) | Klickbara citations; policy: ej auto-ingest Kladd; dagbok→kampspar (Vävaren→valv idag) | `kör kunskap` · se `src/modules/kompis/module_plan.md` |
-| **projekt** | `/projekt` | **P2+:** regler, bild-uppladdning, widget-sheet, MaterialPack-editor | `kör projekt P2` |
-| **planering** | `/planering` | P3 kanban **done**; kopplingar C–D (Life OS) | `kör kopplingar C` |
+| **core** | `/` | Manuell smoke #1–7, #18–20; drawer **done** (`NavigationDrawer.tsx` + `navTruth`) | Du · [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md) |
+| **kompis** (`evidence/kompis`) | Kunskap (Valv PIN) | Klickbara citations; policy: ej auto-ingest Kladd; dagbok→kampspar (Vävaren→valv idag) | `kör kunskap` · se `src/modules/evidence/kompis/module_plan.md` |
+| **projekt** (`admin/projects`) | `/projekt` | **P2+:** regler, bild-uppladdning, widget-sheet, MaterialPack-editor | `kör projekt P2` |
+| **planering** (`admin/planning`) | `/planering` | P3 kanban **done**; kopplingar C–D (Life OS) | `kör kopplingar C` |
 | **barnporten** | (plan PWA) | Hub, widget CB1–4, HITL promote — **ej full route** | `kör barnporten` · [`BARNPORTEN-SPEC.md`](./design/BARNPORTEN-SPEC.md) |
-| **mabra** | `/mabra` | MVP **done**; **Daglig Mix** **done** (hub) | — |
-| **dagbok** | `/dagbok` | Inkast **fas 2–5** | `kör inkast fas 2` |
-| **dossier** | `/dossier` | BBIC `reportType` **planned** | Spec §I.4 |
-| **verklighetsvalvet** | Valv | Vävaren försätt / polish kvar | Spec/module_plan |
-| **ekonomi** | vardagen | Smoke #18 manuell | Du |
+| **mabra** (`wellbeing/mabra`) | `/mabra` | MVP **done**; **Daglig Mix** **done** (hub) | — |
+| **dagbok** (`diary/diary`) | `/dagbok` | Inkast **fas 2–5** | `kör inkast fas 2` |
+| **dossier** (`evidence/vault/dossier`) | `/dossier` | BBIC `reportType` **planned** | Spec §I.4 |
+| **valv** (`evidence/vault`) | `/dagbok?tab=bevis` | Vävaren försätt / polish kvar | Spec/module_plan |
+| **ekonomi** (`wellbeing/economy`) | `/vardagen?tab=ekonomi` | Smoke #18 manuell | Du |
+| **hamn** (`family/safeHarbor`) | `/hamn` | BIFF via `TryggHamnHub` | `smoke:design-modules` |
 | **auth/android** | app | **Verifierad 2026-05** — SHA-1 + `client_type: 1` i `google-services.json`; native Google på telefon. Rutin: `build:web` → `cap sync` → Clean → Run · offline: [`OFFLINE-ANDROID.md`](./OFFLINE-ANDROID.md) | [`.context/android-capacitor.md`](../.context/android-capacitor.md) · [`FIREBASE-AUTH-LATHUND.md`](./FIREBASE-AUTH-LATHUND.md) |
 
 **Låst UX (ska inte tas bort):** Barnfokus, Valv Mönster/Orkester/Kunskapsbank, Planering P3, ikoner B1/D1/M2 — `npm run smoke:locked-ux`.

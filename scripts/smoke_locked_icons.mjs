@@ -38,9 +38,9 @@ function main() {
   assert(existsSync(resolve(root, 'docs/design/ICON-STYLE-GUIDE.md')), 'saknar ICON-STYLE-GUIDE.md');
 
   mustInclude('src/modules/core/ui/LivskompassMark.tsx', '@locked ICON-D1', 'Helros', 'lk-disk-');
-  mustInclude('src/modules/kompis/components/KompisMark.tsx', '@locked ICON-M2', 'Orakelöga', 'km2g-');
-  mustInclude('src/modules/kompis/components/KompisAvatar.tsx', 'KompisMark');
-  mustNotInclude('src/modules/kompis/components/KompisAvatar.tsx', 'LivskompassMark');
+  mustInclude('src/modules/evidence/kompis/components/KompisMark.tsx', '@locked ICON-M2', 'Orakelöga', 'km2g-');
+  mustInclude('src/modules/evidence/kompis/components/KompisAvatar.tsx', 'KompisMark');
+  mustNotInclude('src/modules/evidence/kompis/components/KompisAvatar.tsx', 'LivskompassMark');
 
   mustInclude('public/favicon.svg', 'ICON-B1', 'b1bg', 'b1needle');
   mustNotInclude('public/favicon.svg', '#863bff', '7e14ff');

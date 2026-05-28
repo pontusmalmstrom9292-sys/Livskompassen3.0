@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Anchor, Compass } from 'lucide-react';
-import { ElongatedModule } from '../../core/ui/ElongatedModule';
-import { getDefaultCompassByTime } from '../../wellbeing/compasses/utils/compassTime';
-import { getFlowConfig, EVENING_HERO } from '../../wellbeing/compasses/config/compassFlows';
+import { ElongatedModule } from '../../../core/ui/ElongatedModule';
+import { getDefaultCompassByTime } from '../../../wellbeing/compasses/utils/compassTime';
+import { getFlowConfig, EVENING_HERO } from '../../../wellbeing/compasses/config/compassFlows';
 import type { ReactNode } from 'react';
 
 type Props = {

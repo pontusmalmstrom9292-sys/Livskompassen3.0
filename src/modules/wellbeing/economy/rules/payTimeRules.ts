@@ -9,7 +9,7 @@ import {
   getMonday,
   parseClockOnDate,
   parseDateOnly,
-} from '../../core/utils/timeMath';
+} from '../../../core/utils/timeMath';
 import {
   ABSENCE_CATEGORIES,
   DAILY_WORK_HOURS,

@@ -20,7 +20,7 @@ export {
   eachDateInclusive,
   emptyWeekCalendar,
   type WeekDaySummary,
-} from '../../core/utils/timeMath';
+} from '../../../core/utils/timeMath';
 
 export {
   ABSENCE_CATEGORIES,

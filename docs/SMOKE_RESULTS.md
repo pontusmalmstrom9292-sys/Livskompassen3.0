@@ -1,5 +1,20 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Modul-/flikflytt baslinje (2026-05-28)
+
+**Branch:** `main` (lokal) · **Plan:** modul-flik ombyggnad Fas A–E
+
+| Kommando | Resultat |
+|----------|----------|
+| `npm run smoke:locked-ux` | **PASS** |
+| `npm run smoke:design-modules` | **PASS** (TryggHamnHub + tabRegistry Valv-labels) |
+| `npm run smoke:orkester` | **PASS** |
+| `npm run build` | **PASS** |
+
+**Kod:** Fas 2-kluster (`evidence/kompis`, `wellbeing/economy`, `family/safeHarbor`, `admin/stampla`); fas 1-shims borttagna; B2/B3/B4 enligt `docs/design/IA-MODUL-FLYTT-2026.md`.
+
+---
+
 ## Manuell smoke-batch minimum (2026-05-27)
 
 **Branch:** `main` (användartest; gren växlade under session)  

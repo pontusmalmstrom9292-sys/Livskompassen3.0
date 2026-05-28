@@ -3,9 +3,9 @@ import { Navigate } from 'react-router-dom';
 import { Briefcase } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { TabBar, type TabBarItem } from '../../core/ui/TabBar';
-import { StampClockPage } from '../../stampla/components/StampClockPage';
-import { EconomyTidPanel } from '../../ekonomi/components/EconomyTidPanel';
-import { EconomyLogPanel } from '../../ekonomi/components/EconomyLogPanel';
+import { StampClockPage } from '../../admin/stampla/components/StampClockPage';
+import { EconomyTidPanel } from '../../wellbeing/economy/components/EconomyTidPanel';
+import { EconomyLogPanel } from '../../wellbeing/economy/components/EconomyLogPanel';
 import { vaultDrawerPath } from '../../core/navigation/navTruth';
 import { useHubTab } from '../../core/navigation/hooks/useHubTab';
 

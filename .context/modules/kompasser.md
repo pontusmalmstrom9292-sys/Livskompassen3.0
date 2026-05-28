@@ -1,5 +1,6 @@
 # De 3 Kompasserna (Kompasser)
 
+**Kanonisk kod:** `src/modules/wellbeing/compasses/` (legacy: `modules/kompasser` shim)  
 **Route:** `/vardagen` (kompasser-tab) · **Redirect:** `/kompasser` → `/vardagen`  
 **AuthGate:** **done** på `/vardagen` · **Dock:** Sprout  
 **Spec:** [`docs/specs/modules/De-3-Kompasserna-SPEC.md`](../../docs/specs/modules/De-3-Kompasserna-SPEC.md) (notebook #1–#5, beslut låsta 2026-05-21)  

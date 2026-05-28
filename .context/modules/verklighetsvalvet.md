@@ -1,5 +1,6 @@
 # Verklighetsvalvet
 
+**Kanonisk kod:** `src/modules/evidence/vault/` (legacy: `modules/verklighetsvalvet` shim)  
 **Sacred Feature (Sanningens Sköld).** **Route:** `/dagbok?tab=bevis` · **Redirect:** `/valv` · **AuthGate:** ja  
 **Spec (konsoliderad):** [`docs/specs/modules/Verklighetsvalvet-SPEC.md`](../../docs/specs/modules/Verklighetsvalvet-SPEC.md)
 

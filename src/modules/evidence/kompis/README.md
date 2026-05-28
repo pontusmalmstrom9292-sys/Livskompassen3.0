@@ -60,6 +60,6 @@ Se [arkiv-minne.md](../../../.context/arkiv-minne.md).
 ## Mer läsning
 
 - [module_plan.md](./module_plan.md)
-- [Kontext (.context)](../../../.context/modules/kompis.md)
+- [Kontext (.context)](../../../.context/modules/evidence/kompis.md)
 - [Kunskap-SPEC](../../../docs/specs/modules/Kunskap-SPEC.md)
 - [ai-prompts-moduler-master](../../../docs/specs/ai-prompts-moduler-master.md)

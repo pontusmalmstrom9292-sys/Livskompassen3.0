@@ -5,7 +5,7 @@ import {
   fileToBase64,
   ingestKnowledgeDocument,
 } from '../api/ingestKnowledgeDocumentService';
-import { useStore } from '../../core/store';
+import { useStore } from '../../../core/store';
 
 const TEXT_TYPES = new Set([
   'text/plain',

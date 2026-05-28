@@ -1,4 +1,4 @@
-import { MetricTile } from '../../core/ui/MetricTile';
+import { MetricTile } from '../../../core/ui/MetricTile';
 
 type WorkWeekSummaryProps = {
   dagensTimmar: number;

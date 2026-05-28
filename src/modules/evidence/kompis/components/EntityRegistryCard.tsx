@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Users } from 'lucide-react';
-import { BentoCard } from '../../core/ui/BentoCard';
-import { useStore } from '../../core/store';
+import { BentoCard } from '../../../core/ui/BentoCard';
+import { useStore } from '../../../core/store';
 import {
   fetchEntityProfileRegistry,
   type EntityProfileSummary,

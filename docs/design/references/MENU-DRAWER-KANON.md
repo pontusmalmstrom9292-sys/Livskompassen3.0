@@ -37,7 +37,7 @@ Visas när Valv **inte** är upplåst på en Valv-route.
 | Arbetsliv | Stämpel · Tid & flex · Logg |
 | Trygg hamn | Översikt · BIFF · Speglar · Barnfokus |
 | Projekt | Nytt projekt |
-| Drogfrihet | Idag · Stöd · Reflektion · Kunskap |
+| Drogfrihet | Idag · Stöd · Reflektion · Stöd & resurser |
 | Inställningar | Allmänt · Drogfrihet |
 
 **MUST NOT:** publik `/vardagen?tab=kunskap` — Kunskap endast via Valv `kunskapsbank`.  

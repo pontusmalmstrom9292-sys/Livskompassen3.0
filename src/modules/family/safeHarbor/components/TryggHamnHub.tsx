@@ -1,11 +1,11 @@
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
-import { TabBar } from '../../core/ui/TabBar';
-import { KompassradPanel } from '../../wellbeing/compasses/components/KompassradPanel';
-import { CognitiveLoadStrip } from '../../core/ui/CognitiveLoadStrip';
+import { TabBar } from '../../../core/ui/TabBar';
+import { KompassradPanel } from '../../../wellbeing/compasses/components/KompassradPanel';
+import { CognitiveLoadStrip } from '../../../core/ui/CognitiveLoadStrip';
 import { BiffPublicPanel } from './BiffPublicPanel';
-import { vaultDrawerPath } from '../../core/navigation/navTruth';
-import { MaterialPackShortcuts, useLifeHubPreset } from '../../core/lifeOs';
-import { useHubTab } from '../../core/navigation/hooks/useHubTab';
+import { vaultDrawerPath } from '../../../core/navigation/navTruth';
+import { MaterialPackShortcuts, useLifeHubPreset } from '../../../core/lifeOs';
+import { useHubTab } from '../../../core/navigation/hooks/useHubTab';
 
 type Props = {
   initialMessage?: string;

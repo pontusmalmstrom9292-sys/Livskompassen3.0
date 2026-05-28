@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
 import { Loader2, Shield } from 'lucide-react';
 import { analyzeBiffMessage, extractGreyRockReply, type GransAnalysis } from '../api/biffService';
-import { useStore } from '../../core/store';
-import { saveVaultLog } from '../../core/firebase/firestore';
+import { useStore } from '../../../core/store';
+import { saveVaultLog } from '../../../core/firebase/firestore';
 import { BiffTriagePanel } from './BiffTriagePanel';
 
 type Props = {

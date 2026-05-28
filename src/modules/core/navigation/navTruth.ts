@@ -337,7 +337,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   },
   {
     id: 'drogfrihet_kunskap',
-    label: 'Kunskap',
+    label: 'Stöd & resurser',
     path: '/drogfrihet?tab=kunskap',
     section: 'vardag',
     inDrawer: true,

@@ -1,5 +1,5 @@
 import { httpsCallable, type FunctionsError } from 'firebase/functions';
-import { functions } from '../../core/firebase/init';
+import { functions } from '../../../core/firebase/init';
 
 export interface IngestKampsparInput {
   title: string;

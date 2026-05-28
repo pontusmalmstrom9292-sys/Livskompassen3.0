@@ -1,7 +1,7 @@
 /**
  * Periodsammanfattning (Kalkylark I1–I5-lik) — ren logik.
  */
-import { parseDateOnly } from '../../core/utils/timeMath';
+import { parseDateOnly } from '../../../core/utils/timeMath';
 import { getPayslipPeriodForPayday, type PayslipPeriod } from './generatePayslipCore';
 
 export type LedgerRowLike = {

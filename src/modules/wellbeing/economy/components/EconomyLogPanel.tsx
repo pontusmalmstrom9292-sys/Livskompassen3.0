@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { BentoCard } from '../../core/ui/BentoCard';
-import { EmptyState } from '../../core/ui/EmptyState';
-import { TimelineEntry } from '../../core/ui/TimelineEntry';
-import { useStore } from '../../core/store';
+import { BentoCard } from '../../../core/ui/BentoCard';
+import { EmptyState } from '../../../core/ui/EmptyState';
+import { TimelineEntry } from '../../../core/ui/TimelineEntry';
+import { useStore } from '../../../core/store';
 import {
   addEconomyLedgerEntry,
   deleteEconomyFixedBill,
@@ -12,8 +12,8 @@ import {
   getEconomyFixedBills,
   getEconomyLedgerEntries,
   setEconomyFixedBill,
-} from '../../core/firebase/timeEconomyFirestore';
-import { formatDateLocal } from '../../core/utils/timeMath';
+} from '../../../core/firebase/timeEconomyFirestore';
+import { formatDateLocal } from '../../../core/utils/timeMath';
 
 type EconomyLogPanelProps = {
   onChanged?: () => void;

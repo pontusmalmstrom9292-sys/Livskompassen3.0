@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Clock } from 'lucide-react';
-import { BentoCard } from '../../core/ui/BentoCard';
+import { BentoCard } from '../../../core/ui/BentoCard';
 import { TimeAndPayPanel } from './TimeAndPayPanel';
 
 export function EconomyTidPanel() {

@@ -2,15 +2,15 @@ import { useCallback, useEffect, useState } from 'react';
 import { useStore } from '../../../core/store';
 import { getJournalEntries } from '../../../core/firebase/firestore';
 import { getPeriodEconomySummary, type PeriodEconomySummary } from '../../../core/firebase/timeEconomyFirestore';
-import { HamnForensicPanel } from '../../../safe_harbor/components/BiffPublicPanel';
+import { HamnForensicPanel } from '../../../family/safeHarbor/components/BiffPublicPanel';
 import { SpeglingsForensicPanel } from '../../../diary/mirror/components/SpeglingsSystem';
 import { JournalArchive } from '../../../diary/diary/components/JournalArchive';
 import type { JournalEntry } from '../../../diary/diary/types/journal';
 import { FamiljenMonsterTab } from '../../../family/children/components/familjen/FamiljenMonsterTab';
 import { useFamiljenShell } from '../../../family/children/hooks/useFamiljenShell';
 import { VaultEconomyPanel } from '../../../valv_ekonomi';
-import { EconomyPeriodSummary } from '../../../ekonomi/components/EconomyPeriodSummary';
-import { EconomyPayslipCard } from '../../../ekonomi/components/EconomyPayslipCard';
+import { EconomyPeriodSummary } from '../../../wellbeing/economy/components/EconomyPeriodSummary';
+import { EconomyPayslipCard } from '../../../wellbeing/economy/components/EconomyPayslipCard';
 import type { ForensicVaultTab } from '../utils/vaultTabs';
 
 function ArbetslivLonForensic() {

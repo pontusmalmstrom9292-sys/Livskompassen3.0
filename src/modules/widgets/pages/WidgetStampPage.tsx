@@ -3,8 +3,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Clock, Loader2 } from 'lucide-react';
 import { AuthGate } from '../../core/auth/AuthGate';
 import { useStore } from '../../core/store';
-import { useStampClock } from '../../stampla/hooks/useStampClock';
-import { StampClockControls } from '../../stampla/components/StampClockControls';
+import { useStampClock } from '../../admin/stampla/hooks/useStampClock';
+import { StampClockControls } from '../../admin/stampla/components/StampClockControls';
 import { WidgetShell } from '../layout/WidgetShell';
 
 function WidgetStampInner() {

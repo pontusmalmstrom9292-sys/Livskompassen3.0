@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { AdaptiveMemoryCards } from '../home/AdaptiveMemoryCards';
 import { HomeHeroKanon } from '../home/HomeHeroKanon';
 import { HomeQuickModules } from '../home/HomeQuickModules';
-import { StampClockHomeSection } from '../../stampla';
+import { StampClockHomeSection } from '../../admin/stampla';
 import { InkastLiteCard } from '../../inkast';
 import { materialEnabled, useLifeHubPreset } from '../lifeOs';
 import { useStore } from '../store';

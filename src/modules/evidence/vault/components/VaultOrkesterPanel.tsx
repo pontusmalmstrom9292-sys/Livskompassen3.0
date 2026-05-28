@@ -5,7 +5,7 @@ import { BentoCard } from '../../../core/ui/BentoCard';
 import {
   analyzeBiffMessage,
   type GransAnalysis,
-} from '../../../safe_harbor/api/biffService';
+} from '../../../family/safeHarbor/api/biffService';
 import type { VaultLog } from '../../../core/types/firestore';
 import { PRODUCT_AGENTS } from '../constants/productAgents';
 import { OrkesterAgentTrio } from './OrkesterAgentTrio';

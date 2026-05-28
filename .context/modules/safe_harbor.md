@@ -1,5 +1,6 @@
 # Safe Harbor (Hamn)
 
+**Kanonisk kod:** `src/modules/family/safeHarbor/` (legacy: `modules/safe_harbor` shim)  
 **Sacred Feature.** **Route:** `/hamn` · **AuthGate:** ja · **Dock:** Anchor  
 **Design:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md) (Obsidian Calm, Riktning A)  
 **Incoming spec:** [`docs/specs/modules/SafeHarbor-SPEC.md`](../../docs/specs/modules/SafeHarbor-SPEC.md)

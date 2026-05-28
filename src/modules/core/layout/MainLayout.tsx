@@ -4,7 +4,7 @@ import { FloatingDock } from './FloatingDock';
 import { FyrenSmartWidgetBar } from '../components/FyrenSmartWidgetBar';
 import { AppHeaderBar } from '../components/AppHeaderBar';
 import { AmbientBackground } from './AmbientBackground';
-import { KompisAvatar } from '../../kompis/components/KompisAvatar';
+import { KompisAvatar } from '../../evidence/kompis/components/KompisAvatar';
 import { AccountAuthMenu } from '../auth/AccountAuthMenu';
 import { NavigationDrawer } from './NavigationDrawer';
 import { FirestoreNetworkChip } from '../components/FirestoreNetworkChip';

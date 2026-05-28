@@ -6,7 +6,7 @@ import { HomePage } from '../pages/HomePage';
 import { ThemePreviewPage } from '../pages/ThemePreviewPage';
 import { ThemeLabPage } from '../pages/ThemeLabPage';
 import { VardagenPage, type VardagenTab } from '../../wellbeing/compasses';
-import { SafeHarborPage } from '../../safe_harbor';
+import { SafeHarborPage } from '../../family/safeHarbor';
 import { HjartatPage } from '../../diary/diary';
 import { FamiljenPage } from '../../family/children';
 import { DossierPage } from '../../evidence/vault/dossier';

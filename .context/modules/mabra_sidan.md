@@ -1,5 +1,6 @@
 # Måbra-sidan
 
+**Kanonisk kod:** `src/modules/wellbeing/mabra/` (legacy: `modules/mabra` shim)  
 **Route:** `/mabra` · **AuthGate:** ja · **Kluster:** hem (Måbra) · **Ej i dock**  
 **Spec (konsoliderad):** [`docs/specs/modules/Mabra-SPEC.md`](../../docs/specs/modules/Mabra-SPEC.md)
 

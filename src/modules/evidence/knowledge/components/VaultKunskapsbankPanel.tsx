@@ -1,4 +1,4 @@
-import { KunskapPage } from '../../../kompis/components/KunskapPage';
+import { KunskapPage } from '../../kompis/components/KunskapPage';
 import { FamiljenKunskapHubTab } from '../../../family/children/components/familjen/FamiljenKunskapHubTab';
 import { useFamiljenShell } from '../../../family/children/hooks/useFamiljenShell';
 import { BentoCard } from '../../../core/ui/BentoCard';

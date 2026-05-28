@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDown, ChevronUp, Clock, Smartphone } from 'lucide-react';
-import { BentoCard } from '../../core/ui/BentoCard';
-import { useStore } from '../../core/store';
+import { BentoCard } from '../../../core/ui/BentoCard';
+import { useStore } from '../../../core/store';
 import { useStampClock } from '../hooks/useStampClock';
 import { StampClockControls } from './StampClockControls';
 

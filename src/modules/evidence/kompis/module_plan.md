@@ -1,6 +1,6 @@
 # kompis — module plan
 
-**Canonical spec:** [`docs/specs/modules/Kunskap-SPEC.md`](../../docs/specs/modules/Kunskap-SPEC.md) · **Context:** [`.context/modules/kompis.md`](../../.context/modules/kompis.md)
+**Canonical spec:** [`docs/specs/modules/Kunskap-SPEC.md`](../../docs/specs/modules/Kunskap-SPEC.md) · **Context:** [`.context/modules/evidence/kompis.md`](../../.context/modules/evidence/kompis.md)
 
 ## Overview
 

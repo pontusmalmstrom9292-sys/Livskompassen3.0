@@ -1,7 +1,7 @@
 /**
  * Lönespec — ren beräkning (ingen Firestore). Fas 2.
  */
-import { formatDateLocal, parseDateOnly } from '../../core/utils/timeMath';
+import { formatDateLocal, parseDateOnly } from '../../../core/utils/timeMath';
 import type { TimeEntryLike } from './payTimeRules';
 import {
   computeAbsenceAdjustments,

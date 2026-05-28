@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Compass } from 'lucide-react';
-import type { KampsparEntryRow } from '../../core/types/firestore';
-import { EmptyState } from '../../core/ui/EmptyState';
+import type { KampsparEntryRow } from '../../../core/types/firestore';
+import { EmptyState } from '../../../core/ui/EmptyState';
 import {
   formatTidshjulLabel,
   partitionKampsparForTidshjulet,

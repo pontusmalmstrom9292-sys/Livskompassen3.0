@@ -1,6 +1,6 @@
 # ekonomi — module plan
 
-**Canonical spec:** [`docs/specs/modules/Ekonomi-SPEC.md`](../../docs/specs/modules/Ekonomi-SPEC.md) · **Context:** [`.context/modules/ekonomi.md`](../../.context/modules/ekonomi.md)
+**Canonical spec:** [`docs/specs/modules/Ekonomi-SPEC.md`](../../docs/specs/modules/Ekonomi-SPEC.md) · **Context:** [`.context/modules/wellbeing/economy.md`](../../.context/modules/wellbeing/economy.md)
 
 ## Overview
 

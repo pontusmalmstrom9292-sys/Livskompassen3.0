@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Loader2, Search, Shield } from 'lucide-react';
 import { BentoCard } from '../../../../core/ui/BentoCard';
-import { callKnowledgeVault, type KnowledgeVaultCitation } from '../../../../kompis/api/knowledgeVaultService';
+import { callKnowledgeVault, type KnowledgeVaultCitation } from '../../../../evidence/kompis/api/knowledgeVaultService';
 import {
   KunskapsvalvFileIngest,
   type KunskapsvalvUploadedDoc,
-} from '../../../../kompis/components/KunskapsvalvFileIngest';
+} from '../../../../evidence/kompis/components/KunskapsvalvFileIngest';
 import { callValvChat, type ValvChatCitation } from '../../../../evidence/vaultChat/api/valvChatService';
 import { callChildrenLogsQuery, type ChildrenLogCitation } from '../../api/childrenLogsService';
 import type { ChildAlias } from '../../constants';

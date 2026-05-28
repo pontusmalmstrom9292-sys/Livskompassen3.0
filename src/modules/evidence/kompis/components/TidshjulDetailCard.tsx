@@ -1,5 +1,5 @@
-import { BentoCard } from '../../core/ui/BentoCard';
-import type { KampsparEntryRow } from '../../core/types/firestore';
+import { BentoCard } from '../../../core/ui/BentoCard';
+import type { KampsparEntryRow } from '../../../core/types/firestore';
 import { formatTidshjulLabel } from '../utils/tidshjulTimeline';
 
 type Props = {

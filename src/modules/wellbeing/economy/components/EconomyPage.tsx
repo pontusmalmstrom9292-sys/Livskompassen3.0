@@ -1,18 +1,18 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Briefcase, Wallet, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { BentoCard } from '../../core/ui/BentoCard';
-import { SaldoHero } from '../../core/ui/SaldoHero';
-import { MetricTile } from '../../core/ui/MetricTile';
-import { EmptyState } from '../../core/ui/EmptyState';
-import { TimelineEntry } from '../../core/ui/TimelineEntry';
-import { useStore } from '../../core/store';
+import { BentoCard } from '../../../core/ui/BentoCard';
+import { SaldoHero } from '../../../core/ui/SaldoHero';
+import { MetricTile } from '../../../core/ui/MetricTile';
+import { EmptyState } from '../../../core/ui/EmptyState';
+import { TimelineEntry } from '../../../core/ui/TimelineEntry';
+import { useStore } from '../../../core/store';
 import {
   getEconomyProfile,
   getEconomyTransactions,
   saveEconomyTransaction,
   setEconomyProfile,
-} from '../../core/firebase/firestore';
+} from '../../../core/firebase/firestore';
 
 type EconomyPageProps = {
   embedded?: boolean;

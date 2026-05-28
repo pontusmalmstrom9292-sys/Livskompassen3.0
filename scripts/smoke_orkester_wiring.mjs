@@ -101,7 +101,7 @@ function main() {
     'dagbok_forensic',
   );
   mustInclude(
-    'src/modules/safe_harbor/components/TryggHamnHub.tsx',
+    'src/modules/family/safeHarbor/components/TryggHamnHub.tsx',
     'BiffPublicPanel',
     'vaultDrawerPath',
     'hamn_analys',
@@ -109,7 +109,7 @@ function main() {
 
   console.log('[smoke:orkester] Arbetsliv hub...');
   mustInclude(
-    'src/modules/stampla/components/StampClockPage.tsx',
+    'src/modules/admin/stampla/components/StampClockPage.tsx',
     'recordTimeIn',
     'recordTimeOut',
   );

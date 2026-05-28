@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Clock, Loader2 } from 'lucide-react';
-import { BentoCard } from '../../core/ui/BentoCard';
-import { useStore } from '../../core/store';
+import { BentoCard } from '../../../core/ui/BentoCard';
+import { useStore } from '../../../core/store';
 import {
   getEconomyProfileExtended,
   getOpenTimeEntry,
@@ -11,7 +11,7 @@ import {
   getWeekTimeStats,
   recordTimeIn,
   recordTimeOut,
-} from '../../core/firebase/timeEconomyFirestore';
+} from '../../../core/firebase/timeEconomyFirestore';
 import { StampClockPanel } from './StampClockPanel';
 import { WorkWeekSummary } from './WorkWeekSummary';
 

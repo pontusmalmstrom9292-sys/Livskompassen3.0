@@ -1,5 +1,6 @@
 # Dagbokshubben
 
+**Kanonisk kod:** `src/modules/diary/diary/` (legacy alias: `modules/dagbok` shim)  
 **Route:** `/dagbok` (flik `reflektion` i Hjärtat) · **AuthGate:** ja  
 **Spec (konsoliderad):** [`docs/specs/modules/Dagbok-SPEC.md`](../../docs/specs/modules/Dagbok-SPEC.md)
 

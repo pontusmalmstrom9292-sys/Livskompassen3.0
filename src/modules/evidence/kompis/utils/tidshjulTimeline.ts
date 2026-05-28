@@ -1,4 +1,4 @@
-import type { KampsparEntryRow } from '../../core/types/firestore';
+import type { KampsparEntryRow } from '../../../core/types/firestore';
 
 export type TidshjulRing = 'dåtid' | 'nutid' | 'framtid';
 

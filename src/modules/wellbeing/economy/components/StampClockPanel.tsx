@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { EmptyState } from '../../core/ui/EmptyState';
-import { TimelineEntry } from '../../core/ui/TimelineEntry';
-import type { TimeEntryRow } from '../../core/types/firestore';
+import { EmptyState } from '../../../core/ui/EmptyState';
+import { TimelineEntry } from '../../../core/ui/TimelineEntry';
+import type { TimeEntryRow } from '../../../core/types/firestore';
 
 const STAMP_CATEGORIES = ['Arbete', 'Semester', 'VAB', 'Sjuk', 'Sjuk dag 15+'] as const;
 

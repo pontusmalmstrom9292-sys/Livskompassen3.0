@@ -15,9 +15,21 @@ const MODULE_MAP = {
   planering: 'admin/planning',
   projekt: 'admin/projects',
   barnens_livsloggar: 'family/children',
+  kompis: 'evidence/kompis',
+  ekonomi: 'wellbeing/economy',
+  safe_harbor: 'family/safeHarbor',
+  stampla: 'admin/stampla',
 };
 
-const MOVED_ROOTS = new Set(Object.values(MODULE_MAP).map((p) => path.join('src/modules', p)));
+const MOVED_ROOTS = new Set(
+  Object.values(MODULE_MAP).map((p) => path.join('src/modules', p)),
+);
+const MOVED_DEPTH = Object.fromEntries(
+  Object.entries(MODULE_MAP).map(([oldName, newPath]) => [
+    oldName,
+    newPath.split('/').length + 1,
+  ]),
+);
 
 function walk(dir, out = []) {
   for (const name of fs.readdirSync(dir)) {
@@ -42,15 +54,25 @@ function isUnderMovedRoot(filePath) {
 function rewriteContent(text, filePath) {
   let next = text;
   for (const [oldName, newPath] of Object.entries(MODULE_MAP)) {
+    if (next.includes(`modules/${newPath}`)) {
+      // Redan omskriven — undvik dubbel prefix (t.ex. wellbeing/wellbeing/mabra).
+      continue;
+    }
     next = next.replaceAll(`modules/${oldName}`, `modules/${newPath}`);
-    next = next.replaceAll(`/${oldName}/`, `/${newPath}/`);
+    const newSeg = `/${newPath}/`;
+    if (!next.includes(newSeg)) {
+      next = next.replaceAll(`/${oldName}/`, newSeg);
+    }
   }
   next = next.replaceAll('modules/evidence/vault/dossier', 'modules/evidence/vault/dossier');
 
   if (isUnderMovedRoot(filePath)) {
     for (const [oldName, newPath] of Object.entries(MODULE_MAP)) {
-      const relNew = `../../../${newPath}`;
+      const up = '../'.repeat(MOVED_DEPTH[oldName] ?? 3);
+      const relNew = `${up}${newPath}`;
       next = next.replaceAll(`from '../../${oldName}`, `from '${relNew}`);
+      next = next.replaceAll(`from "../../../${oldName}`, `from '${relNew}`);
+      next = next.replaceAll(`from "../../../../${oldName}`, `from "${relNew}`);
       next = next.replaceAll(`from "../../${oldName}`, `from "${relNew}`);
       next = next.replaceAll(`from '../../${oldName}/`, `from '${relNew}/`);
       next = next.replaceAll(`from "../../${oldName}/`, `from "${relNew}/`);

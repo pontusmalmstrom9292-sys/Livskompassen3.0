@@ -1,5 +1,7 @@
 # Barnens livsloggar
 
+**Kanonisk kod:** `src/modules/family/children/` (legacy: `modules/barnens_livsloggar` shim)
+
 **Route:** `/familjen` · **Redirect:** `/barnen` · **AuthGate:** ja · **Dock:** Heart  
 **Spec (konsoliderad):** [`docs/specs/modules/Barnen-SPEC.md`](../../docs/specs/modules/Barnen-SPEC.md)
 
