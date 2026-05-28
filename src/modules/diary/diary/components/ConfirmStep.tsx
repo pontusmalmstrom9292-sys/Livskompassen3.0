@@ -1,4 +1,5 @@
 import { ChevronLeft, Loader2 } from 'lucide-react';
+import { getMoodDef } from '../constants/moods';
 
 type ConfirmStepProps = {
   mood: string;
@@ -21,17 +22,23 @@ export function ConfirmStep({
   onBack,
   onSave,
 }: ConfirmStepProps) {
+  const moodDef = getMoodDef(mood);
+
   return (
-    <>
-      <p className="mb-2 text-xs uppercase tracking-widest text-text-dim">Steg 3 — Bekräfta</p>
-      <div className="glass-card mb-4 space-y-1 p-3 text-sm">
-        <p>
-          <span className="text-text-dim">Humör:</span> {mood}
+    <div className="reflektion-panel">
+      <p className="reflektion-panel__lead">Stämmer det här?</p>
+      <p className="reflektion-panel__hint">Du kan gå tillbaka och ändra innan du sparar.</p>
+
+      <div className="reflektion-preview">
+        <p className="reflektion-preview__mood">
+          {moodDef && <span aria-hidden>{moodDef.emoji} </span>}
+          <span className="text-text-dim">Känsla:</span> {mood}
         </p>
-        <p className="text-text-muted">{text}</p>
+        <p className="reflektion-preview__text">{text}</p>
       </div>
+
       {showWeaveOptIn && (
-        <label className="mb-4 flex cursor-pointer items-start gap-2 text-sm text-text-muted">
+        <label className="reflektion-weave-opt mb-4 flex cursor-pointer items-start gap-2 text-sm text-text-muted">
           <input
             type="checkbox"
             checked={weaveToKampspar}
@@ -40,19 +47,20 @@ export function ConfirmStep({
             className="mt-0.5"
           />
           <span>
-            Spara en kort sammanfattning i Minne (Kampspár) — valfritt, separat från dagboken.
+            Spara också en kort rad i Minne (valfritt — dagboken sparas oavsett).
           </span>
         </label>
       )}
-      <div className="flex gap-2">
+
+      <div className="reflektion-actions">
         <button type="button" onClick={onBack} className="btn-pill--ghost">
-          <ChevronLeft className="h-4 w-4" /> Tillbaka
+          <ChevronLeft className="h-4 w-4" /> Ändra
         </button>
         <button type="button" onClick={onSave} disabled={saving} className="btn-pill--success">
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-          Spara post
+          Spara i dagboken
         </button>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,54 +1,17 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, type CSSProperties } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { clsx } from 'clsx';
 import { LivskompassMark } from '../ui/LivskompassMark';
-import { HERO_ORBIT_ICONS } from '../ui/HeroOrbitIcons';
+import { ChromeV4Icon } from '../ui/chromeIcons';
 import { getCompassThemeByTime } from '../../wellbeing/compasses/utils/compassTheme';
-
-type OrbitSlot = {
-  id: keyof typeof HERO_ORBIT_ICONS;
-  label: string;
-  shortLabel: string;
-  blurb: string;
-  to: string;
-  position: 'north' | 'east' | 'south' | 'west';
-};
-
-const ORBIT_SLOTS: OrbitSlot[] = [
-  {
-    id: 'rutiner',
-    label: 'Rutiner och kompasser',
-    shortLabel: 'Rutiner',
-    blurb: 'Morgon · dag · kväll',
-    to: '/vardagen?tab=kompasser',
-    position: 'north',
-  },
-  {
-    id: 'ekonomi',
-    label: 'Ekonomi',
-    shortLabel: 'Ekonomi',
-    blurb: 'Veckopeng · matlåda',
-    to: '/vardagen?tab=ekonomi',
-    position: 'east',
-  },
-  {
-    id: 'mabra',
-    label: 'Personlig utveckling',
-    shortLabel: 'Utveckling',
-    blurb: 'Övningar · MåBra',
-    to: '/mabra',
-    position: 'south',
-  },
-  {
-    id: 'kunskap',
-    label: 'Kunskap',
-    shortLabel: 'Kunskap',
-    blurb: 'Kunskapsbank · bakom Valv-PIN',
-    to: '/dagbok?tab=bevis&vaultTab=kunskapsbank',
-    position: 'west',
-  },
-];
+import {
+  COMPASS_CARDINALS,
+  HERO_ORBIT_SLOTS,
+  HERO_QUICK_PICKS,
+  orbitRadiusPercent,
+  type HeroQuickPick,
+} from './livskompassHeroConfig';
 
 type Props = {
   onCenterPress?: () => void;
@@ -70,6 +33,15 @@ export function LivskompassHero({ onCenterPress }: Props) {
     closeMenus();
   };
 
+  const handleQuickPick = (pick: HeroQuickPick) => {
+    closeMenus();
+    if (pick.id === 'checkin') {
+      onCenterPress?.();
+      return;
+    }
+    navigate(pick.to);
+  };
+
   return (
     <section
       className={clsx('livskompass-hero livskompass-hero--v2', `livskompass-hero--${theme}`)}
@@ -86,22 +58,54 @@ export function LivskompassHero({ onCenterPress }: Props) {
         >
           <div className="livskompass-hero__face">
             <div className="livskompass-hero__ring livskompass-hero__ring--outer" aria-hidden />
+            <div className="livskompass-hero__ring livskompass-hero__ring--mid" aria-hidden />
             <div className="livskompass-hero__ring livskompass-hero__ring--inner" aria-hidden />
             <div className="livskompass-hero__grid" aria-hidden />
             <div className="livskompass-hero__ticks" aria-hidden />
+            <div className="livskompass-hero__crosshair" aria-hidden>
+              <span className="livskompass-hero__crosshair-line livskompass-hero__crosshair-line--ns" />
+              <span className="livskompass-hero__crosshair-line livskompass-hero__crosshair-line--ew" />
+            </div>
+
+            <div className="livskompass-hero__cardinals" aria-hidden>
+              {COMPASS_CARDINALS.map(({ id, label, angle }) => (
+                <span
+                  key={id}
+                  className="livskompass-hero__cardinal"
+                  style={
+                    {
+                      '--cardinal-angle': `${angle}deg`,
+                    } as CSSProperties
+                  }
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
 
             <div className="livskompass-hero__disk">
-              {ORBIT_SLOTS.map(({ id, label, shortLabel, blurb, to, position }) => {
+              <div className="livskompass-hero__needle" aria-hidden>
+                <span className="livskompass-hero__needle-shaft" />
+                <span className="livskompass-hero__needle-cap" />
+              </div>
+
+              {HERO_ORBIT_SLOTS.map(({ id, icon, label, shortLabel, blurb, to, angle, ring }) => {
                 const open = openOrbitId === id;
-                const Icon = HERO_ORBIT_ICONS[id];
+                const radius = orbitRadiusPercent(ring);
                 return (
                   <div
                     key={id}
                     className={clsx(
                       'livskompass-hero__orbit-wrap',
-                      `livskompass-hero__orbit-wrap--${position}`,
+                      ring === 'intercardinal' && 'livskompass-hero__orbit-wrap--inter',
                       open && 'livskompass-hero__orbit-wrap--open',
                     )}
+                    style={
+                      {
+                        '--orbit-angle': `${angle}deg`,
+                        '--orbit-radius': `${radius}%`,
+                      } as CSSProperties
+                    }
                     onClick={(e) => e.stopPropagation()}
                   >
                     <button
@@ -117,7 +121,7 @@ export function LivskompassHero({ onCenterPress }: Props) {
                     >
                       <span className="livskompass-hero__orbit-gem" aria-hidden />
                       <span className="livskompass-hero__orbit-node-ring" aria-hidden />
-                      <Icon className="livskompass-hero__orbit-icon" />
+                      <ChromeV4Icon category={icon} className="livskompass-hero__orbit-icon" />
                     </button>
 
                     <div
@@ -163,6 +167,22 @@ export function LivskompassHero({ onCenterPress }: Props) {
         </div>
 
         <p className="livskompass-hero__hint">Tryck en symbol · mitten = check-in</p>
+
+        <div className="livskompass-hero__quick" role="group" aria-label="Snabbval">
+          <p className="livskompass-hero__quick-label">Snabbval</p>
+          <div className="livskompass-hero__quick-row">
+            {HERO_QUICK_PICKS.map((pick) => (
+              <button
+                key={pick.id}
+                type="button"
+                className="livskompass-hero__quick-chip"
+                onClick={() => handleQuickPick(pick)}
+              >
+                {pick.label}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

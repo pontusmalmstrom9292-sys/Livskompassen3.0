@@ -5,6 +5,7 @@ import { useStore } from '../store';
 import { getAutoModuleThemesEnabled, setAutoModuleThemesEnabled } from '../theme/moduleThemeMap';
 import { DrogfrihetCounterSettings } from '../../drogfrihet/components/DrogfrihetCounterSettings';
 import { useState } from 'react';
+import { LifeHubPresetPicker, useLifeHubPreset } from '../lifeOs';
 import { useHubTab } from '../navigation/hooks/useHubTab';
 
 export type InstallningarTab = 'allmant' | 'drogfrihet';
@@ -13,6 +14,7 @@ export function InstallningarPage() {
   const { tabs, activeTab, setTab } = useHubTab('installningar');
   const tab = activeTab as InstallningarTab;
   const user = useStore((s) => s.user);
+  const { presetId, setPresetId } = useLifeHubPreset();
   const [autoTheme, setAutoTheme] = useState(() => getAutoModuleThemesEnabled());
 
   return (
@@ -48,6 +50,8 @@ export function InstallningarPage() {
             <span className="text-sm text-text-muted">Automatiskt tema per modul</span>
           </label>
           <p className="text-xs text-text-dim">Temat uppdateras när du byter sida.</p>
+
+          <LifeHubPresetPicker activeId={presetId} onSelect={setPresetId} />
         </div>
       )}
 

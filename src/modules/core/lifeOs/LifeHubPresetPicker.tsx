@@ -10,9 +10,9 @@ type Props = {
 export function LifeHubPresetPicker({ activeId, onSelect }: Props) {
   return (
     <section className="life-hub-picker" aria-label="Exempelhub">
-      <p className="life-hub-picker__eyebrow">Din hub</p>
+      <p className="life-hub-picker__eyebrow">Hemprofil</p>
       <p className="life-hub-picker__lead text-xs text-text-muted">
-        Välj profil — styr vad som syns på Hem och i hubbar. Byt när som helst.
+        Väljer vilka kort som visas på Hem. Påverkar inte det du redan sparat.
       </p>
       <div className="life-hub-picker__grid" role="listbox" aria-label="Exempelhubbar">
         {LIFE_HUB_PRESETS.map((p) => {

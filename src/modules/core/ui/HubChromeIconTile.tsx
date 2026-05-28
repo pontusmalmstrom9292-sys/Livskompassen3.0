@@ -4,8 +4,8 @@ import type { ReactNode } from 'react';
 type Props = {
   children: ReactNode;
   active?: boolean;
-  /** Sidolänkar (Familjen/Hamn) — rund platta; övrigt avrundad kvadrat. */
-  variant?: 'side' | 'slot';
+  /** Sidolänkar (Familjen/Hamn) — rund platta; dock = större band-tiles. */
+  variant?: 'side' | 'slot' | 'dock' | 'dock-side';
   className?: string;
 };
 
@@ -21,6 +21,8 @@ export function HubChromeIconTile({
       className={clsx(
         'hub-chrome-tile',
         variant === 'side' && 'hub-chrome-tile--side',
+        variant === 'dock' && 'hub-chrome-tile--dock',
+        variant === 'dock-side' && 'hub-chrome-tile--dock-side',
         active && 'hub-chrome-tile--active',
         className,
       )}

@@ -15,4 +15,18 @@ export type PlanningTask = {
   createdAt?: string;
 };
 
-export type PlaneringTab = 'handling' | 'fokus' | 'inkorg';
+/** hub = verktygsväljare (default). inkop = snabb punktlista. */
+export type PlaneringTab = 'hub' | 'handling' | 'fokus' | 'inkorg' | 'inkop';
+
+export type QuickListItem = {
+  id: string;
+  text: string;
+  done: boolean;
+};
+
+export type QuickList = {
+  id: string;
+  title: string;
+  items: QuickListItem[];
+  updatedAt: string;
+};

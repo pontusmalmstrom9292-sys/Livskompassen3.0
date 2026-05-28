@@ -1,18 +1,7 @@
 import type { ReactNode } from 'react';
 import { clsx } from 'clsx';
-import {
-  BookHeart,
-  Brain,
-  Clock,
-  Focus,
-  FolderKanban,
-  List,
-  Mail,
-  Plus,
-  Sprout,
-  Wallet,
-} from 'lucide-react';
-import { ChromeV4Icon } from '../ui/chromeIcons';
+import { Mail, Plus } from 'lucide-react';
+import { ChromeV4Icon, type ChromeV4Category } from '../ui/chromeIcons';
 import type { HubContextIconId } from './hubContextBar';
 
 /** PWA shortcut-glyph (samma assets som `manifest.webmanifest` WH1–WH2). */
@@ -29,44 +18,54 @@ function PwaShortcutImg({ src, className }: { src: string; className: string }) 
   );
 }
 
+function ChromeGlyph({
+  category,
+  className,
+}: {
+  category: ChromeV4Category;
+  className: string;
+}) {
+  return <ChromeV4Icon category={category} className={className} />;
+}
+
 export function renderHubContextIcon(id: HubContextIconId, className: string): ReactNode {
   const cls = className;
   const stroke = 1.65;
   switch (id) {
     case 'list':
-      return <List className={cls} strokeWidth={stroke} />;
+      return <ChromeGlyph category="planering" className={cls} />;
     case 'calendar':
-      return <ChromeV4Icon category="planering" className={cls} />;
+      return <ChromeGlyph category="planering" className={cls} />;
     case 'clock':
-      return <Clock className={cls} strokeWidth={stroke} />;
+      return <ChromeGlyph category="rutiner" className={cls} />;
     case 'note':
       return <PwaShortcutImg src="/icons/shortcuts/wh-anteckning.svg" className={cls} />;
     case 'record':
       return <PwaShortcutImg src="/icons/shortcuts/wh-inspelning.svg" className={cls} />;
     case 'wallet':
-      return <Wallet className={cls} strokeWidth={stroke} />;
+      return <ChromeGlyph category="ekonomi" className={cls} />;
     case 'mail':
       return <Mail className={cls} strokeWidth={stroke} />;
     case 'folder':
-      return <FolderKanban className={cls} strokeWidth={stroke} />;
+      return <ChromeGlyph category="planering" className={cls} />;
     case 'focus':
-      return <Focus className={cls} strokeWidth={stroke} />;
+      return <ChromeGlyph category="utveckling" className={cls} />;
     case 'plus':
       return <Plus className={cls} strokeWidth={stroke} />;
     case 'sprout':
-      return <Sprout className={cls} strokeWidth={stroke} />;
+      return <ChromeGlyph category="rutiner" className={cls} />;
     case 'book':
-      return <ChromeV4Icon category="dagbok" className={cls} />;
+      return <ChromeGlyph category="dagbok" className={cls} />;
     case 'brain':
-      return <Brain className={cls} strokeWidth={stroke} />;
+      return <ChromeGlyph category="utveckling" className={cls} />;
     case 'anchor':
-      return <ChromeV4Icon category="hamn" className={cls} />;
+      return <ChromeGlyph category="hamn" className={cls} />;
     case 'sparkles':
-      return <ChromeV4Icon category="mabra" className={cls} />;
+      return <ChromeGlyph category="mabra" className={cls} />;
     case 'users':
-      return <ChromeV4Icon category="familjen" className={cls} />;
+      return <ChromeGlyph category="familjen" className={cls} />;
     case 'bookheart':
-      return <BookHeart className={cls} strokeWidth={stroke} />;
+      return <ChromeGlyph category="familjen" className={cls} />;
     default:
       return null;
   }

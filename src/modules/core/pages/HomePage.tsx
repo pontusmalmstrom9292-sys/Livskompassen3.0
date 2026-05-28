@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AdaptiveMemoryCards } from '../home/AdaptiveMemoryCards';
 import { HomeHeroKanon } from '../home/HomeHeroKanon';
 import { HomeQuickModules } from '../home/HomeQuickModules';
+import { PlaneringHomePinCard } from '../../admin/planning/components/PlaneringHomePinCard';
 import { StampClockHomeSection } from '../../admin/stampla';
 import { InkastLiteCard } from '../../inkast';
 import { materialEnabled, useLifeHubPreset } from '../lifeOs';
@@ -21,6 +22,8 @@ export function HomePage() {
       {isAuthenticated && materialEnabled(preset, 'home_stamp') && <StampClockHomeSection />}
 
       {materialEnabled(preset, 'home_inkast') && <InkastLiteCard />}
+
+      <PlaneringHomePinCard />
 
       {materialEnabled(preset, 'home_adaptive_cards') && (
         <AdaptiveMemoryCards refreshKey={cardRefreshKey} presetId={presetId} />

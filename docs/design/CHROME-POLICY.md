@@ -43,4 +43,4 @@
 
 ## Hub «Mer» (duplicering)
 
-Extra snabbval («Mer») finns i **Fyren**-widgetraden och i **hamburgermenyn** — **inte** som egen knapp i `DockHubBand` (undviker dubbel UI).
+Snabbval (anteckning, inspelning, inköpslista, …) finns i **sidomenyn** (`DrawerQuickActions`) — **inte** som extra rad ovanför dock. `DockHubBand` har hub-specifika genvägar; `FyrenSmartWidgetBar` renderar inget UI (undviker dubbel rad med samma knappar).

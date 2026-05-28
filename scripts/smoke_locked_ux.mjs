@@ -116,7 +116,7 @@ function main() {
   mustInclude(
     'src/modules/core/layout/DockHubBand.tsx',
     'getDockSideLinks',
-    'HubPresetSheet',
+    'aria-label="Hem',
     'delayMs: 3000',
   );
   mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", '/vardagen');
@@ -140,7 +140,7 @@ function main() {
     'materialEnabled',
   );
   mustInclude('src/modules/core/pages/HomePage.tsx', 'useLifeHubPreset');
-  mustInclude('src/modules/core/lifeOs/HubPresetSheet.tsx', 'LifeHubPresetPicker');
+  mustInclude('src/modules/core/pages/InstallningarPage.tsx', 'LifeHubPresetPicker');
   mustInclude('src/modules/admin/planning/components/RoutinesPanel.tsx', 'runRoutine');
   mustInclude('src/modules/admin/projects/components/ProjektNyPage.tsx', '/admin/projects/ny');
   mustInclude('src/index.css', '.dock-hub-band');
@@ -179,8 +179,9 @@ function main() {
     'W1',
   );
   mustInclude('docs/design/HOMESCREEN-WIDGETS-SPEC.md', 'WH1', 'ingestWidgetRecording');
-  mustInclude('src/modules/core/components/FyrenSmartWidgetBar.tsx', 'FyrenSmartWidgetBar', 'useLongPress', 'delayMs: 3000');
+  mustInclude('src/modules/core/components/FyrenSmartWidgetBar.tsx', 'FyrenSmartWidgetBar');
   mustInclude('src/modules/core/layout/MainLayout.tsx', 'FyrenSmartWidgetBar');
+  mustInclude('src/modules/core/layout/DrawerQuickActions.tsx', 'HUB_MORE_ACTIONS', 'Snabbval');
   mustInclude('src/modules/widgets/pages/WidgetRecordPage.tsx', 'useWidgetVaultRecording');
   mustInclude('src/modules/widgets/pages/WidgetFamiljenPage.tsx', 'widget_snabb');
   mustInclude('src/modules/widgets/api/widgetVaultRecording.ts', 'SAMMANFATTNING');
@@ -221,7 +222,7 @@ function main() {
   assert(existsSync(mockDir), 'saknar mapp: docs/design/barnporten/mockups');
 
   mustInclude('src/modules/wellbeing/compasses/components/VardagenPage.tsx', 'vaultDrawerPath', 'kunskap');
-  mustInclude('src/modules/core/home/LivskompassHero.tsx', 'vaultTab=kunskapsbank');
+  mustInclude('src/modules/core/home/livskompassHeroConfig.ts', 'vaultTab=kunskapsbank');
   mustInclude(
     'docs/design/references/MENU-DRAWER-KANON.md',
     'MENU-DRAWER-KANON.png',
@@ -286,6 +287,21 @@ function main() {
   mustInclude(
     'src/modules/evidence/kompis/components/KompisAvatar.tsx',
     'KompisMark',
+  );
+  mustInclude(
+    'src/modules/evidence/kompis/components/KnowledgeCitationList.tsx',
+    'KnowledgeCitationList',
+    'onCitationClick',
+  );
+  mustInclude(
+    'src/modules/evidence/kompis/components/KunskapPage.tsx',
+    'handleCitationClick',
+    'focusKampsparId',
+  );
+  mustInclude(
+    'src/modules/evidence/knowledge/components/VaultKunskapsbankPanel.tsx',
+    'onKampsparCitationClick',
+    'focusKampsparId',
   );
 
   // Post-kluster: produktionskod ska inte importera via borttagna rot-shims

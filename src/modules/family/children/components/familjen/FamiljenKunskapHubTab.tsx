@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Loader2, Search, Shield } from 'lucide-react';
 import { BentoCard } from '../../../../core/ui/BentoCard';
 import { callKnowledgeVault, type KnowledgeVaultCitation } from '../../../../evidence/kompis/api/knowledgeVaultService';
+import { KnowledgeCitationList } from '../../../../evidence/kompis/components/KnowledgeCitationList';
 import {
   KunskapsvalvFileIngest,
   type KunskapsvalvUploadedDoc,
@@ -15,9 +16,11 @@ type SearchMode = 'hela' | 'valv' | 'barn' | 'dokument';
 
 type Props = {
   activeChild: ChildAlias;
+  /** Valv Kunskapsbank: hoppa till post i inbäddat Tidshjul. */
+  onKampsparCitationClick?: (docId: string) => void;
 };
 
-export function FamiljenKunskapHubTab({ activeChild }: Props) {
+export function FamiljenKunskapHubTab({ activeChild, onKampsparCitationClick }: Props) {
   const [mode, setMode] = useState<SearchMode>('hela');
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
@@ -136,13 +139,16 @@ export function FamiljenKunskapHubTab({ activeChild }: Props) {
         )}
 
         {kvCitations.length > 0 && (
-          <ul className="mt-3 space-y-2">
-            {kvCitations.map((c) => (
-              <li key={c.docId} className="text-xs text-text-dim">
-                <span className="text-accent">{c.collection}</span> · {c.title} · {c.date}
-              </li>
-            ))}
-          </ul>
+          <div className="mt-3">
+            <KnowledgeCitationList
+              citations={kvCitations}
+              onCitationClick={(docId, collection) => {
+                if (collection === 'kampspar') {
+                  onKampsparCitationClick?.(docId);
+                }
+              }}
+            />
+          </div>
         )}
         {valvCitations.length > 0 && (
           <ul className="mt-3 space-y-2">

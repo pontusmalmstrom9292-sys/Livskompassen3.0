@@ -28,7 +28,7 @@ User-facing AI navigator: KompisAvatar, Knowledge Vault chat (Minne RAG), Tidshj
 | Tidshjulet + ingest | Opt-in trauma | Ja | **done** |
 | Drive → kb_docs | Auto kladd | Ja | **done** |
 | Minne från Kladd-filer | **Avvisat** auto | Nej | **policy** |
-| Klickbara citations | Kladd | Nej | **planned** |
+| Klickbara citations | Kladd | Ja | **done** — `KnowledgeCitationList`, Tidshjul-highlight |
 | Vector Search ANN | G2/G3 | Ja | **done** — se [`Arkiv-GAP-REGISTER.md`](../../docs/specs/modules/Arkiv-GAP-REGISTER.md) |
 | Dagbok auto → kampspar | Ej valv; journal_woven opt-in | Delvis | **policy** — Vävaren→`reality_vault`; opt-in→`kampspar` (G7) |
 

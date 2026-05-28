@@ -1,35 +1,29 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import type { CSSProperties } from 'react';
 import { clsx } from 'clsx';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { HubChromeIconTile } from '../ui/HubChromeIconTile';
 import { LivskompassMark } from '../ui/LivskompassMark';
 import { useLongPress } from '../hooks/useLongPress';
-import { HubPresetSheet } from '../lifeOs/HubPresetSheet';
 import { useLifeHubPreset } from '../lifeOs/useLifeHubPreset';
 import { getHubContextSlots, type HubContextSlot } from '../navigation/hubContextBar';
-import { renderHubContextIcon } from '../navigation/hubContextIcons';
-import { getDockSideLinks, getHubPresetShortLabel } from './dockHubChrome';
+import { getDockHubBanner } from './dockHubBanner';
+import { getDockNavIcon, getDockSideIcon } from './dockNavIcons';
+import { DockNavButton, DockNavLinkFace } from './DockNavButton';
+import { getDockSideLinks } from './dockHubChrome';
 import type { DockSideLink } from './dockHubChrome';
 
-const DOCK_GLYPH = 'dock-hub-band__glyph';
-
 function DockSideNav({ link }: { link: DockSideLink }) {
+  const Icon = getDockSideIcon(link.icon);
   return (
     <NavLink
       to={link.to}
       className={({ isActive }) =>
-        clsx('dock-hub-band__side', isActive && 'dock-hub-band__side--active')
+        clsx('dock-nav-btn', 'dock-nav-btn--side', isActive && 'dock-nav-btn--active')
       }
       aria-label={link.label}
     >
       {({ isActive }) => (
-        <>
-          <HubChromeIconTile variant="side" active={isActive} className="dock-hub-band__side-tile">
-            {renderHubContextIcon(link.icon, DOCK_GLYPH)}
-          </HubChromeIconTile>
-          <span className="dock-hub-band__side-label">{link.label}</span>
-        </>
+        <DockNavLinkFace label={link.label} Icon={Icon} active={isActive} variant="side" />
       )}
     </NavLink>
   );
@@ -42,32 +36,25 @@ function ContextSlotButton({
   slot: HubContextSlot;
   onGo: (to: string) => void;
 }) {
+  const Icon = getDockNavIcon(slot);
   return (
-    <button
-      type="button"
-      className={clsx(
-        'dock-hub-band__slot',
-        slot.active && 'dock-hub-band__slot--active',
-      )}
-      aria-label={slot.label}
-      aria-current={slot.active ? 'page' : undefined}
+    <DockNavButton
+      label={slot.label}
+      Icon={Icon}
+      active={!!slot.active}
+      variant="slot"
       onClick={() => onGo(slot.to)}
-    >
-      <HubChromeIconTile active={slot.active} className="dock-hub-band__slot-tile">
-        {renderHubContextIcon(slot.icon, DOCK_GLYPH)}
-      </HubChromeIconTile>
-      <span className="dock-hub-band__slot-label">{slot.label}</span>
-    </button>
+    />
   );
 }
 
-/** Dock-chrome: sidolänkar + kontext-slots kring kompass + hub-preset på centrum. */
+/** Dock-chrome: sidolänkar + kontext-slots kring kompass (DOCK-KANON: mitt = Hem). */
 export function DockHubBand() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { presetId, setPresetId } = useLifeHubPreset();
-  const [presetOpen, setPresetOpen] = useState(false);
+  const { presetId } = useLifeHubPreset();
   const isHome = location.pathname === '/';
+  const hubBanner = getDockHubBanner(location.pathname);
 
   const hubSlots = useMemo(
     () => getHubContextSlots(location.pathname, location.search),
@@ -79,26 +66,30 @@ export function DockHubBand() {
   );
   const leftSlots = hubSlots.slice(0, 2);
   const rightSlots = hubSlots.slice(2, 4);
-  const presetLabel = getHubPresetShortLabel(presetId);
 
-  const valvLongPress = useLongPress({
-    onLongPress: () => {
-      setPresetOpen(false);
-      navigate('/dagbok?tab=bevis');
+  const centerPress = useLongPress({
+    onLongPress: () => navigate('/dagbok?tab=bevis'),
+    onClick: () => {
+      if (!isHome) navigate('/');
     },
-    onClick: () => setPresetOpen(true),
     delayMs: 3000,
   });
 
-  const { progress, isHolding, ...centerHoldHandlers } = valvLongPress;
+  const { progress, isHolding, ...centerHoldHandlers } = centerPress;
 
   const goTo = (to: string) => {
     navigate(to);
   };
 
   return (
-    <>
-      <div className="dock-hub-band">
+    <div className={clsx('dock-hub-band', hubBanner && 'dock-hub-band--has-banner')}>
+      {hubBanner ? (
+        <div className="dock-hub-band__banner" aria-hidden>
+          <span className="dock-hub-band__banner-text">{hubBanner}</span>
+        </div>
+      ) : null}
+
+      <div className="dock-hub-band__rail">
         <DockSideNav link={sides.left} />
 
         <div className="dock-hub-band__context">
@@ -114,8 +105,7 @@ export function DockHubBand() {
             isHome && 'dock-hub-band__center--active',
             isHolding && 'dock-hub-band__center--holding',
           )}
-          aria-label={`Hub: ${presetLabel}. Tryck för att byta.`}
-          aria-expanded={presetOpen}
+          aria-label="Hem. Håll tre sekunder för Valv."
           style={
             progress > 0
               ? ({ '--dock-hold': `${Math.round(progress * 100)}%` } as CSSProperties)
@@ -123,10 +113,10 @@ export function DockHubBand() {
           }
           {...centerHoldHandlers}
         >
+          <span className="dock-hub-band__center-glow" aria-hidden />
           <span className="dock-hub-band__plate">
             <LivskompassMark className="dock-hub-band__mark" />
           </span>
-          <span className="dock-hub-band__preset-badge">{presetLabel}</span>
         </button>
 
         <div className="dock-hub-band__context">
@@ -137,13 +127,6 @@ export function DockHubBand() {
 
         <DockSideNav link={sides.right} />
       </div>
-
-      <HubPresetSheet
-        open={presetOpen}
-        activeId={presetId}
-        onSelect={setPresetId}
-        onClose={() => setPresetOpen(false)}
-      />
-    </>
+    </div>
   );
 }

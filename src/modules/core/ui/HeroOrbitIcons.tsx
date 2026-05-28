@@ -24,9 +24,29 @@ export function HeroKunskapIcon({ className }: IconProps) {
   return <HeroChromeIcon category="kunskap" className={className} />;
 }
 
+export function HeroPlaneringIcon({ className }: IconProps) {
+  return <HeroChromeIcon category="planering" className={className} />;
+}
+
+export function HeroFamiljenIcon({ className }: IconProps) {
+  return <HeroChromeIcon category="familjen" className={className} />;
+}
+
+export function HeroDagbokIcon({ className }: IconProps) {
+  return <HeroChromeIcon category="dagbok" className={className} />;
+}
+
+export function HeroValvIcon({ className }: IconProps) {
+  return <HeroChromeIcon category="valv" className={className} />;
+}
+
 export const HERO_ORBIT_ICONS = {
   rutiner: HeroRutinerIcon,
   ekonomi: HeroEkonomiIcon,
   mabra: HeroUtvecklingIcon,
   kunskap: HeroKunskapIcon,
+  planering: HeroPlaneringIcon,
+  familjen: HeroFamiljenIcon,
+  dagbok: HeroDagbokIcon,
+  valv: HeroValvIcon,
 } as const;

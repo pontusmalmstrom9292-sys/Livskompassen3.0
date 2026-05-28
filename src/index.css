@@ -379,8 +379,8 @@
   }
 
   .dock-shell {
-    @apply pointer-events-none fixed bottom-0 left-0 right-0 z-50 flex justify-center px-2 pb-[max(0.35rem,env(safe-area-inset-bottom))] pt-0;
-    background: linear-gradient(to top, rgba(2, 6, 23, 0.65) 0%, transparent 72%);
+    @apply pointer-events-none fixed bottom-0 left-0 right-0 z-50 flex justify-center px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-0;
+    background: linear-gradient(to top, rgba(2, 6, 23, 0.72) 0%, transparent 78%);
   }
 
   .dock-nav {
@@ -388,14 +388,7 @@
   }
 
   .dock-nav--hub {
-    @apply inline-flex w-auto items-center justify-center gap-0.5 rounded-full border px-1 py-0.5;
-    border-color: rgba(212, 175, 55, 0.22);
-    background: rgba(10, 10, 10, 0.78);
-    backdrop-filter: blur(16px) saturate(140%);
-    -webkit-backdrop-filter: blur(16px) saturate(140%);
-    box-shadow:
-      0 4px 20px rgba(0, 0, 0, 0.45),
-      inset 0 1px 0 rgba(212, 175, 55, 0.08);
+    @apply inline-flex w-auto max-w-[min(100vw-0.75rem,40rem)] items-end justify-center border-0 bg-transparent p-0 shadow-none;
   }
 
   .dock-orbit-stage {
@@ -525,6 +518,16 @@
     @apply rounded-full;
   }
 
+  .hub-chrome-tile--dock {
+    @apply h-[3.35rem] w-[3.35rem] rounded-2xl;
+    border-width: 1.5px;
+  }
+
+  .hub-chrome-tile--dock-side {
+    @apply h-[3.75rem] w-[3.75rem] rounded-full;
+    border-width: 1.5px;
+  }
+
   .hub-chrome-tile--active {
     border-color: rgba(212, 175, 55, 0.58);
     box-shadow:
@@ -533,103 +536,141 @@
       0 4px 12px rgba(0, 0, 0, 0.38);
   }
 
-  .dock-hub-band__glyph {
-    @apply h-6 w-6 shrink-0 text-accent;
-    filter: drop-shadow(0 0 3px rgba(212, 175, 55, 0.22));
-  }
-
-  /* Dock hub band — kontext + sidolänkar kring kompass */
+  /* Dock hub band — banner + kapselknappar */
   .dock-hub-band {
-    @apply pointer-events-auto relative mx-auto flex max-w-[min(100vw-0.5rem,36rem)] items-end justify-center gap-1 rounded-[1.35rem] border px-1.5 py-2;
-    border-color: rgba(212, 175, 55, 0.26);
-    background: rgba(8, 8, 10, 0.88);
-    backdrop-filter: blur(16px) saturate(130%);
-    -webkit-backdrop-filter: blur(16px) saturate(130%);
+    @apply pointer-events-auto relative mx-auto w-full max-w-[min(100vw-0.5rem,28rem)];
+  }
+
+  .dock-hub-band__banner {
+    @apply mb-1 flex justify-center;
+  }
+
+  .dock-hub-band__banner-text {
+    @apply rounded-full border px-4 py-1 text-[10px] font-semibold uppercase tracking-[0.28em] text-accent/90;
+    border-color: rgba(212, 175, 55, 0.28);
+    background: rgba(8, 8, 10, 0.85);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  }
+
+  .dock-hub-band__rail {
+    @apply flex items-end justify-center gap-1 rounded-[1.75rem] border px-2 pb-2 pt-2;
+    border-color: rgba(212, 175, 55, 0.28);
+    background:
+      radial-gradient(ellipse 100% 80% at 50% 0%, rgba(212, 175, 55, 0.12) 0%, transparent 52%),
+      linear-gradient(180deg, rgba(16, 14, 12, 0.96) 0%, rgba(4, 6, 12, 0.94) 100%);
+    backdrop-filter: blur(22px) saturate(150%);
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
     box-shadow:
-      0 10px 32px rgba(0, 0, 0, 0.5),
-      inset 0 1px 0 rgba(212, 175, 55, 0.06);
-  }
-
-  .dock-hub-band__side {
-    @apply flex w-[3.5rem] shrink-0 flex-col items-center gap-0.5 border-0 bg-transparent p-0 text-accent/75 transition-colors;
-  }
-
-  .dock-hub-band__side--active {
-    @apply text-accent;
-  }
-
-  .dock-hub-band__side-label {
-    @apply max-w-[3.5rem] truncate text-[9px] font-medium leading-tight tracking-wide text-text-muted;
-  }
-
-  .dock-hub-band__side--active .dock-hub-band__side-label {
-    @apply font-semibold text-accent/95;
+      0 16px 44px rgba(0, 0, 0, 0.58),
+      inset 0 1px 0 rgba(245, 230, 184, 0.12);
   }
 
   .dock-hub-band__context {
     @apply flex min-w-0 flex-1 items-end justify-center gap-1;
   }
 
-  .dock-hub-band__slot {
-    @apply flex min-w-0 max-w-[4rem] flex-1 flex-col items-center gap-0.5 border-0 bg-transparent p-0 text-accent/80 transition-transform active:scale-[0.97];
+  .dock-nav-btn {
+    @apply flex min-w-0 max-w-[4.5rem] flex-1 flex-col items-center gap-1 border-0 bg-transparent p-0 transition-[transform,opacity];
   }
 
-  .dock-hub-band__slot--active {
-    @apply text-accent;
+  .dock-nav-btn--side {
+    @apply max-w-[4.75rem] shrink-0;
   }
 
-  .dock-hub-band__slot-label {
-    @apply max-w-full truncate text-[9px] font-medium leading-tight text-text-muted;
+  .dock-nav-btn:hover {
+    transform: translateY(-2px);
   }
 
-  .dock-hub-band__slot--active .dock-hub-band__slot-label {
-    @apply font-semibold text-accent/95;
+  .dock-nav-btn:active {
+    transform: scale(0.96);
+  }
+
+  .dock-nav-btn__icon-wrap {
+    @apply flex h-11 w-11 items-center justify-center rounded-2xl border bg-bg/50;
+    border-color: rgba(212, 175, 55, 0.28);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 4px 12px rgba(0, 0, 0, 0.35);
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .dock-nav-btn__icon-wrap--side {
+    @apply h-12 w-12 rounded-full;
+  }
+
+  .dock-nav-btn--active .dock-nav-btn__icon-wrap,
+  .dock-nav-btn__icon-wrap--active {
+    @apply border-accent/55 bg-accent/10;
+    box-shadow:
+      inset 0 1px 0 rgba(245, 230, 184, 0.12),
+      0 0 20px rgba(212, 175, 55, 0.22);
+  }
+
+  .dock-nav-btn__icon {
+    @apply h-5 w-5 text-accent;
+  }
+
+  .dock-nav-btn__label {
+    @apply max-w-full truncate px-0.5 text-[10px] font-medium leading-tight text-text-muted;
+  }
+
+  .dock-nav-btn__label--active,
+  .dock-nav-btn--active .dock-nav-btn__label {
+    @apply font-semibold text-accent;
+  }
+
+  a.dock-nav-btn {
+    @apply flex flex-col items-center gap-1 no-underline;
   }
 
   .dock-hub-band__center {
-    @apply relative mx-1 flex shrink-0 flex-col items-center border-0 bg-transparent p-0;
+    @apply relative mx-1 -mt-5 flex shrink-0 flex-col items-center border-0 bg-transparent p-0;
+  }
+
+  .dock-hub-band__center-glow {
+    @apply pointer-events-none absolute left-1/2 top-2 h-[4.5rem] w-[4.5rem] -translate-x-1/2 rounded-full;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.14) 0%, transparent 70%);
   }
 
   .dock-hub-band__plate {
-    @apply relative flex h-12 w-12 items-center justify-center rounded-full;
+    @apply relative z-[1] flex h-[4.35rem] w-[4.35rem] items-center justify-center rounded-full;
     background: linear-gradient(
       165deg,
-      rgba(38, 32, 24, 0.98) 0%,
-      rgba(12, 10, 10, 0.9) 55%,
-      rgba(2, 6, 23, 0.85) 100%
+      rgba(48, 40, 28, 0.98) 0%,
+      rgba(14, 12, 10, 0.94) 52%,
+      rgba(2, 6, 23, 0.9) 100%
     );
-    border: 2px solid rgba(212, 175, 55, 0.42);
+    border: 2.5px solid rgba(212, 175, 55, 0.5);
     box-shadow:
-      inset 0 1px 0 rgba(245, 230, 184, 0.1),
-      0 6px 18px rgba(0, 0, 0, 0.5),
-      0 0 16px rgba(212, 175, 55, 0.14);
+      inset 0 1px 0 rgba(245, 230, 184, 0.14),
+      0 10px 28px rgba(0, 0, 0, 0.55),
+      0 0 24px rgba(212, 175, 55, 0.2);
   }
 
   .dock-hub-band__center--active .dock-hub-band__plate,
   .dock-hub-band__center--holding .dock-hub-band__plate {
-    border-color: rgba(212, 175, 55, 0.58);
+    border-color: rgba(245, 230, 184, 0.62);
     box-shadow:
-      inset 0 1px 0 rgba(245, 230, 184, 0.14),
-      0 0 18px rgba(212, 175, 55, 0.22),
-      0 6px 18px rgba(0, 0, 0, 0.45);
+      inset 0 1px 0 rgba(245, 230, 184, 0.18),
+      0 0 28px rgba(212, 175, 55, 0.32),
+      0 10px 28px rgba(0, 0, 0, 0.5);
   }
 
   .dock-hub-band__center--holding .dock-hub-band__plate {
     box-shadow:
-      inset 0 1px 0 rgba(245, 230, 184, 0.14),
-      0 0 0 1px rgba(212, 175, 55, 0.22),
-      0 0 calc(10px + var(--dock-hold, 0) * 0.14) rgba(212, 175, 55, 0.28),
-      0 6px 18px rgba(0, 0, 0, 0.45);
+      inset 0 1px 0 rgba(245, 230, 184, 0.18),
+      0 0 0 1px rgba(212, 175, 55, 0.28),
+      0 0 calc(12px + var(--dock-hold, 0) * 0.16) rgba(212, 175, 55, 0.34),
+      0 10px 28px rgba(0, 0, 0, 0.5);
   }
 
   .dock-hub-band__mark {
-    @apply h-9 w-9 text-accent;
+    @apply h-11 w-11 text-accent;
     opacity: 0.98;
-    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.32));
-  }
-
-  .dock-hub-band__preset-badge {
-    @apply mt-0.5 max-w-[4rem] truncate text-[8px] font-semibold uppercase tracking-wider text-accent/90;
+    filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.4));
   }
 
   .hub-preset-sheet__backdrop {
@@ -1666,6 +1707,35 @@
     @apply flex flex-1 flex-col gap-1 overflow-y-auto pb-2;
   }
 
+  .nav-drawer__quick {
+    @apply shrink-0 border-t border-white/10 px-4 py-3;
+  }
+
+  .nav-drawer__quick-title {
+    @apply mb-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-accent/85;
+  }
+
+  .nav-drawer__quick-grid {
+    @apply grid grid-cols-2 gap-2;
+  }
+
+  .nav-drawer__quick-btn {
+    @apply flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-left transition-colors hover:border-accent/30 hover:bg-accent/10;
+    touch-action: manipulation;
+  }
+
+  .nav-drawer__quick-icon {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-accent/30 bg-bg/50;
+  }
+
+  .nav-drawer__quick-label {
+    @apply text-xs font-medium text-text;
+  }
+
+  .nav-drawer__quick-hint {
+    @apply mt-3 text-[10px] leading-relaxed text-text-dim;
+  }
+
   .nav-drawer__footer {
     @apply shrink-0 border-t border-white/10 px-4 py-3;
   }
@@ -1940,7 +2010,79 @@
   }
 
   .livskompass-hero--v2 .livskompass-hero__face {
-    @apply relative mx-auto aspect-square w-full max-w-[17rem];
+    @apply relative mx-auto aspect-square w-full max-w-[19rem];
+  }
+
+  .livskompass-hero__ring--mid {
+    inset: 2% 3%;
+    border-width: 1px;
+    border-style: dotted;
+    border-color: color-mix(in srgb, var(--accent) 16%, transparent);
+    opacity: 0.7;
+  }
+
+  .livskompass-hero__crosshair {
+    @apply pointer-events-none absolute inset-0 z-[1];
+  }
+
+  .livskompass-hero__crosshair-line {
+    @apply absolute left-1/2 top-1/2;
+    background: color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+
+  .livskompass-hero__crosshair-line--ns {
+    @apply h-[78%] w-px -translate-x-1/2 -translate-y-1/2;
+    opacity: 0.45;
+  }
+
+  .livskompass-hero__crosshair-line--ew {
+    @apply h-px w-[78%] -translate-x-1/2 -translate-y-1/2;
+    opacity: 0.35;
+  }
+
+  .livskompass-hero__cardinals {
+    @apply pointer-events-none absolute inset-0 z-[2];
+  }
+
+  .livskompass-hero__cardinal {
+    @apply absolute left-1/2 top-1/2 text-[9px] font-semibold uppercase tracking-[0.22em] text-accent/75;
+    transform: translate(-50%, -50%) rotate(var(--cardinal-angle))
+      translateY(calc(-1 * 46%)) rotate(calc(-1 * var(--cardinal-angle)));
+    text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+
+  .livskompass-hero__needle {
+    @apply pointer-events-none absolute left-1/2 top-1/2 z-[3] h-[52%] w-3 -translate-x-1/2 -translate-y-[42%];
+    transform-origin: 50% 88%;
+    animation: hero-needle-sway 7s ease-in-out infinite;
+  }
+
+  @keyframes hero-needle-sway {
+    0%,
+    100% {
+      transform: translate(-50%, -42%) rotate(-4deg);
+    }
+    50% {
+      transform: translate(-50%, -42%) rotate(4deg);
+    }
+  }
+
+  .livskompass-hero__needle-shaft {
+    @apply absolute bottom-[18%] left-1/2 top-[8%] w-[2px] -translate-x-1/2 rounded-full;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent-light) 95%, white) 0%,
+      color-mix(in srgb, var(--accent) 70%, transparent) 55%,
+      color-mix(in srgb, var(--accent) 25%, transparent) 100%
+    );
+    box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  .livskompass-hero__needle-cap {
+    @apply absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 rotate-45;
+    border: 1.5px solid color-mix(in srgb, var(--accent-light) 80%, transparent);
+    background: color-mix(in srgb, var(--accent-light) 35%, transparent);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 45%, transparent);
   }
 
   .livskompass-hero--v2 .livskompass-hero__ring,
@@ -2045,31 +2187,17 @@
   }
 
   .livskompass-hero__orbit-wrap {
-    @apply absolute z-10;
+    @apply absolute left-1/2 top-1/2 z-10;
+    transform: translate(-50%, -50%) rotate(var(--orbit-angle, 0deg))
+      translateY(calc(-1 * var(--orbit-radius, 40%))) rotate(calc(-1 * var(--orbit-angle, 0deg)));
   }
 
-  .livskompass-hero__orbit-wrap--north {
-    top: 2%;
-    left: 50%;
-    transform: translate(-50%, 0);
+  .livskompass-hero__orbit-wrap--inter .livskompass-hero__orbit-node {
+    @apply h-11 w-11;
   }
 
-  .livskompass-hero__orbit-wrap--south {
-    bottom: 2%;
-    left: 50%;
-    transform: translate(-50%, 0);
-  }
-
-  .livskompass-hero__orbit-wrap--east {
-    top: 50%;
-    right: 1%;
-    transform: translate(0, -50%);
-  }
-
-  .livskompass-hero__orbit-wrap--west {
-    top: 50%;
-    left: 1%;
-    transform: translate(0, -50%);
+  .livskompass-hero__orbit-wrap--inter .livskompass-hero__orbit-icon {
+    @apply h-6 w-6;
   }
 
   .livskompass-hero__orbit-node {
@@ -2114,7 +2242,8 @@
   }
 
   .livskompass-hero__orbit-menu {
-    @apply pointer-events-none absolute left-1/2 z-20 min-w-[7.5rem] -translate-x-1/2 rounded-xl border px-3 py-2 opacity-0 transition-all duration-200;
+    @apply pointer-events-none absolute left-1/2 z-20 min-w-[7.5rem] rounded-xl border px-3 py-2 opacity-0 transition-all duration-200;
+    top: calc(100% + 6px);
     border-color: color-mix(in srgb, var(--accent) 38%, transparent);
     background: rgba(8, 8, 8, 0.92);
     backdrop-filter: blur(12px);
@@ -2125,36 +2254,6 @@
   .livskompass-hero__orbit-menu--visible {
     @apply pointer-events-auto opacity-100;
     transform: translate(-50%, 0) scale(1);
-  }
-
-  .livskompass-hero__orbit-wrap--north .livskompass-hero__orbit-menu {
-    top: calc(100% + 6px);
-  }
-
-  .livskompass-hero__orbit-wrap--south .livskompass-hero__orbit-menu {
-    bottom: calc(100% + 6px);
-    top: auto;
-  }
-
-  .livskompass-hero__orbit-wrap--east .livskompass-hero__orbit-menu {
-    left: auto;
-    right: calc(100% + 8px);
-    top: 50%;
-    transform: translate(0, -50%) scale(0.96);
-  }
-
-  .livskompass-hero__orbit-wrap--east .livskompass-hero__orbit-menu--visible {
-    transform: translate(0, -50%) scale(1);
-  }
-
-  .livskompass-hero__orbit-wrap--west .livskompass-hero__orbit-menu {
-    left: calc(100% + 8px);
-    top: 50%;
-    transform: translate(0, -50%) scale(0.96);
-  }
-
-  .livskompass-hero__orbit-wrap--west .livskompass-hero__orbit-menu--visible {
-    transform: translate(0, -50%) scale(1);
   }
 
   .livskompass-hero__orbit-menu-label {
@@ -2172,7 +2271,7 @@
   }
 
   .livskompass-hero__center {
-    @apply absolute left-1/2 top-1/2 z-20 flex h-[38%] max-h-[5.25rem] w-[38%] min-w-[4.75rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full;
+    @apply absolute left-1/2 top-1/2 z-[25] flex h-[34%] max-h-[4.75rem] w-[34%] min-w-[4.25rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full;
     border: 2px solid color-mix(in srgb, var(--accent) 52%, transparent);
     background: rgba(10, 10, 10, 0.68);
     color: var(--text-gold);
@@ -2223,6 +2322,31 @@
 
   .livskompass-hero__hint {
     @apply mt-3 text-center text-[10px] uppercase tracking-[0.18em] text-text-dim;
+  }
+
+  .livskompass-hero__quick {
+    @apply mt-4 border-t pt-3;
+    border-color: color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .livskompass-hero__quick-label {
+    @apply mb-2 text-center text-[9px] font-medium uppercase tracking-[0.28em] text-accent/80;
+  }
+
+  .livskompass-hero__quick-row {
+    @apply flex flex-wrap justify-center gap-2;
+  }
+
+  .livskompass-hero__quick-chip {
+    @apply rounded-full border px-3 py-1.5 text-[11px] font-medium text-text transition-[background,border-color,box-shadow];
+    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+
+  .livskompass-hero__quick-chip:hover {
+    border-color: color-mix(in srgb, var(--accent) 48%, transparent);
+    background: color-mix(in srgb, var(--accent) 16%, transparent);
+    box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 18%, transparent);
   }
 
   .kompis-avatar {
@@ -3156,5 +3280,295 @@
 
   .familjen-kunskap-panel {
     @apply rounded-2xl border border-emerald-500/15 bg-[#0a1628]/60 p-1;
+  }
+
+  /* Dagbok — reflektion (lekfull, enkelt språk) */
+  .reflektion-intro {
+    @apply text-center text-sm leading-relaxed text-text-muted;
+  }
+
+  .reflektion-wizard {
+    @apply rounded-2xl border border-accent/15 bg-surface/20 p-1;
+  }
+
+  .reflektion-steps {
+    @apply flex items-stretch gap-1.5;
+  }
+
+  .reflektion-steps__item {
+    @apply flex min-w-0 flex-1 flex-col items-center gap-1 rounded-xl border border-border/80 bg-bg/30 px-1 py-2 transition-colors;
+  }
+
+  .reflektion-steps__item--active {
+    @apply border-accent/45 bg-accent/10;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.12);
+  }
+
+  .reflektion-steps__item--done {
+    @apply border-success/35 bg-success/5;
+  }
+
+  .reflektion-steps__bubble {
+    @apply flex h-7 w-7 items-center justify-center rounded-full bg-surface-3 text-sm;
+  }
+
+  .reflektion-steps__item--active .reflektion-steps__bubble {
+    @apply bg-accent/20 text-accent;
+  }
+
+  .reflektion-steps__item--done .reflektion-steps__bubble {
+    @apply bg-success/15 text-success;
+  }
+
+  .reflektion-steps__label {
+    @apply truncate text-[10px] font-medium text-text-dim;
+  }
+
+  .reflektion-steps__item--active .reflektion-steps__label {
+    @apply text-accent;
+  }
+
+  .reflektion-steps__item--done .reflektion-steps__label {
+    @apply text-success/85;
+  }
+
+  .reflektion-panel {
+    @apply px-1 pb-1 pt-2;
+  }
+
+  .reflektion-panel__lead {
+    @apply text-base font-medium text-text;
+  }
+
+  .reflektion-panel__hint {
+    @apply mt-1 text-sm leading-relaxed text-text-muted;
+  }
+
+  .reflektion-mood-grid {
+    @apply my-4 grid grid-cols-3 gap-2 sm:grid-cols-4;
+  }
+
+  .reflektion-mood-card {
+    @apply flex flex-col items-center gap-1 rounded-2xl border border-border-strong bg-bg/40 px-2 py-3 transition-[transform,box-shadow,border-color];
+  }
+
+  .reflektion-mood-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  .reflektion-mood-card--active {
+    @apply border-accent/55 bg-accent/10;
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.18);
+    transform: translateY(-2px);
+  }
+
+  .reflektion-mood-card__emoji {
+    @apply text-2xl leading-none;
+  }
+
+  .reflektion-mood-card__label {
+    @apply text-[11px] font-medium text-text-muted;
+  }
+
+  .reflektion-mood-card--active .reflektion-mood-card__label {
+    @apply text-accent;
+  }
+
+  .reflektion-mood-card--warm.reflektion-mood-card--active {
+    box-shadow: 0 0 16px rgba(251, 191, 36, 0.2);
+  }
+
+  .reflektion-mood-card--gold.reflektion-mood-card--active {
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.22);
+  }
+
+  .reflektion-mood-card--rose.reflektion-mood-card--active {
+    box-shadow: 0 0 16px rgba(244, 114, 182, 0.18);
+  }
+
+  .reflektion-mood-card--indigo.reflektion-mood-card--active {
+    box-shadow: 0 0 16px rgba(129, 140, 248, 0.2);
+  }
+
+  .reflektion-shuffle {
+    @apply mx-auto mb-3 flex items-center justify-center gap-2 rounded-full border border-border-strong bg-surface/30 px-4 py-2 text-xs font-medium text-text-muted transition-colors hover:border-accent/35 hover:text-accent;
+  }
+
+  .reflektion-mood-selected {
+    @apply mb-3 text-center text-sm text-text-muted;
+  }
+
+  .reflektion-actions {
+    @apply mt-4 flex flex-col gap-2;
+  }
+
+  .reflektion-link-mabra {
+    @apply text-center text-xs text-accent-secondary hover:underline;
+  }
+
+  .reflektion-write-tabs {
+    @apply mb-3 flex gap-1 rounded-xl border border-border-strong bg-bg/30 p-1;
+  }
+
+  .reflektion-write-tabs__tab {
+    @apply flex-1 rounded-lg border-0 py-2 text-xs font-medium text-text-dim transition-colors;
+  }
+
+  .reflektion-write-tabs__tab--active {
+    @apply bg-accent/15 text-accent;
+  }
+
+  .reflektion-textarea {
+    @apply min-h-[6.5rem];
+  }
+
+  .reflektion-prompt-grid {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .reflektion-prompt-chip {
+    @apply rounded-full border border-border-strong bg-surface/40 px-3 py-1.5 text-left text-xs text-text-muted transition-colors hover:border-accent/40 hover:text-accent;
+  }
+
+  .reflektion-prompt-chip--mood {
+    @apply border-accent/30 text-accent/90;
+  }
+
+  .reflektion-tre-ord__input {
+    @apply text-center text-lg tracking-wide;
+  }
+
+  .reflektion-tre-ord__count {
+    @apply mt-1 text-center text-xs text-text-dim;
+  }
+
+  .reflektion-voice {
+    @apply mt-2 flex flex-wrap items-center gap-2;
+  }
+
+  .reflektion-preview {
+    @apply my-4 space-y-2 rounded-2xl border border-accent/20 bg-accent/5 p-4;
+  }
+
+  .reflektion-preview__mood {
+    @apply text-sm font-medium text-text;
+  }
+
+  .reflektion-preview__text {
+    @apply text-sm leading-relaxed text-text-muted;
+  }
+
+  /* Planering — verktygshub */
+  .planering-back-link {
+    @apply mb-4 inline-flex items-center gap-1 text-sm font-medium text-accent/90 transition-colors hover:text-accent;
+  }
+
+  .planering-hub__hint {
+    @apply mb-4 text-center text-sm leading-relaxed text-text-muted;
+  }
+
+  .planering-hub__grid {
+    @apply grid gap-3 sm:grid-cols-2;
+  }
+
+  .planering-tool-card {
+    @apply relative flex flex-col gap-1 rounded-2xl border p-4 text-left transition-[transform,box-shadow,border-color];
+    border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+    background: linear-gradient(165deg, rgba(18, 16, 14, 0.92) 0%, rgba(8, 10, 14, 0.88) 100%);
+  }
+
+  .planering-tool-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+  }
+
+  .planering-tool-card__emoji {
+    @apply text-2xl leading-none;
+  }
+
+  .planering-tool-card__icon-wrap {
+    @apply absolute right-3 top-3 text-accent/50;
+  }
+
+  .planering-tool-card__title {
+    @apply pr-8 text-base font-semibold text-accent;
+  }
+
+  .planering-tool-card__lead {
+    @apply text-xs leading-relaxed text-text-muted;
+  }
+
+  .planering-tool-card__badge {
+    @apply mt-1 inline-flex w-fit rounded-full border border-emerald-500/35 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-300/90;
+  }
+
+  .planering-tool-card--gold:hover {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+  }
+
+  .planering-tool-card--emerald:hover {
+    box-shadow: 0 0 20px rgba(45, 212, 191, 0.12);
+  }
+
+  .planering-quicklist__hint {
+    @apply mb-3 text-sm text-text-muted;
+  }
+
+  .planering-quicklist__add {
+    @apply mb-4 flex gap-2;
+  }
+
+  .planering-quicklist__items {
+    @apply space-y-2;
+  }
+
+  .planering-quicklist__empty {
+    @apply rounded-xl border border-dashed border-border-strong px-3 py-6 text-center text-sm text-text-dim;
+  }
+
+  .planering-quicklist__row {
+    @apply flex items-center gap-2 rounded-xl border border-border-strong bg-bg/40 px-2 py-2;
+  }
+
+  .planering-quicklist__row--done {
+    @apply opacity-60;
+  }
+
+  .planering-quicklist__check {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-accent/35 bg-surface/30 transition-colors hover:border-accent/55;
+  }
+
+  .planering-quicklist__check--on {
+    @apply border-accent/55 bg-accent/15 text-accent;
+  }
+
+  .planering-quicklist__check-ring {
+    @apply h-4 w-4 rounded-full border-2 border-accent/40;
+  }
+
+  .planering-quicklist__text {
+    @apply min-w-0 flex-1 text-sm text-text;
+  }
+
+  .planering-quicklist__remove {
+    @apply shrink-0 rounded-full p-1 text-text-dim transition-colors hover:text-danger;
+  }
+
+  .planering-quicklist__done-block {
+    @apply mt-4 rounded-xl border border-border/80 bg-surface/20 p-3;
+  }
+
+  .planering-quicklist__done-label {
+    @apply mb-2 text-[10px] font-semibold uppercase tracking-wider text-text-dim;
+  }
+
+  .planering-quicklist__actions {
+    @apply mt-4 flex flex-col gap-2 sm:flex-row;
+  }
+
+  .planering-quicklist--compact .planering-quicklist__row {
+    @apply py-1.5;
   }
 }

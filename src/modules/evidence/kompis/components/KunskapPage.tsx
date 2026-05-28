@@ -24,9 +24,16 @@ const tabs = [
 
 type KunskapPageProps = {
   embedded?: boolean;
+  /** När satt (t.ex. från Familjen-hub): hoppa till post i Tidshjulet. */
+  focusKampsparId?: string | null;
+  onFocusKampsparConsumed?: () => void;
 };
 
-export function KunskapPage({ embedded: _embedded = false }: KunskapPageProps) {
+export function KunskapPage({
+  embedded: _embedded = false,
+  focusKampsparId,
+  onFocusKampsparConsumed,
+}: KunskapPageProps) {
   const [tab, setTab] = useState<Tab>('chat');
   const [highlightEntryId, setHighlightEntryId] = useState<string | null>(null);
   const [selectedEntry, setSelectedEntry] = useState<KampsparEntryRow | null>(null);
@@ -34,6 +41,7 @@ export function KunskapPage({ embedded: _embedded = false }: KunskapPageProps) {
   const [entries, setEntries] = useState<KampsparEntryRow[]>([]);
   const [loadingEntries, setLoadingEntries] = useState(false);
   const [entriesError, setEntriesError] = useState<string | null>(null);
+  const [citationNotice, setCitationNotice] = useState<string | null>(null);
 
   const reloadEntries = useCallback(async () => {
     if (!user) return;
@@ -83,6 +91,27 @@ export function KunskapPage({ embedded: _embedded = false }: KunskapPageProps) {
     if (hit) setSelectedEntry(hit);
   }, [highlightEntryId, entries]);
 
+  useEffect(() => {
+    if (!focusKampsparId) return;
+    setTab('tidshjul');
+    setHighlightEntryId(focusKampsparId);
+    onFocusKampsparConsumed?.();
+  }, [focusKampsparId, onFocusKampsparConsumed]);
+
+  const handleCitationClick = (docId: string, collection: 'kampspar' | 'kb_docs') => {
+    setCitationNotice(null);
+    if (collection === 'kampspar') {
+      setTab('tidshjul');
+      setHighlightEntryId(docId);
+      return;
+    }
+    setTab('tidshjul');
+    setHighlightEntryId(null);
+    setCitationNotice(
+      `Dokumentkälla (${docId.slice(0, 8)}…). Se uppladdade filer under Tidshjulet eller Kunskapsvalv-chatten.`,
+    );
+  };
+
   const patternHint = buildTidshjulPatternHint(entries);
 
   return (
@@ -91,21 +120,17 @@ export function KunskapPage({ embedded: _embedded = false }: KunskapPageProps) {
 
       {tab === 'chat' ? (
         <>
-          <KnowledgeVaultChat
-            onCitationClick={(docId, collection) => {
-              setTab('tidshjul');
-              if (collection === 'kampspar') {
-                setHighlightEntryId(docId);
-              } else {
-                setHighlightEntryId(null);
-              }
-            }}
-          />
+          <KnowledgeVaultChat onCitationClick={handleCitationClick} />
           <InboxQueueCard />
           <EntityRegistryCard />
         </>
       ) : (
         <>
+          {citationNotice && (
+            <p className="rounded-xl border border-accent/20 bg-accent/5 px-4 py-3 text-sm text-text-muted">
+              {citationNotice}
+            </p>
+          )}
           {patternHint && (
             <BentoCard title="Mönster (Minne)" description="Livs-Arkivarien · deterministisk översikt">
               <p className="text-sm text-text-muted">{patternHint}</p>

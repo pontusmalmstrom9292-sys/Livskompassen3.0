@@ -74,11 +74,12 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
           </div>
         )}
 
-        <p className="mb-4 text-sm text-text-muted">
-          Ett fält i taget — minimera sensorisk belastning.
+        <p className="reflektion-intro mb-4">
+          Ta det lugnt — ett litet steg i taget. Inget måste bli perfekt.
         </p>
 
-        <DagbokStepIndicator currentStep={step} />
+        <div className="reflektion-wizard">
+          <DagbokStepIndicator currentStep={step} />
 
         {step === 'mood' && (
           <MoodStep
@@ -123,6 +124,7 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
         )}
 
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+        </div>
       </BentoCard>
 
       {step === 'mood' && !lowEnergyBridge && (
