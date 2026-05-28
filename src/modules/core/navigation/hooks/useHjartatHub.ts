@@ -20,7 +20,7 @@ export function useHjartatHub() {
 
   const visibleTabIds = useMemo(() => new Set(getVisibleHjartatTabIds()), []);
 
-  const tabs = useMemo(
+  const baseTabs = useMemo(
     () => getHubTabsFromNav('dagbok').filter((t) => visibleTabIds.has(t.id as HjartatTab)),
     [visibleTabIds],
   );
@@ -32,6 +32,12 @@ export function useHjartatHub() {
     }
     return resolveHjartatTab(tabParam, vaultGateOpen);
   }, [vaultTabParam, tabParam, vaultGateOpen, isVaultUnlocked]);
+
+  const tabs = useMemo(() => {
+    if (tab !== 'bevis') return baseTabs;
+    if (baseTabs.some((t) => t.id === 'bevis')) return baseTabs;
+    return [...baseTabs, { id: 'bevis', label: 'Valv' }];
+  }, [baseTabs, tab]);
 
   const vaultTab: VaultTab = parseVaultTab(vaultTabParam);
 
@@ -97,7 +103,7 @@ export function useHjartatHub() {
     }
   }, [tab, setVaultUnlocked]);
 
-  const tabBarActive: HjartatTab = tab === 'bevis' ? 'reflektion' : tab;
+  const tabBarActive: HjartatTab = tab;
 
   return { tabs, tab, tabBarActive, vaultTab, setTab, setVaultTab };
 }

@@ -296,6 +296,14 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     parentId: 'projekt',
   },
   {
+    id: 'projekt_handling',
+    label: 'Till Handling',
+    path: '/planering?tab=handling',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'projekt',
+  },
+  {
     id: 'drogfrihet',
     label: 'Drogfrihet',
     path: '/drogfrihet',

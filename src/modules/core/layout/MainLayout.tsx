@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FloatingDock } from './FloatingDock';
 import { FyrenSmartWidgetBar } from '../components/FyrenSmartWidgetBar';
 import { AppHeaderBar } from '../components/AppHeaderBar';
@@ -8,8 +9,10 @@ import { AccountAuthMenu } from '../auth/AccountAuthMenu';
 import { NavigationDrawer } from './NavigationDrawer';
 import { FirestoreNetworkChip } from '../components/FirestoreNetworkChip';
 import { useStore } from '../store';
+import { vaultDrawerPath } from '../navigation/navTruth';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
+  const navigate = useNavigate();
   const user = useStore((s) => s.user);
   const kompisAuraActive = useStore((s) => s.system.kompisAuraActive);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -20,6 +23,9 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
   const openAccount = useCallback(() => setAccountOpen(true), []);
+  const openKunskapsbank = useCallback(() => {
+    navigate(vaultDrawerPath('kunskapsbank'));
+  }, [navigate]);
 
   return (
     <div className="app-shell relative min-h-screen text-text font-sans selection:bg-accent/30">
@@ -37,11 +43,19 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                   onOpenChange={setAccountOpen}
                   compactTrigger
                 />
-                <KompisAvatar
-                  size="sm"
-                  state={kompisAuraActive ? 'analyzing' : 'idle'}
-                  className="pointer-events-none shrink-0"
-                />
+                <button
+                  type="button"
+                  onClick={openKunskapsbank}
+                  className="shrink-0 rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  aria-label="Öppna Kunskapsbank (Valv)"
+                  title="Kunskapsbank"
+                >
+                  <KompisAvatar
+                    size="sm"
+                    state={kompisAuraActive ? 'analyzing' : 'idle'}
+                    className="shrink-0"
+                  />
+                </button>
               </>
             }
           />

@@ -81,6 +81,7 @@ const DRAWER_ICONS: Record<string, DrawerNavIcon> = {
   drogfrihet: HeartHandshake,
   projekt: FolderKanban,
   projekt_ny: Plus,
+  projekt_handling: ListTodo,
   installningar: Settings,
   valv_grp_pansaret: createChromeV4Icon('valv'),
   valv_grp_kunskap: BookOpen,
