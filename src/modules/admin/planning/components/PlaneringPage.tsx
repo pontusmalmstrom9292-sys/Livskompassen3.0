@@ -10,14 +10,17 @@ import { PlanningKanbanBoard } from './PlanningKanbanBoard';
 import { PlaneringFokusPanel } from './PlaneringFokusPanel';
 import { PlaneringInkorgPanel } from './PlaneringInkorgPanel';
 import { PlaneringHub } from './PlaneringHub';
+import { PlaneringHubLayoutPicker } from './PlaneringHubLayoutPicker';
 import { PlaneringQuickListPanel } from './PlaneringQuickListPanel';
 import { RoutinesPanel } from './RoutinesPanel';
+import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
 
 const WORK_TABS = new Set<PlaneringTab>(['handling', 'fokus', 'inkorg']);
 
 export function PlaneringPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { layoutId, setLayoutId } = usePlaneringHubLayout();
   const tab = parsePlaneringTab(searchParams.get('tab'));
   const isHub = tab === 'hub';
   const isWorkTab = WORK_TABS.has(tab);
@@ -65,7 +68,15 @@ export function PlaneringPage() {
         </Link>
       )}
 
-      {(isHub || tab === 'handling') && <RoutinesPanel />}
+      {(isHub || tab === 'handling') && (
+        <div id="planering-rutiner">
+          <RoutinesPanel />
+        </div>
+      )}
+
+      {isHub && (
+        <PlaneringHubLayoutPicker activeId={layoutId} onSelect={setLayoutId} />
+      )}
 
       {isWorkTab && (
         <TabBar<PlaneringTab>

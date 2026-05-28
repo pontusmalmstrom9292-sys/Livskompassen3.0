@@ -5,6 +5,7 @@ import { AuthGate } from '../auth/AuthGate';
 import { HomePage } from '../pages/HomePage';
 import { ThemePreviewPage } from '../pages/ThemePreviewPage';
 import { ThemeLabPage } from '../pages/ThemeLabPage';
+import { HubLabPage } from '../pages/HubLabPage';
 import { VardagenPage, type VardagenTab } from '../../wellbeing/compasses';
 import { SafeHarborPage } from '../../family/safeHarbor';
 import { HjartatPage } from '../../diary/diary';
@@ -163,6 +164,7 @@ function MainAppRoutes() {
         />
         <Route path="/dev/themes" element={<ThemePreviewPage />} />
         <Route path="/dev/theme-lab" element={<ThemeLabPage />} />
+        <Route path="/dev/hub-lab" element={<HubLabPage />} />
     </Routes>
   );
 }

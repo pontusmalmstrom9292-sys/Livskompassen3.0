@@ -3480,6 +3480,94 @@
     @apply grid gap-3 sm:grid-cols-2;
   }
 
+  .planering-hub__list {
+    @apply list-none space-y-2 p-0;
+  }
+
+  .planering-hub__section {
+    @apply space-y-3;
+  }
+
+  .planering-hub__section-title {
+    @apply text-[10px] font-semibold uppercase tracking-wider text-text-dim;
+  }
+
+  .planering-hub__section-grid {
+    @apply grid gap-3 sm:grid-cols-2;
+  }
+
+  .planering-hub__tiles {
+    @apply grid grid-cols-2 gap-3 sm:grid-cols-3;
+  }
+
+  .planering-hub__orbit {
+    @apply relative mx-auto flex min-h-[220px] max-w-md items-center justify-center;
+  }
+
+  .planering-hub__orbit-center {
+    @apply relative z-10 w-[min(100%,12rem)];
+  }
+
+  .planering-hub__orbit-ring {
+    @apply pointer-events-none absolute inset-0;
+  }
+
+  .planering-hub__orbit-chip {
+    @apply pointer-events-auto absolute w-[min(42%,9rem)];
+  }
+
+  .planering-hub__bento {
+    @apply grid gap-3 sm:grid-cols-2;
+  }
+
+  .planering-hub__bento-hero {
+    @apply sm:col-span-2;
+  }
+
+  .planering-hub__bento-wide {
+    @apply sm:col-span-2;
+  }
+
+  .planering-hub__bento-tall {
+    @apply sm:row-span-2;
+  }
+
+  .planering-hub__strip {
+    @apply flex gap-3 overflow-x-auto pb-2;
+  }
+
+  .planering-hub__strip-card {
+    @apply min-w-[10rem] shrink-0;
+  }
+
+  .planering-hub__minimal-rest {
+    @apply mt-3 grid gap-3 sm:grid-cols-2;
+  }
+
+  .planering-tool-card--compact {
+    @apply p-3;
+  }
+
+  .planering-tool-card--hero {
+    @apply min-h-[7rem] p-5;
+  }
+
+  .planering-tool-card--tile {
+    @apply aspect-square items-center justify-center p-3 text-center;
+  }
+
+  .planering-tool-card--soon {
+    @apply cursor-not-allowed opacity-55;
+  }
+
+  .planering-tool-card--amber {
+    border-color: color-mix(in srgb, #f59e0b 28%, transparent);
+  }
+
+  .planering-tool-card--rose {
+    border-color: color-mix(in srgb, #f43f5e 28%, transparent);
+  }
+
   .planering-tool-card {
     @apply relative flex flex-col gap-1 rounded-2xl border p-4 text-left transition-[transform,box-shadow,border-color];
     border-color: color-mix(in srgb, var(--accent) 22%, transparent);
@@ -3578,5 +3666,235 @@
 
   .planering-quicklist--compact .planering-quicklist__row {
     @apply py-1.5;
+  }
+
+  .planering-tool-card--amber:hover {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.14);
+  }
+
+  .planering-tool-card--rose:hover {
+    box-shadow: 0 0 20px rgba(201, 168, 124, 0.18);
+  }
+
+  .planering-tool-card--compact {
+    @apply flex-row items-center gap-3 p-3;
+  }
+
+  .planering-tool-card--compact .planering-tool-card__emoji {
+    @apply text-xl;
+  }
+
+  .planering-tool-card--compact .planering-tool-card__icon-wrap {
+    @apply static order-last ml-auto;
+  }
+
+  .planering-tool-card--compact .planering-tool-card__title {
+    @apply pr-0 text-sm;
+  }
+
+  .planering-tool-card--compact .planering-tool-card__lead {
+    @apply hidden sm:block;
+  }
+
+  .planering-tool-card--hero {
+    @apply min-h-[9rem] border-2 p-5;
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+
+  .planering-tool-card--hero .planering-tool-card__title {
+    @apply text-lg;
+  }
+
+  .planering-tool-card--tile {
+    @apply p-3;
+  }
+
+  .planering-tool-card--tile .planering-tool-card__lead {
+    @apply line-clamp-2;
+  }
+
+  .planering-tool-card--soon {
+    @apply cursor-not-allowed opacity-70;
+  }
+
+  .planering-hub-wrap {
+    @apply space-y-3;
+  }
+
+  .planering-hub__list {
+    @apply space-y-2;
+  }
+
+  .planering-hub__section {
+    @apply mb-5;
+  }
+
+  .planering-hub__section-title {
+    @apply mb-2 text-[10px] font-semibold uppercase tracking-widest text-accent/80;
+  }
+
+  .planering-hub__section-grid {
+    @apply grid gap-2 sm:grid-cols-2;
+  }
+
+  .planering-hub--orbit {
+    @apply flex flex-col items-center gap-4 py-2;
+  }
+
+  .planering-hub__orbit-center {
+    @apply w-full max-w-sm;
+  }
+
+  .planering-hub__orbit-ring {
+    @apply grid w-full grid-cols-2 gap-2 sm:grid-cols-3;
+  }
+
+  .planering-hub__orbit-chip {
+    @apply min-h-0;
+  }
+
+  .planering-hub--bento .planering-hub__bento {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      'hero hero'
+      'wide tall'
+      'a b'
+      'c d';
+  }
+
+  .planering-hub__bento-hero {
+    grid-area: hero;
+  }
+
+  .planering-hub__bento-wide {
+    grid-area: wide;
+  }
+
+  .planering-hub__bento-tall {
+    grid-area: tall;
+  }
+
+  .planering-hub--strip .planering-hub__strip {
+    @apply flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory;
+  }
+
+  .planering-hub__strip-card {
+    @apply min-w-[10.5rem] shrink-0 snap-start;
+  }
+
+  .planering-hub--minimal .planering-hub__minimal-rest {
+    @apply mt-3 space-y-2;
+  }
+
+  .planering-hub--tiles .planering-hub__tiles {
+    @apply grid grid-cols-2 gap-2 sm:grid-cols-3;
+  }
+
+  .planering-hub-shell--emerald .planering-hub__hint {
+    color: color-mix(in srgb, #6b8f71 70%, var(--text-muted));
+  }
+
+  .planering-hub-shell--rose .planering-tool-card {
+    border-color: color-mix(in srgb, #c9a87c 28%, transparent);
+  }
+
+  .planering-layout-picker {
+    @apply mb-4 rounded-2xl border border-border-strong bg-surface/30 p-3;
+  }
+
+  .planering-layout-picker--compact {
+    @apply mb-2 p-2;
+  }
+
+  .planering-layout-picker__head {
+    @apply mb-2 flex items-center justify-between gap-2;
+  }
+
+  .planering-layout-picker__eyebrow {
+    @apply text-[10px] font-semibold uppercase tracking-widest text-text-dim;
+  }
+
+  .planering-layout-picker__lab-link {
+    @apply text-xs text-accent hover:underline;
+  }
+
+  .planering-layout-picker__track {
+    @apply flex gap-2 overflow-x-auto pb-1 snap-x snap-mandatory;
+  }
+
+  .planering-layout-picker__chip {
+    @apply flex shrink-0 snap-start flex-col items-center gap-0.5 rounded-xl border px-3 py-2 transition-[border-color,background,transform];
+    border-color: color-mix(in srgb, var(--accent) 18%, transparent);
+    background: rgba(8, 10, 14, 0.5);
+    min-width: 4.75rem;
+  }
+
+  .planering-layout-picker__chip:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  .planering-layout-picker__chip--active {
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .planering-layout-picker__emoji {
+    @apply text-lg leading-none;
+  }
+
+  .planering-layout-picker__label {
+    @apply max-w-[5.5rem] truncate text-[10px] font-medium text-text-muted;
+  }
+
+  .planering-layout-picker__chip--active .planering-layout-picker__label {
+    @apply font-semibold text-accent;
+  }
+
+  .planering-layout-picker__active-lead {
+    @apply mt-2 text-center text-xs text-text-muted;
+  }
+
+  .hub-lab-page .hub-lab-preview {
+    @apply rounded-2xl border border-border-strong bg-bg/40 p-3;
+  }
+
+  .hub-lab-grid {
+    @apply grid gap-4 lg:grid-cols-2;
+  }
+
+  .hub-lab-card {
+    @apply rounded-2xl border border-border-strong p-3;
+  }
+
+  .hub-lab-card__select {
+    @apply mb-2 flex w-full flex-col items-start gap-0.5 border-0 bg-transparent p-0 text-left;
+  }
+
+  .hub-lab-card__emoji {
+    @apply text-2xl;
+  }
+
+  .hub-lab-card__title {
+    @apply font-display text-base text-accent;
+  }
+
+  .hub-lab-card__meta {
+    @apply text-[10px] text-text-dim;
+  }
+
+  .hub-lab-card__preview {
+    @apply max-h-72 overflow-hidden rounded-xl border border-border/80 bg-bg/30 p-2;
+  }
+
+  .hub-lab-card__body {
+    @apply pointer-events-none scale-[0.92] origin-top;
+  }
+
+  .hub-lab-card__body .planering-tool-card {
+    pointer-events: none;
   }
 }

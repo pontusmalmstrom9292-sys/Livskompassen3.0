@@ -297,6 +297,11 @@ function main() {
     'PlanningKanbanBoard',
   );
   mustInclude(
+    'src/modules/admin/planning/components/PlaneringHub.tsx',
+    'PlaneringHubBody',
+    'usePlaneringHubLayout',
+  );
+  mustInclude(
     'src/modules/admin/planning/components/PlaneringInkorgPanel.tsx',
     'InboxReviewQueue',
   );
