@@ -1,6 +1,12 @@
 # Android / Capacitor — projektminne
 
-**Senast verifierat:** 2026-05 — native Google-inloggning fungerar på telefon efter SHA-1.
+**Senast verifierat:** 2026-05 — Capacitor 8 + JDK 21. Nedgradera **inte** Java till 17 i Gradle (Capacitor 8 kräver 21).
+
+## JDK 21 (Capacitor 8)
+
+- Installera: `brew install --cask temurin@21`
+- Android Studio: **Settings → Build, Execution, Deployment → Build Tools → Gradle → Gradle JDK** → **temurin-21** (eller Eclipse Temurin 21)
+- **Måste inte** tvinga `JavaVersion.VERSION_17` i `android/build.gradle` — det ger konflikt med `:capacitor-android` (source 21).
 
 ## Build före Run (påminn användaren)
 
