@@ -86,7 +86,7 @@ export function LivskompassMark({ className }: Props) {
         />
         <path d="M24 42 L21.6 29.5 L24 26 L26.4 29.5 Z" opacity="0.35" />
         <path d="M6 24 L18.5 21.6 L22 24 L18.5 26.4 Z" opacity="0.28" />
-        <path d="M42 24 L29.5 26.4 L26 24 L29.5 21.6 Z" opacity="0.28" />
+        <path d="M44.5 24 L32 30.5 L18 24 L32 17.5 Z" opacity="0.48" />
         <path d="M11 11 L17.5 17.5 L24 24 L17.5 17.5 Z" opacity="0.22" />
         <path d="M37 11 L30.5 17.5 L24 24 L30.5 17.5 Z" opacity="0.22" />
         <path d="M37 37 L30.5 30.5 L24 24 L30.5 30.5 Z" opacity="0.2" />
