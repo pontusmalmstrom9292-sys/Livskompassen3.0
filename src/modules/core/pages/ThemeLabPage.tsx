@@ -1,12 +1,12 @@
-import { useMemo, useState, type CSSProperties } from 'react';
+import { useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { Anchor, Calendar, Compass, Settings, Sparkles, Users } from 'lucide-react';
 import { ValvArchIcon } from '../ui/ValvArchIcon';
 import { LivskompassMark } from '../ui/LivskompassMark';
 import { applyTheme } from '../theme/applyTheme';
 import { useTheme } from '../theme';
-import { THEME_LAB_DRAFTS } from '../theme/themeLabVariants';
-import { THEME_REGISTRY } from '../theme/themeRegistry';
+import { THEME_LAB_DRAFTS, THEME_LAB_DRAFT_IDS } from '../theme/themeLabVariants';
+import { DEFAULT_THEME_ID, THEME_BY_ID, THEME_REGISTRY } from '../theme/themeRegistry';
 import { K_PACK_THEME_IDS, THEME_PACK_K } from '../theme/themePackK';
 import { J_PACK_THEME_IDS } from '../theme/themeRegistry';
 import type { ThemePack } from '../theme/types';
@@ -49,10 +49,41 @@ function PreviewStrip({ pack }: { pack: ThemePack }) {
         <span className="theme-lab-strip__compass-ring" />
         <LivskompassMark className="theme-lab-strip__compass-mark" />
       </div>
+      {pack.background === 'texture-stone' ? (
+        <div className="theme-lab-strip__scenic" aria-hidden />
+      ) : null}
       <p className="theme-lab-strip__tokens text-[9px] text-text-dim">
-        accent {pack.cssVars['--accent']} · bg {pack.cssVars['--bg']}
+        accent {pack.cssVars['--accent']} · glass {pack.cssVars['--glass']}
       </p>
     </div>
+  );
+}
+
+const PROD_STONE = THEME_BY_ID[DEFAULT_THEME_ID];
+
+function DraftTokenChips({ pack }: { pack: ThemePack }) {
+  const keys = ['--accent', '--accent-glow', '--glass', '--border-strong'] as const;
+  return (
+    <ul className="mt-2 flex flex-wrap gap-1">
+      {keys.map((key) => {
+        const value = pack.cssVars[key];
+        const prod = PROD_STONE.cssVars[key];
+        const changed = value !== prod;
+        return (
+          <li
+            key={key}
+            className={`rounded px-1.5 py-0.5 text-[9px] ${
+              changed
+                ? 'border border-warning/40 bg-warning/10 text-warning'
+                : 'border border-border/60 text-text-dim'
+            }`}
+            title={changed ? `prod: ${prod}` : 'oförändrad mot I-stone'}
+          >
+            {key.replace('--', '')}: {value}
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
@@ -156,10 +187,23 @@ export function ThemeLabPage() {
       />
 
       <section className="glass-card p-4">
-        <h2 className="text-xs uppercase tracking-widest text-text-dim">Utkast (agent)</h2>
-        <p className="mt-1 text-xs text-text-muted">
-          Skapas av <code>specialist-theme-lab</code> i themeLabVariants.ts
-        </p>
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <div>
+            <h2 className="text-xs uppercase tracking-widest text-text-dim">
+              Utkast I-stone ({THEME_LAB_DRAFT_IDS.length})
+            </h2>
+            <p className="mt-1 text-xs text-text-muted">
+              <code>themeLabVariants.ts</code> — gula chips = skillnad mot prod
+            </p>
+          </div>
+          <button
+            type="button"
+            className="btn-pill--ghost text-xs"
+            onClick={() => applyPreview(DEFAULT_THEME_ID)}
+          >
+            Jämför med prod
+          </button>
+        </div>
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
           {THEME_LAB_DRAFTS.map((pack) => (
             <ThemeLabCard
@@ -173,6 +217,7 @@ export function ThemeLabPage() {
                 setTheme(pack.id);
                 setPreviewId(pack.id);
               }}
+              extra={<DraftTokenChips pack={pack} />}
             />
           ))}
         </div>
@@ -260,6 +305,7 @@ function ThemeLabCard({
   draft,
   onPreview,
   onApply,
+  extra,
 }: {
   pack: ThemePack;
   active: boolean;
@@ -267,6 +313,7 @@ function ThemeLabCard({
   draft?: boolean;
   onPreview: () => void;
   onApply: () => void;
+  extra?: ReactNode;
 }) {
   return (
     <article
@@ -283,6 +330,7 @@ function ThemeLabCard({
         ) : null}
         <h3 className="font-display text-base text-accent">{pack.label}</h3>
         <p className="mt-1 text-xs text-text-muted">{pack.description}</p>
+        {extra}
         <div className="mt-3 flex flex-wrap gap-2">
           <button type="button" className="btn-pill--ghost text-xs" onClick={onPreview}>
             Förhandsgranska

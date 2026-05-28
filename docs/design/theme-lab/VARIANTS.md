@@ -1,12 +1,17 @@
 # Theme Lab — variantbeslut
 
-**Uppdaterad:** 2026-05-28
+**Uppdaterad:** 2026-05-28 (specialist-theme-lab)
 
-| ID | Label | Status | Beslut (du fyller i) |
-|----|-------|--------|----------------------|
+| ID | Label | Status | Test / beslut |
+|----|-------|--------|----------------|
 | `I-stone` | Architect Stone (prod) | **aktiv** | Bas — scenic + guld |
-| `I-stone-draft-photo` | Stone — tydligare foto | utkast | |
-| `I-stone-draft-glow` | Stone — starkare guld glow | utkast | |
+| `I-stone-draft-photo` | Stone — tydligare foto | utkast | `/dev/theme-lab` → ljusare `--glass` |
+| `I-stone-draft-glow` | Stone — starkare guld glow | utkast | Starkare `--accent-glow`, kanter |
+| `I-stone-draft-twilight` | Stone — skymning | utkast | Kallare `--bg`, mjukare guld, kväll |
+| `I-stone-draft-bronze` | Stone — brons | utkast | Varm brons/roséguld accent |
+| `I-stone-draft-matte` | Stone — matt | utkast | Plattare glas, svag glow (låg last) |
+
+**Jämför:** http://localhost:5173/dev/theme-lab → Utkast (agent) → Förhandsgranska → **Använd i appen** → testa `/` (Hem).
 
 ## Theme Pack J (hub + widget, 2026-05-25)
 
