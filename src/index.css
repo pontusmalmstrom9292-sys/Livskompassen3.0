@@ -569,13 +569,13 @@
   }
 
   .hub-chrome-tile--dock {
-    @apply h-[2.85rem] w-[2.85rem] rounded-2xl;
-    border-width: 1.5px;
+    @apply h-[2.35rem] w-[2.35rem] rounded-xl;
+    border-width: 1px;
   }
 
   .hub-chrome-tile--dock-side {
-    @apply h-[3rem] w-[3rem] rounded-full;
-    border-width: 1.5px;
+    @apply h-[2.45rem] w-[2.45rem] rounded-full;
+    border-width: 1px;
   }
 
   .hub-chrome-tile--active {
@@ -611,7 +611,7 @@
     gap: 0.25rem 0.15rem;
     max-width: min(100vw - 0.75rem, 26.5rem);
     margin-inline: auto;
-    padding: 1.35rem 0.4rem 0.55rem;
+    padding: 1.05rem 0.35rem 0.45rem;
     border-radius: 1.75rem;
     border: 1px solid rgba(212, 175, 55, 0.28);
     background:
@@ -625,7 +625,7 @@
   }
 
   .dock-hub-band__pad {
-    @apply block min-h-[2.85rem] min-w-0;
+    @apply block min-h-[2.35rem] min-w-0;
   }
 
   .dock-hub-band__context {
@@ -636,12 +636,12 @@
     @apply flex min-w-0 flex-col items-center gap-1 border-0 bg-transparent p-0;
     justify-self: center;
     width: 100%;
-    max-width: 3.35rem;
+    max-width: 3rem;
     transition: transform 0.16s ease;
   }
 
   .dock-nav-btn--side {
-    max-width: 3.5rem;
+    max-width: 3.05rem;
   }
 
   .dock-nav-btn:hover {
@@ -674,22 +674,18 @@
   }
 
   .dock-nav-btn__glyph {
-    @apply relative z-[1] h-[1.35rem] w-[1.35rem];
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55))
-      drop-shadow(0 0 6px rgba(212, 175, 55, 0.22));
+    @apply relative z-[1] h-[0.9rem] w-[0.9rem];
+    filter: drop-shadow(0 0.5px 1px rgba(0, 0, 0, 0.45))
+      drop-shadow(0 0 4px rgba(212, 175, 55, 0.18));
   }
 
   .dock-nav-btn--active .dock-nav-btn__glyph {
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5))
-      drop-shadow(0 0 10px rgba(212, 175, 55, 0.38));
-  }
-
-  .dock-nav-btn__icon {
-    @apply hidden;
+    filter: drop-shadow(0 0.5px 1px rgba(0, 0, 0, 0.42))
+      drop-shadow(0 0 6px rgba(212, 175, 55, 0.28));
   }
 
   .dock-nav-btn__label {
-    @apply max-w-full truncate px-0.5 text-[10px] font-medium leading-tight text-text-muted;
+    @apply max-w-full truncate px-0.5 text-[9px] font-medium leading-tight text-text-muted;
   }
 
   .dock-nav-btn__label--active,
@@ -706,16 +702,16 @@
     grid-column: 4;
     justify-self: center;
     z-index: 3;
-    margin-top: -1.15rem;
+    margin-top: -0.9rem;
   }
 
   .dock-hub-band__center-glow {
-    @apply pointer-events-none absolute left-1/2 top-1 h-[4.75rem] w-[4.75rem] -translate-x-1/2 rounded-full;
+    @apply pointer-events-none absolute left-1/2 top-1 h-[3.85rem] w-[3.85rem] -translate-x-1/2 rounded-full;
     background: radial-gradient(circle, rgba(212, 175, 55, 0.18) 0%, transparent 72%);
   }
 
   .dock-hub-band__plate {
-    @apply relative z-[1] flex h-[4.15rem] w-[4.15rem] items-center justify-center rounded-full;
+    @apply relative z-[1] flex h-[3.55rem] w-[3.55rem] items-center justify-center rounded-full;
     background: linear-gradient(
       168deg,
       rgba(52, 44, 30, 0.98) 0%,
@@ -781,9 +777,9 @@
   }
 
   .dock-hub-band__mark {
-    @apply h-11 w-11 text-accent;
+    @apply h-9 w-9 text-accent;
     opacity: 0.98;
-    filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.4));
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.32));
   }
 
   .hub-preset-sheet__backdrop {

@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Anchor, BookOpen, Compass, ListTodo, Sparkles } from 'lucide-react';
 import { BentoCard } from '../../../core/ui/BentoCard';
+import { ValvArchIcon } from '../../../core/ui/ValvArchIcon';
 import { vaultDrawerPath } from '../../../core/navigation/navTruth';
 import { KompisMark } from './KompisMark';
+
+const VALV_ENTRY = vaultDrawerPath('logga');
 
 type KompisDestination = {
   to: string;
@@ -16,7 +19,7 @@ const DESTINATIONS: KompisDestination[] = [
   {
     to: vaultDrawerPath('kunskapsbank'),
     label: 'Kunskapsbank',
-    hint: 'Egen Valv-zon — Tidshjul och RAG bakom PIN.',
+    hint: 'Direkt till Valv-zonen efter PIN.',
     icon: BookOpen,
     primary: true,
   },
@@ -41,7 +44,7 @@ const DESTINATIONS: KompisDestination[] = [
   {
     to: '/dagbok?tab=speglar',
     label: 'Speglar',
-    hint: 'Validering utan att fixa dig.',
+    hint: 'Validering utan att fixa dig — utan PIN.',
     icon: Compass,
   },
 ];
@@ -54,16 +57,32 @@ export function KompisHubPage() {
         title="Kompis"
         description="Välj vart du vill — jag dirigerar, jag svarar inte här."
       >
-        <div className="flex items-center gap-3">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-bg/40">
+        <div className="flex items-start gap-3">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-bg/40">
             <KompisMark className="h-6 w-6" />
           </span>
-          <p className="text-sm text-text-muted">
-            Kunskap och chatt finns bakom <strong className="text-text">Valv</strong> (PIN). Övriga
-            zoner är öppna från menyn.
-          </p>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm text-text-muted">
+              <strong className="text-text">Valv</strong> är låst med PIN på nästa skärm (sparas lokalt på
+              enheten). Där finns kunskap, chatt och bevis.
+            </p>
+            <Link
+              to={VALV_ENTRY}
+              className="btn-pill--accent mt-3 inline-flex w-full items-center justify-center gap-2 text-sm"
+            >
+              <ValvArchIcon className="h-4 w-4 shrink-0" />
+              Öppna Valv · ange PIN
+            </Link>
+            <p className="mt-2 text-[11px] leading-snug text-text-dim">
+              Dold genväg: håll kompassen i bottenmenyn i 3 sekunder.
+            </p>
+          </div>
         </div>
       </BentoCard>
+
+      <p className="px-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-text-dim">
+        Öppna zoner
+      </p>
 
       <ul className="space-y-3">
         {DESTINATIONS.map(({ to, label, hint, icon: Icon, primary }) => (
