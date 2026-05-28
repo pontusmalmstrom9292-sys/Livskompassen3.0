@@ -7,6 +7,7 @@ import { useLongPress } from '../hooks/useLongPress';
 import { useLifeHubPreset } from '../lifeOs/useLifeHubPreset';
 import { getHubContextSlots, type HubContextSlot } from '../navigation/hubContextBar';
 import { getDockHubBanner } from './dockHubBanner';
+import { resolveHeaderPanelStyle } from './headerPanelStyle';
 import { renderDockNavIcon, renderDockSideIcon } from './dockNavIcons';
 import { DockNavButton, DockNavLinkFace } from './DockNavButton';
 import { getDockSideLinks } from './dockHubChrome';
@@ -55,6 +56,7 @@ export function DockHubBand() {
   const { presetId } = useLifeHubPreset();
   const isHome = location.pathname === '/';
   const hubBanner = getDockHubBanner(location.pathname);
+  const panelStyle = resolveHeaderPanelStyle();
 
   const hubSlots = useMemo(
     () => getHubContextSlots(location.pathname, location.search),
@@ -84,14 +86,17 @@ export function DockHubBand() {
   };
 
   return (
-    <div className={clsx('dock-hub-band', hubBanner && 'dock-hub-band--has-banner')}>
+    <div
+      className={clsx('dock-hub-band', hubBanner && 'dock-hub-band--has-banner')}
+      data-panel-style={panelStyle}
+    >
       {hubBanner ? (
         <div className="dock-hub-band__banner" aria-hidden>
           <span className="dock-hub-band__banner-text">{hubBanner}</span>
         </div>
       ) : null}
 
-      <div className="dock-hub-band__rail chrome-strip-surface">
+      <div className="dock-hub-band__rail">
         <DockSideNav link={sides.left} />
         {leftRail.map((slot, index) =>
           slot ? (

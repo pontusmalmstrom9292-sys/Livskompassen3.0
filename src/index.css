@@ -31,7 +31,7 @@
   --danger: #dc2626;
 
   /* Utrymme under scrollbart innehåll — dock-rail + banner + safe area + marginal */
-  --app-dock-clearance: calc(8.5rem + env(safe-area-inset-bottom, 0px) + 1.5rem);
+  --app-dock-clearance: calc(9.25rem + env(safe-area-inset-bottom, 0px) + 1.5rem);
 }
 
 @layer base {
@@ -610,11 +610,11 @@
 
   /* Dock hub band — banner-pill över rail (som HEM på Dagens riktning) */
   .dock-hub-band {
-    @apply pointer-events-auto relative mx-auto w-full max-w-[min(100vw-0.5rem,28rem)];
+    @apply pointer-events-auto relative mx-auto w-full max-w-[min(100vw-0.5rem,34rem)];
   }
 
   .dock-hub-band--has-banner {
-    @apply pt-2.5;
+    @apply pt-3;
   }
 
   .dock-hub-band__banner {
@@ -622,12 +622,13 @@
   }
 
   .dock-hub-band__banner-text {
-    @apply rounded-full px-3.5 py-1 text-[10px] font-medium uppercase tracking-[0.22em] text-accent/95;
-    border: 1px solid rgba(212, 175, 55, 0.32);
-    background: rgba(10, 10, 10, 0.88);
+    @apply relative overflow-hidden rounded-full px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.22em] text-accent-light;
+    font-family: Outfit, sans-serif;
+    border-width: 2px;
     box-shadow:
-      0 4px 14px rgba(0, 0, 0, 0.38),
-      inset 0 1px 0 rgba(255, 243, 196, 0.08);
+      0 8px 22px rgba(0, 0, 0, 0.48),
+      0 0 0 1px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 243, 196, 0.14);
   }
 
   .dock-hub-band__rail {
@@ -635,19 +636,163 @@
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
     align-items: center;
-    gap: 0.15rem 0.08rem;
-    max-width: min(100vw - 0.75rem, 26.5rem);
+    gap: 0.2rem 0.12rem;
+    max-width: min(100vw - 0.75rem, 32rem);
     margin-inline: auto;
-    padding: 0.55rem 0.35rem 0.45rem;
+    padding: 0.7rem 0.45rem 0.55rem;
+    overflow: hidden;
+    border-radius: 1rem;
+    backdrop-filter: blur(28px) saturate(165%);
+    -webkit-backdrop-filter: blur(28px) saturate(165%);
   }
 
-  .dock-hub-band__rail.chrome-strip-surface {
-    border-color: rgba(212, 175, 55, 0.26);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.42);
+  .dock-hub-band__rail::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .dock-hub-band__rail::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Dock panel — synkad med glass-header-bar--kanon (VITE_HEADER_PANEL_STYLE) */
+  .dock-hub-band[data-panel-style='ember'] .dock-hub-band__banner-text {
+    border-color: rgba(212, 175, 55, 0.42);
+    background: linear-gradient(
+      168deg,
+      rgba(42, 34, 22, 0.96) 0%,
+      rgba(18, 14, 10, 0.94) 48%,
+      rgba(6, 8, 18, 0.92) 100%
+    );
+  }
+
+  .dock-hub-band[data-panel-style='ember'] .dock-hub-band__rail {
+    border: 2px solid rgba(212, 175, 55, 0.42);
+    background: linear-gradient(
+      168deg,
+      rgba(42, 34, 22, 0.94) 0%,
+      rgba(18, 14, 10, 0.9) 42%,
+      rgba(6, 8, 18, 0.88) 100%
+    );
+    box-shadow:
+      0 14px 42px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(0, 0, 0, 0.35),
+      inset 0 2px 0 rgba(255, 243, 196, 0.12),
+      inset 0 -10px 28px rgba(0, 0, 0, 0.42);
+  }
+
+  .dock-hub-band[data-panel-style='ember'] .dock-hub-band__rail::before {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 230, 180, 0.55) 22%,
+      rgba(212, 175, 55, 0.85) 50%,
+      rgba(255, 230, 180, 0.45) 78%,
+      transparent 100%
+    );
+  }
+
+  .dock-hub-band[data-panel-style='ember'] .dock-hub-band__rail::after {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      inset 0 -14px 32px rgba(0, 0, 0, 0.35);
+  }
+
+  .dock-hub-band[data-panel-style='obsidian'] .dock-hub-band__banner-text {
+    border-color: rgba(148, 163, 184, 0.35);
+    background: linear-gradient(
+      175deg,
+      rgba(30, 41, 59, 0.96) 0%,
+      rgba(15, 23, 42, 0.94) 50%,
+      rgba(2, 6, 23, 0.92) 100%
+    );
+  }
+
+  .dock-hub-band[data-panel-style='obsidian'] .dock-hub-band__rail {
+    border: 2px solid rgba(148, 163, 184, 0.35);
+    background: linear-gradient(
+      175deg,
+      rgba(30, 41, 59, 0.92) 0%,
+      rgba(15, 23, 42, 0.9) 48%,
+      rgba(2, 6, 23, 0.94) 100%
+    );
+    box-shadow:
+      0 16px 44px rgba(2, 6, 23, 0.62),
+      0 0 0 1px rgba(15, 23, 42, 0.8),
+      inset 0 2px 0 rgba(226, 232, 240, 0.1),
+      inset 0 -12px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .dock-hub-band[data-panel-style='obsidian'] .dock-hub-band__rail::before {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(226, 232, 240, 0.35) 50%,
+      transparent
+    );
+  }
+
+  .dock-hub-band[data-panel-style='obsidian'] .dock-hub-band__rail::after {
+    box-shadow:
+      inset 0 2px 0 rgba(255, 255, 255, 0.05),
+      inset 0 -16px 36px rgba(0, 0, 0, 0.45);
+  }
+
+  .dock-hub-band[data-panel-style='aurora'] .dock-hub-band__banner-text {
+    border-color: rgba(45, 212, 191, 0.28);
+    background: linear-gradient(
+      168deg,
+      rgba(22, 36, 40, 0.96) 0%,
+      rgba(12, 18, 32, 0.94) 50%,
+      rgba(8, 12, 28, 0.92) 100%
+    );
+  }
+
+  .dock-hub-band[data-panel-style='aurora'] .dock-hub-band__rail {
+    border: 2px solid rgba(45, 212, 191, 0.28);
+    background: linear-gradient(
+      168deg,
+      rgba(22, 36, 40, 0.92) 0%,
+      rgba(12, 18, 32, 0.9) 45%,
+      rgba(8, 12, 28, 0.94) 100%
+    );
+    box-shadow:
+      0 14px 40px rgba(2, 6, 23, 0.55),
+      0 0 24px rgba(45, 212, 191, 0.12),
+      0 0 0 1px rgba(129, 140, 248, 0.12),
+      inset 0 2px 0 rgba(165, 243, 252, 0.1),
+      inset 0 -12px 28px rgba(0, 0, 0, 0.48);
+  }
+
+  .dock-hub-band[data-panel-style='aurora'] .dock-hub-band__rail::before {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(45, 212, 191, 0.45) 35%,
+      rgba(129, 140, 248, 0.4) 65%,
+      transparent
+    );
+  }
+
+  .dock-hub-band[data-panel-style='aurora'] .dock-hub-band__rail::after {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      inset 0 -14px 34px rgba(0, 0, 0, 0.42);
   }
 
   .dock-hub-band__pad {
-    @apply block min-h-[2.5rem] min-w-0;
+    @apply block min-h-[3rem] min-w-0;
   }
 
   .dock-hub-band__context {
@@ -658,52 +803,52 @@
     @apply relative z-[1] flex min-w-0 flex-col items-center gap-0.5 border-0 bg-transparent p-0;
     justify-self: center;
     width: 100%;
-    max-width: 2.85rem;
+    max-width: 3.4rem;
     transition: transform 0.16s ease;
   }
 
   .dock-nav-btn--side {
-    max-width: 2.95rem;
+    max-width: 3.5rem;
   }
 
   .dock-nav-btn:hover {
     transform: translateY(-1px);
   }
 
-  .dock-nav-btn__icon-shell {
-    @apply chrome-strip-chip relative z-[1] h-8 w-8;
-    transition:
-      border-color 0.16s ease,
-      background 0.16s ease,
-      transform 0.16s ease;
+  .dock-nav-btn__icon-shell.header-chrome-btn {
+    @apply relative z-[2] h-10 w-10 shrink-0;
+    transform: translateY(-1px);
+    padding: 2px;
   }
 
   .dock-nav-btn__chrome-v4 {
-    @apply h-[1.35rem] w-[1.35rem] shrink-0 object-contain;
-    filter: none;
+    @apply relative z-[1] h-[1.65rem] w-[1.65rem] shrink-0 object-contain;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.58))
+      drop-shadow(0 0 10px rgba(212, 175, 55, 0.32));
   }
 
-  .dock-nav-btn--side .dock-nav-btn__icon-shell {
-    @apply h-[2.05rem] w-[2.05rem] rounded-full;
+  .dock-nav-btn--side .dock-nav-btn__icon-shell.header-chrome-btn {
+    @apply h-[2.55rem] w-[2.55rem];
   }
 
   .dock-nav-btn--side .dock-nav-btn__chrome-v4 {
-    @apply h-[1.45rem] w-[1.45rem];
+    @apply h-[1.75rem] w-[1.75rem];
   }
 
-  .dock-nav-btn:hover .dock-nav-btn__icon-shell {
-    border-color: rgba(212, 175, 55, 0.34);
-    background: rgba(212, 175, 55, 0.1);
-    transform: translateY(-1px);
+  .dock-nav-btn:hover .dock-nav-btn__icon-shell.header-chrome-btn {
+    transform: translateY(-2px);
   }
 
-  .dock-nav-btn--active .dock-nav-btn__icon-shell {
-    border-color: rgba(212, 175, 55, 0.42);
-    background: rgba(212, 175, 55, 0.12);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.14);
+  .dock-nav-btn--active .dock-nav-btn__icon-shell.header-chrome-btn {
+    border-color: color-mix(in srgb, var(--accent-light) 58%, transparent);
+    box-shadow:
+      0 6px 16px rgba(0, 0, 0, 0.52),
+      0 0 16px rgba(212, 175, 55, 0.2),
+      0 1px 0 rgba(255, 248, 220, 0.2) inset,
+      0 -4px 11px rgba(0, 0, 0, 0.34) inset;
   }
 
-  .dock-nav-btn:active .dock-nav-btn__icon-shell {
+  .dock-nav-btn:active .dock-nav-btn__icon-shell.header-chrome-btn {
     transform: translateY(0);
   }
 
@@ -717,7 +862,7 @@
   }
 
   .dock-nav-btn__label {
-    @apply max-w-full truncate px-0.5 text-[9px] font-medium leading-tight text-text-muted;
+    @apply max-w-full truncate px-0.5 text-[10px] font-medium leading-tight text-text-muted;
   }
 
   .dock-nav-btn__label--active,
@@ -737,29 +882,31 @@
   }
 
   .dock-hub-band__center-glow {
-    @apply pointer-events-none absolute left-1/2 top-1/2 h-9 w-9 -translate-x-1/2 -translate-y-1/2 rounded-full;
+    @apply pointer-events-none absolute left-1/2 top-1/2 h-11 w-11 -translate-x-1/2 -translate-y-1/2 rounded-full;
     background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
   }
 
-  .dock-hub-band__plate {
-    @apply h-9 w-9;
+  .dock-hub-band__plate.header-chrome-btn {
+    @apply h-11 w-11;
+    transform: translateY(-2px);
   }
 
-  .dock-hub-band__center:hover .dock-hub-band__plate {
-    transform: translateY(-1px);
+  .dock-hub-band__center:hover .dock-hub-band__plate.header-chrome-btn {
+    transform: translateY(-3px);
   }
 
-  .dock-hub-band__center:active .dock-hub-band__plate {
+  .dock-hub-band__center:active .dock-hub-band__plate.header-chrome-btn {
     transform: translateY(0);
   }
 
-  .dock-hub-band__center--active .dock-hub-band__plate,
-  .dock-hub-band__center--holding .dock-hub-band__plate {
-    border-color: color-mix(in srgb, var(--accent-light) 52%, transparent);
+  .dock-hub-band__center--active .dock-hub-band__plate.header-chrome-btn,
+  .dock-hub-band__center--holding .dock-hub-band__plate.header-chrome-btn {
+    border-color: color-mix(in srgb, var(--accent-light) 58%, transparent);
     box-shadow:
-      0 4px 14px rgba(0, 0, 0, 0.45),
-      0 0 14px rgba(212, 175, 55, 0.2),
-      0 1px 0 rgba(255, 248, 220, 0.16) inset;
+      0 9px 22px rgba(0, 0, 0, 0.56),
+      0 0 20px rgba(212, 175, 55, 0.2),
+      0 1px 0 rgba(255, 248, 220, 0.22) inset,
+      0 -4px 11px rgba(0, 0, 0, 0.34) inset;
   }
 
   .dock-hub-band__center--holding .dock-hub-band__plate {
@@ -771,7 +918,7 @@
   }
 
   .dock-hub-band__mark {
-    @apply relative z-[1] h-5 w-5;
+    @apply relative z-[1] h-6 w-6;
   }
 
   .hub-preset-sheet__backdrop {

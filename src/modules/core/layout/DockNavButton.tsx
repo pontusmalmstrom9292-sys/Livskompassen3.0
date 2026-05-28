@@ -31,7 +31,10 @@ export function DockNavButton({
       aria-current={active ? 'page' : undefined}
       {...rest}
     >
-      <span className="dock-nav-btn__icon-shell" aria-hidden>
+      <span
+        className="dock-nav-btn__icon-shell header-chrome-btn header-chrome-btn--round"
+        aria-hidden
+      >
         {icon}
       </span>
       <span className="dock-nav-btn__label">{label}</span>
@@ -49,7 +52,10 @@ type LinkFaceProps = {
 export function DockNavLinkFace({ label, icon, active }: LinkFaceProps) {
   return (
     <>
-      <span className="dock-nav-btn__icon-shell" aria-hidden>
+      <span
+        className="dock-nav-btn__icon-shell header-chrome-btn header-chrome-btn--round"
+        aria-hidden
+      >
         {icon}
       </span>
       <span className={clsx('dock-nav-btn__label', active && 'dock-nav-btn__label--active')}>

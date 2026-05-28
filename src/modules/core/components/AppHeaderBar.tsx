@@ -1,18 +1,10 @@
 import type { ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
+import { resolveHeaderPanelStyle } from '../layout/headerPanelStyle';
 import { HeaderMenuGlyph } from '../ui/HeaderChromeGlyphs';
 import { AppHeaderBrand } from './AppHeaderBrand';
 
-const HEADER_PANEL_STYLES = ['ember', 'obsidian', 'aurora'] as const;
-export type HeaderPanelStyle = (typeof HEADER_PANEL_STYLES)[number];
-
-function resolveHeaderPanelStyle(): HeaderPanelStyle {
-  const v = import.meta.env.VITE_HEADER_PANEL_STYLE;
-  if (typeof v === 'string' && HEADER_PANEL_STYLES.includes(v as HeaderPanelStyle)) {
-    return v as HeaderPanelStyle;
-  }
-  return 'ember';
-}
+export type { HeaderPanelStyle } from '../layout/headerPanelStyle';
 
 type Props = {
   menuExpanded: boolean;
