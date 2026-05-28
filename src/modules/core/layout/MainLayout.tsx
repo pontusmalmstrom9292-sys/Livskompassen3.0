@@ -69,7 +69,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
       <FirestoreNetworkChip />
 
-      <main className="relative z-10 mx-auto max-w-2xl px-4 pb-28 pt-[5.75rem]">
+      <main className="app-main relative z-10 mx-auto max-w-2xl px-4 pt-[5.75rem]">
         {children}
       </main>
 

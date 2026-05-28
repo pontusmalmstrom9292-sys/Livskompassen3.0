@@ -394,14 +394,14 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   },
   {
     id: 'valv_grp_kunskap',
-    label: 'Kunskap',
+    label: 'Kunskapsbank',
     path: '',
     section: 'valv',
     inDrawer: true,
     isGroupHeader: true,
     requiresVaultPin: true,
   },
-  valvLeaf('valv_kunskapsbank', 'kunskapsbank', 'valv_grp_kunskap'),
+  valvLeaf('valv_kunskapsbank', 'kunskapsbank', 'valv_grp_kunskap', 'Chat & Tidshjul'),
   {
     id: 'valv_grp_forensik',
     label: 'Forensik',

@@ -4,7 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import { PinGate } from '../../../core/ui/PinGate';
 import { TabBar } from '../../../core/ui/TabBar';
-import { getMainVaultTabBarItems } from '../../../core/navigation/tabRegistry';
+import {
+  getForensicVaultTabBarItems,
+  getPansaretVaultTabBarItems,
+  getVaultZoneTabBarItems,
+} from '../../../core/navigation/tabRegistry';
 import { useStore } from '../../../core/store';
 import { hasVaultGate, clearVaultGate } from '../../../core/auth/sessionService';
 import { saveVaultLog, getVaultLogs } from '../../../core/firebase/firestore';
@@ -18,17 +22,22 @@ import { VaultOrkesterPanel } from './VaultOrkesterPanel';
 import { PansaretHeader } from './PansaretHeader';
 import { VaultKunskapsbankPanel } from '../../knowledge/components/VaultKunskapsbankPanel';
 import { VaultForensicPanel } from './VaultForensicPanel';
+import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
 import type { VaultLogInput } from '../types/vaultEntry';
 import {
-  type MainVaultTab,
+  KUNSKAP_VAULT_TAB,
+  type ForensicVaultTab,
+  type PansaretVaultTab,
+  type ValvZone,
   type VaultTab,
   isForensicVaultTab,
-  forensicVaultTabLabel,
+  isPansaretVaultTab,
+  resolveValvZone,
 } from '../utils/vaultTabs';
 
 import { hasPinConfigured, setupPin, verifyPin } from '../../../core/security/vaultPin';
 
-export type { VaultTab, MainVaultTab } from '../utils/vaultTabs';
+export type { VaultTab, MainVaultTab, ValvZone } from '../utils/vaultTabs';
 export { parseVaultTab } from '../utils/vaultTabs';
 
 type VaultPageProps = {
@@ -57,7 +66,9 @@ export function VaultPage({
   const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
   const gateOk = hasVaultGate();
-  const forensicActive = isForensicVaultTab(vaultTab);
+  const valvZone = resolveValvZone(vaultTab);
+  const pansaretTab: PansaretVaultTab = isPansaretVaultTab(vaultTab) ? vaultTab : 'logga';
+  const forensicTab: ForensicVaultTab = isForensicVaultTab(vaultTab) ? vaultTab : 'hamn_analys';
 
   const setVaultTab = (next: VaultTab) => {
     setVaultTabState(next);
@@ -71,6 +82,12 @@ export function VaultPage({
   const handleCitationClick = (docId: string) => {
     setHighlightLogId(docId);
     setVaultTab('logga');
+  };
+
+  const handleValvZoneChange = (zone: ValvZone) => {
+    if (zone === 'pansaret') setVaultTab('logga');
+    else if (zone === 'kunskap') setVaultTab(KUNSKAP_VAULT_TAB);
+    else setVaultTab('hamn_analys');
   };
 
   useEffect(() => {
@@ -200,12 +217,8 @@ export function VaultPage({
   return (
     <div className="space-y-4">
       <BentoCard title={embedded ? 'Valv · Baksida' : 'Verklighetsvalvet'} icon={<Lock className="h-4 w-4" />}>
-        <div className="mb-4 flex items-start justify-between gap-2">
-          <p className="text-sm text-accent">
-            {forensicActive
-              ? forensicVaultTabLabel(vaultTab)
-              : 'Lager 2 — append-only (WORM). Kunskap och bevis bakom PIN.'}
-          </p>
+        <div className="mb-3 flex items-start justify-between gap-2">
+          <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
           <button
             type="button"
             onClick={handleCloseToLayer1}
@@ -215,27 +228,40 @@ export function VaultPage({
             <X className="h-3 w-3" /> Stäng
           </button>
         </div>
-        {!forensicActive ? (
-          <TabBar<MainVaultTab>
-            size="compact"
-            tabs={getMainVaultTabBarItems()}
-            active={vaultTab as MainVaultTab}
-            onChange={(id) => setVaultTab(id)}
-          />
-        ) : (
-          <button
-            type="button"
-            className="text-xs uppercase tracking-widest text-accent/80 hover:text-accent"
-            onClick={() => setVaultTab('logga')}
-          >
-            ← Tillbaka till Valv
-          </button>
+        <p className="mb-3 text-sm text-text-muted">
+          Lager 2 — WORM-bevis, Kunskapsbank och forensik. Välj zon, sedan flik.
+        </p>
+        <TabBar<ValvZone>
+          size="compact"
+          tabs={getVaultZoneTabBarItems()}
+          active={valvZone}
+          onChange={handleValvZoneChange}
+        />
+        {valvZone === 'pansaret' && (
+          <div className="mt-3">
+            <TabBar<PansaretVaultTab>
+              size="compact"
+              tabs={getPansaretVaultTabBarItems()}
+              active={pansaretTab}
+              onChange={(id) => setVaultTab(id)}
+            />
+          </div>
+        )}
+        {valvZone === 'forensik' && (
+          <div className="mt-3">
+            <TabBar<ForensicVaultTab>
+              size="compact"
+              tabs={getForensicVaultTabBarItems()}
+              active={forensicTab}
+              onChange={(id) => setVaultTab(id)}
+            />
+          </div>
         )}
       </BentoCard>
 
-      {forensicActive && <VaultForensicPanel tab={vaultTab} />}
+      {valvZone === 'forensik' && <VaultForensicPanel tab={forensicTab} />}
 
-      {!forensicActive && vaultTab === 'logga' && (
+      {valvZone === 'pansaret' && vaultTab === 'logga' && (
         <>
           <BentoCard title="Ny post" description="Append-only bevis">
             <VaultEntryForm userId={user.uid} saving={loading} onSave={handleSaveLog} />
@@ -245,25 +271,25 @@ export function VaultPage({
         </>
       )}
 
-      {!forensicActive && vaultTab === 'sok' && (
+      {valvZone === 'pansaret' && vaultTab === 'sok' && (
         <ValvChatPanel
           active={isVaultUnlocked && vaultTab === 'sok'}
           onCitationClick={handleCitationClick}
         />
       )}
 
-      {!forensicActive && vaultTab === 'monster' && (
+      {valvZone === 'pansaret' && vaultTab === 'monster' && (
         <>
           <PansaretHeader />
           <VaultMonsterPanel logs={logs} />
         </>
       )}
 
-      {!forensicActive && vaultTab === 'orkester' && <VaultOrkesterPanel logs={logs} />}
+      {valvZone === 'pansaret' && vaultTab === 'orkester' && <VaultOrkesterPanel logs={logs} />}
 
-      {!forensicActive && vaultTab === 'dossier' && <DossierPage embedded />}
+      {valvZone === 'pansaret' && vaultTab === 'dossier' && <DossierPage embedded />}
 
-      {!forensicActive && vaultTab === 'kunskapsbank' && <VaultKunskapsbankPanel />}
+      {valvZone === 'kunskap' && <VaultKunskapsbankPanel />}
     </div>
   );
 }

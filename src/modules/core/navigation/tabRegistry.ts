@@ -16,8 +16,15 @@ import { tabIdFromNavPath } from './hubTabs';
 import { getDrawerChildren, type NavTruthEntry } from './navTruth';
 import type { TabBarItem } from '../ui/TabBar';
 import {
+  FORENSIC_VAULT_TAB_IDS,
   MAIN_VAULT_TAB_IDS,
+  PANSARET_VAULT_TAB_IDS,
+  VALV_ZONE_IDS,
+  forensicVaultTabLabel,
+  type ForensicVaultTab,
   type MainVaultTab,
+  type PansaretVaultTab,
+  type ValvZone,
 } from '../../evidence/vault/utils/vaultTabs';
 
 import { HIDE_BEVIS_TAB } from './navFlags';
@@ -147,11 +154,40 @@ const VAULT_MAIN_ICONS: Partial<Record<MainVaultTab, ReactNode>> = {
   kunskapsbank: icon(BookOpen),
 };
 
+export function vaultMainTabLabel(id: MainVaultTab): string {
+  return VAULT_MAIN_LABELS[id];
+}
+
 export function getMainVaultTabBarItems(): TabBarItem<MainVaultTab>[] {
   return MAIN_VAULT_TAB_IDS.map((id) => ({
     id,
     label: VAULT_MAIN_LABELS[id],
     icon: VAULT_MAIN_ICONS[id],
+  }));
+}
+
+const VALV_ZONE_LABELS: Record<ValvZone, string> = {
+  pansaret: 'Pansaret',
+  kunskap: 'Kunskapsbank',
+  forensik: 'Forensik',
+};
+
+export function getVaultZoneTabBarItems(): TabBarItem<ValvZone>[] {
+  return VALV_ZONE_IDS.map((id) => ({ id, label: VALV_ZONE_LABELS[id] }));
+}
+
+export function getPansaretVaultTabBarItems(): TabBarItem<PansaretVaultTab>[] {
+  return PANSARET_VAULT_TAB_IDS.map((id) => ({
+    id,
+    label: VAULT_MAIN_LABELS[id],
+    icon: VAULT_MAIN_ICONS[id],
+  }));
+}
+
+export function getForensicVaultTabBarItems(): TabBarItem<ForensicVaultTab>[] {
+  return FORENSIC_VAULT_TAB_IDS.map((id) => ({
+    id,
+    label: forensicVaultTabLabel(id),
   }));
 }
 

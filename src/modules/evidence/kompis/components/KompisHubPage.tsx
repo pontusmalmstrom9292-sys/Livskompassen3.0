@@ -16,7 +16,7 @@ const DESTINATIONS: KompisDestination[] = [
   {
     to: vaultDrawerPath('kunskapsbank'),
     label: 'Kunskapsbank',
-    hint: 'Fråga om fakta och minne — kräver Valv-PIN.',
+    hint: 'Egen Valv-zon — Tidshjul och RAG bakom PIN.',
     icon: BookOpen,
     primary: true,
   },
