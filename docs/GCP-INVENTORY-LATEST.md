@@ -1,6 +1,6 @@
 # GCP / Firebase-inventering — LIVE (senast)
 
-**Datum:** 2026-05-22 (U6 live audit · FAS4 steg 1–7 klart · Grunder GAP pass)  
+**Datum:** 2026-05-22 (U6 live audit · FAS4 steg 1–7 klart · Grunder GAP pass) · **GAP-synk P0:** 2026-05-29 (G9–G14 summary → done, enligt register)  
 **Projekt:** `gen-lang-client-0481875058` (number `1084026575972`)  
 **Metod:** `firebase functions:list`, `gcloud ai indexes/endpoints list`, `gcloud storage du`, `gcloud compute instances list`, `gcloud secrets list`  
 **Beslut:** [`GCP-KONSOLIDERING-BESLUT.md`](GCP-KONSOLIDERING-BESLUT.md)  
@@ -140,7 +140,12 @@
 | G6 | **done** | E2E kb_docs PASS 2026-05-22 |
 | G7 | **done** | `journal_woven` opt-in 2026-05-22 |
 | G8 | **done** | `childrenLogsQuery` Familjen-RAG 2026-05-22 |
-| G9–G14 | **open** |
+| G9 | **done** | EntityProfile / SystemSynapse (2026-05-22) |
+| G10 | **done** | Självsorterande inkorg (2026-05-22) |
+| G11 | **done** | Mock Kampspar UI-only (2026-05-22) |
+| G12 | **done** | Context Cache registry (2026-05-22) |
+| G13 | **done** | Tidshjulet → kampspar (2026-05-22) |
+| G14 | **done** | Gräns-Arkitekten (2026-05-22) |
 | G15 | **done** | Injection-parity i `.context/security.md` 2026-05-22 |
 | G16 | **done** | RSD-prompt + PA appendix + U5.5 barn routing **done** 2026-05-22 |
 | V1 Genkit | **wait** |
@@ -151,7 +156,7 @@
 
 1. **Grunder U1–U5 runtime klart** — U2.5 HITL + U5.5 routing + G7 journal_woven
 2. **GCP legacy buckets städade** — 5 buckets borta (2026-05-22)
-3. **G14 Gräns-Arkitekten done** (2026-05-22) — nästa GAP enligt [`Arkiv-GAP-REGISTER.md`](specs/modules/Arkiv-GAP-REGISTER.md)
+3. **G1–G14 done** (2026-05-22) — kanon: [`Arkiv-GAP-REGISTER.md`](specs/modules/Arkiv-GAP-REGISTER.md); ny backlog utanför G-serien
 4. **`@cursor/sdk`:** **WAIT** — [`docs/NATT-CI.md`](NATT-CI.md)
 
 ---

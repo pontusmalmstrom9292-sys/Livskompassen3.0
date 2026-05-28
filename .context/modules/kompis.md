@@ -21,7 +21,7 @@ Semantiskt livsminne (Life-OS): fråga/svar med källhänvisningar mot **egna** 
 | `KampsparIngestForm` | WORM create (Tidshjuls-flik) |
 | `KompisAvatar` | Header (`MainLayout`); pulserar vid AI-anrop |
 
-**Navigation:** Dock → Vardagen — ingen egen Kunskap-ikon.
+**Navigation:** Valv drawer → Kunskapsbank (PIN) — ingen publik Kunskap-flik i Vardagen.
 
 ## Backend
 

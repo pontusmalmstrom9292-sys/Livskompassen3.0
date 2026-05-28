@@ -28,7 +28,7 @@ Livskompassen ska **aldrig glömma** användarens WORM-data. Det är **inte** en
 |------|-----------|
 | **Hela arkivet** | Koordinerat Life OS-minne över alla moduler — **inte** en gemensam RAG |
 | **Kunskapsbank** | Strukturerade dokument/mappar (blueprint: KnowledgeFolder/Doc/Media → `kb_docs`) |
-| **Kunskapsvalvet** | UI + RAG ovanpå `kampspar` + `kb_docs` (`/vardagen?tab=kunskap`) |
+| **Kunskapsvalvet** | UI + RAG ovanpå `kampspar` + `kb_docs` — Valv PIN: `/dagbok?tab=bevis&vaultTab=kunskapsbank` (legacy `/kunskap` redirect) |
 | **Minne** | Datalager `kampspar` (livshändelser, strategi, mönster) |
 | **Synaps** | ADK-händelse (`drive_ingest`, `journal_woven`, …) som kopplar modul → minne utan att blanda silor |
 | **SystemSynapse** | Planerat långtids-grounding-schema (blueprint) — ej Firestore-prod än |
@@ -39,9 +39,9 @@ Livskompassen ska **aldrig glömma** användarens WORM-data. Det är **inte** en
 
 | Yta | Route | Data | Callable | Agent |
 |-----|-------|------|----------|-------|
-| Kunskapsvalvet | `/vardagen?tab=kunskap` | `kampspar`, `kb_docs` | `knowledgeVaultQuery` | Livs-Arkivarien |
+| Kunskapsvalvet | `/dagbok?tab=bevis&vaultTab=kunskapsbank` | `kampspar`, `kb_docs` | `knowledgeVaultQuery` | Livs-Arkivarien |
 | Valv-Chat | Bevis → Sök | `reality_vault` | `valvChatQuery` | Sannings-Analytikern |
-| Barnen | `/familjen` | `children_logs` | — (Dossier export) | Plan: Mönster-Arkivarien |
+| Barnen | `/familjen` | `children_logs` | `childrenLogsQuery` (G8 **done**) | Mönster-Arkivarien (barnen) |
 
 **MUST NOT:** `valvChatQuery` mot `kampspar`. **MUST NOT:** `knowledgeVaultQuery` mot `reality_vault` som standard.
 

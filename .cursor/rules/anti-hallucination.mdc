@@ -8,7 +8,7 @@ alwaysApply: true
 ## MUST
 
 1. **Läsa innan påstående** — grep/read `functions/src`, `firestore.rules`, `package.json` scripts.
-2. **Live sanning** — GCP: `docs/GCP-INVENTORY-LATEST.md`; GAP: `docs/specs/modules/Arkiv-GAP-REGISTER.md`.
+2. **Live sanning** — GCP: `docs/GCP-INVENTORY-LATEST.md`; GAP: `docs/specs/modules/Arkiv-GAP-REGISTER.md`. Vid konflikt om GAP done/open: **register vinner** — uppdatera inventering, markera inte GAP utan att läsa båda.
 3. **Stub vs live** — kontrollera `synapseBus.ts` handlers, inte bara äldre docs.
 4. **Citat** — fil:rad när du refererar beteende.
 5. **Osäkerhet** — säg "ej verifierat" och ange exakt kommando för bevis.

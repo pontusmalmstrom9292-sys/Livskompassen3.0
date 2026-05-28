@@ -12,7 +12,7 @@ Forensiskt sökverktyg **inuti Verklighetsvalvet** — frågor mot WORM `reality
 
 | | **Valv-Chat** | **Kunskapsvalvet** |
 |---|---------------|---------------------|
-| Route | Bevis → Sök-flik | `/vardagen?tab=kunskap` |
+| Route | Bevis → Sök-flik | Valv PIN → `/dagbok?tab=bevis&vaultTab=kunskapsbank` |
 | Data | `reality_vault` | `kampspar` + `kb_docs` |
 | Callable | `valvChatQuery` | `knowledgeVaultQuery` |
 | Agent | Sannings-Analytikern | Livs-Arkivarien / Mönster-Arkivarien |

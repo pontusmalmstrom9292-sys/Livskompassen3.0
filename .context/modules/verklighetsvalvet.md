@@ -44,7 +44,7 @@
 | `valvChatQuery` | RAG token-match, Sannings-Analytikern |
 | `exportVaultRecordAsPdf` | Klient print per post |
 
-**Drive idag:** → `kb_docs` only. Till valv = **manuellt godkännande** (låst beslut).
+**Drive (G10):** `classifyInboxDocument` → `kb_docs` | `reality_vault` (bevis) | `children_logs` | `inbox_queue` (trauma/LVU utan optIn). Bevis **MUST NOT** till `kb_docs`.
 
 ## Status
 
@@ -68,7 +68,7 @@
 
 ## Produktbeslut (låsta 2026-05)
 
-1. Drive → valv: **manuellt godkännande**
+1. Drive G10: bevis → `reality_vault` auto; trauma/LVU utan optIn → `inbox_queue` (HITL)
 2. PDF: **klient per post**; Dossier callable senare
 3. Valv-Chat: **nollställ vid flikbyte**
 4. Auth: **WebAuthn + PIN** (duress senare)
@@ -79,7 +79,7 @@
 - **Dagbok** — Vävaren + delad Fyren
 - **Valv-Chat** — [`valv_chatt.md`](valv_chatt.md)
 - **Speglar** — EvidenceCompare
-- **Kunskap** — skild RAG; Drive → kb_docs
+- **Kunskap** — skild RAG; Drive G10 → rätt silo (bevis → `reality_vault`)
 - **Dossier** — planerad aggregation
 
 Kod: `src/modules/verklighetsvalvet/` · Plan: [`src/modules/verklighetsvalvet/module_plan.md`](../../src/modules/verklighetsvalvet/module_plan.md) · Prompter: [`docs/specs/ai-prompts-heart.md`](../../docs/specs/ai-prompts-heart.md)

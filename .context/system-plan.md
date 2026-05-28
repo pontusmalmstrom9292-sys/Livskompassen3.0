@@ -87,7 +87,7 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 | Barnens livsloggar | `/familjen` (redirect `/barnen`) | `.context/modules/barnens_livsloggar.md` | `src/modules/barnens_livsloggar/` |
 | Speglings-Systemet | `/speglar` | `.context/modules/speglingssystemet.md` | `src/modules/speglings_system/` |
 | Måbra-sidan | `/mabra` | `.context/modules/mabra_sidan.md` | `src/modules/mabra/` |
-| Kompis / Kunskap | `/vardagen?tab=kunskap` | `.context/modules/kompis.md` | `src/modules/kompis/` |
+| Kompis / Kunskap | Valv PIN → `/dagbok?tab=bevis&vaultTab=kunskapsbank` (legacy `/kunskap`, `?tab=kunskap` redirect) | `.context/modules/kompis.md` | `src/modules/evidence/kompis/` |
 
 ## Permanent minne (låst princip)
 
@@ -115,7 +115,7 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 - Legacy Python us-central1 — **0 fn kvar** (FAS4 steg 1–5 **done** 2026-05-22)
 - Retention G5 **done**; mock Kampspar G11 **done**
 
-**Planerat (får inte tappas):** G1–G14 i [`Arkiv-GAP-REGISTER.md`](docs/specs/modules/Arkiv-GAP-REGISTER.md). Implementation: `kör [GAP]`.
+**GAP G1–G14:** **done** (2026-05-22) — [`Arkiv-GAP-REGISTER.md`](docs/specs/modules/Arkiv-GAP-REGISTER.md). Ny backlog utanför G-serien dokumenteras separat.
 
 **Sacred:** Permanent minne + korrekt silo = Zero Footprint + Kill Switch.
 

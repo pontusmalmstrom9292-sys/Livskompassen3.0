@@ -6,7 +6,7 @@
 
 User-facing AI navigator: KompisAvatar, Knowledge Vault chat (Minne RAG), Tidshjulet, Minne ingest.
 
-**Route:** `/vardagen?tab=kunskap`
+**Route:** Valv PIN → `/dagbok?tab=bevis&vaultTab=kunskapsbank` (legacy `/kunskap` och `?tab=kunskap` redirect hit)
 
 ## Files
 
@@ -26,7 +26,7 @@ User-facing AI navigator: KompisAvatar, Knowledge Vault chat (Minne RAG), Tidshj
 |------|------------------|-----|--------|
 | Kunskapsvalv RAG | Metod, ej forensik | Ja | **done** |
 | Tidshjulet + ingest | Opt-in trauma | Ja | **done** |
-| Drive → kb_docs | Auto kladd | Ja | **done** |
+| Drive G10 multi-silo | Auto klassificering | Ja | **done** — `kb_docs` \| `reality_vault` \| `children_logs` \| `inbox_queue` |
 | Minne från Kladd-filer | **Avvisat** auto | Nej | **policy** |
 | Klickbara citations | Kladd | Ja | **done** — `KnowledgeCitationList`, Tidshjul-highlight |
 | Vector Search ANN | G2/G3 | Ja | **done** — se [`Arkiv-GAP-REGISTER.md`](../../docs/specs/modules/Arkiv-GAP-REGISTER.md) |

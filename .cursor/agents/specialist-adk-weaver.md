@@ -17,7 +17,7 @@ description: ADK SynapseBus, journal_woven, dcap_alert, drive ingest, silo-grän
 
 | Trigger | Handler | Silo |
 |---------|---------|------|
-| `drive_file_ingested` | `driveIngestSynapse` | `kb_docs` only |
+| `drive_file_ingested` | `driveIngestSynapse` | G10: `kb_docs` \| `reality_vault` \| `children_logs` \| `inbox_queue` |
 | `journal_woven` | `journalWovenSynapse` | `kampspar` opt-in |
 | `dcap_alert` | `dcapAlertSynapse` | `dcap_alerts` WORM |
 | `user_overwhelm` | `paralysBrytarenSynapse` | session only |
@@ -31,7 +31,7 @@ description: ADK SynapseBus, journal_woven, dcap_alert, drive ingest, silo-grän
 ## MUST NOT
 
 - Auto-ingest till `kampspar` utan `optIn === true`
-- Drive → `reality_vault` auto-promote
+- Spara **bevis** till `kb_docs` (G10 — bevis → `reality_vault`)
 - Cross-silo RAG
 
 ## Verifiering

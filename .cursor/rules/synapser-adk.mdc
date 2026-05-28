@@ -13,7 +13,7 @@ Runtime: `functions/src/adk/synapses/synapseBus.ts`, `stateStore.ts`
 
 | Trigger | Handler | Status | Effekt |
 |---------|---------|--------|--------|
-| `drive_file_ingested` | `driveIngestSynapse` | **live** | Drive → `kb_docs` only |
+| `drive_file_ingested` | `driveIngestSynapse` | **live** (G10) | G10 klassificering → `kb_docs` \| `reality_vault` \| `children_logs` \| `inbox_queue` (HITL) |
 | `user_overwhelm` | `paralysBrytarenSynapse` | **live** | Ett mikrosteg, max 30s |
 | `journal_woven` | `journalWovenSynapse` | **live** (G7) | Opt-in `optIn===true` → `kampspar` + vector |
 | `dcap_alert` | `dcapAlertSynapse` | **live** | HITL → `dcap_alerts` WORM vid risk ≥70 |
@@ -29,7 +29,7 @@ ADK använder in-memory `stateStore.ts` — **inte samma** schema (G9).
 
 - `hashPayload` i synapse state — ingen rå PII.
 - `clearSynapseState` vid utloggning (Zero Footprint).
-- Drive ingest → `kb_docs` only — **aldrig** auto till `reality_vault`.
+- Drive ingest (G10) → rätt silo via `classifyInboxDocument` + `routeInboxToWorm` — bevis **MUST** till `reality_vault`, **MUST NOT** till `kb_docs`; trauma/LVU utan optIn → `inbox_queue`.
 
 ## MUST NOT
 
