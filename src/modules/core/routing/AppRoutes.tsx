@@ -16,6 +16,7 @@ import { ProjektDetailPage, ProjektHubPage, ProjektNyPage } from '../../admin/pr
 import { ArbetslivHubPage } from '../../arbetsliv';
 import { DrogfrihetHubPage } from '../../drogfrihet';
 import { InstallningarPage } from '../pages/InstallningarPage';
+import { KompisHubPage } from '../../evidence/kompis';
 
 function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
   const location = useLocation();
@@ -41,6 +42,14 @@ function MainAppRoutes() {
   return (
     <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route
+          path="/kompis"
+          element={
+            <AuthGate>
+              <KompisHubPage />
+            </AuthGate>
+          }
+        />
         <Route
           path="/vardagen"
           element={

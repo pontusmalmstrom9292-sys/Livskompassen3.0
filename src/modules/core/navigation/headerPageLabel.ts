@@ -1,6 +1,7 @@
 /** Underrad i header — var du är (inte hem). */
 export function getHeaderPageLabel(pathname: string): string | null {
   if (pathname === '/') return 'Hem';
+  if (pathname.startsWith('/kompis')) return 'Kompis';
   if (pathname.startsWith('/familjen')) return 'Familjen';
   if (pathname.startsWith('/hamn')) return 'Trygg hamn';
   if (pathname.startsWith('/dagbok') || pathname.startsWith('/valv')) return 'Valv';

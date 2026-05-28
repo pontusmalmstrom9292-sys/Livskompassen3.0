@@ -9,7 +9,6 @@ import { AccountAuthMenu } from '../auth/AccountAuthMenu';
 import { NavigationDrawer } from './NavigationDrawer';
 import { FirestoreNetworkChip } from '../components/FirestoreNetworkChip';
 import { useStore } from '../store';
-import { vaultDrawerPath } from '../navigation/navTruth';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
@@ -23,8 +22,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
   const openAccount = useCallback(() => setAccountOpen(true), []);
-  const openKunskapsbank = useCallback(() => {
-    navigate(vaultDrawerPath('kunskapsbank'));
+  const openKompisHub = useCallback(() => {
+    navigate('/kompis');
   }, [navigate]);
 
   return (
@@ -45,10 +44,10 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                 />
                 <button
                   type="button"
-                  onClick={openKunskapsbank}
+                  onClick={openKompisHub}
                   className="shrink-0 rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                  aria-label="Öppna Kunskapsbank (Valv)"
-                  title="Kunskapsbank"
+                  aria-label="Öppna Kompis — välj väg"
+                  title="Kompis"
                 >
                   <KompisAvatar
                     size="sm"

@@ -3,6 +3,7 @@ export type { KompisAvatarProps } from './components/KompisAvatar';
 export { Tidshjulet } from './components/Tidshjulet';
 export { KnowledgeVaultChat } from './components/KnowledgeVaultChat';
 export { KunskapPage } from './components/KunskapPage';
+export { KompisHubPage } from './components/KompisHubPage';
 export { callKnowledgeVault } from './api/knowledgeVaultService';
 export type {
   KompisState,
