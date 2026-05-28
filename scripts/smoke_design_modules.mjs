@@ -41,7 +41,12 @@ function main() {
   );
   mustInclude('src/modules/family/children/components/FamiljenPage.tsx', 'ParentReminderFooter');
   mustInclude('src/modules/family/children/components/BarnensPage.tsx', 'ChildProfileCards', 'ParentReminderFooter');
-  mustInclude('src/modules/evidence/vault/components/VaultPage.tsx', 'getMainVaultTabBarItems', 'PansaretHeader');
+  mustInclude(
+    'src/modules/evidence/vault/components/VaultPage.tsx',
+    'getPansaretVaultTabBarItems',
+    'getVaultZoneTabBarItems',
+    'PansaretHeader',
+  );
   mustInclude('src/modules/core/navigation/tabRegistry.ts', "logga: 'Arkiv'", "sok: 'Triage'");
   mustInclude('src/modules/evidence/vault/components/VaultOrkesterPanel.tsx', 'OrkesterAgentTrio', 'Registrerade dokument');
   mustInclude('src/modules/evidence/vault/components/VaultLogList.tsx', 'SERVER-TIDSSTÄMPEL', 'scanTechniquesForLog');
