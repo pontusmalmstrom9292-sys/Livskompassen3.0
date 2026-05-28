@@ -45,14 +45,14 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                 <button
                   type="button"
                   onClick={openKompisHub}
-                  className="shrink-0 rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  className="header-chrome-btn header-chrome-btn--round shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                   aria-label="Öppna Kompis — välj väg"
                   title="Kompis"
                 >
                   <KompisAvatar
                     size="sm"
                     state={kompisAuraActive ? 'analyzing' : 'idle'}
-                    className="shrink-0"
+                    className="kompis-avatar--header-chrome shrink-0"
                   />
                 </button>
               </>
