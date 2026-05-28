@@ -72,23 +72,39 @@ function main() {
   mustInclude(
     'src/modules/core/navigation/tabRegistry.ts',
     'MAIN_VAULT_TAB_IDS',
+    'PANSARET_VAULT_TAB_IDS',
     'Mönster',
     'Orkester',
     'Kunskapsbank',
-    'getMainVaultTabBarItems',
+    'getVaultZoneTabBarItems',
+    'getPansaretVaultTabBarItems',
   );
   mustInclude(
     'src/modules/evidence/vault/utils/vaultTabs.ts',
     "'monster'",
     "'orkester'",
     "'kunskapsbank'",
+    'PANSARET_VAULT_TAB_IDS',
+    'VALV_ZONE_IDS',
+    'resolveValvZone',
   );
   mustInclude(
     'src/modules/evidence/vault/components/VaultPage.tsx',
-    'getMainVaultTabBarItems',
+    'getVaultZoneTabBarItems',
+    'getPansaretVaultTabBarItems',
+    'VaultValvBreadcrumb',
     'VaultMonsterPanel',
     'VaultOrkesterPanel',
     'VaultKunskapsbankPanel',
+  );
+  mustInclude(
+    'src/modules/evidence/vault/components/VaultValvBreadcrumb.tsx',
+    'Kunskapsbank',
+  );
+  mustInclude(
+    'src/modules/core/navigation/navTruth.ts',
+    "label: 'Kunskapsbank'",
+    'Chat & Tidshjul',
   );
   mustInclude(
     'src/modules/core/navigation/tabRegistry.ts',
@@ -280,6 +296,11 @@ function main() {
     'HubPageShell',
     'PlanningKanbanBoard',
   );
+  mustInclude(
+    'src/modules/admin/planning/components/PlaneringInkorgPanel.tsx',
+    'InboxReviewQueue',
+  );
+  mustInclude('src/modules/inkast/components/InboxReviewQueue.tsx', 'confirmInbox', 'dismissInbox');
   assert(existsSync(resolve(root, 'docs/design/CHROME-POLICY.md')), 'saknar: CHROME-POLICY.md');
   assert(existsSync(resolve(root, 'docs/design/TYPE-SCALE.md')), 'saknar: TYPE-SCALE.md');
   assert(existsSync(resolve(root, '.context/locked-icons.md')), 'saknar: .context/locked-icons.md');

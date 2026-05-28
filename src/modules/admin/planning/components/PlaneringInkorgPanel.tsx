@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Mail } from 'lucide-react';
 import { BentoCard } from '../../../core/ui/BentoCard';
+import { InboxReviewQueue } from '../../../inkast/components/InboxReviewQueue';
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
 
-/** P1 — klistra in e-post → skapa uppgift (Gmail Fas 2). */
+/** Planering inkorg — G10 granskningskö + klistra-in mejl → uppgift (Gmail OAuth senare). */
 export function PlaneringInkorgPanel() {
   const { user, addTask, error, setError } = usePlanningTasks();
   const [paste, setPaste] = useState('');
@@ -34,35 +35,38 @@ export function PlaneringInkorgPanel() {
   };
 
   return (
-    <BentoCard
-      title="Inkorg"
-      description="Klistra in mejl — blir en uppgift i Handling"
-      icon={<Mail className="h-4 w-4" />}
-    >
-      <textarea
-        value={paste}
-        onChange={(e) => setPaste(e.target.value)}
-        placeholder="Klistra in ämne och text från mejl…"
-        rows={5}
-        className="input-glass w-full text-sm"
-        disabled={!user || saving}
-      />
-      {error && <p className="mt-2 text-sm text-danger">{error}</p>}
-      <button
-        type="button"
-        disabled={!user || saving || !paste.trim()}
-        onClick={() => void handleCreate()}
-        className="btn-pill--accent mt-3 w-full disabled:opacity-50"
+    <div className="space-y-6">
+      <InboxReviewQueue compact />
+
+      <BentoCard
+        title="Mejl → uppgift"
+        description="Klistra in text — blir en rad i Handling"
+        icon={<Mail className="h-4 w-4" />}
       >
-        Skapa uppgift i Att göra
-      </button>
-      {saved && (
-        <p className="mt-2 text-xs text-success">Sparat — se Handling-fliken.</p>
-      )}
-      <p className="mt-3 text-xs text-text-dim">
-        Ex-brus och konflikt → Hamn (BIFF). Automatiska regler (`planning_email_rules`) kommer i
-        Fas 2.
-      </p>
-    </BentoCard>
+        <textarea
+          value={paste}
+          onChange={(e) => setPaste(e.target.value)}
+          placeholder="Klistra in ämne och text från mejl…"
+          rows={5}
+          className="input-glass w-full text-sm"
+          disabled={!user || saving}
+        />
+        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+        <button
+          type="button"
+          disabled={!user || saving || !paste.trim()}
+          onClick={() => void handleCreate()}
+          className="btn-pill--accent mt-3 w-full disabled:opacity-50"
+        >
+          Skapa uppgift i Att göra
+        </button>
+        {saved && (
+          <p className="mt-2 text-xs text-success">Sparat — se Handling-fliken.</p>
+        )}
+        <p className="mt-3 text-xs text-text-dim">
+          Automatiska regler (`planning_email_rules`) kommer i senare fas. Ex-brus → Hamn (BIFF).
+        </p>
+      </BentoCard>
+    </div>
   );
 }

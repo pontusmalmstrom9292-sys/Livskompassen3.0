@@ -29,7 +29,8 @@ Ny arkiv-implementation: säg `kör [GAP]` (regel i GAP-register) — inget nytt
 | **planering** (`admin/planning`) | `/planering` | P3 kanban **done**; kopplingar C–D (Life OS) | `kör kopplingar C` |
 | **barnporten** | (plan PWA) | Hub, widget CB1–4, HITL promote — **ej full route** | `kör barnporten` · [`BARNPORTEN-SPEC.md`](./design/BARNPORTEN-SPEC.md) |
 | **mabra** (`wellbeing/mabra`) | `/mabra` | MVP **done**; **Daglig Mix** **done** (hub) | — |
-| **dagbok** (`diary/diary`) | `/dagbok` | Inkast **fas 2–5** | `kör inkast fas 2` |
+| **inkast** | Hem `#inkast-lite` · Planering inkorg | Fas 2 granskningskö **done** (UI); fas 3+ Gmail | — |
+| **dagbok** (`diary/diary`) | `/dagbok` | Inkast fas 3–5 | `kör inkast fas 3` |
 | **dossier** (`evidence/vault/dossier`) | `/dossier` | BBIC `reportType` **planned** | Spec §I.4 |
 | **valv** (`evidence/vault`) | `/dagbok?tab=bevis` | Vävaren försätt / polish kvar | Spec/module_plan |
 | **ekonomi** (`wellbeing/economy`) | `/vardagen?tab=ekonomi` | Smoke #18 manuell | Du |
