@@ -169,16 +169,16 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="header-glass-btn header-glass-btn--kanon"
+          className="header-chrome-btn header-glass-btn header-glass-btn--kanon"
           aria-expanded={open}
           aria-haspopup="dialog"
           aria-label="Konto och inloggning"
           title="Konto och inloggning"
         >
           {!user || isAnonymous ? (
-            <Lock className="h-4 w-4 text-accent/90" strokeWidth={1.5} />
+            <Lock className="header-chrome-btn__glyph h-4 w-4 text-accent-light" strokeWidth={2.25} />
           ) : (
-            <ShieldCheck className="h-4 w-4 text-success" strokeWidth={1.5} />
+            <ShieldCheck className="header-chrome-btn__glyph h-4 w-4 text-success" strokeWidth={2.25} />
           )}
         </button>
       ) : (

@@ -30,19 +30,14 @@ export function AppHeaderBar({ menuExpanded, onMenuClick, actions }: Props) {
       className="glass-header-bar glass-header-bar--kanon"
       data-panel-style={panelStyle}
     >
-      <span className="glass-header-bar__corner glass-header-bar__corner--tl" aria-hidden />
-      <span className="glass-header-bar__corner glass-header-bar__corner--tr" aria-hidden />
-      <span className="glass-header-bar__corner glass-header-bar__corner--bl" aria-hidden />
-      <span className="glass-header-bar__corner glass-header-bar__corner--br" aria-hidden />
-
       <button
         type="button"
-        className="header-menu-btn header-menu-btn--kanon"
+        className="header-chrome-btn header-menu-btn header-menu-btn--kanon"
         aria-label="Öppna meny"
         aria-expanded={menuExpanded}
         onClick={onMenuClick}
       >
-        <Menu className="h-5 w-5" strokeWidth={2} />
+        <Menu className="header-chrome-btn__glyph h-5 w-5" strokeWidth={2.35} />
       </button>
 
       <AppHeaderBrand showTagline={showTagline} />
