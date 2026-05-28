@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { Loader2, Route } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { ChevronDown, Loader2, Route } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { clsx } from 'clsx';
 import {
   materialEnabled,
   routinesForPreset,
@@ -10,13 +11,29 @@ import {
 } from '../../../core/lifeOs';
 import { useStore } from '../../../core/store';
 
-export function RoutinesPanel() {
+type Props = {
+  /** Öppna vid #planering-rutiner (t.ex. från hub-länk). */
+  defaultOpen?: boolean;
+};
+
+export function RoutinesPanel({ defaultOpen = false }: Props) {
   const navigate = useNavigate();
+  const location = useLocation();
   const user = useStore((s) => s.user);
   const { preset, presetId } = useLifeHubPreset();
+  const [open, setOpen] = useState(defaultOpen);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [lastMsg, setLastMsg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (location.hash === '#planering-rutiner') {
+      setOpen(true);
+      window.requestAnimationFrame(() => {
+        document.getElementById('planering-rutiner')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    }
+  }, [location.hash]);
 
   if (!materialEnabled(preset, 'planering_routines')) {
     return null;
@@ -48,38 +65,45 @@ export function RoutinesPanel() {
   };
 
   return (
-    <section className="routines-panel elongated-module border-white/10 p-4" aria-label="Rutiner">
-      <div className="mb-3 flex items-center gap-2">
-        <Route className="h-4 w-4 text-gold" strokeWidth={1.5} />
-        <h2 className="text-sm font-medium text-accent">Rutiner</h2>
-      </div>
-      <p className="mb-3 text-xs text-text-muted">
-        Ett tryck — uppgift i Handling och rätt sida öppnas. Kopplat till din hub.
-      </p>
-      <ul className="space-y-2">
-        {routines.map((r) => (
-          <li key={r.id}>
-            <button
-              type="button"
-              className="w-full rounded-xl border border-white/10 px-3 py-2.5 text-left transition-colors hover:border-accent/30 disabled:opacity-60"
-              style={{ background: 'rgba(15, 23, 42, 0.5)' }}
-              disabled={busyId !== null}
-              onClick={() => onRun(r)}
-            >
-              <span className="block text-sm font-medium text-text">{r.title}</span>
-              <span className="mt-0.5 block text-[11px] text-text-muted">{r.lead}</span>
-              {busyId === r.id && (
-                <span className="mt-2 flex items-center gap-1 text-xs text-text-dim">
-                  <Loader2 className="h-3 w-3 animate-spin" />
-                  Kör…
-                </span>
-              )}
-            </button>
-          </li>
-        ))}
-      </ul>
-      {lastMsg && <p className="mt-2 text-xs text-accent">{lastMsg}</p>}
-      {error && <p className="mt-2 text-xs text-rose-300/90">{error}</p>}
+    <section className="routines-panel" aria-label="Snabbstarter">
+      <button
+        type="button"
+        className="routines-panel__toggle"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+      >
+        <Route className="h-3.5 w-3.5 shrink-0 text-accent/80" strokeWidth={1.75} aria-hidden />
+        <span className="routines-panel__toggle-label">Snabbstarter</span>
+        <span className="routines-panel__count">{routines.length}</span>
+        <ChevronDown
+          className={clsx('routines-panel__chevron h-3.5 w-3.5', open && 'routines-panel__chevron--open')}
+          aria-hidden
+        />
+      </button>
+
+      {open ? (
+        <div className="routines-panel__body">
+          <div className="routines-panel__chips">
+            {routines.map((r) => (
+              <button
+                key={r.id}
+                type="button"
+                className="routines-panel__chip"
+                title={r.lead}
+                disabled={busyId !== null}
+                onClick={() => onRun(r)}
+              >
+                {busyId === r.id ? (
+                  <Loader2 className="h-3 w-3 shrink-0 animate-spin" aria-hidden />
+                ) : null}
+                <span>{r.title}</span>
+              </button>
+            ))}
+          </div>
+          {lastMsg ? <p className="routines-panel__msg routines-panel__msg--ok">{lastMsg}</p> : null}
+          {error ? <p className="routines-panel__msg routines-panel__msg--err">{error}</p> : null}
+        </div>
+      ) : null}
     </section>
   );
 }

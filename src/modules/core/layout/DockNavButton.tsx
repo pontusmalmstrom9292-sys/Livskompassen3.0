@@ -1,18 +1,19 @@
-import type { LucideIcon } from 'lucide-react';
 import { clsx } from 'clsx';
+import { HubChromeIconTile } from '../ui/HubChromeIconTile';
+import { DockHubGlyph, type DockGlyphId } from './DockHubGlyphs';
 
 type Props = {
   label: string;
-  Icon: LucideIcon;
+  glyphId: DockGlyphId;
   active?: boolean;
   variant?: 'slot' | 'side';
   className?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-/** Dock-knapp — guld line-ikon i kapsel (tydligare än liten chrome-thumbnail). */
+/** Dock-knapp — L2 chrome-platta + premium guld-glyph. */
 export function DockNavButton({
   label,
-  Icon,
+  glyphId,
   active = false,
   variant = 'slot',
   className,
@@ -31,9 +32,12 @@ export function DockNavButton({
       aria-current={active ? 'page' : undefined}
       {...rest}
     >
-      <span className="dock-nav-btn__icon-wrap" aria-hidden>
-        <Icon className="dock-nav-btn__icon" strokeWidth={1.65} />
-      </span>
+      <HubChromeIconTile
+        active={active}
+        variant={variant === 'side' ? 'dock-side' : 'dock'}
+      >
+        <DockHubGlyph id={glyphId} className="dock-nav-btn__glyph" />
+      </HubChromeIconTile>
       <span className="dock-nav-btn__label">{label}</span>
     </button>
   );
@@ -41,25 +45,21 @@ export function DockNavButton({
 
 type LinkFaceProps = {
   label: string;
-  Icon: LucideIcon;
+  glyphId: DockGlyphId;
   active?: boolean;
   variant?: 'slot' | 'side';
 };
 
 /** Innehåll för NavLink (ingen knapp i knapp). */
-export function DockNavLinkFace({ label, Icon, active, variant = 'side' }: LinkFaceProps) {
+export function DockNavLinkFace({ label, glyphId, active, variant = 'side' }: LinkFaceProps) {
   return (
     <>
-      <span
-        className={clsx(
-          'dock-nav-btn__icon-wrap',
-          variant === 'side' && 'dock-nav-btn__icon-wrap--side',
-          active && 'dock-nav-btn__icon-wrap--active',
-        )}
-        aria-hidden
+      <HubChromeIconTile
+        active={active}
+        variant={variant === 'side' ? 'dock-side' : 'dock'}
       >
-        <Icon className="dock-nav-btn__icon" strokeWidth={1.65} />
-      </span>
+        <DockHubGlyph id={glyphId} className="dock-nav-btn__glyph" />
+      </HubChromeIconTile>
       <span className={clsx('dock-nav-btn__label', active && 'dock-nav-btn__label--active')}>
         {label}
       </span>

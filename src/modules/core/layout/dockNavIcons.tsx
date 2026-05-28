@@ -1,68 +1,51 @@
-import type { LucideIcon } from 'lucide-react';
-import {
-  Anchor,
-  BookHeart,
-  BookOpen,
-  Clock,
-  Columns3,
-  FolderKanban,
-  Inbox,
-  LayoutGrid,
-  PenLine,
-  ShoppingCart,
-  Sparkles,
-  Target,
-  Users,
-  Wallet,
-} from 'lucide-react';
 import type { HubContextIconId } from '../navigation/hubContextBar';
 import type { HubContextSlot } from '../navigation/hubContextBar';
+import type { DockGlyphId } from './DockHubGlyphs';
 
-const BY_ICON: Record<HubContextIconId, LucideIcon> = {
-  list: ShoppingCart,
-  calendar: Columns3,
-  clock: Clock,
-  note: PenLine,
-  record: PenLine,
-  wallet: Wallet,
-  mail: Inbox,
-  folder: FolderKanban,
-  focus: Target,
-  plus: LayoutGrid,
-  sprout: Sparkles,
-  book: BookOpen,
-  brain: Sparkles,
-  anchor: Anchor,
-  sparkles: Sparkles,
-  users: Users,
-  bookheart: BookHeart,
+const BY_ICON: Record<HubContextIconId, DockGlyphId> = {
+  list: 'cart',
+  calendar: 'calendar',
+  clock: 'clock',
+  note: 'pen',
+  record: 'pen',
+  wallet: 'wallet',
+  mail: 'mail',
+  folder: 'folder',
+  focus: 'target',
+  plus: 'grid',
+  sprout: 'sparkles',
+  book: 'book',
+  brain: 'sparkles',
+  anchor: 'anchor',
+  sparkles: 'sparkles',
+  users: 'users',
+  bookheart: 'bookheart',
 };
 
-/** Tydligare per slot-id (planering m.m.). */
-const BY_SLOT_ID: Partial<Record<string, LucideIcon>> = {
-  inkop: ShoppingCart,
-  handling: Columns3,
-  fokus: Target,
-  inkorg: Inbox,
-  hub: LayoutGrid,
-  projekt: FolderKanban,
-  planering: LayoutGrid,
-  stampla: Clock,
-  tid: Clock,
-  logg: BookOpen,
-  reflektion: Sparkles,
-  livslogg: BookHeart,
-  tillsammans: Users,
-  hamn: Anchor,
-  mabra: Sparkles,
-  dagbok: BookOpen,
-  biff: Anchor,
+const BY_SLOT_ID: Partial<Record<string, DockGlyphId>> = {
+  inkop: 'cart',
+  handling: 'calendar',
+  fokus: 'target',
+  inkorg: 'mail',
+  hub: 'grid',
+  projekt: 'folder',
+  planering: 'grid',
+  stampla: 'clock',
+  tid: 'clock',
+  logg: 'book',
+  reflektion: 'sparkles',
+  livslogg: 'bookheart',
+  tillsammans: 'users',
+  hamn: 'anchor',
+  mabra: 'sparkles',
+  dagbok: 'book',
+  biff: 'anchor',
 };
 
-export function getDockNavIcon(slot: Pick<HubContextSlot, 'id' | 'icon'>): LucideIcon {
-  return BY_SLOT_ID[slot.id] ?? BY_ICON[slot.icon] ?? LayoutGrid;
+export function getDockNavIcon(slot: Pick<HubContextSlot, 'id' | 'icon'>): DockGlyphId {
+  return BY_SLOT_ID[slot.id] ?? BY_ICON[slot.icon] ?? 'grid';
 }
 
-export function getDockSideIcon(icon: HubContextIconId): LucideIcon {
-  return BY_ICON[icon] ?? LayoutGrid;
+export function getDockSideIcon(icon: HubContextIconId): DockGlyphId {
+  return BY_ICON[icon] ?? 'grid';
 }

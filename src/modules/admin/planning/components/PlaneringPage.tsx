@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { planeringInkorgHref } from '../planeringInkorgViews';
 import { Calendar, ChevronLeft } from 'lucide-react';
 import { TabBar, type TabBarItem } from '../../../core/ui/TabBar';
@@ -20,6 +20,7 @@ const WORK_TABS = new Set<PlaneringTab>(['handling', 'fokus', 'inkorg']);
 
 export function PlaneringPage() {
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const navigate = useNavigate();
   const { layoutId, setLayoutId } = usePlaneringHubLayout();
   const tab = parsePlaneringTab(searchParams.get('tab'));
@@ -69,9 +70,9 @@ export function PlaneringPage() {
         </Link>
       )}
 
-      {(isHub || tab === 'handling') && (
+      {tab === 'handling' && (
         <div id="planering-rutiner">
-          <RoutinesPanel />
+          <RoutinesPanel defaultOpen={location.hash === '#planering-rutiner'} />
         </div>
       )}
 

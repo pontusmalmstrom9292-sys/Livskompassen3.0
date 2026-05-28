@@ -207,3 +207,32 @@ export function groupMabraHubByCategory(items: MabraHubItem[]) {
     items: out[cat] ?? [],
   })).filter((g) => g.items.length > 0);
 }
+
+export function findMabraHubItem(id: string): MabraHubItem | undefined {
+  return MABRA_HUB_ITEMS.find((item) => item.id === id);
+}
+
+/** Zon för tillbaka-navigering utifrån action (snabbstart eller ruta). */
+export function resolveCategoryForHubAction(action: MabraHubItem['action']): MabraHubCategory | undefined {
+  const match = MABRA_HUB_ITEMS.find((item) => {
+    if (item.action.type !== action.type) return false;
+    if (action.type === 'symptom' && item.action.type === 'symptom') {
+      return item.action.hub === action.hub;
+    }
+    if (action.type === 'breathing' && item.action.type === 'breathing') {
+      return (
+        item.action.variant === action.variant && item.action.minutes === action.minutes
+      );
+    }
+    if (action.type === 'project' && item.action.type === 'project') {
+      return item.action.projectId === action.projectId;
+    }
+    if (action.type === 'tool' && item.action.type === 'tool') {
+      return (
+        item.action.tool === action.tool && item.action.playBankId === action.playBankId
+      );
+    }
+    return true;
+  });
+  return match?.category;
+}

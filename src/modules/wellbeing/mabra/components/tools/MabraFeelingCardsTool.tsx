@@ -6,6 +6,7 @@ type Props = { onBack: () => void };
 
 export function MabraFeelingCardsTool({ onBack }: Props) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [notes, setNotes] = useState<Record<string, string>>({});
   const selected = MABRA_FEELING_CARDS.find((c) => c.id === selectedId);
 
   return (
@@ -31,9 +32,23 @@ export function MabraFeelingCardsTool({ onBack }: Props) {
         ))}
       </div>
       {selected ? (
-        <p className="mt-4 rounded-xl border border-accent/25 bg-accent/5 px-3 py-3 text-sm text-text-muted">
-          <span className="font-medium text-accent">{selected.label}:</span> {selected.prompt_sv}
-        </p>
+        <>
+          <p className="mt-4 rounded-xl border border-accent/25 bg-accent/5 px-3 py-3 text-sm text-text-muted">
+            <span className="font-medium text-accent">{selected.label}:</span> {selected.prompt_sv}
+          </p>
+          <label className="mt-3 block text-xs text-text-muted">
+            Ditt svar (valfritt)
+            <textarea
+              value={notes[selected.id] ?? ''}
+              onChange={(e) =>
+                setNotes((prev) => ({ ...prev, [selected.id]: e.target.value }))
+              }
+              rows={2}
+              className="input-glass mt-2 w-full text-sm"
+              placeholder="Ett ord räcker…"
+            />
+          </label>
+        </>
       ) : (
         <p className="mt-3 text-xs text-text-dim">Välj ett kort för en kort reflektion.</p>
       )}

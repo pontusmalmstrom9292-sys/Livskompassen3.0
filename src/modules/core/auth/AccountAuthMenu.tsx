@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Fingerprint, Lock, LogOut, ShieldCheck, X } from 'lucide-react';
+import { Fingerprint, LogOut, ShieldCheck, X } from 'lucide-react';
+import { HeaderLockGlyph, HeaderShieldGlyph } from '../ui/HeaderChromeGlyphs';
 import { useStore } from '../store';
 import { EmailAuthPanel } from './EmailAuthPanel';
 import { signOutUser } from './authService';
@@ -176,9 +177,9 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
           title="Konto och inloggning"
         >
           {!user || isAnonymous ? (
-            <Lock className="header-chrome-btn__glyph h-4 w-4 text-accent-light" strokeWidth={2.25} />
+            <HeaderLockGlyph className="header-chrome-btn__glyph h-[1.15rem] w-[1.15rem]" />
           ) : (
-            <ShieldCheck className="header-chrome-btn__glyph h-4 w-4 text-success" strokeWidth={2.25} />
+            <HeaderShieldGlyph className="header-chrome-btn__glyph header-chrome-btn__glyph--success h-[1.15rem] w-[1.15rem]" />
           )}
         </button>
       ) : (
@@ -191,9 +192,9 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
           aria-label={label}
         >
           {!user || isAnonymous ? (
-            <Lock className="h-4 w-4" />
+            <HeaderLockGlyph className="header-chrome-btn__glyph h-4 w-4" />
           ) : (
-            <ShieldCheck className="h-4 w-4 text-success" />
+            <HeaderShieldGlyph className="header-chrome-btn__glyph header-chrome-btn__glyph--success h-4 w-4" />
           )}
           <span className="max-w-[6rem] truncate">{label}</span>
         </button>

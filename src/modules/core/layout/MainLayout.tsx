@@ -51,6 +51,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                 >
                   <KompisAvatar
                     size="sm"
+                    chromeEmbed
                     state={kompisAuraActive ? 'analyzing' : 'idle'}
                     className="kompis-avatar--header-chrome shrink-0"
                   />

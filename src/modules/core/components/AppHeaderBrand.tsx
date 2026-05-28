@@ -18,8 +18,8 @@ export function AppHeaderBrand({ showTagline = false }: Props) {
       className="app-header__brand app-header__brand--kanon app-header__brand-link"
       aria-label="Livskompassen — hem"
     >
-      <div className="app-header__logo app-header__logo--kanon header-chrome-btn" aria-hidden>
-        <LivskompassMark className="app-header__logo-mark h-7 w-7 text-accent" />
+      <div className="app-header__logo app-header__logo--kanon header-chrome-btn header-chrome-btn--logo" aria-hidden>
+        <LivskompassMark className="app-header__logo-mark h-8 w-8 text-accent" />
       </div>
       <div className="app-header__brand-text">
         <span className="app-header__title app-header__title--kanon">Livskompassen</span>

@@ -13,7 +13,7 @@ import { getDockSideLinks } from './dockHubChrome';
 import type { DockSideLink } from './dockHubChrome';
 
 function DockSideNav({ link }: { link: DockSideLink }) {
-  const Icon = getDockSideIcon(link.icon);
+  const glyphId = getDockSideIcon(link.icon);
   return (
     <NavLink
       to={link.to}
@@ -23,7 +23,7 @@ function DockSideNav({ link }: { link: DockSideLink }) {
       aria-label={link.label}
     >
       {({ isActive }) => (
-        <DockNavLinkFace label={link.label} Icon={Icon} active={isActive} variant="side" />
+        <DockNavLinkFace label={link.label} glyphId={glyphId} active={isActive} variant="side" />
       )}
     </NavLink>
   );
@@ -36,11 +36,11 @@ function ContextSlotButton({
   slot: HubContextSlot;
   onGo: (to: string) => void;
 }) {
-  const Icon = getDockNavIcon(slot);
+  const glyphId = getDockNavIcon(slot);
   return (
     <DockNavButton
       label={slot.label}
-      Icon={Icon}
+      glyphId={glyphId}
       active={!!slot.active}
       variant="slot"
       onClick={() => onGo(slot.to)}
@@ -66,6 +66,8 @@ export function DockHubBand() {
   );
   const leftSlots = hubSlots.slice(0, 2);
   const rightSlots = hubSlots.slice(2, 4);
+  const leftRail = [leftSlots[0] ?? null, leftSlots[1] ?? null] as const;
+  const rightRail = [rightSlots[0] ?? null, rightSlots[1] ?? null] as const;
 
   const centerPress = useLongPress({
     onLongPress: () => navigate('/dagbok?tab=bevis'),
@@ -91,12 +93,13 @@ export function DockHubBand() {
 
       <div className="dock-hub-band__rail">
         <DockSideNav link={sides.left} />
-
-        <div className="dock-hub-band__context">
-          {leftSlots.map((slot) => (
+        {leftRail.map((slot, index) =>
+          slot ? (
             <ContextSlotButton key={slot.id} slot={slot} onGo={goTo} />
-          ))}
-        </div>
+          ) : (
+            <span key={`dock-pad-left-${index}`} className="dock-hub-band__pad" aria-hidden />
+          ),
+        )}
 
         <button
           type="button"
@@ -119,12 +122,13 @@ export function DockHubBand() {
           </span>
         </button>
 
-        <div className="dock-hub-band__context">
-          {rightSlots.map((slot) => (
+        {rightRail.map((slot, index) =>
+          slot ? (
             <ContextSlotButton key={slot.id} slot={slot} onGo={goTo} />
-          ))}
-        </div>
-
+          ) : (
+            <span key={`dock-pad-right-${index}`} className="dock-hub-band__pad" aria-hidden />
+          ),
+        )}
         <DockSideNav link={sides.right} />
       </div>
     </div>

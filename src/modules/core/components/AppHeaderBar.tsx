@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Menu } from 'lucide-react';
+import { HeaderMenuGlyph } from '../ui/HeaderChromeGlyphs';
 import { AppHeaderBrand } from './AppHeaderBrand';
 
 const HEADER_PANEL_STYLES = ['ember', 'obsidian', 'aurora'] as const;
@@ -37,7 +37,7 @@ export function AppHeaderBar({ menuExpanded, onMenuClick, actions }: Props) {
         aria-expanded={menuExpanded}
         onClick={onMenuClick}
       >
-        <Menu className="header-chrome-btn__glyph h-5 w-5" strokeWidth={2.35} />
+        <HeaderMenuGlyph className="header-chrome-btn__glyph h-[1.35rem] w-[1.35rem]" />
       </button>
 
       <AppHeaderBrand showTagline={showTagline} />

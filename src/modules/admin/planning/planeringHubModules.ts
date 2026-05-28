@@ -165,7 +165,7 @@ export const PLANERING_HUB_MODULES: Record<
     lead: 'Färdiga flöden du kör ofta.',
     emoji: '↻',
     icon: Route,
-    to: '/planering#planering-rutiner',
+    to: '/planering?tab=handling#planering-rutiner',
     category: 'tid',
     tone: 'emerald',
   },

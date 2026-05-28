@@ -14,8 +14,10 @@ import type {
   MabraExerciseType,
   MabraFlowStep,
   MabraSymptomHub,
+  MabraToolState,
 } from '../types';
-import { MabraProjectHub } from './MabraProjectHub';
+import type { MabraHubAction, MabraHubCategory, MabraHubItem } from '../mabraHubRegistry';
+import { MabraVitHub } from './MabraVitHub';
 import { VitHubPreview } from './VitHubPreview';
 import { MABRA_PROJECTS, type MabraPlanKind, type MabraProjectId } from '../constants/mabraProjects';
 import { AkutLanding } from './AkutLanding';
@@ -28,8 +30,12 @@ import { MabraComplete } from './MabraComplete';
 import { KbtTransformatorPanel } from './KbtTransformatorPanel';
 import { DagligMixPanel } from './DagligMixPanel';
 import { HubPageShell } from '../../../core/layout/HubPageShell';
-import { sectionEyebrowClass } from '../../../core/ui/typeScale';
 import { MaterialPackShortcuts, useLifeHubPreset } from '../../../core/lifeOs';
+import { MabraFeelingCardsTool } from './tools/MabraFeelingCardsTool';
+import { MabraReflectionDeckTool } from './tools/MabraReflectionDeckTool';
+import { MabraSelfQuizTool } from './tools/MabraSelfQuizTool';
+import { MabraMicroPlayTool } from './tools/MabraMicroPlayTool';
+import { MabraToolShell } from './tools/MabraToolShell';
 
 export function MabraPage() {
   const user = useStore((s) => s.user);
@@ -43,11 +49,22 @@ export function MabraPage() {
   const [valuesSavedHint, setValuesSavedHint] = useState(false);
   const [activeProjectId, setActiveProjectId] = useState<MabraProjectId | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<MabraPlanKind | null>(null);
+  const [tool, setTool] = useState<MabraToolState | null>(null);
+  const [hubOpenCategory, setHubOpenCategory] = useState<MabraHubCategory | null>('akut');
+  const [hubFocusToken, setHubFocusToken] = useState(0);
   const sessionStartedAt = useRef<number | null>(null);
+  const breathingOnlyRef = useRef(false);
 
   const activeProject = activeProjectId
     ? MABRA_PROJECTS.find((p) => p.id === activeProjectId) ?? null
     : null;
+
+  const returnToHub = useCallback((category?: MabraHubCategory) => {
+    if (category) setHubOpenCategory(category);
+    setHubFocusToken((n) => n + 1);
+    setStep('hub');
+    setTool(null);
+  }, []);
 
   const resetFlow = useCallback(() => {
     setStep('hub');
@@ -58,12 +75,16 @@ export function MabraPage() {
     setSaveError(null);
     setAddonBreathing(false);
     setValuesSavedHint(false);
+    setTool(null);
+    breathingOnlyRef.current = false;
     sessionStartedAt.current = null;
+    setHubFocusToken((n) => n + 1);
   }, []);
 
   const handleHubSelect = (selected: MabraSymptomHub) => {
     setHub(selected);
     setAddonBreathing(false);
+    breathingOnlyRef.current = false;
     if (selected === 'self_critical') {
       sessionStartedAt.current = Date.now();
     } else {
@@ -76,6 +97,74 @@ export function MabraPage() {
     }
   };
 
+  const handleHubAction = (action: MabraHubAction) => {
+    switch (action.type) {
+      case 'symptom':
+        handleHubSelect(action.hub);
+        break;
+      case 'breathing':
+        setDurationMinutes(action.minutes);
+        sessionStartedAt.current = null;
+        if (action.variant === 'self_critical') {
+          setHub('self_critical');
+          setAddonBreathing(true);
+          breathingOnlyRef.current = true;
+          setStep('exercise');
+        } else {
+          setHub('panic_rsd');
+          setAddonBreathing(false);
+          breathingOnlyRef.current = false;
+          setStep(action.minutes > 1 ? 'duration' : 'exercise');
+        }
+        break;
+      case 'grounding':
+        setHub('find_self');
+        setAddonBreathing(false);
+        breathingOnlyRef.current = false;
+        setStep('exercise');
+        break;
+      case 'reframing':
+        setHub('self_critical');
+        setAddonBreathing(false);
+        breathingOnlyRef.current = false;
+        sessionStartedAt.current = Date.now();
+        setStep('exercise');
+        break;
+      case 'values':
+        setValuesSavedHint(false);
+        setStep('values');
+        break;
+      case 'project':
+        setActiveProjectId(action.projectId);
+        setSelectedPlan(null);
+        setStep('project_plan');
+        break;
+      case 'tool':
+        if (action.tool === 'micro_play' && action.playBankId) {
+          setTool({ kind: 'micro_play', playBankId: action.playBankId });
+        } else if (action.tool === 'feeling_cards') {
+          setTool({ kind: 'feeling_cards' });
+        } else if (action.tool === 'reflection_deck') {
+          setTool({ kind: 'reflection_deck' });
+        } else if (action.tool === 'self_quiz') {
+          setTool({ kind: 'self_quiz' });
+        } else if (action.tool === 'kbt') {
+          setTool({ kind: 'kbt' });
+        } else if (action.tool === 'daglig_mix') {
+          setTool({ kind: 'daglig_mix' });
+        }
+        setStep('tool');
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleSelectHubItem = (item: MabraHubItem) => {
+    setHubOpenCategory(item.category);
+    handleHubAction(item.action);
+  };
+
   const userId = user?.uid;
 
   const handleExerciseComplete = useCallback(
@@ -83,6 +172,7 @@ export function MabraPage() {
       setCompletedExerciseType(exerciseType);
       setStep('complete');
       setAddonBreathing(false);
+      breathingOnlyRef.current = false;
       if (!userId) return;
       setSaveError(null);
       try {
@@ -106,6 +196,12 @@ export function MabraPage() {
 
   const handleBreathingComplete = useCallback(
     (elapsedSeconds: number) => {
+      if (addonBreathing && breathingOnlyRef.current) {
+        breathingOnlyRef.current = false;
+        setAddonBreathing(false);
+        void handleExerciseComplete('breathing', elapsedSeconds);
+        return;
+      }
       if (addonBreathing) {
         finishReframingSession();
         return;
@@ -125,7 +221,6 @@ export function MabraPage() {
   const handleReframingComplete = useCallback(() => {
     setStep('breathing_addon');
   }, []);
-
 
   const handleDagligMixComplete = useCallback(
     async (payload: {
@@ -157,125 +252,168 @@ export function MabraPage() {
     <HubPageShell
       eyebrow="MåBra"
       title="För dig — ett steg i taget"
-      lead="Akut-stöd, egna projekt och Vit hub i Valvet. Inte mot någon annan."
+      lead="Snabbstart och zoner — tillbaka öppnar samma zon igen."
     >
-        {step === 'hub' && (
-          <>
-            <MaterialPackShortcuts preset={preset} hub="mabra" />
-            <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
-            <MabraProjectHub
-              onSelectAkut={handleHubSelect}
-              onSelectProject={(id) => {
-                setActiveProjectId(id);
-                setSelectedPlan(null);
-                setStep('project_plan');
-              }}
-              onOpenValues={() => {
-                setValuesSavedHint(false);
-                setStep('values');
-              }}
-            />
-            {valuesSavedHint && (
-              <p className="text-center text-sm text-text-muted">{VALUES_COMPASS_COPY.savedHint}</p>
-            )}
-            <div>
-              <p className={`${sectionEyebrowClass} mb-2`}>Automatiska tankar</p>
-              <KbtTransformatorPanel />
-            </div>
-          </>
-        )}
-
-        {step === 'project_plan' && activeProject && (
-          <VitHubPreview
-            project={activeProject}
-            selectedPlan={selectedPlan}
-            onSelectPlan={setSelectedPlan}
-            onBack={() => {
-              setStep('hub');
-              setActiveProjectId(null);
-              setSelectedPlan(null);
-            }}
+      {step === 'hub' && (
+        <>
+          <MabraVitHub
+            openCategory={hubOpenCategory}
+            onOpenCategoryChange={setHubOpenCategory}
+            onSelectItem={handleSelectHubItem}
+            focusToken={hubFocusToken}
+            profileSlot={<MaterialPackShortcuts preset={preset} hub="mabra" />}
           />
-        )}
+          {valuesSavedHint && (
+            <p className="text-center text-sm text-text-muted">{VALUES_COMPASS_COPY.savedHint}</p>
+          )}
+        </>
+      )}
 
-        {step === 'values' && userId && (
-          <BentoCard title={VALUES_COMPASS_COPY.title} icon={<Sparkles className="h-4 w-4" />}>
+      {step === 'tool' && tool?.kind === 'feeling_cards' && (
+        <MabraFeelingCardsTool onBack={() => returnToHub('lekar')} />
+      )}
+
+      {step === 'tool' && tool?.kind === 'reflection_deck' && (
+        <MabraReflectionDeckTool onBack={() => returnToHub('lekar')} />
+      )}
+
+      {step === 'tool' && tool?.kind === 'self_quiz' && (
+        <MabraSelfQuizTool onBack={() => returnToHub('lekar')} />
+      )}
+
+      {step === 'tool' && tool?.kind === 'micro_play' && (
+        <MabraMicroPlayTool bankId={tool.playBankId} onBack={() => returnToHub('lekar')} />
+      )}
+
+      {step === 'tool' && tool?.kind === 'kbt' && (
+        <MabraToolShell
+          title="Automatiska tankar"
+          description="KBT-transformator"
+          onBack={() => returnToHub('tankar')}
+        >
+          <KbtTransformatorPanel />
+        </MabraToolShell>
+      )}
+
+      {step === 'tool' && tool?.kind === 'daglig_mix' && (
+        <MabraToolShell title="Dagens mix" onBack={() => returnToHub('lekar')}>
+          <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
+        </MabraToolShell>
+      )}
+
+      {step === 'project_plan' && activeProject && (
+        <VitHubPreview
+          project={activeProject}
+          selectedPlan={selectedPlan}
+          onSelectPlan={setSelectedPlan}
+          onBack={() => {
+            setActiveProjectId(null);
+            setSelectedPlan(null);
+            returnToHub('projekt');
+          }}
+        />
+      )}
+
+      {step === 'values' && userId && (
+        <BentoCard title={VALUES_COMPASS_COPY.title} icon={<Sparkles className="h-4 w-4" />}>
           <ValuesCompass
             userId={userId}
             onDone={() => {
               setValuesSavedHint(true);
-              setStep('hub');
+              returnToHub('identitet');
             }}
             onExit={resetFlow}
           />
-          </BentoCard>
-        )}
+        </BentoCard>
+      )}
 
-        {step === 'values' && !userId && (
-          <p className="py-4 text-center text-sm text-text-muted">Logga in för att spara värderingar.</p>
-        )}
+      {step === 'values' && !userId && (
+        <p className="py-4 text-center text-sm text-text-muted">Logga in för att spara värderingar.</p>
+      )}
 
-        {step === 'akut' && hub === 'panic_rsd' && (
-          <AkutLanding onContinue={() => setStep('duration')} onExit={resetFlow} />
-        )}
+      {step === 'akut' && hub === 'panic_rsd' && (
+        <AkutLanding
+          onContinue={() => setStep('duration')}
+          onExit={() => returnToHub('akut')}
+        />
+      )}
 
-        {step === 'duration' && hub === 'panic_rsd' && (
-          <DurationPicker
-            hub={hub}
-            value={durationMinutes}
-            onChange={setDurationMinutes}
-            onStart={() => setStep('exercise')}
-            onBack={() => setStep('akut')}
-          />
-        )}
+      {step === 'duration' && hub === 'panic_rsd' && (
+        <DurationPicker
+          hub={hub}
+          value={durationMinutes}
+          onChange={setDurationMinutes}
+          onStart={() => setStep('exercise')}
+          onBack={() => setStep('akut')}
+        />
+      )}
 
-        {step === 'exercise' && hub && (activeExerciseType === 'breathing' || addonBreathing) && (
-          <BreathingExercise
-            variant={addonBreathing || hub === 'self_critical' ? 'self_critical' : 'panic_rsd'}
-            durationMinutes={addonBreathing ? 1 : durationMinutes}
-            onComplete={handleBreathingComplete}
-            onExit={resetFlow}
-          />
-        )}
+      {step === 'exercise' && hub && (activeExerciseType === 'breathing' || addonBreathing) && (
+        <BreathingExercise
+          variant={addonBreathing || hub === 'self_critical' ? 'self_critical' : 'panic_rsd'}
+          durationMinutes={addonBreathing ? 1 : durationMinutes}
+          onComplete={handleBreathingComplete}
+          onExit={() => returnToHub('akut')}
+        />
+      )}
 
-        {step === 'exercise' && hub && activeExerciseType === 'grounding' && (
-          <GroundingExercise onComplete={handleGroundingComplete} onExit={resetFlow} />
-        )}
+      {step === 'exercise' && hub && activeExerciseType === 'grounding' && (
+        <GroundingExercise
+          onComplete={handleGroundingComplete}
+          onExit={() => returnToHub('akut')}
+        />
+      )}
 
-        {step === 'exercise' && hub && activeExerciseType === 'reframing' && (
-          <ReframingExercise onComplete={handleReframingComplete} onExit={resetFlow} />
-        )}
+      {step === 'exercise' && hub && activeExerciseType === 'reframing' && (
+        <ReframingExercise
+          onComplete={handleReframingComplete}
+          onExit={() => returnToHub('tankar')}
+        />
+      )}
 
-        {step === 'breathing_addon' && (
-          <div className="flex flex-col items-center space-y-6 py-4">
-            <div className="w-full max-w-sm rounded-xl border border-border-strong bg-surface/40 px-5 py-6 text-center">
-              <p className="text-base text-accent">{BREATHING_ADDON_COPY.prompt}</p>
-              <p className="mt-2 text-sm text-text-muted">{BREATHING_ADDON_COPY.detail}</p>
-            </div>
-            <div className="flex w-full max-w-sm flex-col gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setAddonBreathing(true);
-                  setStep('exercise');
-                }}
-                className="btn-pill--secondary"
-              >
-                {BREATHING_ADDON_COPY.startLabel}
-              </button>
-              <button type="button" onClick={finishReframingSession} className="btn-pill--ghost text-sm">
-                {BREATHING_ADDON_COPY.skipLabel}
-              </button>
-            </div>
+      {step === 'breathing_addon' && (
+        <div className="flex flex-col items-center space-y-6 py-4">
+          <div className="w-full max-w-sm rounded-xl border border-border-strong bg-surface/40 px-5 py-6 text-center">
+            <p className="text-base text-accent">{BREATHING_ADDON_COPY.prompt}</p>
+            <p className="mt-2 text-sm text-text-muted">{BREATHING_ADDON_COPY.detail}</p>
           </div>
-        )}
+          <div className="flex w-full max-w-sm flex-col gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setAddonBreathing(true);
+                breathingOnlyRef.current = false;
+                setStep('exercise');
+              }}
+              className="btn-pill--secondary"
+            >
+              {BREATHING_ADDON_COPY.startLabel}
+            </button>
+            <button type="button" onClick={finishReframingSession} className="btn-pill--ghost text-sm">
+              {BREATHING_ADDON_COPY.skipLabel}
+            </button>
+          </div>
+        </div>
+      )}
 
-        {step === 'complete' && (
-          <BentoCard title="Klart" icon={<Sparkles className="h-4 w-4" />}>
-            <MabraComplete hub={hub} exerciseType={completedExerciseType} onDone={resetFlow} />
-            {saveError && <p className="mt-2 text-sm text-text-dim">{saveError}</p>}
-          </BentoCard>
-        )}
+      {step === 'complete' && (
+        <BentoCard title="Klart" icon={<Sparkles className="h-4 w-4" />}>
+          <MabraComplete
+            hub={hub}
+            exerciseType={completedExerciseType}
+            onDone={() => {
+              const cat: MabraHubCategory =
+                hub === 'find_self' || hub === 'panic_rsd'
+                  ? 'akut'
+                  : hub === 'self_critical'
+                    ? 'tankar'
+                    : 'akut';
+              returnToHub(cat);
+            }}
+          />
+          {saveError && <p className="mt-2 text-sm text-text-dim">{saveError}</p>}
+        </BentoCard>
+      )}
     </HubPageShell>
   );
 }

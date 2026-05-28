@@ -24,7 +24,7 @@ export type PlaneringToolCard = {
 };
 
 export const PLANERING_HUB_LEAD =
-  'Välj ett verktyg. Hela sidan är inte längre bara kanban.';
+  '«Ett steg räcker.» Välj ett verktyg — resten kan vänta.';
 
 export const PLANERING_TOOLS: PlaneringToolCard[] = [
   {

@@ -13,6 +13,7 @@ type Props = { onBack: () => void };
 export function MabraSelfQuizTool({ onBack }: Props) {
   const [seed, setSeed] = useState(0);
   const [answered, setAnswered] = useState<string | null>(null);
+  const [note, setNote] = useState('');
 
   const card = useMemo(() => {
     const i = Math.abs(seed) % MABRA_REFLECTION_CARDS.length;
@@ -21,6 +22,7 @@ export function MabraSelfQuizTool({ onBack }: Props) {
 
   const nextQuestion = () => {
     setAnswered(null);
+    setNote('');
     setSeed((s) => s + 1);
   };
 
@@ -47,9 +49,21 @@ export function MabraSelfQuizTool({ onBack }: Props) {
         ))}
       </div>
       {answered && (
-        <button type="button" onClick={nextQuestion} className="btn-pill--secondary mt-4 w-full">
-          Nästa fråga
-        </button>
+        <>
+          <label className="mt-4 block text-xs text-text-muted">
+            Vill du skriva mer? (valfritt)
+            <textarea
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              rows={2}
+              className="input-glass mt-2 w-full text-sm"
+              placeholder="Ett ord räcker…"
+            />
+          </label>
+          <button type="button" onClick={nextQuestion} className="btn-pill--secondary mt-4 w-full">
+            Nästa fråga
+          </button>
+        </>
       )}
     </MabraToolShell>
   );
