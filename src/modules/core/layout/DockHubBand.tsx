@@ -23,7 +23,7 @@ function DockSideNav({ link }: { link: DockSideLink }) {
       aria-label={link.label}
     >
       {({ isActive }) => (
-        <DockNavLinkFace label={link.label} icon={icon} active={isActive} variant="side" />
+        <DockNavLinkFace label={link.label} icon={icon} active={isActive} />
       )}
     </NavLink>
   );
@@ -91,7 +91,7 @@ export function DockHubBand() {
         </div>
       ) : null}
 
-      <div className="dock-hub-band__rail">
+      <div className="dock-hub-band__rail chrome-strip-surface">
         <DockSideNav link={sides.left} />
         {leftRail.map((slot, index) =>
           slot ? (
@@ -117,8 +117,8 @@ export function DockHubBand() {
           {...centerHoldHandlers}
         >
           <span className="dock-hub-band__center-glow" aria-hidden />
-          <span className="dock-hub-band__plate">
-            <LivskompassMark className="dock-hub-band__mark" />
+          <span className="dock-hub-band__plate header-chrome-btn header-chrome-btn--round header-chrome-btn--logo">
+            <LivskompassMark className="dock-hub-band__mark app-header__logo-mark text-accent" />
           </span>
         </button>
 

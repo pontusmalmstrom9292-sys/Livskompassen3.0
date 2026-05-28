@@ -43,20 +43,13 @@ type LinkFaceProps = {
   label: string;
   icon: ReactNode;
   active?: boolean;
-  variant?: 'slot' | 'side';
 };
 
 /** Innehåll för NavLink (ingen knapp i knapp). */
-export function DockNavLinkFace({ label, icon, active, variant = 'side' }: LinkFaceProps) {
+export function DockNavLinkFace({ label, icon, active }: LinkFaceProps) {
   return (
     <>
-      <span
-        className={clsx(
-          'dock-nav-btn__icon-shell',
-          variant === 'side' && 'dock-nav-btn__icon-shell--side',
-        )}
-        aria-hidden
-      >
+      <span className="dock-nav-btn__icon-shell" aria-hidden>
         {icon}
       </span>
       <span className={clsx('dock-nav-btn__label', active && 'dock-nav-btn__label--active')}>
