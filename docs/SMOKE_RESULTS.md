@@ -1,5 +1,23 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Manuell smoke-batch minimum (2026-05-27)
+
+**Branch:** `main` (användartest; gren växlade under session)  
+**Miljö:** lokal app / enhet (användare bekräftat steg för steg)  
+**Checklista:** [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md) **#1 + #2 + #18** (minimum enligt [`evaluations/2026-05-27-nasta-fas-plan.md`](./evaluations/2026-05-27-nasta-fas-plan.md))
+
+| # | Test | Resultat | Notering |
+|---|------|----------|----------|
+| 1 | Auth — inloggning utan konsolfel | **PASS** | Användare bekräftat 2026-05-27 |
+| 2 | Dagbok — spara post → `journal` | **PASS** | Användare bekräftat 2026-05-27 |
+| 18 | Ekonomi — veckopeng → `transactions` | **PASS** | Användare bekräftat 2026-05-27 |
+
+**Återstår samma kväll/vecka (valfritt):** #3–7, #19–20 · Firestore Console dubbelkoll av `journal` + `transactions` · Android offline enligt [`OFFLINE-ANDROID.md`](./OFFLINE-ANDROID.md)
+
+**Nästa produktsteg (plan):** navigations-snabbvinster (klickbar Kompis + Valv TabBar) *eller* `kör projekt P2` / `kör inkast fas 2` — ett spår i taget.
+
+---
+
 ## Orkester-smoke 2026-05-25 (theme-pack-j)
 
 **Branch:** `theme-pack-j` · **Commit:** `b7450580`  
