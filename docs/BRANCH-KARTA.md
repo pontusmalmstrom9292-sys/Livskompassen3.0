@@ -2,7 +2,9 @@
 
 **Syfte:** En aktiv utvecklingsgren (`main`). Inget förstört — historik finns i git.
 
-**Senast:** 2026-05-26 (`theme-pack-j` → `main`, drawer Vardag/Valv, Inkast Lite, Life Hub, Theme Pack J)
+**Senast:** 2026-05-28 (Copilot-gren `feature/hallucination-guard-and-structure` avvisad + raderad på GitHub)
+
+**Senast merge:** 2026-05-26 (`theme-pack-j` → `main`, drawer Vardag/Valv, Inkast Lite, Life Hub, Theme Pack J)
 
 ---
 
@@ -45,8 +47,9 @@
 | `split/orkester-autorun` | **Stängd** | Innehåll redan på `main` via PR #2 |
 | `audit-byggpass-2026-05-22` | **Stängd** | Äldre bas; låst UX fanns på `main` |
 | `cursor/stadguide-enkel-svenska` | **Raderad 2026-05-25** | Innehåll ersatt/uppdaterat på `main` (`stadguide_enkel_svenska.md`) |
+| `feature/hallucination-guard-and-structure` | **Avvisad + raderad 2026-05-28** | Copilot: oanslutna `hallucinationGuard.ts` / `agentAuditLog.ts` — **ej mergad** till `main`. Se [`evaluations/2026-05-28-copilot-hallucination-branch-rejected.md`](./evaluations/2026-05-28-copilot-hallucination-branch-rejected.md) |
 
-**GitHub remote (3.0):** endast **`main`** — inga andra aktiva grenar.
+**GitHub remote (3.0):** endast **`main`** (+ tillfälliga `cursor/*` vid behov) — **merga inte** Copilot-säkerhetsgrenar utan PMIR.
 
 ---
 
