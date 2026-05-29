@@ -13,7 +13,7 @@ export function HomePage() {
   const { preset, presetId } = useLifeHubPreset();
 
   return (
-    <div className="home-page home-page--kanon home-page--scenic space-y-6">
+    <div className="home-page home-page--kanon home-page--scenic space-y-4">
       {materialEnabled(preset, 'home_hero_checkin') && (
         <HomeHeroKanon onCheckInSaved={() => setCardRefreshKey((k) => k + 1)} />
       )}

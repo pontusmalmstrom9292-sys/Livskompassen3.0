@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { clsx } from 'clsx';
 import { FloatingDock } from './FloatingDock';
 import { FyrenWidgetBar } from '../components/FyrenWidgetBar';
 import { FyrenSmartWidgetBar } from '../components/FyrenSmartWidgetBar';
@@ -13,6 +14,8 @@ import { useStore } from '../store';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isScenicHome = location.pathname === '/';
   const user = useStore((s) => s.user);
   const kompisAuraActive = useStore((s) => s.system.kompisAuraActive);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -71,7 +74,12 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
       <FirestoreNetworkChip />
 
-      <main className="app-main relative z-10 mx-auto max-w-2xl px-4 pt-[5.75rem]">
+      <main
+        className={clsx(
+          'app-main relative z-10 mx-auto max-w-2xl px-4',
+          isScenicHome ? 'pt-[4.65rem]' : 'pt-[5.75rem]',
+        )}
+      >
         {children}
       </main>
 

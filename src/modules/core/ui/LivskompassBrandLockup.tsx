@@ -48,7 +48,7 @@ export function LivskompassBrandLockup({ className, layout, compactScale }: Prop
             ? clsx(
                 'livskompass-brand-lockup__title--inline whitespace-nowrap font-bold leading-none',
                 isHeader
-                  ? 'text-[1rem] tracking-[0.24em] sm:text-[1.1rem] sm:tracking-[0.26em]'
+                  ? 'text-[1.25rem] tracking-[0.22em] sm:text-[1.4rem] sm:tracking-[0.24em]'
                   : 'text-[1.12rem] tracking-[0.26em] sm:text-[1.22rem] sm:tracking-[0.3em] md:text-[1.3rem] md:tracking-[0.34em]',
               )
             : 'text-[0.62rem] font-light tracking-[0.22em] sm:text-[0.68rem]',
