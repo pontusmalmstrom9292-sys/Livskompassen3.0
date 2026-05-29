@@ -1,5 +1,26 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Deploy + post-deploy (2026-05-29 — körplan)
+
+**Agent:** `firebase deploy --only firestore:rules` **PASS** · `firebase deploy --only storage` **PASS** (projekt `gen-lang-client-0481875058`)  
+**Autorun:** `npm run orkester:night` **PASS** — [`evaluations/2026-05-29-orkester-natt.md`](./evaluations/2026-05-29-orkester-natt.md) (kört 14:41 UTC)  
+**Kognitiv sköld:** `npm run kognitiv-skold:preview` **PASS** · P1 wired (`K06` default, `?kSkold=`)
+
+### Manuell checklista (efter rules + storage deploy)
+
+| # | Test | Resultat | Notering |
+|---|------|----------|----------|
+| 2d | Dagbok bilaga &lt;5 MB → `journal_memories` | **USER** | Kräver inloggad användare + fil &lt;5 MB i Reflektera |
+| 3 | Valv long-press → PIN → post | **USER** | `reality_vault` i Console |
+| 4 | Barnen / Barnporten → `children_logs` | **USER** | `/barnen` eller `/barnporten` |
+| 19 | Barnfokus Familjen | **STATIC PASS** | `npm run smoke:locked-ux` 2026-05-29 |
+| 20 | Valv Mönster + Orkester | **STATIC PASS** | `smoke:locked-ux` + `smoke:orkester` 2026-05-29 |
+| Ny | Projektbild → `project_media/` | **USER** | Efter storage deploy; `/projekt/:id` bild-block |
+
+**Bekräfta i app:** öppna [Hosting](https://gen-lang-client-0481875058.web.app) eller `npm run dev` — fyll **USER**-rader ovan och byt till **PASS** när Firestore/Storage visar dokument.
+
+---
+
 ## Max-byggplan (2026-05-29)
 
 **PMIR:** [`evaluations/2026-05-29-pmir-max-byggplan.md`](./evaluations/2026-05-29-pmir-max-byggplan.md)

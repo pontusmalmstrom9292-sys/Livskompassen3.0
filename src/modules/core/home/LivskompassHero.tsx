@@ -10,6 +10,7 @@ import {
   HERO_ORBIT_SLOTS,
   orbitRadiusPercent,
 } from './livskompassHeroConfig';
+import { useKognitivSkoldVariant } from './useKognitivSkoldVariant';
 
 type Props = {
   onCenterPress?: () => void;
@@ -18,7 +19,17 @@ type Props = {
 export function LivskompassHero({ onCenterPress }: Props) {
   const navigate = useNavigate();
   const theme = getCompassThemeByTime();
+  const { variantId, tokens } = useKognitivSkoldVariant();
   const [openOrbitId, setOpenOrbitId] = useState<string | null>(null);
+
+  const skoldStyle = {
+    '--k-shield-rim': tokens.rim,
+    '--k-shield-gold': tokens.gold,
+    '--k-shield-glow': tokens.glow,
+    '--k-shield-fill': tokens.shield,
+    '--k-panel-top': tokens.panelTop,
+    '--k-panel-bottom': tokens.panelBottom,
+  } as CSSProperties;
 
   const closeMenus = useCallback(() => setOpenOrbitId(null), []);
 
@@ -34,7 +45,9 @@ export function LivskompassHero({ onCenterPress }: Props) {
   return (
     <section
       className={clsx('livskompass-hero livskompass-hero--v2', `livskompass-hero--${theme}`)}
-      aria-label="Livskompassen — Kognitiv sköld"
+      data-k-skold={variantId}
+      style={skoldStyle}
+      aria-label={`Livskompassen — Kognitiv sköld (${tokens.title})`}
     >
       <div className="livskompass-hero__panel">
         <p className="livskompass-hero__shield-label">Kognitiv sköld</p>

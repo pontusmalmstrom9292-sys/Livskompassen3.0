@@ -2224,6 +2224,54 @@
       0 24px 56px rgba(0, 0, 0, 0.55);
   }
 
+  /* K01–K10 — `?kSkold=` · docs/design/themes/kognitiv-skold-variants/ */
+  .livskompass-hero[data-k-skold] .livskompass-hero__panel {
+    border-color: color-mix(in srgb, var(--k-shield-rim) 32%, transparent);
+    background:
+      radial-gradient(
+        ellipse 120% 80% at 50% 0%,
+        color-mix(in srgb, var(--k-shield-glow) 14%, transparent) 0%,
+        transparent 55%
+      ),
+      linear-gradient(180deg, var(--k-panel-top) 0%, var(--k-panel-bottom) 100%);
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.4) inset,
+      0 20px 48px rgba(2, 6, 23, 0.5),
+      0 0 32px color-mix(in srgb, var(--k-shield-glow) 10%, transparent);
+  }
+
+  .livskompass-hero[data-k-skold] .livskompass-hero__shield-label,
+  .livskompass-hero[data-k-skold] .livskompass-hero__cardinal {
+    color: color-mix(in srgb, var(--k-shield-gold) 88%, white);
+    text-shadow: 0 0 20px color-mix(in srgb, var(--k-shield-glow) 35%, transparent);
+  }
+
+  .livskompass-hero[data-k-skold] .livskompass-hero__ring--mid,
+  .livskompass-hero[data-k-skold] .livskompass-hero__ring--outer,
+  .livskompass-hero[data-k-skold].livskompass-hero--v2 .livskompass-hero__ring {
+    border-color: color-mix(in srgb, var(--k-shield-rim) 28%, transparent);
+    box-shadow: 0 0 40px color-mix(in srgb, var(--k-shield-glow) 12%, transparent);
+  }
+
+  .livskompass-hero[data-k-skold].livskompass-hero--v2 .livskompass-hero__disk {
+    border-color: color-mix(in srgb, var(--k-shield-rim) 52%, transparent);
+    background: radial-gradient(
+      ellipse 70% 58% at 50% 32%,
+      color-mix(in srgb, var(--k-shield-fill) 75%, #0a0a0a) 0%,
+      rgba(4, 6, 10, 0.98) 100%
+    );
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.5) inset,
+      0 1px 0 color-mix(in srgb, var(--k-shield-gold) 18%, transparent) inset,
+      0 16px 40px rgba(0, 0, 0, 0.48),
+      0 0 36px color-mix(in srgb, var(--k-shield-glow) 16%, transparent);
+  }
+
+  .livskompass-hero[data-k-skold] .livskompass-hero__orbit-node-ring {
+    border-color: color-mix(in srgb, var(--k-shield-rim) 45%, transparent);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--k-shield-glow) 20%, transparent);
+  }
+
   .livskompass-hero__shield-label {
     @apply mb-3 text-center text-[10px] font-medium uppercase tracking-[0.35em] text-accent/90;
     text-shadow: 0 0 20px rgba(212, 175, 55, 0.35);

@@ -12,14 +12,18 @@
 | `svg/` | K01–K10 vektor-mockups (390×844) |
 | `preview/` | PNG för Markdown-preview |
 
-## Implementation (nästa steg)
+## Implementation (P1 — wired)
 
-När variant är vald:
+- **Kod:** [`kognitivSkoldVariants.ts`](../../../../src/modules/core/home/kognitivSkoldVariants.ts) · [`LivskompassHero.tsx`](../../../../src/modules/core/home/LivskompassHero.tsx)
+- **Default:** `K06-nordic-flat` (Obsidian/Nordic guld)
+- **Byt variant:** `/?kSkold=K01-sjo-solnedgang` (sparas i `localStorage` `livskompass.kSkold`)
+- **Preview:** alla K01–K10 i [`PREVIEW.md`](./PREVIEW.md)
 
-1. Bakgrund: CSS gradient eller foto-asset i `LivskompassHero` / hem-layout
-2. Sköld: `livskompass-hero__*` tokens från vald palett
-3. Orbit-ikoner: `ChromeV4Icon` eller dedikerade SVG per slot (max 4, L1)
-4. Koppling: [`HOME-HERO-KANON.md`](../../references/HOME-HERO-KANON.md) · [`COMPACT-THEME-SPEC.md`](../../compact/COMPACT-THEME-SPEC.md)
+Nästa (P2):
+
+1. Orbit-ikoner per `iconMode` (emboss/gem/pansar)
+2. Foto-asset om variant kräver bildbakgrund
+3. [`HOME-HERO-KANON.md`](../../references/HOME-HERO-KANON.md) · [`COMPACT-THEME-SPEC.md`](../../compact/COMPACT-THEME-SPEC.md)
 
 ## Skript
 
