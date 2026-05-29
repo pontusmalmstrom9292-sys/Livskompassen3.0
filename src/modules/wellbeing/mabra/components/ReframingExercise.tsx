@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Mic, MicOff } from 'lucide-react';
 import { useSpeechToText } from '../../../core/hooks/useSpeechToText';
 import { REFRAMING_STEPS } from '../constants';
+import { shouldRedirectMabraCoachToSpeglar } from '../lib/mabraCoachGuard';
+import { MabraSpeglarGuardHint } from './MabraSpeglarGuardHint';
 
 type Props = {
   onComplete: () => void;
@@ -11,6 +13,7 @@ type Props = {
 export function ReframingExercise({ onComplete, onExit }: Props) {
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [guardDismissed, setGuardDismissed] = useState(false);
   const onCompleteRef = useRef(onComplete);
   const stepKeyRef = useRef<string>(REFRAMING_STEPS[0].stepKey);
   const answersRef = useRef(answers);
@@ -27,6 +30,8 @@ export function ReframingExercise({ onComplete, onExit }: Props) {
   stepKeyRef.current = step.stepKey;
   const isLast = stepIndex === REFRAMING_STEPS.length - 1;
   const stepValue = answers[step.stepKey] ?? '';
+  const showSpeglarGuard =
+    shouldRedirectMabraCoachToSpeglar(stepValue) && !guardDismissed;
 
   const appendTranscript = useCallback((chunk: string) => {
     if (!chunk) return;
@@ -66,6 +71,7 @@ export function ReframingExercise({ onComplete, onExit }: Props) {
       finish();
       return;
     }
+    setGuardDismissed(false);
     setStepIndex((i) => i + 1);
   };
 
@@ -83,12 +89,13 @@ export function ReframingExercise({ onComplete, onExit }: Props) {
         <textarea
           rows={3}
           value={stepValue}
-          onChange={(e) =>
+          onChange={(e) => {
+            setGuardDismissed(false);
             setAnswers((prev) => ({
               ...prev,
               [step.stepKey]: e.target.value,
-            }))
-          }
+            }));
+          }}
           className="mt-4 w-full resize-none rounded-lg border border-border-strong bg-surface/60 px-3 py-2 text-sm text-text-default placeholder:text-text-dim focus:border-accent/40 focus:outline-none"
           placeholder={step.inputMode === 'text_optional' ? 'Valfritt…' : 'Skriv här…'}
           aria-label={step.prompt}
@@ -108,6 +115,12 @@ export function ReframingExercise({ onComplete, onExit }: Props) {
           </div>
         )}
         {error && <p className="mt-1 text-xs text-danger">{error}</p>}
+        {showSpeglarGuard && (
+          <MabraSpeglarGuardHint
+            className="mt-3"
+            onStay={() => setGuardDismissed(true)}
+          />
+        )}
       </div>
       <p className="text-sm text-text-dim">
         Steg {stepIndex + 1} av {REFRAMING_STEPS.length}

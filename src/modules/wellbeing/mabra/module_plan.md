@@ -57,7 +57,8 @@ Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget
 | AkutLanding panic_rsd | Validering före duration + panik-andning UX | Ja | **done** (fas 2b) |
 | ACT ValuesCompass + `mabra_progress` | Länk under hub, 3–5 värden | Ja | **done** (fas 2d) |
 | Måbra-coach callable | Opt-in, ingen RAG, Speglar guardrail | Ja | **done** (fas 2e) |
-| Speglar guardrail vid ex-text | Heuristik → `/speglar` | Ja | **done** (fas 2e) |
+| Speglar guardrail vid ex-text | Guld hint Ja/Stanna — ingen auto-redirect (§5) | Ja | **done** (2026-05-29 sprint) |
+| Vit-projekt djup-länk (§3) | `MabraVitProjectsPanel` + `?project=` | Ja | **done** (2026-05-29 sprint) |
 | Web Speech sv-SE | Reframing + coach (`SpeechMicRow`) | Ja | **done** (fas 2f) |
 | Trauma-historia i Kunskap | **Policy: opt-in ingest** | Delvis | **policy** |
 | Daglig mix (DM-*) | Hub panel direkt på `/mabra` + `mabra_sessions` metadata | Ja | **done** |
@@ -71,7 +72,7 @@ Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget
 
 ## Nästa fas
 
-Måbra fas 2 (2a–2f) **klar**. Fas 2 partial (lågenergi + landningsremsa) **done** 2026-05-29. Eventuellt: Vit-projekt djup-länk (§3), guardrail-hint (§5).
+Måbra fas 2 (2a–2f) **klar**. §1–§2, §3, §5 **done** 2026-05-29 sprint.
 
 ## Avgränsning
 

@@ -1,5 +1,6 @@
 import { Sparkles } from 'lucide-react';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import { useStore } from '../../../core/store';
 import { saveMabraSession } from '../../../core/firebase/firestore';
@@ -39,9 +40,27 @@ import { MabraMicroPlayTool } from './tools/MabraMicroPlayTool';
 import { MabraToolShell } from './tools/MabraToolShell';
 import { pickDailyReflectionCard } from '../lib/pickDagligMix';
 import { MabraLowEnergyToggle } from './MabraLowEnergyToggle';
+import { MabraVitProjectsPanel } from './MabraVitProjectsPanel';
+import {
+  readAllVitProjectLastSeen,
+  writeVitProjectLastSeen,
+} from '../lib/vitProjectLastSeen';
+
+const VIT_PROJECT_IDS: MabraProjectId[] = [
+  'self_esteem',
+  'emotional_memory',
+  'learn_together',
+  'who_am_i',
+];
+
+function parseVitProjectParam(value: string | null): MabraProjectId | null {
+  if (!value) return null;
+  return VIT_PROJECT_IDS.includes(value as MabraProjectId) ? (value as MabraProjectId) : null;
+}
 
 export function MabraPage() {
   const user = useStore((s) => s.user);
+  const [searchParams, setSearchParams] = useSearchParams();
   const { preset } = useLifeHubPreset();
   const [step, setStep] = useState<MabraFlowStep>('hub');
   const [hub, setHub] = useState<MabraSymptomHub | null>(null);
@@ -56,6 +75,7 @@ export function MabraPage() {
   const [hubOpenCategory, setHubOpenCategory] = useState<MabraHubCategory | null>('akut');
   const [hubFocusToken, setHubFocusToken] = useState(0);
   const [lowEnergyMode, setLowEnergyMode] = useState(false);
+  const [vitLastSeen, setVitLastSeen] = useState(() => readAllVitProjectLastSeen());
   const sessionStartedAt = useRef<number | null>(null);
   const breathingOnlyRef = useRef(false);
 
@@ -70,6 +90,32 @@ export function MabraPage() {
     setTool(null);
   }, []);
 
+  const openVitProject = useCallback(
+    (projectId: MabraProjectId) => {
+      writeVitProjectLastSeen(projectId);
+      setVitLastSeen(readAllVitProjectLastSeen());
+      setActiveProjectId(projectId);
+      setSelectedPlan(null);
+      setStep('project_plan');
+      setHubOpenCategory('projekt');
+      const next = new URLSearchParams(searchParams);
+      next.set('project', projectId);
+      setSearchParams(next, { replace: true });
+    },
+    [searchParams, setSearchParams],
+  );
+
+  useEffect(() => {
+    const fromUrl = parseVitProjectParam(searchParams.get('project'));
+    if (!fromUrl || step !== 'hub') return;
+    writeVitProjectLastSeen(fromUrl);
+    setVitLastSeen(readAllVitProjectLastSeen());
+    setActiveProjectId(fromUrl);
+    setSelectedPlan(null);
+    setStep('project_plan');
+    setHubOpenCategory('projekt');
+  }, [searchParams, step]);
+
   const resetFlow = useCallback(() => {
     setStep('hub');
     setHub(null);
@@ -83,7 +129,10 @@ export function MabraPage() {
     breathingOnlyRef.current = false;
     sessionStartedAt.current = null;
     setHubFocusToken((n) => n + 1);
-  }, []);
+    const next = new URLSearchParams(searchParams);
+    next.delete('project');
+    setSearchParams(next, { replace: true });
+  }, [searchParams, setSearchParams]);
 
   const handleHubSelect = (selected: MabraSymptomHub) => {
     setHub(selected);
@@ -139,9 +188,7 @@ export function MabraPage() {
         setStep('values');
         break;
       case 'project':
-        setActiveProjectId(action.projectId);
-        setSelectedPlan(null);
-        setStep('project_plan');
+        openVitProject(action.projectId);
         break;
       case 'tool':
         if (action.tool === 'micro_play' && action.playBankId) {
@@ -293,6 +340,7 @@ export function MabraPage() {
                 onOpenPlay={openCurriculumPlay}
               />
               <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
+              <MabraVitProjectsPanel lastSeen={vitLastSeen} onOpenProject={openVitProject} />
             </>
           )}
           <MabraVitHub

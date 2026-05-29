@@ -36,9 +36,9 @@
 
 | Modul | Route | Gap / nästa | Kommando / vem |
 |-------|-------|-------------|----------------|
-| **dagbok** | `/dagbok` | Fas 1–4 **lokal done** · **commit + storage deploy** | PMIR → **`godkänn merge`** |
-| **planering** | `/planering?tab=handling` | Fas 1.5 + Fas 2 **lokal** · **deploy `firestore.rules`** | efter merge: `firebase deploy --only firestore:rules` |
-| **mabra** | `/mabra` | Fas 2 §5 guardrail · Vit-projekt §3 | `kör MåBra Fas 2 kvar` |
+| **dagbok** | `/dagbok` | Fas 1–4 **done** · storage deploy **done** | manuell smoke #2d |
+| **planering** | `/planering?tab=handling` | Fas 1.5 + Fas 2 · rules deploy **done** | manuell smoke #2e |
+| **mabra** | `/mabra` | §5 guardrail + §3 Vit djup-länk | **done** 2026-05-29 sprint |
 | **projekt** | `/projekt` | MaterialPack **done** · `project_rules` Firestore defer | `kör Projekt Fas 3b` |
 | **kompis/kunskap** | Valv `kunskapsbank` | Fas 1.5 **done** · Fas 2 seed-bank | `specialist-kunskap-seed` |
 | **barnporten** | `/barnporten` | P1 + CB1 **done** · manuell smoke #3 · QR CB2+ | `kör manuell smoke #3` |
@@ -64,10 +64,9 @@ npm run orkester:night
 
 ## Kräver dig
 
-1. **Merge** — PMIR [`2026-05-29-pmir-modul-rollout-batch.md`](./evaluations/2026-05-29-pmir-modul-rollout-batch.md) + **`godkänn merge`**
-2. **Deploy rules** — Planering Fas 2: `firebase deploy --only firestore:rules`
-3. **Deploy storage** — Dagbok bilagor: `firebase deploy --only storage`
-4. **Smoke** — checklista #1–7, #18–20; Barnporten #3
+1. **Manuell smoke** — [`2026-05-29-smoke-manuell.md`](./evaluations/2026-05-29-smoke-manuell.md)
+2. **Kunskap våg 8 ingest** — efter granskning (`seed_kampspar_profile`)
+3. **IA Våg 3** — kompakt Planering/MåBra UI (efter smoke)
 
 ---
 

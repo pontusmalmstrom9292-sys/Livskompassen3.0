@@ -1,11 +1,11 @@
 import { useCallback, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Loader2, Mic, MicOff } from 'lucide-react';
 import { useSpeechToText } from '../../../core/hooks/useSpeechToText';
 import { fetchMabraCoach } from '../api/mabraCoachService';
-import { MABRA_COACH_COPY, MABRA_SPEGLAR_REDIRECT_MESSAGE } from '../constants';
+import { MABRA_COACH_COPY } from '../constants';
 import { shouldRedirectMabraCoachToSpeglar } from '../lib/mabraCoachGuard';
 import type { MabraExerciseType, MabraSymptomHub } from '../types';
+import { MabraSpeglarGuardHint } from './MabraSpeglarGuardHint';
 
 const NOTE_MAX = 500;
 
@@ -19,18 +19,23 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
   const [coachText, setCoachText] = useState('');
   const [loading, setLoading] = useState(false);
   const [usedAi, setUsedAi] = useState(false);
-  const [redirectToSpeglar, setRedirectToSpeglar] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [requested, setRequested] = useState(false);
+  const [guardDismissed, setGuardDismissed] = useState(false);
+  const [showGuardPrompt, setShowGuardPrompt] = useState(false);
   const noteRef = useRef(optionalNote);
 
   noteRef.current = optionalNote;
+
+  const noteTrimmed = optionalNote.trim();
+  const guardActive = shouldRedirectMabraCoachToSpeglar(noteTrimmed) && !guardDismissed;
 
   const appendNoteTranscript = useCallback((chunk: string) => {
     if (!chunk) return;
     const current = noteRef.current.trim();
     const next = current ? `${current} ${chunk}` : chunk;
     setOptionalNote(next.slice(0, NOTE_MAX));
+    setGuardDismissed(false);
   }, []);
 
   const {
@@ -44,27 +49,29 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
     onFinal: appendNoteTranscript,
   });
 
+  const handleNoteChange = (value: string) => {
+    setOptionalNote(value.slice(0, NOTE_MAX));
+    setGuardDismissed(false);
+    setShowGuardPrompt(false);
+  };
+
   const handleCoach = async () => {
     stopSpeech();
+    if (shouldRedirectMabraCoachToSpeglar(noteTrimmed) && !guardDismissed) {
+      setShowGuardPrompt(true);
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setRequested(true);
-    setRedirectToSpeglar(false);
+    setShowGuardPrompt(false);
 
-    const note = optionalNote.trim() || undefined;
-
-    if (shouldRedirectMabraCoachToSpeglar(note)) {
-      setCoachText(MABRA_SPEGLAR_REDIRECT_MESSAGE);
-      setUsedAi(false);
-      setRedirectToSpeglar(true);
-      setLoading(false);
-      return;
-    }
+    const note = noteTrimmed || undefined;
 
     try {
       const result = await fetchMabraCoach(hub, exerciseType, note);
       setCoachText(result.coach);
-      setRedirectToSpeglar(result.redirectToSpeglar);
       setUsedAi(!result.redirectToSpeglar);
     } catch {
       setCoachText(MABRA_COACH_COPY.offlineFallback);
@@ -75,8 +82,6 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
     }
   };
 
-  const showAiAccent = usedAi || redirectToSpeglar;
-
   return (
     <div className="mt-4 w-full max-w-sm space-y-3 text-left">
       <p className="text-center text-xs text-text-dim">{MABRA_COACH_COPY.hint}</p>
@@ -85,12 +90,20 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
         <>
           <textarea
             value={optionalNote}
-            onChange={(e) => setOptionalNote(e.target.value.slice(0, NOTE_MAX))}
+            onChange={(e) => handleNoteChange(e.target.value)}
             placeholder={MABRA_COACH_COPY.notePlaceholder}
             rows={2}
             className="input-glass text-left"
             aria-label="Valfri rad till Måbra-coach"
           />
+          {(showGuardPrompt || guardActive) && (
+            <MabraSpeglarGuardHint
+              onStay={() => {
+                setGuardDismissed(true);
+                setShowGuardPrompt(false);
+              }}
+            />
+          )}
           {speechSupported && (
             <div className="flex flex-wrap items-center justify-center gap-2">
               <button
@@ -108,7 +121,7 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
           <p className="text-center text-[10px] text-text-dim">{MABRA_COACH_COPY.noteHint}</p>
           <button
             type="button"
-            onClick={handleCoach}
+            onClick={() => void handleCoach()}
             disabled={loading}
             className="btn-pill--secondary w-full disabled:opacity-50"
           >
@@ -119,24 +132,18 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
 
       {requested && (
         <div
-          className={`glass-card p-4 ${showAiAccent ? 'glass-card--ai border-accent-ai/30' : 'border-border-strong'}`}
+          className={`glass-card p-4 ${usedAi ? 'glass-card--ai border-accent-ai/30' : 'border-border-strong'}`}
         >
           <p className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-widest text-text-dim">
             {MABRA_COACH_COPY.responseLabel}
             {usedAi && <span className="text-accent-ai">AI</span>}
-            {redirectToSpeglar && <span className="text-accent-ai">Speglar</span>}
           </p>
           {loading ? (
             <p className="text-sm text-text-dim">{MABRA_COACH_COPY.loading}</p>
           ) : (
-            <p className={`text-sm leading-relaxed ${showAiAccent ? 'text-accent-ai' : 'text-text-muted'}`}>
+            <p className={`text-sm leading-relaxed ${usedAi ? 'text-accent-ai' : 'text-text-muted'}`}>
               {coachText}
             </p>
-          )}
-          {redirectToSpeglar && !loading && (
-            <Link to="/speglar" className="btn-pill--ghost mt-3 w-full text-sm">
-              {MABRA_COACH_COPY.speglarLinkLabel}
-            </Link>
           )}
           {error && <p className="mt-2 text-xs text-text-dim">{error}</p>}
         </div>

@@ -8,6 +8,8 @@ import { saveVaultLog } from '../../../core/firebase/firestore';
 import { BiffTriagePanel } from './BiffTriagePanel';
 import { HandoffBox } from '../../../diary/diary/components/HandoffBox';
 import { shouldShowValvHandoff } from '../../../core/triggers/valvHandoff';
+import { shouldRedirectMabraCoachToSpeglar } from '../../../wellbeing/mabra/lib/mabraCoachGuard';
+import { MabraSpeglarGuardHint } from '../../../wellbeing/mabra/components/MabraSpeglarGuardHint';
 
 type Props = {
   initialMessage?: string;
@@ -19,6 +21,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
   const [reply, setReply] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [speglarGuardDismissed, setSpeglarGuardDismissed] = useState(false);
   const fromSpeglar = Boolean(initialMessage.trim());
 
   useEffect(() => {
@@ -61,13 +64,22 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
       <form onSubmit={handleSubmit} className="space-y-3">
         <textarea
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e) => {
+            setMessage(e.target.value);
+            setSpeglarGuardDismissed(false);
+          }}
           placeholder="Klistra in sms eller mejl (logistik först, inget JADE)…"
           rows={4}
           className="input-glass text-sm"
           disabled={loading}
         />
         {shouldShowValvHandoff(message) && <HandoffBox className="mt-1" />}
+        {shouldRedirectMabraCoachToSpeglar(message) && !speglarGuardDismissed && (
+          <MabraSpeglarGuardHint
+            className="mt-1"
+            onStay={() => setSpeglarGuardDismissed(true)}
+          />
+        )}
         <button type="submit" disabled={loading || !message.trim()} className="btn-pill--accent w-full">
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           Få Grey Rock-svar

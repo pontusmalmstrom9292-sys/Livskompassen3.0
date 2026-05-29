@@ -222,6 +222,13 @@ export const MABRA_COACH_COPY = {
 export const MABRA_SPEGLAR_REDIRECT_MESSAGE =
   'Det här passar bättre i Speglar — validering och spegling kring konflikt och gaslighting. Måbra fokuserar på inåtvänd återhämtning efter övningen.';
 
+export const MABRA_SPEGLAR_GUARD_COPY = {
+  ariaLabel: 'Förslag om Speglar',
+  message: 'Det här passar bättre i Speglar — vill du öppna?',
+  stayLabel: 'Stanna här',
+  goLabel: 'Ja, öppna Speglar',
+} as const;
+
 export const LOW_ENERGY_COPY = {
   toggleLabel: 'Jag orkar lite idag',
   breathTitle: 'Andning 1 min',

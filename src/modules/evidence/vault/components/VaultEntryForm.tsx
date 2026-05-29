@@ -5,6 +5,8 @@ import { useSpeechToText } from '../../../core/hooks/useSpeechToText';
 import { shouldSuggestVaultPatternScan } from '../../../core/triggers/valvHandoff';
 import { BODY_SIGNALS, SHIELD_STEPS, VAULT_ENTRY_MODES } from '../constants/vaultEntry';
 import type { VaultEntryType, VaultLogInput } from '../types/vaultEntry';
+import { HandoffBox } from '../../../diary/diary/components/HandoffBox';
+import { shouldShowValvHandoff } from '../../../core/triggers/valvHandoff';
 import { VaultPatternHandoff } from './VaultPatternHandoff';
 
 type VaultEntryFormProps = {
@@ -173,6 +175,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
   const busy = saving || uploading;
   const handoffText = [truth, theirVersion, myReality, shieldWhat].join(' ');
   const showPatternHandoff = shouldSuggestVaultPatternScan(handoffText);
+  const showValvHandoff = shouldShowValvHandoff(handoffText);
 
   return (
     <div className="space-y-4">
@@ -209,6 +212,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
         <option value="allmänt" />
       </datalist>
 
+      {showValvHandoff && <HandoffBox />}
       {showPatternHandoff && <VaultPatternHandoff />}
 
       {mode === 'simple' && (
