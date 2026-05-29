@@ -24,16 +24,26 @@ Relaterade flikar i samma kluster: **Bevis** (valv), **Speglar** (`?tab=speglar`
 
 ## 3. UX-flöde (Progressive Disclosure)
 
-**Idag (kod):**
+**Idag (kod, Fas 1 — 2026-05-29):**
 
-1. **Humör (steg 1):** Pills — Lugn, Trött, Spänd, Hoppfull, Låg. `JournalArchive` synlig **endast** här.
-2. **Reflektion (steg 2):** Fritext + **Web Speech API** (`sv-SE`) via mikrofon i `ReflectionStep`. Placeholder: *"Kort reflektion..."* — inga humör-specifika KBT-frågor än.
-3. **Bekräfta (steg 3):** Preview + Spara.
-4. **Sparad (steg 4):** Bekräftelse, *Ny post*, bro: *"Känns det som gaslighting? → Gå till Speglar"* (`journalContext` i route state).
+Sub-nav under Reflektion: **Snabb** · **Reflektera** · **Arkiv** (`DagbokModeNav`). Default Snabb vid MåBra-bro (`?from=mabra&energy=low`).
 
-**Begränsning idag:** Spar kräver **fritext** (`text.trim()`) — humör-only check-in finns inte.
+| Läge | Beteende |
+|------|----------|
+| **Snabb** | `MOOD_CATALOG` + valfria taggar + valfri rad → `saveJournalEntry` (stub-text om tom) |
+| **Reflektera** | Wizard: humör → text (röst/KBT) → bekräfta → sparad; väv/Kampspár opt-in bakom PIN |
+| **Arkiv** | `JournalArchive` läsbart utan PIN (WORM, ingen redigering i UI) |
 
-**Målbild (planerad):**
+**Reflektera (steg):**
+
+1. Humör — 12 känslor i `MOOD_CATALOG`.
+2. Reflektion — fritext + Web Speech API (`sv-SE`).
+3. Bekräfta — preview + spara.
+4. Sparad — *Ny post*, Speglar-bro via route state.
+
+**Snabb:** humör-only via stub-text; taggar sparas som `tags[]` i Firestore.
+
+**Målbild (planerad, Fas 2–4):**
 
 - KBT/ACT-vägledande fråga per humör (t.ex. stolthet/tacksamhet).
 - **Måbra-bro** vid `Låg` / `Spänd` (diskret länk till `/mabra`).
@@ -68,8 +78,10 @@ Skrivskydd via Security Rules: `create` med `ownerId == auth.uid`; `update, dele
 |------|-----|----------|
 | `ownerId` | string | Krävs (via `withUserId`) |
 | `userId` | string | Spegel av ownerId i klient-write |
-| `mood` | string | `Lugn`, `Trött`, `Spänd`, `Hoppfull`, `Låg` (title case) |
-| `text` | string | Reflektion / transkript |
+| `mood` | string | `MOOD_CATALOG` label (t.ex. `Lugn`, `Oro`) |
+| `text` | string | Reflektion / transkript / stub vid snabb |
+| `tags` | string[]? | Max 10, klientvaliderat (Fas 1) |
+| `category` | string? | `journalCategories` enum (Fas 2+ UI) |
 | `createdAt` | timestamp | server-side |
 
 **Inte i scope:** `vaultFlag`, hot-analys eller juridiska fält i `journal` — separation Lager 1/2.

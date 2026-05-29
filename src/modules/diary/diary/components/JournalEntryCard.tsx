@@ -7,10 +7,14 @@ type JournalEntryCardProps = {
 };
 
 export function JournalEntryCard({ entry }: JournalEntryCardProps) {
+  const tagSuffix =
+    entry.tags && entry.tags.length > 0 ? ` · ${entry.tags.slice(0, 4).join(', ')}` : '';
+  const categorySuffix = entry.category ? ` / ${entry.category}` : '';
+
   return (
     <TimelineEntry
       as="li"
-      meta={`${entry.mood} · ${formatJournalDate(entry.createdAt)}`}
+      meta={`${entry.mood}${categorySuffix} · ${formatJournalDate(entry.createdAt)}${tagSuffix}`}
       body={entry.text ?? ''}
     />
   );

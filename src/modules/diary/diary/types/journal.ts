@@ -1,5 +1,7 @@
 export type JournalStep = 'mood' | 'text' | 'save' | 'done';
 
+export type DagbokMode = 'snabb' | 'reflektera' | 'arkiv';
+
 export interface JournalEntry {
   id: string;
   mood: string;
@@ -7,4 +9,13 @@ export interface JournalEntry {
   userId?: string;
   ownerId?: string;
   createdAt?: string;
+  category?: string;
+  tags?: string[];
 }
+
+export type JournalSavePayload = {
+  mood: string;
+  text: string;
+  category?: string;
+  tags?: string[];
+};

@@ -105,11 +105,19 @@ export async function getRecentCheckIns(userId: string, limit = 20): Promise<Che
 
 export async function saveJournalEntry(
   userId: string,
-  entry: { mood: string; text: string }
+  entry: {
+    mood: string;
+    text: string;
+    category?: string;
+    tags?: string[];
+  },
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.journal);
   const ref = collection(db, 'journal');
-  const docRef = await addDoc(ref, withUserId(userId, entry));
+  const payload: Record<string, unknown> = { mood: entry.mood, text: entry.text };
+  if (entry.category) payload.category = entry.category;
+  if (entry.tags?.length) payload.tags = entry.tags;
+  const docRef = await addDoc(ref, withUserId(userId, payload));
   return docRef.id;
 }
 
