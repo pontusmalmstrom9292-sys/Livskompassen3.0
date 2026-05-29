@@ -20,8 +20,10 @@ export function HomeGreeting() {
 
   return (
     <header className="home-greeting">
+      <p className="home-greeting__eyebrow">Styr med mening</p>
       <h2 className="home-greeting__title">
-        {greeting}, {name}
+        <span className="home-greeting__salutation">{greeting},</span>{' '}
+        <span className="home-greeting__name">{name}</span>
         <span className="home-greeting__star" aria-hidden>
           {' '}
           ✦

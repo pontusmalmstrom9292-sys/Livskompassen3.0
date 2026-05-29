@@ -7,6 +7,7 @@ import { BODY_SIGNALS, SHIELD_STEPS, VAULT_ENTRY_MODES } from '../constants/vaul
 import type { VaultEntryType, VaultLogInput } from '../types/vaultEntry';
 import { HandoffBox } from '../../../diary/diary/components/HandoffBox';
 import { shouldShowValvHandoff } from '../../../core/triggers/valvHandoff';
+import { OfflineWriteBlockedError } from '../../../core/firebase/offlineWritePolicy';
 import { VaultPatternHandoff } from './VaultPatternHandoff';
 import { parseSmsThreadToTwoColumn } from '../utils/smsThreadParse';
 
@@ -151,6 +152,8 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
     } catch (err) {
       if (err instanceof Error && err.message === 'vault-save-failed') {
         setAttachError('Kunde inte spara till valvet. Försök igen.');
+      } else if (err instanceof OfflineWriteBlockedError) {
+        setAttachError(err.message);
       } else {
         setAttachError('Kunde inte ladda upp bilaga. Försök igen.');
       }

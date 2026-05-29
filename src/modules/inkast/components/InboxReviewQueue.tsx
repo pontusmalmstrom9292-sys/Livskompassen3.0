@@ -17,7 +17,8 @@ const ROUTING_LABELS: Record<string, string> = {
 };
 
 function queueStatusLabel(item: InboxQueueItem): string {
-  if (item.proposedRouting === 'review' || item.confidence < 0.75) {
+  const confidence = typeof item.confidence === 'number' ? item.confidence : 0;
+  if (item.proposedRouting === 'review' || confidence < 0.75) {
     return 'Status: granska';
   }
   return `Status: förslag → ${ROUTING_LABELS[item.proposedRouting] ?? item.proposedRouting}`;
@@ -34,8 +35,9 @@ type Props = {
 
 function sortForValvSamla(items: InboxQueueItem[]): InboxQueueItem[] {
   const score = (item: InboxQueueItem) => {
+    const confidence = typeof item.confidence === 'number' ? item.confidence : 0;
     if (item.proposedRouting === 'bevis') return 0;
-    if (item.proposedRouting === 'review' || item.confidence < 0.75) return 1;
+    if (item.proposedRouting === 'review' || confidence < 0.75) return 1;
     if (item.traumaSensitive) return 2;
     return 3;
   };
@@ -155,7 +157,7 @@ export function InboxReviewQueue({
             <p className="mt-1 text-xs text-accent/90">{queueStatusLabel(item)}</p>
             <p className="mt-1 text-xs text-text-muted">
               {item.traumaSensitive ? 'Trauma · ' : ''}
-              Säkerhet {Math.round(item.confidence * 100)}%
+              Säkerhet {Math.round((typeof item.confidence === 'number' ? item.confidence : 0) * 100)}%
             </p>
             <p className="mt-2 text-xs text-text-dim line-clamp-2">{item.summary}</p>
             <div className="mt-3 flex flex-wrap gap-2">

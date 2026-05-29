@@ -8,6 +8,7 @@ import {
   VAVAREN_LOG_DISCLAIMER,
 } from '../constants/vavarenCopy';
 import { exportVaultRecordAsPdf } from '../utils/exportVaultRecord';
+import { normalizeStringArray } from '../utils/normalizeVaultLog';
 import { scanTechniquesForLog } from '../utils/vaultPatternScan';
 
 type VaultLogRow = VaultLog & { id: string; weaverTags?: WeaverTags };
@@ -39,9 +40,12 @@ function formatLogBody(log: VaultLog): string {
       .filter(Boolean)
       .join(' · ');
   }
-  if (log.entryType === 'body_signal' && log.bodySignals?.length) {
-    const truth = asText(log.truth);
-    return `${log.bodySignals.join(', ')}${truth ? ` — ${truth}` : ''}`;
+  if (log.entryType === 'body_signal') {
+    const signals = normalizeStringArray(log.bodySignals);
+    if (signals.length > 0) {
+      const truth = asText(log.truth);
+      return `${signals.join(', ')}${truth ? ` — ${truth}` : ''}`;
+    }
   }
   return asText(log.truth);
 }
@@ -107,7 +111,7 @@ function LogRow({
       </p>
       {vavaren && weaverTags && (
         <div className="mt-2 flex flex-wrap gap-1">
-          {weaverTags.emotions?.map((e) => (
+          {normalizeStringArray(weaverTags.emotions).map((e) => (
             <span
               key={`e-${e}`}
               className="rounded-full border border-indigo-400/25 px-2 py-0.5 text-[10px] text-indigo-200/90"
@@ -115,7 +119,7 @@ function LogRow({
               {e}
             </span>
           ))}
-          {weaverTags.actors?.map((a) => (
+          {normalizeStringArray(weaverTags.actors).map((a) => (
             <span
               key={`a-${a}`}
               className="rounded-full border border-white/10 px-2 py-0.5 text-[10px] text-text-muted"

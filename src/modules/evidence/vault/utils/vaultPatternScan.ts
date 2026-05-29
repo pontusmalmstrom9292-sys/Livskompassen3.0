@@ -1,4 +1,5 @@
 import type { VaultLog } from '../../../core/types/firestore';
+import { normalizeStringArray } from './normalizeVaultLog';
 
 export type VaultTechnique =
   | 'DARVO'
@@ -27,7 +28,7 @@ function logText(log: VaultLog): string {
     log.shieldWhat,
     log.shieldFeeling,
     log.shieldBoundary,
-    ...(log.bodySignals ?? []),
+    ...(normalizeStringArray(log.bodySignals)),
   ]
     .filter(Boolean)
     .join('\n');

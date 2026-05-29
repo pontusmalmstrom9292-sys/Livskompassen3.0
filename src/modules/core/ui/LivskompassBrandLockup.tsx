@@ -4,8 +4,8 @@ import { LivskompassMark } from './LivskompassMark';
 
 type Props = {
   className?: string;
-  /** Meny/header: ikon vänster, text höger. */
-  layout?: 'stack' | 'inline';
+  /** Meny/header: ikon vänster, text höger. `header` = större mark, tight mot meny. */
+  layout?: 'stack' | 'inline' | 'header';
   /** @deprecated Använd `layout="inline"` */
   compactScale?: boolean;
 };
@@ -15,15 +15,18 @@ export function LivskompassBrandLockup({ className, layout, compactScale }: Prop
   const uid = useId().replace(/:/g, '');
   const gold = `lk-lockup-gold-${uid}`;
   const resolvedLayout = layout ?? (compactScale ? 'inline' : 'stack');
-  const isInline = resolvedLayout === 'inline';
+  const isHeader = resolvedLayout === 'header';
+  const isInline = resolvedLayout === 'inline' || isHeader;
 
   return (
     <div
       className={clsx(
         'livskompass-brand-lockup',
-        isInline
-          ? 'livskompass-brand-lockup--inline flex flex-row items-center gap-3 sm:gap-3.5'
-          : 'flex flex-col items-center',
+        isHeader
+          ? 'livskompass-brand-lockup--header flex flex-row items-center gap-2 sm:gap-2.5'
+          : isInline
+            ? 'livskompass-brand-lockup--inline flex flex-row items-center gap-3 sm:gap-3.5'
+            : 'flex flex-col items-center',
         className,
       )}
       aria-hidden
@@ -31,14 +34,23 @@ export function LivskompassBrandLockup({ className, layout, compactScale }: Prop
       <LivskompassMark
         className={clsx(
           'livskompass-brand-lockup__mark shrink-0',
-          isInline ? 'h-11 w-11 sm:h-12 sm:w-12' : 'h-9 w-9 sm:h-10 sm:w-10',
+          isHeader
+            ? 'h-12 w-12 sm:h-14 sm:w-14'
+            : isInline
+              ? 'h-11 w-11 sm:h-12 sm:w-12'
+              : 'h-9 w-9 sm:h-10 sm:w-10',
         )}
       />
       <span
         className={clsx(
           'livskompass-brand-lockup__title uppercase',
           isInline
-            ? 'livskompass-brand-lockup__title--inline whitespace-nowrap text-[1.12rem] font-bold leading-none tracking-[0.26em] sm:text-[1.22rem] sm:tracking-[0.3em] md:text-[1.3rem] md:tracking-[0.34em]'
+            ? clsx(
+                'livskompass-brand-lockup__title--inline whitespace-nowrap font-bold leading-none',
+                isHeader
+                  ? 'text-[1rem] tracking-[0.24em] sm:text-[1.1rem] sm:tracking-[0.26em]'
+                  : 'text-[1.12rem] tracking-[0.26em] sm:text-[1.22rem] sm:tracking-[0.3em] md:text-[1.3rem] md:tracking-[0.34em]',
+              )
             : 'text-[0.62rem] font-light tracking-[0.22em] sm:text-[0.68rem]',
         )}
         style={{ fontFamily: '"Cormorant Garamond", Georgia, serif' }}

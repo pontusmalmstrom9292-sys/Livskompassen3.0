@@ -32,6 +32,8 @@ Dygnsrytm (morgon/dag/kväll) — ett mikrosteg i taget för ADHD/GAD.
 
 ## 3. UX (MVP done)
 
+**Planerat (2026-05-29):** Widget-rad **under varje** kompass (Morgon/Dag/Kväll) för snabbstart + omdesign — [`docs/evaluations/2026-05-29-kompass-widget-snabbstart-plan.md`](../../docs/evaluations/2026-05-29-kompass-widget-snabbstart-plan.md).
+
 - Tids-default vid öppning Kompasser-flik (`getDefaultCompassByTime`)
 - Morgon/dag/kväll-flikar, fri navigering
 - Paralys manuell + *Ge mig 3 till* + Klar

@@ -17,8 +17,12 @@ import {
 } from 'firebase/firestore';
 import { app } from './init';
 import { assertOfflineWriteAllowed } from './offlineWritePolicy';
-import type { CheckIn, VaultLog, KampsparEntryRow } from '../types/firestore';
+import type { CheckIn, VaultLog, KampsparEntryRow, WeaverTags } from '../types/firestore';
 import { FIRESTORE_COLLECTIONS } from '../types/firestore';
+import {
+  normalizeStringArray,
+  normalizeVaultLogFields,
+} from '../../evidence/vault/utils/normalizeVaultLog';
 
 /** IndexedDB persistence via Firebase v12 local cache (ersätter enableIndexedDbPersistence). */
 function initFirestoreDb() {
@@ -50,6 +54,14 @@ function assertWormPayload(data: FirestorePayload, context: string): void {
       throw new Error(`WORM violation (${context}): field "${key}" is not allowed on create.`);
     }
   }
+}
+
+function omitUndefinedFields(data: FirestorePayload): FirestorePayload {
+  const out: FirestorePayload = {};
+  for (const [key, value] of Object.entries(data)) {
+    if (value !== undefined) out[key] = value;
+  }
+  return out;
 }
 
 function withUserId(userId: string, data: FirestorePayload): FirestorePayload {
@@ -147,7 +159,7 @@ export async function saveVaultLog(
   log: Omit<VaultLog, 'userId' | 'createdAt'>
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.reality_vault);
-  const payload = { ...log, isLocked: true } as FirestorePayload;
+  const payload = omitUndefinedFields({ ...log, isLocked: true } as FirestorePayload);
   assertWormPayload(payload, 'reality_vault');
   const ref = collection(db, FIRESTORE_COLLECTIONS.reality_vault);
   const docRef = await addDoc(ref, withUserId(userId, payload));
@@ -262,9 +274,17 @@ export async function getVaultLogs(userId: string): Promise<(VaultLog & { id: st
   return sortByCreatedAtDesc(
     snap.docs.map((d) => {
       const data = d.data();
-      const { createdAt: _rawCreatedAt, ...rest } = data;
-      return { id: d.id, ...(rest as VaultLog), createdAt: normalizeCreatedAt(_rawCreatedAt) };
-    })
+      const { createdAt: _rawCreatedAt, weaverTags: _weaverTags, bodySignals: _bodySignals, ...rest } =
+        data;
+      const row = normalizeVaultLogFields({
+        id: d.id,
+        ...(rest as VaultLog),
+        bodySignals: normalizeStringArray(_bodySignals),
+        createdAt: normalizeCreatedAt(_rawCreatedAt),
+        weaverTags: _weaverTags as WeaverTags | undefined,
+      });
+      return row;
+    }),
   );
 }
 

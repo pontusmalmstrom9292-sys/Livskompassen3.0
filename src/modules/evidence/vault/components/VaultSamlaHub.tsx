@@ -54,7 +54,9 @@ export function VaultSamlaHub({ userId, saving, saveError, onSave, onBevisConfir
   }, []);
 
   useEffect(() => {
-    void refreshPendingCount();
+    if (samlaView !== 'granska') {
+      void refreshPendingCount();
+    }
   }, [refreshPendingCount, samlaView]);
 
   const handleBevisConfirmed = (docId: string) => {

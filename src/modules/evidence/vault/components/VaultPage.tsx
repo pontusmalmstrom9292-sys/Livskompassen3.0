@@ -14,6 +14,7 @@ import {
 import { useStore } from '../../../core/store';
 import { hasVaultGate, clearVaultGate } from '../../../core/auth/sessionService';
 import { saveVaultLog, getVaultLogs } from '../../../core/firebase/firestore';
+import { OfflineWriteBlockedError } from '../../../core/firebase/offlineWritePolicy';
 import type { VaultLog } from '../../../core/types/firestore';
 import { VaultLogList } from './VaultLogList';
 import { VaultSamlaHub } from './VaultSamlaHub';
@@ -68,7 +69,8 @@ export function VaultPage({
   const [isSetup, setIsSetup] = useState(!hasPinConfigured());
   const [confirmPin, setConfirmPin] = useState('');
   const [logs, setLogs] = useState<(VaultLog & { id: string })[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [logsLoading, setLogsLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
@@ -122,11 +124,11 @@ export function VaultPage({
 
   useEffect(() => {
     if (isVaultUnlocked && user) {
-      setLoading(true);
+      setLogsLoading(true);
       getVaultLogs(user.uid)
         .then(setLogs)
         .catch(() => setError('Kunde inte hämta loggar.'))
-        .finally(() => setLoading(false));
+        .finally(() => setLogsLoading(false));
     }
   }, [isVaultUnlocked, user]);
 
@@ -163,19 +165,28 @@ export function VaultPage({
 
   const handleSaveLog = async (input: VaultLogInput) => {
     if (!user) {
-      throw new Error('Inte inloggad');
+      setError('Inte inloggad.');
+      throw new Error('vault-save-failed');
     }
-    setLoading(true);
+    setSaving(true);
     setError(null);
     try {
       await saveVaultLog(user.uid, input);
-      const updated = await getVaultLogs(user.uid);
-      setLogs(updated);
-    } catch {
-      setError('Kunde inte spara till valvet.');
+      try {
+        const updated = await getVaultLogs(user.uid);
+        setLogs(updated);
+      } catch {
+        /* save lyckades — lista uppdateras vid nästa laddning */
+      }
+    } catch (err) {
+      setError(
+        err instanceof OfflineWriteBlockedError
+          ? err.message
+          : 'Kunde inte spara till valvet.',
+      );
       throw new Error('vault-save-failed');
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
@@ -309,12 +320,12 @@ export function VaultPage({
         <>
           <VaultSamlaHub
             userId={user.uid}
-            saving={loading}
+            saving={saving}
             saveError={error}
             onSave={handleSaveLog}
             onBevisConfirmed={(docId) => void handleBevisConfirmed(docId)}
           />
-          <VaultLogList logs={logs} loading={loading} highlightLogId={highlightLogId} />
+          <VaultLogList logs={logs} loading={logsLoading} highlightLogId={highlightLogId} />
         </>
       )}
 

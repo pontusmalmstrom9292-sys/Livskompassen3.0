@@ -26,6 +26,7 @@ export function DagensRiktningCard({ open, onOpenChange, onCheckInSaved }: Props
 
           <div className="dagens-riktning-card__body">
             <p className="dagens-riktning-card__eyebrow">
+              <span className="dagens-riktning-card__active-dot" aria-hidden />
               Dagens riktning · {meta.label}
             </p>
             <p className="dagens-riktning-card__title">{meta.heroTitle}</p>
@@ -48,20 +49,20 @@ export function DagensRiktningCard({ open, onOpenChange, onCheckInSaved }: Props
             />
           </button>
         </div>
-      </div>
 
-      {open ? (
-        <div className="dagens-riktning-card__panel">
-          <DashboardPage
-            variant="module"
-            forcedFlow={flow}
-            onCheckInSaved={() => {
-              onCheckInSaved?.();
-              onOpenChange(false);
-            }}
-          />
-        </div>
-      ) : null}
+        {open ? (
+          <div className="dagens-riktning-card__panel">
+            <DashboardPage
+              variant="module"
+              forcedFlow={flow}
+              onCheckInSaved={() => {
+                onCheckInSaved?.();
+                onOpenChange(false);
+              }}
+            />
+          </div>
+        ) : null}
+      </div>
     </section>
   );
 }

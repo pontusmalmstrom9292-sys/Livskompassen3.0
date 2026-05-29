@@ -38,10 +38,13 @@
 | Zon | Innehåll |
 |-----|----------|
 | 1 | `CompassModuleStrip` — 3 kompassmoduler |
-| 2 | Snabbmoduler (avlånga): Dagbok · Uppgift · Frågesport · Lucka |
-| 3 | `AdaptiveMemoryCards` — oförändrat under |
+| 2 | **Widget under varje kompass** — snabbstart (frågesport, känslomemory, kurs, inspelning, anteckning, …) |
+| 3 | Snabbmoduler (avlånga): Dagbok · Uppgift · Frågesport · Lucka *(global — kan slås ihop med rad 2)* |
+| 4 | `AdaptiveMemoryCards` — oförändrat under |
 
-Kod: `HomeCompassModules.tsx`, `HomeActionHub.tsx`, `CompassModuleStrip.tsx`.
+**Plan 2026-05-29:** [`docs/evaluations/2026-05-29-kompass-widget-snabbstart-plan.md`](../evaluations/2026-05-29-kompass-widget-snabbstart-plan.md) — widget per Morgon/Dag/Kväll + designstädning.
+
+Kod: `HomeCompassModules.tsx`, `HomeActionHub.tsx`, `CompassModuleStrip.tsx`, `HomeHeroKanon` / `DagensRiktningCard`.
 
 ---
 

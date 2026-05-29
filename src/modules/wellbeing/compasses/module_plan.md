@@ -52,6 +52,10 @@ De 3 Kompasserna — Morgonkompassen (Sacred), Dagskompassen, Kvällskompassen. 
 | AuthGate + tids-default | Kladd | Ja | **done** |
 | Notiser 2–3/dag | In-app först | Nej | **planned** |
 | Bro Måbra/Barnen kväll | Kladd | Ja | **done** |
+| Widget under varje kompass (snabbstart) | Eval 2026-05-29 | Nej | **planned** P1 |
+| Kompass UI redesign (K1/K2/K3 + städning) | Eval 2026-05-29 | Delvis Hem | **planned** P2 |
+
+**Plan widget:** [`docs/evaluations/2026-05-29-kompass-widget-snabbstart-plan.md`](../../../docs/evaluations/2026-05-29-kompass-widget-snabbstart-plan.md)
 
 **Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
 

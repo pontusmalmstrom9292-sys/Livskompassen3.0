@@ -64,7 +64,11 @@ Sub-rutter `/morgon`, `/dag`, `/kvall` — **post-MVP** (idag: flikar + tids-def
 
 ### Idag (kod)
 
-[`DashboardPage.tsx`](../../../src/modules/kompasser/components/DashboardPage.tsx): flikar Morgon/Dag/Kväll, KASAM kväll, Paralys, tids-default, `saveCheckIn`. **MVP done**.
+[`DashboardPage.tsx`](../../../src/modules/wellbeing/compasses/components/DashboardPage.tsx): flikar Morgon/Dag/Kväll, KASAM kväll, Paralys, tids-default, `saveCheckIn`. **MVP done**.
+
+### Planerat — widget snabbstart (2026-05-29)
+
+Under **varje** kompass (Morgon · Dag · Kväll): kompakt widget-rad för snabbstart (frågesport, känslomemory, snabbkurs, inspelning, anteckning, m.m.) + visuell omdesign (K1/K2/K3, 2px guld). Se [`docs/evaluations/2026-05-29-kompass-widget-snabbstart-plan.md`](../../evaluations/2026-05-29-kompass-widget-snabbstart-plan.md).
 
 ---
 

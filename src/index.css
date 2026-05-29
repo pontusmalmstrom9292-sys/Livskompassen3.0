@@ -1394,21 +1394,28 @@
   }
 
   .glass-header-bar--kanon {
-    @apply relative grid h-[5rem] grid-cols-[auto_1fr_auto] items-center gap-2 px-3;
+    @apply grid h-[5rem] grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-3;
     background: var(--glass);
     border-color: var(--border-strong);
   }
 
+  .glass-header-bar--kanon .glass-header-bar__leading {
+    @apply relative z-10 flex min-w-0 items-center gap-0.5 sm:gap-1;
+  }
+
   .glass-header-bar--kanon .app-header__brand--kanon {
-    @apply pointer-events-auto absolute left-1/2 top-1/2 z-20 flex -translate-x-1/2 -translate-y-1/2 flex-row items-center;
-    grid-column: 1 / -1;
-    width: max-content;
-    max-width: min(94vw, 25.5rem);
+    @apply pointer-events-auto static flex min-w-0 translate-x-0 translate-y-0 flex-row items-center;
+    max-width: min(calc(100vw - 7.5rem), 22rem);
   }
 
   .livskompass-brand-lockup--inline .livskompass-brand-lockup__mark {
     filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5))
       drop-shadow(0 0 14px rgba(212, 175, 55, 0.42));
+  }
+
+  .livskompass-brand-lockup--header .livskompass-brand-lockup__mark {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4))
+      drop-shadow(0 0 6px rgba(212, 175, 55, 0.18));
   }
 
   .livskompass-brand-lockup__title {
@@ -1426,6 +1433,20 @@
       drop-shadow(0 0 18px rgba(212, 175, 55, 0.28));
   }
 
+  /* Header — solid guld (filter + background-clip:text = osynlig text i WebKit) */
+  .livskompass-brand-lockup--header .livskompass-brand-lockup__title {
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    color: #dcc06a;
+    filter: none;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);
+  }
+
+  .livskompass-brand-lockup--header .livskompass-brand-lockup__title--inline {
+    filter: none;
+  }
+
   @media (min-width: 640px) {
     .livskompass-brand-lockup__title--inline {
       letter-spacing: 0.34em;
@@ -1433,7 +1454,7 @@
   }
 
   .glass-header-bar--kanon .app-header__page-badge {
-    @apply absolute left-1/2 top-[calc(50%+1.35rem)] -translate-x-1/2;
+    @apply ml-1.5 shrink-0 self-center rounded-md border border-accent/25 bg-black/30 px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.12em] text-accent/90;
   }
 
   .livskompass-hero__panel--h1-full {
@@ -2247,21 +2268,83 @@
     @apply max-w-[4.5rem] text-[9px] font-medium leading-tight text-accent/90;
   }
 
+  .home-hero-kanon__compass-stage {
+    display: none;
+  }
+
+  .home-page--scenic .home-hero-kanon__compass-stage {
+    display: block;
+    @apply pointer-events-none mx-auto w-full max-w-lg;
+    min-height: clamp(10.5rem, 44vw, 17rem);
+  }
+
   .home-page--scenic .home-hero-kanon__intro {
-    @apply flex flex-col items-center gap-3 px-1 text-center;
+    @apply relative z-[1] flex flex-col items-center gap-3 px-1 text-center;
   }
 
   .home-page--scenic .home-greeting {
-    @apply w-full max-w-lg;
+    @apply relative w-full max-w-lg overflow-hidden rounded-2xl px-5 py-4 text-center;
+    border: 1.5px solid color-mix(in srgb, var(--accent) 34%, transparent);
+    background: linear-gradient(
+      168deg,
+      rgba(48, 40, 28, 0.82) 0%,
+      rgba(16, 14, 12, 0.9) 45%,
+      rgba(6, 8, 16, 0.88) 100%
+    );
+    backdrop-filter: blur(14px);
+    box-shadow:
+      0 10px 32px rgba(0, 0, 0, 0.48),
+      inset 0 1px 0 rgba(255, 243, 210, 0.12);
+  }
+
+  .home-page--scenic .home-greeting::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(212, 175, 55, 0.55) 50%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  .home-page--scenic .home-greeting__eyebrow {
+    @apply mb-2 text-[9px] font-medium uppercase tracking-[0.32em] text-accent/75;
   }
 
   .home-page--scenic .home-greeting__title {
-    @apply text-xl font-light leading-snug sm:text-[1.65rem];
-    text-shadow: 0 2px 24px rgba(212, 175, 55, 0.25);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    @apply text-[1.55rem] font-medium leading-tight sm:text-[1.85rem];
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  .home-page--scenic .home-greeting__salutation {
+    color: #e8d48a;
+  }
+
+  .home-page--scenic .home-greeting__name {
+    color: #f5f0e8;
+  }
+
+  .home-page--scenic .home-greeting__star {
+    @apply text-accent/65;
   }
 
   .home-page--scenic .home-greeting__tagline {
-    @apply mx-auto mt-2 max-w-[20rem] text-[13px] leading-relaxed text-accent-light/90 sm:max-w-md sm:text-sm;
+    @apply mx-auto mt-3 max-w-[19rem] text-[13px] leading-relaxed text-text-muted sm:max-w-sm sm:text-sm;
+  }
+
+  .home-greeting__eyebrow {
+    display: none;
+  }
+
+  .home-page--scenic .home-greeting__eyebrow {
+    display: block;
   }
 
   .home-page--scenic .home-streak-chip {
@@ -2882,37 +2965,22 @@
     background: rgba(10, 10, 10, 0.55);
   }
 
-  .home-page--scenic .dagens-riktning-card {
-    border-color: rgba(212, 175, 55, 0.42);
-    background: linear-gradient(
-      168deg,
-      rgba(42, 34, 22, 0.97) 0%,
-      rgba(18, 14, 10, 0.95) 42%,
-      rgba(6, 8, 18, 0.93) 100%
-    );
-  }
-
-  .home-page--scenic .dagens-riktning-card__quote {
-    @apply text-text/95;
-  }
-
   .dagens-riktning {
     @apply space-y-2;
   }
 
   .dagens-riktning-card {
-    @apply relative overflow-hidden rounded-2xl border px-4 py-3.5;
-    border: 2px solid rgba(212, 175, 55, 0.38);
+    @apply relative overflow-hidden rounded-[0.875rem] border px-4 py-4 backdrop-blur-md;
+    border: 1.5px solid color-mix(in srgb, var(--accent) 30%, transparent);
     background: linear-gradient(
       168deg,
-      rgba(42, 34, 22, 0.96) 0%,
-      rgba(18, 14, 10, 0.94) 42%,
-      rgba(6, 8, 18, 0.92) 100%
+      rgba(48, 40, 28, 0.8) 0%,
+      rgba(16, 14, 12, 0.88) 45%,
+      rgba(6, 8, 16, 0.86) 100%
     );
     box-shadow:
-      0 10px 32px rgba(0, 0, 0, 0.48),
-      0 0 0 1px rgba(0, 0, 0, 0.32),
-      inset 0 2px 0 rgba(255, 243, 196, 0.1);
+      0 10px 32px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 243, 210, 0.1);
   }
 
   .dagens-riktning-card::before {
@@ -2921,43 +2989,32 @@
     top: 0;
     left: 10%;
     right: 10%;
-    height: 2px;
-    border-radius: 9999px;
+    height: 1px;
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(255, 230, 180, 0.45) 22%,
-      rgba(212, 175, 55, 0.75) 50%,
-      rgba(255, 230, 180, 0.35) 78%,
+      rgba(212, 175, 55, 0.5) 50%,
       transparent 100%
     );
     pointer-events: none;
   }
 
   .dagens-riktning-card--open {
-    border-color: rgba(212, 175, 55, 0.52);
+    border-color: color-mix(in srgb, var(--accent) 42%, transparent);
     box-shadow:
-      0 12px 36px rgba(0, 0, 0, 0.52),
-      0 0 24px rgba(212, 175, 55, 0.1),
-      inset 0 2px 0 rgba(255, 243, 196, 0.12);
+      0 12px 36px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 243, 210, 0.12);
   }
 
   .dagens-riktning-card__main {
-    @apply relative z-[1] flex items-start gap-3;
+    @apply relative z-[1] flex items-start gap-3.5;
   }
 
   .dagens-riktning-card__icon-wrap {
-    @apply flex shrink-0 items-center justify-center rounded-[0.85rem] p-1;
-    border: 1.5px solid color-mix(in srgb, var(--accent) 44%, transparent);
-    background: linear-gradient(
-      168deg,
-      rgba(52, 44, 30, 0.98) 0%,
-      rgba(22, 18, 14, 0.96) 48%,
-      rgba(8, 10, 16, 0.94) 100%
-    );
-    box-shadow:
-      0 4px 12px rgba(0, 0, 0, 0.45),
-      inset 0 1px 0 rgba(255, 243, 210, 0.12);
+    @apply flex shrink-0 items-center justify-center rounded-lg p-1;
+    border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+    background: rgba(2, 6, 23, 0.35);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
 
   .dagens-riktning-card__compass-chip {
@@ -2983,33 +3040,37 @@
   }
 
   .dagens-riktning-card__eyebrow {
-    @apply text-[9px] font-medium uppercase tracking-[0.22em] text-accent/80 leading-none;
+    @apply flex items-center gap-1.5 text-[9px] font-medium uppercase tracking-[0.28em] text-accent/75 leading-none;
+  }
+
+  .dagens-riktning-card__active-dot {
+    @apply inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-accent;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.55);
   }
 
   .dagens-riktning-card__title {
-    @apply mt-1 font-display text-sm font-semibold text-text;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    @apply mt-1.5 text-lg font-medium leading-tight text-[#f5f0e8] sm:text-xl;
   }
 
   .dagens-riktning-card__quote {
-    @apply mt-1.5 text-[13px] leading-relaxed text-text-muted;
+    @apply mt-2 text-[13px] leading-relaxed text-text-muted sm:text-sm;
   }
 
   .dagens-riktning-card__actions {
-    @apply relative z-[1] mt-3;
+    @apply relative z-[1] mt-4;
   }
 
   .dagens-riktning-card__cta {
-    @apply inline-flex w-full items-center justify-center gap-1.5 rounded-xl border-0 px-3 py-2.5 text-xs font-semibold uppercase tracking-[0.12em] text-text transition-colors;
-    background: color-mix(in srgb, var(--accent) 16%, rgba(8, 10, 16, 0.92));
-    border: 1.5px solid color-mix(in srgb, var(--accent) 42%, transparent);
-    box-shadow:
-      0 4px 14px rgba(0, 0, 0, 0.4),
-      inset 0 1px 0 rgba(255, 243, 210, 0.1);
+    @apply inline-flex w-full items-center justify-center gap-2 rounded-lg border px-3 py-2.5 text-sm font-medium tracking-[0.06em] text-text transition-colors;
+    border-color: color-mix(in srgb, var(--accent) 36%, transparent);
+    background: rgba(2, 6, 23, 0.4);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
 
   .dagens-riktning-card__cta:hover {
-    background: color-mix(in srgb, var(--accent) 24%, rgba(8, 10, 16, 0.9));
-    border-color: color-mix(in srgb, var(--accent-light) 55%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+    background: color-mix(in srgb, var(--accent) 12%, rgba(2, 6, 23, 0.5));
   }
 
   .dagens-riktning-card__cta-chevron {
@@ -3021,10 +3082,12 @@
   }
 
   .dagens-riktning-card__panel {
-    @apply rounded-2xl border p-4;
-    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
-    background: rgba(4, 6, 10, 0.94);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    @apply relative z-[1] mt-4 border-t pt-4;
+    border-color: color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .home-page--scenic .dagens-riktning-card {
+    border-color: color-mix(in srgb, var(--accent) 34%, transparent);
   }
 
   .home-hero-kanon__dots {

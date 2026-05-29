@@ -14,7 +14,7 @@ export function AppHeaderBrand() {
       className="app-header__brand app-header__brand--kanon app-header__brand-link"
       aria-label="Livskompassen — hem"
     >
-      <LivskompassBrandLockup layout="inline" />
+      <LivskompassBrandLockup layout="header" />
       {showPageBadge ? (
         <span className="app-header__page-badge" aria-current="page">
           {pageLabel}
