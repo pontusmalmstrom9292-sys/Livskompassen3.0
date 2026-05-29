@@ -117,7 +117,7 @@ export function formatInkastResultMessage(result: SubmitInkastLiteResult): strin
   const routingLabel = ROUTING_LABELS[classification.routing] ?? 'Granska';
 
   if (action === 'queued') {
-    return `Väntar granskning (${routingLabel}). Öppna Valv → Kunskapsbank → Inkorg när du vill bekräfta.`;
+    return `Väntar granskning (${routingLabel}). Öppna Valv → Samla → granskningskö när du vill bekräfta.`;
   }
 
   const dest =
@@ -131,6 +131,11 @@ export function formatInkastResultMessage(result: SubmitInkastLiteResult): strin
 export const VALV_KUNSKAP_INBOX_LINK = {
   pathname: '/dagbok',
   search: '?tab=bevis&vaultTab=kunskapsbank',
+} as const;
+
+export const VALV_SAMLA_GRANSKA_LINK = {
+  pathname: '/dagbok',
+  search: '?tab=bevis&vaultTab=logga&samlaView=granska',
 } as const;
 
 export const VALV_ARKIV_LINK = {

@@ -8,7 +8,7 @@ import {
   formatInkastResultMessage,
   submitInkastLite,
   VALV_ARKIV_LINK,
-  VALV_KUNSKAP_INBOX_LINK,
+  VALV_SAMLA_GRANSKA_LINK,
   type SubmitInkastLiteResult,
 } from '../api/inkastService';
 
@@ -190,7 +190,7 @@ export function InkastLiteCard() {
             <p>{successMessage}</p>
             {lastResult.action === 'queued' && (
               <Link
-                to={VALV_KUNSKAP_INBOX_LINK}
+                to={VALV_SAMLA_GRANSKA_LINK}
                 className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
               >
                 Öppna granskningskö (Valv)

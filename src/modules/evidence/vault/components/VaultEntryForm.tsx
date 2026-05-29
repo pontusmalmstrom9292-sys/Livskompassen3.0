@@ -8,6 +8,7 @@ import type { VaultEntryType, VaultLogInput } from '../types/vaultEntry';
 import { HandoffBox } from '../../../diary/diary/components/HandoffBox';
 import { shouldShowValvHandoff } from '../../../core/triggers/valvHandoff';
 import { VaultPatternHandoff } from './VaultPatternHandoff';
+import { parseSmsThreadToTwoColumn } from '../utils/smsThreadParse';
 
 type VaultEntryFormProps = {
   userId: string;
@@ -30,6 +31,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
   const [uploading, setUploading] = useState(false);
   const [attachError, setAttachError] = useState<string | null>(null);
   const [pinned, setPinned] = useState(false);
+  const [smsThreadPaste, setSmsThreadPaste] = useState('');
 
   const appendVoice = useCallback(
     (chunk: string) => {
@@ -226,6 +228,34 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
       )}
 
       {mode === 'two_column' && (
+        <div className="space-y-3">
+          <div className="rounded-xl border border-border-subtle bg-surface/30 p-3">
+            <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">
+              Klistra hel sms-tråd
+            </p>
+            <textarea
+              value={smsThreadPaste}
+              onChange={(e) => setSmsThreadPaste(e.target.value)}
+              placeholder="Klistra hela konversationen — rader med «Namn:» delas automatiskt"
+              rows={3}
+              className="input-glass w-full resize-none rounded-xl px-3 py-2 text-sm"
+            />
+            <button
+              type="button"
+              className="btn-pill--ghost mt-2 text-xs"
+              disabled={smsThreadPaste.trim().length < 20}
+              onClick={() => {
+                const parsed = parseSmsThreadToTwoColumn(smsThreadPaste);
+                if (parsed) {
+                  setTheirVersion(parsed.theirVersion);
+                  setMyReality(parsed.myReality);
+                  setSmsThreadPaste('');
+                }
+              }}
+            >
+              Dela i två kolumner
+            </button>
+          </div>
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
             <p className="mb-1 text-[10px] uppercase tracking-widest text-text-dim">Hens version</p>
@@ -247,6 +277,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
               className="input-glass rounded-xl px-3 py-2 resize-none w-full"
             />
           </div>
+        </div>
         </div>
       )}
 

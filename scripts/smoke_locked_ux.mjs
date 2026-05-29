@@ -101,10 +101,17 @@ function main() {
     'getAnalyseraVaultTabBarItems',
     'getKunskapVaultTabBarItems',
     'VaultValvBreadcrumb',
+    'VaultSamlaHub',
     'VaultMonsterPanel',
     'VaultOrkesterPanel',
     'VaultKunskapsbankPanel',
     'VaultAktorskartaPanel',
+  );
+  mustInclude(
+    'src/modules/evidence/vault/components/VaultSamlaHub.tsx',
+    'VaultInkastCompact',
+    'VaultSamlaDriveHint',
+    'samlaView',
   );
   mustInclude(
     'src/modules/evidence/knowledge/components/VaultAktorskartaPanel.tsx',

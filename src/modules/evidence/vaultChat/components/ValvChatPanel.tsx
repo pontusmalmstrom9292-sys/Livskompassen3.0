@@ -62,12 +62,17 @@ export function ValvChatPanel({ active, onCitationClick }: ValvChatPanelProps) {
                     <button
                       type="button"
                       onClick={() => onCitationClick?.(c.docId)}
-                      className="w-full text-left hover:opacity-90"
+                      className={`w-full text-left transition-opacity ${
+                        onCitationClick
+                          ? 'cursor-pointer hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50'
+                          : 'cursor-default opacity-80'
+                      }`}
                       disabled={!onCitationClick}
+                      aria-label={onCitationClick ? `Visa bevispost ${c.docId.slice(0, 8)}` : undefined}
                     >
                       <p className="text-xs text-success">
                         {c.date || 'datum saknas'} · {c.docId.slice(0, 8)}…
-                        {onCitationClick ? ' · visa post' : ''}
+                        {onCitationClick ? ' · tryck för att visa i arkiv' : ''}
                       </p>
                       <p className="mt-1 text-sm text-text-muted">{c.excerpt}</p>
                     </button>

@@ -17,7 +17,7 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
 
   return (
     <div className="home-hero-kanon space-y-5">
-      <div className="home-hero-kanon__top">
+      <div className="home-hero-kanon__intro">
         <HomeGreeting />
         <HomeStreakChip />
       </div>

@@ -15,8 +15,8 @@ import { useStore } from '../../../core/store';
 import { hasVaultGate, clearVaultGate } from '../../../core/auth/sessionService';
 import { saveVaultLog, getVaultLogs } from '../../../core/firebase/firestore';
 import type { VaultLog } from '../../../core/types/firestore';
-import { VaultEntryForm } from './VaultEntryForm';
 import { VaultLogList } from './VaultLogList';
+import { VaultSamlaHub } from './VaultSamlaHub';
 import { ValvChatPanel } from '../../../evidence/vaultChat';
 import { DossierPage } from '../dossier';
 import { VaultMonsterPanel } from './VaultMonsterPanel';
@@ -91,6 +91,19 @@ export function VaultPage({
   const handleCitationClick = (docId: string) => {
     setHighlightLogId(docId);
     setVaultTab('logga');
+  };
+
+  const handleBevisConfirmed = async (docId: string) => {
+    setHighlightLogId(docId);
+    setVaultTab('logga');
+    if (user) {
+      try {
+        const updated = await getVaultLogs(user.uid);
+        setLogs(updated);
+      } catch {
+        /* list refresh best-effort */
+      }
+    }
   };
 
   const handleValvZoneChange = (zone: ValvZone) => {
@@ -294,10 +307,13 @@ export function VaultPage({
 
       {valvZone === 'samla' && vaultTab === 'logga' && (
         <>
-          <BentoCard title="Ny post" description="Append-only bevis">
-            <VaultEntryForm userId={user.uid} saving={loading} onSave={handleSaveLog} />
-            {error && <p className="mt-2 text-sm text-danger">{error}</p>}
-          </BentoCard>
+          <VaultSamlaHub
+            userId={user.uid}
+            saving={loading}
+            saveError={error}
+            onSave={handleSaveLog}
+            onBevisConfirmed={(docId) => void handleBevisConfirmed(docId)}
+          />
           <VaultLogList logs={logs} loading={loading} highlightLogId={highlightLogId} />
         </>
       )}

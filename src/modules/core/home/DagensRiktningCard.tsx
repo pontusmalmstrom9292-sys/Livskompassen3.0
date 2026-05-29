@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { clsx } from 'clsx';
 import { DashboardPage } from '../../wellbeing/compasses/components/DashboardPage';
@@ -48,9 +47,6 @@ export function DagensRiktningCard({ open, onOpenChange, onCheckInSaved }: Props
               aria-hidden
             />
           </button>
-          <Link to="/vardagen?tab=kompasser" className="dagens-riktning-card__link">
-            Alla kompasser
-          </Link>
         </div>
       </div>
 

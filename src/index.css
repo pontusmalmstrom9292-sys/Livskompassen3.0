@@ -2247,13 +2247,21 @@
     @apply max-w-[4.5rem] text-[9px] font-medium leading-tight text-accent/90;
   }
 
+  .home-page--scenic .home-hero-kanon__intro {
+    @apply flex flex-col items-center gap-3 px-1 text-center;
+  }
+
+  .home-page--scenic .home-greeting {
+    @apply w-full max-w-lg;
+  }
+
   .home-page--scenic .home-greeting__title {
-    @apply text-[1.65rem] sm:text-2xl;
+    @apply text-xl font-light leading-snug sm:text-[1.65rem];
     text-shadow: 0 2px 24px rgba(212, 175, 55, 0.25);
   }
 
   .home-page--scenic .home-greeting__tagline {
-    @apply text-accent-light/90;
+    @apply mx-auto mt-2 max-w-[20rem] text-[13px] leading-relaxed text-accent-light/90 sm:max-w-md sm:text-sm;
   }
 
   .home-page--scenic .home-streak-chip {
@@ -2274,8 +2282,8 @@
     @apply mt-2 text-sm text-text-muted;
   }
 
-  .home-hero-kanon__top {
-    @apply flex items-start justify-between gap-3;
+  .home-hero-kanon__intro {
+    @apply flex flex-col items-stretch gap-3 sm:flex-row sm:items-start sm:justify-between;
   }
 
   .home-streak-chip {
@@ -2987,11 +2995,11 @@
   }
 
   .dagens-riktning-card__actions {
-    @apply relative z-[1] mt-3 flex items-center gap-2;
+    @apply relative z-[1] mt-3;
   }
 
   .dagens-riktning-card__cta {
-    @apply inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl border-0 px-3 py-2.5 text-xs font-semibold uppercase tracking-[0.12em] text-text transition-colors;
+    @apply inline-flex w-full items-center justify-center gap-1.5 rounded-xl border-0 px-3 py-2.5 text-xs font-semibold uppercase tracking-[0.12em] text-text transition-colors;
     background: color-mix(in srgb, var(--accent) 16%, rgba(8, 10, 16, 0.92));
     border: 1.5px solid color-mix(in srgb, var(--accent) 42%, transparent);
     box-shadow:
@@ -3010,10 +3018,6 @@
 
   .dagens-riktning-card__cta-chevron--open {
     @apply rotate-180;
-  }
-
-  .dagens-riktning-card__link {
-    @apply shrink-0 rounded-lg px-2 py-2 text-[10px] font-medium uppercase tracking-[0.14em] text-text-dim no-underline transition-colors hover:text-accent;
   }
 
   .dagens-riktning-card__panel {

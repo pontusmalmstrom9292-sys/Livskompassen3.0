@@ -25,10 +25,30 @@ function queueStatusLabel(item: InboxQueueItem): string {
 
 type Props = {
   compact?: boolean;
+  /** Valv Samla: sortera bevis/review först */
+  prioritizeBevis?: boolean;
+  /** Efter bekräftad routing till reality_vault */
+  onBevisConfirmed?: (docId: string) => void;
+  onBack?: () => void;
 };
 
+function sortForValvSamla(items: InboxQueueItem[]): InboxQueueItem[] {
+  const score = (item: InboxQueueItem) => {
+    if (item.proposedRouting === 'bevis') return 0;
+    if (item.proposedRouting === 'review' || item.confidence < 0.75) return 1;
+    if (item.traumaSensitive) return 2;
+    return 3;
+  };
+  return [...items].sort((a, b) => score(a) - score(b));
+}
+
 /** G10 HITL-kö — godkänn/avvisa innan material når Valv eller Kunskap (U1). */
-export function InboxReviewQueue({ compact = false }: Props) {
+export function InboxReviewQueue({
+  compact = false,
+  prioritizeBevis = false,
+  onBevisConfirmed,
+  onBack,
+}: Props) {
   const isAuthenticated = useStore((s) => s.isAuthenticated);
   const [items, setItems] = useState<InboxQueueItem[]>([]);
   const [loading, setLoading] = useState(false);
@@ -68,6 +88,9 @@ export function InboxReviewQueue({ compact = false }: Props) {
         routing === 'barnen' ? item.childAlias ?? 'Kasper' : undefined,
       );
       setLastAction(`Routed till ${result.collection} · ${result.docId.slice(0, 8)}…`);
+      if (routing === 'bevis' && result.collection === 'reality_vault' && result.docId) {
+        onBevisConfirmed?.(result.docId);
+      }
       await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Bekräftelse misslyckades.');
@@ -93,16 +116,24 @@ export function InboxReviewQueue({ compact = false }: Props) {
 
   if (!isAuthenticated) return null;
 
+  const displayItems = prioritizeBevis ? sortForValvSamla(items) : items;
+
   return (
     <BentoCard
-      title={compact ? 'Granskningskö' : 'Inkorg — granska'}
+      title={compact ? 'Granskningskö' : prioritizeBevis ? 'Granskningskö · Samla' : 'Inkorg — granska'}
       description="G10 · routed / review / rejected"
       icon={<Inbox className="h-4 w-4 text-accent" />}
     >
+      {onBack && (
+        <button type="button" className="btn-pill--ghost mb-3 text-xs" onClick={onBack}>
+          ← Tillbaka till logga
+        </button>
+      )}
       {!compact && (
         <p className="mb-3 text-xs text-text-dim">
           Drive och oklara filer hamnar här. Bekräfta silo innan Valv eller Kunskap — ingen
           cross-RAG.
+          {prioritizeBevis ? ' Bevis-förslag visas först.' : ''}
         </p>
       )}
 
@@ -110,12 +141,12 @@ export function InboxReviewQueue({ compact = false }: Props) {
       {error && <p className="text-sm text-amber-400/90">{error}</p>}
       {lastAction && <p className="mb-2 text-xs text-success">{lastAction}</p>}
 
-      {!loading && items.length === 0 && (
+      {!loading && displayItems.length === 0 && (
         <p className="text-sm text-text-dim">Ingen väntande post i granskningskön.</p>
       )}
 
       <ul className="space-y-3">
-        {items.map((item) => (
+        {displayItems.map((item) => (
           <li
             key={item.id}
             className="rounded-lg border border-border/60 bg-surface/40 px-3 py-3 text-sm"
