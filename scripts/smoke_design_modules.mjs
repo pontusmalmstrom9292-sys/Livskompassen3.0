@@ -43,9 +43,12 @@ function main() {
   mustInclude('src/modules/family/children/components/BarnensPage.tsx', 'ChildProfileCards', 'ParentReminderFooter');
   mustInclude(
     'src/modules/evidence/vault/components/VaultPage.tsx',
-    'getPansaretVaultTabBarItems',
     'getVaultZoneTabBarItems',
+    'getSamlaVaultTabBarItems',
+    'getAnalyseraVaultTabBarItems',
     'PansaretHeader',
+    'VaultMonsterPanel',
+    'VaultOrkesterPanel',
   );
   mustInclude('src/modules/core/navigation/tabRegistry.ts', "logga: 'Arkiv'", "sok: 'Triage'");
   mustInclude('src/modules/evidence/vault/components/VaultOrkesterPanel.tsx', 'OrkesterAgentTrio', 'Registrerade dokument');
