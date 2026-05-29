@@ -41,6 +41,9 @@ repomix-output*.txt
 repomix-output*.xml
 
 # Orkester nattpass run logs (state.json may be kept locally)
+.content-autorun/runs/
+.content-autorun/state.json
+
 .orkester/runs/
 
 *.log
