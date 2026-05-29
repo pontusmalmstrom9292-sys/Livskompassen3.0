@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { clsx } from 'clsx';
 import { Mail, Plus } from 'lucide-react';
-import { ChromeV4Icon, type ChromeV4Category } from '../ui/chromeIcons';
+import { ChromeV5Icon, type ChromeV5Category } from '../ui/chromeIcons';
 import type { HubContextIconId } from './hubContextBar';
 
 /** PWA shortcut-glyph (samma assets som `manifest.webmanifest` WH1–WH2). */
@@ -22,10 +22,10 @@ function ChromeGlyph({
   category,
   className,
 }: {
-  category: ChromeV4Category;
+  category: ChromeV5Category;
   className: string;
 }) {
-  return <ChromeV4Icon category={category} className={className} />;
+  return <ChromeV5Icon category={category} className={className} />;
 }
 
 export function renderHubContextIcon(id: HubContextIconId, className: string): ReactNode {
@@ -37,7 +37,7 @@ export function renderHubContextIcon(id: HubContextIconId, className: string): R
     case 'calendar':
       return <ChromeGlyph category="planering" className={cls} />;
     case 'clock':
-      return <ChromeGlyph category="rutiner" className={cls} />;
+      return <ChromeGlyph category="arbetsliv" className={cls} />;
     case 'note':
       return <PwaShortcutImg src="/icons/shortcuts/wh-anteckning.svg" className={cls} />;
     case 'record':

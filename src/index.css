@@ -1399,6 +1399,71 @@
     border-color: var(--border-strong);
   }
 
+  .glass-header-bar--kanon .app-header__brand--kanon {
+    @apply pointer-events-auto absolute left-1/2 top-1/2 z-20 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center;
+    grid-column: 1 / -1;
+    width: max-content;
+    max-width: min(72vw, 14rem);
+  }
+
+  .livskompass-brand-lockup--compact {
+    transform: scale(0.82);
+    transform-origin: center top;
+  }
+
+  @media (min-width: 390px) {
+    .livskompass-brand-lockup--compact {
+      transform: scale(0.9);
+    }
+  }
+
+  @media (min-width: 480px) {
+    .livskompass-brand-lockup--compact {
+      transform: none;
+    }
+  }
+
+  .livskompass-brand-lockup__title {
+    background: linear-gradient(180deg, #faf3e0 0%, #e8d48a 38%, #d4af37 72%, #a68b2e 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+  }
+
+  .app-header__tagline--below-lockup {
+    @apply mt-0.5 text-center text-[0.62rem] tracking-wide text-text-muted;
+    font-family: Inter, sans-serif;
+  }
+
+  .glass-header-bar--kanon .app-header__page-badge {
+    @apply absolute left-1/2 top-[calc(50%+2.1rem)] -translate-x-1/2;
+  }
+
+  .livskompass-hero__panel--h1-full {
+    background-image: url('/hero-orbit/h1-orbit-hub-full-1920.png');
+    background-size: cover;
+    background-position: center top;
+  }
+
+  .livskompass-hero__panel--h1-alpha {
+    background-image: url('/hero-orbit/h1-obsidian-radial.webp');
+    background-size: cover;
+    background-position: center;
+  }
+
+  .livskompass-hero__panel--h1-alpha .livskompass-hero__disk-surface {
+    background-image: url('/hero-orbit/h1-orbit-hub-alpha-1920.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.95;
+  }
+
+  .dock-nav-btn__chrome-v5 {
+    @apply h-6 w-6;
+  }
+
   .glass-header-bar--home-quick {
     @apply grid-cols-[minmax(0,1fr)_auto_auto] gap-1.5 px-2;
   }
@@ -1690,15 +1755,9 @@
   }
 
   .app-header__brand-link {
-    @apply relative z-10 flex min-w-0 flex-col items-center gap-0.5 no-underline transition-opacity hover:opacity-90;
+    @apply relative z-10 flex min-w-0 items-center gap-3 no-underline transition-opacity hover:opacity-90;
     pointer-events: auto;
     touch-action: manipulation;
-  }
-
-  .app-header__wordmark {
-    @apply block h-8 w-auto max-w-[min(220px,56vw)] object-contain;
-    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45))
-      drop-shadow(0 0 12px rgba(212, 175, 55, 0.35));
   }
 
   .app-header__logo--kanon.header-chrome-btn {

@@ -3,6 +3,19 @@ import { Link } from 'react-router-dom';
 import { Anchor, Calendar, Compass, Settings, Sparkles, Users } from 'lucide-react';
 import { ValvArchIcon } from '../ui/ValvArchIcon';
 import { LivskompassMark } from '../ui/LivskompassMark';
+import { LivskompassBrandLockup } from '../ui/LivskompassBrandLockup';
+import { ChromeV5Icon, type ChromeV5Category } from '../ui/chromeIcons';
+import {
+  getAppIconVariant,
+  getChromeIconStyle,
+  getHeroVisualVariant,
+  setAppIconVariant,
+  setChromeIconStyle,
+  setHeroVisualVariant,
+  type AppIconVariant,
+  type ChromeIconStyle,
+  type HeroVisualVariant,
+} from '../theme/chromeIconPrefs';
 import { applyTheme } from '../theme/applyTheme';
 import { useTheme } from '../theme';
 import { THEME_LAB_DRAFTS, THEME_LAB_DRAFT_IDS } from '../theme/themeLabVariants';
@@ -234,8 +247,10 @@ export function ThemeLabPage() {
         </div>
       </section>
 
+      <IconLabSection />
+
       <section className="glass-card p-4">
-        <h2 className="text-xs uppercase tracking-widest text-text-dim">Ikoner (meny)</h2>
+        <h2 className="text-xs uppercase tracking-widest text-text-dim">Ikoner (meny — Lucide ref)</h2>
         <ul className="mt-3 space-y-2 text-sm">
           {[
             { label: 'Hem Kompass', Icon: Compass },
@@ -260,6 +275,108 @@ export function ThemeLabPage() {
         </p>
       </section>
     </div>
+  );
+}
+
+const HUB_CATS: ChromeV5Category[] = [
+  'familjen',
+  'hamn',
+  'hamnBiff',
+  'valv',
+  'dagbok',
+  'planering',
+  'mabra',
+  'kompis',
+  'projekt',
+  'arbetsliv',
+  'rutiner',
+  'ekonomi',
+  'utveckling',
+  'kunskap',
+];
+
+function IconLabSection() {
+  const [chromeStyle, setChromeStyleState] = useState<ChromeIconStyle>(getChromeIconStyle);
+  const [appIcon, setAppIconState] = useState<AppIconVariant>(getAppIconVariant);
+  const [heroVisual, setHeroVisualState] = useState<HeroVisualVariant>(getHeroVisualVariant);
+
+  return (
+    <section className="glass-card p-4">
+      <h2 className="text-xs uppercase tracking-widest text-text-dim">Guldlogga &amp; ikoner v5</h2>
+      <div className="mt-3 flex flex-wrap items-end gap-4">
+        <LivskompassBrandLockup />
+        <LivskompassMark className="h-12 w-12" />
+      </div>
+      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+        <label className="text-xs text-text-muted">
+          Hub-stil (G1–G5)
+          <select
+            className="mt-1 w-full rounded-lg border border-border bg-surface px-2 py-1.5 text-sm"
+            value={chromeStyle}
+            onChange={(e) => {
+              const v = e.target.value as ChromeIconStyle;
+              setChromeIconStyle(v);
+              setChromeStyleState(v);
+            }}
+          >
+            {(['g1', 'g2', 'g3', 'g4', 'g5'] as const).map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="text-xs text-text-muted">
+          Telefonikon
+          <select
+            className="mt-1 w-full rounded-lg border border-border bg-surface px-2 py-1.5 text-sm"
+            value={appIcon}
+            onChange={(e) => {
+              const v = e.target.value as AppIconVariant;
+              setAppIconVariant(v);
+              setAppIconState(v);
+            }}
+          >
+            <option value="p6">P6 guld stack</option>
+            <option value="p7-alpha">P7 vault transparent</option>
+            <option value="p8-alpha">P8 orbit transparent</option>
+          </select>
+        </label>
+        <label className="text-xs text-text-muted">
+          Hero-bakgrund
+          <select
+            className="mt-1 w-full rounded-lg border border-border bg-surface px-2 py-1.5 text-sm"
+            value={heroVisual}
+            onChange={(e) => {
+              const v = e.target.value as HeroVisualVariant;
+              setHeroVisualVariant(v);
+              setHeroVisualState(v);
+            }}
+          >
+            <option value="classic">Klassisk</option>
+            <option value="orbit-h1-full">H1 full</option>
+            <option value="orbit-h1-alpha">H1 alpha</option>
+          </select>
+        </label>
+      </div>
+      <div className="mt-4 flex flex-wrap gap-2">
+        {HUB_CATS.map((cat) => (
+          <span key={cat} className="flex flex-col items-center gap-1 rounded-lg border border-border/60 p-2">
+            <ChromeV5Icon category={cat} style={chromeStyle} className="h-8 w-8" />
+            <span className="text-[9px] text-text-dim">{cat}</span>
+          </span>
+        ))}
+      </div>
+      <div className="mt-4 flex flex-wrap gap-3">
+        {[
+          ['P6', '/docs/design/themes/phone-icon-variants/P6-gold-emboss-1024.png'],
+          ['P7α', '/docs/design/themes/phone-icon-variants/P7-vault-sacred-alpha-1024.png'],
+          ['P8α', '/docs/design/themes/phone-icon-variants/P8-orbit-hub-alpha-1024.png'],
+        ].map(([label, src]) => (
+          <img key={label} src={src} alt={label} className="h-16 w-16 rounded-2xl object-cover" />
+        ))}
+      </div>
+    </section>
   );
 }
 

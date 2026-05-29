@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { List, Plus, Sparkles } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useLongPress } from '../hooks/useLongPress';
-import { ChromeV4Icon } from '../ui/chromeIcons';
+import { ChromeV5Icon } from '../ui/chromeIcons';
 
 const GLYPH = 'h-4 w-4 shrink-0 object-contain';
 
@@ -37,7 +37,7 @@ const WIDGET_ACTIONS: {
     id: 'note',
     label: 'Anteckning',
     to: '/widget/anteckning',
-    renderIcon: () => <ChromeV4Icon category="dagbok" className={GLYPH} />,
+    renderIcon: () => <ChromeV5Icon category="dagbok" className={GLYPH} />,
   },
   {
     id: 'list',
@@ -49,13 +49,13 @@ const WIDGET_ACTIONS: {
     id: 'plan',
     label: 'Planering',
     to: '/planering?tab=handling',
-    renderIcon: () => <ChromeV4Icon category="planering" className={GLYPH} />,
+    renderIcon: () => <ChromeV5Icon category="planering" className={GLYPH} />,
   },
   {
     id: 'valv',
     label: 'Valv',
     to: '/dagbok?tab=bevis',
-    renderIcon: () => <ChromeV4Icon category="valv" className={GLYPH} />,
+    renderIcon: () => <ChromeV5Icon category="valv" className={GLYPH} />,
   },
   {
     id: 'projekt',

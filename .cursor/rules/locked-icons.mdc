@@ -10,7 +10,7 @@ Canonical: [`.context/locked-icons.md`](../../.context/locked-icons.md)
 | ID | File | Status |
 |----|------|--------|
 | ~~B1~~ | `public/favicon.svg` | **Upplåst** — app/favicon/Android får bytas (P1–P5 eller ny) |
-| D1 | `src/modules/core/ui/LivskompassMark.tsx` | LÅST |
+| D1 | `LivskompassMark.tsx` + `LivskompassBrandLockup.tsx` (Gold stack) | LÅST |
 | M2 | `src/modules/kompis/components/KompisMark.tsx` | LÅST |
 
 ## MUST

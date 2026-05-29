@@ -1,10 +1,10 @@
-import type { ChromeV4Category } from '../ui/chromeIcons';
+import type { ChromeV5Category } from '../ui/chromeIcons';
 
 export type OrbitRing = 'cardinal' | 'intercardinal';
 
 export type OrbitSlotConfig = {
   id: string;
-  icon: ChromeV4Category;
+  icon: ChromeV5Category;
   label: string;
   shortLabel: string;
   blurb: string;
@@ -102,7 +102,7 @@ export type HeroQuickPick = {
   id: string;
   label: string;
   to: string;
-  icon?: ChromeV4Category;
+  icon?: ChromeV5Category;
   /** Kompis (M2) — ingen v4-asset. */
   mark?: 'kompis';
 };

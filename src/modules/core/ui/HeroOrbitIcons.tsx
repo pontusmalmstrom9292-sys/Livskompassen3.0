@@ -1,11 +1,9 @@
-import { ChromeV4Icon, type ChromeV4Category } from './chromeIcons';
+import { ChromeV5Icon, type ChromeV5Category } from './chromeIcons';
 
 type IconProps = { className?: string };
 
-/** L1 — v4 chrome (D1-skiva + glyph) endast i hem-kompassen (HOME-HERO-KANON). */
-
-function HeroChromeIcon({ category, className }: IconProps & { category: ChromeV4Category }) {
-  return <ChromeV4Icon category={category} className={className} />;
+function HeroChromeIcon({ category, className }: IconProps & { category: ChromeV5Category }) {
+  return <ChromeV5Icon category={category} className={className} />;
 }
 
 export function HeroRutinerIcon({ className }: IconProps) {

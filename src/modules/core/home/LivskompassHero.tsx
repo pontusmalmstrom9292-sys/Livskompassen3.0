@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { clsx } from 'clsx';
 import { LivskompassMark } from '../ui/LivskompassMark';
-import { ChromeV4Icon } from '../ui/chromeIcons';
+import { ChromeV5Icon } from '../ui/chromeIcons';
+import { getHeroVisualVariant } from '../theme/chromeIconPrefs';
 import { getCompassThemeByTime } from '../../wellbeing/compasses/utils/compassTheme';
 import {
   COMPASS_CARDINALS,
@@ -23,6 +24,7 @@ export function LivskompassHero({ onCenterPress, variant = 'compact' }: Props) {
   const theme = getCompassThemeByTime();
   const { variantId, tokens } = useKognitivSkoldVariant();
   const [openOrbitId, setOpenOrbitId] = useState<string | null>(null);
+  const heroVisual = getHeroVisualVariant();
 
   const skoldStyle = {
     '--k-shield-rim': tokens.rim,
@@ -80,7 +82,13 @@ export function LivskompassHero({ onCenterPress, variant = 'compact' }: Props) {
       style={skoldStyle}
       aria-label={`Livskompassen — Kognitiv sköld (${tokens.title})`}
     >
-      <div className="livskompass-hero__panel">
+      <div
+        className={clsx(
+          'livskompass-hero__panel',
+          heroVisual === 'orbit-h1-alpha' && 'livskompass-hero__panel--h1-alpha',
+          heroVisual === 'orbit-h1-full' && 'livskompass-hero__panel--h1-full',
+        )}
+      >
         <p className="livskompass-hero__shield-label">Kognitiv sköld</p>
 
         <div
@@ -145,7 +153,7 @@ export function LivskompassHero({ onCenterPress, variant = 'compact' }: Props) {
                       onClick={() => toggleOrbit(id)}
                     >
                       <span className="livskompass-hero__orbit-node-ring" aria-hidden />
-                      <ChromeV4Icon category={icon} className="livskompass-hero__orbit-icon" />
+                      <ChromeV5Icon category={icon} className="livskompass-hero__orbit-icon" />
                     </button>
 
                     <div

@@ -19,6 +19,10 @@
     "kognitiv-skold:preview": "npm run kognitiv-skold:generate && node scripts/export_kognitiv_skold_previews.mjs && open docs/design/themes/kognitiv-skold-variants/PREVIEW.md",
     "icons:proposals-v3": "node scripts/generate_icon_proposals_v3.mjs",
     "icons:proposals-v4": "node scripts/generate_icon_proposals_v4.mjs",
+    "icons:proposals-v5": "node scripts/generate_gold_hub_icons_v5.mjs && node scripts/sync_v5_chrome_public.mjs",
+    "icons:brand-assets": "node scripts/copy_gold_brand_assets.mjs",
+    "icons:phone-export": "node scripts/export_phone_icon_variants.mjs",
+    "icons:hero-orbit-export": "node scripts/export_hero_orbit_assets.mjs",
     "preview": "vite preview",
     "smoke:kunskap": "node scripts/smoke_kunskap.mjs",
     "smoke:speglar": "node scripts/smoke_speglar.mjs",
@@ -45,7 +49,8 @@
     "seed:kampspar": "node scripts/seed_kampspar_profile.mjs --verify",
     "seed:barn-referens": "node scripts/seed_kampspar_profile.mjs --manifest=barn-referens --skip-existing",
     "check:main-trunk": "node scripts/check_main_trunk.mjs",
-    "build:lathund-html": "node scripts/build_lathund_html.mjs"
+    "build:lathund-html": "node scripts/build_lathund_html.mjs",
+    "google-ai-pro:pack": "node scripts/pack_google_ai_pro_sources.mjs"
   },
   "dependencies": {
     "@capacitor-firebase/authentication": "^8.2.0",
@@ -80,6 +85,7 @@
     "globals": "^17.6.0",
     "marked": "^12.0.2",
     "postcss": "^8.4.38",
+    "sharp": "^0.34.5",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.2.2",
     "typescript-eslint": "^8.59.4",

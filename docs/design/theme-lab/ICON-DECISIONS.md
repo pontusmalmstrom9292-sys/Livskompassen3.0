@@ -11,8 +11,20 @@
 | ID | Plats | Fil | Status |
 |----|-------|-----|--------|
 | **B1** Kanon ros | App / favicon / PWA | `public/favicon.svg` | LÅST |
-| **D1** Helros | Header, dock, hero, drawer-mark | `LivskompassMark.tsx` | LÅST |
+| **D1** Gold stack | Header lockup, dock, hero | `LivskompassMark.tsx` · `LivskompassBrandLockup.tsx` | LÅST 2026-05-29 |
 | **M2** Orakelöga | Kompis-avatar | `KompisMark.tsx` | LÅST |
+
+## Chrome v5 (G1 prod, 2026-05-29)
+
+| Plats | Val | Asset |
+|-------|-----|-------|
+| Dock / drawer / hero orbit | **G1 wire** | `public/icons/chrome/v5-g1-{kategori}.svg` |
+| BIFF | **hamnBiff** | `v5-g1-hamnBiff.svg` |
+| Kompis (meny) | **kompis** stjärna | M2 avatar orörd |
+
+`npm run icons:proposals-v5` · preview: `docs/design/icons-proposals/2026-05-29-gold-hub-v5/preview.html`
+
+## Chrome — legacy v4 (ersatt i prod av v5)
 
 ## Chrome — inbyggt (v4 rad 1, 2026-05-27)
 

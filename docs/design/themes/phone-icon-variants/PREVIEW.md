@@ -46,3 +46,27 @@ Ren · tunna ringar · stjärna nord
 Antik · koppar/brons · tjock ram
 
 ![P5 Bronze vintage](./P5-bronze-vintage-preview.png)
+
+---
+
+## P6 — Guld stack (prod default 2026-05-29)
+
+Logga · obsidian squircle
+
+![P6 Guld stack](./P6-gold-emboss-1024.png)
+
+---
+
+## P7-alpha — Vault 3D transparent
+
+Kompass + lås · rundade hörn · ingen bakgrund
+
+![P7 Vault alpha](./P7-vault-sacred-alpha-1024.png)
+
+---
+
+## P8-alpha — Orbit hub transparent
+
+Hero-centrum · transparent squircle
+
+![P8 Orbit alpha](./P8-orbit-hub-alpha-1024.png)

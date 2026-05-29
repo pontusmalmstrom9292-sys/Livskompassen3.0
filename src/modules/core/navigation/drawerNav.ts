@@ -5,7 +5,6 @@
 import type { ComponentType } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import {
-  Anchor,
   BarChart3,
   BookOpen,
   Briefcase,
@@ -29,7 +28,7 @@ import {
   Wallet,
   Zap,
 } from 'lucide-react';
-import { createChromeV4Icon } from '../ui/chromeIcons';
+import { createChromeV5Icon } from '../ui/chromeIcons';
 import {
   DRAWER_NAV_TRUTH,
   getVisibleDrawerTruth,
@@ -53,23 +52,23 @@ export type DrawerNavItem = {
 const DRAWER_ICONS: Record<string, DrawerNavIcon> = {
   hem: Compass,
   hem_inkast: Zap,
-  dagbok: createChromeV4Icon('dagbok'),
+  dagbok: createChromeV5Icon('dagbok'),
   dagbok_reflektion: BookOpen,
   dagbok_speglar: Sparkles,
-  dagbok_bevis: createChromeV4Icon('valv'),
-  familjen: createChromeV4Icon('familjen'),
+  dagbok_bevis: createChromeV5Icon('valv'),
+  familjen: createChromeV5Icon('familjen'),
   familjen_reflektion: Sparkles,
   familjen_livslogg: BookOpen,
   familjen_tillsammans: Users,
-  hamn: createChromeV4Icon('hamn'),
+  hamn: createChromeV5Icon('hamn'),
   hamn_oversikt: Compass,
-  hamn_biff: Anchor,
+  hamn_biff: createChromeV5Icon('hamnBiff'),
   hamn_speglar: Sparkles,
   hamn_barn: Users,
   vardagen: Sprout,
   vardagen_kompasser: Compass,
   vardagen_ekonomi: Wallet,
-  planering: createChromeV4Icon('planering'),
+  planering: createChromeV5Icon('planering'),
   planering_handling: ListTodo,
   planering_fokus: Target,
   planering_inkorg: Inbox,
@@ -77,13 +76,13 @@ const DRAWER_ICONS: Record<string, DrawerNavIcon> = {
   arbetsliv_stampla: Clock,
   arbetsliv_tid: Clock,
   arbetsliv_logg: Clock,
-  mabra: createChromeV4Icon('mabra'),
+  mabra: createChromeV5Icon('mabra'),
   drogfrihet: HeartHandshake,
   projekt: FolderKanban,
   projekt_ny: Plus,
   projekt_handling: ListTodo,
   installningar: Settings,
-  valv_grp_samla: createChromeV4Icon('valv'),
+  valv_grp_samla: createChromeV5Icon('valv'),
   valv_grp_analysera: BarChart3,
   valv_grp_exportera: ScrollText,
   valv_grp_kunskap: BookOpen,

@@ -37,7 +37,7 @@ function main() {
   assert(existsSync(resolve(root, '.context/locked-icons.md')), 'saknar .context/locked-icons.md');
   assert(existsSync(resolve(root, 'docs/design/ICON-STYLE-GUIDE.md')), 'saknar ICON-STYLE-GUIDE.md');
 
-  mustInclude('src/modules/core/ui/LivskompassMark.tsx', '@locked ICON-D1', 'Helros', 'lk-disk-');
+  mustInclude('src/modules/core/ui/LivskompassMark.tsx', '@locked ICON-D1', 'Gold stack', 'lk-gold-stack-');
   mustInclude('src/modules/evidence/kompis/components/KompisMark.tsx', '@locked ICON-M2', 'Orakelöga', 'km2g-');
   mustInclude('src/modules/evidence/kompis/components/KompisAvatar.tsx', 'KompisMark');
   mustNotInclude('src/modules/evidence/kompis/components/KompisAvatar.tsx', 'LivskompassMark');

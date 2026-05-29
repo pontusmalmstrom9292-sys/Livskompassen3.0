@@ -1,9 +1,14 @@
 import type { ReactNode } from 'react';
-import { ChromeV4Icon } from '../ui/chromeIcons';
+import { ChromeV5Icon } from '../ui/chromeIcons/ChromeV5Icon';
+import type { ChromeV5Category } from '../ui/chromeIcons/ChromeV5Icon';
 import type { HubContextIconId } from '../navigation/hubContextBar';
 import type { HubContextSlot } from '../navigation/hubContextBar';
 
-export const DOCK_CHROME_ICON_CLASS = 'dock-nav-btn__chrome-v4';
+export const DOCK_CHROME_ICON_CLASS = 'dock-nav-btn__chrome-v5';
+
+function V5({ category }: { category: ChromeV5Category }) {
+  return <ChromeV5Icon category={category} className={DOCK_CHROME_ICON_CLASS} />;
+}
 
 function PwaShortcutIcon({ src }: { src: string }) {
   return (
@@ -24,67 +29,68 @@ function renderByIcon(icon: HubContextIconId): ReactNode {
     case 'calendar':
     case 'folder':
     case 'plus':
-      return <ChromeV4Icon category="planering" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="planering" />;
     case 'clock':
     case 'record':
-      return <PwaShortcutIcon src="/icons/shortcuts/wh-stampla.svg" />;
+      return <V5 category="arbetsliv" />;
     case 'note':
       return <PwaShortcutIcon src="/icons/shortcuts/wh-anteckning.svg" />;
     case 'wallet':
-      return <ChromeV4Icon category="ekonomi" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="ekonomi" />;
     case 'mail':
-      return <ChromeV4Icon category="dagbok" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="dagbok" />;
     case 'focus':
     case 'brain':
     case 'sprout':
-      return <ChromeV4Icon category="utveckling" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="utveckling" />;
     case 'book':
     case 'bookheart':
-      return <ChromeV4Icon category="dagbok" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="dagbok" />;
     case 'anchor':
-      return <ChromeV4Icon category="hamn" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="hamn" />;
     case 'sparkles':
-      return <ChromeV4Icon category="mabra" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="mabra" />;
     case 'users':
-      return <ChromeV4Icon category="familjen" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="familjen" />;
     default:
-      return <ChromeV4Icon category="planering" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="planering" />;
   }
 }
 
-/** Premium v4/WH-ikoner för dock — samma familj som hero + drawer. */
+/** Premium v5-guldikoner för dock — samma familj som hero + drawer. */
 export function renderDockNavIcon(slot: Pick<HubContextSlot, 'id' | 'icon'>): ReactNode {
   switch (slot.id) {
     case 'inkop':
-      return <ChromeV4Icon category="ekonomi" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="ekonomi" />;
     case 'handling':
     case 'planering':
     case 'hub':
+      return <V5 category="planering" />;
     case 'projekt':
-      return <ChromeV4Icon category="planering" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="projekt" />;
     case 'fokus':
-      return <ChromeV4Icon category="utveckling" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="utveckling" />;
     case 'stampla':
     case 'tid':
     case 'arbetsliv':
-      return <PwaShortcutIcon src="/icons/shortcuts/wh-stampla.svg" />;
+      return <V5 category="arbetsliv" />;
     case 'inkorg':
-      return <ChromeV4Icon category="dagbok" className={DOCK_CHROME_ICON_CLASS} />;
     case 'logg':
     case 'dagbok':
-      return <ChromeV4Icon category="dagbok" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="dagbok" />;
     case 'reflektion':
     case 'mabra':
-      return <ChromeV4Icon category="mabra" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="mabra" />;
     case 'livslogg':
     case 'tillsammans':
     case 'familjen':
-      return <ChromeV4Icon category="familjen" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="familjen" />;
     case 'hamn':
+      return <V5 category="hamn" />;
     case 'biff':
-      return <ChromeV4Icon category="hamn" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="hamnBiff" />;
     case 'kunskap':
-      return <ChromeV4Icon category="kunskap" className={DOCK_CHROME_ICON_CLASS} />;
+      return <V5 category="kunskap" />;
     case 'note':
       return <PwaShortcutIcon src="/icons/shortcuts/wh-anteckning.svg" />;
     default:
@@ -93,20 +99,5 @@ export function renderDockNavIcon(slot: Pick<HubContextSlot, 'id' | 'icon'>): Re
 }
 
 export function renderDockSideIcon(icon: HubContextIconId): ReactNode {
-  switch (icon) {
-    case 'users':
-      return <ChromeV4Icon category="familjen" className={DOCK_CHROME_ICON_CLASS} />;
-    case 'anchor':
-      return <ChromeV4Icon category="hamn" className={DOCK_CHROME_ICON_CLASS} />;
-    case 'book':
-      return <ChromeV4Icon category="dagbok" className={DOCK_CHROME_ICON_CLASS} />;
-    case 'sparkles':
-      return <ChromeV4Icon category="mabra" className={DOCK_CHROME_ICON_CLASS} />;
-    case 'calendar':
-      return <ChromeV4Icon category="planering" className={DOCK_CHROME_ICON_CLASS} />;
-    case 'clock':
-      return <PwaShortcutIcon src="/icons/shortcuts/wh-stampla.svg" />;
-    default:
-      return renderByIcon(icon);
-  }
+  return renderByIcon(icon);
 }
