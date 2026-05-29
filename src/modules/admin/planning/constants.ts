@@ -11,13 +11,14 @@ export const KANBAN_COLUMNS: { id: PlanningTaskStatus; label: string }[] = [
 
 /** Flikar inom arbetsläge (inte på hub). */
 export const PLANERING_WORK_TABS: {
-  id: Extract<PlaneringTab, 'handling' | 'fokus' | 'framsteg' | 'inkorg'>;
+  id: Extract<PlaneringTab, 'handling' | 'fokus' | 'framsteg' | 'inkorg' | 'regler'>;
   label: string;
 }[] = [
   { id: 'handling', label: 'Handling' },
   { id: 'fokus', label: 'Fokus' },
   { id: 'framsteg', label: 'Framsteg' },
   { id: 'inkorg', label: 'Inkorg' },
+  { id: 'regler', label: 'Regler' },
 ];
 
 export const SOURCE_LABELS: Record<string, string> = {

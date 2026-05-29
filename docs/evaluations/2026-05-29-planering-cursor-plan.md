@@ -114,13 +114,14 @@
 
 ---
 
-### Fas 2 — E-postregler (kräver ditt OK)
+### Fas 2 — E-postregler ✅ (2026-05-29)
 
-- Collection `planning_email_rules` i `firestore.rules`
-- UI: enkel lista (matchType, pattern, route) under Planering eller `/projekt/regler` koppling
-- Standardregler opt-in (ex → hamn, skola → planering) enligt `PLANERINGSSIDA-SPEC.md`
+- [x] `planning_email_rules` i `firestore.rules` (CRUD, validerade fält)
+- [x] Flik **Regler** på `/planering?tab=regler`
+- [x] Opt-in mallar (skola, advokat, myndighet) — **ingen** auto-ex-adress
+- [x] Länk från Inkorg + Projekt-regler
 
-**Blocker:** explicit godkännande rules-diff + PMIR.
+**Ej i Fas 2:** Gmail-synk som applicerar regler (→ Fas 3).
 
 ---
 
@@ -155,9 +156,7 @@
 
 ## Nästa steg (ett beslut)
 
-Svara **`kör Fas 2`** endast om du uttryckligen godkänner **ny** `firestore.rules` för `planning_email_rules`.
-
-**Status 2026-05-29:** Fas 1.5 implementerad lokalt. PMIR: [`2026-05-29-pmir-dagbok-planering.md`](./2026-05-29-pmir-dagbok-planering.md).
+**Status 2026-05-29:** Fas 1.5 + Fas 2 implementerade. Deploy `firestore.rules` till Firebase före prod-test av Regler-fliken.
 
 ---
 

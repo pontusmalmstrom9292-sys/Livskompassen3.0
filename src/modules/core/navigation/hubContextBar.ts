@@ -50,7 +50,8 @@ function tabParam(search: string): string | null {
 }
 
 function planeringSlots(tab: string | null, onProjekt: boolean): HubContextSlot[] {
-  const t = tab === 'fokus' || tab === 'inkorg' || tab === 'framsteg' ? tab : 'handling';
+  const t =
+    tab === 'fokus' || tab === 'inkorg' || tab === 'framsteg' || tab === 'regler' ? tab : 'handling';
   if (onProjekt) {
     return [
       { id: 'projekt', label: 'Projekt', to: '/projekt', icon: 'folder', active: true },
@@ -69,11 +70,10 @@ function planeringSlots(tab: string | null, onProjekt: boolean): HubContextSlot[
   }
   if (!tab || tab === 'hub') {
     return [
-      { id: 'inkop', label: 'Inköp', to: '/planering?tab=inkop', icon: 'list' },
       { id: 'handling', label: 'Handling', to: '/planering?tab=handling', icon: 'calendar' },
       { id: 'fokus', label: 'Fokus', to: '/planering?tab=fokus', icon: 'focus' },
-      { id: 'framsteg', label: 'Framsteg', to: '/planering?tab=framsteg', icon: 'sprout' },
       { id: 'inkorg', label: 'Inkorg', to: '/planering?tab=inkorg', icon: 'mail' },
+      { id: 'regler', label: 'Regler', to: '/planering?tab=regler', icon: 'list' },
     ];
   }
   return [
@@ -92,18 +92,18 @@ function planeringSlots(tab: string | null, onProjekt: boolean): HubContextSlot[
       active: t === 'fokus',
     },
     {
-      id: 'framsteg',
-      label: 'Framsteg',
-      to: '/planering?tab=framsteg',
-      icon: 'sprout',
-      active: t === 'framsteg',
-    },
-    {
       id: 'inkorg',
       label: 'Inkorg',
       to: '/planering?tab=inkorg',
       icon: 'mail',
       active: t === 'inkorg',
+    },
+    {
+      id: 'regler',
+      label: 'Regler',
+      to: '/planering?tab=regler',
+      icon: 'list',
+      active: t === 'regler',
     },
   ];
 }

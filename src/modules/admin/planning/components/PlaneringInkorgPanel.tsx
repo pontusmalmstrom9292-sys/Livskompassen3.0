@@ -149,8 +149,15 @@ export function PlaneringInkorgPanel() {
               <p className="mt-2 text-xs text-success">Sparat — se Handling-fliken.</p>
             )}
             <p className="mt-3 text-xs text-text-dim">
-              Ex-brus och konflikt → Hamn (BIFF). Automatiska regler (`planning_email_rules`)
-              kommer när Gmail-synk är kopplad.
+              Ex-brus och konflikt → Hamn (BIFF).{' '}
+              <button
+                type="button"
+                className="text-accent underline"
+                onClick={() => navigate('/planering?tab=regler')}
+              >
+                E-postregler
+              </button>{' '}
+              (sparade i molnet; Gmail-synk i senare fas).
             </p>
             <button
               type="button"

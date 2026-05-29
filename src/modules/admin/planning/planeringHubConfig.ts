@@ -91,6 +91,7 @@ export const PLANERING_VIEW_TITLES: Record<PlaneringTab, string> = {
   fokus: 'Fokus',
   framsteg: 'Framsteg',
   inkorg: 'Inkorg',
+  regler: 'E-postregler',
 };
 
 export function parsePlaneringTab(raw: string | null): PlaneringTab {
@@ -99,6 +100,7 @@ export function parsePlaneringTab(raw: string | null): PlaneringTab {
     raw === 'fokus' ||
     raw === 'framsteg' ||
     raw === 'inkorg' ||
+    raw === 'regler' ||
     raw === 'inkop'
   ) {
     return raw;

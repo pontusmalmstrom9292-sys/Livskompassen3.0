@@ -153,6 +153,40 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // Planering — e-postrouting (användarregler, ej WORM-bevis)
+    match /planning_email_rules/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.label is string
+        && request.resource.data.label.size() > 0
+        && request.resource.data.label.size() <= 80
+        && request.resource.data.pattern is string
+        && request.resource.data.pattern.size() > 0
+        && request.resource.data.pattern.size() <= 200
+        && request.resource.data.matchType in ['from_email', 'from_domain', 'subject_contains', 'label']
+        && request.resource.data.route in ['planering', 'hamn', 'inbox_queue', 'vault', 'kunskap', 'ignore']
+        && request.resource.data.priority is int
+        && request.resource.data.priority >= 1
+        && request.resource.data.priority <= 100
+        && request.resource.data.enabled is bool;
+      allow update: if isOwner()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.label is string
+        && request.resource.data.label.size() > 0
+        && request.resource.data.label.size() <= 80
+        && request.resource.data.pattern is string
+        && request.resource.data.pattern.size() > 0
+        && request.resource.data.pattern.size() <= 200
+        && request.resource.data.matchType in ['from_email', 'from_domain', 'subject_contains', 'label']
+        && request.resource.data.route in ['planering', 'hamn', 'inbox_queue', 'vault', 'kunskap', 'ignore']
+        && request.resource.data.priority is int
+        && request.resource.data.priority >= 1
+        && request.resource.data.priority <= 100
+        && request.resource.data.enabled is bool;
+      allow delete: if isOwner();
+    }
+
     match /economy_profiles/{uid} {
       allow read: if isAuthenticated() && request.auth.uid == uid;
       allow create: if isAuthenticated()

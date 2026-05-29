@@ -45,11 +45,16 @@ export function ProjektReglerPage() {
     <HubPageShell
       eyebrow="Projekt"
       title="Regler & automation"
-      lead="När inkorg eller mejl matchar ett mönster kan du skapa uppgift i Handling. E-post (`planning_email_rules`) kopplas i senare fas."
+      lead="Projekt-automation lokalt på enheten. E-postrouting (ex → Hamn) ligger under Planering → Regler."
     >
-      <Link to="/projekt" className="text-xs text-text-dim hover:text-accent">
-        ← Projekt
-      </Link>
+      <div className="flex flex-wrap gap-3 text-xs">
+        <Link to="/projekt" className="text-text-dim hover:text-accent">
+          ← Projekt
+        </Link>
+        <Link to="/planering?tab=regler" className="text-accent">
+          E-postregler (Planering)
+        </Link>
+      </div>
 
       {!user && <p className="mt-3 text-sm text-text-muted">Logga in för att spara regler.</p>}
 

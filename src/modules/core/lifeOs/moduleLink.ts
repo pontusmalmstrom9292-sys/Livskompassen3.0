@@ -8,7 +8,7 @@ export type ModuleLinkTarget =
   | { module: 'kompasser' }
   | { module: 'dagbok'; from?: 'mabra'; energy?: 'low'; tab?: string }
   | { module: 'hamn'; tab?: string }
-  | { module: 'planering'; tab?: 'handling' | 'fokus' | 'framsteg' | 'inkorg' }
+  | { module: 'planering'; tab?: 'handling' | 'fokus' | 'framsteg' | 'inkorg' | 'regler' }
   | { module: 'projekt'; projectId?: string; subpath?: 'ny' | 'regler' }
   | { module: 'hem'; hash?: string };
 
