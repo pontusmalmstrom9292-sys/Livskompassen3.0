@@ -1,5 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Loader2, Shield } from 'lucide-react';
+import { vaultDrawerPath } from '../../../core/navigation/navTruth';
 import { analyzeBiffMessage, extractGreyRockReply, type GransAnalysis } from '../api/biffService';
 import { useStore } from '../../../core/store';
 import { saveVaultLog } from '../../../core/firebase/firestore';
@@ -76,7 +78,11 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
 
       {!reply && !loading && !error && !message.trim() && (
         <p className="text-xs text-text-dim">
-          Tomt fält — klistra in meddelandet. Inget sparas förrän du trycker Klar.
+          Tomt fält — klistra in meddelandet. Inget sparas förrän du trycker Klar. Behöver du riskanalys
+          eller bevisarkiv?{' '}
+          <Link to={vaultDrawerPath('hamn_analys')} className="text-accent/80 underline">
+            Valv → Hamn · Analys
+          </Link>
         </p>
       )}
 

@@ -112,6 +112,19 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
+## 8b. Trygg Hamn — snabb ingång vs Valv (**godkänt 2026-05-29**)
+
+| | |
+|---|---|
+| **Snabb** | `/hamn` — `BiffPublicPanel` (Grey Rock), Speglar-länk, utan PIN |
+| **Djup** | Valv → Forensik → **Hamn · Analys** (`hamn_analys`) — triage, bevis, HITL |
+| **Redirect** | `/hamn?tab=analys` → `/dagbok?tab=bevis&vaultTab=hamn_analys` |
+| **Kanon** | [`docs/design/VALV-HUBB-SPEC.md`](../docs/design/VALV-HUBB-SPEC.md) |
+
+**Får inte:** kräva Valv-PIN för första BIFF-svar eller ta bort `/hamn` från Vardag-drawer.
+
+---
+
 ## 9. Valv-baksida — samlad PIN-vägg (2026-05-25)
 
 | | |
