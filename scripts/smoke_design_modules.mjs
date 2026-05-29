@@ -56,7 +56,7 @@ function main() {
   mustInclude('.context/design-modules-mockup.md', 'D29', 'D3');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/planering"', 'PlaneringPage');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/projekt/ny"', 'path="/projekt/regler"');
-  mustInclude('src/modules/core/components/FyrenSmartWidgetBar.tsx', 'ProjektPickerSheet');
+  mustInclude('src/modules/admin/planning/components/PlaneringHub.tsx', 'ProjektPickerSheet');
   mustInclude('src/modules/core/firebase/storage.ts', 'uploadProjectImage');
   mustInclude('src/modules/admin/planning/components/PlaneringPage.tsx', 'PlanningKanbanBoard', 'PLANERING_TAGLINE');
   mustInclude('firestore.rules', 'planning_tasks');

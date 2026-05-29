@@ -15,12 +15,15 @@ type Props = {
   module: PlaneringHubModule;
   className?: string;
   size?: 'default' | 'compact' | 'hero' | 'tile' | 'chip';
+  /** T.ex. öppna projekt-sheet utan navigation. */
+  onAction?: () => void;
 };
 
 export function PlaneringHubModuleCard({
   module,
   className,
   size = 'default',
+  onAction,
 }: Props) {
   const Icon = module.icon;
   const body = (
@@ -55,6 +58,14 @@ export function PlaneringHubModuleCard({
       <div className={cardClass} aria-disabled>
         {body}
       </div>
+    );
+  }
+
+  if (onAction) {
+    return (
+      <button type="button" className={cardClass} onClick={onAction}>
+        {body}
+      </button>
     );
   }
 

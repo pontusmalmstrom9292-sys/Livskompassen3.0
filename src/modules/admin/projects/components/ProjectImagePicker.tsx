@@ -10,6 +10,7 @@ type Props = {
 export function ProjectImagePicker({ disabled, onPick }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
 
   return (
     <div className="space-y-2">
@@ -17,15 +18,19 @@ export function ProjectImagePicker({ disabled, onPick }: Props) {
         ref={inputRef}
         type="file"
         accept="image/*"
-        capture="environment"
         className="sr-only"
         disabled={disabled}
         onChange={(e) => {
           const file = e.target.files?.[0];
-          if (!file) return;
+          if (!file) {
+            setFileName(null);
+            setPreview(null);
+            return;
+          }
+          if (preview) URL.revokeObjectURL(preview);
+          setFileName(file.name);
           setPreview(URL.createObjectURL(file));
           onPick(file);
-          e.target.value = '';
         }}
       />
       <button
@@ -37,6 +42,14 @@ export function ProjectImagePicker({ disabled, onPick }: Props) {
         <ImagePlus className="h-4 w-4" />
         Välj bild
       </button>
+      {fileName && (
+        <p className="text-xs text-accent" aria-live="polite">
+          Vald fil: {fileName}
+        </p>
+      )}
+      {!fileName && (
+        <p className="text-xs text-text-dim">Ingen fil vald än — tryck «Välj bild».</p>
+      )}
       {preview && (
         <img
           src={preview}

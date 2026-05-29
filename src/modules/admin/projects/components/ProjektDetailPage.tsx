@@ -126,7 +126,12 @@ export function ProjektDetailPage() {
       setPendingImage(null);
       setImageCaption('');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kunde inte ladda upp bild.');
+      const msg = err instanceof Error ? err.message : 'Kunde inte ladda upp bild.';
+      setError(
+        msg.includes('storage/unauthorized')
+          ? 'Uppladdning nekad — logga in igen och försök.'
+          : msg,
+      );
     } finally {
       setSaving(false);
     }

@@ -206,7 +206,7 @@ export const PLANERING_HUB_MODULES: Record<
     lead: 'Lista, uppgift eller anteckning.',
     emoji: '＋',
     icon: Plus,
-    to: '/admin/projects/ny',
+    to: '/projekt/ny',
     category: 'filer',
     tone: 'emerald',
   },

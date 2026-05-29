@@ -72,7 +72,7 @@ function planeringSlots(tab: string | null, onProjekt: boolean): HubContextSlot[
       { id: 'inkop', label: 'Inköp', to: '/planering?tab=inkop', icon: 'list' },
       { id: 'handling', label: 'Handling', to: '/planering?tab=handling', icon: 'calendar' },
       { id: 'fokus', label: 'Fokus', to: '/planering?tab=fokus', icon: 'focus' },
-      { id: 'projekt', label: 'Projekt', to: '/projekt', icon: 'folder' },
+      { id: 'inkorg', label: 'Inkorg', to: '/planering?tab=inkorg', icon: 'mail' },
     ];
   }
   return [

@@ -31,7 +31,7 @@ firebase deploy --only functions:analyzeMessage,functions:invalidateSession,func
 
 **Hjärtat (Speglar):** `speglingsMirror` måste deployas för AI-spegling i prod.
 
-**Storage:** `storage.rules` krävs för valv-media (`vault_evidence/{uid}/**`).
+**Storage:** `storage.rules` krävs för valv-media (`vault_evidence/{uid}/**`) och projektbilder (`project_media/{uid}/{projectId}/**`).
 
 **Första gången:** Aktivera Storage i [Firebase Console → Storage](https://console.firebase.google.com/project/gen-lang-client-0481875058/storage) (*Get Started*), välj region (t.ex. `europe-west1`), sedan:
 

@@ -12,9 +12,11 @@ import { getPlaneringHubModule } from '../planeringHubModules';
 type Props = {
   layout: PlaneringHubLayout;
   className?: string;
+  /** Öppnar bottom sheet (undviker flytande Fyren-knapp). */
+  onStartProjekt?: () => void;
 };
 
-export function PlaneringHubBody({ layout, className }: Props) {
+export function PlaneringHubBody({ layout, className, onStartProjekt }: Props) {
   const modules = resolvePlaneringHubModules(layout.modules);
   const featured = layout.featured
     ? getPlaneringHubModule(layout.featured)
@@ -29,6 +31,7 @@ export function PlaneringHubBody({ layout, className }: Props) {
         featuredId={layout.featured ?? 'nytt-projekt'}
         shellClass={shellClass}
         className={className}
+        onStartProjekt={onStartProjekt}
       />
     );
   }

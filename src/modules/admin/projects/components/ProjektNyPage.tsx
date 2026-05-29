@@ -113,7 +113,12 @@ export function ProjektNyPage() {
       });
       navigate(`/admin/projects/${projectId}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kunde inte skapa projekt.');
+      const msg = err instanceof Error ? err.message : 'Kunde inte skapa projekt.';
+      setError(
+        msg.includes('storage/unauthorized')
+          ? 'Uppladdning nekad — logga in igen och försök. (Storage-regler ska vara deployade.)'
+          : msg,
+      );
     } finally {
       setSaving(false);
     }

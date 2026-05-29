@@ -24,6 +24,7 @@ type Props = {
   featuredId?: PlaneringHubModuleId;
   shellClass?: string;
   className?: string;
+  onStartProjekt?: () => void;
 };
 
 /** Starta projekt överst — övriga verktyg i hopfällbara kategorier med kompakta kort. */
@@ -32,6 +33,7 @@ export function PlaneringHubNavigator({
   featuredId = 'nytt-projekt',
   shellClass,
   className,
+  onStartProjekt,
 }: Props) {
   const modules = resolvePlaneringHubModules(moduleIds);
   const featured = getPlaneringHubModule(featuredId);
@@ -51,6 +53,9 @@ export function PlaneringHubNavigator({
         module={featured}
         size="hero"
         className="planering-hub__primary"
+        onAction={
+          featured.id === 'nytt-projekt' && onStartProjekt ? onStartProjekt : undefined
+        }
       />
 
       <nav className="planering-hub__accordions" aria-label="Planeringsverktyg per kategori">
