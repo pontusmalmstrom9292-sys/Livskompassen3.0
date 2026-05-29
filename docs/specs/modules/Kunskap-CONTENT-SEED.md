@@ -267,6 +267,82 @@ why: "Samtidighet — ej diagnos i app"
 
 ---
 
+## Batch 2026-05-29 (IA Valv — konflikt & medföräldraskap)
+
+**Kurator:** `specialist-kunskap-seed` · **Silo:** Kunskap only · **Ej** BIFF-coaching (→ Hamn/Valv).
+
+```yaml
+id: kunskap-fact-011
+status: KEEP
+content_class: FACT
+title: "Grey Rock — neutral kommunikation vid konflikt"
+content: "Grey Rock innebär korta, sakliga svar utan känslomässigt bränsle: bekräfta mottagande, svara på logistik, undvik att försvara eller förklara (JADE). Metoden används för att minska manipulation och eskalation i högkonfliktssituationer, inte som straff mot barnet."
+category: medforaldraskap
+entryType: fakta
+tags: [grey_rock, kommunikation, konflikt, medforaldraskap]
+source_tier: psychoeducation_general
+citation_hint: "BIFF/Grey Rock — produktcopy Safe Harbor; ej terapi"
+why: "FACT-referens i Kunskapsbank — Speglar/Hamn ger coaching"
+```
+
+```yaml
+id: kunskap-fact-012
+status: KEEP
+content_class: FACT
+title: "BIFF — Brief, Informative, Friendly, Firm"
+content: "BIFF är en struktur för skriftlig kommunikation: kort (Brief), faktabaserad (Informative), artig utan överdriven värme (Friendly), och tydlig gräns (Firm). Syftet är förutsägbarhet och dokumentation, inte att vinna argument."
+category: medforaldraskap
+entryType: fakta
+tags: [biff, kommunikation, granser]
+source_tier: psychoeducation_general
+citation_hint: "Bill Eddy BIFF — översikt"
+why: "Referensfakta; prod-svar via analyzeMessage i Hamn"
+```
+
+```yaml
+id: kunskap-fact-013
+status: KEEP
+content_class: FACT
+title: "Append-only bevislogg — varför tidsstämpel"
+content: "En bevislogg med append-only och server-tidsstämpel gör det svårare att senare påstå att händelser aldrig dokumenterats. Det ersätter inte juridisk rådgivning men stödjer kronologi vid familjerätt eller myndighetskontakt."
+category: juridik_overview
+entryType: fakta
+tags: [bevis, worm, valv, kronologi]
+source_tier: product_copy
+citation_hint: "Verklighetsvalvet-SPEC; WORM reality_vault"
+why: "Förklarar Valv utan auto-promotion från dagbok"
+```
+
+```yaml
+id: kunskap-fact-014
+status: KEEP
+content_class: FACT
+title: "Gaslighting — informationsförvrängning (översikt)"
+content: "Gaslighting beskriver när någon systematiskt ifrågasätter din upplevelse av händelser för att skapa osäkerhet. Neutral dokumentation av datum, citat och bilagor kan motverka minnesglapp — utan att diagnostisera motparten i appen."
+category: medforaldraskap
+entryType: fakta
+tags: [gaslighting, bevis, psykoeducation]
+source_tier: psychoeducation_general
+citation_hint: "APA psychoeducation — översikt; ej diagnos"
+why: "FACT i Kunskap; Speglar/Valv för personlig bearbetning"
+```
+
+```yaml
+id: kunskap-fact-015
+status: KEEP
+content_class: FACT
+title: "Parallellt föräldraskap — barnets förutsägbarhet"
+content: "Barn i separerade familjer mår ofta bättre av förutsägbara scheman, tydliga överlämningar och att föräldrar håller vuxenkonflikt borta från barnets öron. Samordning kring skola och hälsa prioriteras framför att föräldrarna ska vara överens om allt."
+category: medforaldraskap
+entryType: fakta
+tags: [barn, medforaldraskap, schema]
+source_tier: P2
+citation_hint: "Föräldrabalken 6 kap. — översikt"
+why: "Kompletterar kunskap-fact-003 utan duplicera hela texten"
+```
+
+---
+
 **Mall för ny rad:**
 
 ```yaml

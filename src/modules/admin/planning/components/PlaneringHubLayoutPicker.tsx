@@ -9,12 +9,10 @@ type Props = {
   compact?: boolean;
 };
 
-/** Horisontell väljare — ett val i taget (ADHD-säkert). */
-export function PlaneringHubLayoutPicker({
-  activeId,
-  onSelect,
-  compact,
-}: Props) {
+/** Hubb-layout — en dropdown istället för chip-rad (ADHD-säkert). */
+export function PlaneringHubLayoutPicker({ activeId, onSelect, compact }: Props) {
+  const active = PLANERING_HUB_LAYOUTS.find((l) => l.id === activeId);
+
   return (
     <section
       className={clsx('planering-layout-picker', compact && 'planering-layout-picker--compact')}
@@ -28,38 +26,24 @@ export function PlaneringHubLayoutPicker({
           </Link>
         ) : null}
       </div>
-      <div
-        className="planering-layout-picker__track"
-        role="listbox"
-        aria-label="Välj hubb-layout"
-      >
-        {PLANERING_HUB_LAYOUTS.map((layout) => {
-          const active = layout.id === activeId;
-          return (
-            <button
-              key={layout.id}
-              type="button"
-              role="option"
-              aria-selected={active}
-              className={clsx(
-                'planering-layout-picker__chip',
-                `planering-layout-picker__chip--${layout.shell}`,
-                active && 'planering-layout-picker__chip--active',
-              )}
-              onClick={() => onSelect(layout.id)}
-              title={layout.lead}
-            >
-              <span className="planering-layout-picker__emoji" aria-hidden>
-                {layout.emoji}
-              </span>
-              <span className="planering-layout-picker__label">{layout.label}</span>
-            </button>
-          );
-        })}
-      </div>
-      <p className="planering-layout-picker__active-lead">
-        {PLANERING_HUB_LAYOUTS.find((l) => l.id === activeId)?.lead}
-      </p>
+      <label className="block text-xs text-text-muted">
+        <span className="sr-only">Välj hubb-layout</span>
+        <select
+          value={activeId}
+          onChange={(e) => onSelect(e.target.value as PlaneringHubLayoutId)}
+          className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+          aria-label="Välj hubb-layout"
+        >
+          {PLANERING_HUB_LAYOUTS.map((layout) => (
+            <option key={layout.id} value={layout.id}>
+              {layout.emoji} {layout.label}
+            </option>
+          ))}
+        </select>
+      </label>
+      {active ? (
+        <p className="planering-layout-picker__active-lead">{active.lead}</p>
+      ) : null}
     </section>
   );
 }

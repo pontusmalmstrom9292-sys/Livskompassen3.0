@@ -63,11 +63,27 @@ export function MabraVitHub({
         Snabbstart eller zon — när du går tillbaka öppnas samma zon igen.
       </p>
 
-      <div className="mabra-vit-hub__quick" role="list" aria-label="Snabbstart">
-        {MABRA_HUB_QUICK_ITEMS.map((item) => (
-          <MabraHubChip key={item.id} item={item} onSelectItem={onSelectItem} />
-        ))}
-      </div>
+      <label className="block text-xs text-text-muted">
+        Snabbstart
+        <select
+          className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+          value=""
+          onChange={(e) => {
+            const id = e.target.value;
+            if (!id) return;
+            const item = MABRA_HUB_QUICK_ITEMS.find((i) => i.id === id);
+            if (item) onSelectItem(item);
+          }}
+          aria-label="Snabbstart verktyg"
+        >
+          <option value="">Välj snabbstart…</option>
+          {MABRA_HUB_QUICK_ITEMS.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.emoji} {item.title}
+            </option>
+          ))}
+        </select>
+      </label>
 
       <nav className="mabra-vit-hub__zones" aria-label="MåBra verktyg">
         {allGroups.map((group) => {
@@ -105,23 +121,6 @@ export function MabraVitHub({
         })}
       </nav>
     </div>
-  );
-}
-
-function MabraHubChip({
-  item,
-  onSelectItem,
-}: {
-  item: MabraHubItem;
-  onSelectItem: (item: MabraHubItem) => void;
-}) {
-  return (
-    <button type="button" className="mabra-vit-hub__chip" onClick={() => onSelectItem(item)}>
-      <span className="mabra-vit-hub__chip-emoji" aria-hidden>
-        {item.emoji}
-      </span>
-      <span className="mabra-vit-hub__chip-label">{item.title}</span>
-    </button>
   );
 }
 

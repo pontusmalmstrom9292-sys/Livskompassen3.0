@@ -89,6 +89,8 @@ function main() {
     'dagbok_forensic',
     'hamn_forensic',
   );
+  mustInclude('docs/design/VALV-HUBB-SPEC.md', 'Samla', 'Analysera', 'Exportera');
+  mustInclude('src/modules/core/triggers/valvHandoff.ts', 'shouldShowValvHandoff');
   mustInclude(
     'src/modules/family/children/components/FamiljenPage.tsx',
     'vaultDrawerPath',

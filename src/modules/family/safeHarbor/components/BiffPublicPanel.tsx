@@ -4,6 +4,8 @@ import { analyzeBiffMessage, extractGreyRockReply, type GransAnalysis } from '..
 import { useStore } from '../../../core/store';
 import { saveVaultLog } from '../../../core/firebase/firestore';
 import { BiffTriagePanel } from './BiffTriagePanel';
+import { HandoffBox } from '../../../diary/diary/components/HandoffBox';
+import { shouldShowValvHandoff } from '../../../core/triggers/valvHandoff';
 
 type Props = {
   initialMessage?: string;
@@ -63,6 +65,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
           className="input-glass text-sm"
           disabled={loading}
         />
+        {shouldShowValvHandoff(message) && <HandoffBox className="mt-1" />}
         <button type="submit" disabled={loading || !message.trim()} className="btn-pill--accent w-full">
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           Få Grey Rock-svar
@@ -188,6 +191,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
           className="input-glass text-sm"
           disabled={loading}
         />
+        {shouldShowValvHandoff(message) && <HandoffBox className="mt-1" />}
         <button type="submit" disabled={loading || !message.trim()} className="btn-pill--accent w-full">
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           Kör BIFF Triage

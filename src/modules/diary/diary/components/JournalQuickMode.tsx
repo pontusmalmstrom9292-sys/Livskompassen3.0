@@ -43,27 +43,22 @@ export function JournalQuickMode({
       <p className="reflektion-panel__lead">Hur känns det just nu?</p>
       <p className="reflektion-panel__hint">Välj känsla — taggar och en rad är valfritt.</p>
 
-      <div className="reflektion-mood-grid" role="group" aria-label="Välj känsla">
-        {MOOD_CATALOG.map((m) => {
-          const active = mood === m.label;
-          return (
-            <button
-              key={m.id}
-              type="button"
-              onClick={() => onMoodChange(m.label)}
-              className={`reflektion-mood-card reflektion-mood-card--${m.tone} ${
-                active ? 'reflektion-mood-card--active' : ''
-              }`}
-              aria-pressed={active}
-            >
-              <span className="reflektion-mood-card__emoji" aria-hidden>
-                {m.emoji}
-              </span>
-              <span className="reflektion-mood-card__label">{m.label}</span>
-            </button>
-          );
-        })}
-      </div>
+      <label className="block text-xs text-text-muted">
+        Känsla
+        <select
+          value={mood}
+          onChange={(e) => onMoodChange(e.target.value)}
+          className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+          aria-label="Välj känsla"
+        >
+          <option value="">Välj känsla…</option>
+          {MOOD_CATALOG.map((m) => (
+            <option key={m.id} value={m.label}>
+              {m.emoji} {m.label}
+            </option>
+          ))}
+        </select>
+      </label>
 
       {selected && (
         <p className="reflektion-mood-selected">
@@ -71,26 +66,40 @@ export function JournalQuickMode({
         </p>
       )}
 
-      <p className="reflektion-panel__hint mt-4">Välj några nyckelord (valfritt)</p>
-      <div className="reflektion-prompt-grid" role="group" aria-label="Taggar">
-        {JOURNAL_SUGGESTED_TAGS.map((tag) => {
-          const active = tags.includes(tag);
-          const atLimit = !active && tags.length >= JOURNAL_TAG_MAX_COUNT;
-          return (
+      <label className="mt-4 block text-xs text-text-muted">
+        Nyckelord (valfritt, max {JOURNAL_TAG_MAX_COUNT})
+        <select
+          className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+          value=""
+          disabled={tags.length >= JOURNAL_TAG_MAX_COUNT}
+          onChange={(e) => {
+            const raw = normalizeJournalTag(e.target.value);
+            if (raw && !tags.includes(raw)) onToggleTag(raw);
+          }}
+          aria-label="Lägg till tagg"
+        >
+          <option value="">Lägg till tagg…</option>
+          {JOURNAL_SUGGESTED_TAGS.filter((t) => !tags.includes(t)).map((tag) => (
+            <option key={tag} value={tag}>
+              {tag}
+            </option>
+          ))}
+        </select>
+      </label>
+      {tags.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-2">
+          {tags.map((tag) => (
             <button
               key={tag}
               type="button"
-              disabled={atLimit}
-              className={`reflektion-prompt-chip ${active ? 'reflektion-prompt-chip--active' : ''}`}
-              aria-pressed={active}
-              onClick={() => onToggleTag(normalizeJournalTag(tag))}
+              className="chip--active text-xs"
+              onClick={() => onToggleTag(tag)}
             >
-              {active ? '✓ ' : '+ '}
-              {tag}
+              {tag} ×
             </button>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      )}
 
       <label className="mt-4 block">
         <span className="sr-only">Snabb rad</span>

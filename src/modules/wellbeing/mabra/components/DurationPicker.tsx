@@ -1,4 +1,3 @@
-import { clsx } from 'clsx';
 import type { MabraDurationMinutes, MabraSymptomHub } from '../types';
 import {
   DEFAULT_MABRA_DURATION,
@@ -22,21 +21,20 @@ export function DurationPicker({ hub, value, onChange, onStart, onBack }: Props)
   return (
     <div className="space-y-4">
       <p className="text-sm text-text-muted">{copy.question}</p>
-      <div className="flex gap-2">
-        {MABRA_DURATION_OPTIONS.map((minutes) => (
-          <button
-            key={minutes}
-            type="button"
-            onClick={() => onChange(minutes)}
-            className={clsx(
-              'flex-1 rounded-xl border py-3 text-sm tabular-nums',
-              value === minutes ? 'chip--active' : 'chip--idle',
-            )}
-          >
-            {minutes} min
-          </button>
-        ))}
-      </div>
+      <label className="block text-xs text-text-muted">
+        Varaktighet
+        <select
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value) as MabraDurationMinutes)}
+          className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm tabular-nums"
+        >
+          {MABRA_DURATION_OPTIONS.map((minutes) => (
+            <option key={minutes} value={minutes}>
+              {minutes} min
+            </option>
+          ))}
+        </select>
+      </label>
       {value === DEFAULT_MABRA_DURATION && copy.hint && (
         <p className="text-xs text-text-dim">{copy.hint}</p>
       )}
