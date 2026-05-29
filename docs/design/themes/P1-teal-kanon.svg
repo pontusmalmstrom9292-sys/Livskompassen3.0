@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" fill="none" aria-hidden="true">
+  <title>P1  -  Teal kanon (referens)</title>
+  <defs>
+    <radialGradient id="p1bg" cx="50%" cy="38%" r="72%">
+      <stop offset="0%" stop-color="#2a4a42"/>
+      <stop offset="45%" stop-color="#1a332e"/>
+      <stop offset="100%" stop-color="#0a1412"/>
+    </radialGradient>
+    <linearGradient id="p1g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5e6b8"/>
+      <stop offset="45%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#7a5f18"/>
+    </linearGradient>
+    <linearGradient id="p1fire" x1="512" y1="180" x2="512" y2="420">
+      <stop offset="0%" stop-color="#fff8e8"/>
+      <stop offset="100%" stop-color="#e8a020"/>
+    </linearGradient>
+    <filter id="p1glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" rx="224" fill="url(#p1bg)"/>
+  <rect x="48" y="48" width="928" height="928" rx="200" stroke="url(#p1g)" stroke-width="10" opacity="0.55"/>
+  <rect x="88" y="88" width="848" height="848" rx="176" stroke="url(#p1g)" stroke-width="5" opacity="0.35"/>
+  <g fill="url(#p1g)" opacity="0.45">
+    <circle cx="512" cy="88" r="8"/><circle cx="936" cy="512" r="8"/><circle cx="512" cy="936" r="8"/><circle cx="88" cy="512" r="8"/>
+    <circle cx="812" cy="212" r="6"/><circle cx="812" cy="812" r="6"/><circle cx="212" cy="812" r="6"/><circle cx="212" cy="212" r="6"/>
+  </g>
+  <circle cx="512" cy="512" r="340" stroke="url(#p1g)" stroke-width="4" opacity="0.28"/>
+  <circle cx="512" cy="512" r="280" stroke="url(#p1g)" stroke-width="2" stroke-dasharray="6 10" opacity="0.22"/>
+  <g stroke="url(#p1g)" stroke-opacity="0.14" stroke-width="2">
+    <line x1="512" y1="172" x2="512" y2="852"/><line x1="172" y1="512" x2="852" y2="512"/>
+    <line x1="272" y1="272" x2="752" y2="752"/><line x1="752" y1="272" x2="272" y2="752"/>
+  </g>
+  <g transform="translate(512 512)" fill="url(#p1g)">
+    <path d="M0-260 L42-36 L0 0 L-42-36 Z" fill="url(#p1fire)" filter="url(#p1glow)"/>
+    <path d="M0 260 L-38 38 L0 0 L38 38 Z" opacity="0.38"/>
+    <path d="M-260 0 L-38-38 L0 0 L-38 38 Z" opacity="0.32"/>
+    <path d="M260 0 L38 38 L0 0 L38-38 Z" opacity="0.32"/>
+    <path d="M-184-184 L-52-52 L0 0 L-52-52 Z" opacity="0.22"/>
+    <path d="M184-184 L52-52 L0 0 L52-52 Z" opacity="0.22"/>
+    <path d="M184 184 L52 52 L0 0 L52 52 Z" opacity="0.2"/>
+    <path d="M-184 184 L-52 52 L0 0 L-52 52 Z" opacity="0.2"/>
+  </g>
+  <circle cx="512" cy="512" r="52" fill="#141210" stroke="url(#p1g)" stroke-width="6"/>
+  <circle cx="512" cy="512" r="28" fill="url(#p1g)"/>
+  <circle cx="512" cy="252" r="18" fill="#fff8e8" filter="url(#p1glow)"/>
+</svg>
