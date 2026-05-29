@@ -1,8 +1,9 @@
 # Senaste sammanfattning — systemstatus
 
-**Datum:** 2026-05-24 (Del A + B)  
+**Datum:** 2026-05-29 (uppdaterad) · tidigare 2026-05-24  
 **Gren:** `main` · Repo: Livskompassen3.0  
-**Ersätter inte** detaljrapporterna under `2026-05-23-*` — de är **historik**.
+**Ersätter inte** detaljrapporterna under `2026-05-23-*` — de är **historik**.  
+**Senaste Dagbok-session:** [`2026-05-29-dagbok-SESSION-ARKIV.md`](./2026-05-29-dagbok-SESSION-ARKIV.md)
 
 ---
 
