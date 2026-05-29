@@ -82,21 +82,23 @@
 
 ---
 
-## Fas 2 — Storage (kräver godkännande)
+## Fas 2 — Storage (implementerad 2026-05-29)
 
-- Ny `journalUploadHelper.ts`
-- `storage.rules`: `match /users/{userId}/journal_memories/{entryId}/{allPaths=**}`
-- Skapa journal-doc först → `entryId` → upload → patch? **Nej** — WORM: skriv `attachment` metadata i **samma** create efter upload, eller upload före create med genererat id (client-side doc id via `doc(collection(...))` pattern)
+- [x] `journalUploadHelper.ts` — validering 5 MB, MIME, upload
+- [x] `storage.rules` — `users/{userId}/journal_memories/{entryId}/**`
+- [x] WORM-flöde: `createJournalEntryId()` → upload → `setDoc` med `attachment` i samma create
+- [x] UI: `JournalDetailsPanel` + `JournalMemoryPicker` under Reflektera
 
-**Blocker:** utan user OK på `storage.rules` — stanna efter Fas 1.
+**Deploy:** `firebase deploy --only storage` krävs för att rules ska gälla i prod.
 
 ---
 
-## Fas 3 — Arkiv UX
+## Fas 3 — Arkiv UX (implementerad 2026-05-29)
 
-- Sökfält + humörfilter (från `MOOD_CATALOG`)
-- Kategorifilter när `category` finns på poster
-- Paginering ("Visa fler") om `getJournalEntries` limit < behov
+- [x] Sökfält + humörfilter (`MOOD_CATALOG`)
+- [x] Kategorifilter när poster har `category`
+- [x] Dagsgruppering (Idag / Igår / datum)
+- [x] Paginering «Visa fler» på filtrerad lista
 
 ---
 

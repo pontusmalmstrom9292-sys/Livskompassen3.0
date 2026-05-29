@@ -1,5 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import { saveJournalEntry, getJournalEntries } from '../../../core/firebase/firestore';
+import {
+  createJournalEntryId,
+  saveJournalEntry,
+  getJournalEntries,
+} from '../../../core/firebase/firestore';
+import { uploadJournalMemory } from '../utils/journalUploadHelper';
+import type { JournalCategoryId } from '../constants/journalCategories';
 import { hasVaultZone } from '../../../core/auth/sessionService';
 import { weaveJournalEntry } from '../api/weaverService';
 import { journalWovenToKampspar } from '../api/journalWovenService';
@@ -29,7 +35,9 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
   const [mood, setMood] = useState('');
   const [text, setText] = useState('');
   const [tags, setTags] = useState<string[]>([]);
-  const [category, setCategory] = useState<string | undefined>();
+  const [category, setCategory] = useState<JournalCategoryId | undefined>();
+  const [pendingMemoryFile, setPendingMemoryFile] = useState<File | null>(null);
+  const [memoryError, setMemoryError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [entries, setEntries] = useState<JournalEntry[]>([]);
@@ -54,6 +62,8 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       setText('');
       setTags([]);
       setCategory(undefined);
+      setPendingMemoryFile(null);
+      setMemoryError(null);
       setError(null);
     },
     [],
@@ -83,12 +93,35 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     setSaving(true);
     setError(null);
     try {
-      const id = await saveJournalEntry(userId, {
-        mood,
-        text: entryText,
-        tags: opts.tags?.length ? opts.tags : undefined,
-        category: opts.category ?? category,
-      });
+      let entryId: string | undefined;
+      let attachment: Awaited<ReturnType<typeof uploadJournalMemory>> | undefined;
+
+      if (pendingMemoryFile) {
+        entryId = createJournalEntryId();
+        try {
+          attachment = await uploadJournalMemory(userId, entryId, pendingMemoryFile);
+        } catch (uploadErr) {
+          const msg =
+            uploadErr instanceof Error
+              ? uploadErr.message
+              : 'Uppladdningen misslyckades. Försök igen.';
+          setMemoryError(msg);
+          setError(msg);
+          return;
+        }
+      }
+
+      const id = await saveJournalEntry(
+        userId,
+        {
+          mood,
+          text: entryText,
+          tags: opts.tags?.length ? opts.tags : undefined,
+          category: opts.category ?? category,
+          attachment,
+        },
+        entryId ? { entryId } : undefined,
+      );
       if (hasVaultZone('dagbok_forensic')) {
         weaveJournalEntry({ journalEntryId: id, mood, text: entryText });
       }
@@ -96,6 +129,8 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
         journalWovenToKampspar({ journalEntryId: id, mood, text: entryText });
       }
       setWeaveToKampspar(false);
+      setPendingMemoryFile(null);
+      setMemoryError(null);
       if (opts.skipDoneStep) {
         setQuickJustSaved(true);
         setTags([]);
@@ -142,6 +177,8 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     setText('');
     setTags([]);
     setCategory(undefined);
+    setPendingMemoryFile(null);
+    setMemoryError(null);
     setWeaveToKampspar(false);
     setStep(INITIAL_STEP);
   };
@@ -152,6 +189,8 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     text,
     tags,
     category,
+    pendingMemoryFile,
+    memoryError,
     saving,
     error,
     entries,
@@ -159,6 +198,8 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     quickJustSaved,
     setWeaveToKampspar,
     setCategory,
+    setPendingMemoryFile,
+    setMemoryError,
     lowEnergyBridge,
     setMood,
     setText,

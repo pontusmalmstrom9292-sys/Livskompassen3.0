@@ -11,6 +11,7 @@ import {
   parseMabraBridgeHub,
 } from '../constants/mabraBridge';
 import { useJournalFlow } from '../hooks/useJournalFlow';
+import { JOURNAL_CATEGORIES } from '../constants/journalCategories';
 import { JOURNAL_STEPS } from '../constants/moods';
 import type { DagbokMode } from '../types/journal';
 import { ConfirmStep } from './ConfirmStep';
@@ -42,12 +43,18 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
     mood,
     text,
     tags,
+    category,
+    pendingMemoryFile,
+    memoryError,
     saving,
     error,
     entries,
     weaveToKampspar,
     quickJustSaved,
     setWeaveToKampspar,
+    setCategory,
+    setPendingMemoryFile,
+    setMemoryError,
     lowEnergyBridge: flowLowEnergy,
     setMood,
     setText,
@@ -79,6 +86,10 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
 
   const showBridgeBanner =
     lowEnergyBridge && bridgeIntro && mode !== 'arkiv' && (mode !== 'reflektera' || step !== 'done');
+
+  const categoryLabel = category
+    ? JOURNAL_CATEGORIES.find((c) => c.id === category)?.label
+    : null;
 
   return (
     <div className="space-y-6">
@@ -142,7 +153,13 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
                 <ReflectionStep
                   text={text}
                   mood={mood}
+                  category={category}
+                  memoryFile={pendingMemoryFile}
+                  memoryError={memoryError}
                   onTextChange={setText}
+                  onCategoryChange={setCategory}
+                  onMemoryFileChange={setPendingMemoryFile}
+                  onMemoryValidationError={setMemoryError}
                   onBack={() => goToStep('mood')}
                   onContinue={() => goToStep('save')}
                   lowEnergyBridge={flowLowEnergy}
@@ -155,6 +172,8 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
                 <ConfirmStep
                   mood={mood}
                   text={text}
+                  memoryFileName={pendingMemoryFile?.name}
+                  categoryLabel={categoryLabel}
                   saving={saving}
                   weaveToKampspar={weaveToKampspar}
                   showWeaveOptIn={forensicUnlocked}

@@ -1,3 +1,5 @@
+import type { JournalAttachment } from './journalAttachment';
+
 export type JournalStep = 'mood' | 'text' | 'save' | 'done';
 
 export type DagbokMode = 'snabb' | 'reflektera' | 'arkiv';
@@ -11,6 +13,7 @@ export interface JournalEntry {
   createdAt?: string;
   category?: string;
   tags?: string[];
+  attachment?: JournalAttachment;
 }
 
 export type JournalSavePayload = {

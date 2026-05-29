@@ -103,6 +103,18 @@ export async function getRecentCheckIns(userId: string, limit = 20): Promise<Che
   ).slice(0, limit);
 }
 
+export type JournalAttachmentWrite = {
+  url: string;
+  storagePath: string;
+  name: string;
+  mimeType: string;
+  size: number;
+};
+
+export function createJournalEntryId(): string {
+  return doc(collection(db, FIRESTORE_COLLECTIONS.journal)).id;
+}
+
 export async function saveJournalEntry(
   userId: string,
   entry: {
@@ -110,14 +122,23 @@ export async function saveJournalEntry(
     text: string;
     category?: string;
     tags?: string[];
+    attachment?: JournalAttachmentWrite;
   },
-) {
+  options?: { entryId?: string },
+): Promise<string> {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.journal);
-  const ref = collection(db, 'journal');
   const payload: Record<string, unknown> = { mood: entry.mood, text: entry.text };
   if (entry.category) payload.category = entry.category;
   if (entry.tags?.length) payload.tags = entry.tags;
-  const docRef = await addDoc(ref, withUserId(userId, payload));
+  if (entry.attachment) payload.attachment = entry.attachment;
+
+  if (options?.entryId) {
+    await setDoc(doc(db, FIRESTORE_COLLECTIONS.journal, options.entryId), withUserId(userId, payload));
+    return options.entryId;
+  }
+
+  const refCol = collection(db, FIRESTORE_COLLECTIONS.journal);
+  const docRef = await addDoc(refCol, withUserId(userId, payload));
   return docRef.id;
 }
 

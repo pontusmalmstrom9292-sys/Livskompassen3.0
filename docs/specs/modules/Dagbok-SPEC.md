@@ -32,7 +32,7 @@ Sub-nav under Reflektion: **Snabb** · **Reflektera** · **Arkiv** (`DagbokModeN
 |------|----------|
 | **Snabb** | `MOOD_CATALOG` + valfria taggar + valfri rad → `saveJournalEntry` (stub-text om tom) |
 | **Reflektera** | Wizard: humör → text (röst/KBT) → bekräfta → sparad; väv/Kampspár opt-in bakom PIN |
-| **Arkiv** | `JournalArchive` läsbart utan PIN (WORM, ingen redigering i UI) |
+| **Arkiv** | `JournalArchive` med sök, humör-/kategorifilter, dagsgruppering, «Visa fler» (WORM, ingen redigering) |
 
 **Reflektera (steg):**
 
@@ -43,7 +43,11 @@ Sub-nav under Reflektion: **Snabb** · **Reflektera** · **Arkiv** (`DagbokModeN
 
 **Snabb:** humör-only via stub-text; taggar sparas som `tags[]` i Firestore.
 
-**Målbild (planerad, Fas 2–4):**
+**Reflektera — detaljer (Fas 2):** «Lägg till detaljer» → kategori + max 1 bilaga (JPG/PNG/WebP/HEIC/PDF, 5 MB) → upload vid spar, metadata i samma `journal`-create.
+
+**Arkiv (Fas 3):** klientsök i text/taggar/kategori; humör-pills från `MOOD_CATALOG`; kategori-pills om data finns; gruppering Idag/Igår/datum.
+
+**Målbild (planerad, Fas 4):**
 
 - KBT/ACT-vägledande fråga per humör (t.ex. stolthet/tacksamhet).
 - **Måbra-bro** vid `Låg` / `Spänd` (diskret länk till `/mabra`).
@@ -81,8 +85,11 @@ Skrivskydd via Security Rules: `create` med `ownerId == auth.uid`; `update, dele
 | `mood` | string | `MOOD_CATALOG` label (t.ex. `Lugn`, `Oro`) |
 | `text` | string | Reflektion / transkript / stub vid snabb |
 | `tags` | string[]? | Max 10, klientvaliderat (Fas 1) |
-| `category` | string? | `journalCategories` enum (Fas 2+ UI) |
+| `category` | string? | `journalCategories` enum (Reflektera → detaljer) |
+| `attachment` | map? | `url`, `storagePath`, `name`, `mimeType`, `size` (max 1 fil, Fas 2) |
 | `createdAt` | timestamp | server-side |
+
+**Storage (Lager 1):** `users/{userId}/journal_memories/{entryId}/{filename}` — append-only, skild från `vault_evidence/`.
 
 **Inte i scope:** `vaultFlag`, hot-analys eller juridiska fält i `journal` — separation Lager 1/2.
 

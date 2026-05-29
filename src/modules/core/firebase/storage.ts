@@ -1,7 +1,7 @@
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { app } from './init';
 
-const storage = getStorage(app);
+export const storage = getStorage(app);
 
 function slugifyForPath(input: string): string {
   return (

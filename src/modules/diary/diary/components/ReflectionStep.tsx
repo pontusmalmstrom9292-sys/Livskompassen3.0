@@ -8,13 +8,21 @@ import {
   QUICK_WRITE_PROMPTS,
   pickRandomPrompt,
 } from '../constants/moodPrompts';
+import type { JournalCategoryId } from '../constants/journalCategories';
+import { JournalDetailsPanel } from './JournalDetailsPanel';
 
 type WriteMode = 'fritt' | 'snabb' | 'tre-ord';
 
 type ReflectionStepProps = {
   text: string;
   mood?: string;
+  category?: JournalCategoryId;
+  memoryFile: File | null;
+  memoryError: string | null;
   onTextChange: (text: string) => void;
+  onCategoryChange: (category: JournalCategoryId | undefined) => void;
+  onMemoryFileChange: (file: File | null) => void;
+  onMemoryValidationError: (message: string | null) => void;
   onBack: () => void;
   onContinue: () => void;
   lowEnergyBridge?: boolean;
@@ -25,7 +33,13 @@ type ReflectionStepProps = {
 export function ReflectionStep({
   text,
   mood = '',
+  category,
+  memoryFile,
+  memoryError,
   onTextChange,
+  onCategoryChange,
+  onMemoryFileChange,
+  onMemoryValidationError,
   onBack,
   onContinue,
   lowEnergyBridge = false,
@@ -193,6 +207,17 @@ export function ReflectionStep({
         </div>
       )}
       {error && <p className="mt-1 text-xs text-danger">{error}</p>}
+
+      <JournalDetailsPanel
+        category={category}
+        memoryFile={memoryFile}
+        memoryError={memoryError}
+        disabled={saving}
+        textTouched={text.trim().length > 0}
+        onCategoryChange={onCategoryChange}
+        onMemoryFileChange={onMemoryFileChange}
+        onMemoryValidationError={onMemoryValidationError}
+      />
 
       <div className="reflektion-actions">
         <button type="button" onClick={onBack} className="btn-pill--ghost">

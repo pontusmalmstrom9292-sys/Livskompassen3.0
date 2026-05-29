@@ -1,9 +1,11 @@
-import { ChevronLeft, Loader2 } from 'lucide-react';
+import { ChevronLeft, Loader2, Paperclip } from 'lucide-react';
 import { getMoodDef } from '../constants/moods';
 
 type ConfirmStepProps = {
   mood: string;
   text: string;
+  memoryFileName?: string | null;
+  categoryLabel?: string | null;
   saving: boolean;
   weaveToKampspar: boolean;
   showWeaveOptIn?: boolean;
@@ -15,6 +17,8 @@ type ConfirmStepProps = {
 export function ConfirmStep({
   mood,
   text,
+  memoryFileName,
+  categoryLabel,
   saving,
   weaveToKampspar,
   showWeaveOptIn = false,
@@ -35,6 +39,17 @@ export function ConfirmStep({
           <span className="text-text-dim">Känsla:</span> {mood}
         </p>
         <p className="reflektion-preview__text">{text}</p>
+        {categoryLabel && (
+          <p className="mt-2 text-xs text-text-muted">
+            <span className="text-text-dim">Kategori:</span> {categoryLabel}
+          </p>
+        )}
+        {memoryFileName && (
+          <p className="mt-2 flex items-center gap-1.5 text-xs text-accent">
+            <Paperclip className="h-3.5 w-3.5" aria-hidden />
+            {memoryFileName}
+          </p>
+        )}
       </div>
 
       {showWeaveOptIn && (
