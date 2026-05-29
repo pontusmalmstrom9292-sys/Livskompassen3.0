@@ -1,6 +1,6 @@
 # Kunskap — Content Seed (kuraterad fakta)
 
-**Datum:** 2026-05-25 · **Batch:** 2026-05-27 (10 KEEP FACT)  
+**Datum:** 2026-05-25 · **Batch:** 2026-05-29 (25 KEEP FACT + df-001–006)  
 **Kurator:** `.cursor/agents/specialist-kunskap-seed.md`  
 **Syfte:** Godkänd **FACT**-grund före ingest till `kampspar` / `kb_docs` — **inte** terapi, lek eller personlig Vit-reflektion.
 
@@ -25,7 +25,9 @@
 
 | id | content_class | text_sv (kort) | citation_hint | tier |
 |----|---------------|----------------|---------------|------|
-| kunskap-fact-001 … 010 | FACT | Se batch 2026-05-27 | Se yaml nedan | P1/P2 |
+| kunskap-fact-001 … 020 | FACT | Se batchar nedan | Se yaml nedan | P1/P2 |
+| kunskap-fact-df-001 … 006 | FACT | Drogfrihet hub | § Drogfrihet | P1/P2 |
+| kunskap-fact-021 … 025 | FACT | Batch 2026-05-29 autorun | § Google AI Pro repo | P1/P2 |
 
 ---
 
@@ -339,6 +341,158 @@ tags: [barn, medforaldraskap, schema]
 source_tier: P2
 citation_hint: "Föräldrabalken 6 kap. — översikt"
 why: "Kompletterar kunskap-fact-003 utan duplicera hela texten"
+```
+
+---
+
+## Batch 2026-05-29 (Google AI Pro Deep Research — ADHD vardag)
+
+**Kurator:** `specialist-kunskap-seed` · **Källa:** Google AI Pro plan Steg B · **Silo:** Kunskap only.
+
+```yaml
+id: kunskap-fact-016
+status: KEEP
+content_class: FACT
+title: "Tidsblindhet och extern tidsankare"
+content: "Tidsblindhet vid ADHD innebär svårighet att uppskatta hur lång tid som gått eller återstår. Synliga klockor, timers och schemablock i kalender fungerar som externa ankare som avlastar arbetsminnet — de ersätter inte behandling men minskar risken att missa överlämningar eller deadlines."
+category: adhd_vardag
+entryType: fakta
+tags: [adhd, tidsblindhet, planering, extern_struktur]
+source_tier: P2
+citation_hint: "NICE NG87 ADHD adults; psychoeducation time management"
+why: "RAG-referens för planering/Kompis — ej personlig terapi"
+```
+
+```yaml
+id: kunskap-fact-017
+status: KEEP
+content_class: FACT
+title: "Uppgiftsinitiering — starttröskel"
+content: "Svårighet att starta uppgifter (task initiation) är vanlig vid exekutiv dysfunktion. Att bryta ned till ett fysiskt första steg under 30 sekunder — öppna dokument, ställa fram ett glas vatten — sänker starttröskeln utan att kräva att hela uppgiften planeras klart."
+category: adhd_vardag
+entryType: fakta
+tags: [adhd, exekutiv_funktion, mikrosteg, paralys]
+source_tier: P2
+citation_hint: "Russell Barkley executive function overview; ADHD psychoeducation"
+why: "Kopplar till Paralys-Brytaren utan att blanda silor"
+```
+
+```yaml
+id: kunskap-fact-018
+status: KEEP
+content_class: FACT
+title: "Arbetsminne och listor utanför huvudet"
+content: "När arbetsminnet är belastat ökar glömska av vardagliga åtaganden. Externa listor, inkorgar och påminnelser minskar kognitiv last eftersom hjärnan slipper hålla allt aktivt. Principen gäller planering — inte som krav på perfekt produktivitet."
+category: adhd_vardag
+entryType: fakta
+tags: [adhd, arbetsminne, kognitiv_avlastning, planering]
+source_tier: psychoeducation_general
+citation_hint: "Cognitive offloading — ADHD psychoeducation general"
+why: "Stöd för Planering-widget och Kompis — FACT not REFLECTION"
+```
+
+```yaml
+id: kunskap-fact-019
+status: KEEP
+content_class: FACT
+title: "Övergångar mellan aktiviteter"
+content: "Att byta från en aktivitet till en annan (transition) kostar ofta mer kognitiv energi vid ADHD. Förutsägbara rutiner kring överlämning, måltid och kväll kan minska friktion — särskilt för barn i parallellt föräldraskap där scheman skiljer sig mellan hem."
+category: adhd_vardag
+entryType: fakta
+tags: [adhd, overgang, rutin, barn, medforaldraskap]
+source_tier: P2
+citation_hint: "NICE NG87; transition supports ADHD children/adults overview"
+why: "Kopplar Familjen/planering utan barn-EVIDENCE i samma post"
+```
+
+```yaml
+id: kunskap-fact-020
+status: KEEP
+content_class: FACT
+title: "Sömn och exekutiv funktion — översikt"
+content: "Bristande sömn försämrar ofta exekutiva funktioner som impulskontroll och planering. Regelbunden sömnhygien och fasta läggtider är allmänna hälsoåtgärder — inte en garanti för symtomfrihet vid ADHD, men relevant för vardagsplanering och energihantering."
+category: adhd_vardag
+entryType: fakta
+tags: [adhd, somn, exekutiv_funktion, vardag]
+source_tier: psychoeducation_general
+citation_hint: "Sleep hygiene psychoeducation; ADHD comorbidity sleep overview"
+why: "Dagbok-taggar Sömn — FACT till Kunskap, ej MåBra-coach runtime"
+```
+
+---
+
+## Batch 2026-05-29 (Google AI Pro autorun — repo)
+
+**Kurator:** `specialist-kunskap-seed` · **Källa:** repo-pack + U6-granskning · **Silo:** Kunskap only · **Ej** webb (NotebookLM/Flow hoppades över).
+
+```yaml
+id: kunskap-fact-021
+status: KEEP
+content_class: FACT
+title: "RSD — rejection sensitive dysphoria (översikt)"
+content: "Rejection Sensitive Dysphoria (RSD) beskriver intensiv känslomässig smärta vid upplevd kritik eller avvisning — vanligt vid ADHD men inte en separat diagnos i ICD. Psychoeducation fokuserar på att skilja faktisk feedback från tolkning, paus före svar, och extern struktur för att minska impulsiva reaktioner. Det ersätter inte terapi eller medicin."
+category: adhd_vardag
+entryType: fakta
+tags: [adhd, rsd, emotion, kommunikation]
+source_tier: psychoeducation_general
+citation_hint: "ADHD RSD psychoeducation (general); ej ICD-11 separat diagnos"
+why: "Referens för Kompis/RAG — Speglar för personlig bearbetning"
+```
+
+```yaml
+id: kunskap-fact-022
+status: KEEP
+content_class: FACT
+title: "Zero Footprint — sessionsminne"
+content: "Zero Footprint innebär att känslig sessionsdata (synapser, speglingsstate, tillfälliga cache) rensas vid utloggning, blur eller panic — så att privat bearbetning inte lämnar spår i en delad enhet. Permanent minne (journal, Valv, barnloggar) följer WORM-regler separat och kräver explicit spar."
+category: produkt_sakerhet
+entryType: fakta
+tags: [zero_footprint, kill_switch, session, sacred]
+source_tier: product_copy
+citation_hint: "Livskompassen security.md; U4 Grunder"
+why: "Faktaförklaring av Sacred Feature — ej runtime-kod"
+```
+
+```yaml
+id: kunskap-fact-023
+status: KEEP
+content_class: FACT
+title: "Tre kunskapssilor — varför inte sök överallt"
+content: "Livskompassen delar minne i tre silor: Kunskap (referensfakta), Valv (bevis och kronologi), Barnen (barnloggar). De blandas inte i samma RAG-sökning eftersom fakta, bevis och barnobservation har olika tillförlitlighet och juridisk tyngd. Utvecklingszonen Vit (MåBra) exporteras inte till Kunskap-RAG."
+category: produkt_arkitektur
+entryType: fakta
+tags: [silo, u1, rag, kunskap, valv]
+source_tier: product_copy
+citation_hint: "INNEHALL-REGISTER.md; arkiv-minne.md U1"
+why: "Användarförklaring utan cross-RAG — dirigent ROUTE vid osäkerhet"
+```
+
+```yaml
+id: kunskap-fact-024
+status: KEEP
+content_class: FACT
+title: "Delat förälderschema — extern synlighet"
+content: "I parallellt föräldraskap minskar missförstånd om hämtning och lämning om schemat ligger synligt i kalender båda kan se, med påminnelser före överlämning. Neutral formulering i inbjudningar ('Hämtning tis 16:00 enligt schema') minskar eskalering jämfört med sms i affekt."
+category: medforaldraskap
+entryType: fakta
+tags: [schema, kalender, medforaldraskap, logistik]
+source_tier: P2
+citation_hint: "Coparenting scheduling psychoeducation; Planering-widget produktcopy"
+why: "Logistik-FACT — konkret sms → Hamn, bevis → Valv"
+```
+
+```yaml
+id: kunskap-fact-025
+status: KEEP
+content_class: FACT
+title: "Dagbok taggar — struktur utan diagnos"
+content: "Taggar i dagbok (t.ex. Sömn, Konflikt, Barn) grupperar poster för senare sökning utan att automatiskt klassificera dig eller motparten. De ersätter inte Valv-bevis eller medicinsk journal. Speglingscoach kan läsa taggade poster med opt-in — inte som sanning om tredje part."
+category: dagbok_produkt
+entryType: fakta
+tags: [dagbok, taggar, journal, spegling]
+source_tier: product_copy
+citation_hint: "dagbok-vertex-plan.md Fas 1; journalQuickMirror"
+why: "Stöd Dagbok v2 Snabb — FACT not REFLECTION"
 ```
 
 ---

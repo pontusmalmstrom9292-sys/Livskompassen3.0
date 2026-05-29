@@ -49,5 +49,17 @@ Spec: [`../themes/K-PACK-EIGHT-VARIANTS.md`](../themes/K-PACK-EIGHT-VARIANTS.md)
 
 ## Godkännande
 
+---
+
+## Google AI Pro — designreferens (Steg F, 2026-05-29)
+
+| ID | Typ | Status | Prompt / fil |
+|----|-----|--------|--------------|
+| `F1-dagbok-snabb-wireframe` | Gemini Imagen wireframe | **referens** | Se Cursor-plan Steg F1 — Obsidian Calm `#020617`, guld `#FDE68A`, etiketter Humör/Taggar/Spara känslan |
+| `F2-barnporten-flow` | Google Flow 15s | **valfritt** | Mörk navy, abstrakt kompassros, ingen text — onboarding-referens Barnporten |
+
+**Regel:** Godkänn i tabellen ovan innan prod-tema eller ikon ändras. D1/M2 låsta — se `.context/locked-icons.md`.
+
+
 - **GODKÄND: `J-planering-fyren`** — Planering + Projekt (`moduleThemeMap.ts` rad 19–20). Övriga hubbar oförändrade.
 - Nästa val: skriv **GODKÄND: &lt;id&gt;** för global bas eller fler J-hubbar.

@@ -28,6 +28,9 @@ functions/lib/
 # Google Drive sync temp upload artifacts
 .tmp.driveupload/
 
+# Generated Google AI Pro export packs (npm run google-ai-pro:pack)
+exports/google-ai-pro/
+
 # IDE & OS
 .DS_Store
 **/.DS_Store
