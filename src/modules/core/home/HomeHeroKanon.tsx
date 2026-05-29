@@ -17,21 +17,25 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
 
   return (
     <div className="home-hero-kanon space-y-5">
-      <div className="home-hero-kanon__compass-stage" aria-hidden />
+      <div className="home-hero-kanon__bridge">
+        <div className="home-hero-kanon__compass-stage" aria-hidden />
 
-      <div className="home-hero-kanon__intro">
-        <HomeGreeting />
-        <HomeStreakChip />
+        <div className="home-hero-kanon__scenic-stack">
+          <div className="home-hero-kanon__intro">
+            <HomeGreeting />
+            <HomeStreakChip />
+          </div>
+
+          <DagensRiktningCard
+            open={checkInOpen}
+            onOpenChange={setCheckInOpen}
+            onCheckInSaved={() => {
+              onCheckInSaved?.();
+              setCheckInOpen(false);
+            }}
+          />
+        </div>
       </div>
-
-      <DagensRiktningCard
-        open={checkInOpen}
-        onOpenChange={setCheckInOpen}
-        onCheckInSaved={() => {
-          onCheckInSaved?.();
-          setCheckInOpen(false);
-        }}
-      />
 
       <div className="home-hero-kanon__dots" aria-hidden>
         <span className="home-hero-kanon__dot home-hero-kanon__dot--active" />
