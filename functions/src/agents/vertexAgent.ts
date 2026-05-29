@@ -1,10 +1,16 @@
 import {
+  DAGBOK_SNABB_COACHEN_SYSTEM_PROMPT,
   LIVSKOMPASSEN_SYSTEM_CONFIG,
   KBT_TRANSFORMATOR_SYSTEM_PROMPT,
   MABRA_COACHEN_SYSTEM_PROMPT,
   SPEGLINGS_COACHEN_SYSTEM_PROMPT,
 } from '../sharedRules';
 import { createGenAI } from '../lib/genaiClient';
+import {
+  journalQuickMirrorFallback,
+  parseJournalQuickMirrorJson,
+  type JournalQuickMirrorResult,
+} from '../lib/journalQuickMirrorParse';
 import {
   kbtTransformFallback,
   parseKbtTransformJson,
@@ -13,6 +19,7 @@ import {
 
 const SPEGLINGS_MODEL = 'gemini-2.5-flash';
 const MABRA_COACH_MODEL = 'gemini-2.5-flash';
+const DAGBOK_SNABB_MODEL = 'gemini-2.5-flash';
 
 export const askKnowledgeVault = async (prompt: string): Promise<string> => {
   try {
@@ -146,5 +153,37 @@ export const askSpeglingsCoach = async (
   } catch (error) {
     console.error('[Speglings-Coachen] Fel — degraded fallback:', error);
     return mirrorFeelingFallback(reflection);
+  }
+};
+
+export const askDagbokSnabbCoach = async (
+  mood: string,
+  tags: string[],
+  optionalText?: string,
+  geminiApiKey?: string,
+): Promise<JournalQuickMirrorResult> => {
+  const context = [
+    `Humör: ${mood}`,
+    tags.length ? `Taggar: ${tags.join(', ')}` : 'Taggar: (inga)',
+    optionalText?.trim() ? `Valfri rad: ${optionalText.trim()}` : 'Valfri rad: (tom)',
+  ].join('\n');
+
+  try {
+    const ai = createGenAI(geminiApiKey);
+    const response = await ai.models.generateContent({
+      model: DAGBOK_SNABB_MODEL,
+      contents: context,
+      config: {
+        systemInstruction: DAGBOK_SNABB_COACHEN_SYSTEM_PROMPT,
+        temperature: 0.2,
+      },
+    });
+
+    const text = response.text?.trim();
+    if (!text) throw new Error('Tomt dagbok-snabb-svar.');
+    return parseJournalQuickMirrorJson(text);
+  } catch (error) {
+    console.error('[Dagbok Snabb] Fel — degraded fallback:', error);
+    return journalQuickMirrorFallback(mood, optionalText);
   }
 };

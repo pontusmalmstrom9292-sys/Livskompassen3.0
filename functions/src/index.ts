@@ -1,5 +1,5 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
-import { askMabraCoach, askKbtTransformator, askSpeglingsCoach } from "./agents/vertexAgent";
+import { askMabraCoach, askKbtTransformator, askSpeglingsCoach, askDagbokSnabbCoach } from "./agents/vertexAgent";
 import { askKnowledgeVaultWithRag } from "./agents/knowledgeVaultAgent";
 import { geminiApiKey } from "./lib/geminiSecret";
 import { generateEmbeddingInternal } from "./lib/generateEmbeddingInternal";
@@ -766,6 +766,36 @@ export const speglingsMirror = functions
     const rawMirror = await askSpeglingsCoach(reflection, mood, process.env.GEMINI_API_KEY);
     const mirror = trimSpeglingsMirror(rawMirror);
     return { mirror };
+  });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 10a: journalQuickMirror
+// Dagbok Snabbläge — kort validering efter spar (Lager 1, Zero Footprint).
+// ─────────────────────────────────────────────────────────────────────────────
+export const journalQuickMirror = functions
+  .region('europe-west1')
+  .runWith({ secrets: ['GEMINI_API_KEY'] })
+  .https.onCall(async (data, context) => {
+    if (!context.auth) {
+      throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
+    }
+
+    const mood = data.mood;
+    if (!mood || typeof mood !== 'string' || mood.length > 80) {
+      throw new functions.https.HttpsError('invalid-argument', 'Fältet "mood" (string, max 80) krävs.');
+    }
+
+    const tags = Array.isArray(data.tags)
+      ? data.tags.filter((t: unknown) => typeof t === 'string').slice(0, 10)
+      : [];
+
+    const optionalText = typeof data.optionalText === 'string' ? data.optionalText : undefined;
+    if (optionalText && optionalText.length > 500) {
+      throw new functions.https.HttpsError('invalid-argument', 'optionalText max 500 tecken.');
+    }
+
+    const result = await askDagbokSnabbCoach(mood, tags, optionalText, process.env.GEMINI_API_KEY);
+    return result;
   });
 
 // ─────────────────────────────────────────────────────────────────────────────

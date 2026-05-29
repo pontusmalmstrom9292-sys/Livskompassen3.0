@@ -103,6 +103,13 @@ function main() {
     'dagbok_forensic',
   );
   mustInclude(
+    'functions/src/index.ts',
+    'journalQuickMirror',
+    'askDagbokSnabbCoach',
+  );
+  mustInclude('functions/src/sharedRules.ts', 'DAGBOK_SNABB_COACHEN_SYSTEM_PROMPT');
+  mustInclude('src/modules/diary/diary/api/journalQuickMirrorService.ts', 'journalQuickMirror');
+  mustInclude(
     'src/modules/family/safeHarbor/components/TryggHamnHub.tsx',
     'BiffPublicPanel',
     'vaultDrawerPath',

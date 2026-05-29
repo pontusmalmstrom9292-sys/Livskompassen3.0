@@ -8,11 +8,15 @@ import {
 } from '../constants/journalTags';
 import { HandoffBox } from './HandoffBox';
 import { shouldShowJournalHandoff } from '../utils/journalHandoff';
+import type { JournalQuickMirrorResponse } from '../api/journalQuickMirrorService';
+
 type JournalQuickModeProps = {
   mood: string;
   tags: string[];
   saving: boolean;
   justSaved: boolean;
+  mirror: JournalQuickMirrorResponse | null;
+  mirrorLoading?: boolean;
   onMoodChange: (mood: string) => void;
   onToggleTag: (tag: string) => void;
   onSave: (quickText: string) => void | Promise<void>;
@@ -23,6 +27,8 @@ export function JournalQuickMode({
   tags,
   saving,
   justSaved,
+  mirror,
+  mirrorLoading = false,
   onMoodChange,
   onToggleTag,
   onSave,
@@ -133,10 +139,24 @@ export function JournalQuickMode({
       </div>
 
       {justSaved && (
-        <p className="mt-3 flex items-center justify-center gap-1.5 text-sm text-accent" role="status">
-          <Check className="h-4 w-4" aria-hidden />
-          Sparat
-        </p>
+        <div className="mt-3 space-y-2" role="status">
+          <p className="flex items-center justify-center gap-1.5 text-sm text-accent">
+            <Check className="h-4 w-4" aria-hidden />
+            Sparat
+          </p>
+          {(mirror?.mirrorLine || mirrorLoading) && (
+            <p className="rounded-xl border border-border-strong bg-surface/30 px-3 py-2 text-center text-sm text-text-muted">
+              {mirror?.mirrorLine ??
+                'Ett ögonblick — speglingen kommer strax.'}
+            </p>
+          )}
+          {mirror?.microStep && (
+            <p className="text-center text-xs text-text-muted">{mirror.microStep}</p>
+          )}
+          {mirror?.suggestMode === 'reflektera' && (
+            <p className="text-center text-xs text-accent">Vill du skriva mer kan du byta till Reflektera.</p>
+          )}
+        </div>
       )}
     </div>
   );

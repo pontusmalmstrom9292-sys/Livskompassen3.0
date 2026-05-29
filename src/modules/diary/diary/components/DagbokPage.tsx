@@ -53,6 +53,8 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
     entries,
     weaveToKampspar,
     quickJustSaved,
+    quickMirror,
+    quickMirrorLoading,
     setWeaveToKampspar,
     setCategory,
     setPendingMemoryFile,
@@ -121,6 +123,8 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
                 tags={tags}
                 saving={saving}
                 justSaved={quickJustSaved}
+                mirror={quickMirror}
+                mirrorLoading={quickMirrorLoading}
                 onMoodChange={setMood}
                 onToggleTag={toggleTag}
                 onSave={handleQuickSave}

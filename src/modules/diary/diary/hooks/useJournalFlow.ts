@@ -13,6 +13,9 @@ import type { MabraBridgeHub } from '../constants/mabraBridge';
 import { MABRA_MOOD_ONLY_TEXT } from '../constants/mabraBridge';
 import { normalizeJournalTag } from '../constants/journalTags';
 import { MOOD_ONLY_STUB } from '../constants/moodPrompts';
+import { fetchJournalQuickMirror } from '../api/journalQuickMirrorService';
+import type { JournalQuickMirrorResponse } from '../api/journalQuickMirrorService';
+import { journalQuickMirrorFallback } from '../utils/journalQuickMirrorFallback';
 import type { JournalEntry, JournalStep } from '../types/journal';
 
 const INITIAL_STEP: JournalStep = 'mood';
@@ -43,6 +46,8 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [weaveToKampspar, setWeaveToKampspar] = useState(false);
   const [quickJustSaved, setQuickJustSaved] = useState(false);
+  const [quickMirror, setQuickMirror] = useState<JournalQuickMirrorResponse | null>(null);
+  const [quickMirrorLoading, setQuickMirrorLoading] = useState(false);
 
   const refreshEntries = useCallback(async () => {
     if (!userId) return;
@@ -71,7 +76,11 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
 
   useEffect(() => {
     if (!quickJustSaved) return;
-    const t = window.setTimeout(() => setQuickJustSaved(false), 4000);
+    const t = window.setTimeout(() => {
+      setQuickJustSaved(false);
+      setQuickMirror(null);
+      setQuickMirrorLoading(false);
+    }, 12000);
     return () => window.clearTimeout(t);
   }, [quickJustSaved]);
 
@@ -87,8 +96,8 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     });
   };
 
-  const persistEntry = async (entryText: string, opts: PersistOptions = {}) => {
-    if (!userId || !mood) return;
+  const persistEntry = async (entryText: string, opts: PersistOptions = {}): Promise<boolean> => {
+    if (!userId || !mood) return false;
     const optInKampspar = opts.optInKampspar ?? weaveToKampspar;
     setSaving(true);
     setError(null);
@@ -107,7 +116,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
               : 'Uppladdningen misslyckades. Försök igen.';
           setMemoryError(msg);
           setError(msg);
-          return;
+          return false;
         }
       }
 
@@ -138,8 +147,10 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
         setStep('done');
       }
       await refreshEntries();
+      return true;
     } catch {
       setError('Kunde inte spara. Kontrollera Firestore-regler.');
+      return false;
     } finally {
       setSaving(false);
     }
@@ -169,7 +180,21 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     const trimmed = quickText.trim();
     const entryText = trimmed || MOOD_ONLY_STUB(mood);
     const tagList = tags.length ? [...tags] : undefined;
-    await persistEntry(entryText, { tags: tagList, skipDoneStep: true });
+    const savedMood = mood;
+    const savedTags = tagList ? [...tagList] : [];
+    setQuickMirror(null);
+    setQuickMirrorLoading(false);
+    const ok = await persistEntry(entryText, { tags: tagList, skipDoneStep: true });
+    if (ok && savedMood) {
+      setQuickMirror(journalQuickMirrorFallback(savedMood, trimmed || undefined));
+      setQuickMirrorLoading(true);
+      try {
+        const mirror = await fetchJournalQuickMirror(savedMood, savedTags, trimmed || undefined);
+        setQuickMirror(mirror);
+      } finally {
+        setQuickMirrorLoading(false);
+      }
+    }
   };
 
   const resetFlow = () => {
@@ -196,6 +221,8 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     entries,
     weaveToKampspar,
     quickJustSaved,
+    quickMirror,
+    quickMirrorLoading,
     setWeaveToKampspar,
     setCategory,
     setPendingMemoryFile,
