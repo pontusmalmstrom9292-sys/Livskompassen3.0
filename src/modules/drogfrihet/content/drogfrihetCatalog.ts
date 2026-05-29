@@ -92,4 +92,20 @@ export const DROGFRIHET_CARDS: readonly DrogfrihetCard[] = [
     lens: 'kropp',
     text_sv: 'Kropp först: har du druckit vatten, ätit något litet, eller pausat fem minuter?',
   },
+  {
+    bankId: 'DF-REF-11',
+    content_class: 'REFLECTION',
+    source_tier: 'psychoeducation_general',
+    status: 'KEEP',
+    lens: 'craving',
+    text_sv: 'Vad hände i kroppen precis före suget — utan att döma?',
+  },
+  {
+    bankId: 'DF-REF-12',
+    content_class: 'REFLECTION',
+    source_tier: 'product_copy',
+    status: 'KEEP',
+    lens: 'idag',
+    text_sv: 'Ett beslut för idag om nykterhet — inte hela livet.',
+  },
 ];

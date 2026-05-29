@@ -32,6 +32,7 @@ const envPath = resolve(root, '.env');
 const MANIFESTS = {
   profil: resolve(root, 'docs/specs/modules/Kampspar-PROFIL-SEED.json'),
   'barn-referens': resolve(root, 'docs/specs/modules/Kampspar-BARN-REFERENS-SEED.json'),
+  'kunskap-facts': resolve(root, 'docs/specs/modules/Kunskap-CONTENT-SEED.json'),
 };
 
 function loadEnv() {

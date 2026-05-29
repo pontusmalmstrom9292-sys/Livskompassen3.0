@@ -1,0 +1,537 @@
+{
+  "version": "2026-05-29",
+  "source_policy": "kunskap_content_seed_keep_only",
+  "default_source": "kunskap_content_seed",
+  "entries": [
+    {
+      "id": "kunskap-fact-001",
+      "title": "Exekutiva funktioner och vardagsplanering vid ADHD",
+      "content": "Exekutiva funktioner styr planering, prioritering, tidsuppfattning och att växla mellan uppgifter. Vid ADHD är dessa processer ofta mer belastade, vilket kan ge tidsblindhet och svårighet att starta eller avsluta aktiviteter. Extern struktur — kalender, påminnelser, synliga listor — avlastar arbetsminnet utan att ersätta medicinsk eller psykologisk behandling.",
+      "category": "adhd_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "NICE NG87 ADHD adults; psychoeducation executive function",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-002",
+      "title": "Ett mikrosteg i taget — kognitiv avlastning",
+      "content": "När en uppgift känns överväldigande minskar starttröskeln om den delas i ett enda konkret nästa steg som tar under cirka fem minuter. Det handlar om att sänka kravet på beslut i förväg, inte om att ignorera helheten. Metoden används i arbetsterapi och ADHD-självhjälp som komplement till medicin och behandling.",
+      "category": "adhd_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "ADHD coaching / behavioral activation (general)",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-003",
+      "title": "Parallellt föräldraskap — neutral definition",
+      "content": "Parallellt föräldraskap innebär att två föräldrar har separata hushåll och egna rutiner kring barnen, med samordning kring barnets behov snarare än gemensam vardag. Det är vanligt efter separation och kräver tydliga överenskommelser om schema, hälsa och skola. Målet är förutsägbarhet för barnet, inte att föräldrarna ska tycka lika om allt.",
+      "category": "medforaldraskap",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Föräldrabalken 6 kap.; familjerätt — översikt",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-004",
+      "title": "Gränser i medföräldraskommunikation",
+      "content": "En gräns i medföräldraskap är en tydlig regel för *hur* ni kommunicerar (kanal, ämne, svarstid), inte en dom över den andres person. Exempel: endast skriftligt om känsloladdade ämnen eskalerar, eller att barnfrågor hålls separata från ekonomiska tvister. Gränser syftar till att skydda barnets stabilitet och förälderns återhämtning — de ersätter inte domstolsbeslut eller familjerättslig rådgivning.",
+      "category": "medforaldraskap",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Coparenting communication boundaries (psychoeducation)",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-005",
+      "title": "BIFF — vad förkortningen betyder",
+      "content": "BIFF står för Brief (kort), Informative (informativ), Friendly (vänlig) och Firm (fast) — en kommunikationsstruktur för korta, sakliga svar utan onödig förklaring eller försvar. Metoden används ofta i medföräldraskap och konflikttröghet för att minska eskalering. Det är en formuleringsteknik, inte en juridisk strategi eller garanti för att motparten ändrar beteende.",
+      "category": "kommunikation_metod",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Livskompassen produktterminologi; BIFF/Grey Rock psychoeducation",
+      "source_tier": "P1"
+    },
+    {
+      "id": "kunskap-fact-006",
+      "title": "Grey Rock — neutral kommunikationsprincip",
+      "content": "Grey Rock (grå sten) beskriver att hålla svar korta, sakliga och utan känslomässig detalj när en motpart söker konflikt eller reaktion. Syftet är att minska bränsle till eskalering, inte att förneka barnets eller egna behov i viktiga frågor. Principen skiljs från tystnad eller blockering: logistik kring barn ska fortfarande kunna hanteras tydligt och dokumenteras vid behov i rätt silo (bevis), inte som terapi här.",
+      "category": "kommunikation_metod",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Livskompassen produktterminologi; high-conflict communication literature",
+      "source_tier": "P1"
+    },
+    {
+      "id": "kunskap-fact-007",
+      "title": "Neuroinkludering — sensorisk belastning hos barn",
+      "content": "Barn med neuropsykiatrisk funktionsnedsättning kan uppleva ljud, ljus, beröring eller övergångar som mer intensiva. Sensorisk överbelastning kan visa sig som utbrott, tillbakadragenhet eller fysisk rastlöshet — inte alltid som \\\"illvilja\\\". Anpassningar (förutsägbarhet, pauser, val av miljö) är vanliga i skola och hem enligt barnets behov.",
+      "category": "barn_neuro",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "WHO neurodevelopmental; skolinspektionen NPF-anpassning (översikt)",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-008",
+      "title": "Stödjande språk kring barns svårigheter",
+      "content": "Att beskriva beteende som information (\\\"hen blev överväldigad när…\\\") skiljer sig från att märka barnet som problemet (\\\"hen är jobbig\\\"). Neutral dokumentation i skola och vård fokuserar på vad som hände, miljö och stöd som provats. Det underlättar samverkan mellan hem, skola och insatser utan att blanda in vuxenkonflikt i barnets journal.",
+      "category": "barn_neuro",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "BBIC-inspirerad neutral logg; föräldrastöd NPF",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-009",
+      "title": "Vardagsekonomi — fakturor och betalningsflöde",
+      "content": "En enkel ordning är: inkommande räkning → förfallodatum i kalender → betalning samma dag eller via autogiro. Att samla abonnemang och fasta kostnader i en lista minskar risken för förseningsavgifter vid ADHD-relaterad tidsblindhet. Detta är administrativ struktur, inte skuldrådgivning eller investeringsråd.",
+      "category": "ekonomi_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Livskompassen Planering/ekonomi produktcopy; Konsumentverket betalningar",
+      "source_tier": "P1"
+    },
+    {
+      "id": "kunskap-fact-010",
+      "title": "Juridik 10% — vad som oftast är logistik",
+      "content": "I medföräldraskap handlar en stor del av praktiska frågor om schema, hämtning/lämning, skolinfo, läkarbesök och kostnadsfördelning enligt avtal eller dom. Föräldrabalken reglerar vårdnad, boende och umgänge; exakta villkor beror på beslut, medgivanden eller domstol. Appen ger inte juridisk rådgivning — vid tvist eller ändring av beslut ska familjerättsjurist eller myndighet kontaktas.",
+      "category": "juridik_logistik",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Föräldrabalken 6 kap. (SFS översikt); ej rådgivning",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-011",
+      "title": "Grey Rock — neutral kommunikation vid konflikt",
+      "content": "Grey Rock innebär korta, sakliga svar utan känslomässigt bränsle: bekräfta mottagande, svara på logistik, undvik att försvara eller förklara (JADE). Metoden används för att minska manipulation och eskalation i högkonfliktssituationer, inte som straff mot barnet.",
+      "category": "medforaldraskap",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "BIFF/Grey Rock — produktcopy Safe Harbor; ej terapi",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-012",
+      "title": "BIFF — Brief, Informative, Friendly, Firm",
+      "content": "BIFF är en struktur för skriftlig kommunikation: kort (Brief), faktabaserad (Informative), artig utan överdriven värme (Friendly), och tydlig gräns (Firm). Syftet är förutsägbarhet och dokumentation, inte att vinna argument.",
+      "category": "medforaldraskap",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Bill Eddy BIFF — översikt",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-013",
+      "title": "Append-only bevislogg — varför tidsstämpel",
+      "content": "En bevislogg med append-only och server-tidsstämpel gör det svårare att senare påstå att händelser aldrig dokumenterats. Det ersätter inte juridisk rådgivning men stödjer kronologi vid familjerätt eller myndighetskontakt.",
+      "category": "juridik_overview",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Verklighetsvalvet-SPEC; WORM reality_vault",
+      "source_tier": "product_copy"
+    },
+    {
+      "id": "kunskap-fact-014",
+      "title": "Gaslighting — informationsförvrängning (översikt)",
+      "content": "Gaslighting beskriver när någon systematiskt ifrågasätter din upplevelse av händelser för att skapa osäkerhet. Neutral dokumentation av datum, citat och bilagor kan motverka minnesglapp — utan att diagnostisera motparten i appen.",
+      "category": "medforaldraskap",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "APA psychoeducation — översikt; ej diagnos",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-015",
+      "title": "Parallellt föräldraskap — barnets förutsägbarhet",
+      "content": "Barn i separerade familjer mår ofta bättre av förutsägbara scheman, tydliga överlämningar och att föräldrar håller vuxenkonflikt borta från barnets öron. Samordning kring skola och hälsa prioriteras framför att föräldrarna ska vara överens om allt.",
+      "category": "medforaldraskap",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Föräldrabalken 6 kap. — översikt",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-016",
+      "title": "Tidsblindhet och extern tidsankare",
+      "content": "Tidsblindhet vid ADHD innebär svårighet att uppskatta hur lång tid som gått eller återstår. Synliga klockor, timers och schemablock i kalender fungerar som externa ankare som avlastar arbetsminnet — de ersätter inte behandling men minskar risken att missa överlämningar eller deadlines.",
+      "category": "adhd_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "NICE NG87 ADHD adults; psychoeducation time management",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-017",
+      "title": "Uppgiftsinitiering — starttröskel",
+      "content": "Svårighet att starta uppgifter (task initiation) är vanlig vid exekutiv dysfunktion. Att bryta ned till ett fysiskt första steg under 30 sekunder — öppna dokument, ställa fram ett glas vatten — sänker starttröskeln utan att kräva att hela uppgiften planeras klart.",
+      "category": "adhd_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Russell Barkley executive function overview; ADHD psychoeducation",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-018",
+      "title": "Arbetsminne och listor utanför huvudet",
+      "content": "När arbetsminnet är belastat ökar glömska av vardagliga åtaganden. Externa listor, inkorgar och påminnelser minskar kognitiv last eftersom hjärnan slipper hålla allt aktivt. Principen gäller planering — inte som krav på perfekt produktivitet.",
+      "category": "adhd_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Cognitive offloading — ADHD psychoeducation general",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-019",
+      "title": "Övergångar mellan aktiviteter",
+      "content": "Att byta från en aktivitet till en annan (transition) kostar ofta mer kognitiv energi vid ADHD. Förutsägbara rutiner kring överlämning, måltid och kväll kan minska friktion — särskilt för barn i parallellt föräldraskap där scheman skiljer sig mellan hem.",
+      "category": "adhd_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "NICE NG87; transition supports ADHD children/adults overview",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-020",
+      "title": "Sömn och exekutiv funktion — översikt",
+      "content": "Bristande sömn försämrar ofta exekutiva funktioner som impulskontroll och planering. Regelbunden sömnhygien och fasta läggtider är allmänna hälsoåtgärder — inte en garanti för symtomfrihet vid ADHD, men relevant för vardagsplanering och energihantering.",
+      "category": "adhd_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Sleep hygiene psychoeducation; ADHD comorbidity sleep overview",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-021",
+      "title": "RSD — rejection sensitive dysphoria (översikt)",
+      "content": "Rejection Sensitive Dysphoria (RSD) beskriver intensiv känslomässig smärta vid upplevd kritik eller avvisning — vanligt vid ADHD men inte en separat diagnos i ICD. Psychoeducation fokuserar på att skilja faktisk feedback från tolkning, paus före svar, och extern struktur för att minska impulsiva reaktioner. Det ersätter inte terapi eller medicin.",
+      "category": "adhd_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "ADHD RSD psychoeducation (general); ej ICD-11 separat diagnos",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-022",
+      "title": "Zero Footprint — sessionsminne",
+      "content": "Zero Footprint innebär att känslig sessionsdata (synapser, speglingsstate, tillfälliga cache) rensas vid utloggning, blur eller panic — så att privat bearbetning inte lämnar spår i en delad enhet. Permanent minne (journal, Valv, barnloggar) följer WORM-regler separat och kräver explicit spar.",
+      "category": "produkt_sakerhet",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Livskompassen security.md; U4 Grunder",
+      "source_tier": "product_copy"
+    },
+    {
+      "id": "kunskap-fact-023",
+      "title": "Tre kunskapssilor — varför inte sök överallt",
+      "content": "Livskompassen delar minne i tre silor: Kunskap (referensfakta), Valv (bevis och kronologi), Barnen (barnloggar). De blandas inte i samma RAG-sökning eftersom fakta, bevis och barnobservation har olika tillförlitlighet och juridisk tyngd. Utvecklingszonen Vit (MåBra) exporteras inte till Kunskap-RAG.",
+      "category": "produkt_arkitektur",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "INNEHALL-REGISTER.md; arkiv-minne.md U1",
+      "source_tier": "product_copy"
+    },
+    {
+      "id": "kunskap-fact-024",
+      "title": "Delat förälderschema — extern synlighet",
+      "content": "I parallellt föräldraskap minskar missförstånd om hämtning och lämning om schemat ligger synligt i kalender båda kan se, med påminnelser före överlämning. Neutral formulering i inbjudningar ('Hämtning tis 16:00 enligt schema') minskar eskalering jämfört med sms i affekt.",
+      "category": "medforaldraskap",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Coparenting scheduling psychoeducation; Planering-widget produktcopy",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-025",
+      "title": "Dagbok taggar — struktur utan diagnos",
+      "content": "Taggar i dagbok (t.ex. Sömn, Konflikt, Barn) grupperar poster för senare sökning utan att automatiskt klassificera dig eller motparten. De ersätter inte Valv-bevis eller medicinsk journal. Speglingscoach kan läsa taggade poster med opt-in — inte som sanning om tredje part.",
+      "category": "dagbok_produkt",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "dagbok-vertex-plan.md Fas 1; journalQuickMirror",
+      "source_tier": "product_copy"
+    },
+    {
+      "id": "kunskap-fact-026",
+      "title": "ADHD-medicin — informationsroll, inte råd",
+      "content": "Medicin vid ADHD ordineras av läkare och följs upp individuellt. Appen ger inte dos- eller preparatråd. Extern struktur och behandling kan samverka — medicin ersätter inte planering eller psykosocialt stöd.",
+      "category": "adhd_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "NICE NG87 ADHD adults — treatment overview",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-027",
+      "title": "ADHD och ångest — ofta samtidigt",
+      "content": "ADHD och generaliserat ångestsyndrom förekommer ofta samtidigt. Hypervigilans och exekutiv belastning kan förstärka varandra. Behandling och stöd planeras separat per diagnos — inte som en enda förklaring till allt.",
+      "category": "adhd_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "NICE comorbidity ADHD anxiety overview",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-028",
+      "title": "Arbetsminne — varför listor hjälper",
+      "content": "Arbetsminnet håller begränsat antal aktiva uppgifter. Vid ADHD minskar kapaciteten ofta under stress. Att skriva ned, dela upp och använda påminnelser avlastar — det är strategi, inte lathet.",
+      "category": "adhd_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Barkley working memory ADHD overview",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-029",
+      "title": "Generaliserat ångestsyndrom — översikt",
+      "content": "GAD innebär ihållande oro som är svår att styra, ofta med spänning, trötthet och sömnproblem. Diagnos ställs av vård — appen ger psychoeducation, inte bedömning av dig eller andra.",
+      "category": "gad_angest",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "ICD-11 generalised anxiety disorder overview",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-030",
+      "title": "Hypervigilans — kropp i beredskap",
+      "content": "Hypervigilans är ett tillstånd där nervsystemet skannar hot — ofta efter lång stress. Det kan ge trötthet, startledighet och svårighet att varva ned. Det är en fysiologisk reaktion, inte ett karaktärsfel.",
+      "category": "gad_angest",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Trauma-informed psychoeducation — hypervigilance overview",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-031",
+      "title": "Ångest i kroppen — interoception",
+      "content": "Ångest märks ofta som hjärtklappning, spänning, illamående eller tryck i bröstet. Att namnge kroppsignal utan att tolka den som fara kan minska eskalering — ett steg i nervsystemsreglering.",
+      "category": "gad_angest",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Interoception anxiety psychoeducation",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-032",
+      "title": "Säkerhetsbeteenden — kort förklaring",
+      "content": "Säkerhetsbeteenden (undvik, kontrollera, be om lugn) lindrar ångest kortvarigt men kan upprätthålla oro långsiktigt. Gradvis exponering och behandling sker med vård — appen ger struktur, inte terapiprotocol.",
+      "category": "gad_angest",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "CBT anxiety psychoeducation — safety behaviors overview",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-033",
+      "title": "Andning och vagus — mekanism (kort)",
+      "content": "Långsam utandning kan stimulera parasympatiska responser och sänka puls temporärt. Det är ett fysiologiskt verktyg, inte en garanti för att oron försvinner. Används som paus, inte som prestation.",
+      "category": "gad_angest",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Polyvagal / breathing psychoeducation general",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-034",
+      "title": "Oro vs planering — skillnad",
+      "content": "Planering är konkret: datum, handling, nästa steg. Oro är repetitiv framtidsfantasi utan avslut. Att skriva ett faktiskt nästa steg skiljer ofta planering från maladaptiv oro — utan att förneka risker.",
+      "category": "gad_angest",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Livskompassen Planering; GAD psychoeducation",
+      "source_tier": "product_copy"
+    },
+    {
+      "id": "kunskap-fact-035",
+      "title": "Sömn och ångest — ömsesidig påverkan",
+      "content": "Bristande sömn ökar ofta känslighet för oro; ångest kan försvåra insomning. Sömnhygien är allmän hälsoåtgärd — vid ihållande problem kontaktas vård.",
+      "category": "gad_angest",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Sleep hygiene + anxiety comorbidity overview",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-036",
+      "title": "Interoception — känna kroppen",
+      "content": "Interoception är förmågan att känna inre signaler: hunger, puls, spänning. Träning sker genom uppmärksamhet utan omedelbar fix — grund för känsloreglering.",
+      "category": "kanslor_vagus",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Interoception psychoeducation general",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-037",
+      "title": "Vagusnerven — förenklad översikt",
+      "content": "Vagusnerven är en del av det parasympatiska systemet som kan påverka puls och lugn. Långsam utandning, nynnande och kall stimulans används som självreglering — inte som medicin.",
+      "category": "kanslor_vagus",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Vagus nerve psychoeducation overview",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-038",
+      "title": "ACT — acceptans i ett nötskal",
+      "content": "Acceptance and Commitment Therapy (ACT) betonar att acceptera obehagliga tankar/känslor samtidigt som man handlar enligt värderingar. Det är inte resignation — det är att minska kampen mot det som redan finns.",
+      "category": "personlig_utveckling",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "ACT psychoeducation — Hayes overview",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-039",
+      "title": "KBT — tanke/känsla/beteende (kort)",
+      "content": "Kognitiv beteendeterapi utgår från att tankar, känslor och beteenden påverkar varandra. Att identifiera automatiska tankar är ett steg — inte samma sak som att 'tänka positivt'.",
+      "category": "personlig_utveckling",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "CBT model psychoeducation",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-040",
+      "title": "Självmedkänsla vs självförstärkning",
+      "content": "Självmedkänsla innebär att behandla sig med samma vänlighet som en närstående i svårighet — utan att ursäkta skada mot andra. Det skiljer sig från narcissistisk självförstärkning eller grandiositet.",
+      "category": "personlig_utveckling",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Neff self-compassion overview",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-041",
+      "title": "Trygg bas — förälder som ankare",
+      "content": "Barn mår ofta bättre av en förälder som är förutsägbar och lugn, inte perfekt. 'Trygg bas' betyder att barnet vet att den vuxne kommer tillbaka efter separation — inte att allt alltid är harmoniskt.",
+      "category": "barn_neuro",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Attachment psychoeducation — general parenting",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-042",
+      "title": "Barn i konflikt mellan vuxna",
+      "content": "När vuxna konflikterar bär barn ofta dubbelbelastning: lojalitet och osäkerhet. Att hålla vuxenkonflikt borta från barnets öron och dokumentera logistik neutralt stödjer barnets stabilitet.",
+      "category": "medforaldraskap",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Coparenting children exposure psychoeducation",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-043",
+      "title": "DARVO — neutral beskrivning",
+      "content": "DARVO (Deny, Attack, Reverse Victim and Offender) beskriver ett mönster: förneka, angripa, byta offer/angripare-roller. Det är en beteendebeskrivning — inte en diagnos av en person.",
+      "category": "taktik_referens",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Freyd DARVO research overview; ej diagnos",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-044",
+      "title": "Love bombing — översikt",
+      "content": "Love bombing innebär intensiv uppmärksamhet och smickern tidigt i relation för att skapa beroende. I medföräldraskap kan motsvarande mönster visa sig som plötslig generositet före krav.",
+      "category": "taktik_referens",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "High-conflict relationship psychoeducation",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-045",
+      "title": "Triangulering — kort",
+      "content": "Triangulering är när en vuxen drar in barn, familj eller tredje part i vuxenkonflikt för att stärka egen position. Neutral logistik och barnets behov prioriteras framför att 'vinna' narrativ.",
+      "category": "taktik_referens",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Family systems / high-conflict psychoeducation",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-046",
+      "title": "Moving goalposts — kort",
+      "content": "Moving goalposts (flyttande mål) innebär att krav eller regler ändras efter att motparten uppfyllt dem, så att inget räcker. Det skapar förvirring — dokumentation med datum motverkar minnesglapp.",
+      "category": "taktik_referens",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "High-conflict communication literature",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-047",
+      "title": "Projektion — informationsbegrepp",
+      "content": "Projektion beskriver när någon tillskriver andra egna impulser eller motiv. I konflikt kan det ge anklagelser utan bevis — neutral logg skiljer påstående från observerbar händelse.",
+      "category": "taktik_referens",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Psychoeducation — projection as concept",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-df-001",
+      "title": "Beroende som sjukdom — översikt",
+      "content": "Beroende kan involvera förlust av kontroll över intag trots skada, och påverkar hjärnans belöningssystem. Det klassas som en sjukdom i internationell klassificering. Behandling kan inkludera samtal, medicin och strukturerat stöd — individuellt.",
+      "category": "beroende",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "1177.se beroende; ICD-11 substance use disorders (översikt)",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-df-002",
+      "title": "SAMT — kort",
+      "content": "Samtalsterapi med motivationsstöd hjälper många att utforska ambivalens kring förändring utan press. Etablerat stöd inom beroendevård.",
+      "category": "beroende",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Socialstyrelsen beroende; MI (översikt)",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-df-003",
+      "title": "Självhjälpsgrupper — neutralt",
+      "content": "Självhjälpsgrupper bygger på delat erfarenhetsutbyte och anonymitet. Frivilliga; kompletterar ofta professionell vård.",
+      "category": "beroende",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Anonyma Nykterister (översikt)",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-df-004",
+      "title": "Akut hjälp",
+      "content": "Vid akut fara: 113. Råd om vård: 1177. Psykiatrisk akutmottagning vid akut psykisk kris.",
+      "category": "beroende",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "1177; SOS Alarm 113",
+      "source_tier": "P1"
+    },
+    {
+      "id": "kunskap-fact-df-005",
+      "title": "Regional beroendevård",
+      "content": "Regioner erbjuder öppenvård och ibland sluten vård för beroende. Remiss via vårdcentral eller beroendemottagning.",
+      "category": "beroende",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "1177; regionala vårdprogram",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-df-006",
+      "title": "ADHD och beroende",
+      "content": "ADHD och substansbruk kan förekomma samtidigt. Struktur, medicin vid ADHD enligt läkare, och beroendebehandling kan behövas parallellt.",
+      "category": "beroende",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "NICE; ADHD comorbidity (översikt)",
+      "source_tier": "P2"
+    }
+  ]
+}

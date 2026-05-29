@@ -1,6 +1,6 @@
 # Kunskap — Content Seed (kuraterad fakta)
 
-**Datum:** 2026-05-25 · **Batch:** 2026-05-29 (25 KEEP FACT + df-001–006)  
+**Datum:** 2026-05-25 · **Batch:** 2026-05-29 (47 KEEP FACT + df-001–006)  
 **Kurator:** `.cursor/agents/specialist-kunskap-seed.md`  
 **Syfte:** Godkänd **FACT**-grund före ingest till `kampspar` / `kb_docs` — **inte** terapi, lek eller personlig Vit-reflektion.
 
@@ -27,7 +27,7 @@
 |----|---------------|----------------|---------------|------|
 | kunskap-fact-001 … 020 | FACT | Se batchar nedan | Se yaml nedan | P1/P2 |
 | kunskap-fact-df-001 … 006 | FACT | Drogfrihet hub | § Drogfrihet | P1/P2 |
-| kunskap-fact-021 … 025 | FACT | Batch 2026-05-29 autorun | § Google AI Pro repo | P1/P2 |
+| kunskap-fact-021 … 047 | FACT | Content autorun våg 1–5 | § batchar nedan | P1/P2 |
 
 ---
 
@@ -493,6 +493,334 @@ tags: [dagbok, taggar, journal, spegling]
 source_tier: product_copy
 citation_hint: "dagbok-vertex-plan.md Fas 1; journalQuickMirror"
 why: "Stöd Dagbok v2 Snabb — FACT not REFLECTION"
+```
+
+---
+
+## Batch 2026-05-29 — Våg 1 ADHD (026–028)
+
+```yaml
+id: kunskap-fact-026
+status: KEEP
+content_class: FACT
+title: "ADHD-medicin — informationsroll, inte råd"
+content: "Medicin vid ADHD ordineras av läkare och följs upp individuellt. Appen ger inte dos- eller preparatråd. Extern struktur och behandling kan samverka — medicin ersätter inte planering eller psykosocialt stöd."
+category: adhd_vardag
+entryType: fakta
+tags: [adhd, medicin, disclaimer]
+source_tier: P2
+citation_hint: "NICE NG87 ADHD adults — treatment overview"
+why: "Disclaimer-FACT — ej medicinsk rådgivning"
+```
+
+```yaml
+id: kunskap-fact-027
+status: KEEP
+content_class: FACT
+title: "ADHD och ångest — ofta samtidigt"
+content: "ADHD och generaliserat ångestsyndrom förekommer ofta samtidigt. Hypervigilans och exekutiv belastning kan förstärka varandra. Behandling och stöd planeras separat per diagnos — inte som en enda förklaring till allt."
+category: adhd_vardag
+entryType: fakta
+tags: [adhd, gad, komorbiditet]
+source_tier: P2
+citation_hint: "NICE comorbidity ADHD anxiety overview"
+why: "Komorbiditet — FACT not personlig diagnos i app"
+```
+
+```yaml
+id: kunskap-fact-028
+status: KEEP
+content_class: FACT
+title: "Arbetsminne — varför listor hjälper"
+content: "Arbetsminnet håller begränsat antal aktiva uppgifter. Vid ADHD minskar kapaciteten ofta under stress. Att skriva ned, dela upp och använda påminnelser avlastar — det är strategi, inte lathet."
+category: adhd_vardag
+entryType: fakta
+tags: [adhd, arbetsminne, kognitiv_avlastning]
+source_tier: psychoeducation_general
+citation_hint: "Barkley working memory ADHD overview"
+why: "Kompletterar 018 — kurs ADHD"
+```
+
+---
+
+## Batch 2026-05-29 — Våg 2 GAD / ångest (029–035)
+
+```yaml
+id: kunskap-fact-029
+status: KEEP
+content_class: FACT
+title: "Generaliserat ångestsyndrom — översikt"
+content: "GAD innebär ihållande oro som är svår att styra, ofta med spänning, trötthet och sömnproblem. Diagnos ställs av vård — appen ger psychoeducation, inte bedömning av dig eller andra."
+category: gad_angest
+entryType: fakta
+tags: [gad, angest, psychoeducation]
+source_tier: P2
+citation_hint: "ICD-11 generalised anxiety disorder overview"
+why: "Referens-FACT — ej terapi"
+```
+
+```yaml
+id: kunskap-fact-030
+status: KEEP
+content_class: FACT
+title: "Hypervigilans — kropp i beredskap"
+content: "Hypervigilans är ett tillstånd där nervsystemet skannar hot — ofta efter lång stress. Det kan ge trötthet, startledighet och svårighet att varva ned. Det är en fysiologisk reaktion, inte ett karaktärsfel."
+category: gad_angest
+entryType: fakta
+tags: [hypervigilans, stress, nervsystem]
+source_tier: psychoeducation_general
+citation_hint: "Trauma-informed psychoeducation — hypervigilance overview"
+why: "FACT för MåBra/grounding — ej ex-analys"
+```
+
+```yaml
+id: kunskap-fact-031
+status: KEEP
+content_class: FACT
+title: "Ångest i kroppen — interoception"
+content: "Ångest märks ofta som hjärtklappning, spänning, illamående eller tryck i bröstet. Att namnge kroppsignal utan att tolka den som fara kan minska eskalering — ett steg i nervsystemsreglering."
+category: gad_angest
+entryType: fakta
+tags: [angest, kropp, interoception]
+source_tier: psychoeducation_general
+citation_hint: "Interoception anxiety psychoeducation"
+why: "Stöd grounding — REFLECTION i MåBra separat"
+```
+
+```yaml
+id: kunskap-fact-032
+status: KEEP
+content_class: FACT
+title: "Säkerhetsbeteenden — kort förklaring"
+content: "Säkerhetsbeteenden (undvik, kontrollera, be om lugn) lindrar ångest kortvarigt men kan upprätthålla oro långsiktigt. Gradvis exponering och behandling sker med vård — appen ger struktur, inte terapiprotocol."
+category: gad_angest
+entryType: fakta
+tags: [angest, undvikande, beteende]
+source_tier: P2
+citation_hint: "CBT anxiety psychoeducation — safety behaviors overview"
+why: "FACT — ej exponeringsterapi i app"
+```
+
+```yaml
+id: kunskap-fact-033
+status: KEEP
+content_class: FACT
+title: "Andning och vagus — mekanism (kort)"
+content: "Långsam utandning kan stimulera parasympatiska responser och sänka puls temporärt. Det är ett fysiologiskt verktyg, inte en garanti för att oron försvinner. Används som paus, inte som prestation."
+category: gad_angest
+entryType: fakta
+tags: [andning, vagus, angest]
+source_tier: psychoeducation_general
+citation_hint: "Polyvagal / breathing psychoeducation general"
+why: "Kopplar MåBra andning — FACT not övningstext"
+```
+
+```yaml
+id: kunskap-fact-034
+status: KEEP
+content_class: FACT
+title: "Oro vs planering — skillnad"
+content: "Planering är konkret: datum, handling, nästa steg. Oro är repetitiv framtidsfantasi utan avslut. Att skriva ett faktiskt nästa steg skiljer ofta planering från maladaptiv oro — utan att förneka risker."
+category: gad_angest
+entryType: fakta
+tags: [oro, planering, gad]
+source_tier: product_copy
+citation_hint: "Livskompassen Planering; GAD psychoeducation"
+why: "Bro till Planering-widget"
+```
+
+```yaml
+id: kunskap-fact-035
+status: KEEP
+content_class: FACT
+title: "Sömn och ångest — ömsesidig påverkan"
+content: "Bristande sömn ökar ofta känslighet för oro; ångest kan försvåra insomning. Sömnhygien är allmän hälsoåtgärd — vid ihållande problem kontaktas vård."
+category: gad_angest
+entryType: fakta
+tags: [somn, angest, gad]
+source_tier: psychoeducation_general
+citation_hint: "Sleep hygiene + anxiety comorbidity overview"
+why: "Kompletterar kunskap-fact-020"
+```
+
+---
+
+## Batch 2026-05-29 — Våg 3 Känslor + ACT (036–040)
+
+```yaml
+id: kunskap-fact-036
+status: KEEP
+content_class: FACT
+title: "Interoception — känna kroppen"
+content: "Interoception är förmågan att känna inre signaler: hunger, puls, spänning. Träning sker genom uppmärksamhet utan omedelbar fix — grund för känsloreglering."
+category: kanslor_vagus
+entryType: fakta
+tags: [interoception, kropp, kanslor]
+source_tier: psychoeducation_general
+citation_hint: "Interoception psychoeducation general"
+why: "FACT — MåBra C-feel kort separat"
+```
+
+```yaml
+id: kunskap-fact-037
+status: KEEP
+content_class: FACT
+title: "Vagusnerven — förenklad översikt"
+content: "Vagusnerven är en del av det parasympatiska systemet som kan påverka puls och lugn. Långsam utandning, nynnande och kall stimulans används som självreglering — inte som medicin."
+category: kanslor_vagus
+entryType: fakta
+tags: [vagus, nervsystem, reglering]
+source_tier: psychoeducation_general
+citation_hint: "Vagus nerve psychoeducation overview"
+why: "Stöd MåBra övningar"
+```
+
+```yaml
+id: kunskap-fact-038
+status: KEEP
+content_class: FACT
+title: "ACT — acceptans i ett nötskal"
+content: "Acceptance and Commitment Therapy (ACT) betonar att acceptera obehagliga tankar/känslor samtidigt som man handlar enligt värderingar. Det är inte resignation — det är att minska kampen mot det som redan finns."
+category: personlig_utveckling
+entryType: fakta
+tags: [act, acceptans, varderingar]
+source_tier: psychoeducation_general
+citation_hint: "ACT psychoeducation — Hayes overview"
+why: "Term-FACT — övningar i MåBra"
+```
+
+```yaml
+id: kunskap-fact-039
+status: KEEP
+content_class: FACT
+title: "KBT — tanke/känsla/beteende (kort)"
+content: "Kognitiv beteendeterapi utgår från att tankar, känslor och beteenden påverkar varandra. Att identifiera automatiska tankar är ett steg — inte samma sak som att 'tänka positivt'."
+category: personlig_utveckling
+entryType: fakta
+tags: [kbt, tankar, beteende]
+source_tier: psychoeducation_general
+citation_hint: "CBT model psychoeducation"
+why: "Stöd reframing-övning"
+```
+
+```yaml
+id: kunskap-fact-040
+status: KEEP
+content_class: FACT
+title: "Självmedkänsla vs självförstärkning"
+content: "Självmedkänsla innebär att behandla sig med samma vänlighet som en närstående i svårighet — utan att ursäkta skada mot andra. Det skiljer sig från narcissistisk självförstärkning eller grandiositet."
+category: personlig_utveckling
+entryType: fakta
+tags: [sjalvmedkansla, identitet]
+source_tier: psychoeducation_general
+citation_hint: "Neff self-compassion overview"
+why: "FACT — C-se kort i MåBra"
+```
+
+---
+
+## Batch 2026-05-29 — Våg 4 Föräldraskap (041–042)
+
+```yaml
+id: kunskap-fact-041
+status: KEEP
+content_class: FACT
+title: "Trygg bas — förälder som ankare"
+content: "Barn mår ofta bättre av en förälder som är förutsägbar och lugn, inte perfekt. 'Trygg bas' betyder att barnet vet att den vuxne kommer tillbaka efter separation — inte att allt alltid är harmoniskt."
+category: barn_neuro
+entryType: fakta
+tags: [barn, trygghet, anknytning]
+source_tier: P2
+citation_hint: "Attachment psychoeducation — general parenting"
+why: "FACT — Barnfokus PLAY separat"
+```
+
+```yaml
+id: kunskap-fact-042
+status: KEEP
+content_class: FACT
+title: "Barn i konflikt mellan vuxna"
+content: "När vuxna konflikterar bär barn ofta dubbelbelastning: lojalitet och osäkerhet. Att hålla vuxenkonflikt borta från barnets öron och dokumentera logistik neutralt stödjer barnets stabilitet."
+category: medforaldraskap
+entryType: fakta
+tags: [barn, konflikt, medforaldraskap]
+source_tier: P2
+citation_hint: "Coparenting children exposure psychoeducation"
+why: "FACT — ej Barnen EVIDENCE auto"
+```
+
+---
+
+## Batch 2026-05-29 — Våg 5 Taktiker referens (043–047)
+
+```yaml
+id: kunskap-fact-043
+status: KEEP
+content_class: FACT
+title: "DARVO — neutral beskrivning"
+content: "DARVO (Deny, Attack, Reverse Victim and Offender) beskriver ett mönster: förneka, angripa, byta offer/angripare-roller. Det är en beteendebeskrivning — inte en diagnos av en person."
+category: taktik_referens
+entryType: fakta
+tags: [darvo, taktik, konflikt]
+source_tier: psychoeducation_general
+citation_hint: "Freyd DARVO research overview; ej diagnos"
+why: "Referens-FACT — Speglar för personlig sms"
+```
+
+```yaml
+id: kunskap-fact-044
+status: KEEP
+content_class: FACT
+title: "Love bombing — översikt"
+content: "Love bombing innebär intensiv uppmärksamhet och smickern tidigt i relation för att skapa beroende. I medföräldraskap kan motsvarande mönster visa sig som plötslig generositet före krav."
+category: taktik_referens
+entryType: fakta
+tags: [love_bombing, taktik]
+source_tier: psychoeducation_general
+citation_hint: "High-conflict relationship psychoeducation"
+why: "Referens — ROUTE Speglar vid sms"
+```
+
+```yaml
+id: kunskap-fact-045
+status: KEEP
+content_class: FACT
+title: "Triangulering — kort"
+content: "Triangulering är när en vuxen drar in barn, familj eller tredje part i vuxenkonflikt för att stärka egen position. Neutral logistik och barnets behov prioriteras framför att 'vinna' narrativ."
+category: taktik_referens
+entryType: fakta
+tags: [triangulering, barn, taktik]
+source_tier: psychoeducation_general
+citation_hint: "Family systems / high-conflict psychoeducation"
+why: "FACT — dokumentera i Valv vid behov"
+```
+
+```yaml
+id: kunskap-fact-046
+status: KEEP
+content_class: FACT
+title: "Moving goalposts — kort"
+content: "Moving goalposts (flyttande mål) innebär att krav eller regler ändras efter att motparten uppfyllt dem, så att inget räcker. Det skapar förvirring — dokumentation med datum motverkar minnesglapp."
+category: taktik_referens
+entryType: fakta
+tags: [moving_goalposts, taktik, bevis]
+source_tier: psychoeducation_general
+citation_hint: "High-conflict communication literature"
+why: "Kopplar Valv kronologi — ej coaching"
+```
+
+```yaml
+id: kunskap-fact-047
+status: KEEP
+content_class: FACT
+title: "Projektion — informationsbegrepp"
+content: "Projektion beskriver när någon tillskriver andra egna impulser eller motiv. I konflikt kan det ge anklagelser utan bevis — neutral logg skiljer påstående från observerbar händelse."
+category: taktik_referens
+entryType: fakta
+tags: [projektion, taktik, bevis]
+source_tier: psychoeducation_general
+citation_hint: "Psychoeducation — projection as concept"
+why: "Referens — Speglar/Valv för personligt"
 ```
 
 ---

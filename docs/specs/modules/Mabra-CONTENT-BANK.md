@@ -267,6 +267,64 @@ Kurator-pass 2026-05-25 · linser: **identitet** (5) + **KBT light** (5). Ej dup
 
 ---
 
+## Content autorun — MåBra batch (2026-05-29)
+
+### Våg 1 ADHD — REFLECTION
+
+| id | content_class | source_tier | status | lens | text_sv |
+|----|---------------|-------------|--------|------|---------|
+| MB-REF-ADHD-01 | REFLECTION | psychoeducation_general | KEEP | tidsblindhet | Vilken överlämning eller deadline är lättast att missa — och vilket **en** externt ankare skulle hjälpa? |
+| MB-REF-ADHD-02 | REFLECTION | psychoeducation_general | KEEP | rsd | När kroppen reagerar snabbt på kritik — vad är **ett** sakligt faktum om din reaktion, utan att döma dig? |
+| MB-REF-ADHD-03 | REFLECTION | product_copy | KEEP | mikrosteg | Ett steg under fem minuter som skulle avlasta dig idag — bara ett. |
+| MB-REF-ADHD-04 | REFLECTION | psychoeducation_general | KEEP | somn | Hur sov du senaste nätterna — information, inte betyg? |
+
+### Våg 1 ADHD — PLAY
+
+| id | content_class | source_tier | status | title_sv | rule_sv |
+|----|---------------|-------------|--------|----------|---------|
+| MB-PLAY-05 | PLAY | product_copy | KEEP | Timer-blink | Sätt en timer på 3 min. Gör **en** sak tills den ringer — eller stäng av tidigare utan skuld. |
+| MB-PLAY-06 | PLAY | product_copy | KEEP | Synlig lista | Skriv **en** rad på papper eller i telefonen som du inte behöver komma ihåg i huvudet. Klart. |
+
+### Våg 2 GAD — REFLECTION
+
+| id | content_class | source_tier | status | lens | text_sv |
+|----|---------------|-------------|--------|------|---------|
+| MB-REF-GAD-01 | REFLECTION | psychoeducation_general | KEEP | oro | Vad är oro just nu — och vad är **ett** faktum du kan verifiera? |
+| MB-REF-GAD-02 | REFLECTION | psychoeducation_general | KEEP | kropp | Var sitter spänningen i kroppen — namnge platsen utan att fixa. |
+| MB-REF-GAD-03 | REFLECTION | product_copy | KEEP | plan | Om oron fick bli **en** konkret planrad — vad skulle den säga? |
+| MB-REF-GAD-04 | REFLECTION | psychoeducation_general | KEEP | hypervigilans | Vad skannar du efter just nu — hot eller bara osäkerhet? |
+| MB-REF-GAD-05 | REFLECTION | product_copy | KEEP | paus | Vad skulle en 60-sekunders paus ge dig — inte lösa, bara pausa? |
+| MB-REF-GAD-06 | REFLECTION | psychoeducation_general | KEEP | somn | En sak som hjälpte eller störde sömnen — neutral observation. |
+
+### Våg 2 GAD — PLAY
+
+| id | content_class | source_tier | status | title_sv | rule_sv |
+|----|---------------|-------------|--------|----------|---------|
+| MB-PLAY-GAD-01 | PLAY | psychoeducation_general | KEEP | 5-4-3-1 mini | 5 saker du ser, 4 du hör, 3 du känner mot kroppen, 1 lång utandning. Ingen poäng. |
+
+### Våg 3 Känslor + ACT
+
+| id | content_class | source_tier | status | lens | text_sv |
+|----|---------------|-------------|--------|------|---------|
+| C-feel-04 | REFLECTION | psychoeducation_general | KEEP | kanslor | Vilken känsla är **störst** — och vad behöver den inte att du gör? |
+| C-feel-05 | REFLECTION | product_copy | KEEP | kanslor | En kroppsdel som känns lugnare än resten — peka eller namnge. |
+| MB-REF-ACT-01 | REFLECTION | psychoeducation_general | KEEP | act | Ett värde som är viktigt idag — ett ord. |
+| MB-REF-ACT-02 | REFLECTION | product_copy | KEEP | act | En handling under 5 min som stämmer med det värdet. |
+| MB-REF-ACT-03 | REFLECTION | psychoeducation_general | KEEP | act | Vad kan du acceptera att känna just nu utan att agera på det? |
+
+| id | content_class | source_tier | status | title_sv | rule_sv |
+|----|---------------|-------------|--------|----------|---------|
+| MB-PLAY-08 | PLAY | product_copy | KEEP | Värde-touch 2 | Peka på ett föremål som påminner om ett värde — ett ord högt eller tyst. |
+
+### Våg 7 Drogfrihet — tillägg
+
+| id | content_class | source_tier | status | lens | text_sv |
+|----|---------------|-------------|--------|------|---------|
+| DF-REF-11 | REFLECTION | psychoeducation_general | KEEP | craving | Vad hände i kroppen precis före suget — utan att döma? |
+| DF-REF-12 | REFLECTION | product_copy | KEEP | idag | Ett beslut för **idag** om nykterhet — inte hela livet. |
+
+---
+
 ## Nästa implementation (P1)
 
 - Firestore `vit_hub` / `vit_entries` med `kind: card | memory | chat_turn` *(efter Daglig mix P0 — client-bank klar)*

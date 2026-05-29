@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 import { DashboardPage } from '../../wellbeing/compasses/components/DashboardPage';
 import { getCompassAdvice, getCompassFlowMeta } from '../../wellbeing/compasses/utils/compassAdvice';
 import { getDefaultCompassByTime } from '../../wellbeing/compasses/utils/compassTime';
-import { DagensRiktningCompassTrio } from './DagensRiktningCompassTrio';
+import { DagensRiktningCompassIcon } from './DagensRiktningCompassIcon';
 
 type Props = {
   open: boolean;
@@ -22,7 +22,7 @@ export function DagensRiktningCard({ open, onOpenChange, onCheckInSaved }: Props
       <div className={clsx('dagens-riktning-card', open && 'dagens-riktning-card--open')}>
         <div className="dagens-riktning-card__main">
           <div className="dagens-riktning-card__icon-wrap">
-            <DagensRiktningCompassTrio activeFlow={flow} />
+            <DagensRiktningCompassIcon activeFlow={flow} />
           </div>
 
           <div className="dagens-riktning-card__body">

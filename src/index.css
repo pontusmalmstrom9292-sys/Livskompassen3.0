@@ -1394,7 +1394,7 @@
   }
 
   .glass-header-bar--kanon {
-    @apply relative grid h-[4.75rem] grid-cols-[auto_1fr_auto] items-center gap-2 px-3;
+    @apply relative grid h-[5rem] grid-cols-[auto_1fr_auto] items-center gap-2 px-3;
     background: var(--glass);
     border-color: var(--border-strong);
   }
@@ -1403,7 +1403,7 @@
     @apply pointer-events-auto absolute left-1/2 top-1/2 z-20 flex -translate-x-1/2 -translate-y-1/2 flex-row items-center;
     grid-column: 1 / -1;
     width: max-content;
-    max-width: min(94vw, 23.5rem);
+    max-width: min(94vw, 25.5rem);
   }
 
   .livskompass-brand-lockup--inline .livskompass-brand-lockup__mark {
@@ -2939,7 +2939,7 @@
   }
 
   .dagens-riktning-card__icon-wrap {
-    @apply flex shrink-0 items-center justify-center rounded-[0.85rem] p-1.5;
+    @apply flex shrink-0 items-center justify-center rounded-[0.85rem] p-1;
     border: 1.5px solid color-mix(in srgb, var(--accent) 44%, transparent);
     background: linear-gradient(
       168deg,
@@ -2952,27 +2952,18 @@
       inset 0 1px 0 rgba(255, 243, 210, 0.12);
   }
 
-  .dagens-riktning-card__compass-trio {
-    @apply flex flex-col gap-1;
-  }
-
   .dagens-riktning-card__compass-chip {
-    @apply flex h-9 w-9 items-center justify-center overflow-hidden rounded-md;
+    @apply flex items-center justify-center overflow-hidden rounded-lg;
     border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
-    opacity: 0.5;
-    transition:
-      opacity 0.2s ease,
-      border-color 0.2s ease,
-      box-shadow 0.2s ease;
   }
 
-  .dagens-riktning-card__compass-chip--active {
-    opacity: 1;
+  .dagens-riktning-card__compass-chip--solo {
+    @apply h-14 w-14 sm:h-16 sm:w-16;
     border-width: 1.5px;
-    border-color: color-mix(in srgb, var(--accent) 62%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 58%, transparent);
     box-shadow:
       0 0 0 1px rgba(0, 0, 0, 0.35) inset,
-      0 0 14px color-mix(in srgb, var(--accent) 32%, transparent);
+      0 0 16px color-mix(in srgb, var(--accent) 34%, transparent);
   }
 
   .dagens-riktning-card__compass-chip-img {

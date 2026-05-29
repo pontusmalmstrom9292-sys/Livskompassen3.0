@@ -52,6 +52,38 @@ export const MABRA_EXTENDED_PLAYS: readonly DagligMixPlay[] = [
     title_sv: 'En andningsrunda',
     rule_sv: 'En 4-7-8-cykel räcker. Ingen räknare att prestera med.',
   },
+  {
+    bankId: 'MB-PLAY-05',
+    content_class: 'PLAY',
+    source_tier: 'P1',
+    status: 'KEEP',
+    title_sv: 'Timer-blink',
+    rule_sv: 'Sätt en timer på 3 min. Gör en sak tills den ringer — eller stäng av tidigare utan skuld.',
+  },
+  {
+    bankId: 'MB-PLAY-06',
+    content_class: 'PLAY',
+    source_tier: 'P1',
+    status: 'KEEP',
+    title_sv: 'Synlig lista',
+    rule_sv: 'Skriv en rad på papper eller i telefonen som du inte behöver komma ihåg i huvudet. Klart.',
+  },
+  {
+    bankId: 'MB-PLAY-GAD-01',
+    content_class: 'PLAY',
+    source_tier: 'P1',
+    status: 'KEEP',
+    title_sv: '5-4-3-1 mini',
+    rule_sv: '5 saker du ser, 4 du hör, 3 du känner mot kroppen, 1 lång utandning. Ingen poäng.',
+  },
+  {
+    bankId: 'MB-PLAY-08',
+    content_class: 'PLAY',
+    source_tier: 'P1',
+    status: 'KEEP',
+    title_sv: 'Värde-touch 2',
+    rule_sv: 'Peka på ett föremål som påminner om ett värde — ett ord högt eller tyst.',
+  },
 ] as const;
 
 export function getMabraPlay(bankId: string): DagligMixPlay | undefined {

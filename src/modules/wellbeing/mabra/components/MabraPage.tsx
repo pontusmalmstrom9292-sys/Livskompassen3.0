@@ -29,6 +29,7 @@ import { ValuesCompass } from './ValuesCompass';
 import { MabraComplete } from './MabraComplete';
 import { KbtTransformatorPanel } from './KbtTransformatorPanel';
 import { DagligMixPanel } from './DagligMixPanel';
+import { VitCurriculumPanel } from './VitCurriculumPanel';
 import { HubPageShell } from '../../../core/layout/HubPageShell';
 import { MaterialPackShortcuts, useLifeHubPreset } from '../../../core/lifeOs';
 import { MabraFeelingCardsTool } from './tools/MabraFeelingCardsTool';
@@ -183,6 +184,18 @@ export function MabraPage() {
     setHubOpenCategory('lekar');
   }, [userId]);
 
+  const openCurriculumReflection = useCallback((bankId: string) => {
+    setTool({ kind: 'reflection_deck', initialBankId: bankId });
+    setStep('tool');
+    setHubOpenCategory('lekar');
+  }, []);
+
+  const openCurriculumPlay = useCallback((bankId: string) => {
+    setTool({ kind: 'micro_play', playBankId: bankId });
+    setStep('tool');
+    setHubOpenCategory('lekar');
+  }, []);
+
   const handleExerciseComplete = useCallback(
     async (exerciseType: MabraExerciseType, elapsedSeconds: number) => {
       setCompletedExerciseType(exerciseType);
@@ -274,7 +287,13 @@ export function MabraPage() {
         <>
           <MabraLowEnergyToggle enabled={lowEnergyMode} onChange={setLowEnergyMode} />
           {!lowEnergyMode && (
-            <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
+            <>
+              <VitCurriculumPanel
+                onOpenReflection={openCurriculumReflection}
+                onOpenPlay={openCurriculumPlay}
+              />
+              <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
+            </>
           )}
           <MabraVitHub
             openCategory={hubOpenCategory}

@@ -31,14 +31,14 @@ export function LivskompassBrandLockup({ className, layout, compactScale }: Prop
       <LivskompassMark
         className={clsx(
           'livskompass-brand-lockup__mark shrink-0',
-          isInline ? 'h-10 w-10 sm:h-11 sm:w-11' : 'h-9 w-9 sm:h-10 sm:w-10',
+          isInline ? 'h-11 w-11 sm:h-12 sm:w-12' : 'h-9 w-9 sm:h-10 sm:w-10',
         )}
       />
       <span
         className={clsx(
           'livskompass-brand-lockup__title uppercase',
           isInline
-            ? 'livskompass-brand-lockup__title--inline whitespace-nowrap text-[1.05rem] font-bold leading-none tracking-[0.26em] sm:text-[1.15rem] sm:tracking-[0.3em] md:text-[1.22rem] md:tracking-[0.34em]'
+            ? 'livskompass-brand-lockup__title--inline whitespace-nowrap text-[1.12rem] font-bold leading-none tracking-[0.26em] sm:text-[1.22rem] sm:tracking-[0.3em] md:text-[1.3rem] md:tracking-[0.34em]'
             : 'text-[0.62rem] font-light tracking-[0.22em] sm:text-[0.68rem]',
         )}
         style={{ fontFamily: '"Cormorant Garamond", Georgia, serif' }}

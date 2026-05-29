@@ -1,6 +1,7 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { MABRA_REFLECTION_CARDS } from '../../content/mabraReflectionCards';
+import { DROGFRIHET_CARDS } from '../../../../drogfrihet/content/drogfrihetCatalog';
 import { MabraToolShell } from './MabraToolShell';
 
 const STORAGE_KEY = 'livskompassen_mabra_reflection_answers_v1';
@@ -26,18 +27,21 @@ function writeStoredAnswers(answers: Record<string, string>) {
 
 type Props = { onBack: () => void; initialBankId?: string };
 
+const ALL_REFLECTION_CARDS = [...MABRA_REFLECTION_CARDS, ...DROGFRIHET_CARDS];
+
 function indexForBankId(bankId: string): number {
-  const idx = MABRA_REFLECTION_CARDS.findIndex((c) => c.bankId === bankId);
+  const idx = ALL_REFLECTION_CARDS.findIndex((c) => c.bankId === bankId);
   return idx >= 0 ? idx : 0;
 }
 
 export function MabraReflectionDeckTool({ onBack, initialBankId }: Props) {
+  const cards = useMemo(() => ALL_REFLECTION_CARDS, []);
   const [index, setIndex] = useState(() =>
     initialBankId ? indexForBankId(initialBankId) : 0,
   );
   const [answers, setAnswers] = useState<Record<string, string>>(readStoredAnswers);
-  const card = MABRA_REFLECTION_CARDS[index];
-  const total = MABRA_REFLECTION_CARDS.length;
+  const card = cards[index];
+  const total = cards.length;
   const bankId = card?.bankId ?? '';
   const answer = answers[bankId] ?? '';
 
