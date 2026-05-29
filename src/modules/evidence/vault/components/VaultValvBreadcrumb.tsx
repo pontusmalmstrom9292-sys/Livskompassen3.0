@@ -1,29 +1,34 @@
 import {
   forensicVaultTabLabel,
+  isAnalyseraVaultTab,
+  isExporteraVaultTab,
   isForensicVaultTab,
-  isPansaretVaultTab,
+  isKunskapVaultTab,
+  isSamlaVaultTab,
   type ValvZone,
   type VaultTab,
 } from '../utils/vaultTabs';
-import { vaultMainTabLabel } from '../../../core/navigation/tabRegistry';
+import { getVaultZoneTabBarItems, vaultMainTabLabel } from '../../../core/navigation/tabRegistry';
 
 type VaultValvBreadcrumbProps = {
   zone: ValvZone;
   vaultTab: VaultTab;
 };
 
-/** Valv › zon › underflik — synkad med drawer-grupper (Pansaret · Kunskapsbank · Forensik). */
-export function VaultValvBreadcrumb({ zone, vaultTab }: VaultValvBreadcrumbProps) {
-  const parts: string[] = ['Valv'];
+const ZONE_LABEL = Object.fromEntries(
+  getVaultZoneTabBarItems().map((z) => [z.id, z.label]),
+) as Record<ValvZone, string>;
 
-  if (zone === 'pansaret') {
-    parts.push('Pansaret');
-    if (isPansaretVaultTab(vaultTab)) parts.push(vaultMainTabLabel(vaultTab));
-  } else if (zone === 'kunskap') {
-    parts.push('Kunskapsbank');
-  } else {
-    parts.push('Forensik');
-    if (isForensicVaultTab(vaultTab)) parts.push(forensicVaultTabLabel(vaultTab));
+/** Valv › zon › underflik — synkad med drawer-grupper. */
+export function VaultValvBreadcrumb({ zone, vaultTab }: VaultValvBreadcrumbProps) {
+  const parts: string[] = ['Valv', ZONE_LABEL[zone] ?? zone];
+
+  if (isSamlaVaultTab(vaultTab) || isAnalyseraVaultTab(vaultTab) || isExporteraVaultTab(vaultTab)) {
+    parts.push(vaultMainTabLabel(vaultTab));
+  } else if (isKunskapVaultTab(vaultTab)) {
+    parts.push(vaultMainTabLabel(vaultTab));
+  } else if (isForensicVaultTab(vaultTab)) {
+    parts.push(forensicVaultTabLabel(vaultTab));
   }
 
   return (

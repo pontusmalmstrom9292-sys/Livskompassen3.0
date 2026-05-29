@@ -2,8 +2,10 @@ import { useCallback, useState } from 'react';
 import { ImagePlus, Loader2, Mic, MicOff, Plus } from 'lucide-react';
 import { uploadVaultEvidence } from '../../../core/firebase/storage';
 import { useSpeechToText } from '../../../core/hooks/useSpeechToText';
+import { shouldSuggestVaultPatternScan } from '../../../core/triggers/valvHandoff';
 import { BODY_SIGNALS, SHIELD_STEPS, VAULT_ENTRY_MODES } from '../constants/vaultEntry';
 import type { VaultEntryType, VaultLogInput } from '../types/vaultEntry';
+import { VaultPatternHandoff } from './VaultPatternHandoff';
 
 type VaultEntryFormProps = {
   userId: string;
@@ -169,31 +171,45 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
           : canSaveBody;
 
   const busy = saving || uploading;
+  const handoffText = [truth, theirVersion, myReality, shieldWhat].join(' ');
+  const showPatternHandoff = shouldSuggestVaultPatternScan(handoffText);
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap gap-2">
-        {VAULT_ENTRY_MODES.map(({ id, label }) => (
-          <button
-            key={id}
-            type="button"
-            onClick={() => {
-              setMode(id);
-              setShieldStep(0);
-            }}
-            className={mode === id ? 'chip--active' : 'chip--idle'}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
+      <label className="block text-xs text-text-muted">
+        Typ av post
+        <select
+          value={mode}
+          onChange={(e) => {
+            setMode(e.target.value as VaultEntryType);
+            setShieldStep(0);
+          }}
+          className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+        >
+          {VAULT_ENTRY_MODES.map(({ id, label }) => (
+            <option key={id} value={id}>
+              {label}
+            </option>
+          ))}
+        </select>
+      </label>
 
       <input
         value={category}
         onChange={(e) => setCategory(e.target.value)}
         placeholder="Kategori (valfritt)"
         className="input-glass rounded-xl px-3 py-2 w-full"
+        list="vault-category-suggestions"
       />
+      <datalist id="vault-category-suggestions">
+        <option value="kommunikation" />
+        <option value="vårdnad" />
+        <option value="skola" />
+        <option value="ekonomi" />
+        <option value="allmänt" />
+      </datalist>
+
+      {showPatternHandoff && <VaultPatternHandoff />}
 
       {mode === 'simple' && (
         <textarea
@@ -279,19 +295,36 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
 
       {mode === 'body_signal' && (
         <div className="space-y-3">
-          <p className="text-xs uppercase tracking-widest text-text-dim">Magkänsel — välj ett eller flera</p>
-          <div className="flex flex-wrap gap-2">
-            {BODY_SIGNALS.map((signal) => (
+          <label className="block text-xs text-text-muted">
+            Magkänsel — lägg till signal
+            <select
+              className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+              value=""
+              onChange={(e) => {
+                const v = e.target.value;
+                if (v) toggleSignal(v);
+              }}
+            >
+              <option value="">Välj signal…</option>
+              {BODY_SIGNALS.filter((s) => !selectedSignals.includes(s)).map((signal) => (
+                <option key={signal} value={signal}>
+                  {signal}
+                </option>
+              ))}
+            </select>
+          </label>
+          {selectedSignals.length > 0 && (
+            <p className="text-xs text-text-dim">
+              Valda: {selectedSignals.join(', ')}{' '}
               <button
-                key={signal}
                 type="button"
-                onClick={() => toggleSignal(signal)}
-                className={selectedSignals.includes(signal) ? 'chip--active' : 'chip--idle'}
+                className="text-accent/80 underline"
+                onClick={() => setSelectedSignals([])}
               >
-                {signal}
+                Rensa
               </button>
-            ))}
-          </div>
+            </p>
+          )}
           <textarea
             value={truth}
             onChange={(e) => setTruth(e.target.value)}

@@ -76,35 +76,67 @@ function main() {
     'Mönster',
     'Orkester',
     'Kunskapsbank',
+    'Aktörskarta',
+    'getKunskapVaultTabBarItems',
     'getVaultZoneTabBarItems',
-    'getPansaretVaultTabBarItems',
+    'getSamlaVaultTabBarItems',
+    'getAnalyseraVaultTabBarItems',
   );
   mustInclude(
     'src/modules/evidence/vault/utils/vaultTabs.ts',
     "'monster'",
     "'orkester'",
     "'kunskapsbank'",
-    'PANSARET_VAULT_TAB_IDS',
+    "'aktorskarta'",
+    'SAMLA_VAULT_TAB_IDS',
+    'ANALYSERA_VAULT_TAB_IDS',
+    'KUNSKAP_VAULT_TAB_IDS',
     'VALV_ZONE_IDS',
     'resolveValvZone',
   );
   mustInclude(
     'src/modules/evidence/vault/components/VaultPage.tsx',
     'getVaultZoneTabBarItems',
-    'getPansaretVaultTabBarItems',
+    'getSamlaVaultTabBarItems',
+    'getAnalyseraVaultTabBarItems',
+    'getKunskapVaultTabBarItems',
     'VaultValvBreadcrumb',
     'VaultMonsterPanel',
     'VaultOrkesterPanel',
     'VaultKunskapsbankPanel',
+    'VaultAktorskartaPanel',
+  );
+  mustInclude(
+    'src/modules/evidence/knowledge/components/VaultAktorskartaPanel.tsx',
+    'EntityAddForm',
+    'fetchEntityProfileRegistry',
+    'VaultAktorskartaPanel',
+  );
+  mustInclude(
+    'src/modules/evidence/kompis/components/EntityAddForm.tsx',
+    'createEntityProfile',
+    'Lägg till person',
+  );
+  mustInclude(
+    'functions/src/index.ts',
+    'addEntityProfile',
+    'getEntityProfileRegistry',
+  );
+  mustInclude(
+    'functions/src/lib/entityProfileStore.ts',
+    'addUserEntityProfile',
   );
   mustInclude(
     'src/modules/evidence/vault/components/VaultValvBreadcrumb.tsx',
-    'Kunskapsbank',
+    'ZONE_LABEL',
+    'getVaultZoneTabBarItems',
   );
   mustInclude(
     'src/modules/core/navigation/navTruth.ts',
     "label: 'Kunskapsbank'",
     'Chat & Tidshjul',
+    'valv_aktorskarta',
+    'Nyckelpersoner',
   );
   mustInclude(
     'src/modules/core/navigation/tabRegistry.ts',
@@ -249,6 +281,8 @@ function main() {
     'Barnporten',
     'Planeringssidan',
     'Fyren Edge',
+    'Aktörskarta',
+    'VaultAktorskartaPanel',
   );
 
   const mockDir = resolve(root, 'docs/design/barnporten/mockups');
@@ -282,7 +316,9 @@ function main() {
     'DRAWER_VALV_ENTRIES',
     'vaultDrawerPath',
     "section: 'valv'",
-    'valv_grp_pansaret',
+    'valv_grp_samla',
+    'valv_grp_analysera',
+    'valv_grp_exportera',
     'valv_grp_forensik',
     'getDrawerRoots',
     'planering_handling',
@@ -345,6 +381,8 @@ function main() {
     'src/modules/evidence/knowledge/components/VaultKunskapsbankPanel.tsx',
     'onKampsparCitationClick',
     'focusKampsparId',
+    'vaultDrawerPath',
+    'aktorskarta',
   );
 
   // Post-kluster: produktionskod ska inte importera via borttagna rot-shims

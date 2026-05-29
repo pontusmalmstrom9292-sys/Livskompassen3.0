@@ -42,6 +42,7 @@ const VAULT_MAIN_LABELS: Record<(typeof MAIN_VAULT_TAB_IDS)[number], string> = {
   orkester: 'Orkester',
   dossier: 'Dossier',
   kunskapsbank: 'Kunskapsbank',
+  aktorskarta: 'Aktörskarta',
 };
 
 function valvLeaf(
@@ -377,8 +378,8 @@ export const NAV_TRUTH: NavTruthEntry[] = [
 
   // —— Valv (PIN) — grupperade accordion ——
   {
-    id: 'valv_grp_pansaret',
-    label: 'Pansaret',
+    id: 'valv_grp_samla',
+    label: 'Samla',
     path: '',
     section: 'valv',
     inDrawer: true,
@@ -386,11 +387,29 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     requiresVaultPin: true,
     themeId: 'J-valv-pansar',
   },
-  valvLeaf('valv_arkiv', 'logga', 'valv_grp_pansaret'),
-  valvLeaf('valv_triage', 'sok', 'valv_grp_pansaret'),
-  valvLeaf('valv_monster', 'monster', 'valv_grp_pansaret'),
-  valvLeaf('valv_orkester', 'orkester', 'valv_grp_pansaret'),
-  valvLeaf('valv_dossier', 'dossier', 'valv_grp_pansaret'),
+  valvLeaf('valv_arkiv', 'logga', 'valv_grp_samla'),
+  valvLeaf('valv_triage', 'sok', 'valv_grp_samla'),
+  {
+    id: 'valv_grp_analysera',
+    label: 'Analysera',
+    path: '',
+    section: 'valv',
+    inDrawer: true,
+    isGroupHeader: true,
+    requiresVaultPin: true,
+  },
+  valvLeaf('valv_monster', 'monster', 'valv_grp_analysera'),
+  valvLeaf('valv_orkester', 'orkester', 'valv_grp_analysera'),
+  {
+    id: 'valv_grp_exportera',
+    label: 'Exportera',
+    path: '',
+    section: 'valv',
+    inDrawer: true,
+    isGroupHeader: true,
+    requiresVaultPin: true,
+  },
+  valvLeaf('valv_dossier', 'dossier', 'valv_grp_exportera'),
   {
     id: 'valv_dossier_export',
     label: 'Dossier · full vy',
@@ -398,7 +417,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     section: 'valv',
     inDrawer: true,
     requiresVaultPin: true,
-    parentId: 'valv_grp_pansaret',
+    parentId: 'valv_grp_exportera',
   },
   {
     id: 'valv_grp_kunskap',
@@ -410,6 +429,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     requiresVaultPin: true,
   },
   valvLeaf('valv_kunskapsbank', 'kunskapsbank', 'valv_grp_kunskap', 'Chat & Tidshjul'),
+  valvLeaf('valv_aktorskarta', 'aktorskarta', 'valv_grp_kunskap', 'Nyckelpersoner (G9)'),
   {
     id: 'valv_grp_forensik',
     label: 'Forensik',

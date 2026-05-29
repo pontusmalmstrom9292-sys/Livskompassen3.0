@@ -4,7 +4,6 @@ import { TidshjulDetailCard } from './TidshjulDetailCard';
 import { KnowledgeVaultChat } from './KnowledgeVaultChat';
 import { KampsparIngestForm } from './KampsparIngestForm';
 import { ProfileSeedImport } from './ProfileSeedImport';
-import { EntityRegistryCard } from './EntityRegistryCard';
 import { InboxReviewQueue } from '../../../inkast/components/InboxReviewQueue';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import { TabBar } from '../../../core/ui/TabBar';
@@ -184,7 +183,6 @@ export function KunskapPage({
           {!embedded && (
             <>
               <InboxReviewQueue />
-              <EntityRegistryCard />
             </>
           )}
         </>

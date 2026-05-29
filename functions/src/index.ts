@@ -26,7 +26,8 @@ import {
   BARNEN_MODULE_ROUTE,
   shouldRouteKompisToBarnen,
 } from './lib/barnenModuleRouteGuard';
-import { loadEntityProfileBundle } from './lib/entityProfileStore';
+import { addUserEntityProfile, loadEntityProfileBundle } from './lib/entityProfileStore';
+import type { EntityRole } from './lib/entityProfileTypes';
 import { classifyInboxDocument } from './lib/inboxClassifier';
 import {
   confirmInboxQueueItem,
@@ -313,6 +314,48 @@ export const getEntityProfileRegistry = onCall({ region: 'europe-west1' }, async
       relatedEntityKeys: s.relatedEntityKeys ?? [],
     })),
   };
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 6d2: addEntityProfile (G9)
+// Manuell aktör — append-only metadata, agenter minns via EntityProfile.
+// ─────────────────────────────────────────────────────────────────────────────
+export const addEntityProfile = onCall({ region: 'europe-west1' }, async (request) => {
+  if (!request.auth) {
+    throw new HttpsError('unauthenticated', 'Autentisering krävs för att lägga till person.');
+  }
+
+  const displayName =
+    typeof request.data?.displayName === 'string' ? request.data.displayName : '';
+  const role = request.data?.role as EntityRole | undefined;
+  const aliases = Array.isArray(request.data?.aliases)
+    ? request.data.aliases.filter((a: unknown) => typeof a === 'string')
+    : undefined;
+  const groundingNotes =
+    typeof request.data?.groundingNotes === 'string' ? request.data.groundingNotes : undefined;
+
+  if (!displayName.trim()) {
+    throw new HttpsError('invalid-argument', 'displayName krävs.');
+  }
+  if (!role) {
+    throw new HttpsError('invalid-argument', 'role krävs.');
+  }
+
+  try {
+    return await addUserEntityProfile(request.auth.uid, {
+      displayName,
+      role,
+      aliases,
+      groundingNotes,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Kunde inte spara personen.';
+    if (message.includes('finns redan') || message.includes('Ogiltig') || message.includes('måste')) {
+      throw new HttpsError('invalid-argument', message);
+    }
+    console.error('[addEntityProfile]', error);
+    throw new HttpsError('internal', 'Kunde inte spara personen.');
+  }
 });
 
 // ─────────────────────────────────────────────────────────────────────────────

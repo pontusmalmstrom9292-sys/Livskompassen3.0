@@ -1,0 +1,34 @@
+---
+description: Stoppa dubbelplanering — påminn om befintlig kanon innan ny plan
+alwaysApply: true
+---
+
+# Planering-kanon (anti-dubblett)
+
+Innan agent eller användare **planerar nytt stort arbete**, **skapar ny SPEC**, eller **föreslår arkitektur** — läs snabbt kanon och **påminn** om motsvarande redan finns.
+
+## Kanon att kontrollera (i ordning)
+
+1. [`.context/system-plan.md`](../../.context/system-plan.md) — aktiv fas, vad som är klart
+2. [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](../../docs/specs/modules/Arkiv-GAP-REGISTER.md) — G1–G16 done/open
+3. [`docs/BRANCH-KARTA.md`](../../docs/BRANCH-KARTA.md) — parkerade grenar
+4. [`docs/evaluations/`](../../docs/evaluations/) — senaste beslut (datum i filnamn)
+5. [`.context/locked-ux-features.md`](../../.context/locked-ux-features.md) — låsta flöden (Aktörskarta, Mönster, Barnfokus …)
+6. [`docs/INNEHALL-REGISTER.md`](../../docs/INNEHALL-REGISTER.md) — U6 innehåll/routing
+
+## Agent MUST
+
+- Om användaren planerar något som **redan är done/open i GAP** eller **listat i system-plan**: säg det kort (*"Detta finns redan — se …"*) och föreslå **nästa konkreta steg** istället för ny plan.
+- Om ny modul/spec föreslås: kontrollera `src/modules/*/module_plan.md` och `*-SPEC.md` först.
+- Vid större ny plan: peka på [`docs/evaluations/MALL-cursor-plan.md`](../../docs/evaluations/MALL-cursor-plan.md) — **upprepa inte** hela mallen om eval redan finns.
+
+## Exempel (påminn så här)
+
+- *"Aktörskarta/G9 är implementerad och deployad — nästa steg är test i Valv, inte ny design."*
+- *"Planering hybrid är låst i `PLANERING-PROJEKT-HYBRID.md` — vi utökar P3, vi ersätter inte."*
+- *"GAP G9 EntityProfile = done 2026-05-22 — se `entityProfileStore.ts`."*
+
+## MUST NOT
+
+- Skriva parallell dokumentation i `.orkester/` när [`docs/evaluations/`](../../docs/evaluations/) är kanon.
+- Markera GAP done/open utan att läsa register + kod (se `anti-hallucination.mdc`).

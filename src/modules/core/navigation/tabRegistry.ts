@@ -10,6 +10,7 @@ import {
   Network,
   ScrollText,
   Search,
+  Users,
 } from 'lucide-react';
 import type { DrawerHubId } from './hubTabs';
 import { tabIdFromNavPath } from './hubTabs';
@@ -17,13 +18,19 @@ import { getDrawerChildren, type NavTruthEntry } from './navTruth';
 import type { TabBarItem } from '../ui/TabBar';
 import {
   FORENSIC_VAULT_TAB_IDS,
+  KUNSKAP_VAULT_TAB_IDS,
   MAIN_VAULT_TAB_IDS,
+  ANALYSERA_VAULT_TAB_IDS,
   PANSARET_VAULT_TAB_IDS,
+  SAMLA_VAULT_TAB_IDS,
   VALV_ZONE_IDS,
   forensicVaultTabLabel,
   type ForensicVaultTab,
+  type KunskapVaultTab,
   type MainVaultTab,
+  type AnalyseraVaultTab,
   type PansaretVaultTab,
+  type SamlaVaultTab,
   type ValvZone,
 } from '../../evidence/vault/utils/vaultTabs';
 
@@ -141,6 +148,7 @@ const VAULT_MAIN_LABELS: Record<MainVaultTab, string> = {
   orkester: 'Orkester',
   dossier: 'Dossier',
   kunskapsbank: 'Kunskapsbank',
+  aktorskarta: 'Aktörskarta',
 };
 
 const icon = (Icon: typeof FileText) => createElement(Icon, { className: 'h-3 w-3' });
@@ -152,6 +160,7 @@ const VAULT_MAIN_ICONS: Partial<Record<MainVaultTab, ReactNode>> = {
   orkester: icon(Network),
   dossier: icon(ScrollText),
   kunskapsbank: icon(BookOpen),
+  aktorskarta: icon(Users),
 };
 
 export function vaultMainTabLabel(id: MainVaultTab): string {
@@ -167,8 +176,10 @@ export function getMainVaultTabBarItems(): TabBarItem<MainVaultTab>[] {
 }
 
 const VALV_ZONE_LABELS: Record<ValvZone, string> = {
-  pansaret: 'Pansaret',
-  kunskap: 'Kunskapsbank',
+  samla: 'Samla',
+  analysera: 'Analysera',
+  kunskap: 'Kunskap',
+  exportera: 'Exportera',
   forensik: 'Forensik',
 };
 
@@ -176,6 +187,23 @@ export function getVaultZoneTabBarItems(): TabBarItem<ValvZone>[] {
   return VALV_ZONE_IDS.map((id) => ({ id, label: VALV_ZONE_LABELS[id] }));
 }
 
+export function getSamlaVaultTabBarItems(): TabBarItem<SamlaVaultTab>[] {
+  return SAMLA_VAULT_TAB_IDS.map((id) => ({
+    id,
+    label: VAULT_MAIN_LABELS[id],
+    icon: VAULT_MAIN_ICONS[id],
+  }));
+}
+
+export function getAnalyseraVaultTabBarItems(): TabBarItem<AnalyseraVaultTab>[] {
+  return ANALYSERA_VAULT_TAB_IDS.map((id) => ({
+    id,
+    label: VAULT_MAIN_LABELS[id],
+    icon: VAULT_MAIN_ICONS[id],
+  }));
+}
+
+/** @deprecated Använd zon-specifika getters (samla / analysera / exportera). */
 export function getPansaretVaultTabBarItems(): TabBarItem<PansaretVaultTab>[] {
   return PANSARET_VAULT_TAB_IDS.map((id) => ({
     id,
@@ -188,6 +216,14 @@ export function getForensicVaultTabBarItems(): TabBarItem<ForensicVaultTab>[] {
   return FORENSIC_VAULT_TAB_IDS.map((id) => ({
     id,
     label: forensicVaultTabLabel(id),
+  }));
+}
+
+export function getKunskapVaultTabBarItems(): TabBarItem<KunskapVaultTab>[] {
+  return KUNSKAP_VAULT_TAB_IDS.map((id) => ({
+    id,
+    label: VAULT_MAIN_LABELS[id],
+    icon: VAULT_MAIN_ICONS[id],
   }));
 }
 

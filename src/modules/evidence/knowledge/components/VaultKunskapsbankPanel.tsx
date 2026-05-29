@@ -1,11 +1,13 @@
 import { useCallback, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { KunskapPage, type KunskapEntriesMeta } from '../../kompis/components/KunskapPage';
 import { FamiljenKunskapHubTab } from '../../../family/children/components/familjen/FamiljenKunskapHubTab';
 import { useFamiljenShell } from '../../../family/children/hooks/useFamiljenShell';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import { EmptyState } from '../../../core/ui/EmptyState';
 import { KunskapsbankHeader } from '../../vault/components/KunskapsbankHeader';
-import { BookOpen, RefreshCw } from 'lucide-react';
+import { vaultDrawerPath } from '../../../core/navigation/navTruth';
+import { BookOpen, RefreshCw, Users } from 'lucide-react';
 
 type TabRequest = 'chat' | 'tidshjul';
 
@@ -30,7 +32,16 @@ export function VaultKunskapsbankPanel() {
 
   return (
     <div className="space-y-4">
-      <KunskapsbankHeader compact />
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <KunskapsbankHeader compact />
+        <Link
+          to={vaultDrawerPath('aktorskarta')}
+          className="btn-pill--secondary inline-flex items-center gap-2 text-xs"
+        >
+          <Users className="h-3 w-3" />
+          Aktörskarta
+        </Link>
+      </div>
 
       {showNetworkError && (
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3">

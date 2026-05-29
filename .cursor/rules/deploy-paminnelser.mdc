@@ -1,0 +1,49 @@
+---
+description: Deploy-påminnelser — var, när och vad som måste ut innan prod fungerar
+alwaysApply: true
+---
+
+# Deploy-påminnelser (MUST)
+
+Kanon: [`docs/DEPLOY.md`](../../docs/DEPLOY.md) · projektrot: **`/Users/Livskompassen/StudioProjects/Livskompassen3.0`**
+
+## Var du kör kommandon
+
+| Var | Terminal / mapp | Mac |
+|-----|-----------------|-----|
+| **Projektrot** | `cd /Users/Livskompassen/StudioProjects/Livskompassen3.0` | Cursor terminal **Ctrl+`** eller `Cmd+J` |
+| **Functions** | `cd …/Livskompassen3.0/functions` | samma terminal, byt mapp |
+| **Firebase CLI** | alltid från **projektrot** (där `firebase.json` ligger) | `firebase use gen-lang-client-0481875058` |
+
+## Agent MUST efter kodändring
+
+När agent ändrat backend, frontend, rules eller storage — **avsluta med exakt en deploy-rad** om prod påverkas. Fråga explicit: *"Ska jag köra deploy nu?"* om användaren inte redan sagt ja.
+
+| Ändring | Bygg | Deploy |
+|---------|------|--------|
+| Ny/uppdaterad **callable** (`functions/src/index.ts`) | `cd functions && npm run build` | `firebase deploy --only functions:<namn>` |
+| **Frontend** (React/UI) | `npm run build` (rot) | `firebase deploy --only hosting` |
+| **Firestore rules** | — | `firebase deploy --only firestore:rules` |
+| **Storage rules** | — | `firebase deploy --only storage` |
+| **Android** efter web-ändring | `npm run build:web && npx cap sync android` | Android Studio Run |
+
+## Aktörskarta (G9) — 2026-05-29
+
+```bash
+cd /Users/Livskompassen/StudioProjects/Livskompassen3.0/functions && npm run build
+cd /Users/Livskompassen/StudioProjects/Livskompassen3.0 && npm run build
+firebase deploy --only functions:addEntityProfile,functions:getEntityProfileRegistry,hosting
+```
+
+Smoke: `npm run smoke:entities` · `npm run smoke:locked-ux`
+
+## MUST NOT
+
+- Anta att lokal `npm run dev` räcker för sparning i molnet — **callables kräver deploy**.
+- Full `firebase deploy --only functions` utan att nämna `notifyNewFile` (kräver secret).
+- Committa `.env` eller service-account JSON.
+
+## Verifiering efter deploy
+
+1. Hard refresh webb (Cmd+Shift+R) eller avinstallera Android APK vid auth-strul.
+2. Relevant smoke enligt [`docs/SMOKE_CHECKLIST.md`](../../docs/SMOKE_CHECKLIST.md).

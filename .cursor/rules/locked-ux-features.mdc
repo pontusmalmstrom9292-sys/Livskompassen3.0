@@ -19,11 +19,12 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 - Mounted in `BarnensPage` with optimistic `category: 'barnfokus'` saves (read legacy `middag`)
 - Button copy: **Spara till {ChildAlias}s logg** · **Minneslista** under form
 
-## Valv — Pansaret (Mönster + Orkester + Kunskapsbank)
+## Valv — Pansaret (Mönster + Orkester + Kunskapsbank + Aktörskarta)
 
 - Entry: drawer section **Valv** → `/dagbok?tab=bevis&vaultTab=…` (PIN in `VaultPage`)
-- Tabs: `logga`, `sok`, `monster`, `orkester`, `dossier`, **`kunskapsbank`**
+- Tabs: `logga`, `sok`, `monster`, `orkester`, `dossier`, **`kunskapsbank`**, **`aktorskarta`**
 - `VaultKunskapsbankPanel` — all Kunskap UI behind PIN (no public `/vardagen?tab=kunskap`)
+- `VaultAktorskartaPanel` + `EntityAddForm` + `addEntityProfile` — manuell aktörskarta (G9), append-only metadata
 - `VaultMonsterPanel` / `VaultOrkesterPanel` — unchanged locked behavior
 
 ## Sidomeny (hamburger — design lock)

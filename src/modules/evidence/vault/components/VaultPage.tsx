@@ -5,8 +5,10 @@ import { BentoCard } from '../../../core/ui/BentoCard';
 import { PinGate } from '../../../core/ui/PinGate';
 import { TabBar } from '../../../core/ui/TabBar';
 import {
+  getAnalyseraVaultTabBarItems,
   getForensicVaultTabBarItems,
-  getPansaretVaultTabBarItems,
+  getKunskapVaultTabBarItems,
+  getSamlaVaultTabBarItems,
   getVaultZoneTabBarItems,
 } from '../../../core/navigation/tabRegistry';
 import { useStore } from '../../../core/store';
@@ -21,17 +23,22 @@ import { VaultMonsterPanel } from './VaultMonsterPanel';
 import { VaultOrkesterPanel } from './VaultOrkesterPanel';
 import { PansaretHeader } from './PansaretHeader';
 import { VaultKunskapsbankPanel } from '../../knowledge/components/VaultKunskapsbankPanel';
+import { VaultAktorskartaPanel } from '../../knowledge/components/VaultAktorskartaPanel';
 import { VaultForensicPanel } from './VaultForensicPanel';
 import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
 import type { VaultLogInput } from '../types/vaultEntry';
 import {
   KUNSKAP_VAULT_TAB,
+  type AnalyseraVaultTab,
   type ForensicVaultTab,
-  type PansaretVaultTab,
+  type KunskapVaultTab,
+  type SamlaVaultTab,
   type ValvZone,
   type VaultTab,
+  isAnalyseraVaultTab,
   isForensicVaultTab,
-  isPansaretVaultTab,
+  isKunskapVaultTab,
+  isSamlaVaultTab,
   resolveValvZone,
 } from '../utils/vaultTabs';
 
@@ -67,7 +74,9 @@ export function VaultPage({
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
   const gateOk = hasVaultGate();
   const valvZone = resolveValvZone(vaultTab);
-  const pansaretTab: PansaretVaultTab = isPansaretVaultTab(vaultTab) ? vaultTab : 'logga';
+  const samlaTab: SamlaVaultTab = isSamlaVaultTab(vaultTab) ? vaultTab : 'logga';
+  const analyseraTab: AnalyseraVaultTab = isAnalyseraVaultTab(vaultTab) ? vaultTab : 'monster';
+  const kunskapTab: KunskapVaultTab = isKunskapVaultTab(vaultTab) ? vaultTab : KUNSKAP_VAULT_TAB;
   const forensicTab: ForensicVaultTab = isForensicVaultTab(vaultTab) ? vaultTab : 'hamn_analys';
 
   const setVaultTab = (next: VaultTab) => {
@@ -85,8 +94,10 @@ export function VaultPage({
   };
 
   const handleValvZoneChange = (zone: ValvZone) => {
-    if (zone === 'pansaret') setVaultTab('logga');
+    if (zone === 'samla') setVaultTab('logga');
+    else if (zone === 'analysera') setVaultTab('monster');
     else if (zone === 'kunskap') setVaultTab(KUNSKAP_VAULT_TAB);
+    else if (zone === 'exportera') setVaultTab('dossier');
     else setVaultTab('hamn_analys');
   };
 
@@ -229,7 +240,7 @@ export function VaultPage({
           </button>
         </div>
         <p className="mb-3 text-sm text-text-muted">
-          Lager 2 — WORM-bevis, Kunskapsbank och forensik. Välj zon, sedan flik.
+          Lager 2 — samla bevis, analysera mönster, kunskap och export. Välj zon, sedan flik.
         </p>
         <TabBar<ValvZone>
           size="compact"
@@ -237,12 +248,22 @@ export function VaultPage({
           active={valvZone}
           onChange={handleValvZoneChange}
         />
-        {valvZone === 'pansaret' && (
+        {valvZone === 'samla' && (
           <div className="mt-3">
-            <TabBar<PansaretVaultTab>
+            <TabBar<SamlaVaultTab>
               size="compact"
-              tabs={getPansaretVaultTabBarItems()}
-              active={pansaretTab}
+              tabs={getSamlaVaultTabBarItems()}
+              active={samlaTab}
+              onChange={(id) => setVaultTab(id)}
+            />
+          </div>
+        )}
+        {valvZone === 'analysera' && (
+          <div className="mt-3">
+            <TabBar<AnalyseraVaultTab>
+              size="compact"
+              tabs={getAnalyseraVaultTabBarItems()}
+              active={analyseraTab}
               onChange={(id) => setVaultTab(id)}
             />
           </div>
@@ -257,11 +278,21 @@ export function VaultPage({
             />
           </div>
         )}
+        {valvZone === 'kunskap' && (
+          <div className="mt-3">
+            <TabBar<KunskapVaultTab>
+              size="compact"
+              tabs={getKunskapVaultTabBarItems()}
+              active={kunskapTab}
+              onChange={(id) => setVaultTab(id)}
+            />
+          </div>
+        )}
       </BentoCard>
 
       {valvZone === 'forensik' && <VaultForensicPanel tab={forensicTab} />}
 
-      {valvZone === 'pansaret' && vaultTab === 'logga' && (
+      {valvZone === 'samla' && vaultTab === 'logga' && (
         <>
           <BentoCard title="Ny post" description="Append-only bevis">
             <VaultEntryForm userId={user.uid} saving={loading} onSave={handleSaveLog} />
@@ -271,25 +302,26 @@ export function VaultPage({
         </>
       )}
 
-      {valvZone === 'pansaret' && vaultTab === 'sok' && (
+      {valvZone === 'samla' && vaultTab === 'sok' && (
         <ValvChatPanel
           active={isVaultUnlocked && vaultTab === 'sok'}
           onCitationClick={handleCitationClick}
         />
       )}
 
-      {valvZone === 'pansaret' && vaultTab === 'monster' && (
+      {valvZone === 'analysera' && vaultTab === 'monster' && (
         <>
           <PansaretHeader />
           <VaultMonsterPanel logs={logs} />
         </>
       )}
 
-      {valvZone === 'pansaret' && vaultTab === 'orkester' && <VaultOrkesterPanel logs={logs} />}
+      {valvZone === 'analysera' && vaultTab === 'orkester' && <VaultOrkesterPanel logs={logs} />}
 
-      {valvZone === 'pansaret' && vaultTab === 'dossier' && <DossierPage embedded />}
+      {valvZone === 'exportera' && vaultTab === 'dossier' && <DossierPage embedded />}
 
-      {valvZone === 'kunskap' && <VaultKunskapsbankPanel />}
+      {valvZone === 'kunskap' && kunskapTab === KUNSKAP_VAULT_TAB && <VaultKunskapsbankPanel />}
+      {valvZone === 'kunskap' && kunskapTab === 'aktorskarta' && <VaultAktorskartaPanel />}
     </div>
   );
 }

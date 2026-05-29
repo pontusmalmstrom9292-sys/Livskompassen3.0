@@ -27,6 +27,21 @@ export interface EntityProfileRegistryResult {
 }
 
 const getEntityProfileRegistryCallable = httpsCallable(functions, 'getEntityProfileRegistry');
+const addEntityProfileCallable = httpsCallable(functions, 'addEntityProfile');
+
+export type AddEntityProfileInput = {
+  displayName: string;
+  role: Exclude<EntityRole, 'ANVANDARE'>;
+  aliases?: string[];
+  groundingNotes?: string;
+};
+
+export type AddEntityProfileResult = {
+  entityKey: string;
+  displayName: string;
+  role: EntityRole;
+  aliases: string[];
+};
 
 export async function fetchEntityProfileRegistry(): Promise<EntityProfileRegistryResult> {
   try {
@@ -38,5 +53,23 @@ export async function fetchEntityProfileRegistry(): Promise<EntityProfileRegistr
       throw new Error('Autentisering krävs för aktörskartan.');
     }
     throw new Error(fnError.message || 'Kunde inte hämta aktörskartan.');
+  }
+}
+
+export async function createEntityProfile(
+  input: AddEntityProfileInput
+): Promise<AddEntityProfileResult> {
+  try {
+    const result = await addEntityProfileCallable(input);
+    return result.data as AddEntityProfileResult;
+  } catch (error) {
+    const fnError = error as FunctionsError;
+    if (fnError.code === 'functions/unauthenticated') {
+      throw new Error('Autentisering krävs för att lägga till person.');
+    }
+    if (fnError.code === 'functions/invalid-argument') {
+      throw new Error(fnError.message || 'Ogiltig inmatning.');
+    }
+    throw new Error(fnError.message || 'Kunde inte spara personen.');
   }
 }

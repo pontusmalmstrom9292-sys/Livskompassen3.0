@@ -58,7 +58,8 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 | Vector Search ANN | `livskompassen-vector-search` | — |
 | Hela arkivet / Dossier-minne | `livskompassen-arkiv-master` | `livskompassen-core.mdc` |
 | Agent cards / prompts | `livskompassen-memory-agents` | `backend-agents.mdc` |
-| Firebase deploy / inventering | plugin `firebase-basics` | `firebase-workflow.mdc` |
+| Deploy / Firebase | plugin `firebase-basics` | `firebase-workflow.mdc`, **`deploy-paminnelser.mdc`** |
+| Planering / dubbelarbete | — | **`planering-kanon-guard.mdc`** |
 | Firestore rules / WORM | plugin `firebase-firestore-standard` | `security-firestore.mdc` |
 | Natt-/batch-autorun | — | `orkester-autorun.mdc`, `grunder-kanon.mdc`, `anti-hallucination.mdc` |
 | Innehåll fakta/lek (U6) | — | `innehall-register.mdc`, `grunder-kanon.mdc` |

@@ -3,6 +3,7 @@ import {
   KEY_ENTITY_SEEDS,
   SYSTEM_SYNAPSE_SEEDS,
   type EntityProfileDoc,
+  type EntityRole,
   type SystemSynapseDoc,
 } from './entityProfileTypes';
 
@@ -163,6 +164,125 @@ export async function loadEntityProfileBundle(uid: string): Promise<EntityProfil
     profiles,
     synapses,
     contextBlock: buildEntityGroundingContextBlock(profiles, synapses),
+  };
+}
+
+const USER_ADDABLE_ROLES: EntityRole[] = ['MOTPART', 'BARN', 'NATVERK', 'MYNDIGHET', 'SKOLA'];
+
+export interface AddEntityProfileInput {
+  displayName: string;
+  role: EntityRole;
+  aliases?: string[];
+  groundingNotes?: string;
+}
+
+export interface AddEntityProfileResult {
+  entityKey: string;
+  displayName: string;
+  role: EntityRole;
+  aliases: string[];
+}
+
+function slugifyEntityKey(displayName: string): string {
+  return displayName
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '')
+    .slice(0, 48);
+}
+
+function normalizeAliases(raw: string[] | undefined, displayName: string): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  const push = (value: string) => {
+    const trimmed = value.trim();
+    if (trimmed.length < 2 || trimmed.length > 60) return;
+    const key = trimmed.toLowerCase();
+    if (seen.has(key)) return;
+    seen.add(key);
+    out.push(trimmed);
+  };
+
+  for (const alias of raw ?? []) push(alias);
+  push(displayName);
+  return out.slice(0, 20);
+}
+
+function validateAddEntityInput(input: AddEntityProfileInput): AddEntityProfileInput {
+  const displayName = input.displayName.trim();
+  if (displayName.length < 2 || displayName.length > 80) {
+    throw new Error('Namn måste vara 2–80 tecken.');
+  }
+  if (!USER_ADDABLE_ROLES.includes(input.role)) {
+    throw new Error('Ogiltig roll — välj Motpart, Barn, Nätverk, Myndighet eller Skola.');
+  }
+  const groundingNotes = input.groundingNotes?.trim();
+  if (groundingNotes && groundingNotes.length > 500) {
+    throw new Error('Anteckning får max vara 500 tecken.');
+  }
+  return {
+    displayName,
+    role: input.role,
+    aliases: normalizeAliases(input.aliases, displayName),
+    groundingNotes: groundingNotes || undefined,
+  };
+}
+
+/** Append-only — användardefinierade personer (WORM via Admin SDK, klient skriver ej). */
+export async function addUserEntityProfile(
+  uid: string,
+  rawInput: AddEntityProfileInput
+): Promise<AddEntityProfileResult> {
+  const input = validateAddEntityInput(rawInput);
+  await ensureEntityProfilesSeeded(uid);
+
+  const db = admin.firestore();
+  const existingSnap = await db.collection(ENTITY_PROFILES).where('ownerId', '==', uid).get();
+  const displayKey = input.displayName.toLowerCase();
+  for (const doc of existingSnap.docs) {
+    const name = String(doc.data().displayName ?? '').toLowerCase();
+    if (name === displayKey) {
+      throw new Error('Personen finns redan i aktörskartan.');
+    }
+  }
+
+  const slug = slugifyEntityKey(input.displayName);
+  if (!slug) {
+    throw new Error('Namnet går inte att spara — prova bokstäver eller siffror.');
+  }
+
+  let entityKey = `user_${slug}`;
+  let suffix = 2;
+  const usedKeys = new Set(existingSnap.docs.map((d) => String(d.data().entityKey ?? '')));
+  while (usedKeys.has(entityKey)) {
+    entityKey = `user_${slug}_${suffix}`;
+    suffix += 1;
+  }
+
+  const now = admin.firestore.FieldValue.serverTimestamp();
+  await db.collection(ENTITY_PROFILES).add({
+    ownerId: uid,
+    userId: uid,
+    entityKey,
+    role: input.role,
+    displayName: input.displayName,
+    aliases: input.aliases ?? [],
+    category: input.role,
+    behavioralPatterns: [],
+    groundingNotes: input.groundingNotes ?? null,
+    isKeyEntity: false,
+    source: 'user',
+    createdAt: now,
+  });
+
+  console.log(`[EntityProfile] Added uid=${uid} entityKey=${entityKey} role=${input.role}`);
+  return {
+    entityKey,
+    displayName: input.displayName,
+    role: input.role,
+    aliases: input.aliases ?? [],
   };
 }
 

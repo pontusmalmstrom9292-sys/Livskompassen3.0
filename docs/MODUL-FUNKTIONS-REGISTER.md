@@ -75,6 +75,7 @@ Koppling: `notifyNewFile` → `emitSynapse(drive_file_ingested)` — `functions/
 | `invalidateSession` | Zero Footprint |
 | `getInboxQueue` / `confirmInboxItem` | Självsorterande inkorg (G10) |
 | `getEntityProfileRegistry` | Entiteter (G9) |
+| `addEntityProfile` | Manuell aktör — append-only metadata (G9) |
 
 Full lista: `functions/src/index.ts` · live deploy: [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md)
 
