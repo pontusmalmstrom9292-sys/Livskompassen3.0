@@ -17,6 +17,7 @@ Canonical: `.context/modules/evidence/vault.md` · Spec: `docs/specs/modules/Ver
 | `components/VaultLogList.tsx` | Append-only lista + PDF-knapp per post |
 | `utils/exportVaultRecord.ts` | Per-post PDF via utskriftsdialog |
 | `constants/vaultEntry.ts` | BODY_SIGNALS, VAULT_ENTRY_MODES, SHIELD_STEPS |
+| `constants/vavarenCopy.ts` | Vävaren — användarcopy (Fas 1.5) |
 | `types/vaultEntry.ts` | VaultEntryType, VaultLogInput |
 | `../diary/diary/components/HjartatPage.tsx` | Bevis-flik, session lock vid flikbyte |
 | `../core/layout/FloatingDock.tsx` | Fyren — 3s progress + WebAuthn |
@@ -37,6 +38,7 @@ Canonical: `.context/modules/evidence/vault.md` · Spec: `docs/specs/modules/Ver
 | Shake-to-Kill | Panik + iOS-test | Ja | **done** |
 | Orosanmälan + skolbevis | §D beviskandidater | Manuell | **use now** |
 | Vävaren godkännande | Önskat före permanent AI-tagg | Auto idag | **planned** |
+| Vävaren copy / tydlighet (Fas 1.5) | Arkiv, Sök, dagbok, Dossier | `vavarenCopy.ts` | **done** 2026-05-29 |
 | Dölj Bevis-flik | Plausible deniability | Nej | **planned** |
 | BBIC-filter export | Soc/jurist | Nej | **planned** (Dossier fas 2) |
 | Sanningens Ankare landning | Notebook | Nej | **planned** |
@@ -51,6 +53,18 @@ Canonical: `.context/modules/evidence/vault.md` · Spec: `docs/specs/modules/Ver
 3. Valv-Chat: nollställ vid flikbyte
 4. WebAuthn + PIN; duress-PIN senare
 5. Dölj Bevis-flik när Fyren sitter i muskelminnet
+
+## Fas 1.5 — Vävaren UX polish (2026-05-29, lokal)
+
+| # | Leverans | Status |
+|---|----------|--------|
+| 1 | `constants/vavarenCopy.ts` — gemensam copy | **done** |
+| 2 | `VaultLogList` — tydlig etikett för `vävaren_metadata` + weaverTags | **done** |
+| 3 | `ValvChatPanel` — förklarar att Sök exkluderar AI-taggar | **done** |
+| 4 | Dagbok `SavedStep` / `ConfirmStep` — bakgrundstaggning förklarad | **done** |
+| 5 | `DossierPage` — tydligare AI-försätt-checkbox | **done** |
+
+**Ej i Fas 1.5:** godkännande-flöde, `firestore.rules`, borttag av Mönster/Orkester/Kunskapsbank.
 
 ## Nästa fas (implementera när användaren säger kör)
 

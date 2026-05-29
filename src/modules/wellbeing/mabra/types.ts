@@ -6,7 +6,7 @@ export type MabraDurationMinutes = 1 | 3 | 5;
 
 export type MabraToolState =
   | { kind: 'feeling_cards' }
-  | { kind: 'reflection_deck' }
+  | { kind: 'reflection_deck'; initialBankId?: string }
   | { kind: 'self_quiz' }
   | { kind: 'micro_play'; playBankId: string }
   | { kind: 'kbt' }

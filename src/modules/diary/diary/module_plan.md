@@ -18,6 +18,9 @@ Route: `/dagbok` · Canonical: `.context/modules/diary/diaryshubben.md` · Spec:
 | `components/SavedStep.tsx` | Steg 4 — bekräftelse, bro `/speglar`, gaslighting-copy |
 | `components/JournalArchive.tsx` | Journal-tidslinje med pagination |
 | `components/JournalEntryCard.tsx` | Enskild post med datum + trunkering |
+| `components/HandoffBox.tsx` | Lager 1 → Valv CTA `/dagbok?tab=bevis` (Fas 4) |
+| `utils/journalHandoff.ts` | Regex-triggers för HandoffBox |
+| `components/DagbokRememberCard.tsx` | IHÅG Dagbok vs Valv |
 | `hooks/useJournalFlow.ts` | Wizard-state, save, refresh, unmount cleanup |
 | `../core/hooks/useSpeechToText.ts` | Delad röst-till-text (sv-SE) |
 | `constants/moods.ts` | `MOOD_OPTIONS`, accent-färger, steg-labels |

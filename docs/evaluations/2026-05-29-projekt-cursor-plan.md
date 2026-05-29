@@ -49,7 +49,7 @@
 | Bild-uppladdning | Ja | **Ingen** |
 | `/projekt/regler` | Ja (lokal persistens) | Firestore `project_rules` = **Fas 3** |
 | Widget → `/projekt/ny` | Ja | **Ingen** |
-| MaterialPack-editor | Read-only `materialPacks.ts` | **Fas 3** |
+| MaterialPack-editor | `/projekt/genvagar` + localStorage | **Fas 3 done** |
 | Mejl/röst-block | Ej P1/P2 | **Backlog** |
 | Delade projekt | Nej | **Backlog** |
 
@@ -80,9 +80,9 @@
 
 ## Acceptans (vid `kör Projekt Fas 3`)
 
-- [ ] MaterialPack kan redigeras (minst en hub)
-- [ ] `npm run smoke:locked-ux` PASS
-- [ ] `module_plan.md` uppdaterad
+- [x] MaterialPack kan redigeras (minst en hub) — `/projekt/genvagar`
+- [x] `npm run smoke:locked-ux` PASS
+- [x] `module_plan.md` uppdaterad
 
 ---
 

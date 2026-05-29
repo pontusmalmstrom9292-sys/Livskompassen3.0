@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Loader2, Shield } from 'lucide-react';
 import { analyzeBiffMessage, extractGreyRockReply, type GransAnalysis } from '../api/biffService';
 import { useStore } from '../../../core/store';
@@ -15,6 +15,11 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
   const [reply, setReply] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const fromSpeglar = Boolean(initialMessage.trim());
+
+  useEffect(() => {
+    if (initialMessage.trim()) setMessage(initialMessage);
+  }, [initialMessage]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +33,9 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
       const result = await analyzeBiffMessage(message);
       setReply(extractGreyRockReply(result));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kunde inte hämta svar.');
+      setError(
+        err instanceof Error ? err.message : 'Svar kunde inte hämtas. Försök igen om en stund.',
+      );
     } finally {
       setLoading(false);
     }
@@ -42,11 +49,16 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
 
   return (
     <div className="space-y-3">
+      {fromSpeglar && (
+        <p className="text-xs text-text-dim">
+          Text från Speglar är förifylld — redigera fritt innan du hämtar svar.
+        </p>
+      )}
       <form onSubmit={handleSubmit} className="space-y-3">
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Klistra in meddelandet här…"
+          placeholder="Klistra in sms eller mejl (logistik först, inget JADE)…"
           rows={4}
           className="input-glass text-sm"
           disabled={loading}
@@ -57,7 +69,13 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
         </button>
       </form>
 
-      {error && <p className="text-sm text-danger">{error}</p>}
+      {error && <p className="text-sm text-text-muted">{error}</p>}
+
+      {!reply && !loading && !error && !message.trim() && (
+        <p className="text-xs text-text-dim">
+          Tomt fält — klistra in meddelandet. Inget sparas förrän du trycker Klar.
+        </p>
+      )}
 
       {reply && (
         <div className="rounded-xl border border-accent/20 bg-accent/5 px-3 py-3">
@@ -85,6 +103,10 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
 export function HamnForensicPanel({ initialMessage = '' }: Props) {
   const user = useStore((s) => s.user);
   const [message, setMessage] = useState(initialMessage);
+
+  useEffect(() => {
+    if (initialMessage.trim()) setMessage(initialMessage);
+  }, [initialMessage]);
   const [reply, setReply] = useState<string | null>(null);
   const [grans, setGrans] = useState<GransAnalysis | null>(null);
   const [agentName, setAgentName] = useState<string | null>(null);
@@ -116,11 +138,24 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
       setRiskScore(result.dcap?.riskScore ?? null);
       setHitlRequired(result.data?.hitlRequired === true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Analys misslyckades.');
+      setError(
+        err instanceof Error ? err.message : 'Analysen svarar inte. Försök igen om en stund.',
+      );
     } finally {
       setLoading(false);
     }
   };
+
+  const handleKlar = useCallback(() => {
+    setMessage('');
+    setReply(null);
+    setGrans(null);
+    setAgentName(null);
+    setRiskScore(null);
+    setHitlRequired(false);
+    setEvidenceSaved(false);
+    setError(null);
+  }, []);
 
   const handleSaveAsEvidence = async () => {
     if (!user || !message.trim()) return;
@@ -136,7 +171,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
       });
       setEvidenceSaved(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kunde inte spara som bevis.');
+      setError(err instanceof Error ? err.message : 'Bevis kunde inte sparas. Försök igen.');
     } finally {
       setSavingEvidence(false);
     }
@@ -159,7 +194,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
         </button>
       </form>
 
-      {error && <p className="text-sm text-danger">{error}</p>}
+      {error && <p className="text-sm text-text-muted">{error}</p>}
 
       <BiffTriagePanel
         grans={grans}
@@ -194,6 +229,9 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
                 <Shield className="h-3 w-3" />
               )}
               Spara som bevis
+            </button>
+            <button type="button" onClick={handleKlar} className="btn-pill--ghost text-xs">
+              Klar — rensa
             </button>
           </div>
           {evidenceSaved && (

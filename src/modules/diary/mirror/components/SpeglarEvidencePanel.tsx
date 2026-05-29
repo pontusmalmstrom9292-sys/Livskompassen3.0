@@ -66,6 +66,10 @@ export function SpeglarEvidencePanel({
         disabled={!userId}
       />
 
+      {!userId && (
+        <p className="text-xs text-text-dim">Logga in för att låsa bilagor som WORM-bevis i valvet.</p>
+      )}
+
       {attachments.length > 0 && (
         <div className="space-y-2">
           <p className="text-[10px] uppercase tracking-widest text-text-dim">
@@ -104,7 +108,7 @@ export function SpeglarEvidencePanel({
         </div>
       )}
 
-      {error && <p className="text-xs text-danger">{error}</p>}
+      {error && <p className="text-xs text-text-muted">{error}</p>}
     </div>
   );
 }

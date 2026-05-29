@@ -12,7 +12,7 @@
 
 **Barnporten P1 är i stort sett live** — barn-hub 2×2, route `/barnporten`, Familjen-flik + inkorg + HITL, Orkester-panel, PWA manifest.
 
-**Kvar:** CB1 barn-widget (`BarnportenWidget.tsx`) = **P2 idé**, inte blocker för P1.
+**Kvar:** Manuell smoke #3 · QR/Push CB2–CB4 = **P2+ idé**.
 
 ---
 
@@ -49,7 +49,7 @@
 | BARNPORTEN-SPEC P1 | Kod idag | Gap |
 |--------------------|----------|-----|
 | BarnportenPage 2×2 | Ja | **Ingen** |
-| BarnportenWidget CB1 | Nej | **P2** |
+| BarnportenWidget CB1 | Ja | **Ingen** (P2 done) |
 | Familjen inkorg + HITL | Ja | **Ingen** |
 | Barnporten-Orkester | Ja | Polish valfritt |
 | QR enhetskoppling | Nej | **P2** |
@@ -78,7 +78,7 @@
 
 ## Fas 2 — Widget + enhet
 
-- `BarnportenWidget.tsx` CB1 stjärn-prick
+- [x] `BarnportenWidget.tsx` CB1 stjärn-prick + `/widget/barnporten`
 - QR-koppling, CB2–CB4, offline-kö
 
 **Blocker:** produktbeslut widget-variant; manuell PWA-test på barnenhet.
@@ -88,11 +88,20 @@
 ## Acceptans (P1 stängning)
 
 - [x] Hub + route + inkorg + HITL i kod
+- [x] CB1 widget + saveBarnportenLog (`authorRole: child`)
 - [ ] Manuell smoke Barnen (#3 i checklista)
-- [ ] `npm run smoke:locked-ux` PASS vid merge
+- [x] `npm run smoke:locked-ux` PASS vid merge
+
+---
+
+## Acceptans (P2 CB1)
+
+- [x] `BarnportenWidget` enkeltryck → `/barnporten`, långtryck snabb avsig
+- [x] `/widget/barnporten` hemskärms-genväg
+- [x] `npm run smoke:locked-ux` PASS
 
 ---
 
 ## Nästa steg
 
-Svara **`kör Barnporten P2`** för CB1-widget, eller **`kör manuell smoke #3`** för verifiering.
+Svara **`kör manuell smoke #3`** för verifiering, eller **`kör Barnporten QR/P2+`** för enhetskoppling.

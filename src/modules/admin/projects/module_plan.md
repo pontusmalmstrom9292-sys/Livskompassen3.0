@@ -16,6 +16,13 @@
 - [x] `/projekt/regler` — lokala automation-regler (länk till inkorg)
 - [x] Widget — `FyrenSmartWidgetBar` + `ProjektPickerSheet` på planering/projekt
 
+## Fas 3 — Life OS kopplingar (2026-05-29)
+
+- [x] MaterialPack-editor light — `/projekt/genvagar` (localStorage per användare)
+- [x] `getMaterialShortcuts` + overrides via `materialPackApi.ts`
+- [ ] Rutin → `planning_tasks` (delvis: `RoutinesPanel` på Planering)
+- [ ] `project_rules` Firestore — **kräver PMIR**
+
 ## Kopplingar (backlog)
 
 - Se [`docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md`](../../docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md) — rutiner, modullänkar, exempelhubbar (`kör kopplingar` / `kör life hub MVP`).

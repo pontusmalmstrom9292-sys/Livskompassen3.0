@@ -33,6 +33,8 @@ Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget
 | `content/dagligMixCatalog.ts` | Daglig mix KEEP DM-* |
 | `lib/pickDagligMix.ts` | Deterministisk daglig rotation |
 | `components/DagligMixPanel.tsx` | Hub: kort + mikrospel, ingen streak |
+| `components/MabraLowEnergyToggle.tsx` | Lågenergi — diskret toggle, två stora val |
+| `lib/pickDagligMix.ts` | `pickDailyReflectionCard` — deterministiskt frågekort |
 | `../core/firebase/firestore.ts` | `saveMabraSession` |
 
 ## MåBra — egna projekt + Vit hub (2026-05-23)
@@ -60,6 +62,8 @@ Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget
 | Trauma-historia i Kunskap | **Policy: opt-in ingest** | Delvis | **policy** |
 | Daglig mix (DM-*) | Hub panel direkt på `/mabra` + `mabra_sessions` metadata | Ja | **done** |
 | Fas 1.5 polish (2026-05-29) | Daglig Mix synlig på hub; smoke:innehall | Ja | **done** |
+| Fas 2 lågenergi-toggle (§1) | `MabraLowEnergyToggle` + två stora val på hub | Ja | **done** |
+| Fas 2 landningsremsa (§2) | `MabraComplete` — max 3 chips, deterministiskt frågekort | Ja | **done** |
 | Stjärnbilder / streak | Notebook | Nej | **rejected** |
 | Nordisk skymning UI | Notebook | Nej | **rejected** |
 
@@ -67,7 +71,7 @@ Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget
 
 ## Nästa fas
 
-Måbra fas 2 (2a–2f) **klar**. Eventuellt: grounding-förbättringar (research brief §3).
+Måbra fas 2 (2a–2f) **klar**. Fas 2 partial (lågenergi + landningsremsa) **done** 2026-05-29. Eventuellt: Vit-projekt djup-länk (§3), guardrail-hint (§5).
 
 ## Avgränsning
 

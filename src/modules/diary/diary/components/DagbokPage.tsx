@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import { useStore } from '../../../core/store';
 import { hasVaultZone } from '../../../core/auth/sessionService';
+import { VaultZoneGate } from '../../../core/security/VaultZoneGate';
 import { useVaultZoneIdle } from '../../../core/security/useVaultZoneIdle';
 import {
   isMabraLowEnergyBridge,
@@ -198,6 +199,22 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
 
               {error && <p className="mt-2 text-sm text-danger">{error}</p>}
             </div>
+            {step !== 'done' && !forensicUnlocked && (
+              <div className="mt-4">
+                <VaultZoneGate
+                  zone="dagbok_forensic"
+                  clearOnUnmount={false}
+                  title="Journalarkiv & vävare"
+                  description="Vävning och Kampspár-opt-in. Samma PIN som Valv."
+                  onUnlocked={() => setForensicUnlocked(true)}
+                  onLock={() => setForensicUnlocked(false)}
+                >
+                  <p className="text-xs text-text-muted">
+                    Vävning till Kampspár är tillgänglig vid spara.
+                  </p>
+                </VaultZoneGate>
+              </div>
+            )}
           </>
         )}
 

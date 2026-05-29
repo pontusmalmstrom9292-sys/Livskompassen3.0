@@ -4,6 +4,9 @@
  */
 const HANDOFF_KEYWORDS = [
   'bevis',
+  'valv',
+  'reality vault',
+  'verklighetsvalv',
   'hotad',
   'hot ',
   'polis',
@@ -18,6 +21,10 @@ const HANDOFF_KEYWORDS = [
   'åtal',
   'förvaltningsrätt',
   'vårdnadstvist',
+  'vårdnad',
+  'motpart',
+  'familjerätt',
+  'myndighet',
 ] as const;
 
 export function shouldShowJournalHandoff(text: string): boolean {

@@ -2985,6 +2985,31 @@
     }
   }
 
+  /* Barnporten CB1 — stjärn-prick (barn, varmare än Fyren W1) */
+  .barnporten-widget {
+    @apply pointer-events-none fixed bottom-[4.5rem] right-0 z-[56] flex flex-col items-end;
+  }
+
+  .barnporten-widget__toast {
+    @apply pointer-events-auto mb-2 mr-3 max-w-[12rem] rounded-lg border border-amber-400/25 bg-[#1a1410]/95 px-3 py-2 text-center text-xs text-amber-100;
+  }
+
+  .barnporten-widget__star {
+    @apply pointer-events-auto mr-2 flex h-9 w-9 items-center justify-center rounded-full border border-amber-300/30;
+    background: radial-gradient(circle at 30% 30%, rgba(251, 191, 36, 0.35), rgba(120, 53, 15, 0.55));
+    box-shadow: 0 0 14px rgba(251, 191, 36, 0.25);
+  }
+
+  .barnporten-widget__star--holding {
+    background: radial-gradient(
+      circle at 30% 30%,
+      rgba(251, 191, 36, 0.75) var(--barnporten-hold, 0%),
+      rgba(251, 191, 36, 0.35) var(--barnporten-hold, 0%),
+      rgba(120, 53, 15, 0.65) var(--barnporten-hold, 0%)
+    );
+    box-shadow: 0 0 18px rgba(251, 191, 36, 0.45);
+  }
+
   /* Smart widget bar (Theme I — bottom sheet) */
   .fyren-smart-bar {
     @apply pointer-events-none fixed inset-x-0 z-[55] flex flex-col items-center;
@@ -4591,6 +4616,66 @@
 
   .mabra-vit-hub__tile-lead {
     @apply relative z-[1] line-clamp-2 text-[9px] leading-snug text-text-dim;
+  }
+
+  .mabra-vit-hub__low-energy {
+    @apply grid grid-cols-1 gap-3 sm:grid-cols-2;
+  }
+
+  .mabra-vit-hub__tile--large {
+    @apply min-h-[5.5rem] px-4 py-5;
+  }
+
+  .mabra-vit-hub__tile--large .mabra-vit-hub__tile-title {
+    @apply text-sm;
+  }
+
+  .mabra-vit-hub__tile--large .mabra-vit-hub__tile-lead {
+    @apply text-[11px];
+  }
+
+  .mabra-low-energy-toggle {
+    @apply flex items-center justify-between gap-3 rounded-xl border border-border-strong/80 bg-surface/25 px-4 py-3;
+  }
+
+  .mabra-low-energy-toggle__label {
+    @apply text-sm text-text-muted;
+  }
+
+  .mabra-low-energy-toggle__switch {
+    @apply relative h-6 w-11 shrink-0 rounded-full border border-border-strong bg-bg/60 transition-colors;
+  }
+
+  .mabra-low-energy-toggle__switch[aria-checked='true'] {
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    background: color-mix(in srgb, var(--accent) 18%, rgba(8, 10, 16, 0.9));
+  }
+
+  .mabra-low-energy-toggle__thumb {
+    @apply absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-text-dim transition-transform;
+  }
+
+  .mabra-low-energy-toggle__switch[aria-checked='true'] .mabra-low-energy-toggle__thumb {
+    transform: translateX(1.25rem);
+    background: var(--accent-light);
+  }
+
+  .mabra-complete-strip {
+    @apply flex gap-2 overflow-x-auto pb-1 pt-2;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    mask-image: linear-gradient(90deg, #000 92%, transparent 100%);
+  }
+
+  .mabra-complete-strip__chip {
+    @apply relative shrink-0 rounded-full border border-border-strong px-4 py-2 text-sm text-accent-light transition-colors;
+    background: rgba(12, 16, 20, 0.55);
+    touch-action: manipulation;
+  }
+
+  .mabra-complete-strip__chip:hover {
+    border-color: color-mix(in srgb, var(--accent-light) 45%, transparent);
+    background: rgba(18, 22, 28, 0.65);
   }
 
   .mabra-feel-grid {

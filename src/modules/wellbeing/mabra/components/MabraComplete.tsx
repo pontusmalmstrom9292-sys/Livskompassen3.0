@@ -1,5 +1,10 @@
 import { Link } from 'react-router-dom';
-import { COMPLETE_COPY, HUB_COMPLETE_COPY, mabraDagbokBridgeUrl } from '../constants';
+import {
+  COMPLETE_COPY,
+  COMPLETE_LANDING_STRIP,
+  HUB_COMPLETE_COPY,
+  mabraDagbokBridgeUrl,
+} from '../constants';
 import type { MabraExerciseType, MabraSymptomHub } from '../types';
 import { MabraCoachPanel } from './MabraCoachPanel';
 
@@ -7,31 +12,49 @@ type Props = {
   hub: MabraSymptomHub | null;
   exerciseType: MabraExerciseType;
   onDone: () => void;
+  onOpenReflectionCard: () => void;
 };
 
-export function MabraComplete({ hub, exerciseType, onDone }: Props) {
+export function MabraComplete({
+  hub,
+  exerciseType,
+  onDone,
+  onOpenReflectionCard,
+}: Props) {
   const copy = hub ? HUB_COMPLETE_COPY[hub] : COMPLETE_COPY[exerciseType];
-  const dagbokTo = hub ? mabraDagbokBridgeUrl(hub) : '/dagbok';
+  const dagbokTo = hub ? mabraDagbokBridgeUrl(hub) : '/dagbok?from=mabra&energy=low';
+  const dagbokLabel = hub ? HUB_COMPLETE_COPY[hub].dagbokLabel : COMPLETE_LANDING_STRIP.dagbok;
 
   return (
     <div className="space-y-4 text-center">
       <p className="text-lg text-success">{copy.title}</p>
       <p className="text-sm text-text-muted">{copy.subtitle}</p>
       {hub && <MabraCoachPanel hub={hub} exerciseType={exerciseType} />}
-      <div className="flex flex-col gap-2 pt-2">
-        <Link to={dagbokTo} className="btn-pill--ghost text-sm">
-          {hub ? HUB_COMPLETE_COPY[hub].dagbokLabel : 'Spara insikt till Dagbok'}
+
+      <div
+        className="mabra-complete-strip"
+        role="list"
+        aria-label="Nästa steg"
+      >
+        <Link to={dagbokTo} className="mabra-complete-strip__chip" role="listitem">
+          {dagbokLabel}
         </Link>
-        <Link to="/vardagen" className="btn-pill--ghost text-sm">
-          Gå till kväll (Kompasser)
-        </Link>
-        <Link to="/vardagen?tab=dag" className="btn-pill--ghost text-sm">
-          Fastnat? → Paralys (Kompasser)
-        </Link>
-        <button type="button" onClick={onDone} className="btn-pill--secondary mt-2">
-          Klar
+        <button
+          type="button"
+          className="mabra-complete-strip__chip"
+          role="listitem"
+          onClick={onOpenReflectionCard}
+        >
+          {COMPLETE_LANDING_STRIP.reflection}
         </button>
+        <Link to="/vardagen" className="mabra-complete-strip__chip" role="listitem">
+          {COMPLETE_LANDING_STRIP.evening}
+        </Link>
       </div>
+
+      <button type="button" onClick={onDone} className="btn-pill--secondary mt-2">
+        Klar
+      </button>
     </div>
   );
 }

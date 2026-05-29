@@ -53,8 +53,8 @@ export function BiffTriagePanel({ grans, riskScore, hitlRequired, agentName }: P
         </p>
       )}
       {hitlRequired && (
-        <p className="flex items-start gap-2 text-xs text-danger">
-          <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0" />
+        <p className="flex items-start gap-2 text-xs text-text-muted">
+          <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0 text-accent" aria-hidden />
           Hög belastning — svara kort eller vänta. Ingen JADE.
         </p>
       )}

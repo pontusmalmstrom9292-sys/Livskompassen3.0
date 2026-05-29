@@ -12,7 +12,7 @@
 
 **MåBra MVP + Daglig Mix är live.** Fas 1.5 (polish) = **hub synlighet** för Daglig Mix + bank/register-paritet — **implementerat**.
 
-Nästa meningsfulla steg är **Fas 2 (produkt-UX idéer)** från [`2026-05-27-mabra-ideer.md`](./2026-05-27-mabra-ideer.md) — lågenergi-läge, landningsremsa — **inte** blocker för commit.
+Nästa meningsfulla steg är **Fas 2 kvar** (§3 Vit-projekt, §5 guardrail) — lågenergi + landningsremsa **implementerat** 2026-05-29.
 
 ---
 
@@ -48,8 +48,8 @@ Nästa meningsfulla steg är **Fas 2 (produkt-UX idéer)** från [`2026-05-27-ma
 |------------------|----------|-----|
 | Hub visar Daglig Mix | Ja — direkt på hub | **Ingen** (Fas 1.5 klar) |
 | Alla DM-* i register | Ja | **Ingen** |
-| Lågenergi-läge hub | Nej | **Fas 2** — idé #1 i mabra-ideer |
-| Landningsremsa efter övning | Delvis | **Fas 2** — idé #2 |
+| Lågenergi-läge hub | Ja — toggle + två val | **Ingen** (Fas 2 §1 done) |
+| Landningsremsa efter övning | Ja — max 3 chips | **Ingen** (Fas 2 §2 done) |
 | Vit-projekt djup-länk | Delvis | **Fas 2** — idé #3 |
 
 ---
@@ -80,11 +80,28 @@ Nästa meningsfulla steg är **Fas 2 (produkt-UX idéer)** från [`2026-05-27-ma
 
 ---
 
-## Fas 2 — Produkt-UX (senare)
+## Fas 2 — Produkt-UX (partial done 2026-05-29)
 
-- Lågenergi-toggle på hub (`mabra-ideer` §1)
-- Landningsremsa efter `MabraComplete` (§2)
+| # | Leverans | Status |
+|---|----------|--------|
+| 1 | Lågenergi-toggle på hub (`mabra-ideer` §1) | **done** |
+| 2 | Landningsremsa efter `MabraComplete` (§2) | **done** |
+| 3 | Guardrail-hint utan auto-redirect (§5) | **open** |
+
+**Acceptans (§1–§2)**
+
+- [x] Toggle *Jag orkar lite idag* — två stora val, ingen streak/skuld
+- [x] Landningsremsa — max 3 chips (Dagbok · frågekort · kväll)
+- [x] Frågekort från remsa = deterministiskt `bankId` (`pickDailyReflectionCard`)
+- [x] `npm run build` + `npm run smoke:innehall` + `smoke:locked-ux` PASS (batch 2026-05-29)
+- [x] `module_plan.md` speglar **done**
+
+---
+
+## Fas 2 — kvar (senare)
+
 - Guardrail-hint utan auto-redirect (§5)
+- Vit-projekt djup-länk (§3)
 
 ---
 

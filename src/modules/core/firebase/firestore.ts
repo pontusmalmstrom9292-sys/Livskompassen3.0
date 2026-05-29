@@ -163,6 +163,10 @@ export async function saveChildrenLog(
     category?: string;
     action?: string;
     signals?: { somn: number; angest: number; aptit: number };
+    authorRole?: 'child' | 'parent';
+    channel?: 'barnporten' | 'familjen' | 'middag' | 'widget';
+    visibility?: 'private_child' | 'parent' | 'vault_candidate';
+    contentType?: 'text' | 'voice' | 'mood' | 'step';
   }
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.children_logs);
@@ -172,6 +176,10 @@ export async function saveChildrenLog(
     action,
     category: log.category,
     childrenImpact: log.childrenImpact,
+    authorRole: log.authorRole,
+    channel: log.channel,
+    visibility: log.visibility,
+    contentType: log.contentType,
   };
 
   if (action === 'fysiologi') {

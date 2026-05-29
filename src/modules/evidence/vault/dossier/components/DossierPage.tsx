@@ -28,6 +28,10 @@ import {
   shiftMonths,
   vaultToCandidate,
 } from '../utils/dossierCandidates';
+import {
+  VAVAREN_DOSSIER_CHECKBOX,
+  VAVAREN_DOSSIER_HINT,
+} from '../../constants/vavarenCopy';
 
 const INITIAL_SOURCES: DossierSources = {
   reality_vault: true,
@@ -389,14 +393,17 @@ export function DossierPage({ embedded = false }: DossierPageProps) {
                 </div>
               </div>
             )}
-            <label className="flex items-center gap-2 text-sm text-text-dim">
+            <label className="flex cursor-pointer items-start gap-2 text-sm text-text-dim">
               <input
                 type="checkbox"
                 checked={includeAiForeword}
                 onChange={(e) => setIncludeAiForeword(e.target.checked)}
-                className="rounded border-white/20"
+                className="mt-0.5 rounded border-white/20"
               />
-              Valfritt AI-försätt (Vävaren) — bevisdelen förblir ordagrant WORM
+              <span>
+                {VAVAREN_DOSSIER_CHECKBOX}
+                <span className="mt-1 block text-xs text-text-muted">{VAVAREN_DOSSIER_HINT}</span>
+              </span>
             </label>
             <select
               value={reportType}

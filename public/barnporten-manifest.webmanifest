@@ -17,5 +17,20 @@
       "sizes": "512x512",
       "type": "image/png"
     }
+  ],
+  "shortcuts": [
+    {
+      "name": "Snabb avsig",
+      "short_name": "Avsig",
+      "description": "CB1 — skicka kort rad till pappa",
+      "url": "/widget/barnporten?quick=1",
+      "icons": [{ "src": "/icons/app-icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Barnporten",
+      "short_name": "Hamn",
+      "url": "/barnporten",
+      "icons": [{ "src": "/icons/app-icon-192.png", "sizes": "192x192" }]
+    }
   ]
 }

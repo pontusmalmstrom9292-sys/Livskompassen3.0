@@ -1,4 +1,5 @@
 import { ChevronLeft, Loader2, Paperclip } from 'lucide-react';
+import { VAVAREN_CONFIRM_HINT } from '../../../evidence/vault/constants/vavarenCopy';
 import { getMoodDef } from '../constants/moods';
 
 type ConfirmStepProps = {
@@ -52,6 +53,9 @@ export function ConfirmStep({
         )}
       </div>
 
+      {showWeaveOptIn && (
+        <p className="mb-3 text-xs text-text-dim">{VAVAREN_CONFIRM_HINT}</p>
+      )}
       {showWeaveOptIn && (
         <label className="reflektion-weave-opt mb-4 flex cursor-pointer items-start gap-2 text-sm text-text-muted">
           <input

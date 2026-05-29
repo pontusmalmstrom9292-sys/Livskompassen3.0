@@ -39,7 +39,9 @@ export async function analyzeBiffMessage(message: string): Promise<BiffAnalysisR
     return result.data as BiffAnalysisResult;
   } catch (error) {
     console.error('Fel vid analyzeMessage:', error);
-    throw new Error('Kunde inte analysera meddelandet. Kontrollera inloggning och deployade functions.');
+    throw new Error(
+      'Analysen svarar inte just nu. Kontrollera att du är inloggad och försök igen om en stund.',
+    );
   }
 }
 

@@ -156,7 +156,7 @@
 
 ## Nästa steg (ett beslut)
 
-**Status 2026-05-29:** Fas 1.5 + Fas 2 implementerade. Deploy `firestore.rules` till Firebase före prod-test av Regler-fliken.
+**Status 2026-05-29:** Fas 1.5 + Fas 2 **kod done** lokalt. **Blocker prod:** deploy `firestore.rules` före Regler-flik i prod.
 
 ---
 

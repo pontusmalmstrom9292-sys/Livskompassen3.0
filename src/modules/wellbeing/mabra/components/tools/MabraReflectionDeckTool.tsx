@@ -24,10 +24,17 @@ function writeStoredAnswers(answers: Record<string, string>) {
   }
 }
 
-type Props = { onBack: () => void };
+type Props = { onBack: () => void; initialBankId?: string };
 
-export function MabraReflectionDeckTool({ onBack }: Props) {
-  const [index, setIndex] = useState(0);
+function indexForBankId(bankId: string): number {
+  const idx = MABRA_REFLECTION_CARDS.findIndex((c) => c.bankId === bankId);
+  return idx >= 0 ? idx : 0;
+}
+
+export function MabraReflectionDeckTool({ onBack, initialBankId }: Props) {
+  const [index, setIndex] = useState(() =>
+    initialBankId ? indexForBankId(initialBankId) : 0,
+  );
   const [answers, setAnswers] = useState<Record<string, string>>(readStoredAnswers);
   const card = MABRA_REFLECTION_CARDS[index];
   const total = MABRA_REFLECTION_CARDS.length;

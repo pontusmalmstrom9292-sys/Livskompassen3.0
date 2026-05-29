@@ -5,6 +5,7 @@ import {
   groupMabraHubByCategory,
   MABRA_HUB_QUICK_ITEMS,
   MABRA_HUB_ITEMS,
+  MABRA_LOW_ENERGY_ITEMS,
   type MabraHubCategory,
   type MabraHubItem,
 } from '../mabraHubRegistry';
@@ -16,6 +17,8 @@ type Props = {
   profileSlot?: ReactNode;
   /** Triggas när hubben visas igen — scrolla till öppen zon. */
   focusToken?: number;
+  /** Fas 2 §1 — två stora val istället för full hub. */
+  lowEnergyMode?: boolean;
 };
 
 export function MabraVitHub({
@@ -24,6 +27,7 @@ export function MabraVitHub({
   onSelectItem,
   profileSlot,
   focusToken = 0,
+  lowEnergyMode = false,
 }: Props) {
   const allGroups = groupMabraHubByCategory(MABRA_HUB_ITEMS);
   const zoneRefs = useRef<Partial<Record<MabraHubCategory, HTMLDivElement | null>>>({});
@@ -37,6 +41,19 @@ export function MabraVitHub({
     }, 80);
     return () => window.clearTimeout(t);
   }, [openCategory, focusToken]);
+
+  if (lowEnergyMode) {
+    return (
+      <div className="mabra-vit-hub">
+        {profileSlot ? <div className="mabra-vit-hub__profile">{profileSlot}</div> : null}
+        <div className="mabra-vit-hub__low-energy" role="list" aria-label="Lågenergi">
+          {MABRA_LOW_ENERGY_ITEMS.map((item) => (
+            <MabraHubLargeTile key={item.id} item={item} onSelectItem={onSelectItem} />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mabra-vit-hub">
@@ -104,6 +121,28 @@ function MabraHubChip({
         {item.emoji}
       </span>
       <span className="mabra-vit-hub__chip-label">{item.title}</span>
+    </button>
+  );
+}
+
+function MabraHubLargeTile({
+  item,
+  onSelectItem,
+}: {
+  item: MabraHubItem;
+  onSelectItem: (item: MabraHubItem) => void;
+}) {
+  return (
+    <button
+      type="button"
+      className="mabra-vit-hub__tile mabra-vit-hub__tile--large"
+      onClick={() => onSelectItem(item)}
+    >
+      <span className="mabra-vit-hub__tile-emoji" aria-hidden>
+        {item.emoji}
+      </span>
+      <span className="mabra-vit-hub__tile-title">{item.title}</span>
+      <span className="mabra-vit-hub__tile-lead">{item.lead}</span>
     </button>
   );
 }

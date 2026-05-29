@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Heart, MessageCircle, Smile, Lock } from 'lucide-react';
-import { saveChildrenLog } from '../../core/firebase/firestore';
 import { useStore } from '../../core/store';
+import { saveBarnportenLog } from '../api/saveBarnportenLog';
 import { BARNPORTEN_AGENTS } from '../constants/barnportenAgents';
+import { BarnportenWidget } from './BarnportenWidget';
 
 const DEFAULT_CHILD = 'Kasper';
 
@@ -13,7 +14,11 @@ export function BarnportenPage() {
   const [status, setStatus] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
-  const postLog = async (kind: string, observation: string, category: string) => {
+  const postLog = async (
+    kind: 'message' | 'mood' | 'private',
+    observation: string,
+    label: string,
+  ) => {
     if (!user) {
       setStatus('Be pappa/mamma logga in på sin telefon först.');
       return;
@@ -21,11 +26,11 @@ export function BarnportenPage() {
     setSaving(true);
     setStatus(null);
     try {
-      await saveChildrenLog(user.uid, {
+      await saveBarnportenLog(user.uid, {
         childAlias: DEFAULT_CHILD,
-        observation: `[Barnporten · ${kind}] ${observation}`,
-        category,
-        action: 'livslogg',
+        observation: `[Barnporten · ${label}] ${observation}`,
+        kind,
+        contentType: kind === 'mood' ? 'mood' : 'text',
       });
       setStatus('Skickat till pappas inkorg.');
       setMessage('');
@@ -50,7 +55,7 @@ export function BarnportenPage() {
           className="elongated-module flex flex-col items-center gap-2 p-4"
           onClick={() => {
             const text = window.prompt('Vad vill du säga?', '') ?? '';
-            if (text.trim()) void postLog('prata', text.trim(), 'barnporten');
+            if (text.trim()) void postLog('message', text.trim(), 'prata');
           }}
         >
           <MessageCircle className="h-8 w-8 text-accent" />
@@ -60,7 +65,7 @@ export function BarnportenPage() {
           type="button"
           disabled={saving || !message.trim()}
           className="elongated-module flex flex-col items-center gap-2 p-4"
-          onClick={() => void postLog('skriv', message.trim(), 'barnporten')}
+          onClick={() => void postLog('message', message.trim(), 'skriv')}
         >
           <Heart className="h-8 w-8 text-accent" />
           <span className="text-sm">Skriv till pappa</span>
@@ -71,7 +76,7 @@ export function BarnportenPage() {
           className="elongated-module flex flex-col items-center gap-2 p-4"
           onClick={() => {
             const mood = window.prompt('Humör 1–5:', '3') ?? '3';
-            void postLog('humor', `Humör: ${mood}`, 'barnporten');
+            void postLog('mood', `Humör: ${mood}`, 'humor');
           }}
         >
           <Smile className="h-8 w-8 text-accent" />
@@ -83,7 +88,7 @@ export function BarnportenPage() {
           className="elongated-module flex flex-col items-center gap-2 p-4"
           onClick={() => {
             const text = window.prompt('Bara för mig (privat):', '') ?? '';
-            if (text.trim()) void postLog('privat', text.trim(), 'barnporten_privat');
+            if (text.trim()) void postLog('private', text.trim(), 'privat');
           }}
         >
           <Lock className="h-8 w-8 text-accent" />
@@ -111,6 +116,8 @@ export function BarnportenPage() {
           ))}
         </ul>
       </details>
+
+      <BarnportenWidget />
     </div>
   );
 }

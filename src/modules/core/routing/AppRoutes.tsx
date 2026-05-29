@@ -16,6 +16,7 @@ import { PlaneringPage } from '../../admin/planning';
 import {
   ProjektDetailPage,
   ProjektHubPage,
+  ProjektMaterialPackPage,
   ProjektNyPage,
   ProjektReglerPage,
 } from '../../admin/projects';
@@ -157,6 +158,14 @@ function MainAppRoutes() {
           element={
             <AuthGate>
               <ProjektReglerPage />
+            </AuthGate>
+          }
+        />
+        <Route
+          path="/projekt/genvagar"
+          element={
+            <AuthGate>
+              <ProjektMaterialPackPage />
             </AuthGate>
           }
         />

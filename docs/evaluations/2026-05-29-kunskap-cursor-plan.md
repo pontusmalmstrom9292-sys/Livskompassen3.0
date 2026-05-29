@@ -75,7 +75,7 @@
 
 - [x] Tom-state och felhantering testad manuellt
 - [x] Citation-klick → Tidshjul/post fungerar
-- [x] `npm run smoke:kunskap` + `smoke:orkester` PASS
+- [x] `npm run smoke:kunskap` + `smoke:orkester` PASS (batch 2026-05-29)
 - [x] Ingen U1/U6-brott
 
 ---

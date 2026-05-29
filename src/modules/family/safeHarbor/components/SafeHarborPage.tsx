@@ -17,7 +17,9 @@ export function SafeHarborPage() {
       <header className="px-0.5">
         <p className="home-page__eyebrow">Trygg hamn</p>
         <h1 className="home-page__title text-xl">Gränser & BIFF</h1>
-        <p className="home-page__lead text-xs">Kompassråd och affärsmässiga svar — utan JADE.</p>
+        <p className="home-page__lead text-xs">
+          Klistra in meddelandet — få ett kort Grey Rock-svar. Inget skickas automatiskt.
+        </p>
       </header>
       <TryggHamnHub initialMessage={prefilledMessage} />
     </div>

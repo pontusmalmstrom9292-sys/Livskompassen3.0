@@ -2,9 +2,19 @@ import { useEffect, useRef, type RefObject } from 'react';
 import { FileDown, Loader2 } from 'lucide-react';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import { EmptyState } from '../../../core/ui/EmptyState';
-import type { VaultLog } from '../../../core/types/firestore';
+import type { VaultLog, WeaverTags } from '../../../core/types/firestore';
+import {
+  VAVAREN_LOG_CATEGORY_LABEL,
+  VAVAREN_LOG_DISCLAIMER,
+} from '../constants/vavarenCopy';
 import { exportVaultRecordAsPdf } from '../utils/exportVaultRecord';
 import { scanTechniquesForLog } from '../utils/vaultPatternScan';
+
+type VaultLogRow = VaultLog & { id: string; weaverTags?: WeaverTags };
+
+function isVavarenMetadata(log: VaultLog): boolean {
+  return log.category === 'vävaren_metadata';
+}
 
 type VaultLogListProps = {
   logs: (VaultLog & { id: string })[];
@@ -53,18 +63,20 @@ function LogRow({
   highlightLogId,
   highlightRef,
 }: {
-  log: VaultLog & { id: string };
+  log: VaultLogRow;
   highlightLogId?: string | null;
   highlightRef: RefObject<HTMLLIElement | null>;
 }) {
-  const tags = scanTechniquesForLog(log);
+  const vavaren = isVavarenMetadata(log);
+  const weaverTags = (log as VaultLogRow).weaverTags;
+  const tags = vavaren ? [] : scanTechniquesForLog(log);
   return (
     <li
       key={log.id}
       ref={log.id === highlightLogId ? highlightRef : undefined}
       className={`glass-card p-3 text-sm ${
         log.id === highlightLogId ? 'ring-2 ring-accent/50' : ''
-      }`}
+      } ${vavaren ? 'border border-indigo-400/20 bg-indigo-500/5' : ''}`}
     >
       <div className="flex items-start justify-between gap-2">
         <div>
@@ -74,9 +86,12 @@ function LogRow({
           <p className="text-[10px] text-text-dim">ID · {log.id.slice(0, 12)}…</p>
           <p className="mt-1 text-[10px] uppercase tracking-widest text-text-dim">
             {log.pinned ? 'Ankare · ' : ''}
-            {log.category ?? 'allmänt'}
-            {log.entryType ? ` · ${log.entryType}` : ''} · {formatLogDate(log.createdAt)}
+            {vavaren ? VAVAREN_LOG_CATEGORY_LABEL : (log.category ?? 'allmänt')}
+            {!vavaren && log.entryType ? ` · ${log.entryType}` : ''} · {formatLogDate(log.createdAt)}
           </p>
+          {vavaren && (
+            <p className="mt-1 text-[10px] text-indigo-200/80">{VAVAREN_LOG_DISCLAIMER}</p>
+          )}
         </div>
         <button
           type="button"
@@ -87,7 +102,34 @@ function LogRow({
           <FileDown className="h-3 w-3" /> PDF
         </button>
       </div>
-      <p className="mt-1 text-text-muted whitespace-pre-wrap">{formatLogBody(log)}</p>
+      <p className={`mt-1 whitespace-pre-wrap ${vavaren ? 'text-indigo-100/90' : 'text-text-muted'}`}>
+        {formatLogBody(log)}
+      </p>
+      {vavaren && weaverTags && (
+        <div className="mt-2 flex flex-wrap gap-1">
+          {weaverTags.emotions?.map((e) => (
+            <span
+              key={`e-${e}`}
+              className="rounded-full border border-indigo-400/25 px-2 py-0.5 text-[10px] text-indigo-200/90"
+            >
+              {e}
+            </span>
+          ))}
+          {weaverTags.actors?.map((a) => (
+            <span
+              key={`a-${a}`}
+              className="rounded-full border border-white/10 px-2 py-0.5 text-[10px] text-text-muted"
+            >
+              {a}
+            </span>
+          ))}
+          {weaverTags.threatLevel && weaverTags.threatLevel !== 'none' && (
+            <span className="rounded-full border border-amber-500/30 px-2 py-0.5 text-[10px] text-amber-200/90">
+              hot: {weaverTags.threatLevel}
+            </span>
+          )}
+        </div>
+      )}
       {tags.length > 0 && (
         <div className="mt-2 flex flex-wrap gap-1">
           {tags.map((tag) => (

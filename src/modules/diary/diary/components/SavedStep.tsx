@@ -1,5 +1,6 @@
 import { Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { VAVAREN_SAVED_HINT } from '../../../evidence/vault/constants/vavarenCopy';
 import type { JournalBridgeContext } from '../../../core/types/journalBridge';
 
 type SavedStepProps = {
@@ -12,7 +13,7 @@ export function SavedStep({ onNewEntry, journalContext }: SavedStepProps) {
     <>
       <div className="mb-2 flex items-center gap-2 text-success">
         <Check className="h-5 w-5" />
-        <span className="text-sm">Sparad. Vävaren taggar i bakgrunden.</span>
+        <span className="text-sm">{VAVAREN_SAVED_HINT}</span>
       </div>
       <div className="flex flex-wrap gap-2">
         <button type="button" onClick={onNewEntry} className="btn-pill--accent">

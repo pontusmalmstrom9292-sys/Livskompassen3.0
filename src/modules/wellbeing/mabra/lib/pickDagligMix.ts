@@ -4,6 +4,10 @@ import {
   type DagligMixCard,
   type DagligMixPlay,
 } from '../content/dagligMixCatalog';
+import {
+  MABRA_REFLECTION_CARDS,
+  type MabraReflectionCard,
+} from '../content/mabraReflectionCards';
 
 export type DagligMixPick = {
   dateKey: string;
@@ -47,5 +51,24 @@ export function pickDagligMix(options?: { uid?: string; date?: Date }): DagligMi
     dateKey,
     card: pickFromPool(DAGLIG_MIX_CARDS, cardSeed),
     play: pickFromPool(DAGLIG_MIX_PLAYS, playSeed),
+  };
+}
+
+export type DailyReflectionPick = {
+  dateKey: string;
+  card: MabraReflectionCard;
+};
+
+/** Deterministiskt frågekort per dag — samma pool som reflection deck, ingen LLM. */
+export function pickDailyReflectionCard(options?: {
+  uid?: string;
+  date?: Date;
+}): DailyReflectionPick {
+  const dateKey = localDateKey(options?.date);
+  const uid = options?.uid ?? 'anon';
+  const seed = `${dateKey}|${uid}|reflection`;
+  return {
+    dateKey,
+    card: pickFromPool(MABRA_REFLECTION_CARDS, seed),
   };
 }

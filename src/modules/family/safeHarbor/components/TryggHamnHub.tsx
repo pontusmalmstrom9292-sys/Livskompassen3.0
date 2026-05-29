@@ -43,7 +43,9 @@ export function TryggHamnHub({ initialMessage = '' }: Props) {
 
       {activeTab === 'speglar' && (
         <div className="elongated-module p-4 text-sm text-text-muted">
-          <p>Validering och VIVIR — separat känsla från fakta.</p>
+          <p className="text-text-dim">
+            Akut känslovalidering (ACT) och bevisjämförelse — innan du formulerar svar här.
+          </p>
           <Link to="/dagbok?tab=speglar" className="btn-pill--accent mt-3 inline-flex text-xs">
             Öppna Speglar
           </Link>
@@ -52,7 +54,9 @@ export function TryggHamnHub({ initialMessage = '' }: Props) {
 
       {activeTab === 'barn' && (
         <div className="elongated-module p-4 text-sm text-text-muted">
-          <p>Barnfokus och minnesankare — Familjen-silon.</p>
+          <p className="text-text-dim">
+            Barnfokus och minnesankare ligger i Familjen — separat från ex-kommunikation.
+          </p>
           <Link to="/familjen?tab=reflektion" className="btn-pill--accent mt-3 inline-flex text-xs">
             Öppna Familjen
           </Link>

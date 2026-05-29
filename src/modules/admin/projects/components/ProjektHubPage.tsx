@@ -74,6 +74,12 @@ export function ProjektHubPage() {
         >
           Regler & automation
         </Link>
+        <Link
+          to="/projekt/genvagar"
+          className="btn-pill--ghost flex w-full items-center justify-center gap-2 text-sm"
+        >
+          Genvägar per profil
+        </Link>
         <Link to="/planering" className="btn-pill--secondary flex w-full items-center justify-center gap-2">
           Till Handling (kanban)
         </Link>

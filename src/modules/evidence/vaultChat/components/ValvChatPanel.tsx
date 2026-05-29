@@ -1,4 +1,5 @@
 import { BentoCard } from '../../../core/ui/BentoCard';
+import { VAVAREN_VALVCHAT_HINT } from '../../vault/constants/vavarenCopy';
 import { useValvChatSession } from '../hooks/useValvChatSession';
 
 type ValvChatPanelProps = {
@@ -18,6 +19,7 @@ export function ValvChatPanel({ active, onCitationClick }: ValvChatPanelProps) {
 
   return (
     <BentoCard title="Sök i Valvet" description="Fråga mot dina WORM-bevis">
+      <p className="mb-3 text-xs text-text-dim">{VAVAREN_VALVCHAT_HINT}</p>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <textarea
           value={question}

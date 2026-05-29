@@ -22,7 +22,8 @@ Route: `/hamn` · Canonical: `.context/modules/family/safeHarbor.md` · Spec: `d
 | Spara som bevis → valv | WORM original | Ja | **done** |
 | Bro Speglar | prefilledMessage | Ja | **done** |
 | Brusfilter UI-steg | Kladd #3 metod | Nej | **planned** |
-| "Klar" + unmount cleanup | Zero Footprint | Nej | **planned** |
+| "Klar" + unmount cleanup | Zero Footprint | Delvis — Klar i BIFF + forensic | **partial** |
+| UX polish (tomt tillstånd, copy) | Lågaffekt | Ja | **done** (2026-05-29) |
 | Dölj tills energi | Kladd fråga | Nej | **planned** fas 2 |
 
 **Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)

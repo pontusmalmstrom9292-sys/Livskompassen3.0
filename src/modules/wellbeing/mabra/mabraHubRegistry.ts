@@ -195,6 +195,26 @@ export const MABRA_HUB_ITEMS: MabraHubItem[] = [
 
 export const MABRA_HUB_QUICK_ITEMS = MABRA_HUB_ITEMS.filter((i) => i.quick);
 
+/** Lågenergi — två stora val (Fas 2 §1). */
+export const MABRA_LOW_ENERGY_ITEMS: MabraHubItem[] = [
+  {
+    id: 'low-breath-1',
+    title: 'Andning 1 min',
+    lead: '4-7-8 — låg tröskel',
+    emoji: '🌬',
+    category: 'akut',
+    action: { type: 'breathing', variant: 'panic_rsd', minutes: 1 },
+  },
+  {
+    id: 'low-reflection',
+    title: 'Ett frågekort',
+    lead: 'Ett kort idag — inget fel svar',
+    emoji: '🃏',
+    category: 'lekar',
+    action: { type: 'tool', tool: 'reflection_deck' },
+  },
+];
+
 export function groupMabraHubByCategory(items: MabraHubItem[]) {
   const out: Partial<Record<MabraHubCategory, MabraHubItem[]>> = {};
   for (const item of items) {

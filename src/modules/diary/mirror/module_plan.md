@@ -34,6 +34,7 @@ Route: `/dagbok?tab=speglar` (redirect `/speglar`)
 | Korsref barnen_logs auto | Kladd fråga | Nej | **planned** |
 | Projektionsdetektor logg | Notebook | Nej | **planned** |
 | Full DCAP pipeline | | Delvis | **planned** |
+| UX polish (tomt tillstånd, copy) | Lågaffekt, ej guard | Ja | **done** (2026-05-29) |
 
 **Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
 

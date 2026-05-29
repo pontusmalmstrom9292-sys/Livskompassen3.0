@@ -30,7 +30,7 @@ export function SvartPaVittForm() {
       setTheirVersion('');
       setMyReality('');
     } catch {
-      setError('Kunde inte låsa bevis.');
+      setError('Bevis kunde inte låsas. Kontrollera nätverk och försök igen.');
     } finally {
       setLoading(false);
     }
@@ -71,8 +71,12 @@ export function SvartPaVittForm() {
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
         Lås bevis mot gaslighting
       </button>
-      {error && <p className="mt-2 text-sm text-danger">{error}</p>}
-      {saved && <p className="mt-2 text-xs text-success">Sparat i Valv (WORM).</p>}
+      {error && <p className="mt-2 text-sm text-text-muted">{error}</p>}
+      {saved && (
+        <p className="mt-2 text-xs text-success">
+          Sparat i Valv (WORM). Fälten är rensade — inget kvar i sessionen.
+        </p>
+      )}
     </BentoCard>
   );
 }

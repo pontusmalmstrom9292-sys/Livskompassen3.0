@@ -1,10 +1,12 @@
 /**
  * MaterialPack (Fas C) — kuraterade genvägar per hub + preset. U6: inga nya FACT/RAG.
  * Kanon: docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md
+ * Fas 3: lokala overrides via materialPackApi (per användare, localStorage).
  */
 
 import type { LifeHubPresetId } from './lifeHubPresets';
 import { materialEnabled, getLifeHubPreset, type LifeHubMaterialKey } from './lifeHubPresets';
+import { getMaterialPackOverride } from './materialPackApi';
 import type { ModuleLinkTarget } from './moduleLink';
 
 export type MaterialPackHub = 'familjen' | 'mabra' | 'hamn';
@@ -86,7 +88,7 @@ const PACK_ROWS: PackRow[] = [
   },
 ];
 
-export function getMaterialShortcuts(
+function defaultMaterialShortcuts(
   presetId: LifeHubPresetId,
   hub: MaterialPackHub,
 ): MaterialShortcut[] {
@@ -95,4 +97,35 @@ export function getMaterialShortcuts(
     (r) => r.hub === hub && r.presetIds.includes(presetId) && materialEnabled(preset, r.materialKey),
   );
   return row?.shortcuts ?? [];
+}
+
+/** Standardgenvägar (utan lokala overrides). */
+export function getDefaultMaterialShortcuts(
+  presetId: LifeHubPresetId,
+  hub: MaterialPackHub,
+): MaterialShortcut[] {
+  return defaultMaterialShortcuts(presetId, hub);
+}
+
+/** Genvägar för hub — lokala overrides vinner om sparade. */
+export function getMaterialShortcuts(
+  presetId: LifeHubPresetId,
+  hub: MaterialPackHub,
+  userId?: string,
+): MaterialShortcut[] {
+  const override = getMaterialPackOverride(userId, presetId, hub);
+  if (override) return override;
+  return defaultMaterialShortcuts(presetId, hub);
+}
+
+/** Hubbar som har MaterialPack för given preset (default eller override). */
+export function materialPackHubsForPreset(
+  presetId: LifeHubPresetId,
+  userId?: string,
+): MaterialPackHub[] {
+  const hubs: MaterialPackHub[] = ['familjen', 'mabra', 'hamn'];
+  return hubs.filter((hub) => {
+    if (userId && getMaterialPackOverride(userId, presetId, hub)?.length) return true;
+    return defaultMaterialShortcuts(presetId, hub).length > 0;
+  });
 }

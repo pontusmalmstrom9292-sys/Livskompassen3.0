@@ -49,7 +49,8 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
     <div className="space-y-6">
       <BentoCard title={embedded ? 'Speglar' : 'Speglings-Systemet'} icon={<Brain className="h-4 w-4" />}>
         <p className="mb-4 text-sm text-text-muted">
-          Kognitiv sköld — validera känslan (ACT). Fördjupad spegling kräver Valv-PIN.
+          Kognitiv sköld — känslan valideras först (ACT), fakta sen (VIVIR + valv). Inget sparas
+          automatiskt; rensas när du lämnar vyn.
         </p>
         <ActCalibrationView
           feeling={feeling}

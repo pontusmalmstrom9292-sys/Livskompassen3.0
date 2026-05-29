@@ -8,7 +8,7 @@
 **UI-kanon:** `docs/design/references/BARNPORTEN-HUB-KANON.png` (2×2 kort, guldlinjer 2px)
 
 - [x] `BarnportenPage.tsx` — barn-UI hub (4 kort enligt kanon)
-- [ ] `BarnportenWidget.tsx` — CB1 stjärn-prick (P2 idé)
+- [x] `BarnportenWidget.tsx` — CB1 stjärn-prick (P2)
 - [x] `saveChildrenLog` → `children_logs` (`category: barnporten*`)
 - [x] Familjen: flik **Barnporten** + inkorg + HITL (`SaveAsEvidencePrompt`)
 - [x] `BarnportenOrkesterPanel.tsx` (förälder) → länk Valv
@@ -17,6 +17,7 @@
 
 ## P2 — IDÉ
 
+- [x] CB1 widget (`BarnportenWidget` + `/widget/barnporten`)
 - QR enhetskoppling, push, CB2–CB4, offline-kö
 
 ## Data

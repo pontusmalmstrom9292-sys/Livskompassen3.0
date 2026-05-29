@@ -228,6 +228,23 @@ function main() {
     'agent_trygg_kompisen',
   );
   mustInclude(
+    'src/modules/barnporten/components/BarnportenWidget.tsx',
+    'BarnportenWidget',
+    'saveBarnportenLog',
+    'quickAvsig',
+  );
+  mustInclude(
+    'src/modules/barnporten/api/saveBarnportenLog.ts',
+    "authorRole: 'child'",
+    "channel: 'barnporten'",
+  );
+  mustInclude(
+    'src/modules/widgets/routing/WidgetRoutes.tsx',
+    'WidgetBarnportenPage',
+    'barnporten',
+  );
+  mustInclude('public/barnporten-manifest.webmanifest', '/widget/barnporten');
+  mustInclude(
     '.context/locked-ux-features.md',
     'Barnporten',
     'Planeringssidan',

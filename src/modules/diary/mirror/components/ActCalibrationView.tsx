@@ -30,7 +30,7 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
     } catch {
       setMirrorText(mirrorFeeling(feeling));
       setUsedAi(false);
-      setMirrorError('AI otillgänglig — deterministisk spegling används.');
+      setMirrorError('Coach otillgänglig — kort spegling lokalt.');
     } finally {
       setMirrored(true);
       setLoading(false);
@@ -74,7 +74,9 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
           {mirrored ? (
             <p className="text-sm leading-relaxed text-text-muted">{mirrorText}</p>
           ) : (
-            <p className="text-sm italic text-text-dim">Skriv och tryck Spegla.</p>
+            <p className="text-sm text-text-dim">
+              Skriv hur det känns och tryck Spegla — jag fixar inget här.
+            </p>
           )}
         </div>
       </div>

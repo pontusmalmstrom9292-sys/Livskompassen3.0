@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { getMaterialShortcuts, type MaterialPackHub } from './materialPacks';
+import type { MaterialPackHub } from './materialPacks';
 import type { LifeHubPreset } from './lifeHubPresets';
 import { resolveModuleLink } from './moduleLink';
+import { useMaterialShortcuts } from './useMaterialShortcuts';
 
 type Props = {
   preset: LifeHubPreset;
@@ -9,7 +10,7 @@ type Props = {
 };
 
 export function MaterialPackShortcuts({ preset, hub }: Props) {
-  const shortcuts = getMaterialShortcuts(preset.id, hub);
+  const shortcuts = useMaterialShortcuts(preset.id, hub);
   if (shortcuts.length === 0) return null;
 
   return (

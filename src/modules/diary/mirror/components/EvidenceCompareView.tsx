@@ -27,9 +27,16 @@ export function EvidenceCompareView({
         {sessionAttachments.length > 0 && (
           <SessionEvidenceList attachments={sessionAttachments} saved={sessionSavedEvidence} />
         )}
-        <div className="glass-card border-warning/30 p-4 text-sm text-text-muted">
-          Valvet är låst. Lås upp valv: håll Shield (Fyren) 3 sek → biometri → PIN för att jämföra
-          mot sparade bevis.
+        <div className="glass-card border-accent/20 p-4 text-sm text-text-muted">
+          <p className="text-text-dim">
+            Valvet är låst. Håll Shield (Fyren) 3 sek → biometri → PIN för att jämföra mot sparade
+            bevis.
+          </p>
+          {feeling.trim() && (
+            <p className="mt-2 text-xs text-text-muted">
+              Känslan du beskrev gäller ändå — bevisjämförelse väntar på upplåsning.
+            </p>
+          )}
         </div>
       </div>
     );
@@ -51,7 +58,13 @@ export function EvidenceCompareView({
         <div className="glass-card p-3">
           <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">Bevisankare (valv)</p>
           {matches.length === 0 ? (
-            <p className="text-sm text-text-dim">Inga matchande poster i Verklighetsvalvet.</p>
+            <div className="space-y-2 text-sm text-text-dim">
+              <p>Inga matchande poster i Verklighetsvalvet ännu.</p>
+              <p className="text-xs text-text-muted">
+                Det du känner är fortfarande giltigt — spara sms eller logg i Valv när du vill ha ett
+                ankare.
+              </p>
+            </div>
           ) : (
             <ul className="space-y-2">
               {matches.slice(0, 5).map(({ log, score }) => (

@@ -36,6 +36,8 @@ import { MabraReflectionDeckTool } from './tools/MabraReflectionDeckTool';
 import { MabraSelfQuizTool } from './tools/MabraSelfQuizTool';
 import { MabraMicroPlayTool } from './tools/MabraMicroPlayTool';
 import { MabraToolShell } from './tools/MabraToolShell';
+import { pickDailyReflectionCard } from '../lib/pickDagligMix';
+import { MabraLowEnergyToggle } from './MabraLowEnergyToggle';
 
 export function MabraPage() {
   const user = useStore((s) => s.user);
@@ -52,6 +54,7 @@ export function MabraPage() {
   const [tool, setTool] = useState<MabraToolState | null>(null);
   const [hubOpenCategory, setHubOpenCategory] = useState<MabraHubCategory | null>('akut');
   const [hubFocusToken, setHubFocusToken] = useState(0);
+  const [lowEnergyMode, setLowEnergyMode] = useState(false);
   const sessionStartedAt = useRef<number | null>(null);
   const breathingOnlyRef = useRef(false);
 
@@ -160,12 +163,25 @@ export function MabraPage() {
     }
   };
 
+  const userId = user?.uid;
+
   const handleSelectHubItem = (item: MabraHubItem) => {
     setHubOpenCategory(item.category);
+    if (item.id === 'low-reflection') {
+      const { card } = pickDailyReflectionCard({ uid: userId });
+      setTool({ kind: 'reflection_deck', initialBankId: card.bankId });
+      setStep('tool');
+      return;
+    }
     handleHubAction(item.action);
   };
 
-  const userId = user?.uid;
+  const openDailyReflectionCard = useCallback(() => {
+    const { card } = pickDailyReflectionCard({ uid: userId });
+    setTool({ kind: 'reflection_deck', initialBankId: card.bankId });
+    setStep('tool');
+    setHubOpenCategory('lekar');
+  }, [userId]);
 
   const handleExerciseComplete = useCallback(
     async (exerciseType: MabraExerciseType, elapsedSeconds: number) => {
@@ -256,12 +272,16 @@ export function MabraPage() {
     >
       {step === 'hub' && (
         <>
-          <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
+          <MabraLowEnergyToggle enabled={lowEnergyMode} onChange={setLowEnergyMode} />
+          {!lowEnergyMode && (
+            <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
+          )}
           <MabraVitHub
             openCategory={hubOpenCategory}
             onOpenCategoryChange={setHubOpenCategory}
             onSelectItem={handleSelectHubItem}
             focusToken={hubFocusToken}
+            lowEnergyMode={lowEnergyMode}
             profileSlot={<MaterialPackShortcuts preset={preset} hub="mabra" />}
           />
           {valuesSavedHint && (
@@ -275,7 +295,10 @@ export function MabraPage() {
       )}
 
       {step === 'tool' && tool?.kind === 'reflection_deck' && (
-        <MabraReflectionDeckTool onBack={() => returnToHub('lekar')} />
+        <MabraReflectionDeckTool
+          initialBankId={tool.initialBankId}
+          onBack={() => returnToHub('lekar')}
+        />
       )}
 
       {step === 'tool' && tool?.kind === 'self_quiz' && (
@@ -402,6 +425,7 @@ export function MabraPage() {
           <MabraComplete
             hub={hub}
             exerciseType={completedExerciseType}
+            onOpenReflectionCard={openDailyReflectionCard}
             onDone={() => {
               const cat: MabraHubCategory =
                 hub === 'find_self' || hub === 'panic_rsd'

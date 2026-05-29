@@ -102,13 +102,15 @@
 
 ---
 
-## Fas 4 — Handoff + polish (implementerad 2026-05-29)
+## Fas 4 — Handoff + polish (implementerad 2026-05-29, verifierad)
 
-- [x] `HandoffBox.tsx` + `journalHandoff.ts` (regex)
-- [x] Triggers: `ReflectionStep`, `JournalQuickMode`, info-knapp vid bilaga
-- [x] `Link` → `/dagbok?tab=bevis`
-- [x] Obsidian Calm-styling (text `text`/`text-muted`, ingen röd banner)
-- [x] Smoke `docs/SMOKE_CHECKLIST.md` #2b–2d
+- [x] `HandoffBox.tsx` + `journalHandoff.ts` (regex: bevis, valv, juridik m.fl.)
+- [x] Triggers: `ReflectionStep` (alla skrivlägen), `JournalQuickMode`, info-knapp vid bilaga
+- [x] `Link` → `/dagbok?tab=bevis` (ingen auto-promotion till `reality_vault`)
+- [x] Obsidian Calm-styling (`journal-handoff` i `index.css`, ingen röd banner)
+- [x] `DagbokRememberCard` — statisk IHÅG-länk samma route
+- [x] Smoke batch 2026-05-29 · `npm run build` + `npm run smoke:locked-ux` + `smoke:orkester` PASS
+- [x] **Deploy blocker:** `firebase deploy --only storage` (journal_memories)
 
 ---
 

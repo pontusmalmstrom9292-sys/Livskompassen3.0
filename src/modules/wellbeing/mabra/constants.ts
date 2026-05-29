@@ -222,6 +222,20 @@ export const MABRA_COACH_COPY = {
 export const MABRA_SPEGLAR_REDIRECT_MESSAGE =
   'Det här passar bättre i Speglar — validering och spegling kring konflikt och gaslighting. Måbra fokuserar på inåtvänd återhämtning efter övningen.';
 
+export const LOW_ENERGY_COPY = {
+  toggleLabel: 'Jag orkar lite idag',
+  breathTitle: 'Andning 1 min',
+  breathLead: '4-7-8 — låg tröskel',
+  reflectionTitle: 'Ett frågekort',
+  reflectionLead: 'Ett kort idag — inget fel svar',
+} as const;
+
+export const COMPLETE_LANDING_STRIP = {
+  dagbok: 'Spara insikt till Dagbok',
+  reflection: 'Ett frågekort',
+  evening: 'Gå till kväll',
+} as const;
+
 export const VALUES_COMPASS_COPY = {
   title: 'Vad är viktigt för dig?',
   detail: 'Välj 3–5 ord som beskriver vad du vill stå för — inte prestation.',
