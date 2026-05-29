@@ -18,9 +18,9 @@ export function HandoffBox({ className = '' }: HandoffBoxProps) {
         <p className="journal-handoff__title">Spara som formellt bevis?</p>
       </div>
       <p className="journal-handoff__body">
-        Om du dokumenterar en händelse för att använda som bevis eller stöd i en juridisk process,
-        rekommenderar vi att du använder Reality Vault. Där sparas filer med metadata och struktureras
-        för myndighetskontakt.
+        Om du dokumenterar en händelse som du kan behöva visa senare — t.ex. vid vårdnadskonflikt,
+        motpart, familjerätt eller myndighet — spara den i Reality Vault. Där blir datum, text och
+        bilagor strukturerade som bevis. Dagboken förblir privat och flyttas inte hit automatiskt.
       </p>
       <Link to="/dagbok?tab=bevis" className="journal-handoff__cta btn-pill--ghost">
         Öppna Reality Vault →

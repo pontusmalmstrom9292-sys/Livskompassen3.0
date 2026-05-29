@@ -66,7 +66,19 @@ För något som kan användas mot polis/myndighet:
 
 ---
 
-## 5. Vad som byggdes (kort)
+## 5. Kom ihåg i appen
+
+Under **Dagbok → Reflektion** finns en ihopfällbar ruta: **«Kom ihåg: Dagbok vs Valv»** (sparas öppen/stängd i webbläsaren).
+
+| Dagbok | Reality Vault |
+|--------|----------------|
+| Känslor, privat ventil | Fakta, datum, sms, skärmdumpar |
+| Spara-knapp i wizard | Handoff eller Fyren → Bevis-flik |
+| Inte för «visa mot ex» ensamt | Vid konflikt/vårdnad/tidslinje |
+
+---
+
+## 6. Vad som byggdes (kort)
 
 - **Snabb** — humör + taggar, snabb spar
 - **Reflektera** — wizard, röst, detaljer, 1 bilaga (5 MB)
@@ -77,7 +89,7 @@ Smoke: `docs/SMOKE_CHECKLIST.md` #2, #2b–#2d.
 
 ---
 
-## 6. Rå chat (valfritt — klistra in själv)
+## 7. Rå chat (valfritt — klistra in själv)
 
 <!-- Klistra Cursor «Copy chat» här om du vill full historik i repo -->
 

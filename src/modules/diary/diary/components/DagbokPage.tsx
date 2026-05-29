@@ -16,6 +16,7 @@ import { JOURNAL_STEPS } from '../constants/moods';
 import type { DagbokMode } from '../types/journal';
 import { ConfirmStep } from './ConfirmStep';
 import { DagbokModeNav } from './DagbokModeNav';
+import { DagbokRememberCard } from './DagbokRememberCard';
 import { JournalArchive } from './JournalArchive';
 import { JournalQuickMode } from './JournalQuickMode';
 import { MoodStep } from './MoodStep';
@@ -105,6 +106,8 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
         )}
 
         <DagbokModeNav mode={mode} onModeChange={setMode} />
+
+        <DagbokRememberCard />
 
         {mode === 'snabb' && (
           <>

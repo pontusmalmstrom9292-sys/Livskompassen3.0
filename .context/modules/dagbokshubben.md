@@ -13,7 +13,8 @@
 | Komponent | Roll |
 |-----------|------|
 | `HjartatPage` | Kluster: Reflektion \| Bevis \| Speglar |
-| `DagbokPage` | Wizard-orkestrator |
+| `DagbokRememberCard` | IHÅG: Dagbok (privat) vs Valv (bevis) — ihopfällbar |
+| `DagbokPage` | Sub-nav Snabb \| Reflektera \| Arkiv + wizard |
 | `MoodStep` | Humör-pills |
 | `ReflectionStep` | Fritext + Web Speech sv-SE |
 | `ConfirmStep` | Preview + spara |
