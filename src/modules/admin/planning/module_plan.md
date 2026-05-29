@@ -9,7 +9,8 @@
 - [x] `/planering` → **Kanban P3** (default — handling fast)
 - [x] Inkorg-flik (klistra in mejl → uppgift)
 - [x] `planning_tasks` + kolumner todo/waiting/done
-- [x] Sub-nav: Handling · Fokus · Inkorg + länk Projekt
+- [x] Sub-nav: Handling · Fokus · Framsteg · Inkorg + länk Projekt
+- [x] Fas 1.5 (2026-05-29): dock → Handling, deadline i snabb-lägg, Framsteg-flik, Fokus-knappar
 - [ ] `/admin/planning/kalender` (P2)
 - [ ] Bro `projectId` på uppgifter från [`../admin/projects/`](../admin/projects/)
 

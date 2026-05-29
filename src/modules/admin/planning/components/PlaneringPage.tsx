@@ -9,6 +9,7 @@ import type { PlaneringTab } from '../types';
 import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
 import { PlanningKanbanBoard } from './PlanningKanbanBoard';
 import { PlaneringFokusPanel } from './PlaneringFokusPanel';
+import { PlaneringFramstegPanel } from './PlaneringFramstegPanel';
 import { PlaneringInkorgPanel } from './PlaneringInkorgPanel';
 import { PlaneringHub } from './PlaneringHub';
 import { PlaneringHubLayoutPicker } from './PlaneringHubLayoutPicker';
@@ -16,7 +17,7 @@ import { PlaneringQuickListPanel } from './PlaneringQuickListPanel';
 import { RoutinesPanel } from './RoutinesPanel';
 import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
 
-const WORK_TABS = new Set<PlaneringTab>(['handling', 'fokus', 'inkorg']);
+const WORK_TABS = new Set<PlaneringTab>(['handling', 'fokus', 'framsteg', 'inkorg']);
 
 export function PlaneringPage() {
   const [searchParams] = useSearchParams();
@@ -40,6 +41,8 @@ export function PlaneringPage() {
         return <PlanningKanbanBoard />;
       case 'fokus':
         return <PlaneringFokusPanel />;
+      case 'framsteg':
+        return <PlaneringFramstegPanel />;
       case 'inkorg':
         return <PlaneringInkorgPanel />;
       default:

@@ -47,7 +47,9 @@ Sub-nav under Reflektion: **Snabb** · **Reflektera** · **Arkiv** (`DagbokModeN
 
 **Arkiv (Fas 3):** klientsök i text/taggar/kategori; humör-pills från `MOOD_CATALOG`; kategori-pills om data finns; gruppering Idag/Igår/datum.
 
-**Målbild (planerad, Fas 4):**
+**Handoff (Fas 4):** `HandoffBox` vid juridiska nyckelord i text (regex) eller info vid bilaga — länk `/dagbok?tab=bevis`. Ingen auto-sync till `reality_vault`.
+
+**Målbild (övrigt):**
 
 - KBT/ACT-vägledande fråga per humör (t.ex. stolthet/tacksamhet).
 - **Måbra-bro** vid `Låg` / `Spänd` (diskret länk till `/mabra`).

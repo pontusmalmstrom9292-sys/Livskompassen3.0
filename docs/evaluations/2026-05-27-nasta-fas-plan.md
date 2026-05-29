@@ -43,10 +43,10 @@ Jämför mot hela projektet. npm run build && npm run smoke:locked-ux && npm run
 **Insats:** **S** (½–1 chatt)
 
 **Definition of done**
-- [ ] Hub visar Daglig Mix med dagens kort/spel
-- [ ] Alla DM-* har `bankId` + register-rad (KEEP)
-- [ ] `npm run smoke:innehall` + `smoke:locked-ux` PASS
-- [ ] `module_plan.md` / session-landning speglar **done**
+- [x] Hub visar Daglig Mix med dagens kort/spel
+- [x] Alla DM-* har `bankId` + register-rad (KEEP)
+- [x] `npm run smoke:innehall` + `smoke:locked-ux` PASS
+- [x] `module_plan.md` / cursor-plan speglar **done** — [`2026-05-29-mabra-cursor-plan.md`](./2026-05-29-mabra-cursor-plan.md)
 
 ---
 

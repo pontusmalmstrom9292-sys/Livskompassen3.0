@@ -9,7 +9,9 @@ import {
   pickRandomPrompt,
 } from '../constants/moodPrompts';
 import type { JournalCategoryId } from '../constants/journalCategories';
+import { HandoffBox } from './HandoffBox';
 import { JournalDetailsPanel } from './JournalDetailsPanel';
+import { shouldShowJournalHandoff } from '../utils/journalHandoff';
 
 type WriteMode = 'fritt' | 'snabb' | 'tre-ord';
 
@@ -81,6 +83,7 @@ export function ReflectionStep({
 
   const canContinue =
     mode === 'tre-ord' ? text.trim().split(/\s+/).filter(Boolean).length > 0 : text.trim().length > 0;
+  const showHandoff = shouldShowJournalHandoff(text);
 
   return (
     <div className="reflektion-panel">
@@ -207,6 +210,8 @@ export function ReflectionStep({
         </div>
       )}
       {error && <p className="mt-1 text-xs text-danger">{error}</p>}
+
+      {showHandoff && <HandoffBox className="mt-4" />}
 
       <JournalDetailsPanel
         category={category}

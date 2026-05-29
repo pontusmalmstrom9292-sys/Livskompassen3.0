@@ -185,7 +185,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   {
     id: 'planering',
     label: 'Planering',
-    path: '/planering',
+    path: '/planering?tab=handling',
     section: 'vardag',
     inDrawer: true,
     fyrenHomeQuick: true,

@@ -1,6 +1,7 @@
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Info } from 'lucide-react';
 import { useState } from 'react';
 import { JOURNAL_CATEGORIES, type JournalCategoryId } from '../constants/journalCategories';
+import { HandoffBox } from './HandoffBox';
 import { JournalMemoryPicker } from './JournalMemoryPicker';
 
 type JournalDetailsPanelProps = {
@@ -25,6 +26,7 @@ export function JournalDetailsPanel({
   onMemoryValidationError,
 }: JournalDetailsPanelProps) {
   const [open, setOpen] = useState(false);
+  const [showVaultInfo, setShowVaultInfo] = useState(false);
   const expanded = open || textTouched || Boolean(memoryFile) || Boolean(category);
 
   return (
@@ -66,7 +68,19 @@ export function JournalDetailsPanel({
           </div>
 
           <div>
-            <p className="reflektion-panel__hint mb-2">Lägg till ett minne (max 1)</p>
+            <div className="mb-2 flex items-center justify-between gap-2">
+              <p className="reflektion-panel__hint">Lägg till ett minne (max 1)</p>
+              <button
+                type="button"
+                className="btn-pill--ghost shrink-0 p-1.5"
+                aria-label="Om formellt bevis i Reality Vault"
+                aria-expanded={showVaultInfo}
+                onClick={() => setShowVaultInfo((v) => !v)}
+              >
+                <Info className="h-4 w-4 text-text-muted" aria-hidden />
+              </button>
+            </div>
+            {showVaultInfo && <HandoffBox className="mb-3" />}
             <JournalMemoryPicker
               disabled={disabled}
               file={memoryFile}

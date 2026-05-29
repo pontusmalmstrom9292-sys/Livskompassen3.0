@@ -16,7 +16,7 @@ export type PlanningTask = {
 };
 
 /** hub = verktygsväljare (default). inkop = snabb punktlista. */
-export type PlaneringTab = 'hub' | 'handling' | 'fokus' | 'inkorg' | 'inkop';
+export type PlaneringTab = 'hub' | 'handling' | 'fokus' | 'framsteg' | 'inkorg' | 'inkop';
 
 export type QuickListItem = {
   id: string;

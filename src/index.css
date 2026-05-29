@@ -3540,6 +3540,43 @@
     letter-spacing: 0.12em;
   }
 
+  /* Dagbok — Lager 1 → Reality Vault handoff (lugn, WCAG AA text) */
+  .journal-handoff {
+    @apply rounded-xl border border-border-strong bg-surface/50 p-4 text-sm;
+    animation: journal-handoff-in 0.35s ease-out;
+  }
+
+  @keyframes journal-handoff-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .journal-handoff__header {
+    @apply mb-2 flex items-center gap-2;
+  }
+
+  .journal-handoff__title {
+    @apply font-medium text-text;
+  }
+
+  .journal-handoff__body {
+    @apply mb-3 leading-relaxed text-text-muted;
+  }
+
+  .journal-handoff__cta {
+    @apply w-full justify-center border-accent/35 text-text;
+  }
+
+  .journal-handoff__cta:hover {
+    @apply border-accent/55 text-accent;
+  }
+
   /* Dagbok — reflektion (lekfull, enkelt språk) */
   .reflektion-intro {
     @apply text-center text-sm leading-relaxed text-text-muted;

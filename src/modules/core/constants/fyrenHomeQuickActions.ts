@@ -15,6 +15,6 @@ export const FYREN_HOME_QUICK_ACTIONS = [
   { id: 'anteckning', label: 'Anteckning', to: '/widget/anteckning', Icon: PenLine },
   { id: 'bild', label: 'Bild', to: '/admin/projects/ny', Icon: Image },
   { id: 'inspelning', label: 'Inspelning', to: '/widget/inspelning?autostart=1', Icon: Mic },
-  { id: 'planering', label: 'Planering', to: '/planering', Icon: Calendar },
+  { id: 'planering', label: 'Planering', to: '/planering?tab=handling', Icon: Calendar },
   { id: 'ekonomi', label: 'Ekonomi', to: '/vardagen?tab=ekonomi', Icon: Wallet },
 ] as const;

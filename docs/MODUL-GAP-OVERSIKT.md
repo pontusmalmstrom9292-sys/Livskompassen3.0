@@ -1,10 +1,23 @@
-# Modul-GAP — översikt (2026-05-28)
+# Modul-GAP — översikt (2026-05-29)
 
 **Syfte:** En sida — vad som är **klart i kod**, vad som är **öppet per modul**, och vad som körs **autonomt** vs **kräver dig**.
 
-**Arkiv (G1–G16):** [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) — alla **done** (senast verifierat i register + `npm run smoke:orkester`).  
-**Modulregister:** [`MODUL-FUNKTIONS-REGISTER.md`](./MODUL-FUNKTIONS-REGISTER.md) · **Manuell smoke:** [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md)  
+**Arkiv (G1–G16):** [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) — alla **done**.  
+**Modulregister:** [`MODUL-FUNKTIONS-REGISTER.md`](./MODUL-FUNKTIONS-REGISTER.md) · **Cursor-plan mall:** [`evaluations/MALL-cursor-plan.md`](./evaluations/MALL-cursor-plan.md)  
 **Plan-register:** [`evaluations/2026-05-26-session-landning.md`](./evaluations/2026-05-26-session-landning.md)
+
+---
+
+## Cursor-planer (2026-05-29)
+
+| Modul | Plan | Status |
+|-------|------|--------|
+| Dagbok | [`2026-05-29-dagbok-vertex-plan.md`](./evaluations/2026-05-29-dagbok-vertex-plan.md) | Fas 1–3 **lokal kod** · Fas 4 Handoff öppen · PMIR: [`2026-05-29-pmir-dagbok-planering.md`](./evaluations/2026-05-29-pmir-dagbok-planering.md) |
+| Planering | [`2026-05-29-planering-cursor-plan.md`](./evaluations/2026-05-29-planering-cursor-plan.md) | Fas 1.5 **lokal kod** · Fas 2 e-postregler (rules) |
+| MåBra | [`2026-05-29-mabra-cursor-plan.md`](./evaluations/2026-05-29-mabra-cursor-plan.md) | Fas 1.5 **done** |
+| Projekt | [`2026-05-29-projekt-cursor-plan.md`](./evaluations/2026-05-29-projekt-cursor-plan.md) | P2 **done** · Fas 3 Life OS öppen |
+| Kunskap | [`2026-05-29-kunskap-cursor-plan.md`](./evaluations/2026-05-29-kunskap-cursor-plan.md) | Citations **done** · Fas 1.5 polish öppen |
+| Barnporten | [`2026-05-29-barnporten-cursor-plan.md`](./evaluations/2026-05-29-barnporten-cursor-plan.md) | P1 **done** · CB1 widget P2 |
 
 ---
 
@@ -12,10 +25,8 @@
 
 | ID | Status | Kort |
 |----|--------|------|
-| G1–G16 | **done** | Valv-RAG, Vector ANN, Drive E2E, journal_woven opt-in, Barnen-RAG, inkorg, Tidshjul, Gräns-Arkitekten, m.m. |
+| G1–G16 | **done** | Valv-RAG, Vector ANN, Drive E2E, journal_woven opt-in, Barnen-RAG, inkorg, Tidshjul, m.m. |
 | V1 | **wait** | Genkit-migrering — ej påbörjad |
-
-Ny arkiv-implementation: säg `kör [GAP]` (regel i GAP-register) — inget nytt G17 listat idag.
 
 ---
 
@@ -23,21 +34,21 @@ Ny arkiv-implementation: säg `kör [GAP]` (regel i GAP-register) — inget nytt
 
 | Modul | Route | Gap / nästa | Kommando / vem |
 |-------|-------|-------------|----------------|
-| **core** | `/` | Manuell smoke #1–7, #18–20; drawer **done** (`NavigationDrawer.tsx` + `navTruth`) | Du · [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md) |
-| **kompis** (`evidence/kompis`) | Kunskap (Valv PIN) | Klickbara citations; policy: ej auto-ingest Kladd; dagbok→kampspar (Vävaren→valv idag) | `kör kunskap` · se `src/modules/evidence/kompis/module_plan.md` |
-| **projekt** (`admin/projects`) | `/projekt` | **P2 done:** bild, `/projekt/regler`, widget-sheet · MaterialPack-editor öppen | — |
-| **planering** (`admin/planning`) | `/planering` | P3 kanban **done**; kopplingar C–D (Life OS) | `kör kopplingar C` |
-| **barnporten** | `/barnporten` · Familjen flik | **P1 delvis:** hub + inkorg + HITL · CB1 widget P2 | [`BARNPORTEN-SPEC.md`](./design/BARNPORTEN-SPEC.md) |
-| **mabra** (`wellbeing/mabra`) | `/mabra` | MVP **done**; **Daglig Mix** **done** (hub) | — |
-| **inkast** | Hem `#inkast-lite` · Planering inkorg | Fas 2 **done**; fas 3 genväg → projekt · Gmail OAuth defer | — |
-| **dagbok** (`diary/diary`) | `/dagbok` | Inkast fas 3–5 | `kör inkast fas 3` |
-| **dossier** (`evidence/vault/dossier`) | `/dossier` | BBIC `reportType` **planned** | Spec §I.4 |
-| **valv** (`evidence/vault`) | `/dagbok?tab=bevis` | Vävaren försätt / polish kvar | Spec/module_plan |
-| **ekonomi** (`wellbeing/economy`) | `/vardagen?tab=ekonomi` | Smoke #18 manuell | Du |
-| **hamn** (`family/safeHarbor`) | `/hamn` | BIFF via `TryggHamnHub` | `smoke:design-modules` |
-| **auth/android** | app | **Verifierad 2026-05** — SHA-1 + `client_type: 1` i `google-services.json`; native Google på telefon. Rutin: `build:web` → `cap sync` → Clean → Run · offline: [`OFFLINE-ANDROID.md`](./OFFLINE-ANDROID.md) | [`.context/android-capacitor.md`](../.context/android-capacitor.md) · [`FIREBASE-AUTH-LATHUND.md`](./FIREBASE-AUTH-LATHUND.md) |
+| **dagbok** (`diary/diary`) | `/dagbok` | v2 Fas 1–3 **lokal** (sub-nav, arkiv, bilagor) · Fas 4 Handoff · **commit + storage deploy** | PMIR → `godkänn merge` |
+| **planering** (`admin/planning`) | `/planering?tab=handling` | Fas 1.5 **lokal** (Framsteg, dock, deadline) · Fas 2 `planning_email_rules` | `kör Planering Fas 2` (rules OK) |
+| **mabra** (`wellbeing/mabra`) | `/mabra` | Daglig Mix hub **done** · Fas 2 lågenergi/landningsremsa | `kör MåBra Fas 2` |
+| **projekt** (`admin/projects`) | `/projekt` | P2 **done** · MaterialPack-editor + Life OS kopplingar | `kör Projekt Fas 3` |
+| **kompis** (`evidence/kompis`) | Valv `kunskapsbank` | Citations **done** · Valv-panel polish | `kör Kunskap Fas 1.5` |
+| **barnporten** | `/barnporten` | P1 **done** · CB1 widget P2 · manuell smoke #3 | `kör Barnporten P2` |
+| **core** | `/` | Manuell smoke #1–7, #18–20 | Du · [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md) |
+| **inkast** | Hem `#inkast-lite` | Fas 2 **done**; fas 3 genväg defer | — |
+| **dossier** | `/dossier` | BBIC `reportType` **planned** | Spec §I.4 |
+| **valv** | `/dagbok?tab=bevis` | Vävaren försätt / polish | Spec/module_plan |
+| **ekonomi** | `/vardagen?tab=ekonomi` | Smoke #18 manuell | Du |
+| **hamn** | `/hamn` | BIFF via `TryggHamnHub` | `smoke:design-modules` |
+| **auth/android** | app | **Verifierad 2026-05** | [`.context/android-capacitor.md`](../.context/android-capacitor.md) |
 
-**Låst UX (ska inte tas bort):** Barnfokus, Valv Mönster/Orkester/Kunskapsbank, Planering P3, ikoner B1/D1/M2 — `npm run smoke:locked-ux`.
+**Låst UX:** Barnfokus, Valv Mönster/Orkester/Kunskapsbank, Planering P3, ikoner B1/D1/M2 — `npm run smoke:locked-ux`.
 
 ---
 
@@ -47,20 +58,13 @@ Ny arkiv-implementation: säg `kör [GAP]` (regel i GAP-register) — inget nytt
 npm run orkester:night
 ```
 
-Ingår: locked-ux, design-modules, innehåll (U6), locked-icons, smoke:orkester, functions + frontend build.  
-Rapport: `docs/evaluations/YYYY-MM-DD-orkester-natt.md`
-
-**Inte varje natt:** `npm run icons:proposals-v4` (130 SVG).
-
 ---
 
-## Kräver dig (kan inte automatiseras)
+## Kräver dig
 
-1. **Smoke** — checklista #1–7, #18–20 (Firestore Console verifiering).
-2. **Firebase Console** — domäner, Google Sign-in, Anonymous (om dev), secrets till GitHub (`./scripts/set_github_hosting_secrets.sh`).
-3. **Produktbeslut** — ikonval (v4), MåBra Daglig Mix, Projekt P2 scope.
-4. **Merge** — PMIR + uttrycklig `godkänn merge` ([`MERGE-IMPACT-RAPPORT.md`](./MERGE-IMPACT-RAPPORT.md)).
-5. **Nycklar** — service account JSON **utanför** repo (aldrig under `~/` i projektmappen).
+1. **Smoke** — checklista #1–7, #18–20.
+2. **Merge** — PMIR + `godkänn merge` ([`MERGE-IMPACT-RAPPORT.md`](./MERGE-IMPACT-RAPPORT.md)).
+3. **Storage deploy** — efter Dagbok Fas 2 commit: `firebase deploy --only storage`.
 
 ---
 
@@ -68,6 +72,6 @@ Rapport: `docs/evaluations/YYYY-MM-DD-orkester-natt.md`
 
 | Prioritet | Gör |
 |-----------|-----|
-| 1 | `npm run orkester:night` — bekräfta grönt |
-| 2 | `docs/SMOKE_CHECKLIST.md` #1 + #2 + #18 en kväll |
-| 3 | Välj **ett** produktspår: `kör måbra daglig mix` **eller** `kör projekt P2` **eller** `kör inkast fas 2` |
+| 1 | **`godkänn merge`** Dagbok + Planering (PMIR klar) |
+| 2 | `firebase deploy --only storage` (journal_memories) |
+| 3 | `kör Kunskap Fas 1.5` **eller** `kör MåBra Fas 2` **eller** manuell smoke |

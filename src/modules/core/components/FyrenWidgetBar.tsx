@@ -42,7 +42,7 @@ const WIDGET_ACTIONS: {
   {
     id: 'plan',
     label: 'Planering',
-    to: '/planering',
+    to: '/planering?tab=handling',
     renderIcon: () => <ChromeV4Icon category="planering" className={GLYPH} />,
   },
   {

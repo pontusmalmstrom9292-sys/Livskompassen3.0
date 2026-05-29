@@ -8,7 +8,7 @@ export type ModuleLinkTarget =
   | { module: 'kompasser' }
   | { module: 'dagbok'; from?: 'mabra'; energy?: 'low'; tab?: string }
   | { module: 'hamn'; tab?: string }
-  | { module: 'planering'; tab?: 'handling' | 'fokus' | 'inkorg' }
+  | { module: 'planering'; tab?: 'handling' | 'fokus' | 'framsteg' | 'inkorg' }
   | { module: 'projekt'; projectId?: string; subpath?: 'ny' | 'regler' }
   | { module: 'hem'; hash?: string };
 
@@ -44,7 +44,7 @@ export function resolveModuleLink(target: ModuleLinkTarget): ResolvedModuleLink 
       const tab = target.tab ?? 'handling';
       return {
         pathname: '/planering',
-        search: tab === 'handling' ? undefined : `?tab=${tab}`,
+        search: `?tab=${tab}`,
       };
     }
     case 'projekt':

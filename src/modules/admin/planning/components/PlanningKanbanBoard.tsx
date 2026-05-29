@@ -17,6 +17,7 @@ export function PlanningKanbanBoard() {
   );
   const [selected, setSelected] = useState<PlanningTask | null>(null);
   const [quickTitle, setQuickTitle] = useState('');
+  const [quickDueAt, setQuickDueAt] = useState('');
   const [quickColumn, setQuickColumn] = useState<PlanningTaskStatus | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -26,6 +27,7 @@ export function PlanningKanbanBoard() {
   const openQuickAdd = (status: PlanningTaskStatus) => {
     setQuickColumn(status);
     setQuickTitle('');
+    setQuickDueAt('');
   };
 
   const submitQuickAdd = async () => {
@@ -33,9 +35,15 @@ export function PlanningKanbanBoard() {
     setSaving(true);
     setError(null);
     try {
-      await addTask({ title: quickTitle.trim(), status: quickColumn, projectId });
+      await addTask({
+        title: quickTitle.trim(),
+        status: quickColumn,
+        projectId,
+        dueAt: quickDueAt.trim() || undefined,
+      });
       setQuickColumn(null);
       setQuickTitle('');
+      setQuickDueAt('');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Kunde inte spara uppgift.');
     } finally {
@@ -92,6 +100,15 @@ export function PlanningKanbanBoard() {
             className="input-glass mt-2 w-full text-sm"
             autoFocus
           />
+          <label className="mt-2 block text-left text-[10px] uppercase tracking-widest text-text-dim">
+            Deadline (valfritt)
+            <input
+              type="date"
+              value={quickDueAt}
+              onChange={(e) => setQuickDueAt(e.target.value)}
+              className="input-glass mt-1 w-full text-sm"
+            />
+          </label>
           <div className="mt-2 flex gap-2">
             <button
               type="button"

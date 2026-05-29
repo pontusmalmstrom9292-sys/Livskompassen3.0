@@ -9,10 +9,14 @@ export const KANBAN_COLUMNS: { id: PlanningTaskStatus; label: string }[] = [
   { id: 'done', label: 'Klart' },
 ];
 
-/** Flikar inom Handling / Fokus / Inkorg (inte på hub). */
-export const PLANERING_WORK_TABS: { id: Extract<PlaneringTab, 'handling' | 'fokus' | 'inkorg'>; label: string }[] = [
+/** Flikar inom arbetsläge (inte på hub). */
+export const PLANERING_WORK_TABS: {
+  id: Extract<PlaneringTab, 'handling' | 'fokus' | 'framsteg' | 'inkorg'>;
+  label: string;
+}[] = [
   { id: 'handling', label: 'Handling' },
   { id: 'fokus', label: 'Fokus' },
+  { id: 'framsteg', label: 'Framsteg' },
   { id: 'inkorg', label: 'Inkorg' },
 ];
 

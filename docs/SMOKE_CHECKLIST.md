@@ -7,7 +7,10 @@
 | # | Test | Route / åtgärd | Förväntat |
 |---|------|----------------|-----------|
 | 1 | Auth | Öppna app | Ingen auth-fel i konsol; uid i Firebase Auth |
-| 2 | Dagbok | `/dagbok` — spara post | Dokument i Firestore `journal` med `userId` = ditt uid |
+| 2 | Dagbok | `/dagbok` → Reflektion — spara post | Dokument i Firestore `journal` med `userId` = ditt uid; ingen `updatedAt` |
+| 2b | Dagbok sub-nav | `/dagbok` → Snabb / Reflektera / Arkiv | Växling utan sidkrasch; Arkiv läsbart utan redigering |
+| 2c | Dagbok handoff | Reflektera — skriv t.ex. «mitt bevis till polisen» | Mjuk Handoff-ruta; «Öppna Reality Vault» → `/dagbok?tab=bevis` |
+| 2d | Dagbok bilaga | Reflektera → detaljer — välj fil &gt; 5 MB | Mjukt fel, ingen upload; &lt; 5 MB → `attachment` i `journal` + Storage `journal_memories/` |
 | 3 | Valv | Long-press Shield 3s → PIN → `/valv` | Post i `reality_vault` |
 | 4 | Barnen | `/barnen` — spara logg | Post i `children_logs` |
 | 5 | Kompasser | `/kompasser` — check-in | Post i `checkins` |

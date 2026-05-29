@@ -6,6 +6,8 @@ import {
   JOURNAL_TAG_MAX_COUNT,
   normalizeJournalTag,
 } from '../constants/journalTags';
+import { HandoffBox } from './HandoffBox';
+import { shouldShowJournalHandoff } from '../utils/journalHandoff';
 type JournalQuickModeProps = {
   mood: string;
   tags: string[];
@@ -28,6 +30,7 @@ export function JournalQuickMode({
   const [quickText, setQuickText] = useState('');
   const selected = getMoodDef(mood);
   const canSave = Boolean(mood) && !saving;
+  const showHandoff = shouldShowJournalHandoff(quickText);
 
   const handleSubmit = () => {
     if (!canSave) return;
@@ -99,6 +102,8 @@ export function JournalQuickMode({
           className="input-glass reflektion-textarea"
         />
       </label>
+
+      {showHandoff && <HandoffBox className="mt-4" />}
 
       <div className="reflektion-actions">
         <button

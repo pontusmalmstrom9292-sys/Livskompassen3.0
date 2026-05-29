@@ -40,7 +40,7 @@ export type HubContextSlot = {
 
 const DEFAULT_SLOTS: HubContextSlot[] = [
   { id: 'inkop', label: 'Inköp', to: '/planering?tab=inkop', icon: 'list' },
-  { id: 'planering', label: 'Planering', to: '/planering', icon: 'calendar' },
+  { id: 'planering', label: 'Planering', to: '/planering?tab=handling', icon: 'calendar' },
   { id: 'arbetsliv', label: 'Arbetsliv', to: '/arbetsliv?tab=stampla', icon: 'clock' },
   { id: 'note', label: 'Anteckning', to: '/widget/anteckning', icon: 'note' },
 ];
@@ -50,7 +50,7 @@ function tabParam(search: string): string | null {
 }
 
 function planeringSlots(tab: string | null, onProjekt: boolean): HubContextSlot[] {
-  const t = tab === 'fokus' || tab === 'inkorg' ? tab : 'handling';
+  const t = tab === 'fokus' || tab === 'inkorg' || tab === 'framsteg' ? tab : 'handling';
   if (onProjekt) {
     return [
       { id: 'projekt', label: 'Projekt', to: '/projekt', icon: 'folder', active: true },
@@ -72,16 +72,11 @@ function planeringSlots(tab: string | null, onProjekt: boolean): HubContextSlot[
       { id: 'inkop', label: 'Inköp', to: '/planering?tab=inkop', icon: 'list' },
       { id: 'handling', label: 'Handling', to: '/planering?tab=handling', icon: 'calendar' },
       { id: 'fokus', label: 'Fokus', to: '/planering?tab=fokus', icon: 'focus' },
+      { id: 'framsteg', label: 'Framsteg', to: '/planering?tab=framsteg', icon: 'sprout' },
       { id: 'inkorg', label: 'Inkorg', to: '/planering?tab=inkorg', icon: 'mail' },
     ];
   }
   return [
-    {
-      id: 'inkop',
-      label: 'Inköp',
-      to: '/planering?tab=inkop',
-      icon: 'list',
-    },
     {
       id: 'handling',
       label: 'Handling',
@@ -95,6 +90,13 @@ function planeringSlots(tab: string | null, onProjekt: boolean): HubContextSlot[
       to: '/planering?tab=fokus',
       icon: 'focus',
       active: t === 'fokus',
+    },
+    {
+      id: 'framsteg',
+      label: 'Framsteg',
+      to: '/planering?tab=framsteg',
+      icon: 'sprout',
+      active: t === 'framsteg',
     },
     {
       id: 'inkorg',
@@ -130,7 +132,7 @@ function arbetslivSlots(tab: string | null): HubContextSlot[] {
       icon: 'book',
       active: t === 'logg',
     },
-    { id: 'planering', label: 'Planering', to: '/planering', icon: 'folder' },
+    { id: 'planering', label: 'Planering', to: '/planering?tab=handling', icon: 'folder' },
   ];
 }
 
@@ -159,7 +161,7 @@ function familjenSlots(tab: string | null): HubContextSlot[] {
       icon: 'users',
       active: t === 'tillsammans',
     },
-    { id: 'planering', label: 'Planering', to: '/planering', icon: 'calendar' },
+    { id: 'planering', label: 'Planering', to: '/planering?tab=handling', icon: 'calendar' },
   ];
 }
 
@@ -180,7 +182,7 @@ function vardagenSlots(tab: string | null): HubContextSlot[] {
       icon: 'wallet',
       active: t === 'ekonomi',
     },
-    { id: 'planering', label: 'Planering', to: '/planering', icon: 'calendar' },
+    { id: 'planering', label: 'Planering', to: '/planering?tab=handling', icon: 'calendar' },
     { id: 'arbetsliv', label: 'Arbetsliv', to: '/arbetsliv?tab=stampla', icon: 'clock' },
   ];
 }
@@ -190,7 +192,7 @@ function hamnSlots(): HubContextSlot[] {
     { id: 'hamn', label: 'Hamn', to: '/hamn', icon: 'anchor', active: true },
     { id: 'biff', label: 'BIFF', to: '/hamn', icon: 'anchor' },
     { id: 'dagbok', label: 'Dagbok', to: '/dagbok', icon: 'book' },
-    { id: 'planering', label: 'Planering', to: '/planering', icon: 'calendar' },
+    { id: 'planering', label: 'Planering', to: '/planering?tab=handling', icon: 'calendar' },
   ];
 }
 
@@ -212,7 +214,7 @@ function dagbokSlots(tab: string | null): HubContextSlot[] {
       active: t === 'speglar',
     },
     { id: 'hamn', label: 'Hamn', to: '/hamn', icon: 'anchor' },
-    { id: 'planering', label: 'Planering', to: '/planering', icon: 'calendar' },
+    { id: 'planering', label: 'Planering', to: '/planering?tab=handling', icon: 'calendar' },
   ];
 }
 
@@ -221,7 +223,7 @@ function mabraSlots(): HubContextSlot[] {
     { id: 'mabra', label: 'MåBra', to: '/mabra', icon: 'sparkles', active: true },
     { id: 'dagbok', label: 'Dagbok', to: '/dagbok', icon: 'book' },
     { id: 'hamn', label: 'Hamn', to: '/hamn', icon: 'anchor' },
-    { id: 'planering', label: 'Planering', to: '/planering', icon: 'calendar' },
+    { id: 'planering', label: 'Planering', to: '/planering?tab=handling', icon: 'calendar' },
   ];
 }
 
@@ -291,7 +293,7 @@ export const HUB_MORE_ACTIONS: {
   icon: HubContextIconId;
 }[] = [
   { id: 'inkop', label: 'Inköpslista', to: '/admin/projects/ny', icon: 'list' },
-  { id: 'planering', label: 'Planering', to: '/planering', icon: 'calendar' },
+  { id: 'planering', label: 'Planering', to: '/planering?tab=handling', icon: 'calendar' },
   { id: 'arbetsliv', label: 'Arbetsliv', to: '/arbetsliv?tab=stampla', icon: 'clock' },
   { id: 'note', label: 'Anteckning', to: '/widget/anteckning', icon: 'note' },
   { id: 'record', label: 'Tyst inspelning', to: '/widget/inspelning?autostart=1', icon: 'record' },

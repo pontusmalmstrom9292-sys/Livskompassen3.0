@@ -1,0 +1,98 @@
+# Barnporten — genomförbarhetsplan (Cursor, utan Vertex)
+
+**Datum:** 2026-05-29  
+**Metod:** Direkt läsning av repo + design-lock  
+**Kanon:** [`docs/design/BARNPORTEN-SPEC.md`](../design/BARNPORTEN-SPEC.md) · [`docs/specs/modules/Barnen-SPEC.md`](../specs/modules/Barnen-SPEC.md)  
+**Kod:** `src/modules/barnporten/` · `src/modules/family/children/`  
+**Mall:** [`MALL-cursor-plan.md`](./MALL-cursor-plan.md)
+
+---
+
+## Slutsats
+
+**Barnporten P1 är i stort sett live** — barn-hub 2×2, route `/barnporten`, Familjen-flik + inkorg + HITL, Orkester-panel, PWA manifest.
+
+**Kvar:** CB1 barn-widget (`BarnportenWidget.tsx`) = **P2 idé**, inte blocker för P1.
+
+---
+
+## REASONS (kort)
+
+| | |
+|---|---|
+| **Requirements** | Barn egen hub; förälder inkorg; Valv endast HITL |
+| **Entities** | `children_logs` WORM (silo 3); `authorRole: child` |
+| **Approach** | Utöka widget P2; rör inte Barnfokus locked UX |
+| **Structure** | `/barnporten` + `/familjen?tab=barnporten` |
+| **Operations** | `saveChildrenLog`; `promoteChildLogToVault` HITL |
+| **Norms** | Varm skymning; ingen juridisk monospace för barn |
+| **Safeguards** | Aldrig auto-promote till Valv; ingen cross-RAG |
+
+---
+
+## Vad som redan fungerar
+
+| Krav | Kod |
+|------|-----|
+| Barn-hub 4 kort | `BarnportenPage.tsx` |
+| Route `/barnporten` | `AppRoutes.tsx` |
+| children_logs WORM | `saveChildrenLog` |
+| Familjen inkorg + HITL | Familjen Barnporten-flik, `SaveAsEvidencePrompt` |
+| Orkester → Valv | `BarnportenOrkesterPanel` |
+| PWA manifest | `public/barnporten-manifest.webmanifest` |
+| Locked UX smoke | `smoke:locked-ux` PASS |
+
+---
+
+## Gap-analys (P1 vs kod)
+
+| BARNPORTEN-SPEC P1 | Kod idag | Gap |
+|--------------------|----------|-----|
+| BarnportenPage 2×2 | Ja | **Ingen** |
+| BarnportenWidget CB1 | Nej | **P2** |
+| Familjen inkorg + HITL | Ja | **Ingen** |
+| Barnporten-Orkester | Ja | Polish valfritt |
+| QR enhetskoppling | Nej | **P2** |
+| Push-notiser | Nej | **P2** |
+
+---
+
+## Bevaras (MUST NOT regress)
+
+- Barnfokus på Familjen (`BarnfokusFraganPanel`) — locked UX
+- Barn text **korsar aldrig** Kunskap-RAG eller Hamn
+- Valv endast via förälder HITL
+- `children_logs` append-only
+
+---
+
+## Fas 1.5 — Polish (ingen rules)
+
+| # | Leverans |
+|---|----------|
+| 1 | Manuell test: barn-flöde → rad i `children_logs` |
+| 2 | HITL: promote till `reality_vault` endast efter explicit godkännande |
+| 3 | Orkester-panel copy/länk till Valv Mönster (locked tabs) |
+
+---
+
+## Fas 2 — Widget + enhet
+
+- `BarnportenWidget.tsx` CB1 stjärn-prick
+- QR-koppling, CB2–CB4, offline-kö
+
+**Blocker:** produktbeslut widget-variant; manuell PWA-test på barnenhet.
+
+---
+
+## Acceptans (P1 stängning)
+
+- [x] Hub + route + inkorg + HITL i kod
+- [ ] Manuell smoke Barnen (#3 i checklista)
+- [ ] `npm run smoke:locked-ux` PASS vid merge
+
+---
+
+## Nästa steg
+
+Svara **`kör Barnporten P2`** för CB1-widget, eller **`kör manuell smoke #3`** för verifiering.

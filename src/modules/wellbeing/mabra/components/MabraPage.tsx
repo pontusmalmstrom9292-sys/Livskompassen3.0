@@ -256,6 +256,7 @@ export function MabraPage() {
     >
       {step === 'hub' && (
         <>
+          <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
           <MabraVitHub
             openCategory={hubOpenCategory}
             onOpenCategoryChange={setHubOpenCategory}

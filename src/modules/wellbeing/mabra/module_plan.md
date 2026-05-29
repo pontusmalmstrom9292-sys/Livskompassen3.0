@@ -58,7 +58,8 @@ Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget
 | Speglar guardrail vid ex-text | Heuristik → `/speglar` | Ja | **done** (fas 2e) |
 | Web Speech sv-SE | Reframing + coach (`SpeechMicRow`) | Ja | **done** (fas 2f) |
 | Trauma-historia i Kunskap | **Policy: opt-in ingest** | Delvis | **policy** |
-| Daglig mix (DM-*) | Hub panel + `mabra_sessions` metadata | Ja | **done** |
+| Daglig mix (DM-*) | Hub panel direkt på `/mabra` + `mabra_sessions` metadata | Ja | **done** |
+| Fas 1.5 polish (2026-05-29) | Daglig Mix synlig på hub; smoke:innehall | Ja | **done** |
 | Stjärnbilder / streak | Notebook | Nej | **rejected** |
 | Nordisk skymning UI | Notebook | Nej | **rejected** |
 

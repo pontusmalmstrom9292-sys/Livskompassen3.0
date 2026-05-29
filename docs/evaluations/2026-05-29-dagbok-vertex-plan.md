@@ -102,12 +102,13 @@
 
 ---
 
-## Fas 4 — Handoff + polish
+## Fas 4 — Handoff + polish (implementerad 2026-05-29)
 
-- `HandoffBox.tsx` + regex i `ReflectionStep` / Snabb textfält
-- Navigering `Link` → `/dagbok?tab=bevis`
-- Kontrastkontroll guld/slate (WCAG AA)
-- Smoke-rader i `docs/SMOKE_CHECKLIST.md` #2
+- [x] `HandoffBox.tsx` + `journalHandoff.ts` (regex)
+- [x] Triggers: `ReflectionStep`, `JournalQuickMode`, info-knapp vid bilaga
+- [x] `Link` → `/dagbok?tab=bevis`
+- [x] Obsidian Calm-styling (text `text`/`text-muted`, ingen röd banner)
+- [x] Smoke `docs/SMOKE_CHECKLIST.md` #2b–2d
 
 ---
 
