@@ -2,14 +2,18 @@ import { EVENING_HERO, getFlowConfig } from '../config/compassFlows';
 import type { CompassFlow } from './compassTime';
 import { getDefaultCompassByTime } from './compassTime';
 
+/**
+ * Korta råd på Hem / Hamn / Kompassråd (svenska, lågaffektivt).
+ * Kväll: «landa» = verb (stänga dagen), inte substantivet «land».
+ */
+export const COMPASS_ADVICE: Record<CompassFlow, string> = {
+  morning: 'Ett mikrosteg räcker. Du behöver inte planera hela dagen nu.',
+  day: 'Börja med kroppen — sedan logistik, ett steg i taget.',
+  evening: 'Landa dagen lugnt. Gränser får vänta till i morgon om det känns tungt.',
+};
+
 export function getCompassAdvice(flow: CompassFlow): string {
-  if (flow === 'morning') {
-    return 'Ett mikrosteg räcker. Du behöver inte lösa hela dagen nu.';
-  }
-  if (flow === 'day') {
-    return 'Sortera kroppen först — sedan logistik mot ex.';
-  }
-  return 'Land dagen. Gränser kan vänta till imorgon om det känns tungt.';
+  return COMPASS_ADVICE[flow];
 }
 
 export function getCompassFlowMeta(flow: CompassFlow = getDefaultCompassByTime()) {

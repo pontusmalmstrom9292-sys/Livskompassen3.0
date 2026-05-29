@@ -38,7 +38,7 @@ export const COMPASS_FLOWS: CompassFlowConfig[] = [
 
 export const EVENING_HERO = {
   heroTitle: 'Kvällskompass',
-  heroLead: 'Land dagen med KASAM — anpassas efter kväll (17–04).',
+  heroLead: 'Landa dagen med KASAM — tre korta steg efter kväll (17–04).',
   label: 'Kväll',
   icon: Moon,
 };

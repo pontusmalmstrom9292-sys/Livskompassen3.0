@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Anchor, Compass } from 'lucide-react';
 import { ElongatedModule } from '../../../core/ui/ElongatedModule';
 import { getDefaultCompassByTime } from '../../../wellbeing/compasses/utils/compassTime';
+import { getCompassAdvice } from '../../../wellbeing/compasses/utils/compassAdvice';
 import { getFlowConfig, EVENING_HERO } from '../../../wellbeing/compasses/config/compassFlows';
 import type { ReactNode } from 'react';
 
@@ -17,12 +18,7 @@ export function HamnModuleStack({ biffPanel }: Props) {
   const meta =
     timeFlow === 'evening' ? EVENING_HERO : getFlowConfig(timeFlow)!;
 
-  const advice =
-    timeFlow === 'morning'
-      ? 'Ett mikrosteg räcker. Du behöver inte lösa hela dagen nu.'
-      : timeFlow === 'day'
-        ? 'Sortera kroppen först — sedan logistik mot ex.'
-        : 'Land dagen. Gränser kan vänta till imorgon om det känns tungt.';
+  const advice = getCompassAdvice(timeFlow);
 
   return (
     <div className="home-module-stack">
