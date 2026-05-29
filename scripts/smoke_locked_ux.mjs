@@ -283,10 +283,39 @@ function main() {
     'Fyren Edge',
     'Aktörskarta',
     'VaultAktorskartaPanel',
+    'Inkorg → Valv-bro',
+    'barnporten-inkorg-valv-kanon.png',
+    'Human-In-The-Loop',
+  );
+  mustInclude(
+    'src/modules/barnporten/components/BarnportenInboxPanel.tsx',
+    'BarnportenInboxPanel',
+    'Flytta till Valv (HITL)',
+    'SaveAsEvidencePrompt',
+  );
+  mustInclude(
+    'src/modules/family/children/components/SaveAsEvidencePrompt.tsx',
+    'SaveAsEvidencePrompt',
+    'Spara som bevis',
+    'Shield',
+    'buildVaultPayloadFromChildLog',
+  );
+  mustInclude(
+    'src/modules/family/children/utils/childLogEvidence.ts',
+    'sourceRef',
+    'children_logs/',
+  );
+  mustInclude(
+    'src/modules/evidence/vault/components/VaultLogList.tsx',
+    'SERVER-TIDSSTÄMPEL',
   );
 
   const mockDir = resolve(root, 'docs/design/barnporten/mockups');
   assert(existsSync(mockDir), 'saknar mapp: docs/design/barnporten/mockups');
+  assert(
+    existsSync(resolve(mockDir, 'barnporten-inkorg-valv-kanon.png')),
+    'saknar: barnporten-inkorg-valv-kanon.png',
+  );
 
   mustInclude('src/modules/wellbeing/compasses/components/VardagenPage.tsx', 'vaultDrawerPath', 'kunskap');
   mustInclude('src/modules/core/home/livskompassHeroConfig.ts', 'vaultTab=kunskapsbank');

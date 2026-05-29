@@ -2,7 +2,7 @@
 
 **Route (barn):** `/barnporten` (PWA) · **Förälder:** `/familjen?tab=barnporten`  
 **Spec:** [`docs/design/BARNPORTEN-SPEC.md`](../../docs/design/BARNPORTEN-SPEC.md)  
-**Låst:** `.context/locked-ux-features.md` §5
+**Låst:** `.context/locked-ux-features.md` §7 · Inkorg→Valv §7b
 
 ## Syfte
 

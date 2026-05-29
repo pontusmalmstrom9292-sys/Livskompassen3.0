@@ -152,6 +152,23 @@ Panel (förälder): `BarnportenOrkesterPanel.tsx` på `/familjen?tab=barnporten`
 
 **Förbjudet:** Auto-promote barnets privat dagbok till Valv. Auto-RAG till Kunskap.
 
+### Inkorg → Valv-bro (låst UX — HITL)
+
+**Kanon UI:** [`mockups/barnporten-inkorg-valv-kanon.png`](./mockups/barnporten-inkorg-valv-kanon.png)  
+**Register:** [`.context/locked-ux-features.md`](../../.context/locked-ux-features.md) §7b
+
+Förälderns vy på `/familjen?tab=barnporten`:
+
+| Zon | Innehåll |
+|-----|----------|
+| **Inkorg** | Meddelande från barn (alias, tid, text) — `BarnportenInboxPanel` |
+| **Valv-kort** | *Klar för långtidslagring* · **SERVER-TIDSSTÄMPEL** efter godkänt spar |
+| **HITL** | Sköld + *Human-In-The-Loop aktiverad. En vuxen granskar innan lagring.* |
+| **Åtgärder** | **Flytta till Valv (HITL)** → `SaveAsEvidencePrompt` → **Spara som bevis** · **Granska i Valv** efter spar |
+
+**Implementation idag:** `SaveAsEvidencePrompt` + `buildVaultPayloadFromChildLog` (`sourceRef: children_logs/{id}`) + `saveVaultLog` (`serverTimestamp`).  
+**Mål-UI (mockup):** tvåkorts-layout med pil Inkorg → Valv, tagline *Skapa trygghet. Bygg tillit.*
+
 ---
 
 ## Install (PWA)
@@ -194,6 +211,7 @@ Smoke: `npm run smoke:locked-ux` (spec + agent-registry).
 | [mockups/barnporten-widget-CB1.png](./barnporten/mockups/barnporten-widget-CB1.png) | Stjärn-widget |
 | [mockups/barnporten-skriv-till-pappa.png](./barnporten/mockups/barnporten-skriv-till-pappa.png) | Meddelande |
 | [mockups/barnporten-orkester.png](./barnporten/mockups/barnporten-orkester.png) | Trygg-Kompisen |
-| [mockups/barnporten-valv-bro.png](./barnporten/mockups/barnporten-valv-bro.png) | Förälder: till Valv |
+| [mockups/barnporten-valv-bro.png](./barnporten/mockups/barnporten-valv-bro.png) | Förälder: till Valv (äldre) |
+| [mockups/barnporten-inkorg-valv-kanon.png](./barnporten/mockups/barnporten-inkorg-valv-kanon.png) | **Kanon** Inkorg → Valv HITL (låst §7b) |
 
 **Välj:** skriv `valt barnporten CB1` + ev. hub-layout.

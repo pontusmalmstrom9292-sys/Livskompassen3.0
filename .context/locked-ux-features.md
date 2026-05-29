@@ -94,6 +94,22 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 | **Widget** | CB1–CB4 (barn); **inte** samma som förälder W1 |
 | **Smoke** | Spec + `barnportenAgents.ts` + mockup-mapp |
 
+### 7b. Inkorg → Valv-bro (HITL — **låst 2026-05-29**)
+
+| | |
+|---|---|
+| **Kanon UI** | [`docs/design/barnporten/mockups/barnporten-inkorg-valv-kanon.png`](../docs/design/barnporten/mockups/barnporten-inkorg-valv-kanon.png) |
+| **Route (förälder)** | `/familjen?tab=barnporten` → `BarnportenInboxPanel` |
+| **Flöde** | Barnmeddelande i inkorg → vuxen granskar → explicit godkännande → `reality_vault` WORM |
+| **Kod** | `BarnportenInboxPanel.tsx` · `SaveAsEvidencePrompt.tsx` · `buildVaultPayloadFromChildLog` (`sourceRef`) |
+| **HITL** | **Human-In-The-Loop** — inget sparas automatiskt; vuxen trycker **Spara som bevis** / **Flytta till Valv (HITL)** |
+| **Tidsstämpel** | `saveVaultLog` → Firestore `serverTimestamp()` → Valv visar **SERVER-TIDSSTÄMPEL** |
+| **Efter spar** | Länk **Granska i Valv** / **Öppna Bevis (Hjärtat)** → `/dagbok?tab=bevis` |
+| **Tagline (mål-UI)** | *Skapa trygghet. Bygg tillit.* · *Från inkorg till Valv – för framtiden.* |
+| **Status (mål-UI)** | *Klar för långtidslagring* · HITL-badge med sköld |
+
+**Får inte:** auto-promote från `private_child` / *Bara för mig*; ta bort HITL-steg; spara till Valv utan `sourceRef: children_logs/{id}`; ta bort inkorg-panelen eller mockup-kanon.
+
 ---
 
 ## 8. Arbetsliv — modulhub (låst)
