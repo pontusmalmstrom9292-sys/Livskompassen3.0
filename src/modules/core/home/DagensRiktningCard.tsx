@@ -1,5 +1,6 @@
 import { ChevronDown } from 'lucide-react';
 import { clsx } from 'clsx';
+import { CompassQuickWidgetRail } from '../../wellbeing/compasses/components/CompassQuickWidgetRail';
 import { DashboardPage } from '../../wellbeing/compasses/components/DashboardPage';
 import { getCompassAdvice, getCompassFlowMeta } from '../../wellbeing/compasses/utils/compassAdvice';
 import { getDefaultCompassByTime } from '../../wellbeing/compasses/utils/compassTime';
@@ -52,6 +53,7 @@ export function DagensRiktningCard({ open, onOpenChange, onCheckInSaved }: Props
 
         {open ? (
           <div className="dagens-riktning-card__panel">
+            <CompassQuickWidgetRail flow={flow} className="compass-quick-widget-rail--in-module" />
             <DashboardPage
               variant="module"
               forcedFlow={flow}
@@ -61,7 +63,9 @@ export function DagensRiktningCard({ open, onOpenChange, onCheckInSaved }: Props
               }}
             />
           </div>
-        ) : null}
+        ) : (
+          <CompassQuickWidgetRail flow={flow} compact className="compass-quick-widget-rail--below" />
+        )}
       </div>
     </section>
   );

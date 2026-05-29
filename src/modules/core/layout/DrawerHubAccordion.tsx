@@ -169,6 +169,9 @@ export function DrawerHubAccordion({
         />
         {hasChildren && expanded && (
           <div className="nav-drawer__hub-children">
+            {hub.drawerHint ? (
+              <p className="nav-drawer__hub-hint">{hub.drawerHint}</p>
+            ) : null}
             {children.map((child) => (
               <NavRow
                 key={child.id}

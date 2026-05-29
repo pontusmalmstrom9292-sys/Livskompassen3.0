@@ -22,6 +22,8 @@ export type NavTruthEntry = {
   parentId?: string;
   /** Valv: expanderbar grupp utan egen navigation */
   isGroupHeader?: boolean;
+  /** Kort hjälptext under grupp-rubrik i Valv-drawer */
+  drawerHint?: string;
   /** Dölj i drawer när G18 döljer publik Bevis-flik */
   omitWhenHideBevis?: boolean;
   inDock?: boolean;
@@ -386,6 +388,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     isGroupHeader: true,
     requiresVaultPin: true,
     themeId: 'J-valv-pansar',
+    drawerHint: 'Bevis, sms och triage — sparas i Valv.',
   },
   valvLeaf('valv_arkiv', 'logga', 'valv_grp_samla'),
   valvLeaf('valv_triage', 'sok', 'valv_grp_samla'),
@@ -397,6 +400,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     inDrawer: true,
     isGroupHeader: true,
     requiresVaultPin: true,
+    drawerHint: 'Mönster och Orkester — låst UX, ej borttag.',
   },
   valvLeaf('valv_monster', 'monster', 'valv_grp_analysera'),
   valvLeaf('valv_orkester', 'orkester', 'valv_grp_analysera'),
@@ -408,6 +412,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     inDrawer: true,
     isGroupHeader: true,
     requiresVaultPin: true,
+    drawerHint: 'Dossier — explicit export, ingen auto-delning.',
   },
   valvLeaf('valv_dossier', 'dossier', 'valv_grp_exportera'),
   {
@@ -427,6 +432,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     inDrawer: true,
     isGroupHeader: true,
     requiresVaultPin: true,
+    drawerHint: 'RAG-fakta och aktörskarta — PIN, ej publik /vardagen.',
   },
   valvLeaf('valv_kunskapsbank', 'kunskapsbank', 'valv_grp_kunskap', 'Chat & Tidshjul'),
   valvLeaf('valv_aktorskarta', 'aktorskarta', 'valv_grp_kunskap', 'Nyckelpersoner (G9)'),
@@ -438,6 +444,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     inDrawer: true,
     isGroupHeader: true,
     requiresVaultPin: true,
+    drawerHint: 'Djup analys och bevis. Grey Rock på /hamn utan PIN.',
   },
   ...FORENSIC_VAULT_TAB_IDS.map((tab) => ({
     id: `valv_${tab}`,

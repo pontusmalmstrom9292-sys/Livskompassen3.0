@@ -4,10 +4,11 @@
 
 ## Snabbstart
 
-1. `npm run google-ai-pro:pack` — skapar filer i `exports/google-ai-pro/`
-2. **NotebookLM:** ladda upp allt i `exports/google-ai-pro/notebooklm/`
-3. **Drive:** dra `exports/google-ai-pro/drive-pack/Livskompassen/` till Google Drive
-4. Kör prompter A1–G1 från Cursor-planen; skicka svar tillbaka till Cursor
+1. `npm run gemini:pack:all` — NotebookLM + repomix (kompass/meny/valv)
+2. **NotebookLM:** ladda upp `exports/google-ai-pro/notebooklm/`
+3. **Gemini-app:** klistra master-prompt från [`PROMPTS.md`](./PROMPTS.md) + repomix från `exports/gemini-handoff/repomix/`
+4. **Handoff i repo:** [`docs/gemini-handoff/`](../gemini-handoff/) (K1, K2, M1, V1, IN1)
+5. Kör prompter; skicka svar tillbaka till Cursor
 
 ## Repo-leverabler (implementerade)
 

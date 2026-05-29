@@ -46,6 +46,7 @@ export type DrawerNavItem = {
   requiresVaultPin?: boolean;
   parentId?: string;
   isGroupHeader?: boolean;
+  drawerHint?: string;
   icon: DrawerNavIcon;
 };
 
@@ -112,6 +113,7 @@ export function toDrawerNavItem(entry: NavTruthEntry): DrawerNavItem {
     requiresVaultPin: entry.requiresVaultPin,
     parentId: entry.parentId,
     isGroupHeader: entry.isGroupHeader,
+    drawerHint: entry.drawerHint,
     icon: DRAWER_ICONS[entry.id] ?? Compass,
   };
 }

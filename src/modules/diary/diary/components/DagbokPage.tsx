@@ -24,6 +24,16 @@ import { MoodStep } from './MoodStep';
 import { ReflectionStep } from './ReflectionStep';
 import { SavedStep } from './SavedStep';
 
+function parseInitialDagbokMode(
+  searchParams: URLSearchParams,
+  lowEnergyBridge: boolean,
+): DagbokMode {
+  if (lowEnergyBridge) return 'snabb';
+  const raw = searchParams.get('mode');
+  if (raw === 'snabb' || raw === 'reflektera' || raw === 'arkiv') return raw;
+  return 'reflektera';
+}
+
 type DagbokPageProps = {
   embedded?: boolean;
 };
@@ -38,7 +48,9 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
   );
   const bridgeIntro = mabraHub ? MABRA_BRIDGE_INTRO[mabraHub] : null;
 
-  const [mode, setMode] = useState<DagbokMode>(() => (lowEnergyBridge ? 'snabb' : 'reflektera'));
+  const [mode, setMode] = useState<DagbokMode>(() =>
+    parseInitialDagbokMode(searchParams, lowEnergyBridge),
+  );
 
   const {
     step,
@@ -181,6 +193,7 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
                   mood={mood}
                   text={text}
                   memoryFileName={pendingMemoryFile?.name}
+                  memoryError={memoryError}
                   categoryLabel={categoryLabel}
                   saving={saving}
                   weaveToKampspar={weaveToKampspar}

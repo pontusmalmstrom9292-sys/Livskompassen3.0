@@ -54,7 +54,9 @@
     "seed:barn-referens": "node scripts/seed_kampspar_profile.mjs --manifest=barn-referens --skip-existing",
     "check:main-trunk": "node scripts/check_main_trunk.mjs",
     "build:lathund-html": "node scripts/build_lathund_html.mjs",
-    "google-ai-pro:pack": "node scripts/pack_google_ai_pro_sources.mjs"
+    "google-ai-pro:pack": "node scripts/pack_google_ai_pro_sources.mjs",
+    "gemini:pack": "node scripts/pack_gemini_repomix.mjs",
+    "gemini:pack:all": "npm run google-ai-pro:pack && npm run gemini:pack"
   },
   "dependencies": {
     "@capacitor-firebase/authentication": "^8.2.0",

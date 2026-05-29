@@ -82,10 +82,10 @@ Samma mönster för Dag och Kväll. På Hem scenic kan widgeten ligga under `Dag
 
 ## Acceptance
 
-- [ ] Morgon, Dag, Kväll har var sin widget-rad (minst 3 shortcuts vardera, kompass-specifika där relevant).
-- [ ] Frågesport, anteckning, inspelning nås utan att lämna kompassflödet mer än ett steg.
-- [ ] `npm run smoke:locked-ux` + `npm run smoke:compass` gröna efter P1.
-- [ ] Design review mot `KOMPASS-MODUL-SPEC` (2px guld, progressive disclosure).
+- [x] Morgon, Dag, Kväll har var sin widget-rad (minst 3 shortcuts vardera, kompass-specifika där relevant).
+- [x] Frågesport, anteckning, inspelning nås utan att lämna kompassflödet mer än ett steg.
+- [x] `npm run smoke:locked-ux` + `npm run smoke:compass` gröna efter P1.
+- [x] Design review mot `KOMPASS-MODUL-SPEC` (2px guld, progressive disclosure).
 
 ---
 

@@ -71,6 +71,20 @@ function main() {
     ".dock-hub-band[data-panel-style='ember'] .dock-hub-band__rail",
     ".glass-header-bar--kanon[data-panel-style='ember']",
   );
+  mustInclude(
+    'src/modules/wellbeing/compasses/components/CompassModuleStrip.tsx',
+    'CompassQuickWidgetRail',
+    'compass-module-block',
+  );
+  mustInclude(
+    'src/modules/wellbeing/compasses/config/compassWidgetCatalog.ts',
+    'COMPASS_WIDGET_CATALOG',
+    'morning',
+    'evening',
+  );
+  mustInclude('src/modules/core/home/DagensRiktningCard.tsx', 'CompassQuickWidgetRail');
+  mustInclude('src/modules/core/navigation/navTruth.ts', 'drawerHint');
+  mustInclude('docs/gemini-handoff/README.md', 'gemini-handoff');
 
   console.log('smoke:design-modules PASS');
 }

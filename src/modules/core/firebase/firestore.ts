@@ -139,13 +139,19 @@ export async function saveJournalEntry(
   options?: { entryId?: string },
 ): Promise<string> {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.journal);
-  const payload: Record<string, unknown> = { mood: entry.mood, text: entry.text };
-  if (entry.category) payload.category = entry.category;
-  if (entry.tags?.length) payload.tags = entry.tags;
-  if (entry.attachment) payload.attachment = entry.attachment;
+  const payload = omitUndefinedFields({
+    mood: entry.mood,
+    text: entry.text,
+    category: entry.category,
+    tags: entry.tags?.length ? entry.tags : undefined,
+    attachment: entry.attachment,
+  });
 
   if (options?.entryId) {
-    await setDoc(doc(db, FIRESTORE_COLLECTIONS.journal, options.entryId), withUserId(userId, payload));
+    await setDoc(
+      doc(db, FIRESTORE_COLLECTIONS.journal, options.entryId),
+      withUserId(userId, payload),
+    );
     return options.entryId;
   }
 

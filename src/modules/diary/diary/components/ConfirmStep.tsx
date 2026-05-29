@@ -6,19 +6,21 @@ type ConfirmStepProps = {
   mood: string;
   text: string;
   memoryFileName?: string | null;
+  memoryError?: string | null;
   categoryLabel?: string | null;
   saving: boolean;
   weaveToKampspar: boolean;
   showWeaveOptIn?: boolean;
   onWeaveToKampsparChange: (value: boolean) => void;
   onBack: () => void;
-  onSave: () => void;
+  onSave: () => void | Promise<void>;
 };
 
 export function ConfirmStep({
   mood,
   text,
   memoryFileName,
+  memoryError,
   categoryLabel,
   saving,
   weaveToKampspar,
@@ -75,11 +77,21 @@ export function ConfirmStep({
         <button type="button" onClick={onBack} className="btn-pill--ghost">
           <ChevronLeft className="h-4 w-4" /> Ändra
         </button>
-        <button type="button" onClick={onSave} disabled={saving} className="btn-pill--success">
+        <button
+          type="button"
+          onClick={() => void onSave()}
+          disabled={saving || Boolean(memoryError)}
+          className="btn-pill--success"
+        >
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           Spara i dagboken
         </button>
       </div>
+      {memoryError && (
+        <p className="mt-2 text-sm text-danger" role="alert">
+          {memoryError}
+        </p>
+      )}
     </div>
   );
 }

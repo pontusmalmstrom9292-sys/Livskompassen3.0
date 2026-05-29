@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import {
   createJournalEntryId,
   saveJournalEntry,
@@ -48,6 +48,14 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
   const [quickJustSaved, setQuickJustSaved] = useState(false);
   const [quickMirror, setQuickMirror] = useState<JournalQuickMirrorResponse | null>(null);
   const [quickMirrorLoading, setQuickMirrorLoading] = useState(false);
+  const mountedRef = useRef(true);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
 
   const refreshEntries = useCallback(async () => {
     if (!userId) return;
@@ -57,22 +65,10 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
 
   useEffect(() => {
     if (!userId) return;
-    refreshEntries().catch(() => setError('Kunde inte hämta dagbok.'));
+    refreshEntries().catch(() => {
+      if (mountedRef.current) setError('Kunde inte hämta dagbok.');
+    });
   }, [userId, step, refreshEntries]);
-
-  useEffect(
-    () => () => {
-      setStep(INITIAL_STEP);
-      setMood('');
-      setText('');
-      setTags([]);
-      setCategory(undefined);
-      setPendingMemoryFile(null);
-      setMemoryError(null);
-      setError(null);
-    },
-    [],
-  );
 
   useEffect(() => {
     if (!quickJustSaved) return;
@@ -97,7 +93,18 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
   };
 
   const persistEntry = async (entryText: string, opts: PersistOptions = {}): Promise<boolean> => {
-    if (!userId || !mood) return false;
+    if (!userId) {
+      setError('Du måste vara inloggad för att spara.');
+      return false;
+    }
+    if (!mood) {
+      setError('Välj en känsla innan du sparar.');
+      return false;
+    }
+    if (memoryError) {
+      setError(memoryError);
+      return false;
+    }
     const optInKampspar = opts.optInKampspar ?? weaveToKampspar;
     setSaving(true);
     setError(null);
@@ -140,19 +147,24 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       setWeaveToKampspar(false);
       setPendingMemoryFile(null);
       setMemoryError(null);
+      await refreshEntries();
+      if (!mountedRef.current) return true;
       if (opts.skipDoneStep) {
         setQuickJustSaved(true);
         setTags([]);
       } else {
         setStep('done');
       }
-      await refreshEntries();
       return true;
-    } catch {
-      setError('Kunde inte spara. Kontrollera Firestore-regler.');
+    } catch (err) {
+      const msg =
+        err instanceof Error
+          ? err.message
+          : 'Kunde inte spara. Kontrollera nätverk och Firestore-regler.';
+      if (mountedRef.current) setError(msg);
       return false;
     } finally {
-      setSaving(false);
+      if (mountedRef.current) setSaving(false);
     }
   };
 

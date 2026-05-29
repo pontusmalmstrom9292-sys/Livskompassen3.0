@@ -18,6 +18,14 @@ const NOTEBOOKLM_SOURCES = [
     from: 'docs/evaluations/2026-05-29-dagbok-vertex-plan.md',
     to: 'dagbok-vertex-plan.md',
   },
+  { from: 'docs/design/KOMPASS-MODUL-SPEC.md', to: 'KOMPASS-MODUL-SPEC.md' },
+  { from: 'docs/design/references/MENU-DRAWER-KANON.md', to: 'MENU-DRAWER-KANON.md' },
+  { from: 'docs/design/VALV-HUBB-SPEC.md', to: 'VALV-HUBB-SPEC.md' },
+  { from: 'docs/evaluations/2026-05-29-kompass-widget-snabbstart-plan.md', to: 'kompass-widget-plan.md' },
+  { from: 'docs/google-ai-pro/PROMPTS.md', to: 'GEMINI-PROMPTS.md' },
+  { from: '.context/locked-ux-features.md', to: 'locked-ux-features.md' },
+  { from: 'docs/gemini-handoff/README.md', to: 'gemini-handoff-README.md' },
+  { from: 'docs/gemini-handoff/K1-compassWidgetCatalog.md', to: 'K1-compassWidgetCatalog.md' },
 ];
 
 const DRIVE_PACK = [
@@ -32,6 +40,9 @@ const DRIVE_PACK = [
     to: 'Livskompassen/evaluations/dagbok-vertex-plan.md',
   },
   { from: 'docs/design/DESIGN-LATHUND.md', to: 'Livskompassen/design-export/DESIGN-LATHUND.md' },
+  { from: 'docs/design/KOMPASS-MODUL-SPEC.md', to: 'Livskompassen/design-export/KOMPASS-MODUL-SPEC.md' },
+  { from: 'docs/design/VALV-HUBB-SPEC.md', to: 'Livskompassen/design-export/VALV-HUBB-SPEC.md' },
+  { from: 'docs/google-ai-pro/PROMPTS.md', to: 'Livskompassen/specs/GEMINI-PROMPTS.md' },
 ];
 
 function copyMapped(pairs, baseDir) {

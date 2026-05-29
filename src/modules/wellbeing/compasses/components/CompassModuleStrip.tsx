@@ -5,6 +5,7 @@ import { COMPASS_FLOWS, EVENING_HERO } from '../config/compassFlows';
 import type { CompassFlow } from '../utils/compassTime';
 import { getDefaultCompassByTime } from '../utils/compassTime';
 import { DashboardPage } from './DashboardPage';
+import { CompassQuickWidgetRail } from './CompassQuickWidgetRail';
 
 const FLOW_TONE: Record<CompassFlow, ElongatedModuleTone> = {
   morning: 'gold',
@@ -47,25 +48,34 @@ export function CompassModuleStrip({ onCheckInSaved }: Props) {
 
   return (
     <div className="home-module-stack" aria-label="Kompasser">
-      {ALL_FLOWS.map((flow) => (
-        <ElongatedModule
-          key={flow.id}
-          id={`compass-module-${flow.id}`}
-          title={flow.label}
-          lead={flow.lead}
-          icon={flow.icon}
-          tone={FLOW_TONE[flow.id]}
-          recommended={timeFlow === flow.id}
-          expanded={expanded === flow.id}
-          onToggle={() => toggle(flow.id)}
-        >
-          <DashboardPage
-            variant="module"
-            forcedFlow={flow.id}
-            onCheckInSaved={onCheckInSaved}
-          />
-        </ElongatedModule>
-      ))}
+      {ALL_FLOWS.map((flow) => {
+        const isExpanded = expanded === flow.id;
+        const showRail = isExpanded || timeFlow === flow.id;
+        return (
+          <div key={flow.id} className="compass-module-block">
+            <ElongatedModule
+              id={`compass-module-${flow.id}`}
+              title={flow.label}
+              lead={flow.lead}
+              icon={flow.icon}
+              tone={FLOW_TONE[flow.id]}
+              recommended={timeFlow === flow.id}
+              expanded={isExpanded}
+              onToggle={() => toggle(flow.id)}
+            >
+              {showRail ? <CompassQuickWidgetRail flow={flow.id} className="compass-quick-widget-rail--in-module" /> : null}
+              <DashboardPage
+                variant="module"
+                forcedFlow={flow.id}
+                onCheckInSaved={onCheckInSaved}
+              />
+            </ElongatedModule>
+            {showRail && !isExpanded ? (
+              <CompassQuickWidgetRail flow={flow.id} compact className="compass-quick-widget-rail--below" />
+            ) : null}
+          </div>
+        );
+      })}
     </div>
   );
 }

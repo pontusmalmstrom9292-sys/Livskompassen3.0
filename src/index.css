@@ -2080,6 +2080,10 @@
     @apply flex flex-col gap-0.5;
   }
 
+  .nav-drawer__hub-hint {
+    @apply px-3 pb-1 pt-0.5 text-[0.68rem] leading-snug text-text-dim;
+  }
+
   .nav-drawer__row-wrap--sub {
     @apply pl-1;
   }
@@ -3338,6 +3342,53 @@
 
   .home-module-stack {
     @apply flex flex-col gap-2.5;
+  }
+
+  .compass-module-block {
+    @apply flex flex-col gap-1;
+  }
+
+  .compass-quick-widget-rail {
+    @apply rounded-[0.875rem] border px-3 py-2.5;
+    border: 1.5px solid rgba(212, 175, 55, 0.28);
+    background: rgba(2, 6, 23, 0.55);
+  }
+
+  .compass-quick-widget-rail--compact {
+    @apply py-2;
+  }
+
+  .compass-quick-widget-rail--below {
+    @apply -mt-0.5;
+  }
+
+  .compass-quick-widget-rail--in-module {
+    @apply mb-3 border-white/10;
+  }
+
+  .compass-quick-widget-rail__label {
+    @apply mb-2 text-[0.65rem] font-medium uppercase tracking-widest text-text-dim;
+  }
+
+  .compass-quick-widget-rail__scroll {
+    @apply flex gap-2 overflow-x-auto pb-0.5;
+    scrollbar-width: thin;
+  }
+
+  .compass-quick-widget-rail__chip {
+    @apply shrink-0 rounded-full border px-3 py-1.5 text-xs text-text transition-colors;
+    border-color: rgba(212, 175, 55, 0.35);
+    background: rgba(15, 23, 42, 0.6);
+  }
+
+  .compass-quick-widget-rail__chip:hover {
+    border-color: rgba(253, 230, 138, 0.55);
+    background: rgba(212, 175, 55, 0.12);
+    color: #fde68a;
+  }
+
+  .compass-quick-widget-rail--compact .compass-quick-widget-rail__label {
+    @apply mb-1.5;
   }
 
   .widget-shell {
