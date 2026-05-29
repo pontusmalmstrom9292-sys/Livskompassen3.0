@@ -55,8 +55,19 @@ function main() {
   mustInclude('functions/src/sharedRules.ts', 'KBT_TRANSFORMATOR_SYSTEM_PROMPT');
   mustInclude('.context/design-modules-mockup.md', 'D29', 'D3');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/planering"', 'PlaneringPage');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/projekt/ny"', 'path="/projekt/regler"');
+  mustInclude('src/modules/core/components/FyrenSmartWidgetBar.tsx', 'ProjektPickerSheet');
+  mustInclude('src/modules/core/firebase/storage.ts', 'uploadProjectImage');
   mustInclude('src/modules/admin/planning/components/PlaneringPage.tsx', 'PlanningKanbanBoard', 'PLANERING_TAGLINE');
   mustInclude('firestore.rules', 'planning_tasks');
+  mustInclude('docs/design/CHROME-EMBER-KANON.md', 'LÅST', 'data-panel-style');
+  mustInclude('src/modules/core/layout/headerPanelStyle.ts', "return 'ember'");
+  mustInclude('src/modules/core/layout/DockHubBand.tsx', 'data-panel-style={panelStyle}');
+  mustInclude(
+    'src/index.css',
+    ".dock-hub-band[data-panel-style='ember'] .dock-hub-band__rail",
+    ".glass-header-bar--kanon[data-panel-style='ember']",
+  );
 
   console.log('smoke:design-modules PASS');
 }

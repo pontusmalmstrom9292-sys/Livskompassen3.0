@@ -42,6 +42,10 @@ const PACK_ROWS: PackRow[] = [
         label: 'Projekt',
         target: { module: 'projekt' },
       },
+      {
+        label: 'Projektregler',
+        target: { module: 'projekt', subpath: 'regler' },
+      },
     ],
   },
   {

@@ -175,6 +175,14 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     parentId: 'familjen',
   },
   {
+    id: 'familjen_barnporten',
+    label: 'Barnporten',
+    path: '/familjen?tab=barnporten',
+    section: 'vardag',
+    inDrawer: true,
+    parentId: 'familjen',
+  },
+  {
     id: 'planering',
     label: 'Planering',
     path: '/planering',

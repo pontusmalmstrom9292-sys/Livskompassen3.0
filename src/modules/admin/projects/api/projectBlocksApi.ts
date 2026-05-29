@@ -18,6 +18,8 @@ type FirestoreProjectBlock = {
   type: ProjectBlockType;
   title: string;
   content?: string;
+  storagePath?: string;
+  imageUrl?: string;
   order: number;
   planningTaskId?: string;
   userId: string;
@@ -69,6 +71,8 @@ export async function createProjectBlock(
     type: ProjectBlockType;
     title: string;
     content?: string;
+    storagePath?: string;
+    imageUrl?: string;
     order: number;
     planningTaskId?: string;
   },
@@ -83,6 +87,8 @@ export async function createProjectBlock(
     title: input.title.trim(),
     order: input.order,
     ...(input.content ? { content: input.content.trim() } : {}),
+    ...(input.storagePath ? { storagePath: input.storagePath } : {}),
+    ...(input.imageUrl ? { imageUrl: input.imageUrl } : {}),
     ...(input.planningTaskId ? { planningTaskId: input.planningTaskId } : {}),
     createdAt: serverTimestamp(),
   });

@@ -4,13 +4,17 @@
 **Spec:** [`docs/design/PROJEKT-SPEC.md`](../../docs/design/PROJEKT-SPEC.md)  
 **Widget:** [`docs/design/galleri/widget/v2/W1-kompakt-projekt.png`](../../docs/design/galleri/widget/v2/W1-kompakt-projekt.png)
 
-## P1
+## P1 — done
 
-- [ ] `/projekt` hub · `/admin/projects/ny` picker (lista, anteckning, bild, …)
-- [ ] `/admin/projects/regler` (P4 automation kanon)
-- [ ] `projects` + `project_blocks`
-- [ ] Uppgift-block → `planning_tasks` → **Handling kanban** (fast)
-- [ ] Widget → `/admin/projects/ny`
+- [x] `/projekt` hub · `/projekt/ny` picker (lista, anteckning, bild, uppgift)
+- [x] `projects` + `project_blocks`
+- [x] Uppgift-block → `planning_tasks` → **Handling kanban** (fast)
+
+## P2 — done (2026-05-29)
+
+- [x] Bild — Storage `project_media/{uid}/{projectId}/` + `imageUrl` på block
+- [x] `/projekt/regler` — lokala automation-regler (länk till inkorg)
+- [x] Widget — `FyrenSmartWidgetBar` + `ProjektPickerSheet` på planering/projekt
 
 ## Kopplingar (backlog)
 

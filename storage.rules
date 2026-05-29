@@ -9,6 +9,13 @@ service firebase.storage {
       allow update, delete: if false;
     }
 
+    // Projekt bildblock — uid + projectId scoped (P2)
+    match /project_media/{userId}/{projectId}/{allPaths=**} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if false;
+    }
+
     // Dossier PDF — skrivs av generateDossier (Admin SDK); nedladdning via signed URL
     match /dossier_exports/{userId}/{fileName} {
       allow read: if request.auth != null && request.auth.uid == userId;

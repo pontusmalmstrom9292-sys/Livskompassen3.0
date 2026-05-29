@@ -13,7 +13,13 @@ import { FamiljenPage } from '../../family/children';
 import { DossierPage } from '../../evidence/vault/dossier';
 import { MabraPage } from '../../wellbeing/mabra';
 import { PlaneringPage } from '../../admin/planning';
-import { ProjektDetailPage, ProjektHubPage, ProjektNyPage } from '../../admin/projects';
+import {
+  ProjektDetailPage,
+  ProjektHubPage,
+  ProjektNyPage,
+  ProjektReglerPage,
+} from '../../admin/projects';
+import { BarnportenPage } from '../../barnporten';
 import { ArbetslivHubPage } from '../../arbetsliv';
 import { DrogfrihetHubPage } from '../../drogfrihet';
 import { InstallningarPage } from '../pages/InstallningarPage';
@@ -137,6 +143,26 @@ function MainAppRoutes() {
               <ProjektHubPage />
             </AuthGate>
           }
+        />
+        <Route
+          path="/projekt/ny"
+          element={
+            <AuthGate>
+              <ProjektNyPage />
+            </AuthGate>
+          }
+        />
+        <Route
+          path="/projekt/regler"
+          element={
+            <AuthGate>
+              <ProjektReglerPage />
+            </AuthGate>
+          }
+        />
+        <Route
+          path="/barnporten"
+          element={<BarnportenPage />}
         />
         <Route
           path="/admin/projects/ny"

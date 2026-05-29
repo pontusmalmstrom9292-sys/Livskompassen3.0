@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Livskompassen — 5 telefonikoner</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: #0a0c10;
+      color: #e8e4dc;
+      padding: 1.5rem;
+    }
+    h1 { font-size: 1.1rem; font-weight: 500; color: #d4af37; letter-spacing: 0.08em; }
+    p { color: #9ca3af; font-size: 0.85rem; max-width: 36rem; line-height: 1.5; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(212,175,55,0.22);
+      border-radius: 1rem;
+      padding: 1rem;
+      text-align: center;
+    }
+    .card img { width: 128px; height: 128px; border-radius: 28px; }
+    .card h2 { font-size: 0.75rem; margin: 0.75rem 0 0.25rem; color: #f5e6b8; }
+    .card span { font-size: 0.65rem; color: #6b7280; }
+    code { font-size: 0.7rem; color: #a3e635; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <h1>5 APP-IKONER — VÄLJ VARIANT</h1>
+  <p>Samma kompass-idé, olika stämning. Öppna filen i webbläsare. När du valt: säg t.ex. «P3» så sätter vi den på telefonen.</p>
+  <div class="grid">
+    <div class="card">
+      <img src="P1-teal-kanon.svg" alt="P1 Teal kanon" />
+      <h2>P1 Teal kanon</h2>
+      <span>Närmast din bild · teal + guld + nitar</span>
+    </div>
+    <div class="card">
+      <img src="P2-obsidian-ember.svg" alt="P2 Obsidian ember" />
+      <h2>P2 Obsidian ember</h2>
+      <span>Varm glöd · brun/svart · eldnål</span>
+    </div>
+    <div class="card">
+      <img src="P3-aurora-rim.svg" alt="P3 Aurora rim" />
+      <h2>P3 Aurora rim</h2>
+      <span>Teal + lila kant · v4-DNA</span>
+    </div>
+    <div class="card">
+      <img src="P4-sacred-minimal.svg" alt="P4 Sacred minimal" />
+      <h2>P4 Sacred minimal</h2>
+      <span>Ren · tunna ringar · stjärna nord</span>
+    </div>
+    <div class="card">
+      <img src="P5-bronze-vintage.svg" alt="P5 Bronze vintage" />
+      <h2>P5 Bronze vintage</h2>
+      <span>Antik · koppar/brons · tjock ram</span>
+    </div>
+  </div>
+  <p style="margin-top:2rem">Android: <code>npm run android:icons:phone -- docs/design/themes/phone-icon-variants/P?.svg</code> (efter export till PNG 1024)</p>
+</body>
+</html>

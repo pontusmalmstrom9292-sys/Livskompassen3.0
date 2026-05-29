@@ -29,17 +29,19 @@
 
 `MainLayout` `main` använder `pb-24` så innehåll inte döljs under dock + widget.
 
-## App-header — panelstilar (3D)
+## App-header + dock — panelstilar (3D)
 
-`AppHeaderBar` sätter `data-panel-style` på `glass-header-bar--kanon`. Tre varianter (gradient, dubbel kant, inset-skugga, tjockare hörn):
+`AppHeaderBar` och `DockHubBand` delar `data-panel-style` via `resolveHeaderPanelStyle()` (`headerPanelStyle.ts`).
 
 | Värde | Känsla |
 |-------|--------|
-| `ember` | Varm guld/brons (standard om env saknas) |
+| **`ember`** | **Prod-kanon** — varm guld/brons (standard om env saknas) |
 | `obsidian` | Kall slate, silver highlight |
 | `aurora` | Teal + indigo glöd |
 
-`.env`: `VITE_HEADER_PANEL_STYLE=ember` · `obsidian` · `aurora`
+`.env`: `VITE_HEADER_PANEL_STYLE=ember` (rekommenderat) · `obsidian` · `aurora`
+
+**Låsta ember-färger (2026-05-29):** [`CHROME-EMBER-KANON.md`](./CHROME-EMBER-KANON.md) — exakta gradient/kant/glow; header och dock ska alltid matcha.
 
 ## Hub «Mer» (duplicering)
 

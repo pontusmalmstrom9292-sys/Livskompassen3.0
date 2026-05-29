@@ -25,11 +25,11 @@ Ny arkiv-implementation: säg `kör [GAP]` (regel i GAP-register) — inget nytt
 |-------|-------|-------------|----------------|
 | **core** | `/` | Manuell smoke #1–7, #18–20; drawer **done** (`NavigationDrawer.tsx` + `navTruth`) | Du · [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md) |
 | **kompis** (`evidence/kompis`) | Kunskap (Valv PIN) | Klickbara citations; policy: ej auto-ingest Kladd; dagbok→kampspar (Vävaren→valv idag) | `kör kunskap` · se `src/modules/evidence/kompis/module_plan.md` |
-| **projekt** (`admin/projects`) | `/projekt` | **P2+:** regler, bild-uppladdning, widget-sheet, MaterialPack-editor | `kör projekt P2` |
+| **projekt** (`admin/projects`) | `/projekt` | **P2 done:** bild, `/projekt/regler`, widget-sheet · MaterialPack-editor öppen | — |
 | **planering** (`admin/planning`) | `/planering` | P3 kanban **done**; kopplingar C–D (Life OS) | `kör kopplingar C` |
-| **barnporten** | (plan PWA) | Hub, widget CB1–4, HITL promote — **ej full route** | `kör barnporten` · [`BARNPORTEN-SPEC.md`](./design/BARNPORTEN-SPEC.md) |
+| **barnporten** | `/barnporten` · Familjen flik | **P1 delvis:** hub + inkorg + HITL · CB1 widget P2 | [`BARNPORTEN-SPEC.md`](./design/BARNPORTEN-SPEC.md) |
 | **mabra** (`wellbeing/mabra`) | `/mabra` | MVP **done**; **Daglig Mix** **done** (hub) | — |
-| **inkast** | Hem `#inkast-lite` · Planering inkorg | Fas 2 granskningskö **done** (UI); fas 3+ Gmail | — |
+| **inkast** | Hem `#inkast-lite` · Planering inkorg | Fas 2 **done**; fas 3 genväg → projekt · Gmail OAuth defer | — |
 | **dagbok** (`diary/diary`) | `/dagbok` | Inkast fas 3–5 | `kör inkast fas 3` |
 | **dossier** (`evidence/vault/dossier`) | `/dossier` | BBIC `reportType` **planned** | Spec §I.4 |
 | **valv** (`evidence/vault`) | `/dagbok?tab=bevis` | Vävaren försätt / polish kvar | Spec/module_plan |

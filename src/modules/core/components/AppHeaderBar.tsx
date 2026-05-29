@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
-import { resolveHeaderPanelStyle } from '../layout/headerPanelStyle';
 import { HeaderMenuGlyph } from '../ui/HeaderChromeGlyphs';
+import { resolveHeaderPanelStyle } from '../layout/headerPanelStyle';
 import { AppHeaderBrand } from './AppHeaderBrand';
 
 export type { HeaderPanelStyle } from '../layout/headerPanelStyle';

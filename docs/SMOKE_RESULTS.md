@@ -1,5 +1,22 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Max-byggplan (2026-05-29)
+
+**PMIR:** [`evaluations/2026-05-29-pmir-max-byggplan.md`](./evaluations/2026-05-29-pmir-max-byggplan.md)
+
+| Kommando | Resultat |
+|----------|----------|
+| `smoke:design-modules` | **PASS** (ember dock + Projekt P2 wiring) |
+| `smoke:locked-icons` | **PASS** |
+| `smoke:locked-ux` | **PASS** |
+| `npm run build` | **PASS** |
+| `npm run orkester:night` | **PASS** — [`evaluations/2026-05-29-orkester-natt.md`](./evaluations/2026-05-29-orkester-natt.md) |
+| `npm run cap:sync` | **PASS** |
+
+**Manuellt efter deploy:** #1 Valv · #2 Barnen · #18 Ekonomi (tidigare PASS 2026-05-27 — dubbelkolla vid behov) · **ny:** projektbild i Storage efter `storage.rules` deploy.
+
+---
+
 ## Modul-/flikflytt baslinje (2026-05-28)
 
 **Branch:** `main` (lokal) · **Plan:** modul-flik ombyggnad Fas A–E

@@ -7,11 +7,11 @@ import { useLongPress } from '../hooks/useLongPress';
 import { useLifeHubPreset } from '../lifeOs/useLifeHubPreset';
 import { getHubContextSlots, type HubContextSlot } from '../navigation/hubContextBar';
 import { getDockHubBanner } from './dockHubBanner';
-import { resolveHeaderPanelStyle } from './headerPanelStyle';
 import { renderDockNavIcon, renderDockSideIcon } from './dockNavIcons';
 import { DockNavButton, DockNavLinkFace } from './DockNavButton';
 import { getDockSideLinks } from './dockHubChrome';
 import type { DockSideLink } from './dockHubChrome';
+import { resolveHeaderPanelStyle } from './headerPanelStyle';
 
 function DockSideNav({ link }: { link: DockSideLink }) {
   const icon = renderDockSideIcon(link.icon);
@@ -24,7 +24,7 @@ function DockSideNav({ link }: { link: DockSideLink }) {
       aria-label={link.label}
     >
       {({ isActive }) => (
-        <DockNavLinkFace label={link.label} icon={icon} active={isActive} />
+        <DockNavLinkFace label={link.label} icon={icon} active={isActive} variant="side" />
       )}
     </NavLink>
   );
@@ -56,7 +56,6 @@ export function DockHubBand() {
   const { presetId } = useLifeHubPreset();
   const isHome = location.pathname === '/';
   const hubBanner = getDockHubBanner(location.pathname);
-  const panelStyle = resolveHeaderPanelStyle();
 
   const hubSlots = useMemo(
     () => getHubContextSlots(location.pathname, location.search),
@@ -84,6 +83,8 @@ export function DockHubBand() {
   const goTo = (to: string) => {
     navigate(to);
   };
+
+  const panelStyle = resolveHeaderPanelStyle();
 
   return (
     <div
@@ -122,8 +123,8 @@ export function DockHubBand() {
           {...centerHoldHandlers}
         >
           <span className="dock-hub-band__center-glow" aria-hidden />
-          <span className="dock-hub-band__plate header-chrome-btn header-chrome-btn--round header-chrome-btn--logo">
-            <LivskompassMark className="dock-hub-band__mark app-header__logo-mark text-accent" />
+          <span className="dock-hub-band__plate">
+            <LivskompassMark className="dock-hub-band__mark" />
           </span>
         </button>
 

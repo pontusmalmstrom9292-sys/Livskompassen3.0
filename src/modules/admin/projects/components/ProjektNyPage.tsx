@@ -1,11 +1,13 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { CheckSquare, FileText, Image, List } from 'lucide-react';
 import { HubPageShell } from '../../../core/layout/HubPageShell';
 import { useStore } from '../../../core/store';
+import { uploadProjectImage } from '../../../core/firebase/storage';
 import { createProject } from '../api/projectsApi';
 import { createProjectBlock } from '../api/projectBlocksApi';
 import { createPlanningTask } from '../../../admin/planning/api/planningTasksApi';
+import { ProjectImagePicker } from './ProjectImagePicker';
 import type { ProjectBlockType } from '../types';
 
 const PICKER: { id: ProjectBlockType; label: string; icon: typeof List }[] = [
@@ -15,18 +17,40 @@ const PICKER: { id: ProjectBlockType; label: string; icon: typeof List }[] = [
   { id: 'task', label: 'Uppgift → Handling', icon: CheckSquare },
 ];
 
-/** Route: /admin/projects/ny — skapa projekt + första block (P1). */
+function parseBlockType(raw: string | null): ProjectBlockType | null {
+  if (raw === 'list' || raw === 'note' || raw === 'image' || raw === 'task') return raw;
+  return null;
+}
+
+/** Routes: /projekt/ny · /admin/projects/ny */
 export function ProjektNyPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const user = useStore((s) => s.user);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageCaption, setImageCaption] = useState('');
+  const preselected = parseBlockType(searchParams.get('type'));
+  const fromWidget = searchParams.get('from') === 'widget';
+
+  useEffect(() => {
+    if (!preselected || preselected === 'image') return;
+    if (!user || saving) return;
+    void startProject(preselected);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- engångs auto-start från widget/dock
+  }, [preselected, user?.uid]);
 
   const startProject = async (blockType: ProjectBlockType) => {
     if (!user) {
       setError('Logga in för att skapa projekt.');
       return;
     }
+    if (blockType === 'image' && !imageFile) {
+      setError('Välj en bild först.');
+      return;
+    }
+
     const defaultTitle =
       blockType === 'list'
         ? 'Min lista'
@@ -65,11 +89,26 @@ export function ProjektNyPage() {
         return;
       }
 
+      if (blockType === 'image' && imageFile) {
+        const { storagePath, downloadUrl } = await uploadProjectImage(user.uid, projectId, imageFile);
+        await createProjectBlock(user.uid, {
+          projectId,
+          type: 'image',
+          title: title.trim(),
+          content: imageCaption.trim() || undefined,
+          storagePath,
+          imageUrl: downloadUrl,
+          order: 0,
+        });
+        navigate(`/admin/projects/${projectId}`);
+        return;
+      }
+
       await createProjectBlock(user.uid, {
         projectId,
         type: blockType,
         title: blockType === 'list' ? 'Första listan' : title.trim(),
-        content: blockType === 'note' ? '' : blockType === 'image' ? 'Bildblock — uppladdning senare.' : undefined,
+        content: blockType === 'note' ? '' : undefined,
         order: 0,
       });
       navigate(`/admin/projects/${projectId}`);
@@ -79,6 +118,37 @@ export function ProjektNyPage() {
       setSaving(false);
     }
   };
+
+  if (preselected === 'image') {
+    return (
+      <HubPageShell
+        eyebrow="Projekt"
+        title="Nytt bildprojekt"
+        lead={fromWidget ? 'Från widget — välj foto och namnge projektet.' : 'Ladda upp foto till Storage + projektblock.'}
+      >
+        {error && <p className="mb-3 text-sm text-danger">{error}</p>}
+        <ProjectImagePicker disabled={saving || !user} onPick={setImageFile} />
+        <textarea
+          className="input-glass mt-3 w-full text-sm"
+          rows={2}
+          placeholder="Bildtext (valfritt)"
+          value={imageCaption}
+          onChange={(e) => setImageCaption(e.target.value)}
+        />
+        <button
+          type="button"
+          disabled={saving || !user || !imageFile}
+          className="btn-pill--accent mt-4 text-sm"
+          onClick={() => void startProject('image')}
+        >
+          Skapa projekt med bild
+        </button>
+        <Link to="/projekt" className="btn-pill--ghost mt-4 inline-flex text-sm">
+          Avbryt
+        </Link>
+      </HubPageShell>
+    );
+  }
 
   return (
     <HubPageShell
@@ -98,7 +168,13 @@ export function ProjektNyPage() {
               type="button"
               disabled={saving || !user}
               className="elongated-module elongated-module--gold flex w-full items-center gap-3 p-4 text-left disabled:opacity-60"
-              onClick={() => void startProject(item.id)}
+              onClick={() => {
+                if (item.id === 'image') {
+                  navigate('/projekt/ny?type=image');
+                  return;
+                }
+                void startProject(item.id);
+              }}
             >
               <Icon className="h-5 w-5 text-accent" />
               <div>
@@ -111,9 +187,14 @@ export function ProjektNyPage() {
           );
         })}
       </div>
-      <Link to="/projekt" className="btn-pill--ghost mt-4 inline-flex text-sm">
-        Tillbaka till projekt
-      </Link>
+      <div className="mt-4 flex flex-wrap gap-2">
+        <Link to="/projekt/regler" className="btn-pill--ghost text-sm">
+          Regler
+        </Link>
+        <Link to="/projekt" className="btn-pill--ghost text-sm">
+          Tillbaka
+        </Link>
+      </div>
     </HubPageShell>
   );
 }

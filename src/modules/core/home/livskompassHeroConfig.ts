@@ -102,15 +102,18 @@ export type HeroQuickPick = {
   id: string;
   label: string;
   to: string;
+  icon?: ChromeV4Category;
+  /** Kompis (M2) — ingen v4-asset. */
+  mark?: 'kompis';
 };
 
-/** Direktnavigering under skivan — utan expanderade paneler. */
+/** Snabbval längs nedre kompassbåge (ikon + etikett). */
 export const HERO_QUICK_PICKS: HeroQuickPick[] = [
-  { id: 'checkin', label: 'Check-in', to: '/' },
-  { id: 'dagbok', label: 'Dagbok', to: '/dagbok' },
-  { id: 'uppgift', label: 'Uppgift', to: '/planering' },
-  { id: 'hamn', label: 'Hamn', to: '/hamn' },
-  { id: 'kompis', label: 'Kompis', to: '/kompis' },
+  { id: 'checkin', label: 'Check-in', to: '/', icon: 'rutiner' },
+  { id: 'dagbok', label: 'Dagbok', to: '/dagbok', icon: 'dagbok' },
+  { id: 'uppgift', label: 'Uppgift', to: '/planering', icon: 'planering' },
+  { id: 'hamn', label: 'Hamn', to: '/hamn', icon: 'hamn' },
+  { id: 'kompis', label: 'Kompis', to: '/kompis', mark: 'kompis' },
 ];
 
 export const COMPASS_CARDINALS = [

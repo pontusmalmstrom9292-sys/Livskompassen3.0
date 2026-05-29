@@ -40,5 +40,5 @@
 
 - Tokens: `themeRegistry.ts` → `applyTheme()` → `:root` + `html[data-theme]`
 - Glass: guld border 2px, accent-glow på widget-ikoner
-- Chrome (dock/widget/meny): [CHROME-POLICY.md](../docs/design/CHROME-POLICY.md) · nav: `navTruth.ts`
+- Chrome (dock/widget/meny): [CHROME-POLICY.md](../docs/design/CHROME-POLICY.md) · **låst ember:** [CHROME-EMBER-KANON.md](../docs/design/CHROME-EMBER-KANON.md) · nav: `navTruth.ts`
 - Hub-färger (J-pack): se [COLOR-POLICY.md](../docs/design/COLOR-POLICY.md)

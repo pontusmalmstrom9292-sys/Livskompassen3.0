@@ -13,6 +13,8 @@
     "android:run": "npm run cap:sync && npx cap run android",
     "android:run:prod": "npm run cap:sync:prod && npx cap run android",
     "android:icons": "./scripts/generate_android_launcher_icons.sh",
+    "android:icons:phone": "./scripts/generate_android_launcher_icons.sh docs/design/themes/app-icon-phone-teal-kompas-1024.png",
+    "phone-icons:preview": "open docs/design/themes/phone-icon-variants/preview.html",
     "icons:proposals-v3": "node scripts/generate_icon_proposals_v3.mjs",
     "icons:proposals-v4": "node scripts/generate_icon_proposals_v4.mjs",
     "preview": "vite preview",

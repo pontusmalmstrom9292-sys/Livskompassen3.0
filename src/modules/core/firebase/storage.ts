@@ -24,6 +24,20 @@ export async function uploadVaultEvidence(userId: string, file: File): Promise<s
 }
 
 /** WH1 — diskret inspelning med ISO-stämpel + slug från analys-titel. */
+/** Projekt P2 — bildblock, uid-scoped. */
+export async function uploadProjectImage(
+  userId: string,
+  projectId: string,
+  file: File,
+): Promise<{ storagePath: string; downloadUrl: string }> {
+  const safeName = file.name.replace(/[^\w.-]+/g, '_').slice(0, 80);
+  const path = `project_media/${userId}/${projectId}/${Date.now()}_${safeName}`;
+  const storageRef = ref(storage, path);
+  await uploadBytes(storageRef, file, { contentType: file.type || 'image/jpeg' });
+  const downloadUrl = await getDownloadURL(storageRef);
+  return { storagePath: path, downloadUrl };
+}
+
 export async function uploadDiscreetRecording(
   userId: string,
   file: File,

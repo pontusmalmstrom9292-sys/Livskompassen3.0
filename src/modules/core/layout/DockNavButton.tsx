@@ -31,10 +31,7 @@ export function DockNavButton({
       aria-current={active ? 'page' : undefined}
       {...rest}
     >
-      <span
-        className="dock-nav-btn__icon-shell header-chrome-btn header-chrome-btn--round"
-        aria-hidden
-      >
+      <span className="dock-nav-btn__icon-shell" aria-hidden>
         {icon}
       </span>
       <span className="dock-nav-btn__label">{label}</span>
@@ -46,14 +43,18 @@ type LinkFaceProps = {
   label: string;
   icon: ReactNode;
   active?: boolean;
+  variant?: 'slot' | 'side';
 };
 
 /** Innehåll för NavLink (ingen knapp i knapp). */
-export function DockNavLinkFace({ label, icon, active }: LinkFaceProps) {
+export function DockNavLinkFace({ label, icon, active, variant = 'side' }: LinkFaceProps) {
   return (
     <>
       <span
-        className="dock-nav-btn__icon-shell header-chrome-btn header-chrome-btn--round"
+        className={clsx(
+          'dock-nav-btn__icon-shell',
+          variant === 'side' && 'dock-nav-btn__icon-shell--side',
+        )}
         aria-hidden
       >
         {icon}

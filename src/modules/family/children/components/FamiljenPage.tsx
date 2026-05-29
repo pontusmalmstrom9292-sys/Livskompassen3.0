@@ -7,6 +7,8 @@ import { FamiljenChildPicker } from './familjen/FamiljenChildPicker';
 import { FamiljenReflektionTab } from './familjen/FamiljenReflektionTab';
 import { FamiljenLivsloggTab } from './familjen/FamiljenLivsloggTab';
 import { FamiljenTillsammansTab } from './familjen/FamiljenTillsammansTab';
+import { BarnportenInboxPanel } from '../../../barnporten/components/BarnportenInboxPanel';
+import { BarnportenOrkesterPanel } from '../../../barnporten/components/BarnportenOrkesterPanel';
 import { HubPageShell } from '../../../core/layout/HubPageShell';
 import { ParentReminderFooter } from './ParentReminderFooter';
 import { MaterialPackShortcuts, useLifeHubPreset } from '../../../core/lifeOs';
@@ -67,6 +69,15 @@ export function FamiljenPage() {
           {tab === 'reflektion' && <FamiljenReflektionTab shell={shell} />}
           {tab === 'livslogg' && <FamiljenLivsloggTab shell={shell} />}
           {tab === 'tillsammans' && <FamiljenTillsammansTab shell={shell} />}
+          {tab === 'barnporten' && (
+            <div className="space-y-4">
+              <BarnportenInboxPanel />
+              <BarnportenOrkesterPanel />
+              <a href="/barnporten" className="btn-pill--ghost text-sm">
+                Öppna Barnporten (barn-PWA)
+              </a>
+            </div>
+          )}
         </div>
       </HubPageShell>
     </div>

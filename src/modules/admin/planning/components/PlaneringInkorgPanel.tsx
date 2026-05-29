@@ -152,6 +152,13 @@ export function PlaneringInkorgPanel() {
               Ex-brus och konflikt → Hamn (BIFF). Automatiska regler (`planning_email_rules`)
               kommer när Gmail-synk är kopplad.
             </p>
+            <button
+              type="button"
+              className="btn-pill--ghost mt-3 w-full text-xs"
+              onClick={() => navigate('/projekt/ny?from=inkast')}
+            >
+              Skapa projekt från inkorg (fas 3)
+            </button>
           </BentoCard>
 
           <InboxReviewQueue compact />

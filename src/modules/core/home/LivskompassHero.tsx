@@ -8,9 +8,7 @@ import { getCompassThemeByTime } from '../../wellbeing/compasses/utils/compassTh
 import {
   COMPASS_CARDINALS,
   HERO_ORBIT_SLOTS,
-  HERO_QUICK_PICKS,
   orbitRadiusPercent,
-  type HeroQuickPick,
 } from './livskompassHeroConfig';
 
 type Props = {
@@ -31,15 +29,6 @@ export function LivskompassHero({ onCenterPress }: Props) {
   const goOrbit = (to: string) => {
     navigate(to);
     closeMenus();
-  };
-
-  const handleQuickPick = (pick: HeroQuickPick) => {
-    closeMenus();
-    if (pick.id === 'checkin') {
-      onCenterPress?.();
-      return;
-    }
-    navigate(pick.to);
   };
 
   return (
@@ -111,7 +100,6 @@ export function LivskompassHero({ onCenterPress }: Props) {
                       aria-haspopup="true"
                       onClick={() => toggleOrbit(id)}
                     >
-                      <span className="livskompass-hero__orbit-gem" aria-hidden />
                       <span className="livskompass-hero__orbit-node-ring" aria-hidden />
                       <ChromeV4Icon category={icon} className="livskompass-hero__orbit-icon" />
                     </button>
@@ -156,24 +144,8 @@ export function LivskompassHero({ onCenterPress }: Props) {
               </button>
             </div>
           </div>
-        </div>
 
-        <p className="livskompass-hero__hint">Tryck en symbol · mitten = check-in</p>
-
-        <div className="livskompass-hero__quick" role="group" aria-label="Snabbval">
-          <p className="livskompass-hero__quick-label">Snabbval</p>
-          <div className="livskompass-hero__quick-row">
-            {HERO_QUICK_PICKS.map((pick) => (
-              <button
-                key={pick.id}
-                type="button"
-                className="livskompass-hero__quick-chip"
-                onClick={() => handleQuickPick(pick)}
-              >
-                {pick.label}
-              </button>
-            ))}
-          </div>
+          <p className="livskompass-hero__hint">Tryck en symbol · mitten = check-in</p>
         </div>
       </div>
     </section>

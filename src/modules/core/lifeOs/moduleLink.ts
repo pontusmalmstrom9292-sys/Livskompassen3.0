@@ -9,7 +9,7 @@ export type ModuleLinkTarget =
   | { module: 'dagbok'; from?: 'mabra'; energy?: 'low'; tab?: string }
   | { module: 'hamn'; tab?: string }
   | { module: 'planering'; tab?: 'handling' | 'fokus' | 'inkorg' }
-  | { module: 'projekt'; projectId?: string }
+  | { module: 'projekt'; projectId?: string; subpath?: 'ny' | 'regler' }
   | { module: 'hem'; hash?: string };
 
 export type ResolvedModuleLink = {
@@ -48,9 +48,10 @@ export function resolveModuleLink(target: ModuleLinkTarget): ResolvedModuleLink 
       };
     }
     case 'projekt':
-      return target.projectId
-        ? { pathname: `/admin/projects/${target.projectId}` }
-        : { pathname: '/projekt' };
+      if (target.projectId) return { pathname: `/admin/projects/${target.projectId}` };
+      if (target.subpath === 'ny') return { pathname: '/projekt/ny' };
+      if (target.subpath === 'regler') return { pathname: '/projekt/regler' };
+      return { pathname: '/projekt' };
     case 'hem':
       return { pathname: '/', hash: target.hash };
     default:
