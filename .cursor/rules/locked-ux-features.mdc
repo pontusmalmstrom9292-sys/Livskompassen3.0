@@ -53,16 +53,17 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 - Valv: only via parent HITL — never auto-promote private child logs
 - Child widget CB1–CB4 is **not** parent discreet recording (W1)
 
-## Locked product icons (B1 · D1 · M2)
+## Locked product icons (D1 · M2 — B1 app upplåst)
 
 - Register: [`.context/locked-icons.md`](../.context/locked-icons.md) · rule: [`locked-icons.mdc`](locked-icons.mdc)
+- App/favicon/Android: [`phone-icon-variants/PREVIEW.md`](../../docs/design/themes/phone-icon-variants/PREVIEW.md) — **ej** B1 Kanon ros som tvingad mall
 - Smoke: `npm run smoke:locked-icons`
 - New chrome icons: [`docs/design/ICON-STYLE-GUIDE.md`](../../docs/design/ICON-STYLE-GUIDE.md)
 
 ## Forbidden without approval
 
 - Deleting `BARNFOKUS_QUESTIONS`, `BarnfokusFraganPanel`, `VaultMonsterPanel`, `VaultOrkesterPanel`, or `vaultPatternScan.ts`
-- Replacing locked B1/D1/M2 icons without updating `.context/locked-icons.md`
+- Replacing locked D1/M2 icons without updating `.context/locked-icons.md`
 - Collapsing Mönster/Orkester into Dossier-only or removing tab bar entries
 - Replacing optimistic middag save with “refresh only after server” (degrades ADHD-safe feedback)
 - Removing Barnporten spec, agents registry, or Valv HITL bridge design

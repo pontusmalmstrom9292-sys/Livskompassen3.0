@@ -1,7 +1,8 @@
 # Kompakt Livskompassen — Tema (modul för modul)
 
 **Referens (låst):** [`../references/LIVSKOMPASSEN-hem-kompakt-ref.png`](../references/LIVSKOMPASSEN-hem-kompakt-ref.png)  
-**Behåll alltid:** Fotobakgrund (nordisk skymning/sjö) + **Kognitiv sköld**-kompass (L1 emboss).  
+**10 alternativ (bakgrund + ikoner):** [`../themes/kognitiv-skold-variants/PREVIEW.md`](../themes/kognitiv-skold-variants/PREVIEW.md)  
+**Behåll alltid:** **Kognitiv sköld**-hub (L1 emboss) — exakt foto-bakgrund väljs via K01–K10.  
 **Förbättra:** Kort, menyer, dock — tätare layout, mer gulddetalj (L2), **ingen** turkos/lila.
 
 ---

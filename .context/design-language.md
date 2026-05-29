@@ -26,7 +26,7 @@
 
 ## Ikoner (Premium Helros)
 
-- **Låst:** B1 app · D1 kompass · M2 Kompis — [`.context/locked-icons.md`](locked-icons.md)
+- **Låst:** D1 kompass · M2 Kompis — [`.context/locked-icons.md`](locked-icons.md) · app-ikon upplåst (P1–P5)
 - **Stilguide:** [`docs/design/ICON-STYLE-GUIDE.md`](../docs/design/ICON-STYLE-GUIDE.md)
 - **Övriga:** förslag i `docs/design/icons-proposals/2026-05-26-remaining/`
 

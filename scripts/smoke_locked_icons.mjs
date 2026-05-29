@@ -1,5 +1,5 @@
 /**
- * Locked product icons B1 / D1 / M2 must remain in source.
+ * Locked product icons D1 / M2 must remain in source. B1 app icon is unlocked.
  * Usage: npm run smoke:locked-icons
  */
 import { readFileSync, existsSync } from 'fs';
@@ -42,19 +42,14 @@ function main() {
   mustInclude('src/modules/evidence/kompis/components/KompisAvatar.tsx', 'KompisMark');
   mustNotInclude('src/modules/evidence/kompis/components/KompisAvatar.tsx', 'LivskompassMark');
 
-  mustInclude('public/favicon.svg', 'ICON-B1', 'b1bg', 'b1needle');
   mustNotInclude('public/favicon.svg', '#863bff', '7e14ff');
 
-  assert(
-    existsSync(resolve(root, 'docs/design/themes/app-icon-b1-kanon-ros-1024.png')),
-    'saknar Android-käll-PNG B1',
-  );
   assert(
     existsSync(resolve(root, 'android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png')),
     'saknar mipmap launcher',
   );
 
-  console.log('[smoke:locked-icons] PASS — B1 favicon+Android, D1 LivskompassMark, M2 KompisMark.');
+  console.log('[smoke:locked-icons] PASS — D1 LivskompassMark, M2 KompisMark (B1 app icon unlocked).');
 }
 
 try {

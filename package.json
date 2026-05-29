@@ -15,6 +15,8 @@
     "android:icons": "./scripts/generate_android_launcher_icons.sh",
     "android:icons:phone": "./scripts/generate_android_launcher_icons.sh docs/design/themes/app-icon-phone-teal-kompas-1024.png",
     "phone-icons:preview": "open docs/design/themes/phone-icon-variants/PREVIEW.md",
+    "kognitiv-skold:generate": "node scripts/generate_kognitiv_skold_variants.mjs",
+    "kognitiv-skold:preview": "npm run kognitiv-skold:generate && node scripts/export_kognitiv_skold_previews.mjs && open docs/design/themes/kognitiv-skold-variants/PREVIEW.md",
     "icons:proposals-v3": "node scripts/generate_icon_proposals_v3.mjs",
     "icons:proposals-v4": "node scripts/generate_icon_proposals_v4.mjs",
     "preview": "vite preview",

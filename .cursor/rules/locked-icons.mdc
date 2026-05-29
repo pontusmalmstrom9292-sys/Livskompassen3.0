@@ -1,5 +1,5 @@
 ---
-description: Locked product icons B1 D1 M2 — do not replace without approval
+description: Locked product icons D1 M2 — B1 app icon unlocked
 alwaysApply: true
 ---
 
@@ -7,18 +7,23 @@ alwaysApply: true
 
 Canonical: [`.context/locked-icons.md`](../../.context/locked-icons.md)
 
-| ID | File |
-|----|------|
-| B1 | `public/favicon.svg` |
-| D1 | `src/modules/core/ui/LivskompassMark.tsx` |
-| M2 | `src/modules/kompis/components/KompisMark.tsx` |
+| ID | File | Status |
+|----|------|--------|
+| ~~B1~~ | `public/favicon.svg` | **Upplåst** — app/favicon/Android får bytas (P1–P5 eller ny) |
+| D1 | `src/modules/core/ui/LivskompassMark.tsx` | LÅST |
+| M2 | `src/modules/kompis/components/KompisMark.tsx` | LÅST |
 
 ## MUST
 
-- Run `npm run smoke:locked-icons` when touching these files.
-- New chrome icons follow [`docs/design/ICON-STYLE-GUIDE.md`](../../docs/design/ICON-STYLE-GUIDE.md).
+- Run `npm run smoke:locked-icons` when touching D1 or M2.
+- New chrome icons follow [`docs/design/ICON-STYLE-GUIDE.md`](../../docs/design/ICON-STYLE-GUIDE.md) (D1/M2 — **not** B1 Kanon ros as template).
 
 ## MUST NOT
 
-- Revert to Vite purple favicon or minimal line-only `LivskompassMark` without user approval.
+- Revert D1 to minimal line-only `LivskompassMark` without user approval.
 - Use `LivskompassMark` inside `KompisAvatar` (use `KompisMark` only).
+
+## App icon (B1 upplåst)
+
+- Telefon/PWA/favicon: [`docs/design/themes/phone-icon-variants/PREVIEW.md`](../../docs/design/themes/phone-icon-variants/PREVIEW.md)
+- Android: `npm run android:icons:phone -- <png-1024>`

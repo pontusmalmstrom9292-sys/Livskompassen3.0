@@ -8,7 +8,7 @@ Spec: [`docs/design/ANDROID-WIDGETS-SPEC.md`](../docs/design/ANDROID-WIDGETS-SPE
 
 ---
 
-**App-ikon (B1 Kanon ros, låst):** `npm run android:icons` från repo-root (källa: `docs/design/themes/app-icon-b1-kanon-ros-1024.png`). Efter ändring: avinstallera appen på enheten och installera om — Android cachar launcher-ikoner.
+**App-ikon:** välj variant i `docs/design/themes/phone-icon-variants/PREVIEW.md`, exportera PNG 1024, kör `npm run android:icons:phone -- <sökväg-till-png>`. Efter ändring: avinstallera appen på enheten och installera om — Android cachar launcher-ikoner.
 
 ## Krav
 

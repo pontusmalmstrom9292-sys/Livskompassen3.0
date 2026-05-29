@@ -122,21 +122,21 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
-## 10. Produktikoner B1 · D1 · M2 (låst 2026-05-26)
+## 10. Produktikoner D1 · M2 (låst) · app-ikon upplåst
 
-| ID | Plats | Fil |
-|----|-------|-----|
-| **B1** | App / favicon | `public/favicon.svg` |
-| **D1** | Header, dock, hero | `LivskompassMark.tsx` |
-| **M2** | Kompis-avatar | `KompisMark.tsx` |
+| ID | Plats | Fil | Status |
+|----|-------|-----|--------|
+| ~~**B1**~~ | App / favicon | `public/favicon.svg` | **Upplåst** — P1–P5 i `phone-icon-variants/PREVIEW.md` |
+| **D1** | Header, dock, hero | `LivskompassMark.tsx` | LÅST |
+| **M2** | Kompis-avatar | `KompisMark.tsx` | LÅST |
 
 | | |
 |---|---|
 | **Register** | `.context/locked-icons.md` · stil: `docs/design/ICON-STYLE-GUIDE.md` |
-| **Övriga ikoner** | Förslag: `docs/design/icons-proposals/2026-05-26-remaining/` — ej inbyggda förrän val |
+| **App-ikon** | `docs/design/themes/phone-icon-variants/PREVIEW.md` · `npm run android:icons:phone` |
 | **Smoke** | `npm run smoke:locked-icons` |
 
-**Får inte:** byta tillbaka till Vite-lila favicon, Lucide-kompass i Kompis, eller minimal linje-ros utan produktbeslut.
+**Får inte:** Lucide-kompass i Kompis, minimal linje-D1, eller Vite-lila favicon utan beslut.
 
 ---
 
