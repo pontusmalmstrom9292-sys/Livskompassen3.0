@@ -84,7 +84,7 @@
 ## Rekommendation
 
 - [x] **Commit** batch på `main` (exkl. `repomix-dagbok.txt`)
-- [ ] **Push** `origin main` — väntar användare
+- [x] **Push** `origin main` — 2026-05-29
 - [ ] **Deploy** storage + firestore rules (ordning: rules → storage)
 - [ ] **Ej** gren-radering
 
@@ -92,10 +92,10 @@
 
 ## Godkännande
 
-**Användaren:** ☐ godkänn merge · ☐ avbryt  
+**Användaren:** ☑ godkänn merge · ☐ avbryt  
 **Rekommenderat kommando:** **`godkänn merge`** (commit + push batch, därefter rules/storage deploy)
 
-**Datum:** ___________
+**Datum:** 2026-05-29
 
 ---
 
