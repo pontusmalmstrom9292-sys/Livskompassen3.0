@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import { useLocation } from 'react-router-dom';
 import { HeaderMenuGlyph } from '../ui/HeaderChromeGlyphs';
 import { resolveHeaderPanelStyle } from '../layout/headerPanelStyle';
 import { AppHeaderBrand } from './AppHeaderBrand';
@@ -13,8 +12,6 @@ type Props = {
 };
 
 export function AppHeaderBar({ menuExpanded, onMenuClick, actions }: Props) {
-  const location = useLocation();
-  const showTagline = location.pathname === '/';
   const panelStyle = resolveHeaderPanelStyle();
 
   return (
@@ -32,7 +29,7 @@ export function AppHeaderBar({ menuExpanded, onMenuClick, actions }: Props) {
         <HeaderMenuGlyph className="header-chrome-btn__glyph h-[1.35rem] w-[1.35rem]" />
       </button>
 
-      <AppHeaderBrand showTagline={showTagline} />
+      <AppHeaderBrand />
 
       <div className="app-header__actions app-header__actions--kanon">{actions}</div>
     </div>

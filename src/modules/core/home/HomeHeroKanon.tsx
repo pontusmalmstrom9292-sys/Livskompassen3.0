@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import { HomeGreeting } from './HomeGreeting';
 import { HomeStreakChip } from './HomeStreakChip';
-import { LivskompassHero } from './LivskompassHero';
 import { DagensRiktningCard } from './DagensRiktningCard';
 
 type Props = {
   onCheckInSaved?: () => void;
 };
 
-/** Hem — scenic I-stone + Kognitiv sköld (HOME-HERO-KANON.md) */
+/**
+ * Hem — scenic I-stone (HOME-HERO-KANON.md).
+ * Check-in endast via DagensRiktningCard (undviker dubbel CTA mot samma panel).
+ * Full kompass-hub: LivskompassHero variant=compass — P2 / theme-lab tills elongated shippar.
+ */
 export function HomeHeroKanon({ onCheckInSaved }: Props) {
   const [checkInOpen, setCheckInOpen] = useState(false);
 
@@ -18,8 +21,6 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
         <HomeGreeting />
         <HomeStreakChip />
       </div>
-
-      <LivskompassHero onCenterPress={() => setCheckInOpen(true)} />
 
       <DagensRiktningCard
         open={checkInOpen}

@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { clsx } from 'clsx';
 import { DashboardPage } from '../../wellbeing/compasses/components/DashboardPage';
-import { EVENING_HERO, getFlowConfig } from '../../wellbeing/compasses/config/compassFlows';
 import { getCompassAdvice, getCompassFlowMeta } from '../../wellbeing/compasses/utils/compassAdvice';
 import { getDefaultCompassByTime } from '../../wellbeing/compasses/utils/compassTime';
+import { DagensRiktningCompassTrio } from './DagensRiktningCompassTrio';
 
 type Props = {
   open: boolean;
@@ -16,16 +16,14 @@ export function DagensRiktningCard({ open, onOpenChange, onCheckInSaved }: Props
   const flow = getDefaultCompassByTime();
   const meta = getCompassFlowMeta(flow);
   const advice = getCompassAdvice(flow);
-  const cfg = getFlowConfig(flow);
-  const FlowIcon = flow === 'evening' ? EVENING_HERO.icon : cfg!.icon;
 
   return (
     <section className="dagens-riktning" aria-label="Dagens riktning">
       <div className={clsx('dagens-riktning-card', open && 'dagens-riktning-card--open')}>
         <div className="dagens-riktning-card__main">
-          <span className="dagens-riktning-card__icon-wrap" aria-hidden>
-            <FlowIcon className="dagens-riktning-card__icon" strokeWidth={1.5} />
-          </span>
+          <div className="dagens-riktning-card__icon-wrap">
+            <DagensRiktningCompassTrio activeFlow={flow} />
+          </div>
 
           <div className="dagens-riktning-card__body">
             <p className="dagens-riktning-card__eyebrow">
