@@ -1,0 +1,3019 @@
+This file is a merged representation of a subset of the codebase, containing specifically included files, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of a subset of the repository's contents that is considered the most important context.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Only files matching these patterns are included: src/modules/diary/**, docs/specs/modules/Dagbok-SPEC.md, .context/modules/dagbokshubben.md, src/modules/core/firebase/firestore.ts, src/modules/core/home/panels/HomeDagbokPanel.tsx
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.context/
+  modules/
+    dagbokshubben.md
+docs/
+  specs/
+    modules/
+      Dagbok-SPEC.md
+src/
+  modules/
+    core/
+      firebase/
+        firestore.ts
+      home/
+        panels/
+          HomeDagbokPanel.tsx
+    diary/
+      diary/
+        api/
+          journalWovenService.ts
+          weaverService.ts
+        components/
+          ConfirmStep.tsx
+          DagbokPage.tsx
+          HjartatPage.tsx
+          JournalArchive.tsx
+          JournalEntryCard.tsx
+          MoodStep.tsx
+          ReflectionStep.tsx
+          SavedStep.tsx
+        constants/
+          mabraBridge.ts
+          moodPrompts.ts
+          moods.ts
+        hooks/
+          useJournalFlow.ts
+        types/
+          journal.ts
+        utils/
+          formatJournalDate.ts
+        index.ts
+        module_plan.md
+        README.md
+      mirror/
+        api/
+          speglingsCoachService.ts
+        components/
+          ActCalibrationView.tsx
+          EvidenceCompareView.tsx
+          SpeglarEvidencePanel.tsx
+          SpeglingsSystem.tsx
+          SvartPaVittForm.tsx
+          VivirQuickEntry.tsx
+          VivirStepView.tsx
+        constants/
+          vivirSteps.ts
+        utils/
+          matchVaultEvidence.ts
+        index.ts
+        module_plan.md
+        README.md
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="docs/specs/modules/Dagbok-SPEC.md">
+# Dagbok-SPEC
+
+Källa: konsoliderad från 5 notebook-svar (2026-05) + kodgranskning mot `src/modules/dagbok/` och `functions/`.  
+Konsoliderad till [`.context/modules/dagbokshubben.md`](../../../.context/modules/dagbokshubben.md).
+
+## 1. Syfte och användarbehov
+
+Dagbokshubben är **Lager 1 (Hjärtat)** — appens lugna, oskyldiga fasad utåt. En kravlös tacksamhets- och reflektionsdagbok med låg kognitiv belastning (ADHD/GAD). Syftet är identitetsrekonstruktion och KASAM via ACT/KBT-inspirerad reflektion — **inte** forensisk bevisföring.
+
+**Strikt skild från Verklighetsvalvet (Lager 2):** dagboken är mjuk och helande; valvet är kallt, juridiskt och forensiskt. De får prata i backend (Vävaren) men UI-upplevelsen förblir separerad (**plausible deniability**).
+
+## 2. Route och ingång
+
+| | |
+|---|---|
+| **Route** | `/dagbok` (`HjartatPage`, flik `reflektion`) |
+| **Redirect** | `/valv` → `/dagbok?tab=bevis` |
+| **AuthGate** | Ja (Firebase Auth på route) |
+| **Kluster** | Hjärtat |
+| **Synlig ingång** | Floating Dock BookOpen, HomePage bento (`ClusterGrid`) |
+| **Dold ingång (Fyren)** | **3s långtryck** på **dock-ikonen** BookOpen → WebAuthn → PIN → `/dagbok?tab=bevis` — **inte** knapp inne i dagboksvyn |
+
+Relaterade flikar i samma kluster: **Bevis** (valv), **Speglar** (`?tab=speglar`).
+
+## 3. UX-flöde (Progressive Disclosure)
+
+**Idag (kod):**
+
+1. **Humör (steg 1):** Pills — Lugn, Trött, Spänd, Hoppfull, Låg. `JournalArchive` synlig **endast** här.
+2. **Reflektion (steg 2):** Fritext + **Web Speech API** (`sv-SE`) via mikrofon i `ReflectionStep`. Placeholder: *"Kort reflektion..."* — inga humör-specifika KBT-frågor än.
+3. **Bekräfta (steg 3):** Preview + Spara.
+4. **Sparad (steg 4):** Bekräftelse, *Ny post*, bro: *"Känns det som gaslighting? → Gå till Speglar"* (`journalContext` i route state).
+
+**Begränsning idag:** Spar kräver **fritext** (`text.trim()`) — humör-only check-in finns inte.
+
+**Målbild (planerad):**
+
+- KBT/ACT-vägledande fråga per humör (t.ex. stolthet/tacksamhet).
+- **Måbra-bro** vid `Låg` / `Spänd` (diskret länk till `/mabra`).
+- Villkorlig Speglar-bro när **Vävaren** flaggar hot (inte alltid synlig länk).
+- Valfritt humör-only save (~15 sek check-in).
+- KASAM-kvällsflöde; Morgonkompass-utkast som referenskort.
+
+## 4. Visuell design (Obsidian Calm)
+
+Canonical: [`docs/specs/design-master.md`](../design-master.md)
+
+| Element | Token |
+|---------|--------|
+| Bakgrund | `#020617` (slate-950) |
+| Yta / glass | `#0f172a` + blur |
+| Aktiv pill / steg | `#FDE68A` (guld) |
+| Fortsätt | `#818CF8` (indigo) — `btn-pill--secondary` |
+| Spara / klar | `#2DD4BF` (emerald) |
+| Typografi | Outfit + Inter |
+
+**Förbjudet:** streak-räknare (count-up), ljusa bakgrunder, lila (utöver indigo), turkos, naturteman, gamification (stjärnor/plantor), röda varningsbanner i Lager 1.
+
+**Planerat (ej kod):** humör-gradient bakgrund — kan krocka med Obsidian Calm; avvakta UX-test.
+
+## 5. Datamodell (Firestore, WORM)
+
+Skrivskydd via Security Rules: `create` med `ownerId == auth.uid`; `update, delete: if false`.
+
+### Collection: `journal`
+
+| Fält | Typ | Notering |
+|------|-----|----------|
+| `ownerId` | string | Krävs (via `withUserId`) |
+| `userId` | string | Spegel av ownerId i klient-write |
+| `mood` | string | `Lugn`, `Trött`, `Spänd`, `Hoppfull`, `Låg` (title case) |
+| `text` | string | Reflektion / transkript |
+| `createdAt` | timestamp | server-side |
+
+**Inte i scope:** `vaultFlag`, hot-analys eller juridiska fält i `journal` — separation Lager 1/2.
+
+**Async efter save:** `weaveJournalEntry` (callable) → **`reality_vault`** (`category: vävaren_metadata`) — **inte** `kampspar`, **inte** direkt till Speglar-UI.
+
+## 6. Backend och agenter
+
+Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sharedRules.ts) (Vävaren).
+
+| Callable / lib | Roll |
+|----------------|------|
+| Klient `saveJournalEntry` | Direkt Firestore create → `journal` |
+| `weaveJournalEntry` | Firebase Callable (`europe-west1`); **fire-and-forget** från klient efter save — **inte** Firestore-trigger |
+| `weaverAgent` | Gemini + Vävaren-prompt; skriver WORM-post i `reality_vault` med `weaverTags`, `journalEntryId`, `sourceMood` |
+| `fetchWeaverRagContext` | Läser journal/valv/kampspar som **kontext** vid analys — skriver inte till Kunskap |
+
+**Röst:** Web Speech API i klient (`useSpeechToText`, `lang: sv-SE`). **Ingen** ljud-Blob till Storage; endast transkriberad text sparas vid save.
+
+**Agenter i UI:** Ingen blockerande agent i dagbok-wizard.
+
+## 7. Säkerhet
+
+| Kontroll | Status |
+|----------|--------|
+| AuthGate + Firestore `ownerId` | **done** |
+| WORM `journal` | **done** (rules) |
+| Zero Footprint: wizard i React RAM | **partial** — unmount-cleanup i `useJournalFlow`; Kill Switch global (`useShakeToKill` → `/`) |
+| Fyren: WebAuthn + PIN före bevis-flik | **done** (`FloatingDock`, `authenticateVaultGate`) |
+| CMEK | Drift/GCP — Layered Defense |
+| Röst: ingen persistent ljudfil | **done** (browser-only) |
+
+**Inte lagrat i `localStorage`:** wizard-state. Siduppdatering = blank wizard (om ej sparat).
+
+## 8. Status idag vs planerat
+
+| Område | Status |
+|--------|--------|
+| Wizard (humör → text → bekräfta → sparad) | **done** |
+| Humör-pills + `DagbokStepIndicator` | **done** |
+| Firestore `journal` + WORM rules | **done** |
+| `weaveJournalEntry` → `reality_vault` | **done** |
+| Speglar-bro (alltid synlig länk) | **done** |
+| `JournalArchive` + pagination ("Visa fler", pageSize 5) | **done** |
+| Arkiv dolt under steg 2–4 | **done** |
+| Röst-till-text Web Speech sv-SE | **done** |
+| Fyren: 3s long-press dock BookOpen → bevis | **done** |
+| Wizard unmount cleanup | **done** |
+| Villkorlig Speglar-bro (Vävaren hotnivå) | **planned** |
+| Måbra-bro vid låg energi | **planned** (Måbra MVP **done** — bro ej kopplad) |
+| KBT/ACT-prompter per humör | **planned** |
+| Humör-only save | **planned** |
+| KASAM-kväll / Morgonkompass-utkast | **planned** |
+| Humör-gradient bakgrund | **planned** (osäker vs Obsidian Calm) |
+| Dagbok → auto `kampspar` | **planned** — idag: Vävaren → `reality_vault` only |
+| Zero Footprint full audit (Kill Switch + Kunskap-paritet) | **planned** |
+
+## 9. Acceptanskriterier
+
+| # | Kriterium | Kod-status |
+|---|-----------|------------|
+| 1 | Oinloggad blockeras av AuthGate på `/dagbok` | **done** |
+| 2 | Wizard steg 1 = humör-pills | **done** |
+| 3 | Spara skapar post i `journal` med server timestamp | **done** |
+| 4 | `weaveJournalEntry` triggas async utan UI-block | **done** |
+| 5 | WORM: update/delete nekas i rules | **done** |
+| 6 | Web Speech sv-SE fyller textfält | **done** |
+| 7 | Efter sparad: länk till `/dagbok?tab=speglar` med context | **done** |
+| 8 | Arkiv pagination; inget från `reality_vault` i arkiv | **done** |
+| 9 | State rensas vid komponent-unmount | **done** (wizard) |
+| 10 | 3s long-press BookOpen → bevis-flik efter PIN | **done** |
+| 11 | Villkorlig Speglar/Måbra-bro | **planned** |
+| 12 | Humör-only save | **planned** |
+
+## 10. Kopplingar till andra moduler
+
+| Modul | Relation |
+|-------|----------|
+| **Verklighetsvalvet** | Vävaren skriver `vävaren_metadata` async; Fyren öppnar `?tab=bevis` |
+| **Speglar** | Länk från SavedStep; `journalContext` förifyller spegling |
+| **Måbra (`/mabra`)** | Planerad diskret länk vid låg energi — stub idag |
+| **Kunskap / Minne** | **Ingen** auto-pipeline från dagbok; Vävaren läser RAG-kontext only |
+| **Kompasser** | Separata `checkins`; ingen auto-ingest till dagbok |
+| **Hamn / BIFF** | Separat route; ingen direkt dagbok-koppling |
+
+## 11. Navigation
+
+- **Dock:** BookOpen → `/dagbok` (kort klick); **Fyren** 3s → `/dagbok?tab=bevis`
+- **Kluster:** Hjärtat — flikar Reflektion | Bevis | Speglar
+- **Redirects:** `/valv` → `/dagbok?tab=bevis`
+
+## 12. Tidigare diskussioner att bevara (vision)
+
+- **Plausible deniability:** Dagboken ska se ut som vanlig självhjälp vid yttre granskning.
+- **KBT/ACT:** Positivt rum — tacksamhet/stolthet bryter RSD-loop; inte prestationsdiagram.
+- **Tvåspaltssystemet** (hen vs sanning) flyttat strikt till Valvet.
+- **Filter-bubblor** i historik (tacksamhet/ångest) — bra UX-idé för arkiv.
+- **Sanningens ankare:** Vävaren asynkron så Lager 1 förblir mjukt.
+
+## 13. Avvisade eller alternativa idéer
+
+- **Google Apps Script / Kalkylark** — avvisat; Firebase Firestore.
+- **Bevis/skärmdumpar i Lager 1** — avvisat; media endast i Valvet.
+- **Gamification** (Eco-Kingdom, stjärnor, streak) — avvisat för dagbok; lugnare UI.
+- **Gemensam databas dagbok + valv** — avvisat; separata collections.
+- **Redigera/radera journal** — avvisat (WORM); ny post = ny immutable snapshot.
+- **Ljud-Blob i Storage/Valv** — avvisat för Lager 1; transkribera lokalt only.
+- **Humör-gradient** — avvaktar (konflikt med Obsidian Calm möjlig).
+- **People-pleasing/skam i valv** — avvisat; dagbok/Måbra (Kladd routing).
+- **Stjärnbilder / gamification** — avvisat (Kladd §G).
+
+## 14. Kladd-synk (2026-05-21)
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md) §F.
+
+| Kladd | Kod |
+|-------|-----|
+| Lager 1 fasad / plausible deniability | **done** |
+| Vävaren → `vävaren_metadata` auto | **done** (godkännande **planned**) |
+| Subjektiv utmattning → dagbok OK | **done** |
+| Kliniska PDF → valv | policy |
+
+## 15. Öppna produktbeslut (MVP-rekommendation)
+
+| Fråga | Rekommendation | Låst? |
+|-------|----------------|-------|
+| Röst: lokalt vs spara ljud | **Web Speech, lokalt only** | Nej |
+| Måbra-bro: länk vs popup vs övning | **Diskret länk** | Nej |
+| Arkiv: Visa fler vs infinite scroll vs kalender | **"Visa fler"** (nuvarande) | Nej |
+| WORM: absolut vs redigeringsfönster | **Absolut WORM** | Nej |
+| Humör-pills: nuvarande vs Harmonisk/Dränerad… | **Behåll nuvarande** | Nej |
+| Speglar-bro: alltid vs Vävaren-villkor | **Alltid nu** → villkor senare | Nej |
+| Humör-only save | **Rekommenderat** för 15-sek UX | Nej |
+
+---
+
+**Module plan (kod):** [`src/modules/dagbok/module_plan.md`](../../../src/modules/dagbok/module_plan.md)  
+**Prompter:** [`docs/specs/ai-prompts-moduler-master.md`](../ai-prompts-moduler-master.md)  
+**Flöde:** [`docs/specs/hjartat-flode.md`](../hjartat-flode.md)
+</file>
+
+<file path="src/modules/core/home/panels/HomeDagbokPanel.tsx">
+import { useState } from 'react';
+import { Check, Loader2, PenLine } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useStore } from '../../store';
+import { saveJournalEntry } from '../../firebase/firestore';
+
+type Props = {
+  onSaved?: () => void;
+};
+
+export function HomeDagbokPanel({ onSaved }: Props) {
+  const user = useStore((s) => s.user);
+  const [text, setText] = useState('');
+  const [mood, setMood] = useState('neutral');
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSave = async () => {
+    if (!user || text.trim().length < 2) return;
+    setSaving(true);
+    setError(null);
+    try {
+      await saveJournalEntry(user.uid, { mood, text: text.trim() });
+      setSaved(true);
+      setText('');
+      onSaved?.();
+    } catch {
+      setError('Kunde inte spara dagboksrad.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (!user) {
+    return <p className="text-sm text-text-muted">Logga in för att skriva i dagbok.</p>;
+  }
+
+  return (
+    <div className="home-module-panel">
+      <p className="home-module-panel__lead">
+        En neutral rad räcker. Ingen analys — bara avlastning.
+      </p>
+      <textarea
+        value={text}
+        onChange={(e) => {
+          setText(e.target.value);
+          setSaved(false);
+        }}
+        rows={4}
+        placeholder="Vad vill du minnas om idag?"
+        className="input-glass w-full"
+      />
+      <div className="mt-3 flex flex-wrap gap-2">
+        {(['lugn', 'neutral', 'tung'] as const).map((m) => (
+          <button
+            key={m}
+            type="button"
+            onClick={() => setMood(m)}
+            className={`chip ${mood === m ? 'chip--active' : 'chip--idle'}`}
+          >
+            {m === 'lugn' ? 'Lugn' : m === 'tung' ? 'Tung' : 'Neutral'}
+          </button>
+        ))}
+      </div>
+      {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+      {saved && (
+        <p className="mt-2 flex items-center gap-2 text-sm text-success">
+          <Check className="h-4 w-4" /> Sparad i dagbok.
+        </p>
+      )}
+      <div className="mt-4 flex flex-wrap gap-2">
+        <button
+          type="button"
+          disabled={saving || text.trim().length < 2}
+          onClick={handleSave}
+          className="btn-pill--success inline-flex items-center gap-2"
+        >
+          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <PenLine className="h-4 w-4" />}
+          Spara rad
+        </button>
+        <Link to="/dagbok" className="btn-pill--ghost">
+          Öppna dagbok
+        </Link>
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path=".context/modules/dagbokshubben.md">
+# Dagbokshubben
+
+**Kanonisk kod:** `src/modules/diary/diary/` (legacy alias: `modules/dagbok` shim)  
+**Route:** `/dagbok` (flik `reflektion` i Hjärtat) · **AuthGate:** ja  
+**Spec (konsoliderad):** [`docs/specs/modules/Dagbok-SPEC.md`](../../docs/specs/modules/Dagbok-SPEC.md)
+
+## Syfte
+
+**Lager 1** — kravlös tacksamhets- och reflektionsdagbok. Appens oskyldiga fasad (plausible deniability). Skild från Verklighetsvalvet (Lager 2). ACT/KBT-inspirerad identitetsrekonstruktion — inte forensik.
+
+## UI (idag)
+
+| Komponent | Roll |
+|-----------|------|
+| `HjartatPage` | Kluster: Reflektion \| Bevis \| Speglar |
+| `DagbokPage` | Wizard-orkestrator |
+| `MoodStep` | Humör-pills |
+| `ReflectionStep` | Fritext + Web Speech sv-SE |
+| `ConfirmStep` | Preview + spara |
+| `SavedStep` | Bekräftelse + bro Speglar |
+| `JournalArchive` | Tidslinje, pagination 5 ("Visa fler") — synlig endast steg 1 |
+
+**Wizard:** humör → text → bekräfta → sparad. Spar kräver fritext idag.
+
+## Navigation
+
+| Ingång | Beteende |
+|--------|----------|
+| Dock BookOpen (kort klick) | `/dagbok` |
+| **Fyren** (3s long-press BookOpen) | WebAuthn → PIN → `/dagbok?tab=bevis` |
+| `/valv` | Redirect → `?tab=bevis` |
+
+## Datamodell (WORM)
+
+- **`journal`:** ownerId, userId, mood, text, createdAt — append-only
+
+## Backend
+
+| Callable | Data |
+|----------|------|
+| Klient save | `journal` |
+| `weaveJournalEntry` (fire-and-forget) | → `reality_vault` (`vävaren_metadata`) |
+
+**Inte:** Firestore-trigger; **inte** auto-write till `kampspar`.
+
+## Status
+
+| Klart | Delvis | Planerat |
+|-------|--------|----------|
+| Wizard, journal, WORM, Vävaren, Speglar-bro, röst, Fyren, arkiv pagination, unmount cleanup, inbound Måbra-bro (`?from=mabra`) | Vävaren auto utan godkännande | Outbound Måbra-länk, KBT-frågor, villkorlig Speglar, generellt humör-only |
+
+## Kladd 2026-05-21
+
+- **Roll:** Lager 1 fasad — plausible deniability; Fyren → valv.
+- **Brus i Kladd:** People-pleasing, skam — **ej** valv; dagbok/Måbra.
+- **Gap:** Subjektiv utmattning → dagbok OK; kliniska PDF → valv.
+
+## Säkerhet
+
+- AuthGate, WORM rules
+- Röst: browser-only, ingen Blob till Storage
+- Kill Switch global; wizard cleanup vid unmount
+
+## Vision (bevara)
+
+- Plausible deniability, positivt ACT-rum
+- Vävaren asynkron — Lager 1 förblir mjukt
+
+Kod: `src/modules/dagbok/` · Plan: [`src/modules/dagbok/module_plan.md`](../../src/modules/dagbok/module_plan.md) · Prompter: [`docs/specs/ai-prompts-moduler-master.md`](../../docs/specs/ai-prompts-moduler-master.md)
+</file>
+
+<file path="src/modules/diary/diary/api/journalWovenService.ts">
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '../../../core/firebase/init';
+
+const journalWovenCallable = httpsCallable(functions, 'journalWovenToKampspar');
+
+export type JournalWovenResult = {
+  kampsparDocId?: string;
+  embeddingDim?: number | null;
+};
+
+/** G7 — opt-in only; fire-and-forget efter dagbok-save. */
+export function journalWovenToKampspar(payload: {
+  journalEntryId: string;
+  mood: string;
+  text: string;
+}): void {
+  journalWovenCallable({
+    journalEntryId: payload.journalEntryId,
+    mood: payload.mood,
+    text: payload.text,
+    optIn: true,
+  }).catch((err) => {
+    console.warn('[journal_woven] Kampspár-opt-in misslyckades:', err);
+  });
+}
+</file>
+
+<file path="src/modules/diary/diary/api/weaverService.ts">
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '../../../core/firebase/init';
+
+const weaveCallable = httpsCallable<
+  { journalEntryId: string; mood: string; text: string },
+  { status: string; vaultMetadataId?: string }
+>(functions, 'weaveJournalEntry');
+
+/** Fire-and-forget — blockerar inte journal-save. */
+export function weaveJournalEntry(payload: {
+  journalEntryId: string;
+  mood: string;
+  text: string;
+}): void {
+  void weaveCallable(payload).catch((err) => {
+    console.warn('[Vävaren] Async tagging misslyckades:', err);
+  });
+}
+</file>
+
+<file path="src/modules/diary/diary/components/HjartatPage.tsx">
+import { BentoCard } from '../../../core/ui/BentoCard';
+import { TabBar } from '../../../core/ui/TabBar';
+import { VaultPage } from '../../../evidence/vault';
+import { SpeglingsSystem } from '../../../diary/mirror';
+import { useHjartatHub } from '../../../core/navigation/hooks/useHjartatHub';
+import type { HjartatTab } from '../../../core/navigation/tabRegistry';
+import { DagbokPage } from './DagbokPage';
+
+export type { HjartatTab } from '../../../core/navigation/tabRegistry';
+export { parseHjartatTab } from '../../../core/navigation/tabRegistry';
+
+export function HjartatPage() {
+  const { tabs, tab, tabBarActive, vaultTab, setTab, setVaultTab } = useHjartatHub();
+
+  return (
+    <div className="space-y-6">
+      <BentoCard title="Hjärtat" description="Reflektion · spegling">
+        <p className="mb-4 text-sm text-text-muted">
+          Dagbok och spegling här. Bevis, kunskap och analys finns bakom Valv — öppna via menyn.
+        </p>
+        <TabBar tabs={tabs} active={tabBarActive} onChange={(id) => setTab(id as HjartatTab)} />
+      </BentoCard>
+
+      {tab === 'reflektion' && <DagbokPage embedded />}
+      {tab === 'bevis' && (
+        <VaultPage
+          embedded
+          initialVaultTab={vaultTab}
+          onVaultTabChange={setVaultTab}
+          onClose={() => setTab('reflektion')}
+        />
+      )}
+      {tab === 'speglar' && <SpeglingsSystem embedded />}
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/diary/diary/components/JournalArchive.tsx">
+import { useState } from 'react';
+import { BentoCard } from '../../../core/ui/BentoCard';
+import { EmptyState } from '../../../core/ui/EmptyState';
+import type { JournalEntry } from '../types/journal';
+import { JournalEntryCard } from './JournalEntryCard';
+
+type JournalArchiveProps = {
+  entries: JournalEntry[];
+  pageSize?: number;
+};
+
+export function JournalArchive({ entries, pageSize = 5 }: JournalArchiveProps) {
+  const [visibleCount, setVisibleCount] = useState(pageSize);
+  const visible = entries.slice(0, visibleCount);
+  const hasMore = entries.length > visibleCount;
+
+  return (
+    <BentoCard title="Tidslinje">
+      {visible.length === 0 ? (
+        <EmptyState message="Inga poster ännu." />
+      ) : (
+        <>
+          <ul className="space-y-3">
+            {visible.map((entry) => (
+              <JournalEntryCard key={entry.id} entry={entry} />
+            ))}
+          </ul>
+          {hasMore && (
+            <button
+              type="button"
+              onClick={() => setVisibleCount((n) => n + pageSize)}
+              className="btn-pill--ghost mt-4"
+            >
+              Visa fler ({entries.length - visibleCount} kvar)
+            </button>
+          )}
+        </>
+      )}
+    </BentoCard>
+  );
+}
+</file>
+
+<file path="src/modules/diary/diary/components/JournalEntryCard.tsx">
+import { formatJournalDate } from '../utils/formatJournalDate';
+import { TimelineEntry } from '../../../core/ui/TimelineEntry';
+import type { JournalEntry } from '../types/journal';
+
+type JournalEntryCardProps = {
+  entry: JournalEntry;
+};
+
+export function JournalEntryCard({ entry }: JournalEntryCardProps) {
+  return (
+    <TimelineEntry
+      as="li"
+      meta={`${entry.mood} · ${formatJournalDate(entry.createdAt)}`}
+      body={entry.text ?? ''}
+    />
+  );
+}
+</file>
+
+<file path="src/modules/diary/diary/components/SavedStep.tsx">
+import { Check } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import type { JournalBridgeContext } from '../../../core/types/journalBridge';
+
+type SavedStepProps = {
+  onNewEntry: () => void;
+  journalContext: JournalBridgeContext;
+};
+
+export function SavedStep({ onNewEntry, journalContext }: SavedStepProps) {
+  return (
+    <>
+      <div className="mb-2 flex items-center gap-2 text-success">
+        <Check className="h-5 w-5" />
+        <span className="text-sm">Sparad. Vävaren taggar i bakgrunden.</span>
+      </div>
+      <div className="flex flex-wrap gap-2">
+        <button type="button" onClick={onNewEntry} className="btn-pill--accent">
+          Ny post
+        </button>
+        <Link
+          to={{ pathname: '/dagbok', search: '?tab=speglar' }}
+          state={{ journalContext }}
+          className="btn-pill border-accent-secondary/40 text-accent-secondary hover:bg-accent-secondary/10"
+        >
+          Känns det som gaslighting? → Gå till Speglar
+        </Link>
+      </div>
+    </>
+  );
+}
+</file>
+
+<file path="src/modules/diary/diary/constants/mabraBridge.ts">
+import type { MabraSymptomHub } from '../../../wellbeing/mabra/types';
+
+export type MabraBridgeHub = MabraSymptomHub;
+
+export function parseMabraBridgeHub(raw: string | null): MabraBridgeHub | null {
+  if (raw === 'panic_rsd' || raw === 'self_critical' || raw === 'find_self') {
+    return raw;
+  }
+  return null;
+}
+
+export function isMabraLowEnergyBridge(
+  from: string | null,
+  energy: string | null,
+): boolean {
+  return from === 'mabra' && energy === 'low';
+}
+
+export const MABRA_BRIDGE_INTRO: Record<
+  MabraBridgeHub,
+  { title: string; detail: string }
+> = {
+  panic_rsd: {
+    title: 'Du kom från Måbra.',
+    detail: 'Välj humör — en kort rad är valfritt.',
+  },
+  self_critical: {
+    title: 'Du kom från Måbra.',
+    detail: 'En kort insikt räcker. Eller spara bara humör.',
+  },
+  find_self: {
+    title: 'Du kom från Måbra.',
+    detail: 'Humör räcker om du är trött.',
+  },
+};
+
+export const MABRA_MOOD_ONLY_TEXT: Record<MabraBridgeHub, string> = {
+  panic_rsd: 'Måbra — panik/RSD (humör)',
+  self_critical: 'Måbra — självkritik (humör)',
+  find_self: 'Måbra — hitta mig (humör)',
+};
+
+export const MABRA_BRIDGE_LABELS = {
+  saveMoodOnly: 'Spara bara humör',
+  skipText: 'Spara utan text',
+  continueOptional: 'Lägg till kort rad (valfritt)',
+} as const;
+</file>
+
+<file path="src/modules/diary/diary/hooks/useJournalFlow.ts">
+import { useState, useEffect, useCallback } from 'react';
+import { saveJournalEntry, getJournalEntries } from '../../../core/firebase/firestore';
+import { hasVaultZone } from '../../../core/auth/sessionService';
+import { weaveJournalEntry } from '../api/weaverService';
+import { journalWovenToKampspar } from '../api/journalWovenService';
+import type { MabraBridgeHub } from '../constants/mabraBridge';
+import { MABRA_MOOD_ONLY_TEXT } from '../constants/mabraBridge';
+import { MOOD_ONLY_STUB } from '../constants/moodPrompts';
+import type { JournalEntry, JournalStep } from '../types/journal';
+
+const INITIAL_STEP: JournalStep = 'mood';
+
+type UseJournalFlowOptions = {
+  userId: string | undefined;
+  mabraHub?: MabraBridgeHub | null;
+  lowEnergyBridge?: boolean;
+};
+
+export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: UseJournalFlowOptions) {
+  const [step, setStep] = useState<JournalStep>(INITIAL_STEP);
+  const [mood, setMood] = useState('');
+  const [text, setText] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [entries, setEntries] = useState<JournalEntry[]>([]);
+  const [weaveToKampspar, setWeaveToKampspar] = useState(false);
+
+  const refreshEntries = useCallback(async () => {
+    if (!userId) return;
+    const data = await getJournalEntries(userId);
+    setEntries(data as JournalEntry[]);
+  }, [userId]);
+
+  useEffect(() => {
+    if (!userId) return;
+    refreshEntries().catch(() => setError('Kunde inte hämta dagbok.'));
+  }, [userId, step, refreshEntries]);
+
+  useEffect(
+    () => () => {
+      setStep(INITIAL_STEP);
+      setMood('');
+      setText('');
+      setError(null);
+    },
+    [],
+  );
+
+  const goToStep = (next: JournalStep) => setStep(next);
+
+  const persistEntry = async (entryText: string, optInKampspar = weaveToKampspar) => {
+    if (!userId || !mood) return;
+    setSaving(true);
+    setError(null);
+    try {
+      const id = await saveJournalEntry(userId, { mood, text: entryText });
+      if (hasVaultZone('dagbok_forensic')) {
+        weaveJournalEntry({ journalEntryId: id, mood, text: entryText });
+      }
+      if (optInKampspar && hasVaultZone('dagbok_forensic')) {
+        journalWovenToKampspar({ journalEntryId: id, mood, text: entryText });
+      }
+      setWeaveToKampspar(false);
+      setStep('done');
+      await refreshEntries();
+    } catch {
+      setError('Kunde inte spara. Kontrollera Firestore-regler.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleSave = async () => {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+    await persistEntry(trimmed);
+  };
+
+  const handleSaveMoodOnly = async () => {
+    if (lowEnergyBridge && mabraHub) {
+      await persistEntry(MABRA_MOOD_ONLY_TEXT[mabraHub]);
+      return;
+    }
+    await persistEntry(MOOD_ONLY_STUB(mood));
+  };
+
+  const handleSaveWithoutText = async () => {
+    if (!lowEnergyBridge || !mabraHub) return;
+    await persistEntry(MABRA_MOOD_ONLY_TEXT[mabraHub]);
+  };
+
+  const resetFlow = () => {
+    setMood('');
+    setText('');
+    setWeaveToKampspar(false);
+    setStep(INITIAL_STEP);
+  };
+
+  return {
+    step,
+    mood,
+    text,
+    saving,
+    error,
+    entries,
+    weaveToKampspar,
+    setWeaveToKampspar,
+    lowEnergyBridge,
+    setMood,
+    setText,
+    goToStep,
+    handleSave,
+    handleSaveMoodOnly,
+    handleSaveWithoutText,
+    resetFlow,
+  };
+}
+</file>
+
+<file path="src/modules/diary/diary/types/journal.ts">
+export type JournalStep = 'mood' | 'text' | 'save' | 'done';
+
+export interface JournalEntry {
+  id: string;
+  mood: string;
+  text: string;
+  userId?: string;
+  ownerId?: string;
+  createdAt?: string;
+}
+</file>
+
+<file path="src/modules/diary/diary/utils/formatJournalDate.ts">
+/** ISO-datum → svensk kortform (t.ex. 21 maj 2026). */
+export function formatJournalDate(iso?: string): string {
+  if (!iso) return '';
+  const date = new Date(iso.slice(0, 10));
+  if (Number.isNaN(date.getTime())) return iso.slice(0, 10);
+  return date.toLocaleDateString('sv-SE', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
+export function truncateJournalText(text: string, max = 200): string {
+  if (text.length <= max) return text;
+  return `${text.slice(0, max).trimEnd()}…`;
+}
+</file>
+
+<file path="src/modules/diary/diary/index.ts">
+export { HjartatPage } from './components/HjartatPage';
+export { DagbokPage } from './components/DagbokPage';
+</file>
+
+<file path="src/modules/diary/diary/README.md">
+# dagbok
+
+> Dagbokshubben — Lager 1. Kravlös reflektion och plausible deniability.
+
+## Syfte
+
+Tacksamhets- och reflektionsdagbok (ACT/KBT-inspirerad). Appens oskyldiga fasad. Skild från Verklighetsvalvet (Lager 2). Del av Hjärtat-klustret.
+
+## Route och ingång
+
+| | |
+|---|---|
+| **Route** | `/dagbok` (flik `reflektion` i Hjärtat) |
+| **AuthGate** | ja |
+| **Dock** | BookOpen (kort klick) → dagbok |
+| **Fyren** | 3s → WebAuthn → PIN → `?tab=bevis` |
+
+## Viktiga filer
+
+| Fil | Roll |
+|-----|------|
+| `components/HjartatPage.tsx` | Kluster: Reflektion \| Bevis \| Speglar |
+| `components/DagbokPage.tsx` | Wizard-orkestrator |
+| `components/MoodStep.tsx` | Humör-pills |
+| `components/ReflectionStep.tsx` | Fritext + röst |
+| `components/ConfirmStep.tsx` | Preview + spara |
+| `components/SavedStep.tsx` | Bekräftelse + bro Speglar |
+| `components/JournalArchive.tsx` | Tidslinje, pagination |
+| `hooks/useJournalFlow.ts` | Wizard-state + cleanup |
+| `api/weaverService.ts` | `weaveJournalEntry` (async) |
+
+## Data
+
+| Collection | Innehåll |
+|------------|----------|
+| `journal` | mood, text, ownerId — WORM append-only |
+
+**Inte:** auto-write till `kampspar`.
+
+## Beror på
+
+- `core` — layout, auth, useSpeechToText, journalBridge
+- `verklighetsvalvet` — Bevis-flik i Hjärtat
+- `speglings_system` — Speglar-flik
+
+## Kopplingar
+
+- **mabra** — inbound `?from=mabra`
+- **speglings_system** — journalContext från SavedStep
+- **Vävaren** — fire-and-forget metadata till valv
+
+## Minne / AI
+
+| | |
+|---|---|
+| **Permanent lagring** | `journal` — WORM |
+| **RAG / chatt** | Nej (Vävaren → `reality_vault` metadata, ej Kunskap) |
+| **PDF / samlad export** | Dossier opt-in |
+| **Planerat** | `journal_woven` synaps → opt-in `kampspar` |
+
+## Mer läsning
+
+- [module_plan.md](./module_plan.md)
+- [Kontext (.context)](../../../.context/modules/diary/diaryshubben.md)
+- [Dagbok-SPEC](../../../docs/specs/modules/Dagbok-SPEC.md)
+</file>
+
+<file path="src/modules/diary/mirror/api/speglingsCoachService.ts">
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '../../../core/firebase/init';
+
+type SpeglingsMirrorResponse = { mirror: string };
+
+const speglingsMirrorCallable = httpsCallable<
+  { reflection: string; mood?: string },
+  SpeglingsMirrorResponse
+>(functions, 'speglingsMirror');
+
+export async function fetchSpeglingsMirror(reflection: string, mood?: string): Promise<string> {
+  const result = await speglingsMirrorCallable({ reflection, mood });
+  const mirror = result.data?.mirror;
+  if (!mirror?.trim()) throw new Error('Tomt speglings-svar.');
+  return mirror.trim();
+}
+</file>
+
+<file path="src/modules/diary/mirror/components/ActCalibrationView.tsx">
+import { useState } from 'react';
+import { Loader2 } from 'lucide-react';
+import { mirrorFeeling } from '../constants/vivirSteps';
+import { fetchSpeglingsMirror } from '../api/speglingsCoachService';
+
+interface Props {
+  feeling: string;
+  journalMood?: string;
+  onFeelingChange: (v: string) => void;
+  onContinue: () => void;
+}
+
+export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onContinue }: Props) {
+  const [mirrored, setMirrored] = useState(false);
+  const [mirrorText, setMirrorText] = useState('');
+  const [usedAi, setUsedAi] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [mirrorError, setMirrorError] = useState<string | null>(null);
+
+  const handleMirror = async () => {
+    if (!feeling.trim()) return;
+    setLoading(true);
+    setMirrorError(null);
+    setMirrored(false);
+
+    try {
+      const aiMirror = await fetchSpeglingsMirror(feeling.trim(), journalMood || undefined);
+      setMirrorText(aiMirror);
+      setUsedAi(true);
+    } catch {
+      setMirrorText(mirrorFeeling(feeling));
+      setUsedAi(false);
+      setMirrorError('AI otillgänglig — deterministisk spegling används.');
+    } finally {
+      setMirrored(true);
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <p className="text-xs uppercase tracking-widest text-accent">ACT — Validera, aldrig fixa</p>
+
+      <div className="grid gap-3 md:grid-cols-2">
+        <div className="glass-card p-3">
+          <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">Känsla nu</p>
+          <textarea
+            value={feeling}
+            onChange={(e) => {
+              onFeelingChange(e.target.value);
+              setMirrored(false);
+              setMirrorText('');
+            }}
+            placeholder="Vad känner du just nu?"
+            rows={4}
+            className="input-glass rounded-lg p-3"
+          />
+          <button
+            type="button"
+            onClick={handleMirror}
+            disabled={!feeling.trim() || loading}
+            className="btn-pill--secondary mt-2 disabled:opacity-50"
+          >
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+            Spegla
+          </button>
+        </div>
+
+        <div className={`glass-card p-3 ${usedAi ? 'glass-card--ai border-accent-ai/30' : 'border-accent/20'}`}>
+          <p className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-widest text-text-dim">
+            Spegling
+            {usedAi && <span className="text-accent-ai">AI</span>}
+          </p>
+          {mirrored ? (
+            <p className="text-sm leading-relaxed text-text-muted">{mirrorText}</p>
+          ) : (
+            <p className="text-sm italic text-text-dim">Skriv och tryck Spegla.</p>
+          )}
+        </div>
+      </div>
+
+      {mirrorError && <p className="text-xs text-text-dim">{mirrorError}</p>}
+
+      {mirrored && (
+        <button type="button" onClick={onContinue} className="btn-pill--secondary">
+          Fortsätt till VIVIR
+        </button>
+      )}
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/diary/mirror/components/EvidenceCompareView.tsx">
+import { ExternalLink } from 'lucide-react';
+import type { VaultLog } from '../../../core/types/firestore';
+import type { MediaAttachment } from '../../../core/media/mediaAttachment';
+import type { VaultMatch } from '../utils/matchVaultEvidence';
+import type { SavedSpeglarEvidence } from './SpeglarEvidencePanel';
+
+interface Props {
+  feeling: string;
+  vivirSummary: string;
+  matches: VaultMatch[];
+  vaultLocked: boolean;
+  sessionAttachments?: MediaAttachment[];
+  sessionSavedEvidence?: SavedSpeglarEvidence[];
+}
+
+export function EvidenceCompareView({
+  feeling,
+  vivirSummary,
+  matches,
+  vaultLocked,
+  sessionAttachments = [],
+  sessionSavedEvidence = [],
+}: Props) {
+  if (vaultLocked) {
+    return (
+      <div className="space-y-4">
+        {sessionAttachments.length > 0 && (
+          <SessionEvidenceList attachments={sessionAttachments} saved={sessionSavedEvidence} />
+        )}
+        <div className="glass-card border-warning/30 p-4 text-sm text-text-muted">
+          Valvet är låst. Lås upp valv: håll Shield (Fyren) 3 sek → biometri → PIN för att jämföra
+          mot sparade bevis.
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      {sessionAttachments.length > 0 && (
+        <SessionEvidenceList attachments={sessionAttachments} saved={sessionSavedEvidence} />
+      )}
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="glass-card border-accent/30 p-3">
+          <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">Känsla + VIVIR</p>
+          {feeling && <p className="mb-2 text-sm text-text-muted">{feeling}</p>}
+          <p className="whitespace-pre-wrap text-sm text-text">{vivirSummary}</p>
+        </div>
+
+        <div className="glass-card p-3">
+          <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">Bevisankare (valv)</p>
+          {matches.length === 0 ? (
+            <p className="text-sm text-text-dim">Inga matchande poster i Verklighetsvalvet.</p>
+          ) : (
+            <ul className="space-y-2">
+              {matches.slice(0, 5).map(({ log, score }) => (
+                <VaultItem key={(log as VaultLog & { id: string }).id ?? score} log={log} score={score} />
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SessionEvidenceList({
+  attachments,
+  saved,
+}: {
+  attachments: MediaAttachment[];
+  saved: SavedSpeglarEvidence[];
+}) {
+  const savedByAttachment = new Map(saved.map((item) => [item.attachmentId, item]));
+
+  return (
+    <div className="glass-card p-3">
+      <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">Bilagor denna session</p>
+      <ul className="space-y-2">
+        {attachments.map((item) => {
+          const vault = savedByAttachment.get(item.id);
+          return (
+            <li key={item.id} className="rounded-lg border border-border-strong p-2">
+              <div className="flex flex-wrap items-start gap-3">
+                <SessionPreview attachment={item} />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-xs text-text-muted">{item.file.name}</p>
+                  {vault ? (
+                    <a
+                      href={vault.evidenceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-1 inline-flex items-center gap-1 text-xs text-accent hover:text-accent-light"
+                    >
+                      <ExternalLink className="h-3 w-3" />
+                      WORM-bevis i valvet
+                    </a>
+                  ) : (
+                    <p className="mt-1 text-[10px] text-text-dim">Endast i session — spara under ACT om du vill låsa.</p>
+                  )}
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
+function SessionPreview({ attachment }: { attachment: MediaAttachment }) {
+  if (attachment.kind === 'image') {
+    return (
+      <img src={attachment.previewUrl} alt="" className="h-16 w-16 rounded-md object-cover" />
+    );
+  }
+  if (attachment.kind === 'audio') {
+    return <audio controls src={attachment.previewUrl} className="max-w-full" preload="metadata" />;
+  }
+  if (attachment.kind === 'video') {
+    return (
+      <video
+        src={attachment.previewUrl}
+        className="h-16 max-w-[120px] rounded-md object-cover"
+        controls
+        playsInline
+        preload="metadata"
+      />
+    );
+  }
+  return <p className="text-xs text-text-dim">Bifogad fil</p>;
+}
+
+function VaultItem({ log, score }: { log: VaultLog & { id: string }; score: number }) {
+  return (
+    <li className="rounded-lg border border-border-strong p-2 text-sm">
+      <p className="text-[10px] uppercase tracking-widest text-text-dim">
+        {log.category ?? 'bevis'} · {(log.createdAt ?? '').slice(0, 10)} · träff {score}
+      </p>
+      <p className="mt-1 text-text-muted">{log.truth}</p>
+      {log.evidenceUrl && (
+        <a
+          href={log.evidenceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-2 inline-flex items-center gap-1 text-xs text-accent hover:text-accent-light"
+        >
+          <ExternalLink className="h-3 w-3" />
+          Visa bifogat bevis
+        </a>
+      )}
+    </li>
+  );
+}
+</file>
+
+<file path="src/modules/diary/mirror/components/SpeglarEvidencePanel.tsx">
+import { useState } from 'react';
+import { Loader2, ShieldCheck } from 'lucide-react';
+import { saveVaultLog } from '../../../core/firebase/firestore';
+import { uploadVaultEvidence } from '../../../core/firebase/storage';
+import { EvidenceMediaAttach } from '../../../core/ui/EvidenceMediaAttach';
+import type { MediaAttachment } from '../../../core/media/mediaAttachment';
+
+export type SavedSpeglarEvidence = {
+  attachmentId: string;
+  vaultDocId: string;
+  evidenceUrl: string;
+};
+
+type SpeglarEvidencePanelProps = {
+  userId: string | undefined;
+  feeling: string;
+  attachments: MediaAttachment[];
+  savedIds: Set<string>;
+  onAdd: (attachment: MediaAttachment) => void;
+  onRemove: (id: string) => void;
+  onSaved: (saved: SavedSpeglarEvidence) => void;
+};
+
+export function SpeglarEvidencePanel({
+  userId,
+  feeling,
+  attachments,
+  savedIds,
+  onAdd,
+  onRemove,
+  onSaved,
+}: SpeglarEvidencePanelProps) {
+  const [savingId, setSavingId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const saveToVault = async (attachment: MediaAttachment) => {
+    if (!userId || savedIds.has(attachment.id)) return;
+    setSavingId(attachment.id);
+    setError(null);
+    try {
+      const evidenceUrl = await uploadVaultEvidence(userId, attachment.file);
+      const truth =
+        feeling.trim().slice(0, 800) ||
+        `Bevis bifogat från Speglar (${attachment.file.name})`;
+      const vaultDocId = await saveVaultLog(userId, {
+        action: 'speglar_bevis',
+        category: 'speglar',
+        truth,
+        entryType: 'simple',
+        evidenceUrl,
+      });
+      onSaved({ attachmentId: attachment.id, vaultDocId, evidenceUrl });
+    } catch {
+      setError('Kunde inte spara till valvet. Försök igen.');
+    } finally {
+      setSavingId(null);
+    }
+  };
+
+  return (
+    <div className="space-y-3">
+      <EvidenceMediaAttach
+        attachments={attachments}
+        onAdd={onAdd}
+        onRemove={onRemove}
+        disabled={!userId}
+      />
+
+      {attachments.length > 0 && (
+        <div className="space-y-2">
+          <p className="text-[10px] uppercase tracking-widest text-text-dim">
+            Spara till Verklighetsvalvet (WORM)
+          </p>
+          {attachments.map((item) => {
+            const saved = savedIds.has(item.id);
+            return (
+              <div
+                key={`save-${item.id}`}
+                className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border-strong px-3 py-2"
+              >
+                <span className="truncate text-xs text-text-muted">{item.file.name}</span>
+                {saved ? (
+                  <span className="flex items-center gap-1 text-xs text-emerald-400">
+                    <ShieldCheck className="h-3 w-3" />
+                    Sparat i valvet
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => saveToVault(item)}
+                    disabled={!userId || savingId === item.id}
+                    className="btn-pill--secondary text-xs disabled:opacity-50"
+                  >
+                    {savingId === item.id ? (
+                      <Loader2 className="h-3 w-3 animate-spin" />
+                    ) : (
+                      'Lås som bevis'
+                    )}
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {error && <p className="text-xs text-danger">{error}</p>}
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/diary/mirror/components/SpeglingsSystem.tsx">
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Brain, Anchor, Lock } from 'lucide-react';
+import { BentoCard } from '../../../core/ui/BentoCard';
+import { useStore } from '../../../core/store';
+import { getVaultLogs } from '../../../core/firebase/firestore';
+import { hasVaultGate } from '../../../core/auth/sessionService';
+import { readJournalBridgeContext } from '../../../core/types/journalBridge';
+import {
+  revokeMediaAttachments,
+  type MediaAttachment,
+} from '../../../core/media/mediaAttachment';
+import { VaultZoneGate } from '../../../core/security/VaultZoneGate';
+import { VIVIR_STEPS } from '../constants/vivirSteps';
+import { matchVaultEvidence } from '../utils/matchVaultEvidence';
+import { ActCalibrationView } from './ActCalibrationView';
+import { VivirStepView } from './VivirStepView';
+import { EvidenceCompareView } from './EvidenceCompareView';
+import { SpeglarEvidencePanel, type SavedSpeglarEvidence } from './SpeglarEvidencePanel';
+import { VivirQuickEntry } from './VivirQuickEntry';
+import { SvartPaVittForm } from './SvartPaVittForm';
+
+type ForensicPhase = 'vivir' | 'compare';
+
+type SpeglingsSystemProps = {
+  embedded?: boolean;
+};
+
+/** Publikt: ACT-kalibrering. Forensic: VIVIR, Svart på vitt, bevisjämförelse. */
+export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
+  const location = useLocation();
+  const { bridgeMood, bridgeText } = useMemo(() => {
+    const ctx = readJournalBridgeContext(location.state);
+    return { bridgeMood: ctx?.mood ?? '', bridgeText: ctx?.text ?? '' };
+  }, [location.state]);
+  const user = useStore((s) => s.user);
+  const [feeling, setFeeling] = useState('');
+  const [journalMood, setJournalMood] = useState('');
+  const [showForensic, setShowForensic] = useState(false);
+
+  useEffect(() => {
+    if (!bridgeText) return;
+    const prefix = bridgeMood ? `Humör: ${bridgeMood}. ` : '';
+    setFeeling(`${prefix}${bridgeText}`);
+    setJournalMood(bridgeMood);
+  }, [bridgeMood, bridgeText]);
+
+  return (
+    <div className="space-y-6">
+      <BentoCard title={embedded ? 'Speglar' : 'Speglings-Systemet'} icon={<Brain className="h-4 w-4" />}>
+        <p className="mb-4 text-sm text-text-muted">
+          Kognitiv sköld — validera känslan (ACT). Fördjupad spegling kräver Valv-PIN.
+        </p>
+        <ActCalibrationView
+          feeling={feeling}
+          journalMood={journalMood}
+          onFeelingChange={setFeeling}
+          onContinue={() => setShowForensic(true)}
+        />
+        {!showForensic && (
+          <button
+            type="button"
+            onClick={() => setShowForensic(true)}
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-accent/20 px-3 py-2 text-xs uppercase tracking-widest text-accent/80 hover:bg-accent/5"
+          >
+            <Lock className="h-3 w-3" />
+            Fortsätt till fördjupad spegling (PIN)
+          </button>
+        )}
+      </BentoCard>
+
+      {showForensic && (
+        <VaultZoneGate
+          zone="speglar_forensic"
+          title="Fördjupad spegling"
+          description="VIVIR, Svart på vitt och bevisjämförelse. Samma PIN som Valv."
+        >
+          <SpeglingsForensicPanel userId={user?.uid} initialFeeling={feeling} />
+        </VaultZoneGate>
+      )}
+    </div>
+  );
+}
+
+type ForensicProps = {
+  userId?: string;
+  initialFeeling?: string;
+};
+
+export function SpeglingsForensicPanel({ userId, initialFeeling = '' }: ForensicProps) {
+  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
+  const [phase, setPhase] = useState<ForensicPhase>('vivir');
+  const [feeling, setFeeling] = useState(initialFeeling);
+  const [vivirAnswers, setVivirAnswers] = useState<Record<string, string>>({});
+  const [attachments, setAttachments] = useState<MediaAttachment[]>([]);
+  const [savedAttachmentIds, setSavedAttachmentIds] = useState<Set<string>>(() => new Set());
+  const [sessionSavedEvidence, setSessionSavedEvidence] = useState<SavedSpeglarEvidence[]>([]);
+  const attachmentsRef = useRef<MediaAttachment[]>([]);
+  attachmentsRef.current = attachments;
+
+  const addAttachment = useCallback((attachment: MediaAttachment) => {
+    setAttachments((prev) => [...prev, attachment]);
+  }, []);
+
+  const removeAttachment = useCallback((id: string) => {
+    setAttachments((prev) => {
+      const target = prev.find((item) => item.id === id);
+      if (target) URL.revokeObjectURL(target.previewUrl);
+      return prev.filter((item) => item.id !== id);
+    });
+    setSavedAttachmentIds((prev) => {
+      const next = new Set(prev);
+      next.delete(id);
+      return next;
+    });
+  }, []);
+
+  const handleEvidenceSaved = useCallback((saved: SavedSpeglarEvidence) => {
+    setSavedAttachmentIds((prev) => new Set(prev).add(saved.attachmentId));
+    setSessionSavedEvidence((prev) => [...prev, saved]);
+  }, []);
+
+  const vivirSummary = VIVIR_STEPS.map(
+    (s) => `${s.title}: ${vivirAnswers[s.key] ?? '—'}`
+  ).join('\n');
+
+  const vaultLocked = !isVaultUnlocked && !hasVaultGate();
+  const [matches, setMatches] = useState<ReturnType<typeof matchVaultEvidence>>([]);
+
+  const resetSession = useCallback(() => {
+    revokeMediaAttachments(attachmentsRef.current);
+    setPhase('vivir');
+    setFeeling(initialFeeling);
+    setVivirAnswers({});
+    setAttachments([]);
+    setSavedAttachmentIds(new Set());
+    setSessionSavedEvidence([]);
+    setMatches([]);
+  }, [initialFeeling]);
+
+  useEffect(() => () => resetSession(), [resetSession]);
+
+  useEffect(() => {
+    if (phase !== 'compare' || !userId || vaultLocked) return;
+    getVaultLogs(userId)
+      .then((logs) => {
+        const searchText = `${feeling} ${Object.values(vivirAnswers).join(' ')}`;
+        setMatches(matchVaultEvidence(searchText, logs));
+      })
+      .catch(() => setMatches([]));
+  }, [phase, userId, vaultLocked, feeling, vivirAnswers]);
+
+  return (
+    <div className="space-y-4">
+      <VivirQuickEntry onStart={() => setPhase('vivir')} />
+      <SvartPaVittForm />
+
+      {phase === 'vivir' && (
+        <>
+          <VivirStepView
+            answers={vivirAnswers}
+            onChange={setVivirAnswers}
+            onComplete={() => setPhase('compare')}
+          />
+          <SpeglarEvidencePanel
+            userId={userId}
+            feeling={feeling}
+            attachments={attachments}
+            savedIds={savedAttachmentIds}
+            onAdd={addAttachment}
+            onRemove={removeAttachment}
+            onSaved={handleEvidenceSaved}
+          />
+        </>
+      )}
+
+      {phase === 'compare' && (
+        <>
+          <EvidenceCompareView
+            feeling={feeling}
+            vivirSummary={vivirSummary}
+            matches={matches}
+            vaultLocked={vaultLocked}
+            sessionAttachments={attachments}
+            sessionSavedEvidence={sessionSavedEvidence}
+          />
+          <Link
+            to="/hamn"
+            state={{ prefilledMessage: feeling }}
+            className="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-accent hover:text-accent-light"
+          >
+            <Anchor className="h-3 w-3" />
+            Formulera BIFF-svar i Hamn
+          </Link>
+          <button
+            type="button"
+            onClick={resetSession}
+            className="mt-4 text-xs uppercase tracking-widest text-text-dim hover:text-accent"
+          >
+            Ny kalibrering
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/diary/mirror/components/SvartPaVittForm.tsx">
+import { useState } from 'react';
+import { Loader2, Lock } from 'lucide-react';
+import { BentoCard } from '../../../core/ui/BentoCard';
+import { useStore } from '../../../core/store';
+import { saveVaultLog } from '../../../core/firebase/firestore';
+
+/** D26 — Svart på vitt: hens version vs min verklighet → WORM. */
+export function SvartPaVittForm() {
+  const user = useStore((s) => s.user);
+  const [theirVersion, setTheirVersion] = useState('');
+  const [myReality, setMyReality] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleLock = async () => {
+    if (!user || !theirVersion.trim() || !myReality.trim()) return;
+    setLoading(true);
+    setError(null);
+    try {
+      await saveVaultLog(user.uid, {
+        action: 'svart_pa_vitt',
+        entryType: 'two_column',
+        theirVersion: theirVersion.trim(),
+        myReality: myReality.trim(),
+        category: 'gaslighting',
+        truth: myReality.trim(),
+      });
+      setSaved(true);
+      setTheirVersion('');
+      setMyReality('');
+    } catch {
+      setError('Kunde inte låsa bevis.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <BentoCard title="Svart på vitt" description="Hens version · Min verklighet">
+      <div className="grid gap-3 md:grid-cols-2">
+        <div>
+          <label className="text-[10px] uppercase tracking-widest text-text-dim">Hens version</label>
+          <textarea
+            value={theirVersion}
+            onChange={(e) => setTheirVersion(e.target.value)}
+            rows={4}
+            className="input-glass mt-1 w-full text-sm"
+            placeholder="Vad påstås…"
+            disabled={loading}
+          />
+        </div>
+        <div>
+          <label className="text-[10px] uppercase tracking-widest text-text-dim">Min verklighet</label>
+          <textarea
+            value={myReality}
+            onChange={(e) => setMyReality(e.target.value)}
+            rows={4}
+            className="input-glass mt-1 w-full text-sm"
+            placeholder="Vad hände faktiskt…"
+            disabled={loading}
+          />
+        </div>
+      </div>
+      <button
+        type="button"
+        onClick={() => void handleLock()}
+        disabled={loading || !user || !theirVersion.trim() || !myReality.trim()}
+        className="btn-pill--accent mt-3 flex items-center gap-2 disabled:opacity-50"
+      >
+        {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
+        Lås bevis mot gaslighting
+      </button>
+      {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+      {saved && <p className="mt-2 text-xs text-success">Sparat i Valv (WORM).</p>}
+    </BentoCard>
+  );
+}
+</file>
+
+<file path="src/modules/diary/mirror/components/VivirQuickEntry.tsx">
+import { Zap } from 'lucide-react';
+
+type Props = {
+  onStart: () => void;
+};
+
+/** D25 — VIVIR snabbstart på Speglar. */
+export function VivirQuickEntry({ onStart }: Props) {
+  return (
+    <div className="elongated-module elongated-module--gold flex flex-wrap items-center justify-between gap-3 p-4">
+      <div>
+        <p className="text-sm font-medium text-accent">VIVIR-snabbkoll</p>
+        <p className="text-xs text-text-muted">Akut — fem steg, ett i taget.</p>
+      </div>
+      <button type="button" onClick={onStart} className="btn-pill--accent flex items-center gap-2 text-xs">
+        <Zap className="h-3.5 w-3.5" />
+        Kör test
+      </button>
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/diary/mirror/components/VivirStepView.tsx">
+import { useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { VIVIR_STEPS } from '../constants/vivirSteps';
+
+interface Props {
+  answers: Record<string, string>;
+  onChange: (answers: Record<string, string>) => void;
+  onComplete: () => void;
+}
+
+export function VivirStepView({ answers, onChange, onComplete }: Props) {
+  const [stepIndex, setStepIndex] = useState(0);
+  const step = VIVIR_STEPS[stepIndex];
+  const value = answers[step.key] ?? '';
+
+  const setValue = (v: string) => onChange({ ...answers, [step.key]: v });
+
+  const isLast = stepIndex === VIVIR_STEPS.length - 1;
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center gap-2">
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent/20 text-sm font-medium text-accent">
+          {step.letter}
+        </span>
+        <div>
+          <p className="text-xs text-text-dim">
+            Steg {stepIndex + 1} av {VIVIR_STEPS.length}
+          </p>
+          <p className="text-sm font-medium text-text-muted">{step.title}</p>
+        </div>
+      </div>
+
+      <p className="text-sm text-text-muted">{step.prompt}</p>
+
+      <textarea
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder={step.placeholder}
+        rows={3}
+        className={`input-glass rounded-xl p-3 ${value ? 'border-accent/30' : ''}`}
+      />
+
+      <div className="flex gap-2">
+        {stepIndex > 0 && (
+          <button type="button" onClick={() => setStepIndex((i) => i - 1)} className="btn-pill--ghost">
+            <ChevronLeft className="h-4 w-4" /> Tillbaka
+          </button>
+        )}
+        {!isLast ? (
+          <button
+            type="button"
+            disabled={!value.trim()}
+            onClick={() => setStepIndex((i) => i + 1)}
+            className="btn-pill--secondary disabled:opacity-50"
+          >
+            Nästa <ChevronRight className="h-4 w-4" />
+          </button>
+        ) : (
+          <button
+            type="button"
+            disabled={!value.trim()}
+            onClick={onComplete}
+            className="btn-pill--secondary disabled:opacity-50"
+          >
+            Jämför med valvet
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/diary/mirror/constants/vivirSteps.ts">
+export const VIVIR_STEPS = [
+  {
+    key: 'vem',
+    letter: 'V',
+    title: 'Vem',
+    prompt: 'Vilka personer eller parter är inblandade? (namn/roller, inga värderingar.)',
+    placeholder: 'T.ex. medförälder, skola, mig själv…',
+  },
+  {
+    key: 'inflytande',
+    letter: 'I',
+    title: 'Inflytande',
+    prompt: 'Vad kan du faktiskt påverka här — och vad ligger utanför din kontroll?',
+    placeholder: 'T.ex. jag bestämmer min reaktion, inte deras…',
+  },
+  {
+    key: 'viktigt',
+    letter: 'V',
+    title: 'Viktigt',
+    prompt: 'Vad är viktigast för dig i den här situationen?',
+    placeholder: 'T.ex. barnens trygghet, lugn, tydliga gränser…',
+  },
+  {
+    key: 'intention',
+    letter: 'I',
+    title: 'Intention',
+    prompt: 'Vad säger bevis (sms, mejl, datum) om den andra partens handling — inte deras motiv?',
+    placeholder: 'Fakta: skickade sms kl. 18:02 om hämtning…',
+  },
+  {
+    key: 'redo',
+    letter: 'R',
+    title: 'Redo',
+    prompt: 'Är du redo att agera, eller behöver du mer bevis först?',
+    placeholder: 'T.ex. behöver spara logg i valvet innan svar…',
+  },
+] as const;
+
+export const ACT_MIRRORS = [
+  (input: string) =>
+    input.trim()
+      ? `Det du beskriver — "${input.trim().slice(0, 120)}${input.length > 120 ? '…' : ''}" — är en begriplig reaktion.`
+      : 'Du behöver inte formulera perfekt. Det du känner räcker som start.',
+  () => 'Jag fixar inget här; jag speglar bara.',
+  () => 'Nästa steg är att skilja känsla från fakta (VIVIR).',
+];
+
+export function mirrorFeeling(input: string): string {
+  return ACT_MIRRORS.map((fn) => fn(input)).join(' ');
+}
+</file>
+
+<file path="src/modules/diary/mirror/utils/matchVaultEvidence.ts">
+import type { VaultLog } from '../../../core/types/firestore';
+
+const STOPWORDS = new Set(['och', 'att', 'som', 'det', 'en', 'i', 'på', 'är', 'för', 'med', 'av', 'till']);
+
+function tokenize(text: string): string[] {
+  return text
+    .toLowerCase()
+    .split(/\W+/)
+    .filter((t) => t.length > 2 && !STOPWORDS.has(t));
+}
+
+function searchableText(log: VaultLog & { id: string }): string {
+  const parts = [log.truth ?? ''];
+  if (log.category) parts.push(log.category);
+  const tags = (log as VaultLog & { weaverTags?: { emotions?: string[]; actors?: string[] } }).weaverTags;
+  if (tags?.emotions?.length) parts.push(tags.emotions.join(' '));
+  if (tags?.actors?.length) parts.push(tags.actors.join(' '));
+  return parts.join(' ').toLowerCase();
+}
+
+export interface VaultMatch {
+  log: VaultLog & { id: string };
+  score: number;
+}
+
+export interface MatchVaultOptions {
+  /** Exkludera Vävaren-metadata — visa endast faktiska bevis. */
+  evidenceOnly?: boolean;
+}
+
+export function matchVaultEvidence(
+  vivirText: string,
+  vaultLogs: (VaultLog & { id: string })[],
+  options: MatchVaultOptions = { evidenceOnly: true }
+): VaultMatch[] {
+  const tokens = tokenize(vivirText);
+  if (tokens.length === 0) return [];
+
+  const filtered = options.evidenceOnly
+    ? vaultLogs.filter((log) => log.category !== 'vävaren_metadata')
+    : vaultLogs;
+
+  return filtered
+    .map((log) => {
+      const corpus = searchableText(log);
+      const score = tokens.filter((t) => corpus.includes(t)).length;
+      return { log, score };
+    })
+    .filter((m) => m.score > 0)
+    .sort((a, b) => b.score - a.score);
+}
+</file>
+
+<file path="src/modules/diary/mirror/index.ts">
+export { SpeglingsSystem } from './components/SpeglingsSystem';
+</file>
+
+<file path="src/modules/diary/mirror/module_plan.md">
+# speglings_system — module plan
+
+**Canonical spec:** [`docs/specs/modules/Speglar-SPEC.md`](../../docs/specs/modules/Speglar-SPEC.md) · **Context:** [`.context/modules/speglingssystemet.md`](../../.context/modules/speglingssystemet.md)
+
+## Overview
+
+Speglings-Coachen — ACT + VIVIR + valvjämförelse mot WORM-bevis.
+
+Route: `/dagbok?tab=speglar` (redirect `/speglar`)
+
+## Files
+
+| Path | Role |
+|------|------|
+| `components/SpeglingsSystem.tsx` | Phase orchestrator (act → vivir → compare), unmount reset |
+| `components/ActCalibrationView.tsx` | ACT — validera, `speglingsMirror` AI + fallback |
+| `components/VivirStepView.tsx` | VIVIR 5 steg |
+| `components/EvidenceCompareView.tsx` | Känsla vs valv (max 5 träffar) |
+| `api/speglingsCoachService.ts` | `fetchSpeglingsMirror` → callable |
+| `utils/matchVaultEvidence.ts` | Token + weaverTags; filter vävaren_metadata |
+| `components/SpeglarEvidencePanel.tsx` | Media + WORM-spara till valv (`action: speglar_bevis`) |
+| `../core/ui/EvidenceMediaAttach.tsx` | Delad UI: fil, kamera, ljudinspelning |
+| `../core/hooks/useAudioRecorder.ts` | MediaRecorder → webm |
+| `../core/types/journalBridge.ts` | Route state från Dagbok SavedStep |
+
+## Status
+
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| ACT + VIVIR + Compare | Av-gaslighting, ej KBT | Ja | **done** |
+| Valv-jämförelse | Fakta vs känsla | Ja | **done** |
+| Hamn-bro | Efter compare | Ja | **done** |
+| Media → valv | WORM bevis | Ja | **done** |
+| Korsref barnen_logs auto | Kladd fråga | Nej | **planned** |
+| Projektionsdetektor logg | Notebook | Nej | **planned** |
+| Full DCAP pipeline | | Delvis | **planned** |
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
+
+## Valv-integration
+
+- Data: `getVaultLogs(uid)` från `reality_vault` (Firestore SDK — inte Callable)
+- Unlock: Shield 3s (Fyren) + PIN → session gate för compare
+- Jämförelse: `matchVaultEvidence(searchText, logs, { evidenceOnly: true })`
+- Exkluderar konsekvent `category: vävaren_metadata`
+
+## Backend
+
+- Callable: `speglingsMirror` — deploy krävs för prod (se `docs/DEPLOY.md`)
+
+## Nästa fas
+
+1. ~~Smoke prod: `speglingsMirror` deploy + script~~ **done** (`npm run smoke:speglar`)
+2. Full DCAP Genkit Speglings-Coachen (utöver mirror)
+3. Enforced max 4 meningar i backend; ev. Vector Search på valv
+</file>
+
+<file path="src/modules/diary/mirror/README.md">
+# speglings_system
+
+> Sacred Feature — reaktiv kognitiv sköld (ACT + VIVIR + bevisjämförelse).
+
+## Syfte
+
+Validera utan att fixa. Jämför känsla mot WORM-bevis. Grey Rock, max 2–4 meningar. **Skild från MåBra** (proaktiv KBT) och **Kunskap** (livsminne).
+
+## Route och ingång
+
+| | |
+|---|---|
+| **Route** | `/dagbok?tab=speglar` (redirect `/speglar`) |
+| **AuthGate** | via `/dagbok` (Hjärtat) |
+| **Dock** | ej i FloatingDock |
+
+**Ingång:** Dagbok SavedStep · flik Speglar · ClusterGrid · bro från MåBra-coach.
+
+## Viktiga filer
+
+| Fil | Roll |
+|-----|------|
+| `components/SpeglingsSystem.tsx` | Fas-orkestrator, unmount reset |
+| `components/ActCalibrationView.tsx` | ACT + `speglingsMirror` |
+| `components/VivirStepView.tsx` | VIVIR 5 steg |
+| `components/EvidenceCompareView.tsx` | Känsla vs valv |
+| `components/SpeglarEvidencePanel.tsx` | Media → valv |
+| `api/speglingsCoachService.ts` | Callable wrapper |
+| `utils/matchVaultEvidence.ts` | Token-match mot `reality_vault` |
+
+## Data
+
+- **Läser:** `reality_vault` (kräver upplåst valv)
+- **Skriver:** inget permanent (Zero Footprint)
+
+**Callable:** `speglingsMirror` (Speglings-Coachen)
+
+## Beror på
+
+- `core` — journalBridge, EvidenceMediaAttach, auth
+- `verklighetsvalvet` — bevisläsning
+
+## Kopplingar
+
+- **dagbok** — bro + journalContext
+- **safe_harbor** — BIFF via `prefilledMessage`
+- **mabra** — guardrail vid ex-text
+
+## Minne / AI
+
+| | |
+|---|---|
+| **Permanent lagring** | Zero Footprint — inget sparas |
+| **RAG / chatt** | Nej — läser `reality_vault` klient-side |
+| **PDF / samlad export** | — |
+| **Planerat** | Vector Search valv (ej Kunskap) |
+
+## Mer läsning
+
+- [module_plan.md](./module_plan.md)
+- [Kontext (.context)](../../../.context/modules/speglingssystemet.md)
+- [Speglar-SPEC](../../../docs/specs/modules/Speglar-SPEC.md)
+</file>
+
+<file path="src/modules/core/firebase/firestore.ts">
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getFirestore,
+  initializeFirestore,
+  persistentLocalCache,
+  persistentSingleTabManager,
+  query,
+  serverTimestamp,
+  setDoc,
+  Timestamp,
+  where,
+  getDocs,
+  onSnapshot,
+} from 'firebase/firestore';
+import { app } from './init';
+import { assertOfflineWriteAllowed } from './offlineWritePolicy';
+import type { CheckIn, VaultLog, KampsparEntryRow } from '../types/firestore';
+import { FIRESTORE_COLLECTIONS } from '../types/firestore';
+
+/** IndexedDB persistence via Firebase v12 local cache (ersätter enableIndexedDbPersistence). */
+function initFirestoreDb() {
+  try {
+    return initializeFirestore(app, {
+      localCache: persistentLocalCache({
+        tabManager: persistentSingleTabManager({}),
+      }),
+    });
+  } catch (err) {
+    /* HMR / redan initierad / multitab — återanvänd befintlig instans */
+    if (import.meta.env.DEV) {
+      console.debug('[firestore] persistence init skipped, using existing instance', err);
+    }
+    return getFirestore(app);
+  }
+}
+
+export const db = initFirestoreDb();
+
+type FirestorePayload = Record<string, unknown>;
+
+const WORM_FORBIDDEN_KEYS = ['updatedAt', 'deletedAt', 'modifiedAt', 'revision'] as const;
+
+/** WORM — append-only payloads must not carry mutation fields. */
+function assertWormPayload(data: FirestorePayload, context: string): void {
+  for (const key of WORM_FORBIDDEN_KEYS) {
+    if (key in data) {
+      throw new Error(`WORM violation (${context}): field "${key}" is not allowed on create.`);
+    }
+  }
+}
+
+function withUserId(userId: string, data: FirestorePayload): FirestorePayload {
+  return { ...data, userId, ownerId: userId, createdAt: serverTimestamp() };
+}
+
+/** List queries must constrain ownerId to satisfy Firestore rules (isOwner). */
+function ownerScopedQuery(ref: ReturnType<typeof collection>, ownerId: string) {
+  return query(ref, where('ownerId', '==', ownerId));
+}
+
+function normalizeCreatedAt(value: unknown): string {
+  if (value instanceof Timestamp) return value.toDate().toISOString();
+  if (typeof value === 'string') return value;
+  if (value == null) return '';
+  return String(value);
+}
+
+function sortByCreatedAtDesc<T extends { createdAt?: string }>(rows: T[]): T[] {
+  return [...rows].sort((a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? ''));
+}
+
+export async function saveCheckIn(userId: string, checkIn: Omit<CheckIn, 'userId' | 'createdAt'>) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.checkins);
+  const ref = collection(db, FIRESTORE_COLLECTIONS.checkins);
+  const docRef = await addDoc(ref, withUserId(userId, { ...checkIn }));
+  return docRef.id;
+}
+
+export type CheckInRow = CheckIn & { id: string };
+
+export async function getRecentCheckIns(userId: string, limit = 20): Promise<CheckInRow[]> {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.checkins);
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
+  return sortByCreatedAtDesc(
+    snap.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        userId: String(data.userId ?? userId),
+        questionId: data.questionId as string | undefined,
+        questionText: data.questionText as string | undefined,
+        optionSelected: data.optionSelected as string | undefined,
+        taskCategory: data.taskCategory as string | undefined,
+        taskNote: data.taskNote as string | undefined,
+        taskText: data.taskText as string | undefined,
+        taskCompleted: data.taskCompleted as boolean | undefined,
+        createdAt: normalizeCreatedAt(data.createdAt),
+      };
+    })
+  ).slice(0, limit);
+}
+
+export async function saveJournalEntry(
+  userId: string,
+  entry: { mood: string; text: string }
+) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.journal);
+  const ref = collection(db, 'journal');
+  const docRef = await addDoc(ref, withUserId(userId, entry));
+  return docRef.id;
+}
+
+export async function saveVaultLog(
+  userId: string,
+  log: Omit<VaultLog, 'userId' | 'createdAt'>
+) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.reality_vault);
+  const payload = { ...log, isLocked: true } as FirestorePayload;
+  assertWormPayload(payload, 'reality_vault');
+  const ref = collection(db, FIRESTORE_COLLECTIONS.reality_vault);
+  const docRef = await addDoc(ref, withUserId(userId, payload));
+  return docRef.id;
+}
+
+export async function saveChildrenLog(
+  userId: string,
+  log: {
+    childAlias: string;
+    observation: string;
+    childrenImpact?: string;
+    category?: string;
+    action?: string;
+    signals?: { somn: number; angest: number; aptit: number };
+  }
+) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.children_logs);
+  const action = log.action ?? 'livslogg';
+  const payload: FirestorePayload = {
+    childAlias: log.childAlias,
+    action,
+    category: log.category,
+    childrenImpact: log.childrenImpact,
+  };
+
+  if (action === 'fysiologi') {
+    payload.signals = log.signals;
+    payload.observation = log.observation || undefined;
+  } else {
+    payload.observation = log.observation;
+    payload.truth = log.observation;
+  }
+
+  assertWormPayload(payload, 'children_logs');
+  const ref = collection(db, FIRESTORE_COLLECTIONS.children_logs);
+  const docRef = await addDoc(ref, withUserId(userId, payload));
+  return docRef.id;
+}
+
+export async function saveMabraSession(
+  userId: string,
+  session: {
+    exerciseType: 'breathing' | 'grounding' | 'reframing' | 'daglig_mix';
+    durationSeconds: number;
+    hubSymptom?: string;
+    cardBankId?: string;
+    playBankId?: string;
+    mixDateKey?: string;
+  }
+) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.mabra_sessions);
+  const ref = collection(db, FIRESTORE_COLLECTIONS.mabra_sessions);
+  const payload: FirestorePayload = {
+    exerciseType: session.exerciseType,
+    durationSeconds: session.durationSeconds,
+  };
+  if (session.hubSymptom) {
+    payload.hubSymptom = session.hubSymptom;
+  }
+  if (session.cardBankId) {
+    payload.cardBankId = session.cardBankId;
+  }
+  if (session.playBankId) {
+    payload.playBankId = session.playBankId;
+  }
+  if (session.mixDateKey) {
+    payload.mixDateKey = session.mixDateKey;
+  }
+  assertWormPayload(payload, 'mabra_sessions');
+  const docRef = await addDoc(ref, withUserId(userId, payload));
+  return docRef.id;
+}
+
+export async function getMabraProgress(userId: string): Promise<{ coreValues: string[] } | null> {
+  const ref = doc(db, FIRESTORE_COLLECTIONS.mabra_progress, userId);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return null;
+  const data = snap.data();
+  const coreValues = Array.isArray(data.coreValues)
+    ? data.coreValues.filter((v): v is string => typeof v === 'string')
+    : [];
+  return { coreValues };
+}
+
+export async function saveMabraProgress(userId: string, coreValues: string[]) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.mabra_progress);
+  const ref = doc(db, FIRESTORE_COLLECTIONS.mabra_progress, userId);
+  await setDoc(
+    ref,
+    {
+      userId,
+      ownerId: userId,
+      coreValues,
+      updatedAt: serverTimestamp(),
+    },
+    { merge: true },
+  );
+}
+
+export async function getVaultLogs(userId: string): Promise<(VaultLog & { id: string })[]> {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.reality_vault);
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
+  return sortByCreatedAtDesc(
+    snap.docs.map((d) => {
+      const data = d.data();
+      const { createdAt: _rawCreatedAt, ...rest } = data;
+      return { id: d.id, ...(rest as VaultLog), createdAt: normalizeCreatedAt(_rawCreatedAt) };
+    })
+  );
+}
+
+export async function getChildrenLogs(userId: string) {
+  const ref = collection(db, 'children_logs');
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
+  return sortByCreatedAtDesc(
+    snap.docs.map((d) => ({
+      id: d.id,
+      ...d.data(),
+      createdAt: normalizeCreatedAt(d.data().createdAt),
+    }))
+  );
+}
+
+export async function getJournalEntries(userId: string) {
+  const ref = collection(db, 'journal');
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
+  return sortByCreatedAtDesc(
+    snap.docs.map((d) => ({
+      id: d.id,
+      ...d.data(),
+      createdAt: normalizeCreatedAt(d.data().createdAt),
+    }))
+  );
+}
+
+function mapKampsparDoc(
+  d: { id: string; data: () => import('firebase/firestore').DocumentData },
+  userId: string
+): KampsparEntryRow {
+  const data = d.data();
+  return {
+    id: d.id,
+    userId: String(data.userId ?? userId),
+    title: String(data.title ?? ''),
+    content: String(data.content ?? ''),
+    category: data.category ?? null,
+    entryType: data.entryType ?? null,
+    tags: Array.isArray(data.tags) ? data.tags.map(String) : undefined,
+    source: data.source ?? undefined,
+    eventDate: data.eventDate ?? null,
+    embeddingDim: data.embeddingDim ?? null,
+    createdAt: normalizeCreatedAt(data.createdAt),
+  };
+}
+
+export async function getKampsparEntries(userId: string): Promise<KampsparEntryRow[]> {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.kampspar);
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
+  return sortByCreatedAtDesc(snap.docs.map((d) => mapKampsparDoc(d, userId)));
+}
+
+/** G13 — live Tidshjulet: real-time kampspar listener (silo: kunskap only). */
+export function subscribeKampsparEntries(
+  userId: string,
+  onData: (rows: KampsparEntryRow[]) => void,
+  onError?: (err: Error) => void
+): () => void {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.kampspar);
+  return onSnapshot(
+    ownerScopedQuery(ref, userId),
+    (snap) => {
+      const rows = sortByCreatedAtDesc(snap.docs.map((d) => mapKampsparDoc(d, userId)));
+      onData(rows);
+    },
+    (err) => onError?.(err instanceof Error ? err : new Error(String(err)))
+  );
+}
+
+export async function saveEconomyTransaction(
+  userId: string,
+  tx: { label: string; amountSek: number; category: 'veckopeng' | 'matlada' | 'vinst' | 'ovrigt' },
+) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.transactions);
+  const payload: FirestorePayload = {
+    label: tx.label,
+    amountSek: tx.amountSek,
+    category: tx.category,
+  };
+  assertWormPayload(payload, 'transactions');
+  const ref = collection(db, FIRESTORE_COLLECTIONS.transactions);
+  const docRef = await addDoc(ref, withUserId(userId, payload));
+  return docRef.id;
+}
+
+export async function getEconomyTransactions(userId: string, limit = 30) {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.transactions);
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
+  return sortByCreatedAtDesc(
+    snap.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        label: String(data.label ?? ''),
+        amountSek: Number(data.amountSek ?? 0),
+        category: String(data.category ?? 'ovrigt'),
+        createdAt: normalizeCreatedAt(data.createdAt),
+      };
+    }),
+  ).slice(0, limit);
+}
+
+export async function getEconomyProfile(userId: string) {
+  const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return null;
+  const data = snap.data();
+  return {
+    weeklyBudgetSek: Number(data.weeklyBudgetSek ?? 0),
+    mealBoxPresetSek: Number(data.mealBoxPresetSek ?? 85),
+  };
+}
+
+export async function setEconomyProfile(
+  userId: string,
+  profile: { weeklyBudgetSek: number; mealBoxPresetSek: number },
+) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_profiles);
+  const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
+  await setDoc(
+    ref,
+    {
+      userId,
+      ownerId: userId,
+      weeklyBudgetSek: profile.weeklyBudgetSek,
+      mealBoxPresetSek: profile.mealBoxPresetSek,
+      updatedAt: serverTimestamp(),
+    },
+    { merge: true },
+  );
+}
+</file>
+
+<file path="src/modules/diary/diary/components/ConfirmStep.tsx">
+import { ChevronLeft, Loader2 } from 'lucide-react';
+import { getMoodDef } from '../constants/moods';
+
+type ConfirmStepProps = {
+  mood: string;
+  text: string;
+  saving: boolean;
+  weaveToKampspar: boolean;
+  showWeaveOptIn?: boolean;
+  onWeaveToKampsparChange: (value: boolean) => void;
+  onBack: () => void;
+  onSave: () => void;
+};
+
+export function ConfirmStep({
+  mood,
+  text,
+  saving,
+  weaveToKampspar,
+  showWeaveOptIn = false,
+  onWeaveToKampsparChange,
+  onBack,
+  onSave,
+}: ConfirmStepProps) {
+  const moodDef = getMoodDef(mood);
+
+  return (
+    <div className="reflektion-panel">
+      <p className="reflektion-panel__lead">Stämmer det här?</p>
+      <p className="reflektion-panel__hint">Du kan gå tillbaka och ändra innan du sparar.</p>
+
+      <div className="reflektion-preview">
+        <p className="reflektion-preview__mood">
+          {moodDef && <span aria-hidden>{moodDef.emoji} </span>}
+          <span className="text-text-dim">Känsla:</span> {mood}
+        </p>
+        <p className="reflektion-preview__text">{text}</p>
+      </div>
+
+      {showWeaveOptIn && (
+        <label className="reflektion-weave-opt mb-4 flex cursor-pointer items-start gap-2 text-sm text-text-muted">
+          <input
+            type="checkbox"
+            checked={weaveToKampspar}
+            onChange={(e) => onWeaveToKampsparChange(e.target.checked)}
+            disabled={saving}
+            className="mt-0.5"
+          />
+          <span>
+            Spara också en kort rad i Minne (valfritt — dagboken sparas oavsett).
+          </span>
+        </label>
+      )}
+
+      <div className="reflektion-actions">
+        <button type="button" onClick={onBack} className="btn-pill--ghost">
+          <ChevronLeft className="h-4 w-4" /> Ändra
+        </button>
+        <button type="button" onClick={onSave} disabled={saving} className="btn-pill--success">
+          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+          Spara i dagboken
+        </button>
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/diary/diary/components/ReflectionStep.tsx">
+import { ChevronLeft, ChevronRight, Mic, MicOff, Sparkles } from 'lucide-react';
+import { useCallback, useRef, useEffect, useState } from 'react';
+import { useSpeechToText } from '../../../core/hooks/useSpeechToText';
+import { getMoodDef } from '../constants/moods';
+import { MABRA_BRIDGE_LABELS } from '../constants/mabraBridge';
+import {
+  MOOD_REFLECTION_PROMPTS,
+  QUICK_WRITE_PROMPTS,
+  pickRandomPrompt,
+} from '../constants/moodPrompts';
+
+type WriteMode = 'fritt' | 'snabb' | 'tre-ord';
+
+type ReflectionStepProps = {
+  text: string;
+  mood?: string;
+  onTextChange: (text: string) => void;
+  onBack: () => void;
+  onContinue: () => void;
+  lowEnergyBridge?: boolean;
+  onSaveWithoutText?: () => void;
+  saving?: boolean;
+};
+
+export function ReflectionStep({
+  text,
+  mood = '',
+  onTextChange,
+  onBack,
+  onContinue,
+  lowEnergyBridge = false,
+  onSaveWithoutText,
+  saving = false,
+}: ReflectionStepProps) {
+  const [mode, setMode] = useState<WriteMode>('fritt');
+  const moodDef = getMoodDef(mood);
+  const moodPrompt = mood && MOOD_REFLECTION_PROMPTS[mood];
+
+  const textRef = useRef(text);
+  useEffect(() => {
+    textRef.current = text;
+  }, [text]);
+
+  const appendTranscript = useCallback(
+    (chunk: string) => {
+      if (!chunk) return;
+      const current = textRef.current.trim();
+      onTextChange(current ? `${current} ${chunk}` : chunk);
+    },
+    [onTextChange],
+  );
+
+  const { supported, isListening, interim, error, start, stop } = useSpeechToText({
+    lang: 'sv-SE',
+    onFinal: appendTranscript,
+  });
+
+  const applyPrompt = (prompt: string) => {
+    const trimmed = text.trim();
+    if (!trimmed) {
+      onTextChange(`${prompt} `);
+      return;
+    }
+    if (trimmed.includes(prompt)) return;
+    onTextChange(`${trimmed}\n${prompt} `);
+  };
+
+  const canContinue =
+    mode === 'tre-ord' ? text.trim().split(/\s+/).filter(Boolean).length > 0 : text.trim().length > 0;
+
+  return (
+    <div className="reflektion-panel">
+      <p className="reflektion-panel__lead">
+        {moodDef ? (
+          <>
+            <span aria-hidden>{moodDef.emoji}</span> Skriv om <strong>{moodDef.label}</strong>
+          </>
+        ) : (
+          'Skriv om dagen'
+        )}
+      </p>
+      {moodPrompt && <p className="reflektion-panel__hint">{moodPrompt}</p>}
+
+      <div className="reflektion-write-tabs" role="tablist" aria-label="Sätt att skriva">
+        {(
+          [
+            { id: 'fritt' as const, label: 'Fritt' },
+            { id: 'snabb' as const, label: 'Snabbstart' },
+            { id: 'tre-ord' as const, label: 'Tre ord' },
+          ] as const
+        ).map(({ id, label }) => (
+          <button
+            key={id}
+            type="button"
+            role="tab"
+            aria-selected={mode === id}
+            className={`reflektion-write-tabs__tab ${mode === id ? 'reflektion-write-tabs__tab--active' : ''}`}
+            onClick={() => setMode(id)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {mode === 'fritt' && (
+        <textarea
+          value={text}
+          onChange={(e) => onTextChange(e.target.value)}
+          placeholder={
+            lowEnergyBridge
+              ? 'En kort rad räcker...'
+              : moodPrompt ?? 'Skriv vad du vill – ingen perfekt text.'
+          }
+          rows={4}
+          className="input-glass reflektion-textarea"
+        />
+      )}
+
+      {mode === 'snabb' && (
+        <div className="reflektion-snabb">
+          <p className="reflektion-panel__hint">Tryck en start - redigera sedan om du vill.</p>
+          <div className="reflektion-prompt-grid">
+            {QUICK_WRITE_PROMPTS.map((p) => (
+              <button
+                key={p}
+                type="button"
+                className="reflektion-prompt-chip"
+                onClick={() => applyPrompt(p)}
+              >
+                {p}
+              </button>
+            ))}
+            {moodPrompt && (
+              <button
+                type="button"
+                className="reflektion-prompt-chip reflektion-prompt-chip--mood"
+                onClick={() => applyPrompt(moodPrompt)}
+              >
+                {moodPrompt}
+              </button>
+            )}
+          </div>
+          <button
+            type="button"
+            className="reflektion-shuffle"
+            onClick={() => applyPrompt(pickRandomPrompt())}
+          >
+            <Sparkles className="h-4 w-4" aria-hidden />
+            Ge mig ett förslag
+          </button>
+          <textarea
+            value={text}
+            onChange={(e) => onTextChange(e.target.value)}
+            placeholder="Din text växer här"
+            rows={3}
+            className="input-glass reflektion-textarea mt-3"
+          />
+        </div>
+      )}
+
+      {mode === 'tre-ord' && (
+        <div className="reflektion-tre-ord">
+          <p className="reflektion-panel__hint">Max tre ord – det räcker.</p>
+          <input
+            type="text"
+            value={text}
+            onChange={(e) => {
+              const words = e.target.value.trim().split(/\s+/).filter(Boolean);
+              onTextChange(words.slice(0, 3).join(' '));
+            }}
+            placeholder="t.ex. trött men okej"
+            className="input-glass reflektion-tre-ord__input"
+            maxLength={48}
+          />
+          <p className="reflektion-tre-ord__count">
+            {text.trim() ? text.trim().split(/\s+/).filter(Boolean).length : 0}/3 ord
+          </p>
+        </div>
+      )}
+
+      {supported && (
+        <div className="reflektion-voice">
+          <button
+            type="button"
+            onClick={isListening ? stop : start}
+            className="btn-pill--ghost"
+            aria-pressed={isListening}
+          >
+            {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+            {isListening ? 'Stoppa' : 'Prata in'}
+          </button>
+          {interim && <span className="text-xs text-text-dim">Hör: {interim}</span>}
+        </div>
+      )}
+      {error && <p className="mt-1 text-xs text-danger">{error}</p>}
+
+      <div className="reflektion-actions">
+        <button type="button" onClick={onBack} className="btn-pill--ghost">
+          <ChevronLeft className="h-4 w-4" /> Tillbaka
+        </button>
+        <button
+          type="button"
+          disabled={!canContinue}
+          onClick={onContinue}
+          className="btn-pill--secondary"
+        >
+          Nästa <ChevronRight className="h-4 w-4" />
+        </button>
+        {lowEnergyBridge && onSaveWithoutText && (
+          <button
+            type="button"
+            disabled={saving}
+            onClick={onSaveWithoutText}
+            className="btn-pill--ghost text-sm"
+          >
+            {MABRA_BRIDGE_LABELS.skipText}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/diary/diary/constants/moodPrompts.ts">
+/** Enkla startfrågor per känsla — ingen LLM. */
+export const MOOD_REFLECTION_PROMPTS: Record<string, string> = {
+  Lugn: 'Vad gjorde dagen lite lättare?',
+  Glad: 'Vad vill du minnas från idag?',
+  Trött: 'Vad kan du släppa i kväll?',
+  Spänd: 'Var sitter det i kroppen — utan att fixa allt?',
+  Oro: 'Vad oroar dig mest just nu, i en kort rad?',
+  Arg: 'Vad hände — bara fakta, inga försvar?',
+  Låg: 'Vad är det minsta som räcker idag?',
+  Tom: 'Är tomhet okej just nu? Skriv ett ord om du vill.',
+  Hoppfull: 'Ett litet steg du vill ta med dig?',
+  Stolt: 'Vad gjorde du som faktiskt räknas?',
+  Tacksam: 'En sak du är tacksam för idag?',
+  Överväldigad: 'Vad kan vänta till imorgon?',
+};
+
+export const QUICK_WRITE_PROMPTS: string[] = [
+  'Idag var…',
+  'Jag behöver…',
+  'Det som hjälpte var…',
+  'Imorgon vill jag…',
+  'Jag släpper…',
+  'En sak jag vill säga till mig själv:',
+];
+
+export const RANDOM_PROMPT_POOL: string[] = [
+  ...Object.values(MOOD_REFLECTION_PROMPTS),
+  ...QUICK_WRITE_PROMPTS,
+  'Tre ord om dagen:',
+  'Om någon läste detta — vad skulle de förstå?',
+];
+
+export function pickRandomPrompt(): string {
+  return RANDOM_PROMPT_POOL[Math.floor(Math.random() * RANDOM_PROMPT_POOL.length)] ?? 'En rad räcker.';
+}
+
+export const MOOD_ONLY_STUB = (mood: string) => `Känsla: ${mood} (snabb notering)`;
+</file>
+
+<file path="src/modules/diary/diary/constants/moods.ts">
+import type { JournalStep } from '../types/journal';
+
+export type MoodTone = 'calm' | 'warm' | 'cool' | 'gold' | 'rose' | 'slate' | 'amber' | 'indigo';
+
+export type MoodDef = {
+  id: string;
+  label: string;
+  emoji: string;
+  tone: MoodTone;
+};
+
+/** Känslor — sparas som `label` i journal (bakåtkompatibelt). */
+export const MOOD_CATALOG: MoodDef[] = [
+  { id: 'lugn', label: 'Lugn', emoji: '🙂', tone: 'calm' },
+  { id: 'glad', label: 'Glad', emoji: '😊', tone: 'warm' },
+  { id: 'trott', label: 'Trött', emoji: '😴', tone: 'slate' },
+  { id: 'spand', label: 'Spänd', emoji: '😬', tone: 'amber' },
+  { id: 'oro', label: 'Oro', emoji: '😟', tone: 'indigo' },
+  { id: 'arg', label: 'Arg', emoji: '😤', tone: 'rose' },
+  { id: 'lag', label: 'Låg', emoji: '😔', tone: 'slate' },
+  { id: 'tom', label: 'Tom', emoji: '😶', tone: 'cool' },
+  { id: 'hoppfull', label: 'Hoppfull', emoji: '🌱', tone: 'gold' },
+  { id: 'stolt', label: 'Stolt', emoji: '💪', tone: 'warm' },
+  { id: 'tacksam', label: 'Tacksam', emoji: '💛', tone: 'gold' },
+  { id: 'overvaldigad', label: 'Överväldigad', emoji: '🌊', tone: 'indigo' },
+];
+
+export const MOOD_OPTIONS = MOOD_CATALOG.map((m) => m.label) as readonly string[];
+
+export type MoodOption = (typeof MOOD_OPTIONS)[number];
+
+export function getMoodDef(label: string): MoodDef | undefined {
+  return MOOD_CATALOG.find((m) => m.label === label);
+}
+
+/** Humör som ofta behöver kropp/MåBra först — diskret länk. */
+export const HEAVY_MOODS = new Set(['Låg', 'Spänd', 'Oro', 'Arg', 'Överväldigad']);
+
+export const JOURNAL_STEPS: { key: JournalStep; label: string; emoji: string }[] = [
+  { key: 'mood', label: 'Känsla', emoji: '✦' },
+  { key: 'text', label: 'Skriv', emoji: '✎' },
+  { key: 'save', label: 'Kolla', emoji: '👀' },
+  { key: 'done', label: 'Klart', emoji: '✓' },
+];
+</file>
+
+<file path="src/modules/diary/diary/module_plan.md">
+# dagbok — module plan
+
+## Overview
+
+Dagbokshubben — Progressive Disclosure journal + async Vävaren tagging.
+
+Route: `/dagbok` · Canonical: `.context/modules/diary/diaryshubben.md` · Spec: `docs/specs/modules/Dagbok-SPEC.md`
+
+## Files
+
+| Path | Role |
+|------|------|
+| `components/DagbokPage.tsx` | Orkestrator — kopplar hook + steg + arkiv |
+| Steg-indikator | Borttagen — ett steg i taget via innehåll + Tillbaka (skärmläsare: sr-only) |
+| `components/MoodStep.tsx` | Steg 1 — humör-pills |
+| `components/ReflectionStep.tsx` | Steg 2 — textarea + röst (Web Speech sv-SE) |
+| `components/ConfirmStep.tsx` | Steg 3 — preview + spara |
+| `components/SavedStep.tsx` | Steg 4 — bekräftelse, bro `/speglar`, gaslighting-copy |
+| `components/JournalArchive.tsx` | Journal-tidslinje med pagination |
+| `components/JournalEntryCard.tsx` | Enskild post med datum + trunkering |
+| `hooks/useJournalFlow.ts` | Wizard-state, save, refresh, unmount cleanup |
+| `../core/hooks/useSpeechToText.ts` | Delad röst-till-text (sv-SE) |
+| `constants/moods.ts` | `MOOD_OPTIONS`, accent-färger, steg-labels |
+| `types/journal.ts` | `JournalEntry`, `JournalStep` |
+| `utils/formatJournalDate.ts` | Svensk datumformatering + text-trunkering |
+| `api/weaverService.ts` | Fire-and-forget `weaveJournalEntry` |
+
+## Status
+
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| Wizard humör→text→sparad | Lager 1 fasad | Ja | **done** |
+| Fyren 3s → valv | Dold ingång | Ja | **done** |
+| Vävaren async | Taggar → valv metadata | Ja | **done** |
+| Bro Speglar | Efter sparad post | Ja | **done** |
+| Måbra-bro in (låg energi) | Kladd | Ja (`mabraBridge.ts`) | **done** |
+| Måbra-bro ut (Låg/Spänd) | Kladd | Nej | **planned** |
+| Humör-only save (Måbra path) | Kladd | Ja | **done** |
+| Humör-only save (generellt) | Kladd | Nej | **planned** |
+| KBT per humör | Kladd | Nej | **planned** |
+| Vävaren godkännande | Master §I | Auto | **planned** |
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
+
+## Security notes
+
+- Journal highly sensitive — CMEK, strict uid rules
+- Vävaren → `reality_vault` (`vävaren_metadata`), WORM
+- Röst stannar i browser tills save (Zero Footprint)
+
+## Nästa fas (implementera när användaren säger kör)
+
+1. Måbra-bro + villkorlig Speglar efter Vävaren-hotnivå  
+2. KBT/ACT-prompter per humör; valfritt humör-only save  
+3. Utökad Speglings-Coachen-koppling via DCAP
+</file>
+
+<file path="src/modules/diary/diary/components/DagbokPage.tsx">
+import { BookOpen } from 'lucide-react';
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { BentoCard } from '../../../core/ui/BentoCard';
+import { useStore } from '../../../core/store';
+import { hasVaultZone } from '../../../core/auth/sessionService';
+import { VaultZoneGate } from '../../../core/security/VaultZoneGate';
+import { useVaultZoneIdle } from '../../../core/security/useVaultZoneIdle';
+import {
+  isMabraLowEnergyBridge,
+  MABRA_BRIDGE_INTRO,
+  parseMabraBridgeHub,
+} from '../constants/mabraBridge';
+import { useJournalFlow } from '../hooks/useJournalFlow';
+import { JOURNAL_STEPS } from '../constants/moods';
+import { ConfirmStep } from './ConfirmStep';
+import { JournalArchive } from './JournalArchive';
+import { MoodStep } from './MoodStep';
+import { ReflectionStep } from './ReflectionStep';
+import { SavedStep } from './SavedStep';
+
+type DagbokPageProps = {
+  embedded?: boolean;
+};
+
+export function DagbokPage({ embedded = false }: DagbokPageProps) {
+  const user = useStore((s) => s.user);
+  const [searchParams] = useSearchParams();
+  const mabraHub = parseMabraBridgeHub(searchParams.get('hub'));
+  const lowEnergyBridge = isMabraLowEnergyBridge(
+    searchParams.get('from'),
+    searchParams.get('energy'),
+  );
+  const bridgeIntro = mabraHub ? MABRA_BRIDGE_INTRO[mabraHub] : null;
+
+  const {
+    step,
+    mood,
+    text,
+    saving,
+    error,
+    entries,
+    weaveToKampspar,
+    setWeaveToKampspar,
+    setMood,
+    setText,
+    goToStep,
+    handleSave,
+    handleSaveMoodOnly,
+    handleSaveWithoutText,
+    resetFlow,
+  } = useJournalFlow({
+    userId: user?.uid,
+    mabraHub,
+    lowEnergyBridge,
+  });
+
+  const [forensicUnlocked, setForensicUnlocked] = useState(() =>
+    hasVaultZone('dagbok_forensic'),
+  );
+
+  useVaultZoneIdle('dagbok_forensic', forensicUnlocked, () => setForensicUnlocked(false));
+
+  return (
+    <div className="space-y-6">
+      <BentoCard
+        title={embedded ? 'Reflektion' : 'Dagbok'}
+        icon={<BookOpen className="h-4 w-4" />}
+      >
+        {lowEnergyBridge && bridgeIntro && step !== 'done' && (
+          <div className="mb-4 rounded-xl border border-border-strong bg-surface/40 px-4 py-3 text-center">
+            <p className="text-sm text-accent">{bridgeIntro.title}</p>
+            <p className="mt-1 text-xs text-text-muted">{bridgeIntro.detail}</p>
+          </div>
+        )}
+
+        <p className="reflektion-intro mb-4">
+          Ta det lugnt — ett litet steg i taget. Inget måste bli perfekt.
+        </p>
+
+        <div className="reflektion-wizard" aria-live="polite">
+          <p className="sr-only">
+            Steg {JOURNAL_STEPS.findIndex((s) => s.key === step) + 1} av {JOURNAL_STEPS.length}:{' '}
+            {JOURNAL_STEPS.find((s) => s.key === step)?.label}
+          </p>
+
+        {step === 'mood' && (
+          <MoodStep
+            mood={mood}
+            onMoodChange={setMood}
+            onContinue={() => goToStep('text')}
+            lowEnergyBridge={lowEnergyBridge}
+            saving={saving}
+            onSaveMoodOnly={handleSaveMoodOnly}
+            showMoodOnlyButton
+          />
+        )}
+
+        {step === 'text' && (
+          <ReflectionStep
+            text={text}
+            mood={mood}
+            onTextChange={setText}
+            onBack={() => goToStep('mood')}
+            onContinue={() => goToStep('save')}
+            lowEnergyBridge={lowEnergyBridge}
+            onSaveWithoutText={lowEnergyBridge ? handleSaveWithoutText : undefined}
+            saving={saving}
+          />
+        )}
+
+        {step === 'save' && (
+          <ConfirmStep
+            mood={mood}
+            text={text}
+            saving={saving}
+            weaveToKampspar={weaveToKampspar}
+            showWeaveOptIn={forensicUnlocked}
+            onWeaveToKampsparChange={setWeaveToKampspar}
+            onBack={() => goToStep('text')}
+            onSave={handleSave}
+          />
+        )}
+
+        {step === 'done' && (
+          <SavedStep onNewEntry={resetFlow} journalContext={{ mood, text: text.trim() }} />
+        )}
+
+        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+        </div>
+      </BentoCard>
+
+      {step === 'mood' && !lowEnergyBridge && (
+        <VaultZoneGate
+          zone="dagbok_forensic"
+          clearOnUnmount={false}
+          title="Journalarkiv & vävare"
+          description="Tidslinje, vävning och Kampspár-opt-in. Samma PIN som Valv."
+          onUnlocked={() => setForensicUnlocked(true)}
+          onLock={() => setForensicUnlocked(false)}
+        >
+          <JournalArchive entries={entries} />
+        </VaultZoneGate>
+      )}
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/diary/diary/components/MoodStep.tsx">
+import { Link } from 'react-router-dom';
+import { ChevronRight, Loader2, Shuffle } from 'lucide-react';
+import { HEAVY_MOODS, MOOD_CATALOG, getMoodDef } from '../constants/moods';
+import { MABRA_BRIDGE_LABELS } from '../constants/mabraBridge';
+
+type MoodStepProps = {
+  mood: string;
+  onMoodChange: (mood: string) => void;
+  onContinue: () => void;
+  lowEnergyBridge?: boolean;
+  saving?: boolean;
+  onSaveMoodOnly?: () => void;
+  showMoodOnlyButton?: boolean;
+};
+
+export function MoodStep({
+  mood,
+  onMoodChange,
+  onContinue,
+  lowEnergyBridge = false,
+  saving = false,
+  onSaveMoodOnly,
+  showMoodOnlyButton = false,
+}: MoodStepProps) {
+  const selected = getMoodDef(mood);
+
+  const pickRandom = () => {
+    const pick = MOOD_CATALOG[Math.floor(Math.random() * MOOD_CATALOG.length)];
+    if (pick) onMoodChange(pick.label);
+  };
+
+  return (
+    <div className="reflektion-panel">
+      <p className="reflektion-panel__lead">Hur känns det just nu?</p>
+      <p className="reflektion-panel__hint">Tryck en liten ruta — eller slumpa.</p>
+
+      <div className="reflektion-mood-grid" role="group" aria-label="Välj känsla">
+        {MOOD_CATALOG.map((m) => {
+          const active = mood === m.label;
+          return (
+            <button
+              key={m.id}
+              type="button"
+              onClick={() => onMoodChange(m.label)}
+              className={`reflektion-mood-card reflektion-mood-card--${m.tone} ${
+                active ? 'reflektion-mood-card--active' : ''
+              }`}
+              aria-pressed={active}
+            >
+              <span className="reflektion-mood-card__emoji" aria-hidden>
+                {m.emoji}
+              </span>
+              <span className="reflektion-mood-card__label">{m.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      <button type="button" onClick={pickRandom} className="reflektion-shuffle">
+        <Shuffle className="h-3.5 w-3.5" aria-hidden />
+        Slumpa
+      </button>
+
+      {selected && (
+        <p className="reflektion-mood-selected">
+          <span aria-hidden>{selected.emoji}</span> Du valde <strong>{selected.label}</strong>
+        </p>
+      )}
+
+      <div className="reflektion-actions">
+        <button type="button" disabled={!mood} onClick={onContinue} className="btn-pill--secondary">
+          {lowEnergyBridge ? (
+            <>
+              {MABRA_BRIDGE_LABELS.continueOptional} <ChevronRight className="h-4 w-4" />
+            </>
+          ) : (
+            <>
+              Nästa: skriv lite <ChevronRight className="h-4 w-4" />
+            </>
+          )}
+        </button>
+
+        {(lowEnergyBridge || showMoodOnlyButton) && onSaveMoodOnly && (
+          <button
+            type="button"
+            disabled={!mood || saving}
+            onClick={onSaveMoodOnly}
+            className="btn-pill--ghost text-sm"
+          >
+            {saving ? (
+              <Loader2 className="mx-auto h-4 w-4 animate-spin" />
+            ) : lowEnergyBridge ? (
+              MABRA_BRIDGE_LABELS.saveMoodOnly
+            ) : (
+              'Bara känslan räcker — spara'
+            )}
+          </button>
+        )}
+
+        {!lowEnergyBridge && mood && HEAVY_MOODS.has(mood) && (
+          <Link to="/mabra" className="reflektion-link-mabra">
+            Kroppen behöver paus först? → MåBra
+          </Link>
+        )}
+      </div>
+    </div>
+  );
+}
+</file>
+
+</files>

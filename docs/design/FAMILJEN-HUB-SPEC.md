@@ -30,7 +30,21 @@
 
 `?tab=reflektion|livslogg|tillsammans|monster|kunskap`
 
+## Funktionsutbyggnad (plan — ej C-aurora-design)
+
+**Kanon:** [`FAMILJEN-BARN-SIDOR-FUNKTIONER.md`](./FAMILJEN-BARN-SIDOR-FUNKTIONER.md)  
+**Referens (funktion endast):** [`themes/C-nordic-aurora/03-barnfokus.png`](./themes/C-nordic-aurora/03-barnfokus.png) — familje-dashboard, barnprofil (stunder/om/favoriter), formulär «Ny stund» med humör, bild och «spara som ankare».
+
+| Område | Status |
+|--------|--------|
+| Dagens ankare + veckodiagram | Delvis (`FamiljenTillsammansTab`) |
+| Barnprofil-flikar (Stunder/Om/Favoriter) | **Finns** på Livslogg |
+| Ny stund (sheet, humör, ankare-toggle) | P2 |
+
+Låst barnfokus (`BarnfokusFraganPanel`) ska **inte** ersättas — kompletteras.
+
 ## Visuell polish (2026-05)
 
 - CSS: `.familjen-hub` i `src/index.css` — aurora (emerald), guld ankare, barn-chips
 - Mockup-nära utan nature-regnbåge (Obsidian Calm + emerald accent)
+- **Visuell** riktning: Obsidian Calm — **inte** Nordic-aurora-glass från `03-barnfokus.png`

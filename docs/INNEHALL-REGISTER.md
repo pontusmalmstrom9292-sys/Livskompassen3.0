@@ -41,7 +41,7 @@
 | MåBra | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) | **aktiv** | P1: `vit_entries` + `bankId` |
 | MåBra Daglig mix | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) § Daglig mix | **aktiv** | `dagligMixCatalog.ts` · DM-* · ingen streak/RAG |
 | Drogfrihet | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) § Drogfrihet + [`Drogfrihet-SPEC.md`](./specs/modules/Drogfrihet-SPEC.md) | **aktiv** | `drogfrihetCatalog.ts` · DF-REF-* · hub `/drogfrihet` |
-| Kunskap seed | [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) | **aktiv** | Batch 2026-05-27 · `kunskap-fact-001`–`010` + `df-*` · ingest efter granskning |
+| Kunskap seed | [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) | **aktiv** | Batch 2026-05-29 · `kunskap-fact-001`–`025` + `df-*` · ingest efter granskning |
 | Barnen lek | [`specs/modules/Barnen-PLAY-BANK.md`](./specs/modules/Barnen-PLAY-BANK.md) | **planerad** | Barnfokus-pool, ej Valv-promote |
 
 **Fält per KEEP-post (alla banker):** `id`, `status`, `content_class`, `source_tier`, `text_sv`, `why`.
@@ -86,7 +86,7 @@ Prompts: endast `functions/src/sharedRules.ts`.
 
 ---
 
-## Kunskap seed — KEEP 2026-05-27
+## Kunskap seed — KEEP 2026-05-29
 
 **Kurator:** `specialist-kunskap-seed` · **Klass:** FACT · **Silo:** `kampspar` / `kb_docs` · **Callable:** `knowledgeVaultQuery` only.
 
@@ -102,8 +102,24 @@ Prompts: endast `functions/src/sharedRules.ts`.
 | kunskap-fact-008 | FACT | P2 | KEEP | barn_neuro |
 | kunskap-fact-009 | FACT | P1 | KEEP | ekonomi_vardag |
 | kunskap-fact-010 | FACT | P2 | KEEP | juridik_logistik |
+| kunskap-fact-011 | FACT | psychoeducation_general | KEEP | medforaldraskap |
+| kunskap-fact-012 | FACT | psychoeducation_general | KEEP | medforaldraskap |
+| kunskap-fact-013 | FACT | product_copy | KEEP | juridik_overview |
+| kunskap-fact-014 | FACT | psychoeducation_general | KEEP | medforaldraskap |
+| kunskap-fact-015 | FACT | P2 | KEEP | medforaldraskap |
+| kunskap-fact-016 | FACT | P2 | KEEP | adhd_vardag |
+| kunskap-fact-017 | FACT | P2 | KEEP | adhd_vardag |
+| kunskap-fact-018 | FACT | psychoeducation_general | KEEP | adhd_vardag |
+| kunskap-fact-019 | FACT | P2 | KEEP | adhd_vardag |
+| kunskap-fact-020 | FACT | psychoeducation_general | KEEP | adhd_vardag |
+| kunskap-fact-021 | FACT | psychoeducation_general | KEEP | adhd_vardag |
+| kunskap-fact-022 | FACT | product_copy | KEEP | produkt_sakerhet |
+| kunskap-fact-023 | FACT | product_copy | KEEP | produkt_arkitektur |
+| kunskap-fact-024 | FACT | P2 | KEEP | medforaldraskap |
+| kunskap-fact-025 | FACT | product_copy | KEEP | dagbok_produkt |
+| kunskap-fact-df-001 … 006 | FACT | P1/P2 | KEEP | beroende |
 
-**Kanon i bank:** [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) § Batch 2026-05-27.
+**Kanon i bank:** [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) — batchar 2026-05-27, 2026-05-29.
 
 **MUST NOT:** ingest utan mänsklig granskning · BIFF-svar på konkret sms (→ Speglar/Hamn) · cross-RAG till `reality_vault` / `children_logs`.
 

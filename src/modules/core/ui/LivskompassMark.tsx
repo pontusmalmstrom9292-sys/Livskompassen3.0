@@ -1,4 +1,4 @@
-https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0/blob/b1eb6af02c76f1b298d5f88edb0d0fab66220f14/docs/design/icons-proposals/2026-05-29-gold-hub-v5/preview.htmlimport { useId } from 'react';
+import { useId } from 'react';
 
 type Props = {
   className?: string;

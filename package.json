@@ -13,7 +13,7 @@
     "android:run": "npm run cap:sync && npx cap run android",
     "android:run:prod": "npm run cap:sync:prod && npx cap run android",
     "android:icons": "./scripts/generate_android_launcher_icons.sh",
-    "android:icons:phone": "./scripts/generate_android_launcher_icons.sh docs/design/themes/app-icon-phone-teal-kompas-1024.png",
+    "android:icons:phone": "./scripts/generate_android_launcher_icons.sh docs/design/themes/app-icon-phone-vault-sacred-1024.png",
     "phone-icons:preview": "open docs/design/themes/phone-icon-variants/PREVIEW.md",
     "kognitiv-skold:generate": "node scripts/generate_kognitiv_skold_variants.mjs",
     "kognitiv-skold:preview": "npm run kognitiv-skold:generate && node scripts/export_kognitiv_skold_previews.mjs && open docs/design/themes/kognitiv-skold-variants/PREVIEW.md",

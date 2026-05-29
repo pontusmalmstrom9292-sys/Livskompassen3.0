@@ -63,7 +63,7 @@
 | `00-hero-livskompass.png` | Hem |
 | `01-kompis.png` | Kunskap / Kompis |
 | `02-trygg-hamn-hub.png` | Hamn |
-| `03-barnfokus.png` | Familjen / Barnfokus |
+| `03-barnfokus.png` | Familjen / Barnfokus — **funktioner:** [`FAMILJEN-BARN-SIDOR-FUNKTIONER.md`](./FAMILJEN-BARN-SIDOR-FUNKTIONER.md) (ej design) |
 | `04-biff-triage.png` | BIFF |
 | `05-pansaret-valv.png` | Valv |
 | `06-kbt-transformator.png` | MåBra / KBT |
@@ -97,7 +97,7 @@
 |-------|------|
 | Planering | `PLANERINGSSIDA-SPEC.md`, `planering/PLANERING-P3-KANBAN-SPEC.md` |
 | Widget / Fyren | `WIDGET-BAR-SPEC.md`, `HOMESCREEN-WIDGETS-SPEC.md` |
-| Familjen / Barnfokus | `FAMILJEN-BARNFOKUS-FRAGOR-SPEC.md`, `FAMILJEN-HUB-SPEC.md` |
+| Familjen / Barnfokus | `FAMILJEN-BARNFOKUS-FRAGOR-SPEC.md`, `FAMILJEN-HUB-SPEC.md`, `FAMILJEN-BARN-SIDOR-FUNKTIONER.md` |
 | Barnporten | `BARNPORTEN-SPEC.md` |
 | Färger | `COLOR-POLICY.md` (ingen turkos text) |
 | Typografi | `TYPE-SCALE.md` · `typeScale.ts` |

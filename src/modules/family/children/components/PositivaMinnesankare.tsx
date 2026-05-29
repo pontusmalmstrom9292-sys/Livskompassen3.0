@@ -3,24 +3,19 @@ import { Sparkles } from 'lucide-react';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import type { ChildAlias } from '../constants';
 import type { ChildrenLogEntry } from '../types';
+import { isFavoriteMoment } from '../utils/childMomentHelpers';
 
 type Props = {
   logs: ChildrenLogEntry[];
   childAlias: ChildAlias;
 };
 
-function isPositiveAnchor(log: ChildrenLogEntry): boolean {
-  if (log.category === 'positivt' || log.category === 'ankare') return true;
-  const text = `${log.observation ?? ''} ${log.truth ?? ''}`.toLowerCase();
-  return /\b(älskar|mys|skratt|stolt|kul|fin|trygg|mysig)\b/.test(text);
-}
-
 /** D13 — positiva minnesankare per barn. */
 export function PositivaMinnesankare({ logs, childAlias }: Props) {
   const anchors = useMemo(
     () =>
       logs
-        .filter((l) => l.childAlias === childAlias && isPositiveAnchor(l))
+        .filter((l) => l.childAlias === childAlias && isFavoriteMoment(l))
         .slice(0, 5),
     [logs, childAlias],
   );

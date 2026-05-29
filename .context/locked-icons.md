@@ -1,6 +1,6 @@
 # Låsta ikoner (produkt — 2026-05-29)
 
-**Status:** D1 + M2 låsta. App-ikon: P6 (default) · P7-alpha · P8-alpha.
+**Status:** D1 + M2 låsta. App-ikon: **P7** (vault-sacred-3d, prod 2026-05-29) · P6 · P8-alpha.
 
 | ID | Plats | Komponent / fil | Status |
 |----|-------|-----------------|--------|
@@ -18,11 +18,12 @@
 
 | ID | Fil |
 |----|-----|
-| **P6** | `phone-icon-variants/P6-gold-emboss-1024.png` (default prod) |
-| **P7-alpha** | `P7-vault-sacred-alpha-1024.png` |
+| **P7** | `vault-sacred-3d-2026-05-source.png` → `P7-vault-sacred-1024.png` (**prod**) |
+| **P7-alpha** | `P7-vault-sacred-alpha-1024.png` (transparent) |
+| **P6** | `P6-gold-emboss-1024.png` |
 | **P8-alpha** | `P8-orbit-hub-alpha-1024.png` |
 
-`npm run android:icons:phone -- docs/design/themes/phone-icon-variants/P6-gold-emboss-1024.png`
+`npm run icons:phone-export` · `npm run android:icons:phone`
 
 ## Smoke
 

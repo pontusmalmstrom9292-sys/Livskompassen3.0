@@ -49,7 +49,15 @@ Antik · koppar/brons · tjock ram
 
 ---
 
-## P6 — Guld stack (prod default 2026-05-29)
+## P7 — Vault 3D sacred (**prod default 2026-05-29**)
+
+Källa: `../vault-sacred-3d-2026-05-source.png` · kompass + lås · teal/solnedgång
+
+![P7 Vault sacred](./P7-vault-sacred-1024.png)
+
+---
+
+## P6 — Guld stack
 
 Logga · obsidian squircle
 
