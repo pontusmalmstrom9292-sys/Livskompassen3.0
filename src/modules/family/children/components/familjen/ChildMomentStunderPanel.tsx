@@ -66,6 +66,7 @@ export function ChildMomentStunderPanel({ shell }: Props) {
         <BentoCard title="Ny stund" description={`Vad vill du minnas om ${activeChild}?`}>
           <ChildSubLogPanel
             key={`stund-${activeChild}`}
+            variant="stund"
             childAlias={activeChild}
             userId={user.uid}
             onSave={async (data) => {

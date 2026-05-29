@@ -1,6 +1,16 @@
 import type { LucideIcon } from 'lucide-react';
 import { Anchor, Heart, School, Sparkles, Sun } from 'lucide-react';
-import { LIVSLOGG_CATEGORIES, type ChildAlias } from '../constants';
+import { LIVSLOGG_CATEGORIES, type ChildAlias, type LivsloggCategory } from '../constants';
+
+export const STUND_MAX_CHARS = 250;
+
+/** Kategori vid spar av «Ny stund» — ankare-växel vinner över dropdown. */
+export function resolveStundCategory(
+  selected: LivsloggCategory,
+  saveAsAnchor: boolean,
+): LivsloggCategory {
+  return saveAsAnchor ? 'ankare' : selected;
+}
 import type { ChildrenLogEntry } from '../types';
 
 export function isFavoriteMoment(log: ChildrenLogEntry): boolean {
