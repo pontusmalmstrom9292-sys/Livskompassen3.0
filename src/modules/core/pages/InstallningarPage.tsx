@@ -4,6 +4,10 @@ import { TabBar, type TabBarItem } from '../ui/TabBar';
 import { useStore } from '../store';
 import { getAutoModuleThemesEnabled, setAutoModuleThemesEnabled } from '../theme/moduleThemeMap';
 import { DrogfrihetCounterSettings } from '../../drogfrihet/components/DrogfrihetCounterSettings';
+import {
+  isStampOnHomeScreenEnabled,
+  setStampOnHomeScreenEnabled,
+} from '../../admin/stampla';
 import { useState } from 'react';
 import { LifeHubPresetPicker, useLifeHubPreset } from '../lifeOs';
 import { useHubTab } from '../navigation/hooks/useHubTab';
@@ -16,6 +20,7 @@ export function InstallningarPage() {
   const user = useStore((s) => s.user);
   const { presetId, setPresetId } = useLifeHubPreset();
   const [autoTheme, setAutoTheme] = useState(() => getAutoModuleThemesEnabled());
+  const [stampOnHome, setStampOnHome] = useState(() => isStampOnHomeScreenEnabled());
 
   return (
     <HubPageShell
@@ -50,6 +55,24 @@ export function InstallningarPage() {
             <span className="text-sm text-text-muted">Automatiskt tema per modul</span>
           </label>
           <p className="text-xs text-text-dim">Temat uppdateras när du byter sida.</p>
+
+          <label className="flex cursor-pointer items-start gap-3 border-t border-border pt-4">
+            <input
+              type="checkbox"
+              className="mt-0.5 h-4 w-4 rounded border-border accent-accent"
+              checked={stampOnHome}
+              onChange={(e) => {
+                const next = e.target.checked;
+                setStampOnHomeScreenEnabled(next);
+                setStampOnHome(next);
+              }}
+            />
+            <span className="text-sm leading-relaxed text-text-muted">
+              <span className="block font-medium text-text">Stämpelklocka på Hem</span>
+              Standard är Arbetsliv och hemskärms-widget. Aktivera bara om du vill ha In/Ut direkt på
+              Hem också.
+            </span>
+          </label>
 
           <LifeHubPresetPicker activeId={presetId} onSelect={setPresetId} />
         </div>

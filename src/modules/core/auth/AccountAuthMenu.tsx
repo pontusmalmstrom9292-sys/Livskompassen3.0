@@ -4,6 +4,7 @@ import { Fingerprint, LogOut, ShieldCheck, X } from 'lucide-react';
 import { HeaderLockGlyph, HeaderShieldGlyph } from '../ui/HeaderChromeGlyphs';
 import { useStore } from '../store';
 import { EmailAuthPanel } from './EmailAuthPanel';
+import { FingerprintUnlockPanel } from './FingerprintUnlockPanel';
 import { signOutUser } from './authService';
 import { getExpectedLoginEmail } from './googleAuthProvider';
 import {
@@ -11,7 +12,7 @@ import {
   enableAppUnlock,
   isAppUnlockSupported,
 } from './appUnlock';
-import { isAppUnlockEnabled } from './appUnlockPrefs';
+import { isAppUnlockEnabled, isAppUnlockedThisSession } from './appUnlockPrefs';
 
 type Props = {
   open?: boolean;
@@ -51,6 +52,12 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
   }, [open, user, setOpen]);
 
   const isAnonymous = user?.isAnonymous ?? true;
+  const needsFingerprintUnlock =
+    !!user &&
+    !user.isAnonymous &&
+    isAppUnlockEnabled() &&
+    isAppUnlockSupported() &&
+    !isAppUnlockedThisSession();
   const label = !user ? 'Logga in' : user.isAnonymous ? 'Konto' : user.email?.split('@')[0] ?? 'Konto';
 
   const dialog =
@@ -88,6 +95,8 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
                 }
                 onSuccess={() => setOpen(false)}
               />
+            ) : needsFingerprintUnlock ? (
+              <FingerprintUnlockPanel compact autoTry onSuccess={() => setOpen(false)} />
             ) : (
               <div className="glass-card rounded-[2rem] border border-border p-5">
                 <div className="mb-4 flex items-center gap-2">

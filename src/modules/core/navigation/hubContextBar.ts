@@ -43,6 +43,7 @@ const DEFAULT_SLOTS: HubContextSlot[] = [
   { id: 'planering', label: 'Planering', to: '/planering?tab=handling', icon: 'calendar' },
   { id: 'arbetsliv', label: 'Arbetsliv', to: '/arbetsliv?tab=stampla', icon: 'clock' },
   { id: 'note', label: 'Anteckning', to: '/widget/anteckning', icon: 'note' },
+  { id: 'snabbval', label: 'Snabbval', to: '/widget/snabbval', icon: 'sparkles' },
 ];
 
 function tabParam(search: string): string | null {
@@ -282,6 +283,7 @@ export type HubMoreActionId =
   | 'planering'
   | 'arbetsliv'
   | 'note'
+  | 'snabbval'
   | 'record'
   | 'ekonomi';
 
@@ -296,6 +298,7 @@ export const HUB_MORE_ACTIONS: {
   { id: 'planering', label: 'Planering', to: '/planering?tab=handling', icon: 'calendar' },
   { id: 'arbetsliv', label: 'Arbetsliv', to: '/arbetsliv?tab=stampla', icon: 'clock' },
   { id: 'note', label: 'Anteckning', to: '/widget/anteckning', icon: 'note' },
+  { id: 'snabbval', label: 'Snabbval', to: '/widget/snabbval', icon: 'sparkles' },
   { id: 'record', label: 'Tyst inspelning', to: '/widget/inspelning?autostart=1', icon: 'record' },
   { id: 'ekonomi', label: 'Ekonomi', to: '/vardagen?tab=ekonomi', icon: 'wallet' },
 ];

@@ -14,9 +14,11 @@ import { useKognitivSkoldVariant } from './useKognitivSkoldVariant';
 
 type Props = {
   onCenterPress?: () => void;
+  /** Kompakt avlång hub (standard). `compass` = full sköld med orbit. */
+  variant?: 'compact' | 'compass';
 };
 
-export function LivskompassHero({ onCenterPress }: Props) {
+export function LivskompassHero({ onCenterPress, variant = 'compact' }: Props) {
   const navigate = useNavigate();
   const theme = getCompassThemeByTime();
   const { variantId, tokens } = useKognitivSkoldVariant();
@@ -41,6 +43,35 @@ export function LivskompassHero({ onCenterPress }: Props) {
     navigate(to);
     closeMenus();
   };
+
+  if (variant === 'compact') {
+    return (
+      <section
+        className={clsx('livskompass-hero livskompass-hero--compact', `livskompass-hero--${theme}`)}
+        data-k-skold={variantId}
+        style={skoldStyle}
+        aria-label={`Livskompassen — Kognitiv sköld (${tokens.title})`}
+      >
+        <div className="livskompass-hero__panel">
+          <button
+            type="button"
+            className="livskompass-hero__compact-bar"
+            aria-label="Checka in — Kognitiv sköld"
+            onClick={() => onCenterPress?.()}
+          >
+            <span className="livskompass-hero__compact-mark" aria-hidden>
+              <LivskompassMark className="livskompass-hero__compact-mark-icon" />
+            </span>
+            <span className="livskompass-hero__compact-copy">
+              <span className="livskompass-hero__compact-title">Kognitiv sköld</span>
+              <span className="livskompass-hero__compact-lead">Check-in · dagens kompass</span>
+            </span>
+            <ChevronRight className="livskompass-hero__compact-chevron" strokeWidth={2} aria-hidden />
+          </button>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section

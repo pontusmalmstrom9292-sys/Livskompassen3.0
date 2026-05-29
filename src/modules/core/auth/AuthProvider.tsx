@@ -12,6 +12,8 @@ import { isCapacitorAndroid } from './capacitorPlatform';
 import { tryCompletePendingNativeGoogleSignIn } from './nativeGoogleAuth';
 import { consumeSkipAnonymousOnce } from './googleAuthProvider';
 import { isEmailAuthRequired } from './requireEmailAuth';
+import { enableAppUnlock, isAppUnlockSupported } from './appUnlock';
+import { consumeFingerprintSetupPending } from './appUnlockPrefs';
 
 const auth = getAuth(app);
 
@@ -71,6 +73,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             email: firebaseUser.email ?? undefined,
             isAnonymous: firebaseUser.isAnonymous,
           });
+          if (!firebaseUser.isAnonymous && consumeFingerprintSetupPending() && isAppUnlockSupported()) {
+            void enableAppUnlock();
+          }
         } else if (!isEmailAuthRequired()) {
           if (consumeSkipAnonymousOnce()) {
             resetState();

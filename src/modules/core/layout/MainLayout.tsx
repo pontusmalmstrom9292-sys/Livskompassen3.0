@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FloatingDock } from './FloatingDock';
-import { FyrenSmartWidgetBar } from '../components/FyrenSmartWidgetBar';
+import { FyrenWidgetBar } from '../components/FyrenWidgetBar';
 import { AppHeaderBar } from '../components/AppHeaderBar';
 import { AmbientBackground } from './AmbientBackground';
 import { KompisAvatar } from '../../evidence/kompis/components/KompisAvatar';
@@ -74,7 +74,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         {children}
       </main>
 
-      <FyrenSmartWidgetBar />
+      <FyrenWidgetBar />
       <FloatingDock />
     </div>
   );

@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import { LivskompassMark } from '../ui/LivskompassMark';
 import { getHeaderPageLabel } from '../navigation/headerPageLabel';
+
+const WORDMARK_SRC = '/design/header/livskompassen-wordmark.png';
 
 type Props = {
   showTagline?: boolean;
@@ -18,11 +19,15 @@ export function AppHeaderBrand({ showTagline = false }: Props) {
       className="app-header__brand app-header__brand--kanon app-header__brand-link"
       aria-label="Livskompassen — hem"
     >
-      <div className="app-header__logo app-header__logo--kanon header-chrome-btn header-chrome-btn--logo" aria-hidden>
-        <LivskompassMark className="app-header__logo-mark h-8 w-8 text-accent" />
-      </div>
+      <img
+        src={WORDMARK_SRC}
+        alt="Livskompassen"
+        className="app-header__wordmark"
+        width={220}
+        height={40}
+        decoding="async"
+      />
       <div className="app-header__brand-text">
-        <span className="app-header__title app-header__title--kanon">Livskompassen</span>
         {showTagline ? (
           <span className="app-header__tagline">Kognitiv sköld</span>
         ) : null}

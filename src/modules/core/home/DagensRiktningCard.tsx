@@ -1,23 +1,73 @@
 import { Link } from 'react-router-dom';
-import { ChevronRight, Compass } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
+import { clsx } from 'clsx';
+import { DashboardPage } from '../../wellbeing/compasses/components/DashboardPage';
+import { EVENING_HERO, getFlowConfig } from '../../wellbeing/compasses/config/compassFlows';
 import { getCompassAdvice, getCompassFlowMeta } from '../../wellbeing/compasses/utils/compassAdvice';
+import { getDefaultCompassByTime } from '../../wellbeing/compasses/utils/compassTime';
 
-export function DagensRiktningCard() {
-  const meta = getCompassFlowMeta();
-  const advice = getCompassAdvice(meta.flow);
+type Props = {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onCheckInSaved?: () => void;
+};
+
+export function DagensRiktningCard({ open, onOpenChange, onCheckInSaved }: Props) {
+  const flow = getDefaultCompassByTime();
+  const meta = getCompassFlowMeta(flow);
+  const advice = getCompassAdvice(flow);
+  const cfg = getFlowConfig(flow);
+  const FlowIcon = flow === 'evening' ? EVENING_HERO.icon : cfg!.icon;
 
   return (
-    <Link to="/vardagen" className="dagens-riktning-card">
-      <span className="dagens-riktning-card__icon-wrap" aria-hidden>
-        <Compass className="h-4 w-4" strokeWidth={1.5} />
-      </span>
-      <div className="dagens-riktning-card__body">
-        <p className="dagens-riktning-card__eyebrow">
-          Dagens riktning · {meta.label}
-        </p>
-        <p className="dagens-riktning-card__quote">{advice}</p>
+    <section className="dagens-riktning" aria-label="Dagens riktning">
+      <div className={clsx('dagens-riktning-card', open && 'dagens-riktning-card--open')}>
+        <div className="dagens-riktning-card__main">
+          <span className="dagens-riktning-card__icon-wrap" aria-hidden>
+            <FlowIcon className="dagens-riktning-card__icon" strokeWidth={1.5} />
+          </span>
+
+          <div className="dagens-riktning-card__body">
+            <p className="dagens-riktning-card__eyebrow">
+              Dagens riktning · {meta.label}
+            </p>
+            <p className="dagens-riktning-card__title">{meta.heroTitle}</p>
+            <p className="dagens-riktning-card__quote">{advice}</p>
+          </div>
+        </div>
+
+        <div className="dagens-riktning-card__actions">
+          <button
+            type="button"
+            className="dagens-riktning-card__cta"
+            aria-expanded={open}
+            onClick={() => onOpenChange(!open)}
+          >
+            <span>{open ? 'Stäng check-in' : 'Checka in nu'}</span>
+            <ChevronDown
+              className={clsx('dagens-riktning-card__cta-chevron', open && 'dagens-riktning-card__cta-chevron--open')}
+              strokeWidth={1.75}
+              aria-hidden
+            />
+          </button>
+          <Link to="/vardagen?tab=kompasser" className="dagens-riktning-card__link">
+            Alla kompasser
+          </Link>
+        </div>
       </div>
-      <ChevronRight className="dagens-riktning-card__chevron" strokeWidth={1.5} aria-hidden />
-    </Link>
+
+      {open ? (
+        <div className="dagens-riktning-card__panel">
+          <DashboardPage
+            variant="module"
+            forcedFlow={flow}
+            onCheckInSaved={() => {
+              onCheckInSaved?.();
+              onOpenChange(false);
+            }}
+          />
+        </div>
+      ) : null}
+    </section>
   );
 }

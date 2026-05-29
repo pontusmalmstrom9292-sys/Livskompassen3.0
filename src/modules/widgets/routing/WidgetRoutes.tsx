@@ -6,6 +6,7 @@ import { WidgetHamnPage } from '../pages/WidgetHamnPage';
 import { WidgetFamiljenPage } from '../pages/WidgetFamiljenPage';
 import { WidgetStampPage } from '../pages/WidgetStampPage';
 import { WidgetBarnportenPage } from '../pages/WidgetBarnportenPage';
+import { WidgetSnabbvalPage } from '../pages/WidgetSnabbvalPage';
 
 export function WidgetRoutes() {
   return (
@@ -17,6 +18,7 @@ export function WidgetRoutes() {
       <Route path="familjen" element={<WidgetFamiljenPage />} />
       <Route path="stampla" element={<WidgetStampPage />} />
       <Route path="barnporten" element={<WidgetBarnportenPage />} />
+      <Route path="snabbval" element={<WidgetSnabbvalPage />} />
       <Route path="*" element={<Navigate to="/widget/inspelning" replace />} />
     </Routes>
   );

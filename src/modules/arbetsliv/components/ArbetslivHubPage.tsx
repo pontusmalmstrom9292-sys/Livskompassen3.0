@@ -50,7 +50,8 @@ export function ArbetslivHubPage() {
         <p className="text-[10px] uppercase tracking-[0.35em] text-accent/80">Arbetsliv</p>
         <h1 className="text-xl font-display text-text">Tid · stämpel · logg</h1>
         <p className="mt-1 text-xs text-text-dim">
-          Stämpel och flex är öppna. Frånvaro och lönespec finns under Valv i menyn.
+          Stämpel och flex är öppna här. Hemskärms-widget under Inställningar → widget. Frånvaro och
+          lönespec finns under Valv i menyn.
         </p>
       </header>
 

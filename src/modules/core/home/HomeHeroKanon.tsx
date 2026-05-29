@@ -3,7 +3,6 @@ import { HomeGreeting } from './HomeGreeting';
 import { HomeStreakChip } from './HomeStreakChip';
 import { LivskompassHero } from './LivskompassHero';
 import { DagensRiktningCard } from './DagensRiktningCard';
-import { HomeCheckInPanel } from './HomeCheckInPanel';
 
 type Props = {
   onCheckInSaved?: () => void;
@@ -22,9 +21,7 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
 
       <LivskompassHero onCenterPress={() => setCheckInOpen(true)} />
 
-      <DagensRiktningCard />
-
-      <HomeCheckInPanel
+      <DagensRiktningCard
         open={checkInOpen}
         onOpenChange={setCheckInOpen}
         onCheckInSaved={() => {

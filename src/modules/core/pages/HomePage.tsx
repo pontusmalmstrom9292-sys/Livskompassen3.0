@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { AdaptiveMemoryCards } from '../home/AdaptiveMemoryCards';
 import { HomeHeroKanon } from '../home/HomeHeroKanon';
-import { HomeQuickModules } from '../home/HomeQuickModules';
 import { PlaneringHomePinCard } from '../../admin/planning/components/PlaneringHomePinCard';
-import { StampClockHomeSection } from '../../admin/stampla';
+import { StampClockHomeSection, isStampOnHomeScreenEnabled } from '../../admin/stampla';
 import { InkastLiteCard } from '../../inkast';
 import { materialEnabled, useLifeHubPreset } from '../lifeOs';
 import { useStore } from '../store';
@@ -19,7 +18,7 @@ export function HomePage() {
         <HomeHeroKanon onCheckInSaved={() => setCardRefreshKey((k) => k + 1)} />
       )}
 
-      {isAuthenticated && materialEnabled(preset, 'home_stamp') && <StampClockHomeSection />}
+      {isAuthenticated && isStampOnHomeScreenEnabled() && <StampClockHomeSection />}
 
       {materialEnabled(preset, 'home_inkast') && <InkastLiteCard />}
 
@@ -27,13 +26,6 @@ export function HomePage() {
 
       {materialEnabled(preset, 'home_adaptive_cards') && (
         <AdaptiveMemoryCards refreshKey={cardRefreshKey} presetId={presetId} />
-      )}
-
-      {materialEnabled(preset, 'home_snabbval') && (
-        <details className="home-more">
-          <summary className="home-more__summary">Snabbval</summary>
-          <HomeQuickModules onSaved={() => setCardRefreshKey((k) => k + 1)} />
-        </details>
       )}
     </div>
   );

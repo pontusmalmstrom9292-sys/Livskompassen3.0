@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { List, Plus } from 'lucide-react';
+import { List, Plus, Sparkles } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useLongPress } from '../hooks/useLongPress';
 import { ChromeV4Icon } from '../ui/chromeIcons';
@@ -21,6 +21,12 @@ const WIDGET_ACTIONS: {
   to: string;
   renderIcon: () => ReactNode;
 }[] = [
+  {
+    id: 'snabbval',
+    label: 'Snabbval',
+    to: '/widget/snabbval',
+    renderIcon: () => <Sparkles className="h-4 w-4 shrink-0" strokeWidth={1.65} />,
+  },
   {
     id: 'record',
     label: 'Inspelning',

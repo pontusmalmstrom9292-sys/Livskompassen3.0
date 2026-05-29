@@ -29,9 +29,9 @@ export type LifeHubPreset = {
 
 const ALL_TRUE: Record<LifeHubMaterialKey, boolean> = {
   home_inkast: true,
-  home_stamp: true,
+  home_stamp: false,
   home_adaptive_cards: true,
-  home_snabbval: true,
+  home_snabbval: false,
   home_hero_checkin: true,
   planering_routines: true,
   familjen_hub_hint: true,
@@ -71,7 +71,7 @@ export const LIFE_HUB_PRESETS: LifeHubPreset[] = [
     lead: 'Planering, stämpel och inkast.',
     materials: {
       home_inkast: true,
-      home_stamp: true,
+      home_stamp: false,
       home_adaptive_cards: false,
       home_snabbval: false,
       home_hero_checkin: true,

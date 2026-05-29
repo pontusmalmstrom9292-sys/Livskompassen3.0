@@ -6,7 +6,6 @@ import { LivskompassMark } from '../ui/LivskompassMark';
 import { useLongPress } from '../hooks/useLongPress';
 import { useLifeHubPreset } from '../lifeOs/useLifeHubPreset';
 import { getHubContextSlots, type HubContextSlot } from '../navigation/hubContextBar';
-import { getDockHubBanner } from './dockHubBanner';
 import { renderDockNavIcon, renderDockSideIcon } from './dockNavIcons';
 import { DockNavButton, DockNavLinkFace } from './DockNavButton';
 import { getDockSideLinks } from './dockHubChrome';
@@ -55,7 +54,6 @@ export function DockHubBand() {
   const navigate = useNavigate();
   const { presetId } = useLifeHubPreset();
   const isHome = location.pathname === '/';
-  const hubBanner = getDockHubBanner(location.pathname);
 
   const hubSlots = useMemo(
     () => getHubContextSlots(location.pathname, location.search),
@@ -87,16 +85,7 @@ export function DockHubBand() {
   const panelStyle = resolveHeaderPanelStyle();
 
   return (
-    <div
-      className={clsx('dock-hub-band', hubBanner && 'dock-hub-band--has-banner')}
-      data-panel-style={panelStyle}
-    >
-      {hubBanner ? (
-        <div className="dock-hub-band__banner" aria-hidden>
-          <span className="dock-hub-band__banner-text">{hubBanner}</span>
-        </div>
-      ) : null}
-
+    <div className="dock-hub-band" data-panel-style={panelStyle}>
       <div className="dock-hub-band__rail">
         <DockSideNav link={sides.left} />
         {leftRail.map((slot, index) =>

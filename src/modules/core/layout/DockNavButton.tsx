@@ -31,7 +31,14 @@ export function DockNavButton({
       aria-current={active ? 'page' : undefined}
       {...rest}
     >
-      <span className="dock-nav-btn__icon-shell" aria-hidden>
+      <span
+        className={clsx(
+          'hub-chrome-tile hub-chrome-tile--dock dock-nav-btn__icon-shell',
+          variant === 'side' && 'hub-chrome-tile--dock-side dock-nav-btn__icon-shell--side',
+          active && 'hub-chrome-tile--active',
+        )}
+        aria-hidden
+      >
         {icon}
       </span>
       <span className="dock-nav-btn__label">{label}</span>
@@ -52,8 +59,9 @@ export function DockNavLinkFace({ label, icon, active, variant = 'side' }: LinkF
     <>
       <span
         className={clsx(
-          'dock-nav-btn__icon-shell',
-          variant === 'side' && 'dock-nav-btn__icon-shell--side',
+          'hub-chrome-tile hub-chrome-tile--dock dock-nav-btn__icon-shell',
+          variant === 'side' && 'hub-chrome-tile--dock-side dock-nav-btn__icon-shell--side',
+          active && 'hub-chrome-tile--active',
         )}
         aria-hidden
       >
