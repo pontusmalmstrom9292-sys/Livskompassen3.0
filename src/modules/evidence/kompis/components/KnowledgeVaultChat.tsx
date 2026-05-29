@@ -7,15 +7,33 @@ import {
 } from '../api/knowledgeVaultService';
 import { KnowledgeCitationList } from './KnowledgeCitationList';
 import { useStore } from '../../../core/store';
-import { Lock } from 'lucide-react';
+import { Lock, RefreshCw } from 'lucide-react';
 import { BentoCard } from '../../../core/ui/BentoCard';
 
 type KnowledgeVaultChatProps = {
+  embedded?: boolean;
   onCitationClick?: (docId: string, collection: string) => void;
+  activeCitationKey?: string | null;
 };
 
-export function KnowledgeVaultChat({ onCitationClick }: KnowledgeVaultChatProps = {}) {
+function isNetworkError(message: string): boolean {
+  const lower = message.toLowerCase();
+  return (
+    lower.includes('network') ||
+    lower.includes('failed to fetch') ||
+    lower.includes('unavailable') ||
+    lower.includes('timeout') ||
+    lower.includes('offline')
+  );
+}
+
+export function KnowledgeVaultChat({
+  embedded = false,
+  onCitationClick,
+  activeCitationKey,
+}: KnowledgeVaultChatProps = {}) {
   const [inputText, setInputText] = useState<string>('');
+  const [lastPrompt, setLastPrompt] = useState<string | null>(null);
   const [aiResponse, setAiResponse] = useState<string | null>(null);
   const [citations, setCitations] = useState<KnowledgeVaultCitation[]>([]);
   const [moduleRoute, setModuleRoute] = useState<KnowledgeVaultResult['moduleRoute']>(undefined);
@@ -25,13 +43,12 @@ export function KnowledgeVaultChat({ onCitationClick }: KnowledgeVaultChatProps 
   const authLoading = useStore((s) => s.system.isLoading);
   const setKompisAura = useStore((s) => s.setKompisAura);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const runQuery = async (prompt: string) => {
     if (!isAuthenticated) {
       setError('Du måste vara inloggad för att använda Kunskapsvalvet.');
       return;
     }
-    if (!inputText.trim()) {
+    if (!prompt.trim()) {
       setError('Vänligen skriv in en fråga.');
       return;
     }
@@ -42,9 +59,10 @@ export function KnowledgeVaultChat({ onCitationClick }: KnowledgeVaultChatProps 
     setCitations([]);
     setModuleRoute(undefined);
     setKompisAura(true);
+    setLastPrompt(prompt);
 
     try {
-      const result = await callKnowledgeVault(inputText);
+      const result = await callKnowledgeVault(prompt);
       setAiResponse(result.answer);
       setCitations(result.citations ?? []);
       setModuleRoute(result.moduleRoute);
@@ -53,12 +71,25 @@ export function KnowledgeVaultChat({ onCitationClick }: KnowledgeVaultChatProps 
       const message = err instanceof Error ? err.message : 'Ett okänt fel inträffade.';
       if (message.includes('unauthenticated') || message.includes('Autentisering')) {
         setError('Inloggning krävs. Kontrollera Firebase Auth och att functions är deployade.');
+      } else if (isNetworkError(message)) {
+        setError('Nätverksfel — kontrollera anslutningen och försök igen.');
       } else {
         setError(message);
       }
     } finally {
       setIsLoading(false);
       setKompisAura(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await runQuery(inputText);
+  };
+
+  const handleRetry = () => {
+    if (lastPrompt) {
+      void runQuery(lastPrompt);
     }
   };
 
@@ -80,13 +111,20 @@ export function KnowledgeVaultChat({ onCitationClick }: KnowledgeVaultChatProps 
   }
 
   return (
-    <BentoCard title="Kunskapsvalvet" description="Frågor mot ditt Minne — med källhänvisningar">
+    <BentoCard
+      title={embedded ? 'Fråga Minne' : 'Kunskapsvalvet'}
+      description={
+        embedded
+          ? 'RAG mot kampspar — källor öppnas i Tidshjulet'
+          : 'Frågor mot ditt Minne — med källhänvisningar'
+      }
+    >
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <textarea
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           placeholder="Ställ din fråga mot Minne..."
-          rows={3}
+          rows={embedded ? 2 : 3}
           className="input-glass"
           disabled={isLoading}
         />
@@ -95,7 +133,22 @@ export function KnowledgeVaultChat({ onCitationClick }: KnowledgeVaultChatProps 
         </button>
       </form>
 
-      {error && <p className="mt-4 px-4 text-danger">{error}</p>}
+      {error && (
+        <div className="mt-4 flex flex-wrap items-center gap-3 px-4">
+          <p className="text-danger">{error}</p>
+          {lastPrompt && (
+            <button
+              type="button"
+              onClick={handleRetry}
+              disabled={isLoading}
+              className="btn-pill--secondary inline-flex items-center gap-1.5 text-sm"
+            >
+              <RefreshCw className="h-3.5 w-3.5" aria-hidden />
+              Försök igen
+            </button>
+          )}
+        </div>
+      )}
 
       {aiResponse && (
         <div className="glass-card mt-6 p-6">
@@ -111,7 +164,11 @@ export function KnowledgeVaultChat({ onCitationClick }: KnowledgeVaultChatProps 
           )}
           {citations.length > 0 && (
             <div className="mt-4">
-              <KnowledgeCitationList citations={citations} onCitationClick={onCitationClick} />
+              <KnowledgeCitationList
+                citations={citations}
+                onCitationClick={onCitationClick}
+                activeCitationKey={activeCitationKey}
+              />
             </div>
           )}
         </div>

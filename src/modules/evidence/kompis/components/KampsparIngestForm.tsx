@@ -13,6 +13,7 @@ import {
 
 type Props = {
   onSaved?: () => void;
+  compact?: boolean;
 };
 
 function resolveCategory(preset: string, custom: string): string | undefined {
@@ -23,7 +24,7 @@ function resolveCategory(preset: string, custom: string): string | undefined {
   return preset.trim() || undefined;
 }
 
-export function KampsparIngestForm({ onSaved }: Props) {
+export function KampsparIngestForm({ onSaved, compact = false }: Props) {
   const user = useStore((s) => s.user);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -89,7 +90,12 @@ export function KampsparIngestForm({ onSaved }: Props) {
   };
 
   return (
-    <BentoCard title="Lägg till i Minne" description="Typ, kategori och taggar — valfritt bevis i Valvet">
+    <BentoCard
+      title={compact ? 'Ny post' : 'Lägg till i Minne'}
+      description={
+        compact ? 'Sparas i kampspar' : 'Typ, kategori och taggar — valfritt bevis i Valvet'
+      }
+    >
       <form onSubmit={handleSubmit} className="space-y-3">
         <div>
           <label className="mb-1 block text-[10px] uppercase tracking-widest text-text-dim">Typ</label>
@@ -121,7 +127,7 @@ export function KampsparIngestForm({ onSaved }: Props) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Fakta, milstolpar, utmaningar, rutiner…"
-          rows={4}
+          rows={compact ? 3 : 4}
           className="input-glass"
           disabled={loading}
         />

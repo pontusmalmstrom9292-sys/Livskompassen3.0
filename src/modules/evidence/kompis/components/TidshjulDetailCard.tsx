@@ -4,12 +4,13 @@ import { formatTidshjulLabel } from '../utils/tidshjulTimeline';
 
 type Props = {
   entry: KampsparEntryRow | null;
+  compact?: boolean;
 };
 
-export function TidshjulDetailCard({ entry }: Props) {
+export function TidshjulDetailCard({ entry, compact = false }: Props) {
   if (!entry) {
     return (
-      <BentoCard title="Post" description="Klicka en nod i Tidshjulet">
+      <BentoCard title="Post" description={compact ? 'Klicka en nod' : 'Klicka en nod i Tidshjulet'}>
         <p className="text-sm text-text-dim">Välj en punkt på ringen för att läsa hela Minne-posten.</p>
       </BentoCard>
     );

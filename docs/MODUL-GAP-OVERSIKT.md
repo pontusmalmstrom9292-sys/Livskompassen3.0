@@ -16,7 +16,7 @@
 | Planering | [`2026-05-29-planering-cursor-plan.md`](./evaluations/2026-05-29-planering-cursor-plan.md) | Fas 1.5 **lokal kod** · Fas 2 e-postregler (rules) |
 | MåBra | [`2026-05-29-mabra-cursor-plan.md`](./evaluations/2026-05-29-mabra-cursor-plan.md) | Fas 1.5 **done** |
 | Projekt | [`2026-05-29-projekt-cursor-plan.md`](./evaluations/2026-05-29-projekt-cursor-plan.md) | P2 **done** · Fas 3 Life OS öppen |
-| Kunskap | [`2026-05-29-kunskap-cursor-plan.md`](./evaluations/2026-05-29-kunskap-cursor-plan.md) | Citations **done** · Fas 1.5 polish öppen |
+| Kunskap | [`2026-05-29-kunskap-cursor-plan.md`](./evaluations/2026-05-29-kunskap-cursor-plan.md) | Fas 1.5 **done** 2026-05-29 |
 | Barnporten | [`2026-05-29-barnporten-cursor-plan.md`](./evaluations/2026-05-29-barnporten-cursor-plan.md) | P1 **done** · CB1 widget P2 |
 
 ---
@@ -38,7 +38,7 @@
 | **planering** (`admin/planning`) | `/planering?tab=handling` | Fas 1.5 **lokal** (Framsteg, dock, deadline) · Fas 2 `planning_email_rules` | `kör Planering Fas 2` (rules OK) |
 | **mabra** (`wellbeing/mabra`) | `/mabra` | Daglig Mix hub **done** · Fas 2 lågenergi/landningsremsa | `kör MåBra Fas 2` |
 | **projekt** (`admin/projects`) | `/projekt` | P2 **done** · MaterialPack-editor + Life OS kopplingar | `kör Projekt Fas 3` |
-| **kompis** (`evidence/kompis`) | Valv `kunskapsbank` | Citations **done** · Valv-panel polish | `kör Kunskap Fas 1.5` |
+| **kompis** (`evidence/kompis`) | Valv `kunskapsbank` | Fas 1.5 **done** · Fas 2 innehåll (seed-bank) | `specialist-kunskap-seed` |
 | **barnporten** | `/barnporten` | P1 **done** · CB1 widget P2 · manuell smoke #3 | `kör Barnporten P2` |
 | **core** | `/` | Manuell smoke #1–7, #18–20 | Du · [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md) |
 | **inkast** | Hem `#inkast-lite` | Fas 2 **done**; fas 3 genväg defer | — |

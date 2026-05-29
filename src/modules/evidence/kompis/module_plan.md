@@ -29,6 +29,7 @@ User-facing AI navigator: KompisAvatar, Knowledge Vault chat (Minne RAG), Tidshj
 | Drive G10 multi-silo | Auto klassificering | Ja | **done** — `kb_docs` \| `reality_vault` \| `children_logs` \| `inbox_queue` |
 | Minne från Kladd-filer | **Avvisat** auto | Nej | **policy** |
 | Klickbara citations | Kladd | Ja | **done** — `KnowledgeCitationList`, Tidshjul-highlight |
+| Valv-panel UX (Fas 1.5) | Polish | Ja | **done** 2026-05-29 — tom-state, retry, citation scroll, embedded header |
 | Vector Search ANN | G2/G3 | Ja | **done** — se [`Arkiv-GAP-REGISTER.md`](../../docs/specs/modules/Arkiv-GAP-REGISTER.md) |
 | Dagbok auto → kampspar | Ej valv; journal_woven opt-in | Delvis | **policy** — Vävaren→`reality_vault`; opt-in→`kampspar` (G7) |
 
@@ -44,6 +45,16 @@ User-facing AI navigator: KompisAvatar, Knowledge Vault chat (Minne RAG), Tidshj
 - Callables auth-protected server-side
 - Prompts i `functions/src/sharedRules.ts` only
 - Skild från Valv-Chat (`reality_vault` only)
+
+## Fas 1.5 (2026-05-29) — Valv UX polish
+
+| Leverans | Kod |
+|----------|-----|
+| Tom-state + nätverks-retry | `VaultKunskapsbankPanel`, `KunskapPage.onEntriesMeta` |
+| Citation scroll/highlight | `KnowledgeCitationList.activeCitationKey`, `Tidshjulet.highlightPulse`, scrollIntoView |
+| Embedded kompakt header | `KunskapPage embedded`, `KunskapsbankHeader compact`, döljer inkorg/registry i Valv |
+
+**Smoke:** `npm run build`, `smoke:kunskap`, `smoke:locked-ux` — PASS 2026-05-29.
 
 ## Kladd-insamling
 

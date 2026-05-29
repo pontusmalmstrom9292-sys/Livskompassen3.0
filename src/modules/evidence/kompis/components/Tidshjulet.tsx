@@ -13,6 +13,8 @@ type Props = {
   highlightEntryId?: string | null;
   selectedEntryId?: string | null;
   onSelectEntry?: (entry: KampsparEntryRow) => void;
+  /** Kort puls när citation fokuserar noden. */
+  highlightPulse?: boolean;
 };
 
 type RingConfig = {
@@ -27,11 +29,13 @@ function RingNodes({
   highlightEntryId,
   selectedEntryId,
   onSelectEntry,
+  highlightPulse,
 }: {
   config: RingConfig;
   highlightEntryId?: string | null;
   selectedEntryId?: string | null;
   onSelectEntry?: (entry: KampsparEntryRow) => void;
+  highlightPulse?: boolean;
 }) {
   const { nodes, radiusPct, label } = config;
   if (nodes.length === 0) return null;
@@ -67,7 +71,7 @@ function RingNodes({
                 isSelected
                   ? 'bg-accent ring-2 ring-accent'
                   : isHighlight
-                    ? 'bg-accent ring-2 ring-accent/60'
+                    ? `bg-accent ring-2 ring-accent/60 ${highlightPulse ? 'animate-pulse scale-125' : ''}`
                     : 'bg-accent-light'
               }`}
             />
@@ -87,6 +91,7 @@ export function Tidshjulet({
   highlightEntryId,
   selectedEntryId,
   onSelectEntry,
+  highlightPulse = false,
 }: Props) {
   const { dåtid, nutid, framtid } = partitionKampsparForTidshjulet(entries);
 
@@ -124,6 +129,7 @@ export function Tidshjulet({
           highlightEntryId={highlightEntryId}
           selectedEntryId={selectedEntryId}
           onSelectEntry={onSelectEntry}
+          highlightPulse={highlightPulse}
         />
       ))}
 

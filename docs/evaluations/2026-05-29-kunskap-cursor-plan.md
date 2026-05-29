@@ -73,10 +73,10 @@
 
 **Acceptans**
 
-- [ ] Tom-state och felhantering testad manuellt
-- [ ] Citation-klick → Tidshjul/post fungerar
-- [ ] `npm run smoke:kunskap` + `smoke:orkester` PASS
-- [ ] Ingen U1/U6-brott
+- [x] Tom-state och felhantering testad manuellt
+- [x] Citation-klick → Tidshjul/post fungerar
+- [x] `npm run smoke:kunskap` + `smoke:orkester` PASS
+- [x] Ingen U1/U6-brott
 
 ---
 

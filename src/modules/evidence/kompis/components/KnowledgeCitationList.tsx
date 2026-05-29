@@ -3,6 +3,8 @@ import type { KnowledgeVaultCitation } from '../api/knowledgeVaultService';
 type Props = {
   citations: KnowledgeVaultCitation[];
   onCitationClick?: (docId: string, collection: KnowledgeVaultCitation['collection']) => void;
+  /** Visuell markering av senast klickad källa (chat → Tidshjul). */
+  activeCitationKey?: string | null;
 };
 
 const COLLECTION_LABEL: Record<KnowledgeVaultCitation['collection'], string> = {
@@ -10,7 +12,11 @@ const COLLECTION_LABEL: Record<KnowledgeVaultCitation['collection'], string> = {
   kb_docs: 'Dokument',
 };
 
-export function KnowledgeCitationList({ citations, onCitationClick }: Props) {
+export function citationKey(collection: string, docId: string): string {
+  return `${collection}-${docId}`;
+}
+
+export function KnowledgeCitationList({ citations, onCitationClick, activeCitationKey }: Props) {
   if (citations.length === 0) return null;
 
   return (
@@ -18,6 +24,8 @@ export function KnowledgeCitationList({ citations, onCitationClick }: Props) {
       <p className="text-[10px] uppercase tracking-widest text-success">Källor</p>
       {citations.map((c) => {
         const clickable = Boolean(onCitationClick);
+        const key = citationKey(c.collection, c.docId);
+        const isActive = activeCitationKey === key;
         const actionHint =
           c.collection === 'kampspar'
             ? ' · öppna i Tidshjulet'
@@ -27,11 +35,15 @@ export function KnowledgeCitationList({ citations, onCitationClick }: Props) {
 
         return (
           <button
-            key={`${c.collection}-${c.docId}`}
+            key={key}
             type="button"
             onClick={() => onCitationClick?.(c.docId, c.collection)}
             disabled={!clickable}
-            className="w-full rounded-xl border border-border bg-surface/40 p-3 text-left transition-colors hover:border-accent/30 disabled:cursor-default disabled:opacity-90"
+            className={`w-full rounded-xl border p-3 text-left transition-colors hover:border-accent/30 disabled:cursor-default disabled:opacity-90 ${
+              isActive
+                ? 'border-accent/60 bg-accent/10 ring-2 ring-accent/40'
+                : 'border-border bg-surface/40'
+            }`}
           >
             <p className="text-xs font-medium text-text">
               {c.title} · {c.date}
