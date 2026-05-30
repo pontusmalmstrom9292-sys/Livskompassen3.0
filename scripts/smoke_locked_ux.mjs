@@ -173,7 +173,14 @@ function main() {
     'getDockSideLinks',
     'aria-label="Hem',
     'delayMs: 3000',
+    'openValvViaFyren',
+    'FyrenProgressRing',
+    'openValvViaFyren',
   );
+  mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'authenticateVaultGate', 'setVaultGate');
+  mustInclude('src/modules/evidence/vault/utils/vaultTabs.ts', 'VALV_ZONE_INGRESS');
+  mustInclude('src/modules/evidence/vault/components/VaultPage.tsx', 'VALV_ZONE_INGRESS');
+  mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'setVaultGate', 'openValvViaFyren');
   mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", '/vardagen');
   mustInclude(
     'src/modules/inkast/components/InkastLiteCard.tsx',

@@ -28,7 +28,7 @@ Max 5 zoner synliga i tab bar; underflikar per zon (befintligt).
 
 **MUST NOT:** kräva PIN för första `/hamn`-svar; ta bort Mönster/Orkester.
 
-## Vävaren polish (nästa Cursor-pass)
+## Vävaren polish
 
-- Kort ingress på `VaultPage` zon-byte (1 rad lågaffektiv copy)
-- Breadcrumb: `VaultValvBreadcrumb` — redan synkad
+- **DONE:** `VALV_ZONE_INGRESS` på `VaultPage` (1 rad per zon)
+- Breadcrumb: `VaultValvBreadcrumb` — synkad

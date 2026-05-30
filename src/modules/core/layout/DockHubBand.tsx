@@ -1,9 +1,12 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import type { CSSProperties } from 'react';
 import { clsx } from 'clsx';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { openValvViaFyren } from '../auth/valvFyrenGate';
 import { LivskompassMark } from '../ui/LivskompassMark';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
 import { useLongPress } from '../hooks/useLongPress';
+import { useStore } from '../store';
 import { useLifeHubPreset } from '../lifeOs/useLifeHubPreset';
 import { getHubContextSlots, type HubContextSlot } from '../navigation/hubContextBar';
 import { renderDockNavIcon, renderDockSideIcon } from './dockNavIcons';
@@ -52,6 +55,7 @@ function ContextSlotButton({
 export function DockHubBand() {
   const location = useLocation();
   const navigate = useNavigate();
+  const setSystemError = useStore((s) => s.setError);
   const { presetId } = useLifeHubPreset();
   const isHome = location.pathname === '/';
 
@@ -68,8 +72,16 @@ export function DockHubBand() {
   const leftRail = [leftSlots[0] ?? null, leftSlots[1] ?? null] as const;
   const rightRail = [rightSlots[0] ?? null, rightSlots[1] ?? null] as const;
 
+  const fyrenToValv = useCallback(
+    () =>
+      void openValvViaFyren(navigate, {
+        onDenied: (message) => setSystemError(message),
+      }),
+    [navigate, setSystemError],
+  );
+
   const centerPress = useLongPress({
-    onLongPress: () => navigate('/dagbok?tab=bevis'),
+    onLongPress: fyrenToValv,
     onClick: () => {
       if (!isHome) navigate('/');
     },
@@ -77,6 +89,7 @@ export function DockHubBand() {
   });
 
   const { progress, isHolding, ...centerHoldHandlers } = centerPress;
+  const showFyrenRing = progress > 0;
 
   const goTo = (to: string) => {
     navigate(to);
@@ -113,6 +126,7 @@ export function DockHubBand() {
         >
           <span className="dock-hub-band__center-glow" aria-hidden />
           <span className="dock-hub-band__plate">
+            {showFyrenRing && <FyrenProgressRing progress={progress} />}
             <LivskompassMark className="dock-hub-band__mark" />
           </span>
         </button>

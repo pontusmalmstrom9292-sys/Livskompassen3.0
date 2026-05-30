@@ -12,7 +12,7 @@ import {
   getVaultZoneTabBarItems,
 } from '../../../core/navigation/tabRegistry';
 import { useStore } from '../../../core/store';
-import { hasVaultGate, clearVaultGate } from '../../../core/auth/sessionService';
+import { hasVaultGate, clearVaultGate, setVaultGate } from '../../../core/auth/sessionService';
 import { saveVaultLog, getVaultLogs } from '../../../core/firebase/firestore';
 import { OfflineWriteBlockedError } from '../../../core/firebase/offlineWritePolicy';
 import type { VaultLog } from '../../../core/types/firestore';
@@ -41,6 +41,7 @@ import {
   isKunskapVaultTab,
   isSamlaVaultTab,
   resolveValvZone,
+  VALV_ZONE_INGRESS,
 } from '../utils/vaultTabs';
 
 import { hasPinConfigured, setupPin, verifyPin } from '../../../core/security/vaultPin';
@@ -148,16 +149,24 @@ export function VaultPage({
       }
       setupPin(pin);
       setIsSetup(false);
+      setVaultGate();
       setVaultUnlocked(true);
       setPin('');
       setConfirmPin('');
       setError(null);
+      if (embedded) {
+        navigate({ pathname: '/dagbok', search: '?tab=bevis&vaultTab=logga' }, { replace: true });
+      }
       return;
     }
     if (verifyPin(pin)) {
+      setVaultGate();
       setVaultUnlocked(true);
       setPin('');
       setError(null);
+      if (embedded) {
+        navigate({ pathname: '/dagbok', search: '?tab=bevis&vaultTab=logga' }, { replace: true });
+      }
     } else {
       setError('Fel PIN.');
     }
@@ -263,15 +272,15 @@ export function VaultPage({
             <X className="h-3 w-3" /> Stäng
           </button>
         </div>
-        <p className="mb-3 text-sm text-text-muted">
-          Lager 2 — samla bevis, analysera mönster, kunskap och export. Välj zon, sedan flik.
-        </p>
         <TabBar<ValvZone>
           size="compact"
           tabs={getVaultZoneTabBarItems()}
           active={valvZone}
           onChange={handleValvZoneChange}
         />
+        <p className="mb-3 mt-2 text-sm text-text-muted" key={valvZone}>
+          {VALV_ZONE_INGRESS[valvZone]}
+        </p>
         {valvZone === 'samla' && (
           <div className="mt-3">
             <TabBar<SamlaVaultTab>

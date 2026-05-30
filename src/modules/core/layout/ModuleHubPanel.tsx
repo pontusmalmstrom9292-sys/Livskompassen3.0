@@ -1,10 +1,9 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { useLongPress } from '../hooks/useLongPress';
-import { setVaultGate } from '../auth/sessionService';
-import { authenticateVaultGate } from '../auth/webauthn';
+import { openValvViaFyren } from '../auth/valvFyrenGate';
 import { useStore } from '../store';
-import { DESIGN } from '../ui/tokens';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
 import {
   HUB_BOTTOM,
   HUB_CENTER,
@@ -18,30 +17,6 @@ const toneClass: Record<HubModule['tone'], string> = {
   lavender: 'module-hub-tile--lavender',
   emerald: 'module-hub-tile--emerald',
 };
-
-function FyrenProgressRing({ progress }: { progress: number }) {
-  const pct = Math.round(progress * 100);
-  return (
-    <svg
-      className="pointer-events-none absolute inset-0 h-full w-full -rotate-90"
-      viewBox="0 0 36 36"
-      aria-hidden
-    >
-      <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(194,65,12,0.12)" strokeWidth="1.5" />
-      <circle
-        cx="18"
-        cy="18"
-        r="16"
-        fill="none"
-        stroke={DESIGN.accent}
-        strokeWidth="1.5"
-        strokeDasharray={`${pct} ${100 - pct}`}
-        pathLength={100}
-        opacity={0.85}
-      />
-    </svg>
-  );
-}
 
 function HubTile({ module, size = 'side' }: { module: HubModule; size?: 'side' | 'center' }) {
   const navigate = useNavigate();
@@ -59,13 +34,17 @@ function HubTile({ module, size = 'side' }: { module: HubModule; size?: 'side' |
     setModuleHubOpen(true);
   };
 
+  const setSystemError = useStore((s) => s.setError);
+
   const longPress = useLongPress({
     onLongPress: async () => {
       if (!module.longPress) return;
-      const ok = await authenticateVaultGate();
-      if (!ok) return;
-      setVaultGate();
-      go(module.search ?? '');
+      const ok = await openValvViaFyren(navigate, {
+        pathname: module.path,
+        search: module.search ?? '?tab=bevis',
+        onDenied: (message) => setSystemError(message),
+      });
+      if (ok) setModuleHubOpen(false);
     },
     onClick: () => go(module.longPress ? '' : ''),
     delayMs: 3000,

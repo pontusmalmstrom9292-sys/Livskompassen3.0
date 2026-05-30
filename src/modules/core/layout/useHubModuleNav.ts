@@ -1,9 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLongPress } from '../hooks/useLongPress';
-import { setVaultGate } from '../auth/sessionService';
-import { authenticateVaultGate } from '../auth/webauthn';
+import { openValvViaFyren } from '../auth/valvFyrenGate';
 import { useStore } from '../store';
-import { FYREN_BEVIS_HINT } from '../navigation/appNavigation';
 import type { HubModule } from './moduleHubConfig';
 
 export function useHubModuleNav(module: HubModule) {
@@ -29,14 +27,12 @@ export function useHubModuleNav(module: HubModule) {
   const longPress = useLongPress({
     onLongPress: async () => {
       if (!module.longPress) return;
-      const ok = await authenticateVaultGate();
-      if (!ok) {
-        setSystemError(`Fyren avbruten. ${FYREN_BEVIS_HINT}`);
-        return;
-      }
-      setVaultGate();
-      navigateToModule(module.search ?? '');
-      setModuleHubOpen(false);
+      const ok = await openValvViaFyren(navigate, {
+        pathname: module.path,
+        search: module.search ?? '?tab=bevis',
+        onDenied: (message) => setSystemError(message),
+      });
+      if (ok) setModuleHubOpen(false);
     },
     onClick: () => go(module.longPress ? '' : ''),
     delayMs: 3000,

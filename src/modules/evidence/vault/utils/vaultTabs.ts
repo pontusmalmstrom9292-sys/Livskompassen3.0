@@ -29,6 +29,15 @@ export type KunskapVaultTab = (typeof KUNSKAP_VAULT_TAB_IDS)[number];
 export const VALV_ZONE_IDS = ['samla', 'analysera', 'kunskap', 'exportera', 'forensik'] as const;
 
 export type ValvZone = (typeof VALV_ZONE_IDS)[number];
+
+/** V1 — en rad lågaffektiv copy per zon (zon-byte i VaultPage). */
+export const VALV_ZONE_INGRESS: Record<ValvZone, string> = {
+  samla: 'Samla in bevis och sök i loggen.',
+  analysera: 'Mönster och Orkester — över tid, inte i stunden.',
+  kunskap: 'Fakta bakom PIN: Kunskapsbank och Aktörskarta.',
+  exportera: 'Dossier för export och översikt.',
+  forensik: 'Hamn och fördjupad analys — ett steg i taget.',
+};
 export type PansaretVaultTab = (typeof PANSARET_VAULT_TAB_IDS)[number];
 
 export const MAIN_VAULT_TAB_IDS = [...PANSARET_VAULT_TAB_IDS, ...KUNSKAP_VAULT_TAB_IDS] as const;

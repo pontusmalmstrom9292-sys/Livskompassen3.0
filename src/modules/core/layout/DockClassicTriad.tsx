@@ -5,6 +5,8 @@ import { clsx } from 'clsx';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { LivskompassMark } from '../ui/LivskompassMark';
 import { useLongPress } from '../hooks/useLongPress';
+import { openValvViaFyren } from '../auth/valvFyrenGate';
+import { useStore } from '../store';
 import { getPageContextSummary } from '../navigation/pageContextSummary';
 
 function DockSideLink({
@@ -36,6 +38,7 @@ function DockSideLink({
 export function DockClassicTriad() {
   const location = useLocation();
   const navigate = useNavigate();
+  const setSystemError = useStore((s) => s.setError);
   const [contextOpen, setContextOpen] = useState(false);
   const summary = getPageContextSummary(location.pathname, location.search);
   const isHome = location.pathname === '/';
@@ -43,7 +46,9 @@ export function DockClassicTriad() {
   const valvLongPress = useLongPress({
     onLongPress: () => {
       setContextOpen(false);
-      navigate('/dagbok?tab=bevis');
+      void openValvViaFyren(navigate, {
+        onDenied: (message) => setSystemError(message),
+      });
     },
     onClick: () => {},
     delayMs: 3000,

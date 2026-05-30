@@ -1,12 +1,11 @@
 import { useRef } from 'react';
 import { BookOpen } from 'lucide-react';
 import { clsx } from 'clsx';
-import { useLocation } from 'react-router-dom';
-import { authenticateVaultGate } from '../auth/webauthn';
-import { setVaultGate } from '../auth/sessionService';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { openValvViaFyren } from '../auth/valvFyrenGate';
 import { useLongPress } from '../hooks/useLongPress';
-import { FYREN_BEVIS_HINT } from '../navigation/appNavigation';
 import { useStore } from '../store';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
 import { HUB_BOTTOM, HUB_CENTER, HUB_TOP, type HubModule } from './moduleHubConfig';
 import { useHubModuleNav } from './useHubModuleNav';
 import { LivskompassMark } from '../ui/LivskompassMark';
@@ -24,30 +23,6 @@ const toneClass: Record<HubModule['tone'], string> = {
   lavender: 'dock-hub-sat--lavender',
   emerald: 'dock-hub-sat--emerald',
 };
-
-function FyrenRing({ progress }: { progress: number }) {
-  const pct = Math.round(progress * 100);
-  return (
-    <svg
-      className="pointer-events-none absolute inset-0 h-full w-full -rotate-90"
-      viewBox="0 0 36 36"
-      aria-hidden
-    >
-      <circle cx="18" cy="18" r="15" fill="none" stroke="rgba(194,65,12,0.15)" strokeWidth="1.25" />
-      <circle
-        cx="18"
-        cy="18"
-        r="15"
-        fill="none"
-        stroke="#fde68a"
-        strokeWidth="1.25"
-        strokeDasharray={`${pct} ${100 - pct}`}
-        pathLength={100}
-        opacity={0.9}
-      />
-    </svg>
-  );
-}
 
 function DockHubSatellite({
   module,
@@ -75,7 +50,7 @@ function DockHubSatellite({
     >
       <span className="dock-hub-sat__glass">
         <span className="dock-hub-sat__halo" aria-hidden />
-        {showFyren && <FyrenRing progress={progress} />}
+        {showFyren && <FyrenProgressRing progress={progress} />}
         <Icon className="dock-hub-sat__icon" strokeWidth={1.65} />
       </span>
       <span className="dock-hub-sat__label">{module.label}</span>
@@ -86,6 +61,7 @@ function DockHubSatellite({
 export function CompassHubOrb() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const setSystemError = useStore((s) => s.setError);
 
   const onDagbok =
@@ -95,15 +71,12 @@ export function CompassHubOrb() {
   const isCenterActive = onDagbok || centerRouteActive;
 
   const centerPress = useLongPress({
-    onLongPress: async () => {
-      const ok = await authenticateVaultGate();
-      if (!ok) {
-        setSystemError(`Fyren avbruten. ${FYREN_BEVIS_HINT}`);
-        return;
-      }
-      setVaultGate();
-      navigateToModule(HUB_CENTER.search ?? '');
-    },
+    onLongPress: () =>
+      void openValvViaFyren(navigate, {
+        pathname: HUB_CENTER.path,
+        search: HUB_CENTER.search ?? '?tab=bevis',
+        onDenied: (message) => setSystemError(message),
+      }),
     onClick: () => navigateToModule(),
     delayMs: 3000,
   });
@@ -137,7 +110,7 @@ export function CompassHubOrb() {
         {...centerHandlers}
       >
         <span className="dock-compass-hub__plate">
-          {showFyren && <FyrenRing progress={progress} />}
+          {showFyren && <FyrenProgressRing progress={progress} />}
           <LivskompassMark className="dock-compass-hub__mark" />
           {onDagbok && (
             <span className="dock-compass-hub__overlay">

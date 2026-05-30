@@ -26,6 +26,8 @@ export function useHjartatHub() {
   );
 
   const tab: HjartatTab = useMemo(() => {
+    // PIN-upplåst Valv — håll bevis-fliken tills användaren stänger (G18 gate kan ha gått ut).
+    if (isVaultUnlocked) return 'bevis';
     if (vaultTabParam || tabParam === 'bevis') {
       const resolved = resolveHjartatTab('bevis', vaultGateOpen || isVaultUnlocked);
       return resolved === 'bevis' ? 'bevis' : resolveHjartatTab(tabParam, vaultGateOpen);
@@ -80,24 +82,24 @@ export function useHjartatHub() {
   );
 
   useEffect(() => {
-    if (tabParam !== 'bevis' || vaultTabParam) return;
-    if (tab === 'bevis') return;
+    if (tab === 'bevis' || isVaultUnlocked) return;
+    if (tabParam !== 'bevis' && !vaultTabParam) return;
     setSearchParams(
       (prev) => {
         const params = new URLSearchParams(prev);
         params.delete('tab');
         params.delete('vaultTab');
+        params.delete('samlaView');
         return params;
       },
       { replace: true },
     );
-  }, [tab, tabParam, vaultTabParam, setSearchParams]);
+  }, [tab, tabParam, vaultTabParam, isVaultUnlocked, setSearchParams]);
 
   useEffect(() => {
-    if (tab !== 'bevis') {
-      setVaultUnlocked(false);
-      clearVaultGate();
-    }
+    if (tab === 'bevis') return;
+    setVaultUnlocked(false);
+    clearVaultGate();
     if (tab !== 'reflektion') {
       clearVaultZone('dagbok_forensic');
     }

@@ -5,6 +5,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { List, Plus, Sparkles } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useLongPress } from '../hooks/useLongPress';
+import { openValvViaFyren } from '../auth/valvFyrenGate';
+import { useStore } from '../store';
 import { ChromeV5Icon } from '../ui/chromeIcons';
 
 const GLYPH = 'h-4 w-4 shrink-0 object-contain';
@@ -70,9 +72,13 @@ export function FyrenWidgetBar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const setSystemError = useStore((s) => s.setError);
 
   const prickPress = useLongPress({
-    onLongPress: () => navigate('/dagbok?tab=bevis'),
+    onLongPress: () =>
+      void openValvViaFyren(navigate, {
+        onDenied: (message) => setSystemError(message),
+      }),
     onClick: () => setOpen((o) => !o),
     delayMs: 3000,
   });
