@@ -3,8 +3,7 @@
 **Stilguide:** [`ICON-STYLE-GUIDE.md`](../ICON-STYLE-GUIDE.md)  
 **Låst:** [`.context/locked-icons.md`](../../../.context/locked-icons.md) · smoke: `npm run smoke:locked-icons`  
 **Master:** [`IKON-WIDGET-MASTER.md`](../IKON-WIDGET-MASTER.md) · **v4 preview:** [`icons-proposals/2026-05-26-v4-round2-dna/`](../icons-proposals/2026-05-26-v4-round2-dna/) — rad 1 = v2 **B1/D1/M2** ankare + 9 varianter × chrome. `npm run icons:proposals-v4`  
-**v3 (5 stilar):** [`icons-proposals/2026-05-26-v3-chassis/`](../icons-proposals/2026-05-26-v3-chassis/) — `npm run icons:proposals-v3`  
-**Äldre enkla:** [`icons-proposals/2026-05-26-remaining/`](../icons-proposals/2026-05-26-remaining/) (3 varianter)
+**v5 hub:** [`icons-proposals/2026-05-29-gold-hub-v5/`](../icons-proposals/2026-05-29-gold-hub-v5/) · `npm run icons:proposals-v5`
 
 ## Låsta (MUST NOT ändra utan produktbeslut)
 

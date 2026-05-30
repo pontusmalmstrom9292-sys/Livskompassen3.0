@@ -1,7 +1,9 @@
 # Dagbok v2 — genomförbarhetsplan (Vertex → kod)
 
+> **Status:** `closed` · Fas 1–4 lokal kod done · smoke PASS. **Öppet:** [`MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md).
+
 **Datum:** 2026-05-29  
-**Vertex-spec:** [`2026-05-29-dagbok-vertex-spec.md`](./2026-05-29-dagbok-vertex-spec.md)  
+**Vertex-spec (arkiv):** [`archive/evaluations-closed-2026-05-29/2026-05-29-dagbok-vertex-spec.md`](../archive/evaluations-closed-2026-05-29/2026-05-29-dagbok-vertex-spec.md) · stub: [`2026-05-29-dagbok-vertex-spec.md`](./2026-05-29-dagbok-vertex-spec.md)  
 **Kanon:** [`docs/specs/modules/Dagbok-SPEC.md`](../specs/modules/Dagbok-SPEC.md) · [`.context/modules/dagbokshubben.md`](../../.context/modules/dagbokshubben.md)
 
 ## Slutsats

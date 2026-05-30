@@ -1,16 +1,15 @@
 # Design System v2 — temagalleri
 
-**Status:** Spec + HTML-galleri (2026-05-23). **Prod-tema:** E — Nordic Skymning + Guld.
+**Prod (kod):** Theme Pack **I** (`I-stone`) — [`I-architect-vault/THEME-I-SPEC.md`](./I-architect-vault/THEME-I-SPEC.md) · `src/modules/core/theme/themeRegistry.ts` (`DEFAULT_THEME_ID = 'I-stone'`).
 
-| Tema | Mapp | Spec |
-|------|------|------|
-| E (prod) | [`E-aurora-obsidian-compass/`](./E-aurora-obsidian-compass/THEME-E-SPEC.md) | Guld kompass + skymning |
-| F | [`F-guld-pansar/`](./F-guld-pansar/THEME-F-SPEC.md) | Valv / WORM |
-| G | [`G-varm-hamn/`](./G-varm-hamn/THEME-G-SPEC.md) | Hamn |
-| H | [`H-grafit-greyrock/`](./H-grafit-greyrock/THEME-H-SPEC.md) | Grey Rock |
+**Per-hub auto (Pack J/K):** [`J-PACK-EIGHT-HUBS.md`](./J-PACK-EIGHT-HUBS.md) · [`K-PACK-EIGHT-VARIANTS.md`](./K-PACK-EIGHT-VARIANTS.md)
 
-Öppna [`index.html`](./index.html) i webbläsaren för sidovisning. PNG-export (28 bilder) är valfri referens — **kod följer Tema E** via `src/index.css`.
+| Tema | Mapp | Status |
+|------|------|--------|
+| **I (prod)** | [`I-architect-vault/`](./I-architect-vault/THEME-I-SPEC.md) | Live på `main` |
+| E–H | `E-aurora-obsidian-compass/` … `H-grafit-greyrock/` | **Lab / referens** — ej default |
+| J/K packs | `J-PACK-*`, `K-PACK-*` | Hub-varianter (lab) |
 
-**Pack J (8 hubb-teman):** [`J-PACK-EIGHT-HUBS.md`](./J-PACK-EIGHT-HUBS.md)
+Öppna [`index.html`](./index.html) för sidovisning. Jämförelse (historik A–E + lab): [`THEME-COMPARISON.md`](./THEME-COMPARISON.md)
 
-Jämförelse: [`THEME-COMPARISON.md`](./THEME-COMPARISON.md)
+**App-ikon (B1 upplåst):** [`phone-icon-variants/PREVIEW.md`](./phone-icon-variants/PREVIEW.md)

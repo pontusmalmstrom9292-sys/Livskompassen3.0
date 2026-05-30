@@ -28,7 +28,7 @@
 
 - **Låst:** D1 kompass · M2 Kompis — [`.context/locked-icons.md`](locked-icons.md) · app-ikon upplåst (P1–P5)
 - **Stilguide:** [`docs/design/ICON-STYLE-GUIDE.md`](../docs/design/ICON-STYLE-GUIDE.md)
-- **Övriga:** förslag i `docs/design/icons-proposals/2026-05-26-remaining/`
+- **Övriga chrome:** `docs/design/icons-proposals/2026-05-26-v4-round2-dna/` · hub v5 `2026-05-29-gold-hub-v5/`
 
 ## Centrala Element
 

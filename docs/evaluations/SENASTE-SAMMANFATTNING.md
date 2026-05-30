@@ -2,7 +2,7 @@
 
 **Datum:** 2026-05-29 (uppdaterad) · tidigare 2026-05-24  
 **Gren:** `main` · Repo: Livskompassen3.0  
-**Ersätter inte** detaljrapporterna under `2026-05-23-*` — de är **historik**.  
+**Ersätter inte** detaljrapporterna under [`archive/evaluations-2026-05-23/`](../archive/evaluations-2026-05-23/) — de är **historik**.  
 **Senaste Dagbok-session:** [`2026-05-29-dagbok-SESSION-ARKIV.md`](./2026-05-29-dagbok-SESSION-ARKIV.md)
 
 ---
@@ -49,7 +49,7 @@
 | Drift live | `GCP-INVENTORY-LATEST.md` |
 | Git | `GIT-LATHUND.md`, `BRANCH-KARTA.md` |
 | Moduler | `MODUL-FUNKTIONS-REGISTER.md` |
-| Historik | `docs/evaluations/2026-05-23-*`, `docs/archive/` |
+| Historik | [`archive/evaluations-2026-05-23/`](../archive/evaluations-2026-05-23/), [`SESSION-INDEX.md`](./SESSION-INDEX.md), `docs/archive/` |
 
 ---
 

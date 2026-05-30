@@ -20,10 +20,9 @@ Register: [`.context/locked-icons.md`](../../.context/locked-icons.md) · smoke:
 
 | Batch | URL / kommando |
 |-------|----------------|
-| **v4 (130 SVG, 3D-varianter)** | `cd docs/design/icons-proposals/2026-05-26-v4-round2-dna && ./serve-preview.sh` → http://127.0.0.1:8766/preview.html · `npm run icons:proposals-v4` |
-| v3 chassis (50) | `…/2026-05-26-v3-chassis/preview.html` |
-| v2 premium (B1/D1/M*) | `…/2026-05-26-v2-premium/preview.html` |
-| legacy remaining | port 8765 · `serve-preview.sh` |
+| **v4 (130 SVG)** | `cd docs/design/icons-proposals/2026-05-26-v4-round2-dna && ./serve-preview.sh` → http://127.0.0.1:8766/preview.html · `npm run icons:proposals-v4` |
+| **v5 hub (guld)** | `docs/design/icons-proposals/2026-05-29-gold-hub-v5/` · `npm run icons:proposals-v5` |
+| v2 premium (ankare) | `…/2026-05-26-v2-premium/` — källa för v4-regen, inte separat preview |
 
 **In-app 3D (CSS):** Fyren-handtag, PinGate, header `VITE_HEADER_PANEL_STYLE` — redan på `main`, ej samma som hemskärms-3D-SVG.
 

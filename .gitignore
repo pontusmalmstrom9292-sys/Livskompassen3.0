@@ -31,6 +31,9 @@ functions/lib/
 # Generated Google AI Pro export packs (npm run google-ai-pro:pack)
 exports/google-ai-pro/
 
+# Generated Gemini repomix packs (npm run gemini:pack / gemini:pack:all)
+exports/gemini-handoff/repomix/
+
 # IDE & OS
 .DS_Store
 **/.DS_Store

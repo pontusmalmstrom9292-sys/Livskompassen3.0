@@ -10,7 +10,8 @@ Use Obsidian Calm and Nordic Dusk. The UI must reduce cognitive load and avoid s
 
 Visual rules:
 - Base background: deep black or obsidian gradients from `#020617` to `#0f172a`.
-- Accent palette: Cyber Emerald `#2DD4BF`, Electric Indigo `#818CF8`, Tactical Amber, and soft lavender/gold where appropriate.
+- **Active chrome (drawer, dock, tabs):** gold per [`docs/design/COLOR-POLICY.md`](../../docs/design/COLOR-POLICY.md) — not turquoise/indigo as primary active state.
+- Secondary accents: Emerald `#2DD4BF` (save/confirm), Indigo `#818CF8` (secondary actions only).
 - Prefer glass cards with subtle borders such as `border-white/5` and low-contrast surfaces.
 - Use soft rounded geometry: `rounded-[2rem]`, `rounded-5xl`, pills, sheets, and drawers.
 - Typography: Outfit for headings, Inter for body copy.

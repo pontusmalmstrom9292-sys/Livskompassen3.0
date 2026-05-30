@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-  <defs>
-    <radialGradient id="h3d" cx="50%" cy="30%" r="65%"><stop offset="0%" stop-color="#1a2830"/><stop offset="100%" stop-color="#06080a"/></radialGradient>
-    <linearGradient id="h3g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f0dfa0"/><stop offset="100%" stop-color="#b8942a"/></linearGradient>
-  </defs>
-  <circle cx="12" cy="12" r="11" fill="url(#h3d)" stroke="url(#h3g)" stroke-width="0.55" stroke-opacity="0.4"/>
-  <path d="M12 5 L17 8 V13 C17 17 12 19 12 19 S7 17 7 13 V8 Z" stroke="url(#h3g)" stroke-width="0.85" fill="url(#h3g)" fill-opacity="0.15"/>
-  <path d="M12 9 v5 M10 11 h4" stroke="url(#h3g)" stroke-width="0.7" stroke-linecap="round"/>
-</svg>

@@ -7,9 +7,9 @@
 | Mapp | Filer |
 |------|--------|
 | [`e2-aterstallda/`](./e2-aterstallda/) | E2 appikon, hero, valv, widget (guld/skymning) |
-| [`planering-variants/`](./planering-variants/) | P1–P4 (första planeringsbatchen) |
+| [`planering/`](./planering/) | P1–P4 + e-postregler (galleri-index) |
 
-Samma filer finns i [`../themes/E-aurora-obsidian-compass/`](../themes/E-aurora-obsidian-compass/) och [`../planering/variants/`](../planering/variants/).
+Wireframe-PNG (dubblett borttagen 2026-05-30): [`../planering/variants/`](../planering/variants/). Tema E-referens: [`../themes/E-aurora-obsidian-compass/`](../themes/E-aurora-obsidian-compass/).
 
 ## Varför det dröjde tidigare
 

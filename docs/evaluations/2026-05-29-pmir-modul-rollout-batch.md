@@ -1,5 +1,7 @@
 # Pre-Merge Impact Report (PMIR) — Modul rollout batch 2026-05-29
 
+> **Status:** **kanon PMIR** för 2026-05-29 batch (ersätter `pmir-dagbok-planering`, `pmir-max-byggplan`).
+
 **Datum:** 2026-05-29  
 **Gren:** lokala ändringar på **`main`** (ej pushad)  
 **Agent / session:** specialist-smoke-runner · modul rollout stängning

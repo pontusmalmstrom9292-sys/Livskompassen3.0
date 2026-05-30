@@ -18,10 +18,10 @@
 | **Hemskärms-widgets WH1–WH5** | [HOMESCREEN-WIDGETS-SPEC.md](./HOMESCREEN-WIDGETS-SPEC.md) · [Android native](./ANDROID-WIDGETS-SPEC.md) · [mockup](./references/homescreen-widgets.png) |
 | **Barnporten (barn PWA + Valv-bro)** | [BARNPORTEN-SPEC.md](./BARNPORTEN-SPEC.md) · [barnporten/infographic.html](./barnporten/infographic.html) |
 | **Familjen — barnsidor (funktion P2)** | [FAMILJEN-BARN-SIDOR-FUNKTIONER.md](./FAMILJEN-BARN-SIDOR-FUNKTIONER.md) · ref [03-barnfokus.png](./themes/C-nordic-aurora/03-barnfokus.png) |
-| **Tema E tokens** | [themes/E-aurora-obsidian-compass/THEME-E-SPEC.md](./themes/E-aurora-obsidian-compass/THEME-E-SPEC.md) |
+| **Tema I (prod)** | [themes/I-architect-vault/THEME-I-SPEC.md](./themes/I-architect-vault/THEME-I-SPEC.md) · lab E: [THEME-E-SPEC](./themes/E-aurora-obsidian-compass/THEME-E-SPEC.md) |
 | **Bildspel BYGGS/IDÉ** | [slideshow/index.html](./slideshow/index.html) |
 | **Ingen blå/turkos text** | [COLOR-POLICY.md](./COLOR-POLICY.md) |
 
 **Visuell regel:** Detaljerade guldikoner **bara** i kompass-hubben — allt annat tunna line-ikoner (inte för mycket).
 
-**Rekommendation:** **Tema E** överallt · Planering **P1** · Widget **W1**.
+**Prod:** Theme Pack **I** · Planering **P3** kanban (låst) · Widget **W1 v2** ([galleri/widget/v2/](./galleri/widget/v2/)).

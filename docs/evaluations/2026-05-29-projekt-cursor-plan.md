@@ -1,5 +1,7 @@
 # Projekt — genomförbarhetsplan (Cursor, utan Vertex)
 
+> **Status:** `closed` · rollout 2026-05-29 · smoke PASS. **Öppet:** [`MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md).
+
 **Datum:** 2026-05-29  
 **Metod:** Direkt läsning av repo + design-lock  
 **Kanon:** [`docs/design/PROJEKT-SPEC.md`](../design/PROJEKT-SPEC.md) · [`docs/design/PLANERING-PROJEKT-HYBRID.md`](../design/PLANERING-PROJEKT-HYBRID.md)  

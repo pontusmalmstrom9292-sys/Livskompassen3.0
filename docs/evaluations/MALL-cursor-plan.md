@@ -30,8 +30,11 @@ flowchart LR
 | 4 | [`docs/MODUL-FUNKTIONS-REGISTER.md`](../MODUL-FUNKTIONS-REGISTER.md) |
 | 5 | Design-lock om finns (`docs/design/*`) |
 | 6 | [`docs/MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md) |
+| 7 | [`docs/evaluations/SESSION-INDEX.md`](./SESSION-INDEX.md) |
 
-**Vertex/Repomix:** valfritt för extern modell. Cursor läser repot direkt.
+**Vertex/Repomix:** valfritt — `npm run gemini:pack` (lokal, gitignored). Cursor läser repot direkt.
+
+**Efter leverans:** uppdatera `SENASTE-SAMMANFATTNING.md`, `MODUL-GAP-OVERSIKT.md`, `SESSION-INDEX.md`. Sätt `status: closed` överst i planfilen när smoke PASS.
 
 ---
 

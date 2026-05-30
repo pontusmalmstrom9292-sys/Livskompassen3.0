@@ -142,7 +142,7 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 
 - [x] Locked UX smoke + P1 design-moduler (D3, D11–D14, D16–D20, D22–D23, D29)
 - [x] Tema E tokens + `HomeHeroKanon` / `LivskompassHero` på Hem
-- [x] Evaluations A–F + 6 modul-rapporter (`docs/evaluations/2026-05-23-*.md`)
+- [x] Evaluations A–F + 6 modul-rapporter (`docs/archive/evaluations-2026-05-23/`)
 - [x] `npm run smoke:all` + `.context/design-modules-mockup.md`
 - [ ] Manuell smoke #1–7, #18–20 (användaren — checklista i `docs/SMOKE_RESULTS.md`)
 

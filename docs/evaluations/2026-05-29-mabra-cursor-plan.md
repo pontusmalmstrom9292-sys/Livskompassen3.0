@@ -1,5 +1,7 @@
 # MåBra — genomförbarhetsplan (Cursor, utan Vertex)
 
+> **Status:** `closed` · rollout 2026-05-29 · smoke PASS. **Öppet:** [`MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md).
+
 **Datum:** 2026-05-29  
 **Metod:** Direkt läsning av repo + U6 innehållskanon  
 **Kanon:** [`docs/specs/modules/Mabra-SPEC.md`](../specs/modules/Mabra-SPEC.md) · [`Mabra-CONTENT-BANK.md`](../specs/modules/Mabra-CONTENT-BANK.md) · [`.context/modules/mabra_sidan.md`](../../.context/modules/mabra_sidan.md)  

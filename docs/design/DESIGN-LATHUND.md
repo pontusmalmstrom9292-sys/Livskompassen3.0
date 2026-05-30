@@ -82,7 +82,7 @@
 | **Valv** | `galleri/skarmar/valv-pansaret.png` |
 | **Hamn** | `galleri/skarmar/hamn-biff.png` |
 | **Planering P1–P4** | `galleri/planering/` |
-| **Planering varianter** | `galleri/planering-variants/` |
+| **Planering varianter** | `galleri/planering/` · wireframes `planering/variants/` |
 | **Widget W1–W4** | `galleri/widget/` · **v2:** `galleri/widget/v2/` |
 | **Barnporten** | `galleri/barnporten/` |
 | **Planering+Projekt (beslut)** | `PLANERING-PROJEKT-HYBRID.md` |

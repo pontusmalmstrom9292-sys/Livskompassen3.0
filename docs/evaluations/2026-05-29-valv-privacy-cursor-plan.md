@@ -1,5 +1,7 @@
 # Valv Privacy — genomförbarhetsplan (research)
 
+> **Status:** `closed` (research) · Fas 2.1 **deferred** — feature flag ej påbörjad.
+
 **Datum:** 2026-05-29  
 **Kanon:** [`Verklighetsvalvet-SPEC.md`](../specs/modules/Verklighetsvalvet-SPEC.md) §14 · [`.context/locked-ux-features.md`](../../.context/locked-ux-features.md)
 

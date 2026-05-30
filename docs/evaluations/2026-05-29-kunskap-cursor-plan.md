@@ -1,5 +1,7 @@
 # Kunskap UX — genomförbarhetsplan (Cursor, utan Vertex)
 
+> **Status:** `closed` · rollout 2026-05-29 · smoke PASS. **Öppet:** [`MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md).
+
 **Datum:** 2026-05-29  
 **Metod:** Gap-analys mot live kod + U1 silo  
 **Kanon:** [`docs/specs/modules/Kunskap-SPEC.md`](../specs/modules/Kunskap-SPEC.md) · [`Kunskap-CONTENT-SEED.md`](../specs/modules/Kunskap-CONTENT-SEED.md)  

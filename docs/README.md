@@ -23,6 +23,8 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 |-----|----------|
 | [`SYSTEMKONTROLL.md`](SYSTEMKONTROLL.md) | Färdiga Cursor-prompter, Sacred-register, var sanning bor |
 | [`evaluations/SENASTE-SAMMANFATTNING.md`](evaluations/SENASTE-SAMMANFATTNING.md) | **Aktuell** status (läs denna först) |
+| [`evaluations/SESSION-INDEX.md`](evaluations/SESSION-INDEX.md) | Sessionsöversikt (S1–S7) |
+| [`MODUL-GAP-OVERSIKT.md`](MODUL-GAP-OVERSIKT.md) | Öppet per modul (1 sida) |
 | [`MODUL-FUNKTIONS-REGISTER.md`](MODUL-FUNKTIONS-REGISTER.md) | Modul · route · callable · smoke |
 | [`DOC-DRIFT-RAPPORT.md`](DOC-DRIFT-RAPPORT.md) | Doc vs kod (Del B) |
 | [`evaluations/`](evaluations/) | Historiska analysrapporter (2026-05-23 m.fl.) |
@@ -78,6 +80,7 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 | Mapp | Innehåll |
 |------|----------|
 | [`archive/`](archive/) | Legacy server, Repomix, gamla inventeringar |
+| [`archive/evaluations-2026-05-23/`](archive/evaluations-2026-05-23/) | Systemkontroll 2026-05-23 (historik) |
 | [`archive/evaluations-2026-05/`](archive/evaluations-2026-05/) | Avslutade utvärderingar (Grunder, Vision) |
 | [`archive/kladd/`](archive/kladd/) | Konsoliderad scratch (PII — committa inte publikt) |
 | [`archive/server-legacy/`](archive/server-legacy/) | Arkiverad Express-backend |

@@ -1,5 +1,7 @@
 # Planering — genomförbarhetsplan (Cursor, utan Vertex)
 
+> **Status:** `closed` · rollout 2026-05-29 · smoke PASS. **Öppet:** [`MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md).
+
 **Datum:** 2026-05-29  
 **Metod:** Direkt läsning av repo + design-lock (ingen Repomix/Vertex)  
 **Kanon:** [`docs/design/PLANERING-PROJEKT-HYBRID.md`](../design/PLANERING-PROJEKT-HYBRID.md) · [`docs/design/PLANERINGSSIDA-SPEC.md`](../design/PLANERINGSSIDA-SPEC.md) · [`docs/design/planering/PLANERING-P3-KANBAN-SPEC.md`](../design/planering/PLANERING-P3-KANBAN-SPEC.md)  

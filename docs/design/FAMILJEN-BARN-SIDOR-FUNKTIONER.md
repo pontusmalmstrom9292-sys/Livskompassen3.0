@@ -98,4 +98,4 @@ Route-idé (P2): `/familjen?tab=livslogg&child=Kasper&view=stunder|om|favoriter`
 | [`FAMILJEN-BARNFOKUS-FRAGOR-SPEC.md`](./FAMILJEN-BARNFOKUS-FRAGOR-SPEC.md) | Låst frågeflöde |
 | [`themes/C-nordic-aurora/03-barnfokus.png`](./themes/C-nordic-aurora/03-barnfokus.png) | Funktionsreferens (3 skärmar) |
 | `src/modules/family/children/components/familjen/*` | Flik-UI |
-| `docs/evaluations/2026-05-23-modul-familjen.md` | D12–D14 partial |
+| `docs/archive/evaluations-2026-05-23/2026-05-23-modul-familjen.md` | D12–D14 partial |

@@ -1,5 +1,7 @@
 # Kompasser — widget under varje kompass (snabbstart + design)
 
+> **Status:** `closed` · K1 integrerad (`compassWidgetCatalog.ts`) · smoke PASS.
+
 **Datum:** 2026-05-29  
 **Utlösare:** Hem `DagensRiktningCard` + önskemål om snabbstart och visuell städning.  
 **Kanon:** [`docs/design/KOMPASS-MODUL-SPEC.md`](../design/KOMPASS-MODUL-SPEC.md) · [`docs/specs/modules/De-3-Kompasserna-SPEC.md`](../specs/modules/De-3-Kompasserna-SPEC.md) · [`docs/design/references/KOMPASS-TRE-TIDPUNKTER.md`](../design/references/KOMPASS-TRE-TIDPUNKTER.md)

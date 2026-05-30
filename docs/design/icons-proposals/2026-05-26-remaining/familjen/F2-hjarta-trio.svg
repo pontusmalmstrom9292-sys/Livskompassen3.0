@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-  <defs>
-    <radialGradient id="f2d" cx="50%" cy="50%" r="55%"><stop offset="0%" stop-color="#2a2838"/><stop offset="100%" stop-color="#08080c"/></radialGradient>
-    <linearGradient id="f2g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f0dfa0"/><stop offset="100%" stop-color="#c9a227"/></linearGradient>
-  </defs>
-  <circle cx="12" cy="12" r="11" fill="url(#f2d)" stroke="url(#f2g)" stroke-width="0.65" stroke-opacity="0.5"/>
-  <path d="M12 17 C12 17 6 13 6 9.5 C6 7.5 7.5 6 9.5 6 C11 6 12 7 12 7 C12 7 13 6 14.5 6 C16.5 6 18 7.5 18 9.5 C18 13 12 17 12 17 Z" fill="url(#f2g)" fill-opacity="0.35" stroke="url(#f2g)" stroke-width="0.6"/>
-  <circle cx="9" cy="10" r="1.2" fill="url(#f2g)"/><circle cx="15" cy="10" r="1.2" fill="url(#f2g)"/>
-</svg>

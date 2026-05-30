@@ -1,7 +1,8 @@
 /**
  * Generates 50 premium icon proposal SVGs (5 chassis × 10 categories).
  * Style DNA: LivskompassMark D1 / Kompis M3 / hero disk (teal–obsidian, guld, eld-glöd).
- * Output: docs/design/icons-proposals/2026-05-26-v3-chassis/
+ * DEPRECATED 2026-05-30 — batch raderad. Använd icons:proposals-v4 / v5.
+ * Output (om körd): docs/design/icons-proposals/2026-05-26-v3-chassis/
  */
 import { mkdirSync, writeFileSync } from 'fs';
 import { dirname, join } from 'path';

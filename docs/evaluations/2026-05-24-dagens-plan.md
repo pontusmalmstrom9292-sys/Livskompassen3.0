@@ -2,7 +2,7 @@
 
 **Trigger:** Status + plan utifrån gårdagens beslut (2026-05-23 utvärderingsvåg, design P1, Planering, Tema I, PR-split).
 
-**Källor:** `.context/system-plan.md`, `docs/evaluations/2026-05-23-*`, `docs/BRANCH-KARTA.md`, `git branch` / `git log`, agent-historik.
+**Källor:** `.context/system-plan.md`, `docs/archive/evaluations-2026-05-23/`, `docs/BRANCH-KARTA.md`, `git branch` / `git log`, agent-historik.
 
 ---
 
@@ -89,7 +89,7 @@ npm run dev
 
 ## Referenser
 
-- Helhetsstatus: [`2026-05-23-A-helhetsstatus-v2.md`](./2026-05-23-A-helhetsstatus-v2.md)
-- Design D1–D29: [`2026-05-23-F-design-moduler.md`](./2026-05-23-F-design-moduler.md)
+- Helhetsstatus: [`2026-05-23-A-helhetsstatus-v2.md`](../archive/evaluations-2026-05-23/2026-05-23-A-helhetsstatus-v2.md)
+- Design D1–D29: [`2026-05-23-F-design-moduler.md`](../archive/evaluations-2026-05-23/2026-05-23-F-design-moduler.md)
 - Branch-karta: [`docs/BRANCH-KARTA.md`](../BRANCH-KARTA.md)
 - Tema I: [`docs/design/themes/I-architect-vault/THEME-I-SPEC.md`](../design/themes/I-architect-vault/THEME-I-SPEC.md)

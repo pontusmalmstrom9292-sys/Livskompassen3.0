@@ -1,6 +1,6 @@
 # Planeringssidan + Widget — 4+4 varianter
 
-**Tema:** E — samma guld/skymning som [`HOME-HERO-KANON.md`](../../references/HOME-HERO-KANON.md).  
+**Tema:** Pack I (guld/obsidian) — samma språk som [`HOME-HERO-KANON.md`](../../references/HOME-HERO-KANON.md). **P3 kanon:** [`../../references/PLANERING-P3-KANBAN-KANON.png`](../../references/PLANERING-P3-KANBAN-KANON.png).  
 **Ikoner:** L2/L3 endast (line gold) — **inte** kompass-emboss.
 
 Full spec: [`PLANERINGSSIDA-SPEC.md`](../../PLANERINGSSIDA-SPEC.md)
@@ -64,4 +64,4 @@ Full spec: [`PLANERINGSSIDA-SPEC.md`](../../PLANERINGSSIDA-SPEC.md)
 | `P3-byrå-kanban.png` | ✓ |
 | `P4-handlingskö.png` | ✓ |
 
-Galleri: [`../../galleri/planering-variants/`](../../galleri/planering-variants/) · W1–W4 i [`../../galleri/widget/`](../../galleri/widget/).
+Galleri: [`../../galleri/planering/`](../../galleri/planering/) (index) · wireframes i denna mapp · W1–W4 i [`../../galleri/widget/`](../../galleri/widget/) (W1 v2: `widget/v2/W1-kompakt-projekt.png`).

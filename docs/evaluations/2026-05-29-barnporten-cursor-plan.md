@@ -1,5 +1,7 @@
 # Barnporten — genomförbarhetsplan (Cursor, utan Vertex)
 
+> **Status:** `closed` · rollout 2026-05-29 · smoke PASS. **Öppet:** [`MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md).
+
 **Datum:** 2026-05-29  
 **Metod:** Direkt läsning av repo + design-lock  
 **Kanon:** [`docs/design/BARNPORTEN-SPEC.md`](../design/BARNPORTEN-SPEC.md) · [`docs/specs/modules/Barnen-SPEC.md`](../specs/modules/Barnen-SPEC.md)  

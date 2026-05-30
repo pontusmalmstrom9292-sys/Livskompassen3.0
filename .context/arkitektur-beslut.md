@@ -1,7 +1,7 @@
 # ARKITEKTUR_BESLUT — Beslutsmatris (Livskompassen PROD)
 
 Fyll i **Beslut** och **Status** när varje punkt är diskuterad.  
-Markera steg `[x]` endast efter ditt uttryckliga godkännande och efter git-push enligt `GIT_WORKFLOW.md`.
+Markera steg `[x]` endast efter ditt uttryckliga godkännande och efter git-push enligt [`docs/GIT-LATHUND.md`](../docs/GIT-LATHUND.md).
 
 **Senast uppdaterad:** 2026-05-19  
 **Ansvarig:** Pontus  

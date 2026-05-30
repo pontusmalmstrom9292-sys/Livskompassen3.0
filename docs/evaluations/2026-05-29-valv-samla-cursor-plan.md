@@ -1,5 +1,7 @@
 # Valv Samla — genomförbarhetsplan (Cursor)
 
+> **Status:** `closed` (plan) · Samla 1.2 delvis i kod — se [`MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md).
+
 **Datum:** 2026-05-29  
 **Metod:** Direkt läsning av repo + kanon  
 **Kanon:** [`Verklighetsvalvet-SPEC.md`](../specs/modules/Verklighetsvalvet-SPEC.md) · [`VALV-HUBB-SPEC.md`](../design/VALV-HUBB-SPEC.md) · [`src/modules/evidence/vault/module_plan.md`](../../src/modules/evidence/vault/module_plan.md)

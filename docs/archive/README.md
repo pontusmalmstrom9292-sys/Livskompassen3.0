@@ -6,7 +6,12 @@ Historiskt material — **läs-only**. Använd inte som aktiv sanning.
 
 | Mapp / fil | Beskrivning |
 |------------|-------------|
-| [`evaluations-2026-05/`](evaluations-2026-05/) | Avslutade Grunder/Vision-utvärderingar |
+| [`evaluations-2026-05/`](evaluations-2026-05/) | Grunder/Vision + **ORKESTER-NATT-ROLLING**, **CONTENT-AUTORUN-ROLLING** |
+| [`evaluations-2026-05-23/`](evaluations-2026-05-23/) | Systemkontroll A–E + modulrapporter 2026-05-23 |
+| [`evaluations-closed-2026-05-29/`](evaluations-closed-2026-05-29/) | Vertex dagbok-spec + superseded PMIR (batch) |
+| [`CONSOLIDATION-PLAN.md`](CONSOLIDATION-PLAN.md) | Repo-konsolidering (klart 2026-05-24) |
+| [`CHAT-ANALYS-2026-05-24.md`](CHAT-ANALYS-2026-05-24.md) | Copilot-snapshot (delvis föråldrad) |
+| [`WAVE4_DEFERRED.md`](WAVE4_DEFERRED.md) | Uppskjutet spår — G13 m.fl. nu done i GAP |
 | [`kladd/`](kladd/) | Konsoliderad notebook-scratch (PII-möjlig) |
 | [`repomix/`](repomix/) | Repomix-snapshots + låsta konsolideringsbeslut |
 | [`server-legacy/`](server-legacy/) | Arkiverad Express-backend |

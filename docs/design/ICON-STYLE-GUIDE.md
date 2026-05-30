@@ -2,8 +2,8 @@
 
 **Låsta produktikoner:** [`.context/locked-icons.md`](../../.context/locked-icons.md) (D1 · M2). **App-ikon upplåst** — [`phone-icon-variants/PREVIEW.md`](./themes/phone-icon-variants/PREVIEW.md)  
 **Chrome (meny/dock/hero):** [`icons-proposals/2026-05-26-v4-round2-dna/`](./icons-proposals/2026-05-26-v4-round2-dna/) — 10×10 kategorier, D1-skiva + unik glyph. `npm run icons:proposals-v4`  
-**v3 (5 stilar):** [`icons-proposals/2026-05-26-v3-chassis/`](./icons-proposals/2026-05-26-v3-chassis/)  
-**Äldre:** [`icons-proposals/2026-05-26-remaining/`](./icons-proposals/2026-05-26-remaining/) (3 varianter)
+**Hub v5:** [`icons-proposals/2026-05-29-gold-hub-v5/`](./icons-proposals/2026-05-29-gold-hub-v5/) · `npm run icons:proposals-v5`  
+**Regen-källa B1/D1/M2:** [`icons-proposals/2026-05-26-v2-premium/`](./icons-proposals/2026-05-26-v2-premium/) (internt för v4-script, ej prod-mall)
 
 ## Referensbilder
 

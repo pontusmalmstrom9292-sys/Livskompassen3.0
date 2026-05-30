@@ -16,7 +16,7 @@ KANON (MUST):
 - Sacred: Verklighetsvalvet, Morgonkompassen, Dossier, Speglings-Systemet, Zero Footprint, Kill Switch.
 - Låst UX: Barnfokus-frågor, Valv-flikar Mönster + Orkester + Kunskapsbank + Aktörskarta, Planering P3 Kanban på /planering.
 - Ikoner D1 LivskompassMark + M2 KompisMark är LÅSTA — föreslå endast NYA ikoner (K1/K2/K3 kompass, meny-chrome, Valv), inte ersätt D1.
-- Design: Obsidian Calm — bg #020617, guld #FDE68A, indigo #818CF8, emerald #2DD4BF. Förbjudet: lila, turkos aktiv-state, regnbåge, nature themes, streak/XP.
+- Design: Obsidian Calm — bg #020617, guld aktiv #d4af37 (COLOR-POLICY). Indigo/emerald endast sekundärt/spara — INTE turkos/indigo som aktiv drawer/dock. Förbjudet: lila, turkos aktiv-state, regnbåge, nature themes, streak/XP. Kanon: docs/design/COLOR-POLICY.md
 - Prompts i backend endast sharedRules.ts — skriv INTE LLM-prompts för prod i React.
 
 DITT UPPDRAG:

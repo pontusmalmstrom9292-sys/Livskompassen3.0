@@ -23,7 +23,7 @@
 
 ## Max-byggplan (2026-05-29)
 
-**PMIR:** [`evaluations/2026-05-29-pmir-max-byggplan.md`](./evaluations/2026-05-29-pmir-max-byggplan.md)
+**PMIR:** [`evaluations/2026-05-29-pmir-modul-rollout-batch.md`](./evaluations/2026-05-29-pmir-modul-rollout-batch.md)
 
 | Kommando | Resultat |
 |----------|----------|

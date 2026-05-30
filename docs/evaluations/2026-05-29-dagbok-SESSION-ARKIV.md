@@ -12,7 +12,8 @@ Cursor-chattar kan försvinna vid rensning/kontobyte. **Du äger kopian** när d
 | Åtgärd | Var |
 |--------|-----|
 | **Kanon (denna fil)** | `docs/evaluations/2026-05-29-dagbok-SESSION-ARKIV.md` |
-| Vertex-spec | `docs/evaluations/2026-05-29-dagbok-vertex-spec.md` |
+| Vertex-spec (full) | `docs/archive/evaluations-closed-2026-05-29/2026-05-29-dagbok-vertex-spec.md` |
+| Execution plan | `docs/evaluations/2026-05-29-dagbok-vertex-plan.md` |
 | Plan Fas 1–4 | `docs/evaluations/2026-05-29-dagbok-vertex-plan.md` |
 | Modulspec | `docs/specs/modules/Dagbok-SPEC.md` |
 | Rå transcript (JSONL) | `.cursor/projects/.../agent-transcripts/` (Cursor internt) |

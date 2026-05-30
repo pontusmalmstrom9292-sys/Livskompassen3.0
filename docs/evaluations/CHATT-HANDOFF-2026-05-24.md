@@ -10,7 +10,7 @@
 | Del | Resultat |
 |-----|----------|
 | **Del A — Git** | En trunk `main`; PMIR + `check:main-trunk`; `GIT-LATHUND`, `BRANCH-KARTA`, `MERGE-IMPACT-RAPPORT`; Fyren fix cherry-pick; städade grenar |
-| **Del B — Docs** | `MODUL-FUNKTIONS-REGISTER`, `SENASTE-SAMMANFATTNING`, `DOC-DRIFT-RAPPORT`; arkiverade dubletter under `docs/archive/specs-incoming-duplicates-2026-05/` |
+| **Del B — Docs** | `MODUL-FUNKTIONS-REGISTER`, `SENASTE-SAMMANFATTNING`, `DOC-DRIFT-RAPPORT`; dubbla GAP-register borttagna 2026-05-30 |
 | **Lathundar** | `LATHUND-INDEX.html`, styled HTML via `npm run build:lathund-html`, `CURSOR-MENY-LATHUND` |
 | **Senaste commit** | `2eab1273` — Preview/print-hints i HTML-lathundar (kan vara ahead av `origin` tills push) |
 

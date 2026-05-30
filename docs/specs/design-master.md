@@ -43,6 +43,8 @@
 2. **Indigo** — nästa steg, Fortsätt-knappar
 3. **Emerald** — spara, klar, WORM-bekräftelse
 
+**Prod override (chrome 2026-05-29):** Aktiv navigation och header följer [`docs/design/COLOR-POLICY.md`](../design/COLOR-POLICY.md) och [`CHROME-EMBER-KANON.md`](../design/CHROME-EMBER-KANON.md) — **ingen** turkos/indigo som primär aktiv-state; guld `#d4af37` / ember enligt Theme Pack I.
+
 ---
 
 ## 3. Typografi

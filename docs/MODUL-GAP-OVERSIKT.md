@@ -9,17 +9,21 @@
 
 ---
 
-## Cursor-planer (2026-05-29) — rollout stängd i kod
+## Cursor-planer (2026-05-29) — **`closed`** (plan)
 
-| Modul | Plan | Status | Smoke 2026-05-29 |
-|-------|------|--------|------------------|
-| Dagbok | [`2026-05-29-dagbok-vertex-plan.md`](./evaluations/2026-05-29-dagbok-vertex-plan.md) | Fas 1–4 **lokal kod done** | build · orkester · locked-ux **PASS** |
-| Planering | [`2026-05-29-planering-cursor-plan.md`](./evaluations/2026-05-29-planering-cursor-plan.md) | Fas 1.5 + Fas 2 **lokal kod** | locked-ux **PASS** · **rules deploy öppen** |
-| MåBra | [`2026-05-29-mabra-cursor-plan.md`](./evaluations/2026-05-29-mabra-cursor-plan.md) | Fas 1.5 + Fas 2 §1–2 **done** | build · orkester **PASS** |
-| Projekt | [`2026-05-29-projekt-cursor-plan.md`](./evaluations/2026-05-29-projekt-cursor-plan.md) | Fas 3 MaterialPack **lokal done** | locked-ux **PASS** |
-| Kunskap | [`2026-05-29-kunskap-cursor-plan.md`](./evaluations/2026-05-29-kunskap-cursor-plan.md) | Fas 1.5 **done** | orkester/innehall **PASS** |
-| Barnporten | [`2026-05-29-barnporten-cursor-plan.md`](./evaluations/2026-05-29-barnporten-cursor-plan.md) | P1 + CB1 P2 **lokal done** | locked-ux **PASS** · manuell #3 öppen |
-| Valv | module_plan + SPEC | Vävaren copy/polish **delvis lokal** | locked-ux (Mönster/Orkester) **PASS** |
+Alla planfiler har `status: closed` överst. **Öppet arbete finns endast i tabellen Modul-GAP nedan** — inte i planerna.
+
+| Modul | Plan | Plan-status | Smoke 2026-05-29 |
+|-------|------|-------------|------------------|
+| Dagbok | [`dagbok-vertex-plan`](./evaluations/2026-05-29-dagbok-vertex-plan.md) | **closed** | build · orkester · locked-ux **PASS** |
+| Planering | [`planering-cursor-plan`](./evaluations/2026-05-29-planering-cursor-plan.md) | **closed** | locked-ux **PASS** |
+| MåBra | [`mabra-cursor-plan`](./evaluations/2026-05-29-mabra-cursor-plan.md) | **closed** | build · orkester **PASS** |
+| Projekt | [`projekt-cursor-plan`](./evaluations/2026-05-29-projekt-cursor-plan.md) | **closed** | locked-ux **PASS** |
+| Kunskap | [`kunskap-cursor-plan`](./evaluations/2026-05-29-kunskap-cursor-plan.md) | **closed** | orkester/innehall **PASS** |
+| Barnporten | [`barnporten-cursor-plan`](./evaluations/2026-05-29-barnporten-cursor-plan.md) | **closed** | locked-ux **PASS** |
+| Valv Samla | [`valv-samla-cursor-plan`](./evaluations/2026-05-29-valv-samla-cursor-plan.md) | **closed** (delvis kod) | locked-ux **PASS** |
+| Valv Privacy | [`valv-privacy-cursor-plan`](./evaluations/2026-05-29-valv-privacy-cursor-plan.md) | **closed** (deferred 2.1) | — |
+| Kompass widget | [`kompass-widget-snabbstart-plan`](./evaluations/2026-05-29-kompass-widget-snabbstart-plan.md) | **closed** | K1 integrerad |
 
 ---
 
