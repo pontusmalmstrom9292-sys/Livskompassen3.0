@@ -2150,11 +2150,11 @@
   .nav-drawer__row--active {
     background: linear-gradient(
       90deg,
-      color-mix(in srgb, var(--accent) 24%, transparent) 0%,
-      color-mix(in srgb, var(--accent) 6%, transparent) 72%,
+      color-mix(in srgb, #d4af37 24%, transparent) 0%,
+      color-mix(in srgb, #d4af37 6%, transparent) 72%,
       transparent 100%
     );
-    box-shadow: inset 4px 0 0 var(--accent);
+    box-shadow: inset 4px 0 0 #d4af37;
   }
 
   .nav-drawer__row--active .nav-drawer__row-label {
@@ -2169,6 +2169,10 @@
   }
 
   .nav-drawer__row-icon .chrome-v4-icon {
+    @apply h-9 w-9;
+  }
+
+  .nav-drawer__row-icon .drawer-l2-icon {
     @apply h-9 w-9;
   }
 

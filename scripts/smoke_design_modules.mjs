@@ -84,6 +84,7 @@ function main() {
   );
   mustInclude('src/modules/core/home/DagensRiktningCard.tsx', 'CompassQuickWidgetRail');
   mustInclude('src/modules/core/navigation/navTruth.ts', 'drawerHint');
+  mustInclude('src/modules/core/navigation/drawerNav.ts', 'createDrawerL2Icon');
   mustInclude('docs/gemini-handoff/README.md', 'gemini-handoff');
 
   console.log('smoke:design-modules PASS');

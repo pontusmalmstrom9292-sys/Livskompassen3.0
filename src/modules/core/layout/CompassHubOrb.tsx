@@ -118,7 +118,6 @@ export function CompassHubOrb() {
             </span>
           )}
         </span>
-        <span className="dock-compass-hub__label">{onDagbok ? 'Hjärtat' : 'Kompass'}</span>
       </button>
     </div>
   );
