@@ -1,0 +1,67 @@
+name: 'Sacred Feature Auto-Backup'
+
+description: |
+  Detta workflow gör en automatisk backup på alla "Sacred Features" varje gång en Pull Request påbörjas eller ändras mot 'main'.
+  Om något skyddat planeras att ändras så stoppar workflowen merge och kräver manuell godkännande.
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  backup-sacred:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: List protected (Sacred) files/folders
+        run: |
+          echo "Sacred backups:"
+          echo "src/modules/verklighetsvalvet/"
+          echo "src/modules/barnens_livsloggar/"
+          echo ".context/security.md"
+          echo ".context/system-plan.md"
+          echo ".context/arkiv-minne.md"
+          echo "firestore.rules"
+          echo "docs/AGENT-SAFETY-GATES.md"
+          echo "docs/AGENT-RUNBOOK.md"
+          echo ".cursor/rules/agent-sacred-guard.mdc"
+          echo ".cursor/rules/agent-autonomy-gates.mdc"
+
+      - name: Backup Sacred files before merge
+        run: |
+          BACKUP_DIR=backups/sacred-$(date +%Y%m%d-%H%M%S)
+          mkdir -p "$BACKUP_DIR"
+          cp -r src/modules/verklighetsvalvet "$BACKUP_DIR/" || true
+          cp -r src/modules/barnens_livsloggar "$BACKUP_DIR/" || true
+          cp .context/security.md "$BACKUP_DIR/" || true
+          cp .context/system-plan.md "$BACKUP_DIR/" || true
+          cp .context/arkiv-minne.md "$BACKUP_DIR/" || true
+          cp firestore.rules "$BACKUP_DIR/" || true
+          cp docs/AGENT-SAFETY-GATES.md "$BACKUP_DIR/" || true
+          cp docs/AGENT-RUNBOOK.md "$BACKUP_DIR/" || true
+          cp .cursor/rules/agent-sacred-guard.mdc "$BACKUP_DIR/" || true
+          cp .cursor/rules/agent-autonomy-gates.mdc "$BACKUP_DIR/" || true
+          echo "Backup skapat i $BACKUP_DIR"
+
+      - name: Add backup to commit
+        run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "sacred-backup-bot"
+          git add backups/
+          git commit -m "[AUTO-BACKUP] Sacred files backup before PR merge" || echo "Ingen backup att committa."
+          git push || echo "Backup redan pushad."
+
+      - name: PR Sacred diff guard
+        run: |
+          git fetch origin main
+          git diff --name-only origin/main | grep -E 'verklighetsvalvet|barnens_livsloggar|security.md|system-plan.md|arkiv-minne.md|firestore.rules|AGENT-SAFETY-GATES.md|AGENT-RUNBOOK.md|agent-sacred-guard.mdc|agent-autonomy-gates.mdc' > changed_sacred.txt || true
+          if [ -s changed_sacred.txt ]; then
+            echo "⚠️ Varning: Följande Sacred Features planeras ändras eller raderas i denna PR:"
+            cat changed_sacred.txt
+            echo "Se AGENT-SAFETY-GATES.md och kräv manuell godkännande (Pull Request Impact Report och backup)."
+            exit 1
+          fi
+          echo "Ingen Sacred ändring upptäckt. Safe to review."
