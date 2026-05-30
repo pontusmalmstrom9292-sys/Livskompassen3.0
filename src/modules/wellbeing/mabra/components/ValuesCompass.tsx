@@ -81,22 +81,47 @@ export function ValuesCompass({ userId, onDone, onExit }: Props) {
         <p className="mt-2 text-sm text-text-muted">{VALUES_COMPASS_COPY.detail}</p>
       </div>
 
-      <div className="flex flex-wrap gap-2">
-        {ACT_VALUES.map((value) => {
-          const isSelected = selected.includes(value.id);
-          return (
-            <button
-              key={value.id}
-              type="button"
-              aria-pressed={isSelected}
-              onClick={() => toggle(value.id)}
-              className={isSelected ? 'chip--active' : 'chip--idle'}
-            >
+      <label className="block text-xs text-text-muted">
+        Lägg till värdering
+        <select
+          className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+          value=""
+          disabled={selectedCount >= MAX_CORE_VALUES}
+          onChange={(e) => {
+            const id = e.target.value;
+            if (id) toggle(id);
+          }}
+          aria-label="Lägg till kärnvärde"
+        >
+          <option value="">
+            {selectedCount >= MAX_CORE_VALUES ? 'Max antal valda' : 'Välj värdering…'}
+          </option>
+          {ACT_VALUES.filter((v) => !selected.includes(v.id)).map((value) => (
+            <option key={value.id} value={value.id}>
               {value.label}
-            </button>
-          );
-        })}
-      </div>
+            </option>
+          ))}
+        </select>
+      </label>
+
+      {selectedCount > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {selected.map((id) => {
+            const value = ACT_VALUES.find((v) => v.id === id);
+            if (!value) return null;
+            return (
+              <button
+                key={id}
+                type="button"
+                className="chip--active text-xs"
+                onClick={() => toggle(id)}
+              >
+                {value.label} ×
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       <div className="w-full max-w-sm space-y-2">
         <div className="flex gap-1.5" aria-hidden>

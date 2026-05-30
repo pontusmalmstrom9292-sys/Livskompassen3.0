@@ -40,7 +40,9 @@ import { MabraMicroPlayTool } from './tools/MabraMicroPlayTool';
 import { MabraToolShell } from './tools/MabraToolShell';
 import { pickDailyReflectionCard } from '../lib/pickDagligMix';
 import { MabraLowEnergyToggle } from './MabraLowEnergyToggle';
+import { CURRICULUMS } from '../content/curriculumCatalog';
 import { MabraVitProjectsPanel } from './MabraVitProjectsPanel';
+import { MabraHubCollapsible } from './MabraHubCollapsible';
 import {
   readAllVitProjectLastSeen,
   writeVitProjectLastSeen,
@@ -335,11 +337,13 @@ export function MabraPage() {
           <MabraLowEnergyToggle enabled={lowEnergyMode} onChange={setLowEnergyMode} />
           {!lowEnergyMode && (
             <>
-              <VitCurriculumPanel
-                onOpenReflection={openCurriculumReflection}
-                onOpenPlay={openCurriculumPlay}
-              />
               <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
+              <MabraHubCollapsible title="Dina kurser" meta={`${CURRICULUMS.length} kurser`} defaultOpen={false}>
+                <VitCurriculumPanel
+                  onOpenReflection={openCurriculumReflection}
+                  onOpenPlay={openCurriculumPlay}
+                />
+              </MabraHubCollapsible>
               <MabraVitProjectsPanel lastSeen={vitLastSeen} onOpenProject={openVitProject} />
             </>
           )}

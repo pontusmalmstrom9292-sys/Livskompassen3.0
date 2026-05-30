@@ -14,6 +14,7 @@ import { PlaneringFramstegPanel } from './PlaneringFramstegPanel';
 import { PlaneringInkorgPanel } from './PlaneringInkorgPanel';
 import { PlaneringHub } from './PlaneringHub';
 import { PlaneringHubLayoutPicker } from './PlaneringHubLayoutPicker';
+import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
 import { PlaneringQuickListPanel } from './PlaneringQuickListPanel';
 import { RoutinesPanel } from './RoutinesPanel';
 import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
@@ -83,15 +84,18 @@ export function PlaneringPage() {
       )}
 
       {isHub && (
-        <PlaneringHubLayoutPicker activeId={layoutId} onSelect={setLayoutId} />
+        <PlaneringHubLayoutPicker activeId={layoutId} onSelect={setLayoutId} compact />
       )}
 
       {isWorkTab && (
-        <TabBar<PlaneringTab>
-          tabs={PLANERING_WORK_TABS as TabBarItem<PlaneringTab>[]}
-          active={tab}
-          onChange={(id) => navigate(`/planering?tab=${id}`)}
-        />
+        <>
+          <TabBar<PlaneringTab>
+            tabs={PLANERING_WORK_TABS as TabBarItem<PlaneringTab>[]}
+            active={tab}
+            onChange={(id) => navigate(`/planering?tab=${id}`)}
+          />
+          <PlaneringNextStepSelect />
+        </>
       )}
 
       <div className={isHub ? 'planering-view planering-view--hub' : 'planering-view'}>

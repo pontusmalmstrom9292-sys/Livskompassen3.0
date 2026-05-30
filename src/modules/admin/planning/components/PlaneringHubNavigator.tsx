@@ -94,7 +94,7 @@ export function PlaneringHubNavigator({
                     <PlaneringHubModuleCard
                       key={mod.id}
                       module={mod}
-                      size="chip"
+                      size="compact"
                     />
                   ))}
                 </div>

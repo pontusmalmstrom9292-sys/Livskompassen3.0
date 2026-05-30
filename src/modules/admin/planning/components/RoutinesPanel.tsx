@@ -21,8 +21,12 @@ export function RoutinesPanel({ defaultOpen = false }: Props) {
   const location = useLocation();
   const user = useStore((s) => s.user);
   const { preset, presetId } = useLifeHubPreset();
+  const routines = materialEnabled(preset, 'planering_routines')
+    ? routinesForPreset(presetId)
+    : [];
   const [open, setOpen] = useState(defaultOpen);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [pickedId, setPickedId] = useState('');
   const [lastMsg, setLastMsg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,12 +39,18 @@ export function RoutinesPanel({ defaultOpen = false }: Props) {
     }
   }, [location.hash]);
 
+  useEffect(() => {
+    if (routines.length === 0) return;
+    setPickedId((prev) => (prev && routines.some((r) => r.id === prev) ? prev : routines[0]!.id));
+  }, [routines]);
+
   if (!materialEnabled(preset, 'planering_routines')) {
     return null;
   }
 
-  const routines = routinesForPreset(presetId);
   if (routines.length === 0) return null;
+
+  const pickedRoutine = routines.find((r) => r.id === pickedId) ?? routines[0];
 
   const onRun = async (routine: RoutineTemplate) => {
     if (!user) {
@@ -83,23 +93,40 @@ export function RoutinesPanel({ defaultOpen = false }: Props) {
 
       {open ? (
         <div className="routines-panel__body">
-          <div className="routines-panel__chips">
-            {routines.map((r) => (
-              <button
-                key={r.id}
-                type="button"
-                className="routines-panel__chip"
-                title={r.lead}
-                disabled={busyId !== null}
-                onClick={() => onRun(r)}
-              >
-                {busyId === r.id ? (
-                  <Loader2 className="h-3 w-3 shrink-0 animate-spin" aria-hidden />
-                ) : null}
-                <span>{r.title}</span>
-              </button>
-            ))}
-          </div>
+          <label className="block text-xs text-text-muted">
+            Rutin
+            <select
+              value={pickedId}
+              onChange={(e) => setPickedId(e.target.value)}
+              className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+              disabled={busyId !== null}
+              aria-label="Välj rutin"
+            >
+              {routines.map((r) => (
+                <option key={r.id} value={r.id}>
+                  {r.title}
+                </option>
+              ))}
+            </select>
+          </label>
+          {pickedRoutine?.lead ? (
+            <p className="mt-2 text-xs text-text-dim">{pickedRoutine.lead}</p>
+          ) : null}
+          <button
+            type="button"
+            className="btn-pill--secondary mt-3 w-full text-sm"
+            disabled={busyId !== null || !pickedRoutine}
+            onClick={() => pickedRoutine && void onRun(pickedRoutine)}
+          >
+            {busyId ? (
+              <>
+                <Loader2 className="mr-2 inline h-3 w-3 animate-spin" aria-hidden />
+                Kör…
+              </>
+            ) : (
+              'Kör rutin'
+            )}
+          </button>
           {lastMsg ? <p className="routines-panel__msg routines-panel__msg--ok">{lastMsg}</p> : null}
           {error ? <p className="routines-panel__msg routines-panel__msg--err">{error}</p> : null}
         </div>

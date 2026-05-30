@@ -33,22 +33,21 @@ export function PlanningTaskDetail({ task, onClose, onMove, onSaveMicroStep }: P
           <p className="mt-2 text-xs text-text-dim">Deadline: {task.dueAt}</p>
         )}
 
-        <p className="mt-4 text-[10px] uppercase tracking-widest text-text-dim">Flytta till</p>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {KANBAN_COLUMNS.map((col) => (
-            <button
-              key={col.id}
-              type="button"
-              disabled={task.status === col.id}
-              onClick={() => onMove(col.id)}
-              className={`rounded-full px-3 py-1 text-xs ${
-                task.status === col.id ? 'chip--active' : 'chip--idle'
-              }`}
-            >
-              {col.label}
-            </button>
-          ))}
-        </div>
+        <label className="mt-4 block text-[10px] uppercase tracking-widest text-text-dim">
+          Status
+          <select
+            value={task.status}
+            onChange={(e) => onMove(e.target.value as PlanningTaskStatus)}
+            className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+            aria-label="Flytta uppgift till kolumn"
+          >
+            {KANBAN_COLUMNS.map((col) => (
+              <option key={col.id} value={col.id}>
+                {col.label}
+              </option>
+            ))}
+          </select>
+        </label>
 
         <label className="mt-4 block text-[10px] uppercase tracking-widest text-text-dim">
           Mikrosteg (Paralys-Brytaren)

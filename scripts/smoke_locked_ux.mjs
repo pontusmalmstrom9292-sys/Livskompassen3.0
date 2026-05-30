@@ -196,7 +196,9 @@ function main() {
   );
   mustInclude('src/modules/core/pages/HomePage.tsx', 'useLifeHubPreset');
   mustInclude('src/modules/core/pages/InstallningarPage.tsx', 'LifeHubPresetPicker');
-  mustInclude('src/modules/admin/planning/components/RoutinesPanel.tsx', 'runRoutine');
+  mustInclude('src/modules/admin/planning/components/RoutinesPanel.tsx', 'runRoutine', '<select');
+  mustInclude('src/modules/admin/planning/components/PlaneringNextStepSelect.tsx', 'Nästa steg');
+  mustInclude('src/modules/admin/planning/components/PlanningTaskDetail.tsx', '<select');
   mustInclude('src/modules/admin/projects/components/ProjektNyPage.tsx', '/admin/projects/ny');
   mustInclude('src/index.css', '.dock-hub-band');
 
@@ -389,7 +391,10 @@ function main() {
     'HubPageShell',
     'DagligMixPanel',
     'handleDagligMixComplete',
+    'MabraHubCollapsible',
   );
+  mustInclude('src/modules/wellbeing/mabra/components/ValuesCompass.tsx', '<select');
+  mustInclude('src/modules/wellbeing/mabra/components/MabraVitHub.tsx', 'Snabbstart');
   mustInclude(
     'src/modules/admin/planning/components/PlaneringPage.tsx',
     'HubPageShell',

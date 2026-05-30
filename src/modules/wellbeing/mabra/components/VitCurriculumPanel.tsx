@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, ChevronRight, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import { CURRICULUMS, type VitCurriculum, type CurriculumExercise } from '../content/curriculumCatalog';
 
@@ -18,23 +18,46 @@ function ChapterExerciseButtons({
   onOpenReflection: (bankId: string) => void;
   onOpenPlay: (bankId: string) => void;
 }) {
+  const [pickedId, setPickedId] = useState('');
+
   if (exercises.length === 0) {
     return (
       <p className="text-xs text-text-dim">Läs kapitlet — övningar finns i andra kapitel eller via länkar nedan.</p>
     );
   }
+
+  const picked = exercises.find((ex) => ex.bankId === pickedId);
+
   return (
-    <div className="flex flex-wrap gap-2">
-      {exercises.map((ex) => (
-        <button
-          key={ex.bankId}
-          type="button"
-          onClick={() => (ex.kind === 'reflection' ? onOpenReflection(ex.bankId) : onOpenPlay(ex.bankId))}
-          className="btn-pill--ghost text-xs"
+    <div className="space-y-2">
+      <label className="block text-xs text-text-muted">
+        Övning
+        <select
+          className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+          value={pickedId}
+          onChange={(e) => setPickedId(e.target.value)}
+          aria-label="Välj övning"
         >
-          {ex.kind === 'reflection' ? 'Frågekort' : 'Mikrolek'} · {ex.bankId}
-        </button>
-      ))}
+          <option value="">Välj övning…</option>
+          {exercises.map((ex) => (
+            <option key={ex.bankId} value={ex.bankId}>
+              {ex.kind === 'reflection' ? 'Frågekort' : 'Mikrolek'} · {ex.bankId}
+            </option>
+          ))}
+        </select>
+      </label>
+      <button
+        type="button"
+        disabled={!picked}
+        className="btn-pill--ghost w-full text-xs disabled:opacity-40"
+        onClick={() => {
+          if (!picked) return;
+          if (picked.kind === 'reflection') onOpenReflection(picked.bankId);
+          else onOpenPlay(picked.bankId);
+        }}
+      >
+        Öppna övning
+      </button>
     </div>
   );
 }
@@ -92,6 +115,7 @@ function CurriculumDetail({
 
 export function VitCurriculumPanel({ onOpenReflection, onOpenPlay }: Props) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [pendingId, setPendingId] = useState('');
   const selected = selectedId ? CURRICULUMS.find((c) => c.id === selectedId) : null;
 
   if (selected) {
@@ -110,26 +134,30 @@ export function VitCurriculumPanel({ onOpenReflection, onOpenPlay }: Props) {
       title="Dina kurser"
       description="Läs kort FACT-kapitel — gör kopplad övning. Ingen streak."
     >
-      <ul className="space-y-2">
-        {CURRICULUMS.map((c) => (
-          <li key={c.id}>
-            <button
-              type="button"
-              onClick={() => setSelectedId(c.id)}
-              className="flex w-full items-center gap-3 rounded-xl border border-border-strong bg-surface/20 px-4 py-3 text-left transition hover:border-accent/30"
-            >
-              <BookOpen className="h-5 w-5 shrink-0 text-accent/80" aria-hidden />
-              <span className="min-w-0 flex-1">
-                <span className="block text-sm font-medium text-text">{c.title}</span>
-                <span className="block text-[10px] uppercase tracking-wider text-text-dim">
-                  {c.chapters.length} kapitel
-                </span>
-              </span>
-              <ChevronRight className="h-4 w-4 shrink-0 text-text-dim" aria-hidden />
-            </button>
-          </li>
-        ))}
-      </ul>
+      <label className="block text-xs text-text-muted">
+        Kurs
+        <select
+          className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+          value={pendingId}
+          onChange={(e) => setPendingId(e.target.value)}
+          aria-label="Välj kurs"
+        >
+          <option value="">Välj kurs…</option>
+          {CURRICULUMS.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.title} ({c.chapters.length} kapitel)
+            </option>
+          ))}
+        </select>
+      </label>
+      <button
+        type="button"
+        disabled={!pendingId}
+        className="btn-pill--secondary mt-3 w-full text-sm disabled:opacity-40"
+        onClick={() => setSelectedId(pendingId)}
+      >
+        Öppna kurs
+      </button>
       <p className="mt-3 flex items-center gap-2 text-[10px] text-text-dim">
         <Sparkles className="h-3 w-3" aria-hidden />
         FACT från Kunskap-seed — övningar från MåBra-bank (U6).

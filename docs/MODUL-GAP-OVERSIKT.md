@@ -37,8 +37,8 @@
 | Modul | Route | Gap / nästa | Kommando / vem |
 |-------|-------|-------------|----------------|
 | **dagbok** | `/dagbok` | Fas 1–4 **done** · storage deploy **done** | manuell smoke #2d |
-| **planering** | `/planering?tab=handling` | Fas 1.5 + Fas 2 · rules deploy **done** | manuell smoke #2e |
-| **mabra** | `/mabra` | §5 guardrail + §3 Vit djup-länk | **done** 2026-05-29 sprint |
+| **mabra** | `/mabra` | §5 guardrail + §3 Vit djup-länk + **IA Våg 3 kompakt UI** | **done** 2026-05-30 |
+| **planering** | `/planering?tab=handling` | Fas 1.5 + Fas 2 · IA Våg 3 handlingsrad + dropdowns | **done** · rules deploy **done** |
 | **projekt** | `/projekt` | MaterialPack **done** · `project_rules` Firestore defer | `kör Projekt Fas 3b` |
 | **kompis/kunskap** | Valv `kunskapsbank` | Fas 1.5 **done** · Fas 2 seed-bank | `specialist-kunskap-seed` |
 | **barnporten** | `/barnporten` | P1 + CB1 **done** · manuell smoke #3 · QR CB2+ | `kör manuell smoke #3` |
@@ -66,7 +66,6 @@ npm run orkester:night
 
 1. **Manuell smoke** — [`2026-05-29-smoke-manuell.md`](./evaluations/2026-05-29-smoke-manuell.md)
 2. **Kunskap våg 8 ingest** — efter granskning (`seed_kampspar_profile`)
-3. **IA Våg 3** — kompakt Planering/MåBra UI (efter smoke)
 
 ---
 
