@@ -110,6 +110,7 @@ Loggar: `firebase functions:log --only notifyNewFile`
 - **Inga träffar i loggar** — fel GCP-projekt/region i `CLOUD_FUNCTION_URL`.
 - **401** — `WEBHOOK_SECRET` i Apps Script matchar inte Firebase secret.
 - **Drive-nedladdning failar i bakgrund** — Vault inte delad med Functions service account, eller fel `fileId`.
+- **"This script has too many triggers" / för många utlösare** — Google tillåter **max 20 triggers per användare per script**. Orsak: `createTrigger()` körts flera gånger utan rensning. **Fix:** (1) Apps Script → klock-ikon **Triggers** → radera dubbletter manuellt, **eller** kör `deleteAllTriggers()` → `createTrigger()` en gång. Uppdaterat `sorter.gs` rensar gamla `autonomousSorter`-triggers automatiskt vid `createTrigger()`.
 
 ---
 

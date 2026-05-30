@@ -92,12 +92,74 @@ function autonomousSorter() {
 }
 
 /**
- * Skapar en trigger som körs varje timme.
- * Kör denna funktion en gång manuellt efter att Script Properties är satta.
+ * Listar alla triggers i projektet (kör manuellt → Executions / logg).
+ */
+function listTriggers() {
+  var triggers = ScriptApp.getProjectTriggers();
+  if (triggers.length === 0) {
+    console.log('Inga triggers i projektet.');
+    return;
+  }
+  triggers.forEach(function (trigger, index) {
+    console.log(
+      index +
+        1 +
+        '. ' +
+        trigger.getHandlerFunction() +
+        ' (id=' +
+        trigger.getUniqueId() +
+        ')'
+    );
+  });
+  console.log('Totalt: ' + triggers.length + ' / 20 (Google-gräns per script).');
+}
+
+/**
+ * Tar bort alla triggers för autonomousSorter (behåller övriga triggers).
+ */
+function deleteSorterTriggers() {
+  var removed = deleteTriggersForHandler_('autonomousSorter');
+  console.log('Borttagna autonomousSorter-triggers: ' + removed);
+}
+
+/**
+ * Tar bort ALLA triggers i projektet. Använd vid "too many triggers".
+ */
+function deleteAllTriggers() {
+  var triggers = ScriptApp.getProjectTriggers();
+  var count = triggers.length;
+  for (var i = 0; i < triggers.length; i++) {
+    ScriptApp.deleteTrigger(triggers[i]);
+  }
+  console.log('Borttagna triggers: ' + count);
+}
+
+function deleteTriggersForHandler_(handlerName) {
+  var triggers = ScriptApp.getProjectTriggers();
+  var removed = 0;
+  for (var i = 0; i < triggers.length; i++) {
+    if (triggers[i].getHandlerFunction() === handlerName) {
+      ScriptApp.deleteTrigger(triggers[i]);
+      removed++;
+    }
+  }
+  return removed;
+}
+
+/**
+ * Skapar en timtrigger — idempotent (rensar gamla autonomousSorter-triggers först).
+ * Kör en gång efter Script Properties. Vid "too many triggers": kör deleteAllTriggers() först.
  */
 function createTrigger() {
+  var removed = deleteTriggersForHandler_('autonomousSorter');
+  if (removed > 0) {
+    console.log('Rensade ' + removed + ' gammal(a) autonomousSorter-trigger(s).');
+  }
+
   ScriptApp.newTrigger('autonomousSorter')
     .timeBased()
     .everyHours(1)
     .create();
+
+  console.log('Timtrigger skapad för autonomousSorter.');
 }
