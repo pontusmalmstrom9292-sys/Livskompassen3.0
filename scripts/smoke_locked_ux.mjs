@@ -370,7 +370,17 @@ function main() {
     'nav-drawer__section-title',
     'isInValvDrawerContext',
     'showValvShell',
+    'nav-drawer__backdrop',
   );
+  assert(
+    !read('src/modules/core/layout/NavigationDrawer.tsx').includes('DrawerQuickActions'),
+    'NavigationDrawer.tsx får inte montera DrawerQuickActions (MENU-DRAWER-KANON)',
+  );
+  assert(
+    !read('src/modules/core/layout/NavigationDrawer.tsx').includes('DrawerHomeQuickActions'),
+    'NavigationDrawer.tsx får inte montera DrawerHomeQuickActions (MENU-DRAWER-KANON)',
+  );
+  mustInclude('src/modules/core/layout/DrawerModeToggle.tsx', 'if (!showValvShell) return null');
   mustInclude('src/modules/core/layout/DrawerHubAccordion.tsx', 'nav-drawer__row--sub', 'isDrawerItemActive');
   mustInclude('src/modules/core/components/DrawerHomeQuickActions.tsx', 'FYREN_HOME_QUICK_ACTIONS');
   mustInclude('src/modules/family/children/components/FamiljenPage.tsx', 'HubPageShell', 'ParentReminderFooter');

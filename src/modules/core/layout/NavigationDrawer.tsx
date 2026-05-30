@@ -9,7 +9,6 @@ import { useStore } from '../store';
 import { LivskompassMark } from '../ui/LivskompassMark';
 import { DrawerModeToggle } from './DrawerModeToggle';
 import { DrawerHubAccordion, isDrawerItemActive } from './DrawerHubAccordion';
-import { DrawerQuickActions } from './DrawerQuickActions';
 
 type Props = {
   open: boolean;
@@ -197,8 +196,6 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
             />
           </div>
         </nav>
-
-        <DrawerQuickActions onNavigate={onClose} />
 
         <div className="nav-drawer__footer">
           <button
