@@ -59,11 +59,29 @@ export function journalMemoryStoragePath(
   return `users/${userId}/journal_memories/${entryId}/${safeFileName(fileName)}`;
 }
 
+/** Throws when Storage bucket is missing from build env (bilaga kräver giltig bucket). */
+export function assertJournalStorageReady(): void {
+  const bucket = import.meta.env.VITE_FIREBASE_STORAGE_BUCKET;
+  if (!bucket || bucket === 'YOUR_STORAGE_BUCKET') {
+    throw new Error(
+      'Bilaga kräver Firebase Storage — kontrollera app-konfigurationen (storage bucket).',
+    );
+  }
+}
+
 export async function uploadJournalMemory(
   userId: string,
   entryId: string,
   file: File,
 ): Promise<JournalAttachment> {
+  if (!userId.trim()) {
+    throw new Error('Du måste vara inloggad för att ladda upp bilaga.');
+  }
+  if (!entryId.trim()) {
+    throw new Error('Kunde inte förbereda bilagan — försök spara igen.');
+  }
+  assertJournalStorageReady();
+
   const validation = validateJournalMemoryFile(file);
   if (validation.ok === false) {
     throw new Error(validation.message);

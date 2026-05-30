@@ -306,15 +306,39 @@ export async function getChildrenLogs(userId: string) {
   );
 }
 
+function normalizeJournalAttachment(raw: unknown):
+  | { url: string; storagePath: string; name: string; mimeType: string; size: number }
+  | undefined {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const a = raw as Record<string, unknown>;
+  const url = typeof a.url === 'string' ? a.url : '';
+  const storagePath = typeof a.storagePath === 'string' ? a.storagePath : '';
+  const name = typeof a.name === 'string' ? a.name : '';
+  const mimeType = typeof a.mimeType === 'string' ? a.mimeType : '';
+  const size = typeof a.size === 'number' ? a.size : Number(a.size) || 0;
+  if (!url && !name) return undefined;
+  return { url, storagePath, name, mimeType, size };
+}
+
+function normalizeJournalEntry(id: string, data: Record<string, unknown>) {
+  return {
+    id,
+    mood: String(data.mood ?? ''),
+    text: String(data.text ?? ''),
+    userId: typeof data.userId === 'string' ? data.userId : undefined,
+    ownerId: typeof data.ownerId === 'string' ? data.ownerId : undefined,
+    createdAt: normalizeCreatedAt(data.createdAt),
+    category: typeof data.category === 'string' ? data.category : undefined,
+    tags: Array.isArray(data.tags) ? data.tags.map(String) : undefined,
+    attachment: normalizeJournalAttachment(data.attachment),
+  };
+}
+
 export async function getJournalEntries(userId: string) {
   const ref = collection(db, 'journal');
   const snap = await getDocs(ownerScopedQuery(ref, userId));
   return sortByCreatedAtDesc(
-    snap.docs.map((d) => ({
-      id: d.id,
-      ...d.data(),
-      createdAt: normalizeCreatedAt(d.data().createdAt),
-    }))
+    snap.docs.map((d) => normalizeJournalEntry(d.id, d.data() as Record<string, unknown>)),
   );
 }
 

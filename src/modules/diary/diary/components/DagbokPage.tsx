@@ -1,5 +1,5 @@
 import { BookOpen } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import { useStore } from '../../../core/store';
@@ -23,6 +23,7 @@ import { JournalQuickMode } from './JournalQuickMode';
 import { MoodStep } from './MoodStep';
 import { ReflectionStep } from './ReflectionStep';
 import { SavedStep } from './SavedStep';
+import { DagbokWizardErrorBoundary } from './DagbokWizardErrorBoundary';
 
 function parseInitialDagbokMode(
   searchParams: URLSearchParams,
@@ -92,7 +93,8 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
     hasVaultZone('dagbok_forensic'),
   );
 
-  useVaultZoneIdle('dagbok_forensic', forensicUnlocked, () => setForensicUnlocked(false));
+  const handleForensicIdle = useCallback(() => setForensicUnlocked(false), []);
+  useVaultZoneIdle('dagbok_forensic', forensicUnlocked, handleForensicIdle);
 
   useEffect(() => {
     if (mode === 'arkiv') {
@@ -151,71 +153,78 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
             <p className="reflektion-intro mb-4 mt-4">
               Ta det lugnt — ett litet steg i taget. Inget måste bli perfekt.
             </p>
-            <div className="reflektion-wizard" aria-live="polite">
-              <p className="sr-only">
-                Steg {JOURNAL_STEPS.findIndex((s) => s.key === step) + 1} av {JOURNAL_STEPS.length}:{' '}
-                {JOURNAL_STEPS.find((s) => s.key === step)?.label}
-              </p>
+            <DagbokWizardErrorBoundary
+              onReset={() => {
+                resetFlow();
+                setMode('reflektera');
+              }}
+            >
+              <div className="reflektion-wizard" aria-live="polite">
+                <p className="sr-only">
+                  Steg {JOURNAL_STEPS.findIndex((s) => s.key === step) + 1} av {JOURNAL_STEPS.length}:{' '}
+                  {JOURNAL_STEPS.find((s) => s.key === step)?.label}
+                </p>
 
-              {step === 'mood' && (
-                <MoodStep
-                  mood={mood}
-                  onMoodChange={setMood}
-                  onContinue={() => goToStep('text')}
-                  lowEnergyBridge={flowLowEnergy}
-                  saving={saving}
-                  onSaveMoodOnly={handleSaveMoodOnly}
-                  showMoodOnlyButton
-                />
-              )}
+                {step === 'mood' && (
+                  <MoodStep
+                    mood={mood}
+                    onMoodChange={setMood}
+                    onContinue={() => goToStep('text')}
+                    lowEnergyBridge={flowLowEnergy}
+                    saving={saving}
+                    onSaveMoodOnly={handleSaveMoodOnly}
+                    showMoodOnlyButton
+                  />
+                )}
 
-              {step === 'text' && (
-                <ReflectionStep
-                  text={text}
-                  mood={mood}
-                  category={category}
-                  memoryFile={pendingMemoryFile}
-                  memoryError={memoryError}
-                  onTextChange={setText}
-                  onCategoryChange={setCategory}
-                  onMemoryFileChange={setPendingMemoryFile}
-                  onMemoryValidationError={setMemoryError}
-                  onBack={() => goToStep('mood')}
-                  onContinue={() => goToStep('save')}
-                  lowEnergyBridge={flowLowEnergy}
-                  onSaveWithoutText={flowLowEnergy ? handleSaveWithoutText : undefined}
-                  saving={saving}
-                />
-              )}
+                {step === 'text' && (
+                  <ReflectionStep
+                    text={text}
+                    mood={mood}
+                    category={category}
+                    memoryFile={pendingMemoryFile}
+                    memoryError={memoryError}
+                    onTextChange={setText}
+                    onCategoryChange={setCategory}
+                    onMemoryFileChange={setPendingMemoryFile}
+                    onMemoryValidationError={setMemoryError}
+                    onBack={() => goToStep('mood')}
+                    onContinue={() => goToStep('save')}
+                    lowEnergyBridge={flowLowEnergy}
+                    onSaveWithoutText={flowLowEnergy ? handleSaveWithoutText : undefined}
+                    saving={saving}
+                  />
+                )}
 
-              {step === 'save' && (
-                <ConfirmStep
-                  mood={mood}
-                  text={text}
-                  memoryFileName={pendingMemoryFile?.name}
-                  memoryError={memoryError}
-                  categoryLabel={categoryLabel}
-                  saving={saving}
-                  weaveToKampspar={weaveToKampspar}
-                  showWeaveOptIn={forensicUnlocked}
-                  onWeaveToKampsparChange={setWeaveToKampspar}
-                  onBack={() => goToStep('text')}
-                  onSave={handleSave}
-                />
-              )}
+                {step === 'save' && (
+                  <ConfirmStep
+                    mood={mood}
+                    text={text}
+                    memoryFileName={pendingMemoryFile?.name}
+                    memoryError={memoryError}
+                    categoryLabel={categoryLabel}
+                    saving={saving}
+                    weaveToKampspar={weaveToKampspar}
+                    showWeaveOptIn={forensicUnlocked}
+                    onWeaveToKampsparChange={setWeaveToKampspar}
+                    onBack={() => goToStep('text')}
+                    onSave={handleSave}
+                  />
+                )}
 
-              {step === 'done' && (
-                <SavedStep
-                  onNewEntry={() => {
-                    resetFlow();
-                    setMode('reflektera');
-                  }}
-                  journalContext={{ mood, text: text.trim() }}
-                />
-              )}
+                {step === 'done' && (
+                  <SavedStep
+                    onNewEntry={() => {
+                      resetFlow();
+                      setMode('reflektera');
+                    }}
+                    journalContext={{ mood, text: text.trim() }}
+                  />
+                )}
 
-              {error && <p className="mt-2 text-sm text-danger">{error}</p>}
-            </div>
+                {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+              </div>
+            </DagbokWizardErrorBoundary>
             {step !== 'done' && !forensicUnlocked && (
               <div className="mt-4">
                 <VaultZoneGate

@@ -108,6 +108,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     const optInKampspar = opts.optInKampspar ?? weaveToKampspar;
     setSaving(true);
     setError(null);
+    let uploadedAttachment: Awaited<ReturnType<typeof uploadJournalMemory>> | undefined;
     try {
       let entryId: string | undefined;
       let attachment: Awaited<ReturnType<typeof uploadJournalMemory>> | undefined;
@@ -116,6 +117,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
         entryId = createJournalEntryId();
         try {
           attachment = await uploadJournalMemory(userId, entryId, pendingMemoryFile);
+          uploadedAttachment = attachment;
         } catch (uploadErr) {
           const msg =
             uploadErr instanceof Error
@@ -147,7 +149,6 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       setWeaveToKampspar(false);
       setPendingMemoryFile(null);
       setMemoryError(null);
-      await refreshEntries();
       if (!mountedRef.current) return true;
       if (opts.skipDoneStep) {
         setQuickJustSaved(true);
@@ -155,10 +156,16 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       } else {
         setStep('done');
       }
+      try {
+        await refreshEntries();
+      } catch (refreshErr) {
+        console.warn('[Dagbok] refreshEntries after save failed', refreshErr);
+      }
       return true;
     } catch (err) {
-      const msg =
-        err instanceof Error
+      const msg = uploadedAttachment
+        ? 'Bilagan laddades upp men posten kunde inte sparas. Ta bort bilagan och försök igen, eller spara utan bilaga.'
+        : err instanceof Error
           ? err.message
           : 'Kunde inte spara. Kontrollera nätverk och Firestore-regler.';
       if (mountedRef.current) setError(msg);

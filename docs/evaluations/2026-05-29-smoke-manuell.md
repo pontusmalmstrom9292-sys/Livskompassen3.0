@@ -1,7 +1,7 @@
 # Manuell smoke — Sprint v2 (2026-05-29)
 
-**Deploy:** firestore + storage rules **DONE** (prod)  
-**Agent automatisk (2026-05-29 kväll):** build · locked-ux · innehall · orkester · orkester:night **PASS**. Android: `build:web` + `cap sync android` **OK**.
+**Deploy:** firestore + storage rules **DONE** (prod) · hosting **DONE** 2026-05-30 (IA Våg 3)  
+**Agent automatisk (2026-05-30):** build · locked-ux · orkester · kunskap dry-run 53 FACT **PASS**
 
 ## Checklista (browser — du verifierar)
 
