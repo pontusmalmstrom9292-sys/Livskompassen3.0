@@ -10,7 +10,7 @@
 | 1 | **FloatingDock** | `FloatingDock.tsx` | `DockHubBand` (standard) eller `CompassHubOrb` om `VITE_DOCK_ORBIT=true` — se [DOCK-KANON](references/DOCK-KANON.md) |
 | 2 | **FyrenSmartWidgetBar** | `FyrenSmartWidgetBar.tsx` | Kanonisk W1–W4; dold på `/widget/*` |
 | 3 | **NavigationDrawer** | Portal vänster | Vardag-hubbar; Valv-meny endast efter PIN på Valv-route ([MENU-DRAWER-KANON](references/MENU-DRAWER-KANON.md)) |
-| 4 | **Hem snabbåtgärder (legacy)** | `DrawerHomeQuickActions.tsx` | **Ej** monterad i drawer; Fyren/widget om snabbvägar behövs |
+| 4 | **Drawer snabbåtgärder (legacy)** | `DrawerQuickActions.tsx`, `DrawerHomeQuickActions.tsx` | **Ej** monterade i drawer ([MENU-DRAWER-KANON](references/MENU-DRAWER-KANON.md)); snabbvägar via Fyren-widget / hub «Mer» |
 | 5 | **Modul-footer** | `HubPageShell.footerSlot` | Valfri diskret rad — inte tredje fast bar |
 
 ## Modul-footer (P1)
@@ -45,4 +45,4 @@
 
 ## Hub «Mer» (duplicering)
 
-Snabbval (anteckning, inspelning, inköpslista, …) finns i **sidomenyn** (`DrawerQuickActions`) — **inte** som extra rad ovanför dock. `DockHubBand` har hub-specifika genvägar; `FyrenSmartWidgetBar` renderar inget UI (undviker dubbel rad med samma knappar).
+Snabbval (anteckning, inspelning, inköpslista, …) **får inte** ligga i sidomenyn — se [MENU-DRAWER-KANON](references/MENU-DRAWER-KANON.md). De nås via **Fyren-widget**, hub «Mer» eller `DockHubBand` genvägar — **inte** som extra rad ovanför dock. `FyrenSmartWidgetBar` renderar inget UI (undviker dubbel rad med samma knappar).
