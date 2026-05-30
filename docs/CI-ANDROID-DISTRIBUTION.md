@@ -25,7 +25,8 @@ Workflow: [`.github/workflows/android-app-distribution.yml`](../.github/workflow
 |--------|-------|-------------|
 | `FIREBASE_SERVICE_ACCOUNT` | Ja | Samma JSON som Hosting CI — roll **Firebase App Distribution Admin** eller bred Firebase Admin |
 | `VITE_FIREBASE_*` (6 st) | Ja | För `npm run build` i workflow |
-| `FIREBASE_APP_DISTRIBUTION_TESTERS` | Nej | Kommaseparerade e-postadresser (t.ex. `du@mail.se,barn1@...`) |
+
+Testare hanteras i Firebase Console — grupp **`familj`** (workflow skickar till den gruppen).
 
 **Utan `gh` på Mac:** sätt secrets manuellt på  
 https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0/settings/secrets/actions

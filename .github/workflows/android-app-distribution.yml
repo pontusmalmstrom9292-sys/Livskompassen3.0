@@ -69,26 +69,11 @@ jobs:
           path: android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 14
 
-      # Secrets are not allowed in `if:` — detect via step output.
-      - name: Detect App Distribution testers
-        id: app_dist
-        env:
-          TESTERS: ${{ secrets.FIREBASE_APP_DISTRIBUTION_TESTERS }}
-        run: |
-          if [ -n "$TESTERS" ]; then
-            echo "enabled=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "enabled=false" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Distribute to Firebase App Distribution
-        if: steps.app_dist.outputs.enabled == 'true'
-        env:
-          TESTERS: ${{ secrets.FIREBASE_APP_DISTRIBUTION_TESTERS }}
         run: |
           npx firebase-tools@13.35.1 appdistribution:distribute \
             android/app/build/outputs/apk/debug/app-debug.apk \
             --app "1:1084026575972:android:a64e211553821b3fdbd371" \
             --project gen-lang-client-0481875058 \
-            --testers "$TESTERS" \
+            --groups "familj" \
             --non-interactive
