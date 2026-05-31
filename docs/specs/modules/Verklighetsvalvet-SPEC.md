@@ -245,7 +245,7 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 | Orosanmälan 2026-03-05 | Användaren laddar PDF manuellt |
 | Skola Ann/Lena, barnsamtal | Manuellt + ev. Barnen `skola` |
 | SMS tvåspalt som PDF-export | **done** entry modes; metod: hel tråd |
-| Vävaren-godkännande före permanent tagg | **planned** fas 2 |
+| Vävaren-godkännande före permanent tagg | **done** 2026-05-31 — `weaver_pending` + HITL |
 
 ## 15. Öppna produktbeslut (låsta 2026-05)
 

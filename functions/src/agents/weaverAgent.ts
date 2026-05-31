@@ -1,7 +1,7 @@
-import * as admin from 'firebase-admin';
 import { VÄVAREN_SYSTEM_PROMPT } from '../sharedRules';
 import { fetchWeaverRagContext } from '../lib/kampsparRag';
 import { createGenAI } from '../lib/genaiClient';
+import { createWeaverPending } from '../lib/weaverPending';
 
 const ai = createGenAI();
 
@@ -35,7 +35,7 @@ export async function weaveJournalEntry(
   journalEntryId: string,
   mood: string,
   text: string
-): Promise<{ vaultMetadataId?: string; status: string }> {
+): Promise<{ pendingId?: string; status: string }> {
   const ragContext = await fetchRagContext(uid, text);
 
   const prompt = `Journalpost (id: ${journalEntryId}):
@@ -65,22 +65,15 @@ Returnera JSON:
       return { status: 'deferred' };
     }
 
-    const summary = `Taggar: ${tags.emotions.join(', ')} | aktörer: ${tags.actors.join(', ')} | hot: ${tags.threatLevel}`;
-
-    const docRef = await admin.firestore().collection('reality_vault').add({
-      userId: uid,
-      ownerId: uid,
-      category: 'vävaren_metadata',
-      action: 'journal_tagging',
-      truth: summary,
+    const { pendingId } = await createWeaverPending({
+      uid,
       journalEntryId,
       sourceMood: mood,
-      weaverTags: { ...tags, model: 'gemini-1.5-pro', journalEntryId },
-      isLocked: true,
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      sourceText: text,
+      tags,
     });
 
-    return { vaultMetadataId: docRef.id, status: 'ok' };
+    return { pendingId, status: 'pending_review' };
   } catch (err) {
     console.error('[Vävaren] Fel:', err);
     return { status: 'deferred' };

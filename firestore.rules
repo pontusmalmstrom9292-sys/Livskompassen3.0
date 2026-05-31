@@ -36,6 +36,11 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    match /weaver_pending/{docId} {
+      allow read: if isOwner();
+      allow create, update, delete: if false;
+    }
+
     match /children_logs/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreate();

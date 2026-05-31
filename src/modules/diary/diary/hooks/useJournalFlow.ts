@@ -48,6 +48,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
   const [quickJustSaved, setQuickJustSaved] = useState(false);
   const [quickMirror, setQuickMirror] = useState<JournalQuickMirrorResponse | null>(null);
   const [quickMirrorLoading, setQuickMirrorLoading] = useState(false);
+  const [lastSavedEntryId, setLastSavedEntryId] = useState<string | null>(null);
   const mountedRef = useRef(true);
 
   useEffect(() => {
@@ -140,6 +141,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
         },
         entryId ? { entryId } : undefined,
       );
+      setLastSavedEntryId(id);
       if (hasVaultZone('dagbok_forensic')) {
         weaveJournalEntry({ journalEntryId: id, mood, text: entryText });
       }
@@ -224,6 +226,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     setPendingMemoryFile(null);
     setMemoryError(null);
     setWeaveToKampspar(false);
+    setLastSavedEntryId(null);
     setStep(INITIAL_STEP);
   };
 
@@ -242,6 +245,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     quickJustSaved,
     quickMirror,
     quickMirrorLoading,
+    lastSavedEntryId,
     setWeaveToKampspar,
     setCategory,
     setPendingMemoryFile,

@@ -37,7 +37,7 @@ Canonical: `.context/modules/evidence/vault.md` · Spec: `docs/specs/modules/Ver
 | Storage `evidenceUrl` | PDF/sms-export, ej Drive-auto | Ja | **done** |
 | Shake-to-Kill | Panik + iOS-test | Ja | **done** |
 | Orosanmälan + skolbevis | §D beviskandidater | Manuell | **use now** |
-| Vävaren godkännande | Önskat före permanent AI-tagg | Auto idag | **planned** |
+| Vävaren godkännande | HITL före `vävaren_metadata` i Valv | **done** 2026-05-31 |
 | Vävaren copy / tydlighet (Fas 1.5) | Arkiv, Sök, dagbok, Dossier | `vavarenCopy.ts` | **done** 2026-05-29 |
 | Dölj Bevis-flik | Plausible deniability | Nej | **planned** |
 | BBIC-filter export | Soc/jurist | Nej | **planned** (Dossier fas 2) |

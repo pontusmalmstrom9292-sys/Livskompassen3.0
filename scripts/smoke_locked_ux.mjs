@@ -180,6 +180,7 @@ function main() {
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'authenticateVaultGate', 'setVaultGate');
   mustInclude('src/modules/evidence/vault/utils/vaultTabs.ts', 'VALV_ZONE_INGRESS');
   mustInclude('src/modules/evidence/vault/components/VaultPage.tsx', 'VALV_ZONE_INGRESS');
+  mustInclude('src/modules/evidence/vault/components/VaultPage.tsx', 'WeaverPendingVaultBanner');
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'setVaultGate', 'openValvViaFyren');
   mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", '/vardagen');
   mustInclude(

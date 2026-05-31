@@ -2,19 +2,36 @@ import { Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { VAVAREN_SAVED_HINT } from '../../../evidence/vault/constants/vavarenCopy';
 import type { JournalBridgeContext } from '../../../core/types/journalBridge';
+import { WeaverApprovalPanel } from './WeaverApprovalPanel';
 
 type SavedStepProps = {
   onNewEntry: () => void;
   journalContext: JournalBridgeContext;
+  userId?: string;
+  journalEntryId?: string | null;
+  showWeaverApproval?: boolean;
 };
 
-export function SavedStep({ onNewEntry, journalContext }: SavedStepProps) {
+export function SavedStep({
+  onNewEntry,
+  journalContext,
+  userId,
+  journalEntryId,
+  showWeaverApproval = false,
+}: SavedStepProps) {
   return (
     <>
       <div className="mb-2 flex items-center gap-2 text-success">
         <Check className="h-5 w-5" />
         <span className="text-sm">{VAVAREN_SAVED_HINT}</span>
       </div>
+      {showWeaverApproval && userId && journalEntryId ? (
+        <WeaverApprovalPanel
+          userId={userId}
+          journalEntryId={journalEntryId}
+          enabled={showWeaverApproval}
+        />
+      ) : null}
       <div className="flex flex-wrap gap-2">
         <button type="button" onClick={onNewEntry} className="btn-pill--accent">
           Ny post

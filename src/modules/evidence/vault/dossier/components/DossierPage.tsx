@@ -412,9 +412,7 @@ export function DossierPage({ embedded = false }: DossierPageProps) {
               aria-label="Rapporttyp"
             >
               <option value="LEGAL">Juridisk kronologi (MVP)</option>
-              <option value="BBIC" disabled>
-                BBIC-struktur (fas 2)
-              </option>
+              <option value="BBIC">BBIC-struktur (barn/invest)</option>
             </select>
             <div className="flex gap-2">
               <button

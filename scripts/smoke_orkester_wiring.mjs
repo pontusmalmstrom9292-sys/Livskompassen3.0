@@ -81,6 +81,19 @@ function main() {
     "hasVaultZone('dagbok_forensic')",
   );
   mustInclude('functions/src/index.ts', 'journalWovenToKampspar', "trigger: 'journal_woven'");
+  mustInclude(
+    'functions/src/index.ts',
+    'weaveJournalEntry',
+    'approveWeaverMetadata',
+    'rejectWeaverMetadata',
+  );
+  mustInclude('functions/src/lib/weaverPending.ts', 'weaver_pending', 'approveWeaverPending');
+  mustInclude('firestore.rules', 'weaver_pending');
+  mustInclude(
+    'src/modules/diary/diary/components/WeaverApprovalPanel.tsx',
+    'approveWeaverMetadata',
+    'Godkänn taggar',
+  );
 
   console.log('[smoke:orkester] Valv-zoner...');
   mustInclude(

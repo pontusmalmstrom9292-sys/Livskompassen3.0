@@ -6,6 +6,7 @@ import { generateEmbeddingInternal } from "./lib/generateEmbeddingInternal";
 import { askValvChat } from "./agents/valvChatAgent";
 import { askChildrenLogsQuery } from "./agents/childrenLogsAgent";
 import { weaveJournalEntry as runWeaver } from "./agents/weaverAgent";
+import { approveWeaverPending, rejectWeaverPending } from './lib/weaverPending';
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import { KompisSupervisor } from './agents/kompis-supervisor';
@@ -684,6 +685,39 @@ export const weaveJournalEntry = functions.region('europe-west1').https.onCall(a
   }
 
   return runWeaver(context.auth.uid, journalEntryId, mood, text);
+});
+
+export const approveWeaverMetadata = functions.region('europe-west1').https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
+  }
+  const pendingId = typeof data?.pendingId === 'string' ? data.pendingId.trim() : '';
+  if (!pendingId) {
+    throw new functions.https.HttpsError('invalid-argument', 'pendingId krävs.');
+  }
+  try {
+    return await approveWeaverPending(context.auth.uid, pendingId);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Godkännande misslyckades.';
+    throw new functions.https.HttpsError('failed-precondition', msg);
+  }
+});
+
+export const rejectWeaverMetadata = functions.region('europe-west1').https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
+  }
+  const pendingId = typeof data?.pendingId === 'string' ? data.pendingId.trim() : '';
+  if (!pendingId) {
+    throw new functions.https.HttpsError('invalid-argument', 'pendingId krävs.');
+  }
+  try {
+    await rejectWeaverPending(context.auth.uid, pendingId);
+    return { status: 'dismissed' };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Avvisning misslyckades.';
+    throw new functions.https.HttpsError('failed-precondition', msg);
+  }
 });
 
 // ─────────────────────────────────────────────────────────────────────────────

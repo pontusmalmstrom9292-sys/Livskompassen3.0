@@ -432,7 +432,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     inDrawer: true,
     isGroupHeader: true,
     requiresVaultPin: true,
-    drawerHint: 'RAG-fakta och aktörskarta — PIN, ej publik /vardagen.',
+    drawerHint: 'RAG-underlag, lagrum och verifierad aktörskarta (G9).',
   },
   valvLeaf('valv_kunskapsbank', 'kunskapsbank', 'valv_grp_kunskap', 'Chat & Tidshjul'),
   valvLeaf('valv_aktorskarta', 'aktorskarta', 'valv_grp_kunskap', 'Nyckelpersoner (G9)'),
@@ -444,7 +444,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     inDrawer: true,
     isGroupHeader: true,
     requiresVaultPin: true,
-    drawerHint: 'Djup analys och bevis. Grey Rock på /hamn utan PIN.',
+    drawerHint: 'Tidsstämplat material med obruten versionshistorik.',
   },
   ...FORENSIC_VAULT_TAB_IDS.map((tab) => ({
     id: `valv_${tab}`,

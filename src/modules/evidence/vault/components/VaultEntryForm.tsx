@@ -33,6 +33,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
   const [attachError, setAttachError] = useState<string | null>(null);
   const [pinned, setPinned] = useState(false);
   const [smsThreadPaste, setSmsThreadPaste] = useState('');
+  const [smsThreadSplitNotice, setSmsThreadSplitNotice] = useState(false);
 
   const appendVoice = useCallback(
     (chunk: string) => {
@@ -238,7 +239,10 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
             </p>
             <textarea
               value={smsThreadPaste}
-              onChange={(e) => setSmsThreadPaste(e.target.value)}
+              onChange={(e) => {
+                setSmsThreadPaste(e.target.value);
+                if (smsThreadSplitNotice) setSmsThreadSplitNotice(false);
+              }}
               placeholder="Klistra hela konversationen — rader med «Namn:» delas automatiskt"
               rows={3}
               className="input-glass w-full resize-none rounded-xl px-3 py-2 text-sm"
@@ -253,11 +257,17 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
                   setTheirVersion(parsed.theirVersion);
                   setMyReality(parsed.myReality);
                   setSmsThreadPaste('');
+                  setSmsThreadSplitNotice(true);
                 }
               }}
             >
               Dela i två kolumner
             </button>
+            {smsThreadSplitNotice ? (
+              <p className="mt-2 text-xs text-accent/90" role="status">
+                Tråden är uppdelad i två kolumner. Granska innan du sparar.
+              </p>
+            ) : null}
           </div>
         <div className="grid gap-3 sm:grid-cols-2">
           <div>

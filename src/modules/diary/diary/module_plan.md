@@ -41,7 +41,7 @@ Route: `/dagbok` · Canonical: `.context/modules/diary/diaryshubben.md` · Spec:
 | Humör-only save (Måbra path) | Kladd | Ja | **done** |
 | Humör-only save (generellt) | Kladd | Nej | **planned** |
 | KBT per humör | Kladd | Nej | **planned** |
-| Vävaren godkännande | Master §I | Auto | **planned** |
+| Vävaren godkännande | Taggar → valv metadata | Ja | **done** 2026-05-31 |
 
 **Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
 

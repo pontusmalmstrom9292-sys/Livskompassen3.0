@@ -68,6 +68,7 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
     quickJustSaved,
     quickMirror,
     quickMirrorLoading,
+    lastSavedEntryId,
     setWeaveToKampspar,
     setCategory,
     setPendingMemoryFile,
@@ -219,6 +220,9 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
                       setMode('reflektera');
                     }}
                     journalContext={{ mood, text: text.trim() }}
+                    userId={user?.uid}
+                    journalEntryId={lastSavedEntryId}
+                    showWeaverApproval={forensicUnlocked}
                   />
                 )}
 
