@@ -95,7 +95,7 @@ Skrivskydd via Security Rules: `create` med `ownerId == auth.uid`; `update, dele
 
 **Inte i scope:** `vaultFlag`, hot-analys eller juridiska fält i `journal` — separation Lager 1/2.
 
-**Async efter save:** `weaveJournalEntry` (callable) → **`reality_vault`** (`category: vävaren_metadata`) — **inte** `kampspar`, **inte** direkt till Speglar-UI.
+**Async efter save:** `weaveJournalEntry` (callable) → **`weaver_pending`** (HITL) → godkänd metadata i **`reality_vault`** (`category: vävaren_metadata`) via `approveWeaverMetadata` — **inte** `kampspar`, **inte** direkt till Speglar-UI. Avvisa: `rejectWeaverMetadata`. UI: `WeaverApprovalPanel` / Valv Samla-badge.
 
 ## 6. Backend och agenter
 

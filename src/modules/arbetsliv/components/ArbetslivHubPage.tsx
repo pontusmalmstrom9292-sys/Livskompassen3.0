@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { Navigate } from 'react-router-dom';
-import { Briefcase } from 'lucide-react';
+import { Link, Navigate } from 'react-router-dom';
+import { Briefcase, Shield } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { TabBar, type TabBarItem } from '../../core/ui/TabBar';
 import { StampClockPage } from '../../admin/stampla/components/StampClockPage';
@@ -53,6 +53,13 @@ export function ArbetslivHubPage() {
           Stämpel och flex är öppna här. Hemskärms-widget under Inställningar → widget. Frånvaro och
           lönespec finns under Valv i menyn.
         </p>
+        <Link
+          to={{ pathname: '/dagbok', search: vaultRedirectSearch('arbetsliv_franvaro') }}
+          className="btn-pill--ghost mt-3 inline-flex items-center gap-2 text-xs"
+        >
+          <Shield className="h-3.5 w-3.5 text-accent/80" />
+          Frånvaro och lön i Valv
+        </Link>
       </header>
 
       <TabBar<ArbetslivTab>

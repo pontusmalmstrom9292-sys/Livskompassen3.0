@@ -193,14 +193,6 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     parentId: 'dagbok',
   },
   {
-    id: 'dagbok_speglar',
-    label: 'Speglar',
-    path: '/dagbok?tab=speglar',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'dagbok',
-  },
-  {
     id: 'dagbok_bevis',
     label: DAGBOK_BEVIS_DRAWER_LABEL,
     path: vaultDrawerPath('logga'),
@@ -209,6 +201,14 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     parentId: 'dagbok',
     requiresVaultPin: true,
     omitWhenHideBevis: true,
+  },
+  {
+    id: 'dagbok_speglar',
+    label: 'Speglar',
+    path: '/dagbok?tab=speglar',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'dagbok',
   },
   {
     id: 'vardagen',

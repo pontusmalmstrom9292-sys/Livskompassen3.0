@@ -15,10 +15,10 @@ Kunskapsvalvet är användarens **semantiskt livsminne** (Life-OS): rutiner, utm
 
 | | |
 |---|---|
-| **Route** | `/vardagen?tab=kunskap` |
-| **Redirect** | `/kunskap` → `/vardagen?tab=kunskap` |
-| **AuthGate** | På **kunskap-fliken** i `VardagenPage` (Firebase Auth) |
-| **Navigation** | Floating Dock → **Vardagen** (`/vardagen`), sedan flik Kunskap — ingen egen Kunskap-ikon i dock |
+| **Route (prod UI)** | Valv PIN → `/dagbok?tab=bevis&vaultTab=kunskapsbank` (`VaultKunskapsbankPanel`) |
+| **Legacy redirect** | `/kunskap`, `/vardagen?tab=kunskap` → Valv kunskapsbank (ingen publik kunskap-flik) |
+| **AuthGate** | Firebase Auth + Valv-PIN för chat/RAG |
+| **Navigation** | Drawer **Valv** → Kunskapsbank; **ej** publik Vardagen-flik (2026-05-31 hub-synk) |
 
 KompisAvatar sitter i `MainLayout` (global header) och pulserar vid AI-anrop i Kunskapsvalvet.
 

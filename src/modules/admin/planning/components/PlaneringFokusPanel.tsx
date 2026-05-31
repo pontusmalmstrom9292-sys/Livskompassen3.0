@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ParalysPanel } from '../../../wellbeing/compasses/components/ParalysPanel';
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
 import type { PlanningTaskStatus } from '../types';
 
 export function PlaneringFokusPanel() {
+  const [showParalys, setShowParalys] = useState(false);
   const { tasks, loading, moveTask } = usePlanningTasks();
   const focus =
     tasks.find((t) => t.status === 'todo' && t.microStep) ??
@@ -56,6 +59,23 @@ export function PlaneringFokusPanel() {
       <Link to="/planering?tab=handling" className="btn-pill--ghost inline-flex text-xs">
         Redigera i Handling
       </Link>
+
+      {!focus.microStep && (
+        <div className="pt-4 border-t border-white/10 text-left">
+          <button
+            type="button"
+            className="btn-pill--ghost text-xs"
+            onClick={() => setShowParalys((o) => !o)}
+          >
+            {showParalys ? 'Dölj Paralys-Brytaren' : 'Behöver du ett mikrosteg?'}
+          </button>
+          {showParalys && (
+            <div className="mt-3">
+              <ParalysPanel onDone={() => setShowParalys(false)} />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

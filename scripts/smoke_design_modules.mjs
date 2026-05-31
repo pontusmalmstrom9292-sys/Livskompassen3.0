@@ -30,7 +30,8 @@ function main() {
   mustInclude('src/modules/core/home/HomeActionHub.tsx', 'KompassradPanel');
   mustInclude('src/modules/family/safeHarbor/components/SafeHarborPage.tsx', 'TryggHamnHub');
   mustInclude('src/modules/family/safeHarbor/components/BiffPublicPanel.tsx', 'BiffTriagePanel');
-  mustInclude('src/modules/family/safeHarbor/components/TryggHamnHub.tsx', 'BiffPublicPanel');
+  mustInclude('src/modules/family/safeHarbor/components/TryggHamnHub.tsx', 'BiffPublicPanel', 'Brusfilter');
+  mustInclude('src/modules/drogfrihet/components/DrogfrihetHubPage.tsx', 'DROGFRIHET_CARDS', 'Akut: 113');
   mustInclude('src/modules/core/home/HomeHeroCompass.tsx', 'HomeHeroKanon');
   mustInclude('src/modules/diary/mirror/components/SpeglingsSystem.tsx', 'VivirQuickEntry', 'SvartPaVittForm');
   mustInclude(
