@@ -431,7 +431,10 @@ function main() {
     'HubPageShell',
     'PlanningKanbanBoard',
     'GoraHubTabBar',
+    'PLANERING_MORE_TABS',
+    'Fler verktyg',
   );
+  mustInclude('src/modules/admin/planning/constants.ts', 'PLANERING_MORE_TABS', 'fokus', 'framsteg', 'regler');
   mustInclude('src/modules/core/navigation/GoraHubTabBar.tsx', 'resolveGoraTab', 'GoraHubTabBar');
   mustInclude('src/modules/admin/projects/components/ProjektHubPage.tsx', 'GoraHubTabBar', 'HubPageShell');
   mustInclude(

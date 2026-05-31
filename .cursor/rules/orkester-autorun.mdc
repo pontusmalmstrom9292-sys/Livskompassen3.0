@@ -17,6 +17,7 @@ Användaren säger **kör orkester**, **nattpass**, **autorun**, **master yolo**
 1. `export MASTER_AUTORUN=1 ORKESTER_AUTORUN=1`
 2. `npm run master:yolo` → `.orkester/master-state.json`
 3. Läs `nextWaveId` — våg för våg enligt MASTER-YOLO-tabell (smoke → commit → push → deploy).
+4. Full kontext / kö `done` → ny chatt + handoff enligt MASTER-YOLO § «Ny chatt när kontexten är full».
 
 ## Conductor (`.cursor/agents/orkester-conductor.md`)
 

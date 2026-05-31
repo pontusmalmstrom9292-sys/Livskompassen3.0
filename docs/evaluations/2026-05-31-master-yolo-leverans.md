@@ -22,4 +22,6 @@ Se detaljer i [`2026-05-31-master-yolo-log.md`](./2026-05-31-master-yolo-log.md)
 
 ## Ett steg vid återkomst
 
-`Cmd+Shift+R` → testa **Göra → Handling** (GoraHubTabBar + länkar Fokus/Framsteg/Regler).
+1. **Manuell prod:** [`2026-06-01-USER-nasta-steg.md`](./2026-06-01-USER-nasta-steg.md) (inkl. §E Göra).
+2. **Nästa kod:** ny Agent-chatt — handoff-prompt i [`MASTER-YOLO-AUTORUN.md`](../MASTER-YOLO-AUTORUN.md) § «Ny chatt när kontexten är full».
+3. **Standard nästa våg (efter ditt OK):** `hub-familjen` → [`2026-05-31-blocker-hub-familjen.md`](./2026-05-31-blocker-hub-familjen.md).

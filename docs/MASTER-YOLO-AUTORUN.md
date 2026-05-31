@@ -2,7 +2,7 @@
 
 **Syfte:** En kanonisk vågkö som samlar all öppen backlog (historiska planer → en sekvens). Starta **en gång** innan du lämnar Mac; terminal + Agent fortsätter med state och logg.
 
-**Senast uppdaterad:** 2026-06-01  
+**Senast uppdaterad:** 2026-05-31 (§ Ny chatt vid full kontext)  
 **State:** [`.orkester/master-state.json`](../.orkester/master-state.json)  
 **Logg:** `docs/evaluations/YYYY-MM-DD-master-yolo-log.md`  
 **Slutrapport:** `docs/evaluations/YYYY-MM-DD-master-yolo-leverans.md`
@@ -142,11 +142,46 @@ Enligt [`2026-05-31-hub-syntes-nav.md`](./evaluations/2026-05-31-hub-syntes-nav.
 
 ---
 
+## Ny chatt när kontexten är full
+
+**Regel:** *«Låt en chatt vara öppen»* (ovan) gäller **under pågående** autorun i samma session — inte att en full tråd måste hållas vid liv.
+
+| Signal | Gör |
+|--------|-----|
+| Tröghet, upprepade fel, varning om kontext | **Ny** Agent-chatt (`Cmd + L`) |
+| Bara smoke/deploy | **Terminal** — `npm run orkester:night` |
+| Kö redan `done` | Ny **smal** chatt per uppgift — kör inte om hela kön |
+
+**Handoff (läs i ordning):**
+
+1. [`.orkester/master-state.json`](../.orkester/master-state.json) — `status`, `skippedWaves` (lokal, gitignored)
+2. Senaste [`docs/evaluations/*-master-yolo-leverans.md`](./evaluations/) + [`*-master-yolo-log.md`](./evaluations/)
+3. Relevant [`docs/evaluations/*-blocker-<waveId>.md`](./evaluations/) om du tar en SKIP-våg
+4. Manuell app: [`docs/evaluations/2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md)
+
+**En våg = en chatt** — använd [Per-våg Agent-prompt](#per-våg-agent-prompt-mall) nedan.
+
+### Fortsätt efter handoff (klistra i ny chatt)
+
+```
+Fortsätt Master YOLO efter handoff. Läs docs/evaluations/YYYY-MM-DD-master-yolo-leverans.md och .orkester/master-state.json.
+Kör INTE om hela kön om status done. Välj EN öppen sak:
+- Manuell Fas 5A enligt docs/evaluations/2026-06-01-USER-nasta-steg.md, eller
+- En SKIP-våg efter mitt godkännande (läs motsvarande blocker-*.md + planfil i MASTER-YOLO-tabellen).
+Standard smoke före commit. Ingen force-push. Bevara Locked UX och tre silos.
+Jämför mot hela projektets kontext. Arbeta autonomt tills uppgiften PASS eller tydlig blocker.
+```
+
+Återstarta hela kön endast med `npm run master:yolo --reset` + [Startprompt](#startprompt).
+
+---
+
 ## Vid återkomst (ett steg)
 
 1. Öppna [`.orkester/master-state.json`](../.orkester/master-state.json) — `nextWaveId`, `completedWaves`, `failures`, `skippedWaves`
 2. Öppna senaste `docs/evaluations/*-master-yolo-leverans.md` eller `*-master-yolo-log.md`
-3. Om deploy körts: manuell Fas 5A enligt checklista ovan
+3. Om deploy körts: manuell Fas 5A enligt [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md)
+4. Full kontext i gammal chatt → [Ny chatt när kontexten är full](#ny-chatt-när-kontexten-är-full)
 
 ---
 
