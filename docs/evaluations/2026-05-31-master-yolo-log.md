@@ -8,3 +8,5 @@
 
 | Tid | Våg | Status | Notering |
 |-----|-----|--------|----------|
+| 2026-05-31T06:29Z | baseline | PASS | orkester:night efter push ef150df4 |
+| 2026-05-31T06:30Z | doc-sync | PASS | SENASTE-SAMMANFATTNING + superhub-rad |
