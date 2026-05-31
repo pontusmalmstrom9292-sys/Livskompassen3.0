@@ -2,9 +2,18 @@
 
 **Syfte:** En aktiv utvecklingsgren (`main`). Inget förstört — historik finns i git.
 
-**Senast:** 2026-05-28 (Copilot-gren `feature/hallucination-guard-and-structure` avvisad + raderad på GitHub)
+**Senast:** 2026-05-31 (session `2026-05-31-rniv` → `main`; inkorg-grenar taggade `archive/inkorg-*`)
 
-**Senast merge:** 2026-05-28 (`cursor/module-cluster-restructure` → `main`, modulkluster + TabRegistry)
+**Senast merge:** 2026-05-31 (`2026-05-31-rniv` → `main` — Vävaren HITL, drawer L2, gemini handoff; PMIR [`evaluations/2026-05-31-pmir-session-rniv.md`](./evaluations/2026-05-31-pmir-session-rniv.md))
+
+### 2026-05-31-rniv — merged + stängd
+
+| Detalj | Värde |
+|--------|--------|
+| **PMIR** | [`evaluations/2026-05-31-pmir-session-rniv.md`](./evaluations/2026-05-31-pmir-session-rniv.md) |
+| **Smoke** | build + locked-ux + orkester **PASS** |
+| **Deploy** | rules, indexes, `weaveJournalEntry`, `approveWeaverMetadata`, `rejectWeaverMetadata`, hosting |
+| **Gren** | `2026-05-31-rniv` raderad lokalt efter ff-merge |
 
 ### module-cluster-restructure — merged + stängd 2026-05-28
 
@@ -74,17 +83,22 @@
 
 ---
 
-## Parked — inkorg (lokalt på Mac, ej på GitHub)
+## Arkiverade inkorg-grenar (taggade 2026-05-31)
 
-| Branch | Innehåll | Beslut |
-|--------|----------|--------|
-| `feat/mabra-fragekort` | Frågekort / känslokompass (konflikt med KBT på main) | Produktbeslut senare |
-| `feat/barnen-fragekort` | Inkorg | Cherry-pick vid behov |
-| `feat/broar-inkorg` | Inkorg | Cherry-pick vid behov |
-| `feat/design-inkorg` | Inkorg | Cherry-pick vid behov |
-| `feat/valv-inkorg-ui` | Valv-inkorg UI (äldre; **ekonomi → main** via stämpel+arbetsliv) | Cherry-pick UI; **arbetstid alltid från `main`** |
+| Tag | Branch (raderad) | Innehåll kvar i tag |
+|-----|------------------|---------------------|
+| `archive/inkorg-mabra` | `feat/mabra-fragekort` | I1 frågekort — **DEFER** (KBT på main) |
+| `archive/inkorg-barnen` | `feat/barnen-fragekort` | I3 F-B11 — **DEFER** (Barnfokus locked) |
+| `archive/inkorg-broar` | `feat/broar-inkorg` | I2 delvis — `BiffPublicPanel` på main; `Visa brus` ej portad |
+| `archive/inkorg-design` | `feat/design-inkorg` | Sammanslagen inkorg; I4 **PORT** → `vaultChat` bubblor |
+
+**Logg:** [`evaluations/2026-05-31-inkorg-cherry-pick-log.md`](./evaluations/2026-05-31-inkorg-cherry-pick-log.md)
 
 **Regel:** Ingen wholesale-merge av `feat/*`. Se [`MERGE-IMPACT-RAPPORT.md`](./MERGE-IMPACT-RAPPORT.md).
+
+| Branch | Status |
+|--------|--------|
+| `feat/valv-inkorg-ui` | Finns ej lokalt; stämpel/arbetsliv redan på `main` |
 
 ---
 
