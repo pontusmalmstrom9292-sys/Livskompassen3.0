@@ -9,17 +9,18 @@ export const KANBAN_COLUMNS: { id: PlanningTaskStatus; label: string }[] = [
   { id: 'done', label: 'Klart' },
 ];
 
-/** Flikar inom arbetsläge (inte på hub). */
-export const PLANERING_WORK_TABS: {
-  id: Extract<PlaneringTab, 'handling' | 'fokus' | 'framsteg' | 'inkorg' | 'regler'>;
+/** Fler verktyg — Handling/Inkorg styrs av GoraHubTabBar (ingen dubbel TabBar). */
+export const PLANERING_MORE_TABS: {
+  id: Extract<PlaneringTab, 'fokus' | 'framsteg' | 'regler'>;
   label: string;
 }[] = [
-  { id: 'handling', label: 'Handling' },
   { id: 'fokus', label: 'Fokus' },
   { id: 'framsteg', label: 'Framsteg' },
-  { id: 'inkorg', label: 'Inkorg' },
   { id: 'regler', label: 'Regler' },
 ];
+
+/** @deprecated Använd PLANERING_MORE_TABS — behålls för smoke/import-kompat. */
+export const PLANERING_WORK_TABS = PLANERING_MORE_TABS;
 
 export const SOURCE_LABELS: Record<string, string> = {
   email: 'Mejl',

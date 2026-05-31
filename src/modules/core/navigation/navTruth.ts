@@ -321,7 +321,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   {
     id: 'planering',
     label: 'Planering',
-    path: '/planering?tab=handling',
+    path: '/planering?tab=hub',
     section: 'vardag',
     inDrawer: false,
     themeId: 'J-planering-fyren',
@@ -332,7 +332,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     path: '/planering?tab=handling',
     section: 'vardag',
     inDrawer: false,
-    parentId: 'planering',
+    parentId: 'gora',
   },
   {
     id: 'planering_fokus',
@@ -340,7 +340,23 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     path: '/planering?tab=fokus',
     section: 'vardag',
     inDrawer: false,
-    parentId: 'planering',
+    parentId: 'gora',
+  },
+  {
+    id: 'planering_framsteg',
+    label: 'Framsteg',
+    path: '/planering?tab=framsteg',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'gora',
+  },
+  {
+    id: 'planering_regler',
+    label: 'Regler',
+    path: '/planering?tab=regler',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'gora',
   },
   {
     id: 'planering_inkorg',
@@ -348,7 +364,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     path: '/planering?tab=inkorg',
     section: 'vardag',
     inDrawer: false,
-    parentId: 'planering',
+    parentId: 'gora',
   },
   {
     id: 'arbetsliv',

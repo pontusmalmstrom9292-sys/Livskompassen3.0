@@ -5,7 +5,7 @@ import { Calendar, ChevronLeft } from 'lucide-react';
 import { TabBar, type TabBarItem } from '../../../core/ui/TabBar';
 import { HubPageShell } from '../../../core/layout/HubPageShell';
 import { GoraHubTabBar } from '../../../core/navigation/GoraHubTabBar';
-import { PLANERING_TAGLINE, PLANERING_WORK_TABS } from '../constants';
+import { PLANERING_MORE_TABS, PLANERING_TAGLINE } from '../constants';
 import type { PlaneringTab } from '../types';
 import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
 import { PlanningKanbanBoard } from './PlanningKanbanBoard';
@@ -20,6 +20,7 @@ import { PlaneringQuickListPanel } from './PlaneringQuickListPanel';
 import { RoutinesPanel } from './RoutinesPanel';
 import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
 
+const MORE_TABS = new Set<PlaneringTab>(['fokus', 'framsteg', 'regler']);
 const WORK_TABS = new Set<PlaneringTab>(['handling', 'fokus', 'framsteg', 'inkorg', 'regler']);
 
 export function PlaneringPage() {
@@ -30,6 +31,7 @@ export function PlaneringPage() {
   const tab = parsePlaneringTab(searchParams.get('tab'));
   const isHub = tab === 'hub';
   const isWorkTab = WORK_TABS.has(tab);
+  const isMoreTab = MORE_TABS.has(tab);
 
   const title = PLANERING_VIEW_TITLES[tab];
   const lead = isHub ? PLANERING_HUB_LEAD : PLANERING_TAGLINE;
@@ -90,15 +92,31 @@ export function PlaneringPage() {
         <PlaneringHubLayoutPicker activeId={layoutId} onSelect={setLayoutId} compact />
       )}
 
-      {isWorkTab && (
+      {isMoreTab && (
         <>
+          <p className="text-xs text-white/45 mb-1">Fler verktyg</p>
           <TabBar<PlaneringTab>
-            tabs={PLANERING_WORK_TABS as TabBarItem<PlaneringTab>[]}
+            tabs={PLANERING_MORE_TABS as TabBarItem<PlaneringTab>[]}
             active={tab}
             onChange={(id) => navigate(`/planering?tab=${id}`)}
           />
-          <PlaneringNextStepSelect />
         </>
+      )}
+
+      {isWorkTab && <PlaneringNextStepSelect />}
+
+      {tab === 'handling' && (
+        <nav className="flex flex-wrap gap-2 text-sm" aria-label="Fler planeringsverktyg">
+          {PLANERING_MORE_TABS.map(({ id, label }) => (
+            <Link
+              key={id}
+              to={`/planering?tab=${id}`}
+              className="btn-pill--ghost px-3 py-1 text-white/70 hover:text-accent"
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
       )}
 
       <div className={isHub ? 'planering-view planering-view--hub' : 'planering-view'}>
