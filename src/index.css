@@ -2186,6 +2186,13 @@
     @apply flex-1 text-[15px] font-medium tracking-wide;
   }
 
+  .nav-drawer__row-badge {
+    @apply flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full px-1.5 text-[10px] font-semibold tabular-nums;
+    background: color-mix(in srgb, #d4af37 28%, transparent);
+    color: var(--accent-light);
+    border: 1px solid color-mix(in srgb, #d4af37 45%, transparent);
+  }
+
   .nav-drawer__row-chevron {
     @apply h-4 w-4 shrink-0 text-accent/50;
   }

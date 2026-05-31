@@ -51,6 +51,7 @@ function NavRow({
   hasChildren,
   onNavigate,
   onToggleExpand,
+  badge,
 }: {
   item: DrawerNavItem;
   active: boolean;
@@ -60,6 +61,7 @@ function NavRow({
   hasChildren?: boolean;
   onNavigate: () => void;
   onToggleExpand?: () => void;
+  badge?: number;
 }) {
   const Icon = item.icon as DrawerNavIcon;
 
@@ -79,6 +81,11 @@ function NavRow({
           <Icon className="h-5 w-5" strokeWidth={1.5} />
         </span>
         <span className="nav-drawer__row-label">{item.label}</span>
+        {badge != null && badge > 0 ? (
+          <span className="nav-drawer__row-badge" aria-label={`${badge} väntar på godkännande`}>
+            {badge}
+          </span>
+        ) : null}
         {hasChildren ? (
           <span
             role="button"
@@ -120,6 +127,8 @@ type Props = {
   expandedIds: Set<string>;
   onToggleExpand: (id: string) => void;
   onGo: (item: DrawerNavItem) => void;
+  /** itemId → antal (t.ex. väntande Vävaren på valv_arkiv). */
+  badges?: Record<string, number>;
 };
 
 export function DrawerHubAccordion({
@@ -130,6 +139,7 @@ export function DrawerHubAccordion({
   expandedIds,
   onToggleExpand,
   onGo,
+  badges,
 }: Props) {
   const roots = useMemo(() => getDrawerRoots(section).map(toDrawerNavItem), [section]);
 
@@ -154,6 +164,7 @@ export function DrawerHubAccordion({
           group={hub.isGroupHeader}
           expanded={expanded}
           hasChildren={hasChildren}
+          badge={badges?.[hub.id]}
           onNavigate={() => {
             if (hub.isGroupHeader) {
               onToggleExpand(hub.id);
@@ -178,6 +189,7 @@ export function DrawerHubAccordion({
                 item={child}
                 sub
                 active={isDrawerItemActive(child, pathname, search, hash)}
+                badge={badges?.[child.id]}
                 onNavigate={() => onGo(child)}
               />
             ))}

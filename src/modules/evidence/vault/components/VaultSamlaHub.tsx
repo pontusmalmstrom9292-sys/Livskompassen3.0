@@ -87,10 +87,12 @@ export function VaultSamlaHub({ userId, saving, saveError, onSave, onBevisConfir
         pendingCount={pendingInbox ?? undefined}
         onOpenQueue={() => setSamlaView('granska')}
       />
-      <BentoCard title="Ny post" description="Append-only bevis">
-        <VaultEntryForm userId={userId} saving={saving} onSave={onSave} />
-        {saveError && <p className="mt-2 text-sm text-danger">{saveError}</p>}
-      </BentoCard>
+      <div id="vault-samla-entry">
+        <BentoCard title="Ny post" description="Append-only bevis">
+          <VaultEntryForm userId={userId} saving={saving} onSave={onSave} />
+          {saveError && <p className="mt-2 text-sm text-danger">{saveError}</p>}
+        </BentoCard>
+      </div>
       <div className="flex justify-end">
         <button
           type="button"

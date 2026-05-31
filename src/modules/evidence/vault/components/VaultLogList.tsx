@@ -21,6 +21,8 @@ type VaultLogListProps = {
   logs: (VaultLog & { id: string })[];
   loading: boolean;
   highlightLogId?: string | null;
+  /** Tom lista — scroll till Samla-formuläret ovan. */
+  onLogFirstBevis?: () => void;
 };
 
 function asText(value: unknown): string {
@@ -160,7 +162,7 @@ function LogRow({
   );
 }
 
-export function VaultLogList({ logs, loading, highlightLogId }: VaultLogListProps) {
+export function VaultLogList({ logs, loading, highlightLogId, onLogFirstBevis }: VaultLogListProps) {
   const highlightRef = useRef<HTMLLIElement | null>(null);
   const pinned = logs.filter((l) => l.pinned);
   const rest = logs.filter((l) => !l.pinned);
@@ -172,13 +174,20 @@ export function VaultLogList({ logs, loading, highlightLogId }: VaultLogListProp
   }, [highlightLogId, logs.length]);
 
   return (
-    <BentoCard title="VaultLog">
+    <BentoCard title="Bevisarkiv">
+      {onLogFirstBevis && (
+        <div className="mb-3 flex justify-end">
+          <button type="button" onClick={onLogFirstBevis} className="btn-pill--secondary text-sm">
+            Logga bevis
+          </button>
+        </div>
+      )}
       {loading && logs.length === 0 ? (
         <p className="text-sm text-text-dim flex items-center gap-2">
           <Loader2 className="h-4 w-4 animate-spin" /> Laddar...
         </p>
       ) : logs.length === 0 ? (
-        <EmptyState message="Inga poster ännu." />
+        <EmptyState message="Inga poster i arkivet ännu. Tryck «Logga bevis» ovan i panelen — formuläret ligger precis ovanför." />
       ) : (
         <div className="space-y-4">
           {pinned.length > 0 && (

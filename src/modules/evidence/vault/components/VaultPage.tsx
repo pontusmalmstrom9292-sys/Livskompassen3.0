@@ -27,6 +27,7 @@ import { VaultKunskapsbankPanel } from '../../knowledge/components/VaultKunskaps
 import { VaultAktorskartaPanel } from '../../knowledge/components/VaultAktorskartaPanel';
 import { VaultForensicPanel } from './VaultForensicPanel';
 import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
+import { WeaverPendingVaultBanner } from './WeaverPendingVaultBanner';
 import type { VaultLogInput } from '../types/vaultEntry';
 import {
   KUNSKAP_VAULT_TAB,
@@ -327,6 +328,12 @@ export function VaultPage({
 
       {valvZone === 'samla' && vaultTab === 'logga' && (
         <>
+          <WeaverPendingVaultBanner
+            userId={user.uid}
+            onApproved={() => {
+              void getVaultLogs(user.uid).then(setLogs).catch(() => undefined);
+            }}
+          />
           <VaultSamlaHub
             userId={user.uid}
             saving={saving}
@@ -334,7 +341,14 @@ export function VaultPage({
             onSave={handleSaveLog}
             onBevisConfirmed={(docId) => void handleBevisConfirmed(docId)}
           />
-          <VaultLogList logs={logs} loading={logsLoading} highlightLogId={highlightLogId} />
+          <VaultLogList
+            logs={logs}
+            loading={logsLoading}
+            highlightLogId={highlightLogId}
+            onLogFirstBevis={() =>
+              document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+          />
         </>
       )}
 

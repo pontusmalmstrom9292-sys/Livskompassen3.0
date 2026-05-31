@@ -9,6 +9,7 @@ import { useStore } from '../store';
 import { LivskompassMark } from '../ui/LivskompassMark';
 import { DrawerModeToggle } from './DrawerModeToggle';
 import { DrawerHubAccordion, isDrawerItemActive } from './DrawerHubAccordion';
+import { useWeaverPendingCount } from '../../diary/diary/hooks/useWeaverPendingCount';
 
 type Props = {
   open: boolean;
@@ -53,6 +54,8 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
   const navigate = useNavigate();
   const touchStartX = useRef(0);
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
+  const user = useStore((s) => s.user);
+  const weaverPendingCount = useWeaverPendingCount(user?.uid);
   const vaultOpen = isVaultUnlocked || hasVaultGate();
   const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set());
 
@@ -65,6 +68,14 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
     [pathname, search, vaultOpen],
   );
   const mode: NavDrawerSection = inValvContext ? 'valv' : 'vardag';
+
+  const valvDrawerBadges = useMemo(() => {
+    if (weaverPendingCount <= 0) return undefined;
+    return {
+      valv_grp_samla: weaverPendingCount,
+      valv_arkiv: weaverPendingCount,
+    };
+  }, [weaverPendingCount]);
 
   const activeAncestors = useMemo(
     () => ({
@@ -193,6 +204,7 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
               expandedIds={expandedIds}
               onToggleExpand={toggleExpand}
               onGo={go}
+              badges={mode === 'valv' ? valvDrawerBadges : undefined}
             />
           </div>
         </nav>
