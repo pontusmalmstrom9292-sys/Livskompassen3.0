@@ -15,6 +15,14 @@ export function LivShellPage() {
       planering: { pathname: '/liv', search: '?tab=handling' },
       gora: { pathname: '/liv', search: '?tab=handling' },
       projekt: { pathname: '/projekt', search: '' },
+      /** Ekonomi ligger under Kompass — inte som Liv-flik. */
+      ekonomi: { pathname: '/liv', search: '?tab=kompasser&vardagenTab=ekonomi' },
+      /** Gamla /liv?tab=stampla|tid|logg → fristående Arbetsliv-hub. */
+      stampla: { pathname: '/arbetsliv', search: '?tab=stampla' },
+      tid: { pathname: '/arbetsliv', search: '?tab=tid' },
+      logg: { pathname: '/arbetsliv', search: '?tab=logg' },
+      franvaro: { pathname: '/dagbok', search: '?tab=bevis&vaultTab=arbetsliv_franvaro' },
+      lon: { pathname: '/dagbok', search: '?tab=bevis&vaultTab=arbetsliv_lon' },
     },
   });
 

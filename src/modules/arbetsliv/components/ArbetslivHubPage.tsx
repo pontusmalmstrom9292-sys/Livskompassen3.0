@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 import { Briefcase, Shield } from 'lucide-react';
 import { BentoCard } from '../../core/ui/BentoCard';
 import { TabBar, type TabBarItem } from '../../core/ui/TabBar';
@@ -19,7 +19,10 @@ function vaultRedirectSearch(vaultTab: string): string {
 
 /** Arbetsliv — stämpel, tid, logg publikt. Frånvaro/lön via Valv-menyn. */
 export function ArbetslivHubPage() {
+  const { pathname } = useLocation();
+  const embeddedInLiv = pathname === '/liv';
   const { tabs, activeTab, setTab, legacyRedirect } = useHubTab('arbetsliv', {
+    paramKey: embeddedInLiv ? 'workTab' : 'tab',
     legacyTabRedirects: {
       franvaro: { pathname: '/dagbok', search: vaultRedirectSearch('arbetsliv_franvaro') },
       lon: { pathname: '/dagbok', search: vaultRedirectSearch('arbetsliv_lon') },

@@ -24,6 +24,7 @@ export const MODULE_THEME_MAP: { prefix: string; themeId: string }[] = [
   { prefix: '/speglar', themeId: 'J-hamn-greyrock' },
   { prefix: '/mabra', themeId: 'J-mabra-lavendel' },
   { prefix: '/drogfrihet', themeId: 'J-mabra-lavendel' },
+  { prefix: '/liv', themeId: 'J-vardagen-orbit' },
   { prefix: '/arbetsliv', themeId: 'J-vardagen-orbit' },
   { prefix: '/stampla', themeId: 'J-vardagen-orbit' },
   { prefix: '/kompasser', themeId: 'J-vardagen-orbit' },

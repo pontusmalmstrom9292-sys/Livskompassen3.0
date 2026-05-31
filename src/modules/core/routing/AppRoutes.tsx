@@ -19,6 +19,7 @@ import { BarnportenPage } from '../../barnporten';
 import { InstallningarPage } from '../pages/InstallningarPage';
 import { KompisHubPage } from '../../evidence/kompis';
 import { LivShellPage, FamiljShellPage } from '../../shell';
+import { ArbetslivHubPage } from '../../arbetsliv';
 import type { VardagenTab } from '../../wellbeing/compasses';
 
 function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
@@ -33,8 +34,20 @@ function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
 }
 
 function RedirectToVardagenTab({ tab }: { tab: VardagenTab }) {
-  const search = tab === 'kompasser' ? '?tab=kompasser' : `?tab=${tab}`;
-  return <Navigate to={{ pathname: '/liv', search }} replace />;
+  if (tab === 'ekonomi') {
+    return <Navigate to="/liv?tab=kompasser&vardagenTab=ekonomi" replace />;
+  }
+  return <Navigate to="/liv?tab=kompasser" replace />;
+}
+
+/** Bevarar ?tab=ekonomi vid flytt från legacy /vardagen. */
+function RedirectVardagenToLiv() {
+  const location = useLocation();
+  const tab = new URLSearchParams(location.search).get('tab');
+  if (tab === 'ekonomi') {
+    return <Navigate to="/liv?tab=kompasser&vardagenTab=ekonomi" replace />;
+  }
+  return <Navigate to="/liv?tab=kompasser" replace />;
 }
 
 function MainAppRoutes() {
@@ -52,11 +65,23 @@ function MainAppRoutes() {
         <Route path="/kompasser" element={<RedirectToVardagenTab tab="kompasser" />} />
         <Route path="/valv" element={<RedirectToHjartatTab tab="bevis" />} />
         <Route path="/liv" element={<AuthGate><LivShellPage /></AuthGate>} />
+        <Route path="/liv/arbetsliv" element={<Navigate to="/arbetsliv" replace />} />
+        <Route
+          path="/liv/arbetsliv/*"
+          element={<Navigate to="/arbetsliv" replace />}
+        />
         <Route path="/mabra" element={<Navigate to="/liv?tab=mabra" replace />} />
         <Route path="/planering" element={<Navigate to="/liv?tab=handling" replace />} />
-        <Route path="/vardagen" element={<Navigate to="/liv?tab=kompasser" replace />} />
-        <Route path="/arbetsliv" element={<Navigate to="/liv?tab=arbetsliv" replace />} />
-        <Route path="/stampla" element={<Navigate to="/liv?tab=arbetsliv" replace />} />
+        <Route path="/vardagen" element={<RedirectVardagenToLiv />} />
+        <Route
+          path="/arbetsliv"
+          element={
+            <AuthGate>
+              <ArbetslivHubPage />
+            </AuthGate>
+          }
+        />
+        <Route path="/stampla" element={<Navigate to="/arbetsliv?tab=stampla" replace />} />
         <Route path="/familj" element={<AuthGate><FamiljShellPage /></AuthGate>} />
         <Route path="/familjen" element={<Navigate to="/familj?tab=reflektion" replace />} />
         <Route path="/barnen" element={<Navigate to="/familj?tab=reflektion" replace />} />

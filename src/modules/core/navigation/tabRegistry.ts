@@ -228,5 +228,8 @@ export function hjartatTabHref(tab: HjartatTab): { pathname: string; search: str
 }
 
 export function vardagenTabHref(tab: VardagenTab): { pathname: string; search: string } {
-  return { pathname: '/vardagen', search: clusterTabSearch(tab, 'kompasser') };
+  if (tab === 'ekonomi') {
+    return { pathname: '/liv', search: '?tab=kompasser&vardagenTab=ekonomi' };
+  }
+  return { pathname: '/liv', search: '?tab=kompasser' };
 }

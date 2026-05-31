@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import { TabBar } from '../../../core/ui/TabBar';
 import { useStore } from '../../../core/store';
@@ -17,7 +17,10 @@ export function parseVardagenTab(raw: string | null): VardagenTab {
 }
 
 export function VardagenPage() {
+  const { pathname } = useLocation();
+  const embeddedInLiv = pathname === '/liv';
   const { tabs, activeTab, setTab, legacyRedirect } = useHubTab('vardagen', {
+    paramKey: embeddedInLiv ? 'vardagenTab' : 'tab',
     legacyTabRedirects: {
       kunskap: {
         pathname: '/dagbok',

@@ -109,27 +109,42 @@ function planeringSlots(tab: string | null, onProjekt: boolean): HubContextSlot[
   ];
 }
 
-function arbetslivSlots(tab: string | null): HubContextSlot[] {
-  const t = tab === 'tid' || tab === 'logg' ? tab : 'stampla';
+function arbetslivSubTab(pathname: string, search: string): 'stampla' | 'tid' | 'logg' {
+  const params = new URLSearchParams(search);
+  const raw = pathname === '/liv' ? params.get('workTab') : params.get('tab');
+  if (raw === 'tid' || raw === 'logg') return raw;
+  return 'stampla';
+}
+
+function arbetslivTabHref(sub: 'stampla' | 'tid' | 'logg', pathname: string): string {
+  if (pathname === '/liv') {
+    const q = sub === 'stampla' ? 'tab=arbetsliv' : `tab=arbetsliv&workTab=${sub}`;
+    return `/liv?${q}`;
+  }
+  return sub === 'stampla' ? '/arbetsliv' : `/arbetsliv?tab=${sub}`;
+}
+
+function arbetslivSlots(pathname: string, search: string): HubContextSlot[] {
+  const t = arbetslivSubTab(pathname, search);
   return [
     {
       id: 'stampla',
       label: 'Stämpel',
-      to: '/arbetsliv?tab=stampla',
+      to: arbetslivTabHref('stampla', pathname),
       icon: 'clock',
       active: t === 'stampla',
     },
     {
       id: 'tid',
       label: 'Tid',
-      to: '/arbetsliv?tab=tid',
+      to: arbetslivTabHref('tid', pathname),
       icon: 'calendar',
       active: t === 'tid',
     },
     {
       id: 'logg',
       label: 'Ekonomilogg',
-      to: '/arbetsliv?tab=logg',
+      to: arbetslivTabHref('logg', pathname),
       icon: 'book',
       active: t === 'logg',
     },
@@ -174,20 +189,33 @@ function familjenSlots(tab: string | null): HubContextSlot[] {
   ];
 }
 
-function vardagenSlots(tab: string | null): HubContextSlot[] {
-  const t = tab === 'ekonomi' ? 'ekonomi' : 'kompasser';
+function vardagenSubTab(pathname: string, search: string): 'kompasser' | 'ekonomi' {
+  const params = new URLSearchParams(search);
+  const raw = pathname === '/liv' ? params.get('vardagenTab') : params.get('tab');
+  return raw === 'ekonomi' ? 'ekonomi' : 'kompasser';
+}
+
+function vardagenTabHref(sub: 'kompasser' | 'ekonomi', pathname: string): string {
+  if (pathname === '/liv') {
+    return sub === 'ekonomi' ? '/liv?tab=kompasser&vardagenTab=ekonomi' : '/liv?tab=kompasser';
+  }
+  return sub === 'ekonomi' ? '/liv?tab=kompasser&vardagenTab=ekonomi' : '/liv?tab=kompasser';
+}
+
+function vardagenSlots(pathname: string, search: string): HubContextSlot[] {
+  const t = vardagenSubTab(pathname, search);
   return [
     {
       id: 'kompasser',
       label: 'Kompasser',
-      to: '/vardagen?tab=kompasser',
+      to: vardagenTabHref('kompasser', pathname),
       icon: 'sprout',
       active: t === 'kompasser',
     },
     {
       id: 'ekonomi',
       label: 'Ekonomi',
-      to: '/vardagen?tab=ekonomi',
+      to: vardagenTabHref('ekonomi', pathname),
       icon: 'wallet',
       active: t === 'ekonomi',
     },
@@ -251,6 +279,13 @@ export function resolveHubKey(pathname: string, search: string): HubContextKey {
   if (pathname.startsWith('/arbetsliv') || pathname.startsWith('/stampla')) {
     return 'arbetsliv';
   }
+  if (pathname.startsWith('/liv')) {
+    const t = tabParam(search);
+    if (t === 'arbetsliv') return 'arbetsliv';
+    if (t === 'handling') return 'planering';
+    if (t === 'mabra') return 'mabra';
+    if (t === 'kompasser' || !t) return 'vardagen';
+  }
   if (pathname.startsWith('/hamn')) return 'hamn';
   if (pathname.startsWith('/dagbok') || pathname.startsWith('/valv')) {
     const tab = tabParam(search);
@@ -270,11 +305,11 @@ export function getHubContextSlots(pathname: string, search: string): HubContext
     case 'planering':
       return planeringSlots(tab, pathname.startsWith('/projekt'));
     case 'arbetsliv':
-      return arbetslivSlots(tab);
+      return arbetslivSlots(pathname, search);
     case 'familjen':
       return familjenSlots(tab);
     case 'vardagen':
-      return vardagenSlots(tab);
+      return vardagenSlots(pathname, search);
     case 'hamn':
       return hamnSlots();
     case 'dagbok':
@@ -308,5 +343,5 @@ export const HUB_MORE_ACTIONS: {
   { id: 'note', label: 'Anteckning', to: '/widget/anteckning', icon: 'note' },
   { id: 'snabbval', label: 'Snabbval', to: '/widget/snabbval', icon: 'sparkles' },
   { id: 'record', label: 'Tyst inspelning', to: '/widget/inspelning?autostart=1', icon: 'record' },
-  { id: 'ekonomi', label: 'Ekonomi', to: '/vardagen?tab=ekonomi', icon: 'wallet' },
+  { id: 'ekonomi', label: 'Ekonomi', to: '/liv?tab=kompasser&vardagenTab=ekonomi', icon: 'wallet' },
 ];

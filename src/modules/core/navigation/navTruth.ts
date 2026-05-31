@@ -230,7 +230,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   {
     id: 'vardagen_ekonomi',
     label: 'Ekonomi',
-    path: '/vardagen?tab=ekonomi',
+    path: '/liv?tab=kompasser&vardagenTab=ekonomi',
     section: 'vardag',
     inDrawer: false,
     parentId: 'vardagen',

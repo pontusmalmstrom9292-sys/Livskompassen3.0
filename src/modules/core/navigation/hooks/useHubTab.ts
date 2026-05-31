@@ -12,20 +12,26 @@ export type UseHubTabOptions = {
   /** När första fliken i nav inte ska vara standard (t.ex. Hamn → BIFF). */
   defaultTab?: string;
   legacyTabRedirects?: Record<string, HubLegacyRedirectTarget>;
+  /**
+   * Query-nyckel för denna hubs flikar (standard `tab`).
+   * Använd t.ex. `workTab` när sidan ligger under `/liv?tab=arbetsliv` så parent-`tab` inte raderas.
+   */
+  paramKey?: string;
 };
 
 /**
- * Synkar `?tab=` med drawer-underflikar för en hub (`navTruth` + statiska undantag).
+ * Synkar `?tab=` (eller `paramKey`) med drawer-underflikar för en hub (`navTruth` + statiska undantag).
  */
 export function useHubTab(hubId: DrawerHubId, options?: UseHubTabOptions) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const paramKey = options?.paramKey ?? 'tab';
   const tabs = useMemo(() => getHubTabsFromNav(hubId), [hubId]);
   const computedDefault = getDefaultHubTab(hubId);
   const defaultTab = options?.defaultTab ?? computedDefault;
 
   const validIds = useMemo(() => new Set(tabs.map((t) => t.id)), [tabs]);
 
-  const rawTab = searchParams.get('tab');
+  const rawTab = searchParams.get(paramKey);
   const legacyRedirect = rawTab && options?.legacyTabRedirects?.[rawTab];
 
   const activeTab = useMemo(() => {
@@ -39,14 +45,14 @@ export function useHubTab(hubId: DrawerHubId, options?: UseHubTabOptions) {
       setSearchParams(
         (prev) => {
           const nextParams = new URLSearchParams(prev);
-          if (next === defaultTab) nextParams.delete('tab');
-          else nextParams.set('tab', next);
+          if (next === defaultTab) nextParams.delete(paramKey);
+          else nextParams.set(paramKey, next);
           return nextParams;
         },
         { replace: true },
       );
     },
-    [setSearchParams, defaultTab],
+    [setSearchParams, defaultTab, paramKey],
   );
 
   useEffect(() => {
@@ -55,13 +61,13 @@ export function useHubTab(hubId: DrawerHubId, options?: UseHubTabOptions) {
       setSearchParams(
         (prev) => {
           const nextParams = new URLSearchParams(prev);
-          nextParams.delete('tab');
+          nextParams.delete(paramKey);
           return nextParams;
         },
         { replace: true },
       );
     }
-  }, [rawTab, validIds, legacyRedirect, setSearchParams]);
+  }, [rawTab, validIds, legacyRedirect, setSearchParams, paramKey]);
 
   return {
     tabs,

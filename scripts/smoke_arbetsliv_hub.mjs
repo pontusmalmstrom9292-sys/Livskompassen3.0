@@ -43,10 +43,17 @@ function main() {
     'arbetsliv_franvaro',
     'arbetsliv_lon',
   );
-  mustInclude('src/modules/shell/LivShellPage.tsx', 'ArbetslivHubPage', '/liv');
+  mustInclude('src/modules/shell/LivShellPage.tsx', 'ArbetslivHubPage', "activeTab === 'arbetsliv'");
+  mustInclude('src/modules/core/navigation/navTruth.ts', "path: '/liv?tab=arbetsliv'", 'liv_arbetsliv');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/liv/arbetsliv');
+  mustInclude('src/modules/core/navigation/navTruth.ts', "path: '/arbetsliv'", 'liv_arbetsliv');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', '/liv', 'LivShellPage');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/arbetsliv', '/liv?tab=arbetsliv');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/stampla', '/liv?tab=arbetsliv');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', 'ArbetslivHubPage');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/stampla', '/arbetsliv?tab=stampla');
+  mustInclude(
+    'src/modules/arbetsliv/components/ArbetslivHubPage.tsx',
+    "paramKey: embeddedInLiv ? 'workTab' : 'tab'",
+  );
   mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'arbetsliv'", "path: '/arbetsliv'", 'Arbetsliv');
   mustInclude('src/modules/core/navigation/drawerNav.ts', 'arbetsliv:', 'arbetsliv_stampla');
   mustInclude('src/modules/core/security/vaultZones.ts', 'arbetsliv_forensic');
