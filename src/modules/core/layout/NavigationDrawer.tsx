@@ -19,10 +19,6 @@ type Props = {
 
 const SWIPE_CLOSE_THRESHOLD_PX = 56;
 
-function isInValvDrawerContext(_pathname: string, _search: string, vaultOpen: boolean): boolean {
-  return vaultOpen;
-}
-
 function collectActiveAncestorIds(
   section: NavDrawerSection,
   pathname: string,
@@ -60,12 +56,6 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
   const pathname = location.pathname;
   const search = location.search;
   const hash = location.hash;
-
-  const inValvContext = useMemo(
-    () => isInValvDrawerContext(pathname, search, vaultOpen),
-    [pathname, search, vaultOpen],
-  );
-  const mode: NavDrawerSection = inValvContext ? 'valv' : 'vardag';
 
   const valvDrawerBadges = useMemo(() => {
     if (weaverPendingCount <= 0) return undefined;
@@ -106,9 +96,12 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
 
   useEffect(() => {
     if (!open) return;
-    const sectionAncestors = inValvContext ? activeAncestors.valv : activeAncestors.vardag;
-    setExpandedIds(new Set(sectionAncestors));
-  }, [open, pathname, activeAncestors, inValvContext]);
+    const merged = new Set(activeAncestors.vardag);
+    if (vaultOpen) {
+      for (const id of activeAncestors.valv) merged.add(id);
+    }
+    setExpandedIds(merged);
+  }, [open, pathname, activeAncestors, vaultOpen]);
 
   const handleTouchStart = (clientX: number) => {
     touchStartX.current = clientX;
@@ -155,7 +148,7 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
   };
 
   const handleBackToVardag = () => {
-    navigate({ pathname: '/dagbok', search: '?tab=reflektion' });
+    navigate({ pathname: '/' });
     onClose();
   };
 
@@ -164,7 +157,7 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
       <aside
         className="nav-drawer"
         role="dialog"
-        aria-label={inValvContext ? 'Valv-meny' : 'Huvudmeny'}
+        aria-label={vaultOpen ? 'Huvudmeny och Valv' : 'Huvudmeny'}
         aria-modal="true"
         onTouchStart={(e) => handleTouchStart(e.touches[0]?.clientX ?? 0)}
         onTouchEnd={(e) => handleTouchEnd(e.changedTouches[0]?.clientX ?? 0)}
@@ -190,22 +183,36 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
           </div>
         </div>
 
-        <DrawerModeToggle showValvShell={inValvContext} onBackToVardag={handleBackToVardag} />
+        <DrawerModeToggle showValvShell={vaultOpen} onBackToVardag={handleBackToVardag} />
 
         <nav className="nav-drawer__sections" aria-label="Moduler">
           <div className="nav-drawer__section">
-            <p className="nav-drawer__section-title">{mode === 'vardag' ? 'Vardag' : 'Valv'}</p>
+            <p className="nav-drawer__section-title">Vardag</p>
             <DrawerHubAccordion
-              section={mode}
+              section="vardag"
               pathname={pathname}
               search={search}
               hash={hash}
               expandedIds={expandedIds}
               onToggleExpand={toggleExpand}
               onGo={go}
-              badges={mode === 'valv' ? valvDrawerBadges : undefined}
             />
           </div>
+          {vaultOpen ? (
+            <div className="nav-drawer__section">
+              <p className="nav-drawer__section-title">Valv</p>
+              <DrawerHubAccordion
+                section="valv"
+                pathname={pathname}
+                search={search}
+                hash={hash}
+                expandedIds={expandedIds}
+                onToggleExpand={toggleExpand}
+                onGo={go}
+                badges={valvDrawerBadges}
+              />
+            </div>
+          ) : null}
         </nav>
 
         <div className="nav-drawer__footer">

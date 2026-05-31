@@ -2,9 +2,19 @@
 
 **Syfte:** En aktiv utvecklingsgren (`main`). Inget förstört — historik finns i git.
 
-**Senast:** 2026-05-31 (session `2026-05-31-rniv` → `main`; inkorg-grenar taggade `archive/inkorg-*`)
+**Senast:** 2026-06-01 (lokal städning: `feat/superhub-v2` bort; endast `main` + `origin`)
 
-**Senast merge:** 2026-05-31 (`2026-05-31-rniv` → `main` — Vävaren HITL, drawer L2, gemini handoff; PMIR [`evaluations/2026-05-31-pmir-session-rniv.md`](./evaluations/2026-05-31-pmir-session-rniv.md))
+**Senast merge:** 2026-06-01 (`feat/superhub-v2` → `main` — supersidor, capture, Draft Layer; PMIR [`evaluations/2026-06-01-superhub-PMIR.md`](./evaluations/2026-06-01-superhub-PMIR.md))
+
+### feat/superhub-v2 — merged + stängd 2026-06-01
+
+| Detalj | Värde |
+|--------|--------|
+| **PMIR** | [`evaluations/2026-06-01-superhub-PMIR.md`](./evaluations/2026-06-01-superhub-PMIR.md) |
+| **Leverans** | [`evaluations/2026-06-01-superhub-leverans.md`](./evaluations/2026-06-01-superhub-leverans.md) |
+| **Commit** | `d11820d9` på `main` (tip efter `a7c69702` på gren) |
+| **Gren** | `feat/superhub-v2` raderad lokalt; fanns aldrig på `origin` |
+| **Smoke** | build + locked-ux + orkester **PASS** (se leverans) |
 
 ### 2026-05-31-rniv — merged + stängd
 
@@ -64,7 +74,7 @@
 
 **OBS:** `feat/valv-inkorg-ui` har *inte* hubben — cherry-pick från main, ingen wholesale-merge (se regel nedan).
 
-**Remote:** `origin` = https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0.git
+**Remote:** `origin` = https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0.git — **endast `main`**. `origin-old` (2.0) borttagen från lokal clone 2026-06-01; historik finns kvar på GitHub om behövs.
 
 ---
 

@@ -24,7 +24,7 @@
 
 ## Läge Vardag (publikt — standard)
 
-Visas när Valv **inte** är upplåst, eller när Valv är upplåst men användaren navigerar utanför Valv-route.
+Visas när Valv **inte** är upplåst (endast Vardag-sektion).
 
 **Supersidor (2026-06-01):** fyra drawer-rader — flikar väljs **inuti shell-sidor** (`?tab=`), inte som drawer-underrader.
 
@@ -46,7 +46,7 @@ Visas när Valv **inte** är upplåst, eller när Valv är upplåst men använda
 
 ## Läge Valv (PIN i VaultPage)
 
-Visas när `isVaultUnlocked` eller `hasVaultGate()` — **från vilken route som helst** när Valv-session är öppen.
+Visas när `isVaultUnlocked` eller `hasVaultGate()` — **under** Vardag-sektionen (båda syns samtidigt).
 
 **Platta rader** (ingen accordion-grupp i drawer):
 
@@ -62,7 +62,7 @@ Visas när `isVaultUnlocked` eller `hasVaultGate()` — **från vilken route som
 
 Alla Valv-rader → `/dagbok?tab=bevis&vaultTab=…` (utom `/dossier` full vy via sida).
 
-**Tillbaka:** `DrawerModeToggle` med **Vardag** → `/dagbok?tab=reflektion` (stänger drawer).
+**Tillbaka:** `DrawerModeToggle` med **Vardag** → `/` (Hem — Skriv).
 
 ---
 
@@ -71,8 +71,8 @@ Alla Valv-rader → `/dagbok?tab=bevis&vaultTab=…` (utom `/dossier` full vy vi
 | Gest | Resultat |
 |------|----------|
 | Öppna | Hamburgermeny i header (`AppHeaderBar`) |
-| Publikt | Endast Vardag-index — ingen Valv-växlare |
-| Valv upplåst | Valv-index + **Vardag**-tillbaka (även utanför `/dagbok`) |
+| Publikt | Endast Vardag-sektion — ingen Valv-växlare |
+| Valv upplåst | **Vardag + Valv** i samma drawer · **Vardag**-knapp → Hem |
 | Hub utan drawer-barn | Rad → hub-path; flikar i sidan |
 | Valv-rad | Navigera → PIN-gate om stängt → Valv-baksida |
 | Stäng | `×`, swipe vänster, tap utanför, route change |
@@ -85,7 +85,7 @@ Widget-routes `/widget/*` ingår **inte** i drawer (deep links / PWA).
 
 | Komponent | Fil |
 |-----------|-----|
-| `NavigationDrawer` | `src/modules/core/layout/NavigationDrawer.tsx` (`isInValvDrawerContext`) |
+| `NavigationDrawer` | `src/modules/core/layout/NavigationDrawer.tsx` (Vardag + Valv när `vaultOpen`) |
 | `DrawerModeToggle` | `src/modules/core/layout/DrawerModeToggle.tsx` (`showValvShell`) |
 | `DrawerHubAccordion` | `src/modules/core/layout/DrawerHubAccordion.tsx` |
 | Sanning | `src/modules/core/navigation/navTruth.ts` |
