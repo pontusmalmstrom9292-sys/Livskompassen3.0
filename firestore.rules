@@ -226,6 +226,34 @@ service cloud.firestore {
       allow delete: if isOwner();
     }
 
+    // Life OS — rutinmallar (synkas mellan enheter, ej WORM)
+    match /routine_templates/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.templateId is string
+        && request.resource.data.templateId.size() > 0
+        && request.resource.data.templateId.size() <= 64
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.title.size() <= 80
+        && request.resource.data.lead is string
+        && request.resource.data.lead.size() <= 200
+        && request.resource.data.steps is list
+        && request.resource.data.steps.size() <= 12;
+      allow update: if isOwner()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.templateId == resource.data.templateId
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.title.size() <= 80
+        && request.resource.data.lead is string
+        && request.resource.data.lead.size() <= 200
+        && request.resource.data.steps is list
+        && request.resource.data.steps.size() <= 12;
+      allow delete: if isOwner();
+    }
+
     match /economy_profiles/{uid} {
       allow read: if isAuthenticated() && request.auth.uid == uid;
       allow create: if isAuthenticated()

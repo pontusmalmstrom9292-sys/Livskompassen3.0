@@ -9,6 +9,7 @@ import {
   fetchEntityProfileRegistry,
   type EntityProfileSummary,
 } from '../../kompis/api/entityProfileService';
+import { VAULT_MAIN_TAB_LABELS, VALV_KUNSKAP_DRAWER_LEAF } from '../../../core/copy/valvNavCopy';
 import { ENTITY_ROLE_LABELS } from '../../kompis/constants/entityRegistryLabels';
 
 /** Valv PIN — manuell aktörskarta (G9). Agenter minns via EntityProfile, ej RAG. */
@@ -45,8 +46,8 @@ export function VaultAktorskartaPanel() {
   return (
     <div className="space-y-4">
       <BentoCard
-        title="Aktörskarta"
-        description="KEY_ENTITIES · anti-hallucination (G9)"
+        title={VAULT_MAIN_TAB_LABELS.aktorskarta}
+        description={`${VALV_KUNSKAP_DRAWER_LEAF.aktorskarta} · anti-hallucination (G9)`}
         icon={<Users className="h-4 w-4 text-accent" />}
       >
         <p className="mb-4 text-sm text-text-muted">

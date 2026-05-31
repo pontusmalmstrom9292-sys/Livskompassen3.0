@@ -23,7 +23,11 @@
 | 2026-05-31T12:25Z | inkast-fas2 | PASS | InboxReviewQueue Planering |
 | 2026-05-31T12:25Z | kunskap-ux | PASS | citations wired |
 | 2026-05-31T12:25Z | projekt-p2 | SKIP | firestore.rules PMIR |
-| 2026-06-01T20:30Z | projekt-p2 | PASS | PMIR godkänd; project_rules Firestore + migration; deploy rules+hosting |
+| 2026-06-01T22:00Z | hub-familjen | PASS | §7b tvåkorts inkorg; Familje-PIN ej (auth-only) |
+| 2026-06-01T22:00Z | hub-valv | PASS | G18 navFlags i ClusterGrid; Aktörskarta copy |
+| 2026-06-01T22:00Z | hub-kompass | PASS | Inkast i FyrenWidgetBar |
+| 2026-06-01T22:00Z | lifeos-d | PASS | routine_templates Firestore + migration |
+| 2026-06-01T22:00Z | barnporten-fas2 | PARTIAL | offline-kö + vault_candidate; QR/CB2–4 defer |
 | 2026-05-31T12:25Z | lifeos-d | SKIP | routine_templates PMIR |
 | 2026-05-31T12:25Z | barnporten-fas2 | SKIP | QR/CB2 manuell |
 | 2026-05-31T12:30Z | planering-fas3 | PARTIAL | Paralys Fokus; Gmail SKIP |

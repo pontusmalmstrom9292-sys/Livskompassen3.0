@@ -258,6 +258,7 @@ export const FIRESTORE_COLLECTIONS = {
   planning_tasks: 'planning_tasks',
   planning_email_rules: 'planning_email_rules',
   project_rules: 'project_rules',
+  routine_templates: 'routine_templates',
   projects: 'projects',
   project_blocks: 'project_blocks',
 } as const;

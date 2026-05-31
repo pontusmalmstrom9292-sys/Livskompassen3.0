@@ -324,8 +324,12 @@ function main() {
     'src/modules/barnporten/components/BarnportenInboxPanel.tsx',
     'BarnportenInboxPanel',
     'Granska i arkiv',
+    'Skapa trygghet. Bygg tillit.',
+    'Flytta till Valv (HITL)',
     'SaveAsEvidencePrompt',
   );
+  mustInclude('src/modules/barnporten/api/barnportenOfflineQueue.ts', 'enqueueBarnportenLog');
+  mustInclude('src/modules/core/components/FyrenWidgetBar.tsx', "id: 'inkast'", '/#inkast-lite');
   mustInclude(
     'src/modules/family/children/components/SaveAsEvidencePrompt.tsx',
     'SaveAsEvidencePrompt',

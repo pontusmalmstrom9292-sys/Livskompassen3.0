@@ -67,6 +67,9 @@ function main() {
   mustInclude('src/modules/admin/planning/components/PlaneringPage.tsx', 'PlanningKanbanBoard', 'PLANERING_TAGLINE');
   mustInclude('firestore.rules', 'planning_tasks');
   mustInclude('firestore.rules', 'match /project_rules/{docId}');
+  mustInclude('firestore.rules', 'match /routine_templates/{docId}');
+  mustInclude('src/modules/core/lifeOs/routineTemplatesApi.ts', 'listenRoutineTemplates');
+  mustInclude('src/modules/core/ui/ClusterGrid.tsx', 'navFlags');
   mustInclude('docs/design/CHROME-EMBER-KANON.md', 'LÅST', 'data-panel-style');
   mustInclude('src/modules/core/layout/headerPanelStyle.ts', "return 'ember'");
   mustInclude('src/modules/core/layout/DockHubBand.tsx', 'data-panel-style={panelStyle}');

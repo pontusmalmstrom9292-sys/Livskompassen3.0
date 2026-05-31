@@ -6,7 +6,7 @@
 
 ## Nuläge (en mening)
 
-**Kod + prod deploy klart på `main` (2026-06-01):** hosting + `submitInkastLite`. Master YOLO-kön är **färdig** — ingen ny våg utan `master:yolo --reset` eller explicit SKIP-godkännande.
+**Kod + prod deploy klart på `main` (2026-06-01):** hosting + `firestore:rules` + `submitInkastLite`. **Alla Master YOLO-vågar körda** — kö `done`.
 
 ---
 

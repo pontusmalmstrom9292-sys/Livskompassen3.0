@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { List, Plus, Sparkles } from 'lucide-react';
+import { Inbox, List, Plus, Sparkles } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useLongPress } from '../hooks/useLongPress';
 import { openValvViaFyren } from '../auth/valvFyrenGate';
@@ -23,6 +23,12 @@ const WIDGET_ACTIONS: {
   to: string;
   renderIcon: () => ReactNode;
 }[] = [
+  {
+    id: 'inkast',
+    label: 'Inkast',
+    to: '/#inkast-lite',
+    renderIcon: () => <Inbox className="h-4 w-4 shrink-0" strokeWidth={1.65} />,
+  },
   {
     id: 'snabbval',
     label: 'Snabbval',

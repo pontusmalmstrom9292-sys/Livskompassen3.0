@@ -20,6 +20,7 @@ export const OFFLINE_WRITE_ALLOWLIST = new Set<string>([
   C.planning_tasks,
   C.planning_email_rules,
   C.project_rules,
+  C.routine_templates,
   C.projects,
   C.project_blocks,
   C.mabra_sessions,

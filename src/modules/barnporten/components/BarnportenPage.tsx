@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Heart, MessageCircle, Smile, Lock } from 'lucide-react';
+import { Heart, MessageCircle, Smile, Lock, AlertCircle } from 'lucide-react';
 import { useStore } from '../../core/store';
 import { saveBarnportenLog } from '../api/saveBarnportenLog';
+import { useBarnportenOfflineFlush } from '../hooks/useBarnportenOfflineFlush';
 import { BARNPORTEN_AGENTS } from '../constants/barnportenAgents';
 import { BarnportenWidget } from './BarnportenWidget';
 
@@ -14,10 +15,13 @@ export function BarnportenPage() {
   const [status, setStatus] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
+  useBarnportenOfflineFlush(user?.uid);
+
   const postLog = async (
     kind: 'message' | 'mood' | 'private',
     observation: string,
     label: string,
+    urgent = false,
   ) => {
     if (!user) {
       setStatus('Be pappa/mamma logga in på sin telefon först.');
@@ -26,13 +30,20 @@ export function BarnportenPage() {
     setSaving(true);
     setStatus(null);
     try {
-      await saveBarnportenLog(user.uid, {
+      const result = await saveBarnportenLog(user.uid, {
         childAlias: DEFAULT_CHILD,
         observation: `[Barnporten · ${label}] ${observation}`,
         kind,
         contentType: kind === 'mood' ? 'mood' : 'text',
+        urgent,
       });
-      setStatus('Skickat till pappas inkorg.');
+      setStatus(
+        result.queued
+          ? 'Sparat lokalt — skickas när nätet är tillbaka.'
+          : urgent
+            ? 'Skickat — pappa ser “Granska i Valv?”'
+            : 'Skickat till pappas inkorg.',
+      );
       setMessage('');
     } catch {
       setStatus('Kunde inte spara just nu. Försök igen om en stund.');
@@ -95,6 +106,19 @@ export function BarnportenPage() {
           <span className="text-sm">Bara för mig</span>
         </button>
       </div>
+
+      <button
+        type="button"
+        disabled={saving}
+        className="btn-pill--secondary mt-4 flex w-full items-center justify-center gap-2 text-sm"
+        onClick={() => {
+          const text = window.prompt('Allvarligt — behöver prata med pappa:', '') ?? '';
+          if (text.trim()) void postLog('message', text.trim(), 'allvarligt', true);
+        }}
+      >
+        <AlertCircle className="h-4 w-4" aria-hidden />
+        Allvarligt / trygg vuxen
+      </button>
 
       <textarea
         className="input-glass mt-4 w-full text-sm"

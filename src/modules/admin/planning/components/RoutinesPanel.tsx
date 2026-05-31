@@ -4,9 +4,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { clsx } from 'clsx';
 import {
   materialEnabled,
-  routinesForPreset,
   runRoutine,
   useLifeHubPreset,
+  useRoutineTemplates,
   type RoutineTemplate,
 } from '../../../core/lifeOs';
 import { useStore } from '../../../core/store';
@@ -21,9 +21,8 @@ export function RoutinesPanel({ defaultOpen = false }: Props) {
   const location = useLocation();
   const user = useStore((s) => s.user);
   const { preset, presetId } = useLifeHubPreset();
-  const routines = materialEnabled(preset, 'planering_routines')
-    ? routinesForPreset(presetId)
-    : [];
+  const { routines } = useRoutineTemplates(presetId);
+  const visibleRoutines = materialEnabled(preset, 'planering_routines') ? routines : [];
   const [open, setOpen] = useState(defaultOpen);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [pickedId, setPickedId] = useState('');
@@ -40,17 +39,17 @@ export function RoutinesPanel({ defaultOpen = false }: Props) {
   }, [location.hash]);
 
   useEffect(() => {
-    if (routines.length === 0) return;
-    setPickedId((prev) => (prev && routines.some((r) => r.id === prev) ? prev : routines[0]!.id));
-  }, [routines]);
+    if (visibleRoutines.length === 0) return;
+    setPickedId((prev) => (prev && visibleRoutines.some((r) => r.id === prev) ? prev : visibleRoutines[0]!.id));
+  }, [visibleRoutines]);
 
   if (!materialEnabled(preset, 'planering_routines')) {
     return null;
   }
 
-  if (routines.length === 0) return null;
+  if (visibleRoutines.length === 0) return null;
 
-  const pickedRoutine = routines.find((r) => r.id === pickedId) ?? routines[0];
+  const pickedRoutine = visibleRoutines.find((r) => r.id === pickedId) ?? visibleRoutines[0];
 
   const onRun = async (routine: RoutineTemplate) => {
     if (!user) {
@@ -84,7 +83,7 @@ export function RoutinesPanel({ defaultOpen = false }: Props) {
       >
         <Route className="h-3.5 w-3.5 shrink-0 text-accent/80" strokeWidth={1.75} aria-hidden />
         <span className="routines-panel__toggle-label">Snabbstarter</span>
-        <span className="routines-panel__count">{routines.length}</span>
+        <span className="routines-panel__count">{visibleRoutines.length}</span>
         <ChevronDown
           className={clsx('routines-panel__chevron h-3.5 w-3.5', open && 'routines-panel__chevron--open')}
           aria-hidden
@@ -102,7 +101,7 @@ export function RoutinesPanel({ defaultOpen = false }: Props) {
               disabled={busyId !== null}
               aria-label="Välj rutin"
             >
-              {routines.map((r) => (
+              {visibleRoutines.map((r) => (
                 <option key={r.id} value={r.id}>
                   {r.title}
                 </option>

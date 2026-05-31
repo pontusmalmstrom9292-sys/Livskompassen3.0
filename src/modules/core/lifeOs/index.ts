@@ -25,4 +25,6 @@ export { HubPresetSheet } from './HubPresetSheet';
 export { useLifeHubPreset } from './useLifeHubPreset';
 export { resolveModuleLink, moduleLinkToString, type ModuleLinkTarget } from './moduleLink';
 export { ROUTINE_TEMPLATES, routinesForPreset, type RoutineTemplate } from './routineTemplates';
+export { listenRoutineTemplates, seedRoutineTemplate } from './routineTemplatesApi';
+export { useRoutineTemplates } from './useRoutineTemplates';
 export { runRoutine, type RunRoutineResult } from './runRoutine';

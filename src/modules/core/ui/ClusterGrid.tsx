@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import type { LucideIcon } from 'lucide-react';
 import { BookOpen, Anchor, Heart, Compass, ChevronRight, Sparkles } from 'lucide-react';
+import { HIDE_BEVIS_TAB } from '../navigation/navFlags';
 
 type ModuleLink = {
   label: string;
@@ -16,8 +17,6 @@ type Cluster = {
   tone: 'gold' | 'indigo' | 'lavender' | 'emerald';
   modules: ModuleLink[];
 };
-
-const HIDE_BEVIS_TAB = import.meta.env.VITE_HIDE_BEVIS_TAB === 'true';
 
 const clusters: Cluster[] = [
   {
