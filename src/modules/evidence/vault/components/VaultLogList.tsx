@@ -23,6 +23,8 @@ type VaultLogListProps = {
   highlightLogId?: string | null;
   /** Tom lista — scroll till Samla-formuläret ovan. */
   onLogFirstBevis?: () => void;
+  /** V2 — visa endast Sanningens Ankare (`pinned`). */
+  anchorsOnly?: boolean;
 };
 
 function asText(value: unknown): string {
@@ -162,10 +164,17 @@ function LogRow({
   );
 }
 
-export function VaultLogList({ logs, loading, highlightLogId, onLogFirstBevis }: VaultLogListProps) {
+export function VaultLogList({
+  logs,
+  loading,
+  highlightLogId,
+  onLogFirstBevis,
+  anchorsOnly = false,
+}: VaultLogListProps) {
   const highlightRef = useRef<HTMLLIElement | null>(null);
-  const pinned = logs.filter((l) => l.pinned);
-  const rest = logs.filter((l) => !l.pinned);
+  const visible = anchorsOnly ? logs.filter((l) => l.pinned) : logs;
+  const pinned = visible.filter((l) => l.pinned);
+  const rest = anchorsOnly ? [] : visible.filter((l) => !l.pinned);
 
   useEffect(() => {
     if (!highlightLogId) return;
@@ -184,12 +193,18 @@ export function VaultLogList({ logs, loading, highlightLogId, onLogFirstBevis }:
           </button>
         </div>
       )}
-      {loading && logs.length === 0 ? (
+      {loading && visible.length === 0 ? (
         <p className="text-sm text-text-dim flex items-center gap-2">
           <Loader2 className="h-4 w-4 animate-spin" /> Laddar...
         </p>
-      ) : logs.length === 0 ? (
-        <EmptyState message="Inga poster i arkivet ännu. Tryck «Logga bevis» ovan i panelen — formuläret ligger precis ovanför." />
+      ) : visible.length === 0 ? (
+        <EmptyState
+          message={
+            anchorsOnly
+              ? 'Inga ankare markerade ännu. Kryssa i «Sanningens Ankare» när du loggar bevis.'
+              : 'Inga poster i arkivet ännu. Tryck «Logga bevis» ovan i panelen — formuläret ligger precis ovanför.'
+          }
+        />
       ) : (
         <div className="space-y-4">
           {pinned.length > 0 && (

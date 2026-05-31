@@ -78,6 +78,7 @@ function VaultPageInner({
   const [error, setError] = useState<string | null>(null);
   const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
+  const [anchorsOnly, setAnchorsOnly] = useState(false);
   const gateOk = hasVaultGate();
   const valvZone = resolveValvZone(vaultTab);
   const samlaTab: SamlaVaultTab = isSamlaVaultTab(vaultTab) ? vaultTab : 'logga';
@@ -281,10 +282,21 @@ function VaultPageInner({
             onSave={handleSaveLog}
             onBevisConfirmed={(docId) => void handleBevisConfirmed(docId)}
           />
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={() => setAnchorsOnly((v) => !v)}
+              className={`btn-pill--ghost text-xs ${anchorsOnly ? 'text-gold' : ''}`}
+              aria-pressed={anchorsOnly}
+            >
+              {anchorsOnly ? 'Visa alla bevis' : 'Endast ankare'}
+            </button>
+          </div>
           <VaultLogList
             logs={logs}
             loading={logsLoading}
             highlightLogId={highlightLogId}
+            anchorsOnly={anchorsOnly}
             onLogFirstBevis={() =>
               document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
             }

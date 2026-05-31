@@ -12,8 +12,8 @@
 |---|---------|--------|-----------|
 | 1 | **Klickbara citations** i `ValvChatPanel` → hopp till `logga` + highlight | **done** | `ValvChatPanel.tsx`, `VaultPage.tsx` (`handleCitationClick` + `highlightLogId`) |
 | 2 | **EmptyState med knapp** i `VaultLogList` («Logga första bevis» → zon Samla) | **done** | `VaultLogList.tsx`, `VaultSamlaHub.tsx` (`#vault-samla-entry`) |
-| 3 | **Sanningens Ankare** — filter/vy «Endast ankare» (`pinned`) | **DEFER** | `VaultLogList.tsx`, ev. `VaultPage` filter-state |
-| 4 | **Ingress per forensik-underflik** (1 rad under `hamn_analys` / `speglar_fordjupat`) | **DEFER** | `VaultForensicPanel.tsx` eller `vaultTabs.ts` |
+| 3 | **Sanningens Ankare** — filter/vy «Endast ankare» (`pinned`) | **done** 2026-05-31 | `VaultLogList.tsx`, `VaultPage.tsx` |
+| 4 | **Ingress per forensik-underflik** (1 rad under `hamn_analys` / `speglar_fordjupat`) | **done** 2026-05-31 | `FORENSIC_TAB_INGRESS` + `VaultForensicPanel.tsx` |
 | 5 | **Valv-drawer badge** — antal `weaver_pending` (read-only) | **done** | `NavigationDrawer.tsx`, `useWeaverPendingCount` |
 
 Alla fem: endast React/copy/navigation — **ingen** ny collection-regel.

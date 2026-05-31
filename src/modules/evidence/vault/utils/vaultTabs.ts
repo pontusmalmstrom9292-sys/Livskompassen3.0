@@ -106,6 +106,16 @@ export function forensicVaultTabLabel(tab: ForensicVaultTab): string {
   return labels[tab];
 }
 
+/** V2 — en rad ingress per forensik-underflik (ingen rules-ändring). */
+export const FORENSIC_TAB_INGRESS: Record<ForensicVaultTab, string> = {
+  hamn_analys: 'Full BIFF-triage och spara som bevis — bakom skölden.',
+  speglar_fordjupat: 'Validering och jämförelse mot arkiv — inget auto-svar till ex.',
+  dagbok_arkiv: 'Läsa journal — WORM, ingen redigering.',
+  familjen_monster: 'Mönster i barnens loggar — separat silo.',
+  arbetsliv_franvaro: 'Frånvaro och ekonomi under PIN.',
+  arbetsliv_lon: 'Lön och period — forensik, inte vardagsvy.',
+};
+
 export const VAULT_TAB_ICONS = {
   kunskapsbank: BookOpen,
   aktorskarta: Users,

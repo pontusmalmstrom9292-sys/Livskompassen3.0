@@ -16,9 +16,31 @@
 | **USER (du i app)** | #4 Barnen → `children_logs` | **USER** | — |
 | **USER (du i app)** | #2d Dagbok bilaga → `journal_memories` | **USER** | — |
 | **USER (du i app)** | Projektbild → `project_media/` | **USER** | efter storage deploy 2026-05-29 |
-| **Deploy pending** | Vävaren HITL UI + `weaver_pending` rules | **FUNCTIONS LIVE** | `approveWeaverMetadata`/`rejectWeaverMetadata` deployade; verifiera rules/hosting i prod |
+| **Deploy PASS** | Vävaren HITL + rules + hosting | **PASS** | 2026-05-31 deploy — manuell E2E: [`evaluations/2026-05-31-fas5a-user-checklist.md`](./evaluations/2026-05-31-fas5a-user-checklist.md) |
 
 **Checklista:** [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md) · **Hub:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
+
+---
+
+## Fas 5A batch (2026-05-31 — agent prep)
+
+| Kommando | Resultat |
+|----------|----------|
+| `npm run build` | **PASS** |
+| `npm run smoke:locked-ux` | **PASS** |
+| `npm run smoke:orkester` | **PASS** (inkl. `weaver_pending`, WeaverApprovalPanel) |
+
+**Manuell USER → PASS:** följ [`evaluations/2026-05-31-fas5a-user-checklist.md`](./evaluations/2026-05-31-fas5a-user-checklist.md) — rapportera till agent för uppdatering av tabellen ovan.
+
+---
+
+## Fas 5B batch (2026-05-31 — UI polish)
+
+| Leverans | Smoke |
+|----------|-------|
+| I2 Visa brus i `BiffTriagePanel` | build + locked-ux **PASS** |
+| Ankare-filter «Endast ankare» | locked-ux **PASS** |
+| `FORENSIC_TAB_INGRESS` | locked-ux **PASS** |
 
 ---
 

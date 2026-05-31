@@ -73,11 +73,11 @@ npm run orkester:night
 
 ---
 
-## Ett steg i taget (rekommenderat)
+## Ett steg i taget (Fas 5A — 2026-05-31)
 
 | Prioritet | Gör |
 |-----------|-----|
-| 1 | **`godkänn merge`** — hela modul-batch (~60 filer, exkl. repomix) |
-| 2 | `firebase deploy --only firestore:rules` (Planering Regler) |
-| 3 | `firebase deploy --only storage` (journal_memories) |
-| 4 | Manuell smoke Barnporten #3 |
+| 1 | **Du:** Vävaren HITL i prod — [`evaluations/2026-05-31-fas5a-user-checklist.md`](./evaluations/2026-05-31-fas5a-user-checklist.md) |
+| 2 | **Du:** Manuell smoke #3, #4, #2d, projektbild — uppdatera [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) |
+| 3 | Agent: `npm run smoke:locked-ux` + `smoke:orkester` (klart vid Fas 5A prep) |
+| 4 | Nästa kod: Fas 5B Valv/Hamn polish — **done** på `main` |

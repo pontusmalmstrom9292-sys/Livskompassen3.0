@@ -11,7 +11,7 @@ import { useFamiljenShell } from '../../../family/children/hooks/useFamiljenShel
 import { VaultEconomyPanel } from '../../../valv_ekonomi';
 import { EconomyPeriodSummary } from '../../../wellbeing/economy/components/EconomyPeriodSummary';
 import { EconomyPayslipCard } from '../../../wellbeing/economy/components/EconomyPayslipCard';
-import type { ForensicVaultTab } from '../utils/vaultTabs';
+import { FORENSIC_TAB_INGRESS, type ForensicVaultTab } from '../utils/vaultTabs';
 
 function ArbetslivLonForensic() {
   const user = useStore((s) => s.user);
@@ -57,19 +57,53 @@ export function VaultForensicPanel({ tab }: Props) {
       .catch(() => setJournalEntries([]));
   }, [tab, user]);
 
+  const ingress = (
+    <p className="mb-3 text-sm text-text-muted">{FORENSIC_TAB_INGRESS[tab]}</p>
+  );
+
   switch (tab) {
     case 'hamn_analys':
-      return <HamnForensicPanel initialMessage="" />;
+      return (
+        <>
+          {ingress}
+          <HamnForensicPanel initialMessage="" />
+        </>
+      );
     case 'speglar_fordjupat':
-      return <SpeglingsForensicPanel userId={user?.uid} />;
+      return (
+        <>
+          {ingress}
+          <SpeglingsForensicPanel userId={user?.uid} />
+        </>
+      );
     case 'dagbok_arkiv':
-      return <JournalArchive entries={journalEntries} />;
+      return (
+        <>
+          {ingress}
+          <JournalArchive entries={journalEntries} />
+        </>
+      );
     case 'familjen_monster':
-      return shell.user ? <FamiljenMonsterTab shell={shell} /> : null;
+      return shell.user ? (
+        <>
+          {ingress}
+          <FamiljenMonsterTab shell={shell} />
+        </>
+      ) : null;
     case 'arbetsliv_franvaro':
-      return <VaultEconomyPanel />;
+      return (
+        <>
+          {ingress}
+          <VaultEconomyPanel />
+        </>
+      );
     case 'arbetsliv_lon':
-      return <ArbetslivLonForensic />;
+      return (
+        <>
+          {ingress}
+          <ArbetslivLonForensic />
+        </>
+      );
     default:
       return null;
   }

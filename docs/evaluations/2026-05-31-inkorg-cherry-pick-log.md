@@ -9,7 +9,7 @@
 | ID | Feature | Commit (design-inkorg) | Beslut | Main efter 2026-05-31 |
 |----|---------|------------------------|--------|------------------------|
 | **I1** | MåBra `DailyQuestionCard`, `EmotionCompass`, `CognitivePlaysList` | `1fa44666` | **DEFER** | `wellbeing/mabra/` har KBT + verktyg; produktbeslut vs frågekort |
-| **I2** | `BiffFlowPanel`, Hamn JADE, **Visa brus** | `032f01bc`, `7c0dc5c2` | **PARTIAL SKIP** | `BiffPublicPanel` + `BiffTriagePanel` (% triage) på main; lista+blur ej portad |
+| **I2** | `BiffFlowPanel`, Hamn JADE, **Visa brus** | `032f01bc`, `7c0dc5c2` | **PORT** (Visa brus) 2026-05-31 | `BiffTriagePanel` + `index.css`; `BiffFlowPanel` ej portad (Hamn har `BiffPublicPanel` + forensic) |
 | **I3** | Barnen F-B11 `LivsloggQuestionCard` | `55ce5ccb` | **DEFER** | Locked `BarnfokusFraganPanel` — risk dublett |
 | **I4** | Valv F-V13 chattbubblor | `aa7c0fbf` | **PORT** | `evidence/vaultChat` — tråd-UI + `useValvChatSession` messages |
 | **I5** | Hub-tile CSS Riktning B | `8ba53de0` | **REJECT** | Designbeslut; ej Sacred |

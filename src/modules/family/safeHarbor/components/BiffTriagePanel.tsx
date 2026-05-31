@@ -1,4 +1,5 @@
-import { AlertTriangle, Shield } from 'lucide-react';
+import { useState } from 'react';
+import { AlertTriangle, Eye, EyeOff, Shield } from 'lucide-react';
 import type { GransAnalysis } from '../api/biffService';
 
 type Props = {
@@ -15,8 +16,10 @@ function riskTone(score: number | null): string {
   return 'text-text-muted';
 }
 
-/** D15 — BIFF-triage (logistik vs känslomässigt bete). */
+/** D15 — BIFF-triage (logistik vs känslomässigt bete) + Visa brus (I2, archive/inkorg-broar). */
 export function BiffTriagePanel({ grans, riskScore, hitlRequired, agentName }: Props) {
+  const [showBait, setShowBait] = useState(false);
+
   if (!grans && riskScore == null) return null;
 
   const factCount = grans?.cleanFacts?.length ?? 0;
@@ -24,6 +27,7 @@ export function BiffTriagePanel({ grans, riskScore, hitlRequired, agentName }: P
   const total = factCount + baitCount || 1;
   const logisticsPct = Math.round((factCount / total) * 100) || 10;
   const baitPct = 100 - logisticsPct;
+  const hasBait = baitCount > 0;
 
   return (
     <div className="elongated-module elongated-module--gold space-y-3 p-4">
@@ -46,6 +50,57 @@ export function BiffTriagePanel({ grans, riskScore, hitlRequired, agentName }: P
           <p className="text-lg font-display text-text-muted">{baitPct}%</p>
         </div>
       </div>
+
+      {grans && (factCount > 0 || hasBait) && (
+        <div className="grid gap-3 border-t border-white/10 pt-3 md:grid-cols-2">
+          <section aria-label="Logistik">
+            <p className="mb-2 text-[10px] uppercase tracking-widest text-success">Logistik</p>
+            {factCount > 0 ? (
+              <ul className="space-y-2">
+                {grans.cleanFacts.map((fact) => (
+                  <li key={fact} className="biff-triage-fact">
+                    {fact}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-text-dim">Ingen ren logistik extraherad.</p>
+            )}
+          </section>
+          <section aria-label="Känslomässiga beten">
+            <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+              <p className="text-[10px] uppercase tracking-widest text-text-dim">Beten — ignorera</p>
+              {hasBait && (
+                <button
+                  type="button"
+                  onClick={() => setShowBait((v) => !v)}
+                  className="btn-pill--ghost flex items-center gap-1 text-[10px] uppercase tracking-widest"
+                  aria-pressed={showBait}
+                >
+                  {showBait ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                  {showBait ? 'Dölj brus' : 'Visa brus'}
+                </button>
+              )}
+            </div>
+            {hasBait ? (
+              <ul className="space-y-2">
+                {grans.emotionalBait.map((bait) => (
+                  <li
+                    key={bait}
+                    className={showBait ? 'biff-triage-bait--revealed' : 'biff-triage-bait'}
+                    title={showBait ? undefined : 'Maskerat — kopiera inte'}
+                  >
+                    {bait}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-text-dim">Inga tydliga beten flaggade.</p>
+            )}
+          </section>
+        </div>
+      )}
+
       {riskScore != null && (
         <p className={`text-xs ${riskTone(riskScore)}`}>
           Riskindikator (DCAP): {riskScore}%

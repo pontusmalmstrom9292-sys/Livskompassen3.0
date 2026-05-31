@@ -1,15 +1,15 @@
 # Senaste sammanfattning — systemstatus
 
-**Datum:** 2026-05-31 (doc-synk efter Vävaren HITL merge) · tidigare 2026-05-29  
+**Datum:** 2026-05-31 (Fas 5A prep + 5B polish) · tidigare 2026-05-29  
 **Gren:** `main` · Repo: Livskompassen3.0  
 **Ersätter inte** detaljrapporterna under [`archive/evaluations-2026-05-23/`](../archive/evaluations-2026-05-23/) — de är **historik**.  
-**Senaste session:** S8 Vävaren HITL — [`2026-05-31-pmir-session-rniv.md`](./2026-05-31-pmir-session-rniv.md)
+**Senaste session:** Fas 5 — [`2026-05-31-fas5a-user-checklist.md`](./2026-05-31-fas5a-user-checklist.md) · Vävaren PMIR [`2026-05-31-pmir-session-rniv.md`](./2026-05-31-pmir-session-rniv.md)
 
 ---
 
 ## Nuläge i en mening
 
-**Fas 4 — verifiering + polish:** Arkiv G1–G16 **done** i kod; frontend MVP för alla huvudkluster; **Planering `/planering` live**; **Vävaren HITL** på `main` (2026-05-31); git **en trunk** (`main`).
+**Fas 5 — verifiering + polish:** Arkiv G1–G16 **done**; **Vävaren HITL** deployad; Fas **5B** (Visa brus, ankare-filter, forensik-ingress) på `main`; manuell smoke **#3/#4/#2d USER** — se checklista Fas 5A.
 
 ---
 
@@ -32,11 +32,10 @@
 
 | Punkt | Typ |
 |-------|-----|
-| Manuell smoke (app) | #3 Valv, #4 Barnen, #2d bilaga, projektbild — se [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md) **Current truth** |
-| Manuell smoke (klart) | #1 Auth, #2 Dagbok, #18 Ekonomi **PASS** 2026-05-27 · #19–20 **STATIC PASS** 2026-05-29 |
-| Opt-in minne-ingest | Trauma-policy — användaren aktiverar |
-| Barnporten full PWA | Spec + agents; route `/barnporten` ej full MVP |
-| `feat/mabra-fragekort` | Frågekort vs KBT — produktbeslut (parked branch) |
+| Manuell smoke (app) | #3, #4, #2d, projektbild — [`2026-05-31-fas5a-user-checklist.md`](./2026-05-31-fas5a-user-checklist.md) |
+| Manuell smoke (klart) | #1, #2, #18 **PASS** 2026-05-27 · #19–20 **STATIC PASS** 2026-05-29 |
+| Inkorg I1/I3 | **DEFER** — [`2026-05-31-fas5c-inkorg-beslut.md`](./2026-05-31-fas5c-inkorg-beslut.md) |
+| Fas 5D backlog | Projekt P2, Barnporten — [`2026-05-31-fas5d-backlog.md`](./2026-05-31-fas5d-backlog.md) |
 
 ---
 
