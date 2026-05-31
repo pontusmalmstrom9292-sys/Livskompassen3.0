@@ -1,19 +1,19 @@
 # Orkester nattpass — 2026-05-31
 
-**Kört:** 2026-05-31T06:25:00.965Z
-**Git:** main @ bf925771 (17 unstaged)
+**Kört:** 2026-05-31T06:29:02.942Z
+**Git:** main @ ef150df4 (0 unstaged)
 
 ## Faser
 
 | Fas | Status | ms |
 |-----|--------|-----|
-| UX Guardian | PASS | 346 |
-| Innehall U6 | PASS | 136 |
-| Locked icons | PASS | 132 |
-| ADK Weaver | PASS | 7287 |
-| Functions build | PASS | 7018 |
-| Frontend build | PASS | 8136 |
-| ESLint | SKIP_FAIL | 9054 |
+| UX Guardian | PASS | 348 |
+| Innehall U6 | PASS | 137 |
+| Locked icons | PASS | 134 |
+| ADK Weaver | PASS | 7640 |
+| Functions build | PASS | 7491 |
+| Frontend build | PASS | 8089 |
+| ESLint | SKIP_FAIL | 8986 |
 
 ## Sammanfattning
 
