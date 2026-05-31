@@ -42,9 +42,9 @@
 
 | Kommando | Resultat |
 |----------|----------|
-| `npm run build` | _(fylls efter merge)_ |
-| `npm run smoke:locked-ux` | _(fylls efter merge)_ |
-| `npm run smoke:orkester` | _(fylls efter merge)_ |
+| `npm run build` | **PASS** |
+| `npm run smoke:locked-ux` | **PASS** |
+| `npm run smoke:orkester` | **PASS** |
 
 ---
 
