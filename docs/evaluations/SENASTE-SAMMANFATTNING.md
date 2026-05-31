@@ -1,62 +1,50 @@
 # Senaste sammanfattning — systemstatus
 
-**Datum:** 2026-06-01 (Superhub v2 + Master YOLO autorun) · tidigare 2026-05-31  
-**Gren:** `main` · Repo: Livskompassen3.0  
-**Ersätter inte** detaljrapporterna under [`archive/evaluations-2026-05-23/`](../archive/evaluations-2026-05-23/) — de är **historik**.  
-**Senaste session:** Superhub [`2026-06-01-superhub-leverans.md`](./2026-06-01-superhub-leverans.md) · Master YOLO [`MASTER-YOLO-AUTORUN.md`](../MASTER-YOLO-AUTORUN.md)
+**Datum:** 2026-06-01 · **Gren:** `main` · Repo: Livskompassen3.0  
+**Senaste leverans:** Master YOLO [`2026-05-31-master-yolo-leverans.md`](./2026-05-31-master-yolo-leverans.md) · Superhub [`2026-06-01-superhub-leverans.md`](./2026-06-01-superhub-leverans.md)
 
 ---
 
 ## Nuläge i en mening
 
-**Superhub v2 på `main`:** fyra drawer-rader (Hem/Liv/Familj/Inställningar), `/liv` `/familj`, capture + Draft Layer. **Master YOLO** kö autostartad — våg `hub-gora` nästa. Manuell smoke **#3/#4/#2d** kvar.
+**Superhub + Master YOLO (kod) klart på `main`:** drawer 4 rader, `/liv` `/familj`, capture, Göra/Planering dedup, inkorg-granskning, Kunskap-citations. **Du:** manuell smoke i app (~15 min) + ev. hosting refresh.
 
 ---
 
-## Vad som är byggt och ska bevaras
+## Vad som är byggt (bevara)
 
 | Område | Status |
 |--------|--------|
-| Tre silos (Kunskap / Valv / Barnen) | Kod + regler — **aldrig cross-RAG** |
-| Superhub navigation | `/liv`, `/familj`, legacy redirects, `vaultOpen` drawer (Vardag + Valv) |
-| Capture / Draft Layer | `src/modules/capture/`, Device Clear, Kill Switch bort 2026-06-01 |
-| Drive självsortering | `notifyNewFile` → `driveIngestSynapse` → `kb_docs` (G6 done) |
-| SynapseBus | 4 triggers live (se [`MODUL-FUNKTIONS-REGISTER.md`](../MODUL-FUNKTIONS-REGISTER.md)) |
-| Låst UX | Barnfokus, Valv Mönster/Orkester/Kunskapsbank, Planering P3 kanban, Barnporten HITL |
-| Sacred + WORM | `reality_vault`, `children_logs`, `journal`, `dossier_snapshots` |
-| Orkester natt | `npm run orkester:night` · Master: `npm run master:yolo` |
-| Vävaren HITL | `weaver_pending` + approve/reject deployade |
+| Superhub | Hem/Liv/Familj/Inställningar · legacy redirects · `vaultOpen` drawer |
+| Master YOLO PASS | 12 vågar — se [`2026-05-31-master-yolo-log.md`](./2026-05-31-master-yolo-log.md) |
+| Göra Fas 2 | `PLANERING_MORE_TABS` + GoraHubTabBar · Paralys i Fokus |
+| Tre silos + WORM | Oförändrat låst |
+| Locked UX | Barnfokus · Valv Mönster/Orkester · P3 Kanban · Barnporten HITL |
 
 ---
 
-## Öppet (inte “saknas i kod”)
+## Öppet (kräver dig eller PMIR)
 
-| Punkt | Typ |
+| Punkt | Var |
 |-------|-----|
-| Master YOLO vågar | `hub-gora` → … `slutrapport` — [`.orkester/master-state.json`](../../.orkester/master-state.json) |
-| Manuell smoke (app) | #3, #4, #2d — [`2026-05-31-fas5a-user-checklist.md`](./2026-05-31-fas5a-user-checklist.md) |
-| Superhub domän (USER) | [`2026-06-01-superhub-leverans.md`](./2026-06-01-superhub-leverans.md) checklista |
-| Inkorg I1/I3 | **DEFER** — [`2026-05-31-fas5c-inkorg-beslut.md`](./2026-05-31-fas5c-inkorg-beslut.md) |
-| Fas 5D backlog | Projekt P2, Barnporten — [`2026-05-31-fas5d-backlog.md`](./2026-05-31-fas5d-backlog.md) |
+| **Manuell smoke #3, #4, #2d** | [`2026-06-01-USER-nasta-steg.md`](./2026-06-01-USER-nasta-steg.md) |
+| Superhub domän-test | [`2026-06-01-superhub-leverans.md`](./2026-06-01-superhub-leverans.md) |
+| Projekt P2 `project_rules` | PMIR — [`2026-05-31-blocker-projekt-p2.md`](./2026-05-31-blocker-projekt-p2.md) |
+| Barnporten QR/CB2+ | Enhet + beslut — [`2026-05-31-blocker-barnporten-fas2.md`](./2026-05-31-blocker-barnporten-fas2.md) |
+| Hub PMIR-skips | `blocker-hub-familjen`, `hub-valv`, `hub-kompass`, `lifeos-d` |
 
 ---
 
-## Dokumentation — vad som gäller
+## Kanon
 
-**Utskrift (1 sida):** [`KOMPASS-MINNESKARTA.md`](../KOMPASS-MINNESKARTA.md)
-
-| Tier | Kanon |
-|------|--------|
+| Tier | Fil |
+|------|-----|
 | Autonom kö | [`MASTER-YOLO-AUTORUN.md`](../MASTER-YOLO-AUTORUN.md) |
-| Systemlagar | `.context/*` |
-| Implementation | `docs/specs/modules/*-SPEC.md`, `Arkiv-GAP-REGISTER.md` |
-| Git | `GIT-LATHUND.md`, `BRANCH-KARTA.md` |
-| Moduler | `MODUL-FUNKTIONS-REGISTER.md`, [`MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md) |
+| Modul-GAP | [`MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md) |
+| Smoke sanning | [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md) |
 
 ---
 
-## Nästa steg (valfritt)
+## Nästa steg (ett)
 
-- Agent: fortsätt Master YOLO från `hub-gora` — startprompt i MASTER-YOLO-AUTORUN.md  
-- Manuell smoke #3, #4, #2d (15 min)  
-- Deploy hosting när våg kräver det (Agent enligt tabell)
+Öppna [`2026-06-01-USER-nasta-steg.md`](./2026-06-01-USER-nasta-steg.md) — en checklista, ~15 min.

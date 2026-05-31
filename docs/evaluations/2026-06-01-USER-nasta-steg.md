@@ -1,0 +1,61 @@
+# Ditt nästa steg — manuell smoke (ett ark)
+
+**Prod:** https://gen-lang-client-0481875058.web.app  
+**Före test:** Cmd+Shift+R
+
+Agent har kört kod + statisk smoke. **Du** bekräftar i riktig app.
+
+---
+
+## A — Valv (#3)
+
+1. Shield 3 s → PIN → Dagbok bevis  
+2. Spara en enkel post  
+3. Firestore Console: rad i `reality_vault` (valfritt)
+
+**PASS / FAIL:** ___________
+
+---
+
+## B — Barnen (#4)
+
+1. `/familjen` eller `/barnporten`  
+2. Spara en loggrad  
+
+**PASS / FAIL:** ___________
+
+---
+
+## C — Dagbok bilaga (#2d)
+
+1. Dagbok → Reflektera → liten bilaga (&lt;5 MB)  
+
+**PASS / FAIL:** ___________
+
+---
+
+## D — Superhub (snabb)
+
+| Test | PASS? |
+|------|-------|
+| Drawer: Hem · Liv · Familj · Inställningar | |
+| `/liv` → MåBra / Planering | |
+| `/familjen` → Barnfokus-känsla | |
+| Legacy `/mabra` redirectar | |
+
+Kanon: [`2026-06-01-superhub-leverans.md`](./2026-06-01-superhub-leverans.md)
+
+---
+
+## E — Göra (efter deploy)
+
+1. Liv → Planering → **Handling** (kanban)  
+2. Länkar **Fokus / Framsteg / Regler** (inte dubbel TabBar för Handling/Inkorg)
+
+---
+
+## Rapportera till Cursor
+
+Skriv: `Fas 5A: #3 PASS, #4 PASS` (eller vilka som FAIL) — agent uppdaterar [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md).
+
+Detaljer: [`2026-05-31-fas5a-user-checklist.md`](./2026-05-31-fas5a-user-checklist.md)
