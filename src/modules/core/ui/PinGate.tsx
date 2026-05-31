@@ -1,4 +1,4 @@
-import type { KeyboardEvent, ReactNode } from 'react';
+import type { FormEvent, KeyboardEvent, ReactNode } from 'react';
 import { Lock } from 'lucide-react';
 
 type PinGateProps = {
@@ -32,8 +32,13 @@ export function PinGate({
     if (e.key === 'Enter') onSubmit();
   };
 
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit();
+  };
+
   return (
-    <div className="pin-gate">
+    <form className="pin-gate" onSubmit={handleFormSubmit}>
       {description ? <p className="pin-gate__lead">{description}</p> : null}
       <label className="pin-gate__field">
         <span className="pin-gate__label">{title}</span>
@@ -70,14 +75,13 @@ export function PinGate({
         </label>
       ) : null}
       <button
-        type="button"
-        onClick={onSubmit}
+        type="submit"
         className="pin-gate__submit btn-pill--accent flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3"
       >
         {icon ?? <Lock className="h-4 w-4" strokeWidth={2} />}
         {submitLabel ?? (setupMode ? 'Skapa PIN' : 'Lås upp')}
       </button>
       {error ? <p className="pin-gate__error">{error}</p> : null}
-    </div>
+    </form>
   );
 }

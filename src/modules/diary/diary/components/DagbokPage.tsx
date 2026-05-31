@@ -235,7 +235,7 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
                   zone="dagbok_forensic"
                   clearOnUnmount={false}
                   title="Journalarkiv & vävare"
-                  description="Vävning och Kampspár-opt-in. Samma PIN som Valv."
+                  description="Vävning och Kampspár-opt-in. Fingeravtryck eller Face ID (samma som Valv)."
                   onUnlocked={() => setForensicUnlocked(true)}
                   onLock={() => setForensicUnlocked(false)}
                 >

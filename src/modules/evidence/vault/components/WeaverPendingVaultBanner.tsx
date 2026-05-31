@@ -58,7 +58,7 @@ export function WeaverPendingVaultBanner({ userId, onApproved }: Props) {
           <p className="text-text-muted">{VAVAREN_APPROVAL_TITLE}</p>
           <p className="mt-1 text-xs text-text-dim">{VAVAREN_APPROVAL_HINT}</p>
           <div className="mt-2 flex flex-wrap gap-1">
-            {normalizeStringArray(row.weaverTags.emotions).map((e) => (
+            {normalizeStringArray(row.weaverTags?.emotions).map((e) => (
               <span
                 key={`${row.id}-e-${e}`}
                 className="rounded-full border border-indigo-400/25 px-2 py-0.5 text-[10px] text-indigo-200/90"

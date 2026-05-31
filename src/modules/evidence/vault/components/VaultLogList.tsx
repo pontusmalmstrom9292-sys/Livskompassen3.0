@@ -168,9 +168,11 @@ export function VaultLogList({ logs, loading, highlightLogId, onLogFirstBevis }:
   const rest = logs.filter((l) => !l.pinned);
 
   useEffect(() => {
-    if (highlightLogId && highlightRef.current) {
-      highlightRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    if (!highlightLogId) return;
+    const timer = window.setTimeout(() => {
+      highlightRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 120);
+    return () => window.clearTimeout(timer);
   }, [highlightLogId, logs.length]);
 
   return (

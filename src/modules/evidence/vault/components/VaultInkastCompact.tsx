@@ -57,7 +57,7 @@ export function VaultInkastCompact({ onQueued, onPersistedBevis }: Props) {
         const result: SubmitInkastLiteResult = await submitInkastLite(payload);
         setSuccessMessage(formatInkastResultMessage(result));
         if (result.action === 'queued') {
-          onQueued?.();
+          /* Ingen auto-vybyte — undviker React insertBefore-race vid unmount. */
         } else if (
           result.action === 'persisted' &&
           result.collection === 'reality_vault' &&
@@ -72,7 +72,7 @@ export function VaultInkastCompact({ onQueued, onPersistedBevis }: Props) {
         setLoading(false);
       }
     },
-    [onQueued, onPersistedBevis],
+    [onPersistedBevis],
   );
 
   const handlePasteSubmit = () => {
@@ -140,14 +140,10 @@ export function VaultInkastCompact({ onQueued, onPersistedBevis }: Props) {
           disabled={loading || text.trim().length < 12}
           onClick={handlePasteSubmit}
         >
-          {loading ? (
-            <>
-              <Loader2 className="mr-1 inline h-3 w-3 animate-spin" />
-              Sorterar…
-            </>
-          ) : (
-            'Skicka'
-          )}
+          <span className="inline-flex items-center gap-1">
+            {loading ? <Loader2 className="h-3 w-3 shrink-0 animate-spin" aria-hidden /> : null}
+            <span>{loading ? 'Sorterar…' : 'Skicka'}</span>
+          </span>
         </button>
         <button
           type="button"
@@ -155,19 +151,34 @@ export function VaultInkastCompact({ onQueued, onPersistedBevis }: Props) {
           disabled={loading}
           onClick={() => inputRef.current?.click()}
         >
-          <FileUp className="mr-1 inline h-3 w-3" />
-          Fil
+          <span className="inline-flex items-center gap-1">
+            <FileUp className="h-3 w-3 shrink-0" aria-hidden />
+            <span>Fil</span>
+          </span>
         </button>
-        <input
-          ref={inputRef}
-          type="file"
-          className="sr-only"
-          accept=".pdf,.txt,.md,.csv,.json,.png,.jpg,.jpeg,.webp"
-          onChange={(e) => void handleFiles(e.target.files)}
-        />
       </div>
+      <input
+        ref={inputRef}
+        type="file"
+        className="sr-only"
+        accept=".pdf,.txt,.md,.csv,.json,.png,.jpg,.jpeg,.webp"
+        onChange={(e) => void handleFiles(e.target.files)}
+      />
       {error && <p className="mt-2 text-xs text-amber-400/90">{error}</p>}
-      {successMessage && <p className="mt-2 text-xs text-success">{successMessage}</p>}
+      {successMessage && (
+        <div className="mt-2 space-y-2">
+          <p className="text-xs text-success">{successMessage}</p>
+          {onQueued && (
+            <button
+              type="button"
+              className="btn-pill--secondary text-xs"
+              onClick={() => onQueued()}
+            >
+              Öppna granskningskö
+            </button>
+          )}
+        </div>
+      )}
     </BentoCard>
   );
 }

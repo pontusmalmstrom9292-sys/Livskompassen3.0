@@ -362,8 +362,8 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
             </select>
           </label>
           {selectedSignals.length > 0 && (
-            <p className="text-xs text-text-dim">
-              Valda: {selectedSignals.join(', ')}{' '}
+            <div className="flex flex-wrap items-center gap-2 text-xs text-text-dim">
+              <span>Valda: {selectedSignals.join(', ')}</span>
               <button
                 type="button"
                 className="text-accent/80 underline"
@@ -371,7 +371,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
               >
                 Rensa
               </button>
-            </p>
+            </div>
           )}
           <textarea
             value={truth}
@@ -427,10 +427,14 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
         type="button"
         onClick={handleSubmit}
         disabled={busy || !canSave}
-        className="btn-pill--success disabled:opacity-50 flex items-center gap-2"
+        className="btn-pill--success disabled:opacity-50"
       >
-        {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-        Spara bevis
+        <span className="inline-flex items-center gap-2">
+          <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden>
+            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+          </span>
+          <span>Spara bevis</span>
+        </span>
       </button>
     </div>
   );

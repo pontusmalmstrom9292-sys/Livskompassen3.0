@@ -2,7 +2,6 @@ import { Lock, ShieldAlert, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BentoCard } from '../../../core/ui/BentoCard';
-import { PinGate } from '../../../core/ui/PinGate';
 import { TabBar } from '../../../core/ui/TabBar';
 import {
   getAnalyseraVaultTabBarItems,
@@ -12,7 +11,7 @@ import {
   getVaultZoneTabBarItems,
 } from '../../../core/navigation/tabRegistry';
 import { useStore } from '../../../core/store';
-import { hasVaultGate, clearVaultGate, setVaultGate } from '../../../core/auth/sessionService';
+import { hasVaultGate, clearVaultGate } from '../../../core/auth/sessionService';
 import { saveVaultLog, getVaultLogs } from '../../../core/firebase/firestore';
 import { OfflineWriteBlockedError } from '../../../core/firebase/offlineWritePolicy';
 import type { VaultLog } from '../../../core/types/firestore';
@@ -28,6 +27,7 @@ import { VaultAktorskartaPanel } from '../../knowledge/components/VaultAktorskar
 import { VaultForensicPanel } from './VaultForensicPanel';
 import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
 import { WeaverPendingVaultBanner } from './WeaverPendingVaultBanner';
+import { VaultErrorBoundary } from './VaultErrorBoundary';
 import type { VaultLogInput } from '../types/vaultEntry';
 import {
   KUNSKAP_VAULT_TAB,
@@ -45,8 +45,6 @@ import {
   VALV_ZONE_INGRESS,
 } from '../utils/vaultTabs';
 
-import { hasPinConfigured, setupPin, verifyPin } from '../../../core/security/vaultPin';
-
 export type { VaultTab, MainVaultTab, ValvZone } from '../utils/vaultTabs';
 export { parseVaultTab } from '../utils/vaultTabs';
 
@@ -57,19 +55,23 @@ type VaultPageProps = {
   onVaultTabChange?: (tab: VaultTab) => void;
 };
 
-export function VaultPage({
+export function VaultPage(props: VaultPageProps) {
+  return (
+    <VaultErrorBoundary>
+      <VaultPageInner {...props} />
+    </VaultErrorBoundary>
+  );
+}
+
+function VaultPageInner({
   embedded = false,
   onClose,
   initialVaultTab = 'logga',
   onVaultTabChange,
 }: VaultPageProps) {
   const navigate = useNavigate();
-  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
   const user = useStore((s) => s.user);
-  const [pin, setPin] = useState('');
-  const [isSetup, setIsSetup] = useState(!hasPinConfigured());
-  const [confirmPin, setConfirmPin] = useState('');
   const [logs, setLogs] = useState<(VaultLog & { id: string })[]>([]);
   const [logsLoading, setLogsLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -119,59 +121,22 @@ export function VaultPage({
   };
 
   useEffect(() => {
-    if (!isVaultUnlocked) {
-      setVaultTabState('logga');
+    if (gateOk && user) {
+      setVaultUnlocked(true);
+    } else if (!gateOk) {
+      setVaultUnlocked(false);
     }
-  }, [isVaultUnlocked]);
+  }, [gateOk, user, setVaultUnlocked]);
 
   useEffect(() => {
-    if (isVaultUnlocked && user) {
+    if (gateOk && user) {
       setLogsLoading(true);
       getVaultLogs(user.uid)
         .then(setLogs)
         .catch(() => setError('Kunde inte hämta loggar.'))
         .finally(() => setLogsLoading(false));
     }
-  }, [isVaultUnlocked, user]);
-
-  const handleUnlock = () => {
-    if (!user) {
-      setError('Väntar på inloggning — försök igen om ett ögonblick.');
-      return;
-    }
-    if (isSetup) {
-      if (pin.length < 4) {
-        setError('PIN måste vara minst 4 tecken.');
-        return;
-      }
-      if (pin !== confirmPin) {
-        setError('PIN matchar inte.');
-        return;
-      }
-      setupPin(pin);
-      setIsSetup(false);
-      setVaultGate();
-      setVaultUnlocked(true);
-      setPin('');
-      setConfirmPin('');
-      setError(null);
-      if (embedded) {
-        navigate({ pathname: '/dagbok', search: '?tab=bevis&vaultTab=logga' }, { replace: true });
-      }
-      return;
-    }
-    if (verifyPin(pin)) {
-      setVaultGate();
-      setVaultUnlocked(true);
-      setPin('');
-      setError(null);
-      if (embedded) {
-        navigate({ pathname: '/dagbok', search: '?tab=bevis&vaultTab=logga' }, { replace: true });
-      }
-    } else {
-      setError('Fel PIN.');
-    }
-  };
+  }, [gateOk, user]);
 
   const handleSaveLog = async (input: VaultLogInput) => {
     if (!user) {
@@ -211,42 +176,17 @@ export function VaultPage({
     }
   };
 
-  if (!embedded && !gateOk) {
-    return (
-      <BentoCard
-        title="Verklighetsvalvet"
-        description="Sacred Feature — long-press krävs"
-        icon={<ShieldAlert className="h-4 w-4" />}
-      >
-        <p className="text-sm text-text-dim">
-          Håll Dagbok-ikonen i bottenmenyn i 3 sekunder (Fyren) för dold åtkomst till bevisvalvet.
-          Kort tryck räcker inte.
-        </p>
-      </BentoCard>
-    );
-  }
-
-  if (!isVaultUnlocked) {
+  if (!gateOk) {
     return (
       <BentoCard
         title={embedded ? 'Valv · Baksida' : 'Verklighetsvalvet'}
-        description="Ange PIN"
+        description="Sacred Feature — Fyren krävs"
         icon={<ShieldAlert className="h-4 w-4" />}
       >
-        <PinGate
-          description={
-            isSetup
-              ? 'Skapa din PIN (sparas lokalt, aldrig hårdkodad).'
-              : 'Ange PIN för att låsa upp Valv-baksidan.'
-          }
-          pin={pin}
-          confirmPin={confirmPin}
-          setupMode={isSetup}
-          error={error}
-          onPinChange={setPin}
-          onConfirmPinChange={setConfirmPin}
-          onSubmit={handleUnlock}
-        />
+        <p className="text-sm text-text-dim">
+          Håll Hjärtat-ikonen i bottenmenyn i 3 sekunder (Fyren) och verifiera med fingeravtryck
+          eller Face ID. Kort tryck eller direktlänk räcker inte.
+        </p>
       </BentoCard>
     );
   }
@@ -354,7 +294,7 @@ export function VaultPage({
 
       {valvZone === 'samla' && vaultTab === 'sok' && (
         <ValvChatPanel
-          active={isVaultUnlocked && vaultTab === 'sok'}
+          active={gateOk && vaultTab === 'sok'}
           onCitationClick={handleCitationClick}
         />
       )}

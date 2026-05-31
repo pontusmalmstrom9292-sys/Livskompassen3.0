@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, startTransition } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import { InboxReviewQueue } from '../../../inkast/components/InboxReviewQueue';
@@ -61,7 +61,9 @@ export function VaultSamlaHub({ userId, saving, saveError, onSave, onBevisConfir
 
   const handleBevisConfirmed = (docId: string) => {
     onBevisConfirmed(docId);
-    setSamlaView('logga');
+    startTransition(() => {
+      setSamlaView('logga');
+    });
     void refreshPendingCount();
   };
 

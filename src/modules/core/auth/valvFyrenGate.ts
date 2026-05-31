@@ -2,6 +2,7 @@ import type { NavigateFunction } from 'react-router-dom';
 import { FYREN_BEVIS_HINT } from '../navigation/appNavigation';
 import { setVaultGate } from './sessionService';
 import { authenticateVaultGate } from './webauthn';
+import { useStore } from '../store';
 
 type OpenValvViaFyrenOptions = {
   pathname?: string;
@@ -20,6 +21,7 @@ export async function openValvViaFyren(
     return false;
   }
   setVaultGate();
+  useStore.getState().setVaultUnlocked(true);
   navigate({
     pathname: options?.pathname ?? '/dagbok',
     search: options?.search ?? '?tab=bevis',

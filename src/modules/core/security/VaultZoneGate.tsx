@@ -1,23 +1,20 @@
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
-import { Lock, Fingerprint } from 'lucide-react';
+import { Fingerprint, Lock } from 'lucide-react';
 import { BentoCard } from '../ui/BentoCard';
-import { PinGate } from '../ui/PinGate';
 import {
+  hasVaultGate,
   hasVaultZone,
   setVaultZone,
   clearVaultZone,
   type VaultZoneId,
 } from '../auth/sessionService';
 import { authenticateVaultGate } from '../auth/webauthn';
-import { useVaultPinUnlock } from './useVaultPinUnlock';
 import { useVaultZoneIdle } from './useVaultZoneIdle';
 
 type Props = {
   zone: VaultZoneId;
   title?: string;
   description?: string;
-  /** Optional WebAuthn before PIN (fingeravtryck / Face ID). */
-  useWebAuthn?: boolean;
   /** Default true — false keeps session across child unmount (e.g. dagbok steg-byte). */
   clearOnUnmount?: boolean;
   onLock?: () => void;
@@ -25,11 +22,11 @@ type Props = {
   children: ReactNode;
 };
 
+/** Zon-gate med WebAuthn — ingen PIN (samma princip som Valv via Fyren). */
 export function VaultZoneGate({
   zone,
   title = 'Lås upp analys',
-  description = 'Samma PIN som Valv. Sessionen gäller tills du lämnar vyn eller varit inaktiv 15 min.',
-  useWebAuthn = true,
+  description = 'Fingeravtryck eller Face ID. Sessionen gäller tills du lämnar vyn eller varit inaktiv 15 min.',
   clearOnUnmount = true,
   onLock,
   onUnlocked,
@@ -37,7 +34,14 @@ export function VaultZoneGate({
 }: Props) {
   const [unlocked, setUnlocked] = useState(() => hasVaultZone(zone));
   const [webAuthnPending, setWebAuthnPending] = useState(false);
-  const [webAuthnFailed, setWebAuthnFailed] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const unlock = useCallback(() => {
+    setVaultZone(zone);
+    setUnlocked(true);
+    setError(null);
+    onUnlocked?.();
+  }, [zone, onUnlocked]);
 
   const lock = useCallback(() => {
     clearVaultZone(zone);
@@ -45,15 +49,12 @@ export function VaultZoneGate({
     onLock?.();
   }, [zone, onLock]);
 
-  const pin = useVaultPinUnlock({
-    onUnlocked: () => {
-      setVaultZone(zone);
-      setUnlocked(true);
-      onUnlocked?.();
-    },
-  });
-
   useVaultZoneIdle(zone, unlocked, lock);
+
+  useEffect(() => {
+    if (unlocked || !hasVaultGate()) return;
+    unlock();
+  }, [unlocked, unlock]);
 
   useEffect(() => {
     if (!unlocked || !clearOnUnmount) return;
@@ -63,21 +64,22 @@ export function VaultZoneGate({
   }, [zone, unlocked, clearOnUnmount]);
 
   const tryUnlock = async () => {
-    if (useWebAuthn && window.PublicKeyCredential) {
-      setWebAuthnPending(true);
-      setWebAuthnFailed(false);
-      const ok = await authenticateVaultGate();
-      setWebAuthnPending(false);
-      if (ok) {
-        setVaultZone(zone);
-        setUnlocked(true);
-        onUnlocked?.();
+    setError(null);
+    if (!window.PublicKeyCredential) {
+      if (hasVaultGate()) {
+        unlock();
         return;
       }
-      setWebAuthnFailed(true);
+      setError('Biometri krävs. Öppna Valv via Fyren (håll Hjärtat 3 sek) och försök igen.');
+      return;
     }
-    if (pin.submit()) {
-      /* setVaultZone via onUnlocked */
+    setWebAuthnPending(true);
+    const ok = await authenticateVaultGate();
+    setWebAuthnPending(false);
+    if (ok) {
+      unlock();
+    } else {
+      setError('Biometri avbruten. Försök igen.');
     }
   };
 
@@ -87,23 +89,17 @@ export function VaultZoneGate({
 
   return (
     <BentoCard title={title} icon={<Lock className="h-4 w-4" />}>
-      <PinGate
-        description={description}
-        pin={pin.pin}
-        confirmPin={pin.confirmPin}
-        setupMode={pin.isSetup}
-        error={pin.error}
-        onPinChange={pin.setPin}
-        onConfirmPinChange={pin.setConfirmPin}
-        onSubmit={() => void tryUnlock()}
-        submitLabel={webAuthnPending ? 'Verifierar…' : pin.isSetup ? 'Skapa PIN' : 'Lås upp'}
-        icon={useWebAuthn ? <Fingerprint className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
-      />
-      {webAuthnFailed && (
-        <p className="mt-2 text-xs text-text-dim">
-          Biometri avbruten — ange PIN manuellt och tryck Lås upp igen.
-        </p>
-      )}
+      <p className="mb-3 text-sm text-text-muted">{description}</p>
+      <button
+        type="button"
+        disabled={webAuthnPending}
+        onClick={() => void tryUnlock()}
+        className="btn-pill--accent flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 disabled:opacity-60"
+      >
+        <Fingerprint className="h-4 w-4" strokeWidth={2} />
+        {webAuthnPending ? 'Verifierar…' : 'Lås upp med biometri'}
+      </button>
+      {error ? <p className="mt-2 text-xs text-amber-400/90">{error}</p> : null}
     </BentoCard>
   );
 }

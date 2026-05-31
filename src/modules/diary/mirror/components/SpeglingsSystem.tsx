@@ -65,7 +65,7 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
             className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-accent/20 px-3 py-2 text-xs uppercase tracking-widest text-accent/80 hover:bg-accent/5"
           >
             <Lock className="h-3 w-3" />
-            Fortsätt till fördjupad spegling (PIN)
+            Fortsätt till fördjupad spegling (biometri)
           </button>
         )}
       </BentoCard>
@@ -74,7 +74,7 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
         <VaultZoneGate
           zone="speglar_forensic"
           title="Fördjupad spegling"
-          description="VIVIR, Svart på vitt och bevisjämförelse. Samma PIN som Valv."
+          description="VIVIR, Svart på vitt och bevisjämförelse. Fingeravtryck eller Face ID."
         >
           <SpeglingsForensicPanel userId={user?.uid} initialFeeling={feeling} />
         </VaultZoneGate>

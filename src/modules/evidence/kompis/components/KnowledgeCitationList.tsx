@@ -45,14 +45,14 @@ export function KnowledgeCitationList({ citations, onCitationClick, activeCitati
                 : 'border-border bg-surface/40'
             }`}
           >
-            <p className="text-xs font-medium text-text">
+            <span className="block text-xs font-medium text-text">
               {c.title} · {c.date}
-            </p>
-            <p className="mt-1 text-[10px] uppercase tracking-wider text-text-dim">
+            </span>
+            <span className="mt-1 block text-[10px] uppercase tracking-wider text-text-dim">
               {COLLECTION_LABEL[c.collection]} · {c.docId.slice(0, 8)}…
               {clickable ? actionHint : ''}
-            </p>
-            <p className="mt-1 line-clamp-3 text-sm text-text-muted">{c.excerpt}</p>
+            </span>
+            <span className="mt-1 block line-clamp-3 text-sm text-text-muted">{c.excerpt}</span>
           </button>
         );
       })}

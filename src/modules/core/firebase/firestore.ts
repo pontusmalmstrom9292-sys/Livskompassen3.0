@@ -6,7 +6,7 @@ import {
   getFirestore,
   initializeFirestore,
   persistentLocalCache,
-  persistentSingleTabManager,
+  persistentMultipleTabManager,
   query,
   serverTimestamp,
   setDoc,
@@ -29,7 +29,7 @@ function initFirestoreDb() {
   try {
     return initializeFirestore(app, {
       localCache: persistentLocalCache({
-        tabManager: persistentSingleTabManager({}),
+        tabManager: persistentMultipleTabManager(),
       }),
     });
   } catch (err) {

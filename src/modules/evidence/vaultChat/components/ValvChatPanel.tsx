@@ -31,11 +31,11 @@ function CitationList({
               disabled={!onCitationClick}
               className="w-full rounded-lg border border-success/20 bg-success/5 p-2 text-left hover:opacity-90 disabled:cursor-default"
             >
-              <p className="text-[10px] text-success">
-                {c.date || 'datum saknas'} · {c.docId.slice(0, 8)}…
+              <span className="block text-[10px] text-success">
+                {c.date || 'datum saknas'} · {(c.docId ?? 'okänd').slice(0, 8)}…
                 {onCitationClick ? ' · visa post' : ''}
-              </p>
-              <p className="mt-1 text-xs text-text-muted">{c.excerpt}</p>
+              </span>
+              <span className="mt-1 block text-xs text-text-muted">{c.excerpt}</span>
             </button>
           </li>
         ))}
@@ -69,7 +69,7 @@ function ChatBubble({
               : 'rounded-bl-sm glass-card border border-indigo-400/15 text-text-muted'
           }`}
         >
-          <p className="whitespace-pre-wrap text-sm leading-relaxed">{msg.text}</p>
+          <div className="whitespace-pre-wrap text-sm leading-relaxed">{msg.text}</div>
           {msg.role === 'assistant' && msg.citations && (
             <CitationList citations={msg.citations} onCitationClick={onCitationClick} />
           )}
@@ -85,7 +85,11 @@ export function ValvChatPanel({ active, onCitationClick }: ValvChatPanelProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messages.length === 0 && !loading) return;
+    const timer = window.setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 80);
+    return () => window.clearTimeout(timer);
   }, [messages, loading]);
 
   const handleSubmit = (e: React.FormEvent) => {
