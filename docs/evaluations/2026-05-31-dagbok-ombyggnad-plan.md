@@ -1,7 +1,7 @@
 # Dagbok — ombyggnadsplan Fas 1 (2026-05-31)
 
 **Input:** `2026-05-31-hub-dagbok-analys.md`  
-**Status:** Fas 1 implementerad
+**Status:** Fas 2 implementerad (2026-05-31 Master YOLO `hub-dagbok`)
 
 ## Fas 1
 - Wizard unmount cleanup i `useJournalFlow.ts` (Zero Footprint)
@@ -11,6 +11,9 @@
 - [x] `npm run smoke:orkester`
 - [ ] Manuell Fas 5A Vävaren (prod)
 
+## Fas 2
+- [x] Flikordning canonical i `navTruth`
+- [x] Dagbok-SPEC synkad med `weaver_pending` HITL
+
 ## Fas 2+ (PMIR)
-- Synka Dagbok-SPEC med weaver_pending HITL
-- Flikordning canonical i appNavigation + navTruth
+- Ytterligare Vävaren-prod E2E (manuell Fas 5A)

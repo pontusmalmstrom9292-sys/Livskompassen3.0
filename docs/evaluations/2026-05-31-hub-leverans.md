@@ -57,9 +57,13 @@ PASS — se `2026-05-31-hub-baseline.md`
 
 ---
 
+## Våg 5 — Fas 2 (Master YOLO 2026-05-31)
+
+PASS: Göra, Dagbok, Trygghet, Arbetsliv, Vardag (+ MåBra, Valv samla, Inkast, Kunskap UX).  
+Statusplan: [`2026-06-01-master-yolo-status.md`](./2026-06-01-master-yolo-status.md)
+
 ## Kvar (PMIR / manuellt)
 
-- Fas 5A manuell prod (#3, #4, #2d)
-- Barnporten kanon-UI §7b
-- Dubbel TabBar på Planering (Fas 2)
-- Doc-synk module_plan / specs
+- Fas 5A manuell prod (#3, #4, #2d) — [`2026-06-01-USER-nasta-steg.md`](./2026-06-01-USER-nasta-steg.md)
+- Barnporten kanon-UI §7b · Familje-PIN · G18 Bevis-flik
+- Fas 5D: Projekt P2 + Barnporten QR/CB2+ (**PMIR SKIP**)

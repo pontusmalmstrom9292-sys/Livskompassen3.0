@@ -248,6 +248,8 @@ function main() {
     'P1',
     'P4',
   );
+  mustInclude('firestore.rules', 'match /project_rules/{docId}');
+  mustInclude('src/modules/admin/projects/api/projectRulesApi.ts', 'listenProjectRules');
 
   // Fyren widget + tyst inspelning (design lock)
   mustInclude(

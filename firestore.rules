@@ -192,6 +192,40 @@ service cloud.firestore {
       allow delete: if isOwner();
     }
 
+    // Projekt — automation (ej WORM-bevis)
+    match /project_rules/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.label is string
+        && request.resource.data.label.size() > 0
+        && request.resource.data.label.size() <= 80
+        && request.resource.data.matchPattern is string
+        && request.resource.data.matchPattern.size() <= 200
+        && request.resource.data.action in ['create_task', 'add_note']
+        && request.resource.data.enabled is bool
+        && (!('targetProjectId' in request.resource.data)
+          || request.resource.data.targetProjectId == null
+          || (request.resource.data.targetProjectId is string
+            && request.resource.data.targetProjectId.size() > 0
+            && request.resource.data.targetProjectId.size() <= 128));
+      allow update: if isOwner()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.label is string
+        && request.resource.data.label.size() > 0
+        && request.resource.data.label.size() <= 80
+        && request.resource.data.matchPattern is string
+        && request.resource.data.matchPattern.size() <= 200
+        && request.resource.data.action in ['create_task', 'add_note']
+        && request.resource.data.enabled is bool
+        && (!('targetProjectId' in request.resource.data)
+          || request.resource.data.targetProjectId == null
+          || (request.resource.data.targetProjectId is string
+            && request.resource.data.targetProjectId.size() > 0
+            && request.resource.data.targetProjectId.size() <= 128));
+      allow delete: if isOwner();
+    }
+
     match /economy_profiles/{uid} {
       allow read: if isAuthenticated() && request.auth.uid == uid;
       allow create: if isAuthenticated()

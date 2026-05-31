@@ -23,6 +23,7 @@
 | 2026-05-31T12:25Z | inkast-fas2 | PASS | InboxReviewQueue Planering |
 | 2026-05-31T12:25Z | kunskap-ux | PASS | citations wired |
 | 2026-05-31T12:25Z | projekt-p2 | SKIP | firestore.rules PMIR |
+| 2026-06-01T20:30Z | projekt-p2 | PASS | PMIR godkänd; project_rules Firestore + migration; deploy rules+hosting |
 | 2026-05-31T12:25Z | lifeos-d | SKIP | routine_templates PMIR |
 | 2026-05-31T12:25Z | barnporten-fas2 | SKIP | QR/CB2 manuell |
 | 2026-05-31T12:30Z | planering-fas3 | PARTIAL | Paralys Fokus; Gmail SKIP |

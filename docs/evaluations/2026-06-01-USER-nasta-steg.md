@@ -1,7 +1,8 @@
 # Ditt nästa steg — manuell smoke (ett ark)
 
 **Prod:** https://gen-lang-client-0481875058.web.app  
-**Före test:** Cmd+Shift+R
+**Före test:** Cmd+Shift+R  
+**Statusplan:** [`2026-06-01-master-yolo-status.md`](./2026-06-01-master-yolo-status.md) (kö done · Fas 5D PMIR SKIP)
 
 Agent har kört kod + statisk smoke. **Du** bekräftar i riktig app.
 
@@ -51,6 +52,15 @@ Kanon: [`2026-06-01-superhub-leverans.md`](./2026-06-01-superhub-leverans.md)
 
 1. Liv → Planering → **Handling** (kanban)  
 2. Länkar **Fokus / Framsteg / Regler** (inte dubbel TabBar för Handling/Inkorg)
+
+---
+
+## F — Projekt regler (ny 2026-06-01)
+
+1. `/projekt/regler` — logga in  
+2. **+ Lägg till regel** → spara → ladda om sidan (regeln kvar)  
+
+**PASS / FAIL:** ___________
 
 ---
 

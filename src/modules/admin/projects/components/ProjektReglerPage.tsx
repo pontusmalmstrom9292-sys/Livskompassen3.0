@@ -1,17 +1,12 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HubPageShell } from '../../../core/layout/HubPageShell';
 import { GoraHubTabBar } from '../../../core/navigation/GoraHubTabBar';
-import { useStore } from '../../../core/store';
-import {
-  loadProjectAutomationRules,
-  saveProjectAutomationRules,
-} from '../api/projectAutomationApi';
-import type { ProjectAutomationRule } from '../types';
+import { useProjectRules } from '../hooks/useProjectRules';
+import type { ProjectAutomationAction } from '../types';
+import type { ProjectRuleInput } from '../types/projectRule';
 
-function newRule(): ProjectAutomationRule {
+function emptyRule(): ProjectRuleInput {
   return {
-    id: `rule_${Date.now()}`,
     label: 'Ny regel',
     matchPattern: '',
     action: 'create_task',
@@ -19,26 +14,35 @@ function newRule(): ProjectAutomationRule {
   };
 }
 
-/** Route: /projekt/regler — P4 automation (lokal persistens, kopplar till planering). */
+/** Route: /projekt/regler — P4 automation (`project_rules` Firestore). */
 export function ProjektReglerPage() {
-  const user = useStore((s) => s.user);
-  const [rules, setRules] = useState<ProjectAutomationRule[]>([]);
-  const [saved, setSaved] = useState(false);
+  const { user, rules, loading, error, setError, addRule, patchRule, removeRule } = useProjectRules();
 
-  useEffect(() => {
-    if (!user) {
-      setRules([]);
-      return;
+  const persistField = async (ruleId: string, patch: Partial<ProjectRuleInput>) => {
+    setError(null);
+    try {
+      await patchRule(ruleId, patch);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Kunde inte spara regel.');
     }
-    setRules(loadProjectAutomationRules(user.uid));
-  }, [user]);
+  };
 
-  const persist = (next: ProjectAutomationRule[]) => {
-    setRules(next);
-    if (user) {
-      saveProjectAutomationRules(user.uid, next);
-      setSaved(true);
-      window.setTimeout(() => setSaved(false), 2000);
+  const handleAdd = async () => {
+    if (!user) return;
+    setError(null);
+    try {
+      await addRule(emptyRule());
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Kunde inte skapa regel.');
+    }
+  };
+
+  const handleRemove = async (ruleId: string) => {
+    setError(null);
+    try {
+      await removeRule(ruleId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Kunde inte ta bort regel.');
     }
   };
 
@@ -46,7 +50,7 @@ export function ProjektReglerPage() {
     <HubPageShell
       eyebrow="Göra"
       title="Regler & automation"
-      lead="Projekt-automation lokalt på enheten. E-postrouting (ex → Hamn) ligger under Planering → Regler."
+      lead="Projekt-automation i molnet (synkas mellan enheter). E-postrouting ligger under Planering → Regler."
     >
       <GoraHubTabBar />
       <div className="flex flex-wrap gap-3 text-xs">
@@ -59,11 +63,11 @@ export function ProjektReglerPage() {
       </div>
 
       {!user && <p className="mt-3 text-sm text-text-muted">Logga in för att spara regler.</p>}
-
-      {saved && <p className="mt-2 text-xs text-accent">Sparat lokalt på denna enhet.</p>}
+      {loading && user && <p className="mt-3 text-sm text-text-dim">Laddar regler…</p>}
+      {error && <p className="mt-2 text-xs text-danger">{error}</p>}
 
       <div className="home-module-stack mt-4">
-        {rules.length === 0 && (
+        {!loading && rules.length === 0 && (
           <p className="text-sm text-text-dim">Inga regler än. Lägg till en enkel När X → skapa uppgift.</p>
         )}
         {rules.map((rule) => (
@@ -72,61 +76,42 @@ export function ProjektReglerPage() {
               <input
                 type="checkbox"
                 checked={rule.enabled}
-                onChange={(e) =>
-                  persist(rules.map((r) => (r.id === rule.id ? { ...r, enabled: e.target.checked } : r)))
-                }
+                onChange={(e) => void persistField(rule.id, { enabled: e.target.checked })}
               />
               Aktiv
             </label>
             <input
               className="input-glass w-full text-sm"
               value={rule.label}
-              onChange={(e) =>
-                persist(rules.map((r) => (r.id === rule.id ? { ...r, label: e.target.value } : r)))
-              }
+              onChange={(e) => void persistField(rule.id, { label: e.target.value })}
               placeholder="Regelnamn"
             />
             <input
               className="input-glass w-full text-sm"
               value={rule.matchPattern}
-              onChange={(e) =>
-                persist(rules.map((r) => (r.id === rule.id ? { ...r, matchPattern: e.target.value } : r)))
-              }
+              onChange={(e) => void persistField(rule.id, { matchPattern: e.target.value })}
               placeholder="Matchar (ämne/avsändare/text)"
             />
             <select
               className="input-glass w-full text-sm"
               value={rule.action}
               onChange={(e) =>
-                persist(
-                  rules.map((r) =>
-                    r.id === rule.id
-                      ? { ...r, action: e.target.value as ProjectAutomationRule['action'] }
-                      : r,
-                  ),
-                )
+                void persistField(rule.id, {
+                  action: e.target.value as ProjectAutomationAction,
+                })
               }
             >
               <option value="create_task">Skapa uppgift i Handling</option>
               <option value="add_note">Lägg anteckning i projekt</option>
             </select>
-            <button
-              type="button"
-              className="text-xs text-danger"
-              onClick={() => persist(rules.filter((r) => r.id !== rule.id))}
-            >
+            <button type="button" className="text-xs text-danger" onClick={() => void handleRemove(rule.id)}>
               Ta bort regel
             </button>
           </div>
         ))}
       </div>
 
-      <button
-        type="button"
-        disabled={!user}
-        className="btn-pill--accent mt-4 text-sm"
-        onClick={() => persist([...rules, newRule()])}
-      >
+      <button type="button" disabled={!user || loading} className="btn-pill--accent mt-4 text-sm" onClick={() => void handleAdd()}>
         + Lägg till regel
       </button>
 

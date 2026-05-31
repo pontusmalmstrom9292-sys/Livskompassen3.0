@@ -4,7 +4,7 @@
 
 | Spår | Agent 2026-06-01 | Nästa |
 |------|------------------|-------|
-| Projekt P2 | **SKIP** — [`2026-05-31-blocker-projekt-p2.md`](./2026-05-31-blocker-projekt-p2.md) | Explicit order: `firestore.rules` + `project_rules` |
+| Projekt P2 | **DONE** 2026-06-01 — deploy `firestore:rules` | Test `/projekt/regler` |
 | Barnporten Fas 2 | **SKIP** — [`2026-05-31-blocker-barnporten-fas2.md`](./2026-05-31-blocker-barnporten-fas2.md) | Manuell #3 + barnenhet |
 | MaterialPack-editor | **SKIP** — [`2026-05-31-blocker-lifeos-d.md`](./2026-05-31-blocker-lifeos-d.md) | `kör kopplingar D` efter PMIR |
 

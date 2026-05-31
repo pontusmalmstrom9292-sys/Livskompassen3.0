@@ -1,7 +1,7 @@
 # Arbetsliv — ombyggnadsplan Fas 1 (2026-05-31)
 
 **Input:** `2026-05-31-hub-arbetsliv-analys.md`  
-**Status:** Fas 1 implementerad
+**Status:** Fas 2 implementerad (2026-05-31 Master YOLO `hub-arbetsliv`)
 
 ## Fas 1
 - Flik «Ekonomilogg» i navTruth + hubContextBar
@@ -12,6 +12,9 @@
 - [x] `npm run smoke:arbetsliv`
 - [x] `npm run smoke:stampla`
 
+## Fas 2
+- [x] `module_plan` synk (3 flikar + Valv)
+- [x] Valv CTA i hub-header
+
 ## Fas 2+
-- module_plan synk (3 flikar + Valv)
-- Valv CTA i hub-header
+- (öppet enligt hub-analys — inget blockerat av PMIR)

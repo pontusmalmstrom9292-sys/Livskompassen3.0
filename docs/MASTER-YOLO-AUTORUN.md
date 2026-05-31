@@ -157,7 +157,8 @@ Enligt [`2026-05-31-hub-syntes-nav.md`](./evaluations/2026-05-31-hub-syntes-nav.
 1. [`.orkester/master-state.json`](../.orkester/master-state.json) — `status`, `skippedWaves` (lokal, gitignored)
 2. Senaste [`docs/evaluations/*-master-yolo-leverans.md`](./evaluations/) + [`*-master-yolo-log.md`](./evaluations/)
 3. Relevant [`docs/evaluations/*-blocker-<waveId>.md`](./evaluations/) om du tar en SKIP-våg
-4. Manuell app: [`docs/evaluations/2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md)
+4. Statusplan: [`docs/evaluations/2026-06-01-master-yolo-status.md`](./evaluations/2026-06-01-master-yolo-status.md)
+5. Manuell app: [`docs/evaluations/2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md)
 
 **En våg = en chatt** — använd [Per-våg Agent-prompt](#per-våg-agent-prompt-mall) nedan.
 

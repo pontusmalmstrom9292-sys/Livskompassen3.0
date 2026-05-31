@@ -44,7 +44,7 @@ Alla planfiler har `status: closed` överst. **Öppet arbete finns endast i tabe
 | **dagbok** | `/dagbok` | Fas 1–4 **done** · storage deploy **done** | manuell smoke #2d |
 | **mabra** | `/mabra` | §5 guardrail + §3 Vit djup-länk + **IA Våg 3 kompakt UI** | **done** 2026-05-30 |
 | **planering** | `/planering?tab=handling` | Fas 2 **done** (PLANERING_MORE_TABS, Paralys Fokus) · Master YOLO hub-gora | **done** |
-| **projekt** | `/projekt` | MaterialPack **done** · `project_rules` Firestore defer | `kör Projekt Fas 3b` |
+| **projekt** | `/projekt` | MaterialPack **done** · `project_rules` Firestore **done** 2026-06-01 | deploy rules · test `/projekt/regler` |
 | **kompis/kunskap** | Valv `kunskapsbank` | Fas 1.5 **done** · Fas 2 seed-bank | `specialist-kunskap-seed` |
 | **barnporten** | `/barnporten` | P1 + CB1 **done** · manuell smoke #3 · QR CB2+ | `kör manuell smoke #3` |
 | **valv** | `/dagbok?tab=bevis` | Vävaren HITL **done** 2026-05-31 (`weaver_pending`, approve/reject) | [`2026-05-31-pmir-session-rniv`](./evaluations/2026-05-31-pmir-session-rniv.md) |

@@ -21,7 +21,7 @@
 - [x] MaterialPack-editor light — `/projekt/genvagar` (localStorage per användare)
 - [x] `getMaterialShortcuts` + overrides via `materialPackApi.ts`
 - [ ] Rutin → `planning_tasks` (delvis: `RoutinesPanel` på Planering)
-- [ ] `project_rules` Firestore — **kräver PMIR**
+- [x] `project_rules` Firestore — **done** 2026-06-01 (PMIR godkänd)
 
 ## Kopplingar (backlog)
 

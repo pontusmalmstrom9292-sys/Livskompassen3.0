@@ -66,6 +66,7 @@ function main() {
   mustInclude('src/modules/core/firebase/storage.ts', 'uploadProjectImage');
   mustInclude('src/modules/admin/planning/components/PlaneringPage.tsx', 'PlanningKanbanBoard', 'PLANERING_TAGLINE');
   mustInclude('firestore.rules', 'planning_tasks');
+  mustInclude('firestore.rules', 'match /project_rules/{docId}');
   mustInclude('docs/design/CHROME-EMBER-KANON.md', 'LÅST', 'data-panel-style');
   mustInclude('src/modules/core/layout/headerPanelStyle.ts', "return 'ember'");
   mustInclude('src/modules/core/layout/DockHubBand.tsx', 'data-panel-style={panelStyle}');

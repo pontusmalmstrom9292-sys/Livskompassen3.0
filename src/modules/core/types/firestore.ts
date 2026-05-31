@@ -257,6 +257,7 @@ export const FIRESTORE_COLLECTIONS = {
   payslip_snapshots: 'payslip_snapshots',
   planning_tasks: 'planning_tasks',
   planning_email_rules: 'planning_email_rules',
+  project_rules: 'project_rules',
   projects: 'projects',
   project_blocks: 'project_blocks',
 } as const;
