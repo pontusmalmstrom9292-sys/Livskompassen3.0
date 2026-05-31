@@ -1,6 +1,6 @@
 # Firebase-synk (Fas 3)
 
-Kanonisk rot: `Livskompassen2.0/`  
+Kanonisk rot: `Livskompassen3.0/`  
 Projekt: `gen-lang-client-0481875058`  
 Region Functions: `europe-west1`
 
@@ -11,8 +11,8 @@ Region Functions: `europe-west1`
 | Firestore rules (WORM) | Deployad |
 | Firestore indexes | Deployad |
 | Hosting | https://gen-lang-client-0481875058.web.app |
-| `generateEmbedding`, `analyzeMessage`, `invalidateSession`, `scheduledRetentionJob`, `knowledgeVaultQuery`, `valvChatQuery`, `ingestKampsparEntry`, `generateDossier`, `weaveJournalEntry`, m.fl. | Deployade (se [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md)) |
-| `notifyNewFile` | Deployad — **kräver** `NOTIFY_WEBHOOK_SECRET` (saknas i Secret Manager 2026-05-21) |
+| `generateEmbedding`, `analyzeMessage`, `invalidateSession`, `scheduledRetentionJob`, `knowledgeVaultQuery`, `valvChatQuery`, `ingestKampsparEntry`, `generateDossier`, `weaveJournalEntry`, `approveWeaverMetadata`, `rejectWeaverMetadata`, m.fl. | Deployade (se [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md)) |
+| `notifyNewFile` | Deployad — **kräver** `NOTIFY_WEBHOOK_SECRET` (finns i Secret Manager) |
 
 ## Data Connect vs Firestore
 
@@ -21,11 +21,11 @@ Region Functions: `europe-west1`
 
 ## Förutsättningar (du)
 
-1. `.env` i `Livskompassen2.0/` med alla `VITE_FIREBASE_*` (kopiera från `.env.example`).
+1. `.env` i `Livskompassen3.0/` med alla `VITE_FIREBASE_*` (kopiera från `.env.example`).
 2. Firebase Console → **Authentication → Anonymous** = Enabled.
 3. Starta om `npm run dev` efter `.env`-ändringar.
 
-## Deploy-kommandon (från `Livskompassen2.0/`)
+## Deploy-kommandon (från `Livskompassen3.0/`)
 
 ```bash
 cd functions && npm run build && cd ..

@@ -1,4 +1,4 @@
-# Modul-GAP — översikt (2026-05-29)
+# Modul-GAP — översikt (2026-05-31)
 
 **Syfte:** En sida — vad som är **klart i kod**, vad som är **öppet per modul**, och vad som körs **autonomt** vs **kräver dig**.
 
@@ -46,11 +46,11 @@ Alla planfiler har `status: closed` överst. **Öppet arbete finns endast i tabe
 | **projekt** | `/projekt` | MaterialPack **done** · `project_rules` Firestore defer | `kör Projekt Fas 3b` |
 | **kompis/kunskap** | Valv `kunskapsbank` | Fas 1.5 **done** · Fas 2 seed-bank | `specialist-kunskap-seed` |
 | **barnporten** | `/barnporten` | P1 + CB1 **done** · manuell smoke #3 · QR CB2+ | `kör manuell smoke #3` |
-| **valv** | `/dagbok?tab=bevis` | Vävaren försätt / polish | Spec/module_plan |
-| **core** | `/` | Manuell smoke #1–7, #18–20 | Du · [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md) |
+| **valv** | `/dagbok?tab=bevis` | Vävaren HITL **done** 2026-05-31 (`weaver_pending`, approve/reject) | [`2026-05-31-pmir-session-rniv`](./evaluations/2026-05-31-pmir-session-rniv.md) |
+| **core** | `/` | Manuell smoke #3, #4, #2d kvar · #1–2, #18 **PASS** | Du · [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) **Current truth** |
 | **inkast** | Hem `#inkast-lite` | Fas 2 **done**; fas 3 genväg defer | — |
 | **dossier** | `/dossier` | BBIC `reportType` **planned** | Spec §I.4 |
-| **ekonomi** | `/vardagen?tab=ekonomi` | Smoke #18 manuell | Du |
+| **ekonomi** | `/vardagen?tab=ekonomi` | Smoke #18 **PASS** 2026-05-27 | [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) |
 | **hamn** | `/hamn` | BIFF via `TryggHamnHub` | `smoke:design-modules` |
 | **auth/android** | app | **Verifierad 2026-05** | [`.context/android-capacitor.md`](../.context/android-capacitor.md) |
 

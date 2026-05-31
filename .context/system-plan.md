@@ -59,10 +59,10 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 
 ## Fas 3 (Firebase-synk)
 - [x] Firestore rules + indexes deployade
-- [x] Functions deployade; `notifyNewFile` deployad (webhook-secret + Apps Script verifiering kvar)
+- [x] Functions deployade; `notifyNewFile` deployad (G6 E2E **done** 2026-05-22)
 - [x] Firebase Hosting: https://gen-lang-client-0481875058.web.app
 - [x] Dokumentation: `docs/FIREBASE_SYNC.md`
-- [ ] Manuell smoke: spara test i valv + barnen + ekonomi (#18) — se `docs/SMOKE_CHECKLIST.md`
+- [ ] Manuell smoke i app (#3 Valv, #4 Barnen, #2d bilaga) — sanning: [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) **Current truth**
 - [x] `NOTIFY_WEBHOOK_SECRET` + Drive E2E → `kb_docs` (G6 **done** 2026-05-22)
 
 ## Drive wire-up (Apps Script → notifyNewFile)
@@ -73,7 +73,8 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] `.firebaserc` rättad; Firestore rules + indexes deployade
 - [x] Modul-Functions deployade (`europe-west1`); Hosting live — se `docs/DEPLOY.md`, `docs/FIREBASE_SYNC.md`
 - [x] `notifyNewFile` — G6 **done** 2026-05-22 (`kb_docs` E2E)
-- [ ] Manuell smoke enligt `docs/SMOKE_CHECKLIST.md` (#1–7, #18)
+- [x] Manuell smoke minimum (#1, #2, #18) **PASS** 2026-05-27
+- [ ] Manuell smoke kvar (#3, #4, #2d) — [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) **Current truth**
 
 ## Data Connect
 - Deployat (example-schema); **appmoduler använder Firestore** — DC avvaktas tills ekonomi (se `docs/FIREBASE_SYNC.md`)
@@ -107,11 +108,12 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 
 **Repomix → kanon (legacy):** `vault`→`reality_vault`, `kids_records`→`children_logs`, `diary`→`journal`. Mock `Kampspar`-typ ≠ `KampsparEntry` (G11).
 
-**Idag (2026-05-22, live — [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md)):**
-- Kunskap RAG — smoke PASS; ANN G2/G3 **VERIFY PASS** (54 vectors, defaults)
+**Idag (live — [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md), audit 2026-05-31):**
+- Kunskap RAG — smoke PASS; ANN G2/G3 **VERIFY PASS** (**173 vectors**, west1 defaults)
 - `valvChatQuery` — **deployad** (G1 **done**); smoke:valv PASS
 - Dossier `generateDossier` — **klart** (smoke PASS)
 - `notifyNewFile` — **deployad**; G6 **done** 2026-05-22
+- Vävaren HITL — `approveWeaverMetadata` / `rejectWeaverMetadata` **deployade**; `weaver_pending` rules + UI enligt PMIR 2026-05-31
 - Legacy Python us-central1 — **0 fn kvar** (FAS4 steg 1–5 **done** 2026-05-22)
 - Retention G5 **done**; mock Kampspar G11 **done**
 
@@ -144,7 +146,8 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 - [x] Tema E tokens + `HomeHeroKanon` / `LivskompassHero` på Hem
 - [x] Evaluations A–F + 6 modul-rapporter (`docs/archive/evaluations-2026-05-23/`)
 - [x] `npm run smoke:all` + `.context/design-modules-mockup.md`
-- [ ] Manuell smoke #1–7, #18–20 (användaren — checklista i `docs/SMOKE_RESULTS.md`)
+- [x] Manuell smoke minimum (#1, #2, #18) **PASS** 2026-05-27; #19–20 **STATIC PASS** 2026-05-29
+- [ ] Manuell smoke kvar (#3, #4, #2d) — [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) **Current truth**
 
 ## Life OS kopplingar (backlog — komihåg 2026-05-26)
 

@@ -1,15 +1,15 @@
 # Senaste sammanfattning — systemstatus
 
-**Datum:** 2026-05-29 (uppdaterad) · tidigare 2026-05-24  
+**Datum:** 2026-05-31 (doc-synk efter Vävaren HITL merge) · tidigare 2026-05-29  
 **Gren:** `main` · Repo: Livskompassen3.0  
 **Ersätter inte** detaljrapporterna under [`archive/evaluations-2026-05-23/`](../archive/evaluations-2026-05-23/) — de är **historik**.  
-**Senaste Dagbok-session:** [`2026-05-29-dagbok-SESSION-ARKIV.md`](./2026-05-29-dagbok-SESSION-ARKIV.md)
+**Senaste session:** S8 Vävaren HITL — [`2026-05-31-pmir-session-rniv.md`](./2026-05-31-pmir-session-rniv.md)
 
 ---
 
 ## Nuläge i en mening
 
-**Fas 4 — verifiering + polish:** Arkiv G1–G16 **done** i kod; frontend MVP för alla huvudkluster; **Planering `/planering` live**; Theme Pack I på main; git **en trunk** (`main`).
+**Fas 4 — verifiering + polish:** Arkiv G1–G16 **done** i kod; frontend MVP för alla huvudkluster; **Planering `/planering` live**; **Vävaren HITL** på `main` (2026-05-31); git **en trunk** (`main`).
 
 ---
 
@@ -24,6 +24,7 @@
 | Sacred + WORM | `reality_vault`, `children_logs`, `journal`, `dossier_snapshots` |
 | Orkester natt | `npm run orkester:night` + specialister |
 | Entiteter / inkorg | G9–G10 done |
+| Vävaren HITL | `weaver_pending` + approve/reject — kod + functions **deployade**; rules/hosting vid behov |
 
 ---
 
@@ -31,7 +32,8 @@
 
 | Punkt | Typ |
 |-------|-----|
-| Manuell smoke | `docs/SMOKE_CHECKLIST.md` #1–7, #18 ekonomi |
+| Manuell smoke (app) | #3 Valv, #4 Barnen, #2d bilaga, projektbild — se [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md) **Current truth** |
+| Manuell smoke (klart) | #1 Auth, #2 Dagbok, #18 Ekonomi **PASS** 2026-05-27 · #19–20 **STATIC PASS** 2026-05-29 |
 | Opt-in minne-ingest | Trauma-policy — användaren aktiverar |
 | Barnporten full PWA | Spec + agents; route `/barnporten` ej full MVP |
 | `feat/mabra-fragekort` | Frågekort vs KBT — produktbeslut (parked branch) |
@@ -66,6 +68,7 @@ Se [`DOC-DRIFT-RAPPORT.md`](../DOC-DRIFT-RAPPORT.md).
 
 ## Nästa steg (valfritt)
 
-- Manuell smoke 15 min  
+- Manuell smoke #3, #4, #2d (15 min) — [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md)  
+- Deploy rules/hosting om `weaver_pending` UI ska live i prod  
 - *"kör [GAP]"* endast om ny implementation  
 - `feat/mabra` — PMIR före merge  

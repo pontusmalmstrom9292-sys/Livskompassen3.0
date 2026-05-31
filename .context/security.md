@@ -55,8 +55,10 @@ Dessa funktioner får **inte** försvagas eller mockas. Verifiera via [`docs/SMO
 ## Zero Footprint
 
 - Vault-unlock och Valv-Chat-state hålls **endast i session** (RAM).
-- Rensning triggas vid: `visibilitychange` (blur), timeout, `invalidateSession` callable, Kill Switch.
-- ADK SynapseBus: `clearSynapseState` vid logout.
+- Rensning triggas vid: vault idle timeout (15 min), `invalidateSession` callable, Kill Switch (skaka ≥15 m/s²).
+- **Kill Switch** och **`invalidateSession`** rensar server-side Vertex/ADK cache via `clearSynapseState` (`kompis-supervisor.ts`).
+- **Vanlig utloggning (`signOutUser`):** rensar lokal app-unlock och Firebase Auth — anropar **inte** `invalidateSession` idag. Server-cache kan kvarstå till idle timeout om valv var upplåst. Medveten avvägning tills wire-up; se `authService.ts`.
+- **`visibilitychange` blur-lock:** borttagen — vault låses via idle timeout, inte vid flikbyte.
 - **Förbjudet:** Persista dekrypterat valv-innehåll i localStorage/IndexedDB utan explicit användargodkännande.
 
 ---
@@ -94,7 +96,8 @@ Append-only collections (create ja, update/delete nej):
 | `speglingsMirror` | Firebase Auth | Zero Footprint session |
 | `mabraCoach` | Firebase Auth | Opt-in coach |
 | `notifyNewFile` | **Webhook secret** | Drive → `kb_docs`; fail-closed utan secret |
-| `invalidateSession` | Firebase Auth | Zero Footprint |
+| `invalidateSession` | Firebase Auth | Zero Footprint (server cache wipe) |
+| `approveWeaverMetadata` / `rejectWeaverMetadata` | Firebase Auth | Vävaren HITL → `reality_vault` metadata |
 
 **Live inventering:** [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md)
 
@@ -139,12 +142,12 @@ Digital Conversation Analysis Pipeline skyddar mot psykologiskt missbruk och pro
 
 | ID | Beskrivning | Status |
 |----|-------------|--------|
-| G7–G14 | Life OS utbyggnad (minne, routing) | **open** |
-| U5.5 | Kompis → Barnen routing guard | **open** |
+| U5.5 | Kompis → Barnen routing guard | **delvis** — `barnenModuleRouteGuard.ts` i `knowledgeVaultQuery` |
 | U2.5 | HITL för känsliga exports | **open** |
-| Fas 3 smoke | Manuell valv + barnen Firestore | **open** |
+| Zero Footprint logout | `signOutUser` utan `invalidateSession` | **open** — dokumenterat ovan |
+| Manuell smoke app | #3 Valv, #4 Barnen, #2d | **USER** — se [`SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) |
 
-Full lista: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md)
+G7–G16 backend: **done** — [`Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md)
 
 ---
 

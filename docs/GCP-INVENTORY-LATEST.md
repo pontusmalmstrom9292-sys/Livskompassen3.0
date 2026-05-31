@@ -1,8 +1,8 @@
 # GCP / Firebase-inventering — LIVE (senast)
 
-**Datum:** 2026-05-22 (U6 live audit · FAS4 steg 1–7 klart · Grunder GAP pass) · **GAP-synk P0:** 2026-05-29 (G9–G14 summary → done, enligt register)  
+**Datum:** 2026-05-31 (live audit — doc-synk efter Vävaren HITL)  
 **Projekt:** `gen-lang-client-0481875058` (number `1084026575972`)  
-**Metod:** `firebase functions:list`, `gcloud ai indexes/endpoints list`, `gcloud storage du`, `gcloud compute instances list`, `gcloud secrets list`  
+**Metod:** `firebase functions:list`, `gcloud ai indexes list`, `gcloud ai index-endpoints describe`  
 **Beslut:** [`GCP-KONSOLIDERING-BESLUT.md`](GCP-KONSOLIDERING-BESLUT.md)  
 **Ersätter för beslut:** [`docs/archive/GCP-INVENTORY-2026-05-21.md`](archive/GCP-INVENTORY-2026-05-21.md)
 
@@ -14,8 +14,9 @@
 |------|--------|-----|
 | `valvChatQuery` deployad (west1) | **done** | G1 |
 | Vector endpoint + `livskompassen_kv_deployed_v1` | **done** | G2 **VERIFY PASS** |
-| Index west1, **102 vectors** | **done** | G3 **VERIFY PASS** |
+| Index west1, **173 vectors** | **done** | G3 **VERIFY PASS** (sync 2026-05-31) |
 | `NOTIFY_WEBHOOK_SECRET` | **finns** | G6 **done** — E2E kb_docs 2026-05-22 |
+| Vävaren HITL callables | **deployade** | `approveWeaverMetadata`, `rejectWeaverMetadata` |
 | Legacy Python (0 fn kvar) | **avvecklad** | G4 **done** — steg 1–5 2026-05-22 |
 | Compute Engine VMs | **0** | — |
 | `@cursor/sdk` | **saknas** | **WAIT** (Natt-CI) |
@@ -24,26 +25,45 @@
 
 ## Deployade Cloud Functions
 
-### Node.js (repo — europe-west1) — **KEEP**
+**Totalt:** 33 functions · **europe-west1** · Node.js 20 · 0 Python legacy
 
-| Function | Version | I repo |
-|----------|---------|--------|
-| `knowledgeVaultQuery` | v2 | ja |
-| `valvChatQuery` | v2 | ja |
-| `ingestKampsparEntry` | v1 | ja |
-| `generateEmbedding` | v1 | ja |
-| `analyzeMessage` | v1 | ja |
-| `speglingsMirror` | v1 | ja |
-| `generateDossier` | v1 | ja |
-| `weaveJournalEntry` | v1 | ja |
-| `journalWovenToKampspar` | v1 | ja |
-| `childrenLogsQuery` | v2 | ja |
-| `mabraCoach` | v1 | ja |
-| `breakDownResponse` | v1 | ja |
-| `getAgentRegistry` | v1 | ja |
-| `invalidateSession` | v1 | ja |
-| `notifyNewFile` | v1 | ja |
-| `scheduledRetentionJob` | v1 | ja |
+### Callable / HTTP (urval grupperat)
+
+| Function | Version | I repo | Silo / roll |
+|----------|---------|--------|-------------|
+| `knowledgeVaultQuery` | v2 | ja | Kunskap RAG |
+| `valvChatQuery` | v2 | ja | Valv RAG |
+| `childrenLogsQuery` | v2 | ja | Barnen RAG |
+| `addEntityProfile` | v2 | ja | G9 entiteter |
+| `getEntityProfileRegistry` | v2 | ja | G9 entiteter |
+| `getInboxQueue` | v2 | ja | G10 inkorg |
+| `confirmInboxItem` | v2 | ja | G10 inkorg |
+| `dismissInboxItem` | v2 | ja | G10 inkorg |
+| `previewInboxClassification` | v2 | ja | G10 inkorg |
+| `getContextCacheStatus` | v2 | ja | G12 cache |
+| `submitInkastLite` | v2 | ja | Inkast |
+| `analyzeMessage` | v1 | ja | BIFF / Hamn |
+| `approveWeaverMetadata` | v1 | ja | Vävaren HITL |
+| `rejectWeaverMetadata` | v1 | ja | Vävaren HITL |
+| `weaveJournalEntry` | v1 | ja | Vävaren async |
+| `journalWovenToKampspar` | v1 | ja | G7 opt-in |
+| `ingestKampsparEntry` | v1 | ja | Kunskap ingest |
+| `ingestKnowledgeDocument` | v1 | ja | Kunskap ingest |
+| `generateEmbedding` | v1 | ja | Vector |
+| `generateDossier` | v1 | ja | Dossier |
+| `generatePayslip` | v1 | ja | Arbetsliv |
+| `speglingsMirror` | v1 | ja | Speglar |
+| `journalQuickMirror` | v1 | ja | Dagbok |
+| `mabraCoach` | v1 | ja | MåBra |
+| `breakDownResponse` | v1 | ja | Kompis |
+| `getAgentRegistry` | v1 | ja | A2A |
+| `invalidateSession` | v1 | ja | Zero Footprint |
+| `ingestWidgetRecording` | v1 | ja | WH1 → valv |
+| `notifyNewFile` | v1 | ja | Drive webhook → synapse |
+| `scheduledRetentionJob` | v1 | ja | G5 retention |
+| `scheduledGeneratePayslip` | v1 | ja | Arbetsliv cron |
+
+Full lista: `firebase functions:list --project gen-lang-client-0481875058`
 
 ### Python legacy — **DEPRECATED G4 (avvecklad steg 5)**
 
@@ -66,8 +86,8 @@
 |--------|-----------|--------|
 | Index | `2686894156982255616` (`livskompassen-kv-index`, STREAM, 768 dim) | aktiv |
 | Endpoint | `4956462078572363776` (`livskompassen-kv-endpoint`) | aktiv |
-| Deployed index | `livskompassen_kv_deployed_v1` | synkad 2026-05-22T09:03:05Z |
-| Vectors count | **102** | live |
+| Deployed index | `livskompassen_kv_deployed_v1` | synkad 2026-05-31T00:19:07Z |
+| Vectors count | **173** | live (2026-05-31) |
 
 ### north1 — **avvecklad steg 6**
 
@@ -89,17 +109,10 @@
 | `livskompassen-knowledge-vault-worm` | 0 | **KEEP** |
 | `livskompassenv2` | 0 | **KEEP** (CMEK) |
 | `gcf-v2-*` europe-west1 | system | **KEEP** |
-| ~~`knowledge-base-bucket-gen-lang-client-0481875058`~~ | — | **raderad** legacy pass |
-| ~~`knowledge-base-docs-gen-lang-client-0481875058`~~ | — | **raderad** legacy pass |
-| ~~`gcf-v2-*` us-central1~~ | — | **raderad** legacy pass |
-| ~~`1084026575972-us-central1-blueprint-config`~~ | — | **raderad** legacy pass |
-| ~~`ekonomichefen`~~ | — | **raderad** steg 6 |
-| ~~`helthcoach`~~ | — | **raderad** steg 6 |
-| ~~`media-gen-lang-client-0481875058-0ebe`~~ | — | **raderad** steg 6 |
-| ~~`ai-studio-bucket-1084026575972-europe-west2`~~ | — | **raderad** steg 7 (121 MB experiment) |
-| ~~`cloud-ai-platform-365ee315-6b86-4041-b623-5121d5135266`~~ | — | **raderad** steg 7 (69 MB prompt-data) |
 | `gen-lang-client-0481875058` | 20 KB | **KEEP** |
 | `gen-lang-client-0481875058_cloudbuild` | — | **KEEP** (system) |
+
+Legacy buckets raderade steg 6–7 (2026-05-22) — se arkiv [`GCP-INVENTORY-2026-05-21.md`](archive/GCP-INVENTORY-2026-05-21.md).
 
 ---
 
@@ -115,8 +128,6 @@
 |--------|--------|--------|
 | `GEMINI_API_KEY` | finns | **KEEP** |
 | `NOTIFY_WEBHOOK_SECRET` | finns | **KEEP** |
-| ~~`django_admin_password-0ebe`~~ | — | **raderad** steg 6 |
-| ~~`django_settings-0ebe`~~ | — | **raderad** steg 6 |
 
 ---
 
@@ -150,24 +161,25 @@
 | G16 | **done** | RSD-prompt + PA appendix + U5.5 barn routing **done** 2026-05-22 |
 | V1 Genkit | **wait** |
 
+Ny backlog utanför G-serien: [`MODUL-GAP-OVERSIKT.md`](MODUL-GAP-OVERSIKT.md)
+
 ---
 
-## Nästa steg
+## Nästa steg (underhåll)
 
-1. **Grunder U1–U5 runtime klart** — U2.5 HITL + U5.5 routing + G7 journal_woven
-2. **GCP legacy buckets städade** — 5 buckets borta (2026-05-22)
-3. **G1–G14 done** (2026-05-22) — kanon: [`Arkiv-GAP-REGISTER.md`](specs/modules/Arkiv-GAP-REGISTER.md); ny backlog utanför G-serien
-4. **`@cursor/sdk`:** **WAIT** — [`docs/NATT-CI.md`](NATT-CI.md)
+1. **Periodisk refresh** — kör kommandon nedan efter större deploy
+2. **Manuell smoke i app** — [`SMOKE_RESULTS.md`](SMOKE_RESULTS.md) **Current truth**
+3. **`@cursor/sdk`:** **WAIT** — [`docs/NATT-CI.md`](NATT-CI.md)
 
 ---
 
 ## Uppdateringskommando
 
 ```bash
-cd /Users/Livskompassen/StudioProjects/Livskompassen2.0
+cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
 firebase functions:list --project gen-lang-client-0481875058
 gcloud ai indexes list --region=europe-west1 --project=gen-lang-client-0481875058
-gcloud ai index-endpoints list --region=europe-west1 --project=gen-lang-client-0481875058
+gcloud ai index-endpoints describe 4956462078572363776 --region=europe-west1 --project=gen-lang-client-0481875058
 gcloud storage ls --project=gen-lang-client-0481875058
 gcloud compute instances list --project=gen-lang-client-0481875058
 gcloud secrets list --project=gen-lang-client-0481875058

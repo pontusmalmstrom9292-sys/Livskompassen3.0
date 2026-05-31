@@ -79,3 +79,17 @@ Vid framtida utvärderingar: skapa ny fil `docs/evaluations/YYYY-MM-DD-*.md` —
 | Arkiv | `evaluations-closed-2026-05-29/` — vertex-spec, pmir-dagbok-planering, pmir-max-byggplan |
 | Stubs | Samma filnamn i `evaluations/` för PMIR + vertex-spec + kunskap-seed-draft |
 | Kanon öppet | Endast [`MODUL-GAP-OVERSIKT.md`](./MODUL-GAP-OVERSIKT.md) + [`2026-05-29-smoke-manuell.md`](./evaluations/2026-05-29-smoke-manuell.md) + content ingest |
+
+---
+
+## Del F — Doc-synk projektgranskning (2026-05-31)
+
+| Åtgärd | Detalj |
+|--------|--------|
+| Smoke sanning | [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) tabell **Current truth** |
+| Hub | [`SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md), [`SESSION-INDEX.md`](./evaluations/SESSION-INDEX.md) S8, [`SYSTEMKONTROLL.md`](./SYSTEMKONTROLL.md), [`.context/system-plan.md`](../.context/system-plan.md) |
+| Moln live audit | [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md) — 33 fn, **173 vectors**, Vävaren callables |
+| Projektrot 3.0 | [`DEPLOY.md`](./DEPLOY.md), [`FIREBASE_SYNC.md`](./FIREBASE_SYNC.md), [`GCP-FAS4-RUNBOOK.md`](./GCP-FAS4-RUNBOOK.md), [`DRIVE_AUTOMATION.md`](./DRIVE_AUTOMATION.md) |
+| Modulregister | [`MODUL-GAP-OVERSIKT.md`](./MODUL-GAP-OVERSIKT.md), [`MODUL-FUNKTIONS-REGISTER.md`](./MODUL-FUNKTIONS-REGISTER.md) |
+| Säkerhet | [`.context/security.md`](../.context/security.md) Zero Footprint faktiskt beteende |
+| Eval A | [`evaluations/2026-05-31-A-helhetsstatus.md`](./evaluations/2026-05-31-A-helhetsstatus.md) |

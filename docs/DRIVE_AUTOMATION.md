@@ -60,7 +60,7 @@ Klistra in innehållet från [`scripts/google-apps-script/sorter.gs`](../scripts
 
 ## Deploy och koppling
 
-Kör från projektroten (`Livskompassen2.0`). Samma steg finns i [DEPLOY.md](./DEPLOY.md#notifynewfile-drive-webhook).
+Kör från projektroten (`Livskompassen3.0`). Samma steg finns i [DEPLOY.md](./DEPLOY.md#notifynewfile-drive-webhook).
 
 ```bash
 # 1. Sätt webhook-secret (interaktiv — klistra in värdet när CLI frågar)

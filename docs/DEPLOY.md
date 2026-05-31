@@ -1,6 +1,6 @@
-# Deploy (Livskompassen2.0)
+# Deploy (Livskompassen3.0)
 
-Kanonisk rot: `Livskompassen2.0/` (inte `StudioProjects/`).
+Kanonisk rot: `Livskompassen3.0/` (projektrot med `firebase.json`).
 
 Firebase-projekt: `gen-lang-client-0481875058`  
 Region (Functions): `europe-west1`
@@ -15,7 +15,7 @@ Region (Functions): `europe-west1`
 ## Bygg (lokalt)
 
 ```bash
-cd Livskompassen2.0
+cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
 cd functions && npm run build && cd ..
 npm run build
 ```
@@ -23,7 +23,7 @@ npm run build
 ## Deploy — Firestore + Storage + modul-Functions
 
 ```bash
-cd Livskompassen2.0
+cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
 firebase deploy --only firestore:rules,firestore:indexes
 firebase deploy --only storage
 firebase deploy --only functions:analyzeMessage,functions:invalidateSession,functions:generateEmbedding,functions:ingestKampsparEntry,functions:knowledgeVaultQuery,functions:valvChatQuery,functions:getEntityProfileRegistry,functions:addEntityProfile,functions:scheduledRetentionJob,functions:weaveJournalEntry,functions:speglingsMirror,functions:generateDossier,functions:ingestWidgetRecording --force

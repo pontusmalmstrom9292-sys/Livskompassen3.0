@@ -11,7 +11,7 @@
 ## Baseline smoke (före avveckling)
 
 ```bash
-cd /Users/Livskompassen/StudioProjects/Livskompassen2.0
+cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
 npm run smoke:valv
 npm run smoke:kunskap
 npm run smoke:dossier

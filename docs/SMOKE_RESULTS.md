@@ -1,5 +1,27 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Current truth (2026-05-31)
+
+**Sanning:** denna tabell ersätter äldre "öppet"-rader i hub-dokument. Historik nedan behålls.
+
+| Kategori | # / kommando | Status | Senast |
+|----------|--------------|--------|--------|
+| **Manuell PASS** | #1 Auth | **PASS** | 2026-05-27 (användare) |
+| **Manuell PASS** | #2 Dagbok → `journal` | **PASS** | 2026-05-27 |
+| **Manuell PASS** | #18 Ekonomi → `transactions` | **PASS** | 2026-05-27 |
+| **Static PASS** | #19 Barnfokus | **PASS** | `smoke:locked-ux` 2026-05-29 |
+| **Static PASS** | #20 Valv Mönster + Orkester | **PASS** | `smoke:locked-ux` + `smoke:orkester` 2026-05-29 |
+| **Automatiserad PASS** | build, locked-ux, orkester, design-modules, locked-icons, innehall | **PASS** | 2026-05-28/29 · orkester:night 2026-05-29 |
+| **USER (du i app)** | #3 Valv → `reality_vault` | **USER** | — |
+| **USER (du i app)** | #4 Barnen → `children_logs` | **USER** | — |
+| **USER (du i app)** | #2d Dagbok bilaga → `journal_memories` | **USER** | — |
+| **USER (du i app)** | Projektbild → `project_media/` | **USER** | efter storage deploy 2026-05-29 |
+| **Deploy pending** | Vävaren HITL UI + `weaver_pending` rules | **FUNCTIONS LIVE** | `approveWeaverMetadata`/`rejectWeaverMetadata` deployade; verifiera rules/hosting i prod |
+
+**Checklista:** [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md) · **Hub:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
+
+---
+
 ## Deploy + post-deploy (2026-05-29 — körplan)
 
 **Agent:** `firebase deploy --only firestore:rules` **PASS** · `firebase deploy --only storage` **PASS** (projekt `gen-lang-client-0481875058`)  
