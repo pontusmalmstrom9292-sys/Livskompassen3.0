@@ -105,5 +105,6 @@ export function parsePlaneringTab(raw: string | null): PlaneringTab {
   ) {
     return raw;
   }
-  return 'hub';
+  if (raw === 'hub') return 'hub';
+  return 'handling';
 }

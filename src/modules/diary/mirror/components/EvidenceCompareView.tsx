@@ -107,7 +107,7 @@ function SessionEvidenceList({
                       className="mt-1 inline-flex items-center gap-1 text-xs text-accent hover:text-accent-light"
                     >
                       <ExternalLink className="h-3 w-3" />
-                      WORM-bevis i valvet
+                      Låsta poster i arkivet
                     </a>
                   ) : (
                     <p className="mt-1 text-[10px] text-text-dim">Endast i session — spara under ACT om du vill låsa.</p>

@@ -19,7 +19,7 @@ type JournalQuickModeProps = {
   mirrorLoading?: boolean;
   onMoodChange: (mood: string) => void;
   onToggleTag: (tag: string) => void;
-  onSave: (quickText: string) => void | Promise<void>;
+  onSave: (quickText: string, options?: { alsoToArkiv?: boolean }) => void | Promise<void>;
 };
 
 export function JournalQuickMode({
@@ -34,14 +34,16 @@ export function JournalQuickMode({
   onSave,
 }: JournalQuickModeProps) {
   const [quickText, setQuickText] = useState('');
+  const [alsoToArkiv, setAlsoToArkiv] = useState(false);
   const selected = getMoodDef(mood);
   const canSave = Boolean(mood) && !saving;
   const showHandoff = shouldShowJournalHandoff(quickText);
 
   const handleSubmit = () => {
     if (!canSave) return;
-    void onSave(quickText);
+    void onSave(quickText, { alsoToArkiv });
     setQuickText('');
+    setAlsoToArkiv(false);
   };
 
   return (
@@ -119,6 +121,18 @@ export function JournalQuickMode({
       </label>
 
       {showHandoff && <HandoffBox className="mt-4" />}
+
+      {quickText.trim().length >= 3 && (
+        <label className="mt-3 flex items-start gap-2 text-xs text-text-muted">
+          <input
+            type="checkbox"
+            className="mt-0.5"
+            checked={alsoToArkiv}
+            onChange={(e) => setAlsoToArkiv(e.target.checked)}
+          />
+          <span>Känsligt — sortera även till arkiv (granskning vid osäkerhet)</span>
+        </label>
+      )}
 
       <div className="reflektion-actions">
         <button

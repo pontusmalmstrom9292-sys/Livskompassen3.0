@@ -76,6 +76,7 @@ const submitInkastLiteCallable = httpsCallable<
     mimeType?: string;
     base64?: string;
     optInTrauma?: boolean;
+    sourceModule?: string;
   },
   SubmitInkastLiteResult
 >(functions, 'submitInkastLite');
@@ -86,6 +87,7 @@ export async function submitInkastLite(input: {
   mimeType?: string;
   base64?: string;
   optInTrauma?: boolean;
+  sourceModule?: string;
 }): Promise<SubmitInkastLiteResult> {
   try {
     const result = await submitInkastLiteCallable(input);

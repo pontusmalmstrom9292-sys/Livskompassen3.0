@@ -72,7 +72,7 @@ export function BarnportenInboxPanel() {
             className="btn-pill--secondary mt-2 text-xs"
             onClick={() => setPromoteId(row.id)}
           >
-            Flytta till Valv (HITL)
+            Granska i arkiv
           </button>
         </div>
       ))}

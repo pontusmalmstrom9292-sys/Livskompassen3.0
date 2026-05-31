@@ -13,7 +13,7 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 3. Read `.context/architecture.md`, `.context/arkitektur-beslut.md`, `.context/security.md`, `.context/database.md`, `.context/design-language.md`, and `.context/agents.md`.
 4. Apply the relevant `.cursor/rules/*.mdc` files before editing.
 5. For substantial changes, prepare a REASONS plan: Requirements, Entities, Approach, Structure, Operations, Norms, Safeguards.
-6. Preserve Sacred Features: Verklighetsvalvet, Sanningens Sköld, Morgonkompassen, Dossier-Generator, Speglings-Systemet, Zero Footprint, and Kill Switch.
+6. Preserve Sacred Features: Verklighetsvalvet, Sanningens Sköld, Morgonkompassen, Dossier-Generator, Speglings-Systemet, Draft Layer, and Device Clear. Kill Switch (shake-to-kill) removed 2026-06-01 — see `.context/security.md`.
 7. Preserve **Locked UX Features** (do not remove): Middagsfrågan; Valv **Mönster** + **Orkester**; design locks for **Planering**, **Fyren widget**, **Barnporten** (barn PWA + egen Orkester + Valv HITL). Register: [`.context/locked-ux-features.md`](.context/locked-ux-features.md). Verify: `npm run smoke:locked-ux`.
 
 ## Stack
@@ -98,6 +98,6 @@ These roles are project terminology in Cursor now. Runtime backend implementatio
 - Do not commit secrets, `.env`, service-account keys, OAuth tokens, or credential JSON files.
 - Do not hardcode agent prompts outside `functions/src/sharedRules.ts`.
 - Do not use LLM output as the source of truth for authorization, data ownership, or immutable evidence decisions.
-- Do not degrade Sacred Features or weaken Zero Footprint, Kill Switch, or Verklighetsvalvet behavior.
+- Do not degrade Sacred Features or weaken Device Clear, Draft Layer, or Verklighetsvalvet behavior.
 - Do not introduce nature-themed UI. Use Obsidian Calm and Nordic Dusk.
 - Keep changes tightly scoped to the requested task and preserve unrelated user work.

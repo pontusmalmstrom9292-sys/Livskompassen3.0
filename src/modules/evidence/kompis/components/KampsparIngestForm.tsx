@@ -3,6 +3,11 @@ import { Loader2, Plus, Shield } from 'lucide-react';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import { saveVaultLog } from '../../../core/firebase/firestore';
 import { useStore } from '../../../core/store';
+import {
+  IMMUTABLE_POST_LABEL,
+  IMMUTABLE_POST_SHORT,
+  SAVE_TO_VAULT_LABEL,
+} from '../../../core/copy/evidenceCopy';
 import { ingestKampsparEntry } from '../api/kampsparService';
 import {
   KAMPSPAR_CATEGORY_PRESETS,
@@ -69,7 +74,7 @@ export function KampsparIngestForm({ onSaved, compact = false }: Props) {
           entryType: 'simple',
           sourceRef: `kampspar/${result.docId}`,
         });
-        setSuccess('Sparat i Minne och som WORM-bevis i Verklighetsvalvet.');
+        setSuccess(`Sparat i Minne och som ${IMMUTABLE_POST_LABEL.toLowerCase()} i arkivet.`);
       } else {
         setSuccess('Sparat i Minne. Syns i Tidshjulet och Kunskapsvalvet.');
       }
@@ -93,7 +98,7 @@ export function KampsparIngestForm({ onSaved, compact = false }: Props) {
     <BentoCard
       title={compact ? 'Ny post' : 'Lägg till i Minne'}
       description={
-        compact ? 'Sparas i kampspar' : 'Typ, kategori och taggar — valfritt bevis i Valvet'
+        compact ? 'Sparas i Minne' : 'Typ, kategori och taggar — valfritt bevis i arkivet'
       }
     >
       <form onSubmit={handleSubmit} className="space-y-3">
@@ -193,8 +198,8 @@ export function KampsparIngestForm({ onSaved, compact = false }: Props) {
             className="mt-0.5"
           />
           <span className="text-sm text-text-muted">
-            <Shield className="mb-0.5 inline h-3.5 w-3.5 text-gold" /> Spara även som WORM-bevis i Verklighetsvalvet
-            <span className="mt-0.5 block text-xs text-text-dim">Explicit val — kopplas via sourceRef, blandas inte i RAG.</span>
+            <Shield className="mb-0.5 inline h-3.5 w-3.5 text-gold" /> {SAVE_TO_VAULT_LABEL} ({IMMUTABLE_POST_SHORT})
+            <span className="mt-0.5 block text-xs text-text-dim">Explicit val — kopplas via sourceRef, blandas inte i sök.</span>
           </span>
         </label>
 

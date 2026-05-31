@@ -13,10 +13,10 @@ Säkerheten i Livskompassen v2 är rigorös på grund av hanteringen av djupt pe
 | 1 — Identitet | Firebase Anonymous Auth + `ownerId`/`userId` på alla poster | `firestore.rules`, `AuthGate` |
 | 2 — Åtkomst | WORM append-only; inga client-updates på bevis | `firestore.rules` (`update, delete: if false`) |
 | 3 — Kryptering | CMEK via Cloud KMS (crypto-shredding) | `scripts/setup_gcp_cmek.sh` |
-| 4 — Session | Zero Footprint — vault-state rensas vid blur/timeout/logout | `invalidateSession`, visibility handlers |
+| 4 — Session | Draft Layer (IndexedDB utkast) + Valv idle timeout + Device Clear | `clearDeviceSession`, `useZeroFootprint` idle |
 | 5 — AI-gräns | LLM får aldrig styra auth, ägarskap eller WORM | DCAP, Gräns-Arkitekten, `sharedRules.ts` |
 | 6 — Silo | Tre kunskapsytor — **MUST NOT** blanda RAG | Se § Tre silor |
-| 7 — Nödutgång | Kill Switch (skaka enhet) + WebAuthn gate | Fyren, shake handler |
+| 7 — Nödutgång | Device Clear (Inställningar) + WebAuthn gate | Fyren, `clearDeviceSession` |
 
 **Regel:** Varje ny feature måste passera minst lager 1, 2, 5 och 6 innan deploy.
 
@@ -32,9 +32,9 @@ Dessa funktioner får **inte** försvagas eller mockas. Verifiera via [`docs/SMO
 | **Sanningens Sköld** | Evidenslagring utan redigering/radering | WORM rules + `reality_vault` create-only |
 | **Morgonkompassen** | Daglig orientering utan överbelastning | `/kompasser` check-in → `checkins` |
 | **Dossier-Generator** | Immutable export (`dossier_snapshots`) | `generateDossier` smoke PASS |
-| **Speglings-Systemet** | Validering utan fixande; Zero Footprint session | Smoke #9, #14–15 |
-| **Zero Footprint** | Känslig session-state rensas från RAM | `invalidateSession`, visibility reset |
-| **Kill Switch** | Omedelbar session-kill vid hot | Shake ≥15 m/s² → `/` |
+| **Speglings-Systemet** | Validering utan fixande; lokal session tills rensning | Smoke #9, #14–15 |
+| **Draft Layer** | Utkast i IndexedDB tills sync eller «Rensa enheten» | `src/modules/capture/` |
+| **Device Clear** | Frivillig lokal rensning (ersätter Kill Switch) | Inställningar → Rensa enheten |
 
 **Permanent minne:** WORM-collections (`children_logs`, `reality_vault`, `journal`, `dossier_snapshots`) raderas **aldrig** av retention. Se [`.context/arkiv-minne.md`](./arkiv-minne.md).
 
@@ -52,22 +52,19 @@ Dessa funktioner får **inte** försvagas eller mockas. Verifiera via [`docs/SMO
 
 ---
 
-## Zero Footprint
+## Session, Draft Layer och Device Clear
 
-- Vault-unlock och Valv-Chat-state hålls **endast i session** (RAM).
-- Rensning triggas vid: vault idle timeout (15 min), `invalidateSession` callable, Kill Switch (skaka ≥15 m/s²).
-- **Kill Switch** och **`invalidateSession`** rensar server-side Vertex/ADK cache via `clearSynapseState` (`kompis-supervisor.ts`).
-- **Vanlig utloggning (`signOutUser`):** rensar lokal app-unlock och Firebase Auth — anropar **inte** `invalidateSession` idag. Server-cache kan kvarstå till idle timeout om valv var upplåst. Medveten avvägning tills wire-up; se `authService.ts`.
-- **`visibilitychange` blur-lock:** borttagen — vault låses via idle timeout, inte vid flikbyte.
-- **Förbjudet:** Persista dekrypterat valv-innehåll i localStorage/IndexedDB utan explicit användargodkännande.
+- **Draft Layer:** Capture-utkast sparas i IndexedDB tills sync eller «Rensa enheten».
+- Valv-unlock hålls i session; idle timeout 1 h (`useZeroFootprint`).
+- **`invalidateSession`** vid utloggning och Device Clear — rensar server-side Vertex/ADK cache.
+- **Kill Switch (skaka) borttagen** 2026-06-01 — ensam-boende; använd Inställningar → Rensa enheten.
+- **Förbjudet:** Cross-RAG; etiketter («narcissist») som WORM-fakta utan granskning.
 
 ---
 
-## Kill Switch och WebAuthn
+## WebAuthn och Fyren
 
-- **WebAuthn Passkeys:** Privat nyckel lämnar aldrig Secure Enclave/TPM. Challenge-signering server-side verifierad.
-- **Frontend (kritiskt):** Känsligt kryptografiskt material får **aldrig** ligga kvar i JS-heap efter unlock.
-- **Kill Switch:** Accelerometer ≥15 m/s² → omedelbar session-rensning + navigering till `/`.
+- **WebAuthn Passkeys:** Privat nyckel lämnar aldrig Secure Enclave/TPM.
 - **Long-press Fyren (3s):** Gate till Verklighetsvalvet.
 
 ---

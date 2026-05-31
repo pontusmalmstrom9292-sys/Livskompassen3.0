@@ -32,13 +32,23 @@ function main() {
   mustInclude(
     'src/modules/arbetsliv/components/ArbetslivHubPage.tsx',
     'ArbetslivHubPage',
-    'arbetsliv_forensic',
-    'VaultZoneGate',
+    'legacyTabRedirects',
+    'arbetsliv_franvaro',
+    'arbetsliv_lon',
     'StampClockPage',
-    'VaultEconomyPanel',
   );
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/arbetsliv', 'ArbetslivHubPage', '/arbetsliv?tab=stampla');
-  mustInclude('src/modules/core/navigation/drawerNav.ts', "id: 'arbetsliv'", "path: '/arbetsliv'", 'Arbetsliv');
+  mustInclude(
+    'src/modules/evidence/vault/components/VaultForensicPanel.tsx',
+    'VaultEconomyPanel',
+    'arbetsliv_franvaro',
+    'arbetsliv_lon',
+  );
+  mustInclude('src/modules/shell/LivShellPage.tsx', 'ArbetslivHubPage', '/liv');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/liv', 'LivShellPage');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/arbetsliv', '/liv?tab=arbetsliv');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/stampla', '/liv?tab=arbetsliv');
+  mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'arbetsliv'", "path: '/arbetsliv'", 'Arbetsliv');
+  mustInclude('src/modules/core/navigation/drawerNav.ts', 'arbetsliv:', 'arbetsliv_stampla');
   mustInclude('src/modules/core/security/vaultZones.ts', 'arbetsliv_forensic');
   mustInclude('src/modules/core/navigation/headerPageLabel.ts', '/arbetsliv', 'Arbetsliv');
 

@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useAudioRecorder } from '../../core/hooks/useAudioRecorder';
 import { useSpeechToText } from '../../core/hooks/useSpeechToText';
-import { KILL_SWITCH_EVENT } from '../../core/security/killSwitch';
 import {
   lockWidgetRecordingToVault,
   prepareWidgetRecording,
@@ -131,12 +130,6 @@ export function useWidgetVaultRecording(userId: string | undefined) {
     setError(null);
     setResult(null);
   }, [audio, speech]);
-
-  useEffect(() => {
-    const onKill = () => abort();
-    window.addEventListener(KILL_SWITCH_EVENT, onKill);
-    return () => window.removeEventListener(KILL_SWITCH_EVENT, onKill);
-  }, [abort]);
 
   return {
     phase,

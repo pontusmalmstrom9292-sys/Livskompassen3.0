@@ -27,10 +27,6 @@ export function ArbetslivHubPage() {
   });
   const tab = activeTab as ArbetslivTab;
 
-  if (legacyRedirect) {
-    return <Navigate to={legacyRedirect} replace />;
-  }
-
   const publicPanel = useMemo(() => {
     switch (tab) {
       case 'stampla':
@@ -43,6 +39,10 @@ export function ArbetslivHubPage() {
         return null;
     }
   }, [tab]);
+
+  if (legacyRedirect) {
+    return <Navigate to={legacyRedirect} replace />;
+  }
 
   return (
     <div className="arbetsliv-hub space-y-5 pb-8">

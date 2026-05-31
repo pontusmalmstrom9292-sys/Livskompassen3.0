@@ -1,8 +1,36 @@
 # Smoke-resultat (Fas 3 + Minne)
 
-## Current truth (2026-05-31)
+## Current truth (2026-05-31 — systemgenomgång auto)
 
 **Sanning:** denna tabell ersätter äldre "öppet"-rader i hub-dokument. Historik nedan behålls.
+
+| Kategori | # / kommando | Status | Senast |
+|----------|--------------|--------|--------|
+| **Manuell PASS** | #1 Auth | **PASS** | 2026-05-27 (användare) |
+| **Manuell PASS** | #2 Dagbok → `journal` | **PASS** | 2026-05-27 |
+| **Manuell PASS** | #18 Ekonomi → `transactions` | **PASS** | 2026-05-27 |
+| **Static PASS** | #19 Barnfokus | **PASS** | `smoke:locked-ux` 2026-05-31 |
+| **Static PASS** | #20 Valv Mönster + Orkester | **PASS** | `smoke:locked-ux` + `smoke:orkester` 2026-05-31 |
+| **Automatiserad PASS** | build (functions + frontend) | **PASS** | 2026-05-31 systemgenomgång |
+| **Automatiserad PASS** | locked-ux, design-modules, locked-icons, innehall, orkester | **PASS** | 2026-05-31 |
+| **Automatiserad PASS** | arbetsliv, tidshjul, child-moment, content-waves | **PASS** | 2026-05-31 |
+| **Automatiserad PASS** | smoke:all (kunskap→grans) | **PASS** | 2026-05-31 |
+| **Automatiserad PASS** | entities, inbox, cache, stampla | **PASS** | 2026-05-31 |
+| **ESLint** | `npx eslint . --max-warnings 0` | **SKIP** | 4 warnings, 0 errors — se eval |
+| **USER (du i app)** | #3 Valv → `reality_vault` | **USER** | — |
+| **USER (du i app)** | #4 Barnen → `children_logs` | **USER** | — |
+| **USER (du i app)** | #2d Dagbok bilaga → `journal_memories` | **USER** | — |
+| **USER (du i app)** | Projektbild → `project_media/` | **USER** | efter storage deploy 2026-05-29 |
+| **USER (du i app)** | Fas 5A Vävaren HITL | **USER** | [`evaluations/2026-05-31-fas5a-user-checklist.md`](./evaluations/2026-05-31-fas5a-user-checklist.md) |
+| **Deploy PASS** | Vävaren HITL + rules + hosting | **PASS** | 2026-05-31 deploy |
+
+**Rapport:** [`evaluations/2026-05-31-systemgenomgång-auto.md`](./evaluations/2026-05-31-systemgenomgång-auto.md) · **Checklista:** [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md)
+
+---
+
+## Current truth (2026-05-31 — före systemgenomgång)
+
+**Arkiv:** tabell ovan ersätter denna snapshot.
 
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
@@ -19,6 +47,20 @@
 | **Deploy PASS** | Vävaren HITL + rules + hosting | **PASS** | 2026-05-31 deploy — manuell E2E: [`evaluations/2026-05-31-fas5a-user-checklist.md`](./evaluations/2026-05-31-fas5a-user-checklist.md) |
 
 **Checklista:** [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md) · **Hub:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
+
+---
+
+## Systemgenomgång auto batch (2026-05-31)
+
+| Kommando | Resultat |
+|----------|----------|
+| `functions build` + `npm run build` | **PASS** |
+| Alla statiska smokes (9) | **PASS** |
+| `smoke:all` + entities/inbox/cache/stampla | **PASS** |
+| Säkerhetsaudit | **PASS** |
+| Kodfixar | ESLint errors + smoke:arbetsliv wiring |
+
+**Detaljer:** [`evaluations/2026-05-31-systemgenomgång-auto.md`](./evaluations/2026-05-31-systemgenomgång-auto.md)
 
 ---
 

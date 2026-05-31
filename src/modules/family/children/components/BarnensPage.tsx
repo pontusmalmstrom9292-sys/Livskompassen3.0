@@ -19,6 +19,8 @@ import {
   exportBalansReport,
   printBalansReport,
 } from '../utils/exportBalansReport';
+import { coerceLogText, formatChildLogDate } from '../utils/logFieldUtils';
+import { momentBody } from '../utils/childMomentHelpers';
 
 type BarnensPageProps = {
   embedded?: boolean;
@@ -151,11 +153,11 @@ export function BarnensPage({ embedded: _embedded = false }: BarnensPageProps) {
               <li key={log.id}>
                 <TimelineEntry
                   as="div"
-                  meta={`${log.action ?? 'livslogg'}${log.category ? ` · ${log.category}` : ''} · ${(log.createdAt ?? '').slice(0, 10)}`}
+                  meta={`${log.action ?? 'livslogg'}${log.category ? ` · ${log.category}` : ''} · ${formatChildLogDate(log.createdAt, '—')}`}
                   body={
                     log.signals
                       ? `Sömn ${log.signals.somn} · Ångest ${log.signals.angest} · Aptit ${log.signals.aptit}`
-                      : (log.observation ?? log.truth ?? '')
+                      : momentBody(log)
                   }
                   truncateAt={0}
                 />
@@ -173,7 +175,7 @@ export function BarnensPage({ embedded: _embedded = false }: BarnensPageProps) {
                     userId={shell.user.uid}
                     childAlias={activeChild}
                     childrenLogId={log.id}
-                    observation={log.observation ?? log.truth ?? ''}
+                    observation={coerceLogText(log.observation) || coerceLogText(log.truth)}
                     category={log.category ?? 'vardag'}
                     childrenImpact={log.childrenImpact}
                     onDone={() => setEvidenceForLogId(null)}

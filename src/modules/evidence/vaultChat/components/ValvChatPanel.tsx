@@ -21,7 +21,7 @@ function CitationList({
   if (!citations.length) return null;
   return (
     <div className="mt-3 space-y-2 border-t border-white/10 pt-3">
-      <p className="text-[10px] uppercase tracking-widest text-success">Källor (WORM)</p>
+      <p className="text-[10px] uppercase tracking-widest text-success">Källor (låsta poster)</p>
       <ul className="space-y-2">
         {citations.map((c) => (
           <li key={c.docId}>
@@ -111,7 +111,7 @@ export function ValvChatPanel({ active, onCitationClick }: ValvChatPanelProps) {
         </div>
       </div>
 
-      <BentoCard title="Chatt mot WORM-bevis" description="Källor länkas till Logga">
+      <BentoCard title="Chatt mot arkiv" description="Källor länkas till Logga">
         <p className="mb-3 text-xs text-text-dim">{VAVAREN_VALVCHAT_HINT}</p>
         <div className="flex max-h-[min(52vh,28rem)] min-h-[12rem] flex-col overflow-y-auto rounded-2xl border border-white/5 bg-obsidian/40 p-3">
           {messages.length === 0 && !loading && (

@@ -35,11 +35,12 @@ Shared shell: layout chrome, design-system UI, global Zustand store, Firebase cl
 |------|------------------|-----|--------|
 | Obsidian Calm tokens | Ej natur/grön | Ja | **done** |
 | Fyren 3s + WebAuthn hook | Valv-ingång | Ja | **done** |
-| Shake-to-Kill 15 m/s² | Kill Switch | Ja | **done** |
-| Gamification UI | **Avvisat** | Nej | **avvisat** |
-| Zero Footprint sign-out | Kladd | Partial | **planned** |
+| Shake-to-Kill 15 m/s² | Kill Switch | **borttagen** 2026-06-01 |
+| Device Clear | Inställningar | **done** |
+| Draft Layer | IndexedDB capture | **done** |
+| Zero Footprint sign-out | invalidateSession vid logout | **done** |
 | BodySignalChip (valv) | Text-chips idag | Nej | **planned** |
-| Dold nödknapp shake | iOS PWA test | Nej | **planned** |
+| Dold nödknapp shake | iOS PWA test | Nej | **borttagen** |
 
 **Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
 

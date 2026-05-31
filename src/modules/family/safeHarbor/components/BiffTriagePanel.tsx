@@ -11,8 +11,9 @@ type Props = {
 
 function riskTone(score: number | null): string {
   if (score == null) return 'text-text-dim';
-  if (score >= 0.7) return 'text-danger';
-  if (score >= 0.4) return 'text-accent';
+  const normalized = score > 1 ? score / 100 : score;
+  if (normalized >= 0.7) return 'text-danger';
+  if (normalized >= 0.4) return 'text-accent';
   return 'text-text-muted';
 }
 

@@ -24,7 +24,6 @@ export async function hasPendingFirestoreWrites(): Promise<boolean> {
 
 export function subscribeFirestoreSyncPhase(onPhase: (phase: FirestoreSyncPhase) => void): () => void {
   let cancelled = false;
-  let pollId: ReturnType<typeof setInterval> | undefined;
 
   const refresh = async () => {
     if (cancelled) return;
@@ -42,13 +41,13 @@ export function subscribeFirestoreSyncPhase(onPhase: (phase: FirestoreSyncPhase)
 
   window.addEventListener('online', onOnline);
   window.addEventListener('offline', onOffline);
-  pollId = setInterval(() => void refresh(), 2500);
+  const pollId = setInterval(() => void refresh(), 2500);
   void refresh();
 
   return () => {
     cancelled = true;
     window.removeEventListener('online', onOnline);
     window.removeEventListener('offline', onOffline);
-    if (pollId !== undefined) clearInterval(pollId);
+    clearInterval(pollId);
   };
 }

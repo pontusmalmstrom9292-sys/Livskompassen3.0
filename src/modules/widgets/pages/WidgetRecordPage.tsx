@@ -47,7 +47,7 @@ function WidgetRecordInner() {
           <p className="text-sm text-text-muted">
             {discreet
               ? 'Hemskärmswidgeten heter «Anteckningar» — ingen synlig inspelningsmarkering utåt.'
-              : 'Inspelning lagras som WORM-bevis. Kontrollera lag om du spelar in andra.'}
+              : 'Inspelning lagras som låst post i arkivet. Kontrollera lag om du spelar in andra.'}
           </p>
           <button
             type="button"

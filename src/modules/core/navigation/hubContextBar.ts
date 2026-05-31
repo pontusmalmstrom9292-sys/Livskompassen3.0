@@ -58,7 +58,7 @@ function planeringSlots(tab: string | null, onProjekt: boolean): HubContextSlot[
       { id: 'projekt', label: 'Projekt', to: '/projekt', icon: 'folder', active: true },
       { id: 'inkop', label: 'Inköp', to: '/planering?tab=inkop', icon: 'list' },
       { id: 'handling', label: 'Handling', to: '/planering?tab=handling', icon: 'calendar' },
-      { id: 'hub', label: 'Verktyg', to: '/planering', icon: 'plus' },
+      { id: 'hub', label: 'Verktyg', to: '/planering?tab=hub', icon: 'plus' },
     ];
   }
   if (tab === 'inkop') {
@@ -66,7 +66,7 @@ function planeringSlots(tab: string | null, onProjekt: boolean): HubContextSlot[
       { id: 'inkop', label: 'Inköp', to: '/planering?tab=inkop', icon: 'list', active: true },
       { id: 'handling', label: 'Handling', to: '/planering?tab=handling', icon: 'calendar' },
       { id: 'fokus', label: 'Fokus', to: '/planering?tab=fokus', icon: 'focus' },
-      { id: 'hub', label: 'Verktyg', to: '/planering', icon: 'plus' },
+      { id: 'hub', label: 'Verktyg', to: '/planering?tab=hub', icon: 'plus' },
     ];
   }
   if (!tab || tab === 'hub') {
@@ -128,7 +128,7 @@ function arbetslivSlots(tab: string | null): HubContextSlot[] {
     },
     {
       id: 'logg',
-      label: 'Logg',
+      label: 'Ekonomilogg',
       to: '/arbetsliv?tab=logg',
       icon: 'book',
       active: t === 'logg',
@@ -139,7 +139,9 @@ function arbetslivSlots(tab: string | null): HubContextSlot[] {
 
 function familjenSlots(tab: string | null): HubContextSlot[] {
   const t =
-    tab === 'livslogg' || tab === 'tillsammans' ? tab : 'reflektion';
+    tab === 'livslogg' || tab === 'tillsammans' || tab === 'barnporten'
+      ? tab
+      : 'reflektion';
   return [
     {
       id: 'reflektion',
@@ -162,7 +164,13 @@ function familjenSlots(tab: string | null): HubContextSlot[] {
       icon: 'users',
       active: t === 'tillsammans',
     },
-    { id: 'planering', label: 'Planering', to: '/planering?tab=handling', icon: 'calendar' },
+    {
+      id: 'barnporten',
+      label: 'Barnporten',
+      to: '/familjen?tab=barnporten',
+      icon: 'bookheart',
+      active: t === 'barnporten',
+    },
   ];
 }
 

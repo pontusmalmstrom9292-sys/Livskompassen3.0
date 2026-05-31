@@ -2,6 +2,7 @@ import { Anchor, Users } from 'lucide-react';
 import { BentoCard } from '../../../../core/ui/BentoCard';
 import { CHILD_ALIASES } from '../../constants';
 import type { FamiljenShell } from '../../hooks/useFamiljenShell';
+import { barnfokusDisplayText } from '../../utils/logFieldUtils';
 
 type Props = {
   shell: FamiljenShell;
@@ -13,7 +14,9 @@ export function FamiljenTillsammansTab({ shell }: Props) {
   const latestBarnfokus = logs.find(
     (l) => l.action === 'livslogg' && (l.category === 'barnfokus' || l.category === 'middag'),
   );
-  const anchorText = latestBarnfokus?.observation?.replace(/^\[[\w_]+\]\s*/, '').slice(0, 120);
+  const anchorText = latestBarnfokus
+    ? barnfokusDisplayText(latestBarnfokus.observation ?? latestBarnfokus.truth, 120)
+    : '';
 
   return (
     <div className="space-y-4">

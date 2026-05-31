@@ -13,6 +13,7 @@ import {
   VAVAREN_APPROVAL_LOADING,
   VAVAREN_APPROVAL_SAVED,
   VAVAREN_APPROVAL_TITLE,
+  VAVAREN_APPROVAL_APPROVE_BUTTON,
 } from '../../../evidence/vault/constants/vavarenCopy';
 
 type Props = {
@@ -144,7 +145,7 @@ export function WeaverApprovalPanel({ userId, journalEntryId, enabled = true }: 
           onClick={() => void handleApprove()}
           className="btn-pill--accent text-xs disabled:opacity-50"
         >
-          Godkänn taggar
+          {VAVAREN_APPROVAL_APPROVE_BUTTON}
         </button>
         <button
           type="button"

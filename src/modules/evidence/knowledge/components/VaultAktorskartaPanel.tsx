@@ -50,7 +50,7 @@ export function VaultAktorskartaPanel() {
         icon={<Users className="h-4 w-4 text-accent" />}
       >
         <p className="mb-4 text-sm text-text-muted">
-          Metadata för agenter — inte RAG-bevis. Nya personer läggs till här och minns av
+          Personregister för assistenter — inte bevis. Nya personer läggs till här och minns av
           Kunskapsvalv, Valv-triage och Barnen-chat.
         </p>
         <Link

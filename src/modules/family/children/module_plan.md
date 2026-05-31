@@ -55,7 +55,7 @@ Canonical: `.context/modules/family/children.md` · Spec: `docs/specs/modules/Ba
 ## Security notes
 
 - Separat PIN från valv (`CHILDREN_PIN_KEY`)
-- **Known:** `executeKillSwitch` raderar barn-PIN-hash — dokumenterat i SPEC
+- **Known:** `clearDeviceSession` raderar barn-PIN-hash — dokumenterat i SPEC
 - Grey Rock neutrality in stored observations
 - Minimize PII; GDPR retention
 

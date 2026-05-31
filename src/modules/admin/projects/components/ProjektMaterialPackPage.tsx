@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HubPageShell } from '../../../core/layout/HubPageShell';
+import { GoraHubTabBar } from '../../../core/navigation/GoraHubTabBar';
 import { useStore } from '../../../core/store';
 import {
   LIFE_HUB_PRESETS,
@@ -83,10 +84,11 @@ export function ProjektMaterialPackPage() {
 
   return (
     <HubPageShell
-      eyebrow="Projekt · Life OS"
+      eyebrow="Göra"
       title="Genvägar per profil"
       lead="Redigera MaterialPack-genvägar som visas på Familjen, MåBra och Hamn — sparas lokalt på enheten."
     >
+      <GoraHubTabBar />
       <div className="flex flex-wrap gap-3 text-xs">
         <Link to="/projekt" className="text-text-dim hover:text-accent">
           ← Projekt

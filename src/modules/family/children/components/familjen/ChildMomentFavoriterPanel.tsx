@@ -8,6 +8,7 @@ import {
   filterFavoriteLogs,
   momentBody,
 } from '../../utils/childMomentHelpers';
+import { formatChildLogDate } from '../../utils/logFieldUtils';
 
 type Props = {
   shell: FamiljenShell;
@@ -38,7 +39,7 @@ export function ChildMomentFavoriterPanel({ shell }: Props) {
                   <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden />
                   <div>
                     <p className="text-[10px] uppercase tracking-widest text-text-dim">
-                      {categoryLabel(log.category)} · {(log.createdAt ?? '').slice(0, 10)}
+                      {categoryLabel(log.category)} · {formatChildLogDate(log.createdAt, '—')}
                     </p>
                     <p className="mt-1 text-sm text-text-muted whitespace-pre-wrap">
                       {momentBody(log)}

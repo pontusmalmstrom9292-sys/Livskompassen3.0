@@ -8,6 +8,7 @@ import { saveVaultLog } from '../../../core/firebase/firestore';
 import { BiffTriagePanel } from './BiffTriagePanel';
 import { HandoffBox } from '../../../diary/diary/components/HandoffBox';
 import { shouldShowValvHandoff } from '../../../core/triggers/valvHandoff';
+import { submitCaptureDraft } from '../../../capture/submitCaptureDraft';
 import { shouldRedirectMabraCoachToSpeglar } from '../../../wellbeing/mabra/lib/mabraCoachGuard';
 import { MabraSpeglarGuardHint } from '../../../wellbeing/mabra/components/MabraSpeglarGuardHint';
 
@@ -22,6 +23,8 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [speglarGuardDismissed, setSpeglarGuardDismissed] = useState(false);
+  const [autosorting, setAutosorting] = useState(false);
+  const [autosortNote, setAutosortNote] = useState<string | null>(null);
   const fromSpeglar = Boolean(initialMessage.trim());
 
   useEffect(() => {
@@ -52,7 +55,27 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
     setMessage('');
     setReply(null);
     setError(null);
+    setAutosortNote(null);
   }, []);
+
+  const handleAutosortToArkiv = async () => {
+    if (!message.trim()) return;
+    setAutosorting(true);
+    setError(null);
+    setAutosortNote(null);
+    try {
+      const { message: note } = await submitCaptureDraft({
+        text: message.trim(),
+        fileName: 'hamn_biff.txt',
+        sourceModule: 'hamn_biff',
+      });
+      setAutosortNote(note);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Autosort misslyckades.');
+    } finally {
+      setAutosorting(false);
+    }
+  };
 
   return (
     <div className="space-y-3">
@@ -105,6 +128,15 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
           <div className="mt-3 flex flex-wrap gap-2">
             <button
               type="button"
+              onClick={() => void handleAutosortToArkiv()}
+              disabled={autosorting || !message.trim()}
+              className="btn-pill--ghost text-xs"
+            >
+              {autosorting ? <Loader2 className="h-3 w-3 animate-spin" /> : null}
+              Sortera till arkiv
+            </button>
+            <button
+              type="button"
               onClick={() => navigator.clipboard.writeText(reply)}
               className="text-xs text-accent/80"
             >
@@ -114,6 +146,11 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               Klar — rensa
             </button>
           </div>
+          {autosortNote && (
+            <p className="mt-2 text-xs text-gold/90" role="status">
+              {autosortNote}
+            </p>
+          )}
         </div>
       )}
     </div>
@@ -135,6 +172,8 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
   const [hitlRequired, setHitlRequired] = useState(false);
   const [loading, setLoading] = useState(false);
   const [savingEvidence, setSavingEvidence] = useState(false);
+  const [autosorting, setAutosorting] = useState(false);
+  const [autosortNote, setAutosortNote] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [evidenceSaved, setEvidenceSaved] = useState(false);
 
@@ -175,8 +214,28 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
     setRiskScore(null);
     setHitlRequired(false);
     setEvidenceSaved(false);
+    setAutosortNote(null);
     setError(null);
   }, []);
+
+  const handleAutosortToArkiv = async () => {
+    if (!message.trim()) return;
+    setAutosorting(true);
+    setError(null);
+    setAutosortNote(null);
+    try {
+      const { message: note } = await submitCaptureDraft({
+        text: message.trim(),
+        fileName: 'hamn_biff.txt',
+        sourceModule: 'hamn_biff',
+      });
+      setAutosortNote(note);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Autosort misslyckades.');
+    } finally {
+      setAutosorting(false);
+    }
+  };
 
   const handleSaveAsEvidence = async () => {
     if (!user || !message.trim()) return;
@@ -241,6 +300,15 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
           <div className="mt-3 flex flex-wrap gap-2">
             <button
               type="button"
+              onClick={() => void handleAutosortToArkiv()}
+              disabled={autosorting || !message.trim()}
+              className="btn-pill--ghost flex items-center gap-2 text-xs"
+            >
+              {autosorting ? <Loader2 className="h-3 w-3 animate-spin" /> : null}
+              Sortera till arkiv
+            </button>
+            <button
+              type="button"
               onClick={handleSaveAsEvidence}
               disabled={savingEvidence || !user}
               className="btn-pill--secondary flex items-center gap-2 text-xs"
@@ -258,6 +326,11 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
           </div>
           {evidenceSaved && (
             <p className="mt-2 text-xs text-success">Sparat i Valv → Bevis.</p>
+          )}
+          {autosortNote && (
+            <p className="mt-2 text-xs text-gold/90" role="status">
+              {autosortNote}
+            </p>
           )}
         </div>
       )}

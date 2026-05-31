@@ -5,6 +5,9 @@ import { vaultZoneStorageKey, ALL_VAULT_ZONE_IDS } from '../security/vaultZones'
 
 const invalidateSessionCallable = httpsCallable(functions, 'invalidateSession');
 
+/** Ett Valv-PIN (Fyren) — session varar 1 h vid aktivitet innan Zero Footprint. */
+export const VAULT_SESSION_IDLE_MS = 60 * 60 * 1000;
+
 /** Rensar server-side Vertex-cache (Zero Footprint). Tyst fel om offline. */
 export async function invalidateServerSession(): Promise<void> {
   try {

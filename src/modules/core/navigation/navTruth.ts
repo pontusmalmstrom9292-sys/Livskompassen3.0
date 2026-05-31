@@ -8,6 +8,13 @@ import {
   forensicVaultTabLabel,
   MAIN_VAULT_TAB_IDS,
 } from '../../evidence/vault/utils/vaultTabs';
+import {
+  DAGBOK_BEVIS_DRAWER_LABEL,
+  VALV_DRAWER_HINTS,
+  VALV_KUNSKAP_DRAWER_LEAF,
+  VALV_ZONE_LABELS,
+  VAULT_MAIN_TAB_LABELS,
+} from '../copy/valvNavCopy';
 
 export type NavDrawerSection = 'vardag' | 'valv';
 
@@ -37,42 +44,135 @@ export function vaultDrawerPath(vaultTab: string): string {
   return `/dagbok?tab=bevis&vaultTab=${vaultTab}`;
 }
 
-const VAULT_MAIN_LABELS: Record<(typeof MAIN_VAULT_TAB_IDS)[number], string> = {
-  logga: 'Arkiv',
-  sok: 'Triage',
-  monster: 'Mönster',
-  orkester: 'Orkester',
-  dossier: 'Dossier',
-  kunskapsbank: 'Kunskapsbank',
-  aktorskarta: 'Aktörskarta',
-};
+const VAULT_MAIN_LABELS = { ...VAULT_MAIN_TAB_LABELS } as Record<
+  (typeof MAIN_VAULT_TAB_IDS)[number],
+  string
+>;
 
 function valvLeaf(
   id: string,
   vaultTab: string,
   parentId: string,
   label?: string,
+  inDrawer = false,
 ): NavTruthEntry {
   return {
     id,
     label: label ?? VAULT_MAIN_LABELS[vaultTab as keyof typeof VAULT_MAIN_LABELS] ?? vaultTab,
     path: vaultDrawerPath(vaultTab),
     section: 'valv',
-    inDrawer: true,
+    inDrawer,
     requiresVaultPin: true,
     parentId,
   };
 }
 
 export const NAV_TRUTH: NavTruthEntry[] = [
-  // —— Vardag —— (hub-ordning: Dagbok → Vardagen → MåBra → Familjen → verktyg → Hamn → Projekt → Drogfrihet → Inställningar)
-  { id: 'hem', label: 'Hem Kompass', path: '/', section: 'vardag', inDrawer: true, themeId: 'J-fyren-hem' },
+  // —— Vardag —— (4 drawer-rader: Hem · Liv · Familj · Inställningar)
+  { id: 'hem', label: 'Hem — Skriv', path: '/', section: 'vardag', inDrawer: true, themeId: 'J-fyren-hem' },
+  {
+    id: 'liv',
+    label: 'Liv och göra',
+    path: '/liv',
+    section: 'vardag',
+    inDrawer: true,
+    themeId: 'J-vardagen-orbit',
+  },
+  {
+    id: 'liv_kompasser',
+    label: 'Kompasser',
+    path: '/liv?tab=kompasser',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'liv',
+  },
+  {
+    id: 'liv_mabra',
+    label: 'MåBra',
+    path: '/liv?tab=mabra',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'liv',
+  },
+  {
+    id: 'liv_handling',
+    label: 'Handling',
+    path: '/liv?tab=handling',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'liv',
+  },
+  {
+    id: 'liv_arbetsliv',
+    label: 'Arbetsliv',
+    path: '/liv?tab=arbetsliv',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'liv',
+  },
+  {
+    id: 'familj',
+    label: 'Familj och gränser',
+    path: '/familj',
+    section: 'vardag',
+    inDrawer: true,
+    inDock: true,
+    themeId: 'J-familjen-varm',
+  },
+  {
+    id: 'familj_reflektion',
+    label: 'Reflektion',
+    path: '/familj?tab=reflektion',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'familj',
+  },
+  {
+    id: 'familj_livslogg',
+    label: 'Livslogg',
+    path: '/familj?tab=livslogg',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'familj',
+  },
+  {
+    id: 'familj_tillsammans',
+    label: 'Tillsammans',
+    path: '/familj?tab=tillsammans',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'familj',
+  },
+  {
+    id: 'familj_barnporten',
+    label: 'Barnporten',
+    path: '/familj?tab=barnporten',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'familj',
+  },
+  {
+    id: 'familj_hamn',
+    label: 'Trygg hamn',
+    path: '/familj?tab=hamn',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'familj',
+  },
+  {
+    id: 'familj_drogfrihet',
+    label: 'Drogfrihet',
+    path: '/familj?tab=drogfrihet',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'familj',
+  },
   {
     id: 'hem_inkast',
     label: 'Inkast',
     path: '/#inkast-lite',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'hem',
   },
   {
@@ -80,7 +180,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Dagbok',
     path: '/dagbok',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     fyrenHomeQuick: true,
     themeId: 'J-valv-pansar',
   },
@@ -89,7 +189,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Reflektion',
     path: '/dagbok?tab=reflektion',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'dagbok',
   },
   {
@@ -97,25 +197,25 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Speglar',
     path: '/dagbok?tab=speglar',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'dagbok',
   },
   {
     id: 'dagbok_bevis',
-    label: 'Bevis (Valv)',
+    label: DAGBOK_BEVIS_DRAWER_LABEL,
     path: vaultDrawerPath('logga'),
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'dagbok',
     requiresVaultPin: true,
     omitWhenHideBevis: true,
   },
   {
     id: 'vardagen',
-    label: 'Vardagen',
+    label: 'Vardag',
     path: '/vardagen',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     fyrenHomeQuick: true,
     themeId: 'J-vardagen-orbit',
   },
@@ -124,7 +224,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Kompasser',
     path: '/vardagen?tab=kompasser',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'vardagen',
   },
   {
@@ -132,7 +232,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Ekonomi',
     path: '/vardagen?tab=ekonomi',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'vardagen',
   },
   {
@@ -140,7 +240,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'MåBra',
     path: '/mabra',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     fyrenHomeQuick: true,
     themeId: 'J-mabra-lavendel',
   },
@@ -149,7 +249,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Familjen',
     path: '/familjen',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     inDock: true,
     themeId: 'J-familjen-varm',
   },
@@ -158,7 +258,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Reflektion',
     path: '/familjen?tab=reflektion',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'familjen',
   },
   {
@@ -166,7 +266,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Livslogg',
     path: '/familjen?tab=livslogg',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'familjen',
   },
   {
@@ -174,7 +274,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Tillsammans',
     path: '/familjen?tab=tillsammans',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'familjen',
   },
   {
@@ -182,16 +282,48 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Barnporten',
     path: '/familjen?tab=barnporten',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'familjen',
+  },
+  {
+    id: 'gora',
+    label: 'Göra',
+    path: '/planering?tab=handling',
+    section: 'vardag',
+    inDrawer: false,
+    fyrenHomeQuick: true,
+    themeId: 'J-planering-fyren',
+  },
+  {
+    id: 'gora_handling',
+    label: 'Handling',
+    path: '/planering?tab=handling',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'gora',
+  },
+  {
+    id: 'gora_projekt',
+    label: 'Projekt',
+    path: '/projekt',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'gora',
+  },
+  {
+    id: 'gora_inkorg',
+    label: 'Inkorg',
+    path: '/planering?tab=inkorg',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'gora',
   },
   {
     id: 'planering',
     label: 'Planering',
     path: '/planering?tab=handling',
     section: 'vardag',
-    inDrawer: true,
-    fyrenHomeQuick: true,
+    inDrawer: false,
     themeId: 'J-planering-fyren',
   },
   {
@@ -199,7 +331,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Handling',
     path: '/planering?tab=handling',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'planering',
   },
   {
@@ -207,7 +339,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Fokus',
     path: '/planering?tab=fokus',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'planering',
   },
   {
@@ -215,7 +347,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Inkorg',
     path: '/planering?tab=inkorg',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'planering',
   },
   {
@@ -223,7 +355,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Arbetsliv',
     path: '/arbetsliv',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     themeId: 'J-vardagen-orbit',
   },
   {
@@ -231,7 +363,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Stämpel',
     path: '/arbetsliv?tab=stampla',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'arbetsliv',
   },
   {
@@ -239,15 +371,15 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Tid & flex',
     path: '/arbetsliv?tab=tid',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'arbetsliv',
   },
   {
     id: 'arbetsliv_logg',
-    label: 'Logg',
+    label: 'Ekonomilogg',
     path: '/arbetsliv?tab=logg',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'arbetsliv',
   },
   {
@@ -255,7 +387,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Trygg hamn',
     path: '/hamn',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     themeId: 'J-hamn-greyrock',
   },
   {
@@ -263,7 +395,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Översikt',
     path: '/hamn?tab=oversikt',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'hamn',
   },
   {
@@ -271,15 +403,15 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'BIFF',
     path: '/hamn?tab=biff',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'hamn',
   },
   {
     id: 'hamn_speglar',
-    label: 'Speglar',
+    label: 'Till Speglar',
     path: '/hamn?tab=speglar',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'hamn',
   },
   {
@@ -287,7 +419,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Barnfokus',
     path: '/hamn?tab=barn',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'hamn',
   },
   {
@@ -295,7 +427,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Projekt',
     path: '/projekt',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     themeId: 'J-planering-fyren',
   },
   {
@@ -303,7 +435,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Nytt projekt',
     path: '/admin/projects/ny',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'projekt',
   },
   {
@@ -311,7 +443,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Till Handling',
     path: '/planering?tab=handling',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'projekt',
   },
   {
@@ -319,7 +451,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Drogfrihet',
     path: '/drogfrihet',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     themeId: 'J-mabra-lavendel',
   },
   {
@@ -327,15 +459,15 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Idag',
     path: '/drogfrihet?tab=idag',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'drogfrihet',
   },
   {
     id: 'drogfrihet_resurser',
-    label: 'Stöd',
+    label: 'Akut & stöd',
     path: '/drogfrihet?tab=resurser',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'drogfrihet',
   },
   {
@@ -343,15 +475,15 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Reflektion',
     path: '/drogfrihet?tab=reflektion',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'drogfrihet',
   },
   {
     id: 'drogfrihet_kunskap',
-    label: 'Stöd & resurser',
+    label: 'Kunskap',
     path: '/drogfrihet?tab=kunskap',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'drogfrihet',
   },
   {
@@ -366,7 +498,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Allmänt',
     path: '/installningar?tab=allmant',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'installningar',
   },
   {
@@ -374,45 +506,92 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Drogfrihet',
     path: '/installningar?tab=drogfrihet',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'installningar',
   },
 
-  // —— Valv (PIN) — grupperade accordion ——
+  // —— Valv (PIN) — platta drawer-rader + legacy deep links ——
   {
-    id: 'valv_grp_samla',
-    label: 'Samla',
-    path: '',
+    id: 'valv_samla',
+    label: VALV_ZONE_LABELS.samla,
+    path: vaultDrawerPath('logga'),
     section: 'valv',
     inDrawer: true,
+    requiresVaultPin: true,
+    themeId: 'J-valv-pansar',
+    drawerHint: VALV_DRAWER_HINTS.samla,
+  },
+  {
+    id: 'valv_analysera',
+    label: VALV_ZONE_LABELS.analysera,
+    path: vaultDrawerPath('monster'),
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.analysera,
+  },
+  {
+    id: 'valv_kunskap_nav',
+    label: VALV_ZONE_LABELS.kunskap,
+    path: vaultDrawerPath('kunskapsbank'),
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.kunskap,
+  },
+  {
+    id: 'valv_exportera',
+    label: VALV_ZONE_LABELS.exportera,
+    path: vaultDrawerPath('dossier'),
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.exportera,
+  },
+  {
+    id: 'valv_forensik',
+    label: VALV_ZONE_LABELS.forensik,
+    path: vaultDrawerPath('hamn_analys'),
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.forensik,
+  },
+  // Legacy grupp + blad (deep links, ej drawer)
+  {
+    id: 'valv_grp_samla',
+    label: VALV_ZONE_LABELS.samla,
+    path: '',
+    section: 'valv',
+    inDrawer: false,
     isGroupHeader: true,
     requiresVaultPin: true,
     themeId: 'J-valv-pansar',
-    drawerHint: 'Objektiv registrering av skriftliga meddelanden och logistik.',
+    drawerHint: VALV_DRAWER_HINTS.samla,
   },
   valvLeaf('valv_arkiv', 'logga', 'valv_grp_samla'),
   valvLeaf('valv_triage', 'sok', 'valv_grp_samla'),
   {
     id: 'valv_grp_analysera',
-    label: 'Analysera',
+    label: VALV_ZONE_LABELS.analysera,
     path: '',
     section: 'valv',
-    inDrawer: true,
+    inDrawer: false,
     isGroupHeader: true,
     requiresVaultPin: true,
-    drawerHint: 'Strukturerad kartläggning av återkommande mönster och beteenden.',
+    drawerHint: VALV_DRAWER_HINTS.analysera,
   },
   valvLeaf('valv_monster', 'monster', 'valv_grp_analysera'),
   valvLeaf('valv_orkester', 'orkester', 'valv_grp_analysera'),
   {
     id: 'valv_grp_exportera',
-    label: 'Exportera',
+    label: VALV_ZONE_LABELS.exportera,
     path: '',
     section: 'valv',
-    inDrawer: true,
+    inDrawer: false,
     isGroupHeader: true,
     requiresVaultPin: true,
-    drawerHint: 'Dossier — explicit export, ingen auto-delning.',
+    drawerHint: VALV_DRAWER_HINTS.exportera,
   },
   valvLeaf('valv_dossier', 'dossier', 'valv_grp_exportera'),
   {
@@ -420,38 +599,48 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Dossier · full vy',
     path: '/dossier',
     section: 'valv',
-    inDrawer: true,
+    inDrawer: false,
     requiresVaultPin: true,
     parentId: 'valv_grp_exportera',
   },
   {
     id: 'valv_grp_kunskap',
-    label: 'Kunskapsbank',
+    label: VALV_ZONE_LABELS.kunskap,
     path: '',
     section: 'valv',
-    inDrawer: true,
+    inDrawer: false,
     isGroupHeader: true,
     requiresVaultPin: true,
-    drawerHint: 'RAG-underlag, lagrum och verifierad aktörskarta (G9).',
+    drawerHint: VALV_DRAWER_HINTS.kunskap,
   },
-  valvLeaf('valv_kunskapsbank', 'kunskapsbank', 'valv_grp_kunskap', 'Chat & Tidshjul'),
-  valvLeaf('valv_aktorskarta', 'aktorskarta', 'valv_grp_kunskap', 'Nyckelpersoner (G9)'),
+  valvLeaf(
+    'valv_kunskapsbank',
+    'kunskapsbank',
+    'valv_grp_kunskap',
+    VALV_KUNSKAP_DRAWER_LEAF.kunskapsbank,
+  ),
+  valvLeaf(
+    'valv_aktorskarta',
+    'aktorskarta',
+    'valv_grp_kunskap',
+    VALV_KUNSKAP_DRAWER_LEAF.aktorskarta,
+  ),
   {
     id: 'valv_grp_forensik',
-    label: 'Forensik',
+    label: VALV_ZONE_LABELS.forensik,
     path: '',
     section: 'valv',
-    inDrawer: true,
+    inDrawer: false,
     isGroupHeader: true,
     requiresVaultPin: true,
-    drawerHint: 'Tidsstämplat material med obruten versionshistorik.',
+    drawerHint: VALV_DRAWER_HINTS.forensik,
   },
   ...FORENSIC_VAULT_TAB_IDS.map((tab) => ({
     id: `valv_${tab}`,
     label: forensicVaultTabLabel(tab),
     path: vaultDrawerPath(tab),
     section: 'valv' as const,
-    inDrawer: true,
+    inDrawer: false,
     requiresVaultPin: true,
     parentId: 'valv_grp_forensik',
   })),
@@ -483,10 +672,15 @@ export function getDrawerChildren(parentId: string, section: NavDrawerSection): 
   return getVisibleDrawerTruth(section).filter((e) => e.parentId === parentId);
 }
 
-/** Vardag: hubbar utan parent. Valv: grupp-rubriker. */
+/** All hub-underflikar (även dolda i drawer) — för TabBar i sidor. */
+export function getNavChildren(parentId: string, section: NavDrawerSection): NavTruthEntry[] {
+  return NAV_TRUTH.filter((e) => e.section === section && e.parentId === parentId);
+}
+
+/** Vardag: hubbar utan parent. Valv: platta rader utan parent. */
 export function getDrawerRoots(section: NavDrawerSection): NavTruthEntry[] {
   const visible = getVisibleDrawerTruth(section);
-  if (section === 'valv') return visible.filter((e) => e.isGroupHeader);
+  if (section === 'valv') return visible.filter((e) => !e.parentId && !e.isGroupHeader);
   return visible.filter((e) => !e.parentId);
 }
 

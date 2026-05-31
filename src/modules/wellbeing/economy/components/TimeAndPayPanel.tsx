@@ -1,18 +1,15 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Clock, Loader2 } from 'lucide-react';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import { useStore } from '../../../core/store';
 import {
   getEconomyProfileExtended,
   getOpenTimeEntry,
-  getRecentTimeEntries,
   getTodayTimeStatus,
   getWeekFlexDetail,
   getWeekTimeStats,
-  recordTimeIn,
-  recordTimeOut,
 } from '../../../core/firebase/timeEconomyFirestore';
-import { StampClockPanel } from './StampClockPanel';
 import { WorkWeekSummary } from './WorkWeekSummary';
 
 export function TimeAndPayPanel() {
@@ -29,12 +26,8 @@ export function TimeAndPayPanel() {
   const [hourlyRate, setHourlyRate] = useState(0);
   const [flexTarget, setFlexTarget] = useState(40);
   const [weekTypeLabel, setWeekTypeLabel] = useState('');
-  const [logs, setLogs] = useState<Awaited<ReturnType<typeof getRecentTimeEntries>>>([]);
-  const [stampCategory, setStampCategory] = useState<string>('Arbete');
-  const [openEntryId, setOpenEntryId] = useState<string | null>(null);
   const [initialLoading, setInitialLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const reload = useCallback(
@@ -46,10 +39,9 @@ export function TimeAndPayPanel() {
       try {
         const profile = await getEconomyProfileExtended(user.uid);
         setHourlyRate(profile.hourlyRateSek);
-        const [today, week, recent, flexDetail, open] = await Promise.all([
+        const [today, week, flexDetail, open] = await Promise.all([
           getTodayTimeStatus(user.uid),
           getWeekTimeStats(user.uid),
-          getRecentTimeEntries(user.uid, 5),
           getWeekFlexDetail(user.uid),
           getOpenTimeEntry(user.uid),
         ]);
@@ -59,8 +51,14 @@ export function TimeAndPayPanel() {
         setWeekTypeLabel(flexDetail.weekTypeLabel);
         setWorkHoursWeek(flexDetail.workHoursWeek);
         setFlexLeft(flexDetail.flexLeft);
-        setLogs(recent);
-        setOpenEntryId(open?.id ?? null);
+        if (open) {
+          setStatus((s) => ({
+            ...s,
+            instamplad: true,
+            inTid: open.clockIn,
+            kat: open.category,
+          }));
+        }
       } catch {
         setError('Kunde inte läsa tid och lön.');
       } finally {
@@ -80,44 +78,6 @@ export function TimeAndPayPanel() {
     return Math.round(workHoursWeek * hourlyRate);
   }, [hourlyRate, workHoursWeek]);
 
-  const stamp = async (type: 'IN' | 'UT') => {
-    if (!user) return;
-    setBusy(true);
-    setError(null);
-    try {
-      if (type === 'IN') {
-        const created = await recordTimeIn(user.uid, stampCategory);
-        setOpenEntryId(created.id);
-        setStatus({
-          instamplad: true,
-          inTid: created.clockIn,
-          kat: created.category,
-          dagensTimmar: 0,
-        });
-      } else {
-        await recordTimeOut(user.uid, openEntryId ?? undefined);
-        setOpenEntryId(null);
-        setStatus((s) => ({
-          ...s,
-          instamplad: false,
-          inTid: '',
-          kat: '',
-        }));
-      }
-      await reload({ silent: true });
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : 'Stämpling misslyckades.';
-      if (msg.includes('permission') || msg.includes('Permission')) {
-        setError('Sparning nekad — Firestore-regler behöver deployas (time_entries).');
-      } else {
-        setError(msg);
-      }
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const canStampOut = status.instamplad || openEntryId != null;
   const statusLine = status.instamplad
     ? `Pågående pass sedan ${status.inTid} (${status.kat})`
     : `${weekTotal} h denna vecka`;
@@ -126,7 +86,7 @@ export function TimeAndPayPanel() {
     <BentoCard
       title="Tid och lön"
       icon={<Clock className="h-4 w-4" />}
-      description="Stämpelklocka — Firestore time_entries (inte Kalkylark)."
+      description="Flex, veckosumma och uppskattad lön. Stämpla in på fliken Stämpel."
     >
       {error && <p className="mb-2 text-sm text-danger">{error}</p>}
 
@@ -154,16 +114,12 @@ export function TimeAndPayPanel() {
             statusLine={statusLine}
           />
 
-          <StampClockPanel
-            instamplad={status.instamplad}
-            stampCategory={stampCategory}
-            onStampCategoryChange={setStampCategory}
-            busy={busy}
-            canStampOut={canStampOut}
-            logs={logs}
-            onStampIn={() => void stamp('IN')}
-            onStampOut={() => void stamp('UT')}
-          />
+          <Link
+            to="/arbetsliv?tab=stampla"
+            className="btn-pill--ghost mt-4 inline-block text-sm"
+          >
+            Stämpla in eller ut →
+          </Link>
         </>
       )}
     </BentoCard>

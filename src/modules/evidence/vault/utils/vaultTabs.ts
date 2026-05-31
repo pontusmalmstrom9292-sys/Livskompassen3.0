@@ -1,4 +1,7 @@
 import { BookOpen, Users } from 'lucide-react';
+import { FORENSIC_VAULT_TAB_LABELS } from '../../../core/copy/valvNavCopy';
+
+export { VALV_ZONE_INGRESS, FORENSIC_TAB_INGRESS } from '../../../core/copy/valvNavCopy';
 
 /** Samla — arkiv + triage/chat. */
 export const SAMLA_VAULT_TAB_IDS = ['logga', 'sok'] as const;
@@ -30,14 +33,6 @@ export const VALV_ZONE_IDS = ['samla', 'analysera', 'kunskap', 'exportera', 'for
 
 export type ValvZone = (typeof VALV_ZONE_IDS)[number];
 
-/** V1 — en rad lågaffektiv copy per zon (zon-byte i VaultPage). */
-export const VALV_ZONE_INGRESS: Record<ValvZone, string> = {
-  samla: 'Samla in bevis och sök i loggen.',
-  analysera: 'Mönster och Orkester — över tid, inte i stunden.',
-  kunskap: 'Fakta bakom PIN: Kunskapsbank och Aktörskarta.',
-  exportera: 'Dossier för export och översikt.',
-  forensik: 'Hamn och fördjupad analys — ett steg i taget.',
-};
 export type PansaretVaultTab = (typeof PANSARET_VAULT_TAB_IDS)[number];
 
 export const MAIN_VAULT_TAB_IDS = [...PANSARET_VAULT_TAB_IDS, ...KUNSKAP_VAULT_TAB_IDS] as const;
@@ -95,26 +90,8 @@ export function isForensicVaultTab(tab: VaultTab): tab is ForensicVaultTab {
 }
 
 export function forensicVaultTabLabel(tab: ForensicVaultTab): string {
-  const labels: Record<ForensicVaultTab, string> = {
-    hamn_analys: 'Hamn · Analys',
-    speglar_fordjupat: 'Speglar · Fördjupat',
-    dagbok_arkiv: 'Dagbok · Arkiv',
-    familjen_monster: 'Familjen · Mönster',
-    arbetsliv_franvaro: 'Arbetsliv · Frånvaro',
-    arbetsliv_lon: 'Arbetsliv · Lön',
-  };
-  return labels[tab];
+  return FORENSIC_VAULT_TAB_LABELS[tab];
 }
-
-/** V2 — en rad ingress per forensik-underflik (ingen rules-ändring). */
-export const FORENSIC_TAB_INGRESS: Record<ForensicVaultTab, string> = {
-  hamn_analys: 'Full BIFF-triage och spara som bevis — bakom skölden.',
-  speglar_fordjupat: 'Validering och jämförelse mot arkiv — inget auto-svar till ex.',
-  dagbok_arkiv: 'Läsa journal — WORM, ingen redigering.',
-  familjen_monster: 'Mönster i barnens loggar — separat silo.',
-  arbetsliv_franvaro: 'Frånvaro och ekonomi under PIN.',
-  arbetsliv_lon: 'Lön och period — forensik, inte vardagsvy.',
-};
 
 export const VAULT_TAB_ICONS = {
   kunskapsbank: BookOpen,

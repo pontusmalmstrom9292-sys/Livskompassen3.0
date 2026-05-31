@@ -4,6 +4,7 @@ import { planeringInkorgHref } from '../planeringInkorgViews';
 import { Calendar, ChevronLeft } from 'lucide-react';
 import { TabBar, type TabBarItem } from '../../../core/ui/TabBar';
 import { HubPageShell } from '../../../core/layout/HubPageShell';
+import { GoraHubTabBar } from '../../../core/navigation/GoraHubTabBar';
 import { PLANERING_TAGLINE, PLANERING_WORK_TABS } from '../constants';
 import type { PlaneringTab } from '../types';
 import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
@@ -56,7 +57,7 @@ export function PlaneringPage() {
 
   return (
     <HubPageShell
-      eyebrow="Planering"
+      eyebrow="Göra"
       title={title}
       lead={lead}
       headerAside={
@@ -70,8 +71,10 @@ export function PlaneringPage() {
         </Link>
       }
     >
+      <GoraHubTabBar />
+
       {!isHub && (
-        <Link to="/planering" className="planering-back-link">
+        <Link to="/planering?tab=hub" className="planering-back-link">
           <ChevronLeft className="h-4 w-4" />
           Alla verktyg
         </Link>

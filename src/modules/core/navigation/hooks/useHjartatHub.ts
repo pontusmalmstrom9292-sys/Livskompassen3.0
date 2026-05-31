@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { hasVaultGate, clearVaultGate, clearVaultZone } from '../../auth/sessionService';
+import { hasVaultGate } from '../../auth/sessionService';
 import { useStore } from '../../store';
 import { getHubTabsFromNav } from '../hubTabs';
 import {
@@ -16,7 +16,7 @@ export function useHjartatHub() {
   const tabParam = searchParams.get('tab');
   const vaultGateOpen = hasVaultGate();
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
-  const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
+  const vaultSessionOpen = vaultGateOpen || isVaultUnlocked;
 
   const visibleTabIds = useMemo(() => new Set(getVisibleHjartatTabIds()), []);
 
@@ -26,14 +26,13 @@ export function useHjartatHub() {
   );
 
   const tab: HjartatTab = useMemo(() => {
-    // PIN-upplåst Valv — håll bevis-fliken tills användaren stänger (G18 gate kan ha gått ut).
     if (isVaultUnlocked) return 'bevis';
     if (vaultTabParam || tabParam === 'bevis') {
-      const resolved = resolveHjartatTab('bevis', vaultGateOpen || isVaultUnlocked);
+      const resolved = resolveHjartatTab('bevis', vaultSessionOpen);
       return resolved === 'bevis' ? 'bevis' : resolveHjartatTab(tabParam, vaultGateOpen);
     }
     return resolveHjartatTab(tabParam, vaultGateOpen);
-  }, [vaultTabParam, tabParam, vaultGateOpen, isVaultUnlocked]);
+  }, [vaultTabParam, tabParam, vaultGateOpen, isVaultUnlocked, vaultSessionOpen]);
 
   const tabs = useMemo(() => {
     if (tab !== 'bevis') return baseTabs;
@@ -45,13 +44,6 @@ export function useHjartatHub() {
 
   const setTab = useCallback(
     (next: HjartatTab) => {
-      if (tab === 'bevis' && next !== 'bevis') {
-        setVaultUnlocked(false);
-        clearVaultGate();
-      }
-      if (tab === 'reflektion' && next !== 'reflektion') {
-        clearVaultZone('dagbok_forensic');
-      }
       setSearchParams(
         (prev) => {
           const params = new URLSearchParams(prev);
@@ -63,7 +55,7 @@ export function useHjartatHub() {
         { replace: true },
       );
     },
-    [tab, setSearchParams, setVaultUnlocked],
+    [setSearchParams],
   );
 
   const setVaultTab = useCallback(
@@ -82,7 +74,7 @@ export function useHjartatHub() {
   );
 
   useEffect(() => {
-    if (tab === 'bevis' || isVaultUnlocked) return;
+    if (tab === 'bevis' || vaultSessionOpen) return;
     if (tabParam !== 'bevis' && !vaultTabParam) return;
     setSearchParams(
       (prev) => {
@@ -94,16 +86,7 @@ export function useHjartatHub() {
       },
       { replace: true },
     );
-  }, [tab, tabParam, vaultTabParam, isVaultUnlocked, setSearchParams]);
-
-  useEffect(() => {
-    if (tab === 'bevis') return;
-    setVaultUnlocked(false);
-    clearVaultGate();
-    if (tab !== 'reflektion') {
-      clearVaultZone('dagbok_forensic');
-    }
-  }, [tab, setVaultUnlocked]);
+  }, [tab, tabParam, vaultTabParam, vaultSessionOpen, setSearchParams]);
 
   const tabBarActive: HjartatTab = tab;
 

@@ -26,7 +26,7 @@ type Props = {
 export function VaultZoneGate({
   zone,
   title = 'Lås upp analys',
-  description = 'Fingeravtryck eller Face ID. Sessionen gäller tills du lämnar vyn eller varit inaktiv 15 min.',
+  description = 'Fingeravtryck eller Face ID. Öppna Valv via Fyren (3 sek) — samma session i 1 timme.',
   clearOnUnmount = true,
   onLock,
   onUnlocked,

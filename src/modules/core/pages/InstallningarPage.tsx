@@ -11,6 +11,7 @@ import {
 import { useState } from 'react';
 import { LifeHubPresetPicker, useLifeHubPreset } from '../lifeOs';
 import { useHubTab } from '../navigation/hooks/useHubTab';
+import { ClearDevicePanel } from '../security/ClearDevicePanel';
 
 export type InstallningarTab = 'allmant' | 'drogfrihet';
 
@@ -75,6 +76,8 @@ export function InstallningarPage() {
           </label>
 
           <LifeHubPresetPicker activeId={presetId} onSelect={setPresetId} />
+
+          <ClearDevicePanel />
         </div>
       )}
 

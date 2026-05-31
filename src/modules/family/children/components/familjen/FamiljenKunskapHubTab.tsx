@@ -32,8 +32,8 @@ export function FamiljenKunskapHubTab({ activeChild, onKampsparCitationClick }: 
   const [scopedDocs, setScopedDocs] = useState<KunskapsvalvUploadedDoc[]>([]);
 
   const modes: { id: SearchMode; label: string; hint: string }[] = [
-    { id: 'hela', label: 'Hela Minnet', hint: 'kampspar + kb_docs (Kunskapsvalvet)' },
-    { id: 'valv', label: 'Valv-Chat', hint: 'reality_vault · WORM-bevis' },
+    { id: 'hela', label: 'Allt sparat', hint: 'Kunskap-hubben — dina anteckningar' },
+    { id: 'valv', label: 'Arkiv-chatt', hint: 'Låsta poster i arkivet' },
     { id: 'barn', label: 'Barnloggar', hint: `children_logs · ${activeChild}` },
     { id: 'dokument', label: 'Uppladdade filer', hint: 'Senaste filer i denna session' },
   ];
@@ -187,7 +187,7 @@ export function FamiljenKunskapHubTab({ activeChild, onKampsparCitationClick }: 
       <div className="flex items-start gap-2 rounded-2xl border border-gold/20 bg-gold/5 p-3">
         <Shield className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
         <p className="text-xs text-text-dim">
-          Kunskap (Minne) och Valv (bevis) är separata silos. Barnloggar läser aldrig WORM automatiskt.{' '}
+          Kunskap (Minne) och arkiv (bevis) är separata. Barnloggar kopplas inte automatiskt till arkiv.{' '}
           <Link to="/dagbok?tab=bevis" className="text-accent hover:underline">
             Valv → Sök
           </Link>{' '}

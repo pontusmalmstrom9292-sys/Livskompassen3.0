@@ -78,7 +78,7 @@ function main() {
     'src/modules/diary/diary/hooks/useJournalFlow.ts',
     'weaveJournalEntry',
     'journalWovenToKampspar',
-    "hasVaultZone('dagbok_forensic')",
+    "hasVaultGate()",
   );
   mustInclude('functions/src/index.ts', 'journalWovenToKampspar', "trigger: 'journal_woven'");
   mustInclude(
@@ -92,7 +92,7 @@ function main() {
   mustInclude(
     'src/modules/diary/diary/components/WeaverApprovalPanel.tsx',
     'approveWeaverMetadata',
-    'Godkänn taggar',
+    'VAVAREN_APPROVAL_APPROVE_BUTTON',
   );
 
   console.log('[smoke:orkester] Valv-zoner...');
@@ -112,9 +112,11 @@ function main() {
   );
   mustInclude(
     'src/modules/diary/diary/components/DagbokPage.tsx',
-    'VaultZoneGate',
-    'dagbok_forensic',
+    'hasVaultGate',
+    'vaultSessionOpen',
   );
+  mustInclude('src/modules/core/auth/sessionService.ts', 'VAULT_SESSION_IDLE_MS', '60 * 60 * 1000');
+  mustInclude('src/modules/core/auth/useZeroFootprint.ts', 'VAULT_SESSION_IDLE_MS', 'hasVaultGate');
   mustInclude(
     'functions/src/index.ts',
     'journalQuickMirror',
@@ -142,15 +144,22 @@ function main() {
     'arbetsliv_franvaro',
     'arbetsliv_lon',
   );
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/arbetsliv', 'ArbetslivHubPage');
+  mustInclude('src/modules/shell/LivShellPage.tsx', 'ArbetslivHubPage', '/liv');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/liv', 'LivShellPage');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/arbetsliv', '/liv?tab=arbetsliv');
   mustInclude('functions/src/index.ts', 'generatePayslip');
   mustInclude('firestore.rules', 'match /time_entries/{docId}');
   mustInclude('firestore.rules', 'payslip_snapshots');
   mustInclude('docs/specs/modules/VAULT-ZONE-REGISTER.md', 'arbetsliv_forensic');
   mustInclude(
     'src/modules/core/security/useVaultZoneIdle.ts',
-    '15 * 60 * 1000',
+    'VAULT_SESSION_IDLE_MS',
     'pointerdown',
+  );
+  mustInclude(
+    'src/modules/core/layout/NavigationDrawer.tsx',
+    'vaultOpen',
+    'isInValvDrawerContext',
   );
 
   console.log('[smoke:orkester] Orkester UI registry...');

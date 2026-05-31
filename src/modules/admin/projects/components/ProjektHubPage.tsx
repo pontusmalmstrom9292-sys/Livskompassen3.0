@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { FolderKanban, List, Image, FileText, CheckSquare } from 'lucide-react';
 import { useActiveProjects } from '../hooks/useProjects';
 import type { ProjectBlockType } from '../types';
+import { HubPageShell } from '../../../core/layout/HubPageShell';
+import { GoraHubTabBar } from '../../../core/navigation/GoraHubTabBar';
 
 const BLOCK_ICONS: Record<ProjectBlockType, typeof List> = {
   list: List,
@@ -15,15 +17,14 @@ export function ProjektHubPage() {
   const { user, projects, loading } = useActiveProjects();
 
   return (
-    <div className="space-y-4">
-      <header className="px-0.5">
-        <p className="home-page__eyebrow">Projekt</p>
-        <h1 className="home-page__title text-xl">Egna planeringar</h1>
-        <p className="home-page__lead text-xs">
-          Listor, anteckningar och uppgifter — status i Handling med valfritt projekt-ID.
-        </p>
-      </header>
+    <HubPageShell
+      eyebrow="Göra"
+      title="Egna planeringar"
+      lead="Listor, anteckningar och uppgifter — status i Handling med valfritt projekt-ID."
+    >
+      <GoraHubTabBar />
 
+      <div className="space-y-4">
       {!user && (
         <p className="text-sm text-text-muted">Logga in för att spara projekt.</p>
       )}
@@ -80,10 +81,11 @@ export function ProjektHubPage() {
         >
           Genvägar per profil
         </Link>
-        <Link to="/planering" className="btn-pill--secondary flex w-full items-center justify-center gap-2">
+        <Link to="/planering?tab=handling" className="btn-pill--secondary flex w-full items-center justify-center gap-2">
           Till Handling (kanban)
         </Link>
       </div>
-    </div>
+      </div>
+    </HubPageShell>
   );
 }

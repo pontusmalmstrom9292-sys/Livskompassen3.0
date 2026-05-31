@@ -36,7 +36,7 @@ export function VaultMonsterPanel({ logs }: Props) {
   if (logs.length === 0) {
     return (
       <BentoCard title="Mönster" description="Pansaret · deterministisk frekvens" icon={<BarChart3 className="h-4 w-4" />}>
-        <EmptyState message="Inga valvposter ännu. Logga bevis under Logga — frekvensen visas här." />
+        <EmptyState message="Inga valvposter ännu. Spara under Arkiv — frekvensen visas här." />
       </BentoCard>
     );
   }
@@ -50,7 +50,7 @@ export function VaultMonsterPanel({ logs }: Props) {
       >
         <p className="text-sm text-text-muted">
           {report.totalPosts} poster · {report.smsLikePosts} kommunikationsrelaterade ·
-          deterministisk skanning av dina WORM-texter.
+          deterministisk skanning av dina låsta texter i arkivet.
         </p>
         <div className="mt-4 space-y-3">
           {report.topTechniques.length === 0 ? (

@@ -4,6 +4,7 @@ import { HomeHeroKanon } from '../home/HomeHeroKanon';
 import { PlaneringHomePinCard } from '../../admin/planning/components/PlaneringHomePinCard';
 import { StampClockHomeSection, isStampOnHomeScreenEnabled } from '../../admin/stampla';
 import { InkastLiteCard } from '../../inkast';
+import { CapturePanel, ReviewQueuePanel } from '../../capture';
 import { materialEnabled, useLifeHubPreset } from '../lifeOs';
 import { useStore } from '../store';
 
@@ -20,7 +21,14 @@ export function HomePage() {
 
       {isAuthenticated && isStampOnHomeScreenEnabled() && <StampClockHomeSection />}
 
-      {materialEnabled(preset, 'home_inkast') && <InkastLiteCard />}
+      {materialEnabled(preset, 'home_inkast') && isAuthenticated && (
+        <>
+          <CapturePanel sourceModule="hem_capture" />
+          <ReviewQueuePanel />
+        </>
+      )}
+
+      {materialEnabled(preset, 'home_inkast') && !isAuthenticated && <InkastLiteCard />}
 
       <PlaneringHomePinCard />
 

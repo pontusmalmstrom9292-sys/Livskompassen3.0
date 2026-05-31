@@ -11,6 +11,7 @@ import {
   type ChildAlias,
 } from '../constants';
 import type { ChildrenLogEntry } from '../types';
+import { coerceLogText, formatChildLogDate } from '../utils/logFieldUtils';
 
 type Props = {
   childAlias: ChildAlias;
@@ -96,11 +97,12 @@ export function BarnfokusFraganPanel({ childAlias, memoryRows, onSave }: Props) 
           <EmptyState message="Inga sparade svar ännu. Ett svar dyker upp här direkt." />
         ) : (
           <ul className="space-y-2">
-            {memoryRows.map((row) => (
-              <li key={row.id ?? row.createdAt}>
+            {memoryRows.map((row, index) => (
+              <li key={row.id || `barnfokus-mem-${index}`}>
                 <TimelineEntry
-                  body={row.observation ?? ''}
-                  meta={`barnfokus · ${(row.createdAt ?? '').slice(0, 10) || 'nyss'}`}
+                  as="div"
+                  body={coerceLogText(row.observation ?? row.truth)}
+                  meta={`barnfokus · ${formatChildLogDate(row.createdAt, 'nyss')}`}
                 />
               </li>
             ))}

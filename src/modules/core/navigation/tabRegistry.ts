@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import type { DrawerHubId } from './hubTabs';
 import { tabIdFromNavPath } from './hubTabs';
-import { getDrawerChildren, type NavTruthEntry } from './navTruth';
+import { getNavChildren, type NavTruthEntry } from './navTruth';
 import type { TabBarItem } from '../ui/TabBar';
 import {
   FORENSIC_VAULT_TAB_IDS,
@@ -35,6 +35,7 @@ import {
 } from '../../evidence/vault/utils/vaultTabs';
 
 import { HIDE_BEVIS_TAB } from './navFlags';
+import { VALV_ZONE_LABELS, VAULT_MAIN_TAB_LABELS } from '../copy/valvNavCopy';
 
 export { HIDE_BEVIS_TAB } from './navFlags';
 
@@ -66,11 +67,14 @@ export const TAB_CATEGORY_LABELS: Record<TabCategory, string> = {
 
 export const HUB_TAB_CATEGORY: Record<string, TabCategory> = {
   hem: 'kompass_system',
+  liv: 'vardag_aterhamtning',
+  familj: 'familj',
   dagbok: 'dagbok_spegling',
   vardagen: 'vardag_aterhamtning',
   mabra: 'vardag_aterhamtning',
   familjen: 'familj',
   planering: 'verktyg',
+  gora: 'verktyg',
   arbetsliv: 'verktyg',
   projekt: 'verktyg',
   hamn: 'trygghet',
@@ -109,11 +113,13 @@ export function groupVardagDrawerRoots(
 }
 
 export function hubTabDefsFromNav(hubId: DrawerHubId): HubTabDef[] {
-  return getDrawerChildren(hubId, 'vardag')
+  return getNavChildren(hubId, 'vardag')
     .map((entry) => {
       const id = tabIdFromNavPath(entry.path);
-      if (!id) return null;
-      return { id, label: entry.label };
+      const pathOnly = !id && !entry.path.includes('?') ? entry.path.split('/').filter(Boolean)[0] : null;
+      const tabId = id ?? pathOnly;
+      if (!tabId) return null;
+      return { id: tabId, label: entry.label };
     })
     .filter((t): t is HubTabDef => t !== null);
 }
@@ -141,15 +147,7 @@ export function parseVardagenTab(raw: string | null): VardagenTab {
   return 'kompasser';
 }
 
-const VAULT_MAIN_LABELS: Record<MainVaultTab, string> = {
-  logga: 'Arkiv',
-  sok: 'Triage',
-  monster: 'Mönster',
-  orkester: 'Orkester',
-  dossier: 'Dossier',
-  kunskapsbank: 'Kunskapsbank',
-  aktorskarta: 'Aktörskarta',
-};
+const VAULT_MAIN_LABELS = { ...VAULT_MAIN_TAB_LABELS } as Record<MainVaultTab, string>;
 
 const icon = (Icon: typeof FileText) => createElement(Icon, { className: 'h-3 w-3' });
 
@@ -175,16 +173,10 @@ export function getMainVaultTabBarItems(): TabBarItem<MainVaultTab>[] {
   }));
 }
 
-const VALV_ZONE_LABELS: Record<ValvZone, string> = {
-  samla: 'Samla',
-  analysera: 'Analysera',
-  kunskap: 'Kunskap',
-  exportera: 'Exportera',
-  forensik: 'Forensik',
-};
+const VALV_ZONE_LABELS_MAP = { ...VALV_ZONE_LABELS } as Record<ValvZone, string>;
 
 export function getVaultZoneTabBarItems(): TabBarItem<ValvZone>[] {
-  return VALV_ZONE_IDS.map((id) => ({ id, label: VALV_ZONE_LABELS[id] }));
+  return VALV_ZONE_IDS.map((id) => ({ id, label: VALV_ZONE_LABELS_MAP[id] }));
 }
 
 export function getSamlaVaultTabBarItems(): TabBarItem<SamlaVaultTab>[] {

@@ -6,13 +6,8 @@ import { HomePage } from '../pages/HomePage';
 import { ThemePreviewPage } from '../pages/ThemePreviewPage';
 import { ThemeLabPage } from '../pages/ThemeLabPage';
 import { HubLabPage } from '../pages/HubLabPage';
-import { VardagenPage, type VardagenTab } from '../../wellbeing/compasses';
-import { SafeHarborPage } from '../../family/safeHarbor';
 import { HjartatPage } from '../../diary/diary';
-import { FamiljenPage } from '../../family/children';
 import { DossierPage } from '../../evidence/vault/dossier';
-import { MabraPage } from '../../wellbeing/mabra';
-import { PlaneringPage } from '../../admin/planning';
 import {
   ProjektDetailPage,
   ProjektHubPage,
@@ -21,10 +16,10 @@ import {
   ProjektReglerPage,
 } from '../../admin/projects';
 import { BarnportenPage } from '../../barnporten';
-import { ArbetslivHubPage } from '../../arbetsliv';
-import { DrogfrihetHubPage } from '../../drogfrihet';
 import { InstallningarPage } from '../pages/InstallningarPage';
 import { KompisHubPage } from '../../evidence/kompis';
+import { LivShellPage, FamiljShellPage } from '../../shell';
+import type { VardagenTab } from '../../wellbeing/compasses';
 
 function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
   const location = useLocation();
@@ -38,12 +33,8 @@ function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
 }
 
 function RedirectToVardagenTab({ tab }: { tab: VardagenTab }) {
-  return (
-    <Navigate
-      to={{ pathname: '/vardagen', search: tab === 'kompasser' ? '' : `?tab=${tab}` }}
-      replace
-    />
-  );
+  const search = tab === 'kompasser' ? '?tab=kompasser' : `?tab=${tab}`;
+  return <Navigate to={{ pathname: '/liv', search }} replace />;
 }
 
 function MainAppRoutes() {
@@ -58,34 +49,20 @@ function MainAppRoutes() {
             </AuthGate>
           }
         />
-        <Route
-          path="/vardagen"
-          element={
-            <AuthGate>
-              <VardagenPage />
-            </AuthGate>
-          }
-        />
         <Route path="/kompasser" element={<RedirectToVardagenTab tab="kompasser" />} />
         <Route path="/valv" element={<RedirectToHjartatTab tab="bevis" />} />
-        <Route
-          path="/hamn"
-          element={
-            <AuthGate>
-              <SafeHarborPage />
-            </AuthGate>
-          }
-        />
+        <Route path="/liv" element={<AuthGate><LivShellPage /></AuthGate>} />
+        <Route path="/mabra" element={<Navigate to="/liv?tab=mabra" replace />} />
+        <Route path="/planering" element={<Navigate to="/liv?tab=handling" replace />} />
+        <Route path="/vardagen" element={<Navigate to="/liv?tab=kompasser" replace />} />
+        <Route path="/arbetsliv" element={<Navigate to="/liv?tab=arbetsliv" replace />} />
+        <Route path="/stampla" element={<Navigate to="/liv?tab=arbetsliv" replace />} />
+        <Route path="/familj" element={<AuthGate><FamiljShellPage /></AuthGate>} />
+        <Route path="/familjen" element={<Navigate to="/familj?tab=reflektion" replace />} />
+        <Route path="/barnen" element={<Navigate to="/familj?tab=reflektion" replace />} />
+        <Route path="/hamn" element={<Navigate to="/familj?tab=hamn" replace />} />
+        <Route path="/drogfrihet" element={<Navigate to="/familj?tab=drogfrihet" replace />} />
         <Route path="/ekonomi" element={<RedirectToVardagenTab tab="ekonomi" />} />
-        <Route
-          path="/arbetsliv"
-          element={
-            <AuthGate>
-              <ArbetslivHubPage />
-            </AuthGate>
-          }
-        />
-        <Route path="/stampla" element={<Navigate to="/arbetsliv?tab=stampla" replace />} />
         <Route
           path="/dagbok"
           element={
@@ -95,45 +72,12 @@ function MainAppRoutes() {
           }
         />
         <Route path="/kunskap" element={<Navigate to="/dagbok?tab=bevis&vaultTab=kunskapsbank" replace />} />
-        <Route
-          path="/familjen"
-          element={
-            <AuthGate>
-              <FamiljenPage />
-            </AuthGate>
-          }
-        />
-        <Route path="/barnen" element={<Navigate to="/familjen" replace />} />
         <Route path="/speglar" element={<RedirectToHjartatTab tab="speglar" />} />
         <Route
           path="/dossier"
           element={
             <AuthGate>
               <DossierPage />
-            </AuthGate>
-          }
-        />
-        <Route
-          path="/mabra"
-          element={
-            <AuthGate>
-              <MabraPage />
-            </AuthGate>
-          }
-        />
-        <Route
-          path="/drogfrihet"
-          element={
-            <AuthGate>
-              <DrogfrihetHubPage />
-            </AuthGate>
-          }
-        />
-        <Route
-          path="/planering"
-          element={
-            <AuthGate>
-              <PlaneringPage />
             </AuthGate>
           }
         />

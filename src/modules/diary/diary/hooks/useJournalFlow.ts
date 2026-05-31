@@ -6,7 +6,7 @@ import {
 } from '../../../core/firebase/firestore';
 import { uploadJournalMemory } from '../utils/journalUploadHelper';
 import type { JournalCategoryId } from '../constants/journalCategories';
-import { hasVaultZone } from '../../../core/auth/sessionService';
+import { hasVaultGate } from '../../../core/auth/sessionService';
 import { weaveJournalEntry } from '../api/weaverService';
 import { journalWovenToKampspar } from '../api/journalWovenService';
 import type { MabraBridgeHub } from '../constants/mabraBridge';
@@ -16,6 +16,7 @@ import { MOOD_ONLY_STUB } from '../constants/moodPrompts';
 import { fetchJournalQuickMirror } from '../api/journalQuickMirrorService';
 import type { JournalQuickMirrorResponse } from '../api/journalQuickMirrorService';
 import { journalQuickMirrorFallback } from '../utils/journalQuickMirrorFallback';
+import { submitCaptureDraft } from '../../../capture/submitCaptureDraft';
 import type { JournalEntry, JournalStep } from '../types/journal';
 
 const INITIAL_STEP: JournalStep = 'mood';
@@ -55,6 +56,20 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     mountedRef.current = true;
     return () => {
       mountedRef.current = false;
+      setStep(INITIAL_STEP);
+      setMood('');
+      setText('');
+      setTags([]);
+      setCategory(undefined);
+      setPendingMemoryFile(null);
+      setMemoryError(null);
+      setSaving(false);
+      setError(null);
+      setWeaveToKampspar(false);
+      setQuickJustSaved(false);
+      setQuickMirror(null);
+      setQuickMirrorLoading(false);
+      setLastSavedEntryId(null);
     };
   }, []);
 
@@ -142,10 +157,10 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
         entryId ? { entryId } : undefined,
       );
       setLastSavedEntryId(id);
-      if (hasVaultZone('dagbok_forensic')) {
+      if (hasVaultGate()) {
         weaveJournalEntry({ journalEntryId: id, mood, text: entryText });
       }
-      if (optInKampspar && hasVaultZone('dagbok_forensic')) {
+      if (optInKampspar && hasVaultGate()) {
         journalWovenToKampspar({ journalEntryId: id, mood, text: entryText });
       }
       setWeaveToKampspar(false);
@@ -197,7 +212,10 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     await persistEntry(MABRA_MOOD_ONLY_TEXT[mabraHub]);
   };
 
-  const handleQuickSave = async (quickText: string) => {
+  const handleQuickSave = async (
+    quickText: string,
+    options?: { alsoToArkiv?: boolean },
+  ) => {
     const trimmed = quickText.trim();
     const entryText = trimmed || MOOD_ONLY_STUB(mood);
     const tagList = tags.length ? [...tags] : undefined;
@@ -206,6 +224,16 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     setQuickMirror(null);
     setQuickMirrorLoading(false);
     const ok = await persistEntry(entryText, { tags: tagList, skipDoneStep: true });
+    if (ok && options?.alsoToArkiv && trimmed.length >= 3) {
+      void submitCaptureDraft({
+        text: trimmed,
+        fileName: 'dagbok_snabb.txt',
+        sourceModule: 'dagbok_snabb',
+        optInTrauma: true,
+      }).catch(() => {
+        /* journal sparad — arkiv-kopia valfri */
+      });
+    }
     if (ok && savedMood) {
       setQuickMirror(journalQuickMirrorFallback(savedMood, trimmed || undefined));
       setQuickMirrorLoading(true);

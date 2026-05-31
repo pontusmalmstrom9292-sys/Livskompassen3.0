@@ -59,8 +59,8 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
       <OrkesterAgentTrio />
 
       <BentoCard
-        title="AI-Orkestern"
-        description="Det Digitala Pansaret · produktroller"
+        title="Assistentroller"
+        description="Vilka hjälpare som finns"
         icon={<Network className="h-4 w-4" />}
       >
         <ul className="space-y-2">

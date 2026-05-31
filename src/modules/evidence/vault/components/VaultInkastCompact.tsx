@@ -123,7 +123,7 @@ export function VaultInkastCompact({ onQueued, onPersistedBevis }: Props) {
       icon={<Inbox className="h-4 w-4 text-accent" />}
     >
       <p className="mb-2 text-xs text-text-dim">
-        Hög säkerhet → granskningskö. Bekräfta «Bevis» innan posten blir WORM.
+        Hög säkerhet → granskningskö. Bekräfta «Arkiv» innan posten låses.
       </p>
       <textarea
         value={text}

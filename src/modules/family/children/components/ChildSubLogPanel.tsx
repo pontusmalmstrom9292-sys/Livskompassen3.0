@@ -68,6 +68,8 @@ export function ChildSubLogPanel({
       setSavedLogId(id);
       setSavedAsAnchor(saveAsAnchor);
       setStep('saved');
+    } catch {
+      setStep('form');
     } finally {
       setLoading(false);
     }

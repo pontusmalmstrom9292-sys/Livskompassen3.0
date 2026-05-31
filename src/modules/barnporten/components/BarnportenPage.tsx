@@ -107,7 +107,7 @@ export function BarnportenPage() {
       {status && <p className="mt-3 text-center text-sm text-accent">{status}</p>}
 
       <details className="mt-8 rounded-xl border border-white/10 p-3 text-xs text-text-muted">
-        <summary className="cursor-pointer text-accent">Barn-Orkester</summary>
+        <summary className="cursor-pointer text-accent">Assistentinfo</summary>
         <ul className="mt-2 space-y-1">
           {BARNPORTEN_AGENTS.map((a) => (
             <li key={a.id}>

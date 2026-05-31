@@ -298,11 +298,29 @@ export async function getChildrenLogs(userId: string) {
   const ref = collection(db, 'children_logs');
   const snap = await getDocs(ownerScopedQuery(ref, userId));
   return sortByCreatedAtDesc(
-    snap.docs.map((d) => ({
-      id: d.id,
-      ...d.data(),
-      createdAt: normalizeCreatedAt(d.data().createdAt),
-    }))
+    snap.docs.map((d) => {
+      const data = d.data();
+      const observation =
+        typeof data.observation === 'string'
+          ? data.observation
+          : data.observation == null
+            ? undefined
+            : String(data.observation);
+      const truthRaw = data.truth;
+      const truth =
+        typeof truthRaw === 'string'
+          ? truthRaw
+          : truthRaw == null
+            ? observation
+            : String(truthRaw);
+      return {
+        id: d.id,
+        ...data,
+        observation,
+        truth,
+        createdAt: normalizeCreatedAt(data.createdAt),
+      };
+    }),
   );
 }
 

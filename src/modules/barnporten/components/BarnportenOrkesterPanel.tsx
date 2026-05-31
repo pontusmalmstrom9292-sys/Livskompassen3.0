@@ -5,7 +5,7 @@ import { BARNPORTEN_AGENTS } from '../constants/barnportenAgents';
 export function BarnportenOrkesterPanel() {
   return (
     <div className="rounded-xl border border-white/10 p-3">
-      <p className="text-[10px] uppercase tracking-widest text-text-dim">Barnporten-Orkester</p>
+      <p className="text-[10px] uppercase tracking-widest text-text-dim">Barnens assistenter</p>
       <ul className="mt-2 space-y-2 text-sm text-text-muted">
         {BARNPORTEN_AGENTS.map((a) => (
           <li key={a.id}>
@@ -14,7 +14,7 @@ export function BarnportenOrkesterPanel() {
         ))}
       </ul>
       <Link to="/dagbok?tab=bevis&vaultTab=orkester" className="btn-pill--ghost mt-3 inline-flex text-xs">
-        Föräldra-Orkester i Valv
+        Öppna meddelande-analys i arkiv
       </Link>
     </div>
   );

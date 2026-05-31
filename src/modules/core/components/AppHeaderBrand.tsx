@@ -5,7 +5,7 @@ import { getHeaderPageLabel } from '../navigation/headerPageLabel';
 
 export function AppHeaderBrand() {
   const location = useLocation();
-  const pageLabel = getHeaderPageLabel(location.pathname);
+  const pageLabel = getHeaderPageLabel(location.pathname, location.search);
   const showPageBadge = pageLabel && pageLabel !== 'Hem';
 
   return (

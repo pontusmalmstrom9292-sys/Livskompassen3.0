@@ -1,13 +1,17 @@
 import { useEffect } from 'react';
 import { useStore } from '../store';
-import { clearAllVaultZones, invalidateServerSession } from './sessionService';
+import {
+  clearAllVaultZones,
+  hasVaultGate,
+  invalidateServerSession,
+  VAULT_SESSION_IDLE_MS,
+} from './sessionService';
 
-const VAULT_TIMEOUT_MS = 15 * 60 * 1000;
+const ACTIVITY_EVENTS = ['pointerdown', 'keydown', 'touchstart', 'scroll'] as const;
 
 /**
- * Zero Footprint for vault session.
- * Uses idle timeout only — visibilitychange removed because mobile keyboards
- * and passkey prompts fire "hidden" and immediately locked/cleared the gate.
+ * Zero Footprint for Valv session — single PIN via Fyren, 1 h idle.
+ * No per-module zone gates; valv_core covers Dagbok/Speglar/Valv-menyn.
  */
 export function useZeroFootprint() {
   const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
@@ -15,7 +19,13 @@ export function useZeroFootprint() {
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
 
   useEffect(() => {
-    if (!isVaultUnlocked) return;
+    if (hasVaultGate() && !isVaultUnlocked) {
+      setVaultUnlocked(true);
+    }
+  }, [isVaultUnlocked, setVaultUnlocked]);
+
+  useEffect(() => {
+    if (!hasVaultGate() && !isVaultUnlocked) return;
 
     const endVaultSession = () => {
       setVaultUnlocked(false);
@@ -26,7 +36,22 @@ export function useZeroFootprint() {
       }
     };
 
-    const timer = setTimeout(endVaultSession, VAULT_TIMEOUT_MS);
-    return () => clearTimeout(timer);
+    let timer = window.setTimeout(endVaultSession, VAULT_SESSION_IDLE_MS);
+
+    const bump = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(endVaultSession, VAULT_SESSION_IDLE_MS);
+    };
+
+    for (const event of ACTIVITY_EVENTS) {
+      window.addEventListener(event, bump, { passive: true });
+    }
+
+    return () => {
+      window.clearTimeout(timer);
+      for (const event of ACTIVITY_EVENTS) {
+        window.removeEventListener(event, bump);
+      }
+    };
   }, [isVaultUnlocked, setVaultUnlocked, setActiveDrawer]);
 }

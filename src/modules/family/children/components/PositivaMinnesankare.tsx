@@ -3,7 +3,7 @@ import { Sparkles } from 'lucide-react';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import type { ChildAlias } from '../constants';
 import type { ChildrenLogEntry } from '../types';
-import { isFavoriteMoment } from '../utils/childMomentHelpers';
+import { isFavoriteMoment, momentBody } from '../utils/childMomentHelpers';
 
 type Props = {
   logs: ChildrenLogEntry[];
@@ -34,9 +34,7 @@ export function PositivaMinnesankare({ logs, childAlias }: Props) {
             <p className="text-[10px] uppercase tracking-widest text-text-dim">
               {log.category ?? 'minne'}
             </p>
-            <p className="mt-1 whitespace-pre-wrap">
-              {log.observation ?? log.truth ?? '—'}
-            </p>
+            <p className="mt-1 whitespace-pre-wrap">{momentBody(log) || '—'}</p>
           </li>
         ))}
       </ul>

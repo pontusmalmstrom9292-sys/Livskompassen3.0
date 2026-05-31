@@ -67,8 +67,8 @@ export function ChildrenLogsChat({ activeChild }: ChildrenLogsChatProps) {
             <ul className="space-y-1 border-t border-border-strong pt-2">
               {citations.map((c) => (
                 <li key={c.docId} className="text-xs text-text-dim">
-                  {c.childAlias} · {c.date} — {c.excerpt.slice(0, 80)}
-                  {c.excerpt.length > 80 ? '…' : ''}
+                  {c.childAlias} · {c.date} — {String(c.excerpt ?? '').slice(0, 80)}
+                  {String(c.excerpt ?? '').length > 80 ? '…' : ''}
                 </li>
               ))}
             </ul>

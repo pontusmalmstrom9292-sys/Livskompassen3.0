@@ -70,13 +70,22 @@ function main() {
 
   // Valv Mönster + Orkester (tab labels: tabRegistry · panels: VaultPage)
   mustInclude(
+    'src/modules/core/copy/valvNavCopy.ts',
+    'VAULT_MAIN_TAB_LABELS',
+    'Meddelanden eller SMS-analys',
+    'VALV_ZONE_LABELS',
+  );
+  mustInclude(
+    'src/modules/core/copy/valvNavCopy.ts',
+    'monster: \'Mönster\'',
+    'Kunskapsbank',
+    'aktorskarta: \'Personer i ärendet\'',
+  );
+  mustInclude(
     'src/modules/core/navigation/tabRegistry.ts',
     'MAIN_VAULT_TAB_IDS',
     'PANSARET_VAULT_TAB_IDS',
-    'Mönster',
-    'Orkester',
-    'Kunskapsbank',
-    'Aktörskarta',
+    'VAULT_MAIN_TAB_LABELS',
     'getKunskapVaultTabBarItems',
     'getVaultZoneTabBarItems',
     'getSamlaVaultTabBarItems',
@@ -140,10 +149,15 @@ function main() {
   );
   mustInclude(
     'src/modules/core/navigation/navTruth.ts',
-    "label: 'Kunskapsbank'",
-    'Chat & Tidshjul',
+    'VALV_ZONE_LABELS.kunskap',
+    'VALV_KUNSKAP_DRAWER_LEAF',
     'valv_aktorskarta',
-    'Nyckelpersoner',
+    'DAGBOK_BEVIS_DRAWER_LABEL',
+  );
+  mustInclude(
+    'src/modules/core/copy/valvNavCopy.ts',
+    'Fråga & tidslinje',
+    'Personer i ärendet',
   );
   mustInclude(
     'src/modules/core/navigation/tabRegistry.ts',
@@ -158,7 +172,7 @@ function main() {
   );
   mustInclude(
     'src/modules/evidence/vault/components/VaultOrkesterPanel.tsx',
-    'AI-Orkestern',
+    'Assistentroller',
     'Kör mönstersökning',
     'analyzeBiffMessage',
   );
@@ -182,7 +196,7 @@ function main() {
   mustInclude('src/modules/evidence/vault/components/VaultPage.tsx', 'VALV_ZONE_INGRESS');
   mustInclude('src/modules/evidence/vault/components/VaultPage.tsx', 'WeaverPendingVaultBanner');
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'setVaultGate', 'openValvViaFyren');
-  mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", '/vardagen');
+  mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", '/vardagen', "label: 'Vardag'", "id: 'gora'", 'getNavChildren');
   mustInclude(
     'src/modules/inkast/components/InkastLiteCard.tsx',
     'submitInkastLite',
@@ -307,7 +321,7 @@ function main() {
   mustInclude(
     'src/modules/barnporten/components/BarnportenInboxPanel.tsx',
     'BarnportenInboxPanel',
-    'Flytta till Valv (HITL)',
+    'Granska i arkiv',
     'SaveAsEvidencePrompt',
   );
   mustInclude(
@@ -341,6 +355,7 @@ function main() {
     'MENU-DRAWER-KANON.png',
     'Vardag',
     'Valv',
+    'Göra',
     'Kunskapsbank',
     'navTruth.ts',
     'DrawerModeToggle',
@@ -348,6 +363,7 @@ function main() {
     'showValvShell',
     'Pansaret',
     'Forensik',
+    'Djupare',
   );
   assert(
     existsSync(resolve(root, 'docs/design/references/MENU-DRAWER-KANON.png')),
@@ -363,10 +379,11 @@ function main() {
     'vaultDrawerPath',
     "section: 'valv'",
     'valv_grp_samla',
-    'valv_grp_analysera',
-    'valv_grp_exportera',
-    'valv_grp_forensik',
+    'valv_samla',
+    'valv_analysera',
+    'valv_forensik',
     'getDrawerRoots',
+    'gora_handling',
     'planering_handling',
     'hem_inkast',
   );
@@ -411,7 +428,10 @@ function main() {
     'src/modules/admin/planning/components/PlaneringPage.tsx',
     'HubPageShell',
     'PlanningKanbanBoard',
+    'GoraHubTabBar',
   );
+  mustInclude('src/modules/core/navigation/GoraHubTabBar.tsx', 'resolveGoraTab', 'GoraHubTabBar');
+  mustInclude('src/modules/admin/projects/components/ProjektHubPage.tsx', 'GoraHubTabBar', 'HubPageShell');
   mustInclude(
     'src/modules/admin/planning/components/PlaneringHub.tsx',
     'PlaneringHubBody',
@@ -490,6 +510,22 @@ function main() {
       );
     }
   }
+
+  mustInclude(
+    'src/modules/core/security/clearDeviceSession.ts',
+    'clearDeviceSession',
+    'clearAllDrafts',
+  );
+  mustInclude('src/modules/core/pages/InstallningarPage.tsx', 'ClearDevicePanel');
+  mustInclude('src/modules/diary/mirror/utils/speglarSessionStorage.ts', 'clearSpeglarSession');
+  assert(
+    !read('src/App.tsx').includes('useShakeToKill'),
+    'App.tsx får inte montera useShakeToKill (Kill Switch borttagen)',
+  );
+  assert(
+    !existsSync(resolve(root, 'src/modules/core/hooks/useShakeToKill.ts')),
+    'useShakeToKill.ts ska vara borttagen',
+  );
 
   console.log(
     '[smoke:locked-ux] PASS — Barnfokus, Valv-baksida (Mönster/Orkester/Kunskapsbank), drawer Vardag+Valv, Planering, Widget, Barnporten.',

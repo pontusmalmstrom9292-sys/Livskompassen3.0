@@ -54,7 +54,7 @@ export function EntityRegistryCard() {
       icon={<Users className="h-4 w-4 text-accent" />}
     >
       <p className="mb-3 text-xs text-text-dim">
-        Metadata för agenter — inte RAG-bevis. Nya personer läggs inte till automatiskt.
+        Personregister för assistenter — inte bevis. Nya personer läggs inte till automatiskt.
       </p>
 
       {loading && <p className="text-sm text-text-muted">Laddar aktörskarta…</p>}
@@ -82,7 +82,7 @@ export function EntityRegistryCard() {
       {!loading && !error && synapses.length > 0 && (
         <details className="text-sm">
           <summary className="cursor-pointer text-text-muted hover:text-text">
-            SystemSynapses ({synapses.length})
+            Kopplingar ({synapses.length})
           </summary>
           <ul className="mt-2 space-y-2 text-xs text-text-dim">
             {synapses.map((s) => (

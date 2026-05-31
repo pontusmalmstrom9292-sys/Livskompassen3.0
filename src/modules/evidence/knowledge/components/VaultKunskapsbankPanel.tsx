@@ -63,7 +63,7 @@ export function VaultKunskapsbankPanel() {
       {showEmptyState && (
         <BentoCard
           title="Ditt Minne är tomt"
-          description="Kunskapsvalvet söker i kampspar — börja med en post"
+          description="Sök i dina sparade anteckningar — börja med en post"
           icon={<BookOpen className="h-4 w-4" />}
         >
           <EmptyState

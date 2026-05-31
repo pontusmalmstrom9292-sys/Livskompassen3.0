@@ -12,6 +12,7 @@ import {
   isFavoriteMoment,
   momentBody,
 } from '../../utils/childMomentHelpers';
+import { formatChildLogDate } from '../../utils/logFieldUtils';
 
 type Props = {
   shell: FamiljenShell;
@@ -112,7 +113,7 @@ export function ChildMomentStunderPanel({ shell }: Props) {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-2">
                       <p className="text-[10px] uppercase tracking-widest text-text-dim">
-                        {categoryLabel(log.category)} · {(log.createdAt ?? '').slice(0, 10)}
+                        {categoryLabel(log.category)} · {formatChildLogDate(log.createdAt, '—')}
                       </p>
                       {favorite && (
                         <Heart

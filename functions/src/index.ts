@@ -479,11 +479,13 @@ export const submitInkastLite = onCall(
     const mimeType =
       typeof request.data?.mimeType === 'string' ? request.data.mimeType : undefined;
     const optInTrauma = request.data?.optInTrauma === true;
+    const sourceModule =
+      typeof request.data?.sourceModule === 'string' ? request.data.sourceModule : undefined;
 
     try {
       return await submitInkastLiteForUser(
         request.auth.uid,
-        { text, base64, fileName, mimeType, optInTrauma },
+        { text, base64, fileName, mimeType, optInTrauma, sourceModule },
         geminiApiKey.value()
       );
     } catch (error) {
@@ -607,7 +609,7 @@ export const ingestKnowledgeDocument = functions
     }
 
     let title = fileName;
-    let content = '';
+    let content: string;
 
     const isPlainText =
       mimeType.startsWith('text/') ||

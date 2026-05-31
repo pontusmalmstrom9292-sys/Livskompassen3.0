@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { clearVaultZone, type VaultZoneId } from '../auth/sessionService';
+import { clearVaultZone, VAULT_SESSION_IDLE_MS, type VaultZoneId } from '../auth/sessionService';
 
-const DEFAULT_IDLE_MS = 15 * 60 * 1000;
+const DEFAULT_IDLE_MS = VAULT_SESSION_IDLE_MS;
 
 const ACTIVITY_EVENTS = ['pointerdown', 'keydown', 'touchstart', 'scroll'] as const;
 

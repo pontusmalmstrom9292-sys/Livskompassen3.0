@@ -55,9 +55,9 @@ export function ConfirmStep({
         )}
       </div>
 
-      {showWeaveOptIn && (
+      {showWeaveOptIn && VAVAREN_CONFIRM_HINT ? (
         <p className="mb-3 text-xs text-text-dim">{VAVAREN_CONFIRM_HINT}</p>
-      )}
+      ) : null}
       {showWeaveOptIn && (
         <label className="reflektion-weave-opt mb-4 flex cursor-pointer items-start gap-2 text-sm text-text-muted">
           <input

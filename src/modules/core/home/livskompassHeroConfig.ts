@@ -91,7 +91,7 @@ export const HERO_ORBIT_SLOTS: OrbitSlotConfig[] = [
     icon: 'valv',
     label: 'Valv',
     shortLabel: 'Valv',
-    blurb: 'Bevis · mönster · orkester',
+    blurb: 'Arkiv · mönster · meddelanden',
     to: '/dagbok?tab=bevis',
     angle: 315,
     ring: 'intercardinal',

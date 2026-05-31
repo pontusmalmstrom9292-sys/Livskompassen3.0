@@ -250,12 +250,12 @@ export function DossierPage({ embedded = false }: DossierPageProps) {
     <div className={embedded ? 'space-y-4' : 'space-y-6'}>
       <BentoCard
         title={embedded ? 'Dossier' : 'Dossier-Generator'}
-        description={embedded ? 'Samlad WORM-export' : undefined}
+        description={embedded ? 'Samlad arkiv-export' : undefined}
         icon={<FileText className="h-4 w-4" />}
       >
         {!embedded && (
           <p className="mb-4 text-sm text-text-muted">
-            Sacred Feature — samlad WORM-export. Inget skickas automatiskt; du laddar ner när du är
+            Samlad arkiv-export. Inget skickas automatiskt; du laddar ner när du är
             redo.
           </p>
         )}

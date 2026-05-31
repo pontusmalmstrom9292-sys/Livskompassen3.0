@@ -9,7 +9,7 @@ export function EconomyTidPanel() {
       <TimeAndPayPanel />
       <BentoCard title="Full stämpelvy" icon={<Clock className="h-4 w-4" />}>
         <p className="mb-3 text-sm text-text-dim">Veckokalender och senaste pass.</p>
-        <Link to="/arbetsliv" className="btn-pill--ghost inline-block text-sm">
+        <Link to="/arbetsliv?tab=stampla" className="btn-pill--ghost inline-block text-sm">
           Öppna stämpelklocka
         </Link>
       </BentoCard>

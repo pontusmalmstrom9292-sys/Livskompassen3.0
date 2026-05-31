@@ -10,7 +10,6 @@ import {
   revokeMediaAttachments,
   type MediaAttachment,
 } from '../../../core/media/mediaAttachment';
-import { VaultZoneGate } from '../../../core/security/VaultZoneGate';
 import { VIVIR_STEPS } from '../constants/vivirSteps';
 import { matchVaultEvidence } from '../utils/matchVaultEvidence';
 import { ActCalibrationView } from './ActCalibrationView';
@@ -19,6 +18,11 @@ import { EvidenceCompareView } from './EvidenceCompareView';
 import { SpeglarEvidencePanel, type SavedSpeglarEvidence } from './SpeglarEvidencePanel';
 import { VivirQuickEntry } from './VivirQuickEntry';
 import { SvartPaVittForm } from './SvartPaVittForm';
+import {
+  clearSpeglarSession,
+  readSpeglarSession,
+  writeSpeglarSession,
+} from '../utils/speglarSessionStorage';
 
 type ForensicPhase = 'vivir' | 'compare';
 
@@ -27,16 +31,29 @@ type SpeglingsSystemProps = {
 };
 
 /** Publikt: ACT-kalibrering. Forensic: VIVIR, Svart på vitt, bevisjämförelse. */
-export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
+export function SpeglingsSystem({ embedded: _embedded = false }: SpeglingsSystemProps) {
   const location = useLocation();
   const { bridgeMood, bridgeText } = useMemo(() => {
     const ctx = readJournalBridgeContext(location.state);
     return { bridgeMood: ctx?.mood ?? '', bridgeText: ctx?.text ?? '' };
   }, [location.state]);
   const user = useStore((s) => s.user);
-  const [feeling, setFeeling] = useState('');
-  const [journalMood, setJournalMood] = useState('');
-  const [showForensic, setShowForensic] = useState(false);
+  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
+  const vaultSessionOpen = isVaultUnlocked || hasVaultGate();
+  const [feeling, setFeeling] = useState(() => readSpeglarSession()?.feeling ?? '');
+  const [journalMood, setJournalMood] = useState(() => readSpeglarSession()?.journalMood ?? '');
+  const [showForensic, setShowForensic] = useState(() => readSpeglarSession()?.showForensic ?? false);
+
+  useEffect(() => {
+    writeSpeglarSession({ feeling, journalMood, showForensic });
+  }, [feeling, journalMood, showForensic]);
+
+  const handleClearSession = useCallback(() => {
+    setFeeling('');
+    setJournalMood('');
+    setShowForensic(false);
+    clearSpeglarSession();
+  }, []);
 
   useEffect(() => {
     if (!bridgeText) return;
@@ -47,11 +64,19 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
 
   return (
     <div className="space-y-6">
-      <BentoCard title={embedded ? 'Speglar' : 'Speglings-Systemet'} icon={<Brain className="h-4 w-4" />}>
+      <BentoCard title="Speglar" icon={<Brain className="h-4 w-4" />}>
         <p className="mb-4 text-sm text-text-muted">
-          Kognitiv sköld — känslan valideras först (ACT), fakta sen (VIVIR + valv). Inget sparas
-          automatiskt; rensas när du lämnar vyn.
+          Känslan först. Fakta sen. Sparas lokalt tills du trycker Rensa eller Rensa enheten i Inställningar.
         </p>
+        <div className="mb-3 flex justify-end">
+          <button
+            type="button"
+            className="text-xs text-text-dim underline-offset-2 hover:text-text-muted hover:underline"
+            onClick={handleClearSession}
+          >
+            Rensa speglar-session
+          </button>
+        </div>
         <ActCalibrationView
           feeling={feeling}
           journalMood={journalMood}
@@ -65,19 +90,21 @@ export function SpeglingsSystem({ embedded = false }: SpeglingsSystemProps) {
             className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-accent/20 px-3 py-2 text-xs uppercase tracking-widest text-accent/80 hover:bg-accent/5"
           >
             <Lock className="h-3 w-3" />
-            Fortsätt till fördjupad spegling (biometri)
+            Fortsätt djupare
           </button>
         )}
       </BentoCard>
 
-      {showForensic && (
-        <VaultZoneGate
-          zone="speglar_forensic"
-          title="Fördjupad spegling"
-          description="VIVIR, Svart på vitt och bevisjämförelse. Fingeravtryck eller Face ID."
-        >
-          <SpeglingsForensicPanel userId={user?.uid} initialFeeling={feeling} />
-        </VaultZoneGate>
+      {showForensic && vaultSessionOpen && (
+        <SpeglingsForensicPanel userId={user?.uid} initialFeeling={feeling} />
+      )}
+
+      {showForensic && !vaultSessionOpen && (
+        <BentoCard title="Fördjupad spegling" icon={<Lock className="h-4 w-4" />}>
+          <p className="text-sm text-text-dim">
+            Öppna Valv via Fyren (håll Hjärtat 3 sek) — samma session i en timme, inget extra PIN.
+          </p>
+        </BentoCard>
       )}
     </div>
   );

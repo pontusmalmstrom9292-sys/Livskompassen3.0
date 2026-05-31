@@ -48,7 +48,7 @@ export function EconomyPayslipCard() {
   };
 
   return (
-    <BentoCard title="Lönespec" icon={<FileText className="h-4 w-4" />} description="WORM — genereras i molnet">
+    <BentoCard title="Lönespec" icon={<FileText className="h-4 w-4" />} description="Låst post — genereras i molnet">
       {error && <p className="mb-2 text-sm text-danger">{error}</p>}
       {loading ? (
         <p className="flex items-center gap-2 text-sm text-text-dim">

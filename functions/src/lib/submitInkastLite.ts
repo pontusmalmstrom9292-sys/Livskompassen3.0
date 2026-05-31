@@ -20,6 +20,7 @@ export type SubmitInkastLiteInput = {
   mimeType?: string;
   base64?: string;
   optInTrauma?: boolean;
+  sourceModule?: string;
 };
 
 export type SubmitInkastLiteResult = {
@@ -42,7 +43,7 @@ export async function submitInkastLiteForUser(
       ? input.fileName.trim().slice(0, 200)
       : 'inkast.txt';
 
-  let analysisText = '';
+  let analysisText: string;
   const mimeType =
     typeof input.mimeType === 'string' && input.mimeType.trim()
       ? input.mimeType.trim()
@@ -84,7 +85,15 @@ export async function submitInkastLiteForUser(
     throw new Error('text eller base64 krävs.');
   }
 
-  let classification = await classifyInboxDocument(analysisText, fileName, geminiApiKey);
+  const sourceModule =
+    typeof input.sourceModule === 'string' && input.sourceModule.trim()
+      ? input.sourceModule.trim().slice(0, 80)
+      : undefined;
+  const classifyBlob = sourceModule
+    ? `[sourceModule:${sourceModule}]\n${analysisText}`
+    : analysisText;
+
+  let classification = await classifyInboxDocument(classifyBlob, fileName, geminiApiKey);
 
   if (classification.routing !== 'review' && classification.confidence < 0.75) {
     classification = {

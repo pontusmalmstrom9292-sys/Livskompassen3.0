@@ -86,8 +86,41 @@ export function heuristicInboxClassify(
   }
 
   if (
+    /\[sourcemodule:hamn\]/i.test(blob) ||
+    /sourcemodule:hamn_biff/i.test(blob) ||
+    (/sourcemodule:/i.test(blob) && /\b(hamn|biff|grey rock)\b/.test(blob))
+  ) {
+    return {
+      routing: 'bevis',
+      tags: ['hamn', 'kommunikation'],
+      category: 'kommunikation',
+      confidence: 0.9,
+      summary: 'Hamn / ex-kommunikation → bevis.',
+      traumaSensitive: false,
+      rationale: 'Heuristisk match: sourceModule hamn → reality_vault.',
+    };
+  }
+
+  if (
+    /\[sourcemodule:(familjen|barnen|barnfokus)\]/i.test(blob) ||
+    (/sourcemodule:/i.test(blob) && /\b(barnfokus|livslogg|barnporten)\b/.test(blob))
+  ) {
+    const childAlias = /\barvid\b/.test(blob) ? 'Arvid' : /\bkasper\b/.test(blob) ? 'Kasper' : undefined;
+    return {
+      routing: 'barnen',
+      tags: ['barn', 'livslogg'],
+      category: 'barn',
+      confidence: 0.88,
+      summary: 'Barnobservation via Familj/capture.',
+      traumaSensitive: false,
+      childAlias,
+      rationale: 'Heuristisk match: sourceModule familj → children_logs.',
+    };
+  }
+
+  if (
     /\b(sms|mejl|e-post|mail|whatsapp|meddelande)\b/.test(blob) &&
-    /\b(isabelle|motpart|ex|barnens mor|soc|socialtjänst|dom|bevis)\b/.test(blob)
+    /\b(isabelle|motpart|ex|barnens mor|soc|socialtjänst|dom|bevis|biff)\b/.test(blob)
   ) {
     return {
       routing: 'bevis',
@@ -97,6 +130,20 @@ export function heuristicInboxClassify(
       summary: 'Kommunikationslogg / bevismaterial.',
       traumaSensitive: false,
       rationale: 'Heuristisk match: kommunikation → reality_vault.',
+    };
+  }
+
+  if (/\bbarnfokus\b/.test(blob) || /\bbarnens (logg|livslogg)\b/.test(blob)) {
+    const childAlias = /\barvid\b/.test(blob) ? 'Arvid' : /\bkasper\b/.test(blob) ? 'Kasper' : undefined;
+    return {
+      routing: 'barnen',
+      tags: ['barn', 'livslogg'],
+      category: 'barn',
+      confidence: 0.84,
+      summary: 'Barnrelaterad observation.',
+      traumaSensitive: false,
+      childAlias,
+      rationale: 'Heuristisk match: barnlogg.',
     };
   }
 

@@ -4,6 +4,7 @@ import {
   BookHeart,
   BookOpen,
   Brain,
+  Clock,
   Compass,
   Heart,
   Sparkles,
@@ -11,16 +12,19 @@ import {
   Users,
   Wallet,
 } from 'lucide-react';
-import { getDrawerChildren, type NavTruthEntry } from './navTruth';
+import { getNavChildren, type NavTruthEntry } from './navTruth';
 import type { TabBarItem } from '../ui/TabBar';
 
 /** Hubs vars underflikar härleds från `navTruth` (Vardag-sektionen). */
 export type DrawerHubId =
   | 'dagbok'
   | 'familjen'
+  | 'familj'
+  | 'liv'
   | 'hamn'
   | 'vardagen'
   | 'planering'
+  | 'gora'
   | 'arbetsliv'
   | 'drogfrihet'
   | 'installningar';
@@ -42,18 +46,31 @@ const HUB_TAB_ICONS: Partial<Record<string, LucideIcon>> = {
   familjen_livslogg: BookHeart,
   familjen_tillsammans: Users,
   familjen_barnporten: Heart,
+  liv_kompasser: Sprout,
+  liv_mabra: Sparkles,
+  liv_handling: BookOpen,
+  liv_arbetsliv: Clock,
+  familj_reflektion: Sparkles,
+  familj_livslogg: BookHeart,
+  familj_tillsammans: Users,
+  familj_barnporten: Heart,
+  familj_hamn: Anchor,
+  familj_drogfrihet: Heart,
   hamn_oversikt: Compass,
   hamn_biff: Anchor,
   hamn_speglar: Sparkles,
   hamn_barn: Heart,
   vardagen_kompasser: Sprout,
   vardagen_ekonomi: Wallet,
+  gora_handling: BookOpen,
+  gora_projekt: BookOpen,
+  gora_inkorg: BookOpen,
   planering_handling: BookOpen,
   planering_fokus: Sparkles,
   planering_inkorg: BookOpen,
-  arbetsliv_stampla: BookOpen,
-  arbetsliv_tid: BookOpen,
-  arbetsliv_logg: BookOpen,
+  arbetsliv_stampla: Clock,
+  arbetsliv_tid: Compass,
+  arbetsliv_logg: Wallet,
   drogfrihet_idag: Sparkles,
   drogfrihet_resurser: BookOpen,
   drogfrihet_reflektion: Heart,
@@ -62,8 +79,19 @@ const HUB_TAB_ICONS: Partial<Record<string, LucideIcon>> = {
   installningar_drogfrihet: Heart,
 };
 
+/** Tab-id från nav-rad — `?tab=` eller path-only (/projekt → projekt). */
+export function hubTabIdFromNavEntry(entry: NavTruthEntry): string | null {
+  const fromQuery = tabIdFromNavPath(entry.path);
+  if (fromQuery) return fromQuery;
+  if (!entry.path.includes('?') && !entry.path.includes('#')) {
+    const segment = entry.path.split('/').filter(Boolean)[0];
+    if (segment) return segment;
+  }
+  return null;
+}
+
 function entryToTabItem(entry: NavTruthEntry): TabBarItem<string> | null {
-  const id = tabIdFromNavPath(entry.path);
+  const id = hubTabIdFromNavEntry(entry);
   if (!id) return null;
   const Icon = HUB_TAB_ICONS[entry.id];
   return {
@@ -74,7 +102,7 @@ function entryToTabItem(entry: NavTruthEntry): TabBarItem<string> | null {
 }
 
 export function getHubTabsFromNav(hubId: DrawerHubId): TabBarItem<string>[] {
-  const rows = getDrawerChildren(hubId, 'vardag');
+  const rows = getNavChildren(hubId, 'vardag');
   const fromNav = rows
     .map(entryToTabItem)
     .filter((t): t is TabBarItem<string> => t !== null);

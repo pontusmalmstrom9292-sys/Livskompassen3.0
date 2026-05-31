@@ -12,6 +12,7 @@ import {
 } from 'firebase/auth';
 import { auth } from './AuthProvider';
 import { clearAppUnlockSession } from './appUnlockPrefs';
+import { invalidateServerSession } from './sessionService';
 import { isCapacitorNative } from './capacitorPlatform';
 import { capacitorGoogleSignIn, capacitorNativeSignOut } from './nativeGoogleAuth';
 import {
@@ -135,6 +136,7 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
 }
 
 export async function signOutUser(): Promise<void> {
+  await invalidateServerSession();
   clearAppUnlockSession();
   if (isCapacitorNative()) {
     await capacitorNativeSignOut();

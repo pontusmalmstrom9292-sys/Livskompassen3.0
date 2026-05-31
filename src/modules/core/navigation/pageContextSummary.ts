@@ -25,22 +25,22 @@ export function getPageContextSummary(pathname: string, search: string): PageCon
       body: 'BIFF och gränser. Fördjupad analys bakom PIN.',
     };
   }
+  if (pathname.startsWith('/drogfrihet')) {
+    return {
+      title: 'Drogfrihet',
+      body: 'Idag-räknare, akut stöd och reflektion — ett steg i taget.',
+    };
+  }
   if (pathname.startsWith('/vardagen') || pathname.startsWith('/ekonomi') || pathname.startsWith('/kompasser')) {
     if (tab === 'ekonomi') {
       return {
         title: 'Vardagen · Ekonomi',
-        body: 'Veckopeng, matlåda och transaktioner. Flikar: Kompasser · Ekonomi · Kunskap.',
-      };
-    }
-    if (tab === 'kunskap') {
-      return {
-        title: 'Vardagen · Kunskap',
-        body: 'Kunskapsvalv och RAG — egen silo, inga barnloggar.',
+        body: 'Veckopeng, matlåda och transaktioner. Flikar: Kompasser · Ekonomi.',
       };
     }
     return {
       title: 'Vardagen',
-      body: 'Kompasser, ekonomi och kunskap i ett kluster. Välj flik uppe på sidan.',
+      body: 'Kompasser och ekonomi. Välj flik uppe på sidan.',
     };
   }
   if (pathname.startsWith('/dagbok')) {
@@ -56,7 +56,7 @@ export function getPageContextSummary(pathname: string, search: string): PageCon
     };
   }
   if (pathname.startsWith('/planering')) {
-    return { title: 'Planering', body: 'Kanban: att göra · väntar · klart.' };
+    return { title: 'Göra', body: 'Handling: att göra · väntar · klart.' };
   }
   if (pathname.startsWith('/arbetsliv') || pathname.startsWith('/stampla')) {
     return { title: 'Arbetsliv', body: 'Stämpla, tid och löneunderlag.' };

@@ -1,6 +1,6 @@
 # Sidomeny (hamburger) — KANON
 
-**Status:** **Låst** 2026-05-27 — Vardag (publikt) + Valv (endast efter PIN/gate) · accordion-hubbar.  
+**Status:** **Låst** 2026-05-27 — uppdaterad 2026-05-31 (hub-konsolidering).  
 **Bild:** [`MENU-DRAWER-KANON.png`](./MENU-DRAWER-KANON.png) *(referens; UI kan sakna Valv-växlare i publikt läge)*
 
 ---
@@ -24,21 +24,20 @@
 
 ## Läge Vardag (publikt — standard)
 
-Visas när Valv **inte** är upplåst på en Valv-route.
+Visas när Valv **inte** är upplåst, eller när Valv är upplåst men användaren navigerar utanför Valv-route.
 
-| Hub | Underflikar |
-|-----|-------------|
-| Hem Kompass | Inkast (`/#inkast-lite`) |
-| Dagbok | Reflektion · Speglar *(Bevis dold vid G18)* |
-| Vardagen | Kompasser · Ekonomi |
-| MåBra | — |
-| Familjen | Reflektion · Livslogg · Tillsammans |
-| Planering | Handling · Fokus · Inkorg |
-| Arbetsliv | Stämpel · Tid & flex · Logg |
-| Trygg hamn | Översikt · BIFF · Speglar · Barnfokus |
-| Projekt | Nytt projekt |
-| Drogfrihet | Idag · Stöd · Reflektion · Stöd & resurser |
-| Inställningar | Allmänt · Drogfrihet |
+**Supersidor (2026-06-01):** fyra drawer-rader — flikar väljs **inuti shell-sidor** (`?tab=`), inte som drawer-underrader.
+
+| Drawer-rad | Route | Inuti sidan (ej drawer) |
+|------------|-------|-------------------------|
+| **Hem — Skriv** | `/` | CapturePanel · ReviewQueue · adaptiva kort |
+| **Liv och göra** | `/liv` | Kompasser · MåBra · Handling (P3 Kanban) · Projekt · Arbetsliv |
+| **Familj och gränser** | `/familj` | Reflektion (Barnfokus default) · Livslogg · Tillsammans · Barnporten · Hamn · Drogfrihet |
+| **Inställningar** | `/installningar` | Allmänt · Rensa enheten |
+
+**Legacy redirects:** `/mabra`, `/planering`, `/hamn`, `/familjen`, `/arbetsliv`, `/drogfrihet`, `/vardagen` → motsvarande `/liv?tab=` eller `/familj?tab=`.
+
+**Dagbok / Reflektion:** `/dagbok` kvar (Fyren-kompass + Valv-bevis). Reflektion nås även via Familj-shell.
 
 **MUST NOT:** publik `/vardagen?tab=kunskap` — Kunskap endast via Valv `kunskapsbank`.  
 **MUST NOT:** exponera Valv (växlare, Valv-flik, snabbchips) i publikt drawer-läge.
@@ -47,17 +46,21 @@ Visas när Valv **inte** är upplåst på en Valv-route.
 
 ## Läge Valv (PIN i VaultPage)
 
-Visas **endast** när `isVaultUnlocked` eller `hasVaultGate()` **och** route är Valv (`?tab=bevis`, `vaultTab=…`, eller `/dossier`).
+Visas när `isVaultUnlocked` eller `hasVaultGate()` — **från vilken route som helst** när Valv-session är öppen.
 
-Tre expanderbara grupper:
+**Platta rader** (ingen accordion-grupp i drawer):
 
-| Grupp | Rader |
-|-------|--------|
-| **Pansaret** | Arkiv · Triage · Mönster · Orkester · Dossier · full vy (`/dossier`) |
-| **Kunskap** | Kunskapsbank |
-| **Forensik** | Hamn · Analys · Speglar · Fördjupat · Dagbok · Arkiv · Familjen · Mönster · Arbetsliv · Frånvaro · Arbetsliv · Lön |
+| Menyrad | Öppnar | Inuti VaultPage |
+|---------|--------|-----------------|
+| Spara & sök | `vaultTab=logga` | Logga · Sök |
+| Mönster | `vaultTab=monster` | Mönster · Meddelanden/SMS-analys (Orkester) |
+| Kunskapsbank | `vaultTab=kunskapsbank` | Kunskapsbank · Aktörskarta |
+| Rapporter | `vaultTab=dossier` | Dossier · export |
+| Djupare | `vaultTab=hamn_analys` | Forensik-flikar (Hamn, Speglar, …) |
 
-Alla Valv-rader (utom Dossier-export) → `/dagbok?tab=bevis&vaultTab=…`
+*(Legacy namn **Pansaret** = zoner Spara & sök + Mönster + Rapporter i VaultPage.)*
+
+Alla Valv-rader → `/dagbok?tab=bevis&vaultTab=…` (utom `/dossier` full vy via sida).
 
 **Tillbaka:** `DrawerModeToggle` med **Vardag** → `/dagbok?tab=reflektion` (stänger drawer).
 
@@ -69,11 +72,10 @@ Alla Valv-rader (utom Dossier-export) → `/dagbok?tab=bevis&vaultTab=…`
 |------|----------|
 | Öppna | Hamburgermeny i header (`AppHeaderBar`) |
 | Publikt | Endast Vardag-index — ingen Valv-växlare |
-| Valv upplåst + Valv-route | Valv-index + **Vardag**-tillbaka |
-| Hub med barn | Ikon+etikett → hub-path; **chevron** fäller ut underflikar |
-| Valv-grupp | Rad fäller ut (ingen path) |
+| Valv upplåst | Valv-index + **Vardag**-tillbaka (även utanför `/dagbok`) |
+| Hub utan drawer-barn | Rad → hub-path; flikar i sidan |
+| Valv-rad | Navigera → PIN-gate om stängt → Valv-baksida |
 | Stäng | `×`, swipe vänster, tap utanför, route change |
-| Valv-rad | Navigera → PIN-gate → Valv-baksida |
 
 Widget-routes `/widget/*` ingår **inte** i drawer (deep links / PWA).
 
@@ -87,7 +89,8 @@ Widget-routes `/widget/*` ingår **inte** i drawer (deep links / PWA).
 | `DrawerModeToggle` | `src/modules/core/layout/DrawerModeToggle.tsx` (`showValvShell`) |
 | `DrawerHubAccordion` | `src/modules/core/layout/DrawerHubAccordion.tsx` |
 | Sanning | `src/modules/core/navigation/navTruth.ts` |
-| Hub-flikar (synk med drawer) | `src/modules/core/navigation/hubTabs.tsx` · `hooks/useHubTab.ts` |
+| Hub-flikar (synk med nav) | `src/modules/core/navigation/hubTabs.tsx` · `getNavChildren` · `hooks/useHubTab.ts` |
+| Göra-flikar | `src/modules/core/navigation/GoraHubTabBar.tsx` |
 | Ikoner | `src/modules/core/navigation/drawerNav.ts` |
 
 Kanon: [`COLOR-POLICY.md`](../COLOR-POLICY.md) — aktiv rad endast **guld** `#d4af37`.

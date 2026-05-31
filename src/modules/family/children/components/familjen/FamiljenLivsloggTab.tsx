@@ -50,7 +50,7 @@ export function FamiljenLivsloggTab({ shell }: Props) {
 
       <p className="text-center text-xs text-text-dim">
         <Link to="/dagbok?tab=bevis" className="hover:text-accent">
-          Öppna Valv för WORM-bevis och Valv-Chat →
+          Öppna arkiv för låsta poster och arkiv-chatt →
         </Link>
       </p>
     </div>

@@ -19,10 +19,8 @@ type Props = {
 
 const SWIPE_CLOSE_THRESHOLD_PX = 56;
 
-function isInValvDrawerContext(pathname: string, search: string, vaultOpen: boolean): boolean {
-  if (!vaultOpen) return false;
-  if (search.includes('tab=bevis') || search.includes('vaultTab=')) return true;
-  return pathname === '/dossier' || pathname.startsWith('/dossier/');
+function isInValvDrawerContext(_pathname: string, _search: string, vaultOpen: boolean): boolean {
+  return vaultOpen;
 }
 
 function collectActiveAncestorIds(
@@ -74,6 +72,7 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
     return {
       valv_grp_samla: weaverPendingCount,
       valv_arkiv: weaverPendingCount,
+      valv_samla: weaverPendingCount,
     };
   }, [weaverPendingCount]);
 
@@ -221,6 +220,9 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
             <Lock className="h-4 w-4" strokeWidth={1.5} aria-hidden />
             Konto &amp; inloggning
           </button>
+          <p className="nav-drawer__footer-hint text-xs text-text-dim px-2 pb-1">
+            Inställningar i menyn = tema, preset och drogfrihet.
+          </p>
         </div>
       </aside>
       <button

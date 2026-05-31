@@ -6,6 +6,7 @@ import { fetchInboxQueue } from '../../kompis/api/inboxService';
 import { VaultEntryForm } from './VaultEntryForm';
 import { VaultInkastCompact } from './VaultInkastCompact';
 import { VaultSamlaDriveHint } from './VaultSamlaDriveHint';
+import { VaultOverviewPanel } from './VaultOverviewPanel';
 import type { VaultLogInput } from '../types/vaultEntry';
 
 export type SamlaView = 'logga' | 'granska';
@@ -81,6 +82,10 @@ export function VaultSamlaHub({ userId, saving, saveError, onSave, onBevisConfir
 
   return (
     <div className="space-y-4">
+      <VaultOverviewPanel
+        pendingInbox={pendingInbox}
+        onOpenReview={() => setSamlaView('granska')}
+      />
       <VaultInkastCompact
         onQueued={() => setSamlaView('granska')}
         onPersistedBevis={handleBevisConfirmed}

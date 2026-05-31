@@ -44,7 +44,7 @@ const WIDGET_ACTIONS: {
   {
     id: 'list',
     label: 'Lista',
-    to: '/admin/projects/ny',
+    to: '/projekt/ny',
     renderIcon: () => <List className="h-4 w-4 shrink-0" strokeWidth={1.65} />,
   },
   {
@@ -62,7 +62,7 @@ const WIDGET_ACTIONS: {
   {
     id: 'projekt',
     label: 'Projekt',
-    to: '/admin/projects/ny',
+    to: '/projekt/ny',
     renderIcon: () => <Plus className="h-4 w-4 shrink-0" strokeWidth={1.65} />,
   },
 ];

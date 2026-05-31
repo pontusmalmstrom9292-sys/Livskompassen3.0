@@ -22,7 +22,7 @@ Canonical: `.context/modules/evidence/vault.md` · Spec: `docs/specs/modules/Ver
 | `../diary/diary/components/HjartatPage.tsx` | Bevis-flik, session lock vid flikbyte |
 | `../core/layout/FloatingDock.tsx` | Fyren — 3s progress + WebAuthn |
 | `../core/auth/webauthn.ts` | Passkey-gate (client MVP) |
-| `../core/hooks/useShakeToKill.ts` | 15 m/s², 2s debounce → kill switch + `/` |
+| `../core/security/clearDeviceSession.ts` | Device Clear — Inställningar (ersätter shake-to-kill) |
 | `../core/hooks/useSpeechToText.ts` | Röst → text i truth |
 | `../core/firebase/firestore.ts` | `assertWormPayload`, `saveVaultLog`, `getVaultLogs` |
 | `../core/firebase/storage.ts` | `uploadVaultEvidence` → `vault_evidence/{uid}/` |

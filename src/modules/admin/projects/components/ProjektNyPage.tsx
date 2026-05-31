@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { CheckSquare, FileText, Image, List } from 'lucide-react';
 import { HubPageShell } from '../../../core/layout/HubPageShell';
+import { GoraHubTabBar } from '../../../core/navigation/GoraHubTabBar';
 import { useStore } from '../../../core/store';
 import { uploadProjectImage } from '../../../core/firebase/storage';
 import { createProject } from '../api/projectsApi';
@@ -34,14 +35,7 @@ export function ProjektNyPage() {
   const preselected = parseBlockType(searchParams.get('type'));
   const fromWidget = searchParams.get('from') === 'widget';
 
-  useEffect(() => {
-    if (!preselected || preselected === 'image') return;
-    if (!user || saving) return;
-    void startProject(preselected);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- engångs auto-start från widget/dock
-  }, [preselected, user?.uid]);
-
-  const startProject = async (blockType: ProjectBlockType) => {
+  const startProject = useCallback(async (blockType: ProjectBlockType) => {
     if (!user) {
       setError('Logga in för att skapa projekt.');
       return;
@@ -122,15 +116,22 @@ export function ProjektNyPage() {
     } finally {
       setSaving(false);
     }
-  };
+  }, [user, imageFile, imageCaption, navigate]);
+
+  useEffect(() => {
+    if (!preselected || preselected === 'image') return;
+    if (!user || saving) return;
+    void startProject(preselected);
+  }, [preselected, user, saving, startProject]);
 
   if (preselected === 'image') {
     return (
       <HubPageShell
-        eyebrow="Projekt"
+        eyebrow="Göra"
         title="Nytt bildprojekt"
         lead={fromWidget ? 'Från widget — välj foto och namnge projektet.' : 'Ladda upp foto till Storage + projektblock.'}
       >
+        <GoraHubTabBar />
         {error && <p className="mb-3 text-sm text-danger">{error}</p>}
         <ProjectImagePicker disabled={saving || !user} onPick={setImageFile} />
         <textarea
@@ -157,10 +158,11 @@ export function ProjektNyPage() {
 
   return (
     <HubPageShell
-      eyebrow="Projekt"
+      eyebrow="Göra"
       title="Nytt projekt"
       lead="Välj typ. Uppgifter med status hamnar alltid i Handling."
     >
+      <GoraHubTabBar />
       {error && <p className="mb-3 text-sm text-danger">{error}</p>}
       {!user && <p className="mb-3 text-sm text-text-muted">Logga in för att skapa projekt.</p>}
 

@@ -6,7 +6,7 @@ Källa: app-shell + Kladd 2026-05-21. Konsoliderad till `.context/modules/core.m
 
 ## 1. Syfte och användarbehov
 
-Delad infrastruktur: layout, navigation, design tokens, auth-gate hooks, Zero Footprint, Kill Switch. Alla moduler bygger på samma Obsidian Calm och säkerhetskontrakt.
+Delad infrastruktur: layout, navigation, design tokens, auth-gate hooks, Draft Layer, Device Clear. Alla moduler bygger på samma Obsidian Calm och säkerhetskontrakt.
 
 ## 2. Route och ingång
 
@@ -20,7 +20,7 @@ Globalt: en primär handling per vy i moduler; core levererar chrome only.
 
 **Fyren:** progress ring → WebAuthn (MVP) → PIN → valv-flik.
 
-**Shake-to-Kill:** 15 m/s², debounce 2s → `invalidateSession` + `/`.
+**Device Clear:** Inställningar → Rensa enheten (`clearDeviceSession`) — ersätter shake-to-kill (borttagen 2026-06-01).
 
 ## 4. Visuell design (Obsidian Calm)
 
@@ -39,10 +39,10 @@ Core äger inga produktcollections — delar `types/firestore.ts` schemas.
 
 ## 7. Säkerhet
 
-- `isVaultUnlocked` i store — rensa vid logout (**audit planerad**)
-- Kill Switch global
+- `isVaultUnlocked` i store — rensa vid logout + Device Clear
+- Device Clear (`clearDeviceSession`) — frivillig; rensar utkast, PIN-session, speglar-session
 - WebAuthn + PIN (valv)
-- Zero Footprint: `useZeroFootprint`, visibility handlers
+- Draft Layer: IndexedDB capture + Valv idle timeout (`useZeroFootprint`)
 
 ## 8. Status idag vs planerat
 
@@ -50,11 +50,12 @@ Core äger inga produktcollections — delar `types/firestore.ts` schemas.
 |--------|------------------|-----|
 | MainLayout + Dock + Ambient | Obsidian Calm | **done** |
 | Fyren 3s + WebAuthn hook | Valv-ingång | **done** |
-| Shake-to-Kill 15 m/s² | Kill Switch | **done** |
-| Design system `core/ui` | | **done** |
-| Zero Footprint sign-out audit | | **planned** |
+| Shake-to-Kill 15 m/s² | Kill Switch | **borttagen** 2026-06-01 |
+| Device Clear | Inställningar | **done** |
+| Draft Layer (IndexedDB) | Capture + speglar local | **done** |
+| Zero Footprint sign-out | `invalidateSession` vid logout | **done** |
 | BodySignalChip (valv) | Text-chips idag | **planned** |
-| Dold nödknapp shake | iOS PWA test | **planned** |
+| Dold nödknapp shake | iOS PWA test | **borttagen** |
 | Stjärnbilder / grön UI | **Avvisat** | — |
 
 ## 9. Acceptanskriterier
@@ -63,8 +64,8 @@ Core äger inga produktcollections — delar `types/firestore.ts` schemas.
 |---|-----------|--------|
 | 1 | Alla moduler använder `BentoCard`/tokens | **done** |
 | 2 | Fyren 3s öppnar bevis-flik efter gate | **done** |
-| 3 | Shake triggar kill switch | **done** |
-| 4 | Vault unlock rensas vid session end | **partial** |
+| 3 | Device Clear i Inställningar rensar lokal session | **done** |
+| 4 | Vault unlock rensas vid idle + Device Clear + logout | **done** |
 
 ## 10. Kopplingar
 

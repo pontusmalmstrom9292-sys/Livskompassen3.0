@@ -50,14 +50,16 @@ function main() {
     'VaultMonsterPanel',
     'VaultOrkesterPanel',
   );
-  mustInclude('src/modules/core/navigation/tabRegistry.ts', "logga: 'Arkiv'", "sok: 'Triage'");
+  mustInclude('src/modules/core/copy/valvNavCopy.ts', "logga: 'Arkiv'", "sok: 'Granska inkommande'");
+  mustInclude('src/modules/core/navigation/tabRegistry.ts', 'VAULT_MAIN_TAB_LABELS', 'getNavChildren');
   mustInclude('src/modules/evidence/vault/components/VaultOrkesterPanel.tsx', 'OrkesterAgentTrio', 'Registrerade dokument');
   mustInclude('src/modules/evidence/vault/components/VaultLogList.tsx', 'SERVER-TIDSSTÄMPEL', 'scanTechniquesForLog');
   mustInclude('src/modules/wellbeing/mabra/components/VitHubPreview.tsx', 'KbtTransformatorPanel');
   mustInclude('functions/src/index.ts', "mode === 'transformator'");
   mustInclude('functions/src/sharedRules.ts', 'KBT_TRANSFORMATOR_SYSTEM_PROMPT');
   mustInclude('.context/design-modules-mockup.md', 'D29', 'D3');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/planering"', 'PlaneringPage');
+  mustInclude('src/modules/shell/LivShellPage.tsx', 'PlaneringPage', '/liv');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/planering', '/liv?tab=handling');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/projekt/ny"', 'path="/projekt/regler"');
   mustInclude('src/modules/admin/planning/components/PlaneringHub.tsx', 'ProjektPickerSheet');
   mustInclude('src/modules/core/firebase/storage.ts', 'uploadProjectImage');

@@ -74,7 +74,7 @@ export function SvartPaVittForm() {
       {error && <p className="mt-2 text-sm text-text-muted">{error}</p>}
       {saved && (
         <p className="mt-2 text-xs text-success">
-          Sparat i Valv (WORM). Fälten är rensade — inget kvar i sessionen.
+          Sparat i arkiv (låst post). Fälten är rensade — inget kvar i sessionen.
         </p>
       )}
     </BentoCard>

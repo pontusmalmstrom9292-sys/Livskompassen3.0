@@ -1,12 +1,13 @@
 import { BALANS_WINDOW_DAYS } from '../constants';
 import type { BalansResult, ChildrenLogEntry } from '../types';
+import { formatChildLogDate } from './logFieldUtils';
 
 function normalize(scale: number): number {
   return (scale - 1) / 4;
 }
 
-function dayKey(iso: string): string {
-  return iso.slice(0, 10);
+function dayKey(createdAt: unknown): string {
+  return formatChildLogDate(createdAt) || '0000-00-00';
 }
 
 export function computeBalansIndex(

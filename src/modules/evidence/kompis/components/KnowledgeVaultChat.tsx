@@ -115,7 +115,7 @@ export function KnowledgeVaultChat({
       title={embedded ? 'Fråga Minne' : 'Kunskapsvalvet'}
       description={
         embedded
-          ? 'RAG mot kampspar — källor öppnas i Tidshjulet'
+          ? 'Sök i sparade anteckningar — källor öppnas i Tidshjulet'
           : 'Frågor mot ditt Minne — med källhänvisningar'
       }
     >

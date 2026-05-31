@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HubPageShell } from '../../../core/layout/HubPageShell';
+import { GoraHubTabBar } from '../../../core/navigation/GoraHubTabBar';
 import { useStore } from '../../../core/store';
 import {
   loadProjectAutomationRules,
@@ -43,10 +44,11 @@ export function ProjektReglerPage() {
 
   return (
     <HubPageShell
-      eyebrow="Projekt"
+      eyebrow="Göra"
       title="Regler & automation"
       lead="Projekt-automation lokalt på enheten. E-postrouting (ex → Hamn) ligger under Planering → Regler."
     >
+      <GoraHubTabBar />
       <div className="flex flex-wrap gap-3 text-xs">
         <Link to="/projekt" className="text-text-dim hover:text-accent">
           ← Projekt

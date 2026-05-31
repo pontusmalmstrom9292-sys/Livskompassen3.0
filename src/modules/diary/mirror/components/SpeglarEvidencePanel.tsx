@@ -67,13 +67,13 @@ export function SpeglarEvidencePanel({
       />
 
       {!userId && (
-        <p className="text-xs text-text-dim">Logga in för att låsa bilagor som WORM-bevis i valvet.</p>
+        <p className="text-xs text-text-dim">Logga in för att låsa bilagor som bevis i arkivet.</p>
       )}
 
       {attachments.length > 0 && (
         <div className="space-y-2">
           <p className="text-[10px] uppercase tracking-widest text-text-dim">
-            Spara till Verklighetsvalvet (WORM)
+            Spara i arkiv (låst post)
           </p>
           {attachments.map((item) => {
             const saved = savedIds.has(item.id);

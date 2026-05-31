@@ -1,11 +1,15 @@
 /** Underrad i header — var du är (inte hem). */
-export function getHeaderPageLabel(pathname: string): string | null {
+export function getHeaderPageLabel(pathname: string, search = ''): string | null {
   if (pathname === '/') return 'Hem';
   if (pathname.startsWith('/kompis')) return 'Kompis';
   if (pathname.startsWith('/familjen')) return 'Familjen';
   if (pathname.startsWith('/hamn')) return 'Trygg hamn';
-  if (pathname.startsWith('/dagbok') || pathname.startsWith('/valv')) return 'Valv';
-  if (pathname.startsWith('/planering')) return 'Planering';
+  if (pathname.startsWith('/dagbok') || pathname.startsWith('/valv')) {
+    const tab = new URLSearchParams(search.replace(/^\?/, '')).get('tab');
+    if (tab === 'bevis' || pathname.startsWith('/valv')) return 'Arkiv';
+    return 'Dagbok';
+  }
+  if (pathname.startsWith('/planering')) return 'Göra';
   if (pathname.startsWith('/projekt')) return 'Projekt';
   if (pathname.startsWith('/mabra')) return 'MåBra';
   if (pathname.startsWith('/drogfrihet')) return 'Drogfrihet';

@@ -1,11 +1,9 @@
 import { BookOpen } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { BentoCard } from '../../../core/ui/BentoCard';
+import { hasVaultGate } from '../../../core/auth/sessionService';
 import { useStore } from '../../../core/store';
-import { hasVaultZone } from '../../../core/auth/sessionService';
-import { VaultZoneGate } from '../../../core/security/VaultZoneGate';
-import { useVaultZoneIdle } from '../../../core/security/useVaultZoneIdle';
 import {
   isMabraLowEnergyBridge,
   MABRA_BRIDGE_INTRO,
@@ -41,6 +39,8 @@ type DagbokPageProps = {
 
 export function DagbokPage({ embedded = false }: DagbokPageProps) {
   const user = useStore((s) => s.user);
+  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
+  const vaultSessionOpen = isVaultUnlocked || hasVaultGate();
   const [searchParams] = useSearchParams();
   const mabraHub = parseMabraBridgeHub(searchParams.get('hub'));
   const lowEnergyBridge = isMabraLowEnergyBridge(
@@ -89,13 +89,6 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
     mabraHub,
     lowEnergyBridge,
   });
-
-  const [forensicUnlocked, setForensicUnlocked] = useState(() =>
-    hasVaultZone('dagbok_forensic'),
-  );
-
-  const handleForensicIdle = useCallback(() => setForensicUnlocked(false), []);
-  useVaultZoneIdle('dagbok_forensic', forensicUnlocked, handleForensicIdle);
 
   useEffect(() => {
     if (mode === 'arkiv') {
@@ -206,7 +199,7 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
                     categoryLabel={categoryLabel}
                     saving={saving}
                     weaveToKampspar={weaveToKampspar}
-                    showWeaveOptIn={forensicUnlocked}
+                    showWeaveOptIn={vaultSessionOpen}
                     onWeaveToKampsparChange={setWeaveToKampspar}
                     onBack={() => goToStep('text')}
                     onSave={handleSave}
@@ -222,29 +215,13 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
                     journalContext={{ mood, text: text.trim() }}
                     userId={user?.uid}
                     journalEntryId={lastSavedEntryId}
-                    showWeaverApproval={forensicUnlocked}
+                    showWeaverApproval={vaultSessionOpen}
                   />
                 )}
 
                 {error && <p className="mt-2 text-sm text-danger">{error}</p>}
               </div>
             </DagbokWizardErrorBoundary>
-            {step !== 'done' && !forensicUnlocked && (
-              <div className="mt-4">
-                <VaultZoneGate
-                  zone="dagbok_forensic"
-                  clearOnUnmount={false}
-                  title="Journalarkiv & vävare"
-                  description="Vävning och Kampspár-opt-in. Fingeravtryck eller Face ID (samma som Valv)."
-                  onUnlocked={() => setForensicUnlocked(true)}
-                  onLock={() => setForensicUnlocked(false)}
-                >
-                  <p className="text-xs text-text-muted">
-                    Vävning till Kampspár är tillgänglig vid spara.
-                  </p>
-                </VaultZoneGate>
-              </div>
-            )}
           </>
         )}
 

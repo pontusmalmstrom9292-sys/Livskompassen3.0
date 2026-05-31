@@ -4,6 +4,7 @@ import { Calendar, Mail } from 'lucide-react';
 import { BentoCard } from '../../../core/ui/BentoCard';
 import { TabBar } from '../../../core/ui/TabBar';
 import { InboxReviewQueue } from '../../../inkast/components/InboxReviewQueue';
+import { shouldDualWritePlaneringToCapture, submitCaptureDraft } from '../../../capture';
 import { useStore } from '../../../core/store';
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
 import { usePlaneringInboxConnections } from '../hooks/usePlaneringInboxConnections';
@@ -27,6 +28,7 @@ export function PlaneringInkorgPanel() {
   const [paste, setPaste] = useState('');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [captureNote, setCaptureNote] = useState<string | null>(null);
 
   const accountHint = user?.email ?? '';
   const canPrepare = Boolean(user && accountHint);
@@ -46,6 +48,7 @@ export function PlaneringInkorgPanel() {
     setSaving(true);
     setError(null);
     setSaved(false);
+    setCaptureNote(null);
     try {
       const firstLine = text.split('\n')[0]?.slice(0, 120) ?? 'Inkorg';
       await addTask({
@@ -54,6 +57,18 @@ export function PlaneringInkorgPanel() {
         source: 'email',
         summary: text.slice(0, 500),
       });
+      if (shouldDualWritePlaneringToCapture(text)) {
+        try {
+          const { message } = await submitCaptureDraft({
+            text,
+            fileName: 'planering_inkorg.txt',
+            sourceModule: 'planering_inkorg',
+          });
+          setCaptureNote(message);
+        } catch {
+          setCaptureNote('Uppgift sparad — autosort till arkiv misslyckades (försök från Hem).');
+        }
+      }
       setPaste('');
       setSaved(true);
     } catch (err) {
@@ -147,6 +162,11 @@ export function PlaneringInkorgPanel() {
             </button>
             {saved && (
               <p className="mt-2 text-xs text-success">Sparat — se Handling-fliken.</p>
+            )}
+            {captureNote && (
+              <p className="mt-2 text-xs text-gold/90" role="status">
+                {captureNote}
+              </p>
             )}
             <p className="mt-3 text-xs text-text-dim">
               Ex-brus och konflikt → Hamn (BIFF).{' '}
