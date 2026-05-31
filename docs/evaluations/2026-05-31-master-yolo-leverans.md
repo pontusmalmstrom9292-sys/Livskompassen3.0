@@ -18,7 +18,7 @@ Se detaljer i [`2026-05-31-master-yolo-log.md`](./2026-05-31-master-yolo-log.md)
 
 ## Deploy
 
-Hosting deployad efter `hub-gora`. Senare vågar: kör `firebase deploy --only hosting` om du vill ha senaste bundle live.
+**Hosting + `submitInkastLite` deployade 2026-06-01** (plan status/backlog). URL: https://gen-lang-client-0481875058.web.app
 
 ## Ett steg vid återkomst
 

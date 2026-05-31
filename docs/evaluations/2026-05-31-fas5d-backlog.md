@@ -1,6 +1,14 @@
 # Fas 5D — Backlog (Life OS / Projekt / Barnporten)
 
-**Status:** Planerad — starta med kommando, inte auto-merge.
+**Status:** Agent-pass **2026-06-01** — PMIR kvar för P2 rules + Barnporten QR/CB2.
+
+| Spår | Agent 2026-06-01 | Nästa |
+|------|------------------|-------|
+| Projekt P2 | **SKIP** — [`2026-05-31-blocker-projekt-p2.md`](./2026-05-31-blocker-projekt-p2.md) | Explicit order: `firestore.rules` + `project_rules` |
+| Barnporten Fas 2 | **SKIP** — [`2026-05-31-blocker-barnporten-fas2.md`](./2026-05-31-blocker-barnporten-fas2.md) | Manuell #3 + barnenhet |
+| MaterialPack-editor | **SKIP** — [`2026-05-31-blocker-lifeos-d.md`](./2026-05-31-blocker-lifeos-d.md) | `kör kopplingar D` efter PMIR |
+
+P1 (bild, lokala regler, CB1) **done** i repo.
 
 ---
 

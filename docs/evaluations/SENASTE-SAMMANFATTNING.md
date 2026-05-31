@@ -7,7 +7,7 @@
 
 ## Nuläge i en mening
 
-**Superhub + Master YOLO (kod) klart på `main`:** drawer 4 rader, `/liv` `/familj`, capture, Göra/Planering dedup, inkorg-granskning, Kunskap-citations. **Du:** manuell smoke i app (~15 min) + ev. hosting refresh.
+**Superhub + Master YOLO (kod) klart på `main`:** drawer 4 rader, `/liv` `/familj`, capture, Göra/Planering dedup, inkorg-granskning, Kunskap-citations. **Prod deploy 2026-06-01:** hosting + `submitInkastLite`. **Du:** manuell smoke ~15 min — [`2026-06-01-USER-nasta-steg.md`](./2026-06-01-USER-nasta-steg.md).
 
 ---
 
