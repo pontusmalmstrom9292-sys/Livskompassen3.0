@@ -6,6 +6,8 @@
 
 **Senast merge:** 2026-06-01 (`feat/superhub-v2` → `main` — supersidor, capture, Draft Layer; PMIR [`evaluations/2026-06-01-superhub-PMIR.md`](./evaluations/2026-06-01-superhub-PMIR.md))
 
+**Autonom kö (borta):** [`MASTER-YOLO-AUTORUN.md`](./MASTER-YOLO-AUTORUN.md) — `npm run master:yolo` + `orkester:night` + Agent startprompt.
+
 ### feat/superhub-v2 — merged + stängd 2026-06-01
 
 | Detalj | Värde |

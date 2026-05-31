@@ -1,10 +1,30 @@
 #!/usr/bin/env bash
-# Suggests next orkester phase when ORKESTER_AUTORUN=1 and state has pending work.
+# Suggests next orkester phase or Master YOLO wave when ORKESTER_AUTORUN=1.
 set -euo pipefail
-STATE=".orkester/state.json"
+
 if [[ "${ORKESTER_AUTORUN:-}" != "1" ]]; then
   exit 0
 fi
+
+if [[ "${MASTER_AUTORUN:-}" == "1" ]]; then
+  MASTER_STATE=".orkester/master-state.json"
+  if [[ -f "$MASTER_STATE" ]] && command -v jq >/dev/null 2>&1; then
+    STATUS=$(jq -r '.status // empty' "$MASTER_STATE" 2>/dev/null)
+    WAVE=$(jq -r '.nextWaveId // empty' "$MASTER_STATE" 2>/dev/null)
+    if [[ "$STATUS" == "done" || -z "$WAVE" ]]; then
+      exit 0
+    fi
+    PROMPT="Master YOLO — våg ${WAVE}. Läs docs/MASTER-YOLO-AUTORUN.md och plan för ${WAVE}. Standard smoke, vid PASS commit+push+deploy. Uppdatera .orkester/master-state.json och docs/evaluations/*-master-yolo-log.md."
+    cat <<EOF
+{
+  "followup_message": "${PROMPT} Jämför mot hela projektets kontext. Arbeta autonomt tills vågen PASS, SKIP (PMIR) eller 3 FAIL."
+}
+EOF
+    exit 0
+  fi
+fi
+
+STATE=".orkester/state.json"
 if [[ ! -f "$STATE" ]] || ! command -v jq >/dev/null 2>&1; then
   exit 0
 fi

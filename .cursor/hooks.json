@@ -9,7 +9,7 @@
     "stop": [
       {
         "command": ".cursor/hooks/orkester-stop-chain.sh",
-        "loop_limit": 3
+        "loop_limit": 25
       }
     ]
   }

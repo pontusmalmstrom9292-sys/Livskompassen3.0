@@ -2,7 +2,21 @@
 
 **Syfte:** Deterministisk batch-körning medan du sover + Cursor-specialister för fortsatt vävning imorgon.
 
-**Senast uppdaterad:** 2026-05-26
+**Senast uppdaterad:** 2026-06-01
+
+---
+
+## Master YOLO (hela projektets öppna kö)
+
+För lång autonom körning (våg 0–18, commit/push/deploy): [`MASTER-YOLO-AUTORUN.md`](./MASTER-YOLO-AUTORUN.md)
+
+```bash
+export MASTER_AUTORUN=1 ORKESTER_AUTORUN=1
+npm run master:yolo
+npm run orkester:night
+```
+
+State: `.orkester/master-state.json` · Logg: `docs/evaluations/YYYY-MM-DD-master-yolo-log.md`
 
 ---
 

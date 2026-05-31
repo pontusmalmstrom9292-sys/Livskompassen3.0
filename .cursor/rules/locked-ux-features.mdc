@@ -31,7 +31,7 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 
 - Kanon: `docs/design/references/MENU-DRAWER-KANON.md`
 - **Two sections:** Vardag (public hubs + sub-rows) · Valv (PIN — only when unlocked on Valv-route)
-- Source: `navTruth.ts` → `DRAWER_VARDAG_ITEMS` / `DRAWER_VALV_ITEMS`; gate: `isInValvDrawerContext`
+- Source: `navTruth.ts` → `DRAWER_VARDAG_ITEMS` / `DRAWER_VALV_ITEMS`; Valv-sektion när `vaultOpen` (superhub: Vardag + Valv samtidigt)
 - Active row: gold only (not teal/turquoise)
 - **No** Valv toggle or drawer quick chips in public mode (`DrawerModeToggle` `showValvShell` only inside Valv)
 

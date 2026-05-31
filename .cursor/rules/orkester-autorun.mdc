@@ -1,16 +1,22 @@
 ---
 description: Orkestrerad natt-/batch-autorun med specialister — Conductor delegerar i fast ordning
 alwaysApply: false
-globs: .cursor/agents/**,.orkester/**,scripts/orkester*.mjs,docs/ORKESTER-AUTORUN.md
+globs: .cursor/agents/**,.orkester/**,scripts/orkester*.mjs,scripts/master_yolo_init.mjs,docs/ORKESTER-AUTORUN.md,docs/MASTER-YOLO-AUTORUN.md
 ---
 
 # Orkester Autorun
 
-Kanon: [`docs/ORKESTER-AUTORUN.md`](../../docs/ORKESTER-AUTORUN.md)
+Kanon: [`docs/ORKESTER-AUTORUN.md`](../../docs/ORKESTER-AUTORUN.md) · Master kö: [`docs/MASTER-YOLO-AUTORUN.md`](../../docs/MASTER-YOLO-AUTORUN.md)
 
 ## När detta gäller
 
-Användaren säger **kör orkester**, **nattpass**, **autorun**, eller `npm run orkester:night`.
+Användaren säger **kör orkester**, **nattpass**, **autorun**, **master yolo**, eller `npm run orkester:night` / `npm run master:yolo`.
+
+## Master YOLO
+
+1. `export MASTER_AUTORUN=1 ORKESTER_AUTORUN=1`
+2. `npm run master:yolo` → `.orkester/master-state.json`
+3. Läs `nextWaveId` — våg för våg enligt MASTER-YOLO-tabell (smoke → commit → push → deploy).
 
 ## Conductor (`.cursor/agents/orkester-conductor.md`)
 
@@ -37,4 +43,5 @@ Deterministisk — ingen LLM. Rapport + `.orkester/runs/*.json`.
 
 - Hoppa över `smoke:locked-ux` före merge som rör Valv/Familjen.
 - Auto-promote barnloggar till Valv.
-- Force-push eller commit utan explicit användarord.
+- Force-push.
+- Master YOLO: PMIR-stopp (rules, Barnporten kanon-UI, Gmail) → SKIP + blocker.md, fortsätt kön.

@@ -41,6 +41,7 @@
 |-----|-----|
 | Säkerhetsnät (smoke + build, ingen LLM) | `npm run orkester:night` → läs rapport i `docs/evaluations/` |
 | Agent väver vidare (Cursor) | *"Kör orkester nattpass — fortsätt från `.orkester/state.json`"* |
+| Hela öppna kön (borta) | [`MASTER-YOLO-AUTORUN.md`](./MASTER-YOLO-AUTORUN.md) — `master:yolo` + startprompt |
 | Ny version på telefon/PWA | Push `main` → GitHub Actions deployar ([`CI-HOSTING.md`](./CI-HOSTING.md)) |
 
 Kanon nattpass: [`ORKESTER-AUTORUN.md`](./ORKESTER-AUTORUN.md)

@@ -70,4 +70,5 @@ __pycache__/
 
 # Orkester local state (not committed)
 .orkester/state.json
+.orkester/master-state.json
 .orkester-backup-cursor-hooks/

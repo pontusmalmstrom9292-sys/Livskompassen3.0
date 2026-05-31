@@ -159,7 +159,9 @@ function main() {
   mustInclude(
     'src/modules/core/layout/NavigationDrawer.tsx',
     'vaultOpen',
-    'isInValvDrawerContext',
+    'section="vardag"',
+    'section="valv"',
+    'DrawerModeToggle',
   );
 
   console.log('[smoke:orkester] Orkester UI registry...');
