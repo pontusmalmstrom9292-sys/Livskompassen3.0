@@ -26,6 +26,8 @@ const NOTEBOOKLM_SOURCES = [
   { from: '.context/locked-ux-features.md', to: 'locked-ux-features.md' },
   { from: 'docs/gemini-handoff/README.md', to: 'gemini-handoff-README.md' },
   { from: 'docs/gemini-handoff/K1-compassWidgetCatalog.md', to: 'K1-compassWidgetCatalog.md' },
+  { from: 'docs/gemini-handoff/V1-gemini-original-2026-05-31.md', to: 'V1-gemini-original-2026-05-31.md' },
+  { from: 'docs/gemini-handoff/V2-valv-gap-notebooklm.md', to: 'V2-valv-gap-notebooklm.md' },
 ];
 
 const DRIVE_PACK = [

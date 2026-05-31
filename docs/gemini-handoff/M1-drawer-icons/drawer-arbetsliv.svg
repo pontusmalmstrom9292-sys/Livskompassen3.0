@@ -1,0 +1,11 @@
+<svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <radialGradient id="grad-dr-arbetsliv" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1c3026" />
+      <stop offset="100%" stop-color="#080808" />
+    </radialGradient>
+  </defs>
+  <circle cx="12" cy="12" r="11" fill="url(#grad-dr-arbetsliv)" stroke="#2DD4BF" stroke-width="0.8" />
+  <circle cx="12" cy="12" r="4.5" fill="none" stroke="#f5e6b8" stroke-width="1.1" />
+  <path d="M12 8v4l2.5 2.5" fill="none" stroke="#f5e6b8" stroke-width="1.1" stroke-linecap="round" />
+</svg>

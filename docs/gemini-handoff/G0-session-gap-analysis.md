@@ -21,8 +21,8 @@ Källa: Gemini full session → integrerad i Cursor.
 |---------|--------|------------|
 | `valv_grp_samla` | KEEP hint | Ja — `navTruth.ts` |
 | `valv_grp_analysera` | KEEP hint | Ja — `navTruth.ts` |
-| `valv_grp_kunskap` | DEFER label Fakta | **Nej** — behåller Kunskapsbank |
+| `valv_grp_kunskap` | DEFER label Fakta | **Ja** — drawerHint M2 |
 | `valv_grp_exportera` | REJECT label Dossier | **Nej** — behåller Exportera |
-| `valv_grp_forensik` | DEFER label Arkiv | **Nej** — behåller Forensik |
+| `valv_grp_forensik` | DEFER label Arkiv | **Ja** — drawerHint M2 |
 
 Se [`M2-valv-drawer-copy.md`](./M2-valv-drawer-copy.md).
