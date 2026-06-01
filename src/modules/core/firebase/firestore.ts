@@ -22,7 +22,7 @@ import { FIRESTORE_COLLECTIONS } from '../types/firestore';
 import {
   normalizeStringArray,
   normalizeVaultLogFields,
-} from '../../evidence/vault/utils/normalizeVaultLog';
+} from '@/features/lifeJournal/evidence/vault/utils/normalizeVaultLog';
 
 /** IndexedDB persistence via Firebase v12 local cache (ersätter enableIndexedDbPersistence). */
 function initFirestoreDb() {

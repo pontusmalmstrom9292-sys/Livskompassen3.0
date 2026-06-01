@@ -8,7 +8,7 @@ import {
   getVisibleHjartatTabIds,
   resolveHjartatTab,
 } from '../tabRegistry';
-import { parseVaultTab, type VaultTab } from '../../../evidence/vault/utils/vaultTabs';
+import { parseVaultTab, type VaultTab } from '@/features/lifeJournal/evidence/vault/utils/vaultTabs';
 
 export function useHjartatHub() {
   const [searchParams, setSearchParams] = useSearchParams();

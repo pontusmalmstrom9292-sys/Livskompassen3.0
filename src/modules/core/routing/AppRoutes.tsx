@@ -1,26 +1,26 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { MainLayout } from '../layout/MainLayout';
-import { WidgetRoutes } from '../../widgets/routing/WidgetRoutes';
+import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
 import { AuthGate } from '../auth/AuthGate';
 import { HomePage } from '../pages/HomePage';
 import { ThemePreviewPage } from '../pages/ThemePreviewPage';
 import { ThemeLabPage } from '../pages/ThemeLabPage';
 import { HubLabPage } from '../pages/HubLabPage';
-import { HjartatPage } from '../../diary/diary';
-import { DossierPage } from '../../evidence/vault/dossier';
+import { HjartatPage } from '@/features/lifeJournal/diary/diary';
+import { DossierPage } from '@/features/lifeJournal/evidence/vault/dossier';
 import {
   ProjektDetailPage,
   ProjektHubPage,
   ProjektMaterialPackPage,
   ProjektNyPage,
   ProjektReglerPage,
-} from '../../admin/projects';
-import { BarnportenPage } from '../../barnporten';
+} from '@/features/admin/projects';
+import { BarnportenPage } from '@/features/onboarding/barnporten';
 import { InstallningarPage } from '../pages/InstallningarPage';
-import { KompisHubPage } from '../../evidence/kompis';
-import { LivShellPage, FamiljShellPage } from '../../shell';
-import { VardagenPage } from '../../wellbeing/compasses';
-import type { VardagenTab } from '../../wellbeing/compasses';
+import { KompisHubPage } from '@/features/lifeJournal/evidence/kompis';
+import { LivShellPage, FamiljShellPage } from '@/modules/shell';
+import { VardagenPage } from '@/features/dailyLife/wellbeing/compasses';
+import type { VardagenTab } from '@/features/dailyLife/wellbeing/compasses';
 import {
   NAVIGATION_STRUCTURE,
   clusterPath,

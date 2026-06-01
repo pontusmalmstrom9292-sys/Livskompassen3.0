@@ -1,9 +1,9 @@
 import { ChevronDown } from 'lucide-react';
 import { clsx } from 'clsx';
-import { CompassQuickWidgetRail } from '../../wellbeing/compasses/components/CompassQuickWidgetRail';
-import { DashboardPage } from '../../wellbeing/compasses/components/DashboardPage';
-import { getCompassAdvice, getCompassFlowMeta } from '../../wellbeing/compasses/utils/compassAdvice';
-import { getDefaultCompassByTime } from '../../wellbeing/compasses/utils/compassTime';
+import { CompassQuickWidgetRail } from '@/features/dailyLife/wellbeing/compasses/components/CompassQuickWidgetRail';
+import { DashboardPage } from '@/features/dailyLife/wellbeing/compasses/components/DashboardPage';
+import { getCompassAdvice, getCompassFlowMeta } from '@/features/dailyLife/wellbeing/compasses/utils/compassAdvice';
+import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 import { DagensRiktningCompassIcon } from './DagensRiktningCompassIcon';
 
 type Props = {

@@ -73,6 +73,35 @@ Notes:
 - `/hamn` och `/drogfrihet` pekar fortfarande på `/familj?tab=…` (hamn/drogfrihet finns i `familj`-hub, inte `familjen`-tabs i navTruth).
 - `smoke:locked-ux` PASS efter ändring.
 
+## PHASE 5 — Features directory layout — 2026-06-01T19:24:17Z
+
+Build: OK
+Lint: Not present
+Test: Not present
+
+### Flyttade moduler (nya paths)
+
+| Feature | Moduler | Ny bas |
+|---------|---------|--------|
+| **lifeJournal** | `diary/`, `evidence/` | `src/modules/features/lifeJournal/` |
+| **dailyLife** | `wellbeing/`, `arbetsliv/`, `drogfrihet/` | `src/modules/features/dailyLife/` |
+| **family** | `children/`, `safeHarbor/` | `src/modules/features/family/` |
+| **admin** | `planning/`, `projects/`, `stampla/` | `src/modules/features/admin/` |
+| **widgets** | (hela widgets-trädet) | `src/modules/features/widgets/` |
+| **onboarding** | `barnporten/` | `src/modules/features/onboarding/barnporten/` |
+
+Legacy shims: `src/modules/{diary,evidence,wellbeing,family,admin,widgets,barnporten}/index.ts` → re-export från features.
+
+Imports: `@/features/<cluster>/...` (71+ filer uppdaterade). `core/`, `shell/`, `capture/`, `inkast/` kvar under `src/modules/`.
+
+Smoke: `scripts/smoke_*.mjs` paths uppdaterade till features-paths. `smoke:locked-ux` PASS.
+
+Issues:
+
+- (build warning) Main chunk ~1604 KB — se `PROPOSED_BUNDLE_FIXES.md`.
+- (npm) `devdir` env config-varning — ofarlig.
+- `src/modules/features/` skapad; `features/*` i tsconfig/vite fanns redan från path-alias-pass.
+
 ## PHASE 4 — Path aliases — 2026-06-01T19:11:05Z
 
 Build: OK

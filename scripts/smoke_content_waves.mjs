@@ -33,7 +33,7 @@ function main() {
 
   console.log('[smoke:content-waves] Curriculum catalog...');
   mustInclude(
-    'src/modules/wellbeing/mabra/content/curriculumCatalog.ts',
+    'src/modules/features/dailyLife/wellbeing/mabra/content/curriculumCatalog.ts',
     'CURRICULUMS',
     'CUR-ADHD-01',
     'CUR-GAD-01',
@@ -43,16 +43,16 @@ function main() {
 
   console.log('[smoke:content-waves] VitCurriculumPanel...');
   mustInclude(
-    'src/modules/wellbeing/mabra/components/VitCurriculumPanel.tsx',
+    'src/modules/features/dailyLife/wellbeing/mabra/components/VitCurriculumPanel.tsx',
     'VitCurriculumPanel',
     'CURRICULUMS',
   );
-  mustInclude('src/modules/wellbeing/mabra/components/MabraPage.tsx', 'VitCurriculumPanel');
+  mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/MabraPage.tsx', 'VitCurriculumPanel');
 
   console.log('[smoke:content-waves] Kunskap manifest...');
   mustInclude('docs/specs/modules/Kunskap-CONTENT-SEED.json', 'kunskap-fact-001', 'kunskap_content_seed');
 
-  const catalog = read('src/modules/wellbeing/mabra/content/curriculumCatalog.ts');
+  const catalog = read('src/modules/features/dailyLife/wellbeing/mabra/content/curriculumCatalog.ts');
   const bank = read('docs/specs/modules/Mabra-CONTENT-BANK.md');
   const seed = read('docs/specs/modules/Kunskap-CONTENT-SEED.md');
 

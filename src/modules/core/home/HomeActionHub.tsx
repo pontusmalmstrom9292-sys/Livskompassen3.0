@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { CompassModuleStrip } from '../../wellbeing/compasses/components/CompassModuleStrip';
-import { KompassradPanel } from '../../wellbeing/compasses/components/KompassradPanel';
-import { getDefaultCompassByTime } from '../../wellbeing/compasses/utils/compassTime';
-import { EVENING_HERO, getFlowConfig } from '../../wellbeing/compasses/config/compassFlows';
+import { CompassModuleStrip } from '@/features/dailyLife/wellbeing/compasses/components/CompassModuleStrip';
+import { KompassradPanel } from '@/features/dailyLife/wellbeing/compasses/components/KompassradPanel';
+import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
+import { EVENING_HERO, getFlowConfig } from '@/features/dailyLife/wellbeing/compasses/config/compassFlows';
 import { HomeQuickModules } from './HomeQuickModules';
 
 type Props = {

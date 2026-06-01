@@ -32,34 +32,34 @@ function resolveStundCategory(selected, saveAsAnchor) {
 
 function main() {
   mustInclude(
-    'src/modules/family/children/constants/childMomentViews.ts',
+    'src/modules/features/family/children/constants/childMomentViews.ts',
     'Stunder',
     'favoriter',
   );
   mustInclude(
-    'src/modules/family/children/components/familjen/ChildMomentTabs.tsx',
+    'src/modules/features/family/children/components/familjen/ChildMomentTabs.tsx',
     'CHILD_MOMENT_TAB_LABELS',
     'stunder',
   );
   mustInclude(
-    'src/modules/family/children/components/ChildSubLogPanel.tsx',
+    'src/modules/features/family/children/components/ChildSubLogPanel.tsx',
     'Spara som ankare',
     'saveAsAnchor',
     'resolveStundCategory',
     "'stund'",
   );
   mustInclude(
-    'src/modules/family/children/components/familjen/ChildMomentStunderPanel.tsx',
+    'src/modules/features/family/children/components/familjen/ChildMomentStunderPanel.tsx',
     'variant="stund"',
     'Ny stund',
   );
   mustInclude(
-    'src/modules/family/children/utils/childMomentHelpers.ts',
+    'src/modules/features/family/children/utils/childMomentHelpers.ts',
     'resolveStundCategory',
     "return saveAsAnchor ? 'ankare'",
   );
   mustInclude(
-    'src/modules/family/children/hooks/useChildMomentView.ts',
+    'src/modules/features/family/children/hooks/useChildMomentView.ts',
     "searchParams.get('view')",
   );
 

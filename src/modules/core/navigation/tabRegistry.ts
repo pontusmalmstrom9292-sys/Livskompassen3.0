@@ -32,7 +32,7 @@ import {
   type PansaretVaultTab,
   type SamlaVaultTab,
   type ValvZone,
-} from '../../evidence/vault/utils/vaultTabs';
+} from '@/features/lifeJournal/evidence/vault/utils/vaultTabs';
 
 import { HIDE_BEVIS_TAB } from './navFlags';
 import { VALV_ZONE_LABELS, VAULT_MAIN_TAB_LABELS } from '../copy/valvNavCopy';

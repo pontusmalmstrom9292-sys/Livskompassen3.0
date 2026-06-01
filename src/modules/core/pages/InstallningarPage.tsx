@@ -3,11 +3,11 @@ import { HubPageShell } from '../layout/HubPageShell';
 import { TabBar, type TabBarItem } from '../ui/TabBar';
 import { useStore } from '../store';
 import { getAutoModuleThemesEnabled, setAutoModuleThemesEnabled } from '../theme/moduleThemeMap';
-import { DrogfrihetCounterSettings } from '../../drogfrihet/components/DrogfrihetCounterSettings';
+import { DrogfrihetCounterSettings } from '@/features/dailyLife/drogfrihet/components/DrogfrihetCounterSettings';
 import {
   isStampOnHomeScreenEnabled,
   setStampOnHomeScreenEnabled,
-} from '../../admin/stampla';
+} from '@/features/admin/stampla';
 import { useState } from 'react';
 import { LifeHubPresetPicker, useLifeHubPreset } from '../lifeOs';
 import { useHubTab } from '../navigation/hooks/useHubTab';

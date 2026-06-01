@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 const REPOMIX_INCLUDE =
-  'docs/design/VALV-HUBB-SPEC.md,docs/design/references/VALV-ICON-KANON.md,docs/specs/modules/Verklighetsvalvet-SPEC.md,.context/locked-ux-features.md,.context/arkiv-minne.md,docs/gemini-handoff/V1-valv-zone-wireframe.md,docs/gemini-handoff/M2-valv-drawer-copy.md,docs/gemini-handoff/valv/V1-PROMPT.md,src/modules/evidence/vault/**,src/modules/evidence/knowledge/components/VaultKunskapsbankPanel.tsx,src/modules/core/navigation/navTruth.ts';
+  'docs/design/VALV-HUBB-SPEC.md,docs/design/references/VALV-ICON-KANON.md,docs/specs/modules/Verklighetsvalvet-SPEC.md,.context/locked-ux-features.md,.context/arkiv-minne.md,docs/gemini-handoff/V1-valv-zone-wireframe.md,docs/gemini-handoff/M2-valv-drawer-copy.md,docs/gemini-handoff/valv/V1-PROMPT.md,src/modules/features/lifeJournal/evidence/vault/**,src/modules/features/lifeJournal/evidence/knowledge/components/VaultKunskapsbankPanel.tsx,src/modules/core/navigation/navTruth.ts';
 
 const UPLOAD_SOURCES = [
   { from: 'docs/design/VALV-HUBB-SPEC.md', to: '01-VALV-HUBB-SPEC.md' },

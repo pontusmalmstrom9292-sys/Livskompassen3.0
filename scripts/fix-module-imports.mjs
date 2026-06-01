@@ -48,7 +48,7 @@ function isUnderMovedRoot(filePath) {
     const prefix = moved.replace(/\\/g, '/');
     if (rel.startsWith(`${prefix}/`) || rel === prefix) return true;
   }
-  return rel.startsWith('src/modules/evidence/knowledge/');
+  return rel.startsWith('src/modules/features/lifeJournal/evidence/knowledge/');
 }
 
 function rewriteContent(text, filePath) {

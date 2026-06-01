@@ -5,7 +5,7 @@ import { clsx } from 'clsx';
 import { LivskompassMark } from '../ui/LivskompassMark';
 import { ChromeV5Icon } from '../ui/chromeIcons';
 import { getHeroVisualVariant } from '../theme/chromeIconPrefs';
-import { getCompassThemeByTime } from '../../wellbeing/compasses/utils/compassTheme';
+import { getCompassThemeByTime } from '@/features/dailyLife/wellbeing/compasses/utils/compassTheme';
 import {
   COMPASS_CARDINALS,
   HERO_ORBIT_SLOTS,

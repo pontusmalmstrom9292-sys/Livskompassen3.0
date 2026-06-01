@@ -1,4 +1,4 @@
-import { ParalysPanel } from '../../../wellbeing/compasses/components/ParalysPanel';
+import { ParalysPanel } from '@/features/dailyLife/wellbeing/compasses/components/ParalysPanel';
 
 export function HomeTaskPanel() {
   return (

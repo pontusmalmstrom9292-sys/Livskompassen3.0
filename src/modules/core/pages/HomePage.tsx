@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { AdaptiveMemoryCards } from '../home/AdaptiveMemoryCards';
 import { HomeHeroKanon } from '../home/HomeHeroKanon';
-import { PlaneringHomePinCard } from '../../admin/planning/components/PlaneringHomePinCard';
-import { StampClockHomeSection, isStampOnHomeScreenEnabled } from '../../admin/stampla';
+import { PlaneringHomePinCard } from '@/features/admin/planning/components/PlaneringHomePinCard';
+import { StampClockHomeSection, isStampOnHomeScreenEnabled } from '@/features/admin/stampla';
 import { InkastLiteCard } from '../../inkast';
 import { CapturePanel, ReviewQueuePanel } from '../../capture';
 import { materialEnabled, useLifeHubPreset } from '../lifeOs';

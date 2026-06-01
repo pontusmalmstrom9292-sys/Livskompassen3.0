@@ -1,3 +1,2 @@
-export { BarnportenPage } from './components/BarnportenPage';
-export { BarnportenWidget } from './components/BarnportenWidget';
-export { saveBarnportenLog } from './api/saveBarnportenLog';
+/** @deprecated Import from `@/features/onboarding/barnporten` */
+export * from '../features/onboarding/barnporten';

@@ -15,7 +15,7 @@ const PACKS = [
   {
     name: 'kompass',
     include:
-      'docs/design/KOMPASS-MODUL-SPEC.md,docs/design/references/KOMPASS-TRE-TIDPUNKTER.md,docs/evaluations/2026-05-29-kompass-widget-snabbstart-plan.md,docs/specs/modules/De-3-Kompasserna-SPEC.md,src/modules/core/home/**,src/modules/wellbeing/compasses/**,docs/design/ICON-STYLE-GUIDE.md,.context/locked-icons.md',
+      'docs/design/KOMPASS-MODUL-SPEC.md,docs/design/references/KOMPASS-TRE-TIDPUNKTER.md,docs/evaluations/2026-05-29-kompass-widget-snabbstart-plan.md,docs/specs/modules/De-3-Kompasserna-SPEC.md,src/modules/core/home/**,src/modules/features/dailyLife/wellbeing/compasses/**,docs/design/ICON-STYLE-GUIDE.md,.context/locked-icons.md',
   },
   {
     name: 'meny',
@@ -25,7 +25,7 @@ const PACKS = [
   {
     name: 'valv',
     include:
-      'docs/design/VALV-HUBB-SPEC.md,docs/specs/modules/Verklighetsvalvet-SPEC.md,.context/locked-ux-features.md,src/modules/evidence/vault/**',
+      'docs/design/VALV-HUBB-SPEC.md,docs/specs/modules/Verklighetsvalvet-SPEC.md,.context/locked-ux-features.md,src/modules/features/lifeJournal/evidence/vault/**',
   },
 ];
 

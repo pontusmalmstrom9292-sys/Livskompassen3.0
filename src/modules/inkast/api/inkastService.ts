@@ -1,6 +1,6 @@
 import { httpsCallable, type FunctionsError } from 'firebase/functions';
 import { functions } from '../../core/firebase/init';
-import type { InboxClassification, InboxRouting } from '../../evidence/kompis/api/inboxService';
+import type { InboxClassification, InboxRouting } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 
 export type SubmitInkastLiteResult = {
   classification: InboxClassification;

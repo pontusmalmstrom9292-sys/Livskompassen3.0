@@ -29,7 +29,7 @@ function mustInclude(relPath, ...needles) {
 function main() {
   // Barnfokus-frågor (ev. Middagsfrågan)
   mustInclude(
-    'src/modules/family/children/components/BarnfokusFraganPanel.tsx',
+    'src/modules/features/family/children/components/BarnfokusFraganPanel.tsx',
     'Barnfokus',
     'Minneslista',
     'Spara till',
@@ -37,32 +37,32 @@ function main() {
     'Annan fråga',
   );
   mustInclude(
-    'src/modules/family/children/components/BarnensPage.tsx',
+    'src/modules/features/family/children/components/BarnensPage.tsx',
     'BarnfokusFraganPanel',
     'handleSaveBarnfokus',
   );
   mustInclude(
-    'src/modules/family/children/hooks/useFamiljenShell.ts',
+    'src/modules/features/family/children/hooks/useFamiljenShell.ts',
     "category: 'barnfokus'",
     'handleSaveBarnfokus',
   );
   mustInclude(
-    'src/modules/family/children/components/FamiljenPage.tsx',
+    'src/modules/features/family/children/components/FamiljenPage.tsx',
     'FamiljenReflektionTab',
     'vaultDrawerPath',
   );
   mustInclude(
-    'src/modules/evidence/knowledge/components/VaultKunskapsbankPanel.tsx',
+    'src/modules/features/lifeJournal/evidence/knowledge/components/VaultKunskapsbankPanel.tsx',
     'FamiljenKunskapHubTab',
     'KunskapPage',
   );
   mustInclude(
-    'src/modules/family/children/components/familjen/FamiljenReflektionTab.tsx',
+    'src/modules/features/family/children/components/familjen/FamiljenReflektionTab.tsx',
     'BarnfokusFraganPanel',
     'handleSaveBarnfokus',
   );
   mustInclude(
-    'src/modules/family/children/constants.ts',
+    'src/modules/features/family/children/constants.ts',
     'BARNFOKUS_QUESTIONS',
     'barnfokusQuestionForToday',
     'valv_safe',
@@ -92,7 +92,7 @@ function main() {
     'getAnalyseraVaultTabBarItems',
   );
   mustInclude(
-    'src/modules/evidence/vault/utils/vaultTabs.ts',
+    'src/modules/features/lifeJournal/evidence/vault/utils/vaultTabs.ts',
     "'monster'",
     "'orkester'",
     "'kunskapsbank'",
@@ -104,7 +104,7 @@ function main() {
     'resolveValvZone',
   );
   mustInclude(
-    'src/modules/evidence/vault/components/VaultPage.tsx',
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx',
     'getVaultZoneTabBarItems',
     'getSamlaVaultTabBarItems',
     'getAnalyseraVaultTabBarItems',
@@ -117,19 +117,19 @@ function main() {
     'VaultAktorskartaPanel',
   );
   mustInclude(
-    'src/modules/evidence/vault/components/VaultSamlaHub.tsx',
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx',
     'VaultInkastCompact',
     'VaultSamlaDriveHint',
     'samlaView',
   );
   mustInclude(
-    'src/modules/evidence/knowledge/components/VaultAktorskartaPanel.tsx',
+    'src/modules/features/lifeJournal/evidence/knowledge/components/VaultAktorskartaPanel.tsx',
     'EntityAddForm',
     'fetchEntityProfileRegistry',
     'VaultAktorskartaPanel',
   );
   mustInclude(
-    'src/modules/evidence/kompis/components/EntityAddForm.tsx',
+    'src/modules/features/lifeJournal/evidence/kompis/components/EntityAddForm.tsx',
     'createEntityProfile',
     'Lägg till person',
   );
@@ -143,7 +143,7 @@ function main() {
     'addUserEntityProfile',
   );
   mustInclude(
-    'src/modules/evidence/vault/components/VaultValvBreadcrumb.tsx',
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultValvBreadcrumb.tsx',
     'ZONE_LABEL',
     'getVaultZoneTabBarItems',
   );
@@ -166,18 +166,18 @@ function main() {
   );
   mustInclude('src/modules/core/layout/DrawerHubAccordion.tsx', 'groupVardagDrawerRoots');
   mustInclude(
-    'src/modules/evidence/vault/components/VaultMonsterPanel.tsx',
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultMonsterPanel.tsx',
     'Frekvensanalys',
     'buildVaultFrequencyReport',
   );
   mustInclude(
-    'src/modules/evidence/vault/components/VaultOrkesterPanel.tsx',
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx',
     'Assistentroller',
     'Kör mönstersökning',
     'analyzeBiffMessage',
   );
   mustInclude(
-    'src/modules/evidence/vault/utils/vaultPatternScan.ts',
+    'src/modules/features/lifeJournal/evidence/vault/utils/vaultPatternScan.ts',
     'buildVaultFrequencyReport',
   );
 
@@ -192,9 +192,9 @@ function main() {
     'openValvViaFyren',
   );
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'authenticateVaultGate', 'setVaultGate');
-  mustInclude('src/modules/evidence/vault/utils/vaultTabs.ts', 'VALV_ZONE_INGRESS');
-  mustInclude('src/modules/evidence/vault/components/VaultPage.tsx', 'VALV_ZONE_INGRESS');
-  mustInclude('src/modules/evidence/vault/components/VaultPage.tsx', 'WeaverPendingVaultBanner');
+  mustInclude('src/modules/features/lifeJournal/evidence/vault/utils/vaultTabs.ts', 'VALV_ZONE_INGRESS');
+  mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx', 'VALV_ZONE_INGRESS');
+  mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx', 'WeaverPendingVaultBanner');
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'setVaultGate', 'openValvViaFyren');
   mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", '/vardagen', "label: 'Vardag'", "id: 'gora'", 'getNavChildren');
   mustInclude(
@@ -218,10 +218,10 @@ function main() {
   );
   mustInclude('src/modules/core/pages/HomePage.tsx', 'useLifeHubPreset');
   mustInclude('src/modules/core/pages/InstallningarPage.tsx', 'LifeHubPresetPicker');
-  mustInclude('src/modules/admin/planning/components/RoutinesPanel.tsx', 'runRoutine', '<select');
-  mustInclude('src/modules/admin/planning/components/PlaneringNextStepSelect.tsx', 'Nästa steg');
-  mustInclude('src/modules/admin/planning/components/PlanningTaskDetail.tsx', '<select');
-  mustInclude('src/modules/admin/projects/components/ProjektNyPage.tsx', '/admin/projects/ny');
+  mustInclude('src/modules/features/admin/planning/components/RoutinesPanel.tsx', 'runRoutine', '<select');
+  mustInclude('src/modules/features/admin/planning/components/PlaneringNextStepSelect.tsx', 'Nästa steg');
+  mustInclude('src/modules/features/admin/planning/components/PlanningTaskDetail.tsx', '<select');
+  mustInclude('src/modules/features/admin/projects/components/ProjektNyPage.tsx', '/admin/projects/ny');
   mustInclude('src/index.css', '.dock-hub-band');
 
   mustInclude(
@@ -249,7 +249,7 @@ function main() {
     'P4',
   );
   mustInclude('firestore.rules', 'match /project_rules/{docId}');
-  mustInclude('src/modules/admin/projects/api/projectRulesApi.ts', 'listenProjectRules');
+  mustInclude('src/modules/features/admin/projects/api/projectRulesApi.ts', 'listenProjectRules');
 
   // Fyren widget + tyst inspelning (design lock)
   mustInclude(
@@ -263,9 +263,9 @@ function main() {
   mustInclude('src/modules/core/components/FyrenSmartWidgetBar.tsx', 'FyrenSmartWidgetBar');
   mustInclude('src/modules/core/layout/MainLayout.tsx', 'FyrenSmartWidgetBar');
   mustInclude('src/modules/core/layout/DrawerQuickActions.tsx', 'HUB_MORE_ACTIONS', 'Snabbval');
-  mustInclude('src/modules/widgets/pages/WidgetRecordPage.tsx', 'useWidgetVaultRecording');
-  mustInclude('src/modules/widgets/pages/WidgetFamiljenPage.tsx', 'widget_snabb');
-  mustInclude('src/modules/widgets/api/widgetVaultRecording.ts', 'SAMMANFATTNING');
+  mustInclude('src/modules/features/widgets/pages/WidgetRecordPage.tsx', 'useWidgetVaultRecording');
+  mustInclude('src/modules/features/widgets/pages/WidgetFamiljenPage.tsx', 'widget_snabb');
+  mustInclude('src/modules/features/widgets/api/widgetVaultRecording.ts', 'SAMMANFATTNING');
   mustInclude('public/manifest.webmanifest', '/widget/inspelning', '/widget/familjen', '/widget/stampla');
   mustInclude(
     'android/app/src/main/java/com/livskompassen/app/widgets/StampWidgetProvider.java',
@@ -276,7 +276,7 @@ function main() {
     'android/app/src/main/java/com/livskompassen/app/widgets/RecordWidgetProvider.java',
     'WidgetLaunch',
   );
-  mustInclude('src/modules/widgets/WidgetDeepLinkBridge.tsx', 'livskompassen-widget-nav');
+  mustInclude('src/modules/features/widgets/WidgetDeepLinkBridge.tsx', 'livskompassen-widget-nav');
 
   // Barnporten (design lock)
   mustInclude(
@@ -288,23 +288,23 @@ function main() {
     'BARNPORTEN_AGENTS',
   );
   mustInclude(
-    'src/modules/barnporten/constants/barnportenAgents.ts',
+    'src/modules/features/onboarding/barnporten/constants/barnportenAgents.ts',
     'Trygg-Kompisen',
     'agent_trygg_kompisen',
   );
   mustInclude(
-    'src/modules/barnporten/components/BarnportenWidget.tsx',
+    'src/modules/features/onboarding/barnporten/components/BarnportenWidget.tsx',
     'BarnportenWidget',
     'saveBarnportenLog',
     'quickAvsig',
   );
   mustInclude(
-    'src/modules/barnporten/api/saveBarnportenLog.ts',
+    'src/modules/features/onboarding/barnporten/api/saveBarnportenLog.ts',
     "authorRole: 'child'",
     "channel: 'barnporten'",
   );
   mustInclude(
-    'src/modules/widgets/routing/WidgetRoutes.tsx',
+    'src/modules/features/widgets/routing/WidgetRoutes.tsx',
     'WidgetBarnportenPage',
     'barnporten',
   );
@@ -321,29 +321,29 @@ function main() {
     'Human-In-The-Loop',
   );
   mustInclude(
-    'src/modules/barnporten/components/BarnportenInboxPanel.tsx',
+    'src/modules/features/onboarding/barnporten/components/BarnportenInboxPanel.tsx',
     'BarnportenInboxPanel',
     'Granska i arkiv',
     'Skapa trygghet. Bygg tillit.',
     'Flytta till Valv (HITL)',
     'SaveAsEvidencePrompt',
   );
-  mustInclude('src/modules/barnporten/api/barnportenOfflineQueue.ts', 'enqueueBarnportenLog');
+  mustInclude('src/modules/features/onboarding/barnporten/api/barnportenOfflineQueue.ts', 'enqueueBarnportenLog');
   mustInclude('src/modules/core/components/FyrenWidgetBar.tsx', "id: 'inkast'", '/#inkast-lite');
   mustInclude(
-    'src/modules/family/children/components/SaveAsEvidencePrompt.tsx',
+    'src/modules/features/family/children/components/SaveAsEvidencePrompt.tsx',
     'SaveAsEvidencePrompt',
     'Spara som bevis',
     'Shield',
     'buildVaultPayloadFromChildLog',
   );
   mustInclude(
-    'src/modules/family/children/utils/childLogEvidence.ts',
+    'src/modules/features/family/children/utils/childLogEvidence.ts',
     'sourceRef',
     'children_logs/',
   );
   mustInclude(
-    'src/modules/evidence/vault/components/VaultLogList.tsx',
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx',
     'SERVER-TIDSSTÄMPEL',
   );
 
@@ -354,7 +354,7 @@ function main() {
     'saknar: barnporten-inkorg-valv-kanon.png',
   );
 
-  mustInclude('src/modules/wellbeing/compasses/components/VardagenPage.tsx', 'vaultDrawerPath', 'kunskap');
+  mustInclude('src/modules/features/dailyLife/wellbeing/compasses/components/VardagenPage.tsx', 'vaultDrawerPath', 'kunskap');
   mustInclude('src/modules/core/home/livskompassHeroConfig.ts', 'vaultTab=kunskapsbank');
   mustInclude(
     'docs/design/references/MENU-DRAWER-KANON.md',
@@ -422,34 +422,34 @@ function main() {
   mustInclude('src/modules/core/layout/DrawerModeToggle.tsx', 'if (!showValvShell) return null');
   mustInclude('src/modules/core/layout/DrawerHubAccordion.tsx', 'nav-drawer__row--sub', 'isDrawerItemActive');
   mustInclude('src/modules/core/components/DrawerHomeQuickActions.tsx', 'FYREN_HOME_QUICK_ACTIONS');
-  mustInclude('src/modules/family/children/components/FamiljenPage.tsx', 'HubPageShell', 'ParentReminderFooter');
+  mustInclude('src/modules/features/family/children/components/FamiljenPage.tsx', 'HubPageShell', 'ParentReminderFooter');
   mustInclude(
-    'src/modules/wellbeing/mabra/components/MabraPage.tsx',
+    'src/modules/features/dailyLife/wellbeing/mabra/components/MabraPage.tsx',
     'HubPageShell',
     'DagligMixPanel',
     'handleDagligMixComplete',
     'MabraHubCollapsible',
   );
-  mustInclude('src/modules/wellbeing/mabra/components/ValuesCompass.tsx', '<select');
-  mustInclude('src/modules/wellbeing/mabra/components/MabraVitHub.tsx', 'Snabbstart');
+  mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/ValuesCompass.tsx', '<select');
+  mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/MabraVitHub.tsx', 'Snabbstart');
   mustInclude(
-    'src/modules/admin/planning/components/PlaneringPage.tsx',
+    'src/modules/features/admin/planning/components/PlaneringPage.tsx',
     'HubPageShell',
     'PlanningKanbanBoard',
     'GoraHubTabBar',
     'PLANERING_MORE_TABS',
     'Fler verktyg',
   );
-  mustInclude('src/modules/admin/planning/constants.ts', 'PLANERING_MORE_TABS', 'fokus', 'framsteg', 'regler');
+  mustInclude('src/modules/features/admin/planning/constants.ts', 'PLANERING_MORE_TABS', 'fokus', 'framsteg', 'regler');
   mustInclude('src/modules/core/navigation/GoraHubTabBar.tsx', 'resolveGoraTab', 'GoraHubTabBar');
-  mustInclude('src/modules/admin/projects/components/ProjektHubPage.tsx', 'GoraHubTabBar', 'HubPageShell');
+  mustInclude('src/modules/features/admin/projects/components/ProjektHubPage.tsx', 'GoraHubTabBar', 'HubPageShell');
   mustInclude(
-    'src/modules/admin/planning/components/PlaneringHub.tsx',
+    'src/modules/features/admin/planning/components/PlaneringHub.tsx',
     'PlaneringHubBody',
     'usePlaneringHubLayout',
   );
   mustInclude(
-    'src/modules/admin/planning/components/PlaneringInkorgPanel.tsx',
+    'src/modules/features/admin/planning/components/PlaneringInkorgPanel.tsx',
     'InboxReviewQueue',
   );
   mustInclude('src/modules/inkast/components/InboxReviewQueue.tsx', 'confirmInbox', 'dismissInbox');
@@ -458,21 +458,21 @@ function main() {
   assert(existsSync(resolve(root, '.context/locked-icons.md')), 'saknar: .context/locked-icons.md');
   assert(existsSync(resolve(root, 'docs/design/ICON-STYLE-GUIDE.md')), 'saknar: ICON-STYLE-GUIDE.md');
   mustInclude(
-    'src/modules/evidence/kompis/components/KompisAvatar.tsx',
+    'src/modules/features/lifeJournal/evidence/kompis/components/KompisAvatar.tsx',
     'KompisMark',
   );
   mustInclude(
-    'src/modules/evidence/kompis/components/KnowledgeCitationList.tsx',
+    'src/modules/features/lifeJournal/evidence/kompis/components/KnowledgeCitationList.tsx',
     'KnowledgeCitationList',
     'onCitationClick',
   );
   mustInclude(
-    'src/modules/evidence/kompis/components/KunskapPage.tsx',
+    'src/modules/features/lifeJournal/evidence/kompis/components/KunskapPage.tsx',
     'handleCitationClick',
     'focusKampsparId',
   );
   mustInclude(
-    'src/modules/evidence/knowledge/components/VaultKunskapsbankPanel.tsx',
+    'src/modules/features/lifeJournal/evidence/knowledge/components/VaultKunskapsbankPanel.tsx',
     'onKampsparCitationClick',
     'focusKampsparId',
     'vaultDrawerPath',
@@ -528,7 +528,7 @@ function main() {
     'clearAllDrafts',
   );
   mustInclude('src/modules/core/pages/InstallningarPage.tsx', 'ClearDevicePanel');
-  mustInclude('src/modules/diary/mirror/utils/speglarSessionStorage.ts', 'clearSpeglarSession');
+  mustInclude('src/modules/features/lifeJournal/diary/mirror/utils/speglarSessionStorage.ts', 'clearSpeglarSession');
   assert(
     !read('src/App.tsx').includes('useShakeToKill'),
     'App.tsx får inte montera useShakeToKill (Kill Switch borttagen)',

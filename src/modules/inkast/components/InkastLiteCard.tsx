@@ -3,7 +3,7 @@ import { FileUp, Inbox, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '../../core/store';
-import { fileToBase64 } from '../../evidence/kompis/api/ingestKnowledgeDocumentService';
+import { fileToBase64 } from '@/features/lifeJournal/evidence/kompis/api/ingestKnowledgeDocumentService';
 import {
   formatInkastResultMessage,
   submitInkastLite,

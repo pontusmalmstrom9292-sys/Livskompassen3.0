@@ -38,7 +38,7 @@ function main() {
     'StampClockPage',
   );
   mustInclude(
-    'src/modules/evidence/vault/components/VaultForensicPanel.tsx',
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultForensicPanel.tsx',
     'VaultEconomyPanel',
     'arbetsliv_franvaro',
     'arbetsliv_lon',

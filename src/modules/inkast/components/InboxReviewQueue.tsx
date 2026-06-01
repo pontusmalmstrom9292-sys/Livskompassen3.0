@@ -7,7 +7,7 @@ import {
   dismissInbox,
   fetchInboxQueue,
   type InboxQueueItem,
-} from '../../evidence/kompis/api/inboxService';
+} from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 
 const ROUTING_LABELS: Record<string, string> = {
   kunskap: 'Kunskap',

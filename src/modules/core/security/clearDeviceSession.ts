@@ -2,7 +2,7 @@ import { useStore } from '../store';
 import { clearAllVaultZones, invalidateServerSession } from '../auth/sessionService';
 import { VAULT_PIN_STORAGE_KEY } from './vaultPin';
 import { clearAllDrafts } from '../../capture/draftQueue';
-import { clearSpeglarSession } from '../../diary/mirror/utils/speglarSessionStorage';
+import { clearSpeglarSession } from '@/features/lifeJournal/diary/mirror/utils/speglarSessionStorage';
 
 const VAULT_PIN_KEY = VAULT_PIN_STORAGE_KEY;
 const CHILDREN_PIN_KEY = 'livskompassen_children_pin_hash';
