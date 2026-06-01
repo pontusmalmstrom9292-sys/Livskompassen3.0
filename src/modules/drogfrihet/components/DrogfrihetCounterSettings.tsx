@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { CalendarDays } from 'lucide-react';
-import { BentoCard } from '../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { useDrogfrihetCounter } from '../hooks/useDrogfrihetCounter';
 import {
   clearDrogfrihetCounter,

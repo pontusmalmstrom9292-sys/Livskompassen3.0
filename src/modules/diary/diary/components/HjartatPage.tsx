@@ -1,4 +1,4 @@
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '../../../core/ui/TabBar';
 import { VaultPage } from '../../../evidence/vault';
 import { SpeglingsSystem } from '../../../diary/mirror';

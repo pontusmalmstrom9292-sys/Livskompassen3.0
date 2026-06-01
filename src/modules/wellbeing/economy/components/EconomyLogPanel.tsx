@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '../../../core/ui/EmptyState';
 import { TimelineEntry } from '../../../core/ui/TimelineEntry';
 import { useStore } from '../../../core/store';

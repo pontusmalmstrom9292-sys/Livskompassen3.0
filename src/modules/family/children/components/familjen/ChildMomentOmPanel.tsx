@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Heart, Loader2 } from 'lucide-react';
-import { BentoCard } from '../../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { CHILD_PROFILES } from '../../constants';
 import type { FamiljenShell } from '../../hooks/useFamiljenShell';
 import { BalansMatare } from '../BalansMatare';

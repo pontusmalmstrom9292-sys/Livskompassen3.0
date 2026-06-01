@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PenLine } from 'lucide-react';
-import { BentoCard } from '../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { VALV_SAMLA_GRANSKA_LINK } from '../inkast/api/inkastService';
 import { submitCaptureDraft } from './submitCaptureDraft';
 

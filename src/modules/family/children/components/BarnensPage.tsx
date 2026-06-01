@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Heart, Loader2 } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '../../../core/ui/EmptyState';
 import { TimelineEntry } from '../../../core/ui/TimelineEntry';
 import { BarnfokusFraganPanel } from './BarnfokusFraganPanel';

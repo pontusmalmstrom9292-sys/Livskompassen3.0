@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Archive, Clock, Inbox } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { vaultDrawerPath } from '../../../core/navigation/navTruth';
 import { listDraftsByStatus } from '../../../capture/draftQueue';
 

@@ -1,6 +1,6 @@
 import { CalendarDays } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { BentoCard } from '../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { useDrogfrihetCounter } from '../hooks/useDrogfrihetCounter';
 
 type Props = {

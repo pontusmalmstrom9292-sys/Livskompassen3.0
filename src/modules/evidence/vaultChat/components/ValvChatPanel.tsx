@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Brain, Loader2, Search, Send, Sparkles, User } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { VAVAREN_VALVCHAT_HINT } from '../../vault/constants/vavarenCopy';
 import type { ValvChatCitation } from '../api/valvChatService';
 import { useValvChatSession, type ValvChatMessage } from '../hooks/useValvChatSession';

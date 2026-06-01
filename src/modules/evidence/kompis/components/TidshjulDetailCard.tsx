@@ -1,4 +1,4 @@
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import type { KampsparEntryRow } from '../../../core/types/firestore';
 import { formatTidshjulLabel } from '../utils/tidshjulTimeline';
 

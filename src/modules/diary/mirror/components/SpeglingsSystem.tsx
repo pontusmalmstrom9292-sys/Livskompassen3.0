@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Brain, Anchor, Lock } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '../../../core/store';
 import { getVaultLogs } from '../../../core/firebase/firestore';
 import { hasVaultGate } from '../../../core/auth/sessionService';

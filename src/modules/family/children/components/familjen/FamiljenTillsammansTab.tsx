@@ -1,5 +1,5 @@
 import { Anchor, Users } from 'lucide-react';
-import { BentoCard } from '../../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { CHILD_ALIASES } from '../../constants';
 import type { FamiljenShell } from '../../hooks/useFamiljenShell';
 import { barnfokusDisplayText } from '../../utils/logFieldUtils';

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Anchor, BookOpen, Compass, ListTodo, Sparkles } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { ValvArchIcon } from '../../../core/ui/ValvArchIcon';
 import { vaultDrawerPath } from '../../../core/navigation/navTruth';
 import { KompisMark } from './KompisMark';

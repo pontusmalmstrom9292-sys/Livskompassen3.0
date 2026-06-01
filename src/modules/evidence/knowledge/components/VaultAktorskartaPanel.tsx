@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Users } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '../../../core/store';
 import { vaultDrawerPath } from '../../../core/navigation/navTruth';
 import { EntityAddForm } from '../../kompis/components/EntityAddForm';

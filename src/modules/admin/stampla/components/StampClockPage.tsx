@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Clock, Loader2 } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { MetricTile } from '../../../core/ui/MetricTile';
 import { EmptyState } from '../../../core/ui/EmptyState';
 import { TimelineEntry } from '../../../core/ui/TimelineEntry';

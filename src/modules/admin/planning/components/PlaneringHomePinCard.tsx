@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { getPlaneringHomePin } from '../planeringHomePin';
 import { getQuickList, toggleQuickListItem } from '../quickListStorage';
 import type { QuickList } from '../types';

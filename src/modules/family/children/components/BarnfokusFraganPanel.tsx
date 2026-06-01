@@ -1,7 +1,7 @@
 /** @locked-ux Barnfokus-frågor (ev. Middagsfrågan) — `.context/locked-ux-features.md` */
 import { useState } from 'react';
 import { Loader2, RefreshCw, Sparkles } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { TimelineEntry } from '../../../core/ui/TimelineEntry';
 import { EmptyState } from '../../../core/ui/EmptyState';
 import {

@@ -5,7 +5,7 @@ import { KnowledgeVaultChat } from './KnowledgeVaultChat';
 import { KampsparIngestForm } from './KampsparIngestForm';
 import { ProfileSeedImport } from './ProfileSeedImport';
 import { InboxReviewQueue } from '../../../inkast/components/InboxReviewQueue';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '../../../core/ui/TabBar';
 import { TimelineEntry } from '../../../core/ui/TimelineEntry';
 import { Compass, RefreshCw, Sparkles } from 'lucide-react';

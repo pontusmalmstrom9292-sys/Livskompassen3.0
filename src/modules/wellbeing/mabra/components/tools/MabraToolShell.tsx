@@ -1,6 +1,6 @@
 import { ChevronLeft } from 'lucide-react';
 import type { ReactNode } from 'react';
-import { BentoCard } from '../../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 
 type Props = {
   title: string;

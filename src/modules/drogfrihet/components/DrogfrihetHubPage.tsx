@@ -1,7 +1,7 @@
 import { HeartHandshake, Shield } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { HubPageShell } from '../../core/layout/HubPageShell';
-import { BentoCard } from '../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar, type TabBarItem } from '../../core/ui/TabBar';
 import { useStore } from '../../core/store';
 import { useHubTab } from '../../core/navigation/hooks/useHubTab';

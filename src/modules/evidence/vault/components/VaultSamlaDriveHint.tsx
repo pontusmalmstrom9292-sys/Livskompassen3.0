@@ -1,5 +1,5 @@
 import { HardDrive } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 
 type Props = {
   pendingCount?: number;

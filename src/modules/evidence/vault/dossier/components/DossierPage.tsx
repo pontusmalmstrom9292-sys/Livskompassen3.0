@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { FileText, Loader2, Lock, ShieldAlert } from 'lucide-react';
-import { BentoCard } from '../../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '../../../../core/ui/EmptyState';
 import { useStore } from '../../../../core/store';
 import { hasVaultGate } from '../../../../core/auth/sessionService';

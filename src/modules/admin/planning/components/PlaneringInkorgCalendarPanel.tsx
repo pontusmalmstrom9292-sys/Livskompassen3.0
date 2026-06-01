@@ -1,5 +1,5 @@
 import { Calendar, CalendarDays } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import type { PlaneringProviderConnection } from '../planeringInboxConnections';
 import { PlaneringInboxConnectionCard } from './PlaneringInboxConnectionCard';
 

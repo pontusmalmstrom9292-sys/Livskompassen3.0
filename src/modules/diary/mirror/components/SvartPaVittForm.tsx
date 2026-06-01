@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Loader2, Lock } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '../../../core/store';
 import { saveVaultLog } from '../../../core/firebase/firestore';
 

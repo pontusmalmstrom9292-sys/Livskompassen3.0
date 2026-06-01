@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Heart, Sparkles } from 'lucide-react';
-import { BentoCard } from '../../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '../../../../core/ui/EmptyState';
 import type { FamiljenShell } from '../../hooks/useFamiljenShell';
 import {

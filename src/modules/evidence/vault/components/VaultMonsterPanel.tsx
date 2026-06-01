@@ -1,7 +1,7 @@
 /** @locked-ux Valv Mönster — do not remove; see `.context/locked-ux-features.md` */
 import { useMemo } from 'react';
 import { BarChart3 } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '../../../core/ui/EmptyState';
 import type { VaultLog } from '../../../core/types/firestore';
 import { buildVaultFrequencyReport } from '../utils/vaultPatternScan';

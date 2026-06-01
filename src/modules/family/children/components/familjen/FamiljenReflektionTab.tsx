@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
-import { BentoCard } from '../../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { BarnfokusFraganPanel } from '../BarnfokusFraganPanel';
 import { PositivaMinnesankare } from '../PositivaMinnesankare';
 import { ChildProfileCards } from '../ChildProfileCards';

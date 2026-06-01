@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Loader2, Sparkles } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { fetchKbtTransformator, type KbtTransformResponse } from '../api/kbtTransformatorService';
 import { shouldRedirectMabraCoachToSpeglar } from '../lib/mabraCoachGuard';
 import { MabraSpeglarGuardHint } from './MabraSpeglarGuardHint';

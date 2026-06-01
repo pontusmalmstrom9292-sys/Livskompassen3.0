@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Download, Loader2 } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { getProfileSeedEntryCount, importProfileSeed } from '../api/profileSeedService';
 import type { KampsparEntryRow } from '../../../core/types/firestore';
 

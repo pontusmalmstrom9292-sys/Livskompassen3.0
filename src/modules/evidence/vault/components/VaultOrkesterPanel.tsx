@@ -1,7 +1,7 @@
 /** @locked-ux Valv Orkester — do not remove; see `.context/locked-ux-features.md` */
 import { useMemo, useState } from 'react';
 import { Loader2, Network } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   analyzeBiffMessage,
   type GransAnalysis,

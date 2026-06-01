@@ -1,6 +1,6 @@
 import { useEffect, useRef, type RefObject } from 'react';
 import { FileDown, Loader2 } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '../../../core/ui/EmptyState';
 import type { VaultLog, WeaverTags } from '../../../core/types/firestore';
 import {

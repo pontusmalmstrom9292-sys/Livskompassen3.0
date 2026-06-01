@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Loader2, Search, Shield } from 'lucide-react';
-import { BentoCard } from '../../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { callKnowledgeVault, type KnowledgeVaultCitation } from '../../../../evidence/kompis/api/knowledgeVaultService';
 import { KnowledgeCitationList } from '../../../../evidence/kompis/components/KnowledgeCitationList';
 import {

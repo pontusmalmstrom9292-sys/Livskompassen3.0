@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Loader2, Zap } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { fetchMicroSteps, type MicroStep } from '../api/compassService';
 
 const BATCH_SIZE = 3;

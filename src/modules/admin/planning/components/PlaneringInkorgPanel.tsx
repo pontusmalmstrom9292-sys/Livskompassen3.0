@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Calendar, Mail } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '../../../core/ui/TabBar';
 import { InboxReviewQueue } from '../../../inkast/components/InboxReviewQueue';
 import { shouldDualWritePlaneringToCapture, submitCaptureDraft } from '../../../capture';

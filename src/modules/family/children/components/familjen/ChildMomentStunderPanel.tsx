@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Heart, Loader2, Plus } from 'lucide-react';
-import { BentoCard } from '../../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '../../../../core/ui/EmptyState';
 import { ChildSubLogPanel } from '../ChildSubLogPanel';
 import { SaveAsEvidencePrompt } from '../SaveAsEvidencePrompt';

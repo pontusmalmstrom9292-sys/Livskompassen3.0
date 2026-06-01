@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '../../../core/ui/EmptyState';
 import type { JournalEntry } from '../types/journal';
 import {

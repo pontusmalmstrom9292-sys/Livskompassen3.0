@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { MessageCircle } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { callChildrenLogsQuery, type ChildrenLogCitation } from '../api/childrenLogsService';
 import type { ChildAlias } from '../constants';
 

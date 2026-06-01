@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Users } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '../../../core/store';
 import {
   fetchEntityProfileRegistry,

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Check, Loader2, Moon } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { saveCheckIn } from '../../../core/firebase/firestore';
 
 const KASAM_STEPS = [

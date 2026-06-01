@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, type ReactNode } from 'react';
 import { Sun, Check, Loader2 } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '../../../core/store';
 import { getVaultLogs, saveCheckIn } from '../../../core/firebase/firestore';
 import type { VaultLog } from '../../../core/types/firestore';

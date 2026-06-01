@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { KunskapPage, type KunskapEntriesMeta } from '../../kompis/components/KunskapPage';
 import { FamiljenKunskapHubTab } from '../../../family/children/components/familjen/FamiljenKunskapHubTab';
 import { useFamiljenShell } from '../../../family/children/hooks/useFamiljenShell';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '../../../core/ui/EmptyState';
 import { KunskapsbankHeader } from '../../vault/components/KunskapsbankHeader';
 import { vaultDrawerPath } from '../../../core/navigation/navTruth';

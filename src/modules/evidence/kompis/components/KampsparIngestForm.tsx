@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Loader2, Plus, Shield } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { saveVaultLog } from '../../../core/firebase/firestore';
 import { useStore } from '../../../core/store';
 import {

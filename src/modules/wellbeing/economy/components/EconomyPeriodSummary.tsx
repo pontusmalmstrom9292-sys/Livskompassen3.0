@@ -1,4 +1,4 @@
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { MetricTile } from '../../../core/ui/MetricTile';
 import type { PeriodEconomySummary } from '../../../core/firebase/timeEconomyFirestore';
 

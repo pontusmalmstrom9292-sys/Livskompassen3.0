@@ -1,7 +1,7 @@
 import { BookOpen } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { hasVaultGate } from '../../../core/auth/sessionService';
 import { useStore } from '../../../core/store';
 import {

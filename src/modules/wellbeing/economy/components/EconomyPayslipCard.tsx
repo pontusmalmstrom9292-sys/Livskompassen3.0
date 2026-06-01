@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FileText, Loader2 } from 'lucide-react';
 import { httpsCallable } from 'firebase/functions';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { functions } from '../../../core/firebase/init';
 import { useStore } from '../../../core/store';
 import { getLatestPayslipSnapshot } from '../../../core/firebase/timeEconomyFirestore';

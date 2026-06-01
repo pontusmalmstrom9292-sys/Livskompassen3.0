@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { Fingerprint, Lock } from 'lucide-react';
-import { BentoCard } from '../ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   hasVaultGate,
   hasVaultZone,

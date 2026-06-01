@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, startTransition } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { InboxReviewQueue } from '../../../inkast/components/InboxReviewQueue';
 import { fetchInboxQueue } from '../../kompis/api/inboxService';
 import { VaultEntryForm } from './VaultEntryForm';

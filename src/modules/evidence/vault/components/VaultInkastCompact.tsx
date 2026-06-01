@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { FileUp, Inbox, Loader2 } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { fileToBase64 } from '../../kompis/api/ingestKnowledgeDocumentService';
 import {
   formatInkastResultMessage,

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Sparkles } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { CURRICULUMS, type VitCurriculum, type CurriculumExercise } from '../content/curriculumCatalog';
 
 type Props = {

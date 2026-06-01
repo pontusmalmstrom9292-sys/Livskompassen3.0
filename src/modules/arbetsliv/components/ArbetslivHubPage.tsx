@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { Briefcase, Shield } from 'lucide-react';
-import { BentoCard } from '../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar, type TabBarItem } from '../../core/ui/TabBar';
 import { StampClockPage } from '../../admin/stampla/components/StampClockPage';
 import { EconomyTidPanel } from '../../wellbeing/economy/components/EconomyTidPanel';

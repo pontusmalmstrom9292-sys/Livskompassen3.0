@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Briefcase, Wallet, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { SaldoHero } from '../../../core/ui/SaldoHero';
 import { MetricTile } from '../../../core/ui/MetricTile';
 import { EmptyState } from '../../../core/ui/EmptyState';

@@ -8,7 +8,7 @@ import {
 import { KnowledgeCitationList } from './KnowledgeCitationList';
 import { useStore } from '../../../core/store';
 import { Lock, RefreshCw } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 
 type KnowledgeVaultChatProps = {
   embedded?: boolean;

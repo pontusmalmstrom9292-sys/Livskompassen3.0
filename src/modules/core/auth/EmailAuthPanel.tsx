@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Fingerprint, Loader2, Lock, Mail } from 'lucide-react';
-import { BentoCard } from '../ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { FirebaseError } from 'firebase/app';
 import {
   linkOrCreateEmailAccount,

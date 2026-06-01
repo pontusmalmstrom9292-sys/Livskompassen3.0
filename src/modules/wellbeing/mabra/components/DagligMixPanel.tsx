@@ -1,6 +1,6 @@
 import { Sparkles } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { pickDagligMix } from '../lib/pickDagligMix';
 
 type Props = {

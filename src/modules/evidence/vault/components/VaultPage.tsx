@@ -1,7 +1,7 @@
 import { Lock, ShieldAlert, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '../../../core/ui/TabBar';
 import {
   getAnalyseraVaultTabBarItems,

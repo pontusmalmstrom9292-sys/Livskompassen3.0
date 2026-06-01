@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Sparkles } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import type { ChildAlias } from '../constants';
 import type { ChildrenLogEntry } from '../types';
 import { isFavoriteMoment, momentBody } from '../utils/childMomentHelpers';

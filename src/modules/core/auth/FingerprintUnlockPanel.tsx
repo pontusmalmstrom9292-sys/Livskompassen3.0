@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Fingerprint, Loader2 } from 'lucide-react';
-import { BentoCard } from '../ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { authenticateAppUnlock } from './appUnlock';
 import { markAppUnlockedThisSession } from './appUnlockPrefs';
 

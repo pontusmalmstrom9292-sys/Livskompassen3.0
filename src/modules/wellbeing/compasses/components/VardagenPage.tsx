@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import { BentoCard } from '../../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '../../../core/ui/TabBar';
 import { useStore } from '../../../core/store';
 import { EconomyPage } from '../../economy';
