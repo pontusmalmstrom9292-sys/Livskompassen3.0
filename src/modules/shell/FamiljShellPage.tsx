@@ -1,4 +1,5 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
+import { clusterPath, clusterTabNavigateTarget } from '../core/navigation/navigationRegistry';
 import { TabBar } from '../core/ui/TabBar';
 import { HubPageShell } from '../core/layout/HubPageShell';
 import { useHubTab } from '../core/navigation/hooks/useHubTab';
@@ -25,12 +26,17 @@ function vaultRedirectSearch(vaultTab: string): string {
 type FamiljShellTab = FamiljenTabId | 'hamn' | 'drogfrihet';
 
 export function FamiljShellPage() {
-  const { tabs, activeTab, setTab, legacyRedirect } = useHubTab('familj', {
+  const { pathname } = useLocation();
+  const familyHubId = pathname.startsWith(clusterPath('family')) ? 'familjen' : 'familj';
+  const familyHome = clusterTabNavigateTarget('family', 'reflektion');
+
+  const { tabs, activeTab, setTab, legacyRedirect } = useHubTab(familyHubId, {
     defaultTab: 'reflektion',
     legacyTabRedirects: {
       kunskap: { pathname: '/dagbok', search: '?tab=bevis&vaultTab=kunskapsbank' },
       monster: { pathname: '/dagbok', search: vaultRedirectSearch('familjen_monster') },
-      familjen: { pathname: '/familj', search: '?tab=reflektion' },
+      familj: familyHome,
+      familjen: familyHome,
     },
   });
   const shell = useFamiljenShell();

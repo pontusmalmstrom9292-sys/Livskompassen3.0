@@ -31,7 +31,10 @@ export const NAVIGATION_STRUCTURE = {
     label: 'Familjen',
     icon: 'users',
     tabs: {
-      children: { id: 'children', label: 'Barnen', path: '?tab=children' },
+      reflektion: { id: 'reflektion', label: 'Reflektion', path: '?tab=reflektion' },
+      livslogg: { id: 'livslogg', label: 'Livslogg', path: '?tab=livslogg' },
+      tillsammans: { id: 'tillsammans', label: 'Tillsammans', path: '?tab=tillsammans' },
+      barnporten: { id: 'barnporten', label: 'Barnporten', path: '?tab=barnporten' },
       harbor: { id: 'harbor', label: 'Trygg hamn', path: '/hamn' },
     },
   },
@@ -52,6 +55,7 @@ export type ClusterConfig = (typeof NAVIGATION_STRUCTURE)[NavigationId];
 
 export type LifeJournalTabKey = keyof typeof NAVIGATION_STRUCTURE.lifeJournal.tabs;
 export type DailyLifeTabKey = keyof typeof NAVIGATION_STRUCTURE.dailyLife.tabs;
+export type FamilyTabKey = keyof typeof NAVIGATION_STRUCTURE.family.tabs;
 
 /** React Router `search` without leading `?`. */
 export function registryTabSearch(tabPath: string): string {

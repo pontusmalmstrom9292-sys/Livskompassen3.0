@@ -30,7 +30,7 @@ Instruktion: när Cursor eller du stöter på imports som inte uppdateras automa
 |-------|--------|
 | **Hjärtat** `/dagbok` | Wired via `NAVIGATION_STRUCTURE.lifeJournal` + `RedirectToLifeJournalTab` (`/valv`, `/speglar`, `/kunskap`). |
 | **Vardagen** `/vardagen` | **Uppdaterad** — renderar `VardagenPage` (tidigare redirect till `/liv`). Registry-tabbar `kompasser`/`ekonomi`. |
-| **Familjen** `/familjen` | Ej än — redirect till `/familj` (nästa commit). |
+| **Familjen** `/familjen` | **Uppdaterad** — renderar `FamiljShellPage`; `/familj` legacy-redirect via registry. |
 
 Build PASS · `smoke:locked-ux` PASS · `smoke:orkester` PASS.
 
@@ -51,3 +51,23 @@ Issues:
 
 - (npm) `Unknown env config "devdir"` during npm scripts
   Suggested fix: review local/global `.npmrc` for unsupported `devdir` key (environment-only; build still OK).
+
+## PHASE 4 — Familjen registry route — 2026-06-01T18:59:51Z
+
+Build: OK
+Lint: Not present
+Test: Not present
+
+Issues:
+
+- (build warning) `vite build` => chunk > 500 kB after minification (`dist/assets/index-*.js` ~1.64 MB)
+  Suggested fix: optional code-split via `manualChunks` / dynamic `import()` — not blocking.
+
+- (npm) `Unknown env config "devdir"` during npm scripts
+  Suggested fix: review local/global `.npmrc` for unsupported `devdir` key (environment-only; build still OK).
+
+Notes:
+
+- `/familjen` renderar `FamiljShellPage` via `NAVIGATION_STRUCTURE.family`; `/familj` och `/barnen` legacy-redirect till registry.
+- `/hamn` och `/drogfrihet` pekar fortfarande på `/familj?tab=…` (hamn/drogfrihet finns i `familj`-hub, inte `familjen`-tabs i navTruth).
+- `smoke:locked-ux` PASS efter ändring.

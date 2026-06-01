@@ -31,6 +31,7 @@ import {
 
 const LIFE_JOURNAL = NAVIGATION_STRUCTURE.lifeJournal;
 const DAILY_LIFE = NAVIGATION_STRUCTURE.dailyLife;
+const FAMILY = NAVIGATION_STRUCTURE.family;
 
 function RedirectToLifeJournalTab({ tabKey }: { tabKey: LifeJournalTabKey }) {
   const location = useLocation();
@@ -76,9 +77,32 @@ function MainAppRoutes() {
         />
         <Route path="/arbetsliv" element={<Navigate to="/liv?tab=arbetsliv" replace />} />
         <Route path="/stampla" element={<Navigate to="/liv?tab=arbetsliv" replace />} />
-        <Route path="/familj" element={<AuthGate><FamiljShellPage /></AuthGate>} />
-        <Route path="/familjen" element={<Navigate to="/familj?tab=reflektion" replace />} />
-        <Route path="/barnen" element={<Navigate to="/familj?tab=reflektion" replace />} />
+        <Route
+          path={FAMILY.path}
+          element={
+            <AuthGate>
+              <FamiljShellPage />
+            </AuthGate>
+          }
+        />
+        <Route
+          path="/familj"
+          element={
+            <Navigate
+              to={clusterTabNavigateTarget('family', 'reflektion')}
+              replace
+            />
+          }
+        />
+        <Route
+          path="/barnen"
+          element={
+            <Navigate
+              to={clusterTabNavigateTarget('family', 'reflektion')}
+              replace
+            />
+          }
+        />
         <Route path="/hamn" element={<Navigate to="/familj?tab=hamn" replace />} />
         <Route path="/drogfrihet" element={<Navigate to="/familj?tab=drogfrihet" replace />} />
         <Route path="/ekonomi" element={<RedirectToVardagenTab tab="ekonomi" />} />
