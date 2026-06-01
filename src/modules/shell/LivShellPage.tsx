@@ -2,10 +2,10 @@ import { Navigate } from 'react-router-dom';
 import { TabBar } from '../core/ui/TabBar';
 import { HubPageShell } from '../core/layout/HubPageShell';
 import { useHubTab } from '../core/navigation/hooks/useHubTab';
-import { VardagenPage } from '../wellbeing/compasses';
-import { MabraPage } from '../wellbeing/mabra';
-import { PlaneringPage } from '../admin/planning';
-import { ArbetslivHubPage } from '../arbetsliv';
+import { VardagenPage } from '@/features/dailyLife/wellbeing/compasses';
+import { MabraPage } from '@/features/dailyLife/wellbeing/mabra';
+import { PlaneringPage } from '@/features/admin/planning';
+import { ArbetslivHubPage } from '@/features/dailyLife/arbetsliv';
 
 export function LivShellPage() {
   const { tabs, activeTab, setTab, legacyRedirect } = useHubTab('liv', {

@@ -1,32 +1,42 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { MainLayout } from '../layout/MainLayout';
-import { WidgetRoutes } from '../../widgets/routing/WidgetRoutes';
+import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
 import { AuthGate } from '../auth/AuthGate';
 import { HomePage } from '../pages/HomePage';
 import { ThemePreviewPage } from '../pages/ThemePreviewPage';
 import { ThemeLabPage } from '../pages/ThemeLabPage';
 import { HubLabPage } from '../pages/HubLabPage';
-import { HjartatPage } from '../../diary/diary';
-import { DossierPage } from '../../evidence/vault/dossier';
+import { HjartatPage } from '@/features/lifeJournal/diary/diary';
+import { DossierPage } from '@/features/lifeJournal/evidence/vault/dossier';
 import {
   ProjektDetailPage,
   ProjektHubPage,
   ProjektMaterialPackPage,
   ProjektNyPage,
   ProjektReglerPage,
-} from '../../admin/projects';
-import { BarnportenPage } from '../../barnporten';
+} from '@/features/admin/projects';
+import { BarnportenPage } from '@/features/onboarding/barnporten';
 import { InstallningarPage } from '../pages/InstallningarPage';
-import { KompisHubPage } from '../../evidence/kompis';
-import { LivShellPage, FamiljShellPage } from '../../shell';
-import { ArbetslivHubPage } from '../../arbetsliv';
-import type { VardagenTab } from '../../wellbeing/compasses';
+import { KompisHubPage } from '@/features/lifeJournal/evidence/kompis';
+import { LivShellPage, FamiljShellPage } from '@/modules/shell';
+import { ArbetslivHubPage } from '@/features/dailyLife/arbetsliv';
+import type { VardagenTab } from '@/features/dailyLife/wellbeing/compasses';
+import {
+  NAVIGATION_STRUCTURE,
+  clusterPath,
+  clusterTabNavigateTarget,
+  registryTabSearch,
+  type LifeJournalTabKey,
+} from '../navigation/navigationRegistry';
 
-function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
+const LIFE_JOURNAL = NAVIGATION_STRUCTURE.lifeJournal;
+
+function RedirectToLifeJournalTab({ tabKey }: { tabKey: LifeJournalTabKey }) {
   const location = useLocation();
+  const target = clusterTabNavigateTarget('lifeJournal', tabKey);
   return (
     <Navigate
-      to={{ pathname: '/dagbok', search: `?tab=${tab}` }}
+      to={{ pathname: target.pathname, search: target.search }}
       state={location.state}
       replace
     />
@@ -63,7 +73,7 @@ function MainAppRoutes() {
           }
         />
         <Route path="/kompasser" element={<RedirectToVardagenTab tab="kompasser" />} />
-        <Route path="/valv" element={<RedirectToHjartatTab tab="bevis" />} />
+        <Route path="/valv" element={<RedirectToLifeJournalTab tabKey="evidence" />} />
         <Route path="/liv" element={<AuthGate><LivShellPage /></AuthGate>} />
         <Route path="/liv/arbetsliv" element={<Navigate to="/arbetsliv" replace />} />
         <Route
@@ -89,15 +99,26 @@ function MainAppRoutes() {
         <Route path="/drogfrihet" element={<Navigate to="/familj?tab=drogfrihet" replace />} />
         <Route path="/ekonomi" element={<RedirectToVardagenTab tab="ekonomi" />} />
         <Route
-          path="/dagbok"
+          path={LIFE_JOURNAL.path}
           element={
             <AuthGate>
               <HjartatPage />
             </AuthGate>
           }
         />
-        <Route path="/kunskap" element={<Navigate to="/dagbok?tab=bevis&vaultTab=kunskapsbank" replace />} />
-        <Route path="/speglar" element={<RedirectToHjartatTab tab="speglar" />} />
+        <Route
+          path="/kunskap"
+          element={
+            <Navigate
+              to={{
+                pathname: clusterPath('lifeJournal'),
+                search: `${registryTabSearch(LIFE_JOURNAL.tabs.evidence.path)}&vaultTab=kunskapsbank`,
+              }}
+              replace
+            />
+          }
+        />
+        <Route path="/speglar" element={<RedirectToLifeJournalTab tabKey="mirrors" />} />
         <Route
           path="/dossier"
           element={

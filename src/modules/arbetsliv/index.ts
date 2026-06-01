@@ -1,1 +1,2 @@
-export { ArbetslivHubPage, type ArbetslivTab } from './components/ArbetslivHubPage';
+/** @deprecated Import from `@/features/dailyLife/arbetsliv` */
+export * from '../features/dailyLife/arbetsliv';

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useStore } from '../store';
-import { BentoCard } from '../ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { Lock } from 'lucide-react';
 
 export function AuthGate({ children }: { children: ReactNode }) {

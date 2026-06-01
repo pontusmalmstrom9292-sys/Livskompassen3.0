@@ -1,20 +1,21 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
+import { clusterPath, clusterTabNavigateTarget } from '../core/navigation/navigationRegistry';
 import { TabBar } from '../core/ui/TabBar';
 import { HubPageShell } from '../core/layout/HubPageShell';
 import { useHubTab } from '../core/navigation/hooks/useHubTab';
-import { useFamiljenShell } from '../family/children/hooks/useFamiljenShell';
-import { FamiljenChildPicker } from '../family/children/components/familjen/FamiljenChildPicker';
-import { FamiljenReflektionTab } from '../family/children/components/familjen/FamiljenReflektionTab';
-import { FamiljenLivsloggTab } from '../family/children/components/familjen/FamiljenLivsloggTab';
-import { FamiljenTillsammansTab } from '../family/children/components/familjen/FamiljenTillsammansTab';
-import { ParentReminderFooter } from '../family/children/components/ParentReminderFooter';
-import { BarnportenInboxPanel } from '../barnporten/components/BarnportenInboxPanel';
-import { BarnportenOrkesterPanel } from '../barnporten/components/BarnportenOrkesterPanel';
-import { SafeHarborPage } from '../family/safeHarbor';
-import { DrogfrihetHubPage } from '../drogfrihet';
+import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
+import { FamiljenChildPicker } from '@/features/family/children/components/familjen/FamiljenChildPicker';
+import { FamiljenReflektionTab } from '@/features/family/children/components/familjen/FamiljenReflektionTab';
+import { FamiljenLivsloggTab } from '@/features/family/children/components/familjen/FamiljenLivsloggTab';
+import { FamiljenTillsammansTab } from '@/features/family/children/components/familjen/FamiljenTillsammansTab';
+import { ParentReminderFooter } from '@/features/family/children/components/ParentReminderFooter';
+import { BarnportenInboxPanel } from '@/features/onboarding/barnporten/components/BarnportenInboxPanel';
+import { BarnportenOrkesterPanel } from '@/features/onboarding/barnporten/components/BarnportenOrkesterPanel';
+import { SafeHarborPage } from '@/features/family/safeHarbor';
+import { DrogfrihetHubPage } from '@/features/dailyLife/drogfrihet';
 import { MaterialPackShortcuts, useLifeHubPreset } from '../core/lifeOs';
 import { vaultDrawerPath } from '../core/navigation/navTruth';
-import type { FamiljenTabId } from '../family/children/constants/familjenTabs';
+import type { FamiljenTabId } from '@/features/family/children/constants/familjenTabs';
 
 function vaultRedirectSearch(vaultTab: string): string {
   const vaultPath = vaultDrawerPath(vaultTab);
@@ -25,12 +26,17 @@ function vaultRedirectSearch(vaultTab: string): string {
 type FamiljShellTab = FamiljenTabId | 'hamn' | 'drogfrihet';
 
 export function FamiljShellPage() {
-  const { tabs, activeTab, setTab, legacyRedirect } = useHubTab('familj', {
+  const { pathname } = useLocation();
+  const familyHubId = pathname.startsWith(clusterPath('family')) ? 'familjen' : 'familj';
+  const familyHome = clusterTabNavigateTarget('family', 'reflektion');
+
+  const { tabs, activeTab, setTab, legacyRedirect } = useHubTab(familyHubId, {
     defaultTab: 'reflektion',
     legacyTabRedirects: {
       kunskap: { pathname: '/dagbok', search: '?tab=bevis&vaultTab=kunskapsbank' },
       monster: { pathname: '/dagbok', search: vaultRedirectSearch('familjen_monster') },
-      familjen: { pathname: '/familj', search: '?tab=reflektion' },
+      familj: familyHome,
+      familjen: familyHome,
     },
   });
   const shell = useFamiljenShell();

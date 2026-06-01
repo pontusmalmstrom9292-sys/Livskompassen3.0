@@ -28,22 +28,26 @@ function mustInclude(relPath, ...needles) {
 
 function main() {
   mustInclude('src/modules/core/home/HomeActionHub.tsx', 'KompassradPanel');
-  mustInclude('src/modules/family/safeHarbor/components/SafeHarborPage.tsx', 'TryggHamnHub');
-  mustInclude('src/modules/family/safeHarbor/components/BiffPublicPanel.tsx', 'BiffTriagePanel');
-  mustInclude('src/modules/family/safeHarbor/components/TryggHamnHub.tsx', 'BiffPublicPanel', 'Brusfilter');
-  mustInclude('src/modules/drogfrihet/components/DrogfrihetHubPage.tsx', 'DROGFRIHET_CARDS', 'Akut: 113');
-  mustInclude('src/modules/core/home/HomeHeroCompass.tsx', 'HomeHeroKanon');
-  mustInclude('src/modules/diary/mirror/components/SpeglingsSystem.tsx', 'VivirQuickEntry', 'SvartPaVittForm');
+  mustInclude('src/modules/features/family/safeHarbor/components/SafeHarborPage.tsx', 'TryggHamnHub');
+  mustInclude('src/modules/features/family/safeHarbor/components/BiffPublicPanel.tsx', 'BiffTriagePanel');
+  mustInclude('src/modules/features/family/safeHarbor/components/TryggHamnHub.tsx', 'BiffPublicPanel', 'Brusfilter');
   mustInclude(
-    'src/modules/family/children/components/familjen/FamiljenReflektionTab.tsx',
+    'src/modules/features/dailyLife/drogfrihet/components/DrogfrihetHubPage.tsx',
+    'DROGFRIHET_CARDS',
+    'Akut: 113',
+  );
+  mustInclude('src/modules/core/home/HomeHeroCompass.tsx', 'HomeHeroKanon');
+  mustInclude('src/modules/features/lifeJournal/diary/mirror/components/SpeglingsSystem.tsx', 'VivirQuickEntry', 'SvartPaVittForm');
+  mustInclude(
+    'src/modules/features/family/children/components/familjen/FamiljenReflektionTab.tsx',
     'ChildProfileCards',
     'PositivaMinnesankare',
     'BarnfokusFraganPanel',
   );
-  mustInclude('src/modules/family/children/components/FamiljenPage.tsx', 'ParentReminderFooter');
-  mustInclude('src/modules/family/children/components/BarnensPage.tsx', 'ChildProfileCards', 'ParentReminderFooter');
+  mustInclude('src/modules/features/family/children/components/FamiljenPage.tsx', 'ParentReminderFooter');
+  mustInclude('src/modules/features/family/children/components/BarnensPage.tsx', 'ChildProfileCards', 'ParentReminderFooter');
   mustInclude(
-    'src/modules/evidence/vault/components/VaultPage.tsx',
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx',
     'getVaultZoneTabBarItems',
     'getSamlaVaultTabBarItems',
     'getAnalyseraVaultTabBarItems',
@@ -53,18 +57,18 @@ function main() {
   );
   mustInclude('src/modules/core/copy/valvNavCopy.ts', "logga: 'Arkiv'", "sok: 'Granska inkommande'");
   mustInclude('src/modules/core/navigation/tabRegistry.ts', 'VAULT_MAIN_TAB_LABELS', 'getNavChildren');
-  mustInclude('src/modules/evidence/vault/components/VaultOrkesterPanel.tsx', 'OrkesterAgentTrio', 'Registrerade dokument');
-  mustInclude('src/modules/evidence/vault/components/VaultLogList.tsx', 'SERVER-TIDSSTÄMPEL', 'scanTechniquesForLog');
-  mustInclude('src/modules/wellbeing/mabra/components/VitHubPreview.tsx', 'KbtTransformatorPanel');
+  mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx', 'OrkesterAgentTrio', 'Registrerade dokument');
+  mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx', 'SERVER-TIDSSTÄMPEL', 'scanTechniquesForLog');
+  mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/VitHubPreview.tsx', 'KbtTransformatorPanel');
   mustInclude('functions/src/index.ts', "mode === 'transformator'");
   mustInclude('functions/src/sharedRules.ts', 'KBT_TRANSFORMATOR_SYSTEM_PROMPT');
   mustInclude('.context/design-modules-mockup.md', 'D29', 'D3');
   mustInclude('src/modules/shell/LivShellPage.tsx', 'PlaneringPage', '/liv');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', '/planering', '/liv?tab=handling');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/projekt/ny"', 'path="/projekt/regler"');
-  mustInclude('src/modules/admin/planning/components/PlaneringHub.tsx', 'ProjektPickerSheet');
+  mustInclude('src/modules/features/admin/planning/components/PlaneringHub.tsx', 'ProjektPickerSheet');
   mustInclude('src/modules/core/firebase/storage.ts', 'uploadProjectImage');
-  mustInclude('src/modules/admin/planning/components/PlaneringPage.tsx', 'PlanningKanbanBoard', 'PLANERING_TAGLINE');
+  mustInclude('src/modules/features/admin/planning/components/PlaneringPage.tsx', 'PlanningKanbanBoard', 'PLANERING_TAGLINE');
   mustInclude('firestore.rules', 'planning_tasks');
   mustInclude('firestore.rules', 'match /project_rules/{docId}');
   mustInclude('firestore.rules', 'match /routine_templates/{docId}');
@@ -79,12 +83,12 @@ function main() {
     ".glass-header-bar--kanon[data-panel-style='ember']",
   );
   mustInclude(
-    'src/modules/wellbeing/compasses/components/CompassModuleStrip.tsx',
+    'src/modules/features/dailyLife/wellbeing/compasses/components/CompassModuleStrip.tsx',
     'CompassQuickWidgetRail',
     'compass-module-block',
   );
   mustInclude(
-    'src/modules/wellbeing/compasses/config/compassWidgetCatalog.ts',
+    'src/modules/features/dailyLife/wellbeing/compasses/config/compassWidgetCatalog.ts',
     'COMPASS_WIDGET_CATALOG',
     'morning',
     'evening',

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Loader2, Wallet } from 'lucide-react';
-import { BentoCard } from '../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar, type TabBarItem } from '../../core/ui/TabBar';
 import { EmptyState } from '../../core/ui/EmptyState';
 import { TimelineEntry } from '../../core/ui/TimelineEntry';
@@ -12,7 +12,8 @@ import {
   getRecentTimeEntries,
 } from '../../core/firebase/timeEconomyFirestore';
 import type { TimeEntryRow } from '../../core/types/firestore';
-import { DEFAULT_HELDAG, formatDateLocal } from '../../core/utils/timeMath';
+import { formatDateLocal } from '@/shared/utils/dateHelpers';
+import { DEFAULT_HELDAG } from '../../core/utils/timeMath';
 
 type VaultEcoTab = 'franvaro' | 'historik';
 

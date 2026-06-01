@@ -1,8 +1,8 @@
 import {
   COMPASS_FLOW_TIME_ICON,
   COMPASS_TIME_ICON_SRC,
-} from '../../wellbeing/compasses/config/compassTimeIcons';
-import type { CompassFlow } from '../../wellbeing/compasses/utils/compassTime';
+} from '@/features/dailyLife/wellbeing/compasses/config/compassTimeIcons';
+import type { CompassFlow } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 
 type Props = {
   activeFlow: CompassFlow;

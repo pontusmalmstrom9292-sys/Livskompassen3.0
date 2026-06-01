@@ -25,13 +25,14 @@ import type {
 import {
   computeHoursWorkedOnClockOut,
   computeWeekFlexDetail,
-} from '../../wellbeing/economy/rules/payTimeRules';
+} from '@/features/dailyLife/wellbeing/economy/rules/payTimeRules';
 import {
   computePeriodEconomySummary,
   type PeriodEconomySummary,
-} from '../../wellbeing/economy/rules/periodSummary';
-import { getPayslipPeriodForPayday } from '../../wellbeing/economy/rules/generatePayslipCore';
-import type { TimeEntryLike, WeekFlexDetail } from '../../wellbeing/economy/rules/payTimeRules';
+} from '@/features/dailyLife/wellbeing/economy/rules/periodSummary';
+import { getPayslipPeriodForPayday } from '@/features/dailyLife/wellbeing/economy/rules/generatePayslipCore';
+import type { TimeEntryLike, WeekFlexDetail } from '@/features/dailyLife/wellbeing/economy/rules/payTimeRules';
+import { formatDateLocal } from '@/shared/utils/dateHelpers';
 import {
   buildCategoryName,
   categoryBase,
@@ -40,7 +41,6 @@ import {
   DEFAULT_SCOPE_PERCENT,
   eachDateInclusive,
   emptyWeekCalendar,
-  formatDateLocal,
   formatTimeLocal,
   getMonday,
   getWeekNumber,

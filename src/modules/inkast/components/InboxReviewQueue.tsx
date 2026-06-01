@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Inbox } from 'lucide-react';
-import { BentoCard } from '../../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '../../core/store';
 import {
   confirmInbox,
   dismissInbox,
   fetchInboxQueue,
   type InboxQueueItem,
-} from '../../evidence/kompis/api/inboxService';
+} from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 
 const ROUTING_LABELS: Record<string, string> = {
   kunskap: 'Kunskap',

@@ -7,7 +7,7 @@ import {
   FORENSIC_VAULT_TAB_IDS,
   forensicVaultTabLabel,
   MAIN_VAULT_TAB_IDS,
-} from '../../evidence/vault/utils/vaultTabs';
+} from '@/features/lifeJournal/evidence/vault/utils/vaultTabs';
 import {
   DAGBOK_BEVIS_DRAWER_LABEL,
   VALV_DRAWER_HINTS,

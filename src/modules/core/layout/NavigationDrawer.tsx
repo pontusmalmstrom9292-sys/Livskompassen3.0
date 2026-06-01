@@ -9,7 +9,7 @@ import { useStore } from '../store';
 import { LivskompassMark } from '../ui/LivskompassMark';
 import { DrawerModeToggle } from './DrawerModeToggle';
 import { DrawerHubAccordion, isDrawerItemActive } from './DrawerHubAccordion';
-import { useWeaverPendingCount } from '../../diary/diary/hooks/useWeaverPendingCount';
+import { useWeaverPendingCount } from '@/features/lifeJournal/diary/diary/hooks/useWeaverPendingCount';
 
 type Props = {
   open: boolean;

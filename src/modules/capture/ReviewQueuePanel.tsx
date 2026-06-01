@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Inbox } from 'lucide-react';
-import { BentoCard } from '../core/ui/BentoCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { ROUTING_LABELS } from '../inkast/api/inkastService';
 import { VALV_SAMLA_GRANSKA_LINK } from '../inkast/api/inkastService';
 import { listDraftsByStatus, type CaptureDraft } from './draftQueue';

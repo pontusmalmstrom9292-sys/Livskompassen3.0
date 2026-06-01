@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { Check, Loader2, RefreshCw, Sparkles } from 'lucide-react';
 import { useStore } from '../../store';
 import { getKampsparEntries } from '../../firebase/firestore';
-import { callKnowledgeVault } from '../../../evidence/kompis/api/knowledgeVaultService';
-import { ingestKampsparEntry } from '../../../evidence/kompis/api/kampsparService';
+import { callKnowledgeVault } from '@/features/lifeJournal/evidence/kompis/api/knowledgeVaultService';
+import { ingestKampsparEntry } from '@/features/lifeJournal/evidence/kompis/api/kampsparService';
 import {
   detectKnowledgeGap,
   extractQuestion,

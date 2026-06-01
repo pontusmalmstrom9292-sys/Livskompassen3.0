@@ -75,7 +75,7 @@ function main() {
 
   console.log('[smoke:orkester] Dagbok frontend weave...');
   mustInclude(
-    'src/modules/diary/diary/hooks/useJournalFlow.ts',
+    'src/modules/features/lifeJournal/diary/diary/hooks/useJournalFlow.ts',
     'weaveJournalEntry',
     'journalWovenToKampspar',
     "hasVaultGate()",
@@ -90,7 +90,7 @@ function main() {
   mustInclude('functions/src/lib/weaverPending.ts', 'weaver_pending', 'approveWeaverPending');
   mustInclude('firestore.rules', 'weaver_pending');
   mustInclude(
-    'src/modules/diary/diary/components/WeaverApprovalPanel.tsx',
+    'src/modules/features/lifeJournal/diary/diary/components/WeaverApprovalPanel.tsx',
     'approveWeaverMetadata',
     'VAVAREN_APPROVAL_APPROVE_BUTTON',
   );
@@ -105,13 +105,13 @@ function main() {
   mustInclude('docs/design/VALV-HUBB-SPEC.md', 'Samla', 'Analysera', 'Exportera');
   mustInclude('src/modules/core/triggers/valvHandoff.ts', 'shouldShowValvHandoff');
   mustInclude(
-    'src/modules/family/children/components/FamiljenPage.tsx',
+    'src/modules/features/family/children/components/FamiljenPage.tsx',
     'vaultDrawerPath',
     'familjen_monster',
     'kunskapsbank',
   );
   mustInclude(
-    'src/modules/diary/diary/components/DagbokPage.tsx',
+    'src/modules/features/lifeJournal/diary/diary/components/DagbokPage.tsx',
     'hasVaultGate',
     'vaultSessionOpen',
   );
@@ -123,9 +123,9 @@ function main() {
     'askDagbokSnabbCoach',
   );
   mustInclude('functions/src/sharedRules.ts', 'DAGBOK_SNABB_COACHEN_SYSTEM_PROMPT');
-  mustInclude('src/modules/diary/diary/api/journalQuickMirrorService.ts', 'journalQuickMirror');
+  mustInclude('src/modules/features/lifeJournal/diary/diary/api/journalQuickMirrorService.ts', 'journalQuickMirror');
   mustInclude(
-    'src/modules/family/safeHarbor/components/TryggHamnHub.tsx',
+    'src/modules/features/family/safeHarbor/components/TryggHamnHub.tsx',
     'BiffPublicPanel',
     'vaultDrawerPath',
     'hamn_analys',
@@ -133,13 +133,13 @@ function main() {
 
   console.log('[smoke:orkester] Arbetsliv hub...');
   mustInclude(
-    'src/modules/admin/stampla/components/StampClockPage.tsx',
+    'src/modules/features/admin/stampla/components/StampClockPage.tsx',
     'recordTimeIn',
     'recordTimeOut',
   );
   mustInclude('src/modules/core/firebase/timeEconomyFirestore.ts', 'time_entries');
   mustInclude(
-    'src/modules/arbetsliv/components/ArbetslivHubPage.tsx',
+    'src/modules/features/dailyLife/arbetsliv/components/ArbetslivHubPage.tsx',
     'vaultDrawerPath',
     'arbetsliv_franvaro',
     'arbetsliv_lon',
@@ -166,11 +166,11 @@ function main() {
 
   console.log('[smoke:orkester] Orkester UI registry...');
   mustInclude(
-    'src/modules/evidence/vault/components/VaultOrkesterPanel.tsx',
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx',
     'VaultOrkesterPanel',
     'OrkesterAgentTrio',
   );
-  mustInclude('src/modules/evidence/vault/components/VaultPage.tsx', "'orkester'", 'VaultOrkesterPanel');
+  mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx', "'orkester'", 'VaultOrkesterPanel');
 
   console.log('[smoke:orkester] Specialist agents + conductor...');
   for (const agent of [

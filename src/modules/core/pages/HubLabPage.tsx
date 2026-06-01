@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { PlaneringHubBody } from '../../admin/planning/components/PlaneringHubBody';
-import { PlaneringHubLayoutPicker } from '../../admin/planning/components/PlaneringHubLayoutPicker';
+import { PlaneringHubBody } from '@/features/admin/planning/components/PlaneringHubBody';
+import { PlaneringHubLayoutPicker } from '@/features/admin/planning/components/PlaneringHubLayoutPicker';
 import {
   PLANERING_HUB_LAYOUTS,
   type PlaneringHubLayoutId,
-} from '../../admin/planning/planeringHubLayouts';
-import { usePlaneringHubLayout } from '../../admin/planning/usePlaneringHubLayout';
-import { ALL_PLANERING_HUB_MODULE_IDS } from '../../admin/planning/planeringHubModules';
+} from '@/features/admin/planning/planeringHubLayouts';
+import { usePlaneringHubLayout } from '@/features/admin/planning/usePlaneringHubLayout';
+import { ALL_PLANERING_HUB_MODULE_IDS } from '@/features/admin/planning/planeringHubModules';
 
 export function HubLabPage() {
   const { layoutId, setLayoutId } = usePlaneringHubLayout();

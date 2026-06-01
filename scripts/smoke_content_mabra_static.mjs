@@ -18,8 +18,8 @@ function read(rel) {
 }
 
 function main() {
-  const reflection = read('src/modules/wellbeing/mabra/content/mabraReflectionCards.ts');
-  const plays = read('src/modules/wellbeing/mabra/content/mabraExtendedPlays.ts');
+  const reflection = read('src/modules/features/dailyLife/wellbeing/mabra/content/mabraReflectionCards.ts');
+  const plays = read('src/modules/features/dailyLife/wellbeing/mabra/content/mabraExtendedPlays.ts');
   for (const id of [
     'MB-REF-ADHD-01',
     'MB-REF-ADHD-02',

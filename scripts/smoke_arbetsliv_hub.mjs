@@ -30,7 +30,7 @@ function main() {
   mustInclude('.context/locked-ux-features.md', 'Arbetsliv', '/arbetsliv', 'arbetsliv_forensic');
   mustInclude('docs/evaluations/2026-05-25-arbetsliv-hub.md', '/arbetsliv', 'arbetsliv_forensic');
   mustInclude(
-    'src/modules/arbetsliv/components/ArbetslivHubPage.tsx',
+    'src/modules/features/dailyLife/arbetsliv/components/ArbetslivHubPage.tsx',
     'ArbetslivHubPage',
     'legacyTabRedirects',
     'arbetsliv_franvaro',
@@ -38,7 +38,7 @@ function main() {
     'StampClockPage',
   );
   mustInclude(
-    'src/modules/evidence/vault/components/VaultForensicPanel.tsx',
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultForensicPanel.tsx',
     'VaultEconomyPanel',
     'arbetsliv_franvaro',
     'arbetsliv_lon',
