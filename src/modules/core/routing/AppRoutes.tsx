@@ -75,6 +75,7 @@ function MainAppRoutes() {
         <Route path="/kompasser" element={<RedirectToVardagenTab tab="kompasser" />} />
         <Route path="/valv" element={<RedirectToLifeJournalTab tabKey="evidence" />} />
         <Route path="/liv" element={<AuthGate><LivShellPage /></AuthGate>} />
+        {/* /liv?tab=arbetsliv — LivShellPage; fristående hub: /arbetsliv */}
         <Route path="/liv/arbetsliv" element={<Navigate to="/arbetsliv" replace />} />
         <Route
           path="/liv/arbetsliv/*"
