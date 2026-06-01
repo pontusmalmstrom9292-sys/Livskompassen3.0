@@ -1,3 +1,4 @@
+/** Re-exports and thin formatters — canonical date logic in `dateHelpers`. */
 export {
   TIMEZONE,
   formatDate,
@@ -5,4 +6,3 @@ export {
   formatDisplayDate,
   toISODate,
 } from './dateHelpers';
-export * from './formatters';
