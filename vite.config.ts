@@ -2,16 +2,19 @@ import path from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
+const root = path.resolve(__dirname, './src')
+
+// Mirrors tsconfig.json / tsconfig.app.json `paths` (order: specific before `@`).
+// https://vite.dev/config/shared-options.html#resolve-alias
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: {
-      '@/core': path.resolve(__dirname, './src/modules/core'),
-      '@/shared': path.resolve(__dirname, './src/modules/shared'),
-      '@/features': path.resolve(__dirname, './src/modules/features'),
-      '@/types': path.resolve(__dirname, './src/types'),
-      '@': path.resolve(__dirname, './src'),
-    },
+    alias: [
+      { find: '@/core', replacement: path.join(root, 'modules/core') },
+      { find: '@/shared', replacement: path.join(root, 'modules/shared') },
+      { find: '@/features', replacement: path.join(root, 'modules/features') },
+      { find: '@/types', replacement: path.join(root, 'types') },
+      { find: '@', replacement: root },
+    ],
   },
 })
