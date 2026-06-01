@@ -2,7 +2,6 @@
  * Stämpel- och flexregler portade från PontusArbetsapp (Fas 1).
  * Ren logik — ingen Firestore, ingen UI.
  */
-import { formatDateLocal } from '@/shared/utils/dateHelpers';
 import {
   categoryBase,
   computeHoursWorked,
