@@ -17,7 +17,8 @@ Instruktion: när Cursor eller du stöter på imports som inte uppdateras automa
 
 ## Alias
 
-- `@/shared` → `src/modules/shared` (vite + `tsconfig.app.json` paths), tillagt PHASE 2.
+- `@/*`, `@/core`, `@/shared`, `@/features/*`, `@/types` — `tsconfig.json`, `tsconfig.app.json`, `vite.config.ts` (2026-06-01 path-alias pass).
+- `@/features/*` — mapp `src/modules/features/` finns ännu inte (alias förberedd).
 
 ## Manuella uppföljningar
 
@@ -71,3 +72,24 @@ Notes:
 - `/familjen` renderar `FamiljShellPage` via `NAVIGATION_STRUCTURE.family`; `/familj` och `/barnen` legacy-redirect till registry.
 - `/hamn` och `/drogfrihet` pekar fortfarande på `/familj?tab=…` (hamn/drogfrihet finns i `familj`-hub, inte `familjen`-tabs i navTruth).
 - `smoke:locked-ux` PASS efter ändring.
+
+## PHASE 4 — Path aliases — 2026-06-01T19:11:05Z
+
+Build: OK
+Lint: Not present
+Test: Not present
+
+Bundle warnings:
+
+- `dist/assets/index-DXnJoxmA.js` — **1604 KB** — innehåller (infererat): `firebase`, `react`/`react-dom`/`react-router-dom`, `lucide-react`, `framer-motion`, samt eager hub-routes via `AppRoutes.tsx`.
+  Föreslagen åtgärd: `React.lazy` + route-level `import()` för Vault/Dossier/Projekt/shells; `manualChunks` för vendor-firebase/react.
+- `dist/assets/index-DZW1DBZY.css` — **197 KB** — innehåller: Tailwind + global design CSS.
+  Föreslagen åtgärd: verifiera Tailwind purge/safelist; låg prioritet.
+- `dist/assets/web-DLj5dhoA.js` — **12 KB** — innehåller: Capacitor web bridge.
+  Föreslagen åtgärd: dynamic import av Capacitor endast i native auth-flöde.
+
+Se `PROPOSED_BUNDLE_FIXES.md` för detaljer (inga auto-fixar tillämpade).
+
+Issues:
+
+- (npm) `Unknown env config "devdir"` under npm scripts — miljövarning, build OK.
