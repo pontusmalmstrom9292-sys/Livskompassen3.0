@@ -13,7 +13,7 @@ import {
   getEconomyLedgerEntries,
   setEconomyFixedBill,
 } from '../../../core/firebase/timeEconomyFirestore';
-import { formatDateLocal } from '../../../core/utils/timeMath';
+import { formatDateLocal } from '@/shared/utils/dateHelpers';
 
 type EconomyLogPanelProps = {
   onChanged?: () => void;

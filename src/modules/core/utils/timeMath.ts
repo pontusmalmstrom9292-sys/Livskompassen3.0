@@ -1,15 +1,14 @@
-export const TIMEZONE = 'Europe/Stockholm';
+import {
+  formatDate,
+  formatDateLocal,
+  TIMEZONE,
+} from '@/shared/utils/dateHelpers';
+
+export { formatDate, formatDateLocal, TIMEZONE };
 
 export const DEFAULT_HELDAG = { in: '08:00', out: '16:30' } as const;
 export const DEFAULT_BREAK_MINUTES = 30;
 export const DEFAULT_SCOPE_PERCENT = 100;
-
-const DATE_FMT = new Intl.DateTimeFormat('sv-SE', {
-  timeZone: TIMEZONE,
-  year: 'numeric',
-  month: '2-digit',
-  day: '2-digit',
-});
 
 const TIME_FMT = new Intl.DateTimeFormat('sv-SE', {
   timeZone: TIMEZONE,
@@ -17,14 +16,6 @@ const TIME_FMT = new Intl.DateTimeFormat('sv-SE', {
   minute: '2-digit',
   hour12: false,
 });
-
-export function formatDateLocal(date = new Date()): string {
-  const parts = DATE_FMT.formatToParts(date);
-  const y = parts.find((p) => p.type === 'year')?.value ?? '0000';
-  const m = parts.find((p) => p.type === 'month')?.value ?? '01';
-  const d = parts.find((p) => p.type === 'day')?.value ?? '01';
-  return `${y}-${m}-${d}`;
-}
 
 export function formatTimeLocal(date = new Date()): string {
   const parts = TIME_FMT.formatToParts(date);

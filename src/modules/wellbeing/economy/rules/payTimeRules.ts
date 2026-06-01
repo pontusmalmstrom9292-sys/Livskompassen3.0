@@ -2,10 +2,10 @@
  * Stämpel- och flexregler portade från PontusArbetsapp (Fas 1).
  * Ren logik — ingen Firestore, ingen UI.
  */
+import { formatDateLocal } from '@/shared/utils/dateHelpers';
 import {
   categoryBase,
   computeHoursWorked,
-  formatDateLocal,
   getMonday,
   parseClockOnDate,
   parseDateOnly,
@@ -227,4 +227,4 @@ export function describeWeekForDate(isoDate: string): { weekType: WeekType; flex
   return { weekType, flexTarget: weekType === 'even' ? EVEN_WEEK_TARGET_HOURS : ODD_WEEK_TARGET_HOURS };
 }
 
-export { formatDateLocal };
+export { formatDateLocal } from '@/shared/utils/dateHelpers';

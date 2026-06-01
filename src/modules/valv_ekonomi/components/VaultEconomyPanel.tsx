@@ -12,7 +12,8 @@ import {
   getRecentTimeEntries,
 } from '../../core/firebase/timeEconomyFirestore';
 import type { TimeEntryRow } from '../../core/types/firestore';
-import { DEFAULT_HELDAG, formatDateLocal } from '../../core/utils/timeMath';
+import { formatDateLocal } from '@/shared/utils/dateHelpers';
+import { DEFAULT_HELDAG } from '../../core/utils/timeMath';
 
 type VaultEcoTab = 'franvaro' | 'historik';
 
