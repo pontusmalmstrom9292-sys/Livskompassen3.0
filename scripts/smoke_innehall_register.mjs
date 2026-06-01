@@ -93,7 +93,11 @@ function main() {
     catalogTs.includes('DAGLIG_MIX_BANK_IDS') && catalogTs.includes('DM-PLAY-03'),
     'dagligMixCatalog.ts saknar DAGLIG_MIX_BANK_IDS / full DM-pool',
   );
-  mustInclude('src/modules/drogfrihet/content/drogfrihetCatalog.ts', 'DF-REF-01', 'DROGFRIHET_CARDS');
+  mustInclude(
+    'src/modules/features/dailyLife/drogfrihet/content/drogfrihetCatalog.ts',
+    'DF-REF-01',
+    'DROGFRIHET_CARDS',
+  );
 
   console.log('[smoke:innehall] Cursor rules + grunder U6...');
   mustInclude('.cursor/rules/innehall-register.mdc', 'alwaysApply: true', 'U6');

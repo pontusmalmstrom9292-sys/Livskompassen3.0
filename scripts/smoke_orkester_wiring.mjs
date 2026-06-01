@@ -139,7 +139,7 @@ function main() {
   );
   mustInclude('src/modules/core/firebase/timeEconomyFirestore.ts', 'time_entries');
   mustInclude(
-    'src/modules/arbetsliv/components/ArbetslivHubPage.tsx',
+    'src/modules/features/dailyLife/arbetsliv/components/ArbetslivHubPage.tsx',
     'vaultDrawerPath',
     'arbetsliv_franvaro',
     'arbetsliv_lon',

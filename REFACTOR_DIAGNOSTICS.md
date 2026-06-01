@@ -122,3 +122,20 @@ Se `PROPOSED_BUNDLE_FIXES.md` för detaljer (inga auto-fixar tillämpade).
 Issues:
 
 - (npm) `Unknown env config "devdir"` under npm scripts — miljövarning, build OK.
+
+## PHASE 6 — Finalize shared + features barrels — 2026-06-01
+
+Build (pre): OK — `index-DXnJoxmA.js` **1 643 410 B** (1604.9 KB), CSS **201 680 B**, Capacitor web **12 550 B**.
+
+Changes:
+
+- `shared/ui`: `Input`, `Modal` stubs; barrel exports Button, Card, BentoCard, Input, Modal.
+- `shared/utils/formatters.ts` + barrel; hooks barrel unchanged.
+- Feature `index.ts` barrels expanded; `lifeJournal/diary`, `lifeJournal/evidence`, `dailyLife/wellbeing` added.
+- Removed duplicate trees `features/admin/admin/`, `features/family/family/`.
+- `vite.config.ts` alias array aligned with `tsconfig` paths.
+- READMEs + `PROPOSED_BUNDLE_FIXES.md` (measured chunks, PR-ready patches only).
+
+Lint: Not present · Test: Not present
+
+Smoke (post): `smoke:locked-ux` PASS · `smoke:orkester` PASS (script paths → `features/dailyLife/*`).

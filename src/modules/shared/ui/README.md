@@ -1,9 +1,11 @@
-README: Shared UI components (Button, Card, Input etc.). Flytta globala UI-komponenter hit.
+# shared/ui
 
-Exempel-komponenter att lägga här:
-- Button
-- Card
-- Input
-- Modal
+Small, prop-driven primitives. Export from `index.ts`:
 
-Håll komponenterna små och prop-drivna. Exportera från src/modules/shared/ui/index.ts
+- **Button** — pill variants
+- **Card** — thin wrapper
+- **BentoCard** — Obsidian Calm hub card (canonical)
+- **Input** — form field
+- **Modal** — dialog shell
+
+Import: `import { BentoCard, Modal } from '@/shared/ui'` or `@/shared`.

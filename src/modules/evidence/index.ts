@@ -1,2 +1,2 @@
-/** @deprecated Import from `@/features/lifeJournal/evidence` */
+/** @deprecated Use `@/features/lifeJournal/evidence` or `@/features/lifeJournal` */
 export * from '../features/lifeJournal/evidence';

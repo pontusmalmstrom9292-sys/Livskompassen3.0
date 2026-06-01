@@ -1,60 +1,113 @@
 # Proposed bundle fixes (read-only proposals)
 
-Generated after path-alias PHASE 4 build (`npm run build:web`, 2026-06-01).  
+Generated after **PHASE 6** build (`npm run build:web`, 2026-06-01).  
 **Inga ändringar här är implementerade** — kräver explicit godkännande.
 
-## Summary
+## Summary (measured)
 
-| Chunk | Size (minified) | Over 500 KB? |
-|-------|-----------------|--------------|
-| `dist/assets/index-DXnJoxmA.js` | ~1 604 KB | Yes |
-| `dist/assets/index-DZW1DBZY.css` | ~197 KB | No |
-| `dist/assets/web-DLj5dhoA.js` | ~12 KB | No |
+| Asset | Bytes | Minified | Gzip | Over 500 KB? |
+|-------|------:|---------:|-----:|:------------:|
+| `dist/assets/index-DXnJoxmA.js` | 1 643 410 | **1 604.9 KB** | 448.5 KB | **Yes** |
+| `dist/assets/index-DZW1DBZY.css` | 201 680 | 197.0 KB | 28.4 KB | No |
+| `dist/assets/web-DLj5dhoA.js` | 12 550 | 12.3 KB | 2.8 KB | No |
+| `dist/index.html` | 1 280 | 1.3 KB | 0.6 KB | No |
 
-Vite emits a **single main JS chunk** (no route-level splits today). Top bundled dependency families (inferred from `package.json` + app entry graph):
+Vite emits a **single main JS chunk** (no route-level splits). Dependency families (inferred from `package.json` + entry graph):
 
-1. `firebase` (+ `@tanstack-query-firebase/react`, auth/firestore call sites)
+1. `firebase` (+ `@tanstack-query-firebase/react`)
 2. `react` + `react-dom` + `react-router-dom`
-3. `lucide-react` (icon barrel imports across modules)
-4. `framer-motion` (animations)
+3. `lucide-react`
+4. `framer-motion`
 5. `date-fns`, `clsx`, `tailwind-merge`
-6. `@capacitor/*` (web build still resolves some Capacitor entry points)
+6. `@capacitor/*` (web chunk `web-*.js`)
 
 ---
 
-## Warning 1 — `dist/assets/index-*.js` (~1 604 KB)
+## PR-ready patch A — lazy routes (recommended first)
 
-**Contains (likely):** Firebase SDK, React tree, all hub pages (Valv, Familjen, Liv, Dagbok, …) eagerly imported from `AppRoutes` / `MainLayout`.
+**Goal:** Split ~400–800 KB from main chunk without changing product behavior.
 
-**Proposed actions:**
+```diff
+--- a/src/modules/core/routing/AppRoutes.tsx
++++ b/src/modules/core/routing/AppRoutes.tsx
+@@ -1,6 +1,7 @@
+-import { Routes, Route, Navigate } from 'react-router-dom';
++import { lazy, Suspense } from 'react';
++import { Routes, Route, Navigate } from 'react-router-dom';
+ // …existing imports for light shells only…
 
-- Add `React.lazy` + `Suspense` per heavy route in `src/modules/core/routing/AppRoutes.tsx` (Vault, Dossier, Projekt, Barnporten, shell pages).
-- Split `manualChunks` in `vite.config.ts`: `vendor-firebase`, `vendor-react`, `vendor-ui` to improve caching (does not reduce total bytes, helps repeat visits).
-- Audit `firebase` imports — use modular SDK entry points only (`firebase/auth`, `firebase/firestore`) and avoid `firebase/compat`.
++const VaultPage = lazy(() =>
++  import('@/features/lifeJournal/evidence/vault').then((m) => ({ default: m.VaultPage })),
++);
++const ProjektHubPage = lazy(() =>
++  import('@/features/admin/projects').then((m) => ({ default: m.ProjektHubPage })),
++);
++// Repeat for DossierPage, BarnportenPage, PlaneringPage as needed.
+
+ export function AppRoutes() {
+   return (
++    <Suspense fallback={<div className="p-6 text-text-dim">Laddar…</div>}>
+     <Routes>
+       {/* wrap heavy <Route element={…} /> with lazy components */}
+     </Routes>
++    </Suspense>
+   );
+ }
+```
+
+**Acceptance:** `npm run build:web` → multiple `dist/assets/*.js` chunks; main `index-*.js` &lt; 1 200 KB.
 
 ---
 
-## Warning 2 — CSS bundle `index-*.css` (~197 KB)
+## PR-ready patch B — `manualChunks` (caching, not smaller total)
 
-**Contains:** Tailwind + app design tokens (Obsidian Calm).
+**Goal:** Long-term cache for vendors; repeat visits faster.
 
-**Proposed actions:**
+```diff
+--- a/vite.config.ts
++++ b/vite.config.ts
+@@ export default defineConfig({
+   plugins: [react()],
++  build: {
++    rollupOptions: {
++      output: {
++        manualChunks(id) {
++          if (id.includes('node_modules/firebase')) return 'vendor-firebase';
++          if (id.includes('node_modules/react-dom')) return 'vendor-react';
++          if (id.includes('node_modules/lucide-react')) return 'vendor-icons';
++          if (id.includes('node_modules/framer-motion')) return 'vendor-motion';
++        },
++      },
++    },
++  },
+ });
+```
 
-- Enable Tailwind content purge audit if any safelist bloat exists.
-- Defer non-critical theme CSS on `/dev/*` routes only (low priority).
+**Acceptance:** `dist/assets/vendor-firebase-*.js`, `vendor-react-*.js` present; warning may remain on largest chunk until patch A.
 
 ---
 
-## Warning 3 — Capacitor chunk `web-*.js` (~12 KB)
+## PR-ready patch C — Capacitor tree-shake (web builds)
 
-**Contains:** Capacitor web runtime fragments.
+```diff
+--- a/src/modules/core/auth/nativeGoogleAuth.ts
++++ b/src/modules/core/auth/nativeGoogleAuth.ts
+@@
+-import { … } from '@capacitor/…';
++// dynamic import inside `if (Capacitor.isNativePlatform())` only
+```
 
-**Proposed actions:**
-
-- Dynamic-import Capacitor plugins only inside `src/modules/core/auth/nativeGoogleAuth.ts` (Android path) so web-only builds tree-shake more aggressively.
+**Acceptance:** `web-*.js` shrinks or merges away on pure hosting build.
 
 ---
 
-## Next step (optional tooling)
+## Warning — CSS `index-*.css` (197 KB)
 
-Run `rollup-plugin-visualizer` or `vite-bundle-visualizer` once approved to replace inferred dependency list with exact module treemap.
+- Audit Tailwind `content` globs include `src/modules/features/**`.
+- Defer `/dev/*` theme lab CSS if safelist bloat is found.
+
+---
+
+## Optional tooling
+
+After approval: `npx vite-bundle-visualizer` or `rollup-plugin-visualizer` to replace inferred list with treemap.

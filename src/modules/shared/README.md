@@ -1,5 +1,25 @@
 # shared/
 
-Tvärgående UI/utilities som **inte** hör till en livsområdesmodul. Tom tills ett konkret behov finns (t.ex. delad form-komponent mellan hubbar).
+Cross-cutting UI, hooks, and utils. Prefer **`@/shared`** or **`@/shared/ui`**, **`@/shared/hooks`**, **`@/shared/utils`**.
 
-Nya delade bitar: föredra `core/ui` om det är app-shell; annars placera här med kort rad i denna README.
+## Exports
+
+| Barrel | Contents |
+|--------|----------|
+| `ui/` | `Button`, `Card`, `BentoCard`, `Input`, `Modal` |
+| `hooks/` | `useDebounce`, `useForm` |
+| `utils/` | `dateHelpers`, `formatters` (re-exports) |
+
+## Migration
+
+```tsx
+// Before
+import { BentoCard } from '@/modules/core/ui/BentoCard';
+import { formatDateLocal } from '@/modules/core/utils/timeMath';
+
+// After
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { formatDateLocal } from '@/shared/utils/dateHelpers';
+```
+
+Legacy: `core/ui/BentoCard.tsx` and `core/utils/timeMath.ts` re-export from here until removed.
