@@ -19,13 +19,25 @@ import { BarnportenPage } from '../../barnporten';
 import { InstallningarPage } from '../pages/InstallningarPage';
 import { KompisHubPage } from '../../evidence/kompis';
 import { LivShellPage, FamiljShellPage } from '../../shell';
+import { VardagenPage } from '../../wellbeing/compasses';
 import type { VardagenTab } from '../../wellbeing/compasses';
+import {
+  NAVIGATION_STRUCTURE,
+  clusterPath,
+  clusterTabNavigateTarget,
+  registryTabSearch,
+  type LifeJournalTabKey,
+} from '../navigation/navigationRegistry';
 
-function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
+const LIFE_JOURNAL = NAVIGATION_STRUCTURE.lifeJournal;
+const DAILY_LIFE = NAVIGATION_STRUCTURE.dailyLife;
+
+function RedirectToLifeJournalTab({ tabKey }: { tabKey: LifeJournalTabKey }) {
   const location = useLocation();
+  const target = clusterTabNavigateTarget('lifeJournal', tabKey);
   return (
     <Navigate
-      to={{ pathname: '/dagbok', search: `?tab=${tab}` }}
+      to={{ pathname: target.pathname, search: target.search }}
       state={location.state}
       replace
     />
@@ -33,8 +45,8 @@ function RedirectToHjartatTab({ tab }: { tab: 'bevis' | 'speglar' }) {
 }
 
 function RedirectToVardagenTab({ tab }: { tab: VardagenTab }) {
-  const search = tab === 'kompasser' ? '?tab=kompasser' : `?tab=${tab}`;
-  return <Navigate to={{ pathname: '/liv', search }} replace />;
+  const target = clusterTabNavigateTarget('dailyLife', tab === 'ekonomi' ? 'economy' : 'compasses');
+  return <Navigate to={{ pathname: target.pathname, search: target.search }} replace />;
 }
 
 function MainAppRoutes() {
@@ -50,11 +62,18 @@ function MainAppRoutes() {
           }
         />
         <Route path="/kompasser" element={<RedirectToVardagenTab tab="kompasser" />} />
-        <Route path="/valv" element={<RedirectToHjartatTab tab="bevis" />} />
+        <Route path="/valv" element={<RedirectToLifeJournalTab tabKey="evidence" />} />
         <Route path="/liv" element={<AuthGate><LivShellPage /></AuthGate>} />
         <Route path="/mabra" element={<Navigate to="/liv?tab=mabra" replace />} />
         <Route path="/planering" element={<Navigate to="/liv?tab=handling" replace />} />
-        <Route path="/vardagen" element={<Navigate to="/liv?tab=kompasser" replace />} />
+        <Route
+          path={DAILY_LIFE.path}
+          element={
+            <AuthGate>
+              <VardagenPage />
+            </AuthGate>
+          }
+        />
         <Route path="/arbetsliv" element={<Navigate to="/liv?tab=arbetsliv" replace />} />
         <Route path="/stampla" element={<Navigate to="/liv?tab=arbetsliv" replace />} />
         <Route path="/familj" element={<AuthGate><FamiljShellPage /></AuthGate>} />
@@ -64,15 +83,26 @@ function MainAppRoutes() {
         <Route path="/drogfrihet" element={<Navigate to="/familj?tab=drogfrihet" replace />} />
         <Route path="/ekonomi" element={<RedirectToVardagenTab tab="ekonomi" />} />
         <Route
-          path="/dagbok"
+          path={LIFE_JOURNAL.path}
           element={
             <AuthGate>
               <HjartatPage />
             </AuthGate>
           }
         />
-        <Route path="/kunskap" element={<Navigate to="/dagbok?tab=bevis&vaultTab=kunskapsbank" replace />} />
-        <Route path="/speglar" element={<RedirectToHjartatTab tab="speglar" />} />
+        <Route
+          path="/kunskap"
+          element={
+            <Navigate
+              to={{
+                pathname: clusterPath('lifeJournal'),
+                search: `${registryTabSearch(LIFE_JOURNAL.tabs.evidence.path)}&vaultTab=kunskapsbank`,
+              }}
+              replace
+            />
+          }
+        />
+        <Route path="/speglar" element={<RedirectToLifeJournalTab tabKey="mirrors" />} />
         <Route
           path="/dossier"
           element={

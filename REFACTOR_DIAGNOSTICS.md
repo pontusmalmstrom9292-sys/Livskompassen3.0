@@ -24,4 +24,16 @@ Instruktion: när Cursor eller du stöter på imports som inte uppdateras automa
 - `workTime.ts` re-exporterar `formatDateLocal` via `timeMath` — OK, kedja intakt.
 - Efter **Card**-flytt: kör `npm run smoke:locked-ux` om Valv/Familjen-paneler påverkas visuellt.
 
-Status: formatDate + Card committade; Button/Input/useForm/validateEmail kvar enligt tabell.
+## PHASE 3 — navigationRegistry (2026-06-01)
+
+| Route | Status |
+|-------|--------|
+| **Hjärtat** `/dagbok` | Wired via `NAVIGATION_STRUCTURE.lifeJournal` + `RedirectToLifeJournalTab` (`/valv`, `/speglar`, `/kunskap`). |
+| **Vardagen** `/vardagen` | **Uppdaterad** — renderar `VardagenPage` (tidigare redirect till `/liv`). Registry-tabbar `kompasser`/`ekonomi`. |
+| **Familjen** `/familjen` | Ej än — redirect till `/familj` (nästa commit). |
+
+Build PASS · `smoke:locked-ux` PASS · `smoke:orkester` PASS.
+
+**Dev-test:** `npm run dev` → `/dagbok`, `/vardagen`, `/familjen` (Familjen redirect tills nästa steg).
+
+Status: formatDate + Card + PHASE 3 route 1 (Vardagen) på gren; Familjen route kvar.
