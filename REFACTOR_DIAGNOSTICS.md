@@ -37,3 +37,17 @@ Build PASS · `smoke:locked-ux` PASS · `smoke:orkester` PASS.
 **Dev-test:** `npm run dev` → `/dagbok`, `/vardagen`, `/familjen` (Familjen redirect tills nästa steg).
 
 Status: formatDate + Card + PHASE 3 route 1 (Vardagen) på gren; Familjen route kvar.
+
+## PHASE 3 — navigation registry wire — 2026-06-01T18:57:10Z
+
+Build: OK
+Lint: Not present
+Test: Not present
+
+Issues:
+
+- (build warning) `vite build` => chunk > 500 kB after minification (`dist/assets/index-*.js` ~1.64 MB)
+  Suggested fix: optional code-split via `manualChunks` / dynamic `import()` — not blocking for refactor branch.
+
+- (npm) `Unknown env config "devdir"` during npm scripts
+  Suggested fix: review local/global `.npmrc` for unsupported `devdir` key (environment-only; build still OK).
