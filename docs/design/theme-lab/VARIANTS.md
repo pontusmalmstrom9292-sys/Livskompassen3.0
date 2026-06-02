@@ -1,10 +1,20 @@
 # Theme Lab — variantbeslut
 
-**Uppdaterad:** 2026-05-29 (produktval Planering Fyren)
+**Uppdaterad:** 2026-06-01 (Tema E helapp)
 
 | ID | Label | Status | Test / beslut |
 |----|-------|--------|----------------|
-| `I-stone` | Architect Stone (prod) | **aktiv** | Bas — scenic + guld |
+| `D1-hamn-kompass` | Design Hamn & kompass | **experiment** | **default** — hel chrome |
+| `D2-familjen-kort` | Design Familjen | **experiment** | Radkort + ref-familjen.png |
+| `D3-minnes-timeline` | Design Minnes | **experiment** | Tidslinje + guld CTA |
+| `D4-flat-luxe` | Design flat luxe | **experiment** | Tunn meny |
+| `D5-aurora-glas` | Design aurora | **experiment** | Glas + aurora |
+| `M1-mockup-meny` | Mockup sidomeny | **experiment** | äldre tokens |
+| `M2-mockup-hamn` | Mockup Hem/Hamn | **experiment** | **default 2026-06-01** — kompass på hem |
+| `M3-mockup-familjen` | Mockup Familjen | **experiment** | Varm kortlista |
+| `M4-mockup-kompis` | Mockup Kompis | **experiment** | Aurora glas |
+| `E-skymning-prod` | Nordic Skymning (E) | arkiv | Föregående prod-försök |
+| `I-stone` | Architect Stone | legacy | Lab / manuellt val |
 | `I-stone-draft-photo` | Stone — tydligare foto | utkast | `/dev/theme-lab` → ljusare `--glass` |
 | `I-stone-draft-glow` | Stone — starkare guld glow | utkast | Starkare `--accent-glow`, kanter |
 | `I-stone-draft-twilight` | Stone — skymning | utkast | Kallare `--bg`, mjukare guld, kväll |

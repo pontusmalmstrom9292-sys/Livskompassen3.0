@@ -1,2 +1,2 @@
-export { LivShellPage } from './LivShellPage';
-export { FamiljShellPage } from './FamiljShellPage';
+export { VardagenShellPage } from './VardagenShellPage';
+export { FamiljenShellPage } from './FamiljenShellPage';

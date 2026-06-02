@@ -1,23 +1,32 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
+  getDocs,
   getFirestore,
   initializeFirestore,
+  onSnapshot,
   persistentLocalCache,
   persistentMultipleTabManager,
   query,
   serverTimestamp,
   setDoc,
   Timestamp,
+  updateDoc,
   where,
-  getDocs,
-  onSnapshot,
 } from 'firebase/firestore';
 import { app } from './init';
 import { assertOfflineWriteAllowed } from './offlineWritePolicy';
-import type { CheckIn, VaultLog, KampsparEntryRow, WeaverTags } from '../types/firestore';
+import type {
+  CheckIn,
+  KampsparEntryRow,
+  UserWidget,
+  UserWidgetRow,
+  VaultLog,
+  WeaverTags,
+} from '../types/firestore';
 import { FIRESTORE_COLLECTIONS } from '../types/firestore';
 import {
   normalizeStringArray,
@@ -463,5 +472,76 @@ export async function setEconomyProfile(
       updatedAt: serverTimestamp(),
     },
     { merge: true },
+  );
+}
+
+export async function saveUserWidget(
+  userId: string,
+  widget: Omit<UserWidget, 'userId' | 'ownerId' | 'createdAt'>
+): Promise<string> {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.user_widgets);
+  const ref = collection(db, FIRESTORE_COLLECTIONS.user_widgets);
+  const docRef = await addDoc(
+    ref,
+    withUserId(userId, {
+      type: widget.type,
+      title: widget.title.slice(0, 100),
+      pinnedToHome: widget.pinnedToHome,
+      order: widget.order,
+      config: widget.config,
+    })
+  );
+  return docRef.id;
+}
+
+export async function updateUserWidgetConfig(
+  _userId: string,
+  widgetId: string,
+  config: UserWidget['config']
+): Promise<void> {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.user_widgets);
+  const ref = doc(db, FIRESTORE_COLLECTIONS.user_widgets, widgetId);
+  await updateDoc(ref, {
+    config,
+    updatedAt: serverTimestamp(),
+  });
+}
+
+export async function deleteUserWidget(userId: string, widgetId: string): Promise<void> {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.user_widgets);
+  const ref = doc(db, FIRESTORE_COLLECTIONS.user_widgets, widgetId);
+  const snap = await getDoc(ref);
+  if (!snap.exists() || snap.data().ownerId !== userId) {
+    throw new Error('Modulen hittades inte eller tillhör inte ditt konto.');
+  }
+  await deleteDoc(ref);
+}
+
+export function subscribeUserWidgets(
+  userId: string,
+  onData: (widgets: UserWidgetRow[]) => void
+): () => void {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.user_widgets);
+  const q = query(ref, where('ownerId', '==', userId));
+  return onSnapshot(
+    q,
+    (snap) => {
+      const rows = snap.docs.map((d) => {
+        const data = d.data();
+        return {
+          id: d.id,
+          userId: String(data.userId ?? userId),
+          ownerId: String(data.ownerId ?? userId),
+          type: data.type as UserWidget['type'],
+          title: String(data.title ?? ''),
+          pinnedToHome: Boolean(data.pinnedToHome),
+          order: Number(data.order ?? 0),
+          config: (data.config ?? {}) as UserWidget['config'],
+          createdAt: normalizeCreatedAt(data.createdAt),
+        } as UserWidgetRow;
+      });
+      onData(rows.sort((a, b) => a.order - b.order));
+    },
+    () => onData([])
   );
 }

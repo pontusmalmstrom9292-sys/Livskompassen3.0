@@ -121,6 +121,8 @@ function NavRow({
 
 type Props = {
   section: NavDrawerSection;
+  /** G18 + PIN — synkar drawer med Hjärtat/Valv-session (default false). */
+  vaultSessionOpen?: boolean;
   pathname: string;
   search: string;
   hash: string;
@@ -133,6 +135,7 @@ type Props = {
 
 export function DrawerHubAccordion({
   section,
+  vaultSessionOpen = false,
   pathname,
   search,
   hash,
@@ -141,16 +144,22 @@ export function DrawerHubAccordion({
   onGo,
   badges,
 }: Props) {
-  const roots = useMemo(() => getDrawerRoots(section).map(toDrawerNavItem), [section]);
+  const roots = useMemo(
+    () => getDrawerRoots(section, vaultSessionOpen).map(toDrawerNavItem),
+    [section, vaultSessionOpen],
+  );
 
   const vardagGroups = useMemo(
-    () => (section === 'vardag' ? groupVardagDrawerRoots(getDrawerRoots('vardag')) : []),
-    [section],
+    () =>
+      section === 'vardag'
+        ? groupVardagDrawerRoots(getDrawerRoots('vardag', vaultSessionOpen))
+        : [],
+    [section, vaultSessionOpen],
   );
 
   const renderHub = (hub: DrawerNavItem) => {
-    const children = getDrawerChildren(hub.id, section).map(toDrawerNavItem);
-    const hasChildren = drawerHubHasChildren(hub.id, section);
+    const children = getDrawerChildren(hub.id, section, vaultSessionOpen).map(toDrawerNavItem);
+    const hasChildren = drawerHubHasChildren(hub.id, section, vaultSessionOpen);
     const expanded = expandedIds.has(hub.id);
     const hubActive =
       isDrawerItemActive(hub, pathname, search, hash) ||

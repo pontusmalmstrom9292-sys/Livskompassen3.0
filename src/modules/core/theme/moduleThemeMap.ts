@@ -1,38 +1,38 @@
 import { DEFAULT_THEME_ID } from './themeRegistry';
 
-/**
- * Auto-modul → tema. Längsta prefix vinner.
- * Theme Pack J (xcc2026-05-25): ett tema per hub — se docs/design/themes/J-PACK-EIGHT-HUBS.md
- * Manuellt val i Inställningar överstyr när Auto modul är av.
- */
+/** Helapp — samma designpaket överallt (byter i Theme Lab). */
+const D = DEFAULT_THEME_ID;
+
 export const MODULE_THEME_MAP: { prefix: string; themeId: string }[] = [
-  { prefix: '/widget/inspelning', themeId: 'J-valv-pansar' },
-  { prefix: '/widget/anteckning', themeId: 'J-vardagen-orbit' },
-  { prefix: '/widget/kompass', themeId: 'J-fyren-hem' },
-  { prefix: '/widget/hamn', themeId: 'J-hamn-greyrock' },
-  { prefix: '/widget/familjen', themeId: 'J-familjen-varm' },
-  { prefix: '/widget', themeId: 'J-fyren-hem' },
-  { prefix: '/barnporten', themeId: 'J-barnporten-ljus' },
-  { prefix: '/dagbok', themeId: 'J-valv-pansar' },
-  { prefix: '/valv', themeId: 'J-valv-pansar' },
-  { prefix: '/dossier', themeId: 'J-valv-pansar' },
-  { prefix: '/planering', themeId: 'J-planering-fyren' },
-  { prefix: '/projekt', themeId: 'J-planering-fyren' },
-  { prefix: '/familjen', themeId: 'J-familjen-varm' },
-  { prefix: '/barnen', themeId: 'J-familjen-varm' },
-  { prefix: '/hamn', themeId: 'J-hamn-greyrock' },
-  { prefix: '/speglar', themeId: 'J-hamn-greyrock' },
-  { prefix: '/mabra', themeId: 'J-mabra-lavendel' },
-  { prefix: '/drogfrihet', themeId: 'J-mabra-lavendel' },
-  { prefix: '/liv', themeId: 'J-vardagen-orbit' },
-  { prefix: '/arbetsliv', themeId: 'J-vardagen-orbit' },
-  { prefix: '/stampla', themeId: 'J-vardagen-orbit' },
-  { prefix: '/kompasser', themeId: 'J-vardagen-orbit' },
-  { prefix: '/ekonomi', themeId: 'J-vardagen-orbit' },
-  { prefix: '/kunskap', themeId: 'J-vardagen-orbit' },
-  { prefix: '/vardagen', themeId: 'J-vardagen-orbit' },
-  { prefix: '/installningar', themeId: DEFAULT_THEME_ID },
-  { prefix: '/', themeId: 'J-fyren-hem' },
+  { prefix: '/widget/inspelning', themeId: D },
+  { prefix: '/widget/anteckning', themeId: D },
+  { prefix: '/widget/kompass', themeId: D },
+  { prefix: '/widget/hamn', themeId: D },
+  { prefix: '/widget/familjen', themeId: D },
+  { prefix: '/widget', themeId: D },
+  { prefix: '/barnporten', themeId: D },
+  { prefix: '/dagbok', themeId: D },
+  { prefix: '/valv', themeId: D },
+  { prefix: '/dossier', themeId: D },
+  { prefix: '/planering', themeId: D },
+  { prefix: '/projekt', themeId: D },
+  { prefix: '/familj', themeId: D },
+  { prefix: '/familjen', themeId: D },
+  { prefix: '/barnen', themeId: D },
+  { prefix: '/hamn', themeId: D },
+  { prefix: '/speglar', themeId: D },
+  { prefix: '/mabra', themeId: D },
+  { prefix: '/drogfrihet', themeId: D },
+  { prefix: '/liv', themeId: D },
+  { prefix: '/arbetsliv', themeId: D },
+  { prefix: '/stampla', themeId: D },
+  { prefix: '/kompasser', themeId: D },
+  { prefix: '/ekonomi', themeId: D },
+  { prefix: '/kunskap', themeId: D },
+  { prefix: '/vardagen', themeId: D },
+  { prefix: '/kompis', themeId: D },
+  { prefix: '/installningar', themeId: D },
+  { prefix: '/', themeId: D },
 ];
 
 const AUTO_KEY = 'livskompassen_theme_auto_module';

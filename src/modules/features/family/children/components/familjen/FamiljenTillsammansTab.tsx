@@ -1,5 +1,6 @@
-import { Anchor, Users } from 'lucide-react';
+import { Anchor, Heart, MessageCircle, Users } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { FamiljenFeatureCard } from './FamiljenFeatureCard';
 import { CHILD_ALIASES } from '../../constants';
 import type { FamiljenShell } from '../../hooks/useFamiljenShell';
 import { barnfokusDisplayText } from '../../utils/logFieldUtils';
@@ -20,7 +21,28 @@ export function FamiljenTillsammansTab({ shell }: Props) {
 
   return (
     <div className="space-y-4">
-      <div className="familjen-anchor-card">
+      <div className="space-y-2">
+        <FamiljenFeatureCard
+          title="Tid tillsammans"
+          description="Kvalitetstid utan skärmar — små ritualer som barnen minns."
+          icon={<Heart className="h-4 w-4" strokeWidth={1.5} />}
+          to="/familj?tab=reflektion"
+        />
+        <FamiljenFeatureCard
+          title="Samtal och lyssnande"
+          description="Trygga samtal där barnen får forma sin egen berättelse."
+          icon={<MessageCircle className="h-4 w-4" strokeWidth={1.5} />}
+          to="/familj?tab=reflektion"
+        />
+        <FamiljenFeatureCard
+          title="Stöd och närvaro"
+          description="Närvaro före råd — du behöver inte fixa allt direkt."
+          icon={<Users className="h-4 w-4" strokeWidth={1.5} />}
+          to="/familj?tab=livslogg"
+        />
+      </div>
+
+      <div className="familjen-anchor-card glass-card">
         <div className="mb-2 flex items-center gap-2">
           <Anchor className="h-4 w-4 text-accent" />
           <p className="text-[10px] uppercase tracking-widest text-accent/90">Dagens ankare</p>

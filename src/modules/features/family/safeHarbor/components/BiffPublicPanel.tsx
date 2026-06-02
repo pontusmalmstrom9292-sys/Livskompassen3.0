@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Loader2, Shield } from 'lucide-react';
+import { Loader2, Shield, AlertTriangle, Sparkles } from 'lucide-react';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { analyzeBiffMessage, extractGreyRockReply, type GransAnalysis } from '../api/biffService';
 import { useStore } from '@/core/store';
@@ -16,7 +16,74 @@ type Props = {
   initialMessage?: string;
 };
 
-/** Publikt Hamn — endast Grey Rock-svar, ingen riskanalys eller bevis. */
+interface JadeViolation {
+  type: 'J' | 'A' | 'D' | 'E';
+  label: string;
+  description: string;
+}
+
+// Lokal realtidsanalys för JADE-mönster (Justify, Argue, Defend, Explain)
+function analyzeJadePatterns(text: string): JadeViolation[] {
+  const lower = text.toLowerCase();
+  const violations: JadeViolation[] = [];
+
+  if (
+    lower.includes('förklara') ||
+    lower.includes('måste förstå') ||
+    lower.includes('vill förtydliga') ||
+    lower.includes('meningen var')
+  ) {
+    violations.push({
+      type: 'J',
+      label: 'Justifiering (Förklaring)',
+      description:
+        'Du försöker få motparten att förstå eller godkänna dina skäl. Detta ger motparten mer "bränsle" att angripa.',
+    });
+  }
+  if (
+    lower.includes('ljuger') ||
+    lower.includes('du gjorde') ||
+    lower.includes('du alltid') ||
+    lower.includes('du aldrig') ||
+    lower.includes('du började')
+  ) {
+    violations.push({
+      type: 'A',
+      label: 'Argumentering (Anklagelse)',
+      description:
+        'Du går i motattack eller påpekar hens fel. Håll fokus helt på saklig logistik, aldrig hens karaktär.',
+    });
+  }
+  if (
+    lower.includes('mitt fel') ||
+    lower.includes('försvarar') ||
+    lower.includes('gjorde det för att') ||
+    lower.includes('inte sant')
+  ) {
+    violations.push({
+      type: 'D',
+      label: 'Försvar (Defensivitet)',
+      description:
+        'Du försvarar ditt beteende. Ett defensivt svar indikerar för en narcissist att anklagelsen har träffat och har makt.',
+    });
+  }
+  if (
+    lower.includes('eftersom') ||
+    lower.includes('därför att') ||
+    lower.includes('orsaken är') ||
+    lower.includes('anledningen var')
+  ) {
+    violations.push({
+      type: 'E',
+      label: 'Explikering (Förtydligande)',
+      description:
+        'Du förklarar bakomliggande detaljer eller motiv. En fientlig motpart är inte intresserad av "varför" — svara bara Ja, Nej eller ge fakta.',
+    });
+  }
+
+  return violations;
+}
+
 export function BiffPublicPanel({ initialMessage = '' }: Props) {
   const [message, setMessage] = useState(initialMessage);
   const [reply, setReply] = useState<string | null>(null);
@@ -25,11 +92,24 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
   const [speglarGuardDismissed, setSpeglarGuardDismissed] = useState(false);
   const [autosorting, setAutosorting] = useState(false);
   const [autosortNote, setAutosortNote] = useState<string | null>(null);
+  const [jadeViolations, setJadeViolations] = useState<JadeViolation[]>([]);
   const fromSpeglar = Boolean(initialMessage.trim());
 
   useEffect(() => {
-    if (initialMessage.trim()) setMessage(initialMessage);
+    if (initialMessage.trim()) {
+      setMessage(initialMessage);
+    }
   }, [initialMessage]);
+
+  // Kör JADE-detektorn i realtid vid ändring
+  useEffect(() => {
+    if (message.trim().length < 8) {
+      setJadeViolations([]);
+      return;
+    }
+    const caught = analyzeJadePatterns(message);
+    setJadeViolations(caught);
+  }, [message]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,7 +136,16 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
     setReply(null);
     setError(null);
     setAutosortNote(null);
+    setJadeViolations([]);
   }, []);
+
+  // "Städa till Grey Rock"-städningen (autokorrigering av ditt svar)
+  const handleCleanToGreyRock = () => {
+    const defaultTemplate =
+      'Jag har tagit emot ditt meddelande. Vi håller oss till gällande schema. Hälsningar.';
+    setMessage(defaultTemplate);
+    setJadeViolations([]);
+  };
 
   const handleAutosortToArkiv = async () => {
     if (!message.trim()) return;
@@ -91,11 +180,40 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
             setMessage(e.target.value);
             setSpeglarGuardDismissed(false);
           }}
-          placeholder="Klistra in sms eller mejl (logistik först, inget JADE)…"
+          placeholder="Klistra in sms eller skriv ditt tänkta svar till motparten (inget JADE)…"
           rows={4}
-          className="input-glass text-sm"
+          className={[
+            'input-glass text-sm resize-none',
+            jadeViolations.length > 0 ? 'border-danger/30 focus:border-danger/50' : '',
+          ].join(' ')}
           disabled={loading}
         />
+
+        {/* —— REALTIME JADE DETECTOR BAR —— */}
+        {jadeViolations.length > 0 && (
+          <div className="rounded-xl border border-danger/20 bg-danger/5 p-3.5 space-y-2">
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-danger">
+              <AlertTriangle className="h-4 w-4 shrink-0" />
+              <span>Varning: Detekterade JADE-mönster</span>
+            </div>
+            <ul className="space-y-1.5 text-xs text-text-muted">
+              {jadeViolations.map((v, i) => (
+                <li key={i} className="leading-relaxed">
+                  <strong className="text-text">{v.label}:</strong> {v.description}
+                </li>
+              ))}
+            </ul>
+            <button
+              type="button"
+              onClick={handleCleanToGreyRock}
+              className="btn-pill--accent text-[11px] px-3 py-1.5 flex items-center gap-1.5"
+            >
+              <Sparkles className="h-3.5 w-3.5" />
+              Städa till Grey Rock-mall
+            </button>
+          </div>
+        )}
+
         {shouldShowValvHandoff(message) && <HandoffBox className="mt-1" />}
         {shouldRedirectMabraCoachToSpeglar(message) && !speglarGuardDismissed && (
           <MabraSpeglarGuardHint
@@ -115,7 +233,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
         <p className="text-xs text-text-dim">
           Tomt fält — klistra in meddelandet. Inget sparas förrän du trycker Klar. Behöver du riskanalys
           eller bevisarkiv?{' '}
-          <Link to={vaultDrawerPath('hamn_analys')} className="text-accent/80 underline">
+          <Link to={vaultDrawerPath('hamn_analys')} className="text-accent/80 underline-offset-2 hover:underline">
             Valv → Hamn · Analys
           </Link>
         </p>

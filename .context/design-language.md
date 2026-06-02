@@ -14,12 +14,14 @@
 | I-glass | Widget peek |
 
 **Runtime:** `src/modules/core/theme/themeRegistry.ts` · **Preview:** `/dev/themes`  
-**Default:** `I-stone` · **Auto per route:** `moduleThemeMap.ts`
+**Default:** `E-skymning-prod` · **Auto per route:** `moduleThemeMap.ts` (hel-E)
 
-## Estetik (I-stone / guld kärna)
+## Estetik (Tema E prod — `E-skymning-prod`)
 
-- Bakgrund: obsidian `#0a0a0a`, guld `#d4af37`
-- Typografi: **Outfit** (rubriker), **Inter** (bröd) — skala: [`TYPE-SCALE.md`](../docs/design/TYPE-SCALE.md) · `HubPageShell`
+- Bakgrund: skog-teal `#0a1614`, skymning `#12151f`, kompass-skiva `#0d3b3b`, guld `#d4af37`
+- Typografi: **Cinzel** (hub-rubriker via `font-display-serif`), **Outfit** (övriga rubriker), **Inter** (bröd)
+- Dock: klassisk triad (`VITE_DOCK_MODE=classic` default) — [`DOCK-KANON.md`](../docs/design/references/DOCK-KANON.md)
+- Skala: [`TYPE-SCALE.md`](../docs/design/TYPE-SCALE.md) · `HubPageShell`
 - Smart widget: `FyrenSmartWidgetBar` — hidden / peek / expanded
 - Progressive disclosure — ett steg i taget
 - **Förbjudet globalt:** indigo/lila text-accent, natur-tapeter

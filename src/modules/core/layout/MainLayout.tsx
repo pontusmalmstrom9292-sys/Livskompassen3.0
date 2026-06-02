@@ -11,6 +11,9 @@ import { AccountAuthMenu } from '../auth/AccountAuthMenu';
 import { NavigationDrawer } from './NavigationDrawer';
 import { FirestoreNetworkChip } from '../components/FirestoreNetworkChip';
 import { useStore } from '../store';
+import { useTheme } from '../theme';
+import { isDesignPackTheme } from '../theme/themePackDesign';
+import { isMockupTheme } from '../theme/mockupTheme';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
@@ -18,6 +21,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   const isScenicHome = location.pathname === '/';
   const user = useStore((s) => s.user);
   const kompisAuraActive = useStore((s) => s.system.kompisAuraActive);
+  const { themeId } = useTheme();
+  const mockupSkin = isMockupTheme(themeId) || isDesignPackTheme(themeId);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   useEffect(() => {
@@ -31,7 +36,12 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   }, [navigate]);
 
   return (
-    <div className="app-shell relative min-h-screen text-text font-sans selection:bg-accent/30">
+    <div
+      className={clsx(
+        'app-shell relative min-h-screen text-text font-sans selection:bg-accent/30',
+        mockupSkin && 'app-shell--mockup-skin',
+      )}
+    >
       <AmbientBackground />
 
       <header className="app-header">

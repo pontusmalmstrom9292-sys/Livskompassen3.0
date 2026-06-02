@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { BarnfokusFraganPanel } from '../BarnfokusFraganPanel';
+import { BarnfokusReglerCard } from './BarnfokusReglerCard';
+import { KanslotempletParentCard } from './KanslotempletParentCard';
 import { PositivaMinnesankare } from '../PositivaMinnesankare';
 import { ChildProfileCards } from '../ChildProfileCards';
 import type { ChildAlias } from '../../constants';
@@ -27,6 +29,7 @@ export function FamiljenReflektionTab({ shell }: Props) {
     barnfokusMemory,
     logs,
     handleSaveBarnfokus,
+    handleSaveObservation,
   } = shell;
 
   return (
@@ -44,6 +47,18 @@ export function FamiljenReflektionTab({ shell }: Props) {
           onSave={handleSaveBarnfokus}
         />
       </div>
+
+      <BarnfokusReglerCard
+        key={`regler-${activeChild}`}
+        childAlias={activeChild}
+        onSaveLog={handleSaveObservation}
+      />
+
+      <KanslotempletParentCard
+        key={`kanslo-${activeChild}`}
+        activeChild={activeChild}
+        userId={shell.user?.uid ?? ''}
+      />
 
       <PositivaMinnesankare logs={logs} childAlias={activeChild as ChildAlias} />
 

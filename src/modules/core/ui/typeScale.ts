@@ -3,9 +3,9 @@
  */
 export const typeScale = {
   eyebrow: 'text-[10px] uppercase tracking-[0.24em] text-text-dim',
-  titleHub: 'font-display text-xl font-light text-accent',
+  titleHub: 'font-display-serif text-xl font-light text-accent',
   leadHub: 'text-sm leading-relaxed text-text-muted',
-  titleSection: 'font-display text-sm font-semibold text-accent',
+  titleSection: 'font-display-serif text-sm font-semibold text-accent',
   body: 'text-sm text-text',
   label: 'text-xs uppercase tracking-widest text-text-dim',
 } as const;

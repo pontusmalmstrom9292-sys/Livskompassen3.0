@@ -1,0 +1,220 @@
+/**
+ * Designpaket D1–D5 — helapp chrome (header, dock, kort, bakgrund, drawer).
+ * Aktiveras via html[data-design-pack] från applyTheme().
+ */
+
+html[data-design-pack] .app-shell {
+  --app-dock-clearance: calc(5.5rem + env(safe-area-inset-bottom, 0px) + 1.25rem);
+}
+
+html[data-design-pack] .app-header__inner {
+  @apply px-3 pt-2;
+}
+
+html[data-design-pack] .glass-header-bar--kanon {
+  display: none;
+}
+
+/* —— Bakgrund med referensfoto —— */
+html[data-design-pack] .ambient-bg.ambient-bg--scenic {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--bg-dusk) 90%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 72%, transparent) 40%,
+      color-mix(in srgb, var(--bg) 50%, transparent) 100%
+    ),
+    var(--design-bg-image, url(/design/home-hero-scenic.png)) center bottom / cover no-repeat;
+}
+
+html[data-design-pack] .ambient-blob {
+  opacity: 0.2;
+}
+
+/* —— Center header —— */
+.design-pack-header {
+  @apply relative flex min-h-[var(--ui-header-height,4.5rem)] w-full items-center justify-between gap-2 px-1;
+}
+
+.design-pack-header__menu {
+  @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-0 bg-transparent;
+}
+
+.design-pack-header__center {
+  @apply pointer-events-none absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5;
+}
+
+.design-pack-header__title {
+  font-family: 'Cinzel', 'Outfit', serif;
+  @apply max-w-[min(72vw,16rem)] truncate text-center text-[13px] font-semibold uppercase tracking-[0.28em] text-accent;
+  text-shadow: 0 1px 16px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.design-pack-header__ornament {
+  @apply flex items-center gap-1.5;
+}
+
+.design-pack-header__ornament span {
+  @apply block h-1.5 w-1.5 rotate-45;
+  background: color-mix(in srgb, var(--accent) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 75%, transparent);
+}
+
+.design-pack-header__ornament span:nth-child(2) {
+  @apply h-2 w-2;
+  background: color-mix(in srgb, var(--accent) 80%, transparent);
+}
+
+.design-pack-header__actions {
+  @apply flex shrink-0 items-center gap-1;
+}
+
+/* —— Dock mockup —— */
+.dock-shell .dock-mockup {
+  @apply pointer-events-auto relative flex w-full max-w-[min(100vw-1rem,22rem)] items-end justify-between gap-1 rounded-2xl border px-3 py-2;
+  border-color: color-mix(in srgb, var(--accent) 25%, transparent);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.5);
+  padding-bottom: max(0.35rem, env(safe-area-inset-bottom, 0px));
+}
+
+.dock-mockup__side {
+  @apply flex min-h-[44px] min-w-[3.25rem] flex-col items-center justify-center gap-0.5 no-underline;
+  color: color-mix(in srgb, var(--accent) 65%, var(--text-muted));
+}
+
+.dock-mockup__side--active {
+  color: var(--accent-light);
+}
+
+.dock-mockup__side-icon {
+  @apply flex h-9 w-9 items-center justify-center rounded-full border text-accent;
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  background: color-mix(in srgb, var(--bg) 75%, transparent);
+}
+
+.dock-mockup__side--active .dock-mockup__side-icon {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.dock-mockup__side-label {
+  @apply text-[9px] font-medium tracking-wide;
+}
+
+.dock-mockup__center-wrap {
+  @apply relative flex flex-col items-center;
+}
+
+.dock-mockup__arc {
+  @apply pointer-events-none absolute -top-3 left-1/2 h-8 w-[4.5rem] -translate-x-1/2 rounded-t-full border border-b-0;
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--accent) 12%, transparent) 0%,
+    transparent 100%
+  );
+}
+
+.dock-mockup__center {
+  @apply relative z-[1] flex flex-col items-center border-0 bg-transparent p-0;
+}
+
+.dock-mockup__plate {
+  @apply flex h-12 w-12 items-center justify-center rounded-full;
+  border: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--surface-2) 95%, transparent),
+    color-mix(in srgb, var(--bg) 90%, transparent)
+  );
+  box-shadow:
+    0 0 20px color-mix(in srgb, var(--accent) 28%, transparent),
+    0 6px 16px rgba(0, 0, 0, 0.45);
+}
+
+.dock-mockup__center--active .dock-mockup__plate {
+  border-color: color-mix(in srgb, var(--accent) 75%, transparent);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--accent) 38%, transparent);
+}
+
+.dock-mockup__mark {
+  @apply h-6 w-6 text-accent;
+}
+
+.dock-mockup__center-label {
+  @apply mt-1 text-[9px] font-medium tracking-widest text-accent;
+}
+
+/* —— UiCard (ersätter glass-card) —— */
+html[data-design-pack] .ui-card {
+  @apply relative block w-full overflow-hidden border text-left no-underline transition-colors;
+  border-radius: var(--ui-card-radius, 1.25rem);
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  background: color-mix(in srgb, var(--glass) 90%, rgba(4, 8, 10, 0.85));
+  backdrop-filter: blur(14px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+
+html[data-design-pack] .ui-card--row,
+html[data-design-pack] a.ui-card,
+html[data-design-pack] button.ui-card {
+  @apply flex items-center gap-3 p-4;
+}
+
+html[data-design-pack] .ui-card__icon {
+  border: 1.5px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+}
+
+html[data-design-pack] a.ui-card--row:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  background: color-mix(in srgb, var(--accent) 6%, var(--glass));
+}
+
+html[data-design-pack] .ui-card--timeline {
+  @apply flex items-center gap-3 rounded-2xl p-3 pl-2;
+}
+
+html[data-design-pack] .hub-page-shell__header h1 {
+  font-family: 'Cinzel', 'Outfit', serif;
+  @apply text-lg font-light tracking-wide text-text;
+}
+
+html[data-design-pack] .hub-page-shell__header .home-page__eyebrow {
+  @apply text-accent/80;
+}
+
+/* D3 — tidslinje-listor */
+html[data-design-pack='D3'] ul.timeline-mockup {
+  @apply relative space-y-0 pl-2;
+}
+
+html[data-design-pack='D3'] ul.timeline-mockup::before {
+  content: '';
+  @apply absolute bottom-4 left-[1.35rem] top-4 w-px;
+  background: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+html[data-design-pack='D3'] .btn-pill--accent,
+html[data-design-pack='D3'] .ui-cta-gold {
+  @apply w-full justify-center rounded-2xl border-0 py-3.5 text-base font-semibold;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--accent) 95%, #fff) 0%,
+    color-mix(in srgb, var(--accent-secondary) 90%, #c9a227) 100%
+  );
+  color: #1a1410;
+  box-shadow: 0 4px 20px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+/* Drawer — flat guld rader */
+html[data-design-pack] .nav-drawer--design-flat .nav-drawer__row {
+  @apply min-h-[52px] rounded-none border-b px-4;
+  border-color: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+html[data-design-pack] .nav-drawer--design-flat .nav-drawer__row-icon {
+  @apply h-11 w-11;
+}

@@ -18,7 +18,8 @@ export function useHjartatHub() {
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const vaultSessionOpen = vaultGateOpen || isVaultUnlocked;
 
-  const visibleTabIds = useMemo(() => new Set(getVisibleHjartatTabIds()), []);
+  // Lyssna reaktivt på sessionens status så att flikarna döljs/visas direkt
+  const visibleTabIds = useMemo(() => new Set(getVisibleHjartatTabIds(vaultSessionOpen)), [vaultSessionOpen]);
 
   const baseTabs = useMemo(
     () => getHubTabsFromNav('dagbok').filter((t) => visibleTabIds.has(t.id as HjartatTab)),

@@ -1,5 +1,8 @@
 import type { ThemePack } from './types';
 import { THEME_SHARED_VARS } from './themeShared';
+import { THEME_PACK_DESIGN } from './themePackDesign';
+import { THEME_PACK_E_PROD } from './themePackE';
+import { THEME_PACK_MOCKUP } from './themePackMockup';
 import { THEME_PACK_K } from './themePackK';
 
 const shared = THEME_SHARED_VARS;
@@ -8,6 +11,9 @@ export { THEME_SHARED_VARS } from './themeShared';
 
 /** Canonical theme packs — add new cool themes here only. */
 export const THEME_REGISTRY: ThemePack[] = [
+  ...THEME_PACK_DESIGN,
+  ...THEME_PACK_MOCKUP,
+  THEME_PACK_E_PROD,
   {
     id: 'I-stone',
     label: 'Architect Stone',
@@ -363,7 +369,7 @@ export const THEME_REGISTRY: ThemePack[] = [
   ...THEME_PACK_K,
 ];
 
-export const DEFAULT_THEME_ID = 'I-stone';
+export const DEFAULT_THEME_ID = 'D1-hamn-kompass';
 
 /** Theme Pack J — hub auto-mapping (when Auto modul themes is on). */
 export const J_PACK_THEME_IDS = [

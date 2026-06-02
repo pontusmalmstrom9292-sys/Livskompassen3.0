@@ -3,7 +3,12 @@ export type ThemeBackground =
   | 'texture-stone'
   | 'texture-marble'
   | 'aurora'
-  | 'nautical';
+  | 'nautical'
+  | 'mockup-scenic'
+  | 'mockup-warm'
+  | 'mockup-aurora';
+
+import type { DesignPackId } from '../design/designPackMeta';
 
 export type ThemePack = {
   id: string;
@@ -12,6 +17,8 @@ export type ThemePack = {
   background: ThemeBackground;
   cssVars: Record<string, string>;
   preview?: string;
+  /** Helapp chrome — header, dock, kort, drawer (Theme Lab designpaket). */
+  designPackId?: DesignPackId;
 };
 
 export type ThemeMode = 'auto' | 'manual';

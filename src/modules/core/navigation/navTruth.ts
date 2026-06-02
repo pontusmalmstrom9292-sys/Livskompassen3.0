@@ -1,7 +1,3 @@
-/**
- * Single source for hub labels, paths, drawer sections, and chrome flags.
- * Drawer-ikoner: `drawerNav.ts` (v4 chrome `createChromeV4Icon` + Lucide där glyph saknas).
- */
 import { HIDE_BEVIS_TAB } from './navFlags';
 import {
   FORENSIC_VAULT_TAB_IDS,
@@ -25,21 +21,15 @@ export type NavTruthEntry = {
   section: NavDrawerSection;
   inDrawer: boolean;
   requiresVaultPin?: boolean;
-  /** Sub-rad under hub eller Valv-grupp */
   parentId?: string;
-  /** Valv: expanderbar grupp utan egen navigation */
   isGroupHeader?: boolean;
-  /** Kort hjälptext under grupp-rubrik i Valv-drawer */
   drawerHint?: string;
-  /** Dölj i drawer när G18 döljer publik Bevis-flik */
   omitWhenHideBevis?: boolean;
   inDock?: boolean;
   fyrenHomeQuick?: boolean;
-  /** Theme Pack J id when auto-module theme is on */
   themeId?: string;
 };
 
-/** Deep-link till Valv-baksida (PIN i VaultPage). */
 export function vaultDrawerPath(vaultTab: string): string {
   return `/dagbok?tab=bevis&vaultTab=${vaultTab}`;
 }
@@ -68,112 +58,112 @@ function valvLeaf(
 }
 
 export const NAV_TRUTH: NavTruthEntry[] = [
-  // —— Vardag —— (4 drawer-rader: Hem · Liv · Familj · Inställningar)
+  // —— Vardag ——
   { id: 'hem', label: 'Hem — Skriv', path: '/', section: 'vardag', inDrawer: true, themeId: 'J-fyren-hem' },
   {
-    id: 'liv',
-    label: 'Liv och göra',
-    path: '/liv',
+    id: 'vardagen',
+    label: 'Vardagen',
+    path: '/vardagen',
     section: 'vardag',
     inDrawer: true,
     themeId: 'J-vardagen-orbit',
   },
   {
-    id: 'liv_kompasser',
+    id: 'vardagen_kompasser',
     label: 'Kompasser',
-    path: '/liv?tab=kompasser',
+    path: '/vardagen?tab=kompasser',
     section: 'vardag',
     inDrawer: false,
-    parentId: 'liv',
+    parentId: 'vardagen',
   },
   {
-    id: 'liv_mabra',
+    id: 'vardagen_mabra',
     label: 'MåBra',
-    path: '/liv?tab=mabra',
+    path: '/vardagen?tab=mabra',
     section: 'vardag',
     inDrawer: false,
-    parentId: 'liv',
+    parentId: 'vardagen',
   },
   {
-    id: 'liv_handling',
+    id: 'vardagen_handling',
     label: 'Handling',
-    path: '/liv?tab=handling',
+    path: '/vardagen?tab=handling',
     section: 'vardag',
     inDrawer: false,
-    parentId: 'liv',
+    parentId: 'vardagen',
   },
   {
-    id: 'liv_arbetsliv',
+    id: 'vardagen_arbetsliv',
     label: 'Arbetsliv',
-    path: '/liv?tab=arbetsliv',
+    path: '/vardagen?tab=arbetsliv',
     section: 'vardag',
     inDrawer: false,
-    parentId: 'liv',
+    parentId: 'vardagen',
   },
   {
-    id: 'familj',
-    label: 'Familj och gränser',
-    path: '/familj',
+    id: 'vardagen_ekonomi',
+    label: 'Ekonomi',
+    path: '/vardagen?tab=ekonomi',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'vardagen',
+  },
+  {
+    id: 'vardagen_drogfrihet',
+    label: 'Drogfrihet',
+    path: '/vardagen?tab=drogfrihet',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'vardagen',
+  },
+  {
+    id: 'familjen',
+    label: 'Familjen',
+    path: '/familjen',
     section: 'vardag',
     inDrawer: true,
     inDock: true,
     themeId: 'J-familjen-varm',
   },
   {
-    id: 'familj_reflektion',
+    id: 'familjen_reflektion',
     label: 'Reflektion',
-    path: '/familj?tab=reflektion',
+    path: '/familjen?tab=reflektion',
     section: 'vardag',
     inDrawer: false,
-    parentId: 'familj',
+    parentId: 'familjen',
   },
   {
-    id: 'familj_livslogg',
+    id: 'familjen_livslogg',
     label: 'Livslogg',
-    path: '/familj?tab=livslogg',
+    path: '/familjen?tab=livslogg',
     section: 'vardag',
     inDrawer: false,
-    parentId: 'familj',
+    parentId: 'familjen',
   },
   {
-    id: 'familj_tillsammans',
+    id: 'familjen_tillsammans',
     label: 'Tillsammans',
-    path: '/familj?tab=tillsammans',
+    path: '/familjen?tab=tillsammans',
     section: 'vardag',
     inDrawer: false,
-    parentId: 'familj',
+    parentId: 'familjen',
   },
   {
-    id: 'familj_barnporten',
+    id: 'familjen_barnporten',
     label: 'Barnporten',
-    path: '/familj?tab=barnporten',
+    path: '/familjen?tab=barnporten',
     section: 'vardag',
     inDrawer: false,
-    parentId: 'familj',
+    parentId: 'familjen',
   },
   {
-    id: 'familj_hamn',
+    id: 'familjen_hamn',
     label: 'Trygg hamn',
-    path: '/familj?tab=hamn',
+    path: '/familjen?tab=hamn',
     section: 'vardag',
     inDrawer: false,
-    parentId: 'familj',
-  },
-  {
-    id: 'familj_drogfrihet',
-    label: 'Drogfrihet',
-    path: '/familj?tab=drogfrihet',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'familj',
-  },
-  {
-    id: 'hem_inkast',
-    label: 'Inkast',
-    path: '/#inkast-lite',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'hem',
+    parentId: 'familjen',
   },
   {
     id: 'dagbok',
@@ -211,160 +201,11 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     parentId: 'dagbok',
   },
   {
-    id: 'vardagen',
-    label: 'Vardag',
-    path: '/vardagen',
+    id: 'installningar',
+    label: 'Inställningar',
+    path: '/installningar',
     section: 'vardag',
-    inDrawer: false,
-    fyrenHomeQuick: true,
-    themeId: 'J-vardagen-orbit',
-  },
-  {
-    id: 'vardagen_kompasser',
-    label: 'Kompasser',
-    path: '/vardagen?tab=kompasser',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'vardagen',
-  },
-  {
-    id: 'vardagen_ekonomi',
-    label: 'Ekonomi',
-    path: '/liv?tab=kompasser&vardagenTab=ekonomi',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'vardagen',
-  },
-  {
-    id: 'mabra',
-    label: 'MåBra',
-    path: '/mabra',
-    section: 'vardag',
-    inDrawer: false,
-    fyrenHomeQuick: true,
-    themeId: 'J-mabra-lavendel',
-  },
-  {
-    id: 'familjen',
-    label: 'Familjen',
-    path: '/familjen',
-    section: 'vardag',
-    inDrawer: false,
-    inDock: true,
-    themeId: 'J-familjen-varm',
-  },
-  {
-    id: 'familjen_reflektion',
-    label: 'Reflektion',
-    path: '/familjen?tab=reflektion',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'familjen',
-  },
-  {
-    id: 'familjen_livslogg',
-    label: 'Livslogg',
-    path: '/familjen?tab=livslogg',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'familjen',
-  },
-  {
-    id: 'familjen_tillsammans',
-    label: 'Tillsammans',
-    path: '/familjen?tab=tillsammans',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'familjen',
-  },
-  {
-    id: 'familjen_barnporten',
-    label: 'Barnporten',
-    path: '/familjen?tab=barnporten',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'familjen',
-  },
-  {
-    id: 'gora',
-    label: 'Göra',
-    path: '/planering?tab=handling',
-    section: 'vardag',
-    inDrawer: false,
-    fyrenHomeQuick: true,
-    themeId: 'J-planering-fyren',
-  },
-  {
-    id: 'gora_handling',
-    label: 'Handling',
-    path: '/planering?tab=handling',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'gora',
-  },
-  {
-    id: 'gora_projekt',
-    label: 'Projekt',
-    path: '/projekt',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'gora',
-  },
-  {
-    id: 'gora_inkorg',
-    label: 'Inkorg',
-    path: '/planering?tab=inkorg',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'gora',
-  },
-  {
-    id: 'planering',
-    label: 'Planering',
-    path: '/planering?tab=hub',
-    section: 'vardag',
-    inDrawer: false,
-    themeId: 'J-planering-fyren',
-  },
-  {
-    id: 'planering_handling',
-    label: 'Handling',
-    path: '/planering?tab=handling',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'gora',
-  },
-  {
-    id: 'planering_fokus',
-    label: 'Fokus',
-    path: '/planering?tab=fokus',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'gora',
-  },
-  {
-    id: 'planering_framsteg',
-    label: 'Framsteg',
-    path: '/planering?tab=framsteg',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'gora',
-  },
-  {
-    id: 'planering_regler',
-    label: 'Regler',
-    path: '/planering?tab=regler',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'gora',
-  },
-  {
-    id: 'planering_inkorg',
-    label: 'Inkorg',
-    path: '/planering?tab=inkorg',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'gora',
+    inDrawer: true,
   },
   {
     id: 'arbetsliv',
@@ -372,7 +213,6 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     path: '/arbetsliv',
     section: 'vardag',
     inDrawer: false,
-    themeId: 'J-vardagen-orbit',
   },
   {
     id: 'arbetsliv_stampla',
@@ -384,7 +224,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   },
   {
     id: 'arbetsliv_tid',
-    label: 'Tid & flex',
+    label: 'Tid',
     path: '/arbetsliv?tab=tid',
     section: 'vardag',
     inDrawer: false,
@@ -398,135 +238,8 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     inDrawer: false,
     parentId: 'arbetsliv',
   },
-  {
-    id: 'hamn',
-    label: 'Trygg hamn',
-    path: '/hamn',
-    section: 'vardag',
-    inDrawer: false,
-    themeId: 'J-hamn-greyrock',
-  },
-  {
-    id: 'hamn_oversikt',
-    label: 'Översikt',
-    path: '/hamn?tab=oversikt',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'hamn',
-  },
-  {
-    id: 'hamn_biff',
-    label: 'BIFF',
-    path: '/hamn?tab=biff',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'hamn',
-  },
-  {
-    id: 'hamn_speglar',
-    label: 'Till Speglar',
-    path: '/hamn?tab=speglar',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'hamn',
-  },
-  {
-    id: 'hamn_barn',
-    label: 'Barnfokus',
-    path: '/hamn?tab=barn',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'hamn',
-  },
-  {
-    id: 'projekt',
-    label: 'Projekt',
-    path: '/projekt',
-    section: 'vardag',
-    inDrawer: false,
-    themeId: 'J-planering-fyren',
-  },
-  {
-    id: 'projekt_ny',
-    label: 'Nytt projekt',
-    path: '/admin/projects/ny',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'projekt',
-  },
-  {
-    id: 'projekt_handling',
-    label: 'Till Handling',
-    path: '/planering?tab=handling',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'projekt',
-  },
-  {
-    id: 'drogfrihet',
-    label: 'Drogfrihet',
-    path: '/drogfrihet',
-    section: 'vardag',
-    inDrawer: false,
-    themeId: 'J-mabra-lavendel',
-  },
-  {
-    id: 'drogfrihet_idag',
-    label: 'Idag',
-    path: '/drogfrihet?tab=idag',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'drogfrihet',
-  },
-  {
-    id: 'drogfrihet_resurser',
-    label: 'Akut & stöd',
-    path: '/drogfrihet?tab=resurser',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'drogfrihet',
-  },
-  {
-    id: 'drogfrihet_reflektion',
-    label: 'Reflektion',
-    path: '/drogfrihet?tab=reflektion',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'drogfrihet',
-  },
-  {
-    id: 'drogfrihet_kunskap',
-    label: 'Kunskap',
-    path: '/drogfrihet?tab=kunskap',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'drogfrihet',
-  },
-  {
-    id: 'installningar',
-    label: 'Inställningar',
-    path: '/installningar',
-    section: 'vardag',
-    inDrawer: true,
-  },
-  {
-    id: 'installningar_allmant',
-    label: 'Allmänt',
-    path: '/installningar?tab=allmant',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'installningar',
-  },
-  {
-    id: 'installningar_drogfrihet',
-    label: 'Drogfrihet',
-    path: '/installningar?tab=drogfrihet',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'installningar',
-  },
 
-  // —— Valv (PIN) — platta drawer-rader + legacy deep links ——
+  // —— Valv (PIN) ——
   {
     id: 'valv_samla',
     label: VALV_ZONE_LABELS.samla,
@@ -573,7 +286,6 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     requiresVaultPin: true,
     drawerHint: VALV_DRAWER_HINTS.forensik,
   },
-  // Legacy grupp + blad (deep links, ej drawer)
   {
     id: 'valv_grp_samla',
     label: VALV_ZONE_LABELS.samla,
@@ -646,10 +358,10 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: VALV_ZONE_LABELS.forensik,
     path: '',
     section: 'valv',
-    inDrawer: false,
     isGroupHeader: true,
     requiresVaultPin: true,
     drawerHint: VALV_DRAWER_HINTS.forensik,
+    inDrawer: false,
   },
   ...FORENSIC_VAULT_TAB_IDS.map((tab) => ({
     id: `valv_${tab}`,
@@ -664,42 +376,38 @@ export const NAV_TRUTH: NavTruthEntry[] = [
 
 export const DRAWER_NAV_TRUTH = NAV_TRUTH.filter((e) => e.inDrawer);
 
-export function isDrawerEntryVisible(entry: NavTruthEntry): boolean {
-  if (entry.omitWhenHideBevis && HIDE_BEVIS_TAB) return false;
+export function isDrawerEntryVisible(entry: NavTruthEntry, vaultSessionOpen = false): boolean {
+  if (entry.omitWhenHideBevis && HIDE_BEVIS_TAB && !vaultSessionOpen) return false;
   return true;
 }
 
-export function getVisibleDrawerTruth(section: NavDrawerSection): NavTruthEntry[] {
-  return DRAWER_NAV_TRUTH.filter((e) => e.section === section && isDrawerEntryVisible(e));
+export function getVisibleDrawerTruth(section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[] {
+  return DRAWER_NAV_TRUTH.filter((e) => e.section === section && isDrawerEntryVisible(e, vaultSessionOpen));
 }
 
 export const DRAWER_VARDAG_ENTRIES = getVisibleDrawerTruth('vardag');
-
 export const DRAWER_VALV_ENTRIES = getVisibleDrawerTruth('valv');
 
-/** Hub-rader utan parentId (legacy drawerNav). */
 export const DRAWER_HUB_TRUTH = DRAWER_NAV_TRUTH.filter((e) => !e.parentId && isDrawerEntryVisible(e));
 
 export function getNavTruthById(id: string): NavTruthEntry | undefined {
   return NAV_TRUTH.find((e) => e.id === id);
 }
 
-export function getDrawerChildren(parentId: string, section: NavDrawerSection): NavTruthEntry[] {
-  return getVisibleDrawerTruth(section).filter((e) => e.parentId === parentId);
+export function getDrawerChildren(parentId: string, section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[] {
+  return getVisibleDrawerTruth(section, vaultSessionOpen).filter((e) => e.parentId === parentId);
 }
 
-/** All hub-underflikar (även dolda i drawer) — för TabBar i sidor. */
 export function getNavChildren(parentId: string, section: NavDrawerSection): NavTruthEntry[] {
   return NAV_TRUTH.filter((e) => e.section === section && e.parentId === parentId);
 }
 
-/** Vardag: hubbar utan parent. Valv: platta rader utan parent. */
-export function getDrawerRoots(section: NavDrawerSection): NavTruthEntry[] {
-  const visible = getVisibleDrawerTruth(section);
+export function getDrawerRoots(section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[] {
+  const visible = getVisibleDrawerTruth(section, vaultSessionOpen);
   if (section === 'valv') return visible.filter((e) => !e.parentId && !e.isGroupHeader);
   return visible.filter((e) => !e.parentId);
 }
 
-export function drawerHubHasChildren(hubId: string, section: NavDrawerSection): boolean {
-  return getDrawerChildren(hubId, section).length > 0;
+export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, vaultSessionOpen = false): boolean {
+  return getDrawerChildren(hubId, section, vaultSessionOpen).length > 0;
 }

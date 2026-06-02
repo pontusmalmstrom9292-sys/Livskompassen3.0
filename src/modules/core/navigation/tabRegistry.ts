@@ -1,7 +1,3 @@
-/**
- * TabRegistry — livsområden, hub-flikar och Valv-flikar.
- * Synkad med `navTruth.ts` (paths) och `evidence/vault/utils/vaultTabs.ts`.
- */
 import { createElement, type ReactNode } from 'react';
 import {
   BarChart3,
@@ -19,12 +15,12 @@ import type { TabBarItem } from '../ui/TabBar';
 import {
   FORENSIC_VAULT_TAB_IDS,
   KUNSKAP_VAULT_TAB_IDS,
+  forensicVaultTabLabel,
   MAIN_VAULT_TAB_IDS,
   ANALYSERA_VAULT_TAB_IDS,
   PANSARET_VAULT_TAB_IDS,
   SAMLA_VAULT_TAB_IDS,
   VALV_ZONE_IDS,
-  forensicVaultTabLabel,
   type ForensicVaultTab,
   type KunskapVaultTab,
   type MainVaultTab,
@@ -67,23 +63,20 @@ export const TAB_CATEGORY_LABELS: Record<TabCategory, string> = {
 
 export const HUB_TAB_CATEGORY: Record<string, TabCategory> = {
   hem: 'kompass_system',
-  liv: 'vardag_aterhamtning',
-  familj: 'familj',
   dagbok: 'dagbok_spegling',
   vardagen: 'vardag_aterhamtning',
-  mabra: 'vardag_aterhamtning',
   familjen: 'familj',
-  planering: 'verktyg',
-  gora: 'verktyg',
-  arbetsliv: 'verktyg',
-  projekt: 'verktyg',
-  hamn: 'trygghet',
-  drogfrihet: 'trygghet',
   installningar: 'kompass_system',
 };
 
 export type HjartatTab = 'reflektion' | 'bevis' | 'speglar';
-export type VardagenTab = 'kompasser' | 'ekonomi';
+export type VardagenTab =
+  | 'kompasser'
+  | 'mabra'
+  | 'handling'
+  | 'arbetsliv'
+  | 'ekonomi'
+  | 'drogfrihet';
 
 export type HubTabDef<T extends string = string> = {
   id: T;
@@ -124,9 +117,11 @@ export function hubTabDefsFromNav(hubId: DrawerHubId): HubTabDef[] {
     .filter((t): t is HubTabDef => t !== null);
 }
 
-export function getVisibleHjartatTabIds(): HjartatTab[] {
+export function getVisibleHjartatTabIds(vaultSessionOpen = false): HjartatTab[] {
   const ids = hubTabDefsFromNav('dagbok').map((t) => t.id as HjartatTab);
-  if (HIDE_BEVIS_TAB) return ids.filter((id) => id !== 'bevis');
+  if (HIDE_BEVIS_TAB && !vaultSessionOpen) {
+    return ids.filter((id) => id !== 'bevis');
+  }
   return ids;
 }
 
@@ -143,11 +138,22 @@ export function resolveHjartatTab(raw: string | null, vaultGateOpen: boolean): H
 }
 
 export function parseVardagenTab(raw: string | null): VardagenTab {
-  if (raw === 'ekonomi') return 'ekonomi';
+  if (
+    raw === 'mabra' ||
+    raw === 'handling' ||
+    raw === 'arbetsliv' ||
+    raw === 'ekonomi' ||
+    raw === 'drogfrihet'
+  ) {
+    return raw;
+  }
   return 'kompasser';
 }
 
-const VAULT_MAIN_LABELS = { ...VAULT_MAIN_TAB_LABELS } as Record<MainVaultTab, string>;
+const VAULT_MAIN_LABELS = { ...VAULT_MAIN_TAB_LABELS } as Record<
+  (typeof MAIN_VAULT_TAB_IDS)[number],
+  string
+>;
 
 const icon = (Icon: typeof FileText) => createElement(Icon, { className: 'h-3 w-3' });
 
@@ -195,7 +201,6 @@ export function getAnalyseraVaultTabBarItems(): TabBarItem<AnalyseraVaultTab>[] 
   }));
 }
 
-/** @deprecated Använd zon-specifika getters (samla / analysera / exportera). */
 export function getPansaretVaultTabBarItems(): TabBarItem<PansaretVaultTab>[] {
   return PANSARET_VAULT_TAB_IDS.map((id) => ({
     id,
@@ -228,8 +233,5 @@ export function hjartatTabHref(tab: HjartatTab): { pathname: string; search: str
 }
 
 export function vardagenTabHref(tab: VardagenTab): { pathname: string; search: string } {
-  if (tab === 'ekonomi') {
-    return { pathname: '/liv', search: '?tab=kompasser&vardagenTab=ekonomi' };
-  }
-  return { pathname: '/liv', search: '?tab=kompasser' };
+  return { pathname: '/vardagen', search: clusterTabSearch(tab, 'kompasser') };
 }

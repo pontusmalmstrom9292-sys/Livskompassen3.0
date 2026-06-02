@@ -308,6 +308,7 @@ function VaultPageInner({
         <ValvChatPanel
           active={gateOk && vaultTab === 'sok'}
           onCitationClick={handleCitationClick}
+          logs={logs}
         />
       )}
 

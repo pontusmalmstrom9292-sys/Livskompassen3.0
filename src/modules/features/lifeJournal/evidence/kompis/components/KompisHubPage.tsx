@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { Anchor, BookOpen, Compass, ListTodo, Sparkles } from 'lucide-react';
+import { Anchor, BookOpen, ChevronRight, Compass, ListTodo, Sparkles } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { ValvArchIcon } from '@/core/ui/ValvArchIcon';
+import { UiCard } from '@/core/ui/UiCard';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { KompisMark } from './KompisMark';
 
@@ -24,7 +25,7 @@ const DESTINATIONS: KompisDestination[] = [
     primary: true,
   },
   {
-    to: '/hamn',
+    to: '/familj?tab=hamn',
     label: 'Trygg hamn',
     hint: 'BIFF och Grey Rock vid konflikt.',
     icon: Anchor,
@@ -52,13 +53,13 @@ const DESTINATIONS: KompisDestination[] = [
 /** Publik navigatör — ingen RAG här; bara tydliga vägar. */
 export function KompisHubPage() {
   return (
-    <div className="space-y-6">
+    <div className="kompis-hub-page space-y-6">
       <BentoCard
         title="Kompis"
         description="Välj vart du vill — jag dirigerar, jag svarar inte här."
       >
-        <div className="flex items-start gap-3">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-bg/40">
+        <div className="kompis-hub-page__intro flex items-start gap-3">
+          <span className="kompis-hub-page__avatar flex h-12 w-12 shrink-0 items-center justify-center rounded-full">
             <KompisMark className="h-6 w-6" />
           </span>
           <div className="min-w-0 flex-1">
@@ -68,7 +69,7 @@ export function KompisHubPage() {
             </p>
             <Link
               to={VALV_ENTRY}
-              className="btn-pill--accent mt-3 inline-flex w-full items-center justify-center gap-2 text-sm"
+              className="btn-pill--accent ui-cta-gold mt-3 inline-flex w-full items-center justify-center gap-2 text-sm"
             >
               <ValvArchIcon className="h-4 w-4 shrink-0" />
               Öppna Valv · ange PIN
@@ -87,18 +88,16 @@ export function KompisHubPage() {
       <ul className="space-y-3">
         {DESTINATIONS.map(({ to, label, hint, icon: Icon, primary }) => (
           <li key={to}>
-            <Link
-              to={to}
-              className={`glass-card flex items-start gap-3 p-4 transition-colors hover:border-border-strong ${
-                primary ? 'ring-1 ring-accent/30' : ''
-              }`}
-            >
-              <Icon className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden />
-              <span>
-                <span className="block text-sm font-medium text-text">{label}</span>
-                <span className="mt-1 block text-xs text-text-dim">{hint}</span>
+            <UiCard as={Link} to={to} className={primary ? 'ring-1 ring-accent/30' : ''}>
+              <span className="ui-card__icon flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-accent/35 text-accent">
+                <Icon className="h-4 w-4" strokeWidth={1.5} aria-hidden />
               </span>
-            </Link>
+              <span className="min-w-0 flex-1">
+                <span className="block font-display-serif text-sm font-medium text-text">{label}</span>
+                <span className="mt-0.5 block text-xs text-text-dim">{hint}</span>
+              </span>
+              <ChevronRight className="h-4 w-4 shrink-0 text-accent/55" strokeWidth={1.5} aria-hidden />
+            </UiCard>
           </li>
         ))}
       </ul>

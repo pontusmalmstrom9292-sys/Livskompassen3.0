@@ -27,17 +27,17 @@ function presetSides(presetId: LifeHubPresetId): { left: DockSideLink; right: Do
     case 'foralder_trygg':
       return {
         left: { to: '/familjen', label: 'Familjen', icon: 'users' },
-        right: { to: '/hamn', label: 'Hamn', icon: 'anchor' },
+        right: { to: '/familjen?tab=hamn', label: 'Trygg hamn', icon: 'anchor' },
       };
     case 'rehab_lag':
       return {
-        left: { to: '/mabra', label: 'MåBra', icon: 'sparkles' },
+        left: { to: '/vardagen?tab=mabra', label: 'MåBra', icon: 'sparkles' },
         right: { to: '/dagbok', label: 'Dagbok', icon: 'book' },
       };
     case 'vardag_arbete':
       return {
-        left: { to: '/planering?tab=handling', label: 'Planering', icon: 'calendar' },
-        right: { to: '/arbetsliv?tab=stampla', label: 'Arbetsliv', icon: 'clock' },
+        left: { to: '/vardagen?tab=handling', label: 'Planering', icon: 'calendar' },
+        right: { to: '/vardagen?tab=arbetsliv', label: 'Arbetsliv', icon: 'clock' },
       };
     case 'minimal':
       return {
@@ -52,12 +52,27 @@ function presetSides(presetId: LifeHubPresetId): { left: DockSideLink; right: Do
   }
 }
 
-/** Sidolänkar kring kompass — preset med enkla route-overrides. */
+function tabParam(search: string): string | null {
+  return new URLSearchParams(search.replace(/^\?/, '')).get('tab');
+}
+
+function isPlaneringDockContext(pathname: string, search: string): boolean {
+  if (pathname.startsWith('/projekt') || pathname.startsWith('/planering')) {
+    return true;
+  }
+  if (pathname.startsWith('/vardagen')) {
+    return tabParam(search) === 'handling';
+  }
+  return false;
+}
+
+/** Sidolänkar kring kompass — anpassade efter aktiva zoner. */
 export function getDockSideLinks(
   presetId: LifeHubPresetId,
   pathname: string,
+  search = '',
 ): { left: DockSideLink; right: DockSideLink } {
-  if (pathname.startsWith('/planering') || pathname.startsWith('/projekt')) {
+  if (isPlaneringDockContext(pathname, search)) {
     return {
       left: { to: '/projekt', label: 'Projekt', icon: 'folder' },
       right: { to: '/familjen', label: 'Familjen', icon: 'users' },
@@ -65,14 +80,8 @@ export function getDockSideLinks(
   }
   if (pathname.startsWith('/familjen')) {
     return {
-      left: { to: '/planering?tab=handling', label: 'Planering', icon: 'calendar' },
+      left: { to: '/vardagen?tab=handling', label: 'Planering', icon: 'calendar' },
       right: { to: '/dagbok', label: 'Dagbok', icon: 'book' },
-    };
-  }
-  if (pathname.startsWith('/arbetsliv') || pathname.startsWith('/stampla')) {
-    return {
-      left: { to: '/planering?tab=handling', label: 'Planering', icon: 'calendar' },
-      right: { to: '/projekt', label: 'Projekt', icon: 'folder' },
     };
   }
   return presetSides(presetId);

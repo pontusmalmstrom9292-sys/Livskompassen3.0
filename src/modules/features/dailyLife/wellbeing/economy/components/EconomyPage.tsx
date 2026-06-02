@@ -13,6 +13,7 @@ import {
   saveEconomyTransaction,
   setEconomyProfile,
 } from '@/core/firebase/firestore';
+import { EconomySavingsPanel } from './EconomySavingsPanel';
 
 type EconomyPageProps = {
   embedded?: boolean;
@@ -122,10 +123,17 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
         icon={<Briefcase className="h-4 w-4" />}
         description="Stämpel, flex, sjuk/VAB och lönespec"
       >
-        <Link to="/arbetsliv" className="text-sm text-accent hover:underline">
-          Öppna Arbetsliv-hubben
-        </Link>
+        <div className="flex flex-col gap-2 text-sm">
+          <Link to="/arbetsliv" className="text-accent hover:underline">
+            Öppna Arbetsliv-hubben
+          </Link>
+          <Link to="/arbetsliv?tab=logg" className="text-accent hover:underline">
+            Fasta räkningar och ekonomilogg
+          </Link>
+        </div>
       </BentoCard>
+
+      <EconomySavingsPanel />
 
       <div className="grid grid-cols-2 gap-3">
         <button

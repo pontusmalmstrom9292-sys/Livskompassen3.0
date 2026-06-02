@@ -1,5 +1,3 @@
-// src/modules/core/navigation/navigationRegistry.ts
-
 export const NAVIGATION_STRUCTURE = {
   lifeJournal: {
     id: 'lifeJournal',
@@ -20,9 +18,11 @@ export const NAVIGATION_STRUCTURE = {
     icon: 'sun',
     tabs: {
       compasses: { id: 'compasses', label: 'Kompasser', path: '?tab=kompasser' },
+      mabra: { id: 'mabra', label: 'MåBra', path: '?tab=mabra' },
+      handling: { id: 'handling', label: 'Planering', path: '?tab=handling' },
+      arbetsliv: { id: 'arbetsliv', label: 'Arbetsliv', path: '?tab=arbetsliv' },
       economy: { id: 'economy', label: 'Ekonomi', path: '?tab=ekonomi' },
-      work: { id: 'work', label: 'Arbetsliv', path: '?tab=arbetsliv' },
-      health: { id: 'health', label: 'Drogfrihet', path: '?tab=health' },
+      drogfrihet: { id: 'drogfrihet', label: 'Drogfrihet', path: '?tab=drogfrihet' },
     },
   },
   family: {
@@ -35,17 +35,7 @@ export const NAVIGATION_STRUCTURE = {
       livslogg: { id: 'livslogg', label: 'Livslogg', path: '?tab=livslogg' },
       tillsammans: { id: 'tillsammans', label: 'Tillsammans', path: '?tab=tillsammans' },
       barnporten: { id: 'barnporten', label: 'Barnporten', path: '?tab=barnporten' },
-      harbor: { id: 'harbor', label: 'Trygg hamn', path: '/hamn' },
-    },
-  },
-  admin: {
-    id: 'admin',
-    path: '/admin',
-    label: 'Administration',
-    icon: 'settings',
-    tabs: {
-      projects: { id: 'projects', label: 'Projekt', path: '?tab=projects' },
-      planning: { id: 'planning', label: 'Planering', path: '?tab=planning' },
+      hamn: { id: 'hamn', label: 'Trygg hamn', path: '?tab=hamn' },
     },
   },
 } as const;
@@ -57,7 +47,6 @@ export type LifeJournalTabKey = keyof typeof NAVIGATION_STRUCTURE.lifeJournal.ta
 export type DailyLifeTabKey = keyof typeof NAVIGATION_STRUCTURE.dailyLife.tabs;
 export type FamilyTabKey = keyof typeof NAVIGATION_STRUCTURE.family.tabs;
 
-/** React Router `search` without leading `?`. */
 export function registryTabSearch(tabPath: string): string {
   return tabPath.startsWith('?') ? tabPath.slice(1) : tabPath;
 }
@@ -80,9 +69,4 @@ export function clusterTabNavigateTarget(
     return { pathname: tab.path, search: '' };
   }
   return { pathname: cluster.path, search: registryTabSearch(tab.path) };
-}
-
-/** Default Vardagen tab per registry (kompasser). */
-export function dailyLifeDefaultSearch(): string {
-  return registryTabSearch(NAVIGATION_STRUCTURE.dailyLife.tabs.compasses.path);
 }

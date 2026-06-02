@@ -3,3 +3,4 @@ export { BentoCard, type BentoCardProps } from './BentoCard';
 export { Card, type CardProps } from './Card';
 export { Input, type InputProps } from './Input';
 export { Modal, type ModalProps } from './Modal';
+export { ImmersiveExperienceShell } from './ImmersiveExperienceShell';

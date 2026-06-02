@@ -1,36 +1,47 @@
 /** @type {import('tailwindcss').Config} */
+
+/** CSS-variabel med Tailwind-opacity (/80, /30 …) via color-mix. */
+function cssVar(name) {
+  return ({ opacityValue }) =>
+    opacityValue === undefined
+      ? `var(${name})`
+      : `color-mix(in srgb, var(${name}) calc(${opacityValue} * 100%), transparent)`;
+}
+
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: ['./index.html', './src/index.css', './src/**/*.{js,ts,jsx,tsx}'],
+  safelist: ['font-display-serif'],
   theme: {
     extend: {
       colors: {
-        bg: '#0a1614',
+        bg: cssVar('--bg'),
         surface: {
-          DEFAULT: '#0f1a18',
-          2: '#142220',
-          3: '#1a2b28',
+          DEFAULT: cssVar('--surface'), /* #050b14 */
+          2: cssVar('--surface-2'), /* #09111e */
+          3: cssVar('--surface-3'), /* #111b2d */
         },
         text: {
-          DEFAULT: '#f5f0e8',
-          muted: '#c4bdb4',
-          dim: '#a8a29e',
+          DEFAULT: cssVar('--text'), /* #f8fafc */
+          muted: cssVar('--text-muted'), /* #94a3b8 */
+          dim: cssVar('--text-dim'), /* #64748b */
         },
         accent: {
-          DEFAULT: '#d4af37',
-          light: '#e8d48a',
-          secondary: '#f59e0b',
-          ai: '#d4af37',
+          DEFAULT: cssVar('--accent'), /* #d4af37 (Guld) */
+          light: cssVar('--accent-light'), /* #fde68a (Ljust guld) */
+          secondary: cssVar('--accent-secondary'), /* #6366f1 (Indigo) */
+          ai: cssVar('--accent-ai'), /* #818cf8 (AI/Neon) */
         },
-        success: '#2DD4BF',
+        success: cssVar('--success'), /* #10b981 */
+        warning: cssVar('--warning'), /* #f59e0b */
+        danger: cssVar('--danger'), /* #ef4444 */
         border: {
-          DEFAULT: 'rgba(255,255,255,0.06)',
-          strong: 'rgba(255,255,255,0.10)',
+          DEFAULT: cssVar('--border'), /* rgba(212, 175, 55, 0.12) */
+          strong: cssVar('--border-strong'), /* rgba(99, 102, 241, 0.22) */
         },
-        warning: '#A16207',
-        danger: '#DC2626',
       },
       fontFamily: {
         display: ['Outfit', 'sans-serif'],
+        'display-serif': ['Cinzel', 'Outfit', 'serif'],
         sans: ['Inter', 'sans-serif'],
       },
       fontSize: {
@@ -38,8 +49,9 @@ export default {
         eyebrow: ['0.625rem', { lineHeight: '1.2', letterSpacing: '0.24em' }],
       },
       boxShadow: {
-        'accent-glow': '0 0 24px rgba(212, 175, 55, 0.18)',
-        'accent-glow-lg': '0 0 48px rgba(212, 175, 55, 0.18)',
+        'accent-glow': '0 0 16px var(--accent-glow)',
+        'accent-glow-lg': '0 0 32px var(--accent-glow)',
+        'indigo-glow': '0 0 20px rgba(99, 102, 241, 0.15)',
       },
       animation: {
         'spin-slow': 'spin 12s linear infinite',

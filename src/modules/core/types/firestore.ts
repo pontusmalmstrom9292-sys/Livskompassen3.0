@@ -236,6 +236,26 @@ export interface PayslipSnapshotRow extends PayslipSnapshot {
   id: string;
 }
 
+export interface UserWidget {
+  userId: string;
+  ownerId: string;
+  type: 'countdown' | 'checklist' | 'linked_savings' | 'quick_note';
+  title: string;
+  pinnedToHome: boolean;
+  order: number;
+  config: {
+    targetDate?: string;
+    savingsGoalId?: string;
+    checklistItems?: { id: string; text: string; done: boolean }[];
+    noteText?: string;
+  };
+  createdAt: IsoDateTime;
+}
+
+export interface UserWidgetRow extends UserWidget {
+  id: string;
+}
+
 export const FIRESTORE_COLLECTIONS = {
   vault: 'vault',
   checkins: 'checkins',
@@ -261,4 +281,5 @@ export const FIRESTORE_COLLECTIONS = {
   routine_templates: 'routine_templates',
   projects: 'projects',
   project_blocks: 'project_blocks',
+  user_widgets: 'user_widgets',
 } as const;

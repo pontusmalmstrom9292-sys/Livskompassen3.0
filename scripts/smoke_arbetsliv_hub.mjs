@@ -43,21 +43,34 @@ function main() {
     'arbetsliv_franvaro',
     'arbetsliv_lon',
   );
-  mustInclude('src/modules/shell/LivShellPage.tsx', 'ArbetslivHubPage', "activeTab === 'arbetsliv'");
-  mustInclude('src/modules/core/navigation/navTruth.ts', "path: '/liv?tab=arbetsliv'", 'liv_arbetsliv');
+  mustInclude('src/modules/shell/VardagenShellPage.tsx', 'ArbetslivHubPage', "activeTab === 'arbetsliv'");
+  mustInclude('src/modules/core/navigation/navTruth.ts', "path: '/vardagen?tab=arbetsliv'", 'vardagen_arbetsliv');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', '/liv/arbetsliv');
-  mustInclude('src/modules/core/navigation/navTruth.ts', "path: '/arbetsliv'", 'liv_arbetsliv');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/liv', 'LivShellPage');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', 'ArbetslivHubPage');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/stampla', '/arbetsliv?tab=stampla');
+  mustInclude('src/modules/core/navigation/navTruth.ts', "path: '/arbetsliv'", 'arbetsliv');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/vardagen', 'VardagenShellPage');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/arbetsliv', '/vardagen?tab=arbetsliv');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/stampla', '/vardagen?tab=arbetsliv');
   mustInclude(
-    'src/modules/arbetsliv/components/ArbetslivHubPage.tsx',
+    'src/modules/features/dailyLife/arbetsliv/components/ArbetslivHubPage.tsx',
     "paramKey: embeddedInLiv ? 'workTab' : 'tab'",
+    'to="/ekonomi"',
   );
   mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'arbetsliv'", "path: '/arbetsliv'", 'Arbetsliv');
   mustInclude('src/modules/core/navigation/drawerNav.ts', 'arbetsliv:', 'arbetsliv_stampla');
   mustInclude('src/modules/core/security/vaultZones.ts', 'arbetsliv_forensic');
-  mustInclude('src/modules/core/navigation/headerPageLabel.ts', '/arbetsliv', 'Arbetsliv');
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/economy/components/EconomyPage.tsx',
+    '/arbetsliv?tab=logg',
+    'EconomySavingsPanel',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/economy/components/EconomyTidPanel.tsx',
+    'EconomyPayslipCard',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/components/tools/MabraToolShell.tsx',
+    'ImmersiveExperienceShell',
+  );
 
   console.log('[smoke:arbetsliv] PASS — hub, route, drawer, zon, locked register.');
 }

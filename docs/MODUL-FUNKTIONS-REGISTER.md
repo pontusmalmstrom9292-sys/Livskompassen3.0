@@ -1,7 +1,7 @@
 # Modul- & funktionsregister — Livskompassen v2
 
 **Syfte:** En sammanställd sanning — modul, route, backend, spec, smoke.  
-**Uppdaterad:** 2026-05-31 (Vävaren HITL + doc-synk)  
+**Uppdaterad:** 2026-06-01 (superhub återvinning + sparmål/lönespec vardag)  
 **Regel:** Status **kod** verifieras med grep/smoke; docs kan vara historiska — se [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md).
 
 ---
@@ -36,9 +36,9 @@ Koppling: `notifyNewFile` → `emitSynapse(drive_file_ingested)` — `functions/
 | Modul (mapp) | Kluster | Route(s) | Nyckelfunktioner | Spec | Smoke |
 |--------------|---------|----------|------------------|------|-------|
 | **core** | övrigt | `/`, `/dev/themes`, `/widget/*` | App-shell, Fyren, drawer (`navTruth`), Zero Footprint | `Core-SPEC.md` | `smoke:locked-ux`, `smoke:design-modules` |
-| **wellbeing/compasses** | vardag | `/vardagen`, `/kompasser` → redirect | Morgon/dag/kväll, checkins | `De-3-Kompasserna-SPEC.md` | `smoke:compass` |
+| **wellbeing/compasses** | vardag | `/liv?tab=kompasser`, legacy `/vardagen` → redirect | Morgon/dag/kväll, checkins, `vardagenTab=ekonomi` | `De-3-Kompasserna-SPEC.md` | `smoke:compass` |
 | **evidence/kompis** | valv | Valv `kunskapsbank` | Kunskapsvalv, Tidshjul, RAG | `Kunskap-SPEC.md` | `smoke:kunskap`, `smoke:tidshjul` |
-| **wellbeing/economy** | vardag | `/vardagen?tab=ekonomi` | Ekonomi-flik | `Ekonomi-SPEC.md` | manuell #18 |
+| **wellbeing/economy** | vardag | `/liv?tab=kompasser&vardagenTab=ekonomi`, `/ekonomi` → redirect | Veckopeng, matlåda, sparmål (`EconomySavingsPanel`) | `Ekonomi-SPEC.md` | manuell #18 · `smoke:arbetsliv` |
 | **diary/diary** | hjärtat | `/dagbok` | Hjärtat-hub, journal | `Dagbok-SPEC.md` | — |
 | **evidence/vault** | valv | `/dagbok?tab=bevis`, `/valv` | WORM, Mönster, Orkester, Vävaren HITL, PIN | `Verklighetsvalvet-SPEC.md` | `smoke:locked-ux`, `smoke:valv` |
 | **evidence/vaultChat** | valv | Bevis → Sök | Valv-Chat (egen silo) | `Valv-Chat-SPEC.md` | `smoke:valv` |
@@ -46,13 +46,13 @@ Koppling: `notifyNewFile` → `emitSynapse(drive_file_ingested)` — `functions/
 | **family/safeHarbor** | hamn | `/hamn` | BIFF, Grey Rock, `TryggHamnHub` | `SafeHarbor-SPEC.md` | `smoke:design-modules` |
 | **family/children** | familj | `/familjen` | Barnfokus, livslogg | `Barnen-SPEC.md` | `smoke:locked-ux`, `smoke:children` |
 | **barnporten** | plan | (PWA `/barnporten`) | HITL promote — delvis | `BARNPORTEN-SPEC.md` | `smoke:locked-ux` |
-| **wellbeing/mabra** | vardag | `/mabra` | Daglig Mix, KBT Transformator | `Mabra-SPEC.md` | `smoke:mabra` |
+| **wellbeing/mabra** | vardag | `/liv?tab=mabra`, legacy `/mabra` → redirect | Daglig Mix, KBT, immersive tools | `Mabra-SPEC.md` | `smoke:mabra` |
 | **admin/planning** | livsos | `/planering` | P3 Kanban | `PLANERING-P3-KANBAN-SPEC.md` | `smoke:locked-ux` |
 | **admin/projects** | livsos | `/projekt` | Projekt + block | `PROJEKT-SPEC.md` | hybrid |
 | **evidence/vault/dossier** | valv | `/dossier` | Dossier-Generator | `Dossier-SPEC.md` | `smoke:dossier` |
 | **widgets** | övrigt | `/widget/*` | WH1 inspelning | `WIDGET-BAR-SPEC.md` | `smoke:locked-ux` |
 | **admin/stampla** | arbetsliv | `/arbetsliv?tab=stampla` | Stämpelklocka | `stampla/module_plan.md` | `smoke:stampla` |
-| **arbetsliv** | arbetsliv | `/arbetsliv` | Tid, logg, Valv-länkar | `arbetsliv/module_plan.md` | `smoke:arbetsliv` |
+| **arbetsliv** | arbetsliv | `/arbetsliv`, `/liv?tab=arbetsliv&workTab=…` | Tid, logg, lönespec vardag, Valv-länkar | `arbetsliv/module_plan.md` | `smoke:arbetsliv` |
 | **drogfrihet** | livsstod | `/drogfrihet` | Idag, stöd, reflektion | `Drogfrihet-SPEC.md` | — |
 | **inkast** | hem | `/#inkast-lite` | Inkast Lite | — | — |
 

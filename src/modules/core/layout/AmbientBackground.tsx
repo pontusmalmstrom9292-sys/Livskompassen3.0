@@ -1,10 +1,14 @@
 import { clsx } from 'clsx';
 import { useLocation } from 'react-router-dom';
+import { useTheme } from '../theme';
 
-/** Scenic I-stone bakgrund på alla huvudflikar (ej widget-routes). */
+/** Scenic bakgrund — alltid på mockup-teman; annars huvudflikar (ej widget). */
 export function AmbientBackground() {
   const { pathname } = useLocation();
-  const showScenic = !pathname.startsWith('/widget');
+  const { themeId } = useTheme();
+  const mockupScenic =
+    /^D[1-5]-/.test(themeId) || (themeId.startsWith('M') && themeId.includes('mockup'));
+  const showScenic = mockupScenic || !pathname.startsWith('/widget');
 
   return (
     <div

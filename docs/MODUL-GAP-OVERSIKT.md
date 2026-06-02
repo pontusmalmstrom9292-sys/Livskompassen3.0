@@ -51,7 +51,7 @@ Alla planfiler har `status: closed` överst. **Öppet arbete finns endast i tabe
 | **core** | `/` | Manuell smoke #3, #4, #2d kvar · #1–2, #18 **PASS** | Du · [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) **Current truth** |
 | **inkast** | Hem `#inkast-lite` | Fas 2 **done**; fas 3 genväg defer | — |
 | **dossier** | `/dossier` | BBIC `reportType` **planned** | Spec §I.4 |
-| **ekonomi** | `/vardagen?tab=ekonomi` | Smoke #18 **PASS** 2026-05-27 | [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) |
+| **ekonomi** | `/liv?tab=kompasser&vardagenTab=ekonomi` | Routing superhub **live** 2026-06-01 · sparmål UI **done** · lönespec vardag **done** | [`LOST-FEATURES-REGISTER.md`](./evaluations/LOST-FEATURES-REGISTER.md) |
 | **hamn** | `/hamn` | BIFF via `TryggHamnHub` | `smoke:design-modules` |
 | **auth/android** | app | **Verifierad 2026-05** | [`.context/android-capacitor.md`](../.context/android-capacitor.md) |
 

@@ -64,8 +64,8 @@ export function DockHubBand() {
     [location.pathname, location.search],
   );
   const sides = useMemo(
-    () => getDockSideLinks(presetId, location.pathname),
-    [presetId, location.pathname],
+    () => getDockSideLinks(presetId, location.pathname, location.search),
+    [presetId, location.pathname, location.search],
   );
   const leftSlots = hubSlots.slice(0, 2);
   const rightSlots = hubSlots.slice(2, 4);

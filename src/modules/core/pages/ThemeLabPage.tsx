@@ -19,6 +19,8 @@ import {
 import { applyTheme } from '../theme/applyTheme';
 import { useTheme } from '../theme';
 import { THEME_LAB_DRAFTS, THEME_LAB_DRAFT_IDS } from '../theme/themeLabVariants';
+import { THEME_PACK_DESIGN } from '../theme/themePackDesign';
+import { THEME_PACK_MOCKUP } from '../theme/themePackMockup';
 import { DEFAULT_THEME_ID, THEME_BY_ID, THEME_REGISTRY } from '../theme/themeRegistry';
 import { K_PACK_THEME_IDS, THEME_PACK_K } from '../theme/themePackK';
 import { J_PACK_THEME_IDS } from '../theme/themeRegistry';
@@ -118,6 +120,10 @@ export function ThemeLabPage() {
       <header className="glass-card p-4">
         <h1 className="font-display text-xl font-light text-accent">Theme Lab</h1>
         <p className="mt-2 text-sm text-text-muted">
+          <strong className="text-accent">Designpaket (5):</strong> header, dock, kort, meny och bakgrund
+          byts samtidigt — välj D1–D5.
+        </p>
+        <p className="mt-1 text-xs text-text-dim">
           Jämför utkast, ikoner och detaljer. Prod-tema ändras först när du godkänner i{' '}
           <code className="text-accent">docs/design/theme-lab/VARIANTS.md</code>.
         </p>
@@ -155,6 +161,32 @@ export function ThemeLabPage() {
           ))}
         </ul>
       </section>
+
+      <ThemeLabPackSection
+        title="Designpaket — 5 helapp (D1–D5)"
+        packs={THEME_PACK_DESIGN}
+        previewId={previewId}
+        themeId={themeId}
+        onPreview={applyPreview}
+        onApply={(id) => {
+          setTheme(id);
+          setAutoMode(false);
+          setPreviewId(id);
+        }}
+      />
+
+      <ThemeLabPackSection
+        title="Mockup tokens — 4 (äldre)"
+        packs={THEME_PACK_MOCKUP}
+        previewId={previewId}
+        themeId={themeId}
+        onPreview={applyPreview}
+        onApply={(id) => {
+          setTheme(id);
+          setAutoMode(false);
+          setPreviewId(id);
+        }}
+      />
 
       <ThemeLabPackSection
         title="Theme Pack K — nya (2026-05-28)"

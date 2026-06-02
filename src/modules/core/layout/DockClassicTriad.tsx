@@ -68,7 +68,7 @@ export function DockClassicTriad() {
   return (
     <div className="dock-classic">
       <DockSideLink
-        to="/familjen"
+        to="/familj"
         label="Familjen"
         icon={<Users className="h-4 w-4" strokeWidth={1.5} />}
       />

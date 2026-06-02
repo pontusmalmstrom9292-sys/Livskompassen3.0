@@ -20,7 +20,7 @@ function vaultRedirectSearch(vaultTab: string): string {
 /** Arbetsliv — stämpel, tid, logg publikt. Frånvaro/lön via Valv-menyn. */
 export function ArbetslivHubPage() {
   const { pathname } = useLocation();
-  const embeddedInLiv = pathname === '/liv';
+  const embeddedInLiv = pathname === '/vardagen';
   const { tabs, activeTab, setTab, legacyRedirect } = useHubTab('arbetsliv', {
     paramKey: embeddedInLiv ? 'workTab' : 'tab',
     legacyTabRedirects: {
@@ -80,9 +80,9 @@ export function ArbetslivHubPage() {
       >
         <p className="text-sm text-text-muted">
           Den här hubben är för jobb och lön. Privat kassa:{' '}
-          <a href="/vardagen?tab=ekonomi" className="text-accent hover:underline">
+          <Link to="/ekonomi" className="text-accent hover:underline">
             Vardagen → Ekonomi
-          </a>
+          </Link>
           .
         </p>
       </BentoCard>

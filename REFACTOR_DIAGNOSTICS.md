@@ -136,6 +136,15 @@ Changes:
 - `vite.config.ts` alias array aligned with `tsconfig` paths.
 - READMEs + `PROPOSED_BUNDLE_FIXES.md` (measured chunks, PR-ready patches only).
 
-Lint: Not present · Test: Not present
+## PHASE 7 — Återvinning superhub routing (2026-06-01)
 
-Smoke (post): `smoke:locked-ux` PASS · `smoke:orkester` PASS (script paths → `features/dailyLife/*`).
+| Item | Status |
+|------|--------|
+| `navigationRegistry` dailyLife → `/liv` + superhub query paths | **Synkad** |
+| `EconomyPage` → `/arbetsliv?tab=logg` | **Live** |
+| `ArbetslivHubPage` → `/ekonomi` Link | **Live** |
+| `EconomySavingsPanel` + `EconomyPayslipCard` på tid | **Live** |
+| `ImmersiveExperienceShell` + `MabraToolShell` helskärm | **Live** |
+| Audit | [`docs/evaluations/LOST-FEATURES-REGISTER.md`](docs/evaluations/LOST-FEATURES-REGISTER.md) |
+
+Build + smoke: `npm run build` · `smoke:locked-ux` · `smoke:arbetsliv` · `smoke:stampla` · `smoke:mabra`

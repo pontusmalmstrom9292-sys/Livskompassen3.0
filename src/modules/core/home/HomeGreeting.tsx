@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import { getTimeGreeting, useHomeDisplayName } from './utils/homeGreeting';
 
 const TAGLINES = [
@@ -12,14 +13,21 @@ function taglineForHour(h: number): string {
   return TAGLINES[0];
 }
 
-export function HomeGreeting() {
+type Props = {
+  /** Mockup-bild: «Styr med mening. Lev med riktning.» */
+  mockupCopy?: boolean;
+};
+
+export function HomeGreeting({ mockupCopy = false }: Props) {
   const name = useHomeDisplayName();
   const now = new Date();
   const greeting = getTimeGreeting(now);
-  const tagline = taglineForHour(now.getHours());
+  const tagline = mockupCopy
+    ? 'Styr med mening. Lev med riktning.'
+    : taglineForHour(now.getHours());
 
   return (
-    <header className="home-greeting">
+    <header className={clsx('home-greeting', mockupCopy && 'home-greeting--mockup')}>
       <p className="home-greeting__eyebrow">Styr med mening</p>
       <h2 className="home-greeting__title">
         <span className="home-greeting__salutation">{greeting},</span>{' '}

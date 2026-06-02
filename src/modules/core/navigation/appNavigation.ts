@@ -1,12 +1,5 @@
-/**
- * Ikonbeslut (2026-05-22, synkat med design-master):
- * - Hjärtat: BookOpen — yttre ska läsa "dagbok/reflektion", inte valv (plausible deniability).
- * - Familjen: Users — neutral loggning, skiljs från Hjärtat (Heart reserverad semantiskt för känsla).
- * - Vardagen: Compass på hem/kluster; Sprout i Modulhub-tile (vardagsrytm).
- * - Hamn: Anchor · Måbra: Sparkles · Bevis/valv: Shield (endast i chips/Fyren, ej egen dock-ikon).
- */
 import type { LucideIcon } from 'lucide-react';
-import { BookOpen, Anchor, Users, Sprout, Sparkles, Compass } from 'lucide-react';
+import { BookOpen, Users, Compass } from 'lucide-react';
 
 export type ClusterTone = 'gold' | 'indigo' | 'lavender' | 'emerald';
 export type HubPosition = 'center' | 'side';
@@ -43,10 +36,9 @@ export { HIDE_BEVIS_TAB } from './navFlags';
 import { HIDE_BEVIS_TAB } from './navFlags';
 
 export const FYREN_BEVIS_HINT =
-  'Öppna modulhubben (Kompass), tryck Hjärtat och håll 3 sekunder (Fyren), verifiera med fingeravtryck eller Face ID.';
+  'Öppna modulhubben, tryck Hjärtat och håll 3 sekunder (Fyren), verifiera med fingeravtryck eller Face ID.';
 
 export const DOSSIER_PATH = '/dossier';
-
 export const HJARTAT_PATH = '/dagbok';
 export const VARDAGEN_PATH = '/vardagen';
 
@@ -58,7 +50,11 @@ export const HJARTAT_TABS: ClusterTabDef<HjartatTab>[] = [
 
 export const VARDAGEN_TABS: ClusterTabDef<VardagenTab>[] = [
   { id: 'kompasser', label: 'Kompasser', isDefault: true },
+  { id: 'mabra', label: 'MåBra' },
+  { id: 'handling', label: 'Handling' },
+  { id: 'arbetsliv', label: 'Arbetsliv' },
   { id: 'ekonomi', label: 'Ekonomi' },
+  { id: 'drogfrihet', label: 'Drogfrihet' },
 ];
 
 const HJARTAT_CLUSTER: LifeCluster = {
@@ -79,30 +75,18 @@ const HJARTAT_CLUSTER: LifeCluster = {
   ],
 };
 
-const HAMN_CLUSTER: LifeCluster = {
-  id: 'hamn',
-  path: '/hamn',
-  label: 'Hamnen',
-  hubLabel: 'Hamn',
-  desc: 'Gränser och kommunikation mot ex.',
-  icon: Anchor,
-  tone: 'indigo',
-  hubPosition: 'side',
-  chips: [{ label: 'Safe Harbor · BIFF' }],
-};
-
 const FAMILIEN_CLUSTER: LifeCluster = {
   id: 'familjen',
   path: '/familjen',
   label: 'Familjen',
   hubLabel: 'Familjen',
-  desc: 'Neutral loggning för Kasper och Arvid.',
+  desc: 'Barnfokus, stunder och Trygg Hamn.',
   icon: Users,
   tone: 'lavender',
   hubPosition: 'side',
   chips: [
-    { label: 'Livsloggar' },
-    { label: 'Balansmätare' },
+    { label: 'Reflektion', tab: 'reflektion' },
+    { label: 'Trygg hamn', tab: 'hamn' },
   ],
 };
 
@@ -111,35 +95,20 @@ const VARDAGEN_CLUSTER: LifeCluster = {
   path: VARDAGEN_PATH,
   label: 'Vardagen',
   hubLabel: 'Vardagen',
-  desc: 'Daglig rytm och vardagsstress.',
+  desc: 'Daglig rytm, planering och mående.',
   icon: Compass,
   tone: 'emerald',
   hubPosition: 'side',
   chips: [
     { label: 'Kompasser', tab: 'kompasser' },
-    { label: 'Ekonomi', tab: 'ekonomi' },
+    { label: 'MåBra', tab: 'mabra' },
   ],
 };
 
-const MABRA_CLUSTER: LifeCluster = {
-  id: 'mabra',
-  path: '/mabra',
-  label: 'Måbra',
-  hubLabel: 'Måbra',
-  desc: 'KBT, självmedkänsla och små vanor.',
-  icon: Sparkles,
-  tone: 'lavender',
-  hubPosition: 'side',
-  chips: [{ label: 'Måbra-sidan' }],
-};
-
-/** All livsområden — single source för hem, hub och specs. */
 export const LIFE_CLUSTERS: LifeCluster[] = [
   HJARTAT_CLUSTER,
-  HAMN_CLUSTER,
   FAMILIEN_CLUSTER,
   VARDAGEN_CLUSTER,
-  MABRA_CLUSTER,
 ];
 
 export type HubModule = {
@@ -160,7 +129,7 @@ function clusterToHubModule(c: LifeCluster): HubModule {
     path: c.path,
     label: c.hubLabel,
     desc: c.hubPosition === 'center' ? centerHubDesc : c.desc.split('.')[0] ?? c.desc,
-    icon: c.hubPosition === 'center' ? c.icon : c.id === 'vardagen' ? Sprout : c.icon,
+    icon: c.icon,
     tone: c.tone,
     longPress: c.longPress,
     search: c.fyrenSearch,
@@ -173,8 +142,8 @@ export const HUB_SIDE_MODULES: HubModule[] = LIFE_CLUSTERS.filter((c) => c.hubPo
   clusterToHubModule,
 );
 
-export const HUB_TOP = HUB_SIDE_MODULES.slice(0, 2);
-export const HUB_BOTTOM = HUB_SIDE_MODULES.slice(2, 4);
+export const HUB_TOP = [HUB_SIDE_MODULES[0]!];
+export const HUB_BOTTOM = [HUB_SIDE_MODULES[1]!];
 
 export type LegacyRedirect = {
   from: string;
@@ -183,12 +152,20 @@ export type LegacyRedirect = {
 };
 
 export const LEGACY_REDIRECTS: LegacyRedirect[] = [
-  { from: '/kompasser', to: VARDAGEN_PATH },
+  { from: '/kompasser', to: VARDAGEN_PATH, search: '?tab=kompasser' },
   { from: '/ekonomi', to: VARDAGEN_PATH, search: '?tab=ekonomi' },
+  { from: '/mabra', to: VARDAGEN_PATH, search: '?tab=mabra' },
+  { from: '/planering', to: VARDAGEN_PATH, search: '?tab=handling' },
+  { from: '/arbetsliv', to: VARDAGEN_PATH, search: '?tab=arbetsliv' },
+  { from: '/stampla', to: VARDAGEN_PATH, search: '?tab=arbetsliv' },
+  { from: '/liv', to: VARDAGEN_PATH },
+  { from: '/familj', to: '/familjen' },
+  { from: '/barnen', to: '/familjen?tab=reflektion' },
+  { from: '/hamn', to: '/familjen?tab=hamn' },
+  { from: '/drogfrihet', to: VARDAGEN_PATH, search: '?tab=drogfrihet' },
   { from: '/kunskap', to: '/dagbok', search: '?tab=bevis&vaultTab=kunskapsbank' },
   { from: '/valv', to: HJARTAT_PATH, search: '?tab=bevis' },
   { from: '/speglar', to: HJARTAT_PATH, search: '?tab=speglar' },
-  { from: '/barnen', to: '/familjen' },
 ];
 
 export {
@@ -199,7 +176,9 @@ export {
   hjartatTabHref,
   vardagenTabHref,
 } from './tabRegistry';
-import { hjartatTabHref, vardagenTabHref } from './tabRegistry';
+import { clusterTabSearch, hjartatTabHref, vardagenTabHref } from './tabRegistry';
+
+const FAMILIEN_PATH = '/familjen';
 
 export function getVisibleHjartatTabs(): ClusterTabDef<HjartatTab>[] {
   if (HIDE_BEVIS_TAB) return HJARTAT_TABS.filter((t) => t.id !== 'bevis');
@@ -232,6 +211,9 @@ export function clusterChipHref(cluster: LifeCluster, chip: ClusterChip): {
   }
   if (cluster.path === VARDAGEN_PATH) {
     return vardagenTabHref(tab as VardagenTab);
+  }
+  if (cluster.path === FAMILIEN_PATH) {
+    return { pathname: FAMILIEN_PATH, search: clusterTabSearch(tab, 'reflektion') };
   }
   return { pathname: cluster.path, search: '' };
 }

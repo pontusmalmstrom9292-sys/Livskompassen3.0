@@ -32,7 +32,7 @@ export const HERO_ORBIT_SLOTS: OrbitSlotConfig[] = [
     label: 'Planering',
     shortLabel: 'Planering',
     blurb: 'Handling · kanban',
-    to: '/planering?tab=handling',
+    to: '/vardagen?tab=handling',
     angle: 45,
     ring: 'intercardinal',
   },
@@ -62,7 +62,7 @@ export const HERO_ORBIT_SLOTS: OrbitSlotConfig[] = [
     label: 'Personlig utveckling',
     shortLabel: 'Utveckling',
     blurb: 'Övningar · MåBra',
-    to: '/mabra',
+    to: '/vardagen?tab=mabra',
     angle: 180,
     ring: 'cardinal',
   },
@@ -111,8 +111,8 @@ export type HeroQuickPick = {
 export const HERO_QUICK_PICKS: HeroQuickPick[] = [
   { id: 'checkin', label: 'Check-in', to: '/', icon: 'rutiner' },
   { id: 'dagbok', label: 'Dagbok', to: '/dagbok', icon: 'dagbok' },
-  { id: 'uppgift', label: 'Uppgift', to: '/planering?tab=handling', icon: 'planering' },
-  { id: 'hamn', label: 'Hamn', to: '/hamn', icon: 'hamn' },
+  { id: 'uppgift', label: 'Uppgift', to: '/vardagen?tab=handling', icon: 'planering' },
+  { id: 'hamn', label: 'Hamn', to: '/familjen?tab=hamn', icon: 'hamn' },
   { id: 'kompis', label: 'Kompis', to: '/kompis', mark: 'kompis' },
 ];
 

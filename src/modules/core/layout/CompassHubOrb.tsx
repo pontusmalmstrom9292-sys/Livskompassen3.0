@@ -10,11 +10,10 @@ import { HUB_BOTTOM, HUB_CENTER, HUB_TOP, type HubModule } from './moduleHubConf
 import { useHubModuleNav } from './useHubModuleNav';
 import { LivskompassMark } from '../ui/LivskompassMark';
 
+/** Tre kluster: Hjärtat (center) + Familjen (tl) + Vardagen (br). */
 const SATELLITES: { module: HubModule; slot: 'tl' | 'tr' | 'bl' | 'br' }[] = [
   { module: HUB_TOP[0]!, slot: 'tl' },
-  { module: HUB_TOP[1]!, slot: 'tr' },
-  { module: HUB_BOTTOM[0]!, slot: 'bl' },
-  { module: HUB_BOTTOM[1]!, slot: 'br' },
+  { module: HUB_BOTTOM[0]!, slot: 'br' },
 ];
 
 const toneClass: Record<HubModule['tone'], string> = {

@@ -18,7 +18,7 @@ export function parseVardagenTab(raw: string | null): VardagenTab {
 
 export function VardagenPage() {
   const { pathname } = useLocation();
-  const embeddedInLiv = pathname === '/liv';
+  const embeddedInLiv = pathname === '/vardagen';
   const { tabs, activeTab, setTab, legacyRedirect } = useHubTab('vardagen', {
     paramKey: embeddedInLiv ? 'vardagenTab' : 'tab',
     legacyTabRedirects: {

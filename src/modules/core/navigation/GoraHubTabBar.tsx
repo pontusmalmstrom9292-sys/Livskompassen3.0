@@ -11,9 +11,9 @@ const GORA_TABS: TabBarItem<GoraTab>[] = [
 ];
 
 const GORA_PATHS: Record<GoraTab, string> = {
-  handling: '/planering?tab=handling',
+  handling: '/vardagen?tab=handling',
   projekt: '/projekt',
-  inkorg: '/planering?tab=inkorg',
+  inkorg: '/vardagen?tab=inkorg',
 };
 
 export function resolveGoraTab(pathname: string, search: string): GoraTab {

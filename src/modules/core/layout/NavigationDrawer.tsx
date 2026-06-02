@@ -10,6 +10,8 @@ import { LivskompassMark } from '../ui/LivskompassMark';
 import { DrawerModeToggle } from './DrawerModeToggle';
 import { DrawerHubAccordion, isDrawerItemActive } from './DrawerHubAccordion';
 import { useWeaverPendingCount } from '@/features/lifeJournal/diary/diary/hooks/useWeaverPendingCount';
+import { useDesignPack } from '../design/useDesignPack';
+import { clsx } from 'clsx';
 
 type Props = {
   open: boolean;
@@ -24,9 +26,10 @@ function collectActiveAncestorIds(
   pathname: string,
   search: string,
   hash: string,
+  vaultSessionOpen: boolean,
 ): Set<string> {
   const expanded = new Set<string>();
-  const visible = getVisibleDrawerTruth(section);
+  const visible = getVisibleDrawerTruth(section, vaultSessionOpen);
   for (const entry of visible) {
     if (!entry.parentId) continue;
     const item = {
@@ -50,7 +53,9 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const user = useStore((s) => s.user);
   const weaverPendingCount = useWeaverPendingCount(user?.uid);
-  const vaultOpen = isVaultUnlocked || hasVaultGate();
+  const { chrome: designChrome } = useDesignPack();
+  const vaultSessionOpen = isVaultUnlocked || hasVaultGate();
+  const vaultOpen = vaultSessionOpen;
   const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set());
 
   const pathname = location.pathname;
@@ -68,10 +73,10 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
 
   const activeAncestors = useMemo(
     () => ({
-      vardag: collectActiveAncestorIds('vardag', pathname, search, hash),
-      valv: collectActiveAncestorIds('valv', pathname, search, hash),
+      vardag: collectActiveAncestorIds('vardag', pathname, search, hash, vaultSessionOpen),
+      valv: collectActiveAncestorIds('valv', pathname, search, hash, vaultSessionOpen),
     }),
-    [pathname, search, hash],
+    [pathname, search, hash, vaultSessionOpen],
   );
 
   useEffect(() => {
@@ -155,7 +160,10 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
   return createPortal(
     <>
       <aside
-        className="nav-drawer"
+        className={clsx(
+          'nav-drawer',
+          designChrome?.drawer === 'flat-gold' && 'nav-drawer--design-flat',
+        )}
         role="dialog"
         aria-label={vaultOpen ? 'Huvudmeny och Valv' : 'Huvudmeny'}
         aria-modal="true"
@@ -190,6 +198,7 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
             <p className="nav-drawer__section-title">Vardag</p>
             <DrawerHubAccordion
               section="vardag"
+              vaultSessionOpen={vaultSessionOpen}
               pathname={pathname}
               search={search}
               hash={hash}
@@ -203,6 +212,7 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
               <p className="nav-drawer__section-title">Valv</p>
               <DrawerHubAccordion
                 section="valv"
+                vaultSessionOpen={vaultSessionOpen}
                 pathname={pathname}
                 search={search}
                 hash={hash}

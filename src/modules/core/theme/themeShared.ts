@@ -1,8 +1,8 @@
 /** Shared CSS vars for all theme packs. */
 export const THEME_SHARED_VARS = {
-  '--text': '#f5f0e8',
-  '--text-muted': '#c4bdb4',
-  '--text-dim': '#a8a29e',
-  '--warning': '#b45309',
-  '--danger': '#dc2626',
+  '--text': '#f8fafc',
+  '--text-muted': '#94a3b8',
+  '--text-dim': '#64748b',
+  '--warning': '#f59e0b',
+  '--danger': '#ef4444',
 } as const;

@@ -31,6 +31,7 @@ export const OFFLINE_WRITE_ALLOWLIST = new Set<string>([
   C.economy_ledger,
   C.economy_fixed_bills,
   C.budget_savings,
+  C.user_widgets,
 ]);
 
 /** Evidence paths — måste inte köas offline (produkt + integritet). */

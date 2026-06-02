@@ -27,6 +27,21 @@ const PACKS = [
     include:
       'docs/design/VALV-HUBB-SPEC.md,docs/specs/modules/Verklighetsvalvet-SPEC.md,.context/locked-ux-features.md,src/modules/features/lifeJournal/evidence/vault/**',
   },
+  {
+    name: 'mabra',
+    include:
+      'docs/specs/modules/Mabra-SPEC.md,docs/specs/modules/Mabra-CONTENT-BANK.md,src/modules/features/dailyLife/wellbeing/mabra/**,docs/design/ICON-STYLE-GUIDE.md',
+  },
+  {
+    name: 'ekonomi',
+    include:
+      'docs/specs/modules/Ekonomi-SPEC.md,src/modules/features/dailyLife/wellbeing/economy/**,src/modules/core/firebase/timeEconomyFirestore.ts',
+  },
+  {
+    name: 'arbetsliv',
+    include:
+      'src/modules/features/dailyLife/arbetsliv/**,src/modules/features/admin/stampla/**,docs/evaluations/2026-05-25-arbetsliv-hub.md',
+  },
 ];
 
 mkdirSync(outDir, { recursive: true });

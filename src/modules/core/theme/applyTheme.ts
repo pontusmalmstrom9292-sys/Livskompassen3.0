@@ -34,6 +34,12 @@ export function applyTheme(themeId: string): void {
   root.dataset.theme = pack.id;
   root.dataset.themeBg = pack.background;
 
+  if (pack.designPackId) {
+    root.dataset.designPack = pack.designPackId;
+  } else {
+    delete root.dataset.designPack;
+  }
+
   Object.entries(pack.cssVars).forEach(([key, value]) => {
     root.style.setProperty(key, value);
   });

@@ -1,14 +1,15 @@
-import { useEffect, useRef } from 'react';
-import { Brain, Loader2, Search, Send, Sparkles, User } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Brain, Loader2, Search, Send, Sparkles, User, X, FileText, ExternalLink } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { VAVAREN_VALVCHAT_HINT } from '../../vault/constants/vavarenCopy';
 import type { ValvChatCitation } from '../api/valvChatService';
 import { useValvChatSession, type ValvChatMessage } from '../hooks/useValvChatSession';
+import type { VaultLog } from '@/core/types/firestore';
 
 type ValvChatPanelProps = {
-  /** Zero Footprint: rensa session när false (låsning / byte från Sök). */
   active: boolean;
   onCitationClick?: (docId: string) => void;
+  logs?: (VaultLog & { id: string })[]; // Tillagd prop för interaktiv källgranskning
 };
 
 function CitationList({
@@ -28,12 +29,10 @@ function CitationList({
             <button
               type="button"
               onClick={() => onCitationClick?.(c.docId)}
-              disabled={!onCitationClick}
-              className="w-full rounded-lg border border-success/20 bg-success/5 p-2 text-left hover:opacity-90 disabled:cursor-default"
+              className="w-full rounded-lg border border-success/20 bg-success/5 p-2 text-left hover:opacity-90 cursor-pointer"
             >
               <span className="block text-[10px] text-success">
-                {c.date || 'datum saknas'} · {(c.docId ?? 'okänd').slice(0, 8)}…
-                {onCitationClick ? ' · visa post' : ''}
+                {c.date || 'datum saknas'} · {(c.docId ?? 'okänd').slice(0, 8)}… · Granska källa
               </span>
               <span className="mt-1 block text-xs text-text-muted">{c.excerpt}</span>
             </button>
@@ -80,9 +79,12 @@ function ChatBubble({
   );
 }
 
-export function ValvChatPanel({ active, onCitationClick }: ValvChatPanelProps) {
+export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPanelProps) {
   const { draft, setDraft, messages, loading, error, submit } = useValvChatSession(active);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Lokal state för källförhandsgranskning (Citation Preview Modal)
+  const [previewLog, setPreviewLog] = useState<(VaultLog & { id: string }) | null>(null);
 
   useEffect(() => {
     if (messages.length === 0 && !loading) return;
@@ -95,6 +97,16 @@ export function ValvChatPanel({ active, onCitationClick }: ValvChatPanelProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     void submit(draft);
+  };
+
+  // Fånga källklick och visa modal istället för att lämna chatten direkt
+  const handleSourceClick = (docId: string) => {
+    const matchedLog = logs.find((l) => l.id === docId);
+    if (matchedLog) {
+      setPreviewLog(matchedLog);
+    } else if (onCitationClick) {
+      onCitationClick(docId); // Fallback till föräldern om logg ej hittas lokalt
+    }
   };
 
   return (
@@ -124,7 +136,7 @@ export function ValvChatPanel({ active, onCitationClick }: ValvChatPanelProps) {
           )}
           <div className="space-y-4">
             {messages.map((msg) => (
-              <ChatBubble key={msg.id} msg={msg} onCitationClick={onCitationClick} />
+              <ChatBubble key={msg.id} msg={msg} onCitationClick={handleSourceClick} />
             ))}
             {loading && (
               <div className="glass-card flex items-center gap-2 rounded-2xl px-4 py-3 text-sm text-text-dim">
@@ -156,6 +168,103 @@ export function ValvChatPanel({ active, onCitationClick }: ValvChatPanelProps) {
           </button>
         </form>
       </BentoCard>
+
+      {/* —— INTERAKTIV KÄLLGRANSKNINGS-MODAL —— */}
+      {previewLog && (
+        <div className="fixed inset-0 z-[250] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-lg rounded-2xl border border-accent/25 bg-surface-2 p-5 shadow-accent-glow relative max-h-[85vh] overflow-y-auto">
+            <button
+              type="button"
+              onClick={() => setPreviewLog(null)}
+              className="absolute right-4 top-4 rounded-full border border-border bg-bg p-1 text-text-dim hover:text-text cursor-pointer"
+              aria-label="Stäng källgranskning"
+            >
+              <X className="h-4 w-4" />
+            </button>
+
+            <div className="flex items-center gap-2 border-b border-border pb-3 mb-4">
+              <FileText className="h-4 w-4 text-accent" />
+              <div>
+                <h3 className="text-sm font-semibold text-accent">Källgranskning · Låst post</h3>
+                <p className="text-[9px] uppercase tracking-wider text-text-dim">
+                  ID: {previewLog.id}
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-3.5 text-sm">
+              <div className="grid grid-cols-2 gap-2 text-[10px] uppercase tracking-widest text-text-dim">
+                <div>
+                  <span>Kategori</span>
+                  <p className="font-semibold text-text mt-0.5">{previewLog.category ?? 'allmänt'}</p>
+                </div>
+                <div>
+                  <span>Server-tidsstämpel</span>
+                  <p className="font-semibold text-text mt-0.5">
+                    {previewLog.createdAt ? previewLog.createdAt.slice(0, 19).replace('T', ' ') : '—'}
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <span className="text-[10px] uppercase tracking-widest text-text-dim">Låst sanning</span>
+                <div className="mt-1 p-3.5 rounded-xl border border-border-strong bg-surface/40 max-h-64 overflow-y-auto">
+                  <p className="whitespace-pre-wrap text-text-muted leading-relaxed select-all">
+                    {previewLog.truth}
+                  </p>
+                </div>
+              </div>
+
+              {previewLog.myReality && (
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                  <div className="p-3 rounded-lg border border-border bg-surface-3/30">
+                    <span className="text-[9px] uppercase tracking-widest text-text-dim">Hens version</span>
+                    <p className="text-xs text-text-muted mt-1">{previewLog.theirVersion || '—'}</p>
+                  </div>
+                  <div className="p-3 rounded-lg border border-accent/20 bg-accent/5">
+                    <span className="text-[9px] uppercase tracking-widest text-accent-light">Min verklighet</span>
+                    <p className="text-xs text-text mt-1">{previewLog.myReality}</p>
+                  </div>
+                </div>
+              )}
+
+              {previewLog.evidenceUrl && (
+                <div className="rounded-xl border border-border-strong bg-surface/20 p-2.5 flex items-center justify-between">
+                  <span className="text-xs text-text-muted">📎 Bifogat bevisdokument</span>
+                  <a
+                    href={previewLog.evidenceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-pill--ghost text-[10px] px-2.5 py-1 inline-flex items-center gap-1"
+                  >
+                    <ExternalLink className="h-3 w-3" /> Öppna bilaga
+                  </a>
+                </div>
+              )}
+
+              <div className="flex gap-2 border-t border-border pt-4 mt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onCitationClick) onCitationClick(previewLog.id);
+                    setPreviewLog(null);
+                  }}
+                  className="btn-pill--accent text-xs flex-1"
+                >
+                  Visa och highlighta i loggen
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPreviewLog(null)}
+                  className="btn-pill--ghost text-xs flex-1"
+                >
+                  Stäng
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

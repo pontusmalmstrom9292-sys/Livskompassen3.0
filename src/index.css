@@ -1,34 +1,44 @@
+@import './styles/design-packs.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .font-display-serif {
+    font-family: 'Cinzel', 'Outfit', serif;
+  }
+}
+
 :root {
-  /* Theme Pack I — default stone (overridden by applyTheme at runtime) */
-  --bg-teal-deep: #0a1614;
-  --bg-dusk: #12151f;
+  /* Obsidian Calm — kanon (.cursorrules); runtime: applyTheme + themeRegistry */
+  --bg-teal-deep: #020617;
+  --bg-dusk: #050b14;
   --compass-disk: #0d3b3b;
   --text-gold: #d4af37;
   --text-gold-dim: #9a7b2f;
+  --accent-dim: #9a7b2f;
   --accent-ember: #f59e0b;
 
   --bg: var(--bg-teal-deep);
-  --surface: #0f1a18;
-  --surface-2: #142220;
-  --surface-3: #1a2b28;
-  --text: #f5f0e8;
-  --text-muted: #c4bdb4;
-  --text-dim: #a8a29e;
+  --surface: #050b14;
+  --surface-2: #09111e;
+  --surface-3: #111b2d;
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
   --accent: var(--text-gold);
-  --accent-secondary: var(--accent-ember);
-  --accent-light: #e8d48a;
+  --accent-secondary: #6366f1;
+  --accent-light: #fde68a;
+  --accent-ai: #818cf8;
   --accent-glow: rgba(212, 175, 55, 0.18);
-  --success: #2dd4bf;
-  --glass: rgba(6, 8, 8, 0.9);
-  --glass-hero: rgba(4, 4, 4, 0.94);
+  --success: #10b981;
+  --glass: rgba(5, 11, 20, 0.9);
+  --glass-hero: rgba(2, 6, 23, 0.94);
   --border: rgba(212, 175, 55, 0.12);
-  --border-strong: rgba(212, 175, 55, 0.25);
-  --warning: #b45309;
-  --danger: #dc2626;
+  --border-strong: rgba(99, 102, 241, 0.22);
+  --warning: #f59e0b;
+  --danger: #ef4444;
 
   /* Utrymme under scrollbart innehåll — dock-rail + banner + safe area + marginal */
   --app-dock-clearance: calc(8.5rem + env(safe-area-inset-bottom, 0px) + 1.5rem);
@@ -53,6 +63,23 @@
 
   .tabular-nums {
     font-variant-numeric: tabular-nums;
+  }
+
+  /* Theme Pack E — prod default (Obsidian Calm + guld chrome) */
+  html[data-theme='E-skymning-prod'] {
+    --bg-teal-deep: #020617;
+    --bg: #020617;
+    --bg-dusk: #050b14;
+    --surface: #050b14;
+    --surface-2: #09111e;
+    --surface-3: #111b2d;
+    --compass-disk: #0d3b3b;
+    --accent: #d4af37;
+    --accent-secondary: #6366f1;
+    --accent-light: #fde68a;
+    --accent-ai: #818cf8;
+    --success: #10b981;
+    --border-strong: rgba(99, 102, 241, 0.22);
   }
 
   /* Theme Pack I — CSS fallbacks (runtime: applyTheme + themeRegistry.ts) */
@@ -260,6 +287,101 @@
     background: radial-gradient(ellipse 120% 80% at 50% -20%, var(--bg-dusk) 0%, var(--bg) 55%);
   }
 
+  /* Mockup-teman (M1–M4) — foto + gradient som referensbilderna */
+  html[data-theme-bg='mockup-scenic'] .ambient-bg.ambient-bg--scenic,
+  html[data-theme-bg='mockup-warm'] .ambient-bg.ambient-bg--scenic {
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--bg-dusk) 88%, transparent) 0%,
+        color-mix(in srgb, var(--bg) 70%, transparent) 38%,
+        color-mix(in srgb, var(--bg) 45%, transparent) 100%
+      ),
+      url('/design/home-hero-scenic.png') center bottom / cover no-repeat;
+  }
+
+  html[data-theme-bg='mockup-aurora'] .ambient-bg.ambient-bg--scenic {
+    background:
+      radial-gradient(ellipse 90% 55% at 50% 0%, rgba(56, 120, 90, 0.22) 0%, transparent 55%),
+      radial-gradient(ellipse 70% 40% at 30% 15%, rgba(120, 80, 180, 0.12) 0%, transparent 50%),
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--bg-dusk) 85%, transparent) 0%,
+        var(--bg) 55%
+      ),
+      url('/design/home-hero-scenic.png') center bottom / cover no-repeat;
+  }
+
+  html[data-theme^='M-mockup-'] .ambient-blob--gold {
+    opacity: 0.35;
+  }
+
+  html[data-theme^='M-mockup-'] .glass-card {
+    border-width: 1.5px;
+    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+    background: color-mix(in srgb, var(--glass) 88%, rgba(4, 8, 10, 0.75));
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  }
+
+  html[data-theme^='M-mockup-'] .hub-page-shell__title,
+  html[data-theme^='M-mockup-'] .home-page__title,
+  html[data-theme^='M-mockup-'] .home-greeting__title {
+    font-family: 'Cinzel', 'Outfit', serif;
+    letter-spacing: 0.06em;
+  }
+
+  html[data-theme^='M-mockup-'] .home-greeting--mockup .home-greeting__tagline {
+    @apply text-sm text-accent/90;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.02em;
+  }
+
+  html[data-theme^='M-mockup-'] .chip--active {
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    color: var(--accent-light);
+  }
+
+  html[data-theme^='M-mockup-'] .btn-pill--accent {
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--accent) 95%, #fff) 0%,
+      color-mix(in srgb, var(--accent-secondary) 85%, var(--accent)) 100%
+    );
+    border: 1px solid color-mix(in srgb, var(--accent-light) 50%, transparent);
+    color: #1a1410;
+    font-weight: 600;
+  }
+
+  html[data-theme^='M-mockup-'] .home-hero-kanon--mockup {
+    @apply space-y-4 pb-2;
+  }
+
+  html[data-theme^='M-mockup-'] .home-hero-kanon--mockup .home-hero-kanon__welcome-module {
+    @apply mx-auto w-full max-w-[min(100vw-1.5rem,380px)];
+  }
+
+  html[data-theme^='M-mockup-'] .home-hero-kanon__welcome-compass {
+    @apply relative z-[1] -my-1 flex justify-center px-2 py-1;
+  }
+
+  html[data-theme^='M-mockup-'] .home-hero-kanon__welcome-compass .livskompass-hero--v2 {
+    @apply w-full max-w-[min(100vw-2.5rem,340px)];
+  }
+
+  html[data-theme^='M-mockup-'] .home-hero-kanon--mockup .home-hero-kanon__welcome-module .home-greeting--mockup {
+    @apply pb-2;
+  }
+
+  html[data-theme^='M-mockup-'] .home-hero-kanon--mockup .home-hero-kanon__welcome-module .dagens-riktning-card__main {
+    border-top: none;
+    @apply pt-2;
+  }
+
+  html[data-theme^='M-mockup-'] .app-main {
+    padding-bottom: calc(var(--app-dock-clearance) + 0.5rem);
+  }
+
   .ambient-blob--white {
     background: rgba(255, 255, 255, 0.04);
   }
@@ -419,7 +541,19 @@
 
   .dock-shell {
     @apply pointer-events-none fixed bottom-0 left-0 right-0 z-50 flex justify-center px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-0;
-    background: linear-gradient(to top, rgba(2, 6, 23, 0.72) 0%, transparent 78%);
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--bg) 92%, transparent) 0%,
+      transparent 78%
+    );
+  }
+
+  .dock-shell .dock-classic {
+    @apply rounded-2xl border px-3 py-1.5;
+    border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+    background: color-mix(in srgb, var(--glass) 85%, transparent);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
   }
 
   .dock-nav {
@@ -437,11 +571,12 @@
   /* Båge under kompass borttagen 2026-05-23 — se VALV-ICON-KANON / DOCK-KANON */
 
   .dock-classic {
-    @apply pointer-events-auto relative inline-flex w-auto items-center justify-center gap-1 px-0.5;
+    @apply pointer-events-auto relative inline-flex w-auto max-w-[min(100vw-1.5rem,22rem)] items-center justify-center gap-2 px-1;
+    padding-bottom: max(0.25rem, env(safe-area-inset-bottom, 0px));
   }
 
   .dock-classic__side {
-    @apply flex w-[3.25rem] shrink-0 flex-col items-center gap-0 border-0 bg-transparent p-0 text-accent/75 transition-colors;
+    @apply flex min-h-[44px] min-w-[44px] shrink-0 flex-col items-center justify-center gap-0.5 border-0 bg-transparent p-1 text-accent/75 transition-colors;
   }
 
   .dock-classic__side--active {
@@ -468,7 +603,7 @@
   }
 
   .dock-classic__center {
-    @apply flex shrink-0 flex-col items-center border-0 bg-transparent p-0 text-accent transition-transform;
+    @apply flex min-h-[44px] min-w-[44px] shrink-0 flex-col items-center justify-center border-0 bg-transparent p-0 text-accent transition-transform;
   }
 
   .dock-classic__center:hover {
@@ -482,7 +617,7 @@
   }
 
   .dock-classic__plate {
-    @apply relative flex h-10 w-10 items-center justify-center rounded-full;
+    @apply relative flex h-11 w-11 items-center justify-center rounded-full;
     background: linear-gradient(
       165deg,
       rgba(26, 20, 16, 0.95) 0%,
@@ -1378,7 +1513,7 @@
   }
 
   .home-page__title {
-    @apply mt-1 font-display text-xl font-light text-accent;
+    @apply mt-1 font-display-serif text-xl font-light text-accent;
   }
 
   .home-page__lead {
@@ -1894,8 +2029,8 @@
     @apply fixed inset-y-0 left-0 z-[201] flex w-[68vw] max-w-[22rem] flex-col overflow-hidden border-r pt-[env(safe-area-inset-top)];
     pointer-events: auto;
     touch-action: manipulation;
-    border-color: color-mix(in srgb, var(--accent) 20%, transparent);
-    background: rgba(10, 10, 10, 0.82);
+    border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
     box-shadow: 20px 0 56px rgba(0, 0, 0, 0.65);
     animation: nav-drawer-in 0.26s ease-out;
   }
@@ -1904,12 +2039,12 @@
     @apply pointer-events-none absolute inset-0;
     background:
       linear-gradient(
-        105deg,
-        rgba(10, 10, 10, 0.78) 0%,
-        rgba(10, 10, 10, 0.55) 45%,
-        rgba(10, 10, 10, 0.72) 100%
+        180deg,
+        color-mix(in srgb, var(--bg-dusk) 92%, transparent) 0%,
+        color-mix(in srgb, var(--bg) 75%, transparent) 42%,
+        color-mix(in srgb, var(--bg) 55%, transparent) 100%
       ),
-      url('/design/home-hero-scenic.png') center 30% / cover no-repeat;
+      url('/design/home-hero-scenic.png') center bottom / cover no-repeat;
     filter: blur(0);
   }
 
@@ -1917,8 +2052,8 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(10, 10, 10, 0.52);
-    backdrop-filter: blur(6px);
+    background: color-mix(in srgb, var(--bg) 58%, transparent);
+    backdrop-filter: blur(5px);
     pointer-events: none;
   }
 
@@ -1955,7 +2090,7 @@
   }
 
   .nav-drawer__title {
-    font-family: 'Outfit', serif;
+    font-family: 'Cinzel', 'Outfit', serif;
     @apply text-sm font-semibold uppercase tracking-[0.32em] text-accent;
     text-shadow: 0 1px 12px color-mix(in srgb, var(--accent) 30%, transparent);
   }
@@ -2135,7 +2270,7 @@
   }
 
   .nav-drawer__row {
-    @apply relative z-10 flex w-full cursor-pointer items-center gap-3 rounded-xl border-0 px-2 py-2.5 text-left transition-colors;
+    @apply relative z-10 flex min-h-[44px] w-full cursor-pointer items-center gap-3 rounded-xl border-0 px-2 py-2.5 text-left transition-colors;
     background: transparent;
     color: var(--text);
     pointer-events: auto;
@@ -2164,7 +2299,7 @@
   .nav-drawer__row-icon {
     @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-accent;
     border: 1.5px solid color-mix(in srgb, var(--accent) 45%, transparent);
-    background: rgba(10, 10, 10, 0.55);
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 8%, transparent);
   }
 
@@ -2360,11 +2495,42 @@
     @apply relative z-[1] flex flex-col items-center gap-3 px-1 text-center;
   }
 
-  .home-page--scenic .home-hero-kanon__scenic-stack .home-hero-kanon__intro {
+  .home-page--scenic .home-hero-kanon__welcome-module {
+    @apply relative overflow-hidden rounded-2xl;
+    border: 1.5px solid color-mix(in srgb, var(--accent) 34%, transparent);
+    background: linear-gradient(
+      168deg,
+      rgba(48, 40, 28, 0.84) 0%,
+      rgba(16, 14, 12, 0.9) 38%,
+      rgba(6, 8, 16, 0.9) 100%
+    );
+    backdrop-filter: blur(14px);
+    box-shadow:
+      0 10px 32px rgba(0, 0, 0, 0.48),
+      inset 0 1px 0 rgba(255, 243, 210, 0.12);
+  }
+
+  .home-page--scenic .home-hero-kanon__welcome-module::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(212, 175, 55, 0.55) 50%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  .home-page--scenic .home-hero-kanon__welcome-module .home-hero-kanon__intro {
     @apply static w-full;
   }
 
-  .home-page--scenic .home-hero-kanon__scenic-stack .home-streak-chip {
+  .home-page--scenic .home-hero-kanon__welcome-module .home-streak-chip {
     @apply absolute right-3 top-3 z-[2];
   }
 
@@ -2474,7 +2640,7 @@
   }
 
   .livskompass-hero {
-    @apply flex w-full flex-col items-center;
+    @apply flex w-full max-w-[min(100vw-2rem,360px)] flex-col items-center mx-auto;
   }
 
   .livskompass-hero__panel {
@@ -3172,28 +3338,31 @@
     border-color: color-mix(in srgb, var(--accent) 18%, transparent);
   }
 
-  .home-page--scenic .home-hero-kanon__scenic-stack .dagens-riktning {
-    @apply -mt-px space-y-0;
+  .home-page--scenic .home-hero-kanon__welcome-module .dagens-riktning {
+    @apply space-y-0;
   }
 
-  .home-page--scenic .home-hero-kanon__scenic-stack .dagens-riktning-card {
-    @apply rounded-t-none rounded-b-2xl;
-    border-color: color-mix(in srgb, var(--accent) 34%, transparent);
-    border-top: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
-    box-shadow:
-      0 10px 32px rgba(0, 0, 0, 0.48),
-      inset 0 1px 0 rgba(255, 243, 210, 0.08);
+  .home-page--scenic .home-hero-kanon__welcome-module .dagens-riktning-card {
+    @apply rounded-none border-0 bg-transparent px-4 pb-4 pt-0 shadow-none;
+    backdrop-filter: none;
   }
 
-  .home-page--scenic .home-hero-kanon__scenic-stack .dagens-riktning-card::before {
+  .home-page--scenic .home-hero-kanon__welcome-module .dagens-riktning-card::before {
     display: none;
   }
 
-  .home-page--scenic .home-hero-kanon__scenic-stack .home-greeting {
-    border-bottom: none;
-    box-shadow:
-      0 4px 20px rgba(0, 0, 0, 0.35),
-      inset 0 1px 0 rgba(255, 243, 210, 0.12);
+  .home-page--scenic .home-hero-kanon__welcome-module .dagens-riktning-card__main {
+    @apply border-t pt-4;
+    border-color: color-mix(in srgb, var(--accent) 16%, transparent);
+  }
+
+  .home-page--scenic .home-hero-kanon__welcome-module .home-greeting {
+    @apply rounded-none border-0 bg-transparent px-5 pb-3 pt-4 shadow-none;
+    backdrop-filter: none;
+  }
+
+  .home-page--scenic .home-hero-kanon__welcome-module .home-greeting::before {
+    display: none;
   }
 
   .home-hero-kanon__dots {
@@ -4037,7 +4206,7 @@
     background: linear-gradient(
       135deg,
       rgba(212, 175, 55, 0.22) 0%,
-      rgba(45, 212, 191, 0.08) 50%,
+      color-mix(in srgb, var(--success) 12%, transparent) 50%,
       transparent 100%
     );
   }
@@ -4050,9 +4219,65 @@
     @apply rounded-2xl border border-accent/25 bg-gradient-to-br from-accent/10 to-transparent p-4;
   }
 
+  .familjen-feature-card {
+    @apply flex w-full items-center gap-3 rounded-2xl border p-4 text-left transition-colors;
+    border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+    background: color-mix(in srgb, var(--glass) 92%, transparent);
+  }
+
+  .familjen-feature-card:hover {
+    border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+    background: color-mix(in srgb, var(--accent) 6%, var(--glass));
+  }
+
+  .familjen-feature-card__icon {
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-accent;
+    border: 1.5px solid color-mix(in srgb, var(--accent) 45%, transparent);
+    background: color-mix(in srgb, var(--bg) 70%, transparent);
+  }
+
+  .familjen-feature-card__body {
+    @apply min-w-0 flex-1;
+  }
+
+  .familjen-feature-card__title {
+    @apply block text-sm font-medium text-text;
+  }
+
+  .familjen-feature-card__desc {
+    @apply mt-0.5 block text-xs leading-relaxed text-text-dim;
+  }
+
+  .familjen-feature-card__chevron {
+    @apply h-4 w-4 shrink-0 text-accent/55;
+  }
+
+  .familjen-feature-card__bookmark {
+    @apply absolute right-3 top-3 h-3 w-2 rounded-sm bg-accent/80;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%);
+  }
+
+  .familjen-feature-card {
+    @apply relative;
+  }
+
+  .kompis-hub-page__avatar {
+    border: 1.5px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    background: color-mix(in srgb, var(--bg) 75%, transparent);
+    box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+
+  .kompis-hub-page__intro p {
+    @apply leading-relaxed;
+  }
+
+  .kompis-hub-page .glass-card {
+    border-color: color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+
   .familjen-week-bar {
-    @apply rounded-t-md bg-gradient-to-t from-emerald-500/80 to-emerald-300/90;
-    box-shadow: 0 0 12px rgba(45, 212, 191, 0.25);
+    @apply rounded-t-md bg-gradient-to-t from-accent/70 to-accent-light/90;
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 22%, transparent);
   }
 
   .familjen-kunskap-panel {

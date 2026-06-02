@@ -41,13 +41,13 @@ export function TryggHamnHub({ initialMessage = '' }: Props) {
 
       {activeTab === 'biff' && (
         <div className="space-y-3">
-          <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3">
+          <div className="glass-card px-4 py-3">
             <p className="text-[10px] uppercase tracking-widest text-accent/80">Steg 1 · Brusfilter</p>
             <p className="mt-1 text-xs text-text-dim">
               Rensa känsloladdning och projektioner innan Grey Rock. Klistra in i Speglar → Svart på vitt,
               eller fortsätt direkt till BIFF om du redan har rena fakta.
             </p>
-            <Link to="/dagbok?tab=speglar" className="btn-pill--ghost mt-2 inline-flex text-xs">
+            <Link to="/dagbok?tab=speglar" className="btn-pill--accent mt-2 inline-flex text-xs">
               Öppna Speglar
             </Link>
           </div>
