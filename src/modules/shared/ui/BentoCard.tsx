@@ -1,6 +1,15 @@
 import type { ReactNode } from 'react';
 import { clsx } from 'clsx';
 
+/** Silo-botten-glow enligt Obsidian Calm 2.0 — design-calm.mdc */
+export type CalmCardGlow = 'gold' | 'blue' | 'green';
+
+const GLOW_CLASS: Record<CalmCardGlow, string> = {
+  gold: 'glow-bottom-gold',
+  blue: 'glow-bottom-blue',
+  green: 'glow-bottom-green',
+};
+
 export type BentoCardProps = {
   title?: string;
   description?: string;
@@ -8,6 +17,8 @@ export type BentoCardProps = {
   children: ReactNode;
   className?: string;
   variant?: 'default' | 'hero';
+  /** Obsidian Calm 2.0 — färgkodad botten-glow per silo */
+  glow?: CalmCardGlow;
 };
 
 export function BentoCard({
@@ -17,11 +28,13 @@ export function BentoCard({
   children,
   className = '',
   variant = 'default',
+  glow,
 }: BentoCardProps) {
   return (
     <section
       className={clsx(
-        variant === 'hero' ? 'glass-hero' : 'glass-card',
+        variant === 'hero' ? 'glass-hero' : 'calm-card',
+        glow && GLOW_CLASS[glow],
         'p-5',
         className
       )}

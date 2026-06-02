@@ -13,7 +13,12 @@ import { DrogfrihetCounterBadge } from './DrogfrihetCounterBadge';
 
 export type DrogfrihetTab = 'idag' | 'resurser' | 'reflektion' | 'kunskap';
 
-export function DrogfrihetHubPage() {
+type DrogfrihetHubPageProps = {
+  /** Inbäddad i Familjehubben — utan egen HubPageShell-rubrik. */
+  embedded?: boolean;
+};
+
+export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps = {}) {
   const { tabs, activeTab, setTab } = useHubTab('drogfrihet');
   const tab = activeTab as DrogfrihetTab;
   const user = useStore((s) => s.user);
@@ -22,12 +27,8 @@ export function DrogfrihetHubPage() {
 
   const reflectionCard = DROGFRIHET_CARDS[reflectionIndex % DROGFRIHET_CARDS.length]!;
 
-  return (
-    <HubPageShell
-      eyebrow="Drogfrihet"
-      title="Nykterhet · ett steg i taget"
-      lead="Dagräknare, reflektion och fakta — nollställning bara under Inställningar. Akut: 113."
-    >
+  const body = (
+    <>
       <TabBar<DrogfrihetTab>
         tabs={tabs as TabBarItem<DrogfrihetTab>[]}
         active={tab}
@@ -114,6 +115,20 @@ export function DrogfrihetHubPage() {
           </p>
         </div>
       )}
+    </>
+  );
+
+  if (embedded) {
+    return <div className="space-y-4">{body}</div>;
+  }
+
+  return (
+    <HubPageShell
+      eyebrow="Drogfrihet"
+      title="Nykterhet · ett steg i taget"
+      lead="Dagräknare, reflektion och fakta — nollställning bara under Inställningar. Akut: 113."
+    >
+      {body}
     </HubPageShell>
   );
 }

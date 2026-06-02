@@ -58,7 +58,8 @@
     "google-ai-pro:pack": "node scripts/pack_google_ai_pro_sources.mjs",
     "gemini:pack": "node scripts/pack_gemini_repomix.mjs",
     "gemini:pack:valv": "node scripts/pack_gemini_valv.mjs",
-    "gemini:pack:all": "npm run google-ai-pro:pack && npm run gemini:pack"
+    "gemini:pack:all": "npm run google-ai-pro:pack && npm run gemini:pack",
+    "ai-studio:pack": "node scripts/pack_ai_studio_repomix.mjs"
   },
   "dependencies": {
     "@capacitor-firebase/authentication": "^8.2.0",

@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { KunskapPage, type KunskapEntriesMeta } from '../../kompis/components/KunskapPage';
+import { AutonomousArchivePanel } from '../../kompis/components/AutonomousArchivePanel';
 import { FamiljenKunskapHubTab } from '@/features/family/children/components/familjen/FamiljenKunskapHubTab';
 import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -59,6 +60,8 @@ export function VaultKunskapsbankPanel() {
           </div>
         </div>
       )}
+
+      <AutonomousArchivePanel />
 
       {showEmptyState && (
         <BentoCard

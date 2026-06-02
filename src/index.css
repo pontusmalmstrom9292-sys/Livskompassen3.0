@@ -1,4 +1,5 @@
 @import './styles/design-packs.css';
+@import './styles/obsidian-calm-2.css';
 
 @tailwind base;
 @tailwind components;
@@ -201,13 +202,6 @@
     background: transparent;
   }
 
-  .app-shell .glass-card,
-  .app-shell .module-list .glass-card {
-    background: rgba(4, 4, 4, 0.92);
-    background: color-mix(in srgb, var(--glass) 28%, rgba(4, 4, 4, 0.94));
-    backdrop-filter: blur(18px);
-  }
-
   /* Theme Lab — /dev/theme-lab */
   .theme-lab-strip {
     @apply rounded-xl border p-4;
@@ -357,7 +351,7 @@
     @apply space-y-4 pb-2;
   }
 
-  html[data-theme^='M-mockup-'] .home-hero-kanon--mockup .home-hero-kanon__welcome-module {
+  html[data-theme^='M-mockup-'] .home-hero-kanon--mockup .home-hero-kanon__header {
     @apply mx-auto w-full max-w-[min(100vw-1.5rem,380px)];
   }
 
@@ -369,13 +363,8 @@
     @apply w-full max-w-[min(100vw-2.5rem,340px)];
   }
 
-  html[data-theme^='M-mockup-'] .home-hero-kanon--mockup .home-hero-kanon__welcome-module .home-greeting--mockup {
+  html[data-theme^='M-mockup-'] .home-hero-kanon--mockup .home-hero-kanon__header .home-greeting--mockup {
     @apply pb-2;
-  }
-
-  html[data-theme^='M-mockup-'] .home-hero-kanon--mockup .home-hero-kanon__welcome-module .dagens-riktning-card__main {
-    border-top: none;
-    @apply pt-2;
   }
 
   html[data-theme^='M-mockup-'] .app-main {
@@ -386,60 +375,7 @@
     background: rgba(255, 255, 255, 0.04);
   }
 
-  .glass-card {
-    position: relative;
-    background: rgba(4, 4, 4, 0.9);
-    background: color-mix(in srgb, var(--glass) 32%, rgba(4, 4, 4, 0.93));
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--border-strong);
-    border-radius: 1rem;
-    overflow: hidden;
-  }
-
-  .glass-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.12),
-      transparent
-    );
-    pointer-events: none;
-  }
-
-  .glass-hero {
-    position: relative;
-    background: rgba(3, 3, 3, 0.94);
-    background: color-mix(in srgb, var(--glass-hero) 28%, rgba(3, 3, 3, 0.96));
-    backdrop-filter: blur(22px);
-    -webkit-backdrop-filter: blur(22px);
-    border: 1px solid var(--border-strong);
-    border-radius: 1.25rem;
-    box-shadow: 0 0 48px var(--accent-glow);
-    overflow: hidden;
-  }
-
-  .glass-hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.14),
-      transparent
-    );
-    pointer-events: none;
-  }
+  /* glass-card / glass-hero / glow — obsidian-calm-2.css */
 
   .glass-nav {
     background: rgba(15, 23, 42, 0.88);
@@ -2169,6 +2105,38 @@
     @apply w-full flex-none;
   }
 
+  /* Obsidian Calm 2.0 — drawer hub accordions */
+  .nav-drawer--calm-2 .nav-drawer__calm-scroll {
+    position: relative;
+    z-index: 1;
+  }
+
+  .drawer-hub__trigger {
+    @apply flex items-center gap-3 rounded-2xl border border-transparent px-3 py-3 text-left text-sm font-medium text-text-muted transition-all duration-200;
+  }
+
+  .drawer-hub__trigger:hover {
+    @apply bg-surface-3/45 text-text;
+  }
+
+  .drawer-hub__trigger--active {
+    @apply border-accent/20 bg-accent/10 text-accent;
+    box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+
+  .drawer-hub__trigger-icon {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border/30 bg-surface-2/70 text-accent backdrop-blur-md;
+  }
+
+  .drawer-hub__trigger--active .drawer-hub__trigger-icon {
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .drawer-hub__trigger-label {
+    @apply min-w-0 flex-1 truncate;
+  }
+
   .nav-drawer__sections {
     @apply flex flex-1 flex-col gap-1 overflow-y-auto pb-2;
   }
@@ -2495,43 +2463,21 @@
     @apply relative z-[1] flex flex-col items-center gap-3 px-1 text-center;
   }
 
-  .home-page--scenic .home-hero-kanon__welcome-module {
-    @apply relative overflow-hidden rounded-2xl;
-    border: 1.5px solid color-mix(in srgb, var(--accent) 34%, transparent);
-    background: linear-gradient(
-      168deg,
-      rgba(48, 40, 28, 0.84) 0%,
-      rgba(16, 14, 12, 0.9) 38%,
-      rgba(6, 8, 16, 0.9) 100%
-    );
-    backdrop-filter: blur(14px);
-    box-shadow:
-      0 10px 32px rgba(0, 0, 0, 0.48),
-      inset 0 1px 0 rgba(255, 243, 210, 0.12);
+  /* Obsidian Calm 2.0 — hälsning utan legacy-låda (kompass = calm-card separat) */
+  .home-page--scenic .home-hero-kanon__header {
+    @apply relative px-1 pt-1 text-center;
   }
 
-  .home-page--scenic .home-hero-kanon__welcome-module::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 10%;
-    right: 10%;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(212, 175, 55, 0.55) 50%,
-      transparent 100%
-    );
-    pointer-events: none;
+  .home-page--scenic .home-hero-kanon__header .home-hero-kanon__intro {
+    @apply relative z-[1] flex flex-col items-center gap-3;
   }
 
-  .home-page--scenic .home-hero-kanon__welcome-module .home-hero-kanon__intro {
-    @apply static w-full;
+  .home-page--scenic .home-hero-kanon__header .home-streak-chip {
+    @apply static;
   }
 
-  .home-page--scenic .home-hero-kanon__welcome-module .home-streak-chip {
-    @apply absolute right-3 top-3 z-[2];
+  .home-page--scenic .home-hero-kanon__scenic-stack .calm-card {
+    @apply relative z-[2] overflow-visible;
   }
 
   .home-page--scenic .home-greeting {

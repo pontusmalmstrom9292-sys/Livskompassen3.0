@@ -122,9 +122,7 @@ export function HomePage() {
         mockupSkin && 'home-page--mockup-skin',
       )}
     >
-      {(mockupSkin || materialEnabled(preset, 'home_hero_checkin')) && (
-        <HomeHeroKanon onCheckInSaved={() => setCardRefreshKey((k) => k + 1)} />
-      )}
+      <HomeHeroKanon onCheckInSaved={() => setCardRefreshKey((k) => k + 1)} />
 
       {isAuthenticated && widgets.length > 0 && (
         <section className="grid grid-cols-1 gap-3 sm:grid-cols-2" aria-label="Mina startmoduler">

@@ -1,28 +1,46 @@
-import { useMemo } from 'react';
-import { ChevronDown, ChevronRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ChevronDown } from 'lucide-react';
 import { clsx } from 'clsx';
-import {
-  drawerHubHasChildren,
-  getDrawerChildren,
-  getDrawerRoots,
-  type NavDrawerSection,
-} from '../navigation/navTruth';
-import { groupVardagDrawerRoots } from '../navigation/tabRegistry';
-import { toDrawerNavItem, type DrawerNavItem, type DrawerNavIcon } from '../navigation/drawerNav';
 
-export function isDrawerItemActive(
-  item: DrawerNavItem,
+export type DrawerHubLink = {
+  label: string;
+  path: string;
+};
+
+type Link = DrawerHubLink;
+
+type Props = {
+  id: string;
+  label: string;
+  icon: React.ReactNode;
+  links: Link[];
+  glowColor: 'gold' | 'blue' | 'green';
+  isActive: boolean;
+  onClose: () => void;
+};
+
+const GLOW_LINK: Record<Props['glowColor'], string> = {
+  gold: 'border-l-2 border-l-accent/70 text-accent bg-accent/5',
+  blue: 'border-l-2 border-l-indigo-500/70 text-indigo-400 bg-indigo-500/5',
+  green: 'border-l-2 border-l-emerald-500/70 text-emerald-400 bg-emerald-500/5',
+};
+
+/** Matchar drawer-länk mot aktuell route (path + query + hash). */
+export function isDrawerLinkActive(
+  path: string,
   pathname: string,
   search: string,
   hash: string,
 ): boolean {
-  const hashIndex = item.path.indexOf('#');
-  const qIndex = item.path.indexOf('?');
+  const hashIndex = path.indexOf('#');
+  const qIndex = path.indexOf('?');
   const cut = [hashIndex, qIndex].filter((i) => i >= 0);
-  const end = cut.length ? Math.min(...cut) : item.path.length;
-  const itemPath = item.path.slice(0, end > 0 ? end : item.path.length);
-  const itemHash = hashIndex >= 0 ? item.path.slice(hashIndex + 1) : '';
-  const itemQuery = qIndex >= 0 ? item.path.slice(qIndex + 1, hashIndex >= 0 ? hashIndex : undefined) : '';
+  const end = cut.length ? Math.min(...cut) : path.length;
+  const itemPath = path.slice(0, end > 0 ? end : path.length);
+  const itemHash = hashIndex >= 0 ? path.slice(hashIndex + 1) : '';
+  const itemQuery =
+    qIndex >= 0 ? path.slice(qIndex + 1, hashIndex >= 0 ? hashIndex : undefined) : '';
 
   if (pathname !== itemPath) return false;
 
@@ -42,184 +60,128 @@ export function isDrawerItemActive(
   return true;
 }
 
-function NavRow({
-  item,
-  active,
-  sub,
-  group,
-  expanded,
-  hasChildren,
-  onNavigate,
-  onToggleExpand,
-  badge,
-}: {
-  item: DrawerNavItem;
-  active: boolean;
-  sub?: boolean;
-  group?: boolean;
-  expanded?: boolean;
-  hasChildren?: boolean;
-  onNavigate: () => void;
-  onToggleExpand?: () => void;
-  badge?: number;
-}) {
-  const Icon = item.icon as DrawerNavIcon;
-
-  return (
-    <div className={clsx('nav-drawer__row-wrap', sub && 'nav-drawer__row-wrap--sub')}>
-      <button
-        type="button"
-        className={clsx(
-          'nav-drawer__row',
-          sub && 'nav-drawer__row--sub',
-          group && 'nav-drawer__row--group',
-          active && 'nav-drawer__row--active',
-        )}
-        onClick={onNavigate}
-      >
-        <span className="nav-drawer__row-icon" aria-hidden>
-          <Icon className="h-5 w-5" strokeWidth={1.5} />
-        </span>
-        <span className="nav-drawer__row-label">{item.label}</span>
-        {badge != null && badge > 0 ? (
-          <span className="nav-drawer__row-badge" aria-label={`${badge} väntar på godkännande`}>
-            {badge}
-          </span>
-        ) : null}
-        {hasChildren ? (
-          <span
-            role="button"
-            tabIndex={0}
-            className="nav-drawer__row-expand"
-            aria-expanded={expanded}
-            aria-label={expanded ? 'Fäll ihop' : 'Visa underflikar'}
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggleExpand?.();
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                e.stopPropagation();
-                onToggleExpand?.();
-              }
-            }}
-          >
-            {expanded ? (
-              <ChevronDown className="h-4 w-4" strokeWidth={1.5} aria-hidden />
-            ) : (
-              <ChevronRight className="h-4 w-4" strokeWidth={1.5} aria-hidden />
-            )}
-          </span>
-        ) : (
-          <ChevronRight className="nav-drawer__row-chevron" strokeWidth={1.5} aria-hidden />
-        )}
-      </button>
-    </div>
-  );
+/** @deprecated Använd isDrawerLinkActive — behålls för smoke/legacy. */
+export function isDrawerItemActive(
+  item: { path: string },
+  pathname: string,
+  search: string,
+  hash: string,
+): boolean {
+  return isDrawerLinkActive(item.path, pathname, search, hash);
 }
 
-type Props = {
-  section: NavDrawerSection;
-  /** G18 + PIN — synkar drawer med Hjärtat/Valv-session (default false). */
-  vaultSessionOpen?: boolean;
-  pathname: string;
-  search: string;
-  hash: string;
-  expandedIds: Set<string>;
-  onToggleExpand: (id: string) => void;
-  onGo: (item: DrawerNavItem) => void;
-  /** itemId → antal (t.ex. väntande Vävaren på valv_arkiv). */
-  badges?: Record<string, number>;
-};
+function parseNavigateTarget(path: string): { pathname: string; search: string; hash: string } {
+  const hashIndex = path.indexOf('#');
+  const qIndex = path.indexOf('?');
+  const cut = [hashIndex, qIndex].filter((i) => i >= 0);
+  const end = cut.length ? Math.min(...cut) : path.length;
+  const pathname = path.slice(0, end > 0 ? end : path.length) || '/';
+  const search =
+    qIndex >= 0 ? `?${path.slice(qIndex + 1, hashIndex >= 0 ? hashIndex : undefined)}` : '';
+  const hash = hashIndex >= 0 ? `#${path.slice(hashIndex + 1)}` : '';
+  return { pathname, search, hash };
+}
 
 export function DrawerHubAccordion({
-  section,
-  vaultSessionOpen = false,
-  pathname,
-  search,
-  hash,
-  expandedIds,
-  onToggleExpand,
-  onGo,
-  badges,
+  id,
+  label,
+  icon,
+  links,
+  glowColor,
+  isActive,
+  onClose,
 }: Props) {
-  const roots = useMemo(
-    () => getDrawerRoots(section, vaultSessionOpen).map(toDrawerNavItem),
-    [section, vaultSessionOpen],
-  );
+  const navigate = useNavigate();
+  const location = useLocation();
+  const pathname = location.pathname;
+  const search = location.search;
+  const hash = location.hash;
 
-  const vardagGroups = useMemo(
-    () =>
-      section === 'vardag'
-        ? groupVardagDrawerRoots(getDrawerRoots('vardag', vaultSessionOpen))
-        : [],
-    [section, vaultSessionOpen],
-  );
+  const childActive = links.some((l) => isDrawerLinkActive(l.path, pathname, search, hash));
+  const [isOpen, setIsOpen] = useState(isActive || childActive);
 
-  const renderHub = (hub: DrawerNavItem) => {
-    const children = getDrawerChildren(hub.id, section, vaultSessionOpen).map(toDrawerNavItem);
-    const hasChildren = drawerHubHasChildren(hub.id, section, vaultSessionOpen);
-    const expanded = expandedIds.has(hub.id);
-    const hubActive =
-      isDrawerItemActive(hub, pathname, search, hash) ||
-      children.some((c) => isDrawerItemActive(c, pathname, search, hash));
+  useEffect(() => {
+    if (isActive || childActive) setIsOpen(true);
+  }, [isActive, childActive]);
 
-    return (
-      <div key={hub.id} className="nav-drawer__hub">
-        <NavRow
-          item={hub}
-          active={hubActive && !hub.isGroupHeader}
-          group={hub.isGroupHeader}
-          expanded={expanded}
-          hasChildren={hasChildren}
-          badge={badges?.[hub.id]}
-          onNavigate={() => {
-            if (hub.isGroupHeader) {
-              onToggleExpand(hub.id);
-              return;
-            }
-            if (!hasChildren) {
-              onGo(hub);
-              return;
-            }
-            onGo(hub);
-          }}
-          onToggleExpand={() => onToggleExpand(hub.id)}
-        />
-        {hasChildren && expanded && (
-          <div className="nav-drawer__hub-children">
-            {hub.drawerHint ? (
-              <p className="nav-drawer__hub-hint">{hub.drawerHint}</p>
-            ) : null}
-            {children.map((child) => (
-              <NavRow
-                key={child.id}
-                item={child}
-                sub
-                active={isDrawerItemActive(child, pathname, search, hash)}
-                badge={badges?.[child.id]}
-                onNavigate={() => onGo(child)}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    );
+  const handleLinkClick = (path: string) => {
+    navigate(parseNavigateTarget(path));
+    onClose();
   };
 
-  if (section === 'valv') {
-    return <div className="nav-drawer__list">{roots.map(renderHub)}</div>;
-  }
-
   return (
-    <div className="nav-drawer__list">
-      {vardagGroups.map((group) => (
-        <div key={group.category} className="nav-drawer__category">
-          <p className="nav-drawer__category-title">{group.label}</p>
-          {group.entries.map((entry) => renderHub(toDrawerNavItem(entry)))}
+    <div className="drawer-hub mb-1" data-hub-id={id}>
+      <button
+        type="button"
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen(!isOpen)}
+        className={clsx(
+          'group flex w-full items-center justify-between rounded-xl p-3 transition-all duration-300',
+          isOpen ? 'bg-surface-3/50' : 'hover:bg-surface-2/50',
+          (isActive || childActive) && 'bg-accent/5',
+        )}
+      >
+        <div className="flex items-center gap-3">
+          <div
+            className={clsx(
+              'rounded-lg p-2 transition-colors',
+              isOpen ? 'text-accent' : 'text-text-dim group-hover:text-text',
+            )}
+          >
+            {icon}
+          </div>
+          <span
+            className={clsx(
+              'text-sm font-medium transition-colors',
+              isOpen ? 'text-text' : 'text-text-muted group-hover:text-text',
+            )}
+          >
+            {label}
+          </span>
         </div>
-      ))}
+        <ChevronDown
+          className={clsx(
+            'h-4 w-4 text-text-dim transition-transform duration-300',
+            isOpen && 'rotate-180 text-accent',
+          )}
+          aria-hidden
+        />
+      </button>
+
+      <div
+        className={clsx(
+          'overflow-hidden transition-all duration-300 ease-in-out',
+          isOpen ? 'mt-1 max-h-60 opacity-100' : 'max-h-0 opacity-0',
+        )}
+      >
+        <div className="ml-10 space-y-1 py-1">
+          {links.map((link) => {
+            const active = isDrawerLinkActive(link.path, pathname, search, hash);
+            return (
+              <button
+                key={`${id}-${link.path}`}
+                type="button"
+                onClick={() => handleLinkClick(link.path)}
+                className={clsx(
+                  'drawer-hub__link nav-drawer__row--sub group/link flex w-full items-center justify-between rounded-lg p-2.5 text-left text-xs transition-all',
+                  active
+                    ? GLOW_LINK[glowColor]
+                    : 'text-text-muted hover:bg-accent/5 hover:text-accent',
+                )}
+              >
+                <span>{link.label}</span>
+                <div
+                  className={clsx(
+                    'h-1 w-1 rounded-full transition-all',
+                    active ? 'bg-accent' : 'bg-accent/0 group-hover/link:bg-accent',
+                  )}
+                  aria-hidden
+                />
+              </button>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }

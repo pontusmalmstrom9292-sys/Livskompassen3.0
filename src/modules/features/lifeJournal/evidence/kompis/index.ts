@@ -2,6 +2,7 @@ export { KompisAvatar } from './components/KompisAvatar';
 export type { KompisAvatarProps } from './components/KompisAvatar';
 export { Tidshjulet } from './components/Tidshjulet';
 export { KnowledgeVaultChat } from './components/KnowledgeVaultChat';
+export { AutonomousArchivePanel } from './components/AutonomousArchivePanel';
 export { KunskapPage } from './components/KunskapPage';
 export { KompisHubPage } from './components/KompisHubPage';
 export { callKnowledgeVault } from './api/knowledgeVaultService';

@@ -22,6 +22,7 @@ import { assertOfflineWriteAllowed } from './offlineWritePolicy';
 import type {
   CheckIn,
   KampsparEntryRow,
+  KbDocEntryRow,
   UserWidget,
   UserWidgetRow,
   VaultLog,
@@ -409,6 +410,52 @@ export function subscribeKampsparEntries(
       onData(rows);
     },
     (err) => onError?.(err instanceof Error ? err : new Error(String(err)))
+  );
+}
+
+function mapKbDocDoc(
+  d: { id: string; data: () => import('firebase/firestore').DocumentData },
+  userId: string,
+): KbDocEntryRow {
+  const data = d.data();
+  return {
+    id: d.id,
+    userId: String(data.userId ?? userId),
+    folderId: String(data.folderId ?? 'drive'),
+    title: String(data.title ?? ''),
+    content: String(data.content ?? ''),
+    source: data.source ?? undefined,
+    driveFileId: data.driveFileId ?? undefined,
+    mimeType: data.mimeType ?? undefined,
+    category: typeof data.category === 'string' ? data.category : null,
+    tags: Array.isArray(data.tags) ? data.tags.map(String) : undefined,
+    inboxTags: Array.isArray(data.inboxTags) ? data.inboxTags.map(String) : undefined,
+    inboxCategory: typeof data.inboxCategory === 'string' ? data.inboxCategory : null,
+    embeddingDim: data.embeddingDim ?? null,
+    createdAt: normalizeCreatedAt(data.createdAt),
+  };
+}
+
+export async function getKbDocsEntries(userId: string): Promise<KbDocEntryRow[]> {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.kb_docs);
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
+  return sortByCreatedAtDesc(snap.docs.map((d) => mapKbDocDoc(d, userId)));
+}
+
+/** Live listener för kb_docs (Kunskap-silo). */
+export function subscribeKbDocsEntries(
+  userId: string,
+  onData: (rows: KbDocEntryRow[]) => void,
+  onError?: (err: Error) => void,
+): () => void {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.kb_docs);
+  return onSnapshot(
+    ownerScopedQuery(ref, userId),
+    (snap) => {
+      const rows = sortByCreatedAtDesc(snap.docs.map((d) => mapKbDocDoc(d, userId)));
+      onData(rows);
+    },
+    (err) => onError?.(err instanceof Error ? err : new Error(String(err))),
   );
 }
 

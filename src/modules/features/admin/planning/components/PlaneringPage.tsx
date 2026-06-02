@@ -10,6 +10,7 @@ import type { PlaneringTab } from '../types';
 import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
 import { PlanningKanbanBoard } from './PlanningKanbanBoard';
 import { PlaneringFokusPanel } from './PlaneringFokusPanel';
+import { PlanningIntegrationPanel } from './PlanningIntegrationPanel';
 import { PlaneringEmailRulesPanel } from './PlaneringEmailRulesPanel';
 import { PlaneringFramstegPanel } from './PlaneringFramstegPanel';
 import { PlaneringInkorgPanel } from './PlaneringInkorgPanel';
@@ -51,7 +52,19 @@ export function PlaneringPage() {
       case 'inkorg':
         return <PlaneringInkorgPanel />;
       case 'regler':
-        return <PlaneringEmailRulesPanel />;
+        return (
+          <div className="space-y-6">
+            <PlanningIntegrationPanel />
+            <details className="group rounded-xl border border-border/30 bg-surface/20 p-4">
+              <summary className="cursor-pointer text-xs font-medium text-text-dim hover:text-accent list-none [&::-webkit-details-marker]:hidden">
+                Avancerad redigering (prioritet, matchtyper, ta bort)
+              </summary>
+              <div className="mt-4 border-t border-border/30 pt-4">
+                <PlaneringEmailRulesPanel />
+              </div>
+            </details>
+          </div>
+        );
       default:
         return null;
     }

@@ -17,8 +17,8 @@ import {
 import { BarnportenPage } from '@/features/onboarding/barnporten';
 import { InstallningarPage } from '../pages/InstallningarPage';
 import { KompisHubPage } from '@/features/lifeJournal/evidence/kompis';
-import { FamiljenShellPage } from '@/modules/shell';
-import { VardagenPage } from '@/pages/VardagenPage';
+import { FamiljenPage } from '../pages/FamiljenPage';
+import { VardagenPage } from '../pages/VardagenPage';
 import {
   NAVIGATION_STRUCTURE,
   clusterPath,
@@ -91,7 +91,7 @@ export function AppRoutes() {
               <Route path="/liv/arbetsliv/*" element={<Navigate to="/vardagen?tab=arbetsliv" replace />} />
 
               {/* —— REFORM: FAMILJEN ZON —— */}
-              <Route path="/familjen" element={<AuthGate><FamiljenShellPage /></AuthGate>} />
+              <Route path="/familjen" element={<AuthGate><FamiljenPage /></AuthGate>} />
 
               {/* Familjen Omdirigeringar */}
               <Route path="/familj" element={<Navigate to="/familjen?tab=reflektion" replace />} />

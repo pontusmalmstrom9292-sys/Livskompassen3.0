@@ -50,11 +50,8 @@ export const HJARTAT_TABS: ClusterTabDef<HjartatTab>[] = [
 
 export const VARDAGEN_TABS: ClusterTabDef<VardagenTab>[] = [
   { id: 'kompasser', label: 'Kompasser', isDefault: true },
-  { id: 'mabra', label: 'MåBra' },
-  { id: 'handling', label: 'Handling' },
-  { id: 'arbetsliv', label: 'Arbetsliv' },
   { id: 'ekonomi', label: 'Ekonomi' },
-  { id: 'drogfrihet', label: 'Drogfrihet' },
+  { id: 'tidrapportering', label: 'Tid & Stämpel' },
 ];
 
 const HJARTAT_CLUSTER: LifeCluster = {

@@ -61,8 +61,16 @@ export interface KnowledgeDoc {
   source?: string;
   driveFileId?: string;
   mimeType?: string;
+  category?: string | null;
+  tags?: string[];
+  inboxTags?: string[];
+  inboxCategory?: string | null;
   embeddingDim?: number | null;
   createdAt: IsoDateTime;
+}
+
+export interface KbDocEntryRow extends KnowledgeDoc {
+  id: string;
 }
 
 export interface KampsparEntry {

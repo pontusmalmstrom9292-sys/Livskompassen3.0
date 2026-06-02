@@ -9,6 +9,8 @@ type Props = {
   headerAside?: ReactNode;
   footerSlot?: ReactNode;
   className?: string;
+  /** Obsidian Calm 2.0 — lås hub-höjd, scroll endast i calm-scroll-island */
+  lockViewport?: boolean;
   children: ReactNode;
 };
 
@@ -20,12 +22,19 @@ export function HubPageShell({
   headerAside,
   footerSlot,
   className,
+  lockViewport = false,
   children,
 }: Props) {
   const h = hubHeaderClasses();
 
   return (
-    <div className={clsx('hub-page-shell space-y-4', className)}>
+    <div
+      className={clsx(
+        'hub-page-shell space-y-4',
+        lockViewport && 'hub-view-lock',
+        className,
+      )}
+    >
       <header
         className={clsx(
           'hub-page-shell__header px-0.5',
@@ -40,7 +49,13 @@ export function HubPageShell({
         {headerAside}
       </header>
 
-      <div className="hub-page-shell__body space-y-4">{children}</div>
+      <div className="hub-page-shell__body space-y-4">
+        {lockViewport ? (
+          <div className="calm-scroll-island space-y-4">{children}</div>
+        ) : (
+          children
+        )}
+      </div>
 
       {footerSlot ? (
         <footer className="hub-page-shell__footer border-t border-border pt-4">{footerSlot}</footer>

@@ -164,7 +164,7 @@ function main() {
     'TAB_CATEGORY_LABELS',
     'groupVardagDrawerRoots',
   );
-  mustInclude('src/modules/core/layout/DrawerHubAccordion.tsx', 'groupVardagDrawerRoots');
+  mustInclude('src/modules/core/layout/DrawerHubAccordion.tsx', 'isDrawerLinkActive', 'drawer-hub__link');
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultMonsterPanel.tsx',
     'Frekvensanalys',
@@ -400,12 +400,15 @@ function main() {
     'src/modules/core/layout/NavigationDrawer.tsx',
     'DrawerModeToggle',
     'DrawerHubAccordion',
-    'nav-drawer__section-title',
-    'section="vardag"',
-    'section="valv"',
+    'Vardag &',
+    'Verklighetsvalvet',
     'vaultOpen',
     'showValvShell',
     'nav-drawer__backdrop',
+    'vaultTab=monster',
+    'vaultTab=kunskapsbank',
+    'handleLockVaultImmediately',
+    'Lås Valvet nu',
   );
   assert(
     !read('src/modules/core/layout/NavigationDrawer.tsx').includes('DrawerQuickActions'),
@@ -420,7 +423,7 @@ function main() {
     'CompassHubOrb: ingen synlig mitt-etikett (DOCK-KANON)',
   );
   mustInclude('src/modules/core/layout/DrawerModeToggle.tsx', 'if (!showValvShell) return null');
-  mustInclude('src/modules/core/layout/DrawerHubAccordion.tsx', 'nav-drawer__row--sub', 'isDrawerItemActive');
+  mustInclude('src/modules/core/layout/DrawerHubAccordion.tsx', 'isDrawerItemActive', 'glowColor');
   mustInclude('src/modules/core/components/DrawerHomeQuickActions.tsx', 'FYREN_HOME_QUICK_ACTIONS');
   mustInclude('src/modules/features/family/children/components/FamiljenPage.tsx', 'HubPageShell', 'ParentReminderFooter');
   mustInclude(
