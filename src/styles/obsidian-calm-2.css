@@ -1,0 +1,185 @@
+/**
+ * Obsidian Calm 2.0 — glasskort + silo-botten-glow.
+ * Kanon: .cursor/rules/design-calm.mdc
+ */
+
+@layer components {
+  /* —— Bas: Snygg-stilen —— */
+  .calm-card {
+    @apply relative overflow-hidden rounded-3xl border border-border/30 bg-surface-2/70 backdrop-blur-xl;
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .calm-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Legacy-alias — samma yta som calm-card */
+  .glass-card {
+    @apply relative overflow-hidden rounded-3xl border border-border/30 bg-surface-2/70 backdrop-blur-xl;
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .app-shell .glass-card,
+  .app-shell .module-list .glass-card,
+  .app-shell .calm-card {
+    background: color-mix(in srgb, var(--surface-2) 70%, transparent);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .glass-hero {
+    @apply relative overflow-hidden rounded-3xl border border-border/30 backdrop-blur-xl;
+    background: color-mix(in srgb, var(--glass-hero) 35%, rgba(2, 6, 23, 0.92));
+    box-shadow: 0 0 48px var(--accent-glow);
+  }
+
+  .glass-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.14),
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  /* —— Silo-botten-glow —— */
+  .glow-bottom-gold {
+    border-bottom-width: 2px;
+    border-bottom-color: color-mix(in srgb, var(--accent) 70%, transparent);
+    box-shadow:
+      0 4px 20px -2px rgba(212, 175, 55, 0.35),
+      0 14px 36px -8px rgba(212, 175, 55, 0.22);
+  }
+
+  .glow-bottom-blue {
+    border-bottom-width: 2px;
+    --tw-border-opacity: 1;
+    border-bottom-color: rgb(99 102 241 / 0.7);
+    box-shadow: 0 4px 20px -2px rgba(99, 102, 241, 0.3);
+  }
+
+  .glow-bottom-green {
+    border-bottom-width: 2px;
+    --tw-border-opacity: 1;
+    border-bottom-color: rgb(16 185 129 / 0.7);
+    box-shadow: 0 4px 20px -2px rgba(16, 185, 129, 0.3);
+  }
+
+  /* Subtil gradient i kortets nedre kant (under innehåll) */
+  .calm-card.glow-bottom-gold::after,
+  .glass-card.glow-bottom-gold::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3.5rem;
+    pointer-events: none;
+    background: linear-gradient(
+      to top,
+      rgba(212, 175, 55, 0.14),
+      transparent
+    );
+    z-index: 0;
+  }
+
+  .calm-card.glow-bottom-blue::after,
+  .glass-card.glow-bottom-blue::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3.5rem;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(99, 102, 241, 0.12), transparent);
+    z-index: 0;
+  }
+
+  .calm-card.glow-bottom-green::after,
+  .glass-card.glow-bottom-green::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3.5rem;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(16, 185, 129, 0.12), transparent);
+    z-index: 0;
+  }
+
+  .calm-card > *,
+  .glass-card > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* —— Hub: ingen sid-scroll, island-scroll —— */
+  .hub-view-lock {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100dvh - var(--app-dock-clearance, 8.5rem) - 5.75rem);
+    overflow: hidden;
+  }
+
+  .hub-view-lock .hub-page-shell__header,
+  .hub-view-lock .hub-page-shell__footer {
+    flex-shrink: 0;
+  }
+
+  .hub-view-lock .hub-page-shell__body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .calm-scroll-island {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+}

@@ -1,0 +1,16 @@
+---
+description: Lagar för Livskompassens Självbyggande Arkiv (Dumpa och glöm) och Kunskapsbank.
+globs: src/features/lifeJournal/evidence/kompis/components/AutonomousArchivePanel.tsx, functions/src/lib/inboxClassifier.ts, src/modules/core/firebase/firestore.ts
+---
+# SÄKERHETS- OCH ARKITEKTURLAGAR FÖR ARKIVET (DUMPA OCH GLÖM)
+
+1. **TRE SILOR (FÅR ALDRIG BLANDAS):**
+   - KUNSKAP (`kampspar`, `kb_docs`): Det självbyggande arkivet för metoder, reflektioner och vardagslogistik.
+   - VALV (`reality_vault`): WORM-bevis (Write Once Read Many). Endast fakta, aldrig automatisk RAG från Kunskap.
+   - BARNEN (`children_logs`): Isolerad data rörande barnen.
+2. **AUTONOM STRUKTUR:**
+   - Det självbyggande arkivet bygger trädstrukturer dynamiskt utifrån AI-taggar. Vi hårdkodar aldrig mappar.
+3. **HUMAN-IN-THE-LOOP (HITL):**
+   - Inkast-funktionen måste alltid kräva ett mänskligt klick ("Godkänn") innan data sparas till en av de tre silorna ovan.
+4. **NOLL KOGNITIV BELASTNING:**
+   - Frontend (`AutonomousArchivePanel`) ska endast bygga på 'Obsidian Calm'-tema med max 3 visuella nivåer öppet samtidigt.
