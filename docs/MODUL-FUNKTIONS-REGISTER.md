@@ -54,7 +54,7 @@ Koppling: `notifyNewFile` → `emitSynapse(drive_file_ingested)` — `functions/
 | **admin/stampla** | arbetsliv | `/arbetsliv?tab=stampla` | Stämpelklocka | `stampla/module_plan.md` | `smoke:stampla` |
 | **arbetsliv** | arbetsliv | `/arbetsliv`, `/liv?tab=arbetsliv&workTab=…` | Tid, logg, lönespec vardag, Valv-länkar | `arbetsliv/module_plan.md` | `smoke:arbetsliv` |
 | **drogfrihet** | livsstod | `/drogfrihet` | Idag, stöd, reflektion | `Drogfrihet-SPEC.md` | — |
-| **inkast** | hem | `/#inkast-lite` | Smart Inkast Lite (G10 silo-routing) | — | `smoke:inbox` |
+| **inkast** | hem | `/#inkast-lite` | Smart Inkast Lite (G10 · **låst** 2026-06-06) | [`2026-06-06-inkast-lockdown.md`](./evaluations/2026-06-06-inkast-lockdown.md) | `smoke:inkast` · `smoke:inbox` |
 
 ---
 

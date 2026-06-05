@@ -1,6 +1,13 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 /** WH4 — öppnar Hamn med BIFF (full modul). */
 export function WidgetHamnPage() {
-  return <Navigate to="/familjen?tab=hamn" replace />;
+  const location = useLocation();
+  return (
+    <Navigate
+      to={{ pathname: '/familjen', search: '?tab=hamn' }}
+      state={location.state}
+      replace
+    />
+  );
 }

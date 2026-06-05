@@ -493,6 +493,9 @@ export const submitInkastLite = onCall(
     const manualRouting = request.data?.manualRouting;
     const manualCategory =
       typeof request.data?.manualCategory === 'string' ? request.data.manualCategory : undefined;
+    const manualTags = Array.isArray(request.data?.manualTags)
+      ? request.data.manualTags.filter((v: unknown) => typeof v === 'string')
+      : undefined;
     const manualComment =
       typeof request.data?.manualComment === 'string' ? request.data.manualComment : undefined;
     const manualChildAlias =
@@ -518,6 +521,7 @@ export const submitInkastLite = onCall(
               ? manualRouting
               : undefined,
           manualCategory,
+          manualTags,
           manualComment,
           manualChildAlias,
         },

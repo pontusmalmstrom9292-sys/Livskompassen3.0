@@ -41,16 +41,18 @@ export const INKAST_SILO_LABELS: Record<InkastUiSilo, string> = {
 
 export type InkastManualChoice = {
   silo: InkastUiSilo;
-  category: string;
+  tags: string[];
   comment: string;
   childAlias?: string;
   optInTrauma?: boolean;
 };
 
 export function manualChoiceToSubmitFields(choice: InkastManualChoice) {
+  const tags = choice.tags.map((t) => t.trim()).filter(Boolean).slice(0, 12);
   return {
     manualRouting: uiSiloToRouting(choice.silo),
-    manualCategory: choice.category.trim() || undefined,
+    manualTags: tags.length ? tags : undefined,
+    manualCategory: tags[0] || undefined,
     manualComment: choice.comment.trim() || undefined,
     manualChildAlias: choice.childAlias?.trim() || undefined,
     optInTrauma: choice.optInTrauma ?? true,

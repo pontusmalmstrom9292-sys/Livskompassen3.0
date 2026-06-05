@@ -41,6 +41,18 @@ function RedirectToLifeJournalTab({ tabKey }: { tabKey: LifeJournalTabKey }) {
   );
 }
 
+/** Legacy `/hamn` → Familjehubben; bevarar t.ex. Speglar `prefilledMessage` i location.state. */
+function RedirectHamnToFamiljen() {
+  const location = useLocation();
+  return (
+    <Navigate
+      to={{ pathname: '/familjen', search: '?tab=hamn' }}
+      state={location.state}
+      replace
+    />
+  );
+}
+
 /** Legacy `/liv` och `/liv?tab=…` → `/vardagen` (bevarar flik). */
 function RedirectLivToVardagen() {
   const location = useLocation();
@@ -96,7 +108,7 @@ export function AppRoutes() {
               {/* Familjen Omdirigeringar */}
               <Route path="/familj" element={<Navigate to="/familjen?tab=reflektion" replace />} />
               <Route path="/barnen" element={<Navigate to="/familjen?tab=reflektion" replace />} />
-              <Route path="/hamn" element={<Navigate to="/familjen?tab=hamn" replace />} />
+              <Route path="/hamn" element={<RedirectHamnToFamiljen />} />
 
               {/* —— REFORM: HJÄRTAT ZON —— */}
               <Route

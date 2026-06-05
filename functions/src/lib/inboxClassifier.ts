@@ -263,14 +263,23 @@ export function isManualInkastClassification(classification: InboxClassification
 export function buildManualInkastClassification(input: {
   routing: Exclude<InboxRouting, 'review'>;
   category?: string;
+  tags?: string[];
   comment?: string;
   analysisExcerpt?: string;
   childAlias?: string;
 }): InboxClassification {
+  const analysisTags = Array.isArray(input.tags)
+    ? input.tags
+        .filter((t): t is string => typeof t === 'string' && t.trim().length > 0)
+        .map((t) => t.trim().toLowerCase().replace(/^#/, '').slice(0, 48))
+        .filter((t) => t !== 'manuell')
+        .slice(0, 11)
+    : [];
   const category =
     typeof input.category === 'string' && input.category.trim()
       ? input.category.trim().slice(0, 80)
-      : 'manuell';
+      : analysisTags[0] || 'manuell';
+  const tags = ['manuell', ...analysisTags].slice(0, 12);
   const summary =
     typeof input.comment === 'string' && input.comment.trim()
       ? input.comment.trim().slice(0, 400)
@@ -289,7 +298,7 @@ export function buildManualInkastClassification(input: {
 
   return {
     routing: input.routing,
-    tags: ['manuell'],
+    tags,
     category,
     confidence: 1,
     summary,

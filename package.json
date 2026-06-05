@@ -34,6 +34,7 @@
     "smoke:child-moment": "node scripts/smoke_child_moment.mjs",
     "smoke:entities": "node scripts/smoke_entity_profiles.mjs",
     "smoke:inbox": "node scripts/smoke_inbox_sort.mjs",
+    "smoke:inkast": "node scripts/smoke_inkast_lockdown.mjs",
     "smoke:cache": "node scripts/smoke_context_cache.mjs",
     "smoke:tidshjul": "node scripts/smoke_tidshjul.mjs",
     "smoke:grans": "node scripts/smoke_grans_arkitekt.mjs",

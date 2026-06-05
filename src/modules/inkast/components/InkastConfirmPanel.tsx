@@ -17,13 +17,15 @@ type Props = {
   previewLabel: string;
   busy?: boolean;
   silo: InkastUiSilo;
-  category: string;
+  tags: string[];
   comment: string;
   childAlias: string;
   onConfirm: () => void;
   onStartEdit: () => void;
+  /** Avbryt hela uppladdningen (töm bilaga/förhandsgranskning). */
+  onAbort: () => void;
   onSiloChange: (silo: InkastUiSilo) => void;
-  onCategoryChange: (value: string) => void;
+  onTagsChange: (tags: string[]) => void;
   onCommentChange: (value: string) => void;
   onChildAliasChange: (value: string) => void;
   onManualSave: (choice: InkastManualChoice) => void;
@@ -39,13 +41,14 @@ export function InkastConfirmPanel({
   previewLabel,
   busy = false,
   silo,
-  category,
+  tags,
   comment,
   childAlias,
   onConfirm,
   onStartEdit,
+  onAbort,
   onSiloChange,
-  onCategoryChange,
+  onTagsChange,
   onCommentChange,
   onChildAliasChange,
   onManualSave,
@@ -57,12 +60,12 @@ export function InkastConfirmPanel({
     return (
       <InkastManualEditForm
         silo={silo}
-        category={category}
+        tags={tags}
         comment={comment}
         childAlias={childAlias}
         busy={busy}
         onSiloChange={onSiloChange}
-        onCategoryChange={onCategoryChange}
+        onTagsChange={onTagsChange}
         onCommentChange={onCommentChange}
         onChildAliasChange={onChildAliasChange}
         onSave={onManualSave}
@@ -116,6 +119,14 @@ export function InkastConfirmPanel({
           className="btn-pill--ghost text-xs"
         >
           Ändra
+        </button>
+        <button
+          type="button"
+          onClick={onAbort}
+          disabled={busy}
+          className="btn-pill--ghost text-xs text-text-dim"
+        >
+          Avbryt uppladdning
         </button>
       </div>
     </div>

@@ -42,6 +42,7 @@ export type SubmitInkastLiteInput = {
   /** Manuellt användarval — prioriteras före AI-klassificering. */
   manualRouting?: Exclude<InboxRouting, 'review'>;
   manualCategory?: string;
+  manualTags?: string[];
   manualComment?: string;
   manualChildAlias?: string;
 };
@@ -69,19 +70,32 @@ export type SubmitInkastLiteResult = {
 type ManualInkastOverride = {
   routing: Exclude<InboxRouting, 'review'>;
   category?: string;
+  tags?: string[];
   comment?: string;
   childAlias?: string;
 };
+
+function normalizeManualTags(raw: unknown): string[] | undefined {
+  if (!Array.isArray(raw)) return undefined;
+  const tags = raw
+    .filter((v): v is string => typeof v === 'string' && v.trim().length > 0)
+    .map((v) => v.trim().slice(0, 48))
+    .slice(0, 11);
+  return tags.length ? tags : undefined;
+}
 
 function resolveManualOverride(input: SubmitInkastLiteInput): ManualInkastOverride | undefined {
   const routing = input.manualRouting;
   if (routing !== 'kunskap' && routing !== 'bevis' && routing !== 'barnen') {
     return undefined;
   }
+  const tags = normalizeManualTags(input.manualTags);
+  const category =
+    typeof input.manualCategory === 'string' ? input.manualCategory.trim().slice(0, 80) : undefined;
   return {
     routing,
-    category:
-      typeof input.manualCategory === 'string' ? input.manualCategory.trim().slice(0, 80) : undefined,
+    category: category || tags?.[0],
+    tags,
     comment:
       typeof input.manualComment === 'string' ? input.manualComment.trim().slice(0, 400) : undefined,
     childAlias:
@@ -108,6 +122,7 @@ function resolveClassification(
     return buildManualInkastClassification({
       routing: manual.routing,
       category: manual.category,
+      tags: manual.tags,
       comment: manual.comment,
       analysisExcerpt: analysisText.slice(0, 400),
       childAlias: manual.childAlias,

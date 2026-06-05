@@ -1,14 +1,9 @@
-import { useMemo } from 'react';
 import { Loader2 } from 'lucide-react';
 import { HubDropdownNav } from '@/core/ui/HubDropdownNav';
-import {
-  defaultInkastTagForSilo,
-  inkastTagBySilo,
-  inkastTagDropdownItemsForSilo,
-  inkastTagGroupForSilo,
-  resolveInkastTagForSilo,
-  TAG_GROUPS,
-} from '../api/inkastService';
+import { useStore } from '@/core/store';
+import { normalizeInkastTagSelection } from '../api/inkastService';
+import { TaggSelector } from '@/shared/components/TaggSelector';
+import { TaggHelpPanel } from '@/shared/components/TaggHelpPanel';
 import {
   INKAST_SILO_DESCRIPTIONS,
   INKAST_SILO_ITEMS,
@@ -18,51 +13,39 @@ import {
 
 type Props = {
   silo: InkastUiSilo;
-  category: string;
+  tags: string[];
   comment: string;
   childAlias: string;
   busy?: boolean;
   onSiloChange: (silo: InkastUiSilo) => void;
-  onCategoryChange: (value: string) => void;
+  onTagsChange: (tags: string[]) => void;
   onCommentChange: (value: string) => void;
   onChildAliasChange: (value: string) => void;
   onSave: (choice: InkastManualChoice) => void;
   onCancel: () => void;
 };
 
-/** Manuell silo + kontextberoende tagg — Obsidian Calm, HubDropdownNav + inline hjälptext. */
+/** Manuell silo + universell tagg-matris — Obsidian Calm. */
 export function InkastManualEditForm({
   silo,
-  category,
+  tags,
   comment,
   childAlias,
   busy = false,
   onSiloChange,
-  onCategoryChange,
+  onTagsChange,
   onCommentChange,
   onChildAliasChange,
   onSave,
   onCancel,
 }: Props) {
-  const tagGroupId = inkastTagGroupForSilo(silo);
-  const tagGroup = TAG_GROUPS[tagGroupId];
-  const tagItems = useMemo(() => inkastTagDropdownItemsForSilo(silo), [silo]);
-  const activeTagId = resolveInkastTagForSilo(category, silo);
-  const activeTag = inkastTagBySilo(silo, activeTagId);
-
-  const handleSiloChange = (nextSilo: InkastUiSilo) => {
-    onSiloChange(nextSilo);
-    onCategoryChange(defaultInkastTagForSilo(nextSilo));
-  };
-
-  const handleTagChange = (tagId: string) => {
-    onCategoryChange(tagId);
-  };
+  const user = useStore((s) => s.user);
+  const selectedTags = normalizeInkastTagSelection(tags);
 
   const handleSave = () => {
     onSave({
       silo,
-      category: activeTagId,
+      tags: selectedTags,
       comment: comment.trim(),
       childAlias: silo === 'barnen' ? childAlias.trim() || undefined : undefined,
       optInTrauma: true,
@@ -78,7 +61,7 @@ export function InkastManualEditForm({
         <HubDropdownNav
           items={INKAST_SILO_ITEMS}
           activeId={silo}
-          onChange={handleSiloChange}
+          onChange={onSiloChange}
           glowColor="gold"
           ariaLabel="Välj arkiv-silo"
         />
@@ -87,21 +70,19 @@ export function InkastManualEditForm({
         </p>
       </div>
 
-      <div key={tagGroupId} className="animate-fade-in">
-        <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-text-dim">
-          Analys-tagg
-          <span className="ml-1.5 font-normal normal-case tracking-normal text-text-muted">
-            · {tagGroup.label}
-          </span>
-        </p>
-        <HubDropdownNav
-          items={tagItems}
-          activeId={activeTagId}
-          onChange={handleTagChange}
-          glowColor="gold"
-          ariaLabel={`Välj analys-tagg för ${tagGroup.label}`}
+      <div>
+        <div className="mb-2 flex items-start justify-between gap-2">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-text-dim">
+            Analys-tagg
+          </p>
+          <TaggHelpPanel />
+        </div>
+        <TaggSelector
+          value={tags}
+          onChange={onTagsChange}
+          userId={user?.uid}
+          disabled={busy}
         />
-        <p className="mt-2 text-xs leading-relaxed text-text-muted">{activeTag.description}</p>
       </div>
 
       {silo === 'barnen' && (

@@ -27,6 +27,7 @@ import {
   previewInboxClassification,
   primaryInkastItem,
   submitInkastLite,
+  tagsFromInkastClassification,
 } from '@/modules/inkast/api/inkastService';
 import type { InboxClassification, InboxRouting } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import { InkastConfirmPanel } from '@/modules/inkast/components/InkastConfirmPanel';
@@ -205,7 +206,7 @@ export function HomeAdaptiveCompass({ onSaved }: Props) {
   );
   const [proposedSilo, setProposedSilo] = useState<DisplaySilo>('dagbok');
   const [manualSilo, setManualSilo] = useState<InkastUiSilo>('dagbok');
-  const [manualCategory, setManualCategory] = useState('');
+  const [manualTags, setManualTags] = useState<string[]>([]);
   const [manualComment, setManualComment] = useState('');
   const [manualChildAlias, setManualChildAlias] = useState('');
   const [savedMessage, setSavedMessage] = useState<string | null>(null);
@@ -280,7 +281,7 @@ export function HomeAdaptiveCompass({ onSaved }: Props) {
       setPreviewClassification(classification);
       setProposedSilo(routingToDisplaySilo(classification.routing));
       setManualSilo(routingToUiSilo(classification.routing));
-      setManualCategory(classification.category);
+      setManualTags(tagsFromInkastClassification(classification));
       setManualComment(classification.summary);
       setManualChildAlias(classification.childAlias ?? '');
       setInkastState('confirm');
@@ -609,13 +610,14 @@ export function HomeAdaptiveCompass({ onSaved }: Props) {
               previewLabel={attachmentLabel}
               busy={false}
               silo={manualSilo}
-              category={manualCategory}
+              tags={manualTags}
               comment={manualComment}
               childAlias={manualChildAlias}
               onConfirm={handleConfirmSave}
               onStartEdit={() => setInkastState('edit')}
+              onAbort={resetInkast}
               onSiloChange={setManualSilo}
-              onCategoryChange={setManualCategory}
+              onTagsChange={setManualTags}
               onCommentChange={setManualComment}
               onChildAliasChange={setManualChildAlias}
               onManualSave={handleManualSave}

@@ -6,6 +6,7 @@ import {
   formatInkastResultMessage,
   previewInboxClassification,
   submitInkastLite,
+  tagsFromInkastClassification,
   VALV_SAMLA_GRANSKA_LINK,
 } from '../inkast/api/inkastService';
 import type { InboxClassification } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
@@ -31,7 +32,7 @@ export function CapturePanel({ sourceModule = 'hem_capture', compact = false }: 
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState<InboxClassification | null>(null);
   const [manualSilo, setManualSilo] = useState<InkastUiSilo>('dagbok');
-  const [manualCategory, setManualCategory] = useState('');
+  const [manualTags, setManualTags] = useState<string[]>([]);
   const [manualComment, setManualComment] = useState('');
   const [manualChildAlias, setManualChildAlias] = useState('');
 
@@ -39,6 +40,10 @@ export function CapturePanel({ sourceModule = 'hem_capture', compact = false }: 
     setPhase('compose');
     setPreview(null);
     setError(null);
+    setMessage(null);
+    setManualTags([]);
+    setManualComment('');
+    setManualChildAlias('');
   }, []);
 
   const handlePreview = useCallback(async () => {
@@ -58,7 +63,7 @@ export function CapturePanel({ sourceModule = 'hem_capture', compact = false }: 
       });
       setPreview(classification);
       setManualSilo(routingToUiSilo(classification.routing));
-      setManualCategory(classification.category);
+      setManualTags(tagsFromInkastClassification(classification));
       setManualComment(classification.summary);
       setManualChildAlias(classification.childAlias ?? '');
       setPhase('confirm');
@@ -153,13 +158,14 @@ export function CapturePanel({ sourceModule = 'hem_capture', compact = false }: 
           previewLabel={previewLabel}
           busy={false}
           silo={manualSilo}
-          category={manualCategory}
+          tags={manualTags}
           comment={manualComment}
           childAlias={manualChildAlias}
           onConfirm={() => void persistInkast()}
           onStartEdit={() => setPhase('edit')}
+          onAbort={resetFlow}
           onSiloChange={setManualSilo}
-          onCategoryChange={setManualCategory}
+          onTagsChange={setManualTags}
           onCommentChange={setManualComment}
           onChildAliasChange={setManualChildAlias}
           onManualSave={handleManualSave}

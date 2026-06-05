@@ -442,13 +442,20 @@ function main() {
     'src/modules/core/routing/AppRoutes.tsx',
     'path="/barnen"',
     'path="/hamn"',
-    '/familjen?tab=hamn',
+    'RedirectHamnToFamiljen',
+    "search: '?tab=hamn'",
   );
   mustInclude(
     'src/modules/core/navigation/navigationRegistry.ts',
     "hamn: { id: 'hamn', label: 'Trygg hamn'",
     "barnporten: { id: 'barnporten'",
     "tillsammans: { id: 'tillsammans'",
+  );
+  mustInclude(
+    'src/modules/core/navigation/hubContextBar.ts',
+    "id: 'barnporten'",
+    '/familjen?tab=barnporten',
+    "id: 'hamn'",
   );
   mustInclude('src/modules/features/family/safeHarbor/components/SafeHarborPage.tsx', 'embedded', '!embedded');
   mustInclude(

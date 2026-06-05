@@ -1,11 +1,10 @@
 import { httpsCallable, type FunctionsError } from 'firebase/functions';
-import type { DropdownItem } from '@/core/ui/HubDropdownNav';
 import { functions } from '../../core/firebase/init';
 import type { InboxClassification, InboxRouting } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
-import type { InkastUiSilo } from '../constants/inkastSiloOptions';
+import type { UserTagRow } from '@/core/types/firestore';
 
-/** Kontextgrupper för manuella inkast-taggar — CEO-taxonomi. */
-export type InkastTagGroupId = 'narcissism' | 'barn' | 'personligt';
+/** Universell tagg-matris — fyra grupper (CEO-taxonomi). */
+export type InkastTagGroupId = 'narcissism' | 'barn' | 'personligt' | 'egen';
 
 export type InkastTagDef = {
   id: string;
@@ -19,17 +18,17 @@ export type InkastTagGroup = {
   tags: InkastTagDef[];
 };
 
-/** Silo → tagggrupp (Valv = narcissism, Barnen = barn, Dagbok = personligt). */
-export const INKAST_SILO_TAG_GROUP: Record<InkastUiSilo, InkastTagGroupId> = {
-  valv: 'narcissism',
-  barnen: 'barn',
-  dagbok: 'personligt',
-};
+export const INKAST_TAG_GROUP_ORDER: InkastTagGroupId[] = [
+  'narcissism',
+  'barn',
+  'personligt',
+  'egen',
+];
 
-export const TAG_GROUPS: Record<InkastTagGroupId, InkastTagGroup> = {
+export const TAG_GROUPS: Record<Exclude<InkastTagGroupId, 'egen'>, InkastTagGroup> = {
   narcissism: {
     id: 'narcissism',
-    label: 'Bevis & mönster',
+    label: 'Narcissism',
     tags: [
       {
         id: 'gaslighting',
@@ -65,7 +64,7 @@ export const TAG_GROUPS: Record<InkastTagGroupId, InkastTagGroup> = {
   },
   barn: {
     id: 'barn',
-    label: 'Barn & trygghet',
+    label: 'Barn',
     tags: [
       {
         id: 'maende',
@@ -101,7 +100,7 @@ export const TAG_GROUPS: Record<InkastTagGroupId, InkastTagGroup> = {
   },
   personligt: {
     id: 'personligt',
-    label: 'Personligt & reflektion',
+    label: 'Personligt',
     tags: [
       {
         id: 'reflektion',
@@ -132,39 +131,142 @@ export const TAG_GROUPS: Record<InkastTagGroupId, InkastTagGroup> = {
   },
 };
 
-export function inkastTagGroupForSilo(silo: InkastUiSilo): InkastTagGroupId {
-  return INKAST_SILO_TAG_GROUP[silo];
-}
+/** Visningsnamn i hjälp-panel (inkast / Valv). */
+export const TAG_GROUP_HELP_LABELS: Record<Exclude<InkastTagGroupId, 'egen'>, string> = {
+  narcissism: 'Manipulation',
+  barn: 'Barn',
+  personligt: 'Personligt',
+};
 
-export function inkastTagsForSilo(silo: InkastUiSilo): InkastTagDef[] {
-  return TAG_GROUPS[inkastTagGroupForSilo(silo)].tags;
-}
+const BUILTIN_TAG_GROUP_ORDER: Exclude<InkastTagGroupId, 'egen'>[] = [
+  'narcissism',
+  'barn',
+  'personligt',
+];
 
-export function inkastTagDropdownItemsForSilo(silo: InkastUiSilo): DropdownItem<string>[] {
-  return inkastTagsForSilo(silo).map((tag) => ({
-    id: tag.id,
-    label: tag.label,
+/** Single source of truth — inbyggda grupper för tagg-hjälp. */
+export function listBuiltinTagGroupsForHelp(): Array<{
+  groupId: Exclude<InkastTagGroupId, 'egen'>;
+  label: string;
+  tags: InkastTagDef[];
+}> {
+  return BUILTIN_TAG_GROUP_ORDER.map((groupId) => ({
+    groupId,
+    label: TAG_GROUP_HELP_LABELS[groupId],
+    tags: TAG_GROUPS[groupId].tags,
   }));
 }
 
-export function resolveInkastTagForSilo(category: string, silo: InkastUiSilo): string {
-  const groupId = inkastTagGroupForSilo(silo);
+export type InkastTagMeta = {
+  id: string;
+  label: string;
+  description: string;
+  groupId: InkastTagGroupId;
+};
+
+export function userTagsToInkastDefs(userTags: UserTagRow[]): InkastTagDef[] {
+  return userTags.map((tag) => ({
+    id: `egen:${tag.slug}`,
+    label: tag.label.startsWith('#') ? tag.label : `#${tag.label}`,
+    description: tag.description?.trim() || 'Din egen tagg.',
+  }));
+}
+
+export function inkastTagsForGroup(
+  groupId: InkastTagGroupId,
+  userTags: UserTagRow[] = [],
+): InkastTagDef[] {
+  if (groupId === 'egen') return userTagsToInkastDefs(userTags);
+  return TAG_GROUPS[groupId].tags;
+}
+
+export function resolveInkastTag(category: string, userTags: UserTagRow[] = []): string {
   const normalized = category.trim().toLowerCase().replace(/^#/, '');
-  const tags = TAG_GROUPS[groupId].tags;
-  const match = tags.find((tag) => tag.id === normalized);
-  if (match) return match.id;
 
-  // AI-kategori från annan silo — välj första taggen i aktiv grupp.
-  return tags[0]?.id ?? 'fakta';
+  for (const groupId of INKAST_TAG_GROUP_ORDER) {
+    if (groupId === 'egen') {
+      const custom = userTags.find((tag) => tag.slug === normalized || `egen:${tag.slug}` === normalized);
+      if (custom) return `egen:${custom.slug}`;
+      continue;
+    }
+    const match = TAG_GROUPS[groupId].tags.find((tag) => tag.id === normalized);
+    if (match) return match.id;
+  }
+
+  if (normalized.startsWith('egen:')) {
+    const slug = normalized.slice(5);
+    if (slug && (userTags.length === 0 || userTags.some((tag) => tag.slug === slug))) {
+      return `egen:${slug}`;
+    }
+  }
+
+  return 'fakta';
 }
 
-export function inkastTagBySilo(silo: InkastUiSilo, tagId: string): InkastTagDef {
-  const tags = inkastTagsForSilo(silo);
-  return tags.find((tag) => tag.id === tagId) ?? tags[0]!;
+export function inkastTagMeta(
+  tagId: string,
+  userTags: UserTagRow[] = [],
+): InkastTagMeta {
+  const resolved = resolveInkastTag(tagId, userTags);
+  for (const groupId of INKAST_TAG_GROUP_ORDER) {
+    const tags = inkastTagsForGroup(groupId, userTags);
+    const hit = tags.find((tag) => tag.id === resolved);
+    if (hit) {
+      return { ...hit, groupId };
+    }
+  }
+  return {
+    id: 'fakta',
+    label: '#fakta',
+    description: 'Neutral logistik (tid, plats, datum).',
+    groupId: 'narcissism',
+  };
 }
 
-export function defaultInkastTagForSilo(silo: InkastUiSilo): string {
-  return inkastTagsForSilo(silo)[0]?.id ?? 'fakta';
+export function inkastTagGroupForTag(tagId: string, userTags: UserTagRow[] = []): InkastTagGroupId {
+  return inkastTagMeta(tagId, userTags).groupId;
+}
+
+export function normalizeInkastTagSelection(
+  raw: string | string[] | undefined,
+  userTags: UserTagRow[] = [],
+): string[] {
+  const items = Array.isArray(raw) ? raw : raw?.trim() ? [raw] : [];
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const item of items) {
+    const resolved = resolveInkastTag(item, userTags);
+    if (!seen.has(resolved)) {
+      seen.add(resolved);
+      out.push(resolved);
+    }
+  }
+  return out.slice(0, 12);
+}
+
+export function tagsFromInkastClassification(classification: InboxClassification): string[] {
+  const fromTags = classification.tags
+    .filter((t) => t !== 'manuell')
+    .map((t) => t.trim())
+    .filter(Boolean);
+  if (fromTags.length) return fromTags;
+  if (classification.category?.trim() && classification.category !== 'manuell') {
+    return [classification.category.trim()];
+  }
+  return [];
+}
+
+export function toggleInkastTag(
+  selected: string[],
+  tagId: string,
+  userTags: UserTagRow[] = [],
+): string[] {
+  const resolved = resolveInkastTag(tagId, userTags);
+  const normalized = normalizeInkastTagSelection(selected, userTags);
+  if (normalized.includes(resolved)) {
+    return normalized.filter((id) => id !== resolved);
+  }
+  return [...normalized, resolved].slice(0, 12);
 }
 
 export type SubmitInkastLiteItemResult = {
@@ -309,6 +411,7 @@ const submitInkastLiteCallable = httpsCallable<
     sourceModule?: string;
     manualRouting?: Exclude<InboxRouting, 'review'>;
     manualCategory?: string;
+    manualTags?: string[];
     manualComment?: string;
     manualChildAlias?: string;
   },
@@ -344,6 +447,7 @@ export async function submitInkastLite(input: {
   sourceModule?: string;
   manualRouting?: Exclude<InboxRouting, 'review'>;
   manualCategory?: string;
+  manualTags?: string[];
   manualComment?: string;
   manualChildAlias?: string;
 }): Promise<SubmitInkastLiteResult> {

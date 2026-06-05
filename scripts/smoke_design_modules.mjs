@@ -39,6 +39,21 @@ function main() {
   mustInclude('src/modules/core/home/HomeHeroCompass.tsx', 'HomeHeroKanon');
   mustInclude('src/modules/features/lifeJournal/diary/mirror/components/SpeglingsSystem.tsx', 'VivirQuickEntry', 'SvartPaVittForm');
   mustInclude(
+    'src/modules/features/lifeJournal/diary/mirror/components/SpeglingsSystem.tsx',
+    '/familjen?tab=hamn',
+    'prefilledMessage',
+  );
+  mustInclude(
+    'src/modules/core/routing/AppRoutes.tsx',
+    'RedirectHamnToFamiljen',
+    'state={location.state}',
+  );
+  mustInclude(
+    'src/modules/features/family/safeHarbor/components/SafeHarborPage.tsx',
+    'prefilledMessage',
+    'initialMessage={prefilledMessage}',
+  );
+  mustInclude(
     'src/modules/features/family/children/components/familjen/FamiljenReflektionTab.tsx',
     'ChildProfileCards',
     'PositivaMinnesankare',

@@ -8,5 +8,13 @@ export {
   parseSubmitInkastLiteResult,
   formatInkastResultMessage,
   primaryInkastItem,
+  TAG_GROUPS,
+  resolveInkastTag,
+  inkastTagMeta,
 } from './api/inkastService';
-export type { SubmitInkastLiteResult, SubmitInkastLiteItemResult } from './api/inkastService';
+export type {
+  SubmitInkastLiteResult,
+  SubmitInkastLiteItemResult,
+  InkastTagGroupId,
+  InkastTagDef,
+} from './api/inkastService';

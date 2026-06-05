@@ -83,6 +83,7 @@ export function renderDockNavIcon(slot: Pick<HubContextSlot, 'id' | 'icon'>): Re
       return <V5 category="mabra" />;
     case 'livslogg':
     case 'tillsammans':
+    case 'barnporten':
     case 'familjen':
       return <V5 category="familjen" />;
     case 'hamn':

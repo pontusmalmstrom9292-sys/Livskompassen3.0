@@ -79,8 +79,7 @@ function familjenSlots(tab: string | null): HubContextSlot[] {
   return [
     { id: 'reflektion', label: 'Reflektion', to: '/familjen?tab=reflektion', icon: 'sparkles', active: t === 'reflektion' },
     { id: 'livslogg', label: 'Livslogg', to: '/familjen?tab=livslogg', icon: 'bookheart', active: t === 'livslogg' },
-    { id: 'tillsammans', label: 'Tillsammans', to: '/familjen?tab=tillsammans', icon: 'users', active: t === 'tillsammans' },
-    { id: 'barnporten', label: 'Barnporten', to: '/familjen?tab=barnporten', icon: 'bookheart', active: t === 'barnporten' },
+    { id: 'barnporten', label: 'Barnporten', to: '/familjen?tab=barnporten', icon: 'users', active: t === 'barnporten' },
     { id: 'hamn', label: 'Trygg hamn', to: '/familjen?tab=hamn', icon: 'anchor', active: t === 'hamn' },
   ];
 }

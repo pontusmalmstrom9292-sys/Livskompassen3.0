@@ -337,5 +337,20 @@ service cloud.firestore {
         && resource.data.ownerId == request.auth.uid;
       allow create, update, delete: if false;
     }
+
+    match /user_tags/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.label is string
+        && request.resource.data.label.size() >= 1
+        && request.resource.data.label.size() <= 48
+        && request.resource.data.slug is string
+        && request.resource.data.slug.size() >= 1
+        && request.resource.data.slug.size() <= 48;
+      allow update: if isOwner()
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid;
+      allow delete: if isOwner();
+    }
   }
 }

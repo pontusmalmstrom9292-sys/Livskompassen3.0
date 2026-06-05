@@ -290,4 +290,14 @@ export const FIRESTORE_COLLECTIONS = {
   projects: 'projects',
   project_blocks: 'project_blocks',
   user_widgets: 'user_widgets',
+  user_tags: 'user_tags',
 } as const;
+
+/** Användardefinierad tagg (Firestore `user_tags`). */
+export type UserTag = {
+  label: string;
+  slug: string;
+  description?: string;
+};
+
+export type UserTagRow = UserTag & { id: string };
