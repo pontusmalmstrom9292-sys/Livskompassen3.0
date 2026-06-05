@@ -1,12 +1,17 @@
+import { useMemo } from 'react';
 import { Loader2 } from 'lucide-react';
 import { HubDropdownNav } from '@/core/ui/HubDropdownNav';
 import {
-  INKAST_ANALYSIS_TAG_ITEMS,
+  defaultInkastTagForSilo,
+  inkastTagBySilo,
+  inkastTagDropdownItemsForSilo,
+  inkastTagGroupForSilo,
+  resolveInkastTagForSilo,
+  TAG_GROUPS,
+} from '../api/inkastService';
+import {
   INKAST_SILO_DESCRIPTIONS,
   INKAST_SILO_ITEMS,
-  inkastAnalysisTagById,
-  resolveInkastAnalysisTagId,
-  type InkastAnalysisTagId,
   type InkastManualChoice,
   type InkastUiSilo,
 } from '../constants/inkastSiloOptions';
@@ -25,7 +30,7 @@ type Props = {
   onCancel: () => void;
 };
 
-/** Manuell silo + tagg — Obsidian Calm, HubDropdownNav + inline hjälptext. */
+/** Manuell silo + kontextberoende tagg — Obsidian Calm, HubDropdownNav + inline hjälptext. */
 export function InkastManualEditForm({
   silo,
   category,
@@ -39,10 +44,18 @@ export function InkastManualEditForm({
   onSave,
   onCancel,
 }: Props) {
-  const activeTagId = resolveInkastAnalysisTagId(category);
-  const activeTag = inkastAnalysisTagById(activeTagId);
+  const tagGroupId = inkastTagGroupForSilo(silo);
+  const tagGroup = TAG_GROUPS[tagGroupId];
+  const tagItems = useMemo(() => inkastTagDropdownItemsForSilo(silo), [silo]);
+  const activeTagId = resolveInkastTagForSilo(category, silo);
+  const activeTag = inkastTagBySilo(silo, activeTagId);
 
-  const handleTagChange = (tagId: InkastAnalysisTagId) => {
+  const handleSiloChange = (nextSilo: InkastUiSilo) => {
+    onSiloChange(nextSilo);
+    onCategoryChange(defaultInkastTagForSilo(nextSilo));
+  };
+
+  const handleTagChange = (tagId: string) => {
     onCategoryChange(tagId);
   };
 
@@ -65,7 +78,7 @@ export function InkastManualEditForm({
         <HubDropdownNav
           items={INKAST_SILO_ITEMS}
           activeId={silo}
-          onChange={onSiloChange}
+          onChange={handleSiloChange}
           glowColor="gold"
           ariaLabel="Välj arkiv-silo"
         />
@@ -74,16 +87,19 @@ export function InkastManualEditForm({
         </p>
       </div>
 
-      <div>
+      <div key={tagGroupId} className="animate-fade-in">
         <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-text-dim">
           Analys-tagg
+          <span className="ml-1.5 font-normal normal-case tracking-normal text-text-muted">
+            · {tagGroup.label}
+          </span>
         </p>
         <HubDropdownNav
-          items={INKAST_ANALYSIS_TAG_ITEMS}
+          items={tagItems}
           activeId={activeTagId}
           onChange={handleTagChange}
           glowColor="gold"
-          ariaLabel="Välj analys-tagg"
+          ariaLabel={`Välj analys-tagg för ${tagGroup.label}`}
         />
         <p className="mt-2 text-xs leading-relaxed text-text-muted">{activeTag.description}</p>
       </div>
