@@ -25,7 +25,7 @@ const DESTINATIONS: KompisDestination[] = [
     primary: true,
   },
   {
-    to: '/familj?tab=hamn',
+    to: '/familjen?tab=hamn',
     label: 'Trygg hamn',
     hint: 'BIFF och Grey Rock vid konflikt.',
     icon: Anchor,

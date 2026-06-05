@@ -32,12 +32,12 @@ const clusters: Cluster[] = [
     ],
   },
   {
-    to: '/hamn',
+    to: '/familjen',
     label: 'Hamnen',
     desc: 'Gränser och kommunikation mot ex.',
     icon: Anchor,
     tone: 'indigo',
-    modules: [{ label: 'Safe Harbor · BIFF', to: '/hamn' }],
+    modules: [{ label: 'Safe Harbor · BIFF', to: '/familjen', search: '?tab=hamn' }],
   },
   {
     to: '/familjen',

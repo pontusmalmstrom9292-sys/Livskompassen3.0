@@ -37,8 +37,8 @@ export function resolveModuleLink(target: ModuleLinkTarget): ResolvedModuleLink 
       return { pathname: '/dagbok', search: q ? `?${q}` : undefined };
     }
     case 'hamn': {
-      const tab = target.tab ?? 'biff';
-      return { pathname: '/hamn', search: `?tab=${tab}` };
+      const hamTab = target.tab ?? 'biff';
+      return { pathname: '/familjen', search: `?tab=hamn&hamTab=${hamTab}` };
     }
     case 'planering': {
       const tab = target.tab ?? 'handling';

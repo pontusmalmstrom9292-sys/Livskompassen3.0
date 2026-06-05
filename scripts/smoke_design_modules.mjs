@@ -44,7 +44,7 @@ function main() {
     'PositivaMinnesankare',
     'BarnfokusFraganPanel',
   );
-  mustInclude('src/modules/features/family/children/components/FamiljenPage.tsx', 'ParentReminderFooter');
+  mustInclude('src/modules/core/pages/FamiljenPage.tsx', 'ParentReminderFooter');
   mustInclude('src/modules/features/family/children/components/BarnensPage.tsx', 'ChildProfileCards', 'ParentReminderFooter');
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx',

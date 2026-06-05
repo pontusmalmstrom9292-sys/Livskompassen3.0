@@ -245,7 +245,56 @@ export function requiresHumanReview(
   classification: InboxClassification,
   optInTrauma?: boolean
 ): boolean {
+  if (isManualInkastClassification(classification)) return false;
   if (classification.routing === 'review') return true;
   if (classification.traumaSensitive && !optInTrauma) return true;
   return false;
+}
+
+/** Manuellt användarval — prioriteras före AI i routeInboxToWorm. */
+export function isManualInkastClassification(classification: InboxClassification): boolean {
+  return (
+    classification.confidence >= 1 &&
+    classification.tags.includes('manuell') &&
+    classification.routing !== 'review'
+  );
+}
+
+export function buildManualInkastClassification(input: {
+  routing: Exclude<InboxRouting, 'review'>;
+  category?: string;
+  comment?: string;
+  analysisExcerpt?: string;
+  childAlias?: string;
+}): InboxClassification {
+  const category =
+    typeof input.category === 'string' && input.category.trim()
+      ? input.category.trim().slice(0, 80)
+      : 'manuell';
+  const summary =
+    typeof input.comment === 'string' && input.comment.trim()
+      ? input.comment.trim().slice(0, 400)
+      : (input.analysisExcerpt ?? 'Manuellt inkast.').slice(0, 400);
+
+  let childAlias: string | undefined;
+  if (input.routing === 'barnen') {
+    const raw =
+      typeof input.childAlias === 'string' && input.childAlias.trim()
+        ? input.childAlias.trim()
+        : undefined;
+    if (raw && /arvid/i.test(raw)) childAlias = 'Arvid';
+    else if (raw && /kasper/i.test(raw)) childAlias = 'Kasper';
+    else childAlias = raw;
+  }
+
+  return {
+    routing: input.routing,
+    tags: ['manuell'],
+    category,
+    confidence: 1,
+    summary,
+    traumaSensitive: false,
+    childAlias,
+    rationale: 'Manuellt val av användare (HITL override).',
+  };
 }

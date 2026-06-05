@@ -174,9 +174,10 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
               isActive={isFamiljRoute}
               links={[
                 { label: 'Dagens Barnfokus', path: '/familjen?tab=reflektion' },
-                { label: 'Livslogg (Barnen)', path: '/familjen?tab=livslogg' },
+                { label: 'Livslogg', path: '/familjen?tab=livslogg' },
+                { label: 'Tillsammans', path: '/familjen?tab=tillsammans' },
+                { label: 'Barnporten', path: '/familjen?tab=barnporten' },
                 { label: 'Trygg Hamn (BIFF)', path: '/familjen?tab=hamn' },
-                { label: 'Drogfrihet', path: '/familjen?tab=drogfrihet' },
               ]}
               onClose={onClose}
             />

@@ -1,5 +1,6 @@
 import {
   formatInkastResultMessage,
+  primaryInkastItem,
   submitInkastLite,
   type SubmitInkastLiteResult,
 } from '../inkast/api/inkastService';
@@ -37,20 +38,21 @@ export async function submitCaptureDraft(
   });
 
   try {
-    const result = await submitInkastLite({
+    const batch = await submitInkastLite({
       text: trimmed,
       fileName: input.fileName ?? 'capture.txt',
       sourceModule: input.sourceModule,
       optInTrauma: input.optInTrauma,
     });
+    const result = primaryInkastItem(batch);
     const status: DraftStatus =
       result.action === 'queued' || result.classification.routing === 'review'
         ? 'review'
         : 'synced';
-    await updateDraftStatus(draft.id, { status, syncResult: result });
+    await updateDraftStatus(draft.id, { status, syncResult: batch });
     return {
-      result,
-      message: formatInkastResultMessage(result),
+      result: batch,
+      message: formatInkastResultMessage(batch),
     };
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'Sortering misslyckades.';

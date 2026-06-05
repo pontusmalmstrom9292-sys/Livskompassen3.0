@@ -1,12 +1,18 @@
-/** Tab-ids för Familjen — synkas med `navTruth` + `useHubTab('familjen')`. */
+/** Tab-ids för Familjen — synkas med `navTruth` + `navigationRegistry.family`. */
 
-export type FamiljenTabId = 'reflektion' | 'livslogg' | 'tillsammans' | 'barnporten';
+export type FamiljenTabId =
+  | 'reflektion'
+  | 'livslogg'
+  | 'tillsammans'
+  | 'barnporten'
+  | 'hamn';
 
 export const FAMILJEN_TAB_IDS: FamiljenTabId[] = [
   'reflektion',
   'livslogg',
   'tillsammans',
   'barnporten',
+  'hamn',
 ];
 
 export function isFamiljenTabId(value: string | null): value is FamiljenTabId {

@@ -4,36 +4,18 @@ import { BentoCard } from '@/shared/ui/BentoCard';
 import { fileToBase64 } from '../../kompis/api/ingestKnowledgeDocumentService';
 import {
   formatInkastResultMessage,
+  primaryInkastItem,
   submitInkastLite,
   type SubmitInkastLiteResult,
 } from '@/modules/inkast/api/inkastService';
-
-const TEXT_TYPES = new Set([
-  'text/plain',
-  'text/markdown',
-  'text/csv',
-  'application/json',
-]);
-
-const BINARY_TYPES = new Set([
-  'application/pdf',
-  'image/png',
-  'image/jpeg',
-  'image/webp',
-]);
-
-function resolveMime(file: File): string {
-  if (file.type) return file.type;
-  const lower = file.name.toLowerCase();
-  if (lower.endsWith('.pdf')) return 'application/pdf';
-  if (lower.endsWith('.png')) return 'image/png';
-  if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) return 'image/jpeg';
-  if (lower.endsWith('.webp')) return 'image/webp';
-  if (lower.endsWith('.md')) return 'text/markdown';
-  if (lower.endsWith('.csv')) return 'text/csv';
-  if (lower.endsWith('.json')) return 'application/json';
-  return 'text/plain';
-}
+import {
+  INKAST_FILE_ACCEPT,
+  INKAST_UNSUPPORTED_FORMAT_MSG,
+  isInkastBinaryFile,
+  isInkastSupportedFile,
+  isInkastTextFile,
+  resolveInkastMime,
+} from '@/modules/inkast/constants/inkastMimeTypes';
 
 type Props = {
   onQueued?: () => void;
@@ -46,6 +28,7 @@ export function VaultInkastCompact({ onQueued, onPersistedBevis }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [lastResult, setLastResult] = useState<SubmitInkastLiteResult | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const runSubmit = useCallback(
@@ -53,18 +36,29 @@ export function VaultInkastCompact({ onQueued, onPersistedBevis }: Props) {
       setLoading(true);
       setError(null);
       setSuccessMessage(null);
+      setLastResult(null);
       try {
-        const result: SubmitInkastLiteResult = await submitInkastLite(payload);
+        const result = await submitInkastLite(payload);
+        setLastResult(result);
         setSuccessMessage(formatInkastResultMessage(result));
-        if (result.action === 'queued') {
+
+        const primary = primaryInkastItem(result);
+        if (primary.action === 'queued') {
           /* Ingen auto-vybyte — undviker React insertBefore-race vid unmount. */
         } else if (
-          result.action === 'persisted' &&
-          result.collection === 'reality_vault' &&
-          result.docId
+          primary.action === 'persisted' &&
+          primary.collection === 'reality_vault' &&
+          primary.docId
         ) {
-          onPersistedBevis?.(result.docId);
+          onPersistedBevis?.(primary.docId);
         }
+
+        if (result.errors.length > 0) {
+          setError(
+            result.errors.map((e) => `${e.fileName}: ${e.error}`).join(' · '),
+          );
+        }
+
         if (!payload.text) setText('');
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Inkast misslyckades.');
@@ -86,28 +80,42 @@ export function VaultInkastCompact({ onQueued, onPersistedBevis }: Props) {
 
   const handleFiles = async (files: FileList | null) => {
     if (!files?.length) return;
-    const file = files[0]!;
-    const mimeType = resolveMime(file);
-    const useBinary = BINARY_TYPES.has(mimeType);
-    const useText =
-      TEXT_TYPES.has(mimeType) || /\.(txt|md|csv|json)$/i.test(file.name);
 
-    if (!useBinary && !useText) {
-      setError('Stödda format: .pdf, .txt, .md, .csv, .json, .png, .jpg, .webp');
+    const fileList = Array.from(files);
+    const unsupported = fileList.filter((f) => !isInkastSupportedFile(f));
+    if (unsupported.length > 0) {
+      setError(INKAST_UNSUPPORTED_FORMAT_MSG);
       return;
     }
 
+    const binaryFiles = fileList.filter(isInkastBinaryFile);
+    const textFiles = fileList.filter(isInkastTextFile);
+
     try {
-      if (useBinary) {
-        const base64 = await fileToBase64(file);
-        await runSubmit({ fileName: file.name, mimeType, base64 });
-      } else {
+      if (binaryFiles.length > 0) {
+        const base64Files: string[] = [];
+        const mimeTypes: string[] = [];
+        const fileNames: string[] = [];
+
+        for (const file of binaryFiles) {
+          base64Files.push(await fileToBase64(file));
+          mimeTypes.push(resolveInkastMime(file));
+          fileNames.push(file.name);
+        }
+
+        await runSubmit({ base64Files, mimeTypes, fileNames });
+      }
+
+      for (const file of textFiles) {
         const content = (await file.text()).trim();
         if (content.length < 12) {
-          setError('Filen är tom eller för kort.');
+          setError(`${file.name}: filen är tom eller för kort.`);
           return;
         }
-        await runSubmit({ text: content.slice(0, 12_000), fileName: file.name });
+        await runSubmit({
+          text: content.slice(0, 12_000),
+          fileName: file.name,
+        });
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Kunde inte läsa filen.');
@@ -115,6 +123,10 @@ export function VaultInkastCompact({ onQueued, onPersistedBevis }: Props) {
       if (inputRef.current) inputRef.current.value = '';
     }
   };
+
+  const showQueueHint =
+    lastResult != null &&
+    (lastResult.queued > 0 || lastResult.items.some((i) => i.action === 'queued'));
 
   return (
     <BentoCard
@@ -153,22 +165,23 @@ export function VaultInkastCompact({ onQueued, onPersistedBevis }: Props) {
         >
           <span className="inline-flex items-center gap-1">
             <FileUp className="h-3 w-3 shrink-0" aria-hidden />
-            <span>Fil</span>
+            <span>Filer</span>
           </span>
         </button>
       </div>
       <input
         ref={inputRef}
         type="file"
+        multiple
         className="sr-only"
-        accept=".pdf,.txt,.md,.csv,.json,.png,.jpg,.jpeg,.webp"
+        accept={INKAST_FILE_ACCEPT}
         onChange={(e) => void handleFiles(e.target.files)}
       />
       {error && <p className="mt-2 text-xs text-amber-400/90">{error}</p>}
       {successMessage && (
         <div className="mt-2 space-y-2">
           <p className="text-xs text-success">{successMessage}</p>
-          {onQueued && (
+          {showQueueHint && onQueued && (
             <button
               type="button"
               className="btn-pill--secondary text-xs"

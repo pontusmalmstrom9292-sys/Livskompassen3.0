@@ -2,8 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Inbox } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
-import { ROUTING_LABELS } from '../inkast/api/inkastService';
-import { VALV_SAMLA_GRANSKA_LINK } from '../inkast/api/inkastService';
+import { ROUTING_LABELS, primaryInkastItem, VALV_SAMLA_GRANSKA_LINK } from '../inkast/api/inkastService';
 import { listDraftsByStatus, type CaptureDraft } from './draftQueue';
 
 function draftSummary(d: CaptureDraft): string {
@@ -44,7 +43,7 @@ export function ReviewQueuePanel() {
           <li key={d.id} className="rounded-xl border border-border/60 bg-surface/40 px-3 py-2">
             <span className="text-xs text-gold">
               {d.syncResult
-                ? (ROUTING_LABELS[d.syncResult.classification.routing] ?? 'Granska')
+                ? (ROUTING_LABELS[primaryInkastItem(d.syncResult).classification.routing] ?? 'Granska')
                 : 'Granska'}
             </span>
             <p className="text-text-muted">{draftSummary(d)}</p>

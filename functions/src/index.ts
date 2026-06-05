@@ -466,7 +466,7 @@ export const previewInboxClassification = onCall(
 // submitInkastLite — Hem Inkast Lite (G10 routing, fail-safe review)
 // ─────────────────────────────────────────────────────────────────────────────
 export const submitInkastLite = onCall(
-  { region: 'europe-west1', secrets: [geminiApiKey], memory: '512MiB', timeoutSeconds: 120 },
+  { region: 'europe-west1', secrets: [geminiApiKey], memory: '1GiB', timeoutSeconds: 300 },
   async (request) => {
     if (!request.auth) {
       throw new HttpsError('unauthenticated', 'Autentisering krävs.');
@@ -474,6 +474,15 @@ export const submitInkastLite = onCall(
 
     const text = typeof request.data?.text === 'string' ? request.data.text : undefined;
     const base64 = typeof request.data?.base64 === 'string' ? request.data.base64 : undefined;
+    const base64Files = Array.isArray(request.data?.base64Files)
+      ? request.data.base64Files.filter((v: unknown) => typeof v === 'string')
+      : undefined;
+    const mimeTypes = Array.isArray(request.data?.mimeTypes)
+      ? request.data.mimeTypes.filter((v: unknown) => typeof v === 'string')
+      : undefined;
+    const fileNames = Array.isArray(request.data?.fileNames)
+      ? request.data.fileNames.filter((v: unknown) => typeof v === 'string')
+      : undefined;
     const fileName =
       typeof request.data?.fileName === 'string' ? request.data.fileName : undefined;
     const mimeType =
@@ -481,11 +490,37 @@ export const submitInkastLite = onCall(
     const optInTrauma = request.data?.optInTrauma === true;
     const sourceModule =
       typeof request.data?.sourceModule === 'string' ? request.data.sourceModule : undefined;
+    const manualRouting = request.data?.manualRouting;
+    const manualCategory =
+      typeof request.data?.manualCategory === 'string' ? request.data.manualCategory : undefined;
+    const manualComment =
+      typeof request.data?.manualComment === 'string' ? request.data.manualComment : undefined;
+    const manualChildAlias =
+      typeof request.data?.manualChildAlias === 'string' ? request.data.manualChildAlias : undefined;
 
     try {
       return await submitInkastLiteForUser(
         request.auth.uid,
-        { text, base64, fileName, mimeType, optInTrauma, sourceModule },
+        {
+          text,
+          base64,
+          base64Files,
+          mimeTypes,
+          fileNames,
+          fileName,
+          mimeType,
+          optInTrauma,
+          sourceModule,
+          manualRouting:
+            manualRouting === 'kunskap' ||
+            manualRouting === 'bevis' ||
+            manualRouting === 'barnen'
+              ? manualRouting
+              : undefined,
+          manualCategory,
+          manualComment,
+          manualChildAlias,
+        },
         geminiApiKey.value()
       );
     } catch (error) {

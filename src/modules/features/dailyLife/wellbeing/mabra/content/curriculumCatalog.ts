@@ -255,7 +255,7 @@ export const CURRICULUMS: readonly VitCurriculum[] = [
         exercises: [],
       },
     ],
-    broLinks: [{ label: 'Hamn — BIFF', route: '/hamn' }],
+    broLinks: [{ label: 'Hamn — BIFF', route: '/familjen?tab=hamn' }],
   },
   {
     id: 'CUR-SOBRIETY-01',

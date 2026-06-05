@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import type { InboxClassification } from './inboxClassifier';
+import { requiresHumanReview, type InboxClassification } from './inboxClassifier';
 import { persistKbDocFromDrive, type PersistKbDocInput } from './persistKbDoc';
 
 const INBOX_QUEUE = 'inbox_queue';
@@ -33,6 +33,7 @@ export async function persistInboxQueueItem(input: {
   mimeType: string;
   classification: InboxClassification;
   analysisExcerpt: string;
+  evidenceUrl?: string;
 }): Promise<{ queueId: string; created: boolean }> {
   const db = admin.firestore();
   const existing = await db
@@ -65,6 +66,7 @@ export async function persistInboxQueueItem(input: {
     status: 'pending',
     persistedCollection: null,
     persistedDocId: null,
+    evidenceUrl: input.evidenceUrl ?? null,
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
   });
 
@@ -78,6 +80,7 @@ export async function persistVaultFromInbox(input: {
   mimeType: string;
   classification: InboxClassification;
   analysisText: string;
+  evidenceUrl?: string;
 }): Promise<{ docId: string; created: boolean }> {
   const db = admin.firestore();
   const existing = await db
@@ -110,6 +113,7 @@ export async function persistVaultFromInbox(input: {
     mimeType: input.mimeType,
     inboxTags: input.classification.tags,
     isLocked: true,
+    ...(input.evidenceUrl ? { evidenceUrl: input.evidenceUrl } : {}),
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
   });
 
@@ -176,35 +180,30 @@ export async function routeInboxToWorm(input: {
   classification: InboxClassification;
   analysisText: string;
   optInTrauma?: boolean;
+  evidenceUrl?: string;
 }): Promise<{
   action: 'queued' | 'persisted';
   collection?: string;
   docId?: string;
   queueId?: string;
 }> {
-  const { classification, ownerId, fileId, fileName, mimeType, analysisText, optInTrauma } =
+  const { classification, ownerId, fileId, fileName, mimeType, analysisText, optInTrauma, evidenceUrl } =
     input;
 
-  if (classification.traumaSensitive && !optInTrauma) {
+  // Manuellt val (tag: manuell) — requiresHumanReview returnerar false; routing följs direkt.
+  if (requiresHumanReview(classification, optInTrauma)) {
+    const queueClassification =
+      classification.traumaSensitive && !optInTrauma
+        ? { ...classification, routing: 'review' as const }
+        : classification;
     const q = await persistInboxQueueItem({
       ownerId,
       driveFileId: fileId,
       fileName,
       mimeType,
-      classification: { ...classification, routing: 'review' },
+      classification: queueClassification,
       analysisExcerpt: analysisText,
-    });
-    return { action: 'queued', queueId: q.queueId };
-  }
-
-  if (classification.routing === 'review') {
-    const q = await persistInboxQueueItem({
-      ownerId,
-      driveFileId: fileId,
-      fileName,
-      mimeType,
-      classification,
-      analysisExcerpt: analysisText,
+      evidenceUrl,
     });
     return { action: 'queued', queueId: q.queueId };
   }
@@ -217,6 +216,7 @@ export async function routeInboxToWorm(input: {
       mimeType,
       classification,
       analysisText,
+      evidenceUrl,
     });
     return { action: 'persisted', collection: 'reality_vault', docId: v.docId };
   }
@@ -239,6 +239,7 @@ export async function routeInboxToWorm(input: {
       mimeType,
       classification: { ...classification, routing: 'review' },
       analysisExcerpt: analysisText,
+      evidenceUrl,
     });
     return { action: 'queued', queueId: q.queueId };
   }

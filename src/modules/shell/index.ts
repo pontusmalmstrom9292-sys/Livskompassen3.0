@@ -1,2 +1,2 @@
 export { VardagenShellPage } from './VardagenShellPage';
-export { FamiljenShellPage } from './FamiljenShellPage';
+export { FamiljenPage as FamiljenShellPage } from '@/core/pages/FamiljenPage';

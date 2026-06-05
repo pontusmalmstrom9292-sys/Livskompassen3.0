@@ -1,0 +1,33 @@
+---
+description: Livskompassen Governance — Roadmap, Kostnads-filosofi och Projekt-filosofi. Ska styra ALLA tekniska beslut.
+alwaysApply: true
+---
+
+# Livskompassen Governance
+
+Följ dessa principer i alla interaktioner. Bryt aldrig mot dessa.
+
+## 1. Roadmap (Färdigställande)
+Prioriteringsordning:
+1. Adaptiv Hemkompass (UI/UX Obsidian Calm 2.0).
+2. Smart Inkast (Integration till Dagbok, Valv, Barnen).
+3. Familjehubben (BIFF/Grey Rock i 'Trygg Hamn').
+4. Säkerhet (WORM-valv, upplåsningsmekanism).
+5. Ekonomi/Tid (Impulsparkeringen, tidrapportering).
+
+## 2. Kostnads-filosofi (Non-negotiable)
+- GRATIS FÖRST: Firebase gratis-tier är basen. Inga tunga Cloud Functions.
+- UNDVIK API-TRÄSK: Inga externa OAuth-integrationer (Kalender/Gmail). Manuell synk via Inkastet.
+- KREDIT-EFFEKTIVITET: Skriv aldrig ny kod om befintlig komponent (`HubDropdownNav`, `CognitiveLoadStrip` etc.) kan återanvändas.
+- DONE IS BETTER THAN PERFECT: Färdigställ moduler före 'polish'.
+
+## 3. Projekt-filosofi (Användarprofil: Pontus)
+- Självrehabilitering: Fokus på 'här och nu'.
+- Kommunikation: Grey Rock & BIFF (Brief, Informative, Friendly, Firm).
+- Inget JADE: AI:n ska stoppa Pontus från att förklara/försvara sig.
+- Design: 'Obsidian Calm' (mörk, guld, indigo, emerald).
+
+## 4. Operativa regler för AI
+- Innan du föreslår ny kod: fråga 'Kan detta lösas med existerande komponenter?'.
+- Vid buggar: skicka endast relevanta kodblock, inte hela filer.
+- Om Pontus blir överväldigad: prioritera stressreglering (andning/kyla) framför kod-fixar.

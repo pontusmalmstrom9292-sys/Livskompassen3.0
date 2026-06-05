@@ -1,6 +1,6 @@
 /** Familjen cluster — barn, trygg hamn. */
-export { FamiljenShellPage } from '@/modules/shell/FamiljenShellPage';
+export { FamiljenPage, FamiljenPage as FamiljenShellPage } from '@/core/pages/FamiljenPage';
 export { useFamiljenShell } from './children/hooks/useFamiljenShell';
-export { BarnensPage, FamiljenPage } from './children';
+export { BarnensPage } from './children';
 export { BarnfokusFraganPanel } from './children/components/BarnfokusFraganPanel';
 export { SafeHarborPage } from './safeHarbor';

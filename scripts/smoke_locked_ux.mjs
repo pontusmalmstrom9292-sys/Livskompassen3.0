@@ -47,7 +47,7 @@ function main() {
     'handleSaveBarnfokus',
   );
   mustInclude(
-    'src/modules/features/family/children/components/FamiljenPage.tsx',
+    'src/modules/core/pages/FamiljenPage.tsx',
     'FamiljenReflektionTab',
     'vaultDrawerPath',
   );
@@ -196,7 +196,7 @@ function main() {
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx', 'VALV_ZONE_INGRESS');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx', 'WeaverPendingVaultBanner');
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'setVaultGate', 'openValvViaFyren');
-  mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", '/vardagen', "label: 'Vardag'", "id: 'gora'", 'getNavChildren');
+  mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", '/vardagen', "label: 'Vardagen'", 'getNavChildren');
   mustInclude(
     'src/modules/inkast/components/InkastLiteCard.tsx',
     'submitInkastLite',
@@ -389,9 +389,10 @@ function main() {
     'valv_analysera',
     'valv_forensik',
     'getDrawerRoots',
-    'gora_handling',
-    'planering_handling',
-    'hem_inkast',
+    'vardagen_handling',
+    'familjen_hamn',
+    'familjen_barnporten',
+    'familjen_tillsammans',
   );
   mustInclude('src/modules/core/navigation/drawerNav.ts', 'DRAWER_VARDAG_ITEMS', 'DRAWER_VALV_ITEMS', 'navTruth');
   mustInclude('src/modules/core/layout/HubPageShell.tsx', 'hubHeaderClasses', 'hub-page-shell');
@@ -425,7 +426,31 @@ function main() {
   mustInclude('src/modules/core/layout/DrawerModeToggle.tsx', 'if (!showValvShell) return null');
   mustInclude('src/modules/core/layout/DrawerHubAccordion.tsx', 'isDrawerItemActive', 'glowColor');
   mustInclude('src/modules/core/components/DrawerHomeQuickActions.tsx', 'FYREN_HOME_QUICK_ACTIONS');
-  mustInclude('src/modules/features/family/children/components/FamiljenPage.tsx', 'HubPageShell', 'ParentReminderFooter');
+  mustInclude('src/modules/core/pages/FamiljenPage.tsx', 'HubPageShell', 'ParentReminderFooter');
+  mustInclude(
+    'src/modules/core/pages/FamiljenPage.tsx',
+    'HubDropdownNav',
+    'glowColor="blue"',
+    "id: 'reflektion'",
+    "id: 'livslogg'",
+    "id: 'tillsammans'",
+    "id: 'barnporten'",
+    "id: 'hamn'",
+    'SafeHarborPage embedded',
+  );
+  mustInclude(
+    'src/modules/core/routing/AppRoutes.tsx',
+    'path="/barnen"',
+    'path="/hamn"',
+    '/familjen?tab=hamn',
+  );
+  mustInclude(
+    'src/modules/core/navigation/navigationRegistry.ts',
+    "hamn: { id: 'hamn', label: 'Trygg hamn'",
+    "barnporten: { id: 'barnporten'",
+    "tillsammans: { id: 'tillsammans'",
+  );
+  mustInclude('src/modules/features/family/safeHarbor/components/SafeHarborPage.tsx', 'embedded', '!embedded');
   mustInclude(
     'src/modules/features/dailyLife/wellbeing/mabra/components/MabraPage.tsx',
     'HubPageShell',

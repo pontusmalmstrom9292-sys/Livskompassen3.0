@@ -42,6 +42,11 @@ const PACKS = [
     include:
       'src/modules/features/dailyLife/arbetsliv/**,src/modules/features/admin/stampla/**,docs/evaluations/2026-05-25-arbetsliv-hub.md',
   },
+  {
+    name: 'familjehubb',
+    include:
+      'src/modules/features/family/**,src/modules/core/pages/FamiljenPage.tsx,src/modules/core/layout/HubPageShell.tsx,src/modules/core/ui/HubDropdownNav.tsx,src/modules/core/ui/CognitiveLoadStrip.tsx,src/modules/core/navigation/navTruth.ts,src/modules/core/navigation/navigationRegistry.ts,src/modules/core/navigation/hubTabs.tsx,src/modules/core/navigation/hooks/useHubTab.ts,src/modules/core/routing/AppRoutes.tsx,src/modules/core/firebase/firestore.ts,src/modules/core/types/firestore.ts,src/modules/shell/index.ts,src/modules/features/onboarding/barnporten/**,docs/specs/modules/Barnen-SPEC.md,docs/specs/modules/SafeHarbor-SPEC.md,.context/locked-ux-features.md,functions/src/index.ts',
+  },
 ];
 
 mkdirSync(outDir, { recursive: true });

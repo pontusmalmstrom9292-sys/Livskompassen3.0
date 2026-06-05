@@ -105,7 +105,7 @@ function main() {
   mustInclude('docs/design/VALV-HUBB-SPEC.md', 'Samla', 'Analysera', 'Exportera');
   mustInclude('src/modules/core/triggers/valvHandoff.ts', 'shouldShowValvHandoff');
   mustInclude(
-    'src/modules/features/family/children/components/FamiljenPage.tsx',
+    'src/modules/core/pages/FamiljenPage.tsx',
     'vaultDrawerPath',
     'familjen_monster',
     'kunskapsbank',

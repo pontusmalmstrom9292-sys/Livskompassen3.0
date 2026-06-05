@@ -213,7 +213,7 @@ export function SpeglingsForensicPanel({ userId, initialFeeling = '' }: Forensic
             sessionSavedEvidence={sessionSavedEvidence}
           />
           <Link
-            to="/hamn"
+            to="/familjen?tab=hamn"
             state={{ prefilledMessage: feeling }}
             className="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-accent hover:text-accent-light"
           >

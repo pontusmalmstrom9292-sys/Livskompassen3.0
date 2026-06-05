@@ -6,38 +6,20 @@ import { useStore } from '../../core/store';
 import { fileToBase64 } from '@/features/lifeJournal/evidence/kompis/api/ingestKnowledgeDocumentService';
 import {
   formatInkastResultMessage,
+  primaryInkastItem,
   submitInkastLite,
   VALV_ARKIV_LINK,
   VALV_SAMLA_GRANSKA_LINK,
   type SubmitInkastLiteResult,
 } from '../api/inkastService';
-
-const TEXT_TYPES = new Set([
-  'text/plain',
-  'text/markdown',
-  'text/csv',
-  'application/json',
-]);
-
-const BINARY_TYPES = new Set([
-  'application/pdf',
-  'image/png',
-  'image/jpeg',
-  'image/webp',
-]);
-
-function resolveMime(file: File): string {
-  if (file.type) return file.type;
-  const lower = file.name.toLowerCase();
-  if (lower.endsWith('.pdf')) return 'application/pdf';
-  if (lower.endsWith('.png')) return 'image/png';
-  if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) return 'image/jpeg';
-  if (lower.endsWith('.webp')) return 'image/webp';
-  if (lower.endsWith('.md')) return 'text/markdown';
-  if (lower.endsWith('.csv')) return 'text/csv';
-  if (lower.endsWith('.json')) return 'application/json';
-  return 'text/plain';
-}
+import {
+  INKAST_FILE_ACCEPT,
+  INKAST_UNSUPPORTED_FORMAT_MSG,
+  isInkastBinaryFile,
+  isInkastSupportedFile,
+  isInkastTextFile,
+  resolveInkastMime,
+} from '../constants/inkastMimeTypes';
 
 export function InkastLiteCard() {
   const isAuthenticated = useStore((s) => s.isAuthenticated);
@@ -85,25 +67,32 @@ export function InkastLiteCard() {
 
   const handleFiles = async (files: FileList | null) => {
     if (!files?.length) return;
-    const file = files[0]!;
-    const mimeType = resolveMime(file);
-    const useBinary = BINARY_TYPES.has(mimeType);
-    const useText =
-      TEXT_TYPES.has(mimeType) || /\.(txt|md|csv|json)$/i.test(file.name);
-
-    if (!useBinary && !useText) {
-      setError('Stödda format: .pdf, .txt, .md, .csv, .json, .png, .jpg, .webp');
+    const fileList = Array.from(files);
+    const unsupported = fileList.filter((f) => !isInkastSupportedFile(f));
+    if (unsupported.length > 0) {
+      setError(INKAST_UNSUPPORTED_FORMAT_MSG);
       return;
     }
 
+    const binaryFiles = fileList.filter(isInkastBinaryFile);
+    const textFiles = fileList.filter(isInkastTextFile);
+
     try {
-      if (useBinary) {
-        const base64 = await fileToBase64(file);
-        await runSubmit({ fileName: file.name, mimeType, base64 });
-      } else {
+      if (binaryFiles.length > 0) {
+        const base64Files: string[] = [];
+        const mimeTypes: string[] = [];
+        const fileNames: string[] = [];
+        for (const file of binaryFiles) {
+          base64Files.push(await fileToBase64(file));
+          mimeTypes.push(resolveInkastMime(file));
+          fileNames.push(file.name);
+        }
+        await runSubmit({ base64Files, mimeTypes, fileNames });
+      }
+      for (const file of textFiles) {
         const content = (await file.text()).trim();
         if (content.length < 12) {
-          setError('Filen är tom eller för kort.');
+          setError(`${file.name}: filen är tom eller för kort.`);
           return;
         }
         await runSubmit({
@@ -172,13 +161,14 @@ export function InkastLiteCard() {
             onClick={() => inputRef.current?.click()}
           >
             <FileUp className="mr-1 inline h-3 w-3" />
-            En fil
+            En fil eller flera
           </button>
           <input
             ref={inputRef}
             type="file"
+            multiple
             className="sr-only"
-            accept=".pdf,.txt,.md,.csv,.json,.png,.jpg,.jpeg,.webp"
+            accept={INKAST_FILE_ACCEPT}
             onChange={(e) => void handleFiles(e.target.files)}
           />
         </div>
@@ -188,22 +178,29 @@ export function InkastLiteCard() {
         {successMessage && lastResult && (
           <div className="mt-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-3 py-2 text-sm text-text-muted">
             <p>{successMessage}</p>
-            {lastResult.action === 'queued' && (
-              <Link
-                to={VALV_SAMLA_GRANSKA_LINK}
-                className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
-              >
-                Öppna granskningskö (Valv)
-              </Link>
-            )}
-            {lastResult.action === 'persisted' && lastResult.collection === 'reality_vault' && (
-              <Link
-                to={VALV_ARKIV_LINK}
-                className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
-              >
-                Öppna Valv-arkiv
-              </Link>
-            )}
+            {(() => {
+              const primary = primaryInkastItem(lastResult);
+              return (
+                <>
+                  {primary.action === 'queued' && (
+                    <Link
+                      to={VALV_SAMLA_GRANSKA_LINK}
+                      className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
+                    >
+                      Öppna granskningskö (Valv)
+                    </Link>
+                  )}
+                  {primary.action === 'persisted' && primary.collection === 'reality_vault' && (
+                    <Link
+                      to={VALV_ARKIV_LINK}
+                      className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
+                    >
+                      Öppna Valv-arkiv
+                    </Link>
+                  )}
+                </>
+              );
+            })()}
           </div>
         )}
       </BentoCard>

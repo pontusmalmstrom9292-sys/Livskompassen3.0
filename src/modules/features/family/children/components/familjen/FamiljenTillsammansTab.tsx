@@ -26,19 +26,19 @@ export function FamiljenTillsammansTab({ shell }: Props) {
           title="Tid tillsammans"
           description="Kvalitetstid utan skärmar — små ritualer som barnen minns."
           icon={<Heart className="h-4 w-4" strokeWidth={1.5} />}
-          to="/familj?tab=reflektion"
+          to="/familjen?tab=reflektion"
         />
         <FamiljenFeatureCard
           title="Samtal och lyssnande"
           description="Trygga samtal där barnen får forma sin egen berättelse."
           icon={<MessageCircle className="h-4 w-4" strokeWidth={1.5} />}
-          to="/familj?tab=reflektion"
+          to="/familjen?tab=reflektion"
         />
         <FamiljenFeatureCard
           title="Stöd och närvaro"
           description="Närvaro före råd — du behöver inte fixa allt direkt."
           icon={<Users className="h-4 w-4" strokeWidth={1.5} />}
-          to="/familj?tab=livslogg"
+          to="/familjen?tab=livslogg"
         />
       </div>
 

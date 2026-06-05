@@ -6,7 +6,7 @@ import {
   Moon,
   Brain,
   Mic,
-  Image as ImageIcon,
+  FileUp,
   Send,
   BookOpen,
   Wallet,
@@ -20,18 +20,34 @@ import {
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useStore } from '../store';
-import {
-  createJournalEntryId,
-  saveJournalEntry,
-  saveVaultLog,
-  saveChildrenLog,
-} from '../firebase/firestore';
 import { useSpeechToText } from '../hooks/useSpeechToText';
-import { uploadJournalMemory } from '@/features/lifeJournal/diary/diary/utils/journalUploadHelper';
+import { fileToBase64 } from '@/features/lifeJournal/evidence/kompis/api/ingestKnowledgeDocumentService';
+import {
+  formatInkastResultMessage,
+  previewInboxClassification,
+  primaryInkastItem,
+  submitInkastLite,
+} from '@/modules/inkast/api/inkastService';
+import type { InboxClassification, InboxRouting } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
+import { InkastConfirmPanel } from '@/modules/inkast/components/InkastConfirmPanel';
+import {
+  manualChoiceToSubmitFields,
+  routingToUiSilo,
+  type InkastManualChoice,
+  type InkastUiSilo,
+} from '@/modules/inkast/constants/inkastSiloOptions';
+import {
+  INKAST_FILE_ACCEPT,
+  INKAST_UNSUPPORTED_FORMAT_MSG,
+  isInkastBinaryFile,
+  isInkastSupportedFile,
+  isInkastTextFile,
+  resolveInkastMime,
+} from '@/modules/inkast/constants/inkastMimeTypes';
 
 type TimePhase = 'morgon' | 'dag' | 'kvall';
 type SiloType = 'dagbok' | 'valv' | 'barnen' | 'planering';
-type InkastState = 'idle' | 'analyzing' | 'confirm' | 'saved';
+type InkastState = 'idle' | 'analyzing' | 'confirm' | 'edit' | 'saved';
 
 type Props = {
   onSaved?: () => void;
@@ -39,7 +55,7 @@ type Props = {
 
 const SILO_CONFIG = {
   dagbok: {
-    label: 'Privat Dagbok',
+    label: 'Privat Dagbok / Kunskap',
     icon: BookOpen,
     color: 'text-text-muted',
     bg: 'bg-surface-3/50',
@@ -62,7 +78,15 @@ const SILO_CONFIG = {
     color: 'text-emerald-400',
     bg: 'bg-emerald-500/10',
   },
+  review: {
+    label: 'Granskningskö (HITL)',
+    icon: ShieldAlert,
+    color: 'text-amber-400',
+    bg: 'bg-amber-500/10',
+  },
 } as const;
+
+type DisplaySilo = keyof typeof SILO_CONFIG;
 
 function classifyInkast(text: string): SiloType {
   const lower = text.toLowerCase();
@@ -85,6 +109,40 @@ function classifyInkast(text: string): SiloType {
   if (lower.includes('köpa') || lower.includes('kom ihåg') || lower.includes('måste')) {
     return 'planering';
   }
+  return 'dagbok';
+}
+
+function heuristicPreviewClassification(text: string, file: File | null): InboxClassification {
+  const silo = proposeSilo(text, file);
+  const routing: InboxRouting =
+    silo === 'valv' ? 'bevis' : silo === 'barnen' ? 'barnen' : 'kunskap';
+  return {
+    routing,
+    tags: ['heuristisk'],
+    category: silo,
+    confidence: 0.7,
+    summary: text.trim().slice(0, 200) || (file?.name ?? 'Bifogad fil'),
+    traumaSensitive: false,
+    rationale: 'Förhandsgranskning (fil/heuristik).',
+  };
+}
+
+function proposeSilo(text: string, file: File | null): SiloType {
+  if (file && isInkastBinaryFile(file)) {
+    const hint = `${file.name} ${text}`.toLowerCase();
+    if (/\.(pdf|docx?|xlsx?)$/i.test(file.name) && !text.trim()) {
+      return classifyInkast(hint) === 'dagbok' ? 'valv' : classifyInkast(hint);
+    }
+    return classifyInkast(hint);
+  }
+  return classifyInkast(text);
+}
+
+function routingToDisplaySilo(routing: InboxRouting): DisplaySilo {
+  if (routing === 'bevis') return 'valv';
+  if (routing === 'barnen') return 'barnen';
+  if (routing === 'review') return 'review';
+  if (routing === 'kunskap') return 'dagbok';
   return 'dagbok';
 }
 
@@ -142,7 +200,16 @@ export function HomeAdaptiveCompass({ onSaved }: Props) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [inkastState, setInkastState] = useState<InkastState>('idle');
-  const [proposedSilo, setProposedSilo] = useState<SiloType>('dagbok');
+  const [previewClassification, setPreviewClassification] = useState<InboxClassification | null>(
+    null,
+  );
+  const [proposedSilo, setProposedSilo] = useState<DisplaySilo>('dagbok');
+  const [manualSilo, setManualSilo] = useState<InkastUiSilo>('dagbok');
+  const [manualCategory, setManualCategory] = useState('');
+  const [manualComment, setManualComment] = useState('');
+  const [manualChildAlias, setManualChildAlias] = useState('');
+  const [savedMessage, setSavedMessage] = useState<string | null>(null);
+  const [inkastError, setInkastError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { supported: micSupported, isListening, start: startMic, stop: stopMic } = useSpeechToText({
@@ -158,16 +225,27 @@ export function HomeAdaptiveCompass({ onSaved }: Props) {
     else startMic();
   };
 
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (!isInkastSupportedFile(file)) {
+      setInkastError(INKAST_UNSUPPORTED_FORMAT_MSG);
+      return;
+    }
+    setInkastError(null);
     setSelectedFile(file);
-    const reader = new FileReader();
-    reader.onloadend = () => setSelectedImage(reader.result as string);
-    reader.readAsDataURL(file);
+    const isImage =
+      file.type.startsWith('image/') || /\.(png|jpe?g|webp|gif)$/i.test(file.name);
+    if (isImage) {
+      const reader = new FileReader();
+      reader.onloadend = () => setSelectedImage(reader.result as string);
+      reader.readAsDataURL(file);
+    } else {
+      setSelectedImage(null);
+    }
   };
 
-  const clearImage = () => {
+  const clearAttachment = () => {
     setSelectedImage(null);
     setSelectedFile(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
@@ -175,75 +253,100 @@ export function HomeAdaptiveCompass({ onSaved }: Props) {
 
   const resetInkast = () => {
     setQuickText('');
-    clearImage();
+    clearAttachment();
+    setPreviewClassification(null);
     setInkastState('idle');
+    setSavedMessage(null);
+    setInkastError(null);
   };
 
-  const handleAnalyzeInkast = () => {
-    if (!quickText.trim() && !selectedImage) return;
-    setInkastState('analyzing');
+  const hasAttachment = selectedFile != null;
 
-    window.setTimeout(() => {
-      setProposedSilo(classifyInkast(quickText));
-      setInkastState('confirm');
-    }, 1200);
-  };
-
-  const saveJournalWithOptionalImage = async (
-    mood: string,
-    text: string,
-    category: string,
-  ) => {
-    if (!user) return;
-    let entryId: string | undefined;
-    let attachment: Awaited<ReturnType<typeof uploadJournalMemory>> | undefined;
-
-    if (selectedFile) {
-      entryId = createJournalEntryId();
-      attachment = await uploadJournalMemory(user.uid, entryId, selectedFile);
-    }
-
-    await saveJournalEntry(
-      user.uid,
-      { mood, text, category, attachment },
-      entryId ? { entryId } : undefined,
-    );
-  };
-
-  const handleConfirmSave = async () => {
-    if (!user) return;
+  const handleAnalyzeInkast = async () => {
+    if (!quickText.trim() && !hasAttachment) return;
+    setInkastError(null);
     setInkastState('analyzing');
 
     try {
-      const text = quickText.trim() || 'Bild uppladdad via Smart Inkast.';
-
-      if (proposedSilo === 'dagbok') {
-        await saveJournalWithOptionalImage('⚡ Inkast', text, 'snabb_inkast');
-      } else if (proposedSilo === 'valv') {
-        await saveVaultLog(user.uid, {
-          action: 'Inkast',
-          truth: text,
-          category: 'bevis_inkast',
-          entryType: 'simple',
-        });
-      } else if (proposedSilo === 'barnen') {
-        await saveChildrenLog(user.uid, {
-          childAlias: 'Familjen',
-          observation: text,
-          category: 'allmänt',
-          authorRole: 'parent',
+      let classification: InboxClassification;
+      if (quickText.trim().length >= 12) {
+        classification = await previewInboxClassification({
+          text: quickText.trim(),
+          fileName: selectedFile?.name ?? 'hem-inkast.txt',
         });
       } else {
-        await saveJournalWithOptionalImage('📝 Uppgift', text, 'planering');
+        classification = heuristicPreviewClassification(quickText, selectedFile);
+      }
+      setPreviewClassification(classification);
+      setProposedSilo(routingToDisplaySilo(classification.routing));
+      setManualSilo(routingToUiSilo(classification.routing));
+      setManualCategory(classification.category);
+      setManualComment(classification.summary);
+      setManualChildAlias(classification.childAlias ?? '');
+      setInkastState('confirm');
+    } catch (err) {
+      setInkastError(err instanceof Error ? err.message : 'Kunde inte analysera.');
+      setInkastState('idle');
+    }
+  };
+
+  const runInkastSubmit = async (manual?: InkastManualChoice) => {
+    if (!user) return;
+    setInkastState('analyzing');
+    setInkastError(null);
+
+    try {
+      const manualFields = manual ? manualChoiceToSubmitFields(manual) : {};
+      let batch;
+
+      if (selectedFile && isInkastBinaryFile(selectedFile)) {
+        const base64 = await fileToBase64(selectedFile);
+        batch = await submitInkastLite({
+          base64Files: [base64],
+          mimeTypes: [resolveInkastMime(selectedFile)],
+          fileNames: [selectedFile.name],
+          sourceModule: 'hem_smart_inkast',
+          ...manualFields,
+        });
+      } else if (selectedFile && isInkastTextFile(selectedFile)) {
+        const content = (await selectedFile.text()).trim();
+        if (content.length < 12) throw new Error('Filen är tom eller för kort.');
+        batch = await submitInkastLite({
+          text: content.slice(0, 12_000),
+          fileName: selectedFile.name,
+          sourceModule: 'hem_smart_inkast',
+          ...manualFields,
+        });
+      } else {
+        const trimmed = quickText.trim();
+        if (trimmed.length < 12) throw new Error('Skriv minst några rader, eller bifoga en fil.');
+        batch = await submitInkastLite({
+          text: trimmed,
+          fileName: 'hem-inkast.txt',
+          sourceModule: 'hem_smart_inkast',
+          ...manualFields,
+        });
       }
 
+      const primary = primaryInkastItem(batch);
+      setProposedSilo(routingToDisplaySilo(primary.classification.routing));
+      setSavedMessage(formatInkastResultMessage(batch));
       setInkastState('saved');
       onSaved?.();
-      window.setTimeout(resetInkast, 2000);
+      window.setTimeout(resetInkast, 3500);
     } catch (err) {
-      console.error('Kunde inte spara', err);
-      setInkastState('confirm');
+      console.error('Kunde inte spara inkast', err);
+      setInkastError(err instanceof Error ? err.message : 'Inkast misslyckades.');
+      setInkastState(manual ? 'edit' : 'confirm');
     }
+  };
+
+  const handleConfirmSave = () => {
+    void runInkastSubmit();
+  };
+
+  const handleManualSave = (choice: InkastManualChoice) => {
+    void runInkastSubmit(choice);
   };
 
   const handleParalysisBreakdown = () => {
@@ -253,7 +356,8 @@ export function HomeAdaptiveCompass({ onSaved }: Props) {
     );
   };
 
-  const ActiveSiloIcon = SILO_CONFIG[proposedSilo].icon;
+  const attachmentLabel =
+    selectedFile?.name ?? (quickText.trim() ? quickText.trim().slice(0, 40) : 'Inkast');
 
   return (
     <div className="animate-fade-in mx-auto flex w-full max-w-2xl flex-col gap-5">
@@ -403,13 +507,32 @@ export function HomeAdaptiveCompass({ onSaved }: Props) {
               <img src={selectedImage} alt="" className="h-full w-full object-cover" />
               <button
                 type="button"
-                onClick={clearImage}
+                onClick={clearAttachment}
                 className="absolute right-1 top-1 rounded-full bg-black/70 p-1 transition-colors hover:bg-black"
-                aria-label="Ta bort bild"
+                aria-label="Ta bort bilaga"
               >
                 <X className="h-3 w-3 text-white" />
               </button>
             </div>
+          )}
+
+          {selectedFile && !selectedImage && inkastState === 'idle' && (
+            <div className="flex items-center gap-2 rounded-xl border border-border/40 bg-surface-2/80 px-3 py-2">
+              <FileUp className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden />
+              <span className="min-w-0 flex-1 truncate text-xs text-text">{selectedFile.name}</span>
+              <button
+                type="button"
+                onClick={clearAttachment}
+                className="rounded-full p-1 text-text-muted hover:text-text"
+                aria-label="Ta bort fil"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </div>
+          )}
+
+          {inkastError && inkastState !== 'saved' && (
+            <p className="text-xs text-amber-400/90">{inkastError}</p>
           )}
 
           {!user && (
@@ -436,17 +559,17 @@ export function HomeAdaptiveCompass({ onSaved }: Props) {
               <input
                 ref={fileInputRef}
                 type="file"
-                accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
+                accept={INKAST_FILE_ACCEPT}
                 className="hidden"
-                onChange={handleImageSelect}
+                onChange={handleFileSelect}
               />
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 className="flex-shrink-0 cursor-pointer rounded-full border border-border/40 bg-surface-3 p-3 text-text-muted shadow-sm transition-all hover:bg-surface-2 hover:text-text"
-                aria-label="Bifoga bild"
+                aria-label="Bifoga fil (pdf, bild, dokument)"
               >
-                <ImageIcon className="h-4 w-4" />
+                <FileUp className="h-4 w-4" />
               </button>
 
               <input
@@ -463,7 +586,7 @@ export function HomeAdaptiveCompass({ onSaved }: Props) {
               <button
                 type="button"
                 onClick={handleAnalyzeInkast}
-                disabled={!user || (!quickText.trim() && !selectedImage)}
+                disabled={!user || (!quickText.trim() && !hasAttachment)}
                 className="flex-shrink-0 cursor-pointer rounded-full bg-accent p-3 text-bg shadow-md transition-all disabled:cursor-not-allowed disabled:bg-surface-3 disabled:text-text-muted disabled:opacity-40 disabled:shadow-none"
                 aria-label="Analysera inkast"
               >
@@ -479,60 +602,35 @@ export function HomeAdaptiveCompass({ onSaved }: Props) {
             </div>
           )}
 
-          {inkastState === 'confirm' && (
-            <div
-              className={clsx(
-                'animate-fade-in flex flex-col gap-4 rounded-2xl p-5 shadow-lg backdrop-blur-md',
-                SILO_CONFIG[proposedSilo].bg,
-              )}
-            >
-              <div className="flex items-start justify-between">
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-text-dim">
-                    AI-förslag:
-                  </span>
-                  <div
-                    className={clsx(
-                      'mt-1.5 flex items-center gap-2 text-sm font-semibold',
-                      SILO_CONFIG[proposedSilo].color,
-                    )}
-                  >
-                    <ActiveSiloIcon className="h-4 w-4" aria-hidden />
-                    {SILO_CONFIG[proposedSilo].label}
-                  </div>
-                </div>
-                <div className="min-w-0 text-right">
-                  <span className="block max-w-[140px] truncate text-xs text-text">
-                    {quickText || 'Bild'}
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-1 flex gap-2.5">
-                <button
-                  type="button"
-                  onClick={handleConfirmSave}
-                  disabled={!user}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-border/50 bg-surface-2 py-2.5 text-xs font-semibold text-text shadow-sm transition-colors hover:bg-surface-3 disabled:opacity-40"
-                >
-                  <CheckCircle2 className="h-4 w-4" aria-hidden />
-                  Godkänn
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setInkastState('idle')}
-                  className="bg-transparent px-5 py-2.5 text-xs font-semibold text-text-muted transition-colors hover:text-text"
-                >
-                  Ändra
-                </button>
-              </div>
-            </div>
+          {(inkastState === 'confirm' || inkastState === 'edit') && previewClassification && (
+            <InkastConfirmPanel
+              mode={inkastState === 'edit' ? 'edit' : 'confirm'}
+              classification={previewClassification}
+              previewLabel={attachmentLabel}
+              busy={false}
+              silo={manualSilo}
+              category={manualCategory}
+              comment={manualComment}
+              childAlias={manualChildAlias}
+              onConfirm={handleConfirmSave}
+              onStartEdit={() => setInkastState('edit')}
+              onSiloChange={setManualSilo}
+              onCategoryChange={setManualCategory}
+              onCommentChange={setManualComment}
+              onChildAliasChange={setManualChildAlias}
+              onManualSave={handleManualSave}
+              onCancelEdit={() => setInkastState('confirm')}
+              accentClass={SILO_CONFIG[proposedSilo].color}
+              panelClass={SILO_CONFIG[proposedSilo].bg}
+            />
           )}
 
           {inkastState === 'saved' && (
-            <div className="animate-fade-in flex items-center justify-center gap-2 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 py-5 text-xs font-semibold text-emerald-400 shadow-sm">
-              <CheckCircle2 className="h-4 w-4" aria-hidden />
-              Tryggt sparat i {SILO_CONFIG[proposedSilo].label}.
+            <div className="animate-fade-in flex flex-col items-center justify-center gap-1 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-5 text-xs font-semibold text-emerald-400 shadow-sm">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4 shrink-0" aria-hidden />
+                <span>{savedMessage ?? `Sparat i ${SILO_CONFIG[proposedSilo].label}.`}</span>
+              </div>
             </div>
           )}
         </div>

@@ -70,7 +70,7 @@ export function HubDropdownNav<T extends string>({
   if (!activeItem) return null;
 
   return (
-    <div className="relative z-40 w-full" ref={dropdownRef}>
+    <div className={clsx('relative w-full', isOpen ? 'z-50' : 'z-0')} ref={dropdownRef}>
       <button
         type="button"
         aria-expanded={isOpen}
@@ -108,7 +108,7 @@ export function HubDropdownNav<T extends string>({
         role="listbox"
         aria-label={ariaLabel}
         className={clsx(
-          'absolute left-0 right-0 top-full mt-2 origin-top rounded-2xl border border-border/40 bg-surface/95 p-1.5 shadow-2xl backdrop-blur-2xl transition-all duration-300',
+          'absolute left-0 right-0 top-full z-50 mt-2 origin-top rounded-2xl border border-border/40 bg-surface/95 p-1.5 shadow-2xl backdrop-blur-2xl transition-all duration-300',
           isOpen ? 'pointer-events-auto scale-y-100 opacity-100' : 'pointer-events-none scale-y-95 opacity-0',
         )}
       >
