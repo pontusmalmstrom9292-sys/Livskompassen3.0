@@ -21,53 +21,6 @@ export const INKAST_SILO_DESCRIPTIONS: Record<InkastUiSilo, string> = {
   barnen: 'Barnens trygghet. För observationer om mående och hämtning/lämning.',
 };
 
-export type InkastAnalysisTagId = 'gaslighting' | 'motsagelse' | 'beten' | 'fakta';
-
-export type InkastAnalysisTag = {
-  id: InkastAnalysisTagId;
-  label: string;
-  description: string;
-};
-
-export const INKAST_ANALYSIS_TAGS: InkastAnalysisTag[] = [
-  {
-    id: 'gaslighting',
-    label: '#gaslighting',
-    description: 'När verkligheten förvrängs.',
-  },
-  {
-    id: 'motsagelse',
-    label: '#motsägelse',
-    description: 'När information ändras eller inte går ihop.',
-  },
-  {
-    id: 'beten',
-    label: '#beten',
-    description: 'Provokationer skrivna för att trigga JADE (försvar/förklaring).',
-  },
-  {
-    id: 'fakta',
-    label: '#fakta',
-    description: 'Neutral logistik (tid, plats, datum).',
-  },
-];
-
-export const INKAST_ANALYSIS_TAG_ITEMS: DropdownItem<InkastAnalysisTagId>[] =
-  INKAST_ANALYSIS_TAGS.map((tag) => ({
-    id: tag.id,
-    label: tag.label,
-  }));
-
-export function resolveInkastAnalysisTagId(category: string): InkastAnalysisTagId {
-  const normalized = category.trim().toLowerCase().replace(/^#/, '');
-  const match = INKAST_ANALYSIS_TAGS.find((tag) => tag.id === normalized);
-  return match?.id ?? 'fakta';
-}
-
-export function inkastAnalysisTagById(id: InkastAnalysisTagId): InkastAnalysisTag {
-  return INKAST_ANALYSIS_TAGS.find((tag) => tag.id === id) ?? INKAST_ANALYSIS_TAGS[3]!;
-}
-
 export function uiSiloToRouting(silo: InkastUiSilo): InkastManualRouting {
   if (silo === 'valv') return 'bevis';
   if (silo === 'barnen') return 'barnen';
