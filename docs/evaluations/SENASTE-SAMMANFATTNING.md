@@ -1,13 +1,13 @@
 # Senaste sammanfattning — systemstatus
 
-**Datum:** 2026-06-06 · **Gren:** `main` · **HEAD:** `22a2f056`  
-**Senaste leverans:** XSS merge från origin · MaterialPack Våg A **done** · Planering kalender P2 **done** · build **PASS** · hosting deploy Agent 5
+**Datum:** 2026-06-06 · **Gren:** `main` · **HEAD:** `88be0eeb`  
+**Senaste leverans:** Barnporten Våg A/B **deployad** (CB2–CB4 + QR callables/rules) · Android Run **PASS** (Motorola) · `smoke:locked-ux` + `smoke:orkester` **PASS** @ sessionstart
 
 ---
 
 ## Nuläge i en mening
 
-**XSS-säkra export-utilities mergade** (`secureExport` + HTML-escape) · **MaterialPack Våg A done** (Familjen under Barnfokus) · **Planering kalender P2 done** (`/planering/kalender` + ICS-export) · Fas 5A #4 **PASS** · **#3 Valv USER UI (Shield→PIN→spara) fortfarande öppen**.
+**Barnporten Våg A + B deployad** — CB2–CB4 widget-varianter · `createBarnportenPairing` + `claimBarnportenPairing` live · `barnporten_devices` + rules · Android Run **PASS** · Pontus testar **QR på Motorola** vid återkomst · **#3 Valv USER UI** (Shield→PIN→spara) fortfarande öppen.
 
 ---
 
@@ -17,9 +17,9 @@
 |--------|--------|
 | **MaterialPack Våg A** | **done** — `MaterialPackShortcuts` på Familjen under Barnfokus (PMIR Våg A · `22a2f056`) · MåBra + Hamn redan live |
 | **XSS export-säkerhet** | **done** — `secureExport` + HTML-escape mergat från origin (`d0dc8d5e`–`46f79cc3`) · enhetstester + audit-rapport |
-| **Barnporten Våg A** | CB2–CB4 widget-varianter · `BarnportenWidget` variant-fabrik · CB2 default · mockups CB2–CB4 |
-| **Barnporten Våg B** | QR enhetskoppling · `createBarnportenPairing` + `claimBarnportenPairing` live · `firestore.rules` deployad · `barnporten_devices` |
-| **Barnporten P1** | Hub 2×2 · inkorg HITL §7b · offline-kö · PWA manifest (`useBarnportenWebManifest`) · CB1 fallback · polish: alias + needs_auth + `?pair=` prompt |
+| **Barnporten Våg A** | **done + deployad** — CB2–CB4 widget-varianter · `BarnportenWidget` variant-fabrik · CB2 default · mockups CB2–CB4 (`76f1e9f4`) |
+| **Barnporten Våg B** | **done + deployad** — QR enhetskoppling · `createBarnportenPairing` + `claimBarnportenPairing` live · `firestore.rules` + `barnporten_devices` (`ad38fc4e`) |
+| **Barnporten P1 + polish** | Hub 2×2 · inkorg HITL §7b · offline-kö · PWA manifest (`useBarnportenWebManifest`) · CB1 fallback · alias + needs_auth + `?pair=` prompt (`2ceb0fff`) |
 | **Functions callables** | `index.ts` split → `callables/{valv,inbox,knowledge,agents,shared}.ts` · exports oförändrade (`032b84f7`) |
 | **Adaptiv Hemkompass polish** | `HomeAdaptiveCompass` — ParalysPanel, KasamEvening, KompassradPanel, fasväljare, `home_snabbval` |
 | **Modulväljare rollout** | Planering · Ekonomi · Liv previews · Hem Capture · MåBra · Projekt · Valv zon |
@@ -41,7 +41,7 @@
 | Punkt | Var |
 |-------|-----|
 | **Fas 5A #3 Valv** | Agent **PASS** (build + 8 smokes) · **USER UI kvar** — Shield 3 s → PIN → spara post · [`2026-06-01-USER-nasta-steg.md`](./2026-06-01-USER-nasta-steg.md) §A |
-| **Fas 5A #4 Barnporten** | **PASS** 2026-06-06 — QR + loggrad · Motorola |
+| **Fas 5A #4 Barnporten** | Kod + deploy **done** · **USER QR-test Motorola** när Pontus tillbaka · loggrad tidigare PASS |
 | **#2d bilaga** | **done** — `smoke:journal-2d` + rollout checklist PASS |
 | **Kunskap våg 8** | **done** — 53 FACT seedade |
 | **Barnporten Våg C (push)** | Defer — FCM/kostnad · PMIR krävs |

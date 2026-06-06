@@ -2,7 +2,8 @@
 
 **Repo:** Livskompassen3.0 · **Gren:** `main`  
 **Prod:** https://gen-lang-client-0481875058.web.app  
-**Agent:** Docs sanning (Agent 4)
+**Git @ sessionstart:** `88be0eeb`  
+**Agent 4:** Docs sanning (denna fil)
 
 ---
 
@@ -16,7 +17,7 @@
 | **4** | Docs | Kanon-sanning · `SENASTE-SAMMANFATTNING` · `MODUL-GAP-OVERSIKT` · denna rapport |
 | **5** | Night runs | `orkester:night` · ev. `content:night` · nattpass-logg |
 
-**Multitask:** Agent 1 + 5 kan köra parallellt. Agent 4 skriver docs parallellt med smoke.
+**Multitask:** Agent 1 + 5 kan köras parallellt. Agent 4 skriver docs parallellt med smoke.
 
 ---
 
@@ -26,15 +27,12 @@
 |-------|--------|-----|
 | `npm run smoke:locked-ux` | **PASS** | Barnfokus · Valv Mönster/Orkester · Barnporten spec |
 | `npm run smoke:orkester` | **PASS** | ADK · build · locked icons · innehall U6 |
-| `npm run build` (frontend) | **PASS** | — |
-| `functions npm run build` | **PASS** | efter `package main`-fix (`ed66325f`) |
-| Barnporten Våg A (CB2–CB4) | **DEPLOYAD** | hosting + kod på `main` |
-| Barnporten Våg B (QR) | **DEPLOYAD** | `createBarnportenPairing` · `claimBarnportenPairing` · rules |
+| Barnporten Våg A (CB2–CB4) | **DEPLOYAD** | hosting + kod på `main` (`76f1e9f4`) |
+| Barnporten Våg B (QR) | **DEPLOYAD** | `createBarnportenPairing` · `claimBarnportenPairing` · rules (`ad38fc4e`) |
 | Android cap sync | **PASS** | `build:web && cap sync android` |
 | Android Run (Motorola) | **PASS** | 2026-06-06 |
-| ESLint (orkester natt) | **SKIP_FAIL** | icke-blockerande · se [`2026-06-06-orkester-natt.md`](./2026-06-06-orkester-natt.md) |
-| Fas 5A #3 Valv (USER) | **ÖPPEN** | Pontus |
-| Fas 5A #4 Barnporten (USER) | **ÖPPEN** | Pontus · telefon |
+| Fas 5A #3 Valv (USER) | **ÖPPEN** | Shield 3 s → PIN → spara post |
+| Fas 5A #4 Barnporten QR (USER) | **ÖPPEN** | Pontus testar QR på Motorola vid återkomst |
 
 ---
 
@@ -42,12 +40,13 @@
 
 | Kommando | Exit | Status |
 |----------|------|--------|
-| `npm run build` | 0 | **PASS** |
-| `npm run smoke:locked-ux` | 0 | **PASS** |
-| `npm run smoke:orkester` | 0 | **PASS** |
-| `npm run smoke:design-modules` | 0 | **PASS** |
+| `npm run build` | — | _pending other agents_ |
+| `npm run smoke:locked-ux` | — | _pending other agents_ |
+| `npm run smoke:orkester` | — | _pending other agents_ |
+| `npm run smoke:design-modules` | — | _pending other agents_ |
 
-**Fixar:** Inga — trunk grön @ `9bfa808c`. **Commit:** ingen.
+**Fixar:** —  
+**Commit:** —
 
 ---
 
@@ -55,11 +54,11 @@
 
 | Item | Status |
 |------|--------|
-| QR end-to-end (`BarnportenQrPanel` → callables → `useBarnportenPairClaim`) | **Verifierat OK** |
+| QR end-to-end (`BarnportenQrPanel` → callables → `useBarnportenPairClaim`) | _pending other agents_ |
 | `BarnportenInboxPanel` §7b | **Orörd** (PMIR-STOPP) |
-| Kodändringar | **Inga** (readonly verify) |
+| Kodändringar | _pending other agents_ |
 
-**Polish-gap (ej blockerande):** barn-manifest ej kopplat i `index.html`; `WidgetBarnportenPage` ignorerar kopplat alias; tyst väntan vid `?pair=` utan inloggning.
+**Polish-gap (ej blockerande):** se [`2026-06-06-multitask-rapport.md`](./2026-06-06-multitask-rapport.md) — `2ceb0fff` landade alias + manifest + needs_auth.
 
 ---
 
@@ -70,7 +69,7 @@
 | Barnporten CB2+ | **godkänd Våg A** · Våg B deployad | [`2026-06-06-pmir-barnporten-cb2plus.md`](./2026-06-06-pmir-barnporten-cb2plus.md) |
 | MaterialPack-editor Fas D | **Plan only** · PMIR-STOPP implementation | [`2026-06-06-pmir-materialpack-editor.md`](./2026-06-06-pmir-materialpack-editor.md) |
 
-**Commit:** `befc0e6b` (lokal, ej pushad). **Våg A** (Familjen-mount) säker utan rules; **Våg B** (Firestore-synk) kräver PMIR-godkännande.
+**Commit:** _pending other agents_
 
 ---
 
@@ -78,9 +77,9 @@
 
 | Fil | Ändring |
 |-----|---------|
-| [`SENASTE-SAMMANFATTNING.md`](./SENASTE-SAMMANFATTNING.md) | Barnporten Våg A/B done · Android Run PASS · blockers #3/#4 |
-| [`MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md) | Barnporten + auth/android rader uppdaterade |
-| Denna rapport | Session scope · placeholders · rekommenderat nästa steg |
+| [`SENASTE-SAMMANFATTNING.md`](./SENASTE-SAMMANFATTNING.md) | Barnporten Våg A/B deployad · Android Run PASS · USER QR-test öppen |
+| [`MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md) | Barnporten + auth/android rader · senaste leverans |
+| Denna rapport | Session scope · placeholders · blockers |
 
 **Status:** **done**
 
@@ -90,10 +89,10 @@
 
 | Körning | Exit | Resultat | Logg |
 |---------|------|----------|------|
-| `npm run orkester:night` | 0 | **PASS** (ESLint SKIP_FAIL, icke-blockerande) | [`2026-06-06-orkester-natt.md`](./2026-06-06-orkester-natt.md) |
-| `npm run content:night` | 0 | **PASS** (våg 17) | [`2026-06-06-content-autorun-vag-17.md`](./2026-06-06-content-autorun-vag-17.md) |
+| `npm run orkester:night` | — | _pending other agents_ | [`2026-06-06-orkester-natt.md`](./2026-06-06-orkester-natt.md) |
+| `npm run content:night` | — | _pending other agents_ | [`2026-06-06-content-autorun-vag-17.md`](./2026-06-06-content-autorun-vag-17.md) |
 
-**Senaste körning (resume efter stall):** orkester 2026-06-06T06:59:45Z · content 2026-06-06T07:00:57Z. **Nattloggar uppdaterade:** `2026-06-06-orkester-natt.md`, `2026-06-06-content-autorun-vag-17.md`. **Deploy:** ingen. **Tidigare:** `SMOKE_RESULTS.md` / `SENASTE-SAMMANFATTNING.md` i `0350c141`.
+**Deploy:** ingen (prod redan deployad före pass).
 
 ---
 
@@ -104,7 +103,7 @@ Dessa kräver **dig vid telefon/dator** — agent kan inte stänga dem.
 | # | Test | Gör | Rapportera |
 |---|------|-----|------------|
 | **3** | **Valv** | Shield 3 s → PIN → Dagbok bevis → spara enkel post | `Fas 5A: #3 PASS` eller FAIL |
-| **4** | **Barnporten** | QR + meddelande på telefon | **PASS** 2026-06-06 (USER · Motorola) — se [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md) |
+| **4** | **Barnporten QR** | `/familjen?tab=barnporten` → skapa QR → Motorola `/barnporten?pair=` → koppla enhet | `Fas 5A: #4 PASS` eller FAIL |
 
 **Checklist:** [`2026-06-01-USER-nasta-steg.md`](./2026-06-01-USER-nasta-steg.md)  
 **Efter PASS:** agent uppdaterar [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md)
@@ -113,8 +112,8 @@ Dessa kräver **dig vid telefon/dator** — agent kan inte stänga dem.
 
 ## Rekommenderat nästa steg (när du är tillbaka)
 
-1. **Ett steg:** Kör Fas 5A **#3 Valv** (2 min) — skriv `Fas 5A: #3 PASS` eller FAIL till Cursor.
-2. **Valfritt polish:** WidgetBarnporten alias-fix · barn-manifest på `/barnporten` (Agent 2 gap).
+1. **Ett steg:** Kör Fas 5A **#4 Barnporten QR** på Motorola (3 min) — skriv `Fas 5A: #4 PASS` eller FAIL till Cursor.
+2. **Ett steg:** Kör Fas 5A **#3 Valv** (2 min) — skriv `Fas 5A: #3 PASS` eller FAIL.
 3. **Valfritt:** Hard refresh prod (Cmd+Shift+R) om något ser gammalt ut.
 4. **Ej brådskande:** MaterialPack Våg A (PMIR-godkännande) · Barnporten Våg C (push/FCM).
 
@@ -130,26 +129,15 @@ Dessa kräver **dig vid telefon/dator** — agent kan inte stänga dem.
 
 | Hash | Meddelande |
 |------|------------|
-| `5919896c` | docs(eval): sanning Barnporten Våg A/B + Android + 1h autonom rapport |
-| `befc0e6b` | docs(eval): PMIR MaterialPack-editor Fas D — plan only |
-| `579bacc3` | docs(eval): fyll Agent 1–3 i 1h autonom rapport |
-| `0350c141` | docs(eval): orkester:night + content:night 2026-06-06 Agent 5 |
+| _efter Agent 4 commit_ | docs(eval): sanning Barnporten Våg A/B deploy + 1h autonom rapport |
 
-**Deploy denna session:** inget (prod redan deployad före pass). **Push:** ej gjord (`main` ahead 4).
-
-**Git @ sessionstart:** `9bfa808c` · **HEAD:** `0350c141`
+**Push:** ej gjord (enligt instruktion).
 
 ---
 
-## Multitask-uppföljning (2026-06-06 senare)
+## Referenser
 
-**Referens:** [`2026-06-06-multitask-rapport.md`](./2026-06-06-multitask-rapport.md)
-
-| Item | Status |
-|------|--------|
-| Barnporten polish (Agent 2 gap stängd) | **LANDAD** `2ceb0fff` |
-| Functions callables-refaktor | **LANDAD** `032b84f7` |
-| MaterialPack Våg A | **Ej landad** — PMIR plan only |
-| Fas 5A #3 USER | **ÖPPEN** |
-| Fas 5A #4 USER | **PASS** 2026-06-06 |
-| Deploy multitask | **Ingen** — 1 commit ahead (`2ceb0fff`) |
+- Barnporten PMIR: [`2026-06-06-pmir-barnporten-cb2plus.md`](./2026-06-06-pmir-barnporten-cb2plus.md)
+- Multitask pass: [`2026-06-06-multitask-rapport.md`](./2026-06-06-multitask-rapport.md)
+- USER checklist: [`2026-06-01-USER-nasta-steg.md`](./2026-06-01-USER-nasta-steg.md)
+- Locked UX §7–7b: [`.context/locked-ux-features.md`](../../.context/locked-ux-features.md)
