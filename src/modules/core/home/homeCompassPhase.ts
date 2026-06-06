@@ -16,6 +16,16 @@ export function getHomeCompassPhase(date = new Date()): HomeCompassPhase {
   return flowToPhase(getDefaultCompassByTime(date));
 }
 
+export function compassFlowToPhase(flow: CompassFlow): HomeCompassPhase {
+  return flowToPhase(flow);
+}
+
+export function phaseToCompassFlow(phase: HomeCompassPhase): CompassFlow {
+  if (phase === 'morgon') return 'morning';
+  if (phase === 'dag') return 'day';
+  return 'evening';
+}
+
 export function phaseGlowClasses(phase: HomeCompassPhase): string {
   if (phase === 'morgon') {
     return 'border-b-2 border-b-amber-500/60 shadow-[0_8px_30px_-4px_rgba(245,158,11,0.2)]';

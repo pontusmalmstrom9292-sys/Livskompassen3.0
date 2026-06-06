@@ -47,14 +47,6 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
           />
         </div>
       </div>
-
-      <div className="home-hero-kanon__dots" aria-hidden>
-        <span className="home-hero-kanon__dot home-hero-kanon__dot--active" />
-        <span className="home-hero-kanon__dot" />
-        <span className="home-hero-kanon__dot" />
-        <span className="home-hero-kanon__dot" />
-        <span className="home-hero-kanon__dot" />
-      </div>
     </div>
   );
 }

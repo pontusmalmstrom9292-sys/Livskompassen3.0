@@ -301,6 +301,10 @@ function main() {
     'materialEnabled',
     'getHomeQuickNavForPreset',
     'getHomeCompassPhase',
+    'ParalysPanel',
+    'KasamEvening',
+    'KompassradPanel',
+    'home_snabbval',
   );
   mustInclude('src/modules/core/home/HomeHeroKanon.tsx', 'useLifeHubPreset', 'Profil:');
   mustInclude('src/modules/capture/CapturePanel.tsx', 'previewInboxClassification', 'sourceModule');

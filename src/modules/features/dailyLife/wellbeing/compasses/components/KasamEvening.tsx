@@ -18,9 +18,11 @@ type Props = {
   userId: string;
   onKlar: () => void;
   onSaved?: () => void;
+  /** Inbäddad i HomeAdaptiveCompass — utan yttre BentoCard. */
+  embedded?: boolean;
 };
 
-export function KasamEvening({ userId, onKlar, onSaved }: Props) {
+export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Props) {
   const [stepIndex, setStepIndex] = useState(0);
   const [kasam, setKasam] = useState<Partial<KasamData>>({});
   const [saving, setSaving] = useState(false);
@@ -74,6 +76,31 @@ export function KasamEvening({ userId, onKlar, onSaved }: Props) {
   };
 
   if (saved) {
+    const savedBody = (
+      <>
+        <p className="flex items-center justify-center gap-2 text-xs text-success">
+          <Check className="h-4 w-4" /> Kvällskompass sparad.
+        </p>
+        <p className="text-center text-[10px] text-text-dim">Gaslighting? Bro — inget sparas automatiskt.</p>
+        <div className="flex flex-col gap-2">
+          <Link to={hjartatTabHref('speglar')} className="btn-pill--ghost text-xs">
+            Jämför känsla med fakta (Speglar)
+          </Link>
+          <Link to={NAV_PATHS.VALVET} className="btn-pill--ghost text-xs">
+            Dokumentera neutralt (Bevis)
+          </Link>
+          <Link to="/mabra" className="btn-pill--ghost text-xs">
+            Landning (MåBra)
+          </Link>
+          <button type="button" onClick={onKlar} className="btn-pill--success text-xs">
+            Klar
+          </button>
+        </div>
+      </>
+    );
+
+    if (embedded) return <div className="space-y-3">{savedBody}</div>;
+
     return (
       <div className="space-y-4">
         <p className="flex items-center gap-2 text-sm text-success">
@@ -91,7 +118,7 @@ export function KasamEvening({ userId, onKlar, onSaved }: Props) {
         </BentoCard>
         <div className="flex flex-col gap-2">
           <Link to="/mabra" className="btn-pill--ghost text-sm">
-            Landning (Måbra)
+            Landning (MåBra)
           </Link>
           <Link to="/familjen" className="btn-pill--ghost text-sm">
             Livslogg barnen
@@ -104,33 +131,51 @@ export function KasamEvening({ userId, onKlar, onSaved }: Props) {
     );
   }
 
-  return (
-    <BentoCard title="Kväll — KASAM" icon={<Moon className="h-4 w-4" />}>
-      <p className="mb-1 text-xs uppercase tracking-widest text-text-muted">
+  const stepForm = (
+    <>
+      <p className="text-center text-[10px] uppercase tracking-widest text-text-dim">
         Steg {stepIndex + 1} av {KASAM_STEPS.length}: {current.label}
       </p>
-      <p className="mb-4 text-sm text-text-muted">{current.question}</p>
+      <p className="text-center text-xs text-text-muted">{current.question}</p>
       <textarea
         value={currentValue}
         onChange={(e) => setKasam((k) => ({ ...k, [current.key]: e.target.value }))}
-        rows={3}
-        className="w-full rounded-xl border border-border-strong bg-surface/50 px-4 py-3 text-sm"
+        rows={embedded ? 2 : 3}
+        className={
+          embedded
+            ? 'input-glass w-full text-sm'
+            : 'w-full rounded-xl border border-border-strong bg-surface/50 px-4 py-3 text-sm'
+        }
       />
-      {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+      {error && <p className="text-center text-xs text-danger">{error}</p>}
       {stepIndex < KASAM_STEPS.length - 1 ? (
-        <button type="button" onClick={handleNext} className="btn-pill--secondary mt-4">
+        <button
+          type="button"
+          onClick={handleNext}
+          className={embedded ? 'btn-pill--secondary w-full text-xs' : 'btn-pill--secondary mt-4'}
+        >
           Nästa
         </button>
       ) : (
         <button
           type="button"
           disabled={saving}
-          onClick={handleSave}
-          className="btn-pill--success mt-4"
+          onClick={() => void handleSave()}
+          className={
+            embedded ? 'btn-pill--accent w-full text-xs disabled:opacity-40' : 'btn-pill--success mt-4'
+          }
         >
-          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Spara kväll'}
+          {saving ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : 'Spara kväll'}
         </button>
       )}
+    </>
+  );
+
+  if (embedded) return <div className="space-y-3">{stepForm}</div>;
+
+  return (
+    <BentoCard title="Kväll — KASAM" icon={<Moon className="h-4 w-4" />}>
+      {stepForm}
     </BentoCard>
   );
 }

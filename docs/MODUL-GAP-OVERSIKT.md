@@ -50,7 +50,7 @@ Alla planfiler har `status: closed` överst. **Öppet arbete finns endast i tabe
 | **kompis/kunskap** | Valv `/valvet` · `kunskapsbank` | Fas 1.5 **done** · våg 8 **partial** (53 FACT — omkör med seed-credentials) | [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) våg 8 |
 | **barnporten** | `/barnporten` | P1 + CB1 **done** · manuell smoke #3 · QR CB2+ | `kör manuell smoke #3` |
 | **valv** | `/valvet` | ValvSuper Fas 1+2 **done** · Vävaren HITL **done** | hosting deploy Fas 2 · [`supermodule-master-plan`](./evaluations/2026-06-06-supermodule-master-plan.md) |
-| **core** | `/` | `#2d` USER **PASS** 2026-06-06 · `#3/#4` autorun PASS | valfritt USER i app · [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) |
+| **core** | `/` | Hemkompass polish **done** 2026-06-06 · `#2d` autorun PASS · `#3/#4` autorun PASS | valfritt USER · [`2026-06-06-hemkompass-polish-done.md`](./evaluations/2026-06-06-hemkompass-polish-done.md) |
 | **inkast** | Hem · Valv Samla | CaptureSuper **v2 done** · canonical `InboxReviewQueue` | [`2026-06-06-upload-unified-cursor-plan.md`](./evaluations/2026-06-06-upload-unified-cursor-plan.md) |
 | **liv** | `/vardagen` launcher | **LivSuper + Drogfrihet→Familj done** 2026-06-06 | [`2026-06-06-liv-super-cursor-plan.md`](./evaluations/2026-06-06-liv-super-cursor-plan.md) |
 | **dossier** | `/dossier` | BBIC `reportType` **planned** | Spec §I.4 |

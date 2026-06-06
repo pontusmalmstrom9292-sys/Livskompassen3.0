@@ -1,4 +1,5 @@
 import { HomeAdaptiveCompass } from '@/core/home/HomeAdaptiveCompass';
+import { compassFlowToPhase } from '@/core/home/homeCompassPhase';
 import { useLifeHubPreset } from '@/core/lifeOs/useLifeHubPreset';
 
 type DashboardPageProps = {
@@ -10,9 +11,17 @@ type DashboardPageProps = {
 
 /**
  * Vardagen — Mina Kompasser. Delegates to HomeAdaptiveCompass (Obsidian Calm 2.0).
- * `forcedFlow` / `variant` / `embedded` kept for API compatibility; compass is time-adaptive.
  */
-export function DashboardPage({ onCheckInSaved }: DashboardPageProps = {}) {
+export function DashboardPage({ forcedFlow, onCheckInSaved }: DashboardPageProps = {}) {
   const { preset, presetId } = useLifeHubPreset();
-  return <HomeAdaptiveCompass onSaved={onCheckInSaved} preset={preset} presetId={presetId} />;
+  const forcedPhase = forcedFlow ? compassFlowToPhase(forcedFlow) : null;
+
+  return (
+    <HomeAdaptiveCompass
+      onSaved={onCheckInSaved}
+      preset={preset}
+      presetId={presetId}
+      forcedPhase={forcedPhase}
+    />
+  );
 }

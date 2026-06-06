@@ -1,18 +1,18 @@
 # Content autorun — våg 17 — 2026-06-06
 
-**Kört:** 2026-06-06T05:31:36.786Z
-**Git:** main @ 53c1134e
+**Kört:** 2026-06-06T05:43:54.221Z
+**Git:** main @ 56bddf2f
 **Register:** **Aktiv våg:** `17`
 
 ## Faser
 
 | Fas | Status | ms |
 |-----|--------|-----|
-| Export kunskap manifest | PASS | 187 |
-| Content waves smoke | PASS | 237 |
-| Innehall U6 | PASS | 172 |
-| Mabra bank parity | PASS | 36 |
-| Frontend build | PASS | 13395 |
+| Export kunskap manifest | PASS | 332 |
+| Content waves smoke | PASS | 302 |
+| Innehall U6 | PASS | 179 |
+| Mabra bank parity | PASS | 41 |
+| Frontend build | PASS | 32386 |
 
 ## Sammanfattning
 

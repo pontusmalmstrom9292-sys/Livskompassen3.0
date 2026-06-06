@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Loader2, Zap } from 'lucide-react';
+import { clsx } from 'clsx';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { fetchMicroSteps, type MicroStep } from '../api/compassService';
 
@@ -7,9 +8,11 @@ const BATCH_SIZE = 3;
 
 type Props = {
   onDone: () => void;
+  /** Inbäddad i HomeAdaptiveCompass — utan yttre BentoCard. */
+  embedded?: boolean;
 };
 
-export function ParalysPanel({ onDone }: Props) {
+export function ParalysPanel({ onDone, embedded = false }: Props) {
   const [taskText, setTaskText] = useState('');
   const [steps, setSteps] = useState<MicroStep[]>([]);
   const [cursor, setCursor] = useState(0);
@@ -44,55 +47,78 @@ export function ParalysPanel({ onDone }: Props) {
   };
 
   if (steps.length === 0) {
-    return (
-      <BentoCard title="Paralys-Brytaren" icon={<Zap className="h-4 w-4" />}>
-        <p className="mb-3 text-sm text-text-muted">
+    const form = (
+      <>
+        <p className="mb-3 text-xs leading-relaxed text-text-muted">
           Ett mikrosteg i taget. Ingen auto-start — du väljer när.
         </p>
         <textarea
           value={taskText}
           onChange={(e) => setTaskText(e.target.value)}
           placeholder="Vad känns överväldigande just nu?"
-          rows={3}
-          className="w-full rounded-xl border border-border-strong bg-surface/50 px-4 py-3 text-sm text-text-primary placeholder:text-text-muted"
+          rows={embedded ? 2 : 3}
+          className="input-glass w-full text-sm"
         />
-        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+        {error && <p className="mt-2 text-xs text-danger">{error}</p>}
         <button
           type="button"
           disabled={loading}
           onClick={() => loadSteps(false)}
-          className="btn-pill--secondary mt-4"
+          className="btn-pill--accent mt-3 w-full text-xs disabled:opacity-40"
         >
-          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Hjälp mig börja'}
+          {loading ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : 'Hjälp mig börja'}
         </button>
+      </>
+    );
+
+    if (embedded) return <div className="space-y-2">{form}</div>;
+
+    return (
+      <BentoCard title="Paralys-Brytaren" icon={<Zap className="h-4 w-4" />}>
+        {form}
       </BentoCard>
     );
   }
 
-  return (
-    <div className="space-y-4 opacity-100">
-      <div className="rounded-xl border border-accent/30 bg-accent/5 px-3 py-2 text-xs text-text-muted">
+  const stepsBody = (
+    <>
+      <div className="rounded-xl border border-accent/20 bg-accent/5 px-3 py-2 text-center text-[10px] text-text-muted">
         Fokus: steg {Math.min(cursor + 1, steps.length)} av {steps.length}
       </div>
-      {visible.map((step, i) => (
-        <BentoCard
-          key={`${cursor}-${i}-${step.instruction.slice(0, 24)}`}
-          title={`Mikrosteg ${cursor + i + 1}`}
-          className={i === 0 ? '' : 'opacity-60'}
-        >
-          <p className="text-sm text-text-primary">{step.instruction}</p>
-          <p className="mt-2 text-xs text-text-muted">
-            ~{step.estimatedSeconds}s · {step.physicalAnchor}
-          </p>
-        </BentoCard>
-      ))}
+      {visible.map((step, i) =>
+        embedded ? (
+          <div
+            key={`${cursor}-${i}-${step.instruction.slice(0, 24)}`}
+            className={clsx(
+              'rounded-2xl border border-border/30 bg-surface-2/50 p-4',
+              i !== 0 && 'opacity-60',
+            )}
+          >
+            <p className="text-sm leading-relaxed text-text">{step.instruction}</p>
+            <p className="mt-2 text-[10px] text-text-dim">
+              ~{step.estimatedSeconds}s · {step.physicalAnchor}
+            </p>
+          </div>
+        ) : (
+          <BentoCard
+            key={`${cursor}-${i}-${step.instruction.slice(0, 24)}`}
+            title={`Mikrosteg ${cursor + i + 1}`}
+            className={i === 0 ? '' : 'opacity-60'}
+          >
+            <p className="text-sm text-text-primary">{step.instruction}</p>
+            <p className="mt-2 text-xs text-text-muted">
+              ~{step.estimatedSeconds}s · {step.physicalAnchor}
+            </p>
+          </BentoCard>
+        ),
+      )}
       <div className="flex flex-col gap-2">
         {hasMore && (
           <button
             type="button"
             disabled={loading}
             onClick={() => setCursor((c) => c + BATCH_SIZE)}
-            className="btn-pill--ghost text-sm"
+            className="btn-pill--ghost text-xs"
           >
             Nästa steg i listan
           </button>
@@ -101,14 +127,16 @@ export function ParalysPanel({ onDone }: Props) {
           type="button"
           disabled={loading}
           onClick={() => loadSteps(true)}
-          className="btn-pill--secondary text-sm"
+          className="btn-pill--secondary text-xs"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Ge mig 3 till'}
         </button>
-        <button type="button" onClick={onDone} className="btn-pill--success text-sm">
+        <button type="button" onClick={onDone} className="btn-pill--success text-xs">
           Klar
         </button>
       </div>
-    </div>
+    </>
   );
+
+  return embedded ? <div className="space-y-3">{stepsBody}</div> : <div className="space-y-4 opacity-100">{stepsBody}</div>;
 }
