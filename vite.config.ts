@@ -20,6 +20,10 @@ export default defineConfig({
   },
   resolve: {
     alias: [
+      {
+        find: /^@economy\/(.+)/,
+        replacement: `${path.resolve(__dirname, 'shared/economy')}/$1`,
+      },
       { find: '@/core', replacement: path.join(root, 'modules/core') },
       { find: '@/shared', replacement: path.join(root, 'modules/shared') },
       { find: '@/features', replacement: path.join(root, 'modules/features') },

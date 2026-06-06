@@ -2,13 +2,13 @@
  * UI-side golden vectors for economy vendor contract (stdout JSON).
  * Run: npx tsx scripts/economy_vendor_contract_ui.ts
  */
-import golden from '../src/modules/features/dailyLife/wellbeing/economy/rules/__fixtures__/sheet-golden.json';
+import golden from '../shared/economy/__fixtures__/sheet-golden.json';
 import {
   buildMonthlyPayslip,
   getPayslipPeriodForPayday,
-} from '../src/modules/features/dailyLife/wellbeing/economy/rules/generatePayslipCore';
-import { BASE_SALARY_SEK } from '../src/modules/features/dailyLife/wellbeing/economy/rules/livsmedel2026';
-import { getTaxAmount } from '../src/modules/features/dailyLife/wellbeing/economy/rules/taxTable32';
+} from '../shared/economy/generatePayslipCore';
+import { BASE_SALARY_SEK } from '../shared/economy/livsmedel2026';
+import { getTaxAmount } from '../shared/economy/taxTable32';
 import {
   computeDayFlexDelta,
   computeHoursWorkedOnClockOut,
@@ -17,7 +17,7 @@ import {
   isEvenISOWeek,
   resolveBreakMinutesOnClockOut,
   type TimeEntryLike,
-} from '../src/modules/features/dailyLife/wellbeing/economy/rules/payTimeRules';
+} from '../shared/economy/payTimeRules';
 
 const PAYDAY = new Date(2026, 4, 16);
 

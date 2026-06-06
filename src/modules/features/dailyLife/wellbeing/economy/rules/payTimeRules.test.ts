@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import golden from './__fixtures__/sheet-golden.json';
+import golden from '@economy/__fixtures__/sheet-golden.json';
 import {
   computeDayFlexDelta,
   computeHoursWorkedOnClockOut,

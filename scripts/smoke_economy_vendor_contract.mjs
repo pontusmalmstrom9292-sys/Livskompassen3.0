@@ -1,5 +1,5 @@
 /**
- * Contract smoke: UI economy rules vs functions/src/economy/vendor (no merge).
+ * Contract smoke: shared/economy kanon — UI + functions vendor är tunna re-exports.
  * Usage: npm run smoke:economy-vendor
  */
 import { readFileSync, existsSync } from 'fs';
@@ -11,20 +11,17 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 const functionsRoot = resolve(root, 'functions');
 
+const SHARED = 'shared/economy';
 const UI_RULES = 'src/modules/features/dailyLife/wellbeing/economy/rules';
 const VENDOR = 'functions/src/economy/vendor';
 
-/** Paired rule modules — logic must match after import normalization. */
-const LOGIC_PAIRS = [
+const REEXPORT_MODULES = [
   'payTimeRules.ts',
   'payAbsenceRules.ts',
   'generatePayslipCore.ts',
+  'taxTable32.ts',
+  'livsmedel2026.ts',
 ];
-
-/** Byte-identical copies. */
-const IDENTICAL_PAIRS = ['taxTable32.ts', 'livsmedel2026.ts'];
-
-const FIXTURE_PAIRS = ['__fixtures__/taxTable32-2026.json'];
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -36,51 +33,28 @@ function read(relPath) {
   return readFileSync(full, 'utf8');
 }
 
-/** Strip import/export-from blocks — jämför affärslogik, inte alias. */
-function normalizeLogicSource(src) {
-  return src
-    .replace(/import\s+(?:type\s+)?(?:\{[\s\S]*?\}|[^\n;]+)\s+from\s+['"][^'"]+['"];?\n?/g, '')
-    .replace(/export\s+\{[\s\S]*?\}\s+from\s+['"][^'"]+['"];?\n?/g, '')
-    .replace(/^export\s+\{[^}]+\}\s*;?\s*$/gm, '')
-    .replace(/\r/g, '')
-    .trim();
-}
-
-function compareIdenticalPairs() {
-  console.log('[smoke:economy-vendor] Identiska filpar…');
-  for (const name of IDENTICAL_PAIRS) {
-    const ui = read(`${UI_RULES}/${name}`);
-    const vendor = read(`${VENDOR}/${name}`);
-    assert(ui === vendor, `${name} skiljer sig — förväntat byte-identiskt`);
+function assertSharedCanonical() {
+  console.log('[smoke:economy-vendor] shared/economy kanon…');
+  for (const name of REEXPORT_MODULES) {
+    const src = read(`${SHARED}/${name}`);
+    assert(src.length > 80, `${SHARED}/${name} ska innehålla affärslogik`);
+    assert(!src.includes('@/'), `${SHARED}/${name} får inte använda @/-alias`);
   }
-  for (const rel of FIXTURE_PAIRS) {
-    const ui = read(`${UI_RULES}/${rel}`);
-    const vendor = read(`${VENDOR}/${rel}`);
-    assert(ui === vendor, `${rel} skiljer sig — förväntat byte-identiskt`);
+  assert(existsSync(resolve(root, `${SHARED}/timeMath.ts`)), 'saknar shared/economy/timeMath.ts');
+}
+
+function assertThinReExports() {
+  console.log('[smoke:economy-vendor] Tunna re-exports (UI + vendor)…');
+  for (const name of REEXPORT_MODULES) {
+    const ui = read(`${UI_RULES}/${name}`).trim();
+    const vendor = read(`${VENDOR}/${name}`).trim();
+    assert(ui.includes(`shared/economy/${name.replace('.ts', '')}`) || ui.includes('@economy/'), `${UI_RULES}/${name}`);
+    assert(vendor.includes(`shared/economy/${name.replace('.ts', '')}`), `${VENDOR}/${name}`);
+    assert(!ui.includes('export function'), `${UI_RULES}/${name} ska inte duplicera logik`);
+    assert(!vendor.includes('export function'), `${VENDOR}/${name} ska inte duplicera logik`);
   }
-}
-
-function compareLogicPairs() {
-  console.log('[smoke:economy-vendor] Normaliserad logik (import-skillnad OK)…');
-  for (const name of LOGIC_PAIRS) {
-    const uiNorm = normalizeLogicSource(read(`${UI_RULES}/${name}`));
-    const vendorNorm = normalizeLogicSource(read(`${VENDOR}/${name}`));
-    assert(
-      uiNorm === vendorNorm,
-      `${name} — affärslogik skiljer efter import-normalisering. Kör diff manuellt; merge kräver godkännande.`,
-    );
-  }
-}
-
-function assertVendorOnlyFiles() {
-  console.log('[smoke:economy-vendor] Vendor timeMath (server bundle)…');
-  assert(existsSync(resolve(root, `${VENDOR}/timeMath.ts`)), 'saknar vendor/timeMath.ts');
-  mustNotImportAlias(`${VENDOR}/generatePayslipCore.ts`);
-}
-
-function mustNotImportAlias(relPath) {
-  const text = read(relPath);
-  assert(!text.includes('@/'), `${relPath} får inte använda @/-alias (server-isolering)`);
+  const vendorTimeMath = read(`${VENDOR}/timeMath.ts`).trim();
+  assert(vendorTimeMath.includes('shared/economy/timeMath'), 'vendor/timeMath.ts ska re-exportera shared');
 }
 
 function buildFunctions() {
@@ -102,7 +76,7 @@ async function runVendorGolden() {
     pathToFileURL(resolve(functionsRoot, 'lib/economy/vendor/payTimeRules.js')).href
   );
 
-  const golden = JSON.parse(read(`${UI_RULES}/__fixtures__/sheet-golden.json`));
+  const golden = JSON.parse(read(`${SHARED}/__fixtures__/sheet-golden.json`));
   const PAYDAY = new Date(2026, 4, 16);
   const period = mod.getPayslipPeriodForPayday(PAYDAY);
   const payslip = mod.buildMonthlyPayslip({
@@ -186,9 +160,8 @@ function deepEqual(a, b, path = '') {
 }
 
 async function main() {
-  compareIdenticalPairs();
-  compareLogicPairs();
-  assertVendorOnlyFiles();
+  assertSharedCanonical();
+  assertThinReExports();
   buildFunctions();
 
   console.log('[smoke:economy-vendor] Runtime golden — vendor…');
@@ -206,10 +179,7 @@ async function main() {
   assert(vendorResult.oddWeek.flexTarget === 50, 'ojämn vecka flex');
 
   console.log(
-    `[smoke:economy-vendor] PASS — ${LOGIC_PAIRS.length} logikpar + ${IDENTICAL_PAIRS.length} identiska + golden runtime.`,
-  );
-  console.log(
-    '[smoke:economy-vendor] Obs: dubbla kopior kvar — merge UI↔vendor kräver explicit godkännande.',
+    `[smoke:economy-vendor] PASS — shared/economy kanon + ${REEXPORT_MODULES.length} re-exports + golden runtime.`,
   );
 }
 
