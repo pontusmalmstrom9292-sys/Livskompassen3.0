@@ -23,7 +23,7 @@ export function PlaneringHomePinCard() {
   const open = list.items.filter((i) => !i.done).slice(0, 6);
 
   return (
-    <BentoCard title={pin.title} description="Från Planering">
+    <BentoCard title={pin.title} description="Från Planering" glow="gold" className="rounded-2xl border border-border/30">
       <ul className="planering-quicklist planering-quicklist--compact">
         {open.length === 0 ? (
           <li className="planering-quicklist__empty">Allt bockat — eller tom lista.</li>

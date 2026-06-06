@@ -1,0 +1,17 @@
+{
+  "version": 3,
+  "plans": [
+    "docs/evaluations/2026-06-06-autonom-byggpass-1h.md",
+    "docs/evaluations/2026-06-06-autonom-byggpass-v2.md",
+    "docs/evaluations/2026-06-06-autonom-byggpass-v3.md"
+  ],
+  "status": "done",
+  "overall": "PASS",
+  "waves": {
+    "v1": "hemkompass + deploy",
+    "v2": "orkester Familjen wiring",
+    "v3": "mabra route kanon + SMOKE_RESULTS"
+  },
+  "commit": "skipped-policy",
+  "next_pmir": ["MaterialPack-editor", "Barnporten CB2+", "Planering kalender P2"]
+}

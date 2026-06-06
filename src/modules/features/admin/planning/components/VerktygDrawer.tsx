@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ChevronDown, Wrench } from 'lucide-react';
-import { PLANERING_MORE_TABS } from '../constants';
 import type { PlaneringTab } from '../types';
 import { PlaneringHub } from './PlaneringHub';
 import { RoutinesPanel } from './RoutinesPanel';
@@ -25,9 +24,8 @@ const EXTRA_TOOLS: { id: PlaneringTab; label: string; lead: string; to: string }
   },
 ];
 
-/** Fler verktyg — Regler, Rutiner, Inköpslista, Hub. Progressive disclosure. */
+/** Fler verktyg — Inköpslista, Rutiner, Hub. Fokus/Framsteg/Regler = PlaneringMoreTabsBar. */
 export function VerktygDrawer({ activeTab }: VerktygDrawerProps) {
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [showHub, setShowHub] = useState(false);
   const [showRutiner, setShowRutiner] = useState(false);
@@ -49,21 +47,6 @@ export function VerktygDrawer({ activeTab }: VerktygDrawerProps) {
 
       {open && (
         <div className="calm-card glow-bottom-gold space-y-2 rounded-2xl border border-border/30 p-3">
-          {PLANERING_MORE_TABS.map(({ id, label }) => (
-            <button
-              key={id}
-              type="button"
-              onClick={() => navigate(`/planering?tab=${id}`)}
-              className={`w-full rounded-xl border px-3 py-2 text-left text-sm transition ${
-                activeTab === id
-                  ? 'border-accent/40 bg-accent/10 text-accent'
-                  : 'border-border/30 text-text-muted hover:border-accent/25'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-
           {EXTRA_TOOLS.map((tool) => (
             <Link
               key={tool.id}

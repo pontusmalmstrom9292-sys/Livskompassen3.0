@@ -10,6 +10,7 @@ import { PlanningKanbanBoard } from './PlanningKanbanBoard';
 import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
 import { LivBackLink } from '@/modules/shell/LivBackLink';
 import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
+import { PlaneringMoreTabsBar } from './PlaneringMoreTabsBar';
 import { PlaneringErrorBoundary } from './PlaneringErrorBoundary';
 import {
   hasSeenGoraModulValjare,
@@ -44,7 +45,6 @@ const RoutinesPanel = lazy(() =>
   import('./RoutinesPanel').then((m) => ({ default: m.RoutinesPanel })),
 );
 
-const GORA_SUPER_TABS = new Set<PlaneringTab>(['handling', 'fokus', 'framsteg']);
 const WORK_TABS = new Set<PlaneringTab>(['handling', 'fokus', 'framsteg', 'inkorg', 'regler']);
 
 function PlaneringPanelFallback() {
@@ -172,7 +172,9 @@ export function PlaneringPage() {
       >
         <GoraHubTabBar />
 
-        {!showModulValjare && !isHub && !isStart && GORA_SUPER_TABS.has(tab) && (
+        {isWorkTab && !showModulValjare && <PlaneringMoreTabsBar activeTab={tab} />}
+
+        {!showModulValjare && !isHub && !isStart && isWorkTab && (
           <Suspense fallback={null}>
             <VerktygDrawer activeTab={tab} />
           </Suspense>

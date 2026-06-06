@@ -22,14 +22,16 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
 
   const header = (
     <div className="home-hero-kanon__header">
-      <div className="home-hero-kanon__intro">
+      <div className="home-greeting-module">
         <HomeGreeting mockupCopy={mockup} />
         {!mockup ? (
-          <p className="mt-1 text-[10px] text-text-dim" aria-label={`Hemprofil: ${preset.label}`}>
-            Profil: {preset.label}
-          </p>
+          <div className="home-greeting-module__meta">
+            <p className="home-greeting-module__profile" aria-label={`Hemprofil: ${preset.label}`}>
+              {preset.label}
+            </p>
+            <HomeStreakChip />
+          </div>
         ) : null}
-        <HomeStreakChip />
       </div>
     </div>
   );

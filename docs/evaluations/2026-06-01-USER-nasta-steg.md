@@ -53,6 +53,8 @@ Kanon: [`2026-06-01-superhub-leverans.md`](./2026-06-01-superhub-leverans.md)
 1. Liv → Planering → **Handling** (kanban)  
 2. Länkar **Fokus / Framsteg / Regler** (inte dubbel TabBar för Handling/Inkorg)
 
+**PASS / FAIL:** **PASS** (2026-06-07)
+
 ---
 
 ## F — Projekt regler (ny 2026-06-01)
@@ -60,7 +62,7 @@ Kanon: [`2026-06-01-superhub-leverans.md`](./2026-06-01-superhub-leverans.md)
 1. `/projekt/regler` — logga in  
 2. **+ Lägg till regel** → spara → ladda om sidan (regeln kvar)  
 
-**PASS / FAIL:** ___________
+**PASS / FAIL:** **PASS** (2026-06-07)
 
 ---
 

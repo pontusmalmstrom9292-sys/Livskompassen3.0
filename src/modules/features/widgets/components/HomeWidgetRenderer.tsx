@@ -176,7 +176,8 @@ export function HomeWidgetRenderer({ widget, userId, onUpdate, onDelete }: Props
     <BentoCard
       title={widget.title}
       icon={iconMap[widget.type]}
-      className="group relative border-[1px] border-border hover:border-accent/30 transition-all rounded-2xl"
+      glow="gold"
+      className="group relative rounded-2xl border border-border/30 transition-all hover:border-accent/30"
     >
       <button
         type="button"

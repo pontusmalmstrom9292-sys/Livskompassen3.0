@@ -127,16 +127,23 @@ export function HomePage() {
       <HomeHeroKanon onCheckInSaved={() => setCardRefreshKey((k) => k + 1)} />
 
       {isAuthenticated && widgets.length > 0 && (
-        <section className="grid grid-cols-1 gap-3 sm:grid-cols-2" aria-label="Mina startmoduler">
-          {widgets.map((widget) => (
-            <HomeWidgetRenderer
-              key={widget.id}
-              widget={widget}
-              userId={user?.uid ?? ''}
-              onUpdate={handleUpdateWidgetConfig}
-              onDelete={handleDeleteWidget}
-            />
-          ))}
+        <section className="home-page__section" aria-label="Mina startmoduler">
+          <header className="home-page__section-head">
+            <p className="font-display-serif text-[10px] uppercase tracking-[0.2em] text-text-dim">
+              Startmoduler
+            </p>
+          </header>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {widgets.map((widget) => (
+              <HomeWidgetRenderer
+                key={widget.id}
+                widget={widget}
+                userId={user?.uid ?? ''}
+                onUpdate={handleUpdateWidgetConfig}
+                onDelete={handleDeleteWidget}
+              />
+            ))}
+          </div>
         </section>
       )}
 
@@ -157,7 +164,9 @@ export function HomePage() {
       {!mockupSkin && <PlaneringHomePinCard />}
 
       {!mockupSkin && materialEnabled(preset, 'home_adaptive_cards') && (
-        <AdaptiveMemoryCards refreshKey={cardRefreshKey} presetId={presetId} />
+        <section className="home-page__section">
+          <AdaptiveMemoryCards refreshKey={cardRefreshKey} presetId={presetId} />
+        </section>
       )}
     </div>
   );

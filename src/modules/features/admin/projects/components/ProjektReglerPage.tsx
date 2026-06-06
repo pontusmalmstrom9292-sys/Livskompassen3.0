@@ -1,9 +1,10 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
 import { useProjectRules } from '../hooks/useProjectRules';
 import type { ProjectAutomationAction } from '../types';
-import type { ProjectRuleInput } from '../types/projectRule';
+import type { ProjectRule, ProjectRuleInput } from '../types/projectRule';
 
 function emptyRule(): ProjectRuleInput {
   return {
@@ -12,6 +13,85 @@ function emptyRule(): ProjectRuleInput {
     action: 'create_task',
     enabled: true,
   };
+}
+
+/** Local draft + blur-save — undviker tom label mot Firestore rules (size > 0). */
+function ProjectRuleCard({
+  rule,
+  onPatch,
+  onRemove,
+}: {
+  rule: ProjectRule;
+  onPatch: (patch: Partial<ProjectRuleInput>) => Promise<void>;
+  onRemove: () => Promise<void>;
+}) {
+  const [label, setLabel] = useState(rule.label);
+  const [matchPattern, setMatchPattern] = useState(rule.matchPattern);
+
+  useEffect(() => {
+    setLabel(rule.label);
+    setMatchPattern(rule.matchPattern);
+  }, [rule.id, rule.label, rule.matchPattern]);
+
+  const saveLabel = async () => {
+    const trimmed = label.trim();
+    if (!trimmed) {
+      setLabel(rule.label);
+      return;
+    }
+    if (trimmed !== rule.label) {
+      await onPatch({ label: trimmed });
+    }
+  };
+
+  const saveMatchPattern = async () => {
+    const trimmed = matchPattern.trim();
+    if (trimmed !== rule.matchPattern) {
+      await onPatch({ matchPattern: trimmed });
+    }
+  };
+
+  return (
+    <div className="elongated-module space-y-2 p-3">
+      <label className="flex items-center gap-2 text-xs text-text-muted">
+        <input
+          type="checkbox"
+          checked={rule.enabled}
+          onChange={(e) => void onPatch({ enabled: e.target.checked })}
+        />
+        Aktiv
+      </label>
+      <input
+        className="input-glass w-full text-sm"
+        value={label}
+        onChange={(e) => setLabel(e.target.value)}
+        onBlur={() => void saveLabel()}
+        placeholder="Regelnamn"
+      />
+      <input
+        className="input-glass w-full text-sm"
+        value={matchPattern}
+        onChange={(e) => setMatchPattern(e.target.value)}
+        onBlur={() => void saveMatchPattern()}
+        placeholder="Matchar (ämne/avsändare/text)"
+      />
+      <select
+        className="input-glass w-full text-sm"
+        value={rule.action}
+        onChange={(e) =>
+          void onPatch({
+            action: e.target.value as ProjectAutomationAction,
+          })
+        }
+      >
+        <option value="create_task">Skapa uppgift i Handling</option>
+        <option value="add_note">Lägg anteckning i projekt</option>
+      </select>
+      <button type="button" className="text-xs text-danger" onClick={() => void onRemove()}>
+        Ta bort regel
+      </button>
+    </div>
+  );
 }
 
 /** Route: /projekt/regler — P4 automation (`project_rules` Firestore). */
@@ -71,43 +151,12 @@ export function ProjektReglerPage() {
           <p className="text-sm text-text-dim">Inga regler än. Lägg till en enkel När X → skapa uppgift.</p>
         )}
         {rules.map((rule) => (
-          <div key={rule.id} className="elongated-module space-y-2 p-3">
-            <label className="flex items-center gap-2 text-xs text-text-muted">
-              <input
-                type="checkbox"
-                checked={rule.enabled}
-                onChange={(e) => void persistField(rule.id, { enabled: e.target.checked })}
-              />
-              Aktiv
-            </label>
-            <input
-              className="input-glass w-full text-sm"
-              value={rule.label}
-              onChange={(e) => void persistField(rule.id, { label: e.target.value })}
-              placeholder="Regelnamn"
-            />
-            <input
-              className="input-glass w-full text-sm"
-              value={rule.matchPattern}
-              onChange={(e) => void persistField(rule.id, { matchPattern: e.target.value })}
-              placeholder="Matchar (ämne/avsändare/text)"
-            />
-            <select
-              className="input-glass w-full text-sm"
-              value={rule.action}
-              onChange={(e) =>
-                void persistField(rule.id, {
-                  action: e.target.value as ProjectAutomationAction,
-                })
-              }
-            >
-              <option value="create_task">Skapa uppgift i Handling</option>
-              <option value="add_note">Lägg anteckning i projekt</option>
-            </select>
-            <button type="button" className="text-xs text-danger" onClick={() => void handleRemove(rule.id)}>
-              Ta bort regel
-            </button>
-          </div>
+          <ProjectRuleCard
+            key={rule.id}
+            rule={rule}
+            onPatch={async (patch) => persistField(rule.id, patch)}
+            onRemove={async () => handleRemove(rule.id)}
+          />
         ))}
       </div>
 
