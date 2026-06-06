@@ -138,3 +138,18 @@ Dessa kräver **dig vid telefon/dator** — agent kan inte stänga dem.
 **Deploy denna session:** inget (prod redan deployad före pass). **Push:** ej gjord (`main` ahead 4).
 
 **Git @ sessionstart:** `9bfa808c` · **HEAD:** `0350c141`
+
+---
+
+## Multitask-uppföljning (2026-06-06 senare)
+
+**Referens:** [`2026-06-06-multitask-rapport.md`](./2026-06-06-multitask-rapport.md)
+
+| Item | Status |
+|------|--------|
+| Barnporten polish (Agent 2 gap stängd) | **LANDAD** `2ceb0fff` |
+| Functions callables-refaktor | **LANDAD** `032b84f7` |
+| MaterialPack Våg A | **Ej landad** — PMIR plan only |
+| Fas 5A #3 USER | **ÖPPEN** |
+| Fas 5A #4 USER | **PASS** 2026-06-06 |
+| Deploy multitask | **Ingen** — 1 commit ahead (`2ceb0fff`) |

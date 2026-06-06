@@ -2,7 +2,7 @@
 
 **Syfte:** En sida — vad som är **klart i kod**, vad som är **öppet per modul**, och vad som körs **autonomt** vs **kräver dig**.
 
-**Senaste leverans:** Barnporten Våg A/B deployad · Android Run PASS · [`SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
+**Senaste leverans:** Barnporten polish (alias · needs_auth · barn-manifest) · functions callables-refaktor · [`2026-06-06-multitask-rapport.md`](./evaluations/2026-06-06-multitask-rapport.md) · [`SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
 
 **Arkiv (G1–G16):** [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) — alla **done**.  
 **Modulregister:** [`MODUL-FUNKTIONS-REGISTER.md`](./MODUL-FUNKTIONS-REGISTER.md) · **Cursor-plan mall:** [`evaluations/MALL-cursor-plan.md`](./evaluations/MALL-cursor-plan.md)  
@@ -46,9 +46,9 @@ Alla planfiler har `status: closed` överst. **Öppet arbete finns endast i tabe
 | **dagbok** | `/hjartat` (reflektion) | Fas 1–4 **done** · `#2d` USER **PASS** 2026-06-06 | — |
 | **mabra** | `/mabra` | §5 guardrail + §3 Vit djup-länk + **IA Våg 3 kompakt UI** | **done** 2026-05-30 |
 | **planering** | `/planering?tab=handling` | Fas 2 **done** (PLANERING_MORE_TABS, Paralys Fokus) · Master YOLO hub-gora | **done** |
-| **projekt** | `/projekt` | MaterialPack **done** · `project_rules` Firestore **done** 2026-06-01 | deploy rules · test `/projekt/regler` |
+| **projekt** | `/projekt` | MaterialPack Fas 3 light **done** · Våg A Familjen-mount **PMIR-STOPP** · `project_rules` Firestore **done** 2026-06-01 | [`pmir-materialpack-editor`](./evaluations/2026-06-06-pmir-materialpack-editor.md) |
 | **kompis/kunskap** | Valv `/valvet` · `kunskapsbank` | Fas 1.5 **done** · våg 8 **partial** (53 FACT — omkör med seed-credentials) | [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) våg 8 |
-| **barnporten** | `/barnporten` | P1 + **Våg A done** (CB2–CB4) + **Våg B done** (QR callables + rules deploy) · **USER #4 PASS** 2026-06-06 Motorola · Våg C push defer | — |
+| **barnporten** | `/barnporten` | P1 + **Våg A done** (CB2–CB4) + **Våg B done** (QR) + **polish done** (alias · needs_auth · barn-manifest hook) · **USER #4 PASS** 2026-06-06 · hosting deploy väntar push · Våg C push defer | — |
 | **valv** | `/valvet` | ValvSuper Fas 1+2 **done** · Vävaren HITL **done** | hosting deploy Fas 2 · [`supermodule-master-plan`](./evaluations/2026-06-06-supermodule-master-plan.md) |
 | **core** | `/` | Hemkompass polish **done** 2026-06-06 · `#2d` autorun PASS · `#3/#4` autorun PASS | valfritt USER · [`2026-06-06-hemkompass-polish-done.md`](./evaluations/2026-06-06-hemkompass-polish-done.md) |
 | **inkast** | Hem · Valv Samla | CaptureSuper **v2 done** · canonical `InboxReviewQueue` | [`2026-06-06-upload-unified-cursor-plan.md`](./evaluations/2026-06-06-upload-unified-cursor-plan.md) |
@@ -72,8 +72,8 @@ npm run orkester:night
 
 ## Kräver dig
 
-1. **Fas 5A #3 Valv** — PIN → spara post · [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md) §A
-2. **Fas 5A #4 Barnporten** — spara loggrad på telefon/barnenhet · samma fil §B
+1. **Fas 5A #3 Valv** — Shield 3 s → PIN → spara post · agent/autorun **PASS** · **USER UI kvar** · [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md) §A
+2. **Fas 5A #4 Barnporten** — **PASS** 2026-06-06 (USER · Motorola) · [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md)
 3. **Valfritt USER** — superhub snabbtest · [`2026-05-29-smoke-manuell.md`](./evaluations/2026-05-29-smoke-manuell.md)
 
 ---

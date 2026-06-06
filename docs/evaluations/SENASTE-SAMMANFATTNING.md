@@ -1,7 +1,8 @@
 # Senaste sammanfattning — systemstatus
 
 **Datum:** 2026-06-06 · **Gren:** `main` · Repo: Livskompassen3.0  
-**Senaste leverans:** Barnporten polish (alias · needs_auth · barn-manifest) · build + smoke **PASS**
+**HEAD:** `2ceb0fff` · **Ahead of origin:** 1 commit (ej pushad)  
+**Senaste leverans:** Barnporten polish (alias · needs_auth · barn-manifest) · functions callables-refaktor · build + smoke **PASS**
 
 ---
 
@@ -17,7 +18,8 @@
 |--------|--------|
 | **Barnporten Våg A** | CB2–CB4 widget-varianter · `BarnportenWidget` variant-fabrik · CB2 default · mockups CB2–CB4 |
 | **Barnporten Våg B** | QR enhetskoppling · `createBarnportenPairing` + `claimBarnportenPairing` live · `firestore.rules` deployad · `barnporten_devices` |
-| **Barnporten P1** | Hub 2×2 · inkorg HITL §7b · offline-kö · PWA manifest (route-hook) · CB1 fallback · polish: alias + needs_auth |
+| **Barnporten P1** | Hub 2×2 · inkorg HITL §7b · offline-kö · PWA manifest (`useBarnportenWebManifest`) · CB1 fallback · polish: alias + needs_auth + `?pair=` prompt |
+| **Functions callables** | `index.ts` split → `callables/{valv,inbox,knowledge,agents,shared}.ts` · exports oförändrade (`032b84f7`) |
 | **Adaptiv Hemkompass polish** | `HomeAdaptiveCompass` — ParalysPanel, KasamEvening, KompassradPanel, fasväljare, `home_snabbval` |
 | **Modulväljare rollout** | Planering · Ekonomi · Liv previews · Hem Capture · MåBra · Projekt · Valv zon |
 | CaptureSuperModule | Fas 1–3 + **v2** — kompass, hem, valv, planering; ReviewQueuePipelinePanel |
@@ -50,6 +52,7 @@
 |------|-----|
 | Barnporten PMIR | [`2026-06-06-pmir-barnporten-cb2plus.md`](./2026-06-06-pmir-barnporten-cb2plus.md) |
 | 1h autonom rapport | [`2026-06-06-1h-autonom-rapport.md`](./2026-06-06-1h-autonom-rapport.md) |
+| Multitask rapport | [`2026-06-06-multitask-rapport.md`](./2026-06-06-multitask-rapport.md) |
 | Modulväljare rollout | [`2026-06-06-modulvaljare-rollout-done.md`](./2026-06-06-modulvaljare-rollout-done.md) |
 | Upload plan | [`2026-06-06-upload-unified-cursor-plan.md`](./2026-06-06-upload-unified-cursor-plan.md) |
 | Liv launcher | [`2026-06-06-liv-super-cursor-plan.md`](./2026-06-06-liv-super-cursor-plan.md) |
