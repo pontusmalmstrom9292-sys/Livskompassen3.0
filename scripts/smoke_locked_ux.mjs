@@ -346,8 +346,16 @@ function main() {
   mustInclude(
     'src/modules/features/onboarding/barnporten/components/BarnportenWidget.tsx',
     'BarnportenWidget',
-    'saveBarnportenLog',
+    'barnporten-widget--cb2',
+  );
+  mustInclude(
+    'src/modules/features/onboarding/barnporten/hooks/useBarnportenWidgetActions.ts',
     'quickAvsig',
+    'saveBarnportenLog',
+  );
+  mustInclude(
+    'src/modules/features/onboarding/barnporten/constants/barnportenWidgetVariant.ts',
+    "BARNPORTEN_WIDGET_DEFAULT: BarnportenWidgetVariant = 'cb2'",
   );
   mustInclude(
     'src/modules/features/onboarding/barnporten/api/saveBarnportenLog.ts',

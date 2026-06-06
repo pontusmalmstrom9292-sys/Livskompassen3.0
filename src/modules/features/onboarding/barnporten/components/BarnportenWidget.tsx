@@ -1,99 +1,136 @@
-import { useCallback, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Star } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import { Heart, Star } from 'lucide-react';
 import { clsx } from 'clsx';
-import { useLongPress } from '@/core/hooks/useLongPress';
-import { useStore } from '@/core/store';
-import { saveBarnportenLog } from '../api/saveBarnportenLog';
+import {
+  type BarnportenWidgetVariant,
+  BARNPORTEN_WIDGET_DEFAULT,
+} from '../constants/barnportenWidgetVariant';
+import { useBarnportenWidgetActions } from '../hooks/useBarnportenWidgetActions';
+import { useBarnportenWidgetVariant } from '../hooks/useBarnportenWidgetVariant';
 
 const DEFAULT_CHILD = 'Kasper';
-const QUICK_HOLD_MS = 800;
 
 type Props = {
   childAlias?: string;
+  /** Override enhetsvariant (t.ex. i Storybook). */
+  variant?: BarnportenWidgetVariant;
 };
 
+function BarnportenWidgetToast({ status }: { status: string | null }) {
+  if (!status) return null;
+  return (
+    <p className="barnporten-widget__toast" role="status">
+      {status}
+    </p>
+  );
+}
+
+function BarnportenCompassMini({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+    >
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.25" opacity="0.85" />
+      <path
+        d="M12 5 L14.5 14.5 L12 12 L9.5 14.5 Z"
+        fill="currentColor"
+        stroke="currentColor"
+        strokeWidth="0.5"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 /**
- * CB1 Stjärn-prick — barn-widget (BARNPORTEN-SPEC).
- * Enkeltryck → /barnporten · långtryck → snabb avsig → children_logs (authorRole child).
+ * Barn-widget CB1–CB4 (BARNPORTEN-SPEC).
+ * Default CB2 hjärta-båge. Enkeltryck → /barnporten · långtryck → snabb avsig.
  * Monteras endast på barnporten-rutter — rör inte förälder W1 (FyrenWidgetBar).
  */
-export function BarnportenWidget({ childAlias = DEFAULT_CHILD }: Props) {
-  const navigate = useNavigate();
+export function BarnportenWidget({ childAlias = DEFAULT_CHILD, variant: variantOverride }: Props) {
   const location = useLocation();
-  const user = useStore((s) => s.user);
-  const [status, setStatus] = useState<string | null>(null);
-  const [saving, setSaving] = useState(false);
+  const { variant: storedVariant } = useBarnportenWidgetVariant();
+  const variant = variantOverride ?? storedVariant ?? BARNPORTEN_WIDGET_DEFAULT;
+  const { status, saving, onBarnportenRoute, longPress } = useBarnportenWidgetActions(childAlias);
 
-  const quickAvsig = useCallback(async () => {
-    if (!user) {
-      setStatus('Be pappa logga in först.');
-      return;
-    }
-    const text = window.prompt('Snabb sändning — vad vill du säga?', '') ?? '';
-    if (!text.trim()) return;
+  const { progress, isHolding, onClick, ...pressHandlers } = longPress;
+  const holdStyle =
+    progress > 0
+      ? ({ '--barnporten-hold': `${Math.round(progress * 100)}%` } as CSSProperties)
+      : undefined;
 
-    setSaving(true);
-    setStatus(null);
-    try {
-      await saveBarnportenLog(user.uid, {
-        childAlias,
-        observation: text.trim(),
-        kind: 'quick_widget',
-        contentType: 'text',
-      });
-      setStatus('Skickat till pappas inkorg.');
-      window.setTimeout(() => setStatus(null), 2400);
-    } catch {
-      setStatus('Kunde inte spara. Försök igen.');
-    } finally {
-      setSaving(false);
-    }
-  }, [childAlias, user]);
+  if (location.pathname.startsWith('/widget/inspelning')) {
+    return null;
+  }
 
-  const prickPress = useLongPress({
-    onLongPress: () => {
-      void quickAvsig();
-    },
-    onClick: () => {
-      if (!location.pathname.startsWith('/barnporten')) {
-        navigate('/barnporten');
-      }
-    },
-    delayMs: QUICK_HOLD_MS,
-  });
+  if (variant === 'none') return null;
 
-  const { progress, isHolding, onClick: prickClick, ...prickHandlers } = prickPress;
+  const tapLabel = onBarnportenRoute ? 'Håll för snabb avsig' : 'Öppna Barnporten';
+  const holdClass = isHolding ? 'barnporten-widget__control--holding' : undefined;
 
-  if (location.pathname.startsWith('/widget/inspelning')) return null;
+  if (variant === 'cb2') {
+    return (
+      <div
+        className="barnporten-widget barnporten-widget--cb2"
+        aria-label="Barnporten-widget"
+      >
+        <BarnportenWidgetToast status={status} />
+        <button
+          type="button"
+          disabled={saving}
+          className={clsx('barnporten-widget__arc', holdClass)}
+          aria-label={tapLabel}
+          style={holdStyle}
+          onClick={onClick}
+          {...pressHandlers}
+        >
+          <Heart
+            className="barnporten-widget__arc-icon h-5 w-5 fill-amber-200/90 text-amber-100"
+            strokeWidth={1.5}
+          />
+        </button>
+      </div>
+    );
+  }
+
+  if (variant === 'cb3') {
+    return (
+      <div
+        className="barnporten-widget barnporten-widget--cb3"
+        aria-label="Barnporten-widget"
+      >
+        <BarnportenWidgetToast status={status} />
+        <button
+          type="button"
+          disabled={saving}
+          className={clsx('barnporten-widget__compass', holdClass)}
+          aria-label={tapLabel}
+          style={holdStyle}
+          onClick={onClick}
+          {...pressHandlers}
+        >
+          <BarnportenCompassMini className="h-4 w-4 text-amber-200" />
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <div className="barnporten-widget" aria-label="Barnporten-widget">
-      {status ? (
-        <p className="barnporten-widget__toast" role="status">
-          {status}
-        </p>
-      ) : null}
+    <div className="barnporten-widget barnporten-widget--cb1" aria-label="Barnporten-widget">
+      <BarnportenWidgetToast status={status} />
       <button
         type="button"
         disabled={saving}
-        className={clsx(
-          'barnporten-widget__star',
-          isHolding && 'barnporten-widget__star--holding',
-        )}
-        aria-label={
-          location.pathname.startsWith('/barnporten')
-            ? 'Håll för snabb avsig'
-            : 'Öppna Barnporten'
-        }
-        style={
-          progress > 0
-            ? ({ '--barnporten-hold': `${Math.round(progress * 100)}%` } as CSSProperties)
-            : undefined
-        }
-        onClick={prickClick}
-        {...prickHandlers}
+        className={clsx('barnporten-widget__star', holdClass)}
+        aria-label={tapLabel}
+        style={holdStyle}
+        onClick={onClick}
+        {...pressHandlers}
       >
         <Star className="h-3.5 w-3.5 fill-amber-300/90 text-amber-200" strokeWidth={1.5} />
       </button>

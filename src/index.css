@@ -4013,13 +4013,22 @@
     }
   }
 
-  /* Barnporten CB1 — stjärn-prick (barn, varmare än Fyren W1) */
-  .barnporten-widget {
+  /* Barnporten CB1–CB4 — barn, varmare än Fyren W1 (ej samma klasser) */
+  .barnporten-widget__toast {
+    @apply pointer-events-auto mb-2 max-w-[12rem] rounded-lg border border-amber-400/25 bg-[#1a1410]/95 px-3 py-2 text-center text-xs text-amber-100;
+  }
+
+  .barnporten-widget__control--holding,
+  .barnporten-widget__star--holding {
+    box-shadow: 0 0 18px rgba(251, 191, 36, 0.45);
+  }
+
+  .barnporten-widget--cb1 {
     @apply pointer-events-none fixed bottom-[4.5rem] right-0 z-[56] flex flex-col items-end;
   }
 
-  .barnporten-widget__toast {
-    @apply pointer-events-auto mb-2 mr-3 max-w-[12rem] rounded-lg border border-amber-400/25 bg-[#1a1410]/95 px-3 py-2 text-center text-xs text-amber-100;
+  .barnporten-widget--cb1 .barnporten-widget__toast {
+    @apply mr-3;
   }
 
   .barnporten-widget__star {
@@ -4028,14 +4037,70 @@
     box-shadow: 0 0 14px rgba(251, 191, 36, 0.25);
   }
 
-  .barnporten-widget__star--holding {
+  .barnporten-widget__star.barnporten-widget__control--holding {
     background: radial-gradient(
       circle at 30% 30%,
       rgba(251, 191, 36, 0.75) var(--barnporten-hold, 0%),
       rgba(251, 191, 36, 0.35) var(--barnporten-hold, 0%),
       rgba(120, 53, 15, 0.65) var(--barnporten-hold, 0%)
     );
-    box-shadow: 0 0 18px rgba(251, 191, 36, 0.45);
+  }
+
+  /* CB2 — hjärta-båge längs nedre kant (surfplatta) */
+  .barnporten-widget--cb2 {
+    @apply pointer-events-none fixed inset-x-0 z-[56] flex flex-col items-center;
+    bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .barnporten-widget--cb2 .barnporten-widget__toast {
+    @apply mb-1;
+  }
+
+  .barnporten-widget__arc {
+    @apply pointer-events-auto flex h-11 w-[min(74vw,15rem)] items-start justify-center rounded-t-[999px] border border-b-0 border-amber-300/35 pt-2;
+    background: linear-gradient(
+      to top,
+      rgba(120, 53, 15, 0.88) 0%,
+      rgba(180, 83, 9, 0.55) 55%,
+      rgba(251, 191, 36, 0.22) 100%
+    );
+    box-shadow: 0 -6px 22px rgba(251, 191, 36, 0.18);
+  }
+
+  .barnporten-widget__arc.barnporten-widget__control--holding {
+    background: linear-gradient(
+      to top,
+      rgba(120, 53, 15, 0.95) 0%,
+      rgba(251, 191, 36, calc(0.35 + var(--barnporten-hold, 0%) * 0.004)) 100%
+    );
+  }
+
+  .barnporten-widget__arc-icon {
+    filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.35));
+  }
+
+  /* CB3 — kompass-mini nere till höger */
+  .barnporten-widget--cb3 {
+    @apply pointer-events-none fixed bottom-[4.5rem] right-0 z-[56] flex flex-col items-end;
+  }
+
+  .barnporten-widget--cb3 .barnporten-widget__toast {
+    @apply mr-3;
+  }
+
+  .barnporten-widget__compass {
+    @apply pointer-events-auto mr-2 flex h-10 w-10 items-center justify-center rounded-full border border-amber-300/30;
+    background: radial-gradient(circle at 35% 35%, rgba(251, 191, 36, 0.32), rgba(26, 20, 16, 0.82));
+    box-shadow: 0 0 14px rgba(251, 191, 36, 0.22);
+  }
+
+  .barnporten-widget__compass.barnporten-widget__control--holding {
+    background: radial-gradient(
+      circle at 35% 35%,
+      rgba(251, 191, 36, 0.72) var(--barnporten-hold, 0%),
+      rgba(251, 191, 36, 0.28) var(--barnporten-hold, 0%),
+      rgba(26, 20, 16, 0.88) var(--barnporten-hold, 0%)
+    );
   }
 
   /* Smart widget bar (Theme I — bottom sheet) */

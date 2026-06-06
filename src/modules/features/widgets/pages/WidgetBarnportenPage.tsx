@@ -5,6 +5,8 @@ import { AuthGate } from '@/core/auth/AuthGate';
 import { useStore } from '@/core/store';
 import { BarnportenWidget } from '@/features/onboarding/barnporten/components/BarnportenWidget';
 import { saveBarnportenLog } from '@/features/onboarding/barnporten/api/saveBarnportenLog';
+import { BARNPORTEN_WIDGET_VARIANTS } from '@/features/onboarding/barnporten/constants/barnportenWidgetVariant';
+import { useBarnportenWidgetVariant } from '@/features/onboarding/barnporten/hooks/useBarnportenWidgetVariant';
 import { WidgetShell } from '../layout/WidgetShell';
 
 const DEFAULT_CHILD = 'Kasper';
@@ -12,6 +14,7 @@ const DEFAULT_CHILD = 'Kasper';
 function WidgetBarnportenInner() {
   const user = useStore((s) => s.user);
   const [searchParams] = useSearchParams();
+  const { variant, setVariant } = useBarnportenWidgetVariant();
   const quick = searchParams.get('quick') === '1';
   const [text, setText] = useState('');
   const [saving, setSaving] = useState(false);
@@ -82,13 +85,36 @@ function WidgetBarnportenInner() {
               {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Skicka till pappa'}
             </button>
             {error && <p className="text-sm text-danger">{error}</p>}
+            <fieldset className="space-y-2 rounded-xl border border-amber-400/15 p-3">
+              <legend className="px-1 text-[10px] uppercase tracking-widest text-text-dim">
+                Widget på den här enheten
+              </legend>
+              <div className="grid grid-cols-2 gap-2">
+                {BARNPORTEN_WIDGET_VARIANTS.map((row) => (
+                  <button
+                    key={row.id}
+                    type="button"
+                    className={
+                      variant === row.id
+                        ? 'btn-pill--accent w-full text-left text-xs'
+                        : 'btn-pill--ghost w-full text-left text-xs'
+                    }
+                    aria-pressed={variant === row.id}
+                    onClick={() => setVariant(row.id)}
+                  >
+                    <span className="block font-medium">{row.label}</span>
+                    <span className="block text-[10px] opacity-80">{row.hint}</span>
+                  </button>
+                ))}
+              </div>
+            </fieldset>
             <Link to="/barnporten" className="btn-pill--ghost block w-full text-center text-xs">
               Hela Barnporten
             </Link>
           </div>
         )}
       </WidgetShell>
-      <BarnportenWidget />
+      <BarnportenWidget variant={variant} />
     </>
   );
 }
