@@ -893,23 +893,44 @@
     filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.36));
   }
 
-  /* FloatingDock — symmetrisk 5-kolumns zonnav, kompass dominerar mitten */
+  /* FloatingDock — symmetrisk zonnav, kompass absolut centrerad i rail */
   .floating-dock .dock-hub-band__rail--zones {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    align-items: end;
-    gap: 0.15rem 0.1rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    position: relative;
+    gap: 0;
     max-width: min(100vw - 0.5rem, 26rem);
     padding: 1.35rem 0.4rem 0.5rem;
   }
 
+  .floating-dock__side-group {
+    @apply flex min-w-0 flex-1 items-end;
+    gap: 0.15rem;
+  }
+
+  .floating-dock__side-group--left {
+    justify-content: flex-end;
+    padding-right: calc(5.15rem / 2 + 0.35rem);
+  }
+
+  .floating-dock__side-group--right {
+    justify-content: flex-start;
+    padding-left: calc(5.15rem / 2 + 0.35rem);
+  }
+
   .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center {
-    grid-column: 3;
-    grid-row: 1;
-    justify-self: center;
-    align-self: end;
-    margin-top: -1.75rem;
-    margin-bottom: 0.95rem;
+    position: absolute;
+    left: 50%;
+    bottom: calc(0.5rem + 0.95rem);
+    z-index: 3;
+    grid-column: unset;
+    grid-row: unset;
+    justify-self: unset;
+    align-self: unset;
+    margin: 0;
     width: 5.15rem;
+    transform: translateX(-50%) translateY(-1.75rem);
   }
 
   .floating-dock__side-btn {
@@ -982,6 +1003,19 @@
 
   .floating-dock .dock-hub-band__center:hover .floating-dock__plate {
     transform: translateY(-2px);
+  }
+
+  .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center:hover {
+    transform: translateX(-50%) translateY(calc(-1.75rem - 2px));
+  }
+
+  .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center:active {
+    transform: translateX(-50%) translateY(calc(-1.75rem + 2px));
+  }
+
+  .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center--active,
+  .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center--holding {
+    transform: translateX(-50%) translateY(-1.75rem);
   }
 
   .floating-dock .dock-hub-band__center--active .floating-dock__plate,

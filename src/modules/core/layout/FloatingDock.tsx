@@ -97,17 +97,19 @@ export function FloatingDock() {
     <div className="dock-shell">
       <div className="dock-hub-band floating-dock" data-panel-style={panelStyle}>
         <div className="dock-hub-band__rail dock-hub-band__rail--zones">
-          {leftZones.map((zone) => (
-            <DockNavButton
-              key={zone.id}
-              label={zone.label}
-              icon={<ChromeV5Icon category={zone.category} className="dock-nav-btn__chrome-v5" />}
-              active={zone.match(pathname, search)}
-              variant="slot"
-              className="floating-dock__side-btn"
-              onClick={() => navigate(zone.to)}
-            />
-          ))}
+          <div className="floating-dock__side-group floating-dock__side-group--left">
+            {leftZones.map((zone) => (
+              <DockNavButton
+                key={zone.id}
+                label={zone.label}
+                icon={<ChromeV5Icon category={zone.category} className="dock-nav-btn__chrome-v5" />}
+                active={zone.match(pathname, search)}
+                variant="slot"
+                className="floating-dock__side-btn"
+                onClick={() => navigate(zone.to)}
+              />
+            ))}
+          </div>
 
           <button
             type="button"
@@ -132,17 +134,19 @@ export function FloatingDock() {
             </span>
           </button>
 
-          {rightZones.map((zone) => (
-            <DockNavButton
-              key={zone.id}
-              label={zone.label}
-              icon={<ChromeV5Icon category={zone.category} className="dock-nav-btn__chrome-v5" />}
-              active={zone.match(pathname, search)}
-              variant="slot"
-              className="floating-dock__side-btn"
-              onClick={() => navigate(zone.to)}
-            />
-          ))}
+          <div className="floating-dock__side-group floating-dock__side-group--right">
+            {rightZones.map((zone) => (
+              <DockNavButton
+                key={zone.id}
+                label={zone.label}
+                icon={<ChromeV5Icon category={zone.category} className="dock-nav-btn__chrome-v5" />}
+                active={zone.match(pathname, search)}
+                variant="slot"
+                className="floating-dock__side-btn"
+                onClick={() => navigate(zone.to)}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
