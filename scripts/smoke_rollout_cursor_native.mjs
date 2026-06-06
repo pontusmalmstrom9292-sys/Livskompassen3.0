@@ -58,11 +58,19 @@ function runStaticGuards() {
     'InboxReviewQueueLink',
     'PlaneringInkorgPanel',
   );
-  mustNotInclude(
-    'src/modules/features/admin/planning/components/PlaneringInkorgPanel.tsx',
-    'InboxReviewQueue',
-    'planering ska länka till Valv-kö, inte bädda in kö',
-  );
+  {
+    const planeringInkorg = read(
+      'src/modules/features/admin/planning/components/PlaneringInkorgPanel.tsx',
+    );
+    assert(
+      !/<InboxReviewQueue(?!Link)/.test(planeringInkorg),
+      'PlaneringInkorgPanel får inte bädda in InboxReviewQueue — använd InboxReviewQueueLink',
+    );
+    assert(
+      !planeringInkorg.includes("components/InboxReviewQueue'"),
+      'PlaneringInkorgPanel får inte importera InboxReviewQueue direkt',
+    );
+  }
 
   mustInclude(
     'src/modules/features/family/children/hooks/useFamiljenShell.ts',
