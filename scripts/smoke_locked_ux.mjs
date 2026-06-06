@@ -110,9 +110,20 @@ function main() {
     'getAnalyseraVaultTabBarItems',
     'getKunskapVaultTabBarItems',
     'VaultValvBreadcrumb',
+    'ValvSuperModule',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx',
     'VaultSamlaHub',
+    'WeaverPendingVaultBanner',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvAnalyseraZone.tsx',
     'VaultMonsterPanel',
     'VaultOrkesterPanel',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvKunskapZone.tsx',
     'VaultKunskapsbankPanel',
     'VaultAktorskartaPanel',
   );
@@ -194,7 +205,7 @@ function main() {
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'authenticateVaultGate', 'setVaultGate');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/utils/vaultTabs.ts', 'VALV_ZONE_INGRESS');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx', 'VALV_ZONE_INGRESS');
-  mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx', 'WeaverPendingVaultBanner');
+  mustInclude('src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx', 'WeaverPendingVaultBanner');
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'setVaultGate', 'openValvViaFyren');
   mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", '/vardagen', "label: 'Liv och göra'", 'getNavChildren');
   mustInclude(

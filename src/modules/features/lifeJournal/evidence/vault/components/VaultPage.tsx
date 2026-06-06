@@ -16,18 +16,8 @@ import { hasVaultGate, clearVaultGate } from '@/core/auth/sessionService';
 import { saveVaultLog, getVaultLogs } from '@/core/firebase/firestore';
 import { OfflineWriteBlockedError } from '@/core/firebase/offlineWritePolicy';
 import type { VaultLog } from '@/core/types/firestore';
-import { VaultLogList } from './VaultLogList';
-import { VaultSamlaHub } from './VaultSamlaHub';
-import { ValvChatPanel } from '@/features/lifeJournal/evidence/vaultChat';
-import { DossierPage } from '../dossier';
-import { VaultMonsterPanel } from './VaultMonsterPanel';
-import { VaultOrkesterPanel } from './VaultOrkesterPanel';
-import { PansaretHeader } from './PansaretHeader';
-import { VaultKunskapsbankPanel } from '../../knowledge/components/VaultKunskapsbankPanel';
-import { VaultAktorskartaPanel } from '../../knowledge/components/VaultAktorskartaPanel';
-import { VaultForensicPanel } from './VaultForensicPanel';
 import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
-import { WeaverPendingVaultBanner } from './WeaverPendingVaultBanner';
+import { ValvSuperModule } from './ValvSuperModule';
 import { VaultErrorBoundary } from './VaultErrorBoundary';
 import { VaultLockedGate } from '@/core/components/VaultLockedGate';
 import type { VaultLogInput } from '../types/vaultEntry';
@@ -80,7 +70,6 @@ function VaultPageInner({
   const [error, setError] = useState<string | null>(null);
   const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
-  const [anchorsOnly, setAnchorsOnly] = useState(false);
   const gateOk = hasVaultGate();
   const valvZone = resolveValvZone(vaultTab);
   const samlaTab: SamlaVaultTab = isSamlaVaultTab(vaultTab) ? vaultTab : 'logga';
@@ -121,6 +110,11 @@ function VaultPageInner({
     else if (zone === 'kunskap') setVaultTab(KUNSKAP_VAULT_TAB);
     else if (zone === 'exportera') setVaultTab('dossier');
     else setVaultTab('hamn_analys');
+  };
+
+  const refreshLogs = () => {
+    if (!user) return;
+    void getVaultLogs(user.uid).then(setLogs).catch(() => undefined);
   };
 
   useEffect(() => {
@@ -264,66 +258,21 @@ function VaultPageInner({
         )}
       </BentoCard>
 
-      {valvZone === 'forensik' && <VaultForensicPanel tab={forensicTab} />}
-
-      {valvZone === 'samla' && vaultTab === 'logga' && (
-        <>
-          <WeaverPendingVaultBanner
-            userId={user.uid}
-            onApproved={() => {
-              void getVaultLogs(user.uid).then(setLogs).catch(() => undefined);
-            }}
-          />
-          <VaultSamlaHub
-            userId={user.uid}
-            saving={saving}
-            saveError={error}
-            onSave={handleSaveLog}
-            onBevisConfirmed={(docId) => void handleBevisConfirmed(docId)}
-          />
-          <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={() => setAnchorsOnly((v) => !v)}
-              className={`btn-pill--ghost text-xs ${anchorsOnly ? 'text-gold' : ''}`}
-              aria-pressed={anchorsOnly}
-            >
-              {anchorsOnly ? 'Visa alla bevis' : 'Endast ankare'}
-            </button>
-          </div>
-          <VaultLogList
-            logs={logs}
-            loading={logsLoading}
-            highlightLogId={highlightLogId}
-            anchorsOnly={anchorsOnly}
-            onLogFirstBevis={() =>
-              document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-            }
-          />
-        </>
-      )}
-
-      {valvZone === 'samla' && vaultTab === 'sok' && (
-        <ValvChatPanel
-          active={gateOk && vaultTab === 'sok'}
-          onCitationClick={handleCitationClick}
-          logs={logs}
-        />
-      )}
-
-      {valvZone === 'analysera' && vaultTab === 'monster' && (
-        <>
-          <PansaretHeader />
-          <VaultMonsterPanel logs={logs} />
-        </>
-      )}
-
-      {valvZone === 'analysera' && vaultTab === 'orkester' && <VaultOrkesterPanel logs={logs} />}
-
-      {valvZone === 'exportera' && vaultTab === 'dossier' && <DossierPage embedded />}
-
-      {valvZone === 'kunskap' && kunskapTab === KUNSKAP_VAULT_TAB && <VaultKunskapsbankPanel />}
-      {valvZone === 'kunskap' && kunskapTab === 'aktorskarta' && <VaultAktorskartaPanel />}
+      <ValvSuperModule
+        variant={valvZone}
+        vaultTab={vaultTab}
+        userId={user.uid}
+        gateOk={gateOk}
+        logs={logs}
+        logsLoading={logsLoading}
+        saving={saving}
+        saveError={error}
+        highlightLogId={highlightLogId}
+        onSave={handleSaveLog}
+        onBevisConfirmed={handleBevisConfirmed}
+        onCitationClick={handleCitationClick}
+        onLogsRefresh={refreshLogs}
+      />
     </div>
   );
 }

@@ -105,9 +105,31 @@ function main() {
     'getVaultZoneTabBarItems',
     'getSamlaVaultTabBarItems',
     'getAnalyseraVaultTabBarItems',
+    'ValvSuperModule',
+    'variant={valvZone}',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/ValvSuperModule.tsx',
+    'ValvSuperModule',
+    "'samla'",
+    "'analysera'",
+    "'kunskap'",
+    "'exportera'",
+    "'forensik'",
+    'ValvSamlaZone',
+    'ValvAnalyseraZone',
+    'VaultForensicPanel',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvAnalyseraZone.tsx',
     'PansaretHeader',
     'VaultMonsterPanel',
     'VaultOrkesterPanel',
+  );
+  assert(
+    !read('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx').includes('VaultMonsterPanel'),
+    'VaultPage.tsx',
+    'delegerar zonsinnehåll till ValvSuperModule — inte direkt Mönster-import',
   );
   mustInclude('src/modules/core/copy/valvNavCopy.ts', "logga: 'Arkiv'", "sok: 'Granska inkommande'");
   mustInclude('src/modules/core/navigation/tabRegistry.ts', 'VAULT_MAIN_TAB_LABELS', 'getNavChildren');

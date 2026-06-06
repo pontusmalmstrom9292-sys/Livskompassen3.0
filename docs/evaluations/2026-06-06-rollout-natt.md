@@ -1,16 +1,16 @@
 # Rollout nattpass — Cursor-native Block A+B — 2026-06-06
 
-**Kört:** 2026-06-06T01:47:39.319Z
-**Git:** main @ 89723260 (1 unstaged)
+**Kört:** 2026-06-06T01:53:03.176Z
+**Git:** main @ ddaf98d2 (8 unstaged)
 
 ## Faser
 
 | Fas | Status | ms |
 |-----|--------|-----|
-| Cursor-native smoke:rollout | PASS | 19934 |
-| Functions build | PASS | 11037 |
-| Frontend build | PASS | 10855 |
-| ESLint | SKIP_FAIL | 12061 |
+| Cursor-native smoke:rollout | PASS | 20493 |
+| Functions build | PASS | 8847 |
+| Frontend build | PASS | 10249 |
+| ESLint | SKIP_FAIL | 11473 |
 
 ## Du behöver inte köra (agent autorun)
 
