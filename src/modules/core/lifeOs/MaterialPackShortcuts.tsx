@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import type { MaterialPackHub } from './materialPacks';
+import type { MaterialPackHub, MaterialShortcut } from './materialPacks';
 import type { LifeHubPreset } from './lifeHubPresets';
 import { resolveModuleLink } from './moduleLink';
 import { useMaterialShortcuts } from './useMaterialShortcuts';
@@ -7,10 +7,13 @@ import { useMaterialShortcuts } from './useMaterialShortcuts';
 type Props = {
   preset: LifeHubPreset;
   hub: MaterialPackHub;
+  /** Editor preview — bypass localStorage until save propagates. */
+  shortcutsOverride?: MaterialShortcut[];
 };
 
-export function MaterialPackShortcuts({ preset, hub }: Props) {
-  const shortcuts = useMaterialShortcuts(preset.id, hub);
+export function MaterialPackShortcuts({ preset, hub, shortcutsOverride }: Props) {
+  const storedShortcuts = useMaterialShortcuts(preset.id, hub);
+  const shortcuts = shortcutsOverride ?? storedShortcuts;
   if (shortcuts.length === 0) return null;
 
   return (

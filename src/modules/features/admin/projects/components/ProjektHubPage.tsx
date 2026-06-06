@@ -80,9 +80,12 @@ export function ProjektHubPage() {
         </Link>
         <Link
           to="/projekt/genvagar"
-          className="btn-pill--ghost flex w-full items-center justify-center gap-2 text-sm"
+          className="btn-pill--ghost flex w-full flex-col items-center justify-center gap-0.5 py-3 text-sm"
         >
-          Genvägar per profil
+          <span>Genvägar per profil</span>
+          <span className="text-xs font-normal text-text-dim">
+            Anpassa knappar på Familjen, MåBra och Hamn
+          </span>
         </Link>
         <Link to="/planering?tab=handling" className="btn-pill--secondary flex w-full items-center justify-center gap-2">
           Till Handling (kanban)

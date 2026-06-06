@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
 import { useStore } from '@/core/store';
 import {
   LIFE_HUB_PRESETS,
   LifeHubPresetPicker,
+  MaterialPackShortcuts,
   clearMaterialPackOverride,
   getDefaultMaterialShortcuts,
   getMaterialPackOverride,
@@ -33,6 +35,25 @@ function newShortcut(): MaterialShortcut {
   return { label: 'Ny genväg', target: preset.target };
 }
 
+function moveShortcut(list: MaterialShortcut[], from: number, to: number): MaterialShortcut[] {
+  if (to < 0 || to >= list.length || from === to) return list;
+  const next = [...list];
+  const [item] = next.splice(from, 1);
+  next.splice(to, 0, item!);
+  return next;
+}
+
+function duplicateTargetKeys(shortcuts: MaterialShortcut[]): Set<string> {
+  const counts = new Map<string, number>();
+  for (const item of shortcuts) {
+    const key = findTargetPreset(item.target)
+      ? targetToKey(item.target)
+      : targetToKey(defaultTargetPreset().target);
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  return new Set([...counts.entries()].filter(([, n]) => n > 1).map(([key]) => key));
+}
+
 /** Route: /projekt/genvagar — MaterialPack-editor light (lokal persistens). */
 export function ProjektMaterialPackPage() {
   const user = useStore((s) => s.user);
@@ -44,6 +65,7 @@ export function ProjektMaterialPackPage() {
 
   const availableHubs = materialPackHubsForPreset(presetId, user?.uid);
   const activePreset = LIFE_HUB_PRESETS.find((p) => p.id === presetId)!;
+  const duplicateKeys = useMemo(() => duplicateTargetKeys(shortcuts), [shortcuts]);
 
   useEffect(() => {
     if (availableHubs.length === 0) return;
@@ -86,7 +108,7 @@ export function ProjektMaterialPackPage() {
     <HubPageShell
       eyebrow="Göra"
       title="Genvägar per profil"
-      lead="Redigera MaterialPack-genvägar som visas på Familjen, MåBra och Hamn — sparas lokalt på enheten."
+      lead="Redigera MaterialPack-genvägar på Familjen, MåBra och Hamn — sparas lokalt på denna enhet tills synk (Fas D Våg B) är godkänd."
     >
       <GoraHubTabBar />
       <div className="flex flex-wrap gap-3 text-xs">
@@ -133,16 +155,53 @@ export function ProjektMaterialPackPage() {
 
             <p className="text-xs text-text-dim">
               {hasOverride ? 'Egna genvägar (lokal override).' : 'Standardgenvägar från appen.'}
+              {' · '}
+              Max 12 · sparas på denna enhet.
             </p>
+
+            {duplicateKeys.size > 0 && (
+              <p className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-xs text-amber-200/90">
+                Samma mål används flera gånger — överväg att ta bort eller byta duplicat.
+              </p>
+            )}
 
             <div className="home-module-stack">
               {shortcuts.map((item, index) => {
                 const targetKey = findTargetPreset(item.target)
                   ? targetToKey(item.target)
                   : targetToKey(defaultTargetPreset().target);
+                const isDuplicate = duplicateKeys.has(targetKey);
 
                 return (
-                  <div key={`${item.label}-${index}`} className="elongated-module space-y-2 p-3">
+                  <div
+                    key={`${item.label}-${index}`}
+                    className={`elongated-module space-y-2 p-3 ${isDuplicate ? 'border border-amber-500/30' : ''}`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-[10px] uppercase tracking-widest text-text-dim">
+                        Genväg {index + 1}
+                      </p>
+                      <div className="flex gap-1">
+                        <button
+                          type="button"
+                          className="btn-pill--ghost px-2 py-1 text-xs"
+                          disabled={!user || index === 0}
+                          aria-label="Flytta upp"
+                          onClick={() => persist(moveShortcut(shortcuts, index, index - 1))}
+                        >
+                          <ChevronUp className="h-3.5 w-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-pill--ghost px-2 py-1 text-xs"
+                          disabled={!user || index === shortcuts.length - 1}
+                          aria-label="Flytta ner"
+                          onClick={() => persist(moveShortcut(shortcuts, index, index + 1))}
+                        >
+                          <ChevronDown className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
                     <input
                       className="input-glass w-full text-sm"
                       value={item.label}
@@ -220,6 +279,20 @@ export function ProjektMaterialPackPage() {
                 </button>
               )}
             </div>
+
+            <section className="elongated-module space-y-2 p-3">
+              <p className="text-[10px] uppercase tracking-widest text-text-dim">
+                Förhandsvisning · {HUB_LABELS[hub]}
+              </p>
+              <p className="text-xs text-text-muted">
+                Så här ser genvägarna ut på {HUB_LABELS[hub].toLowerCase()} när profilen är aktiv.
+              </p>
+              <MaterialPackShortcuts
+                preset={activePreset}
+                hub={hub}
+                shortcutsOverride={shortcuts}
+              />
+            </section>
           </>
         )}
       </div>

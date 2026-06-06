@@ -183,7 +183,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Dagbok',
     path: NAV_PATHS.HJARTAT,
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     fyrenHomeQuick: true,
     themeId: 'J-valv-pansar',
   },

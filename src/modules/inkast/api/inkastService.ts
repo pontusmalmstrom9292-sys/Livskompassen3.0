@@ -542,6 +542,12 @@ export function inkastDestinationLink(
         search: '?tab=livslogg',
         label: 'Öppna Barnens logg',
       };
+    case 'journal':
+      return {
+        pathname: NAV_PATHS.HJARTAT,
+        search: '?tab=reflektion',
+        label: 'Öppna Dagbok',
+      };
     default:
       return null;
   }

@@ -309,7 +309,9 @@ function main() {
     'home_snabbval',
   );
   mustInclude('src/modules/core/home/HomeHeroKanon.tsx', 'useLifeHubPreset', 'Profil:');
-  mustInclude('src/modules/capture/CapturePanel.tsx', 'previewInboxClassification', 'sourceModule');
+  mustInclude('src/modules/features/admin/projects/components/ProjektMaterialPackPage.tsx', 'MaterialPackShortcuts', 'duplicateTargetKeys');
+  mustInclude('src/modules/capture/ReviewQueuePipelinePanel.tsx', 'inkastDestinationLink');
+  mustInclude('src/modules/inkast/api/inkastService.ts', "case 'journal'");
   mustInclude('src/modules/capture/captureDomainCopy.ts', 'inkastSourceModuleHint', 'valv_samla');
   mustInclude('src/modules/capture/components/HemCaptureModulValjare.tsx', 'HemCaptureModulValjare');
   mustInclude('functions/src/lib/inboxClassifier.ts', 'buildInboxClassifyBlob', 'valv_samla');

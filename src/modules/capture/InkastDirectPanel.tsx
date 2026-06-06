@@ -154,6 +154,7 @@ export function InkastDirectPanel({
         isValv ? 'Sms, mejl eller fil → rätt silo' : 'Klistra eller ladda upp — sorteras automatiskt'
       }
       icon={<Inbox className="h-4 w-4 text-accent" />}
+      glow={isValv ? undefined : 'gold'}
     >
       <p className={clsx('text-xs text-text-dim', isValv ? 'mb-2' : 'mb-3')}>
         {isValv
@@ -235,7 +236,7 @@ export function InkastDirectPanel({
                 Öppna granskningskö (Valv)
               </Link>
             ))}
-          {destinationLink && !isValv && (
+          {destinationLink && primary?.action === 'persisted' && (
             <Link
               to={{ pathname: destinationLink.pathname, search: destinationLink.search }}
               className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline"

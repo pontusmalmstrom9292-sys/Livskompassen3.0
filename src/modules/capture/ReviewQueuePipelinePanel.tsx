@@ -5,6 +5,7 @@ import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
 import { fetchInboxQueue, type InboxQueueItem } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import {
+  inkastDestinationLink,
   primaryInkastItem,
   VALV_SAMLA_GRANSKA_LINK,
 } from '@/modules/inkast/api/inkastService';
@@ -125,16 +126,28 @@ export function ReviewQueuePipelinePanel({ mode = 'summary' }: Props) {
         <section className="rounded-xl border border-border/40 bg-surface/30 px-3 py-3">
           <p className="mb-2 text-xs uppercase tracking-wider text-text-dim">Lokalt på enheten</p>
           <ul className="space-y-2 text-sm">
-            {reviewDrafts.map((d) => (
-              <li key={d.id} className="rounded-xl border border-border/60 bg-surface/40 px-3 py-2">
-                <span className="text-xs text-accent">
-                  {d.syncResult
-                    ? draftRoutingLabel(primaryInkastItem(d.syncResult).classification.routing)
-                    : 'Granska'}
-                </span>
-                <p className="text-text-muted">{draftSummary(d)}</p>
-              </li>
-            ))}
+            {reviewDrafts.map((d) => {
+              const primary = d.syncResult ? primaryInkastItem(d.syncResult) : null;
+              const destinationLink = primary ? inkastDestinationLink(primary) : null;
+              return (
+                <li key={d.id} className="rounded-xl border border-border/60 bg-surface/40 px-3 py-2">
+                  <span className="text-xs text-accent">
+                    {primary
+                      ? draftRoutingLabel(primary.classification.routing)
+                      : 'Granska'}
+                  </span>
+                  <p className="text-text-muted">{draftSummary(d)}</p>
+                  {destinationLink && (
+                    <Link
+                      to={{ pathname: destinationLink.pathname, search: destinationLink.search }}
+                      className="mt-1 inline-block text-xs text-accent underline-offset-2 hover:underline"
+                    >
+                      {destinationLink.label}
+                    </Link>
+                  )}
+                </li>
+              );
+            })}
             {failedDrafts.map((d) => (
               <li key={d.id} className="rounded-xl border border-rose-500/30 bg-surface/40 px-3 py-2">
                 <span className="text-xs text-rose-300">Misslyckades</span>
