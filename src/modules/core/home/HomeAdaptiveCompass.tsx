@@ -17,12 +17,15 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { clsx } from 'clsx';
+import type { ReactNode } from 'react';
 import { CaptureSuperModule } from '@/modules/capture/CaptureSuperModule';
 
 type TimePhase = 'morgon' | 'dag' | 'kvall';
 
 type Props = {
   onSaved?: () => void;
+  /** Kognitiv sköld / orbit — renderas ovanför snabbknappar utan egen panel-ruta. */
+  orbitHero?: ReactNode;
 };
 
 function phaseGlowClasses(phase: TimePhase): string {
@@ -60,7 +63,7 @@ function phaseLead(phase: TimePhase): string {
 }
 
 /** Adaptiv hemkompass — Obsidian Calm 2.0 (glass + dynamisk botten-glow per dygnsfas). */
-export function HomeAdaptiveCompass({ onSaved }: Props) {
+export function HomeAdaptiveCompass({ onSaved, orbitHero }: Props) {
   const navigate = useNavigate();
   const user = useStore((s) => s.user);
 
@@ -112,6 +115,10 @@ export function HomeAdaptiveCompass({ onSaved }: Props) {
 
   return (
     <div className="animate-fade-in mx-auto flex w-full max-w-2xl flex-col gap-5">
+      {orbitHero ? (
+        <div className="home-adaptive-compass__orbit -mt-1 flex justify-center">{orbitHero}</div>
+      ) : null}
+
       <div className="grid grid-cols-4 gap-3">
         <button
           type="button"

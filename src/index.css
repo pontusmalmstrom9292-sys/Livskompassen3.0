@@ -355,16 +355,55 @@
     @apply mx-auto w-full max-w-[min(100vw-1.5rem,380px)];
   }
 
-  html[data-theme^='M-mockup-'] .home-hero-kanon__welcome-compass {
-    @apply relative z-[1] -my-1 flex justify-center px-2 py-1;
-  }
-
-  html[data-theme^='M-mockup-'] .home-hero-kanon__welcome-compass .livskompass-hero--v2 {
-    @apply w-full max-w-[min(100vw-2.5rem,340px)];
-  }
-
   html[data-theme^='M-mockup-'] .home-hero-kanon--mockup .home-hero-kanon__header .home-greeting--mockup {
     @apply pb-2;
+  }
+
+  .home-page--mockup-skin .home-hero-kanon__bridge {
+    @apply relative mx-auto w-full max-w-lg;
+  }
+
+  .home-page--mockup-skin .home-hero-kanon__compass-stage {
+    display: block;
+    @apply pointer-events-none mx-auto w-full;
+    min-height: clamp(6.5rem, 30vw, 11rem);
+    margin-bottom: clamp(-2.75rem, -9vw, -1.75rem);
+  }
+
+  .home-page--mockup-skin .home-adaptive-compass__orbit {
+    @apply relative z-[2];
+  }
+
+  .livskompass-hero--embedded {
+    @apply w-full max-w-[min(100vw-2rem,360px)] mx-auto;
+  }
+
+  .livskompass-hero--embedded .livskompass-hero__shield-label {
+    @apply mb-0.5 text-center;
+  }
+
+  .livskompass-hero--embedded .livskompass-hero__hint {
+    @apply mt-2 text-center;
+  }
+
+  .livskompass-hero--embedded.livskompass-hero--h1-full {
+    background-image: url('/hero-orbit/h1-orbit-hub-full-1920.png');
+    background-size: cover;
+    background-position: center top;
+  }
+
+  .livskompass-hero--embedded.livskompass-hero--h1-alpha {
+    background-image: url('/hero-orbit/h1-obsidian-radial.webp');
+    background-size: cover;
+    background-position: center;
+  }
+
+  .livskompass-hero--embedded.livskompass-hero--h1-alpha .livskompass-hero__disk-surface {
+    background-image: url('/hero-orbit/h1-orbit-hub-alpha-1920.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.95;
   }
 
   html[data-theme^='M-mockup-'] .app-main {
@@ -896,51 +935,60 @@
   /* FloatingDock — symmetrisk zonnav, kompass absolut centrerad i rail */
   .floating-dock .dock-hub-band__rail--zones {
     display: flex;
-    align-items: flex-end;
+    align-items: stretch;
     justify-content: space-between;
     position: relative;
     gap: 0;
+    min-height: 5.5rem;
     max-width: min(100vw - 0.5rem, 26rem);
-    padding: 1.35rem 0.4rem 0.5rem;
+    padding: 0.5rem 0.45rem 0.4rem;
   }
 
   .floating-dock__side-group {
     @apply flex min-w-0 flex-1 items-end;
-    gap: 0.2rem;
+    gap: 0.22rem;
   }
 
   .floating-dock__side-group--left {
     justify-content: flex-end;
-    padding-right: calc(5.15rem / 2 + 0.35rem);
+    padding-right: calc(4.35rem / 2 + 0.3rem);
   }
 
   .floating-dock__side-group--right {
     justify-content: flex-start;
-    padding-left: calc(5.15rem / 2 + 0.35rem);
+    padding-left: calc(4.35rem / 2 + 0.3rem);
   }
 
   .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center {
     position: absolute;
     left: 50%;
-    bottom: calc(0.5rem + 0.95rem);
+    top: 50%;
+    bottom: auto;
     z-index: 3;
     grid-column: unset;
     grid-row: unset;
     justify-self: unset;
     align-self: unset;
     margin: 0;
-    width: 5.15rem;
-    transform: translateX(-50%) translateY(-1.75rem);
+    width: 4.35rem;
+    transform: translate(-50%, -50%);
   }
 
   .floating-dock__side-btn {
-    max-width: 3.55rem;
-    padding-bottom: 0.15rem;
+    max-width: 4.1rem;
+    width: auto;
+    padding-bottom: 0.05rem;
+    gap: 0.2rem;
+  }
+
+  .floating-dock__side-btn.dock-nav-btn {
+    max-width: 4.1rem;
+    width: auto;
   }
 
   /* Calm tile — samma familj som sidomenyn (drawer-l2), inte tung hub-chrome */
   .floating-dock__side-btn .dock-nav-btn__icon-shell--calm {
-    @apply relative flex h-[2.9rem] w-[2.9rem] shrink-0 items-center justify-center rounded-xl;
+    @apply relative flex h-[3.25rem] w-[3.25rem] shrink-0 items-center justify-center rounded-xl;
     border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
     background: color-mix(in srgb, var(--bg) 80%, transparent);
     box-shadow:
@@ -971,8 +1019,8 @@
   }
 
   .floating-dock__side-btn .dock-nav-btn__drawer-l2 {
-    height: 1.75rem;
-    width: 1.75rem;
+    height: 2.05rem;
+    width: 2.05rem;
     opacity: 0.96;
     filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35));
   }
@@ -982,15 +1030,15 @@
   }
 
   .floating-dock__side-btn .dock-nav-btn__label {
-    @apply text-[9px] tracking-wide;
+    @apply text-[9.5px] leading-tight tracking-wide;
   }
 
   .floating-dock__center-glow {
     top: 50%;
     left: 50%;
-    height: 5.75rem;
-    width: 5.75rem;
-    transform: translate(-50%, -58%);
+    height: 5rem;
+    width: 5rem;
+    transform: translate(-50%, -50%);
     background: radial-gradient(
       circle,
       rgba(212, 175, 55, 0.32) 0%,
@@ -1000,8 +1048,8 @@
   }
 
   .floating-dock__plate {
-    height: 5.15rem;
-    width: 5.15rem;
+    height: 4.35rem;
+    width: 4.35rem;
     border-width: 3px;
     transform: none;
     box-shadow:
@@ -1012,24 +1060,13 @@
   }
 
   .floating-dock__mark {
-    height: 2.75rem;
-    width: 2.75rem;
+    height: 2.35rem;
+    width: 2.35rem;
     filter: drop-shadow(0 0 14px rgba(212, 175, 55, 0.42));
   }
 
   .floating-dock__arc {
-    @apply pointer-events-none absolute left-1/2 z-0 -translate-x-1/2 rounded-t-full border border-b-0;
-    top: -0.55rem;
-    height: 2rem;
-    width: 5.15rem;
-    border-color: rgba(212, 175, 55, 0.48);
-    background: linear-gradient(
-      180deg,
-      rgba(212, 175, 55, 0.18) 0%,
-      rgba(212, 175, 55, 0.04) 55%,
-      rgba(212, 175, 55, 0) 100%
-    );
-    box-shadow: 0 -2px 14px rgba(212, 175, 55, 0.12);
+    display: none;
   }
 
   .floating-dock .dock-hub-band__center:hover .floating-dock__plate {
@@ -1037,16 +1074,16 @@
   }
 
   .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center:hover {
-    transform: translateX(-50%) translateY(calc(-1.75rem - 2px));
+    transform: translate(-50%, calc(-50% - 2px));
   }
 
   .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center:active {
-    transform: translateX(-50%) translateY(calc(-1.75rem + 2px));
+    transform: translate(-50%, calc(-50% + 1px));
   }
 
   .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center--active,
   .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center--holding {
-    transform: translateX(-50%) translateY(-1.75rem);
+    transform: translate(-50%, -50%);
   }
 
   .floating-dock .dock-hub-band__center--active .floating-dock__plate,

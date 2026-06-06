@@ -11,9 +11,13 @@ type Props = {
   onCheckInSaved?: () => void;
 };
 
+function scrollToInkast() {
+  document.getElementById('inkast')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
 /**
  * Hem — hälsning + adaptiv kompass (Obsidian Calm 2.0).
- * Kompassen ligger UTANFÖR legacy welcome-module-rutan så glow och glass syns.
+ * Orbit-kompassen sitter som tillägg ovanpå adaptiv kompass — utan separat panel-ruta.
  */
 export function HomeHeroKanon({ onCheckInSaved }: Props) {
   const { themeId } = useTheme();
@@ -25,30 +29,22 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
         <HomeGreeting mockupCopy={mockup} />
         <HomeStreakChip />
       </div>
-      {mockup ? (
-        <div className="home-hero-kanon__welcome-compass">
-          <LivskompassHero variant="compass" />
-        </div>
-      ) : null}
     </div>
   );
 
+  const orbitHero = mockup ? (
+    <LivskompassHero variant="compass" embedded onCenterPress={scrollToInkast} />
+  ) : undefined;
+
   return (
     <div className={clsx('home-hero-kanon space-y-4', mockup && 'home-hero-kanon--mockup')}>
-      {mockup ? (
-        <>
+      <div className="home-hero-kanon__bridge">
+        <div className="home-hero-kanon__compass-stage" aria-hidden />
+        <div className="home-hero-kanon__scenic-stack space-y-4">
           {header}
-          <HomeAdaptiveCompass onSaved={onCheckInSaved} />
-        </>
-      ) : (
-        <div className="home-hero-kanon__bridge">
-          <div className="home-hero-kanon__compass-stage" aria-hidden />
-          <div className="home-hero-kanon__scenic-stack space-y-4">
-            {header}
-            <HomeAdaptiveCompass onSaved={onCheckInSaved} />
-          </div>
+          <HomeAdaptiveCompass onSaved={onCheckInSaved} orbitHero={orbitHero} />
         </div>
-      )}
+      </div>
 
       <div className="home-hero-kanon__dots" aria-hidden>
         <span className="home-hero-kanon__dot home-hero-kanon__dot--active" />
