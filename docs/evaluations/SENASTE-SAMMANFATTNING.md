@@ -1,13 +1,13 @@
 # Senaste sammanfattning — systemstatus
 
-**Datum:** 2026-06-06 · **Gren:** `main`  
-**Senaste leverans:** Barnporten polish **hosting live** · MaterialPack Våg A (Familjen-hub) · build + smoke **PASS**
+**Datum:** 2026-06-06 · **Gren:** `main` · **HEAD:** `22a2f056`  
+**Senaste leverans:** XSS merge från origin · MaterialPack Våg A **done** · Planering kalender P2 **done** · build **PASS** · hosting deploy Agent 5
 
 ---
 
 ## Nuläge i en mening
 
-**Barnporten CB2–CB4 + QR PASS (Motorola)** · Fas 5A #4 **PASS** · #3 Valv backend/static **PASS** — **USER UI (Shield→PIN→spara) kvar** · MaterialPack genvägar på Familjen **hosting live** 2026-06-06.
+**XSS-säkra export-utilities mergade** (`secureExport` + HTML-escape) · **MaterialPack Våg A done** (Familjen under Barnfokus) · **Planering kalender P2 done** (`/planering/kalender` + ICS-export) · Fas 5A #4 **PASS** · **#3 Valv USER UI (Shield→PIN→spara) fortfarande öppen**.
 
 ---
 
@@ -15,7 +15,8 @@
 
 | Område | Status |
 |--------|--------|
-| **MaterialPack Våg A** | `MaterialPackShortcuts` på Familjen (`hub="familjen"`) under CognitiveLoadStrip · MåBra + Hamn redan live |
+| **MaterialPack Våg A** | **done** — `MaterialPackShortcuts` på Familjen under Barnfokus (PMIR Våg A · `22a2f056`) · MåBra + Hamn redan live |
+| **XSS export-säkerhet** | **done** — `secureExport` + HTML-escape mergat från origin (`d0dc8d5e`–`46f79cc3`) · enhetstester + audit-rapport |
 | **Barnporten Våg A** | CB2–CB4 widget-varianter · `BarnportenWidget` variant-fabrik · CB2 default · mockups CB2–CB4 |
 | **Barnporten Våg B** | QR enhetskoppling · `createBarnportenPairing` + `claimBarnportenPairing` live · `firestore.rules` deployad · `barnporten_devices` |
 | **Barnporten P1** | Hub 2×2 · inkorg HITL §7b · offline-kö · PWA manifest (`useBarnportenWebManifest`) · CB1 fallback · polish: alias + needs_auth + `?pair=` prompt |
@@ -23,7 +24,7 @@
 | **Adaptiv Hemkompass polish** | `HomeAdaptiveCompass` — ParalysPanel, KasamEvening, KompassradPanel, fasväljare, `home_snabbval` |
 | **Modulväljare rollout** | Planering · Ekonomi · Liv previews · Hem Capture · MåBra · Projekt · Valv zon |
 | CaptureSuperModule | Fas 1–3 + **v2** — kompass, hem, valv, planering; ReviewQueuePipelinePanel |
-| **Planering kalender P2** | `/planering/kalender` — veckovy med dueAt från Handling · header-ikon · hosting live 2026-06-06 |
+| **Planering kalender P2** | **done** — `/planering/kalender` veckovy med dueAt · ICS-export via `secureExport` (`c2ce1dc0` · `1ef411e3`) |
 | InboxReviewQueue | Canonical i VaultSamlaHub |
 | LivSuper Fas 1–3 | Kortgrid · LivBackLink · VardagenShellPage raderad |
 | Drogfrihet | Flik i `/familjen` · legacy redirect |

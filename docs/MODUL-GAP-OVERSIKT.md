@@ -2,7 +2,7 @@
 
 **Syfte:** En sida — vad som är **klart i kod**, vad som är **öppet per modul**, och vad som körs **autonomt** vs **kräver dig**.
 
-**Senaste leverans:** Barnporten polish (alias · needs_auth · barn-manifest) · functions callables-refaktor · [`2026-06-06-multitask-rapport.md`](./evaluations/2026-06-06-multitask-rapport.md) · [`SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
+**Senaste leverans:** XSS merge (`secureExport`) · MaterialPack Våg A **done** · Planering kalender P2 **done** · 5-agent multitask pass · [`2026-06-06-multitask-rapport.md`](./evaluations/2026-06-06-multitask-rapport.md) · [`SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
 
 **Arkiv (G1–G16):** [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) — alla **done**.  
 **Modulregister:** [`MODUL-FUNKTIONS-REGISTER.md`](./MODUL-FUNKTIONS-REGISTER.md) · **Cursor-plan mall:** [`evaluations/MALL-cursor-plan.md`](./evaluations/MALL-cursor-plan.md)  
@@ -45,12 +45,12 @@ Alla planfiler har `status: closed` överst. **Öppet arbete finns endast i tabe
 |-------|-------|-------------|----------------|
 | **dagbok** | `/hjartat` (reflektion) | Fas 1–4 **done** · `#2d` USER **PASS** 2026-06-06 | — |
 | **mabra** | `/mabra` | §5 guardrail + §3 Vit djup-länk + **IA Våg 3 kompakt UI** | **done** 2026-05-30 |
-| **planering** | `/planering?tab=handling` | Fas 2 **done** (PLANERING_MORE_TABS, Paralys Fokus) · Master YOLO hub-gora | **done** |
-| **projekt** | `/projekt` | MaterialPack Fas 3 light **done** · Våg A Familjen-mount **PMIR-STOPP** · `project_rules` Firestore **done** 2026-06-01 | [`pmir-materialpack-editor`](./evaluations/2026-06-06-pmir-materialpack-editor.md) |
+| **planering** | `/planering?tab=handling` | Fas 2 **done** · **kalender P2 done** (`/planering/kalender` + ICS-export · `c2ce1dc0` · `1ef411e3`) | **done** |
+| **projekt** | `/projekt` | MaterialPack Fas 3 light **done** · **Våg A Familjen-mount done** (`22a2f056` under Barnfokus) · `project_rules` Firestore **done** 2026-06-01 | [`pmir-materialpack-editor`](./evaluations/2026-06-06-pmir-materialpack-editor.md) |
 | **kompis/kunskap** | Valv `/valvet` · `kunskapsbank` | Fas 1.5 **done** · våg 8 **partial** (53 FACT — omkör med seed-credentials) | [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) våg 8 |
-| **barnporten** | `/barnporten` | P1 + **Våg A done** (CB2–CB4) + **Våg B done** (QR) + **polish done** (alias · needs_auth · barn-manifest hook) · **USER #4 PASS** 2026-06-06 · hosting deploy väntar push · Våg C push defer | — |
+| **barnporten** | `/barnporten` | P1 + **Våg A done** (CB2–CB4) + **Våg B done** (QR) + **polish done** · **USER #4 PASS** 2026-06-06 · hosting deploy Agent 5 · Våg C push defer | — |
 | **valv** | `/valvet` | ValvSuper Fas 1+2 **done** · Vävaren HITL **done** | hosting deploy Fas 2 · [`supermodule-master-plan`](./evaluations/2026-06-06-supermodule-master-plan.md) |
-| **core** | `/` | Hemkompass polish **done** 2026-06-06 · `#2d` autorun PASS · `#3/#4` autorun PASS | valfritt USER · [`2026-06-06-hemkompass-polish-done.md`](./evaluations/2026-06-06-hemkompass-polish-done.md) |
+| **core** | `/` | Hemkompass polish **done** 2026-06-06 · **XSS export-säkerhet done** (`secureExport` merge) · `#2d` autorun PASS · `#3` USER **öppen** · `#4` PASS | valfritt USER · [`2026-06-06-hemkompass-polish-done.md`](./evaluations/2026-06-06-hemkompass-polish-done.md) |
 | **inkast** | Hem · Valv Samla | CaptureSuper **v2 done** · canonical `InboxReviewQueue` | [`2026-06-06-upload-unified-cursor-plan.md`](./evaluations/2026-06-06-upload-unified-cursor-plan.md) |
 | **liv** | `/vardagen` launcher | **LivSuper + Drogfrihet→Familj done** 2026-06-06 | [`2026-06-06-liv-super-cursor-plan.md`](./evaluations/2026-06-06-liv-super-cursor-plan.md) |
 | **dossier** | `/dossier` | BBIC `reportType` **planned** | Spec §I.4 |
