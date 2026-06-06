@@ -1,8 +1,9 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
-import { NAV_PATHS } from '@/core/navigation/navTruth';
+import { NAV_PATHS } from '../navigation/navTruth';
 import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
 import { useFyrenWidget } from './fyrenWidgetContext';
 
 type WidgetAction = {
@@ -124,7 +125,7 @@ export function FyrenWidgetBar() {
   );
 }
 
-export function FyrenDockTrigger({
+export function FyrenDockHandle({
   className,
   style,
 }: {
@@ -133,18 +134,19 @@ export function FyrenDockTrigger({
 }) {
   const { open, progress, isHolding, dockTriggerProps } = useFyrenWidget();
   const { onDoubleClick, onClick, ...handlers } = dockTriggerProps;
+  const showFyrenRing = progress > 0;
 
   return (
     <button
       type="button"
       className={clsx(
-        'dock-nav-btn floating-dock__fyren-btn',
-        open && 'floating-dock__fyren-btn--open',
-        isHolding && 'floating-dock__fyren-btn--holding',
+        'fyren-dock-handle',
+        open && 'fyren-dock-handle--open',
+        isHolding && 'fyren-dock-handle--holding',
         className,
       )}
       aria-expanded={open}
-      aria-label={open ? 'Stäng Fyren' : 'Öppna Fyren snabbval'}
+      aria-label={open ? 'Stäng Fyren snabbval' : 'Öppna Fyren snabbval. Håll tre sekunder för Valv.'}
       style={
         progress > 0
           ? ({ ...style, '--fyren-hold': `${Math.round(progress * 100)}%` } as CSSProperties)
@@ -154,10 +156,19 @@ export function FyrenDockTrigger({
       onDoubleClick={onDoubleClick}
       {...handlers}
     >
-      <span className="dock-nav-btn__icon-shell dock-nav-btn__icon-shell--calm fyren-widget-bar__icon-shell fyren-widget-bar__icon-shell--trigger">
-        <DrawerL2Icon hubId="planering" className="fyren-widget-bar__drawer-l2" />
-      </span>
-      <span className="dock-nav-btn__label">Fyren</span>
+      {showFyrenRing ? <FyrenProgressRing progress={progress} /> : null}
+      <span className="fyren-dock-handle__lip" aria-hidden />
+      <span className="fyren-dock-handle__label">Fyren</span>
+      <svg viewBox="0 0 12 8" aria-hidden className="fyren-dock-handle__chevron">
+        <path
+          d="M1.5 6.5 6 2.5l4.5 4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.35"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
     </button>
   );
 }

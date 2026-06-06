@@ -9,6 +9,7 @@ import { useStore } from '../store';
 import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
 import { FyrenProgressRing } from '../ui/FyrenProgressRing';
 import { LivskompassMark } from '../ui/LivskompassMark';
+import { FyrenDockHandle } from '../components/FyrenWidgetBar';
 import { DockNavButton } from './DockNavButton';
 import { resolveHeaderPanelStyle } from './headerPanelStyle';
 
@@ -93,7 +94,8 @@ export function FloatingDock() {
   const rightZones = DOCK_ZONES.slice(2);
 
   return (
-    <div className="dock-shell">
+    <div className="dock-shell dock-shell--fyren">
+      <FyrenDockHandle />
       <div className="dock-hub-band floating-dock" data-panel-style={panelStyle}>
         <div className="dock-hub-band__rail dock-hub-band__rail--zones">
           <div className="floating-dock__side-group floating-dock__side-group--left">
@@ -131,7 +133,7 @@ export function FloatingDock() {
             <span className="dock-hub-band__center-glow floating-dock__center-glow" aria-hidden />
             <span className="floating-dock__arc" aria-hidden />
             <span className="dock-hub-band__plate floating-dock__plate">
-              {showFyrenRing && <FyrenProgressRing progress={progress} />}
+              {showFyrenRing ? <FyrenProgressRing progress={progress} /> : null}
               <LivskompassMark className="dock-hub-band__mark floating-dock__mark" />
             </span>
           </button>

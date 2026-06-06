@@ -18,7 +18,17 @@ type FyrenWidgetContextValue = {
   toggle: () => void;
   progress: number;
   isHolding: boolean;
-  dockTriggerProps: ReturnType<typeof useLongPress> & { onDoubleClick?: (e: React.MouseEvent) => void };
+  dockTriggerProps: {
+    progress: number;
+    isHolding: boolean;
+    onClick: () => void;
+    onDoubleClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onMouseDown: () => void;
+    onMouseUp: () => void;
+    onMouseLeave: () => void;
+    onTouchStart: () => void;
+    onTouchEnd: (event: React.TouchEvent<HTMLButtonElement>) => void;
+  };
 };
 
 const FyrenWidgetContext = createContext<FyrenWidgetContextValue | null>(null);

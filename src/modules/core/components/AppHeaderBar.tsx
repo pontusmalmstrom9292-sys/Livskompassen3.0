@@ -35,12 +35,12 @@ export function AppHeaderBar({ menuExpanded, onMenuClick, actions }: Props) {
       <div className="glass-header-bar__leading">
         <button
           type="button"
-          className="header-chrome-btn header-menu-btn header-menu-btn--kanon"
+          className="header-chrome-btn header-chrome-btn--round header-menu-btn header-menu-btn--kanon"
           aria-label="Öppna meny"
           aria-expanded={menuExpanded}
           onClick={onMenuClick}
         >
-          <HeaderMenuGlyph className="header-chrome-btn__glyph h-[1.35rem] w-[1.35rem]" />
+          <HeaderMenuGlyph className="header-chrome-btn__glyph h-8 w-8" />
         </button>
         <AppHeaderBrand />
       </div>

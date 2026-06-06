@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { FloatingDock } from './FloatingDock';
 import { FyrenWidgetBar } from '../components/FyrenWidgetBar';
+import { FyrenWidgetProvider } from '../components/fyrenWidgetContext';
 import { FyrenSmartWidgetBar } from '../components/FyrenSmartWidgetBar';
 import { AppHeaderBar } from '../components/AppHeaderBar';
 import { AmbientBackground } from './AmbientBackground';
@@ -36,6 +37,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   }, [navigate]);
 
   return (
+    <FyrenWidgetProvider>
     <div
       className={clsx(
         'app-shell relative min-h-screen text-text font-sans selection:bg-accent/30',
@@ -87,5 +89,6 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       <FyrenWidgetBar />
       <FloatingDock />
     </div>
+    </FyrenWidgetProvider>
   );
 }

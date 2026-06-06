@@ -375,7 +375,7 @@
   }
 
   .livskompass-hero--embedded {
-    @apply w-full max-w-[min(100vw-2rem,360px)] mx-auto;
+    @apply mx-auto w-full max-w-[min(100vw-1rem,28rem)];
   }
 
   .livskompass-hero--embedded .livskompass-hero__shield-label {
@@ -512,6 +512,11 @@
   .app-main {
     padding-bottom: var(--app-dock-clearance);
     scroll-padding-bottom: var(--app-dock-clearance);
+  }
+
+  .dock-shell--fyren {
+    @apply flex-col items-center gap-0;
+    --dock-stack-height: 7.35rem;
   }
 
   .dock-shell {
@@ -707,7 +712,7 @@
 
   /* Dock hub band — kapselknappar kring kompass */
   .dock-hub-band {
-    @apply pointer-events-auto relative mx-auto w-full max-w-[min(100vw-0.5rem,28rem)];
+    @apply pointer-events-auto relative mx-auto w-full max-w-[min(100vw-0.5rem,26rem)];
   }
 
   .dock-hub-band__rail {
@@ -932,68 +937,88 @@
     filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.36));
   }
 
-  /* FloatingDock — symmetrisk zonnav, kompass absolut centrerad i rail */
+  /* FloatingDock — slimmad kapsel, kompass störst men inte klumpig */
+  .floating-dock .dock-hub-band__rail {
+    padding: 0.42rem 0.48rem 0.34rem;
+    border-radius: 1.35rem;
+    border-width: 1.5px;
+    box-shadow:
+      0 10px 28px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 243, 196, 0.1),
+      inset 0 -6px 18px rgba(0, 0, 0, 0.34);
+  }
+
   .floating-dock .dock-hub-band__rail--zones {
-    display: flex;
-    align-items: stretch;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1fr)
+      minmax(4.35rem, 1.05fr)
+      minmax(0, 1fr)
+      minmax(0, 1fr);
+    align-items: end;
     position: relative;
-    gap: 0;
-    min-height: 5.5rem;
+    gap: 0.2rem;
+    min-height: 4.85rem;
     max-width: min(100vw - 0.5rem, 26rem);
-    padding: 0.5rem 3.55rem 0.4rem 0.45rem;
+    padding: 0;
   }
 
   .floating-dock__side-group {
-    @apply flex min-w-0 flex-1 items-end;
-    gap: 0.22rem;
+    display: contents;
   }
 
-  .floating-dock__side-group--left {
-    justify-content: flex-end;
-    padding-right: calc(4.35rem / 2 + 0.3rem);
-  }
-
+  .floating-dock__side-group--left,
   .floating-dock__side-group--right {
-    justify-content: flex-start;
-    padding-left: calc(4.35rem / 2 + 0.3rem);
+    display: contents;
   }
 
   .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    bottom: auto;
-    z-index: 3;
-    grid-column: unset;
-    grid-row: unset;
-    justify-self: unset;
-    align-self: unset;
+    position: relative;
+    grid-column: 3;
+    grid-row: 1;
+    z-index: 4;
+    justify-self: center;
+    align-self: end;
     margin: 0;
-    width: 4.35rem;
-    transform: translate(-50%, -50%);
+    width: 5.5rem;
+    transform: translateY(-0.35rem);
   }
 
   .floating-dock__side-btn {
-    max-width: 4.1rem;
-    width: auto;
-    padding-bottom: 0.05rem;
-    gap: 0.2rem;
+    max-width: none;
+    width: 100%;
+    min-height: 3.85rem;
+    height: auto;
+    padding-bottom: 0.02rem;
+    gap: 0.16rem;
+    justify-content: flex-end;
+    align-items: center;
   }
 
   .floating-dock__side-btn.dock-nav-btn {
-    max-width: 4.1rem;
-    width: auto;
+    max-width: none;
+    width: 100%;
   }
 
-  /* Calm tile — samma familj som sidomenyn (drawer-l2), inte tung hub-chrome */
   .floating-dock__side-btn .dock-nav-btn__icon-shell--calm {
-    @apply relative flex h-[3.25rem] w-[3.25rem] shrink-0 items-center justify-center rounded-xl;
-    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-    background: color-mix(in srgb, var(--bg) 80%, transparent);
+    @apply relative flex shrink-0 items-center justify-center rounded-full;
+    flex: 0 0 auto;
+    width: 3.15rem;
+    height: 3.15rem;
+    border: 1.5px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    background: linear-gradient(
+      168deg,
+      rgba(52, 44, 30, 0.98) 0%,
+      rgba(22, 18, 14, 0.96) 48%,
+      rgba(8, 10, 16, 0.94) 100%
+    );
     box-shadow:
-      0 2px 10px rgba(0, 0, 0, 0.38),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      0 1px 0 rgba(255, 243, 210, 0.1) inset,
+      0 -2px 8px rgba(0, 0, 0, 0.32) inset,
+      0 4px 12px rgba(0, 0, 0, 0.38),
+      0 0 10px rgba(212, 175, 55, 0.1);
     transform: none;
     transition:
       border-color 0.16s ease,
@@ -1019,8 +1044,8 @@
   }
 
   .floating-dock__side-btn .dock-nav-btn__drawer-l2 {
-    height: 2.05rem;
-    width: 2.05rem;
+    height: 1.65rem;
+    width: 1.65rem;
     opacity: 0.96;
     filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35));
   }
@@ -1030,14 +1055,14 @@
   }
 
   .floating-dock__side-btn .dock-nav-btn__label {
-    @apply text-[9.5px] leading-tight tracking-wide;
+    @apply max-w-full truncate text-[9px] leading-tight tracking-wide;
   }
 
   .floating-dock__center-glow {
     top: 50%;
     left: 50%;
-    height: 5rem;
-    width: 5rem;
+    height: 6rem;
+    width: 6rem;
     transform: translate(-50%, -50%);
     background: radial-gradient(
       circle,
@@ -1048,25 +1073,102 @@
   }
 
   .floating-dock__plate {
-    height: 4.35rem;
-    width: 4.35rem;
-    border-width: 3px;
+    height: 5.5rem;
+    width: 5.5rem;
+    border-width: 2.5px;
     transform: none;
+    overflow: visible;
     box-shadow:
-      0 1px 0 rgba(255, 243, 210, 0.2) inset,
-      0 -6px 16px rgba(0, 0, 0, 0.45) inset,
-      0 14px 36px rgba(0, 0, 0, 0.62),
-      0 0 32px rgba(212, 175, 55, 0.28);
+      0 1px 0 rgba(255, 243, 210, 0.16) inset,
+      0 -4px 12px rgba(0, 0, 0, 0.38) inset,
+      0 8px 22px rgba(0, 0, 0, 0.5),
+      0 0 20px rgba(212, 175, 55, 0.2);
   }
 
   .floating-dock__mark {
     height: 2.35rem;
     width: 2.35rem;
-    filter: drop-shadow(0 0 14px rgba(212, 175, 55, 0.42));
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.32));
   }
 
   .floating-dock__arc {
     display: none;
+  }
+
+  .fyren-dock-handle {
+    @apply pointer-events-auto relative z-[55] inline-flex items-center justify-center gap-1.5 border-0;
+    min-width: 5.5rem;
+    padding: 0.28rem 0.85rem 0.34rem;
+    margin-bottom: -0.1rem;
+    border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+    border-bottom: none;
+    border-radius: 0.8rem 0.8rem 0.15rem 0.15rem;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface-2) 94%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 90%, transparent) 100%
+    );
+    color: color-mix(in srgb, var(--accent-light) 90%, white);
+    box-shadow:
+      0 -2px 14px rgba(212, 175, 55, 0.1),
+      0 4px 12px rgba(0, 0, 0, 0.32),
+      inset 0 1px 0 rgba(255, 248, 220, 0.1);
+    touch-action: manipulation;
+    transition:
+      transform 0.16s ease,
+      box-shadow 0.16s ease,
+      border-color 0.16s ease,
+      background 0.16s ease;
+  }
+
+  .fyren-dock-handle__lip {
+    @apply absolute inset-x-3 top-1 h-px rounded-full;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--accent-light) 55%, transparent),
+      transparent
+    );
+  }
+
+  .fyren-dock-handle__label {
+    @apply relative z-[1] text-[9px] font-medium uppercase tracking-[0.24em] text-accent;
+  }
+
+  .fyren-dock-handle__chevron {
+    @apply relative z-[1] h-3 w-3 shrink-0;
+    filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.28));
+    transition: transform 0.18s ease;
+  }
+
+  .fyren-dock-handle:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--accent-light) 48%, transparent);
+    box-shadow:
+      0 -2px 18px rgba(212, 175, 55, 0.16),
+      0 6px 16px rgba(0, 0, 0, 0.38),
+      inset 0 1px 0 rgba(255, 248, 220, 0.14);
+  }
+
+  .fyren-dock-handle--open {
+    margin-bottom: 0;
+    border-radius: 0.75rem 0.75rem 0 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+    background: color-mix(in srgb, var(--surface-2) 96%, transparent);
+  }
+
+  .fyren-dock-handle--open .fyren-dock-handle__chevron {
+    transform: rotate(180deg);
+  }
+
+  .fyren-dock-handle--holding {
+    background: linear-gradient(
+      180deg,
+      rgba(212, 175, 55, 0.85) var(--fyren-hold, 0%),
+      rgba(212, 175, 55, 0.5) var(--fyren-hold, 0%),
+      rgba(15, 23, 42, 0.55) var(--fyren-hold, 0%)
+    );
+    box-shadow: 0 0 14px rgba(212, 175, 55, 0.38);
   }
 
   .floating-dock .dock-hub-band__center:hover .floating-dock__plate {
@@ -1074,16 +1176,16 @@
   }
 
   .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center:hover {
-    transform: translate(-50%, calc(-50% - 2px));
+    transform: translateY(calc(-0.35rem - 2px));
   }
 
   .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center:active {
-    transform: translate(-50%, calc(-50% + 1px));
+    transform: translateY(calc(-0.35rem + 1px));
   }
 
   .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center--active,
   .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center--holding {
-    transform: translate(-50%, -50%);
+    transform: translateY(-0.35rem);
   }
 
   .floating-dock .dock-hub-band__center--active .floating-dock__plate,
@@ -2061,7 +2163,11 @@
   }
 
   .header-menu-btn--kanon {
-    @apply h-[3.15rem] w-[3.15rem];
+    @apply h-[2.75rem] w-[2.75rem];
+  }
+
+  .header-menu-btn--kanon.header-chrome-btn--round::before {
+    border-radius: 9999px;
   }
 
   .app-header__brand--kanon {
@@ -3254,7 +3360,46 @@
     }
   }
 
+  .livskompass-hero--embedded.livskompass-hero--v2 .livskompass-hero__stage,
+  .livskompass-hero--embedded.livskompass-hero--v2 .livskompass-hero__face {
+    max-width: 26rem;
+  }
+
+  .livskompass-hero--embedded .livskompass-hero__orbit-node {
+    @apply h-16 w-16;
+  }
+
+  .livskompass-hero--embedded .livskompass-hero__orbit-wrap--inter .livskompass-hero__orbit-node {
+    @apply h-14 w-14;
+  }
+
+  .livskompass-hero--embedded .livskompass-hero__orbit-icon {
+    @apply h-8 w-8;
+  }
+
+  .livskompass-hero--embedded .livskompass-hero__orbit-wrap--inter .livskompass-hero__orbit-icon {
+    @apply h-7 w-7;
+  }
+
+  .livskompass-hero--embedded .livskompass-hero__center {
+    min-width: 6.5rem;
+    max-height: 7rem;
+    height: 42%;
+    width: 42%;
+  }
+
+  .livskompass-hero--embedded .livskompass-hero__mark {
+    height: 3.35rem;
+    width: 3.35rem;
+  }
+
   html[data-theme^='I-stone'] .livskompass-hero__center {
+    background: rgba(10, 10, 10, 0.5);
+    border-color: color-mix(in srgb, var(--accent) 58%, transparent);
+    backdrop-filter: blur(6px);
+  }
+
+  html[data-theme^='I-stone'] .livskompass-hero--embedded .livskompass-hero__center {
     background: rgba(10, 10, 10, 0.5);
     border-color: color-mix(in srgb, var(--accent) 58%, transparent);
     backdrop-filter: blur(6px);
@@ -3781,7 +3926,11 @@
 
   .fyren-widget-bar {
     @apply pointer-events-none fixed left-1/2 z-[56] flex w-full max-w-[26rem] -translate-x-1/2 flex-col items-center;
-    bottom: calc(5.85rem + env(safe-area-inset-bottom, 0px));
+    bottom: calc(var(--dock-stack-height, 7.35rem) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .fyren-widget-bar--open {
+    bottom: calc(var(--dock-stack-height, 7.35rem) + 0.15rem + env(safe-area-inset-bottom, 0px));
   }
 
   .fyren-widget-bar__backdrop {
@@ -3847,49 +3996,6 @@
 
   .fyren-widget-bar__action:hover .fyren-widget-bar__label {
     @apply text-accent;
-  }
-
-  .floating-dock__fyren-btn {
-    position: absolute;
-    right: 0.15rem;
-    bottom: 0.28rem;
-    z-index: 4;
-    max-width: 3.65rem;
-    width: auto;
-    gap: 0.18rem;
-    padding-bottom: 0.05rem;
-    pointer-events: auto;
-  }
-
-  .floating-dock__fyren-btn .fyren-widget-bar__icon-shell--trigger {
-    @apply h-[2.85rem] w-[2.85rem];
-  }
-
-  .floating-dock__fyren-btn .fyren-widget-bar__drawer-l2 {
-    height: 1.75rem;
-    width: 1.75rem;
-  }
-
-  .floating-dock__fyren-btn .dock-nav-btn__label {
-    @apply text-[9px] leading-tight tracking-wide;
-  }
-
-  .floating-dock__fyren-btn--open .fyren-widget-bar__icon-shell--trigger {
-    border-color: color-mix(in srgb, var(--accent-light) 58%, transparent);
-    background: color-mix(in srgb, var(--accent) 11%, transparent);
-    box-shadow:
-      0 0 16px color-mix(in srgb, var(--accent) 20%, transparent),
-      inset 0 1px 0 rgba(255, 248, 220, 0.1);
-  }
-
-  .floating-dock__fyren-btn--holding .fyren-widget-bar__icon-shell--trigger {
-    background: linear-gradient(
-      180deg,
-      rgba(212, 175, 55, 0.85) var(--fyren-hold, 0%),
-      rgba(212, 175, 55, 0.5) var(--fyren-hold, 0%),
-      rgba(15, 23, 42, 0.55) var(--fyren-hold, 0%)
-    );
-    box-shadow: 0 0 16px rgba(212, 175, 55, 0.45);
   }
 
   @media (min-width: 480px) {

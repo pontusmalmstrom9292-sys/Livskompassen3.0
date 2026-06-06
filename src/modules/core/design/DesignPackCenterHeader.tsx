@@ -9,22 +9,24 @@ type Props = {
   actions: ReactNode;
 };
 
-/** Mockup-header: meny vänster, centrerad caps + diamant, actions höger. */
+/** Mockup-header — symmetrisk 3-kolumns layout, centrerad titel. */
 export function DesignPackCenterHeader({ menuExpanded, onMenuClick, actions }: Props) {
   const { pathname } = useLocation();
   const title = useDesignPackCenterTitle(pathname) ?? 'LIVSKOMPASSEN';
 
   return (
     <header className="design-pack-header" aria-label={title}>
-      <button
-        type="button"
-        className="design-pack-header__menu header-chrome-btn"
-        aria-label="Öppna meny"
-        aria-expanded={menuExpanded}
-        onClick={onMenuClick}
-      >
-        <HeaderMenuGlyph className="h-6 w-6 text-accent" />
-      </button>
+      <div className="design-pack-header__side design-pack-header__side--left">
+        <button
+          type="button"
+          className="design-pack-header__menu header-chrome-btn header-chrome-btn--round"
+          aria-label="Öppna meny"
+          aria-expanded={menuExpanded}
+          onClick={onMenuClick}
+        >
+          <HeaderMenuGlyph className="header-chrome-btn__glyph h-5 w-5 text-accent" />
+        </button>
+      </div>
 
       <div className="design-pack-header__center">
         <h1 className="design-pack-header__title">{title}</h1>
@@ -35,7 +37,9 @@ export function DesignPackCenterHeader({ menuExpanded, onMenuClick, actions }: P
         </div>
       </div>
 
-      <div className="design-pack-header__actions">{actions}</div>
+      <div className="design-pack-header__side design-pack-header__side--right">
+        <div className="design-pack-header__actions">{actions}</div>
+      </div>
     </header>
   );
 }

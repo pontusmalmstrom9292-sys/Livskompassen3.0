@@ -4,11 +4,19 @@
  */
 
 html[data-design-pack] .app-shell {
-  --app-dock-clearance: calc(5.5rem + env(safe-area-inset-bottom, 0px) + 1.25rem);
+  --app-dock-clearance: calc(7.75rem + env(safe-area-inset-bottom, 0px) + 1rem);
 }
 
 html[data-design-pack] .app-header__inner {
-  @apply px-3 pt-2;
+  @apply px-3 pt-2 pb-1;
+}
+
+html[data-design-pack] .app-header {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--bg) 88%, transparent) 0%,
+    transparent 100%
+  );
 }
 
 html[data-design-pack] .glass-header-bar--kanon {
@@ -33,40 +41,113 @@ html[data-design-pack] .ambient-blob {
 
 /* —— Center header —— */
 .design-pack-header {
-  @apply relative flex min-h-[var(--ui-header-height,4.5rem)] w-full items-center justify-between gap-2 px-1;
+  @apply pointer-events-auto relative mx-auto grid w-full max-w-[min(100vw-1rem,26rem)] items-center;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.35rem;
+  min-height: 3.65rem;
+  padding: 0.35rem 0.15rem 0.25rem;
+}
+
+.design-pack-header__side {
+  @apply flex items-center;
+}
+
+.design-pack-header__side--left {
+  @apply justify-start;
+}
+
+.design-pack-header__side--right {
+  @apply justify-end;
+}
+
+.design-pack-header__menu.header-chrome-btn {
+  @apply h-[2.75rem] w-[2.75rem] shrink-0;
+  border-radius: 9999px;
+  border-width: 1.5px;
+  border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+  background: linear-gradient(
+    168deg,
+    rgba(52, 44, 30, 0.96) 0%,
+    rgba(22, 18, 14, 0.94) 48%,
+    rgba(8, 10, 16, 0.92) 100%
+  );
+  box-shadow:
+    0 1px 0 rgba(255, 243, 210, 0.1) inset,
+    0 4px 12px rgba(0, 0, 0, 0.38),
+    0 0 10px rgba(212, 175, 55, 0.1);
+  transform: none;
+}
+
+.design-pack-header__menu.header-chrome-btn:hover {
+  transform: translateY(-1px);
+}
+
+.design-pack-header__menu.header-chrome-btn::before {
+  border-radius: 9999px;
 }
 
 .design-pack-header__menu {
-  @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-0 bg-transparent;
+  @apply flex shrink-0 items-center justify-center;
 }
 
 .design-pack-header__center {
-  @apply pointer-events-none absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5;
+  @apply pointer-events-none flex min-w-0 flex-col items-center justify-center gap-1 px-1;
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .design-pack-header__title {
   font-family: 'Cinzel', 'Outfit', serif;
-  @apply max-w-[min(72vw,16rem)] truncate text-center text-[13px] font-semibold uppercase tracking-[0.28em] text-accent;
-  text-shadow: 0 1px 16px color-mix(in srgb, var(--accent) 35%, transparent);
+  @apply w-full truncate text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-accent;
+  text-shadow: 0 1px 12px color-mix(in srgb, var(--accent) 28%, transparent);
 }
 
 .design-pack-header__ornament {
-  @apply flex items-center gap-1.5;
+  @apply flex items-center gap-1;
 }
 
 .design-pack-header__ornament span {
-  @apply block h-1.5 w-1.5 rotate-45;
-  background: color-mix(in srgb, var(--accent) 55%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent) 75%, transparent);
+  @apply block h-1 w-1 rotate-45;
+  background: color-mix(in srgb, var(--accent) 50%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 65%, transparent);
 }
 
 .design-pack-header__ornament span:nth-child(2) {
-  @apply h-2 w-2;
-  background: color-mix(in srgb, var(--accent) 80%, transparent);
+  @apply h-1.5 w-1.5;
+  background: color-mix(in srgb, var(--accent) 72%, transparent);
 }
 
 .design-pack-header__actions {
-  @apply flex shrink-0 items-center gap-1;
+  @apply flex shrink-0 items-center gap-0.5 rounded-full border p-0.5;
+  border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 248, 220, 0.06),
+    0 4px 14px rgba(0, 0, 0, 0.28);
+}
+
+html[data-design-pack] .design-pack-header__actions .header-chrome-btn,
+html[data-design-pack] .design-pack-header__actions .header-glass-btn--kanon {
+  @apply flex h-[2.45rem] w-[2.45rem] min-w-0 items-center justify-center rounded-full p-0;
+  transform: none;
+  border-width: 1.5px;
+}
+
+html[data-design-pack] .design-pack-header__actions .header-chrome-btn:hover,
+html[data-design-pack] .design-pack-header__actions .header-glass-btn--kanon:hover {
+  transform: translateY(-1px);
+}
+
+html[data-design-pack] .design-pack-header__actions .header-chrome-btn__glyph {
+  @apply h-[1.05rem] w-[1.05rem];
+}
+
+html[data-design-pack] .design-pack-header__actions .kompis-avatar--header-chrome {
+  @apply h-[2.05rem] w-[2.05rem];
+}
+
+html[data-design-pack] .design-pack-header__actions .kompis-avatar--chrome-embed.kompis-avatar--header-chrome {
+  @apply h-[1.85rem] w-[1.85rem];
 }
 
 /* —— Dock mockup —— */

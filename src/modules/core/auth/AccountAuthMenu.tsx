@@ -179,7 +179,7 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="header-chrome-btn header-glass-btn header-glass-btn--kanon"
+          className="header-chrome-btn header-chrome-btn--round header-glass-btn header-glass-btn--kanon"
           aria-expanded={open}
           aria-haspopup="dialog"
           aria-label="Konto och inloggning"
