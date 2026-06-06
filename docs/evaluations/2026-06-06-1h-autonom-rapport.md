@@ -88,14 +88,12 @@
 
 ## Agent 5 — Night runs
 
-<!-- Agent 5 fyller i efter körning -->
+| Körning | Exit | Resultat | Logg |
+|---------|------|----------|------|
+| `npm run orkester:night` | 0 | **PASS** (ESLint SKIP_FAIL, icke-blockerande) | [`2026-06-06-orkester-natt.md`](./2026-06-06-orkester-natt.md) |
+| `npm run content:night` | 0 | **PASS** (våg 17) | [`2026-06-06-content-autorun-vag-17.md`](./2026-06-06-content-autorun-vag-17.md) |
 
-| Körning | Resultat | Logg |
-|---------|----------|------|
-| `npm run orkester:night` | _pending_ | [`2026-06-06-orkester-natt.md`](./2026-06-06-orkester-natt.md) |
-| `npm run content:night` | _pending_ | |
-
-**Anteckningar:** _…_
+**Uppdaterade filer:** `SMOKE_RESULTS.md` (#4 Barnporten USER PASS), `SENASTE-SAMMANFATTNING.md`. **Commit:** `0350c141` (lokal, ej pushad).
 
 ---
 
@@ -106,7 +104,7 @@ Dessa kräver **dig vid telefon/dator** — agent kan inte stänga dem.
 | # | Test | Gör | Rapportera |
 |---|------|-----|------------|
 | **3** | **Valv** | Shield 3 s → PIN → Dagbok bevis → spara enkel post | `Fas 5A: #3 PASS` eller FAIL |
-| **4** | **Barnporten** | `/familjen` eller `/barnporten` på telefon → spara loggrad | `Fas 5A: #4 PASS` eller FAIL |
+| **4** | **Barnporten** | QR + meddelande på telefon | **PASS** 2026-06-06 (USER · Motorola) — se [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md) |
 
 **Checklist:** [`2026-06-01-USER-nasta-steg.md`](./2026-06-01-USER-nasta-steg.md)  
 **Efter PASS:** agent uppdaterar [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md)
@@ -115,10 +113,10 @@ Dessa kräver **dig vid telefon/dator** — agent kan inte stänga dem.
 
 ## Rekommenderat nästa steg (när du är tillbaka)
 
-1. **Ett steg:** Kör Fas 5A **#3 Valv** (2 min) — skriv resultatet till Cursor.
-2. **Sedan:** Kör Fas 5A **#4 Barnporten** på telefon — testa gärna CB2 long-press + QR-koppling om barnenhet finns.
+1. **Ett steg:** Kör Fas 5A **#3 Valv** (2 min) — skriv `Fas 5A: #3 PASS` eller FAIL till Cursor.
+2. **Valfritt polish:** WidgetBarnporten alias-fix · barn-manifest på `/barnporten` (Agent 2 gap).
 3. **Valfritt:** Hard refresh prod (Cmd+Shift+R) om något ser gammalt ut.
-4. **Ej brådskande:** Barnporten Våg C (push/FCM) — defer tills #3/#4 PASS.
+4. **Ej brådskande:** MaterialPack Våg A (PMIR-godkännande) · Barnporten Våg C (push/FCM).
 
 ---
 
@@ -134,7 +132,9 @@ Dessa kräver **dig vid telefon/dator** — agent kan inte stänga dem.
 |------|------------|
 | `5919896c` | docs(eval): sanning Barnporten Våg A/B + Android + 1h autonom rapport |
 | `befc0e6b` | docs(eval): PMIR MaterialPack-editor Fas D — plan only |
+| `579bacc3` | docs(eval): fyll Agent 1–3 i 1h autonom rapport |
+| `0350c141` | docs(eval): orkester:night + content:night 2026-06-06 Agent 5 |
 
-**Deploy denna session:** inget (prod redan deployad före pass).
+**Deploy denna session:** inget (prod redan deployad före pass). **Push:** ej gjord (`main` ahead 4).
 
-**Git @ sessionstart:** `9bfa808c` · **HEAD efter Agent 3/4:** `befc0e6b`
+**Git @ sessionstart:** `9bfa808c` · **HEAD:** `0350c141`
