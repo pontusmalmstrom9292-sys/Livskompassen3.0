@@ -85,6 +85,7 @@ export const PLANERING_TOOLS: PlaneringToolCard[] = [
 ];
 
 export const PLANERING_VIEW_TITLES: Record<PlaneringTab, string> = {
+  start: 'Välj verktyg',
   hub: 'Planering',
   inkop: 'Inköpslista',
   handling: 'Handling',
@@ -96,6 +97,7 @@ export const PLANERING_VIEW_TITLES: Record<PlaneringTab, string> = {
 
 export function parsePlaneringTab(raw: string | null): PlaneringTab {
   if (
+    raw === 'start' ||
     raw === 'handling' ||
     raw === 'fokus' ||
     raw === 'framsteg' ||

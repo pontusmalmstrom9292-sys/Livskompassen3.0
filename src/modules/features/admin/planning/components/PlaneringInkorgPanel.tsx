@@ -7,6 +7,7 @@ import { InboxReviewQueueLink } from '@/modules/inkast/components/InboxReviewQue
 import { shouldDualWritePlaneringToCapture, submitCaptureDraft } from '@/modules/capture';
 import { useStore } from '@/core/store';
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
+import { usePlanningEmailRules } from '../hooks/usePlanningEmailRules';
 import { usePlaneringInboxConnections } from '../hooks/usePlaneringInboxConnections';
 import {
   parsePlaneringInkorgView,
@@ -14,9 +15,12 @@ import {
   PLANERING_INKORG_VIEWS,
   type PlaneringInkorgView,
 } from '../planeringInkorgViews';
+import { classifyPasteText } from '../rules/pasteClassifier';
 import { PlaneringInboxConnectionCard } from './PlaneringInboxConnectionCard';
 import { PlaneringInkorgCalendarPanel } from './PlaneringInkorgCalendarPanel';
 import { PlaneringSuperModule } from './PlaneringSuperModule';
+import { InkorgPreviewSheet } from './InkorgPreviewSheet';
+import type { PasteClassification } from '../rules/pasteClassifier';
 
 /** Inkorg — Gmail + Google Kalender (förbered) · G10-kö · klistra-in mejl. */
 export function PlaneringInkorgPanel() {
@@ -26,10 +30,15 @@ export function PlaneringInkorgPanel() {
   const user = useStore((s) => s.user);
   const { connections, prepare, disconnect, bothPrepared } = usePlaneringInboxConnections();
   const { addTask, error, setError } = usePlanningTasks();
+  const { rules } = usePlanningEmailRules();
   const [paste, setPaste] = useState('');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [captureNote, setCaptureNote] = useState<string | null>(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [pendingClassification, setPendingClassification] = useState<PasteClassification | null>(
+    null,
+  );
 
   const accountHint = user?.email ?? '';
   const canPrepare = Boolean(user && accountHint);
@@ -46,22 +55,31 @@ export function PlaneringInkorgPanel() {
   const handleCreate = async () => {
     const text = paste.trim();
     if (!text || !user) return;
+    const classification = classifyPasteText(text, rules);
+    setPendingClassification(classification);
+    setPreviewOpen(true);
+  };
+
+  const confirmCreate = async () => {
+    if (!pendingClassification || !user) return;
     setSaving(true);
     setError(null);
     setSaved(false);
     setCaptureNote(null);
     try {
-      const firstLine = text.split('\n')[0]?.slice(0, 120) ?? 'Inkorg';
+      const { title, summary, suggestedStatus, dueAt } = pendingClassification;
       await addTask({
-        title: firstLine,
-        status: 'todo',
+        title,
+        status: suggestedStatus,
         source: 'email',
-        summary: text.slice(0, 500),
+        summary,
+        dueAt,
       });
-      if (shouldDualWritePlaneringToCapture(text)) {
+      const fullText = paste.trim();
+      if (shouldDualWritePlaneringToCapture(fullText)) {
         try {
           const { message } = await submitCaptureDraft({
-            text,
+            text: fullText,
             fileName: 'planering_inkorg.txt',
             sourceModule: 'planering_inkorg',
           });
@@ -72,6 +90,8 @@ export function PlaneringInkorgPanel() {
       }
       setPaste('');
       setSaved(true);
+      setPreviewOpen(false);
+      setPendingClassification(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Kunde inte skapa uppgift.');
     } finally {
@@ -161,7 +181,7 @@ export function PlaneringInkorgPanel() {
               onClick={() => void handleCreate()}
               className="btn-pill--accent mt-3 w-full disabled:opacity-50"
             >
-              Skapa uppgift i Att göra
+              Granska och skapa
             </button>
             {saved && (
               <p className="mt-2 text-xs text-success">Sparat — se Handling-fliken.</p>
@@ -203,6 +223,17 @@ export function PlaneringInkorgPanel() {
           onDisconnect={() => disconnect('google_calendar')}
         />
       )}
+
+      <InkorgPreviewSheet
+        open={previewOpen}
+        classification={pendingClassification}
+        saving={saving}
+        onConfirm={() => void confirmCreate()}
+        onCancel={() => {
+          setPreviewOpen(false);
+          setPendingClassification(null);
+        }}
+      />
     </div>
   );
 }

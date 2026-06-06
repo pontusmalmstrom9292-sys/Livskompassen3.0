@@ -1,75 +1,86 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { planeringInkorgHref } from '../planeringInkorgViews';
-import { Calendar, ChevronLeft } from 'lucide-react';
-import { TabBar, type TabBarItem } from '@/core/ui/TabBar';
+import { Calendar, LayoutGrid } from 'lucide-react';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
-import { PLANERING_MORE_TABS, PLANERING_TAGLINE } from '../constants';
+import { PLANERING_TAGLINE, PLANERING_MORE_TABS } from '../constants';
 import type { PlaneringTab } from '../types';
 import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
 import { PlanningKanbanBoard } from './PlanningKanbanBoard';
-import { PlaneringFokusPanel } from './PlaneringFokusPanel';
-import { PlanningIntegrationPanel } from './PlanningIntegrationPanel';
 import { PlaneringEmailRulesPanel } from './PlaneringEmailRulesPanel';
-import { PlaneringFramstegPanel } from './PlaneringFramstegPanel';
 import { PlaneringSuperModule } from './PlaneringSuperModule';
-import { PlaneringHub } from './PlaneringHub';
 import { PlaneringHubLayoutPicker } from './PlaneringHubLayoutPicker';
 import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
 import { PlaneringQuickListPanel } from './PlaneringQuickListPanel';
-import { RoutinesPanel } from './RoutinesPanel';
+import { PlaneringHub } from './PlaneringHub';
 import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
 import { LivBackLink } from '@/modules/shell/LivBackLink';
+import { GoraModulValjare } from './GoraModulValjare';
+import { GoraSuperModule } from './GoraSuperModule';
+import { VerktygDrawer } from './VerktygDrawer';
+import { RoutinesPanel } from './RoutinesPanel';
+import {
+  hasSeenGoraModulValjare,
+  markGoraModulValjareSeen,
+} from '../utils/goraModulValjareStorage';
 
-const MORE_TABS = new Set<PlaneringTab>(['fokus', 'framsteg', 'regler']);
+const GORA_SUPER_TABS = new Set<PlaneringTab>(['handling', 'fokus', 'framsteg']);
 const WORK_TABS = new Set<PlaneringTab>(['handling', 'fokus', 'framsteg', 'inkorg', 'regler']);
 
+/** PlaneringPage — P3 Kanban via GoraSuperModule. Fler verktyg via VerktygDrawer. */
 export function PlaneringPage() {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const navigate = useNavigate();
   const { layoutId, setLayoutId } = usePlaneringHubLayout();
   const tab = parsePlaneringTab(searchParams.get('tab'));
+  const picked = searchParams.get('picked') === '1';
   const isHub = tab === 'hub';
+  const isStart = tab === 'start';
   const isWorkTab = WORK_TABS.has(tab);
-  const isMoreTab = MORE_TABS.has(tab);
+  const showModulValjare = isStart || (tab === 'handling' && !picked && !hasSeenGoraModulValjare());
+
+  useEffect(() => {
+    if (searchParams.get('picked') === '1') {
+      markGoraModulValjareSeen();
+    }
+  }, [searchParams]);
 
   const title = PLANERING_VIEW_TITLES[tab];
-  const lead = isHub ? PLANERING_HUB_LEAD : PLANERING_TAGLINE;
+  const lead = isStart || showModulValjare ? PLANERING_HUB_LEAD : PLANERING_TAGLINE;
 
   const panel = useMemo(() => {
+    if (showModulValjare) return <GoraModulValjare />;
     switch (tab) {
       case 'hub':
         return <PlaneringHub />;
       case 'inkop':
         return <PlaneringQuickListPanel />;
       case 'handling':
-        return <PlanningKanbanBoard />;
+        return (
+          <>
+            <GoraSuperModule variant="handling" />
+            <div id="planering-rutiner" className="mt-4">
+              <RoutinesPanel defaultOpen={location.hash === '#planering-rutiner'} />
+            </div>
+          </>
+        );
       case 'fokus':
-        return <PlaneringFokusPanel />;
+        return <GoraSuperModule variant="fokus" />;
       case 'framsteg':
-        return <PlaneringFramstegPanel />;
+        return <GoraSuperModule variant="framsteg" />;
       case 'inkorg':
         return <PlaneringSuperModule variant="inkorg" />;
       case 'regler':
-        return (
-          <div className="space-y-6">
-            <PlanningIntegrationPanel />
-            <details className="group rounded-xl border border-border/30 bg-surface/20 p-4">
-              <summary className="cursor-pointer text-xs font-medium text-text-dim hover:text-accent list-none [&::-webkit-details-marker]:hidden">
-                Avancerad redigering (prioritet, matchtyper, ta bort)
-              </summary>
-              <div className="mt-4 border-t border-border/30 pt-4">
-                <PlaneringEmailRulesPanel />
-              </div>
-            </details>
-          </div>
-        );
+        return <PlaneringEmailRulesPanel />;
       default:
         return null;
     }
-  }, [tab]);
+  }, [tab, showModulValjare, location.hash]);
+
+  void PlanningKanbanBoard;
+  void PLANERING_MORE_TABS;
 
   return (
     <HubPageShell
@@ -87,54 +98,34 @@ export function PlaneringPage() {
           >
             <Calendar className="h-4 w-4 text-accent/70" />
           </Link>
+          {!showModulValjare && !isStart && (
+            <button
+              type="button"
+              onClick={() => navigate('/planering?tab=start')}
+              className="btn-pill--ghost shrink-0 p-2"
+              title="Välj verktyg"
+              aria-label="Öppna modulväljare"
+            >
+              <LayoutGrid className="h-4 w-4 text-accent/70" />
+            </button>
+          )}
         </div>
       }
     >
       <GoraHubTabBar />
 
-      {!isHub && (
-        <Link to="/planering?tab=hub" className="planering-back-link">
-          <ChevronLeft className="h-4 w-4" />
-          Alla verktyg
-        </Link>
-      )}
-
-      {tab === 'handling' && (
-        <div id="planering-rutiner">
-          <RoutinesPanel defaultOpen={location.hash === '#planering-rutiner'} />
-        </div>
+      {!showModulValjare && !isHub && !isStart && GORA_SUPER_TABS.has(tab) && (
+        <>
+          {/* Fler verktyg */}
+          <VerktygDrawer activeTab={tab} />
+        </>
       )}
 
       {isHub && (
         <PlaneringHubLayoutPicker activeId={layoutId} onSelect={setLayoutId} compact />
       )}
 
-      {isMoreTab && (
-        <>
-          <p className="text-xs text-white/45 mb-1">Fler verktyg</p>
-          <TabBar<PlaneringTab>
-            tabs={PLANERING_MORE_TABS as TabBarItem<PlaneringTab>[]}
-            active={tab}
-            onChange={(id) => navigate(`/planering?tab=${id}`)}
-          />
-        </>
-      )}
-
-      {isWorkTab && <PlaneringNextStepSelect />}
-
-      {tab === 'handling' && (
-        <nav className="flex flex-wrap gap-2 text-sm" aria-label="Fler planeringsverktyg">
-          {PLANERING_MORE_TABS.map(({ id, label }) => (
-            <Link
-              key={id}
-              to={`/planering?tab=${id}`}
-              className="btn-pill--ghost px-3 py-1 text-white/70 hover:text-accent"
-            >
-              {label}
-            </Link>
-          ))}
-        </nav>
-      )}
+      {isWorkTab && !showModulValjare && <PlaneringNextStepSelect />}
 
       <div className={isHub ? 'planering-view planering-view--hub' : 'planering-view'}>
         {panel}

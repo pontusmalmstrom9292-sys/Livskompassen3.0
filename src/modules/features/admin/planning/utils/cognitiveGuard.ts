@@ -40,3 +40,12 @@ export function pickPlanningFocusTask(activeTasks: PlanningTask[]): PlanningTask
 export function isPlanningOverloaded(activeTasks: PlanningTask[]): boolean {
   return activeTasks.length > COGNITIVE_GUARD_OVERLOAD_THRESHOLD;
 }
+
+/** Deterministisk «Föreslå nästa» efter nuvarande fokus-uppgift. */
+export function pickNextFocusTask(
+  activeTasks: PlanningTask[],
+  currentId: string,
+): PlanningTask | null {
+  const rest = activeTasks.filter((t) => t.id !== currentId);
+  return pickPlanningFocusTask(rest);
+}

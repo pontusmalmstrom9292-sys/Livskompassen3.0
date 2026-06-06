@@ -9,8 +9,8 @@ export type PlaneringSuperModuleProps = {
 };
 
 /**
- * Canonical router för Planering-ytor.
- * - inkorg: Gmail/kalender + mejl→uppgift + granskningslänk
+ * InkorgSuperModule — canonical router för Planering inkorg/capture.
+ * - inkorg: mejl/kalender + paste → preview → task
  * - capture: G10 smart inkast (sourceModule planering_inkorg)
  */
 export function PlaneringSuperModule({ variant, onSaved }: PlaneringSuperModuleProps) {

@@ -29,6 +29,9 @@ export function PlanningTaskCard({ task, onSelect }: Props) {
         <Icon className="mt-0.5 h-4 w-4 shrink-0 text-accent/80" aria-hidden />
         <div className="min-w-0 flex-1">
           <p className="text-sm font-medium text-text">{task.title}</p>
+          {task.microStep && (
+            <p className="mt-1 text-xs text-accent/90 line-clamp-1">→ {task.microStep}</p>
+          )}
           {task.summary && (
             <p className="mt-1 line-clamp-2 text-xs text-text-muted">{task.summary}</p>
           )}
