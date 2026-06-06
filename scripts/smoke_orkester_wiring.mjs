@@ -85,9 +85,10 @@ function main() {
     'src/modules/features/lifeJournal/diary/diary/hooks/useJournalFlow.ts',
     'optInKampspar && hasVaultGate()',
   );
-  mustInclude('functions/src/index.ts', 'journalWovenToKampspar', "trigger: 'journal_woven'");
+  mustInclude('functions/src/callables/agents.ts', 'journalWovenToKampspar', "trigger: 'journal_woven'");
   mustInclude(
     'functions/src/index.ts',
+    'journalWovenToKampspar',
     'weaveJournalEntry',
     'approveWeaverMetadata',
     'rejectWeaverMetadata',
@@ -123,7 +124,7 @@ function main() {
   mustInclude('src/modules/core/auth/sessionService.ts', 'VAULT_SESSION_IDLE_MS', '60 * 60 * 1000');
   mustInclude('src/modules/core/auth/useZeroFootprint.ts', 'VAULT_SESSION_IDLE_MS', 'hasVaultGate');
   mustInclude(
-    'functions/src/index.ts',
+    'functions/src/callables/agents.ts',
     'journalQuickMirror',
     'askDagbokSnabbCoach',
   );

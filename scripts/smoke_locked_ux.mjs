@@ -423,7 +423,7 @@ function main() {
   mustInclude('src/modules/features/dailyLife/wellbeing/compasses/components/VardagenPage.tsx', 'vaultDrawerPath', 'kunskap');
   mustInclude('src/modules/core/home/livskompassHeroConfig.ts', "vaultDrawerPath('kunskapsbank')");
   mustInclude('functions/src/lib/vaultSessionGate.ts', 'assertVaultSession', 'issueVaultSession');
-  mustInclude('functions/src/index.ts', 'issueVaultSession', 'assertVaultSession');
+  mustInclude('functions/src/index.ts', 'issueVaultSession');
   mustInclude('src/modules/core/auth/vaultServerSession.ts', 'issueVaultServerSession', 'withVaultSessionPayload');
   mustInclude(
     'docs/design/references/MENU-DRAWER-KANON.md',

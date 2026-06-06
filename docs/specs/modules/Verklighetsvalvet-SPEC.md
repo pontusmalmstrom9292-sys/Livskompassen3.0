@@ -31,7 +31,7 @@ Konsoliderad till [`.context/modules/verklighetsvalvet.md`](../../../.context/mo
 ### Ingång och auth
 
 1. **Fyren:** 3s long-press BookOpen → WebAuthn → navigera till bevis-flik.
-2. **PIN-gate** (`PinGate` i `VaultPage`): första gången = skapa PIN (hash i `localStorage`); därefter verifiering. `VITE_VAULT_PIN` endast dev.
+2. **Valv-gate:** WebAuthn via Fyren (3s long-press) → `issueVaultSession` server-token. Ingen client-PIN i prod (`VITE_VAULT_PIN` borttagen).
 3. **Upplåst valv:** flikar **Logga \| Sök** (Valv-Chat).
 
 ### Inmatning (flik Logga)

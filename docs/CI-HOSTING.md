@@ -53,7 +53,7 @@ gh auth login
 | `VITE_FIREBASE_MESSAGING_SENDER_ID` | `VITE_FIREBASE_MESSAGING_SENDER_ID` |
 | `VITE_FIREBASE_APP_ID` | `VITE_FIREBASE_APP_ID` |
 
-**Lägg inte** `GEMINI_API_KEY`, `VITE_GEMINI_API_KEY`, `VITE_VAULT_PIN` eller Drive-secrets här — hosting-bygget behöver dem inte.
+**Lägg inte** `GEMINI_API_KEY`, `VITE_GEMINI_API_KEY` eller Drive-secrets här — hosting-bygget behöver dem inte.
 
 ---
 
