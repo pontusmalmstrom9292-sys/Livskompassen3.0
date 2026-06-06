@@ -115,3 +115,45 @@ Fas 3 light editor (`/projekt/genvagar`) fortsatt **done** på `main`.
 - [`SENASTE-SAMMANFATTNING.md`](./SENASTE-SAMMANFATTNING.md)
 - [`MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md)
 - Denna rapport
+
+---
+
+## 5-agent coordinated pass (Agent 5 — docs + deploy)
+
+**Tid:** 2026-06-06 · **Koordinator:** Agent 5 (körs sist)  
+**HEAD före docs:** `22a2f056` · **Build:** **PASS** (`tsc -b && vite build`)
+
+### Agent-roller
+
+| Agent | Roll | Resultat |
+|-------|------|----------|
+| **1** | XSS / secureExport | Mergat från origin — `d0dc8d5e`–`46f79cc3` |
+| **2** | (parallell kod) | MaterialPack Våg A · `c5116a2d` · `22a2f056` |
+| **3** | Planering kalender P2 | `c2ce1dc0` veckovy · `1ef411e3` ICS-export |
+| **4** | Smoke/lint fixes | `6848398e` lint fix MaterialPack hook |
+| **5** | Docs + hosting deploy | denna sektion · kanon-uppdatering · `firebase deploy --only hosting` |
+
+### Leveranser
+
+| Item | Status | Commits |
+|------|--------|---------|
+| **XSS export-säkerhet** | **done** (merge origin) | `d0dc8d5e` · `d3116aa0` · `719d0cc9` · `46f79cc3` |
+| **MaterialPack Våg A** | **done** | `c5116a2d` · `6848398e` · `22a2f056` (under Barnfokus) |
+| **Planering kalender P2** | **done** | `c2ce1dc0` · `1ef411e3` (ICS via secureExport) |
+| **Fas 5A #3 Valv USER** | **öppen** | Agent/autorun PASS — Shield→PIN→spara ej USER-testad |
+
+### Deploy (Agent 5)
+
+| Tier | Åtgärd |
+|------|--------|
+| **Hosting** | `firebase use gen-lang-client-0481875058` → `npm run build` → `firebase deploy --only hosting` |
+| **Functions** | **ej** — refaktor/XSS = frontend + befintliga callables |
+| **Firestore rules** | **ej** |
+
+### Git @ pass slut
+
+| Fält | Värde |
+|------|-------|
+| **Doc commit** | `dcec283c` (kanon) · `b8f360bb` (multitask appendix) |
+| **Push** | `git push origin main` efter hosting PASS |
+| **Fas 5A #3 USER** | **ÖPPEN** — markera ej PASS utan Pontus i app |
