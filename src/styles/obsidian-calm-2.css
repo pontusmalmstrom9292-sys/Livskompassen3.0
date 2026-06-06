@@ -182,4 +182,97 @@
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
   }
+
+  /* —— Liv launcher — stora kort (Fas 2) —— */
+  .liv-launcher-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .liv-launcher-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .liv-launcher-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .liv-launcher-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    width: 100%;
+    min-height: 5.5rem;
+    padding: 1rem 1.125rem;
+    cursor: pointer;
+    border-color: color-mix(in srgb, var(--border) 55%, transparent);
+  }
+
+  .liv-launcher-card:hover {
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    background: color-mix(in srgb, var(--surface-3) 45%, transparent);
+  }
+
+  .liv-launcher-card--active {
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    background: color-mix(in srgb, var(--surface-3) 55%, transparent);
+  }
+
+  .liv-launcher-card__icon {
+    display: flex;
+    height: 2.75rem;
+    width: 2.75rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.875rem;
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+    background: color-mix(in srgb, var(--surface) 65%, transparent);
+    color: var(--accent-light);
+  }
+
+  .liv-launcher-card--external .liv-launcher-card__icon {
+    color: var(--success);
+    border-color: color-mix(in srgb, var(--success) 28%, transparent);
+  }
+
+  .liv-launcher-card__body {
+    display: flex;
+    min-width: 0;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-top: 0.125rem;
+  }
+
+  .liv-launcher-card__label {
+    font-family: var(--font-display, inherit);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+
+  .liv-launcher-card__hint {
+    font-size: 0.75rem;
+    line-height: 1.35;
+    color: var(--text-muted);
+  }
+
+  .liv-launcher-card__chevron {
+    margin-top: 0.375rem;
+    color: var(--text-dim);
+    opacity: 0.75;
+  }
+
+  .liv-launcher-card--external:hover .liv-launcher-card__chevron,
+  .liv-launcher-card--active .liv-launcher-card__chevron {
+    color: var(--accent);
+    opacity: 1;
+  }
 }

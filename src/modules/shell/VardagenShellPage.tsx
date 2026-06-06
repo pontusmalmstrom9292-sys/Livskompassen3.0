@@ -1,3 +1,4 @@
+/** @deprecated Embed-shell avvisad — använd LivLauncherPage + fullsid-routes. */
 import { TabBar } from '../core/ui/TabBar';
 import { HubPageShell } from '../core/layout/HubPageShell';
 import { useHubTab } from '../core/navigation/hooks/useHubTab';

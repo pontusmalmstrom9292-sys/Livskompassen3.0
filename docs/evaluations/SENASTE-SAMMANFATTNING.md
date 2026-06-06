@@ -17,7 +17,8 @@
 |--------|--------|
 | CaptureSuperModule | Fas 1–3 — kompass, hem, valv, planering |
 | InboxReviewQueue | Canonical i VaultSamlaHub; länk elsewhere |
-| LivLauncherPage | Kompass/ekonomi inline; övrigt → fullsid |
+| LivLauncherPage | Stora kort (Fas 2); kompass/ekonomi inline; övrigt → fullsid |
+| LivLauncherGrid | Obsidian Calm-kortgrid på `/vardagen` |
 | LivBackLink | MåBra · Planering · Arbetsliv |
 | K2 domän-svar | speglar · valv · familj · meny · mabra |
 | Locked UX + silos | Oförändrat |
@@ -29,7 +30,7 @@
 | Punkt | Var |
 |-------|-----|
 | **Manuell smoke + deploy** | [`2026-06-06-manuell-smoke-checklist.md`](./evaluations/2026-06-06-manuell-smoke-checklist.md) |
-| Liv Fas 2 polish | Stora launcher-kort (valfritt) |
+| Liv Fas 3 | Radera deprecated `VardagenShellPage` |
 
 ---
 
