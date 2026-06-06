@@ -30,6 +30,7 @@
 | **Autorun PASS** | `smoke:kunskap` | **PASS** | 2026-06-06 — ingest + query + citation |
 | **Deploy** | Hosting MaterialPack Familjen + chat-audit frontend sync | **PASS** | 2026-06-06 |
 | **Deploy** | Hosting ValvSuper Fas 2–3 + Vit våg 10–16 | **PASS** | 2026-06-06 (senaste `hosting`-deploy) |
+| **Deploy** | Super Multitask: `weaveJournalEntry` + hosting (planering UX) | **PASS** | 2026-06-06 · `2c643985` · https://gen-lang-client-0481875058.web.app |
 | **USER** | #3 Valv UI Shield→PIN→spara post | **USER** | backend/WORM/static **PASS** — kräver Pontus i app · [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md) §A |
 
 **Hub:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md) · **Supermoduler:** [`evaluations/2026-06-06-supermodule-master-plan.md`](./evaluations/2026-06-06-supermodule-master-plan.md)
@@ -76,8 +77,8 @@
 | `smoke:orkester` | **PASS** (0) |
 | `smoke:valv-security` | **PASS** (0) |
 | `smoke:innehall` | **PASS** (0) |
-| Deploy `functions:weaveJournalEntry` | se deploy-rad nedan |
-| Deploy `hosting` | se deploy-rad nedan |
+| Deploy `functions:weaveJournalEntry` | **PASS** | europe-west1 · commit `2c643985` |
+| Deploy `hosting` | **PASS** | https://gen-lang-client-0481875058.web.app |
 
 **USER kvar (#3):** Manuell Valv UI-test (Shield→PIN→spara) — backend/static PASS.
 
