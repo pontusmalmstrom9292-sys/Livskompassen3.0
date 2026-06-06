@@ -93,7 +93,7 @@
 | `npm run orkester:night` | 0 | **PASS** (ESLint SKIP_FAIL, icke-blockerande) | [`2026-06-06-orkester-natt.md`](./2026-06-06-orkester-natt.md) |
 | `npm run content:night` | 0 | **PASS** (våg 17) | [`2026-06-06-content-autorun-vag-17.md`](./2026-06-06-content-autorun-vag-17.md) |
 
-**Uppdaterade filer:** `SMOKE_RESULTS.md` (#4 Barnporten USER PASS), `SENASTE-SAMMANFATTNING.md`. **Commit:** `0350c141` (lokal, ej pushad).
+**Senaste körning (resume efter stall):** orkester 2026-06-06T06:59:45Z · content 2026-06-06T07:00:57Z. **Nattloggar uppdaterade:** `2026-06-06-orkester-natt.md`, `2026-06-06-content-autorun-vag-17.md`. **Deploy:** ingen. **Tidigare:** `SMOKE_RESULTS.md` / `SENASTE-SAMMANFATTNING.md` i `0350c141`.
 
 ---
 
