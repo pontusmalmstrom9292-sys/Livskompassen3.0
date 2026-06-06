@@ -142,10 +142,18 @@ function main() {
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx',
     'getVaultZoneTabBarItems',
-    'getSamlaVaultTabBarItems',
-    'getAnalyseraVaultTabBarItems',
     'ValvSuperModule',
     'variant={valvZone}',
+  );
+  assert(
+    read('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx').includes(
+      'getVaultZoneTabBarItems',
+    ) &&
+      !read('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx').includes(
+        'getSamlaVaultTabBarItems',
+      ),
+    'VaultPage.tsx',
+    'zon-TabBar kvar — sub-TabBar i zoner (ValvSuper Fas 2)',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/ValvSuperModule.tsx',
@@ -156,8 +164,8 @@ function main() {
     "'exportera'",
     "'forensik'",
     'ValvSamlaZone',
-    'ValvAnalyseraZone',
-    'VaultForensicPanel',
+    'ValvForensikZone',
+    'onVaultTabChange',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvAnalyseraZone.tsx',

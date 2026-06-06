@@ -18,6 +18,9 @@ export function ValvetRoutePage() {
       (prev) => {
         const params = new URLSearchParams(prev);
         params.set('vaultTab', next);
+        if (next !== 'logga') {
+          params.delete('samlaView');
+        }
         return params;
       },
       { replace: true },

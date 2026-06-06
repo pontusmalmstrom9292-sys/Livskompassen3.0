@@ -38,7 +38,7 @@
 
 **Oförändrat (locked UX):** `VaultMonsterPanel`, `VaultOrkesterPanel`, `VaultKunskapsbankPanel`, `VaultAktorskartaPanel`, `InboxReviewQueue` i `VaultSamlaHub`.
 
-**Fas 2 (DEFER):** `VaultOverviewPanel` · flytta sub-TabBar in i zoner · `?samlaView` URL-sync.
+**Fas 2 (DONE 2026-06-06):** Sub-TabBar flyttad in i zoner · `?samlaView` rensas vid tab/zone-byte · `ValvForensikZone`.
 
 ---
 
@@ -139,4 +139,4 @@
 
 ## Nästa steg (1)
 
-**CaptureSuper v2** — en review-kö, G10-routing (kräver callable-deploy + PMIR).
+**Kunskap våg 8 omkörning** — seed till din riktiga Firebase-användare (se `CONTENT-WAVES.md` våg 8).

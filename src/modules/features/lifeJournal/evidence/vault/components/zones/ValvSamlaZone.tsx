@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { TabBar } from '@/core/ui/TabBar';
+import { getSamlaVaultTabBarItems } from '@/core/navigation/tabRegistry';
 import type { VaultLog } from '@/core/types/firestore';
 import { ValvChatPanel } from '@/features/lifeJournal/evidence/vaultChat';
 import { VaultLogList } from '../VaultLogList';
@@ -9,6 +11,7 @@ import type { SamlaVaultTab } from '../../utils/vaultTabs';
 
 export type ValvSamlaZoneProps = {
   tab: SamlaVaultTab;
+  onTabChange: (tab: SamlaVaultTab) => void;
   userId: string;
   gateOk: boolean;
   logs: (VaultLog & { id: string })[];
@@ -24,6 +27,7 @@ export type ValvSamlaZoneProps = {
 
 export function ValvSamlaZone({
   tab,
+  onTabChange,
   userId,
   gateOk,
   logs,
@@ -38,45 +42,53 @@ export function ValvSamlaZone({
 }: ValvSamlaZoneProps) {
   const [anchorsOnly, setAnchorsOnly] = useState(false);
 
-  if (tab === 'sok') {
-    return (
-      <ValvChatPanel
-        active={gateOk}
-        onCitationClick={onCitationClick}
-        logs={logs}
-      />
-    );
-  }
-
   return (
     <>
-      <WeaverPendingVaultBanner userId={userId} onApproved={onLogsRefresh} />
-      <VaultSamlaHub
-        userId={userId}
-        saving={saving}
-        saveError={saveError}
-        onSave={onSave}
-        onBevisConfirmed={(docId) => void onBevisConfirmed(docId)}
-      />
-      <div className="flex justify-end">
-        <button
-          type="button"
-          onClick={() => setAnchorsOnly((v) => !v)}
-          className={`btn-pill--ghost text-xs ${anchorsOnly ? 'text-gold' : ''}`}
-          aria-pressed={anchorsOnly}
-        >
-          {anchorsOnly ? 'Visa alla bevis' : 'Endast ankare'}
-        </button>
+      <div className="mb-3">
+        <TabBar
+          size="compact"
+          tabs={getSamlaVaultTabBarItems()}
+          active={tab}
+          onChange={onTabChange}
+        />
       </div>
-      <VaultLogList
-        logs={logs}
-        loading={logsLoading}
-        highlightLogId={highlightLogId}
-        anchorsOnly={anchorsOnly}
-        onLogFirstBevis={() =>
-          document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }
-      />
+      {tab === 'sok' ? (
+        <ValvChatPanel
+          active={gateOk}
+          onCitationClick={onCitationClick}
+          logs={logs}
+        />
+      ) : (
+        <>
+          <WeaverPendingVaultBanner userId={userId} onApproved={onLogsRefresh} />
+          <VaultSamlaHub
+            userId={userId}
+            saving={saving}
+            saveError={saveError}
+            onSave={onSave}
+            onBevisConfirmed={(docId) => void onBevisConfirmed(docId)}
+          />
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={() => setAnchorsOnly((v) => !v)}
+              className={`btn-pill--ghost text-xs ${anchorsOnly ? 'text-gold' : ''}`}
+              aria-pressed={anchorsOnly}
+            >
+              {anchorsOnly ? 'Visa alla bevis' : 'Endast ankare'}
+            </button>
+          </div>
+          <VaultLogList
+            logs={logs}
+            loading={logsLoading}
+            highlightLogId={highlightLogId}
+            anchorsOnly={anchorsOnly}
+            onLogFirstBevis={() =>
+              document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+          />
+        </>
+      )}
     </>
   );
 }

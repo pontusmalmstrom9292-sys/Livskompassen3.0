@@ -111,26 +111,43 @@ function main() {
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx',
     'getVaultZoneTabBarItems',
-    'getSamlaVaultTabBarItems',
-    'getAnalyseraVaultTabBarItems',
-    'getKunskapVaultTabBarItems',
     'VaultValvBreadcrumb',
     'ValvSuperModule',
+    'onVaultTabChange',
+  );
+  assert(
+    !read('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx').includes(
+      'getSamlaVaultTabBarItems',
+    ),
+    'VaultPage.tsx',
+    'sub-TabBar delegerad till zoner (ValvSuper Fas 2)',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx',
+    'getSamlaVaultTabBarItems',
     'VaultSamlaHub',
     'WeaverPendingVaultBanner',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvAnalyseraZone.tsx',
+    'getAnalyseraVaultTabBarItems',
     'VaultMonsterPanel',
     'VaultOrkesterPanel',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvKunskapZone.tsx',
+    'getKunskapVaultTabBarItems',
     'VaultKunskapsbankPanel',
     'VaultAktorskartaPanel',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvForensikZone.tsx',
+    'getForensicVaultTabBarItems',
+    'VaultForensicPanel',
+  );
+  mustInclude(
+    'src/modules/core/pages/ValvetRoutePage.tsx',
+    "params.delete('samlaView')",
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx',

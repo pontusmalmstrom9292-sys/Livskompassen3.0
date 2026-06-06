@@ -1,7 +1,7 @@
 import type { VaultLog } from '@/core/types/firestore';
-import { VaultForensicPanel } from './VaultForensicPanel';
 import { ValvAnalyseraZone } from './zones/ValvAnalyseraZone';
 import { ValvExporteraZone } from './zones/ValvExporteraZone';
+import { ValvForensikZone } from './zones/ValvForensikZone';
 import { ValvKunskapZone } from './zones/ValvKunskapZone';
 import { ValvSamlaZone } from './zones/ValvSamlaZone';
 import type { VaultLogInput } from '../types/vaultEntry';
@@ -35,11 +35,12 @@ export type ValvSuperModuleProps = {
   onBevisConfirmed: (docId: string) => void | Promise<void>;
   onCitationClick: (docId: string) => void;
   onLogsRefresh: () => void;
+  onVaultTabChange: (tab: VaultTab) => void;
 };
 
 /**
  * Canonical router för Valv-zoner.
- * VaultPage behåller gate + chrome (TabBar); zonsinnehåll delegeras hit.
+ * VaultPage behåller gate + zon-TabBar; sub-TabBar lever i zoner (Fas 2).
  */
 export function ValvSuperModule({
   variant,
@@ -55,6 +56,7 @@ export function ValvSuperModule({
   onBevisConfirmed,
   onCitationClick,
   onLogsRefresh,
+  onVaultTabChange,
 }: ValvSuperModuleProps) {
   switch (variant) {
     case 'samla': {
@@ -62,6 +64,7 @@ export function ValvSuperModule({
       return (
         <ValvSamlaZone
           tab={tab}
+          onTabChange={(next) => onVaultTabChange(next)}
           userId={userId}
           gateOk={gateOk}
           logs={logs}
@@ -78,17 +81,17 @@ export function ValvSuperModule({
     }
     case 'analysera': {
       const tab: AnalyseraVaultTab = isAnalyseraVaultTab(vaultTab) ? vaultTab : 'monster';
-      return <ValvAnalyseraZone tab={tab} logs={logs} />;
+      return <ValvAnalyseraZone tab={tab} onTabChange={onVaultTabChange} logs={logs} />;
     }
     case 'kunskap': {
       const tab: KunskapVaultTab = isKunskapVaultTab(vaultTab) ? vaultTab : KUNSKAP_VAULT_TAB;
-      return <ValvKunskapZone tab={tab} />;
+      return <ValvKunskapZone tab={tab} onTabChange={onVaultTabChange} />;
     }
     case 'exportera':
       return <ValvExporteraZone />;
     case 'forensik': {
       const tab: ForensicVaultTab = isForensicVaultTab(vaultTab) ? vaultTab : 'hamn_analys';
-      return <VaultForensicPanel tab={tab} />;
+      return <ValvForensikZone tab={tab} onTabChange={onVaultTabChange} />;
     }
     default:
       return null;

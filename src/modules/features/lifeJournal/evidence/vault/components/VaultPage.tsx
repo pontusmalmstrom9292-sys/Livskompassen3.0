@@ -5,10 +5,6 @@ import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
 import {
-  getAnalyseraVaultTabBarItems,
-  getForensicVaultTabBarItems,
-  getKunskapVaultTabBarItems,
-  getSamlaVaultTabBarItems,
   getVaultZoneTabBarItems,
 } from '@/core/navigation/tabRegistry';
 import { useStore } from '@/core/store';
@@ -23,16 +19,8 @@ import { VaultLockedGate } from '@/core/components/VaultLockedGate';
 import type { VaultLogInput } from '../types/vaultEntry';
 import {
   KUNSKAP_VAULT_TAB,
-  type AnalyseraVaultTab,
-  type ForensicVaultTab,
-  type KunskapVaultTab,
-  type SamlaVaultTab,
   type ValvZone,
   type VaultTab,
-  isAnalyseraVaultTab,
-  isForensicVaultTab,
-  isKunskapVaultTab,
-  isSamlaVaultTab,
   resolveValvZone,
   VALV_ZONE_INGRESS,
 } from '../utils/vaultTabs';
@@ -72,10 +60,6 @@ function VaultPageInner({
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
   const gateOk = hasVaultGate();
   const valvZone = resolveValvZone(vaultTab);
-  const samlaTab: SamlaVaultTab = isSamlaVaultTab(vaultTab) ? vaultTab : 'logga';
-  const analyseraTab: AnalyseraVaultTab = isAnalyseraVaultTab(vaultTab) ? vaultTab : 'monster';
-  const kunskapTab: KunskapVaultTab = isKunskapVaultTab(vaultTab) ? vaultTab : KUNSKAP_VAULT_TAB;
-  const forensicTab: ForensicVaultTab = isForensicVaultTab(vaultTab) ? vaultTab : 'hamn_analys';
 
   const setVaultTab = (next: VaultTab) => {
     setVaultTabState(next);
@@ -216,46 +200,6 @@ function VaultPageInner({
         <p className="mb-3 mt-2 text-sm text-text-muted" key={valvZone}>
           {VALV_ZONE_INGRESS[valvZone]}
         </p>
-        {valvZone === 'samla' && (
-          <div className="mt-3">
-            <TabBar<SamlaVaultTab>
-              size="compact"
-              tabs={getSamlaVaultTabBarItems()}
-              active={samlaTab}
-              onChange={(id) => setVaultTab(id)}
-            />
-          </div>
-        )}
-        {valvZone === 'analysera' && (
-          <div className="mt-3">
-            <TabBar<AnalyseraVaultTab>
-              size="compact"
-              tabs={getAnalyseraVaultTabBarItems()}
-              active={analyseraTab}
-              onChange={(id) => setVaultTab(id)}
-            />
-          </div>
-        )}
-        {valvZone === 'forensik' && (
-          <div className="mt-3">
-            <TabBar<ForensicVaultTab>
-              size="compact"
-              tabs={getForensicVaultTabBarItems()}
-              active={forensicTab}
-              onChange={(id) => setVaultTab(id)}
-            />
-          </div>
-        )}
-        {valvZone === 'kunskap' && (
-          <div className="mt-3">
-            <TabBar<KunskapVaultTab>
-              size="compact"
-              tabs={getKunskapVaultTabBarItems()}
-              active={kunskapTab}
-              onChange={(id) => setVaultTab(id)}
-            />
-          </div>
-        )}
       </BentoCard>
 
       <ValvSuperModule
@@ -272,6 +216,7 @@ function VaultPageInner({
         onBevisConfirmed={handleBevisConfirmed}
         onCitationClick={handleCitationClick}
         onLogsRefresh={refreshLogs}
+        onVaultTabChange={setVaultTab}
       />
     </div>
   );
