@@ -23,7 +23,6 @@ import { LivLauncherPage } from '@/modules/shell/LivLauncherPage';
 import { MabraPage } from '@/features/dailyLife/wellbeing/mabra';
 import { PlaneringPage } from '@/features/admin/planning';
 import { ArbetslivHubPage } from '@/features/dailyLife/arbetsliv';
-import { DrogfrihetHubPage } from '@/features/dailyLife/drogfrihet';
 import { resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
 import {
   clusterTabNavigateTarget,
@@ -117,6 +116,26 @@ function RedirectHamnToFamiljen() {
   );
 }
 
+const DROGFRIHET_SUBTAB_IDS = new Set(['idag', 'resurser', 'reflektion', 'kunskap']);
+
+/** Legacy `/drogfrihet` → Familjen flik; bevarar underflik i `drogfrihetTab`. */
+function RedirectDrogfrihetToFamiljen() {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const legacySubTab = params.get('tab');
+  const search = new URLSearchParams({ tab: 'drogfrihet' });
+  if (legacySubTab && DROGFRIHET_SUBTAB_IDS.has(legacySubTab)) {
+    search.set('drogfrihetTab', legacySubTab);
+  }
+  return (
+    <Navigate
+      to={{ pathname: NAV_PATHS.FAMILJEN, search: `?${search.toString()}` }}
+      state={location.state}
+      replace
+    />
+  );
+}
+
 /** Legacy `/liv` och `/liv?tab=…` → launcher eller fullsid-route. */
 function RedirectLivToVardagen() {
   const location = useLocation();
@@ -181,14 +200,8 @@ export function AppRoutes() {
                   </AuthGate>
                 }
               />
-              <Route
-                path="/drogfrihet"
-                element={
-                  <AuthGate>
-                    <DrogfrihetHubPage />
-                  </AuthGate>
-                }
-              />
+              <Route path="/drogfrihet" element={<RedirectDrogfrihetToFamiljen />} />
+              <Route path="/drogfrihet/*" element={<RedirectDrogfrihetToFamiljen />} />
 
               <Route path="/liv" element={<RedirectLivToVardagen />} />
               <Route path="/kompasser" element={<Navigate to={NAV_PATHS.VARDAGEN} replace />} />

@@ -5,7 +5,7 @@ export const LIV_LAUNCHER_EXTERNAL: Record<string, string> = {
   inkorg: '/planering?tab=inkorg',
   projekt: '/projekt',
   arbetsliv: '/arbetsliv',
-  drogfrihet: '/drogfrihet',
+  drogfrihet: '/familjen?tab=drogfrihet',
   tidrapportering: '/arbetsliv',
 };
 

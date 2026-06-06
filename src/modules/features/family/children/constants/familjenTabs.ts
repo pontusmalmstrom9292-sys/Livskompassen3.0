@@ -5,7 +5,8 @@ export type FamiljenTabId =
   | 'livslogg'
   | 'tillsammans'
   | 'barnporten'
-  | 'hamn';
+  | 'hamn'
+  | 'drogfrihet';
 
 export const FAMILJEN_TAB_IDS: FamiljenTabId[] = [
   'reflektion',
@@ -13,6 +14,7 @@ export const FAMILJEN_TAB_IDS: FamiljenTabId[] = [
   'tillsammans',
   'barnporten',
   'hamn',
+  'drogfrihet',
 ];
 
 export function isFamiljenTabId(value: string | null): value is FamiljenTabId {

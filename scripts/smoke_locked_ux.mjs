@@ -401,6 +401,7 @@ function main() {
     'getDrawerRoots',
     'vardagen_handling',
     'familjen_hamn',
+    'familjen_drogfrihet',
     'familjen_barnporten',
     'familjen_tillsammans',
   );
@@ -446,7 +447,9 @@ function main() {
     "id: 'tillsammans'",
     "id: 'barnporten'",
     "id: 'hamn'",
+    "id: 'drogfrihet'",
     'SafeHarborPage embedded',
+    'DrogfrihetHubPage embedded',
   );
   mustInclude(
     'src/modules/core/routing/AppRoutes.tsx',
@@ -454,10 +457,13 @@ function main() {
     'path="/hamn"',
     'RedirectHamnToFamiljen',
     "search: '?tab=hamn'",
+    'RedirectDrogfrihetToFamiljen',
+    'path="/drogfrihet"',
   );
   mustInclude(
     'src/modules/core/navigation/navigationRegistry.ts',
     "hamn: { id: 'hamn', label: 'Trygg hamn'",
+    "drogfrihet: { id: 'drogfrihet', label: 'Drogfrihet'",
     "barnporten: { id: 'barnporten'",
     "tillsammans: { id: 'tillsammans'",
   );

@@ -1,10 +1,10 @@
-import { HeartHandshake, Shield } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { BookOpen, HeartHandshake, Shield, Sparkles } from 'lucide-react';
+import { useCallback, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar, type TabBarItem } from '@/core/ui/TabBar';
 import { useStore } from '@/core/store';
-import { useHubTab } from '@/core/navigation/hooks/useHubTab';
 import { DROGFRIHET_CARDS } from '../content/drogfrihetCatalog';
 import { DROGFRIHET_FACTS } from '../constants/kunskapFacts';
 import { DROGFRIHET_DISCLAIMER, DROGFRIHET_RESOURCES } from '../constants/resources';
@@ -13,14 +13,49 @@ import { DrogfrihetCounterBadge } from './DrogfrihetCounterBadge';
 
 export type DrogfrihetTab = 'idag' | 'resurser' | 'reflektion' | 'kunskap';
 
+const DROGFRIHET_SUBTABS: TabBarItem<DrogfrihetTab>[] = [
+  { id: 'idag', label: 'Idag', icon: <Sparkles className="h-3 w-3" /> },
+  { id: 'resurser', label: 'Stöd', icon: <Shield className="h-3 w-3" /> },
+  { id: 'reflektion', label: 'Reflektion', icon: <HeartHandshake className="h-3 w-3" /> },
+  { id: 'kunskap', label: 'Kunskap', icon: <BookOpen className="h-3 w-3" /> },
+];
+
+const VALID_DROGFRIHET_TABS = new Set<DrogfrihetTab>(DROGFRIHET_SUBTABS.map((t) => t.id));
+
 type DrogfrihetHubPageProps = {
   /** Inbäddad i Familjehubben — utan egen HubPageShell-rubrik. */
   embedded?: boolean;
 };
 
+function useDrogfrihetSubTab(embedded: boolean) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const paramKey = embedded ? 'drogfrihetTab' : 'tab';
+  const rawTab = searchParams.get(paramKey);
+  const tab: DrogfrihetTab =
+    rawTab && VALID_DROGFRIHET_TABS.has(rawTab as DrogfrihetTab)
+      ? (rawTab as DrogfrihetTab)
+      : 'idag';
+
+  const setTab = useCallback(
+    (next: DrogfrihetTab) => {
+      setSearchParams(
+        (prev) => {
+          const nextParams = new URLSearchParams(prev);
+          if (next === 'idag') nextParams.delete(paramKey);
+          else nextParams.set(paramKey, next);
+          return nextParams;
+        },
+        { replace: true },
+      );
+    },
+    [setSearchParams, paramKey],
+  );
+
+  return { tabs: DROGFRIHET_SUBTABS, tab, setTab };
+}
+
 export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps = {}) {
-  const { tabs, activeTab, setTab } = useHubTab('drogfrihet');
-  const tab = activeTab as DrogfrihetTab;
+  const { tabs, tab, setTab } = useDrogfrihetSubTab(embedded);
   const user = useStore((s) => s.user);
   const idag = useMemo(() => pickDrogfrihetIdag({ uid: user?.uid }), [user?.uid]);
   const [reflectionIndex, setReflectionIndex] = useState(0);
@@ -30,7 +65,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
   const body = (
     <>
       <TabBar<DrogfrihetTab>
-        tabs={tabs as TabBarItem<DrogfrihetTab>[]}
+        tabs={tabs}
         active={tab}
         onChange={(id) => setTab(id)}
       />
@@ -38,22 +73,22 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
       {tab === 'idag' && (
         <>
           <DrogfrihetCounterBadge uid={user?.uid} />
-        <BentoCard title="Idag" icon={<HeartHandshake className="h-4 w-4" />}>
-          <div className="home-module-panel__question-box">
-            <p className="text-base text-accent">{idag.card.text_sv}</p>
-            <p className="mt-2 text-xs text-text-dim">
-              Ett kort hela dagen ({idag.dateKey}). Inget fel svar — ett ord räcker om du skriver.
-            </p>
-          </div>
-          <p className="mt-3 text-xs text-text-muted">{DROGFRIHET_DISCLAIMER}</p>
-        </BentoCard>
+          <BentoCard title="Idag" icon={<HeartHandshake className="h-4 w-4" />} glow="green">
+            <div className="home-module-panel__question-box">
+              <p className="text-base text-accent">{idag.card.text_sv}</p>
+              <p className="mt-2 text-xs text-text-dim">
+                Ett kort hela dagen ({idag.dateKey}). Inget fel svar — ett ord räcker om du skriver.
+              </p>
+            </div>
+            <p className="mt-3 text-xs text-text-muted">{DROGFRIHET_DISCLAIMER}</p>
+          </BentoCard>
         </>
       )}
 
       {tab === 'resurser' && (
         <div className="space-y-3">
           {DROGFRIHET_RESOURCES.map((r) => (
-            <BentoCard key={r.id} title={r.title_sv} icon={<Shield className="h-4 w-4" />}>
+            <BentoCard key={r.id} title={r.title_sv} icon={<Shield className="h-4 w-4" />} glow="green">
               <p className="text-sm text-text-muted">{r.body_sv}</p>
               {r.href ? (
                 <a
@@ -72,7 +107,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
       )}
 
       {tab === 'reflektion' && (
-        <BentoCard title="Reflektion" icon={<HeartHandshake className="h-4 w-4" />}>
+        <BentoCard title="Reflektion" icon={<HeartHandshake className="h-4 w-4" />} glow="green">
           <div className="home-module-panel__question-box">
             <p className="text-base text-accent">{reflectionCard.text_sv}</p>
             <p className="mt-2 text-xs text-text-dim">Inget fel svar — ett ord räcker.</p>

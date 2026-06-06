@@ -47,6 +47,7 @@ const HUB_TAB_ICONS: Partial<Record<string, LucideIcon>> = {
   familjen_tillsammans: Users,
   familjen_barnporten: Heart,
   familjen_hamn: Anchor,
+  familjen_drogfrihet: Heart,
   liv_kompasser: Sprout,
   liv_mabra: Sparkles,
   liv_handling: BookOpen,

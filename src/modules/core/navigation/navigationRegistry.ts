@@ -33,7 +33,6 @@ export const NAVIGATION_STRUCTURE = {
       handling: { id: 'handling', label: 'Planering', path: '?tab=handling' },
       arbetsliv: { id: 'arbetsliv', label: 'Arbetsliv', path: '?tab=arbetsliv' },
       economy: { id: 'economy', label: 'Ekonomi', path: '?tab=ekonomi' },
-      drogfrihet: { id: 'drogfrihet', label: 'Drogfrihet', path: '?tab=drogfrihet' },
     },
   },
   family: {
@@ -47,6 +46,7 @@ export const NAVIGATION_STRUCTURE = {
       tillsammans: { id: 'tillsammans', label: 'Tillsammans', path: '?tab=tillsammans' },
       barnporten: { id: 'barnporten', label: 'Barnporten', path: '?tab=barnporten' },
       hamn: { id: 'hamn', label: 'Trygg hamn', path: '?tab=hamn' },
+      drogfrihet: { id: 'drogfrihet', label: 'Drogfrihet', path: '?tab=drogfrihet' },
     },
   },
 } as const;

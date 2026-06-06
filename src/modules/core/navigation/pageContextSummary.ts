@@ -14,6 +14,12 @@ export function getPageContextSummary(pathname: string, search: string): PageCon
     };
   }
   if (pathname.startsWith('/familjen')) {
+    if (tab === 'drogfrihet') {
+      return {
+        title: 'Drogfrihet',
+        body: 'Idag-räknare, akut stöd och reflektion — under Familjen.',
+      };
+    }
     return {
       title: 'Familjen',
       body: 'Barnfokus, minnesankare och livsloggar — barnens silo.',

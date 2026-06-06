@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
-import { Anchor, BookHeart, Heart, Sparkles, Users } from 'lucide-react';
+import { Anchor, BookHeart, Heart, HeartHandshake, Sparkles, Users } from 'lucide-react';
+import { DrogfrihetHubPage } from '@/features/dailyLife/drogfrihet';
 
 import { HubPageShell } from '../layout/HubPageShell';
 import { HubDropdownNav, type DropdownItem } from '../ui/HubDropdownNav';
@@ -27,6 +28,7 @@ const FAMILJ_OPTIONS: DropdownItem<FamiljenTabId>[] = [
   { id: 'tillsammans', label: 'Tillsammans', icon: <Users className="h-4 w-4" /> },
   { id: 'barnporten', label: 'Barnporten', icon: <Heart className="h-4 w-4" /> },
   { id: 'hamn', label: 'Trygg Hamn (BIFF)', icon: <Anchor className="h-4 w-4" /> },
+  { id: 'drogfrihet', label: 'Drogfrihet', icon: <HeartHandshake className="h-4 w-4" /> },
 ];
 
 const VALID_TABS = new Set<FamiljenTabId>(FAMILJEN_TAB_IDS);
@@ -45,7 +47,6 @@ function vaultRedirectSearch(vaultTab: string): string {
 const LEGACY_TAB_REDIRECTS: Record<string, { pathname: string; search: string }> = {
   kunskap: { pathname: '/dagbok', search: '?tab=bevis&vaultTab=kunskapsbank' },
   monster: { pathname: '/dagbok', search: vaultRedirectSearch('familjen_monster') },
-  drogfrihet: { pathname: '/drogfrihet', search: '' },
 };
 
 /** Zon 3 — Familjehubben: barnfokus, livslogg, tillsammans, barnporten, BIFF. */
@@ -132,6 +133,8 @@ export function FamiljenPage() {
           )}
 
           {activeTab === 'hamn' && <SafeHarborPage embedded />}
+
+          {activeTab === 'drogfrihet' && <DrogfrihetHubPage embedded />}
         </main>
       </div>
     </HubPageShell>

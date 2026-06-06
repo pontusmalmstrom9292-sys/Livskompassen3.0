@@ -1,7 +1,7 @@
 # LivSuper — cursor-plan (launcher-modell)
 
 **Datum:** 2026-06-06  
-**Status:** Fas 1–3 **done** 2026-06-06 (smoke PASS) · Drogfrihet→Familj DEFER  
+**Status:** Fas 1–3 **done** · Drogfrihet→Familj **done** 2026-06-06 (smoke PASS)  
 **Metod:** Cursor-native — **launcher**, inte nested shell  
 **Kanon:** [`2026-06-01-superhub-IA-spec.md`](./2026-06-01-superhub-IA-spec.md) · [`MENU-DRAWER-KANON.md`](../design/references/MENU-DRAWER-KANON.md) · [`PLANERING-PROJEKT-HYBRID.md`](../design/PLANERING-PROJEKT-HYBRID.md)
 
@@ -73,9 +73,12 @@
 - [x] `AppRoutes` mountar endast `LivLauncherPage` på `/vardagen`
 - [x] Smoke PASS (negativ guard: ingen `VardagenShellPage`)
 
-## DEFER (ej Fas 3)
+## Drogfrihet → Familjen (done 2026-06-06)
 
-- Drogfrihet primärt under Familj (superhub-spec)
+- [x] Flik `drogfrihet` i `FamiljenPage` (embedded `DrogfrihetHubPage`)
+- [x] `/drogfrihet` → redirect `/familjen?tab=drogfrihet` (underflik via `drogfrihetTab`)
+- [x] Borttagen `vardagen_drogfrihet` i `navTruth`
+- [x] Smoke PASS
 
 ---
 

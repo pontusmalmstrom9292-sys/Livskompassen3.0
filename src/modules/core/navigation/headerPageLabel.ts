@@ -2,7 +2,11 @@
 export function getHeaderPageLabel(pathname: string, search = ''): string | null {
   if (pathname === '/') return 'Hem';
   if (pathname.startsWith('/kompis')) return 'Kompis';
-  if (pathname.startsWith('/familjen')) return 'Familjen';
+  if (pathname.startsWith('/familjen')) {
+    const tab = new URLSearchParams(search.replace(/^\?/, '')).get('tab');
+    if (tab === 'drogfrihet') return 'Drogfrihet';
+    return 'Familjen';
+  }
   if (pathname.startsWith('/hamn')) return 'Trygg hamn';
   if (pathname.startsWith('/valvet') || pathname.startsWith('/valv')) return 'Arkiv';
   if (pathname.startsWith('/hjartat') || pathname.startsWith('/dagbok')) {

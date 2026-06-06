@@ -34,7 +34,26 @@ function main() {
   mustInclude(
     'src/modules/features/dailyLife/drogfrihet/components/DrogfrihetHubPage.tsx',
     'DROGFRIHET_CARDS',
+    'DROGFRIHET_SUBTABS',
+    'drogfrihetTab',
     'Akut: 113',
+  );
+  mustInclude(
+    'src/modules/core/pages/FamiljenPage.tsx',
+    "id: 'drogfrihet'",
+    'DrogfrihetHubPage embedded',
+  );
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', 'RedirectDrogfrihetToFamiljen', "tab: 'drogfrihet'", 'drogfrihetTab');
+  assert(
+    !read('src/modules/core/routing/AppRoutes.tsx').includes('DrogfrihetHubPage'),
+    'AppRoutes.tsx',
+    'mountar inte DrogfrihetHubPage direkt — Familjen embedded',
+  );
+  mustInclude('src/modules/core/navigation/navTruth.ts', 'familjen_drogfrihet', '/familjen?tab=drogfrihet');
+  assert(
+    !read('src/modules/core/navigation/navTruth.ts').includes('vardagen_drogfrihet'),
+    'navTruth.ts',
+    'drogfrihet ska inte ligga under vardagen',
   );
   mustInclude('src/modules/core/home/HomeHeroCompass.tsx', 'HomeHeroKanon');
   mustInclude('src/modules/features/lifeJournal/diary/mirror/components/SpeglingsSystem.tsx', 'VivirQuickEntry', 'SvartPaVittForm');

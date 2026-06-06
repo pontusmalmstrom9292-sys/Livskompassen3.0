@@ -30,7 +30,7 @@
 | Punkt | Var |
 |-------|-----|
 | **Manuell smoke + deploy** | [`2026-06-06-manuell-smoke-checklist.md`](./evaluations/2026-06-06-manuell-smoke-checklist.md) |
-| Drogfrihet→Familj | Superhub-spec (DEFER) |
+| Drogfrihet→Familj | Done — flik i `/familjen`, legacy `/drogfrihet` redirect |
 
 ---
 

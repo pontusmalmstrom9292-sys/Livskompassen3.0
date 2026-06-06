@@ -9,7 +9,7 @@
 | FamiljenPage shell | KEEP | Launcher-mönster redan live |
 | BarnportenInboxPanel HITL | KEEP | Locked UX |
 | SafeHarborPage embedded | KEEP | Hamn-flik |
-| drogfrihet redirect | KEEP | → `/drogfrihet` fullsid |
+| drogfrihet | **MOVE** 2026-06-06 | Flik i `/familjen` · legacy `/drogfrihet` → redirect |
 
 ## Fas 1
 

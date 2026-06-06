@@ -159,7 +159,7 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
   { from: '/familj', to: '/familjen' },
   { from: '/barnen', to: '/familjen?tab=reflektion' },
   { from: '/hamn', to: '/familjen?tab=hamn' },
-  { from: '/drogfrihet', to: VARDAGEN_PATH, search: '?tab=drogfrihet' },
+  { from: '/drogfrihet', to: '/familjen', search: '?tab=drogfrihet' },
   { from: '/kunskap', to: VALVET_PATH, search: '?vaultTab=kunskapsbank' },
   { from: '/valv', to: VALVET_PATH },
   { from: '/dagbok', to: HJARTAT_PATH },
