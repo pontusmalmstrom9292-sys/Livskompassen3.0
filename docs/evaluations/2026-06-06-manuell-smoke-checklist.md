@@ -32,7 +32,7 @@ npm run rollout:night
 |---|------|-----------|--------|
 | **#2d** | Dagbok → Reflektera → bilaga | &lt;5 MB → `attachment` i `journal` + Storage `journal_memories/` | **PASS** 2026-06-06 |
 | **Valfritt** | #3 / #4 i app | WORM bevis + barnlogg sparas | Autorun PASS — USER valfritt |
-| **Valfritt** | Speglar ACT | En «Fortsätt till VIVIR»-knapp efter spegling | öppen |
+| **Valfritt** | Speglar ACT | «Fortsätt till VIVIR» efter Spegla (guld-CTA i speglingskortet) | **PASS** 2026-06-06 |
 
 ---
 

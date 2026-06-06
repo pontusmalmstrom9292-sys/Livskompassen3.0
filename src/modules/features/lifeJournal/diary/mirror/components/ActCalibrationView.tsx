@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ChevronRight } from 'lucide-react';
 import { mirrorFeeling } from '../constants/vivirSteps';
 import {
   fetchSpeglingsMirror,
@@ -117,7 +118,17 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
             {usedAi ? <span className="text-accent-ai">AI</span> : null}
           </p>
           {mirrored ? (
-            <p className="text-sm leading-relaxed text-text-muted">{toMirrorDisplay(mirrorText)}</p>
+            <>
+              <p className="text-sm leading-relaxed text-text-muted">{toMirrorDisplay(mirrorText)}</p>
+              <button
+                type="button"
+                onClick={onContinue}
+                className="btn-pill--accent mt-4 inline-flex w-full items-center justify-center gap-2"
+              >
+                Fortsätt till VIVIR
+                <ChevronRight className="h-4 w-4" aria-hidden />
+              </button>
+            </>
           ) : (
             <p className="text-sm text-text-dim">
               Skriv hur det känns och tryck Spegla — jag fixar inget här.
@@ -127,12 +138,6 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
       </div>
 
       {mirrorHint ? <p className="text-xs text-text-dim">{mirrorHint}</p> : null}
-
-      {mirrored ? (
-        <button type="button" onClick={onContinue} className="btn-pill--secondary">
-          Fortsätt till VIVIR
-        </button>
-      ) : null}
     </div>
   );
 }

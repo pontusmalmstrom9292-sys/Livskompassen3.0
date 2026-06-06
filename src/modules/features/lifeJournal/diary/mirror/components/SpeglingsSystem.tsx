@@ -95,7 +95,7 @@ export function SpeglingsSystem({ embedded: _embedded = false }: SpeglingsSystem
         />
         {!showForensic && (
           <p className="mt-3 text-xs text-text-dim">
-            ACT-kalibrering ovan — tryck «Fortsätt» när du är redo för VIVIR och bevis (kräver Valv-session).
+            Skriv känsla → Spegla → «Fortsätt till VIVIR». Bevisjämförelse kräver upplåst Valv (Fyren 3 s).
           </p>
         )}
       </BentoCard>
