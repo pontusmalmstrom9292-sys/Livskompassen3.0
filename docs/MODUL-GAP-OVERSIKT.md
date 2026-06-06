@@ -2,7 +2,7 @@
 
 **Syfte:** En sida — vad som är **klart i kod**, vad som är **öppet per modul**, och vad som körs **autonomt** vs **kräver dig**.
 
-**Senaste leverans:** supermoduler · CaptureSuper v2 · ValvSuper Fas 2 · [`SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
+**Senaste leverans:** Barnporten Våg A/B deployad · Android Run PASS · [`SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
 
 **Arkiv (G1–G16):** [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) — alla **done**.  
 **Modulregister:** [`MODUL-FUNKTIONS-REGISTER.md`](./MODUL-FUNKTIONS-REGISTER.md) · **Cursor-plan mall:** [`evaluations/MALL-cursor-plan.md`](./evaluations/MALL-cursor-plan.md)  
@@ -48,7 +48,7 @@ Alla planfiler har `status: closed` överst. **Öppet arbete finns endast i tabe
 | **planering** | `/planering?tab=handling` | Fas 2 **done** (PLANERING_MORE_TABS, Paralys Fokus) · Master YOLO hub-gora | **done** |
 | **projekt** | `/projekt` | MaterialPack **done** · `project_rules` Firestore **done** 2026-06-01 | deploy rules · test `/projekt/regler` |
 | **kompis/kunskap** | Valv `/valvet` · `kunskapsbank` | Fas 1.5 **done** · våg 8 **partial** (53 FACT — omkör med seed-credentials) | [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) våg 8 |
-| **barnporten** | `/barnporten` | P1 + Våg A/B **done** · QR deploy · manuell smoke #3/#4 på telefon | `Fas 5A #4` på telefon |
+| **barnporten** | `/barnporten` | P1 + **Våg A done** (CB2–CB4) + **Våg B done** (QR callables + rules deploy) · **USER #4 PASS** 2026-06-06 Motorola · Våg C push defer | — |
 | **valv** | `/valvet` | ValvSuper Fas 1+2 **done** · Vävaren HITL **done** | hosting deploy Fas 2 · [`supermodule-master-plan`](./evaluations/2026-06-06-supermodule-master-plan.md) |
 | **core** | `/` | Hemkompass polish **done** 2026-06-06 · `#2d` autorun PASS · `#3/#4` autorun PASS | valfritt USER · [`2026-06-06-hemkompass-polish-done.md`](./evaluations/2026-06-06-hemkompass-polish-done.md) |
 | **inkast** | Hem · Valv Samla | CaptureSuper **v2 done** · canonical `InboxReviewQueue` | [`2026-06-06-upload-unified-cursor-plan.md`](./evaluations/2026-06-06-upload-unified-cursor-plan.md) |
@@ -56,7 +56,7 @@ Alla planfiler har `status: closed` överst. **Öppet arbete finns endast i tabe
 | **dossier** | `/dossier` | BBIC `reportType` **planned** | Spec §I.4 |
 | **ekonomi** | `/liv?tab=kompasser&vardagenTab=ekonomi` | Routing superhub **live** 2026-06-01 · sparmål UI **done** · lönespec vardag **done** | [`LOST-FEATURES-REGISTER.md`](./evaluations/LOST-FEATURES-REGISTER.md) |
 | **hamn** | `/hamn` | BIFF via `TryggHamnHub` | `smoke:design-modules` |
-| **auth/android** | app | **Verifierad 2026-05** | [`.context/android-capacitor.md`](../.context/android-capacitor.md) |
+| **auth/android** | app | **Run PASS 2026-06-06** (Motorola) · cap sync klar · SHA-1 OK | [`.context/android-capacitor.md`](../.context/android-capacitor.md) |
 
 **Låst UX:** Barnfokus, Valv Mönster/Orkester/Kunskapsbank, Planering P3, ikoner B1/D1/M2 — `npm run smoke:locked-ux` **PASS**.
 
@@ -72,9 +72,9 @@ npm run orkester:night
 
 ## Kräver dig
 
-1. **Kunskap våg 8 omkörning** — `SEED_FIREBASE_EMAIL/PASSWORD` → [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md)
-2. **Hosting deploy** — ValvSuper Fas 2 (`c5348b56`)
-3. **Valfritt USER** — #3/#4 i app · [`2026-05-29-smoke-manuell.md`](./evaluations/2026-05-29-smoke-manuell.md)
+1. **Fas 5A #3 Valv** — PIN → spara post · [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md) §A
+2. **Fas 5A #4 Barnporten** — spara loggrad på telefon/barnenhet · samma fil §B
+3. **Valfritt USER** — superhub snabbtest · [`2026-05-29-smoke-manuell.md`](./evaluations/2026-05-29-smoke-manuell.md)
 
 ---
 
