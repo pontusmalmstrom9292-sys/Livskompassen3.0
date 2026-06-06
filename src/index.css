@@ -941,7 +941,7 @@
     gap: 0;
     min-height: 5.5rem;
     max-width: min(100vw - 0.5rem, 26rem);
-    padding: 0.5rem 0.45rem 0.4rem;
+    padding: 0.5rem 3.55rem 0.4rem 0.45rem;
   }
 
   .floating-dock__side-group {
@@ -3780,20 +3780,109 @@
   }
 
   .fyren-widget-bar {
-    @apply pointer-events-none fixed bottom-[3.75rem] right-0 z-[55] flex flex-col items-end;
+    @apply pointer-events-none fixed left-1/2 z-[56] flex w-full max-w-[26rem] -translate-x-1/2 flex-col items-center;
+    bottom: calc(5.85rem + env(safe-area-inset-bottom, 0px));
   }
 
   .fyren-widget-bar__backdrop {
-    @apply fixed inset-0 z-[54] border-0 bg-black/25 backdrop-blur-[1px];
+    @apply pointer-events-auto fixed inset-0 z-[54] border-0 bg-black/25 backdrop-blur-[1px];
   }
 
-  .fyren-widget-bar__prick {
-    @apply pointer-events-auto mr-2 h-14 w-4 rounded-full border-0;
-    background: linear-gradient(180deg, rgba(212, 175, 55, 0.55), rgba(212, 175, 55, 0.35));
-    box-shadow: 0 0 16px rgba(212, 175, 55, 0.28);
+  .widget-record-discreet-overlay {
+    @apply pointer-events-none fixed inset-0 z-[100];
+    background: rgba(0, 0, 0, 0.95);
   }
 
-  .fyren-widget-bar__prick--holding {
+  .fyren-widget-bar__strip {
+    @apply pointer-events-auto grid w-full grid-cols-4 gap-2 rounded-2xl border border-[0.5px] border-border p-3;
+    background: color-mix(in srgb, var(--surface-2) 94%, transparent);
+    backdrop-filter: blur(16px);
+    box-shadow:
+      0 12px 36px rgba(0, 0, 0, 0.48),
+      0 0 0 1px rgba(255, 255, 255, 0.04);
+    transform-origin: bottom center;
+    transition:
+      transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.18s ease;
+  }
+
+  .fyren-widget-bar__strip--closed {
+    @apply pointer-events-none translate-y-4 scale-[0.94] opacity-0;
+  }
+
+  .fyren-widget-bar--open .fyren-widget-bar__strip {
+    @apply translate-y-0 scale-100 opacity-100;
+  }
+
+  .fyren-widget-bar__action {
+    @apply flex min-w-0 flex-col items-center gap-1.5 rounded-xl px-1 py-1.5 text-text-muted transition-colors hover:bg-surface-3/70 hover:text-accent;
+  }
+
+  .fyren-widget-bar__icon-shell {
+    @apply relative flex h-[3.35rem] w-[3.35rem] shrink-0 items-center justify-center rounded-xl;
+    border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    box-shadow:
+      0 2px 10px rgba(0, 0, 0, 0.38),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .fyren-widget-bar__action:hover .fyren-widget-bar__icon-shell {
+    border-color: color-mix(in srgb, var(--accent-light) 42%, transparent);
+    box-shadow:
+      0 4px 14px rgba(0, 0, 0, 0.42),
+      0 0 12px color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+
+  .fyren-widget-bar__drawer-l2 {
+    height: 2rem;
+    width: 2rem;
+    opacity: 0.96;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35));
+  }
+
+  .fyren-widget-bar__label {
+    @apply max-w-full truncate text-center text-[9.5px] leading-tight tracking-wide text-text-dim;
+  }
+
+  .fyren-widget-bar__action:hover .fyren-widget-bar__label {
+    @apply text-accent;
+  }
+
+  .floating-dock__fyren-btn {
+    position: absolute;
+    right: 0.15rem;
+    bottom: 0.28rem;
+    z-index: 4;
+    max-width: 3.65rem;
+    width: auto;
+    gap: 0.18rem;
+    padding-bottom: 0.05rem;
+    pointer-events: auto;
+  }
+
+  .floating-dock__fyren-btn .fyren-widget-bar__icon-shell--trigger {
+    @apply h-[2.85rem] w-[2.85rem];
+  }
+
+  .floating-dock__fyren-btn .fyren-widget-bar__drawer-l2 {
+    height: 1.75rem;
+    width: 1.75rem;
+  }
+
+  .floating-dock__fyren-btn .dock-nav-btn__label {
+    @apply text-[9px] leading-tight tracking-wide;
+  }
+
+  .floating-dock__fyren-btn--open .fyren-widget-bar__icon-shell--trigger {
+    border-color: color-mix(in srgb, var(--accent-light) 58%, transparent);
+    background: color-mix(in srgb, var(--accent) 11%, transparent);
+    box-shadow:
+      0 0 16px color-mix(in srgb, var(--accent) 20%, transparent),
+      inset 0 1px 0 rgba(255, 248, 220, 0.1);
+  }
+
+  .floating-dock__fyren-btn--holding .fyren-widget-bar__icon-shell--trigger {
     background: linear-gradient(
       180deg,
       rgba(212, 175, 55, 0.85) var(--fyren-hold, 0%),
@@ -3803,59 +3892,22 @@
     box-shadow: 0 0 16px rgba(212, 175, 55, 0.45);
   }
 
-  .widget-record-discreet-overlay {
-    @apply pointer-events-none fixed inset-0 z-[100];
-    background: rgba(0, 0, 0, 0.95);
-  }
-
-  .fyren-widget-bar__strip {
-    @apply pointer-events-auto mr-1 flex flex-col gap-1 rounded-2xl border border-white/10 p-2;
-    background: rgba(15, 23, 42, 0.92);
-    backdrop-filter: blur(16px);
-    transition:
-      transform 0.2s ease,
-      opacity 0.2s ease;
-  }
-
-  .fyren-widget-bar__strip--closed {
-    @apply pointer-events-none translate-x-[110%] opacity-0;
-  }
-
-  .fyren-widget-bar__action {
-    @apply flex h-14 w-14 items-center justify-center rounded-xl text-text-muted transition-colors hover:bg-white/5 hover:text-accent;
-  }
-
-  .fyren-widget-bar__action svg,
-  .fyren-widget-bar__action img {
-    @apply h-6 w-6 shrink-0;
-  }
-
-  /* Mobil/tablet: bara ikoner (aria-label) — täcker inte Familjen-formulär */
-  .fyren-widget-bar__label {
-    @apply hidden;
-  }
-
-  @media (min-width: 1280px) {
-    .fyren-widget-bar__prick {
-      @apply h-8 w-2;
-      box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
-    }
-
+  @media (min-width: 480px) {
     .fyren-widget-bar__strip {
-      @apply gap-1 rounded-xl p-1.5;
+      @apply gap-2.5 p-3.5;
     }
 
-    .fyren-widget-bar__action {
-      @apply h-auto w-auto justify-start gap-2 rounded-lg px-2.5 py-2;
+    .fyren-widget-bar__icon-shell {
+      @apply h-[3.55rem] w-[3.55rem];
     }
 
-    .fyren-widget-bar__action svg,
-    .fyren-widget-bar__action img {
-      @apply h-4 w-4;
+    .fyren-widget-bar__drawer-l2 {
+      height: 2.15rem;
+      width: 2.15rem;
     }
 
     .fyren-widget-bar__label {
-      @apply inline whitespace-nowrap text-xs;
+      @apply text-[10px];
     }
   }
 
