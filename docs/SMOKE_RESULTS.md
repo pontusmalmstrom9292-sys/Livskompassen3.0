@@ -40,6 +40,21 @@
 | **Manuell PASS** | Inkast post-save CTA + MaterialPack `/projekt/genvagar` | **PASS** | 2026-06-07 (USER) |
 | **Autorun PASS** | Fas 2 re-run (build + 6 smokes) | **PASS** | 2026-06-07 |
 | **Deploy** | Fas 2 planering + smoke docs (`hosting`) | **PASS** | 2026-06-07 · `6ce9e79c` |
+| **Autorun PASS** | Smart Inkast vardag (`smoke:inkast-vardag` + inkast + design-modules + locked-ux) | **PASS** | 2026-06-07 — Hem kompass + granskningskö + `#inkast-lite` |
+| **Deploy** | Hosting Smart Inkast vardag (Hem → capture → kö) | **PASS** | 2026-06-07 · https://gen-lang-client-0481875058.web.app |
+| **Manuell PASS** | Inkast vardag på Hem (Motorola: klistra → granska → kö) | **PASS** | 2026-06-07 (USER) |
+| **Autorun PASS** | §F Projekt regler (`smoke:projekt-regler`) | **PASS** | 2026-06-07 — route, API, rules, blur-save |
+| **Deploy** | Hosting §F Projekt regler (blur-save) | **PASS** | 2026-06-07 · https://gen-lang-client-0481875058.web.app |
+| **Manuell PASS** | §F Projekt regler (Motorola: lägg till → byt namn → reload) | **PASS** | 2026-06-07 (USER) |
+| **Autorun PASS** | §E Göra Fokus/Framsteg/Regler (`smoke:planering-gora-e`) | **PASS** | 2026-06-07 — ghost pills + en TabBar |
+| **Deploy** | Hosting §E PlaneringMoreTabsBar | **PASS** | 2026-06-07 · https://gen-lang-client-0481875058.web.app |
+| **Manuell PASS** | §E Göra (Handling + Fokus/Framsteg/Regler-länkar) | **PASS** | 2026-06-07 (USER) |
+| **Autorun PASS** | Hemkompass UI-polish våg 2 (`smoke:design-modules` + locked-ux) | **PASS** | 2026-06-07 — scenic stack, Närvaro-chip, adaptive-card tokens |
+| **Deploy** | Hosting Hemkompass UI-polish våg 2 | **PASS** | 2026-06-07 · https://gen-lang-client-0481875058.web.app |
+| **Manuell PASS** | Hemkompass UI våg 2 (scenic stack + fasflikar) | **PASS** | 2026-06-07 (USER) |
+| **Autorun PASS** | Inkast fas 2 (`smoke:inkast-fas2` + inkast + locked-ux) | **PASS** | 2026-06-07 — Planering kö + G10 status badges |
+| **Deploy** | Hosting Inkast fas 2 | **PASS** | 2026-06-07 · https://gen-lang-client-0481875058.web.app |
+| **Manuell** | Inkast fas 2 (Planering inkorg + Valv godkänn) | **väntar** | — |
 
 **Fas 5A #3/#4:** **PASS** (USER 2026-06-06/07) — se [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md).
 

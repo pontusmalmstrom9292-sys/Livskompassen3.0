@@ -221,7 +221,7 @@ function main() {
     'src/modules/features/admin/planning/components/PlaneringInkorgPanel.tsx',
     'PlaneringSuperModule',
     'variant="capture"',
-    'InboxReviewQueueLink',
+    'ReviewQueuePipelinePanel',
   );
   assert(
     !read('src/modules/features/admin/planning/components/PlaneringPage.tsx').includes('PlaneringInkorgPanel'),
@@ -269,6 +269,7 @@ function main() {
     'ReviewQueuePipelinePanel',
     "variant === 'hem-capture'",
     "variant === 'kompass'",
+    'refreshToken={queueRefresh}',
   );
   mustInclude(
     'src/modules/capture/reviewQueuePipeline.ts',
@@ -310,8 +311,11 @@ function main() {
     'KasamEvening',
     'KompassradPanel',
     'home_snabbval',
+    'home-adaptive-compass',
+    'home-adaptive-compass__tab--active',
   );
-  mustInclude('src/modules/core/home/HomeHeroKanon.tsx', 'useLifeHubPreset', 'Profil:');
+  mustInclude('src/modules/core/home/HomeHeroKanon.tsx', 'useLifeHubPreset', 'home-greeting-module');
+  mustInclude('src/modules/features/dailyLife/wellbeing/compasses/components/DashboardPage.tsx', 'home-adaptive-compass--hub', 'home-adaptive-compass__hub-head');
   mustInclude('src/modules/features/admin/projects/components/ProjektMaterialPackPage.tsx', 'MaterialPackShortcuts', 'duplicateTargetKeys');
   mustInclude('src/modules/capture/ReviewQueuePipelinePanel.tsx', 'inkastDestinationLink');
   mustInclude('src/modules/inkast/api/inkastService.ts', "case 'journal'");

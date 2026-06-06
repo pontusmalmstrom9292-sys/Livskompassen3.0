@@ -1,5 +1,5 @@
 import { NAV_PATHS } from '@/core/navigation/navTruth';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Loader2, Moon, Sparkles, Sun, Sunrise } from 'lucide-react';
 import { clsx } from 'clsx';
@@ -58,6 +58,7 @@ export function HomeAdaptiveCompass({
   const [morningSaved, setMorningSaved] = useState(false);
   const [morningError, setMorningError] = useState<string | null>(null);
   const [paralysKey, setParalysKey] = useState(0);
+  const inkastSectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const sync = () => setTimePhase(getHomeCompassPhase());
@@ -70,6 +71,12 @@ export function HomeAdaptiveCompass({
   const showInkast = materialEnabled(preset, 'home_inkast') && showCheckIn;
   const showQuickNav = materialEnabled(preset, 'home_snabbval');
   const quickNav = showQuickNav ? getHomeQuickNavForPreset(presetId) : [];
+
+  useEffect(() => {
+    if (!showInkast) return;
+    if (window.location.hash.replace(/^#/, '') !== 'inkast-lite') return;
+    inkastSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [showInkast]);
 
   const handleMorningSave = async () => {
     if (!user || morningIntention.trim().length < 2) {
@@ -99,38 +106,47 @@ export function HomeAdaptiveCompass({
     setParalysKey((k) => k + 1);
   };
 
+  const quickNavGrid =
+    quickNav.length > 0 ? (
+      <div
+        className={clsx(
+          'home-adaptive-compass__quick-nav grid gap-2.5',
+          quickNavGridClass(quickNav.length),
+        )}
+        aria-label="Snabbnavigering"
+      >
+        {quickNav.map((item) => {
+          const Icon = item.icon;
+          return (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => navigate(item.to)}
+              className="home-adaptive-compass__quick-btn"
+            >
+              <Icon className="home-adaptive-compass__quick-icon" aria-hidden />
+              <span className="home-adaptive-compass__quick-label">{item.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    ) : null;
+
   return (
-    <div className="animate-fade-in mx-auto flex w-full max-w-2xl flex-col gap-5">
+    <div className="home-adaptive-compass animate-fade-in mx-auto flex w-full max-w-2xl flex-col gap-4">
       {orbitHero ? (
         <div className="home-adaptive-compass__orbit -mt-1 flex justify-center">{orbitHero}</div>
       ) : null}
 
-      {quickNav.length > 0 ? (
-        <div className={clsx('grid gap-3', quickNavGridClass(quickNav.length))}>
-          {quickNav.map((item) => {
-            const Icon = item.icon;
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => navigate(item.to)}
-                className="flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-2xl border border-border/30 bg-surface-2/60 p-3.5 shadow-sm backdrop-blur-md transition-all hover:bg-surface-3"
-              >
-                <Icon className="h-4 w-4 text-accent" aria-hidden />
-                <span className="text-[10px] font-medium text-text-muted">{item.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      ) : null}
-
       {showCheckIn ? (
-        <>
-          <KompassradPanel />
+        <div className="home-adaptive-compass__core">
+          <div className="home-adaptive-compass__advice">
+            <KompassradPanel />
+          </div>
 
           <div
             className={clsx(
-              'calm-card flex flex-col overflow-hidden rounded-2xl border border-border/30 bg-surface-2/70 backdrop-blur-xl transition-all duration-700',
+              'home-adaptive-compass__card calm-card glow-bottom-gold flex flex-col overflow-hidden rounded-2xl border border-border/30 bg-surface-2/70 backdrop-blur-xl transition-all duration-700',
               phaseGlowClasses(activePhase),
             )}
           >
@@ -159,7 +175,7 @@ export function HomeAdaptiveCompass({
 
               {!forcedPhase ? (
                 <div
-                  className="flex gap-1 rounded-xl border border-border/25 bg-surface/40 p-0.5"
+                  className="home-adaptive-compass__tabs"
                   role="tablist"
                   aria-label="Välj kompass"
                 >
@@ -171,10 +187,8 @@ export function HomeAdaptiveCompass({
                       aria-selected={activePhase === opt.id}
                       onClick={() => setManualPhase(opt.id)}
                       className={clsx(
-                        'rounded-lg px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider transition-colors',
-                        activePhase === opt.id
-                          ? 'bg-surface-3 text-accent'
-                          : 'text-text-dim hover:text-text-muted',
+                        'home-adaptive-compass__tab',
+                        activePhase === opt.id && 'home-adaptive-compass__tab--active',
                       )}
                     >
                       {opt.short}
@@ -259,21 +273,22 @@ export function HomeAdaptiveCompass({
             </div>
 
             {showInkast ? (
-              <div
-                id="inkast"
-                className="flex flex-col gap-3 border-t border-border/20 bg-surface-3/20 p-5 scroll-mt-24"
+              <section
+                id="inkast-lite"
+                ref={inkastSectionRef}
+                className="home-adaptive-compass__inkast flex flex-col gap-3 scroll-mt-28"
               >
-                <div className="mb-1 flex items-center gap-1.5">
+                <div className="home-adaptive-compass__inkast-head">
                   <Sparkles className="h-3.5 w-3.5 text-accent" aria-hidden />
-                  <span className="text-[10px] font-semibold uppercase tracking-widest text-text-dim">
+                  <span className="font-display-serif text-[10px] font-semibold uppercase tracking-[0.2em] text-text-dim">
                     Smart Inkast
                   </span>
                 </div>
                 <CaptureSuperModule variant="kompass" onSaved={onSaved} />
-              </div>
+              </section>
             ) : null}
           </div>
-        </>
+        </div>
       ) : (
         <p className="text-center text-xs text-text-dim">
           Hemprofil «{preset.label}» — check-in via{' '}
@@ -287,6 +302,8 @@ export function HomeAdaptiveCompass({
           .
         </p>
       )}
+
+      {quickNavGrid}
     </div>
   );
 }

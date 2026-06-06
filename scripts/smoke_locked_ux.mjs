@@ -547,6 +547,7 @@ function main() {
     'PlanningKanbanBoard',
     'GoraHubTabBar',
     'PLANERING_MORE_TABS',
+    'PlaneringMoreTabsBar',
     'Fler verktyg',
   );
   mustInclude('src/modules/features/admin/planning/constants.ts', 'PLANERING_MORE_TABS', 'fokus', 'framsteg', 'regler');
@@ -559,7 +560,7 @@ function main() {
   );
   mustInclude(
     'src/modules/features/admin/planning/components/PlaneringInkorgPanel.tsx',
-    'InboxReviewQueue',
+    'ReviewQueuePipelinePanel',
   );
   mustInclude('src/modules/inkast/components/InboxReviewQueue.tsx', 'confirmInbox', 'dismissInbox');
   mustInclude(

@@ -1,14 +1,35 @@
 import type { InboxQueueItem } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import { ROUTING_LABELS } from '@/modules/inkast/api/inkastService';
 
+/** G10 visningsstatus — samma i Hem, Planering och Valv Samla. */
+export type InboxQueueDisplayStatus = 'routed' | 'review' | 'rejected';
+
+const REVIEW_CONFIDENCE_THRESHOLD = 0.75;
+
+export function inboxQueueDisplayStatus(item: InboxQueueItem): InboxQueueDisplayStatus {
+  const confidence = typeof item.confidence === 'number' ? item.confidence : 0;
+  if (item.proposedRouting === 'review' || confidence < REVIEW_CONFIDENCE_THRESHOLD) {
+    return 'review';
+  }
+  return 'routed';
+}
+
+export function inboxQueueStatusBadgeClass(status: InboxQueueDisplayStatus): string {
+  if (status === 'routed') return 'review-queue-status review-queue-status--routed';
+  if (status === 'rejected') return 'review-queue-status review-queue-status--rejected';
+  return 'review-queue-status review-queue-status--review';
+}
+
 /** Delad G10-etikett — samma semantik i Hem-summary och Valv InboxReviewQueue. */
 export function inboxQueueStatusLabel(item: InboxQueueItem): string {
-  const confidence = typeof item.confidence === 'number' ? item.confidence : 0;
-  if (item.proposedRouting === 'review' || confidence < 0.75) {
-    return 'Status: granska';
-  }
+  const status = inboxQueueDisplayStatus(item);
+  if (status === 'review') return 'Status: granska';
   const routingLabel = ROUTING_LABELS[item.proposedRouting as keyof typeof ROUTING_LABELS];
-  return `Status: förslag → ${routingLabel ?? item.proposedRouting}`;
+  return `Status: dirigerad → ${routingLabel ?? item.proposedRouting}`;
+}
+
+export function draftFailedStatusLabel(): string {
+  return 'Status: avvisad';
 }
 
 /** Valv Samla: bevis och osäkra poster först. */

@@ -3,7 +3,7 @@ import { Flame } from 'lucide-react';
 import { useStore } from '../store';
 import { getRecentCheckIns } from '../firebase/firestore';
 
-/** Liten «Din eld» — streak senaste 7 dagar (valfri, dold utan data). */
+/** Liten närvaro-indikator — dagar med check-in (dold utan data, ingen streak-gamification). */
 export function HomeStreakChip() {
   const user = useStore((s) => s.user);
   const [streak, setStreak] = useState(0);
@@ -34,10 +34,10 @@ export function HomeStreakChip() {
   if (!user || streak < 1) return null;
 
   return (
-    <div className="home-streak-chip" aria-label={`Din eld: ${streak} dagar med check-in`}>
+    <div className="home-streak-chip" aria-label={`Närvaro: ${streak} dagar med check-in`}>
       <Flame className="home-streak-chip__icon" strokeWidth={1.5} aria-hidden />
       <span className="home-streak-chip__value tabular-nums">{streak}</span>
-      <span className="home-streak-chip__label">Din eld</span>
+      <span className="home-streak-chip__label">Närvaro</span>
     </div>
   );
 }

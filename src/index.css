@@ -2792,20 +2792,24 @@
     @apply relative px-1 pt-1 text-center;
   }
 
-  .home-page--scenic .home-hero-kanon__header .home-hero-kanon__intro {
-    @apply relative z-[1] flex flex-col items-center gap-3;
-  }
-
-  .home-page--scenic .home-hero-kanon__header .home-streak-chip {
-    @apply static;
-  }
-
   .home-page--scenic .home-hero-kanon__scenic-stack .calm-card {
     @apply relative z-[2] overflow-visible;
   }
 
-  .home-page--scenic .home-greeting {
-    @apply relative w-full overflow-hidden rounded-t-2xl rounded-b-none px-5 pb-4 pt-4 text-center;
+  .home-greeting-module {
+    @apply flex w-full flex-col;
+  }
+
+  .home-greeting-module__meta {
+    @apply flex items-center justify-center gap-3;
+  }
+
+  .home-greeting-module__profile {
+    @apply text-[10px] uppercase tracking-[0.18em] text-text-dim;
+  }
+
+  .home-page--scenic .home-greeting-module {
+    @apply relative w-full overflow-hidden rounded-t-2xl rounded-b-none text-center;
     border: 1.5px solid color-mix(in srgb, var(--accent) 34%, transparent);
     background: linear-gradient(
       168deg,
@@ -2819,7 +2823,7 @@
       inset 0 1px 0 rgba(255, 243, 210, 0.12);
   }
 
-  .home-page--scenic .home-greeting::before {
+  .home-page--scenic .home-greeting-module::before {
     content: '';
     position: absolute;
     top: 0;
@@ -2833,6 +2837,25 @@
       transparent 100%
     );
     pointer-events: none;
+  }
+
+  .home-page--scenic .home-greeting-module .home-greeting {
+    @apply relative rounded-none border-0 bg-transparent px-5 pb-3 pt-4 text-center shadow-none;
+  }
+
+  .home-page--scenic .home-greeting-module__meta {
+    @apply relative border-t px-5 pb-3.5 pt-2.5;
+    border-color: color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .home-page--scenic .home-greeting-module__profile {
+    @apply text-accent/70;
+  }
+
+  .home-page--scenic .home-greeting-module .home-streak-chip {
+    border-color: rgba(212, 175, 55, 0.35);
+    background: rgba(10, 10, 10, 0.55);
+    backdrop-filter: blur(12px);
   }
 
   .home-page--scenic .home-greeting__eyebrow {
@@ -2869,12 +2892,6 @@
     display: block;
   }
 
-  .home-page--scenic .home-streak-chip {
-    border-color: rgba(212, 175, 55, 0.35);
-    background: rgba(10, 10, 10, 0.55);
-    backdrop-filter: blur(12px);
-  }
-
   .home-greeting__title {
     @apply font-display text-2xl font-light leading-tight text-accent;
   }
@@ -2907,6 +2924,114 @@
 
   .home-streak-chip__label {
     @apply text-[9px] uppercase tracking-widest text-text-dim;
+  }
+
+  /* ── Adaptiv Hemkompass (Obsidian Calm 2.0) ── */
+  .home-adaptive-compass__quick-btn {
+    @apply flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-2xl p-3.5 backdrop-blur-md transition-all;
+    border: 0.5px solid var(--border);
+    background: color-mix(in srgb, var(--surface-2) 72%, transparent);
+    box-shadow: 0 4px 16px rgba(2, 6, 23, 0.22);
+  }
+
+  .home-adaptive-compass__quick-btn:hover {
+    border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+    background: var(--surface-3);
+  }
+
+  .home-adaptive-compass__quick-btn:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+    outline-offset: 2px;
+  }
+
+  .home-adaptive-compass__quick-icon {
+    @apply h-4 w-4 text-accent;
+    stroke-width: 1.5;
+  }
+
+  .home-adaptive-compass__quick-label {
+    @apply text-[10px] font-medium tracking-wide text-text-muted;
+  }
+
+  .home-adaptive-compass__tabs {
+    @apply flex gap-0.5 rounded-xl p-0.5;
+    border: 0.5px solid var(--border);
+    background: color-mix(in srgb, var(--surface) 55%, transparent);
+  }
+
+  .home-adaptive-compass__tab {
+    @apply rounded-lg px-2.5 py-1 font-display-serif text-[10px] font-medium uppercase tracking-[0.18em] transition-colors;
+    color: var(--text-dim);
+  }
+
+  .home-adaptive-compass__tab:hover {
+    color: var(--text-muted);
+  }
+
+  .home-adaptive-compass__tab--active {
+    background: var(--surface-3);
+    color: var(--accent);
+    box-shadow: inset 0 0 0 0.5px color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  .home-adaptive-compass__inkast {
+    @apply p-5;
+    border-top: 0.5px solid var(--border);
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface-3) 42%, transparent) 0%,
+      color-mix(in srgb, var(--surface-2) 18%, transparent) 100%
+    );
+  }
+
+  .home-adaptive-compass__inkast-head {
+    @apply mb-1 flex items-center gap-1.5;
+  }
+
+  .home-page--scenic .home-hero-kanon__scenic-stack .home-adaptive-compass {
+    @apply gap-3;
+    margin-top: -1px;
+  }
+
+  .home-page--scenic .home-adaptive-compass__core {
+    @apply flex flex-col;
+  }
+
+  .home-page--scenic .home-adaptive-compass__advice .elongated-module {
+    @apply rounded-none border-t-0;
+    margin-top: -1px;
+    border-left: 1.5px solid color-mix(in srgb, var(--accent) 34%, transparent);
+    border-right: 1.5px solid color-mix(in srgb, var(--accent) 34%, transparent);
+    background: color-mix(in srgb, var(--surface-2) 88%, transparent);
+  }
+
+  .home-page--scenic .home-adaptive-compass__card {
+    @apply rounded-t-none;
+    margin-top: -1px;
+    border-top: none;
+    border-left-width: 1.5px;
+    border-right-width: 1.5px;
+    border-color: color-mix(in srgb, var(--accent) 34%, transparent);
+  }
+
+  .home-adaptive-compass__core {
+    @apply flex flex-col gap-0;
+  }
+
+  .home-adaptive-compass--hub .home-adaptive-compass__card {
+    box-shadow: 0 12px 36px rgba(2, 6, 23, 0.28);
+  }
+
+  .home-adaptive-compass__hub-head {
+    @apply mx-auto mb-1 max-w-2xl text-center;
+  }
+
+  .home-page__section {
+    @apply mx-auto w-full max-w-2xl space-y-3;
+  }
+
+  .home-page__section-head {
+    @apply px-0.5;
   }
 
   .livskompass-hero {
@@ -4347,7 +4472,54 @@
   }
 
   .adaptive-card {
-    @apply transition-colors hover:border-white/20;
+    @apply transition-colors;
+    border-width: 0.5px;
+  }
+
+  .adaptive-card:hover {
+    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+  }
+
+  .adaptive-card--gold {
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+    background: color-mix(in srgb, var(--accent) 6%, transparent);
+  }
+
+  .adaptive-card--indigo {
+    border-color: color-mix(in srgb, var(--accent-secondary) 28%, transparent);
+    background: color-mix(in srgb, var(--accent-secondary) 6%, transparent);
+  }
+
+  .adaptive-card--lavender {
+    border-color: color-mix(in srgb, var(--accent-ai) 24%, transparent);
+    background: color-mix(in srgb, var(--accent-ai) 5%, transparent);
+  }
+
+  .adaptive-card--emerald {
+    border-color: color-mix(in srgb, var(--success) 28%, transparent);
+    background: color-mix(in srgb, var(--success) 6%, transparent);
+  }
+
+  .review-queue-status {
+    @apply rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider;
+  }
+
+  .review-queue-status--routed {
+    border: 0.5px solid color-mix(in srgb, var(--accent) 32%, transparent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    color: var(--accent);
+  }
+
+  .review-queue-status--review {
+    border: 0.5px solid color-mix(in srgb, var(--accent-secondary) 32%, transparent);
+    background: color-mix(in srgb, var(--accent-secondary) 8%, transparent);
+    color: var(--accent-secondary);
+  }
+
+  .review-queue-status--rejected {
+    border: 0.5px solid color-mix(in srgb, var(--danger, #f87171) 28%, transparent);
+    background: color-mix(in srgb, var(--danger, #f87171) 8%, transparent);
+    color: color-mix(in srgb, var(--danger, #fca5a5) 92%, white);
   }
 
   .module-card {

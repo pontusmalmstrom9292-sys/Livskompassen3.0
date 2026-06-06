@@ -9,11 +9,11 @@ import {
   type AdaptiveMemoryCard,
 } from './compassAdaptiveCards';
 
-const toneBorder: Record<AdaptiveMemoryCard['tone'], string> = {
-  gold: 'border-gold/25 bg-gold/5',
-  indigo: 'border-indigo-400/25 bg-indigo-500/5',
-  lavender: 'border-violet-400/25 bg-violet-500/5',
-  emerald: 'border-accent/25 bg-accent/5',
+const toneClass: Record<AdaptiveMemoryCard['tone'], string> = {
+  gold: 'adaptive-card--gold',
+  indigo: 'adaptive-card--indigo',
+  lavender: 'adaptive-card--lavender',
+  emerald: 'adaptive-card--emerald',
 };
 
 export function AdaptiveMemoryCards({
@@ -58,8 +58,10 @@ export function AdaptiveMemoryCards({
   return (
     <section className="space-y-3" aria-label="Anpassade minneskort">
       <div className="flex items-center gap-2">
-        <Sparkles className="h-4 w-4 text-accent" strokeWidth={1.75} />
-        <h3 className="font-display text-sm font-semibold text-text">För dig just nu</h3>
+        <Sparkles className="h-3.5 w-3.5 text-accent" strokeWidth={1.5} aria-hidden />
+        <h3 className="font-display-serif text-[10px] font-semibold uppercase tracking-[0.2em] text-text-dim">
+          För dig just nu
+        </h3>
       </div>
       <p className="text-xs text-text-dim">
         Små frågor och uppgifter — baserat på dina svar i Kompasser idag.
@@ -75,7 +77,7 @@ export function AdaptiveMemoryCards({
             {visibleCards.map((card) => (
               <article
                 key={card.id}
-                className={`adaptive-card rounded-2xl border p-4 ${toneBorder[card.tone]}`}
+                className={`adaptive-card rounded-2xl border p-4 ${toneClass[card.tone]}`}
               >
                 <p className="text-[10px] uppercase tracking-widest text-text-dim">{card.title}</p>
                 <p className="mt-2 text-sm text-text-muted">{card.prompt}</p>

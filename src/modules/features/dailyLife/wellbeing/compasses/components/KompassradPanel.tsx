@@ -13,8 +13,10 @@ export function KompassradPanel() {
 
   return (
     <div className="elongated-module elongated-module--gold p-4">
-      <p className="text-[10px] uppercase tracking-widest text-text-dim">Kompassråd · {meta.label}</p>
-      <p className="mt-1 font-display text-base text-accent">{advice}</p>
+      <p className="font-display-serif text-[10px] uppercase tracking-[0.2em] text-text-dim">
+        Kompassråd · {meta.label}
+      </p>
+      <p className="mt-1 font-display-serif text-base tracking-wide text-accent">{advice}</p>
       <p className="mt-2 text-xs text-text-muted">{meta.heroLead}</p>
       <div className="mt-3 flex flex-wrap gap-2">
         {TAGS.map((t) => (

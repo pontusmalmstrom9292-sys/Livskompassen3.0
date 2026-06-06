@@ -9,6 +9,8 @@ import {
   type InboxQueueItem,
 } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import {
+  inboxQueueDisplayStatus,
+  inboxQueueStatusBadgeClass,
   inboxQueueStatusLabel,
   sortInboxForValvSamla,
 } from '@/modules/capture/reviewQueuePipeline';
@@ -139,7 +141,11 @@ export function InboxReviewQueue({
             className="rounded-lg border border-border/60 bg-surface/40 px-3 py-3 text-sm"
           >
             <p className="font-medium text-text">{item.fileName}</p>
-            <p className="mt-1 text-xs text-accent/90">{inboxQueueStatusLabel(item)}</p>
+            <span
+              className={`mt-1 inline-block ${inboxQueueStatusBadgeClass(inboxQueueDisplayStatus(item))}`}
+            >
+              {inboxQueueStatusLabel(item)}
+            </span>
             <p className="mt-1 text-xs text-text-muted">
               {item.traumaSensitive ? 'Trauma · ' : ''}
               Säkerhet {Math.round((typeof item.confidence === 'number' ? item.confidence : 0) * 100)}%

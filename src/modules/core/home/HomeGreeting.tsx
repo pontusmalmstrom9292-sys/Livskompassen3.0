@@ -4,7 +4,7 @@ import { getTimeGreeting, useHomeDisplayName } from './utils/homeGreeting';
 const TAGLINES = [
   'Ett steg i taget — kompassen visar riktning.',
   'Lågaffektiv start. Ingen prestation krävs.',
-  'Din eld tänds av små handlingar, inte av stress.',
+  'Kväll — landa mjukt. Inget måste vara klart.',
 ] as const;
 
 function taglineForHour(h: number): string {

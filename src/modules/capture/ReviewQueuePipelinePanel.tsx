@@ -10,7 +10,13 @@ import {
   VALV_SAMLA_GRANSKA_LINK,
 } from '@/modules/inkast/api/inkastService';
 import { listDraftsByStatus, type CaptureDraft } from './draftQueue';
-import { draftRoutingLabel, inboxQueueStatusLabel } from './reviewQueuePipeline';
+import {
+  draftFailedStatusLabel,
+  draftRoutingLabel,
+  inboxQueueDisplayStatus,
+  inboxQueueStatusBadgeClass,
+  inboxQueueStatusLabel,
+} from './reviewQueuePipeline';
 
 const CLOUD_PREVIEW_LIMIT = 3;
 
@@ -24,13 +30,15 @@ export type ReviewQueuePipelineMode = 'summary' | 'local-only';
 type Props = {
   /** summary = Hem (molnet + lokalt); local-only = bakåtkompat wrapper */
   mode?: ReviewQueuePipelineMode;
+  /** Öka efter nytt inkast så listan uppdateras. */
+  refreshToken?: number;
 };
 
 /**
  * Enhetlig G10 review-kö UX på Hem — molnet hanteras canonical i VaultSamlaHub.
  * Ingen duplicerad InboxReviewQueue utanför Valv Samla.
  */
-export function ReviewQueuePipelinePanel({ mode = 'summary' }: Props) {
+export function ReviewQueuePipelinePanel({ mode = 'summary', refreshToken = 0 }: Props) {
   const isAuthenticated = useStore((s) => s.isAuthenticated);
   const [cloudItems, setCloudItems] = useState<InboxQueueItem[]>([]);
   const [reviewDrafts, setReviewDrafts] = useState<CaptureDraft[]>([]);
@@ -59,7 +67,7 @@ export function ReviewQueuePipelinePanel({ mode = 'summary' }: Props) {
 
   useEffect(() => {
     void refresh();
-  }, [refresh]);
+  }, [refresh, refreshToken]);
 
   const localTotal = reviewDrafts.length + failedDrafts.length;
   const cloudTotal = cloudItems.length;
@@ -99,15 +107,20 @@ export function ReviewQueuePipelinePanel({ mode = 'summary' }: Props) {
                 .
               </p>
               <ul className="space-y-2 text-sm">
-                {cloudPreview.map((item) => (
-                  <li
-                    key={item.id}
-                    className="rounded-lg border border-border/50 bg-surface/40 px-3 py-2"
-                  >
-                    <p className="font-medium text-text">{item.fileName}</p>
-                    <p className="mt-0.5 text-xs text-accent/90">{inboxQueueStatusLabel(item)}</p>
-                  </li>
-                ))}
+                {cloudPreview.map((item) => {
+                  const displayStatus = inboxQueueDisplayStatus(item);
+                  return (
+                    <li
+                      key={item.id}
+                      className="rounded-lg border border-border/50 bg-surface/40 px-3 py-2"
+                    >
+                      <p className="font-medium text-text">{item.fileName}</p>
+                      <span className={`mt-1 inline-block ${inboxQueueStatusBadgeClass(displayStatus)}`}>
+                        {inboxQueueStatusLabel(item)}
+                      </span>
+                    </li>
+                  );
+                })}
               </ul>
               {cloudTotal > CLOUD_PREVIEW_LIMIT && (
                 <Link
@@ -150,8 +163,8 @@ export function ReviewQueuePipelinePanel({ mode = 'summary' }: Props) {
             })}
             {failedDrafts.map((d) => (
               <li key={d.id} className="rounded-xl border border-rose-500/30 bg-surface/40 px-3 py-2">
-                <span className="text-xs text-rose-300">Misslyckades</span>
-                <p className="text-text-muted">{d.errorMessage ?? draftSummary(d)}</p>
+                <span className={inboxQueueStatusBadgeClass('rejected')}>{draftFailedStatusLabel()}</span>
+                <p className="mt-1 text-text-muted">{d.errorMessage ?? draftSummary(d)}</p>
               </li>
             ))}
           </ul>

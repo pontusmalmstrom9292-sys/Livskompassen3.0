@@ -57,6 +57,12 @@ export function CaptureSuperModule({
   );
   const [composeHint, setComposeHint] = useState<string | null>(null);
   const [focusOnCompose, setFocusOnCompose] = useState(false);
+  const [queueRefresh, setQueueRefresh] = useState(0);
+
+  const handleCaptureSaved = () => {
+    onSaved?.();
+    setQueueRefresh((k) => k + 1);
+  };
 
   useEffect(() => {
     if (variant !== 'hem-inkast') return;
@@ -98,11 +104,13 @@ export function CaptureSuperModule({
         <CapturePanel
           sourceModule={SOURCE_MODULE[variant] ?? 'hem_capture'}
           compact={compact || variant === 'kompass'}
-          onSaved={onSaved}
+          onSaved={handleCaptureSaved}
           composeHint={variant === 'hem-capture' ? composeHint : null}
           focusOnCompose={variant === 'hem-capture' && focusOnCompose}
         />
-        {variant === 'hem-capture' && <ReviewQueuePipelinePanel mode="summary" />}
+        {(variant === 'hem-capture' || variant === 'kompass' || variant === 'planering') && (
+          <ReviewQueuePipelinePanel mode="summary" refreshToken={queueRefresh} />
+        )}
       </>
     );
   }
