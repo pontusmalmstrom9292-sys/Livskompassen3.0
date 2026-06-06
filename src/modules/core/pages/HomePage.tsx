@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { VALV_SAMLA_GRANSKA_LINK } from '@/modules/inkast/api/inkastService';
 import { clsx } from 'clsx';
 import { AdaptiveMemoryCards } from '../home/AdaptiveMemoryCards';
 import { HomeHeroKanon } from '../home/HomeHeroKanon';
@@ -23,6 +25,7 @@ import { getBudgetSavings, setBudgetSaving } from '../firebase/timeEconomyFirest
 const demoSeedKey = (uid: string) => `lk_home_widgets_seeded_${uid}`;
 
 export function HomePage() {
+  const navigate = useNavigate();
   const [cardRefreshKey, setCardRefreshKey] = useState(0);
   const user = useStore((s) => s.user);
   const isAuthenticated = useStore((s) => s.isAuthenticated);
@@ -144,7 +147,10 @@ export function HomePage() {
       )}
 
       {!mockupSkin && materialEnabled(preset, 'home_inkast') && !isAuthenticated && (
-        <CaptureSuperModule variant="hem-inkast" />
+        <CaptureSuperModule
+          variant="hem-inkast"
+          onQueued={() => navigate(VALV_SAMLA_GRANSKA_LINK)}
+        />
       )}
 
       {!mockupSkin && <PlaneringHomePinCard />}

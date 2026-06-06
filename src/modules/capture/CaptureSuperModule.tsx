@@ -90,7 +90,11 @@ export function CaptureSuperModule({
 
   return (
     <section id="inkast-lite" ref={sectionRef} className="scroll-mt-28">
-      <InkastDirectPanel tone="hem" />
+      <InkastDirectPanel
+        tone="hem"
+        onQueued={onQueued}
+        queueHintAsButton={Boolean(onQueued)}
+      />
     </section>
   );
 }

@@ -41,9 +41,18 @@ service cloud.firestore {
       allow create, update, delete: if false;
     }
 
+    function isParentVisibleChildLog() {
+      return !('visibility' in resource.data) || resource.data.visibility != 'private_child';
+    }
+
+    function isValidChildrenVisibility() {
+      return !('visibility' in request.resource.data)
+        || request.resource.data.visibility in ['private_child', 'parent', 'vault_candidate'];
+    }
+
     match /children_logs/{docId} {
-      allow read: if isOwner();
-      allow create: if isOwnerCreate();
+      allow read: if isOwner() && isParentVisibleChildLog();
+      allow create: if isOwnerCreate() && isValidChildrenVisibility();
       allow update, delete: if false;
     }
 

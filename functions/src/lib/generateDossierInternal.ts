@@ -63,6 +63,7 @@ async function fetchOwnedDoc(
   const data = snap.data()!;
   const ownerId = String(data.ownerId ?? data.userId ?? '');
   if (ownerId !== uid) return null;
+  if (collection === 'children_logs' && data.visibility === 'private_child') return null;
   return toCanonicalEntry(collection, snap.id, data);
 }
 

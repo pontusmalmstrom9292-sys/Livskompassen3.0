@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Sparkles } from 'lucide-react';
+import { hjartatTabHref } from '@/core/navigation/appNavigation';
 import { MABRA_SPEGLAR_GUARD_COPY } from '../constants';
 
 type Props = {
@@ -35,7 +36,7 @@ export function MabraSpeglarGuardHint({ className = '', onStay }: Props) {
         >
           {MABRA_SPEGLAR_GUARD_COPY.stayLabel}
         </button>
-        <Link to="/speglar" className="btn-pill--ghost text-sm">
+        <Link to={hjartatTabHref('speglar')} className="btn-pill--ghost text-sm">
           {MABRA_SPEGLAR_GUARD_COPY.goLabel}
         </Link>
       </div>

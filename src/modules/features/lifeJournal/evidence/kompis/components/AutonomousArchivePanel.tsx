@@ -28,7 +28,12 @@ import {
 
 const MAX_EXPANDED_FOLDERS = 3;
 
-export function AutonomousArchivePanel() {
+type AutonomousArchivePanelProps = {
+  /** Delad kampspar-lista från KunskapPage — undviker dubbel Firestore-prenumeration. */
+  sharedKampspar?: KampsparEntryRow[];
+};
+
+export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePanelProps) {
   const user = useStore((s) => s.user);
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
@@ -37,6 +42,10 @@ export function AutonomousArchivePanel() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [initializedExpand, setInitializedExpand] = useState(false);
+
+  useEffect(() => {
+    if (sharedKampspar) setKampspar(sharedKampspar);
+  }, [sharedKampspar]);
 
   // Real-time Kunskap-silo: kampspar + kb_docs (ingen mock-data).
   useEffect(() => {
@@ -59,19 +68,25 @@ export function AutonomousArchivePanel() {
       if (kampsparReady && kbReady) setLoading(false);
     };
 
-    const unsubKampspar = subscribeKampsparEntries(
-      user.uid,
-      (rows) => {
-        setKampspar(rows);
-        kampsparReady = true;
-        maybeDone();
-      },
-      () => {
-        setError('Kunde inte läsa kampspar.');
-        kampsparReady = true;
-        maybeDone();
-      },
-    );
+    let unsubKampspar: (() => void) | undefined;
+    if (sharedKampspar) {
+      kampsparReady = true;
+      maybeDone();
+    } else {
+      unsubKampspar = subscribeKampsparEntries(
+        user.uid,
+        (rows) => {
+          setKampspar(rows);
+          kampsparReady = true;
+          maybeDone();
+        },
+        () => {
+          setError('Kunde inte läsa kampspar.');
+          kampsparReady = true;
+          maybeDone();
+        },
+      );
+    }
 
     const unsubKb = subscribeKbDocsEntries(
       user.uid,
@@ -88,10 +103,10 @@ export function AutonomousArchivePanel() {
     );
 
     return () => {
-      unsubKampspar();
+      unsubKampspar?.();
       unsubKb();
     };
-  }, [user]);
+  }, [user, sharedKampspar != null]);
 
   const archiveTree = useMemo(
     () => mapFlatRowsToArchiveTree(kampspar, kbDocs),

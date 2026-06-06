@@ -1,6 +1,9 @@
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Loader2 } from 'lucide-react';
+import { useStore } from '@/core/store';
+import { saveCheckIn } from '@/core/firebase/firestore';
 import {
   Sunrise,
   Sun,
@@ -59,8 +62,13 @@ function phaseLead(phase: TimePhase): string {
 /** Adaptiv hemkompass — Obsidian Calm 2.0 (glass + dynamisk botten-glow per dygnsfas). */
 export function HomeAdaptiveCompass({ onSaved }: Props) {
   const navigate = useNavigate();
+  const user = useStore((s) => s.user);
 
   const [hour, setHour] = useState(new Date().getHours());
+  const [morningIntention, setMorningIntention] = useState('');
+  const [morningSaving, setMorningSaving] = useState(false);
+  const [morningSaved, setMorningSaved] = useState(false);
+  const [morningError, setMorningError] = useState<string | null>(null);
   useEffect(() => {
     const interval = setInterval(() => setHour(new Date().getHours()), 60000);
     return () => clearInterval(interval);
@@ -76,6 +84,30 @@ export function HomeAdaptiveCompass({ onSaved }: Props) {
     setMicroStep(
       'Gör bara detta: Öppna det du behöver och titta på det i 1 minut. Stäng sedan om det är för tungt.',
     );
+  };
+
+  const handleMorningSave = async () => {
+    if (!user || morningIntention.trim().length < 2) {
+      setMorningError('Skriv minst ett par ord.');
+      return;
+    }
+    setMorningSaving(true);
+    setMorningError(null);
+    try {
+      await saveCheckIn(user.uid, {
+        questionId: 'compass_morning',
+        questionText: 'Morgon — enda prioritet',
+        optionSelected: 'intention',
+        taskCategory: 'morning',
+        taskNote: morningIntention.trim(),
+      });
+      setMorningSaved(true);
+      onSaved?.();
+    } catch {
+      setMorningError('Kunde inte spara. Kontrollera nätverk.');
+    } finally {
+      setMorningSaving(false);
+    }
   };
 
   return (
@@ -147,11 +179,36 @@ export function HomeAdaptiveCompass({ onSaved }: Props) {
 
         <div className="flex min-h-[140px] flex-col justify-center p-6">
           {timePhase === 'morgon' && (
-            <div className="animate-fade-in text-center">
-              <p className="mx-auto max-w-sm text-xs leading-relaxed text-text-muted">
-                Allt yttre brus stannar utanför. Du är en trygg hamn. Vad är din enda riktiga
-                prioritet idag? Använd inkastet nedan.
-              </p>
+            <div className="animate-fade-in space-y-3">
+              {morningSaved ? (
+                <p className="text-center text-xs text-success">Morgonankare sparat.</p>
+              ) : (
+                <>
+                  <p className="mx-auto max-w-sm text-center text-xs leading-relaxed text-text-muted">
+                    Allt yttre brus stannar utanför. Vad är din enda riktiga prioritet idag?
+                  </p>
+                  <input
+                    type="text"
+                    value={morningIntention}
+                    onChange={(e) => setMorningIntention(e.target.value)}
+                    placeholder="T.ex. hämta barnen i lugn takt"
+                    className="input-glass w-full text-sm"
+                  />
+                  {morningError && <p className="text-center text-xs text-danger">{morningError}</p>}
+                  <button
+                    type="button"
+                    onClick={() => void handleMorningSave()}
+                    disabled={morningSaving || !user}
+                    className="btn-pill--accent w-full text-xs disabled:opacity-40"
+                  >
+                    {morningSaving ? (
+                      <Loader2 className="mx-auto h-4 w-4 animate-spin" />
+                    ) : (
+                      'Spara morgonankare'
+                    )}
+                  </button>
+                </>
+              )}
             </div>
           )}
 

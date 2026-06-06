@@ -71,8 +71,16 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
 
     try {
       const result = await fetchMabraCoach(hub, exerciseType, note);
+      if (result.redirectToSpeglar) {
+        setRequested(false);
+        setShowGuardPrompt(true);
+        setGuardDismissed(false);
+        setCoachText('');
+        setUsedAi(false);
+        return;
+      }
       setCoachText(result.coach);
-      setUsedAi(!result.redirectToSpeglar);
+      setUsedAi(true);
     } catch {
       setCoachText(MABRA_COACH_COPY.offlineFallback);
       setUsedAi(false);

@@ -414,6 +414,10 @@ export const confirmInboxItem = onCall({ region: 'europe-west1' }, async (reques
       ? request.data.childAlias.trim()
       : undefined;
 
+  if (routing === 'bevis') {
+    await assertVaultSession(request.auth.uid, request.data);
+  }
+
   try {
     return await confirmInboxQueueItem({
       uid: request.auth.uid,
@@ -752,6 +756,7 @@ export const approveWeaverMetadata = functions.region('europe-west1').https.onCa
   if (!context.auth) {
     throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
   }
+  await assertVaultSession(context.auth.uid, data);
   const pendingId = typeof data?.pendingId === 'string' ? data.pendingId.trim() : '';
   if (!pendingId) {
     throw new functions.https.HttpsError('invalid-argument', 'pendingId krävs.');

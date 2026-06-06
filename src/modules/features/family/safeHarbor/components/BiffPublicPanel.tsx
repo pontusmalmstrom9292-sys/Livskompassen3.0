@@ -214,7 +214,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
           </div>
         )}
 
-        {shouldShowValvHandoff(message) && <HandoffBox className="mt-1" />}
+        {shouldShowValvHandoff(message) && <HandoffBox className="mt-1" sourceText={message} />}
         {shouldRedirectMabraCoachToSpeglar(message) && !speglarGuardDismissed && (
           <MabraSpeglarGuardHint
             className="mt-1"
@@ -386,7 +386,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
           className="input-glass text-sm"
           disabled={loading}
         />
-        {shouldShowValvHandoff(message) && <HandoffBox className="mt-1" />}
+        {shouldShowValvHandoff(message) && <HandoffBox className="mt-1" sourceText={message} />}
         <button type="submit" disabled={loading || !message.trim()} className="btn-pill--accent w-full">
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           Kör BIFF Triage

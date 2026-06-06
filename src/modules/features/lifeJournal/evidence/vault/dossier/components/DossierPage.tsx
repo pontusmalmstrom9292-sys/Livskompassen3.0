@@ -22,10 +22,12 @@ import {
   collectCategoryTags,
   defaultDateRange,
   filterCandidates,
+  groupIncludedIds,
   journalToCandidate,
   shiftMonths,
   vaultToCandidate,
 } from '../utils/dossierCandidates';
+import { generateDossier } from '../api/dossierService';
 import {
   VAVAREN_DOSSIER_CHECKBOX,
   VAVAREN_DOSSIER_HINT,
@@ -200,8 +202,20 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
     );
   };
 
-  // —— 4. LOKAL UTKRIFT- OCH PDF-MOTOR (FALLBACK & OFFLINE-SÄKRAD) ——
-  const handleLocalPrintAndGenerate = async () => {
+  const downloadFromResult = (gen: GenerateDossierResult) => {
+    if (gen.downloadUrl) {
+      window.open(gen.downloadUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    if (gen.pdfBase64) {
+      const win = window.open('', '_blank');
+      if (!win) throw new Error('Webbläsaren blockerade popup-fönstret.');
+      win.location.href = `data:application/pdf;base64,${gen.pdfBase64}`;
+      win.focus();
+    }
+  };
+
+  const handleGenerateDossier = async () => {
     if (!user) return;
     const selected = filteredDocs.filter((d) => includedIds.has(d.id));
     if (selected.length === 0) {
@@ -209,6 +223,38 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
       return;
     }
 
+    setGenerating(true);
+    setError(null);
+
+    try {
+      const gen = await generateDossier({
+        dateFrom,
+        dateTo,
+        sources,
+        reportType,
+        includeAiForeword,
+        categoryFilter: categoryFilter.length > 0 ? categoryFilter : undefined,
+        includedDocIds: groupIncludedIds(selected, includedIds),
+      });
+      downloadFromResult(gen);
+      setResult(gen);
+      setStep('result');
+    } catch (backendErr) {
+      const message = backendErr instanceof Error ? backendErr.message : 'Generering misslyckades.';
+      if (!message.includes('inte deployad')) {
+        setError(message);
+        setGenerating(false);
+        return;
+      }
+      await handleLocalPrintFallback(selected);
+      return;
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  // —— Lokal utskrift (fallback när callable saknas) ——
+  const handleLocalPrintFallback = async (selected: DossierCandidateDoc[]) => {
     setGenerating(true);
     setError(null);
 
@@ -615,7 +661,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               <button
                 type="button"
                 disabled={generating || includedIds.size === 0}
-                onClick={() => void handleLocalPrintAndGenerate()}
+                onClick={() => void handleGenerateDossier()}
                 className="flex-1 rounded-lg bg-emerald-500/25 py-2 text-sm font-semibold text-emerald-100 disabled:opacity-40 cursor-pointer"
               >
                 {generating ? (
@@ -661,7 +707,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               <button
                 type="button"
                 className="btn-pill--accent flex-1 text-xs justify-center"
-                onClick={() => void handleLocalPrintAndGenerate()}
+                onClick={() => void handleGenerateDossier()}
               >
                 Skriv ut / Spara igen
               </button>

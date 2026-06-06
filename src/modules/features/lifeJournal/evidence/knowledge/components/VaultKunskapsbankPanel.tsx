@@ -61,7 +61,7 @@ export function VaultKunskapsbankPanel() {
         </div>
       )}
 
-      <AutonomousArchivePanel />
+      <AutonomousArchivePanel sharedKampspar={entriesMeta?.entries} />
 
       {showEmptyState && (
         <BentoCard

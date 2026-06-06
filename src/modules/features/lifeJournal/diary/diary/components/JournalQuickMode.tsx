@@ -120,7 +120,7 @@ export function JournalQuickMode({
         />
       </label>
 
-      {showHandoff && <HandoffBox className="mt-4" />}
+      {showHandoff && <HandoffBox className="mt-4" sourceText={quickText} />}
 
       {quickText.trim().length >= 3 && (
         <label className="mt-3 flex items-start gap-2 text-xs text-text-muted">

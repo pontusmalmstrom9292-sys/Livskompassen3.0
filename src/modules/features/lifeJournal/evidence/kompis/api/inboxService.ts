@@ -1,5 +1,6 @@
 import { httpsCallable, type FunctionsError } from 'firebase/functions';
 import { functions } from '@/core/firebase/init';
+import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
 
 export type InboxRouting = 'kunskap' | 'bevis' | 'barnen' | 'review';
 
@@ -49,7 +50,10 @@ export async function confirmInbox(
   childAlias?: string
 ): Promise<{ collection: string; docId: string }> {
   try {
-    const result = await confirmInboxItemCallable({ queueId, routing, childAlias });
+    const payload = { queueId, routing, childAlias };
+    const result = await confirmInboxItemCallable(
+      routing === 'bevis' ? withVaultSessionPayload(payload) : payload,
+    );
     return result.data as { collection: string; docId: string };
   } catch (error) {
     const fnError = error as FunctionsError;

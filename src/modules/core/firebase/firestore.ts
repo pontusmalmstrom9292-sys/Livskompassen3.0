@@ -308,7 +308,9 @@ export async function getChildrenLogs(userId: string) {
   const ref = collection(db, 'children_logs');
   const snap = await getDocs(ownerScopedQuery(ref, userId));
   return sortByCreatedAtDesc(
-    snap.docs.map((d) => {
+    snap.docs
+      .filter((d) => d.data().visibility !== 'private_child')
+      .map((d) => {
       const data = d.data();
       const observation =
         typeof data.observation === 'string'

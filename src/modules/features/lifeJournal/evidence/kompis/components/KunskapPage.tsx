@@ -27,6 +27,7 @@ export type KunskapEntriesMeta = {
   loading: boolean;
   error: string | null;
   reload: () => void;
+  entries: KampsparEntryRow[];
 };
 
 type KunskapPageProps = {
@@ -84,8 +85,9 @@ export function KunskapPage({
       loading: loadingEntries,
       error: entriesError,
       reload: reloadEntries,
+      entries,
     });
-  }, [entries.length, loadingEntries, entriesError, reloadEntries, onEntriesMeta]);
+  }, [entries, loadingEntries, entriesError, reloadEntries, onEntriesMeta]);
 
   useEffect(() => {
     if (!user || tab !== 'tidshjul') return;

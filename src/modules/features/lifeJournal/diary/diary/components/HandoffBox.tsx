@@ -2,12 +2,23 @@ import { Link } from 'react-router-dom';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { Shield } from 'lucide-react';
 
+const HANDOFF_PREFILL_MAX = 4000;
+
 type HandoffBoxProps = {
   className?: string;
+  /** Dagbok/Hamn-text som följer med till Valv-formuläret (Zero Footprint i state). */
+  sourceText?: string;
 };
 
 /** Lugn handoff Lager 1 → Reality Vault (ingen röd varningsbanner). */
-export function HandoffBox({ className = '' }: HandoffBoxProps) {
+export function HandoffBox({ className = '', sourceText }: HandoffBoxProps) {
+  const trimmed = sourceText?.trim().slice(0, HANDOFF_PREFILL_MAX);
+  const valvTarget = {
+    pathname: NAV_PATHS.VALVET,
+    search: '?tab=bevis&vaultTab=logga',
+  };
+  const valvState = trimmed ? { vaultHandoffText: trimmed } : undefined;
+
   return (
     <aside
       className={`journal-handoff ${className}`.trim()}
@@ -23,7 +34,7 @@ export function HandoffBox({ className = '' }: HandoffBoxProps) {
         motpart, familjerätt eller myndighet — spara den i Reality Vault. Där blir datum, text och
         bilagor strukturerade som bevis. Dagboken förblir privat och flyttas inte hit automatiskt.
       </p>
-      <Link to={NAV_PATHS.VALVET} className="journal-handoff__cta btn-pill--ghost">
+      <Link to={valvTarget} state={valvState} className="journal-handoff__cta btn-pill--ghost">
         Öppna Reality Vault →
       </Link>
     </aside>

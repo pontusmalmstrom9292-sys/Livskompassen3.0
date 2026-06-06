@@ -211,7 +211,7 @@ export function ReflectionStep({
       )}
       {error && <p className="mt-1 text-xs text-danger">{error}</p>}
 
-      {showHandoff && <HandoffBox className="mt-4" />}
+      {showHandoff && <HandoffBox className="mt-4" sourceText={text} />}
 
       <JournalDetailsPanel
         category={category}

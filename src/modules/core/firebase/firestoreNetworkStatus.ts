@@ -41,7 +41,7 @@ export function subscribeFirestoreSyncPhase(onPhase: (phase: FirestoreSyncPhase)
 
   window.addEventListener('online', onOnline);
   window.addEventListener('offline', onOffline);
-  const pollId = setInterval(() => void refresh(), 2500);
+  const pollId = setInterval(() => void refresh(), 8000);
   void refresh();
 
   return () => {

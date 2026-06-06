@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ImagePlus, Loader2, Mic, MicOff, Plus } from 'lucide-react';
 import { uploadVaultEvidence } from '@/core/firebase/storage';
 import { useSpeechToText } from '@/core/hooks/useSpeechToText';
@@ -18,6 +19,7 @@ type VaultEntryFormProps = {
 };
 
 export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) {
+  const location = useLocation();
   const [mode, setMode] = useState<VaultEntryType>('simple');
   const [category, setCategory] = useState('');
   const [truth, setTruth] = useState('');
@@ -34,6 +36,12 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
   const [pinned, setPinned] = useState(false);
   const [smsThreadPaste, setSmsThreadPaste] = useState('');
   const [smsThreadSplitNotice, setSmsThreadSplitNotice] = useState(false);
+
+  useEffect(() => {
+    const handoff = (location.state as { vaultHandoffText?: string } | null)?.vaultHandoffText;
+    if (!handoff?.trim()) return;
+    setTruth((prev) => (prev.trim() ? prev : handoff.trim()));
+  }, [location.state]);
 
   const appendVoice = useCallback(
     (chunk: string) => {

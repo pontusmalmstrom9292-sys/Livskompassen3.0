@@ -1,28 +1,9 @@
+import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { MainLayout } from '../layout/MainLayout';
 import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
 import { AuthGate } from '../auth/AuthGate';
 import { HomePage } from '../pages/HomePage';
-import { ThemePreviewPage } from '../pages/ThemePreviewPage';
-import { ThemeLabPage } from '../pages/ThemeLabPage';
-import { HubLabPage } from '../pages/HubLabPage';
-import { HjartatPage } from '@/core/pages/DagbokPage';
-import { ValvetRoutePage } from '../pages/ValvetRoutePage';
-import {
-  ProjektDetailPage,
-  ProjektHubPage,
-  ProjektMaterialPackPage,
-  ProjektNyPage,
-  ProjektReglerPage,
-} from '@/features/admin/projects';
-import { BarnportenPage } from '@/features/onboarding/barnporten';
-import { InstallningarPage } from '../pages/InstallningarPage';
-import { KompisHubPage } from '@/features/lifeJournal/evidence/kompis';
-import { FamiljenPage } from '../pages/FamiljenPage';
-import { LivLauncherPage } from '@/modules/shell/LivLauncherPage';
-import { MabraPage } from '@/features/dailyLife/wellbeing/mabra';
-import { PlaneringPage } from '@/features/admin/planning';
-import { ArbetslivHubPage } from '@/features/dailyLife/arbetsliv';
 import { resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
 import {
   clusterTabNavigateTarget,
@@ -30,6 +11,65 @@ import {
   type LifeJournalTabKey,
 } from '../navigation/navigationRegistry';
 import { NAV_PATHS } from '../navigation/navTruth';
+
+const HjartatPage = lazy(() =>
+  import('@/core/pages/DagbokPage').then((m) => ({ default: m.HjartatPage })),
+);
+const ValvetRoutePage = lazy(() =>
+  import('../pages/ValvetRoutePage').then((m) => ({ default: m.ValvetRoutePage })),
+);
+const FamiljenPage = lazy(() =>
+  import('../pages/FamiljenPage').then((m) => ({ default: m.FamiljenPage })),
+);
+const LivLauncherPage = lazy(() =>
+  import('@/modules/shell/LivLauncherPage').then((m) => ({ default: m.LivLauncherPage })),
+);
+const KompisHubPage = lazy(() =>
+  import('@/features/lifeJournal/evidence/kompis').then((m) => ({ default: m.KompisHubPage })),
+);
+const MabraPage = lazy(() =>
+  import('@/features/dailyLife/wellbeing/mabra').then((m) => ({ default: m.MabraPage })),
+);
+const PlaneringPage = lazy(() =>
+  import('@/features/admin/planning').then((m) => ({ default: m.PlaneringPage })),
+);
+const ArbetslivHubPage = lazy(() =>
+  import('@/features/dailyLife/arbetsliv').then((m) => ({ default: m.ArbetslivHubPage })),
+);
+const ProjektHubPage = lazy(() =>
+  import('@/features/admin/projects').then((m) => ({ default: m.ProjektHubPage })),
+);
+const ProjektNyPage = lazy(() =>
+  import('@/features/admin/projects').then((m) => ({ default: m.ProjektNyPage })),
+);
+const ProjektReglerPage = lazy(() =>
+  import('@/features/admin/projects').then((m) => ({ default: m.ProjektReglerPage })),
+);
+const ProjektMaterialPackPage = lazy(() =>
+  import('@/features/admin/projects').then((m) => ({ default: m.ProjektMaterialPackPage })),
+);
+const ProjektDetailPage = lazy(() =>
+  import('@/features/admin/projects').then((m) => ({ default: m.ProjektDetailPage })),
+);
+const BarnportenPage = lazy(() =>
+  import('@/features/onboarding/barnporten').then((m) => ({ default: m.BarnportenPage })),
+);
+const InstallningarPage = lazy(() =>
+  import('../pages/InstallningarPage').then((m) => ({ default: m.InstallningarPage })),
+);
+const ThemePreviewPage = lazy(() =>
+  import('../pages/ThemePreviewPage').then((m) => ({ default: m.ThemePreviewPage })),
+);
+const ThemeLabPage = lazy(() =>
+  import('../pages/ThemeLabPage').then((m) => ({ default: m.ThemeLabPage })),
+);
+const HubLabPage = lazy(() =>
+  import('../pages/HubLabPage').then((m) => ({ default: m.HubLabPage })),
+);
+
+function RouteFallback() {
+  return <div className="p-6 text-center text-sm text-text-muted">Laddar…</div>;
+}
 
 function RedirectToLifeJournalTab({ tabKey }: { tabKey: LifeJournalTabKey }) {
   const location = useLocation();
@@ -86,7 +126,9 @@ function HjartatRoute() {
   }
   return (
     <AuthGate>
-      <HjartatPage />
+      <Suspense fallback={<RouteFallback />}>
+        <HjartatPage />
+      </Suspense>
     </AuthGate>
   );
 }
@@ -163,6 +205,7 @@ export function AppRoutes() {
         path="/*"
         element={
           <MainLayout>
+            <Suspense fallback={<RouteFallback />}>
             <Routes>
               <Route path={NAV_PATHS.HOME} element={<HomePage />} />
               <Route
@@ -302,6 +345,7 @@ export function AppRoutes() {
 
               <Route path="*" element={<Navigate to={NAV_PATHS.HJARTAT} replace />} />
             </Routes>
+            </Suspense>
           </MainLayout>
         }
       />
