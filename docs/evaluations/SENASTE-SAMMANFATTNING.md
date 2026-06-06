@@ -30,7 +30,7 @@
 | Punkt | Var |
 |-------|-----|
 | **Manuell smoke + deploy** | [`2026-06-06-manuell-smoke-checklist.md`](./evaluations/2026-06-06-manuell-smoke-checklist.md) |
-| Liv Fas 3 | Radera deprecated `VardagenShellPage` |
+| Drogfrihet→Familj | Superhub-spec (DEFER) |
 
 ---
 

@@ -79,6 +79,13 @@ function main() {
   mustInclude('functions/src/sharedRules.ts', 'KBT_TRANSFORMATOR_SYSTEM_PROMPT');
   mustInclude('.context/design-modules-mockup.md', 'D29', 'D3');
   mustInclude('src/modules/shell/livLauncherRoutes.ts', 'handling', '/planering?tab=handling');
+  assert(
+    !existsSync(resolve(root, 'src/modules/shell/VardagenShellPage.tsx')),
+    'src/modules/shell/VardagenShellPage.tsx',
+    'embed-shell ska vara raderad (LivLauncherPage)',
+  );
+  const appRoutes = read('src/modules/core/routing/AppRoutes.tsx');
+  assert(!appRoutes.includes('VardagenShellPage'), 'AppRoutes.tsx', 'får inte mounta VardagenShellPage');
   mustInclude('src/modules/shell/LivLauncherPage.tsx', 'LivLauncherPage', 'LIV_LAUNCHER_EXTERNAL', 'LivLauncherGrid');
   mustInclude('src/modules/shell/LivLauncherGrid.tsx', 'liv-launcher-card', 'LIV_LAUNCHER_CARDS');
   mustInclude('src/styles/obsidian-calm-2.css', '.liv-launcher-grid', '.liv-launcher-card');

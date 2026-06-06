@@ -1,7 +1,7 @@
 # LivSuper — cursor-plan (launcher-modell)
 
 **Datum:** 2026-06-06  
-**Status:** Fas 1 **done** · Fas 2 **done** 2026-06-06 (smoke PASS) · Fas 3 open  
+**Status:** Fas 1–3 **done** 2026-06-06 (smoke PASS) · Drogfrihet→Familj DEFER  
 **Metod:** Cursor-native — **launcher**, inte nested shell  
 **Kanon:** [`2026-06-01-superhub-IA-spec.md`](./2026-06-01-superhub-IA-spec.md) · [`MENU-DRAWER-KANON.md`](../design/references/MENU-DRAWER-KANON.md) · [`PLANERING-PROJEKT-HYBRID.md`](../design/PLANERING-PROJEKT-HYBRID.md)
 
@@ -13,9 +13,9 @@
 
 | Modell | Status |
 |--------|--------|
-| ~~Embed-shell (`VardagenShellPage`)~~ | **AVVISAD** — tab-helvete · `@deprecated` |
-| **Launcher (`LivLauncherPage`)** | **Fas 1–2 live** |
-| `LivSuperModule` variants | DEFER Fas 3+ |
+| ~~Embed-shell (`VardagenShellPage`)~~ | **RADERAD** 2026-06-06 |
+| **Launcher (`LivLauncherPage`)** | **Fas 1–3 live** |
+| `LivSuperModule` variants | DEFER |
 
 ---
 
@@ -66,9 +66,15 @@
 
 ---
 
-## Fas 3 (DEFER)
+## Fas 3 — leverans (done 2026-06-06)
 
-- Radera `VardagenShellPage.tsx` (deprecated, ej inkopplad)
+- [x] `VardagenShellPage.tsx` raderad
+- [x] Exports rensade (`shell/index.ts`, `dailyLife/index.ts`)
+- [x] `AppRoutes` mountar endast `LivLauncherPage` på `/vardagen`
+- [x] Smoke PASS (negativ guard: ingen `VardagenShellPage`)
+
+## DEFER (ej Fas 3)
+
 - Drogfrihet primärt under Familj (superhub-spec)
 
 ---
@@ -92,8 +98,8 @@ npm run smoke:arbetsliv
 
 ---
 
-## Prompt för Cursor (Fas 3)
+## Prompt för Cursor (DEFER — Drogfrihet)
 
 ```
-LivSuper Fas 3: radera VardagenShellPage + rensa exports. Bekräfta att AppRoutes aldrig mountar shell. Smoke PASS.
+Flytta Drogfrihet primärt under Familjen enligt superhub-IA-spec. Behåll /drogfrihet som legacy-redirect. Smoke PASS.
 ```

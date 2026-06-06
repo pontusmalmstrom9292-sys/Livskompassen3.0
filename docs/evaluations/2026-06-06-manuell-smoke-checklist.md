@@ -11,7 +11,7 @@
 |---|------|-----------|
 | **Hem** | `/` inloggad | En «Skriv»-yta (CaptureSuper hem-capture) + ReviewQueue — **ingen** dubbel inkast |
 | **Kompass** | Hem widget | Smart inkast via kompass-variant |
-| **Liv** | Drawer → «Liv och göra» | Launcher dropdown; MåBra/Planering/Arbetsliv → fullsid + «← Liv och göra» |
+| **Liv** | Drawer → «Liv och göra» | 6 stora kort; MåBra/Planering/Arbetsliv → fullsid + «← Liv och göra» |
 | **Planering** | `/planering` inkorg | Länk till Valv granskningskö — **ingen** inbäddad kö |
 | **Valv Samla** | PIN → Samla → granska | **Enda** canonical InboxReviewQueue |
 | **#3** | Valv bevis → `reality_vault` | WORM post |
