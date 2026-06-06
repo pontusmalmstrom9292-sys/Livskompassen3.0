@@ -362,6 +362,7 @@ export const FIRESTORE_COLLECTIONS = {
   planning_email_rules: 'planning_email_rules',
   project_rules: 'project_rules',
   routine_templates: 'routine_templates',
+  material_pack_overrides: 'material_pack_overrides',
   projects: 'projects',
   project_blocks: 'project_blocks',
   user_widgets: 'user_widgets',

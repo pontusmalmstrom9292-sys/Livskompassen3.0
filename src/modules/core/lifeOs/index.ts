@@ -13,13 +13,19 @@ export { LifeHubHubHint } from './LifeHubHubHint';
 export { getMaterialShortcuts, getDefaultMaterialShortcuts, materialPackHubsForPreset, type MaterialPackHub, type MaterialShortcut } from './materialPacks';
 export {
   clearMaterialPackOverride,
+  clearMaterialPackLocalCache,
   getMaterialPackOverride,
   loadMaterialPackOverrides,
   saveMaterialPackOverride,
 } from './materialPackApi';
+export {
+  listenMaterialPackOverrides,
+  pushUnsyncedMaterialPackOverrides,
+} from './materialPackFirestoreApi';
 export { MATERIAL_TARGET_PRESETS, findTargetPreset, targetToKey, type MaterialTargetPreset } from './materialPackTargets';
 export { MaterialPackShortcuts } from './MaterialPackShortcuts';
 export { useMaterialShortcuts } from './useMaterialShortcuts';
+export { useMaterialPackSync } from './useMaterialPackSync';
 export { LifeHubPresetPicker } from './LifeHubPresetPicker';
 export { HubPresetSheet } from './HubPresetSheet';
 export { useLifeHubPreset } from './useLifeHubPreset';

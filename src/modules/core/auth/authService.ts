@@ -13,6 +13,7 @@ import {
 import { auth } from './AuthProvider';
 import { clearAppUnlockSession } from './appUnlockPrefs';
 import { invalidateServerSession } from './sessionService';
+import { clearMaterialPackLocalCache } from '../lifeOs/materialPackApi';
 import { isCapacitorNative } from './capacitorPlatform';
 import { capacitorGoogleSignIn, capacitorNativeSignOut } from './nativeGoogleAuth';
 import {
@@ -136,8 +137,10 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
 }
 
 export async function signOutUser(): Promise<void> {
+  const uid = auth.currentUser?.uid;
   await invalidateServerSession();
   clearAppUnlockSession();
+  if (uid) clearMaterialPackLocalCache(uid);
   if (isCapacitorNative()) {
     await capacitorNativeSignOut();
   }

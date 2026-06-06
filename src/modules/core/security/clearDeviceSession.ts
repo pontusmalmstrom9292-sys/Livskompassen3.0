@@ -3,6 +3,7 @@ import { clearAllVaultZones, invalidateServerSession } from '../auth/sessionServ
 import { VAULT_PIN_STORAGE_KEY } from './vaultPin';
 import { clearAllDrafts } from '../../capture/draftQueue';
 import { clearSpeglarSession } from '@/features/lifeJournal/diary/mirror/utils/speglarSessionStorage';
+import { clearMaterialPackLocalCache } from '../lifeOs/materialPackApi';
 
 const VAULT_PIN_KEY = VAULT_PIN_STORAGE_KEY;
 const CHILDREN_PIN_KEY = 'livskompassen_children_pin_hash';
@@ -23,6 +24,8 @@ export async function clearDeviceSession(): Promise<void> {
   localStorage.removeItem(APP_UNLOCK_ENABLED_KEY);
   await clearAllDrafts();
   clearSpeglarSession();
+  const uid = useStore.getState().user?.uid;
+  if (uid) clearMaterialPackLocalCache(uid);
   if (useStore.getState().isAuthenticated) {
     await invalidateServerSession();
   }

@@ -235,6 +235,9 @@ function main() {
   mustInclude('firestore.rules', 'planning_tasks');
   mustInclude('firestore.rules', 'match /project_rules/{docId}');
   mustInclude('firestore.rules', 'match /routine_templates/{docId}');
+  mustInclude('firestore.rules', 'match /material_pack_overrides/{docId}');
+  mustInclude('src/modules/core/lifeOs/materialPackFirestoreApi.ts', 'listenMaterialPackOverrides');
+  mustInclude('src/modules/core/lifeOs/useMaterialPackSync.ts', 'pushUnsyncedMaterialPackOverrides');
   mustInclude('src/modules/core/lifeOs/routineTemplatesApi.ts', 'listenRoutineTemplates');
   mustInclude('src/modules/core/ui/ClusterGrid.tsx', 'navFlags');
   mustInclude('docs/design/CHROME-EMBER-KANON.md', 'LÅST', 'data-panel-style');

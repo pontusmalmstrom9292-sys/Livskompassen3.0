@@ -306,6 +306,28 @@ service cloud.firestore {
       allow delete: if isOwner();
     }
 
+    // Life OS — MaterialPack genvägar (synkas mellan enheter, ej WORM)
+    match /material_pack_overrides/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.presetId in ['foralder_trygg', 'rehab_lag', 'vardag_arbete', 'minimal']
+        && request.resource.data.hub in ['familjen', 'mabra', 'hamn']
+        && request.resource.data.shortcuts is list
+        && request.resource.data.shortcuts.size() >= 1
+        && request.resource.data.shortcuts.size() <= 12;
+      allow update: if isOwner()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.presetId == resource.data.presetId
+        && request.resource.data.hub == resource.data.hub
+        && request.resource.data.presetId in ['foralder_trygg', 'rehab_lag', 'vardag_arbete', 'minimal']
+        && request.resource.data.hub in ['familjen', 'mabra', 'hamn']
+        && request.resource.data.shortcuts is list
+        && request.resource.data.shortcuts.size() >= 1
+        && request.resource.data.shortcuts.size() <= 12;
+      allow delete: if isOwner();
+    }
+
     match /economy_profiles/{uid} {
       allow read: if isAuthenticated() && request.auth.uid == uid;
       allow create: if isAuthenticated()

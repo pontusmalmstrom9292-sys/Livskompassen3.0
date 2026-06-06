@@ -108,7 +108,7 @@ export function ProjektMaterialPackPage() {
     <HubPageShell
       eyebrow="Göra"
       title="Genvägar per profil"
-      lead="Redigera MaterialPack-genvägar på Familjen, MåBra och Hamn — sparas lokalt på denna enhet tills synk (Fas D Våg B) är godkänd."
+      lead="Redigera MaterialPack-genvägar på Familjen, MåBra och Hamn — synkas mellan enheter när du är inloggad."
     >
       <GoraHubTabBar />
       <div className="flex flex-wrap gap-3 text-xs">
@@ -124,7 +124,7 @@ export function ProjektMaterialPackPage() {
         <p className="mt-3 text-sm text-text-muted">Logga in för att spara egna genvägar.</p>
       )}
 
-      {saved && <p className="mt-2 text-xs text-accent">Sparat lokalt på denna enhet.</p>}
+      {saved && <p className="mt-2 text-xs text-accent">Sparat — synkas till dina andra enheter.</p>}
 
       <div className="mt-4 space-y-4">
         <div className="elongated-module space-y-2 p-3">
@@ -154,9 +154,9 @@ export function ProjektMaterialPackPage() {
             </div>
 
             <p className="text-xs text-text-dim">
-              {hasOverride ? 'Egna genvägar (lokal override).' : 'Standardgenvägar från appen.'}
+              {hasOverride ? 'Egna genvägar (synkas mellan enheter).' : 'Standardgenvägar från appen.'}
               {' · '}
-              Max 12 · sparas på denna enhet.
+              Max 12.
             </p>
 
             {duplicateKeys.size > 0 && (

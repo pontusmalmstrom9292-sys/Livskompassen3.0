@@ -1,7 +1,7 @@
 /**
  * MaterialPack (Fas C) — kuraterade genvägar per hub + preset. U6: inga nya FACT/RAG.
  * Kanon: docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md
- * Fas 3: lokala overrides via materialPackApi (per användare, localStorage).
+ * Fas 3–B: overrides via materialPackApi (localStorage + Firestore sync).
  */
 
 import type { LifeHubPresetId } from './lifeHubPresets';

@@ -34,7 +34,9 @@
 | **Deploy** | Super Multitask: Inkast CTA + Dossier XSS + hosting | **PASS** | 2026-06-07 · `88be0eeb` |
 | **Deploy** | Hosting Superhub §D (dagbok ur publik drawer) | **PASS** | 2026-06-07 · https://gen-lang-client-0481875058.web.app |
 | **Autorun PASS** | Superhub §D `smoke:superhub` + build + locked-ux | **PASS** | 2026-06-07 — drawer 4 rader, legacy redirects, plausible deniability |
-| **Manuell PASS** | Superhub §D (Motorola drawer + /liv + /mabra) | **PASS** | 2026-06-07 (USER · Motorola) |
+| **Deploy** | Hosting Handling dock-fix (lazy Planering + error boundary) | **PASS** | 2026-06-07 · prod hosting |
+| **Manuell PASS** | Dock Handling → kanban P3 (Motorola) | **PASS** | 2026-06-07 (USER) |
+| **Deploy** | MaterialPack Våg B — Firestore sync + rules + hosting | **PASS** | 2026-06-07 · `material_pack_overrides` |
 | **Manuell PASS** | Inkast post-save CTA + MaterialPack `/projekt/genvagar` | **PASS** | 2026-06-07 (USER) |
 | **Autorun PASS** | Fas 2 re-run (build + 6 smokes) | **PASS** | 2026-06-07 |
 | **Deploy** | Fas 2 planering + smoke docs (`hosting`) | **PASS** | 2026-06-07 · `6ce9e79c` |
