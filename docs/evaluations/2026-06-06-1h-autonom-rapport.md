@@ -10,9 +10,9 @@
 
 | Agent | Roll | Ansvar |
 |-------|------|--------|
-| **1** | Smoke | `orkester:night` · `smoke:locked-ux` · build guards |
-| **2** | Polish | Hemkompass / UI-finputs utan locked-UX-regression |
-| **3** | PMIR | Pre-merge impact · Barnporten / rules-stopp |
+| **1** | Smoke-runner | `build` · `smoke:locked-ux` · `smoke:orkester` · `smoke:design-modules` |
+| **2** | Barnporten polish | QR-flöde verify · småfix (ej inkorg §7b) |
+| **3** | MaterialPack PMIR | Plan only · [`2026-06-06-pmir-materialpack-editor.md`](./2026-06-06-pmir-materialpack-editor.md) |
 | **4** | Docs | Kanon-sanning · `SENASTE-SAMMANFATTNING` · `MODUL-GAP-OVERSIKT` · denna rapport |
 | **5** | Night runs | `orkester:night` · ev. `content:night` · nattpass-logg |
 
@@ -38,44 +38,39 @@
 
 ---
 
-## Agent 1 — Smoke
+## Agent 1 — Smoke-runner
 
-<!-- Agent 1 fyller i efter körning -->
+| Kommando | Exit | Status |
+|----------|------|--------|
+| `npm run build` | 0 | **PASS** |
+| `npm run smoke:locked-ux` | 0 | **PASS** |
+| `npm run smoke:orkester` | 0 | **PASS** |
+| `npm run smoke:design-modules` | 0 | **PASS** |
 
-| Kommando | Resultat | Tid |
-|----------|----------|-----|
-| `npm run build` | _pending_ | |
-| `cd functions && npm run build` | _pending_ | |
-| `npm run smoke:locked-ux` | _pending_ | |
-| `npm run smoke:orkester` | _pending_ | |
-| `npm run smoke:rollout` | _pending_ | |
-
-**Anteckningar:** _…_
+**Fixar:** Inga — trunk grön @ `9bfa808c`. **Commit:** ingen.
 
 ---
 
-## Agent 2 — Polish
+## Agent 2 — Barnporten polish (safe)
 
-<!-- Agent 2 fyller i efter körning -->
+| Item | Status |
+|------|--------|
+| QR end-to-end (`BarnportenQrPanel` → callables → `useBarnportenPairClaim`) | **Verifierat OK** |
+| `BarnportenInboxPanel` §7b | **Orörd** (PMIR-STOPP) |
+| Kodändringar | **Inga** (readonly verify) |
 
-| Item | Fil / område | Status |
-|------|--------------|--------|
-| _placeholder_ | | |
-
-**Anteckningar:** _…_
+**Polish-gap (ej blockerande):** barn-manifest ej kopplat i `index.html`; `WidgetBarnportenPage` ignorerar kopplat alias; tyst väntan vid `?pair=` utan inloggning.
 
 ---
 
-## Agent 3 — PMIR
-
-<!-- Agent 3 fyller i efter körning -->
+## Agent 3 — MaterialPack PMIR
 
 | Scope | Beslut | Referens |
 |-------|--------|----------|
 | Barnporten CB2+ | **godkänd Våg A** · Våg B deployad | [`2026-06-06-pmir-barnporten-cb2plus.md`](./2026-06-06-pmir-barnporten-cb2plus.md) |
-| _placeholder_ | | |
+| MaterialPack-editor Fas D | **Plan only** · PMIR-STOPP implementation | [`2026-06-06-pmir-materialpack-editor.md`](./2026-06-06-pmir-materialpack-editor.md) |
 
-**Anteckningar:** _…_
+**Commit:** `befc0e6b` (lokal, ej pushad). **Våg A** (Familjen-mount) säker utan rules; **Våg B** (Firestore-synk) kräver PMIR-godkännande.
 
 ---
 
@@ -133,4 +128,13 @@ Dessa kräver **dig vid telefon/dator** — agent kan inte stänga dem.
 - [`MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md)
 - [`.context/locked-ux-features.md`](../../.context/locked-ux-features.md) §7–7b (oförändrad — referens)
 
-**Git @ sessionstart:** `9bfa808c`
+## Commits (lokalt, ej pushat)
+
+| Hash | Meddelande |
+|------|------------|
+| `5919896c` | docs(eval): sanning Barnporten Våg A/B + Android + 1h autonom rapport |
+| `befc0e6b` | docs(eval): PMIR MaterialPack-editor Fas D — plan only |
+
+**Deploy denna session:** inget (prod redan deployad före pass).
+
+**Git @ sessionstart:** `9bfa808c` · **HEAD efter Agent 3/4:** `befc0e6b`
