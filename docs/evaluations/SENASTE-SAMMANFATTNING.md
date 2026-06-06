@@ -1,7 +1,7 @@
 # Senaste sammanfattning — systemstatus
 
 **Datum:** 2026-06-06 · **Gren:** `main` · Repo: Livskompassen3.0  
-**Senaste leverans:** Fas 5A #3 Valv agent re-run **PASS** (8 smokes) · USER UI kvar
+**Senaste leverans:** Barnporten polish (alias · needs_auth · barn-manifest) · build + smoke **PASS**
 
 ---
 
@@ -17,7 +17,7 @@
 |--------|--------|
 | **Barnporten Våg A** | CB2–CB4 widget-varianter · `BarnportenWidget` variant-fabrik · CB2 default · mockups CB2–CB4 |
 | **Barnporten Våg B** | QR enhetskoppling · `createBarnportenPairing` + `claimBarnportenPairing` live · `firestore.rules` deployad · `barnporten_devices` |
-| **Barnporten P1** | Hub 2×2 · inkorg HITL §7b · offline-kö · PWA manifest · CB1 fallback |
+| **Barnporten P1** | Hub 2×2 · inkorg HITL §7b · offline-kö · PWA manifest (route-hook) · CB1 fallback · polish: alias + needs_auth |
 | **Adaptiv Hemkompass polish** | `HomeAdaptiveCompass` — ParalysPanel, KasamEvening, KompassradPanel, fasväljare, `home_snabbval` |
 | **Modulväljare rollout** | Planering · Ekonomi · Liv previews · Hem Capture · MåBra · Projekt · Valv zon |
 | CaptureSuperModule | Fas 1–3 + **v2** — kompass, hem, valv, planering; ReviewQueuePipelinePanel |

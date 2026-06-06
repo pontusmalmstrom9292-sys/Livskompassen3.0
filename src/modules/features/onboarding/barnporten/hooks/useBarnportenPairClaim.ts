@@ -9,6 +9,7 @@ import { claimBarnportenPairing } from '../api/barnportenPairingService';
 
 type PairState =
   | { phase: 'idle' }
+  | { phase: 'needs_auth' }
   | { phase: 'working' }
   | { phase: 'done'; childAlias: string }
   | { phase: 'error'; message: string };
@@ -21,7 +22,14 @@ export function useBarnportenPairClaim() {
 
   useEffect(() => {
     const token = searchParams.get('pair')?.trim().toLowerCase();
-    if (!token || !user) return;
+    if (!token) {
+      setState({ phase: 'idle' });
+      return;
+    }
+    if (!user) {
+      setState({ phase: 'needs_auth' });
+      return;
+    }
 
     let cancelled = false;
     setState({ phase: 'working' });

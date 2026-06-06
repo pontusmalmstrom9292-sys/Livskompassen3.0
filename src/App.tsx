@@ -2,9 +2,11 @@ import { AppUnlockGate, AuthProvider, useZeroFootprint } from './modules/core/au
 import { AppRoutes } from './modules/core/routing/AppRoutes';
 import { ThemeProvider } from './modules/core/theme';
 import { WidgetDeepLinkBridge } from '@/features/widgets/WidgetDeepLinkBridge';
+import { useBarnportenWebManifest } from '@/features/onboarding/barnporten/hooks/useBarnportenWebManifest';
 
 function AppShell() {
   useZeroFootprint();
+  useBarnportenWebManifest();
   return (
     <AppUnlockGate>
       <WidgetDeepLinkBridge />

@@ -70,6 +70,9 @@ export function BarnportenPage() {
         )}
       </header>
 
+      {pairState.phase === 'needs_auth' ? (
+        <p className="mb-4 text-center text-sm text-accent">Logga in för att koppla enheten</p>
+      ) : null}
       {pairState.phase === 'working' ? (
         <p className="mb-4 flex items-center justify-center gap-2 text-sm text-accent">
           <Loader2 className="h-4 w-4 animate-spin" aria-hidden />

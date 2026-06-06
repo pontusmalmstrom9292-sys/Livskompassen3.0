@@ -7,9 +7,8 @@ import { BarnportenWidget } from '@/features/onboarding/barnporten/components/Ba
 import { saveBarnportenLog } from '@/features/onboarding/barnporten/api/saveBarnportenLog';
 import { BARNPORTEN_WIDGET_VARIANTS } from '@/features/onboarding/barnporten/constants/barnportenWidgetVariant';
 import { useBarnportenWidgetVariant } from '@/features/onboarding/barnporten/hooks/useBarnportenWidgetVariant';
+import { resolveBarnportenChildAlias } from '@/features/onboarding/barnporten/constants/barnportenDeviceId';
 import { WidgetShell } from '../layout/WidgetShell';
-
-const DEFAULT_CHILD = 'Kasper';
 
 function WidgetBarnportenInner() {
   const user = useStore((s) => s.user);
@@ -32,7 +31,7 @@ function WidgetBarnportenInner() {
     setError(null);
     try {
       await saveBarnportenLog(user.uid, {
-        childAlias: DEFAULT_CHILD,
+        childAlias: resolveBarnportenChildAlias(),
         observation: text.trim(),
         kind: 'quick_widget',
         contentType: 'text',
