@@ -129,7 +129,7 @@ Dessa kräver **dig vid telefon/dator** — agent kan inte stänga dem.
 
 | Hash | Meddelande |
 |------|------------|
-| _efter Agent 4 commit_ | docs(eval): sanning Barnporten Våg A/B deploy + 1h autonom rapport |
+| `48266985` | docs(eval): sanning Barnporten Våg A/B deploy + 1h autonom rapport |
 
 **Push:** ej gjord (enligt instruktion).
 
