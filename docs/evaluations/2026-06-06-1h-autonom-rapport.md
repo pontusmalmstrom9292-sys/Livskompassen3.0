@@ -40,12 +40,12 @@
 
 | Kommando | Exit | Status |
 |----------|------|--------|
-| `npm run build` | — | _pending other agents_ |
-| `npm run smoke:locked-ux` | — | _pending other agents_ |
-| `npm run smoke:orkester` | — | _pending other agents_ |
-| `npm run smoke:design-modules` | — | _pending other agents_ |
+| `npm run build` | **0** | **PASS** |
+| `npm run smoke:locked-ux` | **0** | **PASS** |
+| `npm run smoke:orkester` | **0** | **PASS** |
+| `npm run smoke:design-modules` | **0** | **PASS** |
 
-**Fixar:** —  
+**Fixar:** ingen — alla PASS första körningen  
 **Commit:** —
 
 ---
@@ -54,9 +54,9 @@
 
 | Item | Status |
 |------|--------|
-| QR end-to-end (`BarnportenQrPanel` → callables → `useBarnportenPairClaim`) | _pending other agents_ |
+| QR end-to-end (`BarnportenQrPanel` → callables → `useBarnportenPairClaim`) | **PASS** — komplett kedja |
 | `BarnportenInboxPanel` §7b | **Orörd** (PMIR-STOPP) |
-| Kodändringar | _pending other agents_ |
+| Kodändringar | **Inga** — polish redan i `2ceb0fff` |
 
 **Polish-gap (ej blockerande):** se [`2026-06-06-multitask-rapport.md`](./2026-06-06-multitask-rapport.md) — `2ceb0fff` landade alias + manifest + needs_auth.
 
@@ -69,7 +69,8 @@
 | Barnporten CB2+ | **godkänd Våg A** · Våg B deployad | [`2026-06-06-pmir-barnporten-cb2plus.md`](./2026-06-06-pmir-barnporten-cb2plus.md) |
 | MaterialPack-editor Fas D | **Plan only** · PMIR-STOPP implementation | [`2026-06-06-pmir-materialpack-editor.md`](./2026-06-06-pmir-materialpack-editor.md) |
 
-**Commit:** _pending other agents_
+**Status:** **done** — Våg A live; Fas D kräver godkännande Våg A+/B/C  
+**Commit:** _lokal commit PMIR vid pass-avslut_
 
 ---
 
@@ -129,9 +130,10 @@ Dessa kräver **dig vid telefon/dator** — agent kan inte stänga dem.
 
 | Hash | Meddelande |
 |------|------------|
+| `9f8970b0` | docs(eval): fyll commit-hash i 1h autonom rapport |
 | `48266985` | docs(eval): sanning Barnporten Våg A/B deploy + 1h autonom rapport |
 
-**Push:** ej gjord (enligt instruktion).
+**Push:** ej gjord (enligt instruktion). **HEAD:** `9f8970b0`
 
 ---
 
