@@ -113,6 +113,7 @@ async function main() {
   assert(data.attachment?.mimeType === 'image/png', 'attachment.mimeType fel');
 
   console.log('[smoke:journal-2d] PASS — bilaga + journal OK —', entryId);
+  process.exit(0);
 }
 
 main().catch((err) => {
