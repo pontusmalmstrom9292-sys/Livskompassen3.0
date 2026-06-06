@@ -30,7 +30,7 @@
 | DagbokSuperModule | Fas 1 — reflektion + forensic-readonly |
 | K2 domän-svar | speglar · valv · familj · meny · mabra |
 | Locked UX + silos | Oförändrat · `smoke:locked-ux` **PASS** · Fas 5A #3 Valv batch **PASS** 2026-06-06 |
-| **Android** | `npm run build:web && npx cap sync android` · Run PASS Motorola 2026-06-06 |
+| **Android** | `build:web` + `cap sync` **PASS** 2026-06-06 14:28 CEST (2.4s) · Run PASS Motorola 2026-06-06 |
 
 ---
 
