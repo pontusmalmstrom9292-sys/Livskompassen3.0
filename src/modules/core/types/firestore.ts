@@ -347,6 +347,8 @@ export const FIRESTORE_COLLECTIONS = {
   vit_hub: 'vit_hub',
   vit_entries: 'vit_entries',
   children_logs: 'children_logs',
+  barnporten_pairings: 'barnporten_pairings',
+  barnporten_devices: 'barnporten_devices',
   transactions: 'transactions',
   economy_profiles: 'economy_profiles',
   economy_ledger: 'economy_ledger',

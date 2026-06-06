@@ -1,19 +1,25 @@
-import { useState } from 'react';
-import { Heart, MessageCircle, Smile, Lock, AlertCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Heart, MessageCircle, Smile, Lock, AlertCircle, Loader2 } from 'lucide-react';
 import { useStore } from '@/core/store';
 import { saveBarnportenLog } from '../api/saveBarnportenLog';
 import { useBarnportenOfflineFlush } from '../hooks/useBarnportenOfflineFlush';
+import { useBarnportenPairClaim } from '../hooks/useBarnportenPairClaim';
 import { BARNPORTEN_AGENTS } from '../constants/barnportenAgents';
+import { resolveBarnportenChildAlias, isBarnportenDeviceLinked } from '../constants/barnportenDeviceId';
 import { BarnportenWidget } from './BarnportenWidget';
-
-const DEFAULT_CHILD = 'Kasper';
 
 /** Barn-PWA hub — `/barnporten` (silo 3, ingen Valv-RAG). */
 export function BarnportenPage() {
   const user = useStore((s) => s.user);
+  const [activeChild, setActiveChild] = useState(() => resolveBarnportenChildAlias());
+  const pairState = useBarnportenPairClaim();
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (pairState.phase === 'done') setActiveChild(pairState.childAlias);
+  }, [pairState]);
 
   useBarnportenOfflineFlush(user?.uid);
 
@@ -31,7 +37,7 @@ export function BarnportenPage() {
     setStatus(null);
     try {
       const result = await saveBarnportenLog(user.uid, {
-        childAlias: DEFAULT_CHILD,
+        childAlias: activeChild,
         observation: `[Barnporten · ${label}] ${observation}`,
         kind,
         contentType: kind === 'mood' ? 'mood' : 'text',
@@ -57,7 +63,27 @@ export function BarnportenPage() {
       <header className="mb-6 text-center">
         <p className="text-xs uppercase tracking-widest text-accent/80">Barnporten</p>
         <h1 className="mt-1 text-2xl font-semibold text-accent-light">Din trygga hamn</h1>
+        {isBarnportenDeviceLinked() ? (
+          <p className="mt-2 text-xs text-text-dim">Kopplad enhet · {activeChild}</p>
+        ) : (
+          <p className="mt-2 text-xs text-text-dim">Be pappa skanna QR under Familjen → Barnporten.</p>
+        )}
       </header>
+
+      {pairState.phase === 'working' ? (
+        <p className="mb-4 flex items-center justify-center gap-2 text-sm text-accent">
+          <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+          Kopplar enhet…
+        </p>
+      ) : null}
+      {pairState.phase === 'done' ? (
+        <p className="mb-4 text-center text-sm text-success">
+          Enhet kopplad till {pairState.childAlias}.
+        </p>
+      ) : null}
+      {pairState.phase === 'error' ? (
+        <p className="mb-4 text-center text-sm text-danger">{pairState.message}</p>
+      ) : null}
 
       <div className="grid grid-cols-2 gap-3">
         <button
@@ -141,7 +167,7 @@ export function BarnportenPage() {
         </ul>
       </details>
 
-      <BarnportenWidget />
+      <BarnportenWidget childAlias={activeChild} />
     </div>
   );
 }

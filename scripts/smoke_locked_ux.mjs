@@ -358,6 +358,13 @@ function main() {
     "BARNPORTEN_WIDGET_DEFAULT: BarnportenWidgetVariant = 'cb2'",
   );
   mustInclude(
+    'src/modules/features/onboarding/barnporten/components/BarnportenQrPanel.tsx',
+    'BarnportenQrPanel',
+    'createBarnportenPairing',
+  );
+  mustInclude('functions/src/index.ts', 'createBarnportenPairing', 'claimBarnportenPairing');
+  mustInclude('firestore.rules', 'barnporten_pairings', 'barnporten_devices');
+  mustInclude(
     'src/modules/features/onboarding/barnporten/api/saveBarnportenLog.ts',
     "authorRole: 'child'",
     "channel: 'barnporten'",

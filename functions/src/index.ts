@@ -44,6 +44,10 @@ import { submitInkastLiteForUser } from './lib/submitInkastLite';
 import { listRegistryEntriesForUser } from './lib/contextCacheRegistry';
 import { analyzeUploadForKnowledge } from './lib/analyzeUploadForKnowledge';
 import { ingestKampsparForUser } from './lib/ingestKampsparInternal';
+import {
+  claimBarnportenPairingForUser,
+  createBarnportenPairingForUser,
+} from './lib/barnportenPairing';
 
 admin.initializeApp();
 const supervisor = new KompisSupervisor();
@@ -1086,6 +1090,57 @@ export const scheduledGeneratePayslip = functions
     const count = await generatePayslipsForAllProfiles();
     console.log(`[scheduledGeneratePayslip] Klar. ${count} lönespec(er).`);
   });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Barnporten Våg B — QR enhetskoppling (silo 3 metadata, Admin-only writes)
+// ─────────────────────────────────────────────────────────────────────────────
+export const createBarnportenPairing = onCall({ region: 'europe-west1' }, async (request) => {
+  if (!request.auth) {
+    throw new HttpsError('unauthenticated', 'Autentisering krävs.');
+  }
+  const origin =
+    typeof request.data?.origin === 'string' && request.data.origin.startsWith('http')
+      ? request.data.origin
+      : 'https://gen-lang-client-0481875058.web.app';
+  try {
+    return await createBarnportenPairingForUser(
+      request.auth.uid,
+      request.data?.childAlias,
+      origin,
+    );
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Kunde inte skapa QR-kod.';
+    throw new HttpsError(
+      message.includes('Ogiltigt') ? 'invalid-argument' : 'internal',
+      message,
+    );
+  }
+});
+
+export const claimBarnportenPairing = onCall({ region: 'europe-west1' }, async (request) => {
+  if (!request.auth) {
+    throw new HttpsError('unauthenticated', 'Logga in (samma konto som pappa) för att koppla.');
+  }
+  try {
+    return await claimBarnportenPairingForUser(
+      request.auth.uid,
+      request.data?.token,
+      request.data?.deviceId,
+      request.data?.deviceLabel,
+    );
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Koppling misslyckades.';
+    const code =
+      message.includes('Ogiltig') ||
+      message.includes('hittades') ||
+      message.includes('använd') ||
+      message.includes('gått ut') ||
+      message.includes('samma konto')
+        ? 'failed-precondition'
+        : 'internal';
+    throw new HttpsError(code, message);
+  }
+});
 
 export const generatePayslip = functions.region('europe-west1').https.onCall(async (data, context) => {
   if (!context.auth) {

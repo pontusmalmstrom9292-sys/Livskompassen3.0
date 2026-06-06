@@ -56,6 +56,17 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    // Barnporten QR — skrivs endast via Cloud Functions (Admin SDK)
+    match /barnporten_pairings/{tokenId} {
+      allow read: if isOwner();
+      allow create, update, delete: if false;
+    }
+
+    match /barnporten_devices/{docId} {
+      allow read: if isOwner();
+      allow create, update, delete: if false;
+    }
+
     match /vault/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreate();

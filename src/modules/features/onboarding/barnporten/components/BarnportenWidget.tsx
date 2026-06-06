@@ -6,10 +6,9 @@ import {
   type BarnportenWidgetVariant,
   BARNPORTEN_WIDGET_DEFAULT,
 } from '../constants/barnportenWidgetVariant';
+import { resolveBarnportenChildAlias } from '../constants/barnportenDeviceId';
 import { useBarnportenWidgetActions } from '../hooks/useBarnportenWidgetActions';
 import { useBarnportenWidgetVariant } from '../hooks/useBarnportenWidgetVariant';
-
-const DEFAULT_CHILD = 'Kasper';
 
 type Props = {
   childAlias?: string;
@@ -52,11 +51,12 @@ function BarnportenCompassMini({ className }: { className?: string }) {
  * Default CB2 hjärta-båge. Enkeltryck → /barnporten · långtryck → snabb avsig.
  * Monteras endast på barnporten-rutter — rör inte förälder W1 (FyrenWidgetBar).
  */
-export function BarnportenWidget({ childAlias = DEFAULT_CHILD, variant: variantOverride }: Props) {
+export function BarnportenWidget({ childAlias, variant: variantOverride }: Props) {
   const location = useLocation();
+  const resolvedChild = childAlias ?? resolveBarnportenChildAlias();
   const { variant: storedVariant } = useBarnportenWidgetVariant();
   const variant = variantOverride ?? storedVariant ?? BARNPORTEN_WIDGET_DEFAULT;
-  const { status, saving, onBarnportenRoute, longPress } = useBarnportenWidgetActions(childAlias);
+  const { status, saving, onBarnportenRoute, longPress } = useBarnportenWidgetActions(resolvedChild);
 
   const { progress, isHolding, onClick, ...pressHandlers } = longPress;
   const holdStyle =

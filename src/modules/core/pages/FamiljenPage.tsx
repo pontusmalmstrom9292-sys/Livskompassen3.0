@@ -16,6 +16,7 @@ import { ParentReminderFooter } from '@/features/family/children/components/Pare
 import { SafeHarborPage } from '@/features/family/safeHarbor/components/SafeHarborPage';
 import { BarnportenInboxPanel } from '@/features/onboarding/barnporten/components/BarnportenInboxPanel';
 import { BarnportenOrkesterPanel } from '@/features/onboarding/barnporten/components/BarnportenOrkesterPanel';
+import { BarnportenQrPanel } from '@/features/onboarding/barnporten/components/BarnportenQrPanel';
 import {
   FAMILJEN_TAB_IDS,
   isFamiljenTabId,
@@ -121,6 +122,7 @@ export function FamiljenPage() {
 
           {activeTab === 'barnporten' && (
             <div className="space-y-4">
+              <BarnportenQrPanel />
               <BarnportenInboxPanel />
               <BarnportenOrkesterPanel />
               <a href="/barnporten" className="btn-pill--ghost text-sm">

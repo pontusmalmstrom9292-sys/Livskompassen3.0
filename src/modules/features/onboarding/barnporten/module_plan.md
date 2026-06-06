@@ -19,7 +19,8 @@
 
 - [x] CB1 widget (`BarnportenWidget` + `/widget/barnporten`)
 - [x] CB2–CB4 variant-fabrik (default CB2, Våg A 2026-06-06)
-- [ ] QR enhetskoppling, push
+- [x] QR enhetskoppling (Våg B — callables + BarnportenQrPanel)
+- [ ] Push-notiser
 
 ## Data
 
