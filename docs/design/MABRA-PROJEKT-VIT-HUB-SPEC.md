@@ -1,6 +1,6 @@
 # MåBra — egna projekt + Vit hub i Valvet
 
-**Beslut 2026-05-23** · Koppling: MåBra startar → Valvet/arkivet levererar **plan** → sparas i **din Vit hub** (personlig silo, inte bevis-WORM mot ex).
+**Beslut 2026-05-23** · **Status 2026-06-06:** P0–P4 **done** (våg 9–16) · Koppling: MåBra startar → Valvet levererar **plan** → sparas i **din Vit hub** (personlig silo, inte bevis-WORM mot ex).
 
 ---
 
@@ -44,7 +44,7 @@ Varje rad = **samma avlånga modul** som kompasserna (`elongated-module`).
    - **Lär tillsammans** — lågaffektiv chatt (Kompis-coach, silo `vit`)
    - **Känslominnen** — *Vem är jag?* · *Hur känner jag kring denna upplevelse?*
 3. Svar sparas i **`vit_hub/{userId}`** (Firestore, planerat).
-4. **Vit hub** i Valv: dashboard med streak, teman, mål, “vad jag tycker är kul”, utvecklingskurva.
+4. **Vit hub** i Valv: dashboard med senaste minnen, deterministisk statistik, projektfilter, export — **ingen streak/skuld** (Mabra-SPEC).
 
 ---
 
@@ -65,12 +65,14 @@ Kort sparas som `vit_entries` med `kind: 'card' | 'memory' | 'chat_turn'`.
 
 Ny underflik eller sektion: **「Mitt Vit」** (namn TBD).
 
-| Widget | Innehåll |
-|--------|----------|
-| Översikt | Senaste 3 minnen + streak |
-| Statistik | Check-ins / projekt / humör (deterministisk, ingen LLM-sanning) |
-| Projekt | Lista aktiva MåBra-projekt |
-| Export | Framtida: PDF till dig själv (inte dossier) |
+| Widget | Innehåll | Status |
+|--------|----------|--------|
+| Översikt | Senaste 3 minnen (`VitRecentOverview`) | **done** P4 |
+| Statistik | Sparade svar · unika dagar · MåBra-pass (deterministisk) | **done** P2 |
+| Utveckling | Senaste 4 veckor — aktivitet per vecka, ingen streak | **done** våg 16 |
+| Humör / pass | MåBra-pass per symptom (senaste 30) | **done** våg 16 |
+| Projekt | Filter per MåBra-projekt | **done** P2/P13 |
+| Export | PDF + JSON till dig själv (inte dossier) | **done** P12 |
 
 **Skilj från:** Mönster/Orkester (ex-mönster), WORM-bevis.
 
@@ -78,13 +80,22 @@ Ny underflik eller sektion: **「Mitt Vit」** (namn TBD).
 
 ## Implementation-faser
 
-| Fas | Leverans |
-|-----|----------|
-| **P0** (nu) | `MabraProjectHub` UI + konstanter + länk till Vit-förhandsvisning |
-| **P1** | Firestore `vit_hub`, frågekort-flöde, spara entry |
-| **P2** | Valv-flik Mitt Vit + enkel statistik |
-| **P3** | Chatt «Lär tillsammans» via `mabraCoach` + silo-guard |
+| Fas | Leverans | Status |
+|-----|----------|--------|
+| **P0** | `MabraProjectHub` UI + konstanter + länk till Vit-förhandsvisning | **done** |
+| **P1** | Firestore `vit_hub` / `vit_entries`, frågekort-flöde, spara entry | **done** våg 9 |
+| **P2** | Valv-flik `vaultTab=mitt_vit` + statistik + filter | **done** våg 10–13 |
+| **P3** | Chatt «Lär tillsammans» via `mabraCoach` + silo-guard | **done** våg 11 |
+| **P4** | Översikt senaste 3 + MåBra→Valv-länk | **done** våg 15 |
+| **P5** | Utveckling/humör-polish (deterministisk, ingen LLM/gamification) | **done** våg 16 |
 
-Kod P0: `mabraProjects.ts`, `MabraProjectHub.tsx`, `VitHubPreview.tsx`.
+Kod: `mabraProjects.ts`, `MabraProjectHub.tsx`, `VitHubPreview.tsx`, `VaultVitHubPanel.tsx`, `VitDevelopmentPanel.tsx`, `vitHubStats.ts`, `vitHubCopy.ts`.
+
+## Backlog (ej P1–P5)
+
+| Idé | Not |
+|-----|-----|
+| Kurva över månader | Kräver mer data — avvakta UX-test |
+| Teman / “vad jag tycker är kul” | Separata frågekort-serier — kurator, ej auto-LLM |
 
 Mockup: [`mabra-projekt-vit-hub.png`](./references/mabra-projekt-vit-hub.png).

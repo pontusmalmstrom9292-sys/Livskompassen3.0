@@ -35,18 +35,13 @@ import { VIT_VAULT_TAB } from '../utils/vaultTabs';
 import { VitEntryFilterBar } from './VitEntryFilterBar';
 import { VitEntryList } from './VitEntryList';
 import { VitRecentOverview } from './VitRecentOverview';
+import { VitDevelopmentPanel } from './VitDevelopmentPanel';
+import { VitMabraPassPanel } from './VitMabraPassPanel';
 
 export { VAULT_VIT_TAB_LINK, vitHubFilteredLink } from '@/features/dailyLife/wellbeing/mabra/lib/vitHubLinks';
 
 type Props = {
   userId: string;
-};
-
-const SYMPTOM_LABELS: Record<string, string> = {
-  panic_rsd: 'Panik / RSD',
-  self_critical: 'Självkritik',
-  find_self: 'Hitta mig',
-  ovrigt: 'Övrigt',
 };
 
 const KIND_FILTER_LABELS = {
@@ -182,6 +177,8 @@ export function VaultVitHubPanel({ userId }: Props) {
 
       <VitRecentOverview entries={entries} onOpenEntry={applyFilter} />
 
+      <VitDevelopmentPanel stats={stats} />
+
       <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="Minneslista">
         <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">Minneslista</h2>
         <VitEntryFilterBar
@@ -247,23 +244,7 @@ export function VaultVitHubPanel({ userId }: Props) {
         </Link>
       </section>
 
-      {stats.sessionCount > 0 ? (
-        <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="Humör">
-          <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">
-            MåBra-pass (symptom)
-          </h2>
-          <ul className="mt-2 flex flex-wrap gap-2">
-            {Object.entries(stats.symptomCounts).map(([key, count]) => (
-              <li
-                key={key}
-                className="rounded-full border border-border-strong px-3 py-1 text-xs text-text-muted"
-              >
-                {SYMPTOM_LABELS[key] ?? key}: {count}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+      <VitMabraPassPanel stats={stats} />
 
       <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="Export">
         <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">Export</h2>

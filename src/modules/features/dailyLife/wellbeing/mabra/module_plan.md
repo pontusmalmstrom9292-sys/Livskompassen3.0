@@ -3,9 +3,12 @@
 ## Egna projekt + Vit hub (2026-05-23)
 
 - **Spec:** [`docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md`](../../docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md)
-- **P0:** `MabraProjectHub`, `VitHubPreview`, `constants/mabraProjects.ts`
-- **P1:** Firestore `vit_hub` + frågekort
-- **P2:** Valv «Mitt Vit» + statistik
+- **P0:** `MabraProjectHub`, `VitHubPreview`, `constants/mabraProjects.ts` — **done**
+- **P1:** Firestore `vit_hub` + frågekort — **done** våg 9
+- **P2:** Valv «Mitt Vit» + statistik + filter — **done** våg 10–13
+- **P3:** Vit chat `mabraCoach` — **done** våg 11
+- **P4:** `VitRecentOverview` + MåBra→Valv — **done** våg 15
+- **P5:** Utveckling/humör-polish (`VitDevelopmentPanel`) — **done** våg 16
 
 ## Overview
 
@@ -40,9 +43,7 @@ Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget
 ## MåBra — egna projekt + Vit hub (2026-05-23)
 
 - **Spec:** [`docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md`](../../docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md)
-- **P0:** `MabraProjectHub`, `VitHubPreview`, `mabraProjects.ts`
-- **P1:** Firestore `vit_hub` + frågekort-flöde
-- **P2:** Valv-flik «Mitt Vit» + statistik
+- **P0–P5:** se avsnitt ovan — **done** våg 9–16 (2026-06-06)
 
 ## Status
 
@@ -66,6 +67,7 @@ Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget
 | Fas 2 lågenergi-toggle (§1) | `MabraLowEnergyToggle` + två stora val på hub | Ja | **done** |
 | Fas 2 landningsremsa (§2) | `MabraComplete` — max 3 chips, deterministiskt frågekort | Ja | **done** |
 | Stjärnbilder / streak | Notebook | Nej | **rejected** |
+| Vit hub P0–P5 | Spec + våg 9–16 | Ja | **done** 2026-06-06 |
 | Nordisk skymning UI | Notebook | Nej | **rejected** |
 
 **Källa:** [`docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)

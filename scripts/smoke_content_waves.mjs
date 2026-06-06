@@ -212,6 +212,30 @@ function main() {
     'VIT_HUB_VAULT_LINK',
   );
 
+  console.log('[smoke:content-waves] Våg 16 — Vit spec + utveckling P5...');
+  mustInclude('docs/content/CONTENT-WAVES.md', 'Vit spec + utveckling P5', '**done**');
+  mustInclude('docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md', '**done** våg 9', 'ingen streak');
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/lib/vitHubStats.ts',
+    'computeVitWeeklyActivity',
+    'weeklyActivity',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/VitDevelopmentPanel.tsx',
+    'VitDevelopmentPanel',
+    'VIT_HUB_DEVELOPMENT_HINT',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/VitMabraPassPanel.tsx',
+    'VitMabraPassPanel',
+    'VIT_HUB_MOOD_HINT',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultVitHubPanel.tsx',
+    'VitDevelopmentPanel',
+    'VitMabraPassPanel',
+  );
+
   console.log('[smoke:content-waves] PASS');
 }
 
