@@ -33,6 +33,7 @@
     "source": "dataconnect"
   },
   "hosting": {
+    "site": "gen-lang-client-0481875058",
     "public": "dist",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "headers": [
