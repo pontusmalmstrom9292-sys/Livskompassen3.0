@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PenLine } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -22,6 +22,10 @@ type CapturePanelProps = {
   sourceModule?: string;
   compact?: boolean;
   onSaved?: () => void;
+  /** Kort ledtråd efter modulväljare (foto/widget). */
+  composeHint?: string | null;
+  /** Fokusera textarea vid mount (t.ex. efter «Klistra text»). */
+  focusOnCompose?: boolean;
 };
 
 type Phase = 'compose' | 'analyzing' | 'confirm' | 'edit' | 'done';
@@ -30,7 +34,10 @@ export function CapturePanel({
   sourceModule = 'hem_capture',
   compact = false,
   onSaved,
+  composeHint = null,
+  focusOnCompose = false,
 }: CapturePanelProps) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [text, setText] = useState('');
   const [phase, setPhase] = useState<Phase>('compose');
   const [message, setMessage] = useState<string | null>(null);
@@ -117,6 +124,11 @@ export function CapturePanel({
 
   const previewLabel = text.trim().slice(0, 80) || 'Inkast';
 
+  useEffect(() => {
+    if (!focusOnCompose || phase !== 'compose') return;
+    textareaRef.current?.focus();
+  }, [focusOnCompose, phase]);
+
   return (
     <BentoCard
       title={compact ? 'Skriv här' : 'Skriv — sorteras till rätt arkiv'}
@@ -126,9 +138,16 @@ export function CapturePanel({
         Granska AI-förslag eller välj arkiv manuellt innan det sparas.
       </p>
 
+      {composeHint ? (
+        <p className="mb-3 rounded-xl border border-border/30 bg-surface-2/60 px-3 py-2 text-xs text-text-muted">
+          {composeHint}
+        </p>
+      ) : null}
+
       {(phase === 'compose' || phase === 'done') && (
         <>
           <textarea
+            ref={textareaRef}
             className="input-glass min-h-[100px] w-full resize-y text-sm"
             placeholder="Observation, meddelande, minne…"
             value={text}

@@ -142,9 +142,10 @@ export function HomePage() {
 
       {!mockupSkin && isAuthenticated && isStampOnHomeScreenEnabled() && <StampClockHomeSection />}
 
-      {!mockupSkin && materialEnabled(preset, 'home_inkast') && isAuthenticated && (
-        <CaptureSuperModule variant="hem-capture" />
-      )}
+      {!mockupSkin &&
+        materialEnabled(preset, 'home_inkast') &&
+        !materialEnabled(preset, 'home_hero_checkin') &&
+        isAuthenticated && <CaptureSuperModule variant="hem-capture" />}
 
       {!mockupSkin && materialEnabled(preset, 'home_inkast') && !isAuthenticated && (
         <CaptureSuperModule

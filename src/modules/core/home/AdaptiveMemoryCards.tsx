@@ -27,6 +27,9 @@ export function AdaptiveMemoryCards({
   const location = useLocation();
   const [cards, setCards] = useState<AdaptiveMemoryCard[]>([]);
   const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState(false);
+
+  const visibleCards = expanded ? cards : cards.slice(0, 2);
 
   const load = useCallback(async () => {
     if (!user) {
@@ -67,27 +70,38 @@ export function AdaptiveMemoryCards({
           <Loader2 className="h-4 w-4 animate-spin" /> Laddar…
         </p>
       ) : (
-        <div className="adaptive-card-grid">
-          {cards.map((card) => (
-            <article
-              key={card.id}
-              className={`adaptive-card rounded-2xl border p-4 ${toneBorder[card.tone]}`}
-            >
-              <p className="text-[10px] uppercase tracking-widest text-text-dim">{card.title}</p>
-              <p className="mt-2 text-sm text-text-muted">{card.prompt}</p>
-              <Link
-                to={{
-                  pathname: card.to,
-                  search: card.search ?? '',
-                  hash: card.hash ? `#${card.hash.replace(/^#/, '')}` : '',
-                }}
-                className="btn-pill--ghost mt-3 inline-flex text-xs"
+        <>
+          <div className="adaptive-card-grid">
+            {visibleCards.map((card) => (
+              <article
+                key={card.id}
+                className={`adaptive-card rounded-2xl border p-4 ${toneBorder[card.tone]}`}
               >
-                {card.actionLabel}
-              </Link>
-            </article>
-          ))}
-        </div>
+                <p className="text-[10px] uppercase tracking-widest text-text-dim">{card.title}</p>
+                <p className="mt-2 text-sm text-text-muted">{card.prompt}</p>
+                <Link
+                  to={{
+                    pathname: card.to,
+                    search: card.search ?? '',
+                    hash: card.hash ? `#${card.hash.replace(/^#/, '')}` : '',
+                  }}
+                  className="btn-pill--ghost mt-3 inline-flex text-xs"
+                >
+                  {card.actionLabel}
+                </Link>
+              </article>
+            ))}
+          </div>
+          {cards.length > 2 && !expanded ? (
+            <button
+              type="button"
+              onClick={() => setExpanded(true)}
+              className="btn-pill--ghost text-xs"
+            >
+              Visa mer ({cards.length - 2})
+            </button>
+          ) : null}
+        </>
       )}
     </section>
   );

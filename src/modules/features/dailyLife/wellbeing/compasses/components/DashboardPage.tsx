@@ -1,4 +1,5 @@
 import { HomeAdaptiveCompass } from '@/core/home/HomeAdaptiveCompass';
+import { useLifeHubPreset } from '@/core/lifeOs/useLifeHubPreset';
 
 type DashboardPageProps = {
   embedded?: boolean;
@@ -12,5 +13,6 @@ type DashboardPageProps = {
  * `forcedFlow` / `variant` / `embedded` kept for API compatibility; compass is time-adaptive.
  */
 export function DashboardPage({ onCheckInSaved }: DashboardPageProps = {}) {
-  return <HomeAdaptiveCompass onSaved={onCheckInSaved} />;
+  const { preset, presetId } = useLifeHubPreset();
+  return <HomeAdaptiveCompass onSaved={onCheckInSaved} preset={preset} presetId={presetId} />;
 }

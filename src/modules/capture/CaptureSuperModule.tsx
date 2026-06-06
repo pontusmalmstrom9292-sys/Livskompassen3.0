@@ -1,7 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
 import { CapturePanel } from './CapturePanel';
+import { HemCaptureModulValjare, type HemCaptureChoice } from './components/HemCaptureModulValjare';
+import { hasSeenHemCaptureModulValjare } from './utils/hemCaptureModulValjareStorage';
 import { InkastDirectPanel } from './InkastDirectPanel';
 import { ReviewQueuePipelinePanel } from './ReviewQueuePipelinePanel';
 
@@ -30,6 +32,13 @@ const SOURCE_MODULE: Record<CaptureSuperVariant, string | undefined> = {
   kompass: 'hem_smart_inkast',
 };
 
+const HEM_CAPTURE_HINTS: Record<Exclude<HemCaptureChoice, 'text'>, string> = {
+  photo:
+    'Fota kvitto via Fyren (kamera i appfältet) eller klistra OCR-text från bank nedan — granska innan spar.',
+  widget:
+    'Tryck mikrofonen i Fyren längst ner för tyst inspelning. Text hamnar här efter granskning.',
+};
+
 /**
  * Canonical router för G10 capture/inkast-ytor.
  * v2: hem-capture inkluderar ReviewQueuePipelinePanel (lokalt + molnet-summary).
@@ -43,6 +52,11 @@ export function CaptureSuperModule({
 }: CaptureSuperModuleProps) {
   const isAuthenticated = useStore((s) => s.isAuthenticated);
   const sectionRef = useRef<HTMLElement>(null);
+  const [showCapturePicker, setShowCapturePicker] = useState(
+    () => variant === 'hem-capture' && !hasSeenHemCaptureModulValjare(),
+  );
+  const [composeHint, setComposeHint] = useState<string | null>(null);
+  const [focusOnCompose, setFocusOnCompose] = useState(false);
 
   useEffect(() => {
     if (variant !== 'hem-inkast') return;
@@ -50,13 +64,32 @@ export function CaptureSuperModule({
     sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, [variant]);
 
+  const handleCaptureChoice = (choice: HemCaptureChoice) => {
+    setShowCapturePicker(false);
+    setComposeHint(choice === 'text' ? null : HEM_CAPTURE_HINTS[choice]);
+    setFocusOnCompose(choice === 'text');
+  };
+
   if (variant === 'hem-capture' || variant === 'planering' || variant === 'kompass') {
+    if (variant === 'hem-capture' && showCapturePicker) {
+      return (
+        <div className="calm-card glow-bottom-gold overflow-hidden rounded-2xl p-4 sm:p-5">
+          <HemCaptureModulValjare
+            onSelect={handleCaptureChoice}
+            onSkip={() => setShowCapturePicker(false)}
+          />
+        </div>
+      );
+    }
+
     return (
       <>
         <CapturePanel
           sourceModule={SOURCE_MODULE[variant] ?? 'hem_capture'}
           compact={compact || variant === 'kompass'}
           onSaved={onSaved}
+          composeHint={variant === 'hem-capture' ? composeHint : null}
+          focusOnCompose={variant === 'hem-capture' && focusOnCompose}
         />
         {variant === 'hem-capture' && <ReviewQueuePipelinePanel mode="summary" />}
       </>

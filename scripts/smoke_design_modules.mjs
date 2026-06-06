@@ -278,6 +278,26 @@ function main() {
     'får inte importera InboxReviewQueue — använd InboxReviewQueueLink',
   );
 
+  console.log('[smoke:design-modules] Adaptiv Hemkompass...');
+  mustInclude('src/modules/core/home/homeCompassPhase.ts', 'getDefaultCompassByTime', 'getHomeCompassPhase');
+  mustInclude('src/modules/core/home/homeQuickNav.ts', 'getHomeQuickNavForPreset', 'rehab_lag');
+  mustInclude(
+    'src/modules/core/home/HomeAdaptiveCompass.tsx',
+    'materialEnabled',
+    'getHomeQuickNavForPreset',
+    'getHomeCompassPhase',
+  );
+  mustInclude('src/modules/core/home/HomeHeroKanon.tsx', 'useLifeHubPreset', 'Profil:');
+  mustInclude(
+    'src/modules/core/pages/HomePage.tsx',
+    'home_hero_checkin',
+    'home_inkast',
+  );
+  mustInclude(
+    'src/modules/core/home/AdaptiveMemoryCards.tsx',
+    'Visa mer',
+  );
+
   console.log('smoke:design-modules PASS');
 }
 
