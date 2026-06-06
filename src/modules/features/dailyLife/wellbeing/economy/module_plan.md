@@ -23,7 +23,7 @@ Personal economy module: liquidity, transactions, weekly budget presets — alig
 | Firestore transactions + profiles | Ja | **done** |
 | Spar-bekräftelse | Ja | **done** |
 | `budgets` / “kvar av budget” | Nej | **planned** |
-| Lönespec (`economy/vendor`) | Backend Fas 2 | **planned** |
+| Lönespec (`economy/vendor`) | Backend Fas 2 | **partial** — contract-test `npm run smoke:economy-vendor` |
 | Livs-Coachen här | Nej | **avvisat** |
 
 ## Dependencies
