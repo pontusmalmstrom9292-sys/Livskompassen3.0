@@ -1,7 +1,7 @@
 # Supermodule Master Plan — syntes av 5 analyser
 
 **Datum:** 2026-06-06  
-**Bas:** main @ ddaf98d2 · Block A+B klart · hosting deployad  
+**Bas:** main @ c5348b56 · supermoduler + CaptureSuper v2 + ValvSuper Fas 2 · hosting: CaptureSuper v2 deployad (ValvSuper Fas 2 **ej** deployad än)  
 **Kanon:** [`2026-06-06-cursor-native-autorun.md`](./2026-06-06-cursor-native-autorun.md) · [`SENASTE-SAMMANFATTNING.md`](./SENASTE-SAMMANFATTNING.md)
 
 ---
@@ -10,9 +10,9 @@
 
 | SuperModule | Variant-router | Status |
 |-------------|----------------|--------|
-| `CaptureSuperModule` | hem-capture · hem-inkast · valv-compact · planering · kompass | **Fas 1–3 done** |
+| `CaptureSuperModule` | hem-capture · hem-inkast · valv-compact · planering · kompass | **Fas 1–3 + v2 done** |
 | `SpeglarSuperModule` | dagbok · forensic | **Fas 2 done** |
-| `ValvSuperModule` | samla · analysera · kunskap · exportera · forensik | **Fas 1 done** |
+| `ValvSuperModule` | samla · analysera · kunskap · exportera · forensik | **Fas 1 + Fas 2 done** |
 | `DagbokSuperModule` | reflektion · forensic-readonly | **Fas 1 done** |
 | `PlaneringSuperModule` | inkorg · capture | **Fas 1 done** |
 | `BarnfokusSuperModule` | reflektion · livslogg | **Fas 1 done** |
@@ -34,7 +34,7 @@
 | `zones/ValvAnalyseraZone.tsx` | PansaretHeader + Mönster + Orkester |
 | `zones/ValvKunskapZone.tsx` | Kunskapsbank + Aktörskarta |
 | `zones/ValvExporteraZone.tsx` | Dossier embedded |
-| `VaultPage.tsx` | Gate + chrome (TabBar) + shared logs state |
+| `VaultPage.tsx` | Gate + zon-TabBar + shared logs state (sub-TabBar i zoner, Fas 2) |
 
 **Oförändrat (locked UX):** `VaultMonsterPanel`, `VaultOrkesterPanel`, `VaultKunskapsbankPanel`, `VaultAktorskartaPanel`, `InboxReviewQueue` i `VaultSamlaHub`.
 
@@ -53,7 +53,7 @@
 | `DagbokPage` (feature) | Arkiv-läge → `JournalArchiveReadonly` |
 | `VaultForensicPanel` | `dagbok_arkiv` → `DagbokSuperModule` |
 
-**Kvar:** `#2d` bilaga → `journal_memories/` (manuell smoke).
+**Kvar:** `#2d` bilaga — **USER PASS** 2026-06-06 (uppdatera [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md)).
 
 **Smoke:** `smoke:locked-ux` + `smoke:vault-worm` — PASS
 
@@ -122,9 +122,9 @@
 | CaptureSuper | `smoke:inkast` · `smoke:inbox` · design-modules |
 | SpeglarSuper | `smoke:speglar` · design-modules |
 | ValvSuper | design-modules · `smoke:locked-ux` · `smoke:vault-worm` |
-| DagbokSuper (plan) | locked-ux + vault-worm |
-| PlaneringSuper (plan) | design-modules + rollout static |
-| BarnfokusSuper (plan) | locked-ux + `smoke:children` |
+| DagbokSuper | locked-ux + vault-worm |
+| PlaneringSuper | design-modules + rollout static |
+| BarnfokusSuper | locked-ux + `smoke:children` |
 
 ---
 
@@ -132,8 +132,10 @@
 
 | Punkt | Var |
 |-------|-----|
-| **#2d bilaga** | Dagbok → Reflektera → fil &lt;5 MB → `journal_memories/` |
-| Valfritt visuellt | Hem en Skriv-yta; Speglar Fortsätt-knapp i ACT |
+| **Kunskap våg 8 omkörning** | `SEED_FIREBASE_EMAIL/PASSWORD` i `.env` → [`CONTENT-WAVES.md`](../content/CONTENT-WAVES.md) våg 8 |
+| **Hosting deploy** | ValvSuper Fas 2 (commit `c5348b56`) — `firebase deploy --only hosting` |
+| **#3 / #4 USER (valfritt)** | Autorun PASS — dubbelkolla i app om du vill · [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md) |
+| Valfritt visuellt | Speglar ACT «Fortsätt till VIVIR»-knapp |
 
 ---
 

@@ -74,7 +74,8 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 - [x] Modul-Functions deployade (`europe-west1`); Hosting live — se `docs/DEPLOY.md`, `docs/FIREBASE_SYNC.md`
 - [x] `notifyNewFile` — G6 **done** 2026-05-22 (`kb_docs` E2E)
 - [x] Manuell smoke minimum (#1, #2, #18) **PASS** 2026-05-27
-- [ ] Manuell smoke kvar (#3, #4, #2d) — [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) **Current truth**
+- [x] Manuell smoke #2d **PASS** 2026-06-06 (USER)
+- [ ] Manuell smoke #3, #4 valfritt USER — autorun PASS 2026-06-06 · [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) **Current truth**
 
 ## Data Connect
 - Deployat (example-schema); **appmoduler använder Firestore** — DC avvaktas tills ekonomi (se `docs/FIREBASE_SYNC.md`)
@@ -147,7 +148,8 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 - [x] Evaluations A–F + 6 modul-rapporter (`docs/archive/evaluations-2026-05-23/`)
 - [x] `npm run smoke:all` + `.context/design-modules-mockup.md`
 - [x] Manuell smoke minimum (#1, #2, #18) **PASS** 2026-05-27; #19–20 **STATIC PASS** 2026-05-29
-- [ ] Manuell smoke kvar (#3, #4, #2d) — [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) **Current truth**
+- [x] Manuell smoke #2d **PASS** 2026-06-06 (USER)
+- [ ] Manuell smoke #3, #4 valfritt USER — autorun PASS 2026-06-06 · [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) **Current truth**
 
 ## Fas 5 — Verifiering + polish (2026-05-31, post git-trunk)
 

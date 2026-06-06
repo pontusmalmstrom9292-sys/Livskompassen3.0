@@ -1,6 +1,8 @@
-# Modul-GAP — översikt (2026-05-31)
+# Modul-GAP — översikt (2026-06-06)
 
 **Syfte:** En sida — vad som är **klart i kod**, vad som är **öppet per modul**, och vad som körs **autonomt** vs **kräver dig**.
+
+**Senaste leverans:** supermoduler · CaptureSuper v2 · ValvSuper Fas 2 · [`SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
 
 **Arkiv (G1–G16):** [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) — alla **done**.  
 **Modulregister:** [`MODUL-FUNKTIONS-REGISTER.md`](./MODUL-FUNKTIONS-REGISTER.md) · **Cursor-plan mall:** [`evaluations/MALL-cursor-plan.md`](./evaluations/MALL-cursor-plan.md)  
@@ -41,15 +43,15 @@ Alla planfiler har `status: closed` överst. **Öppet arbete finns endast i tabe
 
 | Modul | Route | Gap / nästa | Kommando / vem |
 |-------|-------|-------------|----------------|
-| **dagbok** | `/dagbok` | Fas 1–4 **done** · storage deploy **done** | manuell smoke #2d |
+| **dagbok** | `/hjartat` (reflektion) | Fas 1–4 **done** · `#2d` USER **PASS** 2026-06-06 | — |
 | **mabra** | `/mabra` | §5 guardrail + §3 Vit djup-länk + **IA Våg 3 kompakt UI** | **done** 2026-05-30 |
 | **planering** | `/planering?tab=handling` | Fas 2 **done** (PLANERING_MORE_TABS, Paralys Fokus) · Master YOLO hub-gora | **done** |
 | **projekt** | `/projekt` | MaterialPack **done** · `project_rules` Firestore **done** 2026-06-01 | deploy rules · test `/projekt/regler` |
-| **kompis/kunskap** | Valv `kunskapsbank` | Fas 1.5 **done** · Fas 2 seed-bank | `specialist-kunskap-seed` |
+| **kompis/kunskap** | Valv `/valvet` · `kunskapsbank` | Fas 1.5 **done** · våg 8 **partial** (53 FACT — omkör med seed-credentials) | [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) våg 8 |
 | **barnporten** | `/barnporten` | P1 + CB1 **done** · manuell smoke #3 · QR CB2+ | `kör manuell smoke #3` |
-| **valv** | `/dagbok?tab=bevis` | Vävaren HITL **done** 2026-05-31 (`weaver_pending`, approve/reject) | [`2026-05-31-pmir-session-rniv`](./evaluations/2026-05-31-pmir-session-rniv.md) |
-| **core** | `/` | Manuell smoke #3, #4, #2d kvar · #1–2, #18 **PASS** | Du · [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) **Current truth** |
-| **inkast** | Hem `#inkast-lite` | **CaptureSuper Fas 1–3 done** · **InboxReviewQueue canonical Valv** · kompass-variant | [`2026-06-06-upload-unified-cursor-plan.md`](./evaluations/2026-06-06-upload-unified-cursor-plan.md) |
+| **valv** | `/valvet` | ValvSuper Fas 1+2 **done** · Vävaren HITL **done** | hosting deploy Fas 2 · [`supermodule-master-plan`](./evaluations/2026-06-06-supermodule-master-plan.md) |
+| **core** | `/` | `#2d` USER **PASS** 2026-06-06 · `#3/#4` autorun PASS | valfritt USER i app · [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) |
+| **inkast** | Hem · Valv Samla | CaptureSuper **v2 done** · canonical `InboxReviewQueue` | [`2026-06-06-upload-unified-cursor-plan.md`](./evaluations/2026-06-06-upload-unified-cursor-plan.md) |
 | **liv** | `/vardagen` launcher | **LivSuper + Drogfrihet→Familj done** 2026-06-06 | [`2026-06-06-liv-super-cursor-plan.md`](./evaluations/2026-06-06-liv-super-cursor-plan.md) |
 | **dossier** | `/dossier` | BBIC `reportType` **planned** | Spec §I.4 |
 | **ekonomi** | `/liv?tab=kompasser&vardagenTab=ekonomi` | Routing superhub **live** 2026-06-01 · sparmål UI **done** · lönespec vardag **done** | [`LOST-FEATURES-REGISTER.md`](./evaluations/LOST-FEATURES-REGISTER.md) |
@@ -70,8 +72,9 @@ npm run orkester:night
 
 ## Kräver dig
 
-1. **Manuell smoke** — [`2026-05-29-smoke-manuell.md`](./evaluations/2026-05-29-smoke-manuell.md)
-2. **Kunskap våg 8 ingest** — efter granskning (`seed_kampspar_profile`)
+1. **Kunskap våg 8 omkörning** — `SEED_FIREBASE_EMAIL/PASSWORD` → [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md)
+2. **Hosting deploy** — ValvSuper Fas 2 (`c5348b56`)
+3. **Valfritt USER** — #3/#4 i app · [`2026-05-29-smoke-manuell.md`](./evaluations/2026-05-29-smoke-manuell.md)
 
 ---
 

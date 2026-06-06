@@ -1,5 +1,28 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Current truth (2026-06-06 — supermoduler + rollout)
+
+**Sanning:** denna tabell ersätter raden «2026-05-31 — systemgenomgång auto» nedan.
+
+| Kategori | # / kommando | Status | Senast |
+|----------|--------------|--------|--------|
+| **Manuell PASS** | #1 Auth | **PASS** | 2026-05-27 |
+| **Manuell PASS** | #2 Dagbok → `journal` | **PASS** | 2026-05-27 |
+| **Manuell PASS** | #2d Dagbok bilaga → `journal_memories` | **PASS** | 2026-06-06 (USER) |
+| **Manuell PASS** | #18 Ekonomi → `transactions` | **PASS** | 2026-05-27 |
+| **Autorun PASS** | #3 WORM `reality_vault` | **PASS** | `smoke:vault-worm` · rollout 2026-06-06 |
+| **Autorun PASS** | #4 Barnen `children_logs` | **PASS** | `smoke:children` · rollout 2026-06-06 |
+| **Autorun PASS** | rollout:night (Block A+B) | **PASS** | 2026-06-06 |
+| **Autorun PASS** | locked-ux, design-modules, inkast, inbox, speglar | **PASS** | 2026-06-06 |
+| **Partial** | Kunskap våg 8 ingest | **PARTIAL** | 53 FACT → anonym uid — omkör med seed-credentials |
+| **Deploy** | Hosting CaptureSuper v2 | **PASS** | 2026-06-06 |
+| **Deploy saknas** | Hosting ValvSuper Fas 2 | **OPEN** | commit `c5348b56` |
+| **USER (valfritt)** | #3 / #4 dubbelkoll i app | **USER** | autorun täcker backend — se [`2026-06-06-manuell-smoke-checklist.md`](./evaluations/2026-06-06-manuell-smoke-checklist.md) |
+
+**Hub:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md) · **Supermoduler:** [`evaluations/2026-06-06-supermodule-master-plan.md`](./evaluations/2026-06-06-supermodule-master-plan.md)
+
+---
+
 ## Current truth (2026-05-31 — systemgenomgång auto)
 
 **Sanning:** denna tabell ersätter äldre "öppet"-rader i hub-dokument. Historik nedan behålls.

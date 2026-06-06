@@ -1,13 +1,13 @@
 # Senaste sammanfattning — systemstatus
 
 **Datum:** 2026-06-06 · **Gren:** `main` · Repo: Livskompassen3.0  
-**Senaste leverans:** CaptureSuper v2 — enhetlig review-kö-pipeline (Hem + Valv Samla)
+**Senaste leverans:** Kunskap seed våg 8 (53 FACT) — omkörning till din uid kvar
 
 ---
 
 ## Nuläge i en mening
 
-**Superhub Block A+B klart** + **alla 5 supermoduler** inkl. **CaptureSuper v2** (G10 review-kö). **Nästa:** manuell #2d bilaga.
+**Superhub + alla supermoduler klart (inkl. ValvSuper Fas 2)** · Kunskap våg 8 — omkör seed med din uid i `.env`.
 
 ---
 
@@ -21,7 +21,7 @@
 | LivSuper Fas 1–3 | Kortgrid · LivBackLink · VardagenShellPage raderad |
 | Drogfrihet | Flik i `/familjen` · legacy `/drogfrihet` → redirect |
 | SpeglarSuperModule | Fas 2 — dagbok + forensic variant-router |
-| ValvSuperModule | Fas 1 — 5-zons router; VaultPage = gate + chrome |
+| ValvSuperModule | Fas 1 + **Fas 2** — sub-TabBar i zoner; samlaView URL-sync |
 | DagbokSuperModule | Fas 1 — reflektion + forensic-readonly; canonical JournalArchiveReadonly |
 | PlaneringSuperModule | Fas 1 — inkorg + capture (G10 planering_inkorg) |
 | BarnfokusSuperModule | Fas 1 — reflektion + livslogg router |
@@ -34,8 +34,9 @@
 
 | Punkt | Var |
 |-------|-----|
-| **Manuell smoke #3, #4, #2d** | [`2026-06-06-manuell-smoke-checklist.md`](./evaluations/2026-06-06-manuell-smoke-checklist.md) |
-| **Kunskap seed Fas 2** | `specialist-kunskap-seed` |
+| **Kunskap våg 8 omkörning** | Sätt `SEED_FIREBASE_EMAIL/PASSWORD` i `.env` → `--manifest=kunskap-facts --skip-existing` |
+| **Manuell smoke #3, #4** | Autorun PASS — valfritt USER i app · [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md) |
+| **Hosting ValvSuper Fas 2** | `firebase deploy --only hosting` (commit `c5348b56`) |
 
 ---
 

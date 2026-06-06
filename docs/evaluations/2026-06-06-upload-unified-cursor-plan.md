@@ -38,6 +38,13 @@ Bygg `CaptureSuperModule` + `InkastDirectPanel` som tunn router/extraktion. Inge
 
 ## Fas 3 — leverans (done 2026-06-06)
 
-- [x] Inloggad Hem: endast `hem-capture` + `ReviewQueuePanel` (lokal utkast — separat pipeline)
+- [x] Inloggad Hem: `hem-capture` via `CaptureSuperModule` (inkl. pipeline efter v2)
 - [x] Utloggad Hem: endast `hem-inkast` (direct)
 - [x] Ingen dubbel InkastLiteCard på Hem
+
+## Fas 4 — CaptureSuper v2 (done 2026-06-06)
+
+- [x] `ReviewQueuePipelinePanel` — lokalt utkast + molnet-preview + länk Valv Samla
+- [x] `reviewQueuePipeline.ts` — delad etikett/sortering med `InboxReviewQueue`
+- [x] Canonical HITL kvar i `VaultSamlaHub` · Planering/Kunskap → `InboxReviewQueueLink`
+- [x] Smoke PASS · ingen functions-deploy (U1 orörd)
