@@ -1,13 +1,13 @@
 # Senaste sammanfattning — systemstatus
 
 **Datum:** 2026-06-06 · **Gren:** `main` · Repo: Livskompassen3.0  
-**Senaste leverans:** Cursor-native rollout Block A+B — Upload Fas 1–3 · Liv launcher · domän K2
+**Senaste leverans:** LivSuper Fas 1–3 · Drogfrihet→Familjen · Upload Fas 1–3
 
 ---
 
 ## Nuläge i en mening
 
-**Upload supermodul klar (Fas 1–3):** en granskningskö i Valv, `InboxReviewQueueLink` elsewhere, kompass → `CaptureSuperModule`. **Liv-launcher live:** `/vardagen` + fullsid `/mabra` `/planering` `/arbetsliv`. **Nästa:** manuell smoke + deploy hosting.
+**Superhub Block A+B klart:** Upload + Liv-launcher + Drogfrihet under Familjen. **Nästa:** manuell smoke (#3 Valv, #4 Barnen) + ev. K2 Speglar Fas 2.
 
 ---
 
@@ -17,9 +17,9 @@
 |--------|--------|
 | CaptureSuperModule | Fas 1–3 — kompass, hem, valv, planering |
 | InboxReviewQueue | Canonical i VaultSamlaHub; länk elsewhere |
-| LivLauncherPage | Stora kort (Fas 2); kompass/ekonomi inline; övrigt → fullsid |
-| LivLauncherGrid | Obsidian Calm-kortgrid på `/vardagen` |
-| LivBackLink | MåBra · Planering · Arbetsliv |
+| LivLauncherPage | Stora kort; kompass/ekonomi inline; övrigt → fullsid |
+| LivSuper Fas 1–3 | Kortgrid · LivBackLink · VardagenShellPage raderad |
+| Drogfrihet | Flik i `/familjen` · legacy `/drogfrihet` → redirect |
 | K2 domän-svar | speglar · valv · familj · meny · mabra |
 | Locked UX + silos | Oförändrat |
 
@@ -29,8 +29,9 @@
 
 | Punkt | Var |
 |-------|-----|
-| **Manuell smoke + deploy** | [`2026-06-06-manuell-smoke-checklist.md`](./evaluations/2026-06-06-manuell-smoke-checklist.md) |
-| Drogfrihet→Familj | Done — flik i `/familjen`, legacy `/drogfrihet` redirect |
+| **Manuell smoke #3, #4, #2d** | [`2026-06-06-manuell-smoke-checklist.md`](./evaluations/2026-06-06-manuell-smoke-checklist.md) |
+| **Kunskap seed Fas 2** | `specialist-kunskap-seed` |
+| **SpeglarSuperModule** | K2 Fas 2+ (DEFER) |
 
 ---
 
