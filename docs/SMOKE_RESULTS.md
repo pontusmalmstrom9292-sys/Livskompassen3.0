@@ -9,6 +9,7 @@
 | **Manuell PASS** | #1 Auth | **PASS** | 2026-05-27 |
 | **Manuell PASS** | #2 Dagbok → `journal` | **PASS** | 2026-05-27 |
 | **Manuell PASS** | #2d Dagbok bilaga → `journal_memories` | **PASS** | 2026-06-06 (USER) |
+| **Manuell PASS** | #4 Barnporten QR + `children_logs` | **PASS** | 2026-06-06 (USER · Motorola) |
 | **Manuell PASS** | #18 Ekonomi → `transactions` | **PASS** | 2026-05-27 |
 | **Autorun PASS** | #2d `smoke:journal-2d` + rollout | **PASS** | 2026-06-06 |
 | **Autorun PASS** | #3 WORM `reality_vault` | **PASS** | `smoke:vault-worm` · rollout 2026-06-06 |
@@ -20,7 +21,7 @@
 | **Autorun PASS** | `smoke:kunskap` | **PASS** | 2026-06-06 — ingest + query + citation |
 | **Deploy** | Hosting hemkompass + orkester-fix | **PASS** | 2026-06-06 |
 | **Deploy** | Hosting ValvSuper Fas 2–3 + Vit våg 10–16 | **PASS** | 2026-06-06 (senaste `hosting`-deploy) |
-| **USER (valfritt)** | #3 / #4 dubbelkoll i app | **USER** | autorun täcker backend — se [`2026-06-06-manuell-smoke-checklist.md`](./evaluations/2026-06-06-manuell-smoke-checklist.md) |
+| **USER (valfritt)** | #3 Valv dubbelkoll i app | **USER** | autorun täcker backend — [`2026-06-06-manuell-smoke-checklist.md`](./evaluations/2026-06-06-manuell-smoke-checklist.md) |
 
 **Hub:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md) · **Supermoduler:** [`evaluations/2026-06-06-supermodule-master-plan.md`](./evaluations/2026-06-06-supermodule-master-plan.md)
 
@@ -124,7 +125,7 @@
 |---|------|----------|----------|
 | 2d | Dagbok bilaga &lt;5 MB → `journal_memories` | **USER** | Kräver inloggad användare + fil &lt;5 MB i Reflektera |
 | 3 | Valv long-press → PIN → post | **USER** | `reality_vault` i Console |
-| 4 | Barnen / Barnporten → `children_logs` | **USER** | `/barnen` eller `/barnporten` |
+| 4 | Barnen / Barnporten → `children_logs` | **PASS** | 2026-06-06 USER · QR + meddelande · Motorola Android |
 | 19 | Barnfokus Familjen | **STATIC PASS** | `npm run smoke:locked-ux` 2026-05-29 |
 | 20 | Valv Mönster + Orkester | **STATIC PASS** | `smoke:locked-ux` + `smoke:orkester` 2026-05-29 |
 | Ny | Projektbild → `project_media/` | **USER** | Efter storage deploy; `/projekt/:id` bild-block |

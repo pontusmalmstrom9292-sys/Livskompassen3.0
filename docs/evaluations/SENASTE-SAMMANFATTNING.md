@@ -1,13 +1,13 @@
 # Senaste sammanfattning — systemstatus
 
 **Datum:** 2026-06-06 · **Gren:** `main` · Repo: Livskompassen3.0  
-**Senaste leverans:** Barnporten Våg A/B deployad · Android Run PASS (Motorola) · 1h autonom docs-pass
+**Senaste leverans:** Barnporten Våg A/B deployad · **USER #4 + QR PASS** (Motorola) · Android Run PASS
 
 ---
 
 ## Nuläge i en mening
 
-**Barnporten CB2–CB4 + QR-koppling live** · Android cap sync + Run PASS · manuell Fas 5A #3/#4 kvar för Pontus.
+**Barnporten CB2–CB4 + QR-koppling verifierad på Motorola** · Fas 5A #4 **PASS** · #3 Valv kvar (valfritt USER).
 
 ---
 
@@ -37,7 +37,7 @@
 | Punkt | Var |
 |-------|-----|
 | **Fas 5A #3 Valv** | Manuell smoke — PIN → spara post → ev. Firestore-kontroll · [`2026-06-01-USER-nasta-steg.md`](./2026-06-01-USER-nasta-steg.md) §A |
-| **Fas 5A #4 Barnporten** | Manuell smoke på telefon/barnenhet — spara loggrad · [`2026-06-01-USER-nasta-steg.md`](./2026-06-01-USER-nasta-steg.md) §B |
+| **Fas 5A #4 Barnporten** | **PASS** 2026-06-06 — QR + loggrad · Motorola |
 | **#2d bilaga** | **done** — `smoke:journal-2d` + rollout checklist PASS |
 | **Kunskap våg 8** | **done** — 53 FACT seedade |
 | **Barnporten Våg C (push)** | Defer — FCM/kostnad · PMIR krävs |
