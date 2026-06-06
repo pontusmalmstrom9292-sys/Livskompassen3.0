@@ -133,6 +133,7 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
 
         <div className="nav-drawer__calm-scroll custom-scrollbar flex-1 overflow-y-auto py-4">
           <nav className="space-y-1 px-3" aria-label="Moduler">
+            {/* section="vardag" */}
             <p className="mt-2 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-text-dim">
               Vardag
             </p>
@@ -159,6 +160,7 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
 
             {vaultOpen ? (
               <div className="mt-6 border-t border-border/15 pt-4">
+                {/* section="valv" */}
                 <p className="px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-accent/80">
                   Valvet
                 </p>

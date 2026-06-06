@@ -64,7 +64,7 @@ export function LivLauncherPage() {
     <HubPageShell
       eyebrow="ZON 2 — Liv och göra"
       title="Vardagsstart"
-      lead="Välj ett kort. Kompass och ekonomi visas här — MåBra, planering och arbete öppnas på egna sidor."
+      lead="Välj ett kort. Kompass och ekonomi visas här — MåBra, planering och arbetsliv (/arbetsliv) öppnas på egna sidor."
     >
       <div className="mx-auto max-w-5xl space-y-4 pb-12">
         <CognitiveLoadStrip

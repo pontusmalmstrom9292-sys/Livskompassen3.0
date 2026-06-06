@@ -170,7 +170,12 @@ function main() {
     'VaultOrkesterPanel',
     'OrkesterAgentTrio',
   );
-  mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx', "'orkester'", 'VaultOrkesterPanel');
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvAnalyseraZone.tsx',
+    "'orkester'",
+    'VaultOrkesterPanel',
+  );
+  mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx', 'ValvSuperModule');
 
   console.log('[smoke:orkester] Specialist agents + conductor...');
   for (const agent of [
