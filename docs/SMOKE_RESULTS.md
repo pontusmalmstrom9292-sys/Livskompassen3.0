@@ -34,9 +34,30 @@
 | **Deploy** | Super Multitask: Inkast CTA + Dossier XSS + hosting | **PASS** | 2026-06-07 · `88be0eeb` |
 | **Deploy** | Hosting Superhub §D (dagbok ur publik drawer) | **PASS** | 2026-06-07 · https://gen-lang-client-0481875058.web.app |
 | **Autorun PASS** | Superhub §D `smoke:superhub` + build + locked-ux | **PASS** | 2026-06-07 — drawer 4 rader, legacy redirects, plausible deniability |
-| **Manuell väntar** | Superhub §D (Motorola drawer + /liv + /mabra) | **USER väntar** | autorun PASS 2026-06-07 — se [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md) §D |
+| **Manuell PASS** | Superhub §D (Motorola drawer + /liv + /mabra) | **PASS** | 2026-06-07 (USER · Motorola) |
+| **Manuell PASS** | Inkast post-save CTA + MaterialPack `/projekt/genvagar` | **PASS** | 2026-06-07 (USER) |
+| **Autorun PASS** | Fas 2 re-run (build + 6 smokes) | **PASS** | 2026-06-07 |
 
 **Fas 5A #3/#4:** **PASS** (USER 2026-06-06/07) — se [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md).
+
+
+## Fas 2 execution complete (2026-06-07 — agent re-run)
+
+**Trigger:** Fas 2 agent timeout recovery · trunk `main` · prod `gen-lang-client-0481875058`  
+**Kod redan på main:** `a4315b35` Valv weave client + gates · `1dfc783d` inkast CTA · denna commit planering UX + smoke docs
+
+| Kommando | Resultat |
+|----------|----------|
+| `npm run build` | **PASS** |
+| `functions build` | **PASS** |
+| `smoke:locked-ux` | **PASS** |
+| `smoke:design-modules` | **PASS** |
+| `smoke:orkester` | **PASS** |
+| `smoke:valv-security` | **PASS** |
+| `smoke:innehall` | **PASS** |
+| `smoke:cache` | **PASS** |
+| Deploy `hosting` | se post-commit deploy |
+| Deploy `functions` | **SKIP** — inga ändringar i `functions/src` sedan senaste deploy |
 
 **Hub:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md) · **Supermoduler:** [`evaluations/2026-06-06-supermodule-master-plan.md`](./evaluations/2026-06-06-supermodule-master-plan.md)
 
@@ -135,7 +156,26 @@
 | **USER (du i app)** | Projektbild → `project_media/` | **USER** | efter storage deploy 2026-05-29 |
 | **Deploy PASS** | Vävaren HITL + rules + hosting | **PASS** | 2026-05-31 deploy — manuell E2E: [`evaluations/2026-05-31-fas5a-user-checklist.md`](./evaluations/2026-05-31-fas5a-user-checklist.md) |
 
-**Checklista:** [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md) · **Hub:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
+**Checklista:** [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md) · 
+## Fas 2 execution complete (2026-06-07 — agent re-run)
+
+**Trigger:** Fas 2 agent timeout recovery · trunk `main` · prod `gen-lang-client-0481875058`  
+**Kod redan på main:** `a4315b35` Valv weave client + gates · `1dfc783d` inkast CTA · denna commit planering UX + smoke docs
+
+| Kommando | Resultat |
+|----------|----------|
+| `npm run build` | **PASS** |
+| `functions build` | **PASS** |
+| `smoke:locked-ux` | **PASS** |
+| `smoke:design-modules` | **PASS** |
+| `smoke:orkester` | **PASS** |
+| `smoke:valv-security` | **PASS** |
+| `smoke:innehall` | **PASS** |
+| `smoke:cache` | **PASS** |
+| Deploy `hosting` | se post-commit deploy |
+| Deploy `functions` | **SKIP** — inga ändringar i `functions/src` sedan senaste deploy |
+
+**Hub:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
 
 ---
 

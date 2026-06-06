@@ -35,14 +35,27 @@ function normalizeCreatedAt(value: unknown): string {
   return '';
 }
 
-function mapDoc(id: string, data: FirestorePlanningTask): PlanningTask {
+const VALID_TASK_STATUS = new Set<PlanningTaskStatus>(['todo', 'waiting', 'done']);
+const VALID_TASK_SOURCE = new Set<PlanningTaskSource>([
+  'email',
+  'school',
+  'calendar',
+  'manual',
+  'authority',
+]);
+
+function mapDoc(id: string, data: FirestorePlanningTask): PlanningTask | null {
+  const title = typeof data.title === 'string' ? data.title.trim() : '';
+  if (!title) return null;
+  const status = VALID_TASK_STATUS.has(data.status) ? data.status : 'todo';
+  const source = VALID_TASK_SOURCE.has(data.source) ? data.source : 'manual';
   return {
     id,
-    title: data.title,
+    title,
     summary: data.summary,
-    status: data.status,
+    status,
     dueAt: data.dueAt,
-    source: data.source,
+    source,
     sourceRef: data.sourceRef,
     microStep: data.microStep,
     projectId: data.projectId,
@@ -59,7 +72,9 @@ export function listenPlanningTasks(
   return onSnapshot(
     q,
     (snap) => {
-      const rows = snap.docs.map((d) => mapDoc(d.id, d.data() as FirestorePlanningTask));
+      const rows = snap.docs
+        .map((d) => mapDoc(d.id, d.data() as FirestorePlanningTask))
+        .filter((row): row is PlanningTask => row != null);
       rows.sort((a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? ''));
       onRows(rows);
     },

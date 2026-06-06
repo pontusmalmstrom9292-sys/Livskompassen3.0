@@ -39,10 +39,10 @@ Agent har kört kod + statisk smoke. **Du** bekräftar i riktig app.
 
 | Test | PASS? |
 |------|-------|
-| Drawer: Hem · Liv · Familj · Inställningar | |
-| `/liv` → MåBra / Planering | |
-| `/familjen` → Barnfokus-känsla | |
-| Legacy `/mabra` redirectar | |
+| Drawer: Hem · Liv · Familj · Inställningar | **PASS** |
+| `/liv` → MåBra / Planering | **PASS** |
+| `/familjen` → Barnfokus-känsla | **PASS** |
+| Legacy `/mabra` redirectar | **PASS** |
 
 Kanon: [`2026-06-01-superhub-leverans.md`](./2026-06-01-superhub-leverans.md)
 

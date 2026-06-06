@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { lazy, Suspense, useEffect, useMemo } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { Calendar, LayoutGrid } from 'lucide-react';
 import { HubPageShell } from '@/core/layout/HubPageShell';
@@ -7,25 +7,49 @@ import { PLANERING_TAGLINE, PLANERING_MORE_TABS } from '../constants';
 import type { PlaneringTab } from '../types';
 import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
 import { PlanningKanbanBoard } from './PlanningKanbanBoard';
-import { PlaneringEmailRulesPanel } from './PlaneringEmailRulesPanel';
-import { PlaneringSuperModule } from './PlaneringSuperModule';
-import { PlaneringHubLayoutPicker } from './PlaneringHubLayoutPicker';
-import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
-import { PlaneringQuickListPanel } from './PlaneringQuickListPanel';
-import { PlaneringHub } from './PlaneringHub';
 import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
 import { LivBackLink } from '@/modules/shell/LivBackLink';
-import { GoraModulValjare } from './GoraModulValjare';
-import { GoraSuperModule } from './GoraSuperModule';
-import { VerktygDrawer } from './VerktygDrawer';
-import { RoutinesPanel } from './RoutinesPanel';
+import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
+import { PlaneringErrorBoundary } from './PlaneringErrorBoundary';
 import {
   hasSeenGoraModulValjare,
   markGoraModulValjareSeen,
 } from '../utils/goraModulValjareStorage';
 
+const GoraModulValjare = lazy(() =>
+  import('./GoraModulValjare').then((m) => ({ default: m.GoraModulValjare })),
+);
+const GoraSuperModule = lazy(() =>
+  import('./GoraSuperModule').then((m) => ({ default: m.GoraSuperModule })),
+);
+const PlaneringSuperModule = lazy(() =>
+  import('./PlaneringSuperModule').then((m) => ({ default: m.PlaneringSuperModule })),
+);
+const PlaneringHub = lazy(() =>
+  import('./PlaneringHub').then((m) => ({ default: m.PlaneringHub })),
+);
+const PlaneringHubLayoutPicker = lazy(() =>
+  import('./PlaneringHubLayoutPicker').then((m) => ({ default: m.PlaneringHubLayoutPicker })),
+);
+const PlaneringQuickListPanel = lazy(() =>
+  import('./PlaneringQuickListPanel').then((m) => ({ default: m.PlaneringQuickListPanel })),
+);
+const PlaneringEmailRulesPanel = lazy(() =>
+  import('./PlaneringEmailRulesPanel').then((m) => ({ default: m.PlaneringEmailRulesPanel })),
+);
+const VerktygDrawer = lazy(() =>
+  import('./VerktygDrawer').then((m) => ({ default: m.VerktygDrawer })),
+);
+const RoutinesPanel = lazy(() =>
+  import('./RoutinesPanel').then((m) => ({ default: m.RoutinesPanel })),
+);
+
 const GORA_SUPER_TABS = new Set<PlaneringTab>(['handling', 'fokus', 'framsteg']);
 const WORK_TABS = new Set<PlaneringTab>(['handling', 'fokus', 'framsteg', 'inkorg', 'regler']);
+
+function PlaneringPanelFallback() {
+  return <p className="text-sm text-text-dim">Laddar Handling…</p>;
+}
 
 /** PlaneringPage — P3 Kanban via GoraSuperModule. Fler verktyg via VerktygDrawer. */
 export function PlaneringPage() {
@@ -50,29 +74,63 @@ export function PlaneringPage() {
   const lead = isStart || showModulValjare ? PLANERING_HUB_LEAD : PLANERING_TAGLINE;
 
   const panel = useMemo(() => {
-    if (showModulValjare) return <GoraModulValjare />;
+    if (showModulValjare) {
+      return (
+        <Suspense fallback={<PlaneringPanelFallback />}>
+          <GoraModulValjare />
+        </Suspense>
+      );
+    }
     switch (tab) {
       case 'hub':
-        return <PlaneringHub />;
+        return (
+          <Suspense fallback={<PlaneringPanelFallback />}>
+            <PlaneringHub />
+          </Suspense>
+        );
       case 'inkop':
-        return <PlaneringQuickListPanel />;
+        return (
+          <Suspense fallback={<PlaneringPanelFallback />}>
+            <PlaneringQuickListPanel />
+          </Suspense>
+        );
       case 'handling':
         return (
           <>
-            <GoraSuperModule variant="handling" />
+            <Suspense fallback={<PlaneringPanelFallback />}>
+              <GoraSuperModule variant="handling" />
+            </Suspense>
             <div id="planering-rutiner" className="mt-4">
-              <RoutinesPanel defaultOpen={location.hash === '#planering-rutiner'} />
+              <Suspense fallback={null}>
+                <RoutinesPanel defaultOpen={location.hash === '#planering-rutiner'} />
+              </Suspense>
             </div>
           </>
         );
       case 'fokus':
-        return <GoraSuperModule variant="fokus" />;
+        return (
+          <Suspense fallback={<PlaneringPanelFallback />}>
+            <GoraSuperModule variant="fokus" />
+          </Suspense>
+        );
       case 'framsteg':
-        return <GoraSuperModule variant="framsteg" />;
+        return (
+          <Suspense fallback={<PlaneringPanelFallback />}>
+            <GoraSuperModule variant="framsteg" />
+          </Suspense>
+        );
       case 'inkorg':
-        return <PlaneringSuperModule variant="inkorg" />;
+        return (
+          <Suspense fallback={<PlaneringPanelFallback />}>
+            <PlaneringSuperModule variant="inkorg" />
+          </Suspense>
+        );
       case 'regler':
-        return <PlaneringEmailRulesPanel />;
+        return (
+          <Suspense fallback={<PlaneringPanelFallback />}>
+            <PlaneringEmailRulesPanel />
+          </Suspense>
+        );
       default:
         return null;
     }
@@ -82,53 +140,56 @@ export function PlaneringPage() {
   void PLANERING_MORE_TABS;
 
   return (
-    <HubPageShell
-      eyebrow="Göra"
-      title={title}
-      lead={lead}
-      headerAside={
-        <div className="flex items-center gap-2">
-          <LivBackLink />
-          <Link
-            to="/planering/kalender"
-            className="btn-pill--ghost shrink-0 p-2"
-            title="Veckokalender"
-            aria-label="Öppna veckokalender"
-          >
-            <Calendar className="h-4 w-4 text-accent/70" />
-          </Link>
-          {!showModulValjare && !isStart && (
-            <button
-              type="button"
-              onClick={() => navigate('/planering?tab=start')}
+    <PlaneringErrorBoundary>
+      <HubPageShell
+        eyebrow="Göra"
+        title={title}
+        lead={lead}
+        headerAside={
+          <div className="flex items-center gap-2">
+            <LivBackLink />
+            <Link
+              to="/planering/kalender"
               className="btn-pill--ghost shrink-0 p-2"
-              title="Välj verktyg"
-              aria-label="Öppna modulväljare"
+              title="Veckokalender"
+              aria-label="Öppna veckokalender"
             >
-              <LayoutGrid className="h-4 w-4 text-accent/70" />
-            </button>
-          )}
+              <Calendar className="h-4 w-4 text-accent/70" />
+            </Link>
+            {!showModulValjare && !isStart && (
+              <button
+                type="button"
+                onClick={() => navigate('/planering?tab=start')}
+                className="btn-pill--ghost shrink-0 p-2"
+                title="Välj verktyg"
+                aria-label="Öppna modulväljare"
+              >
+                <LayoutGrid className="h-4 w-4 text-accent/70" />
+              </button>
+            )}
+          </div>
+        }
+      >
+        <GoraHubTabBar />
+
+        {!showModulValjare && !isHub && !isStart && GORA_SUPER_TABS.has(tab) && (
+          <Suspense fallback={null}>
+            <VerktygDrawer activeTab={tab} />
+          </Suspense>
+        )}
+
+        {isHub && (
+          <Suspense fallback={<PlaneringPanelFallback />}>
+            <PlaneringHubLayoutPicker activeId={layoutId} onSelect={setLayoutId} compact />
+          </Suspense>
+        )}
+
+        {isWorkTab && !showModulValjare && <PlaneringNextStepSelect />}
+
+        <div className={isHub ? 'planering-view planering-view--hub' : 'planering-view'}>
+          {panel}
         </div>
-      }
-    >
-      <GoraHubTabBar />
-
-      {!showModulValjare && !isHub && !isStart && GORA_SUPER_TABS.has(tab) && (
-        <>
-          {/* Fler verktyg */}
-          <VerktygDrawer activeTab={tab} />
-        </>
-      )}
-
-      {isHub && (
-        <PlaneringHubLayoutPicker activeId={layoutId} onSelect={setLayoutId} compact />
-      )}
-
-      {isWorkTab && !showModulValjare && <PlaneringNextStepSelect />}
-
-      <div className={isHub ? 'planering-view planering-view--hub' : 'planering-view'}>
-        {panel}
-      </div>
-    </HubPageShell>
+      </HubPageShell>
+    </PlaneringErrorBoundary>
   );
 }
