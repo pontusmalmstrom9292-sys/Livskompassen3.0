@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Loader2, Shield } from 'lucide-react';
 import { saveVaultLog } from '@/core/firebase/firestore';
+import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
 import { buildVaultPayloadFromChildLog } from '../utils/childLogEvidence';
 import type { ChildAlias } from '../constants';
 
@@ -44,7 +45,7 @@ export function SaveAsEvidencePrompt({
       );
       setSaved(true);
     } catch {
-      setError('Kunde inte spara i Verklighetsvalvet. Kontrollera inloggning och regler.');
+      setError(`Kunde inte spara i ${VAULT_UI_NAME.toLowerCase()}et. Kontrollera inloggning och regler.`);
     } finally {
       setSaving(false);
     }
@@ -55,7 +56,7 @@ export function SaveAsEvidencePrompt({
       <div className="mt-4 space-y-2 rounded-xl border border-success/30 bg-success/5 px-4 py-3">
         <p className="text-sm text-success">Sparat som bevis med länk till livsloggen.</p>
         <Link to="/valvet" className="btn-pill--ghost text-sm">
-          Öppna Bevis (Hjärtat)
+          Öppna {VAULT_UI_NAME}
         </Link>
         <button type="button" onClick={onDone} className="btn-pill--secondary mt-2 text-sm">
           Klar

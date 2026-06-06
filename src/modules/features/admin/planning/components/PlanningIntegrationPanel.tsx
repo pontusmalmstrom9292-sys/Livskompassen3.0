@@ -18,7 +18,7 @@ export function PlanningIntegrationPanel() {
       case 'planering':
         return 'Planering (Kanban)';
       case 'vault':
-        return 'Verklighetsvalvet';
+        return 'Arkiv';
       case 'hamn':
         return 'Trygg Hamn (BIFF)';
       default:

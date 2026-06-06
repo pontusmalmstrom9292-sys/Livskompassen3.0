@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Brain, Anchor, Lock } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
-import { getVaultLogs } from '@/core/firebase/firestore';
+import { getAllVaultLogs } from '@/core/firebase/firestore';
 import { hasVaultGate } from '@/core/auth/sessionService';
 import { readJournalBridgeContext } from '@/core/types/journalBridge';
 import {
@@ -175,7 +175,7 @@ export function SpeglingsForensicPanel({ userId, initialFeeling = '' }: Forensic
 
   useEffect(() => {
     if (phase !== 'compare' || !userId || vaultLocked) return;
-    getVaultLogs(userId)
+    getAllVaultLogs(userId)
       .then((logs) => {
         const searchText = `${feeling} ${Object.values(vivirAnswers).join(' ')}`;
         setMatches(matchVaultEvidence(searchText, logs));

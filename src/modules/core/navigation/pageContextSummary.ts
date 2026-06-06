@@ -22,7 +22,7 @@ export function getPageContextSummary(pathname: string, search: string): PageCon
     }
     return {
       title: 'Familjen',
-      body: 'Barnfokus, minnesankare och livsloggar — barnens silo.',
+      body: 'Barnfokus, minnesankare och livsloggar — barnens eget arkiv.',
     };
   }
   if (pathname.startsWith('/hamn')) {

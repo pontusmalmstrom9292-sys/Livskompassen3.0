@@ -28,6 +28,9 @@ export type ValvSuperModuleProps = {
   gateOk: boolean;
   logs: (VaultLog & { id: string })[];
   logsLoading: boolean;
+  logsHasMore?: boolean;
+  loadingMore?: boolean;
+  onLoadMoreLogs?: () => void;
   saving: boolean;
   saveError: string | null;
   highlightLogId: string | null;
@@ -49,6 +52,9 @@ export function ValvSuperModule({
   gateOk,
   logs,
   logsLoading,
+  logsHasMore,
+  loadingMore,
+  onLoadMoreLogs,
   saving,
   saveError,
   highlightLogId,
@@ -69,6 +75,9 @@ export function ValvSuperModule({
           gateOk={gateOk}
           logs={logs}
           logsLoading={logsLoading}
+          logsHasMore={logsHasMore}
+          loadingMore={loadingMore}
+          onLoadMoreLogs={onLoadMoreLogs}
           saving={saving}
           saveError={saveError}
           highlightLogId={highlightLogId}

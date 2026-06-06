@@ -17,7 +17,7 @@ export function DagbokPage() {
   if (layerTab === 'speglar') {
     return (
       <HubPageShell
-        eyebrow="ZON 1 — Hjärtat"
+        eyebrow="Hjärtat"
         title="Speglar"
         lead="Validering utan fix — känsla och fakta hålls isär."
       >
@@ -30,7 +30,7 @@ export function DagbokPage() {
 
   return (
     <HubPageShell
-      eyebrow="ZON 1 — Hjärtat"
+      eyebrow="Hjärtat"
       title="Dagbok"
       lead="Reflektion och daglig logg — utanför Valvet."
     >

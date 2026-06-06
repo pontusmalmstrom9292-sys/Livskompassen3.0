@@ -62,7 +62,7 @@ export function LivLauncherPage() {
 
   return (
     <HubPageShell
-      eyebrow="ZON 2 — Liv och göra"
+      eyebrow="Liv och göra"
       title="Vardagsstart"
       lead="Välj ett kort. Kompass och ekonomi visas här — MåBra, planering och arbetsliv (/arbetsliv) öppnas på egna sidor."
     >

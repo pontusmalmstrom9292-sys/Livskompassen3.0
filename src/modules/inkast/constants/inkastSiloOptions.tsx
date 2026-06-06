@@ -8,9 +8,9 @@ export type InkastUiSilo = 'dagbok' | 'valv' | 'barnen';
 export type InkastManualRouting = Exclude<InboxRouting, 'review'>;
 
 export const INKAST_SILO_ITEMS: DropdownItem<InkastUiSilo>[] = [
-  { id: 'dagbok', label: 'Dagbok (Kunskap)', icon: <BookOpen className="h-4 w-4" /> },
-  { id: 'valv', label: 'Valv (Bevis)', icon: <ShieldAlert className="h-4 w-4" /> },
-  { id: 'barnen', label: 'Barnen (Logg)', icon: <Users className="h-4 w-4" /> },
+  { id: 'dagbok', label: 'Dagbok', icon: <BookOpen className="h-4 w-4" /> },
+  { id: 'valv', label: 'Arkiv', icon: <ShieldAlert className="h-4 w-4" /> },
+  { id: 'barnen', label: 'Barnen', icon: <Users className="h-4 w-4" /> },
 ];
 
 /** Synlig hjälptext under silo-valet i manuellt inkast. */

@@ -73,7 +73,7 @@ export function JournalDetailsPanel({
               <button
                 type="button"
                 className="btn-pill--ghost shrink-0 p-1.5"
-                aria-label="Om formellt bevis i Reality Vault"
+                aria-label="Om formellt bevis i arkiv"
                 aria-expanded={showVaultInfo}
                 onClick={() => setShowVaultInfo((v) => !v)}
               >

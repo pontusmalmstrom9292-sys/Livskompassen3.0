@@ -1,7 +1,8 @@
 import { Lock, ShieldAlert, X } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
+import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
 import {
@@ -9,7 +10,12 @@ import {
 } from '@/core/navigation/tabRegistry';
 import { useStore } from '@/core/store';
 import { hasVaultGate, clearVaultGate } from '@/core/auth/sessionService';
-import { saveVaultLog, getVaultLogs } from '@/core/firebase/firestore';
+import {
+  saveVaultLog,
+  getVaultLogs,
+  type VaultLogsCursor,
+  type VaultLogsPage,
+} from '@/core/firebase/firestore';
 import { OfflineWriteBlockedError } from '@/core/firebase/offlineWritePolicy';
 import type { VaultLog } from '@/core/types/firestore';
 import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
@@ -54,6 +60,9 @@ function VaultPageInner({
   const user = useStore((s) => s.user);
   const [logs, setLogs] = useState<(VaultLog & { id: string })[]>([]);
   const [logsLoading, setLogsLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [logsNextCursor, setLogsNextCursor] = useState<VaultLogsCursor | null>(null);
+  const [logsHasMore, setLogsHasMore] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
@@ -70,6 +79,39 @@ function VaultPageInner({
     setVaultTabState(initialVaultTab);
   }, [initialVaultTab]);
 
+  const applyLogsPage = useCallback((page: VaultLogsPage, append: boolean) => {
+    setLogs((prev) => (append ? [...prev, ...page.logs] : page.logs));
+    setLogsNextCursor(page.nextCursor);
+    setLogsHasMore(page.hasMore);
+  }, []);
+
+  const loadFirstLogsPage = useCallback(async () => {
+    if (!user) return;
+    setLogsLoading(true);
+    setError(null);
+    try {
+      const page = await getVaultLogs(user.uid);
+      applyLogsPage(page, false);
+    } catch {
+      setError('Kunde inte hämta loggar.');
+    } finally {
+      setLogsLoading(false);
+    }
+  }, [user, applyLogsPage]);
+
+  const loadMoreLogs = useCallback(async () => {
+    if (!user || !logsNextCursor || loadingMore) return;
+    setLoadingMore(true);
+    try {
+      const page = await getVaultLogs(user.uid, { cursor: logsNextCursor });
+      applyLogsPage(page, true);
+    } catch {
+      /* best-effort */
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [user, logsNextCursor, loadingMore, applyLogsPage]);
+
   const handleCitationClick = (docId: string) => {
     setHighlightLogId(docId);
     setVaultTab('logga');
@@ -80,8 +122,8 @@ function VaultPageInner({
     setVaultTab('logga');
     if (user) {
       try {
-        const updated = await getVaultLogs(user.uid);
-        setLogs(updated);
+        const page = await getVaultLogs(user.uid);
+        applyLogsPage(page, false);
       } catch {
         /* list refresh best-effort */
       }
@@ -98,7 +140,7 @@ function VaultPageInner({
 
   const refreshLogs = () => {
     if (!user) return;
-    void getVaultLogs(user.uid).then(setLogs).catch(() => undefined);
+    void loadFirstLogsPage();
   };
 
   useEffect(() => {
@@ -111,13 +153,15 @@ function VaultPageInner({
 
   useEffect(() => {
     if (gateOk && user) {
-      setLogsLoading(true);
-      getVaultLogs(user.uid)
-        .then(setLogs)
-        .catch(() => setError('Kunde inte hämta loggar.'))
-        .finally(() => setLogsLoading(false));
+      void loadFirstLogsPage();
     }
-  }, [gateOk, user]);
+  }, [gateOk, user, loadFirstLogsPage]);
+
+  useEffect(() => {
+    if (!highlightLogId || logs.some((l) => l.id === highlightLogId)) return;
+    if (!logsHasMore || loadingMore || logsLoading) return;
+    void loadMoreLogs();
+  }, [highlightLogId, logs, logsHasMore, loadingMore, logsLoading, loadMoreLogs]);
 
   const handleSaveLog = async (input: VaultLogInput) => {
     if (!user) {
@@ -129,8 +173,8 @@ function VaultPageInner({
     try {
       await saveVaultLog(user.uid, input);
       try {
-        const updated = await getVaultLogs(user.uid);
-        setLogs(updated);
+        const page = await getVaultLogs(user.uid);
+        applyLogsPage(page, false);
       } catch {
         /* save lyckades — lista uppdateras vid nästa laddning */
       }
@@ -160,7 +204,7 @@ function VaultPageInner({
   if (!gateOk) {
     return (
       <BentoCard
-        title={embedded ? 'Valv · Baksida' : 'Verklighetsvalvet'}
+        title={embedded ? 'Valv · Baksida' : VAULT_UI_NAME}
         description="Skyddad zon — biometri krävs"
         icon={<ShieldAlert className="h-4 w-4" />}
       >
@@ -171,7 +215,7 @@ function VaultPageInner({
 
   if (!user) {
     return (
-      <BentoCard title="Verklighetsvalvet" icon={<Lock className="h-4 w-4" />}>
+      <BentoCard title={VAULT_UI_NAME} icon={<Lock className="h-4 w-4" />}>
         <p className="text-sm text-text-dim">Ansluter till valvet…</p>
       </BentoCard>
     );
@@ -179,7 +223,7 @@ function VaultPageInner({
 
   return (
     <div className="space-y-4">
-      <BentoCard title={embedded ? 'Valv · Baksida' : 'Verklighetsvalvet'} icon={<Lock className="h-4 w-4" />}>
+      <BentoCard title={embedded ? 'Valv · Baksida' : VAULT_UI_NAME} icon={<Lock className="h-4 w-4" />}>
         <div className="mb-3 flex items-start justify-between gap-2">
           <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
           <button
@@ -209,6 +253,9 @@ function VaultPageInner({
         gateOk={gateOk}
         logs={logs}
         logsLoading={logsLoading}
+        logsHasMore={logsHasMore}
+        loadingMore={loadingMore}
+        onLoadMoreLogs={loadMoreLogs}
         saving={saving}
         saveError={error}
         highlightLogId={highlightLogId}

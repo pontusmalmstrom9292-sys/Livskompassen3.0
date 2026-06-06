@@ -77,7 +77,7 @@ export const CURRICULUMS: readonly VitCurriculum[] = [
       },
     ],
     broLinks: [
-      { label: 'Kunskapsbank (RAG)', route: '/valvet?vaultTab=kunskapsbank' },
+      { label: 'Kunskapsbank', route: '/valvet?vaultTab=kunskapsbank' },
     ],
   },
   {

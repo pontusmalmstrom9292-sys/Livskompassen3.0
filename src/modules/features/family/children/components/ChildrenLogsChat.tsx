@@ -40,7 +40,7 @@ export function ChildrenLogsChat({ activeChild }: ChildrenLogsChatProps) {
   return (
     <BentoCard
       title="Fråga livsloggarna"
-      description={`Mönster-Arkivarien · endast ${activeChild} · Barnen-silo`}
+      description={`Mönster-Arkivarien · endast ${activeChild}`}
       icon={<MessageCircle className="h-4 w-4" />}
     >
       <p className="mb-3 text-xs text-text-dim">

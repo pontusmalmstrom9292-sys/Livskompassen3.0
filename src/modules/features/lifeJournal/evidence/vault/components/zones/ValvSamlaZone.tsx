@@ -16,6 +16,9 @@ export type ValvSamlaZoneProps = {
   gateOk: boolean;
   logs: (VaultLog & { id: string })[];
   logsLoading: boolean;
+  logsHasMore?: boolean;
+  loadingMore?: boolean;
+  onLoadMoreLogs?: () => void;
   saving: boolean;
   saveError: string | null;
   highlightLogId: string | null;
@@ -32,6 +35,9 @@ export function ValvSamlaZone({
   gateOk,
   logs,
   logsLoading,
+  logsHasMore,
+  loadingMore,
+  onLoadMoreLogs,
   saving,
   saveError,
   highlightLogId,
@@ -83,6 +89,9 @@ export function ValvSamlaZone({
             loading={logsLoading}
             highlightLogId={highlightLogId}
             anchorsOnly={anchorsOnly}
+            hasMore={logsHasMore}
+            loadingMore={loadingMore}
+            onLoadMore={onLoadMoreLogs}
             onLogFirstBevis={() =>
               document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
             }

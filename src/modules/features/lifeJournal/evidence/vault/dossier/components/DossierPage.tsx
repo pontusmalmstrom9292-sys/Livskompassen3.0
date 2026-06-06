@@ -8,7 +8,7 @@ import { hasVaultGate } from '@/core/auth/sessionService';
 import {
   getChildrenLogs,
   getJournalEntries,
-  getVaultLogs,
+  getAllVaultLogs,
 } from '@/core/firebase/firestore';
 import type {
   DossierCandidateDoc,
@@ -137,7 +137,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
     setError(null);
     try {
       const [vault, children, journal] = await Promise.all([
-        getVaultLogs(user.uid),
+        getAllVaultLogs(user.uid),
         getChildrenLogs(user.uid),
         getJournalEntries(user.uid),
       ]);
@@ -319,7 +319,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
         <body>
           <div class="header">
             <h1 class="title">Stabilitets- och Beviskronologi</h1>
-            <p class="subtitle">Genererad via Livskompassen — Formellt och oföränderligt underlag (WORM-struktur)</p>
+            <p class="subtitle">Genererad via Livskompassen — Formellt och oföränderligt underlag (låsta poster)</p>
             
             <div class="meta-grid">
               <div><strong>Barn/Område:</strong> ${deepLinkChild || 'Hela familjen'}</div>
@@ -351,7 +351,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
           </table>
 
           <div class="footer">
-            Dokumentet är krypterat och verifierat. Livskompassen använder strikt dataseparering (WORM) för att säkra beviskedjor.
+            Dokumentet är krypterat och verifierat. Livskompassen använder strikt dataseparering och låsta poster för att säkra beviskedjor.
           </div>
         </body>
         </html>
@@ -384,13 +384,13 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
         <BentoCard title="Dossier-Generator" icon={<Lock className="h-4 w-4" />}>
           <p className="mb-4 text-sm text-text-muted">
             Dossier kräver upplåst Valv (Fyren). I bottenmenyn: tryck på <strong>Hjärtat</strong>{' '}
-            (bok-ikonen) och <strong>håll 3 sekunder</strong>, eller öppna fliken Bevis och ange PIN.
+            (bok-ikonen) och <strong>håll 3 sekunder</strong>, eller öppna Arkiv och ange PIN.
           </p>
           <Link
             to="/valvet"
             className="inline-flex rounded-lg bg-indigo-500/20 px-4 py-2 text-sm font-medium text-indigo-200 hover:bg-indigo-500/30"
           >
-            Öppna Bevis / Valv
+            Öppna Arkiv
           </Link>
         </BentoCard>
       </div>
@@ -486,7 +486,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                 }
                 className="rounded border-white/20 accent-accent"
               />
-              Verklighetsvalvet (bevisloggar)
+              Arkiv (bevisloggar)
             </label>
             <label className="flex items-center gap-2 text-sm cursor-pointer">
               <input
@@ -689,7 +689,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
 
             <div className="rounded-xl border border-border-strong bg-surface-2 p-4 space-y-2 text-xs tabular-nums">
               <p className="text-text-dim uppercase tracking-wider text-[10px]">
-                Äkthetsverifiering (WORM-bevis)
+                Äkthetsverifiering (låst post)
               </p>
               <div className="flex justify-between">
                 <span className="text-text-muted">Dossier ID:</span>
@@ -716,7 +716,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                 onClick={clearSession}
                 className="btn-pill--ghost flex-1 text-xs justify-center"
               >
-                Klar — rensa (Zero Footprint)
+                Klar — rensa från enheten
               </button>
             </div>
           </div>

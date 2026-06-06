@@ -2,7 +2,7 @@ import type { VaultLog } from '@/core/types/firestore';
 
 function formatRecord(log: VaultLog & { id: string }): string {
   const lines = [
-    'LIVSKOMPASSEN — VERKLIGHETSVALV (WORM)',
+    'LIVSKOMPASSEN — ARKIV (LÅST POST)',
     `Datum: ${(log.createdAt ?? '').slice(0, 19)}`,
     `Kategori: ${log.category ?? 'bevis'}`,
     `Typ: ${log.entryType ?? 'simple'}`,

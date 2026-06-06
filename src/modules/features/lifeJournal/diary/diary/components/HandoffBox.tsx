@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
+import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
 import { Shield } from 'lucide-react';
 
 const HANDOFF_PREFILL_MAX = 4000;
@@ -15,7 +16,7 @@ export function HandoffBox({ className = '', sourceText }: HandoffBoxProps) {
   const trimmed = sourceText?.trim().slice(0, HANDOFF_PREFILL_MAX);
   const valvTarget = {
     pathname: NAV_PATHS.VALVET,
-    search: '?tab=bevis&vaultTab=logga',
+    search: '?vaultTab=logga',
   };
   const valvState = trimmed ? { vaultHandoffText: trimmed } : undefined;
 
@@ -31,11 +32,11 @@ export function HandoffBox({ className = '', sourceText }: HandoffBoxProps) {
       </div>
       <p className="journal-handoff__body">
         Om du dokumenterar en händelse som du kan behöva visa senare — t.ex. vid vårdnadskonflikt,
-        motpart, familjerätt eller myndighet — spara den i Reality Vault. Där blir datum, text och
+        motpart, familjerätt eller myndighet — spara den i {VAULT_UI_NAME.toLowerCase()}et. Där blir datum, text och
         bilagor strukturerade som bevis. Dagboken förblir privat och flyttas inte hit automatiskt.
       </p>
       <Link to={valvTarget} state={valvState} className="journal-handoff__cta btn-pill--ghost">
-        Öppna Reality Vault →
+        Öppna {VAULT_UI_NAME} →
       </Link>
     </aside>
   );

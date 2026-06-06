@@ -8,6 +8,16 @@ const root = path.resolve(__dirname, './src')
 // https://vite.dev/config/shared-options.html#resolve-alias
 export default defineConfig({
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/firebase')) return 'vendor-firebase';
+          if (id.includes('node_modules/framer-motion')) return 'vendor-motion';
+        },
+      },
+    },
+  },
   resolve: {
     alias: [
       { find: '@/core', replacement: path.join(root, 'modules/core') },

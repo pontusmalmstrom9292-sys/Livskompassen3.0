@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { DAGBOK_REMEMBER_LINES, DAGBOK_REMEMBER_STORAGE_KEY } from '../constants/dagbokReminders';
+import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
 
 function readStoredOpen(): boolean {
   try {
@@ -36,7 +37,7 @@ export function DagbokRememberCard() {
       >
         <span className="flex items-center gap-2 text-sm font-medium text-accent">
           <Lightbulb className="h-4 w-4 shrink-0" aria-hidden />
-          Kom ihåg: Dagbok vs Valv
+          Kom ihåg: Dagbok vs {VAULT_UI_NAME.toLowerCase()}
         </span>
         <ChevronDown
           className={`h-4 w-4 shrink-0 text-text-muted transition-transform ${open ? 'rotate-180' : ''}`}
@@ -54,7 +55,7 @@ export function DagbokRememberCard() {
             ))}
           </ul>
           <Link to={NAV_PATHS.VALVET} className="btn-pill--ghost mt-1 inline-flex text-xs">
-            Gå till Reality Vault →
+            Gå till {VAULT_UI_NAME} →
           </Link>
         </div>
       )}

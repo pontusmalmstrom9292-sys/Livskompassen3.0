@@ -93,7 +93,7 @@ export function InboxReviewQueue({
     setLastAction(null);
     try {
       await dismissInbox(item.id);
-      setLastAction('Avvisad — sparades inte i någon silo.');
+      setLastAction('Avvisad — sparades inte i något arkiv.');
       await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Avvisning misslyckades.');
@@ -119,8 +119,8 @@ export function InboxReviewQueue({
       )}
       {!compact && (
         <p className="mb-3 text-xs text-text-dim">
-          Drive och oklara filer hamnar här. Bekräfta vart det ska sparas — separata arkiv, blandade silor.
-          {prioritizeBevis ? ' Bevis-förslag visas först.' : ''}
+          Drive och oklara filer hamnar här. Bekräfta vart det ska sparas — separata arkiv.
+          {prioritizeBevis ? ' Arkivförslag visas först.' : ''}
         </p>
       )}
 
@@ -152,7 +152,7 @@ export function InboxReviewQueue({
                 className="btn-pill--secondary text-xs"
                 onClick={() => handleConfirm(item, 'bevis')}
               >
-                → Bevis
+                → Arkiv
               </button>
               <button
                 type="button"

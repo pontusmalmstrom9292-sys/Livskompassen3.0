@@ -17,7 +17,7 @@ export const NAVIGATION_STRUCTURE = {
     path: NAV_PATHS.VALVET,
     label: 'Valvet',
     icon: 'vault',
-    description: 'Verklighetsvalvet — bevis och analys',
+    description: 'Arkiv — bevis och analys',
     tabs: {
       default: { id: 'default', label: 'Arkiv', path: '' },
     },

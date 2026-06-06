@@ -33,7 +33,7 @@ export const PRODUCT_AGENTS = [
   {
     id: 'agent_livs_arkivarien',
     name: 'Livs-Arkivarien',
-    role: 'Minne & RAG',
+    role: 'Minne & sök',
     focus: 'Kunskapsvalvet',
   },
   {

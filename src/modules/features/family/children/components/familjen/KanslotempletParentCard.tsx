@@ -93,7 +93,7 @@ export function KanslotempletParentCard({ activeChild, userId }: Props) {
   return (
     <BentoCard
       title="Känsloväder & Medreglering"
-      description={`Avkodat stöd för ${activeChild} · Barnporten-silo`}
+      description={`Avkodat stöd för ${activeChild}`}
       icon={<Heart className="h-4 w-4 text-accent" />}
     >
       {loading ? (

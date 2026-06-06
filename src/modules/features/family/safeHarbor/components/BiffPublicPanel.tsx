@@ -7,6 +7,7 @@ import { useStore } from '@/core/store';
 import { saveVaultLog } from '@/core/firebase/firestore';
 import { BiffTriagePanel } from './BiffTriagePanel';
 import { HandoffBox } from '@/features/lifeJournal/diary/diary/components/HandoffBox';
+import { SAVED_TO_VAULT_LABEL } from '@/core/copy/evidenceCopy';
 import { shouldShowValvHandoff } from '@/core/triggers/valvHandoff';
 import { submitCaptureDraft } from '@/modules/capture/submitCaptureDraft';
 import { shouldRedirectMabraCoachToSpeglar } from '@/features/dailyLife/wellbeing/mabra/lib/mabraCoachGuard';
@@ -443,7 +444,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
             </button>
           </div>
           {evidenceSaved && (
-            <p className="mt-2 text-xs text-success">Sparat i Valv → Bevis.</p>
+            <p className="mt-2 text-xs text-success">{SAVED_TO_VAULT_LABEL}.</p>
           )}
           {autosortNote && (
             <p className="mt-2 text-xs text-gold/90" role="status">

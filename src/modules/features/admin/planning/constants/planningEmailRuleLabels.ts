@@ -11,7 +11,7 @@ export const ROUTE_LABELS: Record<PlanningEmailRoute, string> = {
   planering: 'Planering (Handling)',
   hamn: 'Hamn (BIFF — ex/konflikt)',
   inbox_queue: 'Granskningskö',
-  vault: 'Reality Vault (bevis)',
+  vault: 'Arkiv (bevis)',
   kunskap: 'Kunskapsvalvet',
   ignore: 'Ignorera',
 };

@@ -56,12 +56,12 @@ export function EvidenceCompareView({
         </div>
 
         <div className="glass-card p-3">
-          <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">Bevisankare (valv)</p>
+          <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">Bevisankare (arkiv)</p>
           {matches.length === 0 ? (
             <div className="space-y-2 text-sm text-text-dim">
-              <p>Inga matchande poster i Verklighetsvalvet ännu.</p>
+              <p>Inga matchande poster i arkivet ännu.</p>
               <p className="text-xs text-text-muted">
-                Det du känner är fortfarande giltigt — spara sms eller logg i Valv när du vill ha ett
+                Det du känner är fortfarande giltigt — spara sms eller logg i arkivet när du vill ha ett
                 ankare.
               </p>
             </div>

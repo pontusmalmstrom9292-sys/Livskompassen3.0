@@ -29,7 +29,7 @@ export function ValvetRoutePage() {
 
   return (
     <HubPageShell
-      eyebrow="ZON 4 — Verklighetsvalvet"
+      eyebrow="Arkiv"
       title="Sanningsarkivet"
       lead="Här samlas fakta, mönster och bevis — strukturerat och låst."
       lockViewport

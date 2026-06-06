@@ -123,7 +123,7 @@ export function CapturePanel({
       icon={<PenLine className="h-4 w-4" />}
     >
       <p className="mb-3 text-sm text-text-muted">
-        Granska AI-förslag eller ändra silo manuellt innan det sparas.
+        Granska AI-förslag eller välj arkiv manuellt innan det sparas.
       </p>
 
       {(phase === 'compose' || phase === 'done') && (

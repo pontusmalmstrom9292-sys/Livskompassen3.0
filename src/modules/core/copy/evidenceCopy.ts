@@ -7,3 +7,6 @@ export const IMMUTABLE_POST_SHORT = 'Låst post';
 export const SAVE_TO_VAULT_LABEL = 'Spara i arkiv';
 
 export const SAVED_TO_VAULT_LABEL = 'Sparat i arkiv';
+
+/** Produktnamn för låst bevisarkiv (Valv). */
+export const VAULT_UI_NAME = 'Arkiv';

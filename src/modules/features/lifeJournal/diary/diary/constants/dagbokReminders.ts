@@ -7,7 +7,7 @@ export const DAGBOK_REMEMBER_LINES = [
     text: 'Hur du mår — privat. Sparas när du trycker Spara.',
   },
   {
-    label: 'Reality Vault',
+    label: 'Arkiv',
     text: 'Fakta: datum, sms, skärmdumpar — vid konflikt, vårdnad eller om du behöver tidslinje senare.',
   },
   {

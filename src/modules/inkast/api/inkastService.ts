@@ -465,14 +465,14 @@ export async function submitInkastLite(input: {
 }
 
 export const ROUTING_LABELS: Record<InboxRouting, string> = {
-  kunskap: 'Kunskap',
-  bevis: 'Bevis (Valv)',
+  kunskap: 'Kunskapsbank',
+  bevis: 'Arkiv',
   barnen: 'Barnen',
   review: 'Granska manuellt',
 };
 
 export const COLLECTION_LABELS: Record<string, string> = {
-  reality_vault: 'Verklighetsvalvet',
+  reality_vault: 'Arkiv',
   kb_docs: 'Kunskapsbank',
   children_logs: 'Barnens livslogg',
 };

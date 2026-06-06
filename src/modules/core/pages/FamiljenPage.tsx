@@ -79,7 +79,7 @@ export function FamiljenPage() {
 
   return (
     <HubPageShell
-      eyebrow="ZON 3 — Familjen & Gränser"
+      eyebrow="Familjen"
       title="Familjehubben"
       lead="Den trygga hamnen. Barnfokus, neutral livslogg och Grey Rock-gränser — ett steg i taget."
       footerSlot={activeTab === 'reflektion' ? <ParentReminderFooter /> : undefined}

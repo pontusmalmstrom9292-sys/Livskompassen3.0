@@ -8,7 +8,7 @@ export type CompassWidgetDef = {
   label: string;
   href: string;
   contentClass: CompassWidgetContentClass;
-  /** U1 / U6 — kort silo-regel för kurator */
+  /** Kort hjälptext (title) — utan dev-jargon. */
   siloNote: string;
 };
 
@@ -20,28 +20,28 @@ export const COMPASS_WIDGET_CATALOG: Record<CompassFlow, CompassWidgetDef[]> = {
       label: 'Anteckning',
       href: '/widget/anteckning',
       contentClass: 'none',
-      siloNote: 'Lager 1 journal — ej auto Valv',
+      siloNote: 'Dagbok — flyttas inte automatiskt till arkiv',
     },
     {
       id: 'inspelning',
       label: 'Inspelning',
       href: '/widget/inspelning?autostart=1',
       contentClass: 'EVIDENCE',
-      siloNote: 'Journal/röst — WORM vid explicit spar',
+      siloNote: 'Låst post när du sparar explicit',
     },
     {
       id: 'kanslomemory',
       label: 'Känslokort',
       href: '/mabra',
       contentClass: 'PLAY',
-      siloNote: 'Vit — REFLECTION/PLAY, ingen Kunskap-RAG',
+      siloNote: 'MåBra — reflektion och lek',
     },
     {
       id: 'snabb-dagbok',
       label: 'Snabb rad',
       href: `${NAV_PATHS.HJARTAT}?mode=snabb`,
       contentClass: 'REFLECTION',
-      siloNote: 'Journal Snabb — weave opt-in separat',
+      siloNote: 'Snabb dagbok — vävning är separat val',
     },
   ],
   day: [
@@ -50,28 +50,28 @@ export const COMPASS_WIDGET_CATALOG: Record<CompassFlow, CompassWidgetDef[]> = {
       label: 'Frågesport',
       href: '/widget/snabbval',
       contentClass: 'FACT',
-      siloNote: 'Kunskap bank — ej Valv-auto',
+      siloNote: 'Kunskapsbank — inget auto-spar i arkiv',
     },
     {
       id: 'paralys',
       label: 'Mikrosteg',
       href: '/planering?tab=handling',
       contentClass: 'none',
-      siloNote: 'P3 Kanban — manuell start',
+      siloNote: 'Planering — manuell start',
     },
     {
       id: 'dagbok',
       label: 'Dagbok',
       href: NAV_PATHS.HJARTAT,
       contentClass: 'REFLECTION',
-      siloNote: 'Lager 1 — ej auto-promotion Valv',
+      siloNote: 'Dagbok — flyttas inte automatiskt till arkiv',
     },
     {
       id: 'uppgift',
       label: 'Uppgift',
       href: '/planering?tab=fokus',
       contentClass: 'none',
-      siloNote: 'Paralys-Brytaren via planering',
+      siloNote: 'Mikrosteg via planering',
     },
   ],
   evening: [
@@ -80,28 +80,28 @@ export const COMPASS_WIDGET_CATALOG: Record<CompassFlow, CompassWidgetDef[]> = {
       label: 'KASAM',
       href: '/vardagen?tab=kompasser',
       contentClass: 'REFLECTION',
-      siloNote: 'Kvällskompass — KasamEvening i modul',
+      siloNote: 'Kvällskompass — KASAM-steg',
     },
     {
       id: 'reflektion',
       label: 'Reflektion',
       href: NAV_PATHS.HJARTAT,
       contentClass: 'REFLECTION',
-      siloNote: 'Journal wizard — WORM',
+      siloNote: 'Dagbok — låst när du sparar',
     },
     {
       id: 'anteckning',
       label: 'Anteckning',
       href: '/widget/anteckning',
       contentClass: 'none',
-      siloNote: 'Lager 1 — ej auto Valv',
+      siloNote: 'Dagbok — flyttas inte automatiskt till arkiv',
     },
     {
       id: 'planering',
       label: 'Fokus',
       href: '/planering?tab=fokus',
       contentClass: 'none',
-      siloNote: 'P3 — länk, ingen gamification',
+      siloNote: 'Planering — länk, inga poäng',
     },
   ],
 };

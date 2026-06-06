@@ -3,6 +3,7 @@ import type { LucideIcon } from 'lucide-react';
 import { BookOpen, Anchor, Heart, Compass, ChevronRight, Sparkles } from 'lucide-react';
 import { HIDE_BEVIS_TAB } from '../navigation/navFlags';
 import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
+import { DAGBOK_BEVIS_DRAWER_LABEL } from '../copy/valvNavCopy';
 
 type ModuleLink = {
   label: string;
@@ -28,7 +29,7 @@ const clusters: Cluster[] = [
     tone: 'gold',
     modules: [
       { label: 'Dagbok', to: NAV_PATHS.HJARTAT },
-      { label: 'Verklighetsvalvet', to: NAV_PATHS.VALVET },
+      { label: DAGBOK_BEVIS_DRAWER_LABEL, to: NAV_PATHS.VALVET },
       { label: 'Speglar', to: NAV_PATHS.HJARTAT, search: '?tab=speglar' },
     ],
   },

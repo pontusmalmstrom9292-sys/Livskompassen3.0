@@ -7,15 +7,20 @@ import {
   getDocs,
   getFirestore,
   initializeFirestore,
+  limit,
   onSnapshot,
+  orderBy,
   persistentLocalCache,
   persistentMultipleTabManager,
   query,
   serverTimestamp,
   setDoc,
+  startAfter,
   Timestamp,
   updateDoc,
   where,
+  type DocumentData,
+  type QueryDocumentSnapshot,
 } from 'firebase/firestore';
 import { app } from './init';
 import { assertOfflineWriteAllowed } from './offlineWritePolicy';
@@ -284,24 +289,64 @@ export async function saveMabraProgress(userId: string, coreValues: string[]) {
   );
 }
 
-export async function getVaultLogs(userId: string): Promise<(VaultLog & { id: string })[]> {
+export const VAULT_LOGS_PAGE_SIZE = 50;
+
+export type VaultLogsCursor = QueryDocumentSnapshot<DocumentData>;
+
+export type VaultLogsPage = {
+  logs: (VaultLog & { id: string })[];
+  nextCursor: VaultLogsCursor | null;
+  hasMore: boolean;
+};
+
+export type GetVaultLogsOptions = {
+  limit?: number;
+  cursor?: VaultLogsCursor;
+};
+
+function mapVaultLogDoc(d: QueryDocumentSnapshot<DocumentData>): VaultLog & { id: string } {
+  const data = d.data();
+  const { createdAt: _rawCreatedAt, weaverTags: _weaverTags, bodySignals: _bodySignals, ...rest } =
+    data;
+  return normalizeVaultLogFields({
+    id: d.id,
+    ...(rest as VaultLog),
+    bodySignals: normalizeStringArray(_bodySignals),
+    createdAt: normalizeCreatedAt(_rawCreatedAt),
+    weaverTags: _weaverTags as WeaverTags | undefined,
+  });
+}
+
+export async function getVaultLogs(
+  userId: string,
+  options?: GetVaultLogsOptions,
+): Promise<VaultLogsPage> {
+  const limitCount = options?.limit ?? VAULT_LOGS_PAGE_SIZE;
   const ref = collection(db, FIRESTORE_COLLECTIONS.reality_vault);
-  const snap = await getDocs(ownerScopedQuery(ref, userId));
-  return sortByCreatedAtDesc(
-    snap.docs.map((d) => {
-      const data = d.data();
-      const { createdAt: _rawCreatedAt, weaverTags: _weaverTags, bodySignals: _bodySignals, ...rest } =
-        data;
-      const row = normalizeVaultLogFields({
-        id: d.id,
-        ...(rest as VaultLog),
-        bodySignals: normalizeStringArray(_bodySignals),
-        createdAt: normalizeCreatedAt(_rawCreatedAt),
-        weaverTags: _weaverTags as WeaverTags | undefined,
-      });
-      return row;
-    }),
-  );
+  const constraints = [
+    where('ownerId', '==', userId),
+    orderBy('createdAt', 'desc'),
+    ...(options?.cursor ? [startAfter(options.cursor)] : []),
+    limit(limitCount),
+  ];
+  const snap = await getDocs(query(ref, ...constraints));
+  const logs = snap.docs.map(mapVaultLogDoc);
+  const hasMore = snap.docs.length === limitCount;
+  const nextCursor = hasMore ? (snap.docs[snap.docs.length - 1] ?? null) : null;
+  return { logs, nextCursor, hasMore };
+}
+
+/** Dossier/Speglar — paginerar tills allt är hämtat. */
+export async function getAllVaultLogs(userId: string): Promise<(VaultLog & { id: string })[]> {
+  const rows: (VaultLog & { id: string })[] = [];
+  let cursor: VaultLogsCursor | undefined;
+  for (;;) {
+    const page = await getVaultLogs(userId, cursor ? { cursor, limit: 100 } : { limit: 100 });
+    rows.push(...page.logs);
+    if (!page.hasMore || !page.nextCursor) break;
+    cursor = page.nextCursor;
+  }
+  return rows;
 }
 
 export async function getChildrenLogs(userId: string) {

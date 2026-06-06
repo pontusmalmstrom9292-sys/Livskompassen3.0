@@ -56,14 +56,14 @@ export function InkastManualEditForm({
     <div className="flex flex-col gap-4 rounded-2xl border border-border/40 bg-surface-2/80 p-4 backdrop-blur-md">
       <div>
         <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-text-dim">
-          Välj silo
+          Välj arkiv
         </p>
         <HubDropdownNav
           items={INKAST_SILO_ITEMS}
           activeId={silo}
           onChange={onSiloChange}
           glowColor="gold"
-          ariaLabel="Välj arkiv-silo"
+          ariaLabel="Välj målarkiv"
         />
         <p className="mt-2 text-xs leading-relaxed text-text-muted">
           {INKAST_SILO_DESCRIPTIONS[silo]}

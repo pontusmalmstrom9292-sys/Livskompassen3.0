@@ -1,4 +1,4 @@
-import { useEffect, useRef, type RefObject } from 'react';
+import { memo, useEffect, useRef, type RefObject } from 'react';
 import { FileDown, Loader2 } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
@@ -21,6 +21,9 @@ type VaultLogListProps = {
   logs: (VaultLog & { id: string })[];
   loading: boolean;
   highlightLogId?: string | null;
+  hasMore?: boolean;
+  loadingMore?: boolean;
+  onLoadMore?: () => void;
   /** Tom lista — scroll till Samla-formuläret ovan. */
   onLogFirstBevis?: () => void;
   /** V2 — visa endast Sanningens Ankare (`pinned`). */
@@ -66,7 +69,7 @@ function formatServerTimestamp(createdAt: VaultLog['createdAt'] | undefined): st
   return String(createdAt);
 }
 
-function LogRow({
+const LogRow = memo(function LogRow({
   log,
   highlightLogId,
   highlightRef,
@@ -162,12 +165,15 @@ function LogRow({
       )}
     </li>
   );
-}
+});
 
-export function VaultLogList({
+export const VaultLogList = memo(function VaultLogList({
   logs,
   loading,
   highlightLogId,
+  hasMore,
+  loadingMore,
+  onLoadMore,
   onLogFirstBevis,
   anchorsOnly = false,
 }: VaultLogListProps) {
@@ -224,8 +230,27 @@ export function VaultLogList({
             <LogRow key={log.id} log={log} highlightLogId={highlightLogId} highlightRef={highlightRef} />
           ))}
         </ul>
+          {hasMore && onLoadMore && (
+            <div className="mt-4 flex justify-center">
+              <button
+                type="button"
+                onClick={onLoadMore}
+                disabled={loadingMore}
+                className="btn-pill--ghost text-sm"
+              >
+                {loadingMore ? (
+                  <>
+                    <Loader2 className="mr-1 inline h-3 w-3 animate-spin" />
+                    Laddar fler…
+                  </>
+                ) : (
+                  'Visa fler'
+                )}
+              </button>
+            </div>
+          )}
         </div>
       )}
     </BentoCard>
   );
-}
+});
