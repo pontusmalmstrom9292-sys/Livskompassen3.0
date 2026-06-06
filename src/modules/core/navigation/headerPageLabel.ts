@@ -4,9 +4,10 @@ export function getHeaderPageLabel(pathname: string, search = ''): string | null
   if (pathname.startsWith('/kompis')) return 'Kompis';
   if (pathname.startsWith('/familjen')) return 'Familjen';
   if (pathname.startsWith('/hamn')) return 'Trygg hamn';
-  if (pathname.startsWith('/dagbok') || pathname.startsWith('/valv')) {
+  if (pathname.startsWith('/valvet') || pathname.startsWith('/valv')) return 'Arkiv';
+  if (pathname.startsWith('/hjartat') || pathname.startsWith('/dagbok')) {
     const tab = new URLSearchParams(search.replace(/^\?/, '')).get('tab');
-    if (tab === 'bevis' || pathname.startsWith('/valv')) return 'Arkiv';
+    if (tab === 'speglar') return 'Speglar';
     return 'Dagbok';
   }
   if (pathname.startsWith('/planering')) return 'Göra';

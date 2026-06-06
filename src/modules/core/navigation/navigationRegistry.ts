@@ -1,19 +1,30 @@
+import { NAV_PATHS } from './navTruth';
+
 export const NAVIGATION_STRUCTURE = {
   lifeJournal: {
     id: 'lifeJournal',
-    path: '/dagbok',
+    path: NAV_PATHS.HJARTAT,
     label: 'Hjärtat',
     icon: 'heart',
-    description: 'Din dagbok, bevis och speglar',
+    description: 'Din dagbok och speglar',
     tabs: {
       reflektion: { id: 'reflektion', label: 'Reflektion', path: '?tab=reflektion' },
-      evidence: { id: 'evidence', label: 'Bevis', path: '?tab=bevis' },
       mirrors: { id: 'mirrors', label: 'Speglar', path: '?tab=speglar' },
+    },
+  },
+  vault: {
+    id: 'vault',
+    path: NAV_PATHS.VALVET,
+    label: 'Valvet',
+    icon: 'vault',
+    description: 'Verklighetsvalvet — bevis och analys',
+    tabs: {
+      default: { id: 'default', label: 'Arkiv', path: '' },
     },
   },
   dailyLife: {
     id: 'dailyLife',
-    path: '/vardagen',
+    path: NAV_PATHS.VARDAGEN,
     label: 'Vardagen',
     icon: 'sun',
     tabs: {
@@ -27,7 +38,7 @@ export const NAVIGATION_STRUCTURE = {
   },
   family: {
     id: 'family',
-    path: '/familjen',
+    path: NAV_PATHS.FAMILJEN,
     label: 'Familjen',
     icon: 'users',
     tabs: {
@@ -44,6 +55,7 @@ export type NavigationId = keyof typeof NAVIGATION_STRUCTURE;
 export type ClusterConfig = (typeof NAVIGATION_STRUCTURE)[NavigationId];
 
 export type LifeJournalTabKey = keyof typeof NAVIGATION_STRUCTURE.lifeJournal.tabs;
+export type VaultTabKey = keyof typeof NAVIGATION_STRUCTURE.vault.tabs;
 export type DailyLifeTabKey = keyof typeof NAVIGATION_STRUCTURE.dailyLife.tabs;
 export type FamilyTabKey = keyof typeof NAVIGATION_STRUCTURE.family.tabs;
 
@@ -69,4 +81,12 @@ export function clusterTabNavigateTarget(
     return { pathname: tab.path, search: '' };
   }
   return { pathname: cluster.path, search: registryTabSearch(tab.path) };
+}
+
+/** Valv-länk med valfri vaultTab (separat silo från Hjärtat). */
+export function valvetNavigateTarget(vaultTab?: string): { pathname: string; search: string } {
+  if (!vaultTab) {
+    return { pathname: NAV_PATHS.VALVET, search: '' };
+  }
+  return { pathname: NAV_PATHS.VALVET, search: `vaultTab=${encodeURIComponent(vaultTab)}` };
 }

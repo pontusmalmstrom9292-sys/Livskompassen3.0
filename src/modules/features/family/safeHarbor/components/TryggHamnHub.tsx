@@ -60,6 +60,15 @@ export function TryggHamnHub({ initialMessage = '', embedded = false }: Props) {
     return <Navigate to={{ pathname: '/dagbok', search }} replace />;
   }
 
+  // Om embedded, rendera endast BIFF-panelen för Obsidian Calm 2.0 (ingen TabBar)
+  if (embedded) {
+    return (
+      <div className="calm-scroll-island">
+        <BiffPublicPanel initialMessage={initialMessage} />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       {!embedded && <MaterialPackShortcuts preset={preset} hub="hamn" />}

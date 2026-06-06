@@ -20,6 +20,7 @@ import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
 import { PlaneringQuickListPanel } from './PlaneringQuickListPanel';
 import { RoutinesPanel } from './RoutinesPanel';
 import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
+import { LivBackLink } from '@/modules/shell/LivBackLink';
 
 const MORE_TABS = new Set<PlaneringTab>(['fokus', 'framsteg', 'regler']);
 const WORK_TABS = new Set<PlaneringTab>(['handling', 'fokus', 'framsteg', 'inkorg', 'regler']);
@@ -76,14 +77,17 @@ export function PlaneringPage() {
       title={title}
       lead={lead}
       headerAside={
-        <Link
-          to={planeringInkorgHref('kalender')}
-          className="btn-pill--ghost shrink-0 p-2"
-          title="Kalender i Inkorg"
-          aria-label="Öppna kalender i Inkorg"
-        >
-          <Calendar className="h-4 w-4 text-accent/70" />
-        </Link>
+        <div className="flex items-center gap-2">
+          <LivBackLink />
+          <Link
+            to={planeringInkorgHref('kalender')}
+            className="btn-pill--ghost shrink-0 p-2"
+            title="Kalender i Inkorg"
+            aria-label="Öppna kalender i Inkorg"
+          >
+            <Calendar className="h-4 w-4 text-accent/70" />
+          </Link>
+        </div>
       }
     >
       <GoraHubTabBar />

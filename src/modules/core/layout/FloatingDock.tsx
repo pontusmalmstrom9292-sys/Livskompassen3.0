@@ -1,110 +1,150 @@
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, Sprout, Users, BookOpen } from 'lucide-react';
+import { useCallback } from 'react';
+import type { CSSProperties } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { clsx } from 'clsx';
+import { openValvViaFyren } from '../auth/valvFyrenGate';
+import { NAV_PATHS } from '../navigation/navTruth';
+import { useLongPress } from '../hooks/useLongPress';
+import { useStore } from '../store';
+import { ChromeV5Icon } from '../ui/chromeIcons/ChromeV5Icon';
+import type { ChromeV5Category } from '../ui/chromeIcons/ChromeV5Icon';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
+import { LivskompassMark } from '../ui/LivskompassMark';
+import { DockNavButton } from './DockNavButton';
+import { resolveHeaderPanelStyle } from './headerPanelStyle';
+
+type DockZone = {
+  id: string;
+  label: string;
+  to: string;
+  category: ChromeV5Category;
+  match: (pathname: string, search: string) => boolean;
+};
+
+const DOCK_ZONES: DockZone[] = [
+  {
+    id: 'vardag',
+    label: 'Vardag',
+    to: '/vardagen',
+    category: 'planering',
+    match: (pathname, search) => {
+      if (pathname !== '/vardagen' && !pathname.startsWith('/vardagen/')) return false;
+      return new URLSearchParams(search.replace(/^\?/, '')).get('tab') !== 'handling';
+    },
+  },
+  {
+    id: 'familj',
+    label: 'Familj',
+    to: '/familjen',
+    category: 'familjen',
+    match: (pathname) => pathname === '/familjen' || pathname.startsWith('/familjen/'),
+  },
+  {
+    id: 'dagbok',
+    label: 'Dagbok',
+    to: NAV_PATHS.HJARTAT,
+    category: 'dagbok',
+    match: (pathname) =>
+      pathname === NAV_PATHS.HJARTAT ||
+      pathname.startsWith(`${NAV_PATHS.HJARTAT}/`) ||
+      pathname === '/dagbok' ||
+      pathname.startsWith('/dagbok/'),
+  },
+  {
+    id: 'planering',
+    label: 'Planering',
+    to: '/vardagen?tab=handling',
+    category: 'planering',
+    match: (pathname, search) => {
+      if (pathname.startsWith('/planering') || pathname.startsWith('/projekt')) return true;
+      if (!pathname.startsWith('/vardagen')) return false;
+      return new URLSearchParams(search.replace(/^\?/, '')).get('tab') === 'handling';
+    },
+  },
+];
 
 export function FloatingDock() {
-  const navigate = useNavigate();
   const location = useLocation();
-  const currentPath = location.pathname;
+  const navigate = useNavigate();
+  const setSystemError = useStore((s) => s.setError);
+  const { pathname, search } = location;
+  const isHome = pathname === '/';
+  const panelStyle = resolveHeaderPanelStyle();
 
-  const navItems = [
-    {
-      id: 'hem',
-      label: 'Hem',
-      path: '/',
-      icon: <Home className="h-5 w-5" />,
-      glow: 'shadow-[0_-4px_12px_rgba(212,175,55,0.2)] text-accent',
-    },
-    {
-      id: 'vardag',
-      label: 'Vardag',
-      path: '/vardagen',
-      icon: <Sprout className="h-5 w-5" />,
-      glow: 'shadow-[0_-4px_12px_rgba(212,175,55,0.2)] text-accent',
-    },
-    {
-      id: 'familj',
-      label: 'Familj',
-      path: '/familjen',
-      icon: <Users className="h-5 w-5" />,
-      glow: 'shadow-[0_-4px_12px_rgba(99,102,241,0.25)] text-indigo-400',
-    },
-    {
-      id: 'dagbok',
-      label: 'Dagbok',
-      path: '/dagbok',
-      icon: <BookOpen className="h-5 w-5" />,
-      glow: 'shadow-[0_-4px_12px_rgba(99,102,241,0.25)] text-indigo-400',
-    },
-  ];
+  const fyrenToValv = useCallback(
+    () =>
+      void openValvViaFyren(navigate, {
+        onDenied: (message) => setSystemError(message),
+      }),
+    [navigate, setSystemError],
+  );
 
-  const isItemActive = (path: string) => {
-    if (path === '/') return currentPath === '/';
-    return currentPath.startsWith(path);
-  };
+  const centerPress = useLongPress({
+    onLongPress: fyrenToValv,
+    onClick: () => {
+      if (!isHome) navigate('/');
+    },
+    delayMs: 3000,
+  });
+
+  const { progress, isHolding, ...centerHoldHandlers } = centerPress;
+  const showFyrenRing = progress > 0;
+
+  const leftZones = DOCK_ZONES.slice(0, 2);
+  const rightZones = DOCK_ZONES.slice(2);
 
   return (
-    <div className="fixed bottom-6 left-1/2 z-50 w-[90%] max-w-md -translate-x-1/2 px-2 animate-fade-in">
-      <nav
-        className="relative flex items-center justify-around rounded-full border border-border/30 bg-surface-1/70 px-3 py-2.5 shadow-[0_15px_35px_rgba(0,0,0,0.6)] backdrop-blur-2xl"
-        aria-label="Huvudnavigation"
-      >
-        {navItems.map((item) => {
-          const active = isItemActive(item.path);
-          const glowParts = item.glow.split(' ');
-          const glowShadow = glowParts[0];
-          const glowText = glowParts[1];
+    <div className="dock-shell">
+      <div className="dock-hub-band floating-dock" data-panel-style={panelStyle}>
+        <div className="dock-hub-band__rail dock-hub-band__rail--zones">
+          {leftZones.map((zone) => (
+            <DockNavButton
+              key={zone.id}
+              label={zone.label}
+              icon={<ChromeV5Icon category={zone.category} className="dock-nav-btn__chrome-v5" />}
+              active={zone.match(pathname, search)}
+              variant="slot"
+              className="floating-dock__side-btn"
+              onClick={() => navigate(zone.to)}
+            />
+          ))}
 
-          return (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => navigate(item.path)}
-              className="group relative flex cursor-pointer flex-col items-center justify-center rounded-full border-0 bg-transparent px-3 py-1 transition-all duration-300"
-              aria-current={active ? 'page' : undefined}
-              aria-label={item.label}
-            >
-              <div
-                className={clsx(
-                  'absolute inset-0 -z-10 rounded-full transition-all duration-300',
-                  active
-                    ? 'scale-110 border border-border/20 bg-surface-3/60'
-                    : 'scale-75 bg-surface-2 opacity-0 group-hover:scale-95 group-hover:opacity-40',
-                )}
-              />
+          <button
+            type="button"
+            className={clsx(
+              'dock-hub-band__center floating-dock__center',
+              isHome && 'dock-hub-band__center--active',
+              isHolding && 'dock-hub-band__center--holding',
+            )}
+            aria-label="Hem. Håll tre sekunder för Valv."
+            style={
+              progress > 0
+                ? ({ '--dock-hold': `${Math.round(progress * 100)}%` } as CSSProperties)
+                : undefined
+            }
+            {...centerHoldHandlers}
+          >
+            <span className="dock-hub-band__center-glow floating-dock__center-glow" aria-hidden />
+            <span className="floating-dock__arc" aria-hidden />
+            <span className="dock-hub-band__plate floating-dock__plate">
+              {showFyrenRing && <FyrenProgressRing progress={progress} />}
+              <LivskompassMark className="dock-hub-band__mark floating-dock__mark" />
+            </span>
+          </button>
 
-              <div
-                className={clsx(
-                  'relative transition-transform duration-300',
-                  active ? clsx('scale-110', glowText) : 'text-text-dim group-hover:text-text',
-                )}
-              >
-                {item.icon}
-
-                {active && (
-                  <span
-                    className={clsx(
-                      'absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-current',
-                      glowShadow,
-                    )}
-                  />
-                )}
-              </div>
-
-              <span
-                className={clsx(
-                  'mt-1 text-[9px] font-medium tracking-wide transition-all duration-300',
-                  active
-                    ? 'translate-y-0 text-text opacity-100'
-                    : 'translate-y-1 text-text-dim opacity-0 group-hover:opacity-40',
-                )}
-              >
-                {item.label}
-              </span>
-            </button>
-          );
-        })}
-      </nav>
+          {rightZones.map((zone) => (
+            <DockNavButton
+              key={zone.id}
+              label={zone.label}
+              icon={<ChromeV5Icon category={zone.category} className="dock-nav-btn__chrome-v5" />}
+              active={zone.match(pathname, search)}
+              variant="slot"
+              className="floating-dock__side-btn"
+              onClick={() => navigate(zone.to)}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

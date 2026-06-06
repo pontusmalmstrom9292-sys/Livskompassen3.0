@@ -1,4 +1,14 @@
 import { HIDE_BEVIS_TAB } from './navFlags';
+
+/** Kärn-sanning för routes — inga överlappande paths tillåtna. */
+export const NAV_PATHS = {
+  HOME: '/',
+  HJARTAT: '/hjartat',
+  VALVET: '/valvet',
+  VARDAGEN: '/vardagen',
+  FAMILJEN: '/familjen',
+  BARNEN: '/barnen',
+} as const;
 import {
   FORENSIC_VAULT_TAB_IDS,
   forensicVaultTabLabel,
@@ -11,6 +21,9 @@ import {
   VALV_ZONE_LABELS,
   VAULT_MAIN_TAB_LABELS,
 } from '../copy/valvNavCopy';
+
+/** Bevis-etikett — endast Valv-drawer; Hjärtat har ingen bevis-flik. */
+export { DAGBOK_BEVIS_DRAWER_LABEL };
 
 export type NavDrawerSection = 'vardag' | 'valv';
 
@@ -31,7 +44,7 @@ export type NavTruthEntry = {
 };
 
 export function vaultDrawerPath(vaultTab: string): string {
-  return `/dagbok?tab=bevis&vaultTab=${vaultTab}`;
+  return `${NAV_PATHS.VALVET}?vaultTab=${vaultTab}`;
 }
 
 const VAULT_MAIN_LABELS = { ...VAULT_MAIN_TAB_LABELS } as Record<
@@ -62,7 +75,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   { id: 'hem', label: 'Hem — Skriv', path: '/', section: 'vardag', inDrawer: true, themeId: 'J-fyren-hem' },
   {
     id: 'vardagen',
-    label: 'Vardagen',
+    label: 'Liv och göra',
     path: '/vardagen',
     section: 'vardag',
     inDrawer: true,
@@ -79,7 +92,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   {
     id: 'vardagen_mabra',
     label: 'MåBra',
-    path: '/vardagen?tab=mabra',
+    path: '/mabra',
     section: 'vardag',
     inDrawer: false,
     parentId: 'vardagen',
@@ -87,7 +100,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   {
     id: 'vardagen_handling',
     label: 'Handling',
-    path: '/vardagen?tab=handling',
+    path: '/planering?tab=handling',
     section: 'vardag',
     inDrawer: false,
     parentId: 'vardagen',
@@ -95,7 +108,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   {
     id: 'vardagen_arbetsliv',
     label: 'Arbetsliv',
-    path: '/vardagen?tab=arbetsliv',
+    path: '/arbetsliv',
     section: 'vardag',
     inDrawer: false,
     parentId: 'vardagen',
@@ -111,7 +124,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   {
     id: 'vardagen_drogfrihet',
     label: 'Drogfrihet',
-    path: '/vardagen?tab=drogfrihet',
+    path: '/drogfrihet',
     section: 'vardag',
     inDrawer: false,
     parentId: 'vardagen',
@@ -168,34 +181,24 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   {
     id: 'dagbok',
     label: 'Dagbok',
-    path: '/dagbok',
+    path: NAV_PATHS.HJARTAT,
     section: 'vardag',
-    inDrawer: false,
+    inDrawer: true,
     fyrenHomeQuick: true,
     themeId: 'J-valv-pansar',
   },
   {
     id: 'dagbok_reflektion',
     label: 'Reflektion',
-    path: '/dagbok?tab=reflektion',
+    path: `${NAV_PATHS.HJARTAT}?tab=reflektion`,
     section: 'vardag',
     inDrawer: false,
     parentId: 'dagbok',
-  },
-  {
-    id: 'dagbok_bevis',
-    label: DAGBOK_BEVIS_DRAWER_LABEL,
-    path: vaultDrawerPath('logga'),
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'dagbok',
-    requiresVaultPin: true,
-    omitWhenHideBevis: true,
   },
   {
     id: 'dagbok_speglar',
     label: 'Speglar',
-    path: '/dagbok?tab=speglar',
+    path: `${NAV_PATHS.HJARTAT}?tab=speglar`,
     section: 'vardag',
     inDrawer: false,
     parentId: 'dagbok',

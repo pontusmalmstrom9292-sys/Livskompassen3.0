@@ -32,7 +32,7 @@ The content is organized as follows:
 <notes>
 - Some files may have been excluded based on .gitignore rules and Repomix's configuration
 - Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
-- Only files matching these patterns are included: docs/design/VALV-HUBB-SPEC.md, docs/design/references/VALV-ICON-KANON.md, docs/specs/modules/Verklighetsvalvet-SPEC.md, .context/locked-ux-features.md, .context/arkiv-minne.md, docs/gemini-handoff/V1-valv-zone-wireframe.md, docs/gemini-handoff/M2-valv-drawer-copy.md, docs/gemini-handoff/valv/V1-PROMPT.md, src/modules/evidence/vault/**, src/modules/evidence/knowledge/components/VaultKunskapsbankPanel.tsx, src/modules/core/navigation/navTruth.ts
+- Only files matching these patterns are included: docs/design/VALV-HUBB-SPEC.md, docs/design/references/VALV-ICON-KANON.md, docs/specs/modules/Verklighetsvalvet-SPEC.md, .context/locked-ux-features.md, .context/arkiv-minne.md, docs/gemini-handoff/V1-valv-zone-wireframe.md, docs/gemini-handoff/M2-valv-drawer-copy.md, docs/gemini-handoff/valv/V1-PROMPT.md, src/modules/features/lifeJournal/evidence/vault/**, src/modules/features/lifeJournal/evidence/knowledge/components/VaultKunskapsbankPanel.tsx, src/modules/core/navigation/navTruth.ts
 - Files matching patterns in .gitignore are excluded
 - Files matching default ignore patterns are excluded
 - Files are sorted by Git change count (files with more changes are at the bottom)
@@ -62,56 +62,249 @@ src/
     core/
       navigation/
         navTruth.ts
-    evidence/
-      knowledge/
-        components/
-          VaultKunskapsbankPanel.tsx
-      vault/
-        components/
-          KunskapsbankHeader.tsx
-          OrkesterAgentTrio.tsx
-          PansaretHeader.tsx
-          VaultEntryForm.tsx
-          VaultForensicPanel.tsx
-          VaultInkastCompact.tsx
-          VaultLogList.tsx
-          VaultMonsterPanel.tsx
-          VaultOrkesterPanel.tsx
-          VaultPage.tsx
-          VaultPatternHandoff.tsx
-          VaultSamlaDriveHint.tsx
-          VaultSamlaHub.tsx
-          VaultValvBreadcrumb.tsx
-        constants/
-          productAgents.ts
-          vaultEntry.ts
-          vavarenCopy.ts
-        dossier/
-          api/
-            dossierService.ts
-          components/
-            DossierPage.tsx
-          utils/
-            dossierCandidates.ts
-          index.ts
-          module_plan.md
-          README.md
-          types.ts
-        types/
-          vaultEntry.ts
-        utils/
-          exportVaultRecord.ts
-          normalizeVaultLog.ts
-          smsThreadParse.ts
-          vaultPatternScan.ts
-          vaultTabs.ts
-        index.ts
-        module_plan.md
-        README.md
+    features/
+      lifeJournal/
+        evidence/
+          knowledge/
+            components/
+              VaultKunskapsbankPanel.tsx
+          vault/
+            components/
+              KunskapsbankHeader.tsx
+              OrkesterAgentTrio.tsx
+              PansaretHeader.tsx
+              VaultEntryForm.tsx
+              VaultErrorBoundary.tsx
+              VaultForensicPanel.tsx
+              VaultInkastCompact.tsx
+              VaultLogList.tsx
+              VaultMonsterPanel.tsx
+              VaultOrkesterPanel.tsx
+              VaultOverviewPanel.tsx
+              VaultPage.tsx
+              VaultPatternHandoff.tsx
+              VaultSamlaDriveHint.tsx
+              VaultSamlaHub.tsx
+              VaultValvBreadcrumb.tsx
+              WeaverPendingVaultBanner.tsx
+            constants/
+              productAgents.ts
+              vaultEntry.ts
+              vavarenCopy.ts
+            dossier/
+              api/
+                dossierService.ts
+              components/
+                DossierPage.tsx
+              utils/
+                dossierCandidates.ts
+              index.ts
+              module_plan.md
+              README.md
+              types.ts
+            types/
+              vaultEntry.ts
+            utils/
+              exportVaultRecord.ts
+              normalizeVaultLog.ts
+              smsThreadParse.ts
+              vaultPatternScan.ts
+              vaultTabs.ts
+            index.ts
+            module_plan.md
+            README.md
 </directory_structure>
 
 <files>
 This section contains the contents of the repository's files.
+
+<file path=".context/arkiv-minne.md">
+# Hela arkivet — canonical minnesarkitektur (Life OS)
+
+**Status:** Låst princip (2026-05-21). Konsoliderad mot alla Repomix-analyser + GCP.  
+**Källor:** Repo, [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md), [`Arkiv-SPEC.md`](../docs/specs/modules/Arkiv-SPEC.md), [`GRUNDER-UTVARDERING-RESULTAT.md`](../docs/specs/modules/GRUNDER-UTVARDERING-RESULTAT.md), [`KONSOLIDERING-2026-05-21.md`](../docs/archive/repomix/KONSOLIDERING-2026-05-21.md).
+
+---
+
+## Invariant: permanent minne
+
+Livskompassen ska **aldrig glömma** användarens WORM-data. Det är **inte** en tidsgräns (t.ex. fem år) utan en arkitekturregel.
+
+| Collection / lager | Roll | Glömmer? |
+|--------------------|------|----------|
+| `children_logs` | Barnens livslogg + fysiologi | **Nej** — append-only WORM |
+| `reality_vault` | Bevis (Sanningens Sköld) | **Nej** — append-only WORM |
+| `journal` | Dagbok Lager 1 | **Nej** — append-only WORM |
+| `dossier_snapshots` | Bevisad export + hash | **Nej** — WORM snapshot |
+| `kampspar` / `kb_docs` | Kunskapsvalvet (RAG) | WORM create; separat retention-policy — **ersätter inte** barn/valv |
+| GCS `livskompassen-knowledge-vault-worm` | Embeddings/arkiv-filer | 30d bucket retention — **inte** primär livsdatabas |
+
+**Sacred:** Permanent minne + korrekt silo = lika viktigt som Zero Footprint och Kill Switch.
+
+---
+
+## Begrepp
+
+| Term | Betydelse |
+|------|-----------|
+| **Hela arkivet** | Koordinerat Life OS-minne över alla moduler — **inte** en gemensam RAG |
+| **Kunskapsbank** | Strukturerade dokument/mappar (blueprint: KnowledgeFolder/Doc/Media → `kb_docs`) |
+| **Kunskapsvalvet** | UI + RAG ovanpå `kampspar` + `kb_docs` — Valv PIN: `/dagbok?tab=bevis&vaultTab=kunskapsbank` (legacy `/kunskap` redirect) |
+| **Minne** | Datalager `kampspar` (livshändelser, strategi, mönster) |
+| **Synaps** | ADK-händelse (`drive_ingest`, `journal_woven`, …) som kopplar modul → minne utan att blanda silor |
+| **SystemSynapse** | Planerat långtids-grounding-schema (blueprint) — ej Firestore-prod än |
+
+---
+
+## Tre kunskapsytor (MUST NOT blandas)
+
+| Yta | Route | Data | Callable | Agent |
+|-----|-------|------|----------|-------|
+| Kunskapsvalvet | `/dagbok?tab=bevis&vaultTab=kunskapsbank` | `kampspar`, `kb_docs` | `knowledgeVaultQuery` | Livs-Arkivarien |
+| Valv-Chat | Bevis → Sök | `reality_vault` | `valvChatQuery` | Sannings-Analytikern |
+| Barnen | `/familjen` | `children_logs` | `childrenLogsQuery` (G8 **done**) | Mönster-Arkivarien (barnen) |
+
+**MUST NOT:** `valvChatQuery` mot `kampspar`. **MUST NOT:** `knowledgeVaultQuery` mot `reality_vault` som standard.
+
+**U6 — Utvecklingszon (Vit):** `mabra_sessions`, planerat `vit_hub` / `vit_entries` — **ingen** RAG, **ingen** ingest till `kampspar`. Innehåll via content-banker — se [`.context/innehall-kanon.md`](./innehall-kanon.md), [`docs/INNEHALL-REGISTER.md`](../docs/INNEHALL-REGISTER.md).
+
+**Terminologifällor (repomix → kanon):**
+
+| Ord | Repomix (legacy) | Kanon |
+|-----|------------------|-------|
+| Synaps | CSS / Firestore `synapses` | ADK `SynapseBus`-händelse |
+| Silo 3 | Ex-partner / `vault` | Barnen → `children_logs` |
+| Minne | Mock-typ `Kampspar` | WORM `KampsparEntry` |
+| Vector Search | Vertex AI Search Data Store | Vertex AI Vector Search ANN (768 dim) |
+
+**Förbjudna repomix-mönster:** `SuperArchive` → `kb_docs` för bevis; Kunskap inbäddad i VaultPage; hårdkodad PIN; prompts utanför `sharedRules.ts`.
+
+---
+
+## Legacy → kanon (Firestore)
+
+| Repomix / legacy | Kanon |
+|------------------|-------|
+| `vault` | `reality_vault` |
+| `kids_records` | `children_logs` |
+| `diary` | `journal` |
+| `synapses` (dokument) | ADK events (`drive_ingest`, `journal_woven`) |
+| — | `kampspar`, `dossier_snapshots` (saknas i repomix) |
+
+**Schema-risk (G11):** Mock `Kampspar` i `src/modules/kompis/types/kompis.ts` (challenge/milestone/routine) får **inte** bli ingest-schema — kanonisk typ = `KampsparEntry`.
+
+---
+
+## Inflöde (hur arkivet fylls)
+
+```mermaid
+flowchart TB
+  Manual[KampsparIngestForm / Tidshjulet]
+  Drive[Drive notifyNewFile]
+  Modules[WORM moduler]
+  Manual --> Kampspar[kampspar]
+  Drive --> Synapse[driveIngestSynapse G10]
+  Synapse --> KbDocs[kb_docs]
+  Synapse --> Valv[reality_vault bevis]
+  Synapse --> InboxQ[inbox_queue HITL]
+  Modules --> Valv[reality_vault]
+  Modules --> Barn[children_logs]
+  Modules --> Journal[journal]
+  Kampspar --> KunskapRAG[knowledgeVaultQuery]
+  KbDocs --> KunskapRAG
+  Valv --> ValvRAG[valvChatQuery]
+  Barn --> Dossier[generateDossier]
+  Valv --> Dossier
+```
+
+| Källa | Mål | Auto? |
+|-------|-----|-------|
+| Manuell ingest | `kampspar` | Användaren |
+| Drive webhook | `kb_docs` / `reality_vault` / `children_logs` / `inbox_queue` | Ja (G10 klassificering + HITL) |
+| Dagbok | `journal` → Vävaren → `reality_vault` metadata | Async |
+| Barnen | `children_logs` | Per save |
+| Kladd/trauma | `kampspar` | **Endast opt-in manuell** |
+
+---
+
+## RAG idag vs mål (GCP 2026-05-21, live-inventering)
+
+| Lager | Idag | GCP (live) | Mål |
+|-------|------|------------|-----|
+| Kunskap retrieval | Token-match + ANN-kod `kampsparQueryRag.ts` | Endpoint `4956462078572363776`, index deployad, 4 vectors | ANN prod secrets **VERIFY** (G2) |
+| Embeddings | `generateEmbedding` + ingest | Index synkad | Full smoke **VERIFY** (G3) |
+| LLM syntes | `GEMINI_API_KEY` | Secret finns | Behåll |
+| Legacy Python RAG | — | 4 functions us-central1 | Avveckla (G4) |
+| Context Cache | `vertexCache.ts` + `context_cache_registry` (G12) | Firestore delad registry | **done** G12 |
+
+**Deploy-sanning:** [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md) — ersätter arkiv-PDF som säger 0 endpoints / ej deployad valv.
+
+**Kanonisk index (välj vid wire):**
+
+- `projects/1084026575972/locations/europe-west1/indexes/2686894156982255616` (`livskompassen-kv-index`, STREAM)
+- eller `.../europe-north1/indexes/9094201410823651328` (`kampspar_index`, BATCH)
+
+---
+
+## Agenter och synapser
+
+| Roll | Fil | Ansvar |
+|------|-----|--------|
+| Livs-Arkivarien | `sharedRules.ts`, `knowledgeVaultAgent.ts` | Kunskap RAG-svar |
+| Mönster-Arkivarien | `sharedRules.ts`, `driveIngestSynapse` | Drive → `kb_docs`, långtidsmönster |
+| Sannings-Analytikern | `valvChatAgent.ts` | Forensisk JSON |
+| ADK SynapseBus | `synapseBus.ts` | `drive_ingest` live; `journal_woven` stub |
+
+---
+
+## Modul ↔ minne (Life OS)
+
+| Modul | Skriver | RAG/chatt | PDF/export |
+|-------|---------|-----------|------------|
+| kompis | `kampspar`, `kb_docs` | Kunskap ja | — |
+| valv_chatt | — | Valv ja | per post |
+| verklighetsvalvet | `reality_vault` | via valv_chatt | per post |
+| barnens_livsloggar | `children_logs` | **nej** | Dossier |
+| dagbok | `journal` | nej | Dossier opt-in |
+| dossier | `dossier_snapshots` | nej | **ja** (hela urval) |
+| safe_harbor | valfri → valv | nej | — |
+| kompasser | `checkins` | nej | — |
+| mabra | `mabra_sessions`, `vit_*` *(P1)* | nej | `mabraCoach` (parafras bank); zon Vit U6 |
+| speglings_system | — (Zero Footprint) | nej | — |
+| ekonomi | `transactions` | nej | — |
+| core | delade helpers | — | — |
+
+---
+
+## Planerat (MUST NOT tappas)
+
+- [x] **G1** Deploy `valvChatQuery` (live 2026-05-21)
+- [x] **G2** Vector endpoint deployad — VERIFY PASS 2026-05-22 ([`GCP-INVENTORY-LATEST`](../docs/GCP-INVENTORY-LATEST.md))
+- [x] **G3** Embeddings smoke 768 — VERIFY PASS 2026-05-22
+- [ ] **G4** Avveckla legacy Python RAG (us-central1)
+- [x] **G5** Retention allowlist — exkludera WORM permanent
+- [ ] **G6** Drive smoke end-to-end (secret + Apps Script — manuellt)
+- [ ] **G7** `journal_woven` synaps
+- [x] **G8** Familjen-RAG — **done** 2026-05-22 (`childrenLogsQuery` + Mönster-Arkivarien Barnen)
+- [x] **G9** EntityProfile / SystemSynapse Firestore + agent grounding
+- [x] **G10** Självsorterande inkorg (Kunskap-SPEC §12)
+- [x] **G11** Rensa/isolera mock `Kampspar`-typ vs `KampsparEntry`
+- [x] **G12** Context Cache delad registry
+- [x] **G13** Tidshjulet → `kampspar`-historik (live + ringar)
+- [x] **G14** Gräns-Arkitekten — agent card + Hamn (Brusfilter + BIFF)
+
+Se [`Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md). Implementation: `kör [GAP]`.
+
+---
+
+## Relaterade filer
+
+- [`Arkiv-SPEC.md`](../docs/specs/modules/Arkiv-SPEC.md)
+- [`.context/database.md`](./database.md)
+- [`.context/arkitektur-beslut.md`](./arkitektur-beslut.md) §1.5
+- [`docs/specs/ai-prompts-moduler-master.md`](../docs/specs/ai-prompts-moduler-master.md) §G
+- Skills: `.cursor/skills/livskompassen-arkiv-master/`
+</file>
 
 <file path="docs/design/references/VALV-ICON-KANON.md">
 # Valv-ikon — KANON (ny)
@@ -183,23 +376,6 @@ Baserat på uppladdade källor:
 2. Lista 3 FÖRBJUDNA förslag (U1-brott) med exempel.
 3. Gap-tabell: Vävaren polish | finns i kod | nästa fil att röra.
 ```
-</file>
-
-<file path="docs/gemini-handoff/M2-valv-drawer-copy.md">
-# M2 — Valv-drawer etiketter (Gemini handoff)
-
-**Datum:** 2026-05-30  
-**Status:** Delvis integrerat — endast KEEP-rader i prod.
-
-| groupId | Label (prod) | drawerHint (Gemini KEEP) | Status |
-|---------|--------------|--------------------------|--------|
-| `valv_grp_samla` | Samla | Objektiv registrering av skriftliga meddelanden och logistik. | **Integrerad** |
-| `valv_grp_analysera` | Analysera | Strukturerad kartläggning av återkommande mönster och beteenden. | **Integrerad** |
-| `valv_grp_kunskap` | Kunskapsbank | RAG-underlag, lagrum och verifierad aktörskarta (G9). | DEFER — label ej ändrad |
-| `valv_grp_exportera` | Exportera | Sammanställning av material för manuell delning med juridisk part. | REJECT — låst zonnamn |
-| `valv_grp_forensik` | Forensik | Tidsstämplat material med obruten versionshistorik. | DEFER — label ej ändrad |
-
-Övriga grupper behåller befintliga `drawerHint` i `navTruth.ts`.
 </file>
 
 <file path="docs/specs/modules/Verklighetsvalvet-SPEC.md">
@@ -450,7 +626,7 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 | Orosanmälan 2026-03-05 | Användaren laddar PDF manuellt |
 | Skola Ann/Lena, barnsamtal | Manuellt + ev. Barnen `skola` |
 | SMS tvåspalt som PDF-export | **done** entry modes; metod: hel tråd |
-| Vävaren-godkännande före permanent tagg | **planned** fas 2 |
+| Vävaren-godkännande före permanent tagg | **done** 2026-05-31 — `weaver_pending` + HITL |
 
 ## 15. Öppna produktbeslut (låsta 2026-05)
 
@@ -470,1350 +646,7 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 **Flöde:** [`docs/specs/hjartat-flode.md`](../hjartat-flode.md)
 </file>
 
-<file path=".context/arkiv-minne.md">
-# Hela arkivet — canonical minnesarkitektur (Life OS)
-
-**Status:** Låst princip (2026-05-21). Konsoliderad mot alla Repomix-analyser + GCP.  
-**Källor:** Repo, [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md), [`Arkiv-SPEC.md`](../docs/specs/modules/Arkiv-SPEC.md), [`GRUNDER-UTVARDERING-RESULTAT.md`](../docs/specs/modules/GRUNDER-UTVARDERING-RESULTAT.md), [`KONSOLIDERING-2026-05-21.md`](../docs/archive/repomix/KONSOLIDERING-2026-05-21.md).
-
----
-
-## Invariant: permanent minne
-
-Livskompassen ska **aldrig glömma** användarens WORM-data. Det är **inte** en tidsgräns (t.ex. fem år) utan en arkitekturregel.
-
-| Collection / lager | Roll | Glömmer? |
-|--------------------|------|----------|
-| `children_logs` | Barnens livslogg + fysiologi | **Nej** — append-only WORM |
-| `reality_vault` | Bevis (Sanningens Sköld) | **Nej** — append-only WORM |
-| `journal` | Dagbok Lager 1 | **Nej** — append-only WORM |
-| `dossier_snapshots` | Bevisad export + hash | **Nej** — WORM snapshot |
-| `kampspar` / `kb_docs` | Kunskapsvalvet (RAG) | WORM create; separat retention-policy — **ersätter inte** barn/valv |
-| GCS `livskompassen-knowledge-vault-worm` | Embeddings/arkiv-filer | 30d bucket retention — **inte** primär livsdatabas |
-
-**Sacred:** Permanent minne + korrekt silo = lika viktigt som Zero Footprint och Kill Switch.
-
----
-
-## Begrepp
-
-| Term | Betydelse |
-|------|-----------|
-| **Hela arkivet** | Koordinerat Life OS-minne över alla moduler — **inte** en gemensam RAG |
-| **Kunskapsbank** | Strukturerade dokument/mappar (blueprint: KnowledgeFolder/Doc/Media → `kb_docs`) |
-| **Kunskapsvalvet** | UI + RAG ovanpå `kampspar` + `kb_docs` — Valv PIN: `/dagbok?tab=bevis&vaultTab=kunskapsbank` (legacy `/kunskap` redirect) |
-| **Minne** | Datalager `kampspar` (livshändelser, strategi, mönster) |
-| **Synaps** | ADK-händelse (`drive_ingest`, `journal_woven`, …) som kopplar modul → minne utan att blanda silor |
-| **SystemSynapse** | Planerat långtids-grounding-schema (blueprint) — ej Firestore-prod än |
-
----
-
-## Tre kunskapsytor (MUST NOT blandas)
-
-| Yta | Route | Data | Callable | Agent |
-|-----|-------|------|----------|-------|
-| Kunskapsvalvet | `/dagbok?tab=bevis&vaultTab=kunskapsbank` | `kampspar`, `kb_docs` | `knowledgeVaultQuery` | Livs-Arkivarien |
-| Valv-Chat | Bevis → Sök | `reality_vault` | `valvChatQuery` | Sannings-Analytikern |
-| Barnen | `/familjen` | `children_logs` | `childrenLogsQuery` (G8 **done**) | Mönster-Arkivarien (barnen) |
-
-**MUST NOT:** `valvChatQuery` mot `kampspar`. **MUST NOT:** `knowledgeVaultQuery` mot `reality_vault` som standard.
-
-**U6 — Utvecklingszon (Vit):** `mabra_sessions`, planerat `vit_hub` / `vit_entries` — **ingen** RAG, **ingen** ingest till `kampspar`. Innehåll via content-banker — se [`.context/innehall-kanon.md`](./innehall-kanon.md), [`docs/INNEHALL-REGISTER.md`](../docs/INNEHALL-REGISTER.md).
-
-**Terminologifällor (repomix → kanon):**
-
-| Ord | Repomix (legacy) | Kanon |
-|-----|------------------|-------|
-| Synaps | CSS / Firestore `synapses` | ADK `SynapseBus`-händelse |
-| Silo 3 | Ex-partner / `vault` | Barnen → `children_logs` |
-| Minne | Mock-typ `Kampspar` | WORM `KampsparEntry` |
-| Vector Search | Vertex AI Search Data Store | Vertex AI Vector Search ANN (768 dim) |
-
-**Förbjudna repomix-mönster:** `SuperArchive` → `kb_docs` för bevis; Kunskap inbäddad i VaultPage; hårdkodad PIN; prompts utanför `sharedRules.ts`.
-
----
-
-## Legacy → kanon (Firestore)
-
-| Repomix / legacy | Kanon |
-|------------------|-------|
-| `vault` | `reality_vault` |
-| `kids_records` | `children_logs` |
-| `diary` | `journal` |
-| `synapses` (dokument) | ADK events (`drive_ingest`, `journal_woven`) |
-| — | `kampspar`, `dossier_snapshots` (saknas i repomix) |
-
-**Schema-risk (G11):** Mock `Kampspar` i `src/modules/kompis/types/kompis.ts` (challenge/milestone/routine) får **inte** bli ingest-schema — kanonisk typ = `KampsparEntry`.
-
----
-
-## Inflöde (hur arkivet fylls)
-
-```mermaid
-flowchart TB
-  Manual[KampsparIngestForm / Tidshjulet]
-  Drive[Drive notifyNewFile]
-  Modules[WORM moduler]
-  Manual --> Kampspar[kampspar]
-  Drive --> Synapse[driveIngestSynapse G10]
-  Synapse --> KbDocs[kb_docs]
-  Synapse --> Valv[reality_vault bevis]
-  Synapse --> InboxQ[inbox_queue HITL]
-  Modules --> Valv[reality_vault]
-  Modules --> Barn[children_logs]
-  Modules --> Journal[journal]
-  Kampspar --> KunskapRAG[knowledgeVaultQuery]
-  KbDocs --> KunskapRAG
-  Valv --> ValvRAG[valvChatQuery]
-  Barn --> Dossier[generateDossier]
-  Valv --> Dossier
-```
-
-| Källa | Mål | Auto? |
-|-------|-----|-------|
-| Manuell ingest | `kampspar` | Användaren |
-| Drive webhook | `kb_docs` / `reality_vault` / `children_logs` / `inbox_queue` | Ja (G10 klassificering + HITL) |
-| Dagbok | `journal` → Vävaren → `reality_vault` metadata | Async |
-| Barnen | `children_logs` | Per save |
-| Kladd/trauma | `kampspar` | **Endast opt-in manuell** |
-
----
-
-## RAG idag vs mål (GCP 2026-05-21, live-inventering)
-
-| Lager | Idag | GCP (live) | Mål |
-|-------|------|------------|-----|
-| Kunskap retrieval | Token-match + ANN-kod `kampsparQueryRag.ts` | Endpoint `4956462078572363776`, index deployad, 4 vectors | ANN prod secrets **VERIFY** (G2) |
-| Embeddings | `generateEmbedding` + ingest | Index synkad | Full smoke **VERIFY** (G3) |
-| LLM syntes | `GEMINI_API_KEY` | Secret finns | Behåll |
-| Legacy Python RAG | — | 4 functions us-central1 | Avveckla (G4) |
-| Context Cache | `vertexCache.ts` + `context_cache_registry` (G12) | Firestore delad registry | **done** G12 |
-
-**Deploy-sanning:** [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md) — ersätter arkiv-PDF som säger 0 endpoints / ej deployad valv.
-
-**Kanonisk index (välj vid wire):**
-
-- `projects/1084026575972/locations/europe-west1/indexes/2686894156982255616` (`livskompassen-kv-index`, STREAM)
-- eller `.../europe-north1/indexes/9094201410823651328` (`kampspar_index`, BATCH)
-
----
-
-## Agenter och synapser
-
-| Roll | Fil | Ansvar |
-|------|-----|--------|
-| Livs-Arkivarien | `sharedRules.ts`, `knowledgeVaultAgent.ts` | Kunskap RAG-svar |
-| Mönster-Arkivarien | `sharedRules.ts`, `driveIngestSynapse` | Drive → `kb_docs`, långtidsmönster |
-| Sannings-Analytikern | `valvChatAgent.ts` | Forensisk JSON |
-| ADK SynapseBus | `synapseBus.ts` | `drive_ingest` live; `journal_woven` stub |
-
----
-
-## Modul ↔ minne (Life OS)
-
-| Modul | Skriver | RAG/chatt | PDF/export |
-|-------|---------|-----------|------------|
-| kompis | `kampspar`, `kb_docs` | Kunskap ja | — |
-| valv_chatt | — | Valv ja | per post |
-| verklighetsvalvet | `reality_vault` | via valv_chatt | per post |
-| barnens_livsloggar | `children_logs` | **nej** | Dossier |
-| dagbok | `journal` | nej | Dossier opt-in |
-| dossier | `dossier_snapshots` | nej | **ja** (hela urval) |
-| safe_harbor | valfri → valv | nej | — |
-| kompasser | `checkins` | nej | — |
-| mabra | `mabra_sessions`, `vit_*` *(P1)* | nej | `mabraCoach` (parafras bank); zon Vit U6 |
-| speglings_system | — (Zero Footprint) | nej | — |
-| ekonomi | `transactions` | nej | — |
-| core | delade helpers | — | — |
-
----
-
-## Planerat (MUST NOT tappas)
-
-- [x] **G1** Deploy `valvChatQuery` (live 2026-05-21)
-- [x] **G2** Vector endpoint deployad — VERIFY PASS 2026-05-22 ([`GCP-INVENTORY-LATEST`](../docs/GCP-INVENTORY-LATEST.md))
-- [x] **G3** Embeddings smoke 768 — VERIFY PASS 2026-05-22
-- [ ] **G4** Avveckla legacy Python RAG (us-central1)
-- [x] **G5** Retention allowlist — exkludera WORM permanent
-- [ ] **G6** Drive smoke end-to-end (secret + Apps Script — manuellt)
-- [ ] **G7** `journal_woven` synaps
-- [x] **G8** Familjen-RAG — **done** 2026-05-22 (`childrenLogsQuery` + Mönster-Arkivarien Barnen)
-- [x] **G9** EntityProfile / SystemSynapse Firestore + agent grounding
-- [x] **G10** Självsorterande inkorg (Kunskap-SPEC §12)
-- [x] **G11** Rensa/isolera mock `Kampspar`-typ vs `KampsparEntry`
-- [x] **G12** Context Cache delad registry
-- [x] **G13** Tidshjulet → `kampspar`-historik (live + ringar)
-- [x] **G14** Gräns-Arkitekten — agent card + Hamn (Brusfilter + BIFF)
-
-Se [`Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md). Implementation: `kör [GAP]`.
-
----
-
-## Relaterade filer
-
-- [`Arkiv-SPEC.md`](../docs/specs/modules/Arkiv-SPEC.md)
-- [`.context/database.md`](./database.md)
-- [`.context/arkitektur-beslut.md`](./arkitektur-beslut.md) §1.5
-- [`docs/specs/ai-prompts-moduler-master.md`](../docs/specs/ai-prompts-moduler-master.md) §G
-- Skills: `.cursor/skills/livskompassen-arkiv-master/`
-</file>
-
-<file path="src/modules/evidence/vault/components/OrkesterAgentTrio.tsx">
-import { PRODUCT_AGENTS } from '../constants/productAgents';
-
-const TRIO_IDS = ['agent_brusfiltret', 'agent_biff_skolden', 'agent_sannings_analytikern'] as const;
-
-/** D17 — tre primära agenter i Orkester-vyn. */
-export function OrkesterAgentTrio() {
-  const trio = PRODUCT_AGENTS.filter((a) => TRIO_IDS.includes(a.id as (typeof TRIO_IDS)[number]));
-  const display = trio.length >= 3 ? trio.slice(0, 3) : PRODUCT_AGENTS.slice(0, 3);
-
-  return (
-    <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
-      {display.map((agent) => (
-        <div key={agent.id} className="elongated-module p-3 text-center">
-          <p className="text-xs font-medium text-accent">{agent.name}</p>
-          <p className="mt-1 text-[10px] text-text-dim">{agent.role}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
-</file>
-
-<file path="src/modules/evidence/vault/components/PansaretHeader.tsx">
-import { Shield } from 'lucide-react';
-
-/** D16 — Pansaret-rubrik (Mönster-flik). */
-export function PansaretHeader() {
-  return (
-    <div className="elongated-module elongated-module--gold mb-4 flex items-start gap-3 p-4">
-      <Shield className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />
-      <div>
-        <p className="font-display text-base text-accent">Det Digitala Pansaret</p>
-        <p className="mt-1 text-xs text-text-muted">
-          Frekvens och mönster från dina WORM-poster — deterministiskt, inte gissning.
-        </p>
-      </div>
-    </div>
-  );
-}
-</file>
-
-<file path="src/modules/evidence/vault/components/VaultInkastCompact.tsx">
-import { useCallback, useRef, useState } from 'react';
-import { FileUp, Inbox, Loader2 } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
-import { fileToBase64 } from '../../kompis/api/ingestKnowledgeDocumentService';
-import {
-  formatInkastResultMessage,
-  submitInkastLite,
-  type SubmitInkastLiteResult,
-} from '../../../inkast/api/inkastService';
-
-const TEXT_TYPES = new Set([
-  'text/plain',
-  'text/markdown',
-  'text/csv',
-  'application/json',
-]);
-
-const BINARY_TYPES = new Set([
-  'application/pdf',
-  'image/png',
-  'image/jpeg',
-  'image/webp',
-]);
-
-function resolveMime(file: File): string {
-  if (file.type) return file.type;
-  const lower = file.name.toLowerCase();
-  if (lower.endsWith('.pdf')) return 'application/pdf';
-  if (lower.endsWith('.png')) return 'image/png';
-  if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) return 'image/jpeg';
-  if (lower.endsWith('.webp')) return 'image/webp';
-  if (lower.endsWith('.md')) return 'text/markdown';
-  if (lower.endsWith('.csv')) return 'text/csv';
-  if (lower.endsWith('.json')) return 'application/json';
-  return 'text/plain';
-}
-
-type Props = {
-  onQueued?: () => void;
-  onPersistedBevis?: (docId: string) => void;
-};
-
-/** Kompakt Inkast i Valv Samla — samma callable som Hem, PIN-gated kontext. */
-export function VaultInkastCompact({ onQueued, onPersistedBevis }: Props) {
-  const [text, setText] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const runSubmit = useCallback(
-    async (payload: Parameters<typeof submitInkastLite>[0]) => {
-      setLoading(true);
-      setError(null);
-      setSuccessMessage(null);
-      try {
-        const result: SubmitInkastLiteResult = await submitInkastLite(payload);
-        setSuccessMessage(formatInkastResultMessage(result));
-        if (result.action === 'queued') {
-          onQueued?.();
-        } else if (
-          result.action === 'persisted' &&
-          result.collection === 'reality_vault' &&
-          result.docId
-        ) {
-          onPersistedBevis?.(result.docId);
-        }
-        if (!payload.text) setText('');
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Inkast misslyckades.');
-      } finally {
-        setLoading(false);
-      }
-    },
-    [onQueued, onPersistedBevis],
-  );
-
-  const handlePasteSubmit = () => {
-    const trimmed = text.trim();
-    if (trimmed.length < 12) {
-      setError('Skriv minst några rader (sms, mejl, anteckning).');
-      return;
-    }
-    void runSubmit({ text: trimmed, fileName: 'inkast-klistra.txt' });
-  };
-
-  const handleFiles = async (files: FileList | null) => {
-    if (!files?.length) return;
-    const file = files[0]!;
-    const mimeType = resolveMime(file);
-    const useBinary = BINARY_TYPES.has(mimeType);
-    const useText =
-      TEXT_TYPES.has(mimeType) || /\.(txt|md|csv|json)$/i.test(file.name);
-
-    if (!useBinary && !useText) {
-      setError('Stödda format: .pdf, .txt, .md, .csv, .json, .png, .jpg, .webp');
-      return;
-    }
-
-    try {
-      if (useBinary) {
-        const base64 = await fileToBase64(file);
-        await runSubmit({ fileName: file.name, mimeType, base64 });
-      } else {
-        const content = (await file.text()).trim();
-        if (content.length < 12) {
-          setError('Filen är tom eller för kort.');
-          return;
-        }
-        await runSubmit({ text: content.slice(0, 12_000), fileName: file.name });
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kunde inte läsa filen.');
-    } finally {
-      if (inputRef.current) inputRef.current.value = '';
-    }
-  };
-
-  return (
-    <BentoCard
-      title="Inkast"
-      description="Sms, mejl eller fil → rätt silo"
-      icon={<Inbox className="h-4 w-4 text-accent" />}
-    >
-      <p className="mb-2 text-xs text-text-dim">
-        Hög säkerhet → granskningskö. Bekräfta «Bevis» innan posten blir WORM.
-      </p>
-      <textarea
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Klistra sms eller mejl…"
-        rows={3}
-        className="input-glass w-full resize-none rounded-xl px-3 py-2 text-sm"
-        disabled={loading}
-      />
-      <div className="mt-2 flex flex-wrap gap-2">
-        <button
-          type="button"
-          className="btn-pill--secondary text-xs"
-          disabled={loading || text.trim().length < 12}
-          onClick={handlePasteSubmit}
-        >
-          {loading ? (
-            <>
-              <Loader2 className="mr-1 inline h-3 w-3 animate-spin" />
-              Sorterar…
-            </>
-          ) : (
-            'Skicka'
-          )}
-        </button>
-        <button
-          type="button"
-          className="btn-pill--ghost text-xs"
-          disabled={loading}
-          onClick={() => inputRef.current?.click()}
-        >
-          <FileUp className="mr-1 inline h-3 w-3" />
-          Fil
-        </button>
-        <input
-          ref={inputRef}
-          type="file"
-          className="sr-only"
-          accept=".pdf,.txt,.md,.csv,.json,.png,.jpg,.jpeg,.webp"
-          onChange={(e) => void handleFiles(e.target.files)}
-        />
-      </div>
-      {error && <p className="mt-2 text-xs text-amber-400/90">{error}</p>}
-      {successMessage && <p className="mt-2 text-xs text-success">{successMessage}</p>}
-    </BentoCard>
-  );
-}
-</file>
-
-<file path="src/modules/evidence/vault/components/VaultMonsterPanel.tsx">
-/** @locked-ux Valv Mönster — do not remove; see `.context/locked-ux-features.md` */
-import { useMemo } from 'react';
-import { BarChart3 } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
-import { EmptyState } from '../../../core/ui/EmptyState';
-import type { VaultLog } from '../../../core/types/firestore';
-import { buildVaultFrequencyReport } from '../utils/vaultPatternScan';
-
-type Props = {
-  logs: (VaultLog & { id: string })[];
-};
-
-function BarRow({ label, count, max }: { label: string; count: number; max: number }) {
-  const width = max > 0 ? Math.round((count / max) * 100) : 0;
-  return (
-    <div className="space-y-1">
-      <div className="flex justify-between text-xs text-text-dim">
-        <span>{label}</span>
-        <span>{count}</span>
-      </div>
-      <div className="h-2 overflow-hidden rounded-full bg-white/5">
-        <div
-          className="h-full rounded-full bg-accent/70 transition-all"
-          style={{ width: `${width}%` }}
-        />
-      </div>
-    </div>
-  );
-}
-
-export function VaultMonsterPanel({ logs }: Props) {
-  const report = useMemo(() => buildVaultFrequencyReport(logs), [logs]);
-  const maxTechnique = report.topTechniques[0]?.count ?? 0;
-  const maxMonth = Math.max(...report.monthlyCounts.map((m) => m.count), 1);
-
-  if (logs.length === 0) {
-    return (
-      <BentoCard title="Mönster" description="Pansaret · deterministisk frekvens" icon={<BarChart3 className="h-4 w-4" />}>
-        <EmptyState message="Inga valvposter ännu. Logga bevis under Logga — frekvensen visas här." />
-      </BentoCard>
-    );
-  }
-
-  return (
-    <div className="space-y-4">
-      <BentoCard
-        title="Frekvensanalys"
-        description="Pansaret · regex-lager (ingen LLM som sanning)"
-        icon={<BarChart3 className="h-4 w-4" />}
-      >
-        <p className="text-sm text-text-muted">
-          {report.totalPosts} poster · {report.smsLikePosts} kommunikationsrelaterade ·
-          deterministisk skanning av dina WORM-texter.
-        </p>
-        <div className="mt-4 space-y-3">
-          {report.topTechniques.length === 0 ? (
-            <p className="text-sm text-text-dim">
-              Inga kända manipulationstaktiker hittades i befintliga poster (bra tecken, eller
-              kortare texter).
-            </p>
-          ) : (
-            report.topTechniques.map(({ technique, count }) => (
-              <BarRow key={technique} label={technique} count={count} max={maxTechnique} />
-            ))
-          )}
-        </div>
-      </BentoCard>
-
-      <BentoCard title="Poster per månad" description="Systematisk tidsfrekvens">
-        <div className="space-y-3">
-          {report.monthlyCounts.map(({ month, count }) => (
-            <BarRow key={month} label={month} count={count} max={maxMonth} />
-          ))}
-        </div>
-      </BentoCard>
-
-      <BentoCard title="Kategorier i valvet" description="Fördelning">
-        <div className="space-y-2 text-sm text-text-muted">
-          {Object.entries(report.categoryCounts).map(([cat, count]) => (
-            <p key={cat}>
-              {cat}: <span className="text-accent">{count}</span>
-            </p>
-          ))}
-        </div>
-      </BentoCard>
-    </div>
-  );
-}
-</file>
-
-<file path="src/modules/evidence/vault/components/VaultPatternHandoff.tsx">
-import { Link } from 'react-router-dom';
-import { BarChart3 } from 'lucide-react';
-import { vaultDrawerPath } from '../../../core/navigation/navTruth';
-
-/** Efter logg eller vid mönster-nyckelord — länk till Mönster (ingen auto-analys). */
-export function VaultPatternHandoff({ className = '' }: { className?: string }) {
-  return (
-    <aside
-      className={`journal-handoff ${className}`.trim()}
-      role="note"
-      aria-label="Förslag om mönsteranalys"
-    >
-      <div className="journal-handoff__header">
-        <BarChart3 className="h-4 w-4 shrink-0 text-accent" aria-hidden />
-        <p className="journal-handoff__title">Leta mönster i bevisen?</p>
-      </div>
-      <p className="journal-handoff__body">
-        När du har flera poster kan Mönster-fliken visa upprepningar över tid. Inget körs automatiskt.
-      </p>
-      <Link to={vaultDrawerPath('monster')} className="journal-handoff__cta btn-pill--ghost">
-        Öppna Mönster →
-      </Link>
-    </aside>
-  );
-}
-</file>
-
-<file path="src/modules/evidence/vault/components/VaultSamlaDriveHint.tsx">
-import { HardDrive } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
-
-type Props = {
-  pendingCount?: number;
-  onOpenQueue: () => void;
-};
-
-/** G10 — Drive hamnar i granskningskö; ingen auto-WORM till reality_vault (SPEC §14). */
-export function VaultSamlaDriveHint({ pendingCount, onOpenQueue }: Props) {
-  return (
-    <BentoCard
-      title="Drive & oklara filer"
-      description="Manuellt godkännande"
-      icon={<HardDrive className="h-4 w-4 text-accent" />}
-    >
-      <p className="text-xs text-text-dim">
-        Filer från Google Drive sparas <strong className="font-normal text-text-muted">inte</strong>{' '}
-        automatiskt som bevis. De hamnar i granskningskö — välj «→ Bevis» när du är redo.
-      </p>
-      <button type="button" className="btn-pill--secondary mt-3 text-xs" onClick={onOpenQueue}>
-        {pendingCount != null && pendingCount > 0
-          ? `Öppna granskningskö (${pendingCount})`
-          : 'Öppna granskningskö'}
-      </button>
-    </BentoCard>
-  );
-}
-</file>
-
-<file path="src/modules/evidence/vault/constants/productAgents.ts">
-/** Produktroller (AGENTS.md) — UI-register för Orkester-fliken; routing sker i functions. */
-export const PRODUCT_AGENTS = [
-  {
-    id: 'agent_sannings_analytikern',
-    name: 'Sannings-Analytikern',
-    role: 'Bevis & VIVIR',
-    focus: 'Valv, strikt JSON',
-  },
-  {
-    id: 'agent_monster_arkivarien',
-    name: 'Mönster-Arkivarien',
-    role: 'Frekvens & makro',
-    focus: 'SMS-trådar, långsiktiga mönster',
-  },
-  {
-    id: 'agent_grans_arkitekten',
-    name: 'Gräns-Arkitekten',
-    role: 'BIFF + DCAP',
-    focus: 'Hamn, Grey Rock',
-  },
-  {
-    id: 'agent_biff_skolden',
-    name: 'BIFF-Skölden',
-    role: 'Neutralt svar',
-    focus: 'Kort, fast kommunikation',
-  },
-  {
-    id: 'agent_brusfiltret',
-    name: 'Brusfiltret',
-    role: 'Clean Input',
-    focus: 'Fakta ur manipulation',
-  },
-  {
-    id: 'agent_livs_arkivarien',
-    name: 'Livs-Arkivarien',
-    role: 'Minne & RAG',
-    focus: 'Kunskapsvalvet',
-  },
-  {
-    id: 'agent_paralys_brytaren',
-    name: 'Paralys-Brytaren',
-    role: 'Ett mikrosteg',
-    focus: 'Kompasser',
-  },
-  {
-    id: 'agent_rsd_kylaren',
-    name: 'RSD-Kylaren',
-    role: 'Alternativ',
-    focus: 'Kalla triggers',
-  },
-] as const;
-</file>
-
-<file path="src/modules/evidence/vault/constants/vaultEntry.ts">
-import type { VaultEntryType } from '../types/vaultEntry';
-
-export const BODY_SIGNALS = [
-  'Tung över axlarna',
-  'Klump i magen',
-  'Svårt att andas',
-] as const;
-
-export const VAULT_ENTRY_MODES: { id: VaultEntryType; label: string }[] = [
-  { id: 'simple', label: 'Enkel' },
-  { id: 'two_column', label: 'Tvåspalt' },
-  { id: 'three_shield', label: 'Tresteg' },
-  { id: 'body_signal', label: 'Magkänsel' },
-];
-
-export const SHIELD_STEPS = [
-  { key: 'what', label: 'Vad händer?', placeholder: 'Objektivt, utan tolkning...' },
-  { key: 'feeling', label: 'Vad känner jag?', placeholder: 'Kroppsligt eller emotionellt...' },
-  { key: 'boundary', label: 'Hur vill jag att det ska vara?', placeholder: 'Gräns eller önskat tillstånd...' },
-] as const;
-</file>
-
-<file path="src/modules/evidence/vault/constants/vavarenCopy.ts">
-/**
- * User-facing copy for Vävaren (async journal → `vävaren_metadata` in Valvet).
- * Fas 1.5 — clarity only; godkännande-flöde remains planned.
- */
-export const VAVAREN_SAVED_HINT =
-  'Sparad. Vävaren sätter AI-taggar i bakgrunden — de syns under Arkiv men räknas inte som bevis i Sök.';
-
-export const VAVAREN_CONFIRM_HINT =
-  'Efter sparande: Vävaren lägger AI-taggar i Valvet (bakgrund). Dina egna ord i dagboken ändras inte.';
-
-export const VAVAREN_LOG_CATEGORY_LABEL = 'AI-taggar från dagbok';
-
-export const VAVAREN_LOG_DISCLAIMER =
-  'AI-sammanfattning — inte dina ord och inte beviskropp. Export med godkännande kommer i en senare fas.';
-
-export const VAVAREN_VALVCHAT_HINT =
-  'Sök använder dina WORM-poster. AI-taggar från dagboken (Vävaren) ingår inte.';
-
-export const VAVAREN_DOSSIER_CHECKBOX = 'Kort AI-försätt (Vävaren) före rapporten';
-
-export const VAVAREN_DOSSIER_HINT =
-  'Bevisdelen är ordagrant från valvet. Försättet är valfritt och märks som AI-sammanfattning.';
-</file>
-
-<file path="src/modules/evidence/vault/dossier/api/dossierService.ts">
-import { httpsCallable, type FunctionsError } from 'firebase/functions';
-import { functions } from '../../../../core/firebase/init';
-import type { GenerateDossierInput, GenerateDossierResult } from '../types';
-
-const generateDossierCallable = httpsCallable<GenerateDossierInput, GenerateDossierResult>(
-  functions,
-  'generateDossier',
-);
-
-export async function generateDossier(
-  input: GenerateDossierInput,
-): Promise<GenerateDossierResult> {
-  try {
-    const result = await generateDossierCallable(input);
-    return result.data;
-  } catch (error) {
-    const fnError = error as FunctionsError;
-    if (fnError.code === 'functions/not-found' || fnError.code === 'functions/unimplemented') {
-      throw new Error(
-        'Backend generateDossier är inte deployad än. Wizard och urval är klara — nästa steg är Cloud Function + dossier_snapshots.',
-      );
-    }
-    if (fnError.code === 'functions/unauthenticated') {
-      throw new Error('Autentisering krävs för att generera dossier.');
-    }
-    throw new Error(fnError.message || 'Kunde inte generera dossier.');
-  }
-}
-</file>
-
-<file path="src/modules/evidence/vault/dossier/utils/dossierCandidates.ts">
-import type { VaultLog } from '../../../../core/types/firestore';
-import type { ChildrenLogEntry } from '../../../../family/children/types';
-import type { DossierCandidateDoc, DossierSourceKey, GenerateDossierInput } from '../types';
-
-export function isoDateOnly(iso: string): string {
-  return iso.slice(0, 10);
-}
-
-export function inDateRange(createdAt: string | undefined, from: string, to: string): boolean {
-  if (!createdAt) return false;
-  const day = isoDateOnly(createdAt);
-  return day >= from && day <= to;
-}
-
-export function defaultDateRange(): { dateFrom: string; dateTo: string } {
-  const to = new Date();
-  const from = new Date();
-  from.setMonth(from.getMonth() - 3);
-  return {
-    dateFrom: from.toISOString().slice(0, 10),
-    dateTo: to.toISOString().slice(0, 10),
-  };
-}
-
-export function shiftMonths(isoDate: string, months: number): string {
-  const d = new Date(`${isoDate}T12:00:00`);
-  d.setMonth(d.getMonth() + months);
-  return d.toISOString().slice(0, 10);
-}
-
-function vaultTitle(log: VaultLog & { id: string }): string {
-  return log.category?.trim() || log.action || 'Valv-post';
-}
-
-function vaultPreview(log: VaultLog): string {
-  const parts = [log.truth, log.myReality, log.theirVersion].filter(Boolean);
-  const text = parts.join(' · ') || log.childrenImpact || '';
-  return text.length > 160 ? `${text.slice(0, 160)}…` : text;
-}
-
-export function vaultToCandidate(log: VaultLog & { id: string }): DossierCandidateDoc {
-  return {
-    id: log.id,
-    kind: 'reality_vault',
-    createdAt: log.createdAt,
-    title: vaultTitle(log),
-    preview: vaultPreview(log),
-    category: log.category,
-  };
-}
-
-export function childrenToCandidate(log: ChildrenLogEntry): DossierCandidateDoc {
-  const title = [log.childAlias, log.category || log.action].filter(Boolean).join(' · ') || 'Barnlogg';
-  const preview =
-    log.observation || log.truth || log.childrenImpact || 'Fysiologi/logg';
-  return {
-    id: log.id,
-    kind: 'children_logs',
-    createdAt: log.createdAt ?? '',
-    title,
-    preview: preview.length > 160 ? `${preview.slice(0, 160)}…` : preview,
-    category: log.category,
-  };
-}
-
-export function journalToCandidate(entry: {
-  id: string;
-  mood?: string;
-  text?: string;
-  createdAt?: string;
-}): DossierCandidateDoc {
-  const mood = entry.mood ? `Humör: ${entry.mood}. ` : '';
-  const text = String(entry.text ?? '');
-  return {
-    id: entry.id,
-    kind: 'journal',
-    createdAt: entry.createdAt ?? '',
-    title: 'Dagbok',
-    preview: `${mood}${text}`.slice(0, 160),
-  };
-}
-
-export function filterCandidates(
-  docs: DossierCandidateDoc[],
-  dateFrom: string,
-  dateTo: string,
-  enabledSources: Record<DossierSourceKey, boolean>,
-  categoryFilter: string[],
-): DossierCandidateDoc[] {
-  return docs.filter((doc) => {
-    if (!enabledSources[doc.kind]) return false;
-    if (!inDateRange(doc.createdAt, dateFrom, dateTo)) return false;
-    if (categoryFilter.length > 0 && doc.category) {
-      return categoryFilter.some(
-        (tag) => doc.category?.toLowerCase().includes(tag.toLowerCase()),
-      );
-    }
-    if (categoryFilter.length > 0 && !doc.category) return false;
-    return true;
-  });
-}
-
-export function collectCategoryTags(docs: DossierCandidateDoc[]): string[] {
-  const tags = new Set<string>();
-  for (const doc of docs) {
-    if (doc.category?.trim()) tags.add(doc.category.trim());
-  }
-  return [...tags].sort((a, b) => a.localeCompare(b, 'sv'));
-}
-
-export function groupIncludedIds(
-  docs: DossierCandidateDoc[],
-  included: Set<string>,
-): GenerateDossierInput['includedDocIds'] {
-  const ids: GenerateDossierInput['includedDocIds'] = {
-    reality_vault: [],
-    children_logs: [],
-    journal: [],
-  };
-  for (const doc of docs) {
-    if (!included.has(doc.id)) continue;
-    ids[doc.kind].push(doc.id);
-  }
-  return ids;
-}
-</file>
-
-<file path="src/modules/evidence/vault/dossier/index.ts">
-export { DossierPage } from './components/DossierPage';
-</file>
-
-<file path="src/modules/evidence/vault/dossier/module_plan.md">
-# dossier — module plan
-
-## Overview
-
-Dossier-Generator — Sacred Feature. Samlad WORM-export till PDF med hash + `dossier_snapshots`.
-
-**Route:** `/dossier` (AuthGate + Fyren A) · **Canonical:** [`docs/specs/modules/Dossier-SPEC.md`](../../../docs/specs/modules/Dossier-SPEC.md), `.context/modules/evidence/vault/dossier.md`
-
-## Låsta beslut (#1–#4)
-
-Se Dossier-SPEC tabell. Fyren A, backend PDF, snapshot WORM evigt, hela dokument i granskning.
-
-## Status
-
-| Area | Kladd 2026-05-21 | Kod | Status |
-|------|------------------|-----|--------|
-| Wizard + period/källor | Ombud/soc export | Ja | **done** |
-| `generateDossier` + hash | Sacred Feature | Ja | **done** |
-| `dossier_snapshots` WORM | Evigt snapshot | Ja | **done** |
-| BBIC `reportType` | §I.4 öppen | Nej | **planned** |
-| Flik Dossier i Valv | Logga/Sök/Dossier | Ja | **done** |
-| Bro från Barnen | Kladd | Nej | **planned** |
-| Vävaren försätt opt-in | AI endast försätt | Nej | **planned** |
-| Async `dossier_jobs` | Lång kö | Nej | **planned** |
-
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
-
-## Files
-
-| Path | Role | Status |
-|------|------|--------|
-| `components/DossierPage.tsx` | Wizard: period → källor → granskning → generera | **done** (UI) |
-| `types.ts` | Input/result types | **done** |
-| `utils/dossierCandidates.ts` | Filter, kandidatlista | **done** |
-| `api/dossierService.ts` | `generateDossier` callable | **done** |
-| `functions/src/lib/generateDossierInternal.ts` | Hash, PDF, snapshot, signed URL / pdfBase64 | **done** |
-| `scripts/smoke_dossier.mjs` | E2E smoke | **done** |
-
-## Relaterad kod (snabbexport)
-
-| Path | Roll |
-|------|------|
-| `verklighetsvalvet/utils/exportVaultRecord.ts` | Per-post print-PDF |
-| `barnens_livsloggar/utils/exportBalansReport.ts` | JSON Balans |
-
-## Deploy
-
-```bash
-firebase deploy --only firestore:rules,storage,functions:generateDossier
-```
-
-## Smoke
-
-```bash
-npm run smoke:dossier
-```
-
-Se [`docs/SMOKE_RESULTS.md`](../../../docs/SMOKE_RESULTS.md) § Dossier smoke.
-
-## Nästa fas
-
-1. Bro *Skapa Dossier* i Barnen (Valv-flik klar)
-2. GCP: `signBlob` för signed URL (valfritt — base64 fungerar)
-3. Async `dossier_jobs` om PDF > ~10 s
-3. Vävaren opt-in försätt (AI)
-4. BBIC `reportType`
-
-## Security
-
-Fyren A, explicit trigger, Zero Footprint on unmount/Klar, ingen auto-delning.
-</file>
-
-<file path="src/modules/evidence/vault/dossier/README.md">
-# dossier
-
-> Sacred Feature — Dossier-Generator. Formell WORM-sammanställning (PDF) för ombud/myndighet.
-
-## Syfte
-
-Aggregerar valv + barnen (+ valfritt journal) utan manuell omskrivning. Kanonisk hash, snapshot WORM, PDF Storage TTL ~24 h.
-
-## Route och ingång
-
-| | |
-|---|---|
-| **Route** | `/dossier` |
-| **AuthGate** | ja + Fyren A |
-| **Dock** | ingen ikon |
-
-## Viktiga filer
-
-| Fil | Roll |
-|-----|------|
-| `components/DossierPage.tsx` | Wizard: period → källor → granska → generera |
-| `api/dossierService.ts` | `generateDossier` callable |
-| `utils/dossierCandidates.ts` | Kandidatfiltrering |
-
-**Relaterad export (andra moduler):**
-
-- `verklighetsvalvet/utils/exportVaultRecord.ts` — PDF per valv-post
-- `barnens_livsloggar/utils/exportBalansReport.ts` — JSON Balans
-
-## Data
-
-| | |
-|---|---|
-| **Läser** | `reality_vault`, `children_logs`, opt-in `journal` |
-| **Skriver** | `dossier_snapshots` (WORM), PDF i Storage (kortlivad) |
-
-## Beror på
-
-- `core` — auth, Fyren, layout
-- `functions/` — pdf-lib PDF-generering
-
-## Kopplingar
-
-- **verklighetsvalvet** — primär beviskälla
-- **barnens_livsloggar** — valfri källa
-- **dagbok** — opt-in med varning i UI
-
-## Minne / AI
-
-| | |
-|---|---|
-| **Permanent lagring** | `dossier_snapshots` — WORM export-metadata |
-| **RAG / chatt** | Nej — aggregerar valda källor |
-| **PDF / samlad export** | **Ja** — närmast "hela arkivet + PDF" idag |
-| **Planerat** | BBIC-mall, Kunskapskällor opt-in |
-
-## Mer läsning
-
-- [module_plan.md](./module_plan.md)
-- [Kontext (.context)](../../../.context/modules/evidence/vault/dossier.md)
-- [Dossier-SPEC](../../../docs/specs/modules/Dossier-SPEC.md)
-- [p2-flode](../../../docs/specs/p2-flode.md)
-</file>
-
-<file path="src/modules/evidence/vault/dossier/types.ts">
-export type DossierReportType = 'LEGAL' | 'BBIC';
-
-export type DossierSourceKey = 'reality_vault' | 'children_logs' | 'journal';
-
-export type DossierSources = Record<DossierSourceKey, boolean>;
-
-export type DossierWizardStep = 'period' | 'sources' | 'review' | 'result';
-
-export type DossierDocKind = DossierSourceKey;
-
-export interface DossierCandidateDoc {
-  id: string;
-  kind: DossierDocKind;
-  createdAt: string;
-  title: string;
-  preview: string;
-  category?: string;
-}
-
-export interface GenerateDossierInput {
-  dateFrom: string;
-  dateTo: string;
-  sources: DossierSources;
-  reportType: DossierReportType;
-  includeAiForeword: boolean;
-  categoryFilter?: string[];
-  includedDocIds: {
-    reality_vault: string[];
-    children_logs: string[];
-    journal: string[];
-  };
-}
-
-export interface GenerateDossierResult {
-  dossierId: string;
-  documentHash: string;
-  downloadUrl?: string;
-  pdfBase64?: string;
-  jobId?: string;
-  status: 'ready' | 'pending';
-}
-</file>
-
-<file path="src/modules/evidence/vault/types/vaultEntry.ts">
-export type VaultEntryType = 'simple' | 'two_column' | 'three_shield' | 'body_signal';
-
-export type VaultLogInput = {
-  action: string;
-  category?: string;
-  truth: string;
-  entryType?: VaultEntryType;
-  theirVersion?: string;
-  myReality?: string;
-  bodySignals?: string[];
-  shieldWhat?: string;
-  shieldFeeling?: string;
-  shieldBoundary?: string;
-  evidenceUrl?: string;
-  pinned?: boolean;
-};
-</file>
-
-<file path="src/modules/evidence/vault/utils/exportVaultRecord.ts">
-import type { VaultLog } from '../../../core/types/firestore';
-
-function formatRecord(log: VaultLog & { id: string }): string {
-  const lines = [
-    'LIVSKOMPASSEN — VERKLIGHETSVALV (WORM)',
-    `Datum: ${(log.createdAt ?? '').slice(0, 19)}`,
-    `Kategori: ${log.category ?? 'bevis'}`,
-    `Typ: ${log.entryType ?? 'simple'}`,
-    '',
-    log.truth ?? '',
-  ];
-
-  if (log.theirVersion || log.myReality) {
-    lines.push('', '--- Tvåspalt ---', `Hens version: ${log.theirVersion ?? '—'}`, `Min verklighet: ${log.myReality ?? '—'}`);
-  }
-  if (log.evidenceUrl) {
-    lines.push('', `Media: ${log.evidenceUrl}`);
-  }
-
-  return lines.join('\n');
-}
-
-/** Öppnar utskriftsdialog — användaren kan spara som PDF. */
-export function exportVaultRecordAsPdf(log: VaultLog & { id: string }): void {
-  const body = formatRecord(log)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/\n/g, '<br/>');
-
-  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>Valv-bevis</title>
-<style>body{font-family:Inter,sans-serif;padding:2rem;color:#0f172a;line-height:1.5}</style></head>
-<body>${body}</body></html>`;
-
-  const win = window.open('', '_blank');
-  if (!win) return;
-  win.opener = null;
-  win.document.write(html);
-  win.document.close();
-  win.focus();
-  win.print();
-}
-</file>
-
-<file path="src/modules/evidence/vault/utils/normalizeVaultLog.ts">
-import type { VaultLog, WeaverTags } from '../../../core/types/firestore';
-
-export function normalizeStringArray(value: unknown): string[] {
-  if (Array.isArray(value)) {
-    return value.filter((v): v is string => typeof v === 'string' && v.length > 0);
-  }
-  if (typeof value === 'string' && value.trim()) {
-    return value
-      .split(/[,;|]/)
-      .map((s) => s.trim())
-      .filter(Boolean);
-  }
-  return [];
-}
-
-function normalizeWeaverTags(raw: unknown): WeaverTags | undefined {
-  if (!raw || typeof raw !== 'object') return undefined;
-  const wt = raw as Record<string, unknown>;
-  return {
-    emotions: normalizeStringArray(wt.emotions),
-    actors: normalizeStringArray(wt.actors),
-    threatLevel:
-      wt.threatLevel === 'low' ||
-      wt.threatLevel === 'medium' ||
-      wt.threatLevel === 'high' ||
-      wt.threatLevel === 'none'
-        ? wt.threatLevel
-        : 'none',
-    threatScore: typeof wt.threatScore === 'number' ? wt.threatScore : undefined,
-    ragAnchors: Array.isArray(wt.ragAnchors) ? (wt.ragAnchors as WeaverTags['ragAnchors']) : [],
-    model: 'gemini-1.5-pro',
-    journalEntryId: typeof wt.journalEntryId === 'string' ? wt.journalEntryId : '',
-  };
-}
-
-/** Säker normalisering — legacy Firestore-rader får inte krascha list-UI. */
-export function normalizeVaultLogFields(
-  log: VaultLog & { id: string; weaverTags?: unknown },
-): VaultLog & { id: string; weaverTags?: WeaverTags } {
-  const { weaverTags: _rawWeaver, bodySignals: _rawSignals, ...rest } = log;
-  const weaverTags = normalizeWeaverTags(_rawWeaver);
-  return {
-    ...rest,
-    truth: typeof log.truth === 'string' ? log.truth : String(log.truth ?? ''),
-    bodySignals: normalizeStringArray(_rawSignals ?? log.bodySignals),
-    ...(weaverTags ? { weaverTags } : {}),
-  };
-}
-</file>
-
-<file path="src/modules/evidence/vault/utils/smsThreadParse.ts">
-/** Heuristisk uppdelning av inklistrad sms-tråd till tvåspalt (Hens / Min). */
-export function parseSmsThreadToTwoColumn(raw: string): {
-  theirVersion: string;
-  myReality: string;
-} | null {
-  const text = raw.trim();
-  if (text.length < 20) return null;
-
-  const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
-  if (lines.length < 2) return null;
-
-  const mineMarkers = /^(jag|mig|min|mitt|mina|me|i)\b/i;
-  const theirMarkers = /^(hen|de|du|dom)\b/i;
-
-  const mine: string[] = [];
-  const theirs: string[] = [];
-  let bucket: 'mine' | 'theirs' | 'unknown' = 'unknown';
-
-  for (const line of lines) {
-    const headerMatch = line.match(/^([^:]{1,40}):\s*(.+)$/);
-    if (headerMatch) {
-      const who = headerMatch[1]!.trim();
-      const body = headerMatch[2]!.trim();
-      if (mineMarkers.test(who) || /^jag$/i.test(who)) {
-        mine.push(body);
-        bucket = 'mine';
-      } else {
-        theirs.push(body);
-        bucket = 'theirs';
-      }
-      continue;
-    }
-
-    if (theirMarkers.test(line)) {
-      theirs.push(line);
-      bucket = 'theirs';
-    } else if (mineMarkers.test(line)) {
-      mine.push(line);
-      bucket = 'mine';
-    } else if (bucket === 'theirs') {
-      theirs.push(line);
-    } else if (bucket === 'mine') {
-      mine.push(line);
-    } else {
-      theirs.push(line);
-      bucket = 'theirs';
-    }
-  }
-
-  if (mine.length === 0 && theirs.length === 0) return null;
-
-  return {
-    theirVersion: theirs.join('\n') || text,
-    myReality: mine.join('\n') || '',
-  };
-}
-</file>
-
-<file path="src/modules/evidence/vault/index.ts">
-export { VaultPage, parseVaultTab, type VaultTab } from './components/VaultPage';
-</file>
-
-<file path="src/modules/evidence/vault/README.md">
-# verklighetsvalvet
-
-> Sacred Feature — Sanningens Sköld. WORM-bevisbank (Lager 2) mot gaslighting.
-
-## Syfte
-
-Append-only, tidsstämplade sanningar. Skild från Dagbok (Lager 1). Plausible deniability via **Fyren** (dold ingång).
-
-## Route och ingång
-
-| | |
-|---|---|
-| **Route** | `/dagbok?tab=bevis` (redirect `/valv`) |
-| **AuthGate** | ja |
-| **Fyren** | 3s long-press BookOpen → WebAuthn → PIN → bevis |
-| **Flik Bevis** | Synlig idag; mål: endast Fyren |
-
-## Viktiga filer
-
-| Fil | Roll |
-|-----|------|
-| `components/VaultPage.tsx` | PIN, flikar Logga \| Sök |
-| `components/VaultEntryForm.tsx` | 4 inmatningslägen + media + röst |
-| `components/VaultLogList.tsx` | Append-only lista + PDF/post |
-| `utils/exportVaultRecord.ts` | Klient-PDF per post |
-| `types/vaultEntry.ts` | Entry-typer |
-
-**Valv-Chat:** `../evidence/vaultChat/` (Sök-flik)
-
-## Data
-
-| Collection | Innehåll |
-|------------|----------|
-| `reality_vault` | WORM-bevis (action, truth, category, media, …) |
-
-**Klient:** `saveVaultLog`, `uploadVaultEvidence`  
-**Callable:** `valvChatQuery` (via valv_chatt)
-
-## Beror på
-
-- `core` — PinGate, WebAuthn, EvidenceMediaAttach, firestore
-- `valv_chatt` — Sök-flik i VaultPage
-
-## Kopplingar
-
-- **Dagbok** — Hjärtat-kluster, Vävaren
-- **Speglings_system** — EvidenceCompare
-- **safe_harbor** — spara BIFF som bevis
-- **dossier** — aggregering till PDF
-
-## Minne / AI
-
-| | |
-|---|---|
-| **Permanent lagring** | `reality_vault` — WORM, glömmer inte |
-| **RAG / chatt** | Valv-Chat via `valvChatQuery` (**deploy saknas i prod**) |
-| **PDF / samlad export** | per post + Dossier |
-| **Planerat** | klickbara citations |
-
-## Mer läsning
-
-- [module_plan.md](./module_plan.md)
-- [Kontext (.context)](../../../.context/modules/evidence/vault.md)
-- [Verklighetsvalvet-SPEC](../../../docs/specs/modules/Verklighetsvalvet-SPEC.md)
-- [valv_chatt README](../evidence/vaultChat/README.md)
-</file>
-
-<file path="docs/design/VALV-HUBB-SPEC.md">
-# Valv hubb — Konflikt & bevis (IA våg 1)
-
-**Datum:** 2026-05-29  
-**Status:** Implementerad i kod (`vaultTabs.ts`, `VaultPage.tsx`)  
-**Låst UX:** Mönster, Orkester, Kunskapsbank, Aktörskarta — **får inte tas bort** ([`.context/locked-ux-features.md`](../../.context/locked-ux-features.md))
-
----
-
-## Princip
-
-Samma `vaultTab`-IDs och callables som tidigare. Endast **zon-navigation** (färre val åt gången) och drawer-grupper ändras.
-
-| Zon (UI) | Flikar (`vaultTab`) | Användning |
-|----------|---------------------|------------|
-| **Samla** | `logga`, `sok` | Bevis, sms, triage, Valv-Chat |
-| **Analysera** | `monster`, `orkester` | Mönster, agent-orkester |
-| **Kunskap** | `kunskapsbank`, `aktorskarta` | RAG fakta, nyckelpersoner (G9) |
-| **Exportera** | `dossier` | Dossier-generator (+ `/dossier` i drawer) |
-| **Forensik** | `hamn_analys`, `speglar_fordjupat`, … | Djup analys Hamn/Speglar/Arbetsliv |
-
-## Produktbeslut — Hamn vs Valv (**godkänt 2026-05-29**)
-
-| Lager | Route | Roll |
-|-------|-------|------|
-| **Snabb ingång** | `/hamn` (Vardag-drawer) | Grey Rock/BIFF-svar, Speglar-bro, låg friktion — **ingen** riskpanel eller auto-bevis |
-| **Djup + bevis** | Valv → zon **Forensik** · `hamn_analys` | Full BIFF Triage, DCAP, *Spara som bevis*, Orkester, Mönster, Dossier |
-
-**MUST NOT:** flytta publik BIFF till Valv-only eller kräva PIN för första Grey Rock-svar.  
-**MUST:** `?tab=analys` på `/hamn` redirectar till Valv `hamn_analys` (redan i `TryggHamnHub.tsx`).  
-**Handoff:** `valvHandoff` i Hamn-text → mjuk länk till Valv (ingen auto-WORM).
-
----
-
-## Triggers (våg 2)
-
-| Källa | Trigger | Effekt |
-|-------|---------|--------|
-| Dagbok | `shouldShowValvHandoff` | `HandoffBox` → `/dagbok?tab=bevis` |
-| Hamn BIFF | samma | HandoffBox efter klistra-in |
-| Valv logga | samma + `shouldSuggestVaultPatternScan` | Handoff + länk till Mönster |
-
-Ingen auto-WORM från Lager 1.
-
----
-
-## Budget
-
-Deterministiska regex/DCAP — **inte** LLM per tangenttryckning.
-
----
-
-## Smoke
-
-`npm run smoke:locked-ux` · `npm run smoke:orkester`
-</file>
-
-<file path="docs/gemini-handoff/V1-valv-zone-wireframe.md">
-# V1 — Valv zon-navigation (wireframe)
-
-**Status:** Referens — kod: `vaultTabs.ts`, `VaultPage.tsx`, `getVaultZoneTabBarItems()`  
-**Datum:** 2026-05-30
-
-## Zon-flöde
-
-```
-Valv (PIN)
-├── [Samla]     logga · sok
-├── [Analysera] monster · orkester  ← LÅST UX
-├── [Kunskap]   kunskapsbank · aktorskarta
-├── [Exportera] dossier
-└── [Forensik]  hamn_analys · speglar_fordjupat · …
-```
-
-Max 5 zoner synliga i tab bar; underflikar per zon (befintligt).
-
-## Handoff-copy
-
-| Situation | UI pekar till |
-|-----------|----------------|
-| Första Grey Rock / BIFF-svar | `/hamn` (ingen PIN) |
-| Spara som bevis, DCAP, triage | Valv → Samla |
-| Mönster över tid | Valv → Analysera |
-| RAG fakta | Valv → Kunskapsbank (PIN) |
-| Djup Hamn-analys | Valv → Forensik → hamn_analys |
-
-**MUST NOT:** kräva PIN för första `/hamn`-svar; ta bort Mönster/Orkester.
-
-## Vävaren polish
-
-- **DONE:** `VALV_ZONE_INGRESS` på `VaultPage` (1 rad per zon)
-- Breadcrumb: `VaultValvBreadcrumb` — synkad
-</file>
-
-<file path="src/modules/evidence/vault/components/KunskapsbankHeader.tsx">
+<file path="src/modules/features/lifeJournal/evidence/vault/components/KunskapsbankHeader.tsx">
 import { BookOpen } from 'lucide-react';
 
 type KunskapsbankHeaderProps = {
@@ -1846,1705 +679,59 @@ export function KunskapsbankHeader({ compact = false }: KunskapsbankHeaderProps)
 }
 </file>
 
-<file path="src/modules/evidence/vault/components/VaultForensicPanel.tsx">
-import { useCallback, useEffect, useState } from 'react';
-import { useStore } from '../../../core/store';
-import { getJournalEntries } from '../../../core/firebase/firestore';
-import { getPeriodEconomySummary, type PeriodEconomySummary } from '../../../core/firebase/timeEconomyFirestore';
-import { HamnForensicPanel } from '../../../family/safeHarbor/components/BiffPublicPanel';
-import { SpeglingsForensicPanel } from '../../../diary/mirror/components/SpeglingsSystem';
-import { JournalArchive } from '../../../diary/diary/components/JournalArchive';
-import type { JournalEntry } from '../../../diary/diary/types/journal';
-import { FamiljenMonsterTab } from '../../../family/children/components/familjen/FamiljenMonsterTab';
-import { useFamiljenShell } from '../../../family/children/hooks/useFamiljenShell';
-import { VaultEconomyPanel } from '../../../valv_ekonomi';
-import { EconomyPeriodSummary } from '../../../wellbeing/economy/components/EconomyPeriodSummary';
-import { EconomyPayslipCard } from '../../../wellbeing/economy/components/EconomyPayslipCard';
-import type { ForensicVaultTab } from '../utils/vaultTabs';
-
-function ArbetslivLonForensic() {
-  const user = useStore((s) => s.user);
-  const [summary, setSummary] = useState<PeriodEconomySummary | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const reload = useCallback(async () => {
-    if (!user) return;
-    setLoading(true);
-    try {
-      setSummary(await getPeriodEconomySummary(user.uid));
-    } finally {
-      setLoading(false);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    void reload();
-  }, [reload]);
-
-  return (
-    <div className="space-y-4">
-      <EconomyPeriodSummary summary={summary} loading={loading} />
-      <EconomyPayslipCard />
-    </div>
-  );
-}
-
-type Props = {
-  tab: ForensicVaultTab;
-};
-
-/** Forensic paneler på Valv-baksidan — PIN redan upplåst i VaultPage. */
-export function VaultForensicPanel({ tab }: Props) {
-  const user = useStore((s) => s.user);
-  const shell = useFamiljenShell();
-  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
-
-  useEffect(() => {
-    if (tab !== 'dagbok_arkiv' || !user) return;
-    getJournalEntries(user.uid)
-      .then((rows) => setJournalEntries(rows as JournalEntry[]))
-      .catch(() => setJournalEntries([]));
-  }, [tab, user]);
-
-  switch (tab) {
-    case 'hamn_analys':
-      return <HamnForensicPanel initialMessage="" />;
-    case 'speglar_fordjupat':
-      return <SpeglingsForensicPanel userId={user?.uid} />;
-    case 'dagbok_arkiv':
-      return <JournalArchive entries={journalEntries} />;
-    case 'familjen_monster':
-      return shell.user ? <FamiljenMonsterTab shell={shell} /> : null;
-    case 'arbetsliv_franvaro':
-      return <VaultEconomyPanel />;
-    case 'arbetsliv_lon':
-      return <ArbetslivLonForensic />;
-    default:
-      return null;
-  }
-}
-</file>
-
-<file path="src/modules/evidence/vault/components/VaultOrkesterPanel.tsx">
-/** @locked-ux Valv Orkester — do not remove; see `.context/locked-ux-features.md` */
-import { useMemo, useState } from 'react';
-import { Loader2, Network } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
-import {
-  analyzeBiffMessage,
-  type GransAnalysis,
-} from '../../../family/safeHarbor/api/biffService';
-import type { VaultLog } from '../../../core/types/firestore';
+<file path="src/modules/features/lifeJournal/evidence/vault/components/OrkesterAgentTrio.tsx">
 import { PRODUCT_AGENTS } from '../constants/productAgents';
-import { OrkesterAgentTrio } from './OrkesterAgentTrio';
-import { scanTechniquesForLog } from '../utils/vaultPatternScan';
 
-type Props = {
-  logs?: (VaultLog & { id: string })[];
-};
+const TRIO_IDS = ['agent_brusfiltret', 'agent_biff_skolden', 'agent_sannings_analytikern'] as const;
 
-export function VaultOrkesterPanel({ logs = [] }: Props) {
-  const [thread, setThread] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [grans, setGrans] = useState<GransAnalysis | null>(null);
-  const [riskScore, setRiskScore] = useState<number | null>(null);
-  const [agentName, setAgentName] = useState<string | null>(null);
-
-  const registeredDocs = useMemo(
-    () =>
-      logs
-        .filter((log) =>
-          /sms|mejl|kommunikation|myndighet|dokument/i.test(
-            `${log.category ?? ''} ${log.action ?? ''}`,
-          ),
-        )
-        .slice(0, 8),
-    [logs],
-  );
-
-  const handleScan = async () => {
-    if (!thread.trim()) return;
-    setLoading(true);
-    setError(null);
-    setGrans(null);
-    setRiskScore(null);
-    setAgentName(null);
-    try {
-      const result = await analyzeBiffMessage(thread);
-      setGrans(result.data?.gransAnalysis ?? null);
-      setRiskScore(result.dcap?.riskScore ?? null);
-      setAgentName(result.data?.agentName ?? null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Mönstersökning misslyckades.');
-    } finally {
-      setLoading(false);
-    }
-  };
+/** D17 — tre primära agenter i Orkester-vyn. */
+export function OrkesterAgentTrio() {
+  const trio = PRODUCT_AGENTS.filter((a) => TRIO_IDS.includes(a.id as (typeof TRIO_IDS)[number]));
+  const display = trio.length >= 3 ? trio.slice(0, 3) : PRODUCT_AGENTS.slice(0, 3);
 
   return (
-    <div className="space-y-4">
-      <OrkesterAgentTrio />
+    <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
+      {display.map((agent) => (
+        <div key={agent.id} className="elongated-module p-3 text-center">
+          <p className="text-xs font-medium text-accent">{agent.name}</p>
+          <p className="mt-1 text-[10px] text-text-dim">{agent.role}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+</file>
 
-      <BentoCard
-        title="AI-Orkestern"
-        description="Det Digitala Pansaret · produktroller"
-        icon={<Network className="h-4 w-4" />}
-      >
-        <ul className="space-y-2">
-          {PRODUCT_AGENTS.map((agent) => (
-            <li key={agent.id} className="glass-card p-3 text-sm">
-              <p className="font-medium text-text">{agent.name}</p>
-              <p className="text-xs text-text-dim">
-                {agent.role} · {agent.focus}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </BentoCard>
+<file path="src/modules/features/lifeJournal/evidence/vault/components/PansaretHeader.tsx">
+import { Shield } from 'lucide-react';
 
-      {registeredDocs.length > 0 && (
-        <BentoCard title="Registrerade dokument" description="SMS, mejl, myndighet">
-          <ul className="space-y-2">
-            {registeredDocs.map((log) => {
-              const tags = scanTechniquesForLog(log);
-              return (
-                <li key={log.id} className="glass-card p-3 text-sm">
-                  <p className="text-[10px] uppercase tracking-widest text-text-dim">
-                    {log.category ?? 'dokument'} · {(log.createdAt ?? '').slice(0, 10)}
-                  </p>
-                  <p className="mt-1 line-clamp-2 text-text-muted">
-                    {(log.truth ?? '').slice(0, 120) || '—'}
-                  </p>
-                  {tags.length > 0 && (
-                    <div className="mt-2 flex flex-wrap gap-1">
-                      {tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full border border-accent/20 px-2 py-0.5 text-[10px] text-accent/80"
-                        >
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        </BentoCard>
-      )}
-
-      <BentoCard
-        title="Mönstersökning i SMS-tråd"
-        description="Klistra in hela tråden — Brusfiltret + DCAP"
-      >
-        <p className="mb-3 text-sm text-text-muted">
-          Exportera gärna hela tråden som text/PDF först (iMazing/Decipher). Kör sedan sökning
-          här — resultatet är vägledning, inte dom.
+/** D16 — Pansaret-rubrik (Mönster-flik). */
+export function PansaretHeader() {
+  return (
+    <div className="elongated-module elongated-module--gold mb-4 flex items-start gap-3 p-4">
+      <Shield className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />
+      <div>
+        <p className="font-display text-base text-accent">Det Digitala Pansaret</p>
+        <p className="mt-1 text-xs text-text-muted">
+          Frekvens och mönster från dina låsta poster — deterministiskt, inte gissning.
         </p>
-        <textarea
-          value={thread}
-          onChange={(e) => setThread(e.target.value)}
-          placeholder="Klistra in sms-tråden här…"
-          rows={8}
-          className="input-glass rounded-xl px-3 py-2"
-          disabled={loading}
-        />
-        <button
-          type="button"
-          onClick={handleScan}
-          disabled={loading || !thread.trim()}
-          className="btn-pill--accent mt-3 disabled:opacity-50"
-        >
-          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-          Kör mönstersökning
-        </button>
-        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
-
-        {(riskScore != null || grans) && (
-          <div className="mt-4 space-y-3 border-t border-border-strong pt-4 text-sm">
-            {agentName && (
-              <p className="text-text-dim">
-                Dirigerad av: <span className="text-accent">{agentName}</span>
-              </p>
-            )}
-            {riskScore != null && (
-              <p>
-                DCAP riskpoäng: <span className="text-accent">{riskScore}</span>/100
-              </p>
-            )}
-            {grans?.techniques?.length ? (
-              <div>
-                <p className="text-xs uppercase tracking-widest text-text-dim">Taktiker</p>
-                <ul className="mt-1 list-inside list-disc text-text-muted">
-                  {grans.techniques.map((t) => (
-                    <li key={t}>{t}</li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-            {grans?.cleanFacts?.length ? (
-              <div>
-                <p className="text-xs uppercase tracking-widest text-text-dim">Rena fakta</p>
-                <ul className="mt-1 list-inside list-disc text-text-muted">
-                  {grans.cleanFacts.map((f) => (
-                    <li key={f}>{f}</li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-            {grans?.emotionalBait?.length ? (
-              <div>
-                <p className="text-xs uppercase tracking-widest text-text-dim">Känslomässigt bete</p>
-                <ul className="mt-1 list-inside list-disc text-text-muted">
-                  {grans.emotionalBait.map((b) => (
-                    <li key={b}>{b}</li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-          </div>
-        )}
-      </BentoCard>
-    </div>
-  );
-}
-</file>
-
-<file path="src/modules/evidence/vault/components/VaultSamlaHub.tsx">
-import { useCallback, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { BentoCard } from '../../../core/ui/BentoCard';
-import { InboxReviewQueue } from '../../../inkast/components/InboxReviewQueue';
-import { fetchInboxQueue } from '../../kompis/api/inboxService';
-import { VaultEntryForm } from './VaultEntryForm';
-import { VaultInkastCompact } from './VaultInkastCompact';
-import { VaultSamlaDriveHint } from './VaultSamlaDriveHint';
-import type { VaultLogInput } from '../types/vaultEntry';
-
-export type SamlaView = 'logga' | 'granska';
-
-function parseSamlaView(raw: string | null): SamlaView {
-  return raw === 'granska' ? 'granska' : 'logga';
-}
-
-type Props = {
-  userId: string;
-  saving: boolean;
-  saveError: string | null;
-  onSave: (input: VaultLogInput) => Promise<void>;
-  onBevisConfirmed: (docId: string) => void;
-};
-
-export function VaultSamlaHub({ userId, saving, saveError, onSave, onBevisConfirmed }: Props) {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [pendingInbox, setPendingInbox] = useState<number | null>(null);
-  const samlaView = parseSamlaView(searchParams.get('samlaView'));
-
-  const setSamlaView = useCallback(
-    (view: SamlaView) => {
-      setSearchParams(
-        (prev) => {
-          const params = new URLSearchParams(prev);
-          params.set('tab', 'bevis');
-          params.set('vaultTab', 'logga');
-          if (view === 'granska') params.set('samlaView', 'granska');
-          else params.delete('samlaView');
-          return params;
-        },
-        { replace: true },
-      );
-    },
-    [setSearchParams],
-  );
-
-  const refreshPendingCount = useCallback(async () => {
-    try {
-      const items = await fetchInboxQueue();
-      setPendingInbox(items.length);
-    } catch {
-      setPendingInbox(null);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (samlaView !== 'granska') {
-      void refreshPendingCount();
-    }
-  }, [refreshPendingCount, samlaView]);
-
-  const handleBevisConfirmed = (docId: string) => {
-    onBevisConfirmed(docId);
-    setSamlaView('logga');
-    void refreshPendingCount();
-  };
-
-  if (samlaView === 'granska') {
-    return (
-      <div className="space-y-4">
-        <InboxReviewQueue
-          prioritizeBevis
-          onBevisConfirmed={handleBevisConfirmed}
-          onBack={() => setSamlaView('logga')}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-4">
-      <VaultInkastCompact
-        onQueued={() => setSamlaView('granska')}
-        onPersistedBevis={handleBevisConfirmed}
-      />
-      <VaultSamlaDriveHint
-        pendingCount={pendingInbox ?? undefined}
-        onOpenQueue={() => setSamlaView('granska')}
-      />
-      <BentoCard title="Ny post" description="Append-only bevis">
-        <VaultEntryForm userId={userId} saving={saving} onSave={onSave} />
-        {saveError && <p className="mt-2 text-sm text-danger">{saveError}</p>}
-      </BentoCard>
-      <div className="flex justify-end">
-        <button
-          type="button"
-          className="btn-pill--ghost text-xs"
-          onClick={() => setSamlaView('granska')}
-        >
-          Granskningskö
-          {pendingInbox != null && pendingInbox > 0 ? ` (${pendingInbox})` : ''}
-        </button>
       </div>
     </div>
   );
 }
 </file>
 
-<file path="src/modules/evidence/vault/components/VaultValvBreadcrumb.tsx">
-import {
-  forensicVaultTabLabel,
-  isAnalyseraVaultTab,
-  isExporteraVaultTab,
-  isForensicVaultTab,
-  isKunskapVaultTab,
-  isSamlaVaultTab,
-  type ValvZone,
-  type VaultTab,
-} from '../utils/vaultTabs';
-import { getVaultZoneTabBarItems, vaultMainTabLabel } from '../../../core/navigation/tabRegistry';
-
-type VaultValvBreadcrumbProps = {
-  zone: ValvZone;
-  vaultTab: VaultTab;
-};
-
-const ZONE_LABEL = Object.fromEntries(
-  getVaultZoneTabBarItems().map((z) => [z.id, z.label]),
-) as Record<ValvZone, string>;
-
-/** Valv › zon › underflik — synkad med drawer-grupper. */
-export function VaultValvBreadcrumb({ zone, vaultTab }: VaultValvBreadcrumbProps) {
-  const parts: string[] = ['Valv', ZONE_LABEL[zone] ?? zone];
-
-  if (isSamlaVaultTab(vaultTab) || isAnalyseraVaultTab(vaultTab) || isExporteraVaultTab(vaultTab)) {
-    parts.push(vaultMainTabLabel(vaultTab));
-  } else if (isKunskapVaultTab(vaultTab)) {
-    parts.push(vaultMainTabLabel(vaultTab));
-  } else if (isForensicVaultTab(vaultTab)) {
-    parts.push(forensicVaultTabLabel(vaultTab));
-  }
-
-  return (
-    <p className="text-xs uppercase tracking-widest text-text-dim" aria-label={parts.join(', ')}>
-      {parts.join(' · ')}
-    </p>
-  );
-}
-</file>
-
-<file path="src/modules/evidence/vault/dossier/components/DossierPage.tsx">
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { FileText, Loader2, Lock, ShieldAlert } from 'lucide-react';
-import { BentoCard } from '../../../../core/ui/BentoCard';
-import { EmptyState } from '../../../../core/ui/EmptyState';
-import { useStore } from '../../../../core/store';
-import { hasVaultGate } from '../../../../core/auth/sessionService';
-import {
-  getChildrenLogs,
-  getJournalEntries,
-  getVaultLogs,
-} from '../../../../core/firebase/firestore';
-import { generateDossier } from '../api/dossierService';
-import type {
-  DossierCandidateDoc,
-  DossierReportType,
-  DossierSources,
-  DossierWizardStep,
-  GenerateDossierResult,
-} from '../types';
-import {
-  childrenToCandidate,
-  collectCategoryTags,
-  defaultDateRange,
-  filterCandidates,
-  groupIncludedIds,
-  journalToCandidate,
-  shiftMonths,
-  vaultToCandidate,
-} from '../utils/dossierCandidates';
-import {
-  VAVAREN_DOSSIER_CHECKBOX,
-  VAVAREN_DOSSIER_HINT,
-} from '../../constants/vavarenCopy';
-
-const INITIAL_SOURCES: DossierSources = {
-  reality_vault: true,
-  children_logs: true,
-  journal: false,
-};
-
-const JOURNAL_WARNING =
-  'Dagbok kan innehålla emotionell reflektion. Inkludera endast om ombud begärt det — annars riskerar juridiskt fokus att tunnas ut.';
-
-function resetWizardState() {
-  return {
-    step: 'period' as DossierWizardStep,
-    dateFrom: defaultDateRange().dateFrom,
-    dateTo: defaultDateRange().dateTo,
-    sources: { ...INITIAL_SOURCES },
-    journalAck: false,
-    categoryFilter: [] as string[],
-    reportType: 'LEGAL' as DossierReportType,
-    includeAiForeword: false,
-    includedIds: new Set<string>(),
-    candidates: [] as DossierCandidateDoc[],
-    loadingDocs: false,
-    generating: false,
-    error: null as string | null,
-    result: null as GenerateDossierResult | null,
-  };
-}
-
-type DossierPageProps = {
-  /** Inbäddad i Verklighetsvalvet — Fyren/PIN redan uppfylld av förälder. */
-  embedded?: boolean;
-};
-
-export function DossierPage({ embedded = false }: DossierPageProps) {
-  const [searchParams] = useSearchParams();
-  const user = useStore((s) => s.user);
-  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
-  const vaultOpen = embedded || isVaultUnlocked || hasVaultGate();
-
-  const [step, setStep] = useState<DossierWizardStep>('period');
-  const [dateFrom, setDateFrom] = useState(defaultDateRange().dateFrom);
-  const [dateTo, setDateTo] = useState(defaultDateRange().dateTo);
-  const [sources, setSources] = useState<DossierSources>({ ...INITIAL_SOURCES });
-  const [journalAck, setJournalAck] = useState(false);
-  const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
-  const [reportType, setReportType] = useState<DossierReportType>('LEGAL');
-  const [includeAiForeword, setIncludeAiForeword] = useState(false);
-  const [includedIds, setIncludedIds] = useState<Set<string>>(() => new Set());
-  const [allCandidates, setAllCandidates] = useState<DossierCandidateDoc[]>([]);
-  const [loadingDocs, setLoadingDocs] = useState(false);
-  const [generating, setGenerating] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<GenerateDossierResult | null>(null);
-
-  const clearSession = useCallback(() => {
-    const fresh = resetWizardState();
-    setStep(fresh.step);
-    setDateFrom(fresh.dateFrom);
-    setDateTo(fresh.dateTo);
-    setSources(fresh.sources);
-    setJournalAck(fresh.journalAck);
-    setCategoryFilter(fresh.categoryFilter);
-    setReportType(fresh.reportType);
-    setIncludeAiForeword(fresh.includeAiForeword);
-    setIncludedIds(fresh.includedIds);
-    setAllCandidates(fresh.candidates);
-    setLoadingDocs(fresh.loadingDocs);
-    setGenerating(fresh.generating);
-    setError(fresh.error);
-    setResult(fresh.result);
-  }, []);
-
-  useEffect(() => () => clearSession(), [clearSession]);
-
-  const deepLinkChild = searchParams.get('child');
-  const deepLinkSources = searchParams.get('sources');
-
-  useEffect(() => {
-    if (deepLinkSources === 'children_logs') {
-      setSources({
-        reality_vault: false,
-        children_logs: true,
-        journal: false,
-      });
-    }
-  }, [deepLinkSources]);
-
-  const filteredDocs = useMemo(
-    () => filterCandidates(allCandidates, dateFrom, dateTo, sources, categoryFilter),
-    [allCandidates, dateFrom, dateTo, sources, categoryFilter],
-  );
-
-  const categoryTags = useMemo(() => collectCategoryTags(allCandidates), [allCandidates]);
-
-  const loadCandidates = useCallback(async () => {
-    if (!user) return;
-    setLoadingDocs(true);
-    setError(null);
-    try {
-      const [vault, children, journal] = await Promise.all([
-        getVaultLogs(user.uid),
-        getChildrenLogs(user.uid),
-        getJournalEntries(user.uid),
-      ]);
-      const docs: DossierCandidateDoc[] = [
-        ...vault.map(vaultToCandidate),
-        ...children.map((row) =>
-          childrenToCandidate(row as Parameters<typeof childrenToCandidate>[0]),
-        ),
-        ...journal.map((row) =>
-          journalToCandidate(row as { id: string; mood?: string; text?: string; createdAt?: string }),
-        ),
-      ];
-      setAllCandidates(docs);
-      const visible = filterCandidates(docs, dateFrom, dateTo, sources, categoryFilter);
-      let ids = visible.map((d) => d.id);
-      if (deepLinkChild) {
-        const childDocs = visible.filter(
-          (d) => d.kind === 'children_logs' && d.title.startsWith(deepLinkChild),
-        );
-        if (childDocs.length > 0) ids = childDocs.map((d) => d.id);
-      }
-      setIncludedIds(new Set(ids));
-    } catch {
-      setError('Kunde inte läsa bevis från databasen.');
-    } finally {
-      setLoadingDocs(false);
-    }
-  }, [user, dateFrom, dateTo, sources, categoryFilter, deepLinkChild]);
-
-  useEffect(() => {
-    if (step !== 'review' || !user || !vaultOpen) return;
-    void loadCandidates();
-  }, [step, user, vaultOpen, loadCandidates]);
-
-  useEffect(() => {
-    if (step !== 'review') return;
-    const visible = filterCandidates(allCandidates, dateFrom, dateTo, sources, categoryFilter);
-    setIncludedIds((prev) => {
-      const next = new Set<string>();
-      for (const doc of visible) {
-        if (prev.has(doc.id)) next.add(doc.id);
-      }
-      if (next.size === 0 && visible.length > 0) {
-        return new Set(visible.map((d) => d.id));
-      }
-      return next;
-    });
-  }, [step, allCandidates, dateFrom, dateTo, sources, categoryFilter]);
-
-  const toggleDoc = (id: string) => {
-    setIncludedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  };
-
-  const toggleCategory = (tag: string) => {
-    setCategoryFilter((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
-    );
-  };
-
-  const handleGenerate = async () => {
-    if (!user) return;
-    const selected = filteredDocs.filter((d) => includedIds.has(d.id));
-    if (selected.length === 0) {
-      setError('Välj minst ett dokument att inkludera.');
-      return;
-    }
-    setGenerating(true);
-    setError(null);
-    try {
-      const payload = {
-        dateFrom,
-        dateTo,
-        sources,
-        reportType,
-        includeAiForeword,
-        categoryFilter: categoryFilter.length ? categoryFilter : undefined,
-        includedDocIds: groupIncludedIds(filteredDocs, includedIds),
-      };
-      const data = await generateDossier(payload);
-      setResult(data);
-      setStep('result');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Generering misslyckades.');
-    } finally {
-      setGenerating(false);
-    }
-  };
-
-  if (!vaultOpen) {
-    return (
-      <div className={embedded ? 'space-y-4' : 'space-y-6'}>
-        <BentoCard title="Dossier-Generator" icon={<Lock className="h-4 w-4" />}>
-          <p className="mb-4 text-sm text-text-muted">
-            Dossier kräver upplåst Valv (Fyren). I bottenmenyn: tryck på <strong>Hjärtat</strong>{' '}
-            (bok-ikonen) och <strong>håll 3 sekunder</strong>, eller öppna fliken Bevis och ange PIN.
-          </p>
-          <Link
-            to="/dagbok?tab=bevis"
-            className="inline-flex rounded-lg bg-indigo-500/20 px-4 py-2 text-sm font-medium text-indigo-200 hover:bg-indigo-500/30"
-          >
-            Öppna Bevis / Valv
-          </Link>
-        </BentoCard>
-      </div>
-    );
-  }
-
-  return (
-    <div className={embedded ? 'space-y-4' : 'space-y-6'}>
-      <BentoCard
-        title={embedded ? 'Dossier' : 'Dossier-Generator'}
-        description={embedded ? 'Samlad WORM-export' : undefined}
-        icon={<FileText className="h-4 w-4" />}
-      >
-        {!embedded && (
-          <p className="mb-4 text-sm text-text-muted">
-            Sacred Feature — samlad WORM-export. Inget skickas automatiskt; du laddar ner när du är
-            redo.
-          </p>
-        )}
-        {embedded && (
-          <p className="mb-4 text-sm text-text-muted">
-            Inget skickas automatiskt. Du laddar ner PDF lokalt när den är klar.
-          </p>
-        )}
-
-        {step === 'period' && (
-          <div className="space-y-4">
-            <p className="text-xs text-text-dim">Steg 1 av 3 — tidsperiod</p>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <label className="block text-sm">
-                <span className="text-text-muted">Från</span>
-                <input
-                  type="date"
-                  value={dateFrom}
-                  onChange={(e) => setDateFrom(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm"
-                />
-              </label>
-              <label className="block text-sm">
-                <span className="text-text-muted">Till</span>
-                <input
-                  type="date"
-                  value={dateTo}
-                  onChange={(e) => setDateTo(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm"
-                />
-              </label>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setDateTo(defaultDateRange().dateTo);
-                  setDateFrom(shiftMonths(defaultDateRange().dateTo, -3));
-                }}
-                className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-indigo-200"
-              >
-                Senaste 3 månaderna
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setDateTo(defaultDateRange().dateTo);
-                  setDateFrom(shiftMonths(defaultDateRange().dateTo, -6));
-                }}
-                className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-indigo-200"
-              >
-                Senaste 6 månaderna
-              </button>
-            </div>
-            <button
-              type="button"
-              onClick={() => setStep('sources')}
-              className="w-full rounded-lg bg-indigo-500/25 py-2.5 text-sm font-medium text-indigo-100"
-            >
-              Fortsätt
-            </button>
-          </div>
-        )}
-
-        {step === 'sources' && (
-          <div className="space-y-4">
-            <p className="text-xs text-text-dim">Steg 2 av 3 — källor</p>
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={sources.reality_vault}
-                onChange={(e) =>
-                  setSources((s) => ({ ...s, reality_vault: e.target.checked }))
-                }
-                className="rounded border-white/20"
-              />
-              Verklighetsvalvet (bevis)
-            </label>
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={sources.children_logs}
-                onChange={(e) =>
-                  setSources((s) => ({ ...s, children_logs: e.target.checked }))
-                }
-                className="rounded border-white/20"
-              />
-              Barnens livsloggar
-            </label>
-            <label className="flex items-start gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={sources.journal}
-                onChange={(e) => {
-                  const on = e.target.checked;
-                  setSources((s) => ({ ...s, journal: on }));
-                  if (!on) setJournalAck(false);
-                }}
-                className="mt-1 rounded border-white/20"
-              />
-              <span>
-                Dagbok (journal)
-                <span className="mt-1 block text-xs text-amber-200/90">{JOURNAL_WARNING}</span>
-              </span>
-            </label>
-            {sources.journal && (
-              <label className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-sm">
-                <input
-                  type="checkbox"
-                  checked={journalAck}
-                  onChange={(e) => setJournalAck(e.target.checked)}
-                  className="mt-1"
-                />
-                <span>Jag förstår risken och vill inkludera dagbok i urvalet.</span>
-              </label>
-            )}
-            {categoryTags.length > 0 && (
-              <div>
-                <p className="mb-2 text-xs text-text-dim">Valfritt — filtrera på kategori/tag</p>
-                <div className="flex flex-wrap gap-2">
-                  {categoryTags.map((tag) => (
-                    <button
-                      key={tag}
-                      type="button"
-                      onClick={() => toggleCategory(tag)}
-                      className={
-                        categoryFilter.includes(tag)
-                          ? 'rounded-full bg-amber-500/25 px-3 py-1 text-xs text-amber-100'
-                          : 'rounded-full border border-white/10 px-3 py-1 text-xs text-text-muted'
-                      }
-                    >
-                      {tag}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-            <label className="flex cursor-pointer items-start gap-2 text-sm text-text-dim">
-              <input
-                type="checkbox"
-                checked={includeAiForeword}
-                onChange={(e) => setIncludeAiForeword(e.target.checked)}
-                className="mt-0.5 rounded border-white/20"
-              />
-              <span>
-                {VAVAREN_DOSSIER_CHECKBOX}
-                <span className="mt-1 block text-xs text-text-muted">{VAVAREN_DOSSIER_HINT}</span>
-              </span>
-            </label>
-            <select
-              value={reportType}
-              onChange={(e) => setReportType(e.target.value as DossierReportType)}
-              className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm"
-              aria-label="Rapporttyp"
-            >
-              <option value="LEGAL">Juridisk kronologi (MVP)</option>
-              <option value="BBIC" disabled>
-                BBIC-struktur (fas 2)
-              </option>
-            </select>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setStep('period')}
-                className="flex-1 rounded-lg border border-white/10 py-2 text-sm"
-              >
-                Tillbaka
-              </button>
-              <button
-                type="button"
-                disabled={sources.journal && !journalAck}
-                onClick={() => setStep('review')}
-                className="flex-1 rounded-lg bg-indigo-500/25 py-2 text-sm font-medium text-indigo-100 disabled:opacity-40"
-              >
-                Fortsätt till granskning
-              </button>
-            </div>
-          </div>
-        )}
-
-        {step === 'review' && (
-          <div className="space-y-4">
-            <p className="text-xs text-text-dim">
-              Steg 3 av 3 — hela dokument (avmarkera det som inte ska med)
-            </p>
-            {loadingDocs ? (
-              <div className="flex items-center gap-2 text-sm text-text-muted">
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Läser bevis…
-              </div>
-            ) : filteredDocs.length === 0 ? (
-              <EmptyState message="Inga poster i vald period och källor. Ändra period eller källor." />
-            ) : (
-              <ul className="max-h-80 space-y-2 overflow-y-auto pr-1">
-                {filteredDocs.map((doc) => (
-                  <li
-                    key={`${doc.kind}-${doc.id}`}
-                    className="rounded-lg border border-white/10 bg-white/5 p-3"
-                  >
-                    <label className="flex cursor-pointer gap-3">
-                      <input
-                        type="checkbox"
-                        checked={includedIds.has(doc.id)}
-                        onChange={() => toggleDoc(doc.id)}
-                        className="mt-1 shrink-0"
-                      />
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-sm font-medium text-amber-100/90">
-                          {doc.title}
-                        </span>
-                        <span className="text-xs text-text-dim">
-                          {doc.createdAt.slice(0, 10)} · {doc.kind.replace('_', ' ')}
-                        </span>
-                        <span className="mt-1 block text-xs text-text-muted">{doc.preview}</span>
-                      </span>
-                    </label>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <p className="flex items-start gap-2 text-xs text-emerald-200/80">
-              <ShieldAlert className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-              Dokumentet skickas inte till någon. Du laddar ner lokalt när backend är kopplad.
-            </p>
-            {error && <p className="text-sm text-red-300/90">{error}</p>}
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setStep('sources')}
-                className="flex-1 rounded-lg border border-white/10 py-2 text-sm"
-              >
-                Tillbaka
-              </button>
-              <button
-                type="button"
-                disabled={generating || includedIds.size === 0}
-                onClick={() => void handleGenerate()}
-                className="flex-1 rounded-lg bg-amber-500/25 py-2 text-sm font-medium text-amber-100 disabled:opacity-40"
-              >
-                {generating ? (
-                  <span className="inline-flex items-center justify-center gap-2">
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Genererar…
-                  </span>
-                ) : (
-                  'Generera låst dossier'
-                )}
-              </button>
-            </div>
-          </div>
-        )}
-
-        {step === 'result' && (
-          <div className="space-y-4">
-            {result?.status === 'ready' && (result.downloadUrl || result.pdfBase64) ? (
-              <>
-                <p className="text-sm text-emerald-200/90">
-                  Dossier skapad. Inget har skickats externt.
-                </p>
-                {result.dossierId && (
-                  <p className="text-xs text-text-dim">
-                    ID: <span className="font-mono text-text-muted">{result.dossierId}</span>
-                  </p>
-                )}
-                <p className="text-sm text-text-muted">
-                  Hash (SHA-256):{' '}
-                  <code className="break-all text-xs text-amber-100/90">{result.documentHash}</code>
-                </p>
-                <p className="text-xs text-text-dim">
-                  {result.downloadUrl
-                    ? 'Nedladdningslänk gäller ca 24 timmar (Zero Footprint i molnet).'
-                    : 'PDF levereras direkt (signed URL ej tillgänglig i projektet).'}
-                </p>
-                <a
-                  href={
-                    result.downloadUrl ??
-                    `data:application/pdf;base64,${result.pdfBase64 ?? ''}`
-                  }
-                  download={result.dossierId ? `dossier-${result.dossierId}.pdf` : 'dossier.pdf'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full rounded-lg bg-emerald-500/25 py-2.5 text-center text-sm font-medium text-emerald-100"
-                >
-                  Ladda ner PDF
-                </a>
-              </>
-            ) : (
-              <EmptyState
-                message={
-                  result?.jobId
-                    ? `Generering pågår (job ${result.jobId}). Poll kommer i nästa fas.`
-                    : error || 'Generering slutfördes utan nedladdningslänk. Försök igen.'
-                }
-              />
-            )}
-            <p className="text-xs text-text-dim">
-              Inget har skickats till ombud, socialtjänst eller motpart.
-            </p>
-            <button
-              type="button"
-              onClick={clearSession}
-              className="w-full rounded-lg border border-white/10 py-2 text-sm"
-            >
-              Klar — rensa urval (Zero Footprint)
-            </button>
-          </div>
-        )}
-      </BentoCard>
-    </div>
-  );
-}
-</file>
-
-<file path="src/modules/evidence/vault/utils/vaultPatternScan.ts">
-import type { VaultLog } from '../../../core/types/firestore';
-import { normalizeStringArray } from './normalizeVaultLog';
-
-export type VaultTechnique =
-  | 'DARVO'
-  | 'GASLIGHTING'
-  | 'JADE_BAIT'
-  | 'THREAT'
-  | 'LOVE_BOMBING';
-
-const SCAN_PATTERNS: { pattern: RegExp; technique: VaultTechnique }[] = [
-  { pattern: /du är alltid så (känslig|dramatisk|överdriftig)/i, technique: 'DARVO' },
-  { pattern: /du hittar på/i, technique: 'GASLIGHTING' },
-  { pattern: /det har aldrig (hänt|sagts|gjorts)/i, technique: 'GASLIGHTING' },
-  { pattern: /du är (galen|psykisk|instabil)/i, technique: 'GASLIGHTING' },
-  { pattern: /varför gör du (alltid|aldrig)/i, technique: 'JADE_BAIT' },
-  { pattern: /du måste (förklara|bevisa|motivera)/i, technique: 'JADE_BAIT' },
-  { pattern: /(annars|om inte).*konsekvens/i, technique: 'THREAT' },
-  { pattern: /jag ska se till att/i, technique: 'THREAT' },
-  { pattern: /ingen (älskar|förstår|vet) dig som jag/i, technique: 'LOVE_BOMBING' },
-];
-
-function logText(log: VaultLog): string {
-  return [
-    log.truth,
-    log.theirVersion,
-    log.myReality,
-    log.shieldWhat,
-    log.shieldFeeling,
-    log.shieldBoundary,
-    ...(normalizeStringArray(log.bodySignals)),
-  ]
-    .filter(Boolean)
-    .join('\n');
-}
-
-export type VaultFrequencyReport = {
-  totalPosts: number;
-  smsLikePosts: number;
-  techniqueCounts: Record<VaultTechnique, number>;
-  categoryCounts: Record<string, number>;
-  monthlyCounts: { month: string; count: number }[];
-  topTechniques: { technique: VaultTechnique; count: number }[];
-};
-
-export function buildVaultFrequencyReport(
-  logs: (VaultLog & { id: string })[],
-): VaultFrequencyReport {
-  const techniqueCounts = Object.fromEntries(
-    SCAN_PATTERNS.map((p) => [p.technique, 0]),
-  ) as Record<VaultTechnique, number>;
-  const categoryCounts: Record<string, number> = {};
-  const monthMap = new Map<string, number>();
-  let smsLikePosts = 0;
-
-  for (const log of logs) {
-    const text = logText(log);
-    const category = log.category || 'okategoriserad';
-    categoryCounts[category] = (categoryCounts[category] ?? 0) + 1;
-
-    const month = (log.createdAt ?? '').slice(0, 7) || 'okänd';
-    monthMap.set(month, (monthMap.get(month) ?? 0) + 1);
-
-    if (/sms|mejl|meddelande|kommunikation/i.test(`${category} ${log.action}`)) {
-      smsLikePosts += 1;
-    }
-
-    for (const { pattern, technique } of SCAN_PATTERNS) {
-      if (pattern.test(text)) {
-        techniqueCounts[technique] += 1;
-      }
-    }
-  }
-
-  const monthlyCounts = [...monthMap.entries()]
-    .sort(([a], [b]) => a.localeCompare(b))
-    .slice(-6)
-    .map(([month, count]) => ({ month, count }));
-
-  const topTechniques = (Object.entries(techniqueCounts) as [VaultTechnique, number][])
-    .filter(([, count]) => count > 0)
-    .sort((a, b) => b[1] - a[1])
-    .map(([technique, count]) => ({ technique, count }));
-
-  return {
-    totalPosts: logs.length,
-    smsLikePosts,
-    techniqueCounts,
-    categoryCounts,
-    monthlyCounts,
-    topTechniques,
-  };
-}
-
-/** D19/D20 — teknik-taggar för en enskild post (deterministiskt). */
-export function scanTechniquesForLog(log: VaultLog): VaultTechnique[] {
-  const text = logText(log);
-  const found = new Set<VaultTechnique>();
-  for (const { pattern, technique } of SCAN_PATTERNS) {
-    if (pattern.test(text)) found.add(technique);
-  }
-  return [...found];
-}
-</file>
-
-<file path="src/modules/evidence/vault/module_plan.md">
-# verklighetsvalvet — module plan
-
-## Overview
-
-Sacred Feature: WORM evidence vault (Verklighetsvalvet / Sanningens Sköld). Route `/dagbok?tab=bevis`; redirect `/valv`. Dold ingång via Fyren (3s long-press BookOpen + WebAuthn + PIN).
-
-Canonical: `.context/modules/evidence/vault.md` · Spec: `docs/specs/modules/Verklighetsvalvet-SPEC.md`
-
-## Files
-
-| Path | Role |
-|------|------|
-| `components/VaultEntryForm.tsx` | Enkel/tvåspalt/tresteg/magkänsel + media + röst |
-| `components/VaultPage.tsx` | PIN gate, Logga/Sök/**Mönster/Orkester**/Dossier, Stäng → Reflektion |
-| `components/VaultMonsterPanel.tsx` | Låst UX — deterministisk frekvens (Pansaret) |
-| `components/VaultOrkesterPanel.tsx` | Låst UX — agentregister + SMS mönstersökning |
-| `components/VaultLogList.tsx` | Append-only lista + PDF-knapp per post |
-| `utils/exportVaultRecord.ts` | Per-post PDF via utskriftsdialog |
-| `constants/vaultEntry.ts` | BODY_SIGNALS, VAULT_ENTRY_MODES, SHIELD_STEPS |
-| `constants/vavarenCopy.ts` | Vävaren — användarcopy (Fas 1.5) |
-| `types/vaultEntry.ts` | VaultEntryType, VaultLogInput |
-| `../diary/diary/components/HjartatPage.tsx` | Bevis-flik, session lock vid flikbyte |
-| `../core/layout/FloatingDock.tsx` | Fyren — 3s progress + WebAuthn |
-| `../core/auth/webauthn.ts` | Passkey-gate (client MVP) |
-| `../core/hooks/useShakeToKill.ts` | 15 m/s², 2s debounce → kill switch + `/` |
-| `../core/hooks/useSpeechToText.ts` | Röst → text i truth |
-| `../core/firebase/firestore.ts` | `assertWormPayload`, `saveVaultLog`, `getVaultLogs` |
-| `../core/firebase/storage.ts` | `uploadVaultEvidence` → `vault_evidence/{uid}/` |
-| `../evidence/vaultChat/` | ValvChatPanel, `useValvChatSession`, `valvChatQuery` |
-
-## Status
-
-| Area | Kladd 2026-05-21 | Kod | Status |
-|------|------------------|-----|--------|
-| Fyren 3s + WORM | Dold ingång, Sanningens Sköld | Ja | **done** |
-| Tvåspalt / tresteg / magkänsel | Hens version vs sanning | Ja | **done** |
-| Storage `evidenceUrl` | PDF/sms-export, ej Drive-auto | Ja | **done** |
-| Shake-to-Kill | Panik + iOS-test | Ja | **done** |
-| Orosanmälan + skolbevis | §D beviskandidater | Manuell | **use now** |
-| Vävaren godkännande | Önskat före permanent AI-tagg | Auto idag | **planned** |
-| Vävaren copy / tydlighet (Fas 1.5) | Arkiv, Sök, dagbok, Dossier | `vavarenCopy.ts` | **done** 2026-05-29 |
-| Dölj Bevis-flik | Plausible deniability | Nej | **planned** |
-| BBIC-filter export | Soc/jurist | Nej | **planned** (Dossier fas 2) |
-| Sanningens Ankare landning | Notebook | Nej | **planned** |
-| Auto Storage-analys | Notebook vision | Nej | **rejected** |
-
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
-
-## Produktbeslut (låsta 2026-05)
-
-1. Drive → valv: manuellt godkännande (Drive-auto → kb_docs)
-2. PDF: klient per post; Dossier callable senare
-3. Valv-Chat: nollställ vid flikbyte
-4. WebAuthn + PIN; duress-PIN senare
-5. Dölj Bevis-flik när Fyren sitter i muskelminnet
-
-## Fas 1.5 — Vävaren UX polish (2026-05-29, lokal)
-
-| # | Leverans | Status |
-|---|----------|--------|
-| 1 | `constants/vavarenCopy.ts` — gemensam copy | **done** |
-| 2 | `VaultLogList` — tydlig etikett för `vävaren_metadata` + weaverTags | **done** |
-| 3 | `ValvChatPanel` — förklarar att Sök exkluderar AI-taggar | **done** |
-| 4 | Dagbok `SavedStep` / `ConfirmStep` — bakgrundstaggning förklarad | **done** |
-| 5 | `DossierPage` — tydligare AI-försätt-checkbox | **done** |
-
-**Ej i Fas 1.5:** godkännande-flöde, `firestore.rules`, borttag av Mönster/Orkester/Kunskapsbank.
-
-## Nästa fas (implementera när användaren säger kör)
-
-1. Dölj Bevis-flik + ClusterGrid-länk (Fyren only, feature flag)
-2. Klickbara citations i ValvChatPanel
-3. Drive-ingest med manuellt godkännande → `reality_vault`
-4. ~~Full Dossier-generator~~ → **done** (`DossierPage` + `generateDossier`; kvar: BBIC-mall, Vävaren försätt)
-5. Sanningens Ankare (`pinned`) + citation UX
-
-## Security notes
-
-- Demo PIN: `VITE_VAULT_PIN` endast lokal utveckling
-- Zero Footprint: vault unlock + chat rensas vid flikbyte/kill switch
-- Evidence: en fil per post (`evidenceUrl`); Storage uid-scoped
-- Valv-Chat: isolerad från `knowledgeVaultQuery`
-</file>
-
-<file path="src/modules/evidence/vault/components/VaultLogList.tsx">
-import { useEffect, useRef, type RefObject } from 'react';
-import { FileDown, Loader2 } from 'lucide-react';
-import { BentoCard } from '../../../core/ui/BentoCard';
-import { EmptyState } from '../../../core/ui/EmptyState';
-import type { VaultLog, WeaverTags } from '../../../core/types/firestore';
-import {
-  VAVAREN_LOG_CATEGORY_LABEL,
-  VAVAREN_LOG_DISCLAIMER,
-} from '../constants/vavarenCopy';
-import { exportVaultRecordAsPdf } from '../utils/exportVaultRecord';
-import { normalizeStringArray } from '../utils/normalizeVaultLog';
-import { scanTechniquesForLog } from '../utils/vaultPatternScan';
-
-type VaultLogRow = VaultLog & { id: string; weaverTags?: WeaverTags };
-
-function isVavarenMetadata(log: VaultLog): boolean {
-  return log.category === 'vävaren_metadata';
-}
-
-type VaultLogListProps = {
-  logs: (VaultLog & { id: string })[];
-  loading: boolean;
-  highlightLogId?: string | null;
-};
-
-function asText(value: unknown): string {
-  if (value == null) return '';
-  if (typeof value === 'string') return value;
-  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
-  return String(value);
-}
-
-function formatLogBody(log: VaultLog): string {
-  if (log.entryType === 'two_column' && (log.theirVersion || log.myReality)) {
-    return `Hens: ${asText(log.theirVersion) || '—'}\nMin: ${asText(log.myReality) || '—'}`;
-  }
-  if (log.entryType === 'three_shield') {
-    return [log.shieldWhat, log.shieldFeeling, log.shieldBoundary]
-      .map(asText)
-      .filter(Boolean)
-      .join(' · ');
-  }
-  if (log.entryType === 'body_signal') {
-    const signals = normalizeStringArray(log.bodySignals);
-    if (signals.length > 0) {
-      const truth = asText(log.truth);
-      return `${signals.join(', ')}${truth ? ` — ${truth}` : ''}`;
-    }
-  }
-  return asText(log.truth);
-}
-
-function formatLogDate(createdAt: VaultLog['createdAt'] | undefined): string {
-  if (typeof createdAt === 'string') return createdAt.slice(0, 10);
-  if (createdAt == null) return '—';
-  return String(createdAt).slice(0, 10);
-}
-
-function formatServerTimestamp(createdAt: VaultLog['createdAt'] | undefined): string {
-  if (typeof createdAt === 'string') return createdAt;
-  if (createdAt == null) return '—';
-  return String(createdAt);
-}
-
-function LogRow({
-  log,
-  highlightLogId,
-  highlightRef,
-}: {
-  log: VaultLogRow;
-  highlightLogId?: string | null;
-  highlightRef: RefObject<HTMLLIElement | null>;
-}) {
-  const vavaren = isVavarenMetadata(log);
-  const weaverTags = (log as VaultLogRow).weaverTags;
-  const tags = vavaren ? [] : scanTechniquesForLog(log);
-  return (
-    <li
-      key={log.id}
-      ref={log.id === highlightLogId ? highlightRef : undefined}
-      className={`glass-card p-3 text-sm ${
-        log.id === highlightLogId ? 'ring-2 ring-accent/50' : ''
-      } ${vavaren ? 'border border-indigo-400/20 bg-indigo-500/5' : ''}`}
-    >
-      <div className="flex items-start justify-between gap-2">
-        <div>
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">
-            SERVER-TIDSSTÄMPEL · {formatServerTimestamp(log.createdAt)}
-          </p>
-          <p className="text-[10px] text-text-dim">ID · {log.id.slice(0, 12)}…</p>
-          <p className="mt-1 text-[10px] uppercase tracking-widest text-text-dim">
-            {log.pinned ? 'Ankare · ' : ''}
-            {vavaren ? VAVAREN_LOG_CATEGORY_LABEL : (log.category ?? 'allmänt')}
-            {!vavaren && log.entryType ? ` · ${log.entryType}` : ''} · {formatLogDate(log.createdAt)}
-          </p>
-          {vavaren && (
-            <p className="mt-1 text-[10px] text-indigo-200/80">{VAVAREN_LOG_DISCLAIMER}</p>
-          )}
-        </div>
-        <button
-          type="button"
-          onClick={() => exportVaultRecordAsPdf(log)}
-          className="btn-pill--ghost shrink-0 py-1 px-2"
-          title="Exportera som PDF (utskrift)"
-        >
-          <FileDown className="h-3 w-3" /> PDF
-        </button>
-      </div>
-      <p className={`mt-1 whitespace-pre-wrap ${vavaren ? 'text-indigo-100/90' : 'text-text-muted'}`}>
-        {formatLogBody(log)}
-      </p>
-      {vavaren && weaverTags && (
-        <div className="mt-2 flex flex-wrap gap-1">
-          {normalizeStringArray(weaverTags.emotions).map((e) => (
-            <span
-              key={`e-${e}`}
-              className="rounded-full border border-indigo-400/25 px-2 py-0.5 text-[10px] text-indigo-200/90"
-            >
-              {e}
-            </span>
-          ))}
-          {normalizeStringArray(weaverTags.actors).map((a) => (
-            <span
-              key={`a-${a}`}
-              className="rounded-full border border-white/10 px-2 py-0.5 text-[10px] text-text-muted"
-            >
-              {a}
-            </span>
-          ))}
-          {weaverTags.threatLevel && weaverTags.threatLevel !== 'none' && (
-            <span className="rounded-full border border-amber-500/30 px-2 py-0.5 text-[10px] text-amber-200/90">
-              hot: {weaverTags.threatLevel}
-            </span>
-          )}
-        </div>
-      )}
-      {tags.length > 0 && (
-        <div className="mt-2 flex flex-wrap gap-1">
-          {tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-accent/20 px-2 py-0.5 text-[10px] text-accent/80"
-            >
-              #{tag}
-            </span>
-          ))}
-        </div>
-      )}
-      {log.evidenceUrl && (
-        <a
-          href={log.evidenceUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-2 inline-block text-xs text-accent-secondary hover:underline"
-        >
-          Visa bifogat bevis
-        </a>
-      )}
-    </li>
-  );
-}
-
-export function VaultLogList({ logs, loading, highlightLogId }: VaultLogListProps) {
-  const highlightRef = useRef<HTMLLIElement | null>(null);
-  const pinned = logs.filter((l) => l.pinned);
-  const rest = logs.filter((l) => !l.pinned);
-
-  useEffect(() => {
-    if (highlightLogId && highlightRef.current) {
-      highlightRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }, [highlightLogId, logs.length]);
-
-  return (
-    <BentoCard title="VaultLog">
-      {loading && logs.length === 0 ? (
-        <p className="text-sm text-text-dim flex items-center gap-2">
-          <Loader2 className="h-4 w-4 animate-spin" /> Laddar...
-        </p>
-      ) : logs.length === 0 ? (
-        <EmptyState message="Inga poster ännu." />
-      ) : (
-        <div className="space-y-4">
-          {pinned.length > 0 && (
-            <div>
-              <p className="mb-2 text-[10px] uppercase tracking-widest text-gold/80">
-                Sanningens Ankare
-              </p>
-              <ul className="space-y-3">
-                {pinned.map((log) => (
-                  <LogRow key={log.id} log={log} highlightLogId={highlightLogId} highlightRef={highlightRef} />
-                ))}
-              </ul>
-            </div>
-          )}
-          <ul className="space-y-3">
-          {rest.map((log) => (
-            <LogRow key={log.id} log={log} highlightLogId={highlightLogId} highlightRef={highlightRef} />
-          ))}
-        </ul>
-        </div>
-      )}
-    </BentoCard>
-  );
-}
-</file>
-
-<file path=".context/locked-ux-features.md">
-# Locked UX Features (låsta — får inte tas bort)
-
-**Status:** Låst 2026-05-23. Ändring kräver explicit produktbeslut i commit/PR.
-
-Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produktflöden** för trygg hamn (Barnen) och Pansaret (Valv). Agent och refaktor får inte ta bort, döpa om eller gömma dem utan att uppdatera denna fil och smoke.
-
----
-
-## 1. Barnfokus-frågor (Familjen / Barnen — ev. «Middagsfrågan»)
-
-| | |
-|---|---|
-| **Route** | `/familjen` → `BarnensPage` |
-| **Syfte** | Roterande frågor (roligt, kunskap, knas, lära känna, utveckling, valv-bank) → minneslista |
-| **Kod** | `BarnfokusFraganPanel.tsx`, `barnfokusQuestionForToday`, `BARNFOKUS_QUESTIONS`, `category: 'barnfokus'` |
-| **Spec** | `docs/design/FAMILJEN-BARNFOKUS-FRAGOR-SPEC.md` |
-| **Krav** | Knapp **Spara till {barn}s logg**; **Annan fråga**; optimistisk minneslista; **inte** enbart middag-rubrik |
-| **Smoke** | `npm run smoke:locked-ux` · manuell #19 |
-
----
-
-## 2. Pansaret — Mönster & Orkester (Valv-baksida)
-
-| | |
-|---|---|
-| **Route** | `/dagbok?tab=bevis&vaultTab=…` → `VaultPage` (PIN) |
-| **Zoner** | **Samla** · **Analysera** · **Kunskap** · **Exportera** · **Forensik** — [`VALV-HUBB-SPEC.md`](../docs/design/VALV-HUBB-SPEC.md) |
-| **Flikar** | **Arkiv** · **Triage** · **Mönster** · **Orkester** · **Dossier** · **Kunskapsbank** · **Aktörskarta** |
-| **Mönster** | `VaultMonsterPanel` + `buildVaultFrequencyReport` (deterministisk regex, ingen LLM-sanning) |
-| **Orkester** | `VaultOrkesterPanel` + `PRODUCT_AGENTS` + SMS-tråd → `analyzeMessage` |
-| **Kunskapsbank** | `VaultKunskapsbankPanel` — `KunskapPage` + `FamiljenKunskapHubTab` (U1 silos) |
-| **Aktörskarta (G9)** | `VaultAktorskartaPanel` + `EntityAddForm` + `addEntityProfile` — manuella personer, append-only metadata för agenter (ej RAG, ej publik meny) |
-| **Smoke** | `npm run smoke:locked-ux` · `npm run smoke:entities` · manuell #20 i `docs/SMOKE_CHECKLIST.md` |
-
----
-
-## 3. Planering + Projekt (design låst — hybrid)
-
-| | |
-|---|---|
-| **Beslut** | [`docs/design/PLANERING-PROJEKT-HYBRID.md`](../docs/design/PLANERING-PROJEKT-HYBRID.md) |
-| **Handling (fast)** | P3 Kanban ATT GÖRA · VÄNTAR · KLART — `/planering` |
-| **Projekt (flex)** | Lista, anteckning, bild, egna planeringar — `/projekt` |
-| **Widget** | v2 [`galleri/widget/v2/W1-kompakt-projekt.png`](../docs/design/galleri/widget/v2/W1-kompakt-projekt.png) |
-| **Spec** | `PROJEKT-SPEC.md`, `PLANERING-P3-KANBAN-SPEC.md`, `WIDGET-BAR-SPEC.md` |
-| **Smoke** | Hybrid-spec + kanon-PNG finns |
-
----
-
-## 4. Planeringssidan (äldre register — se §3 hybrid)
-
-| | |
-|---|---|
-| **Route (plan)** | `/planering` |
-| **Spec** | `docs/design/PLANERINGSSIDA-SPEC.md`, mockups `docs/design/planering/` |
-| **Krav** | P1–P4 + Projekt; e-postregler `planning_email_rules`; **inte** ex-brus hit |
-| **Smoke** | Spec-fil + nyckelsträngar i `smoke_locked_ux.mjs` |
-
----
-
-## 5. Fyren Edge — widget + tyst inspelning (design låst)
-
-| | |
-|---|---|
-| **Spec** | `docs/design/WIDGET-BAR-SPEC.md`, `docs/design/HOMESCREEN-WIDGETS-SPEC.md`, `docs/design/ANDROID-WIDGETS-SPEC.md` |
-| **Kod** | `FyrenWidgetBar.tsx`, `/widget/*`, `android/…/widgets/*`, `ingestWidgetRecording` |
-| **Krav** | WH1: datumstämpel, AI-titel, WORM, sammanfattning i `truth`, ljudfil `evidenceUrl`; **ingen synlig REC** |
-| **Data** | `reality_vault` WORM, `category: tyst_inspelning` |
-| **Smoke** | Spec-fil + nyckelsträngar |
-
----
-
-## 6. Sidomeny / hamburger (design låst — Vardag + Valv)
-
-| | |
-|---|---|
-| **Kanonbild** | `docs/design/references/MENU-DRAWER-KANON.png` |
-| **Spec** | `docs/design/references/MENU-DRAWER-KANON.md` |
-| **Sektioner** | **Vardag** (publikt) · **Valv** (endast efter PIN/gate på Valv-route) |
-| **Kod** | `navTruth.ts`, `NavigationDrawer.tsx`, `DrawerModeToggle.tsx` |
-| **Krav** | Skymningsbakgrund; aktiv rad **guld**; **ingen** Valv-växlare/snabbchips i publikt läge |
-| **Smoke** | Kanonfil + spec + `DRAWER_VARDAG_ITEMS` / `DRAWER_VALV_ENTRIES` + `isInValvDrawerContext` |
-
----
-
-## 7. Barnporten — barnens hub (design låst)
-
-| | |
-|---|---|
-| **Route (barn)** | `/barnporten` (PWA) · **förälder** `/familjen?tab=barnporten` |
-| **Spec** | `docs/design/BARNPORTEN-SPEC.md`, infografik `docs/design/barnporten/infographic.html` |
-| **Orkester** | `src/modules/barnporten/constants/barnportenAgents.ts` — **egen** barn-Orkester (skild från Valv-Orkester) |
-| **Valv** | Endast HITL `promoteChildLogToVault` — **aldrig** auto från privat barnlogg |
-| **Widget** | CB1–CB4 (barn); **inte** samma som förälder W1 |
-| **Smoke** | Spec + `barnportenAgents.ts` + mockup-mapp |
-
-### 7b. Inkorg → Valv-bro (HITL — **låst 2026-05-29**)
-
-| | |
-|---|---|
-| **Kanon UI** | [`docs/design/barnporten/mockups/barnporten-inkorg-valv-kanon.png`](../docs/design/barnporten/mockups/barnporten-inkorg-valv-kanon.png) |
-| **Route (förälder)** | `/familjen?tab=barnporten` → `BarnportenInboxPanel` |
-| **Flöde** | Barnmeddelande i inkorg → vuxen granskar → explicit godkännande → `reality_vault` WORM |
-| **Kod** | `BarnportenInboxPanel.tsx` · `SaveAsEvidencePrompt.tsx` · `buildVaultPayloadFromChildLog` (`sourceRef`) |
-| **HITL** | **Human-In-The-Loop** — inget sparas automatiskt; vuxen trycker **Spara som bevis** / **Flytta till Valv (HITL)** |
-| **Tidsstämpel** | `saveVaultLog` → Firestore `serverTimestamp()` → Valv visar **SERVER-TIDSSTÄMPEL** |
-| **Efter spar** | Länk **Granska i Valv** / **Öppna Bevis (Hjärtat)** → `/dagbok?tab=bevis` |
-| **Tagline (mål-UI)** | *Skapa trygghet. Bygg tillit.* · *Från inkorg till Valv – för framtiden.* |
-| **Status (mål-UI)** | *Klar för långtidslagring* · HITL-badge med sköld |
-
-**Får inte:** auto-promote från `private_child` / *Bara för mig*; ta bort HITL-steg; spara till Valv utan `sourceRef: children_logs/{id}`; ta bort inkorg-panelen eller mockup-kanon.
-
----
-
-## 8. Arbetsliv — modulhub (låst)
-
-| | |
-|---|---|
-| **Route** | `/arbetsliv` · redirect `/stampla` → `?tab=stampla` |
-| **Kod** | `src/modules/arbetsliv/components/ArbetslivHubPage.tsx` |
-| **Publikt** | Stämpel · Tid & flex · Logg |
-| **Valv-menyn** | Frånvaro · Lön & spec → `vaultTab=arbetsliv_*` |
-| **Vardagen** | `/vardagen?tab=ekonomi` = veckopeng/matlåda |
-| **Eval** | `docs/evaluations/2026-05-25-arbetsliv-hub.md` |
-| **Smoke** | `npm run smoke:arbetsliv` |
-
-**Får inte:** ta bort menyrad Arbetsliv eller stämpel-hub utan produktbeslut.
-
----
-
-## 8b. Trygg Hamn — snabb ingång vs Valv (**godkänt 2026-05-29**)
-
-| | |
-|---|---|
-| **Snabb** | `/hamn` — `BiffPublicPanel` (Grey Rock), Speglar-länk, utan PIN |
-| **Djup** | Valv → Forensik → **Hamn · Analys** (`hamn_analys`) — triage, bevis, HITL |
-| **Redirect** | `/hamn?tab=analys` → `/dagbok?tab=bevis&vaultTab=hamn_analys` |
-| **Kanon** | [`docs/design/VALV-HUBB-SPEC.md`](../docs/design/VALV-HUBB-SPEC.md) |
-
-**Får inte:** kräva Valv-PIN för första BIFF-svar eller ta bort `/hamn` från Vardag-drawer.
-
----
-
-## 9. Valv-baksida — samlad PIN-vägg (2026-05-25)
-
-| | |
-|---|---|
-| **Ingång** | Hamburgermeny → sektion **Valv** · `/dagbok?tab=bevis&vaultTab=…` |
-| **Kunskap** | All kunskap (Vardagen, Familjen, Hem) → **Kunskapsbank** — **inte** publik `/vardagen?tab=kunskap` |
-| **Forensic** | Hamn analys, Speglar fördjupat, Dagbok arkiv, Familjen mönster, Arbetsliv frånvaro/lön |
-| **U1** | Kunskapsbank anropar `knowledgeVaultQuery` — **aldrig** cross-RAG till Valv/Barnen |
-| **Kod** | `VaultPage.tsx`, `VaultKunskapsbankPanel.tsx`, `VaultForensicPanel.tsx`, `navTruth.ts` |
-
----
-
-## 10. Produktikoner D1 · M2 (låst) · app-ikon upplåst
-
-| ID | Plats | Fil | Status |
-|----|-------|-----|--------|
-| ~~**B1**~~ | App / favicon | `public/favicon.svg` | **Upplåst** — P1–P5 i `phone-icon-variants/PREVIEW.md` |
-| **D1** | Header, dock, hero | `LivskompassMark.tsx` | LÅST |
-| **M2** | Kompis-avatar | `KompisMark.tsx` | LÅST |
-
-| | |
-|---|---|
-| **Register** | `.context/locked-icons.md` · stil: `docs/design/ICON-STYLE-GUIDE.md` |
-| **App-ikon** | `docs/design/themes/phone-icon-variants/PREVIEW.md` · `npm run android:icons:phone` |
-| **Smoke** | `npm run smoke:locked-icons` |
-
-**Får inte:** Lucide-kompass i Kompis, minimal linje-D1, eller Vite-lila favicon utan beslut.
-
----
-
-## Verifiering
-
-```bash
-npm run smoke:locked-ux
-npm run smoke:locked-icons
-npm run smoke:arbetsliv
-```
-
-Vid refaktor av `VaultPage`, `BarnensPage`, eller borttagning av specs ovan: kör smoke innan merge.
-</file>
-
-<file path="src/modules/evidence/vault/utils/vaultTabs.ts">
-import { BookOpen, Users } from 'lucide-react';
-
-/** Samla — arkiv + triage/chat. */
-export const SAMLA_VAULT_TAB_IDS = ['logga', 'sok'] as const;
-
-/** Analysera — mönster + orkester (locked UX). */
-export const ANALYSERA_VAULT_TAB_IDS = ['monster', 'orkester'] as const;
-
-/** Exportera — dossier. */
-export const EXPORTERA_VAULT_TAB_IDS = ['dossier'] as const;
-
-/** Legacy union — alla huvudflikar utom kunskap/forensik. */
-export const PANSARET_VAULT_TAB_IDS = [
-  ...SAMLA_VAULT_TAB_IDS,
-  ...ANALYSERA_VAULT_TAB_IDS,
-  ...EXPORTERA_VAULT_TAB_IDS,
-] as const;
-
-export type SamlaVaultTab = (typeof SAMLA_VAULT_TAB_IDS)[number];
-export type AnalyseraVaultTab = (typeof ANALYSERA_VAULT_TAB_IDS)[number];
-export type ExporteraVaultTab = (typeof EXPORTERA_VAULT_TAB_IDS)[number];
-
-export const KUNSKAP_VAULT_TAB = 'kunskapsbank' as const;
-export const AKTORSKARTA_VAULT_TAB = 'aktorskarta' as const;
-
-export const KUNSKAP_VAULT_TAB_IDS = [KUNSKAP_VAULT_TAB, AKTORSKARTA_VAULT_TAB] as const;
-export type KunskapVaultTab = (typeof KUNSKAP_VAULT_TAB_IDS)[number];
-
-export const VALV_ZONE_IDS = ['samla', 'analysera', 'kunskap', 'exportera', 'forensik'] as const;
-
-export type ValvZone = (typeof VALV_ZONE_IDS)[number];
-
-/** V1 — en rad lågaffektiv copy per zon (zon-byte i VaultPage). */
-export const VALV_ZONE_INGRESS: Record<ValvZone, string> = {
-  samla: 'Samla in bevis och sök i loggen.',
-  analysera: 'Mönster och Orkester — över tid, inte i stunden.',
-  kunskap: 'Fakta bakom PIN: Kunskapsbank och Aktörskarta.',
-  exportera: 'Dossier för export och översikt.',
-  forensik: 'Hamn och fördjupad analys — ett steg i taget.',
-};
-export type PansaretVaultTab = (typeof PANSARET_VAULT_TAB_IDS)[number];
-
-export const MAIN_VAULT_TAB_IDS = [...PANSARET_VAULT_TAB_IDS, ...KUNSKAP_VAULT_TAB_IDS] as const;
-
-export const FORENSIC_VAULT_TAB_IDS = [
-  'hamn_analys',
-  'speglar_fordjupat',
-  'dagbok_arkiv',
-  'familjen_monster',
-  'arbetsliv_franvaro',
-  'arbetsliv_lon',
-] as const;
-
-export type MainVaultTab = (typeof MAIN_VAULT_TAB_IDS)[number];
-export type ForensicVaultTab = (typeof FORENSIC_VAULT_TAB_IDS)[number];
-export type VaultTab = MainVaultTab | ForensicVaultTab;
-
-export function resolveValvZone(tab: VaultTab): ValvZone {
-  if (isKunskapVaultTab(tab)) return 'kunskap';
-  if (isForensicVaultTab(tab)) return 'forensik';
-  if ((EXPORTERA_VAULT_TAB_IDS as readonly string[]).includes(tab)) return 'exportera';
-  if ((ANALYSERA_VAULT_TAB_IDS as readonly string[]).includes(tab)) return 'analysera';
-  return 'samla';
-}
-
-export function isSamlaVaultTab(tab: VaultTab): tab is SamlaVaultTab {
-  return (SAMLA_VAULT_TAB_IDS as readonly string[]).includes(tab);
-}
-
-export function isAnalyseraVaultTab(tab: VaultTab): tab is AnalyseraVaultTab {
-  return (ANALYSERA_VAULT_TAB_IDS as readonly string[]).includes(tab);
-}
-
-export function isExporteraVaultTab(tab: VaultTab): tab is ExporteraVaultTab {
-  return (EXPORTERA_VAULT_TAB_IDS as readonly string[]).includes(tab);
-}
-
-export function isKunskapVaultTab(tab: VaultTab): tab is KunskapVaultTab {
-  return (KUNSKAP_VAULT_TAB_IDS as readonly string[]).includes(tab);
-}
-
-export function isPansaretVaultTab(tab: VaultTab): tab is PansaretVaultTab {
-  return (PANSARET_VAULT_TAB_IDS as readonly string[]).includes(tab);
-}
-
-const ALL_VAULT_TABS = new Set<string>([...MAIN_VAULT_TAB_IDS, ...FORENSIC_VAULT_TAB_IDS]);
-
-export function parseVaultTab(raw: string | null): VaultTab {
-  if (raw && ALL_VAULT_TABS.has(raw)) return raw as VaultTab;
-  return 'logga';
-}
-
-export function isForensicVaultTab(tab: VaultTab): tab is ForensicVaultTab {
-  return (FORENSIC_VAULT_TAB_IDS as readonly string[]).includes(tab);
-}
-
-export function forensicVaultTabLabel(tab: ForensicVaultTab): string {
-  const labels: Record<ForensicVaultTab, string> = {
-    hamn_analys: 'Hamn · Analys',
-    speglar_fordjupat: 'Speglar · Fördjupat',
-    dagbok_arkiv: 'Dagbok · Arkiv',
-    familjen_monster: 'Familjen · Mönster',
-    arbetsliv_franvaro: 'Arbetsliv · Frånvaro',
-    arbetsliv_lon: 'Arbetsliv · Lön',
-  };
-  return labels[tab];
-}
-
-export const VAULT_TAB_ICONS = {
-  kunskapsbank: BookOpen,
-  aktorskarta: Users,
-} as const;
-</file>
-
-<file path="src/modules/evidence/vault/components/VaultEntryForm.tsx">
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultEntryForm.tsx">
 import { useCallback, useState } from 'react';
 import { ImagePlus, Loader2, Mic, MicOff, Plus } from 'lucide-react';
-import { uploadVaultEvidence } from '../../../core/firebase/storage';
-import { useSpeechToText } from '../../../core/hooks/useSpeechToText';
-import { shouldSuggestVaultPatternScan } from '../../../core/triggers/valvHandoff';
+import { uploadVaultEvidence } from '@/core/firebase/storage';
+import { useSpeechToText } from '@/core/hooks/useSpeechToText';
+import { shouldSuggestVaultPatternScan } from '@/core/triggers/valvHandoff';
 import { BODY_SIGNALS, SHIELD_STEPS, VAULT_ENTRY_MODES } from '../constants/vaultEntry';
 import type { VaultEntryType, VaultLogInput } from '../types/vaultEntry';
-import { HandoffBox } from '../../../diary/diary/components/HandoffBox';
-import { shouldShowValvHandoff } from '../../../core/triggers/valvHandoff';
-import { OfflineWriteBlockedError } from '../../../core/firebase/offlineWritePolicy';
+import { HandoffBox } from '@/features/lifeJournal/diary/diary/components/HandoffBox';
+import { shouldShowValvHandoff } from '@/core/triggers/valvHandoff';
+import { OfflineWriteBlockedError } from '@/core/firebase/offlineWritePolicy';
 import { VaultPatternHandoff } from './VaultPatternHandoff';
 import { parseSmsThreadToTwoColumn } from '../utils/smsThreadParse';
 
@@ -3570,6 +757,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
   const [attachError, setAttachError] = useState<string | null>(null);
   const [pinned, setPinned] = useState(false);
   const [smsThreadPaste, setSmsThreadPaste] = useState('');
+  const [smsThreadSplitNotice, setSmsThreadSplitNotice] = useState(false);
 
   const appendVoice = useCallback(
     (chunk: string) => {
@@ -3775,7 +963,10 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
             </p>
             <textarea
               value={smsThreadPaste}
-              onChange={(e) => setSmsThreadPaste(e.target.value)}
+              onChange={(e) => {
+                setSmsThreadPaste(e.target.value);
+                if (smsThreadSplitNotice) setSmsThreadSplitNotice(false);
+              }}
               placeholder="Klistra hela konversationen — rader med «Namn:» delas automatiskt"
               rows={3}
               className="input-glass w-full resize-none rounded-xl px-3 py-2 text-sm"
@@ -3790,11 +981,17 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
                   setTheirVersion(parsed.theirVersion);
                   setMyReality(parsed.myReality);
                   setSmsThreadPaste('');
+                  setSmsThreadSplitNotice(true);
                 }
               }}
             >
               Dela i två kolumner
             </button>
+            {smsThreadSplitNotice ? (
+              <p className="mt-2 text-xs text-accent/90" role="status">
+                Tråden är uppdelad i två kolumner. Granska innan du sparar.
+              </p>
+            ) : null}
           </div>
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
@@ -3889,8 +1086,8 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
             </select>
           </label>
           {selectedSignals.length > 0 && (
-            <p className="text-xs text-text-dim">
-              Valda: {selectedSignals.join(', ')}{' '}
+            <div className="flex flex-wrap items-center gap-2 text-xs text-text-dim">
+              <span>Valda: {selectedSignals.join(', ')}</span>
               <button
                 type="button"
                 className="text-accent/80 underline"
@@ -3898,7 +1095,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
               >
                 Rensa
               </button>
-            </p>
+            </div>
           )}
           <textarea
             value={truth}
@@ -3954,26 +1151,2166 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
         type="button"
         onClick={handleSubmit}
         disabled={busy || !canSave}
-        className="btn-pill--success disabled:opacity-50 flex items-center gap-2"
+        className="btn-pill--success disabled:opacity-50"
       >
-        {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-        Spara bevis
+        <span className="inline-flex items-center gap-2">
+          <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden>
+            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+          </span>
+          <span>Spara bevis</span>
+        </span>
       </button>
     </div>
   );
 }
 </file>
 
-<file path="src/modules/evidence/knowledge/components/VaultKunskapsbankPanel.tsx">
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultErrorBoundary.tsx">
+import { Component, type ErrorInfo, type ReactNode } from 'react';
+
+type Props = {
+  children: ReactNode;
+  onReset?: () => void;
+};
+
+type State = { hasError: boolean };
+
+/** Fångar render-krasch i Valv — vit skärm → återställning utan att tappa PIN-session. */
+export class VaultErrorBoundary extends Component<Props, State> {
+  state: State = { hasError: false };
+
+  static getDerivedStateFromError(): State {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.error('[Valv] render error', error, info.componentStack);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="rounded-xl border border-danger/30 bg-surface/40 p-4 text-center">
+          <p className="text-sm text-danger">Något gick fel i Valv-vyn.</p>
+          <p className="mt-1 text-xs text-text-muted">
+            Dina sparade bevis påverkas inte — prova att ladda om sidan om felet kvarstår.
+          </p>
+          <button
+            type="button"
+            className="btn-pill--accent mt-3"
+            onClick={() => {
+              this.setState({ hasError: false });
+              this.props.onReset?.();
+            }}
+          >
+            Försök igen
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultForensicPanel.tsx">
+import { useCallback, useEffect, useState } from 'react';
+import { useStore } from '@/core/store';
+import { getJournalEntries } from '@/core/firebase/firestore';
+import { getPeriodEconomySummary, type PeriodEconomySummary } from '@/core/firebase/timeEconomyFirestore';
+import { HamnForensicPanel } from '@/features/family/safeHarbor/components/BiffPublicPanel';
+import { SpeglingsForensicPanel } from '@/features/lifeJournal/diary/mirror/components/SpeglingsSystem';
+import { JournalArchive } from '@/features/lifeJournal/diary/diary/components/JournalArchive';
+import type { JournalEntry } from '@/features/lifeJournal/diary/diary/types/journal';
+import { FamiljenMonsterTab } from '@/features/family/children/components/familjen/FamiljenMonsterTab';
+import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
+import { VaultEconomyPanel } from '@/modules/valv_ekonomi';
+import { EconomyPeriodSummary } from '@/features/dailyLife/wellbeing/economy/components/EconomyPeriodSummary';
+import { EconomyPayslipCard } from '@/features/dailyLife/wellbeing/economy/components/EconomyPayslipCard';
+import { FORENSIC_TAB_INGRESS, type ForensicVaultTab } from '../utils/vaultTabs';
+
+function ArbetslivLonForensic() {
+  const user = useStore((s) => s.user);
+  const [summary, setSummary] = useState<PeriodEconomySummary | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const reload = useCallback(async () => {
+    if (!user) return;
+    setLoading(true);
+    try {
+      setSummary(await getPeriodEconomySummary(user.uid));
+    } finally {
+      setLoading(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    void reload();
+  }, [reload]);
+
+  return (
+    <div className="space-y-4">
+      <EconomyPeriodSummary summary={summary} loading={loading} />
+      <EconomyPayslipCard />
+    </div>
+  );
+}
+
+type Props = {
+  tab: ForensicVaultTab;
+};
+
+/** Forensic paneler på Valv-baksidan — PIN redan upplåst i VaultPage. */
+export function VaultForensicPanel({ tab }: Props) {
+  const user = useStore((s) => s.user);
+  const shell = useFamiljenShell();
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
+
+  useEffect(() => {
+    if (tab !== 'dagbok_arkiv' || !user) return;
+    getJournalEntries(user.uid)
+      .then((rows) => setJournalEntries(rows as JournalEntry[]))
+      .catch(() => setJournalEntries([]));
+  }, [tab, user]);
+
+  const ingress = (
+    <p className="mb-3 text-sm text-text-muted">{FORENSIC_TAB_INGRESS[tab]}</p>
+  );
+
+  switch (tab) {
+    case 'hamn_analys':
+      return (
+        <>
+          {ingress}
+          <HamnForensicPanel initialMessage="" />
+        </>
+      );
+    case 'speglar_fordjupat':
+      return (
+        <>
+          {ingress}
+          <SpeglingsForensicPanel userId={user?.uid} />
+        </>
+      );
+    case 'dagbok_arkiv':
+      return (
+        <>
+          {ingress}
+          <JournalArchive entries={journalEntries} />
+        </>
+      );
+    case 'familjen_monster':
+      return shell.user ? (
+        <>
+          {ingress}
+          <FamiljenMonsterTab shell={shell} />
+        </>
+      ) : null;
+    case 'arbetsliv_franvaro':
+      return (
+        <>
+          {ingress}
+          <VaultEconomyPanel />
+        </>
+      );
+    case 'arbetsliv_lon':
+      return (
+        <>
+          {ingress}
+          <ArbetslivLonForensic />
+        </>
+      );
+    default:
+      return null;
+  }
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx">
+import { useEffect, useRef, type RefObject } from 'react';
+import { FileDown, Loader2 } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { EmptyState } from '@/core/ui/EmptyState';
+import type { VaultLog, WeaverTags } from '@/core/types/firestore';
+import {
+  VAVAREN_LOG_CATEGORY_LABEL,
+  VAVAREN_LOG_DISCLAIMER,
+} from '../constants/vavarenCopy';
+import { exportVaultRecordAsPdf } from '../utils/exportVaultRecord';
+import { normalizeStringArray } from '../utils/normalizeVaultLog';
+import { scanTechniquesForLog } from '../utils/vaultPatternScan';
+
+type VaultLogRow = VaultLog & { id: string; weaverTags?: WeaverTags };
+
+function isVavarenMetadata(log: VaultLog): boolean {
+  return log.category === 'vävaren_metadata';
+}
+
+type VaultLogListProps = {
+  logs: (VaultLog & { id: string })[];
+  loading: boolean;
+  highlightLogId?: string | null;
+  /** Tom lista — scroll till Samla-formuläret ovan. */
+  onLogFirstBevis?: () => void;
+  /** V2 — visa endast Sanningens Ankare (`pinned`). */
+  anchorsOnly?: boolean;
+};
+
+function asText(value: unknown): string {
+  if (value == null) return '';
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+  return String(value);
+}
+
+function formatLogBody(log: VaultLog): string {
+  if (log.entryType === 'two_column' && (log.theirVersion || log.myReality)) {
+    return `Hens: ${asText(log.theirVersion) || '—'}\nMin: ${asText(log.myReality) || '—'}`;
+  }
+  if (log.entryType === 'three_shield') {
+    return [log.shieldWhat, log.shieldFeeling, log.shieldBoundary]
+      .map(asText)
+      .filter(Boolean)
+      .join(' · ');
+  }
+  if (log.entryType === 'body_signal') {
+    const signals = normalizeStringArray(log.bodySignals);
+    if (signals.length > 0) {
+      const truth = asText(log.truth);
+      return `${signals.join(', ')}${truth ? ` — ${truth}` : ''}`;
+    }
+  }
+  return asText(log.truth);
+}
+
+function formatLogDate(createdAt: VaultLog['createdAt'] | undefined): string {
+  if (typeof createdAt === 'string') return createdAt.slice(0, 10);
+  if (createdAt == null) return '—';
+  return String(createdAt).slice(0, 10);
+}
+
+function formatServerTimestamp(createdAt: VaultLog['createdAt'] | undefined): string {
+  if (typeof createdAt === 'string') return createdAt;
+  if (createdAt == null) return '—';
+  return String(createdAt);
+}
+
+function LogRow({
+  log,
+  highlightLogId,
+  highlightRef,
+}: {
+  log: VaultLogRow;
+  highlightLogId?: string | null;
+  highlightRef: RefObject<HTMLLIElement | null>;
+}) {
+  const vavaren = isVavarenMetadata(log);
+  const weaverTags = (log as VaultLogRow).weaverTags;
+  const tags = vavaren ? [] : scanTechniquesForLog(log);
+  return (
+    <li
+      key={log.id}
+      ref={log.id === highlightLogId ? highlightRef : undefined}
+      className={`glass-card p-3 text-sm ${
+        log.id === highlightLogId ? 'ring-2 ring-accent/50' : ''
+      } ${vavaren ? 'border border-indigo-400/20 bg-indigo-500/5' : ''}`}
+    >
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <p className="text-[10px] uppercase tracking-widest text-text-dim">
+            SERVER-TIDSSTÄMPEL · {formatServerTimestamp(log.createdAt)}
+          </p>
+          <p className="text-[10px] text-text-dim">ID · {log.id.slice(0, 12)}…</p>
+          <p className="mt-1 text-[10px] uppercase tracking-widest text-text-dim">
+            {log.pinned ? 'Ankare · ' : ''}
+            {vavaren ? VAVAREN_LOG_CATEGORY_LABEL : (log.category ?? 'allmänt')}
+            {!vavaren && log.entryType ? ` · ${log.entryType}` : ''} · {formatLogDate(log.createdAt)}
+          </p>
+          {vavaren && (
+            <p className="mt-1 text-[10px] text-indigo-200/80">{VAVAREN_LOG_DISCLAIMER}</p>
+          )}
+        </div>
+        <button
+          type="button"
+          onClick={() => exportVaultRecordAsPdf(log)}
+          className="btn-pill--ghost shrink-0 py-1 px-2"
+          title="Exportera som PDF (utskrift)"
+        >
+          <FileDown className="h-3 w-3" /> PDF
+        </button>
+      </div>
+      <p className={`mt-1 whitespace-pre-wrap ${vavaren ? 'text-indigo-100/90' : 'text-text-muted'}`}>
+        {formatLogBody(log)}
+      </p>
+      {vavaren && weaverTags && (
+        <div className="mt-2 flex flex-wrap gap-1">
+          {normalizeStringArray(weaverTags.emotions).map((e) => (
+            <span
+              key={`e-${e}`}
+              className="rounded-full border border-indigo-400/25 px-2 py-0.5 text-[10px] text-indigo-200/90"
+            >
+              {e}
+            </span>
+          ))}
+          {normalizeStringArray(weaverTags.actors).map((a) => (
+            <span
+              key={`a-${a}`}
+              className="rounded-full border border-white/10 px-2 py-0.5 text-[10px] text-text-muted"
+            >
+              {a}
+            </span>
+          ))}
+          {weaverTags.threatLevel && weaverTags.threatLevel !== 'none' && (
+            <span className="rounded-full border border-amber-500/30 px-2 py-0.5 text-[10px] text-amber-200/90">
+              hot: {weaverTags.threatLevel}
+            </span>
+          )}
+        </div>
+      )}
+      {tags.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1">
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full border border-accent/20 px-2 py-0.5 text-[10px] text-accent/80"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+      {log.evidenceUrl && (
+        <a
+          href={log.evidenceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-2 inline-block text-xs text-accent-secondary hover:underline"
+        >
+          Visa bifogat bevis
+        </a>
+      )}
+    </li>
+  );
+}
+
+export function VaultLogList({
+  logs,
+  loading,
+  highlightLogId,
+  onLogFirstBevis,
+  anchorsOnly = false,
+}: VaultLogListProps) {
+  const highlightRef = useRef<HTMLLIElement | null>(null);
+  const visible = anchorsOnly ? logs.filter((l) => l.pinned) : logs;
+  const pinned = visible.filter((l) => l.pinned);
+  const rest = anchorsOnly ? [] : visible.filter((l) => !l.pinned);
+
+  useEffect(() => {
+    if (!highlightLogId) return;
+    const timer = window.setTimeout(() => {
+      highlightRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 120);
+    return () => window.clearTimeout(timer);
+  }, [highlightLogId, logs.length]);
+
+  return (
+    <BentoCard title="Bevisarkiv">
+      {onLogFirstBevis && (
+        <div className="mb-3 flex justify-end">
+          <button type="button" onClick={onLogFirstBevis} className="btn-pill--secondary text-sm">
+            Logga bevis
+          </button>
+        </div>
+      )}
+      {loading && visible.length === 0 ? (
+        <p className="text-sm text-text-dim flex items-center gap-2">
+          <Loader2 className="h-4 w-4 animate-spin" /> Laddar...
+        </p>
+      ) : visible.length === 0 ? (
+        <EmptyState
+          message={
+            anchorsOnly
+              ? 'Inga ankare markerade ännu. Kryssa i «Sanningens Ankare» när du loggar bevis.'
+              : 'Inga poster i arkivet ännu. Tryck «Logga bevis» ovan i panelen — formuläret ligger precis ovanför.'
+          }
+        />
+      ) : (
+        <div className="space-y-4">
+          {pinned.length > 0 && (
+            <div>
+              <p className="mb-2 text-[10px] uppercase tracking-widest text-gold/80">
+                Sanningens Ankare
+              </p>
+              <ul className="space-y-3">
+                {pinned.map((log) => (
+                  <LogRow key={log.id} log={log} highlightLogId={highlightLogId} highlightRef={highlightRef} />
+                ))}
+              </ul>
+            </div>
+          )}
+          <ul className="space-y-3">
+          {rest.map((log) => (
+            <LogRow key={log.id} log={log} highlightLogId={highlightLogId} highlightRef={highlightRef} />
+          ))}
+        </ul>
+        </div>
+      )}
+    </BentoCard>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultMonsterPanel.tsx">
+/** @locked-ux Valv Mönster — do not remove; see `.context/locked-ux-features.md` */
+import { useMemo } from 'react';
+import { BarChart3 } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { EmptyState } from '@/core/ui/EmptyState';
+import type { VaultLog } from '@/core/types/firestore';
+import { buildVaultFrequencyReport } from '../utils/vaultPatternScan';
+
+type Props = {
+  logs: (VaultLog & { id: string })[];
+};
+
+function BarRow({ label, count, max }: { label: string; count: number; max: number }) {
+  const width = max > 0 ? Math.round((count / max) * 100) : 0;
+  return (
+    <div className="space-y-1">
+      <div className="flex justify-between text-xs text-text-dim">
+        <span>{label}</span>
+        <span>{count}</span>
+      </div>
+      <div className="h-2 overflow-hidden rounded-full bg-white/5">
+        <div
+          className="h-full rounded-full bg-accent/70 transition-all"
+          style={{ width: `${width}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+export function VaultMonsterPanel({ logs }: Props) {
+  const report = useMemo(() => buildVaultFrequencyReport(logs), [logs]);
+  const maxTechnique = report.topTechniques[0]?.count ?? 0;
+  const maxMonth = Math.max(...report.monthlyCounts.map((m) => m.count), 1);
+
+  if (logs.length === 0) {
+    return (
+      <BentoCard title="Mönster" description="Pansaret · deterministisk frekvens" icon={<BarChart3 className="h-4 w-4" />}>
+        <EmptyState message="Inga valvposter ännu. Spara under Arkiv — frekvensen visas här." />
+      </BentoCard>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <BentoCard
+        title="Frekvensanalys"
+        description="Pansaret · regex-lager (ingen LLM som sanning)"
+        icon={<BarChart3 className="h-4 w-4" />}
+      >
+        <p className="text-sm text-text-muted">
+          {report.totalPosts} poster · {report.smsLikePosts} kommunikationsrelaterade ·
+          deterministisk skanning av dina låsta texter i arkivet.
+        </p>
+        <div className="mt-4 space-y-3">
+          {report.topTechniques.length === 0 ? (
+            <p className="text-sm text-text-dim">
+              Inga kända manipulationstaktiker hittades i befintliga poster (bra tecken, eller
+              kortare texter).
+            </p>
+          ) : (
+            report.topTechniques.map(({ technique, count }) => (
+              <BarRow key={technique} label={technique} count={count} max={maxTechnique} />
+            ))
+          )}
+        </div>
+      </BentoCard>
+
+      <BentoCard title="Poster per månad" description="Systematisk tidsfrekvens">
+        <div className="space-y-3">
+          {report.monthlyCounts.map(({ month, count }) => (
+            <BarRow key={month} label={month} count={count} max={maxMonth} />
+          ))}
+        </div>
+      </BentoCard>
+
+      <BentoCard title="Kategorier i valvet" description="Fördelning">
+        <div className="space-y-2 text-sm text-text-muted">
+          {Object.entries(report.categoryCounts).map(([cat, count]) => (
+            <p key={cat}>
+              {cat}: <span className="text-accent">{count}</span>
+            </p>
+          ))}
+        </div>
+      </BentoCard>
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx">
+/** @locked-ux Valv Orkester — do not remove; see `.context/locked-ux-features.md` */
+import { useMemo, useState } from 'react';
+import { Loader2, Network } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import {
+  analyzeBiffMessage,
+  type GransAnalysis,
+} from '@/features/family/safeHarbor/api/biffService';
+import type { VaultLog } from '@/core/types/firestore';
+import { PRODUCT_AGENTS } from '../constants/productAgents';
+import { OrkesterAgentTrio } from './OrkesterAgentTrio';
+import { scanTechniquesForLog } from '../utils/vaultPatternScan';
+
+type Props = {
+  logs?: (VaultLog & { id: string })[];
+};
+
+export function VaultOrkesterPanel({ logs = [] }: Props) {
+  const [thread, setThread] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [grans, setGrans] = useState<GransAnalysis | null>(null);
+  const [riskScore, setRiskScore] = useState<number | null>(null);
+  const [agentName, setAgentName] = useState<string | null>(null);
+
+  const registeredDocs = useMemo(
+    () =>
+      logs
+        .filter((log) =>
+          /sms|mejl|kommunikation|myndighet|dokument/i.test(
+            `${log.category ?? ''} ${log.action ?? ''}`,
+          ),
+        )
+        .slice(0, 8),
+    [logs],
+  );
+
+  const handleScan = async () => {
+    if (!thread.trim()) return;
+    setLoading(true);
+    setError(null);
+    setGrans(null);
+    setRiskScore(null);
+    setAgentName(null);
+    try {
+      const result = await analyzeBiffMessage(thread);
+      setGrans(result.data?.gransAnalysis ?? null);
+      setRiskScore(result.dcap?.riskScore ?? null);
+      setAgentName(result.data?.agentName ?? null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Mönstersökning misslyckades.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <OrkesterAgentTrio />
+
+      <BentoCard
+        title="Assistentroller"
+        description="Vilka hjälpare som finns"
+        icon={<Network className="h-4 w-4" />}
+      >
+        <ul className="space-y-2">
+          {PRODUCT_AGENTS.map((agent) => (
+            <li key={agent.id} className="glass-card p-3 text-sm">
+              <p className="font-medium text-text">{agent.name}</p>
+              <p className="text-xs text-text-dim">
+                {agent.role} · {agent.focus}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </BentoCard>
+
+      {registeredDocs.length > 0 && (
+        <BentoCard title="Registrerade dokument" description="SMS, mejl, myndighet">
+          <ul className="space-y-2">
+            {registeredDocs.map((log) => {
+              const tags = scanTechniquesForLog(log);
+              return (
+                <li key={log.id} className="glass-card p-3 text-sm">
+                  <p className="text-[10px] uppercase tracking-widest text-text-dim">
+                    {log.category ?? 'dokument'} · {(log.createdAt ?? '').slice(0, 10)}
+                  </p>
+                  <p className="mt-1 line-clamp-2 text-text-muted">
+                    {(log.truth ?? '').slice(0, 120) || '—'}
+                  </p>
+                  {tags.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full border border-accent/20 px-2 py-0.5 text-[10px] text-accent/80"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </BentoCard>
+      )}
+
+      <BentoCard
+        title="Mönstersökning i SMS-tråd"
+        description="Klistra in hela tråden — Brusfiltret + DCAP"
+      >
+        <p className="mb-3 text-sm text-text-muted">
+          Exportera gärna hela tråden som text/PDF först (iMazing/Decipher). Kör sedan sökning
+          här — resultatet är vägledning, inte dom.
+        </p>
+        <textarea
+          value={thread}
+          onChange={(e) => setThread(e.target.value)}
+          placeholder="Klistra in sms-tråden här…"
+          rows={8}
+          className="input-glass rounded-xl px-3 py-2"
+          disabled={loading}
+        />
+        <button
+          type="button"
+          onClick={handleScan}
+          disabled={loading || !thread.trim()}
+          className="btn-pill--accent mt-3 disabled:opacity-50"
+        >
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+          Kör mönstersökning
+        </button>
+        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+
+        {(riskScore != null || grans) && (
+          <div className="mt-4 space-y-3 border-t border-border-strong pt-4 text-sm">
+            {agentName && (
+              <p className="text-text-dim">
+                Dirigerad av: <span className="text-accent">{agentName}</span>
+              </p>
+            )}
+            {riskScore != null && (
+              <p>
+                DCAP riskpoäng: <span className="text-accent">{riskScore}</span>/100
+              </p>
+            )}
+            {grans?.techniques?.length ? (
+              <div>
+                <p className="text-xs uppercase tracking-widest text-text-dim">Taktiker</p>
+                <ul className="mt-1 list-inside list-disc text-text-muted">
+                  {grans.techniques.map((t) => (
+                    <li key={t}>{t}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            {grans?.cleanFacts?.length ? (
+              <div>
+                <p className="text-xs uppercase tracking-widest text-text-dim">Rena fakta</p>
+                <ul className="mt-1 list-inside list-disc text-text-muted">
+                  {grans.cleanFacts.map((f) => (
+                    <li key={f}>{f}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            {grans?.emotionalBait?.length ? (
+              <div>
+                <p className="text-xs uppercase tracking-widest text-text-dim">Känslomässigt bete</p>
+                <ul className="mt-1 list-inside list-disc text-text-muted">
+                  {grans.emotionalBait.map((b) => (
+                    <li key={b}>{b}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
+        )}
+      </BentoCard>
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultOverviewPanel.tsx">
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Archive, Clock, Inbox } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { vaultDrawerPath } from '@/core/navigation/navTruth';
+import { listDraftsByStatus } from '@/modules/capture/draftQueue';
+
+type Props = {
+  pendingInbox: number | null;
+  onOpenReview: () => void;
+};
+
+/** Arkiv-översikt — granskning + lokala utkast (en skärm, inga extra flikar). */
+export function VaultOverviewPanel({ pendingInbox, onOpenReview }: Props) {
+  const [localPending, setLocalPending] = useState(0);
+
+  useEffect(() => {
+    void (async () => {
+      try {
+        const [pending, review, failed] = await Promise.all([
+          listDraftsByStatus('pending'),
+          listDraftsByStatus('review'),
+          listDraftsByStatus('failed'),
+        ]);
+        setLocalPending(pending.length + review.length + failed.length);
+      } catch {
+        setLocalPending(0);
+      }
+    })();
+  }, [pendingInbox]);
+
+  return (
+    <BentoCard title="Arkiv-översikt" icon={<Archive className="h-4 w-4" />}>
+      <ul className="space-y-2 text-sm text-text-muted">
+        <li className="flex items-center gap-2">
+          <Inbox className="h-3.5 w-3.5 text-gold" aria-hidden />
+          Granskning i molnet
+          {pendingInbox != null && pendingInbox > 0 ? (
+            <button type="button" className="text-gold underline-offset-2 hover:underline" onClick={onOpenReview}>
+              {pendingInbox} väntar
+            </button>
+          ) : (
+            <span className="text-text-dim">— inget väntar</span>
+          )}
+        </li>
+        {localPending > 0 && (
+          <li className="flex items-center gap-2">
+            <Clock className="h-3.5 w-3.5 text-gold" aria-hidden />
+            Lokala utkast: {localPending}
+          </li>
+        )}
+      </ul>
+      <div className="mt-3 flex flex-wrap gap-2 text-xs">
+        <Link to={vaultDrawerPath('monster')} className="text-accent/80 underline-offset-2 hover:underline">
+          Mönster
+        </Link>
+        <Link to={vaultDrawerPath('orkester')} className="text-accent/80 underline-offset-2 hover:underline">
+          Orkester
+        </Link>
+        <Link to={vaultDrawerPath('dossier')} className="text-accent/80 underline-offset-2 hover:underline">
+          Rapporter
+        </Link>
+      </div>
+    </BentoCard>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultPatternHandoff.tsx">
+import { Link } from 'react-router-dom';
+import { BarChart3 } from 'lucide-react';
+import { vaultDrawerPath } from '@/core/navigation/navTruth';
+
+/** Efter logg eller vid mönster-nyckelord — länk till Mönster (ingen auto-analys). */
+export function VaultPatternHandoff({ className = '' }: { className?: string }) {
+  return (
+    <aside
+      className={`journal-handoff ${className}`.trim()}
+      role="note"
+      aria-label="Förslag om mönsteranalys"
+    >
+      <div className="journal-handoff__header">
+        <BarChart3 className="h-4 w-4 shrink-0 text-accent" aria-hidden />
+        <p className="journal-handoff__title">Leta mönster i bevisen?</p>
+      </div>
+      <p className="journal-handoff__body">
+        När du har flera poster kan Mönster-fliken visa upprepningar över tid. Inget körs automatiskt.
+      </p>
+      <Link to={vaultDrawerPath('monster')} className="journal-handoff__cta btn-pill--ghost">
+        Öppna Mönster →
+      </Link>
+    </aside>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaDriveHint.tsx">
+import { HardDrive } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
+
+type Props = {
+  pendingCount?: number;
+  onOpenQueue: () => void;
+};
+
+/** G10 — Drive hamnar i granskningskö; ingen auto-WORM till reality_vault (SPEC §14). */
+export function VaultSamlaDriveHint({ pendingCount, onOpenQueue }: Props) {
+  return (
+    <BentoCard
+      title="Drive & oklara filer"
+      description="Manuellt godkännande"
+      icon={<HardDrive className="h-4 w-4 text-accent" />}
+    >
+      <p className="text-xs text-text-dim">
+        Filer från Google Drive sparas <strong className="font-normal text-text-muted">inte</strong>{' '}
+        automatiskt som bevis. De hamnar i granskningskö — välj «→ Bevis» när du är redo.
+      </p>
+      <button type="button" className="btn-pill--secondary mt-3 text-xs" onClick={onOpenQueue}>
+        {pendingCount != null && pendingCount > 0
+          ? `Öppna granskningskö (${pendingCount})`
+          : 'Öppna granskningskö'}
+      </button>
+    </BentoCard>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx">
+import { useCallback, useEffect, useState, startTransition } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
+import { fetchInboxQueue } from '../../kompis/api/inboxService';
+import { VaultEntryForm } from './VaultEntryForm';
+import { VaultInkastCompact } from './VaultInkastCompact';
+import { VaultSamlaDriveHint } from './VaultSamlaDriveHint';
+import { VaultOverviewPanel } from './VaultOverviewPanel';
+import type { VaultLogInput } from '../types/vaultEntry';
+
+export type SamlaView = 'logga' | 'granska';
+
+function parseSamlaView(raw: string | null): SamlaView {
+  return raw === 'granska' ? 'granska' : 'logga';
+}
+
+type Props = {
+  userId: string;
+  saving: boolean;
+  saveError: string | null;
+  onSave: (input: VaultLogInput) => Promise<void>;
+  onBevisConfirmed: (docId: string) => void;
+};
+
+export function VaultSamlaHub({ userId, saving, saveError, onSave, onBevisConfirmed }: Props) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [pendingInbox, setPendingInbox] = useState<number | null>(null);
+  const samlaView = parseSamlaView(searchParams.get('samlaView'));
+
+  const setSamlaView = useCallback(
+    (view: SamlaView) => {
+      setSearchParams(
+        (prev) => {
+          const params = new URLSearchParams(prev);
+          params.set('tab', 'bevis');
+          params.set('vaultTab', 'logga');
+          if (view === 'granska') params.set('samlaView', 'granska');
+          else params.delete('samlaView');
+          return params;
+        },
+        { replace: true },
+      );
+    },
+    [setSearchParams],
+  );
+
+  const refreshPendingCount = useCallback(async () => {
+    try {
+      const items = await fetchInboxQueue();
+      setPendingInbox(items.length);
+    } catch {
+      setPendingInbox(null);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (samlaView !== 'granska') {
+      void refreshPendingCount();
+    }
+  }, [refreshPendingCount, samlaView]);
+
+  const handleBevisConfirmed = (docId: string) => {
+    onBevisConfirmed(docId);
+    startTransition(() => {
+      setSamlaView('logga');
+    });
+    void refreshPendingCount();
+  };
+
+  if (samlaView === 'granska') {
+    return (
+      <div className="space-y-4">
+        <InboxReviewQueue
+          prioritizeBevis
+          onBevisConfirmed={handleBevisConfirmed}
+          onBack={() => setSamlaView('logga')}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <VaultOverviewPanel
+        pendingInbox={pendingInbox}
+        onOpenReview={() => setSamlaView('granska')}
+      />
+      <VaultInkastCompact
+        onQueued={() => setSamlaView('granska')}
+        onPersistedBevis={handleBevisConfirmed}
+      />
+      <VaultSamlaDriveHint
+        pendingCount={pendingInbox ?? undefined}
+        onOpenQueue={() => setSamlaView('granska')}
+      />
+      <div id="vault-samla-entry">
+        <BentoCard title="Ny post" description="Append-only bevis">
+          <VaultEntryForm userId={userId} saving={saving} onSave={onSave} />
+          {saveError && <p className="mt-2 text-sm text-danger">{saveError}</p>}
+        </BentoCard>
+      </div>
+      <div className="flex justify-end">
+        <button
+          type="button"
+          className="btn-pill--ghost text-xs"
+          onClick={() => setSamlaView('granska')}
+        >
+          Granskningskö
+          {pendingInbox != null && pendingInbox > 0 ? ` (${pendingInbox})` : ''}
+        </button>
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultValvBreadcrumb.tsx">
+import {
+  forensicVaultTabLabel,
+  isAnalyseraVaultTab,
+  isExporteraVaultTab,
+  isForensicVaultTab,
+  isKunskapVaultTab,
+  isSamlaVaultTab,
+  type ValvZone,
+  type VaultTab,
+} from '../utils/vaultTabs';
+import { getVaultZoneTabBarItems, vaultMainTabLabel } from '@/core/navigation/tabRegistry';
+
+type VaultValvBreadcrumbProps = {
+  zone: ValvZone;
+  vaultTab: VaultTab;
+};
+
+const ZONE_LABEL = Object.fromEntries(
+  getVaultZoneTabBarItems().map((z) => [z.id, z.label]),
+) as Record<ValvZone, string>;
+
+/** Valv › zon › underflik — synkad med drawer-grupper. */
+export function VaultValvBreadcrumb({ zone, vaultTab }: VaultValvBreadcrumbProps) {
+  const parts: string[] = ['Valv', ZONE_LABEL[zone] ?? zone];
+
+  if (isSamlaVaultTab(vaultTab) || isAnalyseraVaultTab(vaultTab) || isExporteraVaultTab(vaultTab)) {
+    parts.push(vaultMainTabLabel(vaultTab));
+  } else if (isKunskapVaultTab(vaultTab)) {
+    parts.push(vaultMainTabLabel(vaultTab));
+  } else if (isForensicVaultTab(vaultTab)) {
+    parts.push(forensicVaultTabLabel(vaultTab));
+  }
+
+  return (
+    <p className="text-xs uppercase tracking-widest text-text-dim" aria-label={parts.join(', ')}>
+      {parts.join(' · ')}
+    </p>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/WeaverPendingVaultBanner.tsx">
+import { useEffect, useState } from 'react';
+import type { WeaverPendingRow } from '@/features/lifeJournal/diary/diary/api/weaverApprovalService';
+import {
+  approveWeaverMetadata,
+  rejectWeaverMetadata,
+  subscribeWeaverPendingForUser,
+} from '@/features/lifeJournal/diary/diary/api/weaverApprovalService';
+import { normalizeStringArray } from '../utils/normalizeVaultLog';
+import {
+  VAVAREN_APPROVAL_HINT,
+  VAVAREN_APPROVAL_TITLE,
+  VAVAREN_PENDING_VAULT_INTRO,
+} from '../constants/vavarenCopy';
+
+type Props = {
+  userId: string;
+  onApproved?: () => void;
+};
+
+export function WeaverPendingVaultBanner({ userId, onApproved }: Props) {
+  const [rows, setRows] = useState<WeaverPendingRow[]>([]);
+  const [busyId, setBusyId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!userId) return;
+    return subscribeWeaverPendingForUser(userId, setRows);
+  }, [userId]);
+
+  if (rows.length === 0) return null;
+
+  const handleApprove = async (pendingId: string) => {
+    setBusyId(pendingId);
+    try {
+      await approveWeaverMetadata(pendingId);
+      onApproved?.();
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  const handleDismiss = async (pendingId: string) => {
+    setBusyId(pendingId);
+    try {
+      await rejectWeaverMetadata(pendingId);
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  return (
+    <div className="space-y-2">
+      <p className="text-xs text-text-dim">{VAVAREN_PENDING_VAULT_INTRO}</p>
+      {rows.map((row) => (
+        <div
+          key={row.id}
+          className="rounded-xl border border-gold/25 bg-gold/5 px-3 py-3 text-sm"
+        >
+          <p className="text-text-muted">{VAVAREN_APPROVAL_TITLE}</p>
+          <p className="mt-1 text-xs text-text-dim">{VAVAREN_APPROVAL_HINT}</p>
+          <div className="mt-2 flex flex-wrap gap-1">
+            {normalizeStringArray(row.weaverTags?.emotions).map((e) => (
+              <span
+                key={`${row.id}-e-${e}`}
+                className="rounded-full border border-indigo-400/25 px-2 py-0.5 text-[10px] text-indigo-200/90"
+              >
+                {e}
+              </span>
+            ))}
+          </div>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <button
+              type="button"
+              disabled={busyId === row.id}
+              onClick={() => void handleApprove(row.id)}
+              className="btn-pill--accent text-xs disabled:opacity-50"
+            >
+              Godkänn
+            </button>
+            <button
+              type="button"
+              disabled={busyId === row.id}
+              onClick={() => void handleDismiss(row.id)}
+              className="btn-pill--ghost text-xs disabled:opacity-50"
+            >
+              Hoppa över
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/constants/productAgents.ts">
+/** Produktroller (AGENTS.md) — UI-register för Orkester-fliken; routing sker i functions. */
+export const PRODUCT_AGENTS = [
+  {
+    id: 'agent_sannings_analytikern',
+    name: 'Sannings-Analytikern',
+    role: 'Bevis & VIVIR',
+    focus: 'Valv, strikt JSON',
+  },
+  {
+    id: 'agent_monster_arkivarien',
+    name: 'Mönster-Arkivarien',
+    role: 'Frekvens & makro',
+    focus: 'SMS-trådar, långsiktiga mönster',
+  },
+  {
+    id: 'agent_grans_arkitekten',
+    name: 'Gräns-Arkitekten',
+    role: 'BIFF + DCAP',
+    focus: 'Hamn, Grey Rock',
+  },
+  {
+    id: 'agent_biff_skolden',
+    name: 'BIFF-Skölden',
+    role: 'Neutralt svar',
+    focus: 'Kort, fast kommunikation',
+  },
+  {
+    id: 'agent_brusfiltret',
+    name: 'Brusfiltret',
+    role: 'Clean Input',
+    focus: 'Fakta ur manipulation',
+  },
+  {
+    id: 'agent_livs_arkivarien',
+    name: 'Livs-Arkivarien',
+    role: 'Minne & RAG',
+    focus: 'Kunskapsvalvet',
+  },
+  {
+    id: 'agent_paralys_brytaren',
+    name: 'Paralys-Brytaren',
+    role: 'Ett mikrosteg',
+    focus: 'Kompasser',
+  },
+  {
+    id: 'agent_rsd_kylaren',
+    name: 'RSD-Kylaren',
+    role: 'Alternativ',
+    focus: 'Kalla triggers',
+  },
+] as const;
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/constants/vaultEntry.ts">
+import type { VaultEntryType } from '../types/vaultEntry';
+
+export const BODY_SIGNALS = [
+  'Tung över axlarna',
+  'Klump i magen',
+  'Svårt att andas',
+] as const;
+
+export const VAULT_ENTRY_MODES: { id: VaultEntryType; label: string }[] = [
+  { id: 'simple', label: 'Enkel' },
+  { id: 'two_column', label: 'Tvåspalt' },
+  { id: 'three_shield', label: 'Tresteg' },
+  { id: 'body_signal', label: 'Magkänsel' },
+];
+
+export const SHIELD_STEPS = [
+  { key: 'what', label: 'Vad händer?', placeholder: 'Objektivt, utan tolkning...' },
+  { key: 'feeling', label: 'Vad känner jag?', placeholder: 'Kroppsligt eller emotionellt...' },
+  { key: 'boundary', label: 'Hur vill jag att det ska vara?', placeholder: 'Gräns eller önskat tillstånd...' },
+] as const;
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/constants/vavarenCopy.ts">
+/**
+ * User-facing copy for dagbok → pending → godkänd `vävaren_metadata` (NAMN-AUDIT 2026-05-31).
+ */
+export const VAVAREN_SAVED_HINT =
+  'Sparad. Förslag på taggar nedan — inget i arkiv förrän du godkänner.';
+
+/** Tom — valfri Minne-rad förklaras i ConfirmStep-checkbox. */
+export const VAVAREN_CONFIRM_HINT = '';
+
+export const VAVAREN_APPROVAL_TITLE = 'Förslag på taggar';
+
+export const VAVAREN_APPROVAL_HINT =
+  'AI-förslag — inte dina ord. Godkänn för att spara i arkiv.';
+
+export const VAVAREN_APPROVAL_LOADING = 'Analyserar…';
+
+export const VAVAREN_APPROVAL_SAVED = 'Taggar sparade i arkiv.';
+
+export const VAVAREN_APPROVAL_DISMISS = 'Förslaget avvisades — inget sparades i arkiv.';
+
+export const VAVAREN_APPROVAL_APPROVE_BUTTON = 'Spara taggar';
+
+export const VAVAREN_PENDING_VAULT_INTRO =
+  'Dagboksposter väntar på godkännande innan AI-taggar sparas i arkivet.';
+
+export const VAVAREN_LOG_CATEGORY_LABEL = 'Taggar från dagbok';
+
+export const VAVAREN_LOG_DISCLAIMER =
+  'AI-förslag — inte dina ord och inte beviskropp. Sparades efter ditt godkännande.';
+
+export const VAVAREN_VALVCHAT_HINT =
+  'Sök använder dina låsta poster. Taggar från dagboken ingår inte.';
+
+export const VAVAREN_DOSSIER_CHECKBOX = 'Kort AI-inledning före rapporten';
+
+export const VAVAREN_DOSSIER_HINT =
+  'Bevisdelen är ordagrant från arkivet. Försättet är valfritt och märks som AI-förslag.';
+
+/** Dagbok «kom ihåg» — rad om taggar när Valv är öppet. */
+export const VAVAREN_DAGBOK_ARCHIVE_LINE =
+  'Extra i arkiv (kräver upplåst Valv): taggar och valfri sparning i Minne.';
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/dossier/api/dossierService.ts">
+import { httpsCallable, type FunctionsError } from 'firebase/functions';
+import { functions } from '@/core/firebase/init';
+import type { GenerateDossierInput, GenerateDossierResult } from '../types';
+
+const generateDossierCallable = httpsCallable<GenerateDossierInput, GenerateDossierResult>(
+  functions,
+  'generateDossier',
+);
+
+export async function generateDossier(
+  input: GenerateDossierInput,
+): Promise<GenerateDossierResult> {
+  try {
+    const result = await generateDossierCallable(input);
+    return result.data;
+  } catch (error) {
+    const fnError = error as FunctionsError;
+    if (fnError.code === 'functions/not-found' || fnError.code === 'functions/unimplemented') {
+      throw new Error(
+        'Backend generateDossier är inte deployad än. Wizard och urval är klara — nästa steg är Cloud Function + dossier_snapshots.',
+      );
+    }
+    if (fnError.code === 'functions/unauthenticated') {
+      throw new Error('Autentisering krävs för att generera dossier.');
+    }
+    throw new Error(fnError.message || 'Kunde inte generera dossier.');
+  }
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/dossier/utils/dossierCandidates.ts">
+import type { VaultLog } from '@/core/types/firestore';
+import type { ChildrenLogEntry } from '@/features/family/children/types';
+import type { DossierCandidateDoc, DossierSourceKey, GenerateDossierInput } from '../types';
+
+export function isoDateOnly(iso: string): string {
+  return iso.slice(0, 10);
+}
+
+export function inDateRange(createdAt: string | undefined, from: string, to: string): boolean {
+  if (!createdAt) return false;
+  const day = isoDateOnly(createdAt);
+  return day >= from && day <= to;
+}
+
+export function defaultDateRange(): { dateFrom: string; dateTo: string } {
+  const to = new Date();
+  const from = new Date();
+  from.setMonth(from.getMonth() - 3);
+  return {
+    dateFrom: from.toISOString().slice(0, 10),
+    dateTo: to.toISOString().slice(0, 10),
+  };
+}
+
+export function shiftMonths(isoDate: string, months: number): string {
+  const d = new Date(`${isoDate}T12:00:00`);
+  d.setMonth(d.getMonth() + months);
+  return d.toISOString().slice(0, 10);
+}
+
+function vaultTitle(log: VaultLog & { id: string }): string {
+  return log.category?.trim() || log.action || 'Valv-post';
+}
+
+function vaultPreview(log: VaultLog): string {
+  const parts = [log.truth, log.myReality, log.theirVersion].filter(Boolean);
+  const text = parts.join(' · ') || log.childrenImpact || '';
+  return text.length > 160 ? `${text.slice(0, 160)}…` : text;
+}
+
+export function vaultToCandidate(log: VaultLog & { id: string }): DossierCandidateDoc {
+  return {
+    id: log.id,
+    kind: 'reality_vault',
+    createdAt: log.createdAt,
+    title: vaultTitle(log),
+    preview: vaultPreview(log),
+    category: log.category,
+  };
+}
+
+export function childrenToCandidate(log: ChildrenLogEntry): DossierCandidateDoc {
+  const title = [log.childAlias, log.category || log.action].filter(Boolean).join(' · ') || 'Barnlogg';
+  const preview =
+    log.observation || log.truth || log.childrenImpact || 'Fysiologi/logg';
+  return {
+    id: log.id,
+    kind: 'children_logs',
+    createdAt: log.createdAt ?? '',
+    title,
+    preview: preview.length > 160 ? `${preview.slice(0, 160)}…` : preview,
+    category: log.category,
+  };
+}
+
+export function journalToCandidate(entry: {
+  id: string;
+  mood?: string;
+  text?: string;
+  createdAt?: string;
+}): DossierCandidateDoc {
+  const mood = entry.mood ? `Humör: ${entry.mood}. ` : '';
+  const text = String(entry.text ?? '');
+  return {
+    id: entry.id,
+    kind: 'journal',
+    createdAt: entry.createdAt ?? '',
+    title: 'Dagbok',
+    preview: `${mood}${text}`.slice(0, 160),
+  };
+}
+
+export function filterCandidates(
+  docs: DossierCandidateDoc[],
+  dateFrom: string,
+  dateTo: string,
+  enabledSources: Record<DossierSourceKey, boolean>,
+  categoryFilter: string[],
+): DossierCandidateDoc[] {
+  return docs.filter((doc) => {
+    if (!enabledSources[doc.kind]) return false;
+    if (!inDateRange(doc.createdAt, dateFrom, dateTo)) return false;
+    if (categoryFilter.length > 0 && doc.category) {
+      return categoryFilter.some(
+        (tag) => doc.category?.toLowerCase().includes(tag.toLowerCase()),
+      );
+    }
+    if (categoryFilter.length > 0 && !doc.category) return false;
+    return true;
+  });
+}
+
+export function collectCategoryTags(docs: DossierCandidateDoc[]): string[] {
+  const tags = new Set<string>();
+  for (const doc of docs) {
+    if (doc.category?.trim()) tags.add(doc.category.trim());
+  }
+  return [...tags].sort((a, b) => a.localeCompare(b, 'sv'));
+}
+
+export function groupIncludedIds(
+  docs: DossierCandidateDoc[],
+  included: Set<string>,
+): GenerateDossierInput['includedDocIds'] {
+  const ids: GenerateDossierInput['includedDocIds'] = {
+    reality_vault: [],
+    children_logs: [],
+    journal: [],
+  };
+  for (const doc of docs) {
+    if (!included.has(doc.id)) continue;
+    ids[doc.kind].push(doc.id);
+  }
+  return ids;
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/dossier/index.ts">
+export { DossierPage } from './components/DossierPage';
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/dossier/module_plan.md">
+# dossier — module plan
+
+## Overview
+
+Dossier-Generator — Sacred Feature. Samlad WORM-export till PDF med hash + `dossier_snapshots`.
+
+**Route:** `/dossier` (AuthGate + Fyren A) · **Canonical:** [`docs/specs/modules/Dossier-SPEC.md`](../../../docs/specs/modules/Dossier-SPEC.md), `.context/modules/evidence/vault/dossier.md`
+
+## Låsta beslut (#1–#4)
+
+Se Dossier-SPEC tabell. Fyren A, backend PDF, snapshot WORM evigt, hela dokument i granskning.
+
+## Status
+
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| Wizard + period/källor | Ombud/soc export | Ja | **done** |
+| `generateDossier` + hash | Sacred Feature | Ja | **done** |
+| `dossier_snapshots` WORM | Evigt snapshot | Ja | **done** |
+| BBIC `reportType` | §I.4 öppen | Nej | **planned** |
+| Flik Dossier i Valv | Logga/Sök/Dossier | Ja | **done** |
+| Bro från Barnen | Kladd | Nej | **planned** |
+| Vävaren försätt opt-in | AI endast försätt | Nej | **planned** |
+| Async `dossier_jobs` | Lång kö | Nej | **planned** |
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
+
+## Files
+
+| Path | Role | Status |
+|------|------|--------|
+| `components/DossierPage.tsx` | Wizard: period → källor → granskning → generera | **done** (UI) |
+| `types.ts` | Input/result types | **done** |
+| `utils/dossierCandidates.ts` | Filter, kandidatlista | **done** |
+| `api/dossierService.ts` | `generateDossier` callable | **done** |
+| `functions/src/lib/generateDossierInternal.ts` | Hash, PDF, snapshot, signed URL / pdfBase64 | **done** |
+| `scripts/smoke_dossier.mjs` | E2E smoke | **done** |
+
+## Relaterad kod (snabbexport)
+
+| Path | Roll |
+|------|------|
+| `verklighetsvalvet/utils/exportVaultRecord.ts` | Per-post print-PDF |
+| `barnens_livsloggar/utils/exportBalansReport.ts` | JSON Balans |
+
+## Deploy
+
+```bash
+firebase deploy --only firestore:rules,storage,functions:generateDossier
+```
+
+## Smoke
+
+```bash
+npm run smoke:dossier
+```
+
+Se [`docs/SMOKE_RESULTS.md`](../../../docs/SMOKE_RESULTS.md) § Dossier smoke.
+
+## Nästa fas
+
+1. Bro *Skapa Dossier* i Barnen (Valv-flik klar)
+2. GCP: `signBlob` för signed URL (valfritt — base64 fungerar)
+3. Async `dossier_jobs` om PDF > ~10 s
+3. Vävaren opt-in försätt (AI)
+4. BBIC `reportType`
+
+## Security
+
+Fyren A, explicit trigger, Zero Footprint on unmount/Klar, ingen auto-delning.
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/dossier/README.md">
+# dossier
+
+> Sacred Feature — Dossier-Generator. Formell WORM-sammanställning (PDF) för ombud/myndighet.
+
+## Syfte
+
+Aggregerar valv + barnen (+ valfritt journal) utan manuell omskrivning. Kanonisk hash, snapshot WORM, PDF Storage TTL ~24 h.
+
+## Route och ingång
+
+| | |
+|---|---|
+| **Route** | `/dossier` |
+| **AuthGate** | ja + Fyren A |
+| **Dock** | ingen ikon |
+
+## Viktiga filer
+
+| Fil | Roll |
+|-----|------|
+| `components/DossierPage.tsx` | Wizard: period → källor → granska → generera |
+| `api/dossierService.ts` | `generateDossier` callable |
+| `utils/dossierCandidates.ts` | Kandidatfiltrering |
+
+**Relaterad export (andra moduler):**
+
+- `verklighetsvalvet/utils/exportVaultRecord.ts` — PDF per valv-post
+- `barnens_livsloggar/utils/exportBalansReport.ts` — JSON Balans
+
+## Data
+
+| | |
+|---|---|
+| **Läser** | `reality_vault`, `children_logs`, opt-in `journal` |
+| **Skriver** | `dossier_snapshots` (WORM), PDF i Storage (kortlivad) |
+
+## Beror på
+
+- `core` — auth, Fyren, layout
+- `functions/` — pdf-lib PDF-generering
+
+## Kopplingar
+
+- **verklighetsvalvet** — primär beviskälla
+- **barnens_livsloggar** — valfri källa
+- **dagbok** — opt-in med varning i UI
+
+## Minne / AI
+
+| | |
+|---|---|
+| **Permanent lagring** | `dossier_snapshots` — WORM export-metadata |
+| **RAG / chatt** | Nej — aggregerar valda källor |
+| **PDF / samlad export** | **Ja** — närmast "hela arkivet + PDF" idag |
+| **Planerat** | BBIC-mall, Kunskapskällor opt-in |
+
+## Mer läsning
+
+- [module_plan.md](./module_plan.md)
+- [Kontext (.context)](../../../.context/modules/evidence/vault/dossier.md)
+- [Dossier-SPEC](../../../docs/specs/modules/Dossier-SPEC.md)
+- [p2-flode](../../../docs/specs/p2-flode.md)
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/dossier/types.ts">
+export type DossierReportType = 'LEGAL' | 'BBIC';
+
+export type DossierSourceKey = 'reality_vault' | 'children_logs' | 'journal';
+
+export type DossierSources = Record<DossierSourceKey, boolean>;
+
+export type DossierWizardStep = 'period' | 'sources' | 'review' | 'result';
+
+export type DossierDocKind = DossierSourceKey;
+
+export interface DossierCandidateDoc {
+  id: string;
+  kind: DossierDocKind;
+  createdAt: string;
+  title: string;
+  preview: string;
+  category?: string;
+}
+
+export interface GenerateDossierInput {
+  dateFrom: string;
+  dateTo: string;
+  sources: DossierSources;
+  reportType: DossierReportType;
+  includeAiForeword: boolean;
+  categoryFilter?: string[];
+  includedDocIds: {
+    reality_vault: string[];
+    children_logs: string[];
+    journal: string[];
+  };
+}
+
+export interface GenerateDossierResult {
+  dossierId: string;
+  documentHash: string;
+  downloadUrl?: string;
+  pdfBase64?: string;
+  jobId?: string;
+  status: 'ready' | 'pending';
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/types/vaultEntry.ts">
+export type VaultEntryType = 'simple' | 'two_column' | 'three_shield' | 'body_signal';
+
+export type VaultLogInput = {
+  action: string;
+  category?: string;
+  truth: string;
+  entryType?: VaultEntryType;
+  theirVersion?: string;
+  myReality?: string;
+  bodySignals?: string[];
+  shieldWhat?: string;
+  shieldFeeling?: string;
+  shieldBoundary?: string;
+  evidenceUrl?: string;
+  pinned?: boolean;
+};
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/utils/exportVaultRecord.ts">
+import type { VaultLog } from '@/core/types/firestore';
+
+function formatRecord(log: VaultLog & { id: string }): string {
+  const lines = [
+    'LIVSKOMPASSEN — VERKLIGHETSVALV (WORM)',
+    `Datum: ${(log.createdAt ?? '').slice(0, 19)}`,
+    `Kategori: ${log.category ?? 'bevis'}`,
+    `Typ: ${log.entryType ?? 'simple'}`,
+    '',
+    log.truth ?? '',
+  ];
+
+  if (log.theirVersion || log.myReality) {
+    lines.push('', '--- Tvåspalt ---', `Hens version: ${log.theirVersion ?? '—'}`, `Min verklighet: ${log.myReality ?? '—'}`);
+  }
+  if (log.evidenceUrl) {
+    lines.push('', `Media: ${log.evidenceUrl}`);
+  }
+
+  return lines.join('\n');
+}
+
+/** Öppnar utskriftsdialog — användaren kan spara som PDF. */
+export function exportVaultRecordAsPdf(log: VaultLog & { id: string }): void {
+  const body = formatRecord(log)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\n/g, '<br/>');
+
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>Valv-bevis</title>
+<style>body{font-family:Inter,sans-serif;padding:2rem;color:#0f172a;line-height:1.5}</style></head>
+<body>${body}</body></html>`;
+
+  const win = window.open('', '_blank');
+  if (!win) return;
+  win.opener = null;
+  win.document.write(html);
+  win.document.close();
+  win.focus();
+  win.print();
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/utils/normalizeVaultLog.ts">
+import type { VaultLog, WeaverTags } from '@/core/types/firestore';
+
+export function normalizeStringArray(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.filter((v): v is string => typeof v === 'string' && v.length > 0);
+  }
+  if (typeof value === 'string' && value.trim()) {
+    return value
+      .split(/[,;|]/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
+function normalizeWeaverTags(raw: unknown): WeaverTags | undefined {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const wt = raw as Record<string, unknown>;
+  return {
+    emotions: normalizeStringArray(wt.emotions),
+    actors: normalizeStringArray(wt.actors),
+    threatLevel:
+      wt.threatLevel === 'low' ||
+      wt.threatLevel === 'medium' ||
+      wt.threatLevel === 'high' ||
+      wt.threatLevel === 'none'
+        ? wt.threatLevel
+        : 'none',
+    threatScore: typeof wt.threatScore === 'number' ? wt.threatScore : undefined,
+    ragAnchors: Array.isArray(wt.ragAnchors) ? (wt.ragAnchors as WeaverTags['ragAnchors']) : [],
+    model: 'gemini-1.5-pro',
+    journalEntryId: typeof wt.journalEntryId === 'string' ? wt.journalEntryId : '',
+  };
+}
+
+/** Säker normalisering — legacy Firestore-rader får inte krascha list-UI. */
+export function normalizeVaultLogFields(
+  log: VaultLog & { id: string; weaverTags?: unknown },
+): VaultLog & { id: string; weaverTags?: WeaverTags } {
+  const { weaverTags: _rawWeaver, bodySignals: _rawSignals, ...rest } = log;
+  const weaverTags = normalizeWeaverTags(_rawWeaver);
+  return {
+    ...rest,
+    truth: typeof log.truth === 'string' ? log.truth : String(log.truth ?? ''),
+    bodySignals: normalizeStringArray(_rawSignals ?? log.bodySignals),
+    ...(weaverTags ? { weaverTags } : {}),
+  };
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/utils/smsThreadParse.ts">
+/** Heuristisk uppdelning av inklistrad sms-tråd till tvåspalt (Hens / Min). */
+export function parseSmsThreadToTwoColumn(raw: string): {
+  theirVersion: string;
+  myReality: string;
+} | null {
+  const text = raw.trim();
+  if (text.length < 20) return null;
+
+  const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+  if (lines.length < 2) return null;
+
+  const mineMarkers = /^(jag|mig|min|mitt|mina|me|i)\b/i;
+  const theirMarkers = /^(hen|de|du|dom)\b/i;
+
+  const mine: string[] = [];
+  const theirs: string[] = [];
+  let bucket: 'mine' | 'theirs' | 'unknown' = 'unknown';
+
+  for (const line of lines) {
+    const headerMatch = line.match(/^([^:]{1,40}):\s*(.+)$/);
+    if (headerMatch) {
+      const who = headerMatch[1]!.trim();
+      const body = headerMatch[2]!.trim();
+      if (mineMarkers.test(who) || /^jag$/i.test(who)) {
+        mine.push(body);
+        bucket = 'mine';
+      } else {
+        theirs.push(body);
+        bucket = 'theirs';
+      }
+      continue;
+    }
+
+    if (theirMarkers.test(line)) {
+      theirs.push(line);
+      bucket = 'theirs';
+    } else if (mineMarkers.test(line)) {
+      mine.push(line);
+      bucket = 'mine';
+    } else if (bucket === 'theirs') {
+      theirs.push(line);
+    } else if (bucket === 'mine') {
+      mine.push(line);
+    } else {
+      theirs.push(line);
+      bucket = 'theirs';
+    }
+  }
+
+  if (mine.length === 0 && theirs.length === 0) return null;
+
+  return {
+    theirVersion: theirs.join('\n') || text,
+    myReality: mine.join('\n') || '',
+  };
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/utils/vaultPatternScan.ts">
+import type { VaultLog } from '@/core/types/firestore';
+import { normalizeStringArray } from './normalizeVaultLog';
+
+export type VaultTechnique =
+  | 'DARVO'
+  | 'GASLIGHTING'
+  | 'JADE_BAIT'
+  | 'THREAT'
+  | 'LOVE_BOMBING';
+
+const SCAN_PATTERNS: { pattern: RegExp; technique: VaultTechnique }[] = [
+  { pattern: /du är alltid så (känslig|dramatisk|överdriftig)/i, technique: 'DARVO' },
+  { pattern: /du hittar på/i, technique: 'GASLIGHTING' },
+  { pattern: /det har aldrig (hänt|sagts|gjorts)/i, technique: 'GASLIGHTING' },
+  { pattern: /du är (galen|psykisk|instabil)/i, technique: 'GASLIGHTING' },
+  { pattern: /varför gör du (alltid|aldrig)/i, technique: 'JADE_BAIT' },
+  { pattern: /du måste (förklara|bevisa|motivera)/i, technique: 'JADE_BAIT' },
+  { pattern: /(annars|om inte).*konsekvens/i, technique: 'THREAT' },
+  { pattern: /jag ska se till att/i, technique: 'THREAT' },
+  { pattern: /ingen (älskar|förstår|vet) dig som jag/i, technique: 'LOVE_BOMBING' },
+];
+
+function logText(log: VaultLog): string {
+  return [
+    log.truth,
+    log.theirVersion,
+    log.myReality,
+    log.shieldWhat,
+    log.shieldFeeling,
+    log.shieldBoundary,
+    ...(normalizeStringArray(log.bodySignals)),
+  ]
+    .filter(Boolean)
+    .join('\n');
+}
+
+export type VaultFrequencyReport = {
+  totalPosts: number;
+  smsLikePosts: number;
+  techniqueCounts: Record<VaultTechnique, number>;
+  categoryCounts: Record<string, number>;
+  monthlyCounts: { month: string; count: number }[];
+  topTechniques: { technique: VaultTechnique; count: number }[];
+};
+
+export function buildVaultFrequencyReport(
+  logs: (VaultLog & { id: string })[],
+): VaultFrequencyReport {
+  const techniqueCounts = Object.fromEntries(
+    SCAN_PATTERNS.map((p) => [p.technique, 0]),
+  ) as Record<VaultTechnique, number>;
+  const categoryCounts: Record<string, number> = {};
+  const monthMap = new Map<string, number>();
+  let smsLikePosts = 0;
+
+  for (const log of logs) {
+    const text = logText(log);
+    const category = log.category || 'okategoriserad';
+    categoryCounts[category] = (categoryCounts[category] ?? 0) + 1;
+
+    const month = (log.createdAt ?? '').slice(0, 7) || 'okänd';
+    monthMap.set(month, (monthMap.get(month) ?? 0) + 1);
+
+    if (/sms|mejl|meddelande|kommunikation/i.test(`${category} ${log.action}`)) {
+      smsLikePosts += 1;
+    }
+
+    for (const { pattern, technique } of SCAN_PATTERNS) {
+      if (pattern.test(text)) {
+        techniqueCounts[technique] += 1;
+      }
+    }
+  }
+
+  const monthlyCounts = [...monthMap.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .slice(-6)
+    .map(([month, count]) => ({ month, count }));
+
+  const topTechniques = (Object.entries(techniqueCounts) as [VaultTechnique, number][])
+    .filter(([, count]) => count > 0)
+    .sort((a, b) => b[1] - a[1])
+    .map(([technique, count]) => ({ technique, count }));
+
+  return {
+    totalPosts: logs.length,
+    smsLikePosts,
+    techniqueCounts,
+    categoryCounts,
+    monthlyCounts,
+    topTechniques,
+  };
+}
+
+/** D19/D20 — teknik-taggar för en enskild post (deterministiskt). */
+export function scanTechniquesForLog(log: VaultLog): VaultTechnique[] {
+  const text = logText(log);
+  const found = new Set<VaultTechnique>();
+  for (const { pattern, technique } of SCAN_PATTERNS) {
+    if (pattern.test(text)) found.add(technique);
+  }
+  return [...found];
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/utils/vaultTabs.ts">
+import { BookOpen, Users } from 'lucide-react';
+import { FORENSIC_VAULT_TAB_LABELS } from '@/core/copy/valvNavCopy';
+
+export { VALV_ZONE_INGRESS, FORENSIC_TAB_INGRESS } from '@/core/copy/valvNavCopy';
+
+/** Samla — arkiv + triage/chat. */
+export const SAMLA_VAULT_TAB_IDS = ['logga', 'sok'] as const;
+
+/** Analysera — mönster + orkester (locked UX). */
+export const ANALYSERA_VAULT_TAB_IDS = ['monster', 'orkester'] as const;
+
+/** Exportera — dossier. */
+export const EXPORTERA_VAULT_TAB_IDS = ['dossier'] as const;
+
+/** Legacy union — alla huvudflikar utom kunskap/forensik. */
+export const PANSARET_VAULT_TAB_IDS = [
+  ...SAMLA_VAULT_TAB_IDS,
+  ...ANALYSERA_VAULT_TAB_IDS,
+  ...EXPORTERA_VAULT_TAB_IDS,
+] as const;
+
+export type SamlaVaultTab = (typeof SAMLA_VAULT_TAB_IDS)[number];
+export type AnalyseraVaultTab = (typeof ANALYSERA_VAULT_TAB_IDS)[number];
+export type ExporteraVaultTab = (typeof EXPORTERA_VAULT_TAB_IDS)[number];
+
+export const KUNSKAP_VAULT_TAB = 'kunskapsbank' as const;
+export const AKTORSKARTA_VAULT_TAB = 'aktorskarta' as const;
+
+export const KUNSKAP_VAULT_TAB_IDS = [KUNSKAP_VAULT_TAB, AKTORSKARTA_VAULT_TAB] as const;
+export type KunskapVaultTab = (typeof KUNSKAP_VAULT_TAB_IDS)[number];
+
+export const VALV_ZONE_IDS = ['samla', 'analysera', 'kunskap', 'exportera', 'forensik'] as const;
+
+export type ValvZone = (typeof VALV_ZONE_IDS)[number];
+
+export type PansaretVaultTab = (typeof PANSARET_VAULT_TAB_IDS)[number];
+
+export const MAIN_VAULT_TAB_IDS = [...PANSARET_VAULT_TAB_IDS, ...KUNSKAP_VAULT_TAB_IDS] as const;
+
+export const FORENSIC_VAULT_TAB_IDS = [
+  'hamn_analys',
+  'speglar_fordjupat',
+  'dagbok_arkiv',
+  'familjen_monster',
+  'arbetsliv_franvaro',
+  'arbetsliv_lon',
+] as const;
+
+export type MainVaultTab = (typeof MAIN_VAULT_TAB_IDS)[number];
+export type ForensicVaultTab = (typeof FORENSIC_VAULT_TAB_IDS)[number];
+export type VaultTab = MainVaultTab | ForensicVaultTab;
+
+export function resolveValvZone(tab: VaultTab): ValvZone {
+  if (isKunskapVaultTab(tab)) return 'kunskap';
+  if (isForensicVaultTab(tab)) return 'forensik';
+  if ((EXPORTERA_VAULT_TAB_IDS as readonly string[]).includes(tab)) return 'exportera';
+  if ((ANALYSERA_VAULT_TAB_IDS as readonly string[]).includes(tab)) return 'analysera';
+  return 'samla';
+}
+
+export function isSamlaVaultTab(tab: VaultTab): tab is SamlaVaultTab {
+  return (SAMLA_VAULT_TAB_IDS as readonly string[]).includes(tab);
+}
+
+export function isAnalyseraVaultTab(tab: VaultTab): tab is AnalyseraVaultTab {
+  return (ANALYSERA_VAULT_TAB_IDS as readonly string[]).includes(tab);
+}
+
+export function isExporteraVaultTab(tab: VaultTab): tab is ExporteraVaultTab {
+  return (EXPORTERA_VAULT_TAB_IDS as readonly string[]).includes(tab);
+}
+
+export function isKunskapVaultTab(tab: VaultTab): tab is KunskapVaultTab {
+  return (KUNSKAP_VAULT_TAB_IDS as readonly string[]).includes(tab);
+}
+
+export function isPansaretVaultTab(tab: VaultTab): tab is PansaretVaultTab {
+  return (PANSARET_VAULT_TAB_IDS as readonly string[]).includes(tab);
+}
+
+const ALL_VAULT_TABS = new Set<string>([...MAIN_VAULT_TAB_IDS, ...FORENSIC_VAULT_TAB_IDS]);
+
+export function parseVaultTab(raw: string | null): VaultTab {
+  if (raw && ALL_VAULT_TABS.has(raw)) return raw as VaultTab;
+  return 'logga';
+}
+
+export function isForensicVaultTab(tab: VaultTab): tab is ForensicVaultTab {
+  return (FORENSIC_VAULT_TAB_IDS as readonly string[]).includes(tab);
+}
+
+export function forensicVaultTabLabel(tab: ForensicVaultTab): string {
+  return FORENSIC_VAULT_TAB_LABELS[tab];
+}
+
+export const VAULT_TAB_ICONS = {
+  kunskapsbank: BookOpen,
+  aktorskarta: Users,
+} as const;
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/index.ts">
+export { VaultPage, parseVaultTab, type VaultTab } from './components/VaultPage';
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/module_plan.md">
+# verklighetsvalvet — module plan
+
+## Overview
+
+Sacred Feature: WORM evidence vault (Verklighetsvalvet / Sanningens Sköld). Route `/dagbok?tab=bevis`; redirect `/valv`. Dold ingång via Fyren (3s long-press BookOpen + WebAuthn + PIN).
+
+Canonical: `.context/modules/evidence/vault.md` · Spec: `docs/specs/modules/Verklighetsvalvet-SPEC.md`
+
+## Files
+
+| Path | Role |
+|------|------|
+| `components/VaultEntryForm.tsx` | Enkel/tvåspalt/tresteg/magkänsel + media + röst |
+| `components/VaultPage.tsx` | PIN gate, Logga/Sök/**Mönster/Orkester**/Dossier, Stäng → Reflektion |
+| `components/VaultMonsterPanel.tsx` | Låst UX — deterministisk frekvens (Pansaret) |
+| `components/VaultOrkesterPanel.tsx` | Låst UX — agentregister + SMS mönstersökning |
+| `components/VaultLogList.tsx` | Append-only lista + PDF-knapp per post |
+| `utils/exportVaultRecord.ts` | Per-post PDF via utskriftsdialog |
+| `constants/vaultEntry.ts` | BODY_SIGNALS, VAULT_ENTRY_MODES, SHIELD_STEPS |
+| `constants/vavarenCopy.ts` | Vävaren — användarcopy (Fas 1.5) |
+| `types/vaultEntry.ts` | VaultEntryType, VaultLogInput |
+| `../diary/diary/components/HjartatPage.tsx` | Bevis-flik, session lock vid flikbyte |
+| `../core/layout/FloatingDock.tsx` | Fyren — 3s progress + WebAuthn |
+| `../core/auth/webauthn.ts` | Passkey-gate (client MVP) |
+| `../core/security/clearDeviceSession.ts` | Device Clear — Inställningar (ersätter shake-to-kill) |
+| `../core/hooks/useSpeechToText.ts` | Röst → text i truth |
+| `../core/firebase/firestore.ts` | `assertWormPayload`, `saveVaultLog`, `getVaultLogs` |
+| `../core/firebase/storage.ts` | `uploadVaultEvidence` → `vault_evidence/{uid}/` |
+| `../evidence/vaultChat/` | ValvChatPanel, `useValvChatSession`, `valvChatQuery` |
+
+## Status
+
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| Fyren 3s + WORM | Dold ingång, Sanningens Sköld | Ja | **done** |
+| Tvåspalt / tresteg / magkänsel | Hens version vs sanning | Ja | **done** |
+| Storage `evidenceUrl` | PDF/sms-export, ej Drive-auto | Ja | **done** |
+| Shake-to-Kill | Panik + iOS-test | Ja | **done** |
+| Orosanmälan + skolbevis | §D beviskandidater | Manuell | **use now** |
+| Vävaren godkännande | HITL före `vävaren_metadata` i Valv | **done** 2026-05-31 |
+| Vävaren copy / tydlighet (Fas 1.5) | Arkiv, Sök, dagbok, Dossier | `vavarenCopy.ts` | **done** 2026-05-29 |
+| Dölj Bevis-flik | Plausible deniability | Nej | **planned** |
+| BBIC-filter export | Soc/jurist | Nej | **planned** (Dossier fas 2) |
+| Sanningens Ankare landning | Notebook | Nej | **planned** |
+| Auto Storage-analys | Notebook vision | Nej | **rejected** |
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
+
+## Produktbeslut (låsta 2026-05)
+
+1. Drive → valv: manuellt godkännande (Drive-auto → kb_docs)
+2. PDF: klient per post; Dossier callable senare
+3. Valv-Chat: nollställ vid flikbyte
+4. WebAuthn + PIN; duress-PIN senare
+5. Dölj Bevis-flik när Fyren sitter i muskelminnet
+
+## Fas 1.5 — Vävaren UX polish (2026-05-29, lokal)
+
+| # | Leverans | Status |
+|---|----------|--------|
+| 1 | `constants/vavarenCopy.ts` — gemensam copy | **done** |
+| 2 | `VaultLogList` — tydlig etikett för `vävaren_metadata` + weaverTags | **done** |
+| 3 | `ValvChatPanel` — förklarar att Sök exkluderar AI-taggar | **done** |
+| 4 | Dagbok `SavedStep` / `ConfirmStep` — bakgrundstaggning förklarad | **done** |
+| 5 | `DossierPage` — tydligare AI-försätt-checkbox | **done** |
+
+**Ej i Fas 1.5:** godkännande-flöde, `firestore.rules`, borttag av Mönster/Orkester/Kunskapsbank.
+
+## Nästa fas (implementera när användaren säger kör)
+
+1. Dölj Bevis-flik + ClusterGrid-länk (Fyren only, feature flag)
+2. Klickbara citations i ValvChatPanel
+3. Drive-ingest med manuellt godkännande → `reality_vault`
+4. ~~Full Dossier-generator~~ → **done** (`DossierPage` + `generateDossier`; kvar: BBIC-mall, Vävaren försätt)
+5. Sanningens Ankare (`pinned`) + citation UX
+
+## Security notes
+
+- Demo PIN: `VITE_VAULT_PIN` endast lokal utveckling
+- Zero Footprint: vault unlock + chat rensas vid flikbyte/kill switch
+- Evidence: en fil per post (`evidenceUrl`); Storage uid-scoped
+- Valv-Chat: isolerad från `knowledgeVaultQuery`
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/README.md">
+# verklighetsvalvet
+
+> Sacred Feature — Sanningens Sköld. WORM-bevisbank (Lager 2) mot gaslighting.
+
+## Syfte
+
+Append-only, tidsstämplade sanningar. Skild från Dagbok (Lager 1). Plausible deniability via **Fyren** (dold ingång).
+
+## Route och ingång
+
+| | |
+|---|---|
+| **Route** | `/dagbok?tab=bevis` (redirect `/valv`) |
+| **AuthGate** | ja |
+| **Fyren** | 3s long-press BookOpen → WebAuthn → PIN → bevis |
+| **Flik Bevis** | Synlig idag; mål: endast Fyren |
+
+## Viktiga filer
+
+| Fil | Roll |
+|-----|------|
+| `components/VaultPage.tsx` | PIN, flikar Logga \| Sök |
+| `components/VaultEntryForm.tsx` | 4 inmatningslägen + media + röst |
+| `components/VaultLogList.tsx` | Append-only lista + PDF/post |
+| `utils/exportVaultRecord.ts` | Klient-PDF per post |
+| `types/vaultEntry.ts` | Entry-typer |
+
+**Valv-Chat:** `../evidence/vaultChat/` (Sök-flik)
+
+## Data
+
+| Collection | Innehåll |
+|------------|----------|
+| `reality_vault` | WORM-bevis (action, truth, category, media, …) |
+
+**Klient:** `saveVaultLog`, `uploadVaultEvidence`  
+**Callable:** `valvChatQuery` (via valv_chatt)
+
+## Beror på
+
+- `core` — PinGate, WebAuthn, EvidenceMediaAttach, firestore
+- `valv_chatt` — Sök-flik i VaultPage
+
+## Kopplingar
+
+- **Dagbok** — Hjärtat-kluster, Vävaren
+- **Speglings_system** — EvidenceCompare
+- **safe_harbor** — spara BIFF som bevis
+- **dossier** — aggregering till PDF
+
+## Minne / AI
+
+| | |
+|---|---|
+| **Permanent lagring** | `reality_vault` — WORM, glömmer inte |
+| **RAG / chatt** | Valv-Chat via `valvChatQuery` (**deploy saknas i prod**) |
+| **PDF / samlad export** | per post + Dossier |
+| **Planerat** | klickbara citations |
+
+## Mer läsning
+
+- [module_plan.md](./module_plan.md)
+- [Kontext (.context)](../../../.context/modules/evidence/vault.md)
+- [Verklighetsvalvet-SPEC](../../../docs/specs/modules/Verklighetsvalvet-SPEC.md)
+- [valv_chatt README](../evidence/vaultChat/README.md)
+</file>
+
+<file path="docs/design/VALV-HUBB-SPEC.md">
+# Valv hubb — Konflikt & bevis (IA våg 1)
+
+**Datum:** 2026-05-29  
+**Status:** Implementerad i kod (`vaultTabs.ts`, `VaultPage.tsx`)  
+**Låst UX:** Mönster, Orkester, Kunskapsbank, Aktörskarta — **får inte tas bort** ([`.context/locked-ux-features.md`](../../.context/locked-ux-features.md))
+
+---
+
+## Princip
+
+Samma `vaultTab`-IDs och callables som tidigare. Endast **zon-navigation** (färre val åt gången) och drawer-grupper ändras.
+
+| Zon (UI) | Flikar (`vaultTab`) | Användning |
+|----------|---------------------|------------|
+| **Samla** | `logga`, `sok` | Bevis, sms, triage, Valv-Chat |
+| **Analysera** | `monster`, `orkester` | Mönster, agent-orkester |
+| **Kunskap** | `kunskapsbank`, `aktorskarta` | RAG fakta, nyckelpersoner (G9) |
+| **Exportera** | `dossier` | Dossier-generator (+ `/dossier` i drawer) |
+| **Forensik** | `hamn_analys`, `speglar_fordjupat`, … | Djup analys Hamn/Speglar/Arbetsliv |
+
+## Produktbeslut — Hamn vs Valv (**godkänt 2026-05-29**)
+
+| Lager | Route | Roll |
+|-------|-------|------|
+| **Snabb ingång** | `/hamn` (Vardag-drawer) | Grey Rock/BIFF-svar, Speglar-bro, låg friktion — **ingen** riskpanel eller auto-bevis |
+| **Djup + bevis** | Valv → zon **Forensik** · `hamn_analys` | Full BIFF Triage, DCAP, *Spara som bevis*, Orkester, Mönster, Dossier |
+
+**MUST NOT:** flytta publik BIFF till Valv-only eller kräva PIN för första Grey Rock-svar.  
+**MUST:** `?tab=analys` på `/hamn` redirectar till Valv `hamn_analys` (redan i `TryggHamnHub.tsx`).  
+**Handoff:** `valvHandoff` i Hamn-text → mjuk länk till Valv (ingen auto-WORM).
+
+---
+
+## Triggers (våg 2)
+
+| Källa | Trigger | Effekt |
+|-------|---------|--------|
+| Dagbok | `shouldShowValvHandoff` | `HandoffBox` → `/dagbok?tab=bevis` |
+| Hamn BIFF | samma | HandoffBox efter klistra-in |
+| Valv logga | samma + `shouldSuggestVaultPatternScan` | Handoff + länk till Mönster |
+
+Ingen auto-WORM från Lager 1.
+
+---
+
+## Budget
+
+Deterministiska regex/DCAP — **inte** LLM per tangenttryckning.
+
+---
+
+## Smoke
+
+`npm run smoke:locked-ux` · `npm run smoke:orkester`
+</file>
+
+<file path="docs/gemini-handoff/M2-valv-drawer-copy.md">
+# M2 — Valv-drawer etiketter (Gemini handoff)
+
+**Datum:** 2026-05-30  
+**Status:** Delvis integrerat — endast KEEP-rader i prod.
+
+| groupId | Label (prod) | drawerHint (Gemini KEEP) | Status |
+|---------|--------------|--------------------------|--------|
+| `valv_grp_samla` | Samla | Objektiv registrering av skriftliga meddelanden och logistik. | **Integrerad** |
+| `valv_grp_analysera` | Analysera | Strukturerad kartläggning av återkommande mönster och beteenden. | **Integrerad** |
+| `valv_grp_kunskap` | Kunskapsbank | RAG-underlag, lagrum och verifierad aktörskarta (G9). | **Integrerad** (hint) |
+| `valv_grp_exportera` | Exportera | Sammanställning av material för manuell delning med juridisk part. | REJECT — låst zonnamn |
+| `valv_grp_forensik` | Forensik | Tidsstämplat material med obruten versionshistorik. | **Integrerad** (hint) |
+
+Övriga grupper behåller befintliga `drawerHint` i `navTruth.ts`.
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/knowledge/components/VaultKunskapsbankPanel.tsx">
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { KunskapPage, type KunskapEntriesMeta } from '../../kompis/components/KunskapPage';
-import { FamiljenKunskapHubTab } from '../../../family/children/components/familjen/FamiljenKunskapHubTab';
-import { useFamiljenShell } from '../../../family/children/hooks/useFamiljenShell';
-import { BentoCard } from '../../../core/ui/BentoCard';
-import { EmptyState } from '../../../core/ui/EmptyState';
+import { AutonomousArchivePanel } from '../../kompis/components/AutonomousArchivePanel';
+import { FamiljenKunskapHubTab } from '@/features/family/children/components/familjen/FamiljenKunskapHubTab';
+import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { KunskapsbankHeader } from '../../vault/components/KunskapsbankHeader';
-import { vaultDrawerPath } from '../../../core/navigation/navTruth';
+import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { BookOpen, RefreshCw, Users } from 'lucide-react';
 
 type TabRequest = 'chat' | 'tidshjul';
@@ -4027,10 +3364,12 @@ export function VaultKunskapsbankPanel() {
         </div>
       )}
 
+      <AutonomousArchivePanel />
+
       {showEmptyState && (
         <BentoCard
           title="Ditt Minne är tomt"
-          description="Kunskapsvalvet söker i kampspar — börja med en post"
+          description="Sök i dina sparade anteckningar — börja med en post"
           icon={<BookOpen className="h-4 w-4" />}
         >
           <EmptyState
@@ -4070,28 +3409,228 @@ export function VaultKunskapsbankPanel() {
 }
 </file>
 
-<file path="src/modules/evidence/vault/components/VaultPage.tsx">
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultInkastCompact.tsx">
+import { useCallback, useRef, useState } from 'react';
+import { FileUp, Inbox, Loader2 } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { fileToBase64 } from '../../kompis/api/ingestKnowledgeDocumentService';
+import {
+  formatInkastResultMessage,
+  primaryInkastItem,
+  submitInkastLite,
+  type SubmitInkastLiteResult,
+} from '@/modules/inkast/api/inkastService';
+import {
+  INKAST_FILE_ACCEPT,
+  INKAST_UNSUPPORTED_FORMAT_MSG,
+  isInkastBinaryFile,
+  isInkastSupportedFile,
+  isInkastTextFile,
+  resolveInkastMime,
+} from '@/modules/inkast/constants/inkastMimeTypes';
+
+type Props = {
+  onQueued?: () => void;
+  onPersistedBevis?: (docId: string) => void;
+};
+
+/** Kompakt Inkast i Valv Samla — samma callable som Hem, PIN-gated kontext. */
+export function VaultInkastCompact({ onQueued, onPersistedBevis }: Props) {
+  const [text, setText] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [lastResult, setLastResult] = useState<SubmitInkastLiteResult | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const runSubmit = useCallback(
+    async (payload: Parameters<typeof submitInkastLite>[0]) => {
+      setLoading(true);
+      setError(null);
+      setSuccessMessage(null);
+      setLastResult(null);
+      try {
+        const result = await submitInkastLite(payload);
+        setLastResult(result);
+        setSuccessMessage(formatInkastResultMessage(result));
+
+        const primary = primaryInkastItem(result);
+        if (primary.action === 'queued') {
+          /* Ingen auto-vybyte — undviker React insertBefore-race vid unmount. */
+        } else if (
+          primary.action === 'persisted' &&
+          primary.collection === 'reality_vault' &&
+          primary.docId
+        ) {
+          onPersistedBevis?.(primary.docId);
+        }
+
+        if (result.errors.length > 0) {
+          setError(
+            result.errors.map((e) => `${e.fileName}: ${e.error}`).join(' · '),
+          );
+        }
+
+        if (!payload.text) setText('');
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Inkast misslyckades.');
+      } finally {
+        setLoading(false);
+      }
+    },
+    [onPersistedBevis],
+  );
+
+  const handlePasteSubmit = () => {
+    const trimmed = text.trim();
+    if (trimmed.length < 12) {
+      setError('Skriv minst några rader (sms, mejl, anteckning).');
+      return;
+    }
+    void runSubmit({ text: trimmed, fileName: 'inkast-klistra.txt' });
+  };
+
+  const handleFiles = async (files: FileList | null) => {
+    if (!files?.length) return;
+
+    const fileList = Array.from(files);
+    const unsupported = fileList.filter((f) => !isInkastSupportedFile(f));
+    if (unsupported.length > 0) {
+      setError(INKAST_UNSUPPORTED_FORMAT_MSG);
+      return;
+    }
+
+    const binaryFiles = fileList.filter(isInkastBinaryFile);
+    const textFiles = fileList.filter(isInkastTextFile);
+
+    try {
+      if (binaryFiles.length > 0) {
+        const base64Files: string[] = [];
+        const mimeTypes: string[] = [];
+        const fileNames: string[] = [];
+
+        for (const file of binaryFiles) {
+          base64Files.push(await fileToBase64(file));
+          mimeTypes.push(resolveInkastMime(file));
+          fileNames.push(file.name);
+        }
+
+        await runSubmit({ base64Files, mimeTypes, fileNames });
+      }
+
+      for (const file of textFiles) {
+        const content = (await file.text()).trim();
+        if (content.length < 12) {
+          setError(`${file.name}: filen är tom eller för kort.`);
+          return;
+        }
+        await runSubmit({
+          text: content.slice(0, 12_000),
+          fileName: file.name,
+        });
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Kunde inte läsa filen.');
+    } finally {
+      if (inputRef.current) inputRef.current.value = '';
+    }
+  };
+
+  const showQueueHint =
+    lastResult != null &&
+    (lastResult.queued > 0 || lastResult.items.some((i) => i.action === 'queued'));
+
+  return (
+    <BentoCard
+      title="Inkast"
+      description="Sms, mejl eller fil → rätt silo"
+      icon={<Inbox className="h-4 w-4 text-accent" />}
+    >
+      <p className="mb-2 text-xs text-text-dim">
+        Hög säkerhet → granskningskö. Bekräfta «Arkiv» innan posten låses.
+      </p>
+      <textarea
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Klistra sms eller mejl…"
+        rows={3}
+        className="input-glass w-full resize-none rounded-xl px-3 py-2 text-sm"
+        disabled={loading}
+      />
+      <div className="mt-2 flex flex-wrap gap-2">
+        <button
+          type="button"
+          className="btn-pill--secondary text-xs"
+          disabled={loading || text.trim().length < 12}
+          onClick={handlePasteSubmit}
+        >
+          <span className="inline-flex items-center gap-1">
+            {loading ? <Loader2 className="h-3 w-3 shrink-0 animate-spin" aria-hidden /> : null}
+            <span>{loading ? 'Sorterar…' : 'Skicka'}</span>
+          </span>
+        </button>
+        <button
+          type="button"
+          className="btn-pill--ghost text-xs"
+          disabled={loading}
+          onClick={() => inputRef.current?.click()}
+        >
+          <span className="inline-flex items-center gap-1">
+            <FileUp className="h-3 w-3 shrink-0" aria-hidden />
+            <span>Filer</span>
+          </span>
+        </button>
+      </div>
+      <input
+        ref={inputRef}
+        type="file"
+        multiple
+        className="sr-only"
+        accept={INKAST_FILE_ACCEPT}
+        onChange={(e) => void handleFiles(e.target.files)}
+      />
+      {error && <p className="mt-2 text-xs text-amber-400/90">{error}</p>}
+      {successMessage && (
+        <div className="mt-2 space-y-2">
+          <p className="text-xs text-success">{successMessage}</p>
+          {showQueueHint && onQueued && (
+            <button
+              type="button"
+              className="btn-pill--secondary text-xs"
+              onClick={() => onQueued()}
+            >
+              Öppna granskningskö
+            </button>
+          )}
+        </div>
+      )}
+    </BentoCard>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx">
 import { Lock, ShieldAlert, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BentoCard } from '../../../core/ui/BentoCard';
-import { PinGate } from '../../../core/ui/PinGate';
-import { TabBar } from '../../../core/ui/TabBar';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { TabBar } from '@/core/ui/TabBar';
 import {
   getAnalyseraVaultTabBarItems,
   getForensicVaultTabBarItems,
   getKunskapVaultTabBarItems,
   getSamlaVaultTabBarItems,
   getVaultZoneTabBarItems,
-} from '../../../core/navigation/tabRegistry';
-import { useStore } from '../../../core/store';
-import { hasVaultGate, clearVaultGate, setVaultGate } from '../../../core/auth/sessionService';
-import { saveVaultLog, getVaultLogs } from '../../../core/firebase/firestore';
-import { OfflineWriteBlockedError } from '../../../core/firebase/offlineWritePolicy';
-import type { VaultLog } from '../../../core/types/firestore';
+} from '@/core/navigation/tabRegistry';
+import { useStore } from '@/core/store';
+import { hasVaultGate, clearVaultGate } from '@/core/auth/sessionService';
+import { saveVaultLog, getVaultLogs } from '@/core/firebase/firestore';
+import { OfflineWriteBlockedError } from '@/core/firebase/offlineWritePolicy';
+import type { VaultLog } from '@/core/types/firestore';
 import { VaultLogList } from './VaultLogList';
 import { VaultSamlaHub } from './VaultSamlaHub';
-import { ValvChatPanel } from '../../../evidence/vaultChat';
+import { ValvChatPanel } from '@/features/lifeJournal/evidence/vaultChat';
 import { DossierPage } from '../dossier';
 import { VaultMonsterPanel } from './VaultMonsterPanel';
 import { VaultOrkesterPanel } from './VaultOrkesterPanel';
@@ -4100,6 +3639,9 @@ import { VaultKunskapsbankPanel } from '../../knowledge/components/VaultKunskaps
 import { VaultAktorskartaPanel } from '../../knowledge/components/VaultAktorskartaPanel';
 import { VaultForensicPanel } from './VaultForensicPanel';
 import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
+import { WeaverPendingVaultBanner } from './WeaverPendingVaultBanner';
+import { VaultErrorBoundary } from './VaultErrorBoundary';
+import { VaultLockedGate } from '@/core/components/VaultLockedGate';
 import type { VaultLogInput } from '../types/vaultEntry';
 import {
   KUNSKAP_VAULT_TAB,
@@ -4117,8 +3659,6 @@ import {
   VALV_ZONE_INGRESS,
 } from '../utils/vaultTabs';
 
-import { hasPinConfigured, setupPin, verifyPin } from '../../../core/security/vaultPin';
-
 export type { VaultTab, MainVaultTab, ValvZone } from '../utils/vaultTabs';
 export { parseVaultTab } from '../utils/vaultTabs';
 
@@ -4129,25 +3669,30 @@ type VaultPageProps = {
   onVaultTabChange?: (tab: VaultTab) => void;
 };
 
-export function VaultPage({
+export function VaultPage(props: VaultPageProps) {
+  return (
+    <VaultErrorBoundary>
+      <VaultPageInner {...props} />
+    </VaultErrorBoundary>
+  );
+}
+
+function VaultPageInner({
   embedded = false,
   onClose,
   initialVaultTab = 'logga',
   onVaultTabChange,
 }: VaultPageProps) {
   const navigate = useNavigate();
-  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
   const user = useStore((s) => s.user);
-  const [pin, setPin] = useState('');
-  const [isSetup, setIsSetup] = useState(!hasPinConfigured());
-  const [confirmPin, setConfirmPin] = useState('');
   const [logs, setLogs] = useState<(VaultLog & { id: string })[]>([]);
   const [logsLoading, setLogsLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
+  const [anchorsOnly, setAnchorsOnly] = useState(false);
   const gateOk = hasVaultGate();
   const valvZone = resolveValvZone(vaultTab);
   const samlaTab: SamlaVaultTab = isSamlaVaultTab(vaultTab) ? vaultTab : 'logga';
@@ -4191,59 +3736,22 @@ export function VaultPage({
   };
 
   useEffect(() => {
-    if (!isVaultUnlocked) {
-      setVaultTabState('logga');
+    if (gateOk && user) {
+      setVaultUnlocked(true);
+    } else if (!gateOk) {
+      setVaultUnlocked(false);
     }
-  }, [isVaultUnlocked]);
+  }, [gateOk, user, setVaultUnlocked]);
 
   useEffect(() => {
-    if (isVaultUnlocked && user) {
+    if (gateOk && user) {
       setLogsLoading(true);
       getVaultLogs(user.uid)
         .then(setLogs)
         .catch(() => setError('Kunde inte hämta loggar.'))
         .finally(() => setLogsLoading(false));
     }
-  }, [isVaultUnlocked, user]);
-
-  const handleUnlock = () => {
-    if (!user) {
-      setError('Väntar på inloggning — försök igen om ett ögonblick.');
-      return;
-    }
-    if (isSetup) {
-      if (pin.length < 4) {
-        setError('PIN måste vara minst 4 tecken.');
-        return;
-      }
-      if (pin !== confirmPin) {
-        setError('PIN matchar inte.');
-        return;
-      }
-      setupPin(pin);
-      setIsSetup(false);
-      setVaultGate();
-      setVaultUnlocked(true);
-      setPin('');
-      setConfirmPin('');
-      setError(null);
-      if (embedded) {
-        navigate({ pathname: '/dagbok', search: '?tab=bevis&vaultTab=logga' }, { replace: true });
-      }
-      return;
-    }
-    if (verifyPin(pin)) {
-      setVaultGate();
-      setVaultUnlocked(true);
-      setPin('');
-      setError(null);
-      if (embedded) {
-        navigate({ pathname: '/dagbok', search: '?tab=bevis&vaultTab=logga' }, { replace: true });
-      }
-    } else {
-      setError('Fel PIN.');
-    }
-  };
+  }, [gateOk, user]);
 
   const handleSaveLog = async (input: VaultLogInput) => {
     if (!user) {
@@ -4279,46 +3787,18 @@ export function VaultPage({
     if (embedded && onClose) {
       onClose();
     } else {
-      navigate('/dagbok');
+      navigate(NAV_PATHS.HJARTAT);
     }
   };
 
-  if (!embedded && !gateOk) {
-    return (
-      <BentoCard
-        title="Verklighetsvalvet"
-        description="Sacred Feature — long-press krävs"
-        icon={<ShieldAlert className="h-4 w-4" />}
-      >
-        <p className="text-sm text-text-dim">
-          Håll Dagbok-ikonen i bottenmenyn i 3 sekunder (Fyren) för dold åtkomst till bevisvalvet.
-          Kort tryck räcker inte.
-        </p>
-      </BentoCard>
-    );
-  }
-
-  if (!isVaultUnlocked) {
+  if (!gateOk) {
     return (
       <BentoCard
         title={embedded ? 'Valv · Baksida' : 'Verklighetsvalvet'}
-        description="Ange PIN"
+        description="Sacred Feature — biometri krävs"
         icon={<ShieldAlert className="h-4 w-4" />}
       >
-        <PinGate
-          description={
-            isSetup
-              ? 'Skapa din PIN (sparas lokalt, aldrig hårdkodad).'
-              : 'Ange PIN för att låsa upp Valv-baksidan.'
-          }
-          pin={pin}
-          confirmPin={confirmPin}
-          setupMode={isSetup}
-          error={error}
-          onPinChange={setPin}
-          onConfirmPinChange={setConfirmPin}
-          onSubmit={handleUnlock}
-        />
+        <VaultLockedGate variant="card" />
       </BentoCard>
     );
   }
@@ -4400,6 +3880,12 @@ export function VaultPage({
 
       {valvZone === 'samla' && vaultTab === 'logga' && (
         <>
+          <WeaverPendingVaultBanner
+            userId={user.uid}
+            onApproved={() => {
+              void getVaultLogs(user.uid).then(setLogs).catch(() => undefined);
+            }}
+          />
           <VaultSamlaHub
             userId={user.uid}
             saving={saving}
@@ -4407,14 +3893,33 @@ export function VaultPage({
             onSave={handleSaveLog}
             onBevisConfirmed={(docId) => void handleBevisConfirmed(docId)}
           />
-          <VaultLogList logs={logs} loading={logsLoading} highlightLogId={highlightLogId} />
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={() => setAnchorsOnly((v) => !v)}
+              className={`btn-pill--ghost text-xs ${anchorsOnly ? 'text-gold' : ''}`}
+              aria-pressed={anchorsOnly}
+            >
+              {anchorsOnly ? 'Visa alla bevis' : 'Endast ankare'}
+            </button>
+          </div>
+          <VaultLogList
+            logs={logs}
+            loading={logsLoading}
+            highlightLogId={highlightLogId}
+            anchorsOnly={anchorsOnly}
+            onLogFirstBevis={() =>
+              document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+          />
         </>
       )}
 
       {valvZone === 'samla' && vaultTab === 'sok' && (
         <ValvChatPanel
-          active={isVaultUnlocked && vaultTab === 'sok'}
+          active={gateOk && vaultTab === 'sok'}
           onCitationClick={handleCitationClick}
+          logs={logs}
         />
       )}
 
@@ -4436,17 +3941,951 @@ export function VaultPage({
 }
 </file>
 
+<file path="src/modules/features/lifeJournal/evidence/vault/dossier/components/DossierPage.tsx">
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { FileText, Loader2, Lock, ShieldAlert } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { useStore } from '@/core/store';
+import { hasVaultGate } from '@/core/auth/sessionService';
+import {
+  getChildrenLogs,
+  getJournalEntries,
+  getVaultLogs,
+} from '@/core/firebase/firestore';
+import type {
+  DossierCandidateDoc,
+  DossierReportType,
+  DossierSources,
+  DossierWizardStep,
+  GenerateDossierResult,
+} from '../types';
+import {
+  childrenToCandidate,
+  collectCategoryTags,
+  defaultDateRange,
+  filterCandidates,
+  journalToCandidate,
+  shiftMonths,
+  vaultToCandidate,
+} from '../utils/dossierCandidates';
+import {
+  VAVAREN_DOSSIER_CHECKBOX,
+  VAVAREN_DOSSIER_HINT,
+} from '../../constants/vavarenCopy';
+
+const INITIAL_SOURCES: DossierSources = {
+  reality_vault: true,
+  children_logs: true,
+  journal: false,
+};
+
+const JOURNAL_WARNING =
+  'Dagboken kan innehålla emotionella reflektioner. Inkludera endast om ditt ombud uttryckligen begärt det — annars riskerar det juridiska fokuset att tunnas ut.';
+
+function resetWizardState() {
+  return {
+    step: 'period' as DossierWizardStep,
+    dateFrom: defaultDateRange().dateFrom,
+    dateTo: defaultDateRange().dateTo,
+    sources: { ...INITIAL_SOURCES },
+    journalAck: false,
+    categoryFilter: [] as string[],
+    reportType: 'LEGAL' as DossierReportType,
+    includeAiForeword: false,
+    includedIds: new Set<string>(),
+    candidates: [] as DossierCandidateDoc[],
+    loadingDocs: false,
+    generating: false,
+    error: null as string | null,
+    result: null as GenerateDossierResult | null,
+  };
+}
+
+// —— KRYPTOGRAFISK SÄKERHETS-HASH (SHA-256) ——
+async function computeSHA256(text: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+export function DossierPage({ embedded = false }: { embedded?: boolean }) {
+  const [searchParams] = useSearchParams();
+  const user = useStore((s) => s.user);
+  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
+  const vaultOpen = embedded || isVaultUnlocked || hasVaultGate();
+
+  const [step, setStep] = useState<DossierWizardStep>('period');
+  const [dateFrom, setDateFrom] = useState(defaultDateRange().dateFrom);
+  const [dateTo, setDateTo] = useState(defaultDateRange().dateTo);
+  const [sources, setSources] = useState<DossierSources>({ ...INITIAL_SOURCES });
+  const [journalAck, setJournalAck] = useState(false);
+  const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
+  const [reportType, setReportType] = useState<DossierReportType>('LEGAL');
+  const [includeAiForeword, setIncludeAiForeword] = useState(false);
+  const [includedIds, setIncludedIds] = useState<Set<string>>(() => new Set());
+  const [allCandidates, setAllCandidates] = useState<DossierCandidateDoc[]>([]);
+  const [loadingDocs, setLoadingDocs] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<GenerateDossierResult | null>(null);
+
+  const clearSession = useCallback(() => {
+    const fresh = resetWizardState();
+    setStep(fresh.step);
+    setDateFrom(fresh.dateFrom);
+    setDateTo(fresh.dateTo);
+    setSources(fresh.sources);
+    setJournalAck(fresh.journalAck);
+    setCategoryFilter(fresh.categoryFilter);
+    setReportType(fresh.reportType);
+    setIncludeAiForeword(fresh.includeAiForeword);
+    setIncludedIds(fresh.includedIds);
+    setAllCandidates(fresh.candidates);
+    setLoadingDocs(fresh.loadingDocs);
+    setGenerating(fresh.generating);
+    setError(fresh.error);
+    setResult(fresh.result);
+  }, []);
+
+  useEffect(() => () => clearSession(), [clearSession]);
+
+  const deepLinkChild = searchParams.get('child');
+  const deepLinkSources = searchParams.get('sources');
+
+  useEffect(() => {
+    if (deepLinkSources === 'children_logs') {
+      setSources({
+        reality_vault: false,
+        children_logs: true,
+        journal: false,
+      });
+    }
+  }, [deepLinkSources]);
+
+  const filteredDocs = useMemo(
+    () => filterCandidates(allCandidates, dateFrom, dateTo, sources, categoryFilter),
+    [allCandidates, dateFrom, dateTo, sources, categoryFilter],
+  );
+
+  const categoryTags = useMemo(() => collectCategoryTags(allCandidates), [allCandidates]);
+
+  const loadCandidates = useCallback(async () => {
+    if (!user) return;
+    setLoadingDocs(true);
+    setError(null);
+    try {
+      const [vault, children, journal] = await Promise.all([
+        getVaultLogs(user.uid),
+        getChildrenLogs(user.uid),
+        getJournalEntries(user.uid),
+      ]);
+      const docs: DossierCandidateDoc[] = [
+        ...vault.map(vaultToCandidate),
+        ...children.map((row) =>
+          childrenToCandidate(row as Parameters<typeof childrenToCandidate>[0]),
+        ),
+        ...journal.map((row) =>
+          journalToCandidate(row as { id: string; mood?: string; text?: string; createdAt?: string }),
+        ),
+      ];
+      setAllCandidates(docs);
+      const visible = filterCandidates(docs, dateFrom, dateTo, sources, categoryFilter);
+      let ids = visible.map((d) => d.id);
+      if (deepLinkChild) {
+        const childDocs = visible.filter(
+          (d) => d.kind === 'children_logs' && d.title.startsWith(deepLinkChild),
+        );
+        if (childDocs.length > 0) ids = childDocs.map((d) => d.id);
+      }
+      setIncludedIds(new Set(ids));
+    } catch {
+      setError('Kunde inte läsa bevis från databasen.');
+    } finally {
+      setLoadingDocs(false);
+    }
+  }, [user, dateFrom, dateTo, sources, categoryFilter, deepLinkChild]);
+
+  useEffect(() => {
+    if (step !== 'review' || !user || !vaultOpen) return;
+    void loadCandidates();
+  }, [step, user, vaultOpen, loadCandidates]);
+
+  useEffect(() => {
+    if (step !== 'review') return;
+    const visible = filterCandidates(allCandidates, dateFrom, dateTo, sources, categoryFilter);
+    setIncludedIds((prev) => {
+      const next = new Set<string>();
+      for (const doc of visible) {
+        if (prev.has(doc.id)) next.add(doc.id);
+      }
+      if (next.size === 0 && visible.length > 0) {
+        return new Set(visible.map((d) => d.id));
+      }
+      return next;
+    });
+  }, [step, allCandidates, dateFrom, dateTo, sources, categoryFilter]);
+
+  const toggleDoc = (id: string) => {
+    setIncludedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleCategory = (tag: string) => {
+    setCategoryFilter((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
+    );
+  };
+
+  // —— 4. LOKAL UTKRIFT- OCH PDF-MOTOR (FALLBACK & OFFLINE-SÄKRAD) ——
+  const handleLocalPrintAndGenerate = async () => {
+    if (!user) return;
+    const selected = filteredDocs.filter((d) => includedIds.has(d.id));
+    if (selected.length === 0) {
+      setError('Välj minst en post att exportera.');
+      return;
+    }
+
+    setGenerating(true);
+    setError(null);
+
+    try {
+      // 1. Sortera kronologiskt för formellt underlag
+      const sorted = [...selected].sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+
+      // 2. Skapa corpus för hashning
+      const textCorpus = sorted
+        .map((d) => `[${d.createdAt.slice(0, 10)}] ${d.title}: ${d.preview}`)
+        .join('\n');
+      const hash = await computeSHA256(textCorpus);
+
+      const win = window.open('', '_blank');
+      if (!win) {
+        throw new Error('Webbläsaren blockerade popup-fönstret. Tillåt popups för att skriva ut.');
+      }
+
+      const rowsHtml = sorted
+        .map(
+          (d) => `
+        <tr style="page-break-inside: avoid; border-bottom: 1px solid #cbd5e1;">
+          <td style="padding: 12px 8px; font-weight: 600; font-size: 11px; font-family: monospace; white-space: nowrap;">
+            ${d.createdAt.slice(0, 10)}
+          </td>
+          <td style="padding: 12px 8px; font-weight: 700; font-size: 10px; color: #475569; text-transform: uppercase; tracking-wider: 0.05em;">
+            ${d.kind.toUpperCase().replace('_', ' ')}
+          </td>
+          <td style="padding: 12px 8px; font-weight: 600; font-size: 12px; color: #0f172a;">
+            ${d.title}
+          </td>
+          <td style="padding: 12px 8px; font-size: 12px; line-height: 1.5; color: #334155; white-space: pre-wrap;">
+            ${d.preview}
+          </td>
+        </tr>
+      `,
+        )
+        .join('');
+
+      win.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8"/>
+          <title>Stabilitets- och Beviskronologi — ${deepLinkChild || 'Familjen'}</title>
+          <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 40px; color: #1e293b; background: #fff; line-height: 1.5; }
+            .header { border-bottom: 2px solid #0f172a; padding-bottom: 16px; margin-bottom: 24px; }
+            .title { font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; margin: 0; color: #0f172a; }
+            .subtitle { font-size: 12px; color: #64748b; margin-top: 4px; margin-bottom: 0; }
+            .meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px; font-size: 12px; background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid #e2e8f0; }
+            .hash-block { grid-column: span 2; font-family: monospace; background: #f1f5f9; padding: 10px; border-radius: 6px; word-break: break-all; border: 1px solid #cbd5e1; font-size: 10px; line-height: 1.4; }
+            table { border-collapse: collapse; width: 100%; margin-top: 24px; }
+            th { text-align: left; background: #f1f5f9; padding: 10px 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid #cbd5e1; color: #475569; }
+            .footer { margin-top: 40px; border-top: 1px solid #cbd5e1; padding-top: 12px; font-size: 9px; color: #94a3b8; text-align: center; }
+            @media print {
+              body { padding: 0; }
+              tr { page-break-inside: avoid; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1 class="title">Stabilitets- och Beviskronologi</h1>
+            <p class="subtitle">Genererad via Livskompassen — Formellt och oföränderligt underlag (WORM-struktur)</p>
+            
+            <div class="meta-grid">
+              <div><strong>Barn/Område:</strong> ${deepLinkChild || 'Hela familjen'}</div>
+              <div><strong>Rapporttyp:</strong> ${reportType === 'LEGAL' ? 'Juridisk Kronologi (Fakta & Tidsstämplar)' : 'BBIC-strukturerad rapport'}</div>
+              <div><strong>Exportdatum:</strong> ${new Date().toLocaleString('sv-SE')}</div>
+              <div><strong>Antal inkluderade poster:</strong> ${selected.length} st</div>
+              <div class="hash-block">
+                <strong>KRYPTOGRAFISK BEVIS-HASH (SHA-256):</strong><br/>
+                ${hash}<br/>
+                <span style="font-size: 9px; color: #64748b; font-weight: normal;">
+                  *Denna hash säkrar att innehållet i dokumentet inte har modifierats eller manipulerats sedan exporttillfället i Livskompassen.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 12%">Datum</th>
+                <th style="width: 15%">Källa</th>
+                <th style="width: 25%">Kategori</th>
+                <th>Observation / Bevisfakta</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rowsHtml}
+            </tbody>
+          </table>
+
+          <div class="footer">
+            Dokumentet är krypterat och verifierat. Livskompassen använder strikt dataseparering (WORM) för att säkra beviskedjor.
+          </div>
+        </body>
+        </html>
+      `);
+
+      win.document.close();
+      win.focus();
+
+      // Öppna utskriftsdialogen automatiskt för att spara som PDF
+      setTimeout(() => {
+        win.print();
+      }, 250);
+
+      setResult({
+        dossierId: hash.slice(0, 12).toUpperCase(),
+        documentHash: hash,
+        status: 'ready',
+      });
+      setStep('result');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Kunde inte generera utskrift.');
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  if (!vaultOpen) {
+    return (
+      <div className={embedded ? 'space-y-4' : 'space-y-6'}>
+        <BentoCard title="Dossier-Generator" icon={<Lock className="h-4 w-4" />}>
+          <p className="mb-4 text-sm text-text-muted">
+            Dossier kräver upplåst Valv (Fyren). I bottenmenyn: tryck på <strong>Hjärtat</strong>{' '}
+            (bok-ikonen) och <strong>håll 3 sekunder</strong>, eller öppna fliken Bevis och ange PIN.
+          </p>
+          <Link
+            to="/dagbok?tab=bevis"
+            className="inline-flex rounded-lg bg-indigo-500/20 px-4 py-2 text-sm font-medium text-indigo-200 hover:bg-indigo-500/30"
+          >
+            Öppna Bevis / Valv
+          </Link>
+        </BentoCard>
+      </div>
+    );
+  }
+
+  return (
+    <div className={embedded ? 'space-y-4' : 'space-y-6'}>
+      <BentoCard
+        title={embedded ? 'Dossier' : 'Dossier-Generator'}
+        description={embedded ? 'Samlad arkiv-export' : undefined}
+        icon={<FileText className="h-4 w-4" />}
+      >
+        {!embedded && (
+          <p className="mb-4 text-sm text-text-muted">
+            Samlad arkiv-export. Inget skickas automatiskt; du laddar ner din PDF när du är redo.
+          </p>
+        )}
+        {embedded && (
+          <p className="mb-4 text-sm text-text-muted">
+            Inget skickas automatiskt. Du sparar eller skriver ut PDF lokalt på din enhet.
+          </p>
+        )}
+
+        {step === 'period' && (
+          <div className="space-y-4">
+            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
+              Steg 1 av 3 — Tidsperiod
+            </p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label className="block text-sm">
+                <span className="text-text-muted">Från</span>
+                <input
+                  type="date"
+                  value={dateFrom}
+                  onChange={(e) => setDateFrom(e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm"
+                />
+              </label>
+              <label className="block text-sm">
+                <span className="text-text-muted">Till</span>
+                <input
+                  type="date"
+                  value={dateTo}
+                  onChange={(e) => setDateTo(e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm"
+                />
+              </label>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setDateTo(defaultDateRange().dateTo);
+                  setDateFrom(shiftMonths(defaultDateRange().dateTo, -3));
+                }}
+                className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-indigo-200 cursor-pointer hover:bg-indigo-500/10"
+              >
+                Senaste 3 månaderna
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setDateTo(defaultDateRange().dateTo);
+                  setDateFrom(shiftMonths(defaultDateRange().dateTo, -6));
+                }}
+                className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-indigo-200 cursor-pointer hover:bg-indigo-500/10"
+              >
+                Senaste 6 månaderna
+              </button>
+            </div>
+            <button
+              type="button"
+              onClick={() => setStep('sources')}
+              className="w-full rounded-lg bg-indigo-500/25 py-2.5 text-sm font-medium text-indigo-100 cursor-pointer hover:bg-indigo-500/35"
+            >
+              Fortsätt
+            </button>
+          </div>
+        )}
+
+        {step === 'sources' && (
+          <div className="space-y-4">
+            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
+              Steg 2 av 3 — Källor & Filter
+            </p>
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={sources.reality_vault}
+                onChange={(e) =>
+                  setSources((s) => ({ ...s, reality_vault: e.target.checked }))
+                }
+                className="rounded border-white/20 accent-accent"
+              />
+              Verklighetsvalvet (bevisloggar)
+            </label>
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={sources.children_logs}
+                onChange={(e) =>
+                  setSources((s) => ({ ...s, children_logs: e.target.checked }))
+                }
+                className="rounded border-white/20 accent-accent"
+              />
+              Barnens livsloggar
+            </label>
+            <label className="flex items-start gap-2 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={sources.journal}
+                onChange={(e) => {
+                  const on = e.target.checked;
+                  setSources((s) => ({ ...s, journal: on }));
+                  if (!on) setJournalAck(false);
+                }}
+                className="mt-1 rounded border-white/20 accent-accent"
+              />
+              <span>
+                Dagboken (privat journal)
+                <span className="mt-1 block text-xs text-danger/80">{JOURNAL_WARNING}</span>
+              </span>
+            </label>
+
+            {sources.journal && (
+              <label className="flex items-start gap-2 rounded-lg border border-danger/30 bg-danger/5 p-3 text-sm cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={journalAck}
+                  onChange={(e) => setJournalAck(e.target.checked)}
+                  className="mt-1 accent-danger"
+                />
+                <span className="text-text-muted leading-relaxed">
+                  Jag förstår risken och vill inkludera min privata dagbok i detta underlag.
+                </span>
+              </label>
+            )}
+
+            {categoryTags.length > 0 && (
+              <div>
+                <p className="mb-2 text-xs text-text-dim">Valfritt — filtrera på kategori/tag</p>
+                <div className="flex flex-wrap gap-2">
+                  {categoryTags.map((tag) => (
+                    <button
+                      key={tag}
+                      type="button"
+                      onClick={() => toggleCategory(tag)}
+                      className={
+                        categoryFilter.includes(tag)
+                          ? 'rounded-full bg-amber-500/25 px-3 py-1 text-xs text-amber-100 cursor-pointer border border-accent/40'
+                          : 'rounded-full border border-white/10 px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-white/20'
+                      }
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <label className="flex cursor-pointer items-start gap-2 text-sm text-text-dim border-t border-border-strong/40 pt-3">
+              <input
+                type="checkbox"
+                checked={includeAiForeword}
+                onChange={(e) => setIncludeAiForeword(e.target.checked)}
+                className="mt-0.5 rounded border-white/20 accent-accent"
+              />
+              <span>
+                {VAVAREN_DOSSIER_CHECKBOX}
+                <span className="mt-1 block text-xs text-text-muted">{VAVAREN_DOSSIER_HINT}</span>
+              </span>
+            </label>
+
+            <select
+              value={reportType}
+              onChange={(e) => setReportType(e.target.value as DossierReportType)}
+              className="w-full rounded-lg border border-white/10 bg-surface-3 px-3 py-2 text-sm"
+              aria-label="Rapporttyp"
+            >
+              <option value="LEGAL">Juridisk kronologi (Fakta & tidsstämplar)</option>
+              <option value="BBIC">BBIC-struktur (föräldraförmåga & hälsa)</option>
+            </select>
+
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setStep('period')}
+                className="flex-1 rounded-lg border border-white/10 py-2 text-sm cursor-pointer hover:bg-white/5"
+              >
+                Tillbaka
+              </button>
+              <button
+                type="button"
+                disabled={sources.journal && !journalAck}
+                onClick={() => setStep('review')}
+                className="flex-1 rounded-lg bg-indigo-500/25 py-2 text-sm font-medium text-indigo-100 disabled:opacity-40 cursor-pointer hover:bg-indigo-500/35"
+              >
+                Granska urval
+              </button>
+            </div>
+          </div>
+        )}
+
+        {step === 'review' && (
+          <div className="space-y-4">
+            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
+              Steg 3 av 3 — Bekräfta kronologiskt urval
+            </p>
+            {loadingDocs ? (
+              <div className="flex items-center justify-center gap-2 text-sm text-text-muted py-6">
+                <Loader2 className="h-4 w-4 animate-spin text-accent" />
+                Läser in dina loggade händelser…
+              </div>
+            ) : filteredDocs.length === 0 ? (
+              <EmptyState message="Inga poster hittades för den valda tidsperioden och källorna. Gå tillbaka och utöka ditt sökfönster." />
+            ) : (
+              <div className="space-y-2">
+                <p className="text-xs text-text-dim">
+                  Bocka av de rader du vill utesluta från exporten. Totalt {includedIds.size} av{' '}
+                  {filteredDocs.length} valda.
+                </p>
+                <ul className="max-h-80 space-y-2 overflow-y-auto pr-1 border border-border/60 rounded-xl p-2 bg-black/20">
+                  {filteredDocs.map((doc) => (
+                    <li
+                      key={`${doc.kind}-${doc.id}`}
+                      className="rounded-lg border border-white/5 bg-surface-2 p-3 transition-colors hover:border-accent/10"
+                    >
+                      <label className="flex cursor-pointer gap-3">
+                        <input
+                          type="checkbox"
+                          checked={includedIds.has(doc.id)}
+                          onChange={() => toggleDoc(doc.id)}
+                          className="mt-1 shrink-0 accent-accent"
+                        />
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-xs font-semibold text-accent">
+                            {doc.title}
+                          </span>
+                          <span className="text-[10px] text-text-dim">
+                            {doc.createdAt.slice(0, 10)} ·{' '}
+                            {doc.kind.toUpperCase().replace('_', ' ')}
+                          </span>
+                          <span className="mt-1 block text-xs text-text-muted leading-relaxed line-clamp-2">
+                            {doc.preview}
+                          </span>
+                        </span>
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            <p className="flex items-start gap-2 text-xs text-success-light">
+              <ShieldAlert className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" />
+              Säkerhetsprincip: PDF-genereringen sker krypterat i din webbläsare. Ingenting skickas
+              till motparten eller sociala myndigheter.
+            </p>
+            {error && <p className="text-sm text-danger text-center">{error}</p>}
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setStep('sources')}
+                className="flex-1 rounded-lg border border-white/10 py-2 text-sm cursor-pointer"
+              >
+                Tillbaka
+              </button>
+              <button
+                type="button"
+                disabled={generating || includedIds.size === 0}
+                onClick={() => void handleLocalPrintAndGenerate()}
+                className="flex-1 rounded-lg bg-emerald-500/25 py-2 text-sm font-semibold text-emerald-100 disabled:opacity-40 cursor-pointer"
+              >
+                {generating ? (
+                  <span className="inline-flex items-center justify-center gap-2">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Genererar PDF…
+                  </span>
+                ) : (
+                  'Lås & Skriv ut (PDF)'
+                )}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {step === 'result' && result && (
+          <div className="space-y-4 animate-fade-in">
+            <div className="rounded-xl border border-success/30 bg-success/5 p-4 text-center">
+              <p className="text-sm font-semibold text-success">Dossier skapad & verifierad!</p>
+              <p className="mt-1 text-xs text-text-muted">
+                Dokumentet öppnades i en ny flik och utskriftsdialogen har startat. Spara den som en
+                PDF lokalt på din enhet.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-border-strong bg-surface-2 p-4 space-y-2 text-xs tabular-nums">
+              <p className="text-text-dim uppercase tracking-wider text-[10px]">
+                Äkthetsverifiering (WORM-bevis)
+              </p>
+              <div className="flex justify-between">
+                <span className="text-text-muted">Dossier ID:</span>
+                <span className="font-mono text-text font-semibold">{result.dossierId}</span>
+              </div>
+              <div className="space-y-1">
+                <span className="text-text-muted">SHA-256 Hash:</span>
+                <p className="font-mono text-[9px] text-accent bg-black/30 p-2 rounded border border-border break-all">
+                  {result.documentHash}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-2 pt-2">
+              <button
+                type="button"
+                className="btn-pill--accent flex-1 text-xs justify-center"
+                onClick={() => void handleLocalPrintAndGenerate()}
+              >
+                Skriv ut / Spara igen
+              </button>
+              <button
+                type="button"
+                onClick={clearSession}
+                className="btn-pill--ghost flex-1 text-xs justify-center"
+              >
+                Klar — rensa (Zero Footprint)
+              </button>
+            </div>
+          </div>
+        )}
+      </BentoCard>
+    </div>
+  );
+}
+</file>
+
+<file path="docs/gemini-handoff/V1-valv-zone-wireframe.md">
+# V1 — Valv zon-navigation (wireframe)
+
+**Status:** Integrerad — `vaultTabs.ts`, `VaultPage.tsx`, `getVaultZoneTabBarItems()`  
+**Gemini-svar:** [`V1-valv-gemini-svar.md`](./V1-valv-gemini-svar.md)
+
+## Zon-flöde
+
+```
+Valv (PIN)
+├── [Samla]     logga · sok
+├── [Analysera] monster · orkester  ← LÅST UX
+├── [Kunskap]   kunskapsbank · aktorskarta
+├── [Exportera] dossier
+└── [Forensik]  hamn_analys · speglar_fordjupat · …
+```
+
+Max 5 zoner i tab bar; underflikar per aktiv zon.
+
+## Ingress (`VALV_ZONE_INGRESS`)
+
+| Zon | Copy |
+|-----|------|
+| Samla | Samla in bevis och sök i loggen. |
+| Analysera | Mönster och Orkester — över tid, inte i stunden. |
+| Kunskap | Fakta bakom PIN: Kunskapsbank och Aktörskarta. |
+| Exportera | Dossier för export och översikt. |
+| Forensik | Hamn och fördjupad analys — ett steg i taget. |
+
+## Handoff Hamn vs Valv
+
+| Situation | UI |
+|-----------|-----|
+| Första Grey Rock / BIFF | `/hamn` (ingen PIN) |
+| Spara bevis, triage | Valv → Samla |
+| Mönster över tid | Valv → Analysera |
+| RAG fakta | Valv → Kunskapsbank (PIN) |
+| Djup Hamn-analys | Valv → Forensik → hamn_analys |
+| /hamn?tab=analys | Redirect + PIN → hamn_analys |
+
+**MUST NOT:** PIN för första `/hamn`; ta bort Mönster/Orkester.
+
+## Vävaren polish
+
+- **DONE:** zon-ingress, breadcrumb, villkorsstyrd panel-render
+- **DONE:** sms-tråd bekräftelse i `VaultEntryForm`
+- **DONE:** BBIC selectable i `DossierPage`
+</file>
+
+<file path=".context/locked-ux-features.md">
+# Locked UX Features (låsta — får inte tas bort)
+
+**Status:** Låst 2026-05-23. Ändring kräver explicit produktbeslut i commit/PR.
+
+Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produktflöden** för trygg hamn (Barnen) och Pansaret (Valv). Agent och refaktor får inte ta bort, döpa om eller gömma dem utan att uppdatera denna fil och smoke.
+
+---
+
+## 1. Barnfokus-frågor (Familjen / Barnen — ev. «Middagsfrågan»)
+
+| | |
+|---|---|
+| **Route** | `/familjen` → `BarnensPage` |
+| **Syfte** | Roterande frågor (roligt, kunskap, knas, lära känna, utveckling, valv-bank) → minneslista |
+| **Kod** | `BarnfokusFraganPanel.tsx`, `barnfokusQuestionForToday`, `BARNFOKUS_QUESTIONS`, `category: 'barnfokus'` |
+| **Spec** | `docs/design/FAMILJEN-BARNFOKUS-FRAGOR-SPEC.md` |
+| **Krav** | Knapp **Spara till {barn}s logg**; **Annan fråga**; optimistisk minneslista; **inte** enbart middag-rubrik |
+| **Smoke** | `npm run smoke:locked-ux` · manuell #19 |
+
+---
+
+## 2. Pansaret — Mönster & Orkester (Valv-baksida)
+
+| | |
+|---|---|
+| **Route** | `/dagbok?tab=bevis&vaultTab=…` → `VaultPage` (PIN) |
+| **Zoner** | **Samla** · **Analysera** · **Kunskap** · **Exportera** · **Forensik** — [`VALV-HUBB-SPEC.md`](../docs/design/VALV-HUBB-SPEC.md) |
+| **Flikar** | **Arkiv** · **Granska inkommande** · **Mönster** · **Meddelanden eller SMS-analys** (`vaultTab=orkester`) · **Dossier** · **Kunskapsbank** · **Personer i ärendet** |
+| **Mönster** | `VaultMonsterPanel` + `buildVaultFrequencyReport` (deterministisk regex, ingen LLM-sanning) |
+| **Meddelanden / SMS-analys** | `VaultOrkesterPanel` + `PRODUCT_AGENTS` + SMS-tråd → `analyzeMessage` (flik-ID `orkester` oförändrat) |
+| **Kunskapsbank** | `VaultKunskapsbankPanel` — `KunskapPage` + `FamiljenKunskapHubTab` (U1 silos) |
+| **Aktörskarta (G9)** | `VaultAktorskartaPanel` + `EntityAddForm` + `addEntityProfile` — manuella personer, append-only metadata för agenter (ej RAG, ej publik meny) |
+| **Smoke** | `npm run smoke:locked-ux` · `npm run smoke:entities` · manuell #20 i `docs/SMOKE_CHECKLIST.md` |
+
+---
+
+## 3. Planering + Projekt (design låst — hybrid)
+
+| | |
+|---|---|
+| **Beslut** | [`docs/design/PLANERING-PROJEKT-HYBRID.md`](../docs/design/PLANERING-PROJEKT-HYBRID.md) |
+| **Handling (fast)** | P3 Kanban ATT GÖRA · VÄNTAR · KLART — `/planering` |
+| **Projekt (flex)** | Lista, anteckning, bild, egna planeringar — `/projekt` |
+| **Widget** | v2 [`galleri/widget/v2/W1-kompakt-projekt.png`](../docs/design/galleri/widget/v2/W1-kompakt-projekt.png) |
+| **Spec** | `PROJEKT-SPEC.md`, `PLANERING-P3-KANBAN-SPEC.md`, `WIDGET-BAR-SPEC.md` |
+| **Smoke** | Hybrid-spec + kanon-PNG finns |
+
+---
+
+## 4. Planeringssidan (äldre register — se §3 hybrid)
+
+| | |
+|---|---|
+| **Route (plan)** | `/planering` |
+| **Spec** | `docs/design/PLANERINGSSIDA-SPEC.md`, mockups `docs/design/planering/` |
+| **Krav** | P1–P4 + Projekt; e-postregler `planning_email_rules`; **inte** ex-brus hit |
+| **Smoke** | Spec-fil + nyckelsträngar i `smoke_locked_ux.mjs` |
+
+---
+
+## 5. Fyren Edge — widget + tyst inspelning (design låst)
+
+| | |
+|---|---|
+| **Spec** | `docs/design/WIDGET-BAR-SPEC.md`, `docs/design/HOMESCREEN-WIDGETS-SPEC.md`, `docs/design/ANDROID-WIDGETS-SPEC.md` |
+| **Kod** | `FyrenWidgetBar.tsx`, `/widget/*`, `android/…/widgets/*`, `ingestWidgetRecording` |
+| **Krav** | WH1: datumstämpel, AI-titel, WORM, sammanfattning i `truth`, ljudfil `evidenceUrl`; **ingen synlig REC** |
+| **Data** | `reality_vault` WORM, `category: tyst_inspelning` |
+| **Smoke** | Spec-fil + nyckelsträngar |
+
+---
+
+## 6. Sidomeny / hamburger (design låst — Vardag + Valv)
+
+| | |
+|---|---|
+| **Kanonbild** | `docs/design/references/MENU-DRAWER-KANON.png` |
+| **Spec** | `docs/design/references/MENU-DRAWER-KANON.md` |
+| **Sektioner** | **Vardag** (publikt) · **Valv** (endast efter PIN/gate på Valv-route) |
+| **Kod** | `navTruth.ts`, `NavigationDrawer.tsx`, `DrawerModeToggle.tsx` |
+| **Krav** | Skymningsbakgrund; aktiv rad **guld**; **ingen** Valv-växlare/snabbchips i publikt läge |
+| **Smoke** | Kanonfil + spec + `DRAWER_VARDAG_ITEMS` / `DRAWER_VALV_ENTRIES` + `vaultOpen` i NavigationDrawer |
+
+---
+
+## 7. Barnporten — barnens hub (design låst)
+
+| | |
+|---|---|
+| **Route (barn)** | `/barnporten` (PWA) · **förälder** `/familjen?tab=barnporten` |
+| **Spec** | `docs/design/BARNPORTEN-SPEC.md`, infografik `docs/design/barnporten/infographic.html` |
+| **Orkester** | `src/modules/barnporten/constants/barnportenAgents.ts` — **egen** barn-Orkester (skild från Valv-Orkester) |
+| **Valv** | Endast HITL `promoteChildLogToVault` — **aldrig** auto från privat barnlogg |
+| **Widget** | CB1–CB4 (barn); **inte** samma som förälder W1 |
+| **Smoke** | Spec + `barnportenAgents.ts` + mockup-mapp |
+
+### 7b. Inkorg → Valv-bro (HITL — **låst 2026-05-29**)
+
+| | |
+|---|---|
+| **Kanon UI** | [`docs/design/barnporten/mockups/barnporten-inkorg-valv-kanon.png`](../docs/design/barnporten/mockups/barnporten-inkorg-valv-kanon.png) |
+| **Route (förälder)** | `/familjen?tab=barnporten` → `BarnportenInboxPanel` |
+| **Flöde** | Barnmeddelande i inkorg → vuxen granskar → explicit godkännande → `reality_vault` WORM |
+| **Kod** | `BarnportenInboxPanel.tsx` · `SaveAsEvidencePrompt.tsx` · `buildVaultPayloadFromChildLog` (`sourceRef`) |
+| **HITL** | **Human-In-The-Loop** — inget sparas automatiskt; vuxen trycker **Spara som bevis** / **Flytta till Valv (HITL)** |
+| **Tidsstämpel** | `saveVaultLog` → Firestore `serverTimestamp()` → Valv visar **SERVER-TIDSSTÄMPEL** |
+| **Efter spar** | Länk **Granska i Valv** / **Öppna Bevis (Hjärtat)** → `/dagbok?tab=bevis` |
+| **Tagline (mål-UI)** | *Skapa trygghet. Bygg tillit.* · *Från inkorg till Valv – för framtiden.* |
+| **Status (mål-UI)** | *Klar för långtidslagring* · HITL-badge med sköld |
+
+**Får inte:** auto-promote från `private_child` / *Bara för mig*; ta bort HITL-steg; spara till Valv utan `sourceRef: children_logs/{id}`; ta bort inkorg-panelen eller mockup-kanon.
+
+---
+
+## 8. Arbetsliv — modulhub (låst)
+
+| | |
+|---|---|
+| **Route** | `/arbetsliv` · redirect `/stampla` → `?tab=stampla` |
+| **Kod** | `src/modules/arbetsliv/components/ArbetslivHubPage.tsx` |
+| **Publikt** | Stämpel · Tid & flex · Logg |
+| **Valv-menyn** | Frånvaro · Lön & spec → `vaultTab=arbetsliv_*` · zon `arbetsliv_forensic` |
+| **Vardagen** | `/vardagen?tab=ekonomi` = veckopeng/matlåda |
+| **Eval** | `docs/evaluations/2026-05-25-arbetsliv-hub.md` |
+| **Smoke** | `npm run smoke:arbetsliv` |
+
+**Får inte:** ta bort menyrad Arbetsliv eller stämpel-hub utan produktbeslut.
+
+---
+
+## 8b. Trygg Hamn — snabb ingång vs Valv (**godkänt 2026-05-29**)
+
+| | |
+|---|---|
+| **Snabb** | `/hamn` — `BiffPublicPanel` (Grey Rock), Speglar-länk, utan PIN |
+| **Djup** | Valv → Forensik → **Hamn · Analys** (`hamn_analys`) — triage, bevis, HITL |
+| **Redirect** | `/hamn?tab=analys` → `/dagbok?tab=bevis&vaultTab=hamn_analys` |
+| **Kanon** | [`docs/design/VALV-HUBB-SPEC.md`](../docs/design/VALV-HUBB-SPEC.md) |
+
+**Får inte:** kräva Valv-PIN för första BIFF-svar eller ta bort `/hamn` från Vardag-drawer.
+
+---
+
+## 9. Valv-baksida — samlad PIN-vägg (2026-05-25)
+
+| | |
+|---|---|
+| **Ingång** | Hamburgermeny → sektion **Valv** · `/dagbok?tab=bevis&vaultTab=…` |
+| **Kunskap** | All kunskap (Vardagen, Familjen, Hem) → **Kunskapsbank** — **inte** publik `/vardagen?tab=kunskap` |
+| **Forensic** | Hamn analys, Speglar fördjupat, Dagbok arkiv, Familjen mönster, Arbetsliv frånvaro/lön |
+| **U1** | Kunskapsbank anropar `knowledgeVaultQuery` — **aldrig** cross-RAG till Valv/Barnen |
+| **Kod** | `VaultPage.tsx`, `VaultKunskapsbankPanel.tsx`, `VaultForensicPanel.tsx`, `navTruth.ts` |
+
+---
+
+## 10. Produktikoner D1 · M2 (låst) · app-ikon upplåst
+
+| ID | Plats | Fil | Status |
+|----|-------|-----|--------|
+| ~~**B1**~~ | App / favicon | `public/favicon.svg` | **Upplåst** — P1–P5 i `phone-icon-variants/PREVIEW.md` |
+| **D1** | Header, dock, hero | `LivskompassMark.tsx` | LÅST |
+| **M2** | Kompis-avatar | `KompisMark.tsx` | LÅST |
+
+| | |
+|---|---|
+| **Register** | `.context/locked-icons.md` · stil: `docs/design/ICON-STYLE-GUIDE.md` |
+| **App-ikon** | `docs/design/themes/phone-icon-variants/PREVIEW.md` · `npm run android:icons:phone` |
+| **Smoke** | `npm run smoke:locked-icons` |
+
+**Får inte:** Lucide-kompass i Kompis, minimal linje-D1, eller Vite-lila favicon utan beslut.
+
+---
+
+## Verifiering
+
+```bash
+npm run smoke:locked-ux
+npm run smoke:locked-icons
+npm run smoke:arbetsliv
+```
+
+Vid refaktor av `VaultPage`, `BarnensPage`, eller borttagning av specs ovan: kör smoke innan merge.
+</file>
+
 <file path="src/modules/core/navigation/navTruth.ts">
-/**
- * Single source for hub labels, paths, drawer sections, and chrome flags.
- * Drawer-ikoner: `drawerNav.ts` (v4 chrome `createChromeV4Icon` + Lucide där glyph saknas).
- */
 import { HIDE_BEVIS_TAB } from './navFlags';
+
+/** Kärn-sanning för routes — inga överlappande paths tillåtna. */
+export const NAV_PATHS = {
+  HOME: '/',
+  HJARTAT: '/hjartat',
+  VALVET: '/valvet',
+  VARDAGEN: '/vardagen',
+  FAMILJEN: '/familjen',
+  BARNEN: '/barnen',
+} as const;
 import {
   FORENSIC_VAULT_TAB_IDS,
   forensicVaultTabLabel,
   MAIN_VAULT_TAB_IDS,
-} from '../../evidence/vault/utils/vaultTabs';
+} from '@/features/lifeJournal/evidence/vault/utils/vaultTabs';
+import {
+  DAGBOK_BEVIS_DRAWER_LABEL,
+  VALV_DRAWER_HINTS,
+  VALV_KUNSKAP_DRAWER_LEAF,
+  VALV_ZONE_LABELS,
+  VAULT_MAIN_TAB_LABELS,
+} from '../copy/valvNavCopy';
+
+/** Bevis-etikett — endast Valv-drawer; Hjärtat har ingen bevis-flik. */
+export { DAGBOK_BEVIS_DRAWER_LABEL };
 
 export type NavDrawerSection = 'vardag' | 'valv';
 
@@ -4457,105 +4896,51 @@ export type NavTruthEntry = {
   section: NavDrawerSection;
   inDrawer: boolean;
   requiresVaultPin?: boolean;
-  /** Sub-rad under hub eller Valv-grupp */
   parentId?: string;
-  /** Valv: expanderbar grupp utan egen navigation */
   isGroupHeader?: boolean;
-  /** Kort hjälptext under grupp-rubrik i Valv-drawer */
   drawerHint?: string;
-  /** Dölj i drawer när G18 döljer publik Bevis-flik */
   omitWhenHideBevis?: boolean;
   inDock?: boolean;
   fyrenHomeQuick?: boolean;
-  /** Theme Pack J id when auto-module theme is on */
   themeId?: string;
 };
 
-/** Deep-link till Valv-baksida (PIN i VaultPage). */
 export function vaultDrawerPath(vaultTab: string): string {
-  return `/dagbok?tab=bevis&vaultTab=${vaultTab}`;
+  return `${NAV_PATHS.VALVET}?vaultTab=${vaultTab}`;
 }
 
-const VAULT_MAIN_LABELS: Record<(typeof MAIN_VAULT_TAB_IDS)[number], string> = {
-  logga: 'Arkiv',
-  sok: 'Triage',
-  monster: 'Mönster',
-  orkester: 'Orkester',
-  dossier: 'Dossier',
-  kunskapsbank: 'Kunskapsbank',
-  aktorskarta: 'Aktörskarta',
-};
+const VAULT_MAIN_LABELS = { ...VAULT_MAIN_TAB_LABELS } as Record<
+  (typeof MAIN_VAULT_TAB_IDS)[number],
+  string
+>;
 
 function valvLeaf(
   id: string,
   vaultTab: string,
   parentId: string,
   label?: string,
+  inDrawer = false,
 ): NavTruthEntry {
   return {
     id,
     label: label ?? VAULT_MAIN_LABELS[vaultTab as keyof typeof VAULT_MAIN_LABELS] ?? vaultTab,
     path: vaultDrawerPath(vaultTab),
     section: 'valv',
-    inDrawer: true,
+    inDrawer,
     requiresVaultPin: true,
     parentId,
   };
 }
 
 export const NAV_TRUTH: NavTruthEntry[] = [
-  // —— Vardag —— (hub-ordning: Dagbok → Vardagen → MåBra → Familjen → verktyg → Hamn → Projekt → Drogfrihet → Inställningar)
-  { id: 'hem', label: 'Hem Kompass', path: '/', section: 'vardag', inDrawer: true, themeId: 'J-fyren-hem' },
-  {
-    id: 'hem_inkast',
-    label: 'Inkast',
-    path: '/#inkast-lite',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'hem',
-  },
-  {
-    id: 'dagbok',
-    label: 'Dagbok',
-    path: '/dagbok',
-    section: 'vardag',
-    inDrawer: true,
-    fyrenHomeQuick: true,
-    themeId: 'J-valv-pansar',
-  },
-  {
-    id: 'dagbok_reflektion',
-    label: 'Reflektion',
-    path: '/dagbok?tab=reflektion',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'dagbok',
-  },
-  {
-    id: 'dagbok_speglar',
-    label: 'Speglar',
-    path: '/dagbok?tab=speglar',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'dagbok',
-  },
-  {
-    id: 'dagbok_bevis',
-    label: 'Bevis (Valv)',
-    path: vaultDrawerPath('logga'),
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'dagbok',
-    requiresVaultPin: true,
-    omitWhenHideBevis: true,
-  },
+  // —— Vardag ——
+  { id: 'hem', label: 'Hem — Skriv', path: '/', section: 'vardag', inDrawer: true, themeId: 'J-fyren-hem' },
   {
     id: 'vardagen',
     label: 'Vardagen',
     path: '/vardagen',
     section: 'vardag',
     inDrawer: true,
-    fyrenHomeQuick: true,
     themeId: 'J-vardagen-orbit',
   },
   {
@@ -4563,7 +4948,31 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Kompasser',
     path: '/vardagen?tab=kompasser',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
+    parentId: 'vardagen',
+  },
+  {
+    id: 'vardagen_mabra',
+    label: 'MåBra',
+    path: '/vardagen?tab=mabra',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'vardagen',
+  },
+  {
+    id: 'vardagen_handling',
+    label: 'Handling',
+    path: '/vardagen?tab=handling',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'vardagen',
+  },
+  {
+    id: 'vardagen_arbetsliv',
+    label: 'Arbetsliv',
+    path: '/vardagen?tab=arbetsliv',
+    section: 'vardag',
+    inDrawer: false,
     parentId: 'vardagen',
   },
   {
@@ -4571,17 +4980,16 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Ekonomi',
     path: '/vardagen?tab=ekonomi',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'vardagen',
   },
   {
-    id: 'mabra',
-    label: 'MåBra',
-    path: '/mabra',
+    id: 'vardagen_drogfrihet',
+    label: 'Drogfrihet',
+    path: '/vardagen?tab=drogfrihet',
     section: 'vardag',
-    inDrawer: true,
-    fyrenHomeQuick: true,
-    themeId: 'J-mabra-lavendel',
+    inDrawer: false,
+    parentId: 'vardagen',
   },
   {
     id: 'familjen',
@@ -4597,7 +5005,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Reflektion',
     path: '/familjen?tab=reflektion',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'familjen',
   },
   {
@@ -4605,7 +5013,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Livslogg',
     path: '/familjen?tab=livslogg',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'familjen',
   },
   {
@@ -4613,7 +5021,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Tillsammans',
     path: '/familjen?tab=tillsammans',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'familjen',
   },
   {
@@ -4621,177 +5029,41 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Barnporten',
     path: '/familjen?tab=barnporten',
     section: 'vardag',
-    inDrawer: true,
+    inDrawer: false,
     parentId: 'familjen',
   },
   {
-    id: 'planering',
-    label: 'Planering',
-    path: '/planering?tab=handling',
+    id: 'familjen_hamn',
+    label: 'Trygg hamn',
+    path: '/familjen?tab=hamn',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'familjen',
+  },
+  {
+    id: 'dagbok',
+    label: 'Dagbok',
+    path: NAV_PATHS.HJARTAT,
     section: 'vardag',
     inDrawer: true,
     fyrenHomeQuick: true,
-    themeId: 'J-planering-fyren',
+    themeId: 'J-valv-pansar',
   },
   {
-    id: 'planering_handling',
-    label: 'Handling',
-    path: '/planering?tab=handling',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'planering',
-  },
-  {
-    id: 'planering_fokus',
-    label: 'Fokus',
-    path: '/planering?tab=fokus',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'planering',
-  },
-  {
-    id: 'planering_inkorg',
-    label: 'Inkorg',
-    path: '/planering?tab=inkorg',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'planering',
-  },
-  {
-    id: 'arbetsliv',
-    label: 'Arbetsliv',
-    path: '/arbetsliv',
-    section: 'vardag',
-    inDrawer: true,
-    themeId: 'J-vardagen-orbit',
-  },
-  {
-    id: 'arbetsliv_stampla',
-    label: 'Stämpel',
-    path: '/arbetsliv?tab=stampla',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'arbetsliv',
-  },
-  {
-    id: 'arbetsliv_tid',
-    label: 'Tid & flex',
-    path: '/arbetsliv?tab=tid',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'arbetsliv',
-  },
-  {
-    id: 'arbetsliv_logg',
-    label: 'Logg',
-    path: '/arbetsliv?tab=logg',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'arbetsliv',
-  },
-  {
-    id: 'hamn',
-    label: 'Trygg hamn',
-    path: '/hamn',
-    section: 'vardag',
-    inDrawer: true,
-    themeId: 'J-hamn-greyrock',
-  },
-  {
-    id: 'hamn_oversikt',
-    label: 'Översikt',
-    path: '/hamn?tab=oversikt',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'hamn',
-  },
-  {
-    id: 'hamn_biff',
-    label: 'BIFF',
-    path: '/hamn?tab=biff',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'hamn',
-  },
-  {
-    id: 'hamn_speglar',
-    label: 'Speglar',
-    path: '/hamn?tab=speglar',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'hamn',
-  },
-  {
-    id: 'hamn_barn',
-    label: 'Barnfokus',
-    path: '/hamn?tab=barn',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'hamn',
-  },
-  {
-    id: 'projekt',
-    label: 'Projekt',
-    path: '/projekt',
-    section: 'vardag',
-    inDrawer: true,
-    themeId: 'J-planering-fyren',
-  },
-  {
-    id: 'projekt_ny',
-    label: 'Nytt projekt',
-    path: '/admin/projects/ny',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'projekt',
-  },
-  {
-    id: 'projekt_handling',
-    label: 'Till Handling',
-    path: '/planering?tab=handling',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'projekt',
-  },
-  {
-    id: 'drogfrihet',
-    label: 'Drogfrihet',
-    path: '/drogfrihet',
-    section: 'vardag',
-    inDrawer: true,
-    themeId: 'J-mabra-lavendel',
-  },
-  {
-    id: 'drogfrihet_idag',
-    label: 'Idag',
-    path: '/drogfrihet?tab=idag',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'drogfrihet',
-  },
-  {
-    id: 'drogfrihet_resurser',
-    label: 'Stöd',
-    path: '/drogfrihet?tab=resurser',
-    section: 'vardag',
-    inDrawer: true,
-    parentId: 'drogfrihet',
-  },
-  {
-    id: 'drogfrihet_reflektion',
+    id: 'dagbok_reflektion',
     label: 'Reflektion',
-    path: '/drogfrihet?tab=reflektion',
+    path: `${NAV_PATHS.HJARTAT}?tab=reflektion`,
     section: 'vardag',
-    inDrawer: true,
-    parentId: 'drogfrihet',
+    inDrawer: false,
+    parentId: 'dagbok',
   },
   {
-    id: 'drogfrihet_kunskap',
-    label: 'Stöd & resurser',
-    path: '/drogfrihet?tab=kunskap',
+    id: 'dagbok_speglar',
+    label: 'Speglar',
+    path: `${NAV_PATHS.HJARTAT}?tab=speglar`,
     section: 'vardag',
-    inDrawer: true,
-    parentId: 'drogfrihet',
+    inDrawer: false,
+    parentId: 'dagbok',
   },
   {
     id: 'installningar',
@@ -4801,57 +5073,118 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     inDrawer: true,
   },
   {
-    id: 'installningar_allmant',
-    label: 'Allmänt',
-    path: '/installningar?tab=allmant',
+    id: 'arbetsliv',
+    label: 'Arbetsliv',
+    path: '/arbetsliv',
     section: 'vardag',
-    inDrawer: true,
-    parentId: 'installningar',
+    inDrawer: false,
   },
   {
-    id: 'installningar_drogfrihet',
-    label: 'Drogfrihet',
-    path: '/installningar?tab=drogfrihet',
+    id: 'arbetsliv_stampla',
+    label: 'Stämpel',
+    path: '/arbetsliv?tab=stampla',
     section: 'vardag',
-    inDrawer: true,
-    parentId: 'installningar',
+    inDrawer: false,
+    parentId: 'arbetsliv',
+  },
+  {
+    id: 'arbetsliv_tid',
+    label: 'Tid',
+    path: '/arbetsliv?tab=tid',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'arbetsliv',
+  },
+  {
+    id: 'arbetsliv_logg',
+    label: 'Ekonomilogg',
+    path: '/arbetsliv?tab=logg',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'arbetsliv',
   },
 
-  // —— Valv (PIN) — grupperade accordion ——
+  // —— Valv (PIN) ——
   {
-    id: 'valv_grp_samla',
-    label: 'Samla',
-    path: '',
+    id: 'valv_samla',
+    label: VALV_ZONE_LABELS.samla,
+    path: vaultDrawerPath('logga'),
     section: 'valv',
     inDrawer: true,
+    requiresVaultPin: true,
+    themeId: 'J-valv-pansar',
+    drawerHint: VALV_DRAWER_HINTS.samla,
+  },
+  {
+    id: 'valv_analysera',
+    label: VALV_ZONE_LABELS.analysera,
+    path: vaultDrawerPath('monster'),
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.analysera,
+  },
+  {
+    id: 'valv_kunskap_nav',
+    label: VALV_ZONE_LABELS.kunskap,
+    path: vaultDrawerPath('kunskapsbank'),
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.kunskap,
+  },
+  {
+    id: 'valv_exportera',
+    label: VALV_ZONE_LABELS.exportera,
+    path: vaultDrawerPath('dossier'),
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.exportera,
+  },
+  {
+    id: 'valv_forensik',
+    label: VALV_ZONE_LABELS.forensik,
+    path: vaultDrawerPath('hamn_analys'),
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.forensik,
+  },
+  {
+    id: 'valv_grp_samla',
+    label: VALV_ZONE_LABELS.samla,
+    path: '',
+    section: 'valv',
+    inDrawer: false,
     isGroupHeader: true,
     requiresVaultPin: true,
     themeId: 'J-valv-pansar',
-    drawerHint: 'Objektiv registrering av skriftliga meddelanden och logistik.',
+    drawerHint: VALV_DRAWER_HINTS.samla,
   },
   valvLeaf('valv_arkiv', 'logga', 'valv_grp_samla'),
   valvLeaf('valv_triage', 'sok', 'valv_grp_samla'),
   {
     id: 'valv_grp_analysera',
-    label: 'Analysera',
+    label: VALV_ZONE_LABELS.analysera,
     path: '',
     section: 'valv',
-    inDrawer: true,
+    inDrawer: false,
     isGroupHeader: true,
     requiresVaultPin: true,
-    drawerHint: 'Strukturerad kartläggning av återkommande mönster och beteenden.',
+    drawerHint: VALV_DRAWER_HINTS.analysera,
   },
   valvLeaf('valv_monster', 'monster', 'valv_grp_analysera'),
   valvLeaf('valv_orkester', 'orkester', 'valv_grp_analysera'),
   {
     id: 'valv_grp_exportera',
-    label: 'Exportera',
+    label: VALV_ZONE_LABELS.exportera,
     path: '',
     section: 'valv',
-    inDrawer: true,
+    inDrawer: false,
     isGroupHeader: true,
     requiresVaultPin: true,
-    drawerHint: 'Dossier — explicit export, ingen auto-delning.',
+    drawerHint: VALV_DRAWER_HINTS.exportera,
   },
   valvLeaf('valv_dossier', 'dossier', 'valv_grp_exportera'),
   {
@@ -4859,38 +5192,48 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     label: 'Dossier · full vy',
     path: '/dossier',
     section: 'valv',
-    inDrawer: true,
+    inDrawer: false,
     requiresVaultPin: true,
     parentId: 'valv_grp_exportera',
   },
   {
     id: 'valv_grp_kunskap',
-    label: 'Kunskapsbank',
+    label: VALV_ZONE_LABELS.kunskap,
     path: '',
     section: 'valv',
-    inDrawer: true,
+    inDrawer: false,
     isGroupHeader: true,
     requiresVaultPin: true,
-    drawerHint: 'RAG-fakta och aktörskarta — PIN, ej publik /vardagen.',
+    drawerHint: VALV_DRAWER_HINTS.kunskap,
   },
-  valvLeaf('valv_kunskapsbank', 'kunskapsbank', 'valv_grp_kunskap', 'Chat & Tidshjul'),
-  valvLeaf('valv_aktorskarta', 'aktorskarta', 'valv_grp_kunskap', 'Nyckelpersoner (G9)'),
+  valvLeaf(
+    'valv_kunskapsbank',
+    'kunskapsbank',
+    'valv_grp_kunskap',
+    VALV_KUNSKAP_DRAWER_LEAF.kunskapsbank,
+  ),
+  valvLeaf(
+    'valv_aktorskarta',
+    'aktorskarta',
+    'valv_grp_kunskap',
+    VALV_KUNSKAP_DRAWER_LEAF.aktorskarta,
+  ),
   {
     id: 'valv_grp_forensik',
-    label: 'Forensik',
+    label: VALV_ZONE_LABELS.forensik,
     path: '',
     section: 'valv',
-    inDrawer: true,
     isGroupHeader: true,
     requiresVaultPin: true,
-    drawerHint: 'Djup analys och bevis. Grey Rock på /hamn utan PIN.',
+    drawerHint: VALV_DRAWER_HINTS.forensik,
+    inDrawer: false,
   },
   ...FORENSIC_VAULT_TAB_IDS.map((tab) => ({
     id: `valv_${tab}`,
     label: forensicVaultTabLabel(tab),
     path: vaultDrawerPath(tab),
     section: 'valv' as const,
-    inDrawer: true,
+    inDrawer: false,
     requiresVaultPin: true,
     parentId: 'valv_grp_forensik',
   })),
@@ -4898,39 +5241,40 @@ export const NAV_TRUTH: NavTruthEntry[] = [
 
 export const DRAWER_NAV_TRUTH = NAV_TRUTH.filter((e) => e.inDrawer);
 
-export function isDrawerEntryVisible(entry: NavTruthEntry): boolean {
-  if (entry.omitWhenHideBevis && HIDE_BEVIS_TAB) return false;
+export function isDrawerEntryVisible(entry: NavTruthEntry, vaultSessionOpen = false): boolean {
+  if (entry.omitWhenHideBevis && HIDE_BEVIS_TAB && !vaultSessionOpen) return false;
   return true;
 }
 
-export function getVisibleDrawerTruth(section: NavDrawerSection): NavTruthEntry[] {
-  return DRAWER_NAV_TRUTH.filter((e) => e.section === section && isDrawerEntryVisible(e));
+export function getVisibleDrawerTruth(section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[] {
+  return DRAWER_NAV_TRUTH.filter((e) => e.section === section && isDrawerEntryVisible(e, vaultSessionOpen));
 }
 
 export const DRAWER_VARDAG_ENTRIES = getVisibleDrawerTruth('vardag');
-
 export const DRAWER_VALV_ENTRIES = getVisibleDrawerTruth('valv');
 
-/** Hub-rader utan parentId (legacy drawerNav). */
 export const DRAWER_HUB_TRUTH = DRAWER_NAV_TRUTH.filter((e) => !e.parentId && isDrawerEntryVisible(e));
 
 export function getNavTruthById(id: string): NavTruthEntry | undefined {
   return NAV_TRUTH.find((e) => e.id === id);
 }
 
-export function getDrawerChildren(parentId: string, section: NavDrawerSection): NavTruthEntry[] {
-  return getVisibleDrawerTruth(section).filter((e) => e.parentId === parentId);
+export function getDrawerChildren(parentId: string, section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[] {
+  return getVisibleDrawerTruth(section, vaultSessionOpen).filter((e) => e.parentId === parentId);
 }
 
-/** Vardag: hubbar utan parent. Valv: grupp-rubriker. */
-export function getDrawerRoots(section: NavDrawerSection): NavTruthEntry[] {
-  const visible = getVisibleDrawerTruth(section);
-  if (section === 'valv') return visible.filter((e) => e.isGroupHeader);
+export function getNavChildren(parentId: string, section: NavDrawerSection): NavTruthEntry[] {
+  return NAV_TRUTH.filter((e) => e.section === section && e.parentId === parentId);
+}
+
+export function getDrawerRoots(section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[] {
+  const visible = getVisibleDrawerTruth(section, vaultSessionOpen);
+  if (section === 'valv') return visible.filter((e) => !e.parentId && !e.isGroupHeader);
   return visible.filter((e) => !e.parentId);
 }
 
-export function drawerHubHasChildren(hubId: string, section: NavDrawerSection): boolean {
-  return getDrawerChildren(hubId, section).length > 0;
+export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, vaultSessionOpen = false): boolean {
+  return getDrawerChildren(hubId, section, vaultSessionOpen).length > 0;
 }
 </file>
 

@@ -36,10 +36,11 @@ export { HIDE_BEVIS_TAB } from './navFlags';
 import { HIDE_BEVIS_TAB } from './navFlags';
 
 export const FYREN_BEVIS_HINT =
-  'Öppna modulhubben, tryck Hjärtat och håll 3 sekunder (Fyren), verifiera med fingeravtryck eller Face ID.';
+  'Håll Kompis-ögat i toppmenyn i 3 sekunder och verifiera med fingeravtryck eller Face ID.';
 
 export const DOSSIER_PATH = '/dossier';
-export const HJARTAT_PATH = '/dagbok';
+export const HJARTAT_PATH = '/hjartat';
+export const VALVET_PATH = '/valvet';
 export const VARDAGEN_PATH = '/vardagen';
 
 export const HJARTAT_TABS: ClusterTabDef<HjartatTab>[] = [
@@ -64,10 +65,9 @@ const HJARTAT_CLUSTER: LifeCluster = {
   tone: 'gold',
   hubPosition: 'center',
   longPress: true,
-  fyrenSearch: '?tab=bevis',
+  fyrenSearch: '',
   chips: [
     { label: 'Dagbok', tab: 'reflektion' },
-    { label: 'Verklighetsvalvet', tab: 'bevis' },
     { label: 'Speglar', tab: 'speglar' },
   ],
 };
@@ -160,8 +160,9 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
   { from: '/barnen', to: '/familjen?tab=reflektion' },
   { from: '/hamn', to: '/familjen?tab=hamn' },
   { from: '/drogfrihet', to: VARDAGEN_PATH, search: '?tab=drogfrihet' },
-  { from: '/kunskap', to: '/dagbok', search: '?tab=bevis&vaultTab=kunskapsbank' },
-  { from: '/valv', to: HJARTAT_PATH, search: '?tab=bevis' },
+  { from: '/kunskap', to: VALVET_PATH, search: '?vaultTab=kunskapsbank' },
+  { from: '/valv', to: VALVET_PATH },
+  { from: '/dagbok', to: HJARTAT_PATH },
   { from: '/speglar', to: HJARTAT_PATH, search: '?tab=speglar' },
 ];
 
@@ -183,7 +184,7 @@ export function getVisibleHjartatTabs(): ClusterTabDef<HjartatTab>[] {
 }
 
 export function bevisTabHref(): { pathname: string; search: string } {
-  return hjartatTabHref('bevis');
+  return { pathname: VALVET_PATH, search: '' };
 }
 
 export function speglarTabHref(): { pathname: string; search: string } {

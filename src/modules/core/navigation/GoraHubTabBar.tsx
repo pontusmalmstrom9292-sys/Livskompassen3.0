@@ -11,14 +11,19 @@ const GORA_TABS: TabBarItem<GoraTab>[] = [
 ];
 
 const GORA_PATHS: Record<GoraTab, string> = {
-  handling: '/vardagen?tab=handling',
+  handling: '/planering?tab=handling',
   projekt: '/projekt',
-  inkorg: '/vardagen?tab=inkorg',
+  inkorg: '/planering?tab=inkorg',
 };
 
 export function resolveGoraTab(pathname: string, search: string): GoraTab {
   if (pathname.startsWith('/projekt') || pathname.startsWith('/admin/projects')) {
     return 'projekt';
+  }
+  if (pathname.startsWith('/planering')) {
+    const tab = new URLSearchParams(search.replace(/^\?/, '')).get('tab');
+    if (tab === 'inkorg') return 'inkorg';
+    return 'handling';
   }
   const tab = new URLSearchParams(search.replace(/^\?/, '')).get('tab');
   if (tab === 'inkorg') return 'inkorg';

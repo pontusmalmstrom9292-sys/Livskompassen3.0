@@ -8,6 +8,7 @@ import { EconomyTidPanel } from '@/features/dailyLife/wellbeing/economy/componen
 import { EconomyLogPanel } from '@/features/dailyLife/wellbeing/economy/components/EconomyLogPanel';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { useHubTab } from '@/core/navigation/hooks/useHubTab';
+import { LivBackLink } from '@/modules/shell/LivBackLink';
 
 export type ArbetslivTab = 'stampla' | 'tid' | 'logg';
 
@@ -50,6 +51,9 @@ export function ArbetslivHubPage() {
   return (
     <div className="arbetsliv-hub space-y-5 pb-8">
       <header>
+        <div className="mb-2 flex justify-end">
+          <LivBackLink />
+        </div>
         <p className="text-[10px] uppercase tracking-[0.35em] text-accent/80">Arbetsliv</p>
         <h1 className="text-xl font-display text-text">Tid · stämpel · logg</h1>
         <p className="mt-1 text-xs text-text-dim">

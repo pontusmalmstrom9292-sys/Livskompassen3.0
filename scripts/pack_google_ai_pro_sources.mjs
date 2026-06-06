@@ -10,7 +10,10 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 const NOTEBOOKLM_SOURCES = [
-  { from: 'repomix-dagbok.txt', to: 'repomix-dagbok.txt' },
+  {
+    from: 'exports/gemini-handoff/repomix/gemini-pack-konsolidering.md',
+    to: 'gemini-pack-konsolidering.md',
+  },
   { from: 'docs/specs/ai-prompts-moduler-master.md', to: 'ai-prompts-moduler-master.md' },
   { from: 'docs/INNEHALL-REGISTER.md', to: 'INNEHALL-REGISTER.md' },
   { from: '.context/arkiv-minne.md', to: 'arkiv-minne.md' },
@@ -31,7 +34,10 @@ const NOTEBOOKLM_SOURCES = [
 ];
 
 const DRIVE_PACK = [
-  { from: 'repomix-dagbok.txt', to: 'Livskompassen/repomix/repomix-dagbok.txt' },
+  {
+    from: 'exports/gemini-handoff/repomix/gemini-pack-konsolidering.md',
+    to: 'Livskompassen/repomix/gemini-pack-konsolidering.md',
+  },
   {
     from: 'docs/specs/ai-prompts-moduler-master.md',
     to: 'Livskompassen/specs/ai-prompts-moduler-master.md',

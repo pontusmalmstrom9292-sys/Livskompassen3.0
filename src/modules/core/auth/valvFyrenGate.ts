@@ -1,5 +1,6 @@
 import type { NavigateFunction } from 'react-router-dom';
 import { FYREN_BEVIS_HINT } from '../navigation/appNavigation';
+import { NAV_PATHS } from '../navigation/navTruth';
 import { setVaultGate } from './sessionService';
 import { authenticateVaultGate } from './webauthn';
 import { useStore } from '../store';
@@ -10,7 +11,7 @@ type OpenValvViaFyrenOptions = {
   onDenied?: (message: string) => void;
 };
 
-/** Fyren 3s-håll → WebAuthn + session gate → Valv (Dagbok bevis). */
+/** Kompis-öga 3s-håll (eller nödknapp) → WebAuthn + session gate → Valv (Dagbok bevis). */
 export async function openValvViaFyren(
   navigate: NavigateFunction,
   options?: OpenValvViaFyrenOptions,
@@ -23,8 +24,8 @@ export async function openValvViaFyren(
   setVaultGate();
   useStore.getState().setVaultUnlocked(true);
   navigate({
-    pathname: options?.pathname ?? '/dagbok',
-    search: options?.search ?? '?tab=bevis',
+    pathname: options?.pathname ?? NAV_PATHS.VALVET,
+    search: options?.search ?? '',
   });
   return true;
 }

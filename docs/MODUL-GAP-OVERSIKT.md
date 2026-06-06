@@ -49,7 +49,8 @@ Alla planfiler har `status: closed` överst. **Öppet arbete finns endast i tabe
 | **barnporten** | `/barnporten` | P1 + CB1 **done** · manuell smoke #3 · QR CB2+ | `kör manuell smoke #3` |
 | **valv** | `/dagbok?tab=bevis` | Vävaren HITL **done** 2026-05-31 (`weaver_pending`, approve/reject) | [`2026-05-31-pmir-session-rniv`](./evaluations/2026-05-31-pmir-session-rniv.md) |
 | **core** | `/` | Manuell smoke #3, #4, #2d kvar · #1–2, #18 **PASS** | Du · [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) **Current truth** |
-| **inkast** | Hem `#inkast-lite` | **färdigställd / låst** 2026-06-06 — Smart Inkast G10 + manuell tagg-matris | [`2026-06-06-inkast-lockdown.md`](./evaluations/2026-06-06-inkast-lockdown.md) · `smoke:inkast` **PASS** |
+| **inkast** | Hem `#inkast-lite` | **CaptureSuper Fas 1–3 done** · **InboxReviewQueue canonical Valv** · kompass-variant | [`2026-06-06-upload-unified-cursor-plan.md`](./evaluations/2026-06-06-upload-unified-cursor-plan.md) |
+| **liv** | `/vardagen` launcher | **LivLauncherPage done** 2026-06-06 — `/mabra` `/planering` `/arbetsliv` fullsid | [`2026-06-06-liv-super-cursor-plan.md`](./evaluations/2026-06-06-liv-super-cursor-plan.md) |
 | **dossier** | `/dossier` | BBIC `reportType` **planned** | Spec §I.4 |
 | **ekonomi** | `/liv?tab=kompasser&vardagenTab=ekonomi` | Routing superhub **live** 2026-06-01 · sparmål UI **done** · lönespec vardag **done** | [`LOST-FEATURES-REGISTER.md`](./evaluations/LOST-FEATURES-REGISTER.md) |
 | **hamn** | `/hamn` | BIFF via `TryggHamnHub` | `smoke:design-modules` |

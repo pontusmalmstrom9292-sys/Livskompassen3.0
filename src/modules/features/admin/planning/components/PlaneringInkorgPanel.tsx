@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Calendar, Mail } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
-import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
+import { InboxReviewQueueLink } from '@/modules/inkast/components/InboxReviewQueueLink';
 import { shouldDualWritePlaneringToCapture, submitCaptureDraft } from '@/modules/capture';
 import { useStore } from '@/core/store';
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
@@ -119,7 +119,7 @@ export function PlaneringInkorgPanel() {
             </p>
           )}
 
-          <InboxReviewQueue compact />
+          <InboxReviewQueueLink compact />
         </div>
       )}
 
@@ -188,7 +188,7 @@ export function PlaneringInkorgPanel() {
             </button>
           </BentoCard>
 
-          <InboxReviewQueue compact />
+          <InboxReviewQueueLink compact />
         </div>
       )}
 

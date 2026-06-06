@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { Loader2 } from 'lucide-react';
 import { mirrorFeeling } from '../constants/vivirSteps';
-import { fetchSpeglingsMirror } from '../api/speglingsCoachService';
+import {
+  fetchSpeglingsMirror,
+  speglingsMirrorFailureCode,
+} from '../api/speglingsCoachService';
 
 interface Props {
   feeling: string;
@@ -10,27 +12,64 @@ interface Props {
   onContinue: () => void;
 }
 
+const FALLBACK_MIRROR =
+  'Det du känner är begripligt. Jag fixar inget här — bara spegling.';
+
+function toSafeString(value: unknown): string {
+  return typeof value === 'string' ? value : '';
+}
+
+function toMirrorDisplay(value: unknown): string {
+  if (typeof value === 'string') return value;
+  if (value == null) return '';
+  return String(value);
+}
+
+function localMirrorFallback(feeling: unknown): string {
+  try {
+    const text = mirrorFeeling(feeling);
+    return text.trim() || FALLBACK_MIRROR;
+  } catch {
+    return FALLBACK_MIRROR;
+  }
+}
+
 export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onContinue }: Props) {
   const [mirrored, setMirrored] = useState(false);
   const [mirrorText, setMirrorText] = useState('');
   const [usedAi, setUsedAi] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [mirrorError, setMirrorError] = useState<string | null>(null);
+  const [mirrorHint, setMirrorHint] = useState<string | null>(null);
+
+  const safeFeeling = toSafeString(feeling);
+  const safeMood = toSafeString(journalMood);
 
   const handleMirror = async () => {
-    if (!feeling.trim()) return;
+    const trimmed = safeFeeling.trim();
+    if (!trimmed || loading) return;
+
     setLoading(true);
-    setMirrorError(null);
+    setMirrorHint(null);
     setMirrored(false);
 
     try {
-      const aiMirror = await fetchSpeglingsMirror(feeling.trim(), journalMood || undefined);
-      setMirrorText(aiMirror);
+      const mood = safeMood.trim() || undefined;
+      const aiMirror = await fetchSpeglingsMirror(trimmed, mood);
+      const display = toMirrorDisplay(aiMirror).trim();
+      if (!display) throw new Error('empty_mirror');
+      setMirrorText(display);
       setUsedAi(true);
-    } catch {
-      setMirrorText(mirrorFeeling(feeling));
+    } catch (err) {
+      console.warn('[Speglar] speglingsMirror — lokal fallback', err);
+      setMirrorText(localMirrorFallback(trimmed));
       setUsedAi(false);
-      setMirrorError('Coach otillgänglig — kort spegling lokalt.');
+      if (speglingsMirrorFailureCode(err) === 'unauthenticated') {
+        setMirrorHint(
+          'Logga in via Konto (uppe till höger) för AI-spegling. Lokal spegling visas till höger.',
+        );
+      } else {
+        setMirrorHint('AI otillgänglig just nu — lokal spegling visas till höger.');
+      }
     } finally {
       setMirrored(true);
       setLoading(false);
@@ -45,11 +84,12 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
         <div className="glass-card p-3">
           <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">Känsla nu</p>
           <textarea
-            value={feeling}
+            value={safeFeeling}
             onChange={(e) => {
               onFeelingChange(e.target.value);
               setMirrored(false);
               setMirrorText('');
+              setMirrorHint(null);
             }}
             placeholder="Vad känner du just nu?"
             rows={4}
@@ -57,22 +97,27 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
           />
           <button
             type="button"
-            onClick={handleMirror}
-            disabled={!feeling.trim() || loading}
-            className="btn-pill--secondary mt-2 disabled:opacity-50"
+            onClick={() => void handleMirror()}
+            disabled={!safeFeeling.trim() || loading}
+            className="btn-pill--secondary mt-2 inline-flex items-center gap-2 disabled:opacity-50"
           >
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-            Spegla
+            {loading ? (
+              <span
+                className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+                aria-hidden
+              />
+            ) : null}
+            {loading ? 'Spegling…' : 'Spegla'}
           </button>
         </div>
 
         <div className={`glass-card p-3 ${usedAi ? 'glass-card--ai border-accent-ai/30' : 'border-accent/20'}`}>
           <p className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-widest text-text-dim">
             Spegling
-            {usedAi && <span className="text-accent-ai">AI</span>}
+            {usedAi ? <span className="text-accent-ai">AI</span> : null}
           </p>
           {mirrored ? (
-            <p className="text-sm leading-relaxed text-text-muted">{mirrorText}</p>
+            <p className="text-sm leading-relaxed text-text-muted">{toMirrorDisplay(mirrorText)}</p>
           ) : (
             <p className="text-sm text-text-dim">
               Skriv hur det känns och tryck Spegla — jag fixar inget här.
@@ -81,13 +126,13 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
         </div>
       </div>
 
-      {mirrorError && <p className="text-xs text-text-dim">{mirrorError}</p>}
+      {mirrorHint ? <p className="text-xs text-text-dim">{mirrorHint}</p> : null}
 
-      {mirrored && (
+      {mirrored ? (
         <button type="button" onClick={onContinue} className="btn-pill--secondary">
           Fortsätt till VIVIR
         </button>
-      )}
+      ) : null}
     </div>
   );
 }

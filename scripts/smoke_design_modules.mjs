@@ -78,8 +78,9 @@ function main() {
   mustInclude('functions/src/index.ts', "mode === 'transformator'");
   mustInclude('functions/src/sharedRules.ts', 'KBT_TRANSFORMATOR_SYSTEM_PROMPT');
   mustInclude('.context/design-modules-mockup.md', 'D29', 'D3');
-  mustInclude('src/modules/shell/VardagenShellPage.tsx', 'PlaneringPage', '/vardagen');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/planering', '/vardagen?tab=handling');
+  mustInclude('src/modules/shell/livLauncherRoutes.ts', 'handling', '/planering?tab=handling');
+  mustInclude('src/modules/shell/LivLauncherPage.tsx', 'LivLauncherPage', 'LIV_LAUNCHER_EXTERNAL');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/planering"', 'PlaneringPage');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/projekt/ny"', 'path="/projekt/regler"');
   mustInclude('src/modules/features/admin/planning/components/PlaneringHub.tsx', 'ProjektPickerSheet');
   mustInclude('src/modules/core/firebase/storage.ts', 'uploadProjectImage');

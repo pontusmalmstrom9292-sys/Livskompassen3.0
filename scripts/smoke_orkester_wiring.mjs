@@ -144,9 +144,9 @@ function main() {
     'arbetsliv_franvaro',
     'arbetsliv_lon',
   );
-  mustInclude('src/modules/shell/VardagenShellPage.tsx', 'ArbetslivHubPage', '/vardagen');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/vardagen', 'VardagenShellPage');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/arbetsliv', '/vardagen?tab=arbetsliv');
+  mustInclude('src/modules/shell/LivLauncherPage.tsx', 'arbetsliv', '/arbetsliv');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', 'NAV_PATHS.VARDAGEN', 'LivLauncherPage');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/arbetsliv"', 'ArbetslivHubPage');
   mustInclude('functions/src/index.ts', 'generatePayslip');
   mustInclude('firestore.rules', 'match /time_entries/{docId}');
   mustInclude('firestore.rules', 'payslip_snapshots');

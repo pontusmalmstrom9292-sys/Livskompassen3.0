@@ -34,6 +34,7 @@ import {
   type ValvZone,
 } from '@/features/lifeJournal/evidence/vault/utils/vaultTabs';
 
+import { NAV_PATHS } from './navTruth';
 import { HIDE_BEVIS_TAB } from './navFlags';
 import { VALV_ZONE_LABELS, VAULT_MAIN_TAB_LABELS } from '../copy/valvNavCopy';
 
@@ -231,7 +232,10 @@ export function clusterTabSearch(tab: string, defaultTab: string): string {
 }
 
 export function hjartatTabHref(tab: HjartatTab): { pathname: string; search: string } {
-  return { pathname: '/dagbok', search: clusterTabSearch(tab, 'reflektion') };
+  if (tab === 'bevis') {
+    return { pathname: NAV_PATHS.VALVET, search: '' };
+  }
+  return { pathname: NAV_PATHS.HJARTAT, search: clusterTabSearch(tab, 'reflektion') };
 }
 
 export function vardagenTabHref(tab: VardagenTab): { pathname: string; search: string } {

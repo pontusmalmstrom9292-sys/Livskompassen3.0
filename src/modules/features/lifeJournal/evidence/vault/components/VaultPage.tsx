@@ -1,6 +1,7 @@
 import { Lock, ShieldAlert, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
 import {
@@ -28,6 +29,7 @@ import { VaultForensicPanel } from './VaultForensicPanel';
 import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
 import { WeaverPendingVaultBanner } from './WeaverPendingVaultBanner';
 import { VaultErrorBoundary } from './VaultErrorBoundary';
+import { VaultLockedGate } from '@/core/components/VaultLockedGate';
 import type { VaultLogInput } from '../types/vaultEntry';
 import {
   KUNSKAP_VAULT_TAB,
@@ -173,7 +175,7 @@ function VaultPageInner({
     if (embedded && onClose) {
       onClose();
     } else {
-      navigate('/dagbok');
+      navigate(NAV_PATHS.HJARTAT);
     }
   };
 
@@ -181,13 +183,10 @@ function VaultPageInner({
     return (
       <BentoCard
         title={embedded ? 'Valv · Baksida' : 'Verklighetsvalvet'}
-        description="Sacred Feature — Fyren krävs"
+        description="Sacred Feature — biometri krävs"
         icon={<ShieldAlert className="h-4 w-4" />}
       >
-        <p className="text-sm text-text-dim">
-          Håll Hjärtat-ikonen i bottenmenyn i 3 sekunder (Fyren) och verifiera med fingeravtryck
-          eller Face ID. Kort tryck eller direktlänk räcker inte.
-        </p>
+        <VaultLockedGate variant="card" />
       </BentoCard>
     );
   }

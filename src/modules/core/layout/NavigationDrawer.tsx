@@ -1,12 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { X, Settings, Shield, Home, Sprout, Users, Lock } from 'lucide-react';
+import { X, Settings, Shield, Home, Sprout, Users, Lock, BookOpen } from 'lucide-react';
 import { clearAllVaultZones, hasVaultGate } from '../auth/sessionService';
 import { useStore } from '../store';
 import { LivskompassMark } from '../ui/LivskompassMark';
 import { DrawerHubAccordion } from './DrawerHubAccordion';
 import { DrawerModeToggle } from './DrawerModeToggle';
+import { vaultDrawerPath, NAV_PATHS } from '../navigation/navTruth';
 
 type Props = {
   open: boolean;
@@ -17,12 +18,12 @@ type Props = {
 const SWIPE_CLOSE_THRESHOLD_PX = 56;
 
 const VALV_QUICK_LINKS = [
-  { label: 'Logga & spara', path: '/dagbok?tab=bevis&vaultTab=logga' },
-  { label: 'Sök i arkivet', path: '/dagbok?tab=bevis&vaultTab=sok' },
-  { label: 'Mönster & Orkester', path: '/dagbok?tab=bevis&vaultTab=monster' },
-  { label: 'Kunskapsbank', path: '/dagbok?tab=bevis&vaultTab=kunskapsbank' },
-  { label: 'Aktörskarta', path: '/dagbok?tab=bevis&vaultTab=aktorskarta' },
-  { label: 'Dossier-export', path: '/dagbok?tab=bevis&vaultTab=dossier' },
+  { label: 'Logga & spara', path: vaultDrawerPath('logga') },
+  { label: 'Sök i arkivet', path: vaultDrawerPath('sok') },
+  { label: 'Mönster & Orkester', path: vaultDrawerPath('monster') }, // vaultTab=monster
+  { label: 'Kunskapsbank', path: vaultDrawerPath('kunskapsbank') }, // vaultTab=kunskapsbank
+  { label: 'Aktörskarta', path: vaultDrawerPath('aktorskarta') },
+  { label: 'Dossier-export', path: vaultDrawerPath('dossier') },
 ] as const;
 
 export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
@@ -89,6 +90,7 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
     pathname === '/barnen';
 
   const isValvRoute =
+    pathname.startsWith('/valvet') ||
     pathname.startsWith('/dagbok') ||
     pathname.startsWith('/dossier') ||
     pathname.startsWith('/valv');
@@ -178,6 +180,24 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
                 { label: 'Tillsammans', path: '/familjen?tab=tillsammans' },
                 { label: 'Barnporten', path: '/familjen?tab=barnporten' },
                 { label: 'Trygg Hamn (BIFF)', path: '/familjen?tab=hamn' },
+              ]}
+              onClose={onClose}
+            />
+
+            <DrawerHubAccordion
+              id="dagbok"
+              label="Dagbok"
+              icon={<BookOpen className="h-4 w-4" />}
+              glowColor="blue"
+              isActive={
+                pathname === NAV_PATHS.HJARTAT ||
+                pathname.startsWith(`${NAV_PATHS.HJARTAT}/`) ||
+                pathname === '/dagbok' ||
+                pathname.startsWith('/dagbok/')
+              }
+              links={[
+                { label: 'Reflektion', path: `${NAV_PATHS.HJARTAT}?tab=reflektion` },
+                { label: 'Speglar', path: `${NAV_PATHS.HJARTAT}?tab=speglar` },
               ]}
               onClose={onClose}
             />

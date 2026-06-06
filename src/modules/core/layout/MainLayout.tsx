@@ -6,7 +6,7 @@ import { FyrenWidgetBar } from '../components/FyrenWidgetBar';
 import { FyrenSmartWidgetBar } from '../components/FyrenSmartWidgetBar';
 import { AppHeaderBar } from '../components/AppHeaderBar';
 import { AmbientBackground } from './AmbientBackground';
-import { KompisAvatar } from '@/features/lifeJournal/evidence/kompis/components/KompisAvatar';
+import { KompisHeaderVaultButton } from '../components/KompisHeaderVaultButton';
 import { AccountAuthMenu } from '../auth/AccountAuthMenu';
 import { NavigationDrawer } from './NavigationDrawer';
 import { FirestoreNetworkChip } from '../components/FirestoreNetworkChip';
@@ -56,20 +56,10 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                   onOpenChange={setAccountOpen}
                   compactTrigger
                 />
-                <button
-                  type="button"
-                  onClick={openKompisHub}
-                  className="header-chrome-btn header-chrome-btn--round shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                  aria-label="Öppna Kompis — välj väg"
-                  title="Kompis"
-                >
-                  <KompisAvatar
-                    size="sm"
-                    chromeEmbed
-                    state={kompisAuraActive ? 'analyzing' : 'idle'}
-                    className="kompis-avatar--header-chrome shrink-0"
-                  />
-                </button>
+                <KompisHeaderVaultButton
+                  kompisAuraActive={kompisAuraActive}
+                  onShortPress={openKompisHub}
+                />
               </>
             }
           />

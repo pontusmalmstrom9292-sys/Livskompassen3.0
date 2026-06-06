@@ -26,7 +26,7 @@ type Props = {
 export function VaultZoneGate({
   zone,
   title = 'Lås upp analys',
-  description = 'Fingeravtryck eller Face ID. Öppna Valv via Fyren (3 sek) — samma session i 1 timme.',
+  description = 'Fingeravtryck eller Face ID. Håll Kompis-ögat i toppmenyn i 3 sek — samma session i 1 timme.',
   clearOnUnmount = true,
   onLock,
   onUnlocked,
@@ -70,7 +70,7 @@ export function VaultZoneGate({
         unlock();
         return;
       }
-      setError('Biometri krävs. Öppna Valv via Fyren (håll Hjärtat 3 sek) och försök igen.');
+      setError('Biometri krävs. Håll Kompis-ögat i toppmenyn i 3 sek och försök igen.');
       return;
     }
     setWebAuthnPending(true);

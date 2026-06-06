@@ -43,13 +43,14 @@ function main() {
     'arbetsliv_franvaro',
     'arbetsliv_lon',
   );
-  mustInclude('src/modules/shell/VardagenShellPage.tsx', 'ArbetslivHubPage', "activeTab === 'arbetsliv'");
-  mustInclude('src/modules/core/navigation/navTruth.ts', "path: '/vardagen?tab=arbetsliv'", 'vardagen_arbetsliv');
+  mustInclude('src/modules/shell/livLauncherRoutes.ts', 'arbetsliv', '/arbetsliv');
+  mustInclude('src/modules/shell/LivLauncherPage.tsx', 'LivLauncherPage', 'LIV_LAUNCHER_EXTERNAL');
+  mustInclude('src/modules/core/navigation/navTruth.ts', "path: '/arbetsliv'", 'vardagen_arbetsliv');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', '/liv/arbetsliv');
   mustInclude('src/modules/core/navigation/navTruth.ts', "path: '/arbetsliv'", 'arbetsliv');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/vardagen', 'VardagenShellPage');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/arbetsliv', '/vardagen?tab=arbetsliv');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/stampla', '/vardagen?tab=arbetsliv');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', 'NAV_PATHS.VARDAGEN', 'LivLauncherPage');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/arbetsliv"', 'ArbetslivHubPage');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/stampla', '/arbetsliv');
   mustInclude(
     'src/modules/features/dailyLife/arbetsliv/components/ArbetslivHubPage.tsx',
     "paramKey: embeddedInLiv ? 'workTab' : 'tab'",

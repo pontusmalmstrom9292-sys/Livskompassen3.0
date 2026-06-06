@@ -2,6 +2,7 @@ export { InkastLiteCard } from './components/InkastLiteCard';
 export { InkastConfirmPanel } from './components/InkastConfirmPanel';
 export { InkastManualEditForm } from './components/InkastManualEditForm';
 export { InboxReviewQueue } from './components/InboxReviewQueue';
+export { InboxReviewQueueLink } from './components/InboxReviewQueueLink';
 export {
   previewInboxClassification,
   submitInkastLite,

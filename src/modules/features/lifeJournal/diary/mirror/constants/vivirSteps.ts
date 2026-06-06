@@ -45,6 +45,7 @@ export const ACT_MIRRORS = [
   () => 'Nästa steg är att skilja känsla från fakta (VIVIR).',
 ];
 
-export function mirrorFeeling(input: string): string {
-  return ACT_MIRRORS.map((fn) => fn(input)).join(' ');
+export function mirrorFeeling(input: unknown): string {
+  const text = typeof input === 'string' ? input : '';
+  return ACT_MIRRORS.map((fn) => fn(text)).join(' ');
 }

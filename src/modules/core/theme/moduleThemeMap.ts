@@ -11,6 +11,8 @@ export const MODULE_THEME_MAP: { prefix: string; themeId: string }[] = [
   { prefix: '/widget/familjen', themeId: D },
   { prefix: '/widget', themeId: D },
   { prefix: '/barnporten', themeId: D },
+  { prefix: '/hjartat', themeId: D },
+  { prefix: '/valvet', themeId: D },
   { prefix: '/dagbok', themeId: D },
   { prefix: '/valv', themeId: D },
   { prefix: '/dossier', themeId: D },

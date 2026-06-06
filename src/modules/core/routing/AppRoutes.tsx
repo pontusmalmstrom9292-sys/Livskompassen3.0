@@ -6,7 +6,8 @@ import { HomePage } from '../pages/HomePage';
 import { ThemePreviewPage } from '../pages/ThemePreviewPage';
 import { ThemeLabPage } from '../pages/ThemeLabPage';
 import { HubLabPage } from '../pages/HubLabPage';
-import { HjartatPage } from '@/features/lifeJournal/diary/diary';
+import { HjartatPage } from '@/core/pages/DagbokPage';
+import { ValvetRoutePage } from '../pages/ValvetRoutePage';
 import {
   ProjektDetailPage,
   ProjektHubPage,
@@ -18,16 +19,18 @@ import { BarnportenPage } from '@/features/onboarding/barnporten';
 import { InstallningarPage } from '../pages/InstallningarPage';
 import { KompisHubPage } from '@/features/lifeJournal/evidence/kompis';
 import { FamiljenPage } from '../pages/FamiljenPage';
-import { VardagenPage } from '../pages/VardagenPage';
+import { LivLauncherPage } from '@/modules/shell/LivLauncherPage';
+import { MabraPage } from '@/features/dailyLife/wellbeing/mabra';
+import { PlaneringPage } from '@/features/admin/planning';
+import { ArbetslivHubPage } from '@/features/dailyLife/arbetsliv';
+import { DrogfrihetHubPage } from '@/features/dailyLife/drogfrihet';
+import { resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
 import {
-  NAVIGATION_STRUCTURE,
-  clusterPath,
   clusterTabNavigateTarget,
-  registryTabSearch,
+  valvetNavigateTarget,
   type LifeJournalTabKey,
 } from '../navigation/navigationRegistry';
-
-const LIFE_JOURNAL = NAVIGATION_STRUCTURE.lifeJournal;
+import { NAV_PATHS } from '../navigation/navTruth';
 
 function RedirectToLifeJournalTab({ tabKey }: { tabKey: LifeJournalTabKey }) {
   const location = useLocation();
@@ -41,31 +44,96 @@ function RedirectToLifeJournalTab({ tabKey }: { tabKey: LifeJournalTabKey }) {
   );
 }
 
-/** Legacy `/hamn` → Familjehubben; bevarar t.ex. Speglar `prefilledMessage` i location.state. */
-function RedirectHamnToFamiljen() {
+/** Legacy `/dagbok` — bevis → Valvet; övriga flikar → Hjärtat. */
+function RedirectDagbokLegacy() {
   const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  if (params.get('tab') === 'bevis') {
+    const vaultTab = params.get('vaultTab') ?? 'logga';
+    params.delete('tab');
+    params.set('vaultTab', vaultTab);
+    const search = params.toString();
+    return (
+      <Navigate
+        to={{ pathname: NAV_PATHS.VALVET, search: search ? `?${search}` : '' }}
+        replace
+      />
+    );
+  }
   return (
     <Navigate
-      to={{ pathname: '/familjen', search: '?tab=hamn' }}
+      to={{ pathname: NAV_PATHS.HJARTAT, search: location.search }}
       state={location.state}
       replace
     />
   );
 }
 
-/** Legacy `/liv` och `/liv?tab=…` → `/vardagen` (bevarar flik). */
+/** Blockera `?tab=bevis` på Hjärtat — skicka till Valvet. */
+function HjartatRoute() {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  if (params.get('tab') === 'bevis') {
+    const vaultTab = params.get('vaultTab') ?? 'logga';
+    params.delete('tab');
+    params.set('vaultTab', vaultTab);
+    const search = params.toString();
+    return (
+      <Navigate
+        to={{ pathname: NAV_PATHS.VALVET, search: search ? `?${search}` : '' }}
+        replace
+      />
+    );
+  }
+  return (
+    <AuthGate>
+      <HjartatPage />
+    </AuthGate>
+  );
+}
+
+/** Legacy `/valv` och `/kunskap` → Valvet (separat silo). */
+function RedirectToValvet({ vaultTab }: { vaultTab?: string }) {
+  const location = useLocation();
+  const target = valvetNavigateTarget(vaultTab);
+  return (
+    <Navigate
+      to={{ pathname: target.pathname, search: target.search ? `?${target.search}` : '' }}
+      state={location.state}
+      replace
+    />
+  );
+}
+
+/** Legacy `/hamn` → Familjehubben; bevarar t.ex. Speglar `prefilledMessage` i location.state. */
+function RedirectHamnToFamiljen() {
+  const location = useLocation();
+  return (
+    <Navigate
+      to={{ pathname: NAV_PATHS.FAMILJEN, search: '?tab=hamn' }}
+      state={location.state}
+      replace
+    />
+  );
+}
+
+/** Legacy `/liv` och `/liv?tab=…` → launcher eller fullsid-route. */
 function RedirectLivToVardagen() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const tab = params.get('tab');
   const vardagenTab = params.get('vardagenTab');
   if (tab === 'kompasser' && vardagenTab === 'ekonomi') {
-    return <Navigate to="/vardagen?tab=ekonomi" replace />;
+    return <Navigate to={`${NAV_PATHS.VARDAGEN}?tab=ekonomi`} replace />;
   }
-  if (tab) {
-    return <Navigate to={`/vardagen?tab=${encodeURIComponent(tab)}`} replace />;
+  const external = resolveLivLegacyTabRedirect(tab);
+  if (external) {
+    return <Navigate to={external} replace state={location.state} />;
   }
-  return <Navigate to="/vardagen?tab=kompasser" replace />;
+  if (tab === 'ekonomi') {
+    return <Navigate to={`${NAV_PATHS.VARDAGEN}?tab=ekonomi`} replace />;
+  }
+  return <Navigate to={NAV_PATHS.VARDAGEN} replace />;
 }
 
 export function AppRoutes() {
@@ -77,7 +145,7 @@ export function AppRoutes() {
         element={
           <MainLayout>
             <Routes>
-              <Route path="/" element={<HomePage />} />
+              <Route path={NAV_PATHS.HOME} element={<HomePage />} />
               <Route
                 path="/kompis"
                 element={
@@ -87,66 +155,75 @@ export function AppRoutes() {
                 }
               />
 
-              {/* —— REFORM: VARDAGEN ZON —— */}
-              <Route path="/vardagen" element={<AuthGate><VardagenPage /></AuthGate>} />
-
-              {/* Vardagen Omdirigeringar */}
-              <Route path="/liv" element={<RedirectLivToVardagen />} />
-              <Route path="/kompasser" element={<Navigate to="/vardagen?tab=kompasser" replace />} />
-              <Route path="/mabra" element={<Navigate to="/vardagen?tab=mabra" replace />} />
-              <Route path="/planering" element={<Navigate to="/vardagen?tab=handling" replace />} />
-              <Route path="/ekonomi" element={<Navigate to="/vardagen?tab=ekonomi" replace />} />
-              <Route path="/drogfrihet" element={<Navigate to="/vardagen?tab=drogfrihet" replace />} />
-              <Route path="/arbetsliv" element={<Navigate to="/vardagen?tab=arbetsliv" replace />} />
-              <Route path="/stampla" element={<Navigate to="/vardagen?tab=arbetsliv" replace />} />
-              <Route path="/liv/arbetsliv" element={<Navigate to="/vardagen?tab=arbetsliv" replace />} />
-              <Route path="/liv/arbetsliv/*" element={<Navigate to="/vardagen?tab=arbetsliv" replace />} />
-
-              {/* —— REFORM: FAMILJEN ZON —— */}
-              <Route path="/familjen" element={<AuthGate><FamiljenPage /></AuthGate>} />
-
-              {/* Familjen Omdirigeringar */}
-              <Route path="/familj" element={<Navigate to="/familjen?tab=reflektion" replace />} />
-              <Route path="/barnen" element={<Navigate to="/familjen?tab=reflektion" replace />} />
-              <Route path="/hamn" element={<RedirectHamnToFamiljen />} />
-
-              {/* —— REFORM: HJÄRTAT ZON —— */}
+              {/* —— LIV OCH GÖRA (launcher + fullsid-moduler) —— */}
+              <Route path={NAV_PATHS.VARDAGEN} element={<AuthGate><LivLauncherPage /></AuthGate>} />
               <Route
-                path={LIFE_JOURNAL.path}
+                path="/mabra"
                 element={
                   <AuthGate>
-                    <HjartatPage />
+                    <MabraPage />
+                  </AuthGate>
+                }
+              />
+              <Route
+                path="/planering"
+                element={
+                  <AuthGate>
+                    <PlaneringPage />
+                  </AuthGate>
+                }
+              />
+              <Route
+                path="/arbetsliv"
+                element={
+                  <AuthGate>
+                    <ArbetslivHubPage />
+                  </AuthGate>
+                }
+              />
+              <Route
+                path="/drogfrihet"
+                element={
+                  <AuthGate>
+                    <DrogfrihetHubPage />
                   </AuthGate>
                 }
               />
 
-              {/* Hjärtat Omdirigeringar */}
-              <Route path="/valv" element={<RedirectToLifeJournalTab tabKey="evidence" />} />
+              <Route path="/liv" element={<RedirectLivToVardagen />} />
+              <Route path="/kompasser" element={<Navigate to={NAV_PATHS.VARDAGEN} replace />} />
+              <Route path="/ekonomi" element={<Navigate to={`${NAV_PATHS.VARDAGEN}?tab=ekonomi`} replace />} />
+              <Route path="/stampla" element={<Navigate to="/arbetsliv?tab=stampla" replace />} />
+              <Route path="/liv/arbetsliv" element={<Navigate to="/arbetsliv" replace />} />
+              <Route path="/liv/arbetsliv/*" element={<Navigate to="/arbetsliv" replace />} />
+
+              {/* —— FAMILJEN ZON —— */}
+              <Route path={NAV_PATHS.FAMILJEN} element={<AuthGate><FamiljenPage /></AuthGate>} />
+
+              <Route path="/familj" element={<Navigate to={`${NAV_PATHS.FAMILJEN}?tab=reflektion`} replace />} />
+              <Route path="/barnen" element={<Navigate to={`${NAV_PATHS.FAMILJEN}?tab=reflektion`} replace />} />
+              <Route path="/hamn" element={<RedirectHamnToFamiljen />} />
+
+              {/* —— HJÄRTAT (Dagbok) — frikopplat från Valv —— */}
+              <Route path={NAV_PATHS.HJARTAT} element={<HjartatRoute />} />
+
+              {/* —— VALVET — egen silo, säkerhet inuti VaultPage —— */}
+              <Route
+                path={NAV_PATHS.VALVET}
+                element={
+                  <AuthGate>
+                    <ValvetRoutePage />
+                  </AuthGate>
+                }
+              />
+
+              {/* Legacy omdirigeringar — förhindrar loopar */}
+              <Route path="/dagbok" element={<RedirectDagbokLegacy />} />
+              <Route path="/dagbok/*" element={<RedirectDagbokLegacy />} />
+              <Route path="/valv" element={<RedirectToValvet />} />
               <Route path="/speglar" element={<RedirectToLifeJournalTab tabKey="mirrors" />} />
-              <Route
-                path="/kunskap"
-                element={
-                  <Navigate
-                    to={{
-                      pathname: clusterPath('lifeJournal'),
-                      search: `${registryTabSearch(LIFE_JOURNAL.tabs.evidence.path)}&vaultTab=kunskapsbank`,
-                    }}
-                    replace
-                  />
-                }
-              />
-              <Route
-                path="/dossier"
-                element={
-                  <Navigate
-                    to={{
-                      pathname: clusterPath('lifeJournal'),
-                      search: `${registryTabSearch(LIFE_JOURNAL.tabs.evidence.path)}&vaultTab=dossier`,
-                    }}
-                    replace
-                  />
-                }
-              />
+              <Route path="/kunskap" element={<RedirectToValvet vaultTab="kunskapsbank" />} />
+              <Route path="/dossier" element={<RedirectToValvet vaultTab="dossier" />} />
 
               {/* —— Projekt, Barnporten & Inställningar —— */}
               <Route
@@ -209,6 +286,8 @@ export function AppRoutes() {
               <Route path="/dev/themes" element={<ThemePreviewPage />} />
               <Route path="/dev/theme-lab" element={<ThemeLabPage />} />
               <Route path="/dev/hub-lab" element={<HubLabPage />} />
+
+              <Route path="*" element={<Navigate to={NAV_PATHS.HJARTAT} replace />} />
             </Routes>
           </MainLayout>
         }

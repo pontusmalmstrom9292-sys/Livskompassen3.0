@@ -4,7 +4,7 @@ import { TidshjulDetailCard } from './TidshjulDetailCard';
 import { KnowledgeVaultChat } from './KnowledgeVaultChat';
 import { KampsparIngestForm } from './KampsparIngestForm';
 import { ProfileSeedImport } from './ProfileSeedImport';
-import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
+import { InboxReviewQueueLink } from '@/modules/inkast/components/InboxReviewQueueLink';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
@@ -180,11 +180,7 @@ export function KunskapPage({
             onCitationClick={handleCitationClick}
             activeCitationKey={activeCitationKey}
           />
-          {!embedded && (
-            <>
-              <InboxReviewQueue />
-            </>
-          )}
+          {!embedded && <InboxReviewQueueLink />}
         </>
       ) : (
         <>

@@ -32,6 +32,7 @@ import { KbtTransformatorPanel } from './KbtTransformatorPanel';
 import { DagligMixPanel } from './DagligMixPanel';
 import { VitCurriculumPanel } from './VitCurriculumPanel';
 import { HubPageShell } from '@/core/layout/HubPageShell';
+import { LivBackLink } from '@/modules/shell/LivBackLink';
 import { MaterialPackShortcuts, useLifeHubPreset } from '@/core/lifeOs';
 import { MabraFeelingCardsTool } from './tools/MabraFeelingCardsTool';
 import { MabraReflectionDeckTool } from './tools/MabraReflectionDeckTool';
@@ -331,6 +332,7 @@ export function MabraPage() {
       eyebrow="MåBra"
       title="För dig — ett steg i taget"
       lead="Snabbstart och zoner — tillbaka öppnar samma zon igen."
+      headerAside={<LivBackLink />}
     >
       {step === 'hub' && (
         <>

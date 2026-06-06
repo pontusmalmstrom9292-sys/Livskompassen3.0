@@ -25,9 +25,9 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 |---|---|
 | **Route** | `/dagbok?tab=bevis&vaultTab=…` → `VaultPage` (PIN) |
 | **Zoner** | **Samla** · **Analysera** · **Kunskap** · **Exportera** · **Forensik** — [`VALV-HUBB-SPEC.md`](../docs/design/VALV-HUBB-SPEC.md) |
-| **Flikar** | **Arkiv** · **Triage** · **Mönster** · **Orkester** · **Dossier** · **Kunskapsbank** · **Aktörskarta** |
+| **Flikar** | **Arkiv** · **Granska inkommande** · **Mönster** · **Meddelanden eller SMS-analys** (`vaultTab=orkester`) · **Dossier** · **Kunskapsbank** · **Personer i ärendet** |
 | **Mönster** | `VaultMonsterPanel` + `buildVaultFrequencyReport` (deterministisk regex, ingen LLM-sanning) |
-| **Orkester** | `VaultOrkesterPanel` + `PRODUCT_AGENTS` + SMS-tråd → `analyzeMessage` |
+| **Meddelanden / SMS-analys** | `VaultOrkesterPanel` + `PRODUCT_AGENTS` + SMS-tråd → `analyzeMessage` (flik-ID `orkester` oförändrat) |
 | **Kunskapsbank** | `VaultKunskapsbankPanel` — `KunskapPage` + `FamiljenKunskapHubTab` (U1 silos) |
 | **Aktörskarta (G9)** | `VaultAktorskartaPanel` + `EntityAddForm` + `addEntityProfile` — manuella personer, append-only metadata för agenter (ej RAG, ej publik meny) |
 | **Smoke** | `npm run smoke:locked-ux` · `npm run smoke:entities` · manuell #20 i `docs/SMOKE_CHECKLIST.md` |
@@ -79,7 +79,7 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 | **Sektioner** | **Vardag** (publikt) · **Valv** (endast efter PIN/gate på Valv-route) |
 | **Kod** | `navTruth.ts`, `NavigationDrawer.tsx`, `DrawerModeToggle.tsx` |
 | **Krav** | Skymningsbakgrund; aktiv rad **guld**; **ingen** Valv-växlare/snabbchips i publikt läge |
-| **Smoke** | Kanonfil + spec + `DRAWER_VARDAG_ITEMS` / `DRAWER_VALV_ENTRIES` + `isInValvDrawerContext` |
+| **Smoke** | Kanonfil + spec + `DRAWER_VARDAG_ITEMS` / `DRAWER_VALV_ENTRIES` + `vaultOpen` i NavigationDrawer |
 
 ---
 
@@ -119,7 +119,7 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 | **Route** | `/arbetsliv` · redirect `/stampla` → `?tab=stampla` |
 | **Kod** | `src/modules/arbetsliv/components/ArbetslivHubPage.tsx` |
 | **Publikt** | Stämpel · Tid & flex · Logg |
-| **Valv-menyn** | Frånvaro · Lön & spec → `vaultTab=arbetsliv_*` |
+| **Valv-menyn** | Frånvaro · Lön & spec → `vaultTab=arbetsliv_*` · zon `arbetsliv_forensic` |
 | **Vardagen** | `/vardagen?tab=ekonomi` = veckopeng/matlåda |
 | **Eval** | `docs/evaluations/2026-05-25-arbetsliv-hub.md` |
 | **Smoke** | `npm run smoke:arbetsliv` |

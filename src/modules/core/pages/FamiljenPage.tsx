@@ -45,7 +45,7 @@ function vaultRedirectSearch(vaultTab: string): string {
 const LEGACY_TAB_REDIRECTS: Record<string, { pathname: string; search: string }> = {
   kunskap: { pathname: '/dagbok', search: '?tab=bevis&vaultTab=kunskapsbank' },
   monster: { pathname: '/dagbok', search: vaultRedirectSearch('familjen_monster') },
-  drogfrihet: { pathname: '/vardagen', search: '?tab=drogfrihet' },
+  drogfrihet: { pathname: '/drogfrihet', search: '' },
 };
 
 /** Zon 3 — Familjehubben: barnfokus, livslogg, tillsammans, barnporten, BIFF. */

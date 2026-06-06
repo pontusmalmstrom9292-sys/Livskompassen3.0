@@ -1,5 +1,6 @@
 /**
  * Hub-kontextrad — 4 fasta platser per hub (3-zon: Vardagen, Familjen, Dagbok).
+ * Uppdaterad 2026-06-06: Liv-launcher — tunga moduler på egna routes.
  */
 export type HubContextIconId =
   | 'list'
@@ -36,9 +37,9 @@ export type HubContextSlot = {
 };
 
 const DEFAULT_SLOTS: HubContextSlot[] = [
-  { id: 'inkop', label: 'Inköp', to: '/vardagen?tab=inkop', icon: 'list' },
-  { id: 'planering', label: 'Planering', to: '/vardagen?tab=handling', icon: 'calendar' },
-  { id: 'arbetsliv', label: 'Arbetsliv', to: '/vardagen?tab=arbetsliv', icon: 'clock' },
+  { id: 'inkop', label: 'Inköp', to: '/planering?tab=inkop', icon: 'list' },
+  { id: 'planering', label: 'Planering', to: '/planering?tab=handling', icon: 'calendar' },
+  { id: 'arbetsliv', label: 'Arbetsliv', to: '/arbetsliv', icon: 'clock' },
   { id: 'note', label: 'Anteckning', to: '/widget/anteckning', icon: 'note' },
   { id: 'snabbval', label: 'Snabbval', to: '/widget/snabbval', icon: 'sparkles' },
 ];
@@ -51,26 +52,56 @@ function planeringSlots(tab: string | null, onProjekt: boolean): HubContextSlot[
   if (onProjekt) {
     return [
       { id: 'projekt', label: 'Projekt', to: '/projekt', icon: 'folder', active: true },
-      { id: 'inkop', label: 'Inköp', to: '/vardagen?tab=inkop', icon: 'list' },
-      { id: 'handling', label: 'Handling', to: '/vardagen?tab=handling', icon: 'calendar' },
-      { id: 'hub', label: 'Verktyg', to: '/vardagen?tab=kompasser', icon: 'plus' },
+      { id: 'inkop', label: 'Inköp', to: '/planering?tab=inkop', icon: 'list' },
+      { id: 'handling', label: 'Handling', to: '/planering?tab=handling', icon: 'calendar' },
+      { id: 'hub', label: 'Verktyg', to: '/vardagen', icon: 'plus' },
     ];
   }
   return [
-    { id: 'handling', label: 'Handling', to: '/vardagen?tab=handling', icon: 'calendar', active: tab === 'handling' },
-    { id: 'fokus', label: 'Fokus', to: '/vardagen?tab=fokus', icon: 'focus', active: tab === 'fokus' },
-    { id: 'inkorg', label: 'Inkorg', to: '/vardagen?tab=inkorg', icon: 'mail', active: tab === 'inkorg' },
-    { id: 'regler', label: 'Regler', to: '/vardagen?tab=regler', icon: 'list', active: tab === 'regler' },
+    {
+      id: 'handling',
+      label: 'Handling',
+      to: '/planering?tab=handling',
+      icon: 'calendar',
+      active: tab === 'handling',
+    },
+    { id: 'fokus', label: 'Fokus', to: '/planering?tab=fokus', icon: 'focus', active: tab === 'fokus' },
+    { id: 'inkorg', label: 'Inkorg', to: '/planering?tab=inkorg', icon: 'mail', active: tab === 'inkorg' },
+    { id: 'regler', label: 'Regler', to: '/planering?tab=regler', icon: 'list', active: tab === 'regler' },
   ];
 }
 
-function vardagenSlots(search: string): HubContextSlot[] {
+function vardagenSlots(pathname: string, search: string): HubContextSlot[] {
   const t = tabParam(search) || 'kompasser';
   return [
-    { id: 'kompasser', label: 'Kompasser', to: '/vardagen?tab=kompasser', icon: 'sprout', active: t === 'kompasser' },
-    { id: 'mabra', label: 'MåBra', to: '/vardagen?tab=mabra', icon: 'sparkles', active: t === 'mabra' },
-    { id: 'handling', label: 'Handling', to: '/vardagen?tab=handling', icon: 'calendar', active: t === 'handling' },
-    { id: 'ekonomi', label: 'Ekonomi', to: '/vardagen?tab=ekonomi', icon: 'wallet', active: t === 'ekonomi' },
+    {
+      id: 'kompasser',
+      label: 'Kompasser',
+      to: '/vardagen',
+      icon: 'sprout',
+      active: pathname === '/vardagen' && (t === 'kompasser' || !tabParam(search)),
+    },
+    {
+      id: 'mabra',
+      label: 'MåBra',
+      to: '/mabra',
+      icon: 'sparkles',
+      active: pathname === '/mabra' || pathname.startsWith('/mabra/'),
+    },
+    {
+      id: 'handling',
+      label: 'Handling',
+      to: '/planering?tab=handling',
+      icon: 'calendar',
+      active: pathname.startsWith('/planering') && t === 'handling',
+    },
+    {
+      id: 'ekonomi',
+      label: 'Ekonomi',
+      to: '/vardagen?tab=ekonomi',
+      icon: 'wallet',
+      active: pathname === '/vardagen' && t === 'ekonomi',
+    },
   ];
 }
 
@@ -90,7 +121,7 @@ function dagbokSlots(tab: string | null): HubContextSlot[] {
     { id: 'reflektion', label: 'Reflektion', to: '/dagbok', icon: 'book', active: t === 'reflektion' },
     { id: 'speglar', label: 'Speglar', to: '/dagbok?tab=speglar', icon: 'brain', active: t === 'speglar' },
     { id: 'familjen', label: 'Familjen', to: '/familjen', icon: 'users' },
-    { id: 'vardagen', label: 'Vardagen', to: '/vardagen', icon: 'sprout' },
+    { id: 'vardagen', label: 'Liv och göra', to: '/vardagen', icon: 'sprout' },
   ];
 }
 
@@ -98,13 +129,14 @@ export function resolveHubKey(pathname: string, search: string): HubContextKey {
   if (pathname.startsWith('/projekt') || pathname.startsWith('/planering')) {
     return 'planering';
   }
+  if (pathname.startsWith('/mabra') || pathname.startsWith('/arbetsliv')) {
+    return 'vardagen';
+  }
   if (pathname.startsWith('/vardagen')) {
-    const tab = tabParam(search);
-    if (tab === 'handling' || tab === 'inkop') return 'planering';
     return 'vardagen';
   }
   if (pathname.startsWith('/familjen')) return 'familjen';
-  if (pathname.startsWith('/dagbok')) {
+  if (pathname.startsWith('/dagbok') || pathname.startsWith('/hjartat')) {
     const tab = tabParam(search);
     if (tab === 'bevis') return 'default';
     return 'dagbok';
@@ -123,7 +155,7 @@ export function getHubContextSlots(pathname: string, search: string): HubContext
     case 'familjen':
       return familjenSlots(tab);
     case 'vardagen':
-      return vardagenSlots(search);
+      return vardagenSlots(pathname, search);
     case 'dagbok':
       return dagbokSlots(tab);
     default:
@@ -146,9 +178,9 @@ export const HUB_MORE_ACTIONS: {
   to: string;
   icon: HubContextIconId;
 }[] = [
-  { id: 'inkop', label: 'Inköpslista', to: '/vardagen?tab=inkop', icon: 'list' },
-  { id: 'planering', label: 'Planering', to: '/vardagen?tab=handling', icon: 'calendar' },
-  { id: 'arbetsliv', label: 'Arbetsliv', to: '/vardagen?tab=arbetsliv', icon: 'clock' },
+  { id: 'inkop', label: 'Inköpslista', to: '/planering?tab=inkop', icon: 'list' },
+  { id: 'planering', label: 'Planering', to: '/planering?tab=handling', icon: 'calendar' },
+  { id: 'arbetsliv', label: 'Arbetsliv', to: '/arbetsliv', icon: 'clock' },
   { id: 'note', label: 'Anteckning', to: '/widget/anteckning', icon: 'note' },
   { id: 'snabbval', label: 'Snabbval', to: '/widget/snabbval', icon: 'sparkles' },
   { id: 'record', label: 'Tyst inspelning', to: '/widget/inspelning?autostart=1', icon: 'record' },

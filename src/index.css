@@ -893,6 +893,126 @@
     filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.36));
   }
 
+  /* FloatingDock — symmetrisk 5-kolumns zonnav, kompass dominerar mitten */
+  .floating-dock .dock-hub-band__rail--zones {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: end;
+    gap: 0.15rem 0.1rem;
+    max-width: min(100vw - 0.5rem, 26rem);
+    padding: 1.35rem 0.4rem 0.5rem;
+  }
+
+  .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: center;
+    align-self: end;
+    margin-top: -1.75rem;
+    margin-bottom: 0.95rem;
+    width: 5.15rem;
+  }
+
+  .floating-dock__side-btn {
+    max-width: 3.1rem;
+    padding-bottom: 0.15rem;
+  }
+
+  .floating-dock__side-btn .hub-chrome-tile--dock {
+    height: 2.45rem;
+    width: 2.45rem;
+    border-radius: 0.75rem;
+    opacity: 0.92;
+  }
+
+  .floating-dock__side-btn .dock-nav-btn__chrome-v5 {
+    height: 1.55rem;
+    width: 1.55rem;
+  }
+
+  .floating-dock__side-btn .dock-nav-btn__label {
+    @apply text-[8.5px] tracking-wide;
+  }
+
+  .floating-dock__center-glow {
+    top: 50%;
+    left: 50%;
+    height: 5.75rem;
+    width: 5.75rem;
+    transform: translate(-50%, -58%);
+    background: radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.32) 0%,
+      rgba(212, 175, 55, 0.12) 42%,
+      transparent 72%
+    );
+  }
+
+  .floating-dock__plate {
+    height: 5.15rem;
+    width: 5.15rem;
+    border-width: 3px;
+    transform: none;
+    box-shadow:
+      0 1px 0 rgba(255, 243, 210, 0.2) inset,
+      0 -6px 16px rgba(0, 0, 0, 0.45) inset,
+      0 14px 36px rgba(0, 0, 0, 0.62),
+      0 0 32px rgba(212, 175, 55, 0.28);
+  }
+
+  .floating-dock__mark {
+    height: 2.75rem;
+    width: 2.75rem;
+    filter: drop-shadow(0 0 14px rgba(212, 175, 55, 0.42));
+  }
+
+  .floating-dock__arc {
+    @apply pointer-events-none absolute left-1/2 z-0 -translate-x-1/2 rounded-t-full border border-b-0;
+    top: -0.55rem;
+    height: 2rem;
+    width: 5.15rem;
+    border-color: rgba(212, 175, 55, 0.48);
+    background: linear-gradient(
+      180deg,
+      rgba(212, 175, 55, 0.18) 0%,
+      rgba(212, 175, 55, 0.04) 55%,
+      rgba(212, 175, 55, 0) 100%
+    );
+    box-shadow: 0 -2px 14px rgba(212, 175, 55, 0.12);
+  }
+
+  .floating-dock .dock-hub-band__center:hover .floating-dock__plate {
+    transform: translateY(-2px);
+  }
+
+  .floating-dock .dock-hub-band__center--active .floating-dock__plate,
+  .floating-dock .dock-hub-band__center--holding .floating-dock__plate {
+    border-color: rgba(245, 230, 184, 0.68);
+    box-shadow:
+      inset 0 1px 0 rgba(245, 230, 184, 0.22),
+      0 0 36px rgba(212, 175, 55, 0.36),
+      0 14px 36px rgba(0, 0, 0, 0.58);
+  }
+
+  .floating-dock .dock-hub-band__rail::before {
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(99, 102, 241, 0.22) 10%,
+      rgba(255, 230, 180, 0.5) 24%,
+      rgba(212, 175, 55, 0.92) 50%,
+      rgba(255, 230, 180, 0.5) 76%,
+      rgba(99, 102, 241, 0.22) 90%,
+      transparent 100%
+    );
+  }
+
+  .floating-dock .dock-hub-band__rail::after {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      inset 0 -18px 36px rgba(0, 0, 0, 0.38);
+  }
+
   .hub-preset-sheet__backdrop {
     @apply fixed inset-0 z-[232] cursor-pointer border-0 bg-black/55 backdrop-blur-[2px];
   }

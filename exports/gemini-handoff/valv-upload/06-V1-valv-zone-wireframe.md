@@ -1,7 +1,7 @@
 # V1 — Valv zon-navigation (wireframe)
 
-**Status:** Referens — kod: `vaultTabs.ts`, `VaultPage.tsx`, `getVaultZoneTabBarItems()`  
-**Datum:** 2026-05-30
+**Status:** Integrerad — `vaultTabs.ts`, `VaultPage.tsx`, `getVaultZoneTabBarItems()`  
+**Gemini-svar:** [`V1-valv-gemini-svar.md`](./V1-valv-gemini-svar.md)
 
 ## Zon-flöde
 
@@ -14,21 +14,33 @@ Valv (PIN)
 └── [Forensik]  hamn_analys · speglar_fordjupat · …
 ```
 
-Max 5 zoner synliga i tab bar; underflikar per zon (befintligt).
+Max 5 zoner i tab bar; underflikar per aktiv zon.
 
-## Handoff-copy
+## Ingress (`VALV_ZONE_INGRESS`)
 
-| Situation | UI pekar till |
-|-----------|----------------|
-| Första Grey Rock / BIFF-svar | `/hamn` (ingen PIN) |
-| Spara som bevis, DCAP, triage | Valv → Samla |
+| Zon | Copy |
+|-----|------|
+| Samla | Samla in bevis och sök i loggen. |
+| Analysera | Mönster och Orkester — över tid, inte i stunden. |
+| Kunskap | Fakta bakom PIN: Kunskapsbank och Aktörskarta. |
+| Exportera | Dossier för export och översikt. |
+| Forensik | Hamn och fördjupad analys — ett steg i taget. |
+
+## Handoff Hamn vs Valv
+
+| Situation | UI |
+|-----------|-----|
+| Första Grey Rock / BIFF | `/hamn` (ingen PIN) |
+| Spara bevis, triage | Valv → Samla |
 | Mönster över tid | Valv → Analysera |
 | RAG fakta | Valv → Kunskapsbank (PIN) |
 | Djup Hamn-analys | Valv → Forensik → hamn_analys |
+| /hamn?tab=analys | Redirect + PIN → hamn_analys |
 
-**MUST NOT:** kräva PIN för första `/hamn`-svar; ta bort Mönster/Orkester.
+**MUST NOT:** PIN för första `/hamn`; ta bort Mönster/Orkester.
 
 ## Vävaren polish
 
-- **DONE:** `VALV_ZONE_INGRESS` på `VaultPage` (1 rad per zon)
-- Breadcrumb: `VaultValvBreadcrumb` — synkad
+- **DONE:** zon-ingress, breadcrumb, villkorsstyrd panel-render
+- **DONE:** sms-tråd bekräftelse i `VaultEntryForm`
+- **DONE:** BBIC selectable i `DossierPage`

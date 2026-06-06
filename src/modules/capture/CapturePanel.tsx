@@ -21,11 +21,16 @@ import {
 type CapturePanelProps = {
   sourceModule?: string;
   compact?: boolean;
+  onSaved?: () => void;
 };
 
 type Phase = 'compose' | 'analyzing' | 'confirm' | 'edit' | 'done';
 
-export function CapturePanel({ sourceModule = 'hem_capture', compact = false }: CapturePanelProps) {
+export function CapturePanel({
+  sourceModule = 'hem_capture',
+  compact = false,
+  onSaved,
+}: CapturePanelProps) {
   const [text, setText] = useState('');
   const [phase, setPhase] = useState<Phase>('compose');
   const [message, setMessage] = useState<string | null>(null);
@@ -94,12 +99,13 @@ export function CapturePanel({ sourceModule = 'hem_capture', compact = false }: 
         setText('');
         setPreview(null);
         setPhase('done');
+        onSaved?.();
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Kunde inte spara.');
         setPhase(manual ? 'edit' : 'confirm');
       }
     },
-    [text, sourceModule],
+    [text, sourceModule, onSaved],
   );
 
   const handleManualSave = useCallback(

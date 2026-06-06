@@ -33,6 +33,7 @@ exports/google-ai-pro/
 
 # Generated Gemini repomix packs (npm run gemini:pack / gemini:pack:all)
 exports/gemini-handoff/repomix/
+exports/gemini-handoff/konsolidering-upload/
 
 # Generated AI Studio repomix (npm run ai-studio:pack)
 exports/ai-studio/

@@ -196,15 +196,25 @@ function main() {
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx', 'VALV_ZONE_INGRESS');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx', 'WeaverPendingVaultBanner');
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'setVaultGate', 'openValvViaFyren');
-  mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", '/vardagen', "label: 'Vardagen'", 'getNavChildren');
+  mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", '/vardagen', "label: 'Liv och göra'", 'getNavChildren');
   mustInclude(
     'src/modules/inkast/components/InkastLiteCard.tsx',
-    'submitInkastLite',
-    'formatInkastResultMessage',
+    'CaptureSuperModule',
+    'variant="hem-inkast"',
+  );
+  mustInclude(
+    'src/modules/capture/CaptureSuperModule.tsx',
+    'CaptureSuperModule',
+    'InkastDirectPanel',
     'id="inkast-lite"',
   );
+  mustInclude(
+    'src/modules/capture/InkastDirectPanel.tsx',
+    'submitInkastLite',
+    'formatInkastResultMessage',
+  );
   mustInclude('src/modules/inkast/api/inkastService.ts', 'parseSubmitInkastLiteResult');
-  mustInclude('src/modules/core/pages/HomePage.tsx', 'InkastLiteCard');
+  mustInclude('src/modules/core/pages/HomePage.tsx', 'CaptureSuperModule');
   mustInclude('functions/src/index.ts', 'submitInkastLite');
   mustInclude(
     'docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md',

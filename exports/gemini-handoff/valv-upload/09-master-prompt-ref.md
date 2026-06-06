@@ -53,6 +53,7 @@ Se [`docs/gemini-handoff/K1-compassWidgetCatalog.md`](../gemini-handoff/K1-compa
 |----|-----|
 | M1 | [`docs/gemini-handoff/M1-drawer-icons/`](../gemini-handoff/M1-drawer-icons/) |
 | V1 | [`docs/gemini-handoff/V1-valv-zone-wireframe.md`](../gemini-handoff/V1-valv-zone-wireframe.md) |
+| V2 | [`docs/gemini-handoff/V2-PROMPT.md`](../gemini-handoff/V2-PROMPT.md) · baseline [`V2-valv-gap-notebooklm.md`](../gemini-handoff/V2-valv-gap-notebooklm.md) |
 | IN1 | [`docs/gemini-handoff/IN1-fact-batch.md`](../gemini-handoff/IN1-fact-batch.md) |
 
 ---

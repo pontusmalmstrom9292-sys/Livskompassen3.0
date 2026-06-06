@@ -59,7 +59,9 @@
     "google-ai-pro:pack": "node scripts/pack_google_ai_pro_sources.mjs",
     "gemini:pack": "node scripts/pack_gemini_repomix.mjs",
     "gemini:pack:valv": "node scripts/pack_gemini_valv.mjs",
-    "gemini:pack:all": "npm run google-ai-pro:pack && npm run gemini:pack",
+    "gemini:pack:konsolidering": "node scripts/pack_gemini_konsolidering_upload.mjs",
+    "gemini:pack:refresh": "npm run gemini:pack && npm run gemini:pack:valv && npm run gemini:pack:konsolidering && npm run ai-studio:pack",
+    "gemini:pack:all": "npm run gemini:pack:refresh && npm run google-ai-pro:pack",
     "ai-studio:pack": "node scripts/pack_ai_studio_repomix.mjs"
   },
   "dependencies": {

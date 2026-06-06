@@ -34,14 +34,24 @@ type SpeglingsSystemProps = {
 export function SpeglingsSystem({ embedded: _embedded = false }: SpeglingsSystemProps) {
   const location = useLocation();
   const { bridgeMood, bridgeText } = useMemo(() => {
-    const ctx = readJournalBridgeContext(location.state);
-    return { bridgeMood: ctx?.mood ?? '', bridgeText: ctx?.text ?? '' };
+    try {
+      const ctx = readJournalBridgeContext(location.state);
+      return { bridgeMood: ctx?.mood ?? '', bridgeText: ctx?.text ?? '' };
+    } catch {
+      return { bridgeMood: '', bridgeText: '' };
+    }
   }, [location.state]);
   const user = useStore((s) => s.user);
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const vaultSessionOpen = isVaultUnlocked || hasVaultGate();
-  const [feeling, setFeeling] = useState(() => readSpeglarSession()?.feeling ?? '');
-  const [journalMood, setJournalMood] = useState(() => readSpeglarSession()?.journalMood ?? '');
+  const [feeling, setFeeling] = useState(() => {
+    const raw = readSpeglarSession()?.feeling;
+    return typeof raw === 'string' ? raw : '';
+  });
+  const [journalMood, setJournalMood] = useState(() => {
+    const raw = readSpeglarSession()?.journalMood;
+    return typeof raw === 'string' ? raw : '';
+  });
   const [showForensic, setShowForensic] = useState(() => readSpeglarSession()?.showForensic ?? false);
 
   useEffect(() => {
@@ -78,20 +88,15 @@ export function SpeglingsSystem({ embedded: _embedded = false }: SpeglingsSystem
           </button>
         </div>
         <ActCalibrationView
-          feeling={feeling}
-          journalMood={journalMood}
+          feeling={typeof feeling === 'string' ? feeling : ''}
+          journalMood={typeof journalMood === 'string' ? journalMood : ''}
           onFeelingChange={setFeeling}
           onContinue={() => setShowForensic(true)}
         />
         {!showForensic && (
-          <button
-            type="button"
-            onClick={() => setShowForensic(true)}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-accent/20 px-3 py-2 text-xs uppercase tracking-widest text-accent/80 hover:bg-accent/5"
-          >
-            <Lock className="h-3 w-3" />
-            Fortsätt djupare
-          </button>
+          <p className="mt-3 text-xs text-text-dim">
+            ACT-kalibrering ovan — tryck «Fortsätt» när du är redo för VIVIR och bevis (kräver Valv-session).
+          </p>
         )}
       </BentoCard>
 

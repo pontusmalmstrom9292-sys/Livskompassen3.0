@@ -5,7 +5,11 @@ export type JournalBridgeContext = {
 
 export function readJournalBridgeContext(state: unknown): JournalBridgeContext | null {
   if (!state || typeof state !== 'object') return null;
-  const ctx = (state as { journalContext?: JournalBridgeContext }).journalContext;
-  if (!ctx?.text?.trim()) return null;
-  return { mood: ctx.mood ?? '', text: ctx.text.trim() };
+  const ctx = (state as { journalContext?: unknown }).journalContext;
+  if (!ctx || typeof ctx !== 'object') return null;
+  const raw = ctx as { mood?: unknown; text?: unknown };
+  const text = typeof raw.text === 'string' ? raw.text.trim() : '';
+  if (!text) return null;
+  const mood = typeof raw.mood === 'string' ? raw.mood : '';
+  return { mood, text };
 }
