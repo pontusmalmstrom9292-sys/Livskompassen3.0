@@ -31,7 +31,7 @@
 | Barnporten Våg B (QR) | **DEPLOYAD** | `createBarnportenPairing` · `claimBarnportenPairing` · rules (`ad38fc4e`) |
 | Android cap sync | **PASS** | `build:web && cap sync android` |
 | Android Run (Motorola) | **PASS** | 2026-06-06 |
-| Fas 5A #3 Valv (USER) | **ÖPPEN** | Shield 3 s → PIN → spara post |
+| Fas 5A #3 Valv (USER) | **PASS** 2026-06-07 | `68b87985` — Shield → PIN → spara post |
 | Fas 5A #4 Barnporten QR (USER) | **ÖPPEN** | Pontus testar QR på Motorola vid återkomst |
 
 ---
@@ -90,10 +90,11 @@
 
 | Körning | Exit | Resultat | Logg |
 |---------|------|----------|------|
-| `npm run orkester:night` | — | _pending other agents_ | [`2026-06-06-orkester-natt.md`](./2026-06-06-orkester-natt.md) |
-| `npm run content:night` | — | _pending other agents_ | [`2026-06-06-content-autorun-vag-17.md`](./2026-06-06-content-autorun-vag-17.md) |
+| `npm run orkester:night` | **0** | **PASS** (ESLint SKIP_FAIL, optional) | [`2026-06-06-orkester-natt.md`](./2026-06-06-orkester-natt.md) |
+| `npm run content:night` | **0** | **PASS** våg 17 | [`2026-06-06-content-autorun-vag-17.md`](./2026-06-06-content-autorun-vag-17.md) |
 
-**Deploy:** ingen (prod redan deployad före pass).
+**Deploy:** ingen (prod redan deployad före pass).  
+**Commit:** `e5754e39` (content timestamps) · `f4b93bf2` (orkester timestamps)
 
 ---
 
@@ -103,7 +104,7 @@ Dessa kräver **dig vid telefon/dator** — agent kan inte stänga dem.
 
 | # | Test | Gör | Rapportera |
 |---|------|-----|------------|
-| **3** | **Valv** | Shield 3 s → PIN → Dagbok bevis → spara enkel post | `Fas 5A: #3 PASS` eller FAIL |
+| **3** | **Valv** | — | **PASS** 2026-06-07 (`68b87985`) |
 | **4** | **Barnporten QR** | `/familjen?tab=barnporten` → skapa QR → Motorola `/barnporten?pair=` → koppla enhet | `Fas 5A: #4 PASS` eller FAIL |
 
 **Checklist:** [`2026-06-01-USER-nasta-steg.md`](./2026-06-01-USER-nasta-steg.md)  
@@ -113,10 +114,9 @@ Dessa kräver **dig vid telefon/dator** — agent kan inte stänga dem.
 
 ## Rekommenderat nästa steg (när du är tillbaka)
 
-1. **Ett steg:** Kör Fas 5A **#4 Barnporten QR** på Motorola (3 min) — skriv `Fas 5A: #4 PASS` eller FAIL till Cursor.
-2. **Ett steg:** Kör Fas 5A **#3 Valv** (2 min) — skriv `Fas 5A: #3 PASS` eller FAIL.
-3. **Valfritt:** Hard refresh prod (Cmd+Shift+R) om något ser gammalt ut.
-4. **Ej brådskande:** MaterialPack Våg A (PMIR-godkännande) · Barnporten Våg C (push/FCM).
+1. **Ett steg:** Kör Fas 5A **#4 Barnporten QR** på Motorola (3 min) — prod-URL, samma Google-konto, skriv `Fas 5A: #4 PASS` eller FAIL.
+2. **Valfritt:** Hard refresh prod (Cmd+Shift+R) om något ser gammalt ut.
+3. **Ej brådskande:** MaterialPack Våg A+ (PMIR) · Barnporten Våg C (push/FCM) · ESLint i orkester:night.
 
 ---
 
@@ -126,14 +126,31 @@ Dessa kräver **dig vid telefon/dator** — agent kan inte stänga dem.
 - [`MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md)
 - [`.context/locked-ux-features.md`](../../.context/locked-ux-features.md) §7–7b (oförändrad — referens)
 
+## Slutsats (alla 5 agenter)
+
+| Agent | Resultat |
+|-------|----------|
+| 1 Smoke | **PASS** — build + 3 smoke, exit 0 |
+| 2 Barnporten | **PASS** — QR verify, ingen kodändring |
+| 3 MaterialPack | **PASS** — PMIR skriven, ingen implementation |
+| 4 Docs | **PASS** — kanon uppdaterad |
+| 5 Night | **PASS** — orkester + content exit 0 |
+
+**Deploy denna session:** inget (hosting/functions/rules redan live).  
+**Push:** ej gjord.
+
 ## Commits (lokalt, ej pushat)
 
 | Hash | Meddelande |
 |------|------------|
+| `e5754e39` | docs(eval): refresh content autorun våg 17 timestamps |
+| `f4b93bf2` | docs(eval): refresh orkester nattpass timestamps |
+| `84b1b6cb` | docs(eval): fyll Agent 1–3 i 1h autonom rapport + MaterialPack PMIR |
+| `68b87985` | docs(smoke): Fas 5A #3 Valv USER PASS 2026-06-07 |
 | `9f8970b0` | docs(eval): fyll commit-hash i 1h autonom rapport |
 | `48266985` | docs(eval): sanning Barnporten Våg A/B deploy + 1h autonom rapport |
 
-**Push:** ej gjord (enligt instruktion). **HEAD:** `9f8970b0`
+**HEAD:** `e5754e39` · **Push:** ej gjord
 
 ---
 
