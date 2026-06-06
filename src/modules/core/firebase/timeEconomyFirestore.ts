@@ -15,10 +15,13 @@ import { db } from './firestore';
 import { assertOfflineWriteAllowed } from './offlineWritePolicy';
 import { FIRESTORE_COLLECTIONS } from '../types/firestore';
 import type {
+  BudgetEnvelopeRow,
   BudgetSavingsRow,
   EconomyFixedBillRow,
+  EconomyImpulseRow,
   EconomyLedgerRow,
   EconomyLedgerType,
+  EconomyMealPrepItem,
   PayslipSnapshotRow,
   TimeEntryRow,
 } from '../types/firestore';
@@ -648,6 +651,9 @@ export async function deleteEconomyFixedBill(userId: string, billId: string) {
 // ─── Budget savings ─────────────────────────────────────────────────────────
 
 function mapSavings(id: string, data: FirestorePayload, userId: string): BudgetSavingsRow {
+  const tagRaw = data.tag;
+  const tag =
+    tagRaw === 'family' || tagRaw === 'general' ? tagRaw : undefined;
   return {
     id,
     userId: String(data.userId ?? userId),
@@ -655,6 +661,7 @@ function mapSavings(id: string, data: FirestorePayload, userId: string): BudgetS
     title: String(data.title ?? ''),
     targetSek: Number(data.targetSek ?? 0),
     currentSek: Number(data.currentSek ?? 0),
+    tag,
     createdAt: normalizeCreatedAt(data.createdAt),
     updatedAt: data.updatedAt ? normalizeCreatedAt(data.updatedAt) : undefined,
   };
@@ -668,17 +675,25 @@ export async function getBudgetSavings(userId: string): Promise<BudgetSavingsRow
 
 export async function setBudgetSaving(
   userId: string,
-  goal: { id?: string; title: string; targetSek: number; currentSek: number },
+  goal: {
+    id?: string;
+    title: string;
+    targetSek: number;
+    currentSek: number;
+    tag?: 'family' | 'general';
+  },
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.budget_savings);
+  const payload: FirestorePayload = {
+    title: goal.title,
+    targetSek: goal.targetSek,
+    currentSek: goal.currentSek,
+    updatedAt: serverTimestamp(),
+  };
+  if (goal.tag) payload.tag = goal.tag;
   if (goal.id) {
     const ref = doc(db, FIRESTORE_COLLECTIONS.budget_savings, goal.id);
-    await updateDoc(ref, {
-      title: goal.title,
-      targetSek: goal.targetSek,
-      currentSek: goal.currentSek,
-      updatedAt: serverTimestamp(),
-    });
+    await updateDoc(ref, payload);
     return goal.id;
   }
   const ref = collection(db, FIRESTORE_COLLECTIONS.budget_savings);
@@ -688,6 +703,7 @@ export async function setBudgetSaving(
       title: goal.title,
       targetSek: goal.targetSek,
       currentSek: goal.currentSek,
+      ...(goal.tag ? { tag: goal.tag } : {}),
     }),
   );
   return docRef.id;
@@ -740,4 +756,172 @@ export async function getLatestPayslipSnapshot(userId: string): Promise<PayslipS
     .map((d) => mapPayslipSnapshot(d.id, d.data() as FirestorePayload, userId))
     .sort((a, b) => b.periodTo.localeCompare(a.periodTo));
   return rows[0] ?? null;
+}
+
+// ─── Impulse parking (24h rule) ─────────────────────────────────────────────
+
+const DEFAULT_MEAL_PREP: EconomyMealPrepItem[] = [
+  { id: '1', text: 'Ugnsrostad kyckling (Dopamin-prekursor)', done: false },
+  { id: '2', text: 'Kokt broccoli & spenat (Anti-inflammatoriskt)', done: false },
+  { id: '3', text: 'Matlådor portionerade i kyl/frys', done: false },
+];
+
+function mapImpulse(id: string, data: FirestorePayload, userId: string): EconomyImpulseRow {
+  const statusRaw = data.status;
+  const status =
+    statusRaw === 'bought' || statusRaw === 'skipped' ? statusRaw : 'parked';
+  return {
+    id,
+    userId: String(data.userId ?? userId),
+    ownerId: String(data.ownerId ?? userId),
+    label: String(data.label ?? ''),
+    parkedAt: normalizeCreatedAt(data.parkedAt ?? data.createdAt),
+    remindAt: normalizeCreatedAt(data.remindAt),
+    status,
+    createdAt: normalizeCreatedAt(data.createdAt),
+    updatedAt: data.updatedAt ? normalizeCreatedAt(data.updatedAt) : undefined,
+  };
+}
+
+export async function getEconomyImpulseQueue(userId: string): Promise<EconomyImpulseRow[]> {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.economy_impulse_queue);
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
+  return snap.docs
+    .map((d) => mapImpulse(d.id, d.data() as FirestorePayload, userId))
+    .filter((row) => row.status === 'parked')
+    .sort((a, b) => b.parkedAt.localeCompare(a.parkedAt));
+}
+
+export async function parkEconomyImpulse(userId: string, label: string) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_impulse_queue);
+  const now = new Date();
+  const remind = new Date(now);
+  remind.setDate(remind.getDate() + 1);
+  const ref = collection(db, FIRESTORE_COLLECTIONS.economy_impulse_queue);
+  const docRef = await addDoc(
+    ref,
+    withUserId(userId, {
+      label: label.trim(),
+      parkedAt: now.toISOString(),
+      remindAt: remind.toISOString(),
+      status: 'parked',
+    }),
+  );
+  return docRef.id;
+}
+
+export async function resolveEconomyImpulse(
+  userId: string,
+  impulseId: string,
+  status: 'bought' | 'skipped',
+) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_impulse_queue);
+  const ref = doc(db, FIRESTORE_COLLECTIONS.economy_impulse_queue, impulseId);
+  const snap = await getDoc(ref);
+  if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Parkering hittades inte.');
+  await updateDoc(ref, { status, updatedAt: serverTimestamp() });
+}
+
+export async function deleteEconomyImpulse(userId: string, impulseId: string) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_impulse_queue);
+  const ref = doc(db, FIRESTORE_COLLECTIONS.economy_impulse_queue, impulseId);
+  const snap = await getDoc(ref);
+  if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Parkering hittades inte.');
+  await deleteDoc(ref);
+}
+
+// ─── Neuro-Kost meal prep (economy_profiles) ────────────────────────────────
+
+export async function getEconomyMealPrep(userId: string): Promise<EconomyMealPrepItem[]> {
+  const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return DEFAULT_MEAL_PREP.map((item) => ({ ...item }));
+  const raw = snap.data().mealPrepItems;
+  if (!Array.isArray(raw) || raw.length === 0) {
+    return DEFAULT_MEAL_PREP.map((item) => ({ ...item }));
+  }
+  return raw.map((item, index) => {
+    const row = item as FirestorePayload;
+    return {
+      id: String(row.id ?? String(index + 1)),
+      text: String(row.text ?? ''),
+      done: Boolean(row.done),
+    };
+  });
+}
+
+export async function setEconomyMealPrep(userId: string, items: EconomyMealPrepItem[]) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_profiles);
+  const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
+  await setDoc(
+    ref,
+    {
+      userId,
+      ownerId: userId,
+      mealPrepItems: items,
+      updatedAt: serverTimestamp(),
+    },
+    { merge: true },
+  );
+}
+
+// ─── Manual envelope budgets (`budgets` collection) ─────────────────────────
+
+function mapBudgetEnvelope(id: string, data: FirestorePayload, userId: string): BudgetEnvelopeRow {
+  return {
+    id,
+    userId: String(data.userId ?? userId),
+    ownerId: String(data.ownerId ?? userId),
+    title: String(data.title ?? ''),
+    allocatedSek: Number(data.allocatedSek ?? 0),
+    spentSek: Number(data.spentSek ?? 0),
+    createdAt: normalizeCreatedAt(data.createdAt),
+    updatedAt: data.updatedAt ? normalizeCreatedAt(data.updatedAt) : undefined,
+  };
+}
+
+export async function getBudgetEnvelopes(userId: string): Promise<BudgetEnvelopeRow[]> {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.budgets);
+  const snap = await getDocs(ownerScopedQuery(ref, userId));
+  return snap.docs.map((d) => mapBudgetEnvelope(d.id, d.data() as FirestorePayload, userId));
+}
+
+export async function setBudgetEnvelope(
+  userId: string,
+  envelope: {
+    id?: string;
+    title: string;
+    allocatedSek: number;
+    spentSek: number;
+  },
+) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.budgets);
+  if (envelope.id) {
+    const ref = doc(db, FIRESTORE_COLLECTIONS.budgets, envelope.id);
+    await updateDoc(ref, {
+      title: envelope.title,
+      allocatedSek: envelope.allocatedSek,
+      spentSek: envelope.spentSek,
+      updatedAt: serverTimestamp(),
+    });
+    return envelope.id;
+  }
+  const ref = collection(db, FIRESTORE_COLLECTIONS.budgets);
+  const docRef = await addDoc(
+    ref,
+    withUserId(userId, {
+      title: envelope.title,
+      allocatedSek: envelope.allocatedSek,
+      spentSek: envelope.spentSek,
+    }),
+  );
+  return docRef.id;
+}
+
+export async function deleteBudgetEnvelope(userId: string, envelopeId: string) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.budgets);
+  const ref = doc(db, FIRESTORE_COLLECTIONS.budgets, envelopeId);
+  const snap = await getDoc(ref);
+  if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Kuvert hittades inte.');
+  await deleteDoc(ref);
 }

@@ -10,13 +10,26 @@ import {
 } from '@/core/firebase/timeEconomyFirestore';
 import type { BudgetSavingsRow } from '@/core/types/firestore';
 
-export function EconomySavingsPanel() {
+type Props = {
+  panelTitle?: string;
+  description?: string;
+  tagFilter?: 'family' | 'general';
+  /** Hide create form when showing filtered family fund only */
+  compact?: boolean;
+};
+
+export function EconomySavingsPanel({
+  panelTitle = 'Sparmål',
+  description = 'En siffra i taget — inga grafer eller streaks',
+  tagFilter,
+  compact = false,
+}: Props) {
   const user = useStore((s) => s.user);
   const [goals, setGoals] = useState<BudgetSavingsRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [title, setTitle] = useState('');
+  const [goalTitle, setGoalTitle] = useState('');
   const [targetSek, setTargetSek] = useState(1000);
   const [currentSek, setCurrentSek] = useState(0);
 
@@ -25,13 +38,18 @@ export function EconomySavingsPanel() {
     setLoading(true);
     setError(null);
     try {
-      setGoals(await getBudgetSavings(user.uid));
+      const rows = await getBudgetSavings(user.uid);
+      setGoals(
+        tagFilter
+          ? rows.filter((g) => (g.tag ?? 'general') === tagFilter)
+          : rows.filter((g) => (g.tag ?? 'general') !== 'family'),
+      );
     } catch {
       setError('Kunde inte läsa sparmål.');
     } finally {
       setLoading(false);
     }
-  }, [user]);
+  }, [user, tagFilter]);
 
   useEffect(() => {
     void reload();
@@ -39,16 +57,17 @@ export function EconomySavingsPanel() {
 
   const handleCreate = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!user || !title.trim()) return;
+    if (!user || !goalTitle.trim()) return;
     setBusy(true);
     setError(null);
     try {
       await setBudgetSaving(user.uid, {
-        title: title.trim(),
+        title: goalTitle.trim(),
         targetSek: Math.max(0, targetSek),
         currentSek: Math.max(0, currentSek),
+        ...(tagFilter ? { tag: tagFilter } : {}),
       });
-      setTitle('');
+      setGoalTitle('');
       setTargetSek(1000);
       setCurrentSek(0);
       await reload();
@@ -94,9 +113,9 @@ export function EconomySavingsPanel() {
 
   return (
     <BentoCard
-      title="Sparmål"
+      title={panelTitle}
       icon={<PiggyBank className="h-4 w-4" />}
-      description="En siffra i taget — inga grafer eller streaks"
+      description={description}
     >
       {error && <p className="mb-2 text-sm text-danger">{error}</p>}
 
@@ -153,14 +172,15 @@ export function EconomySavingsPanel() {
         </ul>
       )}
 
+      {(!compact || goals.length === 0) && (
       <form onSubmit={(e) => void handleCreate(e)} className="mt-4 space-y-3 border-t border-border pt-4">
         <p className="text-xs uppercase tracking-wider text-text-dim">Nytt sparmål</p>
         <label className="block text-xs text-text-muted">
           Namn
           <input
             type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={goalTitle}
+            onChange={(e) => setGoalTitle(e.target.value)}
             className="input-glass mt-1 w-full text-sm"
             placeholder="t.ex. Buffert"
             required
@@ -192,6 +212,7 @@ export function EconomySavingsPanel() {
           {busy ? 'Sparar…' : 'Skapa sparmål'}
         </button>
       </form>
+      )}
     </BentoCard>
   );
 }
