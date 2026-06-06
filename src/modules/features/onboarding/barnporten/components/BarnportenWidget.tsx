@@ -31,7 +31,7 @@ export function BarnportenWidget({ childAlias = DEFAULT_CHILD }: Props) {
       setStatus('Be pappa logga in först.');
       return;
     }
-    const text = window.prompt('Snabb avsig — vad vill du säga?', '') ?? '';
+    const text = window.prompt('Snabb sändning — vad vill du säga?', '') ?? '';
     if (!text.trim()) return;
 
     setSaving(true);

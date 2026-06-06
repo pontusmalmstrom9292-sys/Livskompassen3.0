@@ -77,7 +77,7 @@ export function KasamEvening({ userId, onKlar, onSaved }: Props) {
         <p className="flex items-center gap-2 text-sm text-success">
           <Check className="h-4 w-4" /> Kvällskompass sparad.
         </p>
-        <BentoCard title="Crazymaking?" description="Bro only — inget sparas automatiskt">
+        <BentoCard title="Gaslighting?" description="Bro till Speglar — inget sparas automatiskt">
           <div className="flex flex-col gap-2">
             <Link to="/dagbok?tab=speglar" className="btn-pill--ghost text-sm">
               Jämför känsla med fakta (Speglar)

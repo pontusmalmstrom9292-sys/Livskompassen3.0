@@ -31,7 +31,7 @@ export function ValvetRoutePage() {
     <HubPageShell
       eyebrow="ZON 4 — Verklighetsvalvet"
       title="Sanningsarkivet"
-      lead="Här vilar fakta, mönster och bevis. Inga känslor, bara den dokumenterade sanningen."
+      lead="Här samlas fakta, mönster och bevis — strukturerat och låst."
       lockViewport
     >
       <div className="mx-auto max-w-5xl space-y-4 pb-12">

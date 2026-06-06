@@ -161,7 +161,7 @@ function VaultPageInner({
     return (
       <BentoCard
         title={embedded ? 'Valv · Baksida' : 'Verklighetsvalvet'}
-        description="Sacred Feature — biometri krävs"
+        description="Skyddad zon — biometri krävs"
         icon={<ShieldAlert className="h-4 w-4" />}
       >
         <VaultLockedGate variant="card" />

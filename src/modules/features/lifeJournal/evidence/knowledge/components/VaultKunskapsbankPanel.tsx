@@ -65,7 +65,7 @@ export function VaultKunskapsbankPanel() {
 
       {showEmptyState && (
         <BentoCard
-          title="Ditt Minne är tomt"
+          title="Ditt minne är tomt"
           description="Sök i dina sparade anteckningar — börja med en post"
           icon={<BookOpen className="h-4 w-4" />}
         >
@@ -94,7 +94,7 @@ export function VaultKunskapsbankPanel() {
       />
 
       {shell.user ? (
-        <BentoCard title="Familjen — kunskap & upload" description="Scoped sökning per barn">
+        <BentoCard title="Familjen — kunskap och uppladdning" description="Sökning per barn">
           <FamiljenKunskapHubTab
             activeChild={shell.activeChild}
             onKampsparCitationClick={setFocusKampsparId}

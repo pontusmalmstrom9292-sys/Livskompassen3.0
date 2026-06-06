@@ -32,9 +32,9 @@ export function FamiljenKunskapHubTab({ activeChild, onKampsparCitationClick }: 
   const [scopedDocs, setScopedDocs] = useState<KunskapsvalvUploadedDoc[]>([]);
 
   const modes: { id: SearchMode; label: string; hint: string }[] = [
-    { id: 'hela', label: 'Allt sparat', hint: 'Kunskap-hubben — dina anteckningar' },
+    { id: 'hela', label: 'Allt sparat', hint: 'Kunskapsbanken — dina anteckningar' },
     { id: 'valv', label: 'Arkiv-chatt', hint: 'Låsta poster i arkivet' },
-    { id: 'barn', label: 'Barnloggar', hint: `children_logs · ${activeChild}` },
+    { id: 'barn', label: 'Barnloggar', hint: `Barnloggar · ${activeChild}` },
     { id: 'dokument', label: 'Uppladdade filer', hint: 'Senaste filer i denna session' },
   ];
 
@@ -85,8 +85,8 @@ export function FamiljenKunskapHubTab({ activeChild, onKampsparCitationClick }: 
     <div className="space-y-4">
       <div className="familjen-kunskap-panel">
       <BentoCard
-        title="Kunskapshub"
-        description="En ingång — flera silos. Upload går alltid till Kunskapsvalvet."
+        title="Kunskapsbank"
+        description="En ingång — flera arkiv. Uppladdningar går alltid till Kunskapsvalvet."
         icon={<Search className="h-4 w-4" />}
       >
         <div className="flex flex-wrap gap-2">
@@ -179,7 +179,7 @@ export function FamiljenKunskapHubTab({ activeChild, onKampsparCitationClick }: 
 
       {scopedDocs.length > 0 && (
         <p className="text-xs text-text-dim">
-          Session-filer: {scopedDocs.map((d) => d.title).join(', ')} — välj läge &ldquo;Uppladdade
+          Filer i denna session: {scopedDocs.map((d) => d.title).join(', ')} — välj läge &ldquo;Uppladdade
           filer&rdquo; för fokuserad analys.
         </p>
       )}

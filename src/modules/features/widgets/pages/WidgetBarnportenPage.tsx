@@ -47,7 +47,7 @@ function WidgetBarnportenInner() {
     <>
       <WidgetShell
         title="Barnporten"
-        lead="Snabb avsig — skickas till pappas inkorg (inte Valv automatiskt)."
+        lead="Snabb sändning — hamnar i pappas inkorg (inte i Valv automatiskt)."
       >
         {done ? (
           <div className="elongated-module elongated-module--gold p-4">

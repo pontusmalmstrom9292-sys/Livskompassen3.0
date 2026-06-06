@@ -23,6 +23,14 @@ type Props = {
 };
 
 /** G10 HITL-kö — godkänn/avvisa innan material når Valv eller Kunskap (U1). */
+
+function collectionLabel(collection: string): string {
+  if (collection === 'reality_vault') return 'bevis';
+  if (collection === 'children_logs') return 'barnloggar';
+  if (collection === 'kampspar' || collection === 'kb_docs') return 'kunskap';
+  return collection;
+}
+
 export function InboxReviewQueue({
   compact = false,
   prioritizeBevis = false,
@@ -67,7 +75,7 @@ export function InboxReviewQueue({
         routing,
         routing === 'barnen' ? item.childAlias ?? 'Kasper' : undefined,
       );
-      setLastAction(`Routed till ${result.collection} · ${result.docId.slice(0, 8)}…`);
+      setLastAction(`Skickat till ${collectionLabel(result.collection)} · ${result.docId.slice(0, 8)}…`);
       if (routing === 'bevis' && result.collection === 'reality_vault' && result.docId) {
         onBevisConfirmed?.(result.docId);
       }
@@ -101,7 +109,7 @@ export function InboxReviewQueue({
   return (
     <BentoCard
       title={compact ? 'Granskningskö' : prioritizeBevis ? 'Granskningskö · Samla' : 'Inkorg — granska'}
-      description="G10 · routed / review / rejected"
+      description="Granska innan sparning i Valv eller Kunskap"
       icon={<Inbox className="h-4 w-4 text-accent" />}
     >
       {onBack && (
@@ -111,8 +119,7 @@ export function InboxReviewQueue({
       )}
       {!compact && (
         <p className="mb-3 text-xs text-text-dim">
-          Drive och oklara filer hamnar här. Bekräfta silo innan Valv eller Kunskap — ingen
-          cross-RAG.
+          Drive och oklara filer hamnar här. Bekräfta vart det ska sparas — separata arkiv, blandade silor.
           {prioritizeBevis ? ' Bevis-förslag visas först.' : ''}
         </p>
       )}
