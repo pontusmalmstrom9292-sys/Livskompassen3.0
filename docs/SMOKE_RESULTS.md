@@ -31,7 +31,10 @@
 | **Autorun PASS** | `smoke:kunskap` | **PASS** | 2026-06-06 — ingest + query + citation |
 | **Deploy** | Hosting MaterialPack Familjen + chat-audit frontend sync | **PASS** | 2026-06-06 |
 | **Deploy** | Hosting ValvSuper Fas 2–3 + Vit våg 10–16 | **PASS** | 2026-06-06 (senaste `hosting`-deploy) |
-| **Deploy** | Super Multitask: Inkast CTA + Dossier XSS + hosting | **PASS** | 2026-06-07 · `88be0eeb` · https://gen-lang-client-0481875058.web.app |
+| **Deploy** | Super Multitask: Inkast CTA + Dossier XSS + hosting | **PASS** | 2026-06-07 · `88be0eeb` |
+| **Deploy** | Hosting Superhub §D (dagbok ur publik drawer) | **PASS** | 2026-06-07 · https://gen-lang-client-0481875058.web.app |
+| **Autorun PASS** | Superhub §D `smoke:superhub` + build + locked-ux | **PASS** | 2026-06-07 — drawer 4 rader, legacy redirects, plausible deniability |
+| **Manuell väntar** | Superhub §D (Motorola drawer + /liv + /mabra) | **USER väntar** | autorun PASS 2026-06-07 — se [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md) §D |
 
 **Fas 5A #3/#4:** **PASS** (USER 2026-06-06/07) — se [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md).
 

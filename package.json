@@ -48,6 +48,7 @@
     "smoke:rollout": "node scripts/smoke_rollout_cursor_native.mjs",
     "rollout:night": "node scripts/rollout_autorun.mjs",
     "smoke:locked-ux": "node scripts/smoke_locked_ux.mjs",
+    "smoke:superhub": "node scripts/smoke_superhub.mjs",
     "smoke:locked-icons": "node scripts/smoke_locked_icons.mjs",
     "smoke:design-modules": "node scripts/smoke_design_modules.mjs",
     "smoke:modulvaljare": "node scripts/smoke_modulvaljare.mjs",
