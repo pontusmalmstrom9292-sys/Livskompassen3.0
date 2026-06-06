@@ -1,6 +1,6 @@
 # Senaste sammanfattning — systemstatus
 
-**Datum:** 2026-06-07 · **Gren:** `main` · **HEAD:** `88be0eeb`  
+**Datum:** 2026-06-07 · **Gren:** `main` · **HEAD:** `6ce9e79c`  
 **Senaste:** Inkast CTA + MaterialPack editor **USER PASS** · Superhub §D USER PASS · hosting live
 
 ---

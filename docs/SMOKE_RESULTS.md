@@ -37,6 +37,7 @@
 | **Manuell PASS** | Superhub §D (Motorola drawer + /liv + /mabra) | **PASS** | 2026-06-07 (USER · Motorola) |
 | **Manuell PASS** | Inkast post-save CTA + MaterialPack `/projekt/genvagar` | **PASS** | 2026-06-07 (USER) |
 | **Autorun PASS** | Fas 2 re-run (build + 6 smokes) | **PASS** | 2026-06-07 |
+| **Deploy** | Fas 2 planering + smoke docs (`hosting`) | **PASS** | 2026-06-07 · `6ce9e79c` |
 
 **Fas 5A #3/#4:** **PASS** (USER 2026-06-06/07) — se [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md).
 
@@ -56,7 +57,7 @@
 | `smoke:valv-security` | **PASS** |
 | `smoke:innehall` | **PASS** |
 | `smoke:cache` | **PASS** |
-| Deploy `hosting` | se post-commit deploy |
+| Deploy `hosting` | **PASS** | 2026-06-07 · `6ce9e79c` · https://gen-lang-client-0481875058.web.app |
 | Deploy `functions` | **SKIP** — inga ändringar i `functions/src` sedan senaste deploy |
 
 **Hub:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md) · **Supermoduler:** [`evaluations/2026-06-06-supermodule-master-plan.md`](./evaluations/2026-06-06-supermodule-master-plan.md)
@@ -172,7 +173,7 @@
 | `smoke:valv-security` | **PASS** |
 | `smoke:innehall` | **PASS** |
 | `smoke:cache` | **PASS** |
-| Deploy `hosting` | se post-commit deploy |
+| Deploy `hosting` | **PASS** | 2026-06-07 · `6ce9e79c` · https://gen-lang-client-0481875058.web.app |
 | Deploy `functions` | **SKIP** — inga ändringar i `functions/src` sedan senaste deploy |
 
 **Hub:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
