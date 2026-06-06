@@ -4,7 +4,7 @@ import { AdaptiveMemoryCards } from '../home/AdaptiveMemoryCards';
 import { HomeHeroKanon } from '../home/HomeHeroKanon';
 import { PlaneringHomePinCard } from '@/features/admin/planning/components/PlaneringHomePinCard';
 import { StampClockHomeSection, isStampOnHomeScreenEnabled } from '@/features/admin/stampla';
-import { CaptureSuperModule, ReviewQueuePanel } from '../../capture';
+import { CaptureSuperModule } from '../../capture';
 import { materialEnabled, useLifeHubPreset } from '../lifeOs';
 import { useStore } from '../store';
 import { useTheme } from '../theme';
@@ -140,10 +140,7 @@ export function HomePage() {
       {!mockupSkin && isAuthenticated && isStampOnHomeScreenEnabled() && <StampClockHomeSection />}
 
       {!mockupSkin && materialEnabled(preset, 'home_inkast') && isAuthenticated && (
-        <>
-          <CaptureSuperModule variant="hem-capture" />
-          <ReviewQueuePanel />
-        </>
+        <CaptureSuperModule variant="hem-capture" />
       )}
 
       {!mockupSkin && materialEnabled(preset, 'home_inkast') && !isAuthenticated && (

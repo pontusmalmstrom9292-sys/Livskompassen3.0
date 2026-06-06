@@ -80,6 +80,21 @@ function runStaticGuards() {
   );
 
   mustInclude(
+    'src/modules/capture/CaptureSuperModule.tsx',
+    'ReviewQueuePipelinePanel',
+    "variant === 'hem-capture'",
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx',
+    'InboxReviewQueue',
+  );
+  assert(
+    !read('src/modules/core/pages/HomePage.tsx').includes('ReviewQueuePanel'),
+    'HomePage.tsx',
+    'review-kö via CaptureSuperModule — inte separat ReviewQueuePanel',
+  );
+
+  mustInclude(
     'src/modules/features/lifeJournal/diary/mirror/components/ActCalibrationView.tsx',
     'Fortsätt till VIVIR',
     'onContinue',

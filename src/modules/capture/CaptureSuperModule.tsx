@@ -3,6 +3,7 @@ import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
 import { CapturePanel } from './CapturePanel';
 import { InkastDirectPanel } from './InkastDirectPanel';
+import { ReviewQueuePipelinePanel } from './ReviewQueuePipelinePanel';
 
 export type CaptureSuperVariant =
   | 'hem-capture'
@@ -31,7 +32,7 @@ const SOURCE_MODULE: Record<CaptureSuperVariant, string | undefined> = {
 
 /**
  * Canonical router för G10 capture/inkast-ytor.
- * Fas 2: kompass-variant för HomeAdaptiveCompass.
+ * v2: hem-capture inkluderar ReviewQueuePipelinePanel (lokalt + molnet-summary).
  */
 export function CaptureSuperModule({
   variant,
@@ -51,11 +52,14 @@ export function CaptureSuperModule({
 
   if (variant === 'hem-capture' || variant === 'planering' || variant === 'kompass') {
     return (
-      <CapturePanel
-        sourceModule={SOURCE_MODULE[variant] ?? 'hem_capture'}
-        compact={compact || variant === 'kompass'}
-        onSaved={onSaved}
-      />
+      <>
+        <CapturePanel
+          sourceModule={SOURCE_MODULE[variant] ?? 'hem_capture'}
+          compact={compact || variant === 'kompass'}
+          onSaved={onSaved}
+        />
+        {variant === 'hem-capture' && <ReviewQueuePipelinePanel mode="summary" />}
+      </>
     );
   }
 

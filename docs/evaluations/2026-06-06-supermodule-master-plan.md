@@ -84,13 +84,20 @@
 
 ---
 
-### 5. CaptureSuper v2 — **DEFER (backend-touch)**
+### 5. CaptureSuper v2 — **DONE 2026-06-06**
 
-**Mål:** En review-kö, G10-routing via `driveIngestSynapse`.
+**Mål:** En review-kö-pipeline — G10-routing via `driveIngestSynapse` (oförändrad backend).
 
-**Scope:** Konsolidera `ReviewQueuePanel` (Hem) + `InboxReviewQueue` (Valv) till en pipeline-UX — **ingen fjärde silo**.
+**Scope:** Konsolidera `ReviewQueuePanel` (Hem) + `InboxReviewQueue` (Valv) till enhetlig UX — **ingen fjärde silo**.
 
-**Risk:** Callable/synapse-ändring — deploy functions krävs.
+| Fil | Roll |
+|-----|------|
+| `ReviewQueuePipelinePanel.tsx` | Hem-summary: lokalt utkast + molnet-preview + länk till Valv |
+| `reviewQueuePipeline.ts` | Delade etiketter/sortering med `InboxReviewQueue` |
+| `CaptureSuperModule.tsx` | `hem-capture` mountar pipeline-panel |
+| `VaultSamlaHub.tsx` | Canonical `InboxReviewQueue` (HITL) — oförändrad |
+
+**Risk:** Ingen callable/synapse-ändring — ingen functions-deploy.
 
 ---
 

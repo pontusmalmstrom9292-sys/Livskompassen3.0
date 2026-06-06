@@ -8,21 +8,10 @@ import {
   fetchInboxQueue,
   type InboxQueueItem,
 } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
-
-const ROUTING_LABELS: Record<string, string> = {
-  kunskap: 'Kunskap',
-  bevis: 'Bevis (Valv)',
-  barnen: 'Barnen',
-  review: 'Granska',
-};
-
-function queueStatusLabel(item: InboxQueueItem): string {
-  const confidence = typeof item.confidence === 'number' ? item.confidence : 0;
-  if (item.proposedRouting === 'review' || confidence < 0.75) {
-    return 'Status: granska';
-  }
-  return `Status: förslag → ${ROUTING_LABELS[item.proposedRouting] ?? item.proposedRouting}`;
-}
+import {
+  inboxQueueStatusLabel,
+  sortInboxForValvSamla,
+} from '@/modules/capture/reviewQueuePipeline';
 
 type Props = {
   compact?: boolean;
@@ -32,17 +21,6 @@ type Props = {
   onBevisConfirmed?: (docId: string) => void;
   onBack?: () => void;
 };
-
-function sortForValvSamla(items: InboxQueueItem[]): InboxQueueItem[] {
-  const score = (item: InboxQueueItem) => {
-    const confidence = typeof item.confidence === 'number' ? item.confidence : 0;
-    if (item.proposedRouting === 'bevis') return 0;
-    if (item.proposedRouting === 'review' || confidence < 0.75) return 1;
-    if (item.traumaSensitive) return 2;
-    return 3;
-  };
-  return [...items].sort((a, b) => score(a) - score(b));
-}
 
 /** G10 HITL-kö — godkänn/avvisa innan material når Valv eller Kunskap (U1). */
 export function InboxReviewQueue({
@@ -118,7 +96,7 @@ export function InboxReviewQueue({
 
   if (!isAuthenticated) return null;
 
-  const displayItems = prioritizeBevis ? sortForValvSamla(items) : items;
+  const displayItems = prioritizeBevis ? sortInboxForValvSamla(items) : items;
 
   return (
     <BentoCard
@@ -154,7 +132,7 @@ export function InboxReviewQueue({
             className="rounded-lg border border-border/60 bg-surface/40 px-3 py-3 text-sm"
           >
             <p className="font-medium text-text">{item.fileName}</p>
-            <p className="mt-1 text-xs text-accent/90">{queueStatusLabel(item)}</p>
+            <p className="mt-1 text-xs text-accent/90">{inboxQueueStatusLabel(item)}</p>
             <p className="mt-1 text-xs text-text-muted">
               {item.traumaSensitive ? 'Trauma · ' : ''}
               Säkerhet {Math.round((typeof item.confidence === 'number' ? item.confidence : 0) * 100)}%

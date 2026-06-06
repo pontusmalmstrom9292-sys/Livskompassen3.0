@@ -247,6 +247,29 @@ function main() {
   mustInclude('src/modules/core/navigation/drawerNav.ts', 'createDrawerL2Icon');
   mustInclude('docs/gemini-handoff/README.md', 'gemini-handoff');
 
+  mustInclude(
+    'src/modules/capture/CaptureSuperModule.tsx',
+    'ReviewQueuePipelinePanel',
+    "variant === 'hem-capture'",
+  );
+  mustInclude(
+    'src/modules/capture/reviewQueuePipeline.ts',
+    'inboxQueueStatusLabel',
+    'sortInboxForValvSamla',
+  );
+  assert(
+    !read('src/modules/core/pages/HomePage.tsx').includes('ReviewQueuePanel'),
+    'HomePage.tsx',
+    'review-kö via CaptureSuperModule — inte separat ReviewQueuePanel',
+  );
+  assert(
+    !read('src/modules/features/admin/planning/components/PlaneringInkorgPanel.tsx').includes(
+      "from '@/modules/inkast/components/InboxReviewQueue'",
+    ),
+    'PlaneringInkorgPanel.tsx',
+    'får inte importera InboxReviewQueue — använd InboxReviewQueueLink',
+  );
+
   console.log('smoke:design-modules PASS');
 }
 

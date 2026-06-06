@@ -222,7 +222,19 @@ function main() {
     'src/modules/capture/CaptureSuperModule.tsx',
     'CaptureSuperModule',
     'InkastDirectPanel',
+    'ReviewQueuePipelinePanel',
     'id="inkast-lite"',
+  );
+  mustInclude(
+    'src/modules/capture/ReviewQueuePipelinePanel.tsx',
+    'ReviewQueuePipelinePanel',
+    'fetchInboxQueue',
+    'VALV_SAMLA_GRANSKA_LINK',
+  );
+  assert(
+    !read('src/modules/core/pages/HomePage.tsx').includes('ReviewQueuePanel'),
+    'HomePage.tsx',
+    'delegerar review-kö till CaptureSuperModule — inte direkt ReviewQueuePanel-import',
   );
   mustInclude(
     'src/modules/capture/InkastDirectPanel.tsx',
@@ -520,6 +532,15 @@ function main() {
     'InboxReviewQueue',
   );
   mustInclude('src/modules/inkast/components/InboxReviewQueue.tsx', 'confirmInbox', 'dismissInbox');
+  mustInclude(
+    'src/modules/inkast/components/InboxReviewQueue.tsx',
+    'inboxQueueStatusLabel',
+    'sortInboxForValvSamla',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx',
+    'InboxReviewQueue',
+  );
   assert(existsSync(resolve(root, 'docs/design/CHROME-POLICY.md')), 'saknar: CHROME-POLICY.md');
   assert(existsSync(resolve(root, 'docs/design/TYPE-SCALE.md')), 'saknar: TYPE-SCALE.md');
   assert(existsSync(resolve(root, '.context/locked-icons.md')), 'saknar: .context/locked-icons.md');

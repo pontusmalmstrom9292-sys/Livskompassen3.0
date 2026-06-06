@@ -1,13 +1,13 @@
 # Senaste sammanfattning — systemstatus
 
 **Datum:** 2026-06-06 · **Gren:** `main` · Repo: Livskompassen3.0  
-**Senaste leverans:** BarnfokusSuperModule Fas 1 — alla 5 supermoduler klara
+**Senaste leverans:** CaptureSuper v2 — enhetlig review-kö-pipeline (Hem + Valv Samla)
 
 ---
 
 ## Nuläge i en mening
 
-**Superhub Block A+B klart** + **alla 5 supermoduler** (Capture · Speglar · Valv · Dagbok · Planering · Barnfokus). **Nästa:** CaptureSuper v2 · manuell #2d bilaga.
+**Superhub Block A+B klart** + **alla 5 supermoduler** inkl. **CaptureSuper v2** (G10 review-kö). **Nästa:** manuell #2d bilaga.
 
 ---
 
@@ -15,7 +15,7 @@
 
 | Område | Status |
 |--------|--------|
-| CaptureSuperModule | Fas 1–3 — kompass, hem, valv, planering |
+| CaptureSuperModule | Fas 1–3 + **v2** — kompass, hem, valv, planering; ReviewQueuePipelinePanel |
 | InboxReviewQueue | Canonical i VaultSamlaHub; länk elsewhere |
 | LivLauncherPage | Stora kort; kompass/ekonomi inline; övrigt → fullsid |
 | LivSuper Fas 1–3 | Kortgrid · LivBackLink · VardagenShellPage raderad |
