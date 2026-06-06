@@ -2,7 +2,28 @@
 
 **Syfte:** Deterministisk batch-körning medan du sover + Cursor-specialister för fortsatt vävning imorgon.
 
-**Senast uppdaterad:** 2026-06-01
+**Senast uppdaterad:** 2026-06-06
+
+---
+
+## Rollout nattpass (Cursor-native Block A+B)
+
+Fokuserad autorun för superhub-rollout — ersätter manuell smoke så långt det går:
+
+```bash
+npm run rollout:night
+```
+
+Kanon: [`evaluations/2026-06-06-cursor-native-autorun.md`](./evaluations/2026-06-06-cursor-native-autorun.md)
+
+| Fas | Kommando |
+|-----|----------|
+| rollout-smoke | `npm run smoke:rollout` |
+| functions-build | `functions` build |
+| frontend-build | `npm run build` |
+| lint | ESLint (optional) |
+
+State: `.orkester/rollout-state.json` · Rapport: `docs/evaluations/YYYY-MM-DD-rollout-natt.md`
 
 ---
 
@@ -31,12 +52,13 @@ npm run orkester:night
 Kör i ordning (se även [`ORKESTER-BACKLOG-PLANS.md`](./ORKESTER-BACKLOG-PLANS.md)):
 
 1. `smoke:locked-ux` + `smoke:design-modules`
-2. `smoke:innehall` (U6)
-3. `smoke:locked-icons` (B1/D1/M2)
-4. `smoke:orkester` (ADK wiring)
-5. Functions `npm run build`
-6. Frontend `npm run build`
-7. ESLint (optional — fail soft)
+2. `smoke:rollout` (optional — Cursor-native Block A+B)
+3. `smoke:innehall` (U6)
+4. `smoke:locked-icons` (B1/D1/M2)
+5. `smoke:orkester` (ADK wiring)
+6. Functions `npm run build`
+7. Frontend `npm run build`
+8. ESLint (optional — fail soft)
 
 **Output:**
 
