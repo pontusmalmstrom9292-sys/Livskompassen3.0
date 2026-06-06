@@ -366,12 +366,8 @@
   .home-page--mockup-skin .home-hero-kanon__compass-stage {
     display: block;
     @apply pointer-events-none mx-auto w-full;
-    min-height: clamp(6.5rem, 30vw, 11rem);
-    margin-bottom: clamp(-2.75rem, -9vw, -1.75rem);
-  }
-
-  .home-page--mockup-skin .home-adaptive-compass__orbit {
-    @apply relative z-[2];
+    min-height: clamp(2.5rem, 10vw, 4rem);
+    margin-bottom: clamp(-1.25rem, -4vw, -0.75rem);
   }
 
   .livskompass-hero--embedded {
@@ -2763,8 +2759,8 @@
   .home-page--scenic .home-hero-kanon__compass-stage {
     display: block;
     @apply pointer-events-none mx-auto w-full;
-    min-height: clamp(7.5rem, 34vw, 12.5rem);
-    margin-bottom: clamp(-3.25rem, -11vw, -2.25rem);
+    min-height: clamp(2.75rem, 11vw, 4.5rem);
+    margin-bottom: clamp(-1.5rem, -5vw, -0.85rem);
   }
 
   .home-page--scenic .home-hero-kanon__scenic-stack {

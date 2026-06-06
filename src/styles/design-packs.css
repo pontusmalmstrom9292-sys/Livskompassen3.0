@@ -44,8 +44,8 @@ html[data-design-pack] .ambient-blob {
   @apply pointer-events-auto relative mx-auto grid w-full max-w-[min(100vw-1rem,26rem)] items-center;
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 0.35rem;
-  min-height: 3.65rem;
-  padding: 0.35rem 0.15rem 0.25rem;
+  min-height: 4rem;
+  padding: 0.4rem 0.15rem 0.3rem;
 }
 
 .design-pack-header__side {
@@ -91,30 +91,33 @@ html[data-design-pack] .ambient-blob {
 }
 
 .design-pack-header__center {
-  @apply pointer-events-none flex min-w-0 flex-col items-center justify-center gap-1 px-1;
+  @apply pointer-events-none flex min-w-0 flex-col items-center justify-center gap-1.5 px-0.5;
   grid-column: 2;
   grid-row: 1;
 }
 
 .design-pack-header__title {
   font-family: 'Cinzel', 'Outfit', serif;
-  @apply w-full truncate text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-accent;
-  text-shadow: 0 1px 12px color-mix(in srgb, var(--accent) 28%, transparent);
+  @apply w-full truncate text-center text-[13px] font-bold uppercase tracking-[0.14em];
+  color: var(--accent-light, #fde68a);
+  text-shadow:
+    0 0 18px color-mix(in srgb, var(--accent) 45%, transparent),
+    0 1px 2px rgba(0, 0, 0, 0.55);
 }
 
 .design-pack-header__ornament {
-  @apply flex items-center gap-1;
+  @apply flex items-center gap-1.5;
 }
 
 .design-pack-header__ornament span {
-  @apply block h-1 w-1 rotate-45;
-  background: color-mix(in srgb, var(--accent) 50%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent) 65%, transparent);
+  @apply block h-1.5 w-1.5 rotate-45;
+  background: color-mix(in srgb, var(--accent-light, #fde68a) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 75%, transparent);
 }
 
 .design-pack-header__ornament span:nth-child(2) {
-  @apply h-1.5 w-1.5;
-  background: color-mix(in srgb, var(--accent) 72%, transparent);
+  @apply h-2 w-2;
+  background: color-mix(in srgb, var(--accent-light, #fde68a) 78%, transparent);
 }
 
 .design-pack-header__actions {
