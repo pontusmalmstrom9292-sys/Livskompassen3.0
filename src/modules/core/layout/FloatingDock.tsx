@@ -53,7 +53,7 @@ const DOCK_ZONES: DockZone[] = [
   {
     id: 'planering',
     label: getNavTruthById('vardagen_handling')?.label ?? 'Handling',
-    to: '/vardagen?tab=handling',
+    to: '/planering?tab=handling',
     drawerIcon: 'planering',
     match: (pathname, search) => {
       if (pathname.startsWith('/planering') || pathname.startsWith('/projekt')) return true;

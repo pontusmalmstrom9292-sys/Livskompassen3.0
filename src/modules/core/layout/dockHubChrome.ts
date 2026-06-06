@@ -37,7 +37,7 @@ function presetSides(presetId: LifeHubPresetId): { left: DockSideLink; right: Do
       };
     case 'vardag_arbete':
       return {
-        left: { to: '/vardagen?tab=handling', label: 'Planering', icon: 'calendar' },
+        left: { to: '/planering?tab=handling', label: 'Planering', icon: 'calendar' },
         right: { to: '/vardagen?tab=arbetsliv', label: 'Arbetsliv', icon: 'clock' },
       };
     case 'minimal':
@@ -81,7 +81,7 @@ export function getDockSideLinks(
   }
   if (pathname.startsWith('/familjen')) {
     return {
-      left: { to: '/vardagen?tab=handling', label: 'Planering', icon: 'calendar' },
+      left: { to: '/planering?tab=handling', label: 'Planering', icon: 'calendar' },
       right: { to: NAV_PATHS.HJARTAT, label: 'Dagbok', icon: 'book' },
     };
   }

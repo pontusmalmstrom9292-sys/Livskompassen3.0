@@ -226,7 +226,7 @@ export function ProjektDetailPage() {
             {block.content && <p className="mt-1 whitespace-pre-wrap text-text-muted">{block.content}</p>}
             {block.type === 'task' && block.planningTaskId && (
               <Link
-                to={`/planering?projectId=${projectId}`}
+                to={`/planering?tab=handling&picked=1&projectId=${projectId}`}
                 className="btn-pill--secondary mt-2 inline-flex text-xs"
               >
                 Öppna i kanban

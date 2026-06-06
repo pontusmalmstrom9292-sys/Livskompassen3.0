@@ -195,6 +195,23 @@ function main() {
     'VIT_HUB_VAULT_LINK',
   );
 
+  console.log('[smoke:content-waves] Våg 15 — Vit översikt P4...');
+  mustInclude('docs/content/CONTENT-WAVES.md', 'Vit översikt P4', '**done**');
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/VitRecentOverview.tsx',
+    'VitRecentOverview',
+    'Senaste',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultVitHubPanel.tsx',
+    'VitRecentOverview',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/components/MabraProjectHub.tsx',
+    'VAULT_VIT_TAB_LINK',
+    'VIT_HUB_VAULT_LINK',
+  );
+
   console.log('[smoke:content-waves] PASS');
 }
 

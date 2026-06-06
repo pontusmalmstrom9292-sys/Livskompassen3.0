@@ -34,6 +34,7 @@ import {
 import { VIT_VAULT_TAB } from '../utils/vaultTabs';
 import { VitEntryFilterBar } from './VitEntryFilterBar';
 import { VitEntryList } from './VitEntryList';
+import { VitRecentOverview } from './VitRecentOverview';
 
 export { VAULT_VIT_TAB_LINK, vitHubFilteredLink } from '@/features/dailyLife/wellbeing/mabra/lib/vitHubLinks';
 
@@ -173,11 +174,13 @@ export function VaultVitHubPanel({ userId }: Props) {
         <p className="mt-1 text-[10px] text-text-dim">{VIT_HUB_KRAVLOST}</p>
       </div>
 
-      <section className="grid gap-3 sm:grid-cols-3" aria-label="Översikt">
+      <section className="grid gap-3 sm:grid-cols-3" aria-label="Statistik">
         <StatTile label="Sparade svar" value={stats.totalEntries} />
         <StatTile label={VIT_HUB_STAT_DAYS_LABEL} value={stats.activeDays} hint={VIT_HUB_STAT_DAYS_HINT} />
         <StatTile label="MåBra-pass" value={stats.sessionCount} hint="Senaste 30" />
       </section>
+
+      <VitRecentOverview entries={entries} onOpenEntry={applyFilter} />
 
       <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="Minneslista">
         <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">Minneslista</h2>

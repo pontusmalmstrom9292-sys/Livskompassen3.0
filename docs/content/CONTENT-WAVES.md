@@ -19,7 +19,8 @@
 | 12 | Export + minnes-UI | — | `kind: memory`, print-PDF | — | **done** 2026-06-06 — `VitMemoryFlowPanel` + `exportVitHubReport` |
 | 13 | Minnes-filter Valv | — | `vitKind` / `vitProject` URL | — | **done** 2026-06-06 — filter chips + projektklick + export per filter |
 | 14 | Vit-hub copy polish | — | `vitHubCopy`, ingen streak/skuld | — | **done** 2026-06-06 — kanonisk copy + Valv-länkar + URL-sync filter |
+| 15 | Vit översikt P4 | — | `VitRecentOverview`, MåBra→Valv | — | **done** 2026-06-06 — senaste 3 + hub-länk till Mitt Vit |
 
-**Aktiv våg:** `15` (nästa: se [`MABRA-PROJEKT-VIT-HUB-SPEC.md`](../design/MABRA-PROJEKT-VIT-HUB-SPEC.md) backlog)
+**Aktiv våg:** `16` (nästa: se [`MABRA-PROJEKT-VIT-HUB-SPEC.md`](../design/MABRA-PROJEKT-VIT-HUB-SPEC.md) backlog)
 
 **Seed (Google-konto):** `SEED_FIREBASE_EMAIL` i `.env` + `gcloud auth application-default login` → `npm run seed:kunskap-facts`
