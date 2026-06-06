@@ -7,7 +7,7 @@ import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously } from 'firebase/auth';
-import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -92,6 +92,34 @@ async function main() {
   assert(transform?.distortion && transform.clinicalFact && transform.compassionateRewrite, 'saknar 3-korts transform');
   assert(transformResult.data?.redirectToSpeglar !== true, 'transformator ska inte redirecta neutral tanke');
   console.log('[smoke] transformator OK —', transform.compassionateRewrite.slice(0, 80));
+
+  console.log('[smoke] vit_hub ensure…');
+  await setDoc(
+    doc(db, 'vit_hub', uid),
+    {
+      userId: uid,
+      ownerId: uid,
+      activeProjectIds: ['self_esteem'],
+      updatedAt: serverTimestamp(),
+    },
+    { merge: true },
+  );
+  console.log('[smoke] vit_hub OK');
+
+  console.log('[smoke] vit_entries WORM create…');
+  const vitEntryRef = await addDoc(collection(db, 'vit_entries'), {
+    userId: uid,
+    ownerId: uid,
+    projectId: 'self_esteem',
+    kind: 'card',
+    bankId: 'C-se-01',
+    content_class: 'REFLECTION',
+    responseText: 'smoke vit entry',
+    cardDateKey: '2026-06-06',
+    createdAt: serverTimestamp(),
+  });
+  assert(vitEntryRef.id, 'vit_entries saknar id');
+  console.log('[smoke] vit_entries OK —', vitEntryRef.id);
 
   console.log('\n[smoke] PASS — Måbra backend.');
   process.exit(0);

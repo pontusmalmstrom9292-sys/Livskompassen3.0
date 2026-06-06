@@ -403,6 +403,7 @@ export function MabraPage() {
           project={activeProject}
           selectedPlan={selectedPlan}
           onSelectPlan={setSelectedPlan}
+          userId={userId}
           onBack={() => {
             setActiveProjectId(null);
             setSelectedPlan(null);

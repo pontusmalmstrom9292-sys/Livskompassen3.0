@@ -3,17 +3,18 @@ import { Archive } from 'lucide-react';
 import type { MabraProject } from '../constants/mabraProjects';
 import { PLAN_KIND_LABELS } from '../constants/mabraProjects';
 import type { MabraPlanKind } from '../constants/mabraProjects';
-import { KbtTransformatorPanel } from './KbtTransformatorPanel';
+import { VitCardFlowPanel } from './VitCardFlowPanel';
 
 type Props = {
   project: MabraProject;
   selectedPlan: MabraPlanKind | null;
   onSelectPlan: (kind: MabraPlanKind) => void;
   onBack: () => void;
+  userId?: string;
 };
 
-/** P0 — planväljare innan Firestore Vit hub finns. */
-export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack }: Props) {
+/** P1 — planväljare + frågekort-flöde mot Firestore Vit hub. */
+export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, userId }: Props) {
   return (
     <div className="space-y-4">
       <button type="button" onClick={onBack} className="btn-pill--ghost text-xs">
@@ -49,7 +50,9 @@ export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack }: P
         ))}
       </div>
 
-      {selectedPlan === 'cards' && <KbtTransformatorPanel />}
+      {selectedPlan === 'cards' && (
+        <VitCardFlowPanel userId={userId} projectId={project.id} />
+      )}
 
       {selectedPlan === 'chat' && (
         <div className="home-module-panel__question-box">

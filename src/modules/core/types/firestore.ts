@@ -112,6 +112,35 @@ export interface MabraProgress {
   updatedAt?: IsoDateTime;
 }
 
+export type VitEntryKind = 'card' | 'memory' | 'chat_turn';
+
+export type VitContentClass = 'REFLECTION' | 'PLAY';
+
+/** Vit hub per användare — `vit_hub/{userId}`. Separat från WORM-bevis-valv. */
+export interface VitHubDoc {
+  userId: string;
+  ownerId: string;
+  activeProjectIds?: string[];
+  updatedAt?: IsoDateTime;
+}
+
+/** Append-only Vit-zon entry — frågekort, minne eller chatt-turn. */
+export interface VitEntry {
+  userId: string;
+  ownerId: string;
+  projectId: string;
+  kind: VitEntryKind;
+  bankId: string;
+  content_class: VitContentClass;
+  responseText?: string;
+  cardDateKey?: string;
+  createdAt: IsoDateTime;
+}
+
+export interface VitEntryRow extends VitEntry {
+  id: string;
+}
+
 export interface JournalEntry {
   id: string;
   mood: string;
@@ -275,6 +304,8 @@ export const FIRESTORE_COLLECTIONS = {
   journal: 'journal',
   mabra_sessions: 'mabra_sessions',
   mabra_progress: 'mabra_progress',
+  vit_hub: 'vit_hub',
+  vit_entries: 'vit_entries',
   children_logs: 'children_logs',
   transactions: 'transactions',
   economy_profiles: 'economy_profiles',
