@@ -68,6 +68,7 @@ Måbra-sidan — proaktivt självarbete: KBT, ACT, vagus, självmedkänsla. Eget
 | Fas 2 landningsremsa (§2) | `MabraComplete` — max 3 chips, deterministiskt frågekort | Ja | **done** |
 | Stjärnbilder / streak | Notebook | Nej | **rejected** |
 | Vit hub P0–P5 | Spec + våg 9–16 | Ja | **done** 2026-06-06 |
+| Hub modulväljare | `MabraModulValjare` första besök | Ja | **done** 2026-06-06 |
 | Nordisk skymning UI | Notebook | Nej | **rejected** |
 
 **Källa:** [`docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)

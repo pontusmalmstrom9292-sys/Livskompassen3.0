@@ -236,10 +236,12 @@ export function MabraPage() {
   const handleModulChoice = useCallback((choice: MabraModulChoice) => {
     setShowHubPicker(false);
     if (choice.kind === 'daglig_mix') {
+      setTool({ kind: 'daglig_mix' });
+      setStep('tool');
       setHubOpenCategory('lekar');
-    } else {
-      setHubOpenCategory(choice.category);
+      return;
     }
+    setHubOpenCategory(choice.category);
     setHubFocusToken((n) => n + 1);
   }, []);
 

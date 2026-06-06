@@ -55,6 +55,18 @@ function main() {
     "exerciseType: 'daglig_mix'",
     'cardBankId',
     'mixDateKey',
+    'MabraModulValjare',
+    'hasSeenMabraModulValjare',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/components/MabraModulValjare.tsx',
+    'ExamplePreviewCard',
+    'ingen streak',
+    'markMabraModulValjareSeen',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/lib/mabraModulValjareStorage.ts',
+    'lk_mabra_modulvaljare_seen_v1',
   );
   mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/DagligMixPanel.tsx', 'pickDagligMix', 'mix.card.bankId');
   mustInclude('src/modules/features/dailyLife/wellbeing/mabra/lib/pickDagligMix.ts', 'fnv1a', 'DAGLIG_MIX_PLAYS');
