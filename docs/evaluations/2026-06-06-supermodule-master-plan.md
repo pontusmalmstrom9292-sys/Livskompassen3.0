@@ -12,7 +12,8 @@
 |-------------|----------------|--------|
 | `CaptureSuperModule` | hem-capture · hem-inkast · valv-compact · planering · kompass | **Fas 1–3 done** |
 | `SpeglarSuperModule` | dagbok · forensic | **Fas 2 done** |
-| `ValvSuperModule` | samla · analysera · kunskap · exportera · forensik | **Fas 1 done** (denna leverans) |
+| `ValvSuperModule` | samla · analysera · kunskap · exportera · forensik | **Fas 1 done** |
+| `DagbokSuperModule` | reflektion · forensic-readonly | **Fas 1 done** |
 
 **Regel:** Tunn router → canonical delegate. Konsumenter importerar aldrig zonspecifika paneler direkt (smoke-guard).
 
@@ -39,18 +40,20 @@
 
 ---
 
-### 2. DagbokSuperModule — **NÄSTA (hög PMIR-risk)**
+### 2. DagbokSuperModule — **DONE 2026-06-06**
 
-**Problem:** `JournalArchive` dupliceras mellan Dagbok reflektion och Valv forensic (`dagbok_arkiv`).
+**Problem:** `JournalArchive` duplicerades mellan Dagbok reflektion och Valv forensic (`dagbok_arkiv`).
 
-**Mål:**
-- `DagbokSuperModule` med `reflektion | forensic-readonly`
-- Hub + en canonical journal-lista
-- `#2d` bilaga → `journal_memories/` (manuell smoke kvar)
+| Fil | Roll |
+|-----|------|
+| `DagbokSuperModule.tsx` | `reflektion` · `forensic-readonly` |
+| `JournalArchiveReadonly.tsx` | Canonical readonly-lista |
+| `DagbokPage` (feature) | Arkiv-läge → `JournalArchiveReadonly` |
+| `VaultForensicPanel` | `dagbok_arkiv` → `DagbokSuperModule` |
 
-**Risk:** Rör WORM `journal` + plausible deniability — kräver PMIR före merge.
+**Kvar:** `#2d` bilaga → `journal_memories/` (manuell smoke).
 
-**Smoke:** `smoke:locked-ux` + `smoke:vault-worm`
+**Smoke:** `smoke:locked-ux` + `smoke:vault-worm` — PASS
 
 ---
 
@@ -122,4 +125,4 @@
 
 ## Nästa steg (1)
 
-**DagbokSuperModule** — läs `JournalDagbokPage` + `VaultForensicPanel` dagbok_arkiv; skriv PMIR före implementation.
+**PlaneringSuperModule** — aktivera `CaptureSuperModule variant="planering"` i PlaneringHub.

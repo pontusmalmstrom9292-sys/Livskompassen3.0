@@ -1,13 +1,13 @@
 # Senaste sammanfattning — systemstatus
 
 **Datum:** 2026-06-06 · **Gren:** `main` · Repo: Livskompassen3.0  
-**Senaste leverans:** ValvSuperModule Fas 1 · Supermodule master-plan
+**Senaste leverans:** DagbokSuperModule Fas 1 · ValvSuperModule Fas 1
 
 ---
 
 ## Nuläge i en mening
 
-**Superhub Block A+B klart** + **ValvSuper Fas 1:** zon-router (samla/analysera/kunskap/exportera/forensik). **Nästa:** DagbokSuperModule (PMIR) · manuell #2d bilaga.
+**Superhub Block A+B klart** + **tre supermoduler:** ValvSuper · SpeglarSuper · DagbokSuper. **Nästa:** PlaneringSuper · manuell #2d bilaga.
 
 ---
 
@@ -22,6 +22,7 @@
 | Drogfrihet | Flik i `/familjen` · legacy `/drogfrihet` → redirect |
 | SpeglarSuperModule | Fas 2 — dagbok + forensic variant-router |
 | ValvSuperModule | Fas 1 — 5-zons router; VaultPage = gate + chrome |
+| DagbokSuperModule | Fas 1 — reflektion + forensic-readonly; canonical JournalArchiveReadonly |
 | K2 domän-svar | speglar · valv · familj · meny · mabra |
 | Locked UX + silos | Oförändrat |
 
