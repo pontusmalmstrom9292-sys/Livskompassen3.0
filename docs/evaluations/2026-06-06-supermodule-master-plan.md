@@ -15,6 +15,7 @@
 | `ValvSuperModule` | samla · analysera · kunskap · exportera · forensik | **Fas 1 done** |
 | `DagbokSuperModule` | reflektion · forensic-readonly | **Fas 1 done** |
 | `PlaneringSuperModule` | inkorg · capture | **Fas 1 done** |
+| `BarnfokusSuperModule` | reflektion · livslogg | **Fas 1 done** |
 
 **Regel:** Tunn router → canonical delegate. Konsumenter importerar aldrig zonspecifika paneler direkt (smoke-guard).
 
@@ -70,13 +71,16 @@
 
 ---
 
-### 4. LivsloggSuper → BarnfokusSuper — **DEFER (lägst PMIR-risk)**
+### 4. BarnfokusSuperModule — **DONE 2026-06-06**
 
-**Mål:** Familjen `?tab=reflektion` + `?tab=livslogg` under en router; Barnfokus som sub-variant.
+| Fil | Roll |
+|-----|------|
+| `BarnfokusSuperModule.tsx` | `reflektion` · `livslogg` |
+| `FamiljenPage` | Delegerar båda flikar till supermodulen |
 
-**Oförändrat:** `BarnfokusFraganPanel`, `BARNFOKUS_QUESTIONS`, optimistic save.
+**Oförändrat:** `BarnfokusFraganPanel`, `BARNFOKUS_QUESTIONS`, optimistic save, `ParentReminderFooter`.
 
-**Kanon:** K2 familj-svar · `.context/locked-ux-features.md`
+**Smoke:** `smoke:locked-ux` + `smoke:children` — PASS
 
 ---
 
@@ -128,4 +132,4 @@
 
 ## Nästa steg (1)
 
-**BarnfokusSuper** (Familjen) — slå ihop `reflektion` + `livslogg` under en router; lägst PMIR-risk.
+**CaptureSuper v2** — en review-kö, G10-routing (kräver callable-deploy + PMIR).

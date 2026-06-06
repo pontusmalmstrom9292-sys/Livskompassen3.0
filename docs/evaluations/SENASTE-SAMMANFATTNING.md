@@ -1,13 +1,13 @@
 # Senaste sammanfattning — systemstatus
 
 **Datum:** 2026-06-06 · **Gren:** `main` · Repo: Livskompassen3.0  
-**Senaste leverans:** PlaneringSuperModule Fas 1 · DagbokSuper · ValvSuper
+**Senaste leverans:** BarnfokusSuperModule Fas 1 — alla 5 supermoduler klara
 
 ---
 
 ## Nuläge i en mening
 
-**Superhub Block A+B klart** + **fyra supermoduler** (Capture · Speglar · Valv · Dagbok · Planering). **Nästa:** BarnfokusSuper · manuell #2d bilaga.
+**Superhub Block A+B klart** + **alla 5 supermoduler** (Capture · Speglar · Valv · Dagbok · Planering · Barnfokus). **Nästa:** CaptureSuper v2 · manuell #2d bilaga.
 
 ---
 
@@ -24,6 +24,7 @@
 | ValvSuperModule | Fas 1 — 5-zons router; VaultPage = gate + chrome |
 | DagbokSuperModule | Fas 1 — reflektion + forensic-readonly; canonical JournalArchiveReadonly |
 | PlaneringSuperModule | Fas 1 — inkorg + capture (G10 planering_inkorg) |
+| BarnfokusSuperModule | Fas 1 — reflektion + livslogg router |
 | K2 domän-svar | speglar · valv · familj · meny · mabra |
 | Locked UX + silos | Oförändrat |
 

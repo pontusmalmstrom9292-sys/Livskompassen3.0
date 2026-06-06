@@ -9,8 +9,7 @@ import { CognitiveLoadStrip } from '../ui/CognitiveLoadStrip';
 import { vaultDrawerPath } from '../navigation/navTruth';
 import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
 import { FamiljenChildPicker } from '@/features/family/children/components/familjen/FamiljenChildPicker';
-import { FamiljenReflektionTab } from '@/features/family/children/components/familjen/FamiljenReflektionTab';
-import { FamiljenLivsloggTab } from '@/features/family/children/components/familjen/FamiljenLivsloggTab';
+import { BarnfokusSuperModule } from '@/features/family/children/components/familjen/BarnfokusSuperModule';
 import { FamiljenTillsammansTab } from '@/features/family/children/components/familjen/FamiljenTillsammansTab';
 import { ParentReminderFooter } from '@/features/family/children/components/ParentReminderFooter';
 import { SafeHarborPage } from '@/features/family/safeHarbor/components/SafeHarborPage';
@@ -116,9 +115,9 @@ export function FamiljenPage() {
         )}
 
         <main className="mt-2 animate-fade-in">
-          {activeTab === 'reflektion' && <FamiljenReflektionTab shell={shell} />}
-
-          {activeTab === 'livslogg' && <FamiljenLivsloggTab shell={shell} />}
+          {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
+            <BarnfokusSuperModule variant={activeTab} shell={shell} />
+          )}
 
           {activeTab === 'tillsammans' && <FamiljenTillsammansTab shell={shell} />}
 

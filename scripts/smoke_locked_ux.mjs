@@ -48,8 +48,13 @@ function main() {
   );
   mustInclude(
     'src/modules/core/pages/FamiljenPage.tsx',
-    'FamiljenReflektionTab',
+    'BarnfokusSuperModule',
     'vaultDrawerPath',
+  );
+  mustInclude(
+    'src/modules/features/family/children/components/familjen/BarnfokusSuperModule.tsx',
+    'FamiljenReflektionTab',
+    'FamiljenLivsloggTab',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/knowledge/components/VaultKunskapsbankPanel.tsx',

@@ -120,6 +120,24 @@ function main() {
     'BarnfokusFraganPanel',
   );
   mustInclude('src/modules/core/pages/FamiljenPage.tsx', 'ParentReminderFooter');
+  mustInclude(
+    'src/modules/features/family/children/components/familjen/BarnfokusSuperModule.tsx',
+    'BarnfokusSuperModule',
+    "'reflektion'",
+    "'livslogg'",
+    'FamiljenReflektionTab',
+    'FamiljenLivsloggTab',
+  );
+  mustInclude(
+    'src/modules/core/pages/FamiljenPage.tsx',
+    'BarnfokusSuperModule',
+    'variant={activeTab}',
+  );
+  assert(
+    !read('src/modules/core/pages/FamiljenPage.tsx').includes('FamiljenReflektionTab'),
+    'FamiljenPage.tsx',
+    'delegerar reflektion/livslogg till BarnfokusSuperModule — inte direkt tab-import',
+  );
   mustInclude('src/modules/features/family/children/components/BarnensPage.tsx', 'ChildProfileCards', 'ParentReminderFooter');
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx',
