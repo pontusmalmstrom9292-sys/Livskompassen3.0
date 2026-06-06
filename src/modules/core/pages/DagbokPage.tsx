@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { HubPageShell } from '../layout/HubPageShell';
 import { DagbokPage as JournalDagbokPage } from '@/features/lifeJournal/diary/diary/components/DagbokPage';
-import { SpeglingsSystem } from '@/features/lifeJournal/diary/mirror';
+import { SpeglarSuperModule } from '@/features/lifeJournal/diary/mirror';
 
 type HjartatLayerTab = 'reflektion' | 'speglar';
 
@@ -22,7 +22,7 @@ export function DagbokPage() {
         lead="Validering utan fix — känsla och fakta hålls isär."
       >
         <div className="mx-auto max-w-5xl space-y-4 pb-12">
-          <SpeglingsSystem embedded />
+          <SpeglarSuperModule variant="dagbok" />
         </div>
       </HubPageShell>
     );

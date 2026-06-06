@@ -1,7 +1,7 @@
 # K2 — Speglar (Cursor-granskat svar)
 
 **Datum:** 2026-06-06  
-**Status:** Fas 1 polish done
+**Status:** Fas 1 polish done · Fas 2 **done** 2026-06-06
 
 ## Gap-tabell
 
@@ -20,6 +20,9 @@
 - Tog bort duplicerad «Fortsätt djupare»-knapp i `SpeglingsSystem.tsx`
 - Förtydligande copy om ACT → VIVIR
 
-## DEFER
+## Fas 2 — leverans (done 2026-06-06)
 
-- SpeglarSuperModule variant-router (Fas 2+)
+- [x] `SpeglarSuperModule` — variant `dagbok` | `forensic`
+- [x] `DagbokPage` → `variant="dagbok"`
+- [x] `VaultForensicPanel` → `variant="forensic"`
+- [x] Smoke PASS (`smoke:design-modules`)

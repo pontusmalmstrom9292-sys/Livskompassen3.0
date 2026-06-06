@@ -3,7 +3,7 @@ import { useStore } from '@/core/store';
 import { getJournalEntries } from '@/core/firebase/firestore';
 import { getPeriodEconomySummary, type PeriodEconomySummary } from '@/core/firebase/timeEconomyFirestore';
 import { HamnForensicPanel } from '@/features/family/safeHarbor/components/BiffPublicPanel';
-import { SpeglingsForensicPanel } from '@/features/lifeJournal/diary/mirror/components/SpeglingsSystem';
+import { SpeglarSuperModule } from '@/features/lifeJournal/diary/mirror';
 import { JournalArchive } from '@/features/lifeJournal/diary/diary/components/JournalArchive';
 import type { JournalEntry } from '@/features/lifeJournal/diary/diary/types/journal';
 import { FamiljenMonsterTab } from '@/features/family/children/components/familjen/FamiljenMonsterTab';
@@ -73,7 +73,7 @@ export function VaultForensicPanel({ tab }: Props) {
       return (
         <>
           {ingress}
-          <SpeglingsForensicPanel userId={user?.uid} />
+          <SpeglarSuperModule variant="forensic" />
         </>
       );
     case 'dagbok_arkiv':

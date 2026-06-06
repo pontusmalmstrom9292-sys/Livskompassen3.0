@@ -58,6 +58,26 @@ function main() {
   mustInclude('src/modules/core/home/HomeHeroCompass.tsx', 'HomeHeroKanon');
   mustInclude('src/modules/features/lifeJournal/diary/mirror/components/SpeglingsSystem.tsx', 'VivirQuickEntry', 'SvartPaVittForm');
   mustInclude(
+    'src/modules/features/lifeJournal/diary/mirror/components/SpeglarSuperModule.tsx',
+    'SpeglarSuperModule',
+    "'dagbok'",
+    "'forensic'",
+    "variant === 'forensic'",
+  );
+  mustInclude('src/modules/core/pages/DagbokPage.tsx', 'SpeglarSuperModule', "variant=\"dagbok\"");
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultForensicPanel.tsx',
+    'SpeglarSuperModule',
+    "variant=\"forensic\"",
+  );
+  assert(
+    !read('src/modules/features/lifeJournal/evidence/vault/components/VaultForensicPanel.tsx').includes(
+      'SpeglingsForensicPanel',
+    ),
+    'VaultForensicPanel.tsx',
+    'delegerar till SpeglarSuperModule — inte direkt forensic-import',
+  );
+  mustInclude(
     'src/modules/features/lifeJournal/diary/mirror/components/SpeglingsSystem.tsx',
     '/familjen?tab=hamn',
     'prefilledMessage',
