@@ -9,6 +9,7 @@
 | **Manuell PASS** | #1 Auth | **PASS** | 2026-05-27 |
 | **Manuell PASS** | #2 Dagbok → `journal` | **PASS** | 2026-05-27 |
 | **Manuell PASS** | #2d Dagbok bilaga → `journal_memories` | **PASS** | 2026-06-06 (USER) |
+| **Manuell PASS** | #3 Valv Shield→PIN→spara post | **PASS** | 2026-06-07 (USER) |
 | **Manuell PASS** | #4 Barnporten QR + `children_logs` | **PASS** | 2026-06-06 (USER · Motorola) |
 | **Manuell PASS** | #18 Ekonomi → `transactions` | **PASS** | 2026-05-27 |
 | **Autorun PASS** | #2d `smoke:journal-2d` + rollout | **PASS** | 2026-06-06 |
@@ -30,8 +31,9 @@
 | **Autorun PASS** | `smoke:kunskap` | **PASS** | 2026-06-06 — ingest + query + citation |
 | **Deploy** | Hosting MaterialPack Familjen + chat-audit frontend sync | **PASS** | 2026-06-06 |
 | **Deploy** | Hosting ValvSuper Fas 2–3 + Vit våg 10–16 | **PASS** | 2026-06-06 (senaste `hosting`-deploy) |
-| **Deploy** | Super Multitask: `weaveJournalEntry` + hosting (planering UX) | **PASS** | 2026-06-06 · `2c643985` · https://gen-lang-client-0481875058.web.app |
-| **USER** | #3 Valv UI Shield→PIN→spara post | **USER** | backend/WORM/static **PASS** — kräver Pontus i app · [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md) §A |
+| **Deploy** | Super Multitask: Inkast CTA + Dossier XSS + hosting | **PASS** | 2026-06-07 · `88be0eeb` · https://gen-lang-client-0481875058.web.app |
+
+**Fas 5A #3/#4:** **PASS** (USER 2026-06-06/07) — se [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md).
 
 **Hub:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md) · **Supermoduler:** [`evaluations/2026-06-06-supermodule-master-plan.md`](./evaluations/2026-06-06-supermodule-master-plan.md)
 
@@ -56,7 +58,7 @@
 
 **Kodfix (trivial):** `scripts/smoke_plausible_deniability.mjs` — `approveWeaverMetadata` ligger i `callables/agents.ts` efter refactor (ej PMIR-blocker).
 
-**USER kvar (#3):** Shield 3 s → PIN → Dagbok bevis → spara enkel post → (valfritt) Firestore Console `reality_vault`. Agent kan **inte** verifiera biometri/PIN i browser.
+**USER klar (#3):** Shield → PIN → spara post — **PASS** 2026-06-07 (Pontus).
 
 ---
 

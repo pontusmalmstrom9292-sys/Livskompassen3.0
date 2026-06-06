@@ -1,13 +1,13 @@
 # Senaste sammanfattning — systemstatus
 
-**Datum:** 2026-06-06 · **Gren:** `main` · **HEAD:** `88be0eeb`  
-**Senaste leverans:** Barnporten Våg A/B **deployad** (CB2–CB4 + QR callables/rules) · Android Run **PASS** (Motorola) · `smoke:locked-ux` + `smoke:orkester` **PASS** @ sessionstart
+**Datum:** 2026-06-07 · **Gren:** `main` · **HEAD:** `88be0eeb`  
+**Senaste:** Fas 5A **#3 + #4 USER PASS** · Inkast CTA + Dossier XSS · hosting live
 
 ---
 
 ## Nuläge i en mening
 
-**Barnporten Våg A + B deployad** — CB2–CB4 widget-varianter · `createBarnportenPairing` + `claimBarnportenPairing` live · `barnporten_devices` + rules · Android Run **PASS** · Pontus testar **QR på Motorola** vid återkomst · **#3 Valv USER UI** (Shield→PIN→spara) fortfarande öppen.
+**Fas 5A #3 Valv + #4 Barnporten USER PASS** · Barnporten Våg A/B deployad · MaterialPack Familjen · Inkast post-save CTA live.
 
 ---
 
@@ -40,8 +40,8 @@
 
 | Punkt | Var |
 |-------|-----|
-| **Fas 5A #3 Valv** | Agent **PASS** (build + 8 smokes) · **USER UI kvar** — Shield 3 s → PIN → spara post · [`2026-06-01-USER-nasta-steg.md`](./2026-06-01-USER-nasta-steg.md) §A |
-| **Fas 5A #4 Barnporten** | Kod + deploy **done** · **USER QR-test Motorola** när Pontus tillbaka · loggrad tidigare PASS |
+| **Fas 5A #3 Valv** | **PASS** 2026-06-07 (USER) · [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md) |
+| **Fas 5A #4 Barnporten** | **PASS** 2026-06-06 (USER · Motorola) |
 | **#2d bilaga** | **done** — `smoke:journal-2d` + rollout checklist PASS |
 | **Kunskap våg 8** | **done** — 53 FACT seedade |
 | **Barnporten Våg C (push)** | Defer — FCM/kostnad · PMIR krävs |

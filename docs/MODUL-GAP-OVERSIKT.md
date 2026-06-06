@@ -72,8 +72,8 @@ npm run orkester:night
 
 ## Kräver dig
 
-1. **Fas 5A #3 Valv** — Shield 3 s → PIN → spara post · agent/autorun **PASS** · **USER UI kvar** · [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md) §A
-2. **Fas 5A #4 Barnporten** — kod + deploy **done** · **USER QR-test Motorola** när Pontus tillbaka · [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md) §B
+1. **Fas 5A #3 Valv** — **PASS** 2026-06-07 (USER) · [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md)
+2. **Fas 5A #4 Barnporten** — **PASS** 2026-06-06 (USER · Motorola) · [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md)
 3. **Valfritt USER** — superhub snabbtest · [`2026-05-29-smoke-manuell.md`](./evaluations/2026-05-29-smoke-manuell.md)
 
 ---
