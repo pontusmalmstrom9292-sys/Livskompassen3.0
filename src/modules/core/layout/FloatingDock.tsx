@@ -6,8 +6,7 @@ import { openValvViaFyren } from '../auth/valvFyrenGate';
 import { getNavTruthById, NAV_PATHS } from '../navigation/navTruth';
 import { useLongPress } from '../hooks/useLongPress';
 import { useStore } from '../store';
-import { ChromeV5Icon } from '../ui/chromeIcons/ChromeV5Icon';
-import type { ChromeV5Category } from '../ui/chromeIcons/ChromeV5Icon';
+import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
 import { FyrenProgressRing } from '../ui/FyrenProgressRing';
 import { LivskompassMark } from '../ui/LivskompassMark';
 import { DockNavButton } from './DockNavButton';
@@ -17,7 +16,7 @@ type DockZone = {
   id: string;
   label: string;
   to: string;
-  category: ChromeV5Category;
+  drawerIcon: DrawerL2HubId;
   match: (pathname: string, search: string) => boolean;
 };
 
@@ -26,7 +25,7 @@ const DOCK_ZONES: DockZone[] = [
     id: 'vardag',
     label: getNavTruthById('vardagen')?.label ?? 'Liv och göra',
     to: NAV_PATHS.VARDAGEN,
-    category: 'planering',
+    drawerIcon: 'vardagen',
     match: (pathname, search) => {
       if (pathname !== '/vardagen' && !pathname.startsWith('/vardagen/')) return false;
       return new URLSearchParams(search.replace(/^\?/, '')).get('tab') !== 'handling';
@@ -36,14 +35,14 @@ const DOCK_ZONES: DockZone[] = [
     id: 'familj',
     label: getNavTruthById('familjen')?.label ?? 'Familjen',
     to: NAV_PATHS.FAMILJEN,
-    category: 'familjen',
+    drawerIcon: 'familjen',
     match: (pathname) => pathname === '/familjen' || pathname.startsWith('/familjen/'),
   },
   {
     id: 'dagbok',
     label: getNavTruthById('dagbok')?.label ?? 'Dagbok',
     to: NAV_PATHS.HJARTAT,
-    category: 'dagbok',
+    drawerIcon: 'dagbok',
     match: (pathname) =>
       pathname === NAV_PATHS.HJARTAT ||
       pathname.startsWith(`${NAV_PATHS.HJARTAT}/`) ||
@@ -54,7 +53,7 @@ const DOCK_ZONES: DockZone[] = [
     id: 'planering',
     label: getNavTruthById('vardagen_handling')?.label ?? 'Handling',
     to: '/vardagen?tab=handling',
-    category: 'planering',
+    drawerIcon: 'planering',
     match: (pathname, search) => {
       if (pathname.startsWith('/planering') || pathname.startsWith('/projekt')) return true;
       if (!pathname.startsWith('/vardagen')) return false;
@@ -102,7 +101,10 @@ export function FloatingDock() {
               <DockNavButton
                 key={zone.id}
                 label={zone.label}
-                icon={<ChromeV5Icon category={zone.category} className="dock-nav-btn__chrome-v5" />}
+                tileVariant="calm"
+                icon={
+                  <DrawerL2Icon hubId={zone.drawerIcon} className="dock-nav-btn__drawer-l2" />
+                }
                 active={zone.match(pathname, search)}
                 variant="slot"
                 className="floating-dock__side-btn"
@@ -139,7 +141,10 @@ export function FloatingDock() {
               <DockNavButton
                 key={zone.id}
                 label={zone.label}
-                icon={<ChromeV5Icon category={zone.category} className="dock-nav-btn__chrome-v5" />}
+                tileVariant="calm"
+                icon={
+                  <DrawerL2Icon hubId={zone.drawerIcon} className="dock-nav-btn__drawer-l2" />
+                }
                 active={zone.match(pathname, search)}
                 variant="slot"
                 className="floating-dock__side-btn"

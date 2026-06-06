@@ -6,6 +6,8 @@ type Props = {
   icon: ReactNode;
   active?: boolean;
   variant?: 'slot' | 'side';
+  /** chrome = L2 hub-platta (DockHubBand). calm = drawer-l2 som sidomenyn. */
+  tileVariant?: 'chrome' | 'calm';
   className?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
@@ -15,6 +17,7 @@ export function DockNavButton({
   icon,
   active = false,
   variant = 'slot',
+  tileVariant = 'chrome',
   className,
   ...rest
 }: Props) {
@@ -33,15 +36,22 @@ export function DockNavButton({
     >
       <span
         className={clsx(
-          'hub-chrome-tile hub-chrome-tile--dock dock-nav-btn__icon-shell',
-          variant === 'side' && 'hub-chrome-tile--dock-side dock-nav-btn__icon-shell--side',
-          active && 'hub-chrome-tile--active',
+          'dock-nav-btn__icon-shell',
+          tileVariant === 'calm'
+            ? 'dock-nav-btn__icon-shell--calm'
+            : clsx(
+                'hub-chrome-tile hub-chrome-tile--dock',
+                variant === 'side' && 'hub-chrome-tile--dock-side dock-nav-btn__icon-shell--side',
+                active && 'hub-chrome-tile--active',
+              ),
         )}
         aria-hidden
       >
         {icon}
       </span>
-      <span className="dock-nav-btn__label">{label}</span>
+      <span className={clsx('dock-nav-btn__label', active && 'dock-nav-btn__label--active')}>
+        {label}
+      </span>
     </button>
   );
 }
