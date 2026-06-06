@@ -28,6 +28,11 @@ import {
   shouldRouteKompisToBarnen,
 } from './lib/barnenModuleRouteGuard';
 import { addUserEntityProfile, loadEntityProfileBundle } from './lib/entityProfileStore';
+import {
+  assertVaultSession,
+  issueVaultSession as createVaultSession,
+  revokeVaultSession,
+} from './lib/vaultSessionGate';
 import type { EntityRole } from './lib/entityProfileTypes';
 import { classifyInboxDocument } from './lib/inboxClassifier';
 import {
@@ -130,8 +135,20 @@ export const invalidateSession = functions.region('europe-west1').https.onCall(a
   }
 
   await supervisor.invalidateUserSession(context.auth.uid);
+  await revokeVaultSession(context.auth.uid);
   console.log(`[invalidateSession] Session rensad för uid=${context.auth.uid}`);
   return { success: true };
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funktion 3b: issueVaultSession
+// Server-side Valv-session efter client WebAuthn/Fyren — krävs för Valv-callables.
+// ─────────────────────────────────────────────────────────────────────────────
+export const issueVaultSession = onCall({ region: 'europe-west1' }, async (request) => {
+  if (!request.auth) {
+    throw new HttpsError('unauthenticated', 'Autentisering krävs för Valv-session.');
+  }
+  return createVaultSession(request.auth.uid);
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -295,6 +312,7 @@ export const getEntityProfileRegistry = onCall({ region: 'europe-west1' }, async
   if (!request.auth) {
     throw new HttpsError('unauthenticated', 'Autentisering krävs för aktörskartan.');
   }
+  await assertVaultSession(request.auth.uid, request.data);
 
   const bundle = await loadEntityProfileBundle(request.auth.uid);
   return {
@@ -325,6 +343,7 @@ export const addEntityProfile = onCall({ region: 'europe-west1' }, async (reques
   if (!request.auth) {
     throw new HttpsError('unauthenticated', 'Autentisering krävs för att lägga till person.');
   }
+  await assertVaultSession(request.auth.uid, request.data);
 
   const displayName =
     typeof request.data?.displayName === 'string' ? request.data.displayName : '';
@@ -697,6 +716,7 @@ export const valvChatQuery = onCall({ region: 'europe-west1', memory: '512MiB' }
   if (!request.auth) {
     throw new HttpsError('unauthenticated', 'Autentisering krävs för Valv-Chat.');
   }
+  await assertVaultSession(request.auth.uid, request.data);
 
   const question = request.data?.question;
   if (!question || typeof question !== 'string') {
@@ -978,6 +998,7 @@ export const generateDossier = functions.region('europe-west1').https.onCall(asy
   if (!context.auth) {
     throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
   }
+  await assertVaultSession(context.auth.uid, data);
 
   try {
     return await generateDossierInternal(context.auth.uid, data);

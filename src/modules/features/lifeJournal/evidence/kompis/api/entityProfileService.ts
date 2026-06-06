@@ -1,5 +1,6 @@
 import { httpsCallable, type FunctionsError } from 'firebase/functions';
 import { functions } from '@/core/firebase/init';
+import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
 
 export type EntityRole = 'MOTPART' | 'BARN' | 'ANVANDARE' | 'NATVERK' | 'MYNDIGHET' | 'SKOLA';
 
@@ -45,7 +46,7 @@ export type AddEntityProfileResult = {
 
 export async function fetchEntityProfileRegistry(): Promise<EntityProfileRegistryResult> {
   try {
-    const result = await getEntityProfileRegistryCallable({});
+    const result = await getEntityProfileRegistryCallable(withVaultSessionPayload({}));
     return result.data as EntityProfileRegistryResult;
   } catch (error) {
     const fnError = error as FunctionsError;
@@ -60,7 +61,7 @@ export async function createEntityProfile(
   input: AddEntityProfileInput
 ): Promise<AddEntityProfileResult> {
   try {
-    const result = await addEntityProfileCallable(input);
+    const result = await addEntityProfileCallable(withVaultSessionPayload(input));
     return result.data as AddEntityProfileResult;
   } catch (error) {
     const fnError = error as FunctionsError;

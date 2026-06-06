@@ -3,6 +3,7 @@ import { FYREN_BEVIS_HINT } from '../navigation/appNavigation';
 import { NAV_PATHS } from '../navigation/navTruth';
 import { setVaultGate } from './sessionService';
 import { authenticateVaultGate } from './webauthn';
+import { issueVaultServerSession } from './vaultServerSession';
 import { useStore } from '../store';
 
 type OpenValvViaFyrenOptions = {
@@ -23,6 +24,7 @@ export async function openValvViaFyren(
   }
   setVaultGate();
   useStore.getState().setVaultUnlocked(true);
+  await issueVaultServerSession();
   navigate({
     pathname: options?.pathname ?? NAV_PATHS.VALVET,
     search: options?.search ?? '',

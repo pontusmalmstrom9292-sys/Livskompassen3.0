@@ -72,9 +72,15 @@ async function main() {
   });
   console.log('[smoke] vault docId:', docRef.id);
 
+  const issueVault = httpsCallable(functions, 'issueVaultSession');
+  console.log('[smoke] issueVaultSession…');
+  const session = await issueVault({});
+  const vaultSessionToken = session.data?.vaultSessionToken;
+  assert(typeof vaultSessionToken === 'string' && vaultSessionToken.length >= 32, 'saknar vaultSessionToken');
+
   const valvChat = httpsCallable(functions, 'valvChatQuery');
   console.log('[smoke] valvChatQuery…');
-  const result = await valvChat({ question: 'När var lämning enligt smoke-testet?' });
+  const result = await valvChat({ question: 'När var lämning enligt smoke-testet?', vaultSessionToken });
   const data = result.data;
   assert(typeof data?.answer === 'string' && data.answer.length > 0, 'saknar answer');
   assert(Array.isArray(data?.citations), 'saknar citations');

@@ -54,9 +54,15 @@ async function main() {
   const cred = await signInAnonymously(auth);
   console.log('[smoke] uid:', cred.user.uid);
 
+  const issueVault = httpsCallable(functions, 'issueVaultSession');
+  console.log('[smoke] issueVaultSession…');
+  const session = await issueVault({});
+  const vaultSessionToken = session.data?.vaultSessionToken;
+  assert(typeof vaultSessionToken === 'string' && vaultSessionToken.length >= 32, 'saknar vaultSessionToken');
+
   const registry = httpsCallable(functions, 'getEntityProfileRegistry');
   console.log('[smoke] getEntityProfileRegistry…');
-  const result = await registry({});
+  const result = await registry({ vaultSessionToken });
   const data = result.data;
 
   assert(Array.isArray(data?.profiles), 'saknar profiles');

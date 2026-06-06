@@ -1,5 +1,6 @@
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '../firebase/init';
+import { clearVaultServerSession } from './vaultServerSession';
 import type { VaultZoneId } from '../security/vaultZones';
 import { vaultZoneStorageKey, ALL_VAULT_ZONE_IDS } from '../security/vaultZones';
 
@@ -48,6 +49,7 @@ export function clearAllVaultZones(): void {
   for (const zone of ALL_VAULT_ZONE_IDS) {
     clearVaultZone(zone);
   }
+  clearVaultServerSession();
 }
 
 export type { VaultZoneId };
