@@ -65,10 +65,24 @@ function main() {
     "variant === 'forensic'",
   );
   mustInclude('src/modules/core/pages/DagbokPage.tsx', 'SpeglarSuperModule', "variant=\"dagbok\"");
+  mustInclude('src/modules/core/pages/DagbokPage.tsx', 'DagbokSuperModule', "variant=\"reflektion\"");
+  mustInclude(
+    'src/modules/features/lifeJournal/diary/diary/components/DagbokSuperModule.tsx',
+    'DagbokSuperModule',
+    "'reflektion'",
+    "'forensic-readonly'",
+    'JournalArchiveReadonly',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/diary/diary/components/DagbokPage.tsx',
+    'JournalArchiveReadonly',
+  );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultForensicPanel.tsx',
     'SpeglarSuperModule',
     "variant=\"forensic\"",
+    'DagbokSuperModule',
+    "variant=\"forensic-readonly\"",
   );
   assert(
     !read('src/modules/features/lifeJournal/evidence/vault/components/VaultForensicPanel.tsx').includes(
@@ -76,6 +90,13 @@ function main() {
     ),
     'VaultForensicPanel.tsx',
     'delegerar till SpeglarSuperModule — inte direkt forensic-import',
+  );
+  assert(
+    !read('src/modules/features/lifeJournal/evidence/vault/components/VaultForensicPanel.tsx').includes(
+      'JournalArchive',
+    ),
+    'VaultForensicPanel.tsx',
+    'delegerar journal-arkiv till DagbokSuperModule — inte direkt JournalArchive-import',
   );
   mustInclude(
     'src/modules/features/lifeJournal/diary/mirror/components/SpeglingsSystem.tsx',

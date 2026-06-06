@@ -1,11 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useStore } from '@/core/store';
-import { getJournalEntries } from '@/core/firebase/firestore';
 import { getPeriodEconomySummary, type PeriodEconomySummary } from '@/core/firebase/timeEconomyFirestore';
 import { HamnForensicPanel } from '@/features/family/safeHarbor/components/BiffPublicPanel';
+import { DagbokSuperModule } from '@/features/lifeJournal/diary/diary/components/DagbokSuperModule';
 import { SpeglarSuperModule } from '@/features/lifeJournal/diary/mirror';
-import { JournalArchive } from '@/features/lifeJournal/diary/diary/components/JournalArchive';
-import type { JournalEntry } from '@/features/lifeJournal/diary/diary/types/journal';
 import { FamiljenMonsterTab } from '@/features/family/children/components/familjen/FamiljenMonsterTab';
 import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
 import { VaultEconomyPanel } from '@/modules/valv_ekonomi';
@@ -46,16 +44,7 @@ type Props = {
 
 /** Forensic paneler på Valv-baksidan — PIN redan upplåst i VaultPage. */
 export function VaultForensicPanel({ tab }: Props) {
-  const user = useStore((s) => s.user);
   const shell = useFamiljenShell();
-  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
-
-  useEffect(() => {
-    if (tab !== 'dagbok_arkiv' || !user) return;
-    getJournalEntries(user.uid)
-      .then((rows) => setJournalEntries(rows as JournalEntry[]))
-      .catch(() => setJournalEntries([]));
-  }, [tab, user]);
 
   const ingress = (
     <p className="mb-3 text-sm text-text-muted">{FORENSIC_TAB_INGRESS[tab]}</p>
@@ -80,7 +69,7 @@ export function VaultForensicPanel({ tab }: Props) {
       return (
         <>
           {ingress}
-          <JournalArchive entries={journalEntries} />
+          <DagbokSuperModule variant="forensic-readonly" />
         </>
       );
     case 'familjen_monster':

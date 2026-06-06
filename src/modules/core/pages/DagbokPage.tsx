@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { HubPageShell } from '../layout/HubPageShell';
-import { DagbokPage as JournalDagbokPage } from '@/features/lifeJournal/diary/diary/components/DagbokPage';
+import { DagbokSuperModule } from '@/features/lifeJournal/diary/diary/components/DagbokSuperModule';
 import { SpeglarSuperModule } from '@/features/lifeJournal/diary/mirror';
 
 type HjartatLayerTab = 'reflektion' | 'speglar';
@@ -35,7 +35,7 @@ export function DagbokPage() {
       lead="Reflektion och daglig logg — utanför Valvet."
     >
       <div className="mx-auto max-w-5xl space-y-4 pb-12">
-        <JournalDagbokPage embedded />
+        <DagbokSuperModule variant="reflektion" />
       </div>
     </HubPageShell>
   );

@@ -16,7 +16,7 @@ import type { DagbokMode } from '../types/journal';
 import { ConfirmStep } from './ConfirmStep';
 import { DagbokModeNav } from './DagbokModeNav';
 import { DagbokRememberCard } from './DagbokRememberCard';
-import { JournalArchive } from './JournalArchive';
+import { JournalArchiveReadonly } from './JournalArchiveReadonly';
 import { JournalQuickMode } from './JournalQuickMode';
 import { MoodStep } from './MoodStep';
 import { ReflectionStep } from './ReflectionStep';
@@ -226,13 +226,14 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
         )}
 
         {mode === 'arkiv' && (
-          <div className="mt-4">
-            <p className="reflektion-intro mb-4">
-              Dina sparade tankar — läs bara, inget att ändra.
-            </p>
-            <JournalArchive entries={entries} bare />
+          <>
+            <JournalArchiveReadonly
+              entries={entries}
+              bare
+              intro="Dina sparade tankar — läs bara, inget att ändra."
+            />
             {error && <p className="mt-2 text-sm text-danger">{error}</p>}
-          </div>
+          </>
         )}
       </BentoCard>
     </div>
