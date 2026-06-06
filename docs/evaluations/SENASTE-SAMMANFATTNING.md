@@ -1,13 +1,13 @@
 # Senaste sammanfattning — systemstatus
 
 **Datum:** 2026-06-06 · **Gren:** `main` · Repo: Livskompassen3.0  
-**Senaste leverans:** Barnporten Våg A/B deployad · **USER #4 + QR PASS** (Motorola) · Android Run PASS
+**Senaste leverans:** Fas 5A #3 Valv agent re-run **PASS** (8 smokes) · USER UI kvar
 
 ---
 
 ## Nuläge i en mening
 
-**Barnporten CB2–CB4 + QR-koppling verifierad på Motorola** · Fas 5A #4 **PASS** · #3 Valv kvar (valfritt USER).
+**Barnporten CB2–CB4 + QR PASS (Motorola)** · Fas 5A #4 **PASS** · #3 Valv backend/static **PASS** — **USER UI (Shield→PIN→spara) kvar**.
 
 ---
 
@@ -27,7 +27,7 @@
 | ValvSuperModule | Fas 1 + **Fas 2** — sub-TabBar i zoner |
 | DagbokSuperModule | Fas 1 — reflektion + forensic-readonly |
 | K2 domän-svar | speglar · valv · familj · meny · mabra |
-| Locked UX + silos | Oförändrat · `smoke:locked-ux` **PASS** |
+| Locked UX + silos | Oförändrat · `smoke:locked-ux` **PASS** · Fas 5A #3 Valv batch **PASS** 2026-06-06 |
 | **Android** | `npm run build:web && npx cap sync android` · Run PASS Motorola 2026-06-06 |
 
 ---
@@ -36,7 +36,7 @@
 
 | Punkt | Var |
 |-------|-----|
-| **Fas 5A #3 Valv** | Manuell smoke — PIN → spara post → ev. Firestore-kontroll · [`2026-06-01-USER-nasta-steg.md`](./2026-06-01-USER-nasta-steg.md) §A |
+| **Fas 5A #3 Valv** | Agent **PASS** (build + 8 smokes) · **USER UI kvar** — Shield 3 s → PIN → spara post · [`2026-06-01-USER-nasta-steg.md`](./2026-06-01-USER-nasta-steg.md) §A |
 | **Fas 5A #4 Barnporten** | **PASS** 2026-06-06 — QR + loggrad · Motorola |
 | **#2d bilaga** | **done** — `smoke:journal-2d` + rollout checklist PASS |
 | **Kunskap våg 8** | **done** — 53 FACT seedade |

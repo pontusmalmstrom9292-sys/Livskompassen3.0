@@ -57,8 +57,9 @@ function main() {
   mustInclude('src/modules/core/firebase/firestore.ts', "visibility !== 'private_child'", 'private_child');
 
   console.log('[smoke:plausible-deniability] Valv-session gate på bevis-routing…');
-  mustInclude('functions/src/index.ts', 'assertVaultSession', 'approveWeaverMetadata');
-  mustInclude('functions/src/index.ts', "routing === 'bevis'", 'assertVaultSession');
+  mustInclude('functions/src/callables/valv.ts', 'assertVaultSession');
+  mustInclude('functions/src/callables/agents.ts', 'assertVaultSession', 'approveWeaverMetadata');
+  mustInclude('functions/src/callables/inbox.ts', "routing === 'bevis'", 'assertVaultSession');
 
   console.log('[smoke:plausible-deniability] PASS');
 }

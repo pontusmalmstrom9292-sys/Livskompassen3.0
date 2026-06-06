@@ -14,16 +14,44 @@
 | **Autorun PASS** | #2d `smoke:journal-2d` + rollout | **PASS** | 2026-06-06 |
 | **Autorun PASS** | #3 WORM `reality_vault` | **PASS** | `smoke:vault-worm` · rollout 2026-06-06 |
 | **Autorun PASS** | #4 Barnen `children_logs` | **PASS** | `smoke:children` · rollout 2026-06-06 |
-| **Autorun PASS** | `smoke:orkester` + `orkester:night` | **PASS** | 2026-06-06 |
+| **Autorun PASS** | `smoke:orkester` + `orkester:night` | **PASS** | 2026-06-06 · Fas 5A #3 re-run |
+| **Autorun PASS** | chat-audit P0: `smoke:valv-security` + `smoke:cache` + `audit:vertex-agents` | **PASS** | 2026-06-06 |
+| **Refactor** | `functions/src/index.ts` → `callables/*` (samma 34 exports) | **PASS** | build + smoke:orkester 2026-06-06 |
+| **Eval** | chat-audit billing + collection | **doc** | [`2026-06-06-billing-audit.md`](./evaluations/2026-06-06-billing-audit.md) · [`2026-06-06-collection-audit.md`](./evaluations/2026-06-06-collection-audit.md) |
 | **Autorun PASS** | rollout:night (Block A+B) | **PASS** | 2026-06-06 |
-| **Autorun PASS** | locked-ux, design-modules, inkast, inbox, speglar | **PASS** | 2026-06-06 |
+| **Autorun PASS** | locked-ux, design-modules, inkast, inbox, speglar | **PASS** | 2026-06-06 · locked-ux Fas 5A #3 re-run |
+| **Autorun PASS** | Fas 5A #3 Valv batch (build + 8 smokes) | **PASS** | 2026-06-06 — se batch nedan |
+| **Static PASS** | #20 Valv Mönster/Orkester/Kunskapsbank/drawer | **PASS** | `smoke:locked-ux` 2026-06-06 |
 | **Autorun PASS** | Kunskap våg 8 ingest | **PASS** | 53 FACT → `fPIXyAxSnKPubEGBSAwUmxDRfiD3` (Admin SDK + `SEED_FIREBASE_EMAIL`) |
 | **Autorun PASS** | `smoke:kunskap` | **PASS** | 2026-06-06 — ingest + query + citation |
 | **Deploy** | Hosting hemkompass + orkester-fix | **PASS** | 2026-06-06 |
 | **Deploy** | Hosting ValvSuper Fas 2–3 + Vit våg 10–16 | **PASS** | 2026-06-06 (senaste `hosting`-deploy) |
-| **USER (valfritt)** | #3 Valv dubbelkoll i app | **USER** | autorun täcker backend — [`2026-06-06-manuell-smoke-checklist.md`](./evaluations/2026-06-06-manuell-smoke-checklist.md) |
+| **USER** | #3 Valv UI Shield→PIN→spara post | **USER** | backend/WORM/static **PASS** — kräver Pontus i app · [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md) §A |
 
 **Hub:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md) · **Supermoduler:** [`evaluations/2026-06-06-supermodule-master-plan.md`](./evaluations/2026-06-06-supermodule-master-plan.md)
+
+---
+
+## Fas 5A #3 Valv batch (2026-06-06 — agent)
+
+**Trigger:** 1h autonom pass · Fas 5A #3 re-run  
+**Branch:** `main` (lokal, ej push)
+
+| Kommando | Resultat | Valv-fokus |
+|----------|----------|------------|
+| `functions build` | **PASS** | — |
+| `npm run build` | **PASS** | — |
+| `smoke:locked-ux` | **PASS** | Mönster, Orkester, Kunskapsbank, Aktörskarta, drawer Vardag+Valv, Fyren-gate |
+| `smoke:vault-worm` | **PASS** | WORM create/read; update/delete nekad |
+| `smoke:valv-security` | **PASS** | Session lifecycle, Zero Footprint |
+| `smoke:valv-gate` | **PASS** | `valvChatQuery` + `getEntityProfileRegistry` utan token nekad |
+| `smoke:plausible-deniability` | **PASS** | Fyren, HIDE_BEVIS_TAB, bevis-routing gate |
+| `smoke:valv` | **PASS** | `valvChatQuery` + `reality_vault` seed + citation |
+| `smoke:orkester` | **PASS** | Valv-zoner, Orkester UI registry |
+
+**Kodfix (trivial):** `scripts/smoke_plausible_deniability.mjs` — `approveWeaverMetadata` ligger i `callables/agents.ts` efter refactor (ej PMIR-blocker).
+
+**USER kvar (#3):** Shield 3 s → PIN → Dagbok bevis → spara enkel post → (valfritt) Firestore Console `reality_vault`. Agent kan **inte** verifiera biometri/PIN i browser.
 
 ---
 
