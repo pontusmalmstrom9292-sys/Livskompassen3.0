@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Clock, Loader2 } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
+import { StampClockControls } from '@/features/admin/stampla/components/StampClockControls';
+import { useStampClock } from '@/features/admin/stampla/hooks/useStampClock';
 import {
   getEconomyProfileExtended,
   getOpenTimeEntry,
@@ -11,9 +13,11 @@ import {
   getWeekTimeStats,
 } from '@/core/firebase/timeEconomyFirestore';
 import { WorkWeekSummary } from './WorkWeekSummary';
+import { EKONOMI_TID_LEAD } from '../ekonomiCopy';
 
 export function TimeAndPayPanel() {
   const user = useStore((s) => s.user);
+  const clock = useStampClock(user?.uid);
   const [status, setStatus] = useState({
     instamplad: false,
     inTid: '',
@@ -78,19 +82,32 @@ export function TimeAndPayPanel() {
     return Math.round(workHoursWeek * hourlyRate);
   }, [hourlyRate, workHoursWeek]);
 
-  const statusLine = status.instamplad
-    ? `Pågående pass sedan ${status.inTid} (${status.kat})`
-    : `${weekTotal} h denna vecka`;
+  const statusLine = clock.isClockedIn
+    ? `Pågående pass sedan ${clock.status.inTid} (${clock.status.kat})`
+    : status.instamplad
+      ? `Pågående pass sedan ${status.inTid} (${status.kat})`
+      : `${weekTotal} h denna vecka`;
+
+  const handleStamp = async (type: 'IN' | 'UT') => {
+    const ok = await clock.stamp(type);
+    if (ok) await reload({ silent: true });
+  };
 
   return (
     <BentoCard
       title="Tid och lön"
       icon={<Clock className="h-4 w-4" />}
-      description="Flex, veckosumma och uppskattad lön. Stämpla in på fliken Stämpel."
+      description={EKONOMI_TID_LEAD}
     >
       {error && <p className="mb-2 text-sm text-danger">{error}</p>}
+      {clock.error && <p className="mb-2 text-sm text-danger">{clock.error}</p>}
+      {clock.success && (
+        <p className="mb-2 text-xs text-success" role="status">
+          {clock.success}
+        </p>
+      )}
 
-      {initialLoading ? (
+      {initialLoading || clock.loading ? (
         <p className="flex items-center gap-2 text-sm text-text-dim">
           <Loader2 className="h-4 w-4 animate-spin" /> Laddar…
         </p>
@@ -114,11 +131,22 @@ export function TimeAndPayPanel() {
             statusLine={statusLine}
           />
 
+          <div className="mt-4 rounded-xl border border-border/30 bg-surface-2/60 p-3">
+            <p className="mb-2 text-[10px] uppercase tracking-[0.2em] text-text-dim">Snabb stämpel</p>
+            <StampClockControls
+              isClockedIn={clock.isClockedIn}
+              busy={clock.busy}
+              compact
+              onStampIn={() => void handleStamp('IN')}
+              onStampOut={() => void handleStamp('UT')}
+            />
+          </div>
+
           <Link
             to="/arbetsliv?tab=stampla"
             className="btn-pill--ghost mt-4 inline-block text-sm"
           >
-            Stämpla in eller ut →
+            Full stämpelvy och veckokalender →
           </Link>
         </>
       )}

@@ -7,6 +7,7 @@ import {
   parkEconomyImpulse,
   resolveEconomyImpulse,
 } from '@/core/firebase/timeEconomyFirestore';
+import { EKONOMI_IMPULS_LEAD } from '../ekonomiCopy';
 
 export function EconomyImpulsePanel() {
   const user = useStore((s) => s.user);
@@ -94,10 +95,7 @@ export function EconomyImpulsePanel() {
         <Clock className="h-3.5 w-3.5 text-text-dim" />
         Impulsparkeringen (24h regel)
       </h4>
-      <p className="mb-3 mt-1 text-[10px] leading-relaxed text-text-muted">
-        Sug efter att köpa något? Skriv in det här. Om du fortfarande vill ha det imorgon, köp det utan
-        skam.
-      </p>
+      <p className="mb-3 mt-1 text-[10px] leading-relaxed text-text-muted">{EKONOMI_IMPULS_LEAD}</p>
 
       {error && <p className="mb-2 text-xs text-danger">{error}</p>}
 

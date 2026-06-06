@@ -25,6 +25,12 @@ export function clearVaultServerSession(): void {
   sessionStorage.removeItem(EXPIRES_KEY);
 }
 
+/** Återanvänd giltig token eller skapa ny via issueVaultSession. */
+export async function ensureVaultServerSession(): Promise<boolean> {
+  if (getVaultSessionToken()) return true;
+  return issueVaultServerSession();
+}
+
 export function withVaultSessionPayload<T>(payload: T): T & { vaultSessionToken?: string } {
   const vaultSessionToken = getVaultSessionToken();
   return vaultSessionToken ? { ...payload, vaultSessionToken } : payload;

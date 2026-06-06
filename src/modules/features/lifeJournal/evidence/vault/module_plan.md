@@ -76,7 +76,9 @@ Canonical: `.context/modules/evidence/vault.md` · Spec: `docs/specs/modules/Ver
 
 ## Security notes
 
-- Demo PIN: `VITE_VAULT_PIN` endast lokal utveckling
+- Fyren + WebAuthn + `issueVaultSession` (server gate för Valv-callables)
+- `vaultSessionLifecycle.ts` — `endVaultSession` vid Stäng/idle; `ensureVaultSessionReady` efter refresh
+- Demo PIN: `VITE_VAULT_PIN` legacy — rensas vid Device Clear
 - Zero Footprint: vault unlock + chat rensas vid flikbyte/kill switch
 - Evidence: en fil per post (`evidenceUrl`); Storage uid-scoped
 - Valv-Chat: isolerad från `knowledgeVaultQuery`

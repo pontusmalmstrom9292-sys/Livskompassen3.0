@@ -275,7 +275,7 @@ function main() {
   mustInclude('src/modules/shared/ui/ExamplePreviewCard.tsx', 'ExamplePreviewCard');
   mustInclude('src/modules/shell/LivLauncherGrid.tsx', 'LIV_LAUNCHER_PREVIEWS');
   mustInclude('src/modules/capture/CaptureSuperModule.tsx', 'HemCaptureModulValjare');
-  mustInclude('src/modules/features/dailyLife/wellbeing/economy/components/EconomyOverviewPanel.tsx', 'EkonomiModulValjare');
+  mustInclude('src/modules/features/dailyLife/wellbeing/economy/components/EconomyOverviewPanel.tsx', 'EconomyTidPanel', 'EconomyImpulsePanel');
   mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/MabraModulValjare.tsx', 'MabraModulValjare');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/ValvZoneModulValjare.tsx', 'ValvZoneModulValjare');
   mustInclude('src/modules/features/admin/projects/components/ProjektTomStatePanel.tsx', 'ProjektTomStatePanel');
@@ -309,6 +309,8 @@ function main() {
   mustInclude('functions/src/lib/inboxClassifier.ts', 'buildInboxClassifyBlob', 'valv_samla');
   mustInclude('src/modules/features/family/safeHarbor/components/BiffPublicPanel.tsx', 'BiffTriagePanel', 'gransAnalysis');
   mustInclude('src/modules/features/family/safeHarbor/components/TryggHamnHub.tsx', 'HamnModuleStack', 'HAMN_GREY_ROCK_LEAD');
+  mustInclude('src/modules/core/security/vaultSessionLifecycle.ts', 'endVaultSession', 'ensureVaultSessionReady');
+  mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx', 'ensureVaultSessionReady', 'endVaultSession');
   mustInclude(
     'src/modules/core/home/AdaptiveMemoryCards.tsx',
     'Visa mer',

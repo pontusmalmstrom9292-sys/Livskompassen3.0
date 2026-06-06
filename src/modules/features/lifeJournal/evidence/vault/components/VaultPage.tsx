@@ -9,7 +9,8 @@ import {
   getVaultZoneTabBarItems,
 } from '@/core/navigation/tabRegistry';
 import { useStore } from '@/core/store';
-import { hasVaultGate, clearVaultGate } from '@/core/auth/sessionService';
+import { hasVaultGate } from '@/core/auth/sessionService';
+import { ensureVaultSessionReady, endVaultSession } from '@/core/security/vaultSessionLifecycle';
 import {
   saveVaultLog,
   getVaultLogs,
@@ -71,6 +72,7 @@ function VaultPageInner({
   const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
   const [showZonePicker, setShowZonePicker] = useState(() => !hasSeenValvZoneModulValjare());
+  const [sessionSyncError, setSessionSyncError] = useState<string | null>(null);
   const gateOk = hasVaultGate();
   const valvZone = resolveValvZone(vaultTab);
 
@@ -149,11 +151,20 @@ function VaultPageInner({
   };
 
   useEffect(() => {
-    if (gateOk && user) {
-      setVaultUnlocked(true);
-    } else if (!gateOk) {
+    if (!gateOk) {
       setVaultUnlocked(false);
     }
+  }, [gateOk, setVaultUnlocked]);
+
+  useEffect(() => {
+    if (!gateOk || !user) return;
+    setVaultUnlocked(true);
+    setSessionSyncError(null);
+    void ensureVaultSessionReady().then((ok) => {
+      if (!ok) {
+        setSessionSyncError('Valv-session kunde inte synkas. Försök låsa upp igen via Fyren.');
+      }
+    });
   }, [gateOk, user, setVaultUnlocked]);
 
   useEffect(() => {
@@ -197,13 +208,13 @@ function VaultPageInner({
 
   const handleCloseToLayer1 = () => {
     setVaultTab('logga');
-    setVaultUnlocked(false);
-    clearVaultGate();
-    if (embedded && onClose) {
-      onClose();
-    } else {
-      navigate(NAV_PATHS.HJARTAT);
-    }
+    void endVaultSession().finally(() => {
+      if (embedded && onClose) {
+        onClose();
+      } else {
+        navigate(NAV_PATHS.HJARTAT);
+      }
+    });
   };
 
   if (!gateOk) {
@@ -289,6 +300,11 @@ function VaultPageInner({
         <p className="mb-3 mt-2 text-sm text-text-muted" key={valvZone}>
           {VALV_ZONE_INGRESS[valvZone]}
         </p>
+        {sessionSyncError ? (
+          <p className="mb-3 rounded-xl border border-accent/30 bg-surface-2/80 px-3 py-2 text-xs text-text-muted">
+            {sessionSyncError}
+          </p>
+        ) : null}
       </BentoCard>
 
       <ValvSuperModule

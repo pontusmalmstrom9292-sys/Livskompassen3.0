@@ -1,11 +1,7 @@
 import { useEffect } from 'react';
 import { useStore } from '../store';
-import {
-  clearAllVaultZones,
-  hasVaultGate,
-  invalidateServerSession,
-  VAULT_SESSION_IDLE_MS,
-} from './sessionService';
+import { hasVaultGate, VAULT_SESSION_IDLE_MS } from './sessionService';
+import { endVaultSession, syncVaultUnlockedFromGate } from '../security/vaultSessionLifecycle';
 
 const ACTIVITY_EVENTS = ['pointerdown', 'keydown', 'touchstart', 'scroll'] as const;
 
@@ -14,33 +10,24 @@ const ACTIVITY_EVENTS = ['pointerdown', 'keydown', 'touchstart', 'scroll'] as co
  * No per-module zone gates; valv_core covers Dagbok/Speglar/Valv-menyn.
  */
 export function useZeroFootprint() {
-  const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
-  const setActiveDrawer = useStore((s) => s.setActiveDrawer);
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
 
   useEffect(() => {
-    if (hasVaultGate() && !isVaultUnlocked) {
-      setVaultUnlocked(true);
-    }
-  }, [isVaultUnlocked, setVaultUnlocked]);
+    syncVaultUnlockedFromGate();
+  }, [isVaultUnlocked]);
 
   useEffect(() => {
     if (!hasVaultGate() && !isVaultUnlocked) return;
 
-    const endVaultSession = () => {
-      setVaultUnlocked(false);
-      setActiveDrawer(null);
-      clearAllVaultZones();
-      if (useStore.getState().isAuthenticated) {
-        void invalidateServerSession();
-      }
+    const endVaultSessionIdle = () => {
+      void endVaultSession();
     };
 
-    let timer = window.setTimeout(endVaultSession, VAULT_SESSION_IDLE_MS);
+    let timer = window.setTimeout(endVaultSessionIdle, VAULT_SESSION_IDLE_MS);
 
     const bump = () => {
       window.clearTimeout(timer);
-      timer = window.setTimeout(endVaultSession, VAULT_SESSION_IDLE_MS);
+      timer = window.setTimeout(endVaultSessionIdle, VAULT_SESSION_IDLE_MS);
     };
 
     for (const event of ACTIVITY_EVENTS) {
@@ -53,5 +40,5 @@ export function useZeroFootprint() {
         window.removeEventListener(event, bump);
       }
     };
-  }, [isVaultUnlocked, setVaultUnlocked, setActiveDrawer]);
+  }, [isVaultUnlocked]);
 }

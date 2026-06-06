@@ -21,6 +21,7 @@ const STATIC_CMDS = [
 ];
 
 const NETWORK_CMDS = [
+  { id: 'journal-2d', label: 'Dagbok bilaga (#2d)', cmd: 'npm run smoke:journal-2d', checklist: '#2d' },
   { id: 'inkast', label: 'Kompass / Smart Inkast', cmd: 'npm run smoke:inkast', checklist: 'Kompass' },
   { id: 'inbox', label: 'Inbox routing (G10)', cmd: 'npm run smoke:inbox', checklist: 'Planering inkorg' },
   { id: 'speglar', label: 'Speglar callable', cmd: 'npm run smoke:speglar', checklist: 'Speglar' },
@@ -103,6 +104,13 @@ function runStaticGuards() {
     'src/modules/features/lifeJournal/diary/mirror/components/SpeglingsSystem.tsx',
     'ActCalibrationView',
     'onContinue={() => setShowForensic(true)}',
+  );
+
+  mustInclude(
+    'src/modules/features/lifeJournal/diary/diary/utils/journalUploadHelper.ts',
+    'journal_memories',
+    'JOURNAL_MEMORY_MAX_BYTES',
+    'uploadJournalMemory',
   );
 
   console.log('[smoke:rollout] Statiska guards PASS');
@@ -206,7 +214,7 @@ function printSummary(results, ok) {
     ['#4 children_logs', results.find((r) => r.id === 'children')?.status ?? 'SKIP_NO_ENV'],
     ['SpeglarSuperModule', results.find((r) => r.id === 'design-modules')?.status ?? '?'],
     ['Speglar callable', results.find((r) => r.id === 'speglar')?.status ?? 'SKIP_NO_ENV'],
-    ['#2d bilaga', 'MANUELL'],
+    ['#2d bilaga', results.find((r) => r.id === 'journal-2d')?.status ?? 'SKIP_NO_ENV'],
   ];
   for (const [item, status] of mapping) {
     console.log(`  ${item}: ${status}`);

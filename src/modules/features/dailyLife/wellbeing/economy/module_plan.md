@@ -19,6 +19,8 @@ Personal economy module: liquidity, transactions, weekly budget presets — alig
 |------|-----|--------|
 | UI shell (SaldoHero, tiles) | Ja | **done** |
 | Veckopeng / matlåda | Ja | **done** |
+| Hub 5 flikar (budget · mat · impuls · spar · tid) | Ja | **done** 2026-06-06 |
+| Snabb stämpel i Tid-panel | Ja | **done** 2026-06-06 |
 | Vinst-knapp | Ja | **done** |
 | Firestore transactions + profiles | Ja | **done** |
 | Spar-bekräftelse | Ja | **done** |

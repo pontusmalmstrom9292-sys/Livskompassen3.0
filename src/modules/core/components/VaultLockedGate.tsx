@@ -11,7 +11,7 @@ type Props = {
 };
 
 const UNLOCK_HINT =
-  'Håll inne Kompis-ögat i toppmenyn i 3 sekunder för att låsa upp. Verifiera med fingeravtryck eller Face ID. Direktlänk räcker inte.';
+  'Håll inne Kompis-ögat i toppmenyn i 3 sekunder. Verifiera med fingeravtryck eller Face ID. Direktlänk räcker inte.';
 
 /** Nödutgång när Valv är låst — instruktion + direkt upplåsningsknapp. */
 export function VaultLockedGate({ variant = 'screen', extra }: Props) {
@@ -29,7 +29,7 @@ export function VaultLockedGate({ variant = 'screen', extra }: Props) {
       <div className="space-y-4">
         <p className="text-sm text-text-dim">{UNLOCK_HINT}</p>
         <button type="button" className="btn-pill--accent w-full" onClick={tryUnlock}>
-          Lås upp Valvet (PIN/Face ID)
+          Lås upp Valvet (biometri)
         </button>
       </div>
     );
@@ -43,7 +43,7 @@ export function VaultLockedGate({ variant = 'screen', extra }: Props) {
       </h2>
       <p className="mt-2 max-w-sm text-sm text-text-muted">{UNLOCK_HINT}</p>
       <button type="button" className="btn-pill--accent mt-6" onClick={tryUnlock}>
-        Lås upp Valvet (PIN/Face ID)
+        Lås upp Valvet (biometri)
       </button>
       {extra}
     </div>

@@ -4,10 +4,12 @@ import {
   ImpulsePreviewMini,
   MealPrepPreviewMini,
   SavingsPreviewMini,
+  TidPreviewMini,
 } from './previews/EconomyModulePreviews';
 import { markEkonomiModulValjareSeen } from '../utils/ekonomiModulValjareStorage';
+import { EKONOMI_HUB_LEAD } from '../ekonomiCopy';
 
-export type EkonomiModuleChoice = 'budget' | 'kost_prepp' | 'smarta_verktyg';
+export type EkonomiModuleChoice = 'budget' | 'kost_prepp' | 'impuls' | 'spar' | 'tid';
 
 type Props = {
   onSelect: (choice: EkonomiModuleChoice) => void;
@@ -22,9 +24,7 @@ export function EkonomiModulValjare({ onSelect }: Props) {
 
   return (
     <div className="space-y-4 p-4 sm:p-5">
-      <p className="text-sm text-text-muted">
-        Välj ett spår. Budget, mat och sparande — ett beslut i taget.
-      </p>
+      <p className="text-sm text-text-muted">{EKONOMI_HUB_LEAD}</p>
       <div className="grid gap-3 sm:grid-cols-2">
         <ExamplePreviewCard
           title="Månadens budget"
@@ -48,7 +48,7 @@ export function EkonomiModulValjare({ onSelect }: Props) {
           preview={<ImpulsePreviewMini />}
           ctaLabel="Öppna pausverktyg"
           tone="indigo"
-          onStart={() => go('smarta_verktyg')}
+          onStart={() => go('impuls')}
         />
         <ExamplePreviewCard
           title="Sparmål"
@@ -56,7 +56,15 @@ export function EkonomiModulValjare({ onSelect }: Props) {
           preview={<SavingsPreviewMini />}
           ctaLabel="Öppna sparmål"
           tone="gold"
-          onStart={() => go('smarta_verktyg')}
+          onStart={() => go('spar')}
+        />
+        <ExamplePreviewCard
+          title="Tid & stämpel"
+          lead="Flex, veckosumma och snabb instämpling."
+          preview={<TidPreviewMini />}
+          ctaLabel="Öppna tid"
+          tone="indigo"
+          onStart={() => go('tid')}
         />
       </div>
     </div>

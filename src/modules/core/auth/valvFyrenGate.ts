@@ -1,7 +1,7 @@
 import type { NavigateFunction } from 'react-router-dom';
 import { FYREN_BEVIS_HINT } from '../navigation/appNavigation';
 import { NAV_PATHS } from '../navigation/navTruth';
-import { setVaultGate } from './sessionService';
+import { setVaultGate, clearVaultGate } from './sessionService';
 import { authenticateVaultGate } from './webauthn';
 import { issueVaultServerSession } from './vaultServerSession';
 import { useStore } from '../store';
@@ -24,7 +24,13 @@ export async function openValvViaFyren(
   }
   setVaultGate();
   useStore.getState().setVaultUnlocked(true);
-  await issueVaultServerSession();
+  const issued = await issueVaultServerSession();
+  if (!issued) {
+    clearVaultGate();
+    useStore.getState().setVaultUnlocked(false);
+    options?.onDenied?.('Valv-session kunde inte skapas. Kontrollera nätverk och försök igen.');
+    return false;
+  }
   navigate({
     pathname: options?.pathname ?? NAV_PATHS.VALVET,
     search: options?.search ?? '',
