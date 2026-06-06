@@ -58,6 +58,11 @@ function main() {
   mustInclude('src/modules/core/home/HomeHeroCompass.tsx', 'HomeHeroKanon');
   mustInclude('src/modules/features/lifeJournal/diary/mirror/components/SpeglingsSystem.tsx', 'VivirQuickEntry', 'SvartPaVittForm');
   mustInclude(
+    'src/modules/features/lifeJournal/diary/mirror/components/ActCalibrationView.tsx',
+    'Fortsätt till VIVIR',
+    'onContinue',
+  );
+  mustInclude(
     'src/modules/features/lifeJournal/diary/mirror/components/SpeglarSuperModule.tsx',
     'SpeglarSuperModule',
     "'dagbok'",
