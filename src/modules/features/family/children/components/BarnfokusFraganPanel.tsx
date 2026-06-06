@@ -114,4 +114,3 @@ export function BarnfokusFraganPanel({ childAlias, memoryRows, onSave }: Props) 
 }
 
 /** @deprecated use BarnfokusFraganPanel — behålls för import/smoke under migration */
-export const MiddagsfraganPanel = BarnfokusFraganPanel;

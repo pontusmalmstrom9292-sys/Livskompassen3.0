@@ -142,30 +142,6 @@ export const HUB_SIDE_MODULES: HubModule[] = LIFE_CLUSTERS.filter((c) => c.hubPo
 export const HUB_TOP = [HUB_SIDE_MODULES[0]!];
 export const HUB_BOTTOM = [HUB_SIDE_MODULES[1]!];
 
-export type LegacyRedirect = {
-  from: string;
-  to: string;
-  search?: string;
-};
-
-export const LEGACY_REDIRECTS: LegacyRedirect[] = [
-  { from: '/kompasser', to: VARDAGEN_PATH, search: '?tab=kompasser' },
-  { from: '/ekonomi', to: VARDAGEN_PATH, search: '?tab=ekonomi' },
-  { from: '/mabra', to: VARDAGEN_PATH, search: '?tab=mabra' },
-  { from: '/planering', to: VARDAGEN_PATH, search: '?tab=handling' },
-  { from: '/arbetsliv', to: VARDAGEN_PATH, search: '?tab=arbetsliv' },
-  { from: '/stampla', to: VARDAGEN_PATH, search: '?tab=arbetsliv' },
-  { from: '/liv', to: VARDAGEN_PATH },
-  { from: '/familj', to: '/familjen' },
-  { from: '/barnen', to: '/familjen?tab=reflektion' },
-  { from: '/hamn', to: '/familjen?tab=hamn' },
-  { from: '/drogfrihet', to: '/familjen', search: '?tab=drogfrihet' },
-  { from: '/kunskap', to: VALVET_PATH, search: '?vaultTab=kunskapsbank' },
-  { from: '/valv', to: VALVET_PATH },
-  { from: '/dagbok', to: HJARTAT_PATH },
-  { from: '/speglar', to: HJARTAT_PATH, search: '?tab=speglar' },
-];
-
 export {
   parseHjartatTab,
   resolveHjartatTab,

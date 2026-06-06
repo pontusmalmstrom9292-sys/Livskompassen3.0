@@ -140,6 +140,3 @@ export const DRAWER_NAV_ITEMS: DrawerNavItem[] = mapDrawerItems(DRAWER_NAV_TRUTH
 export const DRAWER_VARDAG_ITEMS = mapDrawerItems(getVisibleDrawerTruth('vardag'));
 
 export const DRAWER_VALV_ITEMS = mapDrawerItems(getVisibleDrawerTruth('valv'));
-
-/** @deprecated Använd getDrawerRoots + getDrawerChildren */
-export const DRAWER_NAV_ITEMS_LEGACY = DRAWER_NAV_ITEMS.filter((e) => !e.parentId);

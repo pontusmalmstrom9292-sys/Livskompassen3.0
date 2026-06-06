@@ -182,7 +182,7 @@ function main() {
   mustInclude('src/modules/core/navigation/tabRegistry.ts', 'VAULT_MAIN_TAB_LABELS', 'getNavChildren');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx', 'OrkesterAgentTrio', 'Registrerade dokument');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx', 'SERVER-TIDSSTÄMPEL', 'scanTechniquesForLog');
-  mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/VitHubPreview.tsx', 'KbtTransformatorPanel');
+  mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/VitHubPreview.tsx', 'VitCardFlowPanel');
   mustInclude('functions/src/index.ts', "mode === 'transformator'");
   mustInclude('functions/src/sharedRules.ts', 'KBT_TRANSFORMATOR_SYSTEM_PROMPT');
   mustInclude('.context/design-modules-mockup.md', 'D29', 'D3');

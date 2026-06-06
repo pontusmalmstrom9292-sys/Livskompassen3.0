@@ -231,15 +231,11 @@ function main() {
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'setVaultGate', 'openValvViaFyren');
   mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", '/vardagen', "label: 'Liv och göra'", 'getNavChildren');
   mustInclude(
-    'src/modules/inkast/components/InkastLiteCard.tsx',
-    'CaptureSuperModule',
-    'variant="hem-inkast"',
-  );
-  mustInclude(
     'src/modules/capture/CaptureSuperModule.tsx',
     'CaptureSuperModule',
     'InkastDirectPanel',
     'ReviewQueuePipelinePanel',
+    'hem-inkast',
     'id="inkast-lite"',
   );
   mustInclude(

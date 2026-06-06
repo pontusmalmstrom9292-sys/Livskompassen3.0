@@ -1,6 +1,6 @@
 export { MainLayout } from './layout/MainLayout';
 export { FloatingDock } from './layout/FloatingDock';
-export { SubSynapticBackground } from './layout/SubSynapticBackground';
+export { AmbientBackground } from './layout/AmbientBackground';
 export { BentoCard } from './ui/BentoCard';
 export { useStore } from './store';
 export type { AppState, UiState, SystemState, User } from './store';
