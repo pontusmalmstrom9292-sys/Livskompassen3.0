@@ -1,6 +1,15 @@
 import { BALANS_WINDOW_DAYS } from '../constants';
 import type { BalansResult, ChildrenLogEntry } from '../types';
 import { computeBalansIndex } from './balansIndex';
+import {
+  escapeHtml,
+  createSafeHtml,
+  downloadJsonFile,
+  printSecurely,
+  createSafeTableRow,
+  createSafeTableHeader,
+  DEFAULT_PRINT_STYLES,
+} from '@/shared/utils/secureExport';
 
 export interface BalansExportReport {
   exportedAt: string;
@@ -8,10 +17,16 @@ export interface BalansExportReport {
   windowDays: number;
   balans: BalansResult;
   logCount: number;
-  logs: Pick<ChildrenLogEntry, 'id' | 'action' | 'createdAt' | 'observation' | 'signals' | 'category'>[];
+  logs: Pick<
+    ChildrenLogEntry,
+    'id' | 'action' | 'createdAt' | 'observation' | 'signals' | 'category'
+  >[];
 }
 
-/** Client-side JSON export — juridisk stabilitetsrapport (stub). */
+/**
+ * Creates a balans export report object
+ * Client-side JSON export — juridisk stabilitetsrapport
+ */
 export function exportBalansReport(
   childAlias: string,
   logs: ChildrenLogEntry[]
@@ -34,32 +49,72 @@ export function exportBalansReport(
   };
 }
 
+/**
+ * Downloads a balans report as a JSON file
+ * Uses secure file download with proper escaping
+ */
 export function downloadBalansReportJson(report: BalansExportReport): void {
-  const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `balans-${report.childAlias}-${report.exportedAt.slice(0, 10)}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
+  try {
+    const filename = `balans-${report.childAlias}-${report.exportedAt.slice(0, 10)}.json`;
+    downloadJsonFile(report, filename);
+  } catch (error) {
+    console.error('Failed to download balans report JSON:', error);
+  }
 }
 
-/** Klient-utskrift (PDF via webbläsarens utskriftsdialog). */
-export function printBalansReport(report: BalansExportReport): void {
-  const w = window.open('', '_blank', 'noopener,noreferrer');
-  if (!w) return;
-  const rows = report.logs
-    .map(
-      (l) =>
-        `<tr><td>${l.createdAt?.slice(0, 10) ?? '—'}</td><td>${l.action ?? ''}</td><td>${(l.observation ?? '').slice(0, 80)}</td></tr>`,
+/**
+ * Creates safe HTML for printing the balans report
+ * All user-provided content is properly escaped to prevent XSS
+ */
+function createBalansReportHtml(report: BalansExportReport): string {
+  // Create table rows with proper escaping
+  const tableRows = report.logs
+    .map((log) =>
+      createSafeTableRow([
+        log.createdAt?.slice(0, 10) ?? '—',
+        log.action ?? '—',
+        (log.observation ?? '').slice(0, 80),
+      ])
     )
-    .join('');
-  w.document.write(`<!DOCTYPE html><html><head><title>Balans ${report.childAlias}</title>
-<style>body{font-family:system-ui,sans-serif;padding:24px;color:#111}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:6px;font-size:12px}</style></head>
-<body><h1>Stabilitetsrapport — ${report.childAlias}</h1>
-<p>Exporterad: ${report.exportedAt.slice(0, 19)} · Balansindex: ${report.balans.index}/100 (${report.balans.label})</p>
-<table><thead><tr><th>Datum</th><th>Typ</th><th>Notering</th></tr></thead><tbody>${rows}</tbody></table></body></html>`);
-  w.document.close();
-  w.focus();
-  w.print();
+    .join('\n');
+
+  const headerRow = createSafeTableHeader(['Datum', 'Typ', 'Notering']);
+
+  const content = `
+<h1>Stabilitetsrapport — ${escapeHtml(report.childAlias)}</h1>
+<p class="meta">
+  Exporterad: ${escapeHtml(report.exportedAt.slice(0, 19))} · 
+  Balansindex: ${escapeHtml(String(report.balans.index))}/100 (${escapeHtml(String(report.balans.label))}) · 
+  Poster: ${escapeHtml(String(report.logCount))} · 
+  Period: ${escapeHtml(String(report.windowDays))} dagar
+</p>
+<table>
+  <thead>
+    ${headerRow}
+  </thead>
+  <tbody>
+    ${tableRows || '<tr><td colspan="3">Inga poster</td></tr>'}
+  </tbody>
+</table>
+  `;
+
+  return createSafeHtml(
+    content,
+    `Stabilitetsrapport - ${escapeHtml(report.childAlias)}`,
+    DEFAULT_PRINT_STYLES
+  );
+}
+
+/**
+ * Prints a balans report as PDF
+ * Opens print dialog where user can save as PDF
+ * All content is XSS-protected with proper HTML escaping
+ */
+export function printBalansReport(report: BalansExportReport): void {
+  try {
+    const html = createBalansReportHtml(report);
+    printSecurely(html, `Stabilitetsrapport-${report.childAlias}`);
+  } catch (error) {
+    console.error('Failed to print balans report:', error);
+  }
 }

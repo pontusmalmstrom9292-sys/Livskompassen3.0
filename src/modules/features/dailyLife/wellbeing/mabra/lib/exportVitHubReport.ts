@@ -1,6 +1,15 @@
 import type { VitEntryRow } from '@/core/types/firestore';
 import { VIT_HUB_EXPORT_DISCLAIMER } from './vitHubCopy';
 import { vitProjectTitle, type VitHubStats } from './vitHubStats';
+import {
+  escapeHtml,
+  createSafeHtml,
+  downloadJsonFile,
+  printSecurely,
+  createSafeTableRow,
+  createSafeTableHeader,
+  DEFAULT_PRINT_STYLES,
+} from '@/shared/utils/secureExport';
 
 export type VitHubExportReport = {
   exportedAt: string;
@@ -23,26 +32,31 @@ export type VitHubExportReport = {
   }>;
 };
 
-const EXPORT_DISCLAIMER = VIT_HUB_EXPORT_DISCLAIMER;
-
 const KIND_LABELS: Record<VitEntryRow['kind'], string> = {
   card: 'Frågekort',
   memory: 'Känslominne',
   chat_turn: 'Dialog',
 };
 
+/**
+ * Gets the display date for a vault entry
+ */
 function entryDate(entry: VitEntryRow): string {
   return entry.cardDateKey ?? entry.createdAt?.slice(0, 10) ?? '—';
 }
 
+/**
+ * Builds a Vit Hub export report object
+ * Aggregates entries and statistics for export
+ */
 export function buildVitHubExportReport(
   entries: VitEntryRow[],
-  stats: VitHubStats,
+  stats: VitHubStats
 ): VitHubExportReport {
   return {
     exportedAt: new Date().toISOString(),
     title: 'Mitt Vit — personlig export',
-    disclaimer: EXPORT_DISCLAIMER,
+    disclaimer: VIT_HUB_EXPORT_DISCLAIMER,
     stats: {
       totalEntries: stats.totalEntries,
       activeDays: stats.activeDays,
@@ -61,62 +75,95 @@ export function buildVitHubExportReport(
   };
 }
 
+/**
+ * Downloads a Vit Hub report as a JSON file
+ * Uses secure file download with proper escaping
+ */
 export function downloadVitHubReportJson(report: VitHubExportReport): void {
-  const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `mitt-vit-${report.exportedAt.slice(0, 10)}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
+  try {
+    const filename = `mitt-vit-${report.exportedAt.slice(0, 10)}.json`;
+    downloadJsonFile(report, filename);
+  } catch (error) {
+    console.error('Failed to download Vit Hub report JSON:', error);
+  }
 }
 
-/** Klient-utskrift — PDF via webbläsarens utskriftsdialog (inte dossier). */
-export function printVitHubReport(report: VitHubExportReport): void {
-  const w = window.open('', '_blank', 'noopener,noreferrer');
-  if (!w) return;
-
-  const entryRows = report.entries
-    .map(
-      (e) =>
-        `<tr>
-          <td>${e.date}</td>
-          <td>${e.projectTitle}</td>
-          <td>${KIND_LABELS[e.kind]}</td>
-          <td>${e.bankId}</td>
-          <td>${escapeHtml(e.responseText || '—')}</td>
-        </tr>`,
+/**
+ * Creates safe HTML for printing the Vit Hub report
+ * All user-provided content is properly escaped to prevent XSS attacks
+ */
+function createVitHubReportHtml(report: VitHubExportReport): string {
+  // Create table rows with proper escaping
+  const tableRows = report.entries
+    .map((entry) =>
+      createSafeTableRow([
+        entry.date,
+        entry.projectTitle,
+        KIND_LABELS[entry.kind] ?? '—',
+        entry.bankId,
+        entry.responseText || '—',
+      ])
     )
-    .join('');
+    .join('\n');
 
-  w.document.write(`<!DOCTYPE html><html lang="sv"><head><meta charset="utf-8" />
-<title>${report.title}</title>
-<style>
-  body { font-family: system-ui, sans-serif; padding: 24px; color: #111; max-width: 800px; }
-  h1 { font-size: 18px; margin-bottom: 4px; }
-  .meta { font-size: 12px; color: #444; margin-bottom: 16px; }
-  .disclaimer { font-size: 11px; color: #666; border: 1px solid #ddd; padding: 8px; margin-bottom: 16px; }
-  table { border-collapse: collapse; width: 100%; font-size: 11px; }
-  td, th { border: 1px solid #ccc; padding: 6px; vertical-align: top; }
-  th { text-align: left; background: #f5f5f5; }
-</style></head><body>
-<h1>${report.title}</h1>
-<p class="meta">Exporterad: ${report.exportedAt.slice(0, 19)} · Sparade svar: ${report.stats.totalEntries} · Aktiva dagar: ${report.stats.activeDays}</p>
-<p class="disclaimer">${report.disclaimer}</p>
+  const headerRow = createSafeTableHeader([
+    'Datum',
+    'Projekt',
+    'Typ',
+    'Bank',
+    'Innehål',
+  ]);
+
+  const customStyles = DEFAULT_PRINT_STYLES + `
+  .disclaimer-box {
+    font-size: 11px;
+    color: #475569;
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 4px;
+    padding: 12px;
+    margin: 16px 0;
+  }
+  `;
+
+  const content = `
+<h1>${escapeHtml(report.title)}</h1>
+<p class="meta">
+  Exporterad: ${escapeHtml(report.exportedAt.slice(0, 19))} · 
+  Sparade svar: ${escapeHtml(String(report.stats.totalEntries))} · 
+  Aktiva dagar: ${escapeHtml(String(report.stats.activeDays))} · 
+  Sessioner: ${escapeHtml(String(report.stats.sessionCount))}
+</p>
+<div class="disclaimer-box">
+  ${escapeHtml(report.disclaimer)}
+</div>
 <table>
-  <thead><tr><th>Datum</th><th>Projekt</th><th>Typ</th><th>Bank</th><th>Innehåll</th></tr></thead>
-  <tbody>${entryRows || '<tr><td colspan="5">Inga poster</td></tr>'}</tbody>
+  <thead>
+    ${headerRow}
+  </thead>
+  <tbody>
+    ${tableRows || '<tr><td colspan="5">Inga poster</td></tr>'}
+  </tbody>
 </table>
-</body></html>`);
-  w.document.close();
-  w.focus();
-  w.print();
+  `;
+
+  return createSafeHtml(
+    content,
+    escapeHtml(report.title),
+    customStyles
+  );
 }
 
-function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+/**
+ * Prints a Vit Hub report as PDF
+ * Opens print dialog where user can save as PDF
+ * All content is XSS-protected with proper HTML escaping
+ */
+export function printVitHubReport(report: VitHubExportReport): void {
+  try {
+    const html = createVitHubReportHtml(report);
+    printSecurely(html, escapeHtml(report.title));
+  } catch (error) {
+    console.error('Failed to print Vit Hub report:', error);
+  }
 }
