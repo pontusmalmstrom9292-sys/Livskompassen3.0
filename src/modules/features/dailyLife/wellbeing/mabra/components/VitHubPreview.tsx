@@ -1,9 +1,13 @@
-import { Link } from 'react-router-dom';
 import { Archive } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import type { MabraProject } from '../constants/mabraProjects';
+import { VIT_HUB_KRAVLOST, VIT_HUB_TAGLINE, VIT_HUB_VAULT_LINK } from '../lib/vitHubCopy';
+import { vitHubFilteredLink } from '../lib/vitHubLinks';
 import { PLAN_KIND_LABELS } from '../constants/mabraProjects';
 import type { MabraPlanKind } from '../constants/mabraProjects';
 import { VitCardFlowPanel } from './VitCardFlowPanel';
+import { VitChatFlowPanel } from './VitChatFlowPanel';
+import { VitMemoryFlowPanel } from './VitMemoryFlowPanel';
 
 type Props = {
   project: MabraProject;
@@ -26,10 +30,14 @@ export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, use
           <Archive className="h-4 w-4" />
           {project.vitHubLabel}
         </p>
-        <p className="mt-2 text-sm text-text-muted">
-          Valvet samlar dina svar här — statistik och utveckling över tid. Separat från
-          juridiskt bevis mot ex.
-        </p>
+        <p className="mt-2 text-sm text-text-muted">{VIT_HUB_TAGLINE}</p>
+        <p className="mt-1 text-xs text-text-dim">{VIT_HUB_KRAVLOST}</p>
+        <Link
+          to={vitHubFilteredLink(undefined, project.id)}
+          className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
+        >
+          {VIT_HUB_VAULT_LINK}
+        </Link>
       </div>
 
       <p className="text-sm text-text-muted">Välj hur du vill börja (ett val):</p>
@@ -55,25 +63,11 @@ export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, use
       )}
 
       {selectedPlan === 'chat' && (
-        <div className="home-module-panel__question-box">
-          <p className="text-sm text-text-muted">
-            Coach-dialog — lågaffektiv, inåtvänd (mabraCoach efter övning).
-          </p>
-        </div>
+        <VitChatFlowPanel userId={userId} projectId={project.id} />
       )}
 
       {selectedPlan === 'memory' && (
-        <div className="home-module-panel__question-box">
-          <p className="text-sm text-text-muted">
-            Känslominne: Vem är jag? · Hur känner jag kring denna upplevelse?
-          </p>
-          <Link
-            to="/valvet"
-            className="btn-pill--accent mt-3 inline-flex text-xs"
-          >
-            Öppna Valv (förhandsvisning)
-          </Link>
-        </div>
+        <VitMemoryFlowPanel userId={userId} projectId={project.id} />
       )}
 
       <p className="text-xs text-text-dim">

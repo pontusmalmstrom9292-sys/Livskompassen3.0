@@ -4,10 +4,12 @@ import {
   isExporteraVaultTab,
   isForensicVaultTab,
   isKunskapVaultTab,
+  isVitVaultTab,
   isSamlaVaultTab,
   type ValvZone,
   type VaultTab,
 } from '../utils/vaultTabs';
+import { VIT_VAULT_TAB_LABEL } from '@/core/copy/valvNavCopy';
 import { getVaultZoneTabBarItems, vaultMainTabLabel } from '@/core/navigation/tabRegistry';
 
 type VaultValvBreadcrumbProps = {
@@ -27,6 +29,8 @@ export function VaultValvBreadcrumb({ zone, vaultTab }: VaultValvBreadcrumbProps
     parts.push(vaultMainTabLabel(vaultTab));
   } else if (isKunskapVaultTab(vaultTab)) {
     parts.push(vaultMainTabLabel(vaultTab));
+  } else if (isVitVaultTab(vaultTab)) {
+    parts.push(VIT_VAULT_TAB_LABEL);
   } else if (isForensicVaultTab(vaultTab)) {
     parts.push(forensicVaultTabLabel(vaultTab));
   }

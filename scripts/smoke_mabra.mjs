@@ -121,6 +121,27 @@ async function main() {
   assert(vitEntryRef.id, 'vit_entries saknar id');
   console.log('[smoke] vit_entries OK —', vitEntryRef.id);
 
+  console.log('[smoke] mabraCoach vit_chat…');
+  const vitChatResult = await coachFn({
+    mode: 'vit_chat',
+    projectId: 'learn_together',
+    vitMessage: 'Jag vill utforska vad som känns meningsfullt idag utan prestation.',
+    seedPrompt: 'Ett värde som är viktigt idag — ett ord.',
+  });
+  const vitCoach = vitChatResult.data?.coach;
+  assert(typeof vitCoach === 'string' && vitCoach.trim().length > 0, 'vit_chat saknar coach');
+  assert(vitChatResult.data?.redirectToSpeglar !== true, 'vit_chat ska inte redirecta neutral input');
+  console.log('[smoke] vit_chat OK —', vitCoach.slice(0, 100));
+
+  console.log('[smoke] mabraCoach vit_chat guard…');
+  const vitGuardResult = await coachFn({
+    mode: 'vit_chat',
+    projectId: 'learn_together',
+    vitMessage: 'Hon skrev ett sms och jag undrar om det är gaslighting.',
+  });
+  assert(vitGuardResult.data?.redirectToSpeglar === true, 'vit_chat ska redirecta ex/gaslighting');
+  console.log('[smoke] vit_chat guard OK');
+
   console.log('\n[smoke] PASS — Måbra backend.');
   process.exit(0);
 }

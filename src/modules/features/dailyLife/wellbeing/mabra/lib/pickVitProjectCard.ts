@@ -46,9 +46,30 @@ function toVitProjectCard(card: SelfEsteemCard | (typeof MABRA_REFLECTION_CARDS)
   };
 }
 
+/** Bank-id per projekt — Mabra-CONTENT-BANK § Frågekort (våg 9). */
+const PROJECT_CARD_BANK_IDS: Record<MabraProjectId, readonly string[]> = {
+  self_esteem: SELF_ESTEEM_CARDS.map((c) => c.bankId),
+  emotional_memory: ['C-feel-01', 'C-feel-02', 'C-feel-03', 'C-feel-04', 'C-feel-05'],
+  who_am_i: [
+    'C-identity-01',
+    'C-identity-02',
+    'C-identity-03',
+    'C-goal-01',
+    'C-goal-02',
+    'C-joy-01',
+    'C-joy-02',
+  ],
+  learn_together: ['MB-REF-ACT-01', 'MB-REF-ACT-02', 'MB-REF-ACT-03'],
+};
+
 function poolForProject(projectId: MabraProjectId): readonly VitProjectCard[] {
   if (projectId === 'self_esteem') {
     return SELF_ESTEEM_CARDS.map(toVitProjectCard);
+  }
+  const allowed = new Set(PROJECT_CARD_BANK_IDS[projectId]);
+  const filtered = MABRA_REFLECTION_CARDS.filter((c) => allowed.has(c.bankId));
+  if (filtered.length > 0) {
+    return filtered.map(toVitProjectCard);
   }
   return MABRA_REFLECTION_CARDS.map(toVitProjectCard);
 }

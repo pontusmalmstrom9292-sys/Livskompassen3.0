@@ -77,6 +77,124 @@ function main() {
   console.log('[smoke:content-waves] Barn PLAY bank...');
   mustInclude('docs/specs/modules/Barnen-PLAY-BANK.md', 'BP-PLAY-01', 'KEEP');
 
+  console.log('[smoke:content-waves] Våg 9 — vit_hub / vit_entries...');
+  mustInclude('docs/content/CONTENT-WAVES.md', 'Vit hub P1', 'C-se-01..10', '**done**');
+  mustInclude('firestore.rules', 'match /vit_hub/{uid}', 'match /vit_entries/{docId}', 'allow update, delete: if false');
+  mustInclude(
+    'src/modules/core/firebase/vitHubFirestore.ts',
+    'ensureVitHub',
+    'saveVitEntry',
+    'listVitEntries',
+    'assertWormPayload',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/components/VitCardFlowPanel.tsx',
+    'saveVitEntry',
+    'kind: \'card\'',
+    'bankId: pick.card.bankId',
+  );
+  mustInclude('src/modules/features/dailyLife/wellbeing/mabra/content/selfEsteemCards.ts', 'C-se-01', 'C-se-10');
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/lib/pickVitProjectCard.ts',
+    'emotional_memory',
+    'C-feel-01',
+    'who_am_i',
+    'C-identity-01',
+  );
+
+  const selfEsteem = read('src/modules/features/dailyLife/wellbeing/mabra/content/selfEsteemCards.ts');
+  for (let i = 1; i <= 10; i += 1) {
+    const id = `C-se-${String(i).padStart(2, '0')}`;
+    assert(bank.includes(id), `Mabra-CONTENT-BANK.md saknar ${id}`);
+    assert(selfEsteem.includes(id), `selfEsteemCards.ts saknar ${id}`);
+  }
+
+  console.log('[smoke:content-waves] Våg 10 — Valv Mitt Vit P2...');
+  mustInclude('docs/content/CONTENT-WAVES.md', 'Valv Mitt Vit P2', 'mitt_vit', '**done**');
+  mustInclude('src/modules/features/lifeJournal/evidence/vault/utils/vaultTabs.ts', 'mitt_vit', "'vit'");
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultVitHubPanel.tsx',
+    'VaultVitHubPanel',
+    'computeVitHubStats',
+    'VIT_HUB_KRAVLOST',
+  );
+  mustInclude('src/modules/core/navigation/navTruth.ts', 'valv_vit', "vaultDrawerPath('mitt_vit')");
+
+  console.log('[smoke:content-waves] Våg 11 — Vit chat P3...');
+  mustInclude('docs/content/CONTENT-WAVES.md', 'Vit chat P3', 'vit_chat', '**done**');
+  mustInclude('functions/src/index.ts', "mode === 'vit_chat'", 'askVitChatCoach');
+  mustInclude('functions/src/sharedRules.ts', 'VIT_CHAT_COACH_SYSTEM_PROMPT');
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/components/VitChatFlowPanel.tsx',
+    'fetchVitChatCoach',
+    "kind: 'chat_turn'",
+    'MabraSpeglarGuardHint',
+  );
+  mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/VitHubPreview.tsx', 'VitChatFlowPanel');
+
+  console.log('[smoke:content-waves] Våg 12 — Export + minnes-UI...');
+  mustInclude('docs/content/CONTENT-WAVES.md', 'Export + minnes-UI', '**done**');
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/lib/exportVitHubReport.ts',
+    'printVitHubReport',
+    'buildVitHubExportReport',
+    'VIT_HUB_EXPORT_DISCLAIMER',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/components/VitMemoryFlowPanel.tsx',
+    "kind: 'memory'",
+    'Vem är jag',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultVitHubPanel.tsx',
+    'printVitHubReport',
+    'Minneslista',
+    'Skriv ut / PDF',
+  );
+  mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/VitHubPreview.tsx', 'VitMemoryFlowPanel');
+
+  console.log('[smoke:content-waves] Våg 13 — Minnes-filter Valv...');
+  mustInclude('docs/content/CONTENT-WAVES.md', 'Minnes-filter Valv', 'vitKind', '**done**');
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/lib/filterVitEntries.ts',
+    'filterVitEntries',
+    'parseVitKindFilter',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/VitEntryFilterBar.tsx',
+    'VitEntryFilterBar',
+    'Rensa filter',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultVitHubPanel.tsx',
+    'vitKind',
+    'VitEntryFilterBar',
+  );
+
+  console.log('[smoke:content-waves] Våg 14 — Vit-hub copy polish...');
+  mustInclude('docs/content/CONTENT-WAVES.md', 'Vit-hub copy polish', '**done**');
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/lib/vitHubCopy.ts',
+    'VIT_HUB_KRAVLOST',
+    'ingen streak',
+    'VIT_HUB_LANDED',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/lib/vitHubLinks.ts',
+    'vitHubFilteredLink',
+    'VIT_VAULT_TAB',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/components/VitCardFlowPanel.tsx',
+    'VIT_HUB_LANDED',
+    'vitHubFilteredLink',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/components/VitHubPreview.tsx',
+    'VIT_HUB_KRAVLOST',
+    'VIT_HUB_VAULT_LINK',
+  );
+
   console.log('[smoke:content-waves] PASS');
 }
 

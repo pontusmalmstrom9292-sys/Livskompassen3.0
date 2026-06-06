@@ -127,8 +127,12 @@ Prompts: endast `functions/src/sharedRules.ts`.
 
 ## Nästa steg (implementation)
 
-1. P1 `vit_hub` / `vit_entries` från MåBra-bank  
-2. Exportera `kunskap-fact-001`–`010` till JSON-manifest → `seed_kampspar_profile.mjs`  
-3. Harmonisera Vit-hub copy: ingen skuld-streak (se Mabra-SPEC)
+1. ~~P1 `vit_hub` / `vit_entries` från MåBra-bank~~ — **done** våg 9 (2026-06-06)  
+2. ~~Exportera `kunskap-fact-001`–`010` till JSON-manifest → `seed_kampspar_profile.mjs`~~ — **done** våg 8  
+3. ~~P2 Valv-flik «Mitt Vit» + statistik~~ — **done** våg 10 (2026-06-06)  
+4. ~~P3 «Lär tillsammans» chatt via `mabraCoach` + silo-guard~~ — **done** våg 11 (2026-06-06)  
+5. ~~PDF-export Mitt Vit / känslominne-UI~~ — **done** våg 12 (2026-06-06)  
+6. ~~Minnes-filter / polish i Valv Mitt Vit~~ — **done** våg 13 (2026-06-06)  
+7. ~~Harmonisera Vit-hub copy: ingen skuld-streak~~ — **done** våg 14 (2026-06-06)
 
 **Utskrift:** lägg vid [`SKOGSPAKET-LATHUND.md`](./SKOGSPAKET-LATHUND.md) om du jobbar på distans.

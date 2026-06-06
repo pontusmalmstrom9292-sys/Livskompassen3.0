@@ -33,6 +33,8 @@ export const OFFLINE_WRITE_ALLOWLIST = new Set<string>([
   C.economy_ledger,
   C.economy_fixed_bills,
   C.budget_savings,
+  C.budgets,
+  C.economy_impulse_queue,
   C.user_widgets,
   C.user_tags,
 ]);

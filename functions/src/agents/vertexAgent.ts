@@ -3,6 +3,7 @@ import {
   LIVSKOMPASSEN_SYSTEM_CONFIG,
   KBT_TRANSFORMATOR_SYSTEM_PROMPT,
   MABRA_COACHEN_SYSTEM_PROMPT,
+  VIT_CHAT_COACH_SYSTEM_PROMPT,
   SPEGLINGS_COACHEN_SYSTEM_PROMPT,
 } from '../sharedRules';
 import { createGenAI } from '../lib/genaiClient';
@@ -69,6 +70,48 @@ function mabraCoachFallback(hubSymptom: string, exerciseType: string): string {
         : 'Reframing-övningen är gjord.';
   return `${exerciseLine} ${hubLine} Inget mer krävs av dig just nu.`;
 }
+
+function vitChatFallback(projectId: string): string {
+  const line =
+    projectId === 'learn_together'
+      ? 'Ett steg i taget räcker. Vad känns viktigast att utforska — utan att lösa allt?'
+      : 'Du behöver inte ha ett svar än. Vad märker du hos dig just nu?';
+  return line;
+}
+
+export const askVitChatCoach = async (
+  projectId: string,
+  userMessage: string,
+  seedPrompt?: string,
+  geminiApiKey?: string,
+): Promise<string> => {
+  const context = [
+    `Vit-projekt: ${projectId}`,
+    seedPrompt?.trim() ? `Frågekort-kontext (bank): ${seedPrompt.trim()}` : '',
+    `Användarens meddelande: ${userMessage.trim()}`,
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  try {
+    const ai = createGenAI(geminiApiKey);
+    const response = await ai.models.generateContent({
+      model: MABRA_COACH_MODEL,
+      contents: context,
+      config: {
+        systemInstruction: VIT_CHAT_COACH_SYSTEM_PROMPT,
+        temperature: 0.2,
+      },
+    });
+
+    const text = response.text?.trim();
+    if (!text) throw new Error('Tomt vit-chat-svar.');
+    return text;
+  } catch (error) {
+    console.error('[Vit-Chat-Coachen] Fel — degraded fallback:', error);
+    return vitChatFallback(projectId);
+  }
+};
 
 export const askMabraCoach = async (
   hubSymptom: string,

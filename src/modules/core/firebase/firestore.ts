@@ -28,6 +28,7 @@ import type {
   CheckIn,
   KampsparEntryRow,
   KbDocEntryRow,
+  MabraSession,
   UserWidget,
   UserWidgetRow,
   VaultLog,
@@ -261,6 +262,28 @@ export async function saveMabraSession(
   assertWormPayload(payload, 'mabra_sessions');
   const docRef = await addDoc(ref, withUserId(userId, payload));
   return docRef.id;
+}
+
+export async function listMabraSessionsRecent(
+  userId: string,
+  max = 30,
+): Promise<Pick<MabraSession, 'hubSymptom' | 'exerciseType' | 'createdAt'>[]> {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.mabra_sessions);
+  const snap = await getDocs(query(ref, where('ownerId', '==', userId), limit(max)));
+  const rows = snap.docs.map((d) => {
+    const data = d.data();
+    return {
+      hubSymptom: typeof data.hubSymptom === 'string' ? data.hubSymptom : undefined,
+      exerciseType: String(data.exerciseType ?? ''),
+      createdAt:
+        data.createdAt && typeof data.createdAt === 'object' && 'toDate' in data.createdAt
+          ? (data.createdAt as { toDate: () => Date }).toDate().toISOString()
+          : '',
+    };
+  });
+  return rows
+    .sort((a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? ''))
+    .slice(0, max);
 }
 
 export async function getMabraProgress(userId: string): Promise<{ coreValues: string[] } | null> {

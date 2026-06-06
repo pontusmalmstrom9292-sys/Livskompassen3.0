@@ -272,6 +272,15 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     drawerHint: VALV_DRAWER_HINTS.kunskap,
   },
   {
+    id: 'valv_vit',
+    label: VALV_ZONE_LABELS.vit,
+    path: vaultDrawerPath('mitt_vit'),
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.vit,
+  },
+  {
     id: 'valv_exportera',
     label: VALV_ZONE_LABELS.exportera,
     path: vaultDrawerPath('dossier'),

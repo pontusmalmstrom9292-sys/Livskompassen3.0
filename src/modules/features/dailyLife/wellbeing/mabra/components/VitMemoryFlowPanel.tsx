@@ -2,9 +2,9 @@ import { Loader2 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ensureVitHub, saveVitEntry } from '@/core/firebase/vitHubFirestore';
+import type { MabraProjectId } from '../constants/mabraProjects';
 import { VIT_HUB_LANDED, VIT_HUB_VAULT_LINK } from '../lib/vitHubCopy';
 import { vitHubFilteredLink } from '../lib/vitHubLinks';
-import type { MabraProjectId } from '../constants/mabraProjects';
 import { pickVitProjectCard } from '../lib/pickVitProjectCard';
 import { writeVitProjectLastSeen } from '../lib/vitProjectLastSeen';
 
@@ -15,33 +15,51 @@ type Props = {
 };
 
 const COPY = {
-  hint: 'Inget fel svar. Ett ord räcker om du vill skriva.',
-  placeholder: 'Skriv här om du vill…',
-  save: 'Spara till Vit hub',
-  saved: 'Sparat i din Vit hub. Du har landat.',
+  identityLabel: 'Vem är jag i det här?',
+  identityPlaceholder: 'Ett ord eller en kort rad…',
+  feelingLabel: 'Hur känner jag kring upplevelsen?',
+  feelingHint: 'Kropp, plats eller temperatur — inget facit.',
+  save: 'Spara känslominne',
   login: 'Logga in för att spara i Vit hub.',
   error: 'Kunde inte spara just nu. Försök igen när nätverket finns.',
+  empty: 'Skriv minst en rad — identitet eller känsla.',
 } as const;
 
-export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
+function formatMemoryText(identity: string, feeling: string): string {
+  const parts: string[] = [];
+  if (identity) parts.push(`Identitet: ${identity}`);
+  if (feeling) parts.push(`Känsla: ${feeling}`);
+  return parts.join('\n');
+}
+
+/** P2+ känslominne — två prompts, sparas som vit_entries kind memory. */
+export function VitMemoryFlowPanel({ userId, projectId, onSaved }: Props) {
   const pick = useMemo(() => pickVitProjectCard({ uid: userId, projectId }), [userId, projectId]);
-  const [response, setResponse] = useState('');
+  const [identity, setIdentity] = useState('');
+  const [feeling, setFeeling] = useState('');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSave = async () => {
     if (!userId) return;
+    const idTrim = identity.trim();
+    const feelTrim = feeling.trim();
+    if (!idTrim && !feelTrim) {
+      setError(COPY.empty);
+      return;
+    }
+
     setSaving(true);
     setError(null);
     try {
       await ensureVitHub(userId, projectId);
       await saveVitEntry(userId, {
         projectId,
-        kind: 'card',
+        kind: 'memory',
         bankId: pick.card.bankId,
-        content_class: pick.card.content_class,
-        responseText: response.trim() || undefined,
+        content_class: 'REFLECTION',
+        responseText: formatMemoryText(idTrim, feelTrim),
         cardDateKey: pick.dateKey,
       });
       writeVitProjectLastSeen(projectId);
@@ -57,28 +75,45 @@ export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
   return (
     <div className="space-y-3">
       <div className="home-module-panel__question-box">
-        <p className="text-base leading-relaxed text-accent">{pick.card.text_sv}</p>
-        <p className="mt-2 text-xs text-text-dim">{COPY.hint}</p>
+        <p className="text-sm text-text-muted">{COPY.identityLabel}</p>
+        <p className="mt-1 text-xs text-text-dim">Uppvärmning: {pick.card.text_sv}</p>
       </div>
-      <p className="text-center text-[10px] uppercase tracking-wider text-text-dim">
-        {pick.card.lens} · {pick.card.bankId}
-      </p>
 
       <label className="block text-xs text-text-muted">
-        Ditt svar (valfritt)
-        <textarea
-          value={response}
+        {COPY.identityLabel}
+        <input
+          type="text"
+          value={identity}
           onChange={(e) => {
-            setResponse(e.target.value);
+            setIdentity(e.target.value);
             setSaved(false);
+            setError(null);
           }}
-          rows={3}
           className="input-glass mt-2 w-full text-sm"
-          placeholder={COPY.placeholder}
-          aria-label="Ditt svar på frågekortet"
+          placeholder={COPY.identityPlaceholder}
           disabled={!userId || saving}
         />
       </label>
+
+      <label className="block text-xs text-text-muted">
+        {COPY.feelingLabel}
+        <textarea
+          value={feeling}
+          onChange={(e) => {
+            setFeeling(e.target.value);
+            setSaved(false);
+            setError(null);
+          }}
+          rows={3}
+          className="input-glass mt-2 w-full text-sm"
+          placeholder={COPY.feelingHint}
+          disabled={!userId || saving}
+        />
+      </label>
+
+      <p className="text-center text-[10px] uppercase tracking-wider text-text-dim">
+        {pick.card.lens} · {pick.card.bankId}
+      </p>
 
       {!userId ? (
         <p className="text-xs text-text-dim">{COPY.login}</p>
@@ -104,7 +139,7 @@ export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
         <p className="text-xs text-success">
           {VIT_HUB_LANDED}{' '}
           <Link
-            to={vitHubFilteredLink('card', projectId)}
+            to={vitHubFilteredLink('memory', projectId)}
             className="text-accent underline-offset-2 hover:underline"
           >
             {VIT_HUB_VAULT_LINK}

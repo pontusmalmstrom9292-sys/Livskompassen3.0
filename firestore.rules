@@ -344,6 +344,29 @@ service cloud.firestore {
       allow delete: if isOwner();
     }
 
+    match /budgets/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
+      allow update: if isOwner()
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid;
+      allow delete: if isOwner();
+    }
+
+    match /economy_impulse_queue/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.label is string
+        && request.resource.data.label.size() >= 1
+        && request.resource.data.label.size() <= 120
+        && request.resource.data.status in ['parked', 'bought', 'skipped'];
+      allow update: if isOwner()
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.status in ['parked', 'bought', 'skipped'];
+      allow delete: if isOwner();
+    }
+
     match /payslip_snapshots/{docId} {
       allow read: if isOwner();
       allow create, update, delete: if false;

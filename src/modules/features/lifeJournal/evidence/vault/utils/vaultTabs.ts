@@ -29,7 +29,12 @@ export const AKTORSKARTA_VAULT_TAB = 'aktorskarta' as const;
 export const KUNSKAP_VAULT_TAB_IDS = [KUNSKAP_VAULT_TAB, AKTORSKARTA_VAULT_TAB] as const;
 export type KunskapVaultTab = (typeof KUNSKAP_VAULT_TAB_IDS)[number];
 
-export const VALV_ZONE_IDS = ['samla', 'analysera', 'kunskap', 'exportera', 'forensik'] as const;
+/** Utvecklingszon (Vit) — separat från bevis-WORM. */
+export const VIT_VAULT_TAB = 'mitt_vit' as const;
+export const VIT_VAULT_TAB_IDS = [VIT_VAULT_TAB] as const;
+export type VitVaultTab = (typeof VIT_VAULT_TAB_IDS)[number];
+
+export const VALV_ZONE_IDS = ['samla', 'analysera', 'kunskap', 'vit', 'exportera', 'forensik'] as const;
 
 export type ValvZone = (typeof VALV_ZONE_IDS)[number];
 
@@ -48,9 +53,10 @@ export const FORENSIC_VAULT_TAB_IDS = [
 
 export type MainVaultTab = (typeof MAIN_VAULT_TAB_IDS)[number];
 export type ForensicVaultTab = (typeof FORENSIC_VAULT_TAB_IDS)[number];
-export type VaultTab = MainVaultTab | ForensicVaultTab;
+export type VaultTab = MainVaultTab | ForensicVaultTab | VitVaultTab;
 
 export function resolveValvZone(tab: VaultTab): ValvZone {
+  if (isVitVaultTab(tab)) return 'vit';
   if (isKunskapVaultTab(tab)) return 'kunskap';
   if (isForensicVaultTab(tab)) return 'forensik';
   if ((EXPORTERA_VAULT_TAB_IDS as readonly string[]).includes(tab)) return 'exportera';
@@ -74,11 +80,19 @@ export function isKunskapVaultTab(tab: VaultTab): tab is KunskapVaultTab {
   return (KUNSKAP_VAULT_TAB_IDS as readonly string[]).includes(tab);
 }
 
+export function isVitVaultTab(tab: VaultTab): tab is VitVaultTab {
+  return (VIT_VAULT_TAB_IDS as readonly string[]).includes(tab);
+}
+
 export function isPansaretVaultTab(tab: VaultTab): tab is PansaretVaultTab {
   return (PANSARET_VAULT_TAB_IDS as readonly string[]).includes(tab);
 }
 
-const ALL_VAULT_TABS = new Set<string>([...MAIN_VAULT_TAB_IDS, ...FORENSIC_VAULT_TAB_IDS]);
+const ALL_VAULT_TABS = new Set<string>([
+  ...MAIN_VAULT_TAB_IDS,
+  ...FORENSIC_VAULT_TAB_IDS,
+  ...VIT_VAULT_TAB_IDS,
+]);
 
 export function parseVaultTab(raw: string | null): VaultTab {
   if (raw && ALL_VAULT_TABS.has(raw)) return raw as VaultTab;

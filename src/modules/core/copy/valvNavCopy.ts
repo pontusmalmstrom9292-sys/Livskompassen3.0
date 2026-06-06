@@ -19,6 +19,7 @@ export const VALV_ZONE_LABELS = {
   samla: 'Spara & sök',
   analysera: 'Mönster',
   kunskap: 'Kunskapsbank',
+  vit: 'Mitt Vit',
   exportera: 'Rapporter',
   forensik: 'Djupare',
 } as const;
@@ -29,6 +30,7 @@ export const VALV_ZONE_INGRESS: Record<ValvZoneLabelId, string> = {
   samla: 'Samla in bevis och sök i loggen.',
   analysera: 'Mönster och meddelanden — över tid, inte i stunden.',
   kunskap: 'Fakta bakom PIN: Kunskapsbank och personer i ärendet.',
+  vit: 'Dina frågekort och minnen — personlig utveckling, inte bevis mot ex.',
   exportera: 'Dossier för export och översikt.',
   forensik: 'Hamn och fördjupad analys — ett steg i taget.',
 };
@@ -37,9 +39,12 @@ export const VALV_DRAWER_HINTS = {
   samla: 'Objektiv registrering av skriftliga meddelanden och logistik.',
   analysera: 'Strukturerad kartläggning av återkommande mönster och beteenden.',
   kunskap: 'Sparade anteckningar, lagrum och personer i ärendet.',
+  vit: 'Frågekort och känslominnen — din Vit hub över tid.',
   exportera: 'Dossier — explicit export, ingen auto-delning.',
   forensik: 'Tidsstämplade poster som inte går att ändra.',
 } as const;
+
+export const VIT_VAULT_TAB_LABEL = 'Mitt Vit' as const;
 
 export const FORENSIC_VAULT_TAB_LABELS = {
   hamn_analys: 'Meddelanden · analys',

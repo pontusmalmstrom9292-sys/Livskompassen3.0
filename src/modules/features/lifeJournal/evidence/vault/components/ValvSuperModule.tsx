@@ -4,6 +4,7 @@ import { ValvExporteraZone } from './zones/ValvExporteraZone';
 import { ValvForensikZone } from './zones/ValvForensikZone';
 import { ValvKunskapZone } from './zones/ValvKunskapZone';
 import { ValvSamlaZone } from './zones/ValvSamlaZone';
+import { ValvVitZone } from './zones/ValvVitZone';
 import type { VaultLogInput } from '../types/vaultEntry';
 import {
   KUNSKAP_VAULT_TAB,
@@ -96,6 +97,8 @@ export function ValvSuperModule({
       const tab: KunskapVaultTab = isKunskapVaultTab(vaultTab) ? vaultTab : KUNSKAP_VAULT_TAB;
       return <ValvKunskapZone tab={tab} onTabChange={onVaultTabChange} />;
     }
+    case 'vit':
+      return <ValvVitZone userId={userId} />;
     case 'exportera':
       return <ValvExporteraZone />;
     case 'forensik': {

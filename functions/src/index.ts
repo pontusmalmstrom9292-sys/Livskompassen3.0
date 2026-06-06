@@ -1,5 +1,5 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
-import { askMabraCoach, askKbtTransformator, askSpeglingsCoach, askDagbokSnabbCoach } from "./agents/vertexAgent";
+import { askMabraCoach, askVitChatCoach, askKbtTransformator, askSpeglingsCoach, askDagbokSnabbCoach } from "./agents/vertexAgent";
 import { askKnowledgeVaultWithRag } from "./agents/knowledgeVaultAgent";
 import { geminiApiKey } from "./lib/geminiSecret";
 import { generateEmbeddingInternal } from "./lib/generateEmbeddingInternal";
@@ -931,6 +931,34 @@ export const mabraCoach = functions
       }
       const transform = await askKbtTransformator(thought, process.env.GEMINI_API_KEY);
       return { transform, redirectToSpeglar: false };
+    }
+
+    if (mode === 'vit_chat') {
+      const projectId = typeof data.projectId === 'string' ? data.projectId.trim() : '';
+      const vitMessage = typeof data.vitMessage === 'string' ? data.vitMessage.trim() : '';
+      const seedPrompt = typeof data.seedPrompt === 'string' ? data.seedPrompt.trim() : undefined;
+      const validProjects = ['self_esteem', 'emotional_memory', 'learn_together', 'who_am_i'];
+
+      if (!projectId || !validProjects.includes(projectId)) {
+        throw new functions.https.HttpsError(
+          'invalid-argument',
+          'Fältet "projectId" krävs (self_esteem | emotional_memory | learn_together | who_am_i).',
+        );
+      }
+      if (!vitMessage || vitMessage.length > 500) {
+        throw new functions.https.HttpsError(
+          'invalid-argument',
+          'Fältet "vitMessage" krävs (max 500 tecken) för vit_chat.',
+        );
+      }
+      if (shouldRedirectMabraCoachToSpeglar(vitMessage)) {
+        return {
+          coach: MABRA_SPEGLAR_REDIRECT_MESSAGE,
+          redirectToSpeglar: true,
+        };
+      }
+      const coach = await askVitChatCoach(projectId, vitMessage, seedPrompt, process.env.GEMINI_API_KEY);
+      return { coach, redirectToSpeglar: false };
     }
 
     const validHubs = ['panic_rsd', 'self_critical', 'find_self'];

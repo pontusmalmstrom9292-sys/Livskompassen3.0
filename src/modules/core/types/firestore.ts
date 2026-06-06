@@ -196,8 +196,46 @@ export interface BudgetSavings {
   title: string;
   targetSek: number;
   currentSek: number;
+  /** Optional tag — e.g. family adventure fund */
+  tag?: 'family' | 'general';
   createdAt: IsoDateTime;
   updatedAt?: IsoDateTime;
+}
+
+export interface EconomyMealPrepItem {
+  id: string;
+  text: string;
+  done: boolean;
+}
+
+export interface EconomyImpulseItem {
+  userId: string;
+  ownerId: string;
+  label: string;
+  parkedAt: IsoDateTime;
+  remindAt: IsoDateTime;
+  status: 'parked' | 'bought' | 'skipped';
+  createdAt: IsoDateTime;
+  updatedAt?: IsoDateTime;
+}
+
+export interface EconomyImpulseRow extends EconomyImpulseItem {
+  id: string;
+}
+
+/** Manual envelope budget per category (SPEC planned `budgets` collection). */
+export interface BudgetEnvelope {
+  userId: string;
+  ownerId: string;
+  title: string;
+  allocatedSek: number;
+  spentSek: number;
+  createdAt: IsoDateTime;
+  updatedAt?: IsoDateTime;
+}
+
+export interface BudgetEnvelopeRow extends BudgetEnvelope {
+  id: string;
 }
 
 export interface BudgetSavingsRow extends BudgetSavings {
@@ -214,6 +252,8 @@ export interface EconomyProfile {
   flexHoursTarget?: number;
   /** Standard rast (min) vid nya pass — default 30. */
   defaultBreakMinutes?: number;
+  /** Neuro-Kost matprepp checklist */
+  mealPrepItems?: EconomyMealPrepItem[];
   updatedAt?: IsoDateTime;
 }
 
@@ -312,6 +352,8 @@ export const FIRESTORE_COLLECTIONS = {
   economy_ledger: 'economy_ledger',
   economy_fixed_bills: 'economy_fixed_bills',
   budget_savings: 'budget_savings',
+  budgets: 'budgets',
+  economy_impulse_queue: 'economy_impulse_queue',
   time_entries: 'time_entries',
   payslip_snapshots: 'payslip_snapshots',
   planning_tasks: 'planning_tasks',

@@ -25,6 +25,7 @@ import { VaultLockedGate } from '@/core/components/VaultLockedGate';
 import type { VaultLogInput } from '../types/vaultEntry';
 import {
   KUNSKAP_VAULT_TAB,
+  VIT_VAULT_TAB,
   type ValvZone,
   type VaultTab,
   resolveValvZone,
@@ -134,6 +135,7 @@ function VaultPageInner({
     if (zone === 'samla') setVaultTab('logga');
     else if (zone === 'analysera') setVaultTab('monster');
     else if (zone === 'kunskap') setVaultTab(KUNSKAP_VAULT_TAB);
+    else if (zone === 'vit') setVaultTab(VIT_VAULT_TAB);
     else if (zone === 'exportera') setVaultTab('dossier');
     else setVaultTab('hamn_analys');
   };
