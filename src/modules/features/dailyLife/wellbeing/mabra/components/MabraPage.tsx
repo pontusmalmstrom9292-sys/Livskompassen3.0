@@ -48,6 +48,8 @@ import {
   readAllVitProjectLastSeen,
   writeVitProjectLastSeen,
 } from '../lib/vitProjectLastSeen';
+import { MabraModulValjare, type MabraModulChoice } from './MabraModulValjare';
+import { hasSeenMabraModulValjare } from '../lib/mabraModulValjareStorage';
 
 const VIT_PROJECT_IDS: MabraProjectId[] = [
   'self_esteem',
@@ -79,6 +81,10 @@ export function MabraPage() {
   const [hubFocusToken, setHubFocusToken] = useState(0);
   const [lowEnergyMode, setLowEnergyMode] = useState(false);
   const [vitLastSeen, setVitLastSeen] = useState(() => readAllVitProjectLastSeen());
+  const [showHubPicker, setShowHubPicker] = useState(() => {
+    if (searchParams.get('project')) return false;
+    return !hasSeenMabraModulValjare();
+  });
   const sessionStartedAt = useRef<number | null>(null);
   const breathingOnlyRef = useRef(false);
 
@@ -227,6 +233,16 @@ export function MabraPage() {
     handleHubAction(item.action);
   };
 
+  const handleModulChoice = useCallback((choice: MabraModulChoice) => {
+    setShowHubPicker(false);
+    if (choice.kind === 'daglig_mix') {
+      setHubOpenCategory('lekar');
+    } else {
+      setHubOpenCategory(choice.category);
+    }
+    setHubFocusToken((n) => n + 1);
+  }, []);
+
   const openDailyReflectionCard = useCallback(() => {
     const { card } = pickDailyReflectionCard({ uid: userId });
     setTool({ kind: 'reflection_deck', initialBankId: card.bankId });
@@ -334,7 +350,16 @@ export function MabraPage() {
       lead="Snabbstart och zoner — tillbaka öppnar samma zon igen."
       headerAside={<LivBackLink />}
     >
-      {step === 'hub' && (
+      {step === 'hub' && showHubPicker && (
+        <div className="calm-card glow-bottom-gold overflow-hidden rounded-2xl p-4 sm:p-5">
+          <MabraModulValjare
+            onSelect={handleModulChoice}
+            onSkip={() => setShowHubPicker(false)}
+          />
+        </div>
+      )}
+
+      {step === 'hub' && !showHubPicker && (
         <>
           <MabraLowEnergyToggle enabled={lowEnergyMode} onChange={setLowEnergyMode} />
           {!lowEnergyMode && (

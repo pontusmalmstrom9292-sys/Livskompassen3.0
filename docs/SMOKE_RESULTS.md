@@ -14,9 +14,10 @@
 | **Autorun PASS** | #4 Barnen `children_logs` | **PASS** | `smoke:children` · rollout 2026-06-06 |
 | **Autorun PASS** | rollout:night (Block A+B) | **PASS** | 2026-06-06 |
 | **Autorun PASS** | locked-ux, design-modules, inkast, inbox, speglar | **PASS** | 2026-06-06 |
-| **Partial** | Kunskap våg 8 ingest | **PARTIAL** | 53 FACT → anonym uid — omkör med seed-credentials |
+| **Autorun PASS** | Kunskap våg 8 ingest | **PASS** | 53 FACT → `fPIXyAxSnKPubEGBSAwUmxDRfiD3` (Admin SDK + `SEED_FIREBASE_EMAIL`) |
+| **Autorun PASS** | `smoke:kunskap` | **PASS** | 2026-06-06 — ingest + query + citation |
 | **Deploy** | Hosting CaptureSuper v2 | **PASS** | 2026-06-06 |
-| **Deploy saknas** | Hosting ValvSuper Fas 2 | **OPEN** | commit `c5348b56` |
+| **Deploy** | Hosting ValvSuper Fas 2–3 + Vit våg 10–16 | **PASS** | 2026-06-06 (senaste `hosting`-deploy) |
 | **USER (valfritt)** | #3 / #4 dubbelkoll i app | **USER** | autorun täcker backend — se [`2026-06-06-manuell-smoke-checklist.md`](./evaluations/2026-06-06-manuell-smoke-checklist.md) |
 
 **Hub:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md) · **Supermoduler:** [`evaluations/2026-06-06-supermodule-master-plan.md`](./evaluations/2026-06-06-supermodule-master-plan.md)
