@@ -1,4 +1,8 @@
 import type { PlanningTask } from '../types';
+import {
+  countPlaneringIcsExportable,
+  downloadPlaneringIcs,
+} from '../utils/exportPlaneringIcs';
 import { getPlaneringWeekDays } from '../utils/planeringWeekDays';
 import { isPlanningTaskOverdue } from '../utils/planningDueDate';
 
@@ -12,6 +16,7 @@ export function PlaneringWeekCalendar({ tasks, prepared = true }: Props) {
   const days = getPlaneringWeekDays();
   const weekIsos = new Set(days.map((d) => d.iso));
 
+  const exportableCount = countPlaneringIcsExportable(tasks);
   const byDay = new Map<string, PlanningTask[]>();
   for (const task of tasks) {
     if (!task.dueAt || task.status === 'done') continue;
@@ -64,9 +69,19 @@ export function PlaneringWeekCalendar({ tasks, prepared = true }: Props) {
           );
         })}
       </ul>
-      <p className="mt-3 text-xs text-text-dim">
-        ICS-export enligt PLANERINGSSIDA-SPEC (fas 2b) — manuell kalender tills OAuth.
-      </p>
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          className="btn-pill--ghost text-xs disabled:opacity-40"
+          disabled={exportableCount === 0}
+          onClick={() => downloadPlaneringIcs(tasks)}
+        >
+          Exportera ICS ({exportableCount})
+        </button>
+        <span className="text-xs text-text-dim">
+          Manuell kalender — riktiga deadlines, inga mock-händelser.
+        </span>
+      </div>
     </div>
   );
 }

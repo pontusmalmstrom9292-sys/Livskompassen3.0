@@ -20,6 +20,9 @@
 | **Eval** | chat-audit billing + collection | **doc** | [`2026-06-06-billing-audit.md`](./evaluations/2026-06-06-billing-audit.md) · [`2026-06-06-collection-audit.md`](./evaluations/2026-06-06-collection-audit.md) |
 | **Autorun PASS** | rollout:night (Block A+B) | **PASS** | 2026-06-06 |
 | **Autorun PASS** | locked-ux, design-modules, inkast, inbox, speglar | **PASS** | 2026-06-06 · locked-ux Fas 5A #3 re-run |
+| **Autorun PASS** | Super Multitask Agent B (`build` + orkester + locked-ux + design-modules) | **PASS** | 2026-06-06 |
+| **Autorun PASS** | Super Multitask Agent C `smoke:valv-security` + Agent E `smoke:innehall` | **PASS** | 2026-06-06 |
+| **Feature (local)** | P2 Planering ICS export stub (`exportPlaneringIcs.ts`) | **build PASS** | Agent D 2026-06-06 — hosting deploy väntar |
 | **Autorun PASS** | Fas 5A #3 Valv batch (build + 8 smokes) | **PASS** | 2026-06-06 — se batch nedan |
 | **Static PASS** | #20 Valv Mönster/Orkester/Kunskapsbank/drawer | **PASS** | `smoke:locked-ux` 2026-06-06 |
 | **Autorun PASS** | Kunskap våg 8 ingest | **PASS** | 53 FACT → `fPIXyAxSnKPubEGBSAwUmxDRfiD3` (Admin SDK + `SEED_FIREBASE_EMAIL`) |

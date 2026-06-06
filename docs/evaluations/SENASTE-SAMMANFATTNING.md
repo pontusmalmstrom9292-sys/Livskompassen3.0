@@ -22,6 +22,7 @@
 | **Functions callables** | `index.ts` split → `callables/{valv,inbox,knowledge,agents,shared}.ts` · exports oförändrade (`032b84f7`) |
 | **Adaptiv Hemkompass polish** | `HomeAdaptiveCompass` — ParalysPanel, KasamEvening, KompassradPanel, fasväljare, `home_snabbval` |
 | **Modulväljare rollout** | Planering · Ekonomi · Liv previews · Hem Capture · MåBra · Projekt · Valv zon |
+| CaptureSuperModule | Fas 1–3 + **v2** — kompass, hem, valv, planering; ReviewQueuePipelinePanel |
 | **Planering kalender P2** | `/planering/kalender` — veckovy med dueAt från Handling · header-ikon · hosting live 2026-06-06 |
 | InboxReviewQueue | Canonical i VaultSamlaHub |
 | LivSuper Fas 1–3 | Kortgrid · LivBackLink · VardagenShellPage raderad |
