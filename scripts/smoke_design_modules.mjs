@@ -204,6 +204,7 @@ function main() {
   mustInclude('src/styles/obsidian-calm-2.css', '.liv-launcher-grid', '.liv-launcher-card');
   mustInclude('src/modules/shell/LivBackLink.tsx', 'Liv och göra', 'NAV_PATHS.VARDAGEN');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/planering"', 'PlaneringPage');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/planering/kalender"', 'PlaneringKalenderPage');
   mustInclude(
     'src/modules/features/admin/planning/components/PlaneringSuperModule.tsx',
     'PlaneringSuperModule',

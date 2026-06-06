@@ -12,7 +12,7 @@
 - [x] Sub-nav: Handling · Fokus · Framsteg · Inkorg + länk Projekt
 - [x] Fas 1.5 (2026-05-29): dock → Handling, deadline i snabb-lägg, Framsteg-flik, Fokus-knappar
 - [x] Fas 2 (2026-05-29): `planning_email_rules` + Regler-flik (`/planering?tab=regler`)
-- [ ] `/admin/planning/kalender` (P2)
+- [x] `/planering/kalender` (P2) — veckovy + dueAt från Handling
 - [ ] Bro `projectId` på uppgifter från [`../admin/projects/`](../admin/projects/)
 
 ## Kopplingar (backlog)

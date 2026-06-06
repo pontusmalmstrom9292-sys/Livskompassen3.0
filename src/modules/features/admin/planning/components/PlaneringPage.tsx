@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { planeringInkorgHref } from '../planeringInkorgViews';
 import { Calendar, LayoutGrid } from 'lucide-react';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
@@ -91,10 +90,10 @@ export function PlaneringPage() {
         <div className="flex items-center gap-2">
           <LivBackLink />
           <Link
-            to={planeringInkorgHref('kalender')}
+            to="/planering/kalender"
             className="btn-pill--ghost shrink-0 p-2"
-            title="Kalender i Inkorg"
-            aria-label="Öppna kalender i Inkorg"
+            title="Veckokalender"
+            aria-label="Öppna veckokalender"
           >
             <Calendar className="h-4 w-4 text-accent/70" />
           </Link>

@@ -155,7 +155,7 @@ export const PLANERING_HUB_MODULES: Record<
     lead: 'Google Kalender i Inkorg.',
     emoji: '📅',
     icon: Calendar,
-    to: '/planering?tab=inkorg&inbox=kalender',
+    to: '/planering/kalender',
     category: 'tid',
     tone: 'amber',
   },

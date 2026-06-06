@@ -24,7 +24,7 @@
 | **Static PASS** | #20 Valv Mönster/Orkester/Kunskapsbank/drawer | **PASS** | `smoke:locked-ux` 2026-06-06 |
 | **Autorun PASS** | Kunskap våg 8 ingest | **PASS** | 53 FACT → `fPIXyAxSnKPubEGBSAwUmxDRfiD3` (Admin SDK + `SEED_FIREBASE_EMAIL`) |
 | **Autorun PASS** | `smoke:kunskap` | **PASS** | 2026-06-06 — ingest + query + citation |
-| **Deploy** | Hosting hemkompass + orkester-fix | **PASS** | 2026-06-06 |
+| **Deploy** | Hosting MaterialPack Familjen + chat-audit frontend sync | **PASS** | 2026-06-06 |
 | **Deploy** | Hosting ValvSuper Fas 2–3 + Vit våg 10–16 | **PASS** | 2026-06-06 (senaste `hosting`-deploy) |
 | **USER** | #3 Valv UI Shield→PIN→spara post | **USER** | backend/WORM/static **PASS** — kräver Pontus i app · [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md) §A |
 

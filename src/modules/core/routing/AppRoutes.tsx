@@ -33,6 +33,9 @@ const MabraPage = lazy(() =>
 const PlaneringPage = lazy(() =>
   import('@/features/admin/planning').then((m) => ({ default: m.PlaneringPage })),
 );
+const PlaneringKalenderPage = lazy(() =>
+  import('@/features/admin/planning').then((m) => ({ default: m.PlaneringKalenderPage })),
+);
 const ArbetslivHubPage = lazy(() =>
   import('@/features/dailyLife/arbetsliv').then((m) => ({ default: m.ArbetslivHubPage })),
 );
@@ -224,6 +227,14 @@ export function AppRoutes() {
                 element={
                   <AuthGate>
                     <MabraPage />
+                  </AuthGate>
+                }
+              />
+              <Route
+                path="/planering/kalender"
+                element={
+                  <AuthGate>
+                    <PlaneringKalenderPage />
                   </AuthGate>
                 }
               />

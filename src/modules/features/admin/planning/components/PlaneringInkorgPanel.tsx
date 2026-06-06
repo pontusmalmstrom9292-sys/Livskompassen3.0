@@ -29,7 +29,7 @@ export function PlaneringInkorgPanel() {
   const view = parsePlaneringInkorgView(searchParams.get('inbox'));
   const user = useStore((s) => s.user);
   const { connections, prepare, disconnect, bothPrepared } = usePlaneringInboxConnections();
-  const { addTask, error, setError } = usePlanningTasks();
+  const { addTask, error, setError, tasks } = usePlanningTasks();
   const { rules } = usePlanningEmailRules();
   const [paste, setPaste] = useState('');
   const [saving, setSaving] = useState(false);
@@ -221,6 +221,7 @@ export function PlaneringInkorgPanel() {
           disabled={!canPrepare}
           onPrepare={() => handlePrepare('google_calendar')}
           onDisconnect={() => disconnect('google_calendar')}
+          tasks={tasks}
         />
       )}
 
