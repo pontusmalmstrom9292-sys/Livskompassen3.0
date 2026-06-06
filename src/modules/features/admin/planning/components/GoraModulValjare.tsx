@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { ExamplePreviewCard } from './ExamplePreviewCard';
+import { ExamplePreviewCard } from '@/shared/ui/ExamplePreviewCard';
 import {
   FokusPreviewMini,
   FramstegPreviewMini,

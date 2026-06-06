@@ -14,6 +14,7 @@ import {
   LIV_LAUNCHER_EXTERNAL,
   LIV_LAUNCHER_INLINE_TABS,
 } from './livLauncherRoutes';
+import { LIV_LAUNCHER_PREVIEWS } from './livLauncherPreviews';
 
 export type LivLauncherId =
   | 'kompasser'
@@ -125,6 +126,7 @@ export function LivLauncherGrid({ activeId, onSelect }: LivLauncherGridProps) {
             <span className="liv-launcher-card__body">
               <span className="liv-launcher-card__label">{card.label}</span>
               <span className="liv-launcher-card__hint">{card.hint}</span>
+              {LIV_LAUNCHER_PREVIEWS[card.id]}
             </span>
             {card.external ? (
               <ChevronRight
