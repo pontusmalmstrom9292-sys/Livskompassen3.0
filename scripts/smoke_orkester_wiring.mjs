@@ -78,7 +78,12 @@ function main() {
     'src/modules/features/lifeJournal/diary/diary/hooks/useJournalFlow.ts',
     'weaveJournalEntry',
     'journalWovenToKampspar',
-    "hasVaultGate()",
+    'if (hasVaultGate())',
+    'weaveJournalEntry({ journalEntryId: id, mood, text: entryText })',
+  );
+  mustNotInclude(
+    'src/modules/features/lifeJournal/diary/diary/hooks/useJournalFlow.ts',
+    'optInKampspar && hasVaultGate()',
   );
   mustInclude('functions/src/index.ts', 'journalWovenToKampspar', "trigger: 'journal_woven'");
   mustInclude(

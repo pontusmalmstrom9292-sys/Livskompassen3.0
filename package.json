@@ -30,6 +30,7 @@
     "smoke:compass": "node scripts/smoke_compass.mjs",
     "smoke:mabra": "node scripts/smoke_mabra.mjs",
     "smoke:valv": "node scripts/smoke_valv_chat.mjs",
+    "smoke:valv-gate": "node scripts/smoke_valv_session_gate.mjs",
     "smoke:children": "node scripts/smoke_children_logs.mjs",
     "smoke:child-moment": "node scripts/smoke_child_moment.mjs",
     "smoke:entities": "node scripts/smoke_entity_profiles.mjs",

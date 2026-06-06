@@ -384,5 +384,27 @@ service cloud.firestore {
         && request.resource.data.userId == request.auth.uid;
       allow delete: if isOwner();
     }
+
+    match /user_widgets/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.type in ['countdown', 'checklist', 'linked_savings', 'quick_note']
+        && request.resource.data.title is string
+        && request.resource.data.title.size() >= 1
+        && request.resource.data.title.size() <= 100
+        && request.resource.data.pinnedToHome is bool
+        && request.resource.data.order is int
+        && request.resource.data.config is map;
+      allow update: if isOwner()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.type == resource.data.type
+        && request.resource.data.title == resource.data.title
+        && request.resource.data.pinnedToHome == resource.data.pinnedToHome
+        && request.resource.data.order == resource.data.order
+        && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['config', 'updatedAt']);
+      allow delete: if isOwner();
+    }
   }
 }

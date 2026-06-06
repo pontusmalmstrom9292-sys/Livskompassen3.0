@@ -199,7 +199,7 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
                     categoryLabel={categoryLabel}
                     saving={saving}
                     weaveToKampspar={weaveToKampspar}
-                    showWeaveOptIn={vaultSessionOpen}
+                    showWeaveOptIn={Boolean(user?.uid)}
                     onWeaveToKampsparChange={setWeaveToKampspar}
                     onBack={() => goToStep('text')}
                     onSave={handleSave}
