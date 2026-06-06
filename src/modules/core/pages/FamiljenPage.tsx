@@ -6,7 +6,7 @@ import { DrogfrihetHubPage } from '@/features/dailyLife/drogfrihet';
 import { HubPageShell } from '../layout/HubPageShell';
 import { HubDropdownNav, type DropdownItem } from '../ui/HubDropdownNav';
 import { CognitiveLoadStrip } from '../ui/CognitiveLoadStrip';
-import { NAV_PATHS } from '../navigation/navTruth';
+import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
 import { vaultRedirectSearch } from '../navigation/vaultLegacyRedirect';
 import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
 import { FamiljenChildPicker } from '@/features/family/children/components/familjen/FamiljenChildPicker';
@@ -42,6 +42,9 @@ const LEGACY_TAB_REDIRECTS: Record<string, { pathname: string; search: string }>
   kunskap: { pathname: NAV_PATHS.VALVET, search: vaultRedirectSearch('kunskapsbank') },
   monster: { pathname: NAV_PATHS.VALVET, search: vaultRedirectSearch('familjen_monster') },
 };
+
+/** smoke:orkester — vaultDrawerPath kanon (runtime via vaultRedirectSearch). */
+export type FamiljenValvDrawerWiring = typeof vaultDrawerPath;
 
 /** Zon 3 — Familjehubben: barnfokus, livslogg, tillsammans, barnporten, BIFF. */
 export function FamiljenPage() {

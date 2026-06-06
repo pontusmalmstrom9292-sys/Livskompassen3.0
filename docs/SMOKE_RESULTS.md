@@ -10,13 +10,15 @@
 | **Manuell PASS** | #2 Dagbok → `journal` | **PASS** | 2026-05-27 |
 | **Manuell PASS** | #2d Dagbok bilaga → `journal_memories` | **PASS** | 2026-06-06 (USER) |
 | **Manuell PASS** | #18 Ekonomi → `transactions` | **PASS** | 2026-05-27 |
+| **Autorun PASS** | #2d `smoke:journal-2d` + rollout | **PASS** | 2026-06-06 |
 | **Autorun PASS** | #3 WORM `reality_vault` | **PASS** | `smoke:vault-worm` · rollout 2026-06-06 |
 | **Autorun PASS** | #4 Barnen `children_logs` | **PASS** | `smoke:children` · rollout 2026-06-06 |
+| **Autorun PASS** | `smoke:orkester` + `orkester:night` | **PASS** | 2026-06-06 |
 | **Autorun PASS** | rollout:night (Block A+B) | **PASS** | 2026-06-06 |
 | **Autorun PASS** | locked-ux, design-modules, inkast, inbox, speglar | **PASS** | 2026-06-06 |
 | **Autorun PASS** | Kunskap våg 8 ingest | **PASS** | 53 FACT → `fPIXyAxSnKPubEGBSAwUmxDRfiD3` (Admin SDK + `SEED_FIREBASE_EMAIL`) |
 | **Autorun PASS** | `smoke:kunskap` | **PASS** | 2026-06-06 — ingest + query + citation |
-| **Deploy** | Hosting CaptureSuper v2 | **PASS** | 2026-06-06 |
+| **Deploy** | Hosting hemkompass + orkester-fix | **PASS** | 2026-06-06 |
 | **Deploy** | Hosting ValvSuper Fas 2–3 + Vit våg 10–16 | **PASS** | 2026-06-06 (senaste `hosting`-deploy) |
 | **USER (valfritt)** | #3 / #4 dubbelkoll i app | **USER** | autorun täcker backend — se [`2026-06-06-manuell-smoke-checklist.md`](./evaluations/2026-06-06-manuell-smoke-checklist.md) |
 

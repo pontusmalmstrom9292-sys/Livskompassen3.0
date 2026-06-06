@@ -1,13 +1,13 @@
 # Senaste sammanfattning — systemstatus
 
 **Datum:** 2026-06-06 · **Gren:** `main` · Repo: Livskompassen3.0  
-**Senaste leverans:** Adaptiv Hemkompass-polish (Paralys/KASAM/kompassråd/fasväljare)
+**Senaste leverans:** Autonom v2 — orkester PASS + Familjen vault wiring + hosting deploy
 
 ---
 
 ## Nuläge i en mening
 
-**Superhub + modulväljare + adaptiv hemkompass** med backend Paralys, KASAM kväll och preset-styrda snabbval.
+**Hemkompass polish deployad** · smoke rollout/compass grön · ingen git push (väntar ditt OK).
 
 ---
 

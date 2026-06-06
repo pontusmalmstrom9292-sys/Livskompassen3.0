@@ -89,7 +89,7 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
           <Link to={NAV_PATHS.VALVET} className="btn-pill--ghost text-xs">
             Dokumentera neutralt (Bevis)
           </Link>
-          <Link to="/mabra" className="btn-pill--ghost text-xs">
+          <Link to="/vardagen?tab=mabra" className="btn-pill--ghost text-xs">
             Landning (MåBra)
           </Link>
           <button type="button" onClick={onKlar} className="btn-pill--success text-xs">
@@ -117,7 +117,7 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
           </div>
         </BentoCard>
         <div className="flex flex-col gap-2">
-          <Link to="/mabra" className="btn-pill--ghost text-sm">
+          <Link to="/vardagen?tab=mabra" className="btn-pill--ghost text-sm">
             Landning (MåBra)
           </Link>
           <Link to="/familjen" className="btn-pill--ghost text-sm">
