@@ -6,7 +6,19 @@ import { db } from '@/core/firebase/firestore';
 import { FIRESTORE_COLLECTIONS } from '@/core/types/firestore';
 import { useStore } from '@/core/store';
 import { CHILD_ALIASES, type ChildAlias } from '@/features/family/children/constants';
+import type { FunctionsError } from 'firebase/functions';
 import { createBarnportenPairing } from '../api/barnportenPairingService';
+
+function extractCallableErrorMessage(error: unknown): string {
+  const fnError = error as FunctionsError & { details?: unknown };
+  if (typeof fnError.message === 'string' && fnError.message.trim()) {
+    return fnError.message;
+  }
+  if (typeof fnError.details === 'string' && fnError.details.trim()) {
+    return fnError.details;
+  }
+  return 'Kunde inte skapa QR. Kontrollera nät och att functions är deployade.';
+}
 
 type DeviceRow = {
   id: string;
@@ -79,8 +91,8 @@ export function BarnportenQrPanel() {
           minute: '2-digit',
         }),
       );
-    } catch {
-      setError('Kunde inte skapa QR. Kontrollera nät och att functions är deployade.');
+    } catch (error) {
+      setError(extractCallableErrorMessage(error));
     } finally {
       setLoading(false);
     }

@@ -5,7 +5,19 @@ import {
   getOrCreateBarnportenDeviceId,
   writeBarnportenChildAlias,
 } from '../constants/barnportenDeviceId';
+import type { FunctionsError } from 'firebase/functions';
 import { claimBarnportenPairing } from '../api/barnportenPairingService';
+
+function extractCallableErrorMessage(error: unknown): string {
+  const fnError = error as FunctionsError & { details?: unknown };
+  if (typeof fnError.message === 'string' && fnError.message.trim()) {
+    return fnError.message;
+  }
+  if (typeof fnError.details === 'string' && fnError.details.trim()) {
+    return fnError.details;
+  }
+  return 'Koppling misslyckades. Försök igen.';
+}
 
 type PairState =
   | { phase: 'idle' }
@@ -46,9 +58,7 @@ export function useBarnportenPairClaim() {
         setSearchParams(next, { replace: true });
       } catch (error) {
         if (cancelled) return;
-        const message =
-          error instanceof Error ? error.message : 'Koppling misslyckades. Försök igen.';
-        setState({ phase: 'error', message });
+        setState({ phase: 'error', message: extractCallableErrorMessage(error) });
       }
     })();
 
