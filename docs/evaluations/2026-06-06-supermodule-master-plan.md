@@ -14,6 +14,7 @@
 | `SpeglarSuperModule` | dagbok · forensic | **Fas 2 done** |
 | `ValvSuperModule` | samla · analysera · kunskap · exportera · forensik | **Fas 1 done** |
 | `DagbokSuperModule` | reflektion · forensic-readonly | **Fas 1 done** |
+| `PlaneringSuperModule` | inkorg · capture | **Fas 1 done** |
 
 **Regel:** Tunn router → canonical delegate. Konsumenter importerar aldrig zonspecifika paneler direkt (smoke-guard).
 
@@ -57,13 +58,15 @@
 
 ---
 
-### 3. PlaneringSuperModule — **DEFER (låg risk)**
+### 3. PlaneringSuperModule — **DONE 2026-06-06**
 
-**Mål:** Aktivera `CaptureSuperModule variant="planering"` i PlaneringHub (variant finns redan).
+| Fil | Roll |
+|-----|------|
+| `PlaneringSuperModule.tsx` | `inkorg` · `capture` |
+| `PlaneringPage` | `?tab=inkorg` → `variant="inkorg"` |
+| `PlaneringInkorgPanel` | Översikt → `variant="capture"` + `InboxReviewQueueLink` |
 
-**Scope:** Byt inline capture → `CaptureSuperModule`; behåll `InboxReviewQueueLink` (ej duplikat kö).
-
-**Kanon:** [`2026-06-06-upload-unified-cursor-plan.md`](./2026-06-06-upload-unified-cursor-plan.md) Fas 2.
+**Smoke:** rollout static guards — PASS
 
 ---
 
@@ -125,4 +128,4 @@
 
 ## Nästa steg (1)
 
-**PlaneringSuperModule** — aktivera `CaptureSuperModule variant="planering"` i PlaneringHub.
+**BarnfokusSuper** (Familjen) — slå ihop `reflektion` + `livslogg` under en router; lägst PMIR-risk.

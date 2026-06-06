@@ -13,7 +13,7 @@ import { PlaneringFokusPanel } from './PlaneringFokusPanel';
 import { PlanningIntegrationPanel } from './PlanningIntegrationPanel';
 import { PlaneringEmailRulesPanel } from './PlaneringEmailRulesPanel';
 import { PlaneringFramstegPanel } from './PlaneringFramstegPanel';
-import { PlaneringInkorgPanel } from './PlaneringInkorgPanel';
+import { PlaneringSuperModule } from './PlaneringSuperModule';
 import { PlaneringHub } from './PlaneringHub';
 import { PlaneringHubLayoutPicker } from './PlaneringHubLayoutPicker';
 import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
@@ -51,7 +51,7 @@ export function PlaneringPage() {
       case 'framsteg':
         return <PlaneringFramstegPanel />;
       case 'inkorg':
-        return <PlaneringInkorgPanel />;
+        return <PlaneringSuperModule variant="inkorg" />;
       case 'regler':
         return (
           <div className="space-y-6">

@@ -16,6 +16,7 @@ import {
 } from '../planeringInkorgViews';
 import { PlaneringInboxConnectionCard } from './PlaneringInboxConnectionCard';
 import { PlaneringInkorgCalendarPanel } from './PlaneringInkorgCalendarPanel';
+import { PlaneringSuperModule } from './PlaneringSuperModule';
 
 /** Inkorg — Gmail + Google Kalender (förbered) · G10-kö · klistra-in mejl. */
 export function PlaneringInkorgPanel() {
@@ -93,6 +94,8 @@ export function PlaneringInkorgPanel() {
             Koppla mejl och kalender hit — en plats att sortera innan Handling. Synk med Google
             aktiveras i nästa fas; du kan förbereda med ditt inloggade konto nu.
           </p>
+
+          <PlaneringSuperModule variant="capture" />
 
           <div className="planering-inbox-connect-grid">
             <PlaneringInboxConnectionCard

@@ -173,6 +173,29 @@ function main() {
   mustInclude('src/styles/obsidian-calm-2.css', '.liv-launcher-grid', '.liv-launcher-card');
   mustInclude('src/modules/shell/LivBackLink.tsx', 'Liv och göra', 'NAV_PATHS.VARDAGEN');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/planering"', 'PlaneringPage');
+  mustInclude(
+    'src/modules/features/admin/planning/components/PlaneringSuperModule.tsx',
+    'PlaneringSuperModule',
+    "'inkorg'",
+    "'capture'",
+    "variant=\"planering\"",
+  );
+  mustInclude(
+    'src/modules/features/admin/planning/components/PlaneringPage.tsx',
+    'PlaneringSuperModule',
+    'variant="inkorg"',
+  );
+  mustInclude(
+    'src/modules/features/admin/planning/components/PlaneringInkorgPanel.tsx',
+    'PlaneringSuperModule',
+    'variant="capture"',
+    'InboxReviewQueueLink',
+  );
+  assert(
+    !read('src/modules/features/admin/planning/components/PlaneringPage.tsx').includes('PlaneringInkorgPanel'),
+    'PlaneringPage.tsx',
+    'delegerar inkorg till PlaneringSuperModule — inte direkt PlaneringInkorgPanel-import',
+  );
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/projekt/ny"', 'path="/projekt/regler"');
   mustInclude('src/modules/features/admin/planning/components/PlaneringHub.tsx', 'ProjektPickerSheet');
   mustInclude('src/modules/core/firebase/storage.ts', 'uploadProjectImage');
