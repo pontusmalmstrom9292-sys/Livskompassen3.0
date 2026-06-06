@@ -171,9 +171,6 @@ export function mapFlatRowsToArchiveTree(
   return roots;
 }
 
-/** @deprecated Använd mapFlatRowsToArchiveTree */
-export const buildArchiveTreeFromKunskap = mapFlatRowsToArchiveTree;
-
 export function filterArchiveTree(nodes: ArchiveNode[], query: string): ArchiveNode[] {
   const q = query.trim().toLowerCase();
   if (!q) return nodes;

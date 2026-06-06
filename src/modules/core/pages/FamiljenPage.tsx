@@ -6,7 +6,8 @@ import { DrogfrihetHubPage } from '@/features/dailyLife/drogfrihet';
 import { HubPageShell } from '../layout/HubPageShell';
 import { HubDropdownNav, type DropdownItem } from '../ui/HubDropdownNav';
 import { CognitiveLoadStrip } from '../ui/CognitiveLoadStrip';
-import { vaultDrawerPath, NAV_PATHS } from '../navigation/navTruth';
+import { NAV_PATHS } from '../navigation/navTruth';
+import { vaultRedirectSearch } from '../navigation/vaultLegacyRedirect';
 import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
 import { FamiljenChildPicker } from '@/features/family/children/components/familjen/FamiljenChildPicker';
 import { BarnfokusSuperModule } from '@/features/family/children/components/familjen/BarnfokusSuperModule';
@@ -37,14 +38,8 @@ function resolveTab(raw: string | null): FamiljenTabId {
   return 'reflektion';
 }
 
-function vaultRedirectSearch(vaultTab: string): string {
-  const vaultPath = vaultDrawerPath(vaultTab);
-  const qIndex = vaultPath.indexOf('?');
-  return qIndex >= 0 ? vaultPath.slice(qIndex) : '';
-}
-
 const LEGACY_TAB_REDIRECTS: Record<string, { pathname: string; search: string }> = {
-  kunskap: { pathname: NAV_PATHS.VALVET, search: '?vaultTab=kunskapsbank' },
+  kunskap: { pathname: NAV_PATHS.VALVET, search: vaultRedirectSearch('kunskapsbank') },
   monster: { pathname: NAV_PATHS.VALVET, search: vaultRedirectSearch('familjen_monster') },
 };
 

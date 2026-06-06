@@ -11,7 +11,7 @@ import {
 import type { JournalCategoryId } from '../constants/journalCategories';
 import { HandoffBox } from './HandoffBox';
 import { JournalDetailsPanel } from './JournalDetailsPanel';
-import { shouldShowJournalHandoff } from '../utils/journalHandoff';
+import { shouldShowValvHandoff } from '@/core/triggers/valvHandoff';
 
 type WriteMode = 'fritt' | 'snabb' | 'tre-ord';
 
@@ -83,7 +83,7 @@ export function ReflectionStep({
 
   const canContinue =
     mode === 'tre-ord' ? text.trim().split(/\s+/).filter(Boolean).length > 0 : text.trim().length > 0;
-  const showHandoff = shouldShowJournalHandoff(text);
+  const showHandoff = shouldShowValvHandoff(text);
 
   return (
     <div className="reflektion-panel">

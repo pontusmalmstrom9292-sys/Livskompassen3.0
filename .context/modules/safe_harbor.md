@@ -1,9 +1,9 @@
 # Safe Harbor (Hamn)
 
-**Kanonisk kod:** `src/modules/family/safeHarbor/` (legacy: `modules/safe_harbor` shim)  
-**Sacred Feature.** **Route:** `/hamn` · **AuthGate:** ja · **Dock:** Anchor  
+**Kanonisk kod:** `src/modules/features/family/safeHarbor/`  
+**Sacred Feature.** **Route:** `/familjen?tab=hamn` · **Legacy:** `/hamn` → redirect · **AuthGate:** ja  
 **Design:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md) (Obsidian Calm, Riktning A)  
-**Incoming spec:** [`docs/specs/modules/SafeHarbor-SPEC.md`](../../docs/specs/modules/SafeHarbor-SPEC.md)
+**Spec:** [`docs/specs/modules/SafeHarbor-SPEC.md`](../../docs/specs/modules/SafeHarbor-SPEC.md)
 
 ---
 
@@ -15,78 +15,35 @@ Känslomässig brandvägg för ex-kommunikation. BIFF + Grey Rock utan JADE. Kog
 
 | Variant | Ingång |
 |---------|--------|
-| **A (aktiv)** | FloatingDock Anchor, HomePage bento |
-| **B (done)** | Bro från `/speglar` med `prefilledMessage` |
+| **A (aktiv)** | Familjen → Trygg hamn (`?tab=hamn`), HomePage bento |
+| **B (done)** | Bro från `/hjartat?tab=speglar` med `prefilledMessage` |
+| **Legacy** | `/hamn` → `/familjen?tab=hamn` |
 
 ## 3. UX-flöde
 
-**Målbild (progressive disclosure):** inmatning → Brusfilter → mål → BIFF-svar → kopiera + Klar.
+**Idag:** en sida — textarea → Generera BIFF-svar → kopiera (ingen Brusfilter-vy, mål-fält, Klar, valfri valv-export).
 
-**Idag:** en sida — textarea → Generera BIFF-svar → kopiera (ingen Brusfilter-vy, mål-fält, Klar, valv-export).
-
-## 4. Visuell design
-
-Obsidian Calm enligt design-master. Guld/indigo/emerald. Fortsätt-knapp idigo i flerstegs-flöde (planerat).
-
-## 5. Datamodell
+## 4. Datamodell
 
 | Lagring | Standard | WORM |
 |---------|----------|------|
 | Hamn UI | Zero Footprint — inget sparas | — |
 | "Spara som bevis" | **done** → `reality_vault` (`action: hamn_biff`) | ja |
 
-## 6. Backend
+## 5. Backend
 
 - `analyzeMessage` callable → KompisSupervisor + DCAP
 - `biffService.ts` — klient-wrapper, `extractGreyRockReply`
-- Ingen separat `generateBiffResponse` callable
 
-## 7. Säkerhet
+## 6. Status idag vs planerat
 
-- AuthGate
-- Ex-text endast via server-side callable
-- Zero Footprint: Klar/unmount **planerat**; global `useShakeToKill` finns
+| Klart | Planerat |
+|-------|----------|
+| SafeHarborPage + formulär, analyzeMessage + BIFF-svar, kopiera + spara bevis, Bro Speglar→Hamn, AuthGate | Flerstegs-wizard, Brusfilter-vy, "Klar" + state reset |
 
-## 8. Status idag vs planerat
-
-| Klart | Delvis | Planerat |
-|-------|--------|----------|
-| SafeHarborPage + formulär | Brusfilter (backend DCAP, ej UI-steg) | Flerstegs-wizard |
-| analyzeMessage + BIFF-svar | | Visuellt Brusfilter |
-| Kopiera svar + spara bevis | | "Klar" + state reset |
-| riskScore i UI | | Dölj sms tills "har energi" |
-| Bro Speglar→Hamn | | |
-| AuthGate, dock, bento | | |
-| Spara som bevis → valv | | |
-| Speglar-bro (`prefilledMessage`) | | |
-
-## Kladd 2026-05-21
-
-- **Kladd:** Grey Rock 10/90, logistik vs brus, inga JADE-svar.
-- **Soc-strategi:** Kort, faktabaserat — barnets behov.
-- **Gap:** Brusfilter som synligt UI-steg; Zero Footprint unmount på råtext.
-- **Ej planerat nu:** Auto-dölj inkommande sms (fas 2).
-
-## 9. Acceptanskriterier
-
-Se incoming SPEC — rad 1–2 delvis klara, 3–4 planerade.
-
-## 10. Kopplingar
+## 7. Kopplingar
 
 - **Speglings-Systemet** — bro vid gaslighting (**done**, `prefilledMessage`)
 - **Verklighetsvalvet** — valfri WORM-export av ex-meddelande (**done**, `saveVaultLog`)
 
-## 11. Navigation
-
-Se [`docs/specs/navigation-master.md`](../../docs/specs/navigation-master.md): Variant A aktiv.
-
-## Kod
-
-`src/modules/safe_harbor/` · plan: `src/modules/safe_harbor/module_plan.md`
-
-## Gap — minimal nästa implementationsdiff
-
-1. Flerstegs-flöde: Brusfilter-vy + mål-fält  
-2. "Klar"-knapp + unmount cleanup (Zero Footprint)  
-3. Link/state från `SpeglingsSystem` → `/hamn`  
-4. "Spara som bevis" → `saveVaultLog`
+Kod: `src/modules/features/family/safeHarbor/` · Plan: [`src/modules/features/family/safeHarbor/module_plan.md`](../../src/modules/features/family/safeHarbor/module_plan.md)

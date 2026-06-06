@@ -6,17 +6,12 @@ import { TabBar, type TabBarItem } from '@/core/ui/TabBar';
 import { StampClockPage } from '@/features/admin/stampla/components/StampClockPage';
 import { EconomyTidPanel } from '@/features/dailyLife/wellbeing/economy/components/EconomyTidPanel';
 import { EconomyLogPanel } from '@/features/dailyLife/wellbeing/economy/components/EconomyLogPanel';
-import { vaultDrawerPath, NAV_PATHS } from '@/core/navigation/navTruth';
+import { NAV_PATHS, vaultDrawerPath } from '@/core/navigation/navTruth';
+import { vaultRedirectSearch } from '@/core/navigation/vaultLegacyRedirect';
 import { useHubTab } from '@/core/navigation/hooks/useHubTab';
 import { LivBackLink } from '@/modules/shell/LivBackLink';
 
 export type ArbetslivTab = 'stampla' | 'tid' | 'logg';
-
-function vaultRedirectSearch(vaultTab: string): string {
-  const vaultPath = vaultDrawerPath(vaultTab);
-  const qIndex = vaultPath.indexOf('?');
-  return qIndex >= 0 ? vaultPath.slice(qIndex) : '';
-}
 
 /** Arbetsliv — stämpel, tid, logg publikt. Frånvaro/lön via Valv-menyn. */
 export function ArbetslivHubPage() {

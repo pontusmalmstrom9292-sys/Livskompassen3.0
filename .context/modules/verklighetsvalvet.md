@@ -1,7 +1,7 @@
 # Verklighetsvalvet
 
-**Kanonisk kod:** `src/modules/evidence/vault/` (legacy: `modules/verklighetsvalvet` shim)  
-**Sacred Feature (Sanningens Sköld).** **Route:** `/dagbok?tab=bevis` · **Redirect:** `/valv` · **AuthGate:** ja  
+**Kanonisk kod:** `src/modules/features/lifeJournal/evidence/vault/`  
+**Sacred Feature (Sanningens Sköld).** **Route:** `/valvet?vaultTab=…` · **Legacy:** `/dagbok?tab=bevis`, `/valv` → redirect · **AuthGate:** ja  
 **Spec (konsoliderad):** [`docs/specs/modules/Verklighetsvalvet-SPEC.md`](../../docs/specs/modules/Verklighetsvalvet-SPEC.md)
 
 ## Syfte
@@ -12,23 +12,24 @@
 
 | Komponent | Roll |
 |-----------|------|
-| `HjartatPage` | Kluster: Reflektion \| Bevis \| Speglar |
-| `VaultPage` | PIN-gate, flikar Logga \| Sök, Stäng → Reflektion |
+| `ValvetRoutePage` / `VaultPage` | PIN-gate, zoner + flikar (Arkiv, Mönster, Orkester, …) |
 | `VaultEntryForm` | Enkel / tvåspalt / tresteg / magkänsel + media + röst |
 | `VaultLogList` | Append-only lista + PDF per post |
 | `ValvChatPanel` | Sök-flik → `valvChatQuery` |
-| `FloatingDock` | Fyren: 3s BookOpen → WebAuthn → bevis |
+| `FloatingDock` | Fyren: 3s BookOpen → WebAuthn → Valv |
 
-**Inmatning:** `entryType` + `truth`; media = **en** `evidenceUrl`. Röst = Web Speech → text.
+**Terminologi (låst):** se [`valvNavCopy.ts`](../../src/modules/core/copy/valvNavCopy.ts) — t.ex. flik `logga` = **Arkiv**, drawer **Bevis** = Valv-zon.
 
 ## Navigation
 
 | Ingång | Beteende |
 |--------|----------|
-| **Fyren** (3s long-press BookOpen) | WebAuthn → PIN → `/dagbok?tab=bevis` |
-| Flik **Bevis** (synlig idag) | Direkt till valv (svagare plausible deniability) |
-| `/valv` | Redirect → `?tab=bevis`; standalone kräver gate |
-| **Mål:** dölj Bevis-flik | Endast Fyren — när muskelminne sitter |
+| **Fyren** (3s long-press BookOpen) | WebAuthn → PIN → `/valvet` |
+| Drawer Valv-sektion (efter PIN) | `/valvet?vaultTab=…` |
+| `/dagbok?tab=bevis` | Redirect → `/valvet?vaultTab=…` |
+| `/valv`, `/kunskap`, `/dossier` | Redirect → `/valvet?vaultTab=…` |
+
+**Hjärtat har ingen Bevis-flik** — Valv är egen silo-route (`NAV_PATHS.VALVET`).
 
 ## Datamodell (WORM)
 
@@ -42,6 +43,7 @@
 | Klient `saveVaultLog` | `reality_vault` (inte callable) |
 | `uploadVaultEvidence` | Storage → `evidenceUrl` |
 | `valvChatQuery` | RAG token-match, Sannings-Analytikern |
+| `issueVaultSession` | Server-side valv-session gate |
 | `exportVaultRecordAsPdf` | Klient print per post |
 
 **Drive (G10):** `classifyInboxDocument` → `kb_docs` | `reality_vault` (bevis) | `children_logs` | `inbox_queue` (trauma/LVU utan optIn). Bevis **MUST NOT** till `kb_docs`.
@@ -50,29 +52,14 @@
 
 | Klart | Delvis | Planerat |
 |-------|--------|----------|
-| Fyren, WebAuthn, PIN, WORM, 4 entry modes, media, röst, PDF/post, Valv-Chat, shake, flik-lås | Synlig Bevis-flik (produktgap), Zero Footprint idle | Dölj Bevis-flik, klickbara citations, Drive→valv, Dossier batch, Sanningens Ankare, CMEK, duress-PIN |
-
-## Kladd 2026-05-21
-
-- **Bevisprioritet:** Orosanmälan 2026-03-05, skola (Ann), barnsamtal, läkarintyg, sms-PDF tvåspalt.
-- **Metod:** Hela sms-tråd som PDF — inte långa skärmdumpslingor.
-- **Gap:** Vävaren skriver auto `vävaren_metadata` — godkännande före permanent tagg **planerat**.
-- **Avvisat:** Auto Storage Agentic Vision; GAS-WORM; SVG magkänsel (→ text-chips).
+| Fyren, WebAuthn, PIN, WORM, 4 entry modes, media, röst, PDF/post, Valv-Chat, flik-lås, issueVaultSession | Zero Footprint idle | Klickbara citations, Drive→valv, Sanningens Ankare, CMEK, duress-PIN |
 
 ## Säkerhet
 
 - WORM rules + `assertWormPayload`
-- WebAuthn (Fyren) + PIN (VaultPage)
+- WebAuthn (Fyren) + PIN (VaultPage) + `issueVaultSession`
 - Valv-Chat RAM-reset vid flikbyte
-- Kill Switch: 15 m/s², debounce 2s
-
-## Produktbeslut (låsta 2026-05)
-
-1. Drive G10: bevis → `reality_vault` auto; trauma/LVU utan optIn → `inbox_queue` (HITL)
-2. PDF: **klient per post**; Dossier callable senare
-3. Valv-Chat: **nollställ vid flikbyte**
-4. Auth: **WebAuthn + PIN** (duress senare)
-5. Bevis-flik: **dölj** när Fyren sitter i muskelminnet
+- Device Clear (ersätter Kill Switch)
 
 ## Kopplingar
 
@@ -80,6 +67,6 @@
 - **Valv-Chat** — [`valv_chatt.md`](valv_chatt.md)
 - **Speglar** — EvidenceCompare
 - **Kunskap** — skild RAG; Drive G10 → rätt silo (bevis → `reality_vault`)
-- **Dossier** — planerad aggregation
+- **Dossier** — `generateDossier` callable
 
-Kod: `src/modules/verklighetsvalvet/` · Plan: [`src/modules/verklighetsvalvet/module_plan.md`](../../src/modules/verklighetsvalvet/module_plan.md) · Prompter: [`docs/specs/ai-prompts-heart.md`](../../docs/specs/ai-prompts-heart.md)
+Kod: `src/modules/features/lifeJournal/evidence/vault/` · Plan: [`src/modules/features/lifeJournal/evidence/vault/module_plan.md`](../../src/modules/features/lifeJournal/evidence/vault/module_plan.md)

@@ -2,6 +2,7 @@
 
 **Sacred Feature** — reaktiv kognitiv sköld mot gaslighting/RSD.
 
+**Kanonisk kod:** `src/modules/features/lifeJournal/diary/mirror/`  
 **Spec (konsoliderad):** [`docs/specs/modules/Speglar-SPEC.md`](../../docs/specs/modules/Speglar-SPEC.md)  
 **Design:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md) (Obsidian Calm)
 
@@ -13,8 +14,8 @@ ACT (validera, aldrig fixa) + VIVIR + jämför känsla mot WORM-bevis. Grey Rock
 
 | | |
 |---|---|
-| **Route** | `/dagbok?tab=speglar` (redirect `/speglar`) |
-| **AuthGate** | `/dagbok` (Hjärtat) |
+| **Route** | `/hjartat?tab=speglar` (legacy redirect `/speglar`) |
+| **AuthGate** | `/hjartat` (Hjärtat) |
 | **Dock** | Inte i FloatingDock |
 
 **Ingång:** Dagbok `SavedStep` (`journalContext`) · flik **Speglar** i Hjärtat · ClusterGrid.
@@ -24,7 +25,7 @@ ACT (validera, aldrig fixa) + VIVIR + jämför känsla mot WORM-bevis. Grey Rock
 1. **ACT** — `ActCalibrationView` + valfri `speglingsMirror`
 2. **VIVIR** — fem steg (`VivirStepView`)
 3. **EvidenceCompare** — `matchVaultEvidence` mot `reality_vault` (kräver upplåst valv)
-4. **Hamn** — länk med `prefilledMessage` (redigerbart i Hamn)
+4. **Hamn** — länk med `prefilledMessage` (redigerbart i Familjen → Trygg hamn)
 
 Zero Footprint: state rensas vid unmount (`SpeglingsSystem`).
 
@@ -48,16 +49,10 @@ Fallback: `mirrorFeeling()` lokalt vid AI-fel.
 |-------|--------|----------|
 | ACT, VIVIR, Compare, journalContext, valv-lås, mirror+fallback, Hamn-bro, media/WORM | Auto korsref barnen_logs | Full DCAP, Vector Search, projektionsdetektor UI |
 
-## Kladd 2026-05-21
-
-- **Kladd:** Projektion, gaslighting, "sanningens ankare" — **inte** Måbra.
-- **Gap:** Auto-länk Kasper/Arvid-loggar vid VIVIR — **planerat**, ej MVP.
-- **Användning:** Eget tvivel / patologisering från ex — inte proaktiv KBT.
-
 ## Säkerhet
 
 - Valv unlock (Fyren/PIN) före bevis
-- Kill Switch global
+- Device Clear global
 - LLM ≠ auktoritet för bevis
 
 ## Kopplingar
@@ -66,4 +61,4 @@ Fallback: `mirrorFeeling()` lokalt vid AI-fel.
 - **Verklighetsvalvet** → read-only bevis
 - **Hamn** → BIFF via `analyzeMessage`
 
-Kod: `src/modules/speglings_system/` · Plan: [`src/modules/speglings_system/module_plan.md`](../../src/modules/speglings_system/module_plan.md)
+Kod: `src/modules/features/lifeJournal/diary/mirror/` · Plan: [`src/modules/features/lifeJournal/diary/mirror/module_plan.md`](../../src/modules/features/lifeJournal/diary/mirror/module_plan.md)

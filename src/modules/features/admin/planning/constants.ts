@@ -19,9 +19,6 @@ export const PLANERING_MORE_TABS: {
   { id: 'regler', label: 'Regler' },
 ];
 
-/** @deprecated Använd PLANERING_MORE_TABS — behålls för smoke/import-kompat. */
-export const PLANERING_WORK_TABS = PLANERING_MORE_TABS;
-
 export const SOURCE_LABELS: Record<string, string> = {
   email: 'Mejl',
   school: 'Skola',

@@ -1,6 +1,6 @@
 # GCP / Firebase-inventering — LIVE (senast)
 
-**Datum:** 2026-05-31 (live audit — doc-synk efter Vävaren HITL)  
+**Datum:** 2026-06-06 (doc-synk efter Masterplan P0/P1 — commits `8d82ed57`, `3193211f`)  
 **Projekt:** `gen-lang-client-0481875058` (number `1084026575972`)  
 **Metod:** `firebase functions:list`, `gcloud ai indexes list`, `gcloud ai index-endpoints describe`  
 **Beslut:** [`GCP-KONSOLIDERING-BESLUT.md`](GCP-KONSOLIDERING-BESLUT.md)  
@@ -20,50 +20,54 @@
 | Legacy Python (0 fn kvar) | **avvecklad** | G4 **done** — steg 1–5 2026-05-22 |
 | Compute Engine VMs | **0** | — |
 | `@cursor/sdk` | **saknas** | **WAIT** (Natt-CI) |
+| `issueVaultSession` | **deployad** | Valv server-session (P1) |
+| `user_widgets` rules | **deployad** | WH1–WH4 widget-sparning |
 
 ---
 
 ## Deployade Cloud Functions
 
-**Totalt:** 33 functions · **europe-west1** · Node.js 20 · 0 Python legacy
+**Totalt:** 32 functions · **europe-west1** · Node.js 20 · 0 Python legacy  
+**Källa:** `functions/src/index.ts` (exporter) · verifiera live: `firebase functions:list`
 
-### Callable / HTTP (urval grupperat)
+### Callable / HTTP (komplett)
 
-| Function | Version | I repo | Silo / roll |
-|----------|---------|--------|-------------|
-| `knowledgeVaultQuery` | v2 | ja | Kunskap RAG |
-| `valvChatQuery` | v2 | ja | Valv RAG |
-| `childrenLogsQuery` | v2 | ja | Barnen RAG |
-| `addEntityProfile` | v2 | ja | G9 entiteter |
-| `getEntityProfileRegistry` | v2 | ja | G9 entiteter |
-| `getInboxQueue` | v2 | ja | G10 inkorg |
-| `confirmInboxItem` | v2 | ja | G10 inkorg |
-| `dismissInboxItem` | v2 | ja | G10 inkorg |
-| `previewInboxClassification` | v2 | ja | G10 inkorg |
-| `getContextCacheStatus` | v2 | ja | G12 cache |
-| `submitInkastLite` | v2 | ja | Inkast |
-| `analyzeMessage` | v1 | ja | BIFF / Hamn |
-| `approveWeaverMetadata` | v1 | ja | Vävaren HITL |
-| `rejectWeaverMetadata` | v1 | ja | Vävaren HITL |
-| `weaveJournalEntry` | v1 | ja | Vävaren async |
-| `journalWovenToKampspar` | v1 | ja | G7 opt-in |
-| `ingestKampsparEntry` | v1 | ja | Kunskap ingest |
-| `ingestKnowledgeDocument` | v1 | ja | Kunskap ingest |
-| `generateEmbedding` | v1 | ja | Vector |
-| `generateDossier` | v1 | ja | Dossier |
-| `generatePayslip` | v1 | ja | Arbetsliv |
-| `speglingsMirror` | v1 | ja | Speglar |
-| `journalQuickMirror` | v1 | ja | Dagbok |
-| `mabraCoach` | v1 | ja | MåBra |
-| `breakDownResponse` | v1 | ja | Kompis |
-| `getAgentRegistry` | v1 | ja | A2A |
-| `invalidateSession` | v1 | ja | Zero Footprint |
-| `ingestWidgetRecording` | v1 | ja | WH1 → valv |
-| `notifyNewFile` | v1 | ja | Drive webhook → synapse |
-| `scheduledRetentionJob` | v1 | ja | G5 retention |
-| `scheduledGeneratePayslip` | v1 | ja | Arbetsliv cron |
+| Function | Version | Silo / roll |
+|----------|---------|-------------|
+| `addEntityProfile` | v2 | G9 entiteter |
+| `analyzeMessage` | v1 | BIFF / Hamn |
+| `approveWeaverMetadata` | v1 | Vävaren HITL |
+| `breakDownResponse` | v1 | Kompis / Paralys |
+| `childrenLogsQuery` | v2 | Barnen RAG |
+| `confirmInboxItem` | v2 | G10 inkorg |
+| `dismissInboxItem` | v2 | G10 inkorg |
+| `generateDossier` | v1 | Dossier PDF |
+| `generateEmbedding` | v1 | Vector |
+| `generatePayslip` | v1 | Arbetsliv |
+| `getAgentRegistry` | v1 | A2A |
+| `getContextCacheStatus` | v2 | G12 cache |
+| `getEntityProfileRegistry` | v2 | G9 entiteter |
+| `getInboxQueue` | v2 | G10 inkorg |
+| `ingestKampsparEntry` | v1 | Kunskap ingest |
+| `ingestKnowledgeDocument` | v1 | Kunskap ingest |
+| `ingestWidgetRecording` | v1 | WH1 → valv |
+| `invalidateSession` | v1 | Zero Footprint |
+| `issueVaultSession` | v2 | Valv server-session gate |
+| `journalQuickMirror` | v1 | Dagbok snabb |
+| `journalWovenToKampspar` | v1 | G7 opt-in |
+| `knowledgeVaultQuery` | v2 | Kunskap RAG |
+| `mabraCoach` | v1 | MåBra |
+| `notifyNewFile` | v1 | Drive webhook → synapse |
+| `previewInboxClassification` | v2 | G10 inkorg |
+| `rejectWeaverMetadata` | v1 | Vävaren HITL |
+| `scheduledGeneratePayslip` | v1 | Arbetsliv cron |
+| `scheduledRetentionJob` | v1 | G5 retention |
+| `speglingsMirror` | v1 | Speglar |
+| `submitInkastLite` | v2 | Inkast |
+| `valvChatQuery` | v2 | Valv RAG |
+| `weaveJournalEntry` | v1 | Vävaren async |
 
-Full lista: `firebase functions:list --project gen-lang-client-0481875058`
+Full lista live: `firebase functions:list --project gen-lang-client-0481875058`
 
 ### Python legacy — **DEPRECATED G4 (avvecklad steg 5)**
 

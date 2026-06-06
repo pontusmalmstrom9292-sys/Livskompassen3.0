@@ -97,9 +97,6 @@ export function barnfokusQuestionForToday(
 }
 
 /** @deprecated — använd barnfokusQuestionForToday */
-export const MIDDAGS_QUESTIONS = BARNFOKUS_QUESTIONS.map((q) => q.text);
-
-/** @deprecated */
 export function middagsQuestionForToday(date = new Date()): string {
   return barnfokusQuestionForToday(undefined, date).text;
 }

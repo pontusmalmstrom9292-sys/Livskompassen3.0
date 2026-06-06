@@ -7,7 +7,7 @@ import {
   normalizeJournalTag,
 } from '../constants/journalTags';
 import { HandoffBox } from './HandoffBox';
-import { shouldShowJournalHandoff } from '../utils/journalHandoff';
+import { shouldShowValvHandoff } from '@/core/triggers/valvHandoff';
 import type { JournalQuickMirrorResponse } from '../api/journalQuickMirrorService';
 
 type JournalQuickModeProps = {
@@ -37,7 +37,7 @@ export function JournalQuickMode({
   const [alsoToArkiv, setAlsoToArkiv] = useState(false);
   const selected = getMoodDef(mood);
   const canSave = Boolean(mood) && !saving;
-  const showHandoff = shouldShowJournalHandoff(quickText);
+  const showHandoff = shouldShowValvHandoff(quickText);
 
   const handleSubmit = () => {
     if (!canSave) return;

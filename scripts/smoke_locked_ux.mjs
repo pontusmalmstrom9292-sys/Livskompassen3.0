@@ -49,7 +49,7 @@ function main() {
   mustInclude(
     'src/modules/core/pages/FamiljenPage.tsx',
     'BarnfokusSuperModule',
-    'vaultDrawerPath',
+    'vaultRedirectSearch',
   );
   mustInclude(
     'src/modules/features/family/children/components/familjen/BarnfokusSuperModule.tsx',

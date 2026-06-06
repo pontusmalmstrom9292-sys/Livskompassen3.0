@@ -1,7 +1,7 @@
 # Dagbokshubben
 
-**Kanonisk kod:** `src/modules/diary/diary/` (legacy alias: `modules/dagbok` shim)  
-**Route:** `/dagbok` (flik `reflektion` i Hjärtat) · **AuthGate:** ja  
+**Kanonisk kod:** `src/modules/features/lifeJournal/diary/diary/`  
+**Route:** `/hjartat?tab=reflektion` · **Legacy:** `/dagbok` → redirect · **AuthGate:** ja  
 **Spec (konsoliderad):** [`docs/specs/modules/Dagbok-SPEC.md`](../../docs/specs/modules/Dagbok-SPEC.md)
 
 ## Syfte
@@ -12,7 +12,7 @@
 
 | Komponent | Roll |
 |-----------|------|
-| `HjartatPage` | Kluster: Reflektion \| Bevis \| Speglar |
+| `HjartatPage` | Kluster: Reflektion \| Speglar (ingen Bevis-flik — Valv är separat silo) |
 | `DagbokRememberCard` | IHÅG: Dagbok (privat) vs Valv (bevis) — ihopfällbar |
 | `DagbokPage` | Sub-nav Snabb \| Reflektera \| Arkiv + wizard |
 | `MoodStep` | Humör-pills |
@@ -27,9 +27,10 @@
 
 | Ingång | Beteende |
 |--------|----------|
-| Dock BookOpen (kort klick) | `/dagbok` |
-| **Fyren** (3s long-press BookOpen) | WebAuthn → PIN → `/dagbok?tab=bevis` |
-| `/valv` | Redirect → `?tab=bevis` |
+| Drawer / Dock BookOpen | `/hjartat` |
+| **Fyren** (3s long-press BookOpen) | WebAuthn → PIN → `/valvet` |
+| `/dagbok` | Redirect → `/hjartat` (eller `/valvet` om `?tab=bevis`) |
+| `/dagbok?tab=bevis` | Redirect → `/valvet?vaultTab=…` |
 
 ## Datamodell (WORM)
 
@@ -50,21 +51,15 @@
 |-------|--------|----------|
 | Wizard, journal, WORM, Vävaren, Speglar-bro, röst, Fyren, arkiv pagination, unmount cleanup, inbound Måbra-bro (`?from=mabra`) | Vävaren auto utan godkännande | Outbound Måbra-länk, KBT-frågor, villkorlig Speglar, generellt humör-only |
 
-## Kladd 2026-05-21
-
-- **Roll:** Lager 1 fasad — plausible deniability; Fyren → valv.
-- **Brus i Kladd:** People-pleasing, skam — **ej** valv; dagbok/Måbra.
-- **Gap:** Subjektiv utmattning → dagbok OK; kliniska PDF → valv.
-
 ## Säkerhet
 
 - AuthGate, WORM rules
 - Röst: browser-only, ingen Blob till Storage
-- Kill Switch global; wizard cleanup vid unmount
+- Device Clear global; wizard cleanup vid unmount
 
 ## Vision (bevara)
 
 - Plausible deniability, positivt ACT-rum
 - Vävaren asynkron — Lager 1 förblir mjukt
 
-Kod: `src/modules/dagbok/` · Plan: [`src/modules/dagbok/module_plan.md`](../../src/modules/dagbok/module_plan.md) · Prompter: [`docs/specs/ai-prompts-moduler-master.md`](../../docs/specs/ai-prompts-moduler-master.md)
+Kod: `src/modules/features/lifeJournal/diary/diary/` · Plan: [`src/modules/features/lifeJournal/diary/diary/module_plan.md`](../../src/modules/features/lifeJournal/diary/diary/module_plan.md)

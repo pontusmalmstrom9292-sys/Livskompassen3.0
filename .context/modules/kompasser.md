@@ -1,9 +1,8 @@
 # De 3 Kompasserna (Kompasser)
 
-**Kanonisk kod:** `src/modules/wellbeing/compasses/` (legacy: `modules/kompasser` shim)  
-**Route:** `/vardagen` (kompasser-tab) · **Redirect:** `/kompasser` → `/vardagen`  
-**AuthGate:** **done** på `/vardagen` · **Dock:** Sprout  
-**Spec:** [`docs/specs/modules/De-3-Kompasserna-SPEC.md`](../../docs/specs/modules/De-3-Kompasserna-SPEC.md) (notebook #1–#5, beslut låsta 2026-05-21)  
+**Kanonisk kod:** `src/modules/features/dailyLife/wellbeing/compasses/`  
+**Route:** `/vardagen?tab=kompasser` · **Legacy:** `/kompasser` → `/vardagen` · **AuthGate:** ja  
+**Spec:** [`docs/specs/modules/De-3-Kompasserna-SPEC.md`](../../docs/specs/modules/De-3-Kompasserna-SPEC.md)  
 **Design:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md)
 
 ---
@@ -26,30 +25,18 @@ Dygnsrytm (morgon/dag/kväll) — ett mikrosteg i taget för ADHD/GAD.
 
 ## 2. Route
 
-- **Aktiv:** `/vardagen` → `DashboardPage` (AuthGate)
-- **Redirect:** `/kompasser` → `/vardagen`
-- **Planerat:** Notiser fas 2 (lokal push)
+- **Aktiv:** `/vardagen?tab=kompasser` → `DashboardPage` (AuthGate)
+- **Redirect:** `/kompasser`, `/liv` → `/vardagen`
 
 ## 3. UX (MVP done)
-
-**Planerat (2026-05-29):** Widget-rad **under varje** kompass (Morgon/Dag/Kväll) för snabbstart + omdesign — [`docs/evaluations/2026-05-29-kompass-widget-snabbstart-plan.md`](../../docs/evaluations/2026-05-29-kompass-widget-snabbstart-plan.md).
 
 - Tids-default vid öppning Kompasser-flik (`getDefaultCompassByTime`)
 - Morgon/dag/kväll-flikar, fri navigering
 - Paralys manuell + *Ge mig 3 till* + Klar
 - KASAM kväll 3 steg
-- Crazymaking-broar (Speglar, Bevis, Måbra, Barnen)
-- Morgon låg energi: *Vill du ha ett mikrosteg?* (diskret, ej auto)
+- Crazymaking-broar (Speglar, Valv, MåBra, Barnen)
 
-## 4. Design
-
-Obsidian Calm — guld / indigo / emerald. Inga streaks, turkos, regnbåge.
-
-## 5. Data
-
-`checkins` WORM — `taskNote` för KASAM JSON på kväll.
-
-## 6. Backend
+## 4. Backend
 
 | Komponent | Status |
 |-----------|--------|
@@ -58,11 +45,7 @@ Obsidian Calm — guld / indigo / emerald. Inga streaks, turkos, regnbåge.
 | Paralys UI | **done** |
 | KASAM UI | **done** |
 
-## 7. Säkerhet
-
-Silo, WORM, Zero Footprint (session clear), kill switch global.
-
-## 8. Status
+## 5. Status
 
 | Area | Status |
 |------|--------|
@@ -70,4 +53,4 @@ Silo, WORM, Zero Footprint (session clear), kill switch global.
 | Notiser push | **planned** fas 2 |
 | Sanningens Ankare från valv | **planned** |
 
-Kod: `src/modules/kompasser/`. Smoke: `npm run smoke:compass`.
+Kod: `src/modules/features/dailyLife/wellbeing/compasses/` · Smoke: `npm run smoke:compass`
