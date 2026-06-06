@@ -38,6 +38,7 @@ export function PlaneringInkorgCalendarPanel({
         title="Veckovy"
         description={prepared ? 'Händelser visas här efter synk' : 'Koppla kalender ovan'}
         icon={<CalendarDays className="h-4 w-4" />}
+        glow="gold"
       >
         {prepared ? (
           <PlaneringWeekCalendar tasks={tasks} prepared />

@@ -6,9 +6,17 @@ export type PlaneringWeekDay = {
   isToday: boolean;
 };
 
+/** Lokal YYYY-MM-DD — undviker CET-midnatt via toISOString(). */
+function localYmd(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
 /** Mån–sön för aktuell vecka (lokal tid). */
 export function getPlaneringWeekDays(reference = new Date()): PlaneringWeekDay[] {
-  const todayIso = reference.toISOString().slice(0, 10);
+  const todayIso = localYmd(reference);
   const day = reference.getDay();
   const mondayOffset = day === 0 ? -6 : 1 - day;
   const monday = new Date(reference);
@@ -18,7 +26,7 @@ export function getPlaneringWeekDays(reference = new Date()): PlaneringWeekDay[]
   return WEEKDAY_LABELS.map((label, index) => {
     const d = new Date(monday);
     d.setDate(monday.getDate() + index);
-    const iso = d.toISOString().slice(0, 10);
+    const iso = localYmd(d);
     return { label, iso, isToday: iso === todayIso };
   });
 }

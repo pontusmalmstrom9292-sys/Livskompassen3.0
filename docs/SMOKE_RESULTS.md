@@ -23,6 +23,7 @@
 | **Autorun PASS** | Super Multitask Agent B (`build` + orkester + locked-ux + design-modules) | **PASS** | 2026-06-06 |
 | **Autorun PASS** | Super Multitask Agent C `smoke:valv-security` + Agent E `smoke:innehall` | **PASS** | 2026-06-06 |
 | **Feature (local)** | P2 Planering ICS export stub (`exportPlaneringIcs.ts`) | **build PASS** | Agent D 2026-06-06 — hosting deploy väntar |
+| **Autorun PASS** | Super Multitask 2026-06-06 (build + 5 smokes + deploy) | **PASS** | se batch nedan |
 | **Autorun PASS** | Fas 5A #3 Valv batch (build + 8 smokes) | **PASS** | 2026-06-06 — se batch nedan |
 | **Static PASS** | #20 Valv Mönster/Orkester/Kunskapsbank/drawer | **PASS** | `smoke:locked-ux` 2026-06-06 |
 | **Autorun PASS** | Kunskap våg 8 ingest | **PASS** | 53 FACT → `fPIXyAxSnKPubEGBSAwUmxDRfiD3` (Admin SDK + `SEED_FIREBASE_EMAIL`) |
@@ -55,6 +56,30 @@
 **Kodfix (trivial):** `scripts/smoke_plausible_deniability.mjs` — `approveWeaverMetadata` ligger i `callables/agents.ts` efter refactor (ej PMIR-blocker).
 
 **USER kvar (#3):** Shield 3 s → PIN → Dagbok bevis → spara enkel post → (valfritt) Firestore Console `reality_vault`. Agent kan **inte** verifiera biometri/PIN i browser.
+
+---
+
+## Super Multitask 2026-06-06 (kör alla)
+
+**Trigger:** USER «kör alla» · trunk `main` · prod `gen-lang-client-0481875058`
+
+| Steg | Resultat |
+|------|----------|
+| `git pull --ff-only` | **PASS** — already up to date |
+| UX polish | **DONE** — `planeringWeekDays` lokal YYYY-MM-DD; `glow="gold"` Inkorg; Calendar import fix |
+| P1 security | **DONE** — `assertVaultSession` i `weaveJournalEntry` |
+| ICS stub | **INTACT** — `exportPlaneringIcs.ts` + `PlaneringWeekCalendar` knapp |
+| `npm run build` | **PASS** |
+| `functions build` | **PASS** |
+| `smoke:locked-ux` | **PASS** (0) |
+| `smoke:design-modules` | **PASS** (0) |
+| `smoke:orkester` | **PASS** (0) |
+| `smoke:valv-security` | **PASS** (0) |
+| `smoke:innehall` | **PASS** (0) |
+| Deploy `functions:weaveJournalEntry` | se deploy-rad nedan |
+| Deploy `hosting` | se deploy-rad nedan |
+
+**USER kvar (#3):** Manuell Valv UI-test (Shield→PIN→spara) — backend/static PASS.
 
 ---
 

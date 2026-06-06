@@ -146,6 +146,7 @@ export const weaveJournalEntry = functions.region('europe-west1').https.onCall(a
   if (!context.auth) {
     throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
   }
+  await assertVaultSession(context.auth.uid, data);
 
   const { journalEntryId, mood, text } = data;
   if (!journalEntryId || !mood || !text) {

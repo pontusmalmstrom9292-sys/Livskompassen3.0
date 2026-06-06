@@ -1,4 +1,4 @@
-import { CalendarDays } from 'lucide-react';
+import { Calendar, CalendarDays } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -8,7 +8,6 @@ import { usePlaneringInboxConnections } from '../hooks/usePlaneringInboxConnecti
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
 import { PlaneringInboxConnectionCard } from './PlaneringInboxConnectionCard';
 import { PlaneringWeekCalendar } from './PlaneringWeekCalendar';
-import { Calendar } from 'lucide-react';
 
 /** P2 — `/planering/kalender` veckovy (read-only tasks + förbered Google Calendar). */
 export function PlaneringKalenderPage() {
