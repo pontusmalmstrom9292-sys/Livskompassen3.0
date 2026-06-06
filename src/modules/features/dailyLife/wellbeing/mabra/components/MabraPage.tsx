@@ -352,6 +352,18 @@ export function MabraPage() {
       lead="Snabbstart och zoner — tillbaka öppnar samma zon igen."
       headerAside={<LivBackLink />}
     >
+      {step === 'hub' && !showHubPicker && (
+        <div className="flex justify-end">
+          <button
+            type="button"
+            className="btn-pill--ghost text-xs text-text-dim"
+            onClick={() => setShowHubPicker(true)}
+          >
+            Byt ingång
+          </button>
+        </div>
+      )}
+
       {step === 'hub' && showHubPicker && (
         <div className="calm-card glow-bottom-gold overflow-hidden rounded-2xl p-4 sm:p-5">
           <MabraModulValjare

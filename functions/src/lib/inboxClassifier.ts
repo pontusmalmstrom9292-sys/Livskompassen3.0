@@ -102,6 +102,33 @@ export function heuristicInboxClassify(
   }
 
   if (
+    /\[sourcemodule:valv_samla\]/i.test(blob) ||
+    /sourcemodule:valv_samla/i.test(blob)
+  ) {
+    return {
+      routing: 'bevis',
+      tags: ['bevis', 'valv'],
+      category: 'bevis',
+      confidence: 0.88,
+      summary: 'Valv Samla — bevismaterial.',
+      traumaSensitive: false,
+      rationale: 'Heuristisk match: sourceModule valv_samla → reality_vault.',
+    };
+  }
+
+  if (/sourcemodule:planering_inkorg/i.test(blob)) {
+    return {
+      routing: 'review',
+      tags: ['planering'],
+      category: 'planering',
+      confidence: 0.8,
+      summary: 'Planering — granska var posten ska hamna.',
+      traumaSensitive: false,
+      rationale: 'Heuristisk match: planering → review (fail-closed).',
+    };
+  }
+
+  if (
     /\[sourcemodule:(familjen|barnen|barnfokus)\]/i.test(blob) ||
     (/sourcemodule:/i.test(blob) && /\b(barnfokus|livslogg|barnporten)\b/.test(blob))
   ) {
@@ -189,6 +216,15 @@ export function heuristicInboxClassify(
   }
 
   return null;
+}
+
+/** Samma prefix som submitInkastLite — heuristiker läser [sourceModule:…]. */
+export function buildInboxClassifyBlob(analysisText: string, sourceModule?: string): string {
+  const mod =
+    typeof sourceModule === 'string' && sourceModule.trim()
+      ? sourceModule.trim().slice(0, 80)
+      : undefined;
+  return mod ? `[sourceModule:${mod}]\n${analysisText}` : analysisText;
 }
 
 /** G10 — Vertex/Gemini auto-tag för inkorg (metadata only före persist). */

@@ -106,6 +106,14 @@ function runStaticGuards() {
   );
 
   console.log('[smoke:rollout] Statiska guards PASS');
+
+  console.log('[smoke:rollout] → Modulväljare guards...');
+  execSync('node scripts/smoke_modulvaljare.mjs', {
+    cwd: root,
+    stdio: 'inherit',
+    encoding: 'utf8',
+  });
+
   return { id: 'rollout-static', label: 'Rollout static guards', status: 'PASS', durationMs: 0 };
 }
 

@@ -420,13 +420,14 @@ const submitInkastLiteCallable = httpsCallable<
 >(functions, 'submitInkastLite');
 
 const previewInboxClassificationCallable = httpsCallable<
-  { text: string; fileName?: string },
+  { text: string; fileName?: string; sourceModule?: string },
   { classification: InboxClassification }
 >(functions, 'previewInboxClassification');
 
 export async function previewInboxClassification(input: {
   text: string;
   fileName?: string;
+  sourceModule?: string;
 }): Promise<InboxClassification> {
   try {
     const result = await previewInboxClassificationCallable(input);

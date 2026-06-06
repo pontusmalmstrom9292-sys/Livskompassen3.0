@@ -261,14 +261,24 @@ function VaultPageInner({
       <BentoCard title={embedded ? 'Valv · Baksida' : VAULT_UI_NAME} icon={<Lock className="h-4 w-4" />}>
         <div className="mb-3 flex items-start justify-between gap-2">
           <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
-          <button
-            type="button"
-            onClick={handleCloseToLayer1}
-            className="btn-pill--ghost shrink-0 flex items-center gap-1"
-            title="Stäng valv — tillbaka till vardag"
-          >
-            <X className="h-3 w-3" /> Stäng
-          </button>
+          <div className="flex shrink-0 items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setShowZonePicker(true)}
+              className="btn-pill--ghost text-xs"
+              title="Visa zonväljare igen"
+            >
+              Byt zon
+            </button>
+            <button
+              type="button"
+              onClick={handleCloseToLayer1}
+              className="btn-pill--ghost flex items-center gap-1"
+              title="Stäng valv — tillbaka till vardag"
+            >
+              <X className="h-3 w-3" /> Stäng
+            </button>
+          </div>
         </div>
         <TabBar<ValvZone>
           size="compact"

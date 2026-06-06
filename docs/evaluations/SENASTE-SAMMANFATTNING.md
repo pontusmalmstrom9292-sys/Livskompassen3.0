@@ -1,13 +1,13 @@
 # Senaste sammanfattning — systemstatus
 
 **Datum:** 2026-06-06 · **Gren:** `main` · Repo: Livskompassen3.0  
-**Senaste leverans:** Kunskap seed våg 8 (53 FACT) — omkörning till din uid kvar
+**Senaste leverans:** Modulväljare rollout 6/6 + hardening (smoke + «Byt ingång») · deployad hosting
 
 ---
 
 ## Nuläge i en mening
 
-**Superhub + alla supermoduler klart (inkl. ValvSuper Fas 2)** · Kunskap våg 8 — omkör seed med din uid i `.env`.
+**Superhub + supermoduler + modulväljare (ExamplePreviewCard) i 6 zoner** · Kunskap våg 8 seedad till prod-konto.
 
 ---
 
@@ -15,6 +15,7 @@
 
 | Område | Status |
 |--------|--------|
+| **Modulväljare rollout** | Planering · Ekonomi · Liv previews · Hem Capture · MåBra · Projekt tom · Valv zon — se [`2026-06-06-modulvaljare-rollout-done.md`](./2026-06-06-modulvaljare-rollout-done.md) |
 | CaptureSuperModule | Fas 1–3 + **v2** — kompass, hem, valv, planering; ReviewQueuePipelinePanel |
 | InboxReviewQueue | Canonical i VaultSamlaHub; länk elsewhere |
 | LivLauncherPage | Stora kort; kompass/ekonomi inline; övrigt → fullsid |
@@ -34,9 +35,8 @@
 
 | Punkt | Var |
 |-------|-----|
-| **Kunskap våg 8 omkörning** | Sätt `SEED_FIREBASE_EMAIL/PASSWORD` i `.env` → `--manifest=kunskap-facts --skip-existing` |
+| **Kunskap våg 8 omkörning** | **done** — 53 FACT på uid `fPIXyAxSnKPubEGBSAwUmxDRfiD3` (`seed:kunskap-facts --skip-existing`) |
 | **Manuell smoke #3, #4** | Autorun PASS — valfritt USER i app · [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md) |
-| **Hosting ValvSuper Fas 2** | `firebase deploy --only hosting` (commit `c5348b56`) |
 
 ---
 
@@ -44,6 +44,7 @@
 
 | Tier | Fil |
 |------|-----|
-| Upload plan | [`2026-06-06-upload-unified-cursor-plan.md`](./evaluations/2026-06-06-upload-unified-cursor-plan.md) |
+| Modulväljare rollout | [`2026-06-06-modulvaljare-rollout-done.md`](./2026-06-06-modulvaljare-rollout-done.md) |
+| Upload plan | [`2026-06-06-upload-unified-cursor-plan.md`](./2026-06-06-upload-unified-cursor-plan.md) |
 | Liv launcher | [`2026-06-06-liv-super-cursor-plan.md`](./evaluations/2026-06-06-liv-super-cursor-plan.md) |
 | K2 handoff | [`gemini-handoff/K2-*-svar.md`](../gemini-handoff/) |

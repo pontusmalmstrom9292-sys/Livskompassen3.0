@@ -84,6 +84,17 @@ export function CaptureSuperModule({
 
     return (
       <>
+        {variant === 'hem-capture' && (
+          <div className="mb-2 flex justify-end">
+            <button
+              type="button"
+              className="btn-pill--ghost text-xs text-text-dim"
+              onClick={() => setShowCapturePicker(true)}
+            >
+              Byt ingång
+            </button>
+          </div>
+        )}
         <CapturePanel
           sourceModule={SOURCE_MODULE[variant] ?? 'hem_capture'}
           compact={compact || variant === 'kompass'}

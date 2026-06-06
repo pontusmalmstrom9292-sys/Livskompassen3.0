@@ -34,7 +34,7 @@ import {
   revokeVaultSession,
 } from './lib/vaultSessionGate';
 import type { EntityRole } from './lib/entityProfileTypes';
-import { classifyInboxDocument } from './lib/inboxClassifier';
+import { classifyInboxDocument, buildInboxClassifyBlob } from './lib/inboxClassifier';
 import {
   confirmInboxQueueItem,
   dismissInboxQueueItem,
@@ -476,8 +476,15 @@ export const previewInboxClassification = onCall(
       throw new HttpsError('invalid-argument', 'text max 12000 tecken.');
     }
 
+    const sourceModule =
+      typeof request.data?.sourceModule === 'string' && request.data.sourceModule.trim()
+        ? request.data.sourceModule.trim().slice(0, 80)
+        : undefined;
+
+    const classifyBlob = buildInboxClassifyBlob(text, sourceModule);
+
     const classification = await classifyInboxDocument(
-      text,
+      classifyBlob,
       fileName,
       geminiApiKey.value()
     );

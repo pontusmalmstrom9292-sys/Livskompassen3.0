@@ -91,6 +91,15 @@ function smokeStaticStructure() {
   assert(inboxPersist.includes('reality_vault'), 'inboxPersist → reality_vault');
   assert(inboxPersist.includes('children_logs'), 'inboxPersist → children_logs');
 
+  const classifier = readCanonical(CANONICAL.inboxClassifier);
+  assert(classifier.includes('buildInboxClassifyBlob'), 'inboxClassifier saknar buildInboxClassifyBlob');
+  assert(classifier.includes('valv_samla'), 'inboxClassifier saknar valv_samla-heuristik');
+  assert(inkastService.includes('sourceModule?: string'), 'inkastService preview saknar sourceModule');
+  assert(
+    readCanonical('src/modules/capture/CapturePanel.tsx').includes('sourceModule'),
+    'CapturePanel ska skicka sourceModule till preview',
+  );
+
   const rules = readFileSync(resolve(root, 'firestore.rules'), 'utf8');
   assert(rules.includes('match /user_tags/{docId}'), 'firestore.rules saknar user_tags');
 
@@ -122,6 +131,15 @@ async function smokeCallablePipeline() {
   const previewClass = previewResult.data?.classification;
   assert(previewClass?.routing, 'previewInboxClassification saknar routing');
   console.log('[smoke:inkast] preview routing:', previewClass.routing);
+
+  const previewValv = await preview({
+    fileName: 'valv_samla_smoke.txt',
+    text: 'Neutral anteckning utan barn eller konflikt — bara test.',
+    sourceModule: 'valv_samla',
+  });
+  const valvClass = previewValv.data?.classification;
+  assert(valvClass?.routing === 'bevis', `valv_samla preview förväntat bevis, fick ${valvClass?.routing}`);
+  console.log('[smoke:inkast] preview valv_samla routing:', valvClass.routing);
 
   const submit = httpsCallable(functions, 'submitInkastLite');
   const smokeText =

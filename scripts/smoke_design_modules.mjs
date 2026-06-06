@@ -270,6 +270,16 @@ function main() {
     'inboxQueueStatusLabel',
     'sortInboxForValvSamla',
   );
+
+  console.log('[smoke:design-modules] Modulväljare rollout...');
+  mustInclude('src/modules/shared/ui/ExamplePreviewCard.tsx', 'ExamplePreviewCard');
+  mustInclude('src/modules/shell/LivLauncherGrid.tsx', 'LIV_LAUNCHER_PREVIEWS');
+  mustInclude('src/modules/capture/CaptureSuperModule.tsx', 'HemCaptureModulValjare');
+  mustInclude('src/modules/features/dailyLife/wellbeing/economy/components/EconomyOverviewPanel.tsx', 'EkonomiModulValjare');
+  mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/MabraModulValjare.tsx', 'MabraModulValjare');
+  mustInclude('src/modules/features/lifeJournal/evidence/vault/components/ValvZoneModulValjare.tsx', 'ValvZoneModulValjare');
+  mustInclude('src/modules/features/admin/projects/components/ProjektTomStatePanel.tsx', 'ProjektTomStatePanel');
+
   assert(
     !read('src/modules/core/pages/HomePage.tsx').includes('ReviewQueuePanel'),
     'HomePage.tsx',
@@ -293,11 +303,10 @@ function main() {
     'getHomeCompassPhase',
   );
   mustInclude('src/modules/core/home/HomeHeroKanon.tsx', 'useLifeHubPreset', 'Profil:');
-  mustInclude(
-    'src/modules/core/pages/HomePage.tsx',
-    'home_hero_checkin',
-    'home_inkast',
-  );
+  mustInclude('src/modules/capture/CapturePanel.tsx', 'previewInboxClassification', 'sourceModule');
+  mustInclude('src/modules/capture/captureDomainCopy.ts', 'inkastSourceModuleHint', 'valv_samla');
+  mustInclude('src/modules/capture/components/HemCaptureModulValjare.tsx', 'HemCaptureModulValjare');
+  mustInclude('functions/src/lib/inboxClassifier.ts', 'buildInboxClassifyBlob', 'valv_samla');
   mustInclude(
     'src/modules/core/home/AdaptiveMemoryCards.tsx',
     'Visa mer',

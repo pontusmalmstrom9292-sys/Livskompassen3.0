@@ -111,4 +111,11 @@ Verifierat via statisk kodgranskning + prod-deploy:
 
 ---
 
-**Signatur:** Editorial Technical Architect · Smart Inkast **Färdigställd** 2026-06-06.
+## Fas 5 — Domän-autosort preview (done 2026-06-06)
+
+- [x] `previewInboxClassification` tar `sourceModule` — samma `[sourceModule:…]`-prefix som submit
+- [x] Heuristik `valv_samla` → bevis · `planering_inkorg` → review
+- [x] `CapturePanel` skickar sourceModule till preview + domän-ledtråd (`captureDomainCopy.ts`)
+- [x] Smoke: `npm run smoke:inkast` (preview valv_samla)
+
+**Deploy:** `firebase deploy --only functions:previewInboxClassification,functions:submitInkastLite,hosting`

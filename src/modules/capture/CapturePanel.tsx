@@ -17,6 +17,7 @@ import {
   type InkastManualChoice,
   type InkastUiSilo,
 } from '../inkast/constants/inkastSiloOptions';
+import { inkastSourceModuleHint } from './captureDomainCopy';
 
 type CapturePanelProps = {
   sourceModule?: string;
@@ -72,6 +73,7 @@ export function CapturePanel({
       const classification = await previewInboxClassification({
         text: trimmed,
         fileName: 'capture.txt',
+        sourceModule,
       });
       setPreview(classification);
       setManualSilo(routingToUiSilo(classification.routing));
@@ -83,7 +85,7 @@ export function CapturePanel({
       setError(err instanceof Error ? err.message : 'Kunde inte analysera.');
       setPhase('compose');
     }
-  }, [text]);
+  }, [text, sourceModule]);
 
   const persistInkast = useCallback(
     async (manual?: InkastManualChoice) => {
@@ -123,6 +125,7 @@ export function CapturePanel({
   );
 
   const previewLabel = text.trim().slice(0, 80) || 'Inkast';
+  const domainHint = inkastSourceModuleHint(sourceModule);
 
   useEffect(() => {
     if (!focusOnCompose || phase !== 'compose') return;
@@ -141,6 +144,10 @@ export function CapturePanel({
       {composeHint ? (
         <p className="mb-3 rounded-xl border border-border/30 bg-surface-2/60 px-3 py-2 text-xs text-text-muted">
           {composeHint}
+        </p>
+      ) : domainHint ? (
+        <p className="mb-3 rounded-xl border border-border/30 bg-surface-2/60 px-3 py-2 text-xs text-text-dim">
+          {domainHint}
         </p>
       ) : null}
 
