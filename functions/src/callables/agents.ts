@@ -177,6 +177,7 @@ export const rejectWeaverMetadata = functions.region('europe-west1').https.onCal
   if (!context.auth) {
     throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
   }
+  await assertVaultSession(context.auth.uid, data);
   const pendingId = typeof data?.pendingId === 'string' ? data.pendingId.trim() : '';
   if (!pendingId) {
     throw new functions.https.HttpsError('invalid-argument', 'pendingId krävs.');

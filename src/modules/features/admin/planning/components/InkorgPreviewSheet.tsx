@@ -1,5 +1,12 @@
 import { Link } from 'react-router-dom';
+import { formatDisplayDate } from '@/shared/utils/dateHelpers';
 import type { PasteClassification } from '../rules/pasteClassifier';
+
+function formatPasteDueDate(iso: string): string {
+  const [y, m, d] = iso.split('-').map(Number);
+  if (!y || !m || !d) return iso;
+  return formatDisplayDate(new Date(y, m - 1, d));
+}
 
 type Props = {
   open: boolean;
@@ -54,7 +61,7 @@ export function InkorgPreviewSheet({ open, classification, saving, onConfirm, on
           {classification.dueAt && (
             <div>
               <dt className="text-[10px] uppercase tracking-widest text-text-dim">Datum</dt>
-              <dd className="text-text-muted">{classification.dueAt}</dd>
+              <dd className="text-text-muted">{formatPasteDueDate(classification.dueAt)}</dd>
             </div>
           )}
           {classification.matchedRuleLabel && (

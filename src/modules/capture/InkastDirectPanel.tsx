@@ -6,9 +6,9 @@ import { BentoCard } from '@/shared/ui/BentoCard';
 import { fileToBase64 } from '@/features/lifeJournal/evidence/kompis/api/ingestKnowledgeDocumentService';
 import {
   formatInkastResultMessage,
+  inkastDestinationLink,
   primaryInkastItem,
   submitInkastLite,
-  VALV_ARKIV_LINK,
   VALV_SAMLA_GRANSKA_LINK,
   type SubmitInkastLiteResult,
 } from '@/modules/inkast/api/inkastService';
@@ -138,6 +138,7 @@ export function InkastDirectPanel({
   };
 
   const primary = lastResult ? primaryInkastItem(lastResult) : null;
+  const destinationLink = primary ? inkastDestinationLink(primary) : null;
   const showQueueHint =
     lastResult != null &&
     (lastResult.queued > 0 || lastResult.items.some((i) => i.action === 'queued'));
@@ -234,12 +235,12 @@ export function InkastDirectPanel({
                 Öppna granskningskö (Valv)
               </Link>
             ))}
-          {primary?.action === 'persisted' && primary.collection === 'reality_vault' && !isValv && (
+          {destinationLink && !isValv && (
             <Link
-              to={VALV_ARKIV_LINK}
+              to={{ pathname: destinationLink.pathname, search: destinationLink.search }}
               className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
             >
-              Öppna Valv-arkiv
+              {destinationLink.label}
             </Link>
           )}
         </div>

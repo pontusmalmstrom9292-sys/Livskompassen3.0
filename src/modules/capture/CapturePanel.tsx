@@ -4,10 +4,13 @@ import { PenLine } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   formatInkastResultMessage,
+  inkastDestinationLink,
   previewInboxClassification,
+  primaryInkastItem,
   submitInkastLite,
   tagsFromInkastClassification,
   VALV_SAMLA_GRANSKA_LINK,
+  type SubmitInkastLiteResult,
 } from '../inkast/api/inkastService';
 import type { InboxClassification } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import { InkastConfirmPanel } from '../inkast/components/InkastConfirmPanel';
@@ -42,6 +45,7 @@ export function CapturePanel({
   const [text, setText] = useState('');
   const [phase, setPhase] = useState<Phase>('compose');
   const [message, setMessage] = useState<string | null>(null);
+  const [lastBatch, setLastBatch] = useState<SubmitInkastLiteResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState<InboxClassification | null>(null);
   const [manualSilo, setManualSilo] = useState<InkastUiSilo>('dagbok');
@@ -54,6 +58,7 @@ export function CapturePanel({
     setPreview(null);
     setError(null);
     setMessage(null);
+    setLastBatch(null);
     setManualTags([]);
     setManualComment('');
     setManualChildAlias('');
@@ -105,6 +110,7 @@ export function CapturePanel({
           ...(manual ? manualChoiceToSubmitFields(manual) : {}),
         });
         setMessage(formatInkastResultMessage(batch));
+        setLastBatch(batch);
         setText('');
         setPreview(null);
         setPhase('done');
@@ -126,6 +132,9 @@ export function CapturePanel({
 
   const previewLabel = text.trim().slice(0, 80) || 'Inkast';
   const domainHint = inkastSourceModuleHint(sourceModule);
+  const destinationLink = lastBatch
+    ? inkastDestinationLink(primaryInkastItem(lastBatch))
+    : null;
 
   useEffect(() => {
     if (!focusOnCompose || phase !== 'compose') return;
@@ -136,6 +145,7 @@ export function CapturePanel({
     <BentoCard
       title={compact ? 'Skriv här' : 'Skriv — sorteras till rätt arkiv'}
       icon={<PenLine className="h-4 w-4" />}
+      glow="gold"
     >
       <p className="mb-3 text-sm text-text-muted">
         Granska AI-förslag eller välj arkiv manuellt innan det sparas.
@@ -223,6 +233,14 @@ export function CapturePanel({
           className="mt-2 inline-block text-xs text-gold underline-offset-2 hover:underline"
         >
           Öppna granskningskö i Arkiv
+        </Link>
+      )}
+      {destinationLink && (
+        <Link
+          to={{ pathname: destinationLink.pathname, search: destinationLink.search }}
+          className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
+        >
+          {destinationLink.label}
         </Link>
       )}
     </BentoCard>

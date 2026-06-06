@@ -519,3 +519,30 @@ export const VALV_ARKIV_LINK = {
   pathname: NAV_PATHS.VALVET,
   search: '?vaultTab=logga',
 } as const;
+
+export type InkastDestinationLink = {
+  pathname: string;
+  search?: string;
+  label: string;
+};
+
+/** Post-save CTA — Dagbok (kunskap), Valv, Barnen. Ingen auto-promote. */
+export function inkastDestinationLink(
+  item: SubmitInkastLiteItemResult,
+): InkastDestinationLink | null {
+  if (item.action !== 'persisted' || !item.collection) return null;
+  switch (item.collection) {
+    case 'reality_vault':
+      return { ...VALV_ARKIV_LINK, label: 'Öppna Valv-arkiv' };
+    case 'kb_docs':
+      return { ...VALV_KUNSKAP_INBOX_LINK, label: 'Öppna Kunskapsbank (Valv)' };
+    case 'children_logs':
+      return {
+        pathname: NAV_PATHS.FAMILJEN,
+        search: '?tab=livslogg',
+        label: 'Öppna Barnens logg',
+      };
+    default:
+      return null;
+  }
+}

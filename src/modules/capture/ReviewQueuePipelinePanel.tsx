@@ -73,6 +73,7 @@ export function ReviewQueuePipelinePanel({ mode = 'summary' }: Props) {
       title="Granskningskö · G10"
       description="Lokalt utkast + molnet (HITL i Valv Samla)"
       icon={<Inbox className="h-4 w-4 text-accent" />}
+      glow="gold"
     >
       {mode === 'summary' && isAuthenticated && (
         <section className="mb-4 rounded-xl border border-border/40 bg-surface/30 px-3 py-3">
@@ -126,7 +127,7 @@ export function ReviewQueuePipelinePanel({ mode = 'summary' }: Props) {
           <ul className="space-y-2 text-sm">
             {reviewDrafts.map((d) => (
               <li key={d.id} className="rounded-xl border border-border/60 bg-surface/40 px-3 py-2">
-                <span className="text-xs text-gold">
+                <span className="text-xs text-accent">
                   {d.syncResult
                     ? draftRoutingLabel(primaryInkastItem(d.syncResult).classification.routing)
                     : 'Granska'}

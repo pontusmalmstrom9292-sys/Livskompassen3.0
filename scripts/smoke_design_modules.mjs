@@ -265,6 +265,7 @@ function main() {
     'src/modules/capture/CaptureSuperModule.tsx',
     'ReviewQueuePipelinePanel',
     "variant === 'hem-capture'",
+    "variant === 'kompass'",
   );
   mustInclude(
     'src/modules/capture/reviewQueuePipeline.ts',
