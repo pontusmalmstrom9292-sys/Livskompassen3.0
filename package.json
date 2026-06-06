@@ -57,6 +57,7 @@
     "audit:vertex-agents": "node scripts/list_vertex_agents.mjs",
     "seed:kampspar": "node scripts/seed_kampspar_profile.mjs --verify",
     "seed:barn-referens": "node scripts/seed_kampspar_profile.mjs --manifest=barn-referens --skip-existing",
+    "seed:kunskap-facts": "node scripts/seed_kampspar_profile.mjs --manifest=kunskap-facts --skip-existing",
     "check:main-trunk": "node scripts/check_main_trunk.mjs",
     "build:lathund-html": "node scripts/build_lathund_html.mjs",
     "google-ai-pro:pack": "node scripts/pack_google_ai_pro_sources.mjs",

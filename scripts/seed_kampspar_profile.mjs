@@ -10,7 +10,11 @@
  *   node scripts/seed_kampspar_profile.mjs --verify
  *
  * Requires: .env with VITE_FIREBASE_*
- * Optional: SEED_FIREBASE_EMAIL + SEED_FIREBASE_PASSWORD for real user account
+ * Owner (rekommenderat — Google-konto utan lösenord):
+ *   SEED_FIREBASE_EMAIL=pontus.malmstrom9292@gmail.com
+ *   eller SEED_OWNER_UID=<firebase uid>
+ *   + gcloud auth application-default login (eller GOOGLE_APPLICATION_CREDENTIALS)
+ * Legacy: SEED_FIREBASE_EMAIL + SEED_FIREBASE_PASSWORD + --email-auth
  */
 import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
@@ -25,6 +29,14 @@ import {
   where,
 } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
+import {
+  initFirebaseAdmin,
+  resolveSeedOwnerUid,
+  ingestKampsparForOwner,
+  fetchExistingTitlesAdmin,
+  trySignInWithCustomToken,
+  ensureFunctionsBuilt,
+} from './lib/seedAdmin.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -65,12 +77,14 @@ function parseArgs(argv) {
     category: null,
     manifest: 'profil',
     anonymous: false,
+    emailAuth: false,
     verify: false,
   };
   for (const arg of argv) {
     if (arg === '--dry-run') args.dryRun = true;
     else if (arg === '--skip-existing') args.skipExisting = true;
     else if (arg === '--anonymous') args.anonymous = true;
+    else if (arg === '--email-auth') args.emailAuth = true;
     else if (arg === '--verify') args.verify = true;
     else if (arg.startsWith('--category=')) args.category = arg.slice('--category='.length);
     else if (arg.startsWith('--manifest=')) args.manifest = arg.slice('--manifest='.length);
@@ -134,26 +148,50 @@ async function fetchExistingTitles(db, uid) {
   return titles;
 }
 
-async function authenticate(auth, env, forceAnonymous) {
-  const email = env.SEED_FIREBASE_EMAIL;
-  const password = env.SEED_FIREBASE_PASSWORD;
-
-  if (!forceAnonymous && email && password) {
-    console.log('[seed] Email sign-in…');
-    const cred = await signInWithEmailAndPassword(auth, email, password);
-    return cred.user.uid;
+/**
+ * @returns {{ mode: 'admin' | 'client', uid: string, admin?: import('firebase-admin') }}
+ */
+async function resolveSeedAuth(auth, env, args, projectId) {
+  if (args.anonymous) {
+    console.log('[seed] Anonymous sign-in (--anonymous)…');
+    const cred = await signInAnonymously(auth);
+    return { mode: 'client', uid: cred.user.uid };
   }
 
-  if (!forceAnonymous && (email || password)) {
-    console.warn('[seed] Varning: endast ett av SEED_FIREBASE_EMAIL/PASSWORD satt — faller tillbaka till anonymous.');
-  } else if (!forceAnonymous) {
-    console.warn('[seed] Varning: SEED_FIREBASE_EMAIL/PASSWORD saknas — anonymous auth (data kopplas till anonym uid).');
-    console.warn('[seed] Sätt SEED_FIREBASE_EMAIL + SEED_FIREBASE_PASSWORD i .env för din riktiga användare.');
+  const email = env.SEED_FIREBASE_EMAIL?.trim();
+  const password = env.SEED_FIREBASE_PASSWORD?.trim();
+  const hasAdminTarget = Boolean(env.SEED_OWNER_UID?.trim() || email);
+
+  if (args.emailAuth && email && password) {
+    console.log('[seed] Email/password sign-in (--email-auth)…');
+    const cred = await signInWithEmailAndPassword(auth, email, password);
+    return { mode: 'client', uid: cred.user.uid };
+  }
+
+  if (hasAdminTarget) {
+    ensureFunctionsBuilt();
+    console.log('[seed] Admin SDK (Google/e-post-konto — ingen lösenords-Auth)…');
+    const admin = await initFirebaseAdmin(projectId);
+    const uid = await resolveSeedOwnerUid(admin, env);
+    if (!uid) {
+      throw new Error('Kunde inte lösa uid — sätt SEED_FIREBASE_EMAIL eller SEED_OWNER_UID.');
+    }
+    return { mode: 'admin', uid, admin };
+  }
+
+  if (email && password) {
+    console.warn('[seed] SEED_FIREBASE_PASSWORD ignoreras — använd Admin SDK via SEED_FIREBASE_EMAIL.');
+    console.warn('[seed] (Legacy email/password: lägg till --email-auth om kontot har Email-provider.)');
+  } else if (email || password) {
+    console.warn('[seed] Ofullständig seed-konfig — behöver SEED_FIREBASE_EMAIL eller SEED_OWNER_UID.');
+  } else {
+    console.warn('[seed] Ingen seed-owner — anonymous uid (data syns inte i appen).');
+    console.warn('[seed] Sätt SEED_FIREBASE_EMAIL i .env + gcloud auth application-default login.');
   }
 
   console.log('[seed] Anonymous sign-in…');
   const cred = await signInAnonymously(auth);
-  return cred.user.uid;
+  return { mode: 'client', uid: cred.user.uid };
 }
 
 async function main() {
@@ -200,12 +238,17 @@ async function main() {
   const functions = getFunctions(app, 'europe-west1');
   const ingest = httpsCallable(functions, 'ingestKampsparEntry');
 
-  const uid = await authenticate(auth, env, args.anonymous);
-  console.log('[seed] uid:', uid);
+  const seedAuth = await resolveSeedAuth(auth, env, args, projectId);
+  const { mode, uid } = seedAuth;
+  console.log('[seed] uid:', uid, `(${mode})`);
 
   let existingTitles = new Set();
   if (args.skipExisting) {
-    existingTitles = await fetchExistingTitles(db, uid);
+    if (mode === 'admin') {
+      existingTitles = await fetchExistingTitlesAdmin(seedAuth.admin, uid);
+    } else {
+      existingTitles = await fetchExistingTitles(db, uid);
+    }
     console.log(`[seed] --skip-existing: ${existingTitles.size} befintliga titlar`);
   }
 
@@ -236,8 +279,13 @@ async function main() {
       };
       if (entry.eventDate) payload.eventDate = entry.eventDate;
 
-      const result = await ingest(payload);
-      const data = result.data;
+      let data;
+      if (mode === 'admin') {
+        data = await ingestKampsparForOwner(uid, payload);
+      } else {
+        const result = await ingest(payload);
+        data = result.data;
+      }
       docIds.push(data?.docId);
       console.log(`${label} — OK docId=${data?.docId} embeddingDim=${data?.embeddingDim ?? 'null'}`);
       results.ok++;
@@ -259,10 +307,23 @@ async function main() {
   }
 
   if (args.verify) {
-    const pass = await runVerify(functions);
-    if (pass < 3) {
-      console.error('[seed] RAG-verifiering under tröskel (3/5).');
-      process.exit(1);
+    if (mode === 'admin' && seedAuth.admin) {
+      const signedIn = await trySignInWithCustomToken(auth, seedAuth.admin, uid);
+      if (!signedIn) {
+        console.warn('[seed] --verify hoppad — ingest klar, testa Kunskap i appen.');
+      } else {
+        const pass = await runVerify(functions);
+        if (pass < 3) {
+          console.error('[seed] RAG-verifiering under tröskel (3/5).');
+          process.exit(1);
+        }
+      }
+    } else {
+      const pass = await runVerify(functions);
+      if (pass < 3) {
+        console.error('[seed] RAG-verifiering under tröskel (3/5).');
+        process.exit(1);
+      }
     }
   }
 

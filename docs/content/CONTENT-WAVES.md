@@ -12,8 +12,8 @@
 | 5 | Taktiker (referens) | 043–047 | — (Speglar/Valv bro) | CUR-TAKTIK-01 | **done** |
 | 6 | Medföräldraskap | 003–015 (befintlig) | — (Hamn bro) | CUR-COPARENT-01 | **done** |
 | 7 | Droger / nykterhet | df-001–006 | DF-REF-11/12 | CUR-SOBRIETY-01 | **done** |
-| 8 | Ingest RAG | manifest → kampspar | — | — | **partial** 2026-06-06 — 53 poster ingestade; **kräver omkörning med `SEED_FIREBASE_EMAIL/PASSWORD`** (kördes mot anonym uid) |
+| 8 | Ingest RAG | manifest → kampspar | — | — | **done** 2026-06-06 — 53 poster → `fPIXyAxSnKPubEGBSAwUmxDRfiD3` (Admin SDK) |
 
-**Aktiv våg:** `8` (omkörning till riktig uid)
+**Aktiv våg:** `9` (nästa innehållsvåg enligt INNEHALL-REGISTER)
 
-**Nästa kommando:** Sätt `SEED_FIREBASE_EMAIL` + `SEED_FIREBASE_PASSWORD` i `.env` → `node scripts/seed_kampspar_profile.mjs --manifest=kunskap-facts --skip-existing`
+**Seed (Google-konto):** `SEED_FIREBASE_EMAIL` i `.env` + `gcloud auth application-default login` → `npm run seed:kunskap-facts`
