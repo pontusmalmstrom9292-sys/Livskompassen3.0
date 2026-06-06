@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { FileText, Loader2, Lock, ShieldAlert } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { escapeHtml } from '@/shared/utils/secureExport';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { useStore } from '@/core/store';
 import { hasVaultGate } from '@/core/auth/sessionService';
@@ -278,28 +279,34 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
           (d) => `
         <tr style="page-break-inside: avoid; border-bottom: 1px solid #cbd5e1;">
           <td style="padding: 12px 8px; font-weight: 600; font-size: 11px; font-family: monospace; white-space: nowrap;">
-            ${d.createdAt.slice(0, 10)}
+            ${escapeHtml(d.createdAt.slice(0, 10))}
           </td>
           <td style="padding: 12px 8px; font-weight: 700; font-size: 10px; color: #475569; text-transform: uppercase; tracking-wider: 0.05em;">
-            ${d.kind.toUpperCase().replace('_', ' ')}
+            ${escapeHtml(d.kind.toUpperCase().replace('_', ' '))}
           </td>
           <td style="padding: 12px 8px; font-weight: 600; font-size: 12px; color: #0f172a;">
-            ${d.title}
+            ${escapeHtml(d.title)}
           </td>
           <td style="padding: 12px 8px; font-size: 12px; line-height: 1.5; color: #334155; white-space: pre-wrap;">
-            ${d.preview}
+            ${escapeHtml(d.preview)}
           </td>
         </tr>
       `,
         )
         .join('');
 
+      const childLabel = escapeHtml(deepLinkChild || 'Hela familjen');
+      const reportLabel = escapeHtml(
+        reportType === 'LEGAL' ? 'Juridisk Kronologi (Fakta & Tidsstämplar)' : 'BBIC-strukturerad rapport',
+      );
+      const hashSafe = escapeHtml(hash);
+
       win.document.write(`
         <!DOCTYPE html>
         <html>
         <head>
           <meta charset="utf-8"/>
-          <title>Stabilitets- och Beviskronologi — ${deepLinkChild || 'Familjen'}</title>
+          <title>Stabilitets- och Beviskronologi — ${childLabel}</title>
           <style>
             body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 40px; color: #1e293b; background: #fff; line-height: 1.5; }
             .header { border-bottom: 2px solid #0f172a; padding-bottom: 16px; margin-bottom: 24px; }
@@ -322,13 +329,13 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
             <p class="subtitle">Genererad via Livskompassen — Formellt och oföränderligt underlag (låsta poster)</p>
             
             <div class="meta-grid">
-              <div><strong>Barn/Område:</strong> ${deepLinkChild || 'Hela familjen'}</div>
-              <div><strong>Rapporttyp:</strong> ${reportType === 'LEGAL' ? 'Juridisk Kronologi (Fakta & Tidsstämplar)' : 'BBIC-strukturerad rapport'}</div>
-              <div><strong>Exportdatum:</strong> ${new Date().toLocaleString('sv-SE')}</div>
+              <div><strong>Barn/Område:</strong> ${childLabel}</div>
+              <div><strong>Rapporttyp:</strong> ${reportLabel}</div>
+              <div><strong>Exportdatum:</strong> ${escapeHtml(new Date().toLocaleString('sv-SE'))}</div>
               <div><strong>Antal inkluderade poster:</strong> ${selected.length} st</div>
               <div class="hash-block">
                 <strong>KRYPTOGRAFISK BEVIS-HASH (SHA-256):</strong><br/>
-                ${hash}<br/>
+                ${hashSafe}<br/>
                 <span style="font-size: 9px; color: #64748b; font-weight: normal;">
                   *Denna hash säkrar att innehållet i dokumentet inte har modifierats eller manipulerats sedan exporttillfället i Livskompassen.
                 </span>

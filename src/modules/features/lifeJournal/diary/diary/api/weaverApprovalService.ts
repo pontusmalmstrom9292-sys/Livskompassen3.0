@@ -87,5 +87,5 @@ export async function approveWeaverMetadata(pendingId: string): Promise<string> 
 }
 
 export async function rejectWeaverMetadata(pendingId: string): Promise<void> {
-  await rejectCallable({ pendingId });
+  await rejectCallable(withVaultSessionPayload({ pendingId }));
 }
