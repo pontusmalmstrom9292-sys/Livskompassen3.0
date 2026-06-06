@@ -50,6 +50,7 @@
     "smoke:locked-icons": "node scripts/smoke_locked_icons.mjs",
     "smoke:design-modules": "node scripts/smoke_design_modules.mjs",
     "smoke:modulvaljare": "node scripts/smoke_modulvaljare.mjs",
+    "smoke:hamn": "node scripts/smoke_hamn.mjs",
     "smoke:innehall": "node scripts/smoke_innehall_register.mjs",
     "smoke:orkester": "node scripts/smoke_orkester_wiring.mjs",
     "orkester:night": "node scripts/orkester_autorun.mjs",

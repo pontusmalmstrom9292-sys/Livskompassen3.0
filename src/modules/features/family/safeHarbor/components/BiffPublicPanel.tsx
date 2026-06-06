@@ -88,6 +88,10 @@ function analyzeJadePatterns(text: string): JadeViolation[] {
 export function BiffPublicPanel({ initialMessage = '' }: Props) {
   const [message, setMessage] = useState(initialMessage);
   const [reply, setReply] = useState<string | null>(null);
+  const [grans, setGrans] = useState<GransAnalysis | null>(null);
+  const [agentName, setAgentName] = useState<string | null>(null);
+  const [riskScore, setRiskScore] = useState<number | null>(null);
+  const [hitlRequired, setHitlRequired] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [speglarGuardDismissed, setSpeglarGuardDismissed] = useState(false);
@@ -119,10 +123,18 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
     setLoading(true);
     setError(null);
     setReply(null);
+    setGrans(null);
+    setAgentName(null);
+    setRiskScore(null);
+    setHitlRequired(false);
 
     try {
       const result = await analyzeBiffMessage(message);
       setReply(extractGreyRockReply(result));
+      setGrans(result.data?.gransAnalysis ?? null);
+      setAgentName(result.data?.agentName ?? null);
+      setRiskScore(result.dcap?.riskScore ?? null);
+      setHitlRequired(result.data?.hitlRequired === true);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : 'Svar kunde inte hämtas. Försök igen om en stund.',
@@ -135,6 +147,10 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
   const handleKlar = useCallback(() => {
     setMessage('');
     setReply(null);
+    setGrans(null);
+    setAgentName(null);
+    setRiskScore(null);
+    setHitlRequired(false);
     setError(null);
     setAutosortNote(null);
     setJadeViolations([]);
@@ -229,6 +245,13 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
       </form>
 
       {error && <p className="text-sm text-text-muted">{error}</p>}
+
+      <BiffTriagePanel
+        grans={grans}
+        riskScore={riskScore}
+        hitlRequired={hitlRequired}
+        agentName={agentName}
+      />
 
       {!reply && !loading && !error && !message.trim() && (
         <p className="text-xs text-text-dim">

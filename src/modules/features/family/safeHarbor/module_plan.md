@@ -21,8 +21,8 @@ Route: `/hamn` · Canonical: `.context/modules/family/safeHarbor.md` · Spec: `d
 | DCAP riskScore | Brus i backend | Ja | **done** |
 | Spara som bevis → valv | WORM original | Ja | **done** |
 | Bro Speglar | prefilledMessage | Ja | **done** |
-| Brusfilter UI-steg | Kladd #3 metod | Nej | **planned** |
-| "Klar" + unmount cleanup | Zero Footprint | Delvis — Klar i BIFF + forensic | **partial** |
+| Brusfilter UI-steg | Kladd #3 metod | Ja — `BiffTriagePanel` i publikt BIFF | **done** (2026-06-06) |
+| "Klar" + unmount cleanup | Zero Footprint | Klar i BIFF; state nollställs vid tab-byte/unmount | **done** |
 | UX polish (tomt tillstånd, copy) | Lågaffekt | Ja | **done** (2026-05-29) |
 | Dölj tills energi | Kladd fråga | Nej | **planned** fas 2 |
 

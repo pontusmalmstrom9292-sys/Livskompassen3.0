@@ -307,6 +307,8 @@ function main() {
   mustInclude('src/modules/capture/captureDomainCopy.ts', 'inkastSourceModuleHint', 'valv_samla');
   mustInclude('src/modules/capture/components/HemCaptureModulValjare.tsx', 'HemCaptureModulValjare');
   mustInclude('functions/src/lib/inboxClassifier.ts', 'buildInboxClassifyBlob', 'valv_samla');
+  mustInclude('src/modules/features/family/safeHarbor/components/BiffPublicPanel.tsx', 'BiffTriagePanel', 'gransAnalysis');
+  mustInclude('src/modules/features/family/safeHarbor/components/TryggHamnHub.tsx', 'HamnModuleStack', 'HAMN_GREY_ROCK_LEAD');
   mustInclude(
     'src/modules/core/home/AdaptiveMemoryCards.tsx',
     'Visa mer',

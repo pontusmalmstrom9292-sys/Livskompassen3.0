@@ -6,6 +6,8 @@ import { BiffPublicPanel } from './BiffPublicPanel';
 import { hjartatTabHref } from '@/core/navigation/appNavigation';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { MaterialPackShortcuts, useLifeHubPreset } from '@/core/lifeOs';
+import { HamnModuleStack } from './HamnModuleStack';
+import { HAMN_BRUSFILTER_LEAD, HAMN_EMBEDDED_LEAD, HAMN_GREY_ROCK_LEAD } from '../hamnCopy';
 
 const HAMN_SUB_TABS = [
   { id: 'oversikt', label: 'Översikt' },
@@ -61,8 +63,20 @@ export function TryggHamnHub({ initialMessage = '', embedded = false }: Props) {
   // Om embedded, rendera endast BIFF-panelen för Obsidian Calm 2.0 (ingen TabBar)
   if (embedded) {
     return (
-      <div className="calm-scroll-island">
-        <BiffPublicPanel initialMessage={initialMessage} />
+      <div className="calm-scroll-island space-y-4">
+        <div className="calm-card glow-bottom-gold px-4 py-3">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-accent/80">Trygg hamn · BIFF</p>
+          <p className="mt-1 text-xs text-text-dim">{HAMN_EMBEDDED_LEAD}</p>
+          <p className="mt-2 text-xs text-text-muted">{HAMN_GREY_ROCK_LEAD}</p>
+        </div>
+        <div className="calm-card glow-bottom-blue px-4 py-3">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-accent-secondary/80">Steg 1 · Brusfilter</p>
+          <p className="mt-1 text-xs text-text-dim">{HAMN_BRUSFILTER_LEAD}</p>
+          <Link to={hjartatTabHref('speglar')} className="btn-pill--accent mt-2 inline-flex text-xs">
+            Öppna Speglar
+          </Link>
+        </div>
+        <HamnModuleStack biffPanel={<BiffPublicPanel initialMessage={initialMessage} />} />
       </div>
     );
   }
@@ -76,7 +90,8 @@ export function TryggHamnHub({ initialMessage = '', embedded = false }: Props) {
         <div className="space-y-4">
           {!embedded && <KompassradPanel />}
           <p className="text-xs text-text-dim">
-            BIFF och Grey Rock finns under fliken BIFF. Riskanalys och bevis under Valv → Hamn · Analys.
+            BIFF och Grey Rock finns under fliken BIFF. Brusfilter (logistik vs beten) visas efter analys.
+            Riskanalys och bevis under Valv → Hamn · Analys.
           </p>
         </div>
       )}
@@ -84,16 +99,13 @@ export function TryggHamnHub({ initialMessage = '', embedded = false }: Props) {
       {subTab === 'biff' && (
         <div className="space-y-3">
           <div className="calm-card glow-bottom-blue px-4 py-3">
-            <p className="text-[10px] uppercase tracking-widest text-accent/80">Steg 1 · Brusfilter</p>
-            <p className="mt-1 text-xs text-text-dim">
-              Rensa känsloladdning och projektioner innan Grey Rock. Klistra in i Speglar → Svart på vitt,
-              eller fortsätt direkt till BIFF om du redan har rena fakta.
-            </p>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-accent-secondary/80">Steg 1 · Brusfilter</p>
+            <p className="mt-1 text-xs text-text-dim">{HAMN_BRUSFILTER_LEAD}</p>
             <Link to={hjartatTabHref('speglar')} className="btn-pill--accent mt-2 inline-flex text-xs">
               Öppna Speglar
             </Link>
           </div>
-          <BiffPublicPanel initialMessage={initialMessage} />
+          <HamnModuleStack biffPanel={<BiffPublicPanel initialMessage={initialMessage} />} />
         </div>
       )}
 
