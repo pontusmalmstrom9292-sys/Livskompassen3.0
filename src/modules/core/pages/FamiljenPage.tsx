@@ -97,8 +97,6 @@ export function FamiljenPage() {
           hint="Allt brus är bortfiltrerat. Välj ditt fokus i menyn nedan."
         />
 
-        <MaterialPackShortcuts preset={preset} hub="familjen" />
-
         <div className="py-2">
           <HubDropdownNav<FamiljenTabId>
             items={FAMILJ_OPTIONS}
@@ -139,6 +137,8 @@ export function FamiljenPage() {
 
           {activeTab === 'drogfrihet' && <DrogfrihetHubPage embedded />}
         </main>
+
+        <MaterialPackShortcuts preset={preset} hub="familjen" />
       </div>
     </HubPageShell>
   );
