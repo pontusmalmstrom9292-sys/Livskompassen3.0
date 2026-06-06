@@ -132,7 +132,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   },
   {
     id: 'familjen_reflektion',
-    label: 'Reflektion',
+    label: 'Barnfokus',
     path: '/familjen?tab=reflektion',
     section: 'vardag',
     inDrawer: false,

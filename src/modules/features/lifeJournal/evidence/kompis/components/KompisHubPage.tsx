@@ -3,7 +3,7 @@ import { Anchor, BookOpen, ChevronRight, Compass, ListTodo, Sparkles } from 'luc
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { ValvArchIcon } from '@/core/ui/ValvArchIcon';
 import { UiCard } from '@/core/ui/UiCard';
-import { vaultDrawerPath } from '@/core/navigation/navTruth';
+import { NAV_PATHS, vaultDrawerPath } from '@/core/navigation/navTruth';
 import { KompisMark } from './KompisMark';
 
 const VALV_ENTRY = vaultDrawerPath('logga');
@@ -43,7 +43,7 @@ const DESTINATIONS: KompisDestination[] = [
     icon: Sparkles,
   },
   {
-    to: '/dagbok?tab=speglar',
+    to: `${NAV_PATHS.HJARTAT}?tab=speglar`,
     label: 'Speglar',
     hint: 'Validering utan att fixa dig — utan PIN.',
     icon: Compass,

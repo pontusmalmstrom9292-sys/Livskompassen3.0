@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import type { LucideIcon } from 'lucide-react';
 import { BookOpen, Anchor, Heart, Compass, ChevronRight, Sparkles } from 'lucide-react';
 import { HIDE_BEVIS_TAB } from '../navigation/navFlags';
+import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
 
 type ModuleLink = {
   label: string;
@@ -20,15 +21,15 @@ type Cluster = {
 
 const clusters: Cluster[] = [
   {
-    to: '/dagbok',
+    to: NAV_PATHS.HJARTAT,
     label: 'Hjärtat',
     desc: 'Sanning, reflektion och spegling.',
     icon: BookOpen,
     tone: 'gold',
     modules: [
-      { label: 'Dagbok', to: '/dagbok' },
-      { label: 'Verklighetsvalvet', to: '/dagbok', search: '?tab=bevis' },
-      { label: 'Speglar', to: '/dagbok', search: '?tab=speglar' },
+      { label: 'Dagbok', to: NAV_PATHS.HJARTAT },
+      { label: 'Verklighetsvalvet', to: NAV_PATHS.VALVET },
+      { label: 'Speglar', to: NAV_PATHS.HJARTAT, search: '?tab=speglar' },
     ],
   },
   {
@@ -59,7 +60,7 @@ const clusters: Cluster[] = [
     modules: [
       { label: 'Kompasser', to: '/vardagen' },
       { label: 'Ekonomi', to: '/vardagen', search: '?tab=ekonomi' },
-      { label: 'Kunskap', to: '/dagbok', search: '?tab=bevis&vaultTab=kunskapsbank' },
+      { label: 'Kunskap', to: vaultDrawerPath('kunskapsbank') },
     ],
   },
   {
@@ -117,7 +118,12 @@ export function ClusterGrid() {
   const visibleClusters = HIDE_BEVIS_TAB
     ? clusters.map((c) => ({
         ...c,
-        modules: c.modules.filter((m) => !m.search?.includes('tab=bevis')),
+        modules: c.modules.filter(
+          (m) =>
+            m.to !== NAV_PATHS.VALVET &&
+            !m.to.startsWith(`${NAV_PATHS.VALVET}?`) &&
+            !m.search?.includes('tab=bevis'),
+        ),
       }))
     : clusters;
 

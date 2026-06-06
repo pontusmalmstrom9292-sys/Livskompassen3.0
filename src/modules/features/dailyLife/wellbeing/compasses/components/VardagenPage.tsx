@@ -6,7 +6,7 @@ import { useStore } from '@/core/store';
 import { EconomyPage } from '../../economy';
 import { getDefaultCompassByTime } from '../utils/compassTime';
 import { DashboardPage } from './DashboardPage';
-import { vaultDrawerPath } from '@/core/navigation/navTruth';
+import { vaultDrawerPath, NAV_PATHS } from '@/core/navigation/navTruth';
 import { useHubTab } from '@/core/navigation/hooks/useHubTab';
 
 export type VardagenTab = 'kompasser' | 'ekonomi';
@@ -23,7 +23,7 @@ export function VardagenPage() {
     paramKey: embeddedInLiv ? 'vardagenTab' : 'tab',
     legacyTabRedirects: {
       kunskap: {
-        pathname: '/dagbok',
+        pathname: NAV_PATHS.VALVET,
         search: (() => {
           const vaultPath = vaultDrawerPath('kunskapsbank');
           const qIndex = vaultPath.indexOf('?');

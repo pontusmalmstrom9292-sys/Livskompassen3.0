@@ -2,6 +2,7 @@
  * Hub-kontextrad — 4 fasta platser per hub (3-zon: Vardagen, Familjen, Dagbok).
  * Uppdaterad 2026-06-06: Liv-launcher — tunga moduler på egna routes.
  */
+import { NAV_PATHS } from './navTruth';
 export type HubContextIconId =
   | 'list'
   | 'calendar'
@@ -118,8 +119,8 @@ function familjenSlots(tab: string | null): HubContextSlot[] {
 function dagbokSlots(tab: string | null): HubContextSlot[] {
   const t = tab === 'speglar' ? 'speglar' : 'reflektion';
   return [
-    { id: 'reflektion', label: 'Reflektion', to: '/dagbok', icon: 'book', active: t === 'reflektion' },
-    { id: 'speglar', label: 'Speglar', to: '/dagbok?tab=speglar', icon: 'brain', active: t === 'speglar' },
+    { id: 'reflektion', label: 'Reflektion', to: NAV_PATHS.HJARTAT, icon: 'book', active: t === 'reflektion' },
+    { id: 'speglar', label: 'Speglar', to: `${NAV_PATHS.HJARTAT}?tab=speglar`, icon: 'brain', active: t === 'speglar' },
     { id: 'familjen', label: 'Familjen', to: '/familjen', icon: 'users' },
     { id: 'vardagen', label: 'Liv och göra', to: '/vardagen', icon: 'sprout' },
   ];
@@ -136,7 +137,7 @@ export function resolveHubKey(pathname: string, search: string): HubContextKey {
     return 'vardagen';
   }
   if (pathname.startsWith('/familjen')) return 'familjen';
-  if (pathname.startsWith('/dagbok') || pathname.startsWith('/hjartat')) {
+  if (pathname.startsWith('/dagbok') || pathname.startsWith('/hjartat') || pathname.startsWith('/valvet')) {
     const tab = tabParam(search);
     if (tab === 'bevis') return 'default';
     return 'dagbok';

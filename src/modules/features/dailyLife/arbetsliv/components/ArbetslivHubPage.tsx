@@ -6,7 +6,7 @@ import { TabBar, type TabBarItem } from '@/core/ui/TabBar';
 import { StampClockPage } from '@/features/admin/stampla/components/StampClockPage';
 import { EconomyTidPanel } from '@/features/dailyLife/wellbeing/economy/components/EconomyTidPanel';
 import { EconomyLogPanel } from '@/features/dailyLife/wellbeing/economy/components/EconomyLogPanel';
-import { vaultDrawerPath } from '@/core/navigation/navTruth';
+import { vaultDrawerPath, NAV_PATHS } from '@/core/navigation/navTruth';
 import { useHubTab } from '@/core/navigation/hooks/useHubTab';
 import { LivBackLink } from '@/modules/shell/LivBackLink';
 
@@ -25,8 +25,8 @@ export function ArbetslivHubPage() {
   const { tabs, activeTab, setTab, legacyRedirect } = useHubTab('arbetsliv', {
     paramKey: embeddedInLiv ? 'workTab' : 'tab',
     legacyTabRedirects: {
-      franvaro: { pathname: '/dagbok', search: vaultRedirectSearch('arbetsliv_franvaro') },
-      lon: { pathname: '/dagbok', search: vaultRedirectSearch('arbetsliv_lon') },
+      franvaro: { pathname: NAV_PATHS.VALVET, search: vaultRedirectSearch('arbetsliv_franvaro') },
+      lon: { pathname: NAV_PATHS.VALVET, search: vaultRedirectSearch('arbetsliv_lon') },
     },
   });
   const tab = activeTab as ArbetslivTab;
@@ -61,7 +61,7 @@ export function ArbetslivHubPage() {
           lönespec finns under Valv i menyn.
         </p>
         <Link
-          to={{ pathname: '/dagbok', search: vaultRedirectSearch('arbetsliv_franvaro') }}
+          to={vaultDrawerPath('arbetsliv_franvaro')}
           className="btn-pill--ghost mt-3 inline-flex items-center gap-2 text-xs"
         >
           <Shield className="h-3.5 w-3.5 text-accent/80" />

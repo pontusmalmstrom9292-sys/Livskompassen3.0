@@ -39,7 +39,7 @@ export function FamiljenMonsterTab({ shell }: Props) {
           För SMS, BIFF och juridisk frekvens: använd Valv → Mönster (Pansaret).
         </p>
         <Link
-          to="/dagbok?tab=bevis"
+          to="/valvet"
           className="mt-2 inline-block text-xs uppercase tracking-widest text-accent hover:underline"
         >
           Öppna Valv → flik Mönster →

@@ -49,7 +49,13 @@ export function getPageContextSummary(pathname: string, search: string): PageCon
       body: 'Kompasser och ekonomi. Välj flik uppe på sidan.',
     };
   }
-  if (pathname.startsWith('/dagbok')) {
+  if (pathname.startsWith('/valvet') || pathname.startsWith('/valv')) {
+    return {
+      title: 'Bevis & arkiv',
+      body: 'Låsta poster och tidsstämplar. PIN vid känslig åtkomst.',
+    };
+  }
+  if (pathname.startsWith('/dagbok') || pathname.startsWith('/hjartat')) {
     if (tab === 'bevis') {
       return {
         title: 'Bevis & arkiv',

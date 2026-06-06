@@ -1,6 +1,7 @@
 /**
  * Deterministiska deep links mellan moduler (Fas B) — ingen RAG.
  */
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 
 export type ModuleLinkTarget =
   | { module: 'mabra'; hub?: 'panic_rsd' | 'self_critical' | 'find_self' }
@@ -29,12 +30,15 @@ export function resolveModuleLink(target: ModuleLinkTarget): ResolvedModuleLink 
     case 'kompasser':
       return { pathname: '/vardagen', search: '?tab=kompasser' };
     case 'dagbok': {
+      if (target.tab === 'bevis') {
+        return { pathname: NAV_PATHS.VALVET };
+      }
       const params = new URLSearchParams();
       if (target.tab) params.set('tab', target.tab);
       if (target.from === 'mabra') params.set('from', 'mabra');
       if (target.energy) params.set('energy', target.energy);
       const q = params.toString();
-      return { pathname: '/dagbok', search: q ? `?${q}` : undefined };
+      return { pathname: NAV_PATHS.HJARTAT, search: q ? `?${q}` : undefined };
     }
     case 'hamn': {
       const hamTab = target.tab ?? 'biff';

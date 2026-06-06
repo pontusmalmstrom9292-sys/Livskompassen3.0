@@ -41,7 +41,7 @@ function WidgetNoteInner() {
           <p className="flex items-center gap-2 text-sm text-success">
             <Lock className="h-4 w-4" /> Sparat
           </p>
-          <Link to="/dagbok?tab=bevis" className="btn-pill--accent mt-3 inline-flex text-xs">
+          <Link to="/valvet" className="btn-pill--accent mt-3 inline-flex text-xs">
             Öppna Valv
           </Link>
           <button type="button" className="btn-pill--ghost mt-2 w-full text-xs" onClick={() => setDone(false)}>

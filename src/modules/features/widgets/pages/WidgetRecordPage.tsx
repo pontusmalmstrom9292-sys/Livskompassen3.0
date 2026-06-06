@@ -121,7 +121,7 @@ function WidgetRecordInner() {
               <p className="mt-2 font-display text-base text-accent">{rec.result.title}</p>
               <p className="mt-2 text-sm text-text-muted">{rec.result.summary}</p>
               <div className="mt-4 flex flex-col gap-2">
-                <Link to="/dagbok?tab=bevis" className="btn-pill--accent text-center text-xs">
+                <Link to="/valvet" className="btn-pill--accent text-center text-xs">
                   Öppna Valv
                 </Link>
                 <button type="button" className="btn-pill--ghost text-xs" onClick={rec.reset}>

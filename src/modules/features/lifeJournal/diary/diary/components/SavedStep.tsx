@@ -1,5 +1,6 @@
 import { Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { hjartatTabHref } from '@/core/navigation/appNavigation';
 import { VAVAREN_SAVED_HINT } from '@/features/lifeJournal/evidence/vault/constants/vavarenCopy';
 import type { JournalBridgeContext } from '@/core/types/journalBridge';
 import { WeaverApprovalPanel } from './WeaverApprovalPanel';
@@ -37,7 +38,7 @@ export function SavedStep({
           Ny post
         </button>
         <Link
-          to={{ pathname: '/dagbok', search: '?tab=speglar' }}
+          to={hjartatTabHref('speglar')}
           state={{ journalContext }}
           className="btn-pill border-accent-secondary/40 text-accent-secondary hover:bg-accent-secondary/10"
         >

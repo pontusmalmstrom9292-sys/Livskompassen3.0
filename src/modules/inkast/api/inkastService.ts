@@ -2,6 +2,7 @@ import { httpsCallable, type FunctionsError } from 'firebase/functions';
 import { functions } from '../../core/firebase/init';
 import type { InboxClassification, InboxRouting } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import type { UserTagRow } from '@/core/types/firestore';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 
 /** Universell tagg-matris — fyra grupper (CEO-taxonomi). */
 export type InkastTagGroupId = 'narcissism' | 'barn' | 'personligt' | 'egen';
@@ -504,16 +505,16 @@ export function formatInkastResultMessage(result: SubmitInkastLiteResult): strin
 }
 
 export const VALV_KUNSKAP_INBOX_LINK = {
-  pathname: '/dagbok',
-  search: '?tab=bevis&vaultTab=kunskapsbank',
+  pathname: NAV_PATHS.VALVET,
+  search: '?vaultTab=kunskapsbank',
 } as const;
 
 export const VALV_SAMLA_GRANSKA_LINK = {
-  pathname: '/dagbok',
-  search: '?tab=bevis&vaultTab=logga&samlaView=granska',
+  pathname: NAV_PATHS.VALVET,
+  search: '?vaultTab=logga&samlaView=granska',
 } as const;
 
 export const VALV_ARKIV_LINK = {
-  pathname: '/dagbok',
-  search: '?tab=bevis&vaultTab=logga',
+  pathname: NAV_PATHS.VALVET,
+  search: '?vaultTab=logga',
 } as const;

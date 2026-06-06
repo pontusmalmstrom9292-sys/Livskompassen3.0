@@ -2,6 +2,7 @@
  * Life Hub presets — exempelprofiler som styr extra material per route (Fas A).
  * Kanon: docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md
  */
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 
 export type LifeHubPresetId =
   | 'foralder_trygg'
@@ -131,7 +132,7 @@ export function filterAdaptiveCardsForPreset<T extends { id: string; to: string 
     return cards.filter(
       (c) =>
         c.to === '/mabra' ||
-        c.to === '/dagbok' ||
+        c.to === NAV_PATHS.HJARTAT ||
         c.to.startsWith('/vardagen'),
     );
   }

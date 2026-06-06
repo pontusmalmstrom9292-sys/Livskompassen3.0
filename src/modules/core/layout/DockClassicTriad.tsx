@@ -7,6 +7,7 @@ import { LivskompassMark } from '../ui/LivskompassMark';
 import { useLongPress } from '../hooks/useLongPress';
 import { openValvViaFyren } from '../auth/valvFyrenGate';
 import { useStore } from '../store';
+import { NAV_PATHS } from '../navigation/navTruth';
 import { getPageContextSummary } from '../navigation/pageContextSummary';
 
 function DockSideLink({
@@ -96,7 +97,7 @@ export function DockClassicTriad() {
       </button>
 
       <DockSideLink
-        to="/dagbok"
+        to={NAV_PATHS.HJARTAT}
         label="Dagbok"
         icon={<BookOpen className="h-4 w-4" strokeWidth={1.5} />}
       />

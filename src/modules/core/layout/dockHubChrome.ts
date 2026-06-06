@@ -1,5 +1,6 @@
 import type { LifeHubPresetId } from '../lifeOs/lifeHubPresets';
 import type { HubContextIconId } from '../navigation/hubContextBar';
+import { NAV_PATHS } from '../navigation/navTruth';
 
 export type DockSideLink = {
   to: string;
@@ -32,7 +33,7 @@ function presetSides(presetId: LifeHubPresetId): { left: DockSideLink; right: Do
     case 'rehab_lag':
       return {
         left: { to: '/vardagen?tab=mabra', label: 'MåBra', icon: 'sparkles' },
-        right: { to: '/dagbok', label: 'Dagbok', icon: 'book' },
+        right: { to: NAV_PATHS.HJARTAT, label: 'Dagbok', icon: 'book' },
       };
     case 'vardag_arbete':
       return {
@@ -42,12 +43,12 @@ function presetSides(presetId: LifeHubPresetId): { left: DockSideLink; right: Do
     case 'minimal':
       return {
         left: { to: '/', label: 'Hem', icon: 'sparkles' },
-        right: { to: '/dagbok', label: 'Dagbok', icon: 'book' },
+        right: { to: NAV_PATHS.HJARTAT, label: 'Dagbok', icon: 'book' },
       };
     default:
       return {
         left: { to: '/familjen', label: 'Familjen', icon: 'users' },
-        right: { to: '/dagbok', label: 'Dagbok', icon: 'book' },
+        right: { to: NAV_PATHS.HJARTAT, label: 'Dagbok', icon: 'book' },
       };
   }
 }
@@ -81,7 +82,7 @@ export function getDockSideLinks(
   if (pathname.startsWith('/familjen')) {
     return {
       left: { to: '/vardagen?tab=handling', label: 'Planering', icon: 'calendar' },
-      right: { to: '/dagbok', label: 'Dagbok', icon: 'book' },
+      right: { to: NAV_PATHS.HJARTAT, label: 'Dagbok', icon: 'book' },
     };
   }
   return presetSides(presetId);

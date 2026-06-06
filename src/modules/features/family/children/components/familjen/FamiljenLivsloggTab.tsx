@@ -49,7 +49,7 @@ export function FamiljenLivsloggTab({ shell }: Props) {
       </div>
 
       <p className="text-center text-xs text-text-dim">
-        <Link to="/dagbok?tab=bevis" className="hover:text-accent">
+        <Link to="/valvet" className="hover:text-accent">
           Öppna arkiv för låsta poster och arkiv-chatt →
         </Link>
       </p>

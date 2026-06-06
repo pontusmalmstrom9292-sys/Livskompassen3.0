@@ -54,7 +54,7 @@ export function SaveAsEvidencePrompt({
     return (
       <div className="mt-4 space-y-2 rounded-xl border border-success/30 bg-success/5 px-4 py-3">
         <p className="text-sm text-success">Sparat som bevis med länk till livsloggen.</p>
-        <Link to="/dagbok?tab=bevis" className="btn-pill--ghost text-sm">
+        <Link to="/valvet" className="btn-pill--ghost text-sm">
           Öppna Bevis (Hjärtat)
         </Link>
         <button type="button" onClick={onDone} className="btn-pill--secondary mt-2 text-sm">

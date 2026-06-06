@@ -3,7 +3,7 @@ import type { CSSProperties } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { openValvViaFyren } from '../auth/valvFyrenGate';
-import { NAV_PATHS } from '../navigation/navTruth';
+import { getNavTruthById, NAV_PATHS } from '../navigation/navTruth';
 import { useLongPress } from '../hooks/useLongPress';
 import { useStore } from '../store';
 import { ChromeV5Icon } from '../ui/chromeIcons/ChromeV5Icon';
@@ -24,8 +24,8 @@ type DockZone = {
 const DOCK_ZONES: DockZone[] = [
   {
     id: 'vardag',
-    label: 'Vardag',
-    to: '/vardagen',
+    label: getNavTruthById('vardagen')?.label ?? 'Liv och göra',
+    to: NAV_PATHS.VARDAGEN,
     category: 'planering',
     match: (pathname, search) => {
       if (pathname !== '/vardagen' && !pathname.startsWith('/vardagen/')) return false;
@@ -34,14 +34,14 @@ const DOCK_ZONES: DockZone[] = [
   },
   {
     id: 'familj',
-    label: 'Familj',
-    to: '/familjen',
+    label: getNavTruthById('familjen')?.label ?? 'Familjen',
+    to: NAV_PATHS.FAMILJEN,
     category: 'familjen',
     match: (pathname) => pathname === '/familjen' || pathname.startsWith('/familjen/'),
   },
   {
     id: 'dagbok',
-    label: 'Dagbok',
+    label: getNavTruthById('dagbok')?.label ?? 'Dagbok',
     to: NAV_PATHS.HJARTAT,
     category: 'dagbok',
     match: (pathname) =>
@@ -52,7 +52,7 @@ const DOCK_ZONES: DockZone[] = [
   },
   {
     id: 'planering',
-    label: 'Planering',
+    label: getNavTruthById('vardagen_handling')?.label ?? 'Handling',
     to: '/vardagen?tab=handling',
     category: 'planering',
     match: (pathname, search) => {

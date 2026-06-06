@@ -188,7 +188,7 @@ export function FamiljenKunskapHubTab({ activeChild, onKampsparCitationClick }: 
         <Shield className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
         <p className="text-xs text-text-dim">
           Kunskap (Minne) och arkiv (bevis) är separata. Barnloggar kopplas inte automatiskt till arkiv.{' '}
-          <Link to="/dagbok?tab=bevis" className="text-accent hover:underline">
+          <Link to="/valvet" className="text-accent hover:underline">
             Valv → Sök
           </Link>{' '}
           för enskilda bevisfiler med bilaga.

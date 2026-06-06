@@ -68,7 +68,7 @@ export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, use
             Känslominne: Vem är jag? · Hur känner jag kring denna upplevelse?
           </p>
           <Link
-            to="/dagbok?tab=bevis"
+            to="/valvet"
             className="btn-pill--accent mt-3 inline-flex text-xs"
           >
             Öppna Valv (förhandsvisning)

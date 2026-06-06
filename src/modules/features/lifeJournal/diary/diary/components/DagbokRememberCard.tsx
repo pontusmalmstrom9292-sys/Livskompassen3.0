@@ -1,6 +1,7 @@
 import { ChevronDown, Lightbulb } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { DAGBOK_REMEMBER_LINES, DAGBOK_REMEMBER_STORAGE_KEY } from '../constants/dagbokReminders';
 
 function readStoredOpen(): boolean {
@@ -52,7 +53,7 @@ export function DagbokRememberCard() {
               </li>
             ))}
           </ul>
-          <Link to="/dagbok?tab=bevis" className="btn-pill--ghost mt-1 inline-flex text-xs">
+          <Link to={NAV_PATHS.VALVET} className="btn-pill--ghost mt-1 inline-flex text-xs">
             Gå till Reality Vault →
           </Link>
         </div>

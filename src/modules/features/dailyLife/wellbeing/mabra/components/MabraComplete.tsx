@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 import {
   COMPLETE_COPY,
   COMPLETE_LANDING_STRIP,
@@ -22,7 +23,7 @@ export function MabraComplete({
   onOpenReflectionCard,
 }: Props) {
   const copy = hub ? HUB_COMPLETE_COPY[hub] : COMPLETE_COPY[exerciseType];
-  const dagbokTo = hub ? mabraDagbokBridgeUrl(hub) : '/dagbok?from=mabra&energy=low';
+  const dagbokTo = hub ? mabraDagbokBridgeUrl(hub) : `${NAV_PATHS.HJARTAT}?from=mabra&energy=low`;
   const dagbokLabel = hub ? HUB_COMPLETE_COPY[hub].dagbokLabel : COMPLETE_LANDING_STRIP.dagbok;
 
   return (

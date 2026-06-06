@@ -1,3 +1,4 @@
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -82,7 +83,7 @@ export function HomeAdaptiveCompass({ onSaved }: Props) {
       <div className="grid grid-cols-4 gap-3">
         <button
           type="button"
-          onClick={() => navigate('/dagbok')}
+          onClick={() => navigate(NAV_PATHS.HJARTAT)}
           className="flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-2xl border border-border/30 bg-surface-2/60 p-3.5 shadow-sm backdrop-blur-md transition-all hover:bg-surface-3"
         >
           <BookOpen className="h-4 w-4 text-accent" aria-hidden />

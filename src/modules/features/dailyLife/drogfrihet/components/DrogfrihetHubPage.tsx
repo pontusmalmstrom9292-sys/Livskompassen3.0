@@ -144,7 +144,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
           ))}
           <p className="text-sm text-text-muted">
             Mer fakta bakom PIN:{' '}
-            <a href="/dagbok?tab=bevis&vaultTab=kunskapsbank" className="text-accent hover:underline">
+            <a href="/valvet?vaultTab=kunskapsbank" className="text-accent hover:underline">
               Valv → Kunskapsbank
             </a>
           </p>

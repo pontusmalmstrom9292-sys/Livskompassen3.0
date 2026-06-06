@@ -1,4 +1,5 @@
 import type { ChromeV5Category } from '../ui/chromeIcons';
+import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
 
 export type OrbitRing = 'cardinal' | 'intercardinal';
 
@@ -72,7 +73,7 @@ export const HERO_ORBIT_SLOTS: OrbitSlotConfig[] = [
     label: 'Dagbok',
     shortLabel: 'Dagbok',
     blurb: 'Neutral rad · spegling',
-    to: '/dagbok',
+    to: NAV_PATHS.HJARTAT,
     angle: 225,
     ring: 'intercardinal',
   },
@@ -82,7 +83,7 @@ export const HERO_ORBIT_SLOTS: OrbitSlotConfig[] = [
     label: 'Kunskap',
     shortLabel: 'Kunskap',
     blurb: 'Kunskapsbank · bakom Valv-PIN',
-    to: '/dagbok?tab=bevis&vaultTab=kunskapsbank',
+    to: vaultDrawerPath('kunskapsbank'),
     angle: 270,
     ring: 'cardinal',
   },
@@ -92,7 +93,7 @@ export const HERO_ORBIT_SLOTS: OrbitSlotConfig[] = [
     label: 'Valv',
     shortLabel: 'Valv',
     blurb: 'Arkiv · mönster · meddelanden',
-    to: '/dagbok?tab=bevis',
+    to: NAV_PATHS.VALVET,
     angle: 315,
     ring: 'intercardinal',
   },
@@ -110,7 +111,7 @@ export type HeroQuickPick = {
 /** Snabbval längs nedre kompassbåge (ikon + etikett). */
 export const HERO_QUICK_PICKS: HeroQuickPick[] = [
   { id: 'checkin', label: 'Check-in', to: '/', icon: 'rutiner' },
-  { id: 'dagbok', label: 'Dagbok', to: '/dagbok', icon: 'dagbok' },
+  { id: 'dagbok', label: 'Dagbok', to: NAV_PATHS.HJARTAT, icon: 'dagbok' },
   { id: 'uppgift', label: 'Uppgift', to: '/vardagen?tab=handling', icon: 'planering' },
   { id: 'hamn', label: 'Hamn', to: '/familjen?tab=hamn', icon: 'hamn' },
   { id: 'kompis', label: 'Kompis', to: '/kompis', mark: 'kompis' },

@@ -77,7 +77,7 @@ export const CURRICULUMS: readonly VitCurriculum[] = [
       },
     ],
     broLinks: [
-      { label: 'Kunskapsbank (RAG)', route: '/dagbok?tab=bevis&vaultTab=kunskapsbank' },
+      { label: 'Kunskapsbank (RAG)', route: '/valvet?vaultTab=kunskapsbank' },
     ],
   },
   {
@@ -121,8 +121,8 @@ export const CURRICULUMS: readonly VitCurriculum[] = [
       },
     ],
     broLinks: [
-      { label: 'Kunskapsbank', route: '/dagbok?tab=bevis&vaultTab=kunskapsbank' },
-      { label: 'Speglar (ej ex-coaching här)', route: '/dagbok?tab=speglar' },
+      { label: 'Kunskapsbank', route: '/valvet?vaultTab=kunskapsbank' },
+      { label: 'Speglar (ej ex-coaching här)', route: '/hjartat?tab=speglar' },
     ],
   },
   {
@@ -228,8 +228,8 @@ export const CURRICULUMS: readonly VitCurriculum[] = [
       },
     ],
     broLinks: [
-      { label: 'Speglar', route: '/dagbok?tab=speglar' },
-      { label: 'Valv — dokumentera', route: '/dagbok?tab=bevis' },
+      { label: 'Speglar', route: '/hjartat?tab=speglar' },
+      { label: 'Valv — dokumentera', route: '/valvet' },
     ],
   },
   {

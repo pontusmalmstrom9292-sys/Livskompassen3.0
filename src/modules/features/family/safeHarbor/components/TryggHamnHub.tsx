@@ -3,6 +3,7 @@ import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import { TabBar } from '@/core/ui/TabBar';
 import { KompassradPanel } from '@/features/dailyLife/wellbeing/compasses/components/KompassradPanel';
 import { BiffPublicPanel } from './BiffPublicPanel';
+import { hjartatTabHref } from '@/core/navigation/appNavigation';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { MaterialPackShortcuts, useLifeHubPreset } from '@/core/lifeOs';
 
@@ -54,10 +55,7 @@ export function TryggHamnHub({ initialMessage = '', embedded = false }: Props) {
   };
 
   if (searchParams.get('tab') === 'analys') {
-    const vaultPath = vaultDrawerPath('hamn_analys');
-    const qIndex = vaultPath.indexOf('?');
-    const search = qIndex >= 0 ? vaultPath.slice(qIndex) : '';
-    return <Navigate to={{ pathname: '/dagbok', search }} replace />;
+    return <Navigate to={vaultDrawerPath('hamn_analys')} replace />;
   }
 
   // Om embedded, rendera endast BIFF-panelen för Obsidian Calm 2.0 (ingen TabBar)
@@ -91,7 +89,7 @@ export function TryggHamnHub({ initialMessage = '', embedded = false }: Props) {
               Rensa känsloladdning och projektioner innan Grey Rock. Klistra in i Speglar → Svart på vitt,
               eller fortsätt direkt till BIFF om du redan har rena fakta.
             </p>
-            <Link to="/dagbok?tab=speglar" className="btn-pill--accent mt-2 inline-flex text-xs">
+            <Link to={hjartatTabHref('speglar')} className="btn-pill--accent mt-2 inline-flex text-xs">
               Öppna Speglar
             </Link>
           </div>
@@ -104,7 +102,7 @@ export function TryggHamnHub({ initialMessage = '', embedded = false }: Props) {
           <p className="text-text-dim">
             Akut känslovalidering (ACT) och bevisjämförelse — innan du formulerar svar här.
           </p>
-          <Link to="/dagbok?tab=speglar" className="btn-pill--accent mt-3 inline-flex text-xs">
+          <Link to={hjartatTabHref('speglar')} className="btn-pill--accent mt-3 inline-flex text-xs">
             Öppna Speglar
           </Link>
         </div>

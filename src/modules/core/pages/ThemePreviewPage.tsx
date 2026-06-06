@@ -70,7 +70,7 @@ export function ThemePreviewPage() {
             ['/', 'I-stone'],
             ['/hamn', 'I-stone'],
             ['/mabra', 'I-stone'],
-            ['/dagbok', 'I-stone'],
+            ['/hjartat', 'I-stone'],
           ].map(([path, id]) => (
             <li key={path}>
               <code className="text-accent">{path}</code> → {id}{' '}

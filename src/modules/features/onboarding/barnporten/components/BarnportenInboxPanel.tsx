@@ -111,7 +111,7 @@ export function BarnportenInboxPanel() {
                   category="barnporten"
                   onDone={() => setPromoteId(null)}
                 />
-                <Link to="/dagbok?tab=bevis" className="text-xs text-accent hover:underline">
+                <Link to="/valvet" className="text-xs text-accent hover:underline">
                   Granska i Valv
                 </Link>
               </>

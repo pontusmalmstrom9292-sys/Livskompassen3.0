@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Check, Loader2, PenLine } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { useStore } from '../../store';
 import { saveJournalEntry } from '../../firebase/firestore';
 
@@ -79,7 +80,7 @@ export function HomeDagbokPanel({ onSaved }: Props) {
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <PenLine className="h-4 w-4" />}
           Spara rad
         </button>
-        <Link to="/dagbok" className="btn-pill--ghost">
+        <Link to={NAV_PATHS.HJARTAT} className="btn-pill--ghost">
           Öppna dagbok
         </Link>
       </div>

@@ -341,7 +341,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
             (bok-ikonen) och <strong>håll 3 sekunder</strong>, eller öppna fliken Bevis och ange PIN.
           </p>
           <Link
-            to="/dagbok?tab=bevis"
+            to="/valvet"
             className="inline-flex rounded-lg bg-indigo-500/20 px-4 py-2 text-sm font-medium text-indigo-200 hover:bg-indigo-500/30"
           >
             Öppna Bevis / Valv

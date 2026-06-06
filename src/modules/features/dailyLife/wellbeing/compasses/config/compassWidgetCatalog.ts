@@ -1,4 +1,5 @@
 import type { CompassFlow } from '../utils/compassTime';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 
 export type CompassWidgetContentClass = 'FACT' | 'REFLECTION' | 'PLAY' | 'EVIDENCE' | 'none';
 
@@ -38,7 +39,7 @@ export const COMPASS_WIDGET_CATALOG: Record<CompassFlow, CompassWidgetDef[]> = {
     {
       id: 'snabb-dagbok',
       label: 'Snabb rad',
-      href: '/dagbok?mode=snabb',
+      href: `${NAV_PATHS.HJARTAT}?mode=snabb`,
       contentClass: 'REFLECTION',
       siloNote: 'Journal Snabb — weave opt-in separat',
     },
@@ -61,7 +62,7 @@ export const COMPASS_WIDGET_CATALOG: Record<CompassFlow, CompassWidgetDef[]> = {
     {
       id: 'dagbok',
       label: 'Dagbok',
-      href: '/dagbok',
+      href: NAV_PATHS.HJARTAT,
       contentClass: 'REFLECTION',
       siloNote: 'Lager 1 — ej auto-promotion Valv',
     },
@@ -84,7 +85,7 @@ export const COMPASS_WIDGET_CATALOG: Record<CompassFlow, CompassWidgetDef[]> = {
     {
       id: 'reflektion',
       label: 'Reflektion',
-      href: '/dagbok?tab=reflektion',
+      href: NAV_PATHS.HJARTAT,
       contentClass: 'REFLECTION',
       siloNote: 'Journal wizard — WORM',
     },

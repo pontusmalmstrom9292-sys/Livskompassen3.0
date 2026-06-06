@@ -6,6 +6,7 @@ import { ValvArchIcon } from '../ui/ValvArchIcon';
 import { useLongPress } from '../hooks/useLongPress';
 import { openValvViaFyren } from '../auth/valvFyrenGate';
 import { useStore } from '../store';
+import { NAV_PATHS } from '../navigation/navTruth';
 
 /** Mockup-dock: Familjen · kompass (guld båge) · Valv — som referensbilderna. */
 export function DockMockupTriad() {
@@ -72,11 +73,14 @@ export function DockMockupTriad() {
       </div>
 
       <NavLink
-        to="/dagbok?tab=bevis"
+        to={NAV_PATHS.VALVET}
         className={({ isActive }) =>
           clsx(
             'dock-mockup__side',
-            (isActive || location.pathname.startsWith('/dagbok')) && 'dock-mockup__side--active',
+            (isActive ||
+              location.pathname.startsWith('/valvet') ||
+              location.pathname.startsWith('/dagbok')) &&
+              'dock-mockup__side--active',
           )
         }
         aria-label="Valv"

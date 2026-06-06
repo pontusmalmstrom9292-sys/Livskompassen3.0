@@ -1,5 +1,6 @@
 import type { CompassFlow } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 
 export type CheckInSnapshot = {
   id: string;
@@ -58,7 +59,7 @@ function kasamFollowUp(taskNote?: string): AdaptiveMemoryCard | null {
         title: weakest.label,
         prompt: weakest.q,
         actionLabel: 'Öppna dagbok',
-        to: '/dagbok',
+        to: NAV_PATHS.HJARTAT,
         tone: 'gold',
       };
     }
@@ -108,7 +109,7 @@ function cardsFromMorning(option: string): AdaptiveMemoryCard[] {
           title: 'Morgon — vila',
           prompt: 'Vila räcker. Vill du bara läsa Sanningens Ankare utan att prestera?',
           actionLabel: 'Dagbok',
-          to: '/dagbok',
+          to: NAV_PATHS.HJARTAT,
           tone: 'gold',
         },
       ];
@@ -157,7 +158,7 @@ function cardsFromDay(option: string): AdaptiveMemoryCard[] {
           title: 'Dag — orolig',
           prompt: 'Oro i systemet. Spegla känslan mot fakta — utan att fixa.',
           actionLabel: 'Speglar',
-          to: '/dagbok',
+          to: NAV_PATHS.HJARTAT,
           search: '?tab=speglar',
           tone: 'gold',
         },

@@ -6,7 +6,7 @@ import { DrogfrihetHubPage } from '@/features/dailyLife/drogfrihet';
 import { HubPageShell } from '../layout/HubPageShell';
 import { HubDropdownNav, type DropdownItem } from '../ui/HubDropdownNav';
 import { CognitiveLoadStrip } from '../ui/CognitiveLoadStrip';
-import { vaultDrawerPath } from '../navigation/navTruth';
+import { vaultDrawerPath, NAV_PATHS } from '../navigation/navTruth';
 import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
 import { FamiljenChildPicker } from '@/features/family/children/components/familjen/FamiljenChildPicker';
 import { BarnfokusSuperModule } from '@/features/family/children/components/familjen/BarnfokusSuperModule';
@@ -44,8 +44,8 @@ function vaultRedirectSearch(vaultTab: string): string {
 }
 
 const LEGACY_TAB_REDIRECTS: Record<string, { pathname: string; search: string }> = {
-  kunskap: { pathname: '/dagbok', search: '?tab=bevis&vaultTab=kunskapsbank' },
-  monster: { pathname: '/dagbok', search: vaultRedirectSearch('familjen_monster') },
+  kunskap: { pathname: NAV_PATHS.VALVET, search: '?vaultTab=kunskapsbank' },
+  monster: { pathname: NAV_PATHS.VALVET, search: vaultRedirectSearch('familjen_monster') },
 };
 
 /** Zon 3 — Familjehubben: barnfokus, livslogg, tillsammans, barnporten, BIFF. */

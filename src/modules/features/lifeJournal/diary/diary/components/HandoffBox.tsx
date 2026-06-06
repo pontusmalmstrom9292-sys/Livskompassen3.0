@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { Shield } from 'lucide-react';
 
 type HandoffBoxProps = {
@@ -22,7 +23,7 @@ export function HandoffBox({ className = '' }: HandoffBoxProps) {
         motpart, familjerätt eller myndighet — spara den i Reality Vault. Där blir datum, text och
         bilagor strukturerade som bevis. Dagboken förblir privat och flyttas inte hit automatiskt.
       </p>
-      <Link to="/dagbok?tab=bevis" className="journal-handoff__cta btn-pill--ghost">
+      <Link to={NAV_PATHS.VALVET} className="journal-handoff__cta btn-pill--ghost">
         Öppna Reality Vault →
       </Link>
     </aside>

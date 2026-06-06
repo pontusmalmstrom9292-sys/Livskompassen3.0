@@ -19,6 +19,8 @@ const defaultTitles: DesignPackChrome['pageTitles'] = {
   '/familjen': 'FAMILJEN',
   '/kompis': 'LIVSKOMPASSEN',
   '/dagbok': 'VALV',
+  '/hjartat': 'HJÄRTAT',
+  '/valvet': 'VALV',
   '/planering': 'PLANERING',
   '/mabra': 'MÅBRA',
   '/installningar': 'INSTÄLLNINGAR',
@@ -97,7 +99,8 @@ export function resolveCenterTitle(
 ): string {
   if (chrome.pageTitles[pathname]) return chrome.pageTitles[pathname];
   if (pathname.startsWith('/familj')) return chrome.pageTitles['/familj'] ?? 'FAMILJEN';
-  if (pathname.startsWith('/dagbok') || pathname.startsWith('/valv')) return 'VALV';
+  if (pathname.startsWith('/valvet') || pathname.startsWith('/valv') || pathname.startsWith('/dagbok')) return 'VALV';
+  if (pathname.startsWith('/hjartat')) return chrome.pageTitles['/hjartat'] ?? 'HJÄRTAT';
   if (pathname.startsWith('/planering')) return 'PLANERING';
   if (pathname.startsWith('/mabra')) return 'MÅBRA';
   return 'LIVSKOMPASSEN';

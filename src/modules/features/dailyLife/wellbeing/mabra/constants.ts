@@ -1,4 +1,5 @@
 import type { MabraDurationMinutes, MabraExerciseType, MabraSymptomHub } from './types';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 
 export const MABRA_DURATION_OPTIONS: MabraDurationMinutes[] = [1, 3, 5];
 
@@ -166,7 +167,7 @@ export function mabraDagbokBridgeUrl(hub: MabraSymptomHub): string {
     hub,
     energy: 'low',
   });
-  return `/dagbok?${params.toString()}`;
+  return `${NAV_PATHS.HJARTAT}?${params.toString()}`;
 }
 
 export const MIN_CORE_VALUES = 3;

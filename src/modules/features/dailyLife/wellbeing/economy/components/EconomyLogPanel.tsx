@@ -228,7 +228,7 @@ export function EconomyLogPanel({ onChanged }: EconomyLogPanelProps) {
 
           <p className="text-xs text-text-dim">
             Frånvaro (sjuk/VAB heldag) finns under{' '}
-            <Link to="/dagbok?tab=bevis" className="text-accent-primary underline">
+            <Link to="/valvet" className="text-accent-primary underline">
               Valv → Lön
             </Link>{' '}
             (PIN).

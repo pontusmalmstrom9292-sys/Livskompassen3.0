@@ -4,8 +4,9 @@ import type { ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Inbox, List, Plus, Sparkles } from 'lucide-react';
 import { clsx } from 'clsx';
-import { useLongPress } from '../hooks/useLongPress';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { openValvViaFyren } from '../auth/valvFyrenGate';
+import { useLongPress } from '../hooks/useLongPress';
 import { useStore } from '../store';
 import { ChromeV5Icon } from '../ui/chromeIcons';
 
@@ -62,7 +63,7 @@ const WIDGET_ACTIONS: {
   {
     id: 'valv',
     label: 'Valv',
-    to: '/dagbok?tab=bevis',
+    to: NAV_PATHS.VALVET,
     renderIcon: () => <ChromeV5Icon category="valv" className={GLYPH} />,
   },
   {

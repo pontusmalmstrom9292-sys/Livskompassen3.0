@@ -406,7 +406,7 @@ function main() {
   );
 
   mustInclude('src/modules/features/dailyLife/wellbeing/compasses/components/VardagenPage.tsx', 'vaultDrawerPath', 'kunskap');
-  mustInclude('src/modules/core/home/livskompassHeroConfig.ts', 'vaultTab=kunskapsbank');
+  mustInclude('src/modules/core/home/livskompassHeroConfig.ts', "vaultDrawerPath('kunskapsbank')");
   mustInclude(
     'docs/design/references/MENU-DRAWER-KANON.md',
     'MENU-DRAWER-KANON.png',
@@ -453,13 +453,12 @@ function main() {
     'src/modules/core/layout/NavigationDrawer.tsx',
     'DrawerModeToggle',
     'DrawerHubAccordion',
-    'Vardag &',
-    'Verklighetsvalvet',
+    'Vardag',
+    'Valvet',
     'vaultOpen',
     'showValvShell',
     'nav-drawer__backdrop',
-    'vaultTab=monster',
-    'vaultTab=kunskapsbank',
+    'DRAWER_VALV_ITEMS',
     'handleLockVaultImmediately',
     'Lås Valvet nu',
   );
