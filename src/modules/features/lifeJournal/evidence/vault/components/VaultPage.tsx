@@ -31,6 +31,8 @@ import {
   resolveValvZone,
   VALV_ZONE_INGRESS,
 } from '../utils/vaultTabs';
+import { ValvZoneModulValjare } from './ValvZoneModulValjare';
+import { hasSeenValvZoneModulValjare } from '../utils/valvZoneModulValjareStorage';
 
 export type { VaultTab, MainVaultTab, ValvZone } from '../utils/vaultTabs';
 export { parseVaultTab } from '../utils/vaultTabs';
@@ -68,6 +70,7 @@ function VaultPageInner({
   const [error, setError] = useState<string | null>(null);
   const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
+  const [showZonePicker, setShowZonePicker] = useState(() => !hasSeenValvZoneModulValjare());
   const gateOk = hasVaultGate();
   const valvZone = resolveValvZone(vaultTab);
 
@@ -220,6 +223,36 @@ function VaultPageInner({
       <BentoCard title={VAULT_UI_NAME} icon={<Lock className="h-4 w-4" />}>
         <p className="text-sm text-text-dim">Ansluter till valvet…</p>
       </BentoCard>
+    );
+  }
+
+  if (showZonePicker) {
+    return (
+      <div className="space-y-4">
+        <BentoCard title={embedded ? 'Valv · Baksida' : VAULT_UI_NAME} icon={<Lock className="h-4 w-4" />}>
+          <div className="mb-3 flex items-start justify-between gap-2">
+            <p className="text-xs text-text-dim">PIN upplåst — välj zon</p>
+            <button
+              type="button"
+              onClick={handleCloseToLayer1}
+              className="btn-pill--ghost shrink-0 flex items-center gap-1"
+              title="Stäng valv — tillbaka till vardag"
+            >
+              <X className="h-3 w-3" /> Stäng
+            </button>
+          </div>
+          <ValvZoneModulValjare
+            onSelect={(zone) => {
+              handleValvZoneChange(zone);
+              setShowZonePicker(false);
+            }}
+            onSkip={() => {
+              handleValvZoneChange('samla');
+              setShowZonePicker(false);
+            }}
+          />
+        </BentoCard>
+      </div>
     );
   }
 

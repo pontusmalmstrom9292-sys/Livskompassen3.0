@@ -4,6 +4,7 @@ import { useActiveProjects } from '../hooks/useProjects';
 import type { ProjectBlockType } from '../types';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
+import { ProjektTomStatePanel } from './ProjektTomStatePanel';
 
 const BLOCK_ICONS: Record<ProjectBlockType, typeof List> = {
   list: List,
@@ -32,7 +33,9 @@ export function ProjektHubPage() {
       {user && loading && <p className="text-sm text-text-dim">Laddar projekt…</p>}
 
       {user && !loading && projects.length === 0 && (
-        <p className="text-sm text-text-dim">Inga aktiva projekt — skapa ett nedan.</p>
+        <div className="calm-card glow-bottom-gold overflow-hidden rounded-2xl p-4 sm:p-5">
+          <ProjektTomStatePanel />
+        </div>
       )}
 
       {user && projects.length > 0 && (
