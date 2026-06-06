@@ -6,6 +6,7 @@ import { DrogfrihetHubPage } from '@/features/dailyLife/drogfrihet';
 import { HubPageShell } from '../layout/HubPageShell';
 import { HubDropdownNav, type DropdownItem } from '../ui/HubDropdownNav';
 import { CognitiveLoadStrip } from '../ui/CognitiveLoadStrip';
+import { MaterialPackShortcuts, useLifeHubPreset } from '@/core/lifeOs';
 import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
 import { vaultRedirectSearch } from '../navigation/vaultLegacyRedirect';
 import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
@@ -51,6 +52,7 @@ export type FamiljenValvDrawerWiring = typeof vaultDrawerPath;
 export function FamiljenPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const shell = useFamiljenShell();
+  const { preset } = useLifeHubPreset();
   const rawTab = searchParams.get('tab');
   const legacyRedirect = rawTab ? LEGACY_TAB_REDIRECTS[rawTab] : undefined;
   const activeTab = resolveTab(rawTab);
@@ -94,6 +96,8 @@ export function FamiljenPage() {
           label="Kognitiv sköld aktiv"
           hint="Allt brus är bortfiltrerat. Välj ditt fokus i menyn nedan."
         />
+
+        <MaterialPackShortcuts preset={preset} hub="familjen" />
 
         <div className="py-2">
           <HubDropdownNav<FamiljenTabId>

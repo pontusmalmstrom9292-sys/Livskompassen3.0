@@ -1,14 +1,13 @@
 # Senaste sammanfattning — systemstatus
 
-**Datum:** 2026-06-06 · **Gren:** `main` · Repo: Livskompassen3.0  
-**HEAD:** `2ceb0fff` · **Ahead of origin:** 1 commit (ej pushad)  
-**Senaste leverans:** Barnporten polish (alias · needs_auth · barn-manifest) · functions callables-refaktor · build + smoke **PASS**
+**Datum:** 2026-06-06 · **Gren:** `main`  
+**Senaste leverans:** Barnporten polish **hosting live** · MaterialPack Våg A (Familjen-hub) · build + smoke **PASS**
 
 ---
 
 ## Nuläge i en mening
 
-**Barnporten CB2–CB4 + QR PASS (Motorola)** · Fas 5A #4 **PASS** · #3 Valv backend/static **PASS** — **USER UI (Shield→PIN→spara) kvar**.
+**Barnporten CB2–CB4 + QR PASS (Motorola)** · Fas 5A #4 **PASS** · #3 Valv backend/static **PASS** — **USER UI (Shield→PIN→spara) kvar** · MaterialPack genvägar på Familjen (ej ännu redeployad till hosting efter commit).
 
 ---
 
@@ -16,6 +15,7 @@
 
 | Område | Status |
 |--------|--------|
+| **MaterialPack Våg A** | `MaterialPackShortcuts` på Familjen (`hub="familjen"`) under CognitiveLoadStrip · MåBra + Hamn redan live |
 | **Barnporten Våg A** | CB2–CB4 widget-varianter · `BarnportenWidget` variant-fabrik · CB2 default · mockups CB2–CB4 |
 | **Barnporten Våg B** | QR enhetskoppling · `createBarnportenPairing` + `claimBarnportenPairing` live · `firestore.rules` deployad · `barnporten_devices` |
 | **Barnporten P1** | Hub 2×2 · inkorg HITL §7b · offline-kö · PWA manifest (`useBarnportenWebManifest`) · CB1 fallback · polish: alias + needs_auth + `?pair=` prompt |
