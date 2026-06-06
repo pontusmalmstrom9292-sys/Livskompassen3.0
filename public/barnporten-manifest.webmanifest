@@ -22,7 +22,7 @@
     {
       "name": "Snabb avsig",
       "short_name": "Avsig",
-      "description": "CB1 — skicka kort rad till pappa",
+      "description": "CB2 — snabb rad till pappa",
       "url": "/widget/barnporten?quick=1",
       "icons": [{ "src": "/icons/app-icon-192.png", "sizes": "192x192" }]
     },

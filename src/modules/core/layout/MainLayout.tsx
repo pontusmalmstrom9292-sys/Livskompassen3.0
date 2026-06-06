@@ -11,6 +11,7 @@ import { KompisHeaderVaultButton } from '../components/KompisHeaderVaultButton';
 import { AccountAuthMenu } from '../auth/AccountAuthMenu';
 import { NavigationDrawer } from './NavigationDrawer';
 import { FirestoreNetworkChip } from '../components/FirestoreNetworkChip';
+import { isBarnportenChildRoute } from '@/features/onboarding/barnporten/constants/barnportenRoutes';
 import { useStore } from '../store';
 import { useTheme } from '../theme';
 import { isDesignPackTheme } from '../theme/themePackDesign';
@@ -24,6 +25,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   const kompisAuraActive = useStore((s) => s.system.kompisAuraActive);
   const { themeId } = useTheme();
   const mockupSkin = isMockupTheme(themeId) || isDesignPackTheme(themeId);
+  const barnportenChildShell = isBarnportenChildRoute(location.pathname);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   useEffect(() => {
@@ -80,14 +82,19 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         className={clsx(
           'app-main relative z-10 mx-auto max-w-2xl px-4',
           isScenicHome ? 'pt-[4.65rem]' : 'pt-[5.75rem]',
+          barnportenChildShell && 'pb-16',
         )}
       >
         {children}
       </main>
 
-      <FyrenSmartWidgetBar />
-      <FyrenWidgetBar />
-      <FloatingDock />
+      {!barnportenChildShell ? (
+        <>
+          <FyrenSmartWidgetBar />
+          <FyrenWidgetBar />
+          <FloatingDock />
+        </>
+      ) : null}
     </div>
     </FyrenWidgetProvider>
   );

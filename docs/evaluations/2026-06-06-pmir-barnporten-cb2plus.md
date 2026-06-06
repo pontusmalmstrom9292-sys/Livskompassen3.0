@@ -161,8 +161,9 @@ CB4: return null (PWA-only)
 
 ## Godkännande
 
-**Användaren:** ☐ godkänn Våg A · ☐ godkänn Våg B (rules) · ☐ avbryt  
-**Datum:** ___________
+**Användaren:** ☑ godkänn Våg A (CB2 default) · ☐ godkänn Våg B (rules) · ☐ avbryt  
+**Leverans:** `76f1e9f4` push + hosting deploy 2026-06-06  
+**Datum:** 2026-06-06
 
 ---
 

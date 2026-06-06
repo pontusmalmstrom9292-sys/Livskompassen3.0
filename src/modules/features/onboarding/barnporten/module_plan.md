@@ -18,7 +18,8 @@
 ## P2 — IDÉ
 
 - [x] CB1 widget (`BarnportenWidget` + `/widget/barnporten`)
-- QR enhetskoppling, push, CB2–CB4, offline-kö
+- [x] CB2–CB4 variant-fabrik (default CB2, Våg A 2026-06-06)
+- [ ] QR enhetskoppling, push
 
 ## Data
 
