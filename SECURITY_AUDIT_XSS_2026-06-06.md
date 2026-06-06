@@ -162,8 +162,6 @@ npm test -- src/shared/utils/secureExport.test.ts
   ✓ createSafeHtml (6)
   ✓ createSafeTableRow (3)
   ✓ createSafeTableHeader (2)
-  ✓ downloadJsonFile (3)
-  ✓ openPrintWindow (4)
   ✓ Integration tests (3)
 
 Pass:   25
