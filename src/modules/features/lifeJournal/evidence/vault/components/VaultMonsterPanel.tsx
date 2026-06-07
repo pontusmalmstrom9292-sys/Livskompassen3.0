@@ -35,7 +35,7 @@ export function VaultMonsterPanel({ logs }: Props) {
 
   if (logs.length === 0) {
     return (
-      <BentoCard title="Mönster" description="Pansaret · deterministisk frekvens" icon={<BarChart3 className="h-4 w-4" />}>
+      <BentoCard title="Mönster" description="Pansaret · deterministisk frekvens" icon={<BarChart3 className="h-4 w-4" />} glow="gold">
         <EmptyState message="Inga valvposter ännu. Spara under Arkiv — frekvensen visas här." />
       </BentoCard>
     );
@@ -47,6 +47,7 @@ export function VaultMonsterPanel({ logs }: Props) {
         title="Frekvensanalys"
         description="Pansaret · regex-lager (ingen LLM som sanning)"
         icon={<BarChart3 className="h-4 w-4" />}
+        glow="gold"
       >
         <p className="text-sm text-text-muted">
           {report.totalPosts} poster · {report.smsLikePosts} kommunikationsrelaterade ·
@@ -66,7 +67,7 @@ export function VaultMonsterPanel({ logs }: Props) {
         </div>
       </BentoCard>
 
-      <BentoCard title="Poster per månad" description="Systematisk tidsfrekvens">
+      <BentoCard title="Poster per månad" description="Systematisk tidsfrekvens" glow="gold">
         <div className="space-y-3">
           {report.monthlyCounts.map(({ month, count }) => (
             <BarRow key={month} label={month} count={count} max={maxMonth} />
@@ -74,7 +75,7 @@ export function VaultMonsterPanel({ logs }: Props) {
         </div>
       </BentoCard>
 
-      <BentoCard title="Kategorier i valvet" description="Fördelning">
+      <BentoCard title="Kategorier i valvet" description="Fördelning" glow="gold">
         <div className="space-y-2 text-sm text-text-muted">
           {Object.entries(report.categoryCounts).map(([cat, count]) => (
             <p key={cat}>
