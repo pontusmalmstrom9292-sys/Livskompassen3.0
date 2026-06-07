@@ -8,6 +8,10 @@ import {
 } from '../lib/inboxPersist';
 import { submitInkastLiteForUser } from '../lib/submitInkastLite';
 import { assertVaultSession } from '../lib/vaultSessionGate';
+import {
+  normalizeInkastSourceModule,
+  stripInjectedSourceModuleFromText,
+} from '../lib/inkastSourceModule';
 
 export const getInboxQueue = onCall({ region: 'europe-west1' }, async (request) => {
   if (!request.auth) {
@@ -93,12 +97,12 @@ export const previewInboxClassification = onCall(
       throw new HttpsError('invalid-argument', 'text max 12000 tecken.');
     }
 
-    const sourceModule =
-      typeof request.data?.sourceModule === 'string' && request.data.sourceModule.trim()
-        ? request.data.sourceModule.trim().slice(0, 80)
-        : undefined;
+    const cleanText = stripInjectedSourceModuleFromText(text);
+    const sourceModule = normalizeInkastSourceModule(
+      typeof request.data?.sourceModule === 'string' ? request.data.sourceModule : undefined
+    );
 
-    const classifyBlob = buildInboxClassifyBlob(text, sourceModule);
+    const classifyBlob = buildInboxClassifyBlob(cleanText, sourceModule);
 
     const classification = await classifyInboxDocument(
       classifyBlob,
@@ -145,11 +149,31 @@ export const submitInkastLite = onCall(
     const manualChildAlias =
       typeof request.data?.manualChildAlias === 'string' ? request.data.manualChildAlias : undefined;
 
+
+    const normalizedSourceModule = normalizeInkastSourceModule(sourceModule);
+    const sanitizedText =
+      typeof text === 'string' ? stripInjectedSourceModuleFromText(text) : text;
+    const effectiveManualRouting =
+      manualRouting === 'kunskap' ||
+      manualRouting === 'bevis' ||
+      manualRouting === 'barnen'
+        ? manualRouting
+        : undefined;
+
+    const bevisVaultIntent =
+      effectiveManualRouting === 'bevis' ||
+      normalizedSourceModule === 'valv_samla' ||
+      normalizedSourceModule === 'hamn_biff' ||
+      normalizedSourceModule === 'hamn';
+    if (bevisVaultIntent) {
+      await assertVaultSession(request.auth.uid, request.data);
+    }
+
     try {
       return await submitInkastLiteForUser(
         request.auth.uid,
         {
-          text,
+          text: sanitizedText,
           base64,
           base64Files,
           mimeTypes,
@@ -157,13 +181,8 @@ export const submitInkastLite = onCall(
           fileName,
           mimeType,
           optInTrauma,
-          sourceModule,
-          manualRouting:
-            manualRouting === 'kunskap' ||
-            manualRouting === 'bevis' ||
-            manualRouting === 'barnen'
-              ? manualRouting
-              : undefined,
+          sourceModule: normalizedSourceModule,
+          manualRouting: effectiveManualRouting,
           manualCategory,
           manualTags,
           manualComment,

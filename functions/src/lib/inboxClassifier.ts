@@ -1,4 +1,8 @@
 import { INKORG_SORTERARE_SYSTEM_PROMPT } from '../sharedRules';
+import {
+  normalizeInkastSourceModule,
+  stripInjectedSourceModuleFromText,
+} from './inkastSourceModule';
 import { createGenAI } from './genaiClient';
 
 export type InboxRouting = 'kunskap' | 'bevis' | 'barnen' | 'review';
@@ -220,11 +224,9 @@ export function heuristicInboxClassify(
 
 /** Samma prefix som submitInkastLite — heuristiker läser [sourceModule:…]. */
 export function buildInboxClassifyBlob(analysisText: string, sourceModule?: string): string {
-  const mod =
-    typeof sourceModule === 'string' && sourceModule.trim()
-      ? sourceModule.trim().slice(0, 80)
-      : undefined;
-  return mod ? `[sourceModule:${mod}]\n${analysisText}` : analysisText;
+  const clean = stripInjectedSourceModuleFromText(analysisText);
+  const mod = normalizeInkastSourceModule(sourceModule);
+  return mod ? `[sourceModule:${mod}]\n${clean}` : clean;
 }
 
 /** G10 — Vertex/Gemini auto-tag för inkorg (metadata only före persist). */

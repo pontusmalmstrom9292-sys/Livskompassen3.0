@@ -1,8 +1,15 @@
 import { randomUUID } from 'crypto';
-import { classifyInboxDocument, buildManualInkastClassification, type InboxClassification, type InboxRouting } from './inboxClassifier';
+import {
+  classifyInboxDocument,
+  buildManualInkastClassification,
+  buildInboxClassifyBlob,
+  type InboxClassification,
+  type InboxRouting,
+} from './inboxClassifier';
 import { routeInboxToWorm } from './inboxPersist';
 import { analyzeUploadForKnowledge } from './analyzeUploadForKnowledge';
 import { uploadInkastEvidence } from './uploadInkastEvidence';
+import { normalizeInkastSourceModule, stripInjectedSourceModuleFromText } from './inkastSourceModule';
 
 /** Roadmap 2026-06-05 — utökade dokumentformat för Smart Inkast. */
 export const LITE_UPLOAD_MIMES = new Set([
@@ -258,7 +265,7 @@ async function processOneInkastFile(
   if (analysisTextRaw.length < 12) {
     throw new Error('Innehållet är för kort efter extraktion.');
   }
-  const analysisText = analysisTextRaw.slice(0, MAX_TEXT_LEN);
+  const analysisText = stripInjectedSourceModuleFromText(analysisTextRaw.slice(0, MAX_TEXT_LEN));
 
   let evidenceUrl: string | undefined;
   if (!isPlainTextMime(job.mimeType, job.fileName)) {
@@ -270,9 +277,7 @@ async function processOneInkastFile(
     });
   }
 
-  const classifyBlob = sourceModule
-    ? `[sourceModule:${sourceModule}]\n${analysisText}`
-    : analysisText;
+  const classifyBlob = buildInboxClassifyBlob(analysisText, sourceModule);
 
   const classification = await finalizeClassification(
     resolveClassification(classifyBlob, job.fileName, analysisText, manual, geminiApiKey),
@@ -310,7 +315,7 @@ async function processTextInkast(
   manual: ManualInkastOverride | undefined,
   geminiApiKey?: string
 ): Promise<SubmitInkastLiteItemResult> {
-  const analysisText = text.trim();
+  const analysisText = stripInjectedSourceModuleFromText(text.trim());
   if (analysisText.length < 12) {
     throw new Error('Innehållet är för kort (minst 12 tecken).');
   }
@@ -318,9 +323,7 @@ async function processTextInkast(
     throw new Error('text max 12000 tecken.');
   }
 
-  const classifyBlob = sourceModule
-    ? `[sourceModule:${sourceModule}]\n${analysisText}`
-    : analysisText;
+  const classifyBlob = buildInboxClassifyBlob(analysisText, sourceModule);
 
   const classification = await finalizeClassification(
     resolveClassification(classifyBlob, fileName, analysisText, manual, geminiApiKey),
@@ -353,10 +356,7 @@ export async function submitInkastLiteForUser(
   input: SubmitInkastLiteInput,
   geminiApiKey?: string
 ): Promise<SubmitInkastLiteResult> {
-  const sourceModule =
-    typeof input.sourceModule === 'string' && input.sourceModule.trim()
-      ? input.sourceModule.trim().slice(0, 80)
-      : undefined;
+  const sourceModule = normalizeInkastSourceModule(input.sourceModule);
   const optInTrauma = input.optInTrauma === true;
   const manual = resolveManualOverride(input);
 
