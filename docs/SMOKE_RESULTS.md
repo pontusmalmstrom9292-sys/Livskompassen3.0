@@ -54,7 +54,7 @@
 | **Manuell PASS** | Hemkompass UI våg 2 (scenic stack + fasflikar) | **PASS** | 2026-06-07 (USER) |
 | **Autorun PASS** | Inkast fas 2 (`smoke:inkast-fas2` + inkast + locked-ux) | **PASS** | 2026-06-07 — Planering kö + G10 status badges |
 | **Deploy** | Hosting Inkast fas 2 | **PASS** | 2026-06-07 · https://gen-lang-client-0481875058.web.app |
-| **Manuell** | Inkast fas 2 (Planering inkorg + Valv godkänn) | **väntar** | — |
+| **Manuell PASS** | Inkast fas 2 (Planering inkorg + Valv godkänn) | **PASS** | 2026-06-07 (USER) |
 
 **Fas 5A #3/#4:** **PASS** (USER 2026-06-06/07) — se [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md).
 
