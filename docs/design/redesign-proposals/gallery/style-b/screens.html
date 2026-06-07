@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Style B — Aurora Prism · 18 skärmar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --void: #1a1410;
+      --void-dusk: #151008;
+      --surface-2: #2a2218;
+      --surface-3: #332a1f;
+      --copper: #b87333;
+      --amber: #f59e0b;
+      --ember-light: #fde68a;
+      --gold: #d4af37;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --dim: #64748b;
+      --glass: rgba(5, 11, 20, 0.55);
+      --border: rgba(212, 175, 55, 0.14);
+      --border-v: rgba(184, 115, 51, 0.28);
+      --phone-w: 220px;
+      --phone-h: 476px;
+      --radius-phone: 28px;
+    }
+
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      background: var(--void);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 80% 5%, rgba(212, 175, 55, 0.08), transparent),
+        radial-gradient(ellipse 50% 35% at 10% 30%, rgba(184, 115, 51, 0.07), transparent),
+        linear-gradient(180deg, var(--void) 0%, var(--void-dusk) 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; }
+
+    .hero-doc {
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      border: 0.5px solid var(--border);
+      background: var(--glass);
+      backdrop-filter: blur(20px) saturate(140%);
+      -webkit-backdrop-filter: blur(20px) saturate(140%);
+    }
+
+    .hero-doc h1 {
+      font-family: Cinzel, serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--copper), var(--amber));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-doc p {
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.55;
+      max-width: 52rem;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .meta-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 999px;
+      border: 0.5px solid var(--border-v);
+      color: var(--ember-light);
+      background: rgba(184, 115, 51, 0.08);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 2rem 1.5rem;
+    }
+
+    .screen-wrap { display: flex; flex-direction: column; align-items: center; gap: 0.65rem; }
+
+    .screen-label {
+      font-family: Cinzel, serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .screen-num {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--copper);
+      margin-right: 0.35rem;
+    }
+
+    /* —— Phone frame —— */
+    .phone {
+      width: var(--phone-w);
+      height: var(--phone-h);
+      border-radius: var(--radius-phone);
+      border: 1px solid rgba(184, 115, 51, 0.25);
+      background: var(--void-dusk);
+      overflow: hidden;
+      position: relative;
+      box-shadow:
+        0 0 0 0.5px rgba(212, 175, 55, 0.15),
+        0 20px 50px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .phone::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 100% 50% at 50% -10%, rgba(212, 175, 55, 0.1), transparent 55%),
+        radial-gradient(ellipse 70% 40% at 90% 60%, rgba(184, 115, 51, 0.08), transparent);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .phone-inner {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 8px 8px 6px;
+    }
+
+    .notch {
+      width: 56px;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.5);
+      margin: 2px auto 6px;
+      flex-shrink: 0;
+    }
+
+    /* —— Shared UI atoms —— */
+    .hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 6px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(17, 27, 45, 0.9), rgba(5, 11, 20, 0.85));
+      border: 0.5px solid var(--border-v);
+      flex-shrink: 0;
+    }
+
+    .hdr-menu, .hdr-icon {
+      width: 18px;
+      height: 12px;
+      border-radius: 2px;
+      border: 1px solid var(--muted);
+      opacity: 0.7;
+    }
+
+    .hdr-brand {
+      font-family: Cinzel, serif;
+      font-size: 5px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+    }
+
+    .hdr-actions { display: flex; gap: 4px; }
+
+    .prism {
+      background: color-mix(in srgb, var(--surface-2) 70%, transparent);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .prism::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    }
+
+    .glow-gold { border-bottom: 1.5px solid rgba(212, 175, 55, 0.55); box-shadow: 0 3px 12px -2px rgba(212, 175, 55, 0.25); }
+    .glow-copper { border-bottom: 1.5px solid rgba(184, 115, 51, 0.55); box-shadow: 0 3px 12px -2px rgba(184, 115, 51, 0.25); }
+    .glow-gold { border-bottom: 1.5px solid rgba(16, 185, 129, 0.5); box-shadow: 0 3px 12px -2px rgba(16, 185, 129, 0.2); }
+
+    .eyebrow {
+      font-family: Cinzel, serif;
+      font-size: 4.5px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ember-light);
+    }
+
+    .mono { font-family: 'JetBrains Mono', monospace; font-size: 5px; color: var(--muted); }
+    .body-t { font-size: 6px; color: var(--text); line-height: 1.4; }
+    .caption { font-size: 5px; color: var(--dim); }
+
+    .btn-gold {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--copper), #14b8a6);
+      color: var(--void);
+      font-size: 5px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .btn-ghost {
+      padding: 3px 6px;
+      border-radius: 999px;
+      border: 0.5px solid var(--border-v);
+      color: var(--amber);
+      font-size: 5px;
+      text-align: center;
+    }
+
+    .dock {
+      margin-top: auto;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      padding: 4px 2px 2px;
+      border-radius: 12px 12px 8px 8px;
+      background: linear-gradient(0deg, rgba(5, 11, 20, 0.95), rgba(17, 27, 45, 0.75));
+      border-top: 0.5px solid var(--border-v);
+      flex-shrink: 0;
+    }
+
+    .dock-orb {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .dock-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 0.5px solid var(--border);
+      background: var(--surface-3);
+    }
+
+    .dock-dot.center {
+      width: 22px;
+      height: 22px;
+      border: 1px solid var(--gold);
+      background: radial-gradient(circle, #0d2838, #050b14);
+      box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+    }
+
+    .dock-lbl { font-size: 4px; color: var(--dim); }
+    .dock-lbl.on { color: var(--gold); }
+
+    .tab-bar {
+      display: flex;
+      gap: 2px;
+      padding: 2px;
+      border-radius: 8px;
+      background: var(--surface-2);
+      margin-bottom: 4px;
+      flex-shrink: 0;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 3px 2px;
+      font-size: 4.5px;
+      color: var(--dim);
+      border-radius: 6px;
+    }
+
+    .tab.on {
+      color: var(--gold);
+      border-bottom: 1.5px solid var(--gold);
+      background: rgba(212, 175, 55, 0.08);
+    }
+
+    .content { flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 4px; min-height: 0; }
+
+    .row-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 6px;
+      border-bottom: 0.5px solid rgba(212, 175, 55, 0.08);
+    }
+
+    .row-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 0.5px solid var(--border-v);
+      flex-shrink: 0;
+    }
+
+    .row-item.active { background: rgba(212, 175, 55, 0.08); border-left: 1.5px solid var(--gold); }
+
+    .drawer-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 10;
+    }
+
+    .drawer-panel {
+      position: absolute;
+      top: 0; left: 0;
+      width: 68%;
+      height: 100%;
+      background: color-mix(in srgb, var(--surface-2) 85%, transparent);
+      backdrop-filter: blur(16px);
+      border-right: 0.5px solid var(--border-v);
+      z-index: 11;
+      padding: 28px 6px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .chip {
+      display: inline-block;
+      padding: 2px 5px;
+      border-radius: 999px;
+      font-size: 4.5px;
+      border: 0.5px solid var(--border);
+      color: var(--muted);
+    }
+
+    .chip.on { background: rgba(212, 175, 55, 0.15); border-color: var(--copper); color: var(--ember-light); }
+
+    .kanban { display: flex; gap: 3px; flex: 1; min-height: 0; }
+    .col { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+    .col-h { font-size: 4px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--copper); text-align: center; padding: 2px; }
+    .k-card { padding: 4px; font-size: 4.5px; min-height: 28px; }
+
+    .chat-user, .chat-bot {
+      max-width: 75%;
+      padding: 4px 6px;
+      border-radius: 8px;
+      font-size: 5px;
+      line-height: 1.35;
+      margin-bottom: 3px;
+    }
+
+    .chat-user {
+      margin-left: auto;
+      background: var(--surface-3);
+      color: var(--text);
+    }
+
+    .chat-bot {
+      background: rgba(184, 115, 51, 0.12);
+      border: 0.5px solid var(--border-v);
+      color: var(--text);
+    }
+
+    .widget-bar {
+      display: flex;
+      gap: 3px;
+      padding: 3px 4px;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .widget-chip {
+      padding: 2px 5px;
+      border-radius: 999px;
+      font-size: 4px;
+      border: 0.5px solid var(--border);
+      color: var(--ember-light);
+      background: rgba(212, 175, 55, 0.08);
+    }
+
+    .widget-chip.on { border-color: var(--gold); color: var(--gold); }
+
+    .fab {
+      position: absolute;
+      bottom: 52px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--copper), #14b8a6);
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.35);
+      z-index: 5;
+    }
+
+    .network {
+      flex: 1;
+      position: relative;
+      min-height: 60px;
+    }
+
+    .node {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 0.5px solid var(--copper);
+      background: var(--surface-3);
+    }
+
+    .watermark {
+      position: absolute;
+      bottom: 4px;
+      right: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 3.5px;
+      color: rgba(184, 115, 51, 0.35);
+      letter-spacing: 0.15em;
+    }
+
+    .pin-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      padding: 6px;
+    }
+
+    .pin-key {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: var(--surface-3);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      border: 0.5px solid var(--border);
+    }
+
+    .tile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; flex: 1; }
+    .tile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      min-height: 48px;
+      font-size: 5px;
+    }
+
+    .tile-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      border: 0.5px solid var(--border-v);
+    }
+
+    footer.doc-footer {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--dim);
+    }
+
+    footer.doc-footer code {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--copper);
+      font-size: 0.65rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero-doc">
+      <h1>Ember Sanctuary — Style B</h1>
+      <p>
+        18 telefonmockups (390×844 skalerade) för redesign-förslag <code style="color:var(--copper);font-size:0.75rem">R-B-ember-sanctuary</code>.
+        Glas, koppar/brons glow, ember gradient <span class="mono" style="display:inline">#020617</span>, guld + koppar + amber glow.
+        Aktiv navigation förblir guld enligt functional lock.
+      </p>
+      <div class="meta-row">
+        <span class="meta-chip">R-B-ember-sanctuary</span>
+        <span class="meta-chip">data-panel-style=ember</span>
+        <span class="meta-chip">18/18 screens</span>
+        <span class="meta-chip">2026-06-07</span>
+      </div>
+    </header>
+
+    <div class="grid">
+
+      <!-- 01 Hem -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">01</span>Hem / Adaptive kompass</div>
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="notch"></div>
+            <div class="hdr">
+              <div class="hdr-menu"></div>
+              <div class="hdr-brand">LIVSKOMPASSEN</div>
+              <div class="hdr-actions"><div class="hdr-icon"></div><div class="hdr-icon"></div></div>
+            </div>
+            <div class="content">
+              <div class="prism prism-hero glow-gold" style="padding:8px;text-align:center;min-height:56px">
+                <div class="eyebrow">Dagens riktning</div>
+                <div style="width:32px;height:32px;margin:4px auto;border-radius:50%;border:1px solid var(--gold);background:radial-gradient(circle,#0d2838,#050b14)"></div>
+                <div class="mono">2026-06-07 · 07:42</div>
+              </div>
+              <div class="prism glow-gold" style="padding:6px">
+                <div class="eyebrow" style="margin-bottom:3px">Inkast</div>
+                <div class="caption">Fånga en tanke…</div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;flex:1">
+                <div class="prism glow-copper" style="padding:5px"><div class="caption">Dagbok</div></div>
+                <div class="prism glow-gold" style="padding:5px"><div class="caption">Planering</div></div>
+                <div class="prism glow-gold" style="padding:5px"><div class="caption">MåBra</div></div>
+                <div class="prism glow-copper" style="padding:5px"><div class="caption">Familjen</div></div>
+              </div>
+            </div>
+            <div class="widget-bar">
+              <span class="widget-chip on">W1</span><span class="widget-chip">W2</span><span class="widget-chip">W3</span><span class="widget-chip">W4</span>
+            </div>
+            <div class="dock">
+              <div class="dock-orb"><div class="dock-dot"></div><span class="dock-lbl on">Liv</span></div>
+              <div class="dock-orb"><div class="dock-dot"></div><span class="dock-lbl">Familj</span></div>
+              <div class="dock-orb"><div class="dock-dot center"></div><span class="dock-lbl">Hem</span></div>
+              <div class="dock-orb"><div class="dock-dot"></div><span class="dock-lbl">Göra</span></div>
+            </div>
+          </div>
+          <span class="watermark">EMBER</span>
+        </div>
+      </div>
+
+      <!-- 02 Drawer Vardag -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">02</span>Drawer (Vardag)</div>
+        <div class="phone">
+          <div class="drawer-overlay"></div>
+          <div class="drawer-panel">
+            <div class="eyebrow" style="color:var(--gold);margin-bottom:4px">Vardag</div>
+            <div class="row-item active"><div class="row-icon"></div><div><div class="body-t">Hjärtat</div><div class="caption">Dagbok · Speglar</div></div></div>
+            <div class="row-item"><div class="row-icon"></div><div><div class="body-t">Vardagen</div><div class="caption">Kompasser · MåBra</div></div></div>
+            <div class="row-item"><div class="row-icon"></div><div><div class="body-t">Familjen</div><div class="caption">Barnfokus · Hamn</div></div></div>
+            <div class="row-item"><div class="row-icon"></div><div><div class="body-t">Kompis</div></div></div>
+          </div>
+          <div class="phone-inner" style="opacity:0.35">
+            <div class="notch"></div>
+            <div class="hdr"><div class="hdr-menu"></div><div class="hdr-brand">LIVSKOMPASSEN</div><div class="hdr-actions"><div class="hdr-icon"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03 Drawer Valv -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">03</span>Drawer (Valv unlocked)</div>
+        <div class="phone">
+          <div class="drawer-overlay"></div>
+          <div class="drawer-panel">
+            <div class="eyebrow" style="color:var(--gold)">Vardag</div>
+            <div class="row-item" style="padding:3px 6px"><div class="caption">Hjärtat · Vardagen · Familjen</div></div>
+            <div class="eyebrow" style="color:var(--amber);margin-top:6px">Valv</div>
+            <div class="row-item active"><div class="row-icon" style="border-color:var(--amber)"></div><div class="body-t">Logga</div></div>
+            <div class="row-item"><div class="row-icon"></div><div class="body-t">Mönster</div></div>
+            <div class="row-item"><div class="row-icon"></div><div class="body-t">Orkester</div></div>
+            <div class="row-item"><div class="row-icon"></div><div class="body-t">Kunskapsbank</div></div>
+            <div class="btn-ghost" style="margin-top:auto;text-align:center">Lås Valvet nu</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 Dock + widget -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">04</span>Dock + widget</div>
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="notch"></div>
+            <div class="hdr"><div class="hdr-menu"></div><div class="hdr-brand">LIVSKOMPASSEN</div><div class="hdr-actions"><div class="hdr-icon"></div></div></div>
+            <div class="content" style="justify-content:flex-end">
+              <div class="prism" style="padding:8px;margin-bottom:8px">
+                <div class="eyebrow">Fyren widget</div>
+                <div class="body-t" style="margin-top:4px">Snabb projekt · W1</div>
+                <div class="mono" style="margin-top:3px">3 aktiva · 1 väntar</div>
+              </div>
+            </div>
+            <div class="widget-bar">
+              <span class="widget-chip on">W1 Projekt</span>
+              <span class="widget-chip">W2 Röst</span>
+              <span class="widget-chip">W3 Inkast</span>
+              <span class="widget-chip">W4 Barn</span>
+            </div>
+            <div class="dock" style="border-top:1px solid rgba(45,212,191,0.2);box-shadow:0 -4px 20px rgba(129,140,248,0.15)">
+              <div class="dock-orb"><div class="dock-dot"></div><span class="dock-lbl">Liv</span></div>
+              <div class="dock-orb"><div class="dock-dot"></div><span class="dock-lbl">Familj</span></div>
+              <div class="dock-orb"><div class="dock-dot center" style="box-shadow:0 0 0 2px rgba(45,212,191,0.4)"></div><span class="dock-lbl on">Hem</span></div>
+              <div class="dock-orb"><div class="dock-dot"></div><span class="dock-lbl on">Göra</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05 Dagbok -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">05</span>Hjärtat — Dagbok</div>
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="notch"></div>
+            <div class="hdr"><div class="hdr-menu"></div><div class="hdr-brand">HJÄRTAT</div><div class="hdr-actions"><div class="hdr-icon"></div></div></div>
+            <div class="tab-bar">
+              <div class="tab on">Reflektion</div>
+              <div class="tab">Speglar</div>
+            </div>
+            <div class="content">
+              <div class="prism glow-copper" style="padding:6px;flex:1;display:flex;flex-direction:column;gap:4px">
+                <div class="eyebrow">Dagbok</div>
+                <div class="prism" style="flex:1;padding:6px;background:rgba(17,27,45,0.6)">
+                  <div class="caption">Vad känns viktigt idag?</div>
+                </div>
+                <div style="display:flex;gap:2px;flex-wrap:wrap">
+                  <span class="chip on">Lugn</span><span class="chip">Spänd</span><span class="chip">Tålig</span><span class="chip">Trött</span>
+                </div>
+                <div class="btn-gold" style="margin-top:2px">Spara reflektion</div>
+              </div>
+            </div>
+            <div class="dock"><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot center"></div></div><div class="dock-orb"><div class="dock-dot"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 06 Speglar -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">06</span>Hjärtat — Speglar</div>
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="notch"></div>
+            <div class="hdr"><div class="hdr-menu"></div><div class="hdr-brand">HJÄRTAT</div><div class="hdr-actions"><div class="hdr-icon"></div></div></div>
+            <div class="tab-bar"><div class="tab">Reflektion</div><div class="tab on">Speglar</div></div>
+            <div class="content">
+              <div class="prism glow-copper" style="padding:6px">
+                <div class="eyebrow">Speglings-coach</div>
+                <div class="body-t" style="margin-top:4px">Jag hör att det känns tungt. Vill du namnge känslan utan att lösa den?</div>
+              </div>
+              <div class="prism" style="padding:5px"><div class="caption">Senaste spegling</div><div class="mono" style="margin-top:2px">igår 21:04</div></div>
+              <div class="btn-ghost" style="margin-top:auto">Spegla tillbaka</div>
+            </div>
+            <div class="dock"><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot center"></div></div><div class="dock-orb"><div class="dock-dot"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 07 Valv Logga -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">07</span>Valv — Logga</div>
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="notch"></div>
+            <div class="hdr"><div class="hdr-menu"></div><div class="hdr-brand">VALV</div><div class="hdr-actions"><div class="hdr-icon"></div></div></div>
+            <div class="tab-bar">
+              <div class="tab on">Logga</div><div class="tab">Sök</div><div class="tab">Mönster</div>
+            </div>
+            <div class="content">
+              <div class="prism glow-copper row-item" style="flex-direction:column;align-items:flex-start;border-radius:8px;margin-bottom:3px">
+                <div class="mono">2026-06-06 14:22</div>
+                <div class="body-t" style="margin-top:2px">Sms-logg — neutral tidsstämpel</div>
+              </div>
+              <div class="prism glow-copper row-item" style="flex-direction:column;align-items:flex-start;border-radius:8px">
+                <div class="mono">2026-06-05 09:11</div>
+                <div class="body-t" style="margin-top:2px">Observation — hämtning</div>
+              </div>
+            </div>
+            <div class="fab"></div>
+            <div class="dock"><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot center"></div></div><div class="dock-orb"><div class="dock-dot"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 08 Valv Mönster -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">08</span>Valv — Mönster</div>
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="notch"></div>
+            <div class="hdr"><div class="hdr-menu"></div><div class="hdr-brand">VALV</div><div class="hdr-actions"><div class="hdr-icon"></div></div></div>
+            <div class="tab-bar"><div class="tab">Logga</div><div class="tab on">Mönster</div><div class="tab">Orkester</div></div>
+            <div class="content">
+              <div class="prism glow-copper" style="padding:6px;flex:1">
+                <div class="eyebrow">Mönster-arkiv</div>
+                <div class="network">
+                  <div class="node" style="top:20%;left:30%"></div>
+                  <div class="node" style="top:45%;left:55%;border-color:var(--amber)"></div>
+                  <div class="node" style="top:65%;left:25%"></div>
+                  <div class="node" style="top:35%;left:70%"></div>
+                  <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 100 60">
+                    <line x1="30" y1="12" x2="55" y2="27" stroke="rgba(45,212,191,0.4)" stroke-width="0.5"/>
+                    <line x1="55" y1="27" x2="70" y2="21" stroke="rgba(129,140,248,0.4)" stroke-width="0.5"/>
+                    <line x1="30" y1="12" x2="25" y2="39" stroke="rgba(45,212,191,0.3)" stroke-width="0.5"/>
+                  </svg>
+                </div>
+                <div class="mono" style="margin-top:4px">4 noder · 2 kluster</div>
+              </div>
+            </div>
+            <div class="dock"><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot center"></div></div><div class="dock-orb"><div class="dock-dot"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 09 Valv Orkester -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">09</span>Valv — Orkester</div>
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="notch"></div>
+            <div class="hdr"><div class="hdr-menu"></div><div class="hdr-brand">VALV</div><div class="hdr-actions"><div class="hdr-icon"></div></div></div>
+            <div class="tab-bar"><div class="tab">Mönster</div><div class="tab on">Orkester</div><div class="tab">Dossier</div></div>
+            <div class="content">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
+                <div class="prism glow-copper" style="padding:5px"><div class="caption" style="color:var(--amber)">Sanning</div><div class="mono">idle</div></div>
+                <div class="prism glow-copper" style="padding:5px"><div class="caption" style="color:var(--amber)">Brus</div><div class="mono">ready</div></div>
+                <div class="prism glow-copper" style="padding:5px"><div class="caption" style="color:var(--amber)">BIFF</div><div class="mono">idle</div></div>
+                <div class="prism glow-copper" style="padding:5px"><div class="caption" style="color:var(--amber)">Mönster</div><div class="mono">scan</div></div>
+              </div>
+              <div class="prism" style="padding:5px;margin-top:3px"><div class="mono">synapse · journal_woven · 2m ago</div></div>
+            </div>
+            <div class="dock"><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot center"></div></div><div class="dock-orb"><div class="dock-dot"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10 Kunskapsbank -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">10</span>Valv — Kunskapsbank</div>
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="notch"></div>
+            <div class="hdr"><div class="hdr-menu"></div><div class="hdr-brand">VALV</div><div class="hdr-actions"><div class="hdr-icon"></div></div></div>
+            <div class="tab-bar"><div class="tab">Orkester</div><div class="tab on">KB</div><div class="tab">Aktörer</div></div>
+            <div class="content">
+              <div class="prism" style="padding:5px;display:flex;gap:4px;align-items:center">
+                <span class="mono" style="color:var(--copper)">⌕</span>
+                <span class="caption">Sök kunskap…</span>
+              </div>
+              <div class="prism glow-copper" style="padding:5px;margin-top:3px">
+                <div class="body-t">Grey Rock — kort version</div>
+                <div class="mono" style="margin-top:2px">[kb:gr-grey-rock-01]</div>
+              </div>
+              <div class="prism glow-copper" style="padding:5px">
+                <div class="body-t">BIFF — Brief, Informative…</div>
+                <div class="mono" style="margin-top:2px">[kb:gr-biff-core]</div>
+              </div>
+            </div>
+            <div class="dock"><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot center"></div></div><div class="dock-orb"><div class="dock-dot"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11 Kompis -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">11</span>Kompis hub</div>
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="notch"></div>
+            <div class="hdr"><div class="hdr-menu"></div><div class="hdr-brand" style="color:var(--amber)">KOMPIS</div><div class="hdr-actions"><div class="hdr-icon"></div></div></div>
+            <div class="content" style="padding:4px 0">
+              <div class="chat-bot">Hej. Jag är här — ett steg i taget.</div>
+              <div class="chat-user">Jag behöver strukturera kvällen.</div>
+              <div class="chat-bot">Okej. Vill du börja med mat, barn eller återhämtning?</div>
+            </div>
+            <div class="prism" style="padding:4px;display:flex;gap:4px;align-items:center;margin-top:auto">
+              <div style="flex:1" class="caption">Skriv till Kompis…</div>
+              <div class="btn-gold" style="padding:3px 6px">→</div>
+            </div>
+            <div class="dock"><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot center"></div></div><div class="dock-orb"><div class="dock-dot"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12 Vardagen launcher -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">12</span>Vardagen launcher</div>
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="notch"></div>
+            <div class="hdr"><div class="hdr-menu"></div><div class="hdr-brand">VARDAGEN</div><div class="hdr-actions"><div class="hdr-icon"></div></div></div>
+            <div class="content">
+              <div class="row-item prism glow-gold" style="border-radius:8px;margin-bottom:2px"><div class="row-icon"></div><div><div class="body-t">Kompasser</div><div class="caption">Dygnsrytm</div></div></div>
+              <div class="row-item prism glow-gold" style="border-radius:8px;margin-bottom:2px"><div class="row-icon"></div><div><div class="body-t">MåBra</div><div class="caption">KBT · ACT</div></div></div>
+              <div class="row-item prism glow-gold" style="border-radius:8px;margin-bottom:2px"><div class="row-icon"></div><div><div class="body-t">Handling</div><div class="caption">Planering</div></div></div>
+              <div class="row-item prism" style="border-radius:8px;margin-bottom:2px"><div class="row-icon"></div><div class="body-t">Arbetsliv</div></div>
+              <div class="row-item prism glow-gold" style="border-radius:8px"><div class="row-icon"></div><div class="body-t">Ekonomi</div></div>
+            </div>
+            <div class="dock"><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot center"></div></div><div class="dock-orb"><div class="dock-dot"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 13 Kanban -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">13</span>Planering Kanban</div>
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="notch"></div>
+            <div class="hdr"><div class="hdr-menu"></div><div class="hdr-brand">PLANERING</div><div class="hdr-actions"><div class="hdr-icon"></div></div></div>
+            <div class="content">
+              <div class="kanban">
+                <div class="col">
+                  <div class="col-h">Att göra</div>
+                  <div class="prism k-card glow-gold">Ringa skola<div class="mono" style="margin-top:2px">idag</div></div>
+                  <div class="prism k-card">Packa simväska</div>
+                </div>
+                <div class="col">
+                  <div class="col-h" style="color:var(--muted)">Väntar</div>
+                  <div class="prism k-card">Svar från HR</div>
+                </div>
+                <div class="col">
+                  <div class="col-h" style="color:var(--ember-light)">Klart</div>
+                  <div class="prism k-card glow-gold">Betala el</div>
+                </div>
+              </div>
+            </div>
+            <div class="dock"><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot center"></div></div><div class="dock-orb"><div class="dock-dot"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 14 MåBra -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">14</span>MåBra hub</div>
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="notch"></div>
+            <div class="hdr"><div class="hdr-menu"></div><div class="hdr-brand">MÅBRA</div><div class="hdr-actions"><div class="hdr-icon"></div></div></div>
+            <div class="content">
+              <div class="prism glow-gold" style="padding:8px">
+                <div class="eyebrow">Frågekort</div>
+                <div class="body-t" style="margin-top:4px">Vad kan du påverka just nu — och vad får du släppa?</div>
+              </div>
+              <div class="row-item prism" style="border-radius:8px"><div class="row-icon" style="border-color:rgba(16,185,129,0.5)"></div><div class="body-t">Andning 4-7-8</div></div>
+              <div class="row-item prism" style="border-radius:8px"><div class="row-icon"></div><div class="body-t">ACT — defusion</div></div>
+            </div>
+            <div class="dock"><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot center"></div></div><div class="dock-orb"><div class="dock-dot"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 15 Barnfokus -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">15</span>Familjen — Barnfokus</div>
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="notch"></div>
+            <div class="hdr"><div class="hdr-menu"></div><div class="hdr-brand">FAMILJEN</div><div class="hdr-actions"><div class="hdr-icon"></div></div></div>
+            <div class="tab-bar"><div class="tab on">Barnfokus</div><div class="tab">Livslogg</div><div class="tab">Hamn</div></div>
+            <div class="content">
+              <div class="prism glow-copper" style="padding:8px">
+                <div class="eyebrow">Barnfokus-frågan</div>
+                <div class="body-t" style="margin-top:4px">Vad gjorde ditt barn stolt idag?</div>
+                <div style="display:flex;gap:2px;margin-top:6px"><span class="chip on">Pojke A</span><span class="chip">Pojke B</span></div>
+                <div class="btn-gold" style="margin-top:6px">Spara till logg</div>
+              </div>
+            </div>
+            <div class="dock"><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot center"></div></div><div class="dock-orb"><div class="dock-dot"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 16 Trygg Hamn -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">16</span>Familjen — Trygg Hamn</div>
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="notch"></div>
+            <div class="hdr"><div class="hdr-menu"></div><div class="hdr-brand">TRYGG HAMN</div><div class="hdr-actions"><div class="hdr-icon"></div></div></div>
+            <div class="content">
+              <div class="prism glow-copper" style="padding:6px">
+                <div class="eyebrow">BIFF / Grey Rock</div>
+                <div class="body-t" style="margin-top:3px">Klistra in meddelande — få neutralt svarutkast.</div>
+              </div>
+              <div class="prism" style="padding:5px;flex:1"><div class="caption">Meddelande…</div></div>
+              <div class="btn-ghost">Analysera meddelande</div>
+            </div>
+            <div class="dock"><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot center"></div></div><div class="dock-orb"><div class="dock-dot"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 17 Barnporten -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">17</span>Barnporten</div>
+        <div class="phone" style="background:#0a1218">
+          <div class="phone-inner">
+            <div class="notch"></div>
+            <div class="hdr" style="justify-content:center"><div class="hdr-brand" style="color:var(--ember-light)">BARNPORTEN</div></div>
+            <div class="content">
+              <div class="tile-grid">
+                <div class="prism tile glow-copper"><div class="tile-icon"></div><span>Skriv</span></div>
+                <div class="prism tile"><div class="tile-icon"></div><span>Känsla</span></div>
+                <div class="prism tile"><div class="tile-icon"></div><span>Skoj</span></div>
+                <div class="prism tile"><div class="tile-icon"></div><span>Trygg</span></div>
+              </div>
+            </div>
+            <!-- no dock — child shell -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 18 Inkast -->
+      <div class="screen-wrap">
+        <div class="screen-label"><span class="screen-num">18</span>Capture / Inkast</div>
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="notch"></div>
+            <div class="hdr"><div class="hdr-menu"></div><div class="hdr-brand">INKAST</div><div class="hdr-actions"><div class="hdr-icon"></div></div></div>
+            <div class="content" style="justify-content:center">
+              <div class="prism glow-gold" style="padding:10px;text-align:center;border-top:1px solid rgba(45,212,191,0.3)">
+                <div class="eyebrow">Smart Inkast</div>
+                <div class="body-t" style="margin:6px 0">«Behöver packa simväska imorgon»</div>
+                <div class="caption">Föreslagen silo: Planering</div>
+                <div style="display:flex;gap:4px;margin-top:8px;justify-content:center">
+                  <div class="btn-ghost">Avbryt</div>
+                  <div class="btn-gold">Bekräfta G10</div>
+                </div>
+              </div>
+            </div>
+            <div class="dock"><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot"></div></div><div class="dock-orb"><div class="dock-dot center"></div></div><div class="dock-orb"><div class="dock-dot"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer class="doc-footer">
+      Spec: <code>docs/design/redesign-proposals/STYLE-C-SPEC.md</code> ·
+      Blueprint: <code>STYLE-C-IMPLEMENTATION-BLUEPRINT.md</code> ·
+      Theme: <code>R-B-ember-sanctuary</code>
+    </footer>
+  </div>
+</body>
+</html>
