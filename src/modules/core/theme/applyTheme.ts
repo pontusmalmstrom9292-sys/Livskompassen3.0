@@ -1,5 +1,5 @@
 import { THEME_LAB_DRAFTS } from './themeLabVariants';
-import { getTheme, DEFAULT_THEME_ID } from './themeRegistry';
+import { getTheme, DEFAULT_THEME_ID, resolveThemeId } from './themeRegistry';
 import type { ThemePack } from './types';
 
 function resolveThemePack(themeId: string): ThemePack {
@@ -28,7 +28,7 @@ export function setStoredThemeOverride(id: string | null): void {
 }
 
 export function applyTheme(themeId: string): void {
-  const pack = resolveThemePack(themeId);
+  const pack = resolveThemePack(resolveThemeId(themeId));
   const root = document.documentElement;
 
   root.dataset.theme = pack.id;

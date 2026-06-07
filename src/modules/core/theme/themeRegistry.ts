@@ -369,7 +369,12 @@ export const THEME_REGISTRY: ThemePack[] = [
   ...THEME_PACK_K,
 ];
 
-export const DEFAULT_THEME_ID = 'D1-hamn-kompass';
+export const DEFAULT_THEME_ID = 'D4-flat-deluxe';
+
+/** Legacy Theme Lab ids → canonical pack id. */
+export const THEME_ID_ALIASES: Record<string, string> = {
+  'D4-flat-luxe': 'D4-flat-deluxe',
+};
 
 /** Theme Pack J — hub auto-mapping (when Auto modul themes is on). */
 export const J_PACK_THEME_IDS = [
@@ -387,6 +392,11 @@ export const THEME_BY_ID = Object.fromEntries(
   THEME_REGISTRY.map((t) => [t.id, t]),
 ) as Record<string, ThemePack>;
 
+export function resolveThemeId(id: string): string {
+  return THEME_ID_ALIASES[id] ?? id;
+}
+
 export function getTheme(id: string): ThemePack {
-  return THEME_BY_ID[id] ?? THEME_BY_ID[DEFAULT_THEME_ID];
+  const resolved = resolveThemeId(id);
+  return THEME_BY_ID[resolved] ?? THEME_BY_ID[DEFAULT_THEME_ID];
 }

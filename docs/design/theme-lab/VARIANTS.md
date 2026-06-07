@@ -1,13 +1,14 @@
 # Theme Lab — variantbeslut
 
-**Uppdaterad:** 2026-06-01 (Tema E helapp)
+**Uppdaterad:** 2026-06-07 (D4 flat deluxe helapp)
 
 | ID | Label | Status | Test / beslut |
 |----|-------|--------|----------------|
-| `D1-hamn-kompass` | Design Hamn & kompass | **experiment** | **default** — hel chrome |
+| `D1-hamn-kompass` | Design Hamn & kompass | **experiment** | Hamn orbit + ref-hamn |
 | `D2-familjen-kort` | Design Familjen | **experiment** | Radkort + ref-familjen.png |
 | `D3-minnes-timeline` | Design Minnes | **experiment** | Tidslinje + guld CTA |
-| `D4-flat-luxe` | Design flat luxe | **experiment** | Tunn meny |
+| `D4-flat-deluxe` | Design flat deluxe | **GODKÄND prod** | **default 2026-06-07** — hel chrome |
+| `D4-flat-luxe` | *(alias)* | arkiv | → `D4-flat-deluxe` |
 | `D5-aurora-glas` | Design aurora | **experiment** | Glas + aurora |
 | `M1-mockup-meny` | Mockup sidomeny | **experiment** | äldre tokens |
 | `M2-mockup-hamn` | Mockup Hem/Hamn | **experiment** | **default 2026-06-01** — kompass på hem |
@@ -59,9 +60,8 @@ Spec: [`../themes/K-PACK-EIGHT-VARIANTS.md`](../themes/K-PACK-EIGHT-VARIANTS.md)
 
 ## Godkännande
 
----
-
-## Google AI Pro — designreferens (Steg F, 2026-05-29)
+- **GODKÄND: `D4-flat-deluxe`** — helapp default (`DEFAULT_THEME_ID`, `moduleThemeMap.ts`) 2026-06-07.
+- **GODKÄND: `J-planering-fyren`** — Planering + Projekt (`moduleThemeMap.ts` rad 19–20). Övriga hubbar oförändrade.
 
 | ID | Typ | Status | Prompt / fil |
 |----|-----|--------|--------------|

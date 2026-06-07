@@ -66,7 +66,7 @@ export const DESIGN_PACK_CHROME: Record<DesignPackId, DesignPackChrome> = {
   },
   D4: {
     id: 'D4',
-    label: 'Flat luxe meny',
+    label: 'Flat deluxe meny',
     header: 'center-ornament',
     dock: 'mockup-triad',
     cardStyle: 'row',
