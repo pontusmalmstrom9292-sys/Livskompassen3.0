@@ -42,11 +42,11 @@ export function BiffTriagePanel({ grans, riskScore, hitlRequired, agentName }: P
         )}
       </div>
       <div className="grid grid-cols-2 gap-2 text-center text-xs">
-        <div className="glass-card p-2">
+        <div className="calm-card p-2">
           <p className="text-text-dim">Ren logistik (~)</p>
           <p className="text-lg font-display text-accent">{logisticsPct}%</p>
         </div>
-        <div className="glass-card p-2">
+        <div className="calm-card p-2">
           <p className="text-text-dim">Känslomässigt bete (~)</p>
           <p className="text-lg font-display text-text-muted">{baitPct}%</p>
         </div>
