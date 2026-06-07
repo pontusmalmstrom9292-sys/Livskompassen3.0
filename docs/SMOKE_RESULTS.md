@@ -55,9 +55,45 @@
 | **Autorun PASS** | Inkast fas 2 (`smoke:inkast-fas2` + inkast + locked-ux) | **PASS** | 2026-06-07 — Planering kö + G10 status badges |
 | **Deploy** | Hosting Inkast fas 2 | **PASS** | 2026-06-07 · https://gen-lang-client-0481875058.web.app |
 | **Manuell PASS** | Inkast fas 2 (Planering inkorg + Valv godkänn) | **PASS** | 2026-06-07 (USER) |
+| **Autorun PASS** | Fas 3 Super Multitask Agent B (build + 8 smokes) | **PASS** | 2026-06-07 · `8374219a` |
+| **Autorun PASS** | Fas 3 Agent C P1 inkast (`assertVaultSession` + sourceModule allowlist) | **PASS** | 2026-06-07 |
+| **Autorun PASS** | Fas 3 Agent A/D UX (Biff `calm-card`, Inkorg Hamn/Handling badge) | **PASS** | redan på main |
+| **Deploy** | Fas 3 `functions:submitInkastLite,functions:previewInboxClassification` + hosting | **PASS** | 2026-06-07 · `8374219a` · https://gen-lang-client-0481875058.web.app |
 
 **Fas 5A #3/#4:** **PASS** (USER 2026-06-06/07) — se [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md).
 
+
+
+
+## Fas 3 Super Multitask (2026-06-07 — kör alla)
+
+**Trigger:** USER «kör alla fas 3» · trunk `main` · prod `gen-lang-client-0481875058`  
+**Commit:** `8374219a` — Valv-gate på bevis-inkast; server allowlist/strip `sourceModule`
+
+| Agent | Leverans | Status |
+|-------|----------|--------|
+| A | InkorgPreviewSheet routing badge Hamn/Handling | **PASS** (redan main) |
+| B | `npm run build` + functions build + 8 smokes | **PASS** |
+| C | P1 `assertVaultSession` submitInkastLite bevis-intent; `inkastSourceModule.ts` | **PASS** |
+| D | BiffTriagePanel `calm-card` | **PASS** (redan main) |
+
+| Kommando | Resultat |
+|----------|----------|
+| `npm run build` | **PASS** |
+| `functions build` | **PASS** |
+| `smoke:locked-ux` | **PASS** |
+| `smoke:design-modules` | **PASS** |
+| `smoke:orkester` | **PASS** |
+| `smoke:valv-security` | **PASS** |
+| `smoke:innehall` | **PASS** |
+| `smoke:cache` | **PASS** |
+| `smoke:superhub` | **PASS** |
+| Deploy `functions:submitInkastLite,functions:previewInboxClassification` | **PASS** |
+| Deploy `hosting` | **PASS** |
+
+**URL:** https://gen-lang-client-0481875058.web.app
+
+---
 
 ## Fas 2 execution complete (2026-06-07 — agent re-run)
 
@@ -175,6 +211,38 @@
 | **Deploy PASS** | Vävaren HITL + rules + hosting | **PASS** | 2026-05-31 deploy — manuell E2E: [`evaluations/2026-05-31-fas5a-user-checklist.md`](./evaluations/2026-05-31-fas5a-user-checklist.md) |
 
 **Checklista:** [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md) · 
+
+
+## Fas 3 Super Multitask (2026-06-07 — kör alla)
+
+**Trigger:** USER «kör alla fas 3» · trunk `main` · prod `gen-lang-client-0481875058`  
+**Commit:** `8374219a` — Valv-gate på bevis-inkast; server allowlist/strip `sourceModule`
+
+| Agent | Leverans | Status |
+|-------|----------|--------|
+| A | InkorgPreviewSheet routing badge Hamn/Handling | **PASS** (redan main) |
+| B | `npm run build` + functions build + 8 smokes | **PASS** |
+| C | P1 `assertVaultSession` submitInkastLite bevis-intent; `inkastSourceModule.ts` | **PASS** |
+| D | BiffTriagePanel `calm-card` | **PASS** (redan main) |
+
+| Kommando | Resultat |
+|----------|----------|
+| `npm run build` | **PASS** |
+| `functions build` | **PASS** |
+| `smoke:locked-ux` | **PASS** |
+| `smoke:design-modules` | **PASS** |
+| `smoke:orkester` | **PASS** |
+| `smoke:valv-security` | **PASS** |
+| `smoke:innehall` | **PASS** |
+| `smoke:cache` | **PASS** |
+| `smoke:superhub` | **PASS** |
+| Deploy `functions:submitInkastLite,functions:previewInboxClassification` | **PASS** |
+| Deploy `hosting` | **PASS** |
+
+**URL:** https://gen-lang-client-0481875058.web.app
+
+---
+
 ## Fas 2 execution complete (2026-06-07 — agent re-run)
 
 **Trigger:** Fas 2 agent timeout recovery · trunk `main` · prod `gen-lang-client-0481875058`  
