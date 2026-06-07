@@ -108,6 +108,7 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
       <BentoCard
         title={embedded ? 'Reflektion' : 'Dagbok'}
         icon={<BookOpen className="h-4 w-4" />}
+        glow="blue"
       >
         {showBridgeBanner && (
           <div className="mb-4 rounded-xl border border-border-strong bg-surface/40 px-4 py-3 text-center">
