@@ -21,12 +21,14 @@ import { useTheme } from '../theme';
 import { THEME_LAB_DRAFTS, THEME_LAB_DRAFT_IDS } from '../theme/themeLabVariants';
 import { THEME_PACK_DESIGN } from '../theme/themePackDesign';
 import { THEME_PACK_MOCKUP } from '../theme/themePackMockup';
+import { THEME_PACK_REDESIGN_C } from '../theme/themePackRedesignC';
 import { DEFAULT_THEME_ID, THEME_BY_ID, THEME_REGISTRY } from '../theme/themeRegistry';
 import { K_PACK_THEME_IDS, THEME_PACK_K } from '../theme/themePackK';
 import { THEME_PACK_REDESIGN_A } from '../theme/themePackRedesignA';
 import { THEME_PACK_REMIX_E_HAMN } from '../theme/themePackRemix';
 import { THEME_PACK_OBSIDIAN_DEPTH } from '../theme/themePackObsidianDepth';
 import { J_PACK_THEME_IDS } from '../theme/themeRegistry';
+import { REDESIGN_C_THEME_IDS } from '../theme/themePackRedesignC';
 import type { ThemePack } from '../theme/types';
 
 const MOCKUP_LINKS = [
@@ -34,6 +36,7 @@ const MOCKUP_LINKS = [
   { label: 'Sidomeny kanon', href: '/docs/design/references/MENU-DRAWER-KANON.png' },
   { label: 'Scenic bakgrund', href: '/design/home-hero-scenic.png' },
   { label: 'Brusfiltret SuperModule B', href: '/dev/theme-lab/brusfiltret-supermodule' },
+  { label: 'Style C mockups (18)', href: '/docs/design/redesign-proposals/gallery/style-c/screens.html' },
 ] as const;
 
 function PreviewStrip({ pack }: { pack: ThemePack }) {
@@ -70,6 +73,9 @@ function PreviewStrip({ pack }: { pack: ThemePack }) {
       </div>
       {pack.background === 'texture-stone' ? (
         <div className="theme-lab-strip__scenic" aria-hidden />
+      ) : null}
+      {pack.background === 'aurora' ? (
+        <div className="theme-lab-strip__aurora" aria-hidden />
       ) : null}
       <p className="theme-lab-strip__tokens text-[9px] text-text-dim">
         accent {pack.cssVars['--accent']} · glass {pack.cssVars['--glass']}
@@ -271,6 +277,20 @@ export function ThemeLabPage() {
       />
 
       <ThemeLabPackSection
+        title="Redesign (2026) — Style C"
+        packs={THEME_PACK_REDESIGN_C}
+        previewId={previewId}
+        themeId={themeId}
+        onPreview={applyPreview}
+        onApply={(id) => {
+          setTheme(id);
+          setAutoMode(false);
+          setPreviewId(id);
+        }}
+        draft
+      />
+
+      <ThemeLabPackSection
         title="Theme Pack K — nya (2026-05-28)"
         packs={THEME_PACK_K}
         previewId={previewId}
@@ -304,7 +324,8 @@ export function ThemeLabPage() {
         packs={THEME_REGISTRY.filter(
           (p) =>
             !(J_PACK_THEME_IDS as readonly string[]).includes(p.id) &&
-            !(K_PACK_THEME_IDS as readonly string[]).includes(p.id),
+            !(K_PACK_THEME_IDS as readonly string[]).includes(p.id) &&
+            !(REDESIGN_C_THEME_IDS as readonly string[]).includes(p.id),
         )}
         previewId={previewId}
         themeId={themeId}

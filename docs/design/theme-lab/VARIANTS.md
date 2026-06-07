@@ -62,6 +62,17 @@ Spec: [`../themes/J-PACK-EIGHT-HUBS.md`](../themes/J-PACK-EIGHT-HUBS.md)
 
 Spec: [`../themes/K-PACK-EIGHT-VARIANTS.md`](../themes/K-PACK-EIGHT-VARIANTS.md)
 
+## Redesign Style C — Aurora Prism (2026-06-07)
+
+**Kod:** `themePackRedesignC.ts` → spread i `themeRegistry.ts` · sektion **Redesign (2026)** i `/dev/theme-lab`.  
+**Spec:** [`../redesign-proposals/STYLE-C-SPEC.md`](../redesign-proposals/STYLE-C-SPEC.md) · mockups: [`../redesign-proposals/gallery/style-c/screens.html`](../redesign-proposals/gallery/style-c/screens.html)  
+**CSS:** `src/styles/redesign-c-aurora-prism.css` (scoped `[data-theme='R-C-aurora-prism']`)  
+**Prod default:** oförändrad (`D1-hamn-kompass`) — **INTE GODKÄND**
+
+| ID | Label | Status | Notering |
+|----|-------|--------|----------|
+| `R-C-aurora-prism` | Aurora Prism | **lab** | Teal/violet glas · D3 designpaket · drawer/dock aktiv = guld (lås) |
+
 ## Godkännande
 
 - **GODKÄND: `R-E-hamn-remix`** — helapp default (`DEFAULT_THEME_ID`) 2026-06-15. Tema E guld + D1 designpaket-chrome.

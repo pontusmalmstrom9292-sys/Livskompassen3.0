@@ -1,8 +1,17 @@
 import type { ThemePack } from './types';
 import { THEME_BY_ID } from './themeRegistry';
 import { THEME_BRUSHED_BRASS_NEU } from './themePackBrushedBrass';
+import { REDESIGN_C_THEME_IDS } from './themePackRedesignC';
 
 const stone = THEME_BY_ID['I-stone'];
+
+/** Lab picker groups — packs resolved from THEME_REGISTRY. */
+export const THEME_LAB_REDESIGN_GROUPS = [
+  {
+    group: 'Redesign (2026)',
+    packIds: [...REDESIGN_C_THEME_IDS],
+  },
+] as const;
 
 /** Utkast — visas endast i /dev/theme-lab tills godkända. */
 export const THEME_LAB_DRAFTS: ThemePack[] = [

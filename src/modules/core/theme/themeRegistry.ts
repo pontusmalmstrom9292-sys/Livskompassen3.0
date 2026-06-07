@@ -5,6 +5,7 @@ import { THEME_PACK_E_PROD } from './themePackE';
 import { THEME_PACK_MOCKUP } from './themePackMockup';
 import { THEME_PACK_K } from './themePackK';
 import { THEME_PACK_REDESIGN_A } from './themePackRedesignA';
+import { THEME_PACK_REDESIGN_C } from './themePackRedesignC';
 import { THEME_PACK_OBSIDIAN_DEPTH } from './themePackObsidianDepth';
 import { THEME_PACK_REMIX_E_HAMN } from './themePackRemix';
 import { THEME_BRUSHED_BRASS_NEU } from './themePackBrushedBrass';
@@ -17,6 +18,7 @@ export { THEME_SHARED_VARS } from './themeShared';
 export const THEME_REGISTRY: ThemePack[] = [
   ...THEME_PACK_DESIGN,
   ...THEME_PACK_MOCKUP,
+  ...THEME_PACK_REDESIGN_C,
   THEME_PACK_E_PROD,
   {
     id: 'I-stone',

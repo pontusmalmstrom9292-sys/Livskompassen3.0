@@ -45,6 +45,8 @@ export function applyTheme(themeId: string): void {
 
   if (pack.id === REDESIGN_A_THEME_ID || pack.id === OBSIDIAN_DEPTH_THEME_ID) {
     root.dataset.panelStyle = 'obsidian';
+  } else if (pack.id === 'R-C-aurora-prism') {
+    root.dataset.panelStyle = 'aurora';
   } else {
     delete root.dataset.panelStyle;
   }

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTheme } from '../theme/ThemeProvider';
 import { OBSIDIAN_DEPTH_THEME_ID } from '../theme/themePackObsidianDepth';
 import { REDESIGN_A_THEME_ID } from '../theme/themePackRedesignA';
+import { REDESIGN_C_THEME_IDS } from '../theme/themePackRedesignC';
 import { resolveThemeId } from '../theme/themeRegistry';
 import { THEME_APPLIED_EVENT } from '../theme/themeEvents';
 
@@ -15,6 +16,9 @@ export function resolveHeaderPanelStyleFromTheme(themeId: string): HeaderPanelSt
   const id = resolveThemeId(themeId);
   if (id === REDESIGN_A_THEME_ID || id === OBSIDIAN_DEPTH_THEME_ID) {
     return 'obsidian';
+  }
+  if ((REDESIGN_C_THEME_IDS as readonly string[]).includes(id)) {
+    return 'aurora';
   }
   const v = import.meta.env.VITE_HEADER_PANEL_STYLE;
   if (typeof v === 'string' && HEADER_PANEL_STYLES.includes(v as HeaderPanelStyle)) {

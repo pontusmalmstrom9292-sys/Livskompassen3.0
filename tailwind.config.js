@@ -48,6 +48,7 @@ export default {
         display: ['Outfit', 'sans-serif'],
         'display-serif': ['Cinzel', 'Outfit', 'serif'],
         sans: ['Inter', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       fontSize: {
         'hub-title': ['1.25rem', { lineHeight: '1.35', fontWeight: '300' }],
