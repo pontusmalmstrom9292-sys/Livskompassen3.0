@@ -7,7 +7,7 @@
 | `D1-hamn-kompass` | Hamn & kompass | `public/design/mockups/ref-hamn.png` |
 | `D2-familjen-kort` | Familjen kort | `ref-familjen.png` |
 | `D3-minnes-timeline` | Minnes tidslinje | `ref-minnes.png` |
-| `D4-flat-luxe` | Flat luxe meny | scenic |
+| `D4-flat-deluxe` | Flat deluxe meny | scenic |
 | `D5-aurora-glas` | Aurora glas | scenic + aurora |
 
 ## Vad som byts
