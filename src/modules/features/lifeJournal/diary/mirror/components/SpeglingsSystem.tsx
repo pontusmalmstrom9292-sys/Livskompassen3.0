@@ -74,7 +74,7 @@ export function SpeglingsSystem({ embedded: _embedded = false }: SpeglingsSystem
 
   return (
     <div className="space-y-6">
-      <BentoCard title="Speglar" icon={<Brain className="h-4 w-4" />}>
+      <BentoCard title="Speglar" icon={<Brain className="h-4 w-4" />} glow="blue">
         <p className="mb-4 text-sm text-text-muted">
           Känslan först. Fakta sen. Sparas lokalt tills du trycker Rensa eller Rensa enheten i Inställningar.
         </p>
