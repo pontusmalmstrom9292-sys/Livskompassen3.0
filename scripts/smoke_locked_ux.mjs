@@ -35,6 +35,7 @@ function main() {
     'Spara till',
     's logg',
     'Annan fråga',
+    'glow="green"',
   );
   mustInclude(
     'src/modules/features/family/children/components/BarnensPage.tsx',
@@ -202,12 +203,14 @@ function main() {
     'src/modules/features/lifeJournal/evidence/vault/components/VaultMonsterPanel.tsx',
     'Frekvensanalys',
     'buildVaultFrequencyReport',
+    'glow="gold"',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx',
     'Assistentroller',
     'Kör mönstersökning',
     'analyzeBiffMessage',
+    'glow="gold"',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/utils/vaultPatternScan.ts',
