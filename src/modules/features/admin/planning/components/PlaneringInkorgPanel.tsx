@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Calendar, Mail } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -39,6 +39,14 @@ export function PlaneringInkorgPanel() {
   const [pendingClassification, setPendingClassification] = useState<PasteClassification | null>(
     null,
   );
+  const [queueRefresh, setQueueRefresh] = useState(0);
+
+  const handleCaptureSaved = useCallback(() => {
+    setQueueRefresh((k) => k + 1);
+    requestAnimationFrame(() => {
+      document.getElementById('planering-inkast-ko')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  }, []);
 
   const accountHint = user?.email ?? '';
   const canPrepare = Boolean(user && accountHint);
@@ -115,7 +123,7 @@ export function PlaneringInkorgPanel() {
             aktiveras i nästa fas; du kan förbereda med ditt inloggade konto nu.
           </p>
 
-          <PlaneringSuperModule variant="capture" />
+          <PlaneringSuperModule variant="capture" onSaved={handleCaptureSaved} />
 
           <div className="planering-inbox-connect-grid">
             <PlaneringInboxConnectionCard
@@ -210,7 +218,7 @@ export function PlaneringInkorgPanel() {
             </button>
           </BentoCard>
 
-          <ReviewQueuePipelinePanel mode="summary" />
+          <ReviewQueuePipelinePanel mode="summary" refreshToken={queueRefresh} showWhenEmpty />
         </div>
       )}
 

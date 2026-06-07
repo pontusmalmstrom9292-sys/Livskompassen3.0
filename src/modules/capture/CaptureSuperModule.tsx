@@ -109,7 +109,11 @@ export function CaptureSuperModule({
           focusOnCompose={variant === 'hem-capture' && focusOnCompose}
         />
         {(variant === 'hem-capture' || variant === 'kompass' || variant === 'planering') && (
-          <ReviewQueuePipelinePanel mode="summary" refreshToken={queueRefresh} />
+          <ReviewQueuePipelinePanel
+            mode="summary"
+            refreshToken={queueRefresh}
+            showWhenEmpty={variant === 'planering'}
+          />
         )}
       </>
     );

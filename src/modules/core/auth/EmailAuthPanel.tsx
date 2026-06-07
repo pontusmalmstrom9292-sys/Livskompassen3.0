@@ -33,12 +33,16 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
+  const googlePrimary = compact && !showAltAuth;
+
   const handleGoogle = async () => {
     setError(null);
     setSuccess(null);
     setGoogleLoading(true);
     try {
-      const googleUser = await signInWithGoogle({ linkAnonymous: mode === 'create' });
+      // Kompakt Google-knapp = Logga in på befintligt konto — inte koppla anonym uid.
+      const linkAnonymous = mode === 'create' && !googlePrimary;
+      const googleUser = await signInWithGoogle({ linkAnonymous });
       if (googleUser) {
         if (fingerprintPref && isAppUnlockSupported()) {
           await enableAppUnlock();
@@ -52,7 +56,12 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
         setSuccess('Öppnar Google… (kom tillbaka hit efter inloggning)');
       }
     } catch (err) {
-      const code = err instanceof FirebaseError ? err.code : '';
+      const code =
+        err instanceof FirebaseError
+          ? err.code
+          : err instanceof Error && /developer_error|12501|cancel/i.test(err.message)
+            ? err.message
+            : '';
       setError(mapAuthError(code));
     } finally {
       setGoogleLoading(false);
@@ -98,8 +107,6 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
       setLoading(false);
     }
   };
-
-  const googlePrimary = compact && !showAltAuth;
 
   return (
     <BentoCard

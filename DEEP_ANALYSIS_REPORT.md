@@ -233,8 +233,10 @@ Kopplat till roadmap ([`.context/system-plan.md`](.context/system-plan.md)) och 
 
 | Check | Resultat | Tidpunkt |
 |-------|----------|----------|
-| `npm run build` | *(uppdateras efter körning)* | 2026-06-07 |
-| `npm run smoke:locked-ux` | *(uppdateras efter körning)* | 2026-06-07 |
+| `npm run build` | **PASS** (5.18s) — CSS 334 kB / 43.5 kB gzip; `vendor-firebase` 647 kB | 2026-06-07 |
+| `npm run smoke:locked-ux` | **PASS** — Barnfokus, Valv Mönster/Orkester/Kunskapsbank, drawer, Planering, Widget, Barnporten | 2026-06-07 |
+
+**Build-notering:** Vite varnar för statisk+dynamisk import av PlaneringSuperModule/GoraSuperModule — lazy split fungerar inte fullt ut; relevant för P2 chunking.
 
 ---
 

@@ -32,18 +32,25 @@ type Props = {
   mode?: ReviewQueuePipelineMode;
   /** Öka efter nytt inkast så listan uppdateras. */
   refreshToken?: number;
+  /** Planering: visa alltid sektionen även när kön är tom (tom-state + Valv-länk). */
+  showWhenEmpty?: boolean;
 };
 
 /**
  * Enhetlig G10 review-kö UX på Hem — molnet hanteras canonical i VaultSamlaHub.
  * Ingen duplicerad InboxReviewQueue utanför Valv Samla.
  */
-export function ReviewQueuePipelinePanel({ mode = 'summary', refreshToken = 0 }: Props) {
+export function ReviewQueuePipelinePanel({
+  mode = 'summary',
+  refreshToken = 0,
+  showWhenEmpty = false,
+}: Props) {
   const isAuthenticated = useStore((s) => s.isAuthenticated);
   const [cloudItems, setCloudItems] = useState<InboxQueueItem[]>([]);
   const [reviewDrafts, setReviewDrafts] = useState<CaptureDraft[]>([]);
   const [failedDrafts, setFailedDrafts] = useState<CaptureDraft[]>([]);
   const [loadingCloud, setLoadingCloud] = useState(false);
+  const [cloudError, setCloudError] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
     const [review, failed] = await Promise.all([
@@ -55,10 +62,12 @@ export function ReviewQueuePipelinePanel({ mode = 'summary', refreshToken = 0 }:
 
     if (mode === 'summary' && isAuthenticated) {
       setLoadingCloud(true);
+      setCloudError(null);
       try {
         setCloudItems(await fetchInboxQueue());
-      } catch {
+      } catch (err) {
         setCloudItems([]);
+        setCloudError(err instanceof Error ? err.message : 'Kunde inte ladda molnet.');
       } finally {
         setLoadingCloud(false);
       }
@@ -73,17 +82,18 @@ export function ReviewQueuePipelinePanel({ mode = 'summary', refreshToken = 0 }:
   const cloudTotal = cloudItems.length;
   const grandTotal = localTotal + (mode === 'summary' ? cloudTotal : 0);
 
-  if (grandTotal === 0 && !loadingCloud) return null;
+  if (grandTotal === 0 && !loadingCloud && !showWhenEmpty && !cloudError) return null;
 
   const cloudPreview = cloudItems.slice(0, CLOUD_PREVIEW_LIMIT);
 
   return (
-    <BentoCard
-      title="Granskningskö · G10"
-      description="Lokalt utkast + molnet (HITL i Valv Samla)"
-      icon={<Inbox className="h-4 w-4 text-accent" />}
-      glow="gold"
-    >
+    <section id="planering-inkast-ko" className="scroll-mt-28">
+      <BentoCard
+        title="Granskningskö · G10"
+        description="Lokalt utkast + molnet (HITL i Valv Samla)"
+        icon={<Inbox className="h-4 w-4 text-accent" />}
+        glow="gold"
+      >
       {mode === 'summary' && isAuthenticated && (
         <section className="mb-4 rounded-xl border border-border/40 bg-surface/30 px-3 py-3">
           <div className="mb-2 flex items-center gap-2 text-xs uppercase tracking-wider text-text-dim">
@@ -91,8 +101,22 @@ export function ReviewQueuePipelinePanel({ mode = 'summary', refreshToken = 0 }:
             Molnet
           </div>
           {loadingCloud && <p className="text-sm text-text-muted">Laddar molnet…</p>}
-          {!loadingCloud && cloudTotal === 0 && (
-            <p className="text-sm text-text-dim">Inget väntar i granskningskö.</p>
+          {cloudError && !loadingCloud && (
+            <p className="text-sm text-amber-400/90" role="alert">
+              {cloudError}
+            </p>
+          )}
+          {!loadingCloud && !cloudError && cloudTotal === 0 && (
+            <p className="text-sm text-text-dim">
+              Inget väntar just nu. Nya inkast från Planering hamnar här tills du bekräftar i{' '}
+              <Link
+                to={VALV_SAMLA_GRANSKA_LINK}
+                className="font-medium text-accent underline-offset-2 hover:underline"
+              >
+                Valv → Samla
+              </Link>
+              .
+            </p>
           )}
           {!loadingCloud && cloudTotal > 0 && (
             <>
@@ -171,5 +195,6 @@ export function ReviewQueuePipelinePanel({ mode = 'summary', refreshToken = 0 }:
         </section>
       )}
     </BentoCard>
+    </section>
   );
 }

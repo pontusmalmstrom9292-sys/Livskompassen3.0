@@ -52,6 +52,7 @@
 
 | Tier | Fil |
 |------|-----|
+| **Djupanalys kodbas + UX** | [`../../DEEP_ANALYSIS_REPORT.md`](../../DEEP_ANALYSIS_REPORT.md) (2026-06-07) |
 | Barnporten PMIR | [`2026-06-06-pmir-barnporten-cb2plus.md`](./2026-06-06-pmir-barnporten-cb2plus.md) |
 | 1h autonom rapport | [`2026-06-06-1h-autonom-rapport.md`](./2026-06-06-1h-autonom-rapport.md) |
 | Multitask rapport | [`2026-06-06-multitask-rapport.md`](./2026-06-06-multitask-rapport.md) |

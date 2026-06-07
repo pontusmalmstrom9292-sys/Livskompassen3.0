@@ -33,7 +33,15 @@ function main() {
     'src/modules/capture/CaptureSuperModule.tsx',
     "variant === 'planering'",
     'ReviewQueuePipelinePanel',
+    'showWhenEmpty={variant === \'planering\'}',
     'refreshToken={queueRefresh}',
+  );
+
+  mustInclude(
+    'src/modules/capture/ReviewQueuePipelinePanel.tsx',
+    'showWhenEmpty',
+    'planering-inkast-ko',
+    'cloudError',
   );
 
   mustInclude(

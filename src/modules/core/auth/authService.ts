@@ -52,6 +52,9 @@ export function mapAuthError(code: string): string {
     case 'auth/user-cancelled':
       return 'Inloggningen avbröts.';
     default:
+      if (/developer_error/i.test(code)) {
+        return 'Google-inloggning avvisades av Android. Kontrollera SHA-1 i Firebase (se docs/FIREBASE-AUTH-LATHUND.md) och installera om appen.';
+      }
       if (code.includes('cancel') || code.includes('12501')) {
         return 'Inloggningen avbröts.';
       }
