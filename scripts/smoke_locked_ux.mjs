@@ -219,13 +219,12 @@ function main() {
 
   mustInclude('src/modules/core/ui/ValvArchIcon.tsx', 'ValvArchIcon');
   mustInclude(
-    'src/modules/core/layout/DockHubBand.tsx',
-    'getDockSideLinks',
-    'aria-label="Hem',
+    'src/modules/core/layout/FloatingDock.tsx',
+    'aria-label="Hem. Håll tre sekunder för Valv."',
     'delayMs: 3000',
     'openValvViaFyren',
     'FyrenProgressRing',
-    'openValvViaFyren',
+    'data-panel-style={panelStyle}',
   );
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'authenticateVaultGate', 'setVaultGate');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/utils/vaultTabs.ts', 'VALV_ZONE_INGRESS');
@@ -423,7 +422,7 @@ function main() {
     'saknar: barnporten-inkorg-valv-kanon.png',
   );
 
-  mustInclude('src/modules/features/dailyLife/wellbeing/compasses/components/VardagenPage.tsx', 'vaultDrawerPath', 'kunskap');
+  mustInclude('src/modules/shell/livLauncherRoutes.ts', 'vaultDrawerPath', 'kunskap');
   mustInclude('src/modules/core/home/livskompassHeroConfig.ts', "vaultDrawerPath('kunskapsbank')");
   mustInclude('functions/src/lib/vaultSessionGate.ts', 'assertVaultSession', 'issueVaultSession');
   mustInclude('functions/src/index.ts', 'issueVaultSession');
@@ -492,8 +491,8 @@ function main() {
     'NavigationDrawer.tsx får inte montera DrawerHomeQuickActions (MENU-DRAWER-KANON)',
   );
   assert(
-    !read('src/modules/core/layout/CompassHubOrb.tsx').includes('dock-compass-hub__label'),
-    'CompassHubOrb: ingen synlig mitt-etikett (DOCK-KANON)',
+    !read('src/modules/core/layout/FloatingDock.tsx').includes('dock-compass-hub__label'),
+    'FloatingDock: ingen synlig mitt-etikett (DOCK-KANON)',
   );
   mustInclude('src/modules/core/layout/DrawerModeToggle.tsx', 'if (!showValvShell) return null');
   mustInclude('src/modules/core/layout/DrawerHubAccordion.tsx', 'isDrawerItemActive', 'glowColor');

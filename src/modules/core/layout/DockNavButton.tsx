@@ -6,7 +6,7 @@ type Props = {
   icon: ReactNode;
   active?: boolean;
   variant?: 'slot' | 'side';
-  /** chrome = L2 hub-platta (DockHubBand). calm = drawer-l2 som sidomenyn. */
+  /** chrome = legacy hub-platta. calm = drawer-l2 som sidomenyn (FloatingDock). */
   tileVariant?: 'chrome' | 'calm';
   className?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;

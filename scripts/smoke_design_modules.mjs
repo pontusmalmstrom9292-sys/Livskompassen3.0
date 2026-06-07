@@ -242,7 +242,7 @@ function main() {
   mustInclude('src/modules/core/ui/ClusterGrid.tsx', 'navFlags');
   mustInclude('docs/design/CHROME-EMBER-KANON.md', 'LÅST', 'data-panel-style');
   mustInclude('src/modules/core/layout/headerPanelStyle.ts', "return 'ember'");
-  mustInclude('src/modules/core/layout/DockHubBand.tsx', 'data-panel-style={panelStyle}');
+  mustInclude('src/modules/core/layout/FloatingDock.tsx', 'data-panel-style={panelStyle}');
   mustInclude(
     'src/index.css',
     ".dock-hub-band[data-panel-style='ember'] .dock-hub-band__rail",
