@@ -64,12 +64,23 @@ export function InkorgPreviewSheet({ open, classification, saving, onConfirm, on
               <dd className="text-text-muted">{formatPasteDueDate(classification.dueAt)}</dd>
             </div>
           )}
-          {classification.matchedRuleLabel && (
-            <div>
-              <dt className="text-[10px] uppercase tracking-widest text-text-dim">Regel</dt>
-              <dd className="text-text-muted">{classification.matchedRuleLabel}</dd>
-            </div>
-          )}
+          <div>
+            <dt className="text-[10px] uppercase tracking-widest text-text-dim">Routing</dt>
+            <dd className="mt-1 flex flex-wrap items-center gap-2">
+              <span
+                className={
+                  classification.routeToHamn
+                    ? 'review-queue-status review-queue-status--review'
+                    : 'review-queue-status review-queue-status--routed'
+                }
+              >
+                → {classification.routeToHamn ? 'Hamn' : 'Handling'}
+              </span>
+              {classification.matchedRuleLabel ? (
+                <span className="text-xs text-text-dim">{classification.matchedRuleLabel}</span>
+              ) : null}
+            </dd>
+          </div>
         </dl>
 
         <div className="mt-5 flex flex-col gap-2 sm:flex-row">
