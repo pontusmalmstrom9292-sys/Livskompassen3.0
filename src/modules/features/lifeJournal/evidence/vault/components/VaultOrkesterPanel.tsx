@@ -62,6 +62,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
         title="Assistentroller"
         description="Vilka hjälpare som finns"
         icon={<Network className="h-4 w-4" />}
+        glow="gold"
       >
         <ul className="space-y-2">
           {PRODUCT_AGENTS.map((agent) => (
@@ -110,6 +111,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
       <BentoCard
         title="Mönstersökning i SMS-tråd"
         description="Klistra in hela tråden — Brusfiltret + DCAP"
+        glow="gold"
       >
         <p className="mb-3 text-sm text-text-muted">
           Exportera gärna hela tråden som text/PDF först (iMazing/Decipher). Kör sedan sökning
