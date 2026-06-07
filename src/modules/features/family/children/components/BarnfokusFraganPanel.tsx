@@ -53,6 +53,7 @@ export function BarnfokusFraganPanel({ childAlias, memoryRows, onSave }: Props) 
       title="Barnfokus — dagens fråga"
       description="Roligt, knas, kunskap eller lära känna — trygg hamn, inte bevis."
       icon={<Sparkles className="h-4 w-4" />}
+      glow="green"
     >
       <div className="flex flex-wrap items-center gap-2">
         <span className="rounded-full border border-accent/30 px-2 py-0.5 text-[0.65rem] uppercase tracking-wider text-accent">
