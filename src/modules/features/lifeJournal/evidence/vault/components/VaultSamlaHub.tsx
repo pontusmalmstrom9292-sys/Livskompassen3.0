@@ -95,7 +95,7 @@ export function VaultSamlaHub({ userId, saving, saveError, onSave, onBevisConfir
         onOpenQueue={() => setSamlaView('granska')}
       />
       <div id="vault-samla-entry">
-        <BentoCard title="Ny post" description="Append-only bevis">
+        <BentoCard title="Ny post" description="Append-only bevis" glow="gold">
           <VaultEntryForm userId={userId} saving={saving} onSave={onSave} />
           {saveError && <p className="mt-2 text-sm text-danger">{saveError}</p>}
         </BentoCard>
