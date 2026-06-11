@@ -1,13 +1,13 @@
 # Theme Lab — variantbeslut
 
-**Uppdaterad:** 2026-06-07 (D4 flat deluxe helapp)
+**Uppdaterad:** 2026-06-11 (R-A Nordic Precision prod default)
 
 | ID | Label | Status | Test / beslut |
 |----|-------|--------|----------------|
 | `D1-hamn-kompass` | Design Hamn & kompass | **experiment** | Hamn orbit + ref-hamn |
 | `D2-familjen-kort` | Design Familjen | **experiment** | Radkort + ref-familjen.png |
 | `D3-minnes-timeline` | Design Minnes | **experiment** | Tidslinje + guld CTA |
-| `D4-flat-deluxe` | Design flat deluxe | **GODKÄND prod** | **default 2026-06-07** — hel chrome |
+| `D4-flat-deluxe` | Design flat deluxe | **arkiv** | föregående prod default 2026-06-07 |
 | `D4-flat-luxe` | *(alias)* | arkiv | → `D4-flat-deluxe` |
 | `D5-aurora-glas` | Design aurora | **experiment** | Glas + aurora |
 | `M1-mockup-meny` | Mockup sidomeny | **experiment** | äldre tokens |
@@ -21,7 +21,7 @@
 | `I-stone-draft-twilight` | Stone — skymning | utkast | Kallare `--bg`, mjukare guld, kväll |
 | `I-stone-draft-bronze` | Stone — brons | utkast | Varm brons/roséguld accent |
 | `I-stone-draft-matte` | Stone — matt | utkast | Plattare glas, svag glow (låg last) |
-| `R-A-nordic-precision` | Nordic Precision (Style A) | **lab** | `/dev/theme-lab` → Redesign (2026) — isblå CTA, silver chrome, guld nav |
+| `R-A-nordic-precision` | Nordic Precision (Style A) | **GODKÄND prod** | **default 2026-06-11** — isblå CTA, silver chrome, guld nav |
 
 **Jämför:** http://localhost:5173/dev/theme-lab → Utkast (agent) → Förhandsgranska → **Använd i appen** → testa `/` (Hem).
 
@@ -61,7 +61,8 @@ Spec: [`../themes/K-PACK-EIGHT-VARIANTS.md`](../themes/K-PACK-EIGHT-VARIANTS.md)
 
 ## Godkännande
 
-- **GODKÄND: `D4-flat-deluxe`** — helapp default (`DEFAULT_THEME_ID`, `moduleThemeMap.ts`) 2026-06-07.
+- **GODKÄND: `R-A-nordic-precision`** — helapp default (`DEFAULT_THEME_ID`, `moduleThemeMap.ts`) 2026-06-11.
+- **ROLLBACK-ref:** `D4-flat-deluxe` — föregående prod default 2026-06-07.
 - **GODKÄND: `J-planering-fyren`** — Planering + Projekt (`moduleThemeMap.ts` rad 19–20). Övriga hubbar oförändrade.
 
 | ID | Typ | Status | Prompt / fil |

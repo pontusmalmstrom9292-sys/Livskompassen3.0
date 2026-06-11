@@ -372,7 +372,7 @@ export const THEME_REGISTRY: ThemePack[] = [
   ...THEME_PACK_REDESIGN_A,
 ];
 
-export const DEFAULT_THEME_ID = 'D4-flat-deluxe';
+export const DEFAULT_THEME_ID = 'R-A-nordic-precision';
 
 /** Legacy Theme Lab ids → canonical pack id. */
 export const THEME_ID_ALIASES: Record<string, string> = {
