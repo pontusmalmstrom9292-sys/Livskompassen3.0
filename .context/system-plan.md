@@ -84,12 +84,12 @@ Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
 
 | Modul | Route | Kontextfil | Kod |
 | --- | --- | --- | --- |
-| Verklighetsvalvet | `/valv` (Shield 3s + WebAuthn) | `.context/modules/verklighetsvalvet.md` | `src/modules/verklighetsvalvet/` |
-| Dagbokshubben | `/dagbok` | `.context/modules/dagbokshubben.md` | `src/modules/dagbok/` |
-| Barnens livsloggar | `/familjen` (redirect `/barnen`) | `.context/modules/barnens_livsloggar.md` | `src/modules/barnens_livsloggar/` |
-| Speglings-Systemet | `/speglar` | `.context/modules/speglingssystemet.md` | `src/modules/speglings_system/` |
-| Måbra-sidan | `/mabra` | `.context/modules/mabra_sidan.md` | `src/modules/mabra/` |
-| Kompis / Kunskap | Valv PIN → `/dagbok?tab=bevis&vaultTab=kunskapsbank` (legacy `/kunskap`, `?tab=kunskap` redirect) | `.context/modules/kompis.md` | `src/modules/evidence/kompis/` |
+| Verklighetsvalvet | `/valvet` (Fyren + WebAuthn) | `.context/modules/verklighetsvalvet.md` | `src/modules/features/lifeJournal/evidence/vault/` |
+| Hjärtat (Dagbok) | `/hjartat` (legacy `/dagbok`) | `.context/modules/dagbokshubben.md` | `src/modules/features/lifeJournal/diary/` |
+| Familjen / Barnen | `/familjen` | `.context/modules/barnens_livsloggar.md` | `src/modules/features/family/children/` |
+| Speglings-Systemet | `/hjartat?tab=speglar` | `.context/modules/speglingssystemet.md` | `src/modules/features/lifeJournal/diary/mirror/` |
+| MåBra | `/mabra` | `.context/modules/mabra_sidan.md` | `src/modules/features/dailyLife/wellbeing/mabra/` |
+| Kompis / Kunskap | Valv PIN → `/valvet?vaultTab=kunskapsbank` | `.context/modules/kompis.md` | `src/modules/features/lifeJournal/evidence/kompis/` |
 
 ## Permanent minne (låst princip)
 

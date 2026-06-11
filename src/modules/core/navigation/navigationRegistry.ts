@@ -29,9 +29,9 @@ export const NAVIGATION_STRUCTURE = {
     icon: 'sun',
     tabs: {
       compasses: { id: 'compasses', label: 'Kompasser', path: '?tab=kompasser' },
-      mabra: { id: 'mabra', label: 'MåBra', path: '?tab=mabra' },
-      handling: { id: 'handling', label: 'Planering', path: '?tab=handling' },
-      arbetsliv: { id: 'arbetsliv', label: 'Arbetsliv', path: '?tab=arbetsliv' },
+      mabra: { id: 'mabra', label: 'MåBra', path: '/mabra' },
+      handling: { id: 'handling', label: 'Planering', path: '/planering?tab=handling' },
+      arbetsliv: { id: 'arbetsliv', label: 'Arbetsliv', path: '/arbetsliv' },
       economy: { id: 'economy', label: 'Ekonomi', path: '?tab=ekonomi' },
     },
   },
@@ -78,6 +78,13 @@ export function clusterTabNavigateTarget(
     return { pathname: cluster.path, search: '' };
   }
   if (tab.path.startsWith('/')) {
+    const qIndex = tab.path.indexOf('?');
+    if (qIndex >= 0) {
+      return {
+        pathname: tab.path.slice(0, qIndex),
+        search: tab.path.slice(qIndex + 1),
+      };
+    }
     return { pathname: tab.path, search: '' };
   }
   return { pathname: cluster.path, search: registryTabSearch(tab.path) };

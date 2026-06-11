@@ -33,6 +33,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Build functions
+        run: cd functions && npm ci && npm run build
+
+      - name: Smoke locked UX
+        run: npm run smoke:locked-ux
+
       - name: Build frontend
         run: npm run build
         env:

@@ -4,7 +4,6 @@ export { AlertBanner } from './AlertBanner';
 export { BentoCard } from './BentoCard';
 export { EmptyState } from './EmptyState';
 export { MetricTile } from './MetricTile';
-export { PinGate } from './PinGate';
 export { SaldoHero } from './SaldoHero';
 export { StatusBadge } from './StatusBadge';
 export { StepIndicator } from './StepIndicator';

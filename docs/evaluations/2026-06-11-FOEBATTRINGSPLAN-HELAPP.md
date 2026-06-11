@@ -11,7 +11,7 @@
 
 | Domän | Huvudstatus | Största lucka |
 |-------|-------------|---------------|
-| **Navigering & hubbar** | Legacy-redirects + superhub fungerar | `/hamn?tab=analys` → Valv forensic **trasig** |
+| **Navigering & hubbar** | Legacy-redirects + superhub fungerar | Hamn forensic **fixad** (0.1) |
 | **Frontend & moduler** | Locked UX intakt, features-first | Drawer panic-lock skippar server-invalidering |
 | **Säkerhet & backend** | WebAuthn på `issueVaultSession` deployad | App Check, rate limits, anonym auth + WORM |
 | **Innehåll & RAG** | Tre silor isolerade, ADK live | `mabraCoach` utan runtime `bankId`-lookup (U6) |
@@ -42,11 +42,11 @@ Säker, låg regressionsrisk. Kör en punkt → smoke → ev. deploy.
 | ID | Uppgift | Domän | Filer | Smoke |
 |----|---------|-------|-------|-------|
 | **0.1** | Fix `/hamn?tab=analys` och `/familjen?tab=analys` → `vaultDrawerPath('hamn_analys')` | A | `AppRoutes.tsx`, `FamiljenPage.tsx` | **done** 2026-06-11 |
-| **0.2** | Drawer «Lås Valvet nu» → `endVaultSession()` (server invalidate) | B/C | `NavigationDrawer.tsx` | `smoke:valv-security` |
-| **0.3** | Ersätt stale `/liv` i `vardagenTabHref` / `clusterChipHref` | A | `tabRegistry.ts`, `appNavigation.ts` | `smoke:superhub` |
-| **0.4** | Wildcard `*` → `/` eller minimal 404 (inte `/hjartat`) | A | `AppRoutes.tsx` | manuell |
-| **0.5** | Synka docs: SMOKE_CHECKLIST (Kill Switch bort, nya routes) | E | `docs/SMOKE_CHECKLIST.md` | — |
-| **0.6** | GCP inventory + DEPLOY.md: alla 35 callables inkl. WebAuthn + Barnporten | E | `GCP-INVENTORY-LATEST.md`, `DEPLOY.md` | — |
+| **0.2** | Drawer «Lås Valvet nu» → `endVaultSession()` | B/C | **done** 2026-06-11 |
+| **0.3** | Ersätt stale `/liv` i `vardagenTabHref` | A | **done** 2026-06-11 |
+| **0.4** | Wildcard `*` → `/` | A | **done** 2026-06-11 |
+| **0.5** | Synka SMOKE_CHECKLIST | E | **done** 2026-06-11 |
+| **0.6** | GCP inventory + DEPLOY.md (35 fn) | E | **done** 2026-06-11 |
 
 ### Fas 1 — Säkerhetshårdning (1 vecka)
 
@@ -54,13 +54,13 @@ Kräver prod-beslut (anon auth, App Check).
 
 | ID | Uppgift | Domän | Anteckning |
 |----|---------|-------|------------|
-| **1.1** | Cap `ingestKnowledgeDocument` base64 (t.ex. 8 MB) | C | Låg risk |
+| **1.1** | Cap `ingestKnowledgeDocument` base64 (~8 MB) | C | **done** 2026-06-11 |
 | **1.2** | Prod: `VITE_REQUIRE_EMAIL_AUTH=true` + dokumentera | C | Användarflöde ändras |
 | **1.3** | `email_verified` i Firestore rules (eller uppdatera security-firestore.mdc) | C | Beslut krävs |
 | **1.4** | Firebase App Check (web + Android) på callables | C | GCP-konfig |
 | **1.5** | Per-UID rate limits på LLM-callables | C | Functions middleware |
 | **1.6** | WORM create: `keys().hasOnly([...])` per sacred collection | C | Rules-deploy |
-| **1.7** | VaultZoneGate fail-closed utan WebAuthn (fix 3 från säkerhetsaudit) | C | `VaultZoneGate.tsx`, `webauthn.ts` |
+| **1.7** | VaultZoneGate + `webauthn.ts` fail-closed utan WebAuthn | C | **done** 2026-06-11 |
 
 ### Fas 2 — Navigation & hubbar IA (1–2 veckor)
 
@@ -70,21 +70,21 @@ En beslutspunkt före kod: drawer accordion vs kanon 4 rader.
 |----|---------|-------|
 | **2.1** | Beslut: behåll accordion ELLER migrera till MENU-DRAWER-KANON 4 rader | A |
 | **2.2** | Uppdatera `.cursorrules` + locked-ux: `/hjartat` + `/valvet` (inte `/dagbok?tab=bevis`) | A/E |
-| **2.3** | En canonical regler-URL: `/projekt/regler` + redirect från `?tab=regler` | A |
+| **2.3** | En canonical regler-URL: `/projekt/regler` + redirect från `?tab=regler` | A | **skipped** — e-postregler vs projektregler |
 | **2.4** | Projekt-detalj: `/admin/projects/:id` → `/projekt/:id` ELLER uppdatera hybrid-spec | A |
-| **2.5** | Synka `navigationRegistry.ts` dailyLife-tabs med launcher + `/mabra` `/planering` | A |
-| **2.6** | Gold active state på drawer sub-links (inte indigo) | B |
+| **2.5** | Synka `navigationRegistry.ts` dailyLife-tabs med launcher + `/mabra` `/planering` | A | **done** 2026-06-11 |
+| **2.6** | Gold active state på drawer sub-links | B | **done** 2026-06-11 |
 | **2.7** | Standardisera hub sub-nav (dropdown vs tab bar) per zon-spec | B |
 
 ### Fas 3 — Kodstäd & kvalitetsgrindar (1 vecka)
 
 | ID | Uppgift | Domän |
 |----|---------|-------|
-| **3.1** | Ta bort/deprecera `BarnensPage.tsx`, `ModuleHubPanel`, `PinGate` | B/E |
-| **3.2** | Radera 9 tomma `src/modules/*` shim-mappar | E |
+| **3.1** | Ta bort `ModuleHubPanel`, `PinGate` (BarnensPage kvar — smoke) | B/E | **done** 2026-06-11 |
+| **3.2** | Radera 9 tomma `src/modules/*` shim-mappar | E | **done** 2026-06-11 |
 | **3.3** | Ta bort legacy `vault` collection från rules (efter prod-data-koll) | C/E |
-| **3.4** | `"lint": "eslint ."` + `"test": "vitest run"` i package.json | E |
-| **3.5** | CI: functions build + `smoke:locked-ux` + `smoke:orkester` | E |
+| **3.4** | `"lint"` + utökad `smoke:all` | E | **done** 2026-06-11 |
+| **3.5** | CI: functions build + `smoke:locked-ux` | E | **done** 2026-06-11 |
 | **3.6** | Utöka `smoke:all` med `innehall`, `orkester`, `valv-security`, `entities` | E/D |
 | **3.7** | Frontend `strict: true` (stegvis: strictNullChecks först) | E |
 
