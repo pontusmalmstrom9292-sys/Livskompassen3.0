@@ -12,6 +12,7 @@ import {
   beginVaultWebAuthnChallenge,
   verifyVaultWebAuthnResponse,
 } from '../lib/vaultWebAuthn';
+import { guardSensitiveCallableV2, guardSensitiveCallableV1 } from '../lib/callableGuards';
 import type { EntityRole } from '../lib/entityProfileTypes';
 import type {
   AuthenticationResponseJSON,
@@ -30,21 +31,17 @@ function readWebAuthnResponse(data: unknown): RegistrationResponseJSON | Authent
 }
 
 export const beginVaultWebAuthnChallengeCallable = onCall({ region: 'europe-west1' }, async (request) => {
-  if (!request.auth) {
-    throw new HttpsError('unauthenticated', 'Autentisering krävs för Valv-WebAuthn.');
-  }
+  const uid = await guardSensitiveCallableV2(request, 'beginVaultWebAuthnChallenge', 20);
   const { origin, rpID } = assertVaultWebAuthnContext(request.data);
-  return beginVaultWebAuthnChallenge(request.auth.uid, origin, rpID);
+  return beginVaultWebAuthnChallenge(uid, origin, rpID);
 });
 
 export const issueVaultSession = onCall({ region: 'europe-west1' }, async (request) => {
-  if (!request.auth) {
-    throw new HttpsError('unauthenticated', 'Autentisering krävs för Valv-session.');
-  }
+  const uid = await guardSensitiveCallableV2(request, 'issueVaultSession', 10);
   const { origin, rpID } = assertVaultWebAuthnContext(request.data);
   const webAuthnResponse = readWebAuthnResponse(request.data);
-  await verifyVaultWebAuthnResponse(request.auth.uid, webAuthnResponse, origin, rpID);
-  return createVaultSession(request.auth.uid);
+  await verifyVaultWebAuthnResponse(uid, webAuthnResponse, origin, rpID);
+  return createVaultSession(uid);
 });
 
 export const getEntityProfileRegistry = onCall({ region: 'europe-west1' }, async (request) => {
@@ -114,10 +111,8 @@ export const addEntityProfile = onCall({ region: 'europe-west1' }, async (reques
 });
 
 export const valvChatQuery = onCall({ region: 'europe-west1', memory: '512MiB' }, async (request) => {
-  if (!request.auth) {
-    throw new HttpsError('unauthenticated', 'Autentisering krävs för Valv-Chat.');
-  }
-  await assertVaultSession(request.auth.uid, request.data);
+  const uid = await guardSensitiveCallableV2(request, 'valvChatQuery', 30);
+  await assertVaultSession(uid, request.data);
 
   const question = request.data?.question;
   if (!question || typeof question !== 'string') {
@@ -128,18 +123,16 @@ export const valvChatQuery = onCall({ region: 'europe-west1', memory: '512MiB' }
     throw new HttpsError('invalid-argument', 'Frågan får vara max 2000 tecken.');
   }
 
-  const result = await askValvChat(request.auth.uid, question.trim());
+  const result = await askValvChat(uid, question.trim());
   return result;
 });
 
 export const generateDossier = functions.region('europe-west1').https.onCall(async (data, context) => {
-  if (!context.auth) {
-    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
-  }
-  await assertVaultSession(context.auth.uid, data);
+  const uid = await guardSensitiveCallableV1(context, 'generateDossier', 5);
+  await assertVaultSession(uid, data);
 
   try {
-    return await generateDossierInternal(context.auth.uid, data);
+    return await generateDossierInternal(uid, data);
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Generering misslyckades.';
     if (

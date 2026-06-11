@@ -13,14 +13,10 @@ import {
   shouldRouteKompisToBarnen,
 } from '../lib/barnenModuleRouteGuard';
 import { KNOWLEDGE_UPLOAD_MIMES, MAX_KNOWLEDGE_UPLOAD_BASE64_CHARS } from './shared';
+import { guardSensitiveCallableV1, guardSensitiveCallableV2 } from '../lib/callableGuards';
 
 export const generateEmbedding = functions.region('europe-west1').https.onCall(async (data, context) => {
-  if (!context.auth) {
-    throw new functions.https.HttpsError(
-      'unauthenticated',
-      'Endast inloggade användare får generera inbäddningar för Minne.'
-    );
-  }
+  const uid = await guardSensitiveCallableV1(context, 'generateEmbedding', 60);
 
   const text: string = data.text;
   if (!text || typeof text !== 'string') {
@@ -29,7 +25,7 @@ export const generateEmbedding = functions.region('europe-west1').https.onCall(a
 
   try {
     const embedding = await generateEmbeddingInternal(text);
-    console.log(`[generateEmbedding] OK för uid=${context.auth.uid}, dims=${embedding.length}`);
+    console.log(`[generateEmbedding] OK för uid=${uid}, dims=${embedding.length}`);
     return { embedding };
   } catch (error) {
     console.error('[generateEmbedding] Fel:', error);
@@ -40,9 +36,7 @@ export const generateEmbedding = functions.region('europe-west1').https.onCall(a
 export const knowledgeVaultQuery = onCall(
   { region: 'europe-west1', memory: '512MiB', secrets: [geminiApiKey] },
   async (request) => {
-    if (!request.auth) {
-      throw new HttpsError('unauthenticated', 'Autentisering krävs för Kunskapsvalvet.');
-    }
+    const uid = await guardSensitiveCallableV2(request, 'knowledgeVaultQuery', 30);
 
     const prompt = request.data?.prompt;
     if (!prompt || typeof prompt !== 'string') {
@@ -55,7 +49,7 @@ export const knowledgeVaultQuery = onCall(
 
     const trimmedPrompt = prompt.trim();
     if (shouldRouteKompisToBarnen(trimmedPrompt)) {
-      console.log(`[knowledgeVaultQuery] U5.5 barnen moduleRoute uid=${request.auth.uid}`);
+      console.log(`[knowledgeVaultQuery] U5.5 barnen moduleRoute uid=${uid}`);
       return {
         answer: BARNEN_MODULE_REDIRECT_MESSAGE,
         citations: [],
@@ -64,7 +58,7 @@ export const knowledgeVaultQuery = onCall(
     }
 
     const result = await askKnowledgeVaultWithRag(
-      request.auth.uid,
+      uid,
       trimmedPrompt,
       geminiApiKey.value()
     );
@@ -75,9 +69,7 @@ export const knowledgeVaultQuery = onCall(
 export const childrenLogsQuery = onCall(
   { region: 'europe-west1', memory: '512MiB', secrets: [geminiApiKey] },
   async (request) => {
-    if (!request.auth) {
-      throw new HttpsError('unauthenticated', 'Autentisering krävs för Familjen-frågor.');
-    }
+    const uid = await guardSensitiveCallableV2(request, 'childrenLogsQuery', 30);
 
     const question = request.data?.question;
     if (!question || typeof question !== 'string') {
@@ -94,7 +86,7 @@ export const childrenLogsQuery = onCall(
         : undefined;
 
     const result = await askChildrenLogsQuery(
-      request.auth.uid,
+      uid,
       question.trim(),
       childAlias,
       geminiApiKey.value()
@@ -167,9 +159,7 @@ export const ingestKnowledgeDocument = functions
   .region('europe-west1')
   .runWith({ memory: '1GB', timeoutSeconds: 120, secrets: ['GEMINI_API_KEY'] })
   .https.onCall(async (data, context) => {
-    if (!context.auth) {
-      throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
-    }
+    const uid = await guardSensitiveCallableV1(context, 'ingestKnowledgeDocument', 10);
 
     const fileName = typeof data.fileName === 'string' ? data.fileName.trim() : '';
     const mimeType = typeof data.mimeType === 'string' ? data.mimeType.trim() : '';
@@ -229,7 +219,6 @@ export const ingestKnowledgeDocument = functions
       tags = parsed.length > 0 ? parsed : undefined;
     }
 
-    const uid = context.auth.uid;
     const result = await ingestKampsparForUser(uid, {
       title,
       content: content.slice(0, 48_000),

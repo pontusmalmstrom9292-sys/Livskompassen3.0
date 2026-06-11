@@ -27,11 +27,10 @@ import {
 } from '../lib/barnportenPairing';
 import { assertVaultSession } from '../lib/vaultSessionGate';
 import { supervisor, trimSpeglingsMirror } from './shared';
+import { guardSensitiveCallableV1 } from '../lib/callableGuards';
 
 export const analyzeMessage = functions.region('europe-west1').https.onCall(async (data, context) => {
-  if (!context.auth) {
-    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
-  }
+  const uid = await guardSensitiveCallableV1(context, 'analyzeMessage', 30);
 
   const message = data.message;
   const ragContext: string[] = data.ragContext ?? [];
@@ -48,11 +47,11 @@ export const analyzeMessage = functions.region('europe-west1').https.onCall(asyn
     data.module === 'safe_harbor' || data.preferGransArkitekten === true;
 
   try {
-    const result = await supervisor.handleUserRequest(message, context.auth.uid, ragContext, {
+    const result = await supervisor.handleUserRequest(message, uid, ragContext, {
       preferGransArkitekten,
     });
     console.log(
-      `[analyzeMessage] agent=${result.agentId} DCAP riskScore=${result.dcap?.riskScore} för uid=${context.auth.uid}`
+      `[analyzeMessage] agent=${result.agentId} DCAP riskScore=${result.dcap?.riskScore} för uid=${uid}`
     );
     return result;
   } catch (error) {
@@ -143,17 +142,15 @@ export const notifyNewFile = functions
   });
 
 export const weaveJournalEntry = functions.region('europe-west1').https.onCall(async (data, context) => {
-  if (!context.auth) {
-    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
-  }
-  await assertVaultSession(context.auth.uid, data);
+  const uid = await guardSensitiveCallableV1(context, 'weaveJournalEntry', 15);
+  await assertVaultSession(uid, data);
 
   const { journalEntryId, mood, text } = data;
   if (!journalEntryId || !mood || !text) {
     throw new functions.https.HttpsError('invalid-argument', 'journalEntryId, mood och text krävs.');
   }
 
-  return runWeaver(context.auth.uid, journalEntryId, mood, text);
+  return runWeaver(uid, journalEntryId, mood, text);
 });
 
 export const approveWeaverMetadata = functions.region('europe-west1').https.onCall(async (data, context) => {
@@ -237,9 +234,7 @@ export const speglingsMirror = functions
   .region('europe-west1')
   .runWith({ secrets: ['GEMINI_API_KEY'] })
   .https.onCall(async (data, context) => {
-    if (!context.auth) {
-      throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
-    }
+    await guardSensitiveCallableV1(context, 'speglingsMirror', 30);
 
     const reflection = data.reflection;
     const mood = typeof data.mood === 'string' ? data.mood : undefined;
@@ -261,9 +256,7 @@ export const journalQuickMirror = functions
   .region('europe-west1')
   .runWith({ secrets: ['GEMINI_API_KEY'] })
   .https.onCall(async (data, context) => {
-    if (!context.auth) {
-      throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
-    }
+    await guardSensitiveCallableV1(context, 'journalQuickMirror', 30);
 
     const mood = data.mood;
     if (!mood || typeof mood !== 'string' || mood.length > 80) {
@@ -287,9 +280,7 @@ export const mabraCoach = functions
   .region('europe-west1')
   .runWith({ secrets: ['GEMINI_API_KEY'] })
   .https.onCall(async (data, context) => {
-    if (!context.auth) {
-      throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
-    }
+    await guardSensitiveCallableV1(context, 'mabraCoach', 30);
 
     const hubSymptom = data.hubSymptom;
     const exerciseType = data.exerciseType;
@@ -378,9 +369,7 @@ export const ingestWidgetRecording = functions
   .region('europe-west1')
   .runWith({ secrets: ['GEMINI_API_KEY'] })
   .https.onCall(async (data, context) => {
-    if (!context.auth) {
-      throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
-    }
+    await guardSensitiveCallableV1(context, 'ingestWidgetRecording', 20);
 
     const transcript = typeof data.transcript === 'string' ? data.transcript : '';
     const recordedAt =
@@ -402,9 +391,7 @@ export const ingestWidgetRecording = functions
   });
 
 export const breakDownResponse = functions.region('europe-west1').https.onCall(async (data, context) => {
-  if (!context.auth) {
-    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
-  }
+  await guardSensitiveCallableV1(context, 'breakDownResponse', 30);
 
   const text = data.text;
   if (!text || typeof text !== 'string') {
