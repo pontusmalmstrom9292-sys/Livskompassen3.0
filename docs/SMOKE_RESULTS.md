@@ -9,8 +9,8 @@
 
 | **Autorun PASS** | WH4 widget Hamn + logout Zero Footprint (`a66711dd`) | **PASS** | 2026-06-11 · build + hamn + locked-ux + valv-security + orkester |
 | **Deploy** | Hosting WH4 + `signOutUser` vault/speglar cleanup | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
-| **Autorun PASS** | Fas 4 batch — Hamn brusfilter + valv-gate smoke + inkast polish | **PASS** | 2026-06-11 · build + locked-ux + hamn + mabra + valv-security + valv-gate + orkester + innehall |
-| **Deploy** | Hosting Fas 4 + `ingestKnowledgeDocument` upload cap | **PENDING** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
+| **Autorun PASS** | Fas 4 batch — Hamn brusfilter + valv-gate smoke + inkast polish (`8d391db80` + `351ff3304`) | **PASS** | 2026-06-11 · build + locked-ux + hamn + mabra + valv-security + valv-gate + orkester + innehall |
+| **Deploy** | Hosting Fas 4 + `ingestKnowledgeDocument` upload cap | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
 
 | **Manuell PASS** | #1 Auth | **PASS** | 2026-05-27 |
 | **Manuell PASS** | #2 Dagbok → `journal` | **PASS** | 2026-05-27 |
