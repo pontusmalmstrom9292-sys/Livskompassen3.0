@@ -7,6 +7,7 @@
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
 
+| **Deploy** | Super Multitask — hosting + `firestore:rules` (`17d121d30` + `5b8b8f736` + `fc2b06e9a` + `ea22b4eb0`) | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
 | **Tooling** | `npm run typecheck:core-strict` | **baseline** | 2026-06-11 23:33 CEST · **9 fel** kvar (ej blockerande build) |
 | **Build** | `npm run build` (frontend) | **PASS** | 2026-06-11 23:33 CEST |
 | **Autorun PASS** | `smoke:orkester` (Agent δ gate) | **PASS** | 2026-06-11 23:33 CEST · drawer section markers + functions build |
