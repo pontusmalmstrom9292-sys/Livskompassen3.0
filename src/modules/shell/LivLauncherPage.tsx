@@ -11,6 +11,8 @@ import {
   LIV_LAUNCHER_INLINE_TABS,
   resolveLivLegacyTabRedirect,
 } from './livLauncherRoutes';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 
 type LivInlineTab = 'kompasser' | 'ekonomi';
 
@@ -61,11 +63,18 @@ export function LivLauncherPage() {
   };
 
   return (
-    <HubPageShell
-      eyebrow="Liv och göra"
-      title="Vardagsstart"
-      lead="Välj ett kort. Kompass och ekonomi visas här — MåBra, planering och arbetsliv (/arbetsliv) öppnas på egna sidor."
+    <HubErrorBoundary
+      title="Liv och göra kunde inte laddas"
+      glow="gold"
+      backTo={NAV_PATHS.HOME}
+      backLabel="Till Hem"
+      logTag="LivLauncherPage"
     >
+      <HubPageShell
+        eyebrow="Liv och göra"
+        title="Vardagsstart"
+        lead="Välj ett kort. Kompass och ekonomi visas här — MåBra, planering och arbetsliv (/arbetsliv) öppnas på egna sidor."
+      >
       <div className="mx-auto max-w-5xl space-y-4 pb-12">
         <CognitiveLoadStrip
           label="Ett steg i taget"
@@ -88,6 +97,7 @@ export function LivLauncherPage() {
           )}
         </main>
       </div>
-    </HubPageShell>
+      </HubPageShell>
+    </HubErrorBoundary>
   );
 }

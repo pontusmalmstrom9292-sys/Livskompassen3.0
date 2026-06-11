@@ -23,6 +23,7 @@ import {
   isFamiljenTabId,
   type FamiljenTabId,
 } from '@/features/family/children/constants/familjenTabs';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 
 const FAMILJ_OPTIONS: DropdownItem<FamiljenTabId>[] = [
   { id: 'reflektion', label: 'Dagens Barnfokus', icon: <Sparkles className="h-4 w-4" /> },
@@ -85,14 +86,25 @@ export function FamiljenPage() {
     activeTab === 'livslogg' || activeTab === 'barnporten';
 
   return (
-    <HubPageShell
-      eyebrow="Familjen"
-      title="Familjehubben"
-      lead="Den trygga hamnen. Barnfokus, neutral livslogg och Grey Rock-gränser — ett steg i taget."
-      footerSlot={activeTab === 'reflektion' ? <ParentReminderFooter /> : undefined}
-      lockViewport
+    <HubErrorBoundary
+      title="Familjen kunde inte laddas"
+      glow="blue"
+      backTo={NAV_PATHS.HOME}
+      backLabel="Till Hem"
+      logTag="FamiljenPage"
     >
-      <div className="mx-auto max-w-5xl space-y-4 pb-12">
+      <HubPageShell
+        eyebrow="Familjen"
+        title="Familjehubben"
+        lead="Den trygga hamnen. Barnfokus, neutral livslogg och Grey Rock-gränser — ett steg i taget."
+        footerSlot={
+          activeTab === 'reflektion' ? (
+            <ParentReminderFooter childAlias={shell.activeChild} />
+          ) : undefined
+        }
+        lockViewport
+      >
+        <div className="mx-auto max-w-5xl space-y-4 pb-12">
         <CognitiveLoadStrip
           label="Kognitiv sköld aktiv"
           hint="Allt brus är bortfiltrerat. Välj ditt fokus i menyn nedan."
@@ -140,7 +152,8 @@ export function FamiljenPage() {
         </main>
 
         <MaterialPackShortcuts preset={preset} hub="familjen" />
-      </div>
-    </HubPageShell>
+        </div>
+      </HubPageShell>
+    </HubErrorBoundary>
   );
 }

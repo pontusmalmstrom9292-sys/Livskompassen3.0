@@ -26,7 +26,7 @@
 
 ## Harmonisation — bank ↔ `BARNFOKUS_QUESTIONS` (bank-only, 2026-06-11)
 
-**Status:** child wire **done** 2026-06-11 (BP-PLAY-06..10) · parent BP-PLAY-01..05 fortfarande bank-only.
+**Status:** **aktiv** 2026-06-11 — child wire BP-PLAY-06..21 (alla legacy_id) · parent BP-PLAY-01..05 i `ParentReminderFooter`.
 
 ### Publik
 
@@ -87,7 +87,7 @@ Alla: `content_class: PLAY` · `source_tier: product_copy` · `status: KEEP`.
 | `k2` | BP-PLAY-09 | kunskap |
 | `n1` | BP-PLAY-10 | knas |
 
-Ej mappade ännu: `g3`, `k3`, `n2`–`n3`, `l1`–`l3`, `u1`–`u2`, `v1`–`v2` — nästa kuratorvåg.
+Alla child `legacy_id` mappade: BP-PLAY-06..21 (MT-1 2026-06-11).
 
 ### `barnfokusCatalog.ts` (plan — PMIR)
 

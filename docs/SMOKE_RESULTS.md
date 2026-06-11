@@ -1,11 +1,18 @@
 # Smoke-resultat (Fas 3 + Minne)
 
-## Current truth (2026-06-11 — PMIR P1 Barn-lek wire + P2 mabraCoach bankId)
+## Current truth (2026-06-11 — Multitask MT-1 gate PASS)
 
 **Sanning:** denna tabell ersätter raden «2026-05-31 — systemgenomgång auto» nedan.
 
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
+
+| **Autorun PASS** | Multitask MT-1 (α barn-lek full · γ error boundaries · δ core-strict baseline) | **PASS** | 2026-06-11 · [`2026-06-11-multitask-mt1.md`](./evaluations/2026-06-11-multitask-mt1.md) |
+| **Autorun PASS** | MT-1 gate: build + locked-ux + innehall + children + mabra + orkester | **PASS** | 2026-06-11 · `smoke:children` App Check fix |
+| **Deploy** | Hosting MT-1 (Barn-PLAY bank + HubErrorBoundary) | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
+| **Feature** | Barn-PLAY bank BP-PLAY-01..21 + parent prompt footer | **PASS** | 2026-06-11 · prod hosting |
+| **Feature** | `HubErrorBoundary` Familjen · MåBra · LivLauncher | **PASS** | 2026-06-11 · prod hosting |
+| **Tooling** | `npm run typecheck:core-strict` | **baseline** | 2026-06-11 · ~12 fel kvar (MT-2) |
 
 | **Deploy** | P1 Barn-lek wire — hosting + `firestore:rules` (`bankId` på `children_logs`) | **PASS** | 2026-06-11 · `barnfokusCatalog.ts` BP-PLAY-06..10 |
 | **Autorun PASS** | `smoke:locked-ux` (P1 Barnfokus wire) | **PASS** | 2026-06-11 |

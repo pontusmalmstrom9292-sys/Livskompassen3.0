@@ -32,7 +32,9 @@ import { KbtTransformatorPanel } from './KbtTransformatorPanel';
 import { DagligMixPanel } from './DagligMixPanel';
 import { VitCurriculumPanel } from './VitCurriculumPanel';
 import { HubPageShell } from '@/core/layout/HubPageShell';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { LivBackLink } from '@/modules/shell/LivBackLink';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { MaterialPackShortcuts, useLifeHubPreset } from '@/core/lifeOs';
 import { MabraFeelingCardsTool } from './tools/MabraFeelingCardsTool';
 import { MabraReflectionDeckTool } from './tools/MabraReflectionDeckTool';
@@ -346,12 +348,19 @@ export function MabraPage() {
   const activeExerciseType = hub && !addonBreathing ? exerciseTypeForHub(hub) : null;
 
   return (
-    <HubPageShell
-      eyebrow="MåBra"
-      title="För dig — ett steg i taget"
-      lead="Snabbstart och zoner — tillbaka öppnar samma zon igen."
-      headerAside={<LivBackLink />}
+    <HubErrorBoundary
+      title="MåBra kunde inte laddas"
+      glow="green"
+      backTo={NAV_PATHS.VARDAGEN}
+      backLabel="Till Liv och göra"
+      logTag="MabraPage"
     >
+      <HubPageShell
+        eyebrow="MåBra"
+        title="För dig — ett steg i taget"
+        lead="Snabbstart och zoner — tillbaka öppnar samma zon igen."
+        headerAside={<LivBackLink />}
+      >
       {step === 'hub' && !showHubPicker && (
         <div className="flex justify-end">
           <button
@@ -552,6 +561,7 @@ export function MabraPage() {
           {saveError && <p className="mt-2 text-sm text-text-dim">{saveError}</p>}
         </BentoCard>
       )}
-    </HubPageShell>
+      </HubPageShell>
+    </HubErrorBoundary>
   );
 }

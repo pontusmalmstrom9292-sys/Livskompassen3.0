@@ -27,6 +27,7 @@
     "icons:hero-orbit-export": "node scripts/export_hero_orbit_assets.mjs",
     "preview": "vite preview",
     "lint": "eslint .",
+    "typecheck:core-strict": "tsc -p tsconfig.core-strict.json --noEmit",
     "smoke:kunskap": "node scripts/smoke_kunskap.mjs",
     "smoke:speglar": "node scripts/smoke_speglar.mjs",
     "smoke:dossier": "node scripts/smoke_dossier.mjs",

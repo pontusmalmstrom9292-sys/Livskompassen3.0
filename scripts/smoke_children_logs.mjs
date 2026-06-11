@@ -6,6 +6,7 @@ import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { initializeApp } from 'firebase/app';
+import { initializeAppCheck, CustomProvider } from 'firebase/app-check';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
@@ -47,6 +48,35 @@ async function main() {
     messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
     appId: env.VITE_FIREBASE_APP_ID,
   });
+
+  const debugToken = env.VITE_APP_CHECK_DEBUG_TOKEN;
+  const appId = env.VITE_FIREBASE_APP_ID;
+  const projectNumber = env.VITE_FIREBASE_MESSAGING_SENDER_ID;
+  if (debugToken && appId && projectNumber) {
+    const exchangeUrl = `https://firebaseappcheck.googleapis.com/v1/projects/${projectNumber}/apps/${appId}:exchangeDebugToken?key=${encodeURIComponent(apiKey)}`;
+    initializeAppCheck(app, {
+      provider: new CustomProvider({
+        getToken: async () => {
+          const res = await fetch(exchangeUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Firebase-AppCheck': debugToken },
+            body: JSON.stringify({ debugToken, limitedUse: false }),
+          });
+          if (!res.ok) {
+            throw new Error(`App Check exchangeDebugToken ${res.status}: ${await res.text()}`);
+          }
+          const data = await res.json();
+          return {
+            token: data.token,
+            expireTimeMillis: data.ttl
+              ? Date.now() + Number.parseInt(String(data.ttl).replace('s', ''), 10) * 1000
+              : Date.now() + 3_600_000,
+          };
+        },
+      }),
+      isTokenAutoRefreshEnabled: true,
+    });
+  }
 
   const auth = getAuth(app);
   const db = getFirestore(app);
