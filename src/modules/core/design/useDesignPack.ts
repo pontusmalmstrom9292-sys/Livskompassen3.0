@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useTheme } from '../theme';
+import { getTheme } from '../theme/themeRegistry';
 import {
   DESIGN_PACK_CHROME,
   getDesignPackIdFromTheme,
@@ -16,7 +17,8 @@ export function useDesignPack(): {
 } {
   const { themeId } = useTheme();
   return useMemo(() => {
-    const packId = getDesignPackIdFromTheme(themeId);
+    const packId =
+      getTheme(themeId).designPackId ?? getDesignPackIdFromTheme(themeId);
     if (!packId) {
       return { active: false, packId: null, chrome: null, centerTitle: 'LIVSKOMPASSEN' };
     }

@@ -74,7 +74,9 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       <main
         className={clsx(
           'app-main relative z-10 mx-auto max-w-2xl px-4',
-          isScenicHome ? 'pt-[4.65rem]' : 'pt-[5.75rem]',
+          isScenicHome
+            ? 'pt-[calc(4.65rem+env(safe-area-inset-top,0px))]'
+            : 'pt-[calc(5.75rem+env(safe-area-inset-top,0px))]',
           barnportenChildShell && 'pb-16',
         )}
       >
