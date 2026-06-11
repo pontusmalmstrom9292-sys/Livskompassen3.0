@@ -6,6 +6,7 @@ import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { initializeApp } from 'firebase/app';
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 import { getFirestore, collection, addDoc, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
@@ -41,6 +42,18 @@ async function main() {
     messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
     appId: env.VITE_FIREBASE_APP_ID,
   });
+
+  const appCheckSiteKey = env.VITE_APP_CHECK_RECAPTCHA_SITE_KEY;
+  if (appCheckSiteKey) {
+    if (env.VITE_APP_CHECK_DEBUG_TOKEN) {
+      globalThis.FIREBASE_APPCHECK_DEBUG_TOKEN = env.VITE_APP_CHECK_DEBUG_TOKEN;
+    }
+    initializeAppCheck(app, {
+      provider: new ReCaptchaV3Provider(appCheckSiteKey),
+      isTokenAutoRefreshEnabled: true,
+    });
+    console.log('[smoke] App Check initierad');
+  }
 
   const auth = getAuth(app);
   const db = getFirestore(app);
@@ -81,6 +94,8 @@ async function main() {
   });
   const coach = result.data?.coach;
   assert(typeof coach === 'string' && coach.trim().length > 0, 'saknar coach (string)');
+  assert(result.data?.bankId === 'MB-REF-03', `coach bankId ska vara MB-REF-03, fick ${result.data?.bankId}`);
+  console.log('[smoke] coach bankId OK —', result.data.bankId);
   console.log('[smoke] coach excerpt:', coach.slice(0, 180));
 
   console.log('[smoke] mabraCoach transformator…');
@@ -131,6 +146,11 @@ async function main() {
   const vitCoach = vitChatResult.data?.coach;
   assert(typeof vitCoach === 'string' && vitCoach.trim().length > 0, 'vit_chat saknar coach');
   assert(vitChatResult.data?.redirectToSpeglar !== true, 'vit_chat ska inte redirecta neutral input');
+  assert(
+    vitChatResult.data?.bankId === 'MB-REF-ACT-01',
+    `vit_chat bankId ska vara MB-REF-ACT-01, fick ${vitChatResult.data?.bankId}`,
+  );
+  console.log('[smoke] vit_chat bankId OK —', vitChatResult.data.bankId);
   console.log('[smoke] vit_chat OK —', vitCoach.slice(0, 100));
 
   console.log('[smoke] mabraCoach vit_chat guard…');

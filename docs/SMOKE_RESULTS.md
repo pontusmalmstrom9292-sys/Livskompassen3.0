@@ -1,11 +1,16 @@
 # Smoke-resultat (Fas 3 + Minne)
 
-## Current truth (2026-06-06 — supermoduler + rollout)
+## Current truth (2026-06-11 — PMIR P2 mabraCoach bankId)
 
 **Sanning:** denna tabell ersätter raden «2026-05-31 — systemgenomgång auto» nedan.
 
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
+
+| **Deploy** | `functions:mabraCoach` — runtime `bankId`-lookup (U6 Fas 4.1) | **PASS** | 2026-06-11 · `mabraContentBank.ts` · coach + vit_chat parafras från bank |
+| **Autorun PASS** | `smoke:innehall` (P2 bank lock) | **PASS** | 2026-06-11 |
+| **Autorun BLOCKED** | `smoke:mabra` | **BLOCKED** | 2026-06-11 · `failed-precondition` App Check — saknar `VITE_APP_CHECK_*` i `.env` (se P3) |
+| **Build** | `functions` tsc + deploy upload | **PASS** | 2026-06-11 |
 
 | **Autorun PASS** | Fas 7 Super Multitask — 5 agenter parallellt + ekonomi/tid UX polish | **PARTIAL** | 2026-06-11 · build PASS · 10/11 smokes PASS · **FAIL:** `smoke:mabra` vit_chat `functions/unknown` (deploy?) · locked-ux + design-modules + ekonomi + innehall PASS efter UX-fix |
 | **Autorun PASS** | Fas 6 closer — barn-lek v18 bank + ekonomi UX + valv-security guard (`08451bfc7`) | **PASS** | 2026-06-11 · build + locked-ux + innehall + hamn + valv-gate + valv-security + orkester |

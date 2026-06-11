@@ -92,7 +92,7 @@ En beslutspunkt före kod: drawer accordion vs kanon 4 rader.
 
 | ID | Uppgift | Domän | Kurator |
 |----|---------|-------|---------|
-| **4.1** | Runtime `bankId`-lookup i `mabraCoach` / KBT-transformator | D | mabra-curator |
+| **4.1** | Runtime `bankId`-lookup i `mabraCoach` / KBT-transformator | D | mabra-curator | **done (coach+vit_chat)** 2026-06-11 · transformator defer |
 | **4.2** | Wave 17 JOY-kort → TS-kataloger + smoke (efter PMIR) | D | mabra-curator |
 | **4.3** | Barnen-PLAY-BANK ↔ `BARNFOKUS_QUESTIONS` harmonisering | D | barn-lek (plan) |
 | **4.4** | DCAP semantic prompt → `sharedRules.ts` | D | backend-agents |

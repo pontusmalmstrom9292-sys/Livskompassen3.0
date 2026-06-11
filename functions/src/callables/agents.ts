@@ -28,6 +28,17 @@ import {
 import { assertVaultSession } from '../lib/vaultSessionGate';
 import { supervisor, trimSpeglingsMirror } from './shared';
 import { guardSensitiveCallableV1 } from '../lib/callableGuards';
+import {
+  getMabraCoachBankEntry,
+  resolveCoachBankId,
+  resolveVitChatBankId,
+  type MabraCoachExercise,
+  type MabraCoachHub,
+} from '../lib/mabraContentBank';
+
+function invalidBankIdError(message: string): functions.https.HttpsError {
+  return new functions.https.HttpsError('invalid-argument', message);
+}
 
 export const analyzeMessage = functions.region('europe-west1').https.onCall(async (data, context) => {
   const uid = await guardSensitiveCallableV1(context, 'analyzeMessage', 30);
@@ -329,8 +340,28 @@ export const mabraCoach = functions
           redirectToSpeglar: true,
         };
       }
-      const coach = await askVitChatCoach(projectId, vitMessage, seedPrompt, process.env.GEMINI_API_KEY);
-      return { coach, redirectToSpeglar: false };
+      const vitBankId =
+        typeof data.bankId === 'string' ? data.bankId.trim() : undefined;
+      let resolvedVitBankId: string | undefined;
+      try {
+        resolvedVitBankId = resolveVitChatBankId(seedPrompt, vitBankId);
+      } catch {
+        throw invalidBankIdError('Ogiltig bankId för vit_chat.');
+      }
+      const vitBankEntry = resolvedVitBankId
+        ? getMabraCoachBankEntry(resolvedVitBankId)
+        : undefined;
+      const coach = await askVitChatCoach(
+        projectId,
+        vitMessage,
+        vitBankEntry,
+        process.env.GEMINI_API_KEY,
+      );
+      return {
+        coach,
+        redirectToSpeglar: false,
+        ...(resolvedVitBankId ? { bankId: resolvedVitBankId } : {}),
+      };
     }
 
     const validHubs = ['panic_rsd', 'self_critical', 'find_self'];
@@ -361,8 +392,31 @@ export const mabraCoach = functions
       };
     }
 
-    const coach = await askMabraCoach(hubSymptom, exerciseType, optionalNote, process.env.GEMINI_API_KEY);
-    return { coach, redirectToSpeglar: false };
+    const requestedBankId =
+      typeof data.bankId === 'string' ? data.bankId.trim() : undefined;
+    let bankId: string;
+    try {
+      bankId = resolveCoachBankId(
+        hubSymptom as MabraCoachHub,
+        exerciseType as MabraCoachExercise,
+        requestedBankId,
+      );
+    } catch {
+      throw invalidBankIdError('Ogiltig bankId för coach-läge.');
+    }
+    const bankEntry = getMabraCoachBankEntry(bankId);
+    if (!bankEntry) {
+      throw invalidBankIdError('Bankrad saknas för coach-läge.');
+    }
+
+    const coach = await askMabraCoach(
+      hubSymptom as MabraCoachHub,
+      exerciseType as MabraCoachExercise,
+      bankEntry,
+      optionalNote,
+      process.env.GEMINI_API_KEY,
+    );
+    return { coach, redirectToSpeglar: false, bankId };
   });
 
 export const ingestWidgetRecording = functions

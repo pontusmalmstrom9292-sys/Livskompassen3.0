@@ -1,13 +1,13 @@
 # Senaste sammanfattning — systemstatus
 
 **Datum:** 2026-06-11 · **Gren:** `main`  
-**Senaste:** Fas 6 closer — barn-lek bank v18 (BP-PLAY-06..10, bank-only) · ekonomi Impulsparkering UX · `smoke:valv-security` VaultZoneGate guard · hosting deployad
+**Senaste:** **PMIR P2 done** — `mabraCoach` runtime `bankId`-lookup (U6) deployad · `smoke:innehall` PASS · `smoke:mabra` blockerad av App Check (`.env` saknar debug token — P3)
 
 ---
 
 ## Nuläge i en mening
 
-**Fas 5A #3/#4 USER PASS** · Fas 6 bank v18 planerad (ingen prod-wire) · ekonomi impuls-panel polish live · drawer gold (Fas 5) redan deployad.
+**PMIR P2 mabraCoach bankId live** · Fas 5A #3/#4 USER PASS · Fas 6 bank v18 planerad (ingen prod-wire) · `smoke:mabra` kräver App Check-nycklar i `.env` före PASS.
 
 ---
 
