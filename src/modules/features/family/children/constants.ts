@@ -1,3 +1,5 @@
+import { barnfokusCatalogEntryForLegacyId } from './content/barnfokusCatalog';
+
 export const CHILD_ALIASES = ['Kasper', 'Arvid'] as const;
 export type ChildAlias = (typeof CHILD_ALIASES)[number];
 
@@ -31,11 +33,14 @@ export type BarnfokusQuestionKind =
   | 'valv_safe';
 
 export type BarnfokusQuestion = {
+  /** Rotation key — motsvarar `legacy_id` i Barnen-PLAY-BANK. */
   id: string;
   kind: BarnfokusQuestionKind;
   text: string;
   hint?: string;
   source?: 'builtin' | 'valv_curated';
+  /** KEEP-rad från Barnen-PLAY-BANK när wiread (BP-PLAY-06+). */
+  bankId?: string;
 };
 
 export const BARNFOKUS_KIND_LABELS: Record<BarnfokusQuestionKind, string> = {
@@ -47,8 +52,7 @@ export const BARNFOKUS_KIND_LABELS: Record<BarnfokusQuestionKind, string> = {
   valv_safe: 'Från din bank',
 };
 
-/** Roterande barnfokus-frågor — lekfull ton, inga vuxenkonflikter. */
-export const BARNFOKUS_QUESTIONS: BarnfokusQuestion[] = [
+const BARNFOKUS_QUESTIONS_BUILTIN: BarnfokusQuestion[] = [
   { id: 'g1', kind: 'gladje', text: 'Vad fick dig att skratta idag?' },
   { id: 'g2', kind: 'gladje', text: 'Vad var det bästa med din dag?' },
   { id: 'g3', kind: 'gladje', text: 'Vem eller vad var extra rolig idag?' },
@@ -66,6 +70,23 @@ export const BARNFOKUS_QUESTIONS: BarnfokusQuestion[] = [
   { id: 'v1', kind: 'valv_safe', text: 'Om du kunde fråga universum en sak — vad?', source: 'valv_curated' },
   { id: 'v2', kind: 'valv_safe', text: 'Vad är det finaste du sett i naturen?', source: 'valv_curated' },
 ];
+
+function wireBarnfokusQuestion(question: BarnfokusQuestion): BarnfokusQuestion {
+  const catalog = barnfokusCatalogEntryForLegacyId(question.id);
+  if (!catalog) return question;
+  return {
+    ...question,
+    bankId: catalog.bankId,
+    kind: catalog.lens,
+    text: catalog.text_sv,
+    hint: catalog.hint_sv ?? question.hint,
+    source: catalog.source ?? question.source,
+  };
+}
+
+/** Roterande barnfokus-frågor — lekfull ton, inga vuxenkonflikter. */
+export const BARNFOKUS_QUESTIONS: BarnfokusQuestion[] =
+  BARNFOKUS_QUESTIONS_BUILTIN.map(wireBarnfokusQuestion);
 
 const KIND_ROTATION: BarnfokusQuestionKind[] = [
   'gladje',

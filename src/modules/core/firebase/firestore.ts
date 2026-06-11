@@ -201,6 +201,8 @@ export async function saveChildrenLog(
     channel?: 'barnporten' | 'familjen' | 'middag' | 'widget';
     visibility?: 'private_child' | 'parent' | 'vault_candidate';
     contentType?: 'text' | 'voice' | 'mood' | 'step';
+    /** Barnen-PLAY-BANK (BP-PLAY-*) — metadata, ej Valv. */
+    bankId?: string;
   }
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.children_logs);
@@ -214,6 +216,7 @@ export async function saveChildrenLog(
     channel: log.channel,
     visibility: log.visibility,
     contentType: log.contentType,
+    bankId: log.bankId,
   };
 
   if (action === 'fysiologi') {

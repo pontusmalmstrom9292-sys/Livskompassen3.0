@@ -85,10 +85,7 @@ export function assertVaultWebAuthnContext(data: unknown): { origin: string; rpI
   return { origin, rpID };
 }
 
-async function loadStoredCredential(uid: string): Promise<StoredVaultCredential | null> {
-  const snap = await credentialRef(uid).get();
-  if (!snap.exists) return null;
-  const data = snap.data();
+function parseStoredCredential(data: FirebaseFirestore.DocumentData): StoredVaultCredential | null {
   if (
     typeof data?.credentialID !== 'string' ||
     typeof data?.credentialPublicKey !== 'string' ||
@@ -104,6 +101,24 @@ async function loadStoredCredential(uid: string): Promise<StoredVaultCredential 
       ? data.transports.filter((item: unknown) => typeof item === 'string')
       : undefined,
   };
+}
+
+/** Stöd för flera enheter — legacy enkel credential migreras vid läsning. */
+async function loadStoredCredentials(uid: string): Promise<StoredVaultCredential[]> {
+  const snap = await credentialRef(uid).get();
+  if (!snap.exists) return [];
+
+  const data = snap.data();
+  if (!data) return [];
+
+  if (Array.isArray(data.credentials)) {
+    return data.credentials
+      .map((row: FirebaseFirestore.DocumentData) => parseStoredCredential(row))
+      .filter((row): row is StoredVaultCredential => row !== null);
+  }
+
+  const legacy = parseStoredCredential(data);
+  return legacy ? [legacy] : [];
 }
 
 async function storeChallenge(uid: string, challenge: string, flow: StoredChallenge['flow']): Promise<void> {
@@ -143,13 +158,14 @@ export async function beginVaultWebAuthnChallenge(
   uid: string,
   origin: string,
   rpID: string,
+  forceRegistration = false,
 ): Promise<{
   flow: 'registration' | 'authentication';
   options: PublicKeyCredentialCreationOptionsJSON | PublicKeyCredentialRequestOptionsJSON;
 }> {
-  const stored = await loadStoredCredential(uid);
+  const stored = await loadStoredCredentials(uid);
 
-  if (!stored) {
+  if (forceRegistration || stored.length === 0) {
     const options = await generateRegistrationOptions({
       rpName: RP_NAME,
       rpID,
@@ -168,12 +184,10 @@ export async function beginVaultWebAuthnChallenge(
   const options = await generateAuthenticationOptions({
     rpID,
     userVerification: 'required',
-    allowCredentials: [
-      {
-        id: stored.credentialID,
-        transports: stored.transports as WebAuthnCredential['transports'],
-      },
-    ],
+    allowCredentials: stored.map((credential) => ({
+      id: credential.credentialID,
+      transports: credential.transports as WebAuthnCredential['transports'],
+    })),
   });
   await storeChallenge(uid, options.challenge, 'authentication');
   return { flow: 'authentication', options };
@@ -192,6 +206,52 @@ function isRegistrationResponse(
   response: RegistrationResponseJSON | AuthenticationResponseJSON,
 ): response is RegistrationResponseJSON {
   return 'attestationObject' in response.response;
+}
+
+async function appendRegisteredCredential(
+  uid: string,
+  credential: WebAuthnCredential,
+  credentialDeviceType: string,
+  credentialBackedUp: boolean,
+): Promise<void> {
+  const existing = await loadStoredCredentials(uid);
+  const next: StoredVaultCredential = {
+    credentialID: credential.id,
+    credentialPublicKey: Buffer.from(credential.publicKey).toString('base64'),
+    counter: credential.counter,
+    transports: credential.transports ?? [],
+  };
+
+  const withoutDuplicate = existing.filter((row) => row.credentialID !== next.credentialID);
+  await credentialRef(uid).set({
+    credentials: [...withoutDuplicate, next],
+    credentialDeviceType,
+    credentialBackedUp,
+    registeredAt: admin.firestore.FieldValue.serverTimestamp(),
+    updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+  });
+}
+
+async function updateCredentialCounter(
+  uid: string,
+  credentialId: string,
+  newCounter: number,
+): Promise<void> {
+  const existing = await loadStoredCredentials(uid);
+  const updated = existing.map((row) =>
+    row.credentialID === credentialId ? { ...row, counter: newCounter } : row,
+  );
+  if (!updated.some((row) => row.credentialID === credentialId)) {
+    throw new HttpsError('permission-denied', 'Okänd Valv-passkey för denna enhet.');
+  }
+  await credentialRef(uid).set(
+    {
+      credentials: updated,
+      lastUsedAt: admin.firestore.FieldValue.serverTimestamp(),
+      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+    },
+    { merge: true },
+  );
 }
 
 export async function verifyVaultWebAuthnResponse(
@@ -215,21 +275,21 @@ export async function verifyVaultWebAuthnResponse(
     }
 
     const { credential, credentialDeviceType, credentialBackedUp } = verification.registrationInfo;
-    await credentialRef(uid).set({
-      credentialID: credential.id,
-      credentialPublicKey: Buffer.from(credential.publicKey).toString('base64'),
-      counter: credential.counter,
-      transports: credential.transports ?? [],
-      credentialDeviceType,
-      credentialBackedUp,
-      registeredAt: admin.firestore.FieldValue.serverTimestamp(),
-    });
+    await appendRegisteredCredential(uid, credential, credentialDeviceType, credentialBackedUp);
     return;
   }
 
-  const stored = await loadStoredCredential(uid);
-  if (!stored) {
+  const stored = await loadStoredCredentials(uid);
+  if (stored.length === 0) {
     throw new HttpsError('permission-denied', 'Ingen registrerad Valv-passkey. Börja om via Fyren.');
+  }
+
+  const matching = stored.find((row) => row.credentialID === webAuthnResponse.id);
+  if (!matching) {
+    throw new HttpsError(
+      'permission-denied',
+      'Passkey från annan enhet. Håll Fyren igen för att registrera fingeravtryck här.',
+    );
   }
 
   const expectedChallenge = await consumeChallenge(uid, 'authentication');
@@ -238,7 +298,7 @@ export async function verifyVaultWebAuthnResponse(
     expectedChallenge,
     expectedOrigin: allowedOrigins(),
     expectedRPID: allowedRpIds(),
-    credential: toWebAuthnCredential(stored),
+    credential: toWebAuthnCredential(matching),
     requireUserVerification: true,
   });
 
@@ -246,8 +306,5 @@ export async function verifyVaultWebAuthnResponse(
     throw new HttpsError('permission-denied', 'WebAuthn-autentisering kunde inte verifieras.');
   }
 
-  await credentialRef(uid).update({
-    counter: verification.authenticationInfo.newCounter,
-    lastUsedAt: admin.firestore.FieldValue.serverTimestamp(),
-  });
+  await updateCredentialCounter(uid, matching.credentialID, verification.authenticationInfo.newCounter);
 }

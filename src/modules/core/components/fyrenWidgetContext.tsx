@@ -26,8 +26,9 @@ type FyrenWidgetContextValue = {
     onMouseDown: () => void;
     onMouseUp: () => void;
     onMouseLeave: () => void;
-    onTouchStart: () => void;
+    onTouchStart: (event: React.TouchEvent<HTMLButtonElement>) => void;
     onTouchEnd: (event: React.TouchEvent<HTMLButtonElement>) => void;
+    onTouchCancel: () => void;
   };
 };
 

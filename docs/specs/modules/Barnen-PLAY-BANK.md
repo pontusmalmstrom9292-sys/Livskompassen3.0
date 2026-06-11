@@ -26,7 +26,7 @@
 
 ## Harmonisation — bank ↔ `BARNFOKUS_QUESTIONS` (bank-only, 2026-06-11)
 
-**Status:** dokument kanon · **ingen prod-wire** utan PMIR (Fas 4.3 / Agent D).
+**Status:** child wire **done** 2026-06-11 (BP-PLAY-06..10) · parent BP-PLAY-01..05 fortfarande bank-only.
 
 ### Publik
 
@@ -55,11 +55,11 @@ Båda är `PLAY` · `children_logs` · **inte** Valv. Parent-rader kan visas som
 
 ### Wire-checklista (PMIR)
 
-- [ ] PMIR enligt `docs/MERGE-IMPACT-RAPPORT.md`
-- [ ] `npm run smoke:locked-ux` (Barnfokus pool, `valv_safe`, optimistic save)
-- [ ] Ingen borttagning av `BARNFOKUS_QUESTIONS` utan locked-ux-godkännande
-- [ ] Ev. `barnfokusCatalog.ts` genererad från bank — samma mönster som `dagligMixCatalog.ts`
-- [ ] **Ej** auto-promote till `reality_vault`
+- [x] PMIR enligt `docs/MERGE-IMPACT-RAPPORT.md` (2026-06-11)
+- [x] `npm run smoke:locked-ux` (Barnfokus pool, `valv_safe`, optimistic save)
+- [x] Ingen borttagning av `BARNFOKUS_QUESTIONS` — overlay wire via `barnfokusCatalog.ts`
+- [x] `barnfokusCatalog.ts` — samma mönster som `dagligMixCatalog.ts`
+- [x] **Ej** auto-promote till `reality_vault` · `bankId` i `children_logs` metadata
 
 ---
 

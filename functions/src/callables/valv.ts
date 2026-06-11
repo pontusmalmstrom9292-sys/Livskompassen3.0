@@ -33,7 +33,8 @@ function readWebAuthnResponse(data: unknown): RegistrationResponseJSON | Authent
 export const beginVaultWebAuthnChallengeCallable = onCall({ region: 'europe-west1' }, async (request) => {
   const uid = await guardSensitiveCallableV2(request, 'beginVaultWebAuthnChallenge', 20);
   const { origin, rpID } = assertVaultWebAuthnContext(request.data);
-  return beginVaultWebAuthnChallenge(uid, origin, rpID);
+  const forceRegistration = (request.data as { forceRegistration?: unknown })?.forceRegistration === true;
+  return beginVaultWebAuthnChallenge(uid, origin, rpID, forceRegistration);
 });
 
 export const issueVaultSession = onCall({ region: 'europe-west1' }, async (request) => {

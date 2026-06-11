@@ -154,6 +154,7 @@ export function useFamiljenShell() {
         observation: stored,
         category: 'barnfokus',
         action: 'livslogg',
+        ...(question.bankId ? { bankId: question.bankId } : {}),
       });
       setLogs((prev) =>
         prev.map((row) => (row.id === optimisticId ? { ...row, id } : row)),

@@ -1,19 +1,56 @@
-import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
+import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+import { Capacitor } from '@capacitor/core';
+import { initializeAppCheck, ReCaptchaV3Provider, CustomProvider } from 'firebase/app-check';
 import { app } from './init';
 
 let initialized = false;
+let initPromise: Promise<void> | null = null;
 
-/** Initierar App Check när site key finns (prod / dev med debug token). */
-export function initAppCheck(): void {
+/**
+ * Initierar App Check:
+ * - Web: reCAPTCHA v3 (VITE_APP_CHECK_RECAPTCHA_SITE_KEY)
+ * - Android/iOS: Play Integrity / App Attest via native plugin + CustomProvider-brygga till JS SDK
+ */
+export function initAppCheck(): Promise<void> {
+  if (initPromise) return initPromise;
+  initPromise = doInitAppCheck();
+  return initPromise;
+}
+
+async function doInitAppCheck(): Promise<void> {
   if (initialized || typeof window === 'undefined') return;
+
+  if (Capacitor.isNativePlatform()) {
+    const debugToken = import.meta.env.VITE_APP_CHECK_DEBUG_TOKEN;
+    await FirebaseAppCheck.initialize({
+      isTokenAutoRefreshEnabled: true,
+      ...(import.meta.env.DEV && debugToken ? { debug: true } : {}),
+    });
+
+    const provider = new CustomProvider({
+      getToken: async () => {
+        const result = await FirebaseAppCheck.getToken({ forceRefresh: false });
+        return {
+          token: result.token,
+          expireTimeMillis: result.expireTimeMillis ?? Date.now() + 3_600_000,
+        };
+      },
+    });
+
+    initializeAppCheck(app, {
+      provider,
+      isTokenAutoRefreshEnabled: true,
+    });
+    initialized = true;
+    return;
+  }
 
   const siteKey = import.meta.env.VITE_APP_CHECK_RECAPTCHA_SITE_KEY;
   if (!siteKey) return;
 
-  if (import.meta.env.DEV && import.meta.env.VITE_APP_CHECK_DEBUG_TOKEN) {
-    (
-      globalThis as unknown as { FIREBASE_APPCHECK_DEBUG_TOKEN?: string }
-    ).FIREBASE_APPCHECK_DEBUG_TOKEN = import.meta.env.VITE_APP_CHECK_DEBUG_TOKEN;
+  if (import.meta.env.DEV && debugTokenFromEnv()) {
+    (globalThis as unknown as { FIREBASE_APPCHECK_DEBUG_TOKEN?: string }).FIREBASE_APPCHECK_DEBUG_TOKEN =
+      debugTokenFromEnv();
   }
 
   initializeAppCheck(app, {
@@ -21,4 +58,9 @@ export function initAppCheck(): void {
     isTokenAutoRefreshEnabled: true,
   });
   initialized = true;
+}
+
+function debugTokenFromEnv(): string | undefined {
+  const token = import.meta.env.VITE_APP_CHECK_DEBUG_TOKEN;
+  return typeof token === 'string' && token.length > 0 ? token : undefined;
 }

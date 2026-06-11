@@ -38,10 +38,17 @@ export function useLongPress({ onLongPress, onClick, delayMs = 3000 }: LongPress
     timerRef.current = setTimeout(() => {
       longPressTriggered.current = true;
       setProgress(1);
-      clearTimers();
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
       onLongPress();
     }, delayMs);
-  }, [onLongPress, delayMs, clearTimers]);
+  }, [onLongPress, delayMs]);
 
   const cancel = useCallback(() => {
     clearTimers();
@@ -59,13 +66,20 @@ export function useLongPress({ onLongPress, onClick, delayMs = 3000 }: LongPress
     onMouseDown: start,
     onMouseUp: cancel,
     onMouseLeave: cancel,
-    onTouchStart: start,
+    onTouchStart: (e: React.TouchEvent) => {
+      e.preventDefault();
+      start();
+    },
     onTouchEnd: (e: React.TouchEvent) => {
+      const wasLongPress = longPressTriggered.current;
       cancel();
-      if (!longPressTriggered.current) {
+      if (!wasLongPress) {
         e.preventDefault();
         onClick?.();
       }
+    },
+    onTouchCancel: () => {
+      cancel();
     },
     onClick: click,
   };

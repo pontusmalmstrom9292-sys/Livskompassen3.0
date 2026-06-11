@@ -5,6 +5,7 @@ import type {
 } from '@simplewebauthn/browser';
 import { functions } from '../firebase/init';
 import { getVaultWebAuthnContext } from './vaultWebAuthnClient';
+import { formatCallableError } from './callableErrorMessage';
 
 const TOKEN_KEY = 'livskompassen_vault_session_token';
 const EXPIRES_KEY = 'livskompassen_vault_session_expires';
@@ -46,10 +47,14 @@ export function withVaultSessionPayload<T>(payload: T): T & { vaultSessionToken?
   return vaultSessionToken ? { ...payload, vaultSessionToken } : payload;
 }
 
+export type VaultSessionIssueOutcome =
+  | { ok: true }
+  | { ok: false; message: string };
+
 /** Efter WebAuthn + Fyren — verifierar biometri på server och skapar Valv-session (1 h idle). */
 export async function issueVaultServerSession(
   webAuthnResponse: RegistrationResponseJSON | AuthenticationResponseJSON,
-): Promise<boolean> {
+): Promise<VaultSessionIssueOutcome> {
   try {
     const issue = httpsCallable<VaultSessionIssuePayload, VaultSessionIssueResult>(
       functions,
@@ -60,12 +65,14 @@ export async function issueVaultServerSession(
       ...getVaultWebAuthnContext(),
     });
     const data = result.data;
-    if (!data?.vaultSessionToken || !data?.expiresAt) return false;
+    if (!data?.vaultSessionToken || !data?.expiresAt) {
+      return { ok: false, message: 'Valv-session svarade utan token.' };
+    }
     sessionStorage.setItem(TOKEN_KEY, data.vaultSessionToken);
     sessionStorage.setItem(EXPIRES_KEY, data.expiresAt);
-    return true;
+    return { ok: true };
   } catch (err) {
     console.warn('[vaultSession] issueVaultSession misslyckades:', err);
-    return false;
+    return { ok: false, message: formatCallableError(err) };
   }
 }

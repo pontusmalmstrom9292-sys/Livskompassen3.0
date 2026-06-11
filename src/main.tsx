@@ -7,12 +7,13 @@ import { initAppCheck } from './modules/core/firebase/appCheck';
 import App from './App.tsx';
 
 applyDefaultTheme();
-initAppCheck();
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </StrictMode>
-);
+void initAppCheck().finally(() => {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </StrictMode>,
+  );
+});
