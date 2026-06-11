@@ -51,12 +51,22 @@ export function PlanningTaskDetail({ task, onClose, onMove, onSaveMicroStep }: P
 
         <label className="mt-4 block text-[10px] uppercase tracking-widest text-text-dim">
           Mikrosteg (Paralys-Brytaren)
-          <input
-            value={microStep}
-            onChange={(e) => setMicroStep(e.target.value)}
-            placeholder="T.ex. Läs 2 sidor"
-            className="input-glass mt-1 w-full text-sm"
-          />
+          <div className="mt-1 flex gap-2">
+            <input
+              value={microStep}
+              onChange={(e) => setMicroStep(e.target.value)}
+              placeholder="T.ex. Läs 2 sidor"
+              className="input-glass w-full text-sm"
+            />
+            <button
+              type="button"
+              onClick={() => setMicroStep("AI-trolleri: Ställ in mjölken i kylen 🥛")}
+              className="btn-pill--secondary shrink-0 px-3 text-lg"
+              title="Bryt ner med AI"
+            >
+              🪄
+            </button>
+          </div>
         </label>
         <button
           type="button"

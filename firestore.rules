@@ -17,7 +17,8 @@ service cloud.firestore {
     }
 
     function isSensitiveAuth() {
-      return isVerifiedUser() || isAnonymousDevUser();
+      // Tvingar fram riktig inloggning (WORM-krav). Stänger ute anonyma användare.
+      return isVerifiedUser();
     }
 
     function isOwner() {

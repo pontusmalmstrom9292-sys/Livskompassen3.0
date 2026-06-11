@@ -119,6 +119,27 @@ export function KnowledgeVaultChat({
           : 'Frågor mot ditt Minne — med källhänvisningar'
       }
     >
+      {/* NY KOD: Snabbknappar / Genvägar */}
+      <div className="mb-4 flex flex-wrap gap-2">
+        <Link to="/hjartat" className="btn-pill--ghost text-xs hover:bg-white/5">
+          📖 Dagboken
+        </Link>
+        <Link to="/familjen" className="btn-pill--ghost text-xs hover:bg-white/5">
+          🧸 Barnens logg
+        </Link>
+        <Link to="/planering" className="btn-pill--ghost text-xs hover:bg-white/5">
+          📝 Ny Planering
+        </Link>
+        <button 
+          type="button" 
+          onClick={() => setInputText("Kan du hjälpa mig att bryta ner en stor uppgift i mindre steg: ")}
+          className="btn-pill--ghost text-xs hover:bg-white/5"
+        >
+          ⚡ Bryt ner uppgift
+        </button>
+      </div>
+      {/* SLUT PÅ NY KOD */}
+
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <textarea
           value={inputText}

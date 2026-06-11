@@ -668,7 +668,14 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               <button
                 type="button"
                 disabled={generating || includedIds.size === 0}
-                onClick={() => void handleGenerateDossier()}
+                onClick={() => {
+                  const isSure = window.confirm(
+                    "Är du helt säker på att du vill skapa och ladda ner denna känsliga Dossier?\n\nDetta skapar ett permanent och låst spår i valvet."
+                  );
+                  if (isSure) {
+                    void handleGenerateDossier();
+                  }
+                }}
                 className="flex-1 rounded-lg bg-emerald-500/25 py-2 text-sm font-semibold text-emerald-100 disabled:opacity-40 cursor-pointer"
               >
                 {generating ? (

@@ -24,6 +24,13 @@ const BARNEN_DOC_INTENT_PATTERNS: RegExp[] = [
   /\b(hur|var)\s+(loggar|skriver|sparar|dokumenterar)\s+.*\b(barn|barnens|kasper|arvids?)\b/i,
   /\b(familjen)\b.*\b(livslogg|bbic|logg)\b/i,
   /\b(barnens|barnets)\s+(sömn|aptit|skola|rutin|humör)\b.*\b(logg|spara|dokument)\b/i,
+  
+  // -- TILLÄGG: Gör dörrvakten vattentät --
+  // Fångar direkta omnämnanden av barnen eller deras platser
+  /\b(kasper|arvid|arvids|barnen|barnet|skolan|förskolan|dagis)\b/i,
+  // Fångar upp frågor om sömn och mat, men bara om det är kopplat till barnen (för att inte blockera din egen sömn)
+  /\b(sömn|mat|ätit|sova|aptit|rutin).*\b(kasper|arvid|arvids|barn|barnen|barnet)\b/i,
+  /\b(kasper|arvid|arvids|barn|barnen|barnet).*\b(sömn|mat|ätit|sova|aptit|rutin)\b/i,
 ];
 
 export const BARNEN_MODULE_ROUTE = {

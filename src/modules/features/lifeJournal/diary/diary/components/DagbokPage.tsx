@@ -1,6 +1,6 @@
 import { BookOpen } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { hasVaultGate } from '@/core/auth/sessionService';
 import { useStore } from '@/core/store';
@@ -117,7 +117,18 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
           </div>
         )}
 
-        <DagbokModeNav mode={mode} onModeChange={setMode} />
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <DagbokModeNav mode={mode} onModeChange={setMode} />
+          
+          {/* NY KOD: Genväg till Känslospegeln */}
+          <Link 
+            to="/hjartat?tab=speglar"
+            className="btn-pill--secondary text-xs shadow-sm hover:scale-105 transition-transform"
+            title="Låt AI validera och spegla dina senaste tankar"
+          >
+            🔮 Känslospegeln
+          </Link>
+        </div>
 
         <DagbokRememberCard />
 
