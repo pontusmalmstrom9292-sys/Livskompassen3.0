@@ -522,6 +522,16 @@ export const VALV_ARKIV_LINK = {
   search: '?vaultTab=logga',
 } as const;
 
+export const PLANERING_HANDLING_LINK = {
+  pathname: '/planering',
+  search: '?tab=handling',
+} as const;
+
+export const PLANERING_INKORG_LINK = {
+  pathname: '/planering',
+  search: '?tab=inkorg&inbox=oversikt',
+} as const;
+
 export type InkastDestinationLink = {
   pathname: string;
   search?: string;

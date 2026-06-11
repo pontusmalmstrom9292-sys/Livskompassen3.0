@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Inbox } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '../../core/store';
@@ -8,6 +9,13 @@ import {
   fetchInboxQueue,
   type InboxQueueItem,
 } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
+import { createPlanningTask } from '@/features/admin/planning/api/planningTasksApi';
+import { usePlanningEmailRules } from '@/features/admin/planning/hooks/usePlanningEmailRules';
+import { PLANERING_HANDLING_LINK } from '@/modules/inkast/api/inkastService';
+import {
+  classifyInboxItemForHandling,
+  isPlaneringInboxItem,
+} from '@/modules/inkast/planeringInboxItem';
 import {
   inboxQueueDisplayStatus,
   inboxQueueStatusBadgeClass,
@@ -52,6 +60,7 @@ export function InboxReviewQueue({
 }: Props) {
   const isAuthenticated = useStore((s) => s.isAuthenticated);
   const userId = useStore((s) => s.user?.uid);
+  const { rules } = usePlanningEmailRules();
   const [items, setItems] = useState<InboxQueueItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -59,6 +68,7 @@ export function InboxReviewQueue({
   const [lastAction, setLastAction] = useState<string | null>(null);
   const [barnenBridge, setBarnenBridge] = useState<InkastBarnenBridgePayload | null>(null);
   const [dagbokWeave, setDagbokWeave] = useState<InkastDagbokWeavePayload | null>(null);
+  const [handlingLink, setHandlingLink] = useState(false);
 
   const load = useCallback(async () => {
     if (!isAuthenticated) return;
@@ -87,6 +97,7 @@ export function InboxReviewQueue({
     setLastAction(null);
     setBarnenBridge(null);
     setDagbokWeave(null);
+    setHandlingLink(false);
     try {
       const result = await confirmInbox(
         item.id,
@@ -117,6 +128,40 @@ export function InboxReviewQueue({
       await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Bekräftelse misslyckades.');
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  const handlePlanering = async (item: InboxQueueItem) => {
+    if (!userId) {
+      setError('Logga in för att skapa uppgift.');
+      return;
+    }
+    const classification = classifyInboxItemForHandling(item, rules);
+    if (classification.routeToHamn) {
+      setError('Ex/konflikt — skicka till Trygg Hamn, inte Handling.');
+      return;
+    }
+    setBusyId(item.id);
+    setError(null);
+    setLastAction(null);
+    setHandlingLink(false);
+    try {
+      await createPlanningTask(userId, {
+        title: classification.title,
+        summary: classification.summary,
+        status: classification.suggestedStatus,
+        dueAt: classification.dueAt,
+        source: 'manual',
+        sourceRef: `inbox_queue:${item.id}`,
+      });
+      await dismissInbox(item.id);
+      setLastAction('Skickat till Handling · ATT GÖRA');
+      setHandlingLink(true);
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Kunde inte skapa uppgift.');
     } finally {
       setBusyId(null);
     }
@@ -162,6 +207,14 @@ export function InboxReviewQueue({
       {loading && <p className="text-sm text-text-muted">Laddar…</p>}
       {error && <p className="text-sm text-amber-400/90">{error}</p>}
       {lastAction && <p className="mb-2 text-xs text-success">{lastAction}</p>}
+      {handlingLink && (
+        <Link
+          to={PLANERING_HANDLING_LINK}
+          className="mb-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
+        >
+          Öppna Handling (Kanban)
+        </Link>
+      )}
       {barnenBridge && userId && (
         <InkastBarnenValvBridge
           userId={userId}
@@ -194,6 +247,11 @@ export function InboxReviewQueue({
               Säkerhet {Math.round((typeof item.confidence === 'number' ? item.confidence : 0) * 100)}%
             </p>
             <p className="mt-2 text-xs text-text-dim line-clamp-2">{item.summary}</p>
+            {isPlaneringInboxItem(item) && (
+              <p className="mt-1 text-[10px] uppercase tracking-widest text-accent/80">
+                Planering · kan bli uppgift i Handling
+              </p>
+            )}
             <div className="mt-3 flex flex-wrap gap-2">
               <button
                 type="button"
@@ -226,6 +284,14 @@ export function InboxReviewQueue({
                 onClick={() => handleConfirm(item, 'barnen')}
               >
                 → Barnen
+              </button>
+              <button
+                type="button"
+                disabled={busyId === item.id}
+                className="btn-pill--accent text-xs"
+                onClick={() => void handlePlanering(item)}
+              >
+                → Handling
               </button>
               <button
                 type="button"

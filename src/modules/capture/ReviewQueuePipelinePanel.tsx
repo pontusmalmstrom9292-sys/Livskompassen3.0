@@ -6,9 +6,11 @@ import { useStore } from '@/core/store';
 import { fetchInboxQueue, type InboxQueueItem } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import {
   inkastDestinationLink,
+  PLANERING_HANDLING_LINK,
   primaryInkastItem,
   VALV_SAMLA_GRANSKA_LINK,
 } from '@/modules/inkast/api/inkastService';
+import { isPlaneringInboxItem, sortInboxForPlaneringInkorg } from '@/modules/inkast/planeringInboxItem';
 import { listDraftsByStatus, type CaptureDraft } from './draftQueue';
 import {
   draftFailedStatusLabel,
@@ -34,6 +36,8 @@ type Props = {
   refreshToken?: number;
   /** Planering: visa alltid sektionen även när kön är tom (tom-state + Valv-länk). */
   showWhenEmpty?: boolean;
+  /** Planering inkorg: planering-taggade poster först i molnet-preview. */
+  prioritizePlanering?: boolean;
 };
 
 /**
@@ -44,6 +48,7 @@ export function ReviewQueuePipelinePanel({
   mode = 'summary',
   refreshToken = 0,
   showWhenEmpty = false,
+  prioritizePlanering = false,
 }: Props) {
   const isAuthenticated = useStore((s) => s.isAuthenticated);
   const [cloudItems, setCloudItems] = useState<InboxQueueItem[]>([]);
@@ -81,10 +86,13 @@ export function ReviewQueuePipelinePanel({
   const localTotal = reviewDrafts.length + failedDrafts.length;
   const cloudTotal = cloudItems.length;
   const grandTotal = localTotal + (mode === 'summary' ? cloudTotal : 0);
+  const sortedCloudItems = prioritizePlanering
+    ? sortInboxForPlaneringInkorg(cloudItems)
+    : cloudItems;
+  const cloudPreview = sortedCloudItems.slice(0, CLOUD_PREVIEW_LIMIT);
+  const planeringCloudCount = cloudItems.filter(isPlaneringInboxItem).length;
 
   if (grandTotal === 0 && !loadingCloud && !showWhenEmpty && !cloudError) return null;
-
-  const cloudPreview = cloudItems.slice(0, CLOUD_PREVIEW_LIMIT);
 
   return (
     <section id="planering-inkast-ko" className="scroll-mt-28">
@@ -115,13 +123,19 @@ export function ReviewQueuePipelinePanel({
               >
                 Valv → Samla
               </Link>
-              .
+              {' '}eller skapar uppgift via{' '}
+              <strong className="font-medium text-text-muted">→ Handling</strong> i granskningskö.
             </p>
           )}
           {!loadingCloud && cloudTotal > 0 && (
             <>
               <p className="mb-2 text-sm text-text-muted">
-                {cloudTotal} post{cloudTotal === 1 ? '' : 'er'} väntar bekräftelse. Bekräfta silo i{' '}
+                {cloudTotal} post{cloudTotal === 1 ? '' : 'er'} väntar bekräftelse.
+                {prioritizePlanering && planeringCloudCount > 0
+                  ? ` ${planeringCloudCount} planering${planeringCloudCount === 1 ? '' : 'ar'}.`
+                  : ''}{' '}
+                Bekräfta silo eller{' '}
+                <strong className="font-medium text-text">→ Handling</strong> i{' '}
                 <Link
                   to={VALV_SAMLA_GRANSKA_LINK}
                   className="font-medium text-accent underline-offset-2 hover:underline"
@@ -130,6 +144,14 @@ export function ReviewQueuePipelinePanel({
                 </Link>
                 .
               </p>
+              {prioritizePlanering && planeringCloudCount > 0 && (
+                <Link
+                  to={PLANERING_HANDLING_LINK}
+                  className="mb-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
+                >
+                  Öppna Handling (Kanban)
+                </Link>
+              )}
               <ul className="space-y-2 text-sm">
                 {cloudPreview.map((item) => {
                   const displayStatus = inboxQueueDisplayStatus(item);

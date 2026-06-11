@@ -113,6 +113,7 @@ export function CaptureSuperModule({
             mode="summary"
             refreshToken={queueRefresh}
             showWhenEmpty={variant === 'planering'}
+            prioritizePlanering={variant === 'planering'}
           />
         )}
       </>

@@ -34,6 +34,7 @@ function main() {
     "variant === 'planering'",
     'ReviewQueuePipelinePanel',
     'showWhenEmpty={variant === \'planering\'}',
+    'prioritizePlanering={variant === \'planering\'}',
     'refreshToken={queueRefresh}',
   );
 
@@ -41,6 +42,7 @@ function main() {
     'src/modules/capture/ReviewQueuePipelinePanel.tsx',
     'showWhenEmpty',
     'planering-inkast-ko',
+    'prioritizePlanering',
     'cloudError',
   );
 
@@ -51,6 +53,7 @@ function main() {
     'inboxQueueStatusBadgeClass',
     'Status: dirigerad',
     'Status: granska',
+    'Status: planering · granska',
     'draftFailedStatusLabel',
   );
 
@@ -67,6 +70,14 @@ function main() {
     'inboxQueueStatusBadgeClass',
     'handleDismiss',
     'handleConfirm',
+    'handlePlanering',
+    '→ Handling',
+  );
+
+  mustInclude(
+    'src/modules/inkast/planeringInboxItem.ts',
+    'isPlaneringInboxItem',
+    'classifyInboxItemForHandling',
   );
 
   mustInclude('src/index.css', 'review-queue-status--routed', 'review-queue-status--review');

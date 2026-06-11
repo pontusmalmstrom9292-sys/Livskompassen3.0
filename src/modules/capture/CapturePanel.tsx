@@ -247,12 +247,22 @@ export function CapturePanel({
         </p>
       )}
       {message?.includes('granskning') && (
-        <Link
-          to={VALV_SAMLA_GRANSKA_LINK}
-          className="mt-2 inline-block text-xs text-gold underline-offset-2 hover:underline"
-        >
-          Öppna granskningskö i Arkiv
-        </Link>
+        <>
+          <Link
+            to={VALV_SAMLA_GRANSKA_LINK}
+            className="mt-2 inline-block text-xs text-gold underline-offset-2 hover:underline"
+          >
+            Öppna granskningskö i Arkiv
+          </Link>
+          {sourceModule === 'planering_inkorg' && (
+            <a
+              href="#planering-inkast-ko"
+              className="mt-2 ml-3 inline-block text-xs text-accent underline-offset-2 hover:underline"
+            >
+              Se kö nedan
+            </a>
+          )}
+        </>
       )}
       {destinationLink && (
         <Link

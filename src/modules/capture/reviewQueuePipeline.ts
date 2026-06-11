@@ -1,5 +1,6 @@
 import type { InboxQueueItem } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import { ROUTING_LABELS } from '@/modules/inkast/api/inkastService';
+import { isPlaneringInboxItem } from '@/modules/inkast/planeringInboxItem';
 
 /** G10 visningsstatus — samma i Hem, Planering och Valv Samla. */
 export type InboxQueueDisplayStatus = 'routed' | 'review' | 'rejected';
@@ -23,7 +24,10 @@ export function inboxQueueStatusBadgeClass(status: InboxQueueDisplayStatus): str
 /** Delad G10-etikett — samma semantik i Hem-summary och Valv InboxReviewQueue. */
 export function inboxQueueStatusLabel(item: InboxQueueItem): string {
   const status = inboxQueueDisplayStatus(item);
-  if (status === 'review') return 'Status: granska';
+  if (status === 'review') {
+    if (isPlaneringInboxItem(item)) return 'Status: planering · granska';
+    return 'Status: granska';
+  }
   const routingLabel = ROUTING_LABELS[item.proposedRouting as keyof typeof ROUTING_LABELS];
   return `Status: dirigerad → ${routingLabel ?? item.proposedRouting}`;
 }

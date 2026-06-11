@@ -134,6 +134,17 @@ function smokeStaticStructure() {
     'childLogEvidence ska skriva sourceRef för Valv-bro',
   );
 
+  const planeringInbox = readCanonical('src/modules/inkast/planeringInboxItem.ts');
+  assert(planeringInbox.includes('isPlaneringInboxItem'), 'planeringInboxItem saknar isPlaneringInboxItem');
+  assert(planeringInbox.includes('classifyInboxItemForHandling'), 'planeringInboxItem saknar classifyInboxItemForHandling');
+  assert(reviewQueue.includes('→ Handling'), 'InboxReviewQueue saknar → Handling CTA');
+  assert(reviewQueue.includes('handlePlanering'), 'InboxReviewQueue saknar handlePlanering');
+  assert(inkastService.includes('PLANERING_HANDLING_LINK'), 'inkastService saknar PLANERING_HANDLING_LINK');
+  assert(
+    readCanonical('src/modules/capture/ReviewQueuePipelinePanel.tsx').includes('prioritizePlanering'),
+    'ReviewQueuePipelinePanel saknar prioritizePlanering',
+  );
+
   const rules = readFileSync(resolve(root, 'firestore.rules'), 'utf8');
   assert(rules.includes('match /user_tags/{docId}'), 'firestore.rules saknar user_tags');
 

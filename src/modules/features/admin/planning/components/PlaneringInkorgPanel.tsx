@@ -235,7 +235,12 @@ export function PlaneringInkorgPanel() {
             </button>
           </BentoCard>
 
-          <ReviewQueuePipelinePanel mode="summary" refreshToken={queueRefresh} showWhenEmpty />
+          <ReviewQueuePipelinePanel
+            mode="summary"
+            refreshToken={queueRefresh}
+            showWhenEmpty
+            prioritizePlanering
+          />
         </div>
       )}
 
