@@ -90,6 +90,12 @@ function smokeStaticStructure() {
   assert(inboxPersist.includes('inboxTags: input.classification.tags'), 'inboxPersist skriver inboxTags');
   assert(inboxPersist.includes('reality_vault'), 'inboxPersist → reality_vault');
   assert(inboxPersist.includes('children_logs'), 'inboxPersist → children_logs');
+  assert(inboxPersist.includes('persistJournalFromInbox'), 'inboxPersist saknar persistJournalFromInbox');
+  assert(inboxPersist.includes("routing === 'dagbok'"), 'inboxPersist saknar dagbok-routing');
+
+  const siloOptions = readCanonical('src/modules/inkast/constants/inkastSiloOptions.tsx');
+  assert(siloOptions.includes("return 'dagbok'"), 'uiSiloToRouting(dagbok) ska mappa till dagbok routing');
+  assert(siloOptions.includes('Dagbok (Journal)'), 'INKAST_SILO_LABELS ska säga Journal, inte Kunskap');
 
   const classifier = readCanonical(CANONICAL.inboxClassifier);
   assert(classifier.includes('buildInboxClassifyBlob'), 'inboxClassifier saknar buildInboxClassifyBlob');

@@ -27,9 +27,10 @@ Returnera ENDAST giltig JSON utan markdown:
 
 export const INKORG_SORTERARE_SYSTEM_PROMPT = `Du är Inkorg-Sorteraren (G10) — självsorterande klassificering för Livskompassen.
 Analysera dokumentutdrag och returnera ENDAST giltig JSON utan markdown:
-{"routing":"kunskap|bevis|barnen|review","tags":["..."],"category":"kort kategori","confidence":0.0,"summary":"max 400 tecken","traumaSensitive":false,"childAlias":"Kasper|Arvid|null","rationale":"en mening"}
+{"routing":"kunskap|bevis|barnen|dagbok|review","tags":["..."],"category":"kort kategori","confidence":0.0,"summary":"max 400 tecken","traumaSensitive":false,"childAlias":"Kasper|Arvid|null","rationale":"en mening"}
 Regler:
 - routing=bevis: sms/mejl/kommunikationslogg, domar, tidslinje, bevisföring, konflikt med motpart — ska till reality_vault, ALDRIG kb_docs.
+- routing=dagbok: personliga reflektioner, tankar, tacksamhet, återhämtning, vardagslogistik utan bevisvärde — journal (Lager 1), ALDRIG kb_docs eller reality_vault.
 - routing=kunskap: metodartiklar, rutiner, referens, BBIC-tips utan akut bevisvärde.
 - routing=barnen: observation om barn (sömn, skola, beteende) — children_logs-silo.
 - routing=review: trauma/LVU/vårdnadstvist, oklar silo, eller confidence < 0.55 — kräver människa.

@@ -34,6 +34,7 @@ type Props = {
 function collectionLabel(collection: string): string {
   if (collection === 'reality_vault') return 'bevis';
   if (collection === 'children_logs') return 'barnloggar';
+  if (collection === 'journal') return 'dagbok';
   if (collection === 'kampspar' || collection === 'kb_docs') return 'kunskap';
   return collection;
 }
@@ -73,7 +74,7 @@ export function InboxReviewQueue({
 
   const handleConfirm = async (
     item: InboxQueueItem,
-    routing: 'kunskap' | 'bevis' | 'barnen',
+    routing: 'kunskap' | 'bevis' | 'barnen' | 'dagbok',
   ) => {
     setBusyId(item.id);
     setError(null);
@@ -127,7 +128,7 @@ export function InboxReviewQueue({
   return (
     <BentoCard
       title={compact ? 'Granskningskö' : prioritizeBevis ? 'Granskningskö · Samla' : 'Inkorg — granska'}
-      description="Granska innan sparning i Valv eller Kunskap"
+      description="Granska innan sparning i Dagbok, Valv eller Kunskap"
       icon={<Inbox className="h-4 w-4 text-accent" />}
     >
       {onBack && (
@@ -182,6 +183,14 @@ export function InboxReviewQueue({
                 onClick={() => handleConfirm(item, 'bevis')}
               >
                 → Arkiv
+              </button>
+              <button
+                type="button"
+                disabled={busyId === item.id}
+                className="btn-pill--secondary text-xs"
+                onClick={() => handleConfirm(item, 'dagbok')}
+              >
+                → Dagbok
               </button>
               <button
                 type="button"

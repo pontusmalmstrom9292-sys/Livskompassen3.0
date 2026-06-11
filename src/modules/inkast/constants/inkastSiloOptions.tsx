@@ -24,17 +24,18 @@ export const INKAST_SILO_DESCRIPTIONS: Record<InkastUiSilo, string> = {
 export function uiSiloToRouting(silo: InkastUiSilo): InkastManualRouting {
   if (silo === 'valv') return 'bevis';
   if (silo === 'barnen') return 'barnen';
-  return 'kunskap';
+  return 'dagbok';
 }
 
 export function routingToUiSilo(routing: InboxRouting): InkastUiSilo {
   if (routing === 'bevis') return 'valv';
   if (routing === 'barnen') return 'barnen';
+  if (routing === 'kunskap') return 'dagbok';
   return 'dagbok';
 }
 
 export const INKAST_SILO_LABELS: Record<InkastUiSilo, string> = {
-  dagbok: 'Dagbok (Kunskap)',
+  dagbok: 'Dagbok (Journal)',
   valv: 'Valv (Bevis)',
   barnen: 'Barnen (Logg)',
 };

@@ -5,7 +5,7 @@ import {
 } from './inkastSourceModule';
 import { createGenAI } from './genaiClient';
 
-export type InboxRouting = 'kunskap' | 'bevis' | 'barnen' | 'review';
+export type InboxRouting = 'kunskap' | 'bevis' | 'barnen' | 'dagbok' | 'review';
 
 export interface InboxClassification {
   routing: InboxRouting;
@@ -29,6 +29,7 @@ function parseClassificationJson(raw: string): InboxClassification | null {
       routing !== 'kunskap' &&
       routing !== 'bevis' &&
       routing !== 'barnen' &&
+      routing !== 'dagbok' &&
       routing !== 'review'
     ) {
       return null;
@@ -129,6 +130,21 @@ export function heuristicInboxClassify(
       summary: 'Planering — granska var posten ska hamna.',
       traumaSensitive: false,
       rationale: 'Heuristisk match: planering → review (fail-closed).',
+    };
+  }
+
+  if (
+    /\[sourcemodule:(hem_capture|hem_smart_inkast|hem_inkast)\]/i.test(blob) ||
+    /sourcemodule:(hem_capture|hem_smart_inkast|hem_inkast)/i.test(blob)
+  ) {
+    return {
+      routing: 'dagbok',
+      tags: ['reflektion', 'inkast'],
+      category: 'vardag',
+      confidence: 0.86,
+      summary: 'Personlig reflektion via Hem-capture → dagbok.',
+      traumaSensitive: false,
+      rationale: 'Heuristisk match: sourceModule hem → journal.',
     };
   }
 

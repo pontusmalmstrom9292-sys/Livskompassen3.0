@@ -93,7 +93,12 @@ function normalizeManualTags(raw: unknown): string[] | undefined {
 
 function resolveManualOverride(input: SubmitInkastLiteInput): ManualInkastOverride | undefined {
   const routing = input.manualRouting;
-  if (routing !== 'kunskap' && routing !== 'bevis' && routing !== 'barnen') {
+  if (
+    routing !== 'kunskap' &&
+    routing !== 'bevis' &&
+    routing !== 'barnen' &&
+    routing !== 'dagbok'
+  ) {
     return undefined;
   }
   const tags = normalizeManualTags(input.manualTags);

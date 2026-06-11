@@ -32,8 +32,16 @@ export const confirmInboxItem = onCall({ region: 'europe-west1' }, async (reques
   if (!queueId || typeof queueId !== 'string') {
     throw new HttpsError('invalid-argument', 'queueId krävs.');
   }
-  if (routing !== 'kunskap' && routing !== 'bevis' && routing !== 'barnen') {
-    throw new HttpsError('invalid-argument', 'routing måste vara kunskap, bevis eller barnen.');
+  if (
+    routing !== 'kunskap' &&
+    routing !== 'bevis' &&
+    routing !== 'barnen' &&
+    routing !== 'dagbok'
+  ) {
+    throw new HttpsError(
+      'invalid-argument',
+      'routing måste vara kunskap, bevis, barnen eller dagbok.'
+    );
   }
 
   const childAlias =
@@ -156,7 +164,8 @@ export const submitInkastLite = onCall(
     const effectiveManualRouting =
       manualRouting === 'kunskap' ||
       manualRouting === 'bevis' ||
-      manualRouting === 'barnen'
+      manualRouting === 'barnen' ||
+      manualRouting === 'dagbok'
         ? manualRouting
         : undefined;
 

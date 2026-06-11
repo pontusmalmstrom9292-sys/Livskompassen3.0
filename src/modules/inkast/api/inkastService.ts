@@ -290,7 +290,7 @@ export type SubmitInkastLiteResult = {
   errors: Array<{ fileName: string; error: string }>;
 };
 
-const ROUTINGS: InboxRouting[] = ['kunskap', 'bevis', 'barnen', 'review'];
+const ROUTINGS: InboxRouting[] = ['kunskap', 'bevis', 'barnen', 'dagbok', 'review'];
 
 function normalizeRouting(raw: unknown): InboxRouting {
   if (typeof raw === 'string' && (ROUTINGS as string[]).includes(raw)) {
@@ -469,6 +469,7 @@ export const ROUTING_LABELS: Record<InboxRouting, string> = {
   kunskap: 'Kunskapsbank',
   bevis: 'Arkiv',
   barnen: 'Barnen',
+  dagbok: 'Dagbok',
   review: 'Granska manuellt',
 };
 
@@ -476,6 +477,7 @@ export const COLLECTION_LABELS: Record<string, string> = {
   reality_vault: 'Arkiv',
   kb_docs: 'Kunskapsbank',
   children_logs: 'Barnens livslogg',
+  journal: 'Dagbok',
 };
 
 export function formatInkastResultMessage(result: SubmitInkastLiteResult): string {
@@ -526,7 +528,7 @@ export type InkastDestinationLink = {
   label: string;
 };
 
-/** Post-save CTA — Dagbok (kunskap), Valv, Barnen. Ingen auto-promote. */
+/** Post-save CTA — Dagbok (journal), Valv, Barnen, Kunskap. Ingen auto-promote. */
 export function inkastDestinationLink(
   item: SubmitInkastLiteItemResult,
 ): InkastDestinationLink | null {

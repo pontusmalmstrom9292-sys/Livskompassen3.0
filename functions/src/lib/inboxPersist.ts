@@ -160,6 +160,57 @@ export async function persistChildrenLogFromInbox(input: {
   return { docId: docRef.id, created: true };
 }
 
+const JOURNAL_CATEGORY_IDS = new Set([
+  'tacksamhet',
+  'orostanke',
+  'relationer',
+  'kropp',
+  'vardag',
+  'insikt',
+]);
+
+function mapInkastCategoryToJournal(category: string, tags: string[]): string {
+  const normalized = category.trim().toLowerCase().replace(/^#/, '');
+  if (JOURNAL_CATEGORY_IDS.has(normalized)) return normalized;
+
+  const tagSet = tags.map((t) => t.trim().toLowerCase().replace(/^#/, ''));
+  if (tagSet.includes('tacksamhet')) return 'tacksamhet';
+  if (tagSet.includes('insikt') || tagSet.includes('reflektion')) return 'insikt';
+  if (tagSet.includes('aterhamtning') || tagSet.includes('återhämtning')) return 'kropp';
+  if (tagSet.includes('logistik')) return 'vardag';
+  return 'vardag';
+}
+
+export async function persistJournalFromInbox(input: {
+  ownerId: string;
+  classification: InboxClassification;
+  analysisText: string;
+}): Promise<{ docId: string; created: boolean }> {
+  const db = admin.firestore();
+  const text = input.analysisText.slice(0, 50_000);
+  const category = mapInkastCategoryToJournal(
+    input.classification.category,
+    input.classification.tags
+  );
+  const tags = input.classification.tags
+    .filter((t) => t !== 'manuell')
+    .map((t) => t.trim().slice(0, 48))
+    .filter(Boolean)
+    .slice(0, 12);
+
+  const docRef = await db.collection('journal').add({
+    userId: input.ownerId,
+    ownerId: input.ownerId,
+    mood: 'neutral',
+    text,
+    category,
+    ...(tags.length ? { tags } : {}),
+    createdAt: admin.firestore.FieldValue.serverTimestamp(),
+  });
+
+  return { docId: docRef.id, created: true };
+}
+
 export async function persistKunskapFromInbox(
   kbInput: PersistKbDocInput,
   classification: InboxClassification
@@ -244,6 +295,15 @@ export async function routeInboxToWorm(input: {
     return { action: 'queued', queueId: q.queueId };
   }
 
+  if (classification.routing === 'dagbok') {
+    const journal = await persistJournalFromInbox({
+      ownerId,
+      classification,
+      analysisText,
+    });
+    return { action: 'persisted', collection: 'journal', docId: journal.docId };
+  }
+
   let embeddingDim: number | undefined;
   try {
     const { generateEmbeddingInternal } = await import('./generateEmbeddingInternal');
@@ -308,7 +368,7 @@ export async function listPendingInboxQueue(uid: string): Promise<InboxQueueItem
 export async function confirmInboxQueueItem(input: {
   uid: string;
   queueId: string;
-  routing: 'kunskap' | 'bevis' | 'barnen';
+  routing: 'kunskap' | 'bevis' | 'barnen' | 'dagbok';
   childAlias?: string;
 }): Promise<{ collection: string; docId: string }> {
   const ref = admin.firestore().collection(INBOX_QUEUE).doc(input.queueId);
