@@ -4763,8 +4763,8 @@
   }
 
   .familjen-child-chip--active {
-    @apply border-emerald-400/45 bg-emerald-500/10 text-emerald-200;
-    box-shadow: 0 0 28px rgba(45, 212, 191, 0.18);
+    @apply border-accent/45 bg-accent/10 text-accent-light;
+    box-shadow: 0 0 28px rgba(212, 175, 55, 0.15);
   }
 
   .familjen-child-chip--idle {

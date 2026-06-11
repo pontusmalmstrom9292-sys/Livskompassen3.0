@@ -7,6 +7,9 @@
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
 
+| **Autorun PASS** | Fas 5 Agent B — drawer gold chrome + barn-lek kurator (`2b79465a9`) | **PASS** | 2026-06-11 · build + locked-ux + superhub + design-modules + innehall + hamn |
+| **Deploy** | Hosting Fas 5 (drawer + familjen child-chip gold) | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
+
 | **Autorun PASS** | WH4 widget Hamn + logout Zero Footprint (`a66711dd`) | **PASS** | 2026-06-11 · build + hamn + locked-ux + valv-security + orkester |
 | **Deploy** | Hosting WH4 + `signOutUser` vault/speglar cleanup | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
 | **Autorun PASS** | Fas 4 batch — Hamn brusfilter + valv-gate smoke + inkast polish (`8d391db80` + `351ff3304`) | **PASS** | 2026-06-11 · build + locked-ux + hamn + mabra + valv-security + valv-gate + orkester + innehall |
@@ -955,4 +958,3 @@ Se [`Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md).
 | Offline flygplansläge (dagbok / Valv) | **PENDING** | Du — [`OFFLINE-ANDROID.md`](./OFFLINE-ANDROID.md) |
 
 Landning: [`evaluations/2026-05-27-android-landning.md`](./evaluations/2026-05-27-android-landning.md)
-
