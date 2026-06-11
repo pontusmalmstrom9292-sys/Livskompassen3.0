@@ -17,6 +17,10 @@ import {
   InkastBarnenValvBridge,
   inkastBarnenBridgeProps,
 } from '../inkast/components/InkastBarnenValvBridge';
+import {
+  InkastDagbokWeaveBridge,
+  inkastDagbokWeaveProps,
+} from '../inkast/components/InkastDagbokWeaveBridge';
 import type { InboxClassification } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import { InkastConfirmPanel } from '../inkast/components/InkastConfirmPanel';
 import {
@@ -58,6 +62,7 @@ export function CapturePanel({
   const [manualComment, setManualComment] = useState('');
   const [manualChildAlias, setManualChildAlias] = useState('');
   const [showBarnenBridge, setShowBarnenBridge] = useState(true);
+  const [showDagbokWeave, setShowDagbokWeave] = useState(true);
   const userId = useStore((s) => s.user?.uid);
 
   const resetFlow = useCallback(() => {
@@ -70,6 +75,7 @@ export function CapturePanel({
     setManualComment('');
     setManualChildAlias('');
     setShowBarnenBridge(true);
+    setShowDagbokWeave(true);
   }, []);
 
   const handlePreview = useCallback(async () => {
@@ -122,6 +128,7 @@ export function CapturePanel({
         setText('');
         setPreview(null);
         setShowBarnenBridge(true);
+        setShowDagbokWeave(true);
         setPhase('done');
         onSaved?.();
       } catch (err) {
@@ -145,6 +152,8 @@ export function CapturePanel({
   const destinationLink = primaryItem ? inkastDestinationLink(primaryItem) : null;
   const barnenBridge =
     showBarnenBridge && primaryItem && userId ? inkastBarnenBridgeProps(primaryItem) : null;
+  const dagbokWeave =
+    showDagbokWeave && primaryItem ? inkastDagbokWeaveProps(primaryItem) : null;
 
   useEffect(() => {
     if (!focusOnCompose || phase !== 'compose') return;
@@ -258,6 +267,12 @@ export function CapturePanel({
           userId={userId}
           {...barnenBridge}
           onDone={() => setShowBarnenBridge(false)}
+        />
+      )}
+      {dagbokWeave && (
+        <InkastDagbokWeaveBridge
+          {...dagbokWeave}
+          onDone={() => setShowDagbokWeave(false)}
         />
       )}
     </BentoCard>

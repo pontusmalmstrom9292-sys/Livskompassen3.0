@@ -18,6 +18,10 @@ import {
   inkastBarnenBridgeProps,
 } from '@/modules/inkast/components/InkastBarnenValvBridge';
 import {
+  InkastDagbokWeaveBridge,
+  inkastDagbokWeaveProps,
+} from '@/modules/inkast/components/InkastDagbokWeaveBridge';
+import {
   INKAST_FILE_ACCEPT,
   INKAST_UNSUPPORTED_FORMAT_MSG,
   isInkastBinaryFile,
@@ -51,6 +55,7 @@ export function InkastDirectPanel({
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [lastResult, setLastResult] = useState<SubmitInkastLiteResult | null>(null);
   const [showBarnenBridge, setShowBarnenBridge] = useState(true);
+  const [showDagbokWeave, setShowDagbokWeave] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const userId = useStore((s) => s.user?.uid);
 
@@ -63,6 +68,7 @@ export function InkastDirectPanel({
       setSuccessMessage(null);
       setLastResult(null);
       setShowBarnenBridge(true);
+      setShowDagbokWeave(true);
       try {
         const result = await submitInkastLite({
           ...payload,
@@ -71,6 +77,7 @@ export function InkastDirectPanel({
         setLastResult(result);
         setSuccessMessage(formatInkastResultMessage(result));
         setShowBarnenBridge(true);
+        setShowDagbokWeave(true);
 
         const primary = primaryInkastItem(result);
         if (
@@ -150,6 +157,7 @@ export function InkastDirectPanel({
   const destinationLink = primary ? inkastDestinationLink(primary) : null;
   const barnenBridge =
     showBarnenBridge && primary && userId ? inkastBarnenBridgeProps(primary) : null;
+  const dagbokWeave = showDagbokWeave && primary ? inkastDagbokWeaveProps(primary) : null;
   const showQueueHint =
     lastResult != null &&
     (lastResult.queued > 0 || lastResult.items.some((i) => i.action === 'queued'));
@@ -260,6 +268,12 @@ export function InkastDirectPanel({
               userId={userId}
               {...barnenBridge}
               onDone={() => setShowBarnenBridge(false)}
+            />
+          )}
+          {dagbokWeave && (
+            <InkastDagbokWeaveBridge
+              {...dagbokWeave}
+              onDone={() => setShowDagbokWeave(false)}
             />
           )}
         </div>

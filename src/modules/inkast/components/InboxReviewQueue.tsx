@@ -19,6 +19,11 @@ import {
   resolveInkastChildAlias,
   type InkastBarnenBridgePayload,
 } from './InkastBarnenValvBridge';
+import {
+  InkastDagbokWeaveBridge,
+  inboxDagbokWeaveProps,
+  type InkastDagbokWeavePayload,
+} from './InkastDagbokWeaveBridge';
 
 type Props = {
   compact?: boolean;
@@ -53,6 +58,7 @@ export function InboxReviewQueue({
   const [busyId, setBusyId] = useState<string | null>(null);
   const [lastAction, setLastAction] = useState<string | null>(null);
   const [barnenBridge, setBarnenBridge] = useState<InkastBarnenBridgePayload | null>(null);
+  const [dagbokWeave, setDagbokWeave] = useState<InkastDagbokWeavePayload | null>(null);
 
   const load = useCallback(async () => {
     if (!isAuthenticated) return;
@@ -80,6 +86,7 @@ export function InboxReviewQueue({
     setError(null);
     setLastAction(null);
     setBarnenBridge(null);
+    setDagbokWeave(null);
     try {
       const result = await confirmInbox(
         item.id,
@@ -97,6 +104,15 @@ export function InboxReviewQueue({
           observation: item.summary || item.fileName,
           category: item.category || 'vardag',
         });
+      }
+      if (routing === 'dagbok') {
+        const weaveProps = inboxDagbokWeaveProps({
+          collection: result.collection,
+          docId: result.docId,
+          summary: item.summary || item.fileName,
+          analysisExcerpt: item.analysisExcerpt,
+        });
+        if (weaveProps) setDagbokWeave(weaveProps);
       }
       await load();
     } catch (err) {
@@ -152,6 +168,9 @@ export function InboxReviewQueue({
           {...barnenBridge}
           onDone={() => setBarnenBridge(null)}
         />
+      )}
+      {dagbokWeave && (
+        <InkastDagbokWeaveBridge {...dagbokWeave} onDone={() => setDagbokWeave(null)} />
       )}
 
       {!loading && displayItems.length === 0 && (

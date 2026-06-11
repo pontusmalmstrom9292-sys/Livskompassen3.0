@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 import { getFunctions, httpsCallable } from 'firebase/functions';
+import { initSmokeAppCheck } from './lib/smoke_app_check.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -94,8 +95,15 @@ function smokeStaticStructure() {
   assert(inboxPersist.includes("routing === 'dagbok'"), 'inboxPersist saknar dagbok-routing');
 
   const siloOptions = readCanonical('src/modules/inkast/constants/inkastSiloOptions.tsx');
+  assert(siloOptions.includes('uiSiloToRouting'), 'inkastSiloOptions saknar uiSiloToRouting');
   assert(siloOptions.includes("return 'dagbok'"), 'uiSiloToRouting(dagbok) ska mappa till dagbok routing');
+  assert(siloOptions.includes("id: 'dagbok'"), 'INKAST_SILO_ITEMS ska innehålla dagbok-silo');
   assert(siloOptions.includes('Dagbok (Journal)'), 'INKAST_SILO_LABELS ska säga Journal, inte Kunskap');
+
+  const reviewQueue = readCanonical('src/modules/inkast/components/InboxReviewQueue.tsx');
+  assert(reviewQueue.includes("handleConfirm(item, 'dagbok')"), 'InboxReviewQueue saknar → Dagbok HITL-routing');
+  assert(reviewQueue.includes('→ Dagbok'), 'InboxReviewQueue saknar → Dagbok-knapp');
+  assert(reviewQueue.includes("collection === 'journal'"), 'InboxReviewQueue ska mappa journal → dagbok');
 
   const classifier = readCanonical(CANONICAL.inboxClassifier);
   assert(classifier.includes('buildInboxClassifyBlob'), 'inboxClassifier saknar buildInboxClassifyBlob');
@@ -143,6 +151,10 @@ async function smokeCallablePipeline() {
     appId: env.VITE_FIREBASE_APP_ID,
   });
 
+  if (initSmokeAppCheck(app, env)) {
+    console.log('[smoke:inkast] App Check (debug token) initierad');
+  }
+
   const auth = getAuth(app);
   const functions = getFunctions(app, 'europe-west1');
 
@@ -166,6 +178,18 @@ async function smokeCallablePipeline() {
   const valvClass = previewValv.data?.classification;
   assert(valvClass?.routing === 'bevis', `valv_samla preview förväntat bevis, fick ${valvClass?.routing}`);
   console.log('[smoke:inkast] preview valv_samla routing:', valvClass.routing);
+
+  const previewDagbok = await preview({
+    fileName: 'hem_capture_smoke.txt',
+    text: 'Idag kände jag tacksamhet efter en lugn promenad. Ingen konflikt — bara reflektion.',
+    sourceModule: 'hem_capture',
+  });
+  const dagbokPreviewClass = previewDagbok.data?.classification;
+  assert(
+    dagbokPreviewClass?.routing === 'dagbok',
+    `hem_capture preview förväntat dagbok, fick ${dagbokPreviewClass?.routing}`,
+  );
+  console.log('[smoke:inkast] preview hem_capture routing:', dagbokPreviewClass.routing);
 
   const submit = httpsCallable(functions, 'submitInkastLite');
   const smokeText =
@@ -192,8 +216,45 @@ async function smokeCallablePipeline() {
     `tags saknar flerval: ${cls?.tags?.join(', ')}`,
   );
   assert(item?.action === 'persisted' || item?.action === 'queued', 'action saknas');
-  console.log('[smoke:inkast] submit action:', item.action, 'collection:', item.collection);
+  assert(item?.collection === 'kb_docs', `manual kunskap förväntat kb_docs, fick ${item?.collection}`);
+  console.log('[smoke:inkast] submit kunskap action:', item.action, 'collection:', item.collection);
   console.log('[smoke:inkast] classification.tags:', cls.tags.join(', '));
+
+  const dagbokSmokeText =
+    'Smoke dagbok journal path 2026-06-11: personlig reflektion om vila och återhämtning. Endast test.';
+  const submitDagbokResult = await submit({
+    text: dagbokSmokeText,
+    fileName: 'inkast_dagbok_smoke.txt',
+    sourceModule: 'smoke_inkast_dagbok',
+    manualRouting: 'dagbok',
+    manualTags: ['aterhamtning'],
+    manualCategory: 'vardag',
+    manualComment: 'Smoke dagbok — journal-silo.',
+    optInTrauma: true,
+  });
+
+  const dagbokData = submitDagbokResult.data;
+  assert(
+    Array.isArray(dagbokData?.items) && dagbokData.items.length >= 1,
+    'submitInkastLite dagbok saknar items',
+  );
+  const dagbokItem = dagbokData.items[0];
+  const dagbokCls = dagbokItem?.classification;
+  assert(dagbokCls?.routing === 'dagbok', `manual dagbok förväntat, fick ${dagbokCls?.routing}`);
+  assert(dagbokItem?.action === 'persisted', `dagbok förväntat persisted, fick ${dagbokItem?.action}`);
+  assert(
+    dagbokItem?.collection === 'journal',
+    `dagbok förväntat journal, fick ${dagbokItem?.collection}`,
+  );
+  assert(typeof dagbokItem?.docId === 'string' && dagbokItem.docId.length > 0, 'dagbok saknar docId');
+  console.log(
+    '[smoke:inkast] submit dagbok action:',
+    dagbokItem.action,
+    'collection:',
+    dagbokItem.collection,
+    'docId:',
+    dagbokItem.docId.slice(0, 8) + '…',
+  );
 }
 
 async function main() {
