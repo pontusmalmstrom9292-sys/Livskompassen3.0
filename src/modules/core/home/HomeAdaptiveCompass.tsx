@@ -8,6 +8,8 @@ import { CaptureSuperModule } from '@/modules/capture/CaptureSuperModule';
 import { ParalysPanel } from '@/features/dailyLife/wellbeing/compasses/components/ParalysPanel';
 import { KasamEvening } from '@/features/dailyLife/wellbeing/compasses/components/KasamEvening';
 import { KompassradPanel } from '@/features/dailyLife/wellbeing/compasses/components/KompassradPanel';
+import { CompassQuickWidgetRail } from '@/features/dailyLife/wellbeing/compasses/components/CompassQuickWidgetRail';
+import type { CompassFlow } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 import { useStore } from '@/core/store';
 import { saveCheckIn } from '@/core/firebase/firestore';
 import { materialEnabled, type LifeHubPreset, type LifeHubPresetId } from '@/core/lifeOs/lifeHubPresets';
@@ -21,6 +23,12 @@ import {
   type HomeCompassPhase,
 } from './homeCompassPhase';
 import { getHomeQuickNavForPreset, quickNavGridClass } from './homeQuickNav';
+
+function phaseToCompassFlow(phase: HomeCompassPhase): CompassFlow {
+  if (phase === 'morgon') return 'morning';
+  if (phase === 'dag') return 'day';
+  return 'evening';
+}
 
 const PHASE_OPTIONS: { id: HomeCompassPhase; short: string }[] = [
   { id: 'morgon', short: 'Morgon' },
@@ -271,6 +279,11 @@ export function HomeAdaptiveCompass({
                 </div>
               )}
             </div>
+
+            <CompassQuickWidgetRail
+              flow={phaseToCompassFlow(activePhase)}
+              className="compass-quick-widget-rail--in-module border-t border-border/20 px-4 pb-4 pt-3"
+            />
 
             {showInkast ? (
               <section

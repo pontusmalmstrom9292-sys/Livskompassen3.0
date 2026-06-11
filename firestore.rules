@@ -165,10 +165,10 @@ service cloud.firestore {
       allow create, update, delete: if false;
     }
 
+    // Legacy alias — prod skriver till reality_vault. Läs kvar för ev. migrerade rader; inga nya poster (MT-2).
     match /vault/{docId} {
       allow read: if isOwner();
-      allow create: if isOwnerCreate();
-      allow update, delete: if false;
+      allow create, update, delete: if false;
     }
 
     match /routines/{docId} {

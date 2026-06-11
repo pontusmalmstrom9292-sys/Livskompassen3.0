@@ -13,6 +13,7 @@
  */
 
 import { VertexAI } from '@google-cloud/vertexai';
+import { DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT } from '../sharedRules';
 
 // --- Typer ---
 
@@ -88,19 +89,8 @@ async function runSemanticLayer(
     model: 'gemini-2.5-flash',
     systemInstruction: {
       role: 'system',
-      parts: [{
-        text: `Du är en expert på narcissistiskt missbruk och psykologiska manipulationstekniker.
-Din uppgift är att analysera text för indikatorer på: DARVO, gaslighting, hot, love-bombing, stonewalling och JADE-bete.
-Svara ALLTID med ett JSON-objekt. Inga förklaringar utanför JSON.
-Format:
-{
-  "riskScore": <0-40>,
-  "technique": "<DARVO|GASLIGHTING|LOVE_BOMBING|SILENT_TREATMENT|JADE_BAIT|THREAT|UNKNOWN>",
-  "confidence": "<HIGH|MEDIUM|LOW>",
-  "greyRockSuggestion": "<ett kort, neutralt och känslokallt svar>"
-}`
-      }]
-    }
+      parts: [{ text: DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT }],
+    },
   });
 
   const result = await model.generateContent({
