@@ -7,12 +7,17 @@ import { useStore } from '@/core/store';
 import {
   LIFE_HUB_PRESETS,
   LifeHubPresetPicker,
+  MATERIAL_PACK_BANK_REFS,
   MaterialPackShortcuts,
   clearMaterialPackOverride,
   getDefaultMaterialShortcuts,
   getMaterialPackOverride,
+  isValidMaterialPackBankRef,
+  labelForMaterialPackBankRef,
   materialPackHubsForPreset,
+  routineNavigateShortcuts,
   saveMaterialPackOverride,
+  shortcutsIncludeTarget,
   useLifeHubPreset,
   type MaterialPackHub,
   type MaterialShortcut,
@@ -66,6 +71,18 @@ export function ProjektMaterialPackPage() {
   const availableHubs = materialPackHubsForPreset(presetId, user?.uid);
   const activePreset = LIFE_HUB_PRESETS.find((p) => p.id === presetId)!;
   const duplicateKeys = useMemo(() => duplicateTargetKeys(shortcuts), [shortcuts]);
+  const routineCandidates = useMemo(() => routineNavigateShortcuts(presetId), [presetId]);
+  const bankRefGroups = useMemo(() => {
+    const groups = {
+      panel: [] as (typeof MATERIAL_PACK_BANK_REFS)[number][],
+      reflection: [] as (typeof MATERIAL_PACK_BANK_REFS)[number][],
+      play: [] as (typeof MATERIAL_PACK_BANK_REFS)[number][],
+    };
+    for (const row of MATERIAL_PACK_BANK_REFS) {
+      groups[row.group].push(row);
+    }
+    return groups;
+  }, []);
 
   useEffect(() => {
     if (availableHubs.length === 0) return;
@@ -233,19 +250,62 @@ export function ProjektMaterialPackPage() {
                         </option>
                       ))}
                     </select>
-                    <input
-                      className="input-glass w-full text-xs"
-                      value={item.bankRef ?? ''}
-                      disabled={!user}
-                      onChange={(e) =>
-                        persist(
-                          shortcuts.map((s, i) =>
-                            i === index ? { ...s, bankRef: e.target.value || undefined } : s,
-                          ),
-                        )
-                      }
-                      placeholder="bankRef (valfritt, dokumentation)"
-                    />
+                    <label className="block text-xs text-text-muted">
+                      Bankreferens (valfritt)
+                      <select
+                        className="input-glass mt-1 w-full text-xs"
+                        value={item.bankRef ?? ''}
+                        disabled={!user}
+                        onChange={(e) =>
+                          persist(
+                            shortcuts.map((s, i) =>
+                              i === index
+                                ? { ...s, bankRef: e.target.value || undefined }
+                                : s,
+                            ),
+                          )
+                        }
+                      >
+                        <option value="">Ingen — endast länk</option>
+                        {item.bankRef && !isValidMaterialPackBankRef(item.bankRef) ? (
+                          <option value={item.bankRef}>
+                            Sparad referens · {item.bankRef}
+                          </option>
+                        ) : null}
+                        {bankRefGroups.panel.length > 0 ? (
+                          <optgroup label="Panel">
+                            {bankRefGroups.panel.map((opt) => (
+                              <option key={opt.value} value={opt.value}>
+                                {opt.label}
+                              </option>
+                            ))}
+                          </optgroup>
+                        ) : null}
+                        {bankRefGroups.reflection.length > 0 ? (
+                          <optgroup label="Reflektion (MåBra-bank)">
+                            {bankRefGroups.reflection.map((opt) => (
+                              <option key={opt.value} value={opt.value}>
+                                {opt.label}
+                              </option>
+                            ))}
+                          </optgroup>
+                        ) : null}
+                        {bankRefGroups.play.length > 0 ? (
+                          <optgroup label="Lek (MåBra-bank)">
+                            {bankRefGroups.play.map((opt) => (
+                              <option key={opt.value} value={opt.value}>
+                                {opt.label}
+                              </option>
+                            ))}
+                          </optgroup>
+                        ) : null}
+                      </select>
+                      {item.bankRef && labelForMaterialPackBankRef(item.bankRef) ? (
+                        <span className="mt-1 block text-[10px] text-text-dim">
+                          Kuraterad bank — dokumentation, ingen auto-RAG.
+                        </span>
+                      ) : null}
+                    </label>
                     <button
                       type="button"
                       className="text-xs text-danger"
@@ -258,6 +318,36 @@ export function ProjektMaterialPackPage() {
                 );
               })}
             </div>
+
+            {routineCandidates.length > 0 && (
+              <section className="elongated-module space-y-2 p-3">
+                <p className="text-[10px] uppercase tracking-widest text-text-dim">
+                  Från rutin
+                </p>
+                <p className="text-xs text-text-muted">
+                  Lägg till navigate-steg från Life OS-rutiner — samma mål som i Planering → Snabbstarter.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {routineCandidates.map((row) => {
+                    const key = `${row.routineId}-${row.stepIndex}`;
+                    const already = shortcutsIncludeTarget(shortcuts, row.shortcut);
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        disabled={!user || shortcuts.length >= 12 || already}
+                        className="btn-pill--ghost text-xs"
+                        title={row.routineTitle}
+                        onClick={() => persist([...shortcuts, row.shortcut])}
+                      >
+                        {row.shortcut.label}
+                        <span className="ml-1 text-text-dim">· {row.routineTitle}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+            )}
 
             <div className="flex flex-wrap gap-2">
               <button

@@ -23,6 +23,17 @@ export {
   pushUnsyncedMaterialPackOverrides,
 } from './materialPackFirestoreApi';
 export { MATERIAL_TARGET_PRESETS, findTargetPreset, targetToKey, type MaterialTargetPreset } from './materialPackTargets';
+export {
+  MATERIAL_PACK_BANK_REFS,
+  isValidMaterialPackBankRef,
+  labelForMaterialPackBankRef,
+  type MaterialPackBankRefOption,
+} from './materialPackBankRefs';
+export {
+  routineNavigateShortcuts,
+  shortcutsIncludeTarget,
+  type RoutineNavigateShortcut,
+} from './materialPackRoutineBridge';
 export { MaterialPackShortcuts } from './MaterialPackShortcuts';
 export { useMaterialShortcuts } from './useMaterialShortcuts';
 export { useMaterialPackSync } from './useMaterialPackSync';

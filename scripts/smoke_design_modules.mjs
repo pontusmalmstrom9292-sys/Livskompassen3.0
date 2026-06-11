@@ -319,6 +319,9 @@ function main() {
   mustInclude('src/modules/core/home/HomeHeroKanon.tsx', 'useLifeHubPreset', 'home-greeting-module');
   mustInclude('src/modules/features/dailyLife/wellbeing/compasses/components/DashboardPage.tsx', 'home-adaptive-compass--hub', 'home-adaptive-compass__hub-head');
   mustInclude('src/modules/features/admin/projects/components/ProjektMaterialPackPage.tsx', 'MaterialPackShortcuts', 'duplicateTargetKeys');
+  mustInclude('src/modules/core/lifeOs/materialPackBankRefs.ts', 'MATERIAL_PACK_BANK_REFS', 'isValidMaterialPackBankRef');
+  mustInclude('src/modules/core/lifeOs/materialPackRoutineBridge.ts', 'routineNavigateShortcuts', 'shortcutsIncludeTarget');
+  mustInclude('src/modules/features/admin/projects/components/ProjektMaterialPackPage.tsx', 'MATERIAL_PACK_BANK_REFS', 'routineNavigateShortcuts');
   mustInclude('src/modules/capture/ReviewQueuePipelinePanel.tsx', 'inkastDestinationLink');
   mustInclude('src/modules/inkast/api/inkastService.ts', "case 'journal'");
   mustInclude('src/modules/capture/captureDomainCopy.ts', 'inkastSourceModuleHint', 'valv_samla');
