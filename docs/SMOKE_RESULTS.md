@@ -1,11 +1,16 @@
 # Smoke-resultat (Fas 3 + Minne)
 
-## Current truth (2026-06-11 — Multitask MT-2 + MT-4 handoff PASS)
+## Current truth (2026-06-11 — MT-3 deploy + MT-2/MT-4 handoff PASS)
 
 **Sanning:** denna tabell ersätter raden «2026-05-31 — systemgenomgång auto» nedan.
 
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
+
+| **Deploy** | MT-3 hosting — flat drawer C1 + MaterialPack Våg C (`b16deaf69`) | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
+| **Autorun PASS** | `smoke:locked-ux` (MT-3 post-deploy) | **PASS** | 2026-06-11 · drawer Vardag+Valv · Barnfokus · Planering |
+| **Feature** | MaterialPack bankRef + rutiner bridge (Våg C) | **PASS** | 2026-06-11 · prod hosting |
+| **Feature** | Drawer flat rows per MENU-DRAWER-KANON (C1) | **PASS** | 2026-06-11 · prod hosting |
 
 | **Autorun PASS** | `npm run smoke:all` (MT-4 gate) | **PASS** | 2026-06-11 · dossier vault-session · economy vendor lib path |
 | **Autorun PASS** | `npm run google-ai-pro:pack` | **PASS** | 2026-06-11 · `exports/google-ai-pro/` |
