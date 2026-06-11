@@ -107,7 +107,9 @@ firebase deploy --only firestore:rules
 **Console (engångs):**
 
 1. [Firebase Console → App Check](https://console.firebase.google.com/project/gen-lang-client-0481875058/appcheck) → registrera **Web**-appen.
-2. Provider: **reCAPTCHA v3** — kopiera site key till `.env`: `VITE_APP_CHECK_RECAPTCHA_SITE_KEY=…`
+2. Provider: **reCAPTCHA v3** — kopiera **site key** (visas bara i Console under web-appen, inte via API) till `.env`: `VITE_APP_CHECK_RECAPTCHA_SITE_KEY=…`
+   - Prod-hosting måste byggas om med nyckeln innan `APP_CHECK_ENFORCE=true` fungerar för riktiga användare (klienten initierar App Check i `main.tsx` → `initAppCheck()`).
+   - Functions: `APP_CHECK_ENFORCE=true` i `functions/.env.gen-lang-client-0481875058` (gitignored) laddas vid deploy.
 3. Lokal dev: App Check → **Manage debug tokens** → lägg token i `.env`: `VITE_APP_CHECK_DEBUG_TOKEN=…`
 4. **Android:** registrera `com.livskompassen.app` med **Play Integrity** (Capacitor) — samma App Check-projekt.
 5. När web+Android skickar tokens: aktivera enforcement på **Cloud Functions** i App Check-konsolen.

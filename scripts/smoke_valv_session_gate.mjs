@@ -112,11 +112,14 @@ async function main() {
       code === 'functions/permission-denied' ||
       code === 'invalid-argument' ||
       code === 'functions/invalid-argument' ||
+      code === 'failed-precondition' ||
+      code === 'functions/failed-precondition' ||
       msg.includes('WebAuthn krävs') ||
-      msg.includes('origin och rpID')
+      msg.includes('origin och rpID') ||
+      msg.includes('App Check-verifiering krävs')
     ) {
       liveWebAuthnGate = true;
-      console.log('[smoke] issueVaultSession utan WebAuthn: NEKAD (OK)');
+      console.log('[smoke] issueVaultSession utan WebAuthn/App Check: NEKAD (OK)');
     } else {
       throw err;
     }
