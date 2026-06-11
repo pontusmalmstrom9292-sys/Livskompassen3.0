@@ -2995,6 +2995,29 @@
     @apply mb-1 flex items-center gap-1.5;
   }
 
+  .home-adaptive-compass__inkast--open {
+    border-top-color: color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+
+  .home-adaptive-compass__inkast-toggle {
+    @apply inline-flex w-full items-center justify-center gap-2 rounded-xl border px-3 py-2.5 text-xs font-medium tracking-wide text-text transition-colors;
+    border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+    background: color-mix(in srgb, var(--surface) 55%, transparent);
+  }
+
+  .home-adaptive-compass__inkast-toggle:hover {
+    border-color: color-mix(in srgb, var(--accent) 44%, transparent);
+    background: color-mix(in srgb, var(--accent) 10%, var(--surface-3));
+  }
+
+  .home-adaptive-compass__inkast-chevron {
+    @apply h-3.5 w-3.5 text-accent transition-transform duration-200;
+  }
+
+  .home-adaptive-compass__inkast-chevron--open {
+    @apply rotate-180;
+  }
+
   .home-page--scenic .home-hero-kanon__scenic-stack .home-adaptive-compass {
     @apply gap-3;
     margin-top: -1px;

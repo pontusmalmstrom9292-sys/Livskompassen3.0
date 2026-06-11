@@ -1,7 +1,7 @@
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Loader2, Moon, Sparkles, Sun, Sunrise } from 'lucide-react';
+import { ChevronDown, Loader2, Moon, Sparkles, Sun, Sunrise } from 'lucide-react';
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 import { CaptureSuperModule } from '@/modules/capture/CaptureSuperModule';
@@ -66,6 +66,7 @@ export function HomeAdaptiveCompass({
   const [morningSaved, setMorningSaved] = useState(false);
   const [morningError, setMorningError] = useState<string | null>(null);
   const [paralysKey, setParalysKey] = useState(0);
+  const [inkastOpen, setInkastOpen] = useState(false);
   const inkastSectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -83,6 +84,7 @@ export function HomeAdaptiveCompass({
   useEffect(() => {
     if (!showInkast) return;
     if (window.location.hash.replace(/^#/, '') !== 'inkast-lite') return;
+    setInkastOpen(true);
     inkastSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, [showInkast]);
 
@@ -289,7 +291,10 @@ export function HomeAdaptiveCompass({
               <section
                 id="inkast-lite"
                 ref={inkastSectionRef}
-                className="home-adaptive-compass__inkast flex flex-col gap-3 scroll-mt-28"
+                className={clsx(
+                  'home-adaptive-compass__inkast flex flex-col gap-3 scroll-mt-28',
+                  inkastOpen && 'home-adaptive-compass__inkast--open',
+                )}
               >
                 <div className="home-adaptive-compass__inkast-head">
                   <Sparkles className="h-3.5 w-3.5 text-accent" aria-hidden />
@@ -297,7 +302,23 @@ export function HomeAdaptiveCompass({
                     Smart Inkast
                   </span>
                 </div>
-                <CaptureSuperModule variant="kompass" onSaved={onSaved} />
+                <button
+                  type="button"
+                  className="home-adaptive-compass__inkast-toggle"
+                  aria-expanded={inkastOpen}
+                  onClick={() => setInkastOpen((open) => !open)}
+                >
+                  <span>{inkastOpen ? 'Stäng Inkast' : 'Skriv av dig — öppna Inkast'}</span>
+                  <ChevronDown
+                    className={clsx(
+                      'home-adaptive-compass__inkast-chevron',
+                      inkastOpen && 'home-adaptive-compass__inkast-chevron--open',
+                    )}
+                    strokeWidth={1.75}
+                    aria-hidden
+                  />
+                </button>
+                {inkastOpen ? <CaptureSuperModule variant="kompass" onSaved={onSaved} /> : null}
               </section>
             ) : null}
           </div>
