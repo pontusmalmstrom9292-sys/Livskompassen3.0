@@ -66,6 +66,12 @@ function main() {
   mustInclude('functions/src/lib/vaultSessionGate.ts', 'assertVaultSession', 'revokeVaultSession');
   mustInclude('functions/src/lib/vaultWebAuthn.ts', 'verifyVaultWebAuthnResponse');
   mustInclude('functions/src/index.ts', 'issueVaultSession', 'beginVaultWebAuthnChallenge', 'invalidateSession');
+  mustInclude(
+    'src/modules/core/auth/authService.ts',
+    'endVaultSession',
+    'clearSpeglarSession',
+    'signOutUser',
+  );
 
   console.log('[smoke:valv-security] PASS — Valv WORM-session hardening.');
 }

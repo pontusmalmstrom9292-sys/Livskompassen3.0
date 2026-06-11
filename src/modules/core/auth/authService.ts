@@ -12,7 +12,8 @@ import {
 } from 'firebase/auth';
 import { auth } from './AuthProvider';
 import { clearAppUnlockSession } from './appUnlockPrefs';
-import { invalidateServerSession } from './sessionService';
+import { endVaultSession } from '../security/vaultSessionLifecycle';
+import { clearSpeglarSession } from '@/features/lifeJournal/diary/mirror/utils/speglarSessionStorage';
 import { clearMaterialPackLocalCache } from '../lifeOs/materialPackApi';
 import { isCapacitorNative } from './capacitorPlatform';
 import { capacitorGoogleSignIn, capacitorNativeSignOut } from './nativeGoogleAuth';
@@ -141,7 +142,8 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
 
 export async function signOutUser(): Promise<void> {
   const uid = auth.currentUser?.uid;
-  await invalidateServerSession();
+  await endVaultSession();
+  clearSpeglarSession();
   clearAppUnlockSession();
   if (uid) clearMaterialPackLocalCache(uid);
   if (isCapacitorNative()) {
