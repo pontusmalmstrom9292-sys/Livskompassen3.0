@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PenLine } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { useStore } from '@/core/store';
 import {
   formatInkastResultMessage,
   inkastDestinationLink,
@@ -12,6 +13,10 @@ import {
   VALV_SAMLA_GRANSKA_LINK,
   type SubmitInkastLiteResult,
 } from '../inkast/api/inkastService';
+import {
+  InkastBarnenValvBridge,
+  inkastBarnenBridgeProps,
+} from '../inkast/components/InkastBarnenValvBridge';
 import type { InboxClassification } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import { InkastConfirmPanel } from '../inkast/components/InkastConfirmPanel';
 import {
@@ -52,6 +57,8 @@ export function CapturePanel({
   const [manualTags, setManualTags] = useState<string[]>([]);
   const [manualComment, setManualComment] = useState('');
   const [manualChildAlias, setManualChildAlias] = useState('');
+  const [showBarnenBridge, setShowBarnenBridge] = useState(true);
+  const userId = useStore((s) => s.user?.uid);
 
   const resetFlow = useCallback(() => {
     setPhase('compose');
@@ -62,6 +69,7 @@ export function CapturePanel({
     setManualTags([]);
     setManualComment('');
     setManualChildAlias('');
+    setShowBarnenBridge(true);
   }, []);
 
   const handlePreview = useCallback(async () => {
@@ -113,6 +121,7 @@ export function CapturePanel({
         setLastBatch(batch);
         setText('');
         setPreview(null);
+        setShowBarnenBridge(true);
         setPhase('done');
         onSaved?.();
       } catch (err) {
@@ -132,9 +141,10 @@ export function CapturePanel({
 
   const previewLabel = text.trim().slice(0, 80) || 'Inkast';
   const domainHint = inkastSourceModuleHint(sourceModule);
-  const destinationLink = lastBatch
-    ? inkastDestinationLink(primaryInkastItem(lastBatch))
-    : null;
+  const primaryItem = lastBatch ? primaryInkastItem(lastBatch) : null;
+  const destinationLink = primaryItem ? inkastDestinationLink(primaryItem) : null;
+  const barnenBridge =
+    showBarnenBridge && primaryItem && userId ? inkastBarnenBridgeProps(primaryItem) : null;
 
   useEffect(() => {
     if (!focusOnCompose || phase !== 'compose') return;
@@ -242,6 +252,13 @@ export function CapturePanel({
         >
           {destinationLink.label}
         </Link>
+      )}
+      {barnenBridge && userId && (
+        <InkastBarnenValvBridge
+          userId={userId}
+          {...barnenBridge}
+          onDone={() => setShowBarnenBridge(false)}
+        />
       )}
     </BentoCard>
   );

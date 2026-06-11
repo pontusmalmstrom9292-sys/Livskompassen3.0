@@ -100,6 +100,26 @@ function smokeStaticStructure() {
     'CapturePanel ska skicka sourceModule till preview',
   );
 
+  const barnenBridge = readCanonical('src/modules/inkast/components/InkastBarnenValvBridge.tsx');
+  assert(barnenBridge.includes('SaveAsEvidencePrompt'), 'InkastBarnenValvBridge ska återanvända SaveAsEvidencePrompt');
+  assert(barnenBridge.includes('inkastBarnenBridgeProps'), 'InkastBarnenValvBridge ska exponera inkastBarnenBridgeProps');
+  assert(
+    readCanonical('src/modules/capture/CapturePanel.tsx').includes('InkastBarnenValvBridge'),
+    'CapturePanel ska montera Barnen→Valv-bro',
+  );
+  assert(
+    readCanonical('src/modules/capture/InkastDirectPanel.tsx').includes('InkastBarnenValvBridge'),
+    'InkastDirectPanel ska montera Barnen→Valv-bro',
+  );
+  assert(
+    readCanonical('src/modules/inkast/components/InboxReviewQueue.tsx').includes('InkastBarnenValvBridge'),
+    'InboxReviewQueue ska montera Barnen→Valv-bro efter HITL',
+  );
+  assert(
+    readCanonical('src/modules/features/family/children/utils/childLogEvidence.ts').includes('sourceRef'),
+    'childLogEvidence ska skriva sourceRef för Valv-bro',
+  );
+
   const rules = readFileSync(resolve(root, 'firestore.rules'), 'utf8');
   assert(rules.includes('match /user_tags/{docId}'), 'firestore.rules saknar user_tags');
 

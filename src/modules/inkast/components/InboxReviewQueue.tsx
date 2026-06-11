@@ -14,6 +14,11 @@ import {
   inboxQueueStatusLabel,
   sortInboxForValvSamla,
 } from '@/modules/capture/reviewQueuePipeline';
+import {
+  InkastBarnenValvBridge,
+  resolveInkastChildAlias,
+  type InkastBarnenBridgePayload,
+} from './InkastBarnenValvBridge';
 
 type Props = {
   compact?: boolean;
@@ -40,11 +45,13 @@ export function InboxReviewQueue({
   onBack,
 }: Props) {
   const isAuthenticated = useStore((s) => s.isAuthenticated);
+  const userId = useStore((s) => s.user?.uid);
   const [items, setItems] = useState<InboxQueueItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [lastAction, setLastAction] = useState<string | null>(null);
+  const [barnenBridge, setBarnenBridge] = useState<InkastBarnenBridgePayload | null>(null);
 
   const load = useCallback(async () => {
     if (!isAuthenticated) return;
@@ -71,6 +78,7 @@ export function InboxReviewQueue({
     setBusyId(item.id);
     setError(null);
     setLastAction(null);
+    setBarnenBridge(null);
     try {
       const result = await confirmInbox(
         item.id,
@@ -80,6 +88,14 @@ export function InboxReviewQueue({
       setLastAction(`Skickat till ${collectionLabel(result.collection)} · ${result.docId.slice(0, 8)}…`);
       if (routing === 'bevis' && result.collection === 'reality_vault' && result.docId) {
         onBevisConfirmed?.(result.docId);
+      }
+      if (routing === 'barnen' && result.collection === 'children_logs' && result.docId) {
+        setBarnenBridge({
+          childrenLogId: result.docId,
+          childAlias: resolveInkastChildAlias(item.childAlias ?? undefined),
+          observation: item.summary || item.fileName,
+          category: item.category || 'vardag',
+        });
       }
       await load();
     } catch (err) {
@@ -129,6 +145,13 @@ export function InboxReviewQueue({
       {loading && <p className="text-sm text-text-muted">Laddar…</p>}
       {error && <p className="text-sm text-amber-400/90">{error}</p>}
       {lastAction && <p className="mb-2 text-xs text-success">{lastAction}</p>}
+      {barnenBridge && userId && (
+        <InkastBarnenValvBridge
+          userId={userId}
+          {...barnenBridge}
+          onDone={() => setBarnenBridge(null)}
+        />
+      )}
 
       {!loading && displayItems.length === 0 && (
         <p className="text-sm text-text-dim">Ingen väntande post i granskningskön.</p>

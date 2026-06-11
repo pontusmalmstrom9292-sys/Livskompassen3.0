@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import { FileUp, Inbox, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { useStore } from '@/core/store';
 import { fileToBase64 } from '@/features/lifeJournal/evidence/kompis/api/ingestKnowledgeDocumentService';
 import {
   formatInkastResultMessage,
@@ -12,6 +13,10 @@ import {
   VALV_SAMLA_GRANSKA_LINK,
   type SubmitInkastLiteResult,
 } from '@/modules/inkast/api/inkastService';
+import {
+  InkastBarnenValvBridge,
+  inkastBarnenBridgeProps,
+} from '@/modules/inkast/components/InkastBarnenValvBridge';
 import {
   INKAST_FILE_ACCEPT,
   INKAST_UNSUPPORTED_FORMAT_MSG,
@@ -45,7 +50,9 @@ export function InkastDirectPanel({
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [lastResult, setLastResult] = useState<SubmitInkastLiteResult | null>(null);
+  const [showBarnenBridge, setShowBarnenBridge] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
+  const userId = useStore((s) => s.user?.uid);
 
   const isValv = tone === 'valv';
 
@@ -55,6 +62,7 @@ export function InkastDirectPanel({
       setError(null);
       setSuccessMessage(null);
       setLastResult(null);
+      setShowBarnenBridge(true);
       try {
         const result = await submitInkastLite({
           ...payload,
@@ -62,6 +70,7 @@ export function InkastDirectPanel({
         });
         setLastResult(result);
         setSuccessMessage(formatInkastResultMessage(result));
+        setShowBarnenBridge(true);
 
         const primary = primaryInkastItem(result);
         if (
@@ -139,6 +148,8 @@ export function InkastDirectPanel({
 
   const primary = lastResult ? primaryInkastItem(lastResult) : null;
   const destinationLink = primary ? inkastDestinationLink(primary) : null;
+  const barnenBridge =
+    showBarnenBridge && primary && userId ? inkastBarnenBridgeProps(primary) : null;
   const showQueueHint =
     lastResult != null &&
     (lastResult.queued > 0 || lastResult.items.some((i) => i.action === 'queued'));
@@ -243,6 +254,13 @@ export function InkastDirectPanel({
             >
               {destinationLink.label}
             </Link>
+          )}
+          {barnenBridge && userId && (
+            <InkastBarnenValvBridge
+              userId={userId}
+              {...barnenBridge}
+              onDone={() => setShowBarnenBridge(false)}
+            />
           )}
         </div>
       )}
