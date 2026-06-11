@@ -7,7 +7,7 @@
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
 
-| **Autorun PASS** | Fas 5 Agent B — drawer gold chrome + barn-lek kurator (`2b79465a9`) | **PASS** | 2026-06-11 · build + locked-ux + superhub + design-modules + innehall + hamn |
+| **Autorun PASS** | Fas 5 Agent B — drawer gold chrome + barn-lek kurator (`ef4d97383`) | **PASS** | 2026-06-11 · build + locked-ux + superhub + design-modules + innehall + hamn |
 | **Deploy** | Hosting Fas 5 (drawer + familjen child-chip gold) | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
 
 | **Autorun PASS** | WH4 widget Hamn + logout Zero Footprint (`a66711dd`) | **PASS** | 2026-06-11 · build + hamn + locked-ux + valv-security + orkester |
