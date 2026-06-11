@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Shield } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { openValvViaFyren } from '../auth/valvFyrenGate';
@@ -17,20 +17,39 @@ const UNLOCK_HINT =
 export function VaultLockedGate({ variant = 'screen', extra }: Props) {
   const navigate = useNavigate();
   const setSystemError = useStore((s) => s.setError);
+  const [unlockError, setUnlockError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
 
   const tryUnlock = () => {
+    setUnlockError(null);
+    setBusy(true);
     void openValvViaFyren(navigate, {
-      onDenied: (message) => setSystemError(message),
-    });
+      onDenied: (message) => {
+        setUnlockError(message);
+        setSystemError(message);
+      },
+    }).finally(() => setBusy(false));
   };
+
+  const errorBlock = unlockError ? (
+    <p className="mt-3 text-xs text-danger" role="alert">
+      {unlockError}
+    </p>
+  ) : null;
 
   if (variant === 'card') {
     return (
       <div className="space-y-4">
         <p className="text-sm text-text-dim">{UNLOCK_HINT}</p>
-        <button type="button" className="btn-pill--accent w-full" onClick={tryUnlock}>
-          Lås upp Valvet (biometri)
+        <button
+          type="button"
+          className="btn-pill--accent w-full"
+          disabled={busy}
+          onClick={tryUnlock}
+        >
+          {busy ? 'Verifierar biometri…' : 'Lås upp Valvet (biometri)'}
         </button>
+        {errorBlock}
       </div>
     );
   }
@@ -42,9 +61,15 @@ export function VaultLockedGate({ variant = 'screen', extra }: Props) {
         Valvet är låst
       </h2>
       <p className="mt-2 max-w-sm text-sm text-text-muted">{UNLOCK_HINT}</p>
-      <button type="button" className="btn-pill--accent mt-6" onClick={tryUnlock}>
-        Lås upp Valvet (biometri)
+      <button
+        type="button"
+        className="btn-pill--accent mt-6"
+        disabled={busy}
+        onClick={tryUnlock}
+      >
+        {busy ? 'Verifierar biometri…' : 'Lås upp Valvet (biometri)'}
       </button>
+      {errorBlock}
       {extra}
     </div>
   );

@@ -11,6 +11,7 @@ import { KompisHeaderVaultButton } from '../components/KompisHeaderVaultButton';
 import { AccountAuthMenu } from '../auth/AccountAuthMenu';
 import { NavigationDrawer } from './NavigationDrawer';
 import { FirestoreNetworkChip } from '../components/FirestoreNetworkChip';
+import { SystemErrorBanner } from '../components/SystemErrorBanner';
 import { isBarnportenChildRoute } from '@/features/onboarding/barnporten/constants/barnportenRoutes';
 import { useStore } from '../store';
 import { useTheme } from '../theme';
@@ -70,6 +71,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       />
 
       <FirestoreNetworkChip />
+      <SystemErrorBanner />
 
       <main
         className={clsx(

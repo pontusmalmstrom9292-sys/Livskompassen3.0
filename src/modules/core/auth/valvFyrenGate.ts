@@ -1,9 +1,9 @@
 import type { NavigateFunction } from 'react-router-dom';
-import { FYREN_BEVIS_HINT } from '../navigation/appNavigation';
 import { NAV_PATHS } from '../navigation/navTruth';
 import { setVaultGate, clearVaultGate } from './sessionService';
 import { performVaultWebAuthnForSession } from './vaultWebAuthnClient';
 import { issueVaultServerSession } from './vaultServerSession';
+import { isEmailAuthRequired } from './requireEmailAuth';
 import { useStore } from '../store';
 
 type OpenValvViaFyrenOptions = {
@@ -17,20 +17,33 @@ export async function openValvViaFyren(
   navigate: NavigateFunction,
   options?: OpenValvViaFyrenOptions,
 ): Promise<boolean> {
-  const webAuthnResponse = await performVaultWebAuthnForSession();
-  if (!webAuthnResponse) {
-    options?.onDenied?.(`Fyren avbruten. ${FYREN_BEVIS_HINT}`);
+  const { isAuthenticated } = useStore.getState();
+  if (!isAuthenticated) {
+    options?.onDenied?.(
+      isEmailAuthRequired()
+        ? 'Logga in med Google eller e-post innan du öppnar Valvet.'
+        : 'Logga in via Konto innan du öppnar Valvet.',
+    );
     return false;
   }
+
+  const webAuthn = await performVaultWebAuthnForSession();
+  if (webAuthn.ok === false) {
+    options?.onDenied?.(webAuthn.message);
+    return false;
+  }
+
   setVaultGate();
   useStore.getState().setVaultUnlocked(true);
-  const issued = await issueVaultServerSession(webAuthnResponse);
-  if (!issued) {
+
+  const issued = await issueVaultServerSession(webAuthn.response);
+  if (issued.ok === false) {
     clearVaultGate();
     useStore.getState().setVaultUnlocked(false);
-    options?.onDenied?.('Valv-session kunde inte skapas. Kontrollera nätverk och försök igen.');
+    options?.onDenied?.(issued.message);
     return false;
   }
+
   navigate({
     pathname: options?.pathname ?? NAV_PATHS.VALVET,
     search: options?.search ?? '',

@@ -71,7 +71,14 @@ function main() {
     'src/modules/features/family/children/constants.ts',
     'BARNFOKUS_QUESTIONS',
     'barnfokusQuestionForToday',
+    'bankId',
     'valv_safe',
+  );
+  mustInclude(
+    'src/modules/features/family/children/content/barnfokusCatalog.ts',
+    'BARNFOKUS_CATALOG_CHILD',
+    'BP-PLAY-06',
+    'BP-PLAY-10',
   );
 
   // Valv Mönster + Orkester (tab labels: tabRegistry · panels: VaultPage)

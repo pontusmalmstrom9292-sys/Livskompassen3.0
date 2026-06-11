@@ -1,7 +1,7 @@
 # Senaste sammanfattning — systemstatus
 
 **Datum:** 2026-06-11 · **Gren:** `main`  
-**Senaste:** **PMIR P2 done** — `mabraCoach` runtime `bankId`-lookup (U6) deployad · `smoke:innehall` PASS · `smoke:mabra` blockerad av App Check (`.env` saknar debug token — P3)
+**Senaste:** **PMIR P1 done** — Barn-lek wire BP-PLAY-06..10 live · **P2** `mabraCoach` bankId deployad · `smoke:locked-ux` PASS · `smoke:mabra` blockerad av App Check (P3)
 
 ---
 

@@ -86,6 +86,7 @@
     "design:pack": "node scripts/pack_design_repomix.mjs"
   },
   "dependencies": {
+    "@capacitor-firebase/app-check": "^8.3.0",
     "@capacitor-firebase/authentication": "^8.2.0",
     "@capacitor/android": "^8.3.4",
     "@capacitor/app": "^8.1.0",

@@ -82,8 +82,18 @@ function main() {
     'biometri',
   );
   mustInclude('functions/src/lib/vaultSessionGate.ts', 'assertVaultSession', 'revokeVaultSession');
-  mustInclude('functions/src/lib/vaultWebAuthn.ts', 'verifyVaultWebAuthnResponse');
+  mustInclude('functions/src/lib/vaultWebAuthn.ts', 'loadStoredCredentials', 'forceRegistration', 'credentials');
+  mustInclude('src/modules/core/components/SystemErrorBanner.tsx', 'system.error', 'role="alert"');
   mustInclude('functions/src/lib/callableGuards.ts', 'guardSensitiveCallableV2', 'isAppCheckEnforcementEnabled');
+  mustInclude(
+    'src/modules/core/firebase/appCheck.ts',
+    'FirebaseAppCheck',
+    'CustomProvider',
+    'Capacitor.isNativePlatform',
+  );
+  mustInclude('src/modules/core/auth/callableErrorMessage.ts', 'formatCallableError', 'App Check');
+  mustInclude('src/modules/core/hooks/useLongPress.ts', 'onTouchCancel');
+  mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'isAuthenticated', 'isEmailAuthRequired');
   mustInclude('functions/src/lib/rateLimit.ts', 'assertRateLimit', '_rate_limits');
   mustInclude('firestore.rules', 'isVerifiedUser', 'isValidRealityVaultCreate');
   mustInclude('functions/src/index.ts', 'issueVaultSession', 'beginVaultWebAuthnChallenge', 'invalidateSession');

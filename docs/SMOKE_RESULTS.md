@@ -1,12 +1,14 @@
 # Smoke-resultat (Fas 3 + Minne)
 
-## Current truth (2026-06-11 — PMIR P2 mabraCoach bankId)
+## Current truth (2026-06-11 — PMIR P1 Barn-lek wire + P2 mabraCoach bankId)
 
 **Sanning:** denna tabell ersätter raden «2026-05-31 — systemgenomgång auto» nedan.
 
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
 
+| **Deploy** | P1 Barn-lek wire — hosting + `firestore:rules` (`bankId` på `children_logs`) | **PASS** | 2026-06-11 · `barnfokusCatalog.ts` BP-PLAY-06..10 |
+| **Autorun PASS** | `smoke:locked-ux` (P1 Barnfokus wire) | **PASS** | 2026-06-11 |
 | **Deploy** | `functions:mabraCoach` — runtime `bankId`-lookup (U6 Fas 4.1) | **PASS** | 2026-06-11 · `mabraContentBank.ts` · coach + vit_chat parafras från bank |
 | **Autorun PASS** | `smoke:innehall` (P2 bank lock) | **PASS** | 2026-06-11 |
 | **Autorun BLOCKED** | `smoke:mabra` | **BLOCKED** | 2026-06-11 · `failed-precondition` App Check — saknar `VITE_APP_CHECK_*` i `.env` (se P3) |

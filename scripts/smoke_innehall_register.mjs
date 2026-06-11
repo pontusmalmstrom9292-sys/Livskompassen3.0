@@ -43,6 +43,11 @@ function main() {
   mustInclude('docs/specs/modules/Mabra-CONTENT-BANK.md', 'INNEHALL-REGISTER', 'Kunskap-RAG');
   mustInclude('docs/specs/modules/Kunskap-CONTENT-SEED.md', 'content_class: FACT', 'ROUTE_MABRA');
   mustInclude('docs/specs/modules/Barnen-PLAY-BANK.md', 'barnfokus', 'reality_vault');
+  mustInclude(
+    'src/modules/features/family/children/content/barnfokusCatalog.ts',
+    'BP-PLAY-06',
+    'BARNFOKUS_CATALOG_CHILD',
+  );
 
   mustInclude('docs/specs/modules/Mabra-CONTENT-BANK.md', 'DM-CARD-01', 'daglig_mix');
   mustInclude('src/modules/features/dailyLife/wellbeing/mabra/content/dagligMixCatalog.ts', 'DM-CARD-01', 'DAGLIG_MIX_CARDS');

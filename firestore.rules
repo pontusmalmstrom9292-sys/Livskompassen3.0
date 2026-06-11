@@ -97,7 +97,7 @@ service cloud.firestore {
       return wormKeysOnly([
           'userId', 'ownerId', 'childAlias', 'observation', 'truth', 'action', 'category',
           'childrenImpact', 'authorRole', 'channel', 'visibility', 'contentType', 'signals',
-          'createdAt',
+          'bankId', 'createdAt',
         ])
         && request.resource.data.childAlias is string
         && request.resource.data.childAlias.size() > 0
@@ -109,7 +109,11 @@ service cloud.firestore {
         && (!('observation' in request.resource.data)
           || request.resource.data.observation is string)
         && (!('truth' in request.resource.data)
-          || request.resource.data.truth is string);
+          || request.resource.data.truth is string)
+        && (!('bankId' in request.resource.data)
+          || (request.resource.data.bankId is string
+            && request.resource.data.bankId.size() > 0
+            && request.resource.data.bankId.size() <= 32));
     }
 
     match /checkins/{docId} {
