@@ -69,6 +69,23 @@
 | **Deploy** | Hosting navigations-snabbvinster | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
 | **Autorun PASS** | MåBra våg 17 JOY → Vit `who_am_i` (build + innehall + mabra + locked-ux) | **PASS** | 2026-06-11 · `MB-REF-JOY-01..06`, `MB-PLAY-JOY-01/02` |
 | **Deploy** | Hosting MåBra våg 17 JOY cards | **PASS** | 2026-06-11 · `bc3b0460e` |
+| **Autorun PASS** | WH4 away re-verify (`b7609a2a`) | **PASS** | 2026-06-11 · smoke:hamn + locked-ux + build (deploy redan live) |
+
+
+
+## WH4 Hamn + logout Zero Footprint (2026-06-11)
+
+**Trigger:** USER away · agent 3bc87ae7 / subagent re-verify  
+**Commits:** `a66711dd8` feat(hamn+auth) · `b7609a2a9` docs SMOKE_RESULTS  
+**Prod:** https://gen-lang-client-0481875058.web.app (hosting deploy redan körd)
+
+| Kontroll | Resultat |
+|----------|----------|
+| `WidgetHamnPage` WH4 mini-BIFF | **PASS** (på main) |
+| `signOutUser` → `endVaultSession` + `clearSpeglarSession` | **PASS** |
+| `npm run smoke:hamn` | **PASS** (away re-verify) |
+| `npm run smoke:locked-ux` | **PASS** (away re-verify) |
+| `npm run build` | **PASS** (away re-verify) |
 
 **Fas 5A #3/#4:** **PASS** (USER 2026-06-06/07) — se [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md).
 
