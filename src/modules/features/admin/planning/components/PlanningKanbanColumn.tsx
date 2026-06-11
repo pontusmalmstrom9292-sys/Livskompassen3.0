@@ -14,7 +14,9 @@ export function PlanningKanbanColumn({ label, status, tasks, onAdd, onSelectTask
   return (
     <section className="flex min-w-[10.5rem] flex-1 flex-col gap-2">
       <div className="flex items-center justify-between gap-2 px-0.5">
-        <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-accent">{label}</p>
+        <p className="planning-kanban__column-header text-[10px] font-medium uppercase tracking-[0.2em] text-accent">
+          {label}
+        </p>
         <span className="rounded-full border border-accent/25 px-2 py-0.5 text-[10px] text-text-dim">
           {tasks.length}
         </span>

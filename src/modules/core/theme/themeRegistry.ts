@@ -4,6 +4,7 @@ import { THEME_PACK_DESIGN } from './themePackDesign';
 import { THEME_PACK_E_PROD } from './themePackE';
 import { THEME_PACK_MOCKUP } from './themePackMockup';
 import { THEME_PACK_K } from './themePackK';
+import { THEME_PACK_REDESIGN_A } from './themePackRedesignA';
 
 const shared = THEME_SHARED_VARS;
 
@@ -367,6 +368,8 @@ export const THEME_REGISTRY: ThemePack[] = [
   },
   // Theme Pack K — åtta nya varianter (docs/design/themes/K-PACK-EIGHT-VARIANTS.md)
   ...THEME_PACK_K,
+  // Style A — Nordic Precision (Theme Lab until GODKÄND in VARIANTS.md)
+  ...THEME_PACK_REDESIGN_A,
 ];
 
 export const DEFAULT_THEME_ID = 'D4-flat-deluxe';

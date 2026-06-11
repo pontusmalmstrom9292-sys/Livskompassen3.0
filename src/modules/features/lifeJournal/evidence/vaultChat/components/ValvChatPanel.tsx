@@ -110,7 +110,7 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
   };
 
   return (
-    <div className="space-y-4">
+    <div className="valv-chat-panel space-y-4">
       <div className="glass-card flex items-center gap-3 rounded-[2rem] border border-indigo-400/15 p-4">
         <div className="rounded-2xl border border-indigo-400/25 bg-indigo-500/15 p-3">
           <Search className="h-5 w-5 text-indigo-300" />

@@ -1,18 +1,21 @@
 import { clsx } from 'clsx';
 import { useLocation } from 'react-router-dom';
+import { REDESIGN_A_THEME_ID } from '../theme/themePackRedesignA';
 import { useTheme } from '../theme';
 
 /** Scenic bakgrund — alltid på mockup-teman; annars huvudflikar (ej widget). */
 export function AmbientBackground() {
   const { pathname } = useLocation();
   const { themeId } = useTheme();
+  const isRedesignA = themeId === REDESIGN_A_THEME_ID;
   const mockupScenic =
-    /^D[1-5]-/.test(themeId) || (themeId.startsWith('M') && themeId.includes('mockup'));
-  const showScenic = mockupScenic || !pathname.startsWith('/widget');
+    !isRedesignA &&
+    (/^D[1-5]-/.test(themeId) || (themeId.startsWith('M') && themeId.includes('mockup')));
+  const showScenic = !isRedesignA && (mockupScenic || !pathname.startsWith('/widget'));
 
   return (
     <div
-      className={clsx('ambient-bg', showScenic && 'ambient-bg--scenic')}
+      className={clsx('ambient-bg', showScenic && 'ambient-bg--scenic', isRedesignA && 'ambient-bg--flat')}
       aria-hidden
     >
       <div

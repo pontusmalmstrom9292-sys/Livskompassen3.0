@@ -23,6 +23,7 @@ import { THEME_PACK_DESIGN } from '../theme/themePackDesign';
 import { THEME_PACK_MOCKUP } from '../theme/themePackMockup';
 import { DEFAULT_THEME_ID, THEME_BY_ID, THEME_REGISTRY } from '../theme/themeRegistry';
 import { K_PACK_THEME_IDS, THEME_PACK_K } from '../theme/themePackK';
+import { THEME_PACK_REDESIGN_A } from '../theme/themePackRedesignA';
 import { J_PACK_THEME_IDS } from '../theme/themeRegistry';
 import type { ThemePack } from '../theme/types';
 
@@ -161,6 +162,24 @@ export function ThemeLabPage() {
           ))}
         </ul>
       </section>
+
+      <ThemeLabPackSection
+        title="Redesign (2026) — Style A Nordic Precision"
+        packs={THEME_PACK_REDESIGN_A}
+        previewId={previewId}
+        themeId={themeId}
+        onPreview={applyPreview}
+        onApply={(id) => {
+          setTheme(id);
+          setAutoMode(false);
+          setPreviewId(id);
+        }}
+        draft
+        extraLink={{
+          label: 'Mockups gallery ↗',
+          href: '/docs/design/redesign-proposals/gallery/style-a/screens.html',
+        }}
+      />
 
       <ThemeLabPackSection
         title="Designpaket — 5 helapp (D1–D5)"
@@ -421,6 +440,7 @@ function ThemeLabPackSection({
   onApply,
   draft,
   hubAuto,
+  extraLink,
 }: {
   title: string;
   packs: ThemePack[];
@@ -431,10 +451,23 @@ function ThemeLabPackSection({
   draft?: boolean;
   /** J-pack: apply enables auto per hub (not global manual override). */
   hubAuto?: boolean;
+  extraLink?: { label: string; href: string };
 }) {
   return (
     <section className="glass-card p-4">
-      <h2 className="text-xs uppercase tracking-widest text-text-dim">{title}</h2>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className="text-xs uppercase tracking-widest text-text-dim">{title}</h2>
+        {extraLink ? (
+          <a
+            href={extraLink.href}
+            target="_blank"
+            rel="noreferrer"
+            className="text-xs text-accent hover:underline"
+          >
+            {extraLink.label}
+          </a>
+        ) : null}
+      </div>
       <div className="mt-3 grid gap-3 sm:grid-cols-2">
         {packs.map((pack) => (
           <ThemeLabCard

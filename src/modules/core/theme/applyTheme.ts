@@ -1,4 +1,5 @@
 import { THEME_LAB_DRAFTS } from './themeLabVariants';
+import { REDESIGN_A_THEME_ID } from './themePackRedesignA';
 import { getTheme, DEFAULT_THEME_ID, resolveThemeId } from './themeRegistry';
 import type { ThemePack } from './types';
 
@@ -38,6 +39,12 @@ export function applyTheme(themeId: string): void {
     root.dataset.designPack = pack.designPackId;
   } else {
     delete root.dataset.designPack;
+  }
+
+  if (pack.id === REDESIGN_A_THEME_ID) {
+    root.dataset.panelStyle = 'obsidian';
+  } else {
+    delete root.dataset.panelStyle;
   }
 
   Object.entries(pack.cssVars).forEach(([key, value]) => {

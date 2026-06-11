@@ -283,4 +283,12 @@
     color: var(--accent);
     opacity: 1;
   }
+
+  /* Style A — Nordic Precision: skarpare hörn, minimal glow */
+  [data-theme='R-A-nordic-precision'] .calm-card,
+  [data-theme='R-A-nordic-precision'] .glass-card {
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
 }

@@ -4,6 +4,7 @@ export type ThemeBackground =
   | 'texture-marble'
   | 'aurora'
   | 'nautical'
+  | 'obsidian'
   | 'mockup-scenic'
   | 'mockup-warm'
   | 'mockup-aurora';

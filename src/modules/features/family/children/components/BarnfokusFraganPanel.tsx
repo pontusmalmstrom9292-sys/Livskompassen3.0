@@ -50,6 +50,7 @@ export function BarnfokusFraganPanel({ childAlias, memoryRows, onSave }: Props) 
 
   return (
     <BentoCard
+      className="barnfokus-fragan-panel"
       title="Barnfokus — dagens fråga"
       description="Roligt, knas, kunskap eller lära känna — trygg hamn, inte bevis."
       icon={<Sparkles className="h-4 w-4" />}

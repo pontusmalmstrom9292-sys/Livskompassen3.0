@@ -20,7 +20,7 @@ const DESTINATIONS: KompisDestination[] = [
   {
     to: vaultDrawerPath('kunskapsbank'),
     label: 'Kunskapsbank',
-    hint: 'Direkt till Valv-zonen efter PIN.',
+    hint: 'Direkt till Valv-zonen efter WebAuthn/Fyren.',
     icon: BookOpen,
     primary: true,
   },
@@ -45,7 +45,7 @@ const DESTINATIONS: KompisDestination[] = [
   {
     to: `${NAV_PATHS.HJARTAT}?tab=speglar`,
     label: 'Speglar',
-    hint: 'Validering utan att fixa dig — utan PIN.',
+    hint: 'Validering utan att fixa dig — utan Valv-upplåsning.',
     icon: Compass,
   },
 ];
@@ -64,15 +64,15 @@ export function KompisHubPage() {
           </span>
           <div className="min-w-0 flex-1">
             <p className="text-sm text-text-muted">
-              <strong className="text-text">Valv</strong> är låst med PIN på nästa skärm (sparas lokalt på
-              enheten). Där finns kunskap, chatt och bevis.
+              <strong className="text-text">Valv</strong> kräver WebAuthn eller Fyren-håll (3 s på
+              kompassen) — sessionen sparas lokalt på enheten. Där finns kunskap, chatt och bevis.
             </p>
             <Link
               to={VALV_ENTRY}
               className="btn-pill--accent ui-cta-gold mt-3 inline-flex w-full items-center justify-center gap-2 text-sm"
             >
               <ValvArchIcon className="h-4 w-4 shrink-0" />
-              Öppna Valv · ange PIN
+              Öppna Valv · WebAuthn
             </Link>
             <p className="mt-2 text-[11px] leading-snug text-text-dim">
               Dold genväg: håll kompassen i bottenmenyn i 3 sekunder.

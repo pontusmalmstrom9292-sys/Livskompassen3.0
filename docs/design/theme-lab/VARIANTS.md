@@ -21,6 +21,7 @@
 | `I-stone-draft-twilight` | Stone — skymning | utkast | Kallare `--bg`, mjukare guld, kväll |
 | `I-stone-draft-bronze` | Stone — brons | utkast | Varm brons/roséguld accent |
 | `I-stone-draft-matte` | Stone — matt | utkast | Plattare glas, svag glow (låg last) |
+| `R-A-nordic-precision` | Nordic Precision (Style A) | **lab** | `/dev/theme-lab` → Redesign (2026) — isblå CTA, silver chrome, guld nav |
 
 **Jämför:** http://localhost:5173/dev/theme-lab → Utkast (agent) → Förhandsgranska → **Använd i appen** → testa `/` (Hem).
 
