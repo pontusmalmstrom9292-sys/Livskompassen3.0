@@ -1,6 +1,6 @@
 # MåBra — Content Bank (kuraterad)
 
-**Datum:** 2026-05-27 (senast kuraterat: 2026-05-27, pass `values_rsd_recovery`)  
+**Datum:** 2026-05-27 (senast kuraterat: 2026-06-07, pass `teman_gladje_vag17`)  
 **Kurator:** `.cursor/agents/specialist-mabra-curator.md`  
 **Syfte:** Godkänd grund för frågekort, milda quiz och utvecklingslekar — **inte** medicinsk rådgivning.
 
@@ -322,6 +322,45 @@ Kurator-pass 2026-05-25 · linser: **identitet** (5) + **KBT light** (5). Ej dup
 |----|---------------|-------------|--------|------|---------|
 | DF-REF-11 | REFLECTION | psychoeducation_general | KEEP | craving | Vad hände i kroppen precis före suget — utan att döma? |
 | DF-REF-12 | REFLECTION | product_copy | KEEP | idag | Ett beslut för **idag** om nykterhet — inte hela livet. |
+
+---
+
+## Våg 17 — Teman / vad jag tycker är kul (2026-06-07)
+
+**Kurator:** `specialist-mabra-curator` · **Dirigent:** U6 Vit · **Serie:** frågekort `who_am_i` · **Backlog:** [`MABRA-PROJEKT-VIT-HUB-SPEC.md`](../../design/MABRA-PROJEKT-VIT-HUB-SPEC.md) § Backlog.
+
+**Scope:** Bank-only — **ingen** prod-wire till `selfEsteemCards.ts` / `pickVitProjectCard.ts` utan PMIR. Ej duplicerar `C-joy-01` / `C-joy-02` ordagrant; kompletterar glädje/teman-pool.
+
+### REFLECTION (`MB-REF-JOY-*`)
+
+| bankId | content_class | source_tier | status | lens | hub | text_sv | why |
+|--------|---------------|-------------|--------|------|-----|---------|-----|
+| MB-REF-JOY-01 | REFLECTION | product_copy | KEEP | teman | who_am_i | Ett intresse eller tema som känns **mitt** — inte någons förväntan. Ett ord räcker. | Identitet via kravlös fritid; ≠ C-joy-01 (nu/lugnt/meningsfullt) |
+| MB-REF-JOY-02 | REFLECTION | product_copy | KEEP | gladje | who_am_i | Sim, klättra, vila, eller något helt annat — vad känns **lätt** att tänka på idag, utan att boka? | Ny vinkel på C-joy-02 — lätthet före handling |
+| MB-REF-JOY-03 | REFLECTION | psychoeducation_general | KEEP | gladje | who_am_i | När gjorde jag senast något bara för att det var skönt — inte för att bli bra på det? | Kravlös fritid utan prestation eller jämförelse |
+| MB-REF-JOY-04 | REFLECTION | product_copy | KEEP | teman | who_am_i | Ett lugn som inte behöver att någon annan ser det — var eller hur, ungefär? | Inåtvänd glädje; plausible deniability-vänlig |
+| MB-REF-JOY-05 | REFLECTION | psychoeducation_general | KEEP | teman | who_am_i | Vilken hobby eller aktivitet har jag pausat — och vad skulle **minsta** steget tillbaka vara? | Mikrosteg (sim/klättra/vila); ett steg |
+| MB-REF-JOY-06 | REFLECTION | product_copy | KEEP | gladje | who_am_i | Vad är meningsfullt för **mig** just nu — inte vad jag borde tycka om? | Motverkar skuld och “borde”-glädje |
+
+### PLAY (`MB-PLAY-JOY-*`)
+
+| bankId | content_class | source_tier | status | format | lens | hub | title_sv | rule_sv | why |
+|--------|---------------|-------------|--------|--------|------|-----|----------|---------|-----|
+| MB-PLAY-JOY-01 | PLAY | product_copy | KEEP | micro_game | gladje | who_am_i | Tre utan ordning | Nämn tre saker som bara är roliga för dig — stopp efter tre, ingen rangordning. | ≤2 min; offline; ≠ G6 (senaste dygnet, en rad) |
+| MB-PLAY-JOY-02 | PLAY | product_copy | KEEP | micro_game | gladje | who_am_i | Trettio sekunder | Välj sim, klättra, promenad eller vila — föreställ aktiviteten i 30 sekunder. Ingen prestation, inget resultat. | Kropp/fantasi före plan; ingen bokning krävs |
+
+**P1-koppling (efter PMIR):** `vit_entries` med `projectId: who_am_i`, `kind: card | play`, `bankId: MB-REF-JOY-*` / `MB-PLAY-JOY-*`.
+
+### Kurator-logg (våg 17)
+
+| id (utkast) | status | why |
+|-------------|--------|-----|
+| “Vad kul hade det varit utan vårdnadskonflikten” | **ROUTE_SPEGLAR** | Ex/konflikt — Hamn/Speglar |
+| “Lista 10 hobbies du borde prova” | **REJECT** | För många steg; “borde” |
+| “Dopamin från klättring fixar ADHD” | **REJECT** | Neuro-FACT utan tier — → Kunskap, inte MåBra |
+| “Veckans glädjutmaning — dag 1/7” | **REJECT** | Gamification / streak (Mabra-SPEC) |
+| “Bevisa för barnen att du kan ha kul” | **REJECT** | Prestation/jämförelse; ex-vinkel |
+| MB-REF-JOY-* / MB-PLAY-JOY-* ovan | **KEEP** | Grind OK; ej C-joy-duplikat |
 
 ---
 

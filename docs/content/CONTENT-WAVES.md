@@ -21,7 +21,8 @@
 | 14 | Vit-hub copy polish | — | `vitHubCopy`, ingen streak/skuld | — | **done** 2026-06-06 — kanonisk copy + Valv-länkar + URL-sync filter |
 | 15 | Vit översikt P4 | — | `VitRecentOverview`, MåBra→Valv | — | **done** 2026-06-06 — senaste 3 + hub-länk till Mitt Vit |
 | 16 | Vit spec + utveckling P5 | — | spec P1–P3 done, `VitDevelopmentPanel` | — | **done** 2026-06-06 — deterministisk veckoaktivitet + humör/pass-polish |
+| 17 | Teman / vad jag tycker är kul | — | MB-REF-JOY-01..06, MB-PLAY-JOY-01/02 | — | **done** 2026-06-07 — bank-only (kurator); prod-wire kräver PMIR |
 
-**Aktiv våg:** `17` (nästa: se [`MABRA-PROJEKT-VIT-HUB-SPEC.md`](../design/MABRA-PROJEKT-VIT-HUB-SPEC.md) backlog)
+**Aktiv våg:** `18` (nästa: se [`MABRA-PROJEKT-VIT-HUB-SPEC.md`](../design/MABRA-PROJEKT-VIT-HUB-SPEC.md) backlog)
 
 **Seed (Google-konto):** `SEED_FIREBASE_EMAIL` i `.env` + `gcloud auth application-default login` → `npm run seed:kunskap-facts`
