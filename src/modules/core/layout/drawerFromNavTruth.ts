@@ -9,6 +9,7 @@ import {
   DRAWER_VALV_ITEMS,
   type DrawerNavItem,
 } from '../navigation/drawerNav';
+import { isDrawerLinkActive } from './DrawerHubAccordion';
 
 export const HEM_DRAWER_LINKS: { label: string; path: string }[] = [
   { label: 'Startskärm', path: '/' },
@@ -83,4 +84,20 @@ export function isValvRoute(pathname: string): boolean {
     pathname.startsWith('/dossier') ||
     pathname.startsWith('/valv')
   );
+}
+
+/** Aktiv rad för platta Vardag-rader (hub-path + legacy child-routes). */
+export function isVardagDrawerRowActive(
+  item: DrawerNavItem,
+  pathname: string,
+  search: string,
+  hash: string,
+): boolean {
+  if (item.id === 'hem') return pathname === '/';
+  if (item.id === 'vardagen') return isHubRouteActive('vardagen', pathname);
+  if (item.id === 'familjen') return isHubRouteActive('familjen', pathname);
+  if (item.id === 'installningar') {
+    return pathname === '/installningar' || pathname.startsWith('/installningar/');
+  }
+  return isDrawerLinkActive(item.path, pathname, search, hash);
 }

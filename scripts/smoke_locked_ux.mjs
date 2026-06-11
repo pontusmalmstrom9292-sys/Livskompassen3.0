@@ -254,7 +254,8 @@ function main() {
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx', 'VALV_ZONE_INGRESS');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx', 'WeaverPendingVaultBanner');
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'setVaultGate', 'openValvViaFyren');
-  mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", '/vardagen', "label: 'Liv och göra'", 'getNavChildren');
+  mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", "path: '/liv'", "label: 'Liv och göra'", 'getNavChildren');
+  mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'familjen'", "label: 'Familj och gränser'", "path: '/familj'");
   mustInclude(
     'src/modules/capture/CaptureSuperModule.tsx',
     'CaptureSuperModule',
@@ -497,7 +498,7 @@ function main() {
   mustInclude(
     'src/modules/core/layout/NavigationDrawer.tsx',
     'DrawerModeToggle',
-    'DrawerHubAccordion',
+    'DRAWER_VARDAG_ITEMS',
     'Vardag',
     'Valvet',
     'vaultOpen',
@@ -506,6 +507,16 @@ function main() {
     'DRAWER_VALV_ITEMS',
     'handleLockVaultImmediately',
     'Lås Valvet nu',
+    'isVardagDrawerRowActive',
+    'nav-drawer__row',
+  );
+  assert(
+    !read('src/modules/core/layout/NavigationDrawer.tsx').includes('<DrawerHubAccordion'),
+    'NavigationDrawer.tsx får inte montera DrawerHubAccordion (MENU-DRAWER-KANON: 4 platta rader)',
+  );
+  assert(
+    (read('src/modules/core/layout/NavigationDrawer.tsx').match(/DRAWER_VARDAG_ITEMS\.map/g) ?? []).length >= 1,
+    'NavigationDrawer.tsx ska mappa DRAWER_VARDAG_ITEMS som platta rader',
   );
   assert(
     !read('src/modules/core/layout/NavigationDrawer.tsx').includes('DrawerQuickActions'),

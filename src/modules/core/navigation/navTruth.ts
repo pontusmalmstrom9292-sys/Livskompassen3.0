@@ -76,7 +76,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   {
     id: 'vardagen',
     label: 'Liv och göra',
-    path: '/vardagen',
+    path: '/liv',
     section: 'vardag',
     inDrawer: true,
     themeId: 'J-vardagen-orbit',
@@ -123,8 +123,8 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   },
   {
     id: 'familjen',
-    label: 'Familjen',
-    path: '/familjen',
+    label: 'Familj och gränser',
+    path: '/familj',
     section: 'vardag',
     inDrawer: true,
     inDock: true,

@@ -1,22 +1,16 @@
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { X, Settings, Lock } from 'lucide-react';
+import { ChevronRight, Lock, X } from 'lucide-react';
 import { hasVaultGate } from '../auth/sessionService';
 import { endVaultSession } from '../security/vaultSessionLifecycle';
 import { useStore } from '../store';
 import { LivskompassMark } from '../ui/LivskompassMark';
-import { DrawerHubAccordion, isDrawerLinkActive } from './DrawerHubAccordion';
+import { isDrawerLinkActive } from './DrawerHubAccordion';
 import { DrawerModeToggle } from './DrawerModeToggle';
-import { DRAWER_VALV_ITEMS } from '../navigation/drawerNav';
+import { DRAWER_VARDAG_ITEMS, DRAWER_VALV_ITEMS } from '../navigation/drawerNav';
 import { useDrawerRecentNav } from '../navigation/hooks/useDrawerRecentNav';
-import {
-  drawerItemById,
-  getHubNavLinks,
-  getVardagDrawerHubs,
-  hubGlowColor,
-  isHubRouteActive,
-} from './drawerFromNavTruth';
+import { isVardagDrawerRowActive } from './drawerFromNavTruth';
 
 type Props = {
   open: boolean;
@@ -92,9 +86,16 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
     onClose();
   };
 
-  if (!open) return null;
+  const handleVardagRowClick = (item: (typeof DRAWER_VARDAG_ITEMS)[number]) => {
+    if (item.id === 'installningar' && onOpenSettings) {
+      onOpenSettings();
+      onClose();
+      return;
+    }
+    navigateDrawerPath(item.path);
+  };
 
-  const vardagHubs = getVardagDrawerHubs();
+  if (!open) return null;
 
   return createPortal(
     <>
@@ -156,34 +157,37 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
               </div>
             ) : null}
 
-            {/* section="vardag" */}
             <p className="mt-2 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-text-dim">
               Vardag
             </p>
 
-            {vardagHubs.map((hub) => {
-              const item = drawerItemById(hub.id, 'vardag');
-              const Icon = item?.icon;
-              const links = getHubNavLinks(hub.id);
-              if (!Icon || links.length === 0) return null;
-
-              return (
-                <DrawerHubAccordion
-                  key={hub.id}
-                  id={hub.id}
-                  label={hub.label}
-                  icon={<Icon className="h-4 w-4" />}
-                  glowColor={hubGlowColor(hub.id)}
-                  isActive={isHubRouteActive(hub.id, pathname)}
-                  links={links}
-                  onClose={onClose}
-                />
-              );
-            })}
+            <div className="space-y-1">
+              {DRAWER_VARDAG_ITEMS.map((item) => {
+                const Icon = item.icon;
+                const active = isVardagDrawerRowActive(item, pathname, search, hash);
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => handleVardagRowClick(item)}
+                    className={`nav-drawer__row flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-colors ${
+                      active
+                        ? 'bg-accent/10 text-accent'
+                        : 'text-text-muted hover:bg-surface-2/50 hover:text-text'
+                    }`}
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border/30 bg-surface-2/40">
+                      <Icon className="h-4 w-4 text-accent" />
+                    </span>
+                    <span className="min-w-0 flex-1 text-sm font-medium">{item.label}</span>
+                    <ChevronRight className="h-4 w-4 shrink-0 text-text-dim" aria-hidden />
+                  </button>
+                );
+              })}
+            </div>
 
             {vaultOpen ? (
               <div className="mt-6 border-t border-border/15 pt-4">
-                {/* section="valv" */}
                 <p className="px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-accent/80">
                   Valvet
                 </p>
@@ -231,21 +235,6 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
               </div>
             ) : null}
           </nav>
-        </div>
-
-        <div className="border-t border-border/15 bg-surface-2/40 p-4 backdrop-blur-md">
-          <button
-            type="button"
-            className="flex w-full items-center gap-3 rounded-xl p-3 text-sm text-text-muted transition-colors hover:bg-surface-3/60 hover:text-text"
-            onClick={() => {
-              if (onOpenSettings) onOpenSettings();
-              else navigate('/installningar');
-              onClose();
-            }}
-          >
-            <Settings className="h-4 w-4" aria-hidden />
-            <span>Inställningar &amp; konto</span>
-          </button>
         </div>
       </aside>
     </>,

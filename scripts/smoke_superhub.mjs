@@ -70,17 +70,24 @@ function main() {
   const labels = Object.fromEntries(vardagDrawer.map((e) => [e.id, e.label]));
   assert(labels.hem === 'Hem — Skriv', `hem-label: ${labels.hem}`);
   assert(labels.vardagen === 'Liv och göra', `vardagen-label: ${labels.vardagen}`);
-  assert(labels.familjen === 'Familjen', `familjen-label: ${labels.familjen}`);
+  assert(labels.familjen === 'Familj och gränser', `familjen-label: ${labels.familjen}`);
   assert(labels.installningar === 'Inställningar', `installningar-label: ${labels.installningar}`);
 
   assert(!parseVardagDrawerEntries(navTruth).some((e) => e.id === 'dagbok' && e.inDrawer), 'dagbok får inte vara inDrawer (Fyren-gate)');
 
-  mustInclude('src/modules/core/layout/drawerFromNavTruth.ts', 'getVardagDrawerHubs', "e.id !== 'installningar'");
+  mustInclude('src/modules/core/navigation/navTruth.ts', "path: '/liv'", "path: '/familj'");
+  mustInclude('src/modules/core/layout/drawerFromNavTruth.ts', 'isVardagDrawerRowActive', 'DRAWER_VARDAG_ITEMS');
   mustInclude('src/modules/core/navigation/drawerNav.ts', 'DRAWER_VARDAG_ITEMS', 'getVisibleDrawerTruth');
-  mustInclude('src/modules/core/layout/NavigationDrawer.tsx', 'getVardagDrawerHubs', 'Inställningar');
-
-  const hubCount = (drawerFromNavTruth.match(/getVardagDrawerHubs/g) ?? []).length;
-  assert(hubCount >= 1, 'drawerFromNavTruth saknar getVardagDrawerHubs');
+  mustInclude(
+    'src/modules/core/layout/NavigationDrawer.tsx',
+    'DRAWER_VARDAG_ITEMS',
+    'isVardagDrawerRowActive',
+    'nav-drawer__row',
+  );
+  assert(
+    !navigationDrawer.includes('<DrawerHubAccordion'),
+    'NavigationDrawer får inte montera DrawerHubAccordion (4 platta rader)',
+  );
 
   console.log('[smoke:superhub] Inga publika Valv-länkar i vardags-drawer…');
   mustNotInclude('src/modules/core/navigation/drawerNav.ts', 'requiresVaultPin: true');
