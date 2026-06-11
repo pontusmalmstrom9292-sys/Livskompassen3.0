@@ -84,6 +84,22 @@ export const MABRA_EXTENDED_PLAYS: readonly DagligMixPlay[] = [
     title_sv: 'Värde-touch 2',
     rule_sv: 'Peka på ett föremål som påminner om ett värde — ett ord högt eller tyst.',
   },
+  {
+    bankId: 'MB-PLAY-JOY-01',
+    content_class: 'PLAY',
+    source_tier: 'P1',
+    status: 'KEEP',
+    title_sv: 'Tre utan ordning',
+    rule_sv: 'Nämn tre saker som bara är roliga för dig — stopp efter tre, ingen rangordning.',
+  },
+  {
+    bankId: 'MB-PLAY-JOY-02',
+    content_class: 'PLAY',
+    source_tier: 'P1',
+    status: 'KEEP',
+    title_sv: 'Trettio sekunder',
+    rule_sv: 'Välj sim, klättra, promenad eller vila — föreställ aktiviteten i 30 sekunder. Ingen prestation, inget resultat.',
+  },
 ] as const;
 
 export function getMabraPlay(bankId: string): DagligMixPlay | undefined {

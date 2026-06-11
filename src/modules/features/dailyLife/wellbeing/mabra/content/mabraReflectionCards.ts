@@ -38,4 +38,10 @@ export const MABRA_REFLECTION_CARDS: readonly MabraReflectionCard[] = [
   { bankId: 'MB-REF-ACT-01', lens: 'act', text_sv: 'Ett värde som är viktigt idag — ett ord.' },
   { bankId: 'MB-REF-ACT-02', lens: 'act', text_sv: 'En handling under 5 min som stämmer med det värdet.' },
   { bankId: 'MB-REF-ACT-03', lens: 'act', text_sv: 'Vad kan du acceptera att känna just nu utan att agera på det?' },
+  { bankId: 'MB-REF-JOY-01', lens: 'teman', text_sv: 'Ett intresse eller tema som känns mitt — inte någons förväntan. Ett ord räcker.' },
+  { bankId: 'MB-REF-JOY-02', lens: 'gladje', text_sv: 'Sim, klättra, vila, eller något helt annat — vad känns lätt att tänka på idag, utan att boka?' },
+  { bankId: 'MB-REF-JOY-03', lens: 'gladje', text_sv: 'När gjorde jag senast något bara för att det var skönt — inte för att bli bra på det?' },
+  { bankId: 'MB-REF-JOY-04', lens: 'teman', text_sv: 'Ett lugn som inte behöver att någon annan ser det — var eller hur, ungefär?' },
+  { bankId: 'MB-REF-JOY-05', lens: 'teman', text_sv: 'Vilken hobby eller aktivitet har jag pausat — och vad skulle minsta steget tillbaka vara?' },
+  { bankId: 'MB-REF-JOY-06', lens: 'gladje', text_sv: 'Vad är meningsfullt för mig just nu — inte vad jag borde tycka om?' },
 ] as const;

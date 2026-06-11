@@ -58,6 +58,12 @@ const PROJECT_CARD_BANK_IDS: Record<MabraProjectId, readonly string[]> = {
     'C-goal-02',
     'C-joy-01',
     'C-joy-02',
+    'MB-REF-JOY-01',
+    'MB-REF-JOY-02',
+    'MB-REF-JOY-03',
+    'MB-REF-JOY-04',
+    'MB-REF-JOY-05',
+    'MB-REF-JOY-06',
   ],
   learn_together: ['MB-REF-ACT-01', 'MB-REF-ACT-02', 'MB-REF-ACT-03'],
 };

@@ -63,6 +63,8 @@
 | **Deploy** | Fas 3 re-deploy submitInkastLite + hosting | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
 | **Autorun PASS** | Navigations-snabbvinster (build + `smoke:locked-ux` + `smoke:design-modules`) | **PASS** | 2026-06-11 — Kompis→Kunskapsbank, drawer senast besökt |
 | **Deploy** | Hosting navigations-snabbvinster | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
+| **Autorun PASS** | MåBra våg 17 JOY → Vit `who_am_i` (build + innehall + mabra + locked-ux) | **PASS** | 2026-06-11 · `MB-REF-JOY-01..06`, `MB-PLAY-JOY-01/02` |
+| **Deploy** | Hosting MåBra våg 17 JOY cards | **PASS** | 2026-06-11 · `bc3b0460e` |
 
 **Fas 5A #3/#4:** **PASS** (USER 2026-06-06/07) — se [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md).
 
