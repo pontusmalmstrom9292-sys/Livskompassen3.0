@@ -7,7 +7,12 @@ import { hjartatTabHref } from '@/core/navigation/appNavigation';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { MaterialPackShortcuts, useLifeHubPreset } from '@/core/lifeOs';
 import { HamnModuleStack } from './HamnModuleStack';
-import { HAMN_BRUSFILTER_LEAD, HAMN_EMBEDDED_LEAD, HAMN_GREY_ROCK_LEAD } from '../hamnCopy';
+import {
+  HAMN_BRUSFILTER_HINT,
+  HAMN_BRUSFILTER_LEAD,
+  HAMN_EMBEDDED_LEAD,
+  HAMN_GREY_ROCK_LEAD,
+} from '../hamnCopy';
 
 const HAMN_SUB_TABS = [
   { id: 'oversikt', label: 'Översikt' },
@@ -72,6 +77,9 @@ export function TryggHamnHub({ initialMessage = '', embedded = false }: Props) {
         <div className="calm-card glow-bottom-blue px-4 py-3">
           <p className="text-[10px] uppercase tracking-[0.2em] text-accent-secondary/80">Steg 1 · Brusfilter</p>
           <p className="mt-1 text-xs text-text-dim">{HAMN_BRUSFILTER_LEAD}</p>
+          <p className="mt-2 text-xs text-text-muted" role="note">
+            {HAMN_BRUSFILTER_HINT}
+          </p>
           <Link to={hjartatTabHref('speglar')} className="btn-pill--accent mt-2 inline-flex text-xs">
             Öppna Speglar
           </Link>
@@ -101,6 +109,9 @@ export function TryggHamnHub({ initialMessage = '', embedded = false }: Props) {
           <div className="calm-card glow-bottom-blue px-4 py-3">
             <p className="text-[10px] uppercase tracking-[0.2em] text-accent-secondary/80">Steg 1 · Brusfilter</p>
             <p className="mt-1 text-xs text-text-dim">{HAMN_BRUSFILTER_LEAD}</p>
+            <p className="mt-2 text-xs text-text-muted" role="note">
+              {HAMN_BRUSFILTER_HINT}
+            </p>
             <Link to={hjartatTabHref('speglar')} className="btn-pill--accent mt-2 inline-flex text-xs">
               Öppna Speglar
             </Link>

@@ -66,12 +66,11 @@ function main() {
   mustInclude('functions/src/lib/vaultSessionGate.ts', 'assertVaultSession', 'revokeVaultSession');
   mustInclude('functions/src/lib/vaultWebAuthn.ts', 'verifyVaultWebAuthnResponse');
   mustInclude('functions/src/index.ts', 'issueVaultSession', 'beginVaultWebAuthnChallenge', 'invalidateSession');
-  mustInclude(
-    'src/modules/core/auth/authService.ts',
-    'endVaultSession',
-    'clearSpeglarSession',
-    'signOutUser',
-  );
+  const authSvc = read('src/modules/core/auth/authService.ts');
+  assert(authSvc.includes('export async function signOutUser'), 'authService.ts saknar signOutUser');
+  const signOutBody = authSvc.match(/export async function signOutUser\(\)[^{]*\{([\s\S]*?)^\}/m);
+  assert(signOutBody?.[1]?.includes('await endVaultSession()'), 'signOutUser måste anropa endVaultSession');
+  mustInclude('src/modules/core/auth/authService.ts', 'clearSpeglarSession');
 
   console.log('[smoke:valv-security] PASS — Valv WORM-session hardening.');
 }

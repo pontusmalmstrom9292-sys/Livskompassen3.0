@@ -69,6 +69,7 @@ export function classifyPasteText(
       suggestedStatus: 'waiting',
       dueAt,
       routeToHamn: true,
+      matchedRuleLabel: 'Brusfilter · ex/konflikt',
     };
   }
 

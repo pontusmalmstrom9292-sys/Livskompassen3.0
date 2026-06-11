@@ -30,7 +30,12 @@ function mustInclude(relPath, ...needles) {
 function main() {
   console.log('[smoke:hamn] Statiska guards...');
 
-  mustInclude('src/modules/features/family/safeHarbor/hamnCopy.ts', 'HAMN_GREY_ROCK_LEAD', 'Zero Footprint');
+  mustInclude(
+    'src/modules/features/family/safeHarbor/hamnCopy.ts',
+    'HAMN_GREY_ROCK_LEAD',
+    'HAMN_BRUSFILTER_HINT',
+    'Zero Footprint',
+  );
   mustInclude(
     'src/modules/features/family/safeHarbor/components/BiffPublicPanel.tsx',
     'BiffTriagePanel',
@@ -43,6 +48,7 @@ function main() {
     'HamnModuleStack',
     'embedded',
     'HAMN_BRUSFILTER_LEAD',
+    'HAMN_BRUSFILTER_HINT',
   );
   mustInclude(
     'src/modules/core/pages/FamiljenPage.tsx',

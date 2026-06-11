@@ -9,6 +9,8 @@
 
 | **Autorun PASS** | WH4 widget Hamn + logout Zero Footprint (`a66711dd`) | **PASS** | 2026-06-11 · build + hamn + locked-ux + valv-security + orkester |
 | **Deploy** | Hosting WH4 + `signOutUser` vault/speglar cleanup | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
+| **Autorun PASS** | Fas 4 batch — Hamn brusfilter + valv-gate smoke + inkast polish | **PASS** | 2026-06-11 · build + locked-ux + hamn + mabra + valv-security + valv-gate + orkester + innehall |
+| **Deploy** | Hosting Fas 4 + `ingestKnowledgeDocument` upload cap | **PENDING** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
 
 | **Manuell PASS** | #1 Auth | **PASS** | 2026-05-27 |
 | **Manuell PASS** | #2 Dagbok → `journal` | **PASS** | 2026-05-27 |
@@ -70,6 +72,8 @@
 | **Autorun PASS** | MåBra våg 17 JOY → Vit `who_am_i` (build + innehall + mabra + locked-ux) | **PASS** | 2026-06-11 · `MB-REF-JOY-01..06`, `MB-PLAY-JOY-01/02` |
 | **Deploy** | Hosting MåBra våg 17 JOY cards | **PASS** | 2026-06-11 · `bc3b0460e` |
 | **Autorun PASS** | WH4 away re-verify (`b7609a2a`) | **PASS** | 2026-06-11 · smoke:hamn + locked-ux + build (deploy redan live) |
+| **Autorun PASS** | Fas 4 Agent B (Hamn brusfilter + inkast ex-routing + valv-gate weave) | **PASS** | 2026-06-11 · build + hamn + locked-ux + valv-security + valv-gate + orkester |
+| **Deploy** | Hosting Fas 4 Hamn + Planering inkast | **PASS** | 2026-06-11 · `8d391db80` · https://gen-lang-client-0481875058.web.app |
 
 
 

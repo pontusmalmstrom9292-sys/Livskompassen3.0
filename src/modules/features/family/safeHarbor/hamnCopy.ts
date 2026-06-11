@@ -6,5 +6,9 @@ export const HAMN_GREY_ROCK_LEAD =
 export const HAMN_BRUSFILTER_LEAD =
   'Rensa känsloladdning och projektioner innan Grey Rock. Klistra in i Speglar → Svart på vitt, eller fortsätt direkt om du redan har rena fakta.';
 
+/** Inline självtest före analys — logistik vs beten (ingen LLM). */
+export const HAMN_BRUSFILTER_HINT =
+  'Logistik (~10 %): datum, tid, plats, barn, pengar. Beten (~90 %): skuld, anklagelser, gaslighting — svara inte på dem.';
+
 export const HAMN_EMBEDDED_LEAD =
   'Klistra in meddelandet — få kort Grey Rock-svar. Inget skickas automatiskt. Tryck Klar när du är färdig (Zero Footprint).';

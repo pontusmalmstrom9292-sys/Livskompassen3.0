@@ -1,5 +1,5 @@
 /**
- * Smoke: Valv-session gate — valvChatQuery + getEntityProfileRegistry utan token nekas.
+ * Smoke: Valv-session gate — valvChatQuery, getEntityProfileRegistry, weaveJournalEntry utan token nekas.
  * Usage: npm run smoke:valv-gate
  */
 import { readFileSync, existsSync } from 'fs';
@@ -63,6 +63,7 @@ async function main() {
   mustInclude('functions/src/callables/valv.ts', 'verifyVaultWebAuthnResponse', 'readWebAuthnResponse');
   mustInclude('functions/src/lib/vaultWebAuthn.ts', 'beginVaultWebAuthnChallenge', 'verifyVaultWebAuthnResponse');
   mustInclude('functions/src/index.ts', 'beginVaultWebAuthnChallenge', 'issueVaultSession');
+  mustInclude('functions/src/callables/agents.ts', 'weaveJournalEntry', 'assertVaultSession');
 
   const env = loadEnv();
   assert(env.VITE_FIREBASE_API_KEY && env.VITE_FIREBASE_PROJECT_ID, 'VITE_FIREBASE_* krävs');
@@ -90,6 +91,11 @@ async function main() {
 
   const registry = httpsCallable(functions, 'getEntityProfileRegistry');
   await expectDenied('getEntityProfileRegistry utan vaultSessionToken', () => registry({}));
+
+  const weaver = httpsCallable(functions, 'weaveJournalEntry');
+  await expectDenied('weaveJournalEntry utan vaultSessionToken', () =>
+    weaver({ journalEntryId: 'smoke-gate', mood: 'neutral', text: 'Smoke gate — ska nekas utan session.' }),
+  );
 
   const issueVault = httpsCallable(functions, 'issueVaultSession');
   let liveWebAuthnGate = false;

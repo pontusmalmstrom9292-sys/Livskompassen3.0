@@ -31,6 +31,7 @@ describe('classifyPasteText', () => {
   it('routes ex to hamn flag', () => {
     const r = classifyPasteText('Konflikt med ex');
     expect(r.routeToHamn).toBe(true);
+    expect(r.matchedRuleLabel).toBe('Brusfilter · ex/konflikt');
   });
 });
 

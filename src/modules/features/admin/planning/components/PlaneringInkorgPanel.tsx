@@ -40,6 +40,7 @@ export function PlaneringInkorgPanel() {
     null,
   );
   const [queueRefresh, setQueueRefresh] = useState(0);
+  const pasteRoutingHint = paste.trim() ? classifyPasteText(paste.trim(), rules) : null;
 
   const handleCaptureSaved = useCallback(() => {
     setQueueRefresh((k) => k + 1);
@@ -181,6 +182,22 @@ export function PlaneringInkorgPanel() {
               className="input-glass w-full text-sm"
               disabled={!user || saving}
             />
+            {pasteRoutingHint?.routeToHamn && (
+              <p className="mt-2 text-xs text-text-muted" role="status">
+                <span className="text-[10px] uppercase tracking-widest text-accent-secondary/80">
+                  Brusfilter
+                </span>
+                {' · '}
+                {pasteRoutingHint.matchedRuleLabel ?? 'ex/konflikt'} → Hamn, inte Handling.{' '}
+                <button
+                  type="button"
+                  className="text-accent underline"
+                  onClick={() => navigate('/familjen?tab=hamn')}
+                >
+                  Öppna Trygg Hamn
+                </button>
+              </p>
+            )}
             {error && <p className="mt-2 text-sm text-danger">{error}</p>}
             <button
               type="button"

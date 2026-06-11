@@ -41,11 +41,13 @@ export function InkorgPreviewSheet({ open, classification, saving, onConfirm, on
 
         {classification.routeToHamn && (
           <div className="mt-3 rounded-xl border border-indigo-500/30 bg-indigo-500/10 px-3 py-2 text-sm text-text-muted">
-            Det här liknar meddelande/konflikt.{' '}
-            <Link to="/familjen?tab=hamn" className="text-accent underline">
-              Öppna i Trygg Hamn
-            </Link>{' '}
-            istället för planering.
+            <p className="text-[10px] uppercase tracking-widest text-accent-secondary/80">Brusfilter</p>
+            <p className="mt-1">
+              {classification.matchedRuleLabel ?? 'Ex/konflikt'} — routing till Hamn, inte Handling.{' '}
+              <Link to="/familjen?tab=hamn" className="text-accent underline">
+                Öppna Trygg Hamn
+              </Link>
+            </p>
           </div>
         )}
 
