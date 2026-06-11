@@ -59,6 +59,8 @@
 | **Autorun PASS** | Fas 3 Agent C P1 inkast (`assertVaultSession` + sourceModule allowlist) | **PASS** | 2026-06-07 |
 | **Autorun PASS** | Fas 3 Agent A/D UX (Biff `calm-card`, Inkorg Hamn/Handling badge) | **PASS** | redan på main |
 | **Deploy** | Fas 3 `functions:submitInkastLite,functions:previewInboxClassification` + hosting | **PASS** | 2026-06-07 · `8374219a` · https://gen-lang-client-0481875058.web.app |
+| **Autorun PASS** | Fas 3 re-verify (build + 8 smokes) | **PASS** | 2026-06-11 · `8374219a` |
+| **Deploy** | Fas 3 re-deploy submitInkastLite + hosting | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
 
 **Fas 5A #3/#4:** **PASS** (USER 2026-06-06/07) — se [`2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md).
 
