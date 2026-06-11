@@ -83,6 +83,9 @@ function main() {
   );
   mustInclude('functions/src/lib/vaultSessionGate.ts', 'assertVaultSession', 'revokeVaultSession');
   mustInclude('functions/src/lib/vaultWebAuthn.ts', 'verifyVaultWebAuthnResponse');
+  mustInclude('functions/src/lib/callableGuards.ts', 'guardSensitiveCallableV2', 'isAppCheckEnforcementEnabled');
+  mustInclude('functions/src/lib/rateLimit.ts', 'assertRateLimit', '_rate_limits');
+  mustInclude('firestore.rules', 'isVerifiedUser', 'isValidRealityVaultCreate');
   mustInclude('functions/src/index.ts', 'issueVaultSession', 'beginVaultWebAuthnChallenge', 'invalidateSession');
   const authSvc = read('src/modules/core/auth/authService.ts');
   assert(authSvc.includes('export async function signOutUser'), 'authService.ts saknar signOutUser');

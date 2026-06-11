@@ -98,6 +98,17 @@ async function main() {
 
   await expectDenied('delete (WORM)', () => deleteDoc(doc(db, 'reality_vault', docRef.id)));
 
+  await expectDenied('create med shadow field updatedAt', () =>
+    addDoc(collection(db, 'reality_vault'), {
+      ownerId: uid,
+      userId: uid,
+      truth: 'shadow test',
+      action: 'smoke_worm',
+      updatedAt: serverTimestamp(),
+      createdAt: serverTimestamp(),
+    }),
+  );
+
   await expectDenied('create med fel ownerId', () =>
     addDoc(collection(db, 'reality_vault'), {
       ownerId: 'not-my-uid',

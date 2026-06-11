@@ -5,10 +5,29 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    // E-postkonton måste vara verifierade; anonym (dev) tillåts när VITE_REQUIRE_EMAIL_AUTH är av.
+    function isVerifiedUser() {
+      return isAuthenticated()
+        && request.auth.token.email_verified == true;
+    }
+
+    function isAnonymousDevUser() {
+      return isAuthenticated()
+        && request.auth.token.firebase.sign_in_provider == 'anonymous';
+    }
+
+    function isSensitiveAuth() {
+      return isVerifiedUser() || isAnonymousDevUser();
+    }
+
     function isOwner() {
       return isAuthenticated()
         && resource.data.ownerId == request.auth.uid
         && (!('userId' in resource.data) || resource.data.userId == request.auth.uid);
+    }
+
+    function isOwnerSensitive() {
+      return isOwner() && isSensitiveAuth();
     }
 
     function isOwnerCreate() {
@@ -18,6 +37,81 @@ service cloud.firestore {
         && request.resource.data.userId == request.resource.data.ownerId;
     }
 
+    function isOwnerCreateSensitive() {
+      return isOwnerCreate() && isSensitiveAuth();
+    }
+
+    function wormKeysOnly(allowedKeys) {
+      return request.resource.data.keys().hasOnly(allowedKeys);
+    }
+
+    function isValidJournalAttachment() {
+      return !('attachment' in request.resource.data)
+        || (request.resource.data.attachment is map
+          && request.resource.data.attachment.keys().hasOnly(['url', 'storagePath', 'name', 'mimeType', 'size'])
+          && request.resource.data.attachment.url is string
+          && request.resource.data.attachment.storagePath is string
+          && request.resource.data.attachment.name is string
+          && request.resource.data.attachment.mimeType is string
+          && request.resource.data.attachment.size is int);
+    }
+
+    function isValidChildSignals() {
+      return !('signals' in request.resource.data)
+        || (request.resource.data.signals is map
+          && request.resource.data.signals.keys().hasOnly(['somn', 'angest', 'aptit'])
+          && request.resource.data.signals.somn is int
+          && request.resource.data.signals.angest is int
+          && request.resource.data.signals.aptit is int);
+    }
+
+    function isValidRealityVaultCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'action', 'truth', 'category', 'sourceRef',
+          'childrenImpact', 'evidenceUrl', 'biffUsed', 'isLocked', 'entryType',
+          'theirVersion', 'myReality', 'bodySignals', 'shieldWhat', 'shieldFeeling',
+          'shieldBoundary', 'pinned', 'createdAt',
+        ])
+        && request.resource.data.action is string
+        && request.resource.data.action.size() > 0
+        && request.resource.data.action.size() <= 200
+        && request.resource.data.truth is string
+        && request.resource.data.truth.size() > 0
+        && request.resource.data.truth.size() <= 50000;
+    }
+
+    function isValidJournalCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'mood', 'text', 'category', 'tags', 'attachment', 'createdAt',
+        ])
+        && request.resource.data.mood is string
+        && request.resource.data.mood.size() > 0
+        && request.resource.data.mood.size() <= 80
+        && request.resource.data.text is string
+        && request.resource.data.text.size() <= 50000
+        && isValidJournalAttachment()
+        && (!('tags' in request.resource.data) || request.resource.data.tags is list);
+    }
+
+    function isValidChildrenLogCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'childAlias', 'observation', 'truth', 'action', 'category',
+          'childrenImpact', 'authorRole', 'channel', 'visibility', 'contentType', 'signals',
+          'createdAt',
+        ])
+        && request.resource.data.childAlias is string
+        && request.resource.data.childAlias.size() > 0
+        && request.resource.data.childAlias.size() <= 48
+        && request.resource.data.action is string
+        && request.resource.data.action.size() > 0
+        && request.resource.data.action.size() <= 64
+        && isValidChildSignals()
+        && (!('observation' in request.resource.data)
+          || request.resource.data.observation is string)
+        && (!('truth' in request.resource.data)
+          || request.resource.data.truth is string);
+    }
+
     match /checkins/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreate();
@@ -25,14 +119,14 @@ service cloud.firestore {
     }
 
     match /journal/{docId} {
-      allow read: if isOwner();
-      allow create: if isOwnerCreate();
+      allow read: if isOwnerSensitive();
+      allow create: if isOwnerCreateSensitive() && isValidJournalCreate();
       allow update, delete: if false;
     }
 
     match /reality_vault/{docId} {
-      allow read: if isOwner();
-      allow create: if isOwnerCreate();
+      allow read: if isOwnerSensitive();
+      allow create: if isOwnerCreateSensitive() && isValidRealityVaultCreate();
       allow update, delete: if false;
     }
 
@@ -51,8 +145,8 @@ service cloud.firestore {
     }
 
     match /children_logs/{docId} {
-      allow read: if isOwner() && isParentVisibleChildLog();
-      allow create: if isOwnerCreate() && isValidChildrenVisibility();
+      allow read: if isOwnerSensitive() && isParentVisibleChildLog();
+      allow create: if isOwnerCreateSensitive() && isValidChildrenVisibility() && isValidChildrenLogCreate();
       allow update, delete: if false;
     }
 
@@ -405,9 +499,14 @@ service cloud.firestore {
       allow create, update, delete: if false;
     }
 
+    // Rate limits — skrivs endast av Cloud Functions Admin SDK
+    match /_rate_limits/{docId} {
+      allow read, write: if false;
+    }
+
     // Dossier snapshots — WORM kvitto (skrivs endast av Cloud Functions Admin SDK)
     match /dossier_snapshots/{docId} {
-      allow read: if isOwner();
+      allow read: if isOwnerSensitive();
       allow create, update, delete: if false;
     }
 
