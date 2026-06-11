@@ -78,6 +78,9 @@ async function main() {
   const registry = httpsCallable(functions, 'getEntityProfileRegistry');
   await expectDenied('getEntityProfileRegistry utan vaultSessionToken', () => registry({}));
 
+  const issueVault = httpsCallable(functions, 'issueVaultSession');
+  await expectDenied('issueVaultSession utan WebAuthn', () => issueVault({}));
+
   console.log('\n[smoke] PASS — Valv-session gate verifierad.');
   process.exit(0);
 }

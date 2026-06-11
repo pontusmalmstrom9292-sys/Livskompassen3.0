@@ -93,6 +93,8 @@ Append-only collections (create ja, update/delete nej):
 | `speglingsMirror` | Firebase Auth | Zero Footprint session |
 | `mabraCoach` | Firebase Auth | Opt-in coach |
 | `notifyNewFile` | **Webhook secret** | Drive → `kb_docs`; fail-closed utan secret |
+| `issueVaultSession` | Firebase Auth + **WebAuthn (server)** | Valv server-session efter Fyren |
+| `beginVaultWebAuthnChallenge` | Firebase Auth | WebAuthn challenge före Valv-session |
 | `invalidateSession` | Firebase Auth | Zero Footprint (server cache wipe) |
 | `approveWeaverMetadata` / `rejectWeaverMetadata` | Firebase Auth | Vävaren HITL → `reality_vault` metadata |
 
@@ -141,7 +143,8 @@ Digital Conversation Analysis Pipeline skyddar mot psykologiskt missbruk och pro
 |----|-------------|--------|
 | U5.5 | Kompis → Barnen routing guard | **delvis** — `barnenModuleRouteGuard.ts` i `knowledgeVaultQuery` |
 | U2.5 | HITL för känsliga exports | **open** |
-| Zero Footprint logout | `signOutUser` utan `invalidateSession` | **open** — dokumenterat ovan |
+| Zero Footprint logout | `signOutUser` utan `invalidateSession` | **done** — `authService.ts` anropar `invalidateServerSession` |
+| Valv WebAuthn bypass | `issueVaultSession` utan biometri | **done** — server verifierar via `vaultWebAuthn.ts` |
 | Manuell smoke app | #3 Valv, #4 Barnen, #2d | **USER** — se [`SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) |
 
 G7–G16 backend: **done** — [`Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md)

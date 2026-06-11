@@ -291,6 +291,7 @@ function VaultPageInner({
             </button>
           </div>
         </div>
+        {/* Zon-TabBar — underflikar per zon via get*VaultTabBarItems (samma ordning som getMainVaultTabBarItems / drawer). */}
         <TabBar<ValvZone>
           size="compact"
           tabs={getVaultZoneTabBarItems()}

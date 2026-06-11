@@ -45,6 +45,7 @@ function main() {
   mustInclude(
     'src/modules/core/auth/valvFyrenGate.ts',
     'issueVaultServerSession',
+    'performVaultWebAuthnForSession',
     'clearVaultGate',
   );
   mustInclude(
@@ -63,7 +64,8 @@ function main() {
     'biometri',
   );
   mustInclude('functions/src/lib/vaultSessionGate.ts', 'assertVaultSession', 'revokeVaultSession');
-  mustInclude('functions/src/index.ts', 'issueVaultSession', 'invalidateSession');
+  mustInclude('functions/src/lib/vaultWebAuthn.ts', 'verifyVaultWebAuthnResponse');
+  mustInclude('functions/src/index.ts', 'issueVaultSession', 'beginVaultWebAuthnChallenge', 'invalidateSession');
 
   console.log('[smoke:valv-security] PASS — Valv WORM-session hardening.');
 }

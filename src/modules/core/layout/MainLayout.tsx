@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { FloatingDock } from './FloatingDock';
 import { FyrenWidgetBar } from '../components/FyrenWidgetBar';
@@ -18,7 +18,6 @@ import { isDesignPackTheme } from '../theme/themePackDesign';
 import { isMockupTheme } from '../theme/mockupTheme';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
-  const navigate = useNavigate();
   const location = useLocation();
   const isScenicHome = location.pathname === '/';
   const user = useStore((s) => s.user);
@@ -34,9 +33,6 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
   const openAccount = useCallback(() => setAccountOpen(true), []);
-  const openKompisHub = useCallback(() => {
-    navigate('/kompis');
-  }, [navigate]);
 
   return (
     <FyrenWidgetProvider>
@@ -60,10 +56,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                   onOpenChange={setAccountOpen}
                   compactTrigger
                 />
-                <KompisHeaderVaultButton
-                  kompisAuraActive={kompisAuraActive}
-                  onShortPress={openKompisHub}
-                />
+                <KompisHeaderVaultButton kompisAuraActive={kompisAuraActive} />
               </>
             }
           />

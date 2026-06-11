@@ -37,7 +37,7 @@ function main() {
   console.log('[smoke:plausible-deniability] Fyren + separata silos…');
   mustInclude('src/modules/core/navigation/navFlags.ts', 'HIDE_BEVIS_TAB');
   mustInclude('src/modules/core/navigation/navTruth.ts', 'VALVET', 'HJARTAT');
-  mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'openValvViaFyren', 'authenticateVaultGate');
+  mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'openValvViaFyren', 'performVaultWebAuthnForSession');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'NAV_PATHS.VALVET', 'NAV_PATHS.HJARTAT');
 
   console.log('[smoke:plausible-deniability] Handoff utan auto-sync…');

@@ -1,5 +1,6 @@
 /**
- * Smoke: G9 — getEntityProfileRegistry (KEY_ENTITIES seed + SystemSynapses).
+ * Smoke: G9 — EntityProfile registry + WebAuthn-gate på issueVaultSession.
+ * Live registry E2E kräver manuell WebAuthn i appen (ej automatiskt i Node).
  * Usage: node scripts/smoke_entity_profiles.mjs
  */
 import { readFileSync, existsSync } from 'fs';
@@ -32,7 +33,40 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+function mustInclude(relPath, ...needles) {
+  const full = resolve(root, relPath);
+  assert(existsSync(full), `saknar fil: ${relPath}`);
+  const text = readFileSync(full, 'utf8');
+  for (const needle of needles) {
+    assert(text.includes(needle), `${relPath} saknar: ${needle}`);
+  }
+}
+
+async function expectDenied(label, fn) {
+  try {
+    await fn();
+    throw new Error(`${label}: förväntade permission-denied men lyckades`);
+  } catch (err) {
+    if (err.message?.includes('förväntade permission-denied')) throw err;
+    const code = err?.code ?? '';
+    const msg = String(err.message ?? '');
+    assert(
+      code === 'permission-denied' ||
+        code === 'functions/permission-denied' ||
+        code === 'invalid-argument' ||
+        code === 'functions/invalid-argument' ||
+        msg.includes('WebAuthn krävs') ||
+        msg.includes('origin och rpID'),
+      `${label}: oväntat fel — ${code || msg}`,
+    );
+    console.log(`[smoke] ${label}: NEKAD (OK)`);
+  }
+}
+
 async function main() {
+  mustInclude('functions/src/lib/entityProfileStore.ts', 'KEY_ENTITIES', 'SystemSynapse');
+  mustInclude('functions/src/callables/valv.ts', 'getEntityProfileRegistry', 'assertVaultSession');
+
   const env = loadEnv();
   const apiKey = env.VITE_FIREBASE_API_KEY;
   const projectId = env.VITE_FIREBASE_PROJECT_ID;
@@ -55,33 +89,10 @@ async function main() {
   console.log('[smoke] uid:', cred.user.uid);
 
   const issueVault = httpsCallable(functions, 'issueVaultSession');
-  console.log('[smoke] issueVaultSession…');
-  const session = await issueVault({});
-  const vaultSessionToken = session.data?.vaultSessionToken;
-  assert(typeof vaultSessionToken === 'string' && vaultSessionToken.length >= 32, 'saknar vaultSessionToken');
+  await expectDenied('issueVaultSession utan WebAuthn', () => issueVault({}));
 
-  const registry = httpsCallable(functions, 'getEntityProfileRegistry');
-  console.log('[smoke] getEntityProfileRegistry…');
-  const result = await registry({ vaultSessionToken });
-  const data = result.data;
-
-  assert(Array.isArray(data?.profiles), 'saknar profiles');
-  assert(data.profiles.length >= 7, `förväntar ≥7 profiler, fick ${data.profiles.length}`);
-  assert(Array.isArray(data?.synapses), 'saknar synapses');
-  assert(data.synapses.length >= 3, `förväntar ≥3 synapses, fick ${data.synapses.length}`);
-
-  const isabelle = data.profiles.find((p) => p.displayName === 'Isabelle');
-  assert(isabelle?.role === 'MOTPART', 'saknar MOTPART Isabelle');
-  assert(
-    data.profiles.some((p) => p.displayName === 'Kasper' && p.role === 'BARN'),
-    'saknar barn Kasper'
-  );
-
-  const siloSynapse = data.synapses.find((s) => s.title?.includes('Tre silos'));
-  assert(siloSynapse, 'saknar SystemSynapse tre silos');
-
-  console.log('[smoke] profiles:', data.profiles.length, 'synapses:', data.synapses.length);
-  console.log('\n[smoke] PASS — EntityProfile registry.');
+  console.log('\n[smoke] PASS — EntityProfile wiring + WebAuthn-gate.');
+  console.log('[smoke] getEntityProfileRegistry E2E: kör manuellt i app efter Fyren + biometri.');
   process.exit(0);
 }
 

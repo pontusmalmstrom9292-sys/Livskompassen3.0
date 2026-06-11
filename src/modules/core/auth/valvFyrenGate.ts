@@ -2,7 +2,7 @@ import type { NavigateFunction } from 'react-router-dom';
 import { FYREN_BEVIS_HINT } from '../navigation/appNavigation';
 import { NAV_PATHS } from '../navigation/navTruth';
 import { setVaultGate, clearVaultGate } from './sessionService';
-import { authenticateVaultGate } from './webauthn';
+import { performVaultWebAuthnForSession } from './vaultWebAuthnClient';
 import { issueVaultServerSession } from './vaultServerSession';
 import { useStore } from '../store';
 
@@ -17,14 +17,14 @@ export async function openValvViaFyren(
   navigate: NavigateFunction,
   options?: OpenValvViaFyrenOptions,
 ): Promise<boolean> {
-  const ok = await authenticateVaultGate();
-  if (!ok) {
+  const webAuthnResponse = await performVaultWebAuthnForSession();
+  if (!webAuthnResponse) {
     options?.onDenied?.(`Fyren avbruten. ${FYREN_BEVIS_HINT}`);
     return false;
   }
   setVaultGate();
   useStore.getState().setVaultUnlocked(true);
-  const issued = await issueVaultServerSession();
+  const issued = await issueVaultServerSession(webAuthnResponse);
   if (!issued) {
     clearVaultGate();
     useStore.getState().setVaultUnlocked(false);

@@ -7,12 +7,43 @@ import {
   assertVaultSession,
   issueVaultSession as createVaultSession,
 } from '../lib/vaultSessionGate';
+import {
+  assertVaultWebAuthnContext,
+  beginVaultWebAuthnChallenge,
+  verifyVaultWebAuthnResponse,
+} from '../lib/vaultWebAuthn';
 import type { EntityRole } from '../lib/entityProfileTypes';
+import type {
+  AuthenticationResponseJSON,
+  RegistrationResponseJSON,
+} from '@simplewebauthn/server';
+
+function readWebAuthnResponse(data: unknown): RegistrationResponseJSON | AuthenticationResponseJSON {
+  const response = (data as { webAuthnResponse?: unknown })?.webAuthnResponse;
+  if (!response || typeof response !== 'object') {
+    throw new HttpsError(
+      'permission-denied',
+      'WebAuthn krävs. Lås upp Valvet via Fyren och biometri.',
+    );
+  }
+  return response as RegistrationResponseJSON | AuthenticationResponseJSON;
+}
+
+export const beginVaultWebAuthnChallengeCallable = onCall({ region: 'europe-west1' }, async (request) => {
+  if (!request.auth) {
+    throw new HttpsError('unauthenticated', 'Autentisering krävs för Valv-WebAuthn.');
+  }
+  const { origin, rpID } = assertVaultWebAuthnContext(request.data);
+  return beginVaultWebAuthnChallenge(request.auth.uid, origin, rpID);
+});
 
 export const issueVaultSession = onCall({ region: 'europe-west1' }, async (request) => {
   if (!request.auth) {
     throw new HttpsError('unauthenticated', 'Autentisering krävs för Valv-session.');
   }
+  const { origin, rpID } = assertVaultWebAuthnContext(request.data);
+  const webAuthnResponse = readWebAuthnResponse(request.data);
+  await verifyVaultWebAuthnResponse(request.auth.uid, webAuthnResponse, origin, rpID);
   return createVaultSession(request.auth.uid);
 });
 

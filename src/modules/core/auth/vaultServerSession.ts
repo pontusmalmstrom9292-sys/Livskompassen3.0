@@ -1,5 +1,10 @@
 import { httpsCallable } from 'firebase/functions';
+import type {
+  AuthenticationResponseJSON,
+  RegistrationResponseJSON,
+} from '@simplewebauthn/browser';
 import { functions } from '../firebase/init';
+import { getVaultWebAuthnContext } from './vaultWebAuthnClient';
 
 const TOKEN_KEY = 'livskompassen_vault_session_token';
 const EXPIRES_KEY = 'livskompassen_vault_session_expires';
@@ -7,6 +12,12 @@ const EXPIRES_KEY = 'livskompassen_vault_session_expires';
 type VaultSessionIssueResult = {
   vaultSessionToken?: string;
   expiresAt?: string;
+};
+
+type VaultSessionIssuePayload = {
+  webAuthnResponse: RegistrationResponseJSON | AuthenticationResponseJSON;
+  rpID: string;
+  origin: string;
 };
 
 export function getVaultSessionToken(): string | null {
@@ -25,10 +36,9 @@ export function clearVaultServerSession(): void {
   sessionStorage.removeItem(EXPIRES_KEY);
 }
 
-/** Återanvänd giltig token eller skapa ny via issueVaultSession. */
+/** Returnerar true om giltig token finns — kan inte förnya utan ny WebAuthn. */
 export async function ensureVaultServerSession(): Promise<boolean> {
-  if (getVaultSessionToken()) return true;
-  return issueVaultServerSession();
+  return getVaultSessionToken() !== null;
 }
 
 export function withVaultSessionPayload<T>(payload: T): T & { vaultSessionToken?: string } {
@@ -36,14 +46,19 @@ export function withVaultSessionPayload<T>(payload: T): T & { vaultSessionToken?
   return vaultSessionToken ? { ...payload, vaultSessionToken } : payload;
 }
 
-/** Efter WebAuthn + Fyren — skapar server-side Valv-session (1 h idle). */
-export async function issueVaultServerSession(): Promise<boolean> {
+/** Efter WebAuthn + Fyren — verifierar biometri på server och skapar Valv-session (1 h idle). */
+export async function issueVaultServerSession(
+  webAuthnResponse: RegistrationResponseJSON | AuthenticationResponseJSON,
+): Promise<boolean> {
   try {
-    const issue = httpsCallable<Record<string, never>, VaultSessionIssueResult>(
+    const issue = httpsCallable<VaultSessionIssuePayload, VaultSessionIssueResult>(
       functions,
       'issueVaultSession',
     );
-    const result = await issue({});
+    const result = await issue({
+      webAuthnResponse,
+      ...getVaultWebAuthnContext(),
+    });
     const data = result.data;
     if (!data?.vaultSessionToken || !data?.expiresAt) return false;
     sessionStorage.setItem(TOKEN_KEY, data.vaultSessionToken);

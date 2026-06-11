@@ -8,6 +8,7 @@ import { LivskompassMark } from '../ui/LivskompassMark';
 import { DrawerHubAccordion, isDrawerLinkActive } from './DrawerHubAccordion';
 import { DrawerModeToggle } from './DrawerModeToggle';
 import { DRAWER_VALV_ITEMS } from '../navigation/drawerNav';
+import { useDrawerRecentNav } from '../navigation/hooks/useDrawerRecentNav';
 import {
   drawerItemById,
   getHubNavLinks,
@@ -34,7 +35,9 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
   const setActiveDrawer = useStore((s) => s.setActiveDrawer);
 
   const vaultOpen = isVaultUnlocked || hasVaultGate();
+  const recentVisits = useDrawerRecentNav();
   const { pathname, search, hash } = location;
+  const currentFullPath = `${pathname}${search}`;
 
   useEffect(() => {
     if (!open) return;
@@ -133,6 +136,28 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
 
         <div className="nav-drawer__calm-scroll custom-scrollbar flex-1 overflow-y-auto py-4">
           <nav className="space-y-1 px-3" aria-label="Moduler">
+            {recentVisits.length > 0 ? (
+              <div className="mb-3">
+                <p className="px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-text-dim">
+                  Senast besökt
+                </p>
+                <div className="flex flex-wrap gap-2 px-2">
+                  {recentVisits
+                    .filter((entry) => entry.path !== currentFullPath)
+                    .map((entry) => (
+                      <button
+                        key={entry.path}
+                        type="button"
+                        onClick={() => navigateDrawerPath(entry.path)}
+                        className="rounded-full border border-border/30 bg-surface-2/50 px-3 py-1.5 text-xs text-text-muted transition-colors hover:border-accent/40 hover:bg-surface-3 hover:text-text"
+                      >
+                        {entry.label}
+                      </button>
+                    ))}
+                </div>
+              </div>
+            ) : null}
+
             {/* section="vardag" */}
             <p className="mt-2 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-text-dim">
               Vardag

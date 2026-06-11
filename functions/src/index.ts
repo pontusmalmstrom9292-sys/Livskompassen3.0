@@ -22,6 +22,7 @@ export {
 } from './callables/inbox';
 
 export {
+  beginVaultWebAuthnChallengeCallable as beginVaultWebAuthnChallenge,
   issueVaultSession,
   getEntityProfileRegistry,
   addEntityProfile,

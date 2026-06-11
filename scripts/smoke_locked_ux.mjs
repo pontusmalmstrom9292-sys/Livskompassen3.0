@@ -92,10 +92,26 @@ function main() {
     'MAIN_VAULT_TAB_IDS',
     'PANSARET_VAULT_TAB_IDS',
     'VAULT_MAIN_TAB_LABELS',
+    'getMainVaultTabBarItems',
     'getKunskapVaultTabBarItems',
     'getVaultZoneTabBarItems',
     'getSamlaVaultTabBarItems',
     'getAnalyseraVaultTabBarItems',
+  );
+  mustInclude(
+    'src/modules/core/components/KompisHeaderVaultButton.tsx',
+    'KUNSKAP_VAULT_TAB',
+    'valvetNavigateTarget',
+  );
+  assert(
+    !read('src/modules/core/layout/MainLayout.tsx').includes("navigate('/kompis')"),
+    'MainLayout.tsx',
+    'Kompis kort tryck ska inte gå till publik /kompis',
+  );
+  mustInclude(
+    'src/modules/core/layout/NavigationDrawer.tsx',
+    'Senast besökt',
+    'useDrawerRecentNav',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/utils/vaultTabs.ts',
@@ -226,7 +242,7 @@ function main() {
     'FyrenProgressRing',
     'data-panel-style={panelStyle}',
   );
-  mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'authenticateVaultGate', 'setVaultGate');
+  mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'performVaultWebAuthnForSession', 'setVaultGate');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/utils/vaultTabs.ts', 'VALV_ZONE_INGRESS');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx', 'VALV_ZONE_INGRESS');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx', 'WeaverPendingVaultBanner');
@@ -425,7 +441,9 @@ function main() {
   mustInclude('src/modules/shell/livLauncherRoutes.ts', 'vaultDrawerPath', 'kunskap');
   mustInclude('src/modules/core/home/livskompassHeroConfig.ts', "vaultDrawerPath('kunskapsbank')");
   mustInclude('functions/src/lib/vaultSessionGate.ts', 'assertVaultSession', 'issueVaultSession');
-  mustInclude('functions/src/index.ts', 'issueVaultSession');
+  mustInclude('functions/src/lib/vaultWebAuthn.ts', 'verifyVaultWebAuthnResponse', 'beginVaultWebAuthnChallenge');
+  mustInclude('functions/src/index.ts', 'issueVaultSession', 'beginVaultWebAuthnChallenge');
+  mustInclude('src/modules/core/auth/vaultWebAuthnClient.ts', 'performVaultWebAuthnForSession', 'beginVaultWebAuthnChallenge');
   mustInclude('src/modules/core/auth/vaultServerSession.ts', 'issueVaultServerSession', 'withVaultSessionPayload');
   mustInclude(
     'docs/design/references/MENU-DRAWER-KANON.md',
