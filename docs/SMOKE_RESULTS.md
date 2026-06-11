@@ -1,11 +1,15 @@
 # Smoke-resultat (Fas 3 + Minne)
 
-## Current truth (2026-06-11 — MT-3 deploy + MT-2/MT-4 handoff PASS)
+## Current truth (2026-06-11 — inkast HITL deploy + MT-3 handoff PASS)
 
 **Sanning:** denna tabell ersätter raden «2026-05-31 — systemgenomgång auto» nedan.
 
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
+
+| **Deploy** | Inkast Barnen→Valv HITL bridge (`a2396aff5`) | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
+| **Autorun PASS** | `smoke:inkast` (post-deploy) | **PASS** | 2026-06-11 · Smart Inkast lockdown |
+| **Autorun PASS** | `smoke:locked-ux` (inkast post-deploy) | **PASS** | 2026-06-11 · Barnfokus · Valv · drawer |
 
 | **Deploy** | MT-3 hosting — flat drawer C1 + MaterialPack Våg C (`b16deaf69`) | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
 | **Autorun PASS** | `smoke:locked-ux` (MT-3 post-deploy) | **PASS** | 2026-06-11 · drawer Vardag+Valv · Barnfokus · Planering |
