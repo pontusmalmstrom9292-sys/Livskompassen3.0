@@ -90,12 +90,14 @@ export function EconomyImpulsePanel() {
   const readyItems = items.filter((item) => Date.parse(item.remindAt) <= Date.now());
 
   return (
-    <div className="rounded-xl border border-border bg-surface-2 p-4">
-      <h4 className="flex items-center gap-1.5 text-xs font-semibold text-text">
-        <Clock className="h-3.5 w-3.5 text-text-dim" />
-        Impulsparkeringen (24h regel)
-      </h4>
-      <p className="mb-3 mt-1 text-[10px] leading-relaxed text-text-muted">{EKONOMI_IMPULS_LEAD}</p>
+    <div className="space-y-3">
+      <div>
+        <h4 className="flex items-center gap-1.5 font-display-serif text-[10px] font-semibold uppercase tracking-[0.2em] text-text">
+          <Clock className="h-3.5 w-3.5 text-accent/70" aria-hidden />
+          Impulsparkeringen (24h regel)
+        </h4>
+        <p className="mt-1 text-xs leading-relaxed text-text-muted">{EKONOMI_IMPULS_LEAD}</p>
+      </div>
 
       {error && <p className="mb-2 text-xs text-danger">{error}</p>}
 
@@ -129,10 +131,12 @@ export function EconomyImpulsePanel() {
             return (
               <li
                 key={item.id}
-                className="rounded-lg border border-border/30 bg-surface-3/40 px-3 py-2 text-xs"
+                className={`rounded-lg border px-3 py-2 text-xs ${
+                  isReady ? 'border-accent/30 bg-accent/5' : 'border-border/30 bg-surface-3/40'
+                }`}
               >
                 <p className="font-medium text-text">{item.label}</p>
-                <p className="text-[10px] text-text-dim">
+                <p className={`text-[10px] ${isReady ? 'text-accent/80' : 'text-text-dim'}`}>
                   Parkerad {item.parkedAt.slice(0, 10)}
                   {isReady ? ' · Dags att besluta' : ' · Vänta till imorgon'}
                 </p>
@@ -170,7 +174,9 @@ export function EconomyImpulsePanel() {
             );
           })}
         </ul>
-      ) : null}
+      ) : (
+        <p className="text-xs text-text-dim">Inget parkerat — skriv ovan när impulsen kommer.</p>
+      )}
     </div>
   );
 }

@@ -60,3 +60,31 @@ Båda är `PLAY` · `children_logs` · **inte** Valv. Parent-rader kan visas som
 - [ ] Ingen borttagning av `BARNFOKUS_QUESTIONS` utan locked-ux-godkännande
 - [ ] Ev. `barnfokusCatalog.ts` genererad från bank — samma mönster som `dagligMixCatalog.ts`
 - [ ] **Ej** auto-promote till `reality_vault`
+
+---
+
+## KEEP — child audience (Fas 6 Agent D, 2026-06-11)
+
+**Status:** bank-only · **ingen wire** · kurator `specialist-barn-lek`.
+
+| id | audience | lens | `legacy_id` | text_sv |
+|----|----------|------|-------------|---------|
+| BP-PLAY-06 | child | gladje | `g1` | Vad fick dig att skratta idag? |
+| BP-PLAY-07 | child | gladje | `g2` | Vad var det bästa med din dag? |
+| BP-PLAY-08 | child | kunskap | `k1` | Vet du var regnbågar kommer ifrån? *(hint: Gissa — vi googlar inte i kväll.)* |
+| BP-PLAY-09 | child | kunskap | `k2` | Vilket djur tror du sover mest på jorden? |
+| BP-PLAY-10 | child | knas | `n1` | Om du fick en superkraft i kväll — vilken? |
+
+Alla: `content_class: PLAY` · `source_tier: product_copy` · `status: KEEP`.
+
+### `legacy_id` ↔ kod (wire-plan)
+
+| `legacy_id` | `bankId` | lens |
+|-------------|----------|------|
+| `g1` | BP-PLAY-06 | gladje |
+| `g2` | BP-PLAY-07 | gladje |
+| `k1` | BP-PLAY-08 | kunskap |
+| `k2` | BP-PLAY-09 | kunskap |
+| `n1` | BP-PLAY-10 | knas |
+
+Ej mappade ännu: `g3`, `k3`, `n2`–`n3`, `l1`–`l3`, `u1`–`u2`, `v1`–`v2` — nästa kuratorvåg.

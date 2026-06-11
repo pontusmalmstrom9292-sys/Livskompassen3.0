@@ -3,7 +3,7 @@
  * Statiska guards — Valv-session lifecycle (Fyren, server token, Zero Footprint).
  * Usage: npm run smoke:valv-security
  */
-import { existsSync, readFileSync } from 'fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -27,8 +27,26 @@ function mustInclude(relPath, ...needles) {
   }
 }
 
+function assertVaultZoneGateUnmounted() {
+  const srcRoot = resolve(root, 'src');
+  const gatePath = resolve(root, 'src/modules/core/security/VaultZoneGate.tsx');
+  const walk = (dir) => {
+    for (const name of readdirSync(dir)) {
+      const p = resolve(dir, name);
+      if (statSync(p).isDirectory()) walk(p);
+      else if ((name.endsWith('.ts') || name.endsWith('.tsx')) && p !== gatePath) {
+        const text = readFileSync(p, 'utf8');
+        assert(!/VaultZoneGate/.test(text) || !/from\s+['"].*VaultZoneGate/.test(text),
+          `${p.replace(root + '/', '')} importerar VaultZoneGate — ska vara avmonterad (Fyren)`);
+      }
+    }
+  };
+  walk(srcRoot);
+}
+
 function main() {
   console.log('[smoke:valv-security] Session lifecycle…');
+  assertVaultZoneGateUnmounted();
 
   mustInclude(
     'src/modules/core/security/vaultSessionLifecycle.ts',

@@ -22,7 +22,8 @@
 | 15 | Vit översikt P4 | — | `VitRecentOverview`, MåBra→Valv | — | **done** 2026-06-06 — senaste 3 + hub-länk till Mitt Vit |
 | 16 | Vit spec + utveckling P5 | — | spec P1–P3 done, `VitDevelopmentPanel` | — | **done** 2026-06-06 — deterministisk veckoaktivitet + humör/pass-polish |
 | 17 | Teman / vad jag tycker är kul | — | MB-REF-JOY-01..06, MB-PLAY-JOY-01/02 | — | **done** 2026-06-07 — bank-only (kurator); prod-wire kräver PMIR |
+| 18 | Barnen PLAY child bank | — | BP-PLAY-06+ (child · `BARNFOKUS_QUESTIONS`) | — | **plan** 2026-06-11 — bank-only (`specialist-barn-lek`); Agent D harmonisation §; prod-wire PMIR |
 
-**Aktiv våg:** `18` (nästa: se [`MABRA-PROJEKT-VIT-HUB-SPEC.md`](../design/MABRA-PROJEKT-VIT-HUB-SPEC.md) backlog)
+**Aktiv våg:** `18` (Barnen child bank — [`Barnen-PLAY-BANK.md`](../specs/modules/Barnen-PLAY-BANK.md) § Harmonisation)
 
 **Seed (Google-konto):** `SEED_FIREBASE_EMAIL` i `.env` + `gcloud auth application-default login` → `npm run seed:kunskap-facts`

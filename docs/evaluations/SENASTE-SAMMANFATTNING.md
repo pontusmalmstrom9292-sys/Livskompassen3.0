@@ -1,13 +1,13 @@
 # Senaste sammanfattning — systemstatus
 
-**Datum:** 2026-06-07 · **Gren:** `main` · **HEAD:** `6ce9e79c`  
-**Senaste:** Inkast CTA + MaterialPack editor **USER PASS** · Superhub §D USER PASS · hosting live
+**Datum:** 2026-06-11 · **Gren:** `main`  
+**Senaste:** Fas 6 closer — barn-lek bank v18 (BP-PLAY-06..10, bank-only) · ekonomi Impulsparkering UX · `smoke:valv-security` VaultZoneGate guard · hosting deployad
 
 ---
 
 ## Nuläge i en mening
 
-**Fas 5A #3 Valv + #4 Barnporten USER PASS** · Barnporten Våg A/B deployad · MaterialPack Familjen · Inkast post-save CTA live.
+**Fas 5A #3/#4 USER PASS** · Fas 6 bank v18 planerad (ingen prod-wire) · ekonomi impuls-panel polish live · drawer gold (Fas 5) redan deployad.
 
 ---
 
