@@ -39,6 +39,12 @@ function main() {
   mustInclude('src/modules/core/navigation/navTruth.ts', 'VALVET', 'HJARTAT');
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'openValvViaFyren', 'performVaultWebAuthnForSession');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'NAV_PATHS.VALVET', 'NAV_PATHS.HJARTAT');
+  mustInclude(
+    'src/modules/core/routing/AppRoutes.tsx',
+    "vaultDrawerPath('hamn_analys')",
+    "params.get('tab') === 'analys'",
+  );
+  mustInclude('src/modules/core/pages/FamiljenPage.tsx', "vaultRedirectSearch('hamn_analys')");
 
   console.log('[smoke:plausible-deniability] Handoff utan auto-sync…');
   mustInclude('src/modules/features/lifeJournal/diary/diary/components/HandoffBox.tsx', 'vaultHandoffText');

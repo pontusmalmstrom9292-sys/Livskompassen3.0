@@ -10,7 +10,7 @@ import {
   valvetNavigateTarget,
   type LifeJournalTabKey,
 } from '../navigation/navigationRegistry';
-import { NAV_PATHS } from '../navigation/navTruth';
+import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
 
 const HjartatPage = lazy(() =>
   import('@/core/pages/DagbokPage').then((m) => ({ default: m.HjartatPage })),
@@ -149,9 +149,15 @@ function RedirectToValvet({ vaultTab }: { vaultTab?: string }) {
   );
 }
 
-/** Legacy `/hamn` → Familjehubben; bevarar t.ex. Speglar `prefilledMessage` i location.state. */
+/** Legacy `/hamn` → Familjen; `?tab=analys` → Valv forensic (hamn_analys). */
 function RedirectHamnToFamiljen() {
   const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  if (params.get('tab') === 'analys') {
+    return (
+      <Navigate to={vaultDrawerPath('hamn_analys')} state={location.state} replace />
+    );
+  }
   return (
     <Navigate
       to={{ pathname: NAV_PATHS.FAMILJEN, search: '?tab=hamn' }}

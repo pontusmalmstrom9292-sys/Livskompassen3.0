@@ -43,6 +43,7 @@ function resolveTab(raw: string | null): FamiljenTabId {
 const LEGACY_TAB_REDIRECTS: Record<string, { pathname: string; search: string }> = {
   kunskap: { pathname: NAV_PATHS.VALVET, search: vaultRedirectSearch('kunskapsbank') },
   monster: { pathname: NAV_PATHS.VALVET, search: vaultRedirectSearch('familjen_monster') },
+  analys: { pathname: NAV_PATHS.VALVET, search: vaultRedirectSearch('hamn_analys') },
 };
 
 /** smoke:orkester — vaultDrawerPath kanon (runtime via vaultRedirectSearch). */

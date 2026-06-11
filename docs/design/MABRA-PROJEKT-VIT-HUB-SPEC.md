@@ -96,6 +96,6 @@ Kod: `mabraProjects.ts`, `MabraProjectHub.tsx`, `VitHubPreview.tsx`, `VaultVitHu
 | Idé | Not |
 |-----|-----|
 | Kurva över månader | Kräver mer data — avvakta UX-test |
-| Teman / “vad jag tycker är kul” | Separata frågekort-serier — kurator, ej auto-LLM |
+| ~~Teman / “vad jag tycker är kul”~~ | **done** våg 17 — `MB-REF-JOY-01..06`, `MB-PLAY-JOY-01/02` i bank; prod-wire kräver PMIR |
 
 Mockup: [`mabra-projekt-vit-hub.png`](./references/mabra-projekt-vit-hub.png).

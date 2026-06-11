@@ -535,8 +535,14 @@ function main() {
     'path="/hamn"',
     'RedirectHamnToFamiljen',
     "search: '?tab=hamn'",
+    "vaultDrawerPath('hamn_analys')",
     'RedirectDrogfrihetToFamiljen',
     'path="/drogfrihet"',
+  );
+  mustInclude(
+    'src/modules/core/pages/FamiljenPage.tsx',
+    "vaultRedirectSearch('hamn_analys')",
+    'analys:',
   );
   mustInclude(
     'src/modules/core/navigation/navigationRegistry.ts',
