@@ -80,6 +80,63 @@ firebase deploy --only functions:notifyNewFile
 
 Samma värde ska sättas som `WEBHOOK_SECRET` i Apps Script (se [DRIVE_AUTOMATION.md](./DRIVE_AUTOMATION.md)).
 
+## Fas 1 — Säkerhetshårdning (2026-06-11)
+
+### 1.2 Prod: kräv e-postinloggning
+
+Bygg hosting med flaggan satt (Vite bäddar in vid build — inte runtime):
+
+```bash
+VITE_REQUIRE_EMAIL_AUTH=true npm run build
+firebase deploy --only hosting
+```
+
+- Lokalt/dev: lämna flaggan **av** i `.env` — anonym auth fungerar fortfarande.
+- Prod (valfritt): stäng av **Authentication → Anonymous** i Firebase Console när du kör e-postkrav.
+
+### 1.3 Firestore: `email_verified`
+
+Regler på WORM-silos (`journal`, `reality_vault`, `children_logs`, `dossier_snapshots` read): Google/e-post måste vara **verifierade**; anonym provider tillåts fortfarande för dev/smoke.
+
+```bash
+firebase deploy --only firestore:rules
+```
+
+### 1.4 Firebase App Check
+
+**Console (engångs):**
+
+1. [Firebase Console → App Check](https://console.firebase.google.com/project/gen-lang-client-0481875058/appcheck) → registrera **Web**-appen.
+2. Provider: **reCAPTCHA v3** — kopiera site key till `.env`: `VITE_APP_CHECK_RECAPTCHA_SITE_KEY=…`
+3. Lokal dev: App Check → **Manage debug tokens** → lägg token i `.env`: `VITE_APP_CHECK_DEBUG_TOKEN=…`
+4. **Android:** registrera `com.livskompassen.app` med **Play Integrity** (Capacitor) — samma App Check-projekt.
+5. När web+Android skickar tokens: aktivera enforcement på **Cloud Functions** i App Check-konsolen.
+
+**Functions (prod enforcement):**
+
+```bash
+# Sätt env på berörda functions (exempel — upprepa per LLM-callable eller via firebase.json)
+firebase functions:config:set appcheck.enforce=true   # legacy — prefer env APP_CHECK_ENFORCE
+
+# Rekommenderat: Firebase Functions v2 env (Google Cloud Console → Cloud Run / Functions)
+# APP_CHECK_ENFORCE=true
+```
+
+Kod: fail-open tills `APP_CHECK_ENFORCE=true` (eller `FUNCTIONS_EMULATOR=true` → alltid öppen). Deploy berörda callables efter aktivering:
+
+```bash
+cd functions && npm run build && cd ..
+firebase deploy --only functions:issueVaultSession,functions:beginVaultWebAuthnChallenge,functions:valvChatQuery,functions:analyzeMessage,functions:knowledgeVaultQuery,functions:childrenLogsQuery,functions:speglingsMirror,functions:mabraCoach,functions:generateDossier,functions:weaveJournalEntry,functions:ingestWidgetRecording,functions:generateEmbedding,functions:ingestKnowledgeDocument
+```
+
+### 1.5 Rate limits (LLM callables)
+
+Per-UID sliding window (60 s) via Firestore `_rate_limits` — ingen klientåtkomst. Deploy samma functions som ovan. Överskridande → `resource-exhausted`.
+
+### 1.6 WORM field allowlists
+
+`firestore.rules` använder `keys().hasOnly([...])` på create för `journal`, `reality_vault`, `children_logs`. Smoke: `npm run smoke:vault-worm`.
+
 ## Deploy — Hosting (SPA)
 
 Efter frontend-ändringar:

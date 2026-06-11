@@ -12,7 +12,9 @@ Mandatory invariants:
 - `VaultLog` and `CheckIn` are immutable after creation.
 - Every user-owned document must bind to exactly one `userId`.
 - Users may only read or write their own data.
-- Verified email is required for write operations where auth is involved.
+- Verified email is required for WORM silo access (`journal`, `reality_vault`, `children_logs`, `dossier_snapshots` read) unless `sign_in_provider == 'anonymous'` (dev/smoke).
+- WORM create must pass `keys().hasOnly([...])` — see `firestore.rules` helpers `isValid*Create`.
+- LLM callables use App Check (when `APP_CHECK_ENFORCE=true`) and per-UID rate limits (`callableGuards.ts`).
 - `NetworkMember` must validate category and importance.
 - `SystemSynapse` and `SystemScan` are owner-limited and critical.
 

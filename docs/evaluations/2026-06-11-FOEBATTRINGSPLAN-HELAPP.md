@@ -55,11 +55,11 @@ Kräver prod-beslut (anon auth, App Check).
 | ID | Uppgift | Domän | Anteckning |
 |----|---------|-------|------------|
 | **1.1** | Cap `ingestKnowledgeDocument` base64 (~8 MB) | C | **done** 2026-06-11 |
-| **1.2** | Prod: `VITE_REQUIRE_EMAIL_AUTH=true` + dokumentera | C | Användarflöde ändras |
-| **1.3** | `email_verified` i Firestore rules (eller uppdatera security-firestore.mdc) | C | Beslut krävs |
-| **1.4** | Firebase App Check (web + Android) på callables | C | GCP-konfig |
-| **1.5** | Per-UID rate limits på LLM-callables | C | Functions middleware |
-| **1.6** | WORM create: `keys().hasOnly([...])` per sacred collection | C | Rules-deploy |
+| **1.2** | Prod: `VITE_REQUIRE_EMAIL_AUTH=true` + dokumentera | C | **done** 2026-06-11 |
+| **1.3** | `email_verified` i Firestore rules (eller uppdatera security-firestore.mdc) | C | **done** 2026-06-11 |
+| **1.4** | Firebase App Check (web + Android) på callables | C | **done (kod)** — Console + `APP_CHECK_ENFORCE` |
+| **1.5** | Per-UID rate limits på LLM-callables | C | **done** 2026-06-11 |
+| **1.6** | WORM create: `keys().hasOnly([...])` per sacred collection | C | **done** 2026-06-11 |
 | **1.7** | VaultZoneGate + `webauthn.ts` fail-closed utan WebAuthn | C | **done** 2026-06-11 |
 
 ### Fas 2 — Navigation & hubbar IA (1–2 veckor)

@@ -10,7 +10,7 @@ Säkerheten i Livskompassen v2 är rigorös på grund av hanteringen av djupt pe
 
 | Lager | Mekanism | Kod / regler |
 |-------|----------|--------------|
-| 1 — Identitet | Firebase Anonymous Auth + `ownerId`/`userId` på alla poster | `firestore.rules`, `AuthGate` |
+| 1 — Identitet | Firebase Auth + `ownerId`/`userId`; prod: `VITE_REQUIRE_EMAIL_AUTH=true` | `firestore.rules`, `AuthGate`, `requireEmailAuth.ts` |
 | 2 — Åtkomst | WORM append-only; inga client-updates på bevis | `firestore.rules` (`update, delete: if false`) |
 | 3 — Kryptering | CMEK via Cloud KMS (crypto-shredding) | `scripts/setup_gcp_cmek.sh` |
 | 4 — Session | Draft Layer (IndexedDB utkast) + Valv idle timeout + Device Clear | `clearDeviceSession`, `useZeroFootprint` idle |
@@ -80,6 +80,10 @@ Append-only collections (create ja, update/delete nej):
 
 **Källkod:** [`firestore.rules`](../firestore.rules)
 
+**Fas 1.3 (2026-06-11):** WORM-silos kräver `email_verified` för Google/e-post, eller anonym provider (dev). Create validerar `keys().hasOnly([...])` per collection (1.6).
+
+**Fas 1.4–1.5:** App Check + rate limits på LLM-callables — se [`docs/DEPLOY.md`](../docs/DEPLOY.md) § Fas 1.
+
 ---
 
 ## Callable Functions — auth-krav
@@ -146,6 +150,10 @@ Digital Conversation Analysis Pipeline skyddar mot psykologiskt missbruk och pro
 | Zero Footprint logout | `signOutUser` utan `invalidateSession` | **done** — `authService.ts` anropar `invalidateServerSession` |
 | Valv WebAuthn bypass | `issueVaultSession` utan biometri | **done** — server verifierar via `vaultWebAuthn.ts` |
 | Manuell smoke app | #3 Valv, #4 Barnen, #2d | **USER** — se [`SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) |
+| App Check på callables | LLM/Valv utan enhetsattest | **done (kod)** — `APP_CHECK_ENFORCE=true` + Console pending |
+| Rate limits LLM | DoS på Vertex/Gemini | **done (kod)** — `_rate_limits` + `callableGuards.ts` |
+| Anonym auth + WORM | Prod ska kräva e-post | **delvis** — `VITE_REQUIRE_EMAIL_AUTH` + rules `isSensitiveAuth` |
+| WORM shadow fields | Extra fält på create | **done** — `keys().hasOnly` i rules |
 
 G7–G16 backend: **done** — [`Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md)
 
