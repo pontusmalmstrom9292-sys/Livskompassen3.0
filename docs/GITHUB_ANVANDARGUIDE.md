@@ -122,7 +122,7 @@ Arbeta autonomt och sluta inte förrän koden är helt felfri och appen går att
 | `/vardagen` | `src/modules/kompasser/` | Morgon-/kvällskompass, paralys |
 | `/vardagen?tab=kunskap` | `src/modules/kompis/` | Kunskapsvalvet, Kompis, entiteter |
 | `/dagbok` | `src/modules/dagbok/` | Dagbok, Hjärtat-hub |
-| `/dagbok?tab=bevis` | `src/modules/verklighetsvalvet/` | Verklighetsvalvet (bevis) |
+| `/valvet` | `src/modules/verklighetsvalvet/` | Verklighetsvalvet (bevis) |
 | Bevis → Sök | `src/modules/valv_chatt/` | Valv-Chat (egen silo) |
 | `/dagbok?tab=speglar` | `src/modules/speglings_system/` | Speglings-Systemet |
 | `/familjen` | `src/modules/barnens_livsloggar/` | Barnens livsloggar |

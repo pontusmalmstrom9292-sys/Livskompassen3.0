@@ -60,7 +60,7 @@ Visas när `isVaultUnlocked` eller `hasVaultGate()` — **under** Vardag-sektion
 
 *(Legacy namn **Pansaret** = zoner Spara & sök + Mönster + Rapporter i VaultPage.)*
 
-Alla Valv-rader → `/dagbok?tab=bevis&vaultTab=…` (utom `/dossier` full vy via sida).
+Alla Valv-rader → `/valvet?vaultTab=…` (utom `/dossier` full vy via sida).
 
 **Tillbaka:** `DrawerModeToggle` med **Vardag** → `/` (Hem — Skriv).
 

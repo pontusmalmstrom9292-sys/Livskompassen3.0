@@ -40,7 +40,7 @@ Arkiv-GAP G1–G16 är **klara i kod**. Det som återstår är mest **manuella t
 | Hem Kompass | `/` | **Aktiv** — hero, check-in, minneskort |
 | Familjen | `/familjen` | **Aktiv** — barnfokus, livslogg, 5 flikar |
 | Trygg hamn | `/hamn` | **Aktiv** — BIFF / Grey Rock |
-| Valv | `/dagbok?tab=bevis` | **Aktiv** — bevis, Mönster, Orkester |
+| Valv | `/valvet` | **Aktiv** — bevis, Mönster, Orkester |
 | Planering | `/planering` | **Aktiv** — Kanban (ATT GÖRA / VÄNTAR / KLART) |
 | MåBra | `/mabra` | **Aktiv** — KBT, andning, coach |
 | Inställningar | (ingen route) | **Aktiv** — öppnar konto-panel |

@@ -119,6 +119,7 @@ En beslutspunkt före kod: drawer accordion vs kanon 4 rader.
 
 **Högt**
 - Doc vs runtime: 3-zon i docs, 4 paths i kod (`/hjartat`, `/valvet`, `/vardagen`, `/familjen`).
+- **delvis fix (2026-06-11):** Valv-entry i MENU-DRAWER, DOCK, arkiv-minne, KOMPASS-MINNESKARTA → `/valvet` (många eval/spec kvar).
 - Drawer accordion vs MENU-DRAWER-KANON.
 - Stale `/liv` hrefs i `tabRegistry.ts`.
 - Planering regler dubbel (`/projekt/regler` + `?tab=regler`).

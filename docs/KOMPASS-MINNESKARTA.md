@@ -77,7 +77,7 @@
 | Sida | Mapp | Route | Smoke |
 |------|------|-------|-------|
 | **Familjen / Barnen** | `src/modules/barnens_livsloggar/` | `/familjen` | `smoke:locked-ux`, `smoke:children` |
-| Valv / bevis | `verklighetsvalvet/` + `valv_chatt/` | `/dagbok?tab=bevis` | `smoke:locked-ux`, `smoke:valv` |
+| Valv / bevis | `verklighetsvalvet/` + `valv_chatt/` | `/valvet` | `smoke:locked-ux`, `smoke:valv` |
 | Hamn / BIFF | `safe_harbor/` | `/hamn` | `analyzeMessage` |
 | Planering | `planering/` | `/planering` | `smoke:locked-ux` |
 | MåBra | `mabra/` | `/mabra` | `smoke:mabra` |
