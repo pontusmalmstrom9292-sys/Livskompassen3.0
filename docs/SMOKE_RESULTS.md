@@ -11,7 +11,7 @@
 | **Autorun PASS** | `smoke:locked-ux` (P1 Barnfokus wire) | **PASS** | 2026-06-11 |
 | **Deploy** | `functions:mabraCoach` — runtime `bankId`-lookup (U6 Fas 4.1) | **PASS** | 2026-06-11 · `mabraContentBank.ts` · coach + vit_chat parafras från bank |
 | **Autorun PASS** | `smoke:innehall` (P2 bank lock) | **PASS** | 2026-06-11 |
-| **Autorun BLOCKED** | `smoke:mabra` | **BLOCKED** | 2026-06-11 · `failed-precondition` App Check — saknar `VITE_APP_CHECK_*` i `.env` (se P3) |
+| **Autorun PASS** | `smoke:mabra` (App Check debug token i `.env`) | **PASS** | 2026-06-11 · bankId MB-REF-03 + MB-REF-ACT-01 |
 | **Build** | `functions` tsc + deploy upload | **PASS** | 2026-06-11 |
 
 | **Autorun PASS** | Fas 7 Super Multitask — 5 agenter parallellt + ekonomi/tid UX polish | **PARTIAL** | 2026-06-11 · build PASS · 10/11 smokes PASS · **FAIL:** `smoke:mabra` vit_chat `functions/unknown` (deploy?) · locked-ux + design-modules + ekonomi + innehall PASS efter UX-fix |

@@ -6,7 +6,7 @@ import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { initializeApp } from 'firebase/app';
-import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
+import { initializeAppCheck, CustomProvider } from 'firebase/app-check';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 import { getFirestore, collection, addDoc, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
@@ -43,16 +43,36 @@ async function main() {
     appId: env.VITE_FIREBASE_APP_ID,
   });
 
-  const appCheckSiteKey = env.VITE_APP_CHECK_RECAPTCHA_SITE_KEY;
-  if (appCheckSiteKey) {
-    if (env.VITE_APP_CHECK_DEBUG_TOKEN) {
-      globalThis.FIREBASE_APPCHECK_DEBUG_TOKEN = env.VITE_APP_CHECK_DEBUG_TOKEN;
-    }
+  const debugToken = env.VITE_APP_CHECK_DEBUG_TOKEN;
+  const appId = env.VITE_FIREBASE_APP_ID;
+  const projectNumber = env.VITE_FIREBASE_MESSAGING_SENDER_ID;
+  if (debugToken && appId && projectNumber) {
+    const apiKey = env.VITE_FIREBASE_API_KEY;
+    const exchangeUrl = `https://firebaseappcheck.googleapis.com/v1/projects/${projectNumber}/apps/${appId}:exchangeDebugToken?key=${encodeURIComponent(apiKey)}`;
     initializeAppCheck(app, {
-      provider: new ReCaptchaV3Provider(appCheckSiteKey),
+      provider: new CustomProvider({
+        getToken: async () => {
+          const res = await fetch(exchangeUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Firebase-AppCheck': debugToken },
+            body: JSON.stringify({ debugToken, limitedUse: false }),
+          });
+          if (!res.ok) {
+            const errText = await res.text();
+            throw new Error(`App Check exchangeDebugToken ${res.status}: ${errText}`);
+          }
+          const data = await res.json();
+          return {
+            token: data.token,
+            expireTimeMillis: data.ttl
+              ? Date.now() + Number.parseInt(String(data.ttl).replace('s', ''), 10) * 1000
+              : Date.now() + 3_600_000,
+          };
+        },
+      }),
       isTokenAutoRefreshEnabled: true,
     });
-    console.log('[smoke] App Check initierad');
+    console.log('[smoke] App Check (debug token) initierad');
   }
 
   const auth = getAuth(app);
