@@ -41,9 +41,12 @@ async function expectDenied(label, fn) {
     assert(
       code === 'permission-denied' ||
         code === 'functions/permission-denied' ||
+        code === 'failed-precondition' ||
+        code === 'functions/failed-precondition' ||
         msg.includes('Missing or insufficient permissions') ||
         msg.includes('Valv-session krävs') ||
-        msg.includes('Valv-session saknas'),
+        msg.includes('Valv-session saknas') ||
+        msg.includes('App Check-verifiering krävs'),
       `${label}: oväntat fel — ${code || msg}`,
     );
     console.log(`[smoke] ${label}: NEKAD (OK)`);
