@@ -161,6 +161,7 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
               Vardag
             </p>
 
+            {/* section="vardag" MENU-DRAWER-KANON flat rows */}
             <div className="space-y-1">
               {DRAWER_VARDAG_ITEMS.map((item) => {
                 const Icon = item.icon;
@@ -187,7 +188,9 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
             </div>
 
             {vaultOpen ? (
-              <div className="mt-6 border-t border-border/15 pt-4">
+              <>
+                {/* section="valv" PIN-unlocked drawer block */}
+                <div className="mt-6 border-t border-border/15 pt-4">
                 <p className="px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-accent/80">
                   Valvet
                 </p>
@@ -233,6 +236,7 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
                   </span>
                 </button>
               </div>
+              </>
             ) : null}
           </nav>
         </div>
