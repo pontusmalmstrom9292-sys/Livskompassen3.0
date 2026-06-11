@@ -17,6 +17,8 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
+import { initSmokeAppCheck } from './lib/smoke_app_check.mjs';
+import { obtainSmokeVaultSession } from './lib/smoke_vault_session.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -62,6 +64,8 @@ async function main() {
     appId: env.VITE_FIREBASE_APP_ID,
   });
 
+  initSmokeAppCheck(app, env);
+
   const auth = getAuth(app);
   const db = getFirestore(app);
   const functions = getFunctions(app, 'europe-west1');
@@ -88,9 +92,7 @@ async function main() {
   const dateFrom = isoDateDaysAgo(90);
   const dateTo = new Date().toISOString().slice(0, 10);
 
-  const generateDossier = httpsCallable(functions, 'generateDossier');
-  console.log('[smoke] generateDossier…');
-  const genResult = await generateDossier({
+  const dossierPayload = {
     dateFrom,
     dateTo,
     sources: {
@@ -105,7 +107,41 @@ async function main() {
       children_logs: [],
       journal: [],
     },
-  });
+  };
+
+  const generateDossier = httpsCallable(functions, 'generateDossier');
+  console.log('[smoke] generateDossier utan vaultSessionToken (gate)…');
+  try {
+    await generateDossier(dossierPayload);
+    throw new Error('generateDossier utan token: förväntade permission-denied');
+  } catch (err) {
+    if (err.message?.includes('förväntade permission-denied')) throw err;
+    const code = err?.code ?? '';
+    const msg = String(err.message ?? '');
+    assert(
+      code === 'permission-denied' ||
+        code === 'functions/permission-denied' ||
+        msg.includes('Valv-session krävs'),
+      `generateDossier gate: oväntat fel — ${code || msg}`,
+    );
+    console.log('[smoke] generateDossier utan token: NEKAD (OK)');
+  }
+
+  console.log('[smoke] Hämtar vaultSessionToken…');
+  const { token: vaultSessionToken, webAuthnGateLive } = await obtainSmokeVaultSession(
+    functions,
+    uid,
+    projectId,
+  );
+
+  if (!vaultSessionToken) {
+    assert(webAuthnGateLive, 'saknar vaultSessionToken utan WebAuthn-gate');
+    console.log('\n[smoke] PASS — Dossier gate + WebAuthn (E2E: Fyren i app eller ADC för admin-seed).');
+    process.exit(0);
+  }
+
+  console.log('[smoke] generateDossier med vaultSessionToken…');
+  const genResult = await generateDossier({ ...dossierPayload, vaultSessionToken });
 
   const data = genResult.data;
   assert(data?.dossierId, 'saknar dossierId');

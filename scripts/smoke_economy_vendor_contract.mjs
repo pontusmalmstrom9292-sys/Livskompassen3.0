@@ -62,19 +62,21 @@ function buildFunctions() {
   execSync('npm run build', { cwd: functionsRoot, stdio: 'pipe', encoding: 'utf8' });
 }
 
+function vendorLibPath(name) {
+  const candidates = [
+    resolve(functionsRoot, 'lib/economy/vendor', name),
+    resolve(functionsRoot, 'lib/functions/src/economy/vendor', name),
+  ];
+  const hit = candidates.find((p) => existsSync(p));
+  assert(hit, `saknar compiled vendor: ${name} (kör cd functions && npm run build)`);
+  return hit;
+}
+
 async function runVendorGolden() {
-  const mod = await import(
-    pathToFileURL(resolve(functionsRoot, 'lib/economy/vendor/generatePayslipCore.js')).href
-  );
-  const liv = await import(
-    pathToFileURL(resolve(functionsRoot, 'lib/economy/vendor/livsmedel2026.js')).href
-  );
-  const tax = await import(
-    pathToFileURL(resolve(functionsRoot, 'lib/economy/vendor/taxTable32.js')).href
-  );
-  const pay = await import(
-    pathToFileURL(resolve(functionsRoot, 'lib/economy/vendor/payTimeRules.js')).href
-  );
+  const mod = await import(pathToFileURL(vendorLibPath('generatePayslipCore.js')).href);
+  const liv = await import(pathToFileURL(vendorLibPath('livsmedel2026.js')).href);
+  const tax = await import(pathToFileURL(vendorLibPath('taxTable32.js')).href);
+  const pay = await import(pathToFileURL(vendorLibPath('payTimeRules.js')).href);
 
   const golden = JSON.parse(read(`${SHARED}/__fixtures__/sheet-golden.json`));
   const PAYDAY = new Date(2026, 4, 16);

@@ -1,15 +1,20 @@
 # Smoke-resultat (Fas 3 + Minne)
 
-## Current truth (2026-06-11 — Multitask MT-2 γ gate PASS)
+## Current truth (2026-06-11 — Multitask MT-2 + MT-4 handoff PASS)
 
 **Sanning:** denna tabell ersätter raden «2026-05-31 — systemgenomgång auto» nedan.
 
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
 
+| **Autorun PASS** | `npm run smoke:all` (MT-4 gate) | **PASS** | 2026-06-11 · dossier vault-session · economy vendor lib path |
+| **Autorun PASS** | `npm run google-ai-pro:pack` | **PASS** | 2026-06-11 · `exports/google-ai-pro/` |
+| **Deploy** | `functions:analyzeMessage` (DCAP semantic prompt i `sharedRules.ts`) | **PASS** | 2026-06-11 · `smoke:grans` riskScore OK |
+| **Deploy** | MT-2 hosting + `firestore:rules` (legacy `vault` skrivlåst) | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
+| **Autorun PASS** | MT-2 gate: orkester + compass + planering-gora-e + valv-security | **PASS** | 2026-06-11 · [`2026-06-11-multitask-mt2.md`](./evaluations/2026-06-11-multitask-mt2.md) |
 | **Autorun PASS** | MT-2 γ — kompass-widget mount (Vardagen + Hamn) + ICS smoke | **PASS** | 2026-06-11 · [`2026-06-11-multitask-mt2-gamma.md`](./evaluations/2026-06-11-multitask-mt2-gamma.md) |
-| **Feature (local)** | Kompass-widget på `/vardagen` + Trygg Hamn Kompassråd | **build PASS** | 2026-06-11 — hosting deploy väntar |
-| **Feature (local)** | P2 Planering ICS export (`exportPlaneringIcs.ts`) | **smoke PASS** | 2026-06-11 — hosting deploy väntar |
+| **Feature** | Kompass-widget på `/vardagen` + Trygg Hamn Kompassråd | **PASS** | 2026-06-11 · prod hosting |
+| **Feature** | P2 Planering ICS export (`exportPlaneringIcs.ts`) | **PASS** | 2026-06-11 · prod hosting |
 | **Autorun PASS** | MT-2 γ gate: build + design-modules + planering-gora-e + compass + hamn + locked-ux + orkester | **PASS** | 2026-06-11 · `smoke:compass` App Check fix |
 | **Autorun PASS** | Multitask MT-1 (α barn-lek full · γ error boundaries · δ core-strict baseline) | **PASS** | 2026-06-11 · [`2026-06-11-multitask-mt1.md`](./evaluations/2026-06-11-multitask-mt1.md) |
 | **Autorun PASS** | MT-1 gate: build + locked-ux + innehall + children + mabra + orkester | **PASS** | 2026-06-11 · `smoke:children` App Check fix |
@@ -653,6 +658,8 @@ Kör: `npm run smoke:dossier` (kräver `.env`, Anonymous Auth, deployad `generat
 |------|----------|----------|
 | Anonymous Auth | **PASS** | |
 | `reality_vault` seed (smoke) | **PASS** | WORM create före export |
+| `generateDossier` utan token | **PASS** | permission-denied (Valv-session gate) |
+| `vaultSessionToken` | **PASS** | Admin SDK seed (`smoke_vault_session.mjs`) eller Fyren manuellt |
 | `generateDossier` | **PASS** | `dossierId` + SHA-256 `documentHash` |
 | `dossier_snapshots` read | **PASS** | `includedDocIds` + hash matchar |
 | PDF bytes (`%PDF`) | **PASS** | via `pdfBase64` fallback |

@@ -10,6 +10,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
+import { initSmokeAppCheck } from './lib/smoke_app_check.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -81,6 +82,8 @@ async function main() {
     messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
     appId: env.VITE_FIREBASE_APP_ID,
   });
+
+  initSmokeAppCheck(app, env);
 
   const auth = getAuth(app);
   const db = getFirestore(app);
