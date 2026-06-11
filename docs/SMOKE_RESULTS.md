@@ -6,6 +6,10 @@
 
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
+
+| **Autorun PASS** | WH4 widget Hamn + logout Zero Footprint (`a66711dd`) | **PASS** | 2026-06-11 · build + hamn + locked-ux + valv-security + orkester |
+| **Deploy** | Hosting WH4 + `signOutUser` vault/speglar cleanup | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
+
 | **Manuell PASS** | #1 Auth | **PASS** | 2026-05-27 |
 | **Manuell PASS** | #2 Dagbok → `journal` | **PASS** | 2026-05-27 |
 | **Manuell PASS** | #2d Dagbok bilaga → `journal_memories` | **PASS** | 2026-06-06 (USER) |
