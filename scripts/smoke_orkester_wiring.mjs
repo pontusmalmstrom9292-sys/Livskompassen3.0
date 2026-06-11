@@ -129,6 +129,8 @@ function main() {
     'askDagbokSnabbCoach',
   );
   mustInclude('functions/src/sharedRules.ts', 'DAGBOK_SNABB_COACHEN_SYSTEM_PROMPT');
+  mustInclude('functions/src/sharedRules.ts', 'DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT');
+  mustInclude('functions/src/agents/DCAP.ts', 'DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT');
   mustInclude('src/modules/features/lifeJournal/diary/diary/api/journalQuickMirrorService.ts', 'journalQuickMirror');
   mustInclude(
     'src/modules/features/family/safeHarbor/components/TryggHamnHub.tsx',

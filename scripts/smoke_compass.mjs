@@ -9,6 +9,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
+import { initSmokeAppCheck } from './lib/smoke_app_check.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -33,14 +34,20 @@ function assert(condition, message) {
 
 async function main() {
   const env = loadEnv();
+  const apiKey = env.VITE_FIREBASE_API_KEY;
+  const projectId = env.VITE_FIREBASE_PROJECT_ID;
+  assert(apiKey && projectId, 'VITE_FIREBASE_* krävs i .env');
+
   const app = initializeApp({
-    apiKey: env.VITE_FIREBASE_API_KEY,
+    apiKey,
     authDomain: env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: env.VITE_FIREBASE_PROJECT_ID,
+    projectId,
     storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET,
     messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
     appId: env.VITE_FIREBASE_APP_ID,
   });
+
+  initSmokeAppCheck(app, env);
 
   const auth = getAuth(app);
   const db = getFirestore(app);

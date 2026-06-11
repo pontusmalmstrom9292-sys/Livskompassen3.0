@@ -1,12 +1,16 @@
 # Smoke-resultat (Fas 3 + Minne)
 
-## Current truth (2026-06-11 — Multitask MT-1 gate PASS)
+## Current truth (2026-06-11 — Multitask MT-2 γ gate PASS)
 
 **Sanning:** denna tabell ersätter raden «2026-05-31 — systemgenomgång auto» nedan.
 
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
 
+| **Autorun PASS** | MT-2 γ — kompass-widget mount (Vardagen + Hamn) + ICS smoke | **PASS** | 2026-06-11 · [`2026-06-11-multitask-mt2-gamma.md`](./evaluations/2026-06-11-multitask-mt2-gamma.md) |
+| **Feature (local)** | Kompass-widget på `/vardagen` + Trygg Hamn Kompassråd | **build PASS** | 2026-06-11 — hosting deploy väntar |
+| **Feature (local)** | P2 Planering ICS export (`exportPlaneringIcs.ts`) | **smoke PASS** | 2026-06-11 — hosting deploy väntar |
+| **Autorun PASS** | MT-2 γ gate: build + design-modules + planering-gora-e + compass + hamn + locked-ux + orkester | **PASS** | 2026-06-11 · `smoke:compass` App Check fix |
 | **Autorun PASS** | Multitask MT-1 (α barn-lek full · γ error boundaries · δ core-strict baseline) | **PASS** | 2026-06-11 · [`2026-06-11-multitask-mt1.md`](./evaluations/2026-06-11-multitask-mt1.md) |
 | **Autorun PASS** | MT-1 gate: build + locked-ux + innehall + children + mabra + orkester | **PASS** | 2026-06-11 · `smoke:children` App Check fix |
 | **Deploy** | Hosting MT-1 (Barn-PLAY bank + HubErrorBoundary) | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
@@ -49,7 +53,7 @@
 | **Autorun PASS** | locked-ux, design-modules, inkast, inbox, speglar | **PASS** | 2026-06-06 · locked-ux Fas 5A #3 re-run |
 | **Autorun PASS** | Super Multitask Agent B (`build` + orkester + locked-ux + design-modules) | **PASS** | 2026-06-06 |
 | **Autorun PASS** | Super Multitask Agent C `smoke:valv-security` + Agent E `smoke:innehall` | **PASS** | 2026-06-06 |
-| **Feature (local)** | P2 Planering ICS export stub (`exportPlaneringIcs.ts`) | **build PASS** | Agent D 2026-06-06 — hosting deploy väntar |
+| **Feature (local)** | P2 Planering ICS export stub (`exportPlaneringIcs.ts`) | **smoke PASS** | 2026-06-11 MT-2 γ — hosting deploy väntar |
 | **Autorun PASS** | Super Multitask 2026-06-06 (build + 5 smokes + deploy) | **PASS** | se batch nedan |
 | **Autorun PASS** | Fas 5A #3 Valv batch (build + 8 smokes) | **PASS** | 2026-06-06 — se batch nedan |
 | **Static PASS** | #20 Valv Mönster/Orkester/Kunskapsbank/drawer | **PASS** | `smoke:locked-ux` 2026-06-06 |
