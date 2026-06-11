@@ -69,7 +69,7 @@
     "content:night": "node scripts/content_autorun.mjs",
     "export:kunskap-seed": "node scripts/export_kunskap_seed_manifest.mjs",
     "smoke:content-waves": "node scripts/smoke_content_waves.mjs",
-    "smoke:all": "npm run smoke:locked-ux && npm run smoke:design-modules && npm run smoke:plausible-deniability && npm run smoke:valv-gate && npm run smoke:kunskap && npm run smoke:speglar && npm run smoke:dossier && npm run smoke:compass && npm run smoke:mabra && npm run smoke:valv && npm run smoke:children && npm run smoke:grans && npm run smoke:economy-vendor && npm run smoke:valv-security && npm run smoke:orkester && npm run smoke:innehall",
+    "smoke:all": "npm run smoke:locked-ux && npm run smoke:design-modules && npm run smoke:plausible-deniability && npm run smoke:valv-gate && npm run smoke:kunskap && npm run smoke:speglar && npm run smoke:dossier && npm run smoke:compass && npm run smoke:mabra && npm run smoke:valv && npm run smoke:children && npm run smoke:grans && npm run smoke:economy-vendor && npm run smoke:valv-security && npm run smoke:orkester && npm run smoke:innehall && npm run smoke:entities",
     "audit:vertex-agents": "node scripts/list_vertex_agents.mjs",
     "seed:kampspar": "node scripts/seed_kampspar_profile.mjs --verify",
     "seed:barn-referens": "node scripts/seed_kampspar_profile.mjs --manifest=barn-referens --skip-existing",

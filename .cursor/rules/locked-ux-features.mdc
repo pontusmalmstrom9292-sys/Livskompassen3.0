@@ -21,7 +21,7 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 
 ## Valv — Pansaret (Mönster + Orkester + Kunskapsbank + Aktörskarta)
 
-- Entry: drawer section **Valv** → `/dagbok?tab=bevis&vaultTab=…` (PIN in `VaultPage`)
+- Entry: drawer section **Valv** → `/valvet?vaultTab=…` (PIN in `VaultPage`)
 - Tabs: `logga`, `sok`, `monster`, `orkester`, `dossier`, **`kunskapsbank`**, **`aktorskarta`**
 - `VaultKunskapsbankPanel` — all Kunskap UI behind PIN (no public `/vardagen?tab=kunskap`)
 - `VaultAktorskartaPanel` + `EntityAddForm` + `addEntityProfile` — manuell aktörskarta (G9), append-only metadata

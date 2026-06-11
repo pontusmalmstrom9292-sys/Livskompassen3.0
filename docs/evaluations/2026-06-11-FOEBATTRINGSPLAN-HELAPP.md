@@ -69,7 +69,7 @@ En beslutspunkt före kod: drawer accordion vs kanon 4 rader.
 | ID | Uppgift | Domän |
 |----|---------|-------|
 | **2.1** | Beslut: behåll accordion ELLER migrera till MENU-DRAWER-KANON 4 rader | A |
-| **2.2** | Uppdatera `.cursorrules` + locked-ux: `/hjartat` + `/valvet` (inte `/dagbok?tab=bevis`) | A/E |
+| **2.2** | Uppdatera `.cursorrules` + locked-ux: `/hjartat` + `/valvet` (inte `/dagbok?tab=bevis`) | A/E | **done** 2026-06-11 |
 | **2.3** | En canonical regler-URL: `/projekt/regler` + redirect från `?tab=regler` | A | **skipped** — e-postregler vs projektregler |
 | **2.4** | Projekt-detalj: `/admin/projects/:id` → `/projekt/:id` ELLER uppdatera hybrid-spec | A |
 | **2.5** | Synka `navigationRegistry.ts` dailyLife-tabs med launcher + `/mabra` `/planering` | A | **done** 2026-06-11 |
@@ -85,7 +85,7 @@ En beslutspunkt före kod: drawer accordion vs kanon 4 rader.
 | **3.3** | Ta bort legacy `vault` collection från rules (efter prod-data-koll) | C/E |
 | **3.4** | `"lint"` + utökad `smoke:all` | E | **done** 2026-06-11 |
 | **3.5** | CI: functions build + `smoke:locked-ux` | E | **done** 2026-06-11 |
-| **3.6** | Utöka `smoke:all` med `innehall`, `orkester`, `valv-security`, `entities` | E/D |
+| **3.6** | Utöka `smoke:all` med `innehall`, `orkester`, `valv-security`, `entities` | E/D | **done** 2026-06-11 |
 | **3.7** | Frontend `strict: true` (stegvis: strictNullChecks först) | E |
 
 ### Fas 4 — Innehåll & coach (parallellt, kurator-ledd)

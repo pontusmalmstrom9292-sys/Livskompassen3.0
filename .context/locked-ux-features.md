@@ -23,7 +23,7 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 | | |
 |---|---|
-| **Route** | `/dagbok?tab=bevis&vaultTab=…` → `VaultPage` (PIN) |
+| **Route** | `/valvet?vaultTab=…` → `VaultPage` (PIN/WebAuthn) · legacy `/dagbok?tab=bevis` redirect |
 | **Zoner** | **Samla** · **Analysera** · **Kunskap** · **Exportera** · **Forensik** — [`VALV-HUBB-SPEC.md`](../docs/design/VALV-HUBB-SPEC.md) |
 | **Flikar** | **Arkiv** · **Granska inkommande** · **Mönster** · **Meddelanden eller SMS-analys** (`vaultTab=orkester`) · **Dossier** · **Kunskapsbank** · **Personer i ärendet** |
 | **Mönster** | `VaultMonsterPanel` + `buildVaultFrequencyReport` (deterministisk regex, ingen LLM-sanning) |
@@ -104,7 +104,7 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 | **Kod** | `BarnportenInboxPanel.tsx` · `SaveAsEvidencePrompt.tsx` · `buildVaultPayloadFromChildLog` (`sourceRef`) |
 | **HITL** | **Human-In-The-Loop** — inget sparas automatiskt; vuxen trycker **Spara som bevis** / **Flytta till Valv (HITL)** |
 | **Tidsstämpel** | `saveVaultLog` → Firestore `serverTimestamp()` → Valv visar **SERVER-TIDSSTÄMPEL** |
-| **Efter spar** | Länk **Granska i Valv** / **Öppna Bevis (Hjärtat)** → `/dagbok?tab=bevis` |
+| **Efter spar** | Länk **Granska i Valv** → `/valvet` |
 | **Tagline (mål-UI)** | *Skapa trygghet. Bygg tillit.* · *Från inkorg till Valv – för framtiden.* |
 | **Status (mål-UI)** | *Klar för långtidslagring* · HITL-badge med sköld |
 
@@ -134,7 +134,7 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 |---|---|
 | **Snabb** | `/hamn` — `BiffPublicPanel` (Grey Rock), Speglar-länk, utan PIN |
 | **Djup** | Valv → Forensik → **Hamn · Analys** (`hamn_analys`) — triage, bevis, HITL |
-| **Redirect** | `/hamn?tab=analys` → `/dagbok?tab=bevis&vaultTab=hamn_analys` |
+| **Redirect** | `/hamn?tab=analys` → `/valvet?vaultTab=hamn_analys` |
 | **Kanon** | [`docs/design/VALV-HUBB-SPEC.md`](../docs/design/VALV-HUBB-SPEC.md) |
 
 **Får inte:** kräva Valv-PIN för första BIFF-svar eller ta bort `/hamn` från Vardag-drawer.
@@ -145,7 +145,7 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 | | |
 |---|---|
-| **Ingång** | Hamburgermeny → sektion **Valv** · `/dagbok?tab=bevis&vaultTab=…` |
+| **Ingång** | Hamburgermeny → sektion **Valv** · `/valvet?vaultTab=…` |
 | **Kunskap** | All kunskap (Vardagen, Familjen, Hem) → **Kunskapsbank** — **inte** publik `/vardagen?tab=kunskap` |
 | **Forensic** | Hamn analys, Speglar fördjupat, Dagbok arkiv, Familjen mönster, Arbetsliv frånvaro/lön |
 | **U1** | Kunskapsbank anropar `knowledgeVaultQuery` — **aldrig** cross-RAG till Valv/Barnen |

@@ -40,9 +40,10 @@ Applikationen använder ett färgtema optimerat för "låg visuell arousal" — 
 ## 2. ARKITEKTONISKA REGLER (3-ZONSYSTEMET)
 Applikationen är strikt uppdelad i tre zoner. AI-modellen får ALDRIG skapa nya rutter utanför detta system.
 
-### 2.1 Hjärtat (`/dagbok`)
-*   Underflikar: `?tab=reflektion` (Dagbok), `?tab=speglar` (Speglar), `?tab=bevis` (Valv/Arkiv).
-*   **Säkerhet (Plausible Deniability)**: "Bevis" (Valvet) dyker ENDAST upp reaktivt i DOM-trädet om valvet har låsts upp biometriskt under den aktiva sessionen (`vaultSessionOpen`). Annars skall fliken raderas helt ur DOM-strukturen så att inga ord som "bevis", "valv" eller "arkiv" exponeras.
+### 2.1 Hjärtat (`/hjartat`, legacy `/dagbok` redirect)
+*   Underflikar: `?tab=reflektion` (Dagbok), `?tab=speglar` (Speglar).
+*   **Valv** (`/valvet`, legacy `/valv`): `?vaultTab=…` — PIN/WebAuthn via Fyren; **inte** publik `?tab=bevis` på Hjärtat.
+*   **Säkerhet (Plausible Deniability)**: Valv-länkar dyker ENDAST upp reaktivt i DOM-trädet om valvet har låsts upp biometriskt under den aktiva sessionen (`vaultSessionOpen`). Annars skall inga ord som "bevis", "valv" eller "arkiv" exponeras i publikt läge.
 
 ### 2.2 Vardagen (`/vardagen`)
 *   Underflikar: `?tab=kompasser` (Dygnsrytm), `?tab=mabra` (KBT/ACT), `?tab=handling` (Planering/Kanban), `?tab=arbetsliv` (Stämpelklocka), `?tab=ekonomi` (Budget), `?tab=drogfrihet` (Nykterhet).
