@@ -48,10 +48,6 @@ function challengeRef(uid: string) {
   return admin.firestore().doc(`users/${uid}/private/vault_webauthn_challenge`);
 }
 
-function uidToUserId(uid: string): Uint8Array {
-  return new TextEncoder().encode(uid);
-}
-
 function allowedOrigins(): string[] {
   const fromEnv = process.env.VAULT_WEBAUTHN_ORIGINS?.split(',')
     .map((value) => value.trim())
@@ -158,7 +154,6 @@ export async function beginVaultWebAuthnChallenge(
       rpName: RP_NAME,
       rpID,
       userName: uid,
-      userID: uidToUserId(uid),
       userDisplayName: 'Valv',
       attestationType: 'none',
       authenticatorSelection: {
