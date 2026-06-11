@@ -1,11 +1,26 @@
 # Smoke-resultat (Fas 3 + Minne)
 
-## Current truth (2026-06-11 — inkast Dagbok→Minne weave deploy PASS)
+## Current truth (2026-06-11 — Agent δ typecheck & smoke gate)
 
 **Sanning:** denna tabell ersätter raden «2026-05-31 — systemgenomgång auto» nedan.
 
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
+
+| **Tooling** | `npm run typecheck:core-strict` | **baseline** | 2026-06-11 23:33 CEST · **9 fel** kvar (ej blockerande build) |
+| **Build** | `npm run build` (frontend) | **PASS** | 2026-06-11 23:33 CEST |
+| **Autorun PASS** | `smoke:orkester` (Agent δ gate) | **PASS** | 2026-06-11 23:33 CEST · drawer section markers + functions build |
+| **Autorun PASS** | `smoke:locked-ux` (Agent δ gate) | **PASS** | 2026-06-11 23:33 CEST · Barnfokus · Valv · drawer |
+
+### typecheck:core-strict baseline (9 fel — ej fixade, >3)
+
+| Fil | Fel | Notering |
+|-----|-----|----------|
+| `vaultServerSession.ts:47` | TS2322 | Generic `T` vs `{ vaultSessionToken? }` |
+| `firestore.ts:115` | TS2322 | `CheckInRow[]` — `questionId` optional vs required |
+| `speechRecognitionSession.ts` | TS2552 ×5 | Web Speech API DOM-typer saknas i strict config |
+| `KunskapPage.tsx:182` | TS2322 | `collection` union vs `string` callback |
+| `VaultLogList.tsx:87` | TS2322 | `RefObject<HTMLLIElement \| null>` vs `LegacyRef` |
 
 | **Deploy** | Inkast Dagbok→Minne weave opt-in (`b6f196351` + `8cb9163e2`) — `InkastDagbokWeaveBridge` + hosting | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
 | **Autorun PASS** | `smoke:inkast` (Dagbok→journal + weave smoke hardening) | **PASS** | 2026-06-11 · Smart Inkast lockdown |
