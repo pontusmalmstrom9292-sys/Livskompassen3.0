@@ -1,11 +1,14 @@
 # Smoke-resultat (Fas 3 + Minne)
 
-## Current truth (2026-06-11 — inkast Dagbok→journal deploy PASS)
+## Current truth (2026-06-11 — inkast Dagbok→Minne weave deploy PASS)
 
 **Sanning:** denna tabell ersätter raden «2026-05-31 — systemgenomgång auto» nedan.
 
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
+
+| **Deploy** | Inkast Dagbok→Minne weave opt-in (`b6f196351` + `8cb9163e2`) — `InkastDagbokWeaveBridge` + hosting | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
+| **Autorun PASS** | `smoke:inkast` (Dagbok→journal + weave smoke hardening) | **PASS** | 2026-06-11 · Smart Inkast lockdown |
 
 | **Deploy** | Inkast Dagbok→`journal` (`22fef110c`) — `submitInkastLite`, `confirmInboxItem`, `previewInboxClassification` + hosting | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
 | **Autorun PASS** | `smoke:inkast` (Dagbok→journal post-deploy) | **PASS** | 2026-06-11 · Smart Inkast lockdown |
