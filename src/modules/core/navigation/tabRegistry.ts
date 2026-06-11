@@ -240,7 +240,10 @@ export function hjartatTabHref(tab: HjartatTab): { pathname: string; search: str
 
 export function vardagenTabHref(tab: VardagenTab): { pathname: string; search: string } {
   if (tab === 'ekonomi') {
-    return { pathname: '/liv', search: '?tab=kompasser&vardagenTab=ekonomi' };
+    return { pathname: NAV_PATHS.VARDAGEN, search: '?tab=ekonomi' };
   }
-  return { pathname: '/liv', search: '?tab=kompasser' };
+  if (tab === 'tidrapportering') {
+    return { pathname: '/arbetsliv', search: '?tab=stampla' };
+  }
+  return { pathname: NAV_PATHS.VARDAGEN, search: clusterTabSearch('kompasser', 'kompasser') };
 }

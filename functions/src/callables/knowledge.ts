@@ -12,7 +12,7 @@ import {
   BARNEN_MODULE_ROUTE,
   shouldRouteKompisToBarnen,
 } from '../lib/barnenModuleRouteGuard';
-import { KNOWLEDGE_UPLOAD_MIMES } from './shared';
+import { KNOWLEDGE_UPLOAD_MIMES, MAX_KNOWLEDGE_UPLOAD_BASE64_CHARS } from './shared';
 
 export const generateEmbedding = functions.region('europe-west1').https.onCall(async (data, context) => {
   if (!context.auth) {
@@ -185,6 +185,12 @@ export const ingestKnowledgeDocument = functions
     }
     if (!base64 || base64.length < 16) {
       throw new functions.https.HttpsError('invalid-argument', 'base64 saknas.');
+    }
+    if (base64.length > MAX_KNOWLEDGE_UPLOAD_BASE64_CHARS) {
+      throw new functions.https.HttpsError(
+        'invalid-argument',
+        'Uppladdningen är för stor (max ~8 MB).',
+      );
     }
 
     let buffer: Buffer;

@@ -22,7 +22,7 @@ type Props = {
 
 const GLOW_LINK: Record<Props['glowColor'], string> = {
   gold: 'border-l-2 border-l-accent/70 text-accent bg-accent/5',
-  blue: 'border-l-2 border-l-indigo-500/70 text-indigo-400 bg-indigo-500/5',
+  blue: 'border-l-2 border-l-accent/70 text-accent bg-accent/5',
   green: 'border-l-2 border-l-emerald-500/70 text-emerald-400 bg-emerald-500/5',
 };
 

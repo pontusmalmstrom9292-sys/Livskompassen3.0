@@ -2,7 +2,8 @@ import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { X, Settings, Lock } from 'lucide-react';
-import { clearAllVaultZones, hasVaultGate } from '../auth/sessionService';
+import { hasVaultGate } from '../auth/sessionService';
+import { endVaultSession } from '../security/vaultSessionLifecycle';
 import { useStore } from '../store';
 import { LivskompassMark } from '../ui/LivskompassMark';
 import { DrawerHubAccordion, isDrawerLinkActive } from './DrawerHubAccordion';
@@ -31,8 +32,6 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
   const touchStartX = useRef(0);
 
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
-  const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
-  const setActiveDrawer = useStore((s) => s.setActiveDrawer);
 
   const vaultOpen = isVaultUnlocked || hasVaultGate();
   const recentVisits = useDrawerRecentNav();
@@ -74,11 +73,10 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
   };
 
   const handleLockVaultImmediately = () => {
-    setVaultUnlocked(false);
-    setActiveDrawer(null);
-    clearAllVaultZones();
-    navigate({ pathname: '/' });
-    onClose();
+    void endVaultSession({ closeDrawer: true }).then(() => {
+      navigate({ pathname: '/' });
+      onClose();
+    });
   };
 
   const navigateDrawerPath = (path: string) => {

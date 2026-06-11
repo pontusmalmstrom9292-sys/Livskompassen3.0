@@ -14,7 +14,7 @@ function rpId(): string {
 /** WebAuthn biometrisk gate — returnerar false vid avbroft (grey rock). */
 export async function authenticateVaultGate(): Promise<boolean> {
   if (!window.PublicKeyCredential) {
-    return true;
+    return false;
   }
 
   try {

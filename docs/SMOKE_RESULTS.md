@@ -73,7 +73,7 @@
 | **Deploy** | Hosting MåBra våg 17 JOY cards | **PASS** | 2026-06-11 · `bc3b0460e` |
 | **Autorun PASS** | WH4 away re-verify (`b7609a2a`) | **PASS** | 2026-06-11 · smoke:hamn + locked-ux + build (deploy redan live) |
 | **Autorun PASS** | Fas 4 Agent B (Hamn brusfilter + inkast ex-routing + valv-gate weave) | **PASS** | 2026-06-11 · build + hamn + locked-ux + valv-security + valv-gate + orkester |
-| **Deploy** | Hosting Fas 4 Hamn + Planering inkast | **PASS** | 2026-06-11 · `8d391db80` · https://gen-lang-client-0481875058.web.app |
+| **Deploy** | Hosting Fas 4 Hamn + Planering inkast | **PASS** | 2026-06-11 · `a659afbe6` · https://gen-lang-client-0481875058.web.app |
 
 
 

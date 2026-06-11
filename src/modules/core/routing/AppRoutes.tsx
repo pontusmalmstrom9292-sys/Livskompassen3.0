@@ -360,7 +360,7 @@ export function AppRoutes() {
               <Route path="/dev/theme-lab" element={<ThemeLabPage />} />
               <Route path="/dev/hub-lab" element={<HubLabPage />} />
 
-              <Route path="*" element={<Navigate to={NAV_PATHS.HJARTAT} replace />} />
+              <Route path="*" element={<Navigate to={NAV_PATHS.HOME} replace />} />
             </Routes>
             </Suspense>
           </MainLayout>

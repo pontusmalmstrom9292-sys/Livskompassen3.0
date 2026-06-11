@@ -24,3 +24,6 @@ export const KNOWLEDGE_UPLOAD_MIMES = new Set([
   'image/jpeg',
   'image/webp',
 ]);
+
+/** ~8 MB råfil som base64 (DoS-skydd före Buffer.from). */
+export const MAX_KNOWLEDGE_UPLOAD_BASE64_CHARS = 11_000_000;

@@ -66,10 +66,6 @@ export function VaultZoneGate({
   const tryUnlock = async () => {
     setError(null);
     if (!window.PublicKeyCredential) {
-      if (hasVaultGate()) {
-        unlock();
-        return;
-      }
       setError('Biometri krävs. Håll Kompis-ögat i toppmenyn i 3 sek och försök igen.');
       return;
     }
