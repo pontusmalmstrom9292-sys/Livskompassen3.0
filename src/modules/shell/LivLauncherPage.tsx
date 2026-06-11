@@ -3,7 +3,9 @@ import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useStore } from '@/core/store';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { CognitiveLoadStrip } from '@/core/ui/CognitiveLoadStrip';
+import { CompassQuickWidgetRail } from '@/features/dailyLife/wellbeing/compasses/components/CompassQuickWidgetRail';
 import { DashboardPage as CompassDashboard } from '@/features/dailyLife/wellbeing/compasses/components/DashboardPage';
+import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 import { EconomyOverviewPanel } from '@/features/dailyLife/wellbeing/economy/components/EconomyOverviewPanel';
 import { LivLauncherGrid, type LivLauncherId } from './LivLauncherGrid';
 import {
@@ -42,6 +44,7 @@ export function LivLauncherPage() {
   }
 
   const activeTab = resolveInlineTab(rawTab);
+  const compassFlow = getDefaultCompassByTime();
 
   const handleChange = (id: LivLauncherId) => {
     const external = LIV_LAUNCHER_EXTERNAL[id];
@@ -86,7 +89,8 @@ export function LivLauncherPage() {
         <main className="calm-scroll-island mt-2 animate-fade-in">
           {activeTab === 'kompasser' && (
             <div className="space-y-4">
-              <CompassDashboard />
+              <CompassQuickWidgetRail flow={compassFlow} className="compass-quick-widget-rail--in-module" />
+              <CompassDashboard forcedFlow={compassFlow} />
             </div>
           )}
 

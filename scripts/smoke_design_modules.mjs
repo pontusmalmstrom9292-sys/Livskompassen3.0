@@ -260,6 +260,8 @@ function main() {
     'evening',
   );
   mustInclude('src/modules/core/home/DagensRiktningCard.tsx', 'CompassQuickWidgetRail');
+  mustInclude('src/modules/shell/LivLauncherPage.tsx', 'CompassQuickWidgetRail', 'getDefaultCompassByTime');
+  mustInclude('src/modules/features/family/safeHarbor/components/HamnModuleStack.tsx', 'CompassQuickWidgetRail');
   mustInclude('src/modules/core/navigation/navTruth.ts', 'drawerHint');
   mustInclude('src/modules/core/navigation/drawerNav.ts', 'createDrawerL2Icon');
   mustInclude('docs/gemini-handoff/README.md', 'gemini-handoff');

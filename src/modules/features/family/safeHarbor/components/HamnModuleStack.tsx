@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Anchor, Compass } from 'lucide-react';
 import { ElongatedModule } from '@/core/ui/ElongatedModule';
+import { CompassQuickWidgetRail } from '@/features/dailyLife/wellbeing/compasses/components/CompassQuickWidgetRail';
 import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 import { getCompassAdvice } from '@/features/dailyLife/wellbeing/compasses/utils/compassAdvice';
 import { getFlowConfig, EVENING_HERO } from '@/features/dailyLife/wellbeing/compasses/config/compassFlows';
@@ -33,6 +34,7 @@ export function HamnModuleStack({ biffPanel }: Props) {
         onToggle={() => setCompassOpen((o) => !o)}
       >
         <p className="home-module-panel__lead">{meta.heroLead}</p>
+        <CompassQuickWidgetRail flow={timeFlow} className="compass-quick-widget-rail--in-module" />
         <p className="rounded-lg border border-accent/25 bg-accent/5 px-3 py-2.5 text-sm text-text-muted">
           {advice}
         </p>

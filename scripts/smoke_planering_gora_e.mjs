@@ -122,7 +122,19 @@ function main() {
 
   mustInclude('scripts/smoke_locked_ux.mjs', 'PLANERING_MORE_TABS', 'GoraHubTabBar');
 
-  console.log('[smoke:planering-gora-e] PASS — kanban P3 + synliga Fokus/Framsteg/Regler, en TabBar.');
+  mustInclude(
+    'src/modules/features/admin/planning/utils/exportPlaneringIcs.ts',
+    'buildPlaneringIcs',
+    'downloadPlaneringIcs',
+    'BEGIN:VCALENDAR',
+  );
+  mustInclude(
+    'src/modules/features/admin/planning/components/PlaneringWeekCalendar.tsx',
+    'downloadPlaneringIcs',
+    'Exportera ICS',
+  );
+
+  console.log('[smoke:planering-gora-e] PASS — kanban P3 + Fokus/Framsteg/Regler + ICS export, en TabBar.');
 }
 
 try {
