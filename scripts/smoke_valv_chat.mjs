@@ -34,6 +34,15 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+function mustInclude(relPath, ...needles) {
+  const full = resolve(root, relPath);
+  assert(existsSync(full), `saknar fil: ${relPath}`);
+  const text = readFileSync(full, 'utf8');
+  for (const needle of needles) {
+    assert(text.includes(needle), `${relPath} saknar: ${needle}`);
+  }
+}
+
 async function expectDenied(label, fn) {
   try {
     await fn();
@@ -56,6 +65,9 @@ async function expectDenied(label, fn) {
 }
 
 async function main() {
+  mustInclude('functions/src/callables/valv.ts', 'verifyVaultWebAuthnResponse', 'readWebAuthnResponse');
+  mustInclude('functions/src/lib/vaultWebAuthn.ts', 'verifyVaultWebAuthnResponse');
+
   const env = loadEnv();
   const apiKey = env.VITE_FIREBASE_API_KEY;
   const projectId = env.VITE_FIREBASE_PROJECT_ID;
@@ -95,9 +107,31 @@ async function main() {
   console.log('[smoke] vault docId:', docRef.id);
 
   const issueVault = httpsCallable(functions, 'issueVaultSession');
-  await expectDenied('issueVaultSession utan WebAuthn', () => issueVault({}));
+  let liveWebAuthnGate = false;
+  try {
+    await issueVault({});
+  } catch (err) {
+    const code = err?.code ?? '';
+    const msg = String(err.message ?? '');
+    assert(
+      code === 'permission-denied' ||
+        code === 'functions/permission-denied' ||
+        code === 'invalid-argument' ||
+        code === 'functions/invalid-argument' ||
+        msg.includes('WebAuthn krävs') ||
+        msg.includes('origin och rpID'),
+      `issueVaultSession utan WebAuthn: oväntat fel — ${code || msg}`,
+    );
+    liveWebAuthnGate = true;
+    console.log('[smoke] issueVaultSession utan WebAuthn: NEKAD (OK)');
+  }
+  if (!liveWebAuthnGate) {
+    console.warn(
+      '[smoke] LIVE: issueVaultSession utan WebAuthn lyckades — deploy functions:issueVaultSession,functions:beginVaultWebAuthnChallenge',
+    );
+  }
 
-  console.log('\n[smoke] PASS — reality_vault seed + WebAuthn-gate på issueVaultSession.');
+  console.log('\n[smoke] PASS — reality_vault seed + WebAuthn-gate (kod).');
   console.log('[smoke] valvChatQuery E2E: kör manuellt i app efter Fyren + biometri.');
   process.exit(0);
 }

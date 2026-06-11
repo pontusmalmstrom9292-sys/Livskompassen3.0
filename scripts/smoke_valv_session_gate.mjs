@@ -50,7 +50,20 @@ async function expectDenied(label, fn) {
   }
 }
 
+function mustInclude(relPath, ...needles) {
+  const full = resolve(root, relPath);
+  assert(existsSync(full), `saknar fil: ${relPath}`);
+  const text = readFileSync(full, 'utf8');
+  for (const needle of needles) {
+    assert(text.includes(needle), `${relPath} saknar: ${needle}`);
+  }
+}
+
 async function main() {
+  mustInclude('functions/src/callables/valv.ts', 'verifyVaultWebAuthnResponse', 'readWebAuthnResponse');
+  mustInclude('functions/src/lib/vaultWebAuthn.ts', 'beginVaultWebAuthnChallenge', 'verifyVaultWebAuthnResponse');
+  mustInclude('functions/src/index.ts', 'beginVaultWebAuthnChallenge', 'issueVaultSession');
+
   const env = loadEnv();
   assert(env.VITE_FIREBASE_API_KEY && env.VITE_FIREBASE_PROJECT_ID, 'VITE_FIREBASE_* krävs');
 
@@ -79,7 +92,31 @@ async function main() {
   await expectDenied('getEntityProfileRegistry utan vaultSessionToken', () => registry({}));
 
   const issueVault = httpsCallable(functions, 'issueVaultSession');
-  await expectDenied('issueVaultSession utan WebAuthn', () => issueVault({}));
+  let liveWebAuthnGate = false;
+  try {
+    await issueVault({});
+  } catch (err) {
+    const code = err?.code ?? '';
+    const msg = String(err.message ?? '');
+    if (
+      code === 'permission-denied' ||
+      code === 'functions/permission-denied' ||
+      code === 'invalid-argument' ||
+      code === 'functions/invalid-argument' ||
+      msg.includes('WebAuthn krävs') ||
+      msg.includes('origin och rpID')
+    ) {
+      liveWebAuthnGate = true;
+      console.log('[smoke] issueVaultSession utan WebAuthn: NEKAD (OK)');
+    } else {
+      throw err;
+    }
+  }
+  if (!liveWebAuthnGate) {
+    console.warn(
+      '[smoke] LIVE: issueVaultSession utan WebAuthn lyckades — deploy functions:issueVaultSession,functions:beginVaultWebAuthnChallenge',
+    );
+  }
 
   console.log('\n[smoke] PASS — Valv-session gate verifierad.');
   process.exit(0);

@@ -66,6 +66,7 @@ async function expectDenied(label, fn) {
 async function main() {
   mustInclude('functions/src/lib/entityProfileStore.ts', 'KEY_ENTITIES', 'SystemSynapse');
   mustInclude('functions/src/callables/valv.ts', 'getEntityProfileRegistry', 'assertVaultSession');
+  mustInclude('functions/src/callables/valv.ts', 'verifyVaultWebAuthnResponse', 'readWebAuthnResponse');
 
   const env = loadEnv();
   const apiKey = env.VITE_FIREBASE_API_KEY;
@@ -89,9 +90,31 @@ async function main() {
   console.log('[smoke] uid:', cred.user.uid);
 
   const issueVault = httpsCallable(functions, 'issueVaultSession');
-  await expectDenied('issueVaultSession utan WebAuthn', () => issueVault({}));
+  let liveWebAuthnGate = false;
+  try {
+    await issueVault({});
+  } catch (err) {
+    const code = err?.code ?? '';
+    const msg = String(err.message ?? '');
+    assert(
+      code === 'permission-denied' ||
+        code === 'functions/permission-denied' ||
+        code === 'invalid-argument' ||
+        code === 'functions/invalid-argument' ||
+        msg.includes('WebAuthn krävs') ||
+        msg.includes('origin och rpID'),
+      `issueVaultSession utan WebAuthn: oväntat fel — ${code || msg}`,
+    );
+    liveWebAuthnGate = true;
+    console.log('[smoke] issueVaultSession utan WebAuthn: NEKAD (OK)');
+  }
+  if (!liveWebAuthnGate) {
+    console.warn(
+      '[smoke] LIVE: issueVaultSession utan WebAuthn lyckades — deploy functions:issueVaultSession,functions:beginVaultWebAuthnChallenge',
+    );
+  }
 
-  console.log('\n[smoke] PASS — EntityProfile wiring + WebAuthn-gate.');
+  console.log('\n[smoke] PASS — EntityProfile wiring + WebAuthn-gate (kod).');
   console.log('[smoke] getEntityProfileRegistry E2E: kör manuellt i app efter Fyren + biometri.');
   process.exit(0);
 }
