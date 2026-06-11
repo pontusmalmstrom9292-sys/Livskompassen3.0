@@ -88,3 +88,25 @@ Alla: `content_class: PLAY` · `source_tier: product_copy` · `status: KEEP`.
 | `n1` | BP-PLAY-10 | knas |
 
 Ej mappade ännu: `g3`, `k3`, `n2`–`n3`, `l1`–`l3`, `u1`–`u2`, `v1`–`v2` — nästa kuratorvåg.
+
+### `barnfokusCatalog.ts` (plan — PMIR)
+
+**Plats:** `src/modules/features/family/children/content/barnfokusCatalog.ts`  
+**Mönster:** `dagligMixCatalog.ts` — readonly KEEP-rader, `bankId` + metadata.
+
+```ts
+export type BarnfokusCatalogEntry = {
+  bankId: string;           // BP-PLAY-06+
+  legacy_id: string;        // g1… (rotation key tills migrerat)
+  audience: 'child' | 'parent';
+  lens: BarnfokusQuestionKind;
+  content_class: 'PLAY';
+  source_tier: 'product_copy';
+  status: 'KEEP';
+  text_sv: string;
+  hint_sv?: string;
+  source?: 'builtin' | 'valv_curated';
+};
+```
+
+**Wire (PMIR):** `constants.ts` importerar `BARNFOKUS_CATALOG_CHILD` (filter `audience: child`) · `BarnfokusQuestion` får `bankId?` + behåll `id` som `legacy_id` · `handleSaveBarnfokus` ev. `bankId` i logg-metadata (ej Valv).

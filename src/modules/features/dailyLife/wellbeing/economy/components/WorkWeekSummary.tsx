@@ -48,7 +48,7 @@ export function WorkWeekSummary({
       )}
       {hourlyRate <= 0 && (
         <p className="mb-3 text-xs text-text-dim">
-          Sätt timlön under Profil nedan för uppskattad veckolön.
+          Timlön saknas — uppskattad veckolön visas när timlön är registrerad.
         </p>
       )}
 

@@ -79,7 +79,7 @@ export function ArbetslivHubPage() {
       >
         <p className="text-sm text-text-muted">
           Den här hubben är för jobb och lön. Privat kassa:{' '}
-          <Link to="/ekonomi" className="text-accent hover:underline">
+          <Link to="/vardagen?tab=ekonomi" className="text-accent hover:underline">
             Vardagen → Ekonomi
           </Link>
           .

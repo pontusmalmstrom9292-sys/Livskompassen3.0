@@ -7,6 +7,7 @@
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
 
+| **Autorun PASS** | Fas 7 Super Multitask — 5 agenter parallellt + ekonomi/tid UX polish | **PARTIAL** | 2026-06-11 · build PASS · 10/11 smokes PASS · **FAIL:** `smoke:mabra` vit_chat `functions/unknown` (deploy?) · locked-ux + design-modules + ekonomi + innehall PASS efter UX-fix |
 | **Autorun PASS** | Fas 6 closer — barn-lek v18 bank + ekonomi UX + valv-security guard (`08451bfc7`) | **PASS** | 2026-06-11 · build + locked-ux + innehall + hamn + valv-gate + valv-security + orkester |
 | **Deploy** | Hosting Fas 6 (ekonomi impuls + docs) | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
 | **Autorun PASS** | Fas 5 Agent B — drawer gold chrome + barn-lek kurator (`ef4d97383`) | **PASS** | 2026-06-11 · build + locked-ux + superhub + design-modules + innehall + hamn |
