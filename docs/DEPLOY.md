@@ -22,16 +22,16 @@ npm run build
 
 ## Deploy — Firestore + Storage + modul-Functions
 
-**Full inventering (32 fn):** [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md)
+**Full inventering (35 fn):** [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md)
 
 ```bash
 cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
 firebase deploy --only firestore:rules,firestore:indexes
 firebase deploy --only storage
-firebase deploy --only functions:analyzeMessage,functions:invalidateSession,functions:issueVaultSession,functions:generateEmbedding,functions:ingestKampsparEntry,functions:knowledgeVaultQuery,functions:valvChatQuery,functions:getEntityProfileRegistry,functions:addEntityProfile,functions:scheduledRetentionJob,functions:weaveJournalEntry,functions:approveWeaverMetadata,functions:confirmInboxItem,functions:speglingsMirror,functions:generateDossier,functions:ingestWidgetRecording --force
+firebase deploy --only functions:beginVaultWebAuthnChallenge,functions:issueVaultSession,functions:analyzeMessage,functions:invalidateSession,functions:generateEmbedding,functions:ingestKampsparEntry,functions:ingestKnowledgeDocument,functions:knowledgeVaultQuery,functions:valvChatQuery,functions:childrenLogsQuery,functions:getEntityProfileRegistry,functions:addEntityProfile,functions:scheduledRetentionJob,functions:weaveJournalEntry,functions:approveWeaverMetadata,functions:confirmInboxItem,functions:speglingsMirror,functions:generateDossier,functions:ingestWidgetRecording,functions:createBarnportenPairing,functions:claimBarnportenPairing --force
 ```
 
-**Valv-session:** `issueVaultSession` måste deployas tillsammans med valv-gate (`vaultSessionGate.ts`) — smoke: `npm run smoke:locked-ux`.
+**Valv-session:** `beginVaultWebAuthnChallenge` + `issueVaultSession` måste deployas tillsammans — smoke: `npm run smoke:locked-ux`, `npm run smoke:valv-gate`.
 
 **Hjärtat (Speglar):** `speglingsMirror` måste deployas för AI-spegling i prod.
 

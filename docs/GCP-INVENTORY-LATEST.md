@@ -1,6 +1,6 @@
 # GCP / Firebase-inventering — LIVE (senast)
 
-**Datum:** 2026-06-06 (doc-synk efter Masterplan P0/P1 — commits `8d82ed57`, `3193211f`)  
+**Datum:** 2026-06-11 (synk WebAuthn + Barnporten pairings)  
 **Projekt:** `gen-lang-client-0481875058` (number `1084026575972`)  
 **Metod:** `firebase functions:list`, `gcloud ai indexes list`, `gcloud ai index-endpoints describe`  
 **Beslut:** [`GCP-KONSOLIDERING-BESLUT.md`](GCP-KONSOLIDERING-BESLUT.md)  
@@ -20,14 +20,16 @@
 | Legacy Python (0 fn kvar) | **avvecklad** | G4 **done** — steg 1–5 2026-05-22 |
 | Compute Engine VMs | **0** | — |
 | `@cursor/sdk` | **saknas** | **WAIT** (Natt-CI) |
-| `issueVaultSession` | **deployad** | Valv server-session (P1) |
+| `issueVaultSession` | **deployad** | Valv server-session + WebAuthn (P1) |
+| `beginVaultWebAuthnChallenge` | **deployad** | WebAuthn challenge före Valv-session |
+| `createBarnportenPairing` / `claimBarnportenPairing` | **deployad** | Barnporten QR |
 | `user_widgets` rules | **deployad** | WH1–WH4 widget-sparning |
 
 ---
 
 ## Deployade Cloud Functions
 
-**Totalt:** 32 functions · **europe-west1** · Node.js 20 · 0 Python legacy  
+**Totalt:** 35 functions (exporter i `index.ts`) · **europe-west1** · Node.js 20 · 0 Python legacy  
 **Källa:** `functions/src/index.ts` (exporter) · verifiera live: `firebase functions:list`
 
 ### Callable / HTTP (komplett)
@@ -52,7 +54,10 @@
 | `ingestKnowledgeDocument` | v1 | Kunskap ingest |
 | `ingestWidgetRecording` | v1 | WH1 → valv |
 | `invalidateSession` | v1 | Zero Footprint |
-| `issueVaultSession` | v2 | Valv server-session gate |
+| `beginVaultWebAuthnChallenge` | v2 | WebAuthn challenge (Valv) |
+| `createBarnportenPairing` | v1 | Barnporten QR skapa |
+| `claimBarnportenPairing` | v1 | Barnporten QR claim |
+| `issueVaultSession` | v2 | Valv server-session gate (WebAuthn) |
 | `journalQuickMirror` | v1 | Dagbok snabb |
 | `journalWovenToKampspar` | v1 | G7 opt-in |
 | `knowledgeVaultQuery` | v2 | Kunskap RAG |
