@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { BookOpen, Shield, Flame } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { BookOpen, Shield, Flame, PenLine } from 'lucide-react';
 import { clsx } from 'clsx';
 import { BentoCard } from '@/modules/shared/ui/BentoCard';
 import {
@@ -15,6 +16,7 @@ import {
   COMPASS_TIME_ICON_SRC,
 } from '@/features/dailyLife/wellbeing/compasses/config/compassTimeIcons';
 import { useCompassSummary } from '../hooks/useCompassSummary';
+import { NAV_PATHS } from '@/modules/core/navigation/navTruth';
 
 function StatPill({
   icon,
@@ -53,6 +55,7 @@ function StatPill({
  * (journal, vault, streak) för de senaste 7 dagarna.
  */
 export function VisualCompassWidget() {
+  const navigate = useNavigate();
   const fallbackPhase = getHomeCompassPhase();
   const { journalCount, vaultCount, streak, latestInsight, recommendedPhase, dominantEmotion, loading } =
     useCompassSummary();
@@ -66,6 +69,32 @@ export function VisualCompassWidget() {
     
   const flow = phaseToCompassFlow(phase);
   const { iconId, shortLabel } = COMPASS_FLOW_TIME_ICON[flow];
+
+  if (!loading && journalCount === 0 && vaultCount === 0 && streak === 0) {
+    return (
+      <BentoCard
+        variant="hero"
+        glow="gold"
+        className={clsx('relative overflow-hidden text-center flex flex-col items-center justify-center py-10', phaseGlowClasses(phase))}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-surface-1/50 pointer-events-none" />
+        <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mb-5 relative z-10">
+          <PenLine className="w-8 h-8 text-accent" />
+        </div>
+        <h3 className="text-xl font-display-serif mb-2 relative z-10 text-text">Din resa börjar här</h3>
+        <p className="text-sm text-text-muted mb-8 max-w-xs mx-auto relative z-10 leading-relaxed">
+          Skriv din första reflektion för att låsa upp kompassen och börja bygga din streak.
+        </p>
+        <button
+          onClick={() => navigate(`${NAV_PATHS.HJARTAT}?tab=reflektion`)}
+          className="relative z-10 flex items-center gap-2 px-6 py-3 bg-accent text-accent-contrast rounded-full text-sm font-medium transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-accent/20"
+        >
+          <PenLine size={16} />
+          Skriv din första reflektion
+        </button>
+      </BentoCard>
+    );
+  }
 
   return (
     <BentoCard

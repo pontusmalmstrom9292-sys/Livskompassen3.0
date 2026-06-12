@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PenLine, Shield, Bot, Zap } from 'lucide-react';
+import { PenLine, Shield, Bot, Zap, Archive } from 'lucide-react';
 import { BentoCard } from '@/modules/shared/ui/BentoCard';
 import { NAV_PATHS } from '@/modules/core/navigation/navTruth';
 import { useStore } from '@/modules/core/store';
@@ -27,6 +27,11 @@ const ACTIONS: QuickAction[] = [
     icon: <Bot size={20} />,
     label: 'Fråga Kompis',
   },
+  {
+    id: 'utforska-arkivet',
+    icon: <Archive size={20} />,
+    label: 'Utforska Arkivet',
+  },
 ];
 
 /**
@@ -52,6 +57,9 @@ export function QuickActionsWidget() {
           setActiveDrawer('kompis');
           navigate('/kompis');
           break;
+        case 'utforska-arkivet':
+          navigate('/arkiv');
+          break;
       }
     },
     [navigate, setActiveDrawer],
@@ -63,7 +71,7 @@ export function QuickActionsWidget() {
       icon={<Zap size={16} />}
       glow="gold"
     >
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {ACTIONS.map((action) => (
           <button
             key={action.id}

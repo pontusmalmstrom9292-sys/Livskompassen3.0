@@ -74,6 +74,9 @@ const HubLabPage = lazy(() =>
 const DashboardHubPage = lazy(() =>
   import('@/features/dashboard').then((m) => ({ default: m.DashboardHub })),
 );
+const ArchiveHubPage = lazy(() =>
+  import('../../features/archive/components/ArchiveHub').then((m) => ({ default: m.ArchiveHub }))
+);
 
 function RouteFallback() {
   return <div className="p-6 text-center text-sm text-text-muted">Laddar…</div>;
@@ -299,6 +302,16 @@ export function AppRoutes() {
                 element={
                   <AuthGate>
                     <ValvetRoutePage />
+                  </AuthGate>
+                }
+              />
+
+              {/* —— NYTT ARKIV (ArchiveHub) —— */}
+              <Route
+                path="/arkiv"
+                element={
+                  <AuthGate>
+                    <ArchiveHubPage />
                   </AuthGate>
                 }
               />
