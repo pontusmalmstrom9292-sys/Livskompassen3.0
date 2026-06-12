@@ -40,6 +40,8 @@ function mapBlock(id: string, data: FirestoreProjectBlock): ProjectBlock {
     type: data.type,
     title: data.title,
     content: data.content,
+    storagePath: data.storagePath,
+    imageUrl: data.imageUrl,
     order: data.order,
     planningTaskId: data.planningTaskId,
     createdAt: normalizeTime(data.createdAt),
@@ -93,4 +95,16 @@ export async function createProjectBlock(
     createdAt: serverTimestamp(),
   });
   return docRef.id;
+}
+
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '@/core/firebase/init';
+
+export async function runProjectBlockOcr(projectId: string, blockId: string): Promise<string> {
+  const callable = httpsCallable<{ projectId: string; blockId: string }, { success: boolean; text: string }>(
+    functions,
+    'analyzeProjectImage',
+  );
+  const result = await callable({ projectId, blockId });
+  return result.data.text;
 }

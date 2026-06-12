@@ -3,6 +3,7 @@ import { Tidshjulet } from './Tidshjulet';
 import { TidshjulDetailCard } from './TidshjulDetailCard';
 import { KnowledgeVaultChat } from './KnowledgeVaultChat';
 import { KampsparIngestForm } from './KampsparIngestForm';
+import { KunskapsvalvFileIngest } from './KunskapsvalvFileIngest';
 import { ProfileSeedImport } from './ProfileSeedImport';
 import { InboxReviewQueueLink } from '@/modules/inkast/components/InboxReviewQueueLink';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -239,12 +240,20 @@ export function KunskapPage({
 
           {!embedded && <ProfileSeedImport entries={entries} onImported={reloadEntries} />}
 
-          <KampsparIngestForm
-            compact={embedded}
-            onSaved={() => {
-              reloadEntries();
-            }}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <KampsparIngestForm
+              compact={embedded}
+              onSaved={() => {
+                reloadEntries();
+              }}
+            />
+            <div>
+              <KunskapsvalvFileIngest 
+                onIngested={() => reloadEntries()} 
+                sourceLabel="kunskap_page_upload"
+              />
+            </div>
+          </div>
 
           <BentoCard
             title={embedded ? 'Poster' : 'Senaste poster'}

@@ -49,6 +49,7 @@
     "smoke:cache": "node scripts/smoke_context_cache.mjs",
     "smoke:tidshjul": "node scripts/smoke_tidshjul.mjs",
     "smoke:grans": "node scripts/smoke_grans_arkitekt.mjs",
+    "smoke:life-os-links": "node scripts/smoke_life_os_links.mjs",
     "smoke:stampla": "node scripts/smoke_stampla.mjs",
     "smoke:economy-vendor": "node scripts/smoke_economy_vendor_contract.mjs",
     "smoke:arbetsliv": "node scripts/smoke_arbetsliv_hub.mjs",

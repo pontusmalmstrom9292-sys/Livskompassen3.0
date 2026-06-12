@@ -34,6 +34,7 @@ const START_ROUTES: Record<ProjectBlockType, string> = {
   list: '/projekt/ny?type=list',
   note: '/projekt/ny?type=note',
   image: '/projekt/ny?type=image',
+  video: '/projekt/ny?type=video',
   task: '/projekt/ny?type=task',
 };
 

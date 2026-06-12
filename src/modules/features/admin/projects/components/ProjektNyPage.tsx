@@ -1,25 +1,26 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { CheckSquare, FileText, Image, List } from 'lucide-react';
+import { CheckSquare, FileText, Image, List, Film } from 'lucide-react';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
 import { useStore } from '@/core/store';
-import { uploadProjectImage } from '@/core/firebase/storage';
+import { uploadProjectMedia } from '@/core/firebase/storage';
 import { createProject } from '../api/projectsApi';
 import { createProjectBlock } from '../api/projectBlocksApi';
 import { createPlanningTask } from '../../planning/api/planningTasksApi';
-import { ProjectImagePicker } from './ProjectImagePicker';
+import { ProjectMediaPicker } from './ProjectMediaPicker';
 import type { ProjectBlockType } from '../types';
 
 const PICKER: { id: ProjectBlockType; label: string; icon: typeof List }[] = [
   { id: 'list', label: 'Lista', icon: List },
   { id: 'note', label: 'Anteckning', icon: FileText },
   { id: 'image', label: 'Bild', icon: Image },
+  { id: 'video', label: 'Video', icon: Film },
   { id: 'task', label: 'Uppgift → Handling', icon: CheckSquare },
 ];
 
 function parseBlockType(raw: string | null): ProjectBlockType | null {
-  if (raw === 'list' || raw === 'note' || raw === 'image' || raw === 'task') return raw;
+  if (raw === 'list' || raw === 'note' || raw === 'image' || raw === 'video' || raw === 'task') return raw;
   return null;
 }
 
@@ -30,8 +31,8 @@ export function ProjektNyPage() {
   const user = useStore((s) => s.user);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imageCaption, setImageCaption] = useState('');
+  const [mediaFile, setMediaFile] = useState<File | null>(null);
+  const [mediaCaption, setMediaCaption] = useState('');
   const preselected = parseBlockType(searchParams.get('type'));
   const fromWidget = searchParams.get('from') === 'widget';
 
@@ -40,8 +41,8 @@ export function ProjektNyPage() {
       setError('Logga in för att skapa projekt.');
       return;
     }
-    if (blockType === 'image' && !imageFile) {
-      setError('Välj en bild först.');
+    if ((blockType === 'image' || blockType === 'video') && !mediaFile) {
+      setError('Välj en fil först.');
       return;
     }
 
@@ -52,7 +53,9 @@ export function ProjektNyPage() {
           ? 'Anteckning'
           : blockType === 'image'
             ? 'Bildprojekt'
-            : 'Uppgiftsprojekt';
+            : blockType === 'video'
+              ? 'Videoprojekt'
+              : 'Uppgiftsprojekt';
     const title = window.prompt('Projektnamn:', defaultTitle);
     if (!title?.trim()) return;
 
@@ -83,13 +86,13 @@ export function ProjektNyPage() {
         return;
       }
 
-      if (blockType === 'image' && imageFile) {
-        const { storagePath, downloadUrl } = await uploadProjectImage(user.uid, projectId, imageFile);
+      if ((blockType === 'image' || blockType === 'video') && mediaFile) {
+        const { storagePath, downloadUrl } = await uploadProjectMedia(user.uid, projectId, mediaFile);
         await createProjectBlock(user.uid, {
           projectId,
-          type: 'image',
+          type: blockType,
           title: title.trim(),
-          content: imageCaption.trim() || undefined,
+          content: mediaCaption.trim() || undefined,
           storagePath,
           imageUrl: downloadUrl,
           order: 0,
@@ -116,38 +119,38 @@ export function ProjektNyPage() {
     } finally {
       setSaving(false);
     }
-  }, [user, imageFile, imageCaption, navigate]);
+  }, [user, mediaFile, mediaCaption, navigate]);
 
   useEffect(() => {
-    if (!preselected || preselected === 'image') return;
+    if (!preselected || preselected === 'image' || preselected === 'video') return;
     if (!user || saving) return;
     void startProject(preselected);
   }, [preselected, user, saving, startProject]);
 
-  if (preselected === 'image') {
+  if (preselected === 'image' || preselected === 'video') {
     return (
       <HubPageShell
         eyebrow="Göra"
-        title="Nytt bildprojekt"
-        lead={fromWidget ? 'Från widget — välj foto och namnge projektet.' : 'Ladda upp foto till Storage + projektblock.'}
+        title={preselected === 'video' ? "Nytt videoprojekt" : "Nytt bildprojekt"}
+        lead={fromWidget ? 'Från widget — välj fil och namnge projektet.' : 'Ladda upp fil till Storage + projektblock.'}
       >
         <GoraHubTabBar />
         {error && <p className="mb-3 text-sm text-danger">{error}</p>}
-        <ProjectImagePicker disabled={saving || !user} onPick={setImageFile} />
+        <ProjectMediaPicker disabled={saving || !user} acceptVideo={preselected === 'video'} onPick={setMediaFile} />
         <textarea
           className="input-glass mt-3 w-full text-sm"
           rows={2}
-          placeholder="Bildtext (valfritt)"
-          value={imageCaption}
-          onChange={(e) => setImageCaption(e.target.value)}
+          placeholder="Beskrivning (valfritt)"
+          value={mediaCaption}
+          onChange={(e) => setMediaCaption(e.target.value)}
         />
         <button
           type="button"
-          disabled={saving || !user || !imageFile}
+          disabled={saving || !user || !mediaFile}
           className="btn-pill--accent mt-4 text-sm"
-          onClick={() => void startProject('image')}
+          onClick={() => void startProject(preselected)}
         >
-          Skapa projekt med bild
+          Skapa projekt med fil
         </button>
         <Link to="/projekt" className="btn-pill--ghost mt-4 inline-flex text-sm">
           Avbryt
@@ -176,8 +179,8 @@ export function ProjektNyPage() {
               disabled={saving || !user}
               className="elongated-module elongated-module--gold flex w-full items-center gap-3 p-4 text-left disabled:opacity-60"
               onClick={() => {
-                if (item.id === 'image') {
-                  navigate('/projekt/ny?type=image');
+                if (item.id === 'image' || item.id === 'video') {
+                  navigate(`/projekt/ny?type=${item.id}`);
                   return;
                 }
                 void startProject(item.id);

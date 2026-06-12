@@ -1,6 +1,6 @@
 export type ProjectStatus = 'active' | 'paused' | 'archived';
 
-export type ProjectBlockType = 'list' | 'note' | 'image' | 'task';
+export type ProjectBlockType = 'list' | 'note' | 'image' | 'video' | 'task';
 
 export type Project = {
   id: string;

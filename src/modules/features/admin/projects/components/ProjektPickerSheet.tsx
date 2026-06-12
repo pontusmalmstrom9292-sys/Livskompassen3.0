@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { CheckSquare, FileText, Image, List, X } from 'lucide-react';
+import { CheckSquare, FileText, Image, List, X, Film } from 'lucide-react';
 import type { ProjectBlockType } from '../types';
 
 const TILES: { id: ProjectBlockType; label: string; icon: typeof List }[] = [
   { id: 'list', label: 'Lista', icon: List },
   { id: 'note', label: 'Anteckning', icon: FileText },
   { id: 'image', label: 'Bild', icon: Image },
+  { id: 'video', label: 'Video', icon: Film },
   { id: 'task', label: 'Uppgift', icon: CheckSquare },
 ];
 

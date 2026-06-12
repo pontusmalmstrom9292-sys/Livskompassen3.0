@@ -16,9 +16,9 @@ P1 (bild, lokala regler, CB1) **done** i repo.
 
 | Item | Spec / kanon | Kommando |
 |------|--------------|----------|
-| `project_rules` Firestore + rules PMIR | [`PROJEKT-SPEC.md`](../specs/modules/PROJEKT-SPEC.md) | `kör projekt P2` |
-| Bild-uppladdning `project_media/` | Storage deploy **done** 2026-05-29 | manuell smoke USER |
-| MaterialPack-editor | [`LIFE-OS-KOPPLINGAR-KOMIHAG.md`](../design/LIFE-OS-KOPPLINGAR-KOMIHAG.md) Fas D | `kör kopplingar D` |
+| `project_rules` Firestore + rules PMIR | [`PROJEKT-SPEC.md`](../specs/modules/PROJEKT-SPEC.md) | **DONE** |
+| Bild/Video-uppladdning `project_media/` | Storage deploy **done** 2026-05-29 | **DONE** (inc OCR) |
+| MaterialPack-editor | [`LIFE-OS-KOPPLINGAR-KOMIHAG.md`](../design/LIFE-OS-KOPPLINGAR-KOMIHAG.md) Fas D | **DONE** |
 
 ---
 

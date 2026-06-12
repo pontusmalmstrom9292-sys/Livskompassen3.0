@@ -50,3 +50,7 @@ export {
   claimBarnportenPairing,
   generatePayslip,
 } from './callables/agents';
+
+export {
+  analyzeProjectImage,
+} from './callables/projectMedia';

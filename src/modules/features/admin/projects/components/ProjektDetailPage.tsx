@@ -5,16 +5,17 @@ import { db } from '@/core/firebase/firestore';
 import { FIRESTORE_COLLECTIONS } from '@/core/types/firestore';
 import { useStore } from '@/core/store';
 import { createPlanningTask } from '../../planning/api/planningTasksApi';
-import { uploadProjectImage } from '@/core/firebase/storage';
-import { listenProjectBlocks, createProjectBlock } from '../api/projectBlocksApi';
+import { uploadProjectMedia } from '@/core/firebase/storage';
+import { listenProjectBlocks, createProjectBlock, runProjectBlockOcr } from '../api/projectBlocksApi';
 import { updateProjectTitle } from '../api/projectsApi';
-import { ProjectImagePicker } from './ProjectImagePicker';
+import { ProjectMediaPicker } from './ProjectMediaPicker';
 import type { Project, ProjectBlock, ProjectBlockType } from '../types';
 
 const BLOCK_LABELS: Record<ProjectBlockType, string> = {
   list: 'Lista',
   note: 'Anteckning',
   image: 'Bild',
+  video: 'Video',
   task: 'Uppgift',
 };
 
@@ -29,8 +30,9 @@ export function ProjektDetailPage() {
   const [saving, setSaving] = useState(false);
   const [newListItem, setNewListItem] = useState('');
   const [noteDraft, setNoteDraft] = useState('');
-  const [pendingImage, setPendingImage] = useState<File | null>(null);
-  const [imageCaption, setImageCaption] = useState('');
+  const [pendingMedia, setPendingMedia] = useState<File | null>(null);
+  const [mediaCaption, setMediaCaption] = useState('');
+  const [ocrRunningId, setOcrRunningId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!user || !projectId) {
@@ -102,31 +104,32 @@ export function ProjektDetailPage() {
     }
   };
 
-  const addImageBlock = async () => {
-    if (!user || !projectId || !pendingImage) return;
-    const title = window.prompt('Rubrik för bilden:', 'Foto') ?? 'Foto';
+  const addMediaBlock = async () => {
+    if (!user || !projectId || !pendingMedia) return;
+    const isVideo = pendingMedia.type.startsWith('video/');
+    const title = window.prompt(isVideo ? 'Rubrik för videon:' : 'Rubrik för bilden:', isVideo ? 'Video' : 'Foto') ?? (isVideo ? 'Video' : 'Foto');
     if (!title.trim()) return;
     setSaving(true);
     setError(null);
     try {
-      const { storagePath, downloadUrl } = await uploadProjectImage(
+      const { storagePath, downloadUrl } = await uploadProjectMedia(
         user.uid,
         projectId,
-        pendingImage,
+        pendingMedia,
       );
       await createProjectBlock(user.uid, {
         projectId,
-        type: 'image',
+        type: isVideo ? 'video' : 'image',
         title: title.trim(),
-        content: imageCaption.trim() || undefined,
+        content: mediaCaption.trim() || undefined,
         storagePath,
         imageUrl: downloadUrl,
         order: blocks.length,
       });
-      setPendingImage(null);
-      setImageCaption('');
+      setPendingMedia(null);
+      setMediaCaption('');
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Kunde inte ladda upp bild.';
+      const msg = err instanceof Error ? err.message : 'Kunde inte ladda upp filen.';
       setError(
         msg.includes('storage/unauthorized')
           ? 'Uppladdning nekad — logga in igen och försök.'
@@ -134,6 +137,19 @@ export function ProjektDetailPage() {
       );
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleOcr = async (blockId: string) => {
+    if (!projectId) return;
+    setOcrRunningId(blockId);
+    setError(null);
+    try {
+      await runProjectBlockOcr(projectId, blockId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'OCR misslyckades.');
+    } finally {
+      setOcrRunningId(null);
     }
   };
 
@@ -217,13 +233,32 @@ export function ProjektDetailPage() {
             </p>
             <p className="mt-1 font-medium text-text">{block.title}</p>
             {block.type === 'image' && block.imageUrl && (
-              <img
+              <div className="mt-2 space-y-2">
+                <img
+                  src={block.imageUrl}
+                  alt={block.title}
+                  className="max-h-56 w-full rounded-lg border border-white/10 object-cover"
+                />
+                {!block.content && (
+                  <button
+                    type="button"
+                    disabled={ocrRunningId === block.id}
+                    onClick={() => void handleOcr(block.id)}
+                    className="btn-pill--ghost text-xs"
+                  >
+                    {ocrRunningId === block.id ? 'Läser text...' : 'Läs ut text (OCR)'}
+                  </button>
+                )}
+              </div>
+            )}
+            {block.type === 'video' && block.imageUrl && (
+              <video
                 src={block.imageUrl}
-                alt={block.title}
-                className="mt-2 max-h-56 w-full rounded-lg border border-white/10 object-cover"
+                controls
+                className="mt-2 max-h-60 w-full rounded-lg border border-white/10 bg-black"
               />
             )}
-            {block.content && <p className="mt-1 whitespace-pre-wrap text-text-muted">{block.content}</p>}
+            {block.content && <p className="mt-2 whitespace-pre-wrap text-text-muted">{block.content}</p>}
             {block.type === 'task' && block.planningTaskId && (
               <Link
                 to={`/planering?tab=handling&picked=1&projectId=${projectId}`}
@@ -268,22 +303,22 @@ export function ProjektDetailPage() {
           </button>
         </div>
         <div className="mt-3 rounded-lg border border-white/10 p-2">
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">Bild</p>
-          <ProjectImagePicker disabled={saving} onPick={setPendingImage} />
+          <p className="text-[10px] uppercase tracking-widest text-text-dim">Media</p>
+          <ProjectMediaPicker disabled={saving} acceptVideo onPick={setPendingMedia} />
           <textarea
             className="input-glass mt-2 w-full text-sm"
             rows={2}
-            placeholder="Bildtext (valfritt)"
-            value={imageCaption}
-            onChange={(e) => setImageCaption(e.target.value)}
+            placeholder="Beskrivning (valfritt)"
+            value={mediaCaption}
+            onChange={(e) => setMediaCaption(e.target.value)}
           />
           <button
             type="button"
-            disabled={saving || !pendingImage}
+            disabled={saving || !pendingMedia}
             className="btn-pill--accent mt-2 text-xs"
-            onClick={() => void addImageBlock()}
+            onClick={() => void addMediaBlock()}
           >
-            Ladda upp bildblock
+            Ladda upp mediablock
           </button>
         </div>
         <textarea
