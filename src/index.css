@@ -17,7 +17,7 @@
   --bg-teal-deep: #020617;
   --bg-dusk: #050b14;
   --compass-disk: #0d3b3b;
-  --text-gold: #d4af37;
+  --text-gold: var(--color-accent-gold);
   --text-gold-dim: #9a7b2f;
   --accent-dim: #9a7b2f;
   --accent-ember: #f59e0b;
@@ -44,6 +44,12 @@
 
   /* Utrymme under scrollbart innehåll — dock-rail + banner + safe area + marginal */
   --app-dock-clearance: calc(8.5rem + env(safe-area-inset-bottom, 0px) + 1.5rem);
+
+  /* Nya konsoliderade tokens för refaktorering av hårdkodade färger */
+  --color-accent-gold: #d4af37;
+  --color-glass-dark-50: rgba(0, 0, 0, 0.5);
+  --color-glass-dark-45: rgba(0, 0, 0, 0.45);
+  --color-glass-dark-35: rgba(0, 0, 0, 0.35);
 }
 
 @layer base {
@@ -76,7 +82,7 @@
     --surface-2: #09111e;
     --surface-3: #111b2d;
     --compass-disk: #0d3b3b;
-    --accent: #d4af37;
+    --accent: var(--color-accent-gold);
     --accent-secondary: #6366f1;
     --accent-light: #fde68a;
     --accent-ai: #818cf8;
@@ -88,7 +94,7 @@
   html[data-theme='I-stone'],
   html[data-theme^='I-stone-draft'] {
     --bg: #0a0a0a;
-    --accent: #d4af37;
+    --accent: var(--color-accent-gold);
     --border-strong: rgba(212, 175, 55, 0.45);
   }
 
@@ -117,13 +123,13 @@
 
   html[data-theme='I-hamn'] {
     --bg: #2c2f33;
-    --accent: #d4af37;
+    --accent: var(--color-accent-gold);
     --border-strong: rgba(212, 175, 55, 0.35);
   }
 
   html[data-theme='I-glass'] {
     --bg: #0a0a0a;
-    --accent: #d4af37;
+    --accent: var(--color-accent-gold);
     --glass: rgba(8, 6, 4, 0.9);
     --border-strong: rgba(212, 175, 55, 0.55);
   }
@@ -213,7 +219,7 @@
   .theme-lab-strip__dock {
     @apply mx-auto flex w-fit items-center gap-2 rounded-full border px-2 py-1;
     border-color: var(--border);
-    background: rgba(0, 0, 0, 0.35);
+    background: var(--color-glass-dark-35);
   }
 
   .theme-lab-strip__dock-side,
@@ -315,7 +321,7 @@
     border-width: 1.5px;
     border-color: color-mix(in srgb, var(--accent) 32%, transparent);
     background: color-mix(in srgb, var(--glass) 88%, rgba(4, 8, 10, 0.75));
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 8px 32px var(--color-glass-dark-35);
   }
 
   html[data-theme^='M-mockup-'] .hub-page-shell__title,
@@ -488,7 +494,7 @@
   }
 
   .header-glass-btn--active {
-    color: #d4af37;
+    color: var(--color-accent-gold);
     background: rgba(212, 175, 55, 0.14);
     border-color: rgba(212, 175, 55, 0.38);
     box-shadow:
@@ -530,7 +536,7 @@
     border-color: color-mix(in srgb, var(--accent) 22%, transparent);
     background: color-mix(in srgb, var(--glass) 85%, transparent);
     backdrop-filter: blur(10px);
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 8px 28px var(--color-glass-dark-45);
   }
 
   .dock-nav {
@@ -603,7 +609,7 @@
     );
     border: 1.5px solid rgba(212, 175, 55, 0.38);
     box-shadow:
-      0 4px 14px rgba(0, 0, 0, 0.45),
+      0 4px 14px var(--color-glass-dark-45),
       0 0 12px rgba(212, 175, 55, 0.1),
       inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
@@ -611,7 +617,7 @@
   .dock-classic__center--active .dock-classic__plate {
     border-color: rgba(212, 175, 55, 0.48);
     box-shadow:
-      0 4px 14px rgba(0, 0, 0, 0.5),
+      0 4px 14px var(--color-glass-dark-50),
       0 0 14px rgba(212, 175, 55, 0.14);
   }
 
@@ -733,7 +739,7 @@
     -webkit-backdrop-filter: none;
     box-shadow:
       0 14px 42px rgba(0, 0, 0, 0.58),
-      0 0 0 1px rgba(0, 0, 0, 0.35),
+      0 0 0 1px var(--color-glass-dark-35),
       inset 0 2px 0 rgba(255, 243, 196, 0.12),
       inset 0 -10px 28px rgba(0, 0, 0, 0.42);
     overflow: hidden;
@@ -766,7 +772,7 @@
     pointer-events: none;
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.06),
-      inset 0 -14px 32px rgba(0, 0, 0, 0.35);
+      inset 0 -14px 32px var(--color-glass-dark-35);
   }
 
   .dock-hub-band__pad {
@@ -819,12 +825,12 @@
   }
 
   .dock-nav-btn:hover .dock-nav-btn__chrome-v4 {
-    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.5))
+    filter: drop-shadow(0 3px 6px var(--color-glass-dark-50))
       drop-shadow(0 0 12px rgba(212, 175, 55, 0.32));
   }
 
   .dock-nav-btn--active .dock-nav-btn__chrome-v4 {
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45))
+    filter: drop-shadow(0 2px 4px var(--color-glass-dark-45))
       drop-shadow(0 0 14px rgba(212, 175, 55, 0.4));
   }
 
@@ -920,7 +926,7 @@
     box-shadow:
       inset 0 1px 0 rgba(245, 230, 184, 0.18),
       0 0 28px rgba(212, 175, 55, 0.32),
-      0 10px 28px rgba(0, 0, 0, 0.5);
+      0 10px 28px var(--color-glass-dark-50);
   }
 
   .dock-hub-band__center--holding .dock-hub-band__plate {
@@ -928,7 +934,7 @@
       inset 0 1px 0 rgba(245, 230, 184, 0.18),
       0 0 0 1px rgba(212, 175, 55, 0.28),
       0 0 calc(12px + var(--dock-hold, 0) * 0.16) rgba(212, 175, 55, 0.34),
-      0 10px 28px rgba(0, 0, 0, 0.5);
+      0 10px 28px var(--color-glass-dark-50);
   }
 
   .dock-hub-band__mark {
@@ -943,7 +949,7 @@
     border-radius: 1.35rem;
     border-width: 1.5px;
     box-shadow:
-      0 10px 28px rgba(0, 0, 0, 0.5),
+      0 10px 28px var(--color-glass-dark-50),
       0 0 0 1px rgba(0, 0, 0, 0.28),
       inset 0 1px 0 rgba(255, 243, 196, 0.1),
       inset 0 -6px 18px rgba(0, 0, 0, 0.34);
@@ -1047,7 +1053,7 @@
     height: 1.65rem;
     width: 1.65rem;
     opacity: 0.96;
-    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35));
+    filter: drop-shadow(0 1px 3px var(--color-glass-dark-35));
   }
 
   .floating-dock__side-btn.dock-nav-btn--active .dock-nav-btn__drawer-l2 {
@@ -1081,7 +1087,7 @@
     box-shadow:
       0 1px 0 rgba(255, 243, 210, 0.16) inset,
       0 -4px 12px rgba(0, 0, 0, 0.38) inset,
-      0 8px 22px rgba(0, 0, 0, 0.5),
+      0 8px 22px var(--color-glass-dark-50),
       0 0 20px rgba(212, 175, 55, 0.2);
   }
 
@@ -1451,7 +1457,7 @@
   }
 
   .dock-hub-sat--indigo .dock-hub-sat__icon {
-    color: #d4af37;
+    color: var(--color-accent-gold);
   }
 
   .dock-hub-sat--lavender .dock-hub-sat__icon {
@@ -1463,7 +1469,7 @@
   }
 
   .dock-hub-sat--gold .dock-hub-sat__icon {
-    color: #d4af37;
+    color: var(--color-accent-gold);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -1617,7 +1623,7 @@
 
   .module-hub-tile--gold.module-hub-tile--active {
     border-color: rgba(212, 175, 55, 0.4);
-    color: #d4af37;
+    color: var(--color-accent-gold);
     background: rgba(212, 175, 55, 0.08);
   }
 
@@ -1724,14 +1730,14 @@
   }
 
   .home-action-chip--active {
-    color: #d4af37;
+    color: var(--color-accent-gold);
     border-color: rgba(212, 175, 55, 0.38);
     background: rgba(212, 175, 55, 0.1);
     box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
   }
 
   .home-action-chip--gold.home-action-chip--active {
-    color: #d4af37;
+    color: var(--color-accent-gold);
   }
 
   .home-action-chip--emerald.home-action-chip--active {
@@ -1811,7 +1817,7 @@
   }
 
   .livskompass-brand-lockup--inline .livskompass-brand-lockup__mark {
-    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5))
+    filter: drop-shadow(0 2px 3px var(--color-glass-dark-50))
       drop-shadow(0 0 14px rgba(212, 175, 55, 0.42));
   }
 
@@ -1821,17 +1827,17 @@
   }
 
   .livskompass-brand-lockup__title {
-    background: linear-gradient(180deg, #faf3e0 0%, #e8d48a 38%, #d4af37 72%, #a68b2e 100%);
+    background: linear-gradient(180deg, #faf3e0 0%, #e8d48a 38%, var(--color-accent-gold) 72%, #a68b2e 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+    filter: drop-shadow(0 1px 2px var(--color-glass-dark-45));
   }
 
   .livskompass-brand-lockup__title--inline {
     font-weight: 700;
     letter-spacing: 0.3em;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5))
+    filter: drop-shadow(0 1px 2px var(--color-glass-dark-50))
       drop-shadow(0 0 18px rgba(212, 175, 55, 0.28));
   }
 
@@ -1842,7 +1848,7 @@
     background-clip: border-box;
     color: #dcc06a;
     filter: none;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);
+    text-shadow: 0 1px 1px var(--color-glass-dark-45);
   }
 
   .livskompass-brand-lockup--header .livskompass-brand-lockup__title--inline {
@@ -1916,7 +1922,7 @@
     );
     box-shadow:
       0 14px 42px rgba(0, 0, 0, 0.55),
-      0 0 0 1px rgba(0, 0, 0, 0.35),
+      0 0 0 1px var(--color-glass-dark-35),
       inset 0 2px 0 rgba(255, 243, 196, 0.12),
       inset 0 -10px 28px rgba(0, 0, 0, 0.42);
   }
@@ -1941,7 +1947,7 @@
     pointer-events: none;
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.06),
-      inset 0 -14px 32px rgba(0, 0, 0, 0.35);
+      inset 0 -14px 32px var(--color-glass-dark-35);
   }
 
   .glass-header-bar--kanon[data-panel-style='obsidian'] {
@@ -1957,7 +1963,7 @@
       0 16px 44px rgba(2, 6, 23, 0.62),
       0 0 0 1px rgba(15, 23, 42, 0.8),
       inset 0 2px 0 rgba(226, 232, 240, 0.1),
-      inset 0 -12px 30px rgba(0, 0, 0, 0.5);
+      inset 0 -12px 30px var(--color-glass-dark-50);
   }
 
   .glass-header-bar--kanon[data-panel-style='obsidian']::before {
@@ -1978,7 +1984,7 @@
     pointer-events: none;
     box-shadow:
       inset 0 2px 0 rgba(255, 255, 255, 0.05),
-      inset 0 -16px 36px rgba(0, 0, 0, 0.45);
+      inset 0 -16px 36px var(--color-glass-dark-45);
   }
 
   .glass-header-bar--kanon[data-panel-style='aurora'] {
@@ -2034,7 +2040,7 @@
     -webkit-backdrop-filter: none;
     box-shadow:
       0 14px 42px rgba(0, 0, 0, 0.58),
-      0 0 0 1px rgba(0, 0, 0, 0.35),
+      0 0 0 1px var(--color-glass-dark-35),
       inset 0 2px 0 rgba(255, 243, 196, 0.14),
       inset 0 -10px 28px rgba(0, 0, 0, 0.44);
   }
@@ -2072,7 +2078,7 @@
       0 14px 40px rgba(2, 6, 23, 0.58),
       0 0 24px rgba(45, 212, 191, 0.12),
       inset 0 2px 0 rgba(165, 243, 252, 0.12),
-      inset 0 -12px 28px rgba(0, 0, 0, 0.5);
+      inset 0 -12px 28px var(--color-glass-dark-50);
   }
 
   /* Header chrome — fylliga 3D-knappar som lyfts ur bannern */
@@ -2136,7 +2142,7 @@
   .header-chrome-btn:active {
     transform: translateY(0);
     box-shadow:
-      0 2px 8px rgba(0, 0, 0, 0.45),
+      0 2px 8px var(--color-glass-dark-45),
       0 2px 7px rgba(0, 0, 0, 0.36) inset;
   }
 
@@ -2161,7 +2167,7 @@
   }
 
   .header-chrome-btn__glyph--success {
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5))
+    filter: drop-shadow(0 1px 2px var(--color-glass-dark-50))
       drop-shadow(0 0 10px rgba(74, 222, 128, 0.35));
   }
 
@@ -2206,13 +2212,13 @@
       180deg,
       #faf3e0 0%,
       #e8d48a 38%,
-      #d4af37 72%,
+      var(--color-accent-gold) 72%,
       #a68b2e 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+    filter: drop-shadow(0 1px 2px var(--color-glass-dark-45));
   }
 
   .app-header__page-badge {
@@ -2584,11 +2590,11 @@
   .nav-drawer__row--active {
     background: linear-gradient(
       90deg,
-      color-mix(in srgb, #d4af37 24%, transparent) 0%,
-      color-mix(in srgb, #d4af37 6%, transparent) 72%,
+      color-mix(in srgb, var(--color-accent-gold) 24%, transparent) 0%,
+      color-mix(in srgb, var(--color-accent-gold) 6%, transparent) 72%,
       transparent 100%
     );
-    box-shadow: inset 4px 0 0 #d4af37;
+    box-shadow: inset 4px 0 0 var(--color-accent-gold);
   }
 
   .nav-drawer__row--active .nav-drawer__row-label {
@@ -2622,9 +2628,9 @@
 
   .nav-drawer__row-badge {
     @apply flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full px-1.5 text-[10px] font-semibold tabular-nums;
-    background: color-mix(in srgb, #d4af37 28%, transparent);
+    background: color-mix(in srgb, var(--color-accent-gold) 28%, transparent);
     color: var(--accent-light);
-    border: 1px solid color-mix(in srgb, #d4af37 45%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-accent-gold) 45%, transparent);
   }
 
   .nav-drawer__row-chevron {
@@ -2695,7 +2701,7 @@
     border-color: rgba(212, 175, 55, 0.35);
     background: rgba(10, 10, 10, 0.72);
     backdrop-filter: blur(14px);
-    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.45);
+    box-shadow: -8px 0 32px var(--color-glass-dark-45);
   }
 
   .fyren-home-rail__row {
@@ -2872,7 +2878,7 @@
   .home-page--scenic .home-greeting__title {
     font-family: 'Cormorant Garamond', Georgia, serif;
     @apply text-[1.55rem] font-medium leading-tight sm:text-[1.85rem];
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 1px 2px var(--color-glass-dark-50);
   }
 
   .home-page--scenic .home-greeting__salutation {
@@ -3075,7 +3081,7 @@
       radial-gradient(ellipse 120% 80% at 50% 0%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 55%),
       rgba(8, 10, 14, 0.72);
     box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.35) inset,
+      0 0 0 1px var(--color-glass-dark-35) inset,
       0 20px 48px rgba(2, 6, 23, 0.45);
     backdrop-filter: blur(14px);
   }
@@ -3083,7 +3089,7 @@
   .livskompass-hero--compact .livskompass-hero__panel {
     @apply rounded-2xl px-3 py-2;
     box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.35) inset,
+      0 0 0 1px var(--color-glass-dark-35) inset,
       0 8px 24px rgba(2, 6, 23, 0.35);
   }
 
@@ -3104,14 +3110,14 @@
       rgba(4, 6, 10, 0.98) 100%
     );
     box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.45) inset,
+      0 0 0 1px var(--color-glass-dark-45) inset,
       0 0 16px color-mix(in srgb, var(--accent) 14%, transparent);
     color: var(--accent);
   }
 
   .livskompass-hero__compact-mark-icon {
     @apply h-[1.35rem] w-[1.35rem];
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45))
+    filter: drop-shadow(0 1px 2px var(--color-glass-dark-45))
       drop-shadow(0 0 10px color-mix(in srgb, var(--accent) 32%, transparent));
   }
 
@@ -3139,7 +3145,7 @@
       rgba(4, 6, 10, 0.98) 100%
     );
     box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.45) inset,
+      0 0 0 1px var(--color-glass-dark-45) inset,
       0 0 18px color-mix(in srgb, var(--k-shield-glow) 14%, transparent);
   }
 
@@ -3196,7 +3202,7 @@
       rgba(4, 6, 10, 0.98) 100%
     );
     box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.5) inset,
+      0 0 0 1px var(--color-glass-dark-50) inset,
       0 1px 0 color-mix(in srgb, var(--k-shield-gold) 18%, transparent) inset,
       0 16px 40px rgba(0, 0, 0, 0.48),
       0 0 36px color-mix(in srgb, var(--k-shield-glow) 16%, transparent);
@@ -3269,7 +3275,7 @@
       rgba(4, 6, 10, 0.98) 100%
     );
     box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.5) inset,
+      0 0 0 1px var(--color-glass-dark-50) inset,
       0 1px 0 rgba(255, 243, 210, 0.14) inset,
       0 -16px 36px rgba(0, 0, 0, 0.55) inset,
       0 16px 40px rgba(0, 0, 0, 0.48),
@@ -3298,7 +3304,7 @@
     background:
       radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 46%),
       radial-gradient(circle at 50% 50%, rgba(8, 10, 14, 0.92) 0%, rgba(2, 4, 8, 0.98) 78%);
-    box-shadow: inset 0 8px 24px rgba(0, 0, 0, 0.45);
+    box-shadow: inset 0 8px 24px var(--color-glass-dark-45);
   }
 
   .livskompass-hero__disk-rose {
@@ -3334,14 +3340,14 @@
 
   .livskompass-hero--kvall.livskompass-hero--elongated .livskompass-hero__disk {
     box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.35) inset,
+      0 0 0 1px var(--color-glass-dark-35) inset,
       0 0 44px rgba(245, 158, 11, 0.14),
       0 18px 46px rgba(2, 6, 23, 0.48);
   }
 
   .livskompass-hero--soluppgang.livskompass-hero--elongated .livskompass-hero__disk {
     box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.35) inset,
+      0 0 0 1px var(--color-glass-dark-35) inset,
       0 0 40px rgba(251, 191, 36, 0.12),
       0 18px 46px rgba(2, 6, 23, 0.45);
   }
@@ -3414,7 +3420,7 @@
 
   .livskompass-hero__orbit-icon {
     @apply relative z-[2] h-6 w-6;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5))
+    filter: drop-shadow(0 1px 2px var(--color-glass-dark-50))
       drop-shadow(0 0 8px color-mix(in srgb, var(--accent) 35%, transparent));
   }
 
@@ -3568,7 +3574,7 @@
 
   .livskompass-hero__mark {
     @apply relative z-[1] h-[62%] w-[62%];
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45))
+    filter: drop-shadow(0 2px 4px var(--color-glass-dark-45))
       drop-shadow(0 0 14px rgba(212, 175, 55, 0.38));
   }
 
@@ -3635,7 +3641,7 @@
   }
 
   .kompis-avatar--live.kompis-avatar--header-chrome .kompis-mark {
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5))
+    filter: drop-shadow(0 2px 4px var(--color-glass-dark-50))
       drop-shadow(0 0 16px rgba(212, 175, 55, 0.55));
   }
 
@@ -3695,7 +3701,7 @@
       rgba(6, 8, 16, 0.86) 100%
     );
     box-shadow:
-      0 10px 32px rgba(0, 0, 0, 0.45),
+      0 10px 32px var(--color-glass-dark-45),
       inset 0 1px 0 rgba(255, 243, 210, 0.1);
   }
 
@@ -3718,7 +3724,7 @@
   .dagens-riktning-card--open {
     border-color: color-mix(in srgb, var(--accent) 42%, transparent);
     box-shadow:
-      0 12px 36px rgba(0, 0, 0, 0.5),
+      0 12px 36px var(--color-glass-dark-50),
       inset 0 1px 0 rgba(255, 243, 210, 0.12);
   }
 
@@ -3743,7 +3749,7 @@
     border-width: 1.5px;
     border-color: color-mix(in srgb, var(--accent) 58%, transparent);
     box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.35) inset,
+      0 0 0 1px var(--color-glass-dark-35) inset,
       0 0 16px color-mix(in srgb, var(--accent) 34%, transparent);
   }
 
@@ -3912,7 +3918,7 @@
     @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-lg;
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(2, 6, 23, 0.35);
-    color: #d4af37;
+    color: var(--color-accent-gold);
   }
 
   .elongated-module__text {
@@ -3929,7 +3935,7 @@
 
   .elongated-module__badge {
     @apply rounded-full px-1.5 py-0.5 text-[9px] uppercase tracking-widest;
-    color: #d4af37;
+    color: var(--color-accent-gold);
     border: 1px solid rgba(212, 175, 55, 0.35);
     background: rgba(212, 175, 55, 0.08);
   }
@@ -3965,7 +3971,7 @@
   }
 
   .elongated-module--indigo .elongated-module__icon {
-    color: #d4af37;
+    color: var(--color-accent-gold);
     border-color: rgba(212, 175, 55, 0.2);
   }
 
@@ -4138,7 +4144,7 @@
     height: 2rem;
     width: 2rem;
     opacity: 0.96;
-    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35));
+    filter: drop-shadow(0 1px 3px var(--color-glass-dark-35));
   }
 
   .fyren-widget-bar__label {
@@ -4169,94 +4175,10 @@
   }
 
   /* Barnporten CB1–CB4 — barn, varmare än Fyren W1 (ej samma klasser) */
-  .barnporten-widget__toast {
-    @apply pointer-events-auto mb-2 max-w-[12rem] rounded-lg border border-amber-400/25 bg-[#1a1410]/95 px-3 py-2 text-center text-xs text-amber-100;
-  }
-
-  .barnporten-widget__control--holding,
-  .barnporten-widget__star--holding {
-    box-shadow: 0 0 18px rgba(251, 191, 36, 0.45);
-  }
-
-  .barnporten-widget--cb1 {
-    @apply pointer-events-none fixed bottom-[4.5rem] right-0 z-[56] flex flex-col items-end;
-  }
-
-  .barnporten-widget--cb1 .barnporten-widget__toast {
-    @apply mr-3;
-  }
-
-  .barnporten-widget__star {
-    @apply pointer-events-auto mr-2 flex h-9 w-9 items-center justify-center rounded-full border border-amber-300/30;
-    background: radial-gradient(circle at 30% 30%, rgba(251, 191, 36, 0.35), rgba(120, 53, 15, 0.55));
-    box-shadow: 0 0 14px rgba(251, 191, 36, 0.25);
-  }
-
-  .barnporten-widget__star.barnporten-widget__control--holding {
-    background: radial-gradient(
-      circle at 30% 30%,
-      rgba(251, 191, 36, 0.75) var(--barnporten-hold, 0%),
-      rgba(251, 191, 36, 0.35) var(--barnporten-hold, 0%),
-      rgba(120, 53, 15, 0.65) var(--barnporten-hold, 0%)
-    );
-  }
 
   /* CB2 — hjärta-båge längs nedre kant (surfplatta) */
-  .barnporten-widget--cb2 {
-    @apply pointer-events-none fixed inset-x-0 z-[56] flex flex-col items-center;
-    bottom: env(safe-area-inset-bottom, 0px);
-  }
-
-  .barnporten-widget--cb2 .barnporten-widget__toast {
-    @apply mb-1;
-  }
-
-  .barnporten-widget__arc {
-    @apply pointer-events-auto flex h-11 w-[min(74vw,15rem)] items-start justify-center rounded-t-[999px] border border-b-0 border-amber-300/35 pt-2;
-    background: linear-gradient(
-      to top,
-      rgba(120, 53, 15, 0.88) 0%,
-      rgba(180, 83, 9, 0.55) 55%,
-      rgba(251, 191, 36, 0.22) 100%
-    );
-    box-shadow: 0 -6px 22px rgba(251, 191, 36, 0.18);
-  }
-
-  .barnporten-widget__arc.barnporten-widget__control--holding {
-    background: linear-gradient(
-      to top,
-      rgba(120, 53, 15, 0.95) 0%,
-      rgba(251, 191, 36, calc(0.35 + var(--barnporten-hold, 0%) * 0.004)) 100%
-    );
-  }
-
-  .barnporten-widget__arc-icon {
-    filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.35));
-  }
 
   /* CB3 — kompass-mini nere till höger */
-  .barnporten-widget--cb3 {
-    @apply pointer-events-none fixed bottom-[4.5rem] right-0 z-[56] flex flex-col items-end;
-  }
-
-  .barnporten-widget--cb3 .barnporten-widget__toast {
-    @apply mr-3;
-  }
-
-  .barnporten-widget__compass {
-    @apply pointer-events-auto mr-2 flex h-10 w-10 items-center justify-center rounded-full border border-amber-300/30;
-    background: radial-gradient(circle at 35% 35%, rgba(251, 191, 36, 0.32), rgba(26, 20, 16, 0.82));
-    box-shadow: 0 0 14px rgba(251, 191, 36, 0.22);
-  }
-
-  .barnporten-widget__compass.barnporten-widget__control--holding {
-    background: radial-gradient(
-      circle at 35% 35%,
-      rgba(251, 191, 36, 0.72) var(--barnporten-hold, 0%),
-      rgba(251, 191, 36, 0.28) var(--barnporten-hold, 0%),
-      rgba(26, 20, 16, 0.88) var(--barnporten-hold, 0%)
-    );
-  }
 
   /* Smart widget bar (Theme I — bottom sheet) */
   .fyren-smart-bar {
@@ -4328,7 +4250,7 @@
 
   .fyren-smart-bar__handle {
     @apply pointer-events-auto mb-2 inline-flex h-11 min-w-[5.75rem] items-center justify-center border-0 bg-transparent p-0;
-    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.45));
+    filter: drop-shadow(0 6px 14px var(--color-glass-dark-45));
   }
 
   .fyren-smart-bar__handle-body {
@@ -4343,7 +4265,7 @@
     box-shadow:
       inset 0 2px 0 rgba(255, 243, 196, 0.14),
       inset 0 -8px 18px rgba(0, 0, 0, 0.42),
-      0 2px 0 rgba(0, 0, 0, 0.35),
+      0 2px 0 var(--color-glass-dark-35),
       0 0 18px rgba(212, 175, 55, 0.18);
     backdrop-filter: blur(14px) saturate(130%);
     -webkit-backdrop-filter: blur(14px) saturate(130%);
@@ -4419,7 +4341,7 @@
   .fyren-smart-bar__orbit-icon {
     @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-accent;
     border: 2px solid var(--border-strong);
-    background: rgba(0, 0, 0, 0.35);
+    background: var(--color-glass-dark-35);
     box-shadow: 0 0 16px var(--accent-glow);
   }
 
@@ -4599,12 +4521,12 @@
 
   .module-card--gold .module-card__icon {
     border-color: rgba(212, 175, 55, 0.25);
-    color: #d4af37;
+    color: var(--color-accent-gold);
   }
 
   .module-card--indigo .module-card__icon {
     border-color: rgba(129, 140, 248, 0.25);
-    color: #d4af37;
+    color: var(--color-accent-gold);
   }
 
   .module-card--lavender .module-card__icon {
@@ -4694,7 +4616,7 @@
       rgba(10, 10, 12, 0.88) 100%
     );
     box-shadow:
-      inset 0 2px 6px rgba(0, 0, 0, 0.45),
+      inset 0 2px 6px var(--color-glass-dark-45),
       inset 0 -1px 0 rgba(255, 243, 196, 0.06),
       0 2px 0 rgba(0, 0, 0, 0.25);
   }
@@ -4725,7 +4647,7 @@
   .pin-gate__submit {
     box-shadow:
       inset 0 1px 0 rgba(255, 243, 196, 0.12),
-      0 4px 14px rgba(0, 0, 0, 0.35);
+      0 4px 14px var(--color-glass-dark-35);
   }
 
   .pin-gate__error {
@@ -5011,7 +4933,7 @@
 
   .reflektion-mood-card__emoji {
     @apply text-lg leading-none;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+    filter: drop-shadow(0 1px 2px var(--color-glass-dark-35));
   }
 
   .reflektion-mood-card__label {
@@ -5039,7 +4961,7 @@
   }
 
   .reflektion-mood-card--gold {
-    border-color: color-mix(in srgb, #d4af37 22%, transparent);
+    border-color: color-mix(in srgb, var(--color-accent-gold) 22%, transparent);
   }
 
   .reflektion-mood-card--rose {
@@ -5147,9 +5069,6 @@
   }
 
   /* Planering — verktygshub */
-  .planering-back-link {
-    @apply mb-4 inline-flex items-center gap-1 text-sm font-medium text-accent/90 transition-colors hover:text-accent;
-  }
 
   .routines-panel {
     @apply mb-3 rounded-xl border border-border-strong/70 bg-bg/20;
@@ -5207,544 +5126,6 @@
 
   .routines-panel__msg--err {
     @apply text-rose-300/90;
-  }
-
-  .planering-hub__hint {
-    @apply mb-4 text-center text-sm leading-relaxed text-text-muted;
-  }
-
-  .planering-hub__grid {
-    @apply grid gap-3 sm:grid-cols-2;
-  }
-
-  .planering-hub__list {
-    @apply list-none space-y-2 p-0;
-  }
-
-  .planering-hub__section {
-    @apply space-y-3;
-  }
-
-  .planering-hub__section-title {
-    @apply text-[10px] font-semibold uppercase tracking-wider text-text-dim;
-  }
-
-  .planering-hub__section-grid {
-    @apply grid gap-3 sm:grid-cols-2;
-  }
-
-  .planering-hub__tiles {
-    @apply grid grid-cols-2 gap-3 sm:grid-cols-3;
-  }
-
-  .planering-hub--orbit {
-    @apply flex flex-col items-stretch gap-4 py-2;
-  }
-
-  .planering-hub__orbit-center {
-    @apply w-full max-w-sm mx-auto;
-  }
-
-  .planering-hub__orbit-ring {
-    @apply grid w-full grid-cols-2 gap-2 sm:grid-cols-3;
-  }
-
-  .planering-hub__orbit-chip {
-    @apply relative min-h-0 w-full;
-  }
-
-  .planering-hub__bento {
-    @apply grid gap-3 sm:grid-cols-2;
-  }
-
-  .planering-hub__bento-hero {
-    @apply sm:col-span-2;
-  }
-
-  .planering-hub__bento-wide {
-    @apply sm:col-span-2;
-  }
-
-  .planering-hub__bento-tall {
-    @apply sm:row-span-2;
-  }
-
-  .planering-hub__strip {
-    @apply flex gap-3 overflow-x-auto pb-2;
-  }
-
-  .planering-hub__strip-card {
-    @apply min-w-[10rem] shrink-0;
-  }
-
-  .planering-hub__minimal-rest {
-    @apply mt-3 grid gap-3 sm:grid-cols-2;
-  }
-
-  .planering-hub--navigator {
-    @apply space-y-4;
-  }
-
-  .planering-hub__primary {
-    @apply w-full;
-  }
-
-  .planering-hub__accordions {
-    @apply space-y-2;
-  }
-
-  .planering-hub__category {
-    @apply overflow-hidden rounded-2xl border border-border-strong bg-bg/30;
-  }
-
-  .planering-hub__category--open {
-    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
-  }
-
-  .planering-hub__category-trigger {
-    @apply flex w-full items-center gap-2 px-4 py-3 text-left transition-colors hover:bg-surface/20;
-  }
-
-  .planering-hub__category-label {
-    @apply flex-1 text-sm font-semibold text-accent;
-  }
-
-  .planering-hub__category-meta {
-    @apply text-[10px] font-medium uppercase tracking-wider text-text-dim;
-  }
-
-  .planering-hub__category-chevron {
-    @apply h-4 w-4 shrink-0 text-accent/70 transition-transform duration-200;
-  }
-
-  .planering-hub__category--open .planering-hub__category-chevron {
-    transform: rotate(180deg);
-  }
-
-  .planering-hub__category-panel {
-    @apply grid gap-2 border-t border-border-strong/80 px-3 py-3 sm:grid-cols-2;
-  }
-
-  .planering-tool-card--chip {
-    @apply min-h-0 flex-row items-center gap-2 p-3;
-  }
-
-  .planering-tool-card--chip .planering-tool-card__emoji {
-    @apply shrink-0 text-lg leading-none;
-  }
-
-  .planering-tool-card--chip .planering-tool-card__title {
-    @apply min-w-0 flex-1 pr-0 text-sm;
-  }
-
-  .planering-tool-card--chip .planering-tool-card__lead {
-    @apply hidden;
-  }
-
-  .planering-tool-card--chip .planering-tool-card__icon-wrap {
-    @apply static ml-0 shrink-0 text-accent/45;
-  }
-
-  .planering-tool-card--chip .planering-tool-card__icon-wrap svg {
-    @apply h-4 w-4;
-  }
-
-  .planering-inbox-connect-grid {
-    @apply grid gap-3;
-  }
-
-  .planering-inbox-connect {
-    @apply rounded-2xl border border-border-strong bg-bg/40 p-4;
-  }
-
-  .planering-inbox-connect--prepared {
-    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
-    background: linear-gradient(
-      165deg,
-      color-mix(in srgb, var(--accent) 6%, transparent) 0%,
-      rgba(8, 10, 14, 0.88) 100%
-    );
-  }
-
-  .planering-inbox-connect__head {
-    @apply flex items-start gap-3;
-  }
-
-  .planering-inbox-connect__icon {
-    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-accent/25 bg-surface/30 text-accent;
-  }
-
-  .planering-inbox-connect__title {
-    @apply text-base font-semibold text-accent;
-  }
-
-  .planering-inbox-connect__lead {
-    @apply mt-0.5 text-xs leading-relaxed text-text-muted;
-  }
-
-  .planering-inbox-connect__status {
-    @apply flex shrink-0 items-center gap-1 rounded-full border border-border-strong px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-text-dim;
-  }
-
-  .planering-inbox-connect__status--on {
-    @apply border-emerald-500/35 text-emerald-300/90;
-  }
-
-  .planering-inbox-connect__account {
-    @apply mt-3 truncate text-sm text-text;
-  }
-
-  .planering-inbox-connect__note {
-    @apply mt-2 text-xs text-text-dim;
-  }
-
-  .planering-inbox-connect__badge {
-    @apply inline-flex items-center rounded-full border border-amber-500/35 bg-amber-500/10 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-200/90;
-  }
-
-  .planering-inbox-calendar-preview__days {
-    @apply mt-4 grid grid-cols-5 gap-2;
-  }
-
-  .planering-inbox-calendar-preview__day {
-    @apply flex flex-col gap-1;
-  }
-
-  .planering-inbox-calendar-preview__day-label {
-    @apply text-center text-[10px] font-semibold uppercase tracking-wider text-text-dim;
-  }
-
-  .planering-inbox-calendar-preview__day-slot {
-    @apply min-h-[3.5rem] rounded-lg border border-dashed border-border-strong/80 bg-surface/20;
-  }
-
-  .planering-tool-card--compact {
-    @apply p-3;
-  }
-
-  .planering-tool-card--hero {
-    @apply min-h-[7rem] p-5;
-  }
-
-  .planering-tool-card--tile {
-    @apply aspect-square items-center justify-center p-3 text-center;
-  }
-
-  .planering-tool-card--soon {
-    @apply cursor-not-allowed opacity-55;
-  }
-
-  .planering-tool-card--amber {
-    border-color: color-mix(in srgb, #f59e0b 28%, transparent);
-  }
-
-  .planering-tool-card--rose {
-    border-color: color-mix(in srgb, #f43f5e 28%, transparent);
-  }
-
-  .planering-tool-card {
-    @apply relative flex w-full flex-col gap-1 rounded-2xl border p-4 text-left transition-[transform,box-shadow,border-color];
-    border-color: color-mix(in srgb, var(--accent) 22%, transparent);
-    background: linear-gradient(165deg, rgba(18, 16, 14, 0.92) 0%, rgba(8, 10, 14, 0.88) 100%);
-  }
-
-  button.planering-tool-card {
-    @apply cursor-pointer text-inherit;
-    font: inherit;
-  }
-
-  .planering-tool-card:hover {
-    transform: translateY(-2px);
-    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
-  }
-
-  .planering-tool-card__emoji {
-    @apply text-2xl leading-none;
-  }
-
-  .planering-tool-card__icon-wrap {
-    @apply absolute right-3 top-3 text-accent/50;
-  }
-
-  .planering-tool-card__title {
-    @apply pr-8 text-base font-semibold text-accent;
-  }
-
-  .planering-tool-card__lead {
-    @apply text-xs leading-relaxed text-text-muted;
-  }
-
-  .planering-tool-card__badge {
-    @apply mt-1 inline-flex w-fit rounded-full border border-emerald-500/35 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-300/90;
-  }
-
-  .planering-tool-card--gold:hover {
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
-  }
-
-  .planering-tool-card--emerald:hover {
-    box-shadow: 0 0 20px rgba(45, 212, 191, 0.12);
-  }
-
-  .planering-quicklist__hint {
-    @apply mb-3 text-sm text-text-muted;
-  }
-
-  .planering-quicklist__add {
-    @apply mb-4 flex gap-2;
-  }
-
-  .planering-quicklist__items {
-    @apply space-y-2;
-  }
-
-  .planering-quicklist__empty {
-    @apply rounded-xl border border-dashed border-border-strong px-3 py-6 text-center text-sm text-text-dim;
-  }
-
-  .planering-quicklist__row {
-    @apply flex items-center gap-2 rounded-xl border border-border-strong bg-bg/40 px-2 py-2;
-  }
-
-  .planering-quicklist__row--done {
-    @apply opacity-60;
-  }
-
-  .planering-quicklist__check {
-    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-accent/35 bg-surface/30 transition-colors hover:border-accent/55;
-  }
-
-  .planering-quicklist__check--on {
-    @apply border-accent/55 bg-accent/15 text-accent;
-  }
-
-  .planering-quicklist__check-ring {
-    @apply h-4 w-4 rounded-full border-2 border-accent/40;
-  }
-
-  .planering-quicklist__text {
-    @apply min-w-0 flex-1 text-sm text-text;
-  }
-
-  .planering-quicklist__remove {
-    @apply shrink-0 rounded-full p-1 text-text-dim transition-colors hover:text-danger;
-  }
-
-  .planering-quicklist__done-block {
-    @apply mt-4 rounded-xl border border-border/80 bg-surface/20 p-3;
-  }
-
-  .planering-quicklist__done-label {
-    @apply mb-2 text-[10px] font-semibold uppercase tracking-wider text-text-dim;
-  }
-
-  .planering-quicklist__actions {
-    @apply mt-4 flex flex-col gap-2 sm:flex-row;
-  }
-
-  .planering-quicklist--compact .planering-quicklist__row {
-    @apply py-1.5;
-  }
-
-  .planering-tool-card--amber:hover {
-    box-shadow: 0 0 20px rgba(245, 158, 11, 0.14);
-  }
-
-  .planering-tool-card--rose:hover {
-    box-shadow: 0 0 20px rgba(201, 168, 124, 0.18);
-  }
-
-  .planering-tool-card--compact {
-    @apply flex-row items-center gap-3 p-3;
-  }
-
-  .planering-tool-card--compact .planering-tool-card__emoji {
-    @apply text-xl;
-  }
-
-  .planering-tool-card--compact .planering-tool-card__icon-wrap {
-    @apply static order-last ml-auto;
-  }
-
-  .planering-tool-card--compact .planering-tool-card__title {
-    @apply pr-0 text-sm;
-  }
-
-  .planering-tool-card--compact .planering-tool-card__lead {
-    @apply hidden sm:block;
-  }
-
-  .planering-tool-card--hero {
-    @apply min-h-[9rem] border-2 p-5;
-    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
-  }
-
-  .planering-tool-card--hero .planering-tool-card__title {
-    @apply text-lg;
-  }
-
-  .planering-tool-card--tile {
-    @apply p-3;
-  }
-
-  .planering-tool-card--tile .planering-tool-card__lead {
-    @apply line-clamp-2;
-  }
-
-  .planering-tool-card--soon {
-    @apply cursor-not-allowed opacity-70;
-  }
-
-  .planering-hub-wrap {
-    @apply space-y-3;
-  }
-
-  .planering-hub__list {
-    @apply space-y-2;
-  }
-
-  .planering-hub__section {
-    @apply mb-5;
-  }
-
-  .planering-hub__section-title {
-    @apply mb-2 text-[10px] font-semibold uppercase tracking-widest text-accent/80;
-  }
-
-  .planering-hub__section-grid {
-    @apply grid gap-2 sm:grid-cols-2;
-  }
-
-  .planering-hub--orbit {
-    @apply flex flex-col items-center gap-4 py-2;
-  }
-
-  .planering-hub__orbit-center {
-    @apply w-full max-w-sm;
-  }
-
-  .planering-hub__orbit-ring {
-    @apply grid w-full grid-cols-2 gap-2 sm:grid-cols-3;
-  }
-
-  .planering-hub__orbit-chip {
-    @apply min-h-0;
-  }
-
-  .planering-hub--bento .planering-hub__bento {
-    display: grid;
-    gap: 0.75rem;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-areas:
-      'hero hero'
-      'wide tall'
-      'a b'
-      'c d';
-    position: relative;
-    isolation: isolate;
-  }
-
-  .planering-view--hub {
-    @apply relative z-0 pb-2;
-  }
-
-  .planering-hub__bento-hero {
-    grid-area: hero;
-  }
-
-  .planering-hub__bento-wide {
-    grid-area: wide;
-  }
-
-  .planering-hub__bento-tall {
-    grid-area: tall;
-  }
-
-  .planering-hub--strip .planering-hub__strip {
-    @apply flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory;
-  }
-
-  .planering-hub__strip-card {
-    @apply min-w-[10.5rem] shrink-0 snap-start;
-  }
-
-  .planering-hub--minimal .planering-hub__minimal-rest {
-    @apply mt-3 space-y-2;
-  }
-
-  .planering-hub--tiles .planering-hub__tiles {
-    @apply grid grid-cols-2 gap-2 sm:grid-cols-3;
-  }
-
-  .planering-hub-shell--emerald .planering-hub__hint {
-    color: color-mix(in srgb, #6b8f71 70%, var(--text-muted));
-  }
-
-  .planering-hub-shell--rose .planering-tool-card {
-    border-color: color-mix(in srgb, #c9a87c 28%, transparent);
-  }
-
-  .planering-layout-picker {
-    @apply mb-4 rounded-2xl border border-border-strong bg-surface/30 p-3;
-  }
-
-  .planering-layout-picker--compact {
-    @apply mb-2 p-2;
-  }
-
-  .planering-layout-picker__head {
-    @apply mb-2 flex items-center justify-between gap-2;
-  }
-
-  .planering-layout-picker__eyebrow {
-    @apply text-[10px] font-semibold uppercase tracking-widest text-text-dim;
-  }
-
-  .planering-layout-picker__lab-link {
-    @apply text-xs text-accent hover:underline;
-  }
-
-  .planering-layout-picker__track {
-    @apply flex gap-2 overflow-x-auto pb-1 snap-x snap-mandatory;
-  }
-
-  .planering-layout-picker__chip {
-    @apply flex shrink-0 snap-start flex-col items-center gap-0.5 rounded-xl border px-3 py-2 transition-[border-color,background,transform];
-    border-color: color-mix(in srgb, var(--accent) 18%, transparent);
-    background: rgba(8, 10, 14, 0.5);
-    min-width: 4.75rem;
-  }
-
-  .planering-layout-picker__chip:hover {
-    transform: translateY(-1px);
-    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
-  }
-
-  .planering-layout-picker__chip--active {
-    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-    background: color-mix(in srgb, var(--accent) 12%, transparent);
-    box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 18%, transparent);
-  }
-
-  .planering-layout-picker__emoji {
-    @apply text-lg leading-none;
-  }
-
-  .planering-layout-picker__label {
-    @apply max-w-[5.5rem] truncate text-[10px] font-medium text-text-muted;
-  }
-
-  .planering-layout-picker__chip--active .planering-layout-picker__label {
-    @apply font-semibold text-accent;
-  }
-
-  .planering-layout-picker__active-lead {
-    @apply mt-2 text-center text-xs text-text-muted;
-  }
-
-  .planering-next-step {
-    @apply mb-4;
   }
 
   .mabra-hub-collapsible {
@@ -5811,10 +5192,6 @@
     @apply pointer-events-none scale-[0.92] origin-top;
   }
 
-  .hub-lab-card__body .planering-tool-card {
-    pointer-events: none;
-  }
-
   /* MåBra — Vit hub (zoner + snabbstart) */
   .mabra-vit-hub {
     @apply space-y-4;
@@ -5843,7 +5220,7 @@
       rgba(8, 10, 16, 0.93) 100%
     );
     box-shadow:
-      0 4px 12px rgba(0, 0, 0, 0.5),
+      0 4px 12px var(--color-glass-dark-50),
       0 1px 0 rgba(255, 243, 210, 0.15) inset,
       0 -3px 9px rgba(0, 0, 0, 0.38) inset;
     transform: translateY(-2px);
@@ -5882,7 +5259,7 @@
   .mabra-vit-hub__chip:active {
     transform: translateY(0);
     box-shadow:
-      0 2px 7px rgba(0, 0, 0, 0.45),
+      0 2px 7px var(--color-glass-dark-45),
       0 2px 6px rgba(0, 0, 0, 0.34) inset;
   }
 
@@ -5989,7 +5366,7 @@
 
   .mabra-vit-hub__tile-emoji {
     @apply relative z-[1] text-base leading-none;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0 1px 2px var(--color-glass-dark-50));
   }
 
   .mabra-vit-hub__tile-title {

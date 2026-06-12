@@ -1,0 +1,555 @@
+@tailwind components;
+/* 
+ * Planering CSS
+ * Extracted from global styles to enable lazy loading.
+ */
+
+
+
+@layer components {
+  .planering-back-link {
+    @apply mb-4 inline-flex items-center gap-1 text-sm font-medium text-accent/90 transition-colors hover:text-accent;
+  }
+
+  .planering-hub__hint {
+    @apply mb-4 text-center text-sm leading-relaxed text-text-muted;
+  }
+
+  .planering-hub__grid {
+    @apply grid gap-3 sm:grid-cols-2;
+  }
+
+  .planering-hub__list {
+    @apply list-none space-y-2 p-0;
+  }
+
+  .planering-hub__section {
+    @apply space-y-3;
+  }
+
+  .planering-hub__section-title {
+    @apply text-[10px] font-semibold uppercase tracking-wider text-text-dim;
+  }
+
+  .planering-hub__section-grid {
+    @apply grid gap-3 sm:grid-cols-2;
+  }
+
+  .planering-hub__tiles {
+    @apply grid grid-cols-2 gap-3 sm:grid-cols-3;
+  }
+
+  .planering-hub--orbit {
+    @apply flex flex-col items-stretch gap-4 py-2;
+  }
+
+  .planering-hub__orbit-center {
+    @apply w-full max-w-sm mx-auto;
+  }
+
+  .planering-hub__orbit-ring {
+    @apply grid w-full grid-cols-2 gap-2 sm:grid-cols-3;
+  }
+
+  .planering-hub__orbit-chip {
+    @apply relative min-h-0 w-full;
+  }
+
+  .planering-hub__bento {
+    @apply grid gap-3 sm:grid-cols-2;
+  }
+
+  .planering-hub__bento-hero {
+    @apply sm:col-span-2;
+  }
+
+  .planering-hub__bento-wide {
+    @apply sm:col-span-2;
+  }
+
+  .planering-hub__bento-tall {
+    @apply sm:row-span-2;
+  }
+
+  .planering-hub__strip {
+    @apply flex gap-3 overflow-x-auto pb-2;
+  }
+
+  .planering-hub__strip-card {
+    @apply min-w-[10rem] shrink-0;
+  }
+
+  .planering-hub__minimal-rest {
+    @apply mt-3 grid gap-3 sm:grid-cols-2;
+  }
+
+  .planering-hub--navigator {
+    @apply space-y-4;
+  }
+
+  .planering-hub__primary {
+    @apply w-full;
+  }
+
+  .planering-hub__accordions {
+    @apply space-y-2;
+  }
+
+  .planering-hub__category {
+    @apply overflow-hidden rounded-2xl border border-border-strong bg-bg/30;
+  }
+
+  .planering-hub__category--open {
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  .planering-hub__category-trigger {
+    @apply flex w-full items-center gap-2 px-4 py-3 text-left transition-colors hover:bg-surface/20;
+  }
+
+  .planering-hub__category-label {
+    @apply flex-1 text-sm font-semibold text-accent;
+  }
+
+  .planering-hub__category-meta {
+    @apply text-[10px] font-medium uppercase tracking-wider text-text-dim;
+  }
+
+  .planering-hub__category-chevron {
+    @apply h-4 w-4 shrink-0 text-accent/70 transition-transform duration-200;
+  }
+
+  .planering-hub__category--open .planering-hub__category-chevron {
+    transform: rotate(180deg);
+  }
+
+  .planering-hub__category-panel {
+    @apply grid gap-2 border-t border-border-strong/80 px-3 py-3 sm:grid-cols-2;
+  }
+
+  .planering-tool-card--chip {
+    @apply min-h-0 flex-row items-center gap-2 p-3;
+  }
+
+  .planering-tool-card--chip .planering-tool-card__emoji {
+    @apply shrink-0 text-lg leading-none;
+  }
+
+  .planering-tool-card--chip .planering-tool-card__title {
+    @apply min-w-0 flex-1 pr-0 text-sm;
+  }
+
+  .planering-tool-card--chip .planering-tool-card__lead {
+    @apply hidden;
+  }
+
+  .planering-tool-card--chip .planering-tool-card__icon-wrap {
+    @apply static ml-0 shrink-0 text-accent/45;
+  }
+
+  .planering-tool-card--chip .planering-tool-card__icon-wrap svg {
+    @apply h-4 w-4;
+  }
+
+  .planering-inbox-connect-grid {
+    @apply grid gap-3;
+  }
+
+  .planering-inbox-connect {
+    @apply rounded-2xl border border-border-strong bg-bg/40 p-4;
+  }
+
+  .planering-inbox-connect--prepared {
+    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+    background: linear-gradient(
+      165deg,
+      color-mix(in srgb, var(--accent) 6%, transparent) 0%,
+      rgba(8, 10, 14, 0.88) 100%
+    );
+  }
+
+  .planering-inbox-connect__head {
+    @apply flex items-start gap-3;
+  }
+
+  .planering-inbox-connect__icon {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-accent/25 bg-surface/30 text-accent;
+  }
+
+  .planering-inbox-connect__title {
+    @apply text-base font-semibold text-accent;
+  }
+
+  .planering-inbox-connect__lead {
+    @apply mt-0.5 text-xs leading-relaxed text-text-muted;
+  }
+
+  .planering-inbox-connect__status {
+    @apply flex shrink-0 items-center gap-1 rounded-full border border-border-strong px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-text-dim;
+  }
+
+  .planering-inbox-connect__status--on {
+    @apply border-emerald-500/35 text-emerald-300/90;
+  }
+
+  .planering-inbox-connect__account {
+    @apply mt-3 truncate text-sm text-text;
+  }
+
+  .planering-inbox-connect__note {
+    @apply mt-2 text-xs text-text-dim;
+  }
+
+  .planering-inbox-connect__badge {
+    @apply inline-flex items-center rounded-full border border-amber-500/35 bg-amber-500/10 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-200/90;
+  }
+
+  .planering-inbox-calendar-preview__days {
+    @apply mt-4 grid grid-cols-5 gap-2;
+  }
+
+  .planering-inbox-calendar-preview__day {
+    @apply flex flex-col gap-1;
+  }
+
+  .planering-inbox-calendar-preview__day-label {
+    @apply text-center text-[10px] font-semibold uppercase tracking-wider text-text-dim;
+  }
+
+  .planering-inbox-calendar-preview__day-slot {
+    @apply min-h-[3.5rem] rounded-lg border border-dashed border-border-strong/80 bg-surface/20;
+  }
+
+  .planering-tool-card--compact {
+    @apply p-3;
+  }
+
+  .planering-tool-card--hero {
+    @apply min-h-[7rem] p-5;
+  }
+
+  .planering-tool-card--tile {
+    @apply aspect-square items-center justify-center p-3 text-center;
+  }
+
+  .planering-tool-card--soon {
+    @apply cursor-not-allowed opacity-55;
+  }
+
+  .planering-tool-card--amber {
+    border-color: color-mix(in srgb, #f59e0b 28%, transparent);
+  }
+
+  .planering-tool-card--rose {
+    border-color: color-mix(in srgb, #f43f5e 28%, transparent);
+  }
+
+  .planering-tool-card {
+    @apply relative flex w-full flex-col gap-1 rounded-2xl border p-4 text-left transition-[transform,box-shadow,border-color];
+    border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+    background: linear-gradient(165deg, rgba(18, 16, 14, 0.92) 0%, rgba(8, 10, 14, 0.88) 100%);
+  }
+
+  button.planering-tool-card {
+    @apply cursor-pointer text-inherit;
+    font: inherit;
+  }
+
+  .planering-tool-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+  }
+
+  .planering-tool-card__emoji {
+    @apply text-2xl leading-none;
+  }
+
+  .planering-tool-card__icon-wrap {
+    @apply absolute right-3 top-3 text-accent/50;
+  }
+
+  .planering-tool-card__title {
+    @apply pr-8 text-base font-semibold text-accent;
+  }
+
+  .planering-tool-card__lead {
+    @apply text-xs leading-relaxed text-text-muted;
+  }
+
+  .planering-tool-card__badge {
+    @apply mt-1 inline-flex w-fit rounded-full border border-emerald-500/35 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-300/90;
+  }
+
+  .planering-tool-card--gold:hover {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+  }
+
+  .planering-tool-card--emerald:hover {
+    box-shadow: 0 0 20px rgba(45, 212, 191, 0.12);
+  }
+
+  .planering-quicklist__hint {
+    @apply mb-3 text-sm text-text-muted;
+  }
+
+  .planering-quicklist__add {
+    @apply mb-4 flex gap-2;
+  }
+
+  .planering-quicklist__items {
+    @apply space-y-2;
+  }
+
+  .planering-quicklist__empty {
+    @apply rounded-xl border border-dashed border-border-strong px-3 py-6 text-center text-sm text-text-dim;
+  }
+
+  .planering-quicklist__row {
+    @apply flex items-center gap-2 rounded-xl border border-border-strong bg-bg/40 px-2 py-2;
+  }
+
+  .planering-quicklist__row--done {
+    @apply opacity-60;
+  }
+
+  .planering-quicklist__check {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-accent/35 bg-surface/30 transition-colors hover:border-accent/55;
+  }
+
+  .planering-quicklist__check--on {
+    @apply border-accent/55 bg-accent/15 text-accent;
+  }
+
+  .planering-quicklist__check-ring {
+    @apply h-4 w-4 rounded-full border-2 border-accent/40;
+  }
+
+  .planering-quicklist__text {
+    @apply min-w-0 flex-1 text-sm text-text;
+  }
+
+  .planering-quicklist__remove {
+    @apply shrink-0 rounded-full p-1 text-text-dim transition-colors hover:text-danger;
+  }
+
+  .planering-quicklist__done-block {
+    @apply mt-4 rounded-xl border border-border/80 bg-surface/20 p-3;
+  }
+
+  .planering-quicklist__done-label {
+    @apply mb-2 text-[10px] font-semibold uppercase tracking-wider text-text-dim;
+  }
+
+  .planering-quicklist__actions {
+    @apply mt-4 flex flex-col gap-2 sm:flex-row;
+  }
+
+  .planering-quicklist--compact .planering-quicklist__row {
+    @apply py-1.5;
+  }
+
+  .planering-tool-card--amber:hover {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.14);
+  }
+
+  .planering-tool-card--rose:hover {
+    box-shadow: 0 0 20px rgba(201, 168, 124, 0.18);
+  }
+
+  .planering-tool-card--compact {
+    @apply flex-row items-center gap-3 p-3;
+  }
+
+  .planering-tool-card--compact .planering-tool-card__emoji {
+    @apply text-xl;
+  }
+
+  .planering-tool-card--compact .planering-tool-card__icon-wrap {
+    @apply static order-last ml-auto;
+  }
+
+  .planering-tool-card--compact .planering-tool-card__title {
+    @apply pr-0 text-sm;
+  }
+
+  .planering-tool-card--compact .planering-tool-card__lead {
+    @apply hidden sm:block;
+  }
+
+  .planering-tool-card--hero {
+    @apply min-h-[9rem] border-2 p-5;
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+
+  .planering-tool-card--hero .planering-tool-card__title {
+    @apply text-lg;
+  }
+
+  .planering-tool-card--tile {
+    @apply p-3;
+  }
+
+  .planering-tool-card--tile .planering-tool-card__lead {
+    @apply line-clamp-2;
+  }
+
+  .planering-tool-card--soon {
+    @apply cursor-not-allowed opacity-70;
+  }
+
+  .planering-hub-wrap {
+    @apply space-y-3;
+  }
+
+  .planering-hub__list {
+    @apply space-y-2;
+  }
+
+  .planering-hub__section {
+    @apply mb-5;
+  }
+
+  .planering-hub__section-title {
+    @apply mb-2 text-[10px] font-semibold uppercase tracking-widest text-accent/80;
+  }
+
+  .planering-hub__section-grid {
+    @apply grid gap-2 sm:grid-cols-2;
+  }
+
+  .planering-hub--orbit {
+    @apply flex flex-col items-center gap-4 py-2;
+  }
+
+  .planering-hub__orbit-center {
+    @apply w-full max-w-sm;
+  }
+
+  .planering-hub__orbit-ring {
+    @apply grid w-full grid-cols-2 gap-2 sm:grid-cols-3;
+  }
+
+  .planering-hub__orbit-chip {
+    @apply min-h-0;
+  }
+
+  .planering-hub--bento .planering-hub__bento {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      'hero hero'
+      'wide tall'
+      'a b'
+      'c d';
+    position: relative;
+    isolation: isolate;
+  }
+
+  .planering-view--hub {
+    @apply relative z-0 pb-2;
+  }
+
+  .planering-hub__bento-hero {
+    grid-area: hero;
+  }
+
+  .planering-hub__bento-wide {
+    grid-area: wide;
+  }
+
+  .planering-hub__bento-tall {
+    grid-area: tall;
+  }
+
+  .planering-hub--strip .planering-hub__strip {
+    @apply flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory;
+  }
+
+  .planering-hub__strip-card {
+    @apply min-w-[10.5rem] shrink-0 snap-start;
+  }
+
+  .planering-hub--minimal .planering-hub__minimal-rest {
+    @apply mt-3 space-y-2;
+  }
+
+  .planering-hub--tiles .planering-hub__tiles {
+    @apply grid grid-cols-2 gap-2 sm:grid-cols-3;
+  }
+
+  .planering-hub-shell--emerald .planering-hub__hint {
+    color: color-mix(in srgb, #6b8f71 70%, var(--text-muted));
+  }
+
+  .planering-hub-shell--rose .planering-tool-card {
+    border-color: color-mix(in srgb, #c9a87c 28%, transparent);
+  }
+
+  .planering-layout-picker {
+    @apply mb-4 rounded-2xl border border-border-strong bg-surface/30 p-3;
+  }
+
+  .planering-layout-picker--compact {
+    @apply mb-2 p-2;
+  }
+
+  .planering-layout-picker__head {
+    @apply mb-2 flex items-center justify-between gap-2;
+  }
+
+  .planering-layout-picker__eyebrow {
+    @apply text-[10px] font-semibold uppercase tracking-widest text-text-dim;
+  }
+
+  .planering-layout-picker__lab-link {
+    @apply text-xs text-accent hover:underline;
+  }
+
+  .planering-layout-picker__track {
+    @apply flex gap-2 overflow-x-auto pb-1 snap-x snap-mandatory;
+  }
+
+  .planering-layout-picker__chip {
+    @apply flex shrink-0 snap-start flex-col items-center gap-0.5 rounded-xl border px-3 py-2 transition-[border-color,background,transform];
+    border-color: color-mix(in srgb, var(--accent) 18%, transparent);
+    background: rgba(8, 10, 14, 0.5);
+    min-width: 4.75rem;
+  }
+
+  .planering-layout-picker__chip:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  .planering-layout-picker__chip--active {
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .planering-layout-picker__emoji {
+    @apply text-lg leading-none;
+  }
+
+  .planering-layout-picker__label {
+    @apply max-w-[5.5rem] truncate text-[10px] font-medium text-text-muted;
+  }
+
+  .planering-layout-picker__chip--active .planering-layout-picker__label {
+    @apply font-semibold text-accent;
+  }
+
+  .planering-layout-picker__active-lead {
+    @apply mt-2 text-center text-xs text-text-muted;
+  }
+
+  .planering-next-step {
+    @apply mb-4;
+  }
+
+  .hub-lab-card__body .planering-tool-card {
+    pointer-events: none;
+  }
+}

@@ -337,8 +337,6 @@ function main() {
     'W1',
   );
   mustInclude('docs/design/HOMESCREEN-WIDGETS-SPEC.md', 'WH1', 'ingestWidgetRecording');
-  mustInclude('src/modules/core/components/FyrenSmartWidgetBar.tsx', 'FyrenSmartWidgetBar');
-  mustInclude('src/modules/core/layout/MainLayout.tsx', 'FyrenSmartWidgetBar');
   mustInclude('src/modules/core/layout/DrawerQuickActions.tsx', 'HUB_MORE_ACTIONS', 'Snabbval');
   mustInclude('src/modules/features/widgets/pages/WidgetRecordPage.tsx', 'useWidgetVaultRecording');
   mustInclude('src/modules/features/widgets/pages/WidgetFamiljenPage.tsx', 'widget_snabb');

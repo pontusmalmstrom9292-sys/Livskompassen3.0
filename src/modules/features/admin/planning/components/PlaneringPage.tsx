@@ -1,3 +1,4 @@
+import './planering.css';
 import { lazy, Suspense, useEffect, useMemo } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { Calendar, LayoutGrid } from 'lucide-react';

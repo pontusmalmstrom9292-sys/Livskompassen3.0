@@ -1,3 +1,4 @@
+import './barnporten.css';
 import { useEffect, useState } from 'react';
 import { Heart, MessageCircle, Smile, Lock, AlertCircle, Loader2 } from 'lucide-react';
 import { useStore } from '@/core/store';

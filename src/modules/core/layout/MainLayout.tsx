@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 import { FloatingDock } from './FloatingDock';
 import { FyrenWidgetBar } from '../components/FyrenWidgetBar';
 import { FyrenWidgetProvider } from '../components/fyrenWidgetContext';
-import { FyrenSmartWidgetBar } from '../components/FyrenSmartWidgetBar';
+
 import { AppHeaderBar } from '../components/AppHeaderBar';
 import { AmbientBackground } from './AmbientBackground';
 import { KompisHeaderVaultButton } from '../components/KompisHeaderVaultButton';
@@ -87,7 +87,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
       {!barnportenChildShell ? (
         <>
-          <FyrenSmartWidgetBar />
+
           <FyrenWidgetBar />
           <FloatingDock />
         </>

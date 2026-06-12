@@ -159,7 +159,7 @@ html[data-design-pack] .design-pack-header__actions .kompis-avatar--chrome-embed
   border-color: color-mix(in srgb, var(--accent) 25%, transparent);
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: blur(12px);
-  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 36px var(--color-glass-dark-50);
   padding-bottom: max(0.35rem, env(safe-area-inset-bottom, 0px));
 }
 
@@ -215,7 +215,7 @@ html[data-design-pack] .design-pack-header__actions .kompis-avatar--chrome-embed
   );
   box-shadow:
     0 0 20px color-mix(in srgb, var(--accent) 28%, transparent),
-    0 6px 16px rgba(0, 0, 0, 0.45);
+    0 6px 16px var(--color-glass-dark-45);
 }
 
 .dock-mockup__center--active .dock-mockup__plate {
@@ -238,7 +238,7 @@ html[data-design-pack] .ui-card {
   border-color: color-mix(in srgb, var(--accent) 28%, transparent);
   background: color-mix(in srgb, var(--glass) 90%, rgba(4, 8, 10, 0.85));
   backdrop-filter: blur(14px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 6px 24px var(--color-glass-dark-35);
 }
 
 html[data-design-pack] .ui-card--row,

@@ -1,5 +1,5 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
-import * as functions from 'firebase-functions';
+
 import { askValvChat } from '../agents/valvChatAgent';
 import { generateDossierInternal } from '../lib/generateDossierInternal';
 import { addUserEntityProfile, loadEntityProfileBundle } from '../lib/entityProfileStore';
@@ -12,7 +12,7 @@ import {
   beginVaultWebAuthnChallenge,
   verifyVaultWebAuthnResponse,
 } from '../lib/vaultWebAuthn';
-import { guardSensitiveCallableV2, guardSensitiveCallableV1 } from '../lib/callableGuards';
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import type { EntityRole } from '../lib/entityProfileTypes';
 import type {
   AuthenticationResponseJSON,
@@ -128,24 +128,27 @@ export const valvChatQuery = onCall({ region: 'europe-west1', memory: '512MiB' }
   return result;
 });
 
-export const generateDossier = functions.region('europe-west1').https.onCall(async (data, context) => {
-  const uid = await guardSensitiveCallableV1(context, 'generateDossier', 5);
-  await assertVaultSession(uid, data);
+export const generateDossier = onCall(
+  { region: 'europe-west1' },
+  async (request) => {
+    const uid = await guardSensitiveCallableV2(request, 'generateDossier', 5);
+    await assertVaultSession(uid, request.data);
 
-  try {
-    return await generateDossierInternal(uid, data);
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Generering misslyckades.';
-    if (
-      message.includes('Ogiltigt') ||
-      message.includes('Minst ett') ||
-      message.includes('Max ') ||
-      message.includes('dateFrom') ||
-      message.includes('saknas eller')
-    ) {
-      throw new functions.https.HttpsError('invalid-argument', message);
+    try {
+      return await generateDossierInternal(uid, request.data);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Generering misslyckades.';
+      if (
+        message.includes('Ogiltigt') ||
+        message.includes('Minst ett') ||
+        message.includes('Max ') ||
+        message.includes('dateFrom') ||
+        message.includes('saknas eller')
+      ) {
+        throw new HttpsError('invalid-argument', message);
+      }
+      console.error('[generateDossier] Fel:', error);
+      throw new HttpsError('internal', message);
     }
-    console.error('[generateDossier] Fel:', error);
-    throw new functions.https.HttpsError('internal', message);
   }
-});
+);

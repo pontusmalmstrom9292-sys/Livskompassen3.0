@@ -15,23 +15,26 @@ import {
 import { KNOWLEDGE_UPLOAD_MIMES, MAX_KNOWLEDGE_UPLOAD_BASE64_CHARS } from './shared';
 import { guardSensitiveCallableV1, guardSensitiveCallableV2 } from '../lib/callableGuards';
 
-export const generateEmbedding = functions.region('europe-west1').https.onCall(async (data, context) => {
-  const uid = await guardSensitiveCallableV1(context, 'generateEmbedding', 60);
+export const generateEmbedding = onCall(
+  { region: 'europe-west1' },
+  async (request) => {
+    const uid = await guardSensitiveCallableV2(request, 'generateEmbedding', 60);
 
-  const text: string = data.text;
-  if (!text || typeof text !== 'string') {
-    throw new functions.https.HttpsError('invalid-argument', 'En textsträng krävs.');
-  }
+    const text: string = request.data.text;
+    if (!text || typeof text !== 'string') {
+      throw new HttpsError('invalid-argument', 'En textsträng krävs.');
+    }
 
-  try {
-    const embedding = await generateEmbeddingInternal(text);
-    console.log(`[generateEmbedding] OK för uid=${uid}, dims=${embedding.length}`);
-    return { embedding };
-  } catch (error) {
-    console.error('[generateEmbedding] Fel:', error);
-    throw new functions.https.HttpsError('internal', 'Kunde inte generera inbäddning via Vertex AI.');
+    try {
+      const embedding = await generateEmbeddingInternal(text);
+      console.log(`[generateEmbedding] OK för uid=${uid}, dims=${embedding.length}`);
+      return { embedding };
+    } catch (error) {
+      console.error('[generateEmbedding] Fel:', error);
+      throw new HttpsError('internal', 'Kunde inte generera inbäddning via Vertex AI.');
+    }
   }
-});
+);
 
 export const knowledgeVaultQuery = onCall(
   { region: 'europe-west1', memory: '512MiB', secrets: [geminiApiKey] },

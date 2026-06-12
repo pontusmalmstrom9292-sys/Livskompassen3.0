@@ -1,4 +1,6 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
+// firebase-functions v1 behålls enbart för schedulers och onRequest (notifyNewFile, scheduledRetentionJob,
+// scheduledGeneratePayslip) — dessa är ej callables och v2-scheduler-API skiljer sig åt.
 import * as functions from 'firebase-functions';
 import {
   askMabraCoach,
@@ -27,7 +29,7 @@ import {
 } from '../lib/barnportenPairing';
 import { assertVaultSession } from '../lib/vaultSessionGate';
 import { supervisor, trimSpeglingsMirror } from './shared';
-import { guardSensitiveCallableV1 } from '../lib/callableGuards';
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import {
   getMabraCoachBankEntry,
   resolveCoachBankId,
@@ -36,51 +38,57 @@ import {
   type MabraCoachHub,
 } from '../lib/mabraContentBank';
 
-function invalidBankIdError(message: string): functions.https.HttpsError {
-  return new functions.https.HttpsError('invalid-argument', message);
+function invalidBankIdError(message: string): HttpsError {
+  return new HttpsError('invalid-argument', message);
 }
 
-export const analyzeMessage = functions.region('europe-west1').https.onCall(async (data, context) => {
-  const uid = await guardSensitiveCallableV1(context, 'analyzeMessage', 30);
+export const analyzeMessage = onCall(
+  { region: 'europe-west1' },
+  async (request) => {
+    const uid = await guardSensitiveCallableV2(request, 'analyzeMessage', 30);
 
-  const message = data.message;
-  const ragContext: string[] = data.ragContext ?? [];
+    const message = request.data.message;
+    const ragContext: string[] = request.data.ragContext ?? [];
 
-  if (!message || typeof message !== 'string') {
-    throw new functions.https.HttpsError('invalid-argument', 'Fältet "message" (string) krävs.');
+    if (!message || typeof message !== 'string') {
+      throw new HttpsError('invalid-argument', 'Fältet "message" (string) krävs.');
+    }
+
+    if (message.length > 5000) {
+      throw new HttpsError('invalid-argument', 'Meddelandet får vara max 5000 tecken.');
+    }
+
+    const preferGransArkitekten =
+      request.data.module === 'safe_harbor' || request.data.preferGransArkitekten === true;
+
+    try {
+      const result = await supervisor.handleUserRequest(message, uid, ragContext, {
+        preferGransArkitekten,
+      });
+      console.log(
+        `[analyzeMessage] agent=${result.agentId} DCAP riskScore=${result.dcap?.riskScore} för uid=${uid}`
+      );
+      return result;
+    } catch (error) {
+      console.error('[analyzeMessage] Fel:', error);
+      throw new HttpsError('internal', 'Analys misslyckades. Försök igen.');
+    }
   }
+);
 
-  if (message.length > 5000) {
-    throw new functions.https.HttpsError('invalid-argument', 'Meddelandet får vara max 5000 tecken.');
+export const invalidateSession = onCall(
+  { region: 'europe-west1' },
+  async (request) => {
+    if (!request.auth) {
+      throw new HttpsError('unauthenticated', 'Autentisering krävs.');
+    }
+
+    await supervisor.invalidateUserSession(request.auth.uid);
+    await revokeVaultSession(request.auth.uid);
+    console.log(`[invalidateSession] Session rensad för uid=${request.auth.uid}`);
+    return { success: true };
   }
-
-  const preferGransArkitekten =
-    data.module === 'safe_harbor' || data.preferGransArkitekten === true;
-
-  try {
-    const result = await supervisor.handleUserRequest(message, uid, ragContext, {
-      preferGransArkitekten,
-    });
-    console.log(
-      `[analyzeMessage] agent=${result.agentId} DCAP riskScore=${result.dcap?.riskScore} för uid=${uid}`
-    );
-    return result;
-  } catch (error) {
-    console.error('[analyzeMessage] Fel:', error);
-    throw new functions.https.HttpsError('internal', 'Analys misslyckades. Försök igen.');
-  }
-});
-
-export const invalidateSession = functions.region('europe-west1').https.onCall(async (_data, context) => {
-  if (!context.auth) {
-    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
-  }
-
-  await supervisor.invalidateUserSession(context.auth.uid);
-  await revokeVaultSession(context.auth.uid);
-  console.log(`[invalidateSession] Session rensad för uid=${context.auth.uid}`);
-  return { success: true };
-});
+);
 
 export const scheduledRetentionJob = functions
   .region('europe-west1')
@@ -152,156 +160,170 @@ export const notifyNewFile = functions
     }
   });
 
-export const weaveJournalEntry = functions.region('europe-west1').https.onCall(async (data, context) => {
-  const uid = await guardSensitiveCallableV1(context, 'weaveJournalEntry', 15);
-  await assertVaultSession(uid, data);
+export const weaveJournalEntry = onCall(
+  { region: 'europe-west1' },
+  async (request) => {
+    const uid = await guardSensitiveCallableV2(request, 'weaveJournalEntry', 15);
+    await assertVaultSession(uid, request.data);
 
-  const { journalEntryId, mood, text } = data;
-  if (!journalEntryId || !mood || !text) {
-    throw new functions.https.HttpsError('invalid-argument', 'journalEntryId, mood och text krävs.');
+    const { journalEntryId, mood, text } = request.data;
+    if (!journalEntryId || !mood || !text) {
+      throw new HttpsError('invalid-argument', 'journalEntryId, mood och text krävs.');
+    }
+
+    return runWeaver(uid, journalEntryId, mood, text);
   }
+);
 
-  return runWeaver(uid, journalEntryId, mood, text);
-});
-
-export const approveWeaverMetadata = functions.region('europe-west1').https.onCall(async (data, context) => {
-  if (!context.auth) {
-    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
+export const approveWeaverMetadata = onCall(
+  { region: 'europe-west1' },
+  async (request) => {
+    if (!request.auth) {
+      throw new HttpsError('unauthenticated', 'Autentisering krävs.');
+    }
+    await assertVaultSession(request.auth.uid, request.data);
+    const pendingId = typeof request.data?.pendingId === 'string' ? request.data.pendingId.trim() : '';
+    if (!pendingId) {
+      throw new HttpsError('invalid-argument', 'pendingId krävs.');
+    }
+    try {
+      return await approveWeaverPending(request.auth.uid, pendingId);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Godkännande misslyckades.';
+      throw new HttpsError('failed-precondition', msg);
+    }
   }
-  await assertVaultSession(context.auth.uid, data);
-  const pendingId = typeof data?.pendingId === 'string' ? data.pendingId.trim() : '';
-  if (!pendingId) {
-    throw new functions.https.HttpsError('invalid-argument', 'pendingId krävs.');
+);
+
+export const rejectWeaverMetadata = onCall(
+  { region: 'europe-west1' },
+  async (request) => {
+    if (!request.auth) {
+      throw new HttpsError('unauthenticated', 'Autentisering krävs.');
+    }
+    await assertVaultSession(request.auth.uid, request.data);
+    const pendingId = typeof request.data?.pendingId === 'string' ? request.data.pendingId.trim() : '';
+    if (!pendingId) {
+      throw new HttpsError('invalid-argument', 'pendingId krävs.');
+    }
+    try {
+      await rejectWeaverPending(request.auth.uid, pendingId);
+      return { status: 'dismissed' };
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Avvisning misslyckades.';
+      throw new HttpsError('failed-precondition', msg);
+    }
   }
-  try {
-    return await approveWeaverPending(context.auth.uid, pendingId);
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : 'Godkännande misslyckades.';
-    throw new functions.https.HttpsError('failed-precondition', msg);
+);
+
+export const journalWovenToKampspar = onCall(
+  { region: 'europe-west1' },
+  async (request) => {
+    if (!request.auth) {
+      throw new HttpsError('unauthenticated', 'Autentisering krävs.');
+    }
+
+    if (request.data?.optIn !== true) {
+      throw new HttpsError(
+        'invalid-argument',
+        'optIn: true krävs — journal_woven körs endast med explicit samtycke.'
+      );
+    }
+
+    const journalEntryId = typeof request.data.journalEntryId === 'string' ? request.data.journalEntryId.trim() : '';
+    const mood = typeof request.data.mood === 'string' ? request.data.mood.trim() : '';
+    const text = typeof request.data.text === 'string' ? request.data.text : '';
+
+    if (!journalEntryId || !mood) {
+      throw new HttpsError('invalid-argument', 'journalEntryId och mood krävs.');
+    }
+
+    const result = await emitSynapse(adkOrchestrator, {
+      trigger: 'journal_woven',
+      contextId: request.auth.uid,
+      payload: {
+        ownerId: request.auth.uid,
+        journalEntryId,
+        mood,
+        text,
+        optIn: true,
+      },
+    });
+
+    return result;
   }
-});
+);
 
-export const rejectWeaverMetadata = functions.region('europe-west1').https.onCall(async (data, context) => {
-  if (!context.auth) {
-    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
+export const getAgentRegistry = onCall(
+  { region: 'europe-west1' },
+  async (request) => {
+    if (!request.auth) {
+      throw new HttpsError('unauthenticated', 'Autentisering krävs.');
+    }
+    return { agents: listAgentCards() };
   }
-  await assertVaultSession(context.auth.uid, data);
-  const pendingId = typeof data?.pendingId === 'string' ? data.pendingId.trim() : '';
-  if (!pendingId) {
-    throw new functions.https.HttpsError('invalid-argument', 'pendingId krävs.');
-  }
-  try {
-    await rejectWeaverPending(context.auth.uid, pendingId);
-    return { status: 'dismissed' };
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : 'Avvisning misslyckades.';
-    throw new functions.https.HttpsError('failed-precondition', msg);
-  }
-});
+);
 
-export const journalWovenToKampspar = functions.region('europe-west1').https.onCall(async (data, context) => {
-  if (!context.auth) {
-    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
-  }
+export const speglingsMirror = onCall(
+  { region: 'europe-west1', secrets: ['GEMINI_API_KEY'] },
+  async (request) => {
+    await guardSensitiveCallableV2(request, 'speglingsMirror', 30);
 
-  if (data?.optIn !== true) {
-    throw new functions.https.HttpsError(
-      'invalid-argument',
-      'optIn: true krävs — journal_woven körs endast med explicit samtycke.'
-    );
-  }
-
-  const journalEntryId = typeof data.journalEntryId === 'string' ? data.journalEntryId.trim() : '';
-  const mood = typeof data.mood === 'string' ? data.mood.trim() : '';
-  const text = typeof data.text === 'string' ? data.text : '';
-
-  if (!journalEntryId || !mood) {
-    throw new functions.https.HttpsError('invalid-argument', 'journalEntryId och mood krävs.');
-  }
-
-  const result = await emitSynapse(adkOrchestrator, {
-    trigger: 'journal_woven',
-    contextId: context.auth.uid,
-    payload: {
-      ownerId: context.auth.uid,
-      journalEntryId,
-      mood,
-      text,
-      optIn: true,
-    },
-  });
-
-  return result;
-});
-
-export const getAgentRegistry = functions.region('europe-west1').https.onCall(async (_data, context) => {
-  if (!context.auth) {
-    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
-  }
-  return { agents: listAgentCards() };
-});
-
-export const speglingsMirror = functions
-  .region('europe-west1')
-  .runWith({ secrets: ['GEMINI_API_KEY'] })
-  .https.onCall(async (data, context) => {
-    await guardSensitiveCallableV1(context, 'speglingsMirror', 30);
-
-    const reflection = data.reflection;
-    const mood = typeof data.mood === 'string' ? data.mood : undefined;
+    const reflection = request.data.reflection;
+    const mood = typeof request.data.mood === 'string' ? request.data.mood : undefined;
 
     if (!reflection || typeof reflection !== 'string') {
-      throw new functions.https.HttpsError('invalid-argument', 'Fältet "reflection" (string) krävs.');
+      throw new HttpsError('invalid-argument', 'Fältet "reflection" (string) krävs.');
     }
 
     if (reflection.length > 4000) {
-      throw new functions.https.HttpsError('invalid-argument', 'Reflection får vara max 4000 tecken.');
+      throw new HttpsError('invalid-argument', 'Reflection får vara max 4000 tecken.');
     }
 
     const rawMirror = await askSpeglingsCoach(reflection, mood, process.env.GEMINI_API_KEY);
     const mirror = trimSpeglingsMirror(rawMirror);
     return { mirror };
-  });
+  }
+);
 
-export const journalQuickMirror = functions
-  .region('europe-west1')
-  .runWith({ secrets: ['GEMINI_API_KEY'] })
-  .https.onCall(async (data, context) => {
-    await guardSensitiveCallableV1(context, 'journalQuickMirror', 30);
+export const journalQuickMirror = onCall(
+  { region: 'europe-west1', secrets: ['GEMINI_API_KEY'] },
+  async (request) => {
+    await guardSensitiveCallableV2(request, 'journalQuickMirror', 30);
 
-    const mood = data.mood;
+    const mood = request.data.mood;
     if (!mood || typeof mood !== 'string' || mood.length > 80) {
-      throw new functions.https.HttpsError('invalid-argument', 'Fältet "mood" (string, max 80) krävs.');
+      throw new HttpsError('invalid-argument', 'Fältet "mood" (string, max 80) krävs.');
     }
 
-    const tags = Array.isArray(data.tags)
-      ? data.tags.filter((t: unknown) => typeof t === 'string').slice(0, 10)
+    const tags = Array.isArray(request.data.tags)
+      ? request.data.tags.filter((t: unknown) => typeof t === 'string').slice(0, 10)
       : [];
 
-    const optionalText = typeof data.optionalText === 'string' ? data.optionalText : undefined;
+    const optionalText = typeof request.data.optionalText === 'string' ? request.data.optionalText : undefined;
     if (optionalText && optionalText.length > 500) {
-      throw new functions.https.HttpsError('invalid-argument', 'optionalText max 500 tecken.');
+      throw new HttpsError('invalid-argument', 'optionalText max 500 tecken.');
     }
 
     const result = await askDagbokSnabbCoach(mood, tags, optionalText, process.env.GEMINI_API_KEY);
     return result;
-  });
+  }
+);
 
-export const mabraCoach = functions
-  .region('europe-west1')
-  .runWith({ secrets: ['GEMINI_API_KEY'] })
-  .https.onCall(async (data, context) => {
-    await guardSensitiveCallableV1(context, 'mabraCoach', 30);
+export const mabraCoach = onCall(
+  { region: 'europe-west1', secrets: ['GEMINI_API_KEY'] },
+  async (request) => {
+    await guardSensitiveCallableV2(request, 'mabraCoach', 30);
 
-    const hubSymptom = data.hubSymptom;
-    const exerciseType = data.exerciseType;
-    const optionalNote = typeof data.optionalNote === 'string' ? data.optionalNote : undefined;
-    const mode = typeof data.mode === 'string' ? data.mode : 'coach';
-    const thought = typeof data.thought === 'string' ? data.thought.trim() : '';
+    const hubSymptom = request.data.hubSymptom;
+    const exerciseType = request.data.exerciseType;
+    const optionalNote = typeof request.data.optionalNote === 'string' ? request.data.optionalNote : undefined;
+    const mode = typeof request.data.mode === 'string' ? request.data.mode : 'coach';
+    const thought = typeof request.data.thought === 'string' ? request.data.thought.trim() : '';
 
     if (mode === 'transformator') {
       if (!thought || thought.length > 500) {
-        throw new functions.https.HttpsError(
+        throw new HttpsError(
           'invalid-argument',
           'Fältet "thought" krävs (max 500 tecken) för transformator-läge.',
         );
@@ -317,19 +339,19 @@ export const mabraCoach = functions
     }
 
     if (mode === 'vit_chat') {
-      const projectId = typeof data.projectId === 'string' ? data.projectId.trim() : '';
-      const vitMessage = typeof data.vitMessage === 'string' ? data.vitMessage.trim() : '';
-      const seedPrompt = typeof data.seedPrompt === 'string' ? data.seedPrompt.trim() : undefined;
+      const projectId = typeof request.data.projectId === 'string' ? request.data.projectId.trim() : '';
+      const vitMessage = typeof request.data.vitMessage === 'string' ? request.data.vitMessage.trim() : '';
+      const seedPrompt = typeof request.data.seedPrompt === 'string' ? request.data.seedPrompt.trim() : undefined;
       const validProjects = ['self_esteem', 'emotional_memory', 'learn_together', 'who_am_i'];
 
       if (!projectId || !validProjects.includes(projectId)) {
-        throw new functions.https.HttpsError(
+        throw new HttpsError(
           'invalid-argument',
           'Fältet "projectId" krävs (self_esteem | emotional_memory | learn_together | who_am_i).',
         );
       }
       if (!vitMessage || vitMessage.length > 500) {
-        throw new functions.https.HttpsError(
+        throw new HttpsError(
           'invalid-argument',
           'Fältet "vitMessage" krävs (max 500 tecken) för vit_chat.',
         );
@@ -341,7 +363,7 @@ export const mabraCoach = functions
         };
       }
       const vitBankId =
-        typeof data.bankId === 'string' ? data.bankId.trim() : undefined;
+        typeof request.data.bankId === 'string' ? request.data.bankId.trim() : undefined;
       let resolvedVitBankId: string | undefined;
       try {
         resolvedVitBankId = resolveVitChatBankId(seedPrompt, vitBankId);
@@ -368,21 +390,21 @@ export const mabraCoach = functions
     const validExercises = ['breathing', 'grounding', 'reframing'];
 
     if (!hubSymptom || typeof hubSymptom !== 'string' || !validHubs.includes(hubSymptom)) {
-      throw new functions.https.HttpsError(
+      throw new HttpsError(
         'invalid-argument',
         'Fältet "hubSymptom" krävs (panic_rsd | self_critical | find_self).',
       );
     }
 
     if (!exerciseType || typeof exerciseType !== 'string' || !validExercises.includes(exerciseType)) {
-      throw new functions.https.HttpsError(
+      throw new HttpsError(
         'invalid-argument',
         'Fältet "exerciseType" krävs (breathing | grounding | reframing).',
       );
     }
 
     if (optionalNote && optionalNote.length > 500) {
-      throw new functions.https.HttpsError('invalid-argument', 'optionalNote får vara max 500 tecken.');
+      throw new HttpsError('invalid-argument', 'optionalNote får vara max 500 tecken.');
     }
 
     if (shouldRedirectMabraCoachToSpeglar(optionalNote)) {
@@ -393,7 +415,7 @@ export const mabraCoach = functions
     }
 
     const requestedBankId =
-      typeof data.bankId === 'string' ? data.bankId.trim() : undefined;
+      typeof request.data.bankId === 'string' ? request.data.bankId.trim() : undefined;
     let bankId: string;
     try {
       bankId = resolveCoachBankId(
@@ -417,22 +439,22 @@ export const mabraCoach = functions
       process.env.GEMINI_API_KEY,
     );
     return { coach, redirectToSpeglar: false, bankId };
-  });
+  }
+);
 
-export const ingestWidgetRecording = functions
-  .region('europe-west1')
-  .runWith({ secrets: ['GEMINI_API_KEY'] })
-  .https.onCall(async (data, context) => {
-    await guardSensitiveCallableV1(context, 'ingestWidgetRecording', 20);
+export const ingestWidgetRecording = onCall(
+  { region: 'europe-west1', secrets: ['GEMINI_API_KEY'] },
+  async (request) => {
+    await guardSensitiveCallableV2(request, 'ingestWidgetRecording', 20);
 
-    const transcript = typeof data.transcript === 'string' ? data.transcript : '';
+    const transcript = typeof request.data.transcript === 'string' ? request.data.transcript : '';
     const recordedAt =
-      typeof data.recordedAt === 'string' ? data.recordedAt : new Date().toISOString();
+      typeof request.data.recordedAt === 'string' ? request.data.recordedAt : new Date().toISOString();
     const durationSeconds =
-      typeof data.durationSeconds === 'number' ? data.durationSeconds : undefined;
+      typeof request.data.durationSeconds === 'number' ? request.data.durationSeconds : undefined;
 
     if (transcript.length > 12000) {
-      throw new functions.https.HttpsError('invalid-argument', 'Transkript max 12000 tecken.');
+      throw new HttpsError('invalid-argument', 'Transkript max 12000 tecken.');
     }
 
     const analysis = await analyzeWidgetRecording(
@@ -442,23 +464,27 @@ export const ingestWidgetRecording = functions
       process.env.GEMINI_API_KEY,
     );
     return analysis;
-  });
-
-export const breakDownResponse = functions.region('europe-west1').https.onCall(async (data, context) => {
-  await guardSensitiveCallableV1(context, 'breakDownResponse', 30);
-
-  const text = data.text;
-  if (!text || typeof text !== 'string') {
-    throw new functions.https.HttpsError('invalid-argument', 'Fältet "text" (string) krävs.');
   }
+);
 
-  if (text.length > 12000) {
-    throw new functions.https.HttpsError('invalid-argument', 'Text får vara max 12000 tecken.');
+export const breakDownResponse = onCall(
+  { region: 'europe-west1' },
+  async (request) => {
+    await guardSensitiveCallableV2(request, 'breakDownResponse', 30);
+
+    const text = request.data.text;
+    if (!text || typeof text !== 'string') {
+      throw new HttpsError('invalid-argument', 'Fältet "text" (string) krävs.');
+    }
+
+    if (text.length > 12000) {
+      throw new HttpsError('invalid-argument', 'Text får vara max 12000 tecken.');
+    }
+
+    const microSteps = await applyParalysBreak(text);
+    return { microSteps };
   }
-
-  const microSteps = await applyParalysBreak(text);
-  return { microSteps };
-});
+);
 
 export const scheduledGeneratePayslip = functions
   .region('europe-west1')
@@ -518,23 +544,26 @@ export const claimBarnportenPairing = onCall({ region: 'europe-west1' }, async (
   }
 });
 
-export const generatePayslip = functions.region('europe-west1').https.onCall(async (data, context) => {
-  if (!context.auth) {
-    throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
-  }
+export const generatePayslip = onCall(
+  { region: 'europe-west1' },
+  async (request) => {
+    if (!request.auth) {
+      throw new HttpsError('unauthenticated', 'Autentisering krävs.');
+    }
 
-  const period =
-    data?.periodFrom && data?.periodTo
-      ? { from: String(data.periodFrom), to: String(data.periodTo) }
-      : undefined;
+    const period =
+      request.data?.periodFrom && request.data?.periodTo
+        ? { from: String(request.data.periodFrom), to: String(request.data.periodTo) }
+        : undefined;
 
-  try {
-    return await generatePayslipInternal(context.auth.uid, { period });
-  } catch (error) {
-    console.error('[generatePayslip] Fel:', error);
-    throw new functions.https.HttpsError(
-      'internal',
-      error instanceof Error ? error.message : 'Lönespec misslyckades.',
-    );
+    try {
+      return await generatePayslipInternal(request.auth.uid, { period });
+    } catch (error) {
+      console.error('[generatePayslip] Fel:', error);
+      throw new HttpsError(
+        'internal',
+        error instanceof Error ? error.message : 'Lönespec misslyckades.',
+      );
+    }
   }
-});
+);

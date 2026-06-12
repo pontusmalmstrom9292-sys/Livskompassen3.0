@@ -24,8 +24,8 @@ Markera steg `[x]` endast efter ditt uttryckliga godkännande och efter git-push
 
 | ID | Fråga | Alternativ | Beslut | Status |
 |----|-------|------------|--------|--------|
-| 1.1 | Ägarfält i Firestore | `userId` / `ownerId` | _ | [ ] |
-| 1.2 | Vault collection-path | `/vault/{id}` / `users/{uid}/vault/{id}` | _ | [ ] |
+| 1.1 | Ägarfält i Firestore | `userId` / `ownerId` | **ownerId** | [x] |
+| 1.2 | Vault collection-path | `/vault/{id}` / `users/{uid}/vault/{id}` | **Top-level /reality_vault/{id}** | [x] |
 | 1.3 | CheckIn path | `/checkins/{id}` / nestat under user | _ | [ ] |
 | 1.4 | Minne (kanonisk) | `users/{uid}/kampspar` / annat | **`kampspar` top-level + `ownerId`** (samma mönster som `journal`) | [x] |
 | 1.5 | `reality_vault` vs `vault` | En collection / två syften | **`reality_vault`** = WORM-bevis; **`kampspar`** = livsminne/RAG; **`kb_docs`** = Drive/importer | [x] |
@@ -43,8 +43,8 @@ Markera steg `[x]` endast efter ditt uttryckliga godkännande och efter git-push
 | 2.1 | Vault-skrivning | Callable Function / Admin API | _ | [ ] |
 | 2.2 | `server.js` legacy | Arkivera / radera | _ | [ ] |
 | 2.3 | `notifyNewFile` | Auth secret / App Check / avveckla | **Auth secret** | [ ] kod klar — pending deploy & verifiering |
-| 2.4 | WebAuthn challenges | Firestore / Redis | _ | [ ] |
-| 2.5 | E-postverifiering i rules | Ja / Nej | _ | [ ] |
+| 2.4 | WebAuthn challenges | Firestore / Redis | **Firestore** | [x] |
+| 2.5 | E-postverifiering i rules | Ja / Nej | **Ja** | [x] |
 | 2.6 | GCP-projekt-ID (kanonisk) | `gen-lang-client-…` / annat | _ | [ ] |
 
 **Godkännande steg 2:** _datum_ — **Git tag/commit:** _hash_
@@ -55,7 +55,7 @@ Markera steg `[x]` endast efter ditt uttryckliga godkännande och efter git-push
 
 | ID | Fråga | Alternativ | Beslut | Status |
 |----|-------|------------|--------|--------|
-| 3.1 | Enda runtime | `functions/` only | _ | [ ] |
+| 3.1 | Enda runtime | `functions/` only | **functions/ v2 (Node 20)** | [x] |
 | 3.2 | `spejaren.js` | `_archive/` / radera | _ | [ ] |
 | 3.3 | `agentEngine.ts` | Anropa `analyzeMessage` / ta bort | _ | [ ] |
 | 3.4 | `aiRoutes.ts` Express | Avveckla / dev-only | _ | [ ] |

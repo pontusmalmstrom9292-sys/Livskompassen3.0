@@ -186,14 +186,6 @@
 }
 
 /* —— Barnporten: varm sub-silo undantag —— */
-[data-theme='R-A-nordic-precision'] .barnporten-page {
-  --barnporten-surface: #1a1410;
-}
-
-[data-theme='R-A-nordic-precision'] .barnporten-page .calm-card,
-[data-theme='R-A-nordic-precision'] .barnporten-page .glass-card {
-  background: color-mix(in srgb, var(--barnporten-surface, #1a1410) 88%, transparent);
-}
 
 /* —— Valv chat: silver chrome —— */
 [data-theme='R-A-nordic-precision'] .valv-chat-panel .glass-card {
@@ -223,5 +215,5 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-}
+  }}
+

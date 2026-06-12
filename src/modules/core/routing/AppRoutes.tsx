@@ -3,7 +3,9 @@ import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { MainLayout } from '../layout/MainLayout';
 import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
 import { AuthGate } from '../auth/AuthGate';
-import { HomePage } from '../pages/HomePage';
+const HomePage = lazy(() =>
+  import('../pages/HomePage').then((m) => ({ default: m.HomePage }))
+);
 import { resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
 import {
   clusterTabNavigateTarget,

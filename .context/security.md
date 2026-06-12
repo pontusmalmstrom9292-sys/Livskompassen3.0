@@ -146,7 +146,7 @@ Digital Conversation Analysis Pipeline skyddar mot psykologiskt missbruk och pro
 | ID | Beskrivning | Status |
 |----|-------------|--------|
 | U5.5 | Kompis → Barnen routing guard | **delvis** — `barnenModuleRouteGuard.ts` i `knowledgeVaultQuery` |
-| U2.5 | HITL för känsliga exports | **open** |
+| U2.5 | HITL för känsliga exports | **done** — approveWeaverMetadata hanterar HITL |
 | Zero Footprint logout | `signOutUser` utan `invalidateSession` | **done** — `authService.ts` anropar `invalidateServerSession` |
 | Valv WebAuthn bypass | `issueVaultSession` utan biometri | **done** — server verifierar via `vaultWebAuthn.ts` |
 | Manuell smoke app | #3 Valv, #4 Barnen, #2d | **USER** — se [`SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) |
