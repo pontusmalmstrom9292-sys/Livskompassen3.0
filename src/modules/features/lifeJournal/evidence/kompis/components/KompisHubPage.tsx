@@ -5,6 +5,7 @@ import { ValvArchIcon } from '@/core/ui/ValvArchIcon';
 import { UiCard } from '@/core/ui/UiCard';
 import { NAV_PATHS, vaultDrawerPath } from '@/core/navigation/navTruth';
 import { KompisMark } from './KompisMark';
+import { KompisChat } from './KompisChat';
 
 const VALV_ENTRY = vaultDrawerPath('logga');
 
@@ -54,32 +55,9 @@ const DESTINATIONS: KompisDestination[] = [
 export function KompisHubPage() {
   return (
     <div className="kompis-hub-page space-y-6">
-      <BentoCard
-        title="Kompis"
-        description="Välj vart du vill — jag dirigerar, jag svarar inte här."
-      >
-        <div className="kompis-hub-page__intro flex items-start gap-3">
-          <span className="kompis-hub-page__avatar flex h-12 w-12 shrink-0 items-center justify-center rounded-full">
-            <KompisMark className="h-6 w-6" />
-          </span>
-          <div className="min-w-0 flex-1">
-            <p className="text-sm text-text-muted">
-              <strong className="text-text">Valv</strong> kräver WebAuthn eller Fyren-håll (3 s på
-              kompassen) — sessionen sparas lokalt på enheten. Där finns kunskap, chatt och bevis.
-            </p>
-            <Link
-              to={VALV_ENTRY}
-              className="btn-pill--accent ui-cta-gold mt-3 inline-flex w-full items-center justify-center gap-2 text-sm"
-            >
-              <ValvArchIcon className="h-4 w-4 shrink-0" />
-              Öppna Valv · WebAuthn
-            </Link>
-            <p className="mt-2 text-[11px] leading-snug text-text-dim">
-              Dold genväg: håll kompassen i bottenmenyn i 3 sekunder.
-            </p>
-          </div>
-        </div>
-      </BentoCard>
+      <div className="mb-6">
+        <KompisChat />
+      </div>
 
       <p className="px-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-text-dim">
         Öppna zoner

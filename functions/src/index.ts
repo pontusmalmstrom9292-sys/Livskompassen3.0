@@ -58,3 +58,7 @@ export {
 export {
   generateCompassInsight,
 } from './callables/compass';
+
+export {
+  chatWithKompis,
+} from './callables/kompis';
