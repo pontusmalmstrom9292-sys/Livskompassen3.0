@@ -1,8 +1,8 @@
-import React from 'react';
+// No React import needed
 import { format } from 'date-fns';
 import { sv } from 'date-fns/locale';
 import { useNavigate } from 'react-router-dom';
-import { ArchiveEntry } from '../hooks/useArchiveData';
+import type { ArchiveEntry } from '../hooks/useArchiveData';
 import { Book, Shield, PenLine } from 'lucide-react';
 import { motion } from 'framer-motion';
 

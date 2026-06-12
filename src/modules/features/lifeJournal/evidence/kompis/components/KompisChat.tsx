@@ -15,16 +15,24 @@ type ChatMessage = {
 type ChatWithKompisRequest = {
   history: ChatMessage[];
   message: string;
+  expertId?: string;
 };
 
 type ChatWithKompisResponse = {
   reply: string;
 };
 
+const EXPERTS = [
+  { id: 'default', label: 'Vännen', description: 'Empatisk & lyssnande' },
+  { id: 'reality_checker', label: 'Verklighet', description: 'Motverkar gaslighting' },
+  { id: 'adhd_coach', label: 'ADHD-Coach', description: 'Bryter paralys' },
+];
+
 export function KompisChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedExpert, setSelectedExpert] = useState('default');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   const setKompisAura = useStore((s) => s.setKompisAura);
@@ -62,6 +70,7 @@ export function KompisChat() {
       const result = await chatFunction({
         history: messages,
         message: userMsg,
+        expertId: selectedExpert,
       });
 
       if (result.data && result.data.reply) {
@@ -84,6 +93,23 @@ export function KompisChat() {
 
   return (
     <div className="flex flex-col h-[500px] max-h-[70vh] rounded-2xl border border-border/15 bg-surface-2/30 backdrop-blur-md overflow-hidden shadow-lg">
+      <div className="p-3 border-b border-border/15 bg-surface-1/50 flex flex-wrap gap-2 justify-center shrink-0">
+        {EXPERTS.map((expert) => (
+          <button
+            key={expert.id}
+            onClick={() => setSelectedExpert(expert.id)}
+            className={clsx(
+              "px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 border",
+              selectedExpert === expert.id 
+                ? "bg-accent/20 border-accent/50 text-accent shadow-[0_0_10px_rgba(var(--accent),0.2)]" 
+                : "bg-surface border-border/30 text-text-muted hover:text-text hover:border-border/60"
+            )}
+            title={expert.description}
+          >
+            {expert.label}
+          </button>
+        ))}
+      </div>
       <div className="flex-1 overflow-y-auto p-4 custom-scrollbar space-y-4">
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center text-text-muted space-y-3 opacity-60">

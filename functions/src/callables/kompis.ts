@@ -3,7 +3,7 @@ import * as admin from 'firebase-admin';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import { geminiApiKey } from '../lib/geminiSecret';
 import { GoogleGenAI } from '@google/genai';
-import { KOMPIS_SYSTEM_PROMPT } from '../sharedRules';
+import { EXPERT_PROMPTS } from '../expertPrompts';
 
 export interface ChatMessage {
   role: 'user' | 'model';
@@ -13,6 +13,7 @@ export interface ChatMessage {
 export interface ChatWithKompisRequest {
   history: ChatMessage[];
   message: string;
+  expertId?: string;
 }
 
 export interface ChatWithKompisResponse {
@@ -102,7 +103,8 @@ export const chatWithKompis = onCall(
         });
       }
 
-      const dynamicSystemInstruction = `${KOMPIS_SYSTEM_PROMPT}${contextBlock}`;
+      const basePrompt = EXPERT_PROMPTS[data.expertId || 'default'] || EXPERT_PROMPTS['default'];
+      const dynamicSystemInstruction = `${basePrompt}${contextBlock}`;
 
       // 2. Initiera GenAI
       const ai = new GoogleGenAI({ apiKey: geminiApiKey.value() });

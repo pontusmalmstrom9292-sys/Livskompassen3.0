@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useArchiveData } from '../hooks/useArchiveData';
+import { useArchiveExport } from '../hooks/useArchiveExport';
 import { ArchiveListView } from './ArchiveListView';
 import { ArchiveCalendarView } from './ArchiveCalendarView';
-import { Calendar, List, Archive } from 'lucide-react';
+import { Calendar, List, Archive, Download, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { subMonths } from 'date-fns';
 
@@ -13,6 +14,7 @@ export function ArchiveHub() {
   const [currentMonthDate, setCurrentMonthDate] = useState(new Date());
   
   const { data: entries, loading, error, loadMonth } = useArchiveData();
+  const { exportArchive, isExporting, exportError } = useArchiveExport();
 
   // Initial ladda aktuell månad
   useEffect(() => {
@@ -37,14 +39,29 @@ export function ArchiveHub() {
         
         {/* Header */}
         <header className="mb-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center border border-white/20 shadow-lg">
-              <Archive className="w-5 h-5 text-purple-300" />
+          <div className="flex items-center justify-between gap-3 mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center border border-white/20 shadow-lg">
+                <Archive className="w-5 h-5 text-purple-300" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-semibold tracking-tight">Valvet</h1>
+                <p className="text-sm text-white/50">Ditt WORM-arkiv</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl font-semibold tracking-tight">Valvet</h1>
-              <p className="text-sm text-white/50">Ditt WORM-arkiv</p>
-            </div>
+
+            <button
+              onClick={exportArchive}
+              disabled={isExporting}
+              className="flex items-center justify-center w-10 h-10 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all disabled:opacity-50"
+              title="Exportera arkiv"
+            >
+              {isExporting ? (
+                <Loader2 className="w-5 h-5 text-white/50 animate-spin" />
+              ) : (
+                <Download className="w-5 h-5 text-white/70" />
+              )}
+            </button>
           </div>
 
           {/* Toggle Switch */}
@@ -71,9 +88,9 @@ export function ArchiveHub() {
         </header>
 
         {/* Error State */}
-        {error && (
+        {(error || exportError) && (
           <div className="p-4 mb-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
-            {error}
+            {error || exportError}
           </div>
         )}
 

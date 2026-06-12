@@ -1,13 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Anchor, BookOpen, ChevronRight, Compass, ListTodo, Sparkles } from 'lucide-react';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { ValvArchIcon } from '@/core/ui/ValvArchIcon';
 import { UiCard } from '@/core/ui/UiCard';
 import { NAV_PATHS, vaultDrawerPath } from '@/core/navigation/navTruth';
-import { KompisMark } from './KompisMark';
 import { KompisChat } from './KompisChat';
-
-const VALV_ENTRY = vaultDrawerPath('logga');
 
 type KompisDestination = {
   to: string;

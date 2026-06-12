@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { 
   format, 
   startOfMonth, 
@@ -12,7 +12,7 @@ import {
   subMonths
 } from 'date-fns';
 import { sv } from 'date-fns/locale';
-import { ArchiveEntry } from '../hooks/useArchiveData';
+import type { ArchiveEntry } from '../hooks/useArchiveData';
 import { ChevronLeft, ChevronRight, X, Book, Shield } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -35,8 +35,8 @@ export function ArchiveCalendarView({
   const monthStart = startOfMonth(currentMonthDate);
   const monthEnd = endOfMonth(monthStart);
   // Kalendern börjar alltid på en måndag (veckostart enligt svensk standard)
-  const calendarStart = startOfWeek(monthStart, { weekStarts: 1 });
-  const calendarEnd = endOfWeek(monthEnd, { weekStarts: 1 });
+  const calendarStart = startOfWeek(monthStart, { weekStartsOn: 1 });
+  const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 1 });
 
   const calendarDays = eachDayOfInterval({ start: calendarStart, end: calendarEnd });
 
