@@ -44,11 +44,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setLoading(true);
     let unsub: (() => void) | undefined;
+    let isUnmounted = false;
 
     void (async () => {
       if (isCapacitorAndroid()) {
         const pendingUser = await tryCompletePendingNativeGoogleSignIn();
-        if (pendingUser) {
+        if (pendingUser && !isUnmounted) {
           setUser({
             uid: pendingUser.uid,
             email: pendingUser.email ?? undefined,
@@ -58,7 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       const cred = await getRedirectResultSingleFlight();
-      if (cred?.user) {
+      if (cred?.user && !isUnmounted) {
         setUser({
           uid: cred.user.uid,
           email: cred.user.email ?? undefined,
@@ -66,6 +67,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
       }
     })().finally(() => {
+      if (isUnmounted) return;
       unsub = onAuthStateChanged(auth, async (firebaseUser) => {
         if (firebaseUser) {
           setUser({
@@ -84,21 +86,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           }
           try {
             const cred = await signInAnonymously(auth);
-            setUser({
-              uid: cred.user.uid,
-              isAnonymous: true,
-            });
+            if (!isUnmounted) {
+              setUser({
+                uid: cred.user.uid,
+                isAnonymous: true,
+              });
+            }
           } catch {
-            resetState();
+            if (!isUnmounted) resetState();
           }
         } else {
           resetState();
         }
-        setLoading(false);
+        if (!isUnmounted) setLoading(false);
       });
     });
 
     return () => {
+      isUnmounted = true;
       unsub?.();
     };
   }, [setUser, setLoading, resetState]);

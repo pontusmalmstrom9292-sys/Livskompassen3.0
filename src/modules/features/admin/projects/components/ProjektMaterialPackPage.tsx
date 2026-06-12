@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, ChevronUp } from 'lucide-react';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
 import { useStore } from '@/core/store';
@@ -8,12 +7,10 @@ import {
   LIFE_HUB_PRESETS,
   LifeHubPresetPicker,
   MATERIAL_PACK_BANK_REFS,
-  MaterialPackShortcuts,
   clearMaterialPackOverride,
+  MaterialPackShortcuts,
   getDefaultMaterialShortcuts,
   getMaterialPackOverride,
-  isValidMaterialPackBankRef,
-  labelForMaterialPackBankRef,
   materialPackHubsForPreset,
   routineNavigateShortcuts,
   saveMaterialPackOverride,
@@ -23,11 +20,11 @@ import {
   type MaterialShortcut,
 } from '@/core/lifeOs';
 import {
-  MATERIAL_TARGET_PRESETS,
   defaultTargetPreset,
   findTargetPreset,
   targetToKey,
 } from '@/core/lifeOs/materialPackTargets';
+import { ShortcutEditorRow } from './ShortcutEditorRow';
 
 const HUB_LABELS: Record<MaterialPackHub, string> = {
   familjen: 'Familjen',
@@ -182,7 +179,7 @@ export function ProjektMaterialPackPage() {
               </p>
             )}
 
-            <div className="home-module-stack">
+            <div className="flex flex-col gap-4">
               {shortcuts.map((item, index) => {
                 const targetKey = findTargetPreset(item.target)
                   ? targetToKey(item.target)
@@ -190,143 +187,34 @@ export function ProjektMaterialPackPage() {
                 const isDuplicate = duplicateKeys.has(targetKey);
 
                 return (
-                  <div
+                  <ShortcutEditorRow
                     key={`${item.label}-${index}`}
-                    className={`elongated-module space-y-2 p-3 ${isDuplicate ? 'border border-amber-500/30' : ''}`}
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="text-[10px] uppercase tracking-widest text-text-dim">
-                        Genväg {index + 1}
-                      </p>
-                      <div className="flex gap-1">
-                        <button
-                          type="button"
-                          className="btn-pill--ghost px-2 py-1 text-xs"
-                          disabled={!user || index === 0}
-                          aria-label="Flytta upp"
-                          onClick={() => persist(moveShortcut(shortcuts, index, index - 1))}
-                        >
-                          <ChevronUp className="h-3.5 w-3.5" />
-                        </button>
-                        <button
-                          type="button"
-                          className="btn-pill--ghost px-2 py-1 text-xs"
-                          disabled={!user || index === shortcuts.length - 1}
-                          aria-label="Flytta ner"
-                          onClick={() => persist(moveShortcut(shortcuts, index, index + 1))}
-                        >
-                          <ChevronDown className="h-3.5 w-3.5" />
-                        </button>
-                      </div>
-                    </div>
-                    <input
-                      className="input-glass w-full text-sm"
-                      value={item.label}
-                      disabled={!user}
-                      onChange={(e) =>
-                        persist(shortcuts.map((s, i) => (i === index ? { ...s, label: e.target.value } : s)))
-                      }
-                      placeholder="Etikett"
-                    />
-                    <select
-                      className="input-glass w-full text-sm"
-                      value={targetKey}
-                      disabled={!user}
-                      onChange={(e) => {
-                        const preset = MATERIAL_TARGET_PRESETS.find(
-                          (p) => targetToKey(p.target) === e.target.value,
-                        );
-                        if (!preset) return;
-                        persist(
-                          shortcuts.map((s, i) =>
-                            i === index ? { ...s, target: preset.target, bankRef: undefined } : s,
-                          ),
-                        );
-                      }}
-                    >
-                      {MATERIAL_TARGET_PRESETS.map((p) => (
-                        <option key={targetToKey(p.target)} value={targetToKey(p.target)}>
-                          {p.label}
-                        </option>
-                      ))}
-                    </select>
-                    <label className="block text-xs text-text-muted">
-                      Bankreferens (valfritt)
-                      <select
-                        className="input-glass mt-1 w-full text-xs"
-                        value={item.bankRef ?? ''}
-                        disabled={!user}
-                        onChange={(e) =>
-                          persist(
-                            shortcuts.map((s, i) =>
-                              i === index
-                                ? { ...s, bankRef: e.target.value || undefined }
-                                : s,
-                            ),
-                          )
-                        }
-                      >
-                        <option value="">Ingen — endast länk</option>
-                        {item.bankRef && !isValidMaterialPackBankRef(item.bankRef) ? (
-                          <option value={item.bankRef}>
-                            Sparad referens · {item.bankRef}
-                          </option>
-                        ) : null}
-                        {bankRefGroups.panel.length > 0 ? (
-                          <optgroup label="Panel">
-                            {bankRefGroups.panel.map((opt) => (
-                              <option key={opt.value} value={opt.value}>
-                                {opt.label}
-                              </option>
-                            ))}
-                          </optgroup>
-                        ) : null}
-                        {bankRefGroups.reflection.length > 0 ? (
-                          <optgroup label="Reflektion (MåBra-bank)">
-                            {bankRefGroups.reflection.map((opt) => (
-                              <option key={opt.value} value={opt.value}>
-                                {opt.label}
-                              </option>
-                            ))}
-                          </optgroup>
-                        ) : null}
-                        {bankRefGroups.play.length > 0 ? (
-                          <optgroup label="Lek (MåBra-bank)">
-                            {bankRefGroups.play.map((opt) => (
-                              <option key={opt.value} value={opt.value}>
-                                {opt.label}
-                              </option>
-                            ))}
-                          </optgroup>
-                        ) : null}
-                      </select>
-                      {item.bankRef && labelForMaterialPackBankRef(item.bankRef) ? (
-                        <span className="mt-1 block text-[10px] text-text-dim">
-                          Kuraterad bank — dokumentation, ingen auto-RAG.
-                        </span>
-                      ) : null}
-                    </label>
-                    <button
-                      type="button"
-                      className="text-xs text-danger"
-                      disabled={!user}
-                      onClick={() => persist(shortcuts.filter((_, i) => i !== index))}
-                    >
-                      Ta bort genväg
-                    </button>
-                  </div>
+                    item={item}
+                    index={index}
+                    totalLength={shortcuts.length}
+                    user={user}
+                    isDuplicate={isDuplicate}
+                    bankRefGroups={bankRefGroups}
+                    onUpdate={(idx, updated) =>
+                      persist(shortcuts.map((s, i) => (i === idx ? { ...s, ...updated } : s)))
+                    }
+                    onMove={(from, to) => persist(moveShortcut(shortcuts, from, to))}
+                    onRemove={(idx) => persist(shortcuts.filter((_, i) => i !== idx))}
+                  />
                 );
               })}
             </div>
 
             {routineCandidates.length > 0 && (
-              <section className="elongated-module space-y-2 p-3">
-                <p className="text-[10px] uppercase tracking-widest text-text-dim">
-                  Från rutin
-                </p>
-                <p className="text-xs text-text-muted">
-                  Lägg till navigate-steg från Life OS-rutiner — samma mål som i Planering → Snabbstarter.
-                </p>
+              <section className="rounded-2xl border border-border-strong bg-surface/30 p-5 shadow-lg backdrop-blur-md mt-2">
+                <div className="mb-3">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-accent">
+                    Från rutiner
+                  </p>
+                  <p className="mt-1 text-xs text-text-muted">
+                    Lägg till navigate-steg från Life OS-rutiner — samma mål som i Planering → Snabbstarter.
+                  </p>
+                </div>
                 <div className="flex flex-wrap gap-2">
                   {routineCandidates.map((row) => {
                     const key = `${row.routineId}-${row.stepIndex}`;
@@ -336,12 +224,13 @@ export function ProjektMaterialPackPage() {
                         key={key}
                         type="button"
                         disabled={!user || shortcuts.length >= 12 || already}
-                        className="btn-pill--ghost text-xs"
+                        className="group flex items-center gap-2 rounded-full border border-border-subtle bg-surface/50 px-3 py-1.5 text-xs transition-colors hover:border-accent/50 hover:bg-accent/10 disabled:opacity-30 disabled:hover:border-border-subtle disabled:hover:bg-surface/50"
                         title={row.routineTitle}
                         onClick={() => persist([...shortcuts, row.shortcut])}
                       >
-                        {row.shortcut.label}
-                        <span className="ml-1 text-text-dim">· {row.routineTitle}</span>
+                        <span className="font-medium text-text transition-colors group-hover:text-accent">{row.shortcut.label}</span>
+                        <span className="text-[10px] text-text-dim">· {row.routineTitle}</span>
+                        {!already && <span className="ml-1 text-accent opacity-0 transition-opacity group-hover:opacity-100">+</span>}
                       </button>
                     );
                   })}
@@ -349,11 +238,11 @@ export function ProjektMaterialPackPage() {
               </section>
             )}
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap items-center gap-3 mt-2">
               <button
                 type="button"
                 disabled={!user || shortcuts.length >= 12}
-                className="btn-pill--accent text-sm"
+                className="btn-pill--accent shadow-lg shadow-accent/20"
                 onClick={() => persist([...shortcuts, newShortcut()])}
               >
                 + Lägg till genväg
@@ -362,7 +251,7 @@ export function ProjektMaterialPackPage() {
                 <button
                   type="button"
                   disabled={!user}
-                  className="btn-pill--ghost text-sm"
+                  className="btn-pill--ghost"
                   onClick={resetToDefault}
                 >
                   Återställ standard
@@ -370,18 +259,22 @@ export function ProjektMaterialPackPage() {
               )}
             </div>
 
-            <section className="elongated-module space-y-2 p-3">
-              <p className="text-[10px] uppercase tracking-widest text-text-dim">
-                Förhandsvisning · {HUB_LABELS[hub]}
-              </p>
-              <p className="text-xs text-text-muted">
-                Så här ser genvägarna ut på {HUB_LABELS[hub].toLowerCase()} när profilen är aktiv.
-              </p>
-              <MaterialPackShortcuts
-                preset={activePreset}
-                hub={hub}
-                shortcutsOverride={shortcuts}
-              />
+            <section className="rounded-2xl border border-border-strong bg-surface/30 p-5 shadow-lg backdrop-blur-md mt-6">
+              <div className="mb-4">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-accent">
+                  Förhandsvisning · {HUB_LABELS[hub]}
+                </p>
+                <p className="mt-1 text-xs text-text-muted">
+                  Så här ser genvägarna ut på {HUB_LABELS[hub].toLowerCase()} när profilen är aktiv.
+                </p>
+              </div>
+              <div className="rounded-xl border border-border-subtle bg-surface/40 p-4 shadow-inner">
+                <MaterialPackShortcuts
+                  preset={activePreset}
+                  hub={hub}
+                  shortcutsOverride={shortcuts}
+                />
+              </div>
             </section>
           </>
         )}

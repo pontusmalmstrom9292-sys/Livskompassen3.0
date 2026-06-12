@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FolderKanban, List, Image, FileText, CheckSquare } from 'lucide-react';
+import { FolderKanban, List, Image, FileText, CheckSquare, Video } from 'lucide-react';
 import { useActiveProjects } from '../hooks/useProjects';
 import type { ProjectBlockType } from '../types';
 import { HubPageShell } from '@/core/layout/HubPageShell';
@@ -11,6 +11,7 @@ const BLOCK_ICONS: Record<ProjectBlockType, typeof List> = {
   note: FileText,
   image: Image,
   task: CheckSquare,
+  video: Video,
 };
 
 /** Projekt-hub — aktiva projekt från Firestore (P1). */

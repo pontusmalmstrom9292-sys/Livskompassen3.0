@@ -82,3 +82,7 @@ export async function pendingBarnportenCount(userId: string): Promise<number> {
   const rows = await listPendingBarnportenLogs(userId);
   return rows.length;
 }
+
+export async function clearAllPendingBarnportenLogs(): Promise<void> {
+  await runTransaction('readwrite', (store) => store.clear());
+}

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { Link, Navigate, useLocation } from 'react-router-dom';
 import { Briefcase, Shield } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -14,7 +14,7 @@ import { LivBackLink } from '@/modules/shell/LivBackLink';
 export type ArbetslivTab = 'stampla' | 'tid' | 'logg';
 
 /** Arbetsliv — stämpel, tid, logg publikt. Frånvaro/lön via Valv-menyn. */
-export function ArbetslivHubPage() {
+export const ArbetslivHubPage = memo(function ArbetslivHubPage() {
   const { pathname } = useLocation();
   const embeddedInLiv = pathname === '/vardagen';
   const { tabs, activeTab, setTab, legacyRedirect } = useHubTab('arbetsliv', {
@@ -87,4 +87,4 @@ export function ArbetslivHubPage() {
       </BentoCard>
     </div>
   );
-}
+});

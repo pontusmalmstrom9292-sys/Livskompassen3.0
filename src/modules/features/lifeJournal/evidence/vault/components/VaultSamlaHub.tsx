@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, startTransition } from 'react';
+import { memo, useCallback, useEffect, useState, startTransition } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
@@ -23,7 +23,7 @@ type Props = {
   onBevisConfirmed: (docId: string) => void;
 };
 
-export function VaultSamlaHub({ userId, saving, saveError, onSave, onBevisConfirmed }: Props) {
+export const VaultSamlaHub = memo(function VaultSamlaHub({ userId, saving, saveError, onSave, onBevisConfirmed }: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [pendingInbox, setPendingInbox] = useState<number | null>(null);
   const samlaView = parseSamlaView(searchParams.get('samlaView'));
@@ -112,4 +112,4 @@ export function VaultSamlaHub({ userId, saving, saveError, onSave, onBevisConfir
       </div>
     </div>
   );
-}
+});

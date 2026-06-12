@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { clsx } from 'clsx';
+import { memo, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ChevronRight, Lock, X } from 'lucide-react';
@@ -20,7 +21,7 @@ type Props = {
 
 const SWIPE_CLOSE_THRESHOLD_PX = 56;
 
-export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
+export const NavigationDrawer = memo(function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
   const touchStartX = useRef(0);
@@ -171,11 +172,12 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
                     key={item.id}
                     type="button"
                     onClick={() => handleVardagRowClick(item)}
-                    className={`nav-drawer__row flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-colors ${
+                    className={clsx(
+                      'nav-drawer__row flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-colors',
                       active
                         ? 'bg-accent/10 text-accent'
                         : 'text-text-muted hover:bg-surface-2/50 hover:text-text'
-                    }`}
+                    )}
                   >
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border/30 bg-surface-2/40">
                       <Icon className="h-4 w-4 text-accent" />
@@ -204,11 +206,12 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
                         key={item.id}
                         type="button"
                         onClick={() => navigateDrawerPath(item.path)}
-                        className={`nav-drawer__row flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-colors ${
+                        className={clsx(
+                          'nav-drawer__row flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-colors',
                           active
                             ? 'bg-accent/10 text-accent'
                             : 'text-text-muted hover:bg-surface-2/50 hover:text-text'
-                        }`}
+                        )}
                       >
                         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border/30 bg-surface-2/40">
                           <Icon className="h-4 w-4 text-accent" />
@@ -244,4 +247,4 @@ export function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
     </>,
     document.body,
   );
-}
+});

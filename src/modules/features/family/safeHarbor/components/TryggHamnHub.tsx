@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import { TabBar } from '@/core/ui/TabBar';
 import { KompassradPanel } from '@/features/dailyLife/wellbeing/compasses/components/KompassradPanel';
@@ -37,7 +37,7 @@ type Props = {
 };
 
 /** D6 — Trygg Hamn hub. BIFF publikt; Analys via Valv-menyn. */
-export function TryggHamnHub({ initialMessage = '', embedded = false }: Props) {
+export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', embedded = false }: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [embeddedTab, setEmbeddedTab] = useState<HamnSubTabId>('biff');
   const { preset } = useLifeHubPreset();
@@ -143,4 +143,4 @@ export function TryggHamnHub({ initialMessage = '', embedded = false }: Props) {
       )}
     </div>
   );
-}
+});

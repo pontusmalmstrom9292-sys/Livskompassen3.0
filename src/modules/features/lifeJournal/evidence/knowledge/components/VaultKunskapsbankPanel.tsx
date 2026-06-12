@@ -97,7 +97,7 @@ export function VaultKunskapsbankPanel() {
         <BentoCard title="Familjen — kunskap och uppladdning" description="Sökning per barn">
           <FamiljenKunskapHubTab
             activeChild={shell.activeChild}
-            onKampsparCitationClick={setFocusKampsparId}
+            onKampsparCitationClick={(id) => setFocusKampsparId(id)}
           />
         </BentoCard>
       ) : null}

@@ -9,6 +9,7 @@ import {
   extractQuestion,
   learningPrompt,
 } from '../vaultLearningUtils';
+import { RAGErrorBoundary } from '@/shared/ui/RAGErrorBoundary';
 
 type Props = {
   mode: 'quiz' | 'gap';
@@ -54,7 +55,9 @@ export function HomeVaultLearningPanel({ mode, onSaved }: Props) {
           ? 'Valvet hittade ett gap i kunskapsbanken.'
           : 'Valvet vill lära sig mer om dig.',
       );
-    } catch {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Ett fel inträffade vid hämtning av fråga.';
+      setError(message);
       if (mode === 'gap') {
         setQuestion('Vem är Elisabeth Franck?');
         setSubject('Elisabeth Franck');
@@ -108,74 +111,76 @@ export function HomeVaultLearningPanel({ mode, onSaved }: Props) {
   }
 
   return (
-    <div className="home-module-panel">
-      <div className="home-module-panel__question-box">
-        <p className="text-[10px] uppercase tracking-widest text-text-dim">
-          {mode === 'gap' ? 'Lucka i minnet' : 'Fråga från valvet'}
-        </p>
-        {loadingQ ? (
-          <p className="mt-2 flex items-center gap-2 text-sm text-text-muted">
-            <Loader2 className="h-4 w-4 animate-spin" /> Hämtar fråga…
+    <RAGErrorBoundary fallbackTitle="Kunde inte hämta fråga från Kunskapsvalvet">
+      <div className="home-module-panel">
+        <div className="home-module-panel__question-box">
+          <p className="text-[10px] uppercase tracking-widest text-text-dim">
+            {mode === 'gap' ? 'Lucka i minnet' : 'Fråga från valvet'}
           </p>
-        ) : (
-          <p className="mt-2 font-display text-lg text-accent">{question}</p>
+          {loadingQ ? (
+            <p className="mt-2 flex items-center gap-2 text-sm text-text-muted">
+              <Loader2 className="h-4 w-4 animate-spin" /> Hämtar fråga…
+            </p>
+          ) : (
+            <p className="mt-2 font-display text-lg text-accent">{question}</p>
+          )}
+          {reason && !loadingQ && <p className="mt-2 text-xs text-text-dim">{reason}</p>}
+        </div>
+
+        {mode === 'gap' && subject && (
+          <label className="mt-3 block text-xs text-text-dim">
+            Person / begrepp
+            <input
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              className="input-glass mt-1 w-full"
+            />
+          </label>
         )}
-        {reason && !loadingQ && <p className="mt-2 text-xs text-text-dim">{reason}</p>}
+
+        <textarea
+          value={answer}
+          onChange={(e) => {
+            setAnswer(e.target.value);
+            setSaved(false);
+          }}
+          rows={3}
+          placeholder={
+            mode === 'gap'
+              ? 'T.ex. Min mamma och barnens farmor.'
+              : 'Ditt svar — sparas i Minne med embedding.'
+          }
+          className="input-glass mt-3 w-full"
+        />
+
+        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+        {saved && (
+          <p className="mt-2 flex items-center gap-2 text-sm text-success">
+            <Check className="h-4 w-4" /> Minne uppdaterat — valvet lär sig.
+          </p>
+        )}
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            disabled={saving || answer.trim().length < 2}
+            onClick={handleSave}
+            className="btn-pill--success inline-flex items-center gap-2"
+          >
+            {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+            Uppdatera valvet
+          </button>
+          <button
+            type="button"
+            disabled={loadingQ}
+            onClick={loadQuestion}
+            className="btn-pill--ghost inline-flex items-center gap-2"
+          >
+            <RefreshCw className="h-4 w-4" />
+            Ny fråga
+          </button>
+        </div>
       </div>
-
-      {mode === 'gap' && subject && (
-        <label className="mt-3 block text-xs text-text-dim">
-          Person / begrepp
-          <input
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-            className="input-glass mt-1 w-full"
-          />
-        </label>
-      )}
-
-      <textarea
-        value={answer}
-        onChange={(e) => {
-          setAnswer(e.target.value);
-          setSaved(false);
-        }}
-        rows={3}
-        placeholder={
-          mode === 'gap'
-            ? 'T.ex. Min mamma och barnens farmor.'
-            : 'Ditt svar — sparas i Minne med embedding.'
-        }
-        className="input-glass mt-3 w-full"
-      />
-
-      {error && <p className="mt-2 text-sm text-danger">{error}</p>}
-      {saved && (
-        <p className="mt-2 flex items-center gap-2 text-sm text-success">
-          <Check className="h-4 w-4" /> Minne uppdaterat — valvet lär sig.
-        </p>
-      )}
-
-      <div className="mt-4 flex flex-wrap gap-2">
-        <button
-          type="button"
-          disabled={saving || answer.trim().length < 2}
-          onClick={handleSave}
-          className="btn-pill--success inline-flex items-center gap-2"
-        >
-          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-          Uppdatera valvet
-        </button>
-        <button
-          type="button"
-          disabled={loadingQ}
-          onClick={loadQuestion}
-          className="btn-pill--ghost inline-flex items-center gap-2"
-        >
-          <RefreshCw className="h-4 w-4" />
-          Ny fråga
-        </button>
-      </div>
-    </div>
+    </RAGErrorBoundary>
   );
 }

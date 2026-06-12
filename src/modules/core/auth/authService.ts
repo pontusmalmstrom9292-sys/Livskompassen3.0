@@ -22,6 +22,8 @@ import {
   markSkipAnonymousOnce,
   shouldUseGoogleRedirect,
 } from './googleAuthProvider';
+import { clearAllDrafts } from '../../capture/draftQueue';
+import { clearAllPendingBarnportenLogs } from '@/features/onboarding/barnporten/api/barnportenOfflineQueue';
 
 export function mapAuthError(code: string): string {
   switch (code) {
@@ -146,6 +148,8 @@ export async function signOutUser(): Promise<void> {
   clearSpeglarSession();
   clearAppUnlockSession();
   if (uid) clearMaterialPackLocalCache(uid);
+  await clearAllDrafts();
+  await clearAllPendingBarnportenLogs();
   if (isCapacitorNative()) {
     await capacitorNativeSignOut();
   }

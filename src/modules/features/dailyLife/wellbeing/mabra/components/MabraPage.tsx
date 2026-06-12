@@ -1,5 +1,5 @@
 import { Sparkles } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
@@ -65,7 +65,7 @@ function parseVitProjectParam(value: string | null): MabraProjectId | null {
   return VIT_PROJECT_IDS.includes(value as MabraProjectId) ? (value as MabraProjectId) : null;
 }
 
-export function MabraPage() {
+export const MabraPage = memo(function MabraPage() {
   const user = useStore((s) => s.user);
   const [searchParams, setSearchParams] = useSearchParams();
   const { preset } = useLifeHubPreset();
@@ -564,4 +564,4 @@ export function MabraPage() {
       </HubPageShell>
     </HubErrorBoundary>
   );
-}
+});
