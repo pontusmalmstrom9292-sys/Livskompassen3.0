@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { httpsCallable } from 'firebase/functions';
-import { functions } from '@/core/firebase/firestore';
+import { functions } from '@/core/firebase/init';
 import { useStore } from '@/core/store';
 
 export interface CompassSummary {

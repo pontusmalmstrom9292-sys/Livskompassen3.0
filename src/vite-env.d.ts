@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+/// <reference types="vite-plugin-pwa/client" />
 
 interface ImportMetaEnv {
   /** Header glass panel: ember (guld) · obsidian (kall) · aurora (teal/indigo). */

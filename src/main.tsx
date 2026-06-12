@@ -5,6 +5,10 @@ import './index.css';
 import { applyDefaultTheme } from './modules/core/theme';
 import { initAppCheck } from './modules/core/firebase/appCheck';
 import App from './App.tsx';
+import { registerSW } from 'virtual:pwa-register';
+
+// Registrera Service Worker för PWA
+registerSW({ immediate: true });
 
 applyDefaultTheme();
 

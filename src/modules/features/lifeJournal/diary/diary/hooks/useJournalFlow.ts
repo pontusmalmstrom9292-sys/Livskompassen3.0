@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { toast } from '@/modules/core/store/toastStore';
 import {
   createJournalEntryId,
   saveJournalEntry,
@@ -180,6 +181,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       } catch (refreshErr) {
         console.warn('[Dagbok] refreshEntries after save failed', refreshErr);
       }
+      toast.success('Din reflektion är säkert sparad i Valvet 🔒');
       return true;
     } catch (err) {
       const msg = uploadedAttachment
@@ -188,6 +190,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
           ? err.message
           : 'Kunde inte spara. Kontrollera nätverk och Firestore-regler.';
       if (mountedRef.current) setError(msg);
+      toast.error('Kunde inte spara. Kontrollera din uppkoppling och försök igen.');
       return false;
     } finally {
       if (mountedRef.current) setSaving(false);
@@ -259,6 +262,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     setLastSavedEntryId(null);
     setStep(INITIAL_STEP);
     useDiaryStore.getState().clearDiaryDraft();
+    toast.info('Utkastet har rensats.');
   };
 
   return {

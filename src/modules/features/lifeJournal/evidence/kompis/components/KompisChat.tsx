@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { Send, Loader2 } from 'lucide-react';
 import { clsx } from 'clsx';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { KompisMark } from './KompisMark';
 import { useStore } from '@/modules/core/store';
 
@@ -99,13 +101,32 @@ export function KompisChat() {
             >
               <div
                 className={clsx(
-                  'max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap shadow-sm',
+                  'max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm',
                   msg.role === 'user'
-                    ? 'bg-accent/10 text-accent rounded-br-sm'
+                    ? 'bg-accent/10 text-accent rounded-br-sm whitespace-pre-wrap'
                     : 'glass-card text-text rounded-bl-sm'
                 )}
               >
-                {msg.parts[0].text}
+                {msg.role === 'model' ? (
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      p: ({ node, ...props }) => <p className="mb-2 last:mb-0" {...props} />,
+                      ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-2 last:mb-0 space-y-1" {...props} />,
+                      ol: ({ node, ...props }) => <ol className="list-decimal pl-5 mb-2 last:mb-0 space-y-1" {...props} />,
+                      li: ({ node, ...props }) => <li {...props} />,
+                      strong: ({ node, ...props }) => <strong className="font-semibold" {...props} />,
+                      a: ({ node, ...props }) => <a className="text-accent hover:underline" {...props} />,
+                      h1: ({ node, ...props }) => <h1 className="text-lg font-bold mb-2" {...props} />,
+                      h2: ({ node, ...props }) => <h2 className="text-base font-bold mb-2" {...props} />,
+                      h3: ({ node, ...props }) => <h3 className="text-sm font-bold mb-2" {...props} />,
+                    }}
+                  >
+                    {msg.parts[0].text}
+                  </ReactMarkdown>
+                ) : (
+                  msg.parts[0].text
+                )}
               </div>
             </div>
           ))

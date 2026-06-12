@@ -4,6 +4,7 @@ import { AppRoutes } from './modules/core/routing/AppRoutes';
 import { ThemeProvider } from './modules/core/theme';
 import { WidgetDeepLinkBridge } from '@/features/widgets/WidgetDeepLinkBridge';
 import { useBarnportenWebManifest } from '@/features/onboarding/barnporten/hooks/useBarnportenWebManifest';
+import { ToastContainer } from './modules/core/ui/ToastContainer';
 
 function AppShell() {
   useZeroFootprint();
@@ -21,6 +22,7 @@ export default function App() {
   return (
     <AuthProvider>
       <ThemeProvider>
+        <ToastContainer />
         <AppShell />
       </ThemeProvider>
     </AuthProvider>

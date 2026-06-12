@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#050b14" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="needle" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde68a" />
+      <stop offset="50%" stop-color="#d4af37" />
+      <stop offset="100%" stop-color="#9a7b1e" />
+    </linearGradient>
+  </defs>
+  <rect width="192" height="192" fill="#050b14" rx="32" />
+  <circle cx="96" cy="96" r="64" fill="url(#glow)" />
+  <!-- Minimalist compass star -->
+  <path d="M96 36 L105 87 L156 96 L105 105 L96 156 L87 105 L36 96 L87 87 Z" fill="url(#needle)" />
+  <!-- Highlights for 3D effect -->
+  <path d="M96 36 L105 87 L96 96 Z M156 96 L105 105 L96 96 Z M96 156 L87 105 L96 96 Z M36 96 L87 87 L96 96 Z" fill="#ffffff" fill-opacity="0.25" />
+  <!-- Indigo center -->
+  <circle cx="96" cy="96" r="6" fill="#6366f1" />
+  <circle cx="96" cy="96" r="2" fill="#ffffff" />
+</svg>
