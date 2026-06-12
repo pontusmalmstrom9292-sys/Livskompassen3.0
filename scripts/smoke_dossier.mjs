@@ -7,7 +7,7 @@ import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInAnonymously } from 'firebase/auth';
+import { getAuth, signInAnonymously, signInWithEmailAndPassword } from 'firebase/auth';
 import {
   getFirestore,
   collection,
@@ -70,8 +70,14 @@ async function main() {
   const db = getFirestore(app);
   const functions = getFunctions(app, 'europe-west1');
 
-  console.log('[smoke] Anonymous sign-in…');
-  const cred = await signInAnonymously(auth);
+  let cred;
+  if (env.SEED_FIREBASE_EMAIL && env.SEED_FIREBASE_PASSWORD) {
+    console.log('[smoke] Inloggning med SEED_FIREBASE_EMAIL (krävs för WORM)…');
+    cred = await signInWithEmailAndPassword(auth, env.SEED_FIREBASE_EMAIL, env.SEED_FIREBASE_PASSWORD);
+  } else {
+    console.log('[smoke] Anonymous sign-in (kommer misslyckas om WORM är aktivt)…');
+    cred = await signInAnonymously(auth);
+  }
   const uid = cred.user.uid;
   console.log('[smoke] uid:', uid);
 

@@ -62,13 +62,22 @@ const BARNFOKUS_QUESTIONS_BUILTIN: BarnfokusQuestion[] = [
   { id: 'n1', kind: 'knas', text: 'Om du fick en superkraft i kväll — vilken?' },
   { id: 'n2', kind: 'knas', text: 'Om dagen var en film — vilken genre?' },
   { id: 'n3', kind: 'knas', text: 'Vilket ljud skulle din mage göra om den kunde prata?' },
+  { id: 'n4', kind: 'knas', text: 'Om du fick bygga ett hus av vilken mat som helst, vad skulle du bygga det av?' },
+  { id: 'n5', kind: 'knas', text: 'Vilken superkraft skulle vara roligast att ha i tio minuter?' },
+  { id: 'n6', kind: 'knas', text: 'Om ni lekte att ni var på en annan planet — vad skulle ni göra först?' },
   { id: 'l1', kind: 'lara_kanna', text: 'Vad gör dig stolt (stort eller litet)?' },
   { id: 'l2', kind: 'lara_kanna', text: 'Vad vill du göra imorgon som låter kul?' },
   { id: 'l3', kind: 'lara_kanna', text: 'Vilket ord eller ljud fastnade i huvudet idag?' },
+  { id: 'l4', kind: 'lara_kanna', text: 'Vad sa du idag som fick dig att skratta?' },
+  { id: 'l5', kind: 'lara_kanna', text: 'Vilket ord eller uttryck har fastnat hos dig den här veckan?' },
   { id: 'u1', kind: 'utveckling', text: 'Vad vågade du idag som kändes lite svårt?' },
   { id: 'u2', kind: 'utveckling', text: 'Vad vill du bli bättre på — och vad är ett litet steg?' },
+  { id: 'u3', kind: 'utveckling', text: 'Vad provade du för första gången nyligen — stort eller litet?' },
+  { id: 'u4', kind: 'utveckling', text: 'Vad kändes lite modigare idag än igår?' },
   { id: 'v1', kind: 'valv_safe', text: 'Om du kunde fråga universum en sak — vad?', source: 'valv_curated' },
   { id: 'v2', kind: 'valv_safe', text: 'Vad är det finaste du sett i naturen?', source: 'valv_curated' },
+  { id: 'v3', kind: 'valv_safe', text: 'Hur kändes kroppen efter skolan idag — på en skala från låg till hög energi?' },
+  { id: 'v4', kind: 'valv_safe', text: 'Vad hjälpte dig att somna eller varva ner igår kväll?' },
 ];
 
 function wireBarnfokusQuestion(question: BarnfokusQuestion): BarnfokusQuestion {
