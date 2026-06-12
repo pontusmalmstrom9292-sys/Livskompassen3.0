@@ -18,6 +18,7 @@ import type { JournalQuickMirrorResponse } from '../api/journalQuickMirrorServic
 import { journalQuickMirrorFallback } from '../utils/journalQuickMirrorFallback';
 import { submitCaptureDraft } from '@/modules/capture/submitCaptureDraft';
 import type { JournalEntry, JournalStep } from '../types/journal';
+import { useDiaryStore } from '../store/diaryStore';
 
 const INITIAL_STEP: JournalStep = 'mood';
 
@@ -37,7 +38,7 @@ type UseJournalFlowOptions = {
 export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: UseJournalFlowOptions) {
   const [step, setStep] = useState<JournalStep>(INITIAL_STEP);
   const [mood, setMood] = useState('');
-  const [text, setText] = useState('');
+  const [text, setText] = useState(() => useDiaryStore.getState().diaryDraft || '');
   const [tags, setTags] = useState<string[]>([]);
   const [category, setCategory] = useState<JournalCategoryId | undefined>();
   const [pendingMemoryFile, setPendingMemoryFile] = useState<File | null>(null);
@@ -166,6 +167,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       setWeaveToKampspar(false);
       setPendingMemoryFile(null);
       setMemoryError(null);
+      useDiaryStore.getState().clearDiaryDraft();
       if (!mountedRef.current) return true;
       if (opts.skipDoneStep) {
         setQuickJustSaved(true);
@@ -256,6 +258,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     setWeaveToKampspar(false);
     setLastSavedEntryId(null);
     setStep(INITIAL_STEP);
+    useDiaryStore.getState().clearDiaryDraft();
   };
 
   return {

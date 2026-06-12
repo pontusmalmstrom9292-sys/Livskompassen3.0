@@ -54,3 +54,7 @@ export {
 export {
   analyzeProjectImage,
 } from './callables/projectMedia';
+
+export {
+  generateCompassInsight,
+} from './callables/compass';

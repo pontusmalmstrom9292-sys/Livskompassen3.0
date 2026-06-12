@@ -12,6 +12,7 @@ import type { JournalCategoryId } from '../constants/journalCategories';
 import { HandoffBox } from './HandoffBox';
 import { JournalDetailsPanel } from './JournalDetailsPanel';
 import { shouldShowValvHandoff } from '@/core/triggers/valvHandoff';
+import { ReflectionEditor } from './ReflectionEditor';
 
 type WriteMode = 'fritt' | 'snabb' | 'tre-ord';
 
@@ -120,16 +121,14 @@ export function ReflectionStep({
       </div>
 
       {mode === 'fritt' && (
-        <textarea
-          value={text}
-          onChange={(e) => onTextChange(e.target.value)}
+        <ReflectionEditor
+          text={text}
+          onChange={onTextChange}
           placeholder={
             lowEnergyBridge
               ? 'En kort rad räcker...'
               : moodPrompt ?? 'Skriv vad du vill – ingen perfekt text.'
           }
-          rows={4}
-          className="input-glass reflektion-textarea"
         />
       )}
 

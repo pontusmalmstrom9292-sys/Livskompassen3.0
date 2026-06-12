@@ -71,6 +71,9 @@ const ThemeLabPage = lazy(() =>
 const HubLabPage = lazy(() =>
   import('../pages/HubLabPage').then((m) => ({ default: m.HubLabPage })),
 );
+const DashboardHubPage = lazy(() =>
+  import('@/features/dashboard').then((m) => ({ default: m.DashboardHub })),
+);
 
 function RouteFallback() {
   return <div className="p-6 text-center text-sm text-text-muted">Laddar…</div>;
@@ -219,6 +222,14 @@ export function AppRoutes() {
             <Suspense fallback={<RouteFallback />}>
             <Routes>
               <Route path={NAV_PATHS.HOME} element={<HomePage />} />
+              <Route
+                path="/oversikt"
+                element={
+                  <AuthGate>
+                    <DashboardHubPage />
+                  </AuthGate>
+                }
+              />
               <Route
                 path="/kompis"
                 element={
