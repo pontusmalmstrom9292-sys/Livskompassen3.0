@@ -11,6 +11,7 @@ export interface ArchiveEntry {
   content?: string;
   transcription?: string;
   emotion?: string;
+  tags?: string[];
   // + any other fields
   [key: string]: any;
 }

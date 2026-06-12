@@ -62,3 +62,7 @@ export {
 export {
   chatWithKompis,
 } from './callables/kompis';
+
+export {
+  generateWeeklySummary,
+} from './callables/weeklySummary';

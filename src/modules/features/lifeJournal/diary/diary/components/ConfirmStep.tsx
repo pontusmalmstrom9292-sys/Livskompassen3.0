@@ -12,6 +12,8 @@ type ConfirmStepProps = {
   weaveToKampspar: boolean;
   showWeaveOptIn?: boolean;
   onWeaveToKampsparChange: (value: boolean) => void;
+  tags?: string[];
+  onToggleTag?: (tag: string) => void;
   onBack: () => void;
   onSave: () => void | Promise<void>;
 };
@@ -26,6 +28,8 @@ export function ConfirmStep({
   weaveToKampspar,
   showWeaveOptIn = false,
   onWeaveToKampsparChange,
+  tags = [],
+  onToggleTag,
   onBack,
   onSave,
 }: ConfirmStepProps) {
@@ -58,6 +62,47 @@ export function ConfirmStep({
       {showWeaveOptIn && VAVAREN_CONFIRM_HINT ? (
         <p className="mb-3 text-xs text-text-dim">{VAVAREN_CONFIRM_HINT}</p>
       ) : null}
+
+      {onToggleTag && (
+        <div className="reflektion-radar mb-6 mt-4 rounded-xl bg-white/5 border border-white/10 p-4">
+          <p className="text-sm font-medium text-white/90 mb-3">Märkning (Röd Flagg-Radar)</p>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => onToggleTag('red_flag')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                tags.includes('red_flag')
+                  ? 'bg-rose-500/20 text-rose-300 border border-rose-500/50 shadow-[0_0_10px_rgba(244,63,94,0.2)]'
+                  : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10'
+              }`}
+            >
+              🚩 Röd Flagg / Övertramp
+            </button>
+            <button
+              type="button"
+              onClick={() => onToggleTag('insight')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                tags.includes('insight')
+                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                  : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10'
+              }`}
+            >
+              💡 Insikt
+            </button>
+            <button
+              type="button"
+              onClick={() => onToggleTag('boundary')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                tags.includes('boundary')
+                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
+                  : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10'
+              }`}
+            >
+              🛡️ Gränssättning
+            </button>
+          </div>
+        </div>
+      )}
       {showWeaveOptIn && (
         <label className="reflektion-weave-opt mb-4 flex cursor-pointer items-start gap-2 text-sm text-text-muted">
           <input

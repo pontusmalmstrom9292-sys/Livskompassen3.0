@@ -203,7 +203,7 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
                 )}
 
                 {step === 'save' && (
-                  <ConfirmStep
+                    <ConfirmStep
                     mood={mood}
                     text={text}
                     memoryFileName={pendingMemoryFile?.name}
@@ -213,6 +213,8 @@ export function DagbokPage({ embedded = false }: DagbokPageProps) {
                     weaveToKampspar={weaveToKampspar}
                     showWeaveOptIn={Boolean(user?.uid)}
                     onWeaveToKampsparChange={setWeaveToKampspar}
+                    tags={tags}
+                    onToggleTag={toggleTag}
                     onBack={() => goToStep('text')}
                     onSave={handleSave}
                   />

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
+import { LifeBuoy } from 'lucide-react';
 import { FloatingDock } from './FloatingDock';
 import { FyrenWidgetBar } from '../components/FyrenWidgetBar';
 import { FyrenWidgetProvider } from '../components/fyrenWidgetContext';
@@ -14,6 +15,7 @@ import { FirestoreNetworkChip } from '../components/FirestoreNetworkChip';
 import { SystemErrorBanner } from '../components/SystemErrorBanner';
 import { isBarnportenChildRoute } from '@/features/onboarding/barnporten/constants/barnportenRoutes';
 import { useStore } from '../store';
+import { useSOSStore } from '../store/sosStore';
 import { useTheme } from '../theme';
 import { isDesignPackTheme } from '../theme/themePackDesign';
 import { isMockupTheme } from '../theme/mockupTheme';
@@ -23,6 +25,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   const isScenicHome = location.pathname === '/';
   const user = useStore((s) => s.user);
   const kompisAuraActive = useStore((s) => s.system.kompisAuraActive);
+  const activateSOS = useSOSStore((s) => s.activateSOS);
   const { themeId } = useTheme();
   const mockupSkin = isMockupTheme(themeId) || isDesignPackTheme(themeId);
   const barnportenChildShell = isBarnportenChildRoute(location.pathname);
@@ -52,6 +55,14 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
             onMenuClick={() => setDrawerOpen(true)}
             actions={
               <>
+                <button
+                  type="button"
+                  onClick={activateSOS}
+                  className="header-chrome-btn header-chrome-btn--round mr-1"
+                  aria-label="Aktivera SOS-läge"
+                >
+                  <LifeBuoy className="w-6 h-6 text-red-400 hover:text-red-300 transition-colors" />
+                </button>
                 <AccountAuthMenu
                   open={accountOpen}
                   onOpenChange={setAccountOpen}

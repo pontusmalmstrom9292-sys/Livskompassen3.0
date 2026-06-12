@@ -14,6 +14,9 @@ import { consumeSkipAnonymousOnce } from './googleAuthProvider';
 import { isEmailAuthRequired } from './requireEmailAuth';
 import { enableAppUnlock, isAppUnlockSupported } from './appUnlock';
 import { consumeFingerprintSetupPending } from './appUnlockPrefs';
+import { toast } from '../store/toastStore';
+import { mapAuthError } from './authService';
+import { FirebaseError } from 'firebase/app';
 
 const auth = getAuth(app);
 
@@ -28,7 +31,9 @@ function getRedirectResultSingleFlight(): Promise<UserCredential | null> {
   if (!redirectResultPromise) {
     redirectResultPromise = getRedirectResult(auth)
       .catch((err: unknown) => {
-        console.warn('[AuthProvider] getRedirectResult failed', err);
+        console.error('[AuthProvider] getRedirectResult failed', err);
+        const code = err instanceof FirebaseError ? err.code : '';
+        toast.error(mapAuthError(code) || 'Inloggningen misslyckades.', 6000);
         redirectResultPromise = null;
         return null;
       });
@@ -70,13 +75,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (isUnmounted) return;
       unsub = onAuthStateChanged(auth, async (firebaseUser) => {
         if (firebaseUser) {
-          setUser({
-            uid: firebaseUser.uid,
-            email: firebaseUser.email ?? undefined,
-            isAnonymous: firebaseUser.isAnonymous,
-          });
-          if (!firebaseUser.isAnonymous && consumeFingerprintSetupPending() && isAppUnlockSupported()) {
-            void enableAppUnlock();
+          console.log("Auth State:", firebaseUser);
+          try {
+            setUser({
+              uid: firebaseUser.uid,
+              email: firebaseUser.email ?? undefined,
+              isAnonymous: firebaseUser.isAnonymous,
+            });
+            if (!firebaseUser.isAnonymous && consumeFingerprintSetupPending() && isAppUnlockSupported()) {
+              void enableAppUnlock();
+            }
+          } catch (err: unknown) {
+            console.error("Auth State Error:", err);
+            const msg = err instanceof Error ? err.message : 'Något gick fel vid inloggning.';
+            toast.error(msg, 6000);
           }
         } else if (!isEmailAuthRequired()) {
           if (consumeSkipAnonymousOnce()) {

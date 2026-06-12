@@ -5,6 +5,7 @@ import { ThemeProvider } from './modules/core/theme';
 import { WidgetDeepLinkBridge } from '@/features/widgets/WidgetDeepLinkBridge';
 import { useBarnportenWebManifest } from '@/features/onboarding/barnporten/hooks/useBarnportenWebManifest';
 import { ToastContainer } from './modules/core/ui/ToastContainer';
+import { SOSOverlay } from './modules/features/sos/components/SOSOverlay';
 
 function AppShell() {
   useZeroFootprint();
@@ -23,6 +24,7 @@ export default function App() {
     <AuthProvider>
       <ThemeProvider>
         <ToastContainer />
+        <SOSOverlay />
         <AppShell />
       </ThemeProvider>
     </AuthProvider>

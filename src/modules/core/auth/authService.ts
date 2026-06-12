@@ -1,11 +1,9 @@
 import {
   EmailAuthProvider,
   linkWithCredential,
-  linkWithPopup,
   linkWithRedirect,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signInWithPopup,
   signInWithRedirect,
   signOut,
   type User,
@@ -13,6 +11,8 @@ import {
 import { auth } from './AuthProvider';
 import { clearAppUnlockSession } from './appUnlockPrefs';
 import { endVaultSession } from '../security/vaultSessionLifecycle';
+import { toast } from '../store/toastStore';
+import { FirebaseError } from 'firebase/app';
 import { clearSpeglarSession } from '@/features/lifeJournal/diary/mirror/utils/speglarSessionStorage';
 import { clearMaterialPackLocalCache } from '../lifeOs/materialPackApi';
 import { isCapacitorNative } from './capacitorPlatform';
@@ -20,7 +20,6 @@ import { capacitorGoogleSignIn, capacitorNativeSignOut } from './nativeGoogleAut
 import {
   createGoogleProvider,
   markSkipAnonymousOnce,
-  shouldUseGoogleRedirect,
 } from './googleAuthProvider';
 import { clearAllDrafts } from '../../capture/draftQueue';
 import { clearAllPendingBarnportenLogs } from '@/features/onboarding/barnporten/api/barnportenOfflineQueue';
@@ -115,31 +114,27 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
     return capacitorGoogleSignIn(false);
   }
 
-  const useRedirect = shouldUseGoogleRedirect();
-
-  if (current?.isAnonymous && linkAnonymous) {
-    if (useRedirect) {
+  try {
+    if (current?.isAnonymous && linkAnonymous) {
       await linkWithRedirect(current, provider);
       return null;
     }
-    const result = await linkWithPopup(current, provider);
-    return result.user;
-  }
 
-  if (current) {
-    markSkipAnonymousOnce();
-    await signOut(auth);
-  } else {
-    markSkipAnonymousOnce();
-  }
+    if (current) {
+      markSkipAnonymousOnce();
+      await signOut(auth);
+    } else {
+      markSkipAnonymousOnce();
+    }
 
-  if (useRedirect) {
     await signInWithRedirect(auth, provider);
     return null;
+  } catch (err: unknown) {
+    console.error('[authService] signInWithRedirect error:', err);
+    const code = err instanceof FirebaseError ? err.code : '';
+    toast.error(mapAuthError(code) || 'Kunde inte starta Google-inloggning.', 6000);
+    throw err;
   }
-
-  const result = await signInWithPopup(auth, provider);
-  return result.user;
 }
 
 export async function signOutUser(): Promise<void> {

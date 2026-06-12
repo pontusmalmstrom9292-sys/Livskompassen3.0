@@ -1,4 +1,4 @@
-// No React import needed
+import { useState } from 'react';
 import { format } from 'date-fns';
 import { sv } from 'date-fns/locale';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,12 @@ interface ArchiveListViewProps {
 
 export function ArchiveListView({ entries, loading, onLoadMore }: ArchiveListViewProps) {
   const navigate = useNavigate();
+  const [filter, setFilter] = useState<'all' | 'red_flag' | 'insight' | 'boundary'>('all');
+
+  const filteredEntries = entries.filter((entry) => {
+    if (filter === 'all') return true;
+    return entry.tags?.includes(filter);
+  });
 
   if (entries.length === 0 && !loading) {
     return (
@@ -39,14 +45,68 @@ export function ArchiveListView({ entries, loading, onLoadMore }: ArchiveListVie
 
   return (
     <div className="flex flex-col gap-4 pb-20">
-      {entries.map((entry, idx) => (
-        <motion.div
-          key={entry.id}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: idx * 0.05 }}
-          className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 shadow-lg overflow-hidden relative"
+      <div className="flex flex-wrap gap-2 mb-2">
+        <button
+          onClick={() => setFilter('all')}
+          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+            filter === 'all'
+              ? 'bg-white/20 text-white shadow-md'
+              : 'bg-white/5 text-white/60 hover:bg-white/10'
+          }`}
         >
+          Visa alla
+        </button>
+        <button
+          onClick={() => setFilter('red_flag')}
+          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+            filter === 'red_flag'
+              ? 'bg-rose-500/20 text-rose-300 border border-rose-500/50 shadow-md'
+              : 'bg-white/5 text-white/60 hover:bg-white/10'
+          }`}
+        >
+          🚩 Röda flaggor
+        </button>
+        <button
+          onClick={() => setFilter('insight')}
+          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+            filter === 'insight'
+              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-md'
+              : 'bg-white/5 text-white/60 hover:bg-white/10'
+          }`}
+        >
+          💡 Insikter
+        </button>
+        <button
+          onClick={() => setFilter('boundary')}
+          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+            filter === 'boundary'
+              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 shadow-md'
+              : 'bg-white/5 text-white/60 hover:bg-white/10'
+          }`}
+        >
+          🛡️ Gränssättningar
+        </button>
+      </div>
+
+      {filteredEntries.length === 0 ? (
+        <div className="text-center py-10 text-white/50 text-sm italic">
+          Inga träffar för valt filter.
+        </div>
+      ) : (
+        filteredEntries.map((entry, idx) => {
+          let ringClass = '';
+          if (entry.tags?.includes('red_flag')) ringClass = 'ring-1 ring-rose-500/30 shadow-[0_0_15px_rgba(244,63,94,0.1)]';
+          else if (entry.tags?.includes('insight')) ringClass = 'ring-1 ring-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.1)]';
+          else if (entry.tags?.includes('boundary')) ringClass = 'ring-1 ring-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.1)]';
+
+          return (
+            <motion.div
+              key={entry.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.05 }}
+              className={`bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 overflow-hidden relative ${ringClass || 'shadow-lg'}`}
+            >
           {/* Typ-indikator */}
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
@@ -67,6 +127,27 @@ export function ArchiveListView({ entries, loading, onLoadMore }: ArchiveListVie
               {entry.createdAt && format(new Date(entry.createdAt.seconds * 1000), "d MMMM yyyy HH:mm", { locale: sv })}
             </div>
           </div>
+
+          {/* Badges / Tags */}
+          {entry.tags && entry.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-3">
+              {entry.tags.includes('red_flag') && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium bg-rose-500/10 text-rose-300 border border-rose-500/20">
+                  🚩 Röd flagg
+                </span>
+              )}
+              {entry.tags.includes('insight') && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium bg-amber-500/10 text-amber-300 border border-amber-500/20">
+                  💡 Insikt
+                </span>
+              )}
+              {entry.tags.includes('boundary') && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+                  🛡️ Gräns
+                </span>
+              )}
+            </div>
+          )}
 
           {/* Innehåll */}
           {entry.transcription ? (
@@ -90,7 +171,9 @@ export function ArchiveListView({ entries, loading, onLoadMore }: ArchiveListVie
             </div>
           )}
         </motion.div>
-      ))}
+          );
+        })
+      )}
 
       {/* Ladda mer knapp */}
       <div className="pt-4 flex justify-center">
