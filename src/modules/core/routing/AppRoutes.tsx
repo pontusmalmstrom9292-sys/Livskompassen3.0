@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { MainLayout } from '../layout/MainLayout';
 import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
-import { AuthGate } from '../auth/AuthGate';
+import { ProtectedModule } from '../../components/layout/ProtectedModule';
 const HomePage = lazy(() =>
   import('../pages/HomePage').then((m) => ({ default: m.HomePage }))
 );
@@ -136,11 +136,9 @@ function HjartatRoute() {
     );
   }
   return (
-    <AuthGate>
-      <Suspense fallback={<RouteFallback />}>
-        <HjartatPage />
-      </Suspense>
-    </AuthGate>
+    <ProtectedModule>
+      <HjartatPage />
+    </ProtectedModule>
   );
 }
 
@@ -228,52 +226,52 @@ export function AppRoutes() {
               <Route
                 path="/oversikt"
                 element={
-                  <AuthGate>
+                  <ProtectedModule>
                     <DashboardHubPage />
-                  </AuthGate>
+                  </ProtectedModule>
                 }
               />
               <Route
                 path="/kompis"
                 element={
-                  <AuthGate>
+                  <ProtectedModule>
                     <KompisHubPage />
-                  </AuthGate>
+                  </ProtectedModule>
                 }
               />
 
               {/* —— LIV OCH GÖRA (launcher + fullsid-moduler) —— */}
-              <Route path={NAV_PATHS.VARDAGEN} element={<AuthGate><LivLauncherPage /></AuthGate>} />
+              <Route path={NAV_PATHS.VARDAGEN} element={<ProtectedModule><LivLauncherPage /></ProtectedModule>} />
               <Route
                 path="/mabra/*"
                 element={
-                  <AuthGate>
+                  <ProtectedModule>
                     <MabraRoutes />
-                  </AuthGate>
+                  </ProtectedModule>
                 }
               />
               <Route
                 path="/planering/kalender"
                 element={
-                  <AuthGate>
+                  <ProtectedModule>
                     <PlaneringKalenderPage />
-                  </AuthGate>
+                  </ProtectedModule>
                 }
               />
               <Route
                 path="/planering"
                 element={
-                  <AuthGate>
+                  <ProtectedModule>
                     <PlaneringPage />
-                  </AuthGate>
+                  </ProtectedModule>
                 }
               />
               <Route
                 path="/arbetsliv"
                 element={
-                  <AuthGate>
+                  <ProtectedModule>
                     <ArbetslivHubPage />
-                  </AuthGate>
+                  </ProtectedModule>
                 }
               />
               <Route path="/drogfrihet" element={<RedirectDrogfrihetToFamiljen />} />
@@ -287,7 +285,7 @@ export function AppRoutes() {
               <Route path="/liv/arbetsliv/*" element={<Navigate to="/arbetsliv" replace />} />
 
               {/* —— FAMILJEN ZON —— */}
-              <Route path={NAV_PATHS.FAMILJEN} element={<AuthGate><FamiljenPage /></AuthGate>} />
+              <Route path={NAV_PATHS.FAMILJEN} element={<ProtectedModule><FamiljenPage /></ProtectedModule>} />
 
               <Route path="/familj" element={<Navigate to={`${NAV_PATHS.FAMILJEN}?tab=reflektion`} replace />} />
               <Route path="/barnen" element={<Navigate to={`${NAV_PATHS.FAMILJEN}?tab=reflektion`} replace />} />
@@ -300,9 +298,9 @@ export function AppRoutes() {
               <Route
                 path={NAV_PATHS.VALVET}
                 element={
-                  <AuthGate>
+                  <ProtectedModule>
                     <ValvetRoutePage />
-                  </AuthGate>
+                  </ProtectedModule>
                 }
               />
 
@@ -310,9 +308,9 @@ export function AppRoutes() {
               <Route
                 path="/arkiv"
                 element={
-                  <AuthGate>
+                  <ProtectedModule>
                     <ArchiveHubPage />
-                  </AuthGate>
+                  </ProtectedModule>
                 }
               />
 
@@ -328,58 +326,58 @@ export function AppRoutes() {
               <Route
                 path="/projekt"
                 element={
-                  <AuthGate>
+                  <ProtectedModule>
                     <ProjektHubPage />
-                  </AuthGate>
+                  </ProtectedModule>
                 }
               />
               <Route
                 path="/projekt/ny"
                 element={
-                  <AuthGate>
+                  <ProtectedModule>
                     <ProjektNyPage />
-                  </AuthGate>
+                  </ProtectedModule>
                 }
               />
               <Route
                 path="/projekt/regler"
                 element={
-                  <AuthGate>
+                  <ProtectedModule>
                     <ProjektReglerPage />
-                  </AuthGate>
+                  </ProtectedModule>
                 }
               />
               <Route
                 path="/projekt/genvagar"
                 element={
-                  <AuthGate>
+                  <ProtectedModule>
                     <ProjektMaterialPackPage />
-                  </AuthGate>
+                  </ProtectedModule>
                 }
               />
               <Route path="/barnporten" element={<BarnportenPage />} />
               <Route
                 path="/admin/projects/ny"
                 element={
-                  <AuthGate>
+                  <ProtectedModule>
                     <ProjektNyPage />
-                  </AuthGate>
+                  </ProtectedModule>
                 }
               />
               <Route
                 path="/admin/projects/:projectId"
                 element={
-                  <AuthGate>
+                  <ProtectedModule>
                     <ProjektDetailPage />
-                  </AuthGate>
+                  </ProtectedModule>
                 }
               />
               <Route
                 path="/installningar"
                 element={
-                  <AuthGate>
+                  <ProtectedModule>
                     <InstallningarPage />
-                  </AuthGate>
+                  </ProtectedModule>
                 }
               />
               <Route path="/dev/themes" element={<ThemePreviewPage />} />
