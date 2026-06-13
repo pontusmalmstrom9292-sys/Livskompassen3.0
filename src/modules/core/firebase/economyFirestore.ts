@@ -80,7 +80,7 @@ function normalizeCreatedAt(value: unknown): string {
 function toTimeEntryLike(row: {
   date: string;
   clockIn: string;
-  clockOut: string | null;
+  clockOut?: string | null;
   category: string;
   breakMinutes: number;
   scopePercent: number;
@@ -89,7 +89,7 @@ function toTimeEntryLike(row: {
   return {
     date: row.date,
     clockIn: row.clockIn,
-    clockOut: row.clockOut,
+    clockOut: row.clockOut ?? null,
     category: row.category,
     breakMinutes: row.breakMinutes,
     scopePercent: row.scopePercent,

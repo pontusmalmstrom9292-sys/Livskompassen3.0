@@ -1,8 +1,72 @@
-import { collection, addDoc, getDocs, onSnapshot, query, where, orderBy, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, getDocs, onSnapshot, query, where, orderBy, serverTimestamp, doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../modules/core/firebase/firestore';
+
+export interface VaultRecord {
+  id: string;
+  content: string;
+  timestamp: Date;
+  ownerId: string;
+}
 
 export class VaultService {
   private static COLLECTION_NAME = 'reality_vault';
+  private static COLLECTION = 'vault';
+
+  // --- NEW REQUIREMENTS ---
+  
+  /**
+   * Skapar och sparar en post i vault-samlingen.
+   * Följer strikt WORM-logiken (Write Once, Read Many).
+   * 
+   * @param entry Data som ska sparas (måste matcha VaultRecord)
+   * @throws Error om posten redan existerar
+   */
+  static async saveVaultEntry(entry: VaultRecord): Promise<void> {
+    const docRef = doc(db, this.COLLECTION, entry.id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      throw new Error("Dataintegritetsbrott: Posten finns redan och kan inte skrivas över.");
+    }
+
+    await setDoc(docRef, {
+      id: entry.id,
+      content: entry.content,
+      timestamp: entry.timestamp,
+      ownerId: entry.ownerId
+    });
+  }
+
+  /**
+   * Hämtar en befintlig post från vault-samlingen.
+   * 
+   * @param id ID för posten som ska hämtas
+   * @returns Posten som VaultRecord eller null om den inte finns
+   */
+  static async getVaultEntry(id: string): Promise<VaultRecord | null> {
+    const docRef = doc(db, this.COLLECTION, id);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      return null;
+    }
+
+    const data = docSnap.data();
+    
+    // Hanterar omkonvertering från Firestore Timestamp till JavaScript Date
+    const timestamp = data.timestamp?.toDate 
+      ? data.timestamp.toDate() 
+      : new Date(data.timestamp);
+
+    return {
+      id: data.id,
+      content: data.content,
+      timestamp: timestamp,
+      ownerId: data.ownerId
+    };
+  }
+
+  // --- EXISTING METHODS (Preserved to maintain backwards compatibility with existing UI) ---
 
   static async saveRecord(userId: string, data: any): Promise<string> {
     const ref = collection(db, this.COLLECTION_NAME);

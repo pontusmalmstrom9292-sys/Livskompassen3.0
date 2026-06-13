@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ProtectedModule } from '../../components/layout/ProtectedModule';
-import { useAuthStore } from '../core/auth/authStore';
-import { OracleDataPoint } from './OracleStore';
+import { useStore } from '../core/store';
+import type { OracleDataPoint } from './OracleStore';
 import { OracleService } from '../../services/OracleService';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, TooltipProps } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
+import type { TooltipProps } from 'recharts';
 import { PageSkeleton } from '../../components/layout/PageSkeleton';
 
 const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
@@ -63,7 +64,7 @@ const QuickIntervention = ({ latestDataPoint }: { latestDataPoint: OracleDataPoi
 };
 
 export default function OracleDashboard() {
-  const { user } = useAuthStore();
+  const user = useStore(s => s.user);
   const [dataPoints, setDataPoints] = useState<OracleDataPoint[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

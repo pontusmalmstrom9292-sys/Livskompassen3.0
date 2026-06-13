@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { collection, query, where, getDocs, addDoc, serverTimestamp, CollectionReference, DocumentData } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, serverTimestamp } from 'firebase/firestore';
+import type { CollectionReference, DocumentData } from 'firebase/firestore';
 import { db } from '../../core/firebase/firestore';
 
 /**

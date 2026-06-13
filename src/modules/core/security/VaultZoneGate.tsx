@@ -71,7 +71,7 @@ export function VaultZoneGate({
     const result = await authenticateVaultGateUniversal();
     
     if (!result.ok) {
-      setError(result.message);
+      setError("Biometrisk verifiering avbröts eller misslyckades. Försök igen.");
       setWebAuthnPending(false);
       return;
     }

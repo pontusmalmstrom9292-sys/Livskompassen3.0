@@ -77,9 +77,7 @@ export async function authenticateVaultGate(): Promise<boolean> {
   }
 }
 
-export type UniversalGateResult =
-  | { ok: true }
-  | { ok: false; message: string };
+export type UniversalGateResult = { ok: boolean };
 
 /**
  * Universell autentiseringsgate för VaultZoneGate (zoner inuti Valvet).
@@ -96,20 +94,13 @@ export async function authenticateVaultGateUniversal(): Promise<UniversalGateRes
 
   if (webAuthnOk) {
     const ok = await authenticateVaultGate();
-    return ok
-      ? { ok: true }
-      : { ok: false, message: 'Biometri avbruten. Försök igen.' };
+    return { ok };
   }
 
   if (isCapacitorNative()) {
     const bio = await performNativeBiometric();
-    return bio.ok
-      ? { ok: true }
-      : { ok: false, message: bio.message };
+    return { ok: bio.ok };
   }
 
-  return {
-    ok: false,
-    message: 'Biometri stöds inte i denna miljö. Håll Kompis-ögat i 3 sek på din mobil.',
-  };
+  return { ok: false };
 }

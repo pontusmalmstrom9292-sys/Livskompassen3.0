@@ -5,9 +5,11 @@ import { HubErrorBoundary } from '../../modules/shared/ui/HubErrorBoundary';
 
 interface ProtectedModuleProps {
   children: React.ReactNode;
+  title?: string;
+  logTag?: string;
 }
 
-export function ProtectedModule({ children }: ProtectedModuleProps) {
+export function ProtectedModule({ children, title, logTag }: ProtectedModuleProps) {
   return (
     <AuthGate>
       <HubErrorBoundary>

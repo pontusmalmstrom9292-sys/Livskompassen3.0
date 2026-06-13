@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { ProtectedModule } from './layout/ProtectedModule';
-import { useAuthStore } from '../modules/core/auth/authStore';
+import { useStore } from '../modules/core/store';
 import { useMorningStore } from '../store/MorningStore';
 
 export default function Morgonkompassen() {
-  const { user } = useAuthStore();
+  const user = useStore(s => s.user);
   const { 
     dailyIntent, 
     intentions, 
@@ -25,7 +25,7 @@ export default function Morgonkompassen() {
     }
   }, [user?.uid, fetchMorningData]);
 
-  const handleAddIntention = (e: React.FormEvent) => {
+  const handleAddIntention = (e: FormEvent) => {
     e.preventDefault();
     if (newIntention.trim()) {
       addIntention(newIntention.trim());

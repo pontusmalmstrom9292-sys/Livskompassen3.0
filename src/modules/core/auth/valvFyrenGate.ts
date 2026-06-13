@@ -44,7 +44,7 @@ export async function openValvViaFyren(
   if (webAuthnOk) {
     const webAuthn = await performVaultWebAuthnForSession();
     if (webAuthn.ok === false) {
-      options?.onDenied?.(webAuthn.message);
+      options?.onDenied?.('WebAuthn verifiering misslyckades.');
       return false;
     }
 
@@ -70,7 +70,7 @@ export async function openValvViaFyren(
   if (isCapacitorNative()) {
     const bio = await performNativeBiometric();
     if (bio.ok === false) {
-      options?.onDenied?.(bio.message);
+      options?.onDenied?.('Biometrisk verifiering misslyckades.');
       return false;
     }
 
