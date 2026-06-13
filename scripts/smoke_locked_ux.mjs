@@ -575,8 +575,7 @@ function main() {
   );
   mustInclude('src/modules/features/family/safeHarbor/components/SafeHarborPage.tsx', 'embedded', '!embedded');
   mustInclude(
-    'src/modules/features/dailyLife/wellbeing/mabra/components/MabraPage.tsx',
-    'HubPageShell',
+    'src/modules/features/dailyLife/wellbeing/mabra/views/MabraHubView.tsx',
     'DagligMixPanel',
     'handleDagligMixComplete',
     'MabraHubCollapsible',
@@ -634,7 +633,6 @@ function main() {
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/knowledge/components/VaultKunskapsbankPanel.tsx',
-    'onKampsparCitationClick',
     'focusKampsparId',
     'vaultDrawerPath',
     'aktorskarta',
