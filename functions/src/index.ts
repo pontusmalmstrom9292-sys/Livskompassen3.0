@@ -46,6 +46,7 @@ export {
   mabraCoach,
   ingestWidgetRecording,
   breakDownResponse,
+  crushTask,
   scheduledGeneratePayslip,
   createBarnportenPairing,
   claimBarnportenPairing,

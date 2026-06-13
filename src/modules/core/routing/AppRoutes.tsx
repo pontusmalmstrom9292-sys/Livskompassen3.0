@@ -84,6 +84,7 @@ const NewDashboardHubPage = lazy(() => import('../../dashboard/DashboardHub'));
 const MorningCompassPage = lazy(() =>
   import('../../morning/MorningCompass').then((m) => ({ default: m.MorningCompass })),
 );
+const ReflectionPage = lazy(() => import('../../reflection/ReflectionPage'));
 
 function RouteFallback() {
   return <div className="p-6 text-center text-sm text-text-muted">Laddar…</div>;
@@ -334,6 +335,15 @@ export function AppRoutes() {
                 element={
                   <ProtectedModule>
                     <ArchiveHubPage />
+                  </ProtectedModule>
+                }
+              />
+
+              <Route
+                path="/reflection"
+                element={
+                  <ProtectedModule>
+                    <ReflectionPage />
                   </ProtectedModule>
                 }
               />

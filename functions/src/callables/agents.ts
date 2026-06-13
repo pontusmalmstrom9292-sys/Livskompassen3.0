@@ -8,6 +8,7 @@ import {
   askKbtTransformator,
   askSpeglingsCoach,
   askDagbokSnabbCoach,
+  askUppgiftsKrossaren,
 } from '../agents/vertexAgent';
 import { weaveJournalEntry as runWeaver } from '../agents/weaverAgent';
 import { approveWeaverPending, rejectWeaverPending } from '../lib/weaverPending';
@@ -483,6 +484,25 @@ export const breakDownResponse = onCall(
 
     const microSteps = await applyParalysBreak(text);
     return { microSteps };
+  }
+);
+
+export const crushTask = onCall(
+  { region: 'europe-west1', secrets: ['GEMINI_API_KEY'] },
+  async (request) => {
+    await guardSensitiveCallableV2(request, 'crushTask', 20);
+
+    const task = request.data.task;
+    if (!task || typeof task !== 'string') {
+      throw new HttpsError('invalid-argument', 'Fältet "task" (string) krävs.');
+    }
+
+    if (task.length > 1000) {
+      throw new HttpsError('invalid-argument', 'Uppgiften får vara max 1000 tecken.');
+    }
+
+    const atoms = await askUppgiftsKrossaren(task, process.env.GEMINI_API_KEY);
+    return { atoms };
   }
 );
 

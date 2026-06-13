@@ -5,6 +5,7 @@ import {
   MABRA_COACHEN_SYSTEM_PROMPT,
   VIT_CHAT_COACH_SYSTEM_PROMPT,
   SPEGLINGS_COACHEN_SYSTEM_PROMPT,
+  UPPGIFTS_KROSSAREN_SYSTEM_PROMPT,
 } from '../sharedRules';
 import { createGenAI } from '../lib/genaiClient';
 import {
@@ -227,5 +228,36 @@ export const askDagbokSnabbCoach = async (
   } catch (error) {
     console.error('[Dagbok Snabb] Fel — degraded fallback:', error);
     return journalQuickMirrorFallback(mood, optionalText);
+  }
+};
+
+export const askUppgiftsKrossaren = async (
+  task: string,
+  geminiApiKey?: string,
+): Promise<string[]> => {
+  try {
+    const ai = createGenAI(geminiApiKey);
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: `Bryt ner denna uppgift: ${task}`,
+      config: {
+        systemInstruction: UPPGIFTS_KROSSAREN_SYSTEM_PROMPT,
+        temperature: 0.1,
+      },
+    });
+
+    const text = response.text?.trim() ?? '{}';
+    const parsed = JSON.parse(text.replace(/```json\n?|\n?```/g, '').trim()) as { atoms?: string[] };
+    
+    if (Array.isArray(parsed.atoms) && parsed.atoms.length > 0) {
+      return parsed.atoms;
+    }
+    throw new Error('Inga atomer hittades i JSON');
+  } catch (error) {
+    console.error('[Uppgifts-Krossaren] Fel — degraded fallback:', error);
+    return [
+      `1. Förbered dig för: ${task.slice(0, 50)}`,
+      `2. Utför första lilla steget av uppgiften.`,
+    ];
   }
 };
