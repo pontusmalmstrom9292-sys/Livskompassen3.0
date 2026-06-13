@@ -85,7 +85,8 @@
     "gemini:pack:refresh": "npm run gemini:pack && npm run gemini:pack:valv && npm run gemini:pack:konsolidering && npm run ai-studio:pack",
     "gemini:pack:all": "npm run gemini:pack:refresh && npm run google-ai-pro:pack",
     "ai-studio:pack": "node scripts/pack_ai_studio_repomix.mjs",
-    "design:pack": "node scripts/pack_design_repomix.mjs"
+    "design:pack": "node scripts/pack_design_repomix.mjs",
+    "antigravity:pack": "node scripts/pack_antigravity_repomix.mjs"
   },
   "dependencies": {
     "@capacitor-firebase/app-check": "^8.3.0",
