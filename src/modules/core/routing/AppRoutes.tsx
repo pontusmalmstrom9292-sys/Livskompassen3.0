@@ -85,6 +85,7 @@ const MorningCompassPage = lazy(() =>
   import('../../morning/MorningCompass').then((m) => ({ default: m.MorningCompass })),
 );
 const ReflectionPage = lazy(() => import('../../reflection/ReflectionPage'));
+const OracleDashboardPage = lazy(() => import('../../oracle/OracleDashboard'));
 
 function RouteFallback() {
   return <div className="p-6 text-center text-sm text-text-muted">Laddar…</div>;
@@ -344,6 +345,14 @@ export function AppRoutes() {
                 element={
                   <ProtectedModule>
                     <ReflectionPage />
+                  </ProtectedModule>
+                }
+              />
+              <Route
+                path="/orakel"
+                element={
+                  <ProtectedModule>
+                    <OracleDashboardPage />
                   </ProtectedModule>
                 }
               />
