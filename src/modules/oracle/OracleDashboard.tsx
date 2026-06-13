@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ProtectedModule } from '../../components/layout/ProtectedModule';
 import { useStore } from '../core/store';
+import { DayForensicsPanel } from './components/DayForensicsPanel';
 import { useOracleStore } from './OracleStore';
 import { useOracleMetrics } from './hooks/useOracleMetrics';
 import type { OracleMetricPoint } from './hooks/useOracleMetrics';
@@ -215,6 +216,7 @@ export default function OracleDashboard() {
   const { mockLoad, dataPoints: mockDataPoints } = useOracleStore();
   const { dataPoints: hookDataPoints, isLoading, error } = useOracleMetrics(user?.uid);
   const [useMock, setUseMock] = useState(false);
+  const [selectedDay, setSelectedDay] = useState<OracleMetricPoint | null>(null);
 
   const dataPoints = useMock ? (mockDataPoints as OracleMetricPoint[]) : hookDataPoints;
 
@@ -263,6 +265,12 @@ export default function OracleDashboard() {
                 <AreaChart
                   data={dataPoints}
                   margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                  onClick={(e: any) => {
+                    if (e && e.activePayload && e.activePayload.length > 0) {
+                      setSelectedDay(e.activePayload[0].payload as OracleMetricPoint);
+                    }
+                  }}
+                  className="cursor-pointer"
                 >
                   <defs>
                     <linearGradient id="colorCapacity" x1="0" y1="0" x2="0" y2="1">
@@ -291,6 +299,13 @@ export default function OracleDashboard() {
               </ResponsiveContainer>
             </div>
             <QuickIntervention latestDataPoint={latestDataPoint as OracleMetricPoint} />
+            
+            {selectedDay && (
+              <DayForensicsPanel 
+                dataPoint={selectedDay} 
+                onClose={() => setSelectedDay(null)} 
+              />
+            )}
           </section>
 
           <ActionableInsights latestDataPoint={latestDataPoint as OracleMetricPoint} allData={dataPoints as OracleMetricPoint[]} />
