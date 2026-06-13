@@ -3,6 +3,7 @@ import { useMorningCompassStore } from './morningStore';
 import { useStore } from '../core/store';
 import { Compass, Trash2, Loader2, CheckCircle2, Sparkles } from 'lucide-react';
 import { PageSkeleton } from '../../components/layout/PageSkeleton';
+import { CompassService } from '../../services/CompassService';
 
 export function MorningCompass() {
   const user = useStore(state => state.user);
@@ -27,11 +28,24 @@ export function MorningCompass() {
   useEffect(() => {
     if (user?.uid) {
       Promise.all([
-        fetchFocusPoints(user.uid),
+        CompassService.getDailyIntentions(user.uid).then((intentions) => {
+          if (intentions.length > 0 && intentions[0].intention) {
+            try {
+              const parsed = JSON.parse(intentions[0].intention);
+              if (Array.isArray(parsed)) {
+                parsed.forEach((p, i) => {
+                  if (i < 3) setFocusPoint(i, p);
+                });
+              }
+            } catch {
+              setFocusPoint(0, intentions[0].intention);
+            }
+          }
+        }),
         fetchLatestInsight(user.uid)
       ]).then(() => setHasMounted(true));
     }
-  }, [user?.uid, fetchFocusPoints, fetchLatestInsight]);
+  }, [user?.uid, fetchLatestInsight, setFocusPoint]);
 
   // Debounced auto-save
   useEffect(() => {
@@ -39,13 +53,13 @@ export function MorningCompass() {
 
     setSaveStatus('saving');
     const timeoutId = setTimeout(async () => {
-      await saveFocusPoints(user.uid);
+      await CompassService.saveDailyIntention(user.uid, JSON.stringify(threeFocusPoints));
       setSaveStatus('saved');
       setTimeout(() => setSaveStatus('idle'), 2000);
     }, 1000);
 
     return () => clearTimeout(timeoutId);
-  }, [threeFocusPoints, user?.uid, hasMounted, saveFocusPoints]);
+  }, [threeFocusPoints, user?.uid, hasMounted]);
 
   if (isLoading && !hasMounted) {
     return <PageSkeleton />;

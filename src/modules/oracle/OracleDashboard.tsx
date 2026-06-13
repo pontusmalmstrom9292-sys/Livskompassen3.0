@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { ProtectedModule } from '../../components/layout/ProtectedModule';
 import { useAuthStore } from '../core/auth/authStore';
-import { useOracleStore } from './OracleStore';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
+import { OracleDataPoint } from './OracleStore';
+import { OracleService } from '../../services/OracleService';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, TooltipProps } from 'recharts';
 import { PageSkeleton } from '../../components/layout/PageSkeleton';
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {
-    const data = payload[0].payload;
+    const data = payload[0].payload as OracleDataPoint;
     return (
       <div className="bg-gray-900/95 border border-white/10 p-4 rounded-xl shadow-2xl backdrop-blur-md max-w-[280px] sm:max-w-xs relative z-[100]">
         <p className="font-semibold text-gray-100 mb-2">{label}</p>
@@ -32,7 +33,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-const QuickIntervention = ({ latestDataPoint }: { latestDataPoint: any }) => {
+const QuickIntervention = ({ latestDataPoint }: { latestDataPoint: OracleDataPoint | null }) => {
   const [dismissedDate, setDismissedDate] = useState<string | null>(null);
 
   if (!latestDataPoint) return null;
@@ -63,13 +64,38 @@ const QuickIntervention = ({ latestDataPoint }: { latestDataPoint: any }) => {
 
 export default function OracleDashboard() {
   const { user } = useAuthStore();
-  const { dataPoints, isLoading, error, fetchOracleData, mockLoad } = useOracleStore();
+  const [dataPoints, setDataPoints] = useState<OracleDataPoint[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (user?.uid) {
-      fetchOracleData(user.uid);
+      setIsLoading(true);
+      OracleService.getWeeklyIntentions(user.uid)
+        .then(data => {
+          setDataPoints(data);
+          setIsLoading(false);
+        })
+        .catch(err => {
+          console.error("Error fetching weekly intentions:", err);
+          setError(err.message);
+          setIsLoading(false);
+        });
     }
-  }, [user?.uid, fetchOracleData]);
+  }, [user?.uid]);
+
+  const mockLoad = () => {
+    const mockData: OracleDataPoint[] = [
+      { date: '1 Jun', stressLevel: 80, capacity: 40, label: 'Hög stress, lågt fokus' },
+      { date: '2 Jun', stressLevel: 75, capacity: 45 },
+      { date: '3 Jun', stressLevel: 60, capacity: 50 },
+      { date: '4 Jun', stressLevel: 55, capacity: 60 },
+      { date: '5 Jun', stressLevel: 40, capacity: 70, label: 'Bra återhämtning' },
+      { date: '6 Jun', stressLevel: 35, capacity: 80 },
+      { date: '7 Jun', stressLevel: 45, capacity: 75 },
+    ];
+    setDataPoints(mockData);
+  };
 
   if (isLoading) {
     return <PageSkeleton />;

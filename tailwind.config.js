@@ -14,6 +14,9 @@ export default {
   theme: {
     extend: {
       colors: {
+        'obsidian-bg': '#020617',
+        'obsidian-gold': '#FDE68A',
+        'obsidian-indigo': '#818CF8',
         bg: cssVar('--bg'),
         surface: {
           DEFAULT: cssVar('--surface'), /* #050b14 */
