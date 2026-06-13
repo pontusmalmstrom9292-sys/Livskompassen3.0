@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'Loader2';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Mic, X, Loader2, Check, Send } from 'lucide-react';
 import { useQuickCaptureStore } from '../store/useQuickCaptureStore';

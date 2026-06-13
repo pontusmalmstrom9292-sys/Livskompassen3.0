@@ -4,7 +4,7 @@ import { setVaultGate, clearVaultGate } from './sessionService';
 import { isWebAuthnReliable, performVaultWebAuthnForSession } from './vaultWebAuthnClient';
 import { issueVaultServerSession, issueVaultSessionViaBiometric } from './vaultServerSession';
 import { isEmailAuthRequired } from './requireEmailAuth';
-import { isCapacitorNative, getCapacitorPlatform } from '../platform/capacitorPlatform';
+import { isCapacitorNative } from '../platform/capacitorPlatform';
 import { performNativeBiometric } from './nativeBiometricAuth';
 import { useStore } from '../store';
 

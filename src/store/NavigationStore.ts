@@ -1,10 +1,12 @@
 import { create } from 'zustand';
 
-export enum NavView {
-  ORACLE = 'ORACLE',
-  COMPASS = 'COMPASS',
-  VAULT = 'VAULT',
-}
+export const NavView = {
+  ORACLE: 'ORACLE',
+  COMPASS: 'COMPASS',
+  VAULT: 'VAULT',
+} as const;
+
+export type NavView = typeof NavView[keyof typeof NavView];
 
 interface NavigationState {
   activeView: NavView;

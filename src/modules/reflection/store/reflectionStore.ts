@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { collection, query, where, getDocs, orderBy, doc, getDoc, Timestamp } from 'firebase/firestore';
-import { db } from '../../../core/firebase/firestore';
+import { db } from '../../core/firebase/firestore';
 
 export interface InsightData {
   id: string;

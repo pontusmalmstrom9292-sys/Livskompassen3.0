@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { VaultService, VaultRecord } from '../services/VaultService';
+import { VaultService } from '../services/VaultService';
+import type { VaultRecord } from '../services/VaultService';
 
 export interface VaultState {
   vaultEntries: VaultRecord[];
@@ -9,7 +10,7 @@ export interface VaultState {
   fetchVault: (id: string) => Promise<void>;
 }
 
-export const useVaultStore = create<VaultState>((set, get) => ({
+export const useVaultStore = create<VaultState>((set) => ({
   vaultEntries: [],
   loading: false,
   error: null,

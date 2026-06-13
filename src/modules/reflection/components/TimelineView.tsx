@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { useReflectionStore, InsightData } from '../store/reflectionStore';
+import { useReflectionStore } from '../store/reflectionStore';
+import type { InsightData } from '../store/reflectionStore';
 import { DailySummaryCard } from './DailySummaryCard';
 import { Loader2, Calendar } from 'lucide-react';
 import { Timestamp } from 'firebase/firestore';

@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { ProtectedModule } from '../../components/layout/ProtectedModule';
 import { useStore } from '../core/store';
+import { useOracleStore } from './OracleStore';
 import type { OracleDataPoint } from './OracleStore';
-import { OracleService } from '../../services/OracleService';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
-import type { TooltipProps } from 'recharts';
+
 import { PageSkeleton } from '../../components/layout/PageSkeleton';
 
-const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
+const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload as OracleDataPoint;
     return (
@@ -63,40 +63,84 @@ const QuickIntervention = ({ latestDataPoint }: { latestDataPoint: OracleDataPoi
   );
 };
 
+const ActionableInsights = ({ latestDataPoint }: { latestDataPoint: OracleDataPoint | null }) => {
+  if (!latestDataPoint) return null;
+
+  const { actionableAdvice, weeklySummary, detectedPatterns } = latestDataPoint;
+  const hasInsights = actionableAdvice || weeklySummary || (detectedPatterns && detectedPatterns.length > 0);
+
+  if (!hasInsights) return null;
+
+  return (
+    <section className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md relative z-10 mt-8 space-y-6">
+      <h2 className="text-2xl font-semibold text-gray-100 mb-6">Analys och Mönster</h2>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Weekly Summary */}
+        {weeklySummary && (
+          <div className="bg-black/20 rounded-xl p-5 border border-white/5">
+            <h3 className="text-lg font-medium text-blue-300 mb-3 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+              </svg>
+              Sammanfattning
+            </h3>
+            <p className="text-gray-300 leading-relaxed text-sm">
+              {weeklySummary}
+            </p>
+          </div>
+        )}
+
+        {/* Actionable Advice */}
+        {actionableAdvice && (
+          <div className="bg-black/20 rounded-xl p-5 border border-white/5">
+            <h3 className="text-lg font-medium text-green-300 mb-3 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+              </svg>
+              Konkret Råd
+            </h3>
+            <p className="text-gray-300 leading-relaxed text-sm">
+              {actionableAdvice}
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Detected Patterns */}
+      {detectedPatterns && detectedPatterns.length > 0 && (
+        <div className="bg-black/20 rounded-xl p-5 border border-white/5 mt-6">
+          <h3 className="text-lg font-medium text-purple-300 mb-4 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-1.5A1.125 1.125 0 0118 18.375M20.625 4.5H3.375m17.25 0c.621 0 1.125.504 1.125 1.125M20.625 4.5h-1.5C18.504 4.5 18 5.004 18 5.625m3.75 0v1.5c0 .621-.504 1.125-1.125 1.125M3.375 4.5c-.621 0-1.125.504-1.125 1.125M3.375 4.5h1.5C5.496 4.5 6 5.004 6 5.625m-3.75 0v1.5c0 .621.504 1.125 1.125 1.125m0 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m1.5-3.75C5.496 8.25 6 7.746 6 7.125v-1.5M4.875 8.25C5.496 8.25 6 8.754 6 9.375v1.5m0-5.25v5.25m0-5.25C6 5.004 6.504 4.5 7.125 4.5h9.75c.621 0 1.125.504 1.125 1.125m1.125 2.625h1.5m-1.5 0A1.125 1.125 0 0118 7.125v-1.5m1.125 2.625H18m1.125-3.75H18m1.125 2.625v1.5c0 .621-.504 1.125-1.125 1.125M18 5.625v5.25m0-5.25C18 5.004 17.496 4.5 16.875 4.5H7.125M18 10.875V7.125m0 3.75c0 .621-.504 1.125-1.125 1.125H7.125m10.875-1.125c0-.621-.504-1.125-1.125-1.125H7.125m0 2.25c-.621 0-1.125-.504-1.125-1.125V7.125m0 3.75c0 .621.504 1.125 1.125 1.125" />
+            </svg>
+            Identifierade Mönster
+          </h3>
+          <ul className="space-y-3">
+            {detectedPatterns.map((p, idx) => (
+              <li key={idx} className="flex items-center justify-between text-sm">
+                <span className="text-gray-300">{p.pattern}</span>
+                <span className="text-gray-500 font-mono bg-white/5 px-2 py-0.5 rounded text-xs">
+                  {Math.round(p.confidence * 100)}% säkerhet
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+  );
+};
+
 export default function OracleDashboard() {
   const user = useStore(s => s.user);
-  const [dataPoints, setDataPoints] = useState<OracleDataPoint[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { dataPoints, isLoading, error, fetchOracleData, mockLoad } = useOracleStore();
 
   useEffect(() => {
     if (user?.uid) {
-      setIsLoading(true);
-      OracleService.getWeeklyIntentions(user.uid)
-        .then(data => {
-          setDataPoints(data);
-          setIsLoading(false);
-        })
-        .catch(err => {
-          console.error("Error fetching weekly intentions:", err);
-          setError(err.message);
-          setIsLoading(false);
-        });
+      fetchOracleData(user.uid);
     }
-  }, [user?.uid]);
-
-  const mockLoad = () => {
-    const mockData: OracleDataPoint[] = [
-      { date: '1 Jun', stressLevel: 80, capacity: 40, label: 'Hög stress, lågt fokus' },
-      { date: '2 Jun', stressLevel: 75, capacity: 45 },
-      { date: '3 Jun', stressLevel: 60, capacity: 50 },
-      { date: '4 Jun', stressLevel: 55, capacity: 60 },
-      { date: '5 Jun', stressLevel: 40, capacity: 70, label: 'Bra återhämtning' },
-      { date: '6 Jun', stressLevel: 35, capacity: 80 },
-      { date: '7 Jun', stressLevel: 45, capacity: 75 },
-    ];
-    setDataPoints(mockData);
-  };
+  }, [user?.uid, fetchOracleData]);
 
   if (isLoading) {
     return <PageSkeleton />;
@@ -169,6 +213,8 @@ export default function OracleDashboard() {
             </div>
             <QuickIntervention latestDataPoint={latestDataPoint} />
           </section>
+
+          <ActionableInsights latestDataPoint={latestDataPoint} />
         </div>
       </div>
     </ProtectedModule>

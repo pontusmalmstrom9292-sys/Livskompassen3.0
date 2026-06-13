@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { ShieldCheck, Lock, History, AlertCircle } from 'lucide-react';
-import { VaultService, VaultRecord } from '../services/VaultService';
+import { VaultService } from '../services/VaultService';
+import type { VaultRecord } from '../services/VaultService';
 import { useStore } from '../modules/core/store';
 import { useVaultStore } from '../store/useVaultStore';
 

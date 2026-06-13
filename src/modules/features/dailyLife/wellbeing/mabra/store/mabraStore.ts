@@ -6,7 +6,7 @@ import type {
   MabraSymptomHub,
 } from '../types';
 import type { MabraHubCategory } from '../mabraHubRegistry';
-import type { MabraPlanKind, MabraProjectId } from '../constants/mabraProjects';
+import type { MabraPlanKind } from '../constants/mabraProjects';
 import { readAllVitProjectLastSeen } from '../lib/vitProjectLastSeen';
 import { hasSeenMabraModulValjare } from '../lib/mabraModulValjareStorage';
 

@@ -9,10 +9,10 @@ interface ProtectedModuleProps {
   logTag?: string;
 }
 
-export function ProtectedModule({ children, title, logTag }: ProtectedModuleProps) {
+export function ProtectedModule({ children, title = 'Modulfel', logTag = 'ProtectedModule' }: ProtectedModuleProps) {
   return (
     <AuthGate>
-      <HubErrorBoundary>
+      <HubErrorBoundary title={title} logTag={logTag}>
         <Suspense fallback={<PageSkeleton />}>
           {children}
         </Suspense>

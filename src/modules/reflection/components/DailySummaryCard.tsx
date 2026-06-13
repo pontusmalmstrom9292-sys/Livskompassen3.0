@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { InsightData } from '../store/reflectionStore';
+import type { InsightData } from '../store/reflectionStore';
 
 interface DailySummaryCardProps {
   dateStr: string;

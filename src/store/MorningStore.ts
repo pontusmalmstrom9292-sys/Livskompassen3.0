@@ -1,6 +1,4 @@
 import { create } from 'zustand';
-import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
-import { db } from '../modules/core/firebase/firestore';
 
 export interface MorningIntention {
   id: string;
@@ -20,7 +18,7 @@ export interface MorningState {
   fetchMorningData: (ownerId: string) => Promise<void>;
 }
 
-export const useMorningStore = create<MorningState>((set, get) => ({
+export const useMorningStore = create<MorningState>((set) => ({
   dailyIntent: '',
   intentions: [],
   isLoading: false,
@@ -40,7 +38,7 @@ export const useMorningStore = create<MorningState>((set, get) => ({
     intentions: state.intentions.filter(i => i.id !== id)
   })),
 
-  fetchMorningData: async (ownerId: string) => {
+  fetchMorningData: async (_ownerId: string) => {
     set({ isLoading: true, error: null });
     try {
       // Future integration with Firestore, for now we simulate loading local data

@@ -1,12 +1,20 @@
 import { create } from 'zustand';
-import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
-import { db } from '../../core/firebase/firestore';
+import { OracleService } from '../../services/OracleService';
+
+export interface Pattern {
+  pattern: string;
+  confidence: number;
+}
 
 export interface OracleDataPoint {
   date: string;
+  isoDate: string;
   stressLevel: number;
   capacity: number;
   label?: string;
+  actionableAdvice?: string;
+  weeklySummary?: string;
+  detectedPatterns?: Pattern[];
 }
 
 export interface OracleState {
@@ -25,48 +33,8 @@ export const useOracleStore = create<OracleState>((set) => ({
   fetchOracleData: async (ownerId: string) => {
     set({ isLoading: true, error: null });
     try {
-      const q = query(
-        collection(db, 'insight_summaries'),
-        where('ownerId', '==', ownerId),
-        orderBy('createdAt', 'asc')
-      );
+      const dataPoints = await OracleService.getHybridOracleData(ownerId);
       
-      const snap = await getDocs(q);
-      
-      const dataPoints: OracleDataPoint[] = snap.docs.map(doc => {
-        const data = doc.data();
-        
-        let dateObj = new Date();
-        if (data.createdAt && typeof data.createdAt.toDate === 'function') {
-          dateObj = data.createdAt.toDate();
-        } else if (data.createdAt) {
-          dateObj = new Date(data.createdAt);
-        }
-        
-        const dateStr = dateObj.toLocaleDateString('sv-SE', { month: 'short', day: 'numeric' });
-        
-        let stressLevel = 50; 
-        let capacity = 50;
-        
-        if (data.detectedPatterns && Array.isArray(data.detectedPatterns) && data.detectedPatterns.length > 0) {
-           const firstPattern = data.detectedPatterns[0];
-           if (typeof firstPattern.confidence === 'number') {
-             stressLevel = Math.round(firstPattern.confidence * 100);
-             capacity = Math.max(0, 100 - stressLevel + Math.round(Math.random() * 20)); 
-           }
-        }
-        
-        const labelText = data.weeklySummary || (data.detectedPatterns && data.detectedPatterns[0]?.pattern) || '';
-        const label = labelText.length > 40 ? labelText.substring(0, 40) + '...' : labelText;
-
-        return {
-          date: dateStr,
-          stressLevel,
-          capacity,
-          label
-        };
-      });
-
       set({
         dataPoints,
         isLoading: false
@@ -79,13 +47,31 @@ export const useOracleStore = create<OracleState>((set) => ({
 
   mockLoad: () => {
     const mockData: OracleDataPoint[] = [
-      { date: '1 Jun', stressLevel: 80, capacity: 40, label: 'Hög stress, lågt fokus' },
-      { date: '2 Jun', stressLevel: 75, capacity: 45 },
-      { date: '3 Jun', stressLevel: 60, capacity: 50 },
-      { date: '4 Jun', stressLevel: 55, capacity: 60 },
-      { date: '5 Jun', stressLevel: 40, capacity: 70, label: 'Bra återhämtning' },
-      { date: '6 Jun', stressLevel: 35, capacity: 80 },
-      { date: '7 Jun', stressLevel: 45, capacity: 75 },
+      { 
+        date: '1 Jun', 
+        isoDate: '2026-06-01',
+        stressLevel: 80, 
+        capacity: 40, 
+        label: 'Hög stress, lågt fokus',
+        actionableAdvice: 'Överväg 4-7-8 andning och att delegera uppgifter.',
+        weeklySummary: 'En tuff vecka med mycket hög kognitiv belastning.',
+        detectedPatterns: [{ pattern: 'Högt tempo, dålig sömn', confidence: 0.8 }]
+      },
+      { date: '2 Jun', isoDate: '2026-06-02', stressLevel: 75, capacity: 45 },
+      { date: '3 Jun', isoDate: '2026-06-03', stressLevel: 60, capacity: 50 },
+      { date: '4 Jun', isoDate: '2026-06-04', stressLevel: 55, capacity: 60 },
+      { 
+        date: '5 Jun', 
+        isoDate: '2026-06-05',
+        stressLevel: 40, 
+        capacity: 70, 
+        label: 'Bra återhämtning',
+        actionableAdvice: 'Bibehåll nuvarande rutiner, de fungerar bra.',
+        weeklySummary: 'Återhämtningen går framåt.',
+        detectedPatterns: [{ pattern: 'Regelbunden sömn ger resultat', confidence: 0.9 }]
+      },
+      { date: '6 Jun', isoDate: '2026-06-06', stressLevel: 35, capacity: 80 },
+      { date: '7 Jun', isoDate: '2026-06-07', stressLevel: 45, capacity: 75 },
     ];
     set({ dataPoints: mockData, isLoading: false, error: null });
   }

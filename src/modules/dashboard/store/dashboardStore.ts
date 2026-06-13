@@ -27,7 +27,7 @@ export interface DashboardStore {
 /**
  * Zustand store för DashboardHub
  */
-export const useDashboardStore = create<DashboardStore>((set, get) => ({
+export const useDashboardStore = create<DashboardStore>((set) => ({
   data: [],
   isLoading: false,
   error: null,

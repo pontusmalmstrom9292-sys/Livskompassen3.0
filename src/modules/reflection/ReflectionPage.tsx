@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-import { ProtectedModule } from '../core/security/ProtectedModule';
+import { ProtectedModule } from '../../components/layout/ProtectedModule';
 import { TimelineView } from './components/TimelineView';
 import { WeeklySummary } from './components/WeeklySummary';
 import { useReflectionStore } from './store/reflectionStore';
 import { motion } from 'framer-motion';
 import { BookOpen } from 'lucide-react';
-import { useAuthStore } from '../core/auth/authStore';
+import { useStore } from '../core/store';
 
 const ReflectionPageContent: React.FC = () => {
-  const { user } = useAuthStore();
+  const user = useStore(state => state.user);
   const { fetchReflectionData } = useReflectionStore();
 
   useEffect(() => {
@@ -54,5 +54,9 @@ const ReflectionPageContent: React.FC = () => {
 };
 
 export default function ReflectionPage() {
-  return <ReflectionPageContent />;
+  return (
+    <ProtectedModule>
+      <ReflectionPageContent />
+    </ProtectedModule>
+  );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { ProtectedModule } from '../../components/layout/ProtectedModule';
 import { PageSkeleton } from '../../components/layout/PageSkeleton';
 import { useStore } from '../core/store';

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMorningCompassStore } from './morningStore';
 import { useStore } from '../core/store';
 import { Compass, Trash2, Loader2, CheckCircle2, Sparkles } from 'lucide-react';
@@ -11,8 +11,7 @@ export function MorningCompass() {
     threeFocusPoints, 
     setFocusPoint, 
     clearFocusPoints,
-    fetchFocusPoints,
-    saveFocusPoints,
+
     fetchLatestInsight,
     latestInsight,
     isLoading,

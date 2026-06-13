@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { doc, getDoc, setDoc, serverTimestamp, collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
-import { db } from '../../core/firebase/firestore';
+import { db } from '../core/firebase/firestore';
 
 interface MorningCompassState {
   threeFocusPoints: string[];
