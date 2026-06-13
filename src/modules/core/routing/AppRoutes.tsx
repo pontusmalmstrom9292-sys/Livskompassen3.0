@@ -86,6 +86,7 @@ const MorningCompassPage = lazy(() =>
 );
 const ReflectionPage = lazy(() => import('../../reflection/ReflectionPage'));
 const OracleDashboardPage = lazy(() => import('../../oracle/OracleDashboard'));
+const MabraHubPage = lazy(() => import('@/components/mabra/MabraHub'));
 
 function RouteFallback() {
   return <div className="p-6 text-center text-sm text-text-muted">Laddar…</div>;
@@ -257,6 +258,14 @@ export function AppRoutes() {
                 element={
                   <ProtectedModule>
                     <MorningCompassPage />
+                  </ProtectedModule>
+                }
+              />
+              <Route
+                path="/mabra"
+                element={
+                  <ProtectedModule>
+                    <MabraHubPage />
                   </ProtectedModule>
                 }
               />
