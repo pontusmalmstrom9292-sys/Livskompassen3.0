@@ -7,7 +7,7 @@ import {
   getEconomyMealPrep,
   setBudgetSaving,
   setEconomyMealPrep,
-} from '@/core/firebase/timeEconomyFirestore';
+} from '@/core/firebase/economyFirestore';
 import { saveEconomyTransaction } from '@/core/firebase/firestore';
 import type { EconomyMealPrepItem } from '@/core/types/firestore';
 import { useEconomyBudget } from '../hooks/useEconomyBudget';

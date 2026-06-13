@@ -10,7 +10,7 @@ import {
   addManualTimeEntries,
   deleteTimeEntry,
   getRecentTimeEntries,
-} from '../../core/firebase/timeEconomyFirestore';
+} from '../../core/firebase/arbetslivFirestore';
 import type { TimeEntryRow } from '../../core/types/firestore';
 import { formatDateLocal } from '@/shared/utils/dateHelpers';
 import { DEFAULT_HELDAG } from '../../core/utils/timeMath';

@@ -1,24 +1,20 @@
 /**
- * @deprecated MIGRERINGSSTATUS — 2026-06-13
+ * economyFirestore.ts
  *
- * Den här filen är en **temporär monolith** under aktiv uppdelning i domänsilos.
- * KOD SKA INTE TAS BORT HÄRIFRÅN FÖRRÄN ALLA KONSUMENTER ÄR MIGRERADE.
+ * Domänägt Firestore-lager för Ekonomi-silon.
+ * Ansvarar strikt för: transaktioner (ledger), budget-kuvert, sparande,
+ * lönespecifikationer (WORM), impulskö och måltidsförberedelser.
  *
- * ✅ KLART  — WorkLife/Stämplingsdomänen:
- *   Alla tidsposter, stämpelklocka, flex och arbetsloggning har migrerats till:
- *   → `src/modules/core/firebase/arbetslivFirestore.ts`
- *   Konsumenter (hooks/UI) pekar redan på den nya filen.
+ * ❌ Importera INTE tidspassfunktioner härifrån. (Enda undantag: getEconomyOverview
+ *    kallar getAllTimeEntriesForEconomyReadOnly från arbetslivFirestore — en godkänd
+ *    läs-gränspunkt, ej en skrivkoppling.)
+ * ✅ Konsumeras av: features/dailyLife/wellbeing/economy
  *
- * 🔄 PÅGÅENDE — Ekonomidomänen:
- *   Transaktioner, budget, kuvert, sparmål och lönespecifikationer:
- *   → `src/modules/core/firebase/economyFirestore.ts` (skapad, ej migrerad än)
- *   Konsumenter (features/dailyLife/wellbeing/economy/**) pekar fortfarande hit.
- *
- * ❌ Lägg INTE till ny kod i den här filen.
- * ❌ Importera INTE från den här filen i ny kod — använd domänfilerna ovan.
+ * Utdragen ur timeEconomyFirestore.ts (2026-06-13) som ett led i domänsiloarbetet.
+ * Originalet är intakt och oförändrat under migreringen.
  */
-import {
 
+import {
   addDoc,
   collection,
   deleteDoc,
@@ -43,35 +39,23 @@ import type {
   EconomyLedgerType,
   EconomyMealPrepItem,
   PayslipSnapshotRow,
-  TimeEntryRow,
 } from '../types/firestore';
 import {
-  computeHoursWorkedOnClockOut,
   computeWeekFlexDetail,
 } from '@/features/dailyLife/wellbeing/economy/rules/payTimeRules';
+import type { TimeEntryLike } from '@/features/dailyLife/wellbeing/economy/rules/payTimeRules';
 import {
   computePeriodEconomySummary,
   type PeriodEconomySummary,
 } from '@/features/dailyLife/wellbeing/economy/rules/periodSummary';
 import { getPayslipPeriodForPayday } from '@/features/dailyLife/wellbeing/economy/rules/generatePayslipCore';
-import type { TimeEntryLike, WeekFlexDetail } from '@/features/dailyLife/wellbeing/economy/rules/payTimeRules';
-import { formatDateLocal } from '@/shared/utils/dateHelpers';
-import {
-  buildCategoryName,
-  categoryBase,
-  DEFAULT_BREAK_MINUTES,
-  DEFAULT_HELDAG,
-  DEFAULT_SCOPE_PERCENT,
-  eachDateInclusive,
-  emptyWeekCalendar,
-  formatTimeLocal,
-  getMonday,
-  getWeekNumber,
-  normalizeClock,
-  parseDateOnly,
-} from '../utils/timeMath';
+import { getWeekNumber, parseDateOnly } from '../utils/timeMath';
+import { getAllTimeEntriesForEconomyReadOnly } from './arbetslivFirestore';
 
-export type { WeekFlexDetail, PeriodEconomySummary };
+// ─── Re-exportera typer ───────────────────────────────────────────────────────
+export type { PeriodEconomySummary };
+
+// ─── Internt: delade Firestore-hjälpare ─────────────────────────────────────
 
 type FirestorePayload = Record<string, unknown>;
 
@@ -91,305 +75,17 @@ function normalizeCreatedAt(value: unknown): string {
   return '';
 }
 
-function mapTimeEntry(id: string, data: FirestorePayload, userId: string): TimeEntryRow {
-  const clockOutRaw = data.clockOut;
-  const clockOut =
-    clockOutRaw != null && String(clockOutRaw).trim() !== '' ? String(clockOutRaw) : null;
-  /** Öppet pass = saknar utstämpling (källa: Pontus/äldre rader kan ha fel isOpen-flagga). */
-  const isOpen = clockOut == null;
+// ─── Internt: toTimeEntryLike-adapter (för getEconomyOverview) ──────────────
 
-  return {
-    id,
-    userId: String(data.userId ?? userId),
-    ownerId: String(data.ownerId ?? userId),
-    date: String(data.date ?? ''),
-    clockIn: normalizeClock(String(data.clockIn ?? '00:00')),
-    clockOut: clockOut ? normalizeClock(clockOut) : null,
-    category: String(data.category ?? 'Arbete'),
-    breakMinutes: Number(data.breakMinutes ?? DEFAULT_BREAK_MINUTES),
-    scopePercent: Number(data.scopePercent ?? DEFAULT_SCOPE_PERCENT),
-    hoursWorked: Number(data.hoursWorked ?? 0),
-    isOpen,
-    createdAt: normalizeCreatedAt(data.createdAt),
-    updatedAt: data.updatedAt ? normalizeCreatedAt(data.updatedAt) : undefined,
-  };
-}
-
-async function getAllTimeEntries(userId: string): Promise<TimeEntryRow[]> {
-  const ref = collection(db, FIRESTORE_COLLECTIONS.time_entries);
-  const snap = await getDocs(ownerScopedQuery(ref, userId));
-  return snap.docs
-    .map((d) => mapTimeEntry(d.id, d.data() as FirestorePayload, userId))
-    .sort((a, b) => `${b.date}${b.clockIn}`.localeCompare(`${a.date}${a.clockIn}`));
-}
-
-export async function recordTimeIn(userId: string, category = 'Arbete') {
-  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
-  const open = await getOpenTimeEntry(userId);
-  if (open) throw new Error('Du är redan instämplad.');
-
-  const profile = await getEconomyProfileExtended(userId);
-  const breakMinutes = profile.defaultBreakMinutes ?? DEFAULT_BREAK_MINUTES;
-
-  const now = new Date();
-  const date = formatDateLocal(now);
-  const clockIn = formatTimeLocal(now);
-  const ref = collection(db, FIRESTORE_COLLECTIONS.time_entries);
-  const docRef = await addDoc(
-    ref,
-    withUserId(userId, {
-      date,
-      clockIn,
-      clockOut: null,
-      category: category.trim() || 'Arbete',
-      breakMinutes,
-      scopePercent: DEFAULT_SCOPE_PERCENT,
-      hoursWorked: 0,
-      isOpen: true,
-    }),
-  );
-  return { id: docRef.id, date, clockIn, category: category.trim() || 'Arbete' };
-}
-
-export async function recordTimeOut(userId: string, entryId?: string) {
-  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
-  let open: TimeEntryRow | null = null;
-
-  if (entryId) {
-    const snap = await getDoc(doc(db, FIRESTORE_COLLECTIONS.time_entries, entryId));
-    if (snap.exists() && snap.data().ownerId === userId) {
-      open = mapTimeEntry(entryId, snap.data() as FirestorePayload, userId);
-      if (open.clockOut != null) open = null;
-    }
-  }
-
-  if (!open) {
-    open = await getOpenTimeEntry(userId);
-  }
-  if (!open) throw new Error('Ingen pågående stämpling att stämpla ut från.');
-
-  const now = new Date();
-  const clockOut = formatTimeLocal(now);
-  const { breakMinutes, hoursWorked } = computeHoursWorkedOnClockOut({
-    date: open.date,
-    clockIn: open.clockIn,
-    clockOut,
-    breakMinutes: open.breakMinutes,
-    scopePercent: open.scopePercent,
-  });
-
-  const ref = doc(db, FIRESTORE_COLLECTIONS.time_entries, open.id);
-  await updateDoc(ref, {
-    userId,
-    ownerId: userId,
-    clockOut,
-    breakMinutes,
-    hoursWorked,
-    isOpen: false,
-    updatedAt: serverTimestamp(),
-  });
-  return { id: open.id, hoursWorked, breakMinutes };
-}
-
-export async function getOpenTimeEntry(userId: string): Promise<TimeEntryRow | null> {
-  const rows = await getAllTimeEntries(userId);
-  return rows.find((r) => r.clockOut == null) ?? null;
-}
-
-/** Stänger öppna pass utan clockOut (äldre data med isOpen:false). */
-export async function repairOpenTimeEntryFlags(userId: string): Promise<number> {
-  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
-  const rows = await getAllTimeEntries(userId);
-  const stuck = rows.filter((r) => r.clockOut == null && r.isOpen === false);
-  await Promise.all(
-    stuck.map((r) =>
-      updateDoc(doc(db, FIRESTORE_COLLECTIONS.time_entries, r.id), {
-        userId,
-        ownerId: userId,
-        isOpen: true,
-        updatedAt: serverTimestamp(),
-      }),
-    ),
-  );
-  return stuck.length;
-}
-
-export async function addManualTimeEntries(
-  userId: string,
-  input: {
-    fromDate: string;
-    toDate: string;
-    clockIn?: string;
-    clockOut?: string;
-    category: string;
-    breakMinutes?: number;
-    scopePercent?: number;
-  },
-) {
-  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
-  const dates = eachDateInclusive(input.fromDate, input.toDate);
-  const clockIn = input.clockIn ?? DEFAULT_HELDAG.in;
-  const clockOut = input.clockOut ?? DEFAULT_HELDAG.out;
-  const breakMinutes = input.breakMinutes ?? DEFAULT_BREAK_MINUTES;
-  const scopePercent = input.scopePercent ?? DEFAULT_SCOPE_PERCENT;
-  const category = buildCategoryName(input.category, scopePercent);
-  const ref = collection(db, FIRESTORE_COLLECTIONS.time_entries);
-  const ids: string[] = [];
-
-  for (const date of dates) {
-    const { breakMinutes: resolvedBreak, hoursWorked } = computeHoursWorkedOnClockOut({
-      date,
-      clockIn,
-      clockOut,
-      breakMinutes,
-      scopePercent,
-    });
-    const docRef = await addDoc(
-      ref,
-      withUserId(userId, {
-        date,
-        clockIn,
-        clockOut,
-        category,
-        breakMinutes: resolvedBreak,
-        scopePercent,
-        hoursWorked,
-        isOpen: false,
-      }),
-    );
-    ids.push(docRef.id);
-  }
-  return ids;
-}
-
-export async function updateTimeEntry(
-  userId: string,
-  entryId: string,
-  patch: {
-    category: string;
-    clockIn: string;
-    clockOut: string;
-    breakMinutes: number;
-    scopePercent: number;
-  },
-) {
-  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
-  const ref = doc(db, FIRESTORE_COLLECTIONS.time_entries, entryId);
-  const snap = await getDoc(ref);
-  if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Pass hittades inte.');
-
-  const date = String(snap.data().date);
-  const category = buildCategoryName(patch.category, patch.scopePercent);
-  const { breakMinutes, hoursWorked } = computeHoursWorkedOnClockOut({
-    date,
-    clockIn: patch.clockIn,
-    clockOut: patch.clockOut,
-    breakMinutes: patch.breakMinutes,
-    scopePercent: patch.scopePercent,
-  });
-
-  await updateDoc(ref, {
-    category,
-    clockIn: patch.clockIn,
-    clockOut: patch.clockOut,
-    breakMinutes,
-    scopePercent: patch.scopePercent,
-    hoursWorked,
-    isOpen: false,
-    updatedAt: serverTimestamp(),
-  });
-}
-
-export async function deleteTimeEntry(userId: string, entryId: string) {
-  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
-  const ref = doc(db, FIRESTORE_COLLECTIONS.time_entries, entryId);
-  const snap = await getDoc(ref);
-  if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Pass hittades inte.');
-  await deleteDoc(ref);
-}
-
-export async function getRecentTimeEntries(userId: string, limit = 50): Promise<TimeEntryRow[]> {
-  const rows = await getAllTimeEntries(userId);
-  return rows.slice(-limit).reverse();
-}
-
-export async function getTodayTimeStatus(userId: string) {
-  const today = formatDateLocal();
-  const rows = await getAllTimeEntries(userId);
-  const todayRows = rows.filter((r) => r.date === today);
-  const open = rows.find((r) => r.clockOut == null) ?? null;
-  const dagensTimmar = todayRows.reduce((sum, r) => sum + r.hoursWorked, 0);
-  let senasteUt = '';
-  for (const r of todayRows) {
-    if (r.clockOut) senasteUt = r.clockOut;
-  }
-
-  return {
-    instamplad: Boolean(open),
-    inTid: open?.clockIn ?? '',
-    kat: open?.category ?? '',
-    dagensTimmar: Math.round(dagensTimmar * 10) / 10,
-    senasteUt,
-  };
-}
-
-export async function getWeekTimeStats(userId: string) {
-  const monday = getMonday();
-  const sunday = new Date(monday);
-  sunday.setDate(sunday.getDate() + 6);
-  sunday.setHours(23, 59, 59, 999);
-
-  const rows = await getAllTimeEntries(userId);
-  const perKat: Record<string, number> = {};
-  let total = 0;
-  const seenDays = new Set<string>();
-
-  for (const row of rows) {
-    const d = parseDateOnly(row.date);
-    if (d < monday || d > sunday) continue;
-    const h = row.hoursWorked;
-    const k = categoryBase(row.category) || 'Övrigt';
-    perKat[k] = (perKat[k] ?? 0) + h;
-    total += h;
-    seenDays.add(row.date);
-  }
-
-  const perKatList = Object.entries(perKat)
-    .map(([kat, timmar]) => ({ kat, timmar: Math.round(timmar * 10) / 10 }))
-    .sort((a, b) => b.timmar - a.timmar);
-
-  return {
-    total: Math.round(total * 10) / 10,
-    dagar: seenDays.size,
-    vecka: getWeekNumber(),
-    perKat: perKatList,
-  };
-}
-
-export async function getWeekTimeCalendar(userId: string) {
-  const dagar = emptyWeekCalendar();
-  const rows = await getAllTimeEntries(userId);
-  const monday = getMonday();
-  const sunday = new Date(monday);
-  sunday.setDate(sunday.getDate() + 6);
-
-  for (const row of rows) {
-    const d = parseDateOnly(row.date);
-    if (d < monday || d > sunday) continue;
-    const slot = dagar.find((x) => x.datum === row.date);
-    if (!slot) continue;
-    slot.timmar += row.hoursWorked;
-    slot.pass += 1;
-  }
-
-  for (const d of dagar) {
-    d.timmar = Math.round(d.timmar * 10) / 10;
-  }
-
-  return { dagar, vecka: getWeekNumber() };
-}
-
-function toTimeEntryLike(row: TimeEntryRow): TimeEntryLike {
+function toTimeEntryLike(row: {
+  date: string;
+  clockIn: string;
+  clockOut: string | null;
+  category: string;
+  breakMinutes: number;
+  scopePercent: number;
+  hoursWorked: number;
+}): TimeEntryLike {
   return {
     date: row.date,
     clockIn: row.clockIn,
@@ -401,22 +97,9 @@ function toTimeEntryLike(row: TimeEntryRow): TimeEntryLike {
   };
 }
 
-export async function getWeekFlexDetail(
-  userId: string,
-  referenceDate = new Date(),
-): Promise<WeekFlexDetail> {
-  const rows = await getAllTimeEntries(userId);
-  return computeWeekFlexDetail(rows.map(toTimeEntryLike), referenceDate);
-}
+// ─── Economy Profile ─────────────────────────────────────────────────────────
 
-/** @deprecated flexTarget ignoreras — veckomål från payTimeRules (jämn/ojämn ISO-vecka). */
-export async function getFlexHoursRemaining(userId: string, _flexTarget?: number) {
-  const detail = await getWeekFlexDetail(userId);
-  return detail.flexLeft;
-}
-
-// ─── Economy profile (extended) ─────────────────────────────────────────────
-
+/** Hämtar (eller returnerar default) den utökade ekonomiprofilen. */
 export async function getEconomyProfileExtended(userId: string) {
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
   const snap = await getDoc(ref);
@@ -427,7 +110,7 @@ export async function getEconomyProfileExtended(userId: string) {
       monthlySalarySek: 0,
       hourlyRateSek: 0,
       flexHoursTarget: 40,
-      defaultBreakMinutes: DEFAULT_BREAK_MINUTES,
+      defaultBreakMinutes: 30,
     };
   }
   const data = snap.data();
@@ -437,10 +120,11 @@ export async function getEconomyProfileExtended(userId: string) {
     monthlySalarySek: Number(data.monthlySalarySek ?? 0),
     hourlyRateSek: Number(data.hourlyRateSek ?? 0),
     flexHoursTarget: Number(data.flexHoursTarget ?? 40),
-    defaultBreakMinutes: Number(data.defaultBreakMinutes ?? DEFAULT_BREAK_MINUTES),
+    defaultBreakMinutes: Number(data.defaultBreakMinutes ?? 30),
   };
 }
 
+/** Sparar (merge) den utökade ekonomiprofilen. */
 export async function setEconomyProfileExtended(
   userId: string,
   profile: {
@@ -466,7 +150,7 @@ export async function setEconomyProfileExtended(
   );
 }
 
-// ─── Economy ledger ─────────────────────────────────────────────────────────
+// ─── Economy Ledger (transaktionslogg) ───────────────────────────────────────
 
 function mapLedger(id: string, data: FirestorePayload, userId: string): EconomyLedgerRow {
   return {
@@ -483,6 +167,7 @@ function mapLedger(id: string, data: FirestorePayload, userId: string): EconomyL
   };
 }
 
+/** Lägger till en ny ledger-transaktion. */
 export async function addEconomyLedgerEntry(
   userId: string,
   entry: {
@@ -499,6 +184,7 @@ export async function addEconomyLedgerEntry(
   return docRef.id;
 }
 
+/** Raderar en ledger-transaktion (ägarverifiering). */
 export async function deleteEconomyLedgerEntry(userId: string, entryId: string) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_ledger);
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_ledger, entryId);
@@ -507,6 +193,7 @@ export async function deleteEconomyLedgerEntry(userId: string, entryId: string) 
   await deleteDoc(ref);
 }
 
+/** Hämtar ledger-transaktioner, nyast först. */
 export async function getEconomyLedgerEntries(userId: string, limit = 100): Promise<EconomyLedgerRow[]> {
   const ref = collection(db, FIRESTORE_COLLECTIONS.economy_ledger);
   const snap = await getDocs(ownerScopedQuery(ref, userId));
@@ -516,6 +203,7 @@ export async function getEconomyLedgerEntries(userId: string, limit = 100): Prom
     .slice(0, limit);
 }
 
+/** Inkomst/utgift-summering för innevarande månad. */
 export async function getMonthEconomySummary(userId: string) {
   const now = new Date();
   const month = now.getMonth();
@@ -547,6 +235,7 @@ export async function getMonthEconomySummary(userId: string) {
   };
 }
 
+/** Löneperiodsummering (inkomst, fasta utgifter, flex). */
 export async function getPeriodEconomySummary(
   userId: string,
   period?: { from: string; to: string },
@@ -578,11 +267,16 @@ export async function getPeriodEconomySummary(
   });
 }
 
+/**
+ * Ekonomiöversikt: lön, fasta kostnader, saldo, rörliga kostnader och flex.
+ * Hämtar tidsposter via den godkända läsgränsen från arbetslivFirestore.
+ */
 export async function getEconomyOverview(userId: string) {
-  const [profile, bills, ledger] = await Promise.all([
+  const [profile, bills, ledger, timeRows] = await Promise.all([
     getEconomyProfileExtended(userId),
     getEconomyFixedBills(userId),
     getEconomyLedgerEntries(userId, 500),
+    getAllTimeEntriesForEconomyReadOnly(userId),
   ]);
 
   const fastaSumma = bills.reduce((s, b) => s + b.amountSek, 0);
@@ -603,9 +297,7 @@ export async function getEconomyOverview(userId: string) {
   const lon = profile.monthlySalarySek;
   const saldo = Math.round(lon - fastaSumma - appUtgifter + appInkomster);
 
-  const flexDetail = computeWeekFlexDetail(
-    (await getAllTimeEntries(userId)).map(toTimeEntryLike),
-  );
+  const flexDetail = computeWeekFlexDetail(timeRows.map(toTimeEntryLike));
 
   return {
     lon,
@@ -621,7 +313,7 @@ export async function getEconomyOverview(userId: string) {
   };
 }
 
-// ─── Fixed bills ────────────────────────────────────────────────────────────
+// ─── Fixed bills (fasta utgifter) ────────────────────────────────────────────
 
 function mapFixedBill(id: string, data: FirestorePayload, userId: string): EconomyFixedBillRow {
   return {
@@ -635,12 +327,14 @@ function mapFixedBill(id: string, data: FirestorePayload, userId: string): Econo
   };
 }
 
+/** Hämtar alla fasta utgifter. */
 export async function getEconomyFixedBills(userId: string): Promise<EconomyFixedBillRow[]> {
   const ref = collection(db, FIRESTORE_COLLECTIONS.economy_fixed_bills);
   const snap = await getDocs(ownerScopedQuery(ref, userId));
   return snap.docs.map((d) => mapFixedBill(d.id, d.data() as FirestorePayload, userId));
 }
 
+/** Skapar eller uppdaterar en fast utgift. */
 export async function setEconomyFixedBill(
   userId: string,
   bill: { id?: string; name: string; amountSek: number },
@@ -660,6 +354,7 @@ export async function setEconomyFixedBill(
   return docRef.id;
 }
 
+/** Raderar en fast utgift (ägarverifiering). */
 export async function deleteEconomyFixedBill(userId: string, billId: string) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_fixed_bills);
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_fixed_bills, billId);
@@ -668,7 +363,7 @@ export async function deleteEconomyFixedBill(userId: string, billId: string) {
   await deleteDoc(ref);
 }
 
-// ─── Budget savings ─────────────────────────────────────────────────────────
+// ─── Budget Savings (sparmål) ────────────────────────────────────────────────
 
 function mapSavings(id: string, data: FirestorePayload, userId: string): BudgetSavingsRow {
   const tagRaw = data.tag;
@@ -687,12 +382,14 @@ function mapSavings(id: string, data: FirestorePayload, userId: string): BudgetS
   };
 }
 
+/** Hämtar alla sparmål. */
 export async function getBudgetSavings(userId: string): Promise<BudgetSavingsRow[]> {
   const ref = collection(db, FIRESTORE_COLLECTIONS.budget_savings);
   const snap = await getDocs(ownerScopedQuery(ref, userId));
   return snap.docs.map((d) => mapSavings(d.id, d.data() as FirestorePayload, userId));
 }
 
+/** Skapar eller uppdaterar ett sparmål. */
 export async function setBudgetSaving(
   userId: string,
   goal: {
@@ -729,6 +426,7 @@ export async function setBudgetSaving(
   return docRef.id;
 }
 
+/** Raderar ett sparmål (ägarverifiering). */
 export async function deleteBudgetSaving(userId: string, goalId: string) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.budget_savings);
   const ref = doc(db, FIRESTORE_COLLECTIONS.budget_savings, goalId);
@@ -737,7 +435,7 @@ export async function deleteBudgetSaving(userId: string, goalId: string) {
   await deleteDoc(ref);
 }
 
-// ─── Payslip snapshots (WORM — läs via klient, skriv via generatePayslip) ───
+// ─── Payslip snapshots (WORM — läs via klient, skriv via generatePayslip) ────
 
 function mapPayslipSnapshot(id: string, data: FirestorePayload, userId: string): PayslipSnapshotRow {
   return {
@@ -768,6 +466,7 @@ function mapPayslipSnapshot(id: string, data: FirestorePayload, userId: string):
   };
 }
 
+/** Hämtar den senaste låsta lönespecifikationen (WORM-läsning). */
 export async function getLatestPayslipSnapshot(userId: string): Promise<PayslipSnapshotRow | null> {
   const ref = collection(db, FIRESTORE_COLLECTIONS.payslip_snapshots);
   const snap = await getDocs(ownerScopedQuery(ref, userId));
@@ -778,13 +477,7 @@ export async function getLatestPayslipSnapshot(userId: string): Promise<PayslipS
   return rows[0] ?? null;
 }
 
-// ─── Impulse parking (24h rule) ─────────────────────────────────────────────
-
-const DEFAULT_MEAL_PREP: EconomyMealPrepItem[] = [
-  { id: '1', text: 'Ugnsrostad kyckling (Dopamin-prekursor)', done: false },
-  { id: '2', text: 'Kokt broccoli & spenat (Anti-inflammatoriskt)', done: false },
-  { id: '3', text: 'Matlådor portionerade i kyl/frys', done: false },
-];
+// ─── Impulse Parking (24h-regeln) ────────────────────────────────────────────
 
 function mapImpulse(id: string, data: FirestorePayload, userId: string): EconomyImpulseRow {
   const statusRaw = data.status;
@@ -803,6 +496,7 @@ function mapImpulse(id: string, data: FirestorePayload, userId: string): Economy
   };
 }
 
+/** Hämtar alla parkerade impulsinköp. */
 export async function getEconomyImpulseQueue(userId: string): Promise<EconomyImpulseRow[]> {
   const ref = collection(db, FIRESTORE_COLLECTIONS.economy_impulse_queue);
   const snap = await getDocs(ownerScopedQuery(ref, userId));
@@ -812,6 +506,7 @@ export async function getEconomyImpulseQueue(userId: string): Promise<EconomyImp
     .sort((a, b) => b.parkedAt.localeCompare(a.parkedAt));
 }
 
+/** Parkerar ett potentiellt impulsinköp med 24h påminnelse. */
 export async function parkEconomyImpulse(userId: string, label: string) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_impulse_queue);
   const now = new Date();
@@ -830,6 +525,7 @@ export async function parkEconomyImpulse(userId: string, label: string) {
   return docRef.id;
 }
 
+/** Markerar ett impulsinköp som köpt eller hoppat. */
 export async function resolveEconomyImpulse(
   userId: string,
   impulseId: string,
@@ -842,6 +538,7 @@ export async function resolveEconomyImpulse(
   await updateDoc(ref, { status, updatedAt: serverTimestamp() });
 }
 
+/** Raderar ett impulsinköp permanent. */
 export async function deleteEconomyImpulse(userId: string, impulseId: string) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_impulse_queue);
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_impulse_queue, impulseId);
@@ -850,8 +547,15 @@ export async function deleteEconomyImpulse(userId: string, impulseId: string) {
   await deleteDoc(ref);
 }
 
-// ─── Neuro-Kost meal prep (economy_profiles) ────────────────────────────────
+// ─── Neuro-Kost meal prep (economy_profiles) ─────────────────────────────────
 
+const DEFAULT_MEAL_PREP: EconomyMealPrepItem[] = [
+  { id: '1', text: 'Ugnsrostad kyckling (Dopamin-prekursor)', done: false },
+  { id: '2', text: 'Kokt broccoli & spenat (Anti-inflammatoriskt)', done: false },
+  { id: '3', text: 'Matlådor portionerade i kyl/frys', done: false },
+];
+
+/** Hämtar (eller returnerar default) matlådelistan. */
 export async function getEconomyMealPrep(userId: string): Promise<EconomyMealPrepItem[]> {
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
   const snap = await getDoc(ref);
@@ -870,6 +574,7 @@ export async function getEconomyMealPrep(userId: string): Promise<EconomyMealPre
   });
 }
 
+/** Sparar matlådelistan. */
 export async function setEconomyMealPrep(userId: string, items: EconomyMealPrepItem[]) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_profiles);
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
@@ -885,7 +590,7 @@ export async function setEconomyMealPrep(userId: string, items: EconomyMealPrepI
   );
 }
 
-// ─── Manual envelope budgets (`budgets` collection) ─────────────────────────
+// ─── Budget envelopes (kuvert) ───────────────────────────────────────────────
 
 function mapBudgetEnvelope(id: string, data: FirestorePayload, userId: string): BudgetEnvelopeRow {
   return {
@@ -900,12 +605,14 @@ function mapBudgetEnvelope(id: string, data: FirestorePayload, userId: string): 
   };
 }
 
+/** Hämtar alla budgetkuvert. */
 export async function getBudgetEnvelopes(userId: string): Promise<BudgetEnvelopeRow[]> {
   const ref = collection(db, FIRESTORE_COLLECTIONS.budgets);
   const snap = await getDocs(ownerScopedQuery(ref, userId));
   return snap.docs.map((d) => mapBudgetEnvelope(d.id, d.data() as FirestorePayload, userId));
 }
 
+/** Skapar eller uppdaterar ett budgetkuvert. */
 export async function setBudgetEnvelope(
   userId: string,
   envelope: {
@@ -938,6 +645,7 @@ export async function setBudgetEnvelope(
   return docRef.id;
 }
 
+/** Raderar ett budgetkuvert (ägarverifiering). */
 export async function deleteBudgetEnvelope(userId: string, envelopeId: string) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.budgets);
   const ref = doc(db, FIRESTORE_COLLECTIONS.budgets, envelopeId);

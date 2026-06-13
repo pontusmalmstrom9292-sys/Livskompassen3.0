@@ -6,12 +6,12 @@ import { useStore } from '@/core/store';
 import { StampClockControls } from '@/features/admin/stampla/components/StampClockControls';
 import { useStampClock } from '@/features/admin/stampla/hooks/useStampClock';
 import {
-  getEconomyProfileExtended,
   getOpenTimeEntry,
   getTodayTimeStatus,
   getWeekFlexDetail,
   getWeekTimeStats,
-} from '@/core/firebase/timeEconomyFirestore';
+} from '@/core/firebase/arbetslivFirestore';
+import { getEconomyProfileExtended } from '@/core/firebase/economyFirestore';
 import { WorkWeekSummary } from './WorkWeekSummary';
 import { EKONOMI_TID_LEAD } from '../ekonomiCopy';
 

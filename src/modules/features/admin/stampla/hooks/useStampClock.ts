@@ -6,7 +6,7 @@ import {
   recordTimeIn,
   recordTimeOut,
   repairOpenTimeEntryFlags,
-} from '@/core/firebase/timeEconomyFirestore';
+} from '@/core/firebase/arbetslivFirestore';
 
 export function useStampClock(userId: string | undefined) {
   const [status, setStatus] = useState({

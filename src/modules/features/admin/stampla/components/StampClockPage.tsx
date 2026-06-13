@@ -16,7 +16,7 @@ import {
   recordTimeIn,
   recordTimeOut,
   repairOpenTimeEntryFlags,
-} from '@/core/firebase/timeEconomyFirestore';
+} from '@/core/firebase/arbetslivFirestore';
 
 const CATEGORIES = ['Arbete', 'Semester', 'VAB', 'Sjuk', 'Sjuk dag 15+'] as const;
 

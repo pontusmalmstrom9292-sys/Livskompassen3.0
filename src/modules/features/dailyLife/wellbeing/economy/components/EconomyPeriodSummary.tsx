@@ -1,6 +1,6 @@
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { MetricTile } from '@/core/ui/MetricTile';
-import type { PeriodEconomySummary } from '@/core/firebase/timeEconomyFirestore';
+import type { PeriodEconomySummary } from '@/core/firebase/economyFirestore';
 
 type EconomyPeriodSummaryProps = {
   summary: PeriodEconomySummary | null;

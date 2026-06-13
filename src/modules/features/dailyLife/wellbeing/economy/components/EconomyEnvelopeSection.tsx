@@ -7,7 +7,7 @@ import {
   deleteBudgetEnvelope,
   getBudgetEnvelopes,
   setBudgetEnvelope,
-} from '@/core/firebase/timeEconomyFirestore';
+} from '@/core/firebase/economyFirestore';
 import type { BudgetEnvelopeRow } from '@/core/types/firestore';
 import { envelopeRemaining } from '../rules/budgetTemplates';
 

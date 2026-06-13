@@ -6,7 +6,7 @@ import {
   getEconomyImpulseQueue,
   parkEconomyImpulse,
   resolveEconomyImpulse,
-} from '@/core/firebase/timeEconomyFirestore';
+} from '@/core/firebase/economyFirestore';
 import { EKONOMI_IMPULS_LEAD } from '../ekonomiCopy';
 
 export function EconomyImpulsePanel() {

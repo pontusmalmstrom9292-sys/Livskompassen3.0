@@ -4,7 +4,7 @@ import { httpsCallable } from 'firebase/functions';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { functions } from '@/core/firebase/init';
 import { useStore } from '@/core/store';
-import { getLatestPayslipSnapshot } from '@/core/firebase/timeEconomyFirestore';
+import { getLatestPayslipSnapshot } from '@/core/firebase/economyFirestore';
 import type { PayslipSnapshotRow } from '@/core/types/firestore';
 
 export function EconomyPayslipCard() {

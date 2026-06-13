@@ -7,7 +7,7 @@ import {
   deleteBudgetSaving,
   getBudgetSavings,
   setBudgetSaving,
-} from '@/core/firebase/timeEconomyFirestore';
+} from '@/core/firebase/economyFirestore';
 import type { BudgetSavingsRow } from '@/core/types/firestore';
 
 type Props = {
