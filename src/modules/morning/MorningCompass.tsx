@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useMorningCompassStore } from './morningStore';
 import { useStore } from '../core/store';
-import { Compass, Trash2, Loader2, CheckCircle2 } from 'lucide-react';
+import { Compass, Trash2, Loader2, CheckCircle2, Sparkles } from 'lucide-react';
 import { PageSkeleton } from '../../components/layout/PageSkeleton';
 
 export function MorningCompass() {
@@ -12,6 +12,8 @@ export function MorningCompass() {
     clearFocusPoints,
     fetchFocusPoints,
     saveFocusPoints,
+    fetchLatestInsight,
+    latestInsight,
     isLoading
   } = useMorningCompassStore();
 
@@ -20,9 +22,12 @@ export function MorningCompass() {
 
   useEffect(() => {
     if (user?.uid) {
-      fetchFocusPoints(user.uid).then(() => setHasMounted(true));
+      Promise.all([
+        fetchFocusPoints(user.uid),
+        fetchLatestInsight(user.uid)
+      ]).then(() => setHasMounted(true));
     }
-  }, [user?.uid, fetchFocusPoints]);
+  }, [user?.uid, fetchFocusPoints, fetchLatestInsight]);
 
   // Debounced auto-save
   useEffect(() => {
@@ -41,6 +46,25 @@ export function MorningCompass() {
   if (isLoading && !hasMounted) {
     return <PageSkeleton />;
   }
+
+  const getTodayWeekday = () => {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return days[new Date().getDay()];
+  };
+
+  const todayProtocol = latestInsight?.dailyProtocols?.[getTodayWeekday()];
+  // Om det finns ett specifikt protokoll som inte är standard
+  const shouldSuggestProtocol = todayProtocol && !todayProtocol.toLowerCase().includes('standard');
+
+  const applyProtocol = () => {
+    if (!shouldSuggestProtocol) return;
+    const emptyIndex = threeFocusPoints.findIndex(p => p.trim() === '');
+    if (emptyIndex !== -1) {
+      setFocusPoint(emptyIndex, todayProtocol);
+    } else {
+      setFocusPoint(0, todayProtocol); // Överskriv första om alla är fulla
+    }
+  };
 
   return (
     <div className="w-full min-h-[80vh] flex flex-col items-center p-4 sm:p-6 md:p-8 animate-fade-in">
@@ -63,6 +87,25 @@ export function MorningCompass() {
           <h1 className="text-3xl font-light tracking-wide text-white/90">Morgonkompassen</h1>
           <p className="text-sm text-white/50 font-light">Dina 3 viktigaste saker idag. Inget mer.</p>
         </div>
+
+        {/* Proaktiv Insikt Banner */}
+        {shouldSuggestProtocol && (
+          <div className="mt-6 p-4 rounded-xl bg-indigo-900/20 border border-indigo-500/20 backdrop-blur-sm animate-fade-in flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+            <div className="flex items-start gap-3">
+              <Sparkles className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm text-indigo-200 font-medium">Mönster-Arkivarien noterar</p>
+                <p className="text-xs text-indigo-200/70 mt-1">Rekommendation idag: {todayProtocol}</p>
+              </div>
+            </div>
+            <button
+              onClick={applyProtocol}
+              className="text-xs px-3 py-1.5 rounded-lg bg-indigo-500/20 text-indigo-200 hover:bg-indigo-500/30 transition-colors whitespace-nowrap"
+            >
+              Applicera
+            </button>
+          </div>
+        )}
 
         {/* Cards */}
         <div className="space-y-4 mt-8">

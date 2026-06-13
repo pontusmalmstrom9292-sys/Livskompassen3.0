@@ -86,9 +86,19 @@ Schema:
     }
   ],
   "focusVsSentiment": "Korrelation mellan fokus och mående",
-  "actionableAdvice": "Kort, sakligt råd (inga klyschor, ingen JADE)"
+  "actionableAdvice": "Kort, sakligt råd (inga klyschor, ingen JADE)",
+  "dailyProtocols": {
+    "Monday": "Exempelvis: Low-Energy Protocol om måndagar är tunga, annars Standard",
+    "Tuesday": "Standard",
+    "Wednesday": "Standard",
+    "Thursday": "Standard",
+    "Friday": "Standard",
+    "Saturday": "Recovery Protocol",
+    "Sunday": "Planning Protocol"
+  }
 }
-Ingen förklaring utanför JSON. Svara på svenska.`;
+Ingen förklaring utanför JSON. Svara på svenska.
+Se till att använda de engelska veckodagarna (Monday, Tuesday etc.) som nycklar i dailyProtocols.`;
 
 export const MONSTER_ARKIVARIEN_BARNEN_SYSTEM_PROMPT = `Du är Mönster-Arkivarien för Familjen · Livsloggar (Barnen-silo, G8).
 Analysera ENDAST given kontext från children_logs. Neutral BBIC-inspirerad dokumentation — ingen Valv-ton, ingen gaslighting-analys, ingen JADE, ingen Grey Rock mot ex.

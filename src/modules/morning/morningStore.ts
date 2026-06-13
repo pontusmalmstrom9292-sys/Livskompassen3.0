@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, setDoc, serverTimestamp, collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 import { db } from '../../core/firebase/firestore';
 
 interface MorningCompassState {
@@ -7,10 +7,13 @@ interface MorningCompassState {
   isLoading: boolean;
   isSaving: boolean;
   error: string | null;
+  latestInsight: any | null;
+  isLoadingInsight: boolean;
   setFocusPoint: (index: number, value: string) => void;
   clearFocusPoints: (ownerId?: string) => Promise<void>;
   fetchFocusPoints: (ownerId: string) => Promise<void>;
   saveFocusPoints: (ownerId: string) => Promise<void>;
+  fetchLatestInsight: (ownerId: string) => Promise<void>;
 }
 
 export const useMorningCompassStore = create<MorningCompassState>((set, get) => ({
@@ -18,6 +21,30 @@ export const useMorningCompassStore = create<MorningCompassState>((set, get) => 
   isLoading: false,
   isSaving: false,
   error: null,
+  latestInsight: null,
+  isLoadingInsight: false,
+
+  fetchLatestInsight: async (ownerId: string) => {
+    set({ isLoadingInsight: true, error: null });
+    try {
+      const insightsRef = collection(db, 'insight_summaries');
+      const q = query(
+        insightsRef,
+        where('ownerId', '==', ownerId),
+        orderBy('createdAt', 'desc'),
+        limit(1)
+      );
+      const snap = await getDocs(q);
+      if (!snap.empty) {
+        set({ latestInsight: snap.docs[0].data() });
+      } else {
+        set({ latestInsight: null });
+      }
+      set({ isLoadingInsight: false });
+    } catch (err) {
+      set({ error: (err as Error).message, isLoadingInsight: false });
+    }
+  },
 
   setFocusPoint: (index, value) =>
     set((state) => {
