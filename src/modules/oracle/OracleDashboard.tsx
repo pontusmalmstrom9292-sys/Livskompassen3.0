@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ProtectedModule } from '../../components/layout/ProtectedModule';
 import { useStore } from '../core/store';
 import { useOracleStore } from './OracleStore';
-import type { OracleDataPoint } from './OracleStore';
+import { useOracleMetrics } from './hooks/useOracleMetrics';
+import type { OracleMetricPoint } from './hooks/useOracleMetrics';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 
 import { PageSkeleton } from '../../components/layout/PageSkeleton';
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
-    const data = payload[0].payload as OracleDataPoint;
+    const data = payload[0].payload as OracleMetricPoint;
     return (
       <div className="bg-gray-900/95 border border-white/10 p-4 rounded-xl shadow-2xl backdrop-blur-md max-w-[280px] sm:max-w-xs relative z-[100]">
         <p className="font-semibold text-gray-100 mb-2">{label}</p>
@@ -33,6 +34,23 @@ const CustomTooltip = ({ active, payload, label }: any) => {
               </p>
             </div>
           ) : null}
+          {data.totalHoursWorked !== undefined && data.totalHoursWorked > 0 && (
+            <p className="text-sm font-medium text-amber-300 pt-1">
+              Arbetad tid: {data.totalHoursWorked}h
+            </p>
+          )}
+          {data.conflictCount !== undefined && data.conflictCount > 0 && (
+            <p className="text-sm font-medium text-red-400">
+              Konflikter loggade: {data.conflictCount}
+            </p>
+          )}
+          {data.isHighRiskCorrelation && (
+            <div className="mt-2 bg-red-500/10 p-2 rounded border border-red-500/20">
+              <p className="text-xs font-bold text-red-500">
+                ⚠️ Varning: Övertid/Konflikt vid hög stress
+              </p>
+            </div>
+          )}
         </div>
         {data.label && (
           <div className="mt-3 pt-3 border-t border-white/10">
@@ -62,7 +80,22 @@ const MabraDot = (props: any) => {
   return <circle cx={cx} cy={cy} r={3} stroke="#4ade80" strokeWidth={1} fill="#020617" />;
 };
 
-const QuickIntervention = ({ latestDataPoint }: { latestDataPoint: OracleDataPoint | null }) => {
+const RiskDot = (props: any) => {
+  const { cx, cy, payload } = props;
+  
+  if (payload?.isHighRiskCorrelation) {
+    return (
+      <g>
+        <circle cx={cx} cy={cy} r={10} fill="#ef4444" opacity={0.3} className="animate-pulse" />
+        <circle cx={cx} cy={cy} r={5} fill="#ef4444" stroke="#020617" strokeWidth={2} />
+      </g>
+    );
+  }
+  
+  return <circle cx={cx} cy={cy} r={3} fill="#f87171" stroke="#020617" strokeWidth={1} />;
+};
+
+const QuickIntervention = ({ latestDataPoint }: { latestDataPoint: OracleMetricPoint | null }) => {
   const [dismissedDate, setDismissedDate] = useState<string | null>(null);
 
   if (!latestDataPoint) return null;
@@ -91,11 +124,12 @@ const QuickIntervention = ({ latestDataPoint }: { latestDataPoint: OracleDataPoi
   );
 };
 
-const ActionableInsights = ({ latestDataPoint }: { latestDataPoint: OracleDataPoint | null }) => {
+const ActionableInsights = ({ latestDataPoint, allData }: { latestDataPoint: OracleMetricPoint | null, allData: OracleMetricPoint[] }) => {
   if (!latestDataPoint) return null;
 
   const { actionableAdvice, weeklySummary, detectedPatterns } = latestDataPoint;
-  const hasInsights = actionableAdvice || weeklySummary || (detectedPatterns && detectedPatterns.length > 0);
+  const hasHighRisk = allData.some(d => d.isHighRiskCorrelation);
+  const hasInsights = actionableAdvice || weeklySummary || (detectedPatterns && detectedPatterns.length > 0) || hasHighRisk;
 
   if (!hasInsights) return null;
 
@@ -156,19 +190,33 @@ const ActionableInsights = ({ latestDataPoint }: { latestDataPoint: OracleDataPo
           </ul>
         </div>
       )}
+
+      {/* High Risk Correlation Insight */}
+      {hasHighRisk && (
+        <div className="bg-red-500/10 rounded-xl p-5 border border-red-500/20 mt-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-red-500/5 to-transparent pointer-events-none" />
+          <h3 className="text-lg font-semibold text-red-400 mb-2 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            Kritisk Korrelation Upptäckt
+          </h3>
+          <p className="text-red-200/80 leading-relaxed text-sm">
+            Vi ser ett mönster av extrem stress de dagar du arbetar mer än 8 timmar eller loggar konflikter. Överväg att implementera 'Grey Rock' eller att aktivt korta ner arbetspasset när du märker att energin dippar.
+          </p>
+        </div>
+      )}
     </section>
   );
 };
 
 export default function OracleDashboard() {
   const user = useStore(s => s.user);
-  const { dataPoints, isLoading, error, fetchOracleData, mockLoad } = useOracleStore();
+  const { mockLoad, dataPoints: mockDataPoints } = useOracleStore();
+  const { dataPoints: hookDataPoints, isLoading, error } = useOracleMetrics(user?.uid);
+  const [useMock, setUseMock] = useState(false);
 
-  useEffect(() => {
-    if (user?.uid) {
-      fetchOracleData(user.uid);
-    }
-  }, [user?.uid, fetchOracleData]);
+  const dataPoints = useMock ? (mockDataPoints as OracleMetricPoint[]) : hookDataPoints;
 
   if (isLoading) {
     return <PageSkeleton />;
@@ -196,7 +244,10 @@ export default function OracleDashboard() {
               </div>
               {import.meta.env.DEV && (
                 <button
-                  onClick={mockLoad}
+                  onClick={() => {
+                    mockLoad();
+                    setUseMock(true);
+                  }}
                   className="px-3 py-1.5 text-xs font-medium bg-white/5 hover:bg-white/10 border border-white/10 rounded-md transition-colors text-gray-400 hover:text-white"
                 >
                   Simulera Data (Dev)
@@ -235,14 +286,14 @@ export default function OracleDashboard() {
                     wrapperStyle={{ zIndex: 100 }}
                   />
                   <Area type="monotone" dataKey="capacity" name="Kapacitet" stroke="#4ade80" fillOpacity={1} fill="url(#colorCapacity)" dot={<MabraDot />} activeDot={{ r: 8 }} />
-                  <Area type="monotone" dataKey="stressLevel" name="Stress" stroke="#f87171" fillOpacity={1} fill="url(#colorStress)" />
+                  <Area type="monotone" dataKey="stressLevel" name="Stress" stroke="#f87171" fillOpacity={1} fill="url(#colorStress)" dot={<RiskDot />} activeDot={{ r: 8 }} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
-            <QuickIntervention latestDataPoint={latestDataPoint} />
+            <QuickIntervention latestDataPoint={latestDataPoint as OracleMetricPoint} />
           </section>
 
-          <ActionableInsights latestDataPoint={latestDataPoint} />
+          <ActionableInsights latestDataPoint={latestDataPoint as OracleMetricPoint} allData={dataPoints as OracleMetricPoint[]} />
         </div>
       </div>
     </ProtectedModule>
