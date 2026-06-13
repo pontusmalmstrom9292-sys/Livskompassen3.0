@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ProtectedModule } from '../../components/layout/ProtectedModule';
 import { useAuthStore } from '../core/auth/authStore';
 import { useOracleStore } from './OracleStore';
@@ -32,6 +32,35 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
+const QuickIntervention = ({ latestDataPoint }: { latestDataPoint: any }) => {
+  const [dismissedDate, setDismissedDate] = useState<string | null>(null);
+
+  if (!latestDataPoint) return null;
+  
+  const isCritical = latestDataPoint.stressLevel > 85;
+  const isDismissed = dismissedDate === latestDataPoint.date;
+
+  if (!isCritical || isDismissed) return null;
+
+  return (
+    <div className="mt-6 bg-[#020617] border border-white/10 rounded-xl p-6 relative">
+      <button 
+        onClick={() => setDismissedDate(latestDataPoint.date)}
+        className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+        aria-label="Stäng"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <h3 className="text-lg font-semibold text-[#FDE68A] mb-2">Behöver uppmärksamhet</h3>
+      <p className="text-gray-300">
+        Vagusnervåterställning: Prova 3 minuters djupt nynnande eller kallt vattenstänk.
+      </p>
+    </div>
+  );
+};
+
 export default function OracleDashboard() {
   const { user } = useAuthStore();
   const { dataPoints, isLoading, error, fetchOracleData, mockLoad } = useOracleStore();
@@ -53,6 +82,8 @@ export default function OracleDashboard() {
       </div>
     );
   }
+
+  const latestDataPoint = dataPoints && dataPoints.length > 0 ? dataPoints[dataPoints.length - 1] : null;
 
   return (
     <ProtectedModule>
@@ -109,6 +140,7 @@ export default function OracleDashboard() {
                 </AreaChart>
               </ResponsiveContainer>
             </div>
+            <QuickIntervention latestDataPoint={latestDataPoint} />
           </section>
         </div>
       </div>

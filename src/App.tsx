@@ -7,6 +7,7 @@ import { useBarnportenWebManifest } from '@/features/onboarding/barnporten/hooks
 import { ToastContainer } from './modules/core/ui/ToastContainer';
 import { SOSOverlay } from './modules/features/sos/components/SOSOverlay';
 import { QuickCaptureOverlay } from './modules/features/voiceToVault/components/QuickCaptureOverlay';
+import { LayoutShell } from './components/LayoutShell';
 
 function AppShell() {
   useZeroFootprint();
@@ -16,7 +17,9 @@ function AppShell() {
     <AppUnlockGate>
       <WidgetDeepLinkBridge />
       <QuickCaptureOverlay />
-      <AppRoutes />
+      <LayoutShell>
+        <AppRoutes />
+      </LayoutShell>
     </AppUnlockGate>
   );
 }
