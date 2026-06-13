@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useStore } from '@/core/store';
-import { getPeriodEconomySummary, type PeriodEconomySummary } from '@/core/firebase/timeEconomyFirestore';
+import { getPeriodEconomySummary, type PeriodEconomySummary } from '@/core/firebase/economyFirestore';
 import { HamnForensicPanel } from '@/features/family/safeHarbor/components/BiffPublicPanel';
 import { DagbokSuperModule } from '@/features/lifeJournal/diary/diary/components/DagbokSuperModule';
 import { SpeglarSuperModule } from '@/features/lifeJournal/diary/mirror';

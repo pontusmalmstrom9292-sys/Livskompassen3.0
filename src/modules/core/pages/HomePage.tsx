@@ -20,7 +20,7 @@ import {
   deleteUserWidget,
   saveUserWidget,
 } from '../firebase/firestore';
-import { getBudgetSavings, setBudgetSaving } from '../firebase/timeEconomyFirestore';
+import { getBudgetSavings, setBudgetSaving } from '../firebase/economyFirestore';
 
 const demoSeedKey = (uid: string) => `lk_home_widgets_seeded_${uid}`;
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Clock, PiggyBank, ListTodo, FileText, Check, Trash2, Loader2 } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
-import { getBudgetSavings } from '@/core/firebase/timeEconomyFirestore';
+import { getBudgetSavings } from '@/core/firebase/economyFirestore';
 import type { BudgetSavingsRow } from '@/core/types/firestore';
 
 export type WidgetType = 'countdown' | 'checklist' | 'linked_savings' | 'quick_note';
