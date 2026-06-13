@@ -223,6 +223,29 @@ export async function persistKunskapFromInbox(
   });
 }
 
+export async function persistPlaneringFromInbox(input: {
+  ownerId: string;
+  classification: InboxClassification;
+  analysisText: string;
+}): Promise<{ docId: string; created: boolean }> {
+  const db = admin.firestore();
+  
+  const titleRaw = input.classification.summary || input.analysisText;
+  const title = titleRaw.slice(0, 200).replace(/\n/g, ' ').trim() || 'Ny uppgift';
+  
+  const docRef = await db.collection('planning_tasks').add({
+    userId: input.ownerId,
+    ownerId: input.ownerId,
+    title,
+    summary: input.analysisText.slice(0, 5000),
+    status: 'todo',
+    source: 'manual',
+    createdAt: admin.firestore.FieldValue.serverTimestamp(),
+  });
+
+  return { docId: docRef.id, created: true };
+}
+
 export async function routeInboxToWorm(input: {
   ownerId: string;
   fileId: string;
@@ -270,6 +293,15 @@ export async function routeInboxToWorm(input: {
       evidenceUrl,
     });
     return { action: 'persisted', collection: 'reality_vault', docId: v.docId };
+  }
+
+  if (classification.routing === 'planering') {
+    const task = await persistPlaneringFromInbox({
+      ownerId,
+      classification,
+      analysisText,
+    });
+    return { action: 'persisted', collection: 'planning_tasks', docId: task.docId };
   }
 
   if (classification.routing === 'barnen') {
@@ -368,7 +400,7 @@ export async function listPendingInboxQueue(uid: string): Promise<InboxQueueItem
 export async function confirmInboxQueueItem(input: {
   uid: string;
   queueId: string;
-  routing: 'kunskap' | 'bevis' | 'barnen' | 'dagbok';
+  routing: 'kunskap' | 'bevis' | 'barnen' | 'dagbok' | 'planering';
   childAlias?: string;
   overrideTags?: string[];
   overrideCategory?: string;

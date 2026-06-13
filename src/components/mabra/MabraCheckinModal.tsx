@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { X, Smile, Zap } from 'lucide-react';
+import { useMabraStore } from '@/modules/features/dailyLife/wellbeing/mabra/store/mabraStore';
+import { useStore } from '@/core/store';
+import { toast } from '@/modules/core/store/toastStore';
 
 interface MabraCheckinModalProps {
   isOpen: boolean;
@@ -10,12 +13,34 @@ export function MabraCheckinModal({ isOpen, onClose }: MabraCheckinModalProps) {
   const [energy, setEnergy] = useState(5);
   const [mood, setMood] = useState(5);
   const [notes, setNotes] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const user = useStore((s) => s.user);
+  const saveMabraCheckIn = useMabraStore((s) => s.saveMabraCheckIn);
 
   if (!isOpen) return null;
 
-  const handleSave = () => {
-    console.log('MåBra-incheckning sparad:', { energy, mood, notes });
-    onClose();
+  const handleSave = async () => {
+    if (!user?.uid) {
+      toast.error('Du måste vara inloggad för att spara incheckningen.');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await saveMabraCheckIn(user.uid, {
+        energy,
+        mood,
+        notes: notes.trim() || undefined,
+      });
+      toast.success('Din incheckning har sparats!');
+      onClose();
+    } catch (err) {
+      console.error('Fel vid sparning av incheckning:', err);
+      toast.error('Misslyckades att spara incheckningen. Försök igen.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -31,7 +56,8 @@ export function MabraCheckinModal({ isOpen, onClose }: MabraCheckinModalProps) {
           <h2 className="font-display-serif text-lg text-accent tracking-wide">Ny MåBra-incheckning</h2>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg bg-surface/50 border border-border/10 text-text-muted hover:text-white hover:border-border/30 transition-colors"
+            disabled={isLoading}
+            className="p-1.5 rounded-lg bg-surface/50 border border-border/10 text-text-muted hover:text-white hover:border-border/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <X className="w-4 h-4" />
           </button>
@@ -110,15 +136,17 @@ export function MabraCheckinModal({ isOpen, onClose }: MabraCheckinModalProps) {
         <div className="mt-8 flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-xl text-xs font-medium border border-border/20 text-text-muted hover:text-white hover:bg-surface-3 transition-all"
+            disabled={isLoading}
+            className="px-4 py-2 rounded-xl text-xs font-medium border border-border/20 text-text-muted hover:text-white hover:bg-surface-3 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Avbryt
           </button>
           <button
             onClick={handleSave}
-            className="px-5 py-2 rounded-xl text-xs font-semibold bg-accent hover:bg-accent-light text-obsidian-bg transition-all hover:shadow-accent-glow"
+            disabled={isLoading}
+            className="px-5 py-2 rounded-xl text-xs font-semibold bg-accent hover:bg-accent-light text-obsidian-bg transition-all hover:shadow-accent-glow disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Spara
+            {isLoading ? 'Sparar...' : 'Spara'}
           </button>
         </div>
       </div>

@@ -1,36 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ShieldCheck, Lock, History, AlertCircle } from 'lucide-react';
 import { VaultService } from '../modules/core/firebase/VaultService';
 import type { VaultRecord } from '../modules/core/firebase/VaultService';
 import { useStore } from '../modules/core/store';
-import { useVaultStore } from '../modules/core/store/useVaultStore';
 
 const VaultOverview: React.FC = () => {
   const user = useStore(state => state.user);
-  const { vaultEntries, loading, error } = useVaultStore();
+  const [vaultEntries, setVaultEntries] = useState<VaultRecord[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!user?.uid) return;
 
-    // Sätter initiellt loading state i store
-    useVaultStore.setState({ loading: true, error: null });
+    setLoading(true);
+    setError(null);
     
-    // Vi använder befintlig lyssnare men synkroniserar den till vår nya globala Zustand-store
     const unsubscribe = VaultService.initializeVaultListener(user.uid, (data: any[]) => {
-      // Mappar gammal strukturerad data (från reality_vault) till den nya strikta VaultRecord
-      const mappedEntries: VaultRecord[] = data.map(item => ({
-        id: item.id,
-        content: item.content || item.text || item.observation || item.label || 'Data saknas',
-        timestamp: item.timestamp 
-          ? (item.timestamp.toDate ? item.timestamp.toDate() : new Date(item.timestamp)) 
-          : (item.createdAt ? new Date(item.createdAt) : new Date()),
-        ownerId: item.ownerId || item.userId || user.uid
-      }));
-      
-      useVaultStore.setState({ 
-        vaultEntries: mappedEntries, 
-        loading: false 
-      });
+      try {
+        const mappedEntries: VaultRecord[] = data.map(item => ({
+          id: item.id,
+          content: item.content || item.text || item.observation || item.label || 'Data saknas',
+          timestamp: item.timestamp 
+            ? (item.timestamp.toDate ? item.timestamp.toDate() : new Date(item.timestamp)) 
+            : (item.createdAt ? new Date(item.createdAt) : new Date()),
+          ownerId: item.ownerId || item.userId || user.uid
+        }));
+        
+        setVaultEntries(mappedEntries);
+        setLoading(false);
+      } catch (err) {
+        console.error('Fel vid laddning av valvet:', err);
+        setError('Kunde inte läsa in poster från valvet.');
+        setLoading(false);
+      }
     });
 
     return () => unsubscribe();

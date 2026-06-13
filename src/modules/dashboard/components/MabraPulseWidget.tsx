@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '@/core/store';
-import { getRecentCheckIns, listMabraSessionsRecent } from '@/core/firebase/firestore';
+import { listMabraSessionsRecent } from '@/core/firebase/firestore';
+import { useMabraStore } from '@/modules/features/dailyLife/wellbeing/mabra/store/mabraStore';
 import { useMorningCompassStore } from '@/modules/morning/morningStore';
 import { Heart, CheckCircle, ArrowRight, Sparkles } from 'lucide-react';
 
 export function MabraPulseWidget() {
   const user = useStore((s) => s.user);
   const { threeFocusPoints, fetchFocusPoints } = useMorningCompassStore();
+  const latestCheckIn = useMabraStore((s) => s.latestCheckIn);
+  const fetchLatestCheckIn = useMabraStore((s) => s.fetchLatestCheckIn);
+  
   const [isCheckedIn, setIsCheckedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const [todaysActivity, setTodaysActivity] = useState<{
@@ -34,17 +38,18 @@ export function MabraPulseWidget() {
         const today = new Date();
         const todayIsoStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
 
-        const [checkins, sessions] = await Promise.all([
-          getRecentCheckIns(user.uid, 10),
+        const [_, sessions] = await Promise.all([
+          fetchLatestCheckIn(user.uid),
           listMabraSessionsRecent(user.uid, 5),
         ]);
 
-        const todaysCheckin = checkins.find((c) => {
-          if (!c.createdAt) return false;
-          const d = new Date(c.createdAt);
+        const storeCheckIn = useMabraStore.getState().latestCheckIn;
+        const todaysCheckin = storeCheckIn && (() => {
+          if (!storeCheckIn.createdAt) return null;
+          const d = new Date(storeCheckIn.createdAt);
           const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-          return dateStr === todayIsoStr;
-        });
+          return dateStr === todayIsoStr ? storeCheckIn : null;
+        })();
 
         const todaysSession = sessions.find((s) => {
           if (!s.createdAt) return false;
@@ -55,7 +60,7 @@ export function MabraPulseWidget() {
 
         setIsCheckedIn(!!todaysCheckin || !!todaysSession);
         setTodaysActivity({
-          checkIn: todaysCheckin,
+          checkIn: todaysCheckin || undefined,
           session: todaysSession,
         });
       } catch (err) {
@@ -66,7 +71,7 @@ export function MabraPulseWidget() {
     };
 
     checkStatus();
-  }, [user?.uid]);
+  }, [user?.uid, fetchLatestCheckIn]);
 
   if (!user || loading) {
     return (
@@ -80,6 +85,7 @@ export function MabraPulseWidget() {
   if (isCheckedIn) {
     const hasFocus = threeFocusPoints.some((p) => p && p.trim() !== '');
     const isMorningCompass = todaysActivity.checkIn?.questionId === 'compass_morning';
+    const isMabraCheckin = todaysActivity.checkIn?.questionId === 'mabra_checkin';
     const isMabraSession = !!todaysActivity.session;
 
     return (
@@ -94,11 +100,18 @@ export function MabraPulseWidget() {
                 ? 'Morgonkompassen lagd' 
                 : isMabraSession 
                 ? 'MåBra-session genomförd' 
+                : isMabraCheckin
+                ? 'MåBra-incheckning klar'
                 : 'Incheckad för idag'}
             </h3>
             
             <div className="text-xs text-text-muted mt-0.5 space-y-1">
-              {isMorningCompass && todaysActivity.checkIn?.taskNote && (
+              {isMabraCheckin && (
+                <p className="text-text-dim">
+                  Humör: <span className="font-semibold text-accent">{todaysActivity.checkIn.mood}/10</span> • Energinivå: <span className="font-semibold text-accent-ai">{todaysActivity.checkIn.energy}/10</span>
+                </p>
+              )}
+              {todaysActivity.checkIn?.taskNote && (
                 <p className="italic text-text-dim font-medium leading-relaxed">
                   "{todaysActivity.checkIn.taskNote}"
                 </p>
@@ -139,7 +152,13 @@ export function MabraPulseWidget() {
         <div>
           <h3 className="text-sm font-semibold text-white/95 leading-normal">Hur mår du just nu?</h3>
           <p className="text-xs text-text-dim group-hover:text-text-muted transition-colors mt-0.5">
-            Ta en kort stund för en incheckning eller en kravlös övning.
+            {latestCheckIn && latestCheckIn.mood !== undefined && latestCheckIn.energy !== undefined ? (
+              <>
+                Senaste: Humör {latestCheckIn.mood}/10 • Energinivå {latestCheckIn.energy}/10
+              </>
+            ) : (
+              'Ta en kort stund för en incheckning eller en kravlös övning.'
+            )}
           </p>
         </div>
       </div>

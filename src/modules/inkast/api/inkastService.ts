@@ -290,7 +290,7 @@ export type SubmitInkastLiteResult = {
   errors: Array<{ fileName: string; error: string }>;
 };
 
-const ROUTINGS: InboxRouting[] = ['kunskap', 'bevis', 'barnen', 'dagbok', 'review'];
+const ROUTINGS: InboxRouting[] = ['kunskap', 'bevis', 'barnen', 'dagbok', 'review', 'planning'];
 
 function normalizeRouting(raw: unknown): InboxRouting {
   if (typeof raw === 'string' && (ROUTINGS as string[]).includes(raw)) {
@@ -471,6 +471,7 @@ export const ROUTING_LABELS: Record<InboxRouting, string> = {
   barnen: 'Barnen',
   dagbok: 'Dagbok',
   review: 'Granska manuellt',
+  planning: 'Planering/Uppgift',
 };
 
 export const COLLECTION_LABELS: Record<string, string> = {
@@ -478,6 +479,7 @@ export const COLLECTION_LABELS: Record<string, string> = {
   kb_docs: 'Kunskapsbank',
   children_logs: 'Barnens livslogg',
   journal: 'Dagbok',
+  planning_tasks: 'Planering/Uppgift',
 };
 
 export function formatInkastResultMessage(result: SubmitInkastLiteResult): string {
@@ -559,6 +561,12 @@ export function inkastDestinationLink(
         pathname: NAV_PATHS.HJARTAT,
         search: '?tab=reflektion',
         label: 'Öppna Dagbok',
+      };
+    case 'planning_tasks':
+      return {
+        pathname: '/planering',
+        search: '?tab=handling',
+        label: 'Öppna Planering',
       };
     default:
       return null;

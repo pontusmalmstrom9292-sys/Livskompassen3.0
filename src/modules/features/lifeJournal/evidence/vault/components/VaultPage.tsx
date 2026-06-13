@@ -56,7 +56,7 @@ function VaultPageInner({
   const navigate = useNavigate();
   const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
   const user = useStore((s) => s.user);
-  const { loadFirstLogsPage, logs, logsHasMore, loadingMore, loadMoreLogs } = useVaultStore();
+  const { loadFirstLogsPage, logs, hasMore: logsHasMore, loadingMore, loadMoreLogs } = useVaultStore();
   
   const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);

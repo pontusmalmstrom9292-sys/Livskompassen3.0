@@ -107,6 +107,36 @@ export async function saveCheckIn(userId: string, checkIn: Omit<CheckIn, 'userId
   return docRef.id;
 }
 
+export async function saveMabraCheckIn(
+  userId: string,
+  checkIn: {
+    energy: number;
+    mood: number;
+    notes?: string;
+  }
+) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.checkins);
+  const ref = collection(db, FIRESTORE_COLLECTIONS.checkins);
+  const payload = {
+    questionId: 'mabra_checkin',
+    questionText: 'MåBra Incheckning',
+    optionSelected: 'completed',
+    taskCategory: 'wellbeing',
+    taskNote: checkIn.notes || '',
+    energy: checkIn.energy,
+    mood: checkIn.mood,
+  };
+  assertWormPayload(payload, 'checkins');
+  const docRef = await addDoc(ref, withUserId(userId, payload));
+  return docRef.id;
+}
+
+export async function getLatestMabraCheckIn(userId: string): Promise<CheckInRow | null> {
+  const checkins = await getRecentCheckIns(userId, 50);
+  const mabraCheckins = checkins.filter((c) => c.questionId === 'mabra_checkin');
+  return mabraCheckins[0] || null;
+}
+
 export type CheckInRow = CheckIn & { id: string };
 
 export async function getRecentCheckIns(userId: string, limit = 20): Promise<CheckInRow[]> {

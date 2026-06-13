@@ -15,6 +15,7 @@ const ROUTING_LABELS: Record<InboxRouting | '', string> = {
   dagbok: 'Dagbok',
   kunskap: 'Kunskap',
   barnen: 'Barnen',
+  planning: 'Planering/Uppgift',
   review: 'Granskning',
 };
 

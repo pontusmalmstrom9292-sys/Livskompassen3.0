@@ -9,6 +9,7 @@ import type { MabraHubCategory } from '../mabraHubRegistry';
 import type { MabraPlanKind } from '../constants/mabraProjects';
 import { readAllVitProjectLastSeen } from '../lib/vitProjectLastSeen';
 import { hasSeenMabraModulValjare } from '../lib/mabraModulValjareStorage';
+import { saveMabraCheckIn, getLatestMabraCheckIn, type CheckInRow } from '@/core/firebase/firestore';
 
 export interface MabraState {
   // State
@@ -38,6 +39,15 @@ export interface MabraState {
   setLowEnergyMode: (mode: boolean) => void;
   setVitLastSeen: (lastSeen: Record<string, number>) => void;
   setShowHubPicker: (show: boolean) => void;
+  latestCheckIn: CheckInRow | null;
+  isLoadingCheckIn: boolean;
+  
+  // Actions
+  saveMabraCheckIn: (
+    userId: string,
+    checkIn: { energy: number; mood: number; notes?: string }
+  ) => Promise<void>;
+  fetchLatestCheckIn: (userId: string) => Promise<void>;
   
   // Resetter
   reset: () => void;
@@ -56,6 +66,8 @@ const getInitialState = () => ({
   lowEnergyMode: false,
   vitLastSeen: readAllVitProjectLastSeen(),
   showHubPicker: !hasSeenMabraModulValjare(),
+  latestCheckIn: null,
+  isLoadingCheckIn: false,
 });
 
 export const useMabraStore = create<MabraState>()((set) => ({
@@ -75,6 +87,43 @@ export const useMabraStore = create<MabraState>()((set) => ({
   setLowEnergyMode: (lowEnergyMode) => set({ lowEnergyMode }),
   setVitLastSeen: (vitLastSeen) => set({ vitLastSeen }),
   setShowHubPicker: (showHubPicker) => set({ showHubPicker }),
+  
+  saveMabraCheckIn: async (userId, checkIn) => {
+    set({ saveError: null });
+    try {
+      const docId = await saveMabraCheckIn(userId, checkIn);
+      const today = new Date().toISOString();
+      set({
+        latestCheckIn: {
+          id: docId,
+          userId,
+          questionId: 'mabra_checkin',
+          questionText: 'MåBra Incheckning',
+          optionSelected: 'completed',
+          taskCategory: 'wellbeing',
+          taskNote: checkIn.notes || '',
+          energy: checkIn.energy,
+          mood: checkIn.mood,
+          createdAt: today,
+        }
+      });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Misslyckades att spara incheckning.';
+      set({ saveError: msg });
+      throw err;
+    }
+  },
+
+  fetchLatestCheckIn: async (userId) => {
+    set({ isLoadingCheckIn: true, saveError: null });
+    try {
+      const checkIn = await getLatestMabraCheckIn(userId);
+      set({ latestCheckIn: checkIn, isLoadingCheckIn: false });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Misslyckades att hämta senaste incheckning.';
+      set({ saveError: msg, isLoadingCheckIn: false });
+    }
+  },
   
   reset: () => set(getInitialState()),
 }));

@@ -20,6 +20,7 @@ export interface WeaverTags {
 
 export interface VaultLog {
   userId: string;
+  ownerId?: string;
   category?: string;
   action: string;
   truth: string;
@@ -50,6 +51,8 @@ export interface CheckIn {
   taskCompleted?: boolean;
   taskCategory?: string;
   taskNote?: string;
+  energy?: number;
+  mood?: number;
   createdAt: IsoDateTime;
 }
 

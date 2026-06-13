@@ -97,7 +97,8 @@ function resolveManualOverride(input: SubmitInkastLiteInput): ManualInkastOverri
     routing !== 'kunskap' &&
     routing !== 'bevis' &&
     routing !== 'barnen' &&
-    routing !== 'dagbok'
+    routing !== 'dagbok' &&
+    routing !== 'planering'
   ) {
     return undefined;
   }

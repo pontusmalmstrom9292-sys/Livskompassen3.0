@@ -2,7 +2,7 @@ import { httpsCallable, type FunctionsError } from 'firebase/functions';
 import { functions } from '@/core/firebase/init';
 import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
 
-export type InboxRouting = 'kunskap' | 'bevis' | 'barnen' | 'dagbok' | 'review';
+export type InboxRouting = 'kunskap' | 'bevis' | 'barnen' | 'dagbok' | 'review' | 'planning';
 
 export interface InboxClassification {
   routing: InboxRouting;
@@ -46,7 +46,7 @@ export async function fetchInboxQueue(): Promise<InboxQueueItem[]> {
 
 export async function confirmInbox(
   queueId: string,
-  routing: 'kunskap' | 'bevis' | 'barnen' | 'dagbok',
+  routing: 'kunskap' | 'bevis' | 'barnen' | 'dagbok' | 'planning',
   childAlias?: string,
   overrideTags?: string[],
   overrideCategory?: string
