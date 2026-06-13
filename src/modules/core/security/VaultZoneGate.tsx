@@ -10,6 +10,8 @@ import {
 } from '../auth/sessionService';
 import { authenticateVaultGateUniversal } from '../auth/webauthn';
 import { useVaultZoneIdle } from './useVaultZoneIdle';
+import { getAuth } from 'firebase/auth';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
 type Props = {
   zone: VaultZoneId;
@@ -67,11 +69,29 @@ export function VaultZoneGate({
     setError(null);
     setWebAuthnPending(true);
     const result = await authenticateVaultGateUniversal();
-    setWebAuthnPending(false);
-    if (result.ok) {
-      unlock();
-    } else {
+    
+    if (!result.ok) {
       setError(result.message);
+      setWebAuthnPending(false);
+      return;
+    }
+
+    try {
+      const functions = getFunctions();
+      const unlockVault = httpsCallable(functions, 'unlockVault');
+      await unlockVault();
+
+      const auth = getAuth();
+      if (auth.currentUser) {
+        await auth.currentUser.getIdToken(true);
+      }
+
+      unlock();
+    } catch (err) {
+      console.error("Backend-verifiering misslyckades:", err);
+      setError("Kunde inte verifiera upplåsningen via servern. Försök igen.");
+    } finally {
+      setWebAuthnPending(false);
     }
   };
 

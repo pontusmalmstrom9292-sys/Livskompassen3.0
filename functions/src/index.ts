@@ -67,3 +67,7 @@ export {
 export {
   generateWeeklySummary,
 } from './callables/weeklySummary';
+
+export {
+  unlockVault,
+} from './callables/unlockVault';

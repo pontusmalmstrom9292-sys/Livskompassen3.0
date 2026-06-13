@@ -42,6 +42,19 @@ service cloud.firestore {
       return isOwnerCreate() && isSensitiveAuth();
     }
 
+    function isVaultUnlocked() {
+      return request.auth.token.vaultUnlocked == true
+        && request.time.toMillis() < request.auth.token.vaultExpiresAt;
+    }
+
+    function isOwnerVault() {
+      return isOwnerSensitive() && isVaultUnlocked();
+    }
+
+    function isOwnerCreateVault() {
+      return isOwnerCreateSensitive() && isVaultUnlocked();
+    }
+
     function wormKeysOnly(allowedKeys) {
       return request.resource.data.keys().hasOnly(allowedKeys);
     }
@@ -130,8 +143,8 @@ service cloud.firestore {
     }
 
     match /reality_vault/{docId} {
-      allow read: if isOwnerSensitive();
-      allow create: if isOwnerCreateSensitive() && isValidRealityVaultCreate();
+      allow read: if isOwnerVault();
+      allow create: if isOwnerCreateVault() && isValidRealityVaultCreate();
       allow update, delete: if false;
     }
 
@@ -168,7 +181,7 @@ service cloud.firestore {
 
     // Legacy alias — prod skriver till reality_vault. Läs kvar för ev. migrerade rader; inga nya poster (MT-2).
     match /vault/{docId} {
-      allow read: if isOwnerSensitive();
+      allow read: if isOwnerVault();
       allow create, update, delete: if false;
     }
 
