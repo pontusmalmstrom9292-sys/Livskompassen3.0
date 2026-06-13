@@ -1,5 +1,5 @@
 import { collection, addDoc, getDocs, onSnapshot, query, where, orderBy, serverTimestamp, doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '../modules/core/firebase/firestore';
+import { db } from './firestore';
 
 export interface VaultRecord {
   id: string;

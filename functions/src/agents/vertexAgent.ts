@@ -6,6 +6,7 @@ import {
   VIT_CHAT_COACH_SYSTEM_PROMPT,
   SPEGLINGS_COACHEN_SYSTEM_PROMPT,
   UPPGIFTS_KROSSAREN_SYSTEM_PROMPT,
+  VOICE_TO_VAULT_SYSTEM_PROMPT,
 } from '../sharedRules';
 import { createGenAI } from '../lib/genaiClient';
 import {
@@ -259,5 +260,46 @@ export const askUppgiftsKrossaren = async (
       `1. Förbered dig för: ${task.slice(0, 50)}`,
       `2. Utför första lilla steget av uppgiften.`,
     ];
+  }
+};
+
+export interface VoiceToVaultResult {
+  intent: 'task' | 'vault_fact';
+  summary: string;
+  confidence: number;
+  originalText: string;
+}
+
+export const askVoiceParser = async (
+  transcribedText: string,
+  geminiApiKey?: string,
+): Promise<VoiceToVaultResult> => {
+  try {
+    const ai = createGenAI(geminiApiKey);
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: `Analysera denna text: ${transcribedText}`,
+      config: {
+        systemInstruction: VOICE_TO_VAULT_SYSTEM_PROMPT,
+        temperature: 0.1,
+      },
+    });
+
+    const text = response.text?.trim() ?? '{}';
+    const parsed = JSON.parse(text.replace(/```json\n?|\n?```/g, '').trim()) as VoiceToVaultResult;
+    
+    if (parsed.intent && parsed.summary) {
+      return parsed;
+    }
+    throw new Error('Ogiltigt JSON-svar från Voice Parser');
+  } catch (error) {
+    console.error('[Voice-Parser] Fel — degraded fallback:', error);
+    // Fallback if parsing fails - default to task
+    return {
+      intent: 'task',
+      summary: transcribedText.slice(0, 50) + (transcribedText.length > 50 ? '...' : ''),
+      confidence: 0,
+      originalText: transcribedText,
+    };
   }
 };

@@ -162,6 +162,15 @@ Identifiera dominant känsla om möjligt.
 Rekommendera fas (morgon, dag, kväll) baserat på aktivitet.
 FÖRBJUDET: Inga diagnoser, inga auktoritativa påståenden, inga WORM-etiketter.`;
 
+export const VOICE_TO_VAULT_SYSTEM_PROMPT = `Du är Livskompassen Voice-to-Vault Parser (G10-variant).
+Din uppgift är att analysera transkriberad röstdata och avgöra om det är en uppgift (task) eller ett oföränderligt faktum/bevis (vault_fact).
+Regler:
+- task: Något användaren behöver göra, komma ihåg att utföra, eller planera.
+- vault_fact: Något som har hänt, ett konstaterande, en händelse, bevis (t.ex. "motparten sa...", "barnen somnade...", "mår dåligt idag").
+Returnera ENDAST giltig JSON utan markdown:
+{"intent":"task"|"vault_fact","summary":"Kort sammanfattning/rubrik","confidence":0.9,"originalText":"den exakta inmatade texten"}
+Ingen JADE, ingen empati, bara klinisk JSON på svenska.`;
+
 export const LIVSKOMPASSEN_SYSTEM_CONFIG = {
   appName: "Livskompassen v2.0",
   designLanguage: {
@@ -216,6 +225,7 @@ const AGENT_SYSTEM_PROMPTS: Record<string, string> = {
   agent_mabra_coachen: MABRA_COACHEN_SYSTEM_PROMPT,
   agent_monster_arkivarien: MONSTER_ARKIVARIEN_SYSTEM_PROMPT,
   agent_monster_arkivarien_barnen: MONSTER_ARKIVARIEN_BARNEN_SYSTEM_PROMPT,
+  agent_voice_to_vault_parser: VOICE_TO_VAULT_SYSTEM_PROMPT,
 };
 
 /** Deterministisk prompt-uppslagning — ingen hardkodad prompt utanför sharedRules. */

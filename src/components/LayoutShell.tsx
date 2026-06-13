@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { useNavigationStore, NavView } from '../store/NavigationStore';
+import { useNavigationStore, NavView } from '../modules/core/store/NavigationStore';
 import OracleDashboard from '../modules/oracle/OracleDashboard';
 import { MorningCompass } from '../modules/morning/MorningCompass';
 import { Compass, Eye, ShieldCheck } from 'lucide-react';

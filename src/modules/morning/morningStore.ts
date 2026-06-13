@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { doc, getDoc, setDoc, serverTimestamp, collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 import { db } from '../core/firebase/firestore';
+import { RiskAnalysisService } from '../oracle/services/RiskAnalysisService';
 
 interface MorningCompassState {
   threeFocusPoints: string[];
@@ -10,6 +11,9 @@ interface MorningCompassState {
   latestInsight: any | null;
   isLoadingInsight: boolean;
   handledProtocolDate?: string;
+  yesterdayWasHighRisk: boolean;
+  isLowEnergyProtocolActive: boolean;
+  setLowEnergyProtocolActive: (active: boolean) => void;
   setFocusPoint: (index: number, value: string) => void;
   clearFocusPoints: (ownerId?: string) => Promise<void>;
   fetchFocusPoints: (ownerId: string) => Promise<void>;
@@ -26,6 +30,10 @@ export const useMorningCompassStore = create<MorningCompassState>((set, get) => 
   latestInsight: null,
   isLoadingInsight: false,
   handledProtocolDate: undefined,
+  yesterdayWasHighRisk: false,
+  isLowEnergyProtocolActive: false,
+
+  setLowEnergyProtocolActive: (active) => set({ isLowEnergyProtocolActive: active }),
 
   fetchLatestInsight: async (ownerId: string) => {
     set({ isLoadingInsight: true, error: null });
@@ -67,7 +75,13 @@ export const useMorningCompassStore = create<MorningCompassState>((set, get) => 
     set({ isLoading: true, error: null });
     try {
       const docRef = doc(db, 'user_daily_focus', ownerId);
-      const snap = await getDoc(docRef);
+      const [snap, highRisk] = await Promise.all([
+        getDoc(docRef),
+        RiskAnalysisService.getYesterdayRiskStatus(ownerId)
+      ]);
+
+      set({ yesterdayWasHighRisk: highRisk });
+
       if (snap.exists()) {
         const data = snap.data();
         if (data.focusPoints && Array.isArray(data.focusPoints)) {

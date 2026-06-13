@@ -1,6 +1,6 @@
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
-import { db } from '../modules/core/firebase/firestore';
-import type { OracleDataPoint } from '../modules/oracle/OracleStore';
+import { db } from '../../core/firebase/firestore';
+import type { OracleDataPoint } from '../OracleStore';
 
 export class OracleService {
   static async getHybridOracleData(userId: string): Promise<OracleDataPoint[]> {

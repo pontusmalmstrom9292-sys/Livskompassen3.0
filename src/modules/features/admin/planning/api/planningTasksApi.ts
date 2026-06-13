@@ -42,6 +42,7 @@ const VALID_TASK_SOURCE = new Set<PlanningTaskSource>([
   'calendar',
   'manual',
   'authority',
+  'voice_to_vault',
 ]);
 
 function mapDoc(id: string, data: FirestorePlanningTask): PlanningTask | null {

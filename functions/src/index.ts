@@ -76,3 +76,7 @@ export {
 export {
   unlockVault,
 } from './callables/unlockVault';
+
+export {
+  parseVoiceCommand,
+} from './callables/voiceCommand';

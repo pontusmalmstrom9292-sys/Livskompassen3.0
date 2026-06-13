@@ -25,4 +25,5 @@ export const SOURCE_LABELS: Record<string, string> = {
   calendar: 'Kalender',
   manual: 'Manuell',
   authority: 'Myndighet',
+  voice_to_vault: 'Röst',
 };

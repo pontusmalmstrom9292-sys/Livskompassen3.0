@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { OracleService } from '../../services/OracleService';
+import { OracleService } from './services/OracleService';
 
 export interface Pattern {
   pattern: string;

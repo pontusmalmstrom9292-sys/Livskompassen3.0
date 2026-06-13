@@ -3,12 +3,13 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Mic, X, Loader2, Check, Send } from 'lucide-react';
 import { useQuickCaptureStore } from '../store/useQuickCaptureStore';
 import { speechService } from '../services/speechService';
-import { submitInkastLite } from '@/modules/inkast/api/inkastService';
+import { parseVoiceCommand } from '../api/voiceCommandService';
 
 export function QuickCaptureOverlay() {
   const { isOpen, isRecording, transcript, open, close, setRecording, setTranscript, appendTranscript, reset } = useQuickCaptureStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [feedbackMsg, setFeedbackMsg] = useState('');
 
   // Handle Speech Recognition
   const handleToggleRecording = () => {
@@ -18,6 +19,7 @@ export function QuickCaptureOverlay() {
     } else {
       setRecording(true);
       setSubmitStatus('idle');
+      setFeedbackMsg('');
       speechService.start(
         (text, isFinal) => {
           if (isFinal) {
@@ -50,13 +52,17 @@ export function QuickCaptureOverlay() {
     
     setIsSubmitting(true);
     setSubmitStatus('idle');
+    setFeedbackMsg('');
     try {
-      await submitInkastLite({ text: transcript });
+      const result = await parseVoiceCommand(transcript);
       setSubmitStatus('success');
+      setFeedbackMsg(result.message);
       setTimeout(() => {
         close();
         setSubmitStatus('idle');
-      }, 1500);
+        setFeedbackMsg('');
+        reset();
+      }, 2500);
     } catch (error) {
       console.error('Failed to submit Quick Capture:', error);
       setSubmitStatus('error');
@@ -160,6 +166,11 @@ export function QuickCaptureOverlay() {
               {submitStatus === 'error' && (
                 <p className="mt-4 text-sm text-red-400 text-center">
                   Ett fel uppstod. Försök igen.
+                </p>
+              )}
+              {submitStatus === 'success' && feedbackMsg && (
+                <p className="mt-4 text-sm text-[#d4af37] text-center font-medium">
+                  {feedbackMsg}
                 </p>
               )}
             </motion.div>

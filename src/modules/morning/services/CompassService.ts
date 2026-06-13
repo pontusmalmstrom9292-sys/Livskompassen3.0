@@ -1,5 +1,5 @@
 import { collection, doc, setDoc, getDocs, query, where, serverTimestamp, limit } from 'firebase/firestore';
-import { db } from '../modules/core/firebase/firestore';
+import { db } from '../../core/firebase/firestore';
 
 export class CompassService {
   private static COLLECTION = 'daily_intentions';

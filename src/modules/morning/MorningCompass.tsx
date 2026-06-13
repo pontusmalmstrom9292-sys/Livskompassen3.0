@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import { useMorningCompassStore } from './morningStore';
 import { useStore } from '../core/store';
-import { Compass, Trash2, Loader2, CheckCircle2, Sparkles } from 'lucide-react';
+import { Compass, Trash2, Loader2, CheckCircle2, Sparkles, Moon } from 'lucide-react';
 import { PageSkeleton } from '../../components/layout/PageSkeleton';
-import { CompassService } from '../../services/CompassService';
+import { CompassService } from './services/CompassService';
+
+const DailyTasksList = lazy(() => import('./components/DailyTasksList').then(m => ({ default: m.DailyTasksList })));
 
 export function MorningCompass() {
   const user = useStore(state => state.user);
@@ -16,13 +18,18 @@ export function MorningCompass() {
     latestInsight,
     isLoading,
     handledProtocolDate,
-    submitProtocolFeedback
+    submitProtocolFeedback,
+    fetchFocusPoints,
+    yesterdayWasHighRisk,
+    isLowEnergyProtocolActive,
+    setLowEnergyProtocolActive
   } = useMorningCompassStore();
 
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
   const [hasMounted, setHasMounted] = useState(false);
   const [isAdjusting, setIsAdjusting] = useState(false);
   const [adjustedText, setAdjustedText] = useState('');
+  const [dismissedLowEnergy, setDismissedLowEnergy] = useState(false);
 
   useEffect(() => {
     if (user?.uid) {
@@ -41,6 +48,7 @@ export function MorningCompass() {
             }
           }
         }),
+        fetchFocusPoints(user.uid),
         fetchLatestInsight(user.uid)
       ]).then(() => setHasMounted(true));
     }
@@ -75,8 +83,10 @@ export function MorningCompass() {
   const todayIsoDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   const isProtocolHandledToday = handledProtocolDate === todayIsoDate;
   
-  // Om det finns ett specifikt protokoll som inte är standard och inte redan hanterats
   const shouldSuggestProtocol = todayProtocol && !todayProtocol.toLowerCase().includes('standard') && !isProtocolHandledToday;
+
+  const hasAnyPoints = threeFocusPoints.some(p => p.trim() !== '');
+  const shouldSuggestLowEnergy = yesterdayWasHighRisk && !isLowEnergyProtocolActive && !hasAnyPoints && !dismissedLowEnergy;
 
   const applyTextToCompass = (text: string) => {
     const emptyIndex = threeFocusPoints.findIndex(p => p.trim() === '');
@@ -128,8 +138,41 @@ export function MorningCompass() {
           <p className="text-sm text-white/50 font-light">Dina 3 viktigaste saker idag. Inget mer.</p>
         </div>
 
+        {shouldSuggestLowEnergy && (
+          <div className="mt-6 p-4 rounded-xl bg-amber-900/20 border border-amber-500/20 backdrop-blur-sm animate-fade-in flex flex-col gap-4">
+            <div className="flex items-start gap-3">
+              <Moon className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+              <div className="w-full">
+                <p className="text-sm text-amber-200 font-medium">Oraklet noterar</p>
+                <p className="text-sm text-amber-100 mt-1">
+                  En hög belastning igår. Vill du aktivera Low-Energy Protocol idag för maximal återhämtning?
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <button
+                    onClick={() => {
+                      setLowEnergyProtocolActive(true);
+                      setFocusPoint(0, 'Återhämtning & Grundläggande underhåll');
+                      setFocusPoint(1, '');
+                      setFocusPoint(2, '');
+                    }}
+                    className="text-xs px-3 py-1.5 rounded-lg bg-amber-500/30 text-amber-100 hover:bg-amber-500/50 transition-colors"
+                  >
+                    Aktivera Low-Energy
+                  </button>
+                  <button
+                    onClick={() => setDismissedLowEnergy(true)}
+                    className="text-xs px-3 py-1.5 rounded-lg text-amber-300/70 hover:text-amber-200 hover:bg-white/5 transition-colors"
+                  >
+                    Nej tack
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Proaktiv Insikt Banner */}
-        {shouldSuggestProtocol && (
+        {!shouldSuggestLowEnergy && shouldSuggestProtocol && (
           <div className="mt-6 p-4 rounded-xl bg-indigo-900/20 border border-indigo-500/20 backdrop-blur-sm animate-fade-in flex flex-col gap-4">
             <div className="flex items-start gap-3">
               <Sparkles className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
@@ -200,7 +243,9 @@ export function MorningCompass() {
           {threeFocusPoints.map((point, index) => (
             <div 
               key={index} 
-              className="group relative p-4 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-md shadow-sm transition-all hover:bg-white/10 focus-within:bg-white/10 focus-within:border-white/20"
+              className={`group relative p-4 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-md shadow-sm transition-all hover:bg-white/10 focus-within:bg-white/10 focus-within:border-white/20 ${
+                isLowEnergyProtocolActive && index > 0 ? 'opacity-20 pointer-events-none' : ''
+              } ${isLowEnergyProtocolActive && index === 0 ? 'ring-1 ring-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.1)]' : ''}`}
             >
               <div className="flex items-center gap-4">
                 <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white/40 font-medium">
@@ -210,12 +255,24 @@ export function MorningCompass() {
                   type="text"
                   value={point}
                   onChange={(e) => setFocusPoint(index, e.target.value)}
-                  placeholder="Vad är viktigt idag?"
-                  className="w-full bg-transparent border-none outline-none text-white/80 placeholder-white/30 text-lg font-light focus:ring-0"
+                  placeholder={isLowEnergyProtocolActive && index > 0 ? "Viloläge" : "Vad är viktigt idag?"}
+                  disabled={isLowEnergyProtocolActive && index > 0}
+                  className="w-full bg-transparent border-none outline-none text-white/80 placeholder-white/30 text-lg font-light focus:ring-0 disabled:opacity-50"
                 />
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Daily Tasks Supermodul */}
+        <div className="pt-8 pb-4">
+          <Suspense fallback={
+            <div className="flex h-32 items-center justify-center">
+              <Loader2 className="h-6 w-6 animate-spin text-white/20" />
+            </div>
+          }>
+            <DailyTasksList />
+          </Suspense>
         </div>
 
         {/* Actions */}

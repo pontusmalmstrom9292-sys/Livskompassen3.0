@@ -5,6 +5,7 @@ import { useStore } from '../core/store';
 import { useDashboardStore } from './store/dashboardStore';
 import { InsightsInput } from './components/InsightsInput';
 import { DailyFocusCard } from './components/DailyFocusCard';
+import { RecentIntakeWidget } from './components/RecentIntakeWidget';
 import { ParalysisBreaker } from '../support/ParalysisBreaker';
 import { useParalysisStore } from '../support/store/paralysisStore';
 
@@ -60,6 +61,11 @@ function DashboardHubContent() {
           <div className="flex flex-col h-full">
             <InsightsInput />
           </div>
+        </div>
+
+        {/* Senaste intaget-flöde */}
+        <div className="w-full">
+          <RecentIntakeWidget />
         </div>
       </div>
       

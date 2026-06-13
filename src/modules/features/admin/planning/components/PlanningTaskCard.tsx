@@ -1,4 +1,4 @@
-import { Building2, Calendar, Mail, School } from 'lucide-react';
+import { Building2, Calendar, Mail, School, Mic } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { SOURCE_LABELS } from '../constants';
 import type { PlanningTask, PlanningTaskSource } from '../types';
@@ -9,6 +9,7 @@ const SOURCE_ICONS: Record<PlanningTaskSource, LucideIcon> = {
   calendar: Calendar,
   manual: Building2,
   authority: Building2,
+  voice_to_vault: Mic,
 };
 
 type Props = {

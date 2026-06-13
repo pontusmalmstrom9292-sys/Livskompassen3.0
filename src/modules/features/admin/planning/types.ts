@@ -1,6 +1,6 @@
 export type PlanningTaskStatus = 'todo' | 'waiting' | 'done';
 
-export type PlanningTaskSource = 'email' | 'school' | 'calendar' | 'manual' | 'authority';
+export type PlanningTaskSource = 'email' | 'school' | 'calendar' | 'manual' | 'authority' | 'voice_to_vault';
 
 export type PlanningTask = {
   id: string;

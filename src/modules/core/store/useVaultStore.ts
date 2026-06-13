@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { VaultService } from '../services/VaultService';
-import type { VaultRecord } from '../services/VaultService';
+import { VaultService } from '../firebase/VaultService';
+import type { VaultRecord } from '../firebase/VaultService';
 
 export interface VaultState {
   vaultEntries: VaultRecord[];

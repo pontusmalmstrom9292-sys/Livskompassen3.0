@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { VaultService } from '../../../services/VaultService';
+import { VaultService } from '../../core/firebase/VaultService';
 import { getAllTimeEntriesForEconomyReadOnly } from '../../core/firebase/arbetslivFirestore';
 import { useStore } from '../../core/store';
 import type { OracleMetricPoint } from '../hooks/useOracleMetrics';

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { ShieldCheck, Lock, History, AlertCircle } from 'lucide-react';
-import { VaultService } from '../services/VaultService';
-import type { VaultRecord } from '../services/VaultService';
+import { VaultService } from '../modules/core/firebase/VaultService';
+import type { VaultRecord } from '../modules/core/firebase/VaultService';
 import { useStore } from '../modules/core/store';
-import { useVaultStore } from '../store/useVaultStore';
+import { useVaultStore } from '../modules/core/store/useVaultStore';
 
 const VaultOverview: React.FC = () => {
   const user = useStore(state => state.user);
