@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { ProtectedModule } from '../core/security/ProtectedModule';
 import { TimelineView } from './components/TimelineView';
+import { WeeklySummary } from './components/WeeklySummary';
 import { useReflectionStore } from './store/reflectionStore';
 import { motion } from 'framer-motion';
 import { BookOpen } from 'lucide-react';
@@ -43,6 +44,8 @@ const ReflectionPageContent: React.FC = () => {
             </div>
           </div>
         </motion.div>
+
+        <WeeklySummary />
 
         <TimelineView />
       </div>

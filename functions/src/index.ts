@@ -70,5 +70,9 @@ export {
 } from './callables/weeklySummary';
 
 export {
+  generateWeeklyInsights,
+} from './callables/generateWeeklyInsights';
+
+export {
   unlockVault,
 } from './callables/unlockVault';

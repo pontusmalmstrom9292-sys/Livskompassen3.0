@@ -240,6 +240,15 @@ service cloud.firestore {
         && resource.data.ownerId == request.auth.uid
         && request.resource.data.userId == request.auth.uid;
       allow delete: if false;
+
+      match /history/{docId} {
+        allow read: if isAuthenticated() && request.auth.uid == uid;
+        allow create: if isAuthenticated()
+          && uid == request.auth.uid
+          && request.resource.data.ownerId == request.auth.uid
+          && request.resource.data.userId == request.auth.uid;
+        allow update, delete: if false;
+      }
     }
 
     function isValidVitEntryKind() {
@@ -539,6 +548,21 @@ service cloud.firestore {
     match /dossier_snapshots/{docId} {
       allow read: if isOwnerSensitive();
       allow create, update, delete: if false;
+    }
+
+    // Insight summaries — WORM (skrivs endast av Cloud Functions Admin SDK)
+    match /insight_summaries/{docId} {
+      allow read: if isOwner();
+      allow create, update, delete: if false;
+    }
+
+    match /user_insights/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
+      allow update: if isOwner()
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid;
+      allow delete: if false;
     }
 
     // G9 — EntityProfile / SystemSynapse (WORM metadata, seed via Admin SDK)
