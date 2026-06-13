@@ -59,12 +59,30 @@ export const useMorningCompassStore = create<MorningCompassState>((set, get) => 
     try {
       const { threeFocusPoints } = get();
       const docRef = doc(db, 'user_daily_focus', ownerId);
-      await setDoc(docRef, {
-        ownerId,
-        userId: ownerId,
-        focusPoints: threeFocusPoints,
-        updatedAt: serverTimestamp()
-      }, { merge: true });
+      
+      const today = new Date();
+      // Ensure we use local timezone date string like '2026-06-13'
+      const isoDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+      
+      const historyDocRef = doc(db, 'user_daily_focus', ownerId, 'history', isoDate);
+
+      // We can do this in parallel
+      await Promise.all([
+        setDoc(docRef, {
+          ownerId,
+          userId: ownerId,
+          focusPoints: threeFocusPoints,
+          updatedAt: serverTimestamp()
+        }, { merge: true }),
+        setDoc(historyDocRef, {
+          ownerId,
+          userId: ownerId,
+          focusPoints: threeFocusPoints,
+          date: isoDate,
+          updatedAt: serverTimestamp()
+        }, { merge: true })
+      ]);
+      
       set({ isSaving: false });
     } catch (err) {
       set({ error: (err as Error).message, isSaving: false });

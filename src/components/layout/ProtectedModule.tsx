@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { AuthGate } from '../../modules/core/auth/AuthGate';
 import { PageSkeleton } from './PageSkeleton';
+import { HubErrorBoundary } from '../../modules/shared/ui/HubErrorBoundary';
 
 interface ProtectedModuleProps {
   children: React.ReactNode;
@@ -9,9 +10,11 @@ interface ProtectedModuleProps {
 export function ProtectedModule({ children }: ProtectedModuleProps) {
   return (
     <AuthGate>
-      <Suspense fallback={<PageSkeleton />}>
-        {children}
-      </Suspense>
+      <HubErrorBoundary>
+        <Suspense fallback={<PageSkeleton />}>
+          {children}
+        </Suspense>
+      </HubErrorBoundary>
     </AuthGate>
   );
 }

@@ -227,8 +227,17 @@ export const MonsterArkivarienCard: AgentCard = {
         required: [],
       },
     },
+    {
+      name: 'generateWeeklyInsights',
+      description: 'Genererar en veckovis JSON-syntes baserad på dagligt fokus och reflektioner.',
+      parameters: {
+        type: 'object',
+        properties: {},
+        required: [],
+      },
+    },
   ],
-  dataAccessPolicy: { canAccessPII: false, allowedCollections: ['kampspar'] },
+  dataAccessPolicy: { canAccessPII: false, allowedCollections: ['kampspar', 'user_insights', 'user_daily_focus'] },
 };
 
 /** Alla registrerade AgentCards (A2A-registret) */

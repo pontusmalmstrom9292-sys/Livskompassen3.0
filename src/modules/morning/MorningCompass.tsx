@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useMorningCompassStore } from './morningStore';
 import { useStore } from '../core/store';
 import { Compass, Trash2, Loader2, CheckCircle2 } from 'lucide-react';
+import { PageSkeleton } from '../../components/layout/PageSkeleton';
 
 export function MorningCompass() {
   const user = useStore(state => state.user);
@@ -38,11 +39,7 @@ export function MorningCompass() {
   }, [threeFocusPoints, user?.uid, hasMounted, saveFocusPoints]);
 
   if (isLoading && !hasMounted) {
-    return (
-      <div className="w-full min-h-[80vh] flex flex-col items-center justify-center p-4 animate-fade-in">
-        <Loader2 className="w-8 h-8 text-white/50 animate-spin" />
-      </div>
-    );
+    return <PageSkeleton />;
   }
 
   return (

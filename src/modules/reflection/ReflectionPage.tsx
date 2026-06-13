@@ -51,9 +51,5 @@ const ReflectionPageContent: React.FC = () => {
 };
 
 export default function ReflectionPage() {
-  return (
-    <ProtectedModule>
-      <ReflectionPageContent />
-    </ProtectedModule>
-  );
+  return <ReflectionPageContent />;
 }
