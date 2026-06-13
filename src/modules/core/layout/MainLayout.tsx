@@ -25,17 +25,18 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   const isScenicHome = location.pathname === '/';
   const user = useStore((s) => s.user);
   const kompisAuraActive = useStore((s) => s.system.kompisAuraActive);
+  const isMenuOpen = useStore((s) => s.ui.isMenuOpen);
+  const setMenuOpen = useStore((s) => s.setMenuOpen);
   const activateSOS = useSOSStore((s) => s.activateSOS);
   const { themeId } = useTheme();
   const mockupSkin = isMockupTheme(themeId) || isDesignPackTheme(themeId);
   const barnportenChildShell = isBarnportenChildRoute(location.pathname);
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
+  
   useEffect(() => {
-    if (!user) setDrawerOpen(false);
-  }, [user]);
+    if (!user) setMenuOpen(false);
+  }, [user, setMenuOpen]);
 
-  const closeDrawer = useCallback(() => setDrawerOpen(false), []);
   const openAccount = useCallback(() => setAccountOpen(true), []);
 
   return (
@@ -51,8 +52,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       <header className="app-header">
         <div className="app-header__inner">
           <AppHeaderBar
-            menuExpanded={drawerOpen}
-            onMenuClick={() => setDrawerOpen(true)}
+            menuExpanded={isMenuOpen}
+            onMenuClick={() => setMenuOpen(true)}
             actions={
               <>
                 <button
@@ -76,8 +77,6 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       </header>
 
       <NavigationDrawer
-        open={drawerOpen}
-        onClose={closeDrawer}
         onOpenSettings={openAccount}
       />
 

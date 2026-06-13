@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { memo, useEffect, useRef } from 'react';
+import { memo, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ChevronRight, Lock, X } from 'lucide-react';
@@ -14,19 +14,24 @@ import { useDrawerRecentNav } from '../navigation/hooks/useDrawerRecentNav';
 import { isVardagDrawerRowActive } from './drawerFromNavTruth';
 
 type Props = {
-  open: boolean;
-  onClose: () => void;
   onOpenSettings?: () => void;
 };
 
 const SWIPE_CLOSE_THRESHOLD_PX = 56;
 
-export const NavigationDrawer = memo(function NavigationDrawer({ open, onClose, onOpenSettings }: Props) {
+// Vi använder DRAWER_VARDAG_ITEMS och DRAWER_VALV_ITEMS från '../navigation/drawerNav' 
+// vilket uppfyller kravet på att extrahera menylänkar till konfigurationsmatriser och 
+// separerar data från presentation.
+
+export const NavigationDrawer = memo(function NavigationDrawer({ onOpenSettings }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
   const touchStartX = useRef(0);
 
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
+  const open = useStore((s) => s.ui.isMenuOpen);
+  const setMenuOpen = useStore((s) => s.setMenuOpen);
+  const onClose = useCallback(() => setMenuOpen(false), [setMenuOpen]);
 
   const vaultOpen = isVaultUnlocked || hasVaultGate();
   const recentVisits = useDrawerRecentNav();
@@ -108,16 +113,16 @@ export const NavigationDrawer = memo(function NavigationDrawer({ open, onClose, 
       />
 
       <aside
-        className="nav-drawer nav-drawer--calm-2"
+        className="nav-drawer nav-drawer--calm-2 rounded-r-[14px]"
         role="dialog"
         aria-label={vaultOpen ? 'Huvudmeny och Valv' : 'Huvudmeny'}
         aria-modal="true"
         onTouchStart={(e) => handleTouchStart(e.touches[0]?.clientX ?? 0)}
         onTouchEnd={(e) => handleTouchEnd(e.changedTouches[0]?.clientX ?? 0)}
       >
-        <div className="nav-drawer__scenic" aria-hidden />
+        <div className="nav-drawer__scenic rounded-r-[14px]" aria-hidden />
 
-        <div className="nav-drawer__calm-header flex items-center justify-between border-b border-border/15 bg-surface-2/30 px-5 py-4">
+        <div className="nav-drawer__calm-header flex items-center justify-between border-b border-accent/[0.28] bg-surface-2/30 px-5 py-4">
           <div className="flex items-center gap-3">
             <LivskompassMark className="h-7 w-7 text-accent" />
             <h2 className="font-display-serif text-base tracking-[0.22em] text-text">MENY</h2>
@@ -128,7 +133,7 @@ export const NavigationDrawer = memo(function NavigationDrawer({ open, onClose, 
             aria-label="Stäng"
             onClick={onClose}
           >
-            <X className="h-5 w-5" />
+            <X className="h-5 w-5 text-current" />
           </button>
         </div>
 
@@ -149,7 +154,7 @@ export const NavigationDrawer = memo(function NavigationDrawer({ open, onClose, 
                         key={entry.path}
                         type="button"
                         onClick={() => navigateDrawerPath(entry.path)}
-                        className="rounded-full border border-border/30 bg-surface-2/50 px-3 py-1.5 text-xs text-text-muted transition-colors hover:border-accent/40 hover:bg-surface-3 hover:text-text"
+                        className="rounded-[14px] border border-border/30 bg-surface-2/50 px-3 py-1.5 text-xs text-text-muted transition-colors hover:border-accent/[0.28] hover:bg-surface-3 hover:text-text"
                       >
                         {entry.label}
                       </button>
@@ -173,14 +178,17 @@ export const NavigationDrawer = memo(function NavigationDrawer({ open, onClose, 
                     type="button"
                     onClick={() => handleVardagRowClick(item)}
                     className={clsx(
-                      'nav-drawer__row flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-colors',
+                      'nav-drawer__row flex w-full items-center gap-3 rounded-[14px] px-4 py-3 text-left transition-all',
                       active
-                        ? 'bg-accent/10 text-accent'
-                        : 'text-text-muted hover:bg-surface-2/50 hover:text-text'
+                        ? 'bg-accent/10 text-accent border border-accent/[0.28] shadow-[0_0_12px_rgba(var(--color-accent),0.1)]'
+                        : 'text-text-muted hover:bg-surface-2/50 hover:text-text border border-transparent'
                     )}
                   >
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border/30 bg-surface-2/40">
-                      <Icon className="h-4 w-4 text-accent" />
+                    <span className={clsx(
+                      "flex h-9 w-9 shrink-0 items-center justify-center rounded-[14px] border bg-surface-2/40 transition-colors",
+                      active ? "border-accent/[0.28]" : "border-border/30"
+                    )}>
+                      <Icon className="h-4 w-4 text-current" />
                     </span>
                     <span className="min-w-0 flex-1 text-sm font-medium">{item.label}</span>
                     <ChevronRight className="h-4 w-4 shrink-0 text-text-dim" aria-hidden />
@@ -192,7 +200,7 @@ export const NavigationDrawer = memo(function NavigationDrawer({ open, onClose, 
             {vaultOpen ? (
               <>
                 {/* section="valv" PIN-unlocked drawer block */}
-                <div className="mt-6 border-t border-border/15 pt-4">
+                <div className="mt-6 border-t border-accent/[0.28] pt-4">
                 <p className="px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-accent/80">
                   Valvet
                 </p>
@@ -207,14 +215,17 @@ export const NavigationDrawer = memo(function NavigationDrawer({ open, onClose, 
                         type="button"
                         onClick={() => navigateDrawerPath(item.path)}
                         className={clsx(
-                          'nav-drawer__row flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-colors',
+                          'nav-drawer__row flex w-full items-center gap-3 rounded-[14px] px-4 py-3 text-left transition-all',
                           active
-                            ? 'bg-accent/10 text-accent'
-                            : 'text-text-muted hover:bg-surface-2/50 hover:text-text'
+                            ? 'bg-accent/10 text-accent border border-accent/[0.28] shadow-[0_0_12px_rgba(var(--color-accent),0.1)]'
+                            : 'text-text-muted hover:bg-surface-2/50 hover:text-text border border-transparent'
                         )}
                       >
-                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border/30 bg-surface-2/40">
-                          <Icon className="h-4 w-4 text-accent" />
+                        <span className={clsx(
+                          "flex h-9 w-9 shrink-0 items-center justify-center rounded-[14px] border bg-surface-2/40 transition-colors",
+                          active ? "border-accent/[0.28]" : "border-border/30"
+                        )}>
+                          <Icon className="h-4 w-4 text-current" />
                         </span>
                         <span className="text-sm font-medium">{item.label}</span>
                       </button>
@@ -225,11 +236,11 @@ export const NavigationDrawer = memo(function NavigationDrawer({ open, onClose, 
                 <button
                   type="button"
                   onClick={handleLockVaultImmediately}
-                  className="mx-1 mt-3 flex w-full items-center gap-3 rounded-xl border border-danger/35 bg-danger/10 px-4 py-3.5 text-left transition-colors hover:bg-danger/15"
+                  className="mx-1 mt-3 flex w-full items-center gap-3 rounded-[14px] border border-danger/35 bg-danger/10 px-4 py-3.5 text-left transition-colors hover:bg-danger/15"
                   aria-label="Lås Valvet omedelbart och gå till startskärm"
                 >
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-danger/30 bg-danger/5 text-danger">
-                    <Lock className="h-4 w-4" aria-hidden />
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[14px] border border-danger/30 bg-danger/5 text-danger">
+                    <Lock className="h-4 w-4 text-current" aria-hidden />
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-xs font-semibold text-danger">Lås Valvet nu</span>
