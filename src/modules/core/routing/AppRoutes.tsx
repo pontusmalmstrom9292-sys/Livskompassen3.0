@@ -20,6 +20,9 @@ const HjartatPage = lazy(() =>
 const ValvetRoutePage = lazy(() =>
   import('../pages/ValvetRoutePage').then((m) => ({ default: m.ValvetRoutePage })),
 );
+const VaultSettingsPage = lazy(() =>
+  import('@/features/lifeJournal/evidence/vault/components/VaultSettingsPage').then((m) => ({ default: m.VaultSettingsPage })),
+);
 const FamiljenPage = lazy(() =>
   import('../pages/FamiljenPage').then((m) => ({ default: m.FamiljenPage })),
 );
@@ -302,6 +305,14 @@ export function AppRoutes() {
                 element={
                   <ProtectedModule>
                     <ValvetRoutePage />
+                  </ProtectedModule>
+                }
+              />
+              <Route
+                path="/valvet/installningar"
+                element={
+                  <ProtectedModule>
+                    <VaultSettingsPage />
                   </ProtectedModule>
                 }
               />

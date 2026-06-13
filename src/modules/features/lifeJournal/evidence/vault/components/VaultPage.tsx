@@ -1,4 +1,4 @@
-import { Lock, ShieldAlert, X } from 'lucide-react';
+import { Lock, ShieldAlert, X, Settings } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
@@ -280,6 +280,14 @@ function VaultPageInner({
               title="Visa zonväljare igen"
             >
               Byt zon
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate('/valvet/installningar')}
+              className="btn-pill--ghost flex items-center gap-1"
+              title="Valv-inställningar"
+            >
+              <Settings className="h-3 w-3" /> Inställningar
             </button>
             <button
               type="button"
