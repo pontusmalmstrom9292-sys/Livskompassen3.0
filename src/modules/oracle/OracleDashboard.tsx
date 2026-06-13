@@ -20,6 +20,19 @@ const CustomTooltip = ({ active, payload, label }: any) => {
           <p className="text-sm font-medium" style={{ color: '#f87171' }}>
             Stress: {data.stressLevel}
           </p>
+          {(data.mabraSessionsCount ?? 0) > 0 ? (
+            <div className="pt-2">
+              <p className="text-sm font-medium text-emerald-300 flex items-start gap-1">
+                <span>🌿</span> 
+                <span>
+                  {data.mabraSessionsCount} MåBra-övning{data.mabraSessionsCount! > 1 ? 'ar' : ''}
+                  {data.mabraSessionTypes && data.mabraSessionTypes.length > 0 && (
+                    <span className="block text-xs text-emerald-400/80 mt-0.5">({data.mabraSessionTypes.join(', ')})</span>
+                  )}
+                </span>
+              </p>
+            </div>
+          ) : null}
         </div>
         {data.label && (
           <div className="mt-3 pt-3 border-t border-white/10">
@@ -32,6 +45,21 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     );
   }
   return null;
+};
+
+const MabraDot = (props: any) => {
+  const { cx, cy, payload } = props;
+  
+  if (payload?.mabraSessionsCount > 0) {
+    return (
+      <g>
+        <circle cx={cx} cy={cy} r={8} stroke="#4ade80" strokeWidth={2} fill="#020617" />
+        <circle cx={cx} cy={cy} r={4} fill="#4ade80" />
+      </g>
+    );
+  }
+  
+  return <circle cx={cx} cy={cy} r={3} stroke="#4ade80" strokeWidth={1} fill="#020617" />;
 };
 
 const QuickIntervention = ({ latestDataPoint }: { latestDataPoint: OracleDataPoint | null }) => {
@@ -206,7 +234,7 @@ export default function OracleDashboard() {
                     content={<CustomTooltip />}
                     wrapperStyle={{ zIndex: 100 }}
                   />
-                  <Area type="monotone" dataKey="capacity" name="Kapacitet" stroke="#4ade80" fillOpacity={1} fill="url(#colorCapacity)" />
+                  <Area type="monotone" dataKey="capacity" name="Kapacitet" stroke="#4ade80" fillOpacity={1} fill="url(#colorCapacity)" dot={<MabraDot />} activeDot={{ r: 8 }} />
                   <Area type="monotone" dataKey="stressLevel" name="Stress" stroke="#f87171" fillOpacity={1} fill="url(#colorStress)" />
                 </AreaChart>
               </ResponsiveContainer>

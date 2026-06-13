@@ -25,12 +25,21 @@ export class OracleService {
     const qInsights = query(
       insightsRef,
       where('ownerId', '==', userId),
-      orderBy('createdAt', 'asc') // Could filter by date but createdAt is timestamp
+      orderBy('createdAt', 'asc')
     );
 
-    const [intentionsSnap, insightsSnap] = await Promise.all([
+    // Fetch mabra sessions
+    const mabraRef = collection(db, 'mabra_sessions');
+    const qMabra = query(
+      mabraRef,
+      where('userId', '==', userId),
+      orderBy('createdAt', 'asc')
+    );
+
+    const [intentionsSnap, insightsSnap, mabraSnap] = await Promise.all([
       getDocs(qIntentions),
-      getDocs(qInsights)
+      getDocs(qInsights),
+      getDocs(qMabra)
     ]);
     
     // Map intentions by date
@@ -54,6 +63,25 @@ export class OracleService {
       insightsMap.set(insightDateStr, data);
     });
 
+    // Map mabra sessions by date
+    const mabraMap = new Map<string, any[]>();
+    mabraSnap.docs.forEach(doc => {
+      const data = doc.data();
+      let dateObj = new Date();
+      if (data.createdAt && typeof data.createdAt.toDate === 'function') {
+        dateObj = data.createdAt.toDate();
+      } else if (data.createdAt) {
+        dateObj = new Date(data.createdAt);
+      }
+      // Filter out sessions older than 7 days manually if we couldn't easily index it
+      if (dateObj >= sevenDaysAgo) {
+        const mabraDateStr = dateObj.toISOString().split('T')[0];
+        const existing = mabraMap.get(mabraDateStr) || [];
+        existing.push(data);
+        mabraMap.set(mabraDateStr, existing);
+      }
+    });
+
     // Fill the last 7 days
     const results: OracleDataPoint[] = [];
     for (let i = 6; i >= 0; i--) {
@@ -64,6 +92,7 @@ export class OracleService {
 
       const intentionData = intentionsMap.get(targetDateStr);
       const insightData = insightsMap.get(targetDateStr);
+      const mabraData = mabraMap.get(targetDateStr) || [];
       
       let label = 'Ingen data';
       
@@ -116,6 +145,10 @@ export class OracleService {
         }
       }
 
+      // Compute MåBra effects
+      const mabraSessionsCount = mabraData.length;
+      const mabraSessionTypes = mabraData.map(s => s.exerciseType || 'MåBra-Övning');
+
       results.push({
         date: displayDateStr,
         isoDate: targetDateStr,
@@ -124,7 +157,9 @@ export class OracleService {
         label: label.length > 50 ? label.substring(0, 50) + '...' : label,
         actionableAdvice,
         weeklySummary,
-        detectedPatterns
+        detectedPatterns,
+        mabraSessionsCount,
+        mabraSessionTypes
       });
     }
 
