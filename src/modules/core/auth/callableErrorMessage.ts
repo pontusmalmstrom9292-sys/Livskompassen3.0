@@ -4,13 +4,6 @@ export function formatCallableError(err: unknown): string {
   const code = String(e?.code ?? '');
   const msg = String(e?.message ?? err ?? '');
 
-  if (
-    code.includes('failed-precondition') ||
-    msg.includes('App Check-verifiering') ||
-    msg.includes('App Check')
-  ) {
-    return 'Säkerhetsverifiering (App Check) misslyckades. Uppdatera appen eller logga in igen.';
-  }
   if (code.includes('unauthenticated') || msg.includes('Autentisering krävs')) {
     return 'Logga in innan du öppnar Valvet (Konto uppe till höger).';
   }

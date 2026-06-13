@@ -10,7 +10,6 @@ import type {
 } from '@simplewebauthn/browser';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '../firebase/init';
-import { initAppCheck } from '../firebase/appCheck';
 import { formatCallableError } from './callableErrorMessage';
 
 type BeginVaultWebAuthnResult = {
@@ -100,8 +99,6 @@ export async function performVaultWebAuthnForSession(): Promise<VaultWebAuthnSes
         };
       }
     }
-
-    await initAppCheck();
 
     const first = await beginVaultChallenge(false);
 
