@@ -77,6 +77,7 @@ const DashboardHubPage = lazy(() =>
 const ArchiveHubPage = lazy(() =>
   import('../../features/archive/components/ArchiveHub').then((m) => ({ default: m.ArchiveHub }))
 );
+const NewDashboardHubPage = lazy(() => import('../../dashboard/DashboardHub'));
 
 function RouteFallback() {
   return <div className="p-6 text-center text-sm text-text-muted">Laddar…</div>;
@@ -231,6 +232,7 @@ export function AppRoutes() {
                   </ProtectedModule>
                 }
               />
+              <Route path="/dashboard" element={<NewDashboardHubPage />} />
               <Route
                 path="/kompis"
                 element={
