@@ -6,6 +6,7 @@ import { WidgetDeepLinkBridge } from '@/features/widgets/WidgetDeepLinkBridge';
 import { useBarnportenWebManifest } from '@/features/onboarding/barnporten/hooks/useBarnportenWebManifest';
 import { ToastContainer } from './modules/core/ui/ToastContainer';
 import { SOSOverlay } from './modules/features/sos/components/SOSOverlay';
+import { QuickCaptureOverlay } from './modules/features/voiceToVault/components/QuickCaptureOverlay';
 
 function AppShell() {
   useZeroFootprint();
@@ -14,6 +15,7 @@ function AppShell() {
   return (
     <AppUnlockGate>
       <WidgetDeepLinkBridge />
+      <QuickCaptureOverlay />
       <AppRoutes />
     </AppUnlockGate>
   );
