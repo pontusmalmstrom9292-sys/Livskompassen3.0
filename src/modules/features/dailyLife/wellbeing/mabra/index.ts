@@ -1,1 +1,1 @@
-export { MabraPage } from './components/MabraPage';
+export { MabraRoutes } from './routing/MabraRoutes';

@@ -29,8 +29,8 @@ const LivLauncherPage = lazy(() =>
 const KompisHubPage = lazy(() =>
   import('@/features/lifeJournal/evidence/kompis').then((m) => ({ default: m.KompisHubPage })),
 );
-const MabraPage = lazy(() =>
-  import('@/features/dailyLife/wellbeing/mabra').then((m) => ({ default: m.MabraPage })),
+const MabraRoutes = lazy(() =>
+  import('@/features/dailyLife/wellbeing/mabra').then((m) => ({ default: m.MabraRoutes })),
 );
 const PlaneringPage = lazy(() =>
   import('@/features/admin/planning').then((m) => ({ default: m.PlaneringPage })),
@@ -245,10 +245,10 @@ export function AppRoutes() {
               {/* —— LIV OCH GÖRA (launcher + fullsid-moduler) —— */}
               <Route path={NAV_PATHS.VARDAGEN} element={<AuthGate><LivLauncherPage /></AuthGate>} />
               <Route
-                path="/mabra"
+                path="/mabra/*"
                 element={
                   <AuthGate>
-                    <MabraPage />
+                    <MabraRoutes />
                   </AuthGate>
                 }
               />
