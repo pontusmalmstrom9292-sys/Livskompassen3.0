@@ -81,6 +81,9 @@ const ArchiveHubPage = lazy(() =>
   import('../../features/archive/components/ArchiveHub').then((m) => ({ default: m.ArchiveHub }))
 );
 const NewDashboardHubPage = lazy(() => import('../../dashboard/DashboardHub'));
+const MorningCompassPage = lazy(() =>
+  import('../../morning/MorningCompass').then((m) => ({ default: m.MorningCompass })),
+);
 
 function RouteFallback() {
   return <div className="p-6 text-center text-sm text-text-muted">Laddar…</div>;
@@ -247,6 +250,14 @@ export function AppRoutes() {
 
               {/* —— LIV OCH GÖRA (launcher + fullsid-moduler) —— */}
               <Route path={NAV_PATHS.VARDAGEN} element={<ProtectedModule><LivLauncherPage /></ProtectedModule>} />
+              <Route
+                path="/morgon"
+                element={
+                  <ProtectedModule>
+                    <MorningCompassPage />
+                  </ProtectedModule>
+                }
+              />
               <Route
                 path="/mabra/*"
                 element={

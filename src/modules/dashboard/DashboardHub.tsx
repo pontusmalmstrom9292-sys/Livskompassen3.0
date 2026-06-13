@@ -4,12 +4,13 @@ import { PageSkeleton } from '../../components/layout/PageSkeleton';
 import { useStore } from '../core/store';
 import { useDashboardStore } from './store/dashboardStore';
 import { InsightsInput } from './components/InsightsInput';
+import { DailyFocusCard } from './components/DailyFocusCard';
 
 // Store exporteras från ./store/dashboardStore.ts
 
 function DashboardHubContent() {
   const user = useStore(state => state.user);
-  const { data, isLoading, error, fetchData } = useDashboardStore();
+  const { isLoading, error, fetchData } = useDashboardStore();
 
   useEffect(() => {
     if (user?.uid) {
@@ -35,28 +36,21 @@ function DashboardHubContent() {
       className="w-full h-full min-h-[80vh] p-4 sm:p-6 md:p-8 text-white transition-colors duration-300"
       style={{ backgroundColor: 'var(--color-nordic-dusk)' }}
     >
-      <div className="max-w-4xl mx-auto space-y-6">
-        <header className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard Hub</h1>
+      <div className="max-w-6xl mx-auto space-y-8">
+        <header className="flex items-center justify-between mb-4">
+          <h1 className="text-3xl font-bold tracking-tight text-white/90">Dagens Översikt</h1>
         </header>
 
-        <InsightsInput />
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {data.length === 0 ? (
-            <div className="col-span-full p-8 bg-white/5 rounded-2xl border border-white/10 shadow-md backdrop-blur-md text-center">
-              <p className="text-lg opacity-80">Ingen data hittades för din profil.</p>
-            </div>
-          ) : (
-            data.map(item => (
-              <div 
-                key={item.id} 
-                className="p-6 bg-white/5 rounded-xl border border-white/5 shadow-sm backdrop-blur-sm hover:bg-white/10 transition-colors"
-              >
-                <pre className="text-sm opacity-80 overflow-auto">{JSON.stringify(item, null, 2)}</pre>
-              </div>
-            ))
-          )}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Vänster kolumn: Morgonkompassen (Autonomi & Fokus) */}
+          <div className="flex flex-col h-full">
+            <DailyFocusCard />
+          </div>
+
+          {/* Höger kolumn: Ventilen (Kognitiv avlastning) */}
+          <div className="flex flex-col h-full">
+            <InsightsInput />
+          </div>
         </div>
       </div>
     </div>
