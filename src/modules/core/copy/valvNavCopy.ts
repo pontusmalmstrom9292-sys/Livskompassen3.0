@@ -17,6 +17,7 @@ export type VaultMainTabLabelId = keyof typeof VAULT_MAIN_TAB_LABELS;
 
 export const VALV_ZONE_LABELS = {
   samla: 'Spara & sök',
+  inbox: 'Inkorg',
   analysera: 'Mönster',
   kunskap: 'Kunskapsbank',
   vit: 'Mitt Vit',
@@ -28,6 +29,7 @@ export type ValvZoneLabelId = keyof typeof VALV_ZONE_LABELS;
 
 export const VALV_ZONE_INGRESS: Record<ValvZoneLabelId, string> = {
   samla: 'Samla in bevis och sök i loggen.',
+  inbox: 'Godkänn inkommande filer från Drive för att säkra dem i Valvet.',
   analysera: 'Mönster och meddelanden — över tid, inte i stunden.',
   kunskap: 'Fakta bakom PIN: Kunskapsbank och personer i ärendet.',
   vit: 'Dina frågekort och minnen — personlig utveckling, inte bevis mot ex.',
@@ -37,6 +39,7 @@ export const VALV_ZONE_INGRESS: Record<ValvZoneLabelId, string> = {
 
 export const VALV_DRAWER_HINTS = {
   samla: 'Objektiv registrering av skriftliga meddelanden och logistik.',
+  inbox: 'Granska och godkänn inskickat material till WORM-arkivet.',
   analysera: 'Strukturerad kartläggning av återkommande mönster och beteenden.',
   kunskap: 'Sparade anteckningar, lagrum och personer i ärendet.',
   vit: 'Frågekort och känslominnen — din Vit hub över tid.',

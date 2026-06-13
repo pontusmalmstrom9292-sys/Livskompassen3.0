@@ -1,52 +1,11 @@
 import React, { useEffect } from 'react';
-import { create } from 'zustand';
-import { collection, query, where, getDocs, CollectionReference, DocumentData } from 'firebase/firestore';
 import { ProtectedModule } from '../../components/layout/ProtectedModule';
 import { PageSkeleton } from '../../components/layout/PageSkeleton';
 import { useStore } from '../core/store';
-import { db } from '../core/firebase/firestore';
+import { useDashboardStore } from './store/dashboardStore';
+import { InsightsInput } from './components/InsightsInput';
 
-/**
- * Hjälpfunktion för att säkra alla Firestore-frågor med ownerId
- * Enligt säkerhetsfokuserad arkitektur
- */
-function secureQuery(ref: CollectionReference<DocumentData, DocumentData>, ownerId: string) {
-  return query(ref, where('ownerId', '==', ownerId));
-}
-
-interface DashboardData {
-  id: string;
-  [key: string]: any;
-}
-
-interface DashboardStore {
-  data: DashboardData[];
-  isLoading: boolean;
-  error: string | null;
-  fetchData: (ownerId: string) => Promise<void>;
-}
-
-/**
- * Zustand store för DashboardHub
- */
-const useDashboardStore = create<DashboardStore>((set) => ({
-  data: [],
-  isLoading: false,
-  error: null,
-  fetchData: async (ownerId: string) => {
-    set({ isLoading: true, error: null });
-    try {
-      const ref = collection(db, 'user_insights');
-      // Automatisk injicering av ownerId-filtret
-      const q = secureQuery(ref, ownerId);
-      const snap = await getDocs(q);
-      const data = snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as DashboardData));
-      set({ data, isLoading: false });
-    } catch (err) {
-      set({ error: (err as Error).message, isLoading: false });
-    }
-  }
-}));
+// Store exporteras från ./store/dashboardStore.ts
 
 function DashboardHubContent() {
   const user = useStore(state => state.user);
@@ -80,6 +39,8 @@ function DashboardHubContent() {
         <header className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold tracking-tight">Dashboard Hub</h1>
         </header>
+
+        <InsightsInput />
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {data.length === 0 ? (

@@ -367,6 +367,7 @@ export const FIRESTORE_COLLECTIONS = {
   project_blocks: 'project_blocks',
   user_widgets: 'user_widgets',
   user_tags: 'user_tags',
+  inbox_rules: 'inbox_rules',
 } as const;
 
 /** Användardefinierad tagg (Firestore `user_tags`). */

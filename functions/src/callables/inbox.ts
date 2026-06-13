@@ -49,6 +49,14 @@ export const confirmInboxItem = onCall({ region: 'europe-west1' }, async (reques
       ? request.data.childAlias.trim()
       : undefined;
 
+  const overrideTags = Array.isArray(request.data?.overrideTags)
+    ? request.data.overrideTags.filter((v: unknown) => typeof v === 'string')
+    : undefined;
+
+  const overrideCategory = typeof request.data?.overrideCategory === 'string' && request.data.overrideCategory.trim()
+    ? request.data.overrideCategory.trim()
+    : undefined;
+
   if (routing === 'bevis') {
     await assertVaultSession(request.auth.uid, request.data);
   }
@@ -59,6 +67,8 @@ export const confirmInboxItem = onCall({ region: 'europe-west1' }, async (reques
       queueId,
       routing,
       childAlias,
+      overrideTags,
+      overrideCategory,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Bekräftelse misslyckades.';

@@ -47,10 +47,12 @@ export async function fetchInboxQueue(): Promise<InboxQueueItem[]> {
 export async function confirmInbox(
   queueId: string,
   routing: 'kunskap' | 'bevis' | 'barnen' | 'dagbok',
-  childAlias?: string
+  childAlias?: string,
+  overrideTags?: string[],
+  overrideCategory?: string
 ): Promise<{ collection: string; docId: string }> {
   try {
-    const payload = { queueId, routing, childAlias };
+    const payload = { queueId, routing, childAlias, overrideTags, overrideCategory };
     const result = await confirmInboxItemCallable(
       routing === 'bevis' ? withVaultSessionPayload(payload) : payload,
     );

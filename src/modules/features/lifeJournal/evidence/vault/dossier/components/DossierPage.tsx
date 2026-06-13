@@ -263,6 +263,17 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
       // 1. Sortera kronologiskt för formellt underlag
       const sorted = [...selected].sort((a, b) => a.createdAt.localeCompare(b.createdAt));
 
+      const mapToBBIC = (category: string | undefined): string => {
+        const cat = (category || '').toLowerCase();
+        if (['skola', 'utbildning', 'förskola'].includes(cat)) return 'Barnets behov: Utbildning';
+        if (['hälsa', 'sömn', 'bvc', 'läkare', 'sjuk', 'vård'].includes(cat)) return 'Barnets behov: Hälsa';
+        if (['känslor', 'ångest', 'bråk', 'rädd', 'oro'].includes(cat)) return 'Barnets behov: Känslomässig utveckling';
+        if (['omsorg', 'vårdnad', 'mat', 'kläder', 'rutin', 'överlämning'].includes(cat)) return 'Föräldraförmåga: Grundläggande omsorg';
+        if (['kommunikation', 'biff', 'konflikt', 'hot'].includes(cat)) return 'Föräldraförmåga: Konflikthantering & Kommunikation';
+        if (['ekonomi', 'pengar', 'underhåll'].includes(cat)) return 'Familj och miljö: Ekonomi';
+        return 'Övriga observationer';
+      };
+
       // 2. Skapa corpus för hashning
       const textCorpus = sorted
         .map((d) => `[${d.createdAt.slice(0, 10)}] ${d.title}: ${d.preview}`)
@@ -274,9 +285,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
         throw new Error('Webbläsaren blockerade popup-fönstret. Tillåt popups för att skriva ut.');
       }
 
-      const rowsHtml = sorted
-        .map(
-          (d) => `
+      const renderRow = (d: DossierCandidateDoc) => `
         <tr style="page-break-inside: avoid; border-bottom: 1px solid #cbd5e1;">
           <td style="padding: 12px 8px; font-weight: 600; font-size: 11px; font-family: monospace; white-space: nowrap;">
             ${escapeHtml(d.createdAt.slice(0, 10))}
@@ -291,9 +300,29 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
             ${escapeHtml(d.preview)}
           </td>
         </tr>
-      `,
-        )
-        .join('');
+      `;
+
+      let rowsHtml = '';
+      if (reportType === 'BBIC') {
+        const grouped: Record<string, DossierCandidateDoc[]> = {};
+        for (const d of sorted) {
+           const bbicCat = mapToBBIC(d.category);
+           if (!grouped[bbicCat]) grouped[bbicCat] = [];
+           grouped[bbicCat].push(d);
+        }
+        for (const [catName, items] of Object.entries(grouped)) {
+          rowsHtml += `<tr><td colspan="4" style="background: #e2e8f0; padding: 8px 12px; font-weight: 700; font-size: 12px; color: #0f172a;">${escapeHtml(catName)}</td></tr>`;
+          rowsHtml += items.map(renderRow).join('');
+        }
+      } else {
+        rowsHtml = sorted.map(renderRow).join('');
+      }
+
+      const aiForewordHtml = includeAiForeword ? `
+        <div style="margin-top: 24px; padding: 16px; background: #f8fafc; border-left: 4px solid #6366f1; font-size: 11px; color: #334155;">
+          <strong>Neutral Sammanställning (Vävaren):</strong> Denna dossier är strukturerad med stöd av Livskompassens AI. Posterna nedan är oföränderliga och kryptografiskt säkrade användardata (WORM), medan eventuella AI-taggar och urvalshjälp har utförts i syfte att neutralt och objektivt presentera kronologin för juridiska ombud eller socialtjänst. Målet är att skilja känsla från dokumenterad fakta.
+        </div>
+      ` : '';
 
       const childLabel = escapeHtml(deepLinkChild || 'Hela familjen');
       const reportLabel = escapeHtml(
@@ -341,6 +370,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                 </span>
               </div>
             </div>
+            ${aiForewordHtml}
           </div>
 
           <table>

@@ -34,7 +34,7 @@ export const VIT_VAULT_TAB = 'mitt_vit' as const;
 export const VIT_VAULT_TAB_IDS = [VIT_VAULT_TAB] as const;
 export type VitVaultTab = (typeof VIT_VAULT_TAB_IDS)[number];
 
-export const VALV_ZONE_IDS = ['samla', 'analysera', 'kunskap', 'vit', 'exportera', 'forensik'] as const;
+export const VALV_ZONE_IDS = ['samla', 'inbox', 'analysera', 'kunskap', 'vit', 'exportera', 'forensik'] as const;
 
 export type ValvZone = (typeof VALV_ZONE_IDS)[number];
 
@@ -61,6 +61,7 @@ export function resolveValvZone(tab: VaultTab): ValvZone {
   if (isForensicVaultTab(tab)) return 'forensik';
   if ((EXPORTERA_VAULT_TAB_IDS as readonly string[]).includes(tab)) return 'exportera';
   if ((ANALYSERA_VAULT_TAB_IDS as readonly string[]).includes(tab)) return 'analysera';
+  // If we had a specific tab for inbox, we would map it here. For now, it might be navigated directly as a variant.
   return 'samla';
 }
 

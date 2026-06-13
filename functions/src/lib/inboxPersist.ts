@@ -370,6 +370,8 @@ export async function confirmInboxQueueItem(input: {
   queueId: string;
   routing: 'kunskap' | 'bevis' | 'barnen' | 'dagbok';
   childAlias?: string;
+  overrideTags?: string[];
+  overrideCategory?: string;
 }): Promise<{ collection: string; docId: string }> {
   const ref = admin.firestore().collection(INBOX_QUEUE).doc(input.queueId);
   const snap = await ref.get();
@@ -386,8 +388,8 @@ export async function confirmInboxQueueItem(input: {
 
   const classification: InboxClassification = {
     routing: input.routing,
-    tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
-    category: String(data.category ?? 'bekräftad'),
+    tags: input.overrideTags ?? (Array.isArray(data.tags) ? data.tags.map(String) : []),
+    category: input.overrideCategory ?? String(data.category ?? 'bekräftad'),
     confidence: 1,
     summary: String(data.summary ?? ''),
     traumaSensitive: false,
@@ -416,6 +418,8 @@ export async function confirmInboxQueueItem(input: {
     persistedCollection: routeResult.collection,
     persistedDocId: routeResult.docId,
     reviewedAt: admin.firestore.FieldValue.serverTimestamp(),
+    ...(input.overrideTags ? { tags: input.overrideTags } : {}),
+    ...(input.overrideCategory ? { category: input.overrideCategory } : {}),
   });
 
   return { collection: routeResult.collection, docId: routeResult.docId };

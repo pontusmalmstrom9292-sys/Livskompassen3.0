@@ -5,6 +5,7 @@ import { ValvForensikZone } from './zones/ValvForensikZone';
 import { ValvKunskapZone } from './zones/ValvKunskapZone';
 import { ValvSamlaZone } from './zones/ValvSamlaZone';
 import { ValvVitZone } from './zones/ValvVitZone';
+import { ValvInboxZone } from './zones/ValvInboxZone';
 import type { VaultLogInput } from '../types/vaultEntry';
 import {
   KUNSKAP_VAULT_TAB,
@@ -105,6 +106,8 @@ export function ValvSuperModule({
       const tab: ForensicVaultTab = isForensicVaultTab(vaultTab) ? vaultTab : 'hamn_analys';
       return <ValvForensikZone tab={tab} onTabChange={onVaultTabChange} />;
     }
+    case 'inbox':
+      return <ValvInboxZone onBevisConfirmed={onBevisConfirmed} />;
     default:
       return null;
   }

@@ -11,6 +11,7 @@ import {
 } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import { createPlanningTask } from '@/features/admin/planning/api/planningTasksApi';
 import { usePlanningEmailRules } from '@/features/admin/planning/hooks/usePlanningEmailRules';
+import { useInboxRules } from '@/features/admin/inboxRules/hooks/useInboxRules';
 import { PLANERING_HANDLING_LINK } from '@/modules/inkast/api/inkastService';
 import {
   classifyInboxItemForHandling,
@@ -61,6 +62,7 @@ export function InboxReviewQueue({
   const isAuthenticated = useStore((s) => s.isAuthenticated);
   const userId = useStore((s) => s.user?.uid);
   const { rules } = usePlanningEmailRules();
+  const { rules: inboxRules } = useInboxRules();
   const [items, setItems] = useState<InboxQueueItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -103,6 +105,8 @@ export function InboxReviewQueue({
         item.id,
         routing,
         routing === 'barnen' ? item.childAlias ?? 'Kasper' : undefined,
+        item.tags,
+        item.category
       );
       setLastAction(`Skickat till ${collectionLabel(result.collection)} · ${result.docId.slice(0, 8)}…`);
       if (routing === 'bevis' && result.collection === 'reality_vault' && result.docId) {
@@ -184,7 +188,34 @@ export function InboxReviewQueue({
 
   if (!isAuthenticated) return null;
 
-  const displayItems = prioritizeBevis ? sortInboxForValvSamla(items) : items;
+  const applyInboxRules = (list: InboxQueueItem[]) => {
+    if (!inboxRules || inboxRules.length === 0) return list;
+    return list.map((item) => {
+      const newItem = { ...item };
+      for (const rule of inboxRules) {
+        if (!rule.enabled) continue;
+        const match = rule.matchType === 'exact' 
+          ? newItem.fileName.toLowerCase() === rule.pattern.toLowerCase()
+          : newItem.fileName.toLowerCase().includes(rule.pattern.toLowerCase());
+        
+        if (match) {
+          if (rule.targetTags.length > 0) {
+            newItem.tags = Array.from(new Set([...newItem.tags, ...rule.targetTags]));
+          }
+          if (rule.targetCategory) {
+            newItem.category = rule.targetCategory;
+          }
+          if (rule.targetRouting) {
+            newItem.proposedRouting = rule.targetRouting;
+          }
+        }
+      }
+      return newItem;
+    });
+  };
+
+  const baseItems = prioritizeBevis ? sortInboxForValvSamla(items) : items;
+  const displayItems = applyInboxRules(baseItems);
 
   return (
     <BentoCard
@@ -245,6 +276,7 @@ export function InboxReviewQueue({
             <p className="mt-1 text-xs text-text-muted">
               {item.traumaSensitive ? 'Trauma · ' : ''}
               Säkerhet {Math.round((typeof item.confidence === 'number' ? item.confidence : 0) * 100)}%
+              {item.tags.length > 0 && ` · Taggar: ${item.tags.join(', ')}`}
             </p>
             <p className="mt-2 text-xs text-text-dim line-clamp-2">{item.summary}</p>
             {isPlaneringInboxItem(item) && (
