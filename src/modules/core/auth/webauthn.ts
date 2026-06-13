@@ -1,3 +1,19 @@
+/**
+ * webauthn.ts
+ *
+ * Lättviktig WebAuthn-gate för VaultZoneGate (zoner inuti Valvet).
+ * Primärt flöde — används på webb/desktop. På Capacitor native-platform
+ * används isWebAuthnReliable() för att kontrollera om WebAuthn faktiskt
+ * fungerar innan vi försöker.
+ *
+ * authenticateVaultGateUniversal() är den rekommenderade ingångspunkten
+ * för alla nya anrop — den hanterar plattformsdetektering automatiskt.
+ */
+
+import { isCapacitorNative } from '../platform/capacitorPlatform';
+import { isWebAuthnReliable } from './vaultWebAuthnClient';
+import { performNativeBiometric } from './nativeBiometricAuth';
+
 const PASSKEY_ID_KEY = 'livskompassen_passkey_id';
 
 function randomChallenge(): BufferSource {
@@ -11,7 +27,10 @@ function rpId(): string {
   return host === '127.0.0.1' ? 'localhost' : host;
 }
 
-/** WebAuthn biometrisk gate — returnerar false vid avbroft (grey rock). */
+/**
+ * WebAuthn biometrisk gate — returnerar false vid avbrott (grey rock).
+ * Anropas enbart om isWebAuthnReliable() === true.
+ */
 export async function authenticateVaultGate(): Promise<boolean> {
   if (!window.PublicKeyCredential) {
     return false;
@@ -56,4 +75,41 @@ export async function authenticateVaultGate(): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+export type UniversalGateResult =
+  | { ok: true }
+  | { ok: false; message: string };
+
+/**
+ * Universell autentiseringsgate för VaultZoneGate (zoner inuti Valvet).
+ * Väljer rätt autentiseringsmetod baserat på plattform:
+ *  - Webb/Desktop  → authenticateVaultGate() (WebAuthn, oförändrat)
+ *  - Capacitor     → performNativeBiometric() (Android TEE / iOS Secure Enclave)
+ *
+ * Obs: Zongates inuti Valvet kräver inte en ny server-session — de
+ * kontrollerar bara hasVaultGate() i sessionStorage. Biometrin här
+ * verifierar bara att det är rätt person vid zonomslag.
+ */
+export async function authenticateVaultGateUniversal(): Promise<UniversalGateResult> {
+  const webAuthnOk = await isWebAuthnReliable();
+
+  if (webAuthnOk) {
+    const ok = await authenticateVaultGate();
+    return ok
+      ? { ok: true }
+      : { ok: false, message: 'Biometri avbruten. Försök igen.' };
+  }
+
+  if (isCapacitorNative()) {
+    const bio = await performNativeBiometric();
+    return bio.ok
+      ? { ok: true }
+      : { ok: false, message: bio.message };
+  }
+
+  return {
+    ok: false,
+    message: 'Biometri stöds inte i denna miljö. Håll Kompis-ögat i 3 sek på din mobil.',
+  };
 }

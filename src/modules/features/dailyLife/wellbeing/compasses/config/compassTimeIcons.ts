@@ -4,9 +4,9 @@ import type { CompassFlow } from '../utils/compassTime';
 export type CompassTimeIconId = 'kvall' | 'skymning' | 'soluppgang';
 
 export const COMPASS_TIME_ICON_SRC: Record<CompassTimeIconId, string> = {
-  kvall: '/icons/compass-time/kvall.png',
-  skymning: '/icons/compass-time/skymning.png',
-  soluppgang: '/icons/compass-time/soluppgang.png',
+  kvall: '/icons/compass-time/kvall.svg',
+  skymning: '/icons/compass-time/skymning.svg',
+  soluppgang: '/icons/compass-time/soluppgang.svg',
 };
 
 export const COMPASS_FLOW_TIME_ICON: Record<

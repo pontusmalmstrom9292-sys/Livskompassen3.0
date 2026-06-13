@@ -4,6 +4,10 @@ import type { ElongatedModuleTone } from '@/core/ui/ElongatedModule';
 import { COMPASS_FLOWS, EVENING_HERO } from '../config/compassFlows';
 import type { CompassFlow } from '../utils/compassTime';
 import { getDefaultCompassByTime } from '../utils/compassTime';
+import {
+  COMPASS_FLOW_TIME_ICON,
+  COMPASS_TIME_ICON_SRC,
+} from '../config/compassTimeIcons';
 import { DashboardPage } from './DashboardPage';
 import { CompassQuickWidgetRail } from './CompassQuickWidgetRail';
 
@@ -51,6 +55,8 @@ export function CompassModuleStrip({ onCheckInSaved }: Props) {
       {ALL_FLOWS.map((flow) => {
         const isExpanded = expanded === flow.id;
         const showRail = isExpanded || timeFlow === flow.id;
+        const { iconId } = COMPASS_FLOW_TIME_ICON[flow.id];
+        const timeIconSrc = COMPASS_TIME_ICON_SRC[iconId];
         return (
           <div key={flow.id} className="compass-module-block">
             <ElongatedModule
@@ -58,6 +64,7 @@ export function CompassModuleStrip({ onCheckInSaved }: Props) {
               title={flow.label}
               lead={flow.lead}
               icon={flow.icon}
+              timeIconSrc={timeIconSrc}
               tone={FLOW_TONE[flow.id]}
               recommended={timeFlow === flow.id}
               expanded={isExpanded}

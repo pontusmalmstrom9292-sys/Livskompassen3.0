@@ -3,6 +3,7 @@ import { Shield } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { openValvViaFyren } from '../auth/valvFyrenGate';
 import { useStore } from '../store';
+import { isCapacitorNative } from '../platform/capacitorPlatform';
 
 type Props = {
   /** Inline card (VaultPage) vs full-screen (DagbokPage). */
@@ -10,8 +11,22 @@ type Props = {
   extra?: ReactNode;
 };
 
-const UNLOCK_HINT =
-  'Håll inne Kompis-ögat i toppmenyn i 3 sekunder. Verifiera med fingeravtryck eller Face ID. Direktlänk räcker inte.';
+/**
+ * Returnerar rätt instruktionstext baserat på plattform:
+ * - Webb: lång-press på Kompis-ögat (WebAuthn via Fyren)
+ * - Capacitor native: tryck direkt på knappen (Native Biometric)
+ */
+function getUnlockHint(): string {
+  if (isCapacitorNative()) {
+    return 'Tryck på knappen nedan och verifiera med ditt fingeravtryck eller Face ID för att öppna Valvet.';
+  }
+  return 'Håll inne Kompis-ögat i toppmenyn i 3 sekunder. Verifiera med fingeravtryck eller Face ID. Direktlänk räcker inte.';
+}
+
+function getButtonLabel(busy: boolean): string {
+  if (busy) return 'Verifierar…';
+  return isCapacitorNative() ? 'Öppna Valvet (fingeravtryck)' : 'Lås upp Valvet (biometri)';
+}
 
 /** Nödutgång när Valv är låst — instruktion + direkt upplåsningsknapp. */
 export function VaultLockedGate({ variant = 'screen', extra }: Props) {
@@ -37,17 +52,20 @@ export function VaultLockedGate({ variant = 'screen', extra }: Props) {
     </p>
   ) : null;
 
+  const hint = getUnlockHint();
+  const buttonLabel = getButtonLabel(busy);
+
   if (variant === 'card') {
     return (
       <div className="space-y-4">
-        <p className="text-sm text-text-dim">{UNLOCK_HINT}</p>
+        <p className="text-sm text-text-dim">{hint}</p>
         <button
           type="button"
           className="btn-pill--accent w-full"
           disabled={busy}
           onClick={tryUnlock}
         >
-          {busy ? 'Verifierar biometri…' : 'Lås upp Valvet (biometri)'}
+          {buttonLabel}
         </button>
         {errorBlock}
       </div>
@@ -60,14 +78,14 @@ export function VaultLockedGate({ variant = 'screen', extra }: Props) {
       <h2 className="font-display-serif text-xl uppercase tracking-[0.2em] text-text">
         Valvet är låst
       </h2>
-      <p className="mt-2 max-w-sm text-sm text-text-muted">{UNLOCK_HINT}</p>
+      <p className="mt-2 max-w-sm text-sm text-text-muted">{hint}</p>
       <button
         type="button"
         className="btn-pill--accent mt-6"
         disabled={busy}
         onClick={tryUnlock}
       >
-        {busy ? 'Verifierar biometri…' : 'Lås upp Valvet (biometri)'}
+        {buttonLabel}
       </button>
       {errorBlock}
       {extra}

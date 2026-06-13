@@ -2,6 +2,7 @@ import {
   startAuthentication,
   startRegistration,
 } from '@simplewebauthn/browser';
+import { isCapacitorNative } from '../platform/capacitorPlatform';
 import type {
   AuthenticationResponseJSON,
   PublicKeyCredentialCreationOptionsJSON,
@@ -30,6 +31,29 @@ export type VaultWebAuthnSessionResult =
 function rpId(): string {
   const host = window.location.hostname;
   return host === '127.0.0.1' ? 'localhost' : host;
+}
+
+/**
+ * Returnerar true ENBART om WebAuthn faktiskt är pålitlig i aktuell context.
+ *
+ * Tre villkor måste vara uppfyllda:
+ *  1. window.PublicKeyCredential API måste existera.
+ *  2. Vi får INTE vara i en Capacitor native WebView — WebAuthn API
+ *     existerar där men kan inte bridga till Android FIDO2 / Credential Manager,
+ *     vilket leder till tysta timeouts eller NotAllowedError utan UX-prompt.
+ *  3. Enheten måste ha en platform authenticator konfigurerad (fingeravtryck/Face ID).
+ *
+ * Falskt negativ → Native Biometric fallback aktiveras (säkert).
+ * Falskt positiv → 60s tyst hängning i Capacitor (det vi undviker).
+ */
+export async function isWebAuthnReliable(): Promise<boolean> {
+  if (!window.PublicKeyCredential) return false;
+  // I Capacitor WebView: API finns men FIDO2-bridging fungerar ej.
+  if (isCapacitorNative()) return false;
+  if (typeof PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable === 'function') {
+    return PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+  }
+  return true;
 }
 
 function formatWebAuthnClientError(err: unknown): string {
@@ -78,28 +102,17 @@ function isRecoverableAuthError(err: unknown): boolean {
   );
 }
 
-/** Server-backed WebAuthn — krävs före issueVaultSession. */
+/** Server-backed WebAuthn — krävs före issueVaultSession. Anropas bara om isWebAuthnReliable() === true. */
 export async function performVaultWebAuthnForSession(): Promise<VaultWebAuthnSessionResult> {
-  if (!window.PublicKeyCredential) {
+  const reliable = await isWebAuthnReliable();
+  if (!reliable) {
     return {
       ok: false,
-      message: 'Biometri stöds inte här. Använd en uppdaterad webbläsare eller Android-appen.',
+      message: 'WebAuthn är inte tillgängligt i denna miljö. Använd biometri-knappen.',
     };
   }
 
   try {
-    if (typeof PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable === 'function') {
-      const platformAvailable =
-        await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
-      if (!platformAvailable) {
-        return {
-          ok: false,
-          message:
-            'Enheten har inget fingeravtryck/Face ID konfigurerat för webben. Lägg till skärmlås i systeminställningar.',
-        };
-      }
-    }
-
     const first = await beginVaultChallenge(false);
 
     if (first.flow === 'registration') {

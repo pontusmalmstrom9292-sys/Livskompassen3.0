@@ -76,3 +76,38 @@ export async function issueVaultServerSession(
     return { ok: false, message: formatCallableError(err) };
   }
 }
+
+type BiometricSessionPayload = { platform: 'android' | 'ios' };
+
+/**
+ * Skapar en Valv-session via native biometri (Android TEE / iOS Secure Enclave).
+ * Används som fallback när WebAuthn inte är tillgängligt i Capacitor WebView.
+ *
+ * Autentiseringsgarantin ges av:
+ *  1. Firebase ID-token (verifieras server-side automatiskt av Cloud Functions)
+ *  2. Android TEE-verifierad biometri (utförd av OS innan detta anrop görs)
+ *
+ * Same Zero Footprint: session är 1h idle, invalidateSession fungerar som vanligt.
+ */
+export async function issueVaultSessionViaBiometric(
+  platform: 'android' | 'ios',
+): Promise<VaultSessionIssueOutcome> {
+  try {
+    const issue = httpsCallable<BiometricSessionPayload, VaultSessionIssueResult>(
+      functions,
+      'issueVaultSessionViaBiometric',
+    );
+    const result = await issue({ platform });
+    const data = result.data;
+    if (!data?.vaultSessionToken || !data?.expiresAt) {
+      return { ok: false, message: 'Valv-session (biometri) svarade utan token.' };
+    }
+    sessionStorage.setItem(TOKEN_KEY, data.vaultSessionToken);
+    sessionStorage.setItem(EXPIRES_KEY, data.expiresAt);
+    return { ok: true };
+  } catch (err) {
+    console.warn('[vaultSession] issueVaultSessionViaBiometric misslyckades:', err);
+    return { ok: false, message: formatCallableError(err) };
+  }
+}
+

@@ -282,10 +282,14 @@ export function HomeAdaptiveCompass({
               )}
             </div>
 
-            <CompassQuickWidgetRail
-              flow={phaseToCompassFlow(activePhase)}
-              className="compass-quick-widget-rail--in-module border-t border-border/20 px-4 pb-4 pt-3"
-            />
+            {/* Rail visas av CompassModuleStrip när den är inbäddad — renderas bara i fristående läge. */}
+            {!forcedPhase && (
+              <CompassQuickWidgetRail
+                flow={phaseToCompassFlow(activePhase)}
+                className="compass-quick-widget-rail--in-module border-t border-border/20 px-4 pb-4 pt-3"
+              />
+            )}
+
 
             {showInkast ? (
               <section

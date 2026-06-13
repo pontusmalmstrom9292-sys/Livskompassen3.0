@@ -8,7 +8,7 @@ import {
   clearVaultZone,
   type VaultZoneId,
 } from '../auth/sessionService';
-import { authenticateVaultGate } from '../auth/webauthn';
+import { authenticateVaultGateUniversal } from '../auth/webauthn';
 import { useVaultZoneIdle } from './useVaultZoneIdle';
 
 type Props = {
@@ -65,17 +65,13 @@ export function VaultZoneGate({
 
   const tryUnlock = async () => {
     setError(null);
-    if (!window.PublicKeyCredential) {
-      setError('Biometri krävs. Håll Kompis-ögat i toppmenyn i 3 sek och försök igen.');
-      return;
-    }
     setWebAuthnPending(true);
-    const ok = await authenticateVaultGate();
+    const result = await authenticateVaultGateUniversal();
     setWebAuthnPending(false);
-    if (ok) {
+    if (result.ok) {
       unlock();
     } else {
-      setError('Biometri avbruten. Försök igen.');
+      setError(result.message);
     }
   };
 

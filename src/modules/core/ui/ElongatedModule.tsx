@@ -16,6 +16,8 @@ type Props = {
   title: string;
   lead: string;
   icon: LucideIcon;
+  /** K1/K2/K3 tid-på-dag-ikon (PNG/SVG src). Ersätter Lucide-ikonen om angiven. */
+  timeIconSrc?: string;
   tone?: ElongatedModuleTone;
   expanded?: boolean;
   recommended?: boolean;
@@ -29,6 +31,7 @@ export function ElongatedModule({
   title,
   lead,
   icon: Icon,
+  timeIconSrc,
   tone = 'gold',
   expanded = false,
   recommended = false,
@@ -48,14 +51,30 @@ export function ElongatedModule({
         className="elongated-module__trigger"
       >
         <span className="elongated-module__icon" aria-hidden>
-          <Icon className="h-[1.15rem] w-[1.15rem]" strokeWidth={1.65} />
+          {timeIconSrc ? (
+            <img
+              src={timeIconSrc}
+              alt=""
+              aria-hidden
+              className="elongated-module__time-icon"
+              width={20}
+              height={20}
+            />
+          ) : (
+            <Icon className="h-[1.15rem] w-[1.15rem]" strokeWidth={1.65} />
+          )}
         </span>
         <span className="elongated-module__text">
           <span className="elongated-module__title-row">
             <span className="elongated-module__title">{title}</span>
             {recommended && (
-              <span className="elongated-module__badge" title="Passar tid på dygnet">
-                nu
+              <span
+                className="elongated-module__badge"
+                title="Passar tid på dygnet"
+                aria-label="aktiv nu"
+              >
+                {/* ● — diskret guldprick per K1-K3-spec (2026-05-23) */}
+                <span className="elongated-module__badge-dot" aria-hidden>●</span>
               </span>
             )}
           </span>

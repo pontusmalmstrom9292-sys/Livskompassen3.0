@@ -45,6 +45,50 @@ export const issueVaultSession = onCall({ region: 'europe-west1' }, async (reque
   return createVaultSession(uid);
 });
 
+/**
+ * Nativ-biometri-kanal (Capacitor Android / iOS).
+ *
+ * Autentiseringsgaranti:
+ *  1. Firebase ID-token — verifieras automatiskt av Cloud Functions runtime.
+ *     Klienten kan inte förfalska detta utan att ha ett giltigt Google-konto.
+ *  2. Android TEE / iOS Secure Enclave — klienten utför biometriverifiering
+ *     INNAN detta anrop görs (performNativeBiometric() i nativeBiometricAuth.ts).
+ *     Vi litar på OS-garantin precis som mobilbanks-appar gör.
+ *
+ * Rate-limiting: 10 anrop/minut per UID (samma som WebAuthn-kanalen).
+ * Zero Footprint: Identisk sessionslivstid (1h idle) via createVaultSession().
+ * WORM: Oförändrat — Firestore-regler kräver assertVaultSession() per write.
+ * Audit: Loggpost per utfärdad session (uid + platform + tidsstämpel).
+ */
+export const issueVaultSessionViaBiometric = onCall(
+  { region: 'europe-west1' },
+  async (request) => {
+    const uid = await guardSensitiveCallableV2(
+      request,
+      'issueVaultSessionViaBiometric',
+      10, // samma rate limit som WebAuthn-kanalen
+    );
+
+    const platform = (request.data as { platform?: unknown })?.platform;
+    if (platform !== 'android' && platform !== 'ios') {
+      throw new HttpsError(
+        'invalid-argument',
+        'Ogiltig plattform. Endast android och ios är tillåtna.',
+      );
+    }
+
+    // Audit-spår: loggad server-side, aldrig i WORM reality_vault
+    console.info('[VaultSession] Biometric path issued:', {
+      uid,
+      platform,
+      ts: new Date().toISOString(),
+    });
+
+    return createVaultSession(uid);
+  },
+);
+
+
 export const getEntityProfileRegistry = onCall({ region: 'europe-west1' }, async (request) => {
   if (!request.auth) {
     throw new HttpsError('unauthenticated', 'Autentisering krävs för aktörskartan.');

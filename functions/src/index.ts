@@ -24,6 +24,7 @@ export {
 export {
   beginVaultWebAuthnChallengeCallable as beginVaultWebAuthnChallenge,
   issueVaultSession,
+  issueVaultSessionViaBiometric,
   getEntityProfileRegistry,
   addEntityProfile,
   valvChatQuery,
