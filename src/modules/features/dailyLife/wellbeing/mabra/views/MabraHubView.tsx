@@ -5,6 +5,7 @@ import { useStore } from '@/core/store';
 import { useMabraStore } from '../store/mabraStore';
 import { saveMabraSession } from '@/core/firebase/firestore';
 import { MabraVitHub } from '../components/MabraVitHub';
+import { MabraHistoryView } from '../components/MabraHistoryView';
 import { DagligMixPanel } from '../components/DagligMixPanel';
 import { VitCurriculumPanel } from '../components/VitCurriculumPanel';
 import { MaterialPackShortcuts, useLifeHubPreset } from '@/core/lifeOs';
@@ -270,6 +271,9 @@ export const MabraHubView = memo(function MabraHubView() {
             lowEnergyMode={lowEnergyMode}
             profileSlot={<MaterialPackShortcuts preset={preset} hub="mabra" />}
           />
+          <div className="mt-6">
+            <MabraHistoryView />
+          </div>
           {valuesSavedHint && (
             <p className="text-center text-sm text-text-muted">{VALUES_COMPASS_COPY.savedHint}</p>
           )}
