@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { listenPlanningTasks, updatePlanningTask } from '@/modules/features/admin/planning/api/planningTasksApi';
 import type { PlanningTask } from '@/modules/features/admin/planning/types';
 import { useStore } from '@/modules/core/store';
-import { CheckCircle2, Circle, Loader2, Plus, Sparkles } from 'lucide-react';
+import { CheckCircle2, Circle, Loader2, Sparkles } from 'lucide-react';
 
 export function DailyTasksList() {
   const user = useStore(state => state.user);
