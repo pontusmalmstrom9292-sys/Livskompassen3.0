@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { usePlanningTasks } from '@/features/admin/planning/hooks/usePlanningTasks';
 import { VaultService } from '@/core/firebase/VaultService';
 import { CheckSquare, Lock, Mic, Clock, Sparkles } from 'lucide-react';
+import { IntakeTriageModal } from './IntakeTriageModal';
 
 export function RecentIntakeWidget() {
   const { tasks, loading: tasksLoading, user } = usePlanningTasks();
   const [vaultEntries, setVaultEntries] = useState<any[]>([]);
   const [vaultLoading, setVaultLoading] = useState(true);
+  const [selectedItem, setSelectedItem] = useState<any | null>(null);
 
   useEffect(() => {
     if (!user?.uid) {
@@ -81,7 +83,19 @@ export function RecentIntakeWidget() {
                 return (
                   <div
                     key={task.id}
-                    className="flex items-start justify-between gap-3 p-3 rounded-xl bg-surface-2 border border-border/40 hover:border-border transition-all hover:bg-surface-3 group"
+                    onClick={() =>
+                      setSelectedItem({
+                        id: task.id,
+                        title: task.title,
+                        content: task.title,
+                        summary: task.summary || '',
+                        source: task.source,
+                        type: 'task',
+                        status: task.status,
+                        projectId: task.projectId || '',
+                      })
+                    }
+                    className="cursor-pointer flex items-start justify-between gap-3 p-3 rounded-xl bg-surface-2 border border-border/40 hover:border-border transition-all hover:bg-surface-3 group"
                   >
                     <div className="flex items-start gap-2.5 min-w-0">
                       {isVoice ? (
@@ -145,7 +159,15 @@ export function RecentIntakeWidget() {
                 return (
                   <div
                     key={record.id}
-                    className="p-3.5 rounded-xl bg-surface-2 border border-border/40 hover:border-border transition-all hover:bg-surface-3 flex flex-col space-y-2 relative overflow-hidden group"
+                    onClick={() =>
+                      setSelectedItem({
+                        id: record.id,
+                        content: record.content,
+                        source: record.source,
+                        type: 'vault',
+                      })
+                    }
+                    className="cursor-pointer p-3.5 rounded-xl bg-surface-2 border border-border/40 hover:border-border transition-all hover:bg-surface-3 flex flex-col space-y-2 relative overflow-hidden group"
                   >
                     <div className="flex justify-between items-start gap-2">
                       <div className="flex items-center gap-1.5 font-mono text-[10px] text-text-dim">
@@ -180,6 +202,13 @@ export function RecentIntakeWidget() {
           )}
         </div>
       </div>
+
+      <IntakeTriageModal
+        isOpen={!!selectedItem}
+        onClose={() => setSelectedItem(null)}
+        item={selectedItem}
+        userId={user.uid}
+      />
     </div>
   );
 }

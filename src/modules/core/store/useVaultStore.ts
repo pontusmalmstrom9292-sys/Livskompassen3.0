@@ -1,80 +1,82 @@
 import { create } from 'zustand';
-import { VaultService } from '../firebase/VaultService';
-import type { VaultRecord } from '../firebase/VaultService';
+import { getVaultLogs, saveVaultLog, type VaultLogsCursor } from '../firebase/firestore';
+import type { VaultLog } from '../types/firestore';
+import type { VaultLogInput } from '../../features/lifeJournal/evidence/vault/types/vaultEntry';
+import { OfflineWriteBlockedError } from '../firebase/offlineWritePolicy';
 
 export interface VaultState {
-  vaultEntries: VaultRecord[];
+  logs: (VaultLog & { id: string })[];
   loading: boolean;
+  loadingMore: boolean;
+  hasMore: boolean;
+  nextCursor: VaultLogsCursor | null;
   error: string | null;
-  saveEntry: (entry: VaultRecord) => Promise<void>;
-  fetchVault: (id: string) => Promise<void>;
+  saving: boolean;
+
+  loadFirstLogsPage: (userId: string) => Promise<void>;
+  loadMoreLogs: (userId: string) => Promise<void>;
+  saveLog: (userId: string, input: VaultLogInput) => Promise<void>;
 }
 
-export const useVaultStore = create<VaultState>((set) => ({
-  vaultEntries: [],
+export const useVaultStore = create<VaultState>((set, get) => ({
+  logs: [],
   loading: false,
+  loadingMore: false,
+  hasMore: false,
+  nextCursor: null,
   error: null,
+  saving: false,
 
-  saveEntry: async (entry: VaultRecord) => {
+  loadFirstLogsPage: async (userId: string) => {
     set({ loading: true, error: null });
     try {
-      await VaultService.saveVaultEntry(entry);
-      
-      set((state) => ({
-        vaultEntries: [...state.vaultEntries, entry],
+      const page = await getVaultLogs(userId);
+      set({
+        logs: page.logs,
+        nextCursor: page.nextCursor,
+        hasMore: page.hasMore,
         loading: false,
-      }));
+      });
     } catch (err: any) {
-      const errorMessage = err?.message || '';
-      
-      // Vi matchar både den exakta felkoden från servicen och den från prompt-instruktionen
-      if (
-        errorMessage.includes('Dataintegritetsbrott') || 
-        errorMessage.includes('Dataintegritetsöverträdelse') ||
-        errorMessage.includes('redan finns')
-      ) {
-        set({ 
-          error: 'Denna post är redan förseglad i valvet',
-          loading: false 
-        });
-      } else {
-        set({ 
-          error: errorMessage || 'Ett okänt fel inträffade',
-          loading: false 
-        });
-      }
+      set({ error: 'Kunde inte hämta loggar från valvet.', loading: false });
     }
   },
 
-  fetchVault: async (id: string) => {
-    set({ loading: true, error: null });
+  loadMoreLogs: async (userId: string) => {
+    const { nextCursor, loadingMore, hasMore } = get();
+    if (!nextCursor || loadingMore || !hasMore) return;
+    
+    set({ loadingMore: true });
     try {
-      const entry = await VaultService.getVaultEntry(id);
-      
-      if (entry) {
-        set((state) => {
-          const exists = state.vaultEntries.some((e) => e.id === entry.id);
-          if (exists) {
-            // Uppdatera befintlig post
-            return {
-              vaultEntries: state.vaultEntries.map((e) => e.id === entry.id ? entry : e),
-              loading: false
-            };
-          }
-          // Lägg till ny post
-          return {
-            vaultEntries: [...state.vaultEntries, entry],
-            loading: false
-          };
-        });
-      } else {
-        set({ loading: false });
-      }
-    } catch (err: any) {
-      set({ 
-        error: err?.message || 'Kunde inte hämta data från valvet',
-        loading: false 
+      const page = await getVaultLogs(userId, { cursor: nextCursor });
+      set((state) => ({
+        logs: [...state.logs, ...page.logs],
+        nextCursor: page.nextCursor,
+        hasMore: page.hasMore,
+        loadingMore: false,
+      }));
+    } catch (err) {
+      set({ loadingMore: false });
+    }
+  },
+
+  saveLog: async (userId: string, input: VaultLogInput) => {
+    set({ saving: true, error: null });
+    try {
+      await saveVaultLog(userId, input);
+      const page = await getVaultLogs(userId);
+      set({
+        logs: page.logs,
+        nextCursor: page.nextCursor,
+        hasMore: page.hasMore,
+        saving: false,
       });
+    } catch (err: any) {
+      const errorMessage = err instanceof OfflineWriteBlockedError 
+        ? err.message 
+        : 'Kunde inte spara till valvet.';
+      set({ error: errorMessage, saving: false });
+      throw new Error('vault-save-failed');
     }
   }
 }));

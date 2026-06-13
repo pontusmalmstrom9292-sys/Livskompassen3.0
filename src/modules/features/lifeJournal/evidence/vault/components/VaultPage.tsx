@@ -1,5 +1,5 @@
 import { Lock, ShieldAlert, X, Settings } from 'lucide-react';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
@@ -9,21 +9,15 @@ import {
   getVaultZoneTabBarItems,
 } from '@/core/navigation/tabRegistry';
 import { useStore } from '@/core/store';
+import { useVaultStore } from '@/core/store/useVaultStore';
 import { hasVaultGate } from '@/core/auth/sessionService';
 import { ensureVaultSessionReady, endVaultSession } from '@/core/security/vaultSessionLifecycle';
-import {
-  saveVaultLog,
-  getVaultLogs,
-  type VaultLogsCursor,
-  type VaultLogsPage,
-} from '@/core/firebase/firestore';
-import { OfflineWriteBlockedError } from '@/core/firebase/offlineWritePolicy';
-import type { VaultLog } from '@/core/types/firestore';
+
 import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
 import { ValvSuperModule } from './ValvSuperModule';
 import { VaultErrorBoundary } from './VaultErrorBoundary';
 import { VaultLockedGate } from '@/core/components/VaultLockedGate';
-import type { VaultLogInput } from '../types/vaultEntry';
+
 import {
   KUNSKAP_VAULT_TAB,
   VIT_VAULT_TAB,
@@ -62,13 +56,8 @@ function VaultPageInner({
   const navigate = useNavigate();
   const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
   const user = useStore((s) => s.user);
-  const [logs, setLogs] = useState<(VaultLog & { id: string })[]>([]);
-  const [logsLoading, setLogsLoading] = useState(false);
-  const [loadingMore, setLoadingMore] = useState(false);
-  const [logsNextCursor, setLogsNextCursor] = useState<VaultLogsCursor | null>(null);
-  const [logsHasMore, setLogsHasMore] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { loadFirstLogsPage, logs, logsHasMore, loadingMore, loadMoreLogs } = useVaultStore();
+  
   const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
   const [showZonePicker, setShowZonePicker] = useState(() => !hasSeenValvZoneModulValjare());
@@ -85,39 +74,6 @@ function VaultPageInner({
     setVaultTabState(initialVaultTab);
   }, [initialVaultTab]);
 
-  const applyLogsPage = useCallback((page: VaultLogsPage, append: boolean) => {
-    setLogs((prev) => (append ? [...prev, ...page.logs] : page.logs));
-    setLogsNextCursor(page.nextCursor);
-    setLogsHasMore(page.hasMore);
-  }, []);
-
-  const loadFirstLogsPage = useCallback(async () => {
-    if (!user) return;
-    setLogsLoading(true);
-    setError(null);
-    try {
-      const page = await getVaultLogs(user.uid);
-      applyLogsPage(page, false);
-    } catch {
-      setError('Kunde inte hämta loggar.');
-    } finally {
-      setLogsLoading(false);
-    }
-  }, [user, applyLogsPage]);
-
-  const loadMoreLogs = useCallback(async () => {
-    if (!user || !logsNextCursor || loadingMore) return;
-    setLoadingMore(true);
-    try {
-      const page = await getVaultLogs(user.uid, { cursor: logsNextCursor });
-      applyLogsPage(page, true);
-    } catch {
-      /* best-effort */
-    } finally {
-      setLoadingMore(false);
-    }
-  }, [user, logsNextCursor, loadingMore, applyLogsPage]);
-
   const handleCitationClick = (docId: string) => {
     setHighlightLogId(docId);
     setVaultTab('logga');
@@ -128,10 +84,9 @@ function VaultPageInner({
     setVaultTab('logga');
     if (user) {
       try {
-        const page = await getVaultLogs(user.uid);
-        applyLogsPage(page, false);
+        await loadFirstLogsPage(user.uid);
       } catch {
-        /* list refresh best-effort */
+        /* best-effort refresh */
       }
     }
   };
@@ -143,11 +98,6 @@ function VaultPageInner({
     else if (zone === 'vit') setVaultTab(VIT_VAULT_TAB);
     else if (zone === 'exportera') setVaultTab('dossier');
     else setVaultTab('hamn_analys');
-  };
-
-  const refreshLogs = () => {
-    if (!user) return;
-    void loadFirstLogsPage();
   };
 
   useEffect(() => {
@@ -169,42 +119,17 @@ function VaultPageInner({
 
   useEffect(() => {
     if (gateOk && user) {
-      void loadFirstLogsPage();
+      void loadFirstLogsPage(user.uid);
     }
   }, [gateOk, user, loadFirstLogsPage]);
 
   useEffect(() => {
     if (!highlightLogId || logs.some((l) => l.id === highlightLogId)) return;
-    if (!logsHasMore || loadingMore || logsLoading) return;
-    void loadMoreLogs();
-  }, [highlightLogId, logs, logsHasMore, loadingMore, logsLoading, loadMoreLogs]);
-
-  const handleSaveLog = async (input: VaultLogInput) => {
-    if (!user) {
-      setError('Inte inloggad.');
-      throw new Error('vault-save-failed');
+    if (!logsHasMore || loadingMore) return;
+    if (user) {
+      void loadMoreLogs(user.uid);
     }
-    setSaving(true);
-    setError(null);
-    try {
-      await saveVaultLog(user.uid, input);
-      try {
-        const page = await getVaultLogs(user.uid);
-        applyLogsPage(page, false);
-      } catch {
-        /* save lyckades — lista uppdateras vid nästa laddning */
-      }
-    } catch (err) {
-      setError(
-        err instanceof OfflineWriteBlockedError
-          ? err.message
-          : 'Kunde inte spara till valvet.',
-      );
-      throw new Error('vault-save-failed');
-    } finally {
-      setSaving(false);
-    }
-  };
+  }, [highlightLogId, logs, logsHasMore, loadingMore, loadMoreLogs, user]);
 
   const handleCloseToLayer1 = () => {
     setVaultTab('logga');
@@ -321,18 +246,9 @@ function VaultPageInner({
         vaultTab={vaultTab}
         userId={user.uid}
         gateOk={gateOk}
-        logs={logs}
-        logsLoading={logsLoading}
-        logsHasMore={logsHasMore}
-        loadingMore={loadingMore}
-        onLoadMoreLogs={loadMoreLogs}
-        saving={saving}
-        saveError={error}
         highlightLogId={highlightLogId}
-        onSave={handleSaveLog}
         onBevisConfirmed={handleBevisConfirmed}
         onCitationClick={handleCitationClick}
-        onLogsRefresh={refreshLogs}
         onVaultTabChange={setVaultTab}
       />
     </div>

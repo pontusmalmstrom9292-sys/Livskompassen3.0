@@ -6,6 +6,7 @@ import { useDashboardStore } from './store/dashboardStore';
 import { InsightsInput } from './components/InsightsInput';
 import { DailyFocusCard } from './components/DailyFocusCard';
 import { RecentIntakeWidget } from './components/RecentIntakeWidget';
+import { ActivePlanningWidget } from './components/ActivePlanningWidget';
 import { MabraPulseWidget } from './components/MabraPulseWidget';
 import { ParalysisBreaker } from '../support/ParalysisBreaker';
 import { useParalysisStore } from '../support/store/paralysisStore';
@@ -72,6 +73,11 @@ function DashboardHubContent() {
         {/* Senaste intaget-flöde */}
         <div className="w-full">
           <RecentIntakeWidget />
+        </div>
+
+        {/* Aktivt arbetsflöde */}
+        <div className="w-full">
+          <ActivePlanningWidget />
         </div>
       </div>
       

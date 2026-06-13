@@ -1,7 +1,8 @@
 import { memo, useEffect, useRef, type RefObject } from 'react';
-import { FileDown, Loader2 } from 'lucide-react';
+import { FileDown, Loader2, Lock } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
+import { useVaultStore } from '@/core/store/useVaultStore';
 import type { VaultLog, WeaverTags } from '@/core/types/firestore';
 import {
   VAVAREN_LOG_CATEGORY_LABEL,
@@ -18,12 +19,7 @@ function isVavarenMetadata(log: VaultLog): boolean {
 }
 
 type VaultLogListProps = {
-  logs: (VaultLog & { id: string })[];
-  loading: boolean;
   highlightLogId?: string | null;
-  hasMore?: boolean;
-  loadingMore?: boolean;
-  onLoadMore?: () => void;
   /** Tom lista — scroll till Samla-formuläret ovan. */
   onLogFirstBevis?: () => void;
   /** V2 — visa endast Sanningens Ankare (`pinned`). */
@@ -81,20 +77,26 @@ const LogRow = memo(function LogRow({
   const vavaren = isVavarenMetadata(log);
   const weaverTags = (log as VaultLogRow).weaverTags;
   const tags = vavaren ? [] : scanTechniquesForLog(log);
+  
   return (
     <li
       key={log.id}
       ref={log.id === highlightLogId ? highlightRef : undefined}
-      className={`glass-card p-3 text-sm ${
+      className={`p-3 text-sm rounded-xl bg-surface-2/40 border transition-all ${
+        log.pinned ? 'border-gold/30 bg-gold/5' : 'border-border-strong/60'
+      } ${
         log.id === highlightLogId ? 'ring-2 ring-accent/50' : ''
-      } ${vavaren ? 'border border-indigo-400/20 bg-indigo-500/5' : ''}`}
+      } ${vavaren ? 'border-indigo-400/20 bg-indigo-500/5' : ''}`}
     >
       <div className="flex items-start justify-between gap-2">
         <div>
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">
-            SERVER-TIDSSTÄMPEL · {formatServerTimestamp(log.createdAt)}
-          </p>
-          <p className="text-[10px] text-text-dim">ID · {log.id.slice(0, 12)}…</p>
+          <div className="flex items-center gap-1.5 text-text-dim mb-1">
+            <Lock className="text-indigo-400/60" size={12} />
+            <p className="text-[10px] font-mono uppercase tracking-widest">
+              SERVER-TIDSSTÄMPEL · {formatServerTimestamp(log.createdAt)}
+            </p>
+          </div>
+          <p className="text-[10px] text-text-dim font-mono">ID · {log.id.slice(0, 12)}…</p>
           <p className="mt-1 text-[10px] uppercase tracking-widest text-text-dim">
             {log.pinned ? 'Ankare · ' : ''}
             {vavaren ? VAVAREN_LOG_CATEGORY_LABEL : (log.category ?? 'allmänt')}
@@ -113,11 +115,11 @@ const LogRow = memo(function LogRow({
           <FileDown className="h-3 w-3" /> PDF
         </button>
       </div>
-      <p className={`mt-1 whitespace-pre-wrap ${vavaren ? 'text-indigo-100/90' : 'text-text-muted'}`}>
+      <p className={`mt-2 whitespace-pre-wrap ${vavaren ? 'text-indigo-100/90' : 'text-text-muted'}`}>
         {formatLogBody(log)}
       </p>
       {vavaren && weaverTags && (
-        <div className="mt-2 flex flex-wrap gap-1">
+        <div className="mt-3 flex flex-wrap gap-1">
           {normalizeStringArray(weaverTags.emotions).map((e) => (
             <span
               key={`e-${e}`}
@@ -142,7 +144,7 @@ const LogRow = memo(function LogRow({
         </div>
       )}
       {tags.length > 0 && (
-        <div className="mt-2 flex flex-wrap gap-1">
+        <div className="mt-3 flex flex-wrap gap-1">
           {tags.map((tag) => (
             <span
               key={tag}
@@ -158,7 +160,7 @@ const LogRow = memo(function LogRow({
           href={log.evidenceUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-2 inline-block text-xs text-accent-secondary hover:underline"
+          className="mt-3 inline-block text-xs text-accent-secondary hover:underline"
         >
           Visa bifogat bevis
         </a>
@@ -168,15 +170,11 @@ const LogRow = memo(function LogRow({
 });
 
 export const VaultLogList = memo(function VaultLogList({
-  logs,
-  loading,
   highlightLogId,
-  hasMore,
-  loadingMore,
-  onLoadMore,
   onLogFirstBevis,
   anchorsOnly = false,
 }: VaultLogListProps) {
+  const { logs, loading, hasMore, loadingMore, loadMoreLogs } = useVaultStore();
   const highlightRef = useRef<HTMLLIElement | null>(null);
   const visible = anchorsOnly ? logs.filter((l) => l.pinned) : logs;
   const pinned = visible.filter((l) => l.pinned);
@@ -215,8 +213,8 @@ export const VaultLogList = memo(function VaultLogList({
         <div className="space-y-4">
           {pinned.length > 0 && (
             <div>
-              <p className="mb-2 text-[10px] uppercase tracking-widest text-gold/80">
-                Sanningens Ankare
+              <p className="mb-2 text-[10px] uppercase tracking-widest text-gold/80 flex items-center gap-1.5">
+                <Lock size={10} className="text-gold/60" /> Sanningens Ankare
               </p>
               <ul className="space-y-3">
                 {pinned.map((log) => (
@@ -230,11 +228,16 @@ export const VaultLogList = memo(function VaultLogList({
             <LogRow key={log.id} log={log} highlightLogId={highlightLogId} highlightRef={highlightRef} />
           ))}
         </ul>
-          {hasMore && onLoadMore && (
+          {hasMore && (
             <div className="mt-4 flex justify-center">
               <button
                 type="button"
-                onClick={onLoadMore}
+                onClick={() => {
+                  const uid = logs[0]?.ownerId;
+                  if (uid) {
+                    void loadMoreLogs(uid);
+                  }
+                }}
                 disabled={loadingMore}
                 className="btn-pill--ghost text-sm"
               >

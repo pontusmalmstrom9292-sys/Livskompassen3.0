@@ -1,6 +1,6 @@
 import { TabBar } from '@/core/ui/TabBar';
 import { getAnalyseraVaultTabBarItems } from '@/core/navigation/tabRegistry';
-import type { VaultLog } from '@/core/types/firestore';
+import { useVaultStore } from '@/core/store/useVaultStore';
 import { PansaretHeader } from '../PansaretHeader';
 import { VaultMonsterPanel } from '../VaultMonsterPanel';
 import { VaultOrkesterPanel } from '../VaultOrkesterPanel';
@@ -9,11 +9,12 @@ import type { AnalyseraVaultTab } from '../../utils/vaultTabs';
 export type ValvAnalyseraZoneProps = {
   tab: AnalyseraVaultTab;
   onTabChange: (tab: AnalyseraVaultTab) => void;
-  logs: (VaultLog & { id: string })[];
 };
 
 /** Locked UX — Mönster + Orkester (Pansaret). */
-export function ValvAnalyseraZone({ tab, onTabChange, logs }: ValvAnalyseraZoneProps) {
+export function ValvAnalyseraZone({ tab, onTabChange }: ValvAnalyseraZoneProps) {
+  const { logs } = useVaultStore();
+  
   return (
     <>
       <div className="mb-3">

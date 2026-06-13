@@ -1,4 +1,3 @@
-import type { VaultLog } from '@/core/types/firestore';
 import { ValvAnalyseraZone } from './zones/ValvAnalyseraZone';
 import { ValvExporteraZone } from './zones/ValvExporteraZone';
 import { ValvForensikZone } from './zones/ValvForensikZone';
@@ -6,7 +5,6 @@ import { ValvKunskapZone } from './zones/ValvKunskapZone';
 import { ValvSamlaZone } from './zones/ValvSamlaZone';
 import { ValvVitZone } from './zones/ValvVitZone';
 import { ValvInboxZone } from './zones/ValvInboxZone';
-import type { VaultLogInput } from '../types/vaultEntry';
 import {
   KUNSKAP_VAULT_TAB,
   type AnalyseraVaultTab,
@@ -28,18 +26,9 @@ export type ValvSuperModuleProps = {
   vaultTab: VaultTab;
   userId: string;
   gateOk: boolean;
-  logs: (VaultLog & { id: string })[];
-  logsLoading: boolean;
-  logsHasMore?: boolean;
-  loadingMore?: boolean;
-  onLoadMoreLogs?: () => void;
-  saving: boolean;
-  saveError: string | null;
   highlightLogId: string | null;
-  onSave: (input: VaultLogInput) => Promise<void>;
   onBevisConfirmed: (docId: string) => void | Promise<void>;
   onCitationClick: (docId: string) => void;
-  onLogsRefresh: () => void;
   onVaultTabChange: (tab: VaultTab) => void;
 };
 
@@ -52,18 +41,9 @@ export function ValvSuperModule({
   vaultTab,
   userId,
   gateOk,
-  logs,
-  logsLoading,
-  logsHasMore,
-  loadingMore,
-  onLoadMoreLogs,
-  saving,
-  saveError,
   highlightLogId,
-  onSave,
   onBevisConfirmed,
   onCitationClick,
-  onLogsRefresh,
   onVaultTabChange,
 }: ValvSuperModuleProps) {
   switch (variant) {
@@ -75,24 +55,15 @@ export function ValvSuperModule({
           onTabChange={(next) => onVaultTabChange(next)}
           userId={userId}
           gateOk={gateOk}
-          logs={logs}
-          logsLoading={logsLoading}
-          logsHasMore={logsHasMore}
-          loadingMore={loadingMore}
-          onLoadMoreLogs={onLoadMoreLogs}
-          saving={saving}
-          saveError={saveError}
           highlightLogId={highlightLogId}
-          onSave={onSave}
           onBevisConfirmed={onBevisConfirmed}
           onCitationClick={onCitationClick}
-          onLogsRefresh={onLogsRefresh}
         />
       );
     }
     case 'analysera': {
       const tab: AnalyseraVaultTab = isAnalyseraVaultTab(vaultTab) ? vaultTab : 'monster';
-      return <ValvAnalyseraZone tab={tab} onTabChange={onVaultTabChange} logs={logs} />;
+      return <ValvAnalyseraZone tab={tab} onTabChange={onVaultTabChange} />;
     }
     case 'kunskap': {
       const tab: KunskapVaultTab = isKunskapVaultTab(vaultTab) ? vaultTab : KUNSKAP_VAULT_TAB;

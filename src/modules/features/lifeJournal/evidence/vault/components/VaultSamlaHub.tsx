@@ -3,11 +3,11 @@ import { useSearchParams } from 'react-router-dom';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
 import { fetchInboxQueue } from '../../kompis/api/inboxService';
+import { useVaultStore } from '@/core/store/useVaultStore';
 import { VaultEntryForm } from './VaultEntryForm';
 import { VaultInkastCompact } from './VaultInkastCompact';
 import { VaultSamlaDriveHint } from './VaultSamlaDriveHint';
 import { VaultOverviewPanel } from './VaultOverviewPanel';
-import type { VaultLogInput } from '../types/vaultEntry';
 
 export type SamlaView = 'logga' | 'granska';
 
@@ -17,16 +17,14 @@ function parseSamlaView(raw: string | null): SamlaView {
 
 type Props = {
   userId: string;
-  saving: boolean;
-  saveError: string | null;
-  onSave: (input: VaultLogInput) => Promise<void>;
   onBevisConfirmed: (docId: string) => void;
 };
 
-export const VaultSamlaHub = memo(function VaultSamlaHub({ userId, saving, saveError, onSave, onBevisConfirmed }: Props) {
+export const VaultSamlaHub = memo(function VaultSamlaHub({ userId, onBevisConfirmed }: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [pendingInbox, setPendingInbox] = useState<number | null>(null);
   const samlaView = parseSamlaView(searchParams.get('samlaView'));
+  const { saving, error: saveError, saveLog } = useVaultStore();
 
   const setSamlaView = useCallback(
     (view: SamlaView) => {
@@ -96,7 +94,7 @@ export const VaultSamlaHub = memo(function VaultSamlaHub({ userId, saving, saveE
       />
       <div id="vault-samla-entry">
         <BentoCard title="Ny post" description="Append-only bevis" glow="gold">
-          <VaultEntryForm userId={userId} saving={saving} onSave={onSave} />
+          <VaultEntryForm userId={userId} saving={saving} onSave={(input) => saveLog(userId, input)} />
           {saveError && <p className="mt-2 text-sm text-danger">{saveError}</p>}
         </BentoCard>
       </div>

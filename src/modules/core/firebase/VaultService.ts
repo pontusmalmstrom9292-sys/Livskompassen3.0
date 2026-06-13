@@ -10,7 +10,7 @@ export interface VaultRecord {
 
 export class VaultService {
   private static COLLECTION_NAME = 'reality_vault';
-  private static COLLECTION = 'vault';
+  private static COLLECTION = 'reality_vault';
 
   // --- NEW REQUIREMENTS ---
   
