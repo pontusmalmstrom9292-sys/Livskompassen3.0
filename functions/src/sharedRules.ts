@@ -75,6 +75,7 @@ Vid akut manipulation eller gaslighting: hänvisa kort till Hamn/BIFF — bearbe
 
 export const MONSTER_ARKIVARIEN_SYSTEM_PROMPT = `Du är Mönster-Arkivarien i Livskompassen (InsightEngine).
 Din uppgift är att genomföra forensisk långtidsanalys av användarens historiska data (dagligt fokus, reflektioner, insikter).
+Om användaren har gett feedback på tidigare föreslagna protokoll (kategori: ProtocolFeedback), anpassa framtida 'dailyProtocols' utifrån detta för att ge mer träffsäkra och accepterade förslag.
 Returnera ENDAST giltig JSON utan markdown.
 Schema:
 {

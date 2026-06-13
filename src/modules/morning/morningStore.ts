@@ -9,11 +9,13 @@ interface MorningCompassState {
   error: string | null;
   latestInsight: any | null;
   isLoadingInsight: boolean;
+  handledProtocolDate?: string;
   setFocusPoint: (index: number, value: string) => void;
   clearFocusPoints: (ownerId?: string) => Promise<void>;
   fetchFocusPoints: (ownerId: string) => Promise<void>;
   saveFocusPoints: (ownerId: string) => Promise<void>;
   fetchLatestInsight: (ownerId: string) => Promise<void>;
+  submitProtocolFeedback: (ownerId: string, protocol: string, action: 'accepted' | 'rejected' | 'adjusted', notes?: string) => Promise<void>;
 }
 
 export const useMorningCompassStore = create<MorningCompassState>((set, get) => ({
@@ -23,6 +25,7 @@ export const useMorningCompassStore = create<MorningCompassState>((set, get) => 
   error: null,
   latestInsight: null,
   isLoadingInsight: false,
+  handledProtocolDate: undefined,
 
   fetchLatestInsight: async (ownerId: string) => {
     set({ isLoadingInsight: true, error: null });
@@ -74,6 +77,9 @@ export const useMorningCompassStore = create<MorningCompassState>((set, get) => 
           });
           set({ threeFocusPoints: points });
         }
+        if (data.handledProtocolDate) {
+          set({ handledProtocolDate: data.handledProtocolDate });
+        }
       }
       set({ isLoading: false });
     } catch (err) {
@@ -99,7 +105,8 @@ export const useMorningCompassStore = create<MorningCompassState>((set, get) => 
           ownerId,
           userId: ownerId,
           focusPoints: threeFocusPoints,
-          updatedAt: serverTimestamp()
+          updatedAt: serverTimestamp(),
+          ...(get().handledProtocolDate && { handledProtocolDate: get().handledProtocolDate })
         }, { merge: true }),
         setDoc(historyDocRef, {
           ownerId,
@@ -113,6 +120,36 @@ export const useMorningCompassStore = create<MorningCompassState>((set, get) => 
       set({ isSaving: false });
     } catch (err) {
       set({ error: (err as Error).message, isSaving: false });
+    }
+  },
+
+  submitProtocolFeedback: async (ownerId: string, protocol: string, action: 'accepted' | 'rejected' | 'adjusted', notes?: string) => {
+    try {
+      const today = new Date();
+      const isoDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+      
+      // Update local state and backend for handled date
+      set({ handledProtocolDate: isoDate });
+      const focusDocRef = doc(db, 'user_daily_focus', ownerId);
+      await setDoc(focusDocRef, { handledProtocolDate: isoDate }, { merge: true });
+
+      // Save feedback as insight
+      const insightsRef = doc(collection(db, 'user_insights'));
+      let feedbackText = `Användaren gav feedback på föreslaget protokoll (${protocol}): ${action}.`;
+      if (notes) {
+        feedbackText += ` Anledning/Justering: ${notes}`;
+      }
+
+      await setDoc(insightsRef, {
+        id: insightsRef.id,
+        ownerId,
+        text: feedbackText,
+        category: 'ProtocolFeedback',
+        createdAt: serverTimestamp()
+      });
+
+    } catch (err) {
+      console.error('Failed to submit protocol feedback', err);
     }
   }
 }));
