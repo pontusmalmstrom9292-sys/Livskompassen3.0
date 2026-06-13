@@ -41,9 +41,17 @@ export const generateWeeklyInsights = onCall(
       const insightsDocs = insightsSnap.docs.map(d => d.data());
       const focusDocs = focusHistorySnap.docs.map(d => d.data());
 
-      if (insightsDocs.length === 0 && focusDocs.length === 0) {
+      // 3. Fetch vault entries (last 7 days)
+      const vaultSnap = await db.collection('vault')
+        .where('ownerId', '==', uid)
+        .where('timestamp', '>=', timestamp)
+        .orderBy('timestamp', 'desc')
+        .get();
+      const vaultDocs = vaultSnap.docs.map(d => d.data());
+
+      if (insightsDocs.length === 0 && focusDocs.length === 0 && vaultDocs.length === 0) {
         return {
-          weeklySummary: 'Inte tillräckligt med data (dagligt fokus/insikter) från de senaste 7 dagarna för att dra slutsatser.',
+          weeklySummary: 'Inte tillräckligt med data (dagligt fokus/insikter/valv) från de senaste 7 dagarna för att dra slutsatser.',
           detectedPatterns: [],
           focusVsSentiment: 'Ingen data tillgänglig.',
           actionableAdvice: 'Börja sätta dagligt fokus och reflektera för att bygga din insiktsmotor.'
@@ -68,7 +76,15 @@ export const generateWeeklyInsights = onCall(
         }).join('\n');
       };
 
-      const promptData = `
+      const formatVault = (docs: admin.firestore.DocumentData[]) => {
+        return docs.map(d => {
+          const date = (d.timestamp as admin.firestore.Timestamp)?.toDate().toISOString().slice(0, 10) || 'Okänt datum';
+          const text = d.content || '';
+          return `- [${date}] Valv-post: ${text}`;
+        }).join('\n');
+      };
+
+const promptData = `
 Användarens data (senaste 7 dagarna):
 
 --- Dagligt Fokus ---
@@ -76,6 +92,9 @@ ${formatFocus(focusDocs) || 'Ingen fokusdata registrerad.'}
 
 --- Insikter & Reflektioner ---
 ${formatInsights(insightsDocs) || 'Inga insikter registrerade.'}
+
+--- Valv-poster (Oföränderliga bevis) ---
+${formatVault(vaultDocs) || 'Inga valv-poster registrerade.'}
 `;
 
       const systemPrompt = getAgentSystemPrompt('agent_monster_arkivarien');
