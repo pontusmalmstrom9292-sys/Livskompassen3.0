@@ -16,6 +16,7 @@ import { MabraVitProjectsPanel } from '../components/MabraVitProjectsPanel';
 import { MabraHubCollapsible } from '../components/MabraHubCollapsible';
 import { readAllVitProjectLastSeen, writeVitProjectLastSeen } from '../lib/vitProjectLastSeen';
 import { MabraModulValjare, type MabraModulChoice } from '../components/MabraModulValjare';
+import { MabraRecoveryBanner } from '@/features/mabra/components/MabraRecoveryBanner';
 import { VALUES_COMPASS_COPY, exerciseTypeForHub } from '../constants';
 import type { MabraHubAction, MabraHubItem } from '../mabraHubRegistry';
 import type { MabraSymptomHub } from '../types';
@@ -227,6 +228,7 @@ export const MabraHubView = memo(function MabraHubView() {
 
   return (
     <>
+      <MabraRecoveryBanner />
       {showHubPicker && (
         <div className="calm-card glow-bottom-gold overflow-hidden rounded-2xl p-4 sm:p-5">
           <MabraModulValjare
