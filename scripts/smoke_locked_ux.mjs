@@ -64,8 +64,17 @@ function main() {
   );
   mustInclude(
     'src/modules/features/family/children/components/familjen/FamiljenReflektionTab.tsx',
+    'FamiljenInputSuperModule',
+  );
+  mustInclude(
+    'src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx',
     'BarnfokusFraganPanel',
     'handleSaveBarnfokus',
+  );
+  mustInclude(
+    'src/modules/features/family/children/supermodule/FamiljenInputSuperModule.tsx',
+    'glow-bottom-blue',
+    'FamiljenBarnfokusDelegate',
   );
   mustInclude(
     'src/modules/features/family/children/constants.ts',

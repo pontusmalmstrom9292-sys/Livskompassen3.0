@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
-import { BarnfokusFraganPanel } from '../BarnfokusFraganPanel';
 import { BarnfokusReglerCard } from './BarnfokusReglerCard';
 import { KanslotempletParentCard } from './KanslotempletParentCard';
 import { PositivaMinnesankare } from '../PositivaMinnesankare';
@@ -9,6 +8,7 @@ import { ChildProfileCards } from '../ChildProfileCards';
 import type { ChildAlias } from '../../constants';
 import { BalansMatare } from '../BalansMatare';
 import { ChildrenLogsChat } from '../ChildrenLogsChat';
+import { FamiljenInputSuperModule } from '../../supermodule';
 import {
   downloadBalansReportJson,
   exportBalansReport,
@@ -26,9 +26,7 @@ export function FamiljenReflektionTab({ shell }: Props) {
     activeChild,
     setActiveChild,
     balans,
-    barnfokusMemory,
     logs,
-    handleSaveBarnfokus,
     handleSaveObservation,
   } = shell;
 
@@ -40,12 +38,7 @@ export function FamiljenReflektionTab({ shell }: Props) {
       />
 
       <div className="familjen-barnfokus-wrap">
-        <BarnfokusFraganPanel
-          key={`barnfokus-${activeChild}`}
-          childAlias={activeChild}
-          memoryRows={barnfokusMemory}
-          onSave={handleSaveBarnfokus}
-        />
+        <FamiljenInputSuperModule shell={shell} />
       </div>
 
       <BarnfokusReglerCard
