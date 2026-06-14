@@ -18,6 +18,7 @@ import { SafeHarborPage } from '@/features/family/safeHarbor/components/SafeHarb
 import { BarnportenInboxPanel } from '@/features/onboarding/barnporten/components/BarnportenInboxPanel';
 import { BarnportenOrkesterPanel } from '@/features/onboarding/barnporten/components/BarnportenOrkesterPanel';
 import { BarnportenQrPanel } from '@/features/onboarding/barnporten/components/BarnportenQrPanel';
+import { FamiljenInputSuperModule } from '@/features/family/children/supermodule/FamiljenInputSuperModule';
 import {
   FAMILJEN_TAB_IDS,
   isFamiljenTabId,
@@ -130,7 +131,11 @@ export function FamiljenPage() {
 
         <main className="mt-2 animate-fade-in">
           {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
-            <BarnfokusSuperModule variant={activeTab} shell={shell} />
+            searchParams.has('superhub') || searchParams.has('inputMode') ? (
+              <FamiljenInputSuperModule shell={shell} />
+            ) : (
+              <BarnfokusSuperModule variant={activeTab} shell={shell} />
+            )
           )}
 
           {activeTab === 'tillsammans' && <FamiljenTillsammansTab shell={shell} />}
