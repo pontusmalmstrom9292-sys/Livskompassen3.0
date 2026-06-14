@@ -44,6 +44,7 @@ export interface VaultLog {
 
 export interface CheckIn {
   userId: string;
+  /** Stable question key (e.g. `mabra_checkin`). Required on write; read rows normalize missing legacy values to `''`. */
   questionId: string;
   questionText?: string;
   optionSelected: string;
@@ -55,6 +56,9 @@ export interface CheckIn {
   mood?: number;
   createdAt: IsoDateTime;
 }
+
+/** Firestore check-in read row: persisted CheckIn fields plus document id. */
+export type CheckInRow = CheckIn & { id: string };
 
 export interface KnowledgeDoc {
   userId: string;

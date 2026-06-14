@@ -85,6 +85,7 @@ export const BACKEND_MANIFEST: Readonly<Record<DomainId, BackendDomainContract>>
       'journal',
       'mabra_sessions',
       'vit_entries',
+      'emotional_memory',
       'transactions',
       'checkins',
     ],

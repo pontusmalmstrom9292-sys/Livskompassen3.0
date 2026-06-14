@@ -37,6 +37,7 @@ import {
 } from '../manifest';
 import type {
   CheckIn,
+  CheckInRow,
   KampsparEntryRow,
   KbDocEntryRow,
   MabraSession,
@@ -218,19 +219,19 @@ export async function saveMabraCheckIn(
   return docRef.id;
 }
 
+export type { CheckInRow } from '../types/firestore';
+
 export async function getLatestMabraCheckIn(userId: string): Promise<CheckInRow | null> {
   const checkins = await getRecentCheckIns(userId, 50);
   const mabraCheckins = checkins.filter((c) => c.questionId === 'mabra_checkin');
   return mabraCheckins[0] || null;
 }
 
-export type CheckInRow = CheckIn & { id: string };
-
 export async function getRecentCheckIns(userId: string, limit = 20): Promise<CheckInRow[]> {
   const ref = collection(db, FIRESTORE_COLLECTIONS.checkins);
   const snap = await getDocs(ownerScopedQuery(ref, userId));
   return sortByCreatedAtDesc(
-    snap.docs.map((d) => {
+    snap.docs.map((d): CheckInRow => {
       const data = d.data();
       return {
         id: d.id,
@@ -243,7 +244,7 @@ export async function getRecentCheckIns(userId: string, limit = 20): Promise<Che
         taskText: data.taskText as string | undefined,
         taskCompleted: data.taskCompleted as boolean | undefined,
         createdAt: normalizeCreatedAt(data.createdAt),
-      } satisfies CheckInRow;
+      };
     })
   ).slice(0, limit);
 }
