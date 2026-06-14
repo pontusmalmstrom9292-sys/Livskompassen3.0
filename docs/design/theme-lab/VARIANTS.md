@@ -23,6 +23,7 @@
 | `I-stone-draft-matte` | Stone — matt | utkast | Plattare glas, svag glow (låg last) |
 | `R-A-nordic-precision` | Nordic Precision (Style A) | **GODKÄND prod** | **default 2026-06-11** — isblå CTA, silver chrome, guld nav |
 | `OD-obsidian-depth` | Obsidian Depth (3D) | **LÅST** | **2026-06-14** — glass bento, taktil 3D, guld endast · `/dev/obsidian-depth` |
+| `OD-forge-lab` | Obsidian Forge (syntes) | **utvärdering** | **2026-06-14** — hero+bento+chrome · `/dev/obsidian-forge` · väntar godkännande |
 
 **Jämför:** http://localhost:5173/dev/theme-lab → Utkast (agent) → Förhandsgranska → **Använd i appen** → testa `/` (Hem).
 

@@ -1,0 +1,748 @@
+/**
+ * Obsidian Forge — Theme Lab (UTVÄRDERING 2026-06-14)
+ * Syntes: task scroll, fitness bento, stacked depth, mariposa sections, wealthmize chrome.
+ * Kanon: docs/design/themes/OBSIDIAN-FORGE-SPEC.md · Mockup: /dev/obsidian-forge
+ * Guld (#d4af37) endast — inga regnbågs-accenter i chrome.
+ */
+
+@layer components {
+  .od-forge {
+    --of-gold: #d4af37;
+    --of-gold-light: #e8c96a;
+    --of-gold-dim: #9a7b2f;
+    --of-gold-glow: rgba(212, 175, 55, 0.28);
+    --of-gold-border: rgba(212, 175, 55, 0.2);
+    --of-obsidian: #020617;
+    --of-graphite: #0a1019;
+    --of-slate: #141c2b;
+    --of-surface: #09111e;
+    --of-text: #f1f5f9;
+    --of-muted: #94a3b8;
+    --of-dim: #64748b;
+    color: var(--of-text);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* —— Lab shell —— */
+  .od-forge-lab {
+    @apply mx-auto max-w-lg px-4 pb-16 pt-6;
+  }
+
+  .od-forge-lab__title {
+    font-family: 'Cinzel', 'Outfit', serif;
+    @apply text-xl font-medium uppercase tracking-[0.14em] text-accent;
+  }
+
+  .od-forge-lab__hint {
+    @apply mt-2 text-sm leading-relaxed text-text-muted;
+  }
+
+  .od-forge-lab__links {
+    @apply mt-4 flex flex-wrap gap-2;
+  }
+
+  /* —— Phone frame —— */
+  .od-forge__phone {
+    position: relative;
+    width: 100%;
+    max-width: 390px;
+    min-height: 820px;
+    margin-inline: auto;
+    border-radius: 2.25rem;
+    overflow: hidden;
+    background: linear-gradient(165deg, var(--of-graphite) 0%, var(--of-obsidian) 42%, #030712 100%);
+    box-shadow:
+      0 0 0 1px rgba(212, 175, 55, 0.08),
+      0 24px 64px -12px rgba(0, 0, 0, 0.75),
+      0 8px 32px -8px rgba(212, 175, 55, 0.06);
+  }
+
+  .od-forge__phone::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(212, 175, 55, 0.07), transparent 55%),
+      radial-gradient(ellipse 60% 40% at 80% 90%, rgba(255, 255, 255, 0.02), transparent 50%);
+    z-index: 0;
+  }
+
+  .od-forge__scroll {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 820px;
+    padding: 0.75rem 0.875rem calc(8.25rem + env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .od-forge__scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .od-forge__status {
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--of-gold-border);
+    background: rgba(5, 11, 20, 0.55);
+    font-size: 0.6875rem;
+    color: var(--of-muted);
+    text-align: center;
+  }
+
+  /* —— Chrome header —— */
+  .od-forge__header {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 3.25rem;
+    padding: 0.35rem 0.15rem 0.5rem;
+  }
+
+  .od-forge__header-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    border: 1.5px solid var(--of-gold-border);
+    background: linear-gradient(
+      168deg,
+      rgba(52, 44, 30, 0.96) 0%,
+      rgba(22, 18, 14, 0.94) 48%,
+      rgba(8, 10, 16, 0.92) 100%
+    );
+    color: var(--of-gold);
+    box-shadow:
+      0 1px 0 rgba(255, 243, 210, 0.1) inset,
+      0 4px 12px rgba(0, 0, 0, 0.38);
+    transition: transform 0.16s ease, border-color 0.16s ease;
+  }
+
+  .od-forge__header-btn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(212, 175, 55, 0.38);
+  }
+
+  .od-forge__header-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .od-forge__header-title {
+    font-family: 'Cinzel', 'Outfit', serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--of-gold-light);
+    text-shadow: 0 0 18px var(--of-gold-glow);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+
+  .od-forge__header-ornament {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .od-forge__header-ornament span {
+    display: block;
+    width: 0.35rem;
+    height: 0.35rem;
+    rotate: 45deg;
+    background: color-mix(in srgb, var(--of-gold-light) 55%, transparent);
+    border: 1px solid color-mix(in srgb, var(--of-gold) 75%, transparent);
+  }
+
+  .od-forge__header-ornament span:nth-child(2) {
+    width: 0.45rem;
+    height: 0.45rem;
+    background: color-mix(in srgb, var(--of-gold-light) 78%, transparent);
+  }
+
+  .od-forge__kompis {
+    width: 2.05rem;
+    height: 2.05rem;
+    border-radius: 9999px;
+    border: 1.5px solid rgba(212, 175, 55, 0.35);
+    background: rgba(5, 11, 20, 0.72);
+    box-shadow: 0 0 12px var(--of-gold-glow);
+  }
+
+  /* —— Hero card —— */
+  .od-forge__hero {
+    position: relative;
+    margin-top: 0.25rem;
+    padding: 1.125rem 1rem 1rem;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(212, 175, 55, 0.26);
+    background: linear-gradient(
+      155deg,
+      rgba(20, 28, 43, 0.94) 0%,
+      rgba(9, 17, 30, 0.96) 48%,
+      rgba(5, 11, 20, 0.98) 100%
+    );
+    backdrop-filter: blur(20px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 16px 48px -10px rgba(0, 0, 0, 0.72),
+      0 0 40px -12px var(--of-gold-glow);
+  }
+
+  .od-forge__hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+    pointer-events: none;
+  }
+
+  .od-forge__hero-greeting {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.45rem;
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--of-gold-light);
+  }
+
+  .od-forge__hero-name {
+    color: var(--of-text);
+  }
+
+  .od-forge__hero-tagline {
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--of-muted);
+  }
+
+  .od-forge__hero-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.875rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.14);
+  }
+
+  .od-forge__hero-profile {
+    font-size: 0.5625rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--of-gold) 65%, var(--of-muted));
+  }
+
+  .od-forge__hero-presence {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(212, 175, 55, 0.32);
+    background: rgba(5, 11, 20, 0.65);
+    font-size: 0.5625rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--of-dim);
+  }
+
+  .od-forge__hero-presence-value {
+    font-variant-numeric: tabular-nums;
+    color: var(--of-gold);
+    font-weight: 600;
+  }
+
+  .od-forge__hero-step {
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--of-muted);
+    line-height: 1.45;
+  }
+
+  .od-forge__cta-wrap {
+    margin-top: 1rem;
+  }
+
+  .od-forge__cta {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.25rem;
+    border-radius: 9999px;
+    border: 1px solid color-mix(in srgb, var(--of-gold-light) 55%, transparent);
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--of-gold-light) 92%, white) 0%,
+      var(--of-gold) 42%,
+      var(--of-gold-dim) 100%
+    );
+    color: var(--of-obsidian);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+      0 8px 24px -4px var(--of-gold-glow),
+      0 4px 12px rgba(0, 0, 0, 0.45);
+    transition: transform 0.16s ease, box-shadow 0.16s ease;
+  }
+
+  .od-forge__cta:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      0 12px 32px -4px rgba(212, 175, 55, 0.38),
+      0 6px 16px rgba(0, 0, 0, 0.5);
+  }
+
+  .od-forge__cta--pressed {
+    transform: translateY(2px);
+    box-shadow:
+      inset 0 2px 6px rgba(0, 0, 0, 0.25),
+      0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  /* —— Bento 2×2 —— */
+  .od-forge__bento {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.625rem;
+    margin-top: 0.875rem;
+  }
+
+  .od-forge__bento-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    min-height: 6.5rem;
+    padding: 0.875rem 0.5rem;
+    border-radius: 1.25rem;
+    border: 1.5px solid var(--of-gold-border);
+    background: linear-gradient(
+      145deg,
+      rgba(20, 28, 43, 0.72) 0%,
+      rgba(5, 11, 20, 0.82) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 4px 16px -4px rgba(0, 0, 0, 0.55);
+    cursor: pointer;
+    text-align: center;
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease,
+      background 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .od-forge__bento-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(212, 175, 55, 0.32);
+  }
+
+  .od-forge__bento-card--active {
+    border-color: rgba(212, 175, 55, 0.55);
+    background: linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--of-gold) 22%, rgba(20, 28, 43, 0.9)) 0%,
+      color-mix(in srgb, var(--of-gold-dim) 18%, rgba(5, 11, 20, 0.92)) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 248, 220, 0.12),
+      0 0 28px -6px var(--of-gold-glow),
+      0 8px 20px -6px rgba(0, 0, 0, 0.55);
+  }
+
+  .od-forge__bento-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    border: 1.5px solid rgba(212, 175, 55, 0.35);
+    background: rgba(5, 11, 20, 0.55);
+    color: var(--of-gold);
+  }
+
+  .od-forge__bento-card--active .od-forge__bento-icon {
+    border-color: rgba(245, 230, 184, 0.55);
+    background: color-mix(in srgb, var(--of-gold) 18%, rgba(5, 11, 20, 0.7));
+    color: var(--of-gold-light);
+  }
+
+  .od-forge__bento-label {
+    font-size: 0.5625rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--of-dim);
+  }
+
+  .od-forge__bento-card--active .od-forge__bento-label {
+    color: var(--of-gold-light);
+  }
+
+  /* —— Quick scroll chips —— */
+  .od-forge__chips {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.875rem;
+    padding-bottom: 0.15rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .od-forge__chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .od-forge__chip {
+    flex: 0 0 auto;
+    padding: 0.45rem 0.85rem;
+    border-radius: 9999px;
+    border: 1px solid var(--of-gold-border);
+    background: rgba(9, 17, 30, 0.65);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    color: var(--of-muted);
+    white-space: nowrap;
+    transition: border-color 0.16s ease, color 0.16s ease, background 0.16s ease;
+  }
+
+  .od-forge__chip:hover {
+    border-color: rgba(212, 175, 55, 0.35);
+    color: var(--of-gold-light);
+  }
+
+  .od-forge__chip--active {
+    border-color: rgba(212, 175, 55, 0.45);
+    background: color-mix(in srgb, var(--of-gold) 12%, rgba(9, 17, 30, 0.8));
+    color: var(--of-gold-light);
+  }
+
+  /* —— Section block —— */
+  .od-forge__section {
+    margin-top: 1rem;
+  }
+
+  .od-forge__section-head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .od-forge__section-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.375rem;
+    border: 1px solid var(--of-gold-border);
+    color: var(--of-gold);
+  }
+
+  .od-forge__section-title {
+    font-family: 'Cinzel', 'Outfit', serif;
+    font-size: 0.5625rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--of-dim);
+  }
+
+  .od-forge__section-body {
+    padding: 0.875rem 1rem;
+    border-radius: 1rem;
+    border: 1px solid var(--of-gold-border);
+    background: linear-gradient(
+      180deg,
+      rgba(20, 28, 43, 0.88) 0%,
+      rgba(9, 17, 30, 0.92) 100%
+    );
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .od-forge__section-quote {
+    font-family: 'Cinzel', 'Outfit', serif;
+    font-size: 0.9375rem;
+    letter-spacing: 0.04em;
+    color: var(--of-gold);
+  }
+
+  .od-forge__section-meta {
+    margin-top: 0.35rem;
+    font-size: 0.75rem;
+    color: var(--of-muted);
+    line-height: 1.45;
+  }
+
+  .od-forge__section-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.625rem;
+  }
+
+  .od-forge__section-tag {
+    padding: 0.2rem 0.55rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(212, 175, 55, 0.22);
+    background: rgba(212, 175, 55, 0.06);
+    font-size: 0.5625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--of-gold) 80%, var(--of-muted));
+  }
+
+  /* —— Drawer preview (overlay) —— */
+  .od-forge__drawer-preview {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.22s ease;
+  }
+
+  .od-forge__drawer-preview--open {
+    pointer-events: auto;
+    opacity: 1;
+  }
+
+  .od-forge__drawer-backdrop {
+    flex: 1;
+    background: rgba(2, 6, 23, 0.55);
+    backdrop-filter: blur(4px);
+  }
+
+  .od-forge__drawer-panel {
+    width: min(78%, 17rem);
+    padding: 1rem 0.75rem;
+    background: linear-gradient(
+      180deg,
+      rgba(9, 17, 30, 0.98) 0%,
+      rgba(2, 6, 23, 0.99) 100%
+    );
+    border-right: 1px solid var(--of-gold-border);
+    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.45);
+  }
+
+  .od-forge__drawer-section {
+    margin-bottom: 0.875rem;
+  }
+
+  .od-forge__drawer-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.35rem;
+    padding: 0 0.35rem;
+    font-size: 0.5625rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--of-dim);
+  }
+
+  .od-forge__drawer-row {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 0.5rem;
+    border: 0;
+    border-radius: 0.75rem;
+    background: transparent;
+    text-align: left;
+    color: var(--of-muted);
+    transition: background 0.16s ease, color 0.16s ease;
+  }
+
+  .od-forge__drawer-row:hover {
+    background: rgba(212, 175, 55, 0.06);
+    color: var(--of-gold-light);
+  }
+
+  .od-forge__drawer-row--active {
+    border-left: 2px solid var(--of-gold);
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--of-gold-light);
+  }
+
+  .od-forge__drawer-row-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--of-gold-border);
+    color: var(--of-gold);
+    flex-shrink: 0;
+  }
+
+  .od-forge__drawer-row-label {
+    flex: 1;
+    font-size: 0.8125rem;
+  }
+
+  .od-forge__drawer-row-chevron {
+    width: 0.875rem;
+    height: 0.875rem;
+    color: var(--of-dim);
+    flex-shrink: 0;
+  }
+
+  /* —— Dock + Fyren —— */
+  .od-forge__chrome-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+    pointer-events: auto;
+  }
+
+  .od-forge__fyren {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.28rem 0.85rem 0.34rem;
+    margin-bottom: -0.05rem;
+    border: 1px solid rgba(212, 175, 55, 0.34);
+    border-bottom: none;
+    border-radius: 0.8rem 0.8rem 0.15rem 0.15rem;
+    background: linear-gradient(
+      180deg,
+      rgba(9, 17, 30, 0.94) 0%,
+      rgba(2, 6, 23, 0.9) 100%
+    );
+    font-size: 0.5625rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--of-gold-light);
+    cursor: pointer;
+  }
+
+  .od-forge__dock {
+    width: calc(100% - 1rem);
+    max-width: 26rem;
+    padding: 0.42rem 0.5rem 0.34rem;
+    border-radius: 1.35rem;
+    border: 1.5px solid rgba(212, 175, 55, 0.22);
+    background: linear-gradient(
+      180deg,
+      rgba(9, 17, 30, 0.92) 0%,
+      rgba(2, 6, 23, 0.95) 100%
+    );
+    box-shadow:
+      0 10px 28px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 243, 196, 0.08);
+  }
+
+  .od-forge__dock-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.25rem;
+  }
+
+  .od-forge__dock-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.25rem 0;
+    border: 0;
+    background: transparent;
+    color: var(--of-muted);
+    cursor: pointer;
+    transition: color 0.16s ease, transform 0.16s ease;
+  }
+
+  .od-forge__dock-btn:hover {
+    transform: translateY(-1px);
+    color: var(--of-gold-light);
+  }
+
+  .od-forge__dock-btn--active {
+    color: var(--of-gold-light);
+  }
+
+  .od-forge__dock-plate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.15rem;
+    height: 3.15rem;
+    border-radius: 9999px;
+    border: 1.5px solid rgba(212, 175, 55, 0.38);
+    background: linear-gradient(
+      168deg,
+      rgba(52, 44, 30, 0.96) 0%,
+      rgba(8, 10, 16, 0.94) 100%
+    );
+    color: var(--of-gold);
+    box-shadow:
+      0 1px 0 rgba(255, 243, 210, 0.1) inset,
+      0 4px 12px rgba(0, 0, 0, 0.38);
+  }
+
+  .od-forge__dock-btn--active .od-forge__dock-plate {
+    border-color: rgba(245, 230, 184, 0.55);
+    box-shadow:
+      0 0 16px var(--of-gold-glow),
+      inset 0 1px 0 rgba(255, 248, 220, 0.1);
+  }
+
+  .od-forge__dock-label {
+    font-size: 0.5625rem;
+    letter-spacing: 0.04em;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* —— Fas 2 bridge (aktiveras vid prod-wire + godkännande) —— */
+  html[data-theme='OD-obsidian-depth'].od-forge-bridge .home-page--scenic .home-greeting-module--design-pack,
+  html[data-theme='OD-obsidian-depth'].od-forge-bridge .od-forge-bridge__hero {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  html[data-theme='OD-obsidian-depth'].od-forge-bridge .od-forge-bridge__bento .od-forge__bento-card {
+    min-height: 5.5rem;
+  }
+}

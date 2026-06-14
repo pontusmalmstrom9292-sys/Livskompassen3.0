@@ -136,6 +136,9 @@ export function ThemeLabPage() {
           <Link to="/dev/obsidian-depth" className="btn-pill--accent text-xs">
             Obsidian Depth mockup
           </Link>
+          <Link to="/dev/obsidian-forge" className="btn-pill--accent text-xs">
+            Obsidian Forge (utvärdering)
+          </Link>
           <Link to="/" className="btn-pill--ghost">
             Testa på Hem
           </Link>
