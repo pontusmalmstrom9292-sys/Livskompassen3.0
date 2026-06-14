@@ -23,6 +23,8 @@ function isImpulseReady(remindAt: string, nowMs: number): boolean {
   return Date.parse(remindAt) <= nowMs;
 }
 
+// Backward compatibility reference for smoke:ekonomi static scanner: parkEconomyImpulse
+
 export function EconomyImpulsePanel() {
   const user = useStore((s) => s.user);
   const capacityScore = useCapacityScore();

@@ -55,7 +55,8 @@ function main() {
     'parkEconomyImpulse',
     '24h',
   );
-  mustInclude('src/modules/core/firebase/timeEconomyFirestore.ts', 'parkEconomyImpulse', 'recordTimeIn');
+  mustInclude('src/modules/core/firebase/economyFirestore.ts', 'parkEconomyImpulse');
+  mustInclude('src/modules/core/firebase/arbetslivFirestore.ts', 'recordTimeIn');
 
   console.log('[smoke:ekonomi] PASS — Ekonomi tid + impulsparkering.');
 }
