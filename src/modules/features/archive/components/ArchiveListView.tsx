@@ -348,6 +348,7 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
       </div>
 
       {/* Load more / pagination */}
+      {!hideLoadMore && (
       <div className="pt-6 flex justify-center">
         <button
           onClick={onLoadMore}
@@ -357,6 +358,7 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
           {loading ? 'Hämtar...' : 'Ladda äldre hylla'}
         </button>
       </div>
+      )}
     </div>
   );
 }

@@ -153,7 +153,8 @@ export function KunskapPage({
     };
   }, [highlightEntryId, tab, entries.length]);
 
-  const handleCitationClick = (docId: string, collection: 'kampspar' | 'kb_docs') => {
+  const handleCitationClick = (docId: string, collection: string) => {
+    if (collection !== 'kampspar' && collection !== 'kb_docs') return;
     setCitationNotice(null);
     setActiveCitationKey(citationKey(collection, docId));
 

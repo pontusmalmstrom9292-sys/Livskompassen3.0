@@ -42,9 +42,20 @@ export async function ensureVaultServerSession(): Promise<boolean> {
   return getVaultSessionToken() !== null;
 }
 
-export function withVaultSessionPayload<T>(payload: T): T & { vaultSessionToken?: string } {
+type VaultSessionTokenField = { vaultSessionToken?: string };
+
+/**
+ * Bifogar giltig Valv-session-token till callable-payload om en finns i sessionStorage.
+ * T begränsas till object — alla callables tar objekt-payload, aldrig primitiver.
+ */
+export function withVaultSessionPayload<T extends object>(
+  payload: T,
+): T & VaultSessionTokenField {
   const vaultSessionToken = getVaultSessionToken();
-  return vaultSessionToken ? { ...payload, vaultSessionToken } : payload;
+  return {
+    ...payload,
+    ...(vaultSessionToken ? { vaultSessionToken } : {}),
+  };
 }
 
 export type VaultSessionIssueOutcome =

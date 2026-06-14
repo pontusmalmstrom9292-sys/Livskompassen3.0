@@ -72,7 +72,7 @@ const LogRow = memo(function LogRow({
 }: {
   log: VaultLogRow;
   highlightLogId?: string | null;
-  highlightRef: RefObject<HTMLLIElement | null>;
+  highlightRef: RefObject<HTMLLIElement>;
 }) {
   const vavaren = isVavarenMetadata(log);
   const weaverTags = (log as VaultLogRow).weaverTags;
@@ -175,7 +175,7 @@ export const VaultLogList = memo(function VaultLogList({
   anchorsOnly = false,
 }: VaultLogListProps) {
   const { logs, loading, hasMore, loadingMore, loadMoreLogs } = useVaultStore();
-  const highlightRef = useRef<HTMLLIElement | null>(null);
+  const highlightRef = useRef<HTMLLIElement>(null);
   const visible = anchorsOnly ? logs.filter((l) => l.pinned) : logs;
   const pinned = visible.filter((l) => l.pinned);
   const rest = anchorsOnly ? [] : visible.filter((l) => !l.pinned);

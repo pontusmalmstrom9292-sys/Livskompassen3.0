@@ -235,15 +235,15 @@ export async function getRecentCheckIns(userId: string, limit = 20): Promise<Che
       return {
         id: d.id,
         userId: String(data.userId ?? userId),
-        questionId: data.questionId as string | undefined,
+        questionId: String(data.questionId ?? ''),
         questionText: data.questionText as string | undefined,
-        optionSelected: data.optionSelected as string | undefined,
+        optionSelected: String(data.optionSelected ?? ''),
         taskCategory: data.taskCategory as string | undefined,
         taskNote: data.taskNote as string | undefined,
         taskText: data.taskText as string | undefined,
         taskCompleted: data.taskCompleted as boolean | undefined,
         createdAt: normalizeCreatedAt(data.createdAt),
-      };
+      } satisfies CheckInRow;
     })
   ).slice(0, limit);
 }

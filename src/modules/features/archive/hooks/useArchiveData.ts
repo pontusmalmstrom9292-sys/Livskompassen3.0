@@ -10,7 +10,11 @@ export interface ArchiveEntry {
   createdAt: { seconds: number; nanoseconds: number };
   content?: string;
   transcription?: string;
+  text?: string;
   emotion?: string;
+  mood?: string;
+  truth?: string;
+  action?: string;
   tags?: string[];
   [key: string]: unknown;
 }
