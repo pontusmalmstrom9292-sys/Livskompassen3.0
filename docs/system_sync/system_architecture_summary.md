@@ -1,8 +1,19 @@
 # System Architecture Summary: Pelare 3 - Vardagens Arkitektur
 
-**Senast synkad:** 2026-06-14 · Källfiler i `docs/system_sync/*_CURRENT.*`
+**Senast synkad:** 2026-06-14 · Källfiler i `docs/system_sync/*_CURRENT.*` · styrning: `system_plan_CURRENT.md`, `locked_ux_features_CURRENT.md`
 
 Detta dokument beskriver nuläget för Livskompassen v2 med fokus på "Pelare 3: Vardagens Arkitektur" (Everyday Architecture) och hur Capability Engine ("Lagen om Evig Tillväxt") samverkar med Firestore.
+
+## Styrning och säkerhetsgränser (Kunskapsbank-synk)
+
+För extern AI (NotebookLM, Gemini) — **ersätt alltid gamla uppladdningar** med filerna i denna mapp:
+
+| Fil | Källa | Innehåll |
+|-----|-------|----------|
+| `system_plan_CURRENT.md` | `.context/system-plan.md` | Faser, modulmappning, Fas 6 Superhub **AVSLUTAD** 2026-06-14 |
+| `locked_ux_features_CURRENT.md` | `.context/locked-ux-features.md` | Låsta UX-flöden inkl. §11 `MabraInputSuperModule` (WORM, Zero Footprint, HITL inkast) |
+
+**Uppdatera Kunskapsbank:** `npm run sync:system` → ladda upp `docs/system_sync/system_plan_CURRENT.md` + `locked_ux_features_CURRENT.md` (ta bort äldre versioner av samma filer i NotebookLM).
 
 ## Pelare 3: Vardagens Arkitektur
 Målet med Pelare 3 är att bygga ett ekonomiskt och logistiskt ekosystem anpassat för kognitiv trötthet och ADHD. Det rör sig från en basnivå av skuld- och stressfri konsumtion, där enbart enkla saldon syns, till mer avancerade verktyg såsom impulsfördröjnings-köer, budgetkuvert och Kanban-planering. Allt detta styrs dynamiskt utifrån användarens aktuella mående och kapacitet.

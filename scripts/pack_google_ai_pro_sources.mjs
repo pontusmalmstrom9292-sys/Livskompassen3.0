@@ -26,6 +26,7 @@ const NOTEBOOKLM_SOURCES = [
   { from: 'docs/design/VALV-HUBB-SPEC.md', to: 'VALV-HUBB-SPEC.md' },
   { from: 'docs/evaluations/2026-05-29-kompass-widget-snabbstart-plan.md', to: 'kompass-widget-plan.md' },
   { from: 'docs/google-ai-pro/PROMPTS.md', to: 'GEMINI-PROMPTS.md' },
+  { from: '.context/system-plan.md', to: 'system-plan.md' },
   { from: '.context/locked-ux-features.md', to: 'locked-ux-features.md' },
   { from: 'docs/gemini-handoff/README.md', to: 'gemini-handoff-README.md' },
   { from: 'docs/gemini-handoff/K1-compassWidgetCatalog.md', to: 'K1-compassWidgetCatalog.md' },
@@ -51,6 +52,16 @@ const DRIVE_PACK = [
   { from: 'docs/design/KOMPASS-MODUL-SPEC.md', to: 'Livskompassen/design-export/KOMPASS-MODUL-SPEC.md' },
   { from: 'docs/design/VALV-HUBB-SPEC.md', to: 'Livskompassen/design-export/VALV-HUBB-SPEC.md' },
   { from: 'docs/google-ai-pro/PROMPTS.md', to: 'Livskompassen/specs/GEMINI-PROMPTS.md' },
+  { from: '.context/system-plan.md', to: 'Livskompassen/specs/system-plan.md' },
+  { from: '.context/locked-ux-features.md', to: 'Livskompassen/specs/locked-ux-features.md' },
+  {
+    from: 'docs/system_sync/system_plan_CURRENT.md',
+    to: 'Livskompassen/system_sync/system_plan_CURRENT.md',
+  },
+  {
+    from: 'docs/system_sync/locked_ux_features_CURRENT.md',
+    to: 'Livskompassen/system_sync/locked_ux_features_CURRENT.md',
+  },
 ];
 
 function copyMapped(pairs, baseDir) {
@@ -81,7 +92,7 @@ copyMapped(NOTEBOOKLM_SOURCES, notebooklmDir);
 console.log('\n=== Drive pack (dra mappen till drive.google.com) ===');
 copyMapped(DRIVE_PACK, driveDir);
 
-for (const sub of ['content-banks', 'evaluations', 'specs', 'repomix', 'design-export']) {
+for (const sub of ['content-banks', 'evaluations', 'specs', 'repomix', 'design-export', 'system_sync']) {
   mkdirSync(join(driveDir, 'Livskompassen', sub), { recursive: true });
 }
 

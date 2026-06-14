@@ -16,6 +16,8 @@ const pairs = [
   ['firestore.rules', 'firestore_rules_CURRENT.rtf'],
   ['tsconfig.json', 'tsconfig_CURRENT.json'],
   ['tsconfig.core-strict.json', 'tsconfig_core_strict_CURRENT.json'],
+  ['.context/system-plan.md', 'system_plan_CURRENT.md'],
+  ['.context/locked-ux-features.md', 'locked_ux_features_CURRENT.md'],
 ];
 
 for (const [src, dst] of pairs) {
@@ -26,7 +28,7 @@ for (const [src, dst] of pairs) {
 const summaryPath = join(syncDir, 'system_architecture_summary.md');
 let summary = readFileSync(summaryPath, 'utf8');
 const today = new Date().toISOString().slice(0, 10);
-const syncLine = `**Senast synkad:** ${today} · Källfiler i \`docs/system_sync/*_CURRENT.*\``;
+const syncLine = `**Senast synkad:** ${today} · Källfiler i \`docs/system_sync/*_CURRENT.*\` · styrning: \`system_plan_CURRENT.md\`, \`locked_ux_features_CURRENT.md\``;
 
 if (summary.includes('**Senast synkad:**')) {
   summary = summary.replace(/\*\*Senast synkad:\*\*[^\n]*/, syncLine);
