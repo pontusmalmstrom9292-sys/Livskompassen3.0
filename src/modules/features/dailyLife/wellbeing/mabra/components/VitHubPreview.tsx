@@ -5,6 +5,7 @@ import { VIT_HUB_KRAVLOST, VIT_HUB_TAGLINE, VIT_HUB_VAULT_LINK } from '../lib/vi
 import { vitHubFilteredLink } from '../lib/vitHubLinks';
 import { PLAN_KIND_LABELS } from '../constants/mabraProjects';
 import type { MabraPlanKind } from '../constants/mabraProjects';
+import { EmotionalMemoryView } from './EmotionalMemoryView';
 import { VitCardFlowPanel } from './VitCardFlowPanel';
 import { VitChatFlowPanel } from './VitChatFlowPanel';
 import { VitMemoryFlowPanel } from './VitMemoryFlowPanel';
@@ -66,9 +67,13 @@ export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, use
         <VitChatFlowPanel userId={userId} projectId={project.id} />
       )}
 
-      {selectedPlan === 'memory' && (
+      {selectedPlan === 'memory' && project.id === 'emotional_memory' ? (
+        <EmotionalMemoryView userId={userId} projectId={project.id} />
+      ) : null}
+
+      {selectedPlan === 'memory' && project.id !== 'emotional_memory' ? (
         <VitMemoryFlowPanel userId={userId} projectId={project.id} />
-      )}
+      ) : null}
 
       <p className="text-xs text-text-dim">
         Fler övningar finns på MåBra-hubben under kategorin Utveckling (Vit).

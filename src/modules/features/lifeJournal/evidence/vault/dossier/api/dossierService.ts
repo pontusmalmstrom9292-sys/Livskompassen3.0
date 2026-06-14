@@ -12,7 +12,9 @@ export async function generateDossier(
   input: GenerateDossierInput,
 ): Promise<GenerateDossierResult> {
   try {
-    const result = await generateDossierCallable(withVaultSessionPayload(input));
+    const result = await generateDossierCallable(
+      withVaultSessionPayload<GenerateDossierInput>(input),
+    );
     return result.data;
   } catch (error) {
     const fnError = error as FunctionsError;

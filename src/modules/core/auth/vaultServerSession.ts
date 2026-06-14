@@ -45,10 +45,16 @@ export async function ensureVaultServerSession(): Promise<boolean> {
 type VaultSessionTokenField = { vaultSessionToken?: string };
 
 /**
- * Bifogar giltig Valv-session-token till callable-payload om en finns i sessionStorage.
- * T begränsas till object — alla callables tar objekt-payload, aldrig primitiver.
+ * Strukturell bas för callable-payloads — objekt, aldrig primitiv.
+ * Tom marker-interface: alla app-callables skickar plain object-literal eller interface.
  */
-export function withVaultSessionPayload<T extends object>(
+interface VaultCallablePayloadBase {}
+
+/**
+ * Bifogar giltig Valv-session-token till callable-payload om en finns i sessionStorage.
+ * T extends VaultCallablePayloadBase — kompilatorn kan säkert härleda T & VaultSessionTokenField.
+ */
+export function withVaultSessionPayload<T extends VaultCallablePayloadBase>(
   payload: T,
 ): T & VaultSessionTokenField {
   const vaultSessionToken = getVaultSessionToken();
