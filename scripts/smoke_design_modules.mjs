@@ -70,7 +70,7 @@ function main() {
     "variant === 'forensic'",
   );
   mustInclude('src/modules/core/pages/DagbokPage.tsx', 'SpeglarSuperModule', "variant=\"dagbok\"");
-  mustInclude('src/modules/core/pages/DagbokPage.tsx', 'DagbokSuperModule', "variant=\"reflektion\"");
+  mustInclude('src/modules/core/pages/DagbokPage.tsx', 'DagbokInputSuperModule', 'HjartatReflektionPanel');
   mustInclude(
     'src/modules/features/lifeJournal/diary/diary/components/DagbokSuperModule.tsx',
     'DagbokSuperModule',
