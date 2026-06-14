@@ -32,6 +32,10 @@ import {
   saveActionVaultRecording,
 } from '../api/actionDashboardApi';
 import { pendingActionDashboardCount } from '../api/actionDashboardOfflineQueue';
+import {
+  useWidgetRecordingEthicsAccepted,
+  WidgetRecordingEthicsGate,
+} from './WidgetRecordingEthicsGate';
 
 const REFLECTION_MAX_CHARS = 500;
 
@@ -69,6 +73,8 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
   const [recQueued, setRecQueued] = useState(false);
   const [recTitle, setRecTitle] = useState<string | null>(null);
   const [recError, setRecError] = useState<string | null>(null);
+  const [showEthicsGate, setShowEthicsGate] = useState(false);
+  const { accepted: ethicsOk, accept: acceptEthics } = useWidgetRecordingEthicsAccepted();
   const transcriptParts = useRef<string[]>([]);
   const startedAt = useRef<Date | null>(null);
 
@@ -120,6 +126,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
       setRecError('Logga in först.');
       return;
     }
+    setShowEthicsGate(false);
     setRecError(null);
     setRecTitle(null);
     setRecQueued(false);
@@ -134,6 +141,20 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
       return;
     }
     setRecPhase('recording');
+  };
+
+  const handleMicClick = () => {
+    if (!ethicsOk) {
+      setShowEthicsGate(true);
+      return;
+    }
+    void startRecording();
+  };
+
+  const handleEthicsAccept = () => {
+    acceptEthics();
+    setShowEthicsGate(false);
+    void startRecording();
   };
 
   const stopRecording = () => {
@@ -246,6 +267,14 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
           </p>
         )}
 
+        {recPhase === 'idle' && showEthicsGate && !ethicsOk && (
+          <WidgetRecordingEthicsGate
+            mode="dashboard"
+            onAccept={handleEthicsAccept}
+            className="rounded-xl border border-accent/30 bg-surface-2/80 p-3"
+          />
+        )}
+
         {recPhase === 'idle' && (
           <>
             <textarea
@@ -263,7 +292,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
-                onClick={() => void startRecording()}
+                onClick={handleMicClick}
                 disabled={!speech.supported || !audio.supported || saving}
                 className="btn-pill--ghost flex min-h-11 items-center justify-center gap-2 text-sm disabled:opacity-40"
                 aria-label="Röstinspelning till Valvet"

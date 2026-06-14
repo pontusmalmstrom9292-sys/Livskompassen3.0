@@ -1,19 +1,21 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import { Loader2, Lock } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { AuthGate } from '@/core/auth/AuthGate';
 import { useStore } from '@/core/store';
 import { WidgetShell } from '../layout/WidgetShell';
 import { useWidgetVaultRecording } from '../hooks/useWidgetVaultRecording';
 import { WidgetRecordMetadataForm } from '../components/WidgetRecordMetadataForm';
-
-const ETHICS_KEY = 'livskompassen_widget_recording_ethics_v1';
+import {
+  useWidgetRecordingEthicsAccepted,
+  WidgetRecordingEthicsGate,
+} from '../components/WidgetRecordingEthicsGate';
 
 function WidgetRecordInner() {
   const user = useStore((s) => s.user);
   const [searchParams] = useSearchParams();
   const discreet = searchParams.get('discreet') === '1';
-  const [ethicsOk, setEthicsOk] = useState(() => localStorage.getItem(ETHICS_KEY) === '1');
+  const { accepted: ethicsOk, accept: acceptEthics } = useWidgetRecordingEthicsAccepted();
   const rec = useWidgetVaultRecording(user?.uid);
   const autostarted = useRef(false);
 
@@ -43,23 +45,10 @@ function WidgetRecordInner() {
         title={shellTitle}
         lead="Låses i Valvet med datum, titel och valfri kontext (vem, vad, varför)."
       >
-        <div className="elongated-module elongated-module--gold p-4">
-          <p className="text-sm text-text-muted">
-            {discreet
-              ? 'Hemskärmswidgeten heter «Anteckningar» — ingen synlig inspelningsmarkering utåt.'
-              : 'Inspelning lagras som låst post i arkivet. Kontrollera lag om du spelar in andra.'}
-          </p>
-          <button
-            type="button"
-            className="btn-pill--accent mt-4 w-full"
-            onClick={() => {
-              localStorage.setItem(ETHICS_KEY, '1');
-              setEthicsOk(true);
-            }}
-          >
-            Jag förstår — fortsätt
-          </button>
-        </div>
+        <WidgetRecordingEthicsGate
+          mode={discreet ? 'discreet' : 'standard'}
+          onAccept={acceptEthics}
+        />
       </WidgetShell>
     );
   }
