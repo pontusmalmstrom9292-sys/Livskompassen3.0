@@ -20,15 +20,7 @@ import {
   valvModeMatchesVaultTab,
   vaultTabForValvInputMode,
 } from '../supermodule/valvInputModes';
-import { readValvLastInputMode } from '../supermodule/valvLastModeStorage';
-
-import {
-  LEGACY_INBOX_VAULT_TAB,
-  resolveValvZone,
-  type VaultTab,
-} from '../utils/vaultTabs';
-import { ValvZoneModulValjare } from './ValvZoneModulValjare';
-import { hasSeenValvZoneModulValjare } from '../utils/valvZoneModulValjareStorage';
+import { resolveValvZone, type VaultTab } from '../utils/vaultTabs';
 
 export type { VaultTab, MainVaultTab, ValvZone } from '../utils/vaultTabs';
 export { parseVaultTab } from '../utils/vaultTabs';
@@ -66,7 +58,6 @@ function VaultPageInner({
   const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
   const [valvMode, setValvModeState] = useState<ValvInputMode>(initialValvMode);
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
-  const [showZonePicker, setShowZonePicker] = useState(() => !hasSeenValvZoneModulValjare());
   const [sessionSyncError, setSessionSyncError] = useState<string | null>(null);
   const gateOk = hasVaultGate();
   const valvZone = resolveValvZone(vaultTab);
@@ -139,23 +130,6 @@ function VaultPageInner({
     }
   };
 
-  const handleZonePickerSelect = (zone: ReturnType<typeof resolveValvZone> | 'inbox') => {
-    const modeMap: Record<string, ValvInputMode> = {
-      samla: 'spara',
-      inbox: 'granska',
-      analysera: 'analysera',
-      kunskap: 'kunskap',
-      vit: 'vit',
-      exportera: 'rapporter',
-      forensik: 'mer',
-    };
-    const mode =
-      modeMap[zone] ??
-      (zone === LEGACY_INBOX_VAULT_TAB ? 'granska' : readValvLastInputMode() ?? 'granska');
-    setValvMode(mode);
-    setShowZonePicker(false);
-  };
-
   useEffect(() => {
     if (!gateOk) {
       setVaultUnlocked(false);
@@ -218,47 +192,11 @@ function VaultPageInner({
     );
   }
 
-  if (showZonePicker) {
-    return (
-      <div className="space-y-4">
-        <BentoCard title={embedded ? 'Valv · Baksida' : VAULT_UI_NAME} icon={<Lock className="h-4 w-4" />}>
-          <div className="mb-3 flex items-start justify-between gap-2">
-            <p className="text-xs text-text-dim">PIN upplåst — välj var du vill börja</p>
-            <button
-              type="button"
-              onClick={handleCloseToLayer1}
-              className="btn-pill--ghost shrink-0 flex items-center gap-1"
-              title="Stäng valv — tillbaka till vardag"
-            >
-              <X className="h-3 w-3" /> Stäng
-            </button>
-          </div>
-          <ValvZoneModulValjare
-            onSelect={handleZonePickerSelect}
-            onSkip={() => {
-              const last = readValvLastInputMode() ?? 'spara';
-              setValvMode(last);
-              setShowZonePicker(false);
-            }}
-          />
-        </BentoCard>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-4">
       <div className="flex items-start justify-between gap-2 px-1">
         <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
         <div className="flex shrink-0 items-center gap-1">
-          <button
-            type="button"
-            onClick={() => setShowZonePicker(true)}
-            className="btn-pill--ghost text-xs"
-            title="Visa zonväljare igen"
-          >
-            Byt zon
-          </button>
           <button
             type="button"
             onClick={() => navigate('/valvet/installningar')}
