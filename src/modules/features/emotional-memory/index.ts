@@ -4,6 +4,7 @@ export {
   useEmotionalMemoryStore,
   type EmotionalMemoryState,
 } from '@/features/emotional-memory/store/useEmotionalMemoryStore';
+export { MemoryTestView } from '@/features/emotional-memory/MemoryTestView';
 export {
   saveEmotionalMemory,
   listEmotionalMemories,

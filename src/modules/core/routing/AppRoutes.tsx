@@ -85,9 +85,13 @@ const ThemeLabPage = lazy(() =>
 const HubLabPage = lazy(() =>
   import('../pages/HubLabPage').then((m) => ({ default: m.HubLabPage })),
 );
-const MemoryTestView = lazy(() =>
-  import('@/features/emotional-memory/MemoryTestView').then((m) => ({ default: m.MemoryTestView })),
-);
+const MemoryTestView = import.meta.env.DEV
+  ? lazy(() =>
+      import('@/features/emotional-memory/MemoryTestView').then((m) => ({
+        default: m.MemoryTestView,
+      })),
+    )
+  : null;
 const DashboardHubPage = lazy(() =>
   import('@/features/dashboard').then((m) => ({ default: m.DashboardHub })),
 );
@@ -509,9 +513,9 @@ export function AppRoutes() {
               <Route path="/dev/themes" element={<ThemePreviewPage />} />
               <Route path="/dev/theme-lab" element={<ThemeLabPage />} />
               <Route path="/dev/hub-lab" element={<HubLabPage />} />
-              {(import.meta.env.DEV || (typeof process !== 'undefined' && process.env.NODE_ENV !== 'production')) && (
+              {MemoryTestView ? (
                 <Route path="/dev/memory-test" element={<MemoryTestView />} />
-              )}
+              ) : null}
 
               <Route path="*" element={<Navigate to={NAV_PATHS.HOME} replace />} />
             </Routes>
