@@ -7,6 +7,7 @@ import { saveMabraSession } from '@/core/firebase/firestore';
 import { MabraVitHub } from '../components/MabraVitHub';
 import { MabraHistoryView } from '../components/MabraHistoryView';
 import { DagligMixPanel } from '../components/DagligMixPanel';
+import { MabraGoalPanel } from '../components/MabraGoalPanel';
 import { VitCurriculumPanel } from '../components/VitCurriculumPanel';
 import { MaterialPackShortcuts, useLifeHubPreset } from '@/core/lifeOs';
 import { pickDailyReflectionCard } from '../lib/pickDagligMix';
@@ -256,6 +257,7 @@ export const MabraHubView = memo(function MabraHubView() {
           {!lowEnergyMode && (
             <>
               <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
+              <MabraGoalPanel />
               <MabraHubCollapsible title="Dina kurser" meta={`${CURRICULUMS.length} kurser`} defaultOpen={false}>
                 <VitCurriculumPanel
                   onOpenReflection={openCurriculumReflection}
