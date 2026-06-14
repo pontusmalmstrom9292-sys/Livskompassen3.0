@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useStore } from '../store';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { Lock } from 'lucide-react';
+import { EmailAuthPanel } from './EmailAuthPanel';
 import { isEmailAuthRequired } from './requireEmailAuth';
 
 type Props = {
@@ -25,15 +26,15 @@ export function AuthGate({ children, variant = 'default' }: Props) {
   }
 
   if (!isAuthenticated) {
+    if (emailRequired && variant !== 'widget') {
+      return <EmailAuthPanel compact defaultMode="signin" />;
+    }
+
     return (
       <BentoCard title="Inloggning krävs" icon={<Lock className="h-4 w-4" />} glow="blue">
         <p className="text-sm text-text-muted">
           {variant === 'widget' ? (
-            <>
-              Öppna startsidan och logga in där — widgeten behöver ett aktivt konto.
-            </>
-          ) : emailRequired ? (
-            'Logga in med Google eller e-post via Konto uppe till höger. Anonym åtkomst är avstängd i prod.'
+            <>Öppna startsidan och logga in där — widgeten behöver ett aktivt konto.</>
           ) : (
             <>
               Tryck på <strong>Konto</strong> uppe till höger i headern för att logga in.

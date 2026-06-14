@@ -36,15 +36,20 @@ export function consumeSkipAnonymousOnce(): boolean {
   }
 }
 
-/** Popup-flödet kraschar ofta i mobilwebbläsare — använd redirect (ej Capacitor native). */
+/** Installerad PWA (iOS/Android) — redirect krävs; popup funkar inte i standalone. */
+export function isStandalonePwa(): boolean {
+  if (typeof window === 'undefined') return false;
+  if (window.matchMedia?.('(display-mode: standalone)').matches === true) return true;
+  return (navigator as Navigator & { standalone?: boolean }).standalone === true;
+}
+
+/**
+ * Popup på desktop och mobil webbläsarflik.
+ * Redirect endast för installerad PWA eller när VITE_GOOGLE_SIGNIN_REDIRECT=true.
+ */
 export function shouldUseGoogleRedirect(): boolean {
   if (typeof navigator === 'undefined') return false;
   if (isCapacitorNative()) return false;
   if (import.meta.env.VITE_GOOGLE_SIGNIN_REDIRECT === 'true') return true;
-  const coarse =
-    typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches === true;
-  const mobileUa = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(
-    navigator.userAgent,
-  );
-  return coarse || mobileUa;
+  return isStandalonePwa();
 }

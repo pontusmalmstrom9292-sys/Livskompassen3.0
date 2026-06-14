@@ -1,9 +1,11 @@
 import {
   EmailAuthProvider,
   linkWithCredential,
+  linkWithPopup,
   linkWithRedirect,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signInWithRedirect,
   signOut,
   type User,
@@ -20,6 +22,7 @@ import { capacitorGoogleSignIn, capacitorNativeSignOut } from './nativeGoogleAut
 import {
   createGoogleProvider,
   markSkipAnonymousOnce,
+  shouldUseGoogleRedirect,
 } from './googleAuthProvider';
 import { clearAllDrafts } from '../../capture/draftQueue';
 import { flushBarnportenOfflineQueue } from '@/features/onboarding/barnporten/api/saveBarnportenLog';
@@ -117,10 +120,16 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
     return capacitorGoogleSignIn(false);
   }
 
+  const useRedirect = shouldUseGoogleRedirect();
+
   try {
     if (current?.isAnonymous && linkAnonymous) {
-      await linkWithRedirect(current, provider);
-      return null;
+      if (useRedirect) {
+        await linkWithRedirect(current, provider);
+        return null;
+      }
+      const result = await linkWithPopup(current, provider);
+      return result.user;
     }
 
     if (current) {
@@ -130,10 +139,15 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
       markSkipAnonymousOnce();
     }
 
-    await signInWithRedirect(auth, provider);
-    return null;
+    if (useRedirect) {
+      await signInWithRedirect(auth, provider);
+      return null;
+    }
+
+    const result = await signInWithPopup(auth, provider);
+    return result.user;
   } catch (err: unknown) {
-    console.error('[authService] signInWithRedirect error:', err);
+    console.error('[authService] Google sign-in error:', err);
     const code = err instanceof FirebaseError ? err.code : '';
     toast.error(mapAuthError(code) || 'Kunde inte starta Google-inloggning.', 6000);
     throw err;

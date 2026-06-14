@@ -64,11 +64,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       const cred = await getRedirectResultSingleFlight();
-      if (cred?.user && !isUnmounted) {
+      const redirectUser = cred?.user ?? auth.currentUser;
+      if (redirectUser && !redirectUser.isAnonymous && !isUnmounted) {
         setUser({
-          uid: cred.user.uid,
-          email: cred.user.email ?? undefined,
-          isAnonymous: cred.user.isAnonymous,
+          uid: redirectUser.uid,
+          email: redirectUser.email ?? undefined,
+          isAnonymous: redirectUser.isAnonymous,
         });
       }
     })().finally(() => {
