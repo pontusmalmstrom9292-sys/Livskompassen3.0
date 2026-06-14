@@ -65,6 +65,7 @@
     "smoke:hamn": "node scripts/smoke_hamn.mjs",
     "smoke:ekonomi": "node scripts/smoke_ekonomi.mjs",
     "smoke:innehall": "node scripts/smoke_innehall_register.mjs",
+    "smoke:manifest": "node scripts/smoke_manifest_violation.mjs",
     "smoke:orkester": "node scripts/smoke_orkester_wiring.mjs",
     "orkester:night": "node scripts/orkester_autorun.mjs",
     "master:yolo": "node scripts/master_yolo_init.mjs",

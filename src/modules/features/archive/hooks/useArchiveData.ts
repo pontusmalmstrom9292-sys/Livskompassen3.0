@@ -12,26 +12,7 @@ export interface ArchiveEntry {
   transcription?: string;
   emotion?: string;
   tags?: string[];
-  ownerId?: string;
-  userId?: string;
-  mood?: string;
-  text?: string;
-  action?: string;
-  truth?: string;
-  category?: string;
-  sourceRef?: string;
-  childrenImpact?: string;
-  evidenceUrl?: string;
-  biffUsed?: boolean;
-  isLocked?: boolean;
-  entryType?: 'simple' | 'two_column' | 'three_shield' | 'body_signal';
-  theirVersion?: string;
-  myReality?: string;
-  bodySignals?: string[];
-  shieldWhat?: string;
-  shieldFeeling?: string;
-  shieldBoundary?: string;
-  pinned?: boolean;
+  [key: string]: unknown;
 }
 
 export function useArchiveData() {
@@ -107,8 +88,7 @@ export function useArchiveData() {
       setLoadedMonths(prev => new Set(prev).add(monthKey));
     } catch (err: unknown) {
       console.error("Error loading archive month:", err);
-      const msg = err instanceof Error ? err.message : 'Kunde inte hämta arkivdata.';
-      setError(msg);
+      setError(err instanceof Error ? err.message : 'Kunde inte hämta arkivdata.');
     } finally {
       setLoading(false);
     }

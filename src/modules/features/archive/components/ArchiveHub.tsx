@@ -10,7 +10,8 @@ import { useStore } from '@/core/store';
 import { 
   useCapacityScore, 
   useIsCapacityLoading, 
-  useListenToCapacityState 
+  useListenToCapacityState,
+  useIsEconomyAdvancedUnlocked
 } from '@/modules/core/store/useCapacityGate';
 
 type ViewMode = 'list' | 'calendar';
@@ -26,6 +27,7 @@ export function ArchiveHub() {
   const capacityScore = useCapacityScore();
   const isCapacityLoading = useIsCapacityLoading();
   const listenToCapacityState = useListenToCapacityState();
+  const isEconomyAdvancedUnlocked = useIsEconomyAdvancedUnlocked();
 
   // Listen to Capacity State
   useEffect(() => {
@@ -84,30 +86,32 @@ export function ArchiveHub() {
           </div>
 
           {/* Toggle Switch */}
-          <div className="flex p-1 bg-surface-2/60 backdrop-blur-md rounded-2xl border border-border/25 w-full relative z-10">
-            <button
-              onClick={() => setViewMode('list')}
-              className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
-                viewMode === 'list' 
-                  ? 'bg-indigo-500/15 text-text border border-indigo-500/30 shadow-[0_2px_10px_rgba(99,102,241,0.15)]' 
-                  : 'text-text-muted hover:text-text hover:bg-surface-3/35'
-              }`}
-            >
-              <List className="w-4 h-4" />
-              <span>Hyllor & Lådor</span>
-            </button>
-            <button
-              onClick={() => setViewMode('calendar')}
-              className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
-                viewMode === 'calendar' 
-                  ? 'bg-indigo-500/15 text-text border border-indigo-500/30 shadow-[0_2px_10px_rgba(99,102,241,0.15)]' 
-                  : 'text-text-muted hover:text-text hover:bg-surface-3/35'
-              }`}
-            >
-              <Calendar className="w-4 h-4" />
-              <span>Kalender</span>
-            </button>
-          </div>
+          {isEconomyAdvancedUnlocked && (
+            <div className="flex p-1 bg-surface-2/60 backdrop-blur-md rounded-2xl border border-border/25 w-full relative z-10">
+              <button
+                onClick={() => setViewMode('list')}
+                className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                  viewMode === 'list' 
+                    ? 'bg-indigo-500/15 text-text border border-indigo-500/30 shadow-[0_2px_10px_rgba(99,102,241,0.15)]' 
+                    : 'text-text-muted hover:text-text hover:bg-surface-3/35'
+                }`}
+              >
+                <List className="w-4 h-4" />
+                <span>Hyllor & Lådor</span>
+              </button>
+              <button
+                onClick={() => setViewMode('calendar')}
+                className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                  viewMode === 'calendar' 
+                    ? 'bg-indigo-500/15 text-text border border-indigo-500/30 shadow-[0_2px_10px_rgba(99,102,241,0.15)]' 
+                    : 'text-text-muted hover:text-text hover:bg-surface-3/35'
+                }`}
+              >
+                <Calendar className="w-4 h-4" />
+                <span>Kalender</span>
+              </button>
+            </div>
+          )}
         </header>
 
         {/* Loading and Error States */}
@@ -127,7 +131,7 @@ export function ArchiveHub() {
             {/* Content Area */}
             <div className="relative">
               <AnimatePresence mode="wait">
-                {viewMode === 'list' ? (
+                {(!isEconomyAdvancedUnlocked || viewMode === 'list') ? (
                   <motion.div
                     key="list"
                     initial={{ opacity: 0, x: -15 }}

@@ -23,10 +23,11 @@ interface ArchiveListViewProps {
   entries: ArchiveEntry[];
   loading: boolean;
   onLoadMore: () => void;
+  hideLoadMore?: boolean;
   capacityScore: number;
 }
 
-export function ArchiveListView({ entries, loading, onLoadMore, capacityScore }: ArchiveListViewProps) {
+export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = false, capacityScore }: ArchiveListViewProps) {
   const navigate = useNavigate();
   const [expandedShelves, setExpandedShelves] = useState<Record<string, boolean>>({});
   const [expandedDrawers, setExpandedDrawers] = useState<Record<string, boolean>>({});
