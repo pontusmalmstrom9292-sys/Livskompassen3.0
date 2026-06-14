@@ -3,6 +3,7 @@ import { Loader2, Zap } from 'lucide-react';
 import { clsx } from 'clsx';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { fetchMicroSteps, type MicroStep } from '../api/compassService';
+import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
 
 const BATCH_SIZE = 3;
 
@@ -74,7 +75,7 @@ export function ParalysPanel({ onDone, embedded = false }: Props) {
     if (embedded) return <div className="space-y-2">{form}</div>;
 
     return (
-      <BentoCard title="Paralys-Brytaren" icon={<Zap className="h-4 w-4" />}>
+      <BentoCard title={MICRO_STEP_PANEL_TITLE} icon={<Zap className="h-4 w-4" />}>
         {form}
       </BentoCard>
     );
@@ -83,7 +84,7 @@ export function ParalysPanel({ onDone, embedded = false }: Props) {
   const stepsBody = (
     <>
       <div className="rounded-xl border border-accent/20 bg-accent/5 px-3 py-2 text-center text-[10px] text-text-muted">
-        Fokus: steg {Math.min(cursor + 1, steps.length)} av {steps.length}
+        Steg {Math.min(cursor + 1, steps.length)} av {steps.length}
       </div>
       {visible.map((step, i) =>
         embedded ? (

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { VIT_VAULT_TAB_LABEL } from '@/core/copy/valvNavCopy';
 import { useNavigate } from 'react-router-dom';
 import { ensureVitHub, saveVitEntry } from '@/core/firebase/vitHubFirestore';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
@@ -21,12 +22,12 @@ type Props = {
 
 const COPY = {
   title: 'Vill du spara detta?',
-  hint: 'Inget sparas automatiskt. Du väljer själv om texten ska till Vit eller Dagbok.',
-  vit: 'Spara till Vit',
+  hint: `Inget sparas automatiskt. Du väljer själv om texten ska till ${VIT_VAULT_TAB_LABEL} eller Dagbok.`,
+  vit: `Spara till ${VIT_VAULT_TAB_LABEL.toLowerCase()}`,
   dagbok: 'Spara till dagbok',
   login: 'Logga in för att spara i molnet.',
-  vitSaved: 'Sparat i Vit hub.',
-  vitError: 'Kunde inte spara till Vit just nu.',
+  vitSaved: `Sparat i ${VIT_VAULT_TAB_LABEL.toLowerCase()}.`,
+  vitError: `Kunde inte spara till ${VIT_VAULT_TAB_LABEL.toLowerCase()} just nu.`,
   empty: 'Skriv minst en rad innan du kan spara.',
 } as const;
 

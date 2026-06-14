@@ -14,7 +14,7 @@ export const PLANERING_MORE_TABS: {
   id: Extract<PlaneringTab, 'fokus' | 'framsteg' | 'regler'>;
   label: string;
 }[] = [
-  { id: 'fokus', label: 'Fokus' },
+  { id: 'fokus', label: 'Nästa steg' },
   { id: 'framsteg', label: 'Framsteg' },
   { id: 'regler', label: 'Regler' },
 ];

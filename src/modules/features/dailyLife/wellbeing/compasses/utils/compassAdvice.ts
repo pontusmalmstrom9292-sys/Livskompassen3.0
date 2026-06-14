@@ -1,19 +1,17 @@
 import { EVENING_HERO, getFlowConfig } from '../config/compassFlows';
 import type { CompassFlow } from './compassTime';
 import { getDefaultCompassByTime } from './compassTime';
+import {
+  compassFlowToQuotePhase,
+  pickQuote,
+} from '@/core/copy/compassBannerQuotes';
 
 /**
  * Korta råd på Hem / Hamn / Kompassråd (svenska, lågaffektivt).
- * Kväll: «landa» = verb (stänga dagen), inte substantivet «land».
+ * Roterar deterministiskt per dag + fas — samma citat hela dagen.
  */
-export const COMPASS_ADVICE: Record<CompassFlow, string> = {
-  morning: 'Ett mikrosteg räcker. Du behöver inte planera hela dagen nu.',
-  day: 'Börja med kroppen — sedan logistik, ett steg i taget.',
-  evening: 'Landa dagen lugnt. Gränser får vänta till i morgon om det känns tungt.',
-};
-
-export function getCompassAdvice(flow: CompassFlow): string {
-  return COMPASS_ADVICE[flow];
+export function getCompassAdvice(flow: CompassFlow, date = new Date()): string {
+  return pickQuote(compassFlowToQuotePhase(flow), date);
 }
 
 export function getCompassFlowMeta(flow: CompassFlow = getDefaultCompassByTime()) {

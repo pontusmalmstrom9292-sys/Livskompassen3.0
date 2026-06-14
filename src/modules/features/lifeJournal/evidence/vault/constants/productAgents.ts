@@ -1,4 +1,6 @@
 /** Produktroller (AGENTS.md) — UI-register för Orkester-fliken; routing sker i functions. */
+import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
+
 export const PRODUCT_AGENTS = [
   {
     id: 'agent_sannings_analytikern',
@@ -38,7 +40,7 @@ export const PRODUCT_AGENTS = [
   },
   {
     id: 'agent_paralys_brytaren',
-    name: 'Paralys-Brytaren',
+    name: MICRO_STEP_PANEL_TITLE,
     role: 'Ett mikrosteg',
     focus: 'Kompasser',
   },

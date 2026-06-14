@@ -33,6 +33,7 @@
     "smoke:speglar": "node scripts/smoke_speglar.mjs",
     "smoke:dossier": "node scripts/smoke_dossier.mjs",
     "smoke:compass": "node scripts/smoke_compass.mjs",
+    "smoke:copy-audit": "node scripts/smoke_copy_audit.mjs",
     "smoke:mabra": "node scripts/smoke_mabra.mjs",
     "smoke:emotional-memory": "node scripts/smoke_emotional_memory.mjs",
     "smoke:valv": "node scripts/smoke_valv_chat.mjs",

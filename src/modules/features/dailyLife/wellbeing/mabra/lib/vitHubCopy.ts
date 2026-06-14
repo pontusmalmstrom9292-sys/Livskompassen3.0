@@ -14,7 +14,7 @@ export const VIT_HUB_STAT_DAYS_LABEL = 'Unika dagar';
 
 export const VIT_HUB_STAT_DAYS_HINT = 'Räknas inte som streak';
 
-export const VIT_HUB_VAULT_LINK = 'Öppna Mitt Vit i Valv';
+export const VIT_HUB_VAULT_LINK = 'Öppna Min utveckling i Valv';
 
 export const VIT_HUB_DEVELOPMENT_HINT =
   'Aktivitet per kalendervecka — speglar sparade svar, inte prestation eller streak.';

@@ -1,6 +1,7 @@
 import type { MabraProjectId } from './constants/mabraProjects';
 import { MABRA_PROJECTS } from './constants/mabraProjects';
 import { MABRA_EXTENDED_PLAYS } from './content/mabraExtendedPlays';
+import { FEELING_CARDS_LABEL } from '@/core/copy/compassWidgetLabels';
 import type { MabraDurationMinutes, MabraSymptomHub } from './types';
 
 export type MabraHubCategory = 'akut' | 'tankar' | 'lekar' | 'identitet' | 'projekt';
@@ -184,7 +185,7 @@ const CORE_ITEMS: MabraHubItem[] = [
   },
   {
     id: 'feeling-cards',
-    title: 'Känslokort',
+    title: FEELING_CARDS_LABEL,
     lead: 'Namnge känslan — lär dig signalerna',
     emoji: '🎴',
     category: 'lekar',

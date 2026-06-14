@@ -1,17 +1,7 @@
 import { clsx } from 'clsx';
 import { getTimeGreeting, useHomeDisplayName } from './utils/homeGreeting';
-
-const TAGLINES = [
-  'Ett steg i taget — kompassen visar riktning.',
-  'Lågaffektiv start. Ingen prestation krävs.',
-  'Kväll — landa mjukt. Inget måste vara klart.',
-] as const;
-
-function taglineForHour(h: number): string {
-  if (h >= 17 || h < 5) return TAGLINES[2];
-  if (h >= 12) return TAGLINES[1];
-  return TAGLINES[0];
-}
+import { getHomeCompassPhase } from './homeCompassPhase';
+import { pickQuote } from '@/core/copy/compassBannerQuotes';
 
 type Props = {
   /** Mockup-bild: «Styr med mening. Lev med riktning.» */
@@ -24,9 +14,10 @@ export function HomeGreeting({ mockupCopy = false, hideEyebrow = false }: Props)
   const name = useHomeDisplayName();
   const now = new Date();
   const greeting = getTimeGreeting(now);
+  const phase = getHomeCompassPhase(now);
   const tagline = mockupCopy
     ? 'Styr med mening. Lev med riktning.'
-    : taglineForHour(now.getHours());
+    : pickQuote(phase, now);
 
   return (
     <header className={clsx('home-greeting', mockupCopy && 'home-greeting--mockup')}>

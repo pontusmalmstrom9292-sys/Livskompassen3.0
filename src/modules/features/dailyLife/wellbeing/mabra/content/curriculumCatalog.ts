@@ -275,7 +275,7 @@ export const CURRICULUMS: readonly VitCurriculum[] = [
       {
         title: 'Mikrosteg',
         kunskapFactId: 'kunskap-fact-004',
-        factTitleSv: 'Paralys och mikrosteg',
+        factTitleSv: 'Ett litet steg',
         factSummarySv:
           'Vid låg kapacitet räcker ett steg — inte en hel plan. MåBra föreslår mikromål, inte prestation.',
         citationHint: 'product_copy',

@@ -36,9 +36,11 @@ export const COMPASS_FLOWS: CompassFlowConfig[] = [
   },
 ];
 
+import { EVENING_CHECK_LEAD } from '@/core/copy/compassWidgetLabels';
+
 export const EVENING_HERO = {
   heroTitle: 'Kvällskompass',
-  heroLead: 'Landa dagen med KASAM — tre korta steg efter kväll (17–04).',
+  heroLead: EVENING_CHECK_LEAD,
   label: 'Kväll',
   icon: Moon,
 };

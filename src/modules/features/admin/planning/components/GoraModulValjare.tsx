@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { MICRO_STEP_PANEL_TITLE, NEXT_STEP_LABEL } from '@/core/copy/compassWidgetLabels';
 import { ExamplePreviewCard } from '@/shared/ui/ExamplePreviewCard';
 import {
   FokusPreviewMini,
@@ -67,10 +68,10 @@ export function GoraModulValjare() {
         />
       </div>
       <ExamplePreviewCard
-        title="Fokus — ett mikrosteg"
-        lead="Paralys-Brytaren när kanban känns tungt."
+        title={`${NEXT_STEP_LABEL} — ett mikrosteg`}
+        lead={`${MICRO_STEP_PANEL_TITLE} när kanban känns tungt.`}
         preview={<FokusPreviewMini />}
-        ctaLabel="Öppna Fokus"
+        ctaLabel={`Öppna ${NEXT_STEP_LABEL}`}
         tone="indigo"
         onStart={() => go('/planering?tab=fokus&picked=1')}
       />

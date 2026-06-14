@@ -1,4 +1,5 @@
 import { ExamplePreviewCard } from '@/shared/ui/ExamplePreviewCard';
+import { FEELING_CARDS_LABEL } from '@/core/copy/compassWidgetLabels';
 import type { MabraHubCategory } from '../mabraHubRegistry';
 import { markMabraModulValjareSeen } from '../lib/mabraModulValjareStorage';
 
@@ -45,7 +46,7 @@ function VerktygPreviewMini() {
   return (
     <ul className="space-y-0.5 text-[10px] text-text-muted">
       <li>KBT-transformator</li>
-      <li>Känslokort</li>
+      <li>{FEELING_CARDS_LABEL}</li>
       <li>Reflektionslek</li>
     </ul>
   );

@@ -1,4 +1,5 @@
 import type { VitEntryRow } from '@/core/types/firestore';
+import { VIT_VAULT_TAB_LABEL } from '@/core/copy/valvNavCopy';
 import { VIT_HUB_EXPORT_DISCLAIMER } from './vitHubCopy';
 import { vitProjectTitle, type VitHubStats } from './vitHubStats';
 import {
@@ -55,7 +56,7 @@ export function buildVitHubExportReport(
 ): VitHubExportReport {
   return {
     exportedAt: new Date().toISOString(),
-    title: 'Mitt Vit — personlig export',
+    title: `${VIT_VAULT_TAB_LABEL} — personlig export`,
     disclaimer: VIT_HUB_EXPORT_DISCLAIMER,
     stats: {
       totalEntries: stats.totalEntries,

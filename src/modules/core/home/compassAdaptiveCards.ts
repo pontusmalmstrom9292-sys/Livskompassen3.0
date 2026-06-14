@@ -1,7 +1,12 @@
+import { HOME_SUPERHUB_ROUTES } from './homeSuperhubRoutes';
 import type { CompassFlow } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
-import { HOME_SUPERHUB_ROUTES } from './homeSuperhubRoutes';
+import {
+  EVENING_CHECK_PROMPT,
+  EVENING_CHECK_SAVED_PROMPT,
+  MICRO_STEP_ACTION_LABEL,
+} from '@/core/copy/compassWidgetLabels';
 
 export type CheckInSnapshot = {
   id: string;
@@ -98,7 +103,7 @@ function cardsFromMorning(option: string): AdaptiveMemoryCard[] {
           id: 'morning-task',
           title: 'Morgon — ett steg',
           prompt: 'Du valde en uppgift. Bryt ner den till ett enda mikrosteg i Kompasser.',
-          actionLabel: 'Paralys-brytare',
+          actionLabel: MICRO_STEP_ACTION_LABEL,
           to: '/vardagen',
           tone: 'emerald',
         },
@@ -220,7 +225,7 @@ export function buildAdaptiveMemoryCards(
       cards.push({
         id: 'prompt-evening',
         title: 'Kvällskompass',
-        prompt: 'KASAM — tre korta steg för att landa dagen.',
+        prompt: EVENING_CHECK_PROMPT,
         actionLabel: 'Kväll i Kompasser',
         to: '/vardagen',
         tone: 'emerald',
@@ -241,7 +246,7 @@ export function buildAdaptiveMemoryCards(
       cards.push({
         id: 'evening-done',
         title: 'Kväll klar',
-        prompt: 'KASAM sparad. Vill du lägga en rad i Minne om dagen?',
+        prompt: EVENING_CHECK_SAVED_PROMPT,
         actionLabel: 'Inkast',
         to: '/',
         hash: 'inkast-lite',

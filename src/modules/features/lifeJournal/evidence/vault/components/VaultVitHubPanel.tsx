@@ -14,7 +14,9 @@ import {
 import {
   DEFAULT_VIT_ENTRY_FILTER,
   countByKind,
+  discoveryCategoryLabel,
   filterVitEntries,
+  parseVitCategoryFilter,
   parseVitKindFilter,
   parseVitProjectFilter,
   type VitEntryFilter,
@@ -31,6 +33,7 @@ import {
   VIT_HUB_STAT_DAYS_LABEL,
   VIT_HUB_TAGLINE,
 } from '@/features/dailyLife/wellbeing/mabra/lib/vitHubCopy';
+import { VIT_VAULT_TAB_LABEL } from '@/core/copy/valvNavCopy';
 import { VIT_VAULT_TAB } from '../utils/vaultTabs';
 import { VitEntryFilterBar } from './VitEntryFilterBar';
 import { VitEntryList } from './VitEntryList';
@@ -55,6 +58,7 @@ function filterLabel(filter: VitEntryFilter): string | undefined {
   const parts: string[] = [];
   if (filter.kind !== 'all') parts.push(KIND_FILTER_LABELS[filter.kind]);
   if (filter.projectId !== 'all') parts.push(vitProjectTitle(filter.projectId));
+  if (filter.categoryId !== 'all') parts.push(discoveryCategoryLabel(filter.categoryId));
   return parts.length ? parts.join(' · ') : undefined;
 }
 
@@ -68,6 +72,7 @@ export function VaultVitHubPanel({ userId }: Props) {
   const [filter, setFilter] = useState<VitEntryFilter>(() => ({
     kind: parseVitKindFilter(searchParams.get('vitKind')),
     projectId: parseVitProjectFilter(searchParams.get('vitProject')),
+    categoryId: parseVitCategoryFilter(searchParams.get('vitCategory')),
   }));
 
   const syncFilterToUrl = useCallback(
@@ -78,6 +83,8 @@ export function VaultVitHubPanel({ userId }: Props) {
       else params.set('vitKind', next.kind);
       if (next.projectId === 'all') params.delete('vitProject');
       else params.set('vitProject', next.projectId);
+      if (next.categoryId === 'all') params.delete('vitCategory');
+      else params.set('vitCategory', next.categoryId);
       setSearchParams(params, { replace: true });
     },
     [searchParams, setSearchParams],
@@ -95,6 +102,7 @@ export function VaultVitHubPanel({ userId }: Props) {
     setFilter({
       kind: parseVitKindFilter(searchParams.get('vitKind')),
       projectId: parseVitProjectFilter(searchParams.get('vitProject')),
+      categoryId: parseVitCategoryFilter(searchParams.get('vitCategory')),
     });
   }, [searchParams]);
 
@@ -155,7 +163,9 @@ export function VaultVitHubPanel({ userId }: Props) {
       totalEntries: filteredEntries.length,
       recentEntries: filteredEntries.slice(0, 3),
     }),
-    title: activeFilterLabel ? `Mitt Vit — ${activeFilterLabel}` : 'Mitt Vit — personlig export',
+    title: activeFilterLabel
+      ? `${VIT_VAULT_TAB_LABEL} — ${activeFilterLabel}`
+      : `${VIT_VAULT_TAB_LABEL} — personlig export`,
   };
 
   return (
@@ -163,7 +173,7 @@ export function VaultVitHubPanel({ userId }: Props) {
       <div className="rounded-xl border border-border-strong border-b-2 border-b-emerald-500/50 bg-surface-2/60 px-4 py-3 shadow-[0_4px_20px_-2px_rgba(16,185,129,0.15)]">
         <p className="flex items-center gap-2 text-sm font-medium text-accent">
           <Sparkles className="h-4 w-4" aria-hidden />
-          Mitt Vit
+          {VIT_VAULT_TAB_LABEL}
         </p>
         <p className="mt-1 text-xs text-text-dim">{VIT_HUB_TAGLINE}</p>
         <p className="mt-1 text-[10px] text-text-dim">{VIT_HUB_KRAVLOST}</p>
@@ -184,12 +194,14 @@ export function VaultVitHubPanel({ userId }: Props) {
         <VitEntryFilterBar
           filter={filter}
           kindCounts={kindCounts}
+          categoryCounts={stats.categoryCounts}
           totalCount={entries.length}
           filteredCount={filteredEntries.length}
           onKindChange={(kind: VitKindFilter) => applyFilter({ ...filter, kind })}
           onProjectChange={(projectId: MabraProjectId | 'all') =>
             applyFilter({ ...filter, projectId })
           }
+          onCategoryChange={(categoryId) => applyFilter({ ...filter, categoryId })}
           onReset={() => applyFilter(DEFAULT_VIT_ENTRY_FILTER)}
         />
         {entries.length === 0 ? (

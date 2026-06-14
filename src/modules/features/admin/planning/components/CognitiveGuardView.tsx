@@ -1,5 +1,6 @@
 import { Brain, Loader2, Check } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
 import type { PlanningTask } from '../types';
 
 interface CognitiveGuardViewProps {
@@ -47,7 +48,7 @@ export function CognitiveGuardView({
 
         <div className="mt-4 space-y-3 border-t border-border pt-4">
           <label className="block text-xs text-text-muted">
-            Ditt nästa mikrosteg (Paralys-Brytaren)
+            Ditt nästa mikrosteg ({MICRO_STEP_PANEL_TITLE.toLowerCase()})
             <span className="block text-[10px] text-text-dim mt-0.5">
               Bryt ner uppgiften till minsta möjliga handling för att komma igång.
             </span>

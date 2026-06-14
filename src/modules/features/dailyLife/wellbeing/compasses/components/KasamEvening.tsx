@@ -5,6 +5,10 @@ import { hjartatTabHref } from '@/core/navigation/appNavigation';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { saveCheckIn } from '@/core/firebase/firestore';
+import {
+  EVENING_CHECK_TITLE,
+  EVENING_CLOSE_LABEL,
+} from '@/core/copy/compassWidgetLabels';
 
 const KASAM_STEPS = [
   { key: 'comprehensible' as const, label: 'Begriplighet', question: 'Vad var begripligt idag?' },
@@ -61,7 +65,7 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
     try {
       await saveCheckIn(userId, {
         questionId: 'compass_evening',
-        questionText: 'KASAM — kvällskompass',
+        questionText: `${EVENING_CLOSE_LABEL} — kvällskompass`,
         optionSelected: 'kasam',
         taskCategory: 'evening',
         taskNote: JSON.stringify({ kasam: full }),
@@ -174,7 +178,7 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
   if (embedded) return <div className="space-y-3">{stepForm}</div>;
 
   return (
-    <BentoCard title="Kväll — KASAM" icon={<Moon className="h-4 w-4" />}>
+    <BentoCard title={EVENING_CHECK_TITLE} icon={<Moon className="h-4 w-4" />}>
       {stepForm}
     </BentoCard>
   );

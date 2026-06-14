@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ShieldAlert, Wind, Anchor, CheckCircle2 } from 'lucide-react';
 import { clsx } from 'clsx';
+import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
 
 type Tab = 'andas' | 'verklighet' | 'mikrosteg';
 type BreathPhase = 'in' | 'håll' | 'ut';
@@ -158,7 +159,7 @@ export function AkutSkoldPanel() {
         {activeTab === 'mikrosteg' && (
           <div className="space-y-3">
             <p className="mb-4 text-center text-sm text-accent/80">
-              Paralysbrytaren är aktiv. Gör exakt en sak:
+              {MICRO_STEP_PANEL_TITLE} är aktiv. Gör exakt en sak:
             </p>
             <button
               type="button"

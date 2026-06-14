@@ -1,5 +1,6 @@
 import type { LucideIcon } from 'lucide-react';
 import { BookOpen, CircleHelp, Compass, Sparkles, Zap } from 'lucide-react';
+import { QUIZ_WIDGET_LABEL } from '@/core/copy/compassWidgetLabels';
 
 export type HomeActionId = 'kompass' | 'dagbok' | 'uppgift' | 'quiz' | 'lucka';
 
@@ -35,7 +36,7 @@ export const HOME_ACTION_CATEGORIES: HomeActionCategory[] = [
   },
   {
     id: 'quiz',
-    label: 'Frågesport',
+    label: QUIZ_WIDGET_LABEL,
     desc: 'Valvet lär känna dig',
     icon: Sparkles,
     tone: 'indigo',

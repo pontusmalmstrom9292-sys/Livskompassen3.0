@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ParalysPanel } from '@/features/dailyLife/wellbeing/compasses/components/ParalysPanel';
+import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
 import { useCognitiveGuard } from '../hooks/useCognitiveGuard';
 import { pickNextFocusTask } from '../utils/cognitiveGuard';
@@ -94,7 +95,7 @@ export function PlaneringFokusPanel() {
               className="btn-pill--ghost text-xs"
               onClick={() => setShowParalys((o) => !o)}
             >
-              {showParalys ? 'Dölj Paralys-Brytaren' : 'Behöver du ett mikrosteg?'}
+              {showParalys ? `Dölj ${MICRO_STEP_PANEL_TITLE.toLowerCase()}` : 'Behöver du ett mikrosteg?'}
             </button>
             {showParalys && (
               <div className="mt-3">

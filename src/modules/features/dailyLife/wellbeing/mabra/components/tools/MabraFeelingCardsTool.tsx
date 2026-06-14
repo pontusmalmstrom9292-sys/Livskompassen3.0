@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FEELING_CARDS_LABEL } from '@/core/copy/compassWidgetLabels';
 import { MABRA_FEELING_CARDS } from '../../content/mabraFeelingCards';
 import { MabraToolShell } from './MabraToolShell';
 
@@ -11,7 +12,7 @@ export function MabraFeelingCardsTool({ onBack }: Props) {
 
   return (
     <MabraToolShell
-      title="Känslokort"
+      title={FEELING_CARDS_LABEL}
       description="Tryck en känsla — inget rätt svar"
       onBack={onBack}
     >

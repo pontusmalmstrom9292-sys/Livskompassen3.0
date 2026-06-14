@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X } from 'lucide-react';
+import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
 import { KANBAN_COLUMNS } from '../constants';
 import type { PlanningTask, PlanningTaskStatus } from '../types';
 
@@ -50,7 +51,7 @@ export function PlanningTaskDetail({ task, onClose, onMove, onSaveMicroStep }: P
         </label>
 
         <label className="mt-4 block text-[10px] uppercase tracking-widest text-text-dim">
-          Mikrosteg (Paralys-Brytaren)
+          Mikrosteg ({MICRO_STEP_PANEL_TITLE.toLowerCase()})
           <div className="mt-1 flex gap-2">
             <input
               value={microStep}

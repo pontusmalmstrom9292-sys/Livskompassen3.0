@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParalysisStore } from './store/paralysisStore';
 import { motion, AnimatePresence } from 'framer-motion';
+import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
 
 export function ParalysisBreaker() {
   const { isZenModeActive, isLoading, setZenMode, currentMicroTasks, breakDownTask, setMicroTasks } = useParalysisStore();
@@ -57,7 +58,7 @@ export function ParalysisBreaker() {
             className="w-full max-w-xl mx-auto space-y-8"
           >
             <div className="text-center space-y-4">
-              <h2 className="text-4xl font-bold text-white tracking-tight">Paralysbrytaren</h2>
+              <h2 className="text-4xl font-bold text-white tracking-tight">{MICRO_STEP_PANEL_TITLE}</h2>
               <p className="text-xl text-white/70">Vad känns övermäktigt just nu?</p>
             </div>
 

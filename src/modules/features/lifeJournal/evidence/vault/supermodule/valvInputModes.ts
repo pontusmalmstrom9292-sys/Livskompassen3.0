@@ -1,3 +1,4 @@
+import { VIT_VAULT_TAB_LABEL } from '@/core/copy/valvNavCopy';
 import {
   KUNSKAP_VAULT_TAB,
   LEGACY_INBOX_VAULT_TAB,
@@ -62,8 +63,8 @@ export const VALV_INPUT_MODES: ValvInputModeDef[] = [
   },
   {
     id: 'vit',
-    label: 'Mitt Vit',
-    description: 'Frågekort och känslominne',
+    label: VIT_VAULT_TAB_LABEL,
+    description: 'Frågekort och reflektioner — personlig utveckling',
     zone: 'vit',
     defaultVaultTab: VIT_VAULT_TAB,
   },
