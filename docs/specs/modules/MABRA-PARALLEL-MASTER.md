@@ -1,7 +1,7 @@
 # MåBra 3.0 — Parallell koordinering (Kat 4 · 5 · 6)
 
 **Datum:** 2026-06-14  
-**Status:** **Planeringsfas** — dokumentation only (ingen produktionskod)  
+**Status:** **Aktiv** — Kat 6 **KLAR** · Kat 4/5 öppna  
 **Scope:** Koordinationsritning för parallell utveckling av tre pelarkategorier under MåBra 3.0  
 **Kanon:** [`MABRA-3.0-MASTER-SPEC.md`](./MABRA-3.0-MASTER-SPEC.md) · [`.context/security.md`](../../../.context/security.md) · [`INNEHALL-REGISTER.md`](../../INNEHALL-REGISTER.md) · [`firestore.rules`](../../../firestore.rules)
 
@@ -79,7 +79,7 @@ flowchart TB
 |----------|----------------------|---------------------|-------------------|
 | **Kat 4** | Ja (Fas P4-A) | `vit_entries`, `vit_hub`, `mabraCoach(vit_chat)` | Curriculum UI, HITL-bro, `projectId: learn_together` |
 | **Kat 5** | Ja (Fas P5-A) | `evolution_hub`, `mabraCoach(coach)` | `user_daily_focus`, detekteringslogik, Morgonkompass-bro |
-| **Kat 6** | Ja (Fas P6-A) | `mabra_sessions.exerciseType` enum | `mabra_explore_queue` (ny), PLAY-uppgiftsmotor |
+| **Kat 6** | **KLAR** (2026-06-14) | `mabra_sessions.exerciseType` enum | `mabra_explore_queue`, PLAY-uppgiftsmotor — se [`mabra-3.0-cat6-closure.md`](../../evaluations/mabra-3.0-cat6-closure.md) |
 
 **Regel:** Ingen kategori får introducera **ny callable med RAG** eller **läsa `reality_vault`** i coach-flöde.
 
@@ -317,19 +317,20 @@ sequenceDiagram
 
 ---
 
-## 5. Underagentspec — Kat 6 (Prova nya saker)
+## 5. Underagentspec — Kat 6 (Prova nya saker) — **KLAR**
 
 **Agent-id (planerad):** `specialist-mabra-cat6-explore`  
 **Evolution-pelare:** Emotionell puls  
 **Känslighet:** L1–L2  
-**Kodstatus:** Grönt fält (närmast: `mabraExtendedPlays.ts`, `pickDagligMix.ts`, `dagligMixCatalog.ts`)
+**Kodstatus:** **Live** — P6-A rules + P6-B picker/UI deployade 2026-06-14  
+**Avslut:** [`docs/evaluations/mabra-3.0-cat6-closure.md`](../../evaluations/mabra-3.0-cat6-closure.md)
 
 ### 5.1 Datasilo
 
 | Lager | Collection / store | Operation | Innehåll |
 |-------|-------------------|-----------|----------|
 | **UI / Zero Footprint** | React state | RAM | Aktuell veckoutmaning, filter-val |
-| **Mutable profil** | `mabra_explore_queue/{uid}` | create/update | `{ currentTaskId, skippedIds[], weekKey, filters[], updatedAt }` — **ny collection** |
+| **Mutable profil** | `mabra_explore_queue/{uid}` | create/update | `availableTasks[]`, `completedTasks[]` (append-only), `lastGenerated`, `updatedAt` |
 | **Vit WORM** | `mabra_sessions` | `create` only (valfri) | `exerciseType`: `explore_done` — metadata när användaren markerar klart |
 | **Innehåll (statisk)** | `Mabra-CONTENT-BANK.md` · `mabraExtendedPlays.ts` | Read-only | PLAY `MB-PLAY-*` — kuraterad lista |
 | **Evolution (read-only)** | `evolution_hub` | read | `currentCapacityLevel` → filter `energy_low` |
@@ -341,7 +342,7 @@ sequenceDiagram
 | Regel | Värde |
 |-------|-------|
 | Veckoutmaningar | 1 aktiv / `weekKey` (ISO-vecka) |
-| Överhopp | Max **5** i `skippedIds[]` — därefter tvinga val eller paus |
+| Överhopp | Max **5** per vecka — `localStorage` (`exploreSkipStorage`) |
 | Filter | Minst ett av: `budget_low` · `social_safe` · `solo` · `energy_low` |
 | Gamification | **Förbjudet** — ingen streak |
 
@@ -494,8 +495,8 @@ Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta 
 
 | Fas | Kat | Leverans | Gate |
 |-----|-----|----------|------|
-| **P6-A** | 6 | `mabra_explore_queue` rules + validator | rules unit + deploy PMIR |
-| **P6-B** | 6 | `exploreTaskPicker` + `MabraExplorePanel` | `npm run smoke:innehall` |
+| **P6-A** | 6 | `mabra_explore_queue` rules + validator | **KLAR** — rules deploy exit 0 |
+| **P6-B** | 6 | `exploreTaskPicker` + `MabraExplorePanel` | **KLAR** — build PASS · hosting deploy |
 | **P5-A** | 5 | `goalDetection.ts` (deterministisk) | `npm run build` |
 | **P5-B** | 5 | `MabraGoalPanel` + `mabraCoach(coach)` | Morgonkompass manuell test |
 | **P4-A** | 4 | Utbildningspelare router wrapper | `npm run smoke:mabra` |
@@ -538,4 +539,4 @@ Eval per fas: `docs/evaluations/YYYY-MM-DD-mabra-cat[4|5|6]-[fas].md`.
 
 ---
 
-**Status:** Parallell koordinationsritning klar. **Nästa steg:** Godkänn denna fil → skriv `docs/evaluations/YYYY-MM-DD-mabra-3.0-parallel-eval.md` → starta **P6-A** (Kat 6 rules) som första isolerade spår.
+**Status:** Kat 6 **KLAR** (2026-06-14). **Nästa steg:** **P5-A** (Kat 5 detektering) — läs `evolution_hub` + `user_daily_focus` före wizard.

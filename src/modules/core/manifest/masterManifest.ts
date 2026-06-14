@@ -101,6 +101,7 @@ const VARDAG_DOMAIN = {
   ],
   mutableCollections: [
     'mabra_progress',
+    'mabra_explore_queue',
     'user_daily_focus',
     'vit_hub',
     'planning_tasks',

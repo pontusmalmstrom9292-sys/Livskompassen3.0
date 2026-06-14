@@ -433,6 +433,7 @@ export const FIRESTORE_COLLECTIONS = {
   journal: 'journal',
   mabra_sessions: 'mabra_sessions',
   mabra_progress: 'mabra_progress',
+  mabra_explore_queue: 'mabra_explore_queue',
   vit_hub: 'vit_hub',
   vit_entries: 'vit_entries',
   emotional_memory: 'emotional_memory',

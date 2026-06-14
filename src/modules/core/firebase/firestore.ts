@@ -362,7 +362,7 @@ export async function saveChildrenLog(
 export async function saveMabraSession(
   userId: string,
   session: {
-    exerciseType: 'breathing' | 'grounding' | 'reframing' | 'daglig_mix';
+    exerciseType: 'breathing' | 'grounding' | 'reframing' | 'daglig_mix' | 'explore_done';
     durationSeconds: number;
     hubSymptom?: string;
     cardBankId?: string;

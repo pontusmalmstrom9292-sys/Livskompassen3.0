@@ -1,5 +1,6 @@
 import { useEffect, useState, lazy, Suspense } from 'react';
 import { useMorningCompassStore } from './morningStore';
+// Nästa steg: ersätt CompassService + fetchFocusPoints med useMorningOrchestration (user_daily_focus + planning_tasks).
 import { useStore } from '../core/store';
 import { Compass, Trash2, Loader2, CheckCircle2, Sparkles, Moon } from 'lucide-react';
 import { PageSkeleton } from '../../components/layout/PageSkeleton';
