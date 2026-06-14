@@ -1,3 +1,4 @@
+/* PROTECTED CORE COMPONENT: DO NOT MODIFY, REFRACTOR, OR REMOVE UI ELEMENTS. THIS FILE IS LOCKED FOR ARCHITECTURAL STABILITY. */
 import { AppUnlockGate, AuthProvider, useZeroFootprint } from './modules/core/auth';
 import { useMaterialPackSync } from './modules/core/lifeOs/useMaterialPackSync';
 import { useEvolutionSync } from './modules/core/hooks/useEvolutionSync';
@@ -8,7 +9,6 @@ import { useBarnportenWebManifest } from '@/features/onboarding/barnporten/hooks
 import { ToastContainer } from './modules/core/ui/ToastContainer';
 import { SOSOverlay } from './modules/features/sos/components/SOSOverlay';
 import { QuickCaptureOverlay } from './modules/features/voiceToVault/components/QuickCaptureOverlay';
-import { LayoutShell } from './components/LayoutShell';
 import { SystemStatusPanel } from '@/features/dev/SystemStatusPanel';
 
 function AppShell() {
@@ -21,9 +21,7 @@ function AppShell() {
       <WidgetDeepLinkBridge />
       <QuickCaptureOverlay />
       <SystemStatusPanel />
-      <LayoutShell>
-        <AppRoutes />
-      </LayoutShell>
+      <AppRoutes />
     </AppUnlockGate>
   );
 }

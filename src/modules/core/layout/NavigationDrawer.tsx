@@ -1,3 +1,4 @@
+/* PROTECTED CORE COMPONENT: DO NOT MODIFY, REFRACTOR, OR REMOVE UI ELEMENTS. THIS FILE IS LOCKED FOR ARCHITECTURAL STABILITY. */
 import { clsx } from 'clsx';
 import { memo, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';

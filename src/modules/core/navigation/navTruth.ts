@@ -1,3 +1,4 @@
+/* PROTECTED CORE COMPONENT: DO NOT MODIFY, REFRACTOR, OR REMOVE UI ELEMENTS. THIS FILE IS LOCKED FOR ARCHITECTURAL STABILITY. */
 import { HIDE_BEVIS_TAB } from './navFlags';
 
 /** Kärn-sanning för routes — inga överlappande paths tillåtna. */

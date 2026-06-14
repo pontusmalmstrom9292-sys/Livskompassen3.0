@@ -115,6 +115,10 @@ function main() {
     'MainLayout.tsx',
     'Kompis kort tryck ska inte gå till publik /kompis',
   );
+  assert(
+    !read('src/App.tsx').includes('<LayoutShell'),
+    'App.tsx får inte wrappa AppRoutes i LayoutShell (döljer MainLayout)',
+  );
   mustInclude(
     'src/modules/core/layout/NavigationDrawer.tsx',
     'Senast besökt',

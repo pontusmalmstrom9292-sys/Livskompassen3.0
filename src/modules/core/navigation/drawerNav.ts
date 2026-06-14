@@ -1,3 +1,4 @@
+/* PROTECTED CORE COMPONENT: DO NOT MODIFY, REFRACTOR, OR REMOVE UI ELEMENTS. THIS FILE IS LOCKED FOR ARCHITECTURAL STABILITY. */
 /**
  * Sidomeny — kanon enligt docs/design/references/MENU-DRAWER-KANON.md
  * Labels/paths: navTruth.ts · Implementation: NavigationDrawer.tsx
