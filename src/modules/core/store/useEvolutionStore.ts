@@ -11,12 +11,14 @@ export interface EvolutionState {
   error: string | null;
   barnportenLevel: number;
   unlockedPacks: string[];
+  hasSeenLevel2Animation: boolean;
 
   // Actions
   setDoc: (doc: EvolutionHubDoc | null) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   listenToEvolutionHub: (uid: string) => () => void;
+  setHasSeenLevel2Animation: (seen: boolean) => void;
 
   // Helpers / Selectors
   hasFeature: (flag: string) => boolean;
@@ -31,6 +33,9 @@ export const useEvolutionStore = create<EvolutionState>((set, get) => ({
   error: null,
   barnportenLevel: 1,
   unlockedPacks: [],
+  hasSeenLevel2Animation: false,
+
+  setHasSeenLevel2Animation: (seen) => set({ hasSeenLevel2Animation: seen }),
 
   setDoc: (docData) => {
     if (!docData) {

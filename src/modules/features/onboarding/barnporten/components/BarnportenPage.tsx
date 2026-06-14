@@ -1,6 +1,7 @@
 import './barnporten.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import { Heart, MessageCircle, Smile, Lock, AlertCircle, Loader2 } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
 import { useStore } from '@/core/store';
 import { useEvolutionStore } from '@/core/store/useEvolutionStore';
 import { saveBarnportenLog } from '../api/saveBarnportenLog';
@@ -11,10 +12,16 @@ import { resolveBarnportenChildAlias, isBarnportenDeviceLinked } from '../consta
 import { BarnportenWidget } from './BarnportenWidget';
 import { EvolutionDevPanel } from './EvolutionDevPanel';
 
+const BarnportenLevelTwoStage = lazy(() =>
+  import('./BarnportenLevelTwoStage').then((m) => ({ default: m.BarnportenLevelTwoStage }))
+);
+
 /** Barn-PWA hub — `/barnporten` (silo 3, ingen Valv-RAG). */
 export function BarnportenPage() {
   const user = useStore((s) => s.user);
   const [activeChild, setActiveChild] = useState(() => resolveBarnportenChildAlias());
+  const barnportenLevel = useEvolutionStore((s) => s.barnportenLevel);
+  const hasSeenLevel2Animation = useEvolutionStore((s) => s.hasSeenLevel2Animation);
   const childBracket = useEvolutionStore((s) => s.getChildBracket(activeChild));
   const pairState = useBarnportenPairClaim();
   const [message, setMessage] = useState('');
@@ -184,6 +191,14 @@ export function BarnportenPage() {
           ))}
         </ul>
       </details>
+
+      <AnimatePresence>
+        {barnportenLevel === 2 && !hasSeenLevel2Animation && (
+          <Suspense fallback={null}>
+            <BarnportenLevelTwoStage />
+          </Suspense>
+        )}
+      </AnimatePresence>
 
       <BarnportenWidget childAlias={activeChild} />
       <EvolutionDevPanel />
