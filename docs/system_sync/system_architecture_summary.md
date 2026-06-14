@@ -1,5 +1,7 @@
 # System Architecture Summary: Pelare 3 - Vardagens Arkitektur
 
+**Senast synkad:** 2026-06-14 · Källfiler i `docs/system_sync/*_CURRENT.*`
+
 Detta dokument beskriver nuläget för Livskompassen v2 med fokus på "Pelare 3: Vardagens Arkitektur" (Everyday Architecture) och hur Capability Engine ("Lagen om Evig Tillväxt") samverkar med Firestore.
 
 ## Pelare 3: Vardagens Arkitektur

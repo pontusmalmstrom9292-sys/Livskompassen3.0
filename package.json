@@ -28,6 +28,7 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "typecheck:core-strict": "tsc -p tsconfig.core-strict.json --noEmit",
+    "sync:system": "node scripts/sync_system_docs.mjs",
     "smoke:kunskap": "node scripts/smoke_kunskap.mjs",
     "smoke:speglar": "node scripts/smoke_speglar.mjs",
     "smoke:dossier": "node scripts/smoke_dossier.mjs",
