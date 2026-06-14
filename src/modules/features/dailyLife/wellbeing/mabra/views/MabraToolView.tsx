@@ -12,6 +12,7 @@ import { MabraMicroPlayTool } from '../components/tools/MabraMicroPlayTool';
 import { MabraToolShell } from '../components/tools/MabraToolShell';
 import { KbtTransformatorPanel } from '../components/KbtTransformatorPanel';
 import { DagligMixPanel } from '../components/DagligMixPanel';
+import { MabraExplorePanel } from '../components/MabraExplorePanel';
 import type { MabraHubCategory } from '../mabraHubRegistry';
 
 export const MabraToolView = memo(function MabraToolView() {
@@ -63,6 +64,23 @@ export const MabraToolView = memo(function MabraToolView() {
     [userId, setSaveError],
   );
 
+  const handleExploreComplete = useCallback(
+    async (taskId: string) => {
+      if (!userId) return;
+      setSaveError(null);
+      try {
+        await saveMabraSession(userId, {
+          exerciseType: 'explore_done',
+          durationSeconds: 60,
+          playBankId: taskId,
+        });
+      } catch {
+        setSaveError('Kunde inte spara session — klart ändå lokalt.');
+      }
+    },
+    [userId, setSaveError],
+  );
+
   if (toolId === 'feeling_cards') {
     return <MabraFeelingCardsTool onBack={() => returnToHub('lekar')} />;
   }
@@ -102,6 +120,14 @@ export const MabraToolView = memo(function MabraToolView() {
     return (
       <MabraToolShell title="Dagens mix" onBack={() => returnToHub('lekar')}>
         <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
+      </MabraToolShell>
+    );
+  }
+
+  if (toolId === 'explore_weekly') {
+    return (
+      <MabraToolShell title="Prova något nytt" onBack={() => returnToHub('lekar')}>
+        <MabraExplorePanel uid={userId} onComplete={(id) => void handleExploreComplete(id)} />
       </MabraToolShell>
     );
   }

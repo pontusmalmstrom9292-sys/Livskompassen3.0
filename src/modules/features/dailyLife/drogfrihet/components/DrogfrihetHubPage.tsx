@@ -1,10 +1,11 @@
-import { BookOpen, HeartHandshake, Shield, Sparkles } from 'lucide-react';
+import { BookOpen, Brain, HeartHandshake, Shield, Sparkles, X } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar, type TabBarItem } from '@/core/ui/TabBar';
 import { useStore } from '@/core/store';
+import { RecoveryRealityCheckForm } from '@/features/mabra/components/RecoveryRealityCheckForm';
 import { DROGFRIHET_CARDS } from '../content/drogfrihetCatalog';
 import { DROGFRIHET_FACTS } from '../constants/kunskapFacts';
 import { DROGFRIHET_DISCLAIMER, DROGFRIHET_RESOURCES } from '../constants/resources';
@@ -59,6 +60,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
   const user = useStore((s) => s.user);
   const idag = useMemo(() => pickDrogfrihetIdag({ uid: user?.uid }), [user?.uid]);
   const [reflectionIndex, setReflectionIndex] = useState(0);
+  const [realityCheckOpen, setRealityCheckOpen] = useState(false);
 
   const reflectionCard = DROGFRIHET_CARDS[reflectionIndex % DROGFRIHET_CARDS.length]!;
 
@@ -107,26 +109,49 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
       )}
 
       {tab === 'reflektion' && (
-        <BentoCard title="Reflektion" icon={<HeartHandshake className="h-4 w-4" />} glow="green">
-          <div className="home-module-panel__question-box">
-            <p className="text-base text-accent">{reflectionCard.text_sv}</p>
-            <p className="mt-2 text-xs text-text-dim">Inget fel svar — ett ord räcker.</p>
-          </div>
-          <div className="mt-4 flex gap-2">
-            <button
-              type="button"
-              className="btn-pill--secondary flex-1"
-              onClick={() =>
-                setReflectionIndex((i) => (i + 1) % DROGFRIHET_CARDS.length)
-              }
-            >
-              Nästa kort
-            </button>
-          </div>
-          <p className="mt-3 text-xs text-text-muted">
-            {DROGFRIHET_CARDS.length} kort i poolen — inga poäng, ingen missad dag.
-          </p>
-        </BentoCard>
+        <>
+          <BentoCard title="Reflektion" icon={<HeartHandshake className="h-4 w-4" />} glow="green">
+            <div className="home-module-panel__question-box">
+              <p className="text-base text-accent">{reflectionCard.text_sv}</p>
+              <p className="mt-2 text-xs text-text-dim">Inget fel svar — ett ord räcker.</p>
+            </div>
+            <div className="mt-4 flex gap-2">
+              <button
+                type="button"
+                className="btn-pill--secondary flex-1"
+                onClick={() =>
+                  setReflectionIndex((i) => (i + 1) % DROGFRIHET_CARDS.length)
+                }
+              >
+                Nästa kort
+              </button>
+            </div>
+            <p className="mt-3 text-xs text-text-muted">
+              {DROGFRIHET_CARDS.length} kort i poolen — inga poäng, ingen missad dag.
+            </p>
+          </BentoCard>
+
+          <section className="rounded-2xl border-[0.5px] border-border bg-gradient-to-br from-surface-2/80 via-surface to-surface-2 p-4 sm:p-5">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="min-w-0 space-y-1">
+                <p className="flex items-center gap-2 font-display-serif text-[10px] uppercase tracking-[0.22em] text-text-dim">
+                  <Brain className="h-3 w-3 shrink-0 text-accent/70" strokeWidth={1.5} aria-hidden />
+                  Verklighetskontroll
+                </p>
+                <p className="text-sm text-text-muted">
+                  KBT — granska en tanke steg för steg. Sparas i Vit-zonen, inte Valv.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setRealityCheckOpen(true)}
+                className="btn-pill--ghost shrink-0 text-xs uppercase tracking-[0.14em]"
+              >
+                Öppna
+              </button>
+            </div>
+          </section>
+        </>
       )}
 
       {tab === 'kunskap' && (
@@ -153,8 +178,42 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
     </>
   );
 
+  const realityCheckOverlay = realityCheckOpen ? (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Verklighetskontroll"
+      className="fixed inset-0 z-[60] flex flex-col bg-gradient-to-b from-[#020617] via-surface to-surface-2"
+    >
+      <header className="flex shrink-0 items-center justify-between border-b-[0.5px] border-border px-4 py-3 sm:px-6">
+        <p className="font-display-serif text-[10px] uppercase tracking-[0.22em] text-text-dim">
+          Verklighetskontroll
+        </p>
+        <button
+          type="button"
+          onClick={() => setRealityCheckOpen(false)}
+          className="rounded-xl border-[0.5px] border-border/60 p-2 text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3 hover:text-text"
+          aria-label="Stäng verklighetskontroll"
+        >
+          <X className="h-5 w-5" strokeWidth={1.5} />
+        </button>
+      </header>
+      <div className="calm-scroll-island flex-1 overflow-y-auto px-4 py-4 sm:px-6 sm:py-6">
+        <RecoveryRealityCheckForm
+          userId={user?.uid}
+          onComplete={() => setRealityCheckOpen(false)}
+        />
+      </div>
+    </div>
+  ) : null;
+
   if (embedded) {
-    return <div className="space-y-4">{body}</div>;
+    return (
+      <div className="space-y-4">
+        {body}
+        {realityCheckOverlay}
+      </div>
+    );
   }
 
   return (
@@ -164,6 +223,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
       lead="Dagräknare, reflektion och fakta — nollställning bara under Inställningar. Akut: 113."
     >
       {body}
+      {realityCheckOverlay}
     </HubPageShell>
   );
 }

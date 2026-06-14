@@ -365,7 +365,7 @@ service cloud.firestore {
 
     function isValidKat7ProjectId() {
       return request.resource.data.projectId in [
-        'self_esteem', 'emotional_memory', 'learn_together', 'who_am_i',
+        'self_esteem', 'emotional_memory', 'learn_together', 'who_am_i', 'recovery',
       ];
     }
 
@@ -441,6 +441,109 @@ service cloud.firestore {
         && request.resource.data.shareWithCoach == false;
     }
 
+    // Kat 6 — Utforskningskö (L1–L2). Isolerad Vit-silo — aldrig Valv/RAG/children_logs.
+    function isValidExploreTaskItem(task) {
+      return task is map
+        && task.keys().hasOnly(['id', 'titel', 'kategori', 'budgetgrans', 'isSocial'])
+        && task.id is string
+        && task.id.size() > 0
+        && task.id.size() <= 32
+        && task.id.matches('^(MB-PLAY-[A-Z0-9-]+|explore-[a-z0-9-]+)$')
+        && task.titel is string
+        && task.titel.size() > 0
+        && task.titel.size() <= 120
+        && task.kategori is string
+        && task.kategori in ['budget_low', 'social_safe', 'solo', 'energy_low', 'play', 'micro']
+        && task.budgetgrans is int
+        && task.budgetgrans >= 0
+        && task.budgetgrans <= 3
+        && task.isSocial is bool;
+    }
+
+    function isValidExploreAvailableTasksList(tasks) {
+      return tasks is list
+        && tasks.size() >= 0
+        && tasks.size() <= 12
+        && (tasks.size() < 1 || isValidExploreTaskItem(tasks[0]))
+        && (tasks.size() < 2 || isValidExploreTaskItem(tasks[1]))
+        && (tasks.size() < 3 || isValidExploreTaskItem(tasks[2]))
+        && (tasks.size() < 4 || isValidExploreTaskItem(tasks[3]))
+        && (tasks.size() < 5 || isValidExploreTaskItem(tasks[4]))
+        && (tasks.size() < 6 || isValidExploreTaskItem(tasks[5]))
+        && (tasks.size() < 7 || isValidExploreTaskItem(tasks[6]))
+        && (tasks.size() < 8 || isValidExploreTaskItem(tasks[7]))
+        && (tasks.size() < 9 || isValidExploreTaskItem(tasks[8]))
+        && (tasks.size() < 10 || isValidExploreTaskItem(tasks[9]))
+        && (tasks.size() < 11 || isValidExploreTaskItem(tasks[10]))
+        && (tasks.size() < 12 || isValidExploreTaskItem(tasks[11]));
+    }
+
+    function isValidExploreCompletedTaskId(id) {
+      return id is string
+        && id.size() > 0
+        && id.size() <= 32
+        && id.matches('^(MB-PLAY-[A-Z0-9-]+|explore-[a-z0-9-]+)$');
+    }
+
+    function isValidExploreCompletedTasksList(tasks) {
+      return tasks is list
+        && tasks.size() >= 0
+        && tasks.size() <= 100
+        && (tasks.size() < 1 || isValidExploreCompletedTaskId(tasks[0]))
+        && (tasks.size() < 2 || isValidExploreCompletedTaskId(tasks[1]))
+        && (tasks.size() < 3 || isValidExploreCompletedTaskId(tasks[2]))
+        && (tasks.size() < 4 || isValidExploreCompletedTaskId(tasks[3]))
+        && (tasks.size() < 5 || isValidExploreCompletedTaskId(tasks[4]))
+        && (tasks.size() < 6 || isValidExploreCompletedTaskId(tasks[5]))
+        && (tasks.size() < 7 || isValidExploreCompletedTaskId(tasks[6]))
+        && (tasks.size() < 8 || isValidExploreCompletedTaskId(tasks[7]))
+        && (tasks.size() < 9 || isValidExploreCompletedTaskId(tasks[8]))
+        && (tasks.size() < 10 || isValidExploreCompletedTaskId(tasks[9]));
+    }
+
+    function isExploreCompletedTasksAppendOnly() {
+      return request.resource.data.completedTasks.size() >= resource.data.completedTasks.size()
+        && (resource.data.completedTasks.size() < 1
+          || request.resource.data.completedTasks[0] == resource.data.completedTasks[0])
+        && (resource.data.completedTasks.size() < 2
+          || request.resource.data.completedTasks[1] == resource.data.completedTasks[1])
+        && (resource.data.completedTasks.size() < 3
+          || request.resource.data.completedTasks[2] == resource.data.completedTasks[2])
+        && (resource.data.completedTasks.size() < 4
+          || request.resource.data.completedTasks[3] == resource.data.completedTasks[3])
+        && (resource.data.completedTasks.size() < 5
+          || request.resource.data.completedTasks[4] == resource.data.completedTasks[4])
+        && (resource.data.completedTasks.size() < 6
+          || request.resource.data.completedTasks[5] == resource.data.completedTasks[5])
+        && (resource.data.completedTasks.size() < 7
+          || request.resource.data.completedTasks[6] == resource.data.completedTasks[6])
+        && (resource.data.completedTasks.size() < 8
+          || request.resource.data.completedTasks[7] == resource.data.completedTasks[7])
+        && (resource.data.completedTasks.size() < 9
+          || request.resource.data.completedTasks[8] == resource.data.completedTasks[8])
+        && (resource.data.completedTasks.size() < 10
+          || request.resource.data.completedTasks[9] == resource.data.completedTasks[9]);
+    }
+
+    function isValidMabraExploreWrite() {
+      return request.resource.data.keys().hasOnly([
+          'userId', 'ownerId', 'availableTasks', 'completedTasks', 'lastGenerated', 'updatedAt',
+        ])
+        && request.resource.data.availableTasks is list
+        && isValidExploreAvailableTasksList(request.resource.data.availableTasks)
+        && request.resource.data.completedTasks is list
+        && isValidExploreCompletedTasksList(request.resource.data.completedTasks)
+        && request.resource.data.lastGenerated is timestamp
+        && request.resource.data.updatedAt is timestamp;
+    }
+
+    function isValidMabraExploreUpdate() {
+      return isValidMabraExploreWrite()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId
+        && isExploreCompletedTasksAppendOnly();
+    }
+
     match /mabra_progress/{uid} {
       allow read: if isAuthenticated() && request.auth.uid == uid && isSensitiveAuth();
       allow create: if isAuthenticated()
@@ -488,6 +591,21 @@ service cloud.firestore {
         && uid == request.auth.uid
         && isOwnerSensitive()
         && isValidRecoveryProfileUpdate();
+      allow delete: if false;
+    }
+
+    // Kat 6 P6-A — Utforskningskö. Mutable profil; completedTasks append-only.
+    // FÖRBJUDET: sourceRef, truth, evidenceUrl, vault-fält, children_logs-koppling.
+    match /mabra_explore_queue/{uid} {
+      allow read: if isAuthenticated() && request.auth.uid == uid;
+      allow create: if isAuthenticated()
+        && uid == request.auth.uid
+        && isOwnerCreate()
+        && isValidMabraExploreWrite();
+      allow update: if isAuthenticated()
+        && uid == request.auth.uid
+        && isOwner()
+        && isValidMabraExploreUpdate();
       allow delete: if false;
     }
 

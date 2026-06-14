@@ -11,7 +11,8 @@ export type MabraHubToolKind =
   | 'self_quiz'
   | 'micro_play'
   | 'kbt'
-  | 'daglig_mix';
+  | 'daglig_mix'
+  | 'explore_weekly';
 
 export type MabraHubAction =
   | { type: 'symptom'; hub: MabraSymptomHub }
@@ -133,6 +134,15 @@ const CORE_ITEMS: MabraHubItem[] = [
     category: 'lekar',
     quick: true,
     action: { type: 'tool', tool: 'daglig_mix' },
+  },
+  {
+    id: 'explore-weekly',
+    title: 'Prova något nytt',
+    lead: 'Veckoutmaning — låg stakes',
+    emoji: '🧭',
+    category: 'lekar',
+    quick: true,
+    action: { type: 'tool', tool: 'explore_weekly' },
   },
   {
     id: 'feeling-cards',
