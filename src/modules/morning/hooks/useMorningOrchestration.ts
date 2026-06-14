@@ -4,9 +4,10 @@ import { db } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
 import { listenPlanningTasks } from '@/modules/features/admin/planning/api/planningTasksApi';
 import type { PlanningTask } from '@/modules/features/admin/planning/types';
-
-/** Kanonisk antal fokusplatser i Morgonkompassen. */
-export const MORNING_FOCUS_SLOTS = 3;
+import {
+  normalizeFocusPoints,
+  USER_DAILY_FOCUS_COLLECTION,
+} from '../lib/focusPoints';
 
 const EMPTY_FOCUS_POINTS: readonly string[] = ['', '', ''] as const;
 
@@ -23,17 +24,7 @@ type UserDailyFocusDoc = {
   focusPoints?: unknown;
 };
 
-/** Normaliserar rå `focusPoints` till exakt tre strängplatser. */
-export function normalizeFocusPoints(raw: unknown): string[] {
-  const points = [...EMPTY_FOCUS_POINTS];
-  if (!Array.isArray(raw)) return points;
-  raw.forEach((value, index) => {
-    if (index < MORNING_FOCUS_SLOTS && typeof value === 'string') {
-      points[index] = value;
-    }
-  });
-  return points;
-}
+export { MORNING_FOCUS_SLOTS, normalizeFocusPoints } from '../lib/focusPoints';
 
 /**
  * Orkestreringskrok för Morgonkompassen + P3 Kanban.
@@ -61,7 +52,7 @@ export function useMorningOrchestration(): MorningOrchestrationResult {
       if (focusReady && tasksReady) setLoading(false);
     };
 
-    const focusRef = doc(db, 'user_daily_focus', user.uid);
+    const focusRef = doc(db, USER_DAILY_FOCUS_COLLECTION, user.uid);
     const unsubFocus = onSnapshot(
       focusRef,
       (snap) => {

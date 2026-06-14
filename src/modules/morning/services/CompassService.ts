@@ -1,13 +1,17 @@
 import { collection, doc, setDoc, getDocs, query, where, serverTimestamp, limit } from 'firebase/firestore';
 import { db } from '../../core/firebase/firestore';
+import { getLocalIsoDate } from '../lib/focusPoints';
 
+/**
+ * Legacy-reserv för `daily_intentions`.
+ * Kanonisk sink: `user_daily_focus` via `morningStore.saveFocus`.
+ * Behålls tills migrering bekräftad (G1).
+ */
 export class CompassService {
   private static COLLECTION = 'daily_intentions';
 
   static async saveDailyIntention(userId: string, intention: string): Promise<string> {
-    const today = new Date();
-    // Use local timezone date string (YYYY-MM-DD)
-    const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    const dateStr = getLocalIsoDate();
     const docId = `${userId}_${dateStr}`;
     const docRef = doc(db, this.COLLECTION, docId);
     
@@ -23,8 +27,7 @@ export class CompassService {
   }
 
   static async getDailyIntentions(userId: string): Promise<any[]> {
-    const today = new Date();
-    const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    const dateStr = getLocalIsoDate();
     
     const q = query(
       collection(db, this.COLLECTION),

@@ -1,10 +1,9 @@
 import { useEffect, useState, lazy, Suspense } from 'react';
 import { useMorningCompassStore } from './morningStore';
-// Nästa steg: ersätt CompassService + fetchFocusPoints med useMorningOrchestration (user_daily_focus + planning_tasks).
 import { useStore } from '../core/store';
 import { Compass, Trash2, Loader2, CheckCircle2, Sparkles, Moon } from 'lucide-react';
 import { PageSkeleton } from '../../components/layout/PageSkeleton';
-import { CompassService } from './services/CompassService';
+import { getLocalIsoDate } from './lib/focusPoints';
 
 const DailyTasksList = lazy(() => import('./components/DailyTasksList').then(m => ({ default: m.DailyTasksList })));
 
@@ -21,6 +20,7 @@ export function MorningCompass() {
     handledProtocolDate,
     submitProtocolFeedback,
     fetchFocusPoints,
+    saveFocus,
     yesterdayWasHighRisk,
     isLowEnergyProtocolActive,
     setLowEnergyProtocolActive
@@ -35,39 +35,25 @@ export function MorningCompass() {
   useEffect(() => {
     if (user?.uid) {
       Promise.all([
-        CompassService.getDailyIntentions(user.uid).then((intentions) => {
-          if (intentions.length > 0 && intentions[0].intention) {
-            try {
-              const parsed = JSON.parse(intentions[0].intention);
-              if (Array.isArray(parsed)) {
-                parsed.forEach((p, i) => {
-                  if (i < 3) setFocusPoint(i, p);
-                });
-              }
-            } catch {
-              setFocusPoint(0, intentions[0].intention);
-            }
-          }
-        }),
         fetchFocusPoints(user.uid),
-        fetchLatestInsight(user.uid)
+        fetchLatestInsight(user.uid),
       ]).then(() => setHasMounted(true));
     }
-  }, [user?.uid, fetchLatestInsight, setFocusPoint]);
+  }, [user?.uid, fetchLatestInsight, fetchFocusPoints]);
 
-  // Debounced auto-save
+  // Debounced auto-save → kanonisk sink `user_daily_focus` via saveFocus
   useEffect(() => {
     if (!user?.uid || !hasMounted) return;
 
     setSaveStatus('saving');
     const timeoutId = setTimeout(async () => {
-      await CompassService.saveDailyIntention(user.uid, JSON.stringify(threeFocusPoints));
+      await saveFocus(user.uid);
       setSaveStatus('saved');
       setTimeout(() => setSaveStatus('idle'), 2000);
     }, 1000);
 
     return () => clearTimeout(timeoutId);
-  }, [threeFocusPoints, user?.uid, hasMounted]);
+  }, [threeFocusPoints, user?.uid, hasMounted, saveFocus]);
 
   if (isLoading && !hasMounted) {
     return <PageSkeleton />;
@@ -80,8 +66,7 @@ export function MorningCompass() {
 
   const todayProtocol = latestInsight?.dailyProtocols?.[getTodayWeekday()];
   
-  const today = new Date();
-  const todayIsoDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  const todayIsoDate = getLocalIsoDate();
   const isProtocolHandledToday = handledProtocolDate === todayIsoDate;
   
   const shouldSuggestProtocol = todayProtocol && !todayProtocol.toLowerCase().includes('standard') && !isProtocolHandledToday;

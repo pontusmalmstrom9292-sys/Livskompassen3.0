@@ -2,6 +2,14 @@ import { create } from 'zustand';
 import { doc, getDoc, setDoc, serverTimestamp, collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 import { db } from '../core/firebase/firestore';
 import { RiskAnalysisService } from '../oracle/services/RiskAnalysisService';
+import { CompassService } from './services/CompassService';
+import {
+  USER_DAILY_FOCUS_COLLECTION,
+  getLocalIsoDate,
+  hasAnyFocusPoint,
+  normalizeFocusPoints,
+  parseLegacyIntention,
+} from './lib/focusPoints';
 
 interface MorningCompassState {
   threeFocusPoints: string[];
@@ -17,6 +25,9 @@ interface MorningCompassState {
   setFocusPoint: (index: number, value: string) => void;
   clearFocusPoints: (ownerId?: string) => Promise<void>;
   fetchFocusPoints: (ownerId: string) => Promise<void>;
+  /** Kanonisk skrivväg — `user_daily_focus` (+ daglig `history/`). */
+  saveFocus: (ownerId: string) => Promise<void>;
+  /** @deprecated Använd `saveFocus`. Behålls tills migrering bekräftad. */
   saveFocusPoints: (ownerId: string) => Promise<void>;
   fetchLatestInsight: (ownerId: string) => Promise<void>;
   submitProtocolFeedback: (ownerId: string, protocol: string, action: 'accepted' | 'rejected' | 'adjusted', notes?: string) => Promise<void>;
@@ -67,84 +78,104 @@ export const useMorningCompassStore = create<MorningCompassState>((set, get) => 
   clearFocusPoints: async (ownerId?: string) => {
     set({ threeFocusPoints: ['', '', ''] });
     if (ownerId) {
-      await get().saveFocusPoints(ownerId);
+      await get().saveFocus(ownerId);
     }
   },
 
   fetchFocusPoints: async (ownerId: string) => {
     set({ isLoading: true, error: null });
     try {
-      const docRef = doc(db, 'user_daily_focus', ownerId);
+      const docRef = doc(db, USER_DAILY_FOCUS_COLLECTION, ownerId);
       const [snap, highRisk] = await Promise.all([
         getDoc(docRef),
-        RiskAnalysisService.getYesterdayRiskStatus(ownerId)
+        RiskAnalysisService.getYesterdayRiskStatus(ownerId),
       ]);
 
       set({ yesterdayWasHighRisk: highRisk });
 
+      let points = ['', '', ''];
+      let handledProtocolDate: string | undefined;
+
       if (snap.exists()) {
         const data = snap.data();
-        if (data.focusPoints && Array.isArray(data.focusPoints)) {
-          const points = ['', '', ''];
-          data.focusPoints.forEach((p: string, i: number) => {
-            if (i < 3) points[i] = p;
-          });
-          set({ threeFocusPoints: points });
-        }
-        if (data.handledProtocolDate) {
-          set({ handledProtocolDate: data.handledProtocolDate });
+        points = normalizeFocusPoints(data.focusPoints);
+        if (typeof data.handledProtocolDate === 'string') {
+          handledProtocolDate = data.handledProtocolDate;
         }
       }
+
+      // Legacy-reserv: läs `daily_intentions` endast om kanonisk sink är tom.
+      if (!hasAnyFocusPoint(points)) {
+        const intentions = await CompassService.getDailyIntentions(ownerId);
+        if (intentions.length > 0 && typeof intentions[0].intention === 'string') {
+          points = parseLegacyIntention(intentions[0].intention);
+          if (hasAnyFocusPoint(points)) {
+            set({ threeFocusPoints: points, handledProtocolDate });
+            await get().saveFocus(ownerId);
+            set({ isLoading: false });
+            return;
+          }
+        }
+      }
+
+      set({
+        threeFocusPoints: points,
+        ...(handledProtocolDate ? { handledProtocolDate } : {}),
+      });
       set({ isLoading: false });
     } catch (err) {
       set({ error: (err as Error).message, isLoading: false });
     }
   },
 
-  saveFocusPoints: async (ownerId: string) => {
+  saveFocus: async (ownerId: string) => {
     set({ isSaving: true, error: null });
     try {
-      const { threeFocusPoints } = get();
-      const docRef = doc(db, 'user_daily_focus', ownerId);
-      
-      const today = new Date();
-      // Ensure we use local timezone date string like '2026-06-13'
-      const isoDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-      
-      const historyDocRef = doc(db, 'user_daily_focus', ownerId, 'history', isoDate);
+      const { threeFocusPoints, handledProtocolDate } = get();
+      const docRef = doc(db, USER_DAILY_FOCUS_COLLECTION, ownerId);
+      const isoDate = getLocalIsoDate();
+      const historyDocRef = doc(db, USER_DAILY_FOCUS_COLLECTION, ownerId, 'history', isoDate);
 
-      // We can do this in parallel
       await Promise.all([
-        setDoc(docRef, {
-          ownerId,
-          userId: ownerId,
-          focusPoints: threeFocusPoints,
-          updatedAt: serverTimestamp(),
-          ...(get().handledProtocolDate && { handledProtocolDate: get().handledProtocolDate })
-        }, { merge: true }),
-        setDoc(historyDocRef, {
-          ownerId,
-          userId: ownerId,
-          focusPoints: threeFocusPoints,
-          date: isoDate,
-          updatedAt: serverTimestamp()
-        }, { merge: true })
+        setDoc(
+          docRef,
+          {
+            ownerId,
+            userId: ownerId,
+            focusPoints: threeFocusPoints,
+            updatedAt: serverTimestamp(),
+            ...(handledProtocolDate ? { handledProtocolDate } : {}),
+          },
+          { merge: true },
+        ),
+        setDoc(
+          historyDocRef,
+          {
+            ownerId,
+            userId: ownerId,
+            focusPoints: threeFocusPoints,
+            date: isoDate,
+            updatedAt: serverTimestamp(),
+          },
+          { merge: true },
+        ),
       ]);
-      
+
       set({ isSaving: false });
     } catch (err) {
       set({ error: (err as Error).message, isSaving: false });
     }
   },
 
+  saveFocusPoints: async (ownerId: string) => {
+    await get().saveFocus(ownerId);
+  },
+
   submitProtocolFeedback: async (ownerId: string, protocol: string, action: 'accepted' | 'rejected' | 'adjusted', notes?: string) => {
     try {
-      const today = new Date();
-      const isoDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-      
-      // Update local state and backend for handled date
+      const isoDate = getLocalIsoDate();
       set({ handledProtocolDate: isoDate });
-      const focusDocRef = doc(db, 'user_daily_focus', ownerId);
+      const focusDocRef = doc(db, USER_DAILY_FOCUS_COLLECTION, ownerId);
       await setDoc(focusDocRef, { handledProtocolDate: isoDate }, { merge: true });
 
       // Save feedback as insight
