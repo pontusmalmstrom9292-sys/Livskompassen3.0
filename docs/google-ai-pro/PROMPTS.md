@@ -2,9 +2,12 @@
 
 **Pack:** `npm run gemini:pack:all` · **Handoff:** `docs/gemini-handoff/`
 
+> **Default:** Använd [`GEMINI-TECH-LEAD.md`](./GEMINI-TECH-LEAD.md) — Tech Lead tar alla beslut och ger Cursor-prompter.  
+> Denna fil är för **design/SPEC-only** (NotebookLM, K1/M1/V1) utan kodrouting.
+
 ---
 
-## Master-prompt (varje session)
+## Master-prompt (design/SPEC — inte kodbeslut)
 
 ```
 Du är design- och SPEC-assistent för Livskompassen v2 (Life OS, ADHD/RSD-säker UX).

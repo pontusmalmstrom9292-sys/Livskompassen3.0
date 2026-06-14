@@ -1,14 +1,15 @@
 # Google AI Pro — Livskompassen (operativ guide)
 
-**Plan:** Cursor-plan `google_ai_pro_livskompassen` · **Pack:** `npm run google-ai-pro:pack`
+**Plan:** Cursor-plan `google_ai_pro_livskompassen` · **Pack:** `npm run gemini:pack:all`
 
 ## Snabbstart
 
 1. `npm run gemini:pack:all` — NotebookLM + repomix (kompass/meny/valv)
 2. **NotebookLM:** ladda upp `exports/google-ai-pro/notebooklm/`
-3. **Gemini-app:** klistra master-prompt från [`PROMPTS.md`](./PROMPTS.md) + repomix från `exports/gemini-handoff/repomix/`
-4. **Handoff i repo:** [`docs/gemini-handoff/`](../gemini-handoff/) (K1, K2, M1, V1, IN1)
-5. Kör prompter; skicka svar tillbaka till Cursor
+3. **Gemini-app:** klistra **hela MASTER-PROMPT** från [`GEMINI-TECH-LEAD.md`](./GEMINI-TECH-LEAD.md) (+ ev. Handoff från förra sessionen)
+4. **Design-only (ingen kodrouting):** kort prompt i [`PROMPTS.md`](./PROMPTS.md)
+5. **Handoff i repo:** [`docs/gemini-handoff/`](../gemini-handoff/) (K1, K2, M1, V1, IN1)
+6. Gemini ger dig **en** Cursor-prompt i taget — klistra in här; skicka svar tillbaka till Gemini
 
 ## Repo-leverabler (implementerade)
 
