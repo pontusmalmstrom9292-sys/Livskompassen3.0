@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import { ensureVitHub, saveVitEntry } from '@/core/firebase/vitHubFirestore';
 import { VIT_HUB_LANDED, VIT_HUB_VAULT_LINK } from '../lib/vitHubCopy';
 import { vitHubFilteredLink } from '../lib/vitHubLinks';
+import { writeVitProjectLastSeen } from '../lib/vitProjectLastSeen';
 import type { MabraProjectId } from '../constants/mabraProjects';
 import { pickVitProjectCard } from '../lib/pickVitProjectCard';
-import { writeVitProjectLastSeen } from '../lib/vitProjectLastSeen';
+import { MabraVitEvidencePrompt } from './MabraVitEvidencePrompt';
 
 type Props = {
   userId: string | undefined;
@@ -28,6 +29,8 @@ export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
   const [response, setResponse] = useState('');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [savedEntryId, setSavedEntryId] = useState<string | null>(null);
+  const [showEvidencePrompt, setShowEvidencePrompt] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSave = async () => {
@@ -36,7 +39,7 @@ export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
     setError(null);
     try {
       await ensureVitHub(userId, projectId);
-      await saveVitEntry(userId, {
+      const entryId = await saveVitEntry(userId, {
         projectId,
         kind: 'card',
         bankId: pick.card.bankId,
@@ -46,6 +49,10 @@ export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
       });
       writeVitProjectLastSeen(projectId);
       setSaved(true);
+      setSavedEntryId(entryId);
+      if (projectId === 'learn_together') {
+        setShowEvidencePrompt(true);
+      }
       onSaved?.();
     } catch {
       setError(COPY.error);
@@ -110,6 +117,15 @@ export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
             {VIT_HUB_VAULT_LINK}
           </Link>
         </p>
+      ) : null}
+      {showEvidencePrompt && savedEntryId && userId ? (
+        <MabraVitEvidencePrompt
+          userId={userId}
+          vitEntryId={savedEntryId}
+          summary={response.trim() || pick.card.text_sv}
+          bankId={pick.card.bankId}
+          onDone={() => setShowEvidencePrompt(false)}
+        />
       ) : null}
       {error ? <p className="text-xs text-danger">{error}</p> : null}
     </div>

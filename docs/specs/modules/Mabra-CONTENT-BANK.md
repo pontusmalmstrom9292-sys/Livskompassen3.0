@@ -398,6 +398,38 @@ Kurator-pass 2026-05-25 · linser: **identitet** (5) + **KBT light** (5). Ej dup
 
 ---
 
+## Våg 19 — Återhämtning / Drogfrihet (Kat 8, 2026-06-14)
+
+**Kurator:** `specialist-mabra-curator` · **Dirigent:** U6 Vit · **Zon:** `recovery` i `vit_entries`
+
+### REFLECTION — 12-steg (`DF-STEP-*`)
+
+| bankId | content_class | source_tier | status | lens | hub | text_sv |
+|--------|---------------|-------------|--------|------|-----|---------|
+| DF-STEP-01 | REFLECTION | P1 | KEEP | recovery | recovery | Vad är det svåraste att erkänna just nu — utan att fixa det? |
+| DF-STEP-02 | REFLECTION | P1 | KEEP | recovery | recovery | Vad skulle ge dig tillräckligt hopp för ett litet steg idag? |
+| DF-STEP-03 | REFLECTION | P1 | KEEP | recovery | recovery | Vad kan du släppa kontrollen över idag — bara till i kväll? |
+| DF-STEP-04 | REFLECTION | P1 | KEEP | recovery | recovery | En sak du gjort som visar att du kan förändring — utan skam. |
+| DF-STEP-05 | REFLECTION | P1 | KEEP | recovery | recovery | Vem skulle du kunna vara ärlig mot — även om du inte gör det än? |
+| DF-STEP-06 | REFLECTION | P1 | KEEP | recovery | recovery | Vad behöver du sluta göra idag för att skydda nykterheten? |
+| DF-STEP-07 | REFLECTION | P1 | KEEP | recovery | recovery | Var behöver du be om hjälp — ett ord räcker? |
+| DF-STEP-08 | REFLECTION | P1 | KEEP | recovery | recovery | Finns en person du vill reparera relation med — ett steg? |
+| DF-STEP-09 | REFLECTION | P1 | KEEP | recovery | recovery | Vad kan du göra idag för att reparera — utan att överprestera? |
+| DF-STEP-10 | REFLECTION | P1 | KEEP | recovery | recovery | Vad är du redo att granska i dig själv — ett område? |
+| DF-STEP-11 | REFLECTION | P1 | KEEP | recovery | recovery | Vad behöver du förlåta dig för — utan skuldspiral? |
+| DF-STEP-12 | REFLECTION | P1 | KEEP | recovery | recovery | Hur kan du leva nykter idag — ett konkret mikrosteg? |
+
+### REFLECTION — SOS & verklighetskontroll
+
+| bankId | content_class | source_tier | status | lens | hub | text_sv |
+|--------|---------------|-------------|--------|------|-----|---------|
+| DF-SOS-01 | REFLECTION | P1 | KEEP | recovery | recovery | Craving är en våg — den passerar. Andas eller jorda dig i 90 sekunder. |
+| DF-REALITY-01 | REFLECTION | P1 | KEEP | recovery | recovery | Vad är fakta just nu — utan att förklara eller försvara dig? |
+
+**WORM:** Sparas via `vit_entries` med `zone: recovery` och `inputMode` enligt `MABRA-CAT8-RECOVERY-SPEC.md`. **Ingen** auto-promote till Valv.
+
+---
+
 ## Nästa implementation (P1)
 
 - Firestore `vit_hub` / `vit_entries` med `kind: card | memory | chat_turn` *(efter Daglig mix P0 — client-bank klar)*

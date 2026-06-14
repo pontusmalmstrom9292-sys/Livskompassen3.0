@@ -1,9 +1,21 @@
 # MåBra 3.0 — Firestore Rules Audit (Kat 7 & Kat 8)
 
 **Datum:** 2026-06-14  
-**Status:** Revisionsdokument — **ingen** ändring i `firestore.rules` i detta steg  
+**Status:** Synkad mot `firestore.rules` efter MåBra 3.0 implementation (R1–R5)  
 **Scope:** Kategori 7 (Kärnidentitet) och Kategori 8 (Drogfrihet / Återhämtning)  
 **Kanon:** [`docs/specs/modules/MABRA-3.0-MASTER-SPEC.md`](../specs/modules/MABRA-3.0-MASTER-SPEC.md) · [`.context/security.md`](../../.context/security.md) · [`firestore.rules`](../../firestore.rules)
+
+### Live-status (2026-06-14)
+
+| PR | Sökväg | Status i `firestore.rules` |
+|----|--------|----------------------------|
+| R1 | `user_daily_focus` + `history` | `primaryGoal`, `primaryGoalKey`, `primaryGoalConfirmedAt` i validators |
+| R2 | `vit_entries` | `zone: recovery`, `inputMode: recovery_sos \| recovery_twelve_step \| recovery_reality_check` |
+| R3 | `recovery_profile/{uid}` | `isValidRecoveryProfileWrite()` med §6.2-fält |
+| R4 | `mabra_progress` | `subGoals` i validator |
+| R5 | `mabra_sessions` | `exerciseType` enum inkl. `daglig_mix`, `explore_done`, `curriculum_complete`, `quiz_complete` |
+
+**Deploy:** `firebase deploy --only firestore:rules` — krävs före prod-test av Kat 5 mål och Kat 8 WORM.
 
 ---
 
@@ -12,7 +24,7 @@
 | Kategori | Firestore idag | Verdict |
 |----------|----------------|---------|
 | **Kat 7 — Kärnidentitet** | Fyra befintliga sökvägar (`emotional_memory`, `vit_entries`, `mabra_progress`, `vit_hub`) + `evolution_hub` för kapacitetsgate | **Delvis compliant** — `emotional_memory` stark; `vit_entries` och mutable profiler **svagare** än SPEC L3 |
-| **Kat 8 — Drogfrihet** | P0 = `localStorage` only (ingen rules) · P1 = `recovery_profile/{uid}` **saknas helt** | **Gap** — planerad collection finns inte i rules |
+| **Kat 8 — Drogfrihet** | P0 = `localStorage` · P1 = `recovery_profile/{uid}` **live i rules** + klient `recoveryProfileService.ts` | **Delvis compliant** — dual-write `startDateKey` aktiv; rules deploy väntar |
 
 **Tre silos:** Inga rules-ändringar får öppna cross-RAG. Kat 7/8 data ska **inte** indexeras i `kampspar`/`kb_docs` (backend/retention — ej rules). Valv (`reality_vault`) förblir **separat silo** med `isOwnerVault()` — identitets-/recovery-data ska **inte** auto-promotas (HITL + `sourceRef` endast).
 

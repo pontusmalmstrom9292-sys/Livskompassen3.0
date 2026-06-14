@@ -7,6 +7,7 @@ import {
   resetDrogfrihetCounter,
   setDrogfrihetStartDateKey,
 } from '../lib/drogfrihetCounter';
+import { syncRecoveryProfileStartDate } from '../api/recoveryProfileService';
 
 type Props = {
   uid?: string;
@@ -24,6 +25,7 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
   const applyCustomDate = () => {
     if (!customDate) return;
     setDrogfrihetStartDateKey(customDate, uid);
+    if (uid) void syncRecoveryProfileStartDate(uid, customDate);
     setConfirmReset(false);
   };
 
@@ -66,8 +68,10 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
         <button
           type="button"
           onClick={() => {
+            const today = new Date().toISOString().slice(0, 10);
             resetDrogfrihetCounter(uid);
-            setCustomDate(new Date().toISOString().slice(0, 10));
+            setCustomDate(today);
+            if (uid) void syncRecoveryProfileStartDate(uid, today);
             setConfirmReset(false);
           }}
           className="btn-pill--ghost mt-2 w-full text-sm"
@@ -96,8 +100,10 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
             <button
               type="button"
               onClick={() => {
+                const today = new Date().toISOString().slice(0, 10);
                 resetDrogfrihetCounter(uid);
-                setCustomDate(new Date().toISOString().slice(0, 10));
+                setCustomDate(today);
+                if (uid) void syncRecoveryProfileStartDate(uid, today);
                 setConfirmReset(false);
               }}
               className="btn-pill--secondary w-full"

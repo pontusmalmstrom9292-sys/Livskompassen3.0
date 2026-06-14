@@ -258,6 +258,36 @@ export const CURRICULUMS: readonly VitCurriculum[] = [
     broLinks: [{ label: 'Hamn — BIFF', route: '/familjen?tab=hamn' }],
   },
   {
+    id: 'CUR-GAD-01',
+    title: 'Ångest & hyperarousal — kurs 2',
+    wave: 2,
+    theme: 'angest_vardag',
+    chapters: [
+      {
+        title: 'Hyperarousal',
+        kunskapFactId: 'kunskap-fact-003',
+        factTitleSv: 'Hyperarousal — kroppen i larm',
+        factSummarySv:
+          'Hyperarousal är en fysiologisk reaktion, inte karaktär. Korta pauser och grounding kan sänka arousal utan att lösa hela situationen.',
+        citationHint: 'psychoeducation_general',
+        exercises: [{ bankId: 'MB-REF-03', kind: 'reflection' }],
+      },
+      {
+        title: 'Mikrosteg',
+        kunskapFactId: 'kunskap-fact-004',
+        factTitleSv: 'Paralys och mikrosteg',
+        factSummarySv:
+          'Vid låg kapacitet räcker ett steg — inte en hel plan. MåBra föreslår mikromål, inte prestation.',
+        citationHint: 'product_copy',
+        exercises: [
+          { bankId: 'C-goal-01', kind: 'reflection' },
+          { bankId: 'C-goal-02', kind: 'reflection' },
+        ],
+      },
+    ],
+    broLinks: [{ label: 'Målsättning', route: '/mabra/verktyg/goals' }],
+  },
+  {
     id: 'CUR-SOBRIETY-01',
     title: 'Nykterhet — stöd idag',
     wave: 7,

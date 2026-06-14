@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { CheckCircle2, Loader2, Pencil, Target, X } from 'lucide-react';
+import { CheckCircle2, Loader2, Pencil, Sparkles, Target, X } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useGoalDetection } from '../hooks/useGoalDetection';
 import { usePrimaryGoal } from '../hooks/usePrimaryGoal';
+import { fetchGoalAssistCoach } from '../api/mabraCoachService';
+import { shouldRedirectMabraCoachToSpeglar } from '../lib/mabraCoachGuard';
 import type { GoalCandidate } from '../lib/goalDetection';
 
 const COPY = {
@@ -23,6 +25,10 @@ const COPY = {
   clear: 'Ta bort aktivt mål',
   cancel: 'Avbryt',
   customPlaceholder: 'Skriv ditt mål med egna ord…',
+  assist: 'Få förslag',
+  assisting: 'Hämtar förslag…',
+  assistError: 'Kunde inte hämta förslag just nu.',
+  assistRedirect: 'Det här hör hemma i Speglar — inte målsättning.',
 } as const;
 
 export function MabraGoalPanel() {
@@ -41,6 +47,8 @@ export function MabraGoalPanel() {
   const [draftText, setDraftText] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [saveNotice, setSaveNotice] = useState(false);
+  const [assistLoading, setAssistLoading] = useState(false);
+  const [assistError, setAssistError] = useState<string | null>(null);
 
   const candidates = result?.candidates ?? [];
   const isLoading = loading || goalLoading;
@@ -64,6 +72,30 @@ export function MabraGoalPanel() {
     setSelected(null);
     setDraftText('');
     setIsEditing(false);
+  };
+
+  const handleAssist = async () => {
+    const seed = draftText.trim();
+    if (seed && shouldRedirectMabraCoachToSpeglar(seed)) {
+      setAssistError(COPY.assistRedirect);
+      return;
+    }
+    setAssistLoading(true);
+    setAssistError(null);
+    try {
+      const result = await fetchGoalAssistCoach(seed || undefined);
+      if (result.redirectToSpeglar) {
+        setAssistError(COPY.assistRedirect);
+        return;
+      }
+      setDraftText(result.coach);
+      setIsEditing(true);
+      setSelected(null);
+    } catch {
+      setAssistError(COPY.assistError);
+    } finally {
+      setAssistLoading(false);
+    }
   };
 
   const handleConfirm = async () => {
@@ -206,6 +238,24 @@ export function MabraGoalPanel() {
             <button
               type="button"
               className="btn-pill--ghost text-sm text-text-dim"
+              onClick={() => void handleAssist()}
+              disabled={saving || assistLoading}
+            >
+              {assistLoading ? (
+                <>
+                  <Loader2 className="mr-1 inline h-4 w-4 animate-spin" />
+                  {COPY.assisting}
+                </>
+              ) : (
+                <>
+                  <Sparkles className="mr-1 inline h-4 w-4" />
+                  {COPY.assist}
+                </>
+              )}
+            </button>
+            <button
+              type="button"
+              className="btn-pill--ghost text-sm text-text-dim"
               onClick={cancelDraft}
               disabled={saving}
             >
@@ -213,6 +263,7 @@ export function MabraGoalPanel() {
               {COPY.cancel}
             </button>
           </div>
+          {assistError && <p className="text-xs text-text-dim">{assistError}</p>}
         </div>
       ) : (
         <>
@@ -227,6 +278,14 @@ export function MabraGoalPanel() {
                 onClick={beginCustomEdit}
               >
                 {COPY.adjust}
+              </button>
+              <button
+                type="button"
+                className="btn-pill--ghost text-sm text-text-dim"
+                onClick={() => void handleAssist()}
+                disabled={assistLoading}
+              >
+                {assistLoading ? COPY.assisting : COPY.assist}
               </button>
             </div>
           ) : (

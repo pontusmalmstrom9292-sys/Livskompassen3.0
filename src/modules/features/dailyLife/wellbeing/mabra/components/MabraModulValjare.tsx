@@ -4,7 +4,8 @@ import { markMabraModulValjareSeen } from '../lib/mabraModulValjareStorage';
 
 export type MabraModulChoice =
   | { kind: 'category'; category: MabraHubCategory }
-  | { kind: 'daglig_mix' };
+  | { kind: 'daglig_mix' }
+  | { kind: 'tool'; tool: 'goals' | 'education' };
 
 type Props = {
   onSelect: (choice: MabraModulChoice) => void;
@@ -50,7 +51,23 @@ function VerktygPreviewMini() {
   );
 }
 
-/** Hub-ingång — max 4 val före full MåBra-hub. */
+function GoalsPreviewMini() {
+  return (
+    <p className="text-[10px] text-text-muted">
+      Ett mål · du bekräftar · synkas med Morgonkompassen
+    </p>
+  );
+}
+
+function EducationPreviewMini() {
+  return (
+    <p className="text-[10px] text-text-muted">
+      FACT-kapitel + kopplad övning · ingen streak
+    </p>
+  );
+}
+
+/** Hub-ingång — sex val före full MåBra-hub (M3.0-B). */
 export function MabraModulValjare({ onSelect, onSkip }: Props) {
   const go = (choice: MabraModulChoice) => {
     markMabraModulValjareSeen();
@@ -97,6 +114,22 @@ export function MabraModulValjare({ onSelect, onSkip }: Props) {
           ctaLabel="Visa verktyg"
           tone="indigo"
           onStart={() => go({ kind: 'category', category: 'lekar' })}
+        />
+        <ExamplePreviewCard
+          title="Målsättning"
+          lead="Ett mål i taget — du bekräftar."
+          preview={<GoalsPreviewMini />}
+          ctaLabel="Öppna mål"
+          tone="gold"
+          onStart={() => go({ kind: 'tool', tool: 'goals' })}
+        />
+        <ExamplePreviewCard
+          title="Utbildning"
+          lead="Mikroinlärning + FACT-kapitel."
+          preview={<EducationPreviewMini />}
+          ctaLabel="Öppna kurser"
+          tone="lavender"
+          onStart={() => go({ kind: 'tool', tool: 'education' })}
         />
       </div>
       {onSkip ? (

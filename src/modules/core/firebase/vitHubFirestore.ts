@@ -110,7 +110,10 @@ export async function getVitHub(userId: string): Promise<VitHubDoc | null> {
 /** Append-only — sparar frågekort-svar i Vit-zonen. */
 export async function saveVitEntry(
   userId: string,
-  entry: Omit<VitEntry, 'userId' | 'ownerId' | 'createdAt'>,
+  entry: Omit<VitEntry, 'userId' | 'ownerId' | 'createdAt'> & {
+    zone?: 'mabra' | 'recovery';
+    inputMode?: string;
+  },
 ): Promise<string> {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.vit_entries);
   const payload: FirestorePayload = {
@@ -124,6 +127,12 @@ export async function saveVitEntry(
   }
   if (entry.cardDateKey) {
     payload.cardDateKey = entry.cardDateKey;
+  }
+  if (entry.zone) {
+    payload.zone = entry.zone;
+  }
+  if (entry.inputMode) {
+    payload.inputMode = entry.inputMode;
   }
   assertWormPayload(payload, 'vit_entries');
   const ref = collection(db, FIRESTORE_COLLECTIONS.vit_entries);

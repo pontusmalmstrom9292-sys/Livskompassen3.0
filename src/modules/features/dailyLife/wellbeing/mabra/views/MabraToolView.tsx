@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { useShallow } from 'zustand/react/shallow';
 import { useStore } from '@/core/store';
@@ -13,6 +13,8 @@ import { MabraToolShell } from '../components/tools/MabraToolShell';
 import { KbtTransformatorPanel } from '../components/KbtTransformatorPanel';
 import { DagligMixPanel } from '../components/DagligMixPanel';
 import { MabraExplorePanel } from '../components/MabraExplorePanel';
+import { MabraGoalPanel } from '../components/MabraGoalPanel';
+import { VitCurriculumPanel } from '../components/VitCurriculumPanel';
 import type { MabraHubCategory } from '../mabraHubRegistry';
 
 export const MabraToolView = memo(function MabraToolView() {
@@ -132,5 +134,44 @@ export const MabraToolView = memo(function MabraToolView() {
     );
   }
 
+  if (toolId === 'goals') {
+    return (
+      <MabraToolShell title="Målsättning" onBack={() => returnToHub('tankar')}>
+        <MabraGoalPanel />
+      </MabraToolShell>
+    );
+  }
+
+  if (toolId === 'education') {
+    return (
+      <MabraToolShell title="Utbildningspelare" onBack={() => returnToHub('lekar')}>
+        <VitCurriculumPanel
+          onOpenReflection={(bankId) =>
+            navigate(`/mabra/verktyg/reflection_deck?initialBankId=${encodeURIComponent(bankId)}`)
+          }
+          onOpenPlay={(bankId) =>
+            navigate(`/mabra/verktyg/micro_play?playBankId=${encodeURIComponent(bankId)}`)
+          }
+        />
+      </MabraToolShell>
+    );
+  }
+
+  if (toolId === 'recovery') {
+    return <RecoveryHubRedirect onBack={() => returnToHub('akut')} />;
+  }
+
   return <p className="text-center p-4">Okänt verktyg: {toolId}</p>;
 });
+
+function RecoveryHubRedirect({ onBack }: { onBack: () => void }) {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate('/familjen?tab=drogfrihet', { replace: true });
+  }, [navigate]);
+  return (
+    <MabraToolShell title="Återhämtning" onBack={onBack}>
+      <p className="text-sm text-text-muted">Öppnar Drogfrihet-hubben…</p>
+    </MabraToolShell>
+  );
+}

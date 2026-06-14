@@ -98,7 +98,6 @@ const MorningCompassPage = lazy(() =>
 );
 const ReflectionPage = lazy(() => import('../../reflection/ReflectionPage'));
 const OracleDashboardPage = lazy(() => import('../../oracle/OracleDashboard'));
-const MabraHubPage = lazy(() => import('@/components/mabra/MabraHub'));
 const EconomyDashboard = lazy(() =>
   import('@/features/economy/EconomyDashboard')
 );
@@ -273,14 +272,6 @@ export function AppRoutes() {
                 element={
                   <ProtectedModule>
                     <MorningCompassPage />
-                  </ProtectedModule>
-                }
-              />
-              <Route
-                path="/mabra"
-                element={
-                  <ProtectedModule>
-                    <MabraHubPage />
                   </ProtectedModule>
                 }
               />

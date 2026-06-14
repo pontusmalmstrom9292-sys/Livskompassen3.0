@@ -12,7 +12,11 @@ export type MabraHubToolKind =
   | 'micro_play'
   | 'kbt'
   | 'daglig_mix'
-  | 'explore_weekly';
+  | 'explore_weekly'
+  | 'goals'
+  | 'education'
+  | 'recovery'
+  | 'recovery_sos';
 
 export type MabraHubAction =
   | { type: 'symptom'; hub: MabraSymptomHub }
@@ -143,6 +147,40 @@ const CORE_ITEMS: MabraHubItem[] = [
     category: 'lekar',
     quick: true,
     action: { type: 'tool', tool: 'explore_weekly' },
+  },
+  {
+    id: 'goals-panel',
+    title: 'Målsättning',
+    lead: 'Ett mål i taget — du bekräftar',
+    emoji: '🎯',
+    category: 'tankar',
+    quick: true,
+    action: { type: 'tool', tool: 'goals' },
+  },
+  {
+    id: 'education-panel',
+    title: 'Utbildningspelare',
+    lead: 'Mikroinlärning + FACT-kapitel',
+    emoji: '📚',
+    category: 'lekar',
+    action: { type: 'tool', tool: 'education' },
+  },
+  {
+    id: 'recovery-sos',
+    title: 'SOS craving',
+    lead: '90 sek — andning eller grounding',
+    emoji: '🆘',
+    category: 'akut',
+    quick: true,
+    action: { type: 'tool', tool: 'recovery_sos' },
+  },
+  {
+    id: 'recovery-panel',
+    title: 'Återhämtning',
+    lead: 'Drogfrihet · SOS · steg',
+    emoji: '🛡',
+    category: 'akut',
+    action: { type: 'tool', tool: 'recovery' },
   },
   {
     id: 'feeling-cards',

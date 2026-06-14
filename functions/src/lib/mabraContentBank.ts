@@ -104,6 +104,24 @@ export const MABRA_COACH_BANK: readonly MabraCoachBankEntry[] = [
     lens: 'kbt',
     text_sv: 'En mildare mening en trygg vän kunde säga — du behöver inte tro den fullt.',
   },
+  {
+    bankId: 'C-goal-01',
+    content_class: 'REFLECTION',
+    source_tier: 'P1',
+    status: 'KEEP',
+    hub: 'who_am_i',
+    lens: 'paralys',
+    text_sv: 'Ett litet mål denna vecka — inte prestation, max en mening.',
+  },
+  {
+    bankId: 'C-goal-02',
+    content_class: 'REFLECTION',
+    source_tier: 'P1',
+    status: 'KEEP',
+    hub: 'who_am_i',
+    lens: 'paralys',
+    text_sv: 'Vad skulle "tillräckligt bra" se ut idag?',
+  },
 ] as const;
 
 const BANK_BY_ID = new Map(MABRA_COACH_BANK.map((row) => [row.bankId, row]));
@@ -176,6 +194,35 @@ const HUB_ACK: Record<MabraCoachHub, string> = {
   self_critical: 'Du gav dig ett ögonblick utan att prestera.',
   find_self: 'Du är här nu — det är ett steg i sig.',
 };
+
+const GOAL_ASSIST_BANK_IDS = ['C-goal-01', 'C-goal-02'] as const;
+
+export function resolveGoalAssistBankId(
+  draftGoal?: string,
+  requestedBankId?: string,
+): string {
+  if (requestedBankId) {
+    const entry = getMabraCoachBankEntry(requestedBankId);
+    if (!entry || !entry.bankId.startsWith('C-goal-')) {
+      throw new Error(`Okänd bankId: ${requestedBankId}`);
+    }
+    return entry.bankId;
+  }
+  const seed = draftGoal?.trim().length ?? 0;
+  return GOAL_ASSIST_BANK_IDS[seed % GOAL_ASSIST_BANK_IDS.length];
+}
+
+/** Deterministisk målcoach — ingen LLM, inga journal/valv-fält. */
+export function parafraseGoalAssist(
+  entry: MabraCoachBankEntry,
+  draftGoal?: string,
+): string {
+  const trimmed = draftGoal?.trim();
+  const prefix = trimmed
+    ? `Du formulerade: «${trimmed.slice(0, 120)}». `
+    : '';
+  return `${prefix}${entry.text_sv} Bekräfta bara om det känns rätt — inget mål sparas automatiskt.`;
+}
 
 /** Deterministisk parafras utan LLM — endast banktext + övningskontext. */
 export function parafraseCoachFromBank(

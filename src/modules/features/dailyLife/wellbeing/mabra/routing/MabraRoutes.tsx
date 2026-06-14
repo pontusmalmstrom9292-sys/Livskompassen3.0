@@ -15,6 +15,9 @@ const CompleteView = lazy(() => import('../views/MabraFlowViews').then((m) => ({
 const MabraInputSuperModuleLazy = lazy(() =>
   import('../supermodule/MabraInputSuperModule').then((m) => ({ default: m.MabraInputSuperModule })),
 );
+const RecoverySosView = lazy(() =>
+  import('../views/RecoverySosView').then((m) => ({ default: m.RecoverySosView })),
+);
 
 export function MabraRoutes() {
   return (
@@ -22,6 +25,7 @@ export function MabraRoutes() {
       <Route element={<MabraLayout />}>
         <Route index element={<Suspense fallback={null}><MabraHubView /></Suspense>} />
         <Route path="verktyg/:toolId" element={<Suspense fallback={null}><MabraToolView /></Suspense>} />
+        <Route path="recovery/sos" element={<Suspense fallback={null}><RecoverySosView /></Suspense>} />
         <Route path="projekt/:projectId" element={<Suspense fallback={null}><MabraProjectView /></Suspense>} />
         <Route path="varderingar" element={<Suspense fallback={null}><ValuesView /></Suspense>} />
         <Route path="akut" element={<Suspense fallback={null}><AkutView /></Suspense>} />

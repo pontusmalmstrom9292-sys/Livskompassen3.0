@@ -145,7 +145,7 @@ function main() {
     'recordTimeIn',
     'recordTimeOut',
   );
-  mustInclude('src/modules/core/firebase/timeEconomyFirestore.ts', 'time_entries');
+  mustInclude('src/modules/core/firebase/arbetslivFirestore.ts', 'time_entries');
   mustInclude(
     'src/modules/features/dailyLife/arbetsliv/components/ArbetslivHubPage.tsx',
     'vaultDrawerPath',

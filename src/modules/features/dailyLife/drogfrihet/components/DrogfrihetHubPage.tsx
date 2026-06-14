@@ -6,16 +6,19 @@ import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar, type TabBarItem } from '@/core/ui/TabBar';
 import { useStore } from '@/core/store';
 import { RecoveryRealityCheckForm } from '@/features/mabra/components/RecoveryRealityCheckForm';
+import { RecoveryTwelveStepJournal } from '@/features/mabra/components/RecoveryTwelveStepJournal';
+import { RecoveryUrgeSosModule } from '@/features/mabra/components/RecoveryUrgeSosModule';
 import { DROGFRIHET_CARDS } from '../content/drogfrihetCatalog';
 import { DROGFRIHET_FACTS } from '../constants/kunskapFacts';
 import { DROGFRIHET_DISCLAIMER, DROGFRIHET_RESOURCES } from '../constants/resources';
 import { pickDrogfrihetIdag } from '../lib/pickDrogfrihetIdag';
 import { DrogfrihetCounterBadge } from './DrogfrihetCounterBadge';
 
-export type DrogfrihetTab = 'idag' | 'resurser' | 'reflektion' | 'kunskap';
+export type DrogfrihetTab = 'idag' | 'resurser' | 'reflektion' | 'kunskap' | 'steg';
 
 const DROGFRIHET_SUBTABS: TabBarItem<DrogfrihetTab>[] = [
   { id: 'idag', label: 'Idag', icon: <Sparkles className="h-3 w-3" /> },
+  { id: 'steg', label: '12 steg', icon: <BookOpen className="h-3 w-3" /> },
   { id: 'resurser', label: 'Stöd', icon: <Shield className="h-3 w-3" /> },
   { id: 'reflektion', label: 'Reflektion', icon: <HeartHandshake className="h-3 w-3" /> },
   { id: 'kunskap', label: 'Kunskap', icon: <BookOpen className="h-3 w-3" /> },
@@ -61,6 +64,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
   const idag = useMemo(() => pickDrogfrihetIdag({ uid: user?.uid }), [user?.uid]);
   const [reflectionIndex, setReflectionIndex] = useState(0);
   const [realityCheckOpen, setRealityCheckOpen] = useState(false);
+  const [sosOpen, setSosOpen] = useState(false);
 
   const reflectionCard = DROGFRIHET_CARDS[reflectionIndex % DROGFRIHET_CARDS.length]!;
 
@@ -75,6 +79,13 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
       {tab === 'idag' && (
         <>
           <DrogfrihetCounterBadge uid={user?.uid} />
+          <button
+            type="button"
+            onClick={() => setSosOpen(true)}
+            className="btn-pill--secondary w-full text-sm uppercase tracking-[0.14em]"
+          >
+            SOS — sug nu
+          </button>
           <BentoCard title="Idag" icon={<HeartHandshake className="h-4 w-4" />} glow="green">
             <div className="home-module-panel__question-box">
               <p className="text-base text-accent">{idag.card.text_sv}</p>
@@ -85,6 +96,12 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
             <p className="mt-3 text-xs text-text-muted">{DROGFRIHET_DISCLAIMER}</p>
           </BentoCard>
         </>
+      )}
+
+      {tab === 'steg' && (
+        <BentoCard title="12-steg journal" icon={<BookOpen className="h-4 w-4" />} glow="green">
+          <RecoveryTwelveStepJournal userId={user?.uid} />
+        </BentoCard>
       )}
 
       {tab === 'resurser' && (
@@ -207,11 +224,14 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
     </div>
   ) : null;
 
+  const sosOverlay = sosOpen ? <RecoveryUrgeSosModule onClose={() => setSosOpen(false)} /> : null;
+
   if (embedded) {
     return (
       <div className="space-y-4">
         {body}
         {realityCheckOverlay}
+        {sosOverlay}
       </div>
     );
   }
@@ -224,6 +244,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
     >
       {body}
       {realityCheckOverlay}
+      {sosOverlay}
     </HubPageShell>
   );
 }

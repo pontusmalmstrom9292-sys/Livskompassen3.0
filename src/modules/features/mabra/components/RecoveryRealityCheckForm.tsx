@@ -249,6 +249,8 @@ export function RecoveryRealityCheckForm({ userId, onSaved, onComplete }: Props)
         content_class: 'REFLECTION',
         responseText: formatRecoveryRealityCheckText(draft),
         cardDateKey: localDateKey(),
+        zone: 'recovery',
+        inputMode: 'recovery_reality_check',
       });
       clearDraftStorage();
       setSaved(true);

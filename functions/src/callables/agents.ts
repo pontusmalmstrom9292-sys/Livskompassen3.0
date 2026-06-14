@@ -33,7 +33,9 @@ import { supervisor, trimSpeglingsMirror } from './shared';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import {
   getMabraCoachBankEntry,
+  parafraseGoalAssist,
   resolveCoachBankId,
+  resolveGoalAssistBankId,
   resolveVitChatBankId,
   type MabraCoachExercise,
   type MabraCoachHub,
@@ -337,6 +339,34 @@ export const mabraCoach = onCall(
       }
       const transform = await askKbtTransformator(thought, process.env.GEMINI_API_KEY);
       return { transform, redirectToSpeglar: false };
+    }
+
+    if (mode === 'goal_assist') {
+      const draftGoal =
+        typeof request.data.draftGoal === 'string' ? request.data.draftGoal.trim() : undefined;
+      if (draftGoal && draftGoal.length > 500) {
+        throw new HttpsError('invalid-argument', 'draftGoal max 500 tecken.');
+      }
+      if (draftGoal && shouldRedirectMabraCoachToSpeglar(draftGoal)) {
+        return {
+          coach: MABRA_SPEGLAR_REDIRECT_MESSAGE,
+          redirectToSpeglar: true,
+        };
+      }
+      const requestedBankId =
+        typeof request.data.bankId === 'string' ? request.data.bankId.trim() : undefined;
+      let bankId: string;
+      try {
+        bankId = resolveGoalAssistBankId(draftGoal, requestedBankId);
+      } catch {
+        throw invalidBankIdError('Ogiltig bankId för goal_assist.');
+      }
+      const bankEntry = getMabraCoachBankEntry(bankId);
+      if (!bankEntry) {
+        throw invalidBankIdError('Bankrad saknas för goal_assist.');
+      }
+      const coach = parafraseGoalAssist(bankEntry, draftGoal);
+      return { coach, redirectToSpeglar: false, bankId };
     }
 
     if (mode === 'vit_chat') {

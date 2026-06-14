@@ -161,7 +161,9 @@ export const MabraHubView = memo(function MabraHubView() {
         openVitProject(action.projectId);
         break;
       case 'tool':
-        if (action.tool === 'micro_play' && action.playBankId) {
+        if (action.tool === 'recovery_sos') {
+          navigate('/mabra/recovery/sos');
+        } else if (action.tool === 'micro_play' && action.playBankId) {
           navigate(`/mabra/verktyg/micro_play?playBankId=${action.playBankId}`);
         } else {
           navigate(`/mabra/verktyg/${action.tool}`);
@@ -187,6 +189,12 @@ export const MabraHubView = memo(function MabraHubView() {
     if (choice.kind === 'daglig_mix') {
       setHubOpenCategory('lekar');
       navigate('/mabra/verktyg/daglig_mix');
+      return;
+    }
+    if (choice.kind === 'tool') {
+      const category = choice.tool === 'goals' ? 'tankar' : 'lekar';
+      setHubOpenCategory(category);
+      navigate(`/mabra/verktyg/${choice.tool}`);
       return;
     }
     setHubOpenCategory(choice.category);
