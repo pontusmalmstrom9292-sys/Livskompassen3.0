@@ -2,7 +2,7 @@
 
 **Syfte:** När det känns rörigt — ett ställe att starta, färdiga analysprompter, och var sanningen bor. Du behöver inte minnas hela projektet; kör en analys och spara resultatet.
 
-**Senast uppdaterad:** 2026-05-31
+**Senast uppdaterad:** 2026-06-14
 
 ---
 
@@ -25,7 +25,7 @@
 
 | Tier | Fil | Vad den säger |
 |------|-----|----------------|
-| **0 — Fas & prioritering** | [`.context/system-plan.md`](../.context/system-plan.md) | Vilken fas, vad som är klart / öppet |
+| **0 — Fas & prioritering** | [`SYSTEM_PLAN_v2.md`](./SYSTEM_PLAN_v2.md) · historik [`.context/system-plan.md`](../.context/system-plan.md) | Fas 9+ aktiv plan; Fas 1–7 historik |
 | **0b — Git / merge** | [`GIT-LATHUND.md`](./GIT-LATHUND.md), [`MERGE-IMPACT-RAPPORT.md`](./MERGE-IMPACT-RAPPORT.md), [`BRANCH-KARTA.md`](./BRANCH-KARTA.md) | En `main`-trunk; PMIR före merge/stängning |
 | **0c — Moln & krediter** | [`MOLN-KREDITER-LATHUND.md`](./MOLN-KREDITER-LATHUND.md), [`WORKFLOW_AND_AI_CREDITS.md`](./WORKFLOW_AND_AI_CREDITS.md) | GCP vs Cursor vs gratis; rutiner; molncheck |
 | **1 — Säkerhet & Sacred** | [`.context/security.md`](../.context/security.md) | Layered Defense, WORM, silos, Kill Switch |
