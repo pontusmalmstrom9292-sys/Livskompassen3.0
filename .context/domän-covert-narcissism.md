@@ -16,7 +16,7 @@ Pontus case: medföräldraskap med **högkonflikt**, **covert** (dold) dynamik h
 
 ---
 
-## Täckning idag (RAG + bank)
+## Täckning idag (RAG + bank + Hamn wire)
 
 | Område | Var | Status |
 |--------|-----|--------|
@@ -25,22 +25,29 @@ Pontus case: medföräldraskap med **högkonflikt**, **covert** (dold) dynamik h
 | DARVO, love bombing, triangulering, projektion | `043`–`047` | **KEEP + ingest** |
 | BIFF, Grey Rock, JADE, parallel parenting | `005`–`006`, `cn-009`–`012` | **KEEP + ingest** |
 | Profil (Kasper, Arvid, vårdnad, taktiker) | Kampspar-PROFIL-SEED | **ingest** |
+| Hoovering, smear, flying monkeys, trauma bonding | `cn-016`–`019` | **KEEP + ingest** (våg 21) |
+| Maternal-image fasad | `cn-020` | **KEEP + ingest + Hamn wire** (våg 22) |
+| Ekonomisk kontroll | `cn-021` | **KEEP + ingest + Hamn wire** (våg 22) |
+| Juridik / LVU / vårdnad (svensk kontext) | `jur-001`–`004`, `ep-001`–`005` | **KEEP + ingest** (våg 21) |
 | Runtime DCAP | `DCAP.ts`, `mabraCoachGuard` | **live** |
 | Inkast-heuristik | `inboxClassifier.ts` | **live** |
+| Hamn taktik-signal (deterministisk) | `hamnTaktikWire.ts` → Taktik-lexikon | **live** (hoover, smear, ekonomisk_kontroll, maternal_fasad, trauma_bonding, juridik_hot) |
 
 ---
 
-## Luckor (våg 21 — planerad)
+## Luckor (efter våg 21–22)
 
-Inte fullständig «handbok» än. Saknas eller är tunt:
+Våg **21** och **22** bank + ingest + Hamn-wire **klara** 2026-06-14. Kvarvarande luckor:
 
-- Hoovering / återkontakt efter gräns
-- Smear campaign / flying monkeys (systematiskt)
-- Ekonomisk kontroll och logistik som vapen
-- Juridisk weaponization (vårdnad, LVU-process) — svensk kontext
-- «Perfekt mor»-fasad specifikt (maternal image vs hem)
-- Trauma bonding / cykel love-bomb → straff (djupare än 043–044)
-- Valv Mönster: auto-tag-bibliotek per teknik (DCAP → dossier)
+| Lucka | Bank/RAG | Hamn wire | Status |
+|-------|----------|-----------|--------|
+| Hoovering / återkontakt efter gräns | `cn-016` | hoovering | **done** |
+| Smear / flying monkeys | `cn-017`, `cn-018` | smear (+ utökade sv-mönster) | **done** |
+| Ekonomisk kontroll | `cn-021` | ekonomisk_kontroll | **done** |
+| Maternal-image fasad | `cn-020` | maternal_fasad | **done** |
+| Juridisk weaponization (vårdnad, LVU) | `jur-001`–`004` | juridik_hot | **done** |
+| Trauma bonding (djupare cykel) | `cn-019` | trauma_bonding | **done** |
+| Valv Mönster: auto-tag per teknik | — | — | **open** (DCAP → dossier) |
 
 Kurator: `specialist-kunskap-seed` · Dirigent vid osäkerhet.
 

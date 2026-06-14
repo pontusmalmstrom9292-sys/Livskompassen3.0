@@ -62,7 +62,18 @@ function main() {
   mustInclude(
     'src/modules/features/family/safeHarbor/lib/hamnTaktikWire.ts',
     'hoovering',
+    'smear',
     'ekonomisk_kontroll',
+    'maternal_fasad',
+    'trauma_bonding',
+    'juridik_hot',
+    'förtalskampanj',
+    'idealiserad',
+    'cn-020',
+    'cn-019',
+    'jur-004',
+    'orosanmälan',
+    'tingsrätten',
   );
   mustInclude(
     'src/modules/core/pages/FamiljenPage.tsx',
