@@ -62,6 +62,14 @@ const DRIVE_PACK = [
     from: 'docs/system_sync/locked_ux_features_CURRENT.md',
     to: 'Livskompassen/system_sync/locked_ux_features_CURRENT.md',
   },
+  {
+    from: 'docs/system_sync/firestore_rules_CURRENT.rules',
+    to: 'Livskompassen/system_sync/firestore_rules_CURRENT.rules',
+  },
+  {
+    from: 'docs/system_sync/storage_rules_CURRENT.rules',
+    to: 'Livskompassen/system_sync/storage_rules_CURRENT.rules',
+  },
 ];
 
 function copyMapped(pairs, baseDir) {

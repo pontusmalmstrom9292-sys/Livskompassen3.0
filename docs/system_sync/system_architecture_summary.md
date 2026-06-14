@@ -1,6 +1,6 @@
 # System Architecture Summary: Pelare 3 - Vardagens Arkitektur
 
-**Senast synkad:** 2026-06-14 · Källfiler i `docs/system_sync/*_CURRENT.*` · styrning: `system_plan_CURRENT.md`, `locked_ux_features_CURRENT.md`
+**Senast synkad:** 2026-06-14 · Källfiler i `docs/system_sync/*_CURRENT.*` · styrning: `system_plan_CURRENT.md`, `locked_ux_features_CURRENT.md` · säkerhet: `firestore_rules_CURRENT.rules`, `storage_rules_CURRENT.rules`
 
 Detta dokument beskriver nuläget för Livskompassen v2 med fokus på "Pelare 3: Vardagens Arkitektur" (Everyday Architecture) och hur Capability Engine ("Lagen om Evig Tillväxt") samverkar med Firestore.
 
@@ -12,8 +12,14 @@ För extern AI (NotebookLM, Gemini) — **ersätt alltid gamla uppladdningar** m
 |-----|-------|----------|
 | `system_plan_CURRENT.md` | `.context/system-plan.md` | Faser, modulmappning, Fas 6 Superhub **AVSLUTAD** 2026-06-14 |
 | `locked_ux_features_CURRENT.md` | `.context/locked-ux-features.md` | Låsta UX-flöden inkl. §11 `MabraInputSuperModule` (WORM, Zero Footprint, HITL inkast) |
+| `firestore_rules_CURRENT.rules` | `firestore.rules` | WORM, vault-unlock, ownerId, `isSensitiveAuth`, samtliga collection-matchers |
+| `storage_rules_CURRENT.rules` | `storage.rules` | WORM media: `vault_evidence`, `project_media`, `children_logs_media`, `journal_memories`, `dossier_exports` |
+| `package_CURRENT.json` | `package.json` | Scripts, dependencies, smoke-kommandon |
+| `tailwind_CURRENT.js` | `tailwind.config.js` | Obsidian Calm tokens och Tailwind-konfiguration |
+| `tsconfig_CURRENT.json` | `tsconfig.json` | TypeScript-projektkonfiguration |
+| `tsconfig_core_strict_CURRENT.json` | `tsconfig.core-strict.json` | Strikt TS för core-moduler |
 
-**Uppdatera Kunskapsbank:** `npm run sync:system` → ladda upp `docs/system_sync/system_plan_CURRENT.md` + `locked_ux_features_CURRENT.md` (ta bort äldre versioner av samma filer i NotebookLM).
+**Uppdatera Kunskapsbank:** `npm run sync:system` → ladda upp hela `docs/system_sync/` (ta bort äldre versioner av samma filer i NotebookLM). Vid regeländring: inkludera alltid båda `*_rules_CURRENT.rules`.
 
 ## Pelare 3: Vardagens Arkitektur
 Målet med Pelare 3 är att bygga ett ekonomiskt och logistiskt ekosystem anpassat för kognitiv trötthet och ADHD. Det rör sig från en basnivå av skuld- och stressfri konsumtion, där enbart enkla saldon syns, till mer avancerade verktyg såsom impulsfördröjnings-köer, budgetkuvert och Kanban-planering. Allt detta styrs dynamiskt utifrån användarens aktuella mående och kapacitet.

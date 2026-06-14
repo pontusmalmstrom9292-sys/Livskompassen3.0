@@ -13,7 +13,8 @@ const syncDir = join(root, 'docs/system_sync');
 const pairs = [
   ['package.json', 'package_CURRENT.json'],
   ['tailwind.config.js', 'tailwind_CURRENT.js'],
-  ['firestore.rules', 'firestore_rules_CURRENT.rtf'],
+  ['firestore.rules', 'firestore_rules_CURRENT.rules'],
+  ['storage.rules', 'storage_rules_CURRENT.rules'],
   ['tsconfig.json', 'tsconfig_CURRENT.json'],
   ['tsconfig.core-strict.json', 'tsconfig_core_strict_CURRENT.json'],
   ['.context/system-plan.md', 'system_plan_CURRENT.md'],
@@ -28,7 +29,7 @@ for (const [src, dst] of pairs) {
 const summaryPath = join(syncDir, 'system_architecture_summary.md');
 let summary = readFileSync(summaryPath, 'utf8');
 const today = new Date().toISOString().slice(0, 10);
-const syncLine = `**Senast synkad:** ${today} · Källfiler i \`docs/system_sync/*_CURRENT.*\` · styrning: \`system_plan_CURRENT.md\`, \`locked_ux_features_CURRENT.md\``;
+const syncLine = `**Senast synkad:** ${today} · Källfiler i \`docs/system_sync/*_CURRENT.*\` · styrning: \`system_plan_CURRENT.md\`, \`locked_ux_features_CURRENT.md\` · säkerhet: \`firestore_rules_CURRENT.rules\`, \`storage_rules_CURRENT.rules\``;
 
 if (summary.includes('**Senast synkad:**')) {
   summary = summary.replace(/\*\*Senast synkad:\*\*[^\n]*/, syncLine);

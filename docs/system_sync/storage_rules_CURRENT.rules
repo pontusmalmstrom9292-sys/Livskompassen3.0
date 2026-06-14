@@ -1,0 +1,39 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // WORM evidence media — uid-scoped, append-only (create + read, no update/delete)
+    match /vault_evidence/{userId}/{allPaths=**} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if false;
+    }
+
+    // Projekt bildblock — uid + projectId scoped (P2)
+    match /project_media/{userId}/{projectId}/{allPaths=**} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if false;
+    }
+
+    // Barnlivslogg-foto — ActionDashboard / widget (uid + childAlias scoped)
+    match /children_logs_media/{userId}/{childAlias}/{fileName} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if false;
+    }
+
+    // Dagbok Lager 1 — personliga minnen (WORM, skild från vault_evidence)
+    match /users/{userId}/journal_memories/{entryId}/{allPaths=**} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if false;
+    }
+
+    // Dossier PDF — skrivs av generateDossier (Admin SDK); nedladdning via signed URL
+    match /dossier_exports/{userId}/{fileName} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false;
+    }
+  }
+}
