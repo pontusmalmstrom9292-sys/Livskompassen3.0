@@ -6,6 +6,7 @@ import type { ValvChatCitation } from '../api/valvChatService';
 import { useValvChatSession, type ValvChatMessage } from '../hooks/useValvChatSession';
 import type { VaultLog } from '@/core/types/firestore';
 import { RAGErrorBoundary } from '@/shared/ui/RAGErrorBoundary';
+import { TheoryWithoutEvidenceBadge } from '@/shared/ui/TheoryWithoutEvidenceBadge';
 
 type ValvChatPanelProps = {
   active: boolean;
@@ -70,6 +71,7 @@ function ChatBubble({
           }`}
         >
           <div className="whitespace-pre-wrap text-sm leading-relaxed">{msg.text}</div>
+          {msg.role === 'assistant' && msg.theoryWithoutEvidence && <TheoryWithoutEvidenceBadge />}
           {msg.role === 'assistant' && msg.citations && (
             <CitationList citations={msg.citations} onCitationClick={onCitationClick} />
           )}

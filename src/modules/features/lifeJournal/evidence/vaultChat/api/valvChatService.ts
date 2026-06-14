@@ -11,6 +11,8 @@ export interface ValvChatCitation {
 export interface ValvChatResponse {
   answer: string;
   citations: ValvChatCitation[];
+  /** true när Sannings-Analytikern flaggar teori utan WORM-stöd */
+  theoryWithoutEvidence?: boolean;
 }
 
 const valvChatQueryCallable = httpsCallable(functions, 'valvChatQuery');

@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { AlertTriangle, Eye, EyeOff, Shield } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import type { GransAnalysis } from '../api/biffService';
+import { TheoryWithoutEvidenceBadge } from '@/shared/ui/TheoryWithoutEvidenceBadge';
 
 type Props = {
   grans: GransAnalysis | null;
   riskScore: number | null;
   hitlRequired: boolean;
   agentName: string | null;
+  theoryWithoutEvidence?: boolean;
 };
 
 function riskTone(score: number | null): string {
@@ -19,7 +21,13 @@ function riskTone(score: number | null): string {
 }
 
 /** D15 — BIFF-triage (logistik vs känslomässigt bete) + Visa brus (I2, archive/inkorg-broar). */
-export function BiffTriagePanel({ grans, riskScore, hitlRequired, agentName }: Props) {
+export function BiffTriagePanel({
+  grans,
+  riskScore,
+  hitlRequired,
+  agentName,
+  theoryWithoutEvidence = false,
+}: Props) {
   const [showBait, setShowBait] = useState(false);
 
   if (!grans && riskScore == null) return null;
@@ -38,6 +46,7 @@ export function BiffTriagePanel({ grans, riskScore, hitlRequired, agentName }: P
           {agentName}
         </p>
       )}
+      {theoryWithoutEvidence && <TheoryWithoutEvidenceBadge className="mb-3" />}
       <div className="grid grid-cols-2 gap-2 text-center text-xs">
         <div className="rounded-xl border border-border/30 bg-surface-2/40 p-2">
           <p className="text-text-dim">Ren logistik (~)</p>

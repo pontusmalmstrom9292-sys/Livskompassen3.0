@@ -3,7 +3,12 @@ import { Link } from 'react-router-dom';
 import { Loader2, Shield, AlertTriangle, Sparkles } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
-import { analyzeBiffMessage, extractGreyRockReply, type GransAnalysis } from '../api/biffService';
+import {
+  analyzeBiffMessage,
+  extractGreyRockReply,
+  extractTheoryWithoutEvidence,
+  type GransAnalysis,
+} from '../api/biffService';
 import { useStore } from '@/core/store';
 import { saveVaultLog } from '@/core/firebase/firestore';
 import { BiffTriagePanel } from './BiffTriagePanel';
@@ -95,6 +100,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
   const [agentName, setAgentName] = useState<string | null>(null);
   const [riskScore, setRiskScore] = useState<number | null>(null);
   const [hitlRequired, setHitlRequired] = useState(false);
+  const [theoryWithoutEvidence, setTheoryWithoutEvidence] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [speglarGuardDismissed, setSpeglarGuardDismissed] = useState(false);
@@ -131,6 +137,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
     setAgentName(null);
     setRiskScore(null);
     setHitlRequired(false);
+    setTheoryWithoutEvidence(false);
 
     try {
       const result = await analyzeBiffMessage(message);
@@ -139,6 +146,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
       setAgentName(result.data?.agentName ?? null);
       setRiskScore(result.dcap?.riskScore ?? null);
       setHitlRequired(result.data?.hitlRequired === true);
+      setTheoryWithoutEvidence(extractTheoryWithoutEvidence(result));
     } catch (err) {
       setError(
         err instanceof Error ? err.message : 'Svar kunde inte hämtas. Försök igen om en stund.',
@@ -155,6 +163,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
     setAgentName(null);
     setRiskScore(null);
     setHitlRequired(false);
+    setTheoryWithoutEvidence(false);
     setError(null);
     setAutosortNote(null);
     setJadeViolations([]);
@@ -256,6 +265,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
         riskScore={riskScore}
         hitlRequired={hitlRequired}
         agentName={agentName}
+        theoryWithoutEvidence={theoryWithoutEvidence}
       />
 
       {!reply && !loading && !error && !message.trim() && (
@@ -319,6 +329,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
   const [agentName, setAgentName] = useState<string | null>(null);
   const [riskScore, setRiskScore] = useState<number | null>(null);
   const [hitlRequired, setHitlRequired] = useState(false);
+  const [theoryWithoutEvidence, setTheoryWithoutEvidence] = useState(false);
   const [loading, setLoading] = useState(false);
   const [savingEvidence, setSavingEvidence] = useState(false);
   const [autosorting, setAutosorting] = useState(false);
@@ -338,6 +349,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
     setRiskScore(null);
     setHitlRequired(false);
     setEvidenceSaved(false);
+    setTheoryWithoutEvidence(false);
 
     try {
       const result = await analyzeBiffMessage(message);
@@ -346,6 +358,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
       setAgentName(result.data?.agentName ?? null);
       setRiskScore(result.dcap?.riskScore ?? null);
       setHitlRequired(result.data?.hitlRequired === true);
+      setTheoryWithoutEvidence(extractTheoryWithoutEvidence(result));
     } catch (err) {
       setError(
         err instanceof Error ? err.message : 'Analysen svarar inte. Försök igen om en stund.',
@@ -363,6 +376,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
     setRiskScore(null);
     setHitlRequired(false);
     setEvidenceSaved(false);
+    setTheoryWithoutEvidence(false);
     setAutosortNote(null);
     setError(null);
   }, []);
@@ -431,6 +445,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
         riskScore={riskScore}
         hitlRequired={hitlRequired}
         agentName={agentName}
+        theoryWithoutEvidence={theoryWithoutEvidence}
       />
 
       {reply && (

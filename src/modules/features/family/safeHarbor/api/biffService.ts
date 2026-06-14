@@ -23,7 +23,9 @@ export type BiffAnalysisResult = {
     recommendedAction?: string;
     hitlRequired?: boolean;
     alertId?: string;
+    theoryWithoutEvidence?: boolean;
   };
+  theoryWithoutEvidence?: boolean;
   greyRockResponse?: string;
   suggestedReply?: string;
   reply?: string;
@@ -43,6 +45,10 @@ export async function analyzeBiffMessage(message: string): Promise<BiffAnalysisR
       'Analysen svarar inte just nu. Kontrollera att du är inloggad och försök igen om en stund.',
     );
   }
+}
+
+export function extractTheoryWithoutEvidence(result: BiffAnalysisResult): boolean {
+  return result.data?.theoryWithoutEvidence === true || result.theoryWithoutEvidence === true;
 }
 
 export function extractGreyRockReply(result: BiffAnalysisResult): string {

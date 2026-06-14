@@ -7,6 +7,7 @@ export type ValvChatMessage = {
   role: 'user' | 'assistant';
   text: string;
   citations?: ValvChatCitation[];
+  theoryWithoutEvidence?: boolean;
   timestamp: string;
 };
 
@@ -63,6 +64,7 @@ export function useValvChatSession(active: boolean) {
           role: 'assistant',
           text: result.answer,
           citations: result.citations,
+          theoryWithoutEvidence: result.theoryWithoutEvidence === true,
           timestamp: formatChatTimestamp(),
         },
       ]);
