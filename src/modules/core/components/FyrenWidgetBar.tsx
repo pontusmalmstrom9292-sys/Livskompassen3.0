@@ -4,14 +4,17 @@ import { clsx } from 'clsx';
 import { NAV_PATHS } from '../navigation/navTruth';
 import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
 import { FyrenProgressRing } from '../ui/FyrenProgressRing';
+import { FyrenShortcutMicIcon, FyrenShortcutNoteIcon } from '../ui/widget-icons';
 import { useFyrenWidget } from './fyrenWidgetContext';
+
+type WidgetIconKind = 'mic' | 'note';
 
 type WidgetAction = {
   id: string;
   label: string;
   to: string;
   hubId?: DrawerL2HubId;
-  shortcutSrc?: string;
+  widgetIcon?: WidgetIconKind;
 };
 
 const WIDGET_ACTIONS: WidgetAction[] = [
@@ -21,13 +24,13 @@ const WIDGET_ACTIONS: WidgetAction[] = [
     id: 'record',
     label: 'Inspelning',
     to: '/widget/inspelning?autostart=1',
-    hubId: 'inspelning',
+    widgetIcon: 'mic',
   },
   {
     id: 'note',
     label: 'Anteckning',
     to: '/widget/anteckning',
-    hubId: 'anteckning',
+    widgetIcon: 'note',
   },
   { id: 'list', label: 'Lista', to: '/projekt/ny', hubId: 'projekt' },
   { id: 'plan', label: 'Planering', to: '/planering?tab=handling', hubId: 'planering' },
@@ -35,21 +38,16 @@ const WIDGET_ACTIONS: WidgetAction[] = [
   { id: 'projekt', label: 'Projekt', to: '/projekt/ny', hubId: 'projekt' },
 ];
 
-function WidgetIcon({ hubId, shortcutSrc }: { hubId?: DrawerL2HubId; shortcutSrc?: string }) {
-  if (shortcutSrc) {
-    return (
-      <img
-        src={shortcutSrc}
-        alt=""
-        aria-hidden
-        draggable={false}
-        decoding="async"
-        className="fyren-widget-bar__drawer-l2"
-      />
-    );
+function WidgetIcon({ hubId, widgetIcon }: { hubId?: DrawerL2HubId; widgetIcon?: WidgetIconKind }) {
+  const cls = 'fyren-widget-bar__drawer-l2';
+  if (widgetIcon === 'mic') {
+    return <FyrenShortcutMicIcon className={cls} />;
+  }
+  if (widgetIcon === 'note') {
+    return <FyrenShortcutNoteIcon className={cls} />;
   }
   if (hubId) {
-    return <DrawerL2Icon hubId={hubId} className="fyren-widget-bar__drawer-l2" />;
+    return <DrawerL2Icon hubId={hubId} className={cls} />;
   }
   return null;
 }
@@ -109,12 +107,12 @@ export function FyrenWidgetBar() {
           className={clsx('fyren-widget-bar__strip', !open && 'fyren-widget-bar__strip--closed')}
           aria-hidden={!open}
         >
-          {WIDGET_ACTIONS.map(({ id, label, to, hubId, shortcutSrc }) => (
+          {WIDGET_ACTIONS.map(({ id, label, to, hubId, widgetIcon }) => (
             <ActionTile
               key={id}
               label={label}
               to={to}
-              icon={<WidgetIcon hubId={hubId} shortcutSrc={shortcutSrc} />}
+              icon={<WidgetIcon hubId={hubId} widgetIcon={widgetIcon} />}
               tabIndex={open ? 0 : -1}
               onNavigate={() => setOpen(false)}
             />
