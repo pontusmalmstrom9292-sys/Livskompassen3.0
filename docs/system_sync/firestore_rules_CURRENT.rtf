@@ -655,6 +655,8 @@ service cloud.firestore {
         && resource.data.ownerId == request.auth.uid
         && request.resource.data.userId == request.auth.uid;
       allow delete: if false;
+    }
+
     match /user_economy_status/{uid} {
       allow read: if isAuthenticated() && request.auth.uid == uid;
       allow create, update, delete: if false;
@@ -663,6 +665,12 @@ service cloud.firestore {
     match /user_capability_state/{uid} {
       allow read: if isAuthenticated() && request.auth.uid == uid;
       allow create, update, delete: if false;
+    }
+
+    // Economy access tokens — skrivs endast av Admin SDK (orkester_wiring)
+    match /access_tokens_economy/{uid} {
+      allow read: if isAuthenticated() && request.auth.uid == uid;
+      allow write: if false;
     }
 
     match /allocation_proposals/{docId} {

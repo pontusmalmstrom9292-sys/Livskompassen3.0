@@ -9,6 +9,7 @@ import { ToastContainer } from './modules/core/ui/ToastContainer';
 import { SOSOverlay } from './modules/features/sos/components/SOSOverlay';
 import { QuickCaptureOverlay } from './modules/features/voiceToVault/components/QuickCaptureOverlay';
 import { LayoutShell } from './components/LayoutShell';
+import { SystemStatusPanel } from '@/features/dev/SystemStatusPanel';
 
 function AppShell() {
   useZeroFootprint();
@@ -19,6 +20,7 @@ function AppShell() {
     <AppUnlockGate>
       <WidgetDeepLinkBridge />
       <QuickCaptureOverlay />
+      <SystemStatusPanel />
       <LayoutShell>
         <AppRoutes />
       </LayoutShell>

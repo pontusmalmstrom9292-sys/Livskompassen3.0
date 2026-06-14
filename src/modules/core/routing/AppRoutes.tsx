@@ -1,8 +1,14 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { MainLayout } from '../layout/MainLayout';
 import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
 import { ProtectedModule } from '../../../components/layout/ProtectedModule';
+import { useStore } from '../store';
+import {
+  useIsEconomyAdvancedUnlocked,
+  useIsCapacityLoading,
+  useListenToCapacityState,
+} from '../store/useCapacityGate';
 const HomePage = lazy(() =>
   import('../pages/HomePage').then((m) => ({ default: m.HomePage }))
 );
@@ -77,6 +83,9 @@ const ThemeLabPage = lazy(() =>
 const HubLabPage = lazy(() =>
   import('../pages/HubLabPage').then((m) => ({ default: m.HubLabPage })),
 );
+const MemoryTestView = lazy(() =>
+  import('@/features/emotional-memory/MemoryTestView').then((m) => ({ default: m.MemoryTestView })),
+);
 const DashboardHubPage = lazy(() =>
   import('@/features/dashboard').then((m) => ({ default: m.DashboardHub })),
 );
@@ -90,6 +99,9 @@ const MorningCompassPage = lazy(() =>
 const ReflectionPage = lazy(() => import('../../reflection/ReflectionPage'));
 const OracleDashboardPage = lazy(() => import('../../oracle/OracleDashboard'));
 const MabraHubPage = lazy(() => import('@/components/mabra/MabraHub'));
+const EconomyDashboard = lazy(() =>
+  import('@/features/economy/EconomyDashboard')
+);
 
 function RouteFallback() {
   return <div className="p-6 text-center text-sm text-text-muted">Laddar…</div>;
@@ -225,6 +237,30 @@ function RedirectLivToVardagen() {
   return <Navigate to={NAV_PATHS.VARDAGEN} replace />;
 }
 
+function EconomyDashboardRoute() {
+  const user = useStore((s) => s.user);
+  const isEconomyAdvancedUnlocked = useIsEconomyAdvancedUnlocked();
+  const isLoading = useIsCapacityLoading();
+  const listenToCapacityState = useListenToCapacityState();
+
+  useEffect(() => {
+    if (user?.uid) {
+      const unsubscribe = listenToCapacityState(user.uid);
+      return () => unsubscribe();
+    }
+  }, [user?.uid, listenToCapacityState]);
+
+  if (isLoading) {
+    return <div className="p-6 text-center text-sm text-text-muted">Kontrollerar kapacitet…</div>;
+  }
+
+  if (!isEconomyAdvancedUnlocked) {
+    return <Navigate to={`${NAV_PATHS.VARDAGEN}?tab=ekonomi`} replace />;
+  }
+
+  return <EconomyDashboard />;
+}
+
 export function AppRoutes() {
   return (
     <Routes>
@@ -309,7 +345,22 @@ export function AppRoutes() {
 
               <Route path="/liv" element={<RedirectLivToVardagen />} />
               <Route path="/kompasser" element={<Navigate to={NAV_PATHS.VARDAGEN} replace />} />
-              <Route path="/ekonomi" element={<Navigate to={`${NAV_PATHS.VARDAGEN}?tab=ekonomi`} replace />} />
+              <Route
+                path="/ekonomi"
+                element={
+                  <ProtectedModule>
+                    <EconomyDashboardRoute />
+                  </ProtectedModule>
+                }
+              />
+              <Route
+                path="/ekonomi/avancerad"
+                element={
+                  <ProtectedModule>
+                    <EconomyDashboardRoute />
+                  </ProtectedModule>
+                }
+              />
               <Route path="/stampla" element={<Navigate to="/arbetsliv?tab=stampla" replace />} />
               <Route path="/liv/arbetsliv" element={<Navigate to="/arbetsliv" replace />} />
               <Route path="/liv/arbetsliv/*" element={<Navigate to="/arbetsliv" replace />} />
@@ -442,6 +493,9 @@ export function AppRoutes() {
               <Route path="/dev/themes" element={<ThemePreviewPage />} />
               <Route path="/dev/theme-lab" element={<ThemeLabPage />} />
               <Route path="/dev/hub-lab" element={<HubLabPage />} />
+              {import.meta.env.DEV && (
+                <Route path="/dev/memory-test" element={<MemoryTestView />} />
+              )}
 
               <Route path="*" element={<Navigate to={NAV_PATHS.HOME} replace />} />
             </Routes>

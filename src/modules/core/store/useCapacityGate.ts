@@ -66,3 +66,10 @@ export const useCapacityGate = create<CapacityGateState>((set, get) => ({
     return unsubscribe;
   },
 }));
+
+// Fine-grained stable selector hooks to eliminate unnecessary re-renders
+export const useIsEconomyAdvancedUnlocked = () => useCapacityGate((s) => s.isEconomyAdvancedUnlocked);
+export const useCapacityScore = () => useCapacityGate((s) => s.capacityScore);
+export const useIsCapacityLoading = () => useCapacityGate((s) => s.isLoading);
+export const useCapacityError = () => useCapacityGate((s) => s.error);
+export const useListenToCapacityState = () => useCapacityGate((s) => s.listenToCapacityState);

@@ -81,31 +81,50 @@ export async function evaluate_economy_access(uid) {
     const score = await calculateCapacityScore(uid);
     console.log(`[evaluate_economy_access] Capacity score for ${uid}: ${score.toFixed(2)}`);
 
-    if (score > THRESHOLD_STABLE) {
-      console.log(`[evaluate_economy_access] Score > ${THRESHOLD_STABLE}, writing access_tokens_economy...`);
-      
-      const tokenRef = db.collection('user_economy_status').doc(uid).collection('access_tokens_economy').doc('latest');
-      
-      const tokenDoc = await tokenRef.get();
-      if (!tokenDoc.exists) {
-        // Skriv ett dokument (om det inte finns) - Bibehåll WORM-integriteten
-        await tokenRef.set({
-          userId: uid,
-          ownerId: uid,
-          grantedAt: admin.firestore.FieldValue.serverTimestamp(),
-          reason: 'MåBra Capacity Score stable',
-          scoreAtGrant: score,
-        });
-        console.log(`[evaluate_economy_access] Token written successfully for ${uid}`);
-      } else {
-        console.log(`[evaluate_economy_access] Token already exists for ${uid}, skipping to preserve WORM.`);
-      }
-    } else {
-      console.log(`[evaluate_economy_access] Score ${score.toFixed(2)} is below threshold ${THRESHOLD_STABLE}. No token granted.`);
+    const granted = score > THRESHOLD_STABLE;
+    console.log(`[evaluate_economy_access] Score ${score.toFixed(2)} ${granted ? '>' : '<='} threshold ${THRESHOLD_STABLE}`);
+
+    const didWrite = await writeAccessGrant(uid, granted);
+    if (didWrite) {
+      console.log(`[evaluate_economy_access] Access token updated for ${uid} (granted=${granted})`);
     }
   } catch (error) {
     console.error(`[evaluate_economy_access] Error for user ${uid}:`, error);
   }
+}
+
+/**
+ * writeAccessGrant: Writes (or updates) the access_tokens_economy/{uid} document.
+ * Only writes if the granted state differs from current Firestore state (minimizes writes).
+ *
+ * @param {string} uid The user ID
+ * @param {boolean} granted Whether advanced economy access is granted
+ * @returns {Promise<boolean>} True if a write occurred, false if skipped (no change)
+ */
+export async function writeAccessGrant(uid, granted) {
+  const tokenRef = db.collection('access_tokens_economy').doc(uid);
+  const snap = await tokenRef.get();
+
+  if (snap.exists) {
+    const current = snap.data();
+    if (current.granted === granted) {
+      console.log(`[writeAccessGrant] No change for ${uid} (granted=${granted}), skipping write.`);
+      return false;
+    }
+  }
+
+  await tokenRef.set({
+    userId: uid,
+    ownerId: uid,
+    granted,
+    reason: granted ? 'MåBra Capacity Score stable' : 'Capacity below threshold',
+    scoreAtGrant: granted ? THRESHOLD_STABLE : 0,
+    updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+    grantedAt: granted ? admin.firestore.FieldValue.serverTimestamp() : (snap.exists ? snap.data().grantedAt : null),
+  });
+
+  console.log(`[writeAccessGrant] Written granted=${granted} for ${uid}`);
+  return true;
 }
 
 // Om scriptet körs direkt från CLI, t.ex. `node scripts/orkester_wiring.mjs <uid>`

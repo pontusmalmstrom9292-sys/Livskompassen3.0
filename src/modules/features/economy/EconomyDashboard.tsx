@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useStore } from '@/modules/core/store';
-import { useCapacityGate } from '@/modules/core/store/useCapacityGate';
+import {
+  useIsEconomyAdvancedUnlocked,
+  useCapacityScore,
+  useIsCapacityLoading,
+  useListenToCapacityState,
+} from '@/modules/core/store/useCapacityGate';
 import { EconomyGateway } from './economy_gateway';
 import { 
   Lock, 
@@ -23,7 +28,10 @@ import type {
 
 export default function EconomyDashboard() {
   const user = useStore((state) => state.user);
-  const { isEconomyAdvancedUnlocked, capacityScore, isLoading: isGateLoading, listenToCapacityState } = useCapacityGate();
+  const isEconomyAdvancedUnlocked = useIsEconomyAdvancedUnlocked();
+  const capacityScore = useCapacityScore();
+  const isGateLoading = useIsCapacityLoading();
+  const listenToCapacityState = useListenToCapacityState();
 
   // Subscribing to capacity state on mount / user change
   useEffect(() => {

@@ -440,6 +440,7 @@ export const FIRESTORE_COLLECTIONS = {
   inbox_rules: 'inbox_rules',
   user_economy_status: 'user_economy_status',
   user_capability_state: 'user_capability_state',
+  access_tokens_economy: 'access_tokens_economy',
 } as const;
 
 /** Användardefinierad tagg (Firestore `user_tags`). */

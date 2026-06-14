@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { LayoutGrid, Wallet, Leaf, PiggyBank, Clock, PauseCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { LayoutGrid, Wallet, Leaf, PiggyBank, Clock, PauseCircle, Sparkles } from 'lucide-react';
 import { clsx } from 'clsx';
 import { EconomyBudgetTab } from './EconomyBudgetTab';
 import { EconomyMealPrepPanel } from './EconomyMealPrepPanel';
@@ -12,6 +13,7 @@ import {
 } from './EkonomiModulValjare';
 import { hasSeenEkonomiModulValjare } from '../utils/ekonomiModulValjareStorage';
 import { useEvolutionStore } from '@/core/store/useEvolutionStore';
+import { useIsEconomyAdvancedUnlocked, useListenToCapacityState } from '@/modules/core/store/useCapacityGate';
 
 const TABS: { id: EkonomiModuleChoice; label: string; icon: typeof Wallet }[] = [
   { id: 'budget', label: 'Budget', icon: Wallet },
@@ -25,13 +27,22 @@ type Props = {
   userId: string;
 };
 
-export function EconomyOverviewPanel({ userId: _userId }: Props) {
+export function EconomyOverviewPanel({ userId }: Props) {
   const [showPicker, setShowPicker] = useState(() => !hasSeenEkonomiModulValjare());
   const [activeTab, setActiveTab] = useState<EkonomiModuleChoice>('budget');
   const hasAdvanced = useEvolutionStore((s) => s.hasFeature('economy_advanced'));
+  const isEconomyAdvancedUnlocked = useIsEconomyAdvancedUnlocked();
+  const listenToCapacityState = useListenToCapacityState();
+
+  useEffect(() => {
+    if (userId) {
+      const unsubscribe = listenToCapacityState(userId);
+      return () => unsubscribe();
+    }
+  }, [userId, listenToCapacityState]);
 
   const visibleTabs = TABS.filter((t) => {
-    if (t.id === 'impuls' || t.id === 'spar') return hasAdvanced;
+    if (t.id === 'impuls' || t.id === 'spar') return isEconomyAdvancedUnlocked || hasAdvanced;
     return true;
   });
 
@@ -40,7 +51,7 @@ export function EconomyOverviewPanel({ userId: _userId }: Props) {
     if (!visibleTabs.some((t) => t.id === activeTab)) {
       setActiveTab('budget');
     }
-  }, [hasAdvanced, activeTab, visibleTabs]);
+  }, [isEconomyAdvancedUnlocked, hasAdvanced, activeTab, visibleTabs]);
 
   const openTab = (tab: EkonomiModuleChoice) => {
     setActiveTab(tab);
@@ -85,6 +96,16 @@ export function EconomyOverviewPanel({ userId: _userId }: Props) {
         >
           <LayoutGrid className="h-4 w-4 text-accent/70" />
         </button>
+        {isEconomyAdvancedUnlocked && (
+          <Link
+            to="/ekonomi/avancerad"
+            className="btn-pill--ghost shrink-0 p-2 flex items-center justify-center border border-accent/20 bg-accent/5 hover:bg-accent/10 hover:text-accent transition-colors rounded-lg"
+            title="Avancerad instrumentpanel"
+            aria-label="Gå till avancerad ekonomi"
+          >
+            <Sparkles className="h-4 w-4 text-accent" />
+          </Link>
+        )}
       </div>
 
       <div className="animate-fade-in min-h-[260px] p-4 sm:p-5">
