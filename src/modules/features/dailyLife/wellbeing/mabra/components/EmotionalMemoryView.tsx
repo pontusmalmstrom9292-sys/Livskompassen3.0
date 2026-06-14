@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import type { EmotionalMemoryType } from '@/core/types/firestore';
 import { EmotionalMemoryComponent } from '@/features/emotional-memory/components/EmotionalMemoryComponent';
+import { EmotionalMemoryListPanel } from '@/features/emotional-memory/components/EmotionalMemoryListPanel';
 import type { MabraProjectId } from '../constants/mabraProjects';
 import { VIT_HUB_LANDED, VIT_HUB_VAULT_LINK } from '../lib/vitHubCopy';
 import { vitHubFilteredLink } from '../lib/vitHubLinks';
@@ -27,8 +29,11 @@ export function EmotionalMemoryView({
   compact = true,
   onSaved,
 }: EmotionalMemoryViewProps) {
+  const [refreshToken, setRefreshToken] = useState(0);
+
   const handleSaved = (docId: string): void => {
     writeVitProjectLastSeen(projectId);
+    setRefreshToken((value) => value + 1);
     onSaved?.(docId);
   };
 
@@ -38,6 +43,12 @@ export function EmotionalMemoryView({
         compact={compact}
         defaultMemoryType={defaultMemoryType}
         onSaved={handleSaved}
+      />
+
+      <EmotionalMemoryListPanel
+        userId={userId}
+        refreshToken={refreshToken}
+        compact={compact}
       />
 
       {userId ? (

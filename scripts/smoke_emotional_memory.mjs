@@ -66,6 +66,7 @@ function runStaticChecks() {
     'store/useEmotionalMemoryStore.ts',
     'components/MemoryInputView.tsx',
     'components/EmotionalMemoryComponent.tsx',
+    'components/EmotionalMemoryListPanel.tsx',
   ];
   for (const file of required) {
     assert(existsSync(resolve(moduleRoot, file)), `Saknar modulfil: ${file}`);

@@ -1,4 +1,5 @@
 export { EmotionalMemoryComponent } from '@/features/emotional-memory/components/EmotionalMemoryComponent';
+export { EmotionalMemoryListPanel } from '@/features/emotional-memory/components/EmotionalMemoryListPanel';
 export { MemoryInputView } from '@/features/emotional-memory/components/MemoryInputView';
 export {
   useEmotionalMemoryStore,

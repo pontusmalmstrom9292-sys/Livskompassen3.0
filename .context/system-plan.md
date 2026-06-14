@@ -172,3 +172,80 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 - [x] **Projekt P1 (del)** — `projects`, `project_blocks`, `/projekt/:id`, `projectId` på kanban
 - [ ] **Projekt P2+ / Fas D** — regler, bild-uppladdning, widget-sheet, full MaterialPack-editor
 - [ ] Implementation: `kör kopplingar C` · `kör projekt P1` · se komihåg för fasering
+
+## Fas 6 — Input Superhub (Superdagbok) · PLANERAD
+
+**Status:** `[ ]` Ej påbörjad (kickoff) — känslominnen-lista i MåBra (2026-06-14) är första delsteg; full superhub-konsolidering är separat fas.
+
+**Problem:** Inmatning, uppladdning och reflektion är utspridda (Dagbok, Inkast, känslominnen, Valv, Barnen, MåBra, planering, ekonomi, arbetsliv m.fl.) — för många ingångar huller och buller.
+
+**Mål:** En **Universal Input Hub (Supermodul) per pelare/zon** med **meny för läge** — byt funktion utan att byta sida (t.ex. Dagbok ↔ minne ↔ Inkast ↔ reflektion ↔ filuppladdning).
+
+---
+
+### Arkitekturlagar (Livskompassen 3.0 — obligatoriska)
+
+#### 1. Konsolidering och supermoduler
+
+Alla användarinmatningar — **dagboksanteckningar, minnen, snabb inkorg/Inkast, reflektioner och filuppladdningar** — **MÅSTE** centraliseras till polymorfa **Universal Input Hubs (Supermoduler)**.
+
+- Vi **slutar bygga spridda inmatningsformulär** i enskilda moduler.
+- Nya inmatningsflöden får endast tillkomma som **lägen (modes)** inuti en godkänd Superhub — inte som fristående formulär.
+- Befintliga formulär migreras zon för zon till respektive hub; duplicerade ingångar avvecklas efter migrering.
+
+#### 2. Kontextmedvetna zoner
+
+Varje Superhub **MÅSTE** anpassa sig dynamiskt till sin pelare/zon:
+
+| Zon / pelare | Exempel på hub |
+| --- | --- |
+| MåBra (Vit) | Super-MåBra Input |
+| Barnsidan / Familjen | Super-Familjen Input |
+| Ekonomi | Super-Ekonomi Input |
+| Arbetsliv | Super-Arbetsliv Input |
+| Planering | Super-Planering Input |
+| Hjärtat (Dagbok) | Superdagbok |
+
+Anpassning sker via:
+
+- **CSS-variabler ("Färgburkar")** — Obsidian Calm-tokens per zon (`tailwind.config.js`, semantiska `--surface`, `--accent`, glow per silo).
+- **Specifik metadatataggning** — varje sparat objekt bär zon, läge, `content_class` (U6) och silo-säker routing; ingen cross-RAG.
+
+#### 3. Nödvändig djupanalys (före implementation)
+
+Innan en Superhub implementeras i **någon** kategori **MÅSTE** en djupgående kod- och komponentanalys av den aktuella kategorin utföras:
+
+1. Kartlägg alla befintliga inmatningsvägar, duplicerade formulär och beroenden.
+2. Dokumentera säkerhetsgränser: WORM, silo (U1), HITL, Zero Footprint, offline-policy.
+3. Skriv migrationsplan + smoke-kriterier; godkänn plan **innan** kod.
+4. Referera [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md), relevant `*-SPEC.md` och `.context/locked-ux-features.md`.
+
+**Utan godkänd analys — ingen Superhub-implementation i zonen.**
+
+#### 4. Strikt låsningsmekanism (WORM och nollhallucinationer)
+
+När en Superhub-modul har **implementerats, testats och godkänts** av teknikledaren betraktas den som **låst**.
+
+- **Ingen AI-agent** får ändra, omstrukturera eller modifiera hubbens **kärnlogik** utan **uttryckligt, åsidosättande tillstånd** från teknikledaren (Pontus).
+- Låsning registreras i `.context/locked-ux-features.md` + zon-specifik eval i `docs/evaluations/` + obligatorisk smoke (`npm run smoke:locked-ux` m.fl.).
+- WORM-semantik på evidens/minne bevaras; Superhub får **aldrig** införa `update`/`delete` på låsta samlingar.
+- Syfte: **noll hallucinationer**, deterministisk stabilitet, inga oreviewade refactors som urholkar säkerhet eller UX.
+
+---
+
+### Obligatorisk leveransordning (per zon)
+
+1. Djupanalys + eval-dokument (`docs/evaluations/`)
+2. Superhub-spec (lägen, API, metadata, Färgburkar)
+3. Migrering av befintliga inmatningsflöden
+4. Smoke + manuell verifiering
+5. **Lås** — registrera i locked-ux; därefter endast bugfix med PMIR + explicit OK
+
+### Referenser (nuläge)
+
+- Känslominne (delsteg): `/mabra/projekt/emotional_memory` · `src/modules/features/emotional-memory/`
+- Design: Obsidian Calm · [`docs/design/COLOR-POLICY.md`](../docs/design/COLOR-POLICY.md)
+- Innehåll/routing: U6 · [`docs/INNEHALL-REGISTER.md`](../docs/INNEHALL-REGISTER.md)
+- Framtida kickoff-eval: `docs/evaluations/` (skapas vid start av Fas 6 per zon)
+- **MåBra djupanalys (2026-06-14):** [`docs/evaluations/2026-06-14-fas6-mabra-superhub-djupanalys.md`](../docs/evaluations/2026-06-14-fas6-mabra-superhub-djupanalys.md)
+- **MåBra Superhub SPEC (godkänd 2026-06-14):** [`docs/specs/modules/Mabra-INPUT-SUPERHUB-SPEC.md`](../docs/specs/modules/Mabra-INPUT-SUPERHUB-SPEC.md) — implementation Fas 6A→E

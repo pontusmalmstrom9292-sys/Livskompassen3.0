@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
-import { listEmotionalMemories } from '@/core/firebase/emotionalMemoryFirestore';
+import { useState } from 'react';
 import { useStore } from '@/core/store';
-import type { EmotionalMemoryRow } from '@/core/types/firestore';
+import { EmotionalMemoryListPanel } from '@/features/emotional-memory/components/EmotionalMemoryListPanel';
 import { MemoryInputView } from '@/features/emotional-memory/components/MemoryInputView';
 import { useEmotionalMemoryStore } from '@/features/emotional-memory/store/useEmotionalMemoryStore';
 
@@ -9,26 +8,7 @@ export function MemoryTestView() {
   const user = useStore((state) => state.user);
   const memoryContent = useEmotionalMemoryStore((state) => state.memoryContent);
   const resetMemory = useEmotionalMemoryStore((state) => state.resetMemory);
-  const [entries, setEntries] = useState<EmotionalMemoryRow[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  const refreshEntries = useCallback(async () => {
-    if (!user?.uid) {
-      setEntries([]);
-      return;
-    }
-    setLoading(true);
-    try {
-      const rows = await listEmotionalMemories(user.uid, { limit: 10 });
-      setEntries(rows);
-    } finally {
-      setLoading(false);
-    }
-  }, [user?.uid]);
-
-  useEffect(() => {
-    void refreshEntries();
-  }, [refreshEntries]);
+  const [refreshToken, setRefreshToken] = useState(0);
 
   const isEmpty = memoryContent.trim().length === 0;
 
@@ -43,7 +23,7 @@ export function MemoryTestView() {
         </p>
       </header>
 
-      <MemoryInputView onSaved={() => void refreshEntries()} />
+      <MemoryInputView onSaved={() => setRefreshToken((value) => value + 1)} />
 
       <section className="flex flex-col gap-3 rounded-2xl border border-border bg-surface-2 p-6">
         <div className="flex items-center justify-between">
@@ -71,34 +51,7 @@ export function MemoryTestView() {
         )}
       </section>
 
-      <section className="flex flex-col gap-3 rounded-2xl border border-border bg-surface-2 p-6">
-        <span className="font-display text-xs tracking-[0.2em] text-text-muted uppercase">
-          Senaste i Firestore
-        </span>
-        {loading ? (
-          <p className="font-sans text-sm text-text-dim">Hämtar…</p>
-        ) : entries.length === 0 ? (
-          <p className="font-sans text-sm text-text-dim italic">
-            Inga sparade minnen ännu.
-          </p>
-        ) : (
-          <ul className="flex flex-col gap-3">
-            {entries.map((entry) => (
-              <li
-                key={entry.id}
-                className="rounded-xl border border-border/60 bg-surface px-4 py-3"
-              >
-                <p className="font-sans text-xs text-text-dim">
-                  {entry.memoryType} · styrka {entry.intensity}
-                </p>
-                <p className="mt-1 font-sans text-sm whitespace-pre-wrap text-text">
-                  {entry.content}
-                </p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+      <EmotionalMemoryListPanel userId={user?.uid} refreshToken={refreshToken} />
     </div>
   );
 }
