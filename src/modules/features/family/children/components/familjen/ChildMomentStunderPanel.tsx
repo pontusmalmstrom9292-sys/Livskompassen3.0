@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Heart } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { SaveAsEvidencePrompt } from '../SaveAsEvidencePrompt';
 import type { FamiljenShell } from '../../hooks/useFamiljenShell';
@@ -45,9 +46,7 @@ export function ChildMomentStunderPanel({ shell }: Props) {
   if (!user) return null;
 
   return (
-    <div className="space-y-4">
-      <p className="text-xs uppercase tracking-widest text-text-dim">Senaste stunder</p>
-
+    <BentoCard glow="blue" title="Senaste stunder" description={activeChild}>
       <div className="flex flex-wrap gap-2">
         {FILTER_CHIPS.map((f) => (
           <button
@@ -66,12 +65,15 @@ export function ChildMomentStunderPanel({ shell }: Props) {
       {stunder.length === 0 ? (
         <EmptyState message="Inga stunder i detta filter ännu." />
       ) : (
-        <ul className="space-y-3">
+        <ul className="mt-4 space-y-3">
           {stunder.map((log) => {
             const Icon = categoryIcon(log.category);
             const favorite = isFavoriteMoment(log);
             return (
-              <li key={log.id} className="glass-card p-3">
+              <li
+                key={log.id}
+                className="rounded-xl border border-border/30 bg-surface-2/40 p-3"
+              >
                 <div className="flex items-start gap-3">
                   <span
                     className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-accent"
@@ -121,6 +123,6 @@ export function ChildMomentStunderPanel({ shell }: Props) {
           })}
         </ul>
       )}
-    </div>
+    </BentoCard>
   );
 }

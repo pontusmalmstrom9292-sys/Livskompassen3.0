@@ -1,5 +1,6 @@
 import { useCallback, useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   DEFAULT_FAMILJEN_INPUT_MODE,
   FAMILJEN_INPUT_MODES_MORE,
@@ -66,10 +67,7 @@ export function FamiljenInputSuperModule({
   const isMoreModeActive = FAMILJEN_INPUT_MODES_MORE.some((mode) => mode.id === activeMode);
 
   return (
-    <section
-      className="calm-card glow-bottom-blue overflow-hidden rounded-2xl border border-border/30 bg-surface-2/70 p-4 sm:p-5"
-      aria-label="Familjen inmatningshub"
-    >
+    <BentoCard glow="blue" className="overflow-hidden !p-4 sm:!p-5">
       <header className="mb-4 space-y-1">
         <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
           Universal Input
@@ -149,7 +147,7 @@ export function FamiljenInputSuperModule({
           onSaved={handleDelegateSaved}
         />
       </div>
-    </section>
+    </BentoCard>
   );
 }
 

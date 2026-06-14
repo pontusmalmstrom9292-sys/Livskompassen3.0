@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { AlertTriangle, Eye, EyeOff, Shield } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import type { GransAnalysis } from '../api/biffService';
 
 type Props = {
@@ -31,29 +32,25 @@ export function BiffTriagePanel({ grans, riskScore, hitlRequired, agentName }: P
   const hasBait = baitCount > 0;
 
   return (
-    <div className="elongated-module elongated-module--gold space-y-3 p-4">
-      <div className="flex items-center gap-2">
-        <Shield className="h-4 w-4 text-accent" aria-hidden />
-        <p className="text-sm font-medium text-text">BIFF-triage</p>
-        {agentName && (
-          <span className="ml-auto text-[10px] uppercase tracking-widest text-text-dim">
-            {agentName}
-          </span>
-        )}
-      </div>
+    <BentoCard glow="indigo" title="BIFF-triage" icon={<Shield className="h-4 w-4" />} className="!p-4">
+      {agentName && (
+        <p className="-mt-2 mb-3 text-right text-[10px] uppercase tracking-widest text-text-dim">
+          {agentName}
+        </p>
+      )}
       <div className="grid grid-cols-2 gap-2 text-center text-xs">
-        <div className="calm-card p-2">
+        <div className="rounded-xl border border-border/30 bg-surface-2/40 p-2">
           <p className="text-text-dim">Ren logistik (~)</p>
           <p className="text-lg font-display text-accent">{logisticsPct}%</p>
         </div>
-        <div className="calm-card p-2">
+        <div className="rounded-xl border border-border/30 bg-surface-2/40 p-2">
           <p className="text-text-dim">Känslomässigt bete (~)</p>
           <p className="text-lg font-display text-text-muted">{baitPct}%</p>
         </div>
       </div>
 
       {grans && (factCount > 0 || hasBait) && (
-        <div className="grid gap-3 border-t border-white/10 pt-3 md:grid-cols-2">
+        <div className="mt-3 grid gap-3 border-t border-border/30 pt-3 md:grid-cols-2">
           <section aria-label="Logistik">
             <p className="mb-2 text-[10px] uppercase tracking-widest text-success">Logistik</p>
             {factCount > 0 ? (
@@ -103,20 +100,20 @@ export function BiffTriagePanel({ grans, riskScore, hitlRequired, agentName }: P
       )}
 
       {riskScore != null && (
-        <p className={`text-xs ${riskTone(riskScore)}`}>
+        <p className={`mt-3 text-xs ${riskTone(riskScore)}`}>
           Riskindikator (DCAP): {riskScore}%
           {hitlRequired ? ' · granska manuellt innan svar' : ''}
         </p>
       )}
       {hitlRequired && (
-        <p className="flex items-start gap-2 text-xs text-text-muted">
+        <p className="mt-2 flex items-start gap-2 text-xs text-text-muted">
           <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0 text-accent" aria-hidden />
           Hög belastning — svara kort eller vänta. Ingen JADE.
         </p>
       )}
       {grans?.coachingNote && (
-        <p className="text-sm text-text-muted whitespace-pre-wrap">{grans.coachingNote}</p>
+        <p className="mt-2 text-sm text-text-muted whitespace-pre-wrap">{grans.coachingNote}</p>
       )}
-    </div>
+    </BentoCard>
   );
 }

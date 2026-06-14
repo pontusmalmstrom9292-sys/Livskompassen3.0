@@ -37,6 +37,7 @@ const GLOW_CLASS: Record<CalmCardGlow, string> = {
   gold: 'glow-bottom-gold',
   blue: 'glow-bottom-blue',
   green: 'glow-bottom-green',
+  indigo: 'glow-bottom-blue',
 };
 
 export const LIV_LAUNCHER_CARDS: readonly LauncherCardDef[] = [

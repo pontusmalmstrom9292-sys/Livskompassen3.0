@@ -27,23 +27,25 @@ export function ChildMomentOmPanel({ shell }: Props) {
   return (
     <div className="space-y-4">
       {profile && (
-        <div className="elongated-module border-white/10 p-4">
-          <p className="font-display text-xl text-accent">{profile.alias}</p>
-          <p className="mt-1 text-sm text-text-muted">{profile.focus}</p>
-          <ul className="mt-3 flex flex-wrap gap-2">
+        <BentoCard glow="blue" title={profile.alias} description={profile.focus} className="!p-4">
+          <ul className="flex flex-wrap gap-2">
             {profile.traits.map((trait) => (
               <li
                 key={trait}
-                className="rounded-full border border-white/10 px-2.5 py-0.5 text-xs text-text-muted"
+                className="rounded-full border border-border/30 px-2.5 py-0.5 text-xs text-text-muted"
               >
                 {trait}
               </li>
             ))}
           </ul>
-        </div>
+        </BentoCard>
       )}
 
-      <BentoCard title={`Mående — ${activeChild} (7 dagar)`} icon={<Heart className="h-4 w-4" />}>
+      <BentoCard
+        glow="blue"
+        title={`Mående — ${activeChild} (7 dagar)`}
+        icon={<Heart className="h-4 w-4" />}
+      >
         <BalansMatare result={balans} />
         {balans.index < 45 && balans.daysWithData >= 2 && (
           <p className="mt-3 text-sm text-text-muted">

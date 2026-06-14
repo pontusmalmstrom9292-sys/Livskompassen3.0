@@ -25,6 +25,7 @@ export function ChildMomentFavoriterPanel({ shell }: Props) {
   return (
     <div className="space-y-4">
       <BentoCard
+        glow="blue"
         title="Favoriter"
         description={`Ankare och positiva stunder — ${activeChild}. Spara med kategori «Positivt ankare» eller «Positiv stund».`}
         icon={<Heart className="h-4 w-4" />}
@@ -34,7 +35,10 @@ export function ChildMomentFavoriterPanel({ shell }: Props) {
         ) : (
           <ul className="space-y-3">
             {favorites.map((log) => (
-              <li key={log.id} className="glass-card p-3">
+              <li
+                key={log.id}
+                className="rounded-xl border border-border/30 bg-surface-2/40 p-3"
+              >
                 <div className="flex items-start gap-2">
                   <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden />
                   <div>

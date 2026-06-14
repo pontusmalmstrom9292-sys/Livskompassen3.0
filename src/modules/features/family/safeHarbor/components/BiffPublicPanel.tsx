@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Loader2, Shield, AlertTriangle, Sparkles } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { analyzeBiffMessage, extractGreyRockReply, type GransAnalysis } from '../api/biffService';
 import { useStore } from '@/core/store';
@@ -264,9 +265,8 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
       )}
 
       {reply && (
-        <div className="rounded-xl border border-accent/20 bg-accent/5 px-3 py-3">
-          <p className="text-[10px] uppercase tracking-widest text-accent/70">Föreslaget svar</p>
-          <p className="mt-2 whitespace-pre-wrap text-sm text-text-muted">{reply}</p>
+        <BentoCard glow="indigo" title="Föreslaget svar" className="!px-3 !py-3">
+          <p className="mt-0 whitespace-pre-wrap text-sm text-text-muted">{reply}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             <button
               type="button"
@@ -293,7 +293,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               {autosortNote}
             </p>
           )}
-        </div>
+        </BentoCard>
       )}
     </div>
   );
@@ -427,13 +427,13 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
       />
 
       {reply && (
-        <div className="rounded-xl border border-accent/20 bg-accent/5 px-3 py-3">
-          <p className="text-[10px] uppercase tracking-widest text-accent/70">
-            Föreslaget svar
-            {agentName ? ` · ${agentName}` : ''}
-          </p>
+        <BentoCard
+          glow="indigo"
+          title={`Föreslaget svar${agentName ? ` · ${agentName}` : ''}`}
+          className="!px-3 !py-3"
+        >
           {hitlRequired && (
-            <p className="mt-1 text-xs text-text-muted">Hög risk — överväg mänsklig uppföljning (HITL).</p>
+            <p className="text-xs text-text-muted">Hög risk — överväg mänsklig uppföljning (HITL).</p>
           )}
           {riskScore !== null && (
             <p className="text-[10px] text-text-dim">Riskpoäng: {riskScore}</p>
@@ -474,7 +474,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
               {autosortNote}
             </p>
           )}
-        </div>
+        </BentoCard>
       )}
     </div>
   );

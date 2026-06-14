@@ -41,6 +41,7 @@ export function ChildrenLogsChat({ activeChild }: ChildrenLogsChatProps) {
   return (
     <RAGErrorBoundary fallbackTitle="Nätverksfel i Barnloggar">
       <BentoCard
+        glow="blue"
         title="Fråga livsloggarna"
         description={`Mönster-Arkivarien · endast ${activeChild}`}
         icon={<MessageCircle className="h-4 w-4" />}

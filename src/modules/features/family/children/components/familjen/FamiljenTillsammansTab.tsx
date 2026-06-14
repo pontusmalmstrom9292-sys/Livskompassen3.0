@@ -42,11 +42,11 @@ export function FamiljenTillsammansTab({ shell }: Props) {
         />
       </div>
 
-      <div className="familjen-anchor-card glass-card">
-        <div className="mb-2 flex items-center gap-2">
-          <Anchor className="h-4 w-4 text-accent" />
-          <p className="text-[10px] uppercase tracking-widest text-accent/90">Dagens ankare</p>
-        </div>
+      <BentoCard
+        glow="blue"
+        title="Dagens ankare"
+        icon={<Anchor className="h-4 w-4" />}
+      >
         {anchorText ? (
           <p className="text-sm leading-relaxed text-text-muted">&ldquo;{anchorText}&rdquo;</p>
         ) : (
@@ -55,9 +55,10 @@ export function FamiljenTillsammansTab({ shell }: Props) {
             minnesankare.
           </p>
         )}
-      </div>
+      </BentoCard>
 
       <BentoCard
+        glow="blue"
         title="Familjeöversikt"
         description="Små steg. Stora minnen. Tillsammans."
         icon={<Users className="h-4 w-4" />}

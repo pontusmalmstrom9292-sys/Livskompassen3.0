@@ -2,8 +2,7 @@ import type { ReactNode } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { clsx } from 'clsx';
 import { Link } from 'react-router-dom';
-import { useDesignPack } from '@/core/design/useDesignPack';
-import { UiCard } from '@/core/ui/UiCard';
+import { BentoCard } from '@/shared/ui/BentoCard';
 
 type Props = {
   title: string;
@@ -15,7 +14,7 @@ type Props = {
   bookmark?: boolean;
 };
 
-/** Tema E — kort med guld cirkel-ikon (mockup Familjen-lista). */
+/** Navigationskort i Familjen — Obsidian Calm BentoCard (indigo silo). */
 export function FamiljenFeatureCard({
   title,
   description,
@@ -25,55 +24,40 @@ export function FamiljenFeatureCard({
   className,
   bookmark,
 }: Props) {
-  const { active } = useDesignPack();
-
   const inner = (
     <>
       <span
-        className={clsx(
-          active ? 'ui-card__icon' : 'familjen-feature-card__icon',
-          'flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-accent',
-        )}
+        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-accent/20 bg-surface-3/50 text-accent"
         aria-hidden
       >
         {icon}
       </span>
-      <span className={active ? 'min-w-0 flex-1' : 'familjen-feature-card__body'}>
-        <span
-          className={clsx(
-            active ? 'block font-display-serif text-sm font-medium text-text' : 'familjen-feature-card__title',
-          )}
-        >
-          {title}
-        </span>
-        <span
-          className={clsx(
-            active ? 'mt-0.5 block text-xs text-text-dim' : 'familjen-feature-card__desc',
-          )}
-        >
-          {description}
-        </span>
+      <span className="min-w-0 flex-1">
+        <span className="block font-display-serif text-sm font-medium text-text">{title}</span>
+        <span className="mt-0.5 block text-xs text-text-dim">{description}</span>
       </span>
-      <ChevronRight
-        className={active ? 'h-4 w-4 shrink-0 text-accent/55' : 'familjen-feature-card__chevron'}
-        strokeWidth={1.5}
-        aria-hidden
-      />
-      {bookmark ? <span className="familjen-feature-card__bookmark" aria-hidden /> : null}
+      <ChevronRight className="h-4 w-4 shrink-0 text-accent/55" strokeWidth={1.5} aria-hidden />
+      {bookmark ? (
+        <span className="absolute right-3 top-3 h-2 w-2 rounded-full bg-accent/60" aria-hidden />
+      ) : null}
     </>
   );
 
   if (to) {
     return (
-      <UiCard as={Link} to={to} className={clsx(!active && 'familjen-feature-card', className)}>
-        {inner}
-      </UiCard>
+      <BentoCard glow="blue" className={clsx('relative !p-3 transition hover:bg-surface-3/30', className)}>
+        <Link to={to} className="flex items-center gap-3">
+          {inner}
+        </Link>
+      </BentoCard>
     );
   }
 
   return (
-    <UiCard as="button" type="button" className={clsx(!active && 'familjen-feature-card', className)} onClick={onClick}>
-      {inner}
-    </UiCard>
+    <BentoCard glow="blue" className={clsx('relative !p-3 transition hover:bg-surface-3/30', className)}>
+      <button type="button" className="flex w-full items-center gap-3 text-left" onClick={onClick}>
+        {inner}
+      </button>
+    </BentoCard>
   );
 }

@@ -60,7 +60,8 @@ function main() {
   );
   mustInclude(
     'src/modules/features/family/children/supermodule/FamiljenInputSuperModule.tsx',
-    'glow-bottom-blue',
+    'glow="blue"',
+    'BentoCard',
     'FamiljenBarnfokusDelegate',
     'FamiljenLivsloggStundDelegate',
     'FamiljenFysiologiDelegate',

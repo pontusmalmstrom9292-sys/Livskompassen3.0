@@ -24,13 +24,17 @@ export function PositivaMinnesankare({ logs, childAlias }: Props) {
 
   return (
     <BentoCard
+      glow="blue"
       title="Positiva minnesankare"
       description={`Små ljuspunkter — ${childAlias}`}
       icon={<Sparkles className="h-4 w-4" />}
     >
       <ul className="space-y-2">
         {anchors.map((log) => (
-          <li key={log.id} className="glass-card p-3 text-sm text-text-muted">
+          <li
+            key={log.id}
+            className="rounded-xl border border-border/30 bg-surface-2/40 p-3 text-sm text-text-muted"
+          >
             <p className="text-[10px] uppercase tracking-widest text-text-dim">
               {log.category ?? 'minne'}
             </p>

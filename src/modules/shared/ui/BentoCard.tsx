@@ -2,12 +2,14 @@ import type { ReactNode } from 'react';
 import { clsx } from 'clsx';
 
 /** Silo-botten-glow enligt Obsidian Calm 2.0 — design-calm.mdc */
-export type CalmCardGlow = 'gold' | 'blue' | 'green';
+export type CalmCardGlow = 'gold' | 'blue' | 'green' | 'indigo';
 
 const GLOW_CLASS: Record<CalmCardGlow, string> = {
   gold: 'glow-bottom-gold',
   blue: 'glow-bottom-blue',
   green: 'glow-bottom-green',
+  /** Trygg Hamn / kris-triage — samma indigo-botten som blue, semantiskt separat från Familjen. */
+  indigo: 'glow-bottom-blue',
 };
 
 export type BentoCardProps = {

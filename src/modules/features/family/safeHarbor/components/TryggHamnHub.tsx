@@ -1,5 +1,6 @@
 import { memo, useState } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
 import { KompassradPanel } from '@/features/dailyLife/wellbeing/compasses/components/KompassradPanel';
 import { BiffPublicPanel } from './BiffPublicPanel';
@@ -69,21 +70,24 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
   if (embedded) {
     return (
       <div className="calm-scroll-island space-y-4">
-        <div className="calm-card glow-bottom-gold px-4 py-3">
+        <BentoCard glow="indigo" className="!px-4 !py-3">
           <p className="text-[10px] uppercase tracking-[0.2em] text-accent/80">Trygg hamn · BIFF</p>
           <p className="mt-1 text-xs text-text-dim">{HAMN_EMBEDDED_LEAD}</p>
           <p className="mt-2 text-xs text-text-muted">{HAMN_GREY_ROCK_LEAD}</p>
-        </div>
-        <div className="calm-card glow-bottom-blue px-4 py-3">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-accent-secondary/80">Steg 1 · Brusfilter</p>
-          <p className="mt-1 text-xs text-text-dim">{HAMN_BRUSFILTER_LEAD}</p>
-          <p className="mt-2 text-xs text-text-muted" role="note">
+        </BentoCard>
+        <BentoCard
+          glow="indigo"
+          title="Steg 1 · Brusfilter"
+          description={HAMN_BRUSFILTER_LEAD}
+          className="!px-4 !py-3"
+        >
+          <p className="text-xs text-text-muted" role="note">
             {HAMN_BRUSFILTER_HINT}
           </p>
           <Link to={hjartatTabHref('speglar')} className="btn-pill--accent mt-2 inline-flex text-xs">
             Öppna Speglar
           </Link>
-        </div>
+        </BentoCard>
         <HamnModuleStack biffPanel={<BiffPublicPanel initialMessage={initialMessage} />} />
       </div>
     );
@@ -106,40 +110,43 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
 
       {subTab === 'biff' && (
         <div className="space-y-3">
-          <div className="calm-card glow-bottom-blue px-4 py-3">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-accent-secondary/80">Steg 1 · Brusfilter</p>
-            <p className="mt-1 text-xs text-text-dim">{HAMN_BRUSFILTER_LEAD}</p>
-            <p className="mt-2 text-xs text-text-muted" role="note">
+          <BentoCard
+            glow="indigo"
+            title="Steg 1 · Brusfilter"
+            description={HAMN_BRUSFILTER_LEAD}
+            className="!px-4 !py-3"
+          >
+            <p className="text-xs text-text-muted" role="note">
               {HAMN_BRUSFILTER_HINT}
             </p>
             <Link to={hjartatTabHref('speglar')} className="btn-pill--accent mt-2 inline-flex text-xs">
               Öppna Speglar
             </Link>
-          </div>
+          </BentoCard>
           <HamnModuleStack biffPanel={<BiffPublicPanel initialMessage={initialMessage} />} />
         </div>
       )}
 
       {subTab === 'speglar' && (
-        <div className="calm-card glow-bottom-blue p-4 text-sm text-text-muted">
+        <BentoCard glow="indigo" className="!p-4 text-sm text-text-muted">
           <p className="text-text-dim">
             Akut känslovalidering (ACT) och bevisjämförelse — innan du formulerar svar här.
           </p>
           <Link to={hjartatTabHref('speglar')} className="btn-pill--accent mt-3 inline-flex text-xs">
             Öppna Speglar
           </Link>
-        </div>
+        </BentoCard>
       )}
 
       {subTab === 'barn' && (
-        <div className="calm-card glow-bottom-blue p-4 text-sm text-text-muted">
+        <BentoCard glow="indigo" className="!p-4 text-sm text-text-muted">
           <p className="text-text-dim">
             Barnfokus och minnesankare ligger i Familjen — separat från ex-kommunikation.
           </p>
           <Link to="/familjen?tab=reflektion" className="btn-pill--accent mt-3 inline-flex text-xs">
             Öppna Familjen
           </Link>
-        </div>
+        </BentoCard>
       )}
     </div>
   );

@@ -42,7 +42,11 @@ export function FamiljenReflektionTab({ shell }: Props) {
 
       <PositivaMinnesankare logs={logs} childAlias={activeChild as ChildAlias} />
 
-      <BentoCard title={`${activeChild} — mående (7 dagar)`} icon={<Heart className="h-4 w-4" />}>
+      <BentoCard
+        glow="blue"
+        title={`${activeChild} — mående (7 dagar)`}
+        icon={<Heart className="h-4 w-4" />}
+      >
         <BalansMatare result={balans} />
         {balans.index < 45 && balans.daysWithData >= 2 && (
           <p className="mt-3 text-sm text-text-muted">
