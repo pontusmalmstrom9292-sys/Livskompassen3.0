@@ -3,7 +3,38 @@
  * One recognition object per app; lokalt only (ingen ljud-Blob).
  */
 
-/** Minimal Web Speech API shapes — not in all TS lib.dom versions. */
+/**
+ * Web Speech API — lokala DOM-stubs när lib.dom saknar recognition-typer (core-strict).
+ * Baserat på https://wicg.github.io/speech-api/ — endast fält som används i denna modul.
+ */
+interface SpeechRecognitionAlternative {
+  readonly transcript: string;
+  readonly confidence: number;
+}
+
+interface SpeechRecognitionResult {
+  readonly length: number;
+  readonly isFinal: boolean;
+  item(index: number): SpeechRecognitionAlternative;
+  [index: number]: SpeechRecognitionAlternative;
+}
+
+interface SpeechRecognitionResultList {
+  readonly length: number;
+  item(index: number): SpeechRecognitionResult;
+  [index: number]: SpeechRecognitionResult;
+}
+
+interface SpeechRecognitionErrorEvent extends Event {
+  readonly error: string;
+  readonly message: string;
+}
+
+interface SpeechRecognitionEvent extends Event {
+  readonly resultIndex: number;
+  readonly results: SpeechRecognitionResultList;
+}
+
 interface SpeechRecognition extends EventTarget {
   lang: string;
   continuous: boolean;
@@ -16,16 +47,12 @@ interface SpeechRecognition extends EventTarget {
   abort?: () => void;
 }
 
-interface SpeechRecognitionEvent extends Event {
-  resultIndex: number;
-  results: SpeechRecognitionResultList;
-}
-
-interface SpeechRecognitionErrorEvent extends Event {
-  error: string;
-}
-
 type SpeechRecognitionCtor = new () => SpeechRecognition;
+
+type WindowWithSpeechRecognition = Window & {
+  SpeechRecognition?: SpeechRecognitionCtor;
+  webkitSpeechRecognition?: SpeechRecognitionCtor;
+};
 
 type SessionHandlers = {
   onFinal?: (transcript: string) => void;
@@ -39,10 +66,7 @@ let handlers: SessionHandlers | null = null;
 
 function getCtor(): SpeechRecognitionCtor | null {
   if (typeof window === 'undefined') return null;
-  const w = window as Window & {
-    SpeechRecognition?: SpeechRecognitionCtor;
-    webkitSpeechRecognition?: SpeechRecognitionCtor;
-  };
+  const w = window as WindowWithSpeechRecognition;
   return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
 }
 
