@@ -20,6 +20,7 @@ export default {
         bg: cssVar('--bg'),
         surface: {
           DEFAULT: cssVar('--surface'), /* #050b14 */
+          primary: cssVar('--surface'), /* alias — bg-surface-primary */
           2: cssVar('--surface-2'), /* #09111e */
           3: cssVar('--surface-3'), /* #111b2d */
         },

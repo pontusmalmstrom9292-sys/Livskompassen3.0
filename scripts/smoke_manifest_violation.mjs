@@ -52,6 +52,12 @@ function runStaticWiringChecks() {
     'reality_vault',
   );
   mustInclude(
+    'src/modules/core/firebase/emotionalMemoryFirestore.ts',
+    'assertArchitectureWrite',
+    'EMOTIONAL_MEMORY_WORM_KEYS',
+    'emotional_memory',
+  );
+  mustInclude(
     'src/modules/core/manifest/manifestGuards.ts',
     'assertWorm',
     'assertSiloIsolation',
@@ -81,7 +87,14 @@ function runRulesAlignmentSmoke(guards) {
   assert(Array.isArray(wormCollections) && wormCollections.length > 0, 'getAllWormCollections() tom');
 
   const rules = read('firestore.rules');
-  const mustBeWormInRules = ['reality_vault', 'children_logs', 'journal', 'evolution_ledger', 'kampspar'];
+  const mustBeWormInRules = [
+    'reality_vault',
+    'children_logs',
+    'journal',
+    'emotional_memory',
+    'evolution_ledger',
+    'kampspar',
+  ];
 
   for (const col of mustBeWormInRules) {
     assert(wormCollections.includes(col), `manifest saknar WORM: ${col}`);

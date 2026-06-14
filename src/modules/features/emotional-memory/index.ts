@@ -1,3 +1,4 @@
+export { EmotionalMemoryComponent } from '@/features/emotional-memory/components/EmotionalMemoryComponent';
 export { MemoryInputView } from '@/features/emotional-memory/components/MemoryInputView';
 export {
   useEmotionalMemoryStore,
@@ -6,6 +7,7 @@ export {
 export {
   saveEmotionalMemory,
   listEmotionalMemories,
+  EMOTIONAL_MEMORY_WORM_KEYS,
 } from '@/core/firebase/emotionalMemoryFirestore';
 export type {
   EmotionalMemoryEntry,

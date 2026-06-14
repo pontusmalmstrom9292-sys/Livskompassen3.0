@@ -12,7 +12,7 @@ import type {
   EmotionalMemoryRow,
   EmotionalMemoryType,
 } from '../types/firestore';
-import { db } from './firestore';
+import { assertArchitectureWrite, db } from './firestore';
 import { assertOfflineWriteAllowed } from './offlineWritePolicy';
 
 type FirestorePayload = Record<string, unknown>;
@@ -25,6 +25,20 @@ const VALID_MEMORY_TYPES = new Set<EmotionalMemoryType>([
   'reflection',
   'freeform',
 ]);
+
+/** Must match firestore.rules → isValidEmotionalMemoryCreate → wormKeysOnly. */
+export const EMOTIONAL_MEMORY_WORM_KEYS = [
+  'userId',
+  'ownerId',
+  'createdAt',
+  'memoryType',
+  'content',
+  'intensity',
+] as const;
+
+function isEmotionalMemoryType(value: unknown): value is EmotionalMemoryType {
+  return typeof value === 'string' && VALID_MEMORY_TYPES.has(value as EmotionalMemoryType);
+}
 
 function assertWormPayload(data: FirestorePayload, context: string): void {
   for (const key of WORM_FORBIDDEN_KEYS) {
@@ -55,11 +69,12 @@ function sortByCreatedAtDesc<T extends { createdAt?: string }>(rows: T[]): T[] {
 }
 
 function mapEmotionalMemory(id: string, data: FirestorePayload, userId: string): EmotionalMemoryRow {
+  const memoryType = isEmotionalMemoryType(data.memoryType) ? data.memoryType : 'freeform';
   return {
     id,
     userId: String(data.userId ?? userId),
     ownerId: String(data.ownerId ?? userId),
-    memoryType: data.memoryType as EmotionalMemoryType,
+    memoryType,
     content: String(data.content ?? ''),
     intensity: typeof data.intensity === 'number' ? data.intensity : 0,
     createdAt: normalizeCreatedAt(data.createdAt),
@@ -92,6 +107,7 @@ export async function saveEmotionalMemory(
   };
 
   assertWormPayload(payload, FIRESTORE_COLLECTIONS.emotional_memory);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.emotional_memory, 'create');
 
   const ref = collection(db, FIRESTORE_COLLECTIONS.emotional_memory);
   const docRef = await addDoc(ref, withUserId(userId, payload));
