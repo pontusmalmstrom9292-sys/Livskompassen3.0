@@ -19,11 +19,22 @@ import {
   Timestamp,
   updateDoc,
   where,
+  type CollectionReference,
   type DocumentData,
+  type DocumentReference,
   type QueryDocumentSnapshot,
+  type SetOptions,
+  type UpdateData,
+  type WithFieldValue,
 } from 'firebase/firestore';
 import { app } from './init';
 import { assertOfflineWriteAllowed } from './offlineWritePolicy';
+import {
+  ManifestViolationError,
+  assertSiloIsolation,
+  assertWorm,
+  type SiloId,
+} from '../manifest';
 import type {
   CheckIn,
   KampsparEntryRow,
@@ -72,6 +83,82 @@ function assertWormPayload(data: FirestorePayload, context: string): void {
   }
 }
 
+type FirestoreWriteOp = 'create' | 'update' | 'delete';
+
+interface CrossSiloContext {
+  readonly fromSilo: SiloId;
+  readonly toSilo: SiloId;
+}
+
+/**
+ * Architecture guard — the single chokepoint every Firestore write MUST pass.
+ *
+ * Wires the Master Integration Manifest (src/modules/core/manifest) into the
+ * data layer so no future code can persist data without passing our controls:
+ *  - WORM (U3): update/delete on append-only collections is rejected (assertWorm).
+ *  - Silo (U1): cross-silo interactions are validated against the cross-RAG förbud
+ *    (assertSiloIsolation) when a cross-silo context is supplied.
+ *
+ * On any manifest violation we surface a clear "Architecture Violation" error and
+ * halt execution immediately (throw). Guard clause only — never mutate write logic.
+ */
+export function assertArchitectureWrite(
+  collectionId: string,
+  operation: FirestoreWriteOp,
+  crossSilo?: CrossSiloContext,
+): void {
+  try {
+    if (crossSilo) {
+      assertSiloIsolation(crossSilo.fromSilo, crossSilo.toSilo);
+    }
+    if (operation === 'update' || operation === 'delete') {
+      assertWorm(collectionId, operation);
+    }
+  } catch (err) {
+    if (err instanceof ManifestViolationError) {
+      throw new ManifestViolationError(
+        err.code,
+        `Architecture Violation [${err.code}]: ${err.message}`,
+      );
+    }
+    throw err;
+  }
+}
+
+/** Guarded create — passes manifest controls before addDoc. */
+function guardedAddDoc(
+  ref: CollectionReference,
+  data: WithFieldValue<DocumentData>,
+): ReturnType<typeof addDoc> {
+  assertArchitectureWrite(ref.id, 'create');
+  return addDoc(ref, data);
+}
+
+/** Guarded set — merge writes count as 'update' for WORM enforcement. */
+function guardedSetDoc(
+  ref: DocumentReference,
+  data: WithFieldValue<DocumentData>,
+  options?: SetOptions,
+): Promise<void> {
+  assertArchitectureWrite(ref.parent.id, options ? 'update' : 'create');
+  return options ? setDoc(ref, data, options) : setDoc(ref, data);
+}
+
+/** Guarded update — rejected on WORM collections. */
+function guardedUpdateDoc(
+  ref: DocumentReference,
+  data: UpdateData<DocumentData>,
+): Promise<void> {
+  assertArchitectureWrite(ref.parent.id, 'update');
+  return updateDoc(ref, data);
+}
+
+/** Guarded delete — rejected on WORM collections. */
+function guardedDeleteDoc(ref: DocumentReference): Promise<void> {
+  assertArchitectureWrite(ref.parent.id, 'delete');
+  return deleteDoc(ref);
+}
+
 function omitUndefinedFields(data: FirestorePayload): FirestorePayload {
   const out: FirestorePayload = {};
   for (const [key, value] of Object.entries(data)) {
@@ -103,7 +190,7 @@ function sortByCreatedAtDesc<T extends { createdAt?: string }>(rows: T[]): T[] {
 export async function saveCheckIn(userId: string, checkIn: Omit<CheckIn, 'userId' | 'createdAt'>) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.checkins);
   const ref = collection(db, FIRESTORE_COLLECTIONS.checkins);
-  const docRef = await addDoc(ref, withUserId(userId, { ...checkIn }));
+  const docRef = await guardedAddDoc(ref, withUserId(userId, { ...checkIn }));
   return docRef.id;
 }
 
@@ -127,7 +214,7 @@ export async function saveMabraCheckIn(
     mood: checkIn.mood,
   };
   assertWormPayload(payload, 'checkins');
-  const docRef = await addDoc(ref, withUserId(userId, payload));
+  const docRef = await guardedAddDoc(ref, withUserId(userId, payload));
   return docRef.id;
 }
 
@@ -194,7 +281,7 @@ export async function saveJournalEntry(
   });
 
   if (options?.entryId) {
-    await setDoc(
+    await guardedSetDoc(
       doc(db, FIRESTORE_COLLECTIONS.journal, options.entryId),
       withUserId(userId, payload),
     );
@@ -202,7 +289,7 @@ export async function saveJournalEntry(
   }
 
   const refCol = collection(db, FIRESTORE_COLLECTIONS.journal);
-  const docRef = await addDoc(refCol, withUserId(userId, payload));
+  const docRef = await guardedAddDoc(refCol, withUserId(userId, payload));
   return docRef.id;
 }
 
@@ -214,7 +301,7 @@ export async function saveVaultLog(
   const payload = omitUndefinedFields({ ...log, isLocked: true } as FirestorePayload);
   assertWormPayload(payload, 'reality_vault');
   const ref = collection(db, FIRESTORE_COLLECTIONS.reality_vault);
-  const docRef = await addDoc(ref, withUserId(userId, payload));
+  const docRef = await guardedAddDoc(ref, withUserId(userId, payload));
   return docRef.id;
 }
 
@@ -259,7 +346,7 @@ export async function saveChildrenLog(
 
   assertWormPayload(payload, 'children_logs');
   const ref = collection(db, FIRESTORE_COLLECTIONS.children_logs);
-  const docRef = await addDoc(ref, withUserId(userId, payload));
+  const docRef = await guardedAddDoc(ref, withUserId(userId, payload));
   return docRef.id;
 }
 
@@ -293,7 +380,7 @@ export async function saveMabraSession(
     payload.mixDateKey = session.mixDateKey;
   }
   assertWormPayload(payload, 'mabra_sessions');
-  const docRef = await addDoc(ref, withUserId(userId, payload));
+  const docRef = await guardedAddDoc(ref, withUserId(userId, payload));
   return docRef.id;
 }
 
@@ -333,7 +420,7 @@ export async function getMabraProgress(userId: string): Promise<{ coreValues: st
 export async function saveMabraProgress(userId: string, coreValues: string[]) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.mabra_progress);
   const ref = doc(db, FIRESTORE_COLLECTIONS.mabra_progress, userId);
-  await setDoc(
+  await guardedSetDoc(
     ref,
     {
       userId,
@@ -574,7 +661,7 @@ export async function saveEconomyTransaction(
   };
   assertWormPayload(payload, 'transactions');
   const ref = collection(db, FIRESTORE_COLLECTIONS.transactions);
-  const docRef = await addDoc(ref, withUserId(userId, payload));
+  const docRef = await guardedAddDoc(ref, withUserId(userId, payload));
   return docRef.id;
 }
 
