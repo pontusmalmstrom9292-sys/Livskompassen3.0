@@ -222,6 +222,10 @@ service cloud.firestore {
         && request.resource.data.exerciseType is string
         && request.resource.data.exerciseType.size() > 0
         && request.resource.data.exerciseType.size() <= 32
+        && request.resource.data.exerciseType in [
+          'breathing', 'grounding', 'reframing', 'daglig_mix', 'explore_done',
+          'curriculum_complete', 'quiz_complete',
+        ]
         && request.resource.data.durationSeconds is int
         && request.resource.data.durationSeconds >= 0
         && request.resource.data.durationSeconds <= 86400
@@ -333,16 +337,52 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    function isValidFocusPointsList(points) {
+      return points is list && points.size() >= 0 && points.size() <= 3;
+    }
+
+    function isValidUserDailyFocusWrite() {
+      return request.resource.data.keys().hasOnly([
+          'userId', 'ownerId', 'focusPoints', 'handledProtocolDate', 'updatedAt',
+          'primaryGoal', 'primaryGoalKey', 'primaryGoalConfirmedAt',
+        ])
+        && isValidFocusPointsList(request.resource.data.focusPoints)
+        && (!('handledProtocolDate' in request.resource.data)
+          || request.resource.data.handledProtocolDate.matches('^\\d{4}-\\d{2}-\\d{2}$'))
+        && (!('primaryGoal' in request.resource.data)
+          || (request.resource.data.primaryGoal is string
+            && request.resource.data.primaryGoal.size() <= 200))
+        && (!('primaryGoalKey' in request.resource.data)
+          || (request.resource.data.primaryGoalKey is string
+            && request.resource.data.primaryGoalKey.size() <= 80))
+        && (!('primaryGoalConfirmedAt' in request.resource.data)
+          || request.resource.data.primaryGoalConfirmedAt is string);
+    }
+
+    function isValidUserDailyFocusHistoryCreate() {
+      return request.resource.data.keys().hasOnly([
+          'userId', 'ownerId', 'focusPoints', 'date', 'updatedAt', 'primaryGoal',
+        ])
+        && isValidFocusPointsList(request.resource.data.focusPoints)
+        && request.resource.data.date.matches('^\\d{4}-\\d{2}-\\d{2}$')
+        && (!('primaryGoal' in request.resource.data)
+          || (request.resource.data.primaryGoal is string
+            && request.resource.data.primaryGoal.size() <= 200));
+    }
+
     match /user_daily_focus/{uid} {
       allow read: if isAuthenticated() && request.auth.uid == uid;
       allow create: if isAuthenticated()
         && uid == request.auth.uid
         && request.resource.data.ownerId == request.auth.uid
-        && request.resource.data.userId == request.auth.uid;
+        && request.resource.data.userId == request.auth.uid
+        && isValidUserDailyFocusWrite();
       allow update: if isAuthenticated()
         && uid == request.auth.uid
         && resource.data.ownerId == request.auth.uid
-        && request.resource.data.userId == request.auth.uid;
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.ownerId == resource.data.ownerId
+        && isValidUserDailyFocusWrite();
       allow delete: if false;
 
       match /history/{docId} {
@@ -350,7 +390,8 @@ service cloud.firestore {
         allow create: if isAuthenticated()
           && uid == request.auth.uid
           && request.resource.data.ownerId == request.auth.uid
-          && request.resource.data.userId == request.auth.uid;
+          && request.resource.data.userId == request.auth.uid
+          && isValidUserDailyFocusHistoryCreate();
         allow update, delete: if false;
       }
     }
@@ -387,19 +428,23 @@ service cloud.firestore {
         && (!('cardDateKey' in request.resource.data)
           || request.resource.data.cardDateKey.matches('^\\d{4}-\\d{2}-\\d{2}$'))
         && (!('zone' in request.resource.data)
-          || request.resource.data.zone == 'mabra')
+          || request.resource.data.zone in ['mabra', 'recovery'])
         && (!('inputMode' in request.resource.data)
           || request.resource.data.inputMode in [
             'vit_card', 'vit_chat', 'vit_memory', 'checkin',
+            'recovery_sos', 'recovery_twelve_step', 'recovery_reality_check',
           ]);
     }
 
     function isValidMabraProgressWrite() {
       return request.resource.data.keys().hasOnly([
-          'userId', 'ownerId', 'coreValues', 'updatedAt',
+          'userId', 'ownerId', 'coreValues', 'subGoals', 'updatedAt',
         ])
         && request.resource.data.coreValues is list
-        && request.resource.data.coreValues.size() <= 8;
+        && request.resource.data.coreValues.size() <= 8
+        && (!('subGoals' in request.resource.data)
+          || (request.resource.data.subGoals is list
+            && request.resource.data.subGoals.size() <= 5));
     }
 
     function isValidMabraProgressUpdate() {
@@ -416,29 +461,45 @@ service cloud.firestore {
           || request.resource.data.activeProjectIds is list);
     }
 
-    function isValidRecoveryProfileCreate() {
+    function isValidRecoveryProfileWrite() {
       return request.resource.data.keys().hasOnly([
           'userId', 'ownerId', 'programType', 'startDateKey', 'shareWithCoach', 'updatedAt',
+          'coreWhy', 'triggerTags', 'supportContactHint', 'preferredGrounding',
+          'lastSosAt', 'twelveStepProgress',
         ])
         && request.resource.data.programType in [
           'twelve_step_inspired', 'custom_abstinence', 'other',
         ]
         && request.resource.data.startDateKey.matches('^\\d{4}-\\d{2}-\\d{2}$')
         && request.resource.data.shareWithCoach is bool
-        && request.resource.data.shareWithCoach == false;
+        && request.resource.data.shareWithCoach == false
+        && (!('coreWhy' in request.resource.data)
+          || (request.resource.data.coreWhy is string
+            && request.resource.data.coreWhy.size() <= 500))
+        && (!('triggerTags' in request.resource.data)
+          || (request.resource.data.triggerTags is list
+            && request.resource.data.triggerTags.size() <= 8))
+        && (!('supportContactHint' in request.resource.data)
+          || (request.resource.data.supportContactHint is string
+            && request.resource.data.supportContactHint.size() <= 80))
+        && (!('preferredGrounding' in request.resource.data)
+          || request.resource.data.preferredGrounding in [
+            'breathing_478', 'grounding_54321', 'either',
+          ])
+        && (!('lastSosAt' in request.resource.data)
+          || request.resource.data.lastSosAt is timestamp)
+        && (!('twelveStepProgress' in request.resource.data)
+          || request.resource.data.twelveStepProgress is map);
+    }
+
+    function isValidRecoveryProfileCreate() {
+      return isValidRecoveryProfileWrite();
     }
 
     function isValidRecoveryProfileUpdate() {
-      return request.resource.data.keys().hasOnly([
-          'userId', 'ownerId', 'programType', 'startDateKey', 'shareWithCoach', 'updatedAt',
-        ])
+      return isValidRecoveryProfileWrite()
         && request.resource.data.userId == resource.data.userId
-        && request.resource.data.ownerId == resource.data.ownerId
-        && request.resource.data.programType in [
-          'twelve_step_inspired', 'custom_abstinence', 'other',
-        ]
-        && request.resource.data.startDateKey.matches('^\\d{4}-\\d{2}-\\d{2}$')
-        && request.resource.data.shareWithCoach == false;
+        && request.resource.data.ownerId == resource.data.ownerId;
     }
 
     // Kat 6 — Utforskningskö (L1–L2). Isolerad Vit-silo — aldrig Valv/RAG/children_logs.
