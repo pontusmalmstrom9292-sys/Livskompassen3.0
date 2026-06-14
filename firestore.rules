@@ -161,6 +161,17 @@ service cloud.firestore {
         && request.resource.data.intensity <= 10;
     }
 
+    function isValidReflectionEntryCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'reflectionDate', 'tipId', 'reflectionText', 'timestamp'
+        ])
+        && request.resource.data.userId is string
+        && request.resource.data.reflectionDate is string
+        && request.resource.data.tipId is string
+        && request.resource.data.reflectionText is string
+        && request.resource.data.timestamp is timestamp;
+    }
+
     match /checkins/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreate();
@@ -178,6 +189,13 @@ service cloud.firestore {
       allow create: if isOwnerCreateSensitive() && isValidEmotionalMemoryCreate();
       allow update, delete: if false;
     }
+
+    match /reflection_entries/{docId} {
+      allow read: if isOwnerSensitive();
+      allow create: if isOwnerCreateSensitive() && isValidReflectionEntryCreate();
+      allow update, delete: if false;
+    }
+
 
     match /reality_vault/{docId} {
       allow read: if isOwnerVault();

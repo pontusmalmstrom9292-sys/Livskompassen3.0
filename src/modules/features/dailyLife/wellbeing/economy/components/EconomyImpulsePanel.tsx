@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Clock, Loader2 } from 'lucide-react';
+import { Clock, Loader2, AlertTriangle } from 'lucide-react';
 import { useStore } from '@/core/store';
+import { useCapacityScore } from '@/core/store/useCapacityGate';
 import {
   deleteEconomyImpulse,
   getEconomyImpulseQueue,
@@ -9,8 +10,12 @@ import {
 } from '@/core/firebase/economyFirestore';
 import { EKONOMI_IMPULS_LEAD } from '../ekonomiCopy';
 
+const STABILITY_THRESHOLD = 50;
+
 export function EconomyImpulsePanel() {
   const user = useStore((s) => s.user);
+  const capacityScore = useCapacityScore();
+  const isLowCapacity = capacityScore < STABILITY_THRESHOLD;
   const [items, setItems] = useState<
     { id: string; label: string; parkedAt: string; remindAt: string }[]
   >([]);
@@ -141,23 +146,31 @@ export function EconomyImpulsePanel() {
                   {isReady ? ' · Dags att besluta' : ' · Vänta till imorgon'}
                 </p>
                 {isReady && (
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    <button
-                      type="button"
-                      disabled={busy}
-                      onClick={() => void handleResolve(item.id, 'bought')}
-                      className="btn-pill--secondary px-2 py-1 text-[10px]"
-                    >
-                      Fortfarande ja
-                    </button>
-                    <button
-                      type="button"
-                      disabled={busy}
-                      onClick={() => void handleResolve(item.id, 'skipped')}
-                      className="btn-pill--ghost px-2 py-1 text-[10px]"
-                    >
-                      Strunt i det
-                    </button>
+                  <div className="mt-2 space-y-2">
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        disabled={busy || isLowCapacity}
+                        onClick={() => void handleResolve(item.id, 'bought')}
+                        className="btn-pill--secondary px-2 py-1 text-[10px] disabled:opacity-50"
+                      >
+                        Fortfarande ja
+                      </button>
+                      <button
+                        type="button"
+                        disabled={busy}
+                        onClick={() => void handleResolve(item.id, 'skipped')}
+                        className="btn-pill--ghost px-2 py-1 text-[10px]"
+                      >
+                        Strunt i det
+                      </button>
+                    </div>
+                    {isLowCapacity && (
+                      <p className="flex items-start gap-1.5 text-[10px] leading-relaxed text-danger/90">
+                        <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0" />
+                        <span>Kapaciteten är för låg för att godkänna köp just nu. Låt beslutet vila lite till.</span>
+                      </p>
+                    )}
                   </div>
                 )}
                 {!isReady && (

@@ -11,3 +11,11 @@ export interface ForalderTryggTip {
 export interface ForalderTryggManifest {
   tips: ForalderTryggTip[];
 }
+
+export interface ReflectionEntry {
+  userId: string;
+  reflectionDate: string; // ISO-sträng
+  tipId: string;
+  reflectionText: string;
+  timestamp: any; // Server timestamp marker
+}
