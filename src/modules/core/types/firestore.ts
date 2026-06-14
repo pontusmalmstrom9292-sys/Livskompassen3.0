@@ -386,6 +386,20 @@ export interface EvolutionHubDoc {
   unlockedPacks?: string[];
 }
 
+export interface Project {
+  userId: string;
+  ownerId: string;
+  title: string;
+  status: 'active' | 'paused' | 'archived';
+  primaryBlockType?: 'list' | 'note' | 'image' | 'video' | 'task';
+  createdAt: IsoDateTime;
+  updatedAt?: IsoDateTime;
+}
+
+export interface ProjectRow extends Project {
+  id: string;
+}
+
 export const FIRESTORE_COLLECTIONS = {
   evolution_ledger: 'evolution_ledger',
   evolution_hub: 'evolution_hub',
@@ -414,6 +428,7 @@ export const FIRESTORE_COLLECTIONS = {
   time_entries: 'time_entries',
   payslip_snapshots: 'payslip_snapshots',
   planning_tasks: 'planning_tasks',
+  allocation_proposals: 'allocation_proposals',
   planning_email_rules: 'planning_email_rules',
   project_rules: 'project_rules',
   routine_templates: 'routine_templates',
@@ -424,6 +439,7 @@ export const FIRESTORE_COLLECTIONS = {
   user_tags: 'user_tags',
   inbox_rules: 'inbox_rules',
   user_economy_status: 'user_economy_status',
+  user_capability_state: 'user_capability_state',
 } as const;
 
 /** Användardefinierad tagg (Firestore `user_tags`). */
@@ -440,4 +456,21 @@ export interface UserEconomyStatus {
   ownerId: string;
   economy_advanced: boolean;
   lastUpdated: IsoDateTime;
+}
+
+export interface UserCapabilityState {
+  userId: string;
+  ownerId: string;
+  capacityScore: number;
+  economy_advanced: boolean;
+  lastUpdated: IsoDateTime;
+}
+
+export interface AllocationProposal {
+  userId: string;
+  ownerId: string;
+  amount: number;
+  reasoning: string;
+  createdAt: IsoDateTime;
+  expiresAt: IsoDateTime;
 }
