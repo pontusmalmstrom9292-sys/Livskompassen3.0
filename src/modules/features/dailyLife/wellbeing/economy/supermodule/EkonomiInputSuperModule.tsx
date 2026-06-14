@@ -14,6 +14,8 @@ import {
   pickFallbackMode,
   resolveEconomyCapacity,
 } from './capacityResolver';
+import { EkonomiMatprepDelegate } from './delegates/EkonomiMatprepDelegate';
+import { EkonomiProfilDelegate } from './delegates/EkonomiProfilDelegate';
 import { EkonomiSaldoDelegate } from './delegates/EkonomiSaldoDelegate';
 import {
   DEFAULT_EKONOMI_INPUT_MODE,
@@ -50,6 +52,10 @@ function EkonomiInputModeDelegate({
   switch (mode) {
     case 'saldo':
       return <EkonomiSaldoDelegate userId={userId} />;
+    case 'profil':
+      return <EkonomiProfilDelegate userId={userId} />;
+    case 'matprep':
+      return <EkonomiMatprepDelegate userId={userId} />;
     default:
       return <EkonomiModePlaceholder mode={mode} />;
   }

@@ -1,4 +1,6 @@
 export { EkonomiInputSuperModule, type EkonomiInputSuperModuleProps } from './EkonomiInputSuperModule';
+export { EkonomiMatprepDelegate, type EkonomiMatprepDelegateProps } from './delegates/EkonomiMatprepDelegate';
+export { EkonomiProfilDelegate, type EkonomiProfilDelegateProps } from './delegates/EkonomiProfilDelegate';
 export { EkonomiSaldoDelegate, type EkonomiSaldoDelegateProps } from './delegates/EkonomiSaldoDelegate';
 export { useEconomyTransactionWORM, type EconomyTransactionCategory } from './hooks/useEconomyTransactionWORM';
 export { useEconomySaldoRead } from './hooks/useEconomySaldoRead';
