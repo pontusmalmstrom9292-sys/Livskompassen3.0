@@ -3,7 +3,12 @@ import ReactMarkdown from 'react-markdown';
 import { useForalderTryggContent } from '../useForalderTryggContent';
 import { CheckCircle, Circle } from 'lucide-react';
 
-export const ForalderTryggDashboard: React.FC = () => {
+export interface ForalderTryggDashboardProps {
+  childId?: string;
+  contextData?: any;
+}
+
+export const ForalderTryggDashboard: React.FC<ForalderTryggDashboardProps> = () => {
   const { tips, isLoading } = useForalderTryggContent();
   const [readState, setReadState] = useState<Record<string, boolean>>({});
 

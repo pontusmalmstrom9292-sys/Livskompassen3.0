@@ -44,4 +44,10 @@ export const MABRA_REFLECTION_CARDS: readonly MabraReflectionCard[] = [
   { bankId: 'MB-REF-JOY-04', lens: 'teman', text_sv: 'Ett lugn som inte behöver att någon annan ser det — var eller hur, ungefär?' },
   { bankId: 'MB-REF-JOY-05', lens: 'teman', text_sv: 'Vilken hobby eller aktivitet har jag pausat — och vad skulle minsta steget tillbaka vara?' },
   { bankId: 'MB-REF-JOY-06', lens: 'gladje', text_sv: 'Vad är meningsfullt för mig just nu — inte vad jag borde tycka om?' },
+  { bankId: 'MB-REF-MIRROR-01', lens: 'spegling', text_sv: 'Vilken del av min egen upplevelse just nu är jag säker på — utan att behöva förklara den för någon?' },
+  { bankId: 'MB-REF-MIRROR-02', lens: 'spegling', text_sv: 'Ett minne eller en egenskap som jag vet är sann, oavsett vad som händer — vad är det?' },
+  { bankId: 'MB-REF-MIRROR-03', lens: 'spegling', text_sv: 'När kände jag mig senast trygg i ett eget beslut — ett litet vardagsbeslut räcker?' },
+  { bankId: 'MB-REF-MIRROR-04', lens: 'spegling', text_sv: 'Vilken känsla bär jag på som är fullt logisk och begriplig utifrån min situation?' },
+  { bankId: 'MB-REF-GEN-01', lens: 'allmant', text_sv: 'Vad är något jag gör idag som mitt yngre jag skulle tycka om?' },
+  { bankId: 'MB-REF-GEN-02', lens: 'allmant', text_sv: 'Om jag fick ge mig själv ett frikort från en förväntning idag — vilken skulle det vara?' },
 ] as const;

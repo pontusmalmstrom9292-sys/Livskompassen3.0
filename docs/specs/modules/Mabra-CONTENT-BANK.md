@@ -364,6 +364,40 @@ Kurator-pass 2026-05-25 · linser: **identitet** (5) + **KBT light** (5). Ej dup
 
 ---
 
+## Våg 18 — Speglar (Självvalidering) och Frågekort (Allmänt) (2026-06-14)
+
+**Kurator:** `specialist-mabra-curator` · **Dirigent:** U6 Vit · **Serie:** `spegling` och `allmant`
+**Syfte:** Tillhandahålla reflektion och mikrospel för självvalidering utan att analysera eller dra in konflikt med exet (vilket tillhör Hamn/Speglar). Allmänna frågekort för bred reflektion.
+
+### REFLECTION (`MB-REF-MIRROR-*` & `MB-REF-GEN-*`)
+
+| bankId | content_class | source_tier | status | lens | hub | text_sv | why |
+|--------|---------------|-------------|--------|------|-----|---------|-----|
+| MB-REF-MIRROR-01 | REFLECTION | product_copy | KEEP | spegling | emotional_memory | Vilken del av min egen upplevelse just nu är jag säker på — utan att behöva förklara den för någon? | Fokuserar inåt, isolerar sanning från extern gaslighting |
+| MB-REF-MIRROR-02 | REFLECTION | product_copy | KEEP | spegling | who_am_i | Ett minne eller en egenskap som jag vet är sann, oavsett vad som händer — vad är det? | Tryggar identiteten autonomt |
+| MB-REF-MIRROR-03 | REFLECTION | psychoeducation_general | KEEP | spegling | emotional_memory | När kände jag mig senast trygg i ett eget beslut — ett litet vardagsbeslut räcker? | Påminner om egen agens och kompetens |
+| MB-REF-MIRROR-04 | REFLECTION | psychoeducation_general | KEEP | spegling | find_self | Vilken känsla bär jag på som är fullt logisk och begriplig utifrån min situation? | Validerar upplevelsen utan att ifrågasätta reaktionen |
+| MB-REF-GEN-01 | REFLECTION | product_copy | KEEP | allmant | who_am_i | Vad är något jag gör idag som mitt yngre jag skulle tycka om? | Bred, mild reflektion |
+| MB-REF-GEN-02 | REFLECTION | product_copy | KEEP | allmant | find_self | Om jag fick ge mig själv ett frikort från en förväntning idag — vilken skulle det vara? | Tar bort "borde", kognitiv avlastning |
+
+### PLAY (`MB-PLAY-MIRROR-*`)
+
+| bankId | content_class | source_tier | status | format | lens | hub | title_sv | rule_sv | why |
+|--------|---------------|-------------|--------|--------|------|-----|----------|---------|-----|
+| MB-PLAY-MIRROR-01 | PLAY | product_copy | KEEP | micro_game | spegling | find_self | Sanningens Föremål | Hitta ett fysiskt föremål i rummet som representerar något du är bra på eller gillar. Titta på det i 10 sekunder. | Extern grounding kopplad till intern sanning |
+| MB-PLAY-MIRROR-02 | PLAY | product_copy | KEEP | micro_game | spegling | emotional_memory | Egotrip-minut | Sätt en timer på 1 minut. Skriv ner 3 saker du gjort bra denna vecka. Sluta när timern ringer. | Tidsbegränsad positiv förstärkning utan prestation |
+
+### Kurator-logg (våg 18)
+
+| id (utkast) | status | why |
+|-------------|--------|-----|
+| "Beskriv varför ditt ex har fel" | **ROUTE_SPEGLAR** | Ex/konflikt — Hamn/Speglar, inte MåBra |
+| "Samla poäng genom att klara alla speglingar" | **REJECT** | Gamification, poängsystem |
+| "Fokusera bara på sanningen för annars mår du sämre" | **REJECT** | Dömande, skapar "borde" och stress |
+| MB-REF-MIRROR-* / MB-PLAY-MIRROR-* ovan | **KEEP** | Grind OK; självvaliderande och kravlösa |
+
+---
+
 ## Nästa implementation (P1)
 
 - Firestore `vit_hub` / `vit_entries` med `kind: card | memory | chat_turn` *(efter Daglig mix P0 — client-bank klar)*

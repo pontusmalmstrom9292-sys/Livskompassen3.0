@@ -49,7 +49,16 @@ function toVitProjectCard(card: SelfEsteemCard | (typeof MABRA_REFLECTION_CARDS)
 /** Bank-id per projekt — Mabra-CONTENT-BANK § Frågekort (våg 9). */
 const PROJECT_CARD_BANK_IDS: Record<MabraProjectId, readonly string[]> = {
   self_esteem: SELF_ESTEEM_CARDS.map((c) => c.bankId),
-  emotional_memory: ['C-feel-01', 'C-feel-02', 'C-feel-03', 'C-feel-04', 'C-feel-05'],
+  emotional_memory: [
+    'C-feel-01',
+    'C-feel-02',
+    'C-feel-03',
+    'C-feel-04',
+    'C-feel-05',
+    'MB-REF-MIRROR-01',
+    'MB-REF-MIRROR-03',
+    'MB-REF-MIRROR-04',
+  ],
   who_am_i: [
     'C-identity-01',
     'C-identity-02',
@@ -64,6 +73,9 @@ const PROJECT_CARD_BANK_IDS: Record<MabraProjectId, readonly string[]> = {
     'MB-REF-JOY-04',
     'MB-REF-JOY-05',
     'MB-REF-JOY-06',
+    'MB-REF-MIRROR-02',
+    'MB-REF-GEN-01',
+    'MB-REF-GEN-02',
   ],
   learn_together: ['MB-REF-ACT-01', 'MB-REF-ACT-02', 'MB-REF-ACT-03'],
 };

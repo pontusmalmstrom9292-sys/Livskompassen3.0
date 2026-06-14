@@ -100,6 +100,22 @@ export const MABRA_EXTENDED_PLAYS: readonly DagligMixPlay[] = [
     title_sv: 'Trettio sekunder',
     rule_sv: 'Välj sim, klättra, promenad eller vila — föreställ aktiviteten i 30 sekunder. Ingen prestation, inget resultat.',
   },
+  {
+    bankId: 'MB-PLAY-MIRROR-01',
+    content_class: 'PLAY',
+    source_tier: 'P1',
+    status: 'KEEP',
+    title_sv: 'Sanningens Föremål',
+    rule_sv: 'Hitta ett fysiskt föremål i rummet som representerar något du är bra på eller gillar. Titta på det i 10 sekunder.',
+  },
+  {
+    bankId: 'MB-PLAY-MIRROR-02',
+    content_class: 'PLAY',
+    source_tier: 'P1',
+    status: 'KEEP',
+    title_sv: 'Egotrip-minut',
+    rule_sv: 'Sätt en timer på 1 minut. Skriv ner 3 saker du gjort bra denna vecka. Sluta när timern ringer.',
+  },
 ] as const;
 
 export function getMabraPlay(bankId: string): DagligMixPlay | undefined {
