@@ -14,9 +14,14 @@ import {
   pickFallbackMode,
   resolveEconomyCapacity,
 } from './capacityResolver';
+import { EkonomiArbetslivBroDelegate } from './delegates/EkonomiArbetslivBroDelegate';
+import { EkonomiImpulsDelegate } from './delegates/EkonomiImpulsDelegate';
+import { EkonomiInkastDelegate } from './delegates/EkonomiInkastDelegate';
+import { EkonomiKuvertDelegate } from './delegates/EkonomiKuvertDelegate';
 import { EkonomiMatprepDelegate } from './delegates/EkonomiMatprepDelegate';
 import { EkonomiProfilDelegate } from './delegates/EkonomiProfilDelegate';
 import { EkonomiSaldoDelegate } from './delegates/EkonomiSaldoDelegate';
+import { EkonomiSparDelegate } from './delegates/EkonomiSparDelegate';
 import {
   DEFAULT_EKONOMI_INPUT_MODE,
   filterModesByAllowed,
@@ -56,6 +61,16 @@ function EkonomiInputModeDelegate({
       return <EkonomiProfilDelegate userId={userId} />;
     case 'matprep':
       return <EkonomiMatprepDelegate userId={userId} />;
+    case 'kuvert':
+      return <EkonomiKuvertDelegate userId={userId} />;
+    case 'spar':
+      return <EkonomiSparDelegate userId={userId} />;
+    case 'impuls':
+      return <EkonomiImpulsDelegate userId={userId} />;
+    case 'inkast':
+      return <EkonomiInkastDelegate userId={userId} />;
+    case 'arbetsliv_bro':
+      return <EkonomiArbetslivBroDelegate userId={userId} />;
     default:
       return <EkonomiModePlaceholder mode={mode} />;
   }
