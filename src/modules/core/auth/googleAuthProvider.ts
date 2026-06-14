@@ -43,13 +43,12 @@ export function isStandalonePwa(): boolean {
   return (navigator as Navigator & { standalone?: boolean }).standalone === true;
 }
 
-/**
- * Popup på desktop och mobil webbläsarflik.
- * Redirect endast för installerad PWA eller när VITE_GOOGLE_SIGNIN_REDIRECT=true.
- */
+/** @locked AUTH-G1 — popup i flik; redirect endast standalone PWA; dev-flagga ej prod. */
 export function shouldUseGoogleRedirect(): boolean {
   if (typeof navigator === 'undefined') return false;
   if (isCapacitorNative()) return false;
-  if (import.meta.env.VITE_GOOGLE_SIGNIN_REDIRECT === 'true') return true;
+  if (import.meta.env.DEV && import.meta.env.VITE_GOOGLE_SIGNIN_REDIRECT === 'true') {
+    return true;
+  }
   return isStandalonePwa();
 }

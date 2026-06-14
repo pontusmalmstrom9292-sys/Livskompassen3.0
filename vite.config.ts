@@ -13,6 +13,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
+      workbox: {
+        navigateFallbackDenylist: [/^\/__\/auth\//],
+      },
       manifest: {
         name: 'Livskompassen',
         short_name: 'Kompassen',

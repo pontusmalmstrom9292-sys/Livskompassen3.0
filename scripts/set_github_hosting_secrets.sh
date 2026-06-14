@@ -47,6 +47,17 @@ for key in "${KEYS[@]}"; do
 done
 [[ "$missing" -eq 0 ]] || exit 1
 
+if [[ "${VITE_FIREBASE_AUTH_DOMAIN:-}" == *".web.app" ]]; then
+  echo "AUTH-G1: VITE_FIREBASE_AUTH_DOMAIN får inte vara *.web.app (GCP redirect_uri_mismatch)."
+  echo "  Använd: gen-lang-client-0481875058.firebaseapp.com"
+  exit 1
+fi
+
+if [[ "${VITE_GOOGLE_SIGNIN_REDIRECT:-}" == "true" ]]; then
+  echo "AUTH-G1: VITE_GOOGLE_SIGNIN_REDIRECT=true får inte pushas till Hosting secrets (dev only)."
+  exit 1
+fi
+
 echo "Sätter ${#KEYS[@]} secrets på $GITHUB_REPO …"
 for key in "${KEYS[@]}"; do
   gh secret set "$key" --repo "$GITHUB_REPO" --body "${!key}"

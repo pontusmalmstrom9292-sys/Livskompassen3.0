@@ -1,0 +1,26 @@
+---
+description: Locked Google web login AUTH-G1 — popup, firebaseapp.com, boot redirect
+alwaysApply: true
+---
+
+# Locked Google web login (AUTH-G1)
+
+Canonical: [`.context/locked-auth-google.md`](../../.context/locked-auth-google.md) · [`docs/FIREBASE-AUTH-LATHUND.md`](../../docs/FIREBASE-AUTH-LATHUND.md)
+
+## MUST
+
+- `authDomain`: `gen-lang-client-0481875058.firebaseapp.com` (inte `web.app` utan GCP OAuth-URI)
+- Prod web: `signInWithPopup` i vanlig flik; redirect endast `isStandalonePwa()`
+- `VITE_GOOGLE_SIGNIN_REDIRECT` endast under `import.meta.env.DEV`
+- `googleRedirectBoot` i `authRedirectBoot.ts` före React + PWA SW i `main.tsx`
+- `prepareGoogleSignIn()` → `signOut` före Google på web
+- Run `npm run smoke:auth-login` när du rör `src/modules/core/auth/*` eller `src/modules/core/firebase/init.ts`
+
+## MUST NOT
+
+- Tvinga alltid `signInWithRedirect` på desktop (regression 2026-06-12 / vit skärm)
+- Prod-`authDomain` → `*.web.app` utan `redirect_uri` i GCP (fel 400)
+- `VITE_GOOGLE_SIGNIN_REDIRECT=true` i Hosting CI secrets eller prod-build
+- Ta bort `signInWithPopup` / `authRedirectBoot` utan produkt-OK + smoke PASS
+
+Smoke: `npm run smoke:auth-login` (ingår i `smoke:locked-ux`)

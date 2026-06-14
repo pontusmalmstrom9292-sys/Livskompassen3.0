@@ -29,7 +29,7 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
   const [confirm, setConfirm] = useState('');
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [fingerprintPref, setFingerprintPref] = useState(() => isAppUnlockSupported() && !isAppUnlockEnabled());
+  const [fingerprintPref, setFingerprintPref] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 

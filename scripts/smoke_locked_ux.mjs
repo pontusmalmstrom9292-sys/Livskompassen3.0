@@ -5,6 +5,7 @@
 import fs, { readFileSync, existsSync } from 'fs';
 import path, { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { spawnSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -745,8 +746,19 @@ function main() {
   );
 }
 
+function runAuthLoginSmoke() {
+  const result = spawnSync('node', ['scripts/smoke_auth_login.mjs'], {
+    cwd: root,
+    stdio: 'inherit',
+  });
+  if (result.status !== 0) {
+    throw new Error('smoke:auth-login misslyckades (AUTH-G1)');
+  }
+}
+
 try {
   main();
+  runAuthLoginSmoke();
 } catch (err) {
   console.error('[smoke:locked-ux] FAIL —', err.message || err);
   process.exit(1);

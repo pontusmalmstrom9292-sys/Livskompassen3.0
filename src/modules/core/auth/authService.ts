@@ -10,7 +10,7 @@ import {
   signOut,
   type User,
 } from 'firebase/auth';
-import { auth } from './AuthProvider';
+import { auth } from '../firebase/init';
 import { clearAppUnlockSession } from './appUnlockPrefs';
 import { endVaultSession } from '../security/vaultSessionLifecycle';
 import { toast } from '../store/toastStore';
@@ -100,6 +100,7 @@ export type SignInWithGoogleOptions = {
 
 /**
  * Google — vid Logga in: befintligt konto. Vid Skapa konto: koppla anonym uid.
+ * @locked AUTH-G1 — popup först; prepareGoogleSignIn rensar IndexedDB före OAuth.
  * Returnerar `null` när redirect startats (sidan lämnar appen — vänta på återkomst).
  */
 export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): Promise<User | null> {
@@ -122,30 +123,61 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
 
   const useRedirect = shouldUseGoogleRedirect();
 
+  /** Rensa sparad anonym session i IndexedDB innan Google — annars missar redirect. */
+  const prepareGoogleSignIn = async (): Promise<void> => {
+    markSkipAnonymousOnce();
+    try {
+      await signOut(auth);
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const signInExistingGoogle = async (): Promise<User | null> => {
+    if (useRedirect) {
+      await signInWithRedirect(auth, provider);
+      return null;
+    }
+    try {
+      const result = await signInWithPopup(auth, provider);
+      return result.user;
+    } catch (err: unknown) {
+      const code = err instanceof FirebaseError ? err.code : '';
+      if (
+        code === 'auth/popup-blocked' ||
+        code === 'auth/operation-not-supported-in-this-environment'
+      ) {
+        await signInWithRedirect(auth, provider);
+        return null;
+      }
+      throw err;
+    }
+  };
+
   try {
     if (current?.isAnonymous && linkAnonymous) {
       if (useRedirect) {
         await linkWithRedirect(current, provider);
         return null;
       }
-      const result = await linkWithPopup(current, provider);
-      return result.user;
+      try {
+        const result = await linkWithPopup(current, provider);
+        return result.user;
+      } catch (err: unknown) {
+        const code = err instanceof FirebaseError ? err.code : '';
+        if (
+          code === 'auth/popup-blocked' ||
+          code === 'auth/operation-not-supported-in-this-environment'
+        ) {
+          await linkWithRedirect(current, provider);
+          return null;
+        }
+        throw err;
+      }
     }
 
-    if (current) {
-      markSkipAnonymousOnce();
-      await signOut(auth);
-    } else {
-      markSkipAnonymousOnce();
-    }
-
-    if (useRedirect) {
-      await signInWithRedirect(auth, provider);
-      return null;
-    }
-
-    const result = await signInWithPopup(auth, provider);
-    return result.user;
+    await prepareGoogleSignIn();
+    return await signInExistingGoogle();
   } catch (err: unknown) {
     console.error('[authService] Google sign-in error:', err);
     const code = err instanceof FirebaseError ? err.code : '';

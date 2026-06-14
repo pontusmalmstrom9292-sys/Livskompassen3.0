@@ -406,10 +406,25 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
+## 12. Google web-login (AUTH-G1)
+
+| | |
+|---|---|
+| **Syfte** | Prod Google-inlogg i Chrome/PWA utan `redirect_uri_mismatch` eller vit redirect-skärm |
+| **Kanon** | [`.context/locked-auth-google.md`](locked-auth-google.md) · [`docs/FIREBASE-AUTH-LATHUND.md`](../docs/FIREBASE-AUTH-LATHUND.md) |
+| **Kod** | `init.ts`, `authRedirectBoot.ts`, `googleAuthProvider.ts`, `authService.ts`, `AuthProvider.tsx`, `AuthGate.tsx` |
+| **Krav** | `authDomain` = `firebaseapp.com` · popup i flik · `getRedirectResult` vid boot · ej prod `VITE_GOOGLE_SIGNIN_REDIRECT` |
+| **Smoke** | `npm run smoke:auth-login` (ingår i `smoke:locked-ux`) |
+
+**Får inte:** byta prod `authDomain` till `web.app`; tvinga alltid redirect på desktop; ta bort popup/boot utan produkt-OK.
+
+---
+
 ## Verifiering
 
 ```bash
 npm run smoke:locked-ux
+npm run smoke:auth-login
 npm run smoke:locked-icons
 npm run smoke:arbetsliv
 npm run smoke:planering-superhub

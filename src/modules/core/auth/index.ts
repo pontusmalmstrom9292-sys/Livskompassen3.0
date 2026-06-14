@@ -1,4 +1,5 @@
-export { AuthProvider, auth } from './AuthProvider';
+export { AuthProvider } from './AuthProvider';
+export { auth } from '../firebase/init';
 export { AuthGate } from './AuthGate';
 export { AppUnlockGate } from './AppUnlockGate';
 export { EmailAuthPanel } from './EmailAuthPanel';

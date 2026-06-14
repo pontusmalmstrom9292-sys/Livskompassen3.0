@@ -36,12 +36,13 @@ jobs:
       - name: Build functions
         run: cd functions && npm ci && npm run build
 
-      - name: Smoke locked UX
+      - name: Smoke locked UX + AUTH-G1
         run: npm run smoke:locked-ux
 
       - name: Build frontend
         run: npm run build
         env:
+          # AUTH-G1: authDomain ska vara *.firebaseapp.com — lägg ALDRIG VITE_GOOGLE_SIGNIN_REDIRECT här.
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
           VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
           VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}

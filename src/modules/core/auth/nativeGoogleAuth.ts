@@ -5,7 +5,7 @@ import {
   signInWithCredential,
   type User,
 } from 'firebase/auth';
-import { auth } from './AuthProvider';
+import { auth } from '../firebase/init';
 import { getExpectedLoginEmail } from './googleAuthProvider';
 import { isCapacitorAndroid } from './capacitorPlatform';
 

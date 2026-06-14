@@ -4,7 +4,7 @@ import { useStore } from '../store';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { Lock } from 'lucide-react';
 import { EmailAuthPanel } from './EmailAuthPanel';
-import { isEmailAuthRequired } from './requireEmailAuth';
+import { isEmailAuthRequired, isVerifiedEmailUser } from './requireEmailAuth';
 
 type Props = {
   children: ReactNode;
@@ -13,9 +13,11 @@ type Props = {
 };
 
 export function AuthGate({ children, variant = 'default' }: Props) {
+  const user = useStore((s) => s.user);
   const isAuthenticated = useStore((s) => s.isAuthenticated);
   const isLoading = useStore((s) => s.system.isLoading);
   const emailRequired = isEmailAuthRequired();
+  const hasVerifiedAuth = isVerifiedEmailUser(user?.isAnonymous ?? true, user?.email);
 
   if (isLoading) {
     return (
@@ -25,11 +27,11 @@ export function AuthGate({ children, variant = 'default' }: Props) {
     );
   }
 
-  if (!isAuthenticated) {
-    if (emailRequired && variant !== 'widget') {
-      return <EmailAuthPanel compact defaultMode="signin" />;
-    }
+  if (emailRequired && !hasVerifiedAuth && variant !== 'widget') {
+    return <EmailAuthPanel compact defaultMode="signin" />;
+  }
 
+  if (!isAuthenticated) {
     return (
       <BentoCard title="Inloggning krävs" icon={<Lock className="h-4 w-4" />} glow="blue">
         <p className="text-sm text-text-muted">

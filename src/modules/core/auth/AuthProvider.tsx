@@ -1,12 +1,11 @@
 import { useEffect, type ReactNode } from 'react';
 import {
-  getAuth,
-  getRedirectResult,
   onAuthStateChanged,
   signInAnonymously,
-  type UserCredential,
+  signOut,
 } from 'firebase/auth';
-import { app } from '../firebase/init';
+import { auth } from '../firebase/init';
+import { googleRedirectBoot } from '../firebase/authRedirectBoot';
 import { useStore } from '../store';
 import { isCapacitorAndroid } from './capacitorPlatform';
 import { tryCompletePendingNativeGoogleSignIn } from './nativeGoogleAuth';
@@ -17,29 +16,6 @@ import { consumeFingerprintSetupPending } from './appUnlockPrefs';
 import { toast } from '../store/toastStore';
 import { mapAuthError } from './authService';
 import { FirebaseError } from 'firebase/app';
-
-const auth = getAuth(app);
-
-/**
- * getRedirectResult() may only be consumed once per redirect round-trip.
- * React 18 Strict Mode runs effects twice in dev — a second call returns empty
- * and would leave the user stuck on anonymous unless we share one promise.
- */
-let redirectResultPromise: Promise<UserCredential | null> | null = null;
-
-function getRedirectResultSingleFlight(): Promise<UserCredential | null> {
-  if (!redirectResultPromise) {
-    redirectResultPromise = getRedirectResult(auth)
-      .catch((err: unknown) => {
-        console.error('[AuthProvider] getRedirectResult failed', err);
-        const code = err instanceof FirebaseError ? err.code : '';
-        toast.error(mapAuthError(code) || 'Inloggningen misslyckades.', 6000);
-        redirectResultPromise = null;
-        return null;
-      });
-  }
-  return redirectResultPromise;
-}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const setUser = useStore((s) => s.setUser);
@@ -63,8 +39,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
       }
 
-      const cred = await getRedirectResultSingleFlight();
-      const redirectUser = cred?.user ?? auth.currentUser;
+      await googleRedirectBoot.catch((err: unknown) => {
+        console.error('[AuthProvider] getRedirectResult failed', err);
+        const code = err instanceof FirebaseError ? err.code : '';
+        toast.error(mapAuthError(code) || 'Inloggningen misslyckades.', 6000);
+        return null;
+      });
+      await auth.authStateReady();
+      const redirectUser = auth.currentUser;
       if (redirectUser && !redirectUser.isAnonymous && !isUnmounted) {
         setUser({
           uid: redirectUser.uid,
@@ -76,6 +58,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (isUnmounted) return;
       unsub = onAuthStateChanged(auth, async (firebaseUser) => {
         if (firebaseUser) {
+          if (isEmailAuthRequired() && firebaseUser.isAnonymous) {
+            try {
+              await signOut(auth);
+            } catch {
+              /* ignore */
+            }
+            if (!isUnmounted) resetState();
+            if (!isUnmounted) setLoading(false);
+            return;
+          }
           console.log("Auth State:", firebaseUser);
           try {
             setUser({
@@ -123,5 +115,3 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return <>{children}</>;
 }
-
-export { auth };

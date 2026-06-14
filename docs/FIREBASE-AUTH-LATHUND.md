@@ -2,6 +2,8 @@
 
 **Projekt (web SDK i appen):** `gen-lang-client-0481875058` — se `[DEPLOY.md](./DEPLOY.md)`.
 
+**Låst Google web-login (AUTH-G1):** [`.context/locked-auth-google.md`](../.context/locked-auth-google.md) — `npm run smoke:auth-login` vid auth-ändringar.
+
 Jag kan **inte** klicka åt dig i Firebase Console. Följ tabellen nedan en gång; sen funkar Google-inlogg oftast.
 
 ---
@@ -54,7 +56,7 @@ Kopiera från [`.env.example`](../.env.example) och fyll i från Firebase Consol
 | Variabel | Var |
 |----------|-----|
 | `VITE_FIREBASE_API_KEY` | `apiKey` |
-| `VITE_FIREBASE_AUTH_DOMAIN` | `authDomain` |
+| `VITE_FIREBASE_AUTH_DOMAIN` | `authDomain` — använd **`projekt.firebaseapp.com`** (inte `web.app`) om du inte lagt till `https://projekt.web.app/__/auth/handler` i GCP OAuth-klient. |
 | `VITE_FIREBASE_PROJECT_ID` | `projectId` |
 | `VITE_FIREBASE_STORAGE_BUCKET` | `storageBucket` |
 | `VITE_FIREBASE_MESSAGING_SENDER_ID` | `messagingSenderId` |
@@ -101,7 +103,7 @@ Efter `.env`-ändring: **starta om** `npm run dev`.
 | Google i app → Chrome + vit skärm               | Gammal build utan native auth — kör `cap:sync` och installera om APK      |
 | `DEVELOPER_ERROR` / Google avbryts direkt i app | SHA-1 saknas i Firebase för `com.livskompassen.app`                       |
 | Fel Google-konto                                | **Logga in**-fliken i appen (inte Skapa konto) + välj rätt konto i Google |
-| Inloggningsrutan kvar efter Google (redirect)  | Konsolen: `getRedirectResult failed` → fel domän/nyckel. Dev: Strict Mode + dubbel `getRedirectResult` (hanteras i kod). Dialog stängs när `user` slutar vara anonym. |
+| `auth/redirect_uri_mismatch` / Google *ogiltig begäran* | `authDomain` måste vara `firebaseapp.com` — **inte** `web.app` utan manuell GCP OAuth-URI |
 | Vit skärm mobil (webbläsare)                    | Redirect-flöde + att du kommer tillbaka till **samma** URL efter Google   |
 
 
