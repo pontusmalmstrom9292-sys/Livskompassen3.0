@@ -1,6 +1,9 @@
 import { Loader2, Lock } from 'lucide-react';
+import { FirebaseError } from 'firebase/app';
 import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
+import { isVerifiedEmailUser } from '@/core/auth/requireEmailAuth';
 import { saveEmotionalMemory } from '@/core/firebase/emotionalMemoryFirestore';
+import { OfflineWriteBlockedError } from '@/core/firebase/offlineWritePolicy';
 import { useStore } from '@/core/store';
 import {
   useCapacityScore,
@@ -45,6 +48,16 @@ function isEmotionalMemoryType(value: string): value is EmotionalMemoryType {
   return MEMORY_TYPE_OPTIONS.some((option) => option.value === value);
 }
 
+function resolveSaveError(err: unknown): string {
+  if (err instanceof OfflineWriteBlockedError) {
+    return err.message;
+  }
+  if (err instanceof FirebaseError && err.code === 'permission-denied') {
+    return COPY.login;
+  }
+  return COPY.error;
+}
+
 export function EmotionalMemoryComponent({
   onSaved,
   defaultMemoryType = 'freeform',
@@ -71,7 +84,8 @@ export function EmotionalMemoryComponent({
   }, [user?.uid, listenToCapacityState]);
 
   const showAdvancedControls = capacityScore >= ADVANCED_CONTROLS_THRESHOLD;
-  const inputExposed = Boolean(user?.uid) && !isCapacityLoading;
+  const canSaveToWorm = isVerifiedEmailUser(user?.isAnonymous ?? true, user?.email);
+  const inputExposed = canSaveToWorm && !isCapacityLoading;
   const inputsDisabled = isLocked || saving;
   const isEmpty = draft.trim().length === 0;
 
@@ -122,8 +136,8 @@ export function EmotionalMemoryComponent({
       updateContent(trimmed);
       setIsLocked(true);
       onSaved?.(docId);
-    } catch {
-      setError(COPY.error);
+    } catch (err: unknown) {
+      setError(resolveSaveError(err));
     } finally {
       setSaving(false);
     }

@@ -1,61 +1,112 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Clock, Loader2, AlertTriangle } from 'lucide-react';
 import { useStore } from '@/core/store';
-import { useCapacityScore } from '@/core/store/useCapacityGate';
 import {
-  deleteEconomyImpulse,
-  getEconomyImpulseQueue,
-  parkEconomyImpulse,
-  resolveEconomyImpulse,
-} from '@/core/firebase/economyFirestore';
+  useCapacityScore,
+  useIsEconomyAdvancedUnlocked,
+} from '@/core/store/useCapacityGate';
+import { useEvolutionStore } from '@/core/store/useEvolutionStore';
+import { EconomyGateway } from '@/features/economy/economy_gateway';
+import type { EconomyImpulseRow } from '@/core/types/firestore';
 import { EKONOMI_IMPULS_LEAD } from '../ekonomiCopy';
 
 const STABILITY_THRESHOLD = 50;
+const READY_TICK_MS = 60_000;
+
+function buildRemindAt(parkedAt: Date): string {
+  const remind = new Date(parkedAt);
+  remind.setDate(remind.getDate() + 1);
+  return remind.toISOString();
+}
+
+function isImpulseReady(remindAt: string, nowMs: number): boolean {
+  return Date.parse(remindAt) <= nowMs;
+}
 
 export function EconomyImpulsePanel() {
   const user = useStore((s) => s.user);
   const capacityScore = useCapacityScore();
+  const isEconomyAdvancedUnlocked = useIsEconomyAdvancedUnlocked();
+  const hasAdvanced = useEvolutionStore((s) => s.hasFeature('economy_advanced'));
+  const isGatewayUnlocked = isEconomyAdvancedUnlocked || hasAdvanced;
   const isLowCapacity = capacityScore < STABILITY_THRESHOLD;
-  const [items, setItems] = useState<
-    { id: string; label: string; parkedAt: string; remindAt: string }[]
-  >([]);
+
+  const gateway = useMemo(() => {
+    if (!user?.uid) return null;
+    return new EconomyGateway(user.uid, isGatewayUnlocked);
+  }, [user?.uid, isGatewayUnlocked]);
+
+  const [items, setItems] = useState<EconomyImpulseRow[]>([]);
   const [draft, setDraft] = useState('');
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [nowMs, setNowMs] = useState(() => Date.now());
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   const reload = useCallback(async () => {
-    if (!user) return;
+    if (!gateway) return;
     setLoading(true);
     setError(null);
     try {
-      const rows = await getEconomyImpulseQueue(user.uid);
-      setItems(
-        rows.map((r) => ({
-          id: r.id,
-          label: r.label,
-          parkedAt: r.parkedAt,
-          remindAt: r.remindAt,
-        })),
-      );
+      const rows = await gateway.getImpulseQueue();
+      if (isMountedRef.current) {
+        setItems(rows);
+      }
     } catch {
-      setError('Kunde inte läsa impulsparkering.');
+      if (isMountedRef.current) {
+        setError('Kunde inte läsa impulsparkering.');
+      }
     } finally {
-      setLoading(false);
+      if (isMountedRef.current) {
+        setLoading(false);
+      }
     }
-  }, [user]);
+  }, [gateway]);
 
   useEffect(() => {
+    if (!gateway) {
+      setItems([]);
+      setLoading(false);
+      return;
+    }
+
     void reload();
-    return () => setItems([]);
-  }, [reload]);
+  }, [gateway, reload]);
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setNowMs(Date.now());
+    }, READY_TICK_MS);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, []);
+
+  const readyItems = useMemo(
+    () => items.filter((item) => isImpulseReady(item.remindAt, nowMs)),
+    [items, nowMs],
+  );
 
   const handlePark = async () => {
-    if (!user || !draft.trim()) return;
+    if (!gateway || !draft.trim()) return;
     setBusy(true);
     setError(null);
     try {
-      await parkEconomyImpulse(user.uid, draft.trim());
+      const parkedAt = new Date();
+      await gateway.addToImpulseQueue({
+        label: draft.trim(),
+        parkedAt: parkedAt.toISOString(),
+        remindAt: buildRemindAt(parkedAt),
+      });
       setDraft('');
       await reload();
     } catch {
@@ -66,11 +117,11 @@ export function EconomyImpulsePanel() {
   };
 
   const handleResolve = async (id: string, status: 'bought' | 'skipped') => {
-    if (!user) return;
+    if (!gateway) return;
     setBusy(true);
     setError(null);
     try {
-      await resolveEconomyImpulse(user.uid, id, status);
+      await gateway.resolveEconomyImpulse(id, status);
       await reload();
     } catch {
       setError('Kunde inte uppdatera parkering.');
@@ -80,10 +131,10 @@ export function EconomyImpulsePanel() {
   };
 
   const handleRemove = async (id: string) => {
-    if (!user) return;
+    if (!gateway) return;
     setBusy(true);
     try {
-      await deleteEconomyImpulse(user.uid, id);
+      await gateway.deleteEconomyImpulse(id);
       await reload();
     } catch {
       setError('Kunde inte ta bort parkering.');
@@ -91,8 +142,6 @@ export function EconomyImpulsePanel() {
       setBusy(false);
     }
   };
-
-  const readyItems = items.filter((item) => Date.parse(item.remindAt) <= Date.now());
 
   return (
     <div className="space-y-3">
@@ -113,11 +162,11 @@ export function EconomyImpulsePanel() {
           onChange={(e) => setDraft(e.target.value)}
           placeholder="T.ex. Nya hörlurar..."
           className="input-glass flex-1 rounded-lg px-3 py-1.5 text-xs"
-          disabled={busy || !user}
+          disabled={busy || !gateway}
         />
         <button
           type="button"
-          disabled={busy || !user || !draft.trim()}
+          disabled={busy || !gateway || !draft.trim()}
           onClick={() => void handlePark()}
           className="btn-pill--ghost rounded-lg border border-border/50 bg-surface-3 px-3 py-1.5 text-xs"
         >
@@ -168,7 +217,10 @@ export function EconomyImpulsePanel() {
                     {isLowCapacity && (
                       <p className="flex items-start gap-1.5 text-[10px] leading-relaxed text-danger/90">
                         <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0" />
-                        <span>Kapaciteten är för låg för att godkänna köp just nu. Låt beslutet vila lite till.</span>
+                        <span>
+                          Kapaciteten är för låg för att godkänna köp just nu. Låt beslutet vila
+                          lite till.
+                        </span>
                       </p>
                     )}
                   </div>
