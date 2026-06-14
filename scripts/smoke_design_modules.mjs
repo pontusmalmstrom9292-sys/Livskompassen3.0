@@ -136,19 +136,20 @@ function main() {
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx',
-    'getVaultZoneTabBarItems',
-    'ValvSuperModule',
-    'variant={valvZone}',
+    'ValvInputSuperModule',
+    'canonicalValvRoute',
+    'onVaultTabChange',
+    'onValvModeChange',
   );
   assert(
-    read('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx').includes(
-      'getVaultZoneTabBarItems',
+    !read('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx').includes(
+      'getSamlaVaultTabBarItems',
     ) &&
       !read('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx').includes(
-        'getSamlaVaultTabBarItems',
+        'getVaultZoneTabBarItems',
       ),
     'VaultPage.tsx',
-    'zon-TabBar kvar — sub-TabBar i zoner (ValvSuper Fas 2)',
+    'zon-TabBar delegerad till ValvInputSuperModule / zoner (SuperModule Fas 1)',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/ValvSuperModule.tsx',
@@ -173,7 +174,7 @@ function main() {
     'VaultPage.tsx',
     'delegerar zonsinnehåll till ValvSuperModule — inte direkt Mönster-import',
   );
-  mustInclude('src/modules/core/copy/valvNavCopy.ts', "logga: 'Arkiv'", "sok: 'Granska inkommande'");
+  mustInclude('src/modules/core/copy/valvNavCopy.ts', "logga: 'Arkiv'", "sok: 'Sök i arkiv'");
   mustInclude('src/modules/core/navigation/tabRegistry.ts', 'VAULT_MAIN_TAB_LABELS', 'getNavChildren');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx', 'OrkesterAgentTrio', 'Registrerade dokument');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx', 'SERVER-TIDSSTÄMPEL', 'scanTechniquesForLog');

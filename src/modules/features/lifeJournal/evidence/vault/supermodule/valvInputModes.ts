@@ -28,6 +28,8 @@ export type ValvInputModeDef = {
   id: ValvInputMode;
   label: string;
   description: string;
+  /** Primär rad vs native «Mer…» (Fas 1B). */
+  tier: 'primary' | 'more';
   zone: ValvZone;
   defaultVaultTab: VaultTab;
 };
@@ -35,8 +37,9 @@ export type ValvInputModeDef = {
 export const VALV_INPUT_MODES: ValvInputModeDef[] = [
   {
     id: 'spara',
-    label: 'Spara',
-    description: 'Inkast, ny post och arkivlista',
+    label: 'Inkast',
+    description: 'Släpp fil eller text — spara till arkiv',
+    tier: 'primary',
     zone: 'samla',
     defaultVaultTab: 'logga',
   },
@@ -44,6 +47,7 @@ export const VALV_INPUT_MODES: ValvInputModeDef[] = [
     id: 'granska',
     label: 'Granska',
     description: 'Godkänn inkommande till WORM',
+    tier: 'primary',
     zone: 'samla',
     defaultVaultTab: 'logga',
   },
@@ -51,6 +55,7 @@ export const VALV_INPUT_MODES: ValvInputModeDef[] = [
     id: 'analysera',
     label: 'Analysera',
     description: 'Mönster och meddelanden',
+    tier: 'primary',
     zone: 'analysera',
     defaultVaultTab: 'monster',
   },
@@ -58,6 +63,7 @@ export const VALV_INPUT_MODES: ValvInputModeDef[] = [
     id: 'kunskap',
     label: 'Kunskap',
     description: 'Kunskapsbank och personer',
+    tier: 'primary',
     zone: 'kunskap',
     defaultVaultTab: KUNSKAP_VAULT_TAB,
   },
@@ -65,6 +71,7 @@ export const VALV_INPUT_MODES: ValvInputModeDef[] = [
     id: 'vit',
     label: VIT_VAULT_TAB_LABEL,
     description: 'Frågekort och reflektioner — personlig utveckling',
+    tier: 'more',
     zone: 'vit',
     defaultVaultTab: VIT_VAULT_TAB,
   },
@@ -72,6 +79,7 @@ export const VALV_INPUT_MODES: ValvInputModeDef[] = [
     id: 'rapporter',
     label: 'Rapporter',
     description: 'Dossier och export',
+    tier: 'more',
     zone: 'exportera',
     defaultVaultTab: 'dossier',
   },
@@ -79,10 +87,14 @@ export const VALV_INPUT_MODES: ValvInputModeDef[] = [
     id: 'mer',
     label: 'Mer',
     description: 'Hamn, Speglar och djupare vyer',
+    tier: 'more',
     zone: 'forensik',
     defaultVaultTab: 'hamn_analys',
   },
 ];
+
+export const VALV_INPUT_MODES_PRIMARY = VALV_INPUT_MODES.filter((m) => m.tier === 'primary');
+export const VALV_INPUT_MODES_MORE = VALV_INPUT_MODES.filter((m) => m.tier === 'more');
 
 const MODE_BY_ID = Object.fromEntries(VALV_INPUT_MODES.map((m) => [m.id, m])) as Record<
   ValvInputMode,
@@ -141,4 +153,31 @@ export function vaultTabForValvInputMode(mode: ValvInputMode, currentTab?: Vault
     return currentTab;
   }
   return def.defaultVaultTab;
+}
+
+/** Kanon URL-par — tab vinner vid desynk (Fas 1A). */
+export function canonicalValvRoute(
+  vaultTab: VaultTab,
+  valvMode?: ValvInputMode | null,
+): { vaultTab: VaultTab; valvMode: ValvInputMode } {
+  let mode =
+    valvMode && (VALV_INPUT_MODE_IDS as readonly string[]).includes(valvMode)
+      ? valvMode
+      : resolveValvInputModeFromVaultTab(vaultTab);
+  if (!valvModeMatchesVaultTab(mode, vaultTab)) {
+    mode = resolveValvInputModeFromVaultTab(vaultTab);
+  }
+  const tab = vaultTabForValvInputMode(mode, vaultTab);
+  return { vaultTab: tab, valvMode: mode };
+}
+
+export function buildValvSearchParams(
+  vaultTab: VaultTab,
+  valvMode?: ValvInputMode | null,
+): URLSearchParams {
+  const { vaultTab: tab, valvMode: mode } = canonicalValvRoute(vaultTab, valvMode);
+  const params = new URLSearchParams();
+  params.set('vaultTab', tab);
+  params.set('valvMode', mode);
+  return params;
 }

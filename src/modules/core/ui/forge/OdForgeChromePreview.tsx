@@ -74,6 +74,10 @@ export function OdForgeDrawerOverlay({
     >
       <button type="button" className="od-forge__drawer-backdrop" aria-label="Stäng meny" onClick={onClose} />
       <nav className="od-forge__drawer-panel" aria-label="Sidomeny">
+        <div className="od-forge__drawer-brand">
+          <p className="od-forge__drawer-brand-title">Livskompassen</p>
+          <p className="od-forge__drawer-brand-sub">Vardag · Hem först</p>
+        </div>
         {sections.map((section) => (
           <div key={section.title} className="od-forge__drawer-section">
             <p className="od-forge__drawer-section-title">
@@ -102,6 +106,9 @@ export function OdForgeDrawerOverlay({
             ))}
           </div>
         ))}
+        <p className="od-forge__drawer-foot">
+          Valv (Mönster, Orkester, Arkiv) — Fyren 3s eller efter PIN.
+        </p>
       </nav>
     </div>
   );

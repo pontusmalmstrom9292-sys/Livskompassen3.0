@@ -1,6 +1,10 @@
 import { clsx } from 'clsx';
 import type { VitEntryKind } from '@/core/types/firestore';
 import { MABRA_PROJECTS, type MabraProjectId } from '@/features/dailyLife/wellbeing/mabra/constants/mabraProjects';
+import {
+  DISCOVERY_BENTO_CATALOG,
+  type DiscoveryCategoryId,
+} from '@/features/dailyLife/wellbeing/compasses/content/discoveryBentoCatalog';
 import type { VitEntryFilter, VitKindFilter } from '@/features/dailyLife/wellbeing/mabra/lib/filterVitEntries';
 
 const KIND_OPTIONS: { id: VitKindFilter; label: string }[] = [
@@ -13,23 +17,28 @@ const KIND_OPTIONS: { id: VitKindFilter; label: string }[] = [
 type Props = {
   filter: VitEntryFilter;
   kindCounts: Record<VitEntryKind, number>;
+  categoryCounts: Partial<Record<DiscoveryCategoryId, number>>;
   totalCount: number;
   filteredCount: number;
   onKindChange: (kind: VitKindFilter) => void;
   onProjectChange: (projectId: MabraProjectId | 'all') => void;
+  onCategoryChange: (categoryId: DiscoveryCategoryId | 'all') => void;
   onReset: () => void;
 };
 
 export function VitEntryFilterBar({
   filter,
   kindCounts,
+  categoryCounts,
   totalCount,
   filteredCount,
   onKindChange,
   onProjectChange,
+  onCategoryChange,
   onReset,
 }: Props) {
-  const hasActiveFilter = filter.kind !== 'all' || filter.projectId !== 'all';
+  const hasActiveFilter =
+    filter.kind !== 'all' || filter.projectId !== 'all' || filter.categoryId !== 'all';
 
   return (
     <div className="space-y-3">
@@ -72,6 +81,23 @@ export function VitEntryFilterBar({
           {MABRA_PROJECTS.map((project) => (
             <option key={project.id} value={project.id}>
               {project.title}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label className="block text-xs text-text-muted">
+        Kompass-deck
+        <select
+          className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+          value={filter.categoryId}
+          onChange={(e) => onCategoryChange(e.target.value as DiscoveryCategoryId | 'all')}
+          aria-label="Filtrera kompass-kategori"
+        >
+          <option value="all">Alla kategorier</option>
+          {DISCOVERY_BENTO_CATALOG.map((cat) => (
+            <option key={cat.id} value={cat.id}>
+              {cat.label_sv} ({categoryCounts[cat.id] ?? 0})
             </option>
           ))}
         </select>

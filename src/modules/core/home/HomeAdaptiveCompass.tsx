@@ -24,6 +24,7 @@ import {
 } from './homeCompassPhase';
 import { getHomeQuickNavForPreset, quickNavGridClass } from './homeQuickNav';
 import { HomeSuperhubShortcuts } from './HomeSuperhubShortcuts';
+import { HomeForgeKompassBridge } from './HomeForgeKompassBridge';
 
 function phaseToCompassFlow(phase: HomeCompassPhase): CompassFlow {
   if (phase === 'morgon') return 'morning';
@@ -145,6 +146,7 @@ export function HomeAdaptiveCompass({
 
   return (
     <div className="home-adaptive-compass animate-fade-in mx-auto flex w-full max-w-2xl flex-col gap-4">
+      <HomeForgeKompassBridge />
       {orbitHero ? (
         <div className="home-adaptive-compass__orbit -mt-1 flex justify-center">{orbitHero}</div>
       ) : null}

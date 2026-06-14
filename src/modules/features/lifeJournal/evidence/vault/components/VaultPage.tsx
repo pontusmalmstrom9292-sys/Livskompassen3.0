@@ -15,9 +15,9 @@ import { VaultLockedGate } from '@/core/components/VaultLockedGate';
 import { ValvInputSuperModule } from '../supermodule/ValvInputSuperModule';
 import {
   type ValvInputMode,
+  canonicalValvRoute,
   resolveValvInputModeFromVaultTab,
   valvInputModeDef,
-  valvModeMatchesVaultTab,
   vaultTabForValvInputMode,
 } from '../supermodule/valvInputModes';
 import { resolveValvZone, type VaultTab } from '../utils/vaultTabs';
@@ -93,20 +93,16 @@ function VaultPageInner({
   );
 
   useEffect(() => {
-    setVaultTabState(initialVaultTab);
-
-    let nextMode = initialValvMode;
-    if (!valvModeMatchesVaultTab(initialValvMode, initialVaultTab)) {
-      nextMode = resolveValvInputModeFromVaultTab(initialVaultTab);
+    const { vaultTab: syncedTab, valvMode: syncedMode } = canonicalValvRoute(
+      initialVaultTab,
+      initialValvMode,
+    );
+    setVaultTabState(syncedTab);
+    setValvModeState(syncedMode);
+    if (syncedMode !== initialValvMode) {
+      onValvModeChange?.(syncedMode);
     }
-    setValvModeState(nextMode);
-
-    if (nextMode !== initialValvMode) {
-      onValvModeChange?.(nextMode);
-    }
-    const syncedTab = vaultTabForValvInputMode(nextMode, initialVaultTab);
     if (syncedTab !== initialVaultTab) {
-      setVaultTabState(syncedTab);
       onVaultTabChange?.(syncedTab);
     }
   }, [initialVaultTab, initialValvMode, onValvModeChange, onVaultTabChange]);

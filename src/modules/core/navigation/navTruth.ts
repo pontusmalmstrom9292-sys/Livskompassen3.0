@@ -13,8 +13,14 @@ export const NAV_PATHS = {
 import {
   FORENSIC_VAULT_TAB_IDS,
   forensicVaultTabLabel,
+  LEGACY_INBOX_VAULT_TAB,
   MAIN_VAULT_TAB_IDS,
+  parseVaultTab,
 } from '@/features/lifeJournal/evidence/vault/utils/vaultTabs';
+import {
+  resolveValvInputModeFromVaultTab,
+  vaultTabForValvInputMode,
+} from '@/features/lifeJournal/evidence/vault/supermodule/valvInputModes';
 import {
   DAGBOK_BEVIS_DRAWER_LABEL,
   VALV_DRAWER_HINTS,
@@ -45,7 +51,13 @@ export type NavTruthEntry = {
 };
 
 export function vaultDrawerPath(vaultTab: string): string {
-  return `${NAV_PATHS.VALVET}?vaultTab=${vaultTab}`;
+  if (vaultTab === LEGACY_INBOX_VAULT_TAB) {
+    return `${NAV_PATHS.VALVET}?valvMode=granska&vaultTab=logga`;
+  }
+  const tab = parseVaultTab(vaultTab);
+  const mode = resolveValvInputModeFromVaultTab(tab);
+  const canonicalTab = vaultTabForValvInputMode(mode, tab);
+  return `${NAV_PATHS.VALVET}?vaultTab=${canonicalTab}&valvMode=${mode}`;
 }
 
 const VAULT_MAIN_LABELS = { ...VAULT_MAIN_TAB_LABELS } as Record<
@@ -311,6 +323,15 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     drawerHint: VALV_DRAWER_HINTS.samla,
   },
   valvLeaf('valv_arkiv', 'logga', 'valv_grp_samla'),
+  {
+    id: 'valv_granska',
+    label: 'Granska',
+    path: `${NAV_PATHS.VALVET}?valvMode=granska&vaultTab=logga`,
+    section: 'valv',
+    inDrawer: false,
+    requiresVaultPin: true,
+    parentId: 'valv_grp_samla',
+  },
   valvLeaf('valv_triage', 'sok', 'valv_grp_samla'),
   {
     id: 'valv_grp_analysera',

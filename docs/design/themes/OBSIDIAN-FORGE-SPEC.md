@@ -1,9 +1,9 @@
 # Obsidian Forge — designspec (Theme Lab)
 
-**Status:** **UTVÄRDERING** 2026-06-14  
+**Status:** **PROD-WIRE GODKÄND** 2026-06-15  
 **Mockup:** `/dev/obsidian-forge`  
 **Evolution av:** Obsidian Depth (`OD-obsidian-depth`) + fem referensmockups  
-**Prod-wire:** Väntar på godkännande («godkänn Forge»)
+**Prod-wire:** `FORGE_PROD_WIRE_ENABLED = true` — syns på Hem när tema = `OD-obsidian-depth`
 
 ---
 

@@ -36,6 +36,7 @@ export function VitRecentOverview({ entries, onOpenEntry }: Props) {
                 onOpenEntry({
                   kind: entry.kind,
                   projectId: entry.projectId as MabraProjectId,
+                  categoryId: 'all',
                 })
               }
               className="rounded-full border border-border-strong px-3 py-1 text-[10px] text-text-dim transition hover:border-accent/30 hover:text-accent"

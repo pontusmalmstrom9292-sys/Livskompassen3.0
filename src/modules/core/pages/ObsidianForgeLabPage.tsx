@@ -1,13 +1,15 @@
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Compass, LifeBuoy, Shield, Sparkles } from 'lucide-react';
+import { useStore } from '../store';
 import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
 import {
   OdForgeBentoGrid,
   OdForgeDockChrome,
   OdForgeDrawerOverlay,
   OdForgeHeader,
-  OdForgeHeroCard,
+  OdForgeKompassSuperHub,
+  type OdForgeSuperMode,
   OdForgeQuickScroll,
   OdForgeSection,
   type OdForgeBentoItem,
@@ -70,13 +72,15 @@ function getStepHint(bentoId: BentoId): string {
 }
 
 export function ObsidianForgeLabPage() {
+  const user = useStore((s) => s.user);
   const [activeBento, setActiveBento] = useState<BentoId>('vardagen');
   const [activeDock, setActiveDock] = useState<DockId>('vardagen');
   const [activeChip, setActiveChip] = useState<ChipId | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerRow, setDrawerRow] = useState('hem');
   const [ctaPressed, setCtaPressed] = useState(false);
-  const [status, setStatus] = useState('Tryck på kort, chip, meny eller dock.');
+  const [superMode, setSuperMode] = useState<OdForgeSuperMode>('kompass');
+  const [status, setStatus] = useState('Tryck på kort, chip, meny, widget eller dock.');
 
   const handleBento = useCallback((id: string) => {
     const zone = id as BentoId;
@@ -148,7 +152,7 @@ export function ObsidianForgeLabPage() {
               onMenuClick={() => setDrawerOpen((v) => !v)}
             />
 
-            <OdForgeHeroCard
+            <OdForgeKompassSuperHub
               greeting={getGreeting()}
               name="Pontus"
               tagline={getTagline()}
@@ -157,8 +161,15 @@ export function ObsidianForgeLabPage() {
               stepHint={getStepHint(activeBento)}
               ctaLabel="Fortsätt kompassen"
               ctaPressed={ctaPressed}
+              userId={user?.uid}
               onCtaPointerDown={handleCtaDown}
               onCtaPointerUp={handleCtaUp}
+              onModeChange={(mode) => {
+                setSuperMode(mode);
+                setStatus(`Kompassläge: ${mode}`);
+              }}
+              onWidgetSelect={(w) => setStatus(`Widget: ${w.label} → ${w.href}`)}
+              onDiscoveryStatus={(msg) => setStatus(msg)}
             />
 
             <OdForgeBentoGrid items={BENTO_ITEMS} activeId={activeBento} onSelect={handleBento} />
@@ -185,7 +196,7 @@ export function ObsidianForgeLabPage() {
             </OdForgeSection>
 
             <p className="od-forge__status" aria-live="polite">
-              {status}
+              Läge: {superMode} · {status}
             </p>
           </div>
 

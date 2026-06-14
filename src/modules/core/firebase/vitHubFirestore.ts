@@ -58,6 +58,7 @@ function mapVitEntry(id: string, data: FirestorePayload, userId: string): VitEnt
     content_class: data.content_class as VitEntry['content_class'],
     responseText: typeof data.responseText === 'string' ? data.responseText : undefined,
     cardDateKey: typeof data.cardDateKey === 'string' ? data.cardDateKey : undefined,
+    categoryId: typeof data.categoryId === 'string' ? data.categoryId : undefined,
     createdAt: normalizeCreatedAt(data.createdAt),
   };
 }
@@ -113,6 +114,7 @@ export async function saveVitEntry(
   entry: Omit<VitEntry, 'userId' | 'ownerId' | 'createdAt'> & {
     zone?: 'mabra' | 'recovery';
     inputMode?: string;
+    categoryId?: string;
   },
 ): Promise<string> {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.vit_entries);
@@ -133,6 +135,9 @@ export async function saveVitEntry(
   }
   if (entry.inputMode) {
     payload.inputMode = entry.inputMode;
+  }
+  if (entry.categoryId) {
+    payload.categoryId = entry.categoryId;
   }
   assertWormPayload(payload, 'vit_entries');
   const ref = collection(db, FIRESTORE_COLLECTIONS.vit_entries);

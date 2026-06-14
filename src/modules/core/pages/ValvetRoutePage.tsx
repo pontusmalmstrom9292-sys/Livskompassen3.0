@@ -1,10 +1,15 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { HubPageShell } from '../layout/HubPageShell';
 import { CognitiveLoadStrip } from '../ui/CognitiveLoadStrip';
 import { VaultPage } from '@/features/lifeJournal/evidence/vault';
-import { parseVaultTab, type VaultTab } from '@/features/lifeJournal/evidence/vault/utils/vaultTabs';
 import {
+  LEGACY_INBOX_VAULT_TAB,
+  parseVaultTab,
+  type VaultTab,
+} from '@/features/lifeJournal/evidence/vault/utils/vaultTabs';
+import {
+  canonicalValvRoute,
   parseValvInputModeFromSearch,
   resolveValvInputModeFromVaultTab,
   vaultTabForValvInputMode,
@@ -28,6 +33,36 @@ export function ValvetRoutePage() {
       vaultTabRaw,
     );
   }, [searchParams, vaultTabRaw]);
+
+  useEffect(() => {
+    const valvModeRaw = searchParams.get('valvMode');
+    const samlaView = searchParams.get('samlaView');
+    const tabRaw = searchParams.get('vaultTab');
+    const parsedTab = parseVaultTab(
+      tabRaw === LEGACY_INBOX_VAULT_TAB ? null : tabRaw,
+    );
+    const parsedMode = parseValvInputModeFromSearch(valvModeRaw, samlaView, tabRaw);
+    const { vaultTab: canonTab, valvMode: canonMode } = canonicalValvRoute(parsedTab, parsedMode);
+
+    const needsSync =
+      samlaView != null ||
+      tabRaw === LEGACY_INBOX_VAULT_TAB ||
+      valvModeRaw !== canonMode ||
+      tabRaw !== canonTab;
+
+    if (!needsSync) return;
+
+    setSearchParams(
+      (prev) => {
+        const params = new URLSearchParams(prev);
+        params.set('vaultTab', canonTab);
+        params.set('valvMode', canonMode);
+        params.delete('samlaView');
+        return params;
+      },
+      { replace: true },
+    );
+  }, [searchParams, setSearchParams]);
 
   const handleVaultTabChange = (next: VaultTab) => {
     setSearchParams(
@@ -65,7 +100,7 @@ export function ValvetRoutePage() {
       <div className="mx-auto max-w-5xl space-y-4 pb-12">
         <CognitiveLoadStrip
           label="Valvet"
-          hint="Biometri krävs. Välj ett läge i taget — Spara, Granska, Analysera …"
+          hint="Biometri krävs. Välj ett läge — Inkast, Granska, Analysera …"
         />
         <main className="mt-2 animate-fade-in">
           <VaultPage

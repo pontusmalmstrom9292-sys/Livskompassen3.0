@@ -29,6 +29,7 @@ export const OFFLINE_WRITE_ALLOWLIST = new Set<string>([
   C.mabra_explore_queue,
   C.vit_hub,
   C.vit_entries,
+  C.evolution_ledger,
   C.emotional_memory,
   C.economy_profiles,
   C.transactions,

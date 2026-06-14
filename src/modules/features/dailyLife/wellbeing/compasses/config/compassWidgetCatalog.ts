@@ -1,12 +1,5 @@
 import type { CompassFlow } from '../utils/compassTime';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
-import {
-  EVENING_CLOSE_LABEL,
-  EVENING_CLOSE_SILO_NOTE,
-  FEELING_CARDS_LABEL,
-  MICRO_STEP_LABEL,
-  NEXT_STEP_LABEL,
-} from '@/core/copy/compassWidgetLabels';
 
 export type CompassWidgetContentClass = 'FACT' | 'REFLECTION' | 'PLAY' | 'EVIDENCE' | 'none';
 
@@ -38,7 +31,7 @@ export const COMPASS_WIDGET_CATALOG: Record<CompassFlow, CompassWidgetDef[]> = {
     },
     {
       id: 'kanslomemory',
-      label: FEELING_CARDS_LABEL,
+      label: 'Känslokort',
       href: '/mabra',
       contentClass: 'PLAY',
       siloNote: 'MåBra — reflektion och lek',
@@ -61,7 +54,7 @@ export const COMPASS_WIDGET_CATALOG: Record<CompassFlow, CompassWidgetDef[]> = {
     },
     {
       id: 'paralys',
-      label: MICRO_STEP_LABEL,
+      label: 'Ett litet steg',
       href: '/planering?tab=handling',
       contentClass: 'none',
       siloNote: 'Planering — manuell start',
@@ -84,10 +77,10 @@ export const COMPASS_WIDGET_CATALOG: Record<CompassFlow, CompassWidgetDef[]> = {
   evening: [
     {
       id: 'kasam',
-      label: EVENING_CLOSE_LABEL,
+      label: 'Stäng dagen',
       href: '/vardagen?tab=kompasser',
       contentClass: 'REFLECTION',
-      siloNote: EVENING_CLOSE_SILO_NOTE,
+      siloNote: 'Kvällskompass — stäng dagen utan skuld',
     },
     {
       id: 'reflektion',
@@ -105,7 +98,7 @@ export const COMPASS_WIDGET_CATALOG: Record<CompassFlow, CompassWidgetDef[]> = {
     },
     {
       id: 'planering',
-      label: NEXT_STEP_LABEL,
+      label: 'Nästa steg',
       href: '/planering?tab=fokus',
       contentClass: 'none',
       siloNote: 'Planering — länk, inga poäng',

@@ -188,18 +188,42 @@ function main() {
     "params.delete('samlaView')",
     'valvMode',
     'parseValvInputModeFromSearch',
+    'canonicalValvRoute',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx',
+    'ValvInputModePicker',
+    'InboxReviewQueue',
+    'ValvSuperModule',
+    'onOpenGranska',
+    'granska',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts',
+    "tier: 'primary'",
+    'VALV_INPUT_MODES_PRIMARY',
+    'VALV_INPUT_MODES_MORE',
+    "label: 'Inkast'",
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx',
     'VaultInkastCompact',
-    'VaultSamlaDriveHint',
+    'Manuell post',
     'onOpenGranska',
   );
-  mustInclude(
-    'src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx',
-    'InboxReviewQueue',
-    'ValvSuperModule',
-    'granska',
+  assert(
+    !read('src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx').includes(
+      'VaultOverviewPanel',
+    ),
+    'VaultSamlaHub.tsx',
+    'ingen duplicerad VaultOverviewPanel (Fas 1B)',
+  );
+  assert(
+    !read('src/modules/features/lifeJournal/evidence/vault/components/VaultOverviewPanel.tsx').includes(
+      "vaultDrawerPath('monster')",
+    ),
+    'VaultOverviewPanel.tsx',
+    'inga Mönster/Orkester-länkar (Fas 1B)',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/knowledge/components/VaultAktorskartaPanel.tsx',
@@ -231,6 +255,7 @@ function main() {
     'VALV_ZONE_LABELS.kunskap',
     'VALV_KUNSKAP_DRAWER_LEAF',
     'valv_aktorskarta',
+    'valv_granska',
     'DAGBOK_BEVIS_DRAWER_LABEL',
   );
   mustInclude(
@@ -681,8 +706,13 @@ function main() {
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx',
-    'InboxReviewQueue',
+    'ValvInputModePicker',
     'onOpenGranska',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputModePicker.tsx',
+    'VALV_INPUT_MODES_PRIMARY',
+    'VALV_INPUT_MODES_MORE',
   );
   assert(existsSync(resolve(root, 'docs/design/CHROME-POLICY.md')), 'saknar: CHROME-POLICY.md');
   assert(existsSync(resolve(root, 'docs/design/TYPE-SCALE.md')), 'saknar: TYPE-SCALE.md');

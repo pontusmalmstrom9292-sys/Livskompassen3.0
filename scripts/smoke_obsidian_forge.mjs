@@ -36,13 +36,14 @@ function mustNotInclude(relPath, ...needles) {
 function main() {
   mustInclude(
     'docs/design/themes/OBSIDIAN-FORGE-SPEC.md',
-    'UTVÄRDERING',
+    'PROD-WIRE GODKÄND',
     '/dev/obsidian-forge',
     '#d4af37',
   );
   mustInclude(
     'src/styles/obsidian-forge-lab.css',
-    '.od-forge__hero',
+    '.od-forge__superhub',
+    '.od-forge__superhub-widget-strip',
     '.od-forge__bento-card',
     '.od-forge__chip',
     '.od-forge__dock',
@@ -60,14 +61,20 @@ function main() {
   mustInclude(
     'src/modules/core/pages/ObsidianForgeLabPage.tsx',
     'ObsidianForgeLabPage',
-    'OdForgeHeroCard',
+    'OdForgeKompassSuperHub',
     'OdForgeBentoGrid',
     'OdForgeDockChrome',
   );
   mustInclude(
-    'src/modules/core/ui/forge/OdForgeHeroCard.tsx',
-    'od-forge__hero',
-    'od-forge__cta',
+    'src/modules/core/ui/forge/OdForgeKompassSuperHub.tsx',
+    'od-forge__superhub',
+    'COMPASS_WIDGET_CATALOG',
+    'Utforska',
+    'od-forge__superhub-widget-rail',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/compasses/content/discoveryBentoCatalog.ts',
+    'DISCOVERY_BENTO_CATALOG',
   );
   mustInclude(
     'src/modules/core/routing/AppRoutes.tsx',
@@ -76,13 +83,18 @@ function main() {
   );
   mustInclude(
     'src/modules/core/ui/forge/odForgeBridge.ts',
-    'FORGE_PROD_WIRE_ENABLED = false',
+    'FORGE_PROD_WIRE_ENABLED = true',
     'isOdForgeBridgeActive',
     "classList.toggle('od-forge-bridge'",
   );
+  mustInclude(
+    'src/modules/core/home/HomeForgeKompassBridge.tsx',
+    'HomeForgeKompassBridge',
+    'OdForgeKompassSuperHub',
+  );
   mustInclude('src/index.css', 'obsidian-forge-lab.css');
 
-  console.log('[smoke:obsidian-forge] PASS — Theme Lab preview, komponenter, route, gold-only CSS.');
+  console.log('[smoke:obsidian-forge] PASS — Theme Lab + prod-wire (Forge godkänd).');
 }
 
 try {

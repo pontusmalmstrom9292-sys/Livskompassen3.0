@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Archive, Clock, Inbox } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
-import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { listDraftsByStatus } from '@/modules/capture/draftQueue';
 
 type Props = {
@@ -10,7 +8,7 @@ type Props = {
   onOpenReview: () => void;
 };
 
-/** Arkiv-översikt — granskning + lokala utkast (en skärm, inga extra flikar). */
+/** Kompakt granskningsstatus — inga zon-länkar (Fas 1B; navigera via lägesväxlare / drawer). */
 export function VaultOverviewPanel({ pendingInbox, onOpenReview }: Props) {
   const [localPending, setLocalPending] = useState(0);
 
@@ -50,17 +48,6 @@ export function VaultOverviewPanel({ pendingInbox, onOpenReview }: Props) {
           </li>
         )}
       </ul>
-      <div className="mt-3 flex flex-wrap gap-2 text-xs">
-        <Link to={vaultDrawerPath('monster')} className="text-accent/80 underline-offset-2 hover:underline">
-          Mönster
-        </Link>
-        <Link to={vaultDrawerPath('orkester')} className="text-accent/80 underline-offset-2 hover:underline">
-          Orkester
-        </Link>
-        <Link to={vaultDrawerPath('dossier')} className="text-accent/80 underline-offset-2 hover:underline">
-          Rapporter
-        </Link>
-      </div>
     </BentoCard>
   );
-}
+};

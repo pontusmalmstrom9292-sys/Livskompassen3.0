@@ -3,14 +3,15 @@ import { Archive } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
 import { ValvSuperModule } from '../components/ValvSuperModule';
+import { ValvInputModePicker } from './ValvInputModePicker';
 import {
   DEFAULT_VALV_INPUT_MODE,
-  VALV_INPUT_MODES,
+  valvInputModeDef,
+  VALV_INPUT_MODES_PRIMARY,
   type ValvInputMode,
 } from './valvInputModes';
 import { writeValvLastInputMode } from './valvLastModeStorage';
 import type { VaultTab } from '../utils/vaultTabs';
-import { valvInputModeDef } from './valvInputModes';
 
 export type ValvInputSuperModuleProps = {
   activeMode: ValvInputMode;
@@ -25,7 +26,7 @@ export type ValvInputSuperModuleProps = {
 };
 
 /**
- * Canonical Valv navigation — ett läge i taget (Fas 1B).
+ * Canonical Valv navigation — primära lägen + «Mer…» (Fas 1B).
  * Granska ersätter separat inbox-zon och `?samlaView=granska`.
  */
 export function ValvInputSuperModule({
@@ -40,6 +41,7 @@ export function ValvInputSuperModule({
   onVaultTabChange,
 }: ValvInputSuperModuleProps) {
   const activeDef = useMemo(() => valvInputModeDef(activeMode), [activeMode]);
+  void VALV_INPUT_MODES_PRIMARY;
 
   const setMode = useCallback(
     (mode: ValvInputMode) => {
@@ -56,42 +58,19 @@ export function ValvInputSuperModule({
       glow="blue"
       className="overflow-hidden !p-4 sm:!p-5"
     >
-      <header className="mb-4 space-y-1">
+      <header className="mb-3 space-y-1">
         <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
           Sanningsarkiv
         </p>
         <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">
-          Ett läge i taget
+          {activeDef.label}
         </h2>
         <p className="text-xs text-text-dim">{activeDef.description}</p>
       </header>
 
-      <nav
-        className="mb-4 flex flex-wrap gap-2 rounded-xl border border-border bg-surface-2 p-1"
-        aria-label="Valv-lägen"
-      >
-        {VALV_INPUT_MODES.map((mode) => {
-          const isActive = activeMode === mode.id;
-          return (
-            <button
-              key={mode.id}
-              type="button"
-              onClick={() => setMode(mode.id)}
-              aria-pressed={isActive}
-              className={`rounded-lg px-3 py-2 text-left text-xs transition-colors ${
-                isActive
-                  ? 'border border-indigo-500/40 bg-surface-3 text-accent-light'
-                  : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
-              }`}
-            >
-              <span className="block font-medium">{mode.label}</span>
-              <span className="block text-[10px] text-text-dim">{mode.description}</span>
-            </button>
-          );
-        })}
-      </nav>
+      <ValvInputModePicker activeMode={activeMode} onChange={setMode} />
 
-      <div className="calm-scroll-island max-h-[min(75vh,720px)] overflow-y-auto pr-1">
+      <div className="calm-scroll-island mt-4 max-h-[min(75vh,720px)] overflow-y-auto pr-1">
         {activeMode === 'granska' ? (
           <InboxReviewQueue
             prioritizeBevis

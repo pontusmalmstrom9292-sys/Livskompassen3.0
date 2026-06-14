@@ -277,8 +277,490 @@
     line-height: 1.45;
   }
 
+  /* —— Kompass superhub (hem-ankare) —— */
+  .od-forge__superhub {
+    position: relative;
+    margin-top: 0.25rem;
+    padding: 0.875rem 0.75rem 1rem;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(212, 175, 55, 0.28);
+    background: linear-gradient(
+      155deg,
+      rgba(20, 28, 43, 0.94) 0%,
+      rgba(9, 17, 30, 0.96) 48%,
+      rgba(5, 11, 20, 0.98) 100%
+    );
+    backdrop-filter: blur(20px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 16px 48px -10px rgba(0, 0, 0, 0.72),
+      0 0 40px -12px var(--of-gold-glow);
+    overflow: hidden;
+  }
+
+  .od-forge__superhub-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.625rem;
+  }
+
+  .od-forge__superhub-phase {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.5625rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--of-gold) 75%, var(--of-muted));
+  }
+
+  .od-forge__superhub-top-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .od-forge__superhub-snabb {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.28rem 0.45rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    background: rgba(2, 6, 23, 0.4);
+    font-size: 0.5625rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--of-dim);
+    cursor: pointer;
+    transition: border-color 0.16s ease, color 0.16s ease, background 0.16s ease;
+  }
+
+  .od-forge__superhub-snabb:hover,
+  .od-forge__superhub-snabb--open {
+    border-color: rgba(212, 175, 55, 0.42);
+    background: rgba(212, 175, 55, 0.08);
+    color: var(--of-gold-light);
+  }
+
+  .od-forge__superhub-snabb-chevron {
+    width: 0.75rem;
+    height: 0.75rem;
+    transition: transform 0.18s ease;
+  }
+
+  .od-forge__superhub-snabb-chevron--open {
+    transform: rotate(180deg);
+  }
+
+  .od-forge__superhub-dagbok {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.28rem 0.55rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(212, 175, 55, 0.28);
+    background: rgba(5, 11, 20, 0.55);
+    font-size: 0.5625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--of-gold-light);
+    cursor: pointer;
+    transition: border-color 0.16s ease, background 0.16s ease;
+  }
+
+  .od-forge__superhub-dagbok:hover {
+    border-color: rgba(212, 175, 55, 0.45);
+    background: rgba(212, 175, 55, 0.08);
+  }
+
+  .od-forge__superhub-modes {
+    display: flex;
+    gap: 0.35rem;
+    margin-bottom: 0.75rem;
+    padding: 0.2rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(212, 175, 55, 0.16);
+    background: rgba(2, 6, 23, 0.45);
+  }
+
+  .od-forge__superhub-mode {
+    flex: 1;
+    padding: 0.4rem 0.5rem;
+    border: 0;
+    border-radius: 9999px;
+    background: transparent;
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--of-dim);
+    cursor: pointer;
+    transition: background 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+  }
+
+  .od-forge__superhub-mode--active {
+    background: linear-gradient(
+      180deg,
+      rgba(212, 175, 55, 0.22) 0%,
+      rgba(154, 123, 47, 0.18) 100%
+    );
+    color: var(--of-gold-light);
+    box-shadow: 0 0 12px -4px var(--of-gold-glow);
+  }
+
+  .od-forge__superhub-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .od-forge__superhub-main {
+    min-width: 0;
+  }
+
+  .od-forge__superhub-micro-tip {
+    margin-top: 0.45rem;
+    font-size: 0.625rem;
+    line-height: 1.4;
+    color: var(--of-dim);
+    font-style: italic;
+  }
+
+  .od-forge__superhub-inline-quick {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.55rem;
+  }
+
+  .od-forge__superhub-inline-chip {
+    padding: 0.28rem 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    background: rgba(5, 11, 20, 0.45);
+    font-size: 0.5625rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--of-muted);
+    cursor: pointer;
+    transition: border-color 0.16s ease, color 0.16s ease;
+  }
+
+  .od-forge__superhub-inline-chip:hover {
+    border-color: rgba(212, 175, 55, 0.38);
+    color: var(--of-gold-light);
+  }
+
+  .od-forge__superhub-flow-lead {
+    margin-top: 0.35rem;
+    font-size: 0.75rem;
+    color: color-mix(in srgb, var(--of-gold) 35%, var(--of-muted));
+    line-height: 1.45;
+  }
+
+  .od-forge__superhub-inkast,
+  .od-forge__superhub-lek {
+    padding: 0.25rem 0 0.35rem;
+  }
+
+  .od-forge__superhub-inkast-title,
+  .od-forge__superhub-lek-title {
+    margin-top: 0.35rem;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.125rem;
+    color: var(--of-gold-light);
+  }
+
+  .od-forge__superhub-inkast-lead {
+    margin-top: 0.35rem;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: var(--of-muted);
+  }
+
+  .od-forge__superhub-inkast-field {
+    margin-top: 0.625rem;
+    padding: 0.75rem 0.875rem;
+    border-radius: 0.875rem;
+    border: 1px dashed rgba(212, 175, 55, 0.28);
+    background: rgba(2, 6, 23, 0.35);
+    font-size: 0.75rem;
+    color: var(--of-dim);
+  }
+
+  .od-forge__superhub-lek-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem;
+    margin-top: 0.625rem;
+  }
+
+  .od-forge__superhub-lek-btn {
+    padding: 0.55rem 0.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(212, 175, 55, 0.22);
+    background: rgba(5, 11, 20, 0.55);
+    font-size: 0.6875rem;
+    color: var(--of-muted);
+    cursor: pointer;
+    transition: border-color 0.16s ease, color 0.16s ease;
+  }
+
+  .od-forge__superhub-lek-btn:hover {
+    border-color: rgba(212, 175, 55, 0.42);
+    color: var(--of-gold-light);
+  }
+
+  .od-forge__superhub-widget-strip {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin-top: 0;
+    padding: 0 0.125rem;
+    border-top: 0 solid rgba(212, 175, 55, 0.12);
+    transition:
+      max-height 0.22s ease,
+      opacity 0.18s ease,
+      margin-top 0.22s ease,
+      padding-top 0.22s ease,
+      border-top-width 0.22s ease;
+  }
+
+  .od-forge__superhub-widget-strip--open {
+    max-height: 4.5rem;
+    opacity: 1;
+    margin-top: 0.625rem;
+    padding-top: 0.5rem;
+    border-top-width: 1px;
+  }
+
+  .od-forge__superhub-widget-strip-label {
+    margin-bottom: 0.35rem;
+    font-size: 0.5rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--of-dim);
+  }
+
+  .od-forge__superhub-widget-strip-scroll {
+    display: flex;
+    gap: 0.35rem;
+    overflow-x: auto;
+    padding-bottom: 0.15rem;
+    scrollbar-width: none;
+  }
+
+  .od-forge__superhub-widget-strip-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .od-forge__superhub-widget-chip {
+    flex-shrink: 0;
+    padding: 0.35rem 0.55rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(212, 175, 55, 0.24);
+    background: rgba(9, 17, 30, 0.65);
+    font-size: 0.625rem;
+    color: var(--of-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color 0.16s ease, color 0.16s ease, background 0.16s ease;
+  }
+
+  .od-forge__superhub-widget-chip:hover {
+    border-color: rgba(212, 175, 55, 0.45);
+    background: rgba(212, 175, 55, 0.08);
+    color: var(--of-gold-light);
+  }
+
+  /* Snabbstart-rad — alltid ovanför primär CTA */
+  .od-forge__superhub-widget-rail {
+    margin-top: 0.75rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.12);
+  }
+
+  .od-forge__superhub-widget-rail-label {
+    margin-bottom: 0.35rem;
+    font-size: 0.5rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--of-dim);
+  }
+
+  .od-forge__superhub-widget-rail-scroll {
+    display: flex;
+    gap: 0.35rem;
+    overflow-x: auto;
+    padding-bottom: 0.15rem;
+    scrollbar-width: none;
+  }
+
+  .od-forge__superhub-widget-rail-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .od-forge__superhub-explore {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    margin-top: 0.625rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(212, 175, 55, 0.22);
+    background: rgba(9, 17, 30, 0.55);
+    font-size: 0.625rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--of-muted);
+    cursor: pointer;
+    transition: border-color 0.16s ease, color 0.16s ease, background 0.16s ease;
+  }
+
+  .od-forge__superhub-explore:hover,
+  .od-forge__superhub-explore--open {
+    border-color: rgba(212, 175, 55, 0.42);
+    color: var(--of-gold-light);
+    background: rgba(212, 175, 55, 0.06);
+  }
+
+  .od-forge__superhub-explore-chevron {
+    transition: transform 0.18s ease;
+  }
+
+  .od-forge__superhub-explore-chevron--open {
+    transform: rotate(180deg);
+  }
+
+  /* Utvecklings-deck — dämpade bento-accenter */
+  .od-forge__disc-deck {
+    margin-top: 0.625rem;
+    padding: 0.625rem 0.125rem 0.25rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.1);
+  }
+
+  .od-forge__disc-deck-lead {
+    margin-bottom: 0.5rem;
+    font-size: 0.625rem;
+    line-height: 1.45;
+    color: var(--of-dim);
+  }
+
+  .od-forge__disc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.4rem;
+  }
+
+  .od-forge__disc-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+    padding: 0.5rem 0.45rem;
+    min-height: 3.25rem;
+    border-radius: 0.65rem;
+    border: 1px solid rgba(212, 175, 55, 0.14);
+    background: rgba(9, 17, 30, 0.72);
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.16s ease, transform 0.16s ease;
+  }
+
+  .od-forge__disc-card:hover {
+    transform: translateY(-1px);
+    border-color: rgba(212, 175, 55, 0.32);
+  }
+
+  .od-forge__disc-card-label {
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--of-text);
+    line-height: 1.25;
+  }
+
+  .od-forge__disc-card-hint {
+    font-size: 0.5rem;
+    line-height: 1.3;
+    color: var(--of-dim);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .od-forge__disc-card--gold { border-bottom: 2px solid rgba(212, 175, 55, 0.35); }
+  .od-forge__disc-card--amber { border-bottom: 2px solid rgba(180, 140, 60, 0.32); }
+  .od-forge__disc-card--slate { border-bottom: 2px solid rgba(148, 163, 184, 0.28); }
+  .od-forge__disc-card--rose-dim { border-bottom: 2px solid rgba(190, 120, 120, 0.28); }
+  .od-forge__disc-card--sea-dim { border-bottom: 2px solid rgba(80, 140, 130, 0.28); }
+  .od-forge__disc-card--bronze { border-bottom: 2px solid rgba(154, 123, 47, 0.35); }
+  .od-forge__disc-card--mist { border-bottom: 2px solid rgba(130, 150, 170, 0.25); }
+  .od-forge__disc-card--sand { border-bottom: 2px solid rgba(170, 150, 110, 0.28); }
+  .od-forge__disc-card--pearl { border-bottom: 2px solid rgba(200, 190, 170, 0.22); }
+  .od-forge__disc-card--copper { border-bottom: 2px solid rgba(160, 110, 80, 0.28); }
+  .od-forge__disc-card--ash { border-bottom: 2px solid rgba(120, 130, 140, 0.28); }
+  .od-forge__disc-card--moss { border-bottom: 2px solid rgba(90, 130, 100, 0.28); }
+
+  .od-forge__disc-flow {
+    padding: 0.25rem 0.125rem;
+  }
+
+  .od-forge__disc-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.625rem;
+    color: var(--of-dim);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  .od-forge__disc-flow-kicker {
+    font-size: 0.5rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--of-gold-dim);
+  }
+
+  .od-forge__disc-flow-title {
+    margin-top: 0.25rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--of-text);
+  }
+
+  .od-forge__disc-flow-body {
+    margin-top: 0.5rem;
+    font-size: 0.6875rem;
+    line-height: 1.55;
+    color: var(--of-muted);
+  }
+
+  .od-forge__disc-flow-label {
+    display: block;
+    margin-top: 0.75rem;
+    font-size: 0.625rem;
+    color: var(--of-dim);
+  }
+
+  .od-forge__disc-flow-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
   .od-forge__cta-wrap {
-    margin-top: 1rem;
+    margin-top: 0.75rem;
   }
 
   .od-forge__cta {
@@ -544,8 +1026,10 @@
   }
 
   .od-forge__drawer-panel {
+    display: flex;
+    flex-direction: column;
     width: min(78%, 17rem);
-    padding: 1rem 0.75rem;
+    padding: 1rem 0.75rem 0.875rem;
     background: linear-gradient(
       180deg,
       rgba(9, 17, 30, 0.98) 0%,
@@ -553,6 +1037,37 @@
     );
     border-right: 1px solid var(--of-gold-border);
     box-shadow: 8px 0 32px rgba(0, 0, 0, 0.45);
+  }
+
+  .od-forge__drawer-brand {
+    margin-bottom: 0.875rem;
+    padding: 0.5rem 0.35rem 0.75rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.14);
+  }
+
+  .od-forge__drawer-brand-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--of-gold-light);
+  }
+
+  .od-forge__drawer-brand-sub {
+    margin-top: 0.2rem;
+    font-size: 0.5625rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--of-dim);
+  }
+
+  .od-forge__drawer-foot {
+    margin-top: auto;
+    padding: 0.75rem 0.35rem 0;
+    font-size: 0.5625rem;
+    line-height: 1.45;
+    color: var(--of-dim);
+    border-top: 1px solid rgba(212, 175, 55, 0.1);
   }
 
   .od-forge__drawer-section {

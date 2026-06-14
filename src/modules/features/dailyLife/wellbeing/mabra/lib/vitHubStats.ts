@@ -1,10 +1,13 @@
 import type { MabraSession, VitEntryKind, VitEntryRow } from '@/core/types/firestore';
 import { MABRA_PROJECTS, type MabraProjectId } from '../constants/mabraProjects';
+import type { DiscoveryCategoryId } from '@/features/dailyLife/wellbeing/compasses/content/discoveryBentoCatalog';
+import { countByCategory } from './filterVitEntries';
 
 export type VitHubStats = {
   totalEntries: number;
   activeProjectIds: MabraProjectId[];
   projectCounts: Partial<Record<MabraProjectId, number>>;
+  categoryCounts: Partial<Record<DiscoveryCategoryId, number>>;
   kindCounts: Record<VitEntryKind, number>;
   /** Unika dagar med aktivitet — inte streak/gamification. */
   activeDays: number;
@@ -112,6 +115,7 @@ export function computeVitHubStats(params: {
     totalEntries: params.entries.length,
     activeProjectIds,
     projectCounts,
+    categoryCounts: countByCategory(params.entries),
     kindCounts,
     activeDays: dayKeys.size,
     recentEntries: params.entries.slice(0, 3),
