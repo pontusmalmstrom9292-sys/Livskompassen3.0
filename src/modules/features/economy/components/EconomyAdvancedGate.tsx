@@ -1,12 +1,7 @@
 import type { ReactNode } from 'react';
-import { useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
 import { useStore } from '@/core/store';
-import {
-  useIsCapacityLoading,
-  useIsEconomyAdvancedUnlocked,
-  useListenToCapacityState,
-} from '@/core/store/useCapacityGate';
+import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
 import { EconomyCapacityLockedNotice } from './EconomyCapacityLockedNotice';
 
 type EconomyAdvancedGateProps = {
@@ -19,8 +14,8 @@ type EconomyAdvancedGateProps = {
 };
 
 /**
- * Skyddande lager — renderar barn endast när isEconomyAdvancedUnlocked är true.
- * Kapacitet hämtas reaktivt från user_capability_state (orkester / capacity_engine).
+ * Skyddande lager — renderar barn endast när tri-gate isEconomyAdvancedUnlocked är true.
+ * Kapacitet via kanonisk useEconomyLevel (capability + economy_status + evolution_hub).
  */
 export function EconomyAdvancedGate({
   children,
@@ -30,15 +25,8 @@ export function EconomyAdvancedGate({
   alsoUnlocked = false,
 }: EconomyAdvancedGateProps) {
   const user = useStore((s) => s.user);
-  const listenToCapacityState = useListenToCapacityState();
-  const isUnlocked = useIsEconomyAdvancedUnlocked() || alsoUnlocked;
-  const isLoading = useIsCapacityLoading();
-
-  useEffect(() => {
-    if (user?.uid) {
-      return listenToCapacityState(user.uid);
-    }
-  }, [user?.uid, listenToCapacityState]);
+  const { isEconomyAdvancedUnlocked, isLoading } = useEconomyLevel(user?.uid);
+  const isUnlocked = isEconomyAdvancedUnlocked || alsoUnlocked;
 
   if (isLoading) {
     return (

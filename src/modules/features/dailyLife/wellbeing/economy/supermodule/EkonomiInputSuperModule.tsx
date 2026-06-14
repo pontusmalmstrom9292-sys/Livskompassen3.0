@@ -1,18 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { collection, doc, onSnapshot, query, where } from 'firebase/firestore';
 import { useSearchParams } from 'react-router-dom';
-import { db } from '@/core/firebase/firestore';
-import { useEvolutionStore } from '@/core/store/useEvolutionStore';
-import {
-  useCapacityGate,
-  useIsCapacityLoading,
-  useListenToCapacityState,
-} from '@/core/store/useCapacityGate';
-import { FIRESTORE_COLLECTIONS, type CheckIn, type UserEconomyStatus } from '@/core/types/firestore';
 import { EconomyCapacityLockedNotice } from '@/features/economy/components/EconomyCapacityLockedNotice';
+import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
 import {
+  getAllowedModesForLevel,
   pickFallbackMode,
-  resolveEconomyCapacity,
 } from './capacityResolver';
 import { EkonomiArbetslivBroDelegate } from './delegates/EkonomiArbetslivBroDelegate';
 import { EkonomiImpulsDelegate } from './delegates/EkonomiImpulsDelegate';
@@ -78,129 +70,26 @@ function EkonomiInputModeDelegate({
 
 /**
  * Canonical router for Ekonomi Universal Input Hub (Fas 8A→8E).
- * Thin delegate — no direct Firestore writes in this file.
+ * Thin delegate — kapacitetsnivå via useEconomyLevel, inga inline Firestore-lyssnare.
  */
 export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [showMoreModes, setShowMoreModes] = useState(false);
-  const [economyAdvancedFromStatus, setEconomyAdvancedFromStatus] = useState(false);
-  const [checkins48h, setCheckins48h] = useState({ count: 0, averageMoodEnergy: 0 });
 
-  const listenToCapacityState = useListenToCapacityState();
-  const isCapacityLoading = useIsCapacityLoading();
-  const capabilityState = useCapacityGate((s) => ({
-    economy_advanced: s.isEconomyAdvancedUnlocked,
-    capacityScore: s.capacityScore,
-  }));
-  const evolutionFlags = useEvolutionStore((s) => s.doc?.unlockedFeatureFlags ?? []);
-  const listenToEvolutionHub = useEvolutionStore((s) => s.listenToEvolutionHub);
+  const { level, circuitBreakerActive, isLoading } = useEconomyLevel(userId);
 
-  useEffect(() => {
-    if (!userId) return;
-    return listenToCapacityState(userId);
-  }, [userId, listenToCapacityState]);
-
-  useEffect(() => {
-    if (!userId) return;
-    return listenToEvolutionHub(userId);
-  }, [userId, listenToEvolutionHub]);
-
-  useEffect(() => {
-    if (!userId) {
-      setEconomyAdvancedFromStatus(false);
-      return;
-    }
-
-    const economyRef = doc(db, FIRESTORE_COLLECTIONS.user_economy_status, userId);
-    return onSnapshot(economyRef, (snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.data() as UserEconomyStatus;
-        setEconomyAdvancedFromStatus(data.economy_advanced === true);
-      } else {
-        setEconomyAdvancedFromStatus(false);
-      }
-    });
-  }, [userId]);
-
-  useEffect(() => {
-    if (!userId) {
-      setCheckins48h({ count: 0, averageMoodEnergy: 0 });
-      return;
-    }
-
-    const fortyEightHoursAgo = new Date();
-    fortyEightHoursAgo.setHours(fortyEightHoursAgo.getHours() - 48);
-
-    const checkinsQuery = query(
-      collection(db, FIRESTORE_COLLECTIONS.checkins),
-      where('userId', '==', userId),
-      where('questionId', '==', 'mabra_checkin'),
-      where('createdAt', '>=', fortyEightHoursAgo.toISOString()),
-    );
-
-    return onSnapshot(checkinsQuery, (snapshot) => {
-      let totalScore = 0;
-      let count = 0;
-
-      snapshot.forEach((docSnap) => {
-        const data = docSnap.data() as CheckIn;
-        let docScore = 0;
-        let validFields = 0;
-
-        if (typeof data.mood === 'number') {
-          docScore += data.mood;
-          validFields += 1;
-        }
-        if (typeof data.energy === 'number') {
-          docScore += data.energy;
-          validFields += 1;
-        }
-
-        if (validFields > 0) {
-          totalScore += docScore / validFields;
-          count += 1;
-        }
-      });
-
-      setCheckins48h({
-        count,
-        averageMoodEnergy: count > 0 ? totalScore / count : 0,
-      });
-    });
-  }, [userId]);
-
-  const capacityContext = useMemo(
-    () =>
-      resolveEconomyCapacity({
-        capabilityState: {
-          economy_advanced: capabilityState.economy_advanced,
-          capacityScore: capabilityState.capacityScore,
-        },
-        economyStatus: { economy_advanced: economyAdvancedFromStatus },
-        evolutionFlags,
-        checkins48h,
-        isLoading: isCapacityLoading,
-      }),
-    [
-      capabilityState.economy_advanced,
-      capabilityState.capacityScore,
-      economyAdvancedFromStatus,
-      evolutionFlags,
-      checkins48h,
-      isCapacityLoading,
-    ],
-  );
+  const allowedModes = useMemo(() => getAllowedModesForLevel(level), [level]);
 
   const { primary: visiblePrimary, more: visibleMore } = useMemo(
-    () => filterModesByAllowed(capacityContext.allowedModes),
-    [capacityContext.allowedModes],
+    () => filterModesByAllowed(allowedModes),
+    [allowedModes],
   );
 
   const rawMode = searchParams.get('inputMode');
   const parsedMode = parseEkonomiInputMode(rawMode);
-  const activeMode = capacityContext.allowedModes.includes(parsedMode)
+  const activeMode = allowedModes.includes(parsedMode)
     ? parsedMode
-    : pickFallbackMode(capacityContext.allowedModes);
+    : pickFallbackMode(allowedModes);
 
   const setActiveMode = useCallback(
     (mode: EkonomiInputMode) => {
@@ -216,17 +105,11 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
   );
 
   useEffect(() => {
-    if (capacityContext.isLoading) return;
-    if (!capacityContext.allowedModes.includes(parsedMode)) {
+    if (isLoading) return;
+    if (!allowedModes.includes(parsedMode)) {
       setActiveMode(activeMode);
     }
-  }, [
-    capacityContext.isLoading,
-    capacityContext.allowedModes,
-    parsedMode,
-    activeMode,
-    setActiveMode,
-  ]);
+  }, [isLoading, allowedModes, parsedMode, activeMode, setActiveMode]);
 
   const isMoreModeActive = visibleMore.some((mode) => mode.id === activeMode);
 
@@ -245,12 +128,12 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
         <p className="text-xs text-text-dim">
           Vardagsekonomi utan sidbyte — kapacitetsstyrd progressive disclosure.
         </p>
-        {capacityContext.circuitBreakerActive ? (
+        {circuitBreakerActive ? (
           <p className="text-xs text-text-muted">Kognitiv paus — endast saldo just nu.</p>
         ) : null}
       </header>
 
-      {!capacityContext.circuitBreakerActive && capacityContext.level === 1 ? (
+      {!circuitBreakerActive && level === 1 ? (
         <div className="mb-4">
           <EconomyCapacityLockedNotice compact />
         </div>

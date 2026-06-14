@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { useStore } from '@/core/store';
-import { useIsEconomyAdvancedUnlocked } from '@/core/store/useCapacityGate';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
+import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
 import { EconomyGateway } from './economy_gateway';
 import {
   TrendingUp,
@@ -18,11 +20,10 @@ import type {
   BudgetSavingsRow,
   EconomyImpulseRow,
 } from '@/core/types/firestore';
-/** Huvudingång för avancerad ekonomi — /ekonomi och /ekonomi/avancerad.
- *  Kapacitetslyssnare + route-guard hanteras av EconomyDashboardRoute i AppRoutes. */
+/** Huvudingång för avancerad ekonomi — /ekonomi och /ekonomi/avancerad. */
 export default function EconomyDashboard() {
   const user = useStore((state) => state.user);
-  const isEconomyAdvancedUnlocked = useIsEconomyAdvancedUnlocked();
+  const { isEconomyAdvancedUnlocked, isLoading } = useEconomyLevel(user?.uid);
 
   const gateway = useMemo(() => {
     if (!user?.uid) return null;
@@ -74,6 +75,14 @@ export default function EconomyDashboard() {
       };
     }
   }, [isEconomyAdvancedUnlocked, gateway]);
+
+  if (isLoading) {
+    return <div className="p-6 text-center text-sm text-text-muted">Kontrollerar kapacitet…</div>;
+  }
+
+  if (!isEconomyAdvancedUnlocked) {
+    return <Navigate to={`${NAV_PATHS.VARDAGEN}?tab=ekonomi`} replace />;
+  }
 
   return (
     <div className="w-full min-h-[85vh] p-4 sm:p-6 md:p-8 text-text bg-bg transition-colors duration-300">

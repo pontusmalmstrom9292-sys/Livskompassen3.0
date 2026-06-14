@@ -14,11 +14,9 @@ export { useEconomyProfilWrite, DEFAULT_WEEKLY_BUDGET, DEFAULT_MEAL_PRESET } fro
 export { useEconomyTransactionWORM, type EconomyTransactionCategory } from './hooks/useEconomyTransactionWORM';
 export { useEconomySaldoRead } from './hooks/useEconomySaldoRead';
 export {
-  resolveEconomyCapacity,
+  getAllowedModesForLevel,
   pickFallbackMode,
-  type EconomyCapacityContext,
   type EconomyCapacityLevel,
-  type ResolveEconomyCapacityInput,
 } from './capacityResolver';
 export {
   DEFAULT_EKONOMI_INPUT_MODE,
