@@ -1,7 +1,10 @@
 import { useId } from 'react';
 import type { WidgetIconProps } from './types';
 
-/** Fyren WH2 — dokument + penna (inline, undviker PWA-cache på externa SVG). */
+/**
+ * @locked ICON-WH2 Fyren anteckning — dokument + penna (drawer-l2). Ändra endast med .context/locked-icons.md + smoke:locked-icons
+ * Fyren WH2 — dokument + penna (inline, undviker PWA-cache på externa SVG).
+ */
 export function FyrenShortcutNoteIcon({ className }: WidgetIconProps) {
   const uid = useId().replace(/:/g, '');
   const grad = `grad-fyren-note-${uid}`;

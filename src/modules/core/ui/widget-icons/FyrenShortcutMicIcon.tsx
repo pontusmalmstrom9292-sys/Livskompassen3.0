@@ -1,7 +1,10 @@
 import { useId } from 'react';
 import type { WidgetIconProps } from './types';
 
-/** Fyren WH1 — mikrofon (inline, undviker PWA-cache på externa SVG). */
+/**
+ * @locked ICON-WH1 Fyren inspelning — mikrofon (drawer-l2). Ändra endast med .context/locked-icons.md + smoke:locked-icons
+ * Fyren WH1 — mikrofon (inline, undviker PWA-cache på externa SVG).
+ */
 export function FyrenShortcutMicIcon({ className }: WidgetIconProps) {
   const uid = useId().replace(/:/g, '');
   const grad = `grad-fyren-mic-${uid}`;

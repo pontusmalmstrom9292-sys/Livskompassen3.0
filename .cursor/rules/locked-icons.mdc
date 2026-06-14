@@ -12,16 +12,19 @@ Canonical: [`.context/locked-icons.md`](../../.context/locked-icons.md)
 | ~~B1~~ | `public/favicon.svg` | **Upplåst** — app/favicon/Android får bytas (P1–P5 eller ny) |
 | D1 | `LivskompassMark.tsx` + `LivskompassBrandLockup.tsx` (Gold stack) | LÅST |
 | M2 | `src/modules/kompis/components/KompisMark.tsx` | LÅST |
+| WH1 | `FyrenShortcutMicIcon.tsx` + `drawer-inspelning.svg` + `wh-inspelning.svg` | LÅST |
+| WH2 | `FyrenShortcutNoteIcon.tsx` + `drawer-anteckning.svg` + `wh-anteckning.svg` | LÅST |
 
 ## MUST
 
-- Run `npm run smoke:locked-icons` when touching D1 or M2.
+- Run `npm run smoke:locked-icons` when touching D1, M2, WH1, or WH2.
 - New chrome icons follow [`docs/design/ICON-STYLE-GUIDE.md`](../../docs/design/ICON-STYLE-GUIDE.md) (D1/M2 — **not** B1 Kanon ros as template).
 
 ## MUST NOT
 
 - Revert D1 to minimal line-only `LivskompassMark` without user approval.
 - Use `LivskompassMark` inside `KompisAvatar` (use `KompisMark` only).
+- Revert WH1/WH2 to identical dagbok-placeholder or `shortcutSrc` wh-inspelning img i `FyrenWidgetBar` without user approval.
 
 ## App icon (B1 upplåst)
 

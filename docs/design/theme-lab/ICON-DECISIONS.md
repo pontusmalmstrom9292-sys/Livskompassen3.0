@@ -13,6 +13,15 @@
 | **D1** Gold stack | Header lockup, dock, hero | `LivskompassMark.tsx` · `LivskompassBrandLockup.tsx` | LÅST 2026-05-29 |
 | **M2** Orakelöga | Kompis-avatar | `KompisMark.tsx` | LÅST |
 
+## Fyren WH1 / WH2 (2026-06-14)
+
+| Plats | Val | Asset |
+|-------|-----|-------|
+| Fyren strip inspelning | **WH1 mic** | `FyrenShortcutMicIcon.tsx` (inline) · `drawer-inspelning.svg` · `wh-inspelning.svg` |
+| Fyren strip anteckning | **WH2 note** | `FyrenShortcutNoteIcon.tsx` · `drawer-anteckning.svg` · `wh-anteckning.svg` |
+
+Register: [`.context/locked-icons.md`](../../../.context/locked-icons.md) · smoke: `npm run smoke:locked-icons`
+
 ## Chrome v5 (G1 prod, 2026-05-29)
 
 | Plats | Val | Asset |

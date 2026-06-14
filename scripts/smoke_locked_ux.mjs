@@ -347,6 +347,14 @@ function main() {
   mustInclude('src/modules/features/widgets/api/widgetVaultRecording.ts', 'SAMMANFATTNING');
   mustInclude('public/manifest.webmanifest', '/widget/inspelning', '/widget/familjen', '/widget/stampla');
   mustInclude(
+    'src/modules/core/components/FyrenWidgetBar.tsx',
+    'FyrenShortcutMicIcon',
+    "widgetIcon: 'mic'",
+    "widgetIcon: 'note'",
+  );
+  mustInclude('src/modules/core/ui/widget-icons/FyrenShortcutMicIcon.tsx', '@locked ICON-WH1');
+  mustInclude('src/modules/core/ui/widget-icons/FyrenShortcutNoteIcon.tsx', '@locked ICON-WH2');
+  mustInclude(
     'android/app/src/main/java/com/livskompassen/app/widgets/StampWidgetProvider.java',
     'widget/stampla',
   );

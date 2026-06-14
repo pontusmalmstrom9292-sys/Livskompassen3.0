@@ -1,5 +1,5 @@
 /**
- * Locked product icons D1 / M2 must remain in source. B1 app icon is unlocked.
+ * Locked product icons D1 / M2 / WH1 / WH2 must remain in source. B1 app icon is unlocked.
  * Usage: npm run smoke:locked-icons
  */
 import { readFileSync, existsSync } from 'fs';
@@ -44,12 +44,42 @@ function main() {
 
   mustNotInclude('public/favicon.svg', '#863bff', '7e14ff');
 
+  // WH1 / WH2 — Fyren inspelning + anteckning (glyph-lås 2026-06-14)
+  mustInclude(
+    'src/modules/core/ui/widget-icons/FyrenShortcutMicIcon.tsx',
+    '@locked ICON-WH1',
+    'grad-fyren-mic-',
+    'M7 12.5a5 5 0 0 0 10 0',
+  );
+  mustInclude(
+    'src/modules/core/ui/widget-icons/FyrenShortcutNoteIcon.tsx',
+    '@locked ICON-WH2',
+    'grad-fyren-note-',
+    'M16 13.5l-3.5 3.5',
+  );
+  mustInclude(
+    'src/modules/core/components/FyrenWidgetBar.tsx',
+    'FyrenShortcutMicIcon',
+    'FyrenShortcutNoteIcon',
+    "widgetIcon: 'mic'",
+    "widgetIcon: 'note'",
+  );
+  mustNotInclude('src/modules/core/components/FyrenWidgetBar.tsx', 'shortcutSrc', 'wh-inspelning.svg');
+  mustInclude('public/icons/drawer-l2/drawer-inspelning.svg', 'rx="2.75"', 'M7 12.5a5 5 0 0 0 10 0');
+  mustInclude('public/icons/drawer-l2/drawer-anteckning.svg', 'M16 13.5l-3.5 3.5', 'M7.5 5.5h6.5');
+  mustInclude('public/icons/shortcuts/wh-inspelning.svg', 'WH1 — inspelning', 'rx="5.5"');
+  mustInclude('public/icons/shortcuts/wh-anteckning.svg', 'WH2 — anteckning', 'M32 27l-7 7');
+  mustNotInclude('public/icons/shortcuts/wh-inspelning.svg', 'J1 — D1 skiva + dagbok');
+  mustNotInclude('public/icons/shortcuts/wh-anteckning.svg', 'J1 — D1 skiva + dagbok');
+
   assert(
     existsSync(resolve(root, 'android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png')),
     'saknar mipmap launcher',
   );
 
-  console.log('[smoke:locked-icons] PASS — D1 LivskompassMark, M2 KompisMark (B1 app icon unlocked).');
+  console.log(
+    '[smoke:locked-icons] PASS — D1 LivskompassMark, M2 KompisMark, WH1/WH2 Fyren (B1 app icon unlocked).',
+  );
 }
 
 try {
