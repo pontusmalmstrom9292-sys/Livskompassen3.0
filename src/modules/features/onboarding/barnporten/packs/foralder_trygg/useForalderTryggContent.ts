@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ForalderTryggTip } from './types';
+import type { ForalderTryggTip } from './types';
 import manifestData from './manifest.json';
 
 export const useForalderTryggContent = () => {

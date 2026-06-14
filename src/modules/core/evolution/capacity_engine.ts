@@ -1,6 +1,6 @@
 import { collection, query, where, getDocs, getDocsFromCache } from 'firebase/firestore';
 import { db } from '../firebase/firestore';
-import { FIRESTORE_COLLECTIONS, CheckIn } from '../types/firestore';
+import { FIRESTORE_COLLECTIONS, type CheckIn } from '../types/firestore';
 
 /**
  * Calculates a 7-day moving average capacity score based on MåBra checkins.
