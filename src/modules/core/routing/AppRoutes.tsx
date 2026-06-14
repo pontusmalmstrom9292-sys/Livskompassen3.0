@@ -62,6 +62,9 @@ const ProjektDetailPage = lazy(() =>
 const BarnportenPage = lazy(() =>
   import('@/features/onboarding/barnporten').then((m) => ({ default: m.BarnportenPage })),
 );
+const ForalderTryggContainer = lazy(() =>
+  import('@/features/onboarding/barnporten').then((m) => ({ default: m.ForalderTryggContainer })),
+);
 const InstallningarPage = lazy(() =>
   import('../pages/InstallningarPage').then((m) => ({ default: m.InstallningarPage })),
 );
@@ -407,7 +410,11 @@ export function AppRoutes() {
                   </ProtectedModule>
                 }
               />
-              <Route path="/barnporten" element={<BarnportenPage />} />
+              <Route path="/barnporten">
+                <Route index element={<BarnportenPage />} />
+                <Route path="foralder-trygg" element={<ForalderTryggContainer />} />
+                <Route path="foralder-trygg/:childId" element={<ForalderTryggContainer />} />
+              </Route>
               <Route
                 path="/admin/projects/ny"
                 element={
