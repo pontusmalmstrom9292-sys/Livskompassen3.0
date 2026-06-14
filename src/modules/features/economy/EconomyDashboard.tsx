@@ -1,39 +1,37 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useStore } from '@/modules/core/store';
+import { useStore } from '@/core/store';
 import {
   useIsEconomyAdvancedUnlocked,
-  useCapacityScore,
   useIsCapacityLoading,
   useListenToCapacityState,
-} from '@/modules/core/store/useCapacityGate';
+} from '@/core/store/useCapacityGate';
 import { EconomyGateway } from './economy_gateway';
-import { 
-  Lock, 
-  TrendingUp, 
-  Sparkles, 
-  ShieldAlert, 
-  Wallet, 
-  Clock, 
-  PiggyBank, 
+import {
+  TrendingUp,
+  ShieldAlert,
+  Wallet,
+  Clock,
+  PiggyBank,
   ShoppingCart,
   Plus,
-  Loader2
+  Loader2,
 } from 'lucide-react';
-import type { 
-  EconomyLedgerRow, 
-  BudgetEnvelopeRow, 
-  BudgetSavingsRow, 
-  EconomyImpulseRow 
-} from '@/modules/core/types/firestore';
+import type {
+  EconomyLedgerRow,
+  BudgetEnvelopeRow,
+  BudgetSavingsRow,
+  EconomyImpulseRow,
+} from '@/core/types/firestore';
+import { EconomyQuickBalancePanel } from './components/EconomyQuickBalancePanel';
+import { EconomyCapacityLockedNotice } from './components/EconomyCapacityLockedNotice';
 
+/** Huvudingång för avancerad ekonomi — /ekonomi och /ekonomi/avancerad */
 export default function EconomyDashboard() {
   const user = useStore((state) => state.user);
   const isEconomyAdvancedUnlocked = useIsEconomyAdvancedUnlocked();
-  const capacityScore = useCapacityScore();
   const isGateLoading = useIsCapacityLoading();
   const listenToCapacityState = useListenToCapacityState();
 
-  // Subscribing to capacity state on mount / user change
   useEffect(() => {
     if (user?.uid) {
       const unsubscribe = listenToCapacityState(user.uid);
@@ -41,13 +39,11 @@ export default function EconomyDashboard() {
     }
   }, [user?.uid, listenToCapacityState]);
 
-  // Instantiating the EconomyGateway securely
   const gateway = useMemo(() => {
     if (!user?.uid) return null;
     return new EconomyGateway(user.uid, isEconomyAdvancedUnlocked);
   }, [user?.uid, isEconomyAdvancedUnlocked]);
 
-  // Local state for future read calls
   const [ledger, setLedger] = useState<EconomyLedgerRow[]>([]);
   const [envelopes, setEnvelopes] = useState<BudgetEnvelopeRow[]>([]);
   const [savings, setSavings] = useState<BudgetSavingsRow[]>([]);
@@ -55,7 +51,6 @@ export default function EconomyDashboard() {
   const [isDataLoading, setIsDataLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch initial economy data if unlocked
   useEffect(() => {
     if (isEconomyAdvancedUnlocked && gateway) {
       let isMounted = true;
@@ -67,9 +62,9 @@ export default function EconomyDashboard() {
             gateway.getLedgerEntries(5),
             gateway.getBudgetEnvelopes(),
             gateway.getSavingsGoals(),
-            gateway.getImpulseQueue()
+            gateway.getImpulseQueue(),
           ]);
-          
+
           if (isMounted) {
             setLedger(ledgerData);
             setEnvelopes(envelopesData);
@@ -99,56 +94,34 @@ export default function EconomyDashboard() {
     return (
       <div className="flex h-[60vh] w-full flex-col items-center justify-center text-text-muted">
         <Loader2 className="h-8 w-8 animate-spin text-accent" />
-        <p className="mt-2 text-sm">Läser in kapacitetsstatus...</p>
+        <p className="mt-2 text-sm">Läser in kapacitetsstatus…</p>
       </div>
     );
   }
 
-  // Case 1: Economy Advanced is Locked
   if (!isEconomyAdvancedUnlocked) {
-    const scorePercentage = Math.round(capacityScore * 100);
     return (
-      <div className="flex h-full min-h-[70vh] flex-col items-center justify-center px-4 py-8">
-        <div className="w-full max-w-md rounded-2xl border border-border bg-surface-2 p-6 text-center shadow-accent-glow transition-all duration-300">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-surface-3 text-accent border border-border">
-            <Lock className="h-8 w-8" />
-          </div>
-          <h2 className="mt-6 font-display-serif text-2xl text-accent tracking-wide">
-            Avancerad Ekonomi låst
-          </h2>
-          <p className="mt-3 text-sm text-text-muted leading-relaxed">
-            De avancerade ekonomiska verktygen låses upp automatiskt när din kapacitetsnivå är stabil.
-            Detta hjälper dig att undvika kognitiv överbelastning vid ekonomiska beslut.
-          </p>
-
-          {/* Capacity Progress Ring / Bar */}
-          <div className="mt-6 rounded-lg bg-surface-3 p-4 border border-border/50 text-left">
-            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-text-dim">
-              <span>Aktuell Kapacitet</span>
-              <span className="text-accent">{scorePercentage}%</span>
-            </div>
-            <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-surface-2">
-              <div 
-                className="h-full rounded-full bg-gradient-to-r from-accent/50 to-accent transition-all duration-500" 
-                style={{ width: `${scorePercentage}%` }}
-              />
-            </div>
-            <p className="mt-3 flex items-center gap-1.5 text-xs text-text-dim">
-              <Sparkles className="h-3.5 w-3.5 text-accent-secondary" />
-              Gör dina dagliga incheckningar och MåBra-övningar för att öka din kognitiva kapacitet.
+      <div className="w-full min-h-[70vh] p-4 sm:p-6 md:p-8 text-text">
+        <div className="max-w-lg mx-auto space-y-6">
+          <header>
+            <h1 className="font-display-serif text-2xl text-accent tracking-wide">Ekonomi</h1>
+            <p className="mt-1 text-sm text-text-muted">
+              Förenklad vy — saldo och snabbtillägg är alltid tillgängliga.
             </p>
+          </header>
+          <div className="calm-card glow-bottom-gold rounded-2xl p-5">
+            <EconomyQuickBalancePanel />
           </div>
+          <EconomyCapacityLockedNotice featureLabel="Avancerad ekonomi" />
         </div>
       </div>
     );
   }
 
-  // Case 2: Economy Advanced is Unlocked
   return (
     <div className="w-full min-h-[85vh] p-4 sm:p-6 md:p-8 text-text bg-bg transition-colors duration-300">
       <div className="max-w-6xl mx-auto space-y-8">
-        
-        {/* Header */}
+
         <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/30 pb-6">
           <div>
             <div className="flex items-center gap-2">
@@ -170,10 +143,8 @@ export default function EconomyDashboard() {
           </div>
         )}
 
-        {/* Grid Dashboard */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-          {/* Kuvertbudget Card */}
           <div className="rounded-xl border border-border bg-surface-2 p-5 shadow-indigo-glow flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between">
@@ -186,8 +157,7 @@ export default function EconomyDashboard() {
               <p className="mt-2 text-xs text-text-muted">
                 Fördela dina resurser i virtuella kuvert för att få stenkoll utan komplicerade grafer.
               </p>
-              
-              {/* Live/Mock preview of envelopes */}
+
               <div className="mt-4 space-y-2.5">
                 {isDataLoading ? (
                   <div className="h-12 flex items-center justify-center"><Loader2 className="h-4 w-4 animate-spin text-text-dim" /></div>
@@ -199,8 +169,8 @@ export default function EconomyDashboard() {
                         <span className="font-mono text-text">{env.spentSek} / {env.allocatedSek} kr</span>
                       </div>
                       <div className="mt-1 h-1 w-full rounded-full bg-surface-3 overflow-hidden">
-                        <div 
-                          className="h-full bg-accent" 
+                        <div
+                          className="h-full bg-accent"
                           style={{ width: `${Math.min(100, (env.spentSek / env.allocatedSek) * 100)}%` }}
                         />
                       </div>
@@ -211,13 +181,12 @@ export default function EconomyDashboard() {
                 )}
               </div>
             </div>
-            
-            <button className="mt-6 flex items-center justify-center gap-1.5 w-full rounded-lg border border-border/50 bg-surface-3 py-2 text-xs font-medium text-accent hover:bg-surface-3/80 transition-colors">
+
+            <button type="button" className="mt-6 flex items-center justify-center gap-1.5 w-full rounded-lg border border-border/50 bg-surface-3 py-2 text-xs font-medium text-accent hover:bg-surface-3/80 transition-colors">
               <Plus className="h-3.5 w-3.5" /> Hantera Kuvert
             </button>
           </div>
 
-          {/* Sparmål Card */}
           <div className="rounded-xl border border-border bg-surface-2 p-5 shadow-indigo-glow flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between">
@@ -231,7 +200,6 @@ export default function EconomyDashboard() {
                 Sparande utan stress. Håll koll på dina familjeprojekt och din långsiktiga trygghet.
               </p>
 
-              {/* Savings progress preview */}
               <div className="mt-4 space-y-2.5">
                 {isDataLoading ? (
                   <div className="h-12 flex items-center justify-center"><Loader2 className="h-4 w-4 animate-spin text-text-dim" /></div>
@@ -243,8 +211,8 @@ export default function EconomyDashboard() {
                         <span className="font-mono text-text">{goal.currentSek} / {goal.targetSek} kr</span>
                       </div>
                       <div className="mt-1 h-1 w-full rounded-full bg-surface-3 overflow-hidden">
-                        <div 
-                          className="h-full bg-accent-secondary" 
+                        <div
+                          className="h-full bg-accent-secondary"
                           style={{ width: `${Math.min(100, (goal.currentSek / goal.targetSek) * 100)}%` }}
                         />
                       </div>
@@ -256,12 +224,11 @@ export default function EconomyDashboard() {
               </div>
             </div>
 
-            <button className="mt-6 flex items-center justify-center gap-1.5 w-full rounded-lg border border-border/50 bg-surface-3 py-2 text-xs font-medium text-accent-secondary hover:bg-surface-3/80 transition-colors">
+            <button type="button" className="mt-6 flex items-center justify-center gap-1.5 w-full rounded-lg border border-border/50 bg-surface-3 py-2 text-xs font-medium text-accent-secondary hover:bg-surface-3/80 transition-colors">
               <Plus className="h-3.5 w-3.5" /> Hantera Sparande
             </button>
           </div>
 
-          {/* Impulsköpspaus Card */}
           <div className="rounded-xl border border-border bg-surface-2 p-5 shadow-indigo-glow flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between">
@@ -275,7 +242,6 @@ export default function EconomyDashboard() {
                 Parkera planerade köp i 24 timmar för att låta impulsiva känslor lägga sig före köpbeslut.
               </p>
 
-              {/* Impulse items count */}
               <div className="mt-4">
                 {isDataLoading ? (
                   <div className="h-12 flex items-center justify-center"><Loader2 className="h-4 w-4 animate-spin text-text-dim" /></div>
@@ -294,12 +260,11 @@ export default function EconomyDashboard() {
               </div>
             </div>
 
-            <button className="mt-6 flex items-center justify-center gap-1.5 w-full rounded-lg border border-border/50 bg-surface-3 py-2 text-xs font-medium text-accent-ai hover:bg-surface-3/80 transition-colors">
+            <button type="button" className="mt-6 flex items-center justify-center gap-1.5 w-full rounded-lg border border-border/50 bg-surface-3 py-2 text-xs font-medium text-accent-ai hover:bg-surface-3/80 transition-colors">
               Öppna Pauslistan
             </button>
           </div>
 
-          {/* Transaktionslogg (Span 3 cols on large screen) */}
           <div className="md:col-span-2 lg:col-span-3 rounded-xl border border-border bg-surface-2 p-5 shadow-accent-glow">
             <div className="flex items-center justify-between border-b border-border/20 pb-3">
               <div className="flex items-center gap-2">

@@ -699,7 +699,7 @@ export async function setEconomyProfile(
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_profiles);
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
-  await setDoc(
+  await guardedSetDoc(
     ref,
     {
       userId,
@@ -718,7 +718,7 @@ export async function saveUserWidget(
 ): Promise<string> {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.user_widgets);
   const ref = collection(db, FIRESTORE_COLLECTIONS.user_widgets);
-  const docRef = await addDoc(
+  const docRef = await guardedAddDoc(
     ref,
     withUserId(userId, {
       type: widget.type,
@@ -738,7 +738,7 @@ export async function updateUserWidgetConfig(
 ): Promise<void> {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.user_widgets);
   const ref = doc(db, FIRESTORE_COLLECTIONS.user_widgets, widgetId);
-  await updateDoc(ref, {
+  await guardedUpdateDoc(ref, {
     config,
     updatedAt: serverTimestamp(),
   });
@@ -751,7 +751,7 @@ export async function deleteUserWidget(userId: string, widgetId: string): Promis
   if (!snap.exists() || snap.data().ownerId !== userId) {
     throw new Error('Modulen hittades inte eller tillhör inte ditt konto.');
   }
-  await deleteDoc(ref);
+  await guardedDeleteDoc(ref);
 }
 
 export function subscribeUserWidgets(

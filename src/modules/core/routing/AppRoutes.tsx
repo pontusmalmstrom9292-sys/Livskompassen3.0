@@ -19,6 +19,7 @@ import {
   type LifeJournalTabKey,
 } from '../navigation/navigationRegistry';
 import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
+import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
 
 const HjartatPage = lazy(() =>
   import('@/core/pages/DagbokPage').then((m) => ({ default: m.HjartatPage })),
@@ -463,8 +464,22 @@ export function AppRoutes() {
               />
               <Route path="/barnporten">
                 <Route index element={<BarnportenPage />} />
-                <Route path="foralder-trygg" element={<ForalderTryggContainer />} />
-                <Route path="foralder-trygg/:childId" element={<ForalderTryggContainer />} />
+                <Route
+                  path="foralder-trygg"
+                  element={
+                    <ForalderTryggGuard>
+                      <ForalderTryggContainer />
+                    </ForalderTryggGuard>
+                  }
+                />
+                <Route
+                  path="foralder-trygg/:childId"
+                  element={
+                    <ForalderTryggGuard>
+                      <ForalderTryggContainer />
+                    </ForalderTryggGuard>
+                  }
+                />
               </Route>
               <Route
                 path="/admin/projects/ny"
@@ -493,7 +508,7 @@ export function AppRoutes() {
               <Route path="/dev/themes" element={<ThemePreviewPage />} />
               <Route path="/dev/theme-lab" element={<ThemeLabPage />} />
               <Route path="/dev/hub-lab" element={<HubLabPage />} />
-              {import.meta.env.DEV && (
+              {(import.meta.env.DEV || (typeof process !== 'undefined' && process.env.NODE_ENV !== 'production')) && (
                 <Route path="/dev/memory-test" element={<MemoryTestView />} />
               )}
 

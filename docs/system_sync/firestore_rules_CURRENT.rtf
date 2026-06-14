@@ -142,6 +142,25 @@ service cloud.firestore {
         && request.resource.data.metadata is map;
     }
 
+    function isValidEmotionalMemoryCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'createdAt', 'memoryType', 'content', 'intensity',
+        ])
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.memoryType in [
+          'identity',
+          'feeling',
+          'reflection',
+          'freeform',
+        ]
+        && request.resource.data.content is string
+        && request.resource.data.content.size() > 0
+        && request.resource.data.content.size() <= 50000
+        && request.resource.data.intensity is int
+        && request.resource.data.intensity >= 1
+        && request.resource.data.intensity <= 10;
+    }
+
     match /checkins/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreate();
@@ -151,6 +170,12 @@ service cloud.firestore {
     match /journal/{docId} {
       allow read: if isOwnerSensitive();
       allow create: if isOwnerCreateSensitive() && isValidJournalCreate();
+      allow update, delete: if false;
+    }
+
+    match /emotional_memory/{docId} {
+      allow read: if isOwnerSensitive();
+      allow create: if isOwnerCreateSensitive() && isValidEmotionalMemoryCreate();
       allow update, delete: if false;
     }
 

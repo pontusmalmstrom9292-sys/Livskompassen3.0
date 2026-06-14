@@ -144,6 +144,22 @@ export interface VitEntryRow extends VitEntry {
   id: string;
 }
 
+export type EmotionalMemoryType = 'identity' | 'feeling' | 'reflection' | 'freeform';
+
+/** Append-only känslominne — WORM `emotional_memory`. */
+export interface EmotionalMemoryEntry {
+  userId: string;
+  ownerId: string;
+  createdAt: IsoDateTime;
+  memoryType: EmotionalMemoryType;
+  content: string;
+  intensity: number;
+}
+
+export interface EmotionalMemoryRow extends EmotionalMemoryEntry {
+  id: string;
+}
+
 export interface JournalEntry {
   id: string;
   mood: string;
@@ -415,6 +431,7 @@ export const FIRESTORE_COLLECTIONS = {
   mabra_progress: 'mabra_progress',
   vit_hub: 'vit_hub',
   vit_entries: 'vit_entries',
+  emotional_memory: 'emotional_memory',
   children_logs: 'children_logs',
   barnporten_pairings: 'barnporten_pairings',
   barnporten_devices: 'barnporten_devices',

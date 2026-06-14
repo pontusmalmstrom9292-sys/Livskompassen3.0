@@ -87,6 +87,7 @@ export const CANONICAL_WORM_COLLECTIONS: readonly string[] = [
   'routines',
   'mabra_sessions',
   'vit_entries',
+  'emotional_memory',
   'transactions',
   'checkins',
 ] as const;

@@ -95,6 +95,7 @@ const VARDAG_DOMAIN = {
     'journal',
     'mabra_sessions',
     'vit_entries',
+    'emotional_memory',
     'transactions',
     'checkins',
   ],

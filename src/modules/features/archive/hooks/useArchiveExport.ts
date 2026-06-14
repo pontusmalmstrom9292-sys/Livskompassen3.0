@@ -4,6 +4,11 @@ import { db } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
 import { format } from 'date-fns';
 import { sv } from 'date-fns/locale';
+import type { ArchiveEntry } from './useArchiveData';
+
+interface ExportableArchiveEntry extends ArchiveEntry {
+  _type: 'Dagbok' | 'Valv';
+}
 
 export function useArchiveExport() {
   const user = useStore(s => s.user);
@@ -41,14 +46,14 @@ export function useArchiveExport() {
         getDocs(vaultQ)
       ]);
 
-      const allEntries = [
+      const allEntries: ExportableArchiveEntry[] = [
         ...journalSnap.docs.map(doc => {
           const data = doc.data();
-          return { ...data, id: doc.id, _type: 'Dagbok' } as any;
+          return { ...data, id: doc.id, _type: 'Dagbok' as const } as ExportableArchiveEntry;
         }),
         ...vaultSnap.docs.map(doc => {
           const data = doc.data();
-          return { ...data, id: doc.id, _type: 'Valv' } as any;
+          return { ...data, id: doc.id, _type: 'Valv' as const } as ExportableArchiveEntry;
         })
       ];
 
@@ -106,9 +111,10 @@ export function useArchiveExport() {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error exporting archive data:", err);
-      setExportError(err.message || 'Ett oväntat fel inträffade vid exporten.');
+      const msg = err instanceof Error ? err.message : 'Ett oväntat fel inträffade vid exporten.';
+      setExportError(msg);
     } finally {
       setIsExporting(false);
     }

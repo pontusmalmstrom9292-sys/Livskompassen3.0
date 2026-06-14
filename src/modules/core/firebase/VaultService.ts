@@ -1,5 +1,5 @@
 import { collection, addDoc, getDocs, onSnapshot, query, where, orderBy, serverTimestamp, doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from './firestore';
+import { db, assertArchitectureWrite } from './firestore';
 
 export interface VaultRecord {
   id: string;
@@ -22,6 +22,7 @@ export class VaultService {
    * @throws Error om posten redan existerar
    */
   static async saveVaultEntry(entry: VaultRecord): Promise<void> {
+    assertArchitectureWrite(this.COLLECTION, 'create');
     const docRef = doc(db, this.COLLECTION, entry.id);
     const docSnap = await getDoc(docRef);
 
@@ -69,6 +70,7 @@ export class VaultService {
   // --- EXISTING METHODS (Preserved to maintain backwards compatibility with existing UI) ---
 
   static async saveRecord(userId: string, data: any): Promise<string> {
+    assertArchitectureWrite(this.COLLECTION_NAME, 'create');
     const ref = collection(db, this.COLLECTION_NAME);
     const payload = {
       ...data,

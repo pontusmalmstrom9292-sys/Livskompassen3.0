@@ -13,7 +13,8 @@ import {
 } from './EkonomiModulValjare';
 import { hasSeenEkonomiModulValjare } from '../utils/ekonomiModulValjareStorage';
 import { useEvolutionStore } from '@/core/store/useEvolutionStore';
-import { useIsEconomyAdvancedUnlocked, useListenToCapacityState } from '@/modules/core/store/useCapacityGate';
+import { useIsEconomyAdvancedUnlocked, useListenToCapacityState } from '@/core/store/useCapacityGate';
+import { EconomyAdvancedGate } from '@/features/economy/components/EconomyAdvancedGate';
 
 const TABS: { id: EkonomiModuleChoice; label: string; icon: typeof Wallet }[] = [
   { id: 'budget', label: 'Budget', icon: Wallet },
@@ -111,17 +112,23 @@ export function EconomyOverviewPanel({ userId }: Props) {
       <div className="animate-fade-in min-h-[260px] p-4 sm:p-5">
         {activeTab === 'budget' && <EconomyBudgetTab />}
         {activeTab === 'kost_prepp' && <EconomyMealPrepPanel />}
-        {activeTab === 'impuls' && <EconomyImpulsePanel />}
+        {activeTab === 'impuls' && (
+          <EconomyAdvancedGate featureLabel="Impulsköpspaus" alsoUnlocked={hasAdvanced}>
+            <EconomyImpulsePanel />
+          </EconomyAdvancedGate>
+        )}
         {activeTab === 'spar' && (
-          <div className="space-y-5">
-            <EconomySavingsPanel
-              tagFilter="family"
-              panelTitle="Barnens Äventyrskassa"
-              description="Familjesparmål — t.ex. Liseberg till sommaren"
-              compact
-            />
-            <EconomySavingsPanel panelTitle="Sparmål" />
-          </div>
+          <EconomyAdvancedGate featureLabel="Sparmål" alsoUnlocked={hasAdvanced}>
+            <div className="space-y-5">
+              <EconomySavingsPanel
+                tagFilter="family"
+                panelTitle="Barnens Äventyrskassa"
+                description="Familjesparmål — t.ex. Liseberg till sommaren"
+                compact
+              />
+              <EconomySavingsPanel panelTitle="Sparmål" />
+            </div>
+          </EconomyAdvancedGate>
         )}
         {activeTab === 'tid' && <EconomyTidPanel />}
       </div>
