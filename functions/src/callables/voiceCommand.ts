@@ -80,10 +80,16 @@ export const parseVoiceCommand = onCall(async (request) => {
       
       // Vi skickar in texten till Inkast. submitInkastLiteForUser
       // har inbyggd auto-routing till kunskap/bevis/barnen/dagbok/review.
-      const result = await submitInkastLiteForUser(uid, {
-        text: summary,
-        sourceModule: 'voiceToVault'
-      });
+      const result = await submitInkastLiteForUser(
+        uid,
+        {
+          text: summary,
+          sourceModule: 'voiceToVault'
+        },
+        undefined, // geminiApiKey
+        false, // hasVaultSession
+        request.auth?.token?.email_verified === true // isVerified
+      );
 
       return {
         action: 'vault_fact_created',

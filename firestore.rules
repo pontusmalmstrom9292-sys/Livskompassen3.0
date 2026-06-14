@@ -130,6 +130,18 @@ service cloud.firestore {
             && request.resource.data.bankId.size() <= 32));
     }
 
+    function isValidEvolutionLedgerCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'createdAt', 'type', 'pillar', 'levelBefore', 'levelAfter', 'rationale', 'metadata',
+        ])
+        && request.resource.data.type in ['milestone_unlocked', 'capacity_increased', 'child_age_milestone', 'pillar_rebalance']
+        && request.resource.data.pillar in ['kognitiv', 'emotionell', 'vardag', 'relationell', 'valv', 'system']
+        && request.resource.data.levelBefore is int
+        && request.resource.data.levelAfter is int
+        && request.resource.data.rationale is string
+        && request.resource.data.metadata is map;
+    }
+
     match /checkins/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreate();
@@ -624,6 +636,25 @@ service cloud.firestore {
         && request.resource.data.diff(resource.data).affectedKeys()
             .hasOnly(['config', 'updatedAt']);
       allow delete: if isOwner();
+    }
+
+    match /evolution_ledger/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate() && isValidEvolutionLedgerCreate();
+      allow update, delete: if false;
+    }
+
+    match /evolution_hub/{uid} {
+      allow read: if isAuthenticated() && request.auth.uid == uid;
+      allow create: if isAuthenticated()
+        && uid == request.auth.uid
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated()
+        && uid == request.auth.uid
+        && resource.data.ownerId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid;
+      allow delete: if false;
     }
   }
 }

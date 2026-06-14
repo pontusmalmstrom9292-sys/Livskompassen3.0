@@ -258,7 +258,9 @@ async function processOneInkastFile(
   sourceModule: string | undefined,
   optInTrauma: boolean,
   manual: ManualInkastOverride | undefined,
-  geminiApiKey?: string
+  geminiApiKey: string | undefined,
+  hasVaultSession: boolean,
+  isVerified: boolean
 ): Promise<SubmitInkastLiteItemResult> {
   let buffer: Buffer;
   try {
@@ -301,6 +303,8 @@ async function processOneInkastFile(
     analysisText,
     optInTrauma: effectiveOptIn,
     evidenceUrl,
+    hasVaultSession,
+    isVerified,
   });
 
   return {
@@ -319,7 +323,9 @@ async function processTextInkast(
   sourceModule: string | undefined,
   optInTrauma: boolean,
   manual: ManualInkastOverride | undefined,
-  geminiApiKey?: string
+  geminiApiKey: string | undefined,
+  hasVaultSession: boolean,
+  isVerified: boolean
 ): Promise<SubmitInkastLiteItemResult> {
   const analysisText = stripInjectedSourceModuleFromText(text.trim());
   if (analysisText.length < 12) {
@@ -346,6 +352,8 @@ async function processTextInkast(
     classification,
     analysisText,
     optInTrauma: effectiveOptIn,
+    hasVaultSession,
+    isVerified,
   });
 
   return {
@@ -360,7 +368,9 @@ async function processTextInkast(
 export async function submitInkastLiteForUser(
   ownerId: string,
   input: SubmitInkastLiteInput,
-  geminiApiKey?: string
+  geminiApiKey: string | undefined,
+  hasVaultSession: boolean,
+  isVerified: boolean
 ): Promise<SubmitInkastLiteResult> {
   const sourceModule = normalizeInkastSourceModule(input.sourceModule);
   const optInTrauma = input.optInTrauma === true;
@@ -392,7 +402,9 @@ export async function submitInkastLiteForUser(
         sourceModule,
         optInTrauma,
         manual,
-        geminiApiKey
+        geminiApiKey,
+        hasVaultSession,
+        isVerified
       );
       items.push(item);
     } catch (err) {
@@ -409,7 +421,9 @@ export async function submitInkastLiteForUser(
           sourceModule,
           optInTrauma,
           manual,
-          geminiApiKey
+          geminiApiKey,
+          hasVaultSession,
+          isVerified
         );
         items.push(item);
       } catch (err) {

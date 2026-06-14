@@ -184,9 +184,18 @@ export const submitInkastLite = onCall(
       normalizedSourceModule === 'valv_samla' ||
       normalizedSourceModule === 'hamn_biff' ||
       normalizedSourceModule === 'hamn';
-    if (bevisVaultIntent) {
-      await assertVaultSession(request.auth.uid, request.data);
+      
+    let hasVaultSession = false;
+    try {
+      if (bevisVaultIntent || request.data?.vaultSessionToken) {
+        await assertVaultSession(request.auth.uid, request.data);
+        hasVaultSession = true;
+      }
+    } catch {
+      hasVaultSession = false;
     }
+    
+    const isVerified = request.auth.token?.email_verified === true;
 
     try {
       return await submitInkastLiteForUser(
@@ -207,7 +216,9 @@ export const submitInkastLite = onCall(
           manualComment,
           manualChildAlias,
         },
-        geminiApiKey.value()
+        geminiApiKey.value(),
+        hasVaultSession,
+        isVerified
       );
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Inkast misslyckades.';

@@ -62,3 +62,10 @@ Applikationen är strikt uppdelad i tre zoner. AI-modellen får ALDRIG skapa nya
 *   **Tailwind CSS**:
     *   Använd de definierade semantiska klasserna (`bg-surface-2`, `text-accent`, `border-border`) istället för hårdkodade hex-färger i klassnamn.
     *   Se till att alla element som har hover-stilar använder de dämpade färgerna (`hover:bg-surface-3` / `hover:border-accent/40`).
+
+---
+
+## 4. LAGEN OM EVIG TILLVÄXT (THE INFINITE EVOLUTION ENGINE)
+*   **Evolutionär arkitektur**: Alla anpassningar för Barnporten (ålderssegmentering) samt Ekonomi & Planering (kapacitetsstyrning) styrs dynamiskt via `evolution_hub` och loggas i `evolution_ledger`.
+*   **Oföränderlighet (WORM)**: Evolution_ledger är append-only. Det är absolut förbjudet att radera eller modifiera poster i evolution_ledger.
+*   **Referens**: Följ reglerna i `.cursor/rules/infinite-evolution.mdc` och se [INFINITE_EVOLUTION.md](file:///Users/Livskompassen/StudioProjects/Livskompassen3.0/docs/architecture/INFINITE_EVOLUTION.md) för specifikationen.

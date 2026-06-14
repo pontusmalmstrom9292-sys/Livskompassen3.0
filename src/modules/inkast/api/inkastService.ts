@@ -3,6 +3,7 @@ import { functions } from '../../core/firebase/init';
 import type { InboxClassification, InboxRouting } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import type { UserTagRow } from '@/core/types/firestore';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
+import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
 
 /** Universell tagg-matris — fyra grupper (CEO-taxonomi). */
 export type InkastTagGroupId = 'narcissism' | 'barn' | 'personligt' | 'egen';
@@ -454,7 +455,8 @@ export async function submitInkastLite(input: {
   manualChildAlias?: string;
 }): Promise<SubmitInkastLiteResult> {
   try {
-    const result = await submitInkastLiteCallable(input);
+    const payload = withVaultSessionPayload(input);
+    const result = await submitInkastLiteCallable(payload);
     return parseSubmitInkastLiteResult(result.data);
   } catch (error) {
     const fnError = error as FunctionsError;

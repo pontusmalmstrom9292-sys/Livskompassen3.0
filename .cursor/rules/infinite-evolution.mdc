@@ -1,0 +1,31 @@
+---
+description: Rule to enforce Lagen om Evig Tillväxt (The Infinite Evolution Engine) in Livskompassen. Controls evolution tracking, WORM ledger, child age adaptivity, and capacity-based unlocking.
+alwaysApply: true
+---
+
+# Infinite Evolution Engine (Lagen om Evig Tillväxt)
+
+Följ strikt dessa lagar för all utveckling och modifiering av funktioner som rör användarens utveckling, framsteg, barnens åldersanpassning eller kapacitetsstyrning.
+
+## 1. Oförstörbar WORM-logg (Evolution Ledger)
+- **Regel**: Framsteg och nivåändringar får ALDRIG raderas eller ändras retroaktivt.
+- **Implementering**: Skriv alltid historiska ändringar till den append-only `evolution_ledger`-samlingen.
+- **Förbjudet**: Att tillåta `update` eller `delete` operationer på `evolution_ledger` i Firestore-regler eller klientkod.
+
+## 2. Kapacitetsstyrd Ekonomi & Planering
+- **Regel**: Gränssnitt för ekonomi och planering måste anpassa sig efter användarens aktuella tillgängliga kognitiva kapacitet (hämtas via `evolution_hub`).
+- **Implementering**: 
+  - Om stressnivån är hög eller kapaciteten är låg (Nivå 1), visa enbart förenklad saldoövervakning och ett mikrosteg i taget (Paralys-Panel).
+  - Lås upp avancerade verktyg (budgetkuvert, Kanban-tavlor, impulskö) villkorat på feature-flaggor (`economy_advanced`, `planning_kanban` etc.) som finns i `evolution_hub`.
+
+## 3. Adaptiv Barnporten (Ålderssegmentering)
+- **Regel**: Gränssnittet i Barnporten (/barnporten) och dess visade verktyg måste anpassa sig efter barnets ålderssegment.
+- **Segment**:
+  - `toddler_preschool` (3–5 år): Mood-ikoner, känslomålning, andningshjälp.
+  - `early_school` (6–9 år): Enkel textinmatning, skriva till förälder, checklistor.
+  - `pre_teen` (10–13 år): Reflektionskort, röstloggar, personliga mål.
+  - `teen` (14+ år): Tonårschatt, veckopengar, livs-OS planering.
+- **Implementering**: Undvik hårdkodade vyer för barnens verktyg. Läs barnets aktuella `currentBracket` från `evolution_hub` och rendrera komponenterna reaktivt.
+
+## 4. Referensdokumentation
+- Läs alltid [docs/architecture/INFINITE_EVOLUTION.md](file:///Users/Livskompassen/StudioProjects/Livskompassen3.0/docs/architecture/INFINITE_EVOLUTION.md) för detaljerade specifikationer och regelverk.

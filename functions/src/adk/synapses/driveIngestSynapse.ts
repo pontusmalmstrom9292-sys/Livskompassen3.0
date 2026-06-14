@@ -31,6 +31,8 @@ export async function handleDriveIngest(
       classification,
       analysisText,
       optInTrauma,
+      hasVaultSession: false,
+      isVerified: true, // System background task
     });
 
     routing = classification.routing;

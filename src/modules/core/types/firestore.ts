@@ -336,7 +336,57 @@ export interface UserWidgetRow extends UserWidget {
   id: string;
 }
 
+export type EvolutionPillar = 'kognitiv' | 'emotionell' | 'vardag' | 'relationell' | 'valv' | 'system';
+export type EvolutionMilestoneType = 'milestone_unlocked' | 'capacity_increased' | 'child_age_milestone' | 'pillar_rebalance';
+
+export interface EvolutionLedgerEntry {
+  userId: string;
+  ownerId: string;
+  createdAt: IsoDateTime;
+  type: EvolutionMilestoneType;
+  pillar: EvolutionPillar;
+  levelBefore: number;
+  levelAfter: number;
+  rationale: string;
+  metadata: Record<string, unknown>;
+}
+
+export interface EvolutionLedgerRow extends EvolutionLedgerEntry {
+  id: string;
+}
+
+export interface ChildAgeState {
+  ageYears: number;
+  currentBracket: 'toddler_preschool' | 'early_school' | 'pre_teen' | 'teen';
+  lastUpdated: IsoDateTime;
+}
+
+export interface EvolutionPillarState {
+  level: number;
+  score: number;
+}
+
+export interface EvolutionHubDoc {
+  userId: string;
+  ownerId: string;
+  updatedAt: IsoDateTime;
+  pillars: {
+    kognitiv: EvolutionPillarState;
+    emotionell: EvolutionPillarState;
+    vardag: EvolutionPillarState;
+    relationell: EvolutionPillarState;
+    valv: EvolutionPillarState;
+  };
+  childrenAgeState: {
+    kasper: ChildAgeState;
+    arvid: ChildAgeState;
+  };
+  unlockedFeatureFlags: string[];
+}
+
 export const FIRESTORE_COLLECTIONS = {
+  evolution_ledger: 'evolution_ledger',
+  evolution_hub: 'evolution_hub',
   vault: 'vault',
   checkins: 'checkins',
   kb_docs: 'kb_docs',

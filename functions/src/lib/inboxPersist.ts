@@ -255,21 +255,31 @@ export async function routeInboxToWorm(input: {
   analysisText: string;
   optInTrauma?: boolean;
   evidenceUrl?: string;
+  hasVaultSession: boolean;
+  isVerified: boolean;
 }): Promise<{
   action: 'queued' | 'persisted';
   collection?: string;
   docId?: string;
   queueId?: string;
 }> {
-  const { classification, ownerId, fileId, fileName, mimeType, analysisText, optInTrauma, evidenceUrl } =
+  const { classification, ownerId, fileId, fileName, mimeType, analysisText, optInTrauma, evidenceUrl, hasVaultSession, isVerified } =
     input;
 
+  const isSensitiveRouting = classification.routing === 'bevis' || classification.routing === 'barnen' || classification.routing === 'dagbok';
+  const needsQueueForVerification = isSensitiveRouting && !isVerified;
+  const needsQueueForVault = classification.routing === 'bevis' && !hasVaultSession;
+
   // Manuellt val (tag: manuell) — requiresHumanReview returnerar false; routing följs direkt.
-  if (requiresHumanReview(classification, optInTrauma)) {
-    const queueClassification =
-      classification.traumaSensitive && !optInTrauma
-        ? { ...classification, routing: 'review' as const }
-        : classification;
+  if (requiresHumanReview(classification, optInTrauma) || needsQueueForVerification || needsQueueForVault) {
+    const queueClassification = { ...classification };
+    
+    if (classification.traumaSensitive && !optInTrauma) {
+      queueClassification.routing = 'review';
+    } else if (needsQueueForVault || needsQueueForVerification) {
+      // Behåll classification.routing men pusha till kön för att invänta autentisering/upplåsning
+    }
+    
     const q = await persistInboxQueueItem({
       ownerId,
       driveFileId: fileId,
@@ -438,6 +448,8 @@ export async function confirmInboxQueueItem(input: {
     classification,
     analysisText,
     optInTrauma: true,
+    hasVaultSession: true, // Bekräftelse kräver VaultSession ifall routing === 'bevis' och har redan checkats i inbox.ts
+    isVerified: true, // Krävs redan e-postverifiering för inloggning vid detta steg i Livskompassen
   });
 
   if (routeResult.action !== 'persisted' || !routeResult.collection || !routeResult.docId) {
