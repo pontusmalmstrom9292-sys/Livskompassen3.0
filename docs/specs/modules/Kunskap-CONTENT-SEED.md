@@ -1149,6 +1149,338 @@ citation_hint: "Barn-referens professionellt stöd"
 why: "HITL Barnporten → Valv"
 ```
 
+## Batch 2026-06-14 — Våg 21 Covert HCF fördjupning (cn-016–020)
+
+Referens-FACT i `kampspar` — **inte** användarens teorier eller WORM-bevis (`reality_vault` = EVIDENCE).
+
+```yaml
+id: kunskap-fact-cn-016
+status: KEEP
+content_class: FACT
+title: "Hoovering — återkontakt efter gräns"
+content: "Hoovering beskriver återkontakt efter tystnad, blockering eller tydlig gräns — via nostalgi, krisbudskap, gåvor eller 'barnens skull'. Syftet är ofta att återöppna kontakt och återställa dynamiken, inte nödvändigtvis försoning. I medföräldraskap: håll logistik kort (BIFF/Grey Rock); dokumentera datum och kanal i Valv om du sparar bevis — här är begreppet referens, inte din specifika händelse."
+category: covert_taktik
+entryType: fakta
+tags: [covert, hoovering, granser, hamn]
+source_tier: psychoeducation_general
+citation_hint: "High-conflict post-separation psychoeducation; intermittent contact patterns (HCR literature)"
+why: "Våg 21 lucka — skiljer Kunskap-FACT från Valv-EVIDENCE"
+```
+
+```yaml
+id: kunskap-fact-cn-017
+status: KEEP
+content_class: FACT
+title: "Smear campaign — systematiskt narrativ"
+content: "Smear campaign (förtalskampanj) innebär spridning av negativ bild om en person till tredje parter — familj, vänner, skola eller myndigheter — ofta före eskalering. Mönstret syftar till att underminera motpartens trovärdighet. Psychoeducation: beskriv vem som fick vilket budskap och när (observerbart) i Valv — inte etiketter som 'hon försöker förstöra mig' i Kunskap-RAG."
+category: covert_taktik
+entryType: fakta
+tags: [covert, smear_campaign, bevis, valv]
+source_tier: psychoeducation_general
+citation_hint: "Bill Eddy high-conflict personality patterns; reputational aggression in family systems"
+why: "Våg 21 — forensisk neutralitet; kopplar dossier utan diagnos"
+```
+
+```yaml
+id: kunskap-fact-cn-018
+status: KEEP
+content_class: FACT
+title: "Flying monkeys — tredjepartsnätverk"
+content: "Flying monkeys (tredjepartsbudbärare) är vuxna som medvetet eller omedvetet för vidare budskap, samlar information eller utövar social press i någons ställe. Skiljer sig från triangulering via barn (cn-007): här är nätverk av vuxna. Neutral respons: en kanal förälder–förälder, inga meddelanden via mellanhänder; logga vem som kontaktade dig och vad som sades om det blir bevis."
+category: covert_taktik
+entryType: fakta
+tags: [covert, flying_monkeys, triangulering, hamn]
+source_tier: psychoeducation_general
+citation_hint: "Family systems triangulation; high-conflict third-party recruitment psychoeducation"
+why: "Kompletterar 045 utan barn-triangulering-duplicat"
+```
+
+```yaml
+id: kunskap-fact-cn-019
+status: KEEP
+content_class: FACT
+title: "Trauma bonding — intermittent förstärkning"
+content: "Traumatisk binding (trauma bonding) beskriver stark attachment trots skada, ofta via intermittent förstärkning: växling mellan värme/godkännande och tillbakadragenhet eller straff. Djupare cykel än love bombing (044): samma relation över tid, inte bara tidig intensitet. I medföräldraskap kan mönstret visa sig som plötslig vänlighet före krav eller efter konflikt — igenkänning är referens; dina sms är EVIDENCE i Valv."
+category: covert_taktik
+entryType: fakta
+tags: [covert, trauma_bonding, love_bombing, speglar]
+source_tier: psychoeducation_general
+citation_hint: "Dutton & Painter (1981) traumatic bonding; intermittent reinforcement psychoeducation"
+why: "Våg 21 fördjupning — 044 översikt, här cykeln"
+```
+
+```yaml
+id: kunskap-fact-cn-020
+status: KEEP
+content_class: FACT
+title: "Maternal-image fasad — offentlig vs privat"
+content: "Maternal-image fasad (idealiserad mor-bild) beskriver när en vuxen framstår som omsorgsfull och förebildslikt i skola, BVC eller sociala sammanhang medan privat kommunikation eller hemmiljö skiljer sig — observerbart, inte moralisk dom. Generell 'perfekt fasad' (cn-003) är bredare; här fokus på kulturellt värderad föräldrarroll utåt. Dokumentera diskrepans med datum och neutrala tredjepartsobservationer i Valv; använd inte 'dålig mor' eller diagnos i dossier."
+category: covert_taktik
+entryType: fakta
+tags: [covert, maternal_fasad, bevis, skola]
+source_tier: psychoeducation_general
+citation_hint: "High-conflict family systems; covert parenting presentation vs private behavior (HCF psychoeducation)"
+why: "Våg 21 lucka — specificerar cn-003 för mor-bild"
+```
+
+---
+
+## Batch 2026-06-14 — Juridik & myndighet (våg 21)
+
+**Kurator:** `specialist-kunskap-seed` · **Lucka:** [`.context/domän-covert-narcissism.md`](../../.context/domän-covert-narcissism.md) § Juridisk weaponization, vårdnad, LVU · **Silo:** Kunskap only · **Ingest:** mänsklig granskning.
+
+```yaml
+id: kunskap-fact-jur-001
+status: KEEP
+content_class: FACT
+title: "Parallellt föräldraskap — svensk praxis och begrepp"
+content: "Efter separation har många familjer två hushåll med separata vardagsrutiner och begränsad direkt kontakt mellan föräldrarna — ofta kallat parallellt föräldraskap. I svensk familjerätt skiljs vårdnad (ansvar för barnets uppfostran), boende (var barnet bor) och umgänge (kontakt med förälder barnet inte bor hos). Gemensam vårdnad är vanligt om inget annat beslutats genom överenskommelse eller dom. Parallellt föräldraskap är ett samordningsmönster, inte en juridisk term, och ersätter inte skriftliga avtal, medling eller domstolsbeslut. Livskompassen ger information — inte juridisk rådgivning."
+category: juridik_overview
+entryType: fakta
+tags: [parallellt_foraldraskap, vardnad, boende, umganget, medforaldraskap, sverige]
+source_tier: P2
+citation_hint: "Föräldrabalken 6 kap. (SFS översikt); Socialstyrelsen BBIC — begrepp; ej rådgivning"
+why: "Svensk kontext för våg 21 — kompletterar kunskap-fact-003/015/cn-011 utan BIFF-coaching"
+```
+
+```yaml
+id: kunskap-fact-jur-002
+status: KEEP
+content_class: FACT
+title: "Dokumentation vid föräldrakonflikt — BBIC-inspirerad struktur"
+content: "När underlag kan delas med skola, vård eller socialtjänst minskar missförstånd om information organiseras kring barnet — inte kring vuxnas karaktär. BBIC (barns behov i centrum) strukturerar kring barnets hälsa, utveckling, skolgång, sociala relationer och trygghet. Ett neutralt inlägg beskriver: datum och tid, observerbar händelse, vem som var närvarande, hur barnet reagerade, och vilket stöd barnet behövde. Undvik diagnoser på vuxna, värderande etiketter och slutsatser om avsikt. Detta är dokumentationspraxis som information — inte vägledning för ett visst ärende eller domstolsstrategi."
+category: juridik_overview
+entryType: fakta
+tags: [dokumentation, bbic, barnets_behov, tvist, neutral_logg]
+source_tier: P2
+citation_hint: "Socialstyrelsen BBIC-handbok (översikt); kunskap-fact-cn-013/015 kompletterar"
+why: "Fördjupar cn-015 med BBIC-struktur — ROUTE_VALV vid konkret dossier/bevis"
+```
+
+```yaml
+id: kunskap-fact-jur-003
+status: KEEP
+content_class: FACT
+title: "Socialtjänst och LVU — processöversikt (information)"
+content: "Socialtjänsten utreder om ett barn kan behöva skydd eller stöd när det finns oro kring hemmiljön. En utredning inleds ofta med informationsinsamling (föräldrar, barn, skola); frivilliga insatser prövas i många fall först. LVU (Lag om vård av unga) är ramlag som kan ge stöd till vård utanför hemmet när frivilliga åtgärder inte räcker och barnets bästa kräver det; beslut fattas av förvaltningsrätten — inte av föräldrarna. Föräldrar har i regel rätt att få information om processen och yttra sig. Denna översikt beskriver institutionella steg i allmänhet — den är inte juridisk rådgivning och förutsäger inte utfall i enskilda ärenden."
+category: juridik_overview
+entryType: fakta
+tags: [soc, lvu, socialtjanst, forvaltningsratt, process]
+source_tier: P2
+citation_hint: "LVU (1990:52) översikt; Socialstyrelsen handläggning barn — ej rådgivning"
+why: "Täcker våg 21-lucka LVU/soc — skiljd från cn-014 (produkt review-kö)"
+```
+
+```yaml
+id: kunskap-fact-jur-004
+status: KEEP
+content_class: FACT
+title: "Juridik som logistik — 10% sakinnehåll, 90% affekt"
+content: "I högkonflikt medföräldraskap blandas ofta två lager i samma meddelande: logistik (domstolsdatum, svarsfrister, hämtning, skolmöten, formella kallelser från myndighet) och känslomässiga beten (anklagelser, skuld, hot formulerade som juridiska varningar, krav på omedelbar affektiv reaktion). Att särskilja logistik från bete är en administrativ sortering — inte garanti för juridiskt utfall. Logistik har oftast datum, konkret handling eller närvaro, och namngiven myndighet eller forum; beten saknar ofta tydlig frist, uppmanar till förklaring (JADE) eller eskalerar utan formellt processsteg. Juridisk weaponization beskriver när juridiskt språk främst används för att pressa eller destabilisera snarare än slutföra ett processsteg. Livskompassen ger inte råd om ditt ärende — vid bindande frågor kontakta kvalificerad jurist eller berörd myndighet."
+category: juridik_overview
+entryType: fakta
+tags: [juridik, logistik, weaponization, 10_90, medforaldraskap]
+source_tier: P2
+citation_hint: "High-conflict coparenting literature (översikt); kunskap-fact-010/cn-009 kompletterar"
+why: "Våg 21 juridisk weaponization — informational, ej Hamn-svar eller etikett på motpart"
+```
+
+---
+
+## Batch 2026-06-14 — Epistemik & kognitiva guardrails (ep-001–005)
+
+**Syfte:** Skilj teori från bevis när ~80% inkast är HCF — LLM ankra till FACT, varna vid drift.
+
+```yaml
+id: kunskap-fact-ep-001
+status: KEEP
+content_class: FACT
+title: "EVIDENCE, FACT och REFLECTION — tre olika sanningstyper"
+content: "I Livskompassen är EVIDENCE det du själv sparat (sms, möten, barnobservation) i WORM-silor — kronologi, inte automatisk sanning. FACT är kuraterad referens i Kunskapsbanken som RAG citerar. REFLECTION är frågekort i Vit — exporteras inte till Kunskap-RAG. En teori om motpartens mönster hör hemma som EVIDENCE i Valv; den blir inte FACT förrän den är verifierad referens i kampspar."
+category: epistemik_produkt
+entryType: fakta
+tags: [evidence, fact, reflection, u6, guardrail]
+source_tier: product_copy
+citation_hint: "INNEHALL-REGISTER U6; SANNING_ANALYTIKERN"
+why: "Kärngrind — teorier ≠ RAG-sanning"
+```
+
+```yaml
+id: kunskap-fact-ep-002
+status: KEEP
+content_class: FACT
+title: "Bekräftelsebias och mönstersökning under stress"
+content: "Vid hypervigilans och ADHD/GAD söker hjärnan mönster snabbare — ibland samband som inte finns (apopheni). Bekräftelsebias: man minns det som passar bilden. Det är kognitiv mekanism, inte tecken på att upplevelsen är fel. Skilj 'jag tror att…' från '2026-03-12 skrev hen…' (observerbar Valv-post)."
+category: epistemik_produkt
+entryType: fakta
+tags: [bekraftelsebias, hypervigilans, guardrail]
+source_tier: psychoeducation_general
+citation_hint: "Confirmation bias; trauma hypervigilance psychoeducation"
+why: "Drift-varning utan att invalidiera upplevelse"
+```
+
+```yaml
+id: kunskap-fact-ep-003
+status: KEEP
+content_class: FACT
+title: "Forensisk neutral logg — observation skild från tolkning"
+content: "Tre lager: (1) observation — vad, vem, datum; (2) kontext — plats, närvarande; (3) tolkning — hypotes (märk explicit). Dossier/myndighet: lager 1–2. Sannings-Analytikern citerar endast WORM med docId — utan citation: inget sanning-påstående."
+category: epistemik_produkt
+entryType: fakta
+tags: [forensik, observation, tolkning, valv]
+source_tier: product_copy
+citation_hint: "Verklighetsvalvet-SPEC; cn-013 komplement"
+why: "Observation/tolkning-split"
+```
+
+```yaml
+id: kunskap-fact-ep-004
+status: KEEP
+content_class: FACT
+title: "När Speglar, Valv eller Kunskap"
+content: "Speglar: validera känsla, Zero Footprint. Valv: WORM-bevis och tidslinje. Kunskap: metod/referens — inte sms-coaching. Hamn: BIFF på konkret meddelande. Vid tvivel → Granska, fail-closed."
+category: epistemik_produkt
+entryType: fakta
+tags: [speglar, valv, kunskap, routing]
+source_tier: product_copy
+citation_hint: "domän-covert-narcissism modul-mappning"
+why: "Produkt-routing FACT"
+```
+
+```yaml
+id: kunskap-fact-ep-005
+status: KEEP
+content_class: FACT
+title: "Kognitiv avlastning — extern WORM"
+content: "Hypervigilans håller arbetsminnet aktivt. Extern WORM med server-tidsstämpel minskar behovet att hålla kronologi i huvudet — samma princip som listor vid ADHD, för bevis. Ersätter inte terapi; frigör kapacitet för nuet."
+category: epistemik_produkt
+entryType: fakta
+tags: [kognitiv_avlastning, worm, hypervigilans]
+source_tier: psychoeducation_general
+citation_hint: "Cognitive offloading; Verklighetsvalvet WORM"
+why: "Produktankare för Valv"
+```
+
+---
+
+## Batch 2026-06-14 — Barn HCF fördjupning (bh-009–012)
+
+```yaml
+id: kunskap-fact-bh-009
+status: KEEP
+content_class: FACT
+title: "Barn — föräldraalienation som beteendemönster"
+content: "Föräldraalienation beskriver barnets reaktion när kontakt med en förälder systematiskt undermineras — inte diagnos på vuxen. Tecken: avvisande kontakt utan egen rädsla; vuxen-fraser; skuld när kontakt glädjer. Dokumentera datum och barnets ord — aldrig etiketter på mor/far."
+category: barn_hcf
+entryType: fakta
+tags: [barn, alienation, beteende]
+source_tier: P2
+citation_hint: "Barnen-SPEC G52; Kampspar-BARN-REFERENS"
+why: "Wave 21 — PA som barnsignal"
+```
+
+```yaml
+id: kunskap-fact-bh-010
+status: KEEP
+content_class: FACT
+title: "Barn — lojalitetsbind (mekanism)"
+content: "Lojalitetsbind: anknytningsbehov krockar med krav att ta ställning. Tecken: skuld efter rolig tid hos andra föräldern; hemligheter; överdriven lojalitet. Skydd: tillstånd att älska båda; inga positionerande frågor."
+category: barn_hcf
+entryType: fakta
+tags: [barn, lojalitet, anknytning]
+source_tier: P2
+citation_hint: "Kampspar-BARN-REFERENS lojalitetsfälla"
+why: "Fördjupar bh-001"
+```
+
+```yaml
+id: kunskap-fact-bh-011
+status: KEEP
+content_class: FACT
+title: "Barn — NPF-stress i högkonflikt"
+content: "NPF-barn har lägre stresströskel. I vårdnadskonflikt: neurologi plus lojalitetsstress. Skola visar stress före hemmet. Stöd: schema, förvarning vid byte, decompression, IUP i båda hem där möjligt."
+category: barn_hcf
+entryType: fakta
+tags: [barn, npf, stress, skola]
+source_tier: P2
+citation_hint: "Kampspar-BARN-REFERENS NPF"
+why: "Wave 21 NPF-stresscascade"
+```
+
+```yaml
+id: kunskap-fact-bh-012
+status: KEEP
+content_class: FACT
+title: "Barn — stödvägar Sverige"
+content: "Ingångar: BVC, skolhälsovård, skolkurator, BUP via remiss, familjerådgivning, BRIS 116 111. Vid skyddsoro: socialtjänst skyddsbedömning. Neutral tidslinje — barnets behov, inte etiketter. Generisk vägledning, ej juridisk rådgivning."
+category: barn_hcf
+entryType: fakta
+tags: [barn, stod, sverige]
+source_tier: P2
+citation_hint: "1177.se; Kampspar-BARN-REFERENS"
+why: "Utökad stödkarta"
+```
+
+---
+
+## Batch 2026-06-14 — Valv forensik & epistemik (vf-001–004)
+
+```yaml
+id: kunskap-fact-vf-001
+status: KEEP
+content_class: FACT
+title: "Valv WORM vs journal och teori"
+content: "reality_vault är forensisk append-only bevis. journal är reflektion och hypotes — inte bevis mot myndigheter. Teorier ('hon gör alltid…') hör i dagbok tills de bryts ned till observerbara händelser med datum i Valv."
+category: valv_forensik
+entryType: fakta
+tags: [valv, worm, journal, teori]
+source_tier: product_copy
+citation_hint: "Verklighetsvalvet-SPEC; arkiv-minne"
+why: "Teori→bevis-läckage prevention"
+```
+
+```yaml
+id: kunskap-fact-vf-002
+status: KEEP
+content_class: FACT
+title: "Mönster över tid vs enstaka händelse"
+content: "En sms-rad kan trigga DCAP — signal, inte domslut. Mönster kräver upprepning med datum i WORM. Tolka aldrig en händelse som bevisat mönster utan tidslinje."
+category: valv_forensik
+entryType: fakta
+tags: [monster, dcap, tidslinje]
+source_tier: product_copy
+citation_hint: "DCAP.ts; MONSTER_ARKIVARIEN"
+why: "En incident ≠ mönster"
+```
+
+```yaml
+id: kunskap-fact-vf-003
+status: KEEP
+content_class: FACT
+title: "DCAP-taggar — beteende, inte diagnos"
+content: "DCAP returnerar DARVO, GASLIGHTING, JADE_BAIT m.fl. som taggar på text — inte diagnos på person. WORM: 'sms innehöll gaslighting-formulering (datum)' — aldrig 'hon är narcissist'."
+category: valv_forensik
+entryType: fakta
+tags: [dcap, taggar, worm]
+source_tier: product_copy
+citation_hint: "DCAP.ts; cn-043"
+why: "Runtime DCAP → dossier"
+```
+
+```yaml
+id: kunskap-fact-vf-004
+status: KEEP
+content_class: FACT
+title: "Granska — epistemisk ödmjukhet"
+content: "Confidence under 0,55 eller oklar silo → Granska, inte auto-WORM. Hellre extra klick än teori sparad som bevis. Valv-Chat säger 'bevis saknas' istället för att fylla med teori."
+category: valv_forensik
+entryType: fakta
+tags: [granska, review, epistemik]
+source_tier: product_copy
+citation_hint: "inboxClassifier; cn-014"
+why: "HITL + theory-gap"
+```
+
 ---
 
 **Mall för ny rad:**

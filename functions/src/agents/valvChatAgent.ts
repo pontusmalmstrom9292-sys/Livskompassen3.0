@@ -14,6 +14,8 @@ export interface ValvChatCitation {
 export interface ValvChatResult {
   answer: string;
   citations: ValvChatCitation[];
+  /** true när frågan bygger på teori utan WORM-stöd */
+  theoryWithoutEvidence?: boolean;
 }
 
 function buildContextBlock(
@@ -45,7 +47,17 @@ function parseValvChatJson(raw: string, allowedDocIds: Set<string>): ValvChatRes
           }))
       : [];
 
-    return { answer: parsed.answer.trim(), citations };
+    const theoryWithoutEvidence =
+      parsed.theoryWithoutEvidence === true ||
+      (citations.length === 0 &&
+        typeof parsed.answer === 'string' &&
+        /\b(bevissaknas|saknas i valvet|kräver fler|hypotes|teori)\b/i.test(parsed.answer));
+
+    return {
+      answer: parsed.answer.trim(),
+      citations,
+      theoryWithoutEvidence,
+    };
   } catch {
     return null;
   }
@@ -75,7 +87,7 @@ WORM-bevis (reality_vault) — använd ENDAST dessa docId i citations:
 ${buildContextBlock(chunks)}
 
 Returnera JSON:
-{"answer":"kort kliniskt svar på svenska","citations":[{"docId":"...","date":"YYYY-MM-DD","excerpt":"..."}]}`;
+{"answer":"kort kliniskt svar på svenska","citations":[{"docId":"...","date":"YYYY-MM-DD","excerpt":"..."}],"theoryWithoutEvidence":false}`;
 
   try {
     const response = await ai.models.generateContent({
