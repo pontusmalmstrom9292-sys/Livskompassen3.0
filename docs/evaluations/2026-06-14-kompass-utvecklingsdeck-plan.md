@@ -1,7 +1,7 @@
 # KompassSuperHub — Utvecklings-Deck + Vit-koppling
 
 **Datum:** 2026-06-14  
-**Status:** **P0 klar** (Forge lab mock · naming · 12-bento deck) — P1–P4 planerade enligt tabell nedan  
+**Status:** **Live** (P0–P4 · deploy 2026-06-15 · kortflöde aktiv)  
 **Kanon:** [MABRA-PROJEKT-VIT-HUB-SPEC](../design/MABRA-PROJEKT-VIT-HUB-SPEC.md) · [INNEHALL-REGISTER](../INNEHALL-REGISTER.md) U6 · [OBSIDIAN-FORGE-SPEC](../design/themes/OBSIDIAN-FORGE-SPEC.md)
 
 ---
