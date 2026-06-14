@@ -3,6 +3,7 @@ import { NAV_PATHS } from '../navigation/navTruth';
 import { setVaultGate, clearVaultGate } from './sessionService';
 import { isWebAuthnReliable, performVaultWebAuthnForSession } from './vaultWebAuthnClient';
 import { issueVaultServerSession, issueVaultSessionViaBiometric } from './vaultServerSession';
+import { applyVaultJwtClaim } from '../security/vaultWriteUnlock';
 import { isEmailAuthRequired } from './requireEmailAuth';
 import { isCapacitorNative } from '../platform/capacitorPlatform';
 import { performNativeBiometric } from './nativeBiometricAuth';
@@ -59,6 +60,14 @@ export async function openValvViaFyren(
       return false;
     }
 
+    const jwt = await applyVaultJwtClaim();
+    if (jwt.ok === false) {
+      clearVaultGate();
+      useStore.getState().setVaultUnlocked(false);
+      options?.onDenied?.(jwt.message);
+      return false;
+    }
+
     navigate({
       pathname: options?.pathname ?? NAV_PATHS.VALVET,
       search: options?.search ?? '',
@@ -82,6 +91,14 @@ export async function openValvViaFyren(
       clearVaultGate();
       useStore.getState().setVaultUnlocked(false);
       options?.onDenied?.(issued.message);
+      return false;
+    }
+
+    const jwt = await applyVaultJwtClaim();
+    if (jwt.ok === false) {
+      clearVaultGate();
+      useStore.getState().setVaultUnlocked(false);
+      options?.onDenied?.(jwt.message);
       return false;
     }
 

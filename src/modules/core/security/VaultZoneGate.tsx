@@ -10,8 +10,7 @@ import {
 } from '../auth/sessionService';
 import { authenticateVaultGateUniversal } from '../auth/webauthn';
 import { useVaultZoneIdle } from './useVaultZoneIdle';
-import { getAuth } from 'firebase/auth';
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { applyVaultJwtClaim } from './vaultWriteUnlock';
 
 type Props = {
   zone: VaultZoneId;
@@ -77,13 +76,11 @@ export function VaultZoneGate({
     }
 
     try {
-      const functions = getFunctions();
-      const unlockVault = httpsCallable(functions, 'unlockVault');
-      await unlockVault();
-
-      const auth = getAuth();
-      if (auth.currentUser) {
-        await auth.currentUser.getIdToken(true);
+      const claim = await applyVaultJwtClaim();
+      if (claim.ok === false) {
+        setError(claim.message);
+        setWebAuthnPending(false);
+        return;
       }
 
       unlock();

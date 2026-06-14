@@ -298,6 +298,11 @@ export async function saveVaultLog(
   userId: string,
   log: Omit<VaultLog, 'userId' | 'createdAt'>
 ) {
+  const { ensureVaultWriteReady } = await import('../security/vaultWriteUnlock');
+  const unlock = await ensureVaultWriteReady();
+  if (unlock.ok === false) {
+    throw new Error(unlock.message);
+  }
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.reality_vault);
   const payload = omitUndefinedFields({ ...log, isLocked: true } as FirestorePayload);
   assertWormPayload(payload, 'reality_vault');
@@ -318,7 +323,9 @@ export async function saveChildrenLog(
     authorRole?: 'child' | 'parent';
     channel?: 'barnporten' | 'familjen' | 'middag' | 'widget';
     visibility?: 'private_child' | 'parent' | 'vault_candidate';
-    contentType?: 'text' | 'voice' | 'mood' | 'step';
+    contentType?: 'text' | 'voice' | 'mood' | 'step' | 'image';
+    /** Firebase Storage download URL — ActionDashboard kamerafoto. */
+    mediaUrl?: string;
     /** Barnen-PLAY-BANK (BP-PLAY-*) — metadata, ej Valv. */
     bankId?: string;
   }
@@ -334,6 +341,7 @@ export async function saveChildrenLog(
     channel: log.channel,
     visibility: log.visibility,
     contentType: log.contentType,
+    mediaUrl: log.mediaUrl,
     bankId: log.bankId,
   };
 
