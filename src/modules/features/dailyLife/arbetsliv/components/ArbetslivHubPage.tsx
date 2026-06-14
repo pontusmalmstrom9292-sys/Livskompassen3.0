@@ -1,90 +1,51 @@
-import { memo, useMemo } from 'react';
-import { Link, Navigate, useLocation } from 'react-router-dom';
-import { Briefcase, Shield } from 'lucide-react';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { TabBar, type TabBarItem } from '@/core/ui/TabBar';
-import { StampClockPage } from '@/features/admin/stampla/components/StampClockPage';
-import { EconomyTidPanel } from '@/features/dailyLife/wellbeing/economy/components/EconomyTidPanel';
-import { EconomyLogPanel } from '@/features/dailyLife/wellbeing/economy/components/EconomyLogPanel';
-import { NAV_PATHS, vaultDrawerPath } from '@/core/navigation/navTruth';
+import { memo } from 'react';
+import { Navigate, useLocation, useSearchParams } from 'react-router-dom';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { vaultRedirectSearch } from '@/core/navigation/vaultLegacyRedirect';
-import { useHubTab } from '@/core/navigation/hooks/useHubTab';
-import { LivBackLink } from '@/modules/shell/LivBackLink';
+import { arbetslivTabToInputMode } from '../supermodule/arbetslivInputModes';
 
 export type ArbetslivTab = 'stampla' | 'tid' | 'logg';
 
-/** Arbetsliv — stämpel, tid, logg publikt. Frånvaro/lön via Valv-menyn. */
+const LEGACY_PUBLIC_TABS = new Set<ArbetslivTab>(['stampla', 'tid', 'logg']);
+
+function canonicalInputPath(tab: string | null): string {
+  if (!tab || !LEGACY_PUBLIC_TABS.has(tab as ArbetslivTab)) {
+    return '/arbetsliv/input';
+  }
+  const mode = arbetslivTabToInputMode(tab);
+  if (mode === 'stampla') return '/arbetsliv/input';
+  return `/arbetsliv/input?inputMode=${mode}`;
+}
+
+/**
+ * Legacy shim — canonical UI lives at `/arbetsliv/input` (ArbetslivInputRoutes).
+ * W3: `?tab=` och `/arbetsliv` redirectar till `?inputMode=`-rutter.
+ */
 export const ArbetslivHubPage = memo(function ArbetslivHubPage() {
   const { pathname } = useLocation();
-  const embeddedInLiv = pathname === '/vardagen';
-  const { tabs, activeTab, setTab, legacyRedirect } = useHubTab('arbetsliv', {
-    paramKey: embeddedInLiv ? 'workTab' : 'tab',
-    legacyTabRedirects: {
-      franvaro: { pathname: NAV_PATHS.VALVET, search: vaultRedirectSearch('arbetsliv_franvaro') },
-      lon: { pathname: NAV_PATHS.VALVET, search: vaultRedirectSearch('arbetsliv_lon') },
-    },
-  });
-  const tab = activeTab as ArbetslivTab;
+  const [searchParams] = useSearchParams();
+  const legacyTab = searchParams.get('tab');
 
-  const publicPanel = useMemo(() => {
-    switch (tab) {
-      case 'stampla':
-        return <StampClockPage />;
-      case 'tid':
-        return <EconomyTidPanel />;
-      case 'logg':
-        return <EconomyLogPanel />;
-      default:
-        return null;
-    }
-  }, [tab]);
-
-  if (legacyRedirect) {
-    return <Navigate to={legacyRedirect} replace />;
+  if (legacyTab === 'franvaro') {
+    return (
+      <Navigate
+        to={{ pathname: NAV_PATHS.VALVET, search: vaultRedirectSearch('arbetsliv_franvaro') }}
+        replace
+      />
+    );
+  }
+  if (legacyTab === 'lon') {
+    return (
+      <Navigate
+        to={{ pathname: NAV_PATHS.VALVET, search: vaultRedirectSearch('arbetsliv_lon') }}
+        replace
+      />
+    );
   }
 
-  return (
-    <div className="arbetsliv-hub space-y-5 pb-8">
-      <header>
-        <div className="mb-2 flex justify-end">
-          <LivBackLink />
-        </div>
-        <p className="text-[10px] uppercase tracking-[0.35em] text-accent/80">Arbetsliv</p>
-        <h1 className="text-xl font-display text-text">Tid · stämpel · logg</h1>
-        <p className="mt-1 text-xs text-text-dim">
-          Stämpel och flex är öppna här. Hemskärms-widget under Inställningar → widget. Frånvaro och
-          lönespec finns under Valv i menyn.
-        </p>
-        <Link
-          to={vaultDrawerPath('arbetsliv_franvaro')}
-          className="btn-pill--ghost mt-3 inline-flex items-center gap-2 text-xs"
-        >
-          <Shield className="h-3.5 w-3.5 text-accent/80" />
-          Frånvaro och lön i Valv
-        </Link>
-      </header>
+  if (pathname === '/arbetsliv') {
+    return <Navigate to={canonicalInputPath(legacyTab)} replace />;
+  }
 
-      <TabBar<ArbetslivTab>
-        tabs={tabs as TabBarItem<ArbetslivTab>[]}
-        active={tab}
-        onChange={(id) => setTab(id)}
-      />
-
-      {publicPanel}
-
-      <BentoCard
-        title="Vardagsekonomi"
-        description="Veckopeng och matlåda ligger kvar under Vardagen."
-        icon={<Briefcase className="h-4 w-4" />}
-      >
-        <p className="text-sm text-text-muted">
-          Den här hubben är för jobb och lön. Privat kassa:{' '}
-          <Link to="/vardagen?tab=ekonomi" className="text-accent hover:underline">
-            Vardagen → Ekonomi
-          </Link>
-          .
-        </p>
-      </BentoCard>
-    </div>
-  );
+  return <Navigate to="/arbetsliv/input" replace />;
 });

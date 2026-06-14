@@ -1,7 +1,7 @@
 import './planering.css';
 import { lazy, Suspense, useEffect, useMemo } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { Calendar, LayoutGrid } from 'lucide-react';
+import { Calendar, LayoutGrid, PenLine } from 'lucide-react';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
 import { PLANERING_TAGLINE, PLANERING_MORE_TABS } from '../constants';
@@ -17,6 +17,16 @@ import {
   hasSeenGoraModulValjare,
   markGoraModulValjareSeen,
 } from '../utils/goraModulValjareStorage';
+import {
+  isPlaneringInputMode,
+  type PlaneringInputMode,
+} from '../supermodule/planeringInputModes';
+
+const PlaneringInputSuperModule = lazy(() =>
+  import('../supermodule/PlaneringInputSuperModule').then((m) => ({
+    default: m.PlaneringInputSuperModule,
+  })),
+);
 
 const GoraModulValjare = lazy(() =>
   import('./GoraModulValjare').then((m) => ({ default: m.GoraModulValjare })),
@@ -64,6 +74,10 @@ export function PlaneringPage() {
   const isStart = tab === 'start';
   const isWorkTab = WORK_TABS.has(tab);
   const showModulValjare = isStart || (tab === 'handling' && !picked && !hasSeenGoraModulValjare());
+  const rawInputMode = searchParams.get('inputMode');
+  const embeddedInputMode: PlaneringInputMode | null =
+    rawInputMode && isPlaneringInputMode(rawInputMode) ? rawInputMode : null;
+  const showEmbeddedInputHub = tab === 'handling' && embeddedInputMode !== null && !showModulValjare;
 
   useEffect(() => {
     if (searchParams.get('picked') === '1') {
@@ -98,6 +112,11 @@ export function PlaneringPage() {
       case 'handling':
         return (
           <>
+            {showEmbeddedInputHub ? (
+              <Suspense fallback={<PlaneringPanelFallback />}>
+                <PlaneringInputSuperModule initialMode={embeddedInputMode ?? undefined} />
+              </Suspense>
+            ) : null}
             <Suspense fallback={<PlaneringPanelFallback />}>
               <GoraSuperModule variant="handling" />
             </Suspense>
@@ -135,7 +154,7 @@ export function PlaneringPage() {
       default:
         return null;
     }
-  }, [tab, showModulValjare, location.hash]);
+  }, [tab, showModulValjare, location.hash, showEmbeddedInputHub, embeddedInputMode]);
 
   void PlanningKanbanBoard;
   void PLANERING_MORE_TABS;
@@ -149,6 +168,14 @@ export function PlaneringPage() {
         headerAside={
           <div className="flex items-center gap-2">
             <LivBackLink />
+            <Link
+              to="/planering/input"
+              className="btn-pill--ghost shrink-0 p-2"
+              title="Snabbinmatning"
+              aria-label="Öppna planeringsinmatningshub"
+            >
+              <PenLine className="h-4 w-4 text-accent/70" />
+            </Link>
             <Link
               to="/planering/kalender"
               className="btn-pill--ghost shrink-0 p-2"

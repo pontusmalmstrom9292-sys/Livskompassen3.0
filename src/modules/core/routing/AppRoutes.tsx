@@ -46,6 +46,21 @@ const PlaneringKalenderPage = lazy(() =>
 const ArbetslivHubPage = lazy(() =>
   import('@/features/dailyLife/arbetsliv').then((m) => ({ default: m.ArbetslivHubPage })),
 );
+const PlaneringInputRoutes = lazy(() =>
+  import('@/features/admin/planning/routing/PlaneringInputRoutes').then((m) => ({
+    default: m.PlaneringInputRoutes,
+  })),
+);
+const ArbetslivInputRoutes = lazy(() =>
+  import('@/features/dailyLife/arbetsliv/routing/ArbetslivInputRoutes').then((m) => ({
+    default: m.ArbetslivInputRoutes,
+  })),
+);
+const DagbokInputRoutes = lazy(() =>
+  import('@/features/lifeJournal/diary/routing/DagbokInputRoutes').then((m) => ({
+    default: m.DagbokInputRoutes,
+  })),
+);
 const ProjektHubPage = lazy(() =>
   import('@/features/admin/projects').then((m) => ({ default: m.ProjektHubPage })),
 );
@@ -292,10 +307,26 @@ export function AppRoutes() {
                 }
               />
               <Route
+                path="/planering/*"
+                element={
+                  <ProtectedModule>
+                    <PlaneringInputRoutes />
+                  </ProtectedModule>
+                }
+              />
+              <Route
                 path="/planering"
                 element={
                   <ProtectedModule>
                     <PlaneringPage />
+                  </ProtectedModule>
+                }
+              />
+              <Route
+                path="/arbetsliv/*"
+                element={
+                  <ProtectedModule>
+                    <ArbetslivInputRoutes />
                   </ProtectedModule>
                 }
               />
@@ -328,7 +359,7 @@ export function AppRoutes() {
                   </ProtectedModule>
                 }
               />
-              <Route path="/stampla" element={<Navigate to="/arbetsliv?tab=stampla" replace />} />
+              <Route path="/stampla" element={<Navigate to="/arbetsliv/input?inputMode=stampla" replace />} />
               <Route path="/liv/arbetsliv" element={<Navigate to="/arbetsliv" replace />} />
               <Route path="/liv/arbetsliv/*" element={<Navigate to="/arbetsliv" replace />} />
 
@@ -340,6 +371,14 @@ export function AppRoutes() {
               <Route path="/hamn" element={<RedirectHamnToFamiljen />} />
 
               {/* —— HJÄRTAT (Dagbok) — frikopplat från Valv —— */}
+              <Route
+                path={`${NAV_PATHS.HJARTAT}/*`}
+                element={
+                  <ProtectedModule>
+                    <DagbokInputRoutes />
+                  </ProtectedModule>
+                }
+              />
               <Route path={NAV_PATHS.HJARTAT} element={<HjartatRoute />} />
 
               {/* —— VALVET — egen silo, säkerhet inuti VaultPage —— */}

@@ -306,12 +306,115 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
+## 15. Planering — Universal Input Superhub (`PlaneringInputSuperModule`) — **låst 2026-06-14**
+
+| | |
+|---|---|
+| **Route** | `/planering/input` · `/planering/input?inputMode=…` · embed `/planering?tab=handling&inputMode=…` |
+| **Syfte** | Polymorf inmatningshub för Planering — snabb uppgift, smart inkast, inköpslista utan sidbyte |
+| **Kod** | `PlaneringInputSuperModule.tsx` · `planeringInputModes.ts` · `PlaneringInputRoutes.tsx` · `supermodule/delegates/*` |
+| **Spec** | [`docs/specs/Planering-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Planering-INPUT-SUPERHUB-SPEC.md) |
+| **Eval** | [`docs/evaluations/2026-06-14-planering-superhub-djupanalys.md`](../docs/evaluations/2026-06-14-planering-superhub-djupanalys.md) |
+| **Fas** | 9A→9C **AVSLUTAD** · W3 integration **låst** 2026-06-14 |
+
+### Input modes (låsta lägen)
+
+| Mode | Beskrivning |
+|------|-------------|
+| `task_quick` | Snabb uppgift → Att göra / Väntar |
+| `inkast` | Smart inkast — G10 HITL |
+| `quick_list` | Inköpslista (localStorage) |
+
+### Säkerhetsgränser (obligatoriska)
+
+| Princip | Tillämpning |
+|---------|-------------|
+| **P3 Kanban** | `PlanningKanbanBoard` / `GoraSuperModule` oförändrat — hub är **tillägg**, inte ersättning |
+| **G10 HITL** | `inkast` via `CaptureSuperModule` — ingen auto-promote |
+| **U1 silos** | Ingen cross-RAG |
+
+**Får inte:** ta bort lägesväxlaren; flytta Kanban; Firestore-skrivningar i routern; ändra kärnlogik utan PMIR.
+
+**Smoke:** `npm run smoke:planering-superhub` · `npm run smoke:locked-ux`
+
+---
+
+## 16. Arbetsliv — Universal Input Superhub (`ArbetslivInputSuperModule`) — **låst 2026-06-14**
+
+| | |
+|---|---|
+| **Route** | `/arbetsliv/input` · `/arbetsliv/input?inputMode=stampla\|tid\|logg` · legacy `?tab=` → redirect |
+| **Syfte** | Ersätter TabBar-växling med polymorf hub — stämpel, tid, logg utan sidbyte |
+| **Kod** | `ArbetslivInputSuperModule.tsx` · `arbetslivInputModes.ts` · `ArbetslivInputRoutes.tsx` · `supermodule/delegates/*` |
+| **Spec** | [`docs/specs/Arbetsliv-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Arbetsliv-INPUT-SUPERHUB-SPEC.md) |
+| **Eval** | [`docs/evaluations/2026-06-14-arbetsliv-superhub-djupanalys.md`](../docs/evaluations/2026-06-14-arbetsliv-superhub-djupanalys.md) |
+| **Fas** | 10A→10C **AVSLUTAD** · W3 integration **låst** 2026-06-14 |
+
+### Input modes (låsta lägen)
+
+| Mode | Beskrivning | Write-target |
+|------|-------------|--------------|
+| `stampla` | Stämpelklocka | `time_entries` |
+| `tid` | Tid & flex | read-only + Valv-länk |
+| `logg` | Ekonomilogg | `economy_ledger` |
+
+### Säkerhetsgränser (obligatoriska)
+
+| Princip | Tillämpning |
+|---------|-------------|
+| **Valv** | Frånvaro/lön endast via `vaultDrawerPath` — PIN |
+| **Ekonomi-zon** | Ingen ledger-write från Ekonomi Superhub |
+| **WORM** | Oförändrade `StampClockPage`, `EconomyTidPanel`, `EconomyLogPanel` |
+
+**Får inte:** ta bort tre-lägesväxlaren; Valv-paneler i supermodule; indigo/smaragd glow; parallell TabBar + hub.
+
+**Smoke:** `npm run smoke:arbetsliv-superhub` · `npm run smoke:arbetsliv` · `npm run smoke:locked-ux`
+
+---
+
+## 17. Superdagbok — Universal Input Superhub (`DagbokInputSuperModule`) — **låst 2026-06-14**
+
+| | |
+|---|---|
+| **Route** | `/hjartat/input` · `/hjartat/input?inputMode=…` · embed `/hjartat?tab=reflektion&inputMode=…` · legacy `?mode=` → redirect |
+| **Syfte** | Polymorf inmatningshub för Hjärtat — reflektion, snabb spegling, minneslista utan sidbyte |
+| **Kod** | `DagbokInputSuperModule.tsx` · `dagbokInputModes.ts` · `DagbokInputRoutes.tsx` · `supermodule/delegates/*` |
+| **Spec** | [`docs/specs/Superdagbok-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Superdagbok-INPUT-SUPERHUB-SPEC.md) |
+| **Eval** | [`docs/evaluations/2026-06-14-superdagbok-superhub-djupanalys.md`](../docs/evaluations/2026-06-14-superdagbok-superhub-djupanalys.md) |
+| **Fas** | 11A→11C **AVSLUTAD** · W5 integration **låst** 2026-06-14 |
+
+### Input modes (låsta lägen)
+
+| Mode | Beskrivning | Write-target |
+|------|-------------|--------------|
+| `reflektion` | Steg-för-steg wizard | `journal` WORM |
+| `quick_mirror` | Snabb check-in + spegling | `journal` WORM + `journalQuickMirror` |
+| `arkiv` | Minneslista | read-only |
+
+### Säkerhetsgränser (obligatoriska)
+
+| Princip | Tillämpning |
+|---------|-------------|
+| **WORM** | `useJournalFlow` / `saveJournalEntry` — ingen update/delete på journal |
+| **Valv** | Forensic-readonly stannar i `DagbokSuperModule variant="forensic-readonly"` |
+| **MåBra** | `mabra-bridge` stannar i MåBra superhub — ej dupliceras |
+| **U1 silos** | Ingen cross-RAG |
+
+**Får inte:** ta bort lägesväxlaren; indigo→guld glow; Firestore-skrivningar i routern; ändra journal API utan PMIR.
+
+**Smoke:** `npm run smoke:superdagbok-superhub` · `npm run smoke:locked-ux`
+
+---
+
 ## Verifiering
 
 ```bash
 npm run smoke:locked-ux
 npm run smoke:locked-icons
 npm run smoke:arbetsliv
+npm run smoke:planering-superhub
+npm run smoke:arbetsliv-superhub
+npm run smoke:superdagbok-superhub
 ```
 
 Vid refaktor av `VaultPage`, `FamiljenPage`, eller borttagning av specs ovan: kör smoke innan merge.

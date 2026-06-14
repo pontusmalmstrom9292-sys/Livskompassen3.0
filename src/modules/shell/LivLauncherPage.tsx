@@ -19,6 +19,11 @@ import { NAV_PATHS } from '@/core/navigation/navTruth';
 
 type LivInlineTab = 'kompasser' | 'ekonomi';
 
+/** Superhub deep links från launcher (W3). */
+const LIV_LAUNCHER_SUPERHUB_TARGETS: Partial<Record<LivLauncherId, string>> = {
+  arbetsliv: '/arbetsliv/input?inputMode=stampla',
+};
+
 function resolveInlineTab(raw: string | null): LivInlineTab {
   if (raw === 'ekonomi') return 'ekonomi';
   return 'kompasser';
@@ -49,6 +54,11 @@ export function LivLauncherPage() {
   const compassFlow = getDefaultCompassByTime();
 
   const handleChange = (id: LivLauncherId) => {
+    const superhubTarget = LIV_LAUNCHER_SUPERHUB_TARGETS[id];
+    if (superhubTarget) {
+      navigate(superhubTarget);
+      return;
+    }
     const external = LIV_LAUNCHER_EXTERNAL[id];
     if (external) {
       navigate(external);
@@ -78,7 +88,7 @@ export function LivLauncherPage() {
       <HubPageShell
         eyebrow="Liv och göra"
         title="Vardagsstart"
-        lead="Välj ett kort. Kompass och ekonomi visas här — MåBra, planering och arbetsliv (/arbetsliv) öppnas på egna sidor."
+        lead="Välj ett kort. Kompass och ekonomi visas här — MåBra, planering och arbetsliv öppnas på egna sidor med Universal Input."
       >
       <div className="mx-auto max-w-5xl space-y-4 pb-12">
         <CognitiveLoadStrip
