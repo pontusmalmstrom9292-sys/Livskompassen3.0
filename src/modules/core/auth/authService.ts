@@ -22,7 +22,10 @@ import {
   markSkipAnonymousOnce,
 } from './googleAuthProvider';
 import { clearAllDrafts } from '../../capture/draftQueue';
+import { flushBarnportenOfflineQueue } from '@/features/onboarding/barnporten/api/saveBarnportenLog';
+import { flushActionDashboardQueue } from '@/features/widgets/api/actionDashboardApi';
 import { clearAllPendingBarnportenLogs } from '@/features/onboarding/barnporten/api/barnportenOfflineQueue';
+import { clearPendingActionDashboardItemsForUser } from '@/features/widgets/api/actionDashboardOfflineQueue';
 
 export function mapAuthError(code: string): string {
   switch (code) {
@@ -143,6 +146,11 @@ export async function signOutUser(): Promise<void> {
   clearSpeglarSession();
   clearAppUnlockSession();
   if (uid) clearMaterialPackLocalCache(uid);
+  if (uid) {
+    await flushActionDashboardQueue(uid).catch(() => undefined);
+    await flushBarnportenOfflineQueue(uid).catch(() => undefined);
+    await clearPendingActionDashboardItemsForUser(uid);
+  }
   await clearAllDrafts();
   await clearAllPendingBarnportenLogs();
   if (isCapacitorNative()) {

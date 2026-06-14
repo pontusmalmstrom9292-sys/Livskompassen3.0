@@ -16,11 +16,11 @@ export function useAudioRecorder({ onRecorded }: UseAudioRecorderOptions = {}) {
     streamRef.current = null;
   }, []);
 
-  const start = useCallback(async () => {
+  const start = useCallback(async (): Promise<boolean> => {
     setError(null);
     if (!navigator.mediaDevices?.getUserMedia) {
       setError('Ljudinspelning stöds inte i denna webbläsare.');
-      return;
+      return false;
     }
 
     try {
@@ -48,9 +48,11 @@ export function useAudioRecorder({ onRecorded }: UseAudioRecorderOptions = {}) {
       mediaRecorderRef.current = recorder;
       recorder.start();
       setIsRecording(true);
+      return true;
     } catch {
       stopTracks();
       setError('Kunde inte starta mikrofon. Kontrollera behörighet.');
+      return false;
     }
   }, [onRecorded, stopTracks]);
 

@@ -1,0 +1,555 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import {
+  Camera,
+  Check,
+  Clock,
+  Loader2,
+  Lock,
+  Mic,
+  MicOff,
+  PenLine,
+  Plus,
+  Sparkles,
+  Square,
+  Users,
+} from 'lucide-react';
+import { useAudioRecorder } from '@/core/hooks/useAudioRecorder';
+import { useSpeechToText } from '@/core/hooks/useSpeechToText';
+import { StampClockControls } from '@/features/admin/stampla/components/StampClockControls';
+import { useStampClock } from '@/features/admin/stampla/hooks/useStampClock';
+import {
+  CHILD_ALIASES,
+  LIVSLOGG_CATEGORIES,
+  type ChildAlias,
+  type LivsloggCategory,
+} from '@/features/family/children/constants';
+import { STUND_MAX_CHARS } from '@/features/family/children/utils/childMomentHelpers';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import {
+  saveActionChildLog,
+  saveActionReflection,
+  saveActionVaultRecording,
+} from '../api/actionDashboardApi';
+import { pendingActionDashboardCount } from '../api/actionDashboardOfflineQueue';
+
+const REFLECTION_MAX_CHARS = 500;
+
+type Props = {
+  userId: string | undefined;
+  onQueueChange?: () => void;
+  flushTick?: number;
+};
+
+function formatStampTime(date: Date): string {
+  return date.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
+}
+
+function QueuedBanner({ count }: { count: number }) {
+  if (count <= 0) return null;
+  return (
+    <p
+      role="status"
+      aria-live="polite"
+      className="rounded-xl border border-accent/30 bg-accent/10 px-3 py-2 text-xs text-accent"
+    >
+      {count} {count === 1 ? 'post väntar' : 'poster väntar'} på synk — laddas upp när nätet finns.
+    </p>
+  );
+}
+
+function MultiToolCard({ userId, onQueueChange }: Props) {
+  const [text, setText] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [done, setDone] = useState(false);
+  const [queued, setQueued] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const [recPhase, setRecPhase] = useState<'idle' | 'recording' | 'processing' | 'done'>('idle');
+  const [recQueued, setRecQueued] = useState(false);
+  const [recTitle, setRecTitle] = useState<string | null>(null);
+  const [recError, setRecError] = useState<string | null>(null);
+  const transcriptParts = useRef<string[]>([]);
+  const startedAt = useRef<Date | null>(null);
+
+  const speech = useSpeechToText({
+    lang: 'sv-SE',
+    onFinal: (line) => {
+      if (line.trim()) transcriptParts.current.push(line.trim());
+    },
+  });
+
+  const onRecorded = useCallback(
+    async (file: File) => {
+      if (!userId) {
+        setRecError('Logga in för att spara i Valvet.');
+        setRecPhase('idle');
+        return;
+      }
+      setRecPhase('processing');
+      setRecError(null);
+      const recordedAt = startedAt.current ?? new Date();
+      const durationSeconds = startedAt.current
+        ? Math.round((Date.now() - startedAt.current.getTime()) / 1000)
+        : undefined;
+      const transcript = transcriptParts.current.join(' ').trim();
+      try {
+        const result = await saveActionVaultRecording(
+          userId,
+          file,
+          transcript,
+          recordedAt,
+          durationSeconds,
+        );
+        setRecQueued(result.queued);
+        if (result.queued) onQueueChange?.();
+        setRecTitle(result.title ?? 'Inspelning');
+        setRecPhase('done');
+      } catch (err) {
+        setRecError(err instanceof Error ? err.message : 'Kunde inte spara inspelning.');
+        setRecPhase('idle');
+      }
+    },
+    [userId, onQueueChange],
+  );
+
+  const audio = useAudioRecorder({ onRecorded });
+
+  const startRecording = async () => {
+    if (!userId) {
+      setRecError('Logga in först.');
+      return;
+    }
+    setRecError(null);
+    setRecTitle(null);
+    setRecQueued(false);
+    transcriptParts.current = [];
+    startedAt.current = new Date();
+    speech.start();
+    const ok = await audio.start();
+    if (!ok) {
+      speech.stop();
+      setRecError(audio.error ?? 'Kunde inte starta mikrofon.');
+      setRecPhase('idle');
+      return;
+    }
+    setRecPhase('recording');
+  };
+
+  const stopRecording = () => {
+    speech.stop();
+    audio.stop();
+    window.setTimeout(() => {
+      setRecPhase((phase) => {
+        if (phase === 'recording') {
+          setRecError('Inget ljud fångades. Försök igen.');
+          return 'idle';
+        }
+        return phase;
+      });
+    }, 2000);
+  };
+
+  const handleSaveText = async () => {
+    if (!userId || !text.trim()) return;
+    setSaving(true);
+    setError(null);
+    try {
+      const result = await saveActionReflection(userId, text);
+      setQueued(result.queued);
+      if (result.queued) onQueueChange?.();
+      setDone(true);
+      setText('');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Kunde inte spara.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (recPhase === 'done') {
+    return (
+      <BentoCard title="Multiverktyg" description="Kort reflektion" icon={<Sparkles className="h-4 w-4" />} glow="blue">
+        <div className="space-y-3">
+          <p className="flex items-center gap-2 text-sm text-success">
+            <Lock className="h-4 w-4" aria-hidden />
+            {recQueued ? 'Inspelning köad — synkas till Valvet vid nät.' : `Låst i Valvet: ${recTitle}`}
+          </p>
+          {!recQueued && (
+            <Link to="/valvet" className="btn-pill--accent inline-flex text-xs">
+              Öppna Valv
+            </Link>
+          )}
+          <button
+            type="button"
+            className="btn-pill--ghost w-full text-xs"
+            onClick={() => {
+              setRecPhase('idle');
+              setRecTitle(null);
+            }}
+          >
+            Ny inspelning
+          </button>
+        </div>
+      </BentoCard>
+    );
+  }
+
+  if (done) {
+    return (
+      <BentoCard title="Multiverktyg" description="Kort reflektion" icon={<Sparkles className="h-4 w-4" />} glow="blue">
+        <div className="space-y-3">
+          <p className="flex items-center gap-2 text-sm text-success">
+            <Lock className="h-4 w-4" aria-hidden />
+            {queued ? 'Reflektion köad — synkas till Valvet vid nät.' : 'Låst i Valvet.'}
+          </p>
+          {!queued && (
+            <Link to="/valvet" className="btn-pill--accent inline-flex text-xs">
+              Öppna Valv
+            </Link>
+          )}
+          <button type="button" className="btn-pill--ghost w-full text-xs" onClick={() => setDone(false)}>
+            Ny reflektion
+          </button>
+        </div>
+      </BentoCard>
+    );
+  }
+
+  return (
+    <BentoCard title="Multiverktyg" description="Kort reflektion" icon={<Sparkles className="h-4 w-4" />} glow="gold">
+      <div className="space-y-3">
+        {recPhase === 'recording' && (
+          <div className="rounded-xl border border-accent/30 bg-accent/10 px-3 py-3">
+            <p className="flex items-center gap-2 text-xs uppercase tracking-widest text-accent">
+              <span className="widget-record__dot" aria-hidden />
+              Spelar in…
+            </p>
+            {speech.interim ? (
+              <p className="mt-2 text-xs text-text-dim">Hör: {speech.interim}</p>
+            ) : null}
+            <button
+              type="button"
+              onClick={stopRecording}
+              className="btn-pill--accent mt-3 flex w-full min-h-11 items-center justify-center gap-2"
+            >
+              <Square className="h-4 w-4" aria-hidden />
+              Stoppa och spara i Valvet
+            </button>
+          </div>
+        )}
+
+        {recPhase === 'processing' && (
+          <p className="flex items-center justify-center gap-2 py-4 text-sm text-text-dim">
+            <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
+            Transkriberar och låser i Valvet…
+          </p>
+        )}
+
+        {recPhase === 'idle' && (
+          <>
+            <textarea
+              value={text}
+              onChange={(e) => setText(e.target.value.slice(0, REFLECTION_MAX_CHARS))}
+              rows={3}
+              maxLength={REFLECTION_MAX_CHARS}
+              placeholder="En kort tanke eller observation…"
+              className="input-glass w-full rounded-xl px-3 py-2 text-sm"
+              disabled={saving}
+            />
+            <p className="text-right text-[10px] text-text-dim">
+              {text.length}/{REFLECTION_MAX_CHARS}
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => void startRecording()}
+                disabled={!speech.supported || !audio.supported || saving}
+                className="btn-pill--ghost flex min-h-11 items-center justify-center gap-2 text-sm disabled:opacity-40"
+                aria-label="Röstinspelning till Valvet"
+              >
+                <Mic className="h-4 w-4" aria-hidden />
+                Tala in
+              </button>
+              <button
+                type="button"
+                onClick={() => void handleSaveText()}
+                disabled={saving || !text.trim()}
+                className="btn-pill--accent flex min-h-11 items-center justify-center gap-2 text-sm disabled:opacity-50"
+              >
+                {saving ? (
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                ) : (
+                  <PenLine className="h-4 w-4" aria-hidden />
+                )}
+                Spara i Valvet
+              </button>
+            </div>
+          </>
+        )}
+
+        {recError && <p className="text-sm text-danger">{recError}</p>}
+        {speech.error && <p className="text-sm text-danger">{speech.error}</p>}
+        {error && <p className="text-sm text-danger">{error}</p>}
+      </div>
+    </BentoCard>
+  );
+}
+
+function WorkStampCard({ userId }: Props) {
+  const clock = useStampClock(userId);
+  const { stamp, loading, busy, isClockedIn, status, error, success } = clock;
+
+  return (
+    <BentoCard title="Arbetstid" description="Stämpel in / ut" icon={<Clock className="h-4 w-4" />} glow="gold">
+      <div className="space-y-4">
+        {error && (
+          <p className="rounded-lg border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger">
+            {error}
+          </p>
+        )}
+        {success && (
+          <p className="rounded-lg border border-success/30 bg-success/10 px-3 py-2 text-sm text-success">
+            {success}
+          </p>
+        )}
+
+        <div
+          className={`flex items-center gap-3 rounded-xl border px-3 py-3 ${
+            isClockedIn ? 'border-success/30 bg-success/10' : 'border-border/30 bg-surface-3/40'
+          }`}
+        >
+          <Clock
+            className={`h-5 w-5 shrink-0 ${isClockedIn ? 'text-success' : 'text-text-dim'}`}
+            strokeWidth={1.5}
+            aria-hidden
+          />
+          <div>
+            <p className={`text-sm font-medium ${isClockedIn ? 'text-success' : 'text-text-dim'}`}>
+              {isClockedIn
+                ? `Instämplad ${status.inTid || formatStampTime(new Date())}`
+                : 'Inte instämplad'}
+            </p>
+            <p className="text-xs text-text-dim">{status.dagensTimmar} h idag</p>
+          </div>
+        </div>
+
+        {loading ? (
+          <p className="flex items-center justify-center gap-2 py-4 text-sm text-text-dim">
+            <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
+            Laddar…
+          </p>
+        ) : (
+          <StampClockControls
+            isClockedIn={isClockedIn}
+            busy={busy}
+            onStampIn={() => void stamp('IN')}
+            onStampOut={() => void stamp('UT')}
+          />
+        )}
+      </div>
+    </BentoCard>
+  );
+}
+
+function ChildLivsloggCard({ userId, onQueueChange }: Props) {
+  const [childAlias, setChildAlias] = useState<ChildAlias>(CHILD_ALIASES[0]);
+  const [category, setCategory] = useState<LivsloggCategory>('positivt');
+  const [observation, setObservation] = useState('');
+  const [saved, setSaved] = useState(false);
+  const [queued, setQueued] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const speech = useSpeechToText({
+    lang: 'sv-SE',
+    onFinal: (chunk) => {
+      setObservation((prev) => `${prev} ${chunk}`.trim().slice(0, STUND_MAX_CHARS));
+    },
+  });
+
+  useEffect(() => {
+    if (!saved) return;
+    const timer = window.setTimeout(() => setSaved(false), 2500);
+    return () => window.clearTimeout(timer);
+  }, [saved]);
+
+  const handleSave = async () => {
+    if (!userId || !observation.trim()) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await saveActionChildLog(userId, {
+        childAlias,
+        category,
+        observation: observation.trim(),
+        contentType: speech.isListening ? 'voice' : 'text',
+      });
+      setQueued(result.queued);
+      if (result.queued) onQueueChange?.();
+      setSaved(true);
+      setObservation('');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Kunde inte spara.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTextFocus = () => {
+    textareaRef.current?.focus();
+  };
+
+  if (saved) {
+    return (
+      <BentoCard title="Livslogg" description="Barn — snabbinmatning" icon={<Users className="h-4 w-4" />} glow="blue">
+        <p className="flex items-center gap-2 text-sm text-success">
+          <Check className="h-4 w-4" aria-hidden />
+          {queued ? `Köad — synkas till ${childAlias}s logg vid nät.` : `Sparat till ${childAlias}s logg.`}
+        </p>
+      </BentoCard>
+    );
+  }
+
+  return (
+    <BentoCard title="Livslogg" description="Barn — snabbinmatning" icon={<Users className="h-4 w-4" />} glow="blue">
+      <div className="space-y-3">
+        <select
+          value={childAlias}
+          onChange={(e) => setChildAlias(e.target.value as ChildAlias)}
+          className="input-glass w-full rounded-xl px-3 py-2 text-sm"
+          aria-label="Välj barn"
+        >
+          {CHILD_ALIASES.map((alias) => (
+            <option key={alias} value={alias}>
+              {alias}
+            </option>
+          ))}
+        </select>
+
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value as LivsloggCategory)}
+          className="input-glass w-full rounded-xl px-3 py-2 text-sm"
+          aria-label="Välj kategori"
+        >
+          {LIVSLOGG_CATEGORIES.map((c) => (
+            <option key={c.value} value={c.value}>
+              {c.label}
+            </option>
+          ))}
+        </select>
+
+        <textarea
+          ref={textareaRef}
+          value={observation}
+          onChange={(e) => setObservation(e.target.value.slice(0, STUND_MAX_CHARS))}
+          rows={4}
+          maxLength={STUND_MAX_CHARS}
+          placeholder="Vad hände? En kort observation…"
+          className="input-glass w-full rounded-xl px-3 py-2 text-sm"
+        />
+        {speech.interim ? (
+          <p className="text-xs text-text-dim">Hör: {speech.interim}</p>
+        ) : null}
+        <p className="text-right text-[10px] text-text-dim">
+          {observation.length}/{STUND_MAX_CHARS}
+        </p>
+
+        <div className="flex items-center justify-center gap-3">
+          {speech.supported && (
+            <button
+              type="button"
+              onClick={speech.isListening ? speech.stop : speech.start}
+              className={`flex h-11 w-11 items-center justify-center rounded-xl border transition active:scale-[0.97] ${
+                speech.isListening
+                  ? 'border-accent/50 bg-accent/20 text-accent'
+                  : 'border-border/30 bg-surface-3/50 text-accent hover:border-accent/40 hover:bg-surface-3'
+              }`}
+              aria-label="Röstinmatning för barnlogg"
+              aria-pressed={speech.isListening}
+            >
+              {speech.isListening ? (
+                <MicOff className="h-5 w-5" aria-hidden />
+              ) : (
+                <Mic className="h-5 w-5" aria-hidden />
+              )}
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={handleTextFocus}
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-border/30 bg-surface-3/50 text-accent transition active:scale-[0.97] hover:border-accent/40 hover:bg-surface-3"
+            aria-label="Textinmatning för barnlogg"
+          >
+            <PenLine className="h-5 w-5" aria-hidden />
+          </button>
+          <button
+            type="button"
+            disabled
+            title="Kameraintegration kommer i nästa steg"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-border/30 bg-surface-3/30 text-text-dim opacity-50"
+            aria-label="Kamerainmatning — kommer snart"
+          >
+            <Camera className="h-5 w-5" aria-hidden />
+          </button>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => void handleSave()}
+          disabled={loading || !observation.trim()}
+          className="btn-pill--accent flex w-full min-h-11 items-center justify-center gap-2 disabled:opacity-50"
+        >
+          {loading ? (
+            <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+          ) : (
+            <Plus className="h-4 w-4" aria-hidden />
+          )}
+          Spara till {childAlias}s logg
+        </button>
+        {error && <p className="text-sm text-danger">{error}</p>}
+        {speech.error ? <p className="text-sm text-danger">{speech.error}</p> : null}
+      </div>
+    </BentoCard>
+  );
+}
+
+/** Mobil-först widget-hub med Valv, barnlogg och stämpel — offline-kö + synk. */
+export function ActionDashboard({ userId, flushTick = 0 }: Props) {
+  const [pendingCount, setPendingCount] = useState(0);
+
+  const refreshPending = useCallback(async () => {
+    if (!userId) {
+      setPendingCount(0);
+      return;
+    }
+    try {
+      const count = await pendingActionDashboardCount(userId);
+      setPendingCount(count);
+    } catch {
+      setPendingCount(0);
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    void refreshPending();
+    const onOnline = () => void refreshPending();
+    window.addEventListener('online', onOnline);
+    const interval = window.setInterval(() => void refreshPending(), 5000);
+    return () => {
+      window.removeEventListener('online', onOnline);
+      window.clearInterval(interval);
+    };
+  }, [refreshPending, flushTick]);
+
+  return (
+    <div className="mx-auto flex max-w-2xl flex-col gap-4">
+      <QueuedBanner count={pendingCount} />
+      <MultiToolCard userId={userId} onQueueChange={() => void refreshPending()} />
+      <WorkStampCard userId={userId} />
+      <ChildLivsloggCard userId={userId} onQueueChange={() => void refreshPending()} />
+    </div>
+  );
+}

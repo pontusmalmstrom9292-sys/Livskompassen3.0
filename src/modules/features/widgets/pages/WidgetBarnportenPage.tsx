@@ -8,16 +8,19 @@ import { saveBarnportenLog } from '@/features/onboarding/barnporten/api/saveBarn
 import { BARNPORTEN_WIDGET_VARIANTS } from '@/features/onboarding/barnporten/constants/barnportenWidgetVariant';
 import { useBarnportenWidgetVariant } from '@/features/onboarding/barnporten/hooks/useBarnportenWidgetVariant';
 import { resolveBarnportenChildAlias } from '@/features/onboarding/barnporten/constants/barnportenDeviceId';
+import { useBarnportenOfflineFlush } from '@/features/onboarding/barnporten/hooks/useBarnportenOfflineFlush';
 import { WidgetShell } from '../layout/WidgetShell';
 
 function WidgetBarnportenInner() {
   const user = useStore((s) => s.user);
+  useBarnportenOfflineFlush(user?.uid);
   const [searchParams] = useSearchParams();
   const { variant, setVariant } = useBarnportenWidgetVariant();
   const quick = searchParams.get('quick') === '1';
   const [text, setText] = useState('');
   const [saving, setSaving] = useState(false);
   const [done, setDone] = useState(false);
+  const [queued, setQueued] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -30,12 +33,13 @@ function WidgetBarnportenInner() {
     setSaving(true);
     setError(null);
     try {
-      await saveBarnportenLog(user.uid, {
+      const result = await saveBarnportenLog(user.uid, {
         childAlias: resolveBarnportenChildAlias(),
         observation: text.trim(),
         kind: 'quick_widget',
         contentType: 'text',
       });
+      setQueued(result.queued);
       setDone(true);
       setText('');
     } catch {
@@ -53,7 +57,9 @@ function WidgetBarnportenInner() {
       >
         {done ? (
           <div className="elongated-module elongated-module--gold p-4">
-            <p className="text-sm text-success">Skickat till pappas inkorg.</p>
+            <p className="text-sm text-success">
+              {queued ? 'Köad — synkas när nätet finns.' : 'Skickat till pappas inkorg.'}
+            </p>
             <Link to="/barnporten" className="btn-pill--accent mt-3 inline-flex text-xs">
               Öppna Barnporten
             </Link>
@@ -120,7 +126,7 @@ function WidgetBarnportenInner() {
 
 export function WidgetBarnportenPage() {
   return (
-    <AuthGate>
+    <AuthGate variant="widget">
       <WidgetBarnportenInner />
     </AuthGate>
   );

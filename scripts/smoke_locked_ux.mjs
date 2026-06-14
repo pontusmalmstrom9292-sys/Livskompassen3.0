@@ -418,6 +418,29 @@ function main() {
     'src/modules/features/widgets/routing/WidgetRoutes.tsx',
     'WidgetBarnportenPage',
     'barnporten',
+    'aktioner',
+    'WidgetActionDashboardPage',
+  );
+  mustInclude(
+    'src/modules/features/widgets/components/ActionDashboard.tsx',
+    'saveActionReflection',
+    'saveActionVaultRecording',
+    'QueuedBanner',
+  );
+  mustInclude(
+    'src/modules/features/widgets/api/actionDashboardApi.ts',
+    'widget_aktioner_reflektion',
+    'flushActionDashboardQueue',
+  );
+  mustInclude(
+    'src/modules/features/widgets/api/actionDashboardOfflineQueue.ts',
+    'livskompassen_action_dashboard_v1',
+    'pending_actions',
+  );
+  mustInclude(
+    '.context/locked-ux-features.md',
+    'Åtgärder-widget',
+    '/widget/aktioner',
   );
   mustInclude('public/barnporten-manifest.webmanifest', '/widget/barnporten');
   mustInclude(
