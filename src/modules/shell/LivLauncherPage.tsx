@@ -7,6 +7,7 @@ import { CompassQuickWidgetRail } from '@/features/dailyLife/wellbeing/compasses
 import { DashboardPage as CompassDashboard } from '@/features/dailyLife/wellbeing/compasses/components/DashboardPage';
 import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 import { EconomyOverviewPanel } from '@/features/dailyLife/wellbeing/economy/components/EconomyOverviewPanel';
+import { EkonomiInputSuperModule } from '@/features/dailyLife/wellbeing/economy/supermodule';
 import { LivLauncherGrid, type LivLauncherId } from './LivLauncherGrid';
 import {
   LIV_LAUNCHER_EXTERNAL,
@@ -44,6 +45,7 @@ export function LivLauncherPage() {
   }
 
   const activeTab = resolveInlineTab(rawTab);
+  const useSuperhub = searchParams.get('superhub') === 'true';
   const compassFlow = getDefaultCompassByTime();
 
   const handleChange = (id: LivLauncherId) => {
@@ -96,7 +98,11 @@ export function LivLauncherPage() {
 
           {activeTab === 'ekonomi' && (
             <div className="space-y-4">
-              <EconomyOverviewPanel userId={user?.uid ?? ''} />
+              {useSuperhub ? (
+                <EkonomiInputSuperModule userId={user?.uid ?? ''} />
+              ) : (
+                <EconomyOverviewPanel userId={user?.uid ?? ''} />
+              )}
             </div>
           )}
         </main>
