@@ -12,13 +12,8 @@ import {
   type EkonomiModuleChoice,
 } from './EkonomiModulValjare';
 import { hasSeenEkonomiModulValjare } from '../utils/ekonomiModulValjareStorage';
-import { useEvolutionStore } from '@/core/store/useEvolutionStore';
-import {
-  useIsCapacityLoading,
-  useIsEconomyAdvancedUnlocked,
-  useListenToCapacityState,
-} from '@/core/store/useCapacityGate';
-import { EconomyAdvancedGate } from '@/features/economy/components/EconomyAdvancedGate';
+import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
+import type { EconomyCapacityLevel } from '../supermodule/capacityResolver';
 
 const TABS: { id: EkonomiModuleChoice; label: string; icon: typeof Wallet }[] = [
   { id: 'budget', label: 'Budget', icon: Wallet },
@@ -28,6 +23,16 @@ const TABS: { id: EkonomiModuleChoice; label: string; icon: typeof Wallet }[] = 
   { id: 'tid', label: 'Tid', icon: Clock },
 ];
 
+function allowedTabIdsForLevel(level: EconomyCapacityLevel): Set<EkonomiModuleChoice> {
+  if (level === 'critical' || level === 1) {
+    return new Set(['budget']);
+  }
+  if (level === 2) {
+    return new Set(['budget', 'kost_prepp', 'tid', 'spar']);
+  }
+  return new Set(['budget', 'kost_prepp', 'impuls', 'spar', 'tid']);
+}
+
 type Props = {
   userId: string;
 };
@@ -35,33 +40,19 @@ type Props = {
 export function EconomyOverviewPanel({ userId }: Props) {
   const [showPicker, setShowPicker] = useState(() => !hasSeenEkonomiModulValjare());
   const [activeTab, setActiveTab] = useState<EkonomiModuleChoice>('budget');
-  const hasAdvanced = useEvolutionStore((s) => s.hasFeature('economy_advanced'));
-  const isEconomyAdvancedUnlocked = useIsEconomyAdvancedUnlocked();
-  const isCapacityLoading = useIsCapacityLoading();
-  const listenToCapacityState = useListenToCapacityState();
+  const { level, isEconomyAdvancedUnlocked, isLoading } = useEconomyLevel(userId);
+
+  const visibleTabs = useMemo(() => {
+    const allowed = allowedTabIdsForLevel(level);
+    return TABS.filter((tab) => allowed.has(tab.id));
+  }, [level]);
 
   useEffect(() => {
-    if (!userId) return;
-    return listenToCapacityState(userId);
-  }, [userId, listenToCapacityState]);
-
-  const visibleTabs = useMemo(
-    () =>
-      TABS.filter((t) => {
-        if (t.id === 'impuls' || t.id === 'spar') {
-          return isEconomyAdvancedUnlocked || hasAdvanced;
-        }
-        return true;
-      }),
-    [isEconomyAdvancedUnlocked, hasAdvanced],
-  );
-
-  useEffect(() => {
-    if (isCapacityLoading) return;
-    if (!visibleTabs.some((t) => t.id === activeTab)) {
+    if (isLoading) return;
+    if (!visibleTabs.some((tab) => tab.id === activeTab)) {
       setActiveTab('budget');
     }
-  }, [isCapacityLoading, activeTab, visibleTabs]);
+  }, [isLoading, activeTab, visibleTabs]);
 
   const openTab = (tab: EkonomiModuleChoice) => {
     setActiveTab(tab);
@@ -121,23 +112,17 @@ export function EconomyOverviewPanel({ userId }: Props) {
       <div className="animate-fade-in min-h-[260px] p-4 sm:p-5">
         {activeTab === 'budget' && <EconomyBudgetTab />}
         {activeTab === 'kost_prepp' && <EconomyMealPrepPanel />}
-        {activeTab === 'impuls' && (
-          <EconomyAdvancedGate featureLabel="Impulsköpspaus" alsoUnlocked={hasAdvanced}>
-            <EconomyImpulsePanel />
-          </EconomyAdvancedGate>
-        )}
+        {activeTab === 'impuls' && <EconomyImpulsePanel />}
         {activeTab === 'spar' && (
-          <EconomyAdvancedGate featureLabel="Sparmål" alsoUnlocked={hasAdvanced}>
-            <div className="space-y-5">
-              <EconomySavingsPanel
-                tagFilter="family"
-                panelTitle="Barnens Äventyrskassa"
-                description="Familjesparmål — t.ex. Liseberg till sommaren"
-                compact
-              />
-              <EconomySavingsPanel panelTitle="Sparmål" />
-            </div>
-          </EconomyAdvancedGate>
+          <div className="space-y-5">
+            <EconomySavingsPanel
+              tagFilter="family"
+              panelTitle="Barnens Äventyrskassa"
+              description="Familjesparmål — t.ex. Liseberg till sommaren"
+              compact
+            />
+            <EconomySavingsPanel panelTitle="Sparmål" />
+          </div>
         )}
         {activeTab === 'tid' && <EconomyTidPanel />}
       </div>

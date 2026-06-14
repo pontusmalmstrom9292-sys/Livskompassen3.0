@@ -11,6 +11,7 @@ import { EkonomiImpulsDelegate } from './delegates/EkonomiImpulsDelegate';
 import { EkonomiInkastDelegate } from './delegates/EkonomiInkastDelegate';
 import { EkonomiKuvertDelegate } from './delegates/EkonomiKuvertDelegate';
 import { EkonomiMatprepDelegate } from './delegates/EkonomiMatprepDelegate';
+import { EkonomiMikrostegDelegate } from './delegates/EkonomiMikrostegDelegate';
 import { EkonomiProfilDelegate } from './delegates/EkonomiProfilDelegate';
 import { EkonomiSaldoDelegate } from './delegates/EkonomiSaldoDelegate';
 import { EkonomiSparDelegate } from './delegates/EkonomiSparDelegate';
@@ -49,6 +50,8 @@ function EkonomiInputModeDelegate({
   switch (mode) {
     case 'saldo':
       return <EkonomiSaldoDelegate userId={userId} />;
+    case 'mikrosteg':
+      return <EkonomiMikrostegDelegate userId={userId} />;
     case 'profil':
       return <EkonomiProfilDelegate userId={userId} />;
     case 'matprep':
