@@ -45,7 +45,7 @@ export function LivLauncherPage() {
   }
 
   const activeTab = resolveInlineTab(rawTab);
-  const useSuperhub = searchParams.get('superhub') === 'true';
+  const useLegacyEkonomi = searchParams.get('legacy') === 'true';
   const compassFlow = getDefaultCompassByTime();
 
   const handleChange = (id: LivLauncherId) => {
@@ -98,10 +98,10 @@ export function LivLauncherPage() {
 
           {activeTab === 'ekonomi' && (
             <div className="space-y-4">
-              {useSuperhub ? (
-                <EkonomiInputSuperModule userId={user?.uid ?? ''} />
-              ) : (
+              {useLegacyEkonomi ? (
                 <EconomyOverviewPanel userId={user?.uid ?? ''} />
+              ) : (
+                <EkonomiInputSuperModule userId={user?.uid ?? ''} />
               )}
             </div>
           )}
