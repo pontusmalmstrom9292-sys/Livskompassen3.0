@@ -24,8 +24,9 @@
 | 17 | Teman / vad jag tycker är kul | — | MB-REF-JOY-01..06, MB-PLAY-JOY-01/02 | — | **done** 2026-06-07 — bank-only (kurator); prod-wire kräver PMIR |
 | 18 | Barnen PLAY child bank | — | BP-PLAY-01..21 (`barnfokusCatalog.ts`) | — | **done** 2026-06-11 — MT-1 wire + parent footer |
 | 20 | Covert taktik + barn HCF | cn-001–015, bh-001–008 | BP-PLAY-22..24 (barnfokus) | — | **done** 2026-06-14 — bank KEEP; **ingest klar** (76 FACT i `kampspar`) |
-| 21 | Covert HCF fördjupning | cn-016–020, ep-001–005, jur-001–004, bh-009–012, vf-001–004 | — | — | **bank KEEP** 2026-06-14 — ingest pågår |
+| 21 | Covert HCF fördjupning | cn-016–020, ep-001–005, jur-001–004, bh-009–012, vf-001–004 | — | — | **done** 2026-06-14 — bank KEEP; **ingest klar** (98 FACT manifest) |
+| 22 | Ekonomisk kontroll + Hamn wire | cn-021 | — (hoover wire UI) | — | **bank KEEP** 2026-06-14 — UI wire + cn-021 seed |
 
-**Aktiv våg:** `21` · **22** planerad (ekonomisk kontroll, hoover wire UI)
+**Aktiv våg:** `22` · ingest cn-021 efter granskning
 
 **Seed (Google-konto):** `SEED_FIREBASE_EMAIL` i `.env` + `gcloud auth application-default login` → `npm run seed:kunskap-facts`

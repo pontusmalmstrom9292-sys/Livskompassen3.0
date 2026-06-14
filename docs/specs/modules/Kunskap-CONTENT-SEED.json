@@ -982,6 +982,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "NICE; ADHD comorbidity (översikt)",
       "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-cn-021",
+      "title": "Ekonomisk kontroll i medföräldraskap",
+      "content": "Ekonomisk kontroll beskriver när pengar, underhåll, räkningar eller skuldkrav används för att pressa, bestraffa eller styra kommunikation — t.ex. hot om att inte betala avtalad summa om du 'inte samarbetar', krav på kvitton utöver vad som avtalats, eller oväntade extra kostnader som betingelse. Skilj från vanlig logistik (~10 %): faktiska underhållsbelopp med datum och referens till avtal eller dom. Neutral respons: dokumentera belopp, datum och kanal i Valv; håll svar på logistik (BIFF). Livskompassen ger inte ekonomisk eller juridisk rådgivning.",
+      "category": "covert_taktik",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Financial abuse in coercive control literature; high-conflict coparenting (översikt)",
+      "source_tier": "psychoeducation_general"
     }
   ]
 }

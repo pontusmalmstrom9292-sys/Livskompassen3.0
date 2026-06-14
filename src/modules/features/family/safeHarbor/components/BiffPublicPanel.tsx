@@ -13,6 +13,8 @@ import { shouldShowValvHandoff } from '@/core/triggers/valvHandoff';
 import { submitCaptureDraft } from '@/modules/capture/submitCaptureDraft';
 import { shouldRedirectMabraCoachToSpeglar } from '@/features/dailyLife/wellbeing/mabra/lib/mabraCoachGuard';
 import { MabraSpeglarGuardHint } from '@/features/dailyLife/wellbeing/mabra/components/MabraSpeglarGuardHint';
+import { detectHamnTaktikSignal } from '../lib/hamnTaktikWire';
+import { HamnTaktikLexikonBro } from './HamnTaktikLexikonBro';
 
 type Props = {
   initialMessage?: string;
@@ -100,6 +102,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
   const [autosortNote, setAutosortNote] = useState<string | null>(null);
   const [jadeViolations, setJadeViolations] = useState<JadeViolation[]>([]);
   const fromSpeglar = Boolean(initialMessage.trim());
+  const taktikSignal = detectHamnTaktikSignal(message);
 
   useEffect(() => {
     if (initialMessage.trim()) {
@@ -239,6 +242,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
             onStay={() => setSpeglarGuardDismissed(true)}
           />
         )}
+        {taktikSignal && <HamnTaktikLexikonBro signal={taktikSignal} className="mt-1" />}
         <button type="submit" disabled={loading || !message.trim()} className="btn-pill--accent w-full">
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           Få Grey Rock-svar
@@ -255,13 +259,16 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
       />
 
       {!reply && !loading && !error && !message.trim() && (
-        <p className="text-xs text-text-dim">
-          Tomt fält — klistra in meddelandet. Inget sparas förrän du trycker Klar. Behöver du riskanalys
-          eller bevisarkiv?{' '}
-          <Link to={vaultDrawerPath('hamn_analys')} className="text-accent/80 underline-offset-2 hover:underline">
-            Valv → Hamn · Analys
-          </Link>
-        </p>
+        <div className="space-y-2">
+          <p className="text-xs text-text-dim">
+            Tomt fält — klistra in meddelandet. Inget sparas förrän du trycker Klar. Behöver du riskanalys
+            eller bevisarkiv?{' '}
+            <Link to={vaultDrawerPath('hamn_analys')} className="text-accent/80 underline-offset-2 hover:underline">
+              Valv → Hamn · Analys
+            </Link>
+          </p>
+          <HamnTaktikLexikonBro />
+        </div>
       )}
 
       {reply && (

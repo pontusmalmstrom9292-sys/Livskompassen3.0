@@ -15,6 +15,7 @@ import {
   HAMN_EMBEDDED_LEAD,
   HAMN_GREY_ROCK_LEAD,
 } from '../hamnCopy';
+import { HamnTaktikLexikonBro } from './HamnTaktikLexikonBro';
 
 const HAMN_SUB_TABS = [
   { id: 'oversikt', label: 'Översikt' },
@@ -110,6 +111,7 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
             BIFF och Grey Rock finns under fliken BIFF. Brusfilter (logistik vs beten) visas efter analys.
             Riskanalys och bevis under Valv → Hamn · Analys.
           </p>
+          <HamnTaktikLexikonBro />
         </div>
       )}
 

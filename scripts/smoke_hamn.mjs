@@ -34,6 +34,7 @@ function main() {
     'src/modules/features/family/safeHarbor/hamnCopy.ts',
     'HAMN_GREY_ROCK_LEAD',
     'HAMN_BRUSFILTER_HINT',
+    'HAMN_TAKTIK_LEXIKON_LEAD',
     'Zero Footprint',
   );
   mustInclude(
@@ -42,6 +43,13 @@ function main() {
     'gransAnalysis',
     'handleKlar',
     'sourceModule: \'hamn_biff\'',
+    'detectHamnTaktikSignal',
+    'HamnTaktikLexikonBro',
+  );
+  mustInclude(
+    'src/modules/features/family/safeHarbor/components/HamnTaktikLexikonBro.tsx',
+    'Taktik-lexikon',
+    "vaultDrawerPath('kunskapsbank')",
   );
   mustInclude(
     'src/modules/features/family/safeHarbor/components/TryggHamnHub.tsx',
@@ -49,6 +57,12 @@ function main() {
     'embedded',
     'HAMN_BRUSFILTER_LEAD',
     'HAMN_BRUSFILTER_HINT',
+    'HamnTaktikLexikonBro',
+  );
+  mustInclude(
+    'src/modules/features/family/safeHarbor/lib/hamnTaktikWire.ts',
+    'hoovering',
+    'ekonomisk_kontroll',
   );
   mustInclude(
     'src/modules/core/pages/FamiljenPage.tsx',

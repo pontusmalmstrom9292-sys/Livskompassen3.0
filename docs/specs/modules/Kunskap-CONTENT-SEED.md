@@ -1510,6 +1510,24 @@ why: "referens för Kompis, ej terapi"
 
 ---
 
+## Batch 2026-06-14 — Våg 22 Ekonomisk kontroll (cn-021)
+
+```yaml
+id: kunskap-fact-cn-021
+status: KEEP
+content_class: FACT
+title: "Ekonomisk kontroll i medföräldraskap"
+content: "Ekonomisk kontroll beskriver när pengar, underhåll, räkningar eller skuldkrav används för att pressa, bestraffa eller styra kommunikation — t.ex. hot om att inte betala avtalad summa om du 'inte samarbetar', krav på kvitton utöver vad som avtalats, eller oväntade extra kostnader som betingelse. Skilj från vanlig logistik (~10 %): faktiska underhållsbelopp med datum och referens till avtal eller dom. Neutral respons: dokumentera belopp, datum och kanal i Valv; håll svar på logistik (BIFF). Livskompassen ger inte ekonomisk eller juridisk rådgivning."
+category: covert_taktik
+entryType: fakta
+tags: [covert, ekonomisk_kontroll, medforaldraskap, hamn]
+source_tier: psychoeducation_general
+citation_hint: "Financial abuse in coercive control literature; high-conflict coparenting (översikt)"
+why: "Våg 22 lucka domän-covert — Hamn wire + Kunskap referens, ej BIFF-coaching"
+```
+
+---
+
 ## Koppling till befintlig seed
 
 | Manifest | Fil |
