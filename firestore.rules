@@ -176,9 +176,68 @@ service cloud.firestore {
         && request.resource.data.timestamp is timestamp;
     }
 
+    function isValidCheckInCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'questionId', 'questionText', 'optionSelected',
+          'taskText', 'taskCompleted', 'taskCategory', 'taskNote', 'energy', 'mood', 'createdAt',
+        ])
+        && request.resource.data.questionId is string
+        && request.resource.data.questionId.size() > 0
+        && request.resource.data.questionId.size() <= 64
+        && request.resource.data.optionSelected is string
+        && request.resource.data.optionSelected.size() > 0
+        && request.resource.data.optionSelected.size() <= 200
+        && (!('questionText' in request.resource.data)
+          || request.resource.data.questionText is string)
+        && (!('taskText' in request.resource.data)
+          || request.resource.data.taskText is string)
+        && (!('taskCompleted' in request.resource.data)
+          || request.resource.data.taskCompleted is bool)
+        && (!('taskCategory' in request.resource.data)
+          || request.resource.data.taskCategory is string)
+        && (!('taskNote' in request.resource.data)
+          || request.resource.data.taskNote is string)
+        && (!('energy' in request.resource.data)
+          || request.resource.data.energy is number)
+        && (!('mood' in request.resource.data)
+          || request.resource.data.mood is number);
+    }
+
+    function isValidTransactionCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'label', 'amountSek', 'category', 'createdAt',
+        ])
+        && request.resource.data.label is string
+        && request.resource.data.label.size() > 0
+        && request.resource.data.label.size() <= 120
+        && request.resource.data.amountSek is number
+        && request.resource.data.category in ['veckopeng', 'matlada', 'vinst', 'ovrigt'];
+    }
+
+    function isValidMabraSessionCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'exerciseType', 'durationSeconds', 'hubSymptom',
+          'cardBankId', 'playBankId', 'mixDateKey', 'createdAt',
+        ])
+        && request.resource.data.exerciseType is string
+        && request.resource.data.exerciseType.size() > 0
+        && request.resource.data.exerciseType.size() <= 32
+        && request.resource.data.durationSeconds is int
+        && request.resource.data.durationSeconds >= 0
+        && request.resource.data.durationSeconds <= 86400
+        && (!('hubSymptom' in request.resource.data)
+          || request.resource.data.hubSymptom is string)
+        && (!('cardBankId' in request.resource.data)
+          || request.resource.data.cardBankId is string)
+        && (!('playBankId' in request.resource.data)
+          || request.resource.data.playBankId is string)
+        && (!('mixDateKey' in request.resource.data)
+          || request.resource.data.mixDateKey is string);
+    }
+
     match /checkins/{docId} {
       allow read: if isOwner();
-      allow create: if isOwnerCreate();
+      allow create: if isOwnerCreate() && isValidCheckInCreate();
       allow update, delete: if false;
     }
 
@@ -270,22 +329,8 @@ service cloud.firestore {
 
     match /mabra_sessions/{docId} {
       allow read: if isOwner();
-      allow create: if isOwnerCreate();
+      allow create: if isOwnerCreate() && isValidMabraSessionCreate();
       allow update, delete: if false;
-    }
-
-    match /mabra_progress/{uid} {
-      allow read: if isAuthenticated() && request.auth.uid == uid;
-      allow create: if isAuthenticated()
-        && uid == request.auth.uid
-        && request.resource.data.ownerId == request.auth.uid
-        && request.resource.data.userId == request.auth.uid;
-      allow update: if isAuthenticated()
-        && uid == request.auth.uid
-        && resource.data.ownerId == request.auth.uid
-        && request.resource.data.ownerId == request.auth.uid
-        && request.resource.data.userId == request.auth.uid;
-      allow delete: if false;
     }
 
     match /user_daily_focus/{uid} {
@@ -318,33 +363,137 @@ service cloud.firestore {
       return request.resource.data.content_class in ['REFLECTION', 'PLAY'];
     }
 
-    match /vit_hub/{uid} {
-      allow read: if isAuthenticated() && request.auth.uid == uid;
+    function isValidKat7ProjectId() {
+      return request.resource.data.projectId in [
+        'self_esteem', 'emotional_memory', 'learn_together', 'who_am_i',
+      ];
+    }
+
+    function isValidVitEntryCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'createdAt', 'projectId', 'kind', 'bankId',
+          'content_class', 'responseText', 'cardDateKey', 'zone', 'inputMode',
+        ])
+        && request.resource.data.createdAt is timestamp
+        && isValidVitEntryKind()
+        && isValidVitContentClass()
+        && isValidKat7ProjectId()
+        && request.resource.data.bankId is string
+        && request.resource.data.bankId.size() > 0
+        && request.resource.data.bankId.size() <= 32
+        && (!('responseText' in request.resource.data)
+          || (request.resource.data.responseText is string
+            && request.resource.data.responseText.size() <= 5000))
+        && (!('cardDateKey' in request.resource.data)
+          || request.resource.data.cardDateKey.matches('^\\d{4}-\\d{2}-\\d{2}$'))
+        && (!('zone' in request.resource.data)
+          || request.resource.data.zone == 'mabra')
+        && (!('inputMode' in request.resource.data)
+          || request.resource.data.inputMode in [
+            'vit_card', 'vit_chat', 'vit_memory', 'checkin',
+          ]);
+    }
+
+    function isValidMabraProgressWrite() {
+      return request.resource.data.keys().hasOnly([
+          'userId', 'ownerId', 'coreValues', 'updatedAt',
+        ])
+        && request.resource.data.coreValues is list
+        && request.resource.data.coreValues.size() <= 8;
+    }
+
+    function isValidMabraProgressUpdate() {
+      return isValidMabraProgressWrite()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId;
+    }
+
+    function isValidVitHubWrite() {
+      return request.resource.data.keys().hasOnly([
+          'userId', 'ownerId', 'activeProjectIds', 'updatedAt',
+        ])
+        && (!('activeProjectIds' in request.resource.data)
+          || request.resource.data.activeProjectIds is list);
+    }
+
+    function isValidRecoveryProfileCreate() {
+      return request.resource.data.keys().hasOnly([
+          'userId', 'ownerId', 'programType', 'startDateKey', 'shareWithCoach', 'updatedAt',
+        ])
+        && request.resource.data.programType in [
+          'twelve_step_inspired', 'custom_abstinence', 'other',
+        ]
+        && request.resource.data.startDateKey.matches('^\\d{4}-\\d{2}-\\d{2}$')
+        && request.resource.data.shareWithCoach is bool
+        && request.resource.data.shareWithCoach == false;
+    }
+
+    function isValidRecoveryProfileUpdate() {
+      return request.resource.data.keys().hasOnly([
+          'userId', 'ownerId', 'programType', 'startDateKey', 'shareWithCoach', 'updatedAt',
+        ])
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.programType in [
+          'twelve_step_inspired', 'custom_abstinence', 'other',
+        ]
+        && request.resource.data.startDateKey.matches('^\\d{4}-\\d{2}-\\d{2}$')
+        && request.resource.data.shareWithCoach == false;
+    }
+
+    match /mabra_progress/{uid} {
+      allow read: if isAuthenticated() && request.auth.uid == uid && isSensitiveAuth();
       allow create: if isAuthenticated()
         && uid == request.auth.uid
-        && request.resource.data.ownerId == request.auth.uid
-        && request.resource.data.userId == request.auth.uid;
+        && isOwnerCreateSensitive()
+        && isValidMabraProgressWrite();
       allow update: if isAuthenticated()
         && uid == request.auth.uid
-        && resource.data.ownerId == request.auth.uid
-        && request.resource.data.ownerId == request.auth.uid
-        && request.resource.data.userId == request.auth.uid;
+        && isOwnerSensitive()
+        && isValidMabraProgressUpdate();
+      allow delete: if false;
+    }
+
+    match /vit_hub/{uid} {
+      allow read: if isAuthenticated() && request.auth.uid == uid && isSensitiveAuth();
+      allow create: if isAuthenticated()
+        && uid == request.auth.uid
+        && isOwnerCreateSensitive()
+        && isValidVitHubWrite();
+      allow update: if isAuthenticated()
+        && uid == request.auth.uid
+        && isOwnerSensitive()
+        && isValidVitHubWrite()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId;
       allow delete: if false;
     }
 
     match /vit_entries/{docId} {
-      allow read: if isOwner();
-      allow create: if isOwnerCreate()
-        && isValidVitEntryKind()
-        && isValidVitContentClass()
-        && request.resource.data.projectId is string
-        && request.resource.data.bankId is string;
+      allow read: if isOwnerSensitive();
+      allow create: if isOwnerCreateSensitive() && isValidVitEntryCreate();
       allow update, delete: if false;
+    }
+
+    // Kat 8 P1 — isolerad återhämtningsprofil (L4). Aldrig Valv/RAG.
+    match /recovery_profile/{uid} {
+      allow read: if isAuthenticated()
+        && request.auth.uid == uid
+        && isSensitiveAuth();
+      allow create: if isAuthenticated()
+        && uid == request.auth.uid
+        && isOwnerCreateSensitive()
+        && isValidRecoveryProfileCreate();
+      allow update: if isAuthenticated()
+        && uid == request.auth.uid
+        && isOwnerSensitive()
+        && isValidRecoveryProfileUpdate();
+      allow delete: if false;
     }
 
     match /transactions/{docId} {
       allow read: if isOwner();
-      allow create: if isOwnerCreate();
+      allow create: if isOwnerCreate() && isValidTransactionCreate();
       allow update, delete: if false;
     }
 
@@ -687,7 +836,7 @@ service cloud.firestore {
 
     match /evolution_ledger/{docId} {
       allow read: if isOwner();
-      allow create: if isOwnerCreate() && isValidEvolutionLedgerCreate();
+      allow create: if isOwnerCreateSensitive() && isValidEvolutionLedgerCreate();
       allow update, delete: if false;
     }
 

@@ -19,6 +19,7 @@ export const WORM_COLLECTIONS_NEVER_PURGE = [
   'reality_vault',
   'journal',
   'emotional_memory',
+  'vit_entries',
   'dossier_snapshots',
   'kampspar',
   'kb_docs',
@@ -27,6 +28,7 @@ export const WORM_COLLECTIONS_NEVER_PURGE = [
   'transactions',
   'evolution_ledger',
   'evolution_hub',
+  'recovery_profile',
 ] as const;
 
 /** Endast ephemeral cache under users/{uid}/. Live Minne = top-level kampspar. */
