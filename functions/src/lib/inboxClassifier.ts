@@ -251,6 +251,29 @@ export function heuristicInboxClassify(
     };
   }
 
+  /** Domän-prior ~80%: HCF/covert-bevis eller teori utan explicit hem/måbra-källa. */
+  const covertHcfSignal =
+    /\b(darvo|gaslight|triangul|projektion|invalidation|tyst straff|covert|offerroll|biff|grey rock|moving goalpost)\b/.test(
+      blob,
+    ) ||
+    (/\b(motpart|ex|barnens mor|isabelle)\b/.test(blob) &&
+      /\b(sms|mejl|sa|skrev|hände|bevis|mönster|teori|logg)\b/.test(blob));
+
+  if (
+    covertHcfSignal &&
+    !/\bsourcemodule:(hem_|mabra_|planering_)/i.test(blob)
+  ) {
+    return {
+      routing: 'bevis',
+      tags: ['covert_taktik', 'hcf', 'bevis'],
+      category: 'covert_hcf',
+      confidence: 0.78,
+      summary: 'HCF/covert — bevis eller teori (domän-prior).',
+      traumaSensitive: false,
+      rationale: 'Heuristisk match: domän-prior ~80% → reality_vault.',
+    };
+  }
+
   return null;
 }
 

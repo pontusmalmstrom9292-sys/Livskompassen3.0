@@ -1,0 +1,46 @@
+---
+description: Domänlins — dold kvinnlig narcissism, HCF, barn, bevis (MUST read Valv/inkast)
+alwaysApply: true
+---
+
+# Domän — covert HCF (röd tråd)
+
+Kanon: [`.context/domän-covert-narcissism.md`](../../.context/domän-covert-narcissism.md) · eval [`docs/evaluations/2026-06-01-superhub-domän-covert-narcissism.md`](../../docs/evaluations/2026-06-01-superhub-domän-covert-narcissism.md)
+
+## Upload-prior (~80%)
+
+Antag att **~80%** av Pontus inkast/uppladdningar gäller **bevis eller teorier** kring högkonflikt medföräldraskap och **covert** manipulation (offerroll, gaslighting, DARVO, triangulering, tyst straff, fasad utåt).
+
+**Första fråga vid oklar routing:** *Är detta bevis, barnobservation, ex-sms, eller metod/fakta?*
+
+| Signal | Routing | Silo |
+|--------|---------|------|
+| Sms/mejl, tidslinje, mönster, teorier om beteenden | `bevis` → Valv | `reality_vault` WORM |
+| Barn (Kasper/Arvid), observerbart | `barnen` | `children_logs` |
+| Ex-sms → svar | Hamn BIFF | ephemeral; spara → Valv |
+| Gaslighting / validering | Speglar | Zero Footprint |
+| Metod, BBIC, taktik-fakta | Kunskap | `kampspar` (`cn-*`, `bh-*`) |
+| LVU/vårdnad/trauma, osäker | `review` | Granska-läge |
+
+## MUST (byggare + agenter)
+
+- Läs `.context/domän-covert-narcissism.md` **före** Valv, Inkast, Hamn, Mönster, Dossier, capture-routing.
+- WORM: **beteende + datum** — aldrig «narcissist»/diagnos i poster eller dossier mot myndigheter.
+- DCAP/heuristik **före** LLM-routing (U2).
+- Tre silor — ingen cross-RAG (U1).
+
+## Kunskap i molnet (våg 20 + äldre)
+
+- `kunskap-fact-cn-001`–`015` (`covert_taktik`)
+- `kunskap-fact-bh-001`–`008` (`barn_hcf`)
+- `043`–`047` (DARVO, love bombing, triangulering, moving goalposts, projektion)
+- Profil + barn-referens seed (Kasper/Arvid, PA, taktiker)
+
+**Ej komplett än** — se våg 21 i [`docs/content/CONTENT-WAVES.md`](../../docs/content/CONTENT-WAVES.md).
+
+## MUST NOT
+
+- Etikettera motpart i prod UI, WORM eller soc-skrivelser
+- Auto-promote barnlogg → Valv
+- BIFF-coaching i Kunskap RAG
+- LLM som enda källa för auth eller WORM-beslut

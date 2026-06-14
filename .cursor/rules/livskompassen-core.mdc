@@ -9,6 +9,7 @@ Livskompassen v2 is a Life OS and autonomous multi-agent system for Lagen om Aut
 
 Before implementation:
 - Read `.context/system-plan.md` to understand the active phase.
+- Read `.context/domän-covert-narcissism.md` when touching Valv, Inkast, Hamn, Mönster, capture-routing, or bevis (upload-prior ~80% HCF/covert).
 - Read `.context/architecture.md`, `.context/security.md`, `.context/database.md`, `.context/design-language.md`, `.context/agents.md`, and `.context/innehall-kanon.md` when adding coaching content, cards, or knowledge seed.
 - Use a REASONS plan for meaningful changes: Requirements, Entities, Approach, Structure, Operations, Norms, Safeguards.
 - Preserve Sacred Features: Verklighetsvalvet, Sanningens Sköld, Morgonkompassen, Dossier-Generator, Speglings-Systemet, Zero Footprint, and Kill Switch.
