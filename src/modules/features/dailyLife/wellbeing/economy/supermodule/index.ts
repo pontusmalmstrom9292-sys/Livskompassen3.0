@@ -2,6 +2,8 @@ export { EkonomiInputSuperModule, type EkonomiInputSuperModuleProps } from './Ek
 export { EkonomiMatprepDelegate, type EkonomiMatprepDelegateProps } from './delegates/EkonomiMatprepDelegate';
 export { EkonomiProfilDelegate, type EkonomiProfilDelegateProps } from './delegates/EkonomiProfilDelegate';
 export { EkonomiSaldoDelegate, type EkonomiSaldoDelegateProps } from './delegates/EkonomiSaldoDelegate';
+export { useEconomyMatprepRead } from './hooks/useEconomyMatprepRead';
+export { useEconomyProfilWrite, DEFAULT_WEEKLY_BUDGET, DEFAULT_MEAL_PRESET } from './hooks/useEconomyProfilWrite';
 export { useEconomyTransactionWORM, type EconomyTransactionCategory } from './hooks/useEconomyTransactionWORM';
 export { useEconomySaldoRead } from './hooks/useEconomySaldoRead';
 export {

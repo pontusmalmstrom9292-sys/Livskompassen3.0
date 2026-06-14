@@ -1,50 +1,100 @@
-import { CheckCircle2, Utensils } from 'lucide-react';
+import { Check, CheckCircle2, Loader2, Utensils } from 'lucide-react';
 import { clsx } from 'clsx';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { useEconomyMatprepRead } from '../hooks/useEconomyMatprepRead';
+import { useEconomyTransactionWORM } from '../hooks/useEconomyTransactionWORM';
 
 export type EkonomiMatprepDelegateProps = {
   userId: string;
 };
 
-type PrepCheckItem = {
-  id: string;
-  text: string;
-  done: boolean;
-};
-
-const PLACEHOLDER_ITEMS: PrepCheckItem[] = [
-  { id: 'plan', text: 'Planera veckans rätter', done: false },
-  { id: 'shop', text: 'Handla basvaror', done: false },
-  { id: 'prep', text: 'Förbered matlådor', done: false },
-];
+function parseAmountSek(raw: string): number | null {
+  const normalized = raw.trim().replace(',', '.');
+  if (!normalized) return null;
+  const value = Number(normalized);
+  if (!Number.isFinite(value)) return null;
+  return Math.round(value);
+}
 
 /**
- * Fas 8D — Neuro-kost / matprep (UI-skelett).
- * Firestore-koppling kommer i senare fas — meal prep doc + ev. transactions.
+ * Fas 8D — Neuro-kost / matprep.
+ * Checklist → `economy_profiles.mealPrepItems`; besparing → `transactions` via WORM hook.
  */
 export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) {
   const hasUser = Boolean(userId);
 
-  const [items, setItems] = useState<PrepCheckItem[]>(PLACEHOLDER_ITEMS);
+  const {
+    items,
+    loading,
+    persisting,
+    error: readError,
+    reload,
+    toggleItem,
+    resetChecklist,
+  } = useEconomyMatprepRead(hasUser ? userId : undefined);
+
+  const {
+    saveTransaction,
+    saving,
+    savedFlash,
+    offlineQueued,
+    error: saveError,
+    clearError,
+  } = useEconomyTransactionWORM(hasUser ? userId : undefined, reload);
+
   const [estimatedSavings, setEstimatedSavings] = useState('');
   const [prepNote, setPrepNote] = useState('');
 
   useEffect(
     () => () => {
-      setItems(PLACEHOLDER_ITEMS.map((item) => ({ ...item, done: false })));
       setEstimatedSavings('');
       setPrepNote('');
     },
     [],
   );
 
-  const toggleItem = (id: string) => {
-    setItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, done: !item.done } : item)),
-    );
-  };
-
+  const inputsDisabled = loading || saving || persisting || !hasUser;
   const allDone = items.length > 0 && items.every((item) => item.done);
+
+  const handleSubmit = useCallback(
+    async (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (inputsDisabled || !allDone) return;
+
+      const amountSek = parseAmountSek(estimatedSavings);
+      if (amountSek === null || amountSek <= 0) {
+        clearError();
+        return;
+      }
+
+      const note = prepNote.trim();
+      const label = note ? `Matprep — ${note}` : 'Matprep — uppskattad besparing';
+
+      clearError();
+      const ok = await saveTransaction({
+        label,
+        amountSek,
+        category: 'matlada',
+      });
+
+      if (ok) {
+        await resetChecklist();
+        setEstimatedSavings('');
+        setPrepNote('');
+      }
+    },
+    [
+      allDone,
+      clearError,
+      estimatedSavings,
+      inputsDisabled,
+      prepNote,
+      resetChecklist,
+      saveTransaction,
+    ],
+  );
+
+  const displayError = saveError ?? readError;
 
   return (
     <div className="space-y-5">
@@ -59,6 +109,11 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
 
       {!hasUser ? (
         <p className="text-sm text-text-dim">Logga in för att registrera matprep.</p>
+      ) : loading ? (
+        <p className="flex items-center gap-2 text-sm text-text-dim" aria-busy="true">
+          <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+          Laddar checklista…
+        </p>
       ) : (
         <>
           <ul className="space-y-2.5" aria-label="Matprep-checklista">
@@ -69,9 +124,10 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
               >
                 <button
                   type="button"
-                  onClick={() => toggleItem(item.id)}
+                  disabled={inputsDisabled}
+                  onClick={() => void toggleItem(item.id)}
                   className={clsx(
-                    'mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-sm transition-colors',
+                    'mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-sm transition-colors disabled:opacity-60',
                     item.done
                       ? 'bg-emerald-500/20 text-emerald-400'
                       : 'border border-border-strong text-transparent hover:border-emerald-500/50',
@@ -97,7 +153,7 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
 
           <form
             className="space-y-4"
-            onSubmit={(event) => event.preventDefault()}
+            onSubmit={(event) => void handleSubmit(event)}
             aria-label="Registrera matprep"
           >
             <label className="flex flex-col gap-1">
@@ -108,9 +164,13 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
                 type="text"
                 inputMode="decimal"
                 value={estimatedSavings}
-                onChange={(event) => setEstimatedSavings(event.target.value)}
+                disabled={inputsDisabled}
+                onChange={(event) => {
+                  setEstimatedSavings(event.target.value);
+                  clearError();
+                }}
                 placeholder="T.ex. 120"
-                className="input-glass w-full tabular-nums"
+                className="input-glass w-full tabular-nums disabled:opacity-60"
                 aria-label="Uppskattad besparing i kronor"
               />
             </label>
@@ -122,31 +182,59 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
               <input
                 type="text"
                 value={prepNote}
-                onChange={(event) => setPrepNote(event.target.value)}
+                disabled={inputsDisabled}
+                onChange={(event) => {
+                  setPrepNote(event.target.value);
+                  clearError();
+                }}
                 placeholder="T.ex. tre lunchlådor till veckan"
-                className="input-glass w-full"
+                className="input-glass w-full disabled:opacity-60"
                 aria-label="Anteckning om matpreppen"
               />
             </label>
 
             <button
               type="submit"
-              disabled
+              disabled={inputsDisabled || !allDone || !estimatedSavings.trim()}
               className={clsx(
-                'flex w-full items-center justify-center gap-2 rounded-xl border py-2.5 text-xs transition-colors',
+                'flex w-full items-center justify-center gap-2 rounded-xl border py-2.5 text-xs transition-colors disabled:opacity-60',
                 allDone
-                  ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
+                  ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20'
                   : 'border-border/50 bg-surface-3/50 text-text-dim',
-                'opacity-60',
               )}
-              title="Firestore-koppling kommer i nästa fas"
             >
-              <Utensils className="h-3.5 w-3.5" aria-hidden />
-              Registrera matprep — kommer i nästa steg
+              {saving || persisting ? (
+                <>
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
+                  Sparar…
+                </>
+              ) : (
+                <>
+                  <Utensils className="h-3.5 w-3.5" aria-hidden />
+                  Registrera matprep
+                </>
+              )}
             </button>
           </form>
         </>
       )}
+
+      {!allDone && hasUser && !loading ? (
+        <p className="text-[10px] text-text-dim">Bocka av alla steg innan du registrerar.</p>
+      ) : null}
+
+      {offlineQueued ? (
+        <p className="text-xs text-text-muted">Sparas när nätet är tillbaka.</p>
+      ) : null}
+
+      {displayError ? <p className="text-sm text-danger">{displayError}</p> : null}
+
+      {savedFlash && !saving ? (
+        <p className="flex items-center gap-2 text-sm text-emerald-400" role="status">
+          <Check className="h-4 w-4 shrink-0" aria-hidden />
+          Matprep registrerad.
+        </p>
+      ) : null}
     </div>
   );
 }

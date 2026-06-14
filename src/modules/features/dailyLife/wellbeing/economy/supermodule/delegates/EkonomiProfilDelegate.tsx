@@ -1,29 +1,47 @@
-import { useEffect, useState } from 'react';
+import { Check, Loader2 } from 'lucide-react';
+import { useEffect, type FormEvent } from 'react';
+import { useEconomyProfilWrite } from '../hooks/useEconomyProfilWrite';
 
 export type EkonomiProfilDelegateProps = {
   userId: string;
 };
 
-const DEFAULT_WEEKLY_BUDGET = 500;
-const DEFAULT_MEAL_PRESET = 85;
-
 /**
- * Fas 8D — Veckobudget + matlåda-preset (UI-skelett).
- * Firestore-koppling kommer i senare fas — `economy_profiles` via setEconomyProfile.
+ * Fas 8D — Veckobudget + matlåda-preset.
+ * Writes `economy_profiles` via setEconomyProfile — not economy_ledger.
  */
 export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
   const hasUser = Boolean(userId);
 
-  const [weeklyBudget, setWeeklyBudget] = useState(String(DEFAULT_WEEKLY_BUDGET));
-  const [mealPreset, setMealPreset] = useState(String(DEFAULT_MEAL_PRESET));
+  const {
+    weeklyBudget,
+    setWeeklyBudget,
+    mealPreset,
+    setMealPreset,
+    loading,
+    saving,
+    savedFlash,
+    offlineQueued,
+    error,
+    clearError,
+    persistProfile,
+  } = useEconomyProfilWrite(hasUser ? userId : undefined);
 
   useEffect(
     () => () => {
-      setWeeklyBudget(String(DEFAULT_WEEKLY_BUDGET));
-      setMealPreset(String(DEFAULT_MEAL_PRESET));
+      clearError();
     },
-    [],
+    [clearError],
   );
+
+  const inputsDisabled = loading || saving || !hasUser;
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (inputsDisabled) return;
+    clearError();
+    await persistProfile();
+  };
 
   return (
     <div className="space-y-5">
@@ -32,18 +50,19 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
           Veckobudget
         </p>
         <p className="text-xs leading-relaxed text-text-muted">
-          Fasta parametrar för saldo och snabbtillägg. Sparas till profil vid nästa fas.
+          Fasta parametrar för saldo och snabbtillägg. Sparas till din ekonomiprofil.
         </p>
       </header>
 
       {!hasUser ? (
         <p className="text-sm text-text-dim">Logga in för att ställa in profil.</p>
+      ) : loading ? (
+        <p className="flex items-center gap-2 text-sm text-text-dim" aria-busy="true">
+          <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+          Laddar profil…
+        </p>
       ) : (
-        <form
-          className="space-y-4"
-          onSubmit={(event) => event.preventDefault()}
-          aria-label="Ekonomiprofil"
-        >
+        <form className="space-y-4" onSubmit={(event) => void handleSubmit(event)} aria-label="Ekonomiprofil">
           <div className="flex flex-wrap gap-4">
             <label className="flex min-w-[8rem] flex-1 flex-col gap-1">
               <span className="text-[10px] uppercase tracking-wider text-text-dim">
@@ -54,8 +73,12 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
                 min={0}
                 step={50}
                 value={weeklyBudget}
-                onChange={(event) => setWeeklyBudget(event.target.value)}
-                className="input-glass w-full tabular-nums"
+                disabled={inputsDisabled}
+                onChange={(event) => {
+                  setWeeklyBudget(event.target.value);
+                  clearError();
+                }}
+                className="input-glass w-full tabular-nums disabled:opacity-60"
                 aria-label="Veckobudget i kronor"
               />
             </label>
@@ -68,8 +91,12 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
                 min={0}
                 step={5}
                 value={mealPreset}
-                onChange={(event) => setMealPreset(event.target.value)}
-                className="input-glass w-full tabular-nums"
+                disabled={inputsDisabled}
+                onChange={(event) => {
+                  setMealPreset(event.target.value);
+                  clearError();
+                }}
+                className="input-glass w-full tabular-nums disabled:opacity-60"
                 aria-label="Standardbelopp matlåda i kronor"
               />
             </label>
@@ -82,14 +109,33 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
 
           <button
             type="submit"
-            disabled
-            className="btn-pill--primary w-full text-sm opacity-60"
-            title="Firestore-koppling kommer i nästa fas"
+            disabled={inputsDisabled}
+            className="btn-pill--primary w-full text-sm disabled:opacity-60"
           >
-            Spara profil — kommer i nästa steg
+            {saving ? (
+              <span className="inline-flex items-center justify-center gap-2">
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                Sparar…
+              </span>
+            ) : (
+              'Spara profil'
+            )}
           </button>
         </form>
       )}
+
+      {offlineQueued ? (
+        <p className="text-xs text-text-muted">Sparas när nätet är tillbaka.</p>
+      ) : null}
+
+      {error ? <p className="text-sm text-danger">{error}</p> : null}
+
+      {savedFlash && !saving ? (
+        <p className="flex items-center gap-2 text-sm text-emerald-400" role="status">
+          <Check className="h-4 w-4 shrink-0" aria-hidden />
+          Profil sparad.
+        </p>
+      ) : null}
     </div>
   );
 }
