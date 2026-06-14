@@ -111,7 +111,7 @@ service cloud.firestore {
       return wormKeysOnly([
           'userId', 'ownerId', 'childAlias', 'observation', 'truth', 'action', 'category',
           'childrenImpact', 'authorRole', 'channel', 'visibility', 'contentType', 'signals',
-          'bankId', 'createdAt',
+          'bankId', 'mediaUrl', 'createdAt',
         ])
         && request.resource.data.childAlias is string
         && request.resource.data.childAlias.size() > 0
@@ -127,7 +127,11 @@ service cloud.firestore {
         && (!('bankId' in request.resource.data)
           || (request.resource.data.bankId is string
             && request.resource.data.bankId.size() > 0
-            && request.resource.data.bankId.size() <= 32));
+            && request.resource.data.bankId.size() <= 32))
+        && (!('mediaUrl' in request.resource.data)
+          || (request.resource.data.mediaUrl is string
+            && request.resource.data.mediaUrl.size() > 0
+            && request.resource.data.mediaUrl.size() <= 2048));
     }
 
     function isValidEvolutionLedgerCreate() {

@@ -16,6 +16,13 @@ service firebase.storage {
       allow update, delete: if false;
     }
 
+    // Barnlivslogg-foto — ActionDashboard / widget (uid + childAlias scoped)
+    match /children_logs_media/{userId}/{childAlias}/{fileName} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if false;
+    }
+
     // Dagbok Lager 1 — personliga minnen (WORM, skild från vault_evidence)
     match /users/{userId}/journal_memories/{entryId}/{allPaths=**} {
       allow read: if request.auth != null && request.auth.uid == userId;

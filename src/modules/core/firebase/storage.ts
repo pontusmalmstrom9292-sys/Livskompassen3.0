@@ -38,6 +38,21 @@ export async function uploadProjectMedia(
   return { storagePath: path, downloadUrl };
 }
 
+/** ActionDashboard — barnlivslogg-foto, uid + childAlias scoped (WORM create-only). */
+export async function uploadChildLogMedia(
+  userId: string,
+  childAlias: string,
+  file: File,
+): Promise<string> {
+  const safeAlias = childAlias.replace(/[^\w.-]+/g, '_').slice(0, 48) || 'barn';
+  const ext =
+    file.type === 'image/png' ? 'png' : file.type === 'image/webp' ? 'webp' : 'jpg';
+  const path = `children_logs_media/${userId}/${safeAlias}/${Date.now()}.${ext}`;
+  const storageRef = ref(storage, path);
+  await uploadBytes(storageRef, file, { contentType: file.type || 'image/jpeg' });
+  return getDownloadURL(storageRef);
+}
+
 export async function uploadDiscreetRecording(
   userId: string,
   file: File,

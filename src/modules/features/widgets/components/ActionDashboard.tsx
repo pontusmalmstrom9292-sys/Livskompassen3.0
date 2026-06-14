@@ -356,11 +356,15 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
   const [childAlias, setChildAlias] = useState<ChildAlias>(CHILD_ALIASES[0]);
   const [category, setCategory] = useState<LivsloggCategory>('positivt');
   const [observation, setObservation] = useState('');
+  const [attachedPhoto, setAttachedPhoto] = useState<{ file: File; previewUrl: string } | null>(
+    null,
+  );
   const [saved, setSaved] = useState(false);
   const [queued, setQueued] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const speech = useSpeechToText({
     lang: 'sv-SE',
@@ -375,8 +379,42 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
     return () => window.clearTimeout(timer);
   }, [saved]);
 
+  useEffect(() => {
+    return () => {
+      if (attachedPhoto?.previewUrl) {
+        URL.revokeObjectURL(attachedPhoto.previewUrl);
+      }
+    };
+  }, [attachedPhoto?.previewUrl]);
+
+  const clearAttachedPhoto = useCallback(() => {
+    setAttachedPhoto((prev) => {
+      if (prev?.previewUrl) URL.revokeObjectURL(prev.previewUrl);
+      return null;
+    });
+    if (cameraInputRef.current) cameraInputRef.current.value = '';
+  }, []);
+
+  const handlePhotoSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setError(null);
+    if (!file.type.startsWith('image/')) {
+      setError('Endast bildfiler kan bifogas.');
+      event.target.value = '';
+      return;
+    }
+    clearAttachedPhoto();
+    const previewUrl = URL.createObjectURL(file);
+    setAttachedPhoto({ file, previewUrl });
+  };
+
+  const handleCameraClick = () => {
+    cameraInputRef.current?.click();
+  };
+
   const handleSave = async () => {
-    if (!userId || !observation.trim()) return;
+    if (!userId || (!observation.trim() && !attachedPhoto)) return;
     setLoading(true);
     setError(null);
     try {
@@ -385,11 +423,13 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
         category,
         observation: observation.trim(),
         contentType: speech.isListening ? 'voice' : 'text',
+        photo: attachedPhoto?.file ?? null,
       });
       setQueued(result.queued);
       if (result.queued) onQueueChange?.();
       setSaved(true);
       setObservation('');
+      clearAttachedPhoto();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Kunde inte spara.');
     } finally {
@@ -406,7 +446,9 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
       <BentoCard title="Livslogg" description="Barn — snabbinmatning" icon={<Users className="h-4 w-4" />} glow="blue">
         <p className="flex items-center gap-2 text-sm text-success">
           <Check className="h-4 w-4" aria-hidden />
-          {queued ? `Köad — synkas till ${childAlias}s logg vid nät.` : `Sparat till ${childAlias}s logg.`}
+          {queued
+            ? `Köad — synkas till ${childAlias}s logg vid nät.`
+            : `Sparat till ${childAlias}s logg.`}
         </p>
       </BentoCard>
     );
@@ -458,6 +500,16 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
         </p>
 
         <div className="flex items-center justify-center gap-3">
+          <input
+            ref={cameraInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            className="sr-only"
+            aria-hidden
+            tabIndex={-1}
+            onChange={handlePhotoSelected}
+          />
           {speech.supported && (
             <button
               type="button"
@@ -487,19 +539,49 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
           </button>
           <button
             type="button"
-            disabled
-            title="Kameraintegration kommer i nästa steg"
-            className="flex h-11 w-11 items-center justify-center rounded-xl border border-border/30 bg-surface-3/30 text-text-dim opacity-50"
-            aria-label="Kamerainmatning — kommer snart"
+            onClick={handleCameraClick}
+            className={`relative flex h-11 w-11 items-center justify-center rounded-xl border transition active:scale-[0.97] ${
+              attachedPhoto
+                ? 'border-success/50 bg-success/15 text-success'
+                : 'border-border/30 bg-surface-3/50 text-accent hover:border-accent/40 hover:bg-surface-3'
+            }`}
+            aria-label={attachedPhoto ? 'Foto bifogat — byt bild' : 'Ta foto med kamera'}
+            aria-pressed={attachedPhoto != null}
           >
             <Camera className="h-5 w-5" aria-hidden />
+            {attachedPhoto ? (
+              <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-success text-[10px] text-surface">
+                <Check className="h-3 w-3" aria-hidden />
+              </span>
+            ) : null}
           </button>
         </div>
+
+        {attachedPhoto ? (
+          <div className="flex items-center gap-3 rounded-xl border border-border/30 bg-surface-2/60 p-2">
+            <img
+              src={attachedPhoto.previewUrl}
+              alt="Bifogat foto till barnlogg"
+              className="h-14 w-14 rounded-lg object-cover"
+            />
+            <div className="min-w-0 flex-1">
+              <p className="text-xs text-success">Foto bifogat</p>
+              <p className="truncate text-[10px] text-text-dim">{attachedPhoto.file.name}</p>
+            </div>
+            <button
+              type="button"
+              onClick={clearAttachedPhoto}
+              className="btn-pill--ghost shrink-0 text-[10px]"
+            >
+              Ta bort
+            </button>
+          </div>
+        ) : null}
 
         <button
           type="button"
           onClick={() => void handleSave()}
-          disabled={loading || !observation.trim()}
+          disabled={loading || (!observation.trim() && !attachedPhoto)}
           className="btn-pill--accent flex w-full min-h-11 items-center justify-center gap-2 disabled:opacity-50"
         >
           {loading ? (

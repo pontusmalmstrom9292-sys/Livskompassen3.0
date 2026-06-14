@@ -1,4 +1,5 @@
 import { saveChildrenLog, saveVaultLog } from '@/core/firebase/firestore';
+import { uploadChildLogMedia } from '@/core/firebase/storage';
 import { OfflineWriteBlockedError } from '@/core/firebase/offlineWritePolicy';
 import type { ChildAlias, LivsloggCategory } from '@/features/family/children/constants';
 import { ingestWidgetRecordingToVault } from './widgetVaultRecording';
@@ -7,6 +8,7 @@ import {
   listPendingActionDashboardItems,
   removePendingActionDashboardItem,
   type PendingActionDashboardItem,
+  type PendingChildLog,
 } from './actionDashboardOfflineQueue';
 
 export type ActionSaveResult =
@@ -20,6 +22,8 @@ const TRANSIENT_FIREBASE_CODES = new Set([
   'failed-precondition',
 ]);
 
+const MAX_CHILD_PHOTO_BYTES = 10 * 1024 * 1024;
+
 let flushInFlight: Promise<number> | null = null;
 
 function isOfflineError(err: unknown): boolean {
@@ -29,6 +33,30 @@ function isOfflineError(err: unknown): boolean {
     return TRANSIENT_FIREBASE_CODES.has(String((err as { code: string }).code));
   }
   return false;
+}
+
+function assertValidChildPhoto(file: File): void {
+  if (!file.type.startsWith('image/')) {
+    throw new Error('Endast bildfiler kan bifogas.');
+  }
+  if (file.size > MAX_CHILD_PHOTO_BYTES) {
+    throw new Error('Bilden är för stor (max 10 MB).');
+  }
+}
+
+async function uploadChildPhoto(
+  userId: string,
+  childAlias: ChildAlias,
+  file: File,
+): Promise<string> {
+  assertValidChildPhoto(file);
+  return uploadChildLogMedia(userId, childAlias, file);
+}
+
+function photoFileFromPending(item: PendingChildLog): File | null {
+  if (!item.photoData || !item.photoMimeType || !item.photoFileName) return null;
+  const blob = new Blob([item.photoData], { type: item.photoMimeType });
+  return new File([blob], item.photoFileName, { type: item.photoMimeType });
 }
 
 async function writeVaultReflection(userId: string, text: string): Promise<string> {
@@ -47,7 +75,8 @@ async function writeChildLog(
     childAlias: ChildAlias;
     category: LivsloggCategory;
     observation: string;
-    contentType?: 'text' | 'voice';
+    contentType?: 'text' | 'voice' | 'image';
+    mediaUrl?: string;
   },
 ): Promise<string> {
   return saveChildrenLog(userId, {
@@ -57,7 +86,17 @@ async function writeChildLog(
     action: 'livslogg',
     channel: 'widget',
     contentType: params.contentType ?? 'text',
+    mediaUrl: params.mediaUrl,
   });
+}
+
+async function resolveChildLogMediaUrl(
+  userId: string,
+  item: PendingChildLog,
+): Promise<string | undefined> {
+  const photoFile = photoFileFromPending(item);
+  if (!photoFile) return undefined;
+  return uploadChildPhoto(userId, item.childAlias, photoFile);
 }
 
 async function flushItem(userId: string, item: PendingActionDashboardItem): Promise<void> {
@@ -66,11 +105,13 @@ async function flushItem(userId: string, item: PendingActionDashboardItem): Prom
     return;
   }
   if (item.kind === 'child_log') {
+    const mediaUrl = await resolveChildLogMediaUrl(userId, item);
     await writeChildLog(userId, {
       childAlias: item.childAlias,
       category: item.category,
       observation: item.observation,
       contentType: item.contentType,
+      mediaUrl,
     });
     return;
   }
@@ -113,25 +154,65 @@ export async function saveActionChildLog(
     childAlias: ChildAlias;
     category: LivsloggCategory;
     observation: string;
-    contentType?: 'text' | 'voice';
+    contentType?: 'text' | 'voice' | 'image';
+    photo?: File | null;
   },
 ): Promise<ActionSaveResult> {
   const trimmed = params.observation.trim();
-  if (!trimmed) throw new Error('Tom observation');
+  const photo = params.photo ?? null;
+  const hasPhoto = photo != null && photo.size > 0;
 
-  const payload = { ...params, observation: trimmed };
+  if (!trimmed && !hasPhoto) throw new Error('Tom observation');
+  if (hasPhoto) assertValidChildPhoto(photo);
+
+  const observation = trimmed || '(foto)';
+  const contentType: 'text' | 'voice' | 'image' = hasPhoto
+    ? 'image'
+    : (params.contentType ?? 'text');
+
+  const enqueuePayload = async (): Promise<void> => {
+    const base = {
+      userId,
+      kind: 'child_log' as const,
+      childAlias: params.childAlias,
+      category: params.category,
+      observation,
+      contentType,
+    };
+    if (hasPhoto && photo) {
+      const photoData = await photo.arrayBuffer();
+      await enqueueActionDashboardItem({
+        ...base,
+        photoMimeType: photo.type || 'image/jpeg',
+        photoFileName: photo.name || `photo_${Date.now()}.jpg`,
+        photoData,
+      });
+      return;
+    }
+    await enqueueActionDashboardItem(base);
+  };
 
   if (!navigator.onLine) {
-    await enqueueActionDashboardItem({ userId, kind: 'child_log', ...payload });
+    await enqueuePayload();
     return { queued: true };
   }
 
   try {
-    const id = await writeChildLog(userId, payload);
+    let mediaUrl: string | undefined;
+    if (hasPhoto && photo) {
+      mediaUrl = await uploadChildPhoto(userId, params.childAlias, photo);
+    }
+    const id = await writeChildLog(userId, {
+      childAlias: params.childAlias,
+      category: params.category,
+      observation,
+      contentType,
+      mediaUrl,
+    });
     return { queued: false, id };
   } catch (err) {
     if (!isOfflineError(err)) throw err;
-    await enqueueActionDashboardItem({ userId, kind: 'child_log', ...payload });
+    await enqueuePayload();
     return { queued: true };
   }
 }

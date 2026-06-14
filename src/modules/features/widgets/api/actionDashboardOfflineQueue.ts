@@ -14,7 +14,10 @@ export type PendingChildLog = {
   childAlias: ChildAlias;
   category: LivsloggCategory;
   observation: string;
-  contentType?: 'text' | 'voice';
+  contentType?: 'text' | 'voice' | 'image';
+  photoMimeType?: string;
+  photoFileName?: string;
+  photoData?: ArrayBuffer;
 };
 
 export type PendingVaultRecording = {
