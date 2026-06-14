@@ -39,9 +39,9 @@ export function renderHubContextIcon(id: HubContextIconId, className: string): R
     case 'clock':
       return <ChromeGlyph category="arbetsliv" className={cls} />;
     case 'note':
-      return <PwaShortcutImg src="/icons/shortcuts/wh-anteckning.svg" className={cls} />;
+      return <PwaShortcutImg src="/icons/drawer-l2/drawer-anteckning.svg" className={cls} />;
     case 'record':
-      return <PwaShortcutImg src="/icons/shortcuts/wh-inspelning.svg" className={cls} />;
+      return <PwaShortcutImg src="/icons/drawer-l2/drawer-inspelning.svg" className={cls} />;
     case 'wallet':
       return <ChromeGlyph category="ekonomi" className={cls} />;
     case 'mail':

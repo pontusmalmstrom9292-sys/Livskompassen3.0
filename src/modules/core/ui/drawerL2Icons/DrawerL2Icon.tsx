@@ -11,7 +11,9 @@ export type DrawerL2HubId =
   | 'hamn'
   | 'projekt'
   | 'drogfrihet'
-  | 'installningar';
+  | 'installningar'
+  | 'inspelning'
+  | 'anteckning';
 
 type Props = {
   hubId: DrawerL2HubId;
