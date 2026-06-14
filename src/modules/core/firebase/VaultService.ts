@@ -1,5 +1,16 @@
-import { collection, addDoc, getDocs, onSnapshot, query, where, orderBy, serverTimestamp, doc, getDoc, setDoc } from 'firebase/firestore';
-import { db, assertArchitectureWrite } from './firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from 'firebase/firestore';
+import { db, saveVaultLog } from './firestore';
+import { FIRESTORE_COLLECTIONS } from '../types/firestore';
+import type { VaultLog } from '../types/firestore';
 
 export interface VaultRecord {
   id: string;
@@ -8,44 +19,88 @@ export interface VaultRecord {
   ownerId: string;
 }
 
-export class VaultService {
-  private static COLLECTION_NAME = 'reality_vault';
-  private static COLLECTION = 'reality_vault';
+/** Legacy inkast/triage — `content`/`source` mappas till `truth`/`action` om saknas. */
+export type VaultSaveRecordInput = {
+  content?: string;
+  source?: string;
+} & Partial<Omit<VaultLog, 'userId' | 'ownerId' | 'createdAt'>>;
 
-  // --- NEW REQUIREMENTS ---
-  
+function normalizeVaultSaveInput(
+  data: VaultSaveRecordInput,
+): Omit<VaultLog, 'userId' | 'createdAt'> {
+  const truth = (data.truth ?? data.content ?? '').trim();
+  if (!truth) {
+    throw new Error('Valv-post kräver text.');
+  }
+
+  const sourceTag = (data.source ?? 'manual').trim().slice(0, 48) || 'manual';
+  const action = (data.action ?? `inkast_${sourceTag}`).trim().slice(0, 200);
+  if (!action) {
+    throw new Error('Valv-post kräver action.');
+  }
+
+  const payload: Omit<VaultLog, 'userId' | 'createdAt'> = {
+    action,
+    truth,
+    isLocked: true,
+    entryType: data.entryType ?? 'simple',
+  };
+
+  if (data.category) {
+    payload.category = data.category;
+  } else if (data.source) {
+    payload.category = sourceTag;
+  }
+
+  const optionalKeys = [
+    'sourceRef',
+    'childrenImpact',
+    'evidenceUrl',
+    'biffUsed',
+    'theirVersion',
+    'myReality',
+    'bodySignals',
+    'shieldWhat',
+    'shieldFeeling',
+    'shieldBoundary',
+    'pinned',
+  ] as const;
+
+  for (const key of optionalKeys) {
+    const value = data[key];
+    if (value !== undefined) {
+      (payload as Record<string, unknown>)[key] = value;
+    }
+  }
+
+  return payload;
+}
+
+export class VaultService {
+  private static COLLECTION_NAME = FIRESTORE_COLLECTIONS.reality_vault;
+
   /**
-   * Skapar och sparar en post i vault-samlingen.
-   * Följer strikt WORM-logiken (Write Once, Read Many).
-   * 
-   * @param entry Data som ska sparas (måste matcha VaultRecord)
-   * @throws Error om posten redan existerar
+   * Skapar WORM-post i reality_vault via saveVaultLog (offline-block + vault-gate).
+   * Custom doc-id stöds inte — append-only addDoc.
    */
   static async saveVaultEntry(entry: VaultRecord): Promise<void> {
-    assertArchitectureWrite(this.COLLECTION, 'create');
-    const docRef = doc(db, this.COLLECTION, entry.id);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      throw new Error("Dataintegritetsbrott: Posten finns redan och kan inte skrivas över.");
+    const truth = entry.content?.trim();
+    if (!truth) {
+      throw new Error('Valv-post kräver text.');
     }
-
-    await setDoc(docRef, {
-      id: entry.id,
-      content: entry.content,
-      timestamp: entry.timestamp,
-      ownerId: entry.ownerId
+    await saveVaultLog(entry.ownerId, {
+      action: 'vault_record',
+      truth,
+      entryType: 'simple',
+      isLocked: true,
     });
   }
 
   /**
-   * Hämtar en befintlig post från vault-samlingen.
-   * 
-   * @param id ID för posten som ska hämtas
-   * @returns Posten som VaultRecord eller null om den inte finns
+   * Hämtar en befintlig post från vault-samlingen (legacy read-shape).
    */
   static async getVaultEntry(id: string): Promise<VaultRecord | null> {
-    const docRef = doc(db, this.COLLECTION, id);
+    const docRef = doc(db, this.COLLECTION_NAME, id);
     const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
@@ -53,42 +108,32 @@ export class VaultService {
     }
 
     const data = docSnap.data();
-    
-    // Hanterar omkonvertering från Firestore Timestamp till JavaScript Date
-    const timestamp = data.timestamp?.toDate 
-      ? data.timestamp.toDate() 
-      : new Date(data.timestamp);
+    const content =
+      typeof data.truth === 'string'
+        ? data.truth
+        : typeof data.content === 'string'
+          ? data.content
+          : '';
+    const timestampRaw = data.createdAt ?? data.timestamp;
+    const timestamp =
+      timestampRaw && typeof timestampRaw === 'object' && 'toDate' in timestampRaw
+        ? (timestampRaw as { toDate: () => Date }).toDate()
+        : new Date(String(timestampRaw ?? Date.now()));
 
     return {
-      id: data.id,
-      content: data.content,
-      timestamp: timestamp,
-      ownerId: data.ownerId
+      id: docSnap.id,
+      content,
+      timestamp,
+      ownerId: String(data.ownerId ?? ''),
     };
   }
 
-  // --- EXISTING METHODS (Preserved to maintain backwards compatibility with existing UI) ---
-
-  static async saveRecord(userId: string, data: any): Promise<string> {
-    assertArchitectureWrite(this.COLLECTION_NAME, 'create');
-    const ref = collection(db, this.COLLECTION_NAME);
-    const payload = {
-      ...data,
-      userId,
-      ownerId: userId,
-      createdAt: serverTimestamp(),
-      isLocked: true,
-    };
-    
-    const forbiddenKeys = ['updatedAt', 'deletedAt', 'modifiedAt', 'revision'];
-    for (const key of forbiddenKeys) {
-      if (key in data) {
-        throw new Error(`WORM violation: field "${key}" is not allowed on create.`);
-      }
-    }
-
-    const docRef = await addDoc(ref, payload);
-    return docRef.id;
+  /**
+   * Säker WORM-skrivning — delegerar till saveVaultLog:
+   * offline-block, vault-gate/WebAuthn, kanoniskt action/truth-schema.
+   */
+  static async saveRecord(userId: string, data: VaultSaveRecordInput): Promise<string> {
+    return saveVaultLog(userId, normalizeVaultSaveInput(data));
   }
 
   static async getVaultHistory(userId: string): Promise<any[]> {
@@ -96,16 +141,16 @@ export class VaultService {
     const q = query(
       ref,
       where('ownerId', '==', userId),
-      orderBy('createdAt', 'desc')
+      orderBy('createdAt', 'desc'),
     );
-    
+
     const snap = await getDocs(q);
-    return snap.docs.map(doc => {
-      const data = doc.data();
+    return snap.docs.map((d) => {
+      const row = d.data();
       return {
-        id: doc.id,
-        ...data,
-        createdAt: data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : data.createdAt
+        id: d.id,
+        ...row,
+        createdAt: row.createdAt?.toDate ? row.createdAt.toDate().toISOString() : row.createdAt,
       };
     });
   }
@@ -115,21 +160,25 @@ export class VaultService {
     const q = query(
       ref,
       where('ownerId', '==', userId),
-      orderBy('createdAt', 'desc')
+      orderBy('createdAt', 'desc'),
     );
 
-    return onSnapshot(q, (snap) => {
-      const records = snap.docs.map(doc => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          ...data,
-          createdAt: data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : data.createdAt
-        };
-      });
-      onUpdate(records);
-    }, (error) => {
-      console.error("Vault listener error:", error);
-    });
+    return onSnapshot(
+      q,
+      (snap) => {
+        const records = snap.docs.map((d) => {
+          const row = d.data();
+          return {
+            id: d.id,
+            ...row,
+            createdAt: row.createdAt?.toDate ? row.createdAt.toDate().toISOString() : row.createdAt,
+          };
+        });
+        onUpdate(records);
+      },
+      (error) => {
+        console.error('Vault listener error:', error);
+      },
+    );
   }
 }

@@ -134,10 +134,11 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
     setIsSaving(true);
     setErrorMsg(null);
     try {
-      // Secure in Vault (reality_vault collection)
       await VaultService.saveRecord(userId, {
-        content: vaultContent.trim(),
-        source: item.source || 'manual',
+        action: 'inkast_triage',
+        truth: vaultContent.trim(),
+        category: item.source || 'manual',
+        entryType: 'simple',
       });
       onClose();
     } catch (err: any) {
