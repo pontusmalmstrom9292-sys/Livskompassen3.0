@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { TabBar } from '@/core/ui/TabBar';
 import { getForensicVaultTabBarItems } from '@/core/navigation/tabRegistry';
 import { VaultForensicPanel } from '../VaultForensicPanel';
@@ -8,16 +9,38 @@ export type ValvForensikZoneProps = {
   onTabChange: (tab: ForensicVaultTab) => void;
 };
 
+/** Progressive disclosure — visa aktiv flik + expandera till alla 6 vid behov. */
 export function ValvForensikZone({ tab, onTabChange }: ValvForensikZoneProps) {
+  const [showAllTabs, setShowAllTabs] = useState(false);
+  const allTabs = getForensicVaultTabBarItems();
+  const visibleTabs = showAllTabs ? allTabs : allTabs.filter((t) => t.id === tab);
+
   return (
     <>
-      <div className="mb-3">
+      <div className="mb-3 flex flex-wrap items-center gap-2">
         <TabBar
           size="compact"
-          tabs={getForensicVaultTabBarItems()}
+          tabs={visibleTabs}
           active={tab}
           onChange={onTabChange}
         />
+        {!showAllTabs ? (
+          <button
+            type="button"
+            className="btn-pill--ghost text-xs"
+            onClick={() => setShowAllTabs(true)}
+          >
+            Visa fler
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="btn-pill--ghost text-xs"
+            onClick={() => setShowAllTabs(false)}
+          >
+            Färre flikar
+          </button>
+        )}
       </div>
       <VaultForensicPanel tab={tab} />
     </>

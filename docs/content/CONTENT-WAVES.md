@@ -23,7 +23,8 @@
 | 16 | Vit spec + utveckling P5 | — | spec P1–P3 done, `VitDevelopmentPanel` | — | **done** 2026-06-06 — deterministisk veckoaktivitet + humör/pass-polish |
 | 17 | Teman / vad jag tycker är kul | — | MB-REF-JOY-01..06, MB-PLAY-JOY-01/02 | — | **done** 2026-06-07 — bank-only (kurator); prod-wire kräver PMIR |
 | 18 | Barnen PLAY child bank | — | BP-PLAY-01..21 (`barnfokusCatalog.ts`) | — | **done** 2026-06-11 — MT-1 wire + parent footer |
+| 20 | Covert taktik + barn HCF | cn-001–015, bh-001–008 | BP-PLAY-22..24 (barnfokus) | — | **done** 2026-06-14 — bank KEEP; ingest via `seed:kunskap-facts` |
 
-**Aktiv våg:** `19` (nästa kuratorvåg — se [`INNEHALL-REGISTER.md`](../INNEHALL-REGISTER.md))
+**Aktiv våg:** `19` (recovery Kat 8 wire) · **våg 20** seed klar — kör ingest vid behov
 
 **Seed (Google-konto):** `SEED_FIREBASE_EMAIL` i `.env` + `gcloud auth application-default login` → `npm run seed:kunskap-facts`

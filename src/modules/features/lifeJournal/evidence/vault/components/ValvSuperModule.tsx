@@ -4,7 +4,6 @@ import { ValvForensikZone } from './zones/ValvForensikZone';
 import { ValvKunskapZone } from './zones/ValvKunskapZone';
 import { ValvSamlaZone } from './zones/ValvSamlaZone';
 import { ValvVitZone } from './zones/ValvVitZone';
-import { ValvInboxZone } from './zones/ValvInboxZone';
 import {
   KUNSKAP_VAULT_TAB,
   type AnalyseraVaultTab,
@@ -30,6 +29,8 @@ export type ValvSuperModuleProps = {
   onBevisConfirmed: (docId: string) => void | Promise<void>;
   onCitationClick: (docId: string) => void;
   onVaultTabChange: (tab: VaultTab) => void;
+  /** Öppna granskningskö (ValvInputSuperModule granska-läge). */
+  onOpenGranska?: () => void;
 };
 
 /**
@@ -45,6 +46,7 @@ export function ValvSuperModule({
   onBevisConfirmed,
   onCitationClick,
   onVaultTabChange,
+  onOpenGranska,
 }: ValvSuperModuleProps) {
   switch (variant) {
     case 'samla': {
@@ -58,6 +60,7 @@ export function ValvSuperModule({
           highlightLogId={highlightLogId}
           onBevisConfirmed={onBevisConfirmed}
           onCitationClick={onCitationClick}
+          onOpenGranska={onOpenGranska}
         />
       );
     }
@@ -77,8 +80,6 @@ export function ValvSuperModule({
       const tab: ForensicVaultTab = isForensicVaultTab(vaultTab) ? vaultTab : 'hamn_analys';
       return <ValvForensikZone tab={tab} onTabChange={onVaultTabChange} />;
     }
-    case 'inbox':
-      return <ValvInboxZone onBevisConfirmed={onBevisConfirmed} />;
     default:
       return null;
   }

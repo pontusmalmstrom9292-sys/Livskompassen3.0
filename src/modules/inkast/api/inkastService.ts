@@ -518,7 +518,7 @@ export const VALV_KUNSKAP_INBOX_LINK = {
 
 export const VALV_SAMLA_GRANSKA_LINK = {
   pathname: NAV_PATHS.VALVET,
-  search: '?vaultTab=logga&samlaView=granska',
+  search: '?vaultTab=logga&valvMode=granska',
 } as const;
 
 export const VALV_ARKIV_LINK = {

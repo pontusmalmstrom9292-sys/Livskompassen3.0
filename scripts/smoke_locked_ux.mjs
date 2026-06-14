@@ -142,15 +142,16 @@ function main() {
     'SAMLA_VAULT_TAB_IDS',
     'ANALYSERA_VAULT_TAB_IDS',
     'KUNSKAP_VAULT_TAB_IDS',
+    'VALV_ZONE_VISIBLE_IDS',
     'VALV_ZONE_IDS',
     'resolveValvZone',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx',
-    'getVaultZoneTabBarItems',
+    'ValvInputSuperModule',
     'VaultValvBreadcrumb',
-    'ValvSuperModule',
     'onVaultTabChange',
+    'onValvModeChange',
   );
   assert(
     !read('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx').includes(
@@ -185,12 +186,20 @@ function main() {
   mustInclude(
     'src/modules/core/pages/ValvetRoutePage.tsx',
     "params.delete('samlaView')",
+    'valvMode',
+    'parseValvInputModeFromSearch',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx',
     'VaultInkastCompact',
     'VaultSamlaDriveHint',
-    'samlaView',
+    'onOpenGranska',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx',
+    'InboxReviewQueue',
+    'ValvSuperModule',
+    'granska',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/knowledge/components/VaultAktorskartaPanel.tsx',
@@ -264,7 +273,11 @@ function main() {
   );
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'performVaultWebAuthnForSession', 'setVaultGate');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/utils/vaultTabs.ts', 'VALV_ZONE_INGRESS');
-  mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx', 'VALV_ZONE_INGRESS');
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts',
+    'VALV_INPUT_MODES',
+    'granska',
+  );
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx', 'WeaverPendingVaultBanner');
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'setVaultGate', 'openValvViaFyren');
   mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", "path: '/liv'", "label: 'Liv och göra'", 'getNavChildren');
@@ -654,8 +667,9 @@ function main() {
     'sortInboxForValvSamla',
   );
   mustInclude(
-    'src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx',
+    'src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx',
     'InboxReviewQueue',
+    'onOpenGranska',
   );
   assert(existsSync(resolve(root, 'docs/design/CHROME-POLICY.md')), 'saknar: CHROME-POLICY.md');
   assert(existsSync(resolve(root, 'docs/design/TYPE-SCALE.md')), 'saknar: TYPE-SCALE.md');

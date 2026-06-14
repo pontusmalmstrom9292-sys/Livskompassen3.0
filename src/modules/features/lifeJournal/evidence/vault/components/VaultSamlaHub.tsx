@@ -1,7 +1,5 @@
-import { memo, useCallback, useEffect, useState, startTransition } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { BentoCard } from '@/shared/ui/BentoCard';
-import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
 import { fetchInboxQueue } from '../../kompis/api/inboxService';
 import { useVaultStore } from '@/core/store/useVaultStore';
 import { VaultEntryForm } from './VaultEntryForm';
@@ -9,39 +7,20 @@ import { VaultInkastCompact } from './VaultInkastCompact';
 import { VaultSamlaDriveHint } from './VaultSamlaDriveHint';
 import { VaultOverviewPanel } from './VaultOverviewPanel';
 
-export type SamlaView = 'logga' | 'granska';
-
-function parseSamlaView(raw: string | null): SamlaView {
-  return raw === 'granska' ? 'granska' : 'logga';
-}
-
 type Props = {
   userId: string;
   onBevisConfirmed: (docId: string) => void;
+  /** Canonical väg till granskningskö (ValvInputSuperModule). */
+  onOpenGranska?: () => void;
 };
 
-export const VaultSamlaHub = memo(function VaultSamlaHub({ userId, onBevisConfirmed }: Props) {
-  const [searchParams, setSearchParams] = useSearchParams();
+export const VaultSamlaHub = memo(function VaultSamlaHub({
+  userId,
+  onBevisConfirmed,
+  onOpenGranska,
+}: Props) {
   const [pendingInbox, setPendingInbox] = useState<number | null>(null);
-  const samlaView = parseSamlaView(searchParams.get('samlaView'));
   const { saving, error: saveError, saveLog } = useVaultStore();
-
-  const setSamlaView = useCallback(
-    (view: SamlaView) => {
-      setSearchParams(
-        (prev) => {
-          const params = new URLSearchParams(prev);
-          params.set('tab', 'bevis');
-          params.set('vaultTab', 'logga');
-          if (view === 'granska') params.set('samlaView', 'granska');
-          else params.delete('samlaView');
-          return params;
-        },
-        { replace: true },
-      );
-    },
-    [setSearchParams],
-  );
 
   const refreshPendingCount = useCallback(async () => {
     try {
@@ -53,61 +32,40 @@ export const VaultSamlaHub = memo(function VaultSamlaHub({ userId, onBevisConfir
   }, []);
 
   useEffect(() => {
-    if (samlaView !== 'granska') {
-      void refreshPendingCount();
-    }
-  }, [refreshPendingCount, samlaView]);
+    void refreshPendingCount();
+  }, [refreshPendingCount]);
 
   const handleBevisConfirmed = (docId: string) => {
     onBevisConfirmed(docId);
-    startTransition(() => {
-      setSamlaView('logga');
-    });
     void refreshPendingCount();
   };
 
-  if (samlaView === 'granska') {
-    return (
-      <div className="space-y-4">
-        <InboxReviewQueue
-          prioritizeBevis
-          onBevisConfirmed={handleBevisConfirmed}
-          onBack={() => setSamlaView('logga')}
-        />
-      </div>
-    );
-  }
+  const openReview = () => {
+    onOpenGranska?.();
+  };
 
   return (
     <div className="space-y-4">
-      <VaultOverviewPanel
-        pendingInbox={pendingInbox}
-        onOpenReview={() => setSamlaView('granska')}
-      />
+      <VaultOverviewPanel pendingInbox={pendingInbox} onOpenReview={openReview} />
       <VaultInkastCompact
-        onQueued={() => setSamlaView('granska')}
+        onQueued={openReview}
         onPersistedBevis={handleBevisConfirmed}
       />
-      <VaultSamlaDriveHint
-        pendingCount={pendingInbox ?? undefined}
-        onOpenQueue={() => setSamlaView('granska')}
-      />
+      <VaultSamlaDriveHint pendingCount={pendingInbox ?? undefined} onOpenQueue={openReview} />
       <div id="vault-samla-entry">
         <BentoCard title="Ny post" description="Append-only bevis" glow="gold">
           <VaultEntryForm userId={userId} saving={saving} onSave={(input) => saveLog(userId, input)} />
           {saveError && <p className="mt-2 text-sm text-danger">{saveError}</p>}
         </BentoCard>
       </div>
-      <div className="flex justify-end">
-        <button
-          type="button"
-          className="btn-pill--ghost text-xs"
-          onClick={() => setSamlaView('granska')}
-        >
-          Granskningskö
-          {pendingInbox != null && pendingInbox > 0 ? ` (${pendingInbox})` : ''}
-        </button>
-      </div>
+      {onOpenGranska ? (
+        <div className="flex justify-end">
+          <button type="button" className="btn-pill--ghost text-xs" onClick={openReview}>
+            Granskningskö
+            {pendingInbox != null && pendingInbox > 0 ? ` (${pendingInbox})` : ''}
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 });

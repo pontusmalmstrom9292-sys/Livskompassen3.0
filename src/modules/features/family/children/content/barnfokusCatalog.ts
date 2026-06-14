@@ -21,6 +21,8 @@ export type BarnfokusCatalogEntry = {
   status: 'KEEP';
   text_sv: string;
   hint_sv?: string;
+  /** Kunskap FACT-bro (våg 20 barn_hcf) — deterministisk, ingen RAG i Barnen. */
+  knowledgeFactId?: string;
   source?: 'builtin' | 'valv_curated';
 };
 
@@ -75,6 +77,42 @@ export const BARNFOKUS_CATALOG_PARENT: readonly BarnfokusCatalogEntry[] = [
     source_tier: 'product_copy',
     status: 'KEEP',
     text_sv: 'En trygg stund hemma — vad hände?',
+  },
+  {
+    bankId: 'BP-PLAY-22',
+    legacy_id: 'p6',
+    audience: 'parent',
+    lens: 'lara_kanna',
+    content_class: 'PLAY',
+    source_tier: 'product_copy',
+    status: 'KEEP',
+    text_sv: 'Fick {ChildAlias} vara barn idag — eller kändes något för tungt?',
+    hint_sv: 'Parentification: barn ska inte bära vuxnas ansvar.',
+    knowledgeFactId: 'kunskap-fact-bh-002',
+  },
+  {
+    bankId: 'BP-PLAY-23',
+    legacy_id: 'p7',
+    audience: 'parent',
+    lens: 'utveckling',
+    content_class: 'PLAY',
+    source_tier: 'product_copy',
+    status: 'KEEP',
+    text_sv: 'Något {ChildAlias} sa som du vill minnas ordagrant — utan tolkning?',
+    hint_sv: 'Validera upplevelsen; spara neutralt i Barnen-logg.',
+    knowledgeFactId: 'kunskap-fact-bh-003',
+  },
+  {
+    bankId: 'BP-PLAY-24',
+    legacy_id: 'p8',
+    audience: 'parent',
+    lens: 'valv_safe',
+    content_class: 'PLAY',
+    source_tier: 'product_copy',
+    status: 'KEEP',
+    text_sv: 'Behövde {ChildAlias} välja sida eller dölja känslor idag?',
+    hint_sv: 'Lojalitetsfrihet: det är okej att älska båda föräldrar.',
+    knowledgeFactId: 'kunskap-fact-bh-001',
   },
 ] as const;
 

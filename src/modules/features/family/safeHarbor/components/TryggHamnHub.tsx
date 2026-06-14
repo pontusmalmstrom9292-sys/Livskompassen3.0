@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useState, useEffect } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
@@ -8,6 +8,7 @@ import { hjartatTabHref } from '@/core/navigation/appNavigation';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { MaterialPackShortcuts, useLifeHubPreset } from '@/core/lifeOs';
 import { HamnModuleStack } from './HamnModuleStack';
+import { markHamnSessionOpen } from '@/core/home/homeProactiveTriggers';
 import {
   HAMN_BRUSFILTER_HINT,
   HAMN_BRUSFILTER_LEAD,
@@ -42,6 +43,10 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
   const [searchParams, setSearchParams] = useSearchParams();
   const [embeddedTab, setEmbeddedTab] = useState<HamnSubTabId>('biff');
   const { preset } = useLifeHubPreset();
+
+  useEffect(() => {
+    markHamnSessionOpen();
+  }, []);
 
   const urlHamTab = searchParams.get('hamTab');
   const subTab = embedded ? embeddedTab : resolveHamnSubTab(urlHamTab);

@@ -23,7 +23,7 @@ import {
   ANALYSERA_VAULT_TAB_IDS,
   PANSARET_VAULT_TAB_IDS,
   SAMLA_VAULT_TAB_IDS,
-  VALV_ZONE_IDS,
+  VALV_ZONE_VISIBLE_IDS,
   forensicVaultTabLabel,
   type ForensicVaultTab,
   type KunskapVaultTab,
@@ -184,7 +184,7 @@ export function getMainVaultTabBarItems(): TabBarItem<MainVaultTab>[] {
 const VALV_ZONE_LABELS_MAP = { ...VALV_ZONE_LABELS } as Record<ValvZone, string>;
 
 export function getVaultZoneTabBarItems(): TabBarItem<ValvZone>[] {
-  return VALV_ZONE_IDS.map((id) => ({ id, label: VALV_ZONE_LABELS_MAP[id] }));
+  return VALV_ZONE_VISIBLE_IDS.map((id) => ({ id, label: VALV_ZONE_LABELS_MAP[id] }));
 }
 
 export function getSamlaVaultTabBarItems(): TabBarItem<SamlaVaultTab>[] {

@@ -2,12 +2,14 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Loader2, Sparkles } from 'lucide-react';
 import { useStore } from '../store';
-import { getRecentCheckIns } from '../firebase/firestore';
+import { getRecentCheckIns, getJournalEntries } from '../firebase/firestore';
 import { filterAdaptiveCardsForPreset, type LifeHubPresetId } from '../lifeOs/lifeHubPresets';
 import {
   buildAdaptiveMemoryCards,
   type AdaptiveMemoryCard,
 } from './compassAdaptiveCards';
+import { buildProactiveTriggerCards } from './homeProactiveTriggers';
+import { useEvolutionStore } from '../store/useEvolutionStore';
 
 const toneClass: Record<AdaptiveMemoryCard['tone'], string> = {
   gold: 'adaptive-card--gold',
@@ -24,6 +26,7 @@ export function AdaptiveMemoryCards({
   presetId?: LifeHubPresetId;
 }) {
   const user = useStore((s) => s.user);
+  const evolutionDoc = useEvolutionStore((s) => s.doc);
   const location = useLocation();
   const [cards, setCards] = useState<AdaptiveMemoryCard[]>([]);
   const [loading, setLoading] = useState(true);
@@ -41,13 +44,22 @@ export function AdaptiveMemoryCards({
     try {
       const checkins = await getRecentCheckIns(user.uid, 24);
       const built = buildAdaptiveMemoryCards(checkins, { omitCompassPrompts: true });
-      setCards(filterAdaptiveCardsForPreset(built, presetId));
+      const journal = await getJournalEntries(user.uid);
+      const today = new Date().toISOString().slice(0, 10);
+      const hasJournalToday = journal.some((e) => e.createdAt?.slice(0, 10) === today);
+      const proactive = buildProactiveTriggerCards({
+        evolutionDoc,
+        hasJournalToday,
+        presetId,
+      });
+      const merged = [...proactive, ...built];
+      setCards(filterAdaptiveCardsForPreset(merged, presetId));
     } catch {
       setCards([]);
     } finally {
       setLoading(false);
     }
-  }, [user, presetId]);
+  }, [user, presetId, evolutionDoc]);
 
   useEffect(() => {
     load();

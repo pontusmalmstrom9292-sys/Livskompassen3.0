@@ -12,10 +12,20 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '../..');
 const require = createRequire(import.meta.url);
 
-const INGEST_MODULE = resolve(root, 'functions/lib/lib/ingestKampsparInternal.js');
+const INGEST_MODULE_CANDIDATES = [
+  resolve(root, 'functions/lib/lib/ingestKampsparInternal.js'),
+  resolve(root, 'functions/lib/functions/src/lib/ingestKampsparInternal.js'),
+];
+
+function resolveIngestModule() {
+  for (const candidate of INGEST_MODULE_CANDIDATES) {
+    if (existsSync(candidate)) return candidate;
+  }
+  return null;
+}
 
 export function ensureFunctionsBuilt() {
-  if (!existsSync(INGEST_MODULE)) {
+  if (!resolveIngestModule()) {
     throw new Error(
       'functions/lib saknas — kör först: cd functions && npm run build',
     );
@@ -59,7 +69,11 @@ export function ensureGcpProjectEnv(projectId) {
 export async function ingestKampsparForOwner(uid, payload) {
   ensureFunctionsBuilt();
   ensureGcpProjectEnv(process.env.GOOGLE_CLOUD_PROJECT || process.env.GCP_PROJECT_ID);
-  const { ingestKampsparForUser } = require(INGEST_MODULE);
+  const ingestModule = resolveIngestModule();
+  if (!ingestModule) {
+    throw new Error('functions/lib saknas — kör först: cd functions && npm run build');
+  }
+  const { ingestKampsparForUser } = require(ingestModule);
   return ingestKampsparForUser(uid, payload);
 }
 

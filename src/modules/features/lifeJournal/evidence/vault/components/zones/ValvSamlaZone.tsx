@@ -16,6 +16,7 @@ export type ValvSamlaZoneProps = {
   highlightLogId: string | null;
   onBevisConfirmed: (docId: string) => void | Promise<void>;
   onCitationClick: (docId: string) => void;
+  onOpenGranska?: () => void;
 };
 
 export function ValvSamlaZone({
@@ -26,6 +27,7 @@ export function ValvSamlaZone({
   highlightLogId,
   onBevisConfirmed,
   onCitationClick,
+  onOpenGranska,
 }: ValvSamlaZoneProps) {
   const [anchorsOnly, setAnchorsOnly] = useState(false);
   const { logs, loadFirstLogsPage } = useVaultStore();
@@ -52,6 +54,7 @@ export function ValvSamlaZone({
           <VaultSamlaHub
             userId={userId}
             onBevisConfirmed={(docId) => void onBevisConfirmed(docId)}
+            onOpenGranska={onOpenGranska}
           />
           <div className="flex justify-end">
             <button

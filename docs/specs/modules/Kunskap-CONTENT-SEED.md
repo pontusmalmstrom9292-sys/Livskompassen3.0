@@ -825,6 +825,332 @@ why: "Referens — Speglar/Valv för personligt"
 
 ---
 
+## Batch 2026-06-14 — Våg 20 Covert taktik + barn HCF (cn-001–015, bh-001–008)
+
+```yaml
+id: kunskap-fact-cn-001
+status: KEEP
+content_class: FACT
+title: "Covert mönster — offerroll utåt"
+content: "I vissa högkonfliktfamiljer kan en vuxen framstå som offer inför skola, BVC eller myndigheter samtidigt som beteenden hemma skiljer sig. Dokumentera observerbara händelser med datum — inte personetiketter."
+category: covert_taktik
+entryType: fakta
+tags: [covert, offerroll, bevis]
+source_tier: psychoeducation_general
+citation_hint: "High-conflict family systems psychoeducation"
+why: "Våg 20 — domän covert; Valv/Hamn bro"
+```
+
+```yaml
+id: kunskap-fact-cn-002
+status: KEEP
+content_class: FACT
+title: "Covert — tyst straff och invalidation"
+content: "Tyst straff (kall behandling, tillbakadragenhet, små kränkningar) kan vara svårare att bevisa än öppen konflikt. Neutral logg: vad som sades eller gjordes, när, och barnets reaktion om relevant."
+category: covert_taktik
+entryType: fakta
+tags: [covert, invalidation, bevis]
+source_tier: psychoeducation_general
+citation_hint: "Covert aggression psychoeducation"
+why: "FACT — ej diagnos; Speglar validering"
+```
+
+```yaml
+id: kunskap-fact-cn-003
+status: KEEP
+content_class: FACT
+title: "Covert — perfekt fasad utåt"
+content: "En vuxen kan uppträda förebildslikt i offentliga sammanhang medan hem- eller sms-kommunikation skiljer sig. Tredjeparts observationer (skola, vård) och egna tidsstämplade bevis kompletterar varandra."
+category: covert_taktik
+entryType: fakta
+tags: [covert, fasad, bevis]
+source_tier: psychoeducation_general
+citation_hint: "Domän-eval 2026-06-01 covert narcissism"
+why: "Forensisk neutralitet i Valv"
+```
+
+```yaml
+id: kunskap-fact-cn-004
+status: KEEP
+content_class: FACT
+title: "Covert — små kränkningar över tid"
+content: "Upprepade små kränkningar (förminska, ignorera, flytta mål) skapar kumulativ stress. Mönster över tid är starkare bevis än enstaka sms — använd Valv-kronologi."
+category: covert_taktik
+entryType: fakta
+tags: [covert, kronologi, gaslighting]
+source_tier: psychoeducation_general
+citation_hint: "High-conflict documentation practice"
+why: "Kopplar VaultMonsterPanel"
+```
+
+```yaml
+id: kunskap-fact-cn-005
+status: KEEP
+content_class: FACT
+title: "Covert vs grandiose — informationsbegrepp"
+content: "Covert (dold) dynamik innebär ofta indirekt kontroll och offerposition; grandiose mer öppen dominans. Båda är beteendebeskrivningar — inte diagnoser att använda mot myndigheter eller i WORM-etiketter."
+category: covert_taktik
+entryType: fakta
+tags: [covert, grandiose, metod]
+source_tier: psychoeducation_general
+citation_hint: "Domän-eval §1 covert vs grandiose"
+why: "Projektminne för agenter"
+```
+
+```yaml
+id: kunskap-fact-cn-006
+status: KEEP
+content_class: FACT
+title: "Gaslighting — barn och vuxen"
+content: "Gaslighting innebär att någons upplevelse systematiskt ifrågasätts. Hos barn kan det låta som 'det hände inte' eller 'du överdriver'. Validera barnets känsla utan att tala illa om andra vuxna."
+category: covert_taktik
+entryType: fakta
+tags: [gaslighting, barn, speglar]
+source_tier: P2
+citation_hint: "Speglar-SPEC; Barnen neutral logg"
+why: "ROUTE Speglar vid personlig sms"
+```
+
+```yaml
+id: kunskap-fact-cn-007
+status: KEEP
+content_class: FACT
+title: "Triangulering via barn"
+content: "Triangulering är när barn eller skola dras in i vuxenkonflikt. Barn ska inte bära meddelanden eller välja sida. Logistik 10% mellan föräldrar via affärsmässig kanal (BIFF/Grey Rock)."
+category: covert_taktik
+entryType: fakta
+tags: [triangulering, barn, hamn]
+source_tier: psychoeducation_general
+citation_hint: "kunskap-fact-045 utökning; Hamn 10/90"
+why: "Dedupe taktik + medföräldraskap"
+```
+
+```yaml
+id: kunskap-fact-cn-008
+status: KEEP
+content_class: FACT
+title: "DARVO i medföräldraskap"
+content: "DARVO (förneka, angripa, byta offer/angripare) förekommer i sms och möten. Svara inte i samma register — dokumentera, använd BIFF i Hamn, validera känsla i Speglar."
+category: covert_taktik
+entryType: fakta
+tags: [darvo, hamn, speglar]
+source_tier: psychoeducation_general
+citation_hint: "kunskap-fact-043; DCAP"
+why: "Runtime + Kunskap RAG"
+```
+
+```yaml
+id: kunskap-fact-cn-009
+status: KEEP
+content_class: FACT
+title: "Grey Rock — 10% logistik"
+content: "Grey Rock: korta, neutrala svar utan känslomässigt bränsle. Cirka 10% av kommunikationen är ren logistik (tider, hämtning, skola); 90% känslomässiga beten ignoreras utan JADE."
+category: covert_taktik
+entryType: fakta
+tags: [grey_rock, hamn, logistik]
+source_tier: P1
+citation_hint: "SafeHarbor-SPEC; kunskap-fact-005/006"
+why: "Hamn runtime — referens-FACT"
+```
+
+```yaml
+id: kunskap-fact-cn-010
+status: KEEP
+content_class: FACT
+title: "BIFF — affärsmässig ton"
+content: "BIFF (Brief, Informative, Friendly, Firm): kort, informativt, vänligt men fast svar. Används för ex-sms och mejl — inte för att vinna debatt utan för att avsluta interaktion säkert."
+category: covert_taktik
+entryType: fakta
+tags: [biff, hamn, kommunikation]
+source_tier: P1
+citation_hint: "SafeHarbor-SPEC"
+why: "Hamn callable analyzeMessage"
+```
+
+```yaml
+id: kunskap-fact-cn-011
+status: KEEP
+content_class: FACT
+title: "Parallel parenting — minimera kontakt"
+content: "Parallel parenting innebär separata sfärer med minimal direkt kontakt mellan föräldrar. Samma barnregler kring skola och hälsa där möjligt; kommunikation affärsmässig och skriftlig."
+category: covert_taktik
+entryType: fakta
+tags: [parallel_parenting, medforaldraskap]
+source_tier: P2
+citation_hint: "High-conflict coparenting literature"
+why: "CUR-COPARENT-01 bro"
+```
+
+```yaml
+id: kunskap-fact-cn-012
+status: KEEP
+content_class: FACT
+title: "Gränser utan JADE"
+content: "JADE (Justify, Argue, Defend, Explain) matar ofta konflikt. Sätt gräns med en mening och avsluta. Appen ska stoppa JADE-beten i Hamn — inte uppmuntra förklaringar till ex."
+category: covert_taktik
+entryType: fakta
+tags: [jade, granser, hamn]
+source_tier: P1
+citation_hint: "livskompassen-governance; Hamn"
+why: "DCAP JADE_BAIT"
+```
+
+```yaml
+id: kunskap-fact-cn-013
+status: KEEP
+content_class: FACT
+title: "Bevis — beteende och datum"
+content: "Inför myndigheter och dossier: beskriv vad som hände, när, och vem som observerade. Undvik diagnosetiketter på motparten. WORM-poster i Valv är sanningens ankare."
+category: covert_taktik
+entryType: fakta
+tags: [bevis, valv, dossier]
+source_tier: product_copy
+citation_hint: "Verklighetsvalvet-SPEC; security.md"
+why: "Plausible deniability + forensik"
+```
+
+```yaml
+id: kunskap-fact-cn-014
+status: KEEP
+content_class: FACT
+title: "Review-kö vid osäker routing"
+content: "Trauma-, LVU- eller vårdnadsmaterial med låg klassificeringsconfidence ska till mänsklig review-kö innan WORM — fail-closed. Inkast → granska-läge i Valv."
+category: covert_taktik
+entryType: fakta
+tags: [inkast, review, hitl]
+source_tier: product_copy
+citation_hint: "inboxClassifier; domän-eval §5"
+why: "ValvInputSuperModule granska"
+```
+
+```yaml
+id: kunskap-fact-cn-015
+status: KEEP
+content_class: FACT
+title: "Soc och skola — fakta före tolkning"
+content: "Vid kontakt med soc eller skola: barnets behov, observerbara beteenden och tidslinje — inte etiketter på förälder. BBIC-dimensioner som struktur."
+category: covert_taktik
+entryType: fakta
+tags: [soc, skola, bbic]
+source_tier: P2
+citation_hint: "Kampspar-BARN-REFERENS; Barnen-SPEC"
+why: "Myndighetsneutral ton"
+```
+
+```yaml
+id: kunskap-fact-bh-001
+status: KEEP
+content_class: FACT
+title: "Barn — lojalitetsfälla"
+content: "Lojalitetsfälla: barn känner att de måste välja sida eller dölja kärlek till en förälder. Ge explicit tillstånd att älska båda — ingen fråga som tvingar position."
+category: barn_hcf
+entryType: fakta
+tags: [barn, lojalitet, familjen]
+source_tier: P2
+citation_hint: "Kampspar-BARN-REFERENS lojalitetsfälla"
+why: "Barnfokus UI bro"
+```
+
+```yaml
+id: kunskap-fact-bh-002
+status: KEEP
+content_class: FACT
+title: "Barn — parentification"
+content: "Parentification: barn tar vuxenroller (trösta, medla, sköta syskon). Tecken: 'mogen för sin ålder', minimerar egna behov. Säg explicit: det här är vuxnas jobb, inte ditt."
+category: barn_hcf
+entryType: fakta
+tags: [barn, parentification, barnfokus]
+source_tier: P2
+citation_hint: "Kampspar-BARN-REFERENS parentification"
+why: "Barnen PLAY + Kunskap"
+```
+
+```yaml
+id: kunskap-fact-bh-003
+status: KEEP
+content_class: FACT
+title: "Barn — emotionell invalidation"
+content: "När barns känslor avfärdas ('sluta gråta', 'det var inget') lär de sig dölja affekt. Trygg förälder speglar: 'Jag tror dig' — utan att tala illa om andra vuxna."
+category: barn_hcf
+entryType: fakta
+tags: [barn, invalidation, speglar]
+source_tier: P2
+citation_hint: "Barn-referens emotionell invalidation"
+why: "Familjen Barnfokus"
+```
+
+```yaml
+id: kunskap-fact-bh-004
+status: KEEP
+content_class: FACT
+title: "Barn — splitting och syskonroller"
+content: "Splitting (idealisera/devalvera) kan ge syskonroller som guldkorn och syndabock. Ge varje barn egen relation; undvik jämförelser; logga neutralt per barn."
+category: barn_hcf
+entryType: fakta
+tags: [barn, splitting, syskon]
+source_tier: P2
+citation_hint: "Barn-referens guldkorn/syndabock"
+why: "children_logs separat silo"
+```
+
+```yaml
+id: kunskap-fact-bh-005
+status: KEEP
+content_class: FACT
+title: "Barn — högkontroll hem: grundbehov"
+content: "Vid ihållande vuxenkonflikt skadar barn mest av att utnyttjas som budbärare — inte nödvändigtvis av två hem. Grundbehov: trygghet, förutsägbarhet, lojalitetsfrihet, skola/sömn."
+category: barn_hcf
+entryType: fakta
+tags: [barn, bbic, konflikt]
+source_tier: P2
+citation_hint: "Barn-referens högkonflikt separation"
+why: "Familjen default-flik Barnfokus"
+```
+
+```yaml
+id: kunskap-fact-bh-006
+status: KEEP
+content_class: FACT
+title: "Barn — NPF i konflikt"
+content: "Barn med ADHD/autism har ofta lägre tolerans för oförutsägbarhet. Dubbelbelastning: neurologisk sårbarhet plus lojalitetsstress. Rutiner vid överlämning och decompression efter skola."
+category: barn_hcf
+entryType: fakta
+tags: [barn, npf, adhd]
+source_tier: P2
+citation_hint: "Barn-referens NPF högkonflikt"
+why: "Evolution Barnporten bracket"
+```
+
+```yaml
+id: kunskap-fact-bh-007
+status: KEEP
+content_class: FACT
+title: "Barn — skydd utan att tala illa om mor"
+content: "Validera barnets känsla; håll vuxenlogik borta; dokumentera neutralt; använd BIFF/Grey Rock i vuxenkontakt. Barn ska inte höra detaljer om rättsprocess."
+category: barn_hcf
+entryType: fakta
+tags: [barn, strategi, hamn]
+source_tier: P2
+citation_hint: "Barn-referens strategi skydda barn"
+why: "Locked UX Barnfokus"
+```
+
+```yaml
+id: kunskap-fact-bh-008
+status: KEEP
+content_class: FACT
+title: "Barn — professionellt stöd"
+content: "Involvera BVC, skolkurator eller BUP vid ihållande sömn-/matproblem, rädsla eller regression. Förbered neutral tidslinje — fokus barnets behov, inte etiketter på förälder."
+category: barn_hcf
+entryType: fakta
+tags: [barn, stod, bbic]
+source_tier: P2
+citation_hint: "Barn-referens professionellt stöd"
+why: "HITL Barnporten → Valv"
+```
+
+---
+
 **Mall för ny rad:**
 
 ```yaml

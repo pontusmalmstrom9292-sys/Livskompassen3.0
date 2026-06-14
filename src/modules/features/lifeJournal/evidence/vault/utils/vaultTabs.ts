@@ -34,9 +34,23 @@ export const VIT_VAULT_TAB = 'mitt_vit' as const;
 export const VIT_VAULT_TAB_IDS = [VIT_VAULT_TAB] as const;
 export type VitVaultTab = (typeof VIT_VAULT_TAB_IDS)[number];
 
-export const VALV_ZONE_IDS = ['samla', 'inbox', 'analysera', 'kunskap', 'vit', 'exportera', 'forensik'] as const;
+/** Synliga zoner i TabBar / ValvInputSuperModule (inbox borttagen — granska-läge i samla). */
+export const VALV_ZONE_VISIBLE_IDS = [
+  'samla',
+  'analysera',
+  'kunskap',
+  'vit',
+  'exportera',
+  'forensik',
+] as const;
 
-export type ValvZone = (typeof VALV_ZONE_IDS)[number];
+/** Legacy drawer/deep link — mappa till `valvMode=granska`, inte forensic tab. */
+export const LEGACY_INBOX_VAULT_TAB = 'inbox' as const;
+
+/** @deprecated inbox-zon — använd granska-läge i ValvInputSuperModule. */
+export const VALV_ZONE_IDS = [...VALV_ZONE_VISIBLE_IDS] as const;
+
+export type ValvZone = (typeof VALV_ZONE_VISIBLE_IDS)[number];
 
 export type PansaretVaultTab = (typeof PANSARET_VAULT_TAB_IDS)[number];
 
@@ -61,7 +75,6 @@ export function resolveValvZone(tab: VaultTab): ValvZone {
   if (isForensicVaultTab(tab)) return 'forensik';
   if ((EXPORTERA_VAULT_TAB_IDS as readonly string[]).includes(tab)) return 'exportera';
   if ((ANALYSERA_VAULT_TAB_IDS as readonly string[]).includes(tab)) return 'analysera';
-  // If we had a specific tab for inbox, we would map it here. For now, it might be navigated directly as a variant.
   return 'samla';
 }
 

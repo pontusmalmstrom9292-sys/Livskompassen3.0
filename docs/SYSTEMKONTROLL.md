@@ -37,7 +37,7 @@
 | **7 — Dokumentindex** | [`README.md`](./README.md) | Alla länkar tier 1–4 |
 | **7b — Innehåll fakta/lek** | [`INNEHALL-REGISTER.md`](./INNEHALL-REGISTER.md) | Dirigent + content-banker, ingen silo 4 RAG |
 
-**Röda tråden i en mening:** DCAP före LLM · tre silor (Kunskap / Valv / Barnen) · **U6** innehåll (FACT/REFLECTION/PLAY/EVIDENCE, Vit utan RAG) · WORM på bevis · Zero Footprint + Kill Switch · inga LLM-beslut om auth eller ägarskap.
+**Röda tråden i en mening:** DCAP före LLM · tre silor (Kunskap / Valv / Barnen) · **U6** innehåll (FACT/REFLECTION/PLAY/EVIDENCE, Vit utan RAG) · WORM på bevis · Zero Footprint + Kill Switch · inga LLM-beslut om auth eller ägarskap · **domän covert/HCF:** [`.context/domän-covert-narcissism.md`](../.context/domän-covert-narcissism.md) + Kunskap våg 20 (`cn-*`, `bh-*`).
 
 ---
 

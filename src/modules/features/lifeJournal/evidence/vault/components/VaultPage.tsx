@@ -1,30 +1,31 @@
 import { Lock, ShieldAlert, X, Settings } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
 import { BentoCard } from '@/shared/ui/BentoCard';
-import { TabBar } from '@/core/ui/TabBar';
-import {
-  getVaultZoneTabBarItems,
-} from '@/core/navigation/tabRegistry';
 import { useStore } from '@/core/store';
 import { useVaultStore } from '@/core/store/useVaultStore';
 import { hasVaultGate } from '@/core/auth/sessionService';
 import { ensureVaultSessionReady, endVaultSession } from '@/core/security/vaultSessionLifecycle';
 
 import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
-import { ValvSuperModule } from './ValvSuperModule';
 import { VaultErrorBoundary } from './VaultErrorBoundary';
 import { VaultLockedGate } from '@/core/components/VaultLockedGate';
+import { ValvInputSuperModule } from '../supermodule/ValvInputSuperModule';
+import {
+  type ValvInputMode,
+  resolveValvInputModeFromVaultTab,
+  valvInputModeDef,
+  valvModeMatchesVaultTab,
+  vaultTabForValvInputMode,
+} from '../supermodule/valvInputModes';
+import { readValvLastInputMode } from '../supermodule/valvLastModeStorage';
 
 import {
-  KUNSKAP_VAULT_TAB,
-  VIT_VAULT_TAB,
-  type ValvZone,
-  type VaultTab,
+  LEGACY_INBOX_VAULT_TAB,
   resolveValvZone,
-  VALV_ZONE_INGRESS,
+  type VaultTab,
 } from '../utils/vaultTabs';
 import { ValvZoneModulValjare } from './ValvZoneModulValjare';
 import { hasSeenValvZoneModulValjare } from '../utils/valvZoneModulValjareStorage';
@@ -36,7 +37,9 @@ type VaultPageProps = {
   embedded?: boolean;
   onClose?: () => void;
   initialVaultTab?: VaultTab;
+  initialValvMode?: ValvInputMode;
   onVaultTabChange?: (tab: VaultTab) => void;
+  onValvModeChange?: (mode: ValvInputMode) => void;
 };
 
 export function VaultPage(props: VaultPageProps) {
@@ -51,36 +54,81 @@ function VaultPageInner({
   embedded = false,
   onClose,
   initialVaultTab = 'logga',
+  initialValvMode = 'spara',
   onVaultTabChange,
+  onValvModeChange,
 }: VaultPageProps) {
   const navigate = useNavigate();
   const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
   const user = useStore((s) => s.user);
   const { loadFirstLogsPage, logs, hasMore: logsHasMore, loadingMore, loadMoreLogs } = useVaultStore();
-  
+
   const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
+  const [valvMode, setValvModeState] = useState<ValvInputMode>(initialValvMode);
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
   const [showZonePicker, setShowZonePicker] = useState(() => !hasSeenValvZoneModulValjare());
   const [sessionSyncError, setSessionSyncError] = useState<string | null>(null);
   const gateOk = hasVaultGate();
   const valvZone = resolveValvZone(vaultTab);
 
-  const setVaultTab = (next: VaultTab) => {
-    setVaultTabState(next);
-    onVaultTabChange?.(next);
-  };
+  const setVaultTab = useCallback(
+    (next: VaultTab) => {
+      setVaultTabState(next);
+      onVaultTabChange?.(next);
+      setValvModeState((currentMode) => {
+        if (currentMode === 'granska') return currentMode;
+        const derived = resolveValvInputModeFromVaultTab(next);
+        if (derived !== currentMode) {
+          onValvModeChange?.(derived);
+          return derived;
+        }
+        return currentMode;
+      });
+    },
+    [onVaultTabChange, onValvModeChange],
+  );
+
+  const setValvMode = useCallback(
+    (mode: ValvInputMode) => {
+      setValvModeState(mode);
+      onValvModeChange?.(mode);
+      const nextTab = vaultTabForValvInputMode(mode, vaultTab);
+      if (nextTab !== vaultTab) {
+        setVaultTabState(nextTab);
+        onVaultTabChange?.(nextTab);
+      }
+    },
+    [onValvModeChange, onVaultTabChange, vaultTab],
+  );
 
   useEffect(() => {
     setVaultTabState(initialVaultTab);
-  }, [initialVaultTab]);
+
+    let nextMode = initialValvMode;
+    if (!valvModeMatchesVaultTab(initialValvMode, initialVaultTab)) {
+      nextMode = resolveValvInputModeFromVaultTab(initialVaultTab);
+    }
+    setValvModeState(nextMode);
+
+    if (nextMode !== initialValvMode) {
+      onValvModeChange?.(nextMode);
+    }
+    const syncedTab = vaultTabForValvInputMode(nextMode, initialVaultTab);
+    if (syncedTab !== initialVaultTab) {
+      setVaultTabState(syncedTab);
+      onVaultTabChange?.(syncedTab);
+    }
+  }, [initialVaultTab, initialValvMode, onValvModeChange, onVaultTabChange]);
 
   const handleCitationClick = (docId: string) => {
     setHighlightLogId(docId);
+    setValvMode('spara');
     setVaultTab('logga');
   };
 
   const handleBevisConfirmed = async (docId: string) => {
     setHighlightLogId(docId);
+    setValvMode('spara');
     setVaultTab('logga');
     if (user) {
       try {
@@ -91,13 +139,21 @@ function VaultPageInner({
     }
   };
 
-  const handleValvZoneChange = (zone: ValvZone) => {
-    if (zone === 'samla') setVaultTab('logga');
-    else if (zone === 'analysera') setVaultTab('monster');
-    else if (zone === 'kunskap') setVaultTab(KUNSKAP_VAULT_TAB);
-    else if (zone === 'vit') setVaultTab(VIT_VAULT_TAB);
-    else if (zone === 'exportera') setVaultTab('dossier');
-    else setVaultTab('hamn_analys');
+  const handleZonePickerSelect = (zone: ReturnType<typeof resolveValvZone> | 'inbox') => {
+    const modeMap: Record<string, ValvInputMode> = {
+      samla: 'spara',
+      inbox: 'granska',
+      analysera: 'analysera',
+      kunskap: 'kunskap',
+      vit: 'vit',
+      exportera: 'rapporter',
+      forensik: 'mer',
+    };
+    const mode =
+      modeMap[zone] ??
+      (zone === LEGACY_INBOX_VAULT_TAB ? 'granska' : readValvLastInputMode() ?? 'granska');
+    setValvMode(mode);
+    setShowZonePicker(false);
   };
 
   useEffect(() => {
@@ -167,7 +223,7 @@ function VaultPageInner({
       <div className="space-y-4">
         <BentoCard title={embedded ? 'Valv · Baksida' : VAULT_UI_NAME} icon={<Lock className="h-4 w-4" />}>
           <div className="mb-3 flex items-start justify-between gap-2">
-            <p className="text-xs text-text-dim">PIN upplåst — välj zon</p>
+            <p className="text-xs text-text-dim">PIN upplåst — välj var du vill börja</p>
             <button
               type="button"
               onClick={handleCloseToLayer1}
@@ -178,12 +234,10 @@ function VaultPageInner({
             </button>
           </div>
           <ValvZoneModulValjare
-            onSelect={(zone) => {
-              handleValvZoneChange(zone);
-              setShowZonePicker(false);
-            }}
+            onSelect={handleZonePickerSelect}
             onSkip={() => {
-              handleValvZoneChange('samla');
+              const last = readValvLastInputMode() ?? 'spara';
+              setValvMode(last);
               setShowZonePicker(false);
             }}
           />
@@ -194,55 +248,47 @@ function VaultPageInner({
 
   return (
     <div className="space-y-4">
-      <BentoCard title={embedded ? 'Valv · Baksida' : VAULT_UI_NAME} icon={<Lock className="h-4 w-4" />}>
-        <div className="mb-3 flex items-start justify-between gap-2">
-          <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
-          <div className="flex shrink-0 items-center gap-1">
-            <button
-              type="button"
-              onClick={() => setShowZonePicker(true)}
-              className="btn-pill--ghost text-xs"
-              title="Visa zonväljare igen"
-            >
-              Byt zon
-            </button>
-            <button
-              type="button"
-              onClick={() => navigate('/valvet/installningar')}
-              className="btn-pill--ghost flex items-center gap-1"
-              title="Valv-inställningar"
-            >
-              <Settings className="h-3 w-3" /> Inställningar
-            </button>
-            <button
-              type="button"
-              onClick={handleCloseToLayer1}
-              className="btn-pill--ghost flex items-center gap-1"
-              title="Stäng valv — tillbaka till vardag"
-            >
-              <X className="h-3 w-3" /> Stäng
-            </button>
-          </div>
+      <div className="flex items-start justify-between gap-2 px-1">
+        <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
+        <div className="flex shrink-0 items-center gap-1">
+          <button
+            type="button"
+            onClick={() => setShowZonePicker(true)}
+            className="btn-pill--ghost text-xs"
+            title="Visa zonväljare igen"
+          >
+            Byt zon
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate('/valvet/installningar')}
+            className="btn-pill--ghost flex items-center gap-1"
+            title="Valv-inställningar"
+          >
+            <Settings className="h-3 w-3" /> Inställningar
+          </button>
+          <button
+            type="button"
+            onClick={handleCloseToLayer1}
+            className="btn-pill--ghost flex items-center gap-1"
+            title="Stäng valv — tillbaka till vardag"
+          >
+            <X className="h-3 w-3" /> Stäng
+          </button>
         </div>
-        {/* Zon-TabBar — underflikar per zon via get*VaultTabBarItems (samma ordning som getMainVaultTabBarItems / drawer). */}
-        <TabBar<ValvZone>
-          size="compact"
-          tabs={getVaultZoneTabBarItems()}
-          active={valvZone}
-          onChange={handleValvZoneChange}
-        />
-        <p className="mb-3 mt-2 text-sm text-text-muted" key={valvZone}>
-          {VALV_ZONE_INGRESS[valvZone]}
-        </p>
-        {sessionSyncError ? (
-          <p className="mb-3 rounded-xl border border-accent/30 bg-surface-2/80 px-3 py-2 text-xs text-text-muted">
-            {sessionSyncError}
-          </p>
-        ) : null}
-      </BentoCard>
+      </div>
 
-      <ValvSuperModule
-        variant={valvZone}
+      {sessionSyncError ? (
+        <p className="rounded-xl border border-accent/30 bg-surface-2/80 px-3 py-2 text-xs text-text-muted">
+          {sessionSyncError}
+        </p>
+      ) : null}
+
+      <p className="px-1 text-sm text-text-muted">{valvInputModeDef(valvMode).description}</p>
+
+      <ValvInputSuperModule
+        activeMode={valvMode}
+        onModeChange={setValvMode}
         vaultTab={vaultTab}
         userId={user.uid}
         gateOk={gateOk}

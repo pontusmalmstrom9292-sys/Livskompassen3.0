@@ -66,7 +66,7 @@ function analyzeJadePatterns(text: string): JadeViolation[] {
       type: 'D',
       label: 'Försvar (Defensivitet)',
       description:
-        'Du försvarar ditt beteende. Ett defensivt svar indikerar för en narcissist att anklagelsen har träffat och har makt.',
+        'Du försvarar ditt beteende. Ett defensivt svar ger ofta motparten bekräftelse och fortsatt konflikt — Grey Rock avslutar utan bränsle.',
     });
   }
   if (
