@@ -10,6 +10,7 @@ import {
   doc,
   getDoc,
   limit,
+  deleteDoc,
 } from 'firebase/firestore';
 import { db } from '@/modules/core/firebase/firestore';
 import { assertOfflineWriteAllowed } from '@/modules/core/firebase/offlineWritePolicy';
@@ -215,5 +216,31 @@ export class EconomyGateway {
     );
     const snap = await getDocs(q);
     return snap.docs.map((d) => ({ id: d.id, ...d.data() } as EconomyImpulseRow));
+  }
+
+  async resolveEconomyImpulse(impulseId: string, status: 'bought' | 'skipped'): Promise<void> {
+    this.assertAccess();
+    assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_impulse_queue);
+    
+    const ref = doc(db, FIRESTORE_COLLECTIONS.economy_impulse_queue, impulseId);
+    const snap = await getDoc(ref);
+    if (!snap.exists() || snap.data().ownerId !== this.userId) {
+      throw new Error('Impulse not found or access denied.');
+    }
+    
+    await updateDoc(ref, { status, updatedAt: serverTimestamp() });
+  }
+
+  async deleteEconomyImpulse(impulseId: string): Promise<void> {
+    this.assertAccess();
+    assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_impulse_queue);
+    
+    const ref = doc(db, FIRESTORE_COLLECTIONS.economy_impulse_queue, impulseId);
+    const snap = await getDoc(ref);
+    if (!snap.exists() || snap.data().ownerId !== this.userId) {
+      throw new Error('Impulse not found or access denied.');
+    }
+    
+    await deleteDoc(ref);
   }
 }

@@ -13,6 +13,50 @@ export interface CapacityGateState {
   reset: () => void;
 }
 
+/** Ref-counted singleton — flera komponenter kan säkert prenumerera utan dubbla onSnapshot. */
+let activeUid: string | null = null;
+let refCount = 0;
+let firestoreUnsubscribe: (() => void) | null = null;
+
+function startFirestoreListener(uid: string, set: (partial: Partial<CapacityGateState>) => void): void {
+  const docRef = doc(db, FIRESTORE_COLLECTIONS.user_capability_state, uid);
+
+  firestoreUnsubscribe = onSnapshot(
+    docRef,
+    (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.data() as UserCapabilityState;
+        set({
+          isEconomyAdvancedUnlocked: data.economy_advanced === true,
+          capacityScore: typeof data.capacityScore === 'number' ? data.capacityScore : 0,
+          isLoading: false,
+          error: null,
+        });
+      } else {
+        set({
+          isEconomyAdvancedUnlocked: false,
+          capacityScore: 0,
+          isLoading: false,
+          error: null,
+        });
+      }
+    },
+    (err) => {
+      console.error('[CapacityGate] Error listening to user_capability_state:', err);
+      set({ error: 'Kunde inte läsa user_capability_state', isLoading: false });
+    },
+  );
+}
+
+function releaseListener(): void {
+  refCount = Math.max(0, refCount - 1);
+  if (refCount === 0) {
+    firestoreUnsubscribe?.();
+    firestoreUnsubscribe = null;
+    activeUid = null;
+  }
+}
+
 export const useCapacityGate = create<CapacityGateState>((set, get) => ({
   isEconomyAdvancedUnlocked: false,
   capacityScore: 0,
@@ -27,43 +71,33 @@ export const useCapacityGate = create<CapacityGateState>((set, get) => ({
   }),
 
   listenToCapacityState: (uid: string) => {
-    set({ isLoading: true, error: null });
-    
     if (!uid) {
+      if (firestoreUnsubscribe) {
+        firestoreUnsubscribe();
+        firestoreUnsubscribe = null;
+        activeUid = null;
+        refCount = 0;
+      }
       get().reset();
       return () => {};
     }
 
-    const docRef = doc(db, FIRESTORE_COLLECTIONS.user_capability_state, uid);
+    if (activeUid === uid && firestoreUnsubscribe) {
+      refCount += 1;
+      return releaseListener;
+    }
 
-    const unsubscribe = onSnapshot(
-      docRef,
-      (snapshot) => {
-        if (snapshot.exists()) {
-          const data = snapshot.data() as UserCapabilityState;
-          set({
-            isEconomyAdvancedUnlocked: data.economy_advanced,
-            capacityScore: data.capacityScore,
-            isLoading: false,
-            error: null,
-          });
-        } else {
-          // Document might not exist yet if Orkestern hasn't run or user is new
-          set({
-            isEconomyAdvancedUnlocked: false,
-            capacityScore: 0,
-            isLoading: false,
-            error: null,
-          });
-        }
-      },
-      (err) => {
-        console.error('[CapacityGate] Error listening to user_capability_state:', err);
-        set({ error: 'Kunde inte läsa user_capability_state', isLoading: false });
-      }
-    );
+    if (firestoreUnsubscribe) {
+      firestoreUnsubscribe();
+      firestoreUnsubscribe = null;
+    }
 
-    return unsubscribe;
+    activeUid = uid;
+    refCount = 1;
+    set({ isLoading: true, error: null });
+    startFirestoreListener(uid, set);
+
+    return releaseListener;
   },
 }));
 

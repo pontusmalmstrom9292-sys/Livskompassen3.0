@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { LayoutGrid, Wallet, Leaf, PiggyBank, Clock, PauseCircle, Sparkles } from 'lucide-react';
 import { clsx } from 'clsx';
@@ -13,7 +13,11 @@ import {
 } from './EkonomiModulValjare';
 import { hasSeenEkonomiModulValjare } from '../utils/ekonomiModulValjareStorage';
 import { useEvolutionStore } from '@/core/store/useEvolutionStore';
-import { useIsEconomyAdvancedUnlocked, useListenToCapacityState } from '@/core/store/useCapacityGate';
+import {
+  useIsCapacityLoading,
+  useIsEconomyAdvancedUnlocked,
+  useListenToCapacityState,
+} from '@/core/store/useCapacityGate';
 import { EconomyAdvancedGate } from '@/features/economy/components/EconomyAdvancedGate';
 
 const TABS: { id: EkonomiModuleChoice; label: string; icon: typeof Wallet }[] = [
@@ -33,26 +37,31 @@ export function EconomyOverviewPanel({ userId }: Props) {
   const [activeTab, setActiveTab] = useState<EkonomiModuleChoice>('budget');
   const hasAdvanced = useEvolutionStore((s) => s.hasFeature('economy_advanced'));
   const isEconomyAdvancedUnlocked = useIsEconomyAdvancedUnlocked();
+  const isCapacityLoading = useIsCapacityLoading();
   const listenToCapacityState = useListenToCapacityState();
 
   useEffect(() => {
-    if (userId) {
-      const unsubscribe = listenToCapacityState(userId);
-      return () => unsubscribe();
-    }
+    if (!userId) return;
+    return listenToCapacityState(userId);
   }, [userId, listenToCapacityState]);
 
-  const visibleTabs = TABS.filter((t) => {
-    if (t.id === 'impuls' || t.id === 'spar') return isEconomyAdvancedUnlocked || hasAdvanced;
-    return true;
-  });
+  const visibleTabs = useMemo(
+    () =>
+      TABS.filter((t) => {
+        if (t.id === 'impuls' || t.id === 'spar') {
+          return isEconomyAdvancedUnlocked || hasAdvanced;
+        }
+        return true;
+      }),
+    [isEconomyAdvancedUnlocked, hasAdvanced],
+  );
 
   useEffect(() => {
-    // Om man är på en flik som man inte längre har tillgång till, hoppa till budget
+    if (isCapacityLoading) return;
     if (!visibleTabs.some((t) => t.id === activeTab)) {
       setActiveTab('budget');
     }
-  }, [isEconomyAdvancedUnlocked, hasAdvanced, activeTab, visibleTabs]);
+  }, [isCapacityLoading, activeTab, visibleTabs]);
 
   const openTab = (tab: EkonomiModuleChoice) => {
     setActiveTab(tab);

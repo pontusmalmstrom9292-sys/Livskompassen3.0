@@ -1,10 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useStore } from '@/core/store';
-import {
-  useIsEconomyAdvancedUnlocked,
-  useIsCapacityLoading,
-  useListenToCapacityState,
-} from '@/core/store/useCapacityGate';
+import { useIsEconomyAdvancedUnlocked } from '@/core/store/useCapacityGate';
 import { EconomyGateway } from './economy_gateway';
 import {
   TrendingUp,
@@ -22,22 +18,11 @@ import type {
   BudgetSavingsRow,
   EconomyImpulseRow,
 } from '@/core/types/firestore';
-import { EconomyQuickBalancePanel } from './components/EconomyQuickBalancePanel';
-import { EconomyCapacityLockedNotice } from './components/EconomyCapacityLockedNotice';
-
-/** Huvudingång för avancerad ekonomi — /ekonomi och /ekonomi/avancerad */
+/** Huvudingång för avancerad ekonomi — /ekonomi och /ekonomi/avancerad.
+ *  Kapacitetslyssnare + route-guard hanteras av EconomyDashboardRoute i AppRoutes. */
 export default function EconomyDashboard() {
   const user = useStore((state) => state.user);
   const isEconomyAdvancedUnlocked = useIsEconomyAdvancedUnlocked();
-  const isGateLoading = useIsCapacityLoading();
-  const listenToCapacityState = useListenToCapacityState();
-
-  useEffect(() => {
-    if (user?.uid) {
-      const unsubscribe = listenToCapacityState(user.uid);
-      return () => unsubscribe();
-    }
-  }, [user?.uid, listenToCapacityState]);
 
   const gateway = useMemo(() => {
     if (!user?.uid) return null;
@@ -89,34 +74,6 @@ export default function EconomyDashboard() {
       };
     }
   }, [isEconomyAdvancedUnlocked, gateway]);
-
-  if (isGateLoading) {
-    return (
-      <div className="flex h-[60vh] w-full flex-col items-center justify-center text-text-muted">
-        <Loader2 className="h-8 w-8 animate-spin text-accent" />
-        <p className="mt-2 text-sm">Läser in kapacitetsstatus…</p>
-      </div>
-    );
-  }
-
-  if (!isEconomyAdvancedUnlocked) {
-    return (
-      <div className="w-full min-h-[70vh] p-4 sm:p-6 md:p-8 text-text">
-        <div className="max-w-lg mx-auto space-y-6">
-          <header>
-            <h1 className="font-display-serif text-2xl text-accent tracking-wide">Ekonomi</h1>
-            <p className="mt-1 text-sm text-text-muted">
-              Förenklad vy — saldo och snabbtillägg är alltid tillgängliga.
-            </p>
-          </header>
-          <div className="calm-card glow-bottom-gold rounded-2xl p-5">
-            <EconomyQuickBalancePanel />
-          </div>
-          <EconomyCapacityLockedNotice featureLabel="Avancerad ekonomi" />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="w-full min-h-[85vh] p-4 sm:p-6 md:p-8 text-text bg-bg transition-colors duration-300">
