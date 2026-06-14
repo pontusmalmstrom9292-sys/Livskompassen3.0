@@ -69,11 +69,11 @@ Extra coach-bank: `discoveryCoachBank.ts` (MB-REF-01..06, MB-PLAY-01..04).
 
 | Fas | Status | Smoke |
 |-----|--------|-------|
-| P0 Forge + naming | **done** (mock deck) | `npm run build` · `npm run smoke:locked-ux` |
-| P1 Deck + rotation | plan | `npm run smoke:discovery-deck` |
-| P2 Vit write + Valv filter | plan | `npm run smoke:mabra` |
-| P3 evolution_ledger | plan | `npm run smoke:evolution-discovery` |
-| P4 prod-bridge | plan (flag off) | `npm run smoke:locked-ux` |
+| P0 Forge + naming | **done** | `npm run build` · `npm run smoke:locked-ux` |
+| P1 Deck + rotation | **done** (kortflöde i UI) | `npm run smoke:discovery-deck` |
+| P2 Vit write + Valv filter | **done** | `npm run smoke:mabra` |
+| P3 evolution_ledger | **done** | `npm run smoke:evolution-discovery` |
+| P4 prod-bridge | **done** (flag on) | `npm run smoke:locked-ux` |
 
 ### Nyckelfiler
 - `OdForgeKompassSuperHub.tsx`, `KompassDiscoveryDeck.tsx`, `KompassDiscoveryCardFlow.tsx`
@@ -95,4 +95,4 @@ Extra coach-bank: `discoveryCoachBank.ts` (MB-REF-01..06, MB-PLAY-01..04).
 
 ---
 
-**P0 levererad 2026-06-15** — `/dev/obsidian-forge` visar superhub med Utforska → 12-bento mock. Prod-wire och Vit-koppling väntar P4/P2.
+**P1 kortflöde live 2026-06-15** — Utforska → kategori → reflektionskort → Spara till Vit / Hoppa över. Test: `/dev/obsidian-forge` eller Hem + Obsidian Depth.

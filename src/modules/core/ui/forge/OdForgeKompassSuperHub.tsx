@@ -5,10 +5,15 @@ import {
   COMPASS_WIDGET_CATALOG,
   type CompassWidgetDef,
 } from '@/features/dailyLife/wellbeing/compasses/config/compassWidgetCatalog';
+import { KompassDiscoveryCardFlow } from '@/features/dailyLife/wellbeing/compasses/components/KompassDiscoveryCardFlow';
 import { KompassDiscoveryDeck } from '@/features/dailyLife/wellbeing/compasses/components/KompassDiscoveryDeck';
 import type { DiscoveryCategoryId } from '@/features/dailyLife/wellbeing/compasses/content/discoveryBentoCatalog';
 import type { CompassFlow } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
+import {
+  compassFlowToQuotePhase,
+  pickForgeMicroTip,
+} from '@/core/copy/compassBannerQuotes';
 
 export type OdForgeSuperMode = 'kompass' | 'inkast' | 'lek';
 
@@ -27,7 +32,6 @@ type Props = {
   stepHint: string;
   ctaLabel: string;
   ctaPressed: boolean;
-  /** Reserverad P2 — ignoreras i P0 mock. */
   userId?: string;
   onCtaPointerDown: () => void;
   onCtaPointerUp: () => void;
@@ -49,13 +53,10 @@ function flowLead(flow: CompassFlow): string {
   return 'Stäng dagen utan skuld.';
 }
 
-function flowMicroTip(flow: CompassFlow): string {
-  if (flow === 'morning') return 'Tips: en rad i dagbok räcker — spara inte till Valv automatiskt.';
-  if (flow === 'day') return 'Tips: logistik svarar du på; känslomässiga beten ignoreras.';
-  return 'Tips: Grey Rock före JADE. Hamn om ex-sms landar.';
+function flowMicroTip(flow: CompassFlow, date = new Date()): string {
+  return pickForgeMicroTip(compassFlowToQuotePhase(flow), date);
 }
 
-/** Forge lab — P0 mock superhub + utvecklings-deck (ingen prod-wire). */
 export function OdForgeKompassSuperHub({
   greeting,
   name,
@@ -65,6 +66,7 @@ export function OdForgeKompassSuperHub({
   stepHint,
   ctaLabel,
   ctaPressed,
+  userId,
   onCtaPointerDown,
   onCtaPointerUp,
   onModeChange,
@@ -75,7 +77,9 @@ export function OdForgeKompassSuperHub({
   const [mode, setMode] = useState<OdForgeSuperMode>('kompass');
   const [widgetOpen, setWidgetOpen] = useState(false);
   const [deckOpen, setDeckOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<DiscoveryCategoryId | null>(null);
   const flow = useMemo(() => getDefaultCompassByTime(), []);
+  const quoteDate = useMemo(() => new Date(), []);
   const widgets = COMPASS_WIDGET_CATALOG[flow];
 
   const setSuperMode = (next: OdForgeSuperMode) => {
@@ -84,8 +88,15 @@ export function OdForgeKompassSuperHub({
   };
 
   const handleCategorySelect = (categoryId: DiscoveryCategoryId) => {
+    setActiveCategory(categoryId);
+    setDeckOpen(false);
     onDiscoverySelect?.(categoryId);
-    onDiscoveryStatus?.(`Mock: ${categoryId} (P0 — inget kortflöde än)`);
+    onDiscoveryStatus?.(`Kategori: ${categoryId}`);
+  };
+
+  const closeDiscovery = () => {
+    setActiveCategory(null);
+    setDeckOpen(false);
   };
 
   return (
@@ -148,7 +159,7 @@ export function OdForgeKompassSuperHub({
 
       <div className="od-forge__superhub-body">
         <div className="od-forge__superhub-main">
-          {mode === 'kompass' ? (
+          {mode === 'kompass' && !activeCategory ? (
             <>
               <h2 className="od-forge__hero-greeting">
                 {greeting},{' '}
@@ -158,7 +169,7 @@ export function OdForgeKompassSuperHub({
               <p className="od-forge__hero-tagline">{tagline}</p>
               <p className="od-forge__superhub-flow-lead">{flowLead(flow)}</p>
               <p className="od-forge__hero-step">{stepHint}</p>
-              <p className="od-forge__superhub-micro-tip">{flowMicroTip(flow)}</p>
+              <p className="od-forge__superhub-micro-tip">{flowMicroTip(flow, quoteDate)}</p>
               <div className="od-forge__superhub-inline-quick" aria-label="Snabbstart kompass">
                 {widgets.slice(0, 3).map((w) => (
                   <button
@@ -175,7 +186,7 @@ export function OdForgeKompassSuperHub({
             </>
           ) : null}
 
-          {mode === 'inkast' ? (
+          {mode === 'inkast' && !activeCategory ? (
             <div className="od-forge__superhub-inkast">
               <Inbox className="h-5 w-5 text-accent" strokeWidth={1.5} aria-hidden />
               <p className="od-forge__superhub-inkast-title">Inkast — direkt här</p>
@@ -188,7 +199,7 @@ export function OdForgeKompassSuperHub({
             </div>
           ) : null}
 
-          {mode === 'lek' ? (
+          {mode === 'lek' && !activeCategory ? (
             <div className="od-forge__superhub-lek">
               <p className="od-forge__superhub-lek-title">Snabbstart lek & utbildning</p>
               <div className="od-forge__superhub-lek-grid">
@@ -206,16 +217,29 @@ export function OdForgeKompassSuperHub({
             </div>
           ) : null}
 
-          <div className="od-forge__hero-meta">
-            <span className="od-forge__hero-profile">{profileLabel}</span>
-            <span className="od-forge__hero-presence" aria-label={`Närvaro: ${presenceDays} dagar`}>
-              <Flame className="h-3 w-3 text-accent" strokeWidth={1.5} aria-hidden />
-              <span className="od-forge__hero-presence-value">{presenceDays}</span>
-              Närvaro
-            </span>
-          </div>
+          {activeCategory ? (
+            <KompassDiscoveryCardFlow
+              userId={userId}
+              categoryId={activeCategory}
+              variant="forge"
+              onBack={() => setActiveCategory(null)}
+              onDone={closeDiscovery}
+              onSaved={(summary) => onDiscoveryStatus?.(`Sparat: ${summary.slice(0, 40)}…`)}
+            />
+          ) : null}
 
-          {mode === 'kompass' ? (
+          {!activeCategory ? (
+            <div className="od-forge__hero-meta">
+              <span className="od-forge__hero-profile">{profileLabel}</span>
+              <span className="od-forge__hero-presence" aria-label={`Närvaro: ${presenceDays} dagar`}>
+                <Flame className="h-3 w-3 text-accent" strokeWidth={1.5} aria-hidden />
+                <span className="od-forge__hero-presence-value">{presenceDays}</span>
+                Närvaro
+              </span>
+            </div>
+          ) : null}
+
+          {mode === 'kompass' && !activeCategory ? (
             <>
               <div
                 className="od-forge__superhub-widget-rail"
