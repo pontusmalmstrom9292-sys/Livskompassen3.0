@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Heart, Loader2 } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { CHILD_PROFILES } from '../../constants';
 import type { FamiljenShell } from '../../hooks/useFamiljenShell';
 import { BalansMatare } from '../BalansMatare';
-import { PhysiologicalControls } from '../PhysiologicalControls';
 import {
   downloadBalansReportJson,
   exportBalansReport,
@@ -15,16 +14,12 @@ type Props = {
   shell: FamiljenShell;
 };
 
+/** Read-only profil + balans — fysio-inmatning sker via FamiljenInputSuperModule (Fas 7E). */
 export function ChildMomentOmPanel({ shell }: Props) {
   const {
     activeChild,
-    signals,
-    setSignals,
     balans,
     logs,
-    loading,
-    error,
-    handleSavePhysio,
   } = shell;
 
   const profile = CHILD_PROFILES.find((p) => p.alias === activeChild);
@@ -77,20 +72,6 @@ export function ChildMomentOmPanel({ shell }: Props) {
             Dossier
           </Link>
         </div>
-      </BentoCard>
-
-      <BentoCard title="Dagens signaler" description="Sömn, ångest, aptit — ett spar per dag.">
-        <PhysiologicalControls signals={signals} onChange={setSignals} />
-        <button
-          type="button"
-          onClick={() => void handleSavePhysio()}
-          disabled={loading}
-          className="btn-pill--accent mt-4 disabled:opacity-50"
-        >
-          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-          Spara dagens signaler
-        </button>
-        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
       </BentoCard>
     </div>
   );

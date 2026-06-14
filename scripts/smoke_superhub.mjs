@@ -144,13 +144,13 @@ function main() {
   mustInclude('src/modules/shell/LivLauncherPage.tsx', 'LivLauncherGrid', 'LIV_LAUNCHER_EXTERNAL');
   mustInclude(
     'src/modules/core/pages/FamiljenPage.tsx',
-    'BarnfokusSuperModule',
+    'FamiljenInputSuperModule',
     'HubPageShell',
     "return 'reflektion'",
   );
   mustInclude(
     'src/modules/features/family/children/components/familjen/FamiljenReflektionTab.tsx',
-    'BarnfokusFraganPanel',
+    'BalansMatare',
   );
 
   console.log('[smoke:superhub] Kanon-referenser…');

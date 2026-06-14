@@ -42,16 +42,16 @@ function main() {
     'stunder',
   );
   mustInclude(
-    'src/modules/features/family/children/components/ChildSubLogPanel.tsx',
+    'src/modules/features/family/children/supermodule/delegates/FamiljenLivsloggStundDelegate.tsx',
     'Spara som ankare',
     'saveAsAnchor',
     'resolveStundCategory',
-    "'stund'",
+    'STUND_MAX_CHARS',
   );
   mustInclude(
     'src/modules/features/family/children/components/familjen/ChildMomentStunderPanel.tsx',
-    'variant="stund"',
-    'Ny stund',
+    'Senaste stunder',
+    'SaveAsEvidencePrompt',
   );
   mustInclude(
     'src/modules/features/family/children/utils/childMomentHelpers.ts',

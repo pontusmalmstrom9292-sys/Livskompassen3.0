@@ -1,8 +1,6 @@
 import { useMemo, useState } from 'react';
-import { Heart, Loader2, Plus } from 'lucide-react';
-import { BentoCard } from '@/shared/ui/BentoCard';
+import { Heart } from 'lucide-react';
 import { EmptyState } from '@/core/ui/EmptyState';
-import { ChildSubLogPanel } from '../ChildSubLogPanel';
 import { SaveAsEvidencePrompt } from '../SaveAsEvidencePrompt';
 import type { FamiljenShell } from '../../hooks/useFamiljenShell';
 import {
@@ -27,20 +25,17 @@ const FILTER_CHIPS: { id: StunderFilter; label: string }[] = [
   { id: 'skola', label: 'Skola' },
 ];
 
+/** Read-only stund-tidslinje — inmatning sker via FamiljenInputSuperModule (Fas 7E). */
 export function ChildMomentStunderPanel({ shell }: Props) {
   const {
     user,
     activeChild,
     logs,
-    loading,
-    error,
     evidenceForLogId,
     setEvidenceForLogId,
-    handleSaveObservation,
   } = shell;
 
   const [filter, setFilter] = useState<StunderFilter>('all');
-  const [showNew, setShowNew] = useState(false);
 
   const stunder = useMemo(
     () => filterStunderLogs(logs, activeChild, filter),
@@ -51,33 +46,7 @@ export function ChildMomentStunderPanel({ shell }: Props) {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-xs uppercase tracking-widest text-text-dim">Senaste stunder</p>
-        <button
-          type="button"
-          onClick={() => setShowNew((v) => !v)}
-          className="inline-flex items-center gap-1 rounded-full border border-accent/30 px-3 py-1 text-xs text-accent hover:bg-accent/10"
-        >
-          <Plus className="h-3.5 w-3.5" aria-hidden />
-          Ny stund
-        </button>
-      </div>
-
-      {showNew && (
-        <BentoCard title="Ny stund" description={`Vad vill du minnas om ${activeChild}?`}>
-          <ChildSubLogPanel
-            key={`stund-${activeChild}`}
-            variant="stund"
-            childAlias={activeChild}
-            userId={user.uid}
-            onSave={async (data) => {
-              const id = await handleSaveObservation(data);
-              setShowNew(false);
-              return id;
-            }}
-          />
-        </BentoCard>
-      )}
+      <p className="text-xs uppercase tracking-widest text-text-dim">Senaste stunder</p>
 
       <div className="flex flex-wrap gap-2">
         {FILTER_CHIPS.map((f) => (
@@ -152,14 +121,6 @@ export function ChildMomentStunderPanel({ shell }: Props) {
           })}
         </ul>
       )}
-
-      {loading && (
-        <p className="flex items-center gap-2 text-xs text-text-dim">
-          <Loader2 className="h-3 w-3 animate-spin" aria-hidden />
-          Sparar…
-        </p>
-      )}
-      {error && <p className="text-sm text-danger">{error}</p>}
     </div>
   );
 }

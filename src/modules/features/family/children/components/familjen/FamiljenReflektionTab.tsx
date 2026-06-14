@@ -1,14 +1,12 @@
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
-import { BarnfokusReglerCard } from './BarnfokusReglerCard';
 import { KanslotempletParentCard } from './KanslotempletParentCard';
 import { PositivaMinnesankare } from '../PositivaMinnesankare';
 import { ChildProfileCards } from '../ChildProfileCards';
 import type { ChildAlias } from '../../constants';
 import { BalansMatare } from '../BalansMatare';
 import { ChildrenLogsChat } from '../ChildrenLogsChat';
-import { FamiljenInputSuperModule } from '../../supermodule';
 import {
   downloadBalansReportJson,
   exportBalansReport,
@@ -20,14 +18,13 @@ type Props = {
   shell: FamiljenShell;
 };
 
-/** Reflektion per barn — barnfokus, balans, frågor mot livslogg-silon. */
+/** Reflektion per barn — read-only efter Superhub (Fas 7E). */
 export function FamiljenReflektionTab({ shell }: Props) {
   const {
     activeChild,
     setActiveChild,
     balans,
     logs,
-    handleSaveObservation,
   } = shell;
 
   return (
@@ -35,16 +32,6 @@ export function FamiljenReflektionTab({ shell }: Props) {
       <ChildProfileCards
         selected={activeChild}
         onSelect={setActiveChild}
-      />
-
-      <div className="familjen-barnfokus-wrap">
-        <FamiljenInputSuperModule shell={shell} />
-      </div>
-
-      <BarnfokusReglerCard
-        key={`regler-${activeChild}`}
-        childAlias={activeChild}
-        onSaveLog={handleSaveObservation}
       />
 
       <KanslotempletParentCard

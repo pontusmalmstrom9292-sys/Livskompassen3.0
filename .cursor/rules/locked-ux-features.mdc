@@ -10,13 +10,14 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 ## Hard rules
 
 1. **Do not remove, hide behind feature flags, or rename** these user-visible flows without explicit user/product approval and an update to `.context/locked-ux-features.md`.
-2. **Before merging** refactors touching `BarnensPage`, `VaultPage`, or related panels: run `npm run smoke:locked-ux` and keep it passing.
+2. **Before merging** refactors touching `FamiljenPage`, `VaultPage`, or related panels: run `npm run smoke:locked-ux` and keep it passing.
 
 ## Barnfokus-frågor (Familjen)
 
-- Component: `src/modules/barnens_livsloggar/components/BarnfokusFraganPanel.tsx`
+- Component: `src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx`
+- Hub: `FamiljenInputSuperModule` på `/familjen?tab=reflektion` (låst §12)
 - Pool: `BARNFOKUS_QUESTIONS` (gladje, kunskap, knas, lara_kanna, utveckling, valv_safe) — not middag-only label
-- Mounted in `BarnensPage` with optimistic `category: 'barnfokus'` saves (read legacy `middag`)
+- Mounted via `FamiljenPage` → Superhub med optimistic `category: 'barnfokus'` saves
 - Button copy: **Spara till {ChildAlias}s logg** · **Minneslista** under form
 
 ## Valv — Pansaret (Mönster + Orkester + Kunskapsbank + Aktörskarta)
@@ -64,7 +65,7 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 
 ## Forbidden without approval
 
-- Deleting `BARNFOKUS_QUESTIONS`, `BarnfokusFraganPanel`, `VaultMonsterPanel`, `VaultOrkesterPanel`, or `vaultPatternScan.ts`
+- Deleting `BARNFOKUS_QUESTIONS`, `FamiljenBarnfokusDelegate`, `FamiljenInputSuperModule`, `VaultMonsterPanel`, `VaultOrkesterPanel`, or `vaultPatternScan.ts`
 - Replacing locked D1/M2 icons without updating `.context/locked-icons.md`
 - Collapsing Mönster/Orkester into Dossier-only or removing tab bar entries
 - Replacing optimistic middag save with “refresh only after server” (degrades ADHD-safe feedback)

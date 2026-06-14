@@ -27,19 +27,15 @@ function mustInclude(relPath, ...needles) {
 }
 
 function main() {
-  // Barnfokus-frågor (ev. Middagsfrågan)
+  // Barnfokus-frågor — Fas 7E: Superhub-delegate (låst §12)
   mustInclude(
-    'src/modules/features/family/children/components/BarnfokusFraganPanel.tsx',
+    'src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx',
     'Barnfokus',
     'Minneslista',
     'Spara till',
     's logg',
     'Annan fråga',
     'glow="green"',
-  );
-  mustInclude(
-    'src/modules/features/family/children/components/BarnensPage.tsx',
-    'BarnfokusFraganPanel',
     'handleSaveBarnfokus',
   );
   mustInclude(
@@ -49,13 +45,8 @@ function main() {
   );
   mustInclude(
     'src/modules/core/pages/FamiljenPage.tsx',
-    'BarnfokusSuperModule',
+    'FamiljenInputSuperModule',
     'vaultRedirectSearch',
-  );
-  mustInclude(
-    'src/modules/features/family/children/components/familjen/BarnfokusSuperModule.tsx',
-    'FamiljenReflektionTab',
-    'FamiljenLivsloggTab',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/knowledge/components/VaultKunskapsbankPanel.tsx',
@@ -64,17 +55,24 @@ function main() {
   );
   mustInclude(
     'src/modules/features/family/children/components/familjen/FamiljenReflektionTab.tsx',
-    'FamiljenInputSuperModule',
-  );
-  mustInclude(
-    'src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx',
-    'BarnfokusFraganPanel',
-    'handleSaveBarnfokus',
+    'BalansMatare',
+    'ChildrenLogsChat',
   );
   mustInclude(
     'src/modules/features/family/children/supermodule/FamiljenInputSuperModule.tsx',
     'glow-bottom-blue',
     'FamiljenBarnfokusDelegate',
+    'FamiljenLivsloggStundDelegate',
+    'FamiljenFysiologiDelegate',
+    'FamiljenLivsloggObservationDelegate',
+    'FamiljenVardagsstrukturDelegate',
+    'FamiljenInkastDelegate',
+  );
+  mustInclude(
+    'src/modules/features/family/children/supermodule/familjenInputModes.ts',
+    'DEFAULT_FAMILJEN_INPUT_MODE',
+    'barnfokus',
+    'inkast',
   );
   mustInclude(
     'src/modules/features/family/children/constants.ts',

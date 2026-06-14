@@ -122,28 +122,15 @@ function main() {
     'src/modules/features/family/children/components/familjen/FamiljenReflektionTab.tsx',
     'ChildProfileCards',
     'PositivaMinnesankare',
-    'BarnfokusFraganPanel',
+    'BalansMatare',
   );
   mustInclude('src/modules/core/pages/FamiljenPage.tsx', 'ParentReminderFooter');
   mustInclude(
-    'src/modules/features/family/children/components/familjen/BarnfokusSuperModule.tsx',
-    'BarnfokusSuperModule',
-    "'reflektion'",
-    "'livslogg'",
+    'src/modules/core/pages/FamiljenPage.tsx',
+    'FamiljenInputSuperModule',
     'FamiljenReflektionTab',
     'FamiljenLivsloggTab',
   );
-  mustInclude(
-    'src/modules/core/pages/FamiljenPage.tsx',
-    'BarnfokusSuperModule',
-    'variant={activeTab}',
-  );
-  assert(
-    !read('src/modules/core/pages/FamiljenPage.tsx').includes('FamiljenReflektionTab'),
-    'FamiljenPage.tsx',
-    'delegerar reflektion/livslogg till BarnfokusSuperModule — inte direkt tab-import',
-  );
-  mustInclude('src/modules/features/family/children/components/BarnensPage.tsx', 'ChildProfileCards', 'ParentReminderFooter');
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx',
     'getVaultZoneTabBarItems',

@@ -1,6 +1,6 @@
 /**
  * Barnfokus — KEEP-rader från Barnen-PLAY-BANK (BP-PLAY-*).
- * Child → BarnfokusFraganPanel; parent → ParentReminderFooter prompt.
+ * Child → FamiljenBarnfokusDelegate; parent → ParentReminderFooter prompt.
  * Ingen Valv-promote, ingen cross-RAG.
  */
 export type BarnfokusCatalogLens =

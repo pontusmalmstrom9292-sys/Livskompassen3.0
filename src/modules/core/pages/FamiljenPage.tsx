@@ -11,7 +11,8 @@ import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
 import { vaultRedirectSearch } from '../navigation/vaultLegacyRedirect';
 import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
 import { FamiljenChildPicker } from '@/features/family/children/components/familjen/FamiljenChildPicker';
-import { BarnfokusSuperModule } from '@/features/family/children/components/familjen/BarnfokusSuperModule';
+import { FamiljenLivsloggTab } from '@/features/family/children/components/familjen/FamiljenLivsloggTab';
+import { FamiljenReflektionTab } from '@/features/family/children/components/familjen/FamiljenReflektionTab';
 import { FamiljenTillsammansTab } from '@/features/family/children/components/familjen/FamiljenTillsammansTab';
 import { ParentReminderFooter } from '@/features/family/children/components/ParentReminderFooter';
 import { SafeHarborPage } from '@/features/family/safeHarbor/components/SafeHarborPage';
@@ -84,7 +85,7 @@ export function FamiljenPage() {
   }
 
   const showChildPicker =
-    activeTab === 'livslogg' || activeTab === 'barnporten';
+    activeTab === 'reflektion' || activeTab === 'livslogg' || activeTab === 'barnporten';
 
   return (
     <HubErrorBoundary
@@ -131,11 +132,14 @@ export function FamiljenPage() {
 
         <main className="mt-2 animate-fade-in">
           {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
-            searchParams.has('superhub') || searchParams.has('inputMode') ? (
+            <div className="space-y-4">
               <FamiljenInputSuperModule shell={shell} />
-            ) : (
-              <BarnfokusSuperModule variant={activeTab} shell={shell} />
-            )
+              {activeTab === 'reflektion' ? (
+                <FamiljenReflektionTab shell={shell} />
+              ) : (
+                <FamiljenLivsloggTab shell={shell} />
+              )}
+            </div>
           )}
 
           {activeTab === 'tillsammans' && <FamiljenTillsammansTab shell={shell} />}
