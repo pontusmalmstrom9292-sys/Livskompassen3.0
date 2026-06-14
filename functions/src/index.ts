@@ -54,6 +54,10 @@ export {
 } from './callables/agents';
 
 export {
+  mabraEconomySync,
+} from './economy/mabraEconomySync';
+
+export {
   analyzeProjectImage,
 } from './callables/projectMedia';
 

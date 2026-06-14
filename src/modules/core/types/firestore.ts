@@ -423,6 +423,7 @@ export const FIRESTORE_COLLECTIONS = {
   user_widgets: 'user_widgets',
   user_tags: 'user_tags',
   inbox_rules: 'inbox_rules',
+  user_economy_status: 'user_economy_status',
 } as const;
 
 /** Användardefinierad tagg (Firestore `user_tags`). */
@@ -433,3 +434,10 @@ export type UserTag = {
 };
 
 export type UserTagRow = UserTag & { id: string };
+
+export interface UserEconomyStatus {
+  userId: string;
+  ownerId: string;
+  economy_advanced: boolean;
+  lastUpdated: IsoDateTime;
+}

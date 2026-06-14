@@ -11,6 +11,7 @@ import { BARNPORTEN_AGENTS } from '../constants/barnportenAgents';
 import { resolveBarnportenChildAlias, isBarnportenDeviceLinked } from '../constants/barnportenDeviceId';
 import { BarnportenWidget } from './BarnportenWidget';
 import { EvolutionDevPanel } from './EvolutionDevPanel';
+import { SchoolAgeModule } from './SchoolAgeModule';
 
 const BarnportenLevelTwoStage = lazy(() =>
   import('./BarnportenLevelTwoStage').then((m) => ({ default: m.BarnportenLevelTwoStage }))
@@ -170,13 +171,16 @@ export function BarnportenPage() {
       </button>
 
       {childBracket !== 'toddler_preschool' && (
-        <textarea
-          className="input-glass mt-4 w-full text-sm"
-          rows={3}
-          placeholder="Skriv till pappa här…"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
+        <>
+          <textarea
+            className="input-glass mt-4 w-full text-sm"
+            rows={3}
+            placeholder="Skriv till pappa här…"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <SchoolAgeModule />
+        </>
       )}
 
       {status && <p className="mt-3 text-center text-sm text-accent">{status}</p>}
