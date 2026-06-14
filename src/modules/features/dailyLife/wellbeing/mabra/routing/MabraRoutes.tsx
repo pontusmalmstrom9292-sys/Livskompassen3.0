@@ -12,6 +12,9 @@ const AkutView = lazy(() => import('../views/MabraFlowViews').then((m) => ({ def
 const DurationView = lazy(() => import('../views/MabraFlowViews').then((m) => ({ default: m.DurationView })));
 const AddonView = lazy(() => import('../views/MabraFlowViews').then((m) => ({ default: m.AddonView })));
 const CompleteView = lazy(() => import('../views/MabraFlowViews').then((m) => ({ default: m.CompleteView })));
+const MabraInputSuperModuleLazy = lazy(() =>
+  import('../supermodule/MabraInputSuperModule').then((m) => ({ default: m.MabraInputSuperModule })),
+);
 
 export function MabraRoutes() {
   return (
@@ -25,6 +28,7 @@ export function MabraRoutes() {
         <Route path="tid" element={<Suspense fallback={null}><DurationView /></Suspense>} />
         <Route path="ovning/:exerciseId" element={<Suspense fallback={null}><MabraExerciseView /></Suspense>} />
         <Route path="ovning/tillagg" element={<Suspense fallback={null}><AddonView /></Suspense>} />
+        <Route path="input" element={<Suspense fallback={null}><MabraInputSuperModuleLazy /></Suspense>} />
         <Route path="klart" element={<Suspense fallback={null}><CompleteView /></Suspense>} />
       </Route>
     </Routes>

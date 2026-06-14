@@ -3,14 +3,17 @@ import { Mic, MicOff } from 'lucide-react';
 import { useSpeechToText } from '@/core/hooks/useSpeechToText';
 import { REFRAMING_STEPS } from '../constants';
 import { shouldRedirectMabraCoachToSpeglar } from '../lib/mabraCoachGuard';
+import { writePendingExerciseNote } from '../supermodule/mabraExerciseNoteStorage';
+import type { MabraSymptomHub } from '../types';
 import { MabraSpeglarGuardHint } from './MabraSpeglarGuardHint';
 
 type Props = {
   onComplete: () => void;
   onExit: () => void;
+  hubSymptom?: MabraSymptomHub | null;
 };
 
-export function ReframingExercise({ onComplete, onExit }: Props) {
+export function ReframingExercise({ onComplete, onExit, hubSymptom }: Props) {
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [guardDismissed, setGuardDismissed] = useState(false);
@@ -62,8 +65,18 @@ export function ReframingExercise({ onComplete, onExit }: Props) {
 
   const finish = useCallback(() => {
     stop();
+    const snapshot = answersRef.current;
+    const hasText = Object.values(snapshot).some((line) => line.trim().length > 0);
+    if (hasText) {
+      writePendingExerciseNote({
+        exerciseType: 'reframing',
+        hubSymptom: hubSymptom ?? undefined,
+        answers: { ...snapshot },
+        capturedAtIso: new Date().toISOString(),
+      });
+    }
     onCompleteRef.current();
-  }, [stop]);
+  }, [stop, hubSymptom]);
 
   const handleNext = () => {
     stop();

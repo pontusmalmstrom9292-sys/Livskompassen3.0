@@ -173,9 +173,17 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 - [ ] **Projekt P2+ / Fas D** — regler, bild-uppladdning, widget-sheet, full MaterialPack-editor
 - [ ] Implementation: `kör kopplingar C` · `kör projekt P1` · se komihåg för fasering
 
-## Fas 6 — Input Superhub (Superdagbok) · PLANERAD
+## Fas 6 — Input Superhub (Superdagbok) · **AVSLUTAD**
 
-**Status:** `[ ]` Ej påbörjad (kickoff) — känslominnen-lista i MåBra (2026-06-14) är första delsteg; full superhub-konsolidering är separat fas.
+**Status:** `[x]` **AVSLUTAD** 2026-06-14 — MåBra Superhub (Fas 6A→6E) implementerad och låst i `.context/locked-ux-features.md` §11.
+
+| Del | Status |
+|-----|--------|
+| **6A** Router-skelett (`MabraInputSuperModule`, `/mabra/input`, lägesväxlare) | **done** |
+| **6B** Vit + minneslista (`vit_*`, `EmotionalMemoryListPanel`) | **done** |
+| **6C** Reflection + RAM → explicit save (`reflection_tool`, `exercise_note`) | **done** |
+| **6D** Inkast + dagbok bridge (`inkast`, `dagbok_bridge`) | **done** |
+| **6E** Lås UX/arkitektur (locked-ux + systemplan) | **done** 2026-06-14 |
 
 **Problem:** Inmatning, uppladdning och reflektion är utspridda (Dagbok, Inkast, känslominnen, Valv, Barnen, MåBra, planering, ekonomi, arbetsliv m.fl.) — för många ingångar huller och buller.
 
@@ -248,4 +256,4 @@ När en Superhub-modul har **implementerats, testats och godkänts** av teknikle
 - Innehåll/routing: U6 · [`docs/INNEHALL-REGISTER.md`](../docs/INNEHALL-REGISTER.md)
 - Framtida kickoff-eval: `docs/evaluations/` (skapas vid start av Fas 6 per zon)
 - **MåBra djupanalys (2026-06-14):** [`docs/evaluations/2026-06-14-fas6-mabra-superhub-djupanalys.md`](../docs/evaluations/2026-06-14-fas6-mabra-superhub-djupanalys.md)
-- **MåBra Superhub SPEC (godkänd 2026-06-14):** [`docs/specs/modules/Mabra-INPUT-SUPERHUB-SPEC.md`](../docs/specs/modules/Mabra-INPUT-SUPERHUB-SPEC.md) — implementation Fas 6A→E
+- **MåBra Superhub SPEC (låst 2026-06-14):** [`docs/specs/modules/Mabra-INPUT-SUPERHUB-SPEC.md`](../docs/specs/modules/Mabra-INPUT-SUPERHUB-SPEC.md) — Fas 6A→E **AVSLUTAD** · locked-ux §11

@@ -10,6 +10,8 @@ export function inkastSourceModuleHint(sourceModule: string): string | null {
       return 'Planering — hamnar i granskningskö tills du bekräftar.';
     case 'hem_capture':
       return 'Smart Inkast — AI föreslår arkiv. Du godkänner alltid innan spar.';
+    case 'mabra_inkast':
+      return 'MåBra inkast — tematisk reflektion. Granska och godkänn innan spar (HITL).';
     default:
       return null;
   }

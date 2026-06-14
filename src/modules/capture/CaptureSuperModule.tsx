@@ -12,7 +12,8 @@ export type CaptureSuperVariant =
   | 'hem-inkast'
   | 'valv-compact'
   | 'planering'
-  | 'kompass';
+  | 'kompass'
+  | 'mabra';
 
 export type CaptureSuperModuleProps = {
   variant: CaptureSuperVariant;
@@ -30,6 +31,7 @@ const SOURCE_MODULE: Record<CaptureSuperVariant, string | undefined> = {
   'valv-compact': 'valv_samla',
   planering: 'planering_inkorg',
   kompass: 'hem_smart_inkast',
+  mabra: 'mabra_inkast',
 };
 
 const HEM_CAPTURE_HINTS: Record<Exclude<HemCaptureChoice, 'text'>, string> = {
@@ -76,7 +78,7 @@ export function CaptureSuperModule({
     setFocusOnCompose(choice === 'text');
   };
 
-  if (variant === 'hem-capture' || variant === 'planering' || variant === 'kompass') {
+  if (variant === 'hem-capture' || variant === 'planering' || variant === 'kompass' || variant === 'mabra') {
     if (variant === 'hem-capture' && showCapturePicker) {
       return (
         <div className="calm-card glow-bottom-gold overflow-hidden rounded-2xl p-4 sm:p-5">
@@ -103,12 +105,15 @@ export function CaptureSuperModule({
         )}
         <CapturePanel
           sourceModule={SOURCE_MODULE[variant] ?? 'hem_capture'}
-          compact={compact || variant === 'kompass'}
+          compact={compact || variant === 'kompass' || variant === 'mabra'}
           onSaved={handleCaptureSaved}
           composeHint={variant === 'hem-capture' ? composeHint : null}
           focusOnCompose={variant === 'hem-capture' && focusOnCompose}
         />
-        {(variant === 'hem-capture' || variant === 'kompass' || variant === 'planering') && (
+        {(variant === 'hem-capture' ||
+          variant === 'kompass' ||
+          variant === 'planering' ||
+          variant === 'mabra') && (
           <ReviewQueuePipelinePanel
             mode="summary"
             refreshToken={queueRefresh}

@@ -114,6 +114,7 @@ export const MabraExerciseView = memo(function MabraExerciseView() {
   if (exerciseId === 'reframing') {
     return (
       <ReframingExercise
+        hubSymptom={hub}
         onComplete={handleReframingComplete}
         onExit={() => returnToHub('tankar')}
       />

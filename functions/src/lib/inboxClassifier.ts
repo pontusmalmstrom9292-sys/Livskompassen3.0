@@ -150,6 +150,21 @@ export function heuristicInboxClassify(
   }
 
   if (
+    /\[sourcemodule:mabra_inkast\]/i.test(blob) ||
+    /sourcemodule:mabra_inkast/i.test(blob)
+  ) {
+    return {
+      routing: 'dagbok',
+      tags: ['reflektion', 'mabra', 'aterhamtning'],
+      category: 'vardag',
+      confidence: 0.88,
+      summary: 'MåBra reflektion via inkast → dagbok (HITL).',
+      traumaSensitive: false,
+      rationale: 'Heuristisk match: sourceModule mabra_inkast → journal.',
+    };
+  }
+
+  if (
     /\[sourcemodule:(familjen|barnen|barnfokus)\]/i.test(blob) ||
     (/sourcemodule:/i.test(blob) && /\b(barnfokus|livslogg|barnporten)\b/.test(blob))
   ) {

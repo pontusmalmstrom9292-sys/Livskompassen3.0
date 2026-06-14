@@ -8,6 +8,7 @@ import {
   isMabraLowEnergyBridge,
   MABRA_BRIDGE_INTRO,
   parseMabraBridgeHub,
+  type MabraBridgeHub,
 } from '../constants/mabraBridge';
 import { useJournalFlow } from '../hooks/useJournalFlow';
 import { JOURNAL_CATEGORIES } from '../constants/journalCategories';
@@ -35,18 +36,28 @@ function parseInitialDagbokMode(
 
 type DagbokPageProps = {
   embedded?: boolean;
+  /** Overrides URL ?hub= when embedded in Mabra superhub (Fas 6D). */
+  mabraBridgeHub?: MabraBridgeHub | null;
+  /** Forces low-energy flow without URL ?from=mabra&energy=low */
+  mabraLowEnergyBridge?: boolean;
 };
 
-export function DagbokPage({ embedded = false }: DagbokPageProps) {
+export function DagbokPage({
+  embedded = false,
+  mabraBridgeHub: mabraBridgeHubProp,
+  mabraLowEnergyBridge: mabraLowEnergyBridgeProp,
+}: DagbokPageProps) {
   const user = useStore((s) => s.user);
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const vaultSessionOpen = isVaultUnlocked || hasVaultGate();
   const [searchParams] = useSearchParams();
-  const mabraHub = parseMabraBridgeHub(searchParams.get('hub'));
-  const lowEnergyBridge = isMabraLowEnergyBridge(
-    searchParams.get('from'),
-    searchParams.get('energy'),
-  );
+  const mabraHub =
+    mabraBridgeHubProp !== undefined
+      ? mabraBridgeHubProp
+      : parseMabraBridgeHub(searchParams.get('hub'));
+  const lowEnergyBridge =
+    mabraLowEnergyBridgeProp ??
+    isMabraLowEnergyBridge(searchParams.get('from'), searchParams.get('energy'));
   const bridgeIntro = mabraHub ? MABRA_BRIDGE_INTRO[mabraHub] : null;
 
   const [mode, setMode] = useState<DagbokMode>(() =>

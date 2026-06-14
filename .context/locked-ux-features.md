@@ -171,6 +171,46 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
+## 11. MåBra — Universal Input Superhub (`MabraInputSuperModule`) — **låst 2026-06-14**
+
+| | |
+|---|---|
+| **Route** | `/mabra/input` · `/mabra/projekt/:projectId?inputMode=…` · `MabraRoutes.tsx` |
+| **Syfte** | Polymorf inmatningshub för MåBra (Vit) — byt läge utan att byta sida |
+| **Kod** | `MabraInputSuperModule.tsx` · `mabraInputModes.ts` · `supermodule/*` |
+| **Spec** | [`docs/specs/modules/Mabra-INPUT-SUPERHUB-SPEC.md`](../docs/specs/modules/Mabra-INPUT-SUPERHUB-SPEC.md) |
+| **Eval** | [`docs/evaluations/2026-06-14-fas6-mabra-superhub-djupanalys.md`](../docs/evaluations/2026-06-14-fas6-mabra-superhub-djupanalys.md) |
+| **Fas** | 6A→6E **AVSLUTAD** 2026-06-14 — registrerad i `.context/system-plan.md` |
+
+### Input modes (låsta lägen)
+
+| Mode | Beskrivning |
+|------|-------------|
+| `checkin` | Humör/energi check-in |
+| `emotional_memory` | Känslominnen (WORM) |
+| `vit_card` | Vit frågekort |
+| `vit_chat` | Lär tillsammans (Vit-chatt) |
+| `vit_memory` | Känslominne (Vit) |
+| `reflection_tool` | Reflektionskort/deck |
+| `exercise_note` | Anteckning efter övning |
+| `dagbok_bridge` | Bro till Hjärtat/dagbok |
+| `inkast` | Granska innan spar (HITL) |
+
+### Säkerhetsgränser (obligatoriska)
+
+| Princip | Tillämpning |
+|---------|-------------|
+| **WORM** | `vit_entries` och `emotional_memory` — append-only; **ingen** `update`/`delete` |
+| **Zero Footprint** | Reflektioner (`reflection_tool`, m.m.) i **RAM** och **localStorage**; molnsparande kräver **strikt uttryckliga HITL-åtgärder** (Human-in-the-loop) |
+| **Inkast** | Läge `inkast` kräver **manuellt godkännande** — **ingen** automatisk marknadsföring till Valv, Barnen eller annan silo |
+| **U1 silos** | Ingen cross-RAG till Kunskap; ex/konflikt → Speglar/Hamn (guard) |
+
+**Får inte:** ta bort eller gömma lägesväxlaren; införa spridda inmatningsformulär utanför Superhub i MåBra-zonen; auto-promote från inkast; skriva till WORM-samlingar utan befintlig delegate-logik; ändra kärnlogik utan explicit produktbeslut (Pontus) + PMIR.
+
+**Smoke:** `npm run smoke:mabra` · `npm run smoke:emotional-memory` · `npm run smoke:locked-ux`
+
+---
+
 ## Verifiering
 
 ```bash

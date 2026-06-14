@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
-import { NAV_PATHS } from '@/core/navigation/navTruth';
 import {
   COMPLETE_COPY,
   COMPLETE_LANDING_STRIP,
   HUB_COMPLETE_COPY,
-  mabraDagbokBridgeUrl,
 } from '../constants';
+import { hasPendingExerciseNote } from '../supermodule/mabraExerciseNoteStorage';
 import type { MabraExerciseType, MabraSymptomHub } from '../types';
 import { MabraCoachPanel } from './MabraCoachPanel';
 
@@ -23,7 +22,7 @@ export function MabraComplete({
   onOpenReflectionCard,
 }: Props) {
   const copy = hub ? HUB_COMPLETE_COPY[hub] : COMPLETE_COPY[exerciseType];
-  const dagbokTo = hub ? mabraDagbokBridgeUrl(hub) : `${NAV_PATHS.HJARTAT}?from=mabra&energy=low`;
+  const dagbokTo = '/mabra/input?inputMode=dagbok_bridge';
   const dagbokLabel = hub ? HUB_COMPLETE_COPY[hub].dagbokLabel : COMPLETE_LANDING_STRIP.dagbok;
 
   return (
@@ -48,6 +47,15 @@ export function MabraComplete({
         >
           {COMPLETE_LANDING_STRIP.reflection}
         </button>
+        {hasPendingExerciseNote() ? (
+          <Link
+            to="/mabra/input?inputMode=exercise_note"
+            className="mabra-complete-strip__chip"
+            role="listitem"
+          >
+            Spara övningsutkast
+          </Link>
+        ) : null}
         <Link to="/vardagen" className="mabra-complete-strip__chip" role="listitem">
           {COMPLETE_LANDING_STRIP.evening}
         </Link>

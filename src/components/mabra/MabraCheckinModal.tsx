@@ -7,9 +7,17 @@ import { toast } from '@/modules/core/store/toastStore';
 interface MabraCheckinModalProps {
   isOpen: boolean;
   onClose: () => void;
+  /** `inline` — embedded in Superhub without overlay (Fas 6A). */
+  variant?: 'modal' | 'inline';
+  onSaved?: () => void;
 }
 
-export function MabraCheckinModal({ isOpen, onClose }: MabraCheckinModalProps) {
+export function MabraCheckinModal({
+  isOpen,
+  onClose,
+  variant = 'modal',
+  onSaved,
+}: MabraCheckinModalProps) {
   const [energy, setEnergy] = useState(5);
   const [mood, setMood] = useState(5);
   const [notes, setNotes] = useState('');
@@ -18,7 +26,8 @@ export function MabraCheckinModal({ isOpen, onClose }: MabraCheckinModalProps) {
   const user = useStore((s) => s.user);
   const saveMabraCheckIn = useMabraStore((s) => s.saveMabraCheckIn);
 
-  if (!isOpen) return null;
+  const isInline = variant === 'inline';
+  if (!isOpen && !isInline) return null;
 
   const handleSave = async () => {
     if (!user?.uid) {
@@ -34,7 +43,14 @@ export function MabraCheckinModal({ isOpen, onClose }: MabraCheckinModalProps) {
         notes: notes.trim() || undefined,
       });
       toast.success('Din incheckning har sparats!');
-      onClose();
+      onSaved?.();
+      if (isInline) {
+        setEnergy(5);
+        setMood(5);
+        setNotes('');
+      } else {
+        onClose();
+      }
     } catch (err) {
       console.error('Fel vid sparning av incheckning:', err);
       toast.error('Misslyckades att spara incheckningen. Försök igen.');
@@ -43,17 +59,19 @@ export function MabraCheckinModal({ isOpen, onClose }: MabraCheckinModalProps) {
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-obsidian-bg/85 backdrop-blur-md">
-      {/* Modal Container */}
-      <div className="relative w-full max-w-md overflow-hidden calm-card border border-border/30 bg-surface-2/95 shadow-accent-glow-lg rounded-3xl p-6 transition-all duration-300">
-        
-        {/* Decorative Top Accent Line */}
+  const card = (
+    <div
+      className={`relative w-full overflow-hidden calm-card border border-border/30 bg-surface-2/95 ${
+        isInline ? 'rounded-2xl p-4 sm:p-5' : 'max-w-md rounded-3xl p-6 shadow-accent-glow-lg transition-all duration-300'
+      }`}
+    >
+      {!isInline ? (
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent/50 via-accent-ai/50 to-accent-secondary/50 animate-pulse" />
+      ) : null}
 
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="font-display-serif text-lg text-accent tracking-wide">Ny MåBra-incheckning</h2>
+      <div className={`flex items-center justify-between ${isInline ? 'mb-4' : 'mb-6'}`}>
+        <h2 className="font-display-serif text-lg text-accent tracking-wide">Ny MåBra-incheckning</h2>
+        {!isInline ? (
           <button
             onClick={onClose}
             disabled={isLoading}
@@ -61,7 +79,8 @@ export function MabraCheckinModal({ isOpen, onClose }: MabraCheckinModalProps) {
           >
             <X className="w-4 h-4" />
           </button>
-        </div>
+        ) : null}
+      </div>
 
         {/* Content / Sliders */}
         <div className="space-y-6">
@@ -132,8 +151,8 @@ export function MabraCheckinModal({ isOpen, onClose }: MabraCheckinModalProps) {
           </div>
         </div>
 
-        {/* Footer Actions */}
-        <div className="mt-8 flex justify-end gap-3">
+      <div className={`flex justify-end gap-3 ${isInline ? 'mt-6' : 'mt-8'}`}>
+        {!isInline ? (
           <button
             onClick={onClose}
             disabled={isLoading}
@@ -141,15 +160,23 @@ export function MabraCheckinModal({ isOpen, onClose }: MabraCheckinModalProps) {
           >
             Avbryt
           </button>
-          <button
-            onClick={handleSave}
-            disabled={isLoading}
-            className="px-5 py-2 rounded-xl text-xs font-semibold bg-accent hover:bg-accent-light text-obsidian-bg transition-all hover:shadow-accent-glow disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isLoading ? 'Sparar...' : 'Spara'}
-          </button>
-        </div>
+        ) : null}
+        <button
+          onClick={handleSave}
+          disabled={isLoading}
+          className="px-5 py-2 rounded-xl text-xs font-semibold bg-accent hover:bg-accent-light text-obsidian-bg transition-all hover:shadow-accent-glow disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isLoading ? 'Sparar...' : 'Spara'}
+        </button>
       </div>
+    </div>
+  );
+
+  if (isInline) return card;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-obsidian-bg/85 backdrop-blur-md">
+      {card}
     </div>
   );
 }

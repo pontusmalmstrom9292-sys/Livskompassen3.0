@@ -10,6 +10,7 @@ const ALLOWED_INKAST_SOURCE_MODULES = new Set([
   'familjen',
   'barnen',
   'barnfokus',
+  'mabra_inkast',
   'smoke_inkast_lockdown',
 ]);
 
