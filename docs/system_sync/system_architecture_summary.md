@@ -1,0 +1,31 @@
+# System Architecture Summary: Pelare 3 - Vardagens Arkitektur
+
+Detta dokument beskriver nuläget för Livskompassen v2 med fokus på "Pelare 3: Vardagens Arkitektur" (Everyday Architecture) och hur Capability Engine ("Lagen om Evig Tillväxt") samverkar med Firestore.
+
+## Pelare 3: Vardagens Arkitektur
+Målet med Pelare 3 är att bygga ett ekonomiskt och logistiskt ekosystem anpassat för kognitiv trötthet och ADHD. Det rör sig från en basnivå av skuld- och stressfri konsumtion, där enbart enkla saldon syns, till mer avancerade verktyg såsom impulsfördröjnings-köer, budgetkuvert och Kanban-planering. Allt detta styrs dynamiskt utifrån användarens aktuella mående och kapacitet.
+
+## Interaktion mellan Capability Engine och Firestore
+
+### 1. Data-Ingest och Indikatorer
+Capability Engine beräknar användarens aktuella "kognitiva kapacitet" kontinuerligt ("Capacity Score", värde mellan 0.0 och 1.0). Denna beräkning utgår primärt från:
+- **`mabra_checkin`**: Användarens senaste incheckningar för `mood` och `energy` (beräknas som ett rullande 7-dagarsmedelvärde).
+- **`mabra_progress`**: Antal identifierade kärnvärden i ACT/KBT-flödet. Antal värden (t.ex. > 5) påverkar direkt "scoren".
+
+### 2. Orkester-utvärdering (Backend)
+- Ett bakgrundsjobb (`orkester_capability_gate.mjs`) läser MåBra-dokument (`mabra_progress` / `checkins`).
+- Orkestern kalkylerar den aktuella `capacityScore` (0.2, 0.5, 1.0 etc.).
+- Beroende på om användarens score överstiger tröskelvärdet (`THRESHOLD_STABLE = 0.5`) sätts flaggor såsom `economy_advanced = true`.
+- Detta tillstånd sparas ned till Firestore-samlingen **`user_capability_state`** för den aktuella användaren.
+
+### 3. Progressive History (WORM)
+- Eventuella "nivåkliv" och milstolpar måste loggas till **`evolution_ledger`** som är en WORM-samling (Write Once, Read Many). 
+- Tillståndet kan representeras i en mutable datamodell (oftast `evolution_hub` eller i detta fall den proxy som är `user_capability_state`), men varje evolutionärt språng ligger bevarat i ledger-historiken.
+
+### 4. Konsumtion via Client Store (Zustand)
+- En dedikerad hook, **`useCapacityGate`**, lyssnar realtid på `doc(db, 'user_capability_state', uid)`.
+- Reaktivt (onSnapshot) uppdateras det globala kliento-tillståndet (`CapacityGateState`) med booleska flaggor (ex. `isEconomyAdvancedUnlocked`) och `capacityScore`.
+- UI-komponenter för Pelare 3 läser flaggan. Om användaren har låg kapacitet tvingas gränssnittet till en "Paralys-Panel" som enbart visar det allra mest nödvändiga (mikrosteg, förenklad vy). Om kapaciteten är stabil och `isEconomyAdvancedUnlocked` är sann, blottläggs full Kanban, budgetkuvert, smarta widgets osv.
+
+### Sammanfattning
+Denna design (Capability Engine ↔ Firestore) säkerställer att applikationen aldrig överväldigar användaren. Alla avancerade layouter och vyer bakom Pelare 3 hålls dolda tills datadriven "emotionell och kognitiv puls" (inläst via Firestore) ger systemet godkännande att låsa upp funktionerna.

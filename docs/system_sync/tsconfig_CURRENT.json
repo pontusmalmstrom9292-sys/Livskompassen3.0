@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/core": ["./src/modules/core"],
+      "@/core/*": ["./src/modules/core/*"],
+      "@/shared": ["./src/modules/shared"],
+      "@/shared/*": ["./src/modules/shared/*"],
+      "@/features/*": ["./src/modules/features/*"],
+      "@/types": ["./src/types"],
+      "@/types/*": ["./src/types/*"]
+    }
+  },
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}

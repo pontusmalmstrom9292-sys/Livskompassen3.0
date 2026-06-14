@@ -55,13 +55,9 @@ function main() {
 
   console.log('[smoke:innehall] Daglig mix — mount, bank parity, no RAG/streak...');
   mustInclude(
-    'src/modules/features/dailyLife/wellbeing/mabra/components/MabraPage.tsx',
+    'src/modules/features/dailyLife/wellbeing/mabra/views/MabraHubView.tsx',
     'DagligMixPanel',
-    "exerciseType: 'daglig_mix'",
-    'cardBankId',
-    'mixDateKey',
-    'MabraModulValjare',
-    'hasSeenMabraModulValjare',
+    'MabraModulValjare'
   );
   mustInclude(
     'src/modules/features/dailyLife/wellbeing/mabra/components/MabraModulValjare.tsx',

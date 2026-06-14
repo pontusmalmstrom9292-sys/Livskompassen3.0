@@ -58,6 +58,10 @@ export {
 } from './economy/mabraEconomySync';
 
 export {
+  calculateSmartAllocation,
+} from './economy/calculateSmartAllocation';
+
+export {
   analyzeProjectImage,
 } from './callables/projectMedia';
 

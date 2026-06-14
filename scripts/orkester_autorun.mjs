@@ -26,6 +26,7 @@ const PHASES = [
   { id: 'innehall', label: 'Innehall U6', cmd: 'npm run smoke:innehall' },
   { id: 'locked-icons', label: 'Locked icons', cmd: 'npm run smoke:locked-icons' },
   { id: 'adk', label: 'ADK Weaver', cmd: 'npm run smoke:orkester' },
+  { id: 'capability-gate', label: 'Capability Gate', cmd: 'node scripts/orkester_capability_gate.mjs' },
   { id: 'functions-build', label: 'Functions build', cmd: 'npm run build', cwd: 'functions' },
   { id: 'frontend-build', label: 'Frontend build', cmd: 'npm run build' },
   { id: 'lint', label: 'ESLint', cmd: 'npx eslint . --max-warnings 0', optional: true },
