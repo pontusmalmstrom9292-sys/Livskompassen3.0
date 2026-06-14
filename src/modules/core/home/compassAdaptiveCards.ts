@@ -1,6 +1,7 @@
 import type { CompassFlow } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
+import { HOME_SUPERHUB_ROUTES } from './homeSuperhubRoutes';
 
 export type CheckInSnapshot = {
   id: string;
@@ -59,7 +60,7 @@ function kasamFollowUp(taskNote?: string): AdaptiveMemoryCard | null {
         title: weakest.label,
         prompt: weakest.q,
         actionLabel: 'Öppna dagbok',
-        to: NAV_PATHS.HJARTAT,
+        to: HOME_SUPERHUB_ROUTES.hjartatReflektion,
         tone: 'gold',
       };
     }
@@ -78,7 +79,7 @@ function cardsFromMorning(option: string): AdaptiveMemoryCard[] {
           title: 'Morgon — andning',
           prompt: 'Du valde lugn start. Vill du köra 4-7-8 i två minuter nu?',
           actionLabel: 'Måbra',
-          to: '/mabra',
+          to: HOME_SUPERHUB_ROUTES.mabraInput,
           tone: 'lavender',
         },
         {
@@ -109,7 +110,7 @@ function cardsFromMorning(option: string): AdaptiveMemoryCard[] {
           title: 'Morgon — vila',
           prompt: 'Vila räcker. Vill du bara läsa Sanningens Ankare utan att prestera?',
           actionLabel: 'Dagbok',
-          to: NAV_PATHS.HJARTAT,
+          to: HOME_SUPERHUB_ROUTES.hjartatReflektion,
           tone: 'gold',
         },
       ];
@@ -127,7 +128,7 @@ function cardsFromDay(option: string): AdaptiveMemoryCard[] {
           title: 'Dag — trött',
           prompt: 'Kroppen signalerar trötthet. Ett kort andningssteg kan sänka pulsen.',
           actionLabel: 'Måbra',
-          to: '/mabra',
+          to: HOME_SUPERHUB_ROUTES.mabraInput,
           tone: 'lavender',
         },
       ];
@@ -138,7 +139,7 @@ function cardsFromDay(option: string): AdaptiveMemoryCard[] {
           title: 'Dag — spänd',
           prompt: 'Spänning i kroppen. Vill du prova 4-7-8 innan nästa beslut?',
           actionLabel: 'Andning',
-          to: '/mabra',
+          to: HOME_SUPERHUB_ROUTES.mabraInput,
           tone: 'lavender',
         },
         {

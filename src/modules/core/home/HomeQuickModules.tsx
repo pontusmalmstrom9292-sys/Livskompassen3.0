@@ -42,7 +42,7 @@ export function HomeQuickModules({ onSaved }: Props) {
             expanded={isOpen}
             onToggle={() => setExpanded(isOpen ? null : item.id)}
           >
-            {item.id === 'dagbok' && <HomeDagbokPanel onSaved={onSaved} />}
+            {item.id === 'dagbok' && <HomeDagbokPanel />}
             {item.id === 'uppgift' && <HomeTaskPanel />}
             {item.id === 'quiz' && (
               <HomeVaultLearningPanel mode="quiz" onSaved={onSaved} />

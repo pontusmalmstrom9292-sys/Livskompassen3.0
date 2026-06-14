@@ -1,6 +1,6 @@
 # Livskompassen — System Plan v2 (Fas 9+)
 
-**Datum:** 2026-06-14  
+**Datum:** 2026-06-14 (gate 12A — superhub-kö AVSLUTAD)  
 **Kanon:** Aktiv styrning från Fas 9. Historik Fas 1–7 → [`.context/system-plan.md`](../.context/system-plan.md)  
 **Sanning:** GCP → [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md) · GAP → [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) · Smoke → [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md)  
 **Audit:** [`evaluations/2026-06-14-fas9-systemanalys.md`](./evaluations/2026-06-14-fas9-systemanalys.md)
@@ -74,6 +74,51 @@ Detaljerad checkbox-historik: [`.context/system-plan.md`](../.context/system-pla
 
 ---
 
+### Fas 9 — Super-Planering Input — AVSLUTAD 2026-06-14
+
+| Del | Status |
+|-----|--------|
+| **9A** Djupanalys + SPEC | **done** |
+| **9B** `PlaneringInputSuperModule` + lägesväxlare | **done** |
+| **9C** Delegates: task_quick, inkast, quick_list | **done** |
+| **W3** `/planering/input` live + länk från PlaneringPage | **done** 2026-06-14 |
+
+**Låst:** `.context/locked-ux-features.md` §15  
+**Spec:** [`specs/Planering-INPUT-SUPERHUB-SPEC.md`](./specs/Planering-INPUT-SUPERHUB-SPEC.md)  
+**Eval:** [`evaluations/2026-06-14-planering-superhub-djupanalys.md`](./evaluations/2026-06-14-planering-superhub-djupanalys.md)
+
+---
+
+### Fas 10 — Super-Arbetsliv Input — AVSLUTAD 2026-06-14
+
+| Del | Status |
+|-----|--------|
+| **10A** Djupanalys + SPEC | **done** |
+| **10B** `ArbetslivInputSuperModule` + lägesväxlare | **done** |
+| **10C** Delegates: stampla, tid, logg | **done** |
+| **W3** `/arbetsliv/input` + legacy redirect | **done** 2026-06-14 |
+
+**Låst:** `.context/locked-ux-features.md` §16  
+**Spec:** [`specs/Arbetsliv-INPUT-SUPERHUB-SPEC.md`](./specs/Arbetsliv-INPUT-SUPERHUB-SPEC.md)  
+**Eval:** [`evaluations/2026-06-14-arbetsliv-superhub-djupanalys.md`](./evaluations/2026-06-14-arbetsliv-superhub-djupanalys.md)
+
+---
+
+### Fas 11 — Superdagbok (Hjärtat) — AVSLUTAD 2026-06-14
+
+| Del | Status |
+|-----|--------|
+| **11A** Djupanalys + SPEC | **done** |
+| **11B** `DagbokInputSuperModule` + lägesväxlare | **done** |
+| **11C** Delegates: reflektion, quick_mirror, arkiv | **done** |
+| **W5** `/hjartat/input` + HjartatPage embed | **done** 2026-06-14 |
+
+**Låst:** `.context/locked-ux-features.md` §17  
+**Spec:** [`specs/Superdagbok-INPUT-SUPERHUB-SPEC.md`](./specs/Superdagbok-INPUT-SUPERHUB-SPEC.md)  
+**Eval:** [`evaluations/2026-06-14-superdagbok-superhub-djupanalys.md`](./evaluations/2026-06-14-superdagbok-superhub-djupanalys.md)
+
+---
+
 ### Arkitekturcompliance (2026-06-14 audit)
 
 | Princip | Status | Kritiska GAP |
@@ -106,13 +151,16 @@ Kanon förbättringsplan: [`evaluations/2026-06-11-FOEBATTRINGSPLAN-HELAPP.md`](
 
 ### Smoke & deploy (senast verifierat)
 
-**Current truth:** [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) (2026-06-11)
+**Current truth:** [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) · gate **12A** 2026-06-14
 
 | Kategori | Status |
 |----------|--------|
 | `npm run build` | **PASS** |
 | `smoke:locked-ux` | **PASS** |
-| `smoke:orkester` | **PASS** |
+| `smoke:orkester` | **PASS** (gate 12A) |
+| `smoke:planering-superhub` | **PASS** |
+| `smoke:arbetsliv-superhub` | **PASS** |
+| `smoke:superdagbok-superhub` | **PASS** |
 | Manuell #3 Valv, #4 Barnporten | **PASS** (USER 2026-06-06/07) |
 | `typecheck:core-strict` | **baseline** — 9 fel (ej blockerande build) |
 
@@ -124,8 +172,8 @@ Kanon förbättringsplan: [`evaluations/2026-06-11-FOEBATTRINGSPLAN-HELAPP.md`](
 
 | Zon | Route | Backend | Öppet |
 |-----|-------|---------|-------|
-| **Hjärtat** | `/hjartat` | journal WORM, Vävaren HITL, speglingsMirror | Superdagbok ej migrerad |
-| **Vardagen** | `/vardagen` + externa | kompasser, ekonomi, mabraCoach | Super-Planering/Arbetsliv ej påbörjad |
+| **Hjärtat** | `/hjartat` · `/hjartat/input` | journal WORM, Vävaren HITL, speglingsMirror | — (Superdagbok **done** §17) |
+| **Vardagen** | `/vardagen` · `/planering/input` · `/arbetsliv/input` | kompasser, ekonomi, mabraCoach | Adaptiv Hemkompass (12B) |
 | **Familjen** | `/familjen` | childrenLogsQuery, analyzeMessage | PDF export partial; push defer |
 | **Valv** | `/valvet` | valvChatQuery, generateDossier, EntityProfile | BBIC reportType |
 | **Barnporten** | `/barnporten` | pairing callables | Push notifications defer |
@@ -136,28 +184,24 @@ Produkt-GAP: [`MODUL-GAP-OVERSIKT.md`](./MODUL-GAP-OVERSIKT.md)
 
 ---
 
-## Kommande moduler (planeras en i taget)
+## Kommande moduler (Fas 12+)
 
-<!-- TOM — fylls när Pontus säger "kör [modul]" -->
+**Superhub per zon:** **KLART** (Fas 6–11 · locked-ux §11–§17).
 
-| Prioritet | Modul | Fas | Status | Spec |
-|-----------|-------|-----|--------|------|
-| — | — | — | — | — |
+| Prioritet | Modul | Fas | Status | Spec / kanon |
+|-----------|-------|-----|--------|--------------|
+| **1** | Adaptiv Hemkompass — superhub-broar från Hem | **12B** | **done** 2026-06-14 | `homeSuperhubRoutes.ts` · `HomeSuperhubShortcuts` |
+| 2 | Vault-gate P2 (`weeklySummary`, `compass`) | **12C** | backlog | [`2026-06-14-fas9-systemanalys.md`](./evaluations/2026-06-14-fas9-systemanalys.md) |
+| 3 | Dossier BBIC `reportType` | **12D** | backlog | Dossier-spec |
+| — | Kunskap våg 8 (53 FACT partial) | — | kurator | [`content/CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) |
+| — | Barnporten push (Våg C) | — | defer | — |
+| — | Genkit migration (V1) | — | **wait** | [`Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) |
 
-### Superhub-kö (föreslagen ordning — ej godkänd)
+### Produkt-backlog (övrigt)
 
-1. **Fas 9** — Super-Planering Input (`/planering`)
-2. **Fas 10** — Super-Arbetsliv Input (`/arbetsliv`)
-3. **Fas 11** — Superdagbok (`/hjartat?tab=reflektion`)
-
-**Regel:** Djupanalys + eval → SPEC → migrering 8A→E → smoke → lås i `locked-ux-features.md`. Se Arkitekturlagar nedan.
-
-### Produkt-backlog (ej superhub)
-
-- Dossier BBIC `reportType`
-- Kunskap content våg 8 (53 FACT partial) — [`content/CONTENT-WAVES.md`](./content/CONTENT-WAVES.md)
-- Barnporten push (Våg C)
-- Genkit migration (V1 — **wait**)
+- Route-konsolidering `/oversikt` vs `/dashboard` (P2)
+- Vite chunk-split Valv/Familjen (P2)
+- `typecheck:core-strict` utökning (P2)
 
 ---
 
@@ -180,7 +224,7 @@ Källa: [`.context/system-plan.md`](../.context/system-plan.md) § Fas 6 Arkitek
 |----------|------|
 | [`SYSTEMKONTROLL.md`](./SYSTEMKONTROLL.md) | Analysprompter A–E, Sacred register |
 | [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) | G1–G16 + F8 done |
-| [`.context/locked-ux-features.md`](../.context/locked-ux-features.md) | Låsta produktflöden §1–14 |
+| [`.context/locked-ux-features.md`](../.context/locked-ux-features.md) | Låsta produktflöden §1–17 |
 | [`INNEHALL-REGISTER.md`](./INNEHALL-REGISTER.md) | U6 content_class routing |
 | [`evaluations/2026-06-11-FOEBATTRINGSPLAN-HELAPP.md`](./evaluations/2026-06-11-FOEBATTRINGSPLAN-HELAPP.md) | Master förbättringsplan |
 | [`BRANCH-KARTA.md`](./BRANCH-KARTA.md) | Git trunk `main` |

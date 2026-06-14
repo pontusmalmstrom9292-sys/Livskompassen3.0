@@ -292,9 +292,17 @@ function main() {
   mustInclude('src/modules/core/home/homeCompassPhase.ts', 'getDefaultCompassByTime', 'getHomeCompassPhase');
   mustInclude('src/modules/core/home/homeQuickNav.ts', 'getHomeQuickNavForPreset', 'rehab_lag');
   mustInclude(
+    'src/modules/core/home/homeSuperhubRoutes.ts',
+    'HOME_SUPERHUB_ROUTES',
+    '/hjartat/input',
+    '/planering/input',
+    'getHomeSuperhubShortcutsForPreset',
+  );
+  mustInclude(
     'src/modules/core/home/HomeAdaptiveCompass.tsx',
     'materialEnabled',
     'getHomeQuickNavForPreset',
+    'HomeSuperhubShortcuts',
     'getHomeCompassPhase',
     'ParalysPanel',
     'KasamEvening',
@@ -303,6 +311,8 @@ function main() {
     'home-adaptive-compass',
     'home-adaptive-compass__tab--active',
   );
+  mustInclude('src/modules/core/home/panels/HomeDagbokPanel.tsx', 'HOME_SUPERHUB_ROUTES', 'hjartatQuickMirror');
+  mustInclude('src/modules/core/home/panels/HomeTaskPanel.tsx', 'HOME_SUPERHUB_ROUTES', 'planeringTask');
   mustInclude('src/modules/core/home/HomeHeroKanon.tsx', 'useLifeHubPreset', 'home-greeting-module');
   mustInclude('src/modules/features/dailyLife/wellbeing/compasses/components/DashboardPage.tsx', 'home-adaptive-compass--hub', 'home-adaptive-compass__hub-head');
   mustInclude('src/modules/features/admin/projects/components/ProjektMaterialPackPage.tsx', 'MaterialPackShortcuts', 'duplicateTargetKeys');

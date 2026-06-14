@@ -1,89 +1,37 @@
-import { useState } from 'react';
-import { Check, Loader2, PenLine } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { NAV_PATHS } from '@/core/navigation/navTruth';
-import { useStore } from '../../store';
-import { saveJournalEntry } from '../../firebase/firestore';
+import { ArrowRight, BookOpen, PenLine } from 'lucide-react';
+import { HOME_SUPERHUB_ROUTES } from '../homeSuperhubRoutes';
 
-type Props = {
-  onSaved?: () => void;
-};
-
-export function HomeDagbokPanel({ onSaved }: Props) {
-  const user = useStore((s) => s.user);
-  const [text, setText] = useState('');
-  const [mood, setMood] = useState('neutral');
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSave = async () => {
-    if (!user || text.trim().length < 2) return;
-    setSaving(true);
-    setError(null);
-    try {
-      await saveJournalEntry(user.uid, { mood, text: text.trim() });
-      setSaved(true);
-      setText('');
-      onSaved?.();
-    } catch {
-      setError('Kunde inte spara dagboksrad.');
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  if (!user) {
-    return <p className="text-sm text-text-muted">Logga in för att skriva i dagbok.</p>;
-  }
-
+/** Hem — bro till Superdagbok (ingen duplicerad journal-form). */
+export function HomeDagbokPanel() {
   return (
-    <div className="home-module-panel">
+    <div className="home-module-panel space-y-4">
       <p className="home-module-panel__lead">
-        En neutral rad räcker. Ingen analys — bara avlastning.
+        Skriv i Superdagbok — reflektion, snabb spegling eller minneslista på ett ställe.
       </p>
-      <textarea
-        value={text}
-        onChange={(e) => {
-          setText(e.target.value);
-          setSaved(false);
-        }}
-        rows={4}
-        placeholder="Vad vill du minnas om idag?"
-        className="input-glass w-full"
-      />
-      <div className="mt-3 flex flex-wrap gap-2">
-        {(['lugn', 'neutral', 'tung'] as const).map((m) => (
-          <button
-            key={m}
-            type="button"
-            onClick={() => setMood(m)}
-            className={`chip ${mood === m ? 'chip--active' : 'chip--idle'}`}
-          >
-            {m === 'lugn' ? 'Lugn' : m === 'tung' ? 'Tung' : 'Neutral'}
-          </button>
-        ))}
-      </div>
-      {error && <p className="mt-2 text-sm text-danger">{error}</p>}
-      {saved && (
-        <p className="mt-2 flex items-center gap-2 text-sm text-success">
-          <Check className="h-4 w-4" /> Sparad i dagbok.
-        </p>
-      )}
-      <div className="mt-4 flex flex-wrap gap-2">
-        <button
-          type="button"
-          disabled={saving || text.trim().length < 2}
-          onClick={handleSave}
-          className="btn-pill--success inline-flex items-center gap-2"
+      <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+        <Link
+          to={HOME_SUPERHUB_ROUTES.hjartatQuickMirror}
+          className="btn-pill--accent inline-flex items-center justify-center gap-2"
         >
-          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <PenLine className="h-4 w-4" />}
-          Spara rad
-        </button>
-        <Link to={NAV_PATHS.HJARTAT} className="btn-pill--ghost">
-          Öppna dagbok
+          <PenLine className="h-4 w-4" aria-hidden />
+          Snabb spegling
+        </Link>
+        <Link
+          to={HOME_SUPERHUB_ROUTES.hjartatReflektion}
+          className="btn-pill--ghost inline-flex items-center justify-center gap-2"
+        >
+          <BookOpen className="h-4 w-4" aria-hidden />
+          Reflektera steg för steg
         </Link>
       </div>
+      <Link
+        to={HOME_SUPERHUB_ROUTES.hjartatArkiv}
+        className="inline-flex items-center gap-1 text-xs text-text-dim hover:text-accent"
+      >
+        Minneslista
+        <ArrowRight className="h-3 w-3" aria-hidden />
+      </Link>
     </div>
   );
 }

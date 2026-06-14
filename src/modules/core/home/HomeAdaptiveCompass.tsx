@@ -1,4 +1,4 @@
-import { NAV_PATHS } from '@/core/navigation/navTruth';
+import { HOME_SUPERHUB_ROUTES } from './homeSuperhubRoutes';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronDown, Loader2, Moon, Sparkles, Sun, Sunrise } from 'lucide-react';
@@ -23,6 +23,7 @@ import {
   type HomeCompassPhase,
 } from './homeCompassPhase';
 import { getHomeQuickNavForPreset, quickNavGridClass } from './homeQuickNav';
+import { HomeSuperhubShortcuts } from './HomeSuperhubShortcuts';
 
 function phaseToCompassFlow(phase: HomeCompassPhase): CompassFlow {
   if (phase === 'morgon') return 'morning';
@@ -270,7 +271,7 @@ export function HomeAdaptiveCompass({
                       {!showInkast ? (
                         <button
                           type="button"
-                          onClick={() => navigate(NAV_PATHS.HJARTAT)}
+                          onClick={() => navigate(HOME_SUPERHUB_ROUTES.hjartatQuickMirror)}
                           className="btn-pill--ghost mx-auto block text-xs"
                         >
                           Öppna Dagbok
@@ -342,6 +343,8 @@ export function HomeAdaptiveCompass({
       )}
 
       {quickNavGrid}
+
+      <HomeSuperhubShortcuts presetId={presetId} />
     </div>
   );
 }

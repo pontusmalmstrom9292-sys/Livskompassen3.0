@@ -146,8 +146,15 @@ function main() {
     'recordTimeOut',
   );
   mustInclude('src/modules/core/firebase/arbetslivFirestore.ts', 'time_entries');
+  // W3: legacy shim redirects frånvaro/lön via vaultRedirectSearch; canonical Valv-länkar i supermodule.
   mustInclude(
     'src/modules/features/dailyLife/arbetsliv/components/ArbetslivHubPage.tsx',
+    'vaultRedirectSearch',
+    'arbetsliv_franvaro',
+    'arbetsliv_lon',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/arbetsliv/supermodule/ArbetslivInputSuperModule.tsx',
     'vaultDrawerPath',
     'arbetsliv_franvaro',
     'arbetsliv_lon',
