@@ -1,0 +1,25 @@
+{
+  "tips": [
+    {
+      "id": "ft-1",
+      "title": "Närvaro vid övergångar",
+      "category": "trygghet",
+      "content": "Barn, särskilt i övergången mellan förskola och skola, kan uppleva stress vid förändringar. Att **förbereda** barnet 10-15 minuter innan en övergång (exempelvis innan ni ska åka hemifrån) och att vara närvarande minskar friktionen avsevärt.",
+      "reflectionQuestion": "Vilken övergång på dagen skapar oftast stress hos er, och hur kan du justera din egen närvaro där?"
+    },
+    {
+      "id": "ft-2",
+      "title": "Separera handling från person",
+      "category": "reflektion",
+      "content": "När konflikter uppstår är det viktigt för barnets självkänsla att höra att *beteendet* var oönskat, inte att *barnet* är fel. Att säga \"Det är okej att vara arg, men man får inte slåss\" bekräftar känslan samtidigt som det sätter en gräns.",
+      "reflectionQuestion": "Hur brukar du reagera när konflikter trappas upp? Finns det tillfällen där du kan skilja på känsla och beteende tydligare?"
+    },
+    {
+      "id": "ft-3",
+      "title": "Mikro-anslutningar i vardagen",
+      "category": "vardag",
+      "content": "En trygg anknytning byggs sällan på de stora äventyren, utan på *mikro-anslutningar*: en klapp på axeln, att möta barnets blick när det berättar något, eller fem minuters fullt fokus på deras lek utan telefonen närvarande.",
+      "reflectionQuestion": "Hur kan du bygga in tre mikro-anslutningar under den kommande veckan?"
+    }
+  ]
+}

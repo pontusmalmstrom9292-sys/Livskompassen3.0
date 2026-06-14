@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot, collection, query, where } from 'firebase/firestore';
 import { db } from '../../../core/firebase/firestore';
 import { FIRESTORE_COLLECTIONS } from '../../../core/types/firestore';
-import type { UserEconomyStatus, MabraProgress } from '../../../core/types/firestore';
+import type { UserEconomyStatus, MabraProgress, CheckIn } from '../../../core/types/firestore';
 import type { EconomySyncState, EconomyAdvancedFeatureFlag, KapacitansNiva } from '../types';
+import { SAFETY_THRESHOLD } from '../../../core/config/constants';
 
 export function useEconomySync(uid: string | undefined): EconomySyncState {
   const [economyAdvanced, setEconomyAdvanced] = useState<EconomyAdvancedFeatureFlag>(false);
   const [kapacitansNiva, setKapacitansNiva] = useState<KapacitansNiva>('Låg');
+  const [circuitBreakerActive, setCircuitBreakerActive] = useState<boolean>(false);
 
   useEffect(() => {
     if (!uid) return;
@@ -42,16 +44,63 @@ export function useEconomySync(uid: string | undefined): EconomySyncState {
       }
     });
 
+    // Subscribe to recent checkins for Circuit Breaker 48-hour trend
+    const fortyEightHoursAgo = new Date();
+    fortyEightHoursAgo.setHours(fortyEightHoursAgo.getHours() - 48);
+
+    const checkinsQuery = query(
+      collection(db, FIRESTORE_COLLECTIONS.checkins),
+      where('userId', '==', uid),
+      where('questionId', '==', 'mabra_checkin'),
+      where('createdAt', '>=', fortyEightHoursAgo.toISOString())
+    );
+
+    const unsubCheckins = onSnapshot(checkinsQuery, (snapshot) => {
+      let totalScore = 0;
+      let count = 0;
+
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data() as CheckIn;
+        let docScore = 0;
+        let validFields = 0;
+
+        if (typeof data.mood === 'number') {
+          docScore += data.mood;
+          validFields++;
+        }
+        if (typeof data.energy === 'number') {
+          docScore += data.energy;
+          validFields++;
+        }
+
+        if (validFields > 0) {
+          totalScore += docScore / validFields;
+          count++;
+        }
+      });
+
+      const averageScore = count > 0 ? totalScore / count : 0;
+      
+      if (count > 0 && averageScore < SAFETY_THRESHOLD) {
+        setCircuitBreakerActive(true);
+      } else {
+        setCircuitBreakerActive(false);
+      }
+    });
+
     return () => {
       unsubEconomy();
       unsubMabra();
+      unsubCheckins();
     };
   }, [uid]);
 
   const finalKapacitans = economyAdvanced && kapacitansNiva === 'Låg' ? 'Medel' : kapacitansNiva;
 
   return {
-    economyAdvanced,
+    // If circuit breaker is active, we force automated features to false in the UI
+    economyAdvanced: circuitBreakerActive ? false : economyAdvanced,
     kapacitansNiva: finalKapacitans,
+    circuitBreakerActive,
   };
 }

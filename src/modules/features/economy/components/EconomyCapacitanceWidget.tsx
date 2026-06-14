@@ -4,7 +4,7 @@ import { useEconomySync } from '../hooks/useEconomySync';
 
 export const EconomyCapacitanceWidget: React.FC = () => {
   const user = useStore((state) => state.user);
-  const { economyAdvanced, kapacitansNiva } = useEconomySync(user?.uid);
+  const { economyAdvanced, kapacitansNiva, circuitBreakerActive } = useEconomySync(user?.uid);
 
   return (
     <div className="bg-[#020617] text-white p-6 rounded-2xl shadow-lg border border-slate-800 flex flex-col gap-4">
@@ -14,6 +14,15 @@ export const EconomyCapacitanceWidget: React.FC = () => {
           MåBra Status
         </span>
       </div>
+
+      {circuitBreakerActive && (
+        <div className="bg-red-950/30 border border-red-900/50 rounded-xl p-3 flex items-center gap-3">
+          <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.6)]" />
+          <span className="text-sm font-semibold tracking-wide text-red-200">
+            System pausat: Kognitiv belastning hög
+          </span>
+        </div>
+      )}
 
       <div className="flex items-center gap-6">
         <div className="flex-1">
@@ -36,9 +45,11 @@ export const EconomyCapacitanceWidget: React.FC = () => {
       </div>
 
       <div className="mt-2 text-sm text-slate-500 leading-relaxed">
-        {economyAdvanced 
-          ? 'Din kontinuitet i MåBra ger systemet mandat att hantera avancerade ekonomiska automationer.'
-          : 'Stabilisera din MåBra-trend för att låsa upp avancerade ekonomiska funktioner och automation.'}
+        {circuitBreakerActive 
+          ? 'Pausen är aktiv för att skydda dig från automatiserade beslut under hög belastning. Fokusera på återhämtning.'
+          : economyAdvanced 
+            ? 'Din kontinuitet i MåBra ger systemet mandat att hantera avancerade ekonomiska automationer.'
+            : 'Stabilisera din MåBra-trend för att låsa upp avancerade ekonomiska funktioner och automation.'}
       </div>
     </div>
   );
