@@ -266,6 +266,46 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
+## 14. Ekonomi — Universal Input Superhub (`EkonomiInputSuperModule`) — **låst 2026-06-14**
+
+| | |
+|---|---|
+| **Route** | `/vardagen?tab=ekonomi` · `?inputMode=…` · legacy `?legacy=true` → `EconomyOverviewPanel` |
+| **Syfte** | Polymorf inmatningshub för Vardagen ekonomi — byt läge utan sidbyte |
+| **Kod** | `EkonomiInputSuperModule.tsx` · `ekonomiInputModes.ts` · `capacityResolver.ts` · `supermodule/delegates/*` |
+| **Spec** | [`docs/specs/Ekonomi-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Ekonomi-INPUT-SUPERHUB-SPEC.md) |
+| **Eval** | [`docs/evaluations/Ekonomi-INPUT-SUPERHUB-EVAL.md`](../docs/evaluations/Ekonomi-INPUT-SUPERHUB-EVAL.md) |
+| **Fas** | 8A→8E **AVSLUTAD** 2026-06-14 — GAP F8 done |
+
+### Input modes (låsta lägen)
+
+| Mode | Beskrivning |
+|------|-------------|
+| `saldo` | Saldoöversikt / mikroinmatning |
+| `mikrosteg` | Paralys-panel — ett steg i taget |
+| `profil` | Ekonomiprofil |
+| `matprep` | Matprep / veckomeny |
+| `kuvert` | Budgetkuvert |
+| `spar` | Sparmål |
+| `impuls` | Impulskö |
+| `inkast` | Granska innan spar (HITL) |
+| `arbetsliv_bro` | Navigation till Arbetsliv (ej write här) |
+
+### Säkerhetsgränser (obligatoriska)
+
+| Princip | Tillämpning |
+|---------|-------------|
+| **WORM** | `transactions` append-only via befintliga helpers — **ingen** `update`/`delete` på WORM-evidens |
+| **Infinite Evolution** | Kapacitetsstyrd UI via `capacityResolver.ts` + `evolution_hub` |
+| **U1 silos** | Ingen cross-RAG; ingen auto-promote till Valv |
+| **Skild från Arbetsliv** | `economy_ledger`, stämpel — `/arbetsliv` only |
+
+**Får inte:** ta bort lägesväxlaren; spridda ekonomi-formulär utanför Superhub; auto-promote till `reality_vault`; ändra kärnlogik utan explicit produktbeslut (Pontus) + PMIR.
+
+**Smoke:** `npm run smoke:ekonomi` · `npm run smoke:evolution` · `npm run smoke:locked-ux`
+
+---
+
 ## Verifiering
 
 ```bash

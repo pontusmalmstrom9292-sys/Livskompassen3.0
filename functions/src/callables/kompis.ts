@@ -50,23 +50,16 @@ export const chatWithKompis = onCall(
         throw new HttpsError('unauthenticated', 'Kräver inloggning.');
       }
 
-      // 1.5 Hämta kontext från Minne
+      // 1.5 Hämta dagbokskontext (U1 — aldrig reality_vault utan vault session)
       const db = admin.firestore();
-      const [journalSnap, vaultSnap] = await Promise.all([
-        db.collection('journal')
-          .where('ownerId', '==', uid)
-          .orderBy('createdAt', 'desc')
-          .limit(10)
-          .get(),
-        db.collection('reality_vault')
-          .where('ownerId', '==', uid)
-          .orderBy('createdAt', 'desc')
-          .limit(5)
-          .get()
-      ]);
+      const journalSnap = await db.collection('journal')
+        .where('ownerId', '==', uid)
+        .orderBy('createdAt', 'desc')
+        .limit(10)
+        .get();
 
-      const entries: { date: Date; text: string; source: string }[] = [];
-      
+      const entries: { date: Date; text: string }[] = [];
+
       journalSnap.forEach(doc => {
         const d = doc.data();
         const content = d.text || d.truth;
@@ -74,32 +67,18 @@ export const chatWithKompis = onCall(
           entries.push({
             date: d.createdAt?.toDate() || new Date(),
             text: content,
-            source: 'dagbok'
-          });
-        }
-      });
-      
-      vaultSnap.forEach(doc => {
-        const d = doc.data();
-        const content = d.truth || d.text;
-        if (content) {
-          entries.push({
-            date: d.createdAt?.toDate() || new Date(),
-            text: content,
-            source: 'valv'
           });
         }
       });
 
-      // Sortera så att de äldsta kommer först av de senaste
       entries.sort((a, b) => a.date.getTime() - b.date.getTime());
 
       let contextBlock = '';
       if (entries.length > 0) {
-        contextBlock = `\n\nHär är användarens senaste inlägg från sin dagbok och valv (som kontext för dig):\n`;
+        contextBlock = `\n\nHär är användarens senaste dagboksinlägg (som kontext för dig):\n`;
         entries.forEach(e => {
           const dateStr = e.date.toISOString().split('T')[0];
-          contextBlock += `[${dateStr}] (${e.source}): ${e.text.slice(0, 1000)}\n`;
+          contextBlock += `[${dateStr}]: ${e.text.slice(0, 1000)}\n`;
         });
       }
 

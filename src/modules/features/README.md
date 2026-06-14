@@ -6,7 +6,7 @@ Product modules grouped by **hub cluster**. Each top-level folder has an `index.
 |--------|-----|---------------------------|
 | `lifeJournal/` | Hjärtat `/dagbok` | `HjartatPage`, `VaultPage`, `KompisHubPage` |
 | `dailyLife/` | Vardagen `/vardagen` | `VardagenPage`, `MabraPage`, `ArbetslivHubPage` |
-| `family/` | Familjen `/familjen` | `BarnensPage`, `SafeHarborPage` |
+| `family/` | Familjen `/familjen` | `FamiljenPage`, `FamiljenInputSuperModule`, `SafeHarborPage` |
 | `admin/` | `/planering`, `/projekt` | `PlaneringPage`, `ProjektHubPage` |
 | `widgets/` | `/widget/*` | `WidgetRoutes` |
 | `onboarding/` | Barnporten | `BarnportenPage` |

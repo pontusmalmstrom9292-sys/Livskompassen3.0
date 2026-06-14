@@ -19,8 +19,8 @@ Grey Rock-dokumentation av barnens basbehov. Skild från dagbok, valv och vuxenk
 
 | Fil | Roll |
 |-----|------|
-| `components/FamiljenPage.tsx` | Kluster-wrapper |
-| `components/BarnensPage.tsx` | PIN, flikar, orkestrator |
+| `../../core/pages/FamiljenPage.tsx` | Kluster-wrapper + tabs |
+| `supermodule/FamiljenInputSuperModule.tsx` | Universal Input Hub (låst §12) |
 | `components/PhysiologicalControls.tsx` | Sömn, ångest, aptit 1–5 |
 | `components/ChildSubLogPanel.tsx` | Livslogg + kategori |
 | `components/BalansMatare.tsx` | 7-dagars bar |

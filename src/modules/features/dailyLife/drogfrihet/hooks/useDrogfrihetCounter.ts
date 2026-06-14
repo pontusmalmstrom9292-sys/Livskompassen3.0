@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   DROGFRIHET_COUNTER_EVENT,
   getDrogfrihetCounterState,
@@ -6,13 +6,17 @@ import {
 } from '../lib/drogfrihetCounter';
 
 export function useDrogfrihetCounter(uid?: string): DrogfrihetCounterState {
-  const [revision, setRevision] = useState(0);
+  const [state, setState] = useState(() => getDrogfrihetCounterState(uid));
 
   useEffect(() => {
-    const onChange = () => setRevision((r) => r + 1);
+    setState(getDrogfrihetCounterState(uid));
+  }, [uid]);
+
+  useEffect(() => {
+    const onChange = () => setState(getDrogfrihetCounterState(uid));
     window.addEventListener(DROGFRIHET_COUNTER_EVENT, onChange);
     return () => window.removeEventListener(DROGFRIHET_COUNTER_EVENT, onChange);
-  }, []);
+  }, [uid]);
 
-  return useMemo(() => getDrogfrihetCounterState(uid), [uid, revision]);
+  return state;
 }

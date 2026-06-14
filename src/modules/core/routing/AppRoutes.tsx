@@ -1,15 +1,9 @@
 /* PROTECTED CORE COMPONENT: DO NOT MODIFY, REFRACTOR, OR REMOVE UI ELEMENTS. THIS FILE IS LOCKED FOR ARCHITECTURAL STABILITY. */
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { MainLayout } from '../layout/MainLayout';
 import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
 import { ProtectedModule } from '../../../components/layout/ProtectedModule';
-import { useStore } from '../store';
-import {
-  useIsEconomyAdvancedUnlocked,
-  useIsCapacityLoading,
-  useListenToCapacityState,
-} from '../store/useCapacityGate';
 const HomePage = lazy(() =>
   import('../pages/HomePage').then((m) => ({ default: m.HomePage }))
 );
@@ -243,30 +237,6 @@ function RedirectLivToVardagen() {
   return <Navigate to={NAV_PATHS.VARDAGEN} replace />;
 }
 
-function EconomyDashboardRoute() {
-  const user = useStore((s) => s.user);
-  const isEconomyAdvancedUnlocked = useIsEconomyAdvancedUnlocked();
-  const isLoading = useIsCapacityLoading();
-  const listenToCapacityState = useListenToCapacityState();
-
-  useEffect(() => {
-    if (user?.uid) {
-      const unsubscribe = listenToCapacityState(user.uid);
-      return () => unsubscribe();
-    }
-  }, [user?.uid, listenToCapacityState]);
-
-  if (isLoading) {
-    return <div className="p-6 text-center text-sm text-text-muted">Kontrollerar kapacitet…</div>;
-  }
-
-  if (!isEconomyAdvancedUnlocked) {
-    return <Navigate to={`${NAV_PATHS.VARDAGEN}?tab=ekonomi`} replace />;
-  }
-
-  return <EconomyDashboard />;
-}
-
 export function AppRoutes() {
   return (
     <Routes>
@@ -355,7 +325,7 @@ export function AppRoutes() {
                 path="/ekonomi"
                 element={
                   <ProtectedModule>
-                    <EconomyDashboardRoute />
+                    <EconomyDashboard />
                   </ProtectedModule>
                 }
               />
@@ -363,7 +333,7 @@ export function AppRoutes() {
                 path="/ekonomi/avancerad"
                 element={
                   <ProtectedModule>
-                    <EconomyDashboardRoute />
+                    <EconomyDashboard />
                   </ProtectedModule>
                 }
               />

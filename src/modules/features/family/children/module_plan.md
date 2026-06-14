@@ -13,7 +13,7 @@ Canonical: `.context/modules/family/children.md` · Spec: `docs/specs/modules/Ba
 | `components/FamiljenPage.tsx` | Hub + 5 underflikar (`?tab=`) |
 | `components/familjen/*` | Reflektion, Livslogg, Tillsammans, Mönster, Kunskapshub |
 | `hooks/useFamiljenShell.ts` | Delad PIN, loggar, barn |
-| `components/BarnensPage.tsx` | PIN, flikar, orkestrator |
+| `components/BarnensPage.tsx` | *(borttagen — ersatt av FamiljenInputSuperModule)* |
 | `components/ChildSubLogPanel.tsx` | Livslogg steg 1 + bevis-val |
 | `components/SaveAsEvidencePrompt.tsx` | `saveVaultLog` + `sourceRef` |
 | `utils/childLogEvidence.ts` | Vault-payload från livslogg |

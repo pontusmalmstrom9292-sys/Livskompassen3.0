@@ -92,9 +92,9 @@ Full audit: [`evaluations/2026-06-14-fas9-systemanalys.md`](./evaluations/2026-0
 
 | Prioritet | Uppgift | Status |
 |-----------|---------|--------|
-| **P0** | Ta bort `@google-cloud/notebooks`, `@types/react-router-dom`, `@google/generative-ai` | Se audit |
-| **P0** | Fixa 4 ESLint hook-varningar | Se audit |
-| **P0** | Rensa `middagsQuestionForToday` + stale README | Se audit |
+| **P0** | Ta bort `@google-cloud/notebooks`, `@types/react-router-dom`, `@google/generative-ai` | **done** 2026-06-14 |
+| **P0** | Fixa ESLint hook-varningar (RoutinesPanel, useDrogfrihetCounter, WidgetRecordPage) | **done** 2026-06-14 |
+| **P0** | Rensa `middagsQuestionForToday` + stale README | **done** 2026-06-14 |
 | **P1** | Gate `RecentIntakeWidget` + `chatWithKompis` vault-silo | **done** 2026-06-14 |
 | **P2** | Konsolidera `/oversikt` vs `/dashboard` | Backlog |
 | **P2** | Vite lazy-load Valv/Familjen | Backlog |

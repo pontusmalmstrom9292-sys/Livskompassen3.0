@@ -31,7 +31,7 @@ function WidgetRecordInner() {
     }
     autostarted.current = true;
     void rec.start();
-  }, [ethicsOk, rec.phase, rec.start, user, searchParams]);
+  }, [ethicsOk, rec, user, searchParams]);
 
   const shellTitle = discreet ? 'Anteckningar' : 'Tyst inspelning';
   const shellLead =

@@ -126,11 +126,6 @@ export function barnfokusQuestionForToday(
   return list[seed % list.length]!;
 }
 
-/** @deprecated — använd barnfokusQuestionForToday */
-export function middagsQuestionForToday(date = new Date()): string {
-  return barnfokusQuestionForToday(undefined, date).text;
-}
-
 export type LivsloggCategory = (typeof LIVSLOGG_CATEGORIES)[number]['value'];
 
 /** D12 — profilkort (UI; inte juridisk bedömning). */

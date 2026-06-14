@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ChevronDown, Loader2, Route } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { clsx } from 'clsx';
@@ -22,7 +22,10 @@ export function RoutinesPanel({ defaultOpen = false }: Props) {
   const user = useStore((s) => s.user);
   const { preset, presetId } = useLifeHubPreset();
   const { routines } = useRoutineTemplates(presetId);
-  const visibleRoutines = materialEnabled(preset, 'planering_routines') ? routines : [];
+  const visibleRoutines = useMemo(
+    () => (materialEnabled(preset, 'planering_routines') ? routines : []),
+    [preset, routines],
+  );
   const [open, setOpen] = useState(defaultOpen);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [pickedId, setPickedId] = useState('');

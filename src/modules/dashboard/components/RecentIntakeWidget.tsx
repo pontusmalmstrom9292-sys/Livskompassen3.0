@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react';
 import { usePlanningTasks } from '@/features/admin/planning/hooks/usePlanningTasks';
 import { VaultService } from '@/core/firebase/VaultService';
+import { hasVaultGate } from '@/core/auth/sessionService';
+import { useStore } from '@/core/store';
 import { CheckSquare, Lock, Mic, Clock, Sparkles } from 'lucide-react';
 import { IntakeTriageModal } from './IntakeTriageModal';
 
 export function RecentIntakeWidget() {
   const { tasks, loading: tasksLoading, user } = usePlanningTasks();
+  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
+  const vaultSessionOpen = isVaultUnlocked || hasVaultGate();
   const [vaultEntries, setVaultEntries] = useState<any[]>([]);
   const [vaultLoading, setVaultLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState<any | null>(null);
 
   useEffect(() => {
-    if (!user?.uid) {
+    if (!user?.uid || !vaultSessionOpen) {
       setVaultEntries([]);
       setVaultLoading(false);
       return;
@@ -19,7 +23,6 @@ export function RecentIntakeWidget() {
 
     setVaultLoading(true);
     const unsubscribe = VaultService.initializeVaultListener(user.uid, (data) => {
-      // Mappa datan för att säkerställa fältnamn och datum
       const mapped = data.map((item) => {
         const content = item.content || item.text || item.observation || item.label || 'Ingen text';
         const timestamp = item.timestamp
@@ -36,15 +39,15 @@ export function RecentIntakeWidget() {
     });
 
     return () => unsubscribe();
-  }, [user?.uid]);
+  }, [user?.uid, vaultSessionOpen]);
 
-  // Filtrera fram de 3-5 senaste olösta uppgifterna (todo/pending)
   const unresolvedTasks = tasks
     .filter((task) => task.status === 'todo')
     .slice(0, 5);
 
   const hasTasks = unresolvedTasks.length > 0;
-  const hasVault = vaultEntries.length > 0;
+  const hasVault = vaultSessionOpen && vaultEntries.length > 0;
+  const showVaultColumn = vaultSessionOpen;
 
   if (!user) return null;
 
@@ -58,8 +61,7 @@ export function RecentIntakeWidget() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Vänster spalt: Planeringsuppgifter */}
+      <div className={`grid grid-cols-1 ${showVaultColumn ? 'md:grid-cols-2' : ''} gap-8`}>
         <div className="flex flex-col space-y-4">
           <div className="flex items-center gap-2 text-text-muted border-b border-white/5 pb-2">
             <CheckSquare className="w-4 h-4 text-accent/80" />
@@ -133,74 +135,75 @@ export function RecentIntakeWidget() {
           )}
         </div>
 
-        {/* Höger spalt: Valvet */}
-        <div className="flex flex-col space-y-4">
-          <div className="flex items-center gap-2 text-text-muted border-b border-white/5 pb-2">
-            <Lock className="w-4 h-4 text-accent/80" />
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-text-muted">Verklighetsvalvet (WORM)</h3>
+        {showVaultColumn && (
+          <div className="flex flex-col space-y-4">
+            <div className="flex items-center gap-2 text-text-muted border-b border-white/5 pb-2">
+              <Lock className="w-4 h-4 text-accent/80" />
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-text-muted">Senaste poster</h3>
+            </div>
+
+            {vaultLoading ? (
+              <div className="space-y-3 flex-1 justify-center py-4">
+                {[1, 2].map((i) => (
+                  <div key={i} className="h-14 bg-white/5 rounded-xl animate-pulse" />
+                ))}
+              </div>
+            ) : !hasVault ? (
+              <div className="flex flex-col items-center justify-center py-8 text-center bg-white/5 rounded-xl border border-white/5 border-dashed">
+                <p className="text-sm text-text-dim">Inga poster än.</p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {vaultEntries.map((record) => {
+                  const isVoice = record.source === 'voice_to_vault';
+                  const confidence = record.confidence != null ? Math.round(record.confidence * 100) : null;
+
+                  return (
+                    <div
+                      key={record.id}
+                      onClick={() =>
+                        setSelectedItem({
+                          id: record.id,
+                          content: record.content,
+                          source: record.source,
+                          type: 'vault',
+                        })
+                      }
+                      className="cursor-pointer p-3.5 rounded-xl bg-surface-2 border border-border/40 hover:border-border transition-all hover:bg-surface-3 flex flex-col space-y-2 relative overflow-hidden group"
+                    >
+                      <div className="flex justify-between items-start gap-2">
+                        <div className="flex items-center gap-1.5 font-mono text-[10px] text-text-dim">
+                          <Clock className="w-3 h-3 text-text-dim" />
+                          <span>{record.timestamp ? record.timestamp.toLocaleString('sv-SE', { dateStyle: 'short', timeStyle: 'short' }) : 'Okänt datum'}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          {isVoice && confidence !== null && (
+                            <span className="text-[10px] text-accent-ai bg-accent-ai/10 border border-accent-ai/20 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
+                              <Sparkles className="w-2.5 h-2.5" />
+                              {confidence}% tillförlitlighet
+                            </span>
+                          )}
+                          <Lock size={12} className="text-text-dim group-hover:text-text-muted transition-colors" />
+                        </div>
+                      </div>
+
+                      <div className="text-sm text-white/90 leading-relaxed font-sans font-normal whitespace-pre-wrap">
+                        {record.content}
+                      </div>
+
+                      {isVoice && record.truth && record.truth !== record.content && (
+                        <div className="pt-2 mt-1 border-t border-white/5">
+                          <p className="text-[10px] text-text-dim uppercase tracking-wider font-semibold">Ursprunglig transkription</p>
+                          <p className="text-xs text-text-dim italic mt-0.5 break-words">&quot;{record.truth}&quot;</p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
-
-          {vaultLoading ? (
-            <div className="space-y-3 flex-1 justify-center py-4">
-              {[1, 2].map((i) => (
-                <div key={i} className="h-14 bg-white/5 rounded-xl animate-pulse" />
-              ))}
-            </div>
-          ) : !hasVault ? (
-            <div className="flex flex-col items-center justify-center py-8 text-center bg-white/5 rounded-xl border border-white/5 border-dashed">
-              <p className="text-sm text-text-dim">Valvet är tomt. Inga förseglade poster än.</p>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {vaultEntries.map((record) => {
-                const isVoice = record.source === 'voice_to_vault';
-                const confidence = record.confidence != null ? Math.round(record.confidence * 100) : null;
-                
-                return (
-                  <div
-                    key={record.id}
-                    onClick={() =>
-                      setSelectedItem({
-                        id: record.id,
-                        content: record.content,
-                        source: record.source,
-                        type: 'vault',
-                      })
-                    }
-                    className="cursor-pointer p-3.5 rounded-xl bg-surface-2 border border-border/40 hover:border-border transition-all hover:bg-surface-3 flex flex-col space-y-2 relative overflow-hidden group"
-                  >
-                    <div className="flex justify-between items-start gap-2">
-                      <div className="flex items-center gap-1.5 font-mono text-[10px] text-text-dim">
-                        <Clock className="w-3 h-3 text-text-dim" />
-                        <span>{record.timestamp ? record.timestamp.toLocaleString('sv-SE', { dateStyle: 'short', timeStyle: 'short' }) : 'Okänt datum'}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        {isVoice && confidence !== null && (
-                          <span className="text-[10px] text-accent-ai bg-accent-ai/10 border border-accent-ai/20 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
-                            <Sparkles className="w-2.5 h-2.5" />
-                            {confidence}% tillförlitlighet
-                          </span>
-                        )}
-                        <Lock size={12} className="text-text-dim group-hover:text-text-muted transition-colors" />
-                      </div>
-                    </div>
-
-                    <div className="text-sm text-white/90 leading-relaxed font-sans font-normal whitespace-pre-wrap">
-                      {record.content}
-                    </div>
-
-                    {isVoice && record.truth && record.truth !== record.content && (
-                      <div className="pt-2 mt-1 border-t border-white/5">
-                        <p className="text-[10px] text-text-dim uppercase tracking-wider font-semibold">Ursprunglig transkription</p>
-                        <p className="text-xs text-text-dim italic mt-0.5 break-words">"{record.truth}"</p>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
+        )}
       </div>
 
       <IntakeTriageModal
