@@ -12,6 +12,7 @@ import { resolveBarnportenChildAlias, isBarnportenDeviceLinked } from '../consta
 import { BarnportenWidget } from './BarnportenWidget';
 import { EvolutionDevPanel } from './EvolutionDevPanel';
 import { SchoolAgeModule } from './SchoolAgeModule';
+import { ForalderTryggCard } from './ForalderTryggCard';
 
 const BarnportenLevelTwoStage = lazy(() =>
   import('./BarnportenLevelTwoStage').then((m) => ({ default: m.BarnportenLevelTwoStage }))
@@ -195,6 +196,8 @@ export function BarnportenPage() {
           ))}
         </ul>
       </details>
+
+      <ForalderTryggCard barnportenLevel={barnportenLevel} />
 
       <AnimatePresence>
         {barnportenLevel === 2 && !hasSeenLevel2Animation && (

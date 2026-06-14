@@ -1,0 +1,4 @@
+1. Add `/avancerad-ekonomi` route to `AppRoutes.tsx`.
+2. Add `ProtectedEconomyRoute` in `AppRoutes.tsx` which uses `useCapacityGate` to check if `isEconomyAdvancedUnlocked` is true, and if not redirects back to `/vardagen?tab=ekonomi`.
+3. Add `vardagen_avancerad_ekonomi` to `navTruth.ts` (if needed) but maybe it's enough to just add the route.
+4. Update `EconomyOverviewPanel.tsx` to show a link/button to `/avancerad-ekonomi` if `hasAdvanced` is true.
