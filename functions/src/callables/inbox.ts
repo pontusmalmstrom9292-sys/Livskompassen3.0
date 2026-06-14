@@ -36,11 +36,12 @@ export const confirmInboxItem = onCall({ region: 'europe-west1' }, async (reques
     routing !== 'kunskap' &&
     routing !== 'bevis' &&
     routing !== 'barnen' &&
-    routing !== 'dagbok'
+    routing !== 'dagbok' &&
+    routing !== 'planning'
   ) {
     throw new HttpsError(
       'invalid-argument',
-      'routing måste vara kunskap, bevis, barnen eller dagbok.'
+      'routing måste vara kunskap, bevis, barnen, dagbok eller planning.'
     );
   }
 
@@ -175,7 +176,8 @@ export const submitInkastLite = onCall(
       manualRouting === 'kunskap' ||
       manualRouting === 'bevis' ||
       manualRouting === 'barnen' ||
-      manualRouting === 'dagbok'
+      manualRouting === 'dagbok' ||
+      manualRouting === 'planning'
         ? manualRouting
         : undefined;
 

@@ -305,7 +305,7 @@ export async function routeInboxToWorm(input: {
     return { action: 'persisted', collection: 'reality_vault', docId: v.docId };
   }
 
-  if (classification.routing === 'planering') {
+  if (classification.routing === 'planning') {
     const task = await persistPlaneringFromInbox({
       ownerId,
       classification,
@@ -410,7 +410,7 @@ export async function listPendingInboxQueue(uid: string): Promise<InboxQueueItem
 export async function confirmInboxQueueItem(input: {
   uid: string;
   queueId: string;
-  routing: 'kunskap' | 'bevis' | 'barnen' | 'dagbok' | 'planering';
+  routing: 'kunskap' | 'bevis' | 'barnen' | 'dagbok' | 'planning';
   childAlias?: string;
   overrideTags?: string[];
   overrideCategory?: string;

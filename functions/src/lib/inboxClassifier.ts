@@ -5,7 +5,7 @@ import {
 } from './inkastSourceModule';
 import { createGenAI } from './genaiClient';
 
-export type InboxRouting = 'kunskap' | 'bevis' | 'barnen' | 'dagbok' | 'review' | 'planering';
+export type InboxRouting = 'kunskap' | 'bevis' | 'barnen' | 'dagbok' | 'review' | 'planning';
 
 export interface InboxClassification {
   routing: InboxRouting;
@@ -31,7 +31,7 @@ function parseClassificationJson(raw: string): InboxClassification | null {
       routing !== 'barnen' &&
       routing !== 'dagbok' &&
       routing !== 'review' &&
-      routing !== 'planering'
+      routing !== 'planning'
     ) {
       return null;
     }
@@ -124,10 +124,10 @@ export function heuristicInboxClassify(
 
   if (/sourcemodule:planering_inkorg/i.test(blob)) {
     return {
-      routing: 'planering',
+      routing: 'planning',
       tags: ['planering'],
       category: 'planering',
-      confidence: 0.9,
+      confidence: 1.0,
       summary: 'Inkommande uppgift för planering.',
       traumaSensitive: false,
       rationale: 'Heuristisk match: planering_inkorg.',
