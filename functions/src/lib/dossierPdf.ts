@@ -47,6 +47,7 @@ type PdfBuildOptions = {
   dateTo: string;
   includeAiForeword: boolean;
   entries: CanonicalDossierEntry[];
+  tacticSummary?: { technique: string; count: number }[];
 };
 
 export async function buildDossierPdf(options: PdfBuildOptions): Promise<Uint8Array> {
@@ -107,6 +108,20 @@ export async function buildDossierPdf(options: PdfBuildOptions): Promise<Uint8Ar
       true,
     );
     drawBlock(entryBody(entry));
+  }
+
+  if (options.tacticSummary && options.tacticSummary.length > 0) {
+    page = pdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+    y = PAGE_HEIGHT - MARGIN;
+    drawLine('Taktik-sammanfattning (regex-assisterad metadata)', true);
+    drawLine(
+      'Endast räknare från pattern_scan_metadata — inte diagnos, inte en del av WORM-beviskroppen.',
+    );
+    drawLine(`Period: ${options.dateFrom} — ${options.dateTo}`);
+    drawLine('');
+    for (const row of options.tacticSummary) {
+      drawLine(`${row.technique}: ${row.count} valv-poster`);
+    }
   }
 
   page = pdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);

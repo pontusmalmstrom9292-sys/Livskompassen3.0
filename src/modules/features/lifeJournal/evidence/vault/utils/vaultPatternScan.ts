@@ -1,24 +1,13 @@
 import type { VaultLog } from '@/core/types/firestore';
+import {
+  scanTextForTactics,
+  type VaultTechnique,
+  TACTIC_LIBRARY_VERSION,
+} from '@/shared/patterns/tacticPatternLibrary';
 import { normalizeStringArray } from './normalizeVaultLog';
 
-export type VaultTechnique =
-  | 'DARVO'
-  | 'GASLIGHTING'
-  | 'JADE_BAIT'
-  | 'THREAT'
-  | 'LOVE_BOMBING';
-
-const SCAN_PATTERNS: { pattern: RegExp; technique: VaultTechnique }[] = [
-  { pattern: /du är alltid så (känslig|dramatisk|överdriftig)/i, technique: 'DARVO' },
-  { pattern: /du hittar på/i, technique: 'GASLIGHTING' },
-  { pattern: /det har aldrig (hänt|sagts|gjorts)/i, technique: 'GASLIGHTING' },
-  { pattern: /du är (galen|psykisk|instabil)/i, technique: 'GASLIGHTING' },
-  { pattern: /varför gör du (alltid|aldrig)/i, technique: 'JADE_BAIT' },
-  { pattern: /du måste (förklara|bevisa|motivera)/i, technique: 'JADE_BAIT' },
-  { pattern: /(annars|om inte).*konsekvens/i, technique: 'THREAT' },
-  { pattern: /jag ska se till att/i, technique: 'THREAT' },
-  { pattern: /ingen (älskar|förstår|vet) dig som jag/i, technique: 'LOVE_BOMBING' },
-];
+export type { VaultTechnique };
+export { TACTIC_LIBRARY_VERSION };
 
 function logText(log: VaultLog): string {
   return [
@@ -37,18 +26,18 @@ function logText(log: VaultLog): string {
 export type VaultFrequencyReport = {
   totalPosts: number;
   smsLikePosts: number;
-  techniqueCounts: Record<VaultTechnique, number>;
+  techniqueCounts: Record<string, number>;
   categoryCounts: Record<string, number>;
   monthlyCounts: { month: string; count: number }[];
-  topTechniques: { technique: VaultTechnique; count: number }[];
+  topTechniques: { technique: string; count: number }[];
+  libraryVersion: string;
 };
 
 export function buildVaultFrequencyReport(
   logs: (VaultLog & { id: string })[],
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>,
 ): VaultFrequencyReport {
-  const techniqueCounts = Object.fromEntries(
-    SCAN_PATTERNS.map((p) => [p.technique, 0]),
-  ) as Record<VaultTechnique, number>;
+  const techniqueCounts: Record<string, number> = {};
   const categoryCounts: Record<string, number> = {};
   const monthMap = new Map<string, number>();
   let smsLikePosts = 0;
@@ -65,10 +54,17 @@ export function buildVaultFrequencyReport(
       smsLikePosts += 1;
     }
 
-    for (const { pattern, technique } of SCAN_PATTERNS) {
-      if (pattern.test(text)) {
-        techniqueCounts[technique] += 1;
-      }
+    const techniques = new Set<string>();
+    for (const m of scanTextForTactics(text)) {
+      techniques.add(m.technique);
+    }
+    const persisted = persistedTechniquesByLogId?.get(log.id);
+    if (persisted) {
+      for (const t of persisted) techniques.add(t);
+    }
+
+    for (const technique of techniques) {
+      techniqueCounts[technique] = (techniqueCounts[technique] ?? 0) + 1;
     }
   }
 
@@ -77,9 +73,9 @@ export function buildVaultFrequencyReport(
     .slice(-6)
     .map(([month, count]) => ({ month, count }));
 
-  const topTechniques = (Object.entries(techniqueCounts) as [VaultTechnique, number][])
-    .filter(([, count]) => count > 0)
-    .sort((a, b) => b[1] - a[1])
+  const topTechniques = Object.entries(techniqueCounts)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 8)
     .map(([technique, count]) => ({ technique, count }));
 
   return {
@@ -89,15 +85,15 @@ export function buildVaultFrequencyReport(
     categoryCounts,
     monthlyCounts,
     topTechniques,
+    libraryVersion: TACTIC_LIBRARY_VERSION,
   };
 }
 
-/** D19/D20 — teknik-taggar för en enskild post (deterministiskt). */
 export function scanTechniquesForLog(log: VaultLog): VaultTechnique[] {
-  const text = logText(log);
-  const found = new Set<VaultTechnique>();
-  for (const { pattern, technique } of SCAN_PATTERNS) {
-    if (pattern.test(text)) found.add(technique);
-  }
-  return [...found];
+  const matches = scanTextForTactics(logText(log));
+  return [...new Set(matches.map((m) => m.technique))];
+}
+
+export function scanTechniquesForText(text: string): VaultTechnique[] {
+  return [...new Set(scanTextForTactics(text).map((m) => m.technique))];
 }

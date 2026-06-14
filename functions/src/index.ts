@@ -29,6 +29,8 @@ export {
   addEntityProfile,
   valvChatQuery,
   generateDossier,
+  rescanPatternMetadata,
+  writePatternScanMetadataCallable,
 } from './callables/valv';
 
 export {
@@ -56,6 +58,8 @@ export {
 export {
   mabraEconomySync,
 } from './economy/mabraEconomySync';
+
+export { onVaultCreatePatternScan } from './triggers/patternScanOnVaultCreate';
 
 export {
   calculateSmartAllocation,

@@ -98,6 +98,24 @@
         { "fieldPath": "ownerId", "order": "ASCENDING" },
         { "fieldPath": "date", "order": "DESCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "pattern_scan_metadata",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "sourceRef", "order": "ASCENDING" },
+        { "fieldPath": "libraryVersion", "order": "ASCENDING" },
+        { "fieldPath": "scanLayer", "order": "ASCENDING" },
+        { "fieldPath": "patternIdsHash", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "pattern_scan_metadata",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
     }
   ],
   "fieldOverrides": []

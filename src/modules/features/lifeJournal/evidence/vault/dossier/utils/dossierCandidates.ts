@@ -86,18 +86,36 @@ export function filterCandidates(
   dateTo: string,
   enabledSources: Record<DossierSourceKey, boolean>,
   categoryFilter: string[],
+  techniqueFilter: string[] = [],
+  techniquesByVaultId?: ReadonlyMap<string, readonly string[]>,
 ): DossierCandidateDoc[] {
   return docs.filter((doc) => {
     if (!enabledSources[doc.kind]) return false;
     if (!inDateRange(doc.createdAt, dateFrom, dateTo)) return false;
     if (categoryFilter.length > 0 && doc.category) {
-      return categoryFilter.some(
-        (tag) => doc.category?.toLowerCase().includes(tag.toLowerCase()),
-      );
+      if (!categoryFilter.some((tag) => doc.category?.toLowerCase().includes(tag.toLowerCase()))) {
+        return false;
+      }
+    } else if (categoryFilter.length > 0 && !doc.category) {
+      return false;
     }
-    if (categoryFilter.length > 0 && !doc.category) return false;
+    if (techniqueFilter.length > 0) {
+      if (doc.kind !== 'reality_vault') return false;
+      const techniques = techniquesByVaultId?.get(doc.id) ?? [];
+      if (!techniqueFilter.some((t) => techniques.includes(t))) return false;
+    }
     return true;
   });
+}
+
+export function collectTechniqueTags(
+  techniquesByVaultId: ReadonlyMap<string, readonly string[]>,
+): string[] {
+  const tags = new Set<string>();
+  for (const techniques of techniquesByVaultId.values()) {
+    for (const t of techniques) tags.add(t);
+  }
+  return [...tags].sort((a, b) => a.localeCompare(b, 'sv'));
 }
 
 export function collectCategoryTags(docs: DossierCandidateDoc[]): string[] {

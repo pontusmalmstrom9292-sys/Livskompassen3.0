@@ -33,7 +33,12 @@ Tvätta affektivt laddad input till rena fakta (10% logistik). Identifiera käns
 Identifiera JADE, DARVO och gaslighting. Generera kort Grey Rock/BIFF-svar: Brief, Informative, Friendly, Firm.
 Ingen empati mot manipulator, ingen JADE. Svara på svenska.
 Returnera ENDAST giltig JSON utan markdown:
-{"cleanFacts":["observerbar fakta max 3"],"emotionalBait":["bete att ignorera max 3"],"greyRockReply":"kort svar att skicka","techniques":["DARVO|GASLIGHTING|JADE_BAIT|..."],"coachingNote":"max 1 mening lågaffektiv"}`;
+{"cleanFacts":["observerbar fakta max 3"],"emotionalBait":["bete att ignorera max 3"],"greyRockReply":"kort svar att skicka","techniques":["DARVO|GASLIGHTING|JADE_BAIT|..."],"coachingNote":"max 1 mening lågaffektiv","theoryWithoutEvidence":false}`;
+
+export const GRANS_EPISTEMIC_GUARD_RULES = `Epistemisk guard (Hamn — ephemeral, ingen WORM):
+- Sätt theoryWithoutEvidence: true om slutsatser/taktiker inte stöds av observerbar text i meddelandet.
+- cleanFacts måste vara korta citat/parafraser från meddelandet — inte generiska råd.
+- Använd aldrig diagnosetiketter i svar.`;
 
 export const INKORG_SORTERARE_SYSTEM_PROMPT = `${DOMAIN_COVERT_HCF_LENS}
 Du är Inkorg-Sorteraren (G10) — självsorterande klassificering för Livskompassen.

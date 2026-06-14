@@ -10,12 +10,14 @@ export interface GransArkitektenResult {
   greyRockReply: string;
   techniques: string[];
   coachingNote: string;
+  /** LLM-förslag — kod i resolveHamnTheoryWithoutEvidence vinner vid konflikt. */
+  theoryWithoutEvidence?: boolean;
 }
 
 function parseGransJson(raw: string, dcap: DcapResult): GransArkitektenResult {
   try {
     const cleaned = raw.replace(/```json\n?|\n?```/g, '').trim();
-    const parsed = JSON.parse(cleaned) as GransArkitektenResult;
+    const parsed = JSON.parse(cleaned) as GransArkitektenResult & { theoryWithoutEvidence?: boolean };
     if (typeof parsed.greyRockReply !== 'string') return buildFallback(dcap);
     return {
       cleanFacts: Array.isArray(parsed.cleanFacts) ? parsed.cleanFacts.map(String).slice(0, 5) : [],
@@ -26,6 +28,7 @@ function parseGransJson(raw: string, dcap: DcapResult): GransArkitektenResult {
       techniques: Array.isArray(parsed.techniques) ? parsed.techniques.map(String).slice(0, 6) : [],
       coachingNote:
         typeof parsed.coachingNote === 'string' ? parsed.coachingNote.trim() : '',
+      theoryWithoutEvidence: parsed.theoryWithoutEvidence === true ? true : undefined,
     };
   } catch {
     return buildFallback(dcap);

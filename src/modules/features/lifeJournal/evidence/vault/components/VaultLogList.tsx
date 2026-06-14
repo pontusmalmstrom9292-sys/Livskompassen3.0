@@ -14,6 +14,15 @@ import { scanTechniquesForLog } from '../utils/vaultPatternScan';
 
 type VaultLogRow = VaultLog & { id: string; weaverTags?: WeaverTags };
 
+function resolveLogTechniques(
+  log: VaultLogRow,
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>,
+): string[] {
+  const persisted = persistedTechniquesByLogId?.get(log.id);
+  if (persisted && persisted.length > 0) return [...persisted];
+  return scanTechniquesForLog(log);
+}
+
 function isVavarenMetadata(log: VaultLog): boolean {
   return log.category === 'vävaren_metadata';
 }
@@ -24,6 +33,8 @@ type VaultLogListProps = {
   onLogFirstBevis?: () => void;
   /** V2 — visa endast Sanningens Ankare (`pinned`). */
   anchorsOnly?: boolean;
+  /** Sidecar-taktik från pattern_scan_metadata (prioriteras framför live-regex). */
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
 };
 
 function asText(value: unknown): string {
@@ -69,14 +80,16 @@ const LogRow = memo(function LogRow({
   log,
   highlightLogId,
   highlightRef,
+  persistedTechniquesByLogId,
 }: {
   log: VaultLogRow;
   highlightLogId?: string | null;
   highlightRef: RefObject<HTMLLIElement>;
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
 }) {
   const vavaren = isVavarenMetadata(log);
   const weaverTags = (log as VaultLogRow).weaverTags;
-  const tags = vavaren ? [] : scanTechniquesForLog(log);
+  const tags = vavaren ? [] : resolveLogTechniques(log, persistedTechniquesByLogId);
   
   return (
     <li
@@ -173,6 +186,7 @@ export const VaultLogList = memo(function VaultLogList({
   highlightLogId,
   onLogFirstBevis,
   anchorsOnly = false,
+  persistedTechniquesByLogId,
 }: VaultLogListProps) {
   const { logs, loading, hasMore, loadingMore, loadMoreLogs } = useVaultStore();
   const highlightRef = useRef<HTMLLIElement>(null);
@@ -218,14 +232,26 @@ export const VaultLogList = memo(function VaultLogList({
               </p>
               <ul className="space-y-3">
                 {pinned.map((log) => (
-                  <LogRow key={log.id} log={log} highlightLogId={highlightLogId} highlightRef={highlightRef} />
+                  <LogRow
+                    key={log.id}
+                    log={log}
+                    highlightLogId={highlightLogId}
+                    highlightRef={highlightRef}
+                    persistedTechniquesByLogId={persistedTechniquesByLogId}
+                  />
                 ))}
               </ul>
             </div>
           )}
           <ul className="space-y-3">
           {rest.map((log) => (
-            <LogRow key={log.id} log={log} highlightLogId={highlightLogId} highlightRef={highlightRef} />
+            <LogRow
+              key={log.id}
+              log={log}
+              highlightLogId={highlightLogId}
+              highlightRef={highlightRef}
+              persistedTechniquesByLogId={persistedTechniquesByLogId}
+            />
           ))}
         </ul>
           {hasMore && (

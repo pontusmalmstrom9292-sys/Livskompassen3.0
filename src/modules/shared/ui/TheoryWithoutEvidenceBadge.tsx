@@ -2,10 +2,13 @@ import { FileQuestion } from 'lucide-react';
 
 type Props = {
   className?: string;
+  /** Hamn = ephemeral (ingen WORM-läsning); Valv = WORM-citations. */
+  variant?: 'hamn' | 'valv';
 };
 
-/** Epistemisk guard — teori utan WORM-stöd (Sannings-Analytikern). */
-export function TheoryWithoutEvidenceBadge({ className = '' }: Props) {
+/** Epistemisk guard — teori utan observerbart stöd. */
+export function TheoryWithoutEvidenceBadge({ className = '', variant = 'valv' }: Props) {
+  const isHamn = variant === 'hamn';
   return (
     <div
       className={[
@@ -13,15 +16,17 @@ export function TheoryWithoutEvidenceBadge({ className = '' }: Props) {
         className,
       ].join(' ')}
       role="note"
-      aria-label="Teori saknar WORM-bevis"
+      aria-label={isHamn ? 'Tolkning utan observerbart innehåll' : 'Teori saknar WORM-bevis'}
     >
       <FileQuestion className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent-dim" aria-hidden />
       <p className="text-[10px] leading-relaxed tracking-wide text-accent/85">
         <span className="font-semibold uppercase tracking-widest text-accent-dim">
-          Teori saknar WORM-bevis
+          {isHamn ? 'Tolkning utan observerbart innehåll' : 'Teori saknar WORM-bevis'}
         </span>
         <span className="mt-0.5 block normal-case tracking-normal text-text-muted">
-          Svaret bygger på tolkning utan låst källpost i arkivet — behandla som hypotes, inte bevis.
+          {isHamn
+            ? 'Svaret bygger på tolkning utan konkret citat eller logistik i det inklistrade meddelandet — behandla som hypotes.'
+            : 'Svaret bygger på tolkning utan låst källpost i arkivet — behandla som hypotes, inte bevis.'}
         </span>
       </p>
     </div>

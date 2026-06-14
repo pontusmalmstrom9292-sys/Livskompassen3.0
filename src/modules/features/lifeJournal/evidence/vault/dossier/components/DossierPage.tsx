@@ -21,6 +21,7 @@ import type {
 import {
   childrenToCandidate,
   collectCategoryTags,
+  collectTechniqueTags,
   defaultDateRange,
   filterCandidates,
   groupIncludedIds,
@@ -29,6 +30,10 @@ import {
   vaultToCandidate,
 } from '../utils/dossierCandidates';
 import { generateDossier } from '../api/dossierService';
+import {
+  buildTechniquesByLogId,
+  fetchPatternScanMetadata,
+} from '../../api/patternScanMetadataApi';
 import {
   VAVAREN_DOSSIER_CHECKBOX,
   VAVAREN_DOSSIER_HINT,
@@ -51,6 +56,7 @@ function resetWizardState() {
     sources: { ...INITIAL_SOURCES },
     journalAck: false,
     categoryFilter: [] as string[],
+    techniqueFilter: [] as string[],
     reportType: 'LEGAL' as DossierReportType,
     includeAiForeword: false,
     includedIds: new Set<string>(),
@@ -83,6 +89,10 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
   const [sources, setSources] = useState<DossierSources>({ ...INITIAL_SOURCES });
   const [journalAck, setJournalAck] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
+  const [techniqueFilter, setTechniqueFilter] = useState<string[]>([]);
+  const [techniquesByVaultId, setTechniquesByVaultId] = useState<Map<string, string[]>>(
+    () => new Map(),
+  );
   const [reportType, setReportType] = useState<DossierReportType>('LEGAL');
   const [includeAiForeword, setIncludeAiForeword] = useState(false);
   const [includedIds, setIncludedIds] = useState<Set<string>>(() => new Set());
@@ -100,6 +110,8 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
     setSources(fresh.sources);
     setJournalAck(fresh.journalAck);
     setCategoryFilter(fresh.categoryFilter);
+    setTechniqueFilter(fresh.techniqueFilter);
+    setTechniquesByVaultId(new Map());
     setReportType(fresh.reportType);
     setIncludeAiForeword(fresh.includeAiForeword);
     setIncludedIds(fresh.includedIds);
@@ -116,6 +128,13 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
   const deepLinkSources = searchParams.get('sources');
 
   useEffect(() => {
+    if (!user || !vaultOpen) return;
+    void fetchPatternScanMetadata(user.uid).then((rows) => {
+      setTechniquesByVaultId(buildTechniquesByLogId(rows));
+    });
+  }, [user, vaultOpen]);
+
+  useEffect(() => {
     if (deepLinkSources === 'children_logs') {
       setSources({
         reality_vault: false,
@@ -126,22 +145,37 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
   }, [deepLinkSources]);
 
   const filteredDocs = useMemo(
-    () => filterCandidates(allCandidates, dateFrom, dateTo, sources, categoryFilter),
-    [allCandidates, dateFrom, dateTo, sources, categoryFilter],
+    () =>
+      filterCandidates(
+        allCandidates,
+        dateFrom,
+        dateTo,
+        sources,
+        categoryFilter,
+        techniqueFilter,
+        techniquesByVaultId,
+      ),
+    [allCandidates, dateFrom, dateTo, sources, categoryFilter, techniqueFilter, techniquesByVaultId],
   );
 
   const categoryTags = useMemo(() => collectCategoryTags(allCandidates), [allCandidates]);
+  const techniqueTags = useMemo(
+    () => collectTechniqueTags(techniquesByVaultId),
+    [techniquesByVaultId],
+  );
 
   const loadCandidates = useCallback(async () => {
     if (!user) return;
     setLoadingDocs(true);
     setError(null);
     try {
-      const [vault, children, journal] = await Promise.all([
+      const [vault, children, journal, patternRows] = await Promise.all([
         getAllVaultLogs(user.uid),
         getChildrenLogs(user.uid),
         getJournalEntries(user.uid),
+        fetchPatternScanMetadata(user.uid),
       ]);
+      setTechniquesByVaultId(buildTechniquesByLogId(patternRows));
       const docs: DossierCandidateDoc[] = [
         ...vault.map(vaultToCandidate),
         ...children.map((row) =>
@@ -152,7 +186,15 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
         ),
       ];
       setAllCandidates(docs);
-      const visible = filterCandidates(docs, dateFrom, dateTo, sources, categoryFilter);
+      const visible = filterCandidates(
+        docs,
+        dateFrom,
+        dateTo,
+        sources,
+        categoryFilter,
+        techniqueFilter,
+        buildTechniquesByLogId(patternRows),
+      );
       let ids = visible.map((d) => d.id);
       if (deepLinkChild) {
         const childDocs = visible.filter(
@@ -166,7 +208,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
     } finally {
       setLoadingDocs(false);
     }
-  }, [user, dateFrom, dateTo, sources, categoryFilter, deepLinkChild]);
+  }, [user, dateFrom, dateTo, sources, categoryFilter, techniqueFilter, deepLinkChild]);
 
   useEffect(() => {
     if (step !== 'review' || !user || !vaultOpen) return;
@@ -175,7 +217,15 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
 
   useEffect(() => {
     if (step !== 'review') return;
-    const visible = filterCandidates(allCandidates, dateFrom, dateTo, sources, categoryFilter);
+    const visible = filterCandidates(
+      allCandidates,
+      dateFrom,
+      dateTo,
+      sources,
+      categoryFilter,
+      techniqueFilter,
+      techniquesByVaultId,
+    );
     setIncludedIds((prev) => {
       const next = new Set<string>();
       for (const doc of visible) {
@@ -186,7 +236,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
       }
       return next;
     });
-  }, [step, allCandidates, dateFrom, dateTo, sources, categoryFilter]);
+  }, [step, allCandidates, dateFrom, dateTo, sources, categoryFilter, techniqueFilter, techniquesByVaultId]);
 
   const toggleDoc = (id: string) => {
     setIncludedIds((prev) => {
@@ -195,6 +245,12 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
       else next.add(id);
       return next;
     });
+  };
+
+  const toggleTechnique = (tag: string) => {
+    setTechniqueFilter((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
+    );
   };
 
   const toggleCategory = (tag: string) => {
@@ -235,6 +291,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
         reportType,
         includeAiForeword,
         categoryFilter: categoryFilter.length > 0 ? categoryFilter : undefined,
+        techniqueFilter: techniqueFilter.length > 0 ? techniqueFilter : undefined,
         includedDocIds: groupIncludedIds(selected, includedIds),
       });
       downloadFromResult(gen);
@@ -565,6 +622,30 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                   Jag förstår risken och vill inkludera min privata dagbok i detta underlag.
                 </span>
               </label>
+            )}
+
+            {techniqueTags.length > 0 && (
+              <div>
+                <p className="mb-2 text-xs text-text-dim">
+                  Valfritt — filtrera valv på taktik (sidecar-metadata)
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {techniqueTags.map((tag) => (
+                    <button
+                      key={tag}
+                      type="button"
+                      onClick={() => toggleTechnique(tag)}
+                      className={
+                        techniqueFilter.includes(tag)
+                          ? 'rounded-full bg-indigo-500/25 px-3 py-1 text-xs text-indigo-100 cursor-pointer border border-indigo-400/40'
+                          : 'rounded-full border border-white/10 px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-white/20'
+                      }
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              </div>
             )}
 
             {categoryTags.length > 0 && (

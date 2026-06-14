@@ -47,7 +47,7 @@ Våg **21** och **22** bank + ingest + Hamn-wire **klara** 2026-06-14. Kvarvaran
 | Maternal-image fasad | `cn-020` | maternal_fasad | **done** |
 | Juridisk weaponization (vårdnad, LVU) | `jur-001`–`004` | juridik_hot | **done** |
 | Trauma bonding (djupare cykel) | `cn-019` | trauma_bonding | **done** |
-| Valv Mönster: auto-tag per teknik | — | — | **open** (DCAP → dossier) |
+| Valv Mönster: auto-tag per teknik | cn-* library refs | REGEX sidecar | **done** (pattern_scan_metadata → Dossier) |
 
 Kurator: `specialist-kunskap-seed` · Dirigent vid osäkerhet.
 

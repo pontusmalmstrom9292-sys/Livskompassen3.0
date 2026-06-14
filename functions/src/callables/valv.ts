@@ -2,6 +2,7 @@ import { onCall, HttpsError } from 'firebase-functions/v2/https';
 
 import { askValvChat } from '../agents/valvChatAgent';
 import { generateDossierInternal } from '../lib/generateDossierInternal';
+import { rescanAllVaultPatternMetadata, writePatternScanMetadata } from '../lib/patternScanMetadata';
 import { addUserEntityProfile, loadEntityProfileBundle } from '../lib/entityProfileStore';
 import {
   assertVaultSession,
@@ -171,6 +172,33 @@ export const valvChatQuery = onCall({ region: 'europe-west1', memory: '512MiB' }
   const result = await askValvChat(uid, question.trim());
   return result;
 });
+
+export const rescanPatternMetadata = onCall({ region: 'europe-west1' }, async (request) => {
+  const uid = await guardSensitiveCallableV2(request, 'rescanPatternMetadata', 3);
+  await assertVaultSession(uid, request.data);
+  const written = await rescanAllVaultPatternMetadata(uid);
+  return { written, libraryVersion: '2026.06.1' };
+});
+
+export const writePatternScanMetadataCallable = onCall(
+  { region: 'europe-west1' },
+  async (request) => {
+    const uid = await guardSensitiveCallableV2(request, 'writePatternScanMetadata', 30);
+    await assertVaultSession(uid, request.data);
+    const sourceRef = String((request.data as { sourceRef?: unknown })?.sourceRef ?? '').trim();
+    const text = String((request.data as { text?: unknown })?.text ?? '').trim();
+    if (!sourceRef) {
+      throw new HttpsError('invalid-argument', 'sourceRef krävs.');
+    }
+    const docId = await writePatternScanMetadata({
+      userId: uid,
+      sourceRef,
+      text,
+      scanLayer: 'REGEX',
+    });
+    return { docId, created: Boolean(docId) };
+  },
+);
 
 export const generateDossier = onCall(
   { region: 'europe-west1' },

@@ -14,17 +14,28 @@
 
 import { VertexAI } from '@google-cloud/vertexai';
 import { DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT } from '../sharedRules';
+import { scanTextForTactics, type VaultTechnique } from '../lib/tacticPatternLibrary';
 
 // --- Typer ---
 
 export type ManipulationTechnique =
-  | 'DARVO'          // Deny, Attack, Reverse Victim and Offender
-  | 'GASLIGHTING'    // Ifrågasätter offrets verklighetsbild
-  | 'LOVE_BOMBING'   // Överdrivet beröm för att manipulera
-  | 'SILENT_TREATMENT' // Stonewalling / Tystnadstraff
-  | 'JADE_BAIT'      // Försöker trigga Justify, Argue, Defend, Explain
-  | 'THREAT'         // Direkta eller indirekta hot
+  | 'DARVO'
+  | 'GASLIGHTING'
+  | 'LOVE_BOMBING'
+  | 'SILENT_TREATMENT'
+  | 'JADE_BAIT'
+  | 'THREAT'
+  | 'HOOVERING'
+  | 'SMEAR'
+  | 'ECONOMIC_CONTROL'
+  | 'MATERNAL_FACADE'
+  | 'TRAUMA_BONDING'
+  | 'LEGAL_PRESSURE'
   | 'UNKNOWN';
+
+function vaultTechniqueToDcap(technique: VaultTechnique): ManipulationTechnique {
+  return technique as ManipulationTechnique;
+}
 
 export interface DcapDetection {
   technique: ManipulationTechnique;
@@ -34,48 +45,34 @@ export interface DcapDetection {
 }
 
 export interface DcapResult {
-  riskScore: number; // 0 (ingen risk) till 100 (extrem risk)
+  riskScore: number;
   detections: DcapDetection[];
-  greyRockResponse?: string; // Föreslaget neutralt svar
+  greyRockResponse?: string;
   recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
 }
 
-// --- Lager 1: Regelbaserade Regex-mönster ---
-
-const REGEX_PATTERNS: { pattern: RegExp; technique: ManipulationTechnique; weight: number }[] = [
-  // DARVO: Förnekande och reversal av offer/förövare
-  { pattern: /du är alltid så (känslig|dramatisk|överdriftig)/i, technique: 'DARVO', weight: 30 },
-  { pattern: /du hittar på (allting|det där|det)/i, technique: 'GASLIGHTING', weight: 35 },
-  { pattern: /det har aldrig (hänt|sagts|gjorts)/i, technique: 'GASLIGHTING', weight: 35 },
-  { pattern: /du är (galen|psykisk|instabil)/i, technique: 'GASLIGHTING', weight: 40 },
-  // JADE-bete: Provocerar en att förklara/försvara sig
-  { pattern: /varför gör du (alltid|aldrig)/i, technique: 'JADE_BAIT', weight: 20 },
-  { pattern: /du måste (förklara|bevisa|motivera)/i, technique: 'JADE_BAIT', weight: 25 },
-  // Hot (direkta)
-  { pattern: /(annars|om inte).*konsekvens/i, technique: 'THREAT', weight: 50 },
-  { pattern: /jag ska se till att/i, technique: 'THREAT', weight: 45 },
-  // Love-bombing
-  { pattern: /ingen (älskar|förstår|vet) dig som jag/i, technique: 'LOVE_BOMBING', weight: 30 },
-];
+// --- Lager 1: Regelbaserade Regex-mönster (kanon: shared/patterns) ---
 
 function runRegexLayer(text: string): { detections: DcapDetection[]; score: number } {
   let score = 0;
   const detections: DcapDetection[] = [];
+  const seen = new Set<string>();
 
-  for (const { pattern, technique, weight } of REGEX_PATTERNS) {
-    const match = text.match(pattern);
-    if (match) {
-      score += weight;
-      detections.push({
-        technique,
-        matchedPattern: match[0],
-        confidence: weight >= 35 ? 'HIGH' : 'MEDIUM',
-        layer: 'REGEX',
-      });
-    }
+  for (const match of scanTextForTactics(text)) {
+    const key = `${match.technique}:${match.matchedText}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const weight = match.weight;
+    score += weight;
+    detections.push({
+      technique: vaultTechniqueToDcap(match.technique),
+      matchedPattern: match.matchedText,
+      confidence: weight >= 35 ? 'HIGH' : 'MEDIUM',
+      layer: 'REGEX',
+    });
   }
 
-  return { detections, score: Math.min(score, 60) }; // Regex ger max 60p
+  return { detections, score: Math.min(score, 60) };
 }
 
 // --- Lager 2: Semantisk Analys via Vertex AI ---

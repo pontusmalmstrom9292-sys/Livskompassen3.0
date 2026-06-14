@@ -24,6 +24,8 @@ export interface GenerateDossierInput {
   reportType: DossierReportType;
   includeAiForeword: boolean;
   categoryFilter?: string[];
+  /** Filtrera reality_vault via pattern_scan_metadata sidecar (t.ex. DARVO). */
+  techniqueFilter?: string[];
   includedDocIds: {
     reality_vault: string[];
     children_logs: string[];

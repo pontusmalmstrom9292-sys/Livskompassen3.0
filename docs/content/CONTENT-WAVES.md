@@ -26,7 +26,8 @@
 | 20 | Covert taktik + barn HCF | cn-001–015, bh-001–008 | BP-PLAY-22..24 (barnfokus) | — | **done** 2026-06-14 — bank KEEP; **ingest klar** (76 FACT i `kampspar`) |
 | 21 | Covert HCF fördjupning | cn-016–020, ep-001–005, jur-001–004, bh-009–012, vf-001–004 | — | — | **done** 2026-06-14 — bank KEEP; **ingest klar** (98 FACT manifest) |
 | 22 | Ekonomisk kontroll + Hamn wire | cn-021 | — (Hamn wire UI) | — | **done** 2026-06-14 — cn-021 ingest; Hamn wire: hoover, smear, ekonomisk_kontroll, maternal_fasad |
+| 23 | Epistemic guard + Valv Mönster v3 | cn-* refs (library) | — | — | **done** 2026-06-14 — Hamn theoryWithoutEvidence; pattern_scan_metadata sidecar; Dossier taktikfilter |
 
-**Aktiv våg:** `23` (planera nästa) · våg 21–22 **klara**
+**Aktiv våg:** `24` (planera nästa) · våg 23 **klar**
 
 **Seed (Google-konto):** `SEED_FIREBASE_EMAIL` i `.env` + `gcloud auth application-default login` → `npm run seed:kunskap-facts`

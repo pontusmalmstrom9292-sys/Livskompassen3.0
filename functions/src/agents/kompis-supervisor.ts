@@ -8,6 +8,7 @@ import type { AgentResponse } from './types';
 import { GCP_PROJECT_ID } from '../config';
 import { analyzeDcap, DcapResult } from './DCAP';
 import { askGransArkitekten } from './gransArkitektenAgent';
+import { resolveHamnTheoryWithoutEvidence } from '../lib/epistemicGuard';
 import { getOrCreateCache, invalidateCachesForUser } from '../lib/vertexCache';
 import { KOMPIS_SYSTEM_PROMPT } from '../sharedRules';
 import { adkOrchestrator } from '../adk/orchestrator';
@@ -77,6 +78,12 @@ export class KompisSupervisor {
 
     if (route.executorId === EXECUTOR_AGENT_IDS.gransArkitekten) {
       const grans = await askGransArkitekten(userInput, dcapResult);
+      const theoryWithoutEvidence = resolveHamnTheoryWithoutEvidence(
+        userInput,
+        grans,
+        dcapResult,
+        grans.theoryWithoutEvidence,
+      );
       return {
         agentId: route.productAgentId,
         status: 'SUCCESS',
@@ -88,6 +95,7 @@ export class KompisSupervisor {
           recommendedAction: dcapResult.recommendedAction,
           hitlRequired,
           alertId: alertId || undefined,
+          theoryWithoutEvidence,
         },
         dcap: dcapResult,
       };

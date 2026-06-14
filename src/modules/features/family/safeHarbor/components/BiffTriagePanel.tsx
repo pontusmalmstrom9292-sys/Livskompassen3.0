@@ -46,7 +46,7 @@ export function BiffTriagePanel({
           {agentName}
         </p>
       )}
-      {theoryWithoutEvidence && <TheoryWithoutEvidenceBadge className="mb-3" />}
+      {theoryWithoutEvidence && <TheoryWithoutEvidenceBadge className="mb-3" variant="hamn" />}
       <div className="grid grid-cols-2 gap-2 text-center text-xs">
         <div className="rounded-xl border border-border/30 bg-surface-2/40 p-2">
           <p className="text-text-dim">Ren logistik (~)</p>

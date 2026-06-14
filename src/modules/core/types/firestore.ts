@@ -141,6 +141,7 @@ export interface VitEntry {
   content_class: VitContentClass;
   responseText?: string;
   cardDateKey?: string;
+  categoryId?: string;
   createdAt: IsoDateTime;
 }
 
@@ -429,6 +430,7 @@ export const FIRESTORE_COLLECTIONS = {
   kampspar: 'kampspar',
   routines: 'routines',
   reality_vault: 'reality_vault',
+  pattern_scan_metadata: 'pattern_scan_metadata',
   archival_analysis: 'archival_analysis',
   journal: 'journal',
   mabra_sessions: 'mabra_sessions',

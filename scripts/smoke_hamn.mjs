@@ -47,6 +47,12 @@ function main() {
     'HamnTaktikLexikonBro',
   );
   mustInclude(
+    'src/modules/features/family/safeHarbor/components/BiffTriagePanel.tsx',
+    'TheoryWithoutEvidenceBadge',
+    'variant="hamn"',
+    'theoryWithoutEvidence',
+  );
+  mustInclude(
     'src/modules/features/family/safeHarbor/components/HamnTaktikLexikonBro.tsx',
     'Taktik-lexikon',
     "vaultDrawerPath('kunskapsbank')",

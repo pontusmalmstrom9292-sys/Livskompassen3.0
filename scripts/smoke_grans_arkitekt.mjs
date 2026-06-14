@@ -81,8 +81,28 @@ async function main() {
     'saknar response/greyRockResponse i data'
   );
   assert(typeof data.dcap?.riskScore === 'number', 'saknar dcap.riskScore');
+  assert(
+    typeof data.data?.theoryWithoutEvidence === 'boolean',
+    'saknar data.theoryWithoutEvidence (boolean)',
+  );
+  assert(
+    data.data.theoryWithoutEvidence === false,
+    'gaslighting-fixture ska vara observerbar (theoryWithoutEvidence=false)',
+  );
+
+  const metaResult = await analyze({
+    message: 'Hon är narcissist och har alltid varit manipulativ — mönster över tid.',
+    ragContext: [],
+    module: 'safe_harbor',
+  });
+  const meta = metaResult.data;
+  assert(
+    meta?.data?.theoryWithoutEvidence === true,
+    'meta-teori utan fakta ska ge theoryWithoutEvidence=true',
+  );
 
   console.log('[smoke] agent:', data.agentId, 'risk:', data.dcap.riskScore);
+  console.log('[smoke] theoryWithoutEvidence:', data.data.theoryWithoutEvidence, '→ meta:', meta.data.theoryWithoutEvidence);
   console.log('[smoke] greyRock:', data.data.gransAnalysis.greyRockReply.slice(0, 80), '…');
   console.log('\n[smoke] PASS — G14 Gräns-Arkitekten.');
   process.exit(0);

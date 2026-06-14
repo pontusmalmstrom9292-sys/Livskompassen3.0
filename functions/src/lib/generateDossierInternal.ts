@@ -9,6 +9,9 @@ import {
   type DossierCollection,
 } from './dossierCanonicalHash';
 import { buildDossierPdf } from './dossierPdf';
+import {
+  PATTERN_SCAN_METADATA_COLLECTION,
+} from './patternScanMetadata';
 
 const MAX_DOCS = 200;
 const SIGNED_URL_TTL_MS = 24 * 60 * 60 * 1000;
@@ -24,6 +27,7 @@ export type GenerateDossierInput = {
   reportType: 'LEGAL' | 'BBIC';
   includeAiForeword: boolean;
   categoryFilter?: string[];
+  techniqueFilter?: string[];
   includedDocIds: {
     reality_vault: string[];
     children_logs: string[];
@@ -65,6 +69,32 @@ async function fetchOwnedDoc(
   if (ownerId !== uid) return null;
   if (collection === 'children_logs' && data.visibility === 'private_child') return null;
   return toCanonicalEntry(collection, snap.id, data);
+}
+
+async function buildTacticSummaryForVaultIds(
+  uid: string,
+  vaultIds: string[],
+): Promise<{ technique: string; count: number }[]> {
+  if (vaultIds.length === 0) return [];
+  const counts = new Map<string, number>();
+  for (const sourceRef of vaultIds) {
+    const snap = await admin
+      .firestore()
+      .collection(PATTERN_SCAN_METADATA_COLLECTION)
+      .where('sourceRef', '==', sourceRef)
+      .get();
+    for (const doc of snap.docs) {
+      const data = doc.data();
+      if (String(data.userId ?? data.ownerId ?? '') !== uid) continue;
+      for (const t of data.techniques ?? []) {
+        const key = String(t);
+        counts.set(key, (counts.get(key) ?? 0) + 1);
+      }
+    }
+  }
+  return [...counts.entries()]
+    .sort(([, a], [, b]) => b - a)
+    .map(([technique, count]) => ({ technique, count }));
 }
 
 export async function generateDossierInternal(
@@ -117,6 +147,7 @@ export async function generateDossierInternal(
   const documentHash = computeDocumentHash(entries);
   const dossierId = randomUUID();
   const generatedAtIso = new Date().toISOString();
+  const tacticSummary = await buildTacticSummaryForVaultIds(uid, includedDocIds.reality_vault);
 
   const pdfBytes = await buildDossierPdf({
     dossierId,
@@ -127,6 +158,7 @@ export async function generateDossierInternal(
     dateTo,
     includeAiForeword,
     entries,
+    tacticSummary: tacticSummary.length > 0 ? tacticSummary : undefined,
   });
 
   const pdfFileHash = sha256Hex(buildCanonicalString(entries) + `:pdf:${pdfBytes.length}`);
@@ -176,6 +208,7 @@ export async function generateDossierInternal(
       reportType,
       includeAiForeword,
       categoryFilter: raw.categoryFilter ?? [],
+      techniqueFilter: raw.techniqueFilter ?? [],
     },
     includedDocIds,
     documentHash,

@@ -6,6 +6,7 @@ import { ValvChatPanel } from '@/features/lifeJournal/evidence/vaultChat';
 import { VaultLogList } from '../VaultLogList';
 import { VaultSamlaHub } from '../VaultSamlaHub';
 import { WeaverPendingVaultBanner } from '../WeaverPendingVaultBanner';
+import { usePatternScanMetadata } from '../../hooks/usePatternScanMetadata';
 import type { SamlaVaultTab } from '../../utils/vaultTabs';
 
 export type ValvSamlaZoneProps = {
@@ -31,6 +32,7 @@ export function ValvSamlaZone({
 }: ValvSamlaZoneProps) {
   const [anchorsOnly, setAnchorsOnly] = useState(false);
   const { logs, loadFirstLogsPage } = useVaultStore();
+  const { techniquesByLogId } = usePatternScanMetadata(userId);
 
   return (
     <>
@@ -69,6 +71,7 @@ export function ValvSamlaZone({
           <VaultLogList
             highlightLogId={highlightLogId}
             anchorsOnly={anchorsOnly}
+            persistedTechniquesByLogId={techniquesByLogId}
             onLogFirstBevis={() =>
               document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
             }
