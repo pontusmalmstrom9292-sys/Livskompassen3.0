@@ -85,13 +85,13 @@ Extra coach-bank: `discoveryCoachBank.ts` (MB-REF-01..06, MB-PLAY-01..04).
 
 ## F. PMIR-checklista före prod-wire (P4)
 
-- [ ] `npm run smoke:locked-ux` PASS
-- [ ] `npm run smoke:compass` PASS
-- [ ] `npm run smoke:discovery-deck` PASS
-- [ ] U6 — alla bankIds KEEP
-- [ ] Ingen auto-promote `reality_vault`
-- [ ] Användaren sagt «godkänn Forge» → sätt `FORGE_PROD_WIRE_ENABLED = true`
-- [ ] `firebase deploy --only firestore:rules,hosting`
+- [x] `npm run smoke:locked-ux` PASS
+- [x] `npm run smoke:compass` PASS
+- [x] `npm run smoke:discovery-deck` PASS
+- [x] U6 — alla bankIds KEEP (`smoke:discovery-deck`)
+- [x] Ingen auto-promote `reality_vault` (endast `MabraVitEvidencePrompt`)
+- [x] Användaren sagt «godkänn Forge» → `FORGE_PROD_WIRE_ENABLED = true`
+- [x] `firebase deploy --only firestore:rules,hosting` (2026-06-15)
 
 ---
 
