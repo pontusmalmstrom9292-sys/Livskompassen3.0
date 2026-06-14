@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { LayoutGrid, Wallet, Leaf, PiggyBank, Clock, PauseCircle } from 'lucide-react';
 import { clsx } from 'clsx';
 import { EconomyBudgetTab } from './EconomyBudgetTab';
@@ -11,6 +11,7 @@ import {
   type EkonomiModuleChoice,
 } from './EkonomiModulValjare';
 import { hasSeenEkonomiModulValjare } from '../utils/ekonomiModulValjareStorage';
+import { useEvolutionStore } from '@/core/store/useEvolutionStore';
 
 const TABS: { id: EkonomiModuleChoice; label: string; icon: typeof Wallet }[] = [
   { id: 'budget', label: 'Budget', icon: Wallet },
@@ -27,6 +28,19 @@ type Props = {
 export function EconomyOverviewPanel({ userId: _userId }: Props) {
   const [showPicker, setShowPicker] = useState(() => !hasSeenEkonomiModulValjare());
   const [activeTab, setActiveTab] = useState<EkonomiModuleChoice>('budget');
+  const hasAdvanced = useEvolutionStore((s) => s.hasFeature('economy_advanced'));
+
+  const visibleTabs = TABS.filter((t) => {
+    if (t.id === 'impuls' || t.id === 'spar') return hasAdvanced;
+    return true;
+  });
+
+  useEffect(() => {
+    // Om man är på en flik som man inte längre har tillgång till, hoppa till budget
+    if (!visibleTabs.some((t) => t.id === activeTab)) {
+      setActiveTab('budget');
+    }
+  }, [hasAdvanced, activeTab, visibleTabs]);
 
   const openTab = (tab: EkonomiModuleChoice) => {
     setActiveTab(tab);
@@ -45,7 +59,7 @@ export function EconomyOverviewPanel({ userId: _userId }: Props) {
     <div className="calm-card glow-bottom-gold p-1">
       <div className="mb-2 flex items-center justify-between gap-2 px-2 pt-2">
         <div className="flex flex-1 gap-1 overflow-x-auto rounded-t-xl border-b border-border/30 bg-surface-2 p-1 calm-scroll-island">
-          {TABS.map(({ id, label, icon: Icon }) => (
+          {visibleTabs.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
               type="button"

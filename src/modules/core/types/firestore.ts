@@ -359,6 +359,7 @@ export interface ChildAgeState {
   ageYears: number;
   currentBracket: 'toddler_preschool' | 'early_school' | 'pre_teen' | 'teen';
   lastUpdated: IsoDateTime;
+  barnportenLevel?: number;
 }
 
 export interface EvolutionPillarState {
@@ -382,6 +383,7 @@ export interface EvolutionHubDoc {
     arvid: ChildAgeState;
   };
   unlockedFeatureFlags: string[];
+  unlockedPacks?: string[];
 }
 
 export const FIRESTORE_COLLECTIONS = {

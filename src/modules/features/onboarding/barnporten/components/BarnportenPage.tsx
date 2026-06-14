@@ -2,17 +2,20 @@ import './barnporten.css';
 import { useEffect, useState } from 'react';
 import { Heart, MessageCircle, Smile, Lock, AlertCircle, Loader2 } from 'lucide-react';
 import { useStore } from '@/core/store';
+import { useEvolutionStore } from '@/core/store/useEvolutionStore';
 import { saveBarnportenLog } from '../api/saveBarnportenLog';
 import { useBarnportenOfflineFlush } from '../hooks/useBarnportenOfflineFlush';
 import { useBarnportenPairClaim } from '../hooks/useBarnportenPairClaim';
 import { BARNPORTEN_AGENTS } from '../constants/barnportenAgents';
 import { resolveBarnportenChildAlias, isBarnportenDeviceLinked } from '../constants/barnportenDeviceId';
 import { BarnportenWidget } from './BarnportenWidget';
+import { EvolutionDevPanel } from './EvolutionDevPanel';
 
 /** Barn-PWA hub — `/barnporten` (silo 3, ingen Valv-RAG). */
 export function BarnportenPage() {
   const user = useStore((s) => s.user);
   const [activeChild, setActiveChild] = useState(() => resolveBarnportenChildAlias());
+  const childBracket = useEvolutionStore((s) => s.getChildBracket(activeChild));
   const pairState = useBarnportenPairClaim();
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState<string | null>(null);
@@ -90,27 +93,33 @@ export function BarnportenPage() {
       ) : null}
 
       <div className="grid grid-cols-2 gap-3">
-        <button
-          type="button"
-          disabled={saving}
-          className="elongated-module flex flex-col items-center gap-2 p-4"
-          onClick={() => {
-            const text = window.prompt('Vad vill du säga?', '') ?? '';
-            if (text.trim()) void postLog('message', text.trim(), 'prata');
-          }}
-        >
-          <MessageCircle className="h-8 w-8 text-accent" />
-          <span className="text-sm">Prata</span>
-        </button>
-        <button
-          type="button"
-          disabled={saving || !message.trim()}
-          className="elongated-module flex flex-col items-center gap-2 p-4"
-          onClick={() => void postLog('message', message.trim(), 'skriv')}
-        >
-          <Heart className="h-8 w-8 text-accent" />
-          <span className="text-sm">Skriv till pappa</span>
-        </button>
+        {childBracket !== 'toddler_preschool' && (
+          <button
+            type="button"
+            disabled={saving}
+            className="elongated-module flex flex-col items-center gap-2 p-4"
+            onClick={() => {
+              const text = window.prompt('Vad vill du säga?', '') ?? '';
+              if (text.trim()) void postLog('message', text.trim(), 'prata');
+            }}
+          >
+            <MessageCircle className="h-8 w-8 text-accent" />
+            <span className="text-sm">Prata</span>
+          </button>
+        )}
+        
+        {childBracket !== 'toddler_preschool' && (
+          <button
+            type="button"
+            disabled={saving || !message.trim()}
+            className="elongated-module flex flex-col items-center gap-2 p-4"
+            onClick={() => void postLog('message', message.trim(), 'skriv')}
+          >
+            <Heart className="h-8 w-8 text-accent" />
+            <span className="text-sm">Skriv till pappa</span>
+          </button>
+        )}
+
         <button
           type="button"
           disabled={saving}
@@ -123,18 +132,21 @@ export function BarnportenPage() {
           <Smile className="h-8 w-8 text-accent" />
           <span className="text-sm">Humör</span>
         </button>
-        <button
-          type="button"
-          disabled={saving}
-          className="elongated-module flex flex-col items-center gap-2 p-4"
-          onClick={() => {
-            const text = window.prompt('Bara för mig (privat):', '') ?? '';
-            if (text.trim()) void postLog('private', text.trim(), 'privat');
-          }}
-        >
-          <Lock className="h-8 w-8 text-accent" />
-          <span className="text-sm">Bara för mig</span>
-        </button>
+
+        {(childBracket === 'pre_teen' || childBracket === 'teen') && (
+          <button
+            type="button"
+            disabled={saving}
+            className="elongated-module flex flex-col items-center gap-2 p-4"
+            onClick={() => {
+              const text = window.prompt('Bara för mig (privat):', '') ?? '';
+              if (text.trim()) void postLog('private', text.trim(), 'privat');
+            }}
+          >
+            <Lock className="h-8 w-8 text-accent" />
+            <span className="text-sm">Bara för mig</span>
+          </button>
+        )}
       </div>
 
       <button
@@ -150,13 +162,15 @@ export function BarnportenPage() {
         Allvarligt / trygg vuxen
       </button>
 
-      <textarea
-        className="input-glass mt-4 w-full text-sm"
-        rows={3}
-        placeholder="Skriv till pappa här…"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
+      {childBracket !== 'toddler_preschool' && (
+        <textarea
+          className="input-glass mt-4 w-full text-sm"
+          rows={3}
+          placeholder="Skriv till pappa här…"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+      )}
 
       {status && <p className="mt-3 text-center text-sm text-accent">{status}</p>}
 
@@ -172,6 +186,7 @@ export function BarnportenPage() {
       </details>
 
       <BarnportenWidget childAlias={activeChild} />
+      <EvolutionDevPanel />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { AppUnlockGate, AuthProvider, useZeroFootprint } from './modules/core/auth';
 import { useMaterialPackSync } from './modules/core/lifeOs/useMaterialPackSync';
+import { useEvolutionSync } from './modules/core/hooks/useEvolutionSync';
 import { AppRoutes } from './modules/core/routing/AppRoutes';
 import { ThemeProvider } from './modules/core/theme';
 import { WidgetDeepLinkBridge } from '@/features/widgets/WidgetDeepLinkBridge';
@@ -12,6 +13,7 @@ import { LayoutShell } from './components/LayoutShell';
 function AppShell() {
   useZeroFootprint();
   useMaterialPackSync();
+  useEvolutionSync();
   useBarnportenWebManifest();
   return (
     <AppUnlockGate>
