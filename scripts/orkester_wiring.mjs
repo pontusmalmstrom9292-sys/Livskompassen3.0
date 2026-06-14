@@ -127,12 +127,28 @@ export async function writeAccessGrant(uid, granted) {
   return true;
 }
 
-// Om scriptet körs direkt från CLI, t.ex. `node scripts/orkester_wiring.mjs <uid>`
+// Om scriptet körs direkt från CLI
 if (process.argv[1].includes('orkester_wiring.mjs')) {
   const uid = process.argv[2];
-  if (!uid) {
-    console.error('Usage: node scripts/orkester_wiring.mjs <uid>');
-    process.exit(1);
+  
+  if (uid) {
+    evaluate_economy_access(uid).then(() => process.exit(0));
+  } else {
+    console.log('[orkester_wiring] No UID provided, running for all active users...');
+    db.collection('user_economy_status').get().then(async (snapshot) => {
+      const uids = [];
+      snapshot.forEach(doc => uids.push(doc.id));
+      
+      console.log(`[orkester_wiring] Found ${uids.length} users to evaluate.`);
+      for (const userId of uids) {
+        await evaluate_economy_access(userId);
+      }
+      
+      console.log('[orkester_wiring] Finished evaluation for all users.');
+      process.exit(0);
+    }).catch(err => {
+      console.error('[orkester_wiring] Error fetching users:', err);
+      process.exit(1);
+    });
   }
-  evaluate_economy_access(uid).then(() => process.exit(0));
 }

@@ -27,6 +27,7 @@ const PHASES = [
   { id: 'locked-icons', label: 'Locked icons', cmd: 'npm run smoke:locked-icons' },
   { id: 'adk', label: 'ADK Weaver', cmd: 'npm run smoke:orkester' },
   { id: 'capability-gate', label: 'Capability Gate', cmd: 'node scripts/orkester_capability_gate.mjs' },
+  { id: 'economy-access', label: 'Evaluate Economy Access', cmd: 'node scripts/orkester_wiring.mjs' },
   { id: 'functions-build', label: 'Functions build', cmd: 'npm run build', cwd: 'functions' },
   { id: 'frontend-build', label: 'Frontend build', cmd: 'npm run build' },
   { id: 'lint', label: 'ESLint', cmd: 'npx eslint . --max-warnings 0', optional: true },
