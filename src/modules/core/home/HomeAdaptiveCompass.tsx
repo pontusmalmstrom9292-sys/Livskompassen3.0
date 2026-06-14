@@ -157,7 +157,7 @@ export function HomeAdaptiveCompass({
 
           <div
             className={clsx(
-              'home-adaptive-compass__card calm-card glow-bottom-gold flex flex-col overflow-hidden rounded-2xl border border-border/30 bg-surface-2/70 backdrop-blur-xl transition-all duration-700',
+              'home-adaptive-compass__card home-adaptive-compass__card--depth calm-card glow-bottom-gold flex flex-col overflow-hidden rounded-2xl transition-all duration-700',
               phaseGlowClasses(activePhase),
             )}
           >
@@ -168,9 +168,9 @@ export function HomeAdaptiveCompass({
               )}
             >
               <div className="flex items-center gap-3.5">
-                {activePhase === 'morgon' && <Sunrise className="h-6 w-6 text-amber-400" aria-hidden />}
+                {activePhase === 'morgon' && <Sunrise className="h-6 w-6 text-accent-light" aria-hidden />}
                 {activePhase === 'dag' && <Sun className="h-6 w-6 text-accent" aria-hidden />}
-                {activePhase === 'kvall' && <Moon className="h-6 w-6 text-indigo-400" aria-hidden />}
+                {activePhase === 'kvall' && <Moon className="h-6 w-6 text-accent" aria-hidden />}
                 <div>
                   <h2
                     className={clsx(

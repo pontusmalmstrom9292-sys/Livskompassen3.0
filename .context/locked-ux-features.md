@@ -420,6 +420,21 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
+## 13. Obsidian Depth — låst 3D-skalet (2026-06-14)
+
+| | |
+|---|---|
+| **Theme ID** | `OD-obsidian-depth` |
+| **Mockup** | `/dev/obsidian-depth` → `ObsidianDepthMockupPage.tsx` |
+| **Spec** | [`docs/design/themes/OBSIDIAN-DEPTH-SPEC.md`](../docs/design/themes/OBSIDIAN-DEPTH-SPEC.md) · [`.context/locked-obsidian-depth.md`](locked-obsidian-depth.md) |
+| **Kanonbilder** | `docs/design/theme-lab/obsidian-depth-*.png` |
+| **Krav** | Glass bento + taktil 3D + guld endast i OD-skalet; knappar/menyer förfinas separat |
+| **Smoke** | `npm run smoke:obsidian-depth` (ingår i `smoke:locked-ux`) |
+
+**Får inte:** platta ut eller ta bort OD 3D-skalet utan produkt-OK; radera mockup-rutt eller kanon-PNG.
+
+---
+
 ## Verifiering
 
 ```bash
@@ -430,6 +445,7 @@ npm run smoke:arbetsliv
 npm run smoke:planering-superhub
 npm run smoke:arbetsliv-superhub
 npm run smoke:superdagbok-superhub
+npm run smoke:obsidian-depth
 ```
 
 Vid refaktor av `VaultPage`, `FamiljenPage`, eller borttagning av specs ovan: kör smoke innan merge.

@@ -51,18 +51,18 @@ export function JournalQuickMode({
       <p className="reflektion-panel__lead">Hur känns det just nu?</p>
       <p className="reflektion-panel__hint">Välj känsla — taggar och en rad är valfritt.</p>
 
-      <label className="block text-xs text-text-muted">
-        Känsla
+      <label className="reflektion-field">
+        <span className="reflektion-field__label">Känsla</span>
         <select
           value={mood}
           onChange={(e) => onMoodChange(e.target.value)}
-          className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+          className="reflektion-feeling-select"
           aria-label="Välj känsla"
         >
           <option value="">Välj känsla…</option>
           {MOOD_CATALOG.map((m) => (
             <option key={m.id} value={m.label}>
-              {m.emoji} {m.label}
+              {m.label}
             </option>
           ))}
         </select>
@@ -74,10 +74,12 @@ export function JournalQuickMode({
         </p>
       )}
 
-      <label className="mt-4 block text-xs text-text-muted">
-        Nyckelord (valfritt, max {JOURNAL_TAG_MAX_COUNT})
+      <label className="reflektion-field mt-3">
+        <span className="reflektion-field__label">
+          Nyckelord (valfritt, max {JOURNAL_TAG_MAX_COUNT})
+        </span>
         <select
-          className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+          className="reflektion-feeling-select"
           value=""
           disabled={tags.length >= JOURNAL_TAG_MAX_COUNT}
           onChange={(e) => {

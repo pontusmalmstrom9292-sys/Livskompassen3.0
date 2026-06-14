@@ -1,13 +1,13 @@
-import { useCallback, useState, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   DEFAULT_FAMILJEN_INPUT_MODE,
-  FAMILJEN_INPUT_MODES_MORE,
-  FAMILJEN_INPUT_MODES_PRIMARY,
+  getFamiljenInputModeMeta,
   parseFamiljenInputMode,
   type FamiljenInputMode,
 } from './familjenInputModes';
+import { FamiljenInputModePicker } from './FamiljenInputModePicker';
 import type { FamiljenShell } from '../hooks/useFamiljenShell';
 import { FamiljenBarnfokusDelegate } from './delegates/FamiljenBarnfokusDelegate';
 import { FamiljenLivsloggStundDelegate } from './delegates/FamiljenLivsloggStundDelegate';
@@ -35,16 +35,17 @@ export function FamiljenInputSuperModule({
   onSaved,
 }: FamiljenInputSuperModuleProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [showMoreModes, setShowMoreModes] = useState(false);
 
   const activeMode = useMemo(
     () => initialMode ?? parseFamiljenInputMode(searchParams.get('inputMode')),
     [initialMode, searchParams],
   );
 
+  const activeMeta = getFamiljenInputModeMeta(activeMode);
+
   const setActiveMode = useCallback(
     (mode: FamiljenInputMode) => {
-      if (initialMode) return; // Prevent URL changes if driven by props
+      if (initialMode) return;
 
       const next = new URLSearchParams(searchParams);
       if (mode === DEFAULT_FAMILJEN_INPUT_MODE) {
@@ -64,83 +65,24 @@ export function FamiljenInputSuperModule({
     [activeMode, onSaved],
   );
 
-  const isMoreModeActive = FAMILJEN_INPUT_MODES_MORE.some((mode) => mode.id === activeMode);
-
   return (
-    <BentoCard glow="blue" className="overflow-hidden !p-4 sm:!p-5">
-      <header className="mb-4 space-y-1">
-        <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
-          Universal Input
-        </p>
-        <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">
-          Ett läge i taget
-        </h2>
-        <p className="text-xs text-text-dim">
-          Dagens minnen, insikter och loggar — sparade i trygg hamn. Byt läge utan sidbyte.
-        </p>
-      </header>
+    <BentoCard
+      glow="blue"
+      className="familjen-input-hub od-depth overflow-hidden !p-0"
+    >
+      <div className="familjen-input-hub__chrome shrink-0 border-b border-[rgba(212,175,55,0.12)] px-4 py-3 sm:px-5 sm:py-4">
+        <header className="mb-3 space-y-1">
+          <p className="od-depth__eyebrow">Universal Input</p>
+          <h2 className="font-display-serif text-sm uppercase tracking-[0.18em] text-text sm:text-base">
+            {activeMeta.label}
+          </h2>
+          <p className="text-xs text-text-dim">{activeMeta.description}</p>
+        </header>
 
-      <nav
-        className="mb-5 flex flex-wrap gap-2 rounded-xl border border-border bg-surface-2 p-1"
-        aria-label="Inmatningslägen"
-      >
-        {FAMILJEN_INPUT_MODES_PRIMARY.map((mode) => {
-          const isActive = activeMode === mode.id;
-          return (
-            <button
-              key={mode.id}
-              type="button"
-              onClick={() => setActiveMode(mode.id)}
-              aria-pressed={isActive}
-              className={`rounded-lg px-3 py-2 text-left text-xs transition-colors ${
-                isActive
-                  ? 'border border-accent/40 bg-surface-3 text-accent'
-                  : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
-              }`}
-            >
-              <span className="block font-medium">{mode.label}</span>
-              <span className="block text-[10px] text-text-dim">{mode.description}</span>
-            </button>
-          );
-        })}
+        <FamiljenInputModePicker activeMode={activeMode} onChange={setActiveMode} />
+      </div>
 
-        <button
-          type="button"
-          onClick={() => setShowMoreModes((open) => !open)}
-          aria-expanded={showMoreModes || isMoreModeActive}
-          className={`rounded-lg px-3 py-2 text-left text-xs transition-colors ${
-            isMoreModeActive
-              ? 'border border-accent/40 bg-surface-3 text-accent'
-              : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
-          }`}
-        >
-          <span className="block font-medium">Mer…</span>
-          <span className="block text-[10px] text-text-dim">Inkast & arkiv</span>
-        </button>
-
-        {(showMoreModes || isMoreModeActive) &&
-          FAMILJEN_INPUT_MODES_MORE.map((mode) => {
-            const isActive = activeMode === mode.id;
-            return (
-              <button
-                key={mode.id}
-                type="button"
-                onClick={() => setActiveMode(mode.id)}
-                aria-pressed={isActive}
-                className={`rounded-lg px-3 py-2 text-left text-xs transition-colors ${
-                  isActive
-                    ? 'border border-accent/40 bg-surface-3 text-accent'
-                    : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
-                }`}
-              >
-                <span className="block font-medium">{mode.label}</span>
-                <span className="block text-[10px] text-text-dim">{mode.description}</span>
-              </button>
-            );
-          })}
-      </nav>
-
-      <div className="calm-scroll-island max-h-[min(70vh,640px)] overflow-y-auto pr-1">
+      <div className="familjen-input-hub__viewport px-4 py-4 sm:px-5 sm:py-5">
         <FamiljenInputModeDelegate
           mode={activeMode}
           shell={shell}

@@ -28,24 +28,24 @@ export function phaseToCompassFlow(phase: HomeCompassPhase): CompassFlow {
 
 export function phaseGlowClasses(phase: HomeCompassPhase): string {
   if (phase === 'morgon') {
-    return 'border-b-2 border-b-amber-500/60 shadow-[0_8px_30px_-4px_rgba(245,158,11,0.2)]';
+    return 'home-adaptive-compass__card--phase-morgon';
   }
   if (phase === 'dag') {
-    return 'border-b-2 border-b-accent/60 shadow-[0_8px_30px_-4px_rgba(212,175,55,0.2)]';
+    return 'home-adaptive-compass__card--phase-dag';
   }
-  return 'border-b-2 border-b-indigo-500/60 shadow-[0_8px_30px_-4px_rgba(99,102,241,0.2)]';
+  return 'home-adaptive-compass__card--phase-kvall';
 }
 
 export function phaseHeaderClasses(phase: HomeCompassPhase): string {
-  if (phase === 'morgon') return 'border-amber-500/20 bg-amber-500/5';
-  if (phase === 'dag') return 'border-accent/20 bg-accent/5';
-  return 'border-indigo-500/20 bg-indigo-500/5';
+  if (phase === 'morgon') return 'home-adaptive-compass__head--morgon';
+  if (phase === 'dag') return 'home-adaptive-compass__head--dag';
+  return 'home-adaptive-compass__head--kvall';
 }
 
 export function phaseTitleClasses(phase: HomeCompassPhase): string {
-  if (phase === 'morgon') return 'text-amber-400';
+  if (phase === 'morgon') return 'text-accent-light';
   if (phase === 'dag') return 'text-accent';
-  return 'text-indigo-400';
+  return 'text-accent-light';
 }
 
 export function phaseLabel(phase: HomeCompassPhase): string {

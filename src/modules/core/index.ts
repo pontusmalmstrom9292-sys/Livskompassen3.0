@@ -1,6 +1,8 @@
 export { MainLayout } from './layout/MainLayout';
 export { FloatingDock } from './layout/FloatingDock';
 export { AmbientBackground } from './layout/AmbientBackground';
+export { HubPageShell } from './layout/HubPageShell';
+export { ModuleShell } from './layout/ModuleShell';
 export { BentoCard } from './ui/BentoCard';
 export { useStore } from './store';
 export type { AppState, UiState, SystemState, User } from './store';

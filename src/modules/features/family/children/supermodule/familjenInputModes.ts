@@ -81,13 +81,9 @@ export const FAMILJEN_INPUT_MODES: FamiljenInputModeMeta[] = [
 export const FAMILJEN_INPUT_MODES_PRIMARY = FAMILJEN_INPUT_MODES.filter((m) => m.tier === 'primary');
 export const FAMILJEN_INPUT_MODES_MORE = FAMILJEN_INPUT_MODES.filter((m) => m.tier === 'more');
 
-/** Fas 7A — router UI exposes barnfokus only until 7B kickoff. */
+/** Legacy export — all modes now routable via compact mode picker. */
 export const FAMILJEN_INPUT_MODES_FAS7A: FamiljenInputModeMeta[] = FAMILJEN_INPUT_MODES.filter(
   (m) => m.id === 'barnfokus',
-);
-
-const ROUTER_VISIBLE_FAS7A = new Set<FamiljenInputMode>(
-  FAMILJEN_INPUT_MODES_FAS7A.map((m) => m.id),
 );
 
 export const DEFAULT_FAMILJEN_INPUT_MODE: FamiljenInputMode = 'barnfokus';
@@ -99,7 +95,6 @@ export function isFamiljenInputMode(value: string | null | undefined): value is 
 
 export function parseFamiljenInputMode(value: string | null | undefined): FamiljenInputMode {
   if (!value || !isFamiljenInputMode(value)) return DEFAULT_FAMILJEN_INPUT_MODE;
-  if (!ROUTER_VISIBLE_FAS7A.has(value)) return DEFAULT_FAMILJEN_INPUT_MODE;
   return value;
 }
 

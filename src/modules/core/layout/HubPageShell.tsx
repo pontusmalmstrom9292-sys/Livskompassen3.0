@@ -11,6 +11,10 @@ type Props = {
   className?: string;
   /** Obsidian Calm 2.0 — lås hub-höjd, scroll endast i calm-scroll-island */
   lockViewport?: boolean;
+  /** Stricter one-viewport fit on mobile — pairs with lockViewport */
+  fitViewport?: boolean;
+  /** Obsidian Depth 3D glass banner on header */
+  depth?: boolean;
   children: ReactNode;
 };
 
@@ -23,6 +27,8 @@ export function HubPageShell({
   footerSlot,
   className,
   lockViewport = false,
+  fitViewport = false,
+  depth = false,
   children,
 }: Props) {
   const h = hubHeaderClasses();
@@ -32,12 +38,14 @@ export function HubPageShell({
       className={clsx(
         'hub-page-shell space-y-4',
         lockViewport && 'hub-view-lock',
+        lockViewport && fitViewport && 'hub-view-lock--fit',
         className,
       )}
     >
       <header
         className={clsx(
           'hub-page-shell__header px-0.5',
+          depth && 'hub-page-shell__header--depth',
           headerAside && 'flex items-start justify-between gap-2',
         )}
       >
@@ -58,7 +66,7 @@ export function HubPageShell({
       </div>
 
       {footerSlot ? (
-        <footer className="hub-page-shell__footer border-t border-border pt-4">{footerSlot}</footer>
+        <footer className="hub-page-shell__footer module-compact-footer">{footerSlot}</footer>
       ) : null}
     </div>
   );

@@ -265,11 +265,23 @@ function main() {
   mustInclude('src/modules/core/ui/ValvArchIcon.tsx', 'ValvArchIcon');
   mustInclude(
     'src/modules/core/layout/FloatingDock.tsx',
-    'aria-label="Hem. Håll tre sekunder för Valv."',
+    'FyrenDockHandle',
+    'DOCK_ZONES',
+    'data-panel-style={panelStyle}',
+  );
+  assert(
+    !read('src/modules/core/layout/FloatingDock.tsx').includes('LivskompassMark'),
+    'FloatingDock: ingen kompass-snabbknapp i dock (hem-kompass + Fyren räcker)',
+  );
+  mustInclude(
+    'src/modules/core/components/FyrenWidgetBar.tsx',
+    'Håll tre sekunder för Valv',
+    'FyrenProgressRing',
+  );
+  mustInclude(
+    'src/modules/core/components/fyrenWidgetContext.tsx',
     'delayMs: 3000',
     'openValvViaFyren',
-    'FyrenProgressRing',
-    'data-panel-style={panelStyle}',
   );
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'performVaultWebAuthnForSession', 'setVaultGate');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/utils/vaultTabs.ts', 'VALV_ZONE_INGRESS');
@@ -588,7 +600,8 @@ function main() {
   mustInclude('src/modules/core/layout/DrawerModeToggle.tsx', 'if (!showValvShell) return null');
   mustInclude('src/modules/core/layout/DrawerHubAccordion.tsx', 'isDrawerItemActive', 'glowColor');
   mustInclude('src/modules/core/components/DrawerHomeQuickActions.tsx', 'FYREN_HOME_QUICK_ACTIONS');
-  mustInclude('src/modules/core/pages/FamiljenPage.tsx', 'HubPageShell', 'ParentReminderFooter');
+  mustInclude('src/modules/core/layout/ModuleShell.tsx', 'HubPageShell', 'module-shell--depth');
+  mustInclude('src/modules/core/pages/FamiljenPage.tsx', 'ModuleShell', 'ParentReminderFooter');
   mustInclude(
     'src/modules/core/pages/FamiljenPage.tsx',
     'HubDropdownNav',
@@ -754,6 +767,14 @@ function main() {
     !existsSync(resolve(root, 'src/modules/core/hooks/useShakeToKill.ts')),
     'useShakeToKill.ts ska vara borttagen',
   );
+
+  const odSmoke = spawnSync('node', ['scripts/smoke_obsidian_depth.mjs'], {
+    cwd: root,
+    stdio: 'inherit',
+  });
+  if (odSmoke.status !== 0) {
+    throw new Error('smoke:obsidian-depth misslyckades (låst 3D-skalet)');
+  }
 
   console.log(
     '[smoke:locked-ux] PASS — Barnfokus, Valv-baksida (Mönster/Orkester/Kunskapsbank), drawer Vardag+Valv, Planering, Widget, Barnporten.',

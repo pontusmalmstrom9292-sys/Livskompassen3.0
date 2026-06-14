@@ -114,40 +114,44 @@ export const NavigationDrawer = memo(function NavigationDrawer({ onOpenSettings 
       />
 
       <aside
-        className="nav-drawer nav-drawer--calm-2 rounded-r-[14px]"
+        className="nav-drawer nav-drawer--obsidian-depth"
         role="dialog"
         aria-label={vaultOpen ? 'Huvudmeny och Valv' : 'Huvudmeny'}
         aria-modal="true"
         onTouchStart={(e) => handleTouchStart(e.touches[0]?.clientX ?? 0)}
         onTouchEnd={(e) => handleTouchEnd(e.changedTouches[0]?.clientX ?? 0)}
       >
-        <div className="nav-drawer__scenic rounded-r-[14px]" aria-hidden />
+        <div className="nav-drawer__scenic" aria-hidden />
 
-        <div className="nav-drawer__calm-header flex items-center justify-between border-b border-accent/[0.28] bg-surface-2/30 px-5 py-4">
-          <div className="flex items-center gap-3">
-            <LivskompassMark className="h-7 w-7 text-accent" />
-            <h2 className="font-display-serif text-base tracking-[0.22em] text-text">MENY</h2>
-          </div>
+        <header className="nav-drawer__header">
           <button
             type="button"
-            className="rounded-full p-2 text-text-dim transition-colors hover:bg-surface-3/50 hover:text-text"
+            className="nav-drawer__close"
             aria-label="Stäng"
             onClick={onClose}
           >
-            <X className="h-5 w-5 text-current" />
+            <X className="h-5 w-5" aria-hidden />
           </button>
-        </div>
+
+          <div className="nav-drawer__brand">
+            <LivskompassMark className="nav-drawer__mark" />
+            <h2 className="nav-drawer__title">Livskompassen</h2>
+            <div className="nav-drawer__ornament" aria-hidden>
+              <span />
+              <span />
+              <span />
+            </div>
+          </div>
+        </header>
 
         <DrawerModeToggle showValvShell={vaultOpen} onBackToVardag={handleBackToVardag} />
 
-        <div className="nav-drawer__calm-scroll custom-scrollbar flex-1 overflow-y-auto py-4">
-          <nav className="space-y-1 px-3" aria-label="Moduler">
+        <div className="nav-drawer__calm-scroll custom-scrollbar">
+          <nav className="nav-drawer__list" aria-label="Moduler">
             {recentVisits.length > 0 ? (
-              <div className="mb-3">
-                <p className="px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-text-dim">
-                  Senast besökt
-                </p>
-                <div className="flex flex-wrap gap-2 px-2">
+              <div className="nav-drawer__recent">
+                <p className="nav-drawer__recent-title">Senast besökt</p>
+                <div className="nav-drawer__recent-grid">
                   {recentVisits
                     .filter((entry) => entry.path !== currentFullPath)
                     .map((entry) => (
@@ -155,7 +159,7 @@ export const NavigationDrawer = memo(function NavigationDrawer({ onOpenSettings 
                         key={entry.path}
                         type="button"
                         onClick={() => navigateDrawerPath(entry.path)}
-                        className="rounded-[14px] border border-border/30 bg-surface-2/50 px-3 py-1.5 text-xs text-text-muted transition-colors hover:border-accent/[0.28] hover:bg-surface-3 hover:text-text"
+                        className="nav-drawer__recent-chip"
                       >
                         {entry.label}
                       </button>
@@ -164,12 +168,10 @@ export const NavigationDrawer = memo(function NavigationDrawer({ onOpenSettings 
               </div>
             ) : null}
 
-            <p className="mt-2 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-text-dim">
-              Vardag
-            </p>
+            <p className="nav-drawer__section-title">Vardag</p>
 
             {/* section="vardag" MENU-DRAWER-KANON flat rows */}
-            <div className="space-y-1">
+            <div className="nav-drawer__section">
               {DRAWER_VARDAG_ITEMS.map((item) => {
                 const Icon = item.icon;
                 const active = isVardagDrawerRowActive(item, pathname, search, hash);
@@ -178,21 +180,13 @@ export const NavigationDrawer = memo(function NavigationDrawer({ onOpenSettings 
                     key={item.id}
                     type="button"
                     onClick={() => handleVardagRowClick(item)}
-                    className={clsx(
-                      'nav-drawer__row flex w-full items-center gap-3 rounded-[14px] px-4 py-3 text-left transition-all',
-                      active
-                        ? 'bg-accent/10 text-accent border border-accent/[0.28] shadow-[0_0_12px_rgba(var(--color-accent),0.1)]'
-                        : 'text-text-muted hover:bg-surface-2/50 hover:text-text border border-transparent'
-                    )}
+                    className={clsx('nav-drawer__row', active && 'nav-drawer__row--active')}
                   >
-                    <span className={clsx(
-                      "flex h-9 w-9 shrink-0 items-center justify-center rounded-[14px] border bg-surface-2/40 transition-colors",
-                      active ? "border-accent/[0.28]" : "border-border/30"
-                    )}>
-                      <Icon className="h-4 w-4 text-current" />
+                    <span className="nav-drawer__row-icon">
+                      <Icon className="h-4 w-4" aria-hidden />
                     </span>
-                    <span className="min-w-0 flex-1 text-sm font-medium">{item.label}</span>
-                    <ChevronRight className="h-4 w-4 shrink-0 text-text-dim" aria-hidden />
+                    <span className="nav-drawer__row-label">{item.label}</span>
+                    <ChevronRight className="nav-drawer__row-chevron" aria-hidden />
                   </button>
                 );
               })}
@@ -201,56 +195,49 @@ export const NavigationDrawer = memo(function NavigationDrawer({ onOpenSettings 
             {vaultOpen ? (
               <>
                 {/* section="valv" PIN-unlocked drawer block */}
-                <div className="mt-6 border-t border-accent/[0.28] pt-4">
-                <p className="px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-accent/80">
-                  Valvet
-                </p>
+                <div className="nav-drawer__valv-block">
+                  <p className="nav-drawer__section-title nav-drawer__section-title--valv">
+                    Valvet
+                  </p>
 
-                <div className="space-y-1">
-                  {DRAWER_VALV_ITEMS.map((item) => {
-                    const Icon = item.icon;
-                    const active = isDrawerLinkActive(item.path, pathname, search, hash);
-                    return (
-                      <button
-                        key={item.id}
-                        type="button"
-                        onClick={() => navigateDrawerPath(item.path)}
-                        className={clsx(
-                          'nav-drawer__row flex w-full items-center gap-3 rounded-[14px] px-4 py-3 text-left transition-all',
-                          active
-                            ? 'bg-accent/10 text-accent border border-accent/[0.28] shadow-[0_0_12px_rgba(var(--color-accent),0.1)]'
-                            : 'text-text-muted hover:bg-surface-2/50 hover:text-text border border-transparent'
-                        )}
-                      >
-                        <span className={clsx(
-                          "flex h-9 w-9 shrink-0 items-center justify-center rounded-[14px] border bg-surface-2/40 transition-colors",
-                          active ? "border-accent/[0.28]" : "border-border/30"
-                        )}>
-                          <Icon className="h-4 w-4 text-current" />
-                        </span>
-                        <span className="text-sm font-medium">{item.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
+                  <div className="nav-drawer__section">
+                    {DRAWER_VALV_ITEMS.map((item) => {
+                      const Icon = item.icon;
+                      const active = isDrawerLinkActive(item.path, pathname, search, hash);
+                      return (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={() => navigateDrawerPath(item.path)}
+                          className={clsx('nav-drawer__row', active && 'nav-drawer__row--active')}
+                        >
+                          <span className="nav-drawer__row-icon">
+                            <Icon className="h-4 w-4" aria-hidden />
+                          </span>
+                          <span className="nav-drawer__row-label">{item.label}</span>
+                          <ChevronRight className="nav-drawer__row-chevron" aria-hidden />
+                        </button>
+                      );
+                    })}
+                  </div>
 
-                <button
-                  type="button"
-                  onClick={handleLockVaultImmediately}
-                  className="mx-1 mt-3 flex w-full items-center gap-3 rounded-[14px] border border-danger/35 bg-danger/10 px-4 py-3.5 text-left transition-colors hover:bg-danger/15"
-                  aria-label="Lås Valvet omedelbart och gå till startskärm"
-                >
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[14px] border border-danger/30 bg-danger/5 text-danger">
-                    <Lock className="h-4 w-4 text-current" aria-hidden />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-xs font-semibold text-danger">Lås Valvet nu</span>
-                    <span className="mt-0.5 block text-[10px] leading-snug text-text-muted">
-                      Panik — döljer bevis och tar dig till Hem
+                  <button
+                    type="button"
+                    onClick={handleLockVaultImmediately}
+                    className="nav-drawer__lock-btn"
+                    aria-label="Lås Valvet omedelbart och gå till startskärm"
+                  >
+                    <span className="nav-drawer__lock-icon">
+                      <Lock className="h-4 w-4" aria-hidden />
                     </span>
-                  </span>
-                </button>
-              </div>
+                    <span className="nav-drawer__lock-copy">
+                      <span className="nav-drawer__lock-title">Lås Valvet nu</span>
+                      <span className="nav-drawer__lock-hint">
+                        Panik — döljer bevis och tar dig till Hem
+                      </span>
+                    </span>
+                  </button>
+                </div>
               </>
             ) : null}
           </nav>

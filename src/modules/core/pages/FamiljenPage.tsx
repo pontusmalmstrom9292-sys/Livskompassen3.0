@@ -3,9 +3,8 @@ import { useSearchParams } from 'react-router-dom';
 import { Anchor, BookHeart, Heart, HeartHandshake, Sparkles, Users } from 'lucide-react';
 import { DrogfrihetHubPage } from '@/features/dailyLife/drogfrihet';
 
-import { HubPageShell } from '../layout/HubPageShell';
+import { ModuleShell } from '../layout/ModuleShell';
 import { HubDropdownNav, type DropdownItem } from '../ui/HubDropdownNav';
-import { CognitiveLoadStrip } from '../ui/CognitiveLoadStrip';
 import { MaterialPackShortcuts, useLifeHubPreset } from '@/core/lifeOs';
 import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
 import { vaultRedirectSearch } from '../navigation/vaultLegacyRedirect';
@@ -95,7 +94,7 @@ export function FamiljenPage() {
       backLabel="Till Hem"
       logTag="FamiljenPage"
     >
-      <HubPageShell
+      <ModuleShell
         eyebrow="Familjen"
         title="Familjehubben"
         lead="Den trygga hamnen. Barnfokus, neutral livslogg och Grey Rock-gränser — ett steg i taget."
@@ -105,14 +104,13 @@ export function FamiljenPage() {
           ) : undefined
         }
         lockViewport
-      >
-        <div className="mx-auto max-w-5xl space-y-4 pb-12">
-        <CognitiveLoadStrip
-          label="Kognitiv sköld aktiv"
-          hint="Allt brus är bortfiltrerat. Välj ditt fokus i menyn nedan."
-        />
-
-        <div className="py-2">
+        fitViewport
+        depth
+        cognitiveStrip={{
+          label: 'Kognitiv sköld aktiv',
+          hint: 'Allt brus är bortfiltrerat. Välj ditt fokus i menyn nedan.',
+        }}
+        toolbar={
           <HubDropdownNav<FamiljenTabId>
             items={FAMILJ_OPTIONS}
             activeId={activeTab}
@@ -120,8 +118,8 @@ export function FamiljenPage() {
             glowColor="blue"
             ariaLabel="Välj vy i Familjen"
           />
-        </div>
-
+        }
+      >
         {showChildPicker && (
           <FamiljenChildPicker
             activeChild={shell.activeChild}
@@ -130,39 +128,42 @@ export function FamiljenPage() {
           />
         )}
 
-        <main className="mt-2 animate-fade-in">
-          {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
-            <div className="space-y-4">
+        {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
+          <div className="flex min-h-0 flex-1 flex-col gap-4">
+            <div className="shrink-0">
               <FamiljenInputSuperModule shell={shell} />
-              {activeTab === 'reflektion' ? (
+            </div>
+            {activeTab === 'reflektion' ? (
+              <div className="calm-scroll-island min-h-0 flex-1">
                 <FamiljenReflektionTab shell={shell} />
-              ) : (
+              </div>
+            ) : (
+              <div className="calm-scroll-island min-h-0 flex-1">
                 <FamiljenLivsloggTab shell={shell} />
-              )}
-            </div>
-          )}
+              </div>
+            )}
+          </div>
+        )}
 
-          {activeTab === 'tillsammans' && <FamiljenTillsammansTab shell={shell} />}
+        {activeTab === 'tillsammans' && <FamiljenTillsammansTab shell={shell} />}
 
-          {activeTab === 'barnporten' && (
-            <div className="space-y-4">
-              <BarnportenQrPanel />
-              <BarnportenInboxPanel />
-              <BarnportenOrkesterPanel />
-              <a href="/barnporten" className="btn-pill--ghost text-sm">
-                Öppna Barnporten (barn-PWA)
-              </a>
-            </div>
-          )}
+        {activeTab === 'barnporten' && (
+          <div className="space-y-4">
+            <BarnportenQrPanel />
+            <BarnportenInboxPanel />
+            <BarnportenOrkesterPanel />
+            <a href="/barnporten" className="btn-pill--ghost text-sm">
+              Öppna Barnporten (barn-PWA)
+            </a>
+          </div>
+        )}
 
-          {activeTab === 'hamn' && <SafeHarborPage embedded />}
+        {activeTab === 'hamn' && <SafeHarborPage embedded />}
 
-          {activeTab === 'drogfrihet' && <DrogfrihetHubPage embedded />}
-        </main>
+        {activeTab === 'drogfrihet' && <DrogfrihetHubPage embedded />}
 
         <MaterialPackShortcuts preset={preset} hub="familjen" />
-        </div>
-      </HubPageShell>
+      </ModuleShell>
     </HubErrorBoundary>
   );
 }

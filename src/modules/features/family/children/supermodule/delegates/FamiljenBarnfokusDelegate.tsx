@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Loader2, RefreshCw, Sparkles } from 'lucide-react';
-import { BentoCard } from '@/shared/ui/BentoCard';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
-import { EmptyState } from '@/core/ui/EmptyState';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   barnfokusQuestionForToday,
   BARNFOKUS_KIND_LABELS,
@@ -11,6 +10,13 @@ import {
 import { coerceLogText, formatChildLogDate } from '../../utils/logFieldUtils';
 import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
 
+const MEMORY_PREVIEW_MAX = 2;
+
+/**
+ * Barnfokus PLAY delegate — låst §12.
+ * Shell: FamiljenInputSuperModule BentoCard glow="blue" (Familjen-silo).
+ * PLAY-innehåll: glow="green" (låst §12) — flat OD delegate, ingen nested card-chrome.
+ */
 export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBaseProps) {
   const childAlias = shell.activeChild;
   const memoryRows = shell.barnfokusMemory ?? [];
@@ -24,6 +30,8 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
   );
 
   const kindLabel = BARNFOKUS_KIND_LABELS[question.kind];
+  const previewRows = memoryRows.slice(0, MEMORY_PREVIEW_MAX);
+  const hiddenCount = Math.max(0, memoryRows.length - MEMORY_PREVIEW_MAX);
 
   const handleSave = async () => {
     const text = answer.trim();
@@ -34,8 +42,9 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
       const logId = await onSave(text, question);
       setAnswer('');
       onSaved?.(logId);
-    } catch (e: any) {
-      if (e.message?.includes('Offline')) {
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : '';
+      if (msg.includes('Offline')) {
         setError('Du är offline. Denna stund kunde inte sparas just nu.');
       } else {
         setError('Kunde inte spara just nu. Försök igen.');
@@ -51,65 +60,87 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
 
   return (
     <BentoCard
-      className="barnfokus-fragan-panel"
-      title="Barnfokus — dagens fråga"
-      description="Roligt, knas, kunskap eller lära känna — trygg hamn, inte bevis."
-      icon={<Sparkles className="h-4 w-4" />}
       glow="green"
+      className="barnfokus-fragan-panel min-h-0 !border-x-0 !border-t-0 !bg-transparent !p-0 !shadow-none hover:!shadow-none [&>div]:flex [&>div]:min-h-0 [&>div]:flex-col [&>div]:gap-4"
     >
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="rounded-full border border-accent/30 px-2 py-0.5 text-[0.65rem] uppercase tracking-wider text-accent">
-          {kindLabel}
-        </span>
-        <button
-          type="button"
-          onClick={anotherQuestion}
-          className="inline-flex items-center gap-1 text-xs text-text-dim hover:text-accent"
-        >
-          <RefreshCw className="h-3 w-3" />
-          Annan fråga
-        </button>
+      <div className="od-depth__banner flex flex-wrap items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <span className="od-depth__bento-icon !mb-0 !h-8 !w-8">
+            <Sparkles className="h-3.5 w-3.5" />
+          </span>
+          <div>
+            <p className="od-depth__bento-label">Barnfokus</p>
+            <p className="text-xs text-text-dim">Dagens fråga — trygg hamn, inte bevis</p>
+          </div>
+        </div>
+        <span className="od-depth__kind-chip">{kindLabel}</span>
       </div>
-      <p className="mt-2 text-sm text-accent">{question.text}</p>
-      {question.hint ? (
-        <p className="mt-1 text-xs text-text-dim">{question.hint}</p>
-      ) : null}
+
+      <div className="od-depth__question-card">
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={anotherQuestion}
+            className="inline-flex items-center gap-1 text-xs text-text-dim transition-colors hover:text-accent"
+          >
+            <RefreshCw className="h-3 w-3" />
+            Annan fråga
+          </button>
+        </div>
+        <p className="mt-2 text-sm font-medium leading-relaxed text-accent">{question.text}</p>
+        {question.hint ? (
+          <p className="mt-1 text-xs text-text-dim">{question.hint}</p>
+        ) : null}
+      </div>
+
       <textarea
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
         placeholder={`${childAlias}s svar — rakt av, med barnets egna ord…`}
         rows={3}
-        className="input-glass mt-3 rounded-xl px-3 py-2 w-full"
+        className="od-depth__field"
       />
-      <button
-        type="button"
-        onClick={handleSave}
-        disabled={loading || !answer.trim()}
-        className="btn-pill--accent mt-3 disabled:opacity-50"
-      >
-        {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-        Spara till {childAlias}s logg
-      </button>
-      {error && <p className="mt-2 text-sm text-danger">{error}</p>}
 
-      <div className="mt-4 border-t border-border-subtle pt-3">
-        <p className="mb-2 text-xs font-medium uppercase tracking-wider text-text-dim">
-          Minneslista
-        </p>
+      <div className="od-depth__cta-wrap !mt-0">
+        <button
+          type="button"
+          onClick={handleSave}
+          disabled={loading || !answer.trim()}
+          className="od-depth__cta w-full disabled:cursor-not-allowed disabled:opacity-45"
+        >
+          <span className="od-depth__cta-glow" aria-hidden />
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+          Spara till {childAlias}s logg
+        </button>
+      </div>
+
+      {error ? <p className="text-sm text-danger">{error}</p> : null}
+
+      <div className="od-depth__memory-panel shrink-0">
+        <p className="od-depth__bento-label mb-2">Minneslista</p>
         {memoryRows.length === 0 ? (
-          <EmptyState message="Inga sparade svar ännu. Ett svar dyker upp här direkt." />
+          <p className="text-xs text-text-dim">
+            Inga sparade svar ännu. Ett svar dyker upp här direkt.
+          </p>
         ) : (
-          <ul className="space-y-2">
-            {memoryRows.map((row, index) => (
-              <li key={row.id || `barnfokus-mem-${index}`}>
-                <TimelineEntry
-                  as="div"
-                  body={coerceLogText(row.observation ?? row.truth)}
-                  meta={`barnfokus · ${formatChildLogDate(row.createdAt, 'nyss')}`}
-                />
-              </li>
-            ))}
-          </ul>
+          <>
+            <ul className="space-y-2">
+              {previewRows.map((row, index) => (
+                <li key={row.id || `barnfokus-mem-${index}`}>
+                  <TimelineEntry
+                    as="div"
+                    body={coerceLogText(row.observation ?? row.truth)}
+                    meta={`barnfokus · ${formatChildLogDate(row.createdAt, 'nyss')}`}
+                  />
+                </li>
+              ))}
+            </ul>
+            {hiddenCount > 0 ? (
+              <p className="mt-2 text-[10px] uppercase tracking-wider text-text-dim">
+                +{hiddenCount} till i loggen
+              </p>
+            ) : null}
+          </>
         )}
       </div>
     </BentoCard>

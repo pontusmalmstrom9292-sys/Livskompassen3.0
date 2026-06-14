@@ -1,0 +1,31 @@
+---
+description: Locked Obsidian Depth 3D shell — glass bento, gold-only, mockup route
+globs:
+  - src/styles/obsidian-depth-mockup.css
+  - src/modules/core/pages/ObsidianDepthMockupPage.tsx
+  - src/modules/core/theme/themePackObsidianDepth.ts
+  - docs/design/themes/OBSIDIAN-DEPTH-SPEC.md
+  - docs/design/theme-lab/obsidian-depth-*.png
+alwaysApply: false
+---
+
+# Locked Obsidian Depth (3D shell)
+
+Canonical: [`.context/locked-obsidian-depth.md`](../../.context/locked-obsidian-depth.md) · [`docs/design/themes/OBSIDIAN-DEPTH-SPEC.md`](../../docs/design/themes/OBSIDIAN-DEPTH-SPEC.md)
+
+## MUST
+
+- Preserve glassmorphism + tactile 3D on `.od-depth__bento-card`, `.od-depth__cta`, `.od-depth__dock`
+- Keep gold-only accent (`#d4af37`) in OD shell — no rainbow/indigo primary chrome
+- Run `npm run smoke:obsidian-depth` when touching locked files
+- Route `/dev/obsidian-depth` stays available as canonical reference
+
+## MUST NOT
+
+- Remove or flatten Obsidian Depth to plain calm-card without product OK
+- Delete `obsidian-depth-*.png` kanon images or mockup page without registry update
+- Change `OD-obsidian-depth` theme pack without updating `VARIANTS.md`
+
+## Separate work (allowed)
+
+Refine prod buttons, drawer menu, Fyren dock, header chrome — without replacing the locked OD bento/shell spec.

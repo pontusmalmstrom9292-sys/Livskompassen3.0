@@ -42,6 +42,9 @@ function main() {
     'src/modules/core/pages/FamiljenPage.tsx',
     "id: 'drogfrihet'",
     'DrogfrihetHubPage embedded',
+    'ModuleShell',
+    'FamiljenInputSuperModule',
+    'fitViewport',
   );
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'RedirectDrogfrihetToFamiljen', "tab: 'drogfrihet'", 'drogfrihetTab');
   assert(
@@ -331,6 +334,46 @@ function main() {
   mustInclude(
     'src/modules/core/home/AdaptiveMemoryCards.tsx',
     'Visa mer',
+  );
+
+  console.log('[smoke:design-modules] Shared module shell…');
+  mustInclude(
+    'src/modules/core/layout/ModuleShell.tsx',
+    'ModuleShell',
+    'HubPageShell',
+    'lockViewport',
+    'fitViewport',
+    'depth',
+  );
+  mustInclude(
+    'src/modules/core/ui/SupermoduleModeSelect.tsx',
+    'SupermoduleModeSelect',
+    'module-mode-select',
+  );
+  mustInclude(
+    'src/modules/core/ui/ModuleSectionBanner.tsx',
+    'ModuleSectionBanner',
+    'module-section-banner',
+  );
+  mustInclude(
+    'src/modules/core/pages/DagbokPage.tsx',
+    'ModuleShell',
+    'lockViewport',
+  );
+  mustInclude(
+    'src/styles/obsidian-depth-mockup.css',
+    'module-shell--depth',
+    'module-mode-select',
+    'od-form-field',
+  );
+  mustInclude(
+    'src/styles/obsidian-calm-2.css',
+    'hub-view-lock--fit',
+  );
+  mustInclude(
+    'src/modules/shared/ui/BentoCard.tsx',
+    'module-bento-card--depth',
+    'depth',
   );
 
   console.log('smoke:design-modules PASS');

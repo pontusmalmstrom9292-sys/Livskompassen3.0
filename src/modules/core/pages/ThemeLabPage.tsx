@@ -24,6 +24,7 @@ import { THEME_PACK_MOCKUP } from '../theme/themePackMockup';
 import { DEFAULT_THEME_ID, THEME_BY_ID, THEME_REGISTRY } from '../theme/themeRegistry';
 import { K_PACK_THEME_IDS, THEME_PACK_K } from '../theme/themePackK';
 import { THEME_PACK_REDESIGN_A } from '../theme/themePackRedesignA';
+import { THEME_PACK_OBSIDIAN_DEPTH } from '../theme/themePackObsidianDepth';
 import { J_PACK_THEME_IDS } from '../theme/themeRegistry';
 import type { ThemePack } from '../theme/types';
 
@@ -132,6 +133,9 @@ export function ThemeLabPage() {
           <Link to="/dev/themes" className="btn-pill--ghost">
             Enkel skin-väljare
           </Link>
+          <Link to="/dev/obsidian-depth" className="btn-pill--accent text-xs">
+            Obsidian Depth mockup
+          </Link>
           <Link to="/" className="btn-pill--ghost">
             Testa på Hem
           </Link>
@@ -162,6 +166,23 @@ export function ThemeLabPage() {
           ))}
         </ul>
       </section>
+
+      <ThemeLabPackSection
+        title="Obsidian Depth — låst 3D (2026-06-14)"
+        packs={THEME_PACK_OBSIDIAN_DEPTH}
+        previewId={previewId}
+        themeId={themeId}
+        onPreview={applyPreview}
+        onApply={(id) => {
+          setTheme(id);
+          setAutoMode(false);
+          setPreviewId(id);
+        }}
+        extraLink={{
+          label: 'Interaktiv mockup ↗',
+          href: '/dev/obsidian-depth',
+        }}
+      />
 
       <ThemeLabPackSection
         title="Redesign (2026) — Style A Nordic Precision"

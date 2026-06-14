@@ -62,6 +62,7 @@
     "smoke:rollout": "node scripts/smoke_rollout_cursor_native.mjs",
     "rollout:night": "node scripts/rollout_autorun.mjs",
     "smoke:locked-ux": "node scripts/smoke_locked_ux.mjs",
+    "smoke:obsidian-depth": "node scripts/smoke_obsidian_depth.mjs",
     "smoke:auth-login": "node scripts/smoke_auth_login.mjs",
     "smoke:superhub": "node scripts/smoke_superhub.mjs",
     "smoke:locked-icons": "node scripts/smoke_locked_icons.mjs",

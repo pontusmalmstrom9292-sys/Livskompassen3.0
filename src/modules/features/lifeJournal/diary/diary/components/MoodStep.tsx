@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ChevronRight, Loader2, Shuffle } from 'lucide-react';
+import { ChevronRight, Loader2 } from 'lucide-react';
 import { HEAVY_MOODS, MOOD_CATALOG, getMoodDef } from '../constants/moods';
 import { MABRA_BRIDGE_LABELS } from '../constants/mabraBridge';
 
@@ -24,58 +24,48 @@ export function MoodStep({
 }: MoodStepProps) {
   const selected = getMoodDef(mood);
 
-  const pickRandom = () => {
-    const pick = MOOD_CATALOG[Math.floor(Math.random() * MOOD_CATALOG.length)];
-    if (pick) onMoodChange(pick.label);
-  };
-
   return (
     <div className="reflektion-panel">
       <p className="reflektion-panel__lead">Hur känns det just nu?</p>
-      <p className="reflektion-panel__hint">Tryck en liten ruta — eller slumpa.</p>
+      <p className="reflektion-panel__hint">Välj en känsla — sedan kan du skriva eller spara direkt.</p>
 
-      <div className="reflektion-mood-grid" role="group" aria-label="Välj känsla">
-        {MOOD_CATALOG.map((m) => {
-          const active = mood === m.label;
-          return (
-            <button
-              key={m.id}
-              type="button"
-              onClick={() => onMoodChange(m.label)}
-              className={`reflektion-mood-card reflektion-mood-card--${m.tone} ${
-                active ? 'reflektion-mood-card--active' : ''
-              }`}
-              aria-pressed={active}
-            >
-              <span className="reflektion-mood-card__emoji" aria-hidden>
-                {m.emoji}
-              </span>
-              <span className="reflektion-mood-card__label">{m.label}</span>
-            </button>
-          );
-        })}
-      </div>
-
-      <button type="button" onClick={pickRandom} className="reflektion-shuffle">
-        <Shuffle className="h-3.5 w-3.5" aria-hidden />
-        Slumpa
-      </button>
+      <label className="reflektion-field">
+        <span className="reflektion-field__label">Känsla</span>
+        <select
+          value={mood}
+          onChange={(e) => onMoodChange(e.target.value)}
+          className="reflektion-feeling-select"
+          aria-label="Välj känsla"
+        >
+          <option value="">Välj känsla…</option>
+          {MOOD_CATALOG.map((m) => (
+            <option key={m.id} value={m.label}>
+              {m.label}
+            </option>
+          ))}
+        </select>
+      </label>
 
       {selected && (
         <p className="reflektion-mood-selected">
-          <span aria-hidden>{selected.emoji}</span> Du valde <strong>{selected.label}</strong>
+          Vald: <strong>{selected.label}</strong>
         </p>
       )}
 
       <div className="reflektion-actions">
-        <button type="button" disabled={!mood} onClick={onContinue} className="btn-pill--secondary">
+        <button
+          type="button"
+          disabled={!mood}
+          onClick={onContinue}
+          className="od-depth__cta reflektion-actions__primary"
+        >
           {lowEnergyBridge ? (
             <>
-              {MABRA_BRIDGE_LABELS.continueOptional} <ChevronRight className="h-4 w-4" />
+              {MABRA_BRIDGE_LABELS.continueOptional} <ChevronRight className="h-4 w-4" aria-hidden />
             </>
           ) : (
             <>
-              Nästa: skriv lite <ChevronRight className="h-4 w-4" />
+              Nästa: skriv lite <ChevronRight className="h-4 w-4" aria-hidden />
             </>
           )}
         </button>
@@ -85,10 +75,10 @@ export function MoodStep({
             type="button"
             disabled={!mood || saving}
             onClick={onSaveMoodOnly}
-            className="btn-pill--ghost text-sm"
+            className="reflektion-actions__ghost text-sm"
           >
             {saving ? (
-              <Loader2 className="mx-auto h-4 w-4 animate-spin" />
+              <Loader2 className="mx-auto h-4 w-4 animate-spin" aria-hidden />
             ) : lowEnergyBridge ? (
               MABRA_BRIDGE_LABELS.saveMoodOnly
             ) : (

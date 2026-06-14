@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { Navigate, useSearchParams } from 'react-router-dom';
-import { HubPageShell } from '../layout/HubPageShell';
+import { ModuleShell } from '../layout/ModuleShell';
 import { NAV_PATHS } from '../navigation/navTruth';
 import { dagbokLegacyModeToInputMode } from '@/features/lifeJournal/diary/supermodule/dagbokInputModes';
 import { SpeglarSuperModule } from '@/features/lifeJournal/diary/mirror';
@@ -57,28 +57,32 @@ export function DagbokPage() {
 
   if (layerTab === 'speglar') {
     return (
-      <HubPageShell
+      <ModuleShell
         eyebrow="Hjärtat"
         title="Speglar"
         lead="Validering utan fix — känsla och fakta hålls isär."
+        lockViewport
+        fitViewport
+        depth
+        cognitiveStrip={false}
       >
-        <div className="mx-auto max-w-5xl space-y-4 pb-12">
-          <SpeglarSuperModule variant="dagbok" />
-        </div>
-      </HubPageShell>
+        <SpeglarSuperModule variant="dagbok" />
+      </ModuleShell>
     );
   }
 
   return (
-    <HubPageShell
+    <ModuleShell
       eyebrow="Hjärtat"
       title="Dagbok"
       lead="Reflektion och daglig logg — utanför Valvet."
+      lockViewport
+      fitViewport
+      depth
+      cognitiveStrip={false}
     >
-      <div className="mx-auto max-w-5xl space-y-4 pb-12">
-        <HjartatReflektionPanel />
-      </div>
-    </HubPageShell>
+      <HjartatReflektionPanel />
+    </ModuleShell>
   );
 }
 

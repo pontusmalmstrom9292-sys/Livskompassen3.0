@@ -103,34 +103,25 @@ export function DagbokInputSuperModule({
         </Link>
       </header>
 
-      <nav
-        className="mb-4 flex flex-wrap gap-2 rounded-xl border border-border bg-surface-2 p-1"
-        aria-label="Dagboksinmatningslägen"
-      >
-        {DAGBOK_INPUT_MODES_PRIMARY.map((mode) => {
-          const isActive = activeMode === mode.id;
-          return (
-            <button
-              key={mode.id}
-              type="button"
-              onClick={() => setActiveMode(mode.id)}
-              aria-pressed={isActive}
-              className={`rounded-lg px-3 py-2 text-left text-xs transition-colors ${
-                isActive
-                  ? 'border border-indigo-500/40 bg-surface-3 text-accent-light'
-                  : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
-              }`}
-            >
-              <span className="block font-medium">{mode.label}</span>
-              <span className="block text-[10px] text-text-dim">{mode.description}</span>
-            </button>
-          );
-        })}
-      </nav>
+      <label className="reflektion-field mb-4">
+        <span className="reflektion-field__label">Läge</span>
+        <select
+          value={activeMode}
+          onChange={(e) => setActiveMode(parseDagbokInputMode(e.target.value))}
+          className="reflektion-feeling-select"
+          aria-label="Dagboksinmatningsläge"
+        >
+          {DAGBOK_INPUT_MODES_PRIMARY.map((mode) => (
+            <option key={mode.id} value={mode.id}>
+              {mode.label} — {mode.description}
+            </option>
+          ))}
+        </select>
+      </label>
 
       <DagbokRememberCard />
 
-      <div className="calm-scroll-island mt-4 max-h-[min(70vh,640px)] overflow-y-auto pr-1">
+      <div className="reflektion-hub-body mt-4">
         <DagbokInputModeDelegate mode={activeMode} onSaved={handleDelegateSaved} />
       </div>
     </BentoCard>

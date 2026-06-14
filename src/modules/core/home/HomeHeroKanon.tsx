@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { useTheme } from '../theme';
 import { isDesignPackTheme } from '../theme/themePackDesign';
 import { isMockupTheme } from '../theme/mockupTheme';
+import { useDesignPack } from '../design/useDesignPack';
 import { useLifeHubPreset } from '../lifeOs/useLifeHubPreset';
 import { HomeGreeting } from './HomeGreeting';
 import { HomeStreakChip } from './HomeStreakChip';
@@ -18,20 +19,24 @@ type Props = {
 export function HomeHeroKanon({ onCheckInSaved }: Props) {
   const { themeId } = useTheme();
   const mockup = isMockupTheme(themeId) || isDesignPackTheme(themeId);
+  const { active: designPackActive } = useDesignPack();
   const { preset, presetId } = useLifeHubPreset();
 
   const header = (
     <div className="home-hero-kanon__header">
-      <div className="home-greeting-module">
-        <HomeGreeting mockupCopy={mockup} />
-        {!mockup ? (
-          <div className="home-greeting-module__meta">
-            <p className="home-greeting-module__profile" aria-label={`Hemprofil: ${preset.label}`}>
-              {preset.label}
-            </p>
-            <HomeStreakChip />
-          </div>
-        ) : null}
+      <div
+        className={clsx(
+          'home-greeting-module',
+          designPackActive && 'home-greeting-module--design-pack',
+        )}
+      >
+        <HomeGreeting mockupCopy={mockup} hideEyebrow={designPackActive} />
+        <div className="home-greeting-module__meta">
+          <p className="home-greeting-module__profile" aria-label={`Hemprofil: ${preset.label}`}>
+            {preset.label}
+          </p>
+          <HomeStreakChip />
+        </div>
       </div>
     </div>
   );

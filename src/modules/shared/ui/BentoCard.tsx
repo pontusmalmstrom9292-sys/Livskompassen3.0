@@ -19,6 +19,8 @@ export type BentoCardProps = {
   children: ReactNode;
   className?: string;
   variant?: 'default' | 'hero';
+  /** Obsidian Depth — fuller 3D glass card treatment */
+  depth?: boolean;
   /** Obsidian Calm 2.0 — färgkodad botten-glow per silo */
   glow?: CalmCardGlow;
 };
@@ -30,12 +32,14 @@ export function BentoCard({
   children,
   className = '',
   variant = 'default',
+  depth = false,
   glow,
 }: BentoCardProps) {
   return (
     <section
       className={clsx(
         variant === 'hero' ? 'glass-hero' : 'calm-card',
+        depth && 'module-bento-card--depth',
         glow && GLOW_CLASS[glow],
         'p-5',
         className

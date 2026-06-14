@@ -14,6 +14,7 @@ import { AccountAuthMenu } from '../auth/AccountAuthMenu';
 import { NavigationDrawer } from './NavigationDrawer';
 import { FirestoreNetworkChip } from '../components/FirestoreNetworkChip';
 import { SystemErrorBanner } from '../components/SystemErrorBanner';
+import { useDesignPack } from '../design/useDesignPack';
 import { isBarnportenChildRoute } from '@/features/onboarding/barnporten/constants/barnportenRoutes';
 import { useStore } from '../store';
 import { useSOSStore } from '../store/sosStore';
@@ -30,10 +31,12 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   const setMenuOpen = useStore((s) => s.setMenuOpen);
   const activateSOS = useSOSStore((s) => s.activateSOS);
   const { themeId } = useTheme();
+  const { active: designPackActive } = useDesignPack();
   const mockupSkin = isMockupTheme(themeId) || isDesignPackTheme(themeId);
   const barnportenChildShell = isBarnportenChildRoute(location.pathname);
   const [accountOpen, setAccountOpen] = useState(false);
-  
+  const slimHeaderChrome = designPackActive && isScenicHome;
+
   useEffect(() => {
     if (!user) setMenuOpen(false);
   }, [user, setMenuOpen]);
@@ -56,22 +59,26 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
             menuExpanded={isMenuOpen}
             onMenuClick={() => setMenuOpen(true)}
             actions={
-              <>
-                <button
-                  type="button"
-                  onClick={activateSOS}
-                  className="header-chrome-btn header-chrome-btn--round mr-1"
-                  aria-label="Aktivera SOS-läge"
-                >
-                  <LifeBuoy className="w-6 h-6 text-red-400 hover:text-red-300 transition-colors" />
-                </button>
-                <AccountAuthMenu
-                  open={accountOpen}
-                  onOpenChange={setAccountOpen}
-                  compactTrigger
-                />
+              slimHeaderChrome ? (
                 <KompisHeaderVaultButton kompisAuraActive={kompisAuraActive} />
-              </>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    onClick={activateSOS}
+                    className="header-chrome-btn header-chrome-btn--round mr-1"
+                    aria-label="Aktivera SOS-läge"
+                  >
+                    <LifeBuoy className="header-chrome-btn__glyph h-6 w-6 text-accent/75 transition-colors hover:text-accent-light" />
+                  </button>
+                  <AccountAuthMenu
+                    open={accountOpen}
+                    onOpenChange={setAccountOpen}
+                    compactTrigger
+                  />
+                  <KompisHeaderVaultButton kompisAuraActive={kompisAuraActive} />
+                </>
+              )
             }
           />
         </div>

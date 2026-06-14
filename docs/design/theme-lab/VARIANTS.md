@@ -22,6 +22,7 @@
 | `I-stone-draft-bronze` | Stone — brons | utkast | Varm brons/roséguld accent |
 | `I-stone-draft-matte` | Stone — matt | utkast | Plattare glas, svag glow (låg last) |
 | `R-A-nordic-precision` | Nordic Precision (Style A) | **GODKÄND prod** | **default 2026-06-11** — isblå CTA, silver chrome, guld nav |
+| `OD-obsidian-depth` | Obsidian Depth (3D) | **LÅST** | **2026-06-14** — glass bento, taktil 3D, guld endast · `/dev/obsidian-depth` |
 
 **Jämför:** http://localhost:5173/dev/theme-lab → Utkast (agent) → Förhandsgranska → **Använd i appen** → testa `/` (Hem).
 
@@ -62,6 +63,7 @@ Spec: [`../themes/K-PACK-EIGHT-VARIANTS.md`](../themes/K-PACK-EIGHT-VARIANTS.md)
 ## Godkännande
 
 - **GODKÄND: `R-A-nordic-precision`** — helapp default (`DEFAULT_THEME_ID`, `moduleThemeMap.ts`) 2026-06-11.
+- **LÅST: `OD-obsidian-depth`** — fylligare 3D-skalet (mockup + theme pack). Ej prod-default. Knappar/menyer förfinas separat. Se `OBSIDIAN-DEPTH-SPEC.md`.
 - **ROLLBACK-ref:** `D4-flat-deluxe` — föregående prod default 2026-06-07.
 - **GODKÄND: `J-planering-fyren`** — Planering + Projekt (`moduleThemeMap.ts` rad 19–20). Övriga hubbar oförändrade.
 
