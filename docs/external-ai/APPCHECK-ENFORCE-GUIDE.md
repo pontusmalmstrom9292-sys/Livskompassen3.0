@@ -3,15 +3,19 @@
 **Projekt:** `gen-lang-client-0481875058`  
 **Web-app ID:** `1:1084026575972:web:2c85731a56adeb07dbd371`  
 **Android:** `com.livskompassen.app`  
-**Senast:** 2026-06-15 (CHECKPOINT-6)
+**Senast:** 2026-06-15 (CHECKPOINT-6 LOCK — Console Enforce klar)
 
 ---
 
-## ⚠️ Pontus måste köra Console Enforce manuellt
+## Status: LOCK (2026-06-15)
 
-Agent/CI kan **inte** aktivera App Check enforcement i Firebase Console. Detta är ett medvetet säkerhetssteg — endast projektägare togglar Enforce.
+Console Enforce aktiverad av Pontus. Tre lager aktiva:
 
-Kod + env är redan på plats (`APP_CHECK_ENFORCE=true`, `callableGuards.ts` fail-closed). Console Enforce är **sista lagret** innan otillåtna klienter blockeras på Firebase-nivå.
+1. **Klient** — `initAppCheck()` (reCAPTCHA v3 web / Play Integrity Android)
+2. **Functions** — `APP_CHECK_ENFORCE=true` + `callableGuards.ts` fail-closed
+3. **Console** — Cloud Functions → Enforce
+
+Rollback: se avsnitt **Rollback om Enforce går fel** nedan.
 
 ---
 

@@ -2,7 +2,7 @@
 
 Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
-**Senast uppdaterad:** 2026-06-15 (CHECKPOINT-6 PASS)
+**Senast uppdaterad:** 2026-06-15 (CHECKPOINT-6 LOCK — App Check Enforce klar)
 
 | Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
 |-----------|-------------|--------|-------|------------|
@@ -12,8 +12,7 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 | G10 Inkast UI (CapturePanel + filer) | `CapturePanel.tsx`, `CaptureSuperModule.tsx` | **LOCK** | build + locked-ux + inkast PASS 2026-06-15 | **CP-4** |
 | Upload unified (Valv DirectPanel) | `InkastDirectPanel.tsx` | **WIP** | behålls tills steg 2 | CP-4 defer |
 | SynapseBus (4 triggers) | `synapseBus.ts`, `driveIngestSynapse.ts`, `dcapAlertSynapse.ts`, `journalWovenSynapse.ts` | **LOCK** | build + orkester PASS 2026-06-15 | **CP-5** |
-| App Check kod + deploy-guide | `appCheck.ts`, `callableGuards.ts`, `APPCHECK-ENFORCE-GUIDE.md` | **LOCK (kod)** | valv-security PASS 2026-06-15 | **CP-6** |
-| App Check Console Enforce | Firebase Console | **OPEN — Pontus** | manuell efter Enforce | **CP-6** |
+| App Check (kod + Console Enforce) | `appCheck.ts`, `callableGuards.ts`, Firebase Console | **LOCK** | inkast + valv-security PASS 2026-06-15 | **CP-6** |
 | Deploy wave docs | `DEPLOY-CHATBOT-WAVE.md` | **LOCK** | — | **CP-6** |
 | Upload unified SPEC | `UPLOAD-UNIFIED-SPEC.md` | **APPROVED** | CP-2 manuell | **CP-2** |
 | Audio MIME i Inkast | `inkastMimeTypes.ts` | **LOCK** | CP-3 backend | **CP-3** |
@@ -31,6 +30,6 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
 ## Nästa manuella steg (Pontus)
 
-1. **Console Enforce** — se [`APPCHECK-ENFORCE-GUIDE.md`](./APPCHECK-ENFORCE-GUIDE.md)
-2. **Snapshot synapser** (om ej körd): `./scripts/snapshot_locked_module.sh synapser`
-3. **Deploy kvar** (om ej allt deployat): se [`DEPLOY-CHATBOT-WAVE.md`](./DEPLOY-CHATBOT-WAVE.md)
+1. ~~Console Enforce~~ — **klar** 2026-06-15 (Pontus bekräftat)
+2. **Snapshot synapser** (finns `~/Livskompassen-snapshots/2026-06-15-synapser/` — kör om vid behov): `./scripts/snapshot_locked_module.sh synapser`
+3. ~~Deploy CP-3/4/5~~ — **klar** 2026-06-15

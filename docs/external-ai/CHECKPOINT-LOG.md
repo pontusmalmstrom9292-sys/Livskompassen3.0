@@ -2,7 +2,7 @@
 
 | Datum | CP | Fas | Resultat | Planändring | Anteckning |
 |-------|-----|-----|----------|-------------|------------|
-| 2026-06-15 | **CP-6** | PHASE-06 App Check + deploy | **PASS** | Console Enforce → Pontus | DEPLOY-CHATBOT-WAVE + APPCHECK-ENFORCE-GUIDE; smoke valv/locked/orkester PASS |
+| 2026-06-15 | **CP-6** | PHASE-06 App Check + deploy | **LOCK** | — | Kod + Console Enforce + deploy CP-3/4/5; smoke inkast/valv/locked PASS |
 | 2026-06-15 | **CP-5** | PHASE-05 Synapse lock | **PASS** | App Check PHASE-06 | Minimal diff: journal/dcap idempotens; ChatBox-stubs skip |
 | 2026-06-15 | **CP-4** | PHASE-04 Frontend upload | **PASS** | Synapse PHASE-05 | ChatBox ej applicerbar; Cursor merge CapturePanel + filer |
 | 2026-06-15 | **CP-3** | PHASE-03 Backend upload | **PASS** | Frontend → PHASE-04 | functions build + smoke:inkast + smoke:inbox PASS |

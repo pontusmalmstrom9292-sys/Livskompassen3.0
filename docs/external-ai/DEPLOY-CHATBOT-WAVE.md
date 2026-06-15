@@ -23,12 +23,12 @@ npm run build
 
 **Ändrade filer:** `inboxClassifier.ts`, `submitInkastLite.ts`, `inkastStorageOnFinalize.ts`, `inkastMimeTypes.ts`, `inkastSourceModule.ts`, `transcribeInkastAudio.ts`
 
-| Resurs | Deploy? | Kommando |
-|--------|---------|----------|
-| `submitInkastLite` | **JA** | se nedan |
-| `onInkastEvidenceFinalized` | **JA** | Storage trigger — `vault_evidence/{uid}/inkast/*` |
-| `previewInboxClassification` | **JA** | CapturePanel (CP-4) anropar vid fil-preview |
-| `getInboxQueue`, `confirmInboxItem`, `dismissInboxItem` | valfritt | Oförändrad signatur — deploy om du vill synka all inkast-kod |
+| Resurs | Status | Kommando |
+|--------|--------|----------|
+| `submitInkastLite` | ✔ **deployad** 2026-06-15 | — |
+| `onInkastEvidenceFinalized` | ✔ **deployad** 2026-06-15 | Storage trigger — `vault_evidence/{uid}/inkast/*` |
+| `previewInboxClassification` | ✔ **deployad** 2026-06-15 | CapturePanel (CP-4) anropar vid fil-preview |
+| `getInboxQueue`, `confirmInboxItem`, `dismissInboxItem` | ✔ **deployad** 2026-06-15 | Synkad med CP-3 |
 | `storage` rules | **SKIP** | Ej ändrat i CP-3 (`vault_evidence` fanns redan) |
 | `firestore:rules` | **SKIP** | Ej ändrat — PMIR krävs före deploy |
 
@@ -49,9 +49,9 @@ npm run smoke:inbox
 
 **Ändrade filer:** `CapturePanel.tsx`, `CaptureSuperModule.tsx`, inkast-delegates (Familjen, Planering, Ekonomi, Hem, MåBra)
 
-| Resurs | Deploy? | Kommando |
-|--------|---------|----------|
-| Hosting (SPA) | **JA** | se nedan |
+| Resurs | Status | Kommando |
+|--------|--------|----------|
+| Hosting (SPA) | ✔ **deployad** 2026-06-15 | — |
 | Functions | **SKIP** | Backend redan CP-3 |
 
 ```bash
