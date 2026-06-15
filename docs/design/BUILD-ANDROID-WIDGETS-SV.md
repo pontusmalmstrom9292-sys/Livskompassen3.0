@@ -92,7 +92,7 @@ Tryck på widgeten → appen öppnar rätt `/widget/…`-sida. **Stämpel:** vä
 
 **Hem i appen:** stämpelkortet är **minimerat** som standard — expandera med pilen om du vill se full vy.
 
-**Motorola (och andra):** Om du hade en äldre **Inspelning**-widget — ta bort den från hemskärmen, kör `npm run cap:sync`, installera appen igen (**Run**), lägg sedan till **Anteckningar**.
+**Motorola (och andra):** Om du hade en äldre **Inspelning**-widget — ta bort den från hemskärmen, kör `npm run cap:sync`, installera appen igen (**Run**), lägg sedan till **Anteckningar**. Widgetarna visar nu **guldkrets-ikoner** (samma stil som `docs/design/references/homescreen-widgets.png`) — inte platta svarta rutor.
 
 **WH1 första gången:** kort etik-info → godkänn → inspelning startar automatiskt (`?autostart=1&discreet=1`). Efter **Stoppa:** valfritt formulär vem / vad / varför → **Lås i Valvet** (eller hoppa över kontext). Mikrofonbehörighet godkänns i appen.
 

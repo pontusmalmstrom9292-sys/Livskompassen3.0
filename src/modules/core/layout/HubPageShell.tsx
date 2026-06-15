@@ -15,6 +15,8 @@ type Props = {
   fitViewport?: boolean;
   /** Obsidian Depth 3D glass banner on header */
   depth?: boolean;
+  /** When lockViewport: wrap body in calm-scroll-island (default true). Set false for split fixed+scroll layouts. */
+  contentIsland?: boolean;
   children: ReactNode;
 };
 
@@ -29,6 +31,7 @@ export function HubPageShell({
   lockViewport = false,
   fitViewport = false,
   depth = false,
+  contentIsland = true,
   children,
 }: Props) {
   const h = hubHeaderClasses();
@@ -58,8 +61,10 @@ export function HubPageShell({
       </header>
 
       <div className="hub-page-shell__body space-y-4">
-        {lockViewport ? (
+        {lockViewport && contentIsland !== false ? (
           <div className="calm-scroll-island space-y-4">{children}</div>
+        ) : lockViewport ? (
+          <div className="flex min-h-0 flex-1 flex-col">{children}</div>
         ) : (
           children
         )}

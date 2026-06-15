@@ -58,7 +58,7 @@ Alla planfiler har `status: closed` överst. **Öppet arbete finns endast i tabe
 | **dossier** | Valv `dossier` | BBIC `reportType` **done** Fas 13 (12D) | [`fas13-vag-3-evidence-e2e`](./evaluations/2026-06-15-fas13-vag-3-evidence-e2e.md) |
 | **hamn** | `/familjen?tab=hamn` | BIFF via `TryggHamnHub` · Gräns-Arkitekten G14 **done** | `smoke:design-modules` |
 | **auth/android** | app | cap sync **done** Fas 18 · native Google USER-test öppen | [`.context/android-capacitor.md`](../.context/android-capacitor.md) |
-| **evolution** | hub | `evolution_ledger` dual-write | **defer** Fas 20+ (19.5) |
+| **evolution** | hub | `evolution_ledger` dual-write | **done** Fas 19.5 | `smoke:evolution-discovery` |
 
 **Låst UX:** Barnfokus, Valv Mönster/Orkester/Kunskapsbank, Planering P3, ikoner B1/D1/M2 — `npm run smoke:locked-ux` **PASS**.
 

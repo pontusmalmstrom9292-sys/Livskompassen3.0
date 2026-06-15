@@ -1,5 +1,5 @@
 /**
- * Smoke: evolution_ledger discovery milestones.
+ * Smoke: evolution_ledger discovery milestones + hub dual-write (Fas 19.5).
  * Usage: npm run smoke:evolution-discovery
  */
 import { existsSync, readFileSync } from 'fs';
@@ -26,17 +26,42 @@ function mustInclude(relPath, ...needles) {
   }
 }
 
+function mustNotInclude(relPath, ...needles) {
+  const text = read(relPath);
+  for (const needle of needles) {
+    assert(!text.includes(needle), `${relPath} får inte innehålla: ${needle}`);
+  }
+}
+
 function main() {
   mustInclude(
     'src/modules/core/firebase/evolutionLedgerFirestore.ts',
     'recordDiscoveryMilestoneIfNew',
+    'syncEvolutionHubToLedger',
+    'recordPillarCapacityIncreases',
+    'recordFeatureUnlocks',
+    'recordChildAgeMilestones',
+    'recordBarnportenLevelIncrease',
+    'recordUnlockedPackChanges',
+    'mergeEvolutionHub',
     'milestone_unlocked',
     'kompass_discovery',
+  );
+  mustInclude(
+    'src/modules/core/store/useEvolutionStore.ts',
+    'syncEvolutionHubToLedger',
+    'hubLedgerFingerprint',
+  );
+  mustInclude(
+    'src/modules/core/hooks/useEvolutionSync.ts',
+    'useEvolutionStore',
+    'userId: user.uid',
   );
   mustInclude(
     'firestore.rules',
     'match /evolution_ledger/{docId}',
     'milestone_unlocked',
+    'allow update, delete: if false',
   );
   mustInclude(
     'src/modules/core/firebase/offlineWritePolicy.ts',
@@ -46,8 +71,13 @@ function main() {
     'src/modules/features/dailyLife/wellbeing/compasses/components/KompassDiscoveryCardFlow.tsx',
     'recordDiscoveryMilestoneIfNew',
   );
+  mustNotInclude(
+    'scripts/orkester_barnporten_evaluator.mjs',
+    "event: 'AGE_EVALUATION'",
+    'target: \'barnporten\'',
+  );
 
-  console.log('[smoke:evolution-discovery] PASS — ledger helper + WORM rules.');
+  console.log('[smoke:evolution-discovery] PASS — ledger helper + hub dual-write + WORM rules.');
 }
 
 try {

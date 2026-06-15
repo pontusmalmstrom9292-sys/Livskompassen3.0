@@ -1,5 +1,36 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## USER smoke Motorola/Mac (2026-06-15 — Pontus)
+
+**Källa:** [`evaluations/2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md)
+
+| Test | ID | Status | Anteckning |
+|------|-----|--------|------------|
+| Valv biometri + bevis | **#3** | **FAIL** | Kunde inte låsa upp Valvet |
+| Barnen loggrad | **#4** | **FAIL** | Scroll-lås (fix: Familjen `contentIsland` 2026-06-15) |
+| Dagbok bilaga | **#2d** | **PASS** | |
+| Superhub snabb | **D** | **PASS** | Drawer, /liv, /familjen, /mabra redirect |
+| Göra kanban | **E** | **PASS** | 2026-06-07 |
+| Projekt regler | **F** | **PASS** | 2026-06-07 |
+
+**Retest efter deploy:** #3 Valv · #4 Familjen scroll
+
+---
+
+## Fas 19.5 (2026-06-15 — evolution_ledger dual-write)
+
+**Trigger:** Masterplan 19.5 · [`2026-06-15-fas19-5-evolution-ledger-dual-write.md`](./evaluations/2026-06-15-fas19-5-evolution-ledger-dual-write.md)
+
+| Kategori | # / kommando | Status | Senast |
+|----------|--------------|--------|--------|
+| **Autorun PASS** | `smoke:evolution-discovery` | **PASS** | 2026-06-15 · hub dual-write guards |
+| **Tooling** | `typecheck:core-strict` | **PASS** | 2026-06-15 · Fas 19.5 |
+| **Build** | `npm run build` (frontend) | **PASS** | 2026-06-15 · Fas 19.5 |
+| **Autorun PASS** | `smoke:orkester` | **PASS** | 2026-06-15 · Fas 19.5 |
+| **Deploy** | hosting | **PASS** | 2026-06-15 · https://gen-lang-client-0481875058.web.app |
+
+---
+
 ## Fas 22 (2026-06-15 — hex→tokens P0 + doc-synk + typecheck expansion)
 
 **Trigger:** Fas 22 spår 1–3 · design P2 hex→tokens kvarvarande P0  

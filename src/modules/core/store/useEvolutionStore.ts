@@ -15,7 +15,7 @@ export interface EvolutionState {
   hasSeenLevel2Animation: boolean;
 
   // Actions
-  setDoc: (doc: EvolutionHubDoc | null) => void;
+  setDoc: (doc: EvolutionHubDoc | null, options?: { userId?: string }) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   listenToEvolutionHub: (uid: string) => () => void;
@@ -25,6 +25,16 @@ export interface EvolutionState {
   hasFeature: (flag: string) => boolean;
   hasUnlockedPack: (packId: string) => boolean;
   getChildBracket: (alias: string) => 'toddler_preschool' | 'early_school' | 'pre_teen' | 'teen';
+}
+
+function hubLedgerFingerprint(doc: EvolutionHubDoc): string {
+  return JSON.stringify({
+    pillars: doc.pillars,
+    flags: doc.unlockedFeatureFlags,
+    packs: doc.unlockedPacks,
+    children: doc.childrenAgeState,
+    barnportenLevel: doc.barnportenLevel,
+  });
 }
 
 export const useEvolutionStore = create<EvolutionState>((set, get) => ({
@@ -38,7 +48,7 @@ export const useEvolutionStore = create<EvolutionState>((set, get) => ({
 
   setHasSeenLevel2Animation: (seen) => set({ hasSeenLevel2Animation: seen }),
 
-  setDoc: (docData) => {
+  setDoc: (docData, options) => {
     const prevDoc = get().doc;
 
     if (!docData) {
@@ -81,8 +91,8 @@ export const useEvolutionStore = create<EvolutionState>((set, get) => ({
       error: null,
     });
 
-    const userId = docData.userId || docData.ownerId;
-    if (userId && prevDoc) {
+    const userId = options?.userId || docData.userId || docData.ownerId;
+    if (userId && prevDoc && hubLedgerFingerprint(prevDoc) !== hubLedgerFingerprint(docData)) {
       void syncEvolutionHubToLedger(userId, prevDoc, docData).catch((err) => {
         console.warn('[EvolutionStore] evolution_ledger dual-write:', err);
       });
@@ -101,7 +111,10 @@ export const useEvolutionStore = create<EvolutionState>((set, get) => ({
       (snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.data() as EvolutionHubDoc;
-          get().setDoc(data);
+          get().setDoc(
+            { ...data, userId: uid, ownerId: uid },
+            { userId: uid },
+          );
         } else {
           get().setDoc(null);
         }

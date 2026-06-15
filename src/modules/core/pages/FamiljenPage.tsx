@@ -105,6 +105,7 @@ export function FamiljenPage() {
         }
         lockViewport
         fitViewport
+        contentIsland={false}
         depth
         cognitiveStrip={{
           label: 'Kognitiv sköld aktiv',
@@ -120,49 +121,45 @@ export function FamiljenPage() {
           />
         }
       >
-        {showChildPicker && (
-          <FamiljenChildPicker
-            activeChild={shell.activeChild}
-            children={shell.childAliases}
-            onChange={shell.setActiveChild}
-          />
-        )}
+        <div className="calm-scroll-island min-h-0 flex-1 space-y-4">
+          {showChildPicker && (
+            <FamiljenChildPicker
+              activeChild={shell.activeChild}
+              children={shell.childAliases}
+              onChange={shell.setActiveChild}
+            />
+          )}
 
-        {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
-          <div className="flex min-h-0 flex-1 flex-col gap-4">
-            <div className="shrink-0">
+          {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
+            <>
               <FamiljenInputSuperModule shell={shell} />
-            </div>
-            {activeTab === 'reflektion' ? (
-              <div className="calm-scroll-island min-h-0 flex-1">
+              {activeTab === 'reflektion' ? (
                 <FamiljenReflektionTab shell={shell} />
-              </div>
-            ) : (
-              <div className="calm-scroll-island min-h-0 flex-1">
+              ) : (
                 <FamiljenLivsloggTab shell={shell} />
-              </div>
-            )}
-          </div>
-        )}
+              )}
+            </>
+          )}
 
-        {activeTab === 'tillsammans' && <FamiljenTillsammansTab shell={shell} />}
+          {activeTab === 'tillsammans' && <FamiljenTillsammansTab shell={shell} />}
 
-        {activeTab === 'barnporten' && (
-          <div className="space-y-4">
-            <BarnportenQrPanel />
-            <BarnportenInboxPanel />
-            <BarnportenOrkesterPanel />
-            <a href="/barnporten" className="btn-pill--ghost text-sm">
-              Öppna Barnporten (barn-PWA)
-            </a>
-          </div>
-        )}
+          {activeTab === 'barnporten' && (
+            <div className="space-y-4">
+              <BarnportenQrPanel />
+              <BarnportenInboxPanel />
+              <BarnportenOrkesterPanel />
+              <a href="/barnporten" className="btn-pill--ghost text-sm">
+                Öppna Barnporten (barn-PWA)
+              </a>
+            </div>
+          )}
 
-        {activeTab === 'hamn' && <SafeHarborPage embedded />}
+          {activeTab === 'hamn' && <SafeHarborPage embedded />}
 
-        {activeTab === 'drogfrihet' && <DrogfrihetHubPage embedded />}
+          {activeTab === 'drogfrihet' && <DrogfrihetHubPage embedded />}
 
-        <MaterialPackShortcuts preset={preset} hub="familjen" />
+          <MaterialPackShortcuts preset={preset} hub="familjen" />
+        </div>
       </ModuleShell>
     </HubErrorBoundary>
   );

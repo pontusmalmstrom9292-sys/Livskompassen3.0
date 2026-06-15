@@ -54,7 +54,7 @@ WH1 inspelning: datumstämpel, AI-titel, WORM i Valvet (samma pipeline som web).
 | `app/.../widgets/RecordWidgetProvider.java` | WH1 diskret → inspelning |
 | `app/.../widgets/WidgetLaunch.java` | Deep-link till WebView |
 | `app/.../MainActivity.java` | `livskompassen-widget-nav` event |
-| `res/layout/widget_discreet_note.xml` | WH1: anteckningsikon + guldkant |
-| `res/layout/widget_tile.xml` | WH2–WH4: guld kant, mörk bakgrund |
+| `res/layout/widget_chip.xml` | WH1–WH4: guldkrets-ikon + etikett |
+| `res/drawable-nodpi/widget_chip_*.png` | Ikoner från `public/icons/shortcuts/` |
 
 Web bridge: `src/modules/widgets/WidgetDeepLinkBridge.tsx`

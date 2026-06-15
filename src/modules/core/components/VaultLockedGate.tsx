@@ -18,9 +18,9 @@ type Props = {
  */
 function getUnlockHint(): string {
   if (isCapacitorNative()) {
-    return 'Tryck på knappen nedan och verifiera med ditt fingeravtryck eller Face ID för att öppna Valvet.';
+    return 'Tryck på knappen nedan och verifiera med fingeravtryck eller Face ID. Direktlänk till /valvet räcker inte utan verifiering.';
   }
-  return 'Håll inne Kompis-ögat i toppmenyn i 3 sekunder. Verifiera med fingeravtryck eller Face ID. Direktlänk räcker inte.';
+  return 'Håll Kompis-ögat (Fyren) i 3 sekunder — eller tryck knappen nedan. Verifiera med Touch ID / Face ID / Windows Hello. Det finns ingen numerisk PIN; biometri krävs.';
 }
 
 function getButtonLabel(busy: boolean): string {

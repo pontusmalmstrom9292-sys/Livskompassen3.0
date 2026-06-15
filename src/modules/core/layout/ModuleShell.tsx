@@ -23,6 +23,8 @@ type Props = {
   fitViewport?: boolean;
   /** Obsidian Depth 3D glass banner on hub header */
   depth?: boolean;
+  /** Split layout: fixed chrome + inner calm-scroll-island (Familjen superhub). */
+  contentIsland?: boolean;
   cognitiveStrip?: CognitiveStripProps | false;
   children: ReactNode;
 };
@@ -42,6 +44,7 @@ export function ModuleShell({
   lockViewport = false,
   fitViewport = false,
   depth = true,
+  contentIsland,
   cognitiveStrip,
   children,
 }: Props) {
@@ -55,6 +58,7 @@ export function ModuleShell({
       lockViewport={lockViewport}
       fitViewport={fitViewport}
       depth={depth}
+      contentIsland={contentIsland}
       className={clsx('module-shell', depth && 'module-shell--depth', className)}
     >
       <div
@@ -72,7 +76,12 @@ export function ModuleShell({
 
         {toolbar ? <div className="module-shell__toolbar py-2">{toolbar}</div> : null}
 
-        <div className={clsx('module-shell__content animate-fade-in', lockViewport && 'min-h-0 flex-1')}>
+        <div
+          className={clsx(
+            'module-shell__content animate-fade-in',
+            lockViewport && 'flex min-h-0 flex-1 flex-col',
+          )}
+        >
           {children}
         </div>
       </div>

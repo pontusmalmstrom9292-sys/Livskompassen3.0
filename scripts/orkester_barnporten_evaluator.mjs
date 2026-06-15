@@ -141,21 +141,87 @@ async function evaluateBiologicalAges(uid, admin) {
     unlockedPacks: unlockedPacks,
   };
 
-  const ledgerRef = db.collection('evolution_ledger').doc();
-  batch.set(ledgerRef, {
-    userId: uid,
-    ownerId: uid,
-    target: 'barnporten',
-    targetId: 'all_children',
-    event: 'AGE_EVALUATION',
-    newLevel: highestLevel,
-    unlockedBy: 'BIOLOGICAL_AGE',
-    rationale: `Utvärderade biologisk ålder för barn och satte global barnportenLevel till ${highestLevel}.`,
-    metadata: {
-      childrenState: updatedChildrenState
-    },
-    createdAt: admin.firestore.FieldValue.serverTimestamp(),
-  });
+  const batch = db.batch();
+  const prevChildren = childrenAgeState;
+
+  for (const childAlias of childKeys) {
+    const beforeBracket = prevChildren[childAlias]?.currentBracket;
+    const afterBracket = updatedChildrenState[childAlias]?.currentBracket;
+    const beforeLevel = prevChildren[childAlias]?.barnportenLevel ?? 1;
+    const afterLevel = updatedChildrenState[childAlias]?.barnportenLevel ?? 1;
+
+    if (afterBracket && beforeBracket !== afterBracket) {
+      const ledgerRef = db.collection('evolution_ledger').doc();
+      batch.set(ledgerRef, {
+        userId: uid,
+        ownerId: uid,
+        type: 'child_age_milestone',
+        pillar: 'relationell',
+        levelBefore: 0,
+        levelAfter: 1,
+        rationale: `Barn ${childAlias} byte till segment ${afterBracket}`,
+        metadata: {
+          source: 'orkester_barnporten_evaluator',
+          childAlias,
+          bracket: afterBracket,
+          bracketBefore: beforeBracket ?? null,
+        },
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      });
+    }
+
+    if (afterLevel > beforeLevel) {
+      const ledgerRef = db.collection('evolution_ledger').doc();
+      batch.set(ledgerRef, {
+        userId: uid,
+        ownerId: uid,
+        type: 'capacity_increased',
+        pillar: 'relationell',
+        levelBefore: beforeLevel,
+        levelAfter: afterLevel,
+        rationale: `Barnporten nivå ${childAlias}: ${beforeLevel} → ${afterLevel}`,
+        metadata: {
+          source: 'orkester_barnporten_evaluator',
+          childAlias,
+          field: 'barnportenLevel',
+        },
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      });
+    }
+  }
+
+  const prevRootLevel = hubData.barnportenLevel ?? 1;
+  if (highestLevel > prevRootLevel) {
+    const ledgerRef = db.collection('evolution_ledger').doc();
+    batch.set(ledgerRef, {
+      userId: uid,
+      ownerId: uid,
+      type: 'capacity_increased',
+      pillar: 'relationell',
+      levelBefore: prevRootLevel,
+      levelAfter: highestLevel,
+      rationale: `Barnporten global nivå ${prevRootLevel} → ${highestLevel}`,
+      metadata: { source: 'orkester_barnporten_evaluator', field: 'barnportenLevel' },
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    });
+  }
+
+  const prevPacks = Array.isArray(hubData.unlockedPacks) ? hubData.unlockedPacks : [];
+  for (const packId of unlockedPacks) {
+    if (prevPacks.includes(packId)) continue;
+    const ledgerRef = db.collection('evolution_ledger').doc();
+    batch.set(ledgerRef, {
+      userId: uid,
+      ownerId: uid,
+      type: 'milestone_unlocked',
+      pillar: 'relationell',
+      levelBefore: prevPacks.length,
+      levelAfter: unlockedPacks.length,
+      rationale: `Material-pack upplåst: ${packId}`,
+      metadata: { source: 'orkester_barnporten_evaluator', packId },
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    });
+  }
 
   batch.set(hubRef, hubUpdatePayload, { merge: true });
 

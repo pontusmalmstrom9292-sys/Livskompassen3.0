@@ -68,7 +68,7 @@ export function FamiljenInputSuperModule({
   return (
     <BentoCard
       glow="blue"
-      className="familjen-input-hub od-depth overflow-hidden !p-0"
+      className="familjen-input-hub od-depth max-sm:overflow-visible overflow-hidden !p-0"
     >
       <div className="familjen-input-hub__chrome shrink-0 border-b border-[rgba(212,175,55,0.12)] px-4 py-3 sm:px-5 sm:py-4">
         <header className="mb-3 space-y-1">

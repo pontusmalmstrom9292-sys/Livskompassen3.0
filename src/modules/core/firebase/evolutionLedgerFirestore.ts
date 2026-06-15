@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, query, serverTimestamp, where } from 'firebase/firestore';
+import { addDoc, collection, doc, getDocs, query, serverTimestamp, setDoc, where } from 'firebase/firestore';
 import { db } from './firestore';
 import { assertOfflineWriteAllowed } from './offlineWritePolicy';
 import { FIRESTORE_COLLECTIONS } from '../types/firestore';
@@ -115,7 +115,7 @@ export async function recordPillarCapacityIncreases(
   prev: EvolutionHubDoc | null,
   next: EvolutionHubDoc,
 ): Promise<void> {
-  if (!prev?.pillars) return;
+  if (!prev?.pillars || !next.pillars) return;
   for (const pillar of HUB_PILLAR_KEYS) {
     const before = prev.pillars[pillar]?.level ?? 0;
     const after = next.pillars[pillar]?.level ?? 0;
@@ -163,9 +163,9 @@ export async function recordChildAgeMilestones(
 ): Promise<void> {
   const prevChildren = prev?.childrenAgeState;
   const nextChildren = next.childrenAgeState;
-  if (!prevChildren || !nextChildren) return;
+  if (!nextChildren) return;
   for (const alias of Object.keys(nextChildren) as Array<keyof typeof nextChildren>) {
-    const before = prevChildren[alias]?.currentBracket;
+    const before = prevChildren?.[alias]?.currentBracket;
     const after = nextChildren[alias]?.currentBracket;
     if (!after || before === after) continue;
     await appendEvolutionLedgerEntry({
@@ -175,7 +175,50 @@ export async function recordChildAgeMilestones(
       levelBefore: 0,
       levelAfter: 1,
       rationale: `Barn ${alias} byte till segment ${after}`,
-      metadata: { source: 'evolution_hub', childAlias: alias, bracket: after },
+      metadata: { source: 'evolution_hub', childAlias: alias, bracket: after, bracketBefore: before ?? null },
+    });
+  }
+}
+
+/** Dual-write när barnportenLevel (root) ökar. */
+export async function recordBarnportenLevelIncrease(
+  userId: string,
+  prev: EvolutionHubDoc | null,
+  next: EvolutionHubDoc,
+): Promise<void> {
+  if (!prev) return;
+  const before = prev.barnportenLevel ?? 1;
+  const after = next.barnportenLevel ?? 1;
+  if (after <= before) return;
+  await appendEvolutionLedgerEntry({
+    userId,
+    type: 'capacity_increased',
+    pillar: 'relationell',
+    levelBefore: before,
+    levelAfter: after,
+    rationale: `Barnporten global nivå ${before} → ${after}`,
+    metadata: { source: 'evolution_hub', field: 'barnportenLevel' },
+  });
+}
+
+/** Dual-write när nytt material-pack låses upp. */
+export async function recordUnlockedPackChanges(
+  userId: string,
+  prev: EvolutionHubDoc | null,
+  next: EvolutionHubDoc,
+): Promise<void> {
+  const before = new Set(prev?.unlockedPacks ?? []);
+  const after = next.unlockedPacks ?? [];
+  for (const packId of after) {
+    if (before.has(packId)) continue;
+    await appendEvolutionLedgerEntry({
+      userId,
+      type: 'milestone_unlocked',
+      pillar: 'relationell',
+      levelBefore: before.size,
+      levelAfter: after.length,
+      rationale: `Material-pack upplåst: ${packId}`,
+      metadata: { source: 'evolution_hub', packId },
     });
   }
 }
@@ -186,7 +229,31 @@ export async function syncEvolutionHubToLedger(
   prev: EvolutionHubDoc | null,
   next: EvolutionHubDoc,
 ): Promise<void> {
+  if (!prev) return;
   await recordPillarCapacityIncreases(userId, prev, next);
   await recordFeatureUnlocks(userId, prev, next);
   await recordChildAgeMilestones(userId, prev, next);
+  await recordBarnportenLevelIncrease(userId, prev, next);
+  await recordUnlockedPackChanges(userId, prev, next);
+}
+
+/**
+ * Kanonisk merge-skrivning till evolution_hub.
+ * Dual-write sker via useEvolutionSync → setDoc → syncEvolutionHubToLedger (en väg).
+ */
+export async function mergeEvolutionHub(
+  userId: string,
+  patch: Record<string, unknown>,
+): Promise<void> {
+  const hubRef = doc(db, FIRESTORE_COLLECTIONS.evolution_hub, userId);
+  await setDoc(
+    hubRef,
+    {
+      ...patch,
+      userId,
+      ownerId: userId,
+      updatedAt: new Date().toISOString(),
+    },
+    { merge: true },
+  );
 }

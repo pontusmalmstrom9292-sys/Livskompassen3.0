@@ -428,7 +428,8 @@ function main() {
   mustInclude('docs/design/ANDROID-WIDGETS-SPEC.md', 'RecordWidgetProvider', 'Capacitor');
   mustInclude(
     'android/app/src/main/java/com/livskompassen/app/widgets/RecordWidgetProvider.java',
-    'WidgetLaunch',
+    'WidgetViews',
+    'widget_chip_anteckning',
   );
   mustInclude('src/modules/features/widgets/WidgetDeepLinkBridge.tsx', 'livskompassen-widget-nav', '__LIVSKOMPASSEN_WIDGET_PENDING__');
   mustInclude(

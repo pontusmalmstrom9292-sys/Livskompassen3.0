@@ -206,6 +206,18 @@
     -webkit-overflow-scrolling: touch;
   }
 
+  /* Familjen superhub — en scroll-yta; ingen 72dvh-fälla på mobil */
+  @media (max-width: 639px) {
+    .hub-view-lock--fit .familjen-input-hub {
+      max-height: none;
+    }
+
+    .hub-view-lock--fit .familjen-input-hub__viewport {
+      overflow: visible;
+      flex: none;
+    }
+  }
+
   /* —— Liv launcher — stora kort (Fas 2) —— */
   .liv-launcher-grid {
     display: grid;

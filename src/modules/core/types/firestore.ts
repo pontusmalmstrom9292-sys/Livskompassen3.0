@@ -381,6 +381,7 @@ export interface ChildAgeState {
   currentBracket: 'toddler_preschool' | 'early_school' | 'pre_teen' | 'teen';
   lastUpdated: IsoDateTime;
   barnportenLevel?: number;
+  birthDate?: string;
 }
 
 export interface EvolutionPillarState {
@@ -392,6 +393,8 @@ export interface EvolutionHubDoc {
   userId: string;
   ownerId: string;
   updatedAt: IsoDateTime;
+  /** Global barnporten-nivå (max bland barn). */
+  barnportenLevel?: number;
   pillars: {
     kognitiv: EvolutionPillarState;
     emotionell: EvolutionPillarState;

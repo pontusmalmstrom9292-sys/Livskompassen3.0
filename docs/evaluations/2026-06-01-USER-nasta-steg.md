@@ -2,7 +2,7 @@
 
 **Prod:** https://gen-lang-client-0481875058.web.app  
 **Före test:** Cmd+Shift+R  
-**Statusplan:** [`2026-06-01-master-yolo-status.md`](./2026-06-01-master-yolo-status.md) (kö done · Fas 5D PMIR SKIP)
+**Statusplan:** [`SENASTE-SAMMANFATTNING.md`](./SENASTE-SAMMANFATTNING.md)
 
 Agent har kört kod + statisk smoke. **Du** bekräftar i riktig app.
 
@@ -10,28 +10,33 @@ Agent har kört kod + statisk smoke. **Du** bekräftar i riktig app.
 
 ## A — Valv (#3)
 
-1. Shield 3 s → PIN → Dagbok bevis  
-2. Spara en enkel post  
-3. Firestore Console: rad i `reality_vault` (valfritt)
+**Viktigt:** Valvet använder **biometri via Fyren** (3 s håll på Kompis-ögat) — **ingen numerisk PIN** i prod.
 
-**PASS / FAIL:** ___________
+1. Logga in med Google (Konto-fliken)
+2. **Håll Kompis-ögat 3 s** i headern → följ Touch ID / Face ID / Windows Hello  
+   *Alternativ:* Gå till `/valvet` → tryck **Lås upp Valvet (biometri)**
+3. Fliken **Arkiv** (logga) → spara en enkel post
+4. Firestore Console: rad i `reality_vault` (valfritt)
+
+**PASS / FAIL:** **FAIL** (2026-06-15) — kunde inte låsa upp / komma in.  
+**Om FAIL igen:** notera exakt felmeddelande på skärmen (t.ex. «WebAuthn verifiering misslyckades»).
 
 ---
 
 ## B — Barnen (#4)
 
-1. `/familjen` eller `/barnporten`  
-2. Spara en loggrad  
+1. `/familjen?tab=livslogg` eller Barnporten-fliken
+2. Spara en loggrad
 
-**PASS / FAIL:** ___________
+**PASS / FAIL:** **FAIL** (2026-06-15) — scroll låste sig (halva sidan rörde sig). Fix deployad: en scroll-yta per flik.
 
 ---
 
 ## C — Dagbok bilaga (#2d)
 
-1. Dagbok → Reflektera → liten bilaga (&lt;5 MB)  
+1. Dagbok → Reflektera → liten bilaga (&lt;5 MB)
 
-**PASS / FAIL:** ___________
+**PASS / FAIL:** **PASS** (2026-06-15)
 
 ---
 
@@ -44,30 +49,20 @@ Agent har kört kod + statisk smoke. **Du** bekräftar i riktig app.
 | `/familjen` → Barnfokus-känsla | **PASS** |
 | Legacy `/mabra` redirectar | **PASS** |
 
-Kanon: [`2026-06-01-superhub-leverans.md`](../archive/evaluations-fas21-2026-06/2026-06-01-superhub-leverans.md)
+---
+
+## E — Göra
+
+**PASS** (2026-06-07)
 
 ---
 
-## E — Göra (efter deploy)
+## F — Projekt regler
 
-1. Liv → Planering → **Handling** (kanban)  
-2. Länkar **Fokus / Framsteg / Regler** (inte dubbel TabBar för Handling/Inkorg)
-
-**PASS / FAIL:** **PASS** (2026-06-07)
-
----
-
-## F — Projekt regler (ny 2026-06-01)
-
-1. `/projekt/regler` — logga in  
-2. **+ Lägg till regel** → spara → ladda om sidan (regeln kvar)  
-
-**PASS / FAIL:** **PASS** (2026-06-07)
+**PASS** (2026-06-07)
 
 ---
 
 ## Rapportera till Cursor
 
-Skriv: `Fas 5A: #3 PASS, #4 PASS` (eller vilka som FAIL) — agent uppdaterar [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md).
-
-Detaljer: [`2026-05-31-fas5a-user-checklist.md`](./2026-05-31-fas5a-user-checklist.md)
+Efter ny test: `USER smoke: A PASS/FAIL, B PASS/FAIL` — agent uppdaterar [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md).

@@ -26,7 +26,15 @@ export function useEvolutionSync(): void {
       ref,
       (snap) => {
         if (snap.exists()) {
-          setDoc(snap.data() as EvolutionHubDoc);
+          const data = snap.data() as EvolutionHubDoc;
+          setDoc(
+            {
+              ...data,
+              userId: data.userId || user.uid,
+              ownerId: data.ownerId || user.uid,
+            },
+            { userId: user.uid },
+          );
         } else {
           // Inget hub-dokument än — användaren har default nivå
           setDoc(null);

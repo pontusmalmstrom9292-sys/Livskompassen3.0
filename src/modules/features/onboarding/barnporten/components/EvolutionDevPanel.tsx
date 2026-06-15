@@ -1,8 +1,7 @@
 import React from 'react';
-import { doc, setDoc } from 'firebase/firestore';
-import { db } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
 import { useEvolutionStore } from '@/core/store/useEvolutionStore';
+import { mergeEvolutionHub } from '@/core/firebase/evolutionLedgerFirestore';
 
 export const EvolutionDevPanel: React.FC = () => {
   const user = useStore((state) => state.user);
@@ -14,14 +13,11 @@ export const EvolutionDevPanel: React.FC = () => {
 
   const triggerLevelUp = async (level: number, packs: string[]) => {
     try {
-      // Vi simulerar att Orkestern (backend) har gjort en uppdatering
-      const hubRef = doc(db, 'evolution_hub', user.uid);
-      await setDoc(hubRef, {
+      await mergeEvolutionHub(user.uid, {
         barnportenLevel: level,
         unlockedPacks: packs,
-        updatedAt: new Date().toISOString()
-      }, { merge: true });
-      
+      });
+
       console.log(`🔥 Dev-Trigger: Upplåst Nivå ${level}`);
     } catch (error) {
       console.error("Misslyckades att fejka upplåsning:", error);
@@ -30,14 +26,12 @@ export const EvolutionDevPanel: React.FC = () => {
 
   const initChildren = async () => {
     try {
-      const hubRef = doc(db, 'evolution_hub', user.uid);
-      await setDoc(hubRef, {
+      await mergeEvolutionHub(user.uid, {
         childrenAgeState: {
-          kasper: { birthDate: "2018-08-19", currentBracket: "toddler_preschool", barnportenLevel: 1 },
-          arvid: { birthDate: "2021-06-02", currentBracket: "toddler_preschool", barnportenLevel: 1 }
+          kasper: { birthDate: "2018-08-19", currentBracket: "toddler_preschool", barnportenLevel: 1, ageYears: 7, lastUpdated: new Date().toISOString() },
+          arvid: { birthDate: "2021-06-02", currentBracket: "toddler_preschool", barnportenLevel: 1, ageYears: 4, lastUpdated: new Date().toISOString() }
         },
-        updatedAt: new Date().toISOString()
-      }, { merge: true });
+      });
       console.log(`🔥 Dev-Trigger: Initierade Arvid & Kasper`);
     } catch (error) {
       console.error("Misslyckades att initiera barn:", error);

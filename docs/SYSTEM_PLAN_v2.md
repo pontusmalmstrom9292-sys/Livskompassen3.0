@@ -219,7 +219,7 @@ Produkt-GAP: [`MODUL-GAP-OVERSIKT.md`](./MODUL-GAP-OVERSIKT.md)
 | **20** | Doc-synk · arkiv-batch 2 | **done** 2026-06-15 | [`archive/evaluations-fas20-2026-06/`](./archive/evaluations-fas20-2026-06/) |
 | **21** | App Check guards · JOY-17 · arkiv-batch 3 · Oracle tokens | **done** 2026-06-15 | [`2026-06-15-fas21-callables-guard-inventory.md`](./evaluations/2026-06-15-fas21-callables-guard-inventory.md) |
 | **22** | Hex→tokens P0 · doc-synk · typecheck expansion | **done** 2026-06-15 | [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) Fas 22-rad |
-| **19.5** | `evolution_ledger` dual-write | **defer** nästa våg | `infinite-evolution.mdc` |
+| **19.5** | `evolution_ledger` dual-write | **done** 2026-06-15 | [`2026-06-15-fas19-5-evolution-ledger-dual-write.md`](./evaluations/2026-06-15-fas19-5-evolution-ledger-dual-write.md) |
 | **19.6** | Arkiv-batch PMIR | väntar Pontus OK | [`2026-06-15-fas19-archive-pmir.md`](./evaluations/2026-06-15-fas19-archive-pmir.md) |
 
 **Eval-serie Fas 13–19 (aktiv mapp):** [`evaluations/`](./evaluations/) — planerad arkiv: [`archive/evaluations-fas19-2026-06/`](./archive/evaluations-fas19-2026-06/) (efter 19.6 PMIR).
@@ -230,7 +230,7 @@ Produkt-GAP: [`MODUL-GAP-OVERSIKT.md`](./MODUL-GAP-OVERSIKT.md)
 
 **Fas 22 (levererad 2026-06-15):** Hex→tokens P0 · doc-synk · `typecheck:core-strict` (+morning) · hosting deploy.
 
-**Nästa våg:** evolution_ledger dual-write (19.5) · hex P2 zon-specifik · USER Motorola-smoke.
+**Nästa våg:** USER Motorola-smoke · hex P2 zon-specifik · M3.0-C (PMIR).
 
 ---
 
