@@ -30,6 +30,10 @@ export function MabraHistoryView() {
       setChartReady(width > 0 && height > 0);
     };
     update();
+    if (typeof ResizeObserver === 'undefined') {
+      const id = window.requestAnimationFrame(update);
+      return () => window.cancelAnimationFrame(id);
+    }
     const observer = new ResizeObserver(update);
     observer.observe(el);
     return () => observer.disconnect();

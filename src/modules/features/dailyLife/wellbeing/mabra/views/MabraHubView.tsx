@@ -1,13 +1,11 @@
-import { memo, useCallback, useEffect, useRef } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { lazy, memo, Suspense, useCallback, useEffect, useRef } from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useShallow } from 'zustand/react/shallow';
 import { useStore } from '@/core/store';
 import { useMabraStore } from '../store/mabraStore';
 import { saveMabraSession } from '@/core/firebase/firestore';
 import { MabraVitHub } from '../components/MabraVitHub';
-import { MabraHistoryView } from '../components/MabraHistoryView';
 import { DagligMixPanel } from '../components/DagligMixPanel';
-import { MabraGoalPanel } from '../components/MabraGoalPanel';
 import { VitCurriculumPanel } from '../components/VitCurriculumPanel';
 import { MaterialPackShortcuts, useLifeHubPreset } from '@/core/lifeOs';
 import { pickDailyReflectionCard } from '../lib/pickDagligMix';
@@ -18,10 +16,18 @@ import { MabraHubCollapsible } from '../components/MabraHubCollapsible';
 import { readAllVitProjectLastSeen, writeVitProjectLastSeen } from '../lib/vitProjectLastSeen';
 import { MabraModulValjare, type MabraModulChoice } from '../components/MabraModulValjare';
 import { MabraRecoveryBanner } from '@/features/mabra/components/MabraRecoveryBanner';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { VALUES_COMPASS_COPY, exerciseTypeForHub } from '../constants';
 import type { MabraHubAction, MabraHubItem } from '../mabraHubRegistry';
 import type { MabraSymptomHub } from '../types';
 import type { MabraProjectId } from '../constants/mabraProjects';
+
+const MabraGoalPanelLazy = lazy(() =>
+  import('../components/MabraGoalPanel').then((m) => ({ default: m.MabraGoalPanel })),
+);
+const MabraHistoryViewLazy = lazy(() =>
+  import('../components/MabraHistoryView').then((m) => ({ default: m.MabraHistoryView })),
+);
 
 const VIT_PROJECT_IDS: MabraProjectId[] = [
   'self_esteem',
@@ -39,6 +45,7 @@ export const MabraHubView = memo(function MabraHubView() {
   const user = useStore((s) => s.user);
   const userId = user?.uid;
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const { preset } = useLifeHubPreset();
   
@@ -72,6 +79,13 @@ export const MabraHubView = memo(function MabraHubView() {
 
   const sessionStartedAt = useRef<number | null>(null);
   const breathingOnlyRef = useRef(false);
+
+  useEffect(() => {
+    const onHubIndex = location.pathname === '/mabra' || location.pathname === '/mabra/';
+    if (onHubIndex) {
+      setShowHubPicker(true);
+    }
+  }, [location.pathname, setShowHubPicker]);
 
   useEffect(() => {
     if (searchParams.get('project')) {
@@ -279,7 +293,15 @@ export const MabraHubView = memo(function MabraHubView() {
           {!lowEnergyMode && (
             <>
               <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
-              <MabraGoalPanel />
+              <HubErrorBoundary
+                title="Målsättning kunde inte laddas"
+                logTag="MabraGoalPanel"
+                glow="green"
+              >
+                <Suspense fallback={null}>
+                  <MabraGoalPanelLazy />
+                </Suspense>
+              </HubErrorBoundary>
               <MabraHubCollapsible title="Dina kurser" meta={`${CURRICULUMS.length} kurser`} defaultOpen={false}>
                 <VitCurriculumPanel
                   onOpenReflection={openCurriculumReflection}
@@ -298,7 +320,15 @@ export const MabraHubView = memo(function MabraHubView() {
             profileSlot={<MaterialPackShortcuts preset={preset} hub="mabra" />}
           />
           <div className="mt-6">
-            <MabraHistoryView />
+            <HubErrorBoundary
+              title="Historik kunde inte laddas"
+              logTag="MabraHistoryView"
+              glow="green"
+            >
+              <Suspense fallback={null}>
+                <MabraHistoryViewLazy />
+              </Suspense>
+            </HubErrorBoundary>
           </div>
           {valuesSavedHint && (
             <p className="text-center text-sm text-text-muted">{VALUES_COMPASS_COPY.savedHint}</p>

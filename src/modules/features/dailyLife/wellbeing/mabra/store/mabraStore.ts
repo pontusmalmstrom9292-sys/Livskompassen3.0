@@ -8,7 +8,6 @@ import type {
 import type { MabraHubCategory } from '../mabraHubRegistry';
 import type { MabraPlanKind } from '../constants/mabraProjects';
 import { readAllVitProjectLastSeen } from '../lib/vitProjectLastSeen';
-import { hasSeenMabraModulValjare } from '../lib/mabraModulValjareStorage';
 import { saveMabraCheckIn, getLatestMabraCheckIn, type CheckInRow } from '@/core/firebase/firestore';
 
 export interface MabraState {
@@ -65,7 +64,8 @@ const getInitialState = () => ({
   hubFocusToken: 0,
   lowEnergyMode: false,
   vitLastSeen: readAllVitProjectLastSeen(),
-  showHubPicker: !hasSeenMabraModulValjare(),
+  /** Alltid visa 6-kortsingång tills användaren aktivt hoppar över — undvik tung hub vid första paint. */
+  showHubPicker: true,
   latestCheckIn: null,
   isLoadingCheckIn: false,
 });
