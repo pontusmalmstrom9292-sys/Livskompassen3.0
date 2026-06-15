@@ -61,6 +61,7 @@ export {
 
 export { onVaultCreatePatternScan } from './triggers/patternScanOnVaultCreate';
 export { onInkastEvidenceFinalized } from './triggers/inkastStorageOnFinalize';
+export { onEvolutionHubWrite } from './triggers/onEvolutionHubWrite';
 
 export {
   calculateSmartAllocation,

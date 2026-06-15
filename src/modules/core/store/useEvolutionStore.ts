@@ -3,6 +3,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/firestore';
 import { syncEvolutionHubToLedger } from '../firebase/evolutionLedgerFirestore';
 import { FIRESTORE_COLLECTIONS, type EvolutionHubDoc } from '../types/firestore';
+import { hubLedgerFingerprint } from '../../../../shared/evolution/evolutionHubLedgerSync';
 
 export interface EvolutionState {
   // State
@@ -25,16 +26,6 @@ export interface EvolutionState {
   hasFeature: (flag: string) => boolean;
   hasUnlockedPack: (packId: string) => boolean;
   getChildBracket: (alias: string) => 'toddler_preschool' | 'early_school' | 'pre_teen' | 'teen';
-}
-
-function hubLedgerFingerprint(doc: EvolutionHubDoc): string {
-  return JSON.stringify({
-    pillars: doc.pillars,
-    flags: doc.unlockedFeatureFlags,
-    packs: doc.unlockedPacks,
-    children: doc.childrenAgeState,
-    barnportenLevel: doc.barnportenLevel,
-  });
 }
 
 export const useEvolutionStore = create<EvolutionState>((set, get) => ({

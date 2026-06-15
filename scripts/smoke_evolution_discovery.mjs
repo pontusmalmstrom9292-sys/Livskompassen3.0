@@ -53,6 +53,27 @@ function main() {
     'hubLedgerFingerprint',
   );
   mustInclude(
+    'shared/evolution/evolutionHubLedgerSync.ts',
+    'hubLedgerFingerprint',
+    'collectLedgerEntriesFromHubDiff',
+    'ledgerEntryDedupKey',
+  );
+  mustInclude(
+    'functions/src/triggers/onEvolutionHubWrite.ts',
+    'onEvolutionHubWrite',
+    'syncEvolutionHubToLedgerServer',
+    'evolution_hub/{uid}',
+  );
+  mustInclude(
+    'functions/src/index.ts',
+    'onEvolutionHubWrite',
+  );
+  mustInclude(
+    'src/modules/oracle/services/OracleService.ts',
+    'USER_DAILY_FOCUS_COLLECTION',
+    'daily_intentions',
+  );
+  mustInclude(
     'src/modules/core/hooks/useEvolutionSync.ts',
     'useEvolutionStore',
     'userId: user.uid',

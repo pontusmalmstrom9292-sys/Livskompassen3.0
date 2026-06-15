@@ -4,12 +4,14 @@ import { assertOfflineWriteAllowed } from './offlineWritePolicy';
 import { FIRESTORE_COLLECTIONS } from '../types/firestore';
 import type { DiscoveryCategoryId } from '@/features/dailyLife/wellbeing/compasses/content/discoveryBentoCatalog';
 import type { EvolutionHubDoc, EvolutionPillar } from '../types/firestore';
+import {
+  collectLedgerEntriesFromHubDiff,
+  ledgerEntryDedupKey,
+  ledgerEntryDedupKeyFromStored,
+  type EvolutionLedgerType,
+} from '../../../../shared/evolution/evolutionHubLedgerSync';
 
-export type EvolutionLedgerType =
-  | 'milestone_unlocked'
-  | 'capacity_increased'
-  | 'child_age_milestone'
-  | 'pillar_rebalance';
+export type { EvolutionLedgerType };
 
 const MILESTONE_CACHE_PREFIX = 'lk:discovery_milestone:';
 
@@ -81,17 +83,23 @@ export async function recordDiscoveryMilestoneIfNew(
   return true;
 }
 
-type LedgerWriteInput = {
-  userId: string;
-  type: EvolutionLedgerType;
-  pillar: EvolutionPillar;
-  levelBefore: number;
-  levelAfter: number;
-  rationale: string;
-  metadata: Record<string, unknown>;
-};
+async function loadExistingDedupKeys(userId: string): Promise<Set<string>> {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.evolution_ledger);
+  const snap = await getDocs(query(ref, where('ownerId', '==', userId)));
+  const keys = new Set<string>();
+  snap.docs.forEach((docSnap) => {
+    keys.add(ledgerEntryDedupKeyFromStored(docSnap.data() as Record<string, unknown>));
+  });
+  return keys;
+}
 
-async function appendEvolutionLedgerEntry(input: LedgerWriteInput): Promise<void> {
+async function appendEvolutionLedgerEntry(
+  input: Parameters<typeof ledgerEntryDedupKey>[0] & { userId: string; rationale: string },
+  existingKeys: Set<string>,
+): Promise<void> {
+  const key = ledgerEntryDedupKey(input);
+  if (existingKeys.has(key)) return;
+
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.evolution_ledger);
   const ref = collection(db, FIRESTORE_COLLECTIONS.evolution_ledger);
   await addDoc(ref, {
@@ -105,9 +113,8 @@ async function appendEvolutionLedgerEntry(input: LedgerWriteInput): Promise<void
     rationale: input.rationale,
     metadata: input.metadata,
   });
+  existingKeys.add(key);
 }
-
-const HUB_PILLAR_KEYS = ['kognitiv', 'emotionell', 'vardag', 'relationell', 'valv'] as const satisfies readonly EvolutionPillar[];
 
 /** Dual-write när evolution_hub pillar-nivå ökar. */
 export async function recordPillarCapacityIncreases(
@@ -115,22 +122,7 @@ export async function recordPillarCapacityIncreases(
   prev: EvolutionHubDoc | null,
   next: EvolutionHubDoc,
 ): Promise<void> {
-  if (!prev?.pillars || !next.pillars) return;
-  for (const pillar of HUB_PILLAR_KEYS) {
-    const before = prev.pillars[pillar]?.level ?? 0;
-    const after = next.pillars[pillar]?.level ?? 0;
-    if (after > before) {
-      await appendEvolutionLedgerEntry({
-        userId,
-        type: 'capacity_increased',
-        pillar,
-        levelBefore: before,
-        levelAfter: after,
-        rationale: `Kapacitet ökad i pelare ${pillar}`,
-        metadata: { source: 'evolution_hub', pillar },
-      });
-    }
-  }
+  await syncEvolutionHubToLedger(userId, prev, next);
 }
 
 /** Dual-write när ny feature-flag låses upp i evolution_hub. */
@@ -139,20 +131,7 @@ export async function recordFeatureUnlocks(
   prev: EvolutionHubDoc | null,
   next: EvolutionHubDoc,
 ): Promise<void> {
-  const before = new Set(prev?.unlockedFeatureFlags ?? []);
-  const after = next.unlockedFeatureFlags ?? [];
-  for (const flag of after) {
-    if (before.has(flag)) continue;
-    await appendEvolutionLedgerEntry({
-      userId,
-      type: 'milestone_unlocked',
-      pillar: 'system',
-      levelBefore: before.size,
-      levelAfter: after.length,
-      rationale: `Feature-flag upplåst: ${flag}`,
-      metadata: { source: 'evolution_hub', flag },
-    });
-  }
+  await syncEvolutionHubToLedger(userId, prev, next);
 }
 
 /** Dual-write vid barnets ålderssegment-byte. */
@@ -161,23 +140,7 @@ export async function recordChildAgeMilestones(
   prev: EvolutionHubDoc | null,
   next: EvolutionHubDoc,
 ): Promise<void> {
-  const prevChildren = prev?.childrenAgeState;
-  const nextChildren = next.childrenAgeState;
-  if (!nextChildren) return;
-  for (const alias of Object.keys(nextChildren) as Array<keyof typeof nextChildren>) {
-    const before = prevChildren?.[alias]?.currentBracket;
-    const after = nextChildren[alias]?.currentBracket;
-    if (!after || before === after) continue;
-    await appendEvolutionLedgerEntry({
-      userId,
-      type: 'child_age_milestone',
-      pillar: 'relationell',
-      levelBefore: 0,
-      levelAfter: 1,
-      rationale: `Barn ${alias} byte till segment ${after}`,
-      metadata: { source: 'evolution_hub', childAlias: alias, bracket: after, bracketBefore: before ?? null },
-    });
-  }
+  await syncEvolutionHubToLedger(userId, prev, next);
 }
 
 /** Dual-write när barnportenLevel (root) ökar. */
@@ -186,19 +149,7 @@ export async function recordBarnportenLevelIncrease(
   prev: EvolutionHubDoc | null,
   next: EvolutionHubDoc,
 ): Promise<void> {
-  if (!prev) return;
-  const before = prev.barnportenLevel ?? 1;
-  const after = next.barnportenLevel ?? 1;
-  if (after <= before) return;
-  await appendEvolutionLedgerEntry({
-    userId,
-    type: 'capacity_increased',
-    pillar: 'relationell',
-    levelBefore: before,
-    levelAfter: after,
-    rationale: `Barnporten global nivå ${before} → ${after}`,
-    metadata: { source: 'evolution_hub', field: 'barnportenLevel' },
-  });
+  await syncEvolutionHubToLedger(userId, prev, next);
 }
 
 /** Dual-write när nytt material-pack låses upp. */
@@ -207,20 +158,7 @@ export async function recordUnlockedPackChanges(
   prev: EvolutionHubDoc | null,
   next: EvolutionHubDoc,
 ): Promise<void> {
-  const before = new Set(prev?.unlockedPacks ?? []);
-  const after = next.unlockedPacks ?? [];
-  for (const packId of after) {
-    if (before.has(packId)) continue;
-    await appendEvolutionLedgerEntry({
-      userId,
-      type: 'milestone_unlocked',
-      pillar: 'relationell',
-      levelBefore: before.size,
-      levelAfter: after.length,
-      rationale: `Material-pack upplåst: ${packId}`,
-      metadata: { source: 'evolution_hub', packId },
-    });
-  }
+  await syncEvolutionHubToLedger(userId, prev, next);
 }
 
 /** Jämför prev/next evolution_hub och append-only logga förändringar. */
@@ -230,16 +168,18 @@ export async function syncEvolutionHubToLedger(
   next: EvolutionHubDoc,
 ): Promise<void> {
   if (!prev) return;
-  await recordPillarCapacityIncreases(userId, prev, next);
-  await recordFeatureUnlocks(userId, prev, next);
-  await recordChildAgeMilestones(userId, prev, next);
-  await recordBarnportenLevelIncrease(userId, prev, next);
-  await recordUnlockedPackChanges(userId, prev, next);
+  const entries = collectLedgerEntriesFromHubDiff(userId, prev, next);
+  if (entries.length === 0) return;
+
+  const existingKeys = await loadExistingDedupKeys(userId);
+  for (const entry of entries) {
+    await appendEvolutionLedgerEntry(entry, existingKeys);
+  }
 }
 
 /**
  * Kanonisk merge-skrivning till evolution_hub.
- * Dual-write sker via useEvolutionSync → setDoc → syncEvolutionHubToLedger (en väg).
+ * Dual-write: client (useEvolutionSync) + server (`onEvolutionHubWrite`) med dedup.
  */
 export async function mergeEvolutionHub(
   userId: string,

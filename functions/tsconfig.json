@@ -15,6 +15,7 @@
   "include": [
     "src",
     "../shared/economy/**/*.ts",
-    "../shared/patterns/**/*.ts"
+    "../shared/patterns/**/*.ts",
+    "../shared/evolution/**/*.ts"
   ]
 }
