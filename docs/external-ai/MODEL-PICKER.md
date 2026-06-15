@@ -14,6 +14,8 @@
 | GCP/Firebase research | Sonar 2 | — |
 | Enfil-debug | Copilot | GPT-5.4 |
 | Repo-hygien / design-städ | GPT-5.4 Mini | Opus 4.8 (stor audit) |
+| Valv UI SPEC + vision | Opus 4.8 + Sonnet 4.6 | [`PHASE-08-valv-ui.md`](./PHASE-08-valv-ui.md) |
+| Hjärtat/Familjen/Vardagen UI | Sonnet 4.6 | [`UI-WAVE-ROADMAP.md`](./UI-WAVE-ROADMAP.md) |
 | Checkpoint-sammanfattning | GPT-5.4 Mini | Sonnet 4.6 |
 
 ## Full matris
@@ -50,3 +52,5 @@
 | PHASE-05 Synapse | Grok 4.20 → GPT-5.5 |
 | PHASE-06 App Check | Sonar 2 → GPT-5.4 |
 | PHASE-07 Final lock | GPT-5.4 Mini |
+| PHASE-08 Valv UI (B1) | Opus 4.8 → Sonnet 4.6 → Cursor |
+| UI-våg B2–B4 | Sonnet 4.6 → Cursor |

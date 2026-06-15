@@ -1,7 +1,7 @@
 # Valvet SuperModule — Fas 1 inventering & implementationsplan
 
 **Datum:** 2026-06-14  
-**Status:** Inventering klar — **ingen kod ändrad i detta steg**  
+**Status:** Fas 1A–1E implementerad 2026-06-15 (UI-våg B1)  
 **Scope:** Frontend-only · `src/modules/features/lifeJournal/evidence/vault/**` (+ route-skal `ValvetRoutePage.tsx`)  
 **Kanon:** [`.context/locked-ux-features.md`](../../../.context/locked-ux-features.md) §2 · [`docs/design/VALV-HUBB-SPEC.md`](../../design/VALV-HUBB-SPEC.md)  
 **Referensmönster:** [`Mabra-INPUT-SUPERHUB-SPEC.md`](./Mabra-INPUT-SUPERHUB-SPEC.md) · [`Familjen-INPUT-SUPERHUB-SPEC.md`](../Familjen-INPUT-SUPERHUB-SPEC.md)

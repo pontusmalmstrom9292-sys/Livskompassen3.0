@@ -3,7 +3,14 @@ import { VALV_ZONE_INGRESS, VALV_ZONE_LABELS } from '@/core/copy/valvNavCopy';
 import type { ValvZone } from '../utils/vaultTabs';
 import { markValvZoneModulValjareSeen } from '../utils/valvZoneModulValjareStorage';
 
-const PICKER_ZONES = ['samla', 'analysera', 'kunskap', 'vit', 'exportera'] as const satisfies readonly ValvZone[];
+const PICKER_ZONES = [
+  'samla',
+  'analysera',
+  'kunskap',
+  'vit',
+  'exportera',
+  'forensik',
+] as const satisfies readonly ValvZone[];
 
 type PickerZone = (typeof PICKER_ZONES)[number];
 
@@ -13,6 +20,7 @@ const ZONE_TONE: Record<PickerZone, 'gold' | 'emerald' | 'indigo' | 'lavender'> 
   kunskap: 'gold',
   vit: 'lavender',
   exportera: 'emerald',
+  forensik: 'indigo',
 };
 
 function ZoneIngressPreview({ zone }: { zone: ValvZone }) {

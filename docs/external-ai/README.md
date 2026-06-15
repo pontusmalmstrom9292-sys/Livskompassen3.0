@@ -15,7 +15,7 @@
 3. Klistra [`CHATBOT-MASTER-PROMPT.md`](./CHATBOT-MASTER-PROMPT.md)
 4. Bifoga repomix (se fas-prompt)
 5. Klistra `PHASE-0X-*.md`
-6. Spara leverans i [`leveranser/`](./leveranser/)
+6. Spara leverans i [`leveranser/`](./leveranser/) — **filnamn:** `2026-06-15-fas-07-kortnamn.md` (inte `docs:external-ai:…` eller `everanser:…`)
 7. **CHECKPOINT i Cursor** → [`CHECKPOINT-PROTOCOL.md`](./CHECKPOINT-PROTOCOL.md)
 
 ## Bifoga till ChatBox (register + leveranser)
@@ -49,6 +49,7 @@ npm run chatbot:sync:bifoga
 
 | Fil | Roll |
 |-----|------|
+| [`FIL-REGISTER.md`](./FIL-REGISTER.md) | **Var filer ska ligga** — undvik fel ChatBox-namn |
 | [`LIFE-OS-BUILD-STATE.md`](./LIFE-OS-BUILD-STATE.md) | LOCK / OPEN / WIP per komponent |
 | [`CHECKPOINT-LOG.md`](./CHECKPOINT-LOG.md) | Datum, resultat, planändringar |
 | [`HYGIENE-LOG.md`](./HYGIENE-LOG.md) | KEEP / ARCHIVE / DELETE per städrunda |

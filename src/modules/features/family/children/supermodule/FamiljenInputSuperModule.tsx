@@ -89,7 +89,12 @@ export function FamiljenInputSuperModule({
         <FamiljenInputModePicker activeMode={activeMode} onChange={setActiveMode} />
       </div>
 
-      <div className="familjen-input-hub__viewport px-4 py-4 sm:px-5 sm:py-5">
+      <div
+        className={clsx(
+          'familjen-input-hub__viewport px-4 py-4 sm:px-5 sm:py-5',
+          !flowWithIsland && 'calm-scroll-island max-h-[min(75vh,720px)] overflow-y-auto',
+        )}
+      >
         <FamiljenInputModeDelegate
           mode={activeMode}
           shell={shell}

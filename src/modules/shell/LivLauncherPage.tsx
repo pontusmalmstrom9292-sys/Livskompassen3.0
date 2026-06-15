@@ -15,6 +15,7 @@ import {
   resolveLivLegacyTabRedirect,
 } from './livLauncherRoutes';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 
 type LivInlineTab = 'kompasser' | 'ekonomi';
@@ -100,20 +101,24 @@ export function LivLauncherPage() {
 
         <main className="calm-scroll-island mt-2 animate-fade-in">
           {activeTab === 'kompasser' && (
-            <div className="space-y-4">
-              <CompassQuickWidgetRail flow={compassFlow} className="compass-quick-widget-rail--in-module" />
-              <CompassDashboard forcedFlow={compassFlow} />
-            </div>
+            <BentoCard glow="gold" depth noHover bare className="!p-4 sm:!p-5">
+              <div className="space-y-4">
+                <CompassQuickWidgetRail flow={compassFlow} className="compass-quick-widget-rail--in-module" />
+                <CompassDashboard forcedFlow={compassFlow} />
+              </div>
+            </BentoCard>
           )}
 
           {activeTab === 'ekonomi' && (
-            <div className="space-y-4">
-              {useLegacyEkonomi ? (
-                <EconomyOverviewPanel userId={user?.uid ?? ''} />
-              ) : (
-                <EkonomiInputSuperModule userId={user?.uid ?? ''} />
-              )}
-            </div>
+            <BentoCard glow="gold" depth noHover bare className="!p-4 sm:!p-5">
+              <div className="space-y-4">
+                {useLegacyEkonomi ? (
+                  <EconomyOverviewPanel userId={user?.uid ?? ''} />
+                ) : (
+                  <EkonomiInputSuperModule userId={user?.uid ?? ''} />
+                )}
+              </div>
+            </BentoCard>
           )}
         </main>
       </div>

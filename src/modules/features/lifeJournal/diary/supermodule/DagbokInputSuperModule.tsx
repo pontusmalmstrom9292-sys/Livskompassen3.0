@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { BookOpen } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { DagbokRememberCard } from '@/features/lifeJournal/diary/diary/components/DagbokRememberCard';
 import { DagbokQuickMirrorDelegate } from './delegates/DagbokQuickMirrorDelegate';
@@ -9,11 +8,12 @@ import {
   DagbokReflektionDelegate,
 } from './delegates/DagbokReflektionDelegate';
 import {
-  DAGBOK_INPUT_MODES_PRIMARY,
   DEFAULT_DAGBOK_INPUT_MODE,
+  getDagbokInputModeMeta,
   parseDagbokInputMode,
   type DagbokInputMode,
 } from './dagbokInputModes';
+import { DagbokInputModePicker } from './DagbokInputModePicker';
 
 export type DagbokInputSuperModuleProps = {
   /** Override URL-parsing (t.ex. Storybook). */
@@ -55,6 +55,8 @@ export function DagbokInputSuperModule({
     [initialMode, searchParams],
   );
 
+  const activeMeta = useMemo(() => getDagbokInputModeMeta(activeMode), [activeMode]);
+
   const setActiveMode = useCallback(
     (mode: DagbokInputMode) => {
       if (initialMode) return;
@@ -76,54 +78,32 @@ export function DagbokInputSuperModule({
 
   return (
     <BentoCard
-      title="Superdagbok"
-      icon={<BookOpen className="h-4 w-4" />}
       glow="gold"
       depth
       noHover
+      bare
       className="hjartat-tab-panel overflow-hidden !p-4 sm:!p-5"
     >
-      <header className="mb-4 space-y-2">
-        <div className="space-y-1">
-          <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
-            Universal Input
-          </p>
-          <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">
-            Ett läge i taget
-          </h2>
-          <p className="text-xs text-text-dim">
-            Reflektera, snabb spegling eller minneslista — byt läge utan sidbyte.
-          </p>
-        </div>
+      <header className="valv-forensic-header">
+        <p className="valv-forensic-eyebrow">Hjärtat</p>
+        <h2 className="valv-forensic-title">{activeMeta.label}</h2>
+        <p className="valv-forensic-lead">{activeMeta.description}</p>
+      </header>
 
+      <div className="mb-4 flex flex-wrap items-center gap-2">
+        <DagbokInputModePicker activeMode={activeMode} onChange={setActiveMode} />
         <Link
           to="/hjartat?tab=speglar"
-          className="btn-pill--secondary inline-flex text-xs shadow-sm transition-transform hover:scale-105"
+          className="btn-pill--secondary text-xs shadow-sm transition-transform hover:scale-105"
           title="Låt AI validera och spegla dina senaste tankar"
         >
           Känslospegeln
         </Link>
-      </header>
-
-      <label className="reflektion-field mb-4">
-        <span className="reflektion-field__label">Läge</span>
-        <select
-          value={activeMode}
-          onChange={(e) => setActiveMode(parseDagbokInputMode(e.target.value))}
-          className="reflektion-feeling-select"
-          aria-label="Dagboksinmatningsläge"
-        >
-          {DAGBOK_INPUT_MODES_PRIMARY.map((mode) => (
-            <option key={mode.id} value={mode.id}>
-              {mode.label} — {mode.description}
-            </option>
-          ))}
-        </select>
-      </label>
+      </div>
 
       <DagbokRememberCard />
 
-      <div className="reflektion-hub-body hjartat-reflektion-wizard mt-4">
+      <div className="calm-scroll-island mt-4 max-h-[min(75vh,720px)] overflow-y-auto pr-1">
         <DagbokInputModeDelegate mode={activeMode} onSaved={handleDelegateSaved} />
       </div>
     </BentoCard>

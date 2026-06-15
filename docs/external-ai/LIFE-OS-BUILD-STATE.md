@@ -2,7 +2,7 @@
 
 Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
-**Senast uppdaterad:** 2026-06-15 (CHECKPOINT-6 LOCK — App Check Enforce klar)
+**Senast uppdaterad:** 2026-06-15 (CHECKPOINT-7 PASS — ChatBox våg 1 FINAL)
 
 | Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
 |-----------|-------------|--------|-------|------------|
@@ -19,6 +19,8 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 | inkastSourceModule allowlist | `inkastSourceModule.ts` | **LOCK** | CP-3 | **CP-3** |
 | Storage onFinalize inkast | `onInkastEvidenceFinalized` | **LOCK** | build PASS | **CP-3** |
 | Valv modul | `src/modules/features/lifeJournal/evidence/vault/` | **WIP** | valv PASS | snapshot vid LOCK |
+| ChatBox bifoga + sync | `bifoga/`, `sync_chatbox_bifoga.mjs` | **LOCK** | — | **CP-7** |
+| LIFE-OS core lock doc | `LIFE-OS-CORE-LOCKED.md` | **LOCK** | — | **CP-7** |
 | MåBra 19.2–19.5 | hybrid-8, evolution_ledger | **DEFER** | — | efter core lock |
 
 ## Statusförklaring
@@ -28,8 +30,9 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 - **WIP** — delvis klar, snapshot vid nästa CP om PASS
 - **DEFER** — medvetet senarelagt
 
-## Nästa manuella steg (Pontus)
+## Nästa steg (Pontus)
 
-1. ~~Console Enforce~~ — **klar** 2026-06-15 (Pontus bekräftat)
-2. **Snapshot synapser** (finns `~/Livskompassen-snapshots/2026-06-15-synapser/` — kör om vid behov): `./scripts/snapshot_locked_module.sh synapser`
-3. ~~Deploy CP-3/4/5~~ — **klar** 2026-06-15
+1. ~~Console Enforce~~ — **klar** 2026-06-15
+2. ~~Deploy CP-3/4/5~~ — **klar** 2026-06-15
+3. **Snapshot** (om ej kört): `./scripts/snapshot_locked_module.sh inkast` · `synapser`
+4. **Nästa arbetsgren:** UI-våg B1 Valv — [`PHASE-08-valv-ui.md`](./PHASE-08-valv-ui.md) · handoff [`CURSOR-HANDOFF-OPEN.md`](./CURSOR-HANDOFF-OPEN.md)
