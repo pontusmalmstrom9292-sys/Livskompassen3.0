@@ -2,7 +2,7 @@
 
 Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
-**Senast uppdaterad:** 2026-06-15 (CHECKPOINT-4 PASS)
+**Senast uppdaterad:** 2026-06-15 (CHECKPOINT-6 PASS)
 
 | Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
 |-----------|-------------|--------|-------|------------|
@@ -11,8 +11,10 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 | G10 Inkast backend | `inboxClassifier.ts`, `submitInkastLite.ts`, `inkastStorageOnFinalize.ts` | **LOCK** | inkast + inbox PASS 2026-06-15 | **CP-3** |
 | G10 Inkast UI (CapturePanel + filer) | `CapturePanel.tsx`, `CaptureSuperModule.tsx` | **LOCK** | build + locked-ux + inkast PASS 2026-06-15 | **CP-4** |
 | Upload unified (Valv DirectPanel) | `InkastDirectPanel.tsx` | **WIP** | behålls tills steg 2 | CP-4 defer |
-| SynapseBus (4 triggers) | `synapseBus.ts`, `driveIngestSynapse.ts` | **LOCK** | orkester PASS | pre-existing |
-| App Check Console Enforce | Firebase Console | **OPEN** | — | PHASE-06 |
+| SynapseBus (4 triggers) | `synapseBus.ts`, `driveIngestSynapse.ts`, `dcapAlertSynapse.ts`, `journalWovenSynapse.ts` | **LOCK** | build + orkester PASS 2026-06-15 | **CP-5** |
+| App Check kod + deploy-guide | `appCheck.ts`, `callableGuards.ts`, `APPCHECK-ENFORCE-GUIDE.md` | **LOCK (kod)** | valv-security PASS 2026-06-15 | **CP-6** |
+| App Check Console Enforce | Firebase Console | **OPEN — Pontus** | manuell efter Enforce | **CP-6** |
+| Deploy wave docs | `DEPLOY-CHATBOT-WAVE.md` | **LOCK** | — | **CP-6** |
 | Upload unified SPEC | `UPLOAD-UNIFIED-SPEC.md` | **APPROVED** | CP-2 manuell | **CP-2** |
 | Audio MIME i Inkast | `inkastMimeTypes.ts` | **LOCK** | CP-3 backend | **CP-3** |
 | inkastSourceModule allowlist | `inkastSourceModule.ts` | **LOCK** | CP-3 | **CP-3** |
@@ -23,6 +25,12 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 ## Statusförklaring
 
 - **LOCK** — smoke PASS, får inte refaktoreras utan explicit OK + snapshot
-- **OPEN** — under aktiv utveckling
+- **OPEN** — under aktiv utveckling eller väntar på manuellt steg (Console)
 - **WIP** — delvis klar, snapshot vid nästa CP om PASS
 - **DEFER** — medvetet senarelagt
+
+## Nästa manuella steg (Pontus)
+
+1. **Console Enforce** — se [`APPCHECK-ENFORCE-GUIDE.md`](./APPCHECK-ENFORCE-GUIDE.md)
+2. **Snapshot synapser** (om ej körd): `./scripts/snapshot_locked_module.sh synapser`
+3. **Deploy kvar** (om ej allt deployat): se [`DEPLOY-CHATBOT-WAVE.md`](./DEPLOY-CHATBOT-WAVE.md)
