@@ -102,7 +102,12 @@
     "gemini:pack:all": "npm run gemini:pack:refresh && npm run google-ai-pro:pack",
     "ai-studio:pack": "node scripts/pack_ai_studio_repomix.mjs",
     "design:pack": "node scripts/pack_design_repomix.mjs",
-    "antigravity:pack": "node scripts/pack_antigravity_repomix.mjs"
+    "antigravity:pack": "node scripts/pack_antigravity_repomix.mjs",
+    "gpt-handoff:pack": "node scripts/pack_gpt_handoff_repomix.mjs",
+    "gpt-handoff:pack:01": "node scripts/pack_gpt_handoff_repomix.mjs --only 01",
+    "gpt-handoff:pack:02": "node scripts/pack_gpt_handoff_repomix.mjs --only 02",
+    "gpt-handoff:pack:03": "node scripts/pack_gpt_handoff_repomix.mjs --only 03",
+    "gpt-handoff:pack:all": "node scripts/pack_gpt_handoff_repomix.mjs"
   },
   "dependencies": {
     "@aparajita/capacitor-biometric-auth": "^10.0.0",

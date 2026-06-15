@@ -37,6 +37,9 @@ exports/google-ai-pro/
 exports/gemini-handoff/repomix/
 exports/gemini-handoff/konsolidering-upload/
 
+# Generated GPT handoff repomix packs (npm run gpt-handoff:pack)
+exports/gpt-handoff/repomix/
+
 # Generated AI Studio repomix (npm run ai-studio:pack)
 exports/ai-studio/
 

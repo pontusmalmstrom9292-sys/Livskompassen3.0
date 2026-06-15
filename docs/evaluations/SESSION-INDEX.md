@@ -17,6 +17,7 @@
 | S11 Fas 17–18 | 2026-06-15 | [`fas17-typecheck-shared.md`](./2026-06-15-fas17-typecheck-shared.md), [`fas18-android-cap-sync.md`](./2026-06-15-fas18-android-cap-sync.md) | **done** |
 | S12 Fas 19 | 2026-06-15 | [`2026-06-15-fas19-masterplan-v2.md`](./2026-06-15-fas19-masterplan-v2.md), `fas19-theme-lab-mabra`, `fas19-credits-audit`, `fas19-repo-inventory` | **done** · arkiv 19.6 **done** 2026-06-15 |
 | S13 Backend djupanalys | 2026-06-15 | [`2026-06-15-backend-djupanalys.md`](./2026-06-15-backend-djupanalys.md) | Kartlagd · åtgärd #1–8 öppen |
+| S14 Arkitektur + nav | 2026-06-15 | [`2026-06-15-arkitektur-nav-analys.md`](./2026-06-15-arkitektur-nav-analys.md), [`gpt-handoff/03-GPT-FORTSATTNING-PROMPT.md`](../gpt-handoff/03-GPT-FORTSATTNING-PROMPT.md) | **open** · F1–F5 ej implementerat |
 
 **Fas 19.6 arkiv-batch:** [`../archive/evaluations-fas19-6-2026-06/README.md`](../archive/evaluations-fas19-6-2026-06/README.md) · manifest [`2026-06-15-fas19-archive-pmir.md`](./2026-06-15-fas19-archive-pmir.md)
 
