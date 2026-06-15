@@ -71,6 +71,30 @@ async function main() {
   );
   console.log('[smoke] kunskap routing:', kunskapData.routing);
 
+  console.log('[smoke] previewInboxClassification (barnen via familjen)…');
+  const barnen = await preview({
+    fileName: 'kasper_skola_smoke.txt',
+    text: 'Kasper verkade orolig inför läxor idag. Neutral observation från hämtning.',
+    sourceModule: 'familjen',
+  });
+  const barnenData = barnen.data?.classification;
+  assert(barnenData?.routing === 'barnen', `barnen förväntat, fick ${barnenData?.routing}`);
+  assert(
+    barnenData?.childAlias === 'Kasper',
+    `barnen childAlias förväntat Kasper, fick ${barnenData?.childAlias}`,
+  );
+  console.log('[smoke] barnen routing OK, childAlias:', barnenData.childAlias);
+
+  console.log('[smoke] previewInboxClassification (mabra_inkast → dagbok)…');
+  const mabra = await preview({
+    fileName: 'mabra_reflektion_smoke.txt',
+    text: 'Jag behöver vila och återhämtning efter en tung vecka. Ingen konflikt.',
+    sourceModule: 'mabra_inkast',
+  });
+  const mabraData = mabra.data?.classification;
+  assert(mabraData?.routing === 'dagbok', `mabra_inkast förväntat dagbok, fick ${mabraData?.routing}`);
+  console.log('[smoke] mabra_inkast routing:', mabraData.routing);
+
   console.log('[smoke] previewInboxClassification (trauma → review)…');
   const trauma = await preview({
     fileName: 'lvu_akut.docx',

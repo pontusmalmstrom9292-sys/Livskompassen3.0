@@ -1,5 +1,5 @@
 {
-  "version": "2026-06-14",
+  "version": "2026-06-15",
   "source_policy": "kunskap_content_seed_keep_only",
   "default_source": "kunskap_content_seed",
   "entries": [
@@ -284,6 +284,16 @@
       "source_tier": "psychoeducation_general"
     },
     {
+      "id": "kunskap-fact-jur-005",
+      "title": "LVU — dokumentationskrav (neutral översikt)",
+      "content": "I LVU-relaterade utredningar samlar socialtjänst och domstol information om barnets situation — inte om vuxnas personlighet. Neutral dokumentation fokuserar på observerbara omständigheter: datum och tid, vad som hände, vem som var närvarande, barnets reaktion och vilka stödinsatser som provats. Undvik diagnoser på föräldrar, värderande etiketter och slutsatser om avsikt. Föräldrar har i regel rätt att ta del av utredningsunderlag och yttra sig innan beslut. Att samla underlag är inte samma sak som att bevisa skuld — det är processens informationsbehov. Livskompassen ger inte juridisk rådgivning; vid LVU-frågor kontakta jurist eller berörd handläggare.",
+      "category": "juridik_overview",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "LVU (1990:52) §§ om utredning; Socialstyrelsen handläggning barn — ej rådgivning",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-006",
       "title": "Grey Rock — neutral kommunikationsprincip",
       "content": "Grey Rock (grå sten) beskriver att hålla svar korta, sakliga och utan känslomässig detalj när en motpart söker konflikt eller reaktion. Syftet är att minska bränsle till eskalering, inte att förneka barnets eller egna behov i viktiga frågor. Principen skiljs från tystnad eller blockering: logistik kring barn ska fortfarande kunna hanteras tydligt och dokumenteras vid behov i rätt silo (bevis), inte som terapi här.",
@@ -311,6 +321,26 @@
       "eventDate": null,
       "source": "kunskap_content_seed",
       "citation_hint": "Speglar-SPEC; Barnen neutral logg",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-ep-006",
+      "title": "Myndighetskontakt — saklig ton och datum",
+      "content": "Kontakt med socialtjänst, skola, BUP eller familjerätt bör vara saklig, datumerad och fokuserad på barnets behov — inte vuxenkonflikt. Ett kort underlag innehåller: datum, vad du begär eller rapporterar, observerbar händelse, vem som informerats. Undvik långa känslomässiga utläggningar, diagnoser på motparten och JADE (förklara/försvara). Be om skriftlig bekräftelse på mottagande vid viktiga ärenden. Myndigheter behandlar ofta parallella föräldraräkenskaper — håll ditt spår neutralt och kronologiskt. Livskompassen ger inte juridisk rådgivning; konkret sms-svar → Hamn, bevis → Valv.",
+      "category": "epistemik_produkt",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "BBIC-inspirerad myndighetskommunikation; ep-003 observation/tolkning",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-jur-006",
+      "title": "Vårdnad — bevisbar logistik vs känsloargument",
+      "content": "I vårdnadsfrågor väger domstolar och utredare ofta tyngre på verifierbar logistik än på känslomässiga påståenden utan underlag. Logistik: schema som följts eller brutits, hämtning/lämning med datum, skolfrånvaro, läkarbesök, kommunikation om barnets behov. Känsloargument: generaliseringar ('hen bryr sig aldrig'), karaktärsdomar, krav på att du ska bevisa lojalitet genom JADE. Neutral dokumentation i Valv eller dossier beskriver händelser med datum — inte vem som 'är' narcissist eller offer. Detta är informationsstruktur, inte garanti för juridiskt utfall. Livskompassen ger inte råd om ditt ärende.",
+      "category": "juridik_overview",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Föräldrabalken 6 kap. (översikt); vårdnadsutredning praxis — ej rådgivning",
       "source_tier": "P2"
     },
     {
@@ -342,6 +372,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "kunskap-fact-045 utökning; Hamn 10/90",
       "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-jur-007",
+      "title": "Familjerätt — parallellt föräldraskap i praktiken",
+      "content": "Parallellt föräldraskap innebär att föräldrar samordnar kring barnet med minimal direkt kontakt — ofta via skrift, medlare eller app. I svensk familjerätt regleras vårdnad, boende och umgänge via överenskommelse, familjerättslig medling eller tingsrättsbeslut. Vårdnadsutredning kan beställas vid tvist; utredaren samlar information från hem, skola och barn. Gemensam vårdnad innebär beslutskrav om större frågor — inte nödvändigtvis lika boende. Förutsägbarhet för barnet (schema, överlämning, skolinfo) väger ofta tyngre än föräldrarnas ömsesidiga sympati. Detta är process- och begreppsfakta — inte strategi mot en specifik motpart.",
+      "category": "juridik_overview",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Föräldrabalken 6 kap.; Domstolsverket familjerätt — översikt; ej rådgivning",
+      "source_tier": "P2"
     },
     {
       "id": "kunskap-fact-008",
@@ -504,6 +544,16 @@
       "source_tier": "product_copy"
     },
     {
+      "id": "kunskap-fact-bh-013",
+      "title": "Barnets behov vid konflikt — observerbart beteende",
+      "content": "Vid föräldrakonflikt är barnets behov bäst beskrivet som observerbart beteende — inte som bevis mot en vuxen. Tecken att notera neutralt: sömnstörning, magont, skolfrånvaro, regression, rädsla inför överlämning, lojalitetsstress (skuld efter rolig tid hos andra föräldern). Dokumentera datum, barnets egna ord i citat, och vilka rutiner som hjälpte eller saknades. Undvik att barnet ska vittna mot förälder eller höra vuxenprocess. Professionella ingångar: skolkurator, BUP, BRIS 116 111. Generisk vägledning — ej juridisk rådgivning.",
+      "category": "barn_hcf",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "BBIC barnets behov; bh-007/bh-011/bh-012 kompletterar",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-cn-013",
       "title": "Bevis — beteende och datum",
       "content": "Inför myndigheter och dossier: beskriv vad som hände, när, och vem som observerade. Undvik diagnosetiketter på motparten. WORM-poster i Valv är sanningens ankare.",
@@ -664,6 +714,16 @@
       "source_tier": "psychoeducation_general"
     },
     {
+      "id": "kunskap-fact-cn-021",
+      "title": "Ekonomisk kontroll i medföräldraskap",
+      "content": "Ekonomisk kontroll beskriver när pengar, underhåll, räkningar eller skuldkrav används för att pressa, bestraffa eller styra kommunikation — t.ex. hot om att inte betala avtalad summa om du 'inte samarbetar', krav på kvitton utöver vad som avtalats, eller oväntade extra kostnader som betingelse. Skilj från vanlig logistik (~10 %): faktiska underhållsbelopp med datum och referens till avtal eller dom. Neutral respons: dokumentera belopp, datum och kanal i Valv; håll svar på logistik (BIFF). Livskompassen ger inte ekonomisk eller juridisk rådgivning.",
+      "category": "covert_taktik",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Financial abuse in coercive control literature; high-conflict coparenting (översikt)",
+      "source_tier": "psychoeducation_general"
+    },
+    {
       "id": "kunskap-fact-022",
       "title": "Zero Footprint — sessionsminne",
       "content": "Zero Footprint innebär att känslig sessionsdata (synapser, speglingsstate, tillfälliga cache) rensas vid utloggning, blur eller panic — så att privat bearbetning inte lämnar spår i en delad enhet. Permanent minne (journal, Valv, barnloggar) följer WORM-regler separat och kräver explicit spar.",
@@ -672,6 +732,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "Livskompassen security.md; U4 Grunder",
       "source_tier": "product_copy"
+    },
+    {
+      "id": "kunskap-fact-cn-022",
+      "title": "Dokumentation utan JADE — metod, inte personangrepp",
+      "content": "JADE (Justify, Argue, Defend, Explain) matar ofta eskalering i högkonflikt. I neutral dokumentation — Valv, dossier eller myndighetsunderlag — beskriv beteende och datum utan att förklara din moral, motbevisa anklagelser eller försvara din karaktär. Exempel på dokumentationsrad: '2026-03-12 kl. 17:40 — hämtning 45 min sen; barn väntade utan förvarning; sms skickat 17:15.' Undvik: 'hon är manipulativ och alltid sen'. Metoden minskar brus i WORM och dossier — den ersätter inte Hamn/BIFF på konkret sms eller juridisk rådgivning.",
+      "category": "covert_taktik",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "JADE/Grey Rock psychoeducation; cn-010/cn-013/vf-003 kompletterar",
+      "source_tier": "P1"
     },
     {
       "id": "kunskap-fact-023",
@@ -982,16 +1052,6 @@
       "source": "kunskap_content_seed",
       "citation_hint": "NICE; ADHD comorbidity (översikt)",
       "source_tier": "P2"
-    },
-    {
-      "id": "kunskap-fact-cn-021",
-      "title": "Ekonomisk kontroll i medföräldraskap",
-      "content": "Ekonomisk kontroll beskriver när pengar, underhåll, räkningar eller skuldkrav används för att pressa, bestraffa eller styra kommunikation — t.ex. hot om att inte betala avtalad summa om du 'inte samarbetar', krav på kvitton utöver vad som avtalats, eller oväntade extra kostnader som betingelse. Skilj från vanlig logistik (~10 %): faktiska underhållsbelopp med datum och referens till avtal eller dom. Neutral respons: dokumentera belopp, datum och kanal i Valv; håll svar på logistik (BIFF). Livskompassen ger inte ekonomisk eller juridisk rådgivning.",
-      "category": "covert_taktik",
-      "eventDate": null,
-      "source": "kunskap_content_seed",
-      "citation_hint": "Financial abuse in coercive control literature; high-conflict coparenting (översikt)",
-      "source_tier": "psychoeducation_general"
     }
   ]
 }

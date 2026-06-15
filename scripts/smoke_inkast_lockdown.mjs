@@ -114,6 +114,26 @@ function smokeStaticStructure() {
     readCanonical('src/modules/capture/CapturePanel.tsx').includes('sourceModule'),
     'CapturePanel ska skicka sourceModule till preview',
   );
+  assert(
+    readCanonical('src/modules/capture/CaptureSuperModule.tsx').includes("familjen: 'familjen'"),
+    'CaptureSuperModule saknar familjen sourceModule (I3)',
+  );
+  assert(
+    readCanonical('src/modules/capture/CaptureSuperModule.tsx').includes("mabra: 'mabra_inkast'"),
+    'CaptureSuperModule saknar mabra sourceModule (I1)',
+  );
+  assert(
+    readCanonical('src/modules/features/family/children/supermodule/delegates/FamiljenInkastDelegate.tsx').includes(
+      'variant="familjen"',
+    ),
+    'FamiljenInkastDelegate ska använda variant="familjen"',
+  );
+  assert(
+    readCanonical('src/modules/features/dailyLife/wellbeing/mabra/supermodule/MabraInputSuperModule.tsx').includes(
+      'variant="mabra"',
+    ),
+    'MabraInputSuperModule ska använda variant="mabra" (I1)',
+  );
 
   const barnenBridge = readCanonical('src/modules/inkast/components/InkastBarnenValvBridge.tsx');
   assert(barnenBridge.includes('SaveAsEvidencePrompt'), 'InkastBarnenValvBridge ska återanvända SaveAsEvidencePrompt');
@@ -207,6 +227,39 @@ async function smokeCallablePipeline() {
     `hem_capture preview förväntat dagbok, fick ${dagbokPreviewClass?.routing}`,
   );
   console.log('[smoke:inkast] preview hem_capture routing:', dagbokPreviewClass.routing);
+
+  const previewMabra = await preview({
+    fileName: 'mabra_inkast_smoke.txt',
+    text: 'Idag tog jag tre djupa andetag efter en tung dag. Ingen konflikt — bara återhämtning.',
+    sourceModule: 'mabra_inkast',
+  });
+  const mabraClass = previewMabra.data?.classification;
+  assert(
+    mabraClass?.routing === 'dagbok',
+    `mabra_inkast preview förväntat dagbok, fick ${mabraClass?.routing}`,
+  );
+  console.log('[smoke:inkast] preview mabra_inkast routing:', mabraClass.routing);
+
+  const previewFamiljen = await preview({
+    fileName: 'familjen_inkast_smoke.txt',
+    text: 'Kasper verkade trött efter skolan idag. Sov sent igår. Neutral observation.',
+    sourceModule: 'familjen',
+  });
+  const familjenClass = previewFamiljen.data?.classification;
+  assert(
+    familjenClass?.routing === 'barnen',
+    `familjen preview förväntat barnen, fick ${familjenClass?.routing}`,
+  );
+  assert(
+    familjenClass?.childAlias === 'Kasper',
+    `familjen preview förväntat childAlias Kasper, fick ${familjenClass?.childAlias}`,
+  );
+  console.log(
+    '[smoke:inkast] preview familjen routing:',
+    familjenClass.routing,
+    'childAlias:',
+    familjenClass.childAlias,
+  );
 
   const submit = httpsCallable(functions, 'submitInkastLite');
   const smokeText =

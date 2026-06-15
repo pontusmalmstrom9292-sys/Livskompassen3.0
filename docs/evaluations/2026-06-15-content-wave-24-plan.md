@@ -1,6 +1,6 @@
 # Content våg 24 — plan (Innehåll Dirigent) — 2026-06-15
 
-**Status:** PLAN — bank KEEP, ingest efter PMIR  
+**Status:** bank KEEP 2026-06-15 — ingest efter PMIR  
 **Dirigent:** `specialist-innehall-dirigent` · **Kurator:** `specialist-kunskap-seed`
 
 ---

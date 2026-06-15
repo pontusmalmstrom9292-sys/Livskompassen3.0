@@ -1528,6 +1528,111 @@ why: "Våg 22 lucka domän-covert — Hamn wire + Kunskap referens, ej BIFF-coac
 
 ---
 
+## Batch 2026-06-15 — Våg 24 Juridisk process / vårdnad (jur-005–007, ep-006, cn-022, bh-013)
+
+**Kurator:** `specialist-kunskap-seed` · **Plan:** [`2026-06-15-content-wave-24-plan.md`](../../evaluations/2026-06-15-content-wave-24-plan.md) · **Silo:** Kunskap only · **Ingest:** bank KEEP — **ingen prod** före PMIR.
+
+| bankId | content_class | source_tier | status |
+|--------|---------------|-------------|--------|
+| kunskap-fact-jur-005 | FACT | P2 | KEEP |
+| kunskap-fact-jur-006 | FACT | P2 | KEEP |
+| kunskap-fact-jur-007 | FACT | P2 | KEEP |
+| kunskap-fact-ep-006 | FACT | P2 | KEEP |
+| kunskap-fact-cn-022 | FACT | P1 | KEEP |
+| kunskap-fact-bh-013 | FACT | P2 | KEEP |
+
+```yaml
+id: kunskap-fact-jur-005
+bankId: kunskap-fact-jur-005
+status: KEEP
+content_class: FACT
+title: "LVU — dokumentationskrav (neutral översikt)"
+content: "I LVU-relaterade utredningar samlar socialtjänst och domstol information om barnets situation — inte om vuxnas personlighet. Neutral dokumentation fokuserar på observerbara omständigheter: datum och tid, vad som hände, vem som var närvarande, barnets reaktion och vilka stödinsatser som provats. Undvik diagnoser på föräldrar, värderande etiketter och slutsatser om avsikt. Föräldrar har i regel rätt att ta del av utredningsunderlag och yttra sig innan beslut. Att samla underlag är inte samma sak som att bevisa skuld — det är processens informationsbehov. Livskompassen ger inte juridisk rådgivning; vid LVU-frågor kontakta jurist eller berörd handläggare."
+category: juridik_overview
+entryType: fakta
+tags: [lvu, dokumentation, socialtjanst, barnets_behov, neutral_logg]
+source_tier: P2
+citation_hint: "LVU (1990:52) §§ om utredning; Socialstyrelsen handläggning barn — ej rådgivning"
+why: "Våg 24 — fördjupar jur-003 med dokumentationskrav; ROUTE_VALV vid konkret ärende"
+```
+
+```yaml
+id: kunskap-fact-jur-006
+bankId: kunskap-fact-jur-006
+status: KEEP
+content_class: FACT
+title: "Vårdnad — bevisbar logistik vs känsloargument"
+content: "I vårdnadsfrågor väger domstolar och utredare ofta tyngre på verifierbar logistik än på känslomässiga påståenden utan underlag. Logistik: schema som följts eller brutits, hämtning/lämning med datum, skolfrånvaro, läkarbesök, kommunikation om barnets behov. Känsloargument: generaliseringar ('hen bryr sig aldrig'), karaktärsdomar, krav på att du ska bevisa lojalitet genom JADE. Neutral dokumentation i Valv eller dossier beskriver händelser med datum — inte vem som 'är' narcissist eller offer. Detta är informationsstruktur, inte garanti för juridiskt utfall. Livskompassen ger inte råd om ditt ärende."
+category: juridik_overview
+entryType: fakta
+tags: [vardnad, logistik, bevis, medforaldraskap, 10_90]
+source_tier: P2
+citation_hint: "Föräldrabalken 6 kap. (översikt); vårdnadsutredning praxis — ej rådgivning"
+why: "Våg 24 — juridisk vårdnad; kompletterar jur-004/cn-009 utan etikett på motpart"
+```
+
+```yaml
+id: kunskap-fact-jur-007
+bankId: kunskap-fact-jur-007
+status: KEEP
+content_class: FACT
+title: "Familjerätt — parallellt föräldraskap i praktiken"
+content: "Parallellt föräldraskap innebär att föräldrar samordnar kring barnet med minimal direkt kontakt — ofta via skrift, medlare eller app. I svensk familjerätt regleras vårdnad, boende och umgänge via överenskommelse, familjerättslig medling eller tingsrättsbeslut. Vårdnadsutredning kan beställas vid tvist; utredaren samlar information från hem, skola och barn. Gemensam vårdnad innebär beslutskrav om större frågor — inte nödvändigtvis lika boende. Förutsägbarhet för barnet (schema, överlämning, skolinfo) väger ofta tyngre än föräldrarnas ömsesidiga sympati. Detta är process- och begreppsfakta — inte strategi mot en specifik motpart."
+category: juridik_overview
+entryType: fakta
+tags: [familjeratt, parallellt_foraldraskap, medling, vardnadsutredning, tingsratt]
+source_tier: P2
+citation_hint: "Föräldrabalken 6 kap.; Domstolsverket familjerätt — översikt; ej rådgivning"
+why: "Våg 24 — juridisk praktik; kompletterar jur-001 med process och forum"
+```
+
+```yaml
+id: kunskap-fact-ep-006
+bankId: kunskap-fact-ep-006
+status: KEEP
+content_class: FACT
+title: "Myndighetskontakt — saklig ton och datum"
+content: "Kontakt med socialtjänst, skola, BUP eller familjerätt bör vara saklig, datumerad och fokuserad på barnets behov — inte vuxenkonflikt. Ett kort underlag innehåller: datum, vad du begär eller rapporterar, observerbar händelse, vem som informerats. Undvik långa känslomässiga utläggningar, diagnoser på motparten och JADE (förklara/försvara). Be om skriftlig bekräftelse på mottagande vid viktiga ärenden. Myndigheter behandlar ofta parallella föräldraräkenskaper — håll ditt spår neutralt och kronologiskt. Livskompassen ger inte juridisk rådgivning; konkret sms-svar → Hamn, bevis → Valv."
+category: epistemik_produkt
+entryType: fakta
+tags: [myndighet, dokumentation, datum, saklighet, barnets_behov]
+source_tier: P2
+citation_hint: "BBIC-inspirerad myndighetskommunikation; ep-003 observation/tolkning"
+why: "Våg 24 — epistemik för myndighetskontakt; ej BIFF-coaching i Kunskap"
+```
+
+```yaml
+id: kunskap-fact-cn-022
+bankId: kunskap-fact-cn-022
+status: KEEP
+content_class: FACT
+title: "Dokumentation utan JADE — metod, inte personangrepp"
+content: "JADE (Justify, Argue, Defend, Explain) matar ofta eskalering i högkonflikt. I neutral dokumentation — Valv, dossier eller myndighetsunderlag — beskriv beteende och datum utan att förklara din moral, motbevisa anklagelser eller försvara din karaktär. Exempel på dokumentationsrad: '2026-03-12 kl. 17:40 — hämtning 45 min sen; barn väntade utan förvarning; sms skickat 17:15.' Undvik: 'hon är manipulativ och alltid sen'. Metoden minskar brus i WORM och dossier — den ersätter inte Hamn/BIFF på konkret sms eller juridisk rådgivning."
+category: covert_taktik
+entryType: fakta
+tags: [jade, dokumentation, neutral_logg, valv, forensik]
+source_tier: P1
+citation_hint: "JADE/Grey Rock psychoeducation; cn-010/cn-013/vf-003 kompletterar"
+why: "Våg 24 — metod-FACT; ROUTE_VALV/Hamn vid konkret meddelande"
+```
+
+```yaml
+id: kunskap-fact-bh-013
+bankId: kunskap-fact-bh-013
+status: KEEP
+content_class: FACT
+title: "Barnets behov vid konflikt — observerbart beteende"
+content: "Vid föräldrakonflikt är barnets behov bäst beskrivet som observerbart beteende — inte som bevis mot en vuxen. Tecken att notera neutralt: sömnstörning, magont, skolfrånvaro, regression, rädsla inför överlämning, lojalitetsstress (skuld efter rolig tid hos andra föräldern). Dokumentera datum, barnets egna ord i citat, och vilka rutiner som hjälpte eller saknades. Undvik att barnet ska vittna mot förälder eller höra vuxenprocess. Professionella ingångar: skolkurator, BUP, BRIS 116 111. Generisk vägledning — ej juridisk rådgivning."
+category: barn_hcf
+entryType: fakta
+tags: [barn, konflikt, observerbart, bbic, lojalitet]
+source_tier: P2
+citation_hint: "BBIC barnets behov; bh-007/bh-011/bh-012 kompletterar"
+why: "Våg 24 — barn HCF; Barnfokus-frågor förblir PLAY/REFLECTION i annan bank"
+```
+
+---
+
 ## Koppling till befintlig seed
 
 | Manifest | Fil |

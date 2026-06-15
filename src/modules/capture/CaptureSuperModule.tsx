@@ -14,6 +14,7 @@ export type CaptureSuperVariant =
   | 'planering'
   | 'kompass'
   | 'mabra'
+  | 'familjen'
   | 'ekonomi';
 
 export type CaptureSuperModuleProps = {
@@ -33,6 +34,7 @@ const SOURCE_MODULE: Record<CaptureSuperVariant, string | undefined> = {
   planering: 'planering_inkorg',
   kompass: 'hem_smart_inkast',
   mabra: 'mabra_inkast',
+  familjen: 'familjen',
   ekonomi: 'ekonomi_inkast',
 };
 
@@ -85,6 +87,7 @@ export function CaptureSuperModule({
     variant === 'planering' ||
     variant === 'kompass' ||
     variant === 'mabra' ||
+    variant === 'familjen' ||
     variant === 'ekonomi'
   ) {
     if (variant === 'hem-capture' && showCapturePicker) {
@@ -113,7 +116,13 @@ export function CaptureSuperModule({
         )}
         <CapturePanel
           sourceModule={SOURCE_MODULE[variant] ?? 'hem_capture'}
-          compact={compact || variant === 'kompass' || variant === 'mabra' || variant === 'ekonomi'}
+          compact={
+            compact ||
+            variant === 'kompass' ||
+            variant === 'mabra' ||
+            variant === 'familjen' ||
+            variant === 'ekonomi'
+          }
           onSaved={handleCaptureSaved}
           composeHint={variant === 'hem-capture' ? composeHint : null}
           focusOnCompose={variant === 'hem-capture' && focusOnCompose}
@@ -122,6 +131,7 @@ export function CaptureSuperModule({
           variant === 'kompass' ||
           variant === 'planering' ||
           variant === 'mabra' ||
+          variant === 'familjen' ||
           variant === 'ekonomi') && (
           <ReviewQueuePipelinePanel
             mode="summary"

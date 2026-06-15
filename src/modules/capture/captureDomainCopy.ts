@@ -12,6 +12,10 @@ export function inkastSourceModuleHint(sourceModule: string): string | null {
       return 'Smart Inkast — AI föreslår arkiv. Du godkänner alltid innan spar.';
     case 'mabra_inkast':
       return 'MåBra inkast — tematisk reflektion. Granska och godkänn innan spar (HITL).';
+    case 'familjen':
+    case 'barnfokus':
+    case 'barnen':
+      return 'Familjen inkast — barnobservation. Granska innan spar i barnloggar (HITL).';
     default:
       return null;
   }

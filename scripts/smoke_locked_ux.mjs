@@ -325,7 +325,15 @@ function main() {
     'InkastDirectPanel',
     'ReviewQueuePipelinePanel',
     'hem-inkast',
+    "variant === 'familjen'",
+    "familjen: 'familjen'",
+    "mabra: 'mabra_inkast'",
     'id="inkast-lite"',
+  );
+  mustInclude(
+    'src/modules/features/family/children/supermodule/delegates/FamiljenInkastDelegate.tsx',
+    'variant="familjen"',
+    'CaptureSuperModule',
   );
   mustInclude(
     'src/modules/capture/ReviewQueuePipelinePanel.tsx',
