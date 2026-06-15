@@ -54,6 +54,12 @@ exports/gpt-handoff/repomix/
 # Generated AI Studio repomix (npm run ai-studio:pack)
 exports/ai-studio/
 
+# Generated Valv repomix (npm run repomix:valv-komplett)
+exports/repomix-valv/
+
+# ChatBox RTF-paste (kanon = leveranser/*.md)
+docs/external-ai/leveranser/*.rtf
+
 # IDE & OS
 .DS_Store
 **/.DS_Store

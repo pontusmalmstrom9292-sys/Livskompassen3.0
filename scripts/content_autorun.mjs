@@ -17,10 +17,13 @@ const wavesPath = resolve(root, 'docs/content/CONTENT-WAVES.md');
 const today = new Date().toISOString().slice(0, 10);
 
 function readActiveWave() {
-  if (!existsSync(wavesPath)) return { wave: '?', line: 'saknar CONTENT-WAVES.md' };
+  if (!existsSync(wavesPath)) return { wave: 'unknown', line: 'saknar CONTENT-WAVES.md' };
   const text = readFileSync(wavesPath, 'utf8');
-  const m = text.match(/\*\*Aktiv våg:\*\*\s*`(\d+)`/);
-  return { wave: m?.[1] ?? '?', line: m?.[0] ?? 'okänd' };
+  const numbered = text.match(/\*\*Aktiv våg:\*\*\s*`(\d+)`/);
+  if (numbered) return { wave: numbered[1], line: numbered[0] };
+  const none = text.match(/\*\*Aktiv våg:\*\*\s*ingen/i);
+  if (none) return { wave: 'ingen', line: none[0].trim() };
+  return { wave: 'unknown', line: 'okänd aktiv våg-rad i CONTENT-WAVES.md' };
 }
 
 const PHASES = [

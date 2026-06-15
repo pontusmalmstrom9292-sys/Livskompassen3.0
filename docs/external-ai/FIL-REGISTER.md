@@ -60,6 +60,9 @@
 | `docs:external-ai:LIFE-OS-CORE-LOCKED.md` | Raderad → kanon `LIFE-OS-CORE-LOCKED.md` |
 | `docs:external-ai:HYGIENE-LOG.md` | Raderad → kanon `HYGIENE-LOG.md` |
 | `everanser:2026-06-15-fas-07-final.md` | Raderad → `leveranser/2026-06-15-fas-07-final.md` |
+| `leveranser/2026-06-15-valv-supermodule-spec.md](..:..:evaluations:…)` | Raderad → kanon [`docs/evaluations/2026-06-15-valv-supermodule-spec.md`](../evaluations/2026-06-15-valv-supermodule-spec.md) |
+| `leveranser/*.rtf` | Gitignore — använd `.md` (t.ex. `fas-03-backend-implementation.md`) |
+| `content-autorun-vag-?.md` | Raderad → `docs/evaluations/2026-06-15-content-autorun-vag-ingen.md` |
 
 ---
 
