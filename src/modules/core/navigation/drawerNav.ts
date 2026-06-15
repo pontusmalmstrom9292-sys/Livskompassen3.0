@@ -84,7 +84,7 @@ const DRAWER_ICONS: Record<string, DrawerNavIcon> = {
   arbetsliv: createDrawerL2Icon('arbetsliv'),
   arbetsliv_stampla: Clock,
   arbetsliv_tid: Clock,
-  arbetsliv_logg: Clock,
+  arbetsliv_inkomster: Wallet,
   mabra: createDrawerL2Icon('mabra'),
   drogfrihet: createDrawerL2Icon('drogfrihet'),
   projekt: createDrawerL2Icon('projekt'),

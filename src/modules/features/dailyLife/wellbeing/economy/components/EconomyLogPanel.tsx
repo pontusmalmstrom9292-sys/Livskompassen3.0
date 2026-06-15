@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
@@ -17,9 +16,10 @@ import { formatDateLocal } from '@/shared/utils/dateHelpers';
 
 type EconomyLogPanelProps = {
   onChanged?: () => void;
+  scope?: 'vardag' | 'all';
 };
 
-export function EconomyLogPanel({ onChanged }: EconomyLogPanelProps) {
+export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelProps) {
   const user = useStore((s) => s.user);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -111,7 +111,7 @@ export function EconomyLogPanel({ onChanged }: EconomyLogPanelProps) {
 
       {!loading && (
         <>
-          <BentoCard title="Logga utgift / inkomst">
+          <BentoCard title={scope === 'vardag' ? 'Logga utgift' : 'Logga utgift / inkomst'}>
             <div className="space-y-3 text-sm">
               <input
                 type="date"
@@ -123,7 +123,7 @@ export function EconomyLogPanel({ onChanged }: EconomyLogPanelProps) {
                 <option>Mat/Köp</option>
                 <option>Rörliga</option>
                 <option>Swish</option>
-                <option>Sälj</option>
+                {scope === 'all' ? <option>Sälj</option> : null}
                 <option>Övrigt</option>
               </select>
               <input
@@ -139,23 +139,25 @@ export function EconomyLogPanel({ onChanged }: EconomyLogPanelProps) {
                 value={uBelopp}
                 onChange={(e) => setUBelopp(e.target.value)}
               />
-              <div className="grid grid-cols-2 gap-2">
+              <div className={scope === 'vardag' ? '' : 'grid grid-cols-2 gap-2'}>
                 <button
                   type="button"
                   disabled={busy}
-                  className="btn-pill--ghost"
+                  className={scope === 'vardag' ? 'btn-pill--primary w-full' : 'btn-pill--ghost'}
                   onClick={() => void logMoney('utgift')}
                 >
                   Utgift
                 </button>
-                <button
-                  type="button"
-                  disabled={busy}
-                  className="btn-pill--primary"
-                  onClick={() => void logMoney('inkomst')}
-                >
-                  Inkomst
-                </button>
+                {scope === 'all' ? (
+                  <button
+                    type="button"
+                    disabled={busy}
+                    className="btn-pill--primary"
+                    onClick={() => void logMoney('inkomst')}
+                  >
+                    Inkomst
+                  </button>
+                ) : null}
               </div>
             </div>
           </BentoCard>
@@ -227,11 +229,9 @@ export function EconomyLogPanel({ onChanged }: EconomyLogPanelProps) {
           </BentoCard>
 
           <p className="text-xs text-text-dim">
-            Frånvaro (sjuk/VAB heldag) finns under{' '}
-            <Link to="/valvet" className="text-accent-primary underline">
-              Valv → Lön
-            </Link>{' '}
-            (PIN).
+            {scope === 'vardag'
+              ? 'Jobbinkomst och lönespec registreras i Arbetsliv — inte här.'
+              : 'Frånvaro (sjuk/VAB) finns under Valv → Lön (PIN).'}
           </p>
         </>
       )}

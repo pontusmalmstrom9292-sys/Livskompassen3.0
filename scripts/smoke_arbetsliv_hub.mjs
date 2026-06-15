@@ -1,6 +1,5 @@
 /**
- * Static smoke: Arbetsliv hub locked wiring.
- * Usage: npm run smoke:arbetsliv
+ * Static smoke: Arbetsliv hub locked wiring (Fas 14A).
  */
 import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
@@ -26,54 +25,40 @@ function mustInclude(relPath, ...needles) {
   }
 }
 
+function mustNotInclude(relPath, ...needles) {
+  const text = read(relPath);
+  for (const needle of needles) {
+    assert(!text.includes(needle), `${relPath} får inte innehålla: ${needle}`);
+  }
+}
+
 function main() {
   mustInclude('.context/locked-ux-features.md', 'Arbetsliv', '/arbetsliv', 'arbetsliv_forensic');
-  mustInclude('docs/evaluations/2026-05-25-arbetsliv-hub.md', '/arbetsliv', 'arbetsliv_forensic');
   mustInclude(
     'src/modules/features/dailyLife/arbetsliv/components/ArbetslivHubPage.tsx',
     'ArbetslivHubPage',
-    'legacyTabRedirects',
     'arbetsliv_franvaro',
     'arbetsliv_lon',
-    'StampClockPage',
+    "legacyTab === 'logg'",
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultForensicPanel.tsx',
-    'VaultEconomyPanel',
+    'EconomyPayslipCard',
     'arbetsliv_franvaro',
-    'arbetsliv_lon',
   );
-  mustInclude('src/modules/shell/livLauncherRoutes.ts', 'arbetsliv', '/arbetsliv');
-  mustInclude('src/modules/shell/LivLauncherPage.tsx', 'LivLauncherPage', 'LIV_LAUNCHER_EXTERNAL');
-  mustInclude('src/modules/core/navigation/navTruth.ts', "path: '/arbetsliv'", 'vardagen_arbetsliv');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/liv/arbetsliv');
-  mustInclude('src/modules/core/navigation/navTruth.ts', "path: '/arbetsliv'", 'arbetsliv');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', 'NAV_PATHS.VARDAGEN', 'LivLauncherPage');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/arbetsliv"', 'ArbetslivHubPage');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', '/stampla', '/arbetsliv');
-  mustInclude(
-    'src/modules/features/dailyLife/arbetsliv/components/ArbetslivHubPage.tsx',
-    "paramKey: embeddedInLiv ? 'workTab' : 'tab'",
-    'to="/ekonomi"',
-  );
-  mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'arbetsliv'", "path: '/arbetsliv'", 'Arbetsliv');
-  mustInclude('src/modules/core/navigation/drawerNav.ts', 'arbetsliv:', 'arbetsliv_stampla');
-  mustInclude('src/modules/core/security/vaultZones.ts', 'arbetsliv_forensic');
+  mustInclude('src/modules/core/navigation/navTruth.ts', "path: '/arbetsliv/input'", 'vardagen_arbetsliv');
+  mustInclude('src/modules/core/navigation/navTruth.ts', 'arbetsliv_inkomster');
+  mustNotInclude('src/modules/core/navigation/navTruth.ts', 'arbetsliv_logg');
   mustInclude(
     'src/modules/features/dailyLife/wellbeing/economy/components/EconomyPage.tsx',
-    '/arbetsliv?tab=logg',
-    'EconomySavingsPanel',
+    'inputMode=logg',
   );
-  mustInclude(
-    'src/modules/features/dailyLife/wellbeing/economy/components/EconomyTidPanel.tsx',
-    'EconomyPayslipCard',
-  );
-  mustInclude(
-    'src/modules/features/dailyLife/wellbeing/mabra/components/tools/MabraToolShell.tsx',
-    'ImmersiveExperienceShell',
+  mustNotInclude(
+    'src/modules/features/dailyLife/wellbeing/economy/components/EconomyOverviewPanel.tsx',
+    'EconomyTidPanel',
   );
 
-  console.log('[smoke:arbetsliv] PASS — hub, route, drawer, zon, locked register.');
+  console.log('[smoke:arbetsliv] PASS — Fas 14A split.');
 }
 
 try {

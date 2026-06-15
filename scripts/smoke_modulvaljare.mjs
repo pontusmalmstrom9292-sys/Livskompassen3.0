@@ -39,9 +39,8 @@ function main() {
 
   mustInclude(
     'src/modules/features/dailyLife/wellbeing/economy/components/EkonomiModulValjare.tsx',
-    "'impuls'",
-    "'tid'",
-    'TidPreviewMini',
+    "'logg'",
+    'LoggPreviewMini',
   );
   mustInclude(
     'src/modules/features/dailyLife/wellbeing/economy/components/EconomyOverviewPanel.tsx',

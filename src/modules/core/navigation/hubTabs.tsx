@@ -76,7 +76,7 @@ const HUB_TAB_ICONS: Partial<Record<string, LucideIcon>> = {
   planering_inkorg: BookOpen,
   arbetsliv_stampla: Clock,
   arbetsliv_tid: Compass,
-  arbetsliv_logg: Wallet,
+  arbetsliv_inkomster: Wallet,
   drogfrihet_idag: Sparkles,
   drogfrihet_resurser: BookOpen,
   drogfrihet_reflektion: Heart,

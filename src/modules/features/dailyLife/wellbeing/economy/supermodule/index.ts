@@ -1,5 +1,5 @@
 export { EkonomiInputSuperModule, type EkonomiInputSuperModuleProps } from './EkonomiInputSuperModule';
-export { EkonomiArbetslivBroDelegate, type EkonomiArbetslivBroDelegateProps } from './delegates/EkonomiArbetslivBroDelegate';
+export { EkonomiLoggDelegate, type EkonomiLoggDelegateProps } from './delegates/EkonomiLoggDelegate';
 export { EkonomiImpulsDelegate, type EkonomiImpulsDelegateProps } from './delegates/EkonomiImpulsDelegate';
 export { EkonomiInkastDelegate, type EkonomiInkastDelegateProps } from './delegates/EkonomiInkastDelegate';
 export { EkonomiKuvertDelegate, type EkonomiKuvertDelegateProps } from './delegates/EkonomiKuvertDelegate';
