@@ -1,6 +1,6 @@
 # Content våg 24 — plan (Innehåll Dirigent) — 2026-06-15
 
-**Status:** bank KEEP 2026-06-15 — ingest efter PMIR  
+**Status:** **ingest PASS** 2026-06-15 — [`2026-06-15-fas16-wave24-ingest.md`](./2026-06-15-fas16-wave24-ingest.md)  
 **Dirigent:** `specialist-innehall-dirigent` · **Kurator:** `specialist-kunskap-seed`
 
 ---

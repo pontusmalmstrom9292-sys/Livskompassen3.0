@@ -1530,7 +1530,7 @@ why: "Våg 22 lucka domän-covert — Hamn wire + Kunskap referens, ej BIFF-coac
 
 ## Batch 2026-06-15 — Våg 24 Juridisk process / vårdnad (jur-005–007, ep-006, cn-022, bh-013)
 
-**Kurator:** `specialist-kunskap-seed` · **Plan:** [`2026-06-15-content-wave-24-plan.md`](../../evaluations/2026-06-15-content-wave-24-plan.md) · **Silo:** Kunskap only · **Ingest:** bank KEEP — **ingen prod** före PMIR.
+**Kurator:** `specialist-kunskap-seed` · **Plan:** [`2026-06-15-content-wave-24-plan.md`](../../evaluations/2026-06-15-content-wave-24-plan.md) · **Silo:** Kunskap only · **Ingest:** **PASS** 2026-06-15 — [`2026-06-15-fas16-wave24-ingest.md`](../../evaluations/2026-06-15-fas16-wave24-ingest.md).
 
 | bankId | content_class | source_tier | status |
 |--------|---------------|-------------|--------|
