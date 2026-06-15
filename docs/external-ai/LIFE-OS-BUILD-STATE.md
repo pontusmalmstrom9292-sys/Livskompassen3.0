@@ -2,18 +2,19 @@
 
 Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
-**Senast uppdaterad:** 2026-06-15 (plan start)
+**Senast uppdaterad:** 2026-06-15 (CHECKPOINT-1 PASS)
 
 | Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
 |-----------|-------------|--------|-------|------------|
-| G10 Inkast (G10) | `inboxClassifier.ts`, `submitInkastLite.ts`, `src/modules/inkast/` | **LOCK** | PASS 2026-06-06 | pre-existing |
+| Security core (WORM + vault + guards) | `firestore.rules`, `unlockVault.ts`, `callableGuards.ts` | **LOCK** | valv-security PASS 2026-06-15 | **CP-1** |
+| Locked UX §11–17 | `.context/locked-ux-features.md` | **LOCK** | locked-ux PASS 2026-06-15 | **CP-1** |
+| G10 Inkast | `inboxClassifier.ts`, `submitInkastLite.ts`, `src/modules/inkast/` | **LOCK** | PASS 2026-06-06 | pre-existing |
 | SynapseBus (4 triggers) | `synapseBus.ts`, `driveIngestSynapse.ts` | **LOCK** | orkester PASS | pre-existing |
-| WORM rules | `firestore.rules` reality_vault, children_logs, evolution_ledger | **LOCK** | vault-worm | pre-existing |
-| unlockVault + App Check (kod) | `unlockVault.ts`, `callableGuards.ts`, `appCheck.ts` | **OPEN** (Console Enforce kvar) | valv-security | — |
-| Upload unified | `CapturePanel`, `submitInkastLite`, Storage onFinalize | **OPEN** | — | — |
-| Audio MIME i Inkast | `inkastMimeTypes.ts` | **OPEN** | — | — |
-| inkastSourceModule allowlist | `inkastSourceModule.ts` | **OPEN** | — | — |
-| Valv modul (snapshot redo) | `src/modules/features/lifeJournal/evidence/vault/` | **WIP** | valv PASS | snapshot vid LOCK |
+| App Check Console Enforce | Firebase Console | **OPEN** | — | PHASE-06 |
+| Upload unified | `CapturePanel`, `submitInkastLite`, Storage onFinalize | **OPEN** | — | PHASE-02–04 |
+| Audio MIME i Inkast | `inkastMimeTypes.ts` | **OPEN** | — | PHASE-03 |
+| inkastSourceModule allowlist | `inkastSourceModule.ts` | **OPEN** | — | PHASE-03 |
+| Valv modul | `src/modules/features/lifeJournal/evidence/vault/` | **WIP** | valv PASS | snapshot vid LOCK |
 | MåBra 19.2–19.5 | hybrid-8, evolution_ledger | **DEFER** | — | efter core lock |
 
 ## Statusförklaring

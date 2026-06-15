@@ -2,6 +2,17 @@
 
 Fylls i vid CHECKPOINT-7. Komponenter med **LOCK** får inte refaktoreras utan explicit Pontus-OK + snapshot.
 
+## Locked vid CHECKPOINT-1 (2026-06-15)
+
+| Komponent | Smoke |
+|-----------|-------|
+| WORM (reality_vault, children_logs, journal, evolution_ledger, dossier_snapshots) | CP-1 |
+| Dual vault gate (JWT + vaultSessionGate) | valv-security PASS |
+| callableGuards + App Check kod | valv-security PASS |
+| SynapseBus 4 triggers + silo-routing | pre-existing |
+| routeFromDcap / resolveExecutorId | pre-existing |
+| Locked UX §11–17 | locked-ux PASS |
+
 ## Pre-locked (före ChatBox-våg)
 
 | Komponent | Sedan | Smoke |
