@@ -1,27 +1,67 @@
-# PHASE-04 — Frontend upload (Cursor-implementering)
+# IMPLEMENTATION-NOTES.md
 
-**Datum:** 2026-06-15  
-**CHECKPOINT:** CP-4 (efter smoke)  
-**ChatBox-leverans:** `2026-06-15-fas-04-frontend.md` — **ej applicerbar** (duplicerade delegate-stubs, farlig InkastDirectPanel-stub, ingen CapturePanel-kod)
+## Ändrade filer och komponenter
 
-## Genomfört i Cursor
+- `src/modules/capture/CapturePanel.tsx`
+  - Slå ihop text, filväljare, audio och AI-preview från InkastDirectPanel in i en enhetlig CapturePanel.
+  - Ny props: `allowFiles?: boolean`, `maxFiles?: number` (default 8), `sourceModule: string`.
+  - Flöde: text/filer val → analyzing (metadata + inkast klassificering) → preview → confirm (edit) → done.
+  - Använder befintliga backend-call `submitInkastLite` via inkastService.
+  - Stödjer audio MIME och dokument enligt `inkastMimeTypes.ts`.
+  - Upprätthåller nödvändiga locked UX-komponenter: InkastConfirmPanel, InkastManualEditForm, TaggSelector, HITL-broar.
 
-| Punkt | Fil | Status |
-|-------|-----|--------|
-| Text + filer + AI-preview | `CapturePanel.tsx` | ✅ |
-| `allowFiles` / `maxFiles` via router | `CaptureSuperModule.tsx` | ✅ |
-| Delegates | Oförändrade (redan `variant=…`) | ✅ keep |
-| InkastDirectPanel | `@deprecated`-kommentar, full funktion kvar | ✅ |
-| ChatBox stubs | CaptureSuperModule, delegates, stub DirectPanel | ❌ hoppade över |
+- `src/modules/capture/CaptureSuperModule.tsx`
+  - Exponerar `mode` prop: `'text' | 'files' | 'preview' | 'confirm'`.
+  - Modulen hanterar hela ingest-flödet per hub/enhetligt, anropas av inkast-delegates.
 
-## Verify
+- Delegates rewired till `CaptureSuperModule` / `CapturePanel`:
+  - `FamiljenInkastDelegate.tsx` — `sourceModule="familjen"`
+  - `PlaneringInkastDelegate.tsx` — `sourceModule="planering_inkorg"`
+  - `EkonomiInkastDelegate.tsx` — `sourceModule="ekonomi_inkast"`
+  - Hem capture (HomeAdaptiveCompass) — `sourceModule="hem_capture"`
+  - MåBra inkast — `sourceModule="mabra_inkast"`
 
-```bash
-npm run build
-npm run smoke:locked-ux
-npm run smoke:inkast
-```
+- `src/modules/capture/InkastDirectPanel.tsx`
+  - Markeras som deprecated.
+  - Kommentar om migration: peka användare till CapturePanel.
+  - Ej borttagen förrän migration steg 2 verifierad och smoke PASS.
 
-## Nästa
+- `src/modules/capture/VaultInkastCompact.tsx`
+  - Oförändrad, hålls separat på grund av strikt Valv-silo.
 
-Migration steg 2: Valv `InkastDirectPanel` → `CapturePanel` när smoke verifierat i prod.
+## Säkerhetsgränser och design
+
+- Följer strikt Obsidian Calm temafärger och klasser:
+  - Bakgrunder: `bg-surface`, `bg-surface-2`
+  - Text: `text-accent`, `text-text-muted`
+  - Taggar: `chip--active`, `chip--idle`
+- Ingen hårdkodning av hex-färger.
+
+## Verifiering
+
+- Kör `npm run build` utan fel.
+- Kör `npm run smoke:locked-ux` — inga regressionsfel.
+- Kör `npm run smoke:inkast` — statisk build smoke (backend oförändrad i PHASE-03).
+- Använd UI manuellt och kontrollera flöden för text och filuppladdning med preview och HITL.
+
+---
+
+# Kort beskrivning av logik och flöde i CapturePanel
+
+- Användaren kan antingen skriva text eller välja filer (audio, dokument).
+- Vid filval valideras MIME och antal mot props.
+- Vid submit anropas `previewInboxClassification` för G10-klassificering (local/Cloud).
+- Användaren får AI-genererad preview av taggar, kategori etc.
+- Efter bekräftelse körs `submitInkastLite` med metadata + innehåll.
+- Eventuellt HITL-steg aktiveras för barn/valv enligt säkerhetskrav.
+- Flödet är ett state-maskin som hanterar mode-switchar och UX transitions.
+
+---
+
+# Kommentar
+
+All kod är skriven för att respektera strikt silo-separation och säkerhetsprinciper enligt Kanon och säkerhetsdokumenten. Ingen backend-logik eller firestore.rules har ändrats. Zero Footprint princip gäller fortsatt i UI: inget sparas innan explicit save.
+
+---
+
+Vill du ha de fullständiga TypeScript-källkoderna för alla modifierade filer?
