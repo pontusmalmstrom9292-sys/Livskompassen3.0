@@ -27,7 +27,8 @@
 | 21 | Covert HCF fördjupning | cn-016–020, ep-001–005, jur-001–004, bh-009–012, vf-001–004 | — | — | **done** 2026-06-14 — bank KEEP; **ingest klar** (98 FACT manifest) |
 | 22 | Ekonomisk kontroll + Hamn wire | cn-021 | — (Hamn wire UI) | — | **done** 2026-06-14 — cn-021 ingest; Hamn wire: hoover, smear, ekonomisk_kontroll, maternal_fasad |
 | 23 | Epistemic guard + Valv Mönster v3 | cn-* refs (library) | — | — | **done** 2026-06-14 — Hamn theoryWithoutEvidence; pattern_scan_metadata sidecar; Dossier taktikfilter |
+| 24 | Juridisk process / vårdnad FACT | jur-005..007, ep-006, cn-022, bh-013 (plan) | — | — | **plan** 2026-06-15 — [`2026-06-15-content-wave-24-plan.md`](../evaluations/2026-06-15-content-wave-24-plan.md) |
 
-**Aktiv våg:** `24` (planera nästa) · våg 23 **klar**
+**Aktiv våg:** `24` — **plan** ([`evaluations/2026-06-15-content-wave-24-plan.md`](../evaluations/2026-06-15-content-wave-24-plan.md)) · våg 23 **klar**
 
 **Seed (Google-konto):** `SEED_FIREBASE_EMAIL` i `.env` + `gcloud auth application-default login` → `npm run seed:kunskap-facts`

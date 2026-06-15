@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { LayoutGrid, Wallet, Leaf, PiggyBank, PauseCircle, Sparkles, Receipt } from 'lucide-react';
+import { LayoutGrid, Wallet, Leaf, PiggyBank, ScrollText, PauseCircle, Sparkles } from 'lucide-react';
 import { clsx } from 'clsx';
 import { EconomyBudgetTab } from './EconomyBudgetTab';
 import { EconomyMealPrepPanel } from './EconomyMealPrepPanel';
@@ -20,7 +20,7 @@ const TABS: { id: EkonomiModuleChoice; label: string; icon: typeof Wallet }[] = 
   { id: 'kost_prepp', label: 'Neuro-Kost', icon: Leaf },
   { id: 'impuls', label: 'Impuls', icon: PauseCircle },
   { id: 'spar', label: 'Spar', icon: PiggyBank },
-  { id: 'logg', label: 'Logg', icon: Receipt },
+  { id: 'logg', label: 'Logg', icon: ScrollText },
 ];
 
 function allowedTabIdsForLevel(level: EconomyCapacityLevel): Set<EkonomiModuleChoice> {

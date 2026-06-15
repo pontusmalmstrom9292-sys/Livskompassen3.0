@@ -26,6 +26,13 @@ function mustInclude(relPath, ...needles) {
   }
 }
 
+function mustNotInclude(relPath, ...needles) {
+  const text = read(relPath);
+  for (const needle of needles) {
+    assert(!text.includes(needle), relPath, `får inte innehålla: ${needle}`);
+  }
+}
+
 function main() {
   mustInclude('src/modules/core/home/HomeActionHub.tsx', 'KompassradPanel');
   mustInclude('src/modules/features/family/safeHarbor/components/SafeHarborPage.tsx', 'TryggHamnHub');
@@ -274,7 +281,15 @@ function main() {
   mustInclude('src/modules/shared/ui/ExamplePreviewCard.tsx', 'ExamplePreviewCard');
   mustInclude('src/modules/shell/LivLauncherGrid.tsx', 'LIV_LAUNCHER_PREVIEWS');
   mustInclude('src/modules/capture/CaptureSuperModule.tsx', 'HemCaptureModulValjare');
-  mustInclude('src/modules/features/dailyLife/wellbeing/economy/components/EconomyOverviewPanel.tsx', 'EconomyTidPanel', 'EconomyImpulsePanel');
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/economy/components/EconomyOverviewPanel.tsx',
+    'EconomyLogPanel',
+    'EconomyImpulsePanel',
+  );
+  mustNotInclude(
+    'src/modules/features/dailyLife/wellbeing/economy/components/EconomyOverviewPanel.tsx',
+    'EconomyTidPanel',
+  );
   mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/MabraModulValjare.tsx', 'MabraModulValjare');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/ValvZoneModulValjare.tsx', 'ValvZoneModulValjare');
   mustInclude('src/modules/features/admin/projects/components/ProjektTomStatePanel.tsx', 'ProjektTomStatePanel');

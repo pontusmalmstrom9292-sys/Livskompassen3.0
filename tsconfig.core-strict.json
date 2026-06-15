@@ -5,5 +5,9 @@
     "strictNullChecks": true,
     "types": ["vite/client"]
   },
-  "include": ["src/modules/core/**/*.ts", "src/modules/core/**/*.tsx"]
+  "include": [
+    "src/modules/core/**/*.ts",
+    "src/modules/core/**/*.tsx",
+    "src/modules/shared/ui/HubErrorBoundary.tsx"
+  ]
 }

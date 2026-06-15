@@ -37,7 +37,6 @@ const VAULT_LOG_OPTIONAL_KEYS = [
   'shieldFeeling',
   'shieldBoundary',
   'pinned',
-  'ownerId',
 ] as const;
 
 const WORM_FORBIDDEN_KEYS = ['updatedAt', 'deletedAt', 'modifiedAt', 'revision'] as const;

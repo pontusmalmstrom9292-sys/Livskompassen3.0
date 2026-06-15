@@ -47,7 +47,8 @@ function main() {
     'VitCurriculumPanel',
     'CURRICULUMS',
   );
-  mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/MabraPage.tsx', 'VitCurriculumPanel');
+  mustInclude('src/modules/features/dailyLife/wellbeing/mabra/views/MabraHubView.tsx', 'VitCurriculumPanel');
+  mustInclude('docs/content/CONTENT-WAVES.md', '| 24 |', 'jur-005');
 
   console.log('[smoke:content-waves] Kunskap manifest...');
   mustInclude('docs/specs/modules/Kunskap-CONTENT-SEED.json', 'kunskap-fact-001', 'kunskap_content_seed');

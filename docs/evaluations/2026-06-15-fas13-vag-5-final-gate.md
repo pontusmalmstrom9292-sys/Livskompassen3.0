@@ -1,26 +1,37 @@
 # Fas 13 — våg 5 final-gate — 2026-06-15
 
-**Status:** PASS
+**Status:** PASS (re-verifierad 2026-06-15 CEST)
+
+## Gate-resultat
 
 | Gate | Resultat |
 |------|----------|
-| `smoke:plausible-deniability` | PASS |
-| `npm run smoke:all` | PASS |
-| `npm run typecheck:core-strict` | PASS (0 fel) |
 | `npm run build` | PASS |
+| `npm run typecheck:core-strict` | PASS (0 fel) |
+| `smoke:plausible-deniability` | PASS |
+| `npm run smoke:all` | PASS (17 moduler) |
 
-## Smoke-härdning (denna sprint)
+## Blocker löst under körning
 
-Prod-smokes använder nu `SEED_FIREBASE_EMAIL` där WORM/sensitive auth krävs:
-- `smoke_vault_worm.mjs`
-- `smoke_inkast_lockdown.mjs`
-- `smoke_valv_chat.mjs`
-- `smoke_mabra.mjs`
-- `smoke_children_logs.mjs`
+Ofullständig FAS14A-commit (`9c07bc189`) lämnade main trasig — saknade delegates + `TimeAndPayPanel`. Slutförd split:
 
-## Deploy
+- `EkonomiLoggDelegate`, `ArbetslivFlexDelegate`, `ArbetslivInkomstDelegate`, `ArbetslivValvBroDelegate`
+- Borttaget: `EconomyTidPanel`, `TimeAndPayPanel`, `TimeSheetPanel`, `EkonomiArbetslivBroDelegate`
+- `VaultService.ts` — tog bort `ownerId` från optional keys (TS7053)
+- Smoke uppdaterade: `design-modules`, `orkester`, `ekonomi`, `arbetsliv*`
 
-Kör när du är redo:
+## Säkerhetsblock
+
+| Regel | Status |
+|-------|--------|
+| WORM | OK |
+| Tre silos | OK |
+| Zero Footprint | OK |
+| `firestore.rules` | OK — PMIR, ej ändrad |
+
+## Deploy (väntar OK)
+
+Frontend-only efter commit:
 
 ```bash
 cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
@@ -28,4 +39,6 @@ npm run build
 firebase deploy --only hosting
 ```
 
-Functions (vid behov): named deploy endast — t.ex. `firebase deploy --only functions:generateDossier`
+## Nästa steg
+
+**Våg 6 — `user-signoff`:** Manuell Motorola-checklista → [`2026-06-15-fas13-vag-6-user-signoff.md`](./2026-06-15-fas13-vag-6-user-signoff.md)

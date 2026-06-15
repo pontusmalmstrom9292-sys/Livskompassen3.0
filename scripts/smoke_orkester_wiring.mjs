@@ -154,7 +154,7 @@ function main() {
     'arbetsliv_lon',
   );
   mustInclude(
-    'src/modules/features/dailyLife/arbetsliv/supermodule/ArbetslivInputSuperModule.tsx',
+    'src/modules/features/dailyLife/arbetsliv/supermodule/delegates/ArbetslivValvBroDelegate.tsx',
     'vaultDrawerPath',
     'arbetsliv_franvaro',
     'arbetsliv_lon',
