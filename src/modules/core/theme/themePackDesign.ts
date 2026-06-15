@@ -122,3 +122,12 @@ export const DESIGN_PACK_THEME_IDS = THEME_PACK_DESIGN.map((p) => p.id);
 export function isDesignPackTheme(themeId: string): boolean {
   return /^D[1-5]-/.test(themeId);
 }
+
+/** D1–D5-id eller explicit designPackId (t.ex. R-E-hamn-remix). */
+export function themeUsesDesignPackChrome(pack: {
+  id: string;
+  designPackId?: ThemePack['designPackId'];
+}): boolean {
+  if (pack.designPackId) return true;
+  return isDesignPackTheme(pack.id);
+}

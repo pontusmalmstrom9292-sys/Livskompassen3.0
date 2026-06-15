@@ -19,8 +19,9 @@ import { isBarnportenChildRoute } from '@/features/onboarding/barnporten/constan
 import { useStore } from '../store';
 import { useSOSStore } from '../store/sosStore';
 import { useTheme } from '../theme';
-import { isDesignPackTheme } from '../theme/themePackDesign';
+import { getTheme } from '../theme/themeRegistry';
 import { isMockupTheme } from '../theme/mockupTheme';
+import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -32,7 +33,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   const activateSOS = useSOSStore((s) => s.activateSOS);
   const { themeId } = useTheme();
   const { active: designPackActive } = useDesignPack();
-  const mockupSkin = isMockupTheme(themeId) || isDesignPackTheme(themeId);
+  const mockupSkin = isMockupTheme(themeId) || themeUsesDesignPackChrome(getTheme(themeId));
   const barnportenChildShell = isBarnportenChildRoute(location.pathname);
   const [accountOpen, setAccountOpen] = useState(false);
   const slimHeaderChrome = designPackActive && isScenicHome;
@@ -89,7 +90,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
       <main
         className={clsx(
-          'app-main relative z-10 mx-auto max-w-2xl px-4',
+          'app-main relative z-10 mx-auto flex min-h-0 w-full max-w-2xl flex-col px-4',
           isScenicHome
             ? 'pt-[calc(4.65rem+env(safe-area-inset-top,0px))]'
             : 'pt-[calc(5.75rem+env(safe-area-inset-top,0px))]',

@@ -402,6 +402,44 @@ function main() {
   mustNotInclude('src/modules/shared/ui/ImmersiveExperienceShell.tsx', '#020617', '#0f172a');
   mustNotInclude('src/modules/features/dashboard/components/VisualCompassWidget.tsx', '#d4af37');
 
+  console.log('[smoke:design-modules] Fas 24 hex→tokens P2…');
+  mustNotInclude(
+    'src/modules/features/onboarding/barnporten/components/BarnportenPage.tsx',
+    '#1a1410',
+    '#0a1614',
+    'from-[#',
+  );
+  mustNotInclude(
+    'src/modules/features/onboarding/barnporten/components/BarnportenQrPanel.tsx',
+    '#fde68a',
+    '#1a1410',
+    'bg-[#',
+  );
+  mustInclude(
+    'src/modules/features/onboarding/barnporten/components/barnporten.css',
+    '--barnporten-bg-top',
+    '--barnporten-bg-bottom',
+    '--barnporten-qr-dark',
+    'barnporten-qr-panel',
+  );
+  mustInclude(
+    'src/modules/features/onboarding/barnporten/components/BarnportenQrPanel.tsx',
+    'barnporten-zone',
+    'barnporten-qr-panel',
+    '--barnporten-qr-dark',
+  );
+  mustInclude('src/modules/shared/utils/secureExport.ts', 'DOSSIER_PRINT_STYLES');
+  mustNotInclude(
+    'src/modules/features/lifeJournal/evidence/vault/dossier/components/DossierPage.tsx',
+    'border-bottom: 1px solid #cbd5e1',
+    'background: #f8fafc; border-left: 4px solid #6366f1',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/dossier/utils/exportDossierPrint.ts',
+    'DOSSIER_PRINT_STYLES',
+    'printDossierFallback',
+  );
+
   console.log('smoke:design-modules PASS');
 }
 

@@ -24,6 +24,7 @@ import { THEME_PACK_MOCKUP } from '../theme/themePackMockup';
 import { DEFAULT_THEME_ID, THEME_BY_ID, THEME_REGISTRY } from '../theme/themeRegistry';
 import { K_PACK_THEME_IDS, THEME_PACK_K } from '../theme/themePackK';
 import { THEME_PACK_REDESIGN_A } from '../theme/themePackRedesignA';
+import { THEME_PACK_REMIX_E_HAMN } from '../theme/themePackRemix';
 import { THEME_PACK_OBSIDIAN_DEPTH } from '../theme/themePackObsidianDepth';
 import { J_PACK_THEME_IDS } from '../theme/themeRegistry';
 import type { ThemePack } from '../theme/types';
@@ -188,7 +189,24 @@ export function ThemeLabPage() {
       />
 
       <ThemeLabPackSection
-        title="Redesign (2026) — Style A Nordic Precision"
+        title="Remix B — E + Hamn (prod default)"
+        packs={[THEME_PACK_REMIX_E_HAMN]}
+        previewId={previewId}
+        themeId={themeId}
+        onPreview={applyPreview}
+        onApply={(id) => {
+          setTheme(id);
+          setAutoMode(false);
+          setPreviewId(id);
+        }}
+        extraLink={{
+          label: 'Referens mockup ↗',
+          href: '/docs/design/galleri/mix-E-final-hem.png',
+        }}
+      />
+
+      <ThemeLabPackSection
+        title="Redesign (2026) — Style A Nordic Precision (rollback)"
         packs={THEME_PACK_REDESIGN_A}
         previewId={previewId}
         themeId={themeId}

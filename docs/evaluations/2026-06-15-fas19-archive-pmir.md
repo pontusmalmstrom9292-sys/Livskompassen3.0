@@ -1,7 +1,9 @@
 # Fas 19 — Arkiv-manifest (PMIR)
 
 **Datum:** 2026-06-15  
-**Princip:** Arkiv-först · **Radera-lista tom** tills explicit Pontus-OK
+**Status:** **Utförd** 2026-06-15 (Pontus: «flytta»)  
+**Batch-logg:** [`../archive/evaluations-fas19-6-2026-06/README.md`](../archive/evaluations-fas19-6-2026-06/README.md)  
+**Princip:** Arkiv-först · **Radera-lista tom**
 
 ---
 
@@ -16,7 +18,7 @@ Alla filer i skyddad lista: [`fas19-repo-inventory.md`](./2026-06-15-fas19-repo-
 | Från | Till | Notering |
 |------|------|----------|
 | `docs/evaluations/2026-05-23-*` … äldre utan länk i README | `docs/archive/evaluations-2026-05/` | Behåll pekare i SESSION-INDEX |
-| Överflödiga theme-prototyper (ej DESIGN-PACK) | `docs/archive/design-2026-06/` | Verifiera mot Theme Lab |
+| Överflödiga theme-prototyper (ej DESIGN-PACK) | `docs/archive/design-2026-06/` | **Defer** — mapp reserverad; zon för zon efter Theme Lab |
 
 ---
 

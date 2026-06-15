@@ -1,14 +1,31 @@
 @tailwind components;
-/* 
- * Barnporten CSS
+/*
+ * Barnporten CSS — zon-specifik (varm hamn gradient, P2 hex→tokens).
  * Extracted from global styles to enable lazy loading.
  */
 
+.barnporten-page,
+.barnporten-zone {
+  --barnporten-bg-top: #1a1410;
+  --barnporten-bg-bottom: #0a1614;
+  --barnporten-surface: #1a1410;
+  --barnporten-qr-dark: #fde68a;
+  --barnporten-qr-light: var(--barnporten-surface);
+}
 
+.barnporten-page {
+  min-height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    var(--barnporten-bg-top),
+    var(--barnporten-bg-bottom)
+  );
+}
 
 @layer components {
   .barnporten-widget__toast {
-    @apply pointer-events-auto mb-2 max-w-[12rem] rounded-lg border border-amber-400/25 bg-[#1a1410]/95 px-3 py-2 text-center text-xs text-amber-100;
+    @apply pointer-events-auto mb-2 max-w-[12rem] rounded-lg border border-amber-400/25 px-3 py-2 text-center text-xs text-amber-100;
+    background: color-mix(in srgb, var(--barnporten-surface, #1a1410) 95%, transparent);
   }
 
   .barnporten-widget__control--holding,
@@ -92,10 +109,18 @@
     );
   }
 }
-[data-theme='R-A-nordic-precision'] .barnporten-page {
-  --barnporten-surface: #1a1410;
+[data-theme='J-barnporten-ljus'] .barnporten-page,
+[data-theme='J-barnporten-ljus'] .barnporten-zone {
+  --barnporten-bg-top: #1e1814;
+  --barnporten-bg-bottom: #1a1612;
+  --barnporten-surface: #1e1814;
 }
-[data-theme='R-A-nordic-precision'] .barnporten-page .calm-card,
-[data-theme='R-A-nordic-precision'] .barnporten-page .glass-card {
-  background: color-mix(in srgb, var(--barnporten-surface, #1a1410) 88%, transparent);
+
+.barnporten-qr-panel {
+  background: color-mix(in srgb, var(--barnporten-surface) 80%, transparent);
+}
+
+.barnporten-page .calm-card,
+.barnporten-page .glass-card {
+  background: color-mix(in srgb, var(--barnporten-surface) 88%, transparent);
 }

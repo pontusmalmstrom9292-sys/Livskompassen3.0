@@ -1,9 +1,10 @@
 import { clsx } from 'clsx';
+import { Compass } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { REDESIGN_A_THEME_ID } from '../theme/themePackRedesignA';
 import { useTheme } from '../theme';
 
-/** Scenic bakgrund — alltid på mockup-teman; annars huvudflikar (ej widget). */
+/** Scenic bakgrund — alltid på mockup-teman; annars Obsidian Calm Bento gradient + kompassros. */
 export function AmbientBackground() {
   const { pathname } = useLocation();
   const { themeId } = useTheme();
@@ -18,14 +19,20 @@ export function AmbientBackground() {
       className={clsx('ambient-bg', showScenic && 'ambient-bg--scenic', isRedesignA && 'ambient-bg--flat')}
       aria-hidden
     >
-      <div
-        className="ambient-blob ambient-blob--gold"
-        style={{ width: 420, height: 420, top: '-8%', left: '-10%' }}
-      />
-      <div
-        className="ambient-blob ambient-blob--accent-secondary"
-        style={{ width: 360, height: 360, bottom: '10%', right: '-5%' }}
-      />
+      {!showScenic ? (
+        <Compass className="ambient-bg__compass-rose" strokeWidth={0.75} aria-hidden />
+      ) : (
+        <>
+          <div
+            className="ambient-blob ambient-blob--gold"
+            style={{ width: 420, height: 420, top: '-8%', left: '-10%' }}
+          />
+          <div
+            className="ambient-blob ambient-blob--accent-secondary"
+            style={{ width: 360, height: 360, bottom: '10%', right: '-5%' }}
+          />
+        </>
+      )}
     </div>
   );
 }

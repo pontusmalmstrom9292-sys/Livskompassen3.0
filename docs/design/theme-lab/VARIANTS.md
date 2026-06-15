@@ -1,9 +1,10 @@
 # Theme Lab — variantbeslut
 
-**Uppdaterad:** 2026-06-11 (R-A Nordic Precision prod default)
+**Uppdaterad:** 2026-06-15 (R-E-hamn-remix prod default)
 
 | ID | Label | Status | Test / beslut |
 |----|-------|--------|----------------|
+| `R-E-hamn-remix` | E + Hamn remix | **GODKÄND prod** | **default 2026-06-15** — Tema E guld + D1 chrome (mix-E) |
 | `D1-hamn-kompass` | Design Hamn & kompass | **experiment** | Hamn orbit + ref-hamn |
 | `D2-familjen-kort` | Design Familjen | **experiment** | Radkort + ref-familjen.png |
 | `D3-minnes-timeline` | Design Minnes | **experiment** | Tidslinje + guld CTA |
@@ -21,7 +22,7 @@
 | `I-stone-draft-twilight` | Stone — skymning | utkast | Kallare `--bg`, mjukare guld, kväll |
 | `I-stone-draft-bronze` | Stone — brons | utkast | Varm brons/roséguld accent |
 | `I-stone-draft-matte` | Stone — matt | utkast | Plattare glas, svag glow (låg last) |
-| `R-A-nordic-precision` | Nordic Precision (Style A) | **GODKÄND prod** | **default 2026-06-11** — isblå CTA, silver chrome, guld nav |
+| `R-A-nordic-precision` | Nordic Precision (Style A) | **arkiv rollback** | föregående prod default 2026-06-11 |
 | `OD-obsidian-depth` | Obsidian Depth (3D) | **LÅST** | **2026-06-14** — glass bento, taktil 3D, guld endast · `/dev/obsidian-depth` |
 | `OD-forge-lab` | Obsidian Forge (syntes) | **utvärdering** | **2026-06-14** — hero+bento+chrome · `/dev/obsidian-forge` · väntar godkännande |
 
@@ -63,10 +64,11 @@ Spec: [`../themes/K-PACK-EIGHT-VARIANTS.md`](../themes/K-PACK-EIGHT-VARIANTS.md)
 
 ## Godkännande
 
-- **GODKÄND: `R-A-nordic-precision`** — helapp default (`DEFAULT_THEME_ID`, `moduleThemeMap.ts`) 2026-06-11.
+- **GODKÄND: `R-E-hamn-remix`** — helapp default (`DEFAULT_THEME_ID`) 2026-06-15. Tema E guld + D1 designpaket-chrome.
+- **ROLLBACK-ref:** `R-A-nordic-precision` — föregående prod default 2026-06-11.
 - **LÅST: `OD-obsidian-depth`** — fylligare 3D-skalet (mockup + theme pack). Ej prod-default. Knappar/menyer förfinas separat. Se `OBSIDIAN-DEPTH-SPEC.md`.
-- **ROLLBACK-ref:** `D4-flat-deluxe` — föregående prod default 2026-06-07.
-- **GODKÄND: `J-planering-fyren`** — Planering + Projekt (`moduleThemeMap.ts` rad 19–20). Övriga hubbar oförändrade.
+- **ROLLBACK-ref:** `D4-flat-deluxe` — prod default 2026-06-07.
+- **GODKÄND: `J-planering-fyren`** — Planering + Projekt (`moduleThemeMap.ts`). Valv: `J-valv-pansar`.
 
 | ID | Typ | Status | Prompt / fil |
 |----|-----|--------|--------------|

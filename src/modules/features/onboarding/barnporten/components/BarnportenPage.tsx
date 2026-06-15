@@ -72,7 +72,7 @@ export function BarnportenPage() {
   };
 
   return (
-    <div className="barnporten-page min-h-screen bg-gradient-to-b from-[#1a1410] to-[#0a1614] px-4 py-8 text-text">
+    <div className="barnporten-page px-4 py-8 text-text">
       <header className="mb-6 text-center">
         <p className="text-xs uppercase tracking-widest text-accent/80">Barnporten</p>
         <h1 className="mt-1 text-2xl font-semibold text-accent-light">Din trygga hamn</h1>

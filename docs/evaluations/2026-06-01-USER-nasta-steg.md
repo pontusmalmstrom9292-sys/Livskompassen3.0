@@ -18,8 +18,7 @@ Agent har kört kod + statisk smoke. **Du** bekräftar i riktig app.
 3. Fliken **Arkiv** (logga) → spara en enkel post
 4. Firestore Console: rad i `reality_vault` (valfritt)
 
-**PASS / FAIL:** **FAIL** (2026-06-15) — kunde inte låsa upp / komma in.  
-**Om FAIL igen:** notera exakt felmeddelande på skärmen (t.ex. «WebAuthn verifiering misslyckades»).
+**PASS / FAIL:** **PASS** (2026-06-15 USER retest)
 
 ---
 
@@ -28,7 +27,7 @@ Agent har kört kod + statisk smoke. **Du** bekräftar i riktig app.
 1. `/familjen?tab=livslogg` eller Barnporten-fliken
 2. Spara en loggrad
 
-**PASS / FAIL:** **FAIL** (2026-06-15) — scroll låste sig (halva sidan rörde sig). Fix deployad: en scroll-yta per flik.
+**PASS / FAIL:** **PASS** (2026-06-15 USER retest) — hela sidan scrollar på mobil; Barnfokus spara fungerar.
 
 ---
 

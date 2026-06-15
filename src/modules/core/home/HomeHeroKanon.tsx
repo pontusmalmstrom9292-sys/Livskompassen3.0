@@ -1,7 +1,8 @@
 import { clsx } from 'clsx';
 import { useTheme } from '../theme';
-import { isDesignPackTheme } from '../theme/themePackDesign';
+import { getTheme } from '../theme';
 import { isMockupTheme } from '../theme/mockupTheme';
+import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
 import { useDesignPack } from '../design/useDesignPack';
 import { useLifeHubPreset } from '../lifeOs/useLifeHubPreset';
 import { HomeGreeting } from './HomeGreeting';
@@ -18,7 +19,7 @@ type Props = {
  */
 export function HomeHeroKanon({ onCheckInSaved }: Props) {
   const { themeId } = useTheme();
-  const mockup = isMockupTheme(themeId) || isDesignPackTheme(themeId);
+  const mockup = isMockupTheme(themeId) || themeUsesDesignPackChrome(getTheme(themeId));
   const { active: designPackActive } = useDesignPack();
   const { preset, presetId } = useLifeHubPreset();
 

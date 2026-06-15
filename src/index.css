@@ -41,6 +41,7 @@
   --glass-hero: rgba(2, 6, 23, 0.94);
   --border: rgba(212, 175, 55, 0.12);
   --border-strong: rgba(99, 102, 241, 0.22);
+  --glass-border: rgba(212, 175, 55, 0.25);
   --warning: #f59e0b;
   --danger: #ef4444;
 
@@ -150,7 +151,25 @@
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
-    background: radial-gradient(ellipse 120% 80% at 50% -20%, var(--bg-dusk) 0%, var(--bg-teal-deep) 55%);
+    background-color: var(--bg-dusk);
+    background-image:
+      radial-gradient(ellipse at top right, rgba(20, 40, 60, 0.4) 0%, transparent 60%),
+      radial-gradient(circle at bottom left, rgba(10, 20, 30, 0.8) 0%, transparent 60%);
+  }
+
+  .ambient-bg__compass-rose {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 0;
+    width: min(150vw, 1200px);
+    height: min(150vw, 1200px);
+    max-width: 1200px;
+    max-height: 1200px;
+    transform: translate(-50%, -50%);
+    color: #f5e6b8;
+    opacity: 0.03;
+    pointer-events: none;
   }
 
   .ambient-bg::before {
@@ -215,6 +234,7 @@
 
   .app-shell {
     background: transparent;
+    overflow-x: hidden;
   }
 
   /* Theme Lab — /dev/theme-lab */

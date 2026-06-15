@@ -59,7 +59,11 @@ export function ModuleShell({
       fitViewport={fitViewport}
       depth={depth}
       contentIsland={contentIsland}
-      className={clsx('module-shell', depth && 'module-shell--depth', className)}
+      className={clsx(
+        'module-shell flex min-h-0 flex-1 flex-col',
+        depth && 'module-shell--depth',
+        className,
+      )}
     >
       <div
         className={clsx(
@@ -74,7 +78,9 @@ export function ModuleShell({
           />
         ) : null}
 
-        {toolbar ? <div className="module-shell__toolbar py-2">{toolbar}</div> : null}
+        {toolbar ? (
+          <div className="module-shell__toolbar shrink-0 py-2">{toolbar}</div>
+        ) : null}
 
         <div
           className={clsx(

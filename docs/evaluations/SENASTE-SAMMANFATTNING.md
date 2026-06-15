@@ -1,17 +1,17 @@
 # Senaste sammanfattning — systemstatus
 
-**Datum:** 2026-06-15 · **Gren:** `main` @ `dc2ab550e`+  
+**Datum:** 2026-06-15 · **Gren:** `main` @ `ba2a1b3aa`+  
 **Kanon:** [`2026-06-15-fas19-masterplan-v2.md`](./2026-06-15-fas19-masterplan-v2.md) · **Smoke:** [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md)
 
 ---
 
 ## Nuläge i en mening
 
-**Fas 19–22 levererad + deployad** — **Fas 19.5 done:** `evolution_ledger` dual-write. **Nästa backlog:** USER Motorola-smoke · hex P2 zon-specifik.
+**Fas 19–23 levererad + deployad** — USER smoke #3/#4 **PASS** · **Fas 19.6 arkiv-batch done**. **Nästa backlog:** hex P2 · M3.0-C (PMIR).
 
 ---
 
-## Levererat (Fas 13–22)
+## Levererat (Fas 13–23)
 
 | Område | Status |
 |--------|--------|
@@ -22,7 +22,21 @@
 | Fas 21 guards + JOY-17 + Oracle tokens | **done** + deploy 2026-06-15 |
 | Fas 22 hex→tokens P0 + typecheck | **done** + hosting deploy 2026-06-15 |
 | Fas 19.5 evolution_ledger dual-write | **done** 2026-06-15 |
+| Fas 23 USER smoke + Valv biometri + Familjen scroll | **done** 2026-06-15 |
+| Fas 19.6 arkiv-batch PMIR | **done** 2026-06-15 |
 | `orkester:night` + `typecheck:core-strict` | **PASS** 2026-06-15 |
+
+---
+
+## Fas 23 (klart)
+
+| Spår | Leverans |
+|-----|----------|
+| 23.1 | Familjen en scroll-yta på mobil · flow-hub desktop · `smoke:locked-ux` guard |
+| 23.2 | Valv biometri — App Check i CI-build · WebAuthn `firebaseapp.com` · tydliga fel |
+| 23.3 | USER smoke #3 + #4 **PASS** · doc-synk SMOKE_RESULTS + SENASTE + SYSTEM_PLAN_v2 |
+
+**USER:** #3 Valv biometri + arkiv · #4 Barnen scroll + Barnfokus spara — båda **PASS** 2026-06-15.
 
 ---
 
@@ -50,7 +64,6 @@
 |----|-------------|------|
 | M3.0-C | Fitness/Näring | PMIR · masterplan defer |
 | Hex P2 | Barnporten zon-gradient, dossier print-HTML | zon-specifik / print — ej P0 |
-| USER | Android Google · Valv #3 · Barnporten #4 | Motorola-test |
 | App Check | Console Enforce | valfritt extra lager (kod redan fail-closed) |
 
 ---
@@ -59,3 +72,4 @@
 
 - **Kod:** `APP_CHECK_ENFORCE=true` (fail-closed) — **PÅ**
 - **Console Enforce:** **INTE** på (medvetet)
+- **CI hosting:** `VITE_APP_CHECK_RECAPTCHA_SITE_KEY` i workflow (Fas 23.2)

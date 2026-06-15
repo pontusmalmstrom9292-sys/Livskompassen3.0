@@ -203,3 +203,136 @@ export const DEFAULT_PRINT_STYLES = `
     tr { page-break-inside: avoid; }
   }
 `;
+
+/**
+ * Valv/Dossier zone — juridisk utskrift (vit papper, indigo accent).
+ * Centraliserad P2-token för DossierPage fallback-print.
+ */
+export const DOSSIER_PRINT_STYLES = `
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 40px;
+    color: #1e293b;
+    background: #fff;
+    line-height: 1.5;
+  }
+  .dossier-header {
+    border-bottom: 2px solid #0f172a;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+  .dossier-title {
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0;
+    color: #0f172a;
+  }
+  .dossier-subtitle {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+    margin-bottom: 0;
+  }
+  .dossier-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+    font-size: 12px;
+    background: #f8fafc;
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+  }
+  .dossier-hash-block {
+    grid-column: span 2;
+    font-family: monospace;
+    background: #f1f5f9;
+    padding: 10px;
+    border-radius: 6px;
+    word-break: break-all;
+    border: 1px solid #cbd5e1;
+    font-size: 10px;
+    line-height: 1.4;
+  }
+  .dossier-hash-note {
+    font-size: 9px;
+    color: #64748b;
+    font-weight: normal;
+  }
+  .dossier-ai-foreword {
+    margin-top: 24px;
+    padding: 16px;
+    background: #f8fafc;
+    border-left: 4px solid #6366f1;
+    font-size: 11px;
+    color: #334155;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 24px;
+  }
+  th {
+    text-align: left;
+    background: #f1f5f9;
+    padding: 10px 8px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid #cbd5e1;
+    color: #475569;
+  }
+  .dossier-row {
+    page-break-inside: avoid;
+    border-bottom: 1px solid #cbd5e1;
+  }
+  .dossier-row td {
+    padding: 12px 8px;
+  }
+  .dossier-cell-date {
+    font-weight: 600;
+    font-size: 11px;
+    font-family: monospace;
+    white-space: nowrap;
+  }
+  .dossier-cell-kind {
+    font-weight: 700;
+    font-size: 10px;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .dossier-cell-title {
+    font-weight: 600;
+    font-size: 12px;
+    color: #0f172a;
+  }
+  .dossier-cell-preview {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #334155;
+    white-space: pre-wrap;
+  }
+  .dossier-bbic-header td {
+    background: #e2e8f0;
+    padding: 8px 12px;
+    font-weight: 700;
+    font-size: 12px;
+    color: #0f172a;
+  }
+  .dossier-footer {
+    margin-top: 40px;
+    border-top: 1px solid #cbd5e1;
+    padding-top: 12px;
+    font-size: 9px;
+    color: #94a3b8;
+    text-align: center;
+  }
+  @media print {
+    body { padding: 0; }
+    tr { page-break-inside: avoid; }
+  }
+`;

@@ -38,9 +38,11 @@ export function BentoCard({
   return (
     <section
       className={clsx(
-        variant === 'hero' ? 'glass-hero' : 'calm-card',
+        variant === 'hero' ? 'glass-hero' : 'calm-card bento-card',
         depth && 'module-bento-card--depth',
         glow && GLOW_CLASS[glow],
+        variant === 'default' &&
+          'border-glass-border bg-surface-2/60 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-[0_15px_40px_rgba(0,0,0,0.6)]',
         'p-5',
         className
       )}

@@ -2,7 +2,7 @@
 
 Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **Cursor-agenter:** [`AGENTS.md`](../AGENTS.md)
 
-**Aktuell fas (2026-06-15):** Fas 22 **levererad** (hex→tokens P0, hosting deploy). **Nästa:** evolution_ledger dual-write · USER smoke. Status: [`evaluations/SENASTE-SAMMANFATTNING.md`](evaluations/SENASTE-SAMMANFATTNING.md) · kanon: [`evaluations/2026-06-15-fas19-masterplan-v2.md`](evaluations/2026-06-15-fas19-masterplan-v2.md) · plan: [`SYSTEM_PLAN_v2.md`](SYSTEM_PLAN_v2.md)
+**Aktuell fas (2026-06-15):** Fas 23 **levererad** · Fas 19.6 arkiv **done**. **Nästa:** hex P2 · M3.0-C. Status: [`evaluations/SENASTE-SAMMANFATTNING.md`](evaluations/SENASTE-SAMMANFATTNING.md) · plan: [`SYSTEM_PLAN_v2.md`](SYSTEM_PLAN_v2.md)
 
 ---
 

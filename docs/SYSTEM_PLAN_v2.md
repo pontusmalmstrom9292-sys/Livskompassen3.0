@@ -1,6 +1,6 @@
 # Livskompassen — System Plan v2 (Fas 9+)
 
-**Datum:** 2026-06-15 (Fas 19 masterplan-v2 **levererad** · Fas 20 doc-synk nästa)  
+**Datum:** 2026-06-15 (Fas 23 USER smoke **levererad** · hex P2 nästa)  
 **Kanon:** Aktiv styrning Fas 9–19. Historik Fas 1–7 → [`.context/system-plan.md`](../.context/system-plan.md) · **Fas 19:** [`evaluations/2026-06-15-fas19-masterplan-v2.md`](./evaluations/2026-06-15-fas19-masterplan-v2.md)  
 **Sanning:** GCP → [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md) · GAP → [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) · Smoke → [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md)  
 **Audit:** [`evaluations/2026-06-14-fas9-systemanalys.md`](./evaluations/2026-06-14-fas9-systemanalys.md)
@@ -115,7 +115,7 @@ Detaljerad checkbox-historik: [`.context/system-plan.md`](../.context/system-pla
 
 **Låst:** `.context/locked-ux-features.md` §17  
 **Spec:** [`specs/Superdagbok-INPUT-SUPERHUB-SPEC.md`](./specs/Superdagbok-INPUT-SUPERHUB-SPEC.md)  
-**Eval:** [`evaluations/2026-06-14-superdagbok-superhub-djupanalys.md`](./evaluations/2026-06-14-superdagbok-superhub-djupanalys.md)
+**Eval:** [`archive/evaluations-fas19-2026-06/2026-06-14-superdagbok-superhub-djupanalys.md`](./archive/evaluations-fas19-2026-06/2026-06-14-superdagbok-superhub-djupanalys.md)
 
 ---
 
@@ -151,7 +151,7 @@ Kanon förbättringsplan: [`evaluations/2026-06-11-FOEBATTRINGSPLAN-HELAPP.md`](
 
 ### Smoke & deploy (senast verifierat)
 
-**Current truth:** [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) · Fas 13–19 gate **2026-06-15**
+**Current truth:** [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) · Fas 23 gate **2026-06-15**
 
 | Kategori | Status |
 |----------|--------|
@@ -161,8 +161,8 @@ Kanon förbättringsplan: [`evaluations/2026-06-11-FOEBATTRINGSPLAN-HELAPP.md`](
 | `smoke:planering-superhub` | **PASS** |
 | `smoke:arbetsliv-superhub` | **PASS** |
 | `smoke:superdagbok-superhub` | **PASS** |
-| Manuell #3 Valv, #4 Barnporten | **PASS** (USER 2026-06-06/07) |
-| `typecheck:core-strict` | **baseline** — 9 fel (ej blockerande build) |
+| Manuell #3 Valv, #4 Barnporten | **PASS** (USER 2026-06-15 · Fas 23) |
+| `typecheck:core-strict` | **PASS** (Fas 22) |
 
 **Hosting:** https://gen-lang-client-0481875058.web.app
 
@@ -219,8 +219,9 @@ Produkt-GAP: [`MODUL-GAP-OVERSIKT.md`](./MODUL-GAP-OVERSIKT.md)
 | **20** | Doc-synk · arkiv-batch 2 | **done** 2026-06-15 | [`archive/evaluations-fas20-2026-06/`](./archive/evaluations-fas20-2026-06/) |
 | **21** | App Check guards · JOY-17 · arkiv-batch 3 · Oracle tokens | **done** 2026-06-15 | [`2026-06-15-fas21-callables-guard-inventory.md`](./evaluations/2026-06-15-fas21-callables-guard-inventory.md) |
 | **22** | Hex→tokens P0 · doc-synk · typecheck expansion | **done** 2026-06-15 | [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) Fas 22-rad |
+| **23** | USER smoke #3/#4 · Valv biometri (App Check CI) · Familjen scroll | **done** 2026-06-15 | [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) Fas 23-rad |
 | **19.5** | `evolution_ledger` dual-write | **done** 2026-06-15 | [`2026-06-15-fas19-5-evolution-ledger-dual-write.md`](./evaluations/2026-06-15-fas19-5-evolution-ledger-dual-write.md) |
-| **19.6** | Arkiv-batch PMIR | väntar Pontus OK | [`2026-06-15-fas19-archive-pmir.md`](./evaluations/2026-06-15-fas19-archive-pmir.md) |
+| 19.6 | Arkiv-batch PMIR | **done** 2026-06-15 | [`2026-06-15-fas19-archive-pmir.md`](./evaluations/2026-06-15-fas19-archive-pmir.md) · [`archive/evaluations-fas19-6-2026-06/`](./archive/evaluations-fas19-6-2026-06/) |
 
 **Eval-serie Fas 13–19 (aktiv mapp):** [`evaluations/`](./evaluations/) — planerad arkiv: [`archive/evaluations-fas19-2026-06/`](./archive/evaluations-fas19-2026-06/) (efter 19.6 PMIR).
 
@@ -230,7 +231,9 @@ Produkt-GAP: [`MODUL-GAP-OVERSIKT.md`](./MODUL-GAP-OVERSIKT.md)
 
 **Fas 22 (levererad 2026-06-15):** Hex→tokens P0 · doc-synk · `typecheck:core-strict` (+morning) · hosting deploy.
 
-**Nästa våg:** USER Motorola-smoke · hex P2 zon-specifik · M3.0-C (PMIR).
+**Fas 23 (levererad 2026-06-15):** Familjen scroll (23.1) · Valv biometri + App Check CI (23.2) · USER #3/#4 PASS + doc-synk (23.3).
+
+**Nästa våg:** hex P2 zon-specifik · M3.0-C (PMIR) · 19.6 arkiv-batch.
 
 ---
 

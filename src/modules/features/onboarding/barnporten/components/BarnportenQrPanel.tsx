@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import './barnporten.css';
+import { useEffect, useRef, useState } from 'react';
 import QRCode from 'qrcode';
 import { collection, onSnapshot, query, where, limit } from 'firebase/firestore';
 import { Loader2, Smartphone } from 'lucide-react';
@@ -39,16 +40,24 @@ export function BarnportenQrPanel() {
   const [expiresAt, setExpiresAt] = useState<string | null>(null);
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
   const [devices, setDevices] = useState<DeviceRow[]>([]);
+  const zoneRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!pairUrl) {
+    if (!pairUrl || !zoneRef.current) {
+      setQrDataUrl(null);
+      return;
+    }
+    const style = getComputedStyle(zoneRef.current);
+    const dark = style.getPropertyValue('--barnporten-qr-dark').trim();
+    const light = style.getPropertyValue('--barnporten-qr-light').trim();
+    if (!dark || !light) {
       setQrDataUrl(null);
       return;
     }
     void QRCode.toDataURL(pairUrl, {
       margin: 2,
       width: 220,
-      color: { dark: '#fde68a', light: '#1a1410' },
+      color: { dark, light },
     }).then(setQrDataUrl);
   }, [pairUrl]);
 
@@ -101,7 +110,7 @@ export function BarnportenQrPanel() {
   if (!user) return null;
 
   return (
-    <div className="elongated-module space-y-3 border border-amber-400/20 p-4">
+    <div ref={zoneRef} className="barnporten-zone elongated-module space-y-3 border border-amber-400/20 p-4">
       <div className="flex items-center gap-2">
         <Smartphone className="h-4 w-4 text-accent" aria-hidden />
         <p className="text-[10px] uppercase tracking-widest text-accent/90">Koppla barns telefon</p>
@@ -135,7 +144,7 @@ export function BarnportenQrPanel() {
       {error ? <p className="text-xs text-danger">{error}</p> : null}
 
       {qrDataUrl && token ? (
-        <div className="flex flex-col items-center gap-2 rounded-xl border border-amber-400/15 bg-[#1a1410]/80 p-3">
+        <div className="barnporten-qr-panel flex flex-col items-center gap-2 rounded-xl border border-amber-400/15 p-3">
           <img src={qrDataUrl} alt={`QR för ${childAlias}`} className="rounded-lg" width={220} height={220} />
           <p className="text-center text-xs text-text-muted">
             Kod: <span className="font-mono text-accent">{token}</span>

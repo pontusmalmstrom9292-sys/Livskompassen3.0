@@ -10,8 +10,9 @@ import { CaptureSuperModule } from '../../capture';
 import { materialEnabled, useLifeHubPreset } from '../lifeOs';
 import { useStore } from '../store';
 import { useTheme } from '../theme';
-import { isDesignPackTheme } from '../theme/themePackDesign';
+import { getTheme } from '../theme';
 import { isMockupTheme } from '../theme/mockupTheme';
+import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
 import { HomeWidgetRenderer } from '@/features/widgets/components/HomeWidgetRenderer';
 import type { UserWidgetRow } from '../types/firestore';
 import {
@@ -31,7 +32,7 @@ export function HomePage() {
   const isAuthenticated = useStore((s) => s.isAuthenticated);
   const { preset, presetId } = useLifeHubPreset();
   const { themeId } = useTheme();
-  const mockupSkin = isMockupTheme(themeId) || isDesignPackTheme(themeId);
+  const mockupSkin = isMockupTheme(themeId) || themeUsesDesignPackChrome(getTheme(themeId));
   const [widgets, setWidgets] = useState<UserWidgetRow[]>([]);
   const seedingRef = useRef(false);
 

@@ -6,14 +6,33 @@
 
 | Test | ID | Status | Anteckning |
 |------|-----|--------|------------|
-| Valv biometri + bevis | **#3** | **FAIL** | Kunde inte låsa upp Valvet |
-| Barnen loggrad | **#4** | **FAIL** | Scroll-lås — retest efter Fas 23.1 (en calm-scroll-island, flow hub) |
+| Valv biometri + bevis | **#3** | **PASS** | 2026-06-15 USER retest — biometri + arkiv |
+| Barnen loggrad | **#4** | **PASS** | 2026-06-15 USER retest — mobil scroll + spara Barnfokus (Fas 23.2) |
 | Dagbok bilaga | **#2d** | **PASS** | |
 | Superhub snabb | **D** | **PASS** | Drawer, /liv, /familjen, /mabra redirect |
 | Göra kanban | **E** | **PASS** | 2026-06-07 |
 | Projekt regler | **F** | **PASS** | 2026-06-07 |
 
-**Retest efter deploy:** #3 Valv · #4 Familjen scroll
+**Retest efter deploy:** — (USER smoke 2026-06-15 komplett för #3 + #4)
+
+---
+
+## Fas 23 (2026-06-15 — USER smoke #3/#4 + Valv biometri + Familjen scroll)
+
+**Trigger:** Fas 23.1–23.3 · USER Motorola/Mac retest efter deploy  
+**Git:** `main` @ `ba2a1b3aa`+ · kanon [`SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
+
+| Kategori | # / kommando | Status | Senast |
+|----------|--------------|--------|--------|
+| **USER PASS** | #3 Valv biometri + arkiv | **PASS** | 2026-06-15 · Fas 23.2 App Check CI + WebAuthn rpID |
+| **USER PASS** | #4 Barnen loggrad + scroll | **PASS** | 2026-06-15 · Fas 23.1 en scroll-yta per flik |
+| **Autorun PASS** | `smoke:auth-login` | **PASS** | 2026-06-15 · Fas 23.2 |
+| **Autorun PASS** | `smoke:valv-security` | **PASS** | 2026-06-15 · Fas 23.2 |
+| **Autorun PASS** | `smoke:locked-ux` | **PASS** | 2026-06-15 · Fas 23.3 |
+| **Autorun PASS** | `smoke:orkester` | **PASS** | 2026-06-15 · Fas 23.3 |
+| **Deploy** | hosting + `beginVaultWebAuthnChallenge`, `issueVaultSession` | **PASS** | 2026-06-15 · https://gen-lang-client-0481875058.web.app |
+
+**Fixar:** `VITE_APP_CHECK_RECAPTCHA_SITE_KEY` i CI · `firebaseapp.com` WebAuthn allowlist · tydliga callable-fel · Familjen `calm-scroll-island` / flow-hub.
 
 ---
 

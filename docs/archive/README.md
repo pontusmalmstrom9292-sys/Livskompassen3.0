@@ -6,7 +6,12 @@ Historiskt material — **läs-only**. Använd inte som aktiv sanning.
 
 | Mapp / fil | Beskrivning |
 |------------|-------------|
-| [`evaluations-2026-05/`](evaluations-2026-05/) | Grunder/Vision + **ORKESTER-NATT-ROLLING**, **CONTENT-AUTORUN-ROLLING** |
+| [`evaluations-fas19-2026-06/`](evaluations-fas19-2026-06/) | Hub-analyser + ombyggnad 2026-05-31 (Fas 19 prep) |
+| [`evaluations-fas19-6-2026-06/`](evaluations-fas19-6-2026-06/) | **Fas 19.6** arkiv-batch (2026-06-15) |
+| [`evaluations-fas20-2026-06/`](evaluations-fas20-2026-06/) | Maj–juni tidiga cursor-planer + 2026-06-06 byggpass |
+| [`evaluations-fas21-2026-06/`](evaluations-fas21-2026-06/) | Superhub deep + multitask juni 2026 |
+| [`design-2026-06/`](design-2026-06/) | Reserverad — theme-prototyper (defer) |
+| [`evaluations-2026-05/`](evaluations-2026-05/) | Grunder/Vision + **ORKESTER-NATT-ROLLING**, **CONTENT-AUTORUN-ROLLING**, Maj-2026 batch |
 | [`evaluations-2026-05-23/`](evaluations-2026-05-23/) | Systemkontroll A–E + modulrapporter 2026-05-23 |
 | [`evaluations-closed-2026-05-29/`](evaluations-closed-2026-05-29/) | Vertex dagbok-spec + superseded PMIR (batch) |
 | [`CONSOLIDATION-PLAN.md`](CONSOLIDATION-PLAN.md) | Repo-konsolidering (klart 2026-05-24) |

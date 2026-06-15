@@ -30,7 +30,7 @@ export function HubPageShell({
   className,
   lockViewport = false,
   fitViewport = false,
-  depth = false,
+  depth = true,
   contentIsland = true,
   children,
 }: Props) {
@@ -39,7 +39,7 @@ export function HubPageShell({
   return (
     <div
       className={clsx(
-        'hub-page-shell space-y-4',
+        'hub-page-shell flex min-h-0 flex-col gap-4',
         lockViewport && 'hub-view-lock',
         lockViewport && fitViewport && 'hub-view-lock--fit',
         className,
@@ -47,8 +47,8 @@ export function HubPageShell({
     >
       <header
         className={clsx(
-          'hub-page-shell__header px-0.5',
-          depth && 'hub-page-shell__header--depth',
+          'hub-page-shell__header shrink-0 px-0.5',
+          depth && 'hub-page-shell__header--depth hub-page-shell__header--bento',
           headerAside && 'flex items-start justify-between gap-2',
         )}
       >
@@ -60,7 +60,7 @@ export function HubPageShell({
         {headerAside}
       </header>
 
-      <div className="hub-page-shell__body space-y-4">
+      <div className="hub-page-shell__body flex min-h-0 flex-1 flex-col gap-4">
         {lockViewport && contentIsland !== false ? (
           <div className="calm-scroll-island space-y-4">{children}</div>
         ) : lockViewport ? (

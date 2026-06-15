@@ -3,7 +3,7 @@
 **Datum:** 2026-06-14  
 **Status:** **W4 skelett (Fas 11A→11C)** — integration W5  
 **Kanon:** [`.context/system-plan.md`](../../.context/system-plan.md) · [`.context/locked-ux-features.md`](../../.context/locked-ux-features.md)  
-**Analys:** [`docs/evaluations/2026-06-14-superdagbok-superhub-djupanalys.md`](../evaluations/2026-06-14-superdagbok-superhub-djupanalys.md)  
+**Analys:** [`docs/archive/evaluations-fas19-2026-06/2026-06-14-superdagbok-superhub-djupanalys.md`](../archive/evaluations-fas19-2026-06/2026-06-14-superdagbok-superhub-djupanalys.md)  
 **Referensmönster:** [`Familjen-INPUT-SUPERHUB-SPEC.md`](./Familjen-INPUT-SUPERHUB-SPEC.md) · [`Planering-INPUT-SUPERHUB-SPEC.md`](./Planering-INPUT-SUPERHUB-SPEC.md)
 
 ---

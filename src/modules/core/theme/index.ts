@@ -15,5 +15,6 @@ export {
 } from './themeRegistry';
 export { K_PACK_THEME_IDS, THEME_PACK_K } from './themePackK';
 export { REDESIGN_A_THEME_ID, THEME_PACK_REDESIGN_A } from './themePackRedesignA';
+export { REMIX_E_HAMN_THEME_ID, THEME_PACK_REMIX_E_HAMN } from './themePackRemix';
 export { J_PACK_THEME_IDS } from './themeRegistry';
 export type { ThemePack, ThemeBackground, ThemeMode } from './types';

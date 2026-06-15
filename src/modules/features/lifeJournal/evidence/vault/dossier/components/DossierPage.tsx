@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { FileText, Loader2, Lock, ShieldAlert } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
-import { escapeHtml } from '@/shared/utils/secureExport';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { useStore } from '@/core/store';
 import { hasVaultGate } from '@/core/auth/sessionService';
@@ -38,6 +37,7 @@ import {
   VAVAREN_DOSSIER_CHECKBOX,
   VAVAREN_DOSSIER_HINT,
 } from '../../constants/vavarenCopy';
+import { printDossierFallback } from '../utils/exportDossierPrint';
 
 const INITIAL_SOURCES: DossierSources = {
   reality_vault: true,
@@ -66,15 +66,6 @@ function resetWizardState() {
     error: null as string | null,
     result: null as GenerateDossierResult | null,
   };
-}
-
-// —— KRYPTOGRAFISK SÄKERHETS-HASH (SHA-256) ——
-async function computeSHA256(text: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(text);
-  const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
 export function DossierPage({ embedded = false }: { embedded?: boolean }) {
@@ -317,147 +308,12 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
     setError(null);
 
     try {
-      // 1. Sortera kronologiskt för formellt underlag
-      const sorted = [...selected].sort((a, b) => a.createdAt.localeCompare(b.createdAt));
-
-      const mapToBBIC = (category: string | undefined): string => {
-        const cat = (category || '').toLowerCase();
-        if (['skola', 'utbildning', 'förskola'].includes(cat)) return 'Barnets behov: Utbildning';
-        if (['hälsa', 'sömn', 'bvc', 'läkare', 'sjuk', 'vård'].includes(cat)) return 'Barnets behov: Hälsa';
-        if (['känslor', 'ångest', 'bråk', 'rädd', 'oro'].includes(cat)) return 'Barnets behov: Känslomässig utveckling';
-        if (['omsorg', 'vårdnad', 'mat', 'kläder', 'rutin', 'överlämning'].includes(cat)) return 'Föräldraförmåga: Grundläggande omsorg';
-        if (['kommunikation', 'biff', 'konflikt', 'hot'].includes(cat)) return 'Föräldraförmåga: Konflikthantering & Kommunikation';
-        if (['ekonomi', 'pengar', 'underhåll'].includes(cat)) return 'Familj och miljö: Ekonomi';
-        return 'Övriga observationer';
-      };
-
-      // 2. Skapa corpus för hashning
-      const textCorpus = sorted
-        .map((d) => `[${d.createdAt.slice(0, 10)}] ${d.title}: ${d.preview}`)
-        .join('\n');
-      const hash = await computeSHA256(textCorpus);
-
-      const win = window.open('', '_blank');
-      if (!win) {
-        throw new Error('Webbläsaren blockerade popup-fönstret. Tillåt popups för att skriva ut.');
-      }
-
-      const renderRow = (d: DossierCandidateDoc) => `
-        <tr style="page-break-inside: avoid; border-bottom: 1px solid #cbd5e1;">
-          <td style="padding: 12px 8px; font-weight: 600; font-size: 11px; font-family: monospace; white-space: nowrap;">
-            ${escapeHtml(d.createdAt.slice(0, 10))}
-          </td>
-          <td style="padding: 12px 8px; font-weight: 700; font-size: 10px; color: #475569; text-transform: uppercase; tracking-wider: 0.05em;">
-            ${escapeHtml(d.kind.toUpperCase().replace('_', ' '))}
-          </td>
-          <td style="padding: 12px 8px; font-weight: 600; font-size: 12px; color: #0f172a;">
-            ${escapeHtml(d.title)}
-          </td>
-          <td style="padding: 12px 8px; font-size: 12px; line-height: 1.5; color: #334155; white-space: pre-wrap;">
-            ${escapeHtml(d.preview)}
-          </td>
-        </tr>
-      `;
-
-      let rowsHtml = '';
-      if (reportType === 'BBIC') {
-        const grouped: Record<string, DossierCandidateDoc[]> = {};
-        for (const d of sorted) {
-           const bbicCat = mapToBBIC(d.category);
-           if (!grouped[bbicCat]) grouped[bbicCat] = [];
-           grouped[bbicCat].push(d);
-        }
-        for (const [catName, items] of Object.entries(grouped)) {
-          rowsHtml += `<tr><td colspan="4" style="background: #e2e8f0; padding: 8px 12px; font-weight: 700; font-size: 12px; color: #0f172a;">${escapeHtml(catName)}</td></tr>`;
-          rowsHtml += items.map(renderRow).join('');
-        }
-      } else {
-        rowsHtml = sorted.map(renderRow).join('');
-      }
-
-      const aiForewordHtml = includeAiForeword ? `
-        <div style="margin-top: 24px; padding: 16px; background: #f8fafc; border-left: 4px solid #6366f1; font-size: 11px; color: #334155;">
-          <strong>Neutral Sammanställning (Vävaren):</strong> Denna dossier är strukturerad med stöd av Livskompassens AI. Posterna nedan är oföränderliga och kryptografiskt säkrade användardata (WORM), medan eventuella AI-taggar och urvalshjälp har utförts i syfte att neutralt och objektivt presentera kronologin för juridiska ombud eller socialtjänst. Målet är att skilja känsla från dokumenterad fakta.
-        </div>
-      ` : '';
-
-      const childLabel = escapeHtml(deepLinkChild || 'Hela familjen');
-      const reportLabel = escapeHtml(
-        reportType === 'LEGAL' ? 'Juridisk Kronologi (Fakta & Tidsstämplar)' : 'BBIC-strukturerad rapport',
-      );
-      const hashSafe = escapeHtml(hash);
-
-      win.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="utf-8"/>
-          <title>Stabilitets- och Beviskronologi — ${childLabel}</title>
-          <style>
-            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 40px; color: #1e293b; background: #fff; line-height: 1.5; }
-            .header { border-bottom: 2px solid #0f172a; padding-bottom: 16px; margin-bottom: 24px; }
-            .title { font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; margin: 0; color: #0f172a; }
-            .subtitle { font-size: 12px; color: #64748b; margin-top: 4px; margin-bottom: 0; }
-            .meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px; font-size: 12px; background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid #e2e8f0; }
-            .hash-block { grid-column: span 2; font-family: monospace; background: #f1f5f9; padding: 10px; border-radius: 6px; word-break: break-all; border: 1px solid #cbd5e1; font-size: 10px; line-height: 1.4; }
-            table { border-collapse: collapse; width: 100%; margin-top: 24px; }
-            th { text-align: left; background: #f1f5f9; padding: 10px 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid #cbd5e1; color: #475569; }
-            .footer { margin-top: 40px; border-top: 1px solid #cbd5e1; padding-top: 12px; font-size: 9px; color: #94a3b8; text-align: center; }
-            @media print {
-              body { padding: 0; }
-              tr { page-break-inside: avoid; }
-            }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1 class="title">Stabilitets- och Beviskronologi</h1>
-            <p class="subtitle">Genererad via Livskompassen — Formellt och oföränderligt underlag (låsta poster)</p>
-            
-            <div class="meta-grid">
-              <div><strong>Barn/Område:</strong> ${childLabel}</div>
-              <div><strong>Rapporttyp:</strong> ${reportLabel}</div>
-              <div><strong>Exportdatum:</strong> ${escapeHtml(new Date().toLocaleString('sv-SE'))}</div>
-              <div><strong>Antal inkluderade poster:</strong> ${selected.length} st</div>
-              <div class="hash-block">
-                <strong>KRYPTOGRAFISK BEVIS-HASH (SHA-256):</strong><br/>
-                ${hashSafe}<br/>
-                <span style="font-size: 9px; color: #64748b; font-weight: normal;">
-                  *Denna hash säkrar att innehållet i dokumentet inte har modifierats eller manipulerats sedan exporttillfället i Livskompassen.
-                </span>
-              </div>
-            </div>
-            ${aiForewordHtml}
-          </div>
-
-          <table>
-            <thead>
-              <tr>
-                <th style="width: 12%">Datum</th>
-                <th style="width: 15%">Källa</th>
-                <th style="width: 25%">Kategori</th>
-                <th>Observation / Bevisfakta</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${rowsHtml}
-            </tbody>
-          </table>
-
-          <div class="footer">
-            Dokumentet är krypterat och verifierat. Livskompassen använder strikt dataseparering och låsta poster för att säkra beviskedjor.
-          </div>
-        </body>
-        </html>
-      `);
-
-      win.document.close();
-      win.focus();
-
-      // Öppna utskriftsdialogen automatiskt för att spara som PDF
-      setTimeout(() => {
-        win.print();
-      }, 250);
+      const hash = await printDossierFallback({
+        selected,
+        reportType,
+        includeAiForeword,
+        childLabel: deepLinkChild || 'Hela familjen',
+      });
 
       setResult({
         dossierId: hash.slice(0, 12).toUpperCase(),

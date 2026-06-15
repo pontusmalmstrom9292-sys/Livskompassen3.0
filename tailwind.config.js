@@ -41,6 +41,7 @@ export default {
         border: {
           DEFAULT: cssVar('--border'), /* rgba(212, 175, 55, 0.12) */
           strong: cssVar('--border-strong'), /* rgba(99, 102, 241, 0.22) */
+          'glass-border': cssVar('--glass-border'),
         },
       },
       fontFamily: {

@@ -13,6 +13,12 @@
     "src/modules/features/dailyLife/wellbeing/mabra/**/*.ts",
     "src/modules/features/dailyLife/wellbeing/mabra/**/*.tsx",
     "src/modules/morning/**/*.ts",
-    "src/modules/morning/**/*.tsx"
+    "src/modules/morning/**/*.tsx",
+    "src/modules/features/archive/**/*.ts",
+    "src/modules/features/archive/**/*.tsx",
+    "src/modules/features/lifeJournal/diary/**/*.ts",
+    "src/modules/features/lifeJournal/diary/**/*.tsx",
+    "src/modules/features/diary/**/*.ts",
+    "src/modules/features/diary/**/*.tsx"
   ]
 }
