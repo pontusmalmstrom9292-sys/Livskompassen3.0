@@ -61,7 +61,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
   return (
     <BentoCard
       glow="green"
-      className="barnfokus-fragan-panel min-h-0 !border-x-0 !border-t-0 !bg-transparent !p-0 !shadow-none hover:!shadow-none [&>div]:flex [&>div]:min-h-0 [&>div]:flex-col [&>div]:gap-4"
+      className="barnfokus-fragan-panel !border-x-0 !border-t-0 !bg-transparent !p-0 !shadow-none hover:!shadow-none [&>div]:flex [&>div]:flex-col [&>div]:gap-4"
     >
       <div className="od-depth__banner flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
@@ -101,7 +101,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
         className="od-depth__field"
       />
 
-      <div className="od-depth__cta-wrap !mt-0">
+      <div className="od-depth__cta-wrap relative z-10 !mt-0">
         <button
           type="button"
           onClick={handleSave}

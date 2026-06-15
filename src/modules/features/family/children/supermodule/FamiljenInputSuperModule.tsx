@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { clsx } from 'clsx';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   DEFAULT_FAMILJEN_INPUT_MODE,
@@ -23,6 +24,8 @@ export type FamiljenInputSuperModuleProps = {
   initialMode?: FamiljenInputMode;
   /** Callback efter lyckat spar (valfritt — t.ex. scroll till minneslista). */
   onSaved?: (mode: FamiljenInputMode, logId?: string) => void;
+  /** Desktop hub-lock: ingen intern scroll i kortet — yttre calm-scroll-island scrollar. */
+  flowWithIsland?: boolean;
 };
 
 /**
@@ -33,6 +36,7 @@ export function FamiljenInputSuperModule({
   shell,
   initialMode,
   onSaved,
+  flowWithIsland = false,
 }: FamiljenInputSuperModuleProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -68,7 +72,10 @@ export function FamiljenInputSuperModule({
   return (
     <BentoCard
       glow="blue"
-      className="familjen-input-hub od-depth max-sm:overflow-visible overflow-hidden !p-0"
+      className={clsx(
+        'familjen-input-hub od-depth overflow-hidden !p-0',
+        flowWithIsland && 'familjen-input-hub--flow',
+      )}
     >
       <div className="familjen-input-hub__chrome shrink-0 border-b border-[rgba(212,175,55,0.12)] px-4 py-3 sm:px-5 sm:py-4">
         <header className="mb-3 space-y-1">

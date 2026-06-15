@@ -602,6 +602,10 @@
     );
   }
 
+  .familjen-input-hub--flow {
+    max-height: none;
+  }
+
   .familjen-input-hub__chrome {
     background: linear-gradient(
       180deg,
@@ -613,17 +617,23 @@
   .familjen-input-hub__viewport {
     flex: 1 1 auto;
     min-height: 0;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
-  /* Mobil: en yttre scroll-yta (FamiljenPage calm-scroll-island) — ingen 72dvh-fälla */
+  .familjen-input-hub--flow .familjen-input-hub__viewport {
+    flex: none;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  /* Mobil: hela sidan scrollar — kortet växer med innehållet */
   @media (max-width: 639px) {
-    .hub-view-lock--fit .familjen-input-hub {
+    .familjen-input-hub:not(.familjen-input-hub--flow) {
       max-height: none;
-      overflow: visible;
     }
 
-    .hub-view-lock--fit .familjen-input-hub__viewport {
+    .familjen-input-hub:not(.familjen-input-hub--flow) .familjen-input-hub__viewport {
       flex: none;
       min-height: auto;
       overflow: visible;

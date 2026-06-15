@@ -643,6 +643,28 @@ function main() {
   mustInclude('src/modules/core/pages/FamiljenPage.tsx', 'ModuleShell', 'ParentReminderFooter');
   mustInclude(
     'src/modules/core/pages/FamiljenPage.tsx',
+    'lockViewport',
+    'fitViewport',
+    'FamiljenInputSuperModule',
+  );
+  assert(
+    !read('src/modules/core/pages/FamiljenPage.tsx').includes('contentIsland={false}'),
+    'FamiljenPage: en scroll-yta via HubPageShell calm-scroll-island — contentIsland={false} förbjudet',
+  );
+  assert(
+    !read('src/modules/core/pages/FamiljenPage.tsx').includes('calm-scroll-island'),
+    'FamiljenPage: ingen nested calm-scroll-island — scroll sker i HubPageShell',
+  );
+  mustInclude(
+    'src/modules/features/family/children/supermodule/FamiljenInputSuperModule.tsx',
+    'familjen-input-hub--flow',
+  );
+  mustInclude(
+    'src/styles/obsidian-calm-2.css',
+    'hub-view-lock--fit .familjen-input-hub--flow',
+  );
+  mustInclude(
+    'src/modules/core/pages/FamiljenPage.tsx',
     'HubDropdownNav',
     'glowColor="blue"',
     "id: 'reflektion'",

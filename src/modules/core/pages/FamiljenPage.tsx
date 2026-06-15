@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
+import { clsx } from 'clsx';
 import { Anchor, BookHeart, Heart, HeartHandshake, Sparkles, Users } from 'lucide-react';
 import { DrogfrihetHubPage } from '@/features/dailyLife/drogfrihet';
 
@@ -25,6 +26,7 @@ import {
   type FamiljenTabId,
 } from '@/features/family/children/constants/familjenTabs';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { useMinWidthSm } from '../hooks/useMinWidthSm';
 
 const FAMILJ_OPTIONS: DropdownItem<FamiljenTabId>[] = [
   { id: 'reflektion', label: 'Dagens Barnfokus', icon: <Sparkles className="h-4 w-4" /> },
@@ -55,6 +57,7 @@ export type FamiljenValvDrawerWiring = typeof vaultDrawerPath;
 export function FamiljenPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const shell = useFamiljenShell();
+  const desktopHubLock = useMinWidthSm();
   const { preset } = useLifeHubPreset();
   const rawTab = searchParams.get('tab');
   const legacyRedirect = rawTab ? LEGACY_TAB_REDIRECTS[rawTab] : undefined;
@@ -103,9 +106,8 @@ export function FamiljenPage() {
             <ParentReminderFooter childAlias={shell.activeChild} />
           ) : undefined
         }
-        lockViewport
-        fitViewport
-        contentIsland={false}
+        lockViewport={desktopHubLock}
+        fitViewport={desktopHubLock}
         depth
         cognitiveStrip={{
           label: 'Kognitiv sköld aktiv',
@@ -121,7 +123,7 @@ export function FamiljenPage() {
           />
         }
       >
-        <div className="calm-scroll-island min-h-0 flex-1 space-y-4">
+        <div className={clsx('space-y-4', !desktopHubLock && 'pb-2')}>
           {showChildPicker && (
             <FamiljenChildPicker
               activeChild={shell.activeChild}
@@ -132,7 +134,7 @@ export function FamiljenPage() {
 
           {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
             <>
-              <FamiljenInputSuperModule shell={shell} />
+              <FamiljenInputSuperModule shell={shell} flowWithIsland={desktopHubLock} />
               {activeTab === 'reflektion' ? (
                 <FamiljenReflektionTab shell={shell} />
               ) : (

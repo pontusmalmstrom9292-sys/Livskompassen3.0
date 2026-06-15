@@ -7,7 +7,7 @@
 | Test | ID | Status | Anteckning |
 |------|-----|--------|------------|
 | Valv biometri + bevis | **#3** | **FAIL** | Kunde inte låsa upp Valvet |
-| Barnen loggrad | **#4** | **FAIL** | Scroll-lås (fix: Familjen `contentIsland` 2026-06-15) |
+| Barnen loggrad | **#4** | **FAIL** | Scroll-lås — retest efter Fas 23.1 (en calm-scroll-island, flow hub) |
 | Dagbok bilaga | **#2d** | **PASS** | |
 | Superhub snabb | **D** | **PASS** | Drawer, /liv, /familjen, /mabra redirect |
 | Göra kanban | **E** | **PASS** | 2026-06-07 |
