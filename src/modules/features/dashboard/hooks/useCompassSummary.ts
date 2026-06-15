@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '@/core/firebase/init';
 import { useStore } from '@/core/store';
+import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
 
 export interface CompassSummary {
   journalCount: number;
@@ -36,12 +37,12 @@ export function useCompassSummary(): CompassSummary {
 
     const fetchSummary = async () => {
       try {
-        const generateCompassInsight = httpsCallable<void, Omit<CompassSummary, 'loading'>>(
-          functions,
-          'generateCompassInsight'
-        );
-        
-        const result = await generateCompassInsight();
+        const generateCompassInsight = httpsCallable<
+          { vaultSessionToken?: string },
+          Omit<CompassSummary, 'loading'>
+        >(functions, 'generateCompassInsight');
+
+        const result = await generateCompassInsight(withVaultSessionPayload({}));
         
         if (!cancelled) {
           setData(result.data);

@@ -1,6 +1,7 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { vaultSessionGrantsVaultRead } from '../lib/vaultSessionGate';
 import { geminiApiKey } from '../lib/geminiSecret';
 import { GoogleGenAI } from '@google/genai';
 
@@ -23,22 +24,24 @@ export const generateWeeklySummary = onCall(
 
     try {
       // 2. Query Journal and Vault
-      const journalPromise = db.collection('journal')
+      const journalSnap = await db.collection('journal')
         .where('ownerId', '==', uid)
         .where('createdAt', '>=', timestamp)
         .orderBy('createdAt', 'desc')
         .get();
-
-      const vaultPromise = db.collection('reality_vault')
-        .where('ownerId', '==', uid)
-        .where('createdAt', '>=', timestamp)
-        .orderBy('createdAt', 'desc')
-        .get();
-
-      const [journalSnap, vaultSnap] = await Promise.all([journalPromise, vaultPromise]);
 
       const journalDocs = journalSnap.docs.map(d => d.data());
-      const vaultDocs = vaultSnap.docs.map(d => d.data());
+
+      const includeVault = await vaultSessionGrantsVaultRead(uid, request.data);
+      let vaultDocs: admin.firestore.DocumentData[] = [];
+      if (includeVault) {
+        const vaultSnap = await db.collection('reality_vault')
+          .where('ownerId', '==', uid)
+          .where('createdAt', '>=', timestamp)
+          .orderBy('createdAt', 'desc')
+          .get();
+        vaultDocs = vaultSnap.docs.map(d => d.data());
+      }
 
       if (journalDocs.length === 0 && vaultDocs.length === 0) {
         return { 

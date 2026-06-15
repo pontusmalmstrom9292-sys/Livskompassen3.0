@@ -1,6 +1,7 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { vaultSessionGrantsVaultRead } from '../lib/vaultSessionGate';
 import { geminiApiKey } from '../lib/geminiSecret';
 import { GoogleGenAI } from '@google/genai';
 import { KOMPASS_INSIKT_SYSTEM_PROMPT } from '../sharedRules';
@@ -143,25 +144,27 @@ export const generateCompassInsight = onCall(
 
     try {
       // 2. WORM-säker läsning (Endast filter på ownerId och datum)
-      const journalPromise = db.collection('journal')
+      const journalSnap = await db.collection('journal')
         .where('ownerId', '==', uid)
         .where('createdAt', '>=', timestamp)
         .orderBy('createdAt', 'desc')
         .get();
-
-      const vaultPromise = db.collection('reality_vault')
-        .where('ownerId', '==', uid)
-        .where('createdAt', '>=', timestamp)
-        .orderBy('createdAt', 'desc')
-        .get();
-
-      const [journalSnap, vaultSnap] = await Promise.all([journalPromise, vaultPromise]);
 
       const journalDocs = journalSnap.docs.map(d => d.data());
 
+      const includeVault = await vaultSessionGrantsVaultRead(uid, request.data);
+      let vaultCount = 0;
+      if (includeVault) {
+        const vaultSnap = await db.collection('reality_vault')
+          .where('ownerId', '==', uid)
+          .where('createdAt', '>=', timestamp)
+          .orderBy('createdAt', 'desc')
+          .get();
+        vaultCount = vaultSnap.size;
+      }
+
       // 3. Aggregera
       const journalCount = journalSnap.size;
-      const vaultCount = vaultSnap.size;
       const streak = computeStreak(journalDocs);
 
       // Extrahera emotion-data (om tillgängligt i journalDocs)

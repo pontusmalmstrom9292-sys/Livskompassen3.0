@@ -8,7 +8,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
-import { db, saveVaultLog } from './firestore';
+import { db, saveVaultLog, assertArchitectureWrite } from './firestore';
 import { FIRESTORE_COLLECTIONS } from '../types/firestore';
 import type { VaultLog } from '../types/firestore';
 
@@ -24,6 +24,31 @@ export type VaultSaveRecordInput = {
   content?: string;
   source?: string;
 } & Partial<Omit<VaultLog, 'userId' | 'ownerId' | 'createdAt'>>;
+
+const VAULT_LOG_OPTIONAL_KEYS = [
+  'sourceRef',
+  'childrenImpact',
+  'evidenceUrl',
+  'biffUsed',
+  'theirVersion',
+  'myReality',
+  'bodySignals',
+  'shieldWhat',
+  'shieldFeeling',
+  'shieldBoundary',
+  'pinned',
+  'ownerId',
+] as const;
+
+const WORM_FORBIDDEN_KEYS = ['updatedAt', 'deletedAt', 'modifiedAt', 'revision'] as const;
+
+function assertClientWormPayload(data: Record<string, unknown>, context: string): void {
+  for (const key of WORM_FORBIDDEN_KEYS) {
+    if (key in data) {
+      throw new Error(`WORM violation (${context}): field "${key}" is not allowed on create.`);
+    }
+  }
+}
 
 function normalizeVaultSaveInput(
   data: VaultSaveRecordInput,
@@ -52,19 +77,7 @@ function normalizeVaultSaveInput(
     payload.category = sourceTag;
   }
 
-  const optionalKeys = [
-    'sourceRef',
-    'childrenImpact',
-    'evidenceUrl',
-    'biffUsed',
-    'theirVersion',
-    'myReality',
-    'bodySignals',
-    'shieldWhat',
-    'shieldFeeling',
-    'shieldBoundary',
-    'pinned',
-  ] as const;
+  const optionalKeys = VAULT_LOG_OPTIONAL_KEYS;
 
   for (const key of optionalKeys) {
     const value = data[key];
@@ -73,6 +86,7 @@ function normalizeVaultSaveInput(
     }
   }
 
+  assertClientWormPayload(payload as Record<string, unknown>, 'VaultService.saveRecord');
   return payload;
 }
 
@@ -88,6 +102,7 @@ export class VaultService {
     if (!truth) {
       throw new Error('Valv-post kräver text.');
     }
+    assertArchitectureWrite(this.COLLECTION_NAME, 'create');
     await saveVaultLog(entry.ownerId, {
       action: 'vault_record',
       truth,
@@ -133,6 +148,7 @@ export class VaultService {
    * offline-block, vault-gate/WebAuthn, kanoniskt action/truth-schema.
    */
   static async saveRecord(userId: string, data: VaultSaveRecordInput): Promise<string> {
+    assertArchitectureWrite(this.COLLECTION_NAME, 'create');
     return saveVaultLog(userId, normalizeVaultSaveInput(data));
   }
 

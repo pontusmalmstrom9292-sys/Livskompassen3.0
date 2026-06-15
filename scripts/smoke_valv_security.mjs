@@ -81,7 +81,9 @@ function main() {
     'openValvViaFyren',
     'biometri',
   );
-  mustInclude('functions/src/lib/vaultSessionGate.ts', 'assertVaultSession', 'revokeVaultSession');
+  mustInclude('functions/src/lib/vaultSessionGate.ts', 'assertVaultSession', 'revokeVaultSession', 'vaultSessionGrantsVaultRead');
+  mustInclude('functions/src/callables/weeklySummary.ts', 'vaultSessionGrantsVaultRead', 'reality_vault');
+  mustInclude('functions/src/callables/compass.ts', 'vaultSessionGrantsVaultRead', 'reality_vault');
   mustInclude('functions/src/lib/vaultWebAuthn.ts', 'loadStoredCredentials', 'forceRegistration', 'credentials');
   mustInclude('src/modules/core/components/SystemErrorBanner.tsx', 'system.error', 'role="alert"');
   mustInclude('functions/src/lib/callableGuards.ts', 'guardSensitiveCallableV2', 'isAppCheckEnforcementEnabled');

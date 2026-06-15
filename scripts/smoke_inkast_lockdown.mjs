@@ -6,7 +6,7 @@ import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInAnonymously } from 'firebase/auth';
+import { getAuth, signInAnonymously, signInWithEmailAndPassword } from 'firebase/auth';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { initSmokeAppCheck } from './lib/smoke_app_check.mjs';
 
@@ -88,7 +88,8 @@ function smokeStaticStructure() {
     assert(inkastService.includes(tag.label), `TAG_GROUPS saknar label ${tag.label}`);
   }
 
-  assert(inboxPersist.includes('inboxTags: input.classification.tags'), 'inboxPersist skriver inboxTags');
+  assert(inboxPersist.includes('assertServerWormPayload'), 'inboxPersist saknar assertServerWormPayload');
+  assert(inboxPersist.includes('driveInboxSourceRef'), 'inboxPersist saknar driveInboxSourceRef dedup');
   assert(inboxPersist.includes('reality_vault'), 'inboxPersist → reality_vault');
   assert(inboxPersist.includes('children_logs'), 'inboxPersist → children_logs');
   assert(inboxPersist.includes('persistJournalFromInbox'), 'inboxPersist saknar persistJournalFromInbox');
@@ -169,8 +170,13 @@ async function smokeCallablePipeline() {
   const auth = getAuth(app);
   const functions = getFunctions(app, 'europe-west1');
 
-  console.log('[smoke:inkast] Anonymous sign-in…');
-  await signInAnonymously(auth);
+  if (env.SEED_FIREBASE_EMAIL && env.SEED_FIREBASE_PASSWORD) {
+    console.log('[smoke:inkast] Email sign-in (krävs för dagbok WORM)…');
+    await signInWithEmailAndPassword(auth, env.SEED_FIREBASE_EMAIL, env.SEED_FIREBASE_PASSWORD);
+  } else {
+    console.log('[smoke:inkast] Anonymous sign-in…');
+    await signInAnonymously(auth);
+  }
 
   const preview = httpsCallable(functions, 'previewInboxClassification');
   const previewResult = await preview({

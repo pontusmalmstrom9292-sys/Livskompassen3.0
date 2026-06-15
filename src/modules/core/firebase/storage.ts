@@ -38,6 +38,15 @@ export async function uploadProjectMedia(
   return { storagePath: path, downloadUrl };
 }
 
+/** Alias — smoke:design-modules + legacy Projekt P2 call sites. */
+export async function uploadProjectImage(
+  userId: string,
+  projectId: string,
+  file: File,
+): Promise<{ storagePath: string; downloadUrl: string }> {
+  return uploadProjectMedia(userId, projectId, file);
+}
+
 /** ActionDashboard — barnlivslogg-foto, uid + childAlias scoped (WORM create-only). */
 export async function uploadChildLogMedia(
   userId: string,

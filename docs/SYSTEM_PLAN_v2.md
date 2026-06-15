@@ -191,8 +191,8 @@ Produkt-GAP: [`MODUL-GAP-OVERSIKT.md`](./MODUL-GAP-OVERSIKT.md)
 | Prioritet | Modul | Fas | Status | Spec / kanon |
 |-----------|-------|-----|--------|--------------|
 | **1** | Adaptiv Hemkompass — superhub-broar från Hem | **12B** | **done** 2026-06-14 | `homeSuperhubRoutes.ts` · `HomeSuperhubShortcuts` |
-| 2 | Vault-gate P2 (`weeklySummary`, `compass`) | **12C** | backlog | [`2026-06-14-fas9-systemanalys.md`](./evaluations/2026-06-14-fas9-systemanalys.md) |
-| 3 | Dossier BBIC `reportType` | **12D** | backlog | Dossier-spec |
+| 2 | Vault-gate P2 (`weeklySummary`, `compass`) | **12C** | **done** 2026-06-15 | [`2026-06-15-fas13-vag-1-security-12c.md`](./evaluations/2026-06-15-fas13-vag-1-security-12c.md) |
+| 3 | Dossier BBIC `reportType` | **12D** | **done** 2026-06-15 | [`2026-06-15-fas13-vag-3-evidence-e2e.md`](./evaluations/2026-06-15-fas13-vag-3-evidence-e2e.md) |
 | — | Kunskap våg 8 (53 FACT partial) | — | kurator | [`content/CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) |
 | — | Barnporten push (Våg C) | — | defer | — |
 | — | Genkit migration (V1) | — | **wait** | [`Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) |

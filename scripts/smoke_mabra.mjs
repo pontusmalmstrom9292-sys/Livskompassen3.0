@@ -7,7 +7,7 @@ import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { initializeApp } from 'firebase/app';
 import { initializeAppCheck, CustomProvider } from 'firebase/app-check';
-import { getAuth, signInAnonymously } from 'firebase/auth';
+import { getAuth, signInAnonymously, signInWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, addDoc, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 
@@ -79,9 +79,18 @@ async function main() {
   const db = getFirestore(app);
   const functions = getFunctions(app, 'europe-west1');
 
-  console.log('[smoke] Anonymous sign-in…');
-  const { user } = await signInAnonymously(auth);
-  await user.getIdToken(true);
+  let user;
+  if (env.SEED_FIREBASE_EMAIL && env.SEED_FIREBASE_PASSWORD) {
+    console.log('[smoke] Email sign-in (krävs för vit_hub WORM)…');
+    const cred = await signInWithEmailAndPassword(auth, env.SEED_FIREBASE_EMAIL, env.SEED_FIREBASE_PASSWORD);
+    await cred.user.getIdToken(true);
+    user = cred.user;
+  } else {
+    console.log('[smoke] Anonymous sign-in…');
+    const cred = await signInAnonymously(auth);
+    await cred.user.getIdToken(true);
+    user = cred.user;
+  }
   const uid = user.uid;
 
   console.log('[smoke] mabra_sessions WORM create…');

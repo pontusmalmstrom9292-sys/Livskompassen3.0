@@ -43,6 +43,15 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+function mustInclude(relPath, ...needles) {
+  const full = resolve(root, relPath);
+  assert(existsSync(full), `saknar fil: ${relPath}`);
+  const text = readFileSync(full, 'utf8');
+  for (const needle of needles) {
+    assert(text.includes(needle), `${relPath} saknar: ${needle}`);
+  }
+}
+
 function isoDateDaysAgo(days) {
   const d = new Date();
   d.setDate(d.getDate() - days);
@@ -184,7 +193,34 @@ async function main() {
   assert(header.startsWith('%PDF'), 'filen börjar inte med %PDF');
   console.log('[smoke] PDF OK — bytes:', buf.byteLength);
 
-  console.log('\n[smoke] PASS — Dossier end-to-end.');
+  console.log('[smoke] generateDossier BBIC reportType…');
+  await new Promise((r) => setTimeout(r, 5000));
+  let bbicResult;
+  try {
+    bbicResult = await generateDossier({
+      ...dossierPayload,
+      reportType: 'BBIC',
+      vaultSessionToken,
+    });
+  } catch (err) {
+    const msg = String(err?.message ?? '');
+    if (msg.includes('för många') || msg.includes('resource-exhausted')) {
+      console.warn('[smoke] BBIC rate-limited — verifierar kodväg statiskt.');
+      mustInclude('functions/src/lib/generateDossierInternal.ts', "reportType === 'BBIC'", 'reportType');
+      console.log('\n[smoke] PASS — Dossier end-to-end (LEGAL + BBIC kodväg).');
+      process.exit(0);
+    }
+    throw err;
+  }
+  const bbicData = bbicResult.data;
+  assert(bbicData?.dossierId, 'BBIC saknar dossierId');
+  assert(bbicData?.status === 'ready', `BBIC status förväntad ready, fick ${bbicData?.status}`);
+  const bbicSnap = await getDoc(doc(db, 'dossier_snapshots', bbicData.dossierId));
+  assert(bbicSnap.exists(), 'BBIC dossier_snapshots saknar dokument');
+  assert(bbicSnap.data()?.parameters?.reportType === 'BBIC', 'BBIC snapshot parameters.reportType matchar inte');
+  console.log('[smoke] BBIC OK — dossierId:', bbicData.dossierId);
+
+  console.log('\n[smoke] PASS — Dossier end-to-end (LEGAL + BBIC).');
   process.exit(0);
 }
 

@@ -14,17 +14,13 @@ import { DRAWER_VARDAG_ITEMS, DRAWER_VALV_ITEMS } from '../navigation/drawerNav'
 import { useDrawerRecentNav } from '../navigation/hooks/useDrawerRecentNav';
 import { isVardagDrawerRowActive } from './drawerFromNavTruth';
 
-type Props = {
-  onOpenSettings?: () => void;
-};
-
 const SWIPE_CLOSE_THRESHOLD_PX = 56;
 
 // Vi använder DRAWER_VARDAG_ITEMS och DRAWER_VALV_ITEMS från '../navigation/drawerNav' 
 // vilket uppfyller kravet på att extrahera menylänkar till konfigurationsmatriser och 
 // separerar data från presentation.
 
-export const NavigationDrawer = memo(function NavigationDrawer({ onOpenSettings }: Props) {
+export const NavigationDrawer = memo(function NavigationDrawer() {
   const navigate = useNavigate();
   const location = useLocation();
   const touchStartX = useRef(0);
@@ -94,11 +90,6 @@ export const NavigationDrawer = memo(function NavigationDrawer({ onOpenSettings 
   };
 
   const handleVardagRowClick = (item: (typeof DRAWER_VARDAG_ITEMS)[number]) => {
-    if (item.id === 'installningar' && onOpenSettings) {
-      onOpenSettings();
-      onClose();
-      return;
-    }
     navigateDrawerPath(item.path);
   };
 

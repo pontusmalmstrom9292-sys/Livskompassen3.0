@@ -7,7 +7,7 @@ import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInAnonymously } from 'firebase/auth';
+import { getAuth, signInAnonymously, signInWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { initSmokeAppCheck } from './lib/smoke_app_check.mjs';
@@ -89,8 +89,17 @@ async function main() {
   const db = getFirestore(app);
   const functions = getFunctions(app, 'europe-west1');
 
-  console.log('[smoke] Anonymous sign-in…');
-  const cred = await signInAnonymously(auth);
+  let cred;
+  if (env.SEED_FIREBASE_EMAIL && env.SEED_FIREBASE_PASSWORD) {
+    console.log('[smoke] Email sign-in (krävs för WORM seed)…');
+    cred = await signInWithEmailAndPassword(auth, env.SEED_FIREBASE_EMAIL, env.SEED_FIREBASE_PASSWORD);
+    const { seedSmokeVaultClaims } = await import('./lib/firebaseAdmin.mjs');
+    await seedSmokeVaultClaims(cred.user.uid, projectId);
+    await cred.user.getIdToken(true);
+  } else {
+    console.log('[smoke] Anonymous sign-in…');
+    cred = await signInAnonymously(auth);
+  }
   const uid = cred.user.uid;
   console.log('[smoke] uid:', uid);
 

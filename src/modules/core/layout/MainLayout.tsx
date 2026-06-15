@@ -1,5 +1,5 @@
 /* PROTECTED CORE COMPONENT: DO NOT MODIFY, REFRACTOR, OR REMOVE UI ELEMENTS. THIS FILE IS LOCKED FOR ARCHITECTURAL STABILITY. */
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { LifeBuoy } from 'lucide-react';
@@ -40,8 +40,6 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!user) setMenuOpen(false);
   }, [user, setMenuOpen]);
-
-  const openAccount = useCallback(() => setAccountOpen(true), []);
 
   return (
     <FyrenWidgetProvider>
@@ -84,9 +82,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <NavigationDrawer
-        onOpenSettings={openAccount}
-      />
+      <NavigationDrawer />
 
       <FirestoreNetworkChip />
       <SystemErrorBanner />

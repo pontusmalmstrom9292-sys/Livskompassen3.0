@@ -1,11 +1,6 @@
-import admin from 'firebase-admin';
+import { loadFirebaseAdmin } from './lib/firebaseAdmin.mjs';
 
-// Initialize Firebase Admin SDK if not already initialized
-if (!admin.apps.length) {
-  admin.initializeApp({
-    projectId: 'gen-lang-client-0481875058'
-  });
-}
+const admin = loadFirebaseAdmin();
 
 const db = admin.firestore();
 

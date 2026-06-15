@@ -3,16 +3,9 @@
  * Evaluates economy access using a 7-day capacity score based on MåBra checkins.
  * Uses Firebase Admin SDK to maintain WORM integrity.
  */
-import admin from 'firebase-admin';
+import { loadFirebaseAdmin } from './lib/firebaseAdmin.mjs';
 
-// Initialize Firebase Admin SDK if not already initialized
-if (!admin.apps.length) {
-  // In a real environment, this expects GOOGLE_APPLICATION_CREDENTIALS to be set,
-  // or it runs inside a GCP environment where default credentials apply.
-  admin.initializeApp({
-    projectId: 'gen-lang-client-0481875058'
-  });
-}
+const admin = loadFirebaseAdmin();
 
 const db = admin.firestore();
 

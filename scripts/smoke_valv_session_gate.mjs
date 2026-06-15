@@ -67,6 +67,8 @@ async function main() {
   mustInclude('functions/src/lib/vaultWebAuthn.ts', 'beginVaultWebAuthnChallenge', 'verifyVaultWebAuthnResponse');
   mustInclude('functions/src/index.ts', 'beginVaultWebAuthnChallenge', 'issueVaultSession');
   mustInclude('functions/src/callables/agents.ts', 'weaveJournalEntry', 'assertVaultSession');
+  mustInclude('functions/src/callables/weeklySummary.ts', 'vaultSessionGrantsVaultRead', 'reality_vault');
+  mustInclude('functions/src/callables/compass.ts', 'vaultSessionGrantsVaultRead', 'reality_vault');
 
   const env = loadEnv();
   assert(env.VITE_FIREBASE_API_KEY && env.VITE_FIREBASE_PROJECT_ID, 'VITE_FIREBASE_* krävs');

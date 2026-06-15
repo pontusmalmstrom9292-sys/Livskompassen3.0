@@ -3,6 +3,7 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 import { Loader2, X, Sparkles, ShieldAlert } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
 
 export function WeeklySummaryModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [summary, setSummary] = useState<string | null>(null);
@@ -15,7 +16,7 @@ export function WeeklySummaryModal({ isOpen, onClose }: { isOpen: boolean; onClo
     try {
       const functions = getFunctions();
       const generateWeeklySummary = httpsCallable<{}, { summary: string }>(functions, 'generateWeeklySummary');
-      const result = await generateWeeklySummary({});
+      const result = await generateWeeklySummary(withVaultSessionPayload({}));
       setSummary(result.data.summary);
     } catch (err) {
       console.error(err);

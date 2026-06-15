@@ -83,6 +83,16 @@ async function main() {
   const uid = cred.user.uid;
   console.log('[smoke] uid:', uid);
 
+  const projectId = env.VITE_FIREBASE_PROJECT_ID;
+  const { seedSmokeVaultClaims } = await import('./lib/firebaseAdmin.mjs');
+  try {
+    await seedSmokeVaultClaims(uid, projectId);
+    await cred.user.getIdToken(true);
+    console.log('[smoke] vaultUnlocked custom claims seeded (Admin SDK)');
+  } catch (claimErr) {
+    console.warn('[smoke] vault claims seed skipped:', claimErr?.message ?? claimErr);
+  }
+
   const stamp = new Date().toISOString();
   const docRef = await addDoc(collection(db, 'reality_vault'), {
     ownerId: uid,

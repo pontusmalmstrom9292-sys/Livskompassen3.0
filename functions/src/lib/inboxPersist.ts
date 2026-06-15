@@ -1,6 +1,7 @@
 import * as admin from 'firebase-admin';
 import { requiresHumanReview, type InboxClassification } from './inboxClassifier';
 import { persistKbDocFromDrive, type PersistKbDocInput } from './persistKbDoc';
+import { assertServerWormPayload, CHILDREN_LOG_ALLOWED_KEYS, driveInboxSourceRef, REALITY_VAULT_ALLOWED_KEYS } from './wormPayload';
 
 const INBOX_QUEUE = 'inbox_queue';
 
@@ -83,10 +84,11 @@ export async function persistVaultFromInbox(input: {
   evidenceUrl?: string;
 }): Promise<{ docId: string; created: boolean }> {
   const db = admin.firestore();
+  const sourceRef = driveInboxSourceRef(input.driveFileId);
   const existing = await db
     .collection('reality_vault')
     .where('ownerId', '==', input.ownerId)
-    .where('driveFileId', '==', input.driveFileId)
+    .where('sourceRef', '==', sourceRef)
     .limit(1)
     .get();
 
@@ -96,24 +98,28 @@ export async function persistVaultFromInbox(input: {
 
   const truth = [
     input.classification.summary,
+    input.fileName ? `[${input.fileName}]` : '',
     '',
     input.analysisText.slice(0, 8000),
   ]
     .join('\n')
     .trim();
 
-  const docRef = await db.collection('reality_vault').add({
+  const vaultPayload: Record<string, unknown> = {
     userId: input.ownerId,
     ownerId: input.ownerId,
     category: input.classification.category,
     action: 'inbox_ingest',
     truth,
-    driveFileId: input.driveFileId,
-    fileName: input.fileName,
-    mimeType: input.mimeType,
-    inboxTags: input.classification.tags,
+    sourceRef,
     isLocked: true,
     ...(input.evidenceUrl ? { evidenceUrl: input.evidenceUrl } : {}),
+  };
+
+  assertServerWormPayload(vaultPayload, 'inboxPersist.reality_vault', REALITY_VAULT_ALLOWED_KEYS);
+
+  const docRef = await db.collection('reality_vault').add({
+    ...vaultPayload,
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
   });
 
@@ -131,19 +137,23 @@ export async function persistChildrenLogFromInbox(input: {
   if (!childAlias) return null;
 
   const db = admin.firestore();
-  const existing = await db
-    .collection('children_logs')
+  const existingQueue = await db
+    .collection(INBOX_QUEUE)
     .where('ownerId', '==', input.ownerId)
     .where('driveFileId', '==', input.driveFileId)
+    .where('persistedCollection', '==', 'children_logs')
     .limit(1)
     .get();
 
-  if (!existing.empty) {
-    return { docId: existing.docs[0].id, created: false };
+  if (!existingQueue.empty) {
+    const priorId = existingQueue.docs[0].data()?.persistedDocId;
+    if (typeof priorId === 'string' && priorId) {
+      return { docId: priorId, created: false };
+    }
   }
 
   const observation = input.classification.summary || input.analysisText.slice(0, 2000);
-  const docRef = await db.collection('children_logs').add({
+  const childPayload: Record<string, unknown> = {
     userId: input.ownerId,
     ownerId: input.ownerId,
     childAlias,
@@ -151,9 +161,13 @@ export async function persistChildrenLogFromInbox(input: {
     observation,
     truth: observation,
     category: input.classification.category,
-    driveFileId: input.driveFileId,
-    source: 'inbox_ingest',
-    inboxTags: input.classification.tags,
+    channel: 'inbox_ingest',
+  };
+
+  assertServerWormPayload(childPayload, 'inboxPersist.children_logs', CHILDREN_LOG_ALLOWED_KEYS);
+
+  const docRef = await db.collection('children_logs').add({
+    ...childPayload,
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
   });
 

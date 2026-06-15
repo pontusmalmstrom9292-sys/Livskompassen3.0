@@ -1,19 +1,29 @@
 # Smoke-resultat (Fas 3 + Minne)
 
-## Current truth (2026-06-11 — Agent δ typecheck & smoke gate)
+## Current truth (2026-06-15 — Fas 13 Leveranssprint gate)
 
-**Sanning:** denna tabell ersätter raden «2026-05-31 — systemgenomgång auto» nedan.
+**Sanning:** denna tabell ersätter «2026-06-11 — Agent δ typecheck & smoke gate» nedan.
 
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
+| **Tooling** | `npm run typecheck:core-strict` | **PASS** | 2026-06-15 · **0 fel** |
+| **Build** | `npm run build` (frontend) | **PASS** | 2026-06-15 |
+| **Autorun PASS** | `npm run orkester:night` | **PASS** | 2026-06-15 |
+| **Autorun PASS** | `npm run smoke:all` | **PASS** | 2026-06-15 |
+| **Autorun PASS** | `smoke:locked-ux` | **PASS** | 2026-06-15 |
+| **Autorun PASS** | `smoke:plausible-deniability` | **PASS** | 2026-06-15 |
+| **Security** | Fas 12C vault-gate (`weeklySummary`, `compass`) | **PASS** | 2026-06-15 · `smoke:valv-security` |
+| **Evidence** | Dossier LEGAL + BBIC `reportType` | **PASS** | 2026-06-15 · `smoke:dossier` |
+| **Kunskap** | RAG ingest + query | **PASS** | 2026-06-15 · `smoke:kunskap` |
+| **Deploy** | Hosting Fas 13 (App Check restore + WORM smoke fixes) | **PASS** | 2026-06-15 · https://gen-lang-client-0481875058.web.app |
 
-| **Deploy** | Super Multitask — hosting + `firestore:rules` (`17d121d30` + `5b8b8f736` + `fc2b06e9a` + `ea22b4eb0`) | **PASS** | 2026-06-11 · https://gen-lang-client-0481875058.web.app |
-| **Tooling** | `npm run typecheck:core-strict` | **baseline** | 2026-06-11 23:33 CEST · **9 fel** kvar (ej blockerande build) |
-| **Build** | `npm run build` (frontend) | **PASS** | 2026-06-11 23:33 CEST |
-| **Autorun PASS** | `smoke:orkester` (Agent δ gate) | **PASS** | 2026-06-11 23:33 CEST · drawer section markers + functions build |
-| **Autorun PASS** | `smoke:locked-ux` (Agent δ gate) | **PASS** | 2026-06-11 23:33 CEST · Barnfokus · Valv · drawer |
+### typecheck:core-strict — **0 fel** (Fas 13 våg 0)
 
-### typecheck:core-strict baseline (9 fel — ej fixade, >3)
+Tidigare baseline (9 fel) är **löst** — se historik nedan om behövs.
+
+---
+
+## Current truth (2026-06-11 — Agent δ typecheck & smoke gate) — historik
 
 | Fil | Fel | Notering |
 |-----|-----|----------|

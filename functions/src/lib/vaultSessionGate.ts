@@ -39,6 +39,16 @@ export async function revokeVaultSession(uid: string): Promise<void> {
   }
 }
 
+/**
+ * When `vaultSessionToken` is absent — skip Valv reads (journal-only).
+ * When present — validate via assertVaultSession before touching `reality_vault`.
+ */
+export async function vaultSessionGrantsVaultRead(uid: string, data: unknown): Promise<boolean> {
+  if (!readVaultSessionToken(data)) return false;
+  await assertVaultSession(uid, data);
+  return true;
+}
+
 export async function assertVaultSession(uid: string, data: unknown): Promise<void> {
   const token = readVaultSessionToken(data);
   if (!token) {

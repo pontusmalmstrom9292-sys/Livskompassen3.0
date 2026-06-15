@@ -7,7 +7,7 @@ import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { initializeApp } from 'firebase/app';
 import { initializeAppCheck, CustomProvider } from 'firebase/app-check';
-import { getAuth, signInAnonymously } from 'firebase/auth';
+import { getAuth, signInAnonymously, signInWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 
@@ -82,8 +82,14 @@ async function main() {
   const db = getFirestore(app);
   const functions = getFunctions(app, 'europe-west1');
 
-  console.log('[smoke] Anonymous sign-in…');
-  const cred = await signInAnonymously(auth);
+  let cred;
+  if (env.SEED_FIREBASE_EMAIL && env.SEED_FIREBASE_PASSWORD) {
+    console.log('[smoke] Email sign-in (krävs för children_logs WORM)…');
+    cred = await signInWithEmailAndPassword(auth, env.SEED_FIREBASE_EMAIL, env.SEED_FIREBASE_PASSWORD);
+  } else {
+    console.log('[smoke] Anonymous sign-in…');
+    cred = await signInAnonymously(auth);
+  }
   const uid = cred.user.uid;
   console.log('[smoke] uid:', uid);
 
