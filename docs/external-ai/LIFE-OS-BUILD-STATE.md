@@ -11,7 +11,8 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 | G10 Inkast | `inboxClassifier.ts`, `submitInkastLite.ts`, `src/modules/inkast/` | **LOCK** | PASS 2026-06-06 | pre-existing |
 | SynapseBus (4 triggers) | `synapseBus.ts`, `driveIngestSynapse.ts` | **LOCK** | orkester PASS | pre-existing |
 | App Check Console Enforce | Firebase Console | **OPEN** | — | PHASE-06 |
-| Upload unified | `CapturePanel`, `submitInkastLite`, Storage onFinalize | **OPEN** | — | PHASE-02–04 |
+| Upload unified SPEC | `UPLOAD-UNIFIED-SPEC.md` | **APPROVED** | CP-2 manuell | **CP-2** |
+| Upload unified (kod) | `CapturePanel`, `submitInkastLite`, Storage onFinalize | **OPEN** | — | PHASE-03–04 |
 | Audio MIME i Inkast | `inkastMimeTypes.ts` | **OPEN** | — | PHASE-03 |
 | inkastSourceModule allowlist | `inkastSourceModule.ts` | **OPEN** | — | PHASE-03 |
 | Valv modul | `src/modules/features/lifeJournal/evidence/vault/` | **WIP** | valv PASS | snapshot vid LOCK |
