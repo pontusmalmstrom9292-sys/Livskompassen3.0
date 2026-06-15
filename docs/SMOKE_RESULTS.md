@@ -17,6 +17,20 @@
 
 ---
 
+## Fas 24 (2026-06-15 — Hex P2 polish)
+
+**Kanon:** [`evaluations/2026-06-15-fas24-polish-vag.md`](./evaluations/2026-06-15-fas24-polish-vag.md)
+
+| Kategori | Leverans | Status | Smoke |
+|----------|----------|--------|-------|
+| Barnporten tokens | `barnporten.css` + `BarnportenQrPanel` utan inline hex | **PASS** | `smoke:design-modules` Fas 24 guards |
+| Dossier print | `DOSSIER_PRINT_STYLES` + `exportDossierPrint.ts` | **PASS** | static guards |
+| typecheck steg 3 | archive + diary paths | **PASS** | `typecheck:core-strict` 0 fel |
+
+**Deploy:** `firebase deploy --only hosting` **2026-06-15**
+
+---
+
 ## Fas 23 (2026-06-15 — USER smoke #3/#4 + Valv biometri + Familjen scroll)
 
 **Trigger:** Fas 23.1–23.3 · USER Motorola/Mac retest efter deploy  

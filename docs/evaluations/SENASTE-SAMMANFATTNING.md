@@ -7,7 +7,7 @@
 
 ## Nuläge i en mening
 
-**Fas 19–23 levererad + deployad** — USER smoke #3/#4 **PASS** · **Fas 19.6 arkiv-batch done**. **Nästa backlog:** hex P2 · M3.0-C (PMIR).
+**Fas 19–24 levererad** — USER smoke #3/#4 **PASS** · Fas 19.6 arkiv **done** · **Hex P2 verifierad**. **Nästa:** M3.0-C (PMIR).
 
 ---
 
@@ -24,6 +24,7 @@
 | Fas 19.5 evolution_ledger dual-write | **done** 2026-06-15 |
 | Fas 23 USER smoke + Valv biometri + Familjen scroll | **done** 2026-06-15 |
 | Fas 19.6 arkiv-batch PMIR | **done** 2026-06-15 |
+| Fas 24 Hex P2 (Barnporten + Dossier print) | **done** 2026-06-15 |
 | `orkester:night` + `typecheck:core-strict` | **PASS** 2026-06-15 |
 
 ---
@@ -62,8 +63,8 @@
 
 | ID | Beskrivning | Gate |
 |----|-------------|------|
+| Hex P2 | Barnporten zon-gradient, dossier print-HTML | **done** 2026-06-15 |
 | M3.0-C | Fitness/Näring | PMIR · masterplan defer |
-| Hex P2 | Barnporten zon-gradient, dossier print-HTML | zon-specifik / print — ej P0 |
 | App Check | Console Enforce | valfritt extra lager (kod redan fail-closed) |
 
 ---
