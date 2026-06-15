@@ -1,5 +1,5 @@
-/** Canonical input modes — ArbetslivInputSuperModule (Fas 10). */
-export type ArbetslivInputMode = 'stampla' | 'tid' | 'logg';
+/** Canonical input modes — ArbetslivInputSuperModule (Fas 10 / 14A). */
+export type ArbetslivInputMode = 'stampla' | 'inkomster' | 'tid';
 
 export type ArbetslivWriteTarget = 'time_entries' | 'economy_ledger' | 'read_only';
 
@@ -10,7 +10,7 @@ export type ArbetslivInputModeMeta = {
   tier: 'primary';
   writeTarget: ArbetslivWriteTarget;
   /** Legacy TabBar paritet — `?tab=` på /arbetsliv */
-  legacyTab: ArbetslivInputMode;
+  legacyTab: ArbetslivInputMode | 'logg';
 };
 
 export const DEFAULT_ARBETSLIV_INPUT_MODE: ArbetslivInputMode = 'stampla';
@@ -25,20 +25,20 @@ export const ARBETSLIV_INPUT_MODES: ArbetslivInputModeMeta[] = [
     legacyTab: 'stampla',
   },
   {
+    id: 'inkomster',
+    label: 'Inkomster',
+    description: 'Lön, FK, omvårdnadsbidrag',
+    tier: 'primary',
+    writeTarget: 'economy_ledger',
+    legacyTab: 'inkomster',
+  },
+  {
     id: 'tid',
     label: 'Tid & flex',
-    description: 'Veckosaldo och lönespec-länk',
+    description: 'Veckosaldo (read-only)',
     tier: 'primary',
     writeTarget: 'read_only',
     legacyTab: 'tid',
-  },
-  {
-    id: 'logg',
-    label: 'Logg',
-    description: 'Fasta räkningar och ledger',
-    tier: 'primary',
-    writeTarget: 'economy_ledger',
-    legacyTab: 'logg',
   },
 ];
 
@@ -63,6 +63,6 @@ export function getArbetslivInputModeMeta(mode: ArbetslivInputMode): ArbetslivIn
 
 /** Map legacy `?tab=` on /arbetsliv to superhub inputMode. */
 export function arbetslivTabToInputMode(tab: string | null | undefined): ArbetslivInputMode {
-  if (tab === 'tid' || tab === 'logg') return tab;
+  if (tab === 'tid' || tab === 'inkomster') return tab;
   return DEFAULT_ARBETSLIV_INPUT_MODE;
 }

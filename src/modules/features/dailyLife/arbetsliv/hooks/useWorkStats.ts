@@ -5,7 +5,7 @@
  * stabilt gränssnitt som andra domäner (t.ex. Ekonomi) kan konsumera utan
  * att direkt importera Firestore-funktioner från Arbetsliv-silon.
  *
- * ✅ Importeras av: features/dailyLife/wellbeing/economy/components/TimeAndPayPanel
+ * ✅ Importeras av: ArbetslivFlexDelegate
  * ❌ Importera INTE arbetslivFirestore direkt från ekonomidomänen — använd denna hook.
  */
 

@@ -50,11 +50,11 @@ export function SavingsPreviewMini() {
   );
 }
 
-export function TidPreviewMini() {
+export function LoggPreviewMini() {
   return (
     <div className="space-y-1 text-[10px] text-text-muted">
-      <p>Flex kvar: <span className="text-accent">+2,5 h</span></p>
-      <p>Vecka: 31,5 h · Stämpla in</p>
+      <p>Hyra · 8 500 kr</p>
+      <p>Mat/Köp · −420 kr</p>
     </div>
   );
 }

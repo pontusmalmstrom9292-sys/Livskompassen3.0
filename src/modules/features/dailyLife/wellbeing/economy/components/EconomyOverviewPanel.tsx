@@ -1,12 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { LayoutGrid, Wallet, Leaf, PiggyBank, Clock, PauseCircle, Sparkles } from 'lucide-react';
+import { LayoutGrid, Wallet, Leaf, PiggyBank, PauseCircle, Sparkles, Receipt } from 'lucide-react';
 import { clsx } from 'clsx';
 import { EconomyBudgetTab } from './EconomyBudgetTab';
 import { EconomyMealPrepPanel } from './EconomyMealPrepPanel';
 import { EconomyImpulsePanel } from './EconomyImpulsePanel';
 import { EconomySavingsPanel } from './EconomySavingsPanel';
-import { EconomyTidPanel } from './EconomyTidPanel';
+import { EconomyLogPanel } from './EconomyLogPanel';
 import {
   EkonomiModulValjare,
   type EkonomiModuleChoice,
@@ -20,7 +20,7 @@ const TABS: { id: EkonomiModuleChoice; label: string; icon: typeof Wallet }[] = 
   { id: 'kost_prepp', label: 'Neuro-Kost', icon: Leaf },
   { id: 'impuls', label: 'Impuls', icon: PauseCircle },
   { id: 'spar', label: 'Spar', icon: PiggyBank },
-  { id: 'tid', label: 'Tid', icon: Clock },
+  { id: 'logg', label: 'Logg', icon: Receipt },
 ];
 
 function allowedTabIdsForLevel(level: EconomyCapacityLevel): Set<EkonomiModuleChoice> {
@@ -28,9 +28,9 @@ function allowedTabIdsForLevel(level: EconomyCapacityLevel): Set<EkonomiModuleCh
     return new Set(['budget']);
   }
   if (level === 2) {
-    return new Set(['budget', 'kost_prepp', 'tid', 'spar']);
+    return new Set(['budget', 'kost_prepp', 'logg', 'spar']);
   }
-  return new Set(['budget', 'kost_prepp', 'impuls', 'spar', 'tid']);
+  return new Set(['budget', 'kost_prepp', 'impuls', 'spar', 'logg']);
 }
 
 type Props = {
@@ -124,7 +124,7 @@ export function EconomyOverviewPanel({ userId }: Props) {
             <EconomySavingsPanel panelTitle="Sparmål" />
           </div>
         )}
-        {activeTab === 'tid' && <EconomyTidPanel />}
+        {activeTab === 'logg' && <EconomyLogPanel scope="vardag" />}
       </div>
     </div>
   );

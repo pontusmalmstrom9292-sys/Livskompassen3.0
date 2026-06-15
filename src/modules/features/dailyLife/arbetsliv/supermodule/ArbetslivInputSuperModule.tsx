@@ -1,10 +1,10 @@
 import { useCallback, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Shield, Wallet } from 'lucide-react';
-import { vaultDrawerPath } from '@/core/navigation/navTruth';
-import { ArbetslivLoggDelegate } from './delegates/ArbetslivLoggDelegate';
+import { ArrowRight } from 'lucide-react';
+import { ArbetslivFlexDelegate } from './delegates/ArbetslivFlexDelegate';
+import { ArbetslivInkomstDelegate } from './delegates/ArbetslivInkomstDelegate';
 import { ArbetslivStamplaDelegate } from './delegates/ArbetslivStamplaDelegate';
-import { ArbetslivTidDelegate } from './delegates/ArbetslivTidDelegate';
+import { ArbetslivValvBroDelegate } from './delegates/ArbetslivValvBroDelegate';
 import {
   ARBETSLIV_INPUT_MODES_PRIMARY,
   DEFAULT_ARBETSLIV_INPUT_MODE,
@@ -15,37 +15,26 @@ import {
 export type ArbetslivInputSuperModuleProps = {
   /** Override URL-parsing (t.ex. Storybook eller W3 embed). */
   initialMode?: ArbetslivInputMode;
-  /** Callback efter ledger-ändring i logg-läge. */
-  onLoggChanged?: () => void;
 };
 
-function ArbetslivInputModeDelegate({
-  mode,
-  onLoggChanged,
-}: {
-  mode: ArbetslivInputMode;
-  onLoggChanged?: () => void;
-}) {
+function ArbetslivInputModeDelegate({ mode }: { mode: ArbetslivInputMode }) {
   switch (mode) {
     case 'stampla':
       return <ArbetslivStamplaDelegate />;
+    case 'inkomster':
+      return <ArbetslivInkomstDelegate />;
     case 'tid':
-      return <ArbetslivTidDelegate />;
-    case 'logg':
-      return <ArbetslivLoggDelegate onChanged={onLoggChanged} />;
+      return <ArbetslivFlexDelegate />;
     default:
       return <ArbetslivStamplaDelegate />;
   }
 }
 
 /**
- * Canonical router for Arbetsliv Universal Input Hub (Fas 10A→10C).
+ * Canonical router for Arbetsliv Universal Input Hub (Fas 10 / 14A).
  * Thin delegate — no direct Firestore writes in this file.
  */
-export function ArbetslivInputSuperModule({
-  initialMode,
-  onLoggChanged,
-}: ArbetslivInputSuperModuleProps) {
+export function ArbetslivInputSuperModule({ initialMode }: ArbetslivInputSuperModuleProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const activeMode = useMemo(
@@ -70,38 +59,22 @@ export function ArbetslivInputSuperModule({
 
   return (
     <section
-      className="calm-card glow-bottom-gold overflow-hidden rounded-2xl border border-border/30 bg-surface-2/70 p-4 sm:p-5"
+      className="calm-card glow-bottom-blue overflow-hidden rounded-2xl border border-border/30 bg-surface-2/70 p-4 sm:p-5"
       aria-label="Arbetsliv inmatningshub"
     >
       <header className="mb-4 space-y-2">
         <div className="space-y-1">
-          <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
-            Universal Input
+          <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent-secondary">
+            Arbetsliv
           </p>
           <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">
-            Ett läge i taget
+            Inkomst & tid
           </h2>
           <p className="text-xs text-text-dim">
-            Stämpel, flex och logg utan sidbyte. Frånvaro och lönespec finns under Valv i menyn.
+            Stämpel, registrerade inkomster och veckoflex — ett läge i taget.
           </p>
         </div>
-
-        <div className="flex flex-wrap gap-2">
-          <Link
-            to={vaultDrawerPath('arbetsliv_franvaro')}
-            className="btn-pill--ghost inline-flex items-center gap-2 text-xs"
-          >
-            <Shield className="h-3.5 w-3.5 text-accent/80" aria-hidden />
-            Frånvaro i Valv
-          </Link>
-          <Link
-            to={vaultDrawerPath('arbetsliv_lon')}
-            className="btn-pill--ghost inline-flex items-center gap-2 text-xs"
-          >
-            <Wallet className="h-3.5 w-3.5 text-accent/80" aria-hidden />
-            Lön i Valv
-          </Link>
-        </div>
+        <ArbetslivValvBroDelegate />
       </header>
 
       <nav
@@ -118,7 +91,7 @@ export function ArbetslivInputSuperModule({
               aria-pressed={isActive}
               className={`rounded-lg px-3 py-2 text-left text-xs transition-colors ${
                 isActive
-                  ? 'border border-accent/20 bg-accent/10 text-accent'
+                  ? 'border border-accent-secondary/25 bg-accent-secondary/10 text-accent-secondary'
                   : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
               }`}
             >
@@ -130,8 +103,18 @@ export function ArbetslivInputSuperModule({
       </nav>
 
       <div className="calm-scroll-island max-h-[min(70vh,640px)] overflow-y-auto pr-1">
-        <ArbetslivInputModeDelegate mode={activeMode} onLoggChanged={onLoggChanged} />
+        <ArbetslivInputModeDelegate mode={activeMode} />
       </div>
+
+      <footer className="mt-4 border-t border-border/30 pt-3">
+        <Link
+          to="/vardagen?tab=ekonomi"
+          className="inline-flex items-center gap-1.5 text-xs text-text-dim transition-colors hover:text-accent"
+        >
+          Privatekonomi
+          <ArrowRight className="h-3 w-3" aria-hidden />
+        </Link>
+      </footer>
     </section>
   );
 }

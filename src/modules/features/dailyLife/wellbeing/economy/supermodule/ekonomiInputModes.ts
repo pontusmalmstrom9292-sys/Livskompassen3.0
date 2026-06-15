@@ -1,6 +1,6 @@
 import type { EconomyCapacityLevel } from './capacityResolver';
 
-/** Canonical input modes — EkonomiInputSuperModule (Fas 8). */
+/** Canonical input modes — EkonomiInputSuperModule (Fas 8 / 14A). */
 export type EkonomiInputMode =
   | 'saldo'
   | 'mikrosteg'
@@ -10,7 +10,7 @@ export type EkonomiInputMode =
   | 'spar'
   | 'impuls'
   | 'inkast'
-  | 'arbetsliv_bro';
+  | 'logg';
 
 export type EkonomiInputModeMeta = {
   id: EkonomiInputMode;
@@ -107,14 +107,14 @@ export const EKONOMI_INPUT_MODES: EkonomiInputModeMeta[] = [
     navigationOnly: false,
   },
   {
-    id: 'arbetsliv_bro',
-    label: 'Arbete & logg',
-    description: 'Stämpel och ekonomilogg',
+    id: 'logg',
+    label: 'Logg',
+    description: 'Utgifter och fasta räkningar',
     tier: 'more',
-    minCapacityLevel: 3,
+    minCapacityLevel: 2,
     writesTransactions: false,
-    writesMutable: false,
-    navigationOnly: true,
+    writesMutable: true,
+    navigationOnly: false,
   },
 ];
 

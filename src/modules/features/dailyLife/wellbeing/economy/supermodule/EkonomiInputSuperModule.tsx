@@ -1,15 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import { EconomyCapacityLockedNotice } from '@/features/economy/components/EconomyCapacityLockedNotice';
 import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
 import {
   getAllowedModesForLevel,
   pickFallbackMode,
 } from './capacityResolver';
-import { EkonomiArbetslivBroDelegate } from './delegates/EkonomiArbetslivBroDelegate';
 import { EkonomiImpulsDelegate } from './delegates/EkonomiImpulsDelegate';
 import { EkonomiInkastDelegate } from './delegates/EkonomiInkastDelegate';
 import { EkonomiKuvertDelegate } from './delegates/EkonomiKuvertDelegate';
+import { EkonomiLoggDelegate } from './delegates/EkonomiLoggDelegate';
 import { EkonomiMatprepDelegate } from './delegates/EkonomiMatprepDelegate';
 import { EkonomiMikrostegDelegate } from './delegates/EkonomiMikrostegDelegate';
 import { EkonomiProfilDelegate } from './delegates/EkonomiProfilDelegate';
@@ -64,8 +65,8 @@ function EkonomiInputModeDelegate({
       return <EkonomiImpulsDelegate userId={userId} />;
     case 'inkast':
       return <EkonomiInkastDelegate userId={userId} />;
-    case 'arbetsliv_bro':
-      return <EkonomiArbetslivBroDelegate userId={userId} />;
+    case 'logg':
+      return <EkonomiLoggDelegate />;
     default:
       return <EkonomiModePlaceholder mode={mode} />;
   }
@@ -178,7 +179,7 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
             }`}
           >
             <span className="block font-medium">Mer…</span>
-            <span className="block text-[10px] text-text-dim">Kuvert, spar, inkast</span>
+            <span className="block text-[10px] text-text-dim">Kuvert, spar, logg, inkast</span>
           </button>
         ) : null}
 
@@ -207,6 +208,16 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
       <div className="calm-scroll-island max-h-[min(70vh,640px)] overflow-y-auto pr-1">
         <EkonomiInputModeDelegate mode={activeMode} userId={userId} />
       </div>
+
+      <footer className="mt-4 border-t border-border/30 pt-3">
+        <Link
+          to="/arbetsliv/input"
+          className="inline-flex items-center gap-1.5 text-xs text-text-dim transition-colors hover:text-accent-secondary"
+        >
+          Arbetsliv — stämpel & inkomster
+          <ArrowRight className="h-3 w-3" aria-hidden />
+        </Link>
+      </footer>
     </section>
   );
 }

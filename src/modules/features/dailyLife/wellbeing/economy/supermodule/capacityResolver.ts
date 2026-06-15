@@ -3,13 +3,8 @@ import type { EkonomiInputMode } from './ekonomiInputModes';
 export type EconomyCapacityLevel = 'critical' | 1 | 2 | 3;
 
 const MODES_LEVEL_1: EkonomiInputMode[] = ['saldo', 'mikrosteg'];
-const MODES_LEVEL_2: EkonomiInputMode[] = [...MODES_LEVEL_1, 'profil', 'matprep', 'kuvert', 'spar'];
-const MODES_LEVEL_3: EkonomiInputMode[] = [
-  ...MODES_LEVEL_2,
-  'impuls',
-  'inkast',
-  'arbetsliv_bro',
-];
+const MODES_LEVEL_2: EkonomiInputMode[] = [...MODES_LEVEL_1, 'profil', 'matprep', 'kuvert', 'spar', 'logg'];
+const MODES_LEVEL_3: EkonomiInputMode[] = [...MODES_LEVEL_2, 'impuls', 'inkast'];
 const MODES_CRITICAL: EkonomiInputMode[] = ['saldo'];
 
 /** Tillåtna input-modes per kapacitetsnivå — nivå beräknas i useEconomyLevel. */

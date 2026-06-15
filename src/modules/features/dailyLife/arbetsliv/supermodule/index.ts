@@ -3,11 +3,9 @@ export {
   type ArbetslivInputSuperModuleProps,
 } from './ArbetslivInputSuperModule';
 export { ArbetslivStamplaDelegate } from './delegates/ArbetslivStamplaDelegate';
-export { ArbetslivTidDelegate } from './delegates/ArbetslivTidDelegate';
-export {
-  ArbetslivLoggDelegate,
-  type ArbetslivLoggDelegateProps,
-} from './delegates/ArbetslivLoggDelegate';
+export { ArbetslivFlexDelegate } from './delegates/ArbetslivFlexDelegate';
+export { ArbetslivInkomstDelegate } from './delegates/ArbetslivInkomstDelegate';
+export { ArbetslivValvBroDelegate } from './delegates/ArbetslivValvBroDelegate';
 export {
   ARBETSLIV_INPUT_MODES,
   ARBETSLIV_INPUT_MODES_PRIMARY,

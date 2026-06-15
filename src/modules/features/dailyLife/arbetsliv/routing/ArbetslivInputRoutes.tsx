@@ -11,7 +11,7 @@ const ArbetslivInputSuperModuleLazy = lazy(() =>
  * Shadow routing for Arbetsliv Universal Input Hub (Fas 10C).
  * W3 mounts under `/arbetsliv/*` — e.g. `<Route path="/arbetsliv/*" element={<ArbetslivInputRoutes />} />`.
  *
- * Canonical entry: `/arbetsliv/input?inputMode=stampla|tid|logg`
+ * Canonical entry: `/arbetsliv/input?inputMode=stampla|inkomster|tid`
  */
 export function ArbetslivInputRoutes() {
   return (

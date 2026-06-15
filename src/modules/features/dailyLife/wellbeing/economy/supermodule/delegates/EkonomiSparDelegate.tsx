@@ -160,7 +160,7 @@ export function EkonomiSparDelegate({ userId }: EkonomiSparDelegateProps) {
       {savedFlash && !saving ? (
         <p className="flex items-center gap-2 text-sm text-emerald-400" role="status">
           <Check className="h-4 w-4 shrink-0" aria-hidden />
-          Besparing loggad.
+          Sparat. Ett lugnt steg framåt.
         </p>
       ) : null}
     </div>

@@ -2,14 +2,14 @@ import { ExamplePreviewCard } from '@/shared/ui/ExamplePreviewCard';
 import {
   BudgetPreviewMini,
   ImpulsePreviewMini,
+  LoggPreviewMini,
   MealPrepPreviewMini,
   SavingsPreviewMini,
-  TidPreviewMini,
 } from './previews/EconomyModulePreviews';
 import { markEkonomiModulValjareSeen } from '../utils/ekonomiModulValjareStorage';
 import { EKONOMI_HUB_LEAD } from '../ekonomiCopy';
 
-export type EkonomiModuleChoice = 'budget' | 'kost_prepp' | 'impuls' | 'spar' | 'tid';
+export type EkonomiModuleChoice = 'budget' | 'kost_prepp' | 'impuls' | 'spar' | 'logg';
 
 type Props = {
   onSelect: (choice: EkonomiModuleChoice) => void;
@@ -59,12 +59,12 @@ export function EkonomiModulValjare({ onSelect }: Props) {
           onStart={() => go('spar')}
         />
         <ExamplePreviewCard
-          title="Tid & stämpel"
-          lead="Flex, veckosumma och snabb instämpling."
-          preview={<TidPreviewMini />}
-          ctaLabel="Öppna tid"
-          tone="indigo"
-          onStart={() => go('tid')}
+          title="Logg & räkningar"
+          lead="Utgifter och fasta räkningar — vardagsekonomi."
+          preview={<LoggPreviewMini />}
+          ctaLabel="Öppna logg"
+          tone="gold"
+          onStart={() => go('logg')}
         />
       </div>
     </div>

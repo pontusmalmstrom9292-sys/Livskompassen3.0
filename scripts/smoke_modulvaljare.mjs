@@ -39,6 +39,7 @@ function main() {
 
   mustInclude(
     'src/modules/features/dailyLife/wellbeing/economy/components/EkonomiModulValjare.tsx',
+    "'impuls'",
     "'logg'",
     'LoggPreviewMini',
   );

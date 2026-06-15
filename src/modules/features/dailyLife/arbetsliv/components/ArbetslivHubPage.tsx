@@ -4,9 +4,9 @@ import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { vaultRedirectSearch } from '@/core/navigation/vaultLegacyRedirect';
 import { arbetslivTabToInputMode } from '../supermodule/arbetslivInputModes';
 
-export type ArbetslivTab = 'stampla' | 'tid' | 'logg';
+export type ArbetslivTab = 'stampla' | 'tid' | 'inkomster';
 
-const LEGACY_PUBLIC_TABS = new Set<ArbetslivTab>(['stampla', 'tid', 'logg']);
+const LEGACY_PUBLIC_TABS = new Set<ArbetslivTab>(['stampla', 'tid', 'inkomster']);
 
 function canonicalInputPath(tab: string | null): string {
   if (!tab || !LEGACY_PUBLIC_TABS.has(tab as ArbetslivTab)) {
@@ -25,6 +25,10 @@ export const ArbetslivHubPage = memo(function ArbetslivHubPage() {
   const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
   const legacyTab = searchParams.get('tab');
+
+  if (legacyTab === 'logg') {
+    return <Navigate to="/vardagen?tab=ekonomi&inputMode=logg" replace />;
+  }
 
   if (legacyTab === 'franvaro') {
     return (

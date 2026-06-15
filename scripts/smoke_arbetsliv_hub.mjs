@@ -1,5 +1,6 @@
 /**
  * Static smoke: Arbetsliv hub locked wiring (Fas 14A).
+ * Usage: npm run smoke:arbetsliv
  */
 import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
@@ -52,13 +53,14 @@ function main() {
   mustInclude(
     'src/modules/features/dailyLife/wellbeing/economy/components/EconomyPage.tsx',
     'inputMode=logg',
+    'EconomySavingsPanel',
   );
   mustNotInclude(
     'src/modules/features/dailyLife/wellbeing/economy/components/EconomyOverviewPanel.tsx',
     'EconomyTidPanel',
   );
 
-  console.log('[smoke:arbetsliv] PASS — Fas 14A split.');
+  console.log('[smoke:arbetsliv] PASS — hub, route, drawer, zon, Fas 14A split.');
 }
 
 try {

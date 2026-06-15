@@ -16,6 +16,7 @@ import { formatDateLocal } from '@/shared/utils/dateHelpers';
 
 type EconomyLogPanelProps = {
   onChanged?: () => void;
+  /** vardag = privatekonomi (utgifter); all = legacy full panel */
   scope?: 'vardag' | 'all';
 };
 
@@ -231,7 +232,7 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
           <p className="text-xs text-text-dim">
             {scope === 'vardag'
               ? 'Jobbinkomst och lönespec registreras i Arbetsliv — inte här.'
-              : 'Frånvaro (sjuk/VAB) finns under Valv → Lön (PIN).'}
+              : 'Frånvaro (sjuk/VAB heldag) finns under Valv → Lön (PIN).'}
           </p>
         </>
       )}
