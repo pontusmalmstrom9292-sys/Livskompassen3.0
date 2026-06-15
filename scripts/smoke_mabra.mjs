@@ -105,6 +105,18 @@ async function main() {
   assert(sessionRef.id, 'mabra_sessions saknar id');
   console.log('[smoke] session OK —', sessionRef.id);
 
+  console.log('[smoke] mabra_sessions movement_micro WORM create…');
+  const movementRef = await addDoc(collection(db, 'mabra_sessions'), {
+    userId: uid,
+    ownerId: uid,
+    exerciseType: 'movement_micro',
+    durationSeconds: 120,
+    playBankId: 'MB-PLAY-03',
+    createdAt: serverTimestamp(),
+  });
+  assert(movementRef.id, 'movement_micro session saknar id');
+  console.log('[smoke] movement_micro OK —', movementRef.id);
+
   const coachFn = httpsCallable(functions, 'mabraCoach');
 
   console.log('[smoke] mabraCoach guardrail (ex-text)…');

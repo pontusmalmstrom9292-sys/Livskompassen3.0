@@ -44,12 +44,9 @@ export function MabraModulValjare({ onSelect, onSkip }: Props) {
             title={pillar.title}
             lead={pillar.lead}
             preview={<PillarPreviewMini lines={pillar.previewLines} />}
-            ctaLabel={pillar.disabled ? 'Kommer snart' : 'Öppna'}
+            ctaLabel="Öppna"
             tone={pillar.tone}
-            disabled={pillar.disabled}
-            onStart={() => {
-              if (!pillar.disabled) go(pillar.choice);
-            }}
+            onStart={() => go(pillar.choice)}
           />
         ))}
       </div>

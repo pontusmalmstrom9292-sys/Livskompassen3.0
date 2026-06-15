@@ -210,7 +210,12 @@ export const MabraHubView = memo(function MabraHubView() {
       return;
     }
     if (choice.kind === 'tool') {
-      const category = choice.tool === 'goals' ? 'tankar' : 'lekar';
+      const category =
+        choice.tool === 'goals'
+          ? 'tankar'
+          : choice.tool === 'movement' || choice.tool === 'nutrition'
+            ? 'akut'
+            : 'lekar';
       setHubOpenCategory(category);
       navigate(`/mabra/verktyg/${choice.tool}`);
       return;

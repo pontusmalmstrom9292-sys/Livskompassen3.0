@@ -225,6 +225,7 @@ service cloud.firestore {
         && request.resource.data.exerciseType in [
           'breathing', 'grounding', 'reframing', 'daglig_mix', 'explore_done',
           'curriculum_complete', 'quiz_complete',
+          'movement_micro', 'walk_reset', 'stretch_478',
         ]
         && request.resource.data.durationSeconds is int
         && request.resource.data.durationSeconds >= 0

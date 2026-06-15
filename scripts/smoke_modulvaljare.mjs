@@ -69,8 +69,9 @@ function main() {
     'src/modules/features/dailyLife/wellbeing/mabra/lib/mabra30Pillars.ts',
     'MABRA_30_PILLARS',
     'explore_weekly',
+    'movement',
+    'nutrition',
     'recovery',
-    'disabled: true',
   );
   mustInclude(
     'src/modules/features/dailyLife/wellbeing/mabra/components/MabraModulValjare.tsx',
@@ -83,6 +84,30 @@ function main() {
     'MabraModulValjare',
     'handleModulChoice',
     'showHubPicker',
+  );
+
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/content/movementPrograms.ts',
+    'movement_micro',
+    'MB-PLAY-03',
+    'MB-PLAY-JOY-02',
+    'MB-PLAY-GAD-01',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/components/MabraMovementPanel.tsx',
+    'MabraMovementPanel',
+    'useMabra30Capacity',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/components/MabraNutritionPanel.tsx',
+    'MabraNutritionPanel',
+    'readNutritionDay',
+  );
+  mustInclude(
+    'firestore.rules',
+    'movement_micro',
+    'walk_reset',
+    'stretch_478',
   );
 
   mustInclude(

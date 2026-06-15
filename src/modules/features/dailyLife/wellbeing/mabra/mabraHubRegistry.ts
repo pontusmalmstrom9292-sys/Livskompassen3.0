@@ -14,6 +14,8 @@ export type MabraHubToolKind =
   | 'kbt'
   | 'daglig_mix'
   | 'explore_weekly'
+  | 'movement'
+  | 'nutrition'
   | 'goals'
   | 'education'
   | 'recovery'
@@ -148,6 +150,23 @@ const CORE_ITEMS: MabraHubItem[] = [
     category: 'lekar',
     quick: true,
     action: { type: 'tool', tool: 'explore_weekly' },
+  },
+  {
+    id: 'movement-panel',
+    title: 'Rörelse & kropp',
+    lead: 'Mikrosteg — ingen prestation',
+    emoji: '🚶',
+    category: 'akut',
+    quick: true,
+    action: { type: 'tool', tool: 'movement' },
+  },
+  {
+    id: 'nutrition-panel',
+    title: 'Näring & vätska',
+    lead: 'Vatten och enkel markering',
+    emoji: '💧',
+    category: 'akut',
+    action: { type: 'tool', tool: 'nutrition' },
   },
   {
     id: 'goals-panel',

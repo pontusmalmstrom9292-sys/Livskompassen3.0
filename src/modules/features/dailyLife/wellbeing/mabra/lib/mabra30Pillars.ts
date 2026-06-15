@@ -15,7 +15,14 @@ export type MabraModulChoice =
   | { kind: 'daglig_mix' }
   | {
       kind: 'tool';
-      tool: 'goals' | 'education' | 'explore_weekly' | 'self_quiz' | 'recovery';
+      tool:
+        | 'goals'
+        | 'education'
+        | 'explore_weekly'
+        | 'movement'
+        | 'nutrition'
+        | 'self_quiz'
+        | 'recovery';
     }
   | { kind: 'external_route'; path: string };
 
@@ -26,11 +33,9 @@ export type Mabra30Pillar = {
   tone: 'emerald' | 'gold' | 'lavender' | 'indigo';
   choice: MabraModulChoice;
   previewLines: string[];
-  /** M3.0-C — pelare utan full backend än */
-  disabled?: boolean;
 };
 
-/** MåBra 3.0 L0 — åtta pelare (M3.0-B). Wire befintliga routes; Kat 2/3 disabled tills M3.0-C. */
+/** MåBra 3.0 L0 — åtta pelare (M3.0-B/C). */
 export const MABRA_30_PILLARS: Mabra30Pillar[] = [
   {
     id: 'k1_personal',
@@ -43,20 +48,18 @@ export const MABRA_30_PILLARS: Mabra30Pillar[] = [
   {
     id: 'k2_fitness',
     title: 'Rörelse & kropp',
-    lead: 'Fitness — planeras i M3.0-C.',
+    lead: 'Skonsam rörelse — kapacitetsstyrt mikrosteg.',
     tone: 'emerald',
-    choice: { kind: 'category', category: 'akut' },
-    previewLines: ['Kommer snart', 'Kapacitetsstyrt'],
-    disabled: true,
+    choice: { kind: 'tool', tool: 'movement' },
+    previewLines: ['Mikrorörelse', '~2–5 min', 'ingen prestation'],
   },
   {
     id: 'k3_nutrition',
     title: 'Näring & vätska',
-    lead: 'Näring — planeras i M3.0-C.',
+    lead: 'Hydrering och enkel markering — noll skuld.',
     tone: 'emerald',
-    choice: { kind: 'tool', tool: 'self_quiz' },
-    previewLines: ['Kommer snart', 'Ingen kaloriräkning'],
-    disabled: true,
+    choice: { kind: 'tool', tool: 'nutrition' },
+    previewLines: ['Vatten & markör', 'Ingen kaloriräkning'],
   },
   {
     id: 'k4_education',
@@ -80,7 +83,7 @@ export const MABRA_30_PILLARS: Mabra30Pillar[] = [
     lead: 'Veckoutmaning — låg tröskel, inget XP.',
     tone: 'indigo',
     choice: { kind: 'tool', tool: 'explore_weekly' },
-    previewLines: ['Veckoförslag', 'Skip-kö senare'],
+    previewLines: ['Veckoförslag', 'Max 5 hopp/vecka'],
   },
   {
     id: 'k7_identity',

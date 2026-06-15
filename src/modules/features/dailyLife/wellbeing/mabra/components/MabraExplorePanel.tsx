@@ -18,6 +18,7 @@ import {
   getMabraExploreQueue,
   saveMabraExploreQueue,
 } from '../api/mabraExploreQueueService';
+import { useMabra30Capacity } from '../lib/mabra30Capacity';
 
 const FILTER_OPTIONS: { id: ExploreFilter; label: string }[] = [
   { id: 'budget_low', label: 'Låg budget' },
@@ -48,7 +49,12 @@ type Props = {
 
 export function MabraExplorePanel({ uid, onComplete }: Props) {
   const weekKey = useMemo(() => isoWeekKey(), []);
-  const [filters, setFilters] = useState<ExploreFilter[]>(['solo']);
+  const { capacityLevel } = useMabra30Capacity(uid);
+  const defaultFilters = useMemo(
+    (): ExploreFilter[] => (capacityLevel === 1 ? ['energy_low'] : ['solo']),
+    [capacityLevel],
+  );
+  const [filters, setFilters] = useState<ExploreFilter[]>(defaultFilters);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -58,6 +64,10 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
   const [completedTasks, setCompletedTasks] = useState<string[]>([]);
   const [skipCount, setSkipCount] = useState(0);
   const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    setFilters(defaultFilters);
+  }, [defaultFilters]);
 
   const toggleFilter = (id: ExploreFilter) => {
     setFilters((prev) => {
@@ -193,6 +203,9 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
   return (
     <BentoCard title={COPY.eyebrow} icon={<Compass className="h-4 w-4" />} glow="green">
       <p className="mb-3 text-sm text-text-muted">{COPY.lead}</p>
+      {capacityLevel === 1 ? (
+        <p className="mb-2 text-xs text-text-dim">Lugn kapacitet — lågenergi-filter är förvalt.</p>
+      ) : null}
       <p className="mb-2 text-xs text-text-dim">{COPY.filterHint}</p>
 
       <div className="mb-4 flex flex-wrap gap-2">

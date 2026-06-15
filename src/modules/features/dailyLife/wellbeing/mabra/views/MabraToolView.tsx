@@ -14,6 +14,8 @@ import { KbtTransformatorPanel } from '../components/KbtTransformatorPanel';
 import { DagligMixPanel } from '../components/DagligMixPanel';
 import { MabraExplorePanel } from '../components/MabraExplorePanel';
 import { MabraGoalPanel } from '../components/MabraGoalPanel';
+import { MabraMovementPanel } from '../components/MabraMovementPanel';
+import { MabraNutritionPanel } from '../components/MabraNutritionPanel';
 import { VitCurriculumPanel } from '../components/VitCurriculumPanel';
 import type { MabraHubCategory } from '../mabraHubRegistry';
 
@@ -61,6 +63,27 @@ export const MabraToolView = memo(function MabraToolView() {
         });
       } catch {
         setSaveError('Kunde inte spara daglig mix — klart ändå lokalt.');
+      }
+    },
+    [userId, setSaveError],
+  );
+
+  const handleMovementComplete = useCallback(
+    async (payload: {
+      exerciseType: 'movement_micro' | 'walk_reset' | 'stretch_478';
+      elapsedSeconds: number;
+      bankId: string;
+    }) => {
+      if (!userId) return;
+      setSaveError(null);
+      try {
+        await saveMabraSession(userId, {
+          exerciseType: payload.exerciseType,
+          durationSeconds: payload.elapsedSeconds,
+          playBankId: payload.bankId,
+        });
+      } catch {
+        setSaveError('Kunde inte spara rörelse — klart ändå lokalt.');
       }
     },
     [userId, setSaveError],
@@ -122,6 +145,22 @@ export const MabraToolView = memo(function MabraToolView() {
     return (
       <MabraToolShell title="Dagens mix" onBack={() => returnToHub('lekar')}>
         <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
+      </MabraToolShell>
+    );
+  }
+
+  if (toolId === 'movement') {
+    return (
+      <MabraToolShell title="Rörelse & kropp" onBack={() => returnToHub('akut')}>
+        <MabraMovementPanel uid={userId} onComplete={(p) => void handleMovementComplete(p)} />
+      </MabraToolShell>
+    );
+  }
+
+  if (toolId === 'nutrition') {
+    return (
+      <MabraToolShell title="Näring & vätska" onBack={() => returnToHub('akut')}>
+        <MabraNutritionPanel uid={userId} />
       </MabraToolShell>
     );
   }
