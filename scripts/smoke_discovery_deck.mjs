@@ -84,6 +84,17 @@ function main() {
     'od-forge__superhub-widget-rail',
   );
   mustInclude(
+    'src/modules/core/home/HomeAdaptiveCompass.tsx',
+    'HomeKompassDiscoverySection',
+    'isOdForgeBridgeActive',
+    'CompassQuickWidgetRail',
+  );
+  mustInclude(
+    'src/modules/core/home/HomeKompassDiscoverySection.tsx',
+    'KompassDiscoveryDeck',
+    'KompassDiscoveryCardFlow',
+  );
+  mustInclude(
     'src/modules/features/dailyLife/wellbeing/compasses/config/compassWidgetCatalog.ts',
     'Stäng dagen',
     'Nästa steg',
@@ -93,6 +104,11 @@ function main() {
     'src/modules/features/dailyLife/wellbeing/compasses/components/KompassDiscoveryDeck.tsx',
     'streak',
     'XP',
+  );
+
+  mustInclude(
+    'src/modules/core/home/HomeForgeKompassBridge.tsx',
+    'navigate(w.href)',
   );
 
   const reflectionCards = read(

@@ -11,6 +11,8 @@ import { KompassradPanel } from '@/features/dailyLife/wellbeing/compasses/compon
 import { CompassQuickWidgetRail } from '@/features/dailyLife/wellbeing/compasses/components/CompassQuickWidgetRail';
 import type { CompassFlow } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 import { useStore } from '@/core/store';
+import { useTheme } from '@/core/theme';
+import { isOdForgeBridgeActive } from '@/core/ui/forge';
 import { saveCheckIn } from '@/core/firebase/firestore';
 import { materialEnabled, type LifeHubPreset, type LifeHubPresetId } from '@/core/lifeOs/lifeHubPresets';
 import {
@@ -25,6 +27,7 @@ import {
 import { getHomeQuickNavForPreset, quickNavGridClass } from './homeQuickNav';
 import { HomeSuperhubShortcuts } from './HomeSuperhubShortcuts';
 import { HomeForgeKompassBridge } from './HomeForgeKompassBridge';
+import { HomeKompassDiscoverySection } from './HomeKompassDiscoverySection';
 
 function phaseToCompassFlow(phase: HomeCompassPhase): CompassFlow {
   if (phase === 'morgon') return 'morning';
@@ -58,6 +61,9 @@ export function HomeAdaptiveCompass({
 }: Props) {
   const navigate = useNavigate();
   const user = useStore((s) => s.user);
+  const { themeId } = useTheme();
+  const forgeActive = isOdForgeBridgeActive(themeId);
+  const [discoveryFlowActive, setDiscoveryFlowActive] = useState(false);
 
   const [timePhase, setTimePhase] = useState<HomeCompassPhase>(() => getHomeCompassPhase());
   const [manualPhase, setManualPhase] = useState<HomeCompassPhase | null>(null);
@@ -147,11 +153,8 @@ export function HomeAdaptiveCompass({
   return (
     <div className="home-adaptive-compass animate-fade-in mx-auto flex w-full max-w-2xl flex-col gap-4">
       <HomeForgeKompassBridge />
-      {orbitHero ? (
-        <div className="home-adaptive-compass__orbit -mt-1 flex justify-center">{orbitHero}</div>
-      ) : null}
 
-      {showCheckIn ? (
+      {forgeActive ? null : showCheckIn ? (
         <div className="home-adaptive-compass__core">
           <div className="home-adaptive-compass__advice">
             <KompassradPanel />
@@ -211,7 +214,15 @@ export function HomeAdaptiveCompass({
               ) : null}
             </div>
 
-            <div className="flex min-h-[140px] flex-col justify-center p-6">
+            {!discoveryFlowActive && !forcedPhase ? (
+              <CompassQuickWidgetRail
+                flow={phaseToCompassFlow(activePhase)}
+                className="compass-quick-widget-rail--in-module border-b border-border/20 px-4 pb-3 pt-2"
+              />
+            ) : null}
+
+            {!discoveryFlowActive ? (
+              <div className="flex min-h-[140px] flex-col justify-center p-6">
               {activePhase === 'morgon' && (
                 <div className="animate-fade-in space-y-3">
                   {morningSaved ? (
@@ -284,17 +295,14 @@ export function HomeAdaptiveCompass({
                 </div>
               )}
             </div>
+            ) : null}
 
-            {/* Rail visas av CompassModuleStrip när den är inbäddad — renderas bara i fristående läge. */}
-            {!forcedPhase && (
-              <CompassQuickWidgetRail
-                flow={phaseToCompassFlow(activePhase)}
-                className="compass-quick-widget-rail--in-module border-t border-border/20 px-4 pb-4 pt-3"
-              />
-            )}
+            <HomeKompassDiscoverySection
+              userId={user?.uid}
+              onFlowActiveChange={setDiscoveryFlowActive}
+            />
 
-
-            {showInkast ? (
+            {showInkast && !discoveryFlowActive ? (
               <section
                 id="inkast-lite"
                 ref={inkastSectionRef}
@@ -330,7 +338,7 @@ export function HomeAdaptiveCompass({
             ) : null}
           </div>
         </div>
-      ) : (
+      ) : forgeActive ? null : (
         <p className="text-center text-xs text-text-dim">
           Hemprofil «{preset.label}» — check-in via{' '}
           <button
@@ -343,6 +351,10 @@ export function HomeAdaptiveCompass({
           .
         </p>
       )}
+
+      {orbitHero ? (
+        <div className="home-adaptive-compass__orbit -mt-1 flex justify-center">{orbitHero}</div>
+      ) : null}
 
       {quickNavGrid}
 

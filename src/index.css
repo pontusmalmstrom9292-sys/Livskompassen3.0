@@ -3226,6 +3226,104 @@
     @apply rotate-180;
   }
 
+  /* ── Kompass utvecklings-deck (alla teman) ── */
+  .home-kompass-discovery__explore {
+    @apply inline-flex w-full items-center justify-center gap-2 rounded-xl border px-3 py-2.5 text-xs font-medium tracking-wide text-text-muted transition-colors;
+    border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+    background: color-mix(in srgb, var(--surface-2) 65%, transparent);
+  }
+
+  .home-kompass-discovery__explore:hover {
+    border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+    color: var(--text);
+  }
+
+  .home-kompass-discovery__explore--open {
+    border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+    color: var(--accent);
+  }
+
+  .home-kompass-discovery__explore-chevron {
+    @apply h-3.5 w-3.5 text-accent/80 transition-transform duration-200;
+  }
+
+  .home-kompass-discovery__explore-chevron--open {
+    @apply rotate-180;
+  }
+
+  .kompass-disc-deck-lead {
+    @apply mb-2 text-[10px] leading-relaxed text-text-dim;
+  }
+
+  .kompass-disc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.4rem;
+  }
+
+  @media (min-width: 480px) {
+    .kompass-disc-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .kompass-disc-card {
+    @apply flex min-h-[3.25rem] cursor-pointer flex-col items-start gap-0.5 rounded-xl border border-border/30 bg-surface-2/70 p-2 text-left transition-all;
+  }
+
+  .kompass-disc-card:hover {
+    @apply -translate-y-px border-accent/35 bg-surface-3/80;
+  }
+
+  .kompass-disc-card-label {
+    @apply text-[10px] font-semibold leading-tight tracking-wide text-text;
+  }
+
+  .kompass-disc-card-hint {
+    @apply line-clamp-2 text-[9px] leading-snug text-text-dim;
+  }
+
+  .kompass-disc-card--gold { border-bottom: 2px solid rgba(212, 175, 55, 0.35); }
+  .kompass-disc-card--amber { border-bottom: 2px solid rgba(180, 140, 60, 0.32); }
+  .kompass-disc-card--slate { border-bottom: 2px solid rgba(148, 163, 184, 0.28); }
+  .kompass-disc-card--rose-dim { border-bottom: 2px solid rgba(190, 120, 120, 0.28); }
+  .kompass-disc-card--sea-dim { border-bottom: 2px solid rgba(80, 140, 130, 0.28); }
+  .kompass-disc-card--bronze { border-bottom: 2px solid rgba(154, 123, 47, 0.35); }
+  .kompass-disc-card--mist { border-bottom: 2px solid rgba(130, 150, 170, 0.25); }
+  .kompass-disc-card--sand { border-bottom: 2px solid rgba(170, 150, 110, 0.28); }
+  .kompass-disc-card--pearl { border-bottom: 2px solid rgba(200, 190, 170, 0.22); }
+  .kompass-disc-card--copper { border-bottom: 2px solid rgba(160, 110, 80, 0.28); }
+  .kompass-disc-card--ash { border-bottom: 2px solid rgba(120, 130, 140, 0.28); }
+  .kompass-disc-card--moss { border-bottom: 2px solid rgba(90, 130, 100, 0.28); }
+
+  .kompass-disc-flow {
+    @apply py-1;
+  }
+
+  .kompass-disc-back {
+    @apply mb-2 inline-flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 text-[10px] text-text-dim;
+  }
+
+  .kompass-disc-flow-kicker {
+    @apply text-[9px] uppercase tracking-[0.18em] text-accent/70;
+  }
+
+  .kompass-disc-flow-title {
+    @apply mt-1 text-sm font-semibold text-text;
+  }
+
+  .kompass-disc-flow-body {
+    @apply mt-2 text-xs leading-relaxed text-text-muted;
+  }
+
+  .kompass-disc-flow-label {
+    @apply mt-3 block text-[10px] text-text-dim;
+  }
+
+  .kompass-disc-flow-actions {
+    @apply mt-3 flex flex-wrap gap-2;
+  }
+
   .home-page--scenic .home-hero-kanon__scenic-stack .home-adaptive-compass {
     @apply gap-3;
     margin-top: -1px;

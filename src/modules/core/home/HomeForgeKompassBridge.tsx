@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@/core/theme';
 import { useStore } from '@/core/store';
 import {
@@ -20,11 +21,9 @@ function getGreeting(): string {
   return 'God kväll';
 }
 
-/**
- * Prod-wire shell — aktiv endast när FORGE_PROD_WIRE_ENABLED + OD-obsidian-depth.
- * FORGE_PROD_WIRE_ENABLED förblir false tills «godkänn Forge» + PMIR.
- */
+/** Prod-wire — OD-obsidian-depth + FORGE_PROD_WIRE_ENABLED (ersätter adaptiv kort-yta). */
 export function HomeForgeKompassBridge({ onStatus }: Props) {
+  const navigate = useNavigate();
   const { themeId } = useTheme();
   const user = useStore((s) => s.user);
   const active = isOdForgeBridgeActive(themeId);
@@ -54,7 +53,10 @@ export function HomeForgeKompassBridge({ onStatus }: Props) {
         userId={user?.uid}
         onCtaPointerDown={() => setCtaPressed(true)}
         onCtaPointerUp={() => setCtaPressed(false)}
-        onWidgetSelect={(w) => onStatus?.(`Widget: ${w.label}`)}
+        onWidgetSelect={(w) => {
+          onStatus?.(`Widget: ${w.label}`);
+          navigate(w.href);
+        }}
         onDiscoveryStatus={onStatus}
       />
     </div>
