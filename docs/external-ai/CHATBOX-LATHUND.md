@@ -14,7 +14,8 @@ Kort översikt utan prompter. Detaljer och prompter: [`README.md`](./README.md) 
 |-----|-----|
 | Modellval | [`MODEL-PICKER.md`](./MODEL-PICKER.md) |
 | Status LOCK/OPEN | [`LIFE-OS-BUILD-STATE.md`](./LIFE-OS-BUILD-STATE.md) |
-| Repomix uppdatera | `npm run chatbot:pack:all` |
+| Repomix + bifoga-mappar | `npm run chatbot:pack:all` |
+| Bifoga-filer (register m.m.) | [`bifoga/`](./bifoga/) — `npm run chatbot:sync:bifoga` |
 | Lokal backup-mapp | `~/Livskompassen-snapshots/` |
 
 **Regel:** Max **2 parallella** ChatBox-chattar. Kod från två chattar på samma fil = nej.
@@ -114,6 +115,7 @@ Kort översikt utan prompter. Detaljer och prompter: [`README.md`](./README.md) 
 | | |
 |---|---|
 | **Modell** | GPT-5.4 Mini |
+| **Bifoga** | [`bifoga/01-register/`](./bifoga/01-register/) + [`02-leveranser/`](./bifoga/02-leveranser/) + [`04-repomix/`](./bifoga/04-repomix/) · kör `npm run chatbot:sync:bifoga` först |
 | **Gör** | `LIFE-OS-CORE-LOCKED.md`, design-städlista, PMIR-utkast |
 | **Smoke** | `smoke:orkester` · `smoke:locked-ux` |
 | **Arkivera** | Sammanfattning → `docs/evaluations/` |

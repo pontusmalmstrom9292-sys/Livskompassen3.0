@@ -37,6 +37,17 @@ exports/google-ai-pro/
 exports/gemini-handoff/repomix/
 exports/gemini-handoff/konsolidering-upload/
 
+# ChatBox bifoga — synced copies (kanon: docs/external-ai/; kör npm run chatbot:sync:bifoga)
+docs/external-ai/bifoga/SYNC-STAMP.txt
+docs/external-ai/bifoga/01-register/*
+!docs/external-ai/bifoga/01-register/README.md
+docs/external-ai/bifoga/02-leveranser/*
+!docs/external-ai/bifoga/02-leveranser/README.md
+docs/external-ai/bifoga/03-prompter/*
+!docs/external-ai/bifoga/03-prompter/README.md
+docs/external-ai/bifoga/04-repomix/*
+!docs/external-ai/bifoga/04-repomix/README.md
+
 # Generated GPT handoff repomix packs (npm run gpt-handoff:pack)
 exports/gpt-handoff/repomix/
 

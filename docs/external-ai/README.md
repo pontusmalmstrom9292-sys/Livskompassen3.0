@@ -4,6 +4,8 @@
 
 **UI/Design parallellt:** [`UI-DESIGN-HANDOFF.md`](./UI-DESIGN-HANDOFF.md) — hela planen + körfält så nav/moduler inte krockar med säkerhet/upload.
 
+**Modul-våg B1–B4 (Valv → Hjärtat → Familjen → Vardagen):** [`UI-WAVE-ROADMAP.md`](./UI-WAVE-ROADMAP.md) · [`PHASE-08-valv-ui.md`](./PHASE-08-valv-ui.md)
+
 7-dagars trial-plan för tungt kodarbete utanför Cursor/Google-krediter.
 
 ## Snabbstart
@@ -16,12 +18,24 @@
 6. Spara leverans i [`leveranser/`](./leveranser/)
 7. **CHECKPOINT i Cursor** → [`CHECKPOINT-PROTOCOL.md`](./CHECKPOINT-PROTOCOL.md)
 
+## Bifoga till ChatBox (register + leveranser)
+
+Alla filer för upload ligger i **[`bifoga/`](./bifoga/)** — undermappar `01-register` … `04-repomix`.
+
+```bash
+npm run chatbot:pack:security
+npm run chatbot:sync:bifoga
+```
+
+Öppna i Finder: `docs/external-ai/bifoga/` → bifoga mapp för mapp i ChatBox.
+
 ## Repomix-paket
 
 ```bash
 npm run gemini:pack:refresh
 npm run chatbot:pack:security
 npm run chatbot:pack:ui-design
+npm run chatbot:sync:bifoga
 ```
 
 | Pack | Sökväg | Körfält |
