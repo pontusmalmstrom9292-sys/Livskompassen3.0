@@ -1,0 +1,61 @@
+@tailwind components;
+
+/* Familjen hub — Obsidian Calm Bento (indigo silo) */
+
+@layer components {
+  .familjen-bento-shell {
+    @apply relative isolate min-h-0;
+    background-color: #050b14;
+    background-image:
+      radial-gradient(ellipse at top left, rgba(99, 102, 241, 0.12) 0%, transparent 55%),
+      radial-gradient(circle at bottom right, rgba(10, 20, 30, 0.9) 0%, transparent 60%);
+  }
+
+  .familjen-bg-rose {
+    @apply pointer-events-none fixed left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 text-accent-secondary;
+    width: min(140vw, 1100px);
+    height: min(140vw, 1100px);
+    max-width: 1100px;
+    max-height: 1100px;
+    opacity: 0.04;
+  }
+
+  .familjen-bento-shell__content {
+    @apply relative z-10 space-y-4;
+  }
+
+  .familjen-zone-strip {
+    @apply mb-1 flex items-center justify-center;
+  }
+
+  .familjen-zone-pill {
+    @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-accent-secondary;
+    border-color: rgba(99, 102, 241, 0.35);
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .familjen-tab-panel {
+    @apply min-h-0;
+  }
+
+  .familjen-child-picker-shell {
+    @apply flex flex-col gap-2;
+  }
+
+  .familjen-child-picker-label {
+    @apply text-[10px] font-semibold uppercase tracking-[0.15em] text-text-dim;
+  }
+
+  .familjen-child-chip {
+    @apply flex-1 rounded-2xl border py-2.5 text-sm font-medium backdrop-blur-md transition;
+  }
+
+  .familjen-child-chip--active {
+    @apply border-accent/45 bg-accent/10 text-accent-light;
+    box-shadow: 0 0 28px rgba(212, 175, 55, 0.15);
+  }
+
+  .familjen-child-chip--idle {
+    @apply border-border/30 bg-surface-2/60 text-text-muted hover:border-accent/25 hover:bg-surface-3/40;
+  }
+}

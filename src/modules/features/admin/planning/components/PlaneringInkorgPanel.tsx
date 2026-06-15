@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Calendar, Mail } from 'lucide-react';
+import { Calendar, Inbox, Mail } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
 import { ReviewQueuePipelinePanel } from '@/modules/capture/ReviewQueuePipelinePanel';
@@ -109,7 +109,14 @@ export function PlaneringInkorgPanel() {
   };
 
   return (
-    <div className="space-y-4">
+    <BentoCard glow="gold" bare noHover className="space-y-4 !p-4 sm:!p-5">
+      <div className="flex items-center gap-2">
+        <Inbox className="h-4 w-4 text-accent" aria-hidden />
+        <p className="font-display-serif text-xs uppercase tracking-[0.15em] text-accent">
+          Inkorg
+        </p>
+      </div>
+
       <TabBar
         size="compact"
         tabs={PLANERING_INKORG_VIEWS}
@@ -166,6 +173,7 @@ export function PlaneringInkorgPanel() {
           />
 
           <BentoCard
+            glow="gold"
             title="Mejl → uppgift"
             description={
               connections.gmail.phase === 'prepared'
@@ -264,6 +272,6 @@ export function PlaneringInkorgPanel() {
           setPendingClassification(null);
         }}
       />
-    </div>
+    </BentoCard>
   );
 }

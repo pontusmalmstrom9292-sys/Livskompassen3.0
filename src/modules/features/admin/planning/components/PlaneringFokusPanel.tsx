@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Target } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { ParalysPanel } from '@/features/dailyLife/wellbeing/compasses/components/ParalysPanel';
 import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
@@ -33,9 +35,9 @@ export function PlaneringFokusPanel() {
 
   if (!focusTask) {
     return (
-      <p className="rounded-xl border border-white/10 bg-surface/30 p-4 text-sm text-text-muted">
+      <BentoCard glow="gold" noHover className="text-sm text-text-muted">
         Inga öppna uppgifter i Handling. Lägg till ett kort under fliken Handling.
-      </p>
+      </BentoCard>
     );
   }
 
@@ -45,8 +47,13 @@ export function PlaneringFokusPanel() {
         <CognitiveGuardOverloadBanner activeCount={activeTasks.length} />
       )}
 
-      <div className="elongated-module elongated-module--gold space-y-4 p-5 text-center">
-        <p className="text-[10px] uppercase tracking-widest text-text-dim">Ditt mikrosteg nu</p>
+      <BentoCard
+        glow="gold"
+        noHover
+        title="Ditt mikrosteg nu"
+        icon={<Target className="h-4 w-4" />}
+        className="space-y-4 text-center"
+      >
         <p className="font-display text-xl text-accent">{focusTask.microStep ?? focusTask.title}</p>
         {focusTask.microStep && <p className="text-xs text-text-muted">Uppgift: {focusTask.title}</p>}
         {focusTask.dueAt && (
@@ -104,7 +111,7 @@ export function PlaneringFokusPanel() {
             )}
           </div>
         )}
-      </div>
+      </BentoCard>
     </div>
   );
 }

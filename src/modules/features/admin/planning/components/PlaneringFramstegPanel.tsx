@@ -1,4 +1,6 @@
 import { useMemo } from 'react';
+import { BarChart3 } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
 import { countPlanningStats } from '../utils/planningDueDate';
 
@@ -18,11 +20,14 @@ export function PlaneringFramstegPanel() {
   ] as const;
 
   return (
-    <div className="elongated-module elongated-module--gold p-5">
-      <p className="text-center text-sm text-text-muted">
-        En överblick — inga poäng, bara läget just nu.
-      </p>
-      <ul className="mt-4 grid grid-cols-2 gap-3">
+    <BentoCard
+      glow="gold"
+      noHover
+      title="Framsteg"
+      description="En överblick — inga poäng, bara läget just nu."
+      icon={<BarChart3 className="h-4 w-4" />}
+    >
+      <ul className="grid grid-cols-2 gap-3">
         {rows.map((row) => (
           <li
             key={row.label}
@@ -44,6 +49,6 @@ export function PlaneringFramstegPanel() {
           Försenade = deadline passerad och inte markerade klara.
         </p>
       )}
-    </div>
+    </BentoCard>
   );
 }

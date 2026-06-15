@@ -2,8 +2,10 @@ import './planering.css';
 import { lazy, Suspense, useEffect, useMemo } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { Calendar, LayoutGrid, PenLine } from 'lucide-react';
+import { clsx } from 'clsx';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { PLANERING_TAGLINE, PLANERING_MORE_TABS } from '../constants';
 import type { PlaneringTab } from '../types';
 import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
@@ -218,9 +220,17 @@ export function PlaneringPage() {
 
           {isWorkTab && !showModulValjare && <PlaneringNextStepSelect />}
 
-          <div className={isHub ? 'planering-view planering-view--hub' : 'planering-view'}>
+          <BentoCard
+            glow="gold"
+            bare
+            noHover
+            className={clsx(
+              'planering-view-panel min-h-0',
+              isHub ? 'planering-view planering-view--hub !p-4 sm:!p-5' : 'planering-view !p-4 sm:!p-5',
+            )}
+          >
             {panel}
-          </div>
+          </BentoCard>
         </PlaneringBentoShell>
       </HubPageShell>
     </PlaneringErrorBoundary>

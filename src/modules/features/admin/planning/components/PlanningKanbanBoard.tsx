@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Brain, ListTodo, ToggleLeft, ToggleRight } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { KANBAN_COLUMNS } from '../constants';
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
 import { useCognitiveGuard } from '../hooks/useCognitiveGuard';
@@ -155,9 +156,14 @@ export function PlanningKanbanBoard() {
           toggleGuard={toggleGuard}
         />
       ) : (
-        <article className="planering-bento-card planering-bento-card--full">
+        <BentoCard
+          glow="gold"
+          noHover
+          bare
+          className="planering-bento-card planering-bento-card--full !p-6"
+        >
           <div className="flex items-start justify-between">
-            <div className="planering-bento-icon-box planering-bento-icon-box--blue">
+            <div className="planering-bento-icon-box planering-bento-icon-box--amber">
               <ListTodo className="h-6 w-6" aria-hidden />
             </div>
           </div>
@@ -180,7 +186,7 @@ export function PlanningKanbanBoard() {
           </div>
 
           <p className="planering-bento-footer">Att göra · Väntar · Klart</p>
-        </article>
+        </BentoCard>
       )}
 
       {quickColumn && (

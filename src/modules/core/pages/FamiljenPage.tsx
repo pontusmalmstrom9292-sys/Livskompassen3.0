@@ -26,6 +26,8 @@ import {
   type FamiljenTabId,
 } from '@/features/family/children/constants/familjenTabs';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { FamiljenBentoShell } from '@/features/family/children/components/familjen/FamiljenBentoShell';
 import { useMinWidthSm } from '../hooks/useMinWidthSm';
 
 const FAMILJ_OPTIONS: DropdownItem<FamiljenTabId>[] = [
@@ -123,45 +125,66 @@ export function FamiljenPage() {
           />
         }
       >
-        <div className={clsx('space-y-4', !desktopHubLock && 'pb-2')}>
+        <FamiljenBentoShell className={clsx(!desktopHubLock && 'pb-2')}>
           {showChildPicker && (
-            <FamiljenChildPicker
-              activeChild={shell.activeChild}
-              children={shell.childAliases}
-              onChange={shell.setActiveChild}
-            />
+            <BentoCard glow="blue" noHover className="!p-3">
+              <FamiljenChildPicker
+                activeChild={shell.activeChild}
+                children={shell.childAliases}
+                onChange={shell.setActiveChild}
+              />
+            </BentoCard>
           )}
 
           {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
             <>
               <FamiljenInputSuperModule shell={shell} flowWithIsland={desktopHubLock} />
-              {activeTab === 'reflektion' ? (
-                <FamiljenReflektionTab shell={shell} />
-              ) : (
-                <FamiljenLivsloggTab shell={shell} />
-              )}
+              <BentoCard
+                glow="blue"
+                bare
+                noHover
+                className="familjen-tab-panel !p-4 sm:!p-5"
+              >
+                {activeTab === 'reflektion' ? (
+                  <FamiljenReflektionTab shell={shell} />
+                ) : (
+                  <FamiljenLivsloggTab shell={shell} />
+                )}
+              </BentoCard>
             </>
           )}
 
-          {activeTab === 'tillsammans' && <FamiljenTillsammansTab shell={shell} />}
+          {activeTab === 'tillsammans' && (
+            <BentoCard glow="blue" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
+              <FamiljenTillsammansTab shell={shell} />
+            </BentoCard>
+          )}
 
           {activeTab === 'barnporten' && (
-            <div className="space-y-4">
+            <BentoCard glow="blue" bare noHover className="familjen-tab-panel space-y-4 !p-4 sm:!p-5">
               <BarnportenQrPanel />
               <BarnportenInboxPanel />
               <BarnportenOrkesterPanel />
               <a href="/barnporten" className="btn-pill--ghost text-sm">
                 Öppna Barnporten (barn-PWA)
               </a>
-            </div>
+            </BentoCard>
           )}
 
-          {activeTab === 'hamn' && <SafeHarborPage embedded />}
+          {activeTab === 'hamn' && (
+            <BentoCard glow="indigo" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
+              <SafeHarborPage embedded />
+            </BentoCard>
+          )}
 
-          {activeTab === 'drogfrihet' && <DrogfrihetHubPage embedded />}
+          {activeTab === 'drogfrihet' && (
+            <BentoCard glow="green" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
+              <DrogfrihetHubPage embedded />
+            </BentoCard>
+          )}
 
           <MaterialPackShortcuts preset={preset} hub="familjen" />
-        </div>
+        </FamiljenBentoShell>
       </ModuleShell>
     </HubErrorBoundary>
   );
