@@ -11,7 +11,7 @@ Källa: [`leveranser/2026-06-15-fas-01-security.md`](./leveranser/2026-06-15-fas
 | WORM collections | **LOCK** | valv-security PASS |
 | Dual vault gate | **LOCK** | valv-security PASS |
 | callableGuards + App Check (kod) | **LOCK** | valv-security PASS |
-| App Check Console Enforce | **OPEN** | Pontus manuellt — PHASE-06 |
+| App Check Console Enforce | **LOCK** | Pontus 2026-06-15 — PHASE-06 |
 | SynapseBus + silo-routing | **LOCK** | pre-existing |
 | routeFromDcap / resolveExecutorId | **LOCK** | pre-existing |
 | Locked UX §11–17 | **LOCK** | locked-ux PASS |
