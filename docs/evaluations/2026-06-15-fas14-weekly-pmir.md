@@ -2,7 +2,7 @@
 
 **Gren:** `main` (direkt trunk)  
 **Session:** Fas 14 parallell expertplan — agent implementation  
-**Status:** Väntar **godkänn merge** från Pontus (doc-only + smoke scripts — ingen rules deploy)
+**Status:** **MERGED** till `main` — `6c9f25e48` 2026-06-15
 
 ---
 
@@ -62,4 +62,4 @@ Blocker för senare (explicit OK krävs):
 
 ## Godkännande
 
-Skriv **"godkänn merge"** om du vill att agent committar/pushar. Annars: docs kvar lokalt.
+**MERGED** — `6c9f25e48` på `origin/main` 2026-06-15.
