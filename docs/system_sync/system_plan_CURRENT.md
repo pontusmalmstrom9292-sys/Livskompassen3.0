@@ -271,3 +271,66 @@ När en Superhub-modul har **implementerats, testats och godkänts** av teknikle
 | **7E** Standardvy + legacy-borttagning + lås UX/arkitektur | **done** 2026-06-14 |
 
 **Spec:** [`docs/specs/Familjen-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Familjen-INPUT-SUPERHUB-SPEC.md) · **Eval:** [`docs/evaluations/Familjen-INPUT-SUPERHUB-EVAL.md`](../docs/evaluations/Familjen-INPUT-SUPERHUB-EVAL.md)
+
+## Fas 8 — Super-Ekonomi Input · **AVSLUTAD**
+
+**Status:** `[x]` **AVSLUTAD** 2026-06-14 — Ekonomi Superhub (Fas 8A→8E) låst i `.context/locked-ux-features.md` §14.
+
+| Del | Status |
+|-----|--------|
+| **8A** Router-skelett (`EkonomiInputSuperModule`) | **done** |
+| **8B** Mikrosteg + profil delegates | **done** |
+| **8C** Kuvert + spar + matprep delegates | **done** |
+| **8D** Impuls + inkast | **done** |
+| **8E** Shadow→Live på `/vardagen?tab=ekonomi` | **done** 2026-06-14 |
+
+**Spec:** [`docs/specs/Ekonomi-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Ekonomi-INPUT-SUPERHUB-SPEC.md) · **GAP:** F8 **done** i [`Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md)
+
+## Fas 9 — Super-Planering Input · **AVSLUTAD**
+
+**Status:** `[x]` **AVSLUTAD** 2026-06-14 — Planering Superhub (Fas 9A→9C + W3) låst i `.context/locked-ux-features.md` §15.
+
+| Del | Status |
+|-----|--------|
+| **9A** Djupanalys + SPEC | **done** |
+| **9B** `PlaneringInputSuperModule` + lägesväxlare | **done** |
+| **9C** Delegates: task_quick, inkast, quick_list | **done** |
+| **W3** `/planering/input` i AppRoutes + länk från PlaneringPage | **done** 2026-06-14 |
+
+**Spec:** [`docs/specs/Planering-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Planering-INPUT-SUPERHUB-SPEC.md)
+
+## Fas 10 — Super-Arbetsliv Input · **AVSLUTAD**
+
+**Status:** `[x]` **AVSLUTAD** 2026-06-14 — Arbetsliv Superhub (Fas 10A→10C + W3) låst i `.context/locked-ux-features.md` §16.
+
+| Del | Status |
+|-----|--------|
+| **10A** Djupanalys + SPEC | **done** |
+| **10B** `ArbetslivInputSuperModule` + lägesväxlare | **done** |
+| **10C** Delegates: stampla, tid, logg | **done** |
+| **W3** `/arbetsliv/input` + legacy redirect från `/arbetsliv` | **done** 2026-06-14 |
+
+**Spec:** [`docs/specs/Arbetsliv-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Arbetsliv-INPUT-SUPERHUB-SPEC.md)
+
+## Fas 11 — Superdagbok (Hjärtat) · **AVSLUTAD**
+
+**Status:** `[x]` **AVSLUTAD** 2026-06-14 — Superdagbok (Fas 11A→11C + W5) låst i `.context/locked-ux-features.md` §17.
+
+| Del | Status |
+|-----|--------|
+| **11A** Djupanalys + SPEC | **done** |
+| **11B** `DagbokInputSuperModule` + lägesväxlare | **done** |
+| **11C** Delegates: reflektion, quick_mirror, arkiv | **done** |
+| **W5** `/hjartat/input` i AppRoutes + HjartatPage embed | **done** 2026-06-14 |
+
+**Spec:** [`docs/specs/Superdagbok-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Superdagbok-INPUT-SUPERHUB-SPEC.md)
+
+## Fas 12 — Nästa (efter superhub-kö)
+
+**Kanon:** [`docs/SYSTEM_PLAN_v2.md`](../docs/SYSTEM_PLAN_v2.md) · **Gate 12A** smoke:orkester + hosting deploy 2026-06-14.
+
+| Prioritet | Spår | Status |
+|-----------|------|--------|
+| **12B** | Adaptiv Hemkompass — superhub-broar från Hem | **done** 2026-06-14 |
+| **12C** | Säkerhet P2 — vault-gate `weeklySummary` / `compass` | backlog |
+| **12D** | Dossier BBIC `reportType` | backlog |

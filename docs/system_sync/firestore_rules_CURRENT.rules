@@ -270,6 +270,11 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    match /pattern_scan_metadata/{docId} {
+      allow read: if isOwnerVault();
+      allow create, update, delete: if false;
+    }
+
     match /weaver_pending/{docId} {
       allow read: if isOwner();
       allow create, update, delete: if false;
@@ -410,10 +415,17 @@ service cloud.firestore {
       ];
     }
 
+    function isValidDiscoveryCategoryId() {
+      return request.resource.data.categoryId in [
+        'ha_kul', 'lar_ny', 'utveckling', 'varderingar', 'sjalvkansla', 'kropp',
+        'lek_paus', 'kanslor', 'lugn', 'identitet', 'nar_det_knar', 'min_uppgift',
+      ];
+    }
+
     function isValidVitEntryCreate() {
       return wormKeysOnly([
           'userId', 'ownerId', 'createdAt', 'projectId', 'kind', 'bankId',
-          'content_class', 'responseText', 'cardDateKey', 'zone', 'inputMode',
+          'content_class', 'responseText', 'cardDateKey', 'zone', 'inputMode', 'categoryId',
         ])
         && request.resource.data.createdAt is timestamp
         && isValidVitEntryKind()
@@ -429,10 +441,13 @@ service cloud.firestore {
           || request.resource.data.cardDateKey.matches('^\\d{4}-\\d{2}-\\d{2}$'))
         && (!('zone' in request.resource.data)
           || request.resource.data.zone in ['mabra', 'recovery'])
+        && (!('categoryId' in request.resource.data)
+          || isValidDiscoveryCategoryId())
         && (!('inputMode' in request.resource.data)
           || request.resource.data.inputMode in [
             'vit_card', 'vit_chat', 'vit_memory', 'checkin',
             'recovery_sos', 'recovery_twelve_step', 'recovery_reality_check',
+            'kompass_discovery',
           ]);
     }
 
