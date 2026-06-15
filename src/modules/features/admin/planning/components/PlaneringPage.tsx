@@ -13,6 +13,7 @@ import { LivBackLink } from '@/modules/shell/LivBackLink';
 import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
 import { PlaneringMoreTabsBar } from './PlaneringMoreTabsBar';
 import { PlaneringErrorBoundary } from './PlaneringErrorBoundary';
+import { PlaneringBentoShell } from './PlaneringBentoShell';
 import {
   hasSeenGoraModulValjare,
   markGoraModulValjareSeen,
@@ -198,27 +199,29 @@ export function PlaneringPage() {
           </div>
         }
       >
-        <GoraHubTabBar />
+        <PlaneringBentoShell showZonePill={!showModulValjare}>
+          <GoraHubTabBar />
 
-        {isWorkTab && !showModulValjare && <PlaneringMoreTabsBar activeTab={tab} />}
+          {isWorkTab && !showModulValjare && <PlaneringMoreTabsBar activeTab={tab} />}
 
-        {!showModulValjare && !isHub && !isStart && isWorkTab && (
-          <Suspense fallback={null}>
-            <VerktygDrawer activeTab={tab} />
-          </Suspense>
-        )}
+          {!showModulValjare && !isHub && !isStart && isWorkTab && (
+            <Suspense fallback={null}>
+              <VerktygDrawer activeTab={tab} />
+            </Suspense>
+          )}
 
-        {isHub && (
-          <Suspense fallback={<PlaneringPanelFallback />}>
-            <PlaneringHubLayoutPicker activeId={layoutId} onSelect={setLayoutId} compact />
-          </Suspense>
-        )}
+          {isHub && (
+            <Suspense fallback={<PlaneringPanelFallback />}>
+              <PlaneringHubLayoutPicker activeId={layoutId} onSelect={setLayoutId} compact />
+            </Suspense>
+          )}
 
-        {isWorkTab && !showModulValjare && <PlaneringNextStepSelect />}
+          {isWorkTab && !showModulValjare && <PlaneringNextStepSelect />}
 
-        <div className={isHub ? 'planering-view planering-view--hub' : 'planering-view'}>
-          {panel}
-        </div>
+          <div className={isHub ? 'planering-view planering-view--hub' : 'planering-view'}>
+            {panel}
+          </div>
+        </PlaneringBentoShell>
       </HubPageShell>
     </PlaneringErrorBoundary>
   );

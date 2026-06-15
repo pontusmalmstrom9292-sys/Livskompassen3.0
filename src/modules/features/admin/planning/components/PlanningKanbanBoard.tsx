@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Brain, ToggleLeft, ToggleRight } from 'lucide-react';
+import { Brain, ListTodo, ToggleLeft, ToggleRight } from 'lucide-react';
 import { KANBAN_COLUMNS } from '../constants';
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
 import { useCognitiveGuard } from '../hooks/useCognitiveGuard';
@@ -101,8 +101,8 @@ export function PlanningKanbanBoard() {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between rounded-xl border border-border bg-surface-2 px-3 py-2 text-xs">
+    <div className="planering-kanban-bento space-y-4">
+      <div className="planering-guard-bar">
         <div className="flex items-center gap-2">
           <Brain
             className={[
@@ -117,7 +117,7 @@ export function PlanningKanbanBoard() {
         <button
           type="button"
           onClick={toggleGuard}
-          className="flex items-center gap-1.5 text-text-dim hover:text-accent bg-transparent border-0 cursor-pointer"
+          className="flex cursor-pointer items-center gap-1.5 border-0 bg-transparent text-text-dim hover:text-accent"
           title={cognitiveGuardEnabled ? 'Avaktivera kognitiv avlastning' : 'Aktivera kognitiv avlastning'}
         >
           <span>Överbelastningsskydd:</span>
@@ -130,7 +130,7 @@ export function PlanningKanbanBoard() {
       </div>
 
       {projectId && (
-        <p className="rounded-xl border border-accent/25 bg-accent/5 px-3 py-2 text-xs text-text-muted">
+        <p className="rounded-2xl border border-accent/25 bg-accent/5 px-4 py-2 text-xs text-text-muted">
           Visar uppgifter för projekt.{' '}
           <Link to={`/admin/projects/${projectId}`} className="text-accent">
             Öppna projekt
@@ -155,22 +155,36 @@ export function PlanningKanbanBoard() {
           toggleGuard={toggleGuard}
         />
       ) : (
-        <div className="-mx-1 flex gap-3 overflow-x-auto pb-2">
-          {KANBAN_COLUMNS.map((col) => (
-            <PlanningKanbanColumn
-              key={col.id}
-              label={col.label}
-              status={col.id}
-              tasks={tasksByStatus(col.id)}
-              onAdd={openQuickAdd}
-              onSelectTask={setSelected}
-            />
-          ))}
-        </div>
+        <article className="planering-bento-card planering-bento-card--full">
+          <div className="flex items-start justify-between">
+            <div className="planering-bento-icon-box planering-bento-icon-box--blue">
+              <ListTodo className="h-6 w-6" aria-hidden />
+            </div>
+          </div>
+          <h2 className="planering-bento-title">Dagens uppgifter</h2>
+          <p className="planering-bento-text">
+            Prioritera det som för dig närmare dina mål.
+          </p>
+
+          <div className="planering-kanban-bento__columns">
+            {KANBAN_COLUMNS.map((col) => (
+              <PlanningKanbanColumn
+                key={col.id}
+                label={col.label}
+                status={col.id}
+                tasks={tasksByStatus(col.id)}
+                onAdd={openQuickAdd}
+                onSelectTask={setSelected}
+              />
+            ))}
+          </div>
+
+          <p className="planering-bento-footer">Att göra · Väntar · Klart</p>
+        </article>
       )}
 
       {quickColumn && (
-        <div className="rounded-xl border-2 border-accent/30 bg-surface/50 p-3">
+        <div className="planering-quick-add">
           <p className="text-[10px] uppercase tracking-widest text-text-dim">
             Ny uppgift · {KANBAN_COLUMNS.find((c) => c.id === quickColumn)?.label}
           </p>
