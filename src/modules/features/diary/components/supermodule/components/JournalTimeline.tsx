@@ -42,7 +42,7 @@ export const JournalTimeline: React.FC<JournalTimelineProps> = ({ data, loading,
             onClick={() => onSelect(item)}
             className={`
               relative p-4 rounded-xl cursor-pointer transition-all duration-200 group overflow-hidden border
-              ${isActive ? 'bg-[#111b2d] border-[rgba(99,102,241,0.22)] shadow-md' : 'bg-background-surface border-border-muted hover:border-white/20'}
+              ${isActive ? 'bg-surface-3 border-border-strong shadow-md' : 'bg-background-surface border-border-muted hover:border-white/20'}
             `}
           >
             {/* Färgaccent i kanten */}

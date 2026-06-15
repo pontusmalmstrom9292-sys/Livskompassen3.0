@@ -49,7 +49,7 @@ export function ArchiveHub() {
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] bg-gradient-to-b from-[#020617] to-[#050b14] text-text font-sans selection:bg-indigo-500/30">
+    <div className="min-h-screen bg-bg bg-gradient-to-b from-bg to-surface text-text font-sans selection:bg-indigo-500/30">
       {/* Glow Effects */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] rounded-full bg-indigo-900/10 blur-[120px]" />

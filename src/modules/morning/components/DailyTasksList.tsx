@@ -56,8 +56,8 @@ export function DailyTasksList() {
   return (
     <div className="mt-8 space-y-4">
       <div className="flex items-center gap-2">
-        <Sparkles className="h-5 w-5 text-[#d4af37]" />
-        <h3 className="font-display-serif text-lg text-white/90">Dagens Uppgifter</h3>
+        <Sparkles className="h-5 w-5 text-accent" />
+        <h3 className="font-display-serif text-lg text-text">Dagens Uppgifter</h3>
       </div>
       
       {tasks.length === 0 ? (
@@ -76,7 +76,7 @@ export function DailyTasksList() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
-                  className="group flex items-center justify-between rounded-xl border border-white/5 bg-[#12151f] p-4 transition-colors hover:border-[#d4af37]/30"
+                  className="group flex items-center justify-between rounded-xl border border-white/5 bg-surface-2 p-4 transition-colors hover:border-accent/30"
                 >
                   <div className="flex flex-col gap-1">
                     <p className={`text-base transition-colors ${isCompleting ? 'text-white/30 line-through' : 'text-white/90'}`}>
@@ -91,11 +91,11 @@ export function DailyTasksList() {
                   <button
                     onClick={() => handleCompleteTask(task.id)}
                     disabled={isCompleting}
-                    className="ml-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[#d4af37]/50 transition-colors hover:bg-[#d4af37]/10 hover:text-[#d4af37] disabled:opacity-50"
+                    className="ml-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-accent/50 transition-colors hover:bg-accent/10 hover:text-accent disabled:opacity-50"
                     aria-label="Markera som klar"
                   >
                     {isCompleting ? (
-                      <CheckCircle2 className="h-6 w-6 text-[#d4af37]" />
+                      <CheckCircle2 className="h-6 w-6 text-accent" />
                     ) : (
                       <Circle className="h-6 w-6" />
                     )}

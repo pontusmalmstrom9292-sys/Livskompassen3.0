@@ -97,7 +97,7 @@ export function MabraHistoryView() {
             {data.chartDate} kl {data.chartTime}
           </p>
           <div className="space-y-1.5">
-            <p className="text-sm font-medium flex items-center gap-1.5 text-[#fbbf24]">
+            <p className="text-sm font-medium flex items-center gap-1.5 text-accent-light">
               <Zap className="w-4 h-4 fill-amber-400/20" />
               Energi: {data.energy} / 10
             </p>
@@ -167,8 +167,8 @@ export function MabraHistoryView() {
             >
               <defs>
                 <linearGradient id="colorEnergy" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#fbbf24" stopOpacity={0.1}/>
-                  <stop offset="95%" stopColor="#fbbf24" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="var(--accent-light)" stopOpacity={0.1}/>
+                  <stop offset="95%" stopColor="var(--accent-light)" stopOpacity={0}/>
                 </linearGradient>
                 <linearGradient id="colorMood" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="var(--success)" stopOpacity={0.1}/>
@@ -178,7 +178,7 @@ export function MabraHistoryView() {
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.05)" vertical={false} />
               <XAxis 
                 dataKey="chartDate" 
-                stroke="#64748b" 
+                stroke="var(--text-dim)" 
                 fontSize={10} 
                 tickLine={false} 
                 axisLine={false}
@@ -187,7 +187,7 @@ export function MabraHistoryView() {
               <YAxis 
                 domain={[0, 10]} 
                 ticks={[0, 2, 4, 6, 8, 10]}
-                stroke="#64748b" 
+                stroke="var(--text-dim)" 
                 fontSize={10} 
                 tickLine={false} 
                 axisLine={false}
@@ -205,9 +205,9 @@ export function MabraHistoryView() {
                 type="monotone"
                 name="Energi"
                 dataKey="energy"
-                stroke="#fbbf24"
+                stroke="var(--accent-light)"
                 strokeWidth={2}
-                dot={{ r: 3, strokeWidth: 1, stroke: '#fbbf24', fill: '#09111e' }}
+                dot={{ r: 3, strokeWidth: 1, stroke: 'var(--accent-light)', fill: 'var(--surface-2)' }}
                 activeDot={{ r: 5, strokeWidth: 0 }}
                 connectNulls
               />
@@ -217,7 +217,7 @@ export function MabraHistoryView() {
                 dataKey="mood"
                 stroke="var(--success)"
                 strokeWidth={2}
-                dot={{ r: 3, strokeWidth: 1, stroke: 'var(--success)', fill: '#09111e' }}
+                dot={{ r: 3, strokeWidth: 1, stroke: 'var(--success)', fill: 'var(--surface-2)' }}
                 activeDot={{ r: 5, strokeWidth: 0 }}
                 connectNulls
               />

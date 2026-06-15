@@ -28,7 +28,7 @@ export const InsightsView = ({ data }: { data: Entry[] }) => {
         <div className="flex justify-center mt-4">
           <button 
             onClick={handleAnalyze}
-            className="group relative px-6 py-3 bg-[#111b2d] text-indigo-300 rounded-xl font-bold uppercase tracking-widest text-sm border border-indigo-500/30 hover:bg-indigo-500/10 hover:border-indigo-400 transition-all overflow-hidden"
+            className="group relative px-6 py-3 bg-surface-3 text-indigo-300 rounded-xl font-bold uppercase tracking-widest text-sm border border-indigo-500/30 hover:bg-indigo-500/10 hover:border-indigo-400 transition-all overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-500/10 to-transparent -translate-x-full group-hover:translate-x-full duration-1000 ease-in-out" />
             Kör mönsteranalys
@@ -37,14 +37,14 @@ export const InsightsView = ({ data }: { data: Entry[] }) => {
       )}
 
       {loading && (
-        <div className="p-10 bg-[#09111e] rounded-2xl border border-white/5 flex flex-col items-center justify-center space-y-6">
+        <div className="p-10 bg-surface-2 rounded-2xl border border-white/5 flex flex-col items-center justify-center space-y-6">
           <div className="w-10 h-10 border-2 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
           <p className="text-xs text-indigo-300 uppercase tracking-widest font-mono">Processar mönster...</p>
         </div>
       )}
 
       {insight && (
-        <div className="p-8 bg-[#09111e] border border-indigo-500/20 rounded-2xl shadow-[0_0_30px_rgba(99,102,241,0.05)] relative">
+        <div className="p-8 bg-surface-2 border border-indigo-500/20 rounded-2xl shadow-[0_0_30px_rgba(99,102,241,0.05)] relative">
           <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
           <h3 className="text-[10px] uppercase tracking-widest font-mono text-indigo-400 mb-6 flex items-center gap-2">
             <span>●</span> Analys slutförd

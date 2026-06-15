@@ -430,7 +430,12 @@ function main() {
     'android/app/src/main/java/com/livskompassen/app/widgets/RecordWidgetProvider.java',
     'WidgetLaunch',
   );
-  mustInclude('src/modules/features/widgets/WidgetDeepLinkBridge.tsx', 'livskompassen-widget-nav');
+  mustInclude('src/modules/features/widgets/WidgetDeepLinkBridge.tsx', 'livskompassen-widget-nav', '__LIVSKOMPASSEN_WIDGET_PENDING__');
+  mustInclude(
+    'android/app/src/main/java/com/livskompassen/app/MainActivity.java',
+    'pendingWidgetPath',
+    '__LIVSKOMPASSEN_WIDGET_PENDING__',
+  );
 
   // Barnporten (design lock)
   mustInclude(

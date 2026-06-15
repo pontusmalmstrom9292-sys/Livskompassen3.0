@@ -1,5 +1,24 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Fas 22 (2026-06-15 — hex→tokens P0 + doc-synk + typecheck expansion)
+
+**Trigger:** Fas 22 spår 1–3 · design P2 hex→tokens kvarvarande P0  
+**Git:** `main` @ `70fe32721`+ · kanon [`SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
+
+| Kategori | # / kommando | Status | Senast |
+|----------|--------------|--------|--------|
+| **Build** | `npm run build` (frontend) | **PASS** | 2026-06-15 · Fas 22 |
+| **Build** | `functions` tsc | **PASS** | 2026-06-15 · Fas 22 |
+| **Tooling** | `typecheck:core-strict` (+ `morning/`) | **PASS** | 2026-06-15 · Fas 22 |
+| **Autorun PASS** | `smoke:locked-ux` | **PASS** | 2026-06-15 · Fas 22 |
+| **Autorun PASS** | `smoke:design-modules` | **PASS** | 2026-06-15 · hex→tokens P0 guard |
+| **Autorun PASS** | `smoke:orkester` | **PASS** | 2026-06-15 · Fas 22 |
+| **Design P2** | MabraHistoryView · ArchiveHub · DailyTasksList · diary supermodule | **done** | Obsidian Calm tokens |
+
+**Filer:** `MabraHistoryView.tsx` · `ArchiveHub.tsx` · `DailyTasksList.tsx` · `VaultView.tsx` · `InsightsView.tsx` · `JournalTimeline.tsx` · `QuickCaptureOverlay` (redan token-fri)
+
+---
+
 ## Fas 21 (2026-06-15 — guards + JOY-17 + arkiv batch 3 + Oracle tokens)
 
 **Trigger:** Fas 21 spår 1–4 · [`2026-06-15-fas21-callables-guard-inventory.md`](./evaluations/2026-06-15-fas21-callables-guard-inventory.md)  

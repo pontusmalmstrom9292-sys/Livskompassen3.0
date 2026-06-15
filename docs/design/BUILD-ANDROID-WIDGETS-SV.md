@@ -1,7 +1,8 @@
 # Bygga Android-widgets (WH1–WH4) — steg för steg
 
 **Mål:** Native hemskärms-widgets (Anteckningar/WH1, Anteckning, Kompass, Hamn) via Capacitor + Android `AppWidgetProvider`.  
-**Teknisk spec:** [`ANDROID-WIDGETS-SPEC.md`](./ANDROID-WIDGETS-SPEC.md)
+**Teknisk spec:** [`ANDROID-WIDGETS-SPEC.md`](./ANDROID-WIDGETS-SPEC.md)  
+**Dataflöde (diagram):** [`slideshow/widget-flow.png`](./slideshow/widget-flow.png) · källa: [`widget-flow.svg`](./slideshow/widget-flow.svg)
 
 ---
 
@@ -95,6 +96,8 @@ Tryck på widgeten → appen öppnar rätt `/widget/…`-sida. **Stämpel:** vä
 
 **WH1 första gången:** kort etik-info → godkänn → inspelning startar automatiskt (`?autostart=1&discreet=1`). Efter **Stoppa:** valfritt formulär vem / vad / varför → **Lås i Valvet** (eller hoppa över kontext). Mikrofonbehörighet godkänns i appen.
 
+**Cold start (2026-06-15):** `MainActivity` köar widget-path tills WebView är redo och sätter `window.__LIVSKOMPASSEN_WIDGET_PENDING__` — `WidgetDeepLinkBridge` läser den vid mount. Om widget öppnar fel sida: avinstallera appen, kör **Run** igen, lägg till widget på nytt.
+
 ---
 
 ## Steg 5 — Efter kodändringar
@@ -140,6 +143,7 @@ Hosting (web/PWA) är separat: `npm run build && firebase deploy --only hosting`
 | «Unable to locate Java» | Öppna Android Studio → installera JDK 17 via Settings |
 | Gradle sync fail | **File → Sync Project with Gradle Files** |
 | Widget syns inte | App måste vara **installerad** minst en gång via Run |
+| Widget öppnar hem istället för `/widget/…` | Avinstallera + **Run** igen; cold-start-fix kräver ny APK (se ovan) |
 | Inspelning sparas inte | Logga in i appen; kontrollera nätverk och Firestore-regler |
 | Mikrofon nekad | Appinställningar → Livskompassen → Tillåt mikrofon |
 
@@ -152,3 +156,4 @@ Hosting (web/PWA) är separat: `npm run build && firebase deploy --only hosting`
 | [`android/README.md`](../../android/README.md) | Kort teknisk översikt |
 | [`ANDROID-WIDGETS-SPEC.md`](./ANDROID-WIDGETS-SPEC.md) | Arkitektur WH1–WH4 |
 | [`HOMESCREEN-WIDGETS-SPEC.md`](./HOMESCREEN-WIDGETS-SPEC.md) | PWA + Android |
+| [`slideshow/widget-flow.png`](./slideshow/widget-flow.png) | WH1/WH2 dataflöde (bildspel slide 5) |

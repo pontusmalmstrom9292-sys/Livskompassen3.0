@@ -14,7 +14,7 @@ export const VaultView = ({ entry }: { entry: VaultEntry }) => {
   }
 
   return (
-    <div className="space-y-6 p-6 bg-[#111b2d] border border-[rgba(99,102,241,0.22)] rounded-xl relative overflow-hidden">
+    <div className="space-y-6 p-6 bg-surface-3 border border-border-strong rounded-xl relative overflow-hidden">
       {/* Dekorativ övre ram för "Vault"-känsla */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent-gold to-transparent opacity-50" />
       
