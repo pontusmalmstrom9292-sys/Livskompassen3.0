@@ -256,7 +256,7 @@ Kör när du vill dubbelkolla utan Cursor:
 | GCP Fas 4 | [`GCP-FAS4-RUNBOOK.md`](./GCP-FAS4-RUNBOOK.md) |
 | Produkt-MVP klar per modul | [`src/modules/README.md`](../src/modules/README.md) + respektive `*-SPEC.md` |
 
-**Aktuell huvudfas (2026-06-15):** Fas 19 masterplan-v2 **levererad**. **Nästa:** Fas 20 (doc-synk, hex→tokens, arkiv). **Status:** [`evaluations/2026-06-15-fas19-masterplan-v2.md`](./evaluations/2026-06-15-fas19-masterplan-v2.md) · **Smoke:** [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md). G1–G16 **done** — `Arkiv-GAP-REGISTER.md`.
+**Aktuell huvudfas (2026-06-15):** Fas 22 **levererad** (hex→tokens P0, hosting deploy). **Nästa:** evolution_ledger dual-write (19.5) · USER Motorola-smoke. **Status:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md) · **Smoke:** [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md). G1–G16 **done** — `Arkiv-GAP-REGISTER.md`.
 
 ---
 

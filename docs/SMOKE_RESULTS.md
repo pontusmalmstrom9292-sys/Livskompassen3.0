@@ -13,9 +13,10 @@
 | **Autorun PASS** | `smoke:locked-ux` | **PASS** | 2026-06-15 · Fas 22 |
 | **Autorun PASS** | `smoke:design-modules` | **PASS** | 2026-06-15 · hex→tokens P0 guard |
 | **Autorun PASS** | `smoke:orkester` | **PASS** | 2026-06-15 · Fas 22 |
+| **Deploy** | hosting | **PASS** | 2026-06-15 · https://gen-lang-client-0481875058.web.app |
 | **Design P2** | MabraHistoryView · ArchiveHub · DailyTasksList · diary supermodule | **done** | Obsidian Calm tokens |
 
-**Filer:** `MabraHistoryView.tsx` · `ArchiveHub.tsx` · `DailyTasksList.tsx` · `VaultView.tsx` · `InsightsView.tsx` · `JournalTimeline.tsx` · `QuickCaptureOverlay` (redan token-fri)
+**Filer:** `MabraHistoryView.tsx` · `ArchiveHub.tsx` · `DailyTasksList.tsx` · `VaultView.tsx` · `InsightsView.tsx` · `JournalTimeline.tsx` · `ImmersiveExperienceShell.tsx` · `VisualCompassWidget.tsx` · `QuickCaptureOverlay` (redan token-fri)
 
 ---
 

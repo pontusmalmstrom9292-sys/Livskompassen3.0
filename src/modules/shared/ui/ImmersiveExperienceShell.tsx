@@ -32,7 +32,7 @@ export function ImmersiveExperienceShell({ title, onExit, themeId, children }: P
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[240] flex flex-col bg-gradient-to-b from-[#020617] to-[#0f172a]"
+      className="fixed inset-0 z-[240] flex flex-col bg-gradient-to-b from-bg to-surface-3"
       role="dialog"
       aria-modal="true"
       aria-label={title ?? 'Upplevelse'}

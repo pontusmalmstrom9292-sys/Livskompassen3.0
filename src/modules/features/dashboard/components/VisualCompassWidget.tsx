@@ -124,7 +124,7 @@ export function VisualCompassWidget() {
         className={clsx(
           'pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full opacity-[0.07] blur-[80px]',
           phase === 'morgon' && 'bg-amber-400',
-          phase === 'dag' && 'bg-[#d4af37]',
+          phase === 'dag' && 'bg-accent',
           phase === 'kvall' && 'bg-indigo-500',
         )}
       />

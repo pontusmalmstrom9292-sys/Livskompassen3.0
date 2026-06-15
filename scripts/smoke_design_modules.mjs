@@ -399,6 +399,8 @@ function main() {
   mustNotInclude('src/modules/features/diary/components/supermodule/components/VaultView.tsx', '#111b2d', 'rgba(99,102,241,0.22)');
   mustNotInclude('src/modules/features/diary/components/supermodule/components/InsightsView.tsx', '#111b2d', '#09111e');
   mustNotInclude('src/modules/features/diary/components/supermodule/components/JournalTimeline.tsx', '#111b2d', 'rgba(99,102,241,0.22)');
+  mustNotInclude('src/modules/shared/ui/ImmersiveExperienceShell.tsx', '#020617', '#0f172a');
+  mustNotInclude('src/modules/features/dashboard/components/VisualCompassWidget.tsx', '#d4af37');
 
   console.log('smoke:design-modules PASS');
 }
