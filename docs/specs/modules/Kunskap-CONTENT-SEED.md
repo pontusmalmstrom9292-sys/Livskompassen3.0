@@ -1633,6 +1633,111 @@ why: "Våg 24 — barn HCF; Barnfokus-frågor förblir PLAY/REFLECTION i annan b
 
 ---
 
+## Batch 2026-06-16 — Våg 25 Soc/skola + neutral myndighetsdialog (soc-001, skol-001, bup-001, bh-014, ep-007, jur-008)
+
+**Kurator:** `specialist-kunskap-seed` · **Plan:** [`2026-06-16-content-wave-25-plan.md`](../../evaluations/2026-06-16-content-wave-25-plan.md) · **Silo:** Kunskap only · **Ingest:** efter export + seed.
+
+| bankId | content_class | source_tier | status |
+|--------|---------------|-------------|--------|
+| kunskap-fact-soc-001 | FACT | P2 | KEEP |
+| kunskap-fact-skol-001 | FACT | P2 | KEEP |
+| kunskap-fact-bup-001 | FACT | P2 | KEEP |
+| kunskap-fact-bh-014 | FACT | P2 | KEEP |
+| kunskap-fact-ep-007 | FACT | P2 | KEEP |
+| kunskap-fact-jur-008 | FACT | P2 | KEEP |
+
+```yaml
+id: kunskap-fact-soc-001
+bankId: kunskap-fact-soc-001
+status: KEEP
+content_class: FACT
+title: "Socialtjänst handläggning — utredningssteg och rättigheter"
+content: "När socialtjänsten utreder barns situation följer handläggningen ofta: anmälan eller oro → kontakt med föräldrar → informationsinsamling (hem, skola, vård) → bedömning av barnets behov → frivilliga insatser eller vidare process enligt lag. Föräldrar har i regel rätt att ta del av underlag som rör dem, yttra sig och få information om processen — exakt omfattning beror på ärendetyp och sekretess. Handläggaren behöver observerbara fakta om barnet (datum, beteende, stöd som provats), inte karaktärsdomar om vuxna. Parallella föräldraräkenskaper är vanliga — håll ditt spår sakligt och kronologiskt. Livskompassen ger inte juridisk rådgivning; vid LVU eller skyddsfrågor kontakta jurist eller berörd handläggare."
+category: myndighet_soc
+entryType: fakta
+tags: [socialtjanst, handlaggning, utredning, barnets_behov, rattigheter]
+source_tier: P2
+citation_hint: "Socialtjänstlagen (2001:453) översikt; LVU handläggning — ej rådgivning"
+why: "Våg 25 — operativ soc-process; fördjupar jur-003/jur-005 utan BIFF-coaching"
+```
+
+```yaml
+id: kunskap-fact-skol-001
+bankId: kunskap-fact-skol-001
+status: KEEP
+content_class: FACT
+title: "Skolrapport och kartläggning — observerbart utan vuxenkonflikt"
+content: "Skola och elevhälsa dokumenterar ofta närvaro, prestation, social situation och stödinsatser i kartläggning, åtgärdsprogram eller utredning inför särskilt stöd. Neutral skolrapport fokuserar på observerbart: datum, lektion/miljö, vad barnet gjorde eller sa (citat), vilka anpassningar som provats och effekt. Undvik att skolan används som forum för vuxenkonflikt — föräldrar ska inte behöva försvara sin personlighet i skolunderlag. Vid separerade föräldrar kan båda ha rätt till viss information enligt skollagen och sekretessregler; skolan samordnar ofta med vårdnadshavare enligt beslut. Be om skriftlig sammanfattning efter möten. Livskompassen ger inte juridisk rådgivning; konkret sms-svar → Hamn, bevis → Valv."
+category: skola_myndighet
+entryType: fakta
+tags: [skola, skolrapport, kartlaggning, observerbart, neutral_logg]
+source_tier: P2
+citation_hint: "Skollagen (2010:800) elevhälsa; Skolverket särskilt stöd — översikt; ej rådgivning"
+why: "Våg 25 — skola som myndighetsforum; kompletterar kunskap-fact-008/jur-002"
+```
+
+```yaml
+id: kunskap-fact-bup-001
+bankId: kunskap-fact-bup-001
+status: KEEP
+content_class: FACT
+title: "BUP — neutral remiss och föräldrasamtal"
+content: "Barn- och ungdomspsykiatrin (BUP) tar emot remisser från skola, BVC, vårdcentral eller socialtjänst när barn behöver psykiatrisk utredning eller behandling. Remissen beskriver observerbara svårigheter — inte vuxenkonflikt som huvudfråga. I föräldrasamtal kan BUP behöva information från båda vårdnadshavare; håll fokus på barnets funktion, sömn, skolgång och stödbehov. Undvik att barnet ska förklara vuxenprocess eller välja sida. BUP dokumenterar kliniskt — det är inte bevis mot en förälder i vårdnadstvist. Vid akut psykisk kris: 1177 eller 112. Generisk vägledning — ej juridisk rådgivning."
+category: barn_hcf
+entryType: fakta
+tags: [bup, remiss, foraldrasamtal, barn, neutral]
+source_tier: P2
+citation_hint: "1177.se BUP; Socialstyrelsen barnpsykiatri — översikt"
+why: "Våg 25 — BUP som neutral ingång; kompletterar bh-012 utan PA-etiketter"
+```
+
+```yaml
+id: kunskap-fact-bh-014
+bankId: kunskap-fact-bh-014
+status: KEEP
+content_class: FACT
+title: "Barns berättelse vs vuxen tolkning"
+content: "Barn uttrycker sig annorlunda än vuxna — kortare meningar, metaforer, tystnad eller kroppsspråk. En vuxen tolkning ('hen menar att…', 'det bevisar att…') är inte samma sak som barnets egna ord. I myndighets- och vårdkontakter ska barnets utsaga dokumenteras i citat där möjligt; vuxen tolkning märks som hypotes, inte fakta. I högkonflikt kan barn anpassa berättelse efter lojalitetsstress — det är beteende att notera neutralt, inte bevis mot en förälder. Undvik att barnet ska vittna, medla eller bekräfta vuxenhypoteser. Professionella bedömer barnets behov — inte vem som 'har rätt' i vuxenstrid."
+category: barn_hcf
+entryType: fakta
+tags: [barn, berattelse, tolkning, lojalitet, observerbart]
+source_tier: P2
+citation_hint: "BBIC barnets röst; barnintervjuer i utredning — översikt"
+why: "Våg 25 — epistemik barn; fördjupar ep-003/bh-013 utan etikett på motpart"
+```
+
+```yaml
+id: kunskap-fact-ep-007
+bankId: kunskap-fact-ep-007
+status: KEEP
+content_class: FACT
+title: "Myndighetsunderlag — citat och tolkning i separata lager"
+content: "Ett robust myndighetsunderlag skiljer tre lager: (1) citat — barnets eller vuxens exakta ord med datum; (2) observation — vad en neutral part såg eller hörde; (3) tolkning — din hypotes, tydligt märkt. Skicka lager 1–2 till skola, soc eller BUP; spara lager 3 i journal eller Valv-hypotes — blanda inte dem i samma rad. Exempel observation: '2026-04-03 skolkurator noterade att barnet grät efter telefonsamtal.' Exempel tolkning (separat): 'Jag tror samtalet gällde överlämning.' Kunskap-RAG citerar FACT; WORM citerar docId — utan citation: inget sanning-påstående."
+category: epistemik_produkt
+entryType: fakta
+tags: [myndighet, citat, tolkning, underlag, epistemik]
+source_tier: P2
+citation_hint: "ep-003 observation/tolkning; vf-001 teori vs bevis"
+why: "Våg 25 — operativ epistemik för soc/skola; ej BIFF-coaching"
+```
+
+```yaml
+id: kunskap-fact-jur-008
+bankId: kunskap-fact-jur-008
+status: KEEP
+content_class: FACT
+title: "Sekretess och informationsdelning — soc och skola"
+content: "Skola och socialtjänst omfattas av offentlighets- och sekretessregler. Viss information delas mellan myndigheter när barnets bästa kräver samverkan; annan information kräver samtycke eller lagstöd. Föräldrar har ofta rätt till information om sitt barn enligt skollagen och socialtjänstlagen — omfattning beror på vårdnad, ärendetyp och om uppgiften kan skada barnet eller utredningen. Du kan begära att få ta del av underlag som rör dig eller ditt barn enligt gällande regler. Dokumentera datum för begäran och svar. Livskompassen ger inte juridisk rådgivning; vid vägran eller oklarhet kontakta jurist eller myndighetens registratur."
+category: juridik_overview
+entryType: fakta
+tags: [sekretess, skola, socialtjanst, information, samverkan]
+source_tier: P2
+citation_hint: "Offentlighets- och sekretesslagen (2009:400) översikt; skollagen vårdnadshavare — ej rådgivning"
+why: "Våg 25 — juridisk informationsram soc/skola; kompletterar jur-005/ep-006"
+```
+
+---
+
 ## Koppling till befintlig seed
 
 | Manifest | Fil |

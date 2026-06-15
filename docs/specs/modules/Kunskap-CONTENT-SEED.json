@@ -24,6 +24,16 @@
       "source_tier": "P2"
     },
     {
+      "id": "kunskap-fact-bup-001",
+      "title": "BUP — neutral remiss och föräldrasamtal",
+      "content": "Barn- och ungdomspsykiatrin (BUP) tar emot remisser från skola, BVC, vårdcentral eller socialtjänst när barn behöver psykiatrisk utredning eller behandling. Remissen beskriver observerbara svårigheter — inte vuxenkonflikt som huvudfråga. I föräldrasamtal kan BUP behöva information från båda vårdnadshavare; håll fokus på barnets funktion, sömn, skolgång och stödbehov. Undvik att barnet ska förklara vuxenprocess eller välja sida. BUP dokumenterar kliniskt — det är inte bevis mot en förälder i vårdnadstvist. Vid akut psykisk kris: 1177 eller 112. Generisk vägledning — ej juridisk rådgivning.",
+      "category": "barn_hcf",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "1177.se BUP; Socialstyrelsen barnpsykiatri — översikt",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-cn-001",
       "title": "Covert mönster — offerroll utåt",
       "content": "I vissa högkonfliktfamiljer kan en vuxen framstå som offer inför skola, BVC eller myndigheter samtidigt som beteenden hemma skiljer sig. Dokumentera observerbara händelser med datum — inte personetiketter.",
@@ -51,6 +61,26 @@
       "eventDate": null,
       "source": "kunskap_content_seed",
       "citation_hint": "Föräldrabalken 6 kap. (SFS översikt); Socialstyrelsen BBIC — begrepp; ej rådgivning",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-skol-001",
+      "title": "Skolrapport och kartläggning — observerbart utan vuxenkonflikt",
+      "content": "Skola och elevhälsa dokumenterar ofta närvaro, prestation, social situation och stödinsatser i kartläggning, åtgärdsprogram eller utredning inför särskilt stöd. Neutral skolrapport fokuserar på observerbart: datum, lektion/miljö, vad barnet gjorde eller sa (citat), vilka anpassningar som provats och effekt. Undvik att skolan används som forum för vuxenkonflikt — föräldrar ska inte behöva försvara sin personlighet i skolunderlag. Vid separerade föräldrar kan båda ha rätt till viss information enligt skollagen och sekretessregler; skolan samordnar ofta med vårdnadshavare enligt beslut. Be om skriftlig sammanfattning efter möten. Livskompassen ger inte juridisk rådgivning; konkret sms-svar → Hamn, bevis → Valv.",
+      "category": "skola_myndighet",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Skollagen (2010:800) elevhälsa; Skolverket särskilt stöd — översikt; ej rådgivning",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-soc-001",
+      "title": "Socialtjänst handläggning — utredningssteg och rättigheter",
+      "content": "När socialtjänsten utreder barns situation följer handläggningen ofta: anmälan eller oro → kontakt med föräldrar → informationsinsamling (hem, skola, vård) → bedömning av barnets behov → frivilliga insatser eller vidare process enligt lag. Föräldrar har i regel rätt att ta del av underlag som rör dem, yttra sig och få information om processen — exakt omfattning beror på ärendetyp och sekretess. Handläggaren behöver observerbara fakta om barnet (datum, beteende, stöd som provats), inte karaktärsdomar om vuxna. Parallella föräldraräkenskaper är vanliga — håll ditt spår sakligt och kronologiskt. Livskompassen ger inte juridisk rådgivning; vid LVU eller skyddsfrågor kontakta jurist eller berörd handläggare.",
+      "category": "myndighet_soc",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Socialtjänstlagen (2001:453) översikt; LVU handläggning — ej rådgivning",
       "source_tier": "P2"
     },
     {
@@ -374,6 +404,16 @@
       "source_tier": "psychoeducation_general"
     },
     {
+      "id": "kunskap-fact-ep-007",
+      "title": "Myndighetsunderlag — citat och tolkning i separata lager",
+      "content": "Ett robust myndighetsunderlag skiljer tre lager: (1) citat — barnets eller vuxens exakta ord med datum; (2) observation — vad en neutral part såg eller hörde; (3) tolkning — din hypotes, tydligt märkt. Skicka lager 1–2 till skola, soc eller BUP; spara lager 3 i journal eller Valv-hypotes — blanda inte dem i samma rad. Exempel observation: '2026-04-03 skolkurator noterade att barnet grät efter telefonsamtal.' Exempel tolkning (separat): 'Jag tror samtalet gällde överlämning.' Kunskap-RAG citerar FACT; WORM citerar docId — utan citation: inget sanning-påstående.",
+      "category": "epistemik_produkt",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "ep-003 observation/tolkning; vf-001 teori vs bevis",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-jur-007",
       "title": "Familjerätt — parallellt föräldraskap i praktiken",
       "content": "Parallellt föräldraskap innebär att föräldrar samordnar kring barnet med minimal direkt kontakt — ofta via skrift, medlare eller app. I svensk familjerätt regleras vårdnad, boende och umgänge via överenskommelse, familjerättslig medling eller tingsrättsbeslut. Vårdnadsutredning kan beställas vid tvist; utredaren samlar information från hem, skola och barn. Gemensam vårdnad innebär beslutskrav om större frågor — inte nödvändigtvis lika boende. Förutsägbarhet för barnet (schema, överlämning, skolinfo) väger ofta tyngre än föräldrarnas ömsesidiga sympati. Detta är process- och begreppsfakta — inte strategi mot en specifik motpart.",
@@ -412,6 +452,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "kunskap-fact-043; DCAP",
       "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-jur-008",
+      "title": "Sekretess och informationsdelning — soc och skola",
+      "content": "Skola och socialtjänst omfattas av offentlighets- och sekretessregler. Viss information delas mellan myndigheter när barnets bästa kräver samverkan; annan information kräver samtycke eller lagstöd. Föräldrar har ofta rätt till information om sitt barn enligt skollagen och socialtjänstlagen — omfattning beror på vårdnad, ärendetyp och om uppgiften kan skada barnet eller utredningen. Du kan begära att få ta del av underlag som rör dig eller ditt barn enligt gällande regler. Dokumentera datum för begäran och svar. Livskompassen ger inte juridisk rådgivning; vid vägran eller oklarhet kontakta jurist eller myndighetens registratur.",
+      "category": "juridik_overview",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Offentlighets- och sekretesslagen (2009:400) översikt; skollagen vårdnadshavare — ej rådgivning",
+      "source_tier": "P2"
     },
     {
       "id": "kunskap-fact-009",
@@ -572,6 +622,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "APA psychoeducation — översikt; ej diagnos",
       "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-bh-014",
+      "title": "Barns berättelse vs vuxen tolkning",
+      "content": "Barn uttrycker sig annorlunda än vuxna — kortare meningar, metaforer, tystnad eller kroppsspråk. En vuxen tolkning ('hen menar att…', 'det bevisar att…') är inte samma sak som barnets egna ord. I myndighets- och vårdkontakter ska barnets utsaga dokumenteras i citat där möjligt; vuxen tolkning märks som hypotes, inte fakta. I högkonflikt kan barn anpassa berättelse efter lojalitetsstress — det är beteende att notera neutralt, inte bevis mot en förälder. Undvik att barnet ska vittna, medla eller bekräfta vuxenhypoteser. Professionella bedömer barnets behov — inte vem som 'har rätt' i vuxenstrid.",
+      "category": "barn_hcf",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "BBIC barnets röst; barnintervjuer i utredning — översikt",
+      "source_tier": "P2"
     },
     {
       "id": "kunskap-fact-cn-014",
