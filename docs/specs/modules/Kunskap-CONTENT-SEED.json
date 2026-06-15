@@ -44,6 +44,16 @@
       "source_tier": "psychoeducation_general"
     },
     {
+      "id": "kunskap-fact-cop-001",
+      "title": "Hämtning och lämning — neutral bekräftelse utan JADE",
+      "content": "Logistik kring hämtning och lämning ska vara kort, datumerad och utan försvar eller moral. En neutral bekräftelse innehåller: tid, plats, barnets namn och att du bekräftar eller meddelar avvikelse — inget mer. Exempel: 'Bekräftar hämtning tis 16:00 vid skolan enligt schema.' Undvik JADE (förklara, argumentera, försvara, rättfärdiga) när motparten försöker dra in känsloladdade sidospår. Om tid ändras: föreslå ny tid skriftligt och vänta på svar innan du agerar. Sen hämtning eller utebliven hämtning dokumenteras i Valv med datum och tid — inte som karaktärsdom. Detta är metod-FACT; konkret sms-svar → Hamn, bevis → Valv.",
+      "category": "medforaldraskap_logistik",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "cn-022 JADE-dokumentation; kunskap-fact-010 juridik 10%; ej BIFF-coaching",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-ep-001",
       "title": "EVIDENCE, FACT och REFLECTION — tre olika sanningstyper",
       "content": "I Livskompassen är EVIDENCE det du själv sparat (sms, möten, barnobservation) i WORM-silor — kronologi, inte automatisk sanning. FACT är kuraterad referens i Kunskapsbanken som RAG citerar. REFLECTION är frågekort i Vit — exporteras inte till Kunskap-RAG. En teori om motpartens mönster hör hemma som EVIDENCE i Valv; den blir inte FACT förrän den är verifierad referens i kampspar.",
@@ -124,6 +134,16 @@
       "source_tier": "psychoeducation_general"
     },
     {
+      "id": "kunskap-fact-cop-002",
+      "title": "Kalender och schema — skriftlig logistik vs muntliga löften",
+      "content": "I parallellt föräldraskap väger skriftliga överenskommelser tyngre än muntliga löften i efterhand. Delat förälderschema (kalender, app, mejl) minskar 'jag sa / du sa'-tvister om hämtning, lov, aktiviteter och skollov. Neutral praxis: ändringar föreslås skriftligt med datum; bekräftelse skriftligt innan barn informeras; vid oenighet gäller senast gemensamt dokumenterade schema eller dom tills nytt beslut. Muntliga löften utan bekräftelse är svåra att verifiera — dokumentera dem som observation ('2026-05-10 telefonsamtal — motpart sa hämtning 15:00') om de påverkar barnet. Livskompassen ger inte juridisk rådgivning; tvist om schema → familjerätt eller medling.",
+      "category": "medforaldraskap_logistik",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "kunskap-fact-024 delat schema; Föräldrabalken 6 kap. — översikt; ej rådgivning",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-ep-002",
       "title": "Bekräftelsebias och mönstersökning under stress",
       "content": "Vid hypervigilans och ADHD/GAD söker hjärnan mönster snabbare — ibland samband som inte finns (apopheni). Bekräftelsebias: man minns det som passar bilden. Det är kognitiv mekanism, inte tecken på att upplevelsen är fel. Skilj 'jag tror att…' från '2026-03-12 skrev hen…' (observerbar Valv-post).",
@@ -182,6 +202,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "Domän-eval 2026-06-01 covert narcissism",
       "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-cop-003",
+      "title": "Överlämning barn — kort rutin utan konflikt",
+      "content": "En barnsäker överlämning håller vuxenkonflikt borta från barnets synfält. Kort rutin: mötesplats enligt schema; hälsa kort till andra föräldern utan debatt; överlämna väska, medicin och skolinfo; barn går direkt med mottagande förälder. Undvik att barnet ska framföra budskap, välja sida eller höra vuxenprocess. Vid spänning: håll samtal till minimum ('Hej, här är ryggsäcken och febernedsättning'), avsluta och gå. Om andra föräldern eskalerar — avbryt inte barnets övergång; dokumentera händelsen efteråt med datum och observerbart beteende i Valv. Rutinen är metod — inte garanti att motparten samarbetar. Generisk vägledning — ej juridisk rådgivning.",
+      "category": "medforaldraskap_logistik",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "kunskap-fact-015 förutsägbarhet; bh-013 barn vid konflikt — översikt",
+      "source_tier": "P2"
     },
     {
       "id": "kunskap-fact-ep-003",
@@ -244,6 +274,16 @@
       "source_tier": "psychoeducation_general"
     },
     {
+      "id": "kunskap-fact-cop-004",
+      "title": "Akut avvikelse — dokumentera datum och tid, inte tolkning",
+      "content": "När schema bryts akut — sen hämtning, utebliven hämtning, oväntad person, barn kvar utan förvarning — dokumentera först det observerbara: datum, klockslag, plats, vem var närvarande, barnets tillstånd (kort citat om barnet uttryckte sig). Tolkning ('hen gjorde det med flit', 'hen ville straffa mig') hör hemma i separat hypotesrad eller journal — inte i samma rad som fakta. Skicka kort neutral logistik-sms om barnets omedelbara behov ('Barn väntar vid skolan sedan 16:30 — bekräfta hämtning'). Spara sms, skärmdump eller logg i Valv med server-tidsstämpel vid behov. Akut fara för barn: 112. Detta är epistemik och dokumentationsmetod — inte coaching om hur du ska känna.",
+      "category": "medforaldraskap_logistik",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "ep-003 observation/tolkning; cn-022 utan JADE; cop-001 hämtning",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-ep-004",
       "title": "När Speglar, Valv eller Kunskap",
       "content": "Speglar: validera känsla, Zero Footprint. Valv: WORM-bevis och tidslinje. Kunskap: metod/referens — inte sms-coaching. Hamn: BIFF på konkret meddelande. Vid tvivel → Granska, fail-closed.",
@@ -302,6 +342,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "Domän-eval §1 covert vs grandiose",
       "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-cop-005",
+      "title": "Grey Rock vid logistikpåminnelser — metod, inte person",
+      "content": "Grey Rock vid ren logistik innebär korta, sakliga svar på påminnelser om schema, hämtning eller praktiska detaljer — utan att matas in i personangrepp eller skuldbeläggning. Metod: svara på det praktiska ('Bekräftar fre 08:00'), ignorera sidospår ('Du är alltid…'), eskalera inte med motattack. Påminnelser som upprepas trots bekräftelse kan dokumenteras neutralt (datum, innehåll, att du redan bekräftat) — inte som bevis för diagnos. Grey Rock ersätter inte skyldighet att informera om barnets hälsa eller akuta behov; det avser kommunikationsform, inte tystnad om viktiga barnfrågor. Faktadefinition — konkret svar på sms → Hamn, inte Kunskap-coach.",
+      "category": "kommunikation_metod",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "kunskap-fact-006 Grey Rock; cn-009 parallel parenting — kompletterar",
+      "source_tier": "P1"
     },
     {
       "id": "kunskap-fact-ep-005",
@@ -452,6 +502,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "kunskap-fact-043; DCAP",
       "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-ep-008",
+      "title": "Bevisbar logistik vs känsloargument — epistemik i medföräldraskap",
+      "content": "I medföräldraskap kan samma händelse beskrivas som verifierbar logistik eller som känsloargument utan underlag. Logistik (epistemiskt starkare i tvist och dossier): '2026-04-12 hämtning 17:20, 35 min sen enligt sms 16:45.' Känsloargument (svagare utan citat): 'hen respekterar aldrig mig', 'barnet lider alltid hos hen'. Kunskap-RAG skiljer metod-FACT från personlig hypotes; Valv WORM lagrar lager 1–2 (citat, observation) separat från lager 3 (tolkning). jur-006 beskriver juridisk tyngd; denna post beskriver informationsklassning i vardagslogistik. Utan citation eller docId: inget sanning-påstående i prod. Livskompassen ger inte juridisk rådgivning.",
+      "category": "epistemik_produkt",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "jur-006 vårdnad logistik; ep-007 citat/tolkning; vf-001 teori vs bevis",
+      "source_tier": "P2"
     },
     {
       "id": "kunskap-fact-jur-008",

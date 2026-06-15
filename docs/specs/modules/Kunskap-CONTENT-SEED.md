@@ -1738,6 +1738,111 @@ why: "Våg 25 — juridisk informationsram soc/skola; kompletterar jur-005/ep-00
 
 ---
 
+## Batch 2026-06-16 — Våg 26 Medföräldraskap logistik (cop-001–005, ep-008)
+
+**Kurator:** `specialist-kunskap-seed` · **Plan:** [`2026-06-16-content-wave-26-plan.md`](../../evaluations/2026-06-16-content-wave-26-plan.md) · **Silo:** Kunskap only · **Ingest:** efter export + seed.
+
+| bankId | content_class | source_tier | status |
+|--------|---------------|-------------|--------|
+| kunskap-fact-cop-001 | FACT | P2 | KEEP |
+| kunskap-fact-cop-002 | FACT | P2 | KEEP |
+| kunskap-fact-cop-003 | FACT | P2 | KEEP |
+| kunskap-fact-cop-004 | FACT | P2 | KEEP |
+| kunskap-fact-cop-005 | FACT | P1 | KEEP |
+| kunskap-fact-ep-008 | FACT | P2 | KEEP |
+
+```yaml
+id: kunskap-fact-cop-001
+bankId: kunskap-fact-cop-001
+status: KEEP
+content_class: FACT
+title: "Hämtning och lämning — neutral bekräftelse utan JADE"
+content: "Logistik kring hämtning och lämning ska vara kort, datumerad och utan försvar eller moral. En neutral bekräftelse innehåller: tid, plats, barnets namn och att du bekräftar eller meddelar avvikelse — inget mer. Exempel: 'Bekräftar hämtning tis 16:00 vid skolan enligt schema.' Undvik JADE (förklara, argumentera, försvara, rättfärdiga) när motparten försöker dra in känsloladdade sidospår. Om tid ändras: föreslå ny tid skriftligt och vänta på svar innan du agerar. Sen hämtning eller utebliven hämtning dokumenteras i Valv med datum och tid — inte som karaktärsdom. Detta är metod-FACT; konkret sms-svar → Hamn, bevis → Valv."
+category: medforaldraskap_logistik
+entryType: fakta
+tags: [hamtning, lamning, jade, neutral_bekraftelse, logistik]
+source_tier: P2
+citation_hint: "cn-022 JADE-dokumentation; kunskap-fact-010 juridik 10%; ej BIFF-coaching"
+why: "Våg 26 — operativ hämtning/lämning; kompletterar 024/015 utan etikett på motpart"
+```
+
+```yaml
+id: kunskap-fact-cop-002
+bankId: kunskap-fact-cop-002
+status: KEEP
+content_class: FACT
+title: "Kalender och schema — skriftlig logistik vs muntliga löften"
+content: "I parallellt föräldraskap väger skriftliga överenskommelser tyngre än muntliga löften i efterhand. Delat förälderschema (kalender, app, mejl) minskar 'jag sa / du sa'-tvister om hämtning, lov, aktiviteter och skollov. Neutral praxis: ändringar föreslås skriftligt med datum; bekräftelse skriftligt innan barn informeras; vid oenighet gäller senast gemensamt dokumenterade schema eller dom tills nytt beslut. Muntliga löften utan bekräftelse är svåra att verifiera — dokumentera dem som observation ('2026-05-10 telefonsamtal — motpart sa hämtning 15:00') om de påverkar barnet. Livskompassen ger inte juridisk rådgivning; tvist om schema → familjerätt eller medling."
+category: medforaldraskap_logistik
+entryType: fakta
+tags: [kalender, schema, skriftlig, munlig, logistik]
+source_tier: P2
+citation_hint: "kunskap-fact-024 delat schema; Föräldrabalken 6 kap. — översikt; ej rådgivning"
+why: "Våg 26 — skriftlig logistik; fördjupar 024 med verifierbarhet utan weaponization"
+```
+
+```yaml
+id: kunskap-fact-cop-003
+bankId: kunskap-fact-cop-003
+status: KEEP
+content_class: FACT
+title: "Överlämning barn — kort rutin utan konflikt"
+content: "En barnsäker överlämning håller vuxenkonflikt borta från barnets synfält. Kort rutin: mötesplats enligt schema; hälsa kort till andra föräldern utan debatt; överlämna väska, medicin och skolinfo; barn går direkt med mottagande förälder. Undvik att barnet ska framföra budskap, välja sida eller höra vuxenprocess. Vid spänning: håll samtal till minimum ('Hej, här är ryggsäcken och febernedsättning'), avsluta och gå. Om andra föräldern eskalerar — avbryt inte barnets övergång; dokumentera händelsen efteråt med datum och observerbart beteende i Valv. Rutinen är metod — inte garanti att motparten samarbetar. Generisk vägledning — ej juridisk rådgivning."
+category: medforaldraskap_logistik
+entryType: fakta
+tags: [overlamning, barn, rutin, konflikt, logistik]
+source_tier: P2
+citation_hint: "kunskap-fact-015 förutsägbarhet; bh-013 barn vid konflikt — översikt"
+why: "Våg 26 — operativ överlämning; ROUTE_Hamn vid konkret eskalering i stunden"
+```
+
+```yaml
+id: kunskap-fact-cop-004
+bankId: kunskap-fact-cop-004
+status: KEEP
+content_class: FACT
+title: "Akut avvikelse — dokumentera datum och tid, inte tolkning"
+content: "När schema bryts akut — sen hämtning, utebliven hämtning, oväntad person, barn kvar utan förvarning — dokumentera först det observerbara: datum, klockslag, plats, vem var närvarande, barnets tillstånd (kort citat om barnet uttryckte sig). Tolkning ('hen gjorde det med flit', 'hen ville straffa mig') hör hemma i separat hypotesrad eller journal — inte i samma rad som fakta. Skicka kort neutral logistik-sms om barnets omedelbara behov ('Barn väntar vid skolan sedan 16:30 — bekräfta hämtning'). Spara sms, skärmdump eller logg i Valv med server-tidsstämpel vid behov. Akut fara för barn: 112. Detta är epistemik och dokumentationsmetod — inte coaching om hur du ska känna."
+category: medforaldraskap_logistik
+entryType: fakta
+tags: [avvikelse, dokumentation, datum, observerbart, valv]
+source_tier: P2
+citation_hint: "ep-003 observation/tolkning; cn-022 utan JADE; cop-001 hämtning"
+why: "Våg 26 — akut logistikavvikelse; kompletterar cop-001 med WORM-struktur"
+```
+
+```yaml
+id: kunskap-fact-cop-005
+bankId: kunskap-fact-cop-005
+status: KEEP
+content_class: FACT
+title: "Grey Rock vid logistikpåminnelser — metod, inte person"
+content: "Grey Rock vid ren logistik innebär korta, sakliga svar på påminnelser om schema, hämtning eller praktiska detaljer — utan att matas in i personangrepp eller skuldbeläggning. Metod: svara på det praktiska ('Bekräftar fre 08:00'), ignorera sidospår ('Du är alltid…'), eskalera inte med motattack. Påminnelser som upprepas trots bekräftelse kan dokumenteras neutralt (datum, innehåll, att du redan bekräftat) — inte som bevis för diagnos. Grey Rock ersätter inte skyldighet att informera om barnets hälsa eller akuta behov; det avser kommunikationsform, inte tystnad om viktiga barnfrågor. Faktadefinition — konkret svar på sms → Hamn, inte Kunskap-coach."
+category: kommunikation_metod
+entryType: fakta
+tags: [grey_rock, logistik, paminnelse, medforaldraskap, metod]
+source_tier: P1
+citation_hint: "kunskap-fact-006 Grey Rock; cn-009 parallel parenting — kompletterar"
+why: "Våg 26 — metod för 10% logistik; skiljer från BIFF/Hamn på konkret meddelande"
+```
+
+```yaml
+id: kunskap-fact-ep-008
+bankId: kunskap-fact-ep-008
+status: KEEP
+content_class: FACT
+title: "Bevisbar logistik vs känsloargument — epistemik i medföräldraskap"
+content: "I medföräldraskap kan samma händelse beskrivas som verifierbar logistik eller som känsloargument utan underlag. Logistik (epistemiskt starkare i tvist och dossier): '2026-04-12 hämtning 17:20, 35 min sen enligt sms 16:45.' Känsloargument (svagare utan citat): 'hen respekterar aldrig mig', 'barnet lider alltid hos hen'. Kunskap-RAG skiljer metod-FACT från personlig hypotes; Valv WORM lagrar lager 1–2 (citat, observation) separat från lager 3 (tolkning). jur-006 beskriver juridisk tyngd; denna post beskriver informationsklassning i vardagslogistik. Utan citation eller docId: inget sanning-påstående i prod. Livskompassen ger inte juridisk rådgivning."
+category: epistemik_produkt
+entryType: fakta
+tags: [epistemik, logistik, kansloargument, bevis, medforaldraskap]
+source_tier: P2
+citation_hint: "jur-006 vårdnad logistik; ep-007 citat/tolkning; vf-001 teori vs bevis"
+why: "Våg 26 — epistemik för 10% logistik; kompletterar jur-006 utan overlap i juridik_overview"
+```
+
+---
+
 ## Koppling till befintlig seed
 
 | Manifest | Fil |

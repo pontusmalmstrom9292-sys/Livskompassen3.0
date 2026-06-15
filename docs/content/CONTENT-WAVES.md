@@ -29,7 +29,8 @@
 | 23 | Epistemic guard + Valv Mönster v3 | cn-* refs (library) | — | — | **done** 2026-06-14 — Hamn theoryWithoutEvidence; pattern_scan_metadata sidecar; Dossier taktikfilter |
 | 24 | Juridisk process / vårdnad FACT | jur-005..007, ep-006, cn-022, bh-013 | — | — | **done** 2026-06-15 — bank KEEP; **ingest klar** (105 FACT manifest) · [`2026-06-15-fas16-wave24-ingest.md`](../evaluations/2026-06-15-fas16-wave24-ingest.md) |
 | 25 | Soc/skola + neutral myndighetsdialog | soc-001, skol-001, bup-001, bh-014, ep-007, jur-008 | — | — | **done** 2026-06-16 — bank KEEP; **ingest klar** (111 FACT manifest) · [`2026-06-16-content-wave-25-plan.md`](../evaluations/2026-06-16-content-wave-25-plan.md) |
+| 26 | Medföräldraskap logistik (10% neutral) | cop-001–005, ep-008 | — | — | **done** 2026-06-16 — bank KEEP; **ingest klar** (117 FACT manifest) · [`2026-06-16-content-wave-26-plan.md`](../evaluations/2026-06-16-content-wave-26-plan.md) |
 
-**Aktiv våg:** ingen — våg 25 **klar** 2026-06-16
+**Aktiv våg:** ingen — våg 26 **klar** 2026-06-16
 
 **Seed (Google-konto):** `SEED_FIREBASE_EMAIL` i `.env` + `gcloud auth application-default login` → `npm run seed:kunskap-facts`

@@ -41,7 +41,7 @@
 | MåBra | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) | **aktiv** | P1: `vit_entries` + `bankId` |
 | MåBra Daglig mix | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) § Daglig mix | **aktiv** | `dagligMixCatalog.ts` · DM-* · ingen streak/RAG |
 | Drogfrihet | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) § Drogfrihet + [`Drogfrihet-SPEC.md`](./specs/modules/Drogfrihet-SPEC.md) | **aktiv** | `drogfrihetCatalog.ts` · DF-REF-* · hub `/drogfrihet` |
-| Kunskap seed | [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) | **aktiv** | 111 FACT manifest · våg 25 ingest **PASS** 2026-06-16 · [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) |
+| Kunskap seed | [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) | **aktiv** | 117 FACT manifest · våg 26 ingest **PASS** 2026-06-16 · [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) |
 | Barnen lek | [`specs/modules/Barnen-PLAY-BANK.md`](./specs/modules/Barnen-PLAY-BANK.md) | **aktiv** | `barnfokusCatalog.ts` BP-PLAY-01..21 · ej Valv-promote |
 
 **Fält per KEEP-post (alla banker):** `id`, `status`, `content_class`, `source_tier`, `text_sv`, `why`.
@@ -144,6 +144,17 @@ Prompts: endast `functions/src/sharedRules.ts`.
 | kunskap-fact-bh-014 | FACT | P2 | **ingest** | barn_hcf |
 | kunskap-fact-ep-007 | FACT | P2 | **ingest** | epistemik_produkt |
 | kunskap-fact-jur-008 | FACT | P2 | **ingest** | juridik_overview |
+
+### Våg 26 ingest (2026-06-16)
+
+| id | content_class | source_tier | status | category |
+|----|---------------|-------------|--------|----------|
+| kunskap-fact-cop-001 | FACT | P2 | **ingest** | medforaldraskap_logistik |
+| kunskap-fact-cop-002 | FACT | P2 | **ingest** | medforaldraskap_logistik |
+| kunskap-fact-cop-003 | FACT | P2 | **ingest** | medforaldraskap_logistik |
+| kunskap-fact-cop-004 | FACT | P2 | **ingest** | medforaldraskap_logistik |
+| kunskap-fact-cop-005 | FACT | P1 | **ingest** | kommunikation_metod |
+| kunskap-fact-ep-008 | FACT | P2 | **ingest** | epistemik_produkt |
 
 ---
 

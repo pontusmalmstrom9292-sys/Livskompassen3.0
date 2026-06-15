@@ -1,22 +1,22 @@
 # Content autorun — våg ingen — 2026-06-15
 
-**Kört:** 2026-06-15T21:31:53.892Z
-**Git:** main @ dc52b2be0
+**Kört:** 2026-06-15T22:48:36.832Z
+**Git:** main @ 1b994123f
 **Register:** **Aktiv våg:** ingen
 
 ## Faser
 
 | Fas | Status | ms |
 |-----|--------|-----|
-| Export kunskap manifest | PASS | 162 |
-| Content waves smoke | PASS | 137 |
-| Innehall U6 | PASS | 134 |
-| Mabra bank parity | PASS | 32 |
-| Frontend build | PASS | 19429 |
+| Export kunskap manifest | PASS | 156 |
+| Content waves smoke | PASS | 144 |
+| Innehall U6 | PASS | 135 |
+| Mabra bank parity | PASS | 33 |
+| Frontend build | PASS | 24849 |
 
 ## Sammanfattning
 
-Alla faser **PASS**. Bank-paritet och build gröna. Ingen aktiv content-våg i register (våg 25 klar).
+Alla faser **PASS**. Bank-paritet och build gröna.
 
 ## Nästa steg (1)
 
