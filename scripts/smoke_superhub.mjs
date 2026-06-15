@@ -160,7 +160,7 @@ function main() {
     'Inställningar',
     'MUST NOT',
   );
-  mustInclude('docs/evaluations/2026-06-01-superhub-leverans.md', 'Drawer 4 rader');
+  mustInclude('docs/archive/evaluations-fas21-2026-06/2026-06-01-superhub-leverans.md', 'Drawer 4 rader');
 
   console.log('[smoke:superhub] PASS — drawer IA, legacy redirects, shell wiring.');
 }

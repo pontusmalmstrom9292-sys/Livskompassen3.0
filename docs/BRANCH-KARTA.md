@@ -4,7 +4,7 @@
 
 **Senast:** 2026-06-01 (lokal städning: `feat/superhub-v2` bort; endast `main` + `origin`)
 
-**Senast merge:** 2026-06-01 (`feat/superhub-v2` → `main` — supersidor, capture, Draft Layer; PMIR [`evaluations/2026-06-01-superhub-PMIR.md`](./evaluations/2026-06-01-superhub-PMIR.md))
+**Senast merge:** 2026-06-01 (`feat/superhub-v2` → `main` — supersidor, capture, Draft Layer; PMIR [`archive/evaluations-fas21-2026-06/2026-06-01-superhub-PMIR.md`](./archive/evaluations-fas21-2026-06/2026-06-01-superhub-PMIR.md))
 
 **Autonom kö (borta):** [`MASTER-YOLO-AUTORUN.md`](./MASTER-YOLO-AUTORUN.md) — `npm run master:yolo` + `orkester:night` + Agent startprompt.
 
@@ -12,8 +12,8 @@
 
 | Detalj | Värde |
 |--------|--------|
-| **PMIR** | [`evaluations/2026-06-01-superhub-PMIR.md`](./evaluations/2026-06-01-superhub-PMIR.md) |
-| **Leverans** | [`evaluations/2026-06-01-superhub-leverans.md`](./evaluations/2026-06-01-superhub-leverans.md) |
+| **PMIR** | [`archive/evaluations-fas21-2026-06/2026-06-01-superhub-PMIR.md`](./archive/evaluations-fas21-2026-06/2026-06-01-superhub-PMIR.md) |
+| **Leverans** | [`archive/evaluations-fas21-2026-06/2026-06-01-superhub-leverans.md`](./archive/evaluations-fas21-2026-06/2026-06-01-superhub-leverans.md) |
 | **Commit** | `d11820d9` på `main` (tip efter `a7c69702` på gren) |
 | **Gren** | `feat/superhub-v2` raderad lokalt; fanns aldrig på `origin` |
 | **Smoke** | build + locked-ux + orkester **PASS** (se leverans) |

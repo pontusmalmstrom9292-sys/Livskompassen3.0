@@ -7,36 +7,46 @@
 
 ## Nuläge i en mening
 
-**Fas 19 masterplan-v2 levererad + deployad** — **Fas 20 pågår:** Tier-1 doc-synk, hex→tokens, arkiv-batch 2. Arkiv: [`archive/evaluations-fas19-2026-06/`](../archive/evaluations-fas19-2026-06/) · [`archive/evaluations-fas20-2026-06/`](../archive/evaluations-fas20-2026-06/).
+**Fas 19–21 levererad + deployad** — **Fas 22 aktiv:** hex→tokens P0 (MabraHistoryView, ArchiveHub, DailyTasksList, diary supermodule). Arkiv: [`archive/evaluations-fas19-2026-06/`](../archive/evaluations-fas19-2026-06/) · [`archive/evaluations-fas20-2026-06/`](../archive/evaluations-fas20-2026-06/) · [`archive/evaluations-fas21-2026-06/`](../archive/evaluations-fas21-2026-06/).
 
 ---
 
-## Levererat (Fas 13–18 baseline)
+## Levererat (Fas 13–21 baseline)
 
 | Område | Status |
 |--------|--------|
 | WORM + vault-gate | **done** Fas 13 |
-| Ekonomi/Arbetsliv-split | **done** Fas 14 |
-| Inkast + Kunskap våg 24 | **done** Fas 15–16 |
-| Orkester-natt + Android cap sync | **done** Fas 17–18 |
-| G1–G16 Arkiv-GAP | **done** |
+| Superhubbar Fas 6–11 | **done** |
+| Fas 19 masterplan-v2 | **done** + deploy 2026-06-15 |
+| Fas 20 doc-synk + arkiv-batch 2 | **done** |
+| Fas 21 guards + JOY-17 + Oracle tokens | **done** + deploy 2026-06-15 |
 | `orkester:night` + `typecheck:core-strict` | **PASS** 2026-06-15 |
 
 ---
 
-## Fas 19 (pågår)
+## Fas 22 (aktiv)
 
-| Våg | Fokus |
+| Spår | Fokus |
 |-----|-------|
-| 19.1 | `unlockVault` + App Check guards + doc-synk |
-| 19.2 | M3.0-B `MABRA_30_PILLARS` hybrid-8 |
-| 19.3 | Hex→tokens P0 + typecheck expansion |
-| 19.4 | JOY-17 mabraCoach bank |
-| 19.5 | evolution_ledger dual-write |
-| 19.6 | Arkiv-batch PMIR |
+| 22.1 | Hex→tokens P0 — MabraHistoryView, ArchiveHub, DailyTasksList, diary supermodule |
+| 22.2 | Doc-synk — SENASTE-SAMMANFATTNING + SYSTEM_PLAN_v2 |
+| 22.3 | `typecheck:core-strict` expansion (P2 backlog, efter design-smoke) |
+
+---
+
+## Fas 21 (klart — rör ej utan regression)
+
+| Spår | Leverans |
+|-----|----------|
+| 21.1 | App Check guards (6 callables) — [`2026-06-15-fas21-callables-guard-inventory.md`](./2026-06-15-fas21-callables-guard-inventory.md) |
+| 21.2 | JOY-17 `who_am_i` + MABRA_COACH_BANK MIRROR/GEN/C-joy |
+| 21.3 | Arkiv-batch 3 (19 filer) |
+| 21.4 | Oracle hex→tokens (OracleDashboard, DayForensicsPanel) |
+
+**App Check sanning:** `APP_CHECK_ENFORCE=true` i kod (fail-closed) — **PÅ**. Firebase Console Enforce — **INTE** på (medvetet, valfritt extra lager).
 
 ---
 
 ## Öppet (USER)
 
-Android native Google · Valv #3 · Barnporten #4 — Motorola-test.
+Android native Google · Valv #3 · Barnporten #4 — Motorola-test · **App Check Enforce** i Firebase Console (valfritt).

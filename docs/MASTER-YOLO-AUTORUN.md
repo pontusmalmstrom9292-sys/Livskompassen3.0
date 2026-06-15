@@ -137,7 +137,7 @@ Enligt [`2026-05-31-hub-syntes-nav.md`](./evaluations/2026-05-31-hub-syntes-nav.
 ## Utanför kön (du vid återkomst)
 
 - Manuell smoke **#3, #4, #2d** — [`2026-05-31-fas5a-user-checklist.md`](./evaluations/2026-05-31-fas5a-user-checklist.md)
-- Superhub domän-checklista — [`2026-06-01-superhub-leverans.md`](./evaluations/2026-06-01-superhub-leverans.md)
+- Superhub domän-checklista — [`2026-06-01-superhub-leverans.md`](./archive/evaluations-fas21-2026-06/2026-06-01-superhub-leverans.md)
 - Genkit V1 wait, NotebookLM, BBIC dossier `reportType`
 
 ---

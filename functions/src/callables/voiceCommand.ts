@@ -1,6 +1,7 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import { createGenAI } from '../lib/genaiClient';
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import { submitInkastLiteForUser } from '../lib/submitInkastLite';
 
 const SYSTEM_PROMPT = `Du är en intelligent röst-assistent för "Livskompassen". Användarens inmatning har transkriberats via Voice-to-Vault.
@@ -23,11 +24,8 @@ Svara ENDAST med giltig JSON med följande schema:
 }
 `;
 
-export const parseVoiceCommand = onCall(async (request) => {
-  if (!request.auth) {
-    throw new HttpsError('unauthenticated', 'Autentisering krävs.');
-  }
-  const uid = request.auth.uid;
+export const parseVoiceCommand = onCall({ region: 'europe-west1' }, async (request) => {
+  const uid = await guardSensitiveCallableV2(request, 'parseVoiceCommand', 15);
   const text = request.data?.transcript;
 
   if (typeof text !== 'string' || text.trim().length === 0) {

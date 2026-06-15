@@ -91,12 +91,10 @@ export const issueVaultSessionViaBiometric = onCall(
 
 
 export const getEntityProfileRegistry = onCall({ region: 'europe-west1' }, async (request) => {
-  if (!request.auth) {
-    throw new HttpsError('unauthenticated', 'Autentisering krävs för aktörskartan.');
-  }
-  await assertVaultSession(request.auth.uid, request.data);
+  const uid = await guardSensitiveCallableV2(request, 'getEntityProfileRegistry', 30);
+  await assertVaultSession(uid, request.data);
 
-  const bundle = await loadEntityProfileBundle(request.auth.uid);
+  const bundle = await loadEntityProfileBundle(uid);
   return {
     profiles: bundle.profiles.map((p) => ({
       entityKey: p.entityKey,
@@ -118,10 +116,8 @@ export const getEntityProfileRegistry = onCall({ region: 'europe-west1' }, async
 });
 
 export const addEntityProfile = onCall({ region: 'europe-west1' }, async (request) => {
-  if (!request.auth) {
-    throw new HttpsError('unauthenticated', 'Autentisering krävs för att lägga till person.');
-  }
-  await assertVaultSession(request.auth.uid, request.data);
+  const uid = await guardSensitiveCallableV2(request, 'addEntityProfile', 20);
+  await assertVaultSession(uid, request.data);
 
   const displayName =
     typeof request.data?.displayName === 'string' ? request.data.displayName : '';
@@ -140,7 +136,7 @@ export const addEntityProfile = onCall({ region: 'europe-west1' }, async (reques
   }
 
   try {
-    return await addUserEntityProfile(request.auth.uid, {
+    return await addUserEntityProfile(uid, {
       displayName,
       role,
       aliases,

@@ -218,9 +218,7 @@ export const rejectWeaverMetadata = onCall(
 export const journalWovenToKampspar = onCall(
   { region: 'europe-west1' },
   async (request) => {
-    if (!request.auth) {
-      throw new HttpsError('unauthenticated', 'Autentisering krävs.');
-    }
+    const uid = await guardSensitiveCallableV2(request, 'journalWovenToKampspar', 10);
 
     if (request.data?.optIn !== true) {
       throw new HttpsError(
@@ -239,9 +237,9 @@ export const journalWovenToKampspar = onCall(
 
     const result = await emitSynapse(adkOrchestrator, {
       trigger: 'journal_woven',
-      contextId: request.auth.uid,
+      contextId: uid,
       payload: {
-        ownerId: request.auth.uid,
+        ownerId: uid,
         journalEntryId,
         mood,
         text,

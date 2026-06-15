@@ -73,4 +73,4 @@
 | P3 | ECO-10 | defer |
 | P1 | MAB-07 | Fas 3 immersive |
 
-**Källor:** `docs/archive/repomix/repomix-baseline-2026-05-21-backend.md`, `docs/evaluations/2026-06-01-superhub-leverans.md`, `REFACTOR_DIAGNOSTICS.md`, grep `src/modules/features/dailyLife/`.
+**Källor:** `docs/archive/repomix/repomix-baseline-2026-05-21-backend.md`, `docs/archive/evaluations-fas21-2026-06/2026-06-01-superhub-leverans.md`, `REFACTOR_DIAGNOSTICS.md`, grep `src/modules/features/dailyLife/`.

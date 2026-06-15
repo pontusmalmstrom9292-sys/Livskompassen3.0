@@ -182,6 +182,33 @@ async function main() {
   console.log('[smoke] vit_chat bankId OK —', vitChatResult.data.bankId);
   console.log('[smoke] vit_chat OK —', vitCoach.slice(0, 100));
 
+  console.log('[smoke] mabraCoach vit_chat who_am_i (JOY-17)…');
+  const whoAmIResult = await coachFn({
+    mode: 'vit_chat',
+    projectId: 'who_am_i',
+    vitMessage: 'Jag vill utforska vad som känns meningsfullt för mig utan prestation.',
+    seedPrompt: 'Ett intresse eller tema som känns mitt — inte någons förväntan. Ett ord räcker.',
+    bankId: 'MB-REF-JOY-01',
+  });
+  assert(typeof whoAmIResult.data?.coach === 'string' && whoAmIResult.data.coach.trim().length > 0, 'who_am_i vit_chat saknar coach');
+  assert(whoAmIResult.data?.bankId === 'MB-REF-JOY-01', `who_am_i bankId ska vara MB-REF-JOY-01, fick ${whoAmIResult.data?.bankId}`);
+  console.log('[smoke] who_am_i vit_chat OK —', whoAmIResult.data.bankId);
+
+  console.log('[smoke] vit_entries who_am_i WORM create…');
+  const whoAmIEntryRef = await addDoc(collection(db, 'vit_entries'), {
+    userId: uid,
+    ownerId: uid,
+    projectId: 'who_am_i',
+    kind: 'card',
+    bankId: 'MB-REF-JOY-01',
+    content_class: 'REFLECTION',
+    responseText: 'smoke who_am_i joy entry',
+    cardDateKey: '2026-06-15',
+    createdAt: serverTimestamp(),
+  });
+  assert(whoAmIEntryRef.id, 'who_am_i vit_entries saknar id');
+  console.log('[smoke] who_am_i vit_entries OK —', whoAmIEntryRef.id);
+
   console.log('[smoke] mabraCoach vit_chat guard…');
   const vitGuardResult = await coachFn({
     mode: 'vit_chat',

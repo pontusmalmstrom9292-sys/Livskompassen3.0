@@ -99,11 +99,9 @@ export const childrenLogsQuery = onCall(
 );
 
 export const getContextCacheStatus = onCall({ region: 'europe-west1' }, async (request) => {
-  if (!request.auth) {
-    throw new HttpsError('unauthenticated', 'Autentisering krävs.');
-  }
+  const uid = await guardSensitiveCallableV2(request, 'getContextCacheStatus', 30);
 
-  const entries = await listRegistryEntriesForUser(request.auth.uid);
+  const entries = await listRegistryEntriesForUser(uid);
   return {
     registry: 'firestore',
     collection: 'context_cache_registry',
@@ -117,9 +115,7 @@ export const ingestKampsparEntry = functions
   .region('europe-west1')
   .runWith({ memory: '512MB', timeoutSeconds: 60 })
   .https.onCall(async (data, context) => {
-    if (!context.auth) {
-      throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
-    }
+    const uid = await guardSensitiveCallableV1(context, 'ingestKampsparEntry', 10);
 
     const title = typeof data.title === 'string' ? data.title.trim() : '';
     const content = typeof data.content === 'string' ? data.content.trim() : '';
@@ -146,7 +142,6 @@ export const ingestKampsparEntry = functions
       throw new functions.https.HttpsError('invalid-argument', 'content krävs (max 8000 tecken).');
     }
 
-    const uid = context.auth.uid;
     return ingestKampsparForUser(uid, {
       title,
       content,

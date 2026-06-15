@@ -1,5 +1,24 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Fas 21 (2026-06-15 — guards + JOY-17 + arkiv batch 3 + Oracle tokens)
+
+**Trigger:** Fas 21 spår 1–4 · [`2026-06-15-fas21-callables-guard-inventory.md`](./evaluations/2026-06-15-fas21-callables-guard-inventory.md)  
+**Git:** `main` @ `bf8f7fb3e`+ · arkiv [`archive/evaluations-fas21-2026-06/`](./archive/evaluations-fas21-2026-06/)
+
+| Kategori | # / kommando | Status | Senast |
+|----------|--------------|--------|--------|
+| **Build** | `npm run build` (frontend) | **PASS** | 2026-06-15 · Fas 21 |
+| **Build** | `functions` tsc | **PASS** | 2026-06-15 · Fas 21 |
+| **Autorun PASS** | `smoke:locked-ux` | **PASS** | 2026-06-15 · Fas 21 |
+| **Autorun PASS** | `smoke:innehall` | **PASS** | 2026-06-15 · JOY/MIRROR bank |
+| **Autorun PASS** | `smoke:mabra` | **PASS** | 2026-06-15 · `who_am_i` JOY-17 + vit_entries WORM |
+| **Autorun PASS** | `smoke:design-modules` | **PASS** | 2026-06-15 · Oracle hex→tokens |
+| **Security P1** | Callable guards (6 st) | **KOD** | 2026-06-15 · ej deploy utan lista |
+| **Deploy** | functions guards + `mabraCoach` + hosting | **PASS** | 2026-06-15 · https://gen-lang-client-0481875058.web.app |
+| **Deploy note** | `parseVoiceCommand` migrerad us-central1 → europe-west1 | **done** | gammal fn raderad |
+
+---
+
 ## Current truth (2026-06-15 — Fas 18a Android cap sync)
 
 **Sanning:** denna tabell ersätter «Fas 17b.0 våg 2 baseline gate» nedan.  

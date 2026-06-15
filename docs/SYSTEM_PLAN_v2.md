@@ -216,12 +216,19 @@ Produkt-GAP: [`MODUL-GAP-OVERSIKT.md`](./MODUL-GAP-OVERSIKT.md)
 | **17** | Shared `typecheck:core-strict` expansion | **done** 2026-06-15 | [`2026-06-15-fas17-typecheck-shared.md`](./evaluations/2026-06-15-fas17-typecheck-shared.md) |
 | **18** | Android cap sync · App Check enforce (kod) | **done** 2026-06-15 | [`2026-06-15-fas18-android-cap-sync.md`](./evaluations/2026-06-15-fas18-android-cap-sync.md) · [`fas14b-appcheck-enforce.md`](./evaluations/2026-06-15-fas14b-appcheck-enforce.md) |
 | **19** | Masterplan-v2 · M3.0-B hybrid-8 · unlockVault P0 · doc-synk 19.1 | **done** 2026-06-15 | [`2026-06-15-fas19-masterplan-v2.md`](./evaluations/2026-06-15-fas19-masterplan-v2.md) · `fas19-*` eval-serie |
-| **19.5** | `evolution_ledger` dual-write | **defer** Fas 20+ | `infinite-evolution.mdc` |
+| **20** | Doc-synk · arkiv-batch 2 | **done** 2026-06-15 | [`archive/evaluations-fas20-2026-06/`](./archive/evaluations-fas20-2026-06/) |
+| **21** | App Check guards · JOY-17 · arkiv-batch 3 · Oracle tokens | **done** 2026-06-15 | [`2026-06-15-fas21-callables-guard-inventory.md`](./evaluations/2026-06-15-fas21-callables-guard-inventory.md) |
+| **22** | Hex→tokens P0 · doc-synk · typecheck expansion | **aktiv** | [`SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md) |
+| **19.5** | `evolution_ledger` dual-write | **defer** Fas 22+ | `infinite-evolution.mdc` |
 | **19.6** | Arkiv-batch PMIR | väntar Pontus OK | [`2026-06-15-fas19-archive-pmir.md`](./evaluations/2026-06-15-fas19-archive-pmir.md) |
 
 **Eval-serie Fas 13–19 (aktiv mapp):** [`evaluations/`](./evaluations/) — planerad arkiv: [`archive/evaluations-fas19-2026-06/`](./archive/evaluations-fas19-2026-06/) (efter 19.6 PMIR).
 
-**Fas 20 (nästa):** Tier-1 doc-synk · hex→tokens P0 · arkiv-batch · JOY-17 / evolution_ledger enligt masterplan defer-tabell.
+**Fas 20 (levererad):** Tier-1 doc-synk · hex→tokens P0 (delvis) · arkiv-batch 2.
+
+**Fas 21 (levererad 2026-06-15):** App Check guards (6 callables) · JOY-17 prod-wire · arkiv-batch 3 · Oracle hex→tokens · deploy hosting + functions.
+
+**Fas 22 (aktiv):** Hex→tokens P0 kvarvarande (MabraHistoryView, ArchiveHub, DailyTasksList, diary supermodule) · doc-synk · `typecheck:core-strict` expansion (P2).
 
 ---
 

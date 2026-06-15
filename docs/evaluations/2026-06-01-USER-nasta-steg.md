@@ -44,7 +44,7 @@ Agent har kört kod + statisk smoke. **Du** bekräftar i riktig app.
 | `/familjen` → Barnfokus-känsla | **PASS** |
 | Legacy `/mabra` redirectar | **PASS** |
 
-Kanon: [`2026-06-01-superhub-leverans.md`](./2026-06-01-superhub-leverans.md)
+Kanon: [`2026-06-01-superhub-leverans.md`](../archive/evaluations-fas21-2026-06/2026-06-01-superhub-leverans.md)
 
 ---
 

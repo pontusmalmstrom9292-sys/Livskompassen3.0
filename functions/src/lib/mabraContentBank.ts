@@ -4,6 +4,7 @@
  */
 
 export type MabraCoachHub = 'panic_rsd' | 'self_critical' | 'find_self';
+export type MabraCoachVitHub = MabraCoachHub | 'who_am_i' | 'emotional_memory' | 'learn_together';
 export type MabraCoachExercise = 'breathing' | 'grounding' | 'reframing';
 
 export type MabraCoachBankEntry = {
@@ -11,7 +12,7 @@ export type MabraCoachBankEntry = {
   content_class: 'REFLECTION';
   source_tier: 'P1' | 'product_copy' | 'psychoeducation_general';
   status: 'KEEP';
-  hub?: MabraCoachHub | 'who_am_i';
+  hub?: MabraCoachVitHub;
   lens: string;
   text_sv: string;
 };
@@ -193,6 +194,60 @@ export const MABRA_COACH_BANK: readonly MabraCoachBankEntry[] = [
     hub: 'who_am_i',
     lens: 'spegling',
     text_sv: 'Ett minne eller en egenskap som jag vet är sann, oavsett vad som händer — vad är det?',
+  },
+  {
+    bankId: 'MB-REF-MIRROR-03',
+    content_class: 'REFLECTION',
+    source_tier: 'psychoeducation_general',
+    status: 'KEEP',
+    hub: 'emotional_memory',
+    lens: 'spegling',
+    text_sv: 'När kände jag mig senast trygg i ett eget beslut — ett litet vardagsbeslut räcker?',
+  },
+  {
+    bankId: 'MB-REF-MIRROR-04',
+    content_class: 'REFLECTION',
+    source_tier: 'psychoeducation_general',
+    status: 'KEEP',
+    hub: 'find_self',
+    lens: 'spegling',
+    text_sv: 'Vilken känsla bär jag på som är fullt logisk och begriplig utifrån min situation?',
+  },
+  {
+    bankId: 'MB-REF-GEN-01',
+    content_class: 'REFLECTION',
+    source_tier: 'product_copy',
+    status: 'KEEP',
+    hub: 'who_am_i',
+    lens: 'allmant',
+    text_sv: 'Vad är något jag gör idag som mitt yngre jag skulle tycka om?',
+  },
+  {
+    bankId: 'MB-REF-GEN-02',
+    content_class: 'REFLECTION',
+    source_tier: 'product_copy',
+    status: 'KEEP',
+    hub: 'who_am_i',
+    lens: 'allmant',
+    text_sv: 'Om jag fick ge mig själv ett frikort från en förväntning idag — vilken skulle det vara?',
+  },
+  {
+    bankId: 'C-joy-01',
+    content_class: 'REFLECTION',
+    source_tier: 'P1',
+    status: 'KEEP',
+    hub: 'who_am_i',
+    lens: 'gladje',
+    text_sv: 'Vad tycker jag är kul, lugnt eller meningsfullt just nu?',
+  },
+  {
+    bankId: 'C-joy-02',
+    content_class: 'REFLECTION',
+    source_tier: 'P1',
+    status: 'KEEP',
+    hub: 'who_am_i',
+    lens: 'gladje',
+    text_sv: 'En aktivitet utan krav — vad lockar idag?',
   },
 ] as const;
 

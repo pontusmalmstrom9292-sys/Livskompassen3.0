@@ -78,7 +78,7 @@ const MabraDot = (props: any) => {
     );
   }
   
-  return <circle cx={cx} cy={cy} r={3} stroke="#4ade80" strokeWidth={1} fill="#020617" />;
+  return <circle cx={cx} cy={cy} r={3} stroke="var(--success)" strokeWidth={1} fill="var(--surface)" />;
 };
 
 const RiskDot = (props: any) => {
@@ -87,13 +87,13 @@ const RiskDot = (props: any) => {
   if (payload?.isHighRiskCorrelation) {
     return (
       <g>
-        <circle cx={cx} cy={cy} r={10} fill="#ef4444" opacity={0.3} className="animate-pulse" />
-        <circle cx={cx} cy={cy} r={5} fill="#ef4444" stroke="#020617" strokeWidth={2} />
+        <circle cx={cx} cy={cy} r={10} fill="var(--danger)" opacity={0.3} className="animate-pulse" />
+        <circle cx={cx} cy={cy} r={5} fill="var(--danger)" stroke="var(--surface)" strokeWidth={2} />
       </g>
     );
   }
   
-  return <circle cx={cx} cy={cy} r={3} fill="#f87171" stroke="#020617" strokeWidth={1} />;
+  return <circle cx={cx} cy={cy} r={3} fill="var(--danger)" stroke="var(--surface)" strokeWidth={1} />;
 };
 
 const QuickIntervention = ({ latestDataPoint }: { latestDataPoint: OracleMetricPoint | null }) => {
@@ -107,7 +107,7 @@ const QuickIntervention = ({ latestDataPoint }: { latestDataPoint: OracleMetricP
   if (!isCritical || isDismissed) return null;
 
   return (
-    <div className="mt-6 bg-[#020617] border border-white/10 rounded-xl p-6 relative">
+    <div className="mt-6 bg-surface border border-white/10 rounded-xl p-6 relative">
       <button 
         onClick={() => setDismissedDate(latestDataPoint.date)}
         className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
@@ -117,7 +117,7 @@ const QuickIntervention = ({ latestDataPoint }: { latestDataPoint: OracleMetricP
           <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
-      <h3 className="text-lg font-semibold text-[#FDE68A] mb-2">Behöver uppmärksamhet</h3>
+      <h3 className="text-lg font-semibold text-accent-light mb-2">Behöver uppmärksamhet</h3>
       <p className="text-gray-300">
         Vagusnervåterställning: Prova 3 minuters djupt nynnande eller kallt vattenstänk.
       </p>
@@ -274,27 +274,27 @@ export default function OracleDashboard() {
                 >
                   <defs>
                     <linearGradient id="colorCapacity" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#4ade80" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#4ade80" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="var(--success)" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="var(--success)" stopOpacity={0}/>
                     </linearGradient>
                     <linearGradient id="colorStress" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#f87171" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#f87171" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="var(--danger)" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="var(--danger)" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
-                  <XAxis dataKey="date" stroke="#9ca3af" tick={{fill: '#9ca3af'}} axisLine={false} tickLine={false} />
-                  <YAxis stroke="#9ca3af" tick={{fill: '#9ca3af'}} axisLine={false} tickLine={false} />
+                  <XAxis dataKey="date" stroke="var(--text-muted)" tick={{fill: 'var(--text-muted)'}} axisLine={false} tickLine={false} />
+                  <YAxis stroke="var(--text-muted)" tick={{fill: 'var(--text-muted)'}} axisLine={false} tickLine={false} />
                   
-                  <ReferenceLine y={70} stroke="#f97316" strokeDasharray="3 3" opacity={0.6} label={{ position: 'insideTopLeft', value: 'Varning', fill: '#f97316', fontSize: 12 }} />
-                  <ReferenceLine y={85} stroke="#ef4444" strokeDasharray="3 3" opacity={0.6} label={{ position: 'insideTopLeft', value: 'Kritisk', fill: '#ef4444', fontSize: 12 }} />
+                  <ReferenceLine y={70} stroke="var(--warning)" strokeDasharray="3 3" opacity={0.6} label={{ position: 'insideTopLeft', value: 'Varning', fill: 'var(--warning)', fontSize: 12 }} />
+                  <ReferenceLine y={85} stroke="var(--danger)" strokeDasharray="3 3" opacity={0.6} label={{ position: 'insideTopLeft', value: 'Kritisk', fill: 'var(--danger)', fontSize: 12 }} />
                   
                   <Tooltip 
                     content={<CustomTooltip />}
                     wrapperStyle={{ zIndex: 100 }}
                   />
-                  <Area type="monotone" dataKey="capacity" name="Kapacitet" stroke="#4ade80" fillOpacity={1} fill="url(#colorCapacity)" dot={<MabraDot />} activeDot={{ r: 8 }} />
-                  <Area type="monotone" dataKey="stressLevel" name="Stress" stroke="#f87171" fillOpacity={1} fill="url(#colorStress)" dot={<RiskDot />} activeDot={{ r: 8 }} />
+                  <Area type="monotone" dataKey="capacity" name="Kapacitet" stroke="var(--success)" fillOpacity={1} fill="url(#colorCapacity)" dot={<MabraDot />} activeDot={{ r: 8 }} />
+                  <Area type="monotone" dataKey="stressLevel" name="Stress" stroke="var(--danger)" fillOpacity={1} fill="url(#colorStress)" dot={<RiskDot />} activeDot={{ r: 8 }} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>

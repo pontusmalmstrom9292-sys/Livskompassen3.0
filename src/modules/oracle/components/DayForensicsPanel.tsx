@@ -57,7 +57,7 @@ export const DayForensicsPanel: React.FC<DayForensicsPanelProps> = ({ dataPoint,
   }, [user?.uid, dataPoint.date, dataPoint.isoDate]);
 
   return (
-    <div className="bg-[#0f172a] border border-white/10 rounded-2xl p-6 backdrop-blur-xl relative z-50 mt-8 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-300">
+    <div className="bg-surface-2 border border-white/10 rounded-2xl p-6 backdrop-blur-xl relative z-50 mt-8 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-300">
       <button 
         onClick={onClose}
         className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"

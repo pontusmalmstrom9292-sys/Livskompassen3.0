@@ -134,7 +134,7 @@ function main() {
     'Ingen RAG',
   );
   mustInclude('functions/src/lib/mabraCoachGuard.ts', 'shouldRedirectMabraCoachToSpeglar');
-  mustInclude('functions/src/lib/mabraContentBank.ts', 'resolveCoachBankId', 'MB-REF-03');
+  mustInclude('functions/src/lib/mabraContentBank.ts', 'resolveCoachBankId', 'MB-REF-03', 'MB-REF-JOY-01', 'MB-REF-MIRROR-02');
 
   console.log('[smoke:innehall] Mabra no Kunskap RAG (spec)...');
   mustInclude(

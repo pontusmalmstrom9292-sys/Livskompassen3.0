@@ -17,7 +17,7 @@ Skapa eller uppdatera docs/evaluations/LOST-FEATURES-REGISTER.md med minst 25 ra
 - docs/archive/repomix/ och repomix-baseline-2026-05-21-backend.md
 - src/modules/features/dailyLife/{economy,arbetsliv,wellbeing/mabra}
 - functions/src/economy/** och generatePayslip
-- docs/evaluations/2026-06-01-superhub-leverans.md
+- docs/archive/evaluations-fas21-2026-06/2026-06-01-superhub-leverans.md
 - navigationRegistry vs navTruth vs AppRoutes (registry-drift)
 
 Per rad: feature, gammal plats, nuvarande fil/route, status (live|partial|lost|drift), återinför rekommendation, sacred/silo-risk.
