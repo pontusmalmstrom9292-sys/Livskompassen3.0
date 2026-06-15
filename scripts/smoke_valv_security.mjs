@@ -113,6 +113,18 @@ function main() {
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'isAuthenticated', 'isEmailAuthRequired');
   mustInclude('functions/src/lib/rateLimit.ts', 'assertRateLimit', '_rate_limits');
   mustInclude('firestore.rules', 'isVerifiedUser', 'isValidRealityVaultCreate');
+  mustInclude(
+    'firestore.rules',
+    'match /inbox_rules/{docId}',
+    'targetRouting in [',
+    'allow delete: if isOwner()',
+  );
+  mustInclude(
+    'firestore.rules',
+    'match /daily_intentions/{docId}',
+    'request.resource.data.intention is string',
+    'allow delete: if false',
+  );
   mustInclude('functions/src/index.ts', 'issueVaultSession', 'beginVaultWebAuthnChallenge', 'invalidateSession');
   mustInclude('.github/workflows/firebase-hosting-main.yml', 'VITE_APP_CHECK_RECAPTCHA_SITE_KEY');
   mustInclude('functions/src/lib/vaultWebAuthn.ts', 'gen-lang-client-0481875058.firebaseapp.com');

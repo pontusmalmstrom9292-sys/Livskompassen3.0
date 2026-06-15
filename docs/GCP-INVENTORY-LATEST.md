@@ -1,11 +1,12 @@
 # GCP / Firebase-inventering — LIVE (senast)
 
-**Datum:** 2026-06-15 (refresh efter backend Våg 2) · tidigare 2026-06-11  
+**Datum:** 2026-06-16 (refresh efter backend Våg 3) · tidigare 2026-06-15  
 **Projekt:** `gen-lang-client-0481875058` (number `1084026575972`)  
 **Metod:** `firebase functions:list`, `gcloud ai indexes list`, `gcloud ai index-endpoints describe`  
 **Beslut:** [`GCP-KONSOLIDERING-BESLUT.md`](GCP-KONSOLIDERING-BESLUT.md)  
 **Ersätter för beslut:** [`docs/archive/GCP-INVENTORY-2026-05-21.md`](archive/GCP-INVENTORY-2026-05-21.md)  
-**Backend Våg 2:** [`evaluations/2026-06-15-backend-vag2-hardening.md`](evaluations/2026-06-15-backend-vag2-hardening.md)
+**Backend Våg 2:** [`evaluations/2026-06-15-backend-vag2-hardening.md`](evaluations/2026-06-15-backend-vag2-hardening.md)  
+**Backend Våg 3:** [`evaluations/2026-06-16-backend-vag3-security-hygiene.md`](evaluations/2026-06-16-backend-vag3-security-hygiene.md)
 
 ---
 
@@ -25,14 +26,16 @@
 | `beginVaultWebAuthnChallenge` | **deployad** | WebAuthn challenge före Valv-session |
 | `createBarnportenPairing` / `claimBarnportenPairing` | **deployad** | Barnporten QR |
 | `user_widgets` rules | **deployad** | WH1–WH4 widget-sparning |
-| Callable guards Våg 2 | **kod klar** | `getAgentRegistry`, Barnporten pairings, `generatePayslip`, `analyzeProjectImage` — se backend-vag2 eval |
-| `user_overwhelm` emitter | **kod klar** | `breakDownResponse` → `emitSynapse` |
+| Callable guards Våg 2 | **deployad** | `getAgentRegistry`, Barnporten pairings, `generatePayslip`, `analyzeProjectImage` |
+| `user_overwhelm` emitter | **deployad** | `breakDownResponse` → `emitSynapse` |
+| `inbox_rules` + `daily_intentions` rules | **deployad** | Backend Våg 3 — se vag3 eval |
+| App Check enforce | **LOCK** | Console + `APP_CHECK_ENFORCE=true` (Fas 14B) |
 
 ---
 
 ## Deployade Cloud Functions
 
-**Totalt:** 49 functions live (`firebase functions:list` 2026-06-15) · **44 v2** + **5 v1** · **europe-west1** · Node.js 20  
+**Totalt:** 50 functions live (`firebase functions:list` 2026-06-16) · **44 v2 europe-west1** + **1 v2 us-east1** + **5 v1** · Node.js 20  
 **Källa:** `functions/src/index.ts` (exporter) · verifiera live: `firebase functions:list`
 
 ### v1 kvar (5)
@@ -54,6 +57,7 @@
 | `approveWeaverMetadata` | v2 | Vävaren HITL |
 | `childrenLogsQuery` | v2 | Barnen RAG |
 | `confirmInboxItem` | v2 | G10 inkorg |
+| `crushTask` | v2 | Uppgifts-Krossaren |
 | `dismissInboxItem` | v2 | G10 inkorg |
 | `generateWeeklyInsights` | v2 | Veckoinsikter (vault-gated) |
 | `generateWeeklySummary` | v2 | Veckosammanfattning |
@@ -90,6 +94,8 @@
 | `rejectWeaverMetadata` | v2 | Vävaren HITL |
 | `speglingsMirror` | v2 | Speglar |
 | `submitInkastLite` | v2 | Inkast |
+| `weaveJournalEntry` | v2 | Vävaren journal |
+| `onInkastEvidenceFinalized` | v2 | Storage trigger (us-east1) — bevis finalisering |
 
 *Övriga v1 (ej i tabell ovan): `ingestKampsparEntry`, `ingestKnowledgeDocument`, `notifyNewFile`, `scheduledGeneratePayslip`, `scheduledRetentionJob` — se §v1 kvar.*
 
