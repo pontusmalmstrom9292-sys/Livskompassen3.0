@@ -1,6 +1,6 @@
 # Arkitektur + navigation — READ-ONLY analys — 2026-06-15
 
-**Status:** Våg A godkänd 2026-06-15 (Pontus) — implementeras F1→F2→F4→F5  
+**Status:** Våg A implementerad + deployad 2026-06-15 (F1–F5, smoke PASS, hosting live)  
 **Källa:** Cursor-analys mot `gpt-pack-01-arkitektur.md` + levande kod  
 **Relaterat:** [`docs/gpt-handoff/README.md`](../gpt-handoff/README.md) Pack 01 · GPT målbild 4 platser + Fyren i bakgrunden  
 **Transkript:** Cursor agent `39bf9ea8-d5a0-466d-af02-a629d4644ff0`
@@ -18,7 +18,7 @@ Barnfokus · P3 Kanban · Valv Mönster/Orkester · Valv HITL · plausible denia
 ## Nästa steg
 
 1. ~~Pontus: godkänn Våg A~~ **Klart 2026-06-15**
-2. Cursor Agent: implementera F1→F2→F4→F5 + `npm run smoke:locked-ux`
+2. ~~Cursor Agent: implementera F1→F2→F4→F5 + `npm run smoke:locked-ux`~~ **Klart 2026-06-15** (commit `f11d2c946`, hosting deploy)
 3. Våg B: PMIR innan routing-sammanslagningar (H1–H4)
 4. Våg C: strategiska Fyren-beslut (B1–B3) — defer
 
