@@ -3,7 +3,6 @@ import {
   ChevronRight,
   Clock,
   FolderKanban,
-  ListTodo,
   Sparkles,
   Sprout,
   Wallet,
@@ -20,7 +19,6 @@ export type LivLauncherId =
   | 'kompasser'
   | 'ekonomi'
   | 'mabra'
-  | 'handling'
   | 'projekt'
   | 'arbetsliv';
 
@@ -61,14 +59,6 @@ export const LIV_LAUNCHER_CARDS: readonly LauncherCardDef[] = [
     hint: 'KBT, självmedkänsla, vanor',
     icon: Sparkles,
     glow: 'green',
-    external: true,
-  },
-  {
-    id: 'handling',
-    label: 'Handling',
-    hint: 'Kanban — gör, väntar, klart',
-    icon: ListTodo,
-    glow: 'gold',
     external: true,
   },
   {

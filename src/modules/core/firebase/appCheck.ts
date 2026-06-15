@@ -60,11 +60,22 @@ async function doInitAppCheck(): Promise<void> {
       debugTokenFromEnv();
   }
 
-  initializeAppCheck(app, {
+  const appCheck = initializeAppCheck(app, {
     provider: new ReCaptchaV3Provider(siteKey),
     isTokenAutoRefreshEnabled: true,
   });
   initialized = true;
+
+  try {
+    const { getToken } = await import('firebase/app-check');
+    await getToken(appCheck, false);
+  } catch (err) {
+    console.warn(
+      '[AppCheck] Token-utbyte misslyckades (400 = site key ej registrerad i Console för denna web-app, eller fel domän).',
+      'Se docs/evaluations/2026-06-15-appcheck-400-fix.md',
+      err,
+    );
+  }
 }
 
 function debugTokenFromEnv(): string | undefined {

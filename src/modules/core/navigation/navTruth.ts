@@ -193,7 +193,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   },
   {
     id: 'dagbok',
-    label: 'Dagbok',
+    label: 'Hjärtat',
     path: NAV_PATHS.HJARTAT,
     section: 'vardag',
     inDrawer: false,

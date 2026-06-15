@@ -82,7 +82,11 @@ function main() {
     'biometri',
   );
   mustInclude('functions/src/lib/vaultSessionGate.ts', 'assertVaultSession', 'revokeVaultSession', 'vaultSessionGrantsVaultRead');
+  mustInclude('functions/src/callables/unlockVault.ts', 'VAULT_SESSION_IDLE_MS');
+  mustInclude('functions/src/callables/weeklySummary.ts', 'vaultSessionGrantsVaultRead', 'reality_vault');
+  mustInclude('functions/src/callables/compass.ts', 'vaultSessionGrantsVaultRead', 'reality_vault');
   mustInclude('functions/src/callables/generateWeeklyInsights.ts', 'vaultSessionGrantsVaultRead', 'reality_vault');
+  mustInclude('src/modules/reflection/components/WeeklySummary.tsx', 'withVaultSessionPayload', 'generateWeeklyInsights');
   mustInclude(
     'functions/src/callables/agents.ts',
     "guardSensitiveCallableV2(request, 'getAgentRegistry'",
@@ -102,6 +106,7 @@ function main() {
     'FirebaseAppCheck',
     'CustomProvider',
     'Capacitor.isNativePlatform',
+    '2026-06-15-appcheck-400-fix',
   );
   mustInclude('src/modules/core/auth/callableErrorMessage.ts', 'formatCallableError', 'App Check');
   mustInclude('src/modules/core/hooks/useLongPress.ts', 'onTouchCancel');

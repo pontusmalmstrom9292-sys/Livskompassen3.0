@@ -47,7 +47,7 @@ export async function applyVaultJwtClaim(): Promise<{ ok: true } | { ok: false; 
 
 /**
  * Säkerställer JWT vaultUnlocked + client-gate innan direkt Firestore-skriv till reality_vault.
- * Kräver biometri om claim saknas eller har gått ut (15 min).
+ * Kräver biometri om claim saknas eller har gått ut (1 h idle, samma som server-session).
  */
 export async function ensureVaultWriteReady(): Promise<VaultWriteUnlockResult> {
   const { isAuthenticated } = useStore.getState();

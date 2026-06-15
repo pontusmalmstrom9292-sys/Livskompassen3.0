@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { Sparkles, Loader2, Target, AlertTriangle, Lightbulb } from 'lucide-react';
+import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
 
 interface InsightPattern {
   pattern: string;
@@ -25,8 +26,11 @@ export const WeeklySummary: React.FC = () => {
     setError(null);
     try {
       const functions = getFunctions();
-      const callable = httpsCallable<void, WeeklyInsightsResult>(functions, 'generateWeeklyInsights');
-      const res = await callable();
+      const callable = httpsCallable<Record<string, unknown>, WeeklyInsightsResult>(
+        functions,
+        'generateWeeklyInsights',
+      );
+      const res = await callable(withVaultSessionPayload({}));
       setInsights(res.data);
     } catch (err: any) {
       console.error('Error generating insights:', err);

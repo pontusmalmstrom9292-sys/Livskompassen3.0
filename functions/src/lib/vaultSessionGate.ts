@@ -6,10 +6,8 @@ import * as admin from 'firebase-admin';
  * Server Valv-session TTL (1 h idle, sliding refresh on each assert).
  * Match client `VAULT_SESSION_IDLE_MS`.
  *
- * JWT-lager (`unlockVault` → `vaultUnlocked` / `vaultExpiresAt`) är 15 min och styr
- * direkt Firestore-läs via `isVaultUnlocked()` i rules — inte denna token.
- * Medveten asymmetri: callables kräver `vaultSessionToken`; klient-Firestore kräver JWT.
- * Synka TTL endast efter PMIR + explicit godkännande (påverkar UX och säkerhetsfönster).
+ * JWT-lager (`unlockVault` → `vaultUnlocked` / `vaultExpiresAt`) använder samma TTL vid unlock.
+ * Callables: `vaultSessionToken`; klient-Firestore: JWT claims i `isVaultUnlocked()` rules.
  */
 export const VAULT_SESSION_IDLE_MS = 60 * 60 * 1000;
 

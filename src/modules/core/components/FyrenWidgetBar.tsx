@@ -1,7 +1,9 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
+import { hasVaultGate } from '../auth/sessionService';
 import { NAV_PATHS } from '../navigation/navTruth';
+import { useStore } from '../store';
 import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
 import { FyrenProgressRing } from '../ui/FyrenProgressRing';
 import { FyrenShortcutMicIcon, FyrenShortcutNoteIcon } from '../ui/widget-icons';
@@ -33,10 +35,19 @@ const WIDGET_ACTIONS: WidgetAction[] = [
     widgetIcon: 'note',
   },
   { id: 'list', label: 'Lista', to: '/projekt/ny', hubId: 'projekt' },
-  { id: 'plan', label: 'Planering', to: '/planering?tab=handling', hubId: 'planering' },
+  { id: 'plan', label: 'Planering', to: '/planering?tab=handling&picked=1', hubId: 'planering' },
   { id: 'valv', label: 'Valv', to: NAV_PATHS.VALVET, hubId: 'dagbok' },
   { id: 'projekt', label: 'Projekt', to: '/projekt/ny', hubId: 'projekt' },
 ];
+
+const VALV_LOCKED_LABEL = 'Lås upp';
+
+function resolveWidgetActionLabel(action: WidgetAction, vaultSessionOpen: boolean): string {
+  if (action.id === 'valv' && !vaultSessionOpen) {
+    return VALV_LOCKED_LABEL;
+  }
+  return action.label;
+}
 
 function WidgetIcon({ hubId, widgetIcon }: { hubId?: DrawerL2HubId; widgetIcon?: WidgetIconKind }) {
   const cls = 'fyren-widget-bar__drawer-l2';
@@ -85,6 +96,8 @@ function ActionTile({
 export function FyrenWidgetBar() {
   const location = useLocation();
   const { open, setOpen } = useFyrenWidget();
+  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
+  const vaultSessionOpen = isVaultUnlocked || hasVaultGate();
 
   if (location.pathname.startsWith('/widget')) return null;
 
@@ -107,16 +120,21 @@ export function FyrenWidgetBar() {
           className={clsx('fyren-widget-bar__strip', !open && 'fyren-widget-bar__strip--closed')}
           aria-hidden={!open}
         >
-          {WIDGET_ACTIONS.map(({ id, label, to, hubId, widgetIcon }) => (
-            <ActionTile
-              key={id}
-              label={label}
-              to={to}
-              icon={<WidgetIcon hubId={hubId} widgetIcon={widgetIcon} />}
-              tabIndex={open ? 0 : -1}
-              onNavigate={() => setOpen(false)}
-            />
-          ))}
+          {WIDGET_ACTIONS.map((action) => {
+            const label = resolveWidgetActionLabel(action, vaultSessionOpen);
+            return (
+              <ActionTile
+                key={action.id}
+                label={label}
+                to={action.to}
+                icon={
+                  <WidgetIcon hubId={action.hubId} widgetIcon={action.widgetIcon} />
+                }
+                tabIndex={open ? 0 : -1}
+                onNavigate={() => setOpen(false)}
+              />
+            );
+          })}
         </div>
       </div>
     </>

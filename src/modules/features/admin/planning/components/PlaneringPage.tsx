@@ -76,7 +76,8 @@ export function PlaneringPage() {
   const isHub = tab === 'hub';
   const isStart = tab === 'start';
   const isWorkTab = WORK_TABS.has(tab);
-  const showModulValjare = isStart || (tab === 'handling' && !picked && !hasSeenGoraModulValjare());
+  const showModulValjare =
+    tab === 'start' || (tab === 'handling' && !picked && !hasSeenGoraModulValjare());
   const rawInputMode = searchParams.get('inputMode');
   const embeddedInputMode: PlaneringInputMode | null =
     rawInputMode && isPlaneringInputMode(rawInputMode) ? rawInputMode : null;
@@ -87,6 +88,12 @@ export function PlaneringPage() {
       markGoraModulValjareSeen();
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    if (tab === 'handling' && !showModulValjare) {
+      markGoraModulValjareSeen();
+    }
+  }, [tab, showModulValjare]);
 
   const title = PLANERING_VIEW_TITLES[tab];
   const lead = isStart || showModulValjare ? PLANERING_HUB_LEAD : PLANERING_TAGLINE;

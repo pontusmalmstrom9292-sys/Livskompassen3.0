@@ -34,7 +34,7 @@ const DOCK_ZONES: DockZone[] = [
   },
   {
     id: 'dagbok',
-    label: getNavTruthById('dagbok')?.label ?? 'Dagbok',
+    label: getNavTruthById('dagbok')?.label ?? 'Hjärtat',
     to: NAV_PATHS.HJARTAT,
     drawerIcon: 'dagbok',
     match: (pathname) =>

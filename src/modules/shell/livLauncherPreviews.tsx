@@ -4,7 +4,6 @@ type LivLauncherId =
   | 'kompasser'
   | 'ekonomi'
   | 'mabra'
-  | 'handling'
   | 'projekt'
   | 'arbetsliv';
 
@@ -22,13 +21,6 @@ export const LIV_LAUNCHER_PREVIEWS: Record<LivLauncherId, ReactNode> = {
   mabra: (
     <div className="liv-launcher-card__preview text-[10px] text-text-dim">
       Akut · Daglig mix · Ett steg
-    </div>
-  ),
-  handling: (
-    <div className="liv-launcher-card__preview grid grid-cols-3 gap-0.5 text-[8px] uppercase text-text-dim">
-      <span>Att göra</span>
-      <span>Väntar</span>
-      <span>Klart</span>
     </div>
   ),
   projekt: (
