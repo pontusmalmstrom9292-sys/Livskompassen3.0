@@ -78,7 +78,8 @@ Kort översikt utan prompter. Detaljer och prompter: [`README.md`](./README.md) 
 | | |
 |---|---|
 | **Modell** | Claude Sonnet 4.6 |
-| **Vänta** | Dag 3 klar |
+| **Helprompt** | [`PHASE-04-FULL-PROMPT.md`](./PHASE-04-FULL-PROMPT.md) |
+| **Vänta** | Dag 3 klar (CHECKPOINT-3 PASS) |
 | **Gör** | Filer i `CapturePanel` över alla Superhubs |
 | **Smoke** | `npm run build` · `smoke:locked-ux` |
 | **Snapshot** | `snapshot_locked_module.sh upload-unified` om LOCK |

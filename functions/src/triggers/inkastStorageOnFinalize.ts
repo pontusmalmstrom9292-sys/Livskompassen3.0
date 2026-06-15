@@ -1,7 +1,7 @@
 import { onObjectFinalized } from 'firebase-functions/v2/storage';
 import * as admin from 'firebase-admin';
 import { randomUUID } from 'crypto';
-import { GCP_REGION } from '../config';
+import { GCP_STORAGE_BUCKET, GCP_STORAGE_TRIGGER_REGION } from '../config';
 import {
   classifyInboxDocument,
   applyInkastConfidenceGate,
@@ -19,7 +19,8 @@ const INKAST_PATH_RE = /^vault_evidence\/([^/]+)\/inkast\//;
  */
 export const onInkastEvidenceFinalized = onObjectFinalized(
   {
-    region: GCP_REGION,
+    bucket: GCP_STORAGE_BUCKET,
+    region: GCP_STORAGE_TRIGGER_REGION,
   },
   async (event) => {
     const object = event.data;

@@ -1,8 +1,10 @@
 # PHASE-04 — Frontend upload (alla Superhubs)
 
 **Modell:** Claude Sonnet 4.6 (alt. Gemini 3 Flash)  
-**SEKVENTIELL** — vänta CHECKPOINT-3  
+**SEKVENTIELL** — CHECKPOINT-3 PASS  
 **Repomix:** `gemini-pack-inkast.md` + backend-ändringar från PHASE-03
+
+**→ Kopiera-klar helprompt:** [`PHASE-04-FULL-PROMPT.md`](./PHASE-04-FULL-PROMPT.md) (Master + bifogningar + uppdrag i ett dokument)
 
 ---
 
