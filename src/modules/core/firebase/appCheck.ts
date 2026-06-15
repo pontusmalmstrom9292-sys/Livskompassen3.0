@@ -46,7 +46,14 @@ async function doInitAppCheck(): Promise<void> {
   }
 
   const siteKey = import.meta.env.VITE_APP_CHECK_RECAPTCHA_SITE_KEY;
-  if (!siteKey) return;
+  if (!siteKey) {
+    if (!import.meta.env.DEV) {
+      console.error(
+        '[AppCheck] VITE_APP_CHECK_RECAPTCHA_SITE_KEY saknas i build — Valv-callables blockeras (APP_CHECK_ENFORCE).',
+      );
+    }
+    return;
+  }
 
   if (import.meta.env.DEV && debugTokenFromEnv()) {
     (globalThis as unknown as { FIREBASE_APPCHECK_DEBUG_TOKEN?: string }).FIREBASE_APPCHECK_DEBUG_TOKEN =

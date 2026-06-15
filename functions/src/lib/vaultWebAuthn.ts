@@ -22,10 +22,15 @@ const DEFAULT_ORIGINS = [
   'http://127.0.0.1:5173',
   'http://localhost:4173',
   'https://gen-lang-client-0481875058.web.app',
+  'https://gen-lang-client-0481875058.firebaseapp.com',
   'https://localhost',
 ];
 
-const DEFAULT_RP_IDS = ['localhost', 'gen-lang-client-0481875058.web.app'];
+const DEFAULT_RP_IDS = [
+  'localhost',
+  'gen-lang-client-0481875058.web.app',
+  'gen-lang-client-0481875058.firebaseapp.com',
+];
 
 type StoredVaultCredential = {
   credentialID: string;

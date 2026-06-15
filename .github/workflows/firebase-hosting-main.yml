@@ -49,6 +49,8 @@ jobs:
           VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
           VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
           VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+          # Krävs när functions APP_CHECK_ENFORCE=true (Valv unlock, inkast, …)
+          VITE_APP_CHECK_RECAPTCHA_SITE_KEY: ${{ secrets.VITE_APP_CHECK_RECAPTCHA_SITE_KEY }}
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2

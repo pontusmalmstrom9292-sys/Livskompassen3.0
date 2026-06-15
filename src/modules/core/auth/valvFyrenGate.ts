@@ -45,7 +45,7 @@ export async function openValvViaFyren(
   if (webAuthnOk) {
     const webAuthn = await performVaultWebAuthnForSession();
     if (webAuthn.ok === false) {
-      options?.onDenied?.('WebAuthn verifiering misslyckades.');
+      options?.onDenied?.(webAuthn.message);
       return false;
     }
 

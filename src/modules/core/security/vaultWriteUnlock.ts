@@ -5,6 +5,7 @@ import {
   ensureVaultServerSessionFromGate,
   withVaultSessionPayload,
 } from '../auth/vaultServerSession';
+import { formatCallableError } from '../auth/callableErrorMessage';
 import { functions } from '../firebase/init';
 import { useStore } from '../store';
 import { syncVaultUnlockedFromGate } from './vaultSessionLifecycle';
@@ -40,7 +41,7 @@ export async function applyVaultJwtClaim(): Promise<{ ok: true } | { ok: false; 
     return { ok: true };
   } catch (err) {
     console.error('[vaultWriteUnlock] applyVaultJwtClaim:', err);
-    return { ok: false, message: 'Kunde inte verifiera Valv-upplåsning via servern.' };
+    return { ok: false, message: formatCallableError(err) };
   }
 }
 

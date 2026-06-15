@@ -478,7 +478,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
         <BentoCard title="Dossier-Generator" icon={<Lock className="h-4 w-4" />}>
           <p className="mb-4 text-sm text-text-muted">
             Dossier kräver upplåst Valv (Fyren). I bottenmenyn: tryck på <strong>Hjärtat</strong>{' '}
-            (bok-ikonen) och <strong>håll 3 sekunder</strong>, eller öppna Arkiv och ange PIN.
+            (bok-ikonen) och <strong>håll 3 sekunder</strong>, eller öppna Valvet och tryck <strong>Lås upp Valvet (biometri)</strong>.
           </p>
           <Link
             to="/valvet"

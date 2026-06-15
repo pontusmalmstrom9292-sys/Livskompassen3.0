@@ -143,7 +143,7 @@ export async function ensureVaultServerSessionFromGate(): Promise<VaultSessionIs
   if (webAuthnOk) {
     const webAuthn = await performVaultWebAuthnForSession();
     if (webAuthn.ok === false) {
-      return { ok: false, message: 'WebAuthn verifiering misslyckades.' };
+      return { ok: false, message: webAuthn.message };
     }
     return issueVaultServerSession(webAuthn.response);
   }

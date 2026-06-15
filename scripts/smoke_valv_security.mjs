@@ -99,6 +99,8 @@ function main() {
   mustInclude('functions/src/lib/rateLimit.ts', 'assertRateLimit', '_rate_limits');
   mustInclude('firestore.rules', 'isVerifiedUser', 'isValidRealityVaultCreate');
   mustInclude('functions/src/index.ts', 'issueVaultSession', 'beginVaultWebAuthnChallenge', 'invalidateSession');
+  mustInclude('.github/workflows/firebase-hosting-main.yml', 'VITE_APP_CHECK_RECAPTCHA_SITE_KEY');
+  mustInclude('functions/src/lib/vaultWebAuthn.ts', 'gen-lang-client-0481875058.firebaseapp.com');
   const authSvc = read('src/modules/core/auth/authService.ts');
   assert(authSvc.includes('export async function signOutUser'), 'authService.ts saknar signOutUser');
   const signOutBody = authSvc.match(/export async function signOutUser\(\)[^{]*\{([\s\S]*?)^\}/m);
