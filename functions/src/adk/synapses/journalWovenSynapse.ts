@@ -30,6 +30,25 @@ export async function handleJournalWoven(payload: JournalWovenPayload): Promise<
     throw new Error('journal_woven: ownerId, journalEntryId och mood krävs');
   }
 
+  const existing = await admin
+    .firestore()
+    .collection('kampspar')
+    .where('ownerId', '==', ownerId)
+    .where('journalEntryId', '==', journalEntryId)
+    .where('source', '==', 'journal_woven')
+    .limit(1)
+    .get();
+
+  if (!existing.empty) {
+    const prior = existing.docs[0];
+    const embeddingDim =
+      typeof prior.data().embeddingDim === 'number' ? prior.data().embeddingDim : null;
+    console.log(
+      `[Synapse:journal_woven] duplicate journalEntryId=${journalEntryId} uid=${ownerId} docId=${prior.id}`
+    );
+    return { kampsparDocId: prior.id, embeddingDim };
+  }
+
   const trimmed = text?.trim() ?? '';
   const summary =
     trimmed.length > 0

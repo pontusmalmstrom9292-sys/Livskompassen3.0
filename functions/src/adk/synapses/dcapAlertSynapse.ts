@@ -35,6 +35,20 @@ export async function handleDcapAlert(payload: DcapAlertPayload): Promise<DcapAl
     return { alertId: '', hitlRequired: false };
   }
 
+  const existing = await admin
+    .firestore()
+    .collection('dcap_alerts')
+    .where('ownerId', '==', ownerId)
+    .where('inputHash', '==', inputHash)
+    .limit(1)
+    .get();
+
+  if (!existing.empty) {
+    const priorId = existing.docs[0].id;
+    console.log(`[Synapse:dcap_alert] duplicate inputHash uid=${ownerId} alertId=${priorId}`);
+    return { alertId: priorId, hitlRequired: true };
+  }
+
   const docRef = await admin.firestore().collection('dcap_alerts').add({
     ownerId,
     userId: ownerId,
