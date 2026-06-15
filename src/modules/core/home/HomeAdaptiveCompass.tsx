@@ -28,6 +28,7 @@ import { getHomeQuickNavForPreset, quickNavGridClass } from './homeQuickNav';
 import { HomeSuperhubShortcuts } from './HomeSuperhubShortcuts';
 import { HomeForgeKompassBridge } from './HomeForgeKompassBridge';
 import { HomeKompassDiscoverySection } from './HomeKompassDiscoverySection';
+import { BentoCard } from '@/shared/ui/BentoCard';
 
 function phaseToCompassFlow(phase: HomeCompassPhase): CompassFlow {
   if (phase === 'morgon') return 'morning';
@@ -160,9 +161,13 @@ export function HomeAdaptiveCompass({
             <KompassradPanel />
           </div>
 
-          <div
+          <BentoCard
+            bare
+            depth
+            glow="gold"
+            noHover
             className={clsx(
-              'home-adaptive-compass__card home-adaptive-compass__card--depth calm-card glow-bottom-gold flex flex-col overflow-hidden rounded-2xl transition-all duration-700',
+              'home-adaptive-compass__card home-adaptive-compass__card--depth flex flex-col overflow-hidden !rounded-[14px] border-[2px] border-accent/25 transition-all duration-700',
               phaseGlowClasses(activePhase),
             )}
           >
@@ -336,7 +341,7 @@ export function HomeAdaptiveCompass({
                 {inkastOpen ? <CaptureSuperModule variant="kompass" onSaved={onSaved} /> : null}
               </section>
             ) : null}
-          </div>
+          </BentoCard>
         </div>
       ) : forgeActive ? null : (
         <p className="text-center text-xs text-text-dim">

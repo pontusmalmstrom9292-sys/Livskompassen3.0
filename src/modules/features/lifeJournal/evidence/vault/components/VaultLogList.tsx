@@ -1,6 +1,7 @@
 import { memo, useEffect, useRef, type RefObject } from 'react';
 import { FileDown, Loader2, Lock } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import './valv.css';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { useVaultStore } from '@/core/store/useVaultStore';
 import type { VaultLog, WeaverTags } from '@/core/types/firestore';
@@ -95,22 +96,20 @@ const LogRow = memo(function LogRow({
     <li
       key={log.id}
       ref={log.id === highlightLogId ? highlightRef : undefined}
-      className={`p-3 text-sm rounded-xl bg-surface-2/40 border transition-all ${
-        log.pinned ? 'border-gold/30 bg-gold/5' : 'border-border-strong/60'
-      } ${
-        log.id === highlightLogId ? 'ring-2 ring-accent/50' : ''
-      } ${vavaren ? 'border-indigo-400/20 bg-indigo-500/5' : ''}`}
+      className={`valv-log-row ${
+        log.pinned ? 'valv-log-row--anchor' : ''
+      } ${log.id === highlightLogId ? 'valv-log-row--highlight' : ''} ${
+        vavaren ? 'valv-log-row--vavaren' : ''
+      }`}
     >
       <div className="flex items-start justify-between gap-2">
         <div>
-          <div className="flex items-center gap-1.5 text-text-dim mb-1">
+          <div className="valv-log-stamp mb-1">
             <Lock className="text-indigo-400/60" size={12} />
-            <p className="text-[10px] font-mono uppercase tracking-widest">
-              SERVER-TIDSSTÄMPEL · {formatServerTimestamp(log.createdAt)}
-            </p>
+            <p>SERVER-TIDSSTÄMPEL · {formatServerTimestamp(log.createdAt)}</p>
           </div>
-          <p className="text-[10px] text-text-dim font-mono">ID · {log.id.slice(0, 12)}…</p>
-          <p className="mt-1 text-[10px] uppercase tracking-widest text-text-dim">
+          <p className="valv-log-meta font-mono">ID · {log.id.slice(0, 12)}…</p>
+          <p className="valv-log-meta mt-1">
             {log.pinned ? 'Ankare · ' : ''}
             {vavaren ? VAVAREN_LOG_CATEGORY_LABEL : (log.category ?? 'allmänt')}
             {!vavaren && log.entryType ? ` · ${log.entryType}` : ''} · {formatLogDate(log.createdAt)}
@@ -203,7 +202,13 @@ export const VaultLogList = memo(function VaultLogList({
   }, [highlightLogId, logs.length]);
 
   return (
-    <BentoCard title="Bevisarkiv">
+    <BentoCard
+      title="Bevisarkiv"
+      glow="blue"
+      depth
+      noHover
+      className="mt-4"
+    >
       {onLogFirstBevis && (
         <div className="mb-3 flex justify-end">
           <button type="button" onClick={onLogFirstBevis} className="btn-pill--secondary text-sm">
@@ -227,10 +232,10 @@ export const VaultLogList = memo(function VaultLogList({
         <div className="space-y-4">
           {pinned.length > 0 && (
             <div>
-              <p className="mb-2 text-[10px] uppercase tracking-widest text-gold/80 flex items-center gap-1.5">
+              <p className="mb-2 flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-gold/80">
                 <Lock size={10} className="text-gold/60" /> Sanningens Ankare
               </p>
-              <ul className="space-y-3">
+              <ul className="valv-log-list">
                 {pinned.map((log) => (
                   <LogRow
                     key={log.id}
@@ -243,7 +248,7 @@ export const VaultLogList = memo(function VaultLogList({
               </ul>
             </div>
           )}
-          <ul className="space-y-3">
+          <ul className="valv-log-list">
           {rest.map((log) => (
             <LogRow
               key={log.id}

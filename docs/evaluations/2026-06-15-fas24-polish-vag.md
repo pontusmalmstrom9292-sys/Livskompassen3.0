@@ -1,6 +1,6 @@
 # Fas 24 — polish-våg (ej P0) — 2026-06-15
 
-**Status:** **done** (kod) · App Check Console = **USER**
+**Status:** **done** (kod + smoke 2026-06-15) · App Check Console = **USER**
 
 ## Scope levererat
 

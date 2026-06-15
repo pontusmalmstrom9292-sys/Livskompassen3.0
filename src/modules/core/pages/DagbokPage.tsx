@@ -4,6 +4,7 @@ import { ModuleShell } from '../layout/ModuleShell';
 import { NAV_PATHS } from '../navigation/navTruth';
 import { dagbokLegacyModeToInputMode } from '@/features/lifeJournal/diary/supermodule/dagbokInputModes';
 import { SpeglarSuperModule } from '@/features/lifeJournal/diary/mirror';
+import { HjartatBentoShell } from '@/features/lifeJournal/diary/components/HjartatBentoShell';
 
 const DagbokInputSuperModule = lazy(() =>
   import('@/features/lifeJournal/diary/supermodule/DagbokInputSuperModule').then((m) => ({
@@ -66,7 +67,9 @@ export function DagbokPage() {
         depth
         cognitiveStrip={false}
       >
-        <SpeglarSuperModule variant="dagbok" />
+        <HjartatBentoShell>
+          <SpeglarSuperModule variant="dagbok" />
+        </HjartatBentoShell>
       </ModuleShell>
     );
   }
@@ -81,7 +84,9 @@ export function DagbokPage() {
       depth
       cognitiveStrip={false}
     >
-      <HjartatReflektionPanel />
+      <HjartatBentoShell>
+        <HjartatReflektionPanel />
+      </HjartatBentoShell>
     </ModuleShell>
   );
 }

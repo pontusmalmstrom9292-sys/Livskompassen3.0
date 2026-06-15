@@ -3,6 +3,7 @@ import { CompassModuleStrip } from '@/features/dailyLife/wellbeing/compasses/com
 import { KompassradPanel } from '@/features/dailyLife/wellbeing/compasses/components/KompassradPanel';
 import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 import { EVENING_HERO, getFlowConfig } from '@/features/dailyLife/wellbeing/compasses/config/compassFlows';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { HomeQuickModules } from './HomeQuickModules';
 
 type Props = {
@@ -25,11 +26,11 @@ export function HomeActionHub({ onCheckInSaved }: Props) {
 
   return (
     <header className="home-action-hub space-y-4">
-      <div className="home-action-hub__head px-0.5">
+      <BentoCard glow="gold" depth className="home-action-hub__head rounded-[14px] border-[2px] border-accent/25 px-4 py-4 sm:px-5">
         <p className="home-page__eyebrow">{greeting.eyebrow}</p>
         <h2 className="home-page__title text-xl">{greeting.title}</h2>
         <p className="home-page__lead text-xs">{greeting.lead}</p>
-      </div>
+      </BentoCard>
 
       <KompassradPanel />
       <CompassModuleStrip onCheckInSaved={onCheckInSaved} />

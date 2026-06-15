@@ -1,3 +1,4 @@
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { getCompassAdvice, getCompassFlowMeta } from '../utils/compassAdvice';
 
 const TAGS = [
@@ -12,7 +13,12 @@ export function KompassradPanel() {
   const advice = getCompassAdvice(meta.flow);
 
   return (
-    <div className="elongated-module elongated-module--gold p-4">
+    <BentoCard
+      glow="gold"
+      depth
+      noHover
+      className="rounded-[14px] border-[2px] border-accent/30 !p-4"
+    >
       <p className="font-display-serif text-[10px] uppercase tracking-[0.2em] text-text-dim">
         Kompassråd · {meta.label}
       </p>
@@ -28,6 +34,6 @@ export function KompassradPanel() {
           </span>
         ))}
       </div>
-    </div>
+    </BentoCard>
   );
 }

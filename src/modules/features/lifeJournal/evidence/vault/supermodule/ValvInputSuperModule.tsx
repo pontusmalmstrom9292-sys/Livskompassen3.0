@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
-import { Archive } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import '../components/valv.css';
 import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
 import { ValvSuperModule } from '../components/ValvSuperModule';
 import { ValvInputModePicker } from './ValvInputModePicker';
@@ -53,19 +53,16 @@ export function ValvInputSuperModule({
 
   return (
     <BentoCard
-      title="Valv"
-      icon={<Archive className="h-4 w-4" />}
       glow="blue"
+      depth
+      noHover
+      bare
       className="overflow-hidden !p-4 sm:!p-5"
     >
-      <header className="mb-3 space-y-1">
-        <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
-          Sanningsarkiv
-        </p>
-        <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">
-          {activeDef.label}
-        </h2>
-        <p className="text-xs text-text-dim">{activeDef.description}</p>
+      <header className="valv-forensic-header">
+        <p className="valv-forensic-eyebrow">Sanningsarkiv</p>
+        <h2 className="valv-forensic-title">{activeDef.label}</h2>
+        <p className="valv-forensic-lead">{activeDef.description}</p>
       </header>
 
       <ValvInputModePicker activeMode={activeMode} onChange={setMode} />

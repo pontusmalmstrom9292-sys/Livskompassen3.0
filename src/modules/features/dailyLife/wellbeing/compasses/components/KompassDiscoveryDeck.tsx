@@ -3,6 +3,7 @@ import {
   DISCOVERY_BENTO_CATALOG,
   type DiscoveryCategoryId,
 } from '../content/discoveryBentoCatalog';
+import { discoveryAccentGlowClass } from '../lib/discoveryAccentGlow';
 
 type Props = {
   className?: string;
@@ -24,7 +25,12 @@ export function KompassDiscoveryDeck({ className, variant = 'default', onSelect 
             key={cat.id}
             type="button"
             role="listitem"
-            className={clsx(`${prefix}-card`, `${prefix}-card--${cat.accent}`)}
+            className={clsx(
+              `${prefix}-card`,
+              'calm-card bento-card !rounded-[14px] border-[2px] border-accent/20',
+              discoveryAccentGlowClass(cat.accent),
+              `${prefix}-card--${cat.accent}`,
+            )}
             onClick={() => onSelect(cat.id)}
           >
             <span className={clsx(`${prefix}-card-label`)}>{cat.label_sv}</span>

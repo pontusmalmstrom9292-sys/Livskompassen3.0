@@ -23,6 +23,10 @@ export type BentoCardProps = {
   depth?: boolean;
   /** Obsidian Calm 2.0 — färgkodad botten-glow per silo */
   glow?: CalmCardGlow;
+  /** Skip default p-5 padding — for composite hub shells */
+  bare?: boolean;
+  /** Disable hover lift on dense hub layouts */
+  noHover?: boolean;
 };
 
 export function BentoCard({
@@ -34,6 +38,8 @@ export function BentoCard({
   variant = 'default',
   depth = false,
   glow,
+  bare = false,
+  noHover = false,
 }: BentoCardProps) {
   return (
     <section
@@ -42,8 +48,11 @@ export function BentoCard({
         depth && 'module-bento-card--depth',
         glow && GLOW_CLASS[glow],
         variant === 'default' &&
-          'border-glass-border bg-surface-2/60 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-[0_15px_40px_rgba(0,0,0,0.6)]',
-        'p-5',
+          'border-glass-border bg-surface-2/60 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300',
+        variant === 'default' &&
+          !noHover &&
+          'hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-[0_15px_40px_rgba(0,0,0,0.6)]',
+        !bare && 'p-5',
         className
       )}
     >

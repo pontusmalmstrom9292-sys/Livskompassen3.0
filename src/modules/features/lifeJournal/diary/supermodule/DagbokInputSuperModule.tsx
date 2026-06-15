@@ -78,8 +78,10 @@ export function DagbokInputSuperModule({
     <BentoCard
       title="Superdagbok"
       icon={<BookOpen className="h-4 w-4" />}
-      glow="blue"
-      className="overflow-hidden !p-4 sm:!p-5"
+      glow="gold"
+      depth
+      noHover
+      className="hjartat-tab-panel overflow-hidden !p-4 sm:!p-5"
     >
       <header className="mb-4 space-y-2">
         <div className="space-y-1">
@@ -121,7 +123,7 @@ export function DagbokInputSuperModule({
 
       <DagbokRememberCard />
 
-      <div className="reflektion-hub-body mt-4">
+      <div className="reflektion-hub-body hjartat-reflektion-wizard mt-4">
         <DagbokInputModeDelegate mode={activeMode} onSaved={handleDelegateSaved} />
       </div>
     </BentoCard>

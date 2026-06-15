@@ -1,10 +1,11 @@
 # GCP / Firebase-inventering — LIVE (senast)
 
-**Datum:** 2026-06-11 (synk WebAuthn + Barnporten pairings)  
+**Datum:** 2026-06-15 (refresh efter backend Våg 2) · tidigare 2026-06-11  
 **Projekt:** `gen-lang-client-0481875058` (number `1084026575972`)  
 **Metod:** `firebase functions:list`, `gcloud ai indexes list`, `gcloud ai index-endpoints describe`  
 **Beslut:** [`GCP-KONSOLIDERING-BESLUT.md`](GCP-KONSOLIDERING-BESLUT.md)  
-**Ersätter för beslut:** [`docs/archive/GCP-INVENTORY-2026-05-21.md`](archive/GCP-INVENTORY-2026-05-21.md)
+**Ersätter för beslut:** [`docs/archive/GCP-INVENTORY-2026-05-21.md`](archive/GCP-INVENTORY-2026-05-21.md)  
+**Backend Våg 2:** [`evaluations/2026-06-15-backend-vag2-hardening.md`](evaluations/2026-06-15-backend-vag2-hardening.md)
 
 ---
 
@@ -24,53 +25,73 @@
 | `beginVaultWebAuthnChallenge` | **deployad** | WebAuthn challenge före Valv-session |
 | `createBarnportenPairing` / `claimBarnportenPairing` | **deployad** | Barnporten QR |
 | `user_widgets` rules | **deployad** | WH1–WH4 widget-sparning |
+| Callable guards Våg 2 | **kod klar** | `getAgentRegistry`, Barnporten pairings, `generatePayslip`, `analyzeProjectImage` — se backend-vag2 eval |
+| `user_overwhelm` emitter | **kod klar** | `breakDownResponse` → `emitSynapse` |
 
 ---
 
 ## Deployade Cloud Functions
 
-**Totalt:** 35 functions (exporter i `index.ts`) · **europe-west1** · Node.js 20 · 0 Python legacy  
+**Totalt:** 49 functions live (`firebase functions:list` 2026-06-15) · **44 v2** + **5 v1** · **europe-west1** · Node.js 20  
 **Källa:** `functions/src/index.ts` (exporter) · verifiera live: `firebase functions:list`
 
-### Callable / HTTP (komplett)
+### v1 kvar (5)
+
+| Function | Trigger | Roll |
+|----------|---------|------|
+| `ingestKampsparEntry` | callable | Kunskap ingest |
+| `ingestKnowledgeDocument` | callable | Kunskap ingest |
+| `notifyNewFile` | HTTPS webhook | Drive → synapse |
+| `scheduledGeneratePayslip` | scheduled | Arbetsliv cron |
+| `scheduledRetentionJob` | scheduled | GDPR retention |
+
+### Callable / HTTP (v2 — urval; full lista live)
 
 | Function | Version | Silo / roll |
 |----------|---------|-------------|
 | `addEntityProfile` | v2 | G9 entiteter |
-| `analyzeMessage` | v1 | BIFF / Hamn |
-| `approveWeaverMetadata` | v1 | Vävaren HITL |
-| `breakDownResponse` | v1 | Kompis / Paralys |
+| `analyzeMessage` | v2 | BIFF / Hamn |
+| `approveWeaverMetadata` | v2 | Vävaren HITL |
 | `childrenLogsQuery` | v2 | Barnen RAG |
 | `confirmInboxItem` | v2 | G10 inkorg |
 | `dismissInboxItem` | v2 | G10 inkorg |
-| `generateDossier` | v1 | Dossier PDF |
-| `generateEmbedding` | v1 | Vector |
-| `generatePayslip` | v1 | Arbetsliv |
-| `getAgentRegistry` | v1 | A2A |
+| `generateWeeklyInsights` | v2 | Veckoinsikter (vault-gated) |
+| `generateWeeklySummary` | v2 | Veckosammanfattning |
+| `parseVoiceCommand` | v2 | Inkast röst |
+| `unlockVault` | v2 | JWT vault claims |
+| `analyzeProjectImage` | v2 | Projekt OCR |
+| `breakDownResponse` | v2 | Paralys → `user_overwhelm` synapse |
+| `calculateSmartAllocation` | v2 | Ekonomi |
+| `chatWithKompis` | v2 | Kompis |
+| `generateCompassInsight` | v2 | Morgonkompass |
+| `issueVaultSessionViaBiometric` | v2 | Native biometric session |
+| `mabraEconomySync` | v2 | Firestore trigger |
+| `onVaultCreatePatternScan` | v2 | Firestore trigger |
+| `rescanPatternMetadata` | v2 | Mönster |
+| `writePatternScanMetadataCallable` | v2 | Mönster metadata |
+| `generateDossier` | v2 | Dossier export |
+| `generateEmbedding` | v2 | Vector |
+| `generatePayslip` | v2 | Arbetsliv |
+| `getAgentRegistry` | v2 | A2A |
 | `getContextCacheStatus` | v2 | G12 cache |
 | `getEntityProfileRegistry` | v2 | G9 entiteter |
 | `getInboxQueue` | v2 | G10 inkorg |
-| `ingestKampsparEntry` | v1 | Kunskap ingest |
-| `ingestKnowledgeDocument` | v1 | Kunskap ingest |
-| `ingestWidgetRecording` | v1 | WH1 → valv |
-| `invalidateSession` | v1 | Zero Footprint |
+| `ingestWidgetRecording` | v2 | WH1 → valv |
+| `invalidateSession` | v2 | Zero Footprint |
 | `beginVaultWebAuthnChallenge` | v2 | WebAuthn challenge (Valv) |
-| `createBarnportenPairing` | v1 | Barnporten QR skapa |
-| `claimBarnportenPairing` | v1 | Barnporten QR claim |
+| `createBarnportenPairing` | v2 | Barnporten QR skapa |
+| `claimBarnportenPairing` | v2 | Barnporten QR claim |
 | `issueVaultSession` | v2 | Valv server-session gate (WebAuthn) |
-| `journalQuickMirror` | v1 | Dagbok snabb |
-| `journalWovenToKampspar` | v1 | G7 opt-in |
+| `journalQuickMirror` | v2 | Dagbok snabb |
+| `journalWovenToKampspar` | v2 | G7 opt-in |
 | `knowledgeVaultQuery` | v2 | Kunskap RAG |
-| `mabraCoach` | v1 | MåBra |
-| `notifyNewFile` | v1 | Drive webhook → synapse |
+| `mabraCoach` | v2 | MåBra |
 | `previewInboxClassification` | v2 | G10 inkorg |
-| `rejectWeaverMetadata` | v1 | Vävaren HITL |
-| `scheduledGeneratePayslip` | v1 | Arbetsliv cron |
-| `scheduledRetentionJob` | v1 | G5 retention |
-| `speglingsMirror` | v1 | Speglar |
+| `rejectWeaverMetadata` | v2 | Vävaren HITL |
+| `speglingsMirror` | v2 | Speglar |
 | `submitInkastLite` | v2 | Inkast |
-| `valvChatQuery` | v2 | Valv RAG |
-| `weaveJournalEntry` | v1 | Vävaren async |
+
+*Övriga v1 (ej i tabell ovan): `ingestKampsparEntry`, `ingestKnowledgeDocument`, `notifyNewFile`, `scheduledGeneratePayslip`, `scheduledRetentionJob` — se §v1 kvar.*
 
 Full lista live: `firebase functions:list --project gen-lang-client-0481875058`
 

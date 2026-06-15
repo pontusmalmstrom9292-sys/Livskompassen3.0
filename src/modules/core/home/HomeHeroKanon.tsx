@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { useTheme } from '../theme';
 import { getTheme } from '../theme';
 import { isMockupTheme } from '../theme/mockupTheme';
@@ -25,9 +26,13 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
 
   const header = (
     <div className="home-hero-kanon__header">
-      <div
+      <BentoCard
+        bare
+        depth
+        glow="gold"
+        noHover
         className={clsx(
-          'home-greeting-module',
+          'home-greeting-module overflow-hidden !rounded-[14px] border-[2px] border-accent/30',
           designPackActive && 'home-greeting-module--design-pack',
         )}
       >
@@ -38,7 +43,7 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
           </p>
           <HomeStreakChip />
         </div>
-      </div>
+      </BentoCard>
     </div>
   );
 

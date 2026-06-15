@@ -12,12 +12,12 @@ import { ensureVaultSessionReady, endVaultSession } from '@/core/security/vaultS
 import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
 import { VaultErrorBoundary } from './VaultErrorBoundary';
 import { VaultLockedGate } from '@/core/components/VaultLockedGate';
+import { ValvBentoShell } from './ValvBentoShell';
 import { ValvInputSuperModule } from '../supermodule/ValvInputSuperModule';
 import {
   type ValvInputMode,
   canonicalValvRoute,
   resolveValvInputModeFromVaultTab,
-  valvInputModeDef,
   vaultTabForValvInputMode,
 } from '../supermodule/valvInputModes';
 import { resolveValvZone, type VaultTab } from '../utils/vaultTabs';
@@ -170,26 +170,40 @@ function VaultPageInner({
 
   if (!gateOk) {
     return (
-      <BentoCard
-        title={embedded ? 'Valv · Baksida' : VAULT_UI_NAME}
-        description="Skyddad zon — biometri krävs"
-        icon={<ShieldAlert className="h-4 w-4" />}
-      >
-        <VaultLockedGate variant="card" />
-      </BentoCard>
+      <ValvBentoShell>
+        <BentoCard
+          title={embedded ? 'Valv · Baksida' : VAULT_UI_NAME}
+          description="Skyddad zon — biometri krävs"
+          icon={<ShieldAlert className="h-4 w-4" />}
+          glow="blue"
+          depth
+          noHover
+        >
+          <VaultLockedGate variant="card" />
+        </BentoCard>
+      </ValvBentoShell>
     );
   }
 
   if (!user) {
     return (
-      <BentoCard title={VAULT_UI_NAME} icon={<Lock className="h-4 w-4" />}>
-        <p className="text-sm text-text-dim">Ansluter till valvet…</p>
-      </BentoCard>
+      <ValvBentoShell>
+        <BentoCard
+          title={VAULT_UI_NAME}
+          icon={<Lock className="h-4 w-4" />}
+          glow="blue"
+          depth
+          noHover
+        >
+          <p className="text-sm text-text-dim">Ansluter till valvet…</p>
+        </BentoCard>
+      </ValvBentoShell>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <ValvBentoShell>
+      <div className="space-y-4">
       <div className="flex items-start justify-between gap-2 px-1">
         <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
         <div className="flex shrink-0 items-center gap-1">
@@ -218,8 +232,6 @@ function VaultPageInner({
         </p>
       ) : null}
 
-      <p className="px-1 text-sm text-text-muted">{valvInputModeDef(valvMode).description}</p>
-
       <ValvInputSuperModule
         activeMode={valvMode}
         onModeChange={setValvMode}
@@ -231,6 +243,7 @@ function VaultPageInner({
         onCitationClick={handleCitationClick}
         onVaultTabChange={setVaultTab}
       />
-    </div>
+      </div>
+    </ValvBentoShell>
   );
 }

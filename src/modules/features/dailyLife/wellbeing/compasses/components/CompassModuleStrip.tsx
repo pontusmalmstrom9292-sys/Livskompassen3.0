@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { clsx } from 'clsx';
 import { ElongatedModule } from '@/core/ui/ElongatedModule';
 import type { ElongatedModuleTone } from '@/core/ui/ElongatedModule';
 import { COMPASS_FLOWS, EVENING_HERO } from '../config/compassFlows';
@@ -58,7 +59,13 @@ export function CompassModuleStrip({ onCheckInSaved }: Props) {
         const { iconId } = COMPASS_FLOW_TIME_ICON[flow.id];
         const timeIconSrc = COMPASS_TIME_ICON_SRC[iconId];
         return (
-          <div key={flow.id} className="compass-module-block">
+          <div
+            key={flow.id}
+            className={clsx(
+              'compass-module-block',
+              timeFlow === flow.id && 'compass-module-block--active',
+            )}
+          >
             <ElongatedModule
               id={`compass-module-${flow.id}`}
               title={flow.label}

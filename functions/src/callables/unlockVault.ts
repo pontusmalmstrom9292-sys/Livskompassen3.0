@@ -3,12 +3,20 @@ import * as admin from "firebase-admin";
 import { guardSensitiveCallableV2 } from "../lib/callableGuards";
 import { assertVaultSession } from "../lib/vaultSessionGate";
 
-/** Sätter JWT vaultUnlocked — kräver giltig Valv-session (WebAuthn/biometri via issueVaultSession). */
+/**
+ * Sätter JWT `vaultUnlocked` — kräver giltig Valv-session (WebAuthn/biometri via issueVaultSession).
+ *
+ * TTL-lager (medvetet asymmetriskt tills synk beslutas):
+ * - Server session (`vaultSessionToken` i Firestore) — 1 h idle, se `VAULT_SESSION_IDLE_MS`
+ * - JWT claims (`vaultUnlocked` / `vaultExpiresAt`) — 15 min, styr direkt Firestore-läs på `reality_vault`
+ *
+ * Callables använder server session; klient-Firestore använder JWT. Synka TTL endast efter PMIR.
+ */
 export const unlockVault = onCall({ region: 'europe-west1' }, async (request) => {
   const uid = await guardSensitiveCallableV2(request, 'unlockVault', 10);
   await assertVaultSession(uid, request.data);
-  
-  // 2. Skapa tidsstämpel för förfallodatum (15 minuter framåt i millisekunder)
+
+  // JWT vaultExpiresAt — 15 min (kortare än server session 1 h)
   const now = Date.now();
   const expiresAt = now + 15 * 60 * 1000;
 

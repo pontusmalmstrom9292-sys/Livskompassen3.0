@@ -1,6 +1,7 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { vaultSessionGrantsVaultRead } from '../lib/vaultSessionGate';
 import { geminiApiKey } from '../lib/geminiSecret';
 import { GoogleGenAI } from '@google/genai';
 import { getAgentSystemPrompt } from '../sharedRules';
@@ -41,13 +42,17 @@ export const generateWeeklyInsights = onCall(
       const insightsDocs = insightsSnap.docs.map(d => d.data());
       const focusDocs = focusHistorySnap.docs.map(d => d.data());
 
-      // 3. Fetch vault entries (last 7 days)
-      const vaultSnap = await db.collection('reality_vault')
-        .where('ownerId', '==', uid)
-        .where('createdAt', '>=', timestamp)
-        .orderBy('createdAt', 'desc')
-        .get();
-      const vaultDocs = vaultSnap.docs.map(d => d.data());
+      // 3. Fetch vault entries (last 7 days) — only when Valv session is active
+      const includeVault = await vaultSessionGrantsVaultRead(uid, request.data);
+      let vaultDocs: admin.firestore.DocumentData[] = [];
+      if (includeVault) {
+        const vaultSnap = await db.collection('reality_vault')
+          .where('ownerId', '==', uid)
+          .where('createdAt', '>=', timestamp)
+          .orderBy('createdAt', 'desc')
+          .get();
+        vaultDocs = vaultSnap.docs.map(d => d.data());
+      }
 
       if (insightsDocs.length === 0 && focusDocs.length === 0 && vaultDocs.length === 0) {
         return {

@@ -12,7 +12,8 @@ import {
 } from '../agents/vertexAgent';
 import { weaveJournalEntry as runWeaver } from '../agents/weaverAgent';
 import { approveWeaverPending, rejectWeaverPending } from '../lib/weaverPending';
-import { adkOrchestrator, listAgentCards, applyParalysBreak } from '../adk';
+import { adkOrchestrator, listAgentCards } from '../adk';
+import type { MicroStep } from '../adk/types';
 import { emitSynapse } from '../adk/synapses/synapseBus';
 import {
   generatePayslipInternal,
@@ -254,9 +255,7 @@ export const journalWovenToKampspar = onCall(
 export const getAgentRegistry = onCall(
   { region: 'europe-west1' },
   async (request) => {
-    if (!request.auth) {
-      throw new HttpsError('unauthenticated', 'Autentisering krävs.');
-    }
+    await guardSensitiveCallableV2(request, 'getAgentRegistry', 30);
     return { agents: listAgentCards() };
   }
 );
@@ -495,7 +494,7 @@ export const ingestWidgetRecording = onCall(
 export const breakDownResponse = onCall(
   { region: 'europe-west1' },
   async (request) => {
-    await guardSensitiveCallableV2(request, 'breakDownResponse', 30);
+    const uid = await guardSensitiveCallableV2(request, 'breakDownResponse', 30);
 
     const text = request.data.text;
     if (!text || typeof text !== 'string') {
@@ -506,8 +505,12 @@ export const breakDownResponse = onCall(
       throw new HttpsError('invalid-argument', 'Text får vara max 12000 tecken.');
     }
 
-    const microSteps = await applyParalysBreak(text);
-    return { microSteps };
+    const result = (await emitSynapse(adkOrchestrator, {
+      trigger: 'user_overwhelm',
+      contextId: uid,
+      payload: { text },
+    })) as { microSteps: MicroStep[] };
+    return { microSteps: result.microSteps };
   }
 );
 
@@ -541,16 +544,14 @@ export const scheduledGeneratePayslip = functions
   });
 
 export const createBarnportenPairing = onCall({ region: 'europe-west1' }, async (request) => {
-  if (!request.auth) {
-    throw new HttpsError('unauthenticated', 'Autentisering krävs.');
-  }
+  const uid = await guardSensitiveCallableV2(request, 'createBarnportenPairing', 10);
   const origin =
     typeof request.data?.origin === 'string' && request.data.origin.startsWith('http')
       ? request.data.origin
       : 'https://gen-lang-client-0481875058.web.app';
   try {
     return await createBarnportenPairingForUser(
-      request.auth.uid,
+      uid,
       request.data?.childAlias,
       origin,
     );
@@ -564,12 +565,10 @@ export const createBarnportenPairing = onCall({ region: 'europe-west1' }, async 
 });
 
 export const claimBarnportenPairing = onCall({ region: 'europe-west1' }, async (request) => {
-  if (!request.auth) {
-    throw new HttpsError('unauthenticated', 'Logga in (samma konto som pappa) för att koppla.');
-  }
+  const uid = await guardSensitiveCallableV2(request, 'claimBarnportenPairing', 10);
   try {
     return await claimBarnportenPairingForUser(
-      request.auth.uid,
+      uid,
       request.data?.token,
       request.data?.deviceId,
       request.data?.deviceLabel,
@@ -591,9 +590,7 @@ export const claimBarnportenPairing = onCall({ region: 'europe-west1' }, async (
 export const generatePayslip = onCall(
   { region: 'europe-west1' },
   async (request) => {
-    if (!request.auth) {
-      throw new HttpsError('unauthenticated', 'Autentisering krävs.');
-    }
+    const uid = await guardSensitiveCallableV2(request, 'generatePayslip', 5);
 
     const period =
       request.data?.periodFrom && request.data?.periodTo
@@ -601,7 +598,7 @@ export const generatePayslip = onCall(
         : undefined;
 
     try {
-      return await generatePayslipInternal(request.auth.uid, { period });
+      return await generatePayslipInternal(uid, { period });
     } catch (error) {
       console.error('[generatePayslip] Fel:', error);
       throw new HttpsError(

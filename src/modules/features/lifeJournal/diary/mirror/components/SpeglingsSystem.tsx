@@ -73,8 +73,15 @@ export function SpeglingsSystem({ embedded: _embedded = false }: SpeglingsSystem
   }, [bridgeMood, bridgeText]);
 
   return (
-    <div className="space-y-6">
-      <BentoCard title="Speglar" icon={<Brain className="h-4 w-4" />} glow="blue">
+    <div className="space-y-4">
+      <BentoCard
+        title="Speglar"
+        icon={<Brain className="h-4 w-4" />}
+        glow="gold"
+        depth
+        noHover
+        className="hjartat-tab-panel"
+      >
         <p className="mb-4 text-sm text-text-muted">
           Känslan först. Fakta sen. Sparas lokalt tills du trycker Rensa eller Rensa enheten i Inställningar.
         </p>
@@ -105,7 +112,14 @@ export function SpeglingsSystem({ embedded: _embedded = false }: SpeglingsSystem
       )}
 
       {showForensic && !vaultSessionOpen && (
-        <BentoCard title="Fördjupad spegling" icon={<Lock className="h-4 w-4" />}>
+        <BentoCard
+          title="Fördjupad spegling"
+          icon={<Lock className="h-4 w-4" />}
+          glow="blue"
+          depth
+          noHover
+          className="hjartat-tab-panel"
+        >
           <p className="text-sm text-text-dim">
             Öppna Valv via Fyren (håll Hjärtat 3 sek) — samma session i en timme, inget extra PIN.
           </p>
@@ -184,7 +198,15 @@ export function SpeglingsForensicPanel({ userId, initialFeeling = '' }: Forensic
   }, [phase, userId, vaultLocked, feeling, vivirAnswers]);
 
   return (
-    <div className="space-y-4">
+  <BentoCard
+    title="Forensisk spegling"
+    icon={<Lock className="h-4 w-4" />}
+    glow="blue"
+    depth
+    noHover
+    bare
+    className="hjartat-tab-panel space-y-4 !p-4 sm:!p-5"
+  >
       <VivirQuickEntry onStart={() => setPhase('vivir')} />
       <SvartPaVittForm />
 
@@ -234,6 +256,6 @@ export function SpeglingsForensicPanel({ userId, initialFeeling = '' }: Forensic
           </button>
         </>
       )}
-    </div>
+  </BentoCard>
   );
 }

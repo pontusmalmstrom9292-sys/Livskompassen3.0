@@ -82,8 +82,18 @@ function main() {
     'biometri',
   );
   mustInclude('functions/src/lib/vaultSessionGate.ts', 'assertVaultSession', 'revokeVaultSession', 'vaultSessionGrantsVaultRead');
-  mustInclude('functions/src/callables/weeklySummary.ts', 'vaultSessionGrantsVaultRead', 'reality_vault');
-  mustInclude('functions/src/callables/compass.ts', 'vaultSessionGrantsVaultRead', 'reality_vault');
+  mustInclude('functions/src/callables/generateWeeklyInsights.ts', 'vaultSessionGrantsVaultRead', 'reality_vault');
+  mustInclude(
+    'functions/src/callables/agents.ts',
+    "guardSensitiveCallableV2(request, 'getAgentRegistry'",
+    "guardSensitiveCallableV2(request, 'createBarnportenPairing'",
+    "guardSensitiveCallableV2(request, 'claimBarnportenPairing'",
+    "guardSensitiveCallableV2(request, 'generatePayslip'",
+  );
+  mustInclude(
+    'functions/src/callables/projectMedia.ts',
+    "guardSensitiveCallableV2(request, 'analyzeProjectImage'",
+  );
   mustInclude('functions/src/lib/vaultWebAuthn.ts', 'loadStoredCredentials', 'forceRegistration', 'credentials');
   mustInclude('src/modules/core/components/SystemErrorBanner.tsx', 'system.error', 'role="alert"');
   mustInclude('functions/src/lib/callableGuards.ts', 'guardSensitiveCallableV2', 'isAppCheckEnforcementEnabled');

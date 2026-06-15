@@ -1,5 +1,6 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 import { Inbox } from 'lucide-react';
+import './valv.css';
 import { fetchInboxQueue } from '../../kompis/api/inboxService';
 import { listDraftsByStatus } from '@/modules/capture/draftQueue';
 import { useVaultStore } from '@/core/store/useVaultStore';
@@ -60,7 +61,7 @@ export const VaultSamlaHub = memo(function VaultSamlaHub({
   const pendingTotal = (pendingInbox ?? 0) + localPending;
 
   return (
-    <div className="space-y-4">
+    <div className="valv-samla-panel space-y-4">
       <VaultInkastCompact
         onQueued={openReview}
         onPersistedBevis={handleBevisConfirmed}

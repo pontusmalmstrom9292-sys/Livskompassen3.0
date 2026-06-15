@@ -1,12 +1,14 @@
 import { clsx } from 'clsx';
 import { ArrowLeft, Loader2 } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import { ensureVitHub, saveVitEntry } from '@/core/firebase/vitHubFirestore';
 import { MabraVitEvidencePrompt } from '@/features/dailyLife/wellbeing/mabra/components/MabraVitEvidencePrompt';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   getDiscoveryCategory,
   type DiscoveryCategoryId,
 } from '../content/discoveryBentoCatalog';
+import { discoveryAccentGlow } from '../lib/discoveryAccentGlow';
 import { pickDiscoveryCard } from '../lib/pickDiscoveryCard';
 import { recordDiscoveryMilestoneIfNew } from '@/core/firebase/evolutionLedgerFirestore';
 
@@ -40,14 +42,39 @@ export function KompassDiscoveryCardFlow({
   const [savedEntryId, setSavedEntryId] = useState<string | null>(null);
   const [savedSummary, setSavedSummary] = useState('');
 
-  if (!category || !pick) {
+  const wrapFlow = (children: ReactNode, label?: string) => {
+    if (variant === 'forge') {
+      return (
+        <div className={clsx(`${prefix}-flow`)} aria-label={label}>
+          {children}
+        </div>
+      );
+    }
     return (
-      <div className={clsx(`${prefix}-flow`)}>
+      <BentoCard
+        glow={category ? discoveryAccentGlow(category.accent) : 'green'}
+        depth
+        noHover
+        className={clsx(
+          `${prefix}-flow`,
+          `${prefix}-flow-card`,
+          '!rounded-[14px] border-[2px] border-accent/22',
+        )}
+      >
+        <div aria-label={label}>{children}</div>
+      </BentoCard>
+    );
+  };
+
+  if (!category || !pick) {
+    return wrapFlow(
+      <>
         <p className="text-sm text-text-muted">Kunde inte ladda kort — försök igen.</p>
         <button type="button" onClick={onBack} className="btn-pill--ghost mt-3 text-sm">
           Tillbaka
         </button>
-      </div>
+      </>,
+      'Kort kunde inte laddas',
     );
   }
 
@@ -86,8 +113,8 @@ export function KompassDiscoveryCardFlow({
     }
   };
 
-  return (
-    <div className={clsx(`${prefix}-flow`)} aria-label={`Kort: ${category.label_sv}`}>
+  return wrapFlow(
+    <>
       <button type="button" onClick={onBack} className={clsx(`${prefix}-back`)}>
         <ArrowLeft className="h-3.5 w-3.5" strokeWidth={1.5} aria-hidden />
         Tillbaka
@@ -144,6 +171,7 @@ export function KompassDiscoveryCardFlow({
           ) : null}
         </>
       )}
-    </div>
+    </>,
+    `Kort: ${category.label_sv}`,
   );
 }

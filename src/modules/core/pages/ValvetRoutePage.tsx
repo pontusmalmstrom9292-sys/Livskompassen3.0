@@ -96,6 +96,7 @@ export function ValvetRoutePage() {
       title="Sanningsarkivet"
       lead="Här samlas fakta, mönster och bevis — strukturerat och låst."
       lockViewport
+      depth
     >
       <div className="mx-auto max-w-5xl space-y-4 pb-12">
         <CognitiveLoadStrip

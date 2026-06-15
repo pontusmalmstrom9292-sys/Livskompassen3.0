@@ -41,7 +41,13 @@ export function ElongatedModule({
 }: Props) {
   return (
     <section
-      className={clsx('elongated-module', toneClass[tone], expanded && 'elongated-module--expanded')}
+      className={clsx(
+        'elongated-module',
+        toneClass[tone],
+        expanded && 'elongated-module--expanded',
+        recommended && 'elongated-module--recommended',
+        !recommended && !expanded && 'elongated-module--inactive',
+      )}
     >
       <button
         type="button"

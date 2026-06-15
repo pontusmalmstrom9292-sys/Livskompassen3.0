@@ -53,10 +53,10 @@ export function HomeKompassDiscoverySection({
     <div className={clsx('home-kompass-discovery px-4 pb-4', className)}>
       <button
         type="button"
-        className={clsx(
-          'home-kompass-discovery__explore',
-          deckOpen && 'home-kompass-discovery__explore--open',
-        )}
+          className={clsx(
+            'home-kompass-discovery__explore calm-card bento-card !rounded-[14px] border-[2px] border-accent/22',
+            deckOpen && 'home-kompass-discovery__explore--open glow-bottom-gold',
+          )}
         aria-expanded={deckOpen}
         onClick={() => setDeckOpen((v) => !v)}
       >

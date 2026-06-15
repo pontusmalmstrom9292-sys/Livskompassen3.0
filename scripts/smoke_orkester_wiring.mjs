@@ -86,6 +86,7 @@ function main() {
     'optInKampspar && hasVaultGate()',
   );
   mustInclude('functions/src/callables/agents.ts', 'journalWovenToKampspar', "trigger: 'journal_woven'");
+  mustInclude('functions/src/callables/agents.ts', 'breakDownResponse', "trigger: 'user_overwhelm'");
   mustInclude(
     'functions/src/index.ts',
     'journalWovenToKampspar',
