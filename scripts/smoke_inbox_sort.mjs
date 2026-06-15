@@ -13,6 +13,27 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 const envPath = resolve(root, '.env');
 
+function assert(condition, message) {
+  if (!condition) throw new Error(message);
+}
+
+function readCanonical(relativePath) {
+  const full = resolve(root, relativePath);
+  assert(existsSync(full), `Saknar fil: ${relativePath}`);
+  return readFileSync(full, 'utf8');
+}
+
+function smokeStaticI2() {
+  console.log('[smoke] I2 review-kö copy…');
+  const reviewQueue = readCanonical('src/modules/inkast/components/InboxReviewQueue.tsx');
+  assert(reviewQueue.includes('HITL'), 'InboxReviewQueue saknar HITL i titel/beskrivning');
+  assert(reviewQueue.includes('inboxReviewQueueDomainHint'), 'InboxReviewQueue saknar domän-hint');
+  const reviewCopy = readCanonical('src/modules/inkast/inboxReviewQueueCopy.ts');
+  assert(reviewCopy.includes('inboxReviewQueueRoutingLine'), 'inboxReviewQueueCopy saknar routing-rad');
+  assert(reviewCopy.includes('inboxReviewQueueHitlBadge'), 'inboxReviewQueueCopy saknar HITL-badge');
+  console.log('[smoke] I2 review-kö copy OK');
+}
+
 function loadEnv() {
   if (!existsSync(envPath)) throw new Error('Saknar .env i projektroten');
   const env = {};
@@ -26,11 +47,8 @@ function loadEnv() {
   return env;
 }
 
-function assert(condition, message) {
-  if (!condition) throw new Error(message);
-}
-
 async function main() {
+  smokeStaticI2();
   const env = loadEnv();
   const app = initializeApp({
     apiKey: env.VITE_FIREBASE_API_KEY,

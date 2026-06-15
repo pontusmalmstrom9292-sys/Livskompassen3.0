@@ -105,6 +105,15 @@ function smokeStaticStructure() {
   assert(reviewQueue.includes("handleConfirm(item, 'dagbok')"), 'InboxReviewQueue saknar → Dagbok HITL-routing');
   assert(reviewQueue.includes('→ Dagbok'), 'InboxReviewQueue saknar → Dagbok-knapp');
   assert(reviewQueue.includes("collection === 'journal'"), 'InboxReviewQueue ska mappa journal → dagbok');
+  assert(reviewQueue.includes('inboxReviewQueueDomainHint'), 'InboxReviewQueue saknar domän-hint (I2)');
+  assert(reviewQueue.includes('inboxReviewQueueHitlBadge'), 'InboxReviewQueue saknar HITL-badge (I2)');
+  assert(reviewQueue.includes('inboxReviewQueueRoutingLine'), 'InboxReviewQueue saknar routing-rad (I2)');
+  assert(reviewQueue.includes('isProposedRoutingButton'), 'InboxReviewQueue saknar föreslagen silo-markering (I2)');
+
+  const reviewCopy = readCanonical('src/modules/inkast/inboxReviewQueueCopy.ts');
+  assert(reviewCopy.includes('DCAP före AI'), 'inboxReviewQueueCopy saknar DCAP-hint');
+  assert(reviewCopy.includes('explicit val efter spar'), 'inboxReviewQueueCopy saknar barn→Valv opt-in-hint');
+  assert(reviewCopy.includes('WORM'), 'inboxReviewQueueCopy saknar WORM-hint');
 
   const classifier = readCanonical(CANONICAL.inboxClassifier);
   assert(classifier.includes('buildInboxClassifyBlob'), 'inboxClassifier saknar buildInboxClassifyBlob');

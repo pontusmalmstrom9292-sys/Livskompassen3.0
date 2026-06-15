@@ -1,13 +1,20 @@
 # Smoke-resultat (Fas 3 + Minne)
 
-## Current truth (2026-06-15 — Fas 13 Leveranssprint gate)
+## Current truth (2026-06-15 — Fas 18a Android cap sync)
 
-**Sanning:** denna tabell ersätter «2026-06-11 — Agent δ typecheck & smoke gate» nedan.
+**Sanning:** denna tabell ersätter «Fas 17b.0 våg 2 baseline gate» nedan.  
+**Trigger:** Fas 18a · [`2026-06-15-fas18-android-cap-sync.md`](./evaluations/2026-06-15-fas18-android-cap-sync.md)  
+**Git:** `main` @ `35dfda590` · orkester-natt [`2026-06-15-orkester-natt.md`](./evaluations/2026-06-15-orkester-natt.md)
 
 | Kategori | # / kommando | Status | Senast |
 |----------|--------------|--------|--------|
+| **Android** | `npm run build:web && npx cap sync android` | **PASS** | 2026-06-15 · exit 0 · 4 Capacitor-plugins |
+| **Android** | `google-services.json` `client_type: 1` + SHA-1 | **PASS** | 2026-06-15 · `9c84fa70…07c9d4` debug |
+| **Android USER** | Native Google · Valv #3 · Barnporten #4 | **USER** | Motorola — se Fas 18a eval |
+| **Baseline gate** | `npm run orkester:night` (våg 2 steg 0) | **PASS** | 2026-06-15 · ~47s · obligatoriska faser gröna |
 | **Tooling** | `npm run typecheck:core-strict` | **PASS** | 2026-06-15 · **0 fel** |
-| **Build** | `npm run build` (frontend) | **PASS** | 2026-06-15 |
+| **Build** | `npm run build` (frontend) | **PASS** | 2026-06-15 · orkester:night |
+| **Build** | `functions` tsc | **PASS** | 2026-06-15 · orkester:night |
 | **Autorun PASS** | `npm run orkester:night` | **PASS** | 2026-06-15 |
 | **Autorun PASS** | `npm run smoke:all` | **PASS** | 2026-06-15 |
 | **Autorun PASS** | `smoke:locked-ux` | **PASS** | 2026-06-15 |

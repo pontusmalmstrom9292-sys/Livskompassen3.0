@@ -33,6 +33,12 @@ import {
   inboxDagbokWeaveProps,
   type InkastDagbokWeavePayload,
 } from './InkastDagbokWeaveBridge';
+import {
+  inboxReviewQueueDomainHint,
+  inboxReviewQueueHitlBadge,
+  inboxReviewQueueRoutingLine,
+  isProposedRoutingButton,
+} from '../inboxReviewQueueCopy';
 
 type Props = {
   compact?: boolean;
@@ -219,8 +225,8 @@ export function InboxReviewQueue({
 
   return (
     <BentoCard
-      title={compact ? 'Granskningskö' : prioritizeBevis ? 'Granskningskö · Samla' : 'Inkorg — granska'}
-      description="Granska innan sparning i Dagbok, Valv eller Kunskap"
+      title={compact ? 'Granskningskö · HITL' : prioritizeBevis ? 'Granskningskö · Samla · HITL' : 'Inkorg — granska · HITL'}
+      description="HITL — du godkänner varje post innan Dagbok, Arkiv, Kunskap eller Barnen"
       icon={<Inbox className="h-4 w-4 text-accent" />}
     >
       {onBack && (
@@ -230,7 +236,8 @@ export function InboxReviewQueue({
       )}
       {!compact && (
         <p className="mb-3 text-xs text-text-dim">
-          Drive och oklara filer hamnar här. Bekräfta vart det ska sparas — separata arkiv.
+          Drive och oklara filer hamnar här. DCAP före AI — du väljer silo. Separata arkiv, ingen
+          auto-promote barn→Valv.
           {prioritizeBevis ? ' Arkivförslag visas först.' : ''}
         </p>
       )}
@@ -262,20 +269,37 @@ export function InboxReviewQueue({
       )}
 
       <ul className="space-y-3">
-        {displayItems.map((item) => (
+        {displayItems.map((item) => {
+          const domainHint = inboxReviewQueueDomainHint(item);
+          const routingBtnClass = (routing: 'kunskap' | 'bevis' | 'barnen' | 'dagbok') =>
+            isProposedRoutingButton(routing, item)
+              ? 'btn-pill--accent text-xs ring-1 ring-accent/40'
+              : 'btn-pill--secondary text-xs';
+
+          return (
           <li
             key={item.id}
             className="rounded-lg border border-border/60 bg-surface/40 px-3 py-3 text-sm"
           >
             <p className="font-medium text-text">{item.fileName}</p>
-            <span
-              className={`mt-1 inline-block ${inboxQueueStatusBadgeClass(inboxQueueDisplayStatus(item))}`}
-            >
-              {inboxQueueStatusLabel(item)}
-            </span>
+            <div className="mt-1 flex flex-wrap items-center gap-2">
+              <span
+                className={`inline-block ${inboxQueueStatusBadgeClass(inboxQueueDisplayStatus(item))}`}
+              >
+                {inboxQueueStatusLabel(item)}
+              </span>
+              <span className="review-queue-status review-queue-status--review">
+                {inboxReviewQueueHitlBadge(item)}
+              </span>
+            </div>
+            <p className="mt-1 text-xs text-accent/90">{inboxReviewQueueRoutingLine(item)}</p>
+            {domainHint && (
+              <p className="mt-1 text-xs text-text-dim">{domainHint}</p>
+            )}
             <p className="mt-1 text-xs text-text-muted">
               {item.traumaSensitive ? 'Trauma · ' : ''}
               Säkerhet {Math.round((typeof item.confidence === 'number' ? item.confidence : 0) * 100)}%
+              {item.childAlias ? ` · Barn: ${item.childAlias}` : ''}
               {item.tags.length > 0 && ` · Taggar: ${item.tags.join(', ')}`}
             </p>
             <p className="mt-2 text-xs text-text-dim line-clamp-2">{item.summary}</p>
@@ -288,7 +312,7 @@ export function InboxReviewQueue({
               <button
                 type="button"
                 disabled={busyId === item.id}
-                className="btn-pill--secondary text-xs"
+                className={routingBtnClass('bevis')}
                 onClick={() => handleConfirm(item, 'bevis')}
               >
                 → Arkiv
@@ -296,7 +320,7 @@ export function InboxReviewQueue({
               <button
                 type="button"
                 disabled={busyId === item.id}
-                className="btn-pill--secondary text-xs"
+                className={routingBtnClass('dagbok')}
                 onClick={() => handleConfirm(item, 'dagbok')}
               >
                 → Dagbok
@@ -304,7 +328,7 @@ export function InboxReviewQueue({
               <button
                 type="button"
                 disabled={busyId === item.id}
-                className="btn-pill--secondary text-xs"
+                className={routingBtnClass('kunskap')}
                 onClick={() => handleConfirm(item, 'kunskap')}
               >
                 → Kunskap
@@ -312,7 +336,7 @@ export function InboxReviewQueue({
               <button
                 type="button"
                 disabled={busyId === item.id}
-                className="btn-pill--secondary text-xs"
+                className={routingBtnClass('barnen')}
                 onClick={() => handleConfirm(item, 'barnen')}
               >
                 → Barnen
@@ -335,7 +359,8 @@ export function InboxReviewQueue({
               </button>
             </div>
           </li>
-        ))}
+          );
+        })}
       </ul>
     </BentoCard>
   );

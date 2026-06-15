@@ -197,9 +197,23 @@ export const MabraHubView = memo(function MabraHubView() {
       navigate(`/mabra/verktyg/${choice.tool}`);
       return;
     }
+    if (choice.category === 'akut') {
+      setHub('panic_rsd');
+      setAddonBreathing(false);
+      setHubOpenCategory('akut');
+      navigate('/mabra/akut');
+      return;
+    }
     setHubOpenCategory(choice.category);
     setHubFocusToken((n) => n + 1);
-  }, [navigate, setHubOpenCategory, setHubFocusToken, setShowHubPicker]);
+  }, [
+    navigate,
+    setAddonBreathing,
+    setHub,
+    setHubOpenCategory,
+    setHubFocusToken,
+    setShowHubPicker,
+  ]);
 
   const openCurriculumReflection = useCallback((bankId: string) => {
     setHubOpenCategory('lekar');

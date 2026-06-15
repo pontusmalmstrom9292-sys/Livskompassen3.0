@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useStore } from '@/core/store';
 import { useMabraHistoryStore } from '../store/mabraHistoryStore';
 import {
@@ -19,6 +19,21 @@ export function MabraHistoryView() {
 
   const { history, isLoading, error, fetchHistory } = useMabraHistoryStore();
   const [limitCount, setLimitCount] = useState(30);
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+  const [chartReady, setChartReady] = useState(false);
+
+  useEffect(() => {
+    const el = chartContainerRef.current;
+    if (!el) return;
+    const update = () => {
+      const { width, height } = el.getBoundingClientRect();
+      setChartReady(width > 0 && height > 0);
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [history.length, limitCount]);
 
   useEffect(() => {
     if (userId) {
@@ -139,7 +154,8 @@ export function MabraHistoryView() {
           </p>
         </div>
       ) : (
-        <div className="h-72 w-full mt-2 relative">
+        <div ref={chartContainerRef} className="h-72 w-full mt-2 relative">
+          {chartReady ? (
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={chartData}
@@ -203,6 +219,11 @@ export function MabraHistoryView() {
               />
             </LineChart>
           </ResponsiveContainer>
+          ) : (
+            <div className="flex h-full items-center justify-center text-xs text-text-dim">
+              Förbereder diagram…
+            </div>
+          )}
         </div>
       )}
     </div>

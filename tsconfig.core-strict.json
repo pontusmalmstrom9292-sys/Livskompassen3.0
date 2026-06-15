@@ -8,6 +8,7 @@
   "include": [
     "src/modules/core/**/*.ts",
     "src/modules/core/**/*.tsx",
-    "src/modules/shared/ui/HubErrorBoundary.tsx"
+    "src/modules/shared/**/*.ts",
+    "src/modules/shared/**/*.tsx"
   ]
 }
