@@ -3,7 +3,7 @@ import { MonsterArkivarienCard } from '../../agents/cards';
 import type { A2AMessage } from '../../agents/types';
 import type { AdkOrchestrator } from '../orchestrator';
 import type { DriveIngestPayload } from '../types';
-import { classifyInboxDocument } from '../../lib/inboxClassifier';
+import { classifyInboxDocument, applyInkastConfidenceGate } from '../../lib/inboxClassifier';
 import { routeInboxToWorm } from '../../lib/inboxPersist';
 
 /**
@@ -22,7 +22,8 @@ export async function handleDriveIngest(
   let routing: string | undefined;
 
   if (ownerId) {
-    const classification = await classifyInboxDocument(analysisText, fileName);
+    const rawClassification = await classifyInboxDocument(analysisText, fileName);
+    const classification = applyInkastConfidenceGate(rawClassification);
     const routeResult = await routeInboxToWorm({
       ownerId,
       fileId,

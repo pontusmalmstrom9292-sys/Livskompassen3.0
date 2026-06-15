@@ -3,6 +3,7 @@ import {
   classifyInboxDocument,
   buildManualInkastClassification,
   buildInboxClassifyBlob,
+  applyInkastConfidenceGate,
   type InboxClassification,
   type InboxRouting,
 } from './inboxClassifier';
@@ -10,6 +11,8 @@ import { routeInboxToWorm } from './inboxPersist';
 import { analyzeUploadForKnowledge } from './analyzeUploadForKnowledge';
 import { uploadInkastEvidence } from './uploadInkastEvidence';
 import { normalizeInkastSourceModule, stripInjectedSourceModuleFromText } from './inkastSourceModule';
+import { INKAST_AUDIO_MIMES, isInkastAudioMime } from './inkastConstants';
+import { transcribeInkastAudio } from './transcribeInkastAudio';
 
 /** Roadmap 2026-06-05 — utökade dokumentformat för Smart Inkast. */
 export const LITE_UPLOAD_MIMES = new Set([
@@ -29,6 +32,7 @@ export const LITE_UPLOAD_MIMES = new Set([
   'application/msword',
   'application/vnd.ms-excel',
   'application/vnd.ms-powerpoint',
+  ...INKAST_AUDIO_MIMES,
 ]);
 
 const MAX_FILES_PER_BATCH = 8;
@@ -148,16 +152,9 @@ async function finalizeClassification(
   classification: InboxClassification | Promise<InboxClassification>,
   manual: ManualInkastOverride | undefined
 ): Promise<InboxClassification> {
-  let resolved = await classification;
+  const resolved = await classification;
   if (manual) return resolved;
-  if (resolved.routing !== 'review' && resolved.confidence < 0.75) {
-    resolved = {
-      ...resolved,
-      routing: 'review',
-      rationale: `${resolved.rationale} Inkast Lite: confidence < 0.75 → granskning.`,
-    };
-  }
-  return resolved;
+  return applyInkastConfidenceGate(resolved);
 }
 
 function isPlainTextMime(mimeType: string, fileName: string): boolean {
@@ -194,6 +191,10 @@ function normalizeMimeType(raw: unknown, fileName: string): string {
   if (lower.endsWith('.md')) return 'text/markdown';
   if (lower.endsWith('.csv')) return 'text/csv';
   if (lower.endsWith('.json')) return 'application/json';
+  if (lower.endsWith('.webm')) return 'audio/webm';
+  if (lower.endsWith('.mp3')) return 'audio/mpeg';
+  if (lower.endsWith('.m4a')) return 'audio/mp4';
+  if (lower.endsWith('.wav')) return 'audio/wav';
   return 'text/plain';
 }
 
@@ -246,6 +247,10 @@ async function extractAnalysisFromBuffer(
 
   if (isPlainTextMime(mimeType, fileName)) {
     return buffer.toString('utf8').trim();
+  }
+
+  if (isInkastAudioMime(mimeType)) {
+    return transcribeInkastAudio(buffer, mimeType, fileName);
   }
 
   const extracted = await analyzeUploadForKnowledge(buffer, mimeType, fileName);

@@ -60,6 +60,7 @@ export {
 } from './economy/mabraEconomySync';
 
 export { onVaultCreatePatternScan } from './triggers/patternScanOnVaultCreate';
+export { onInkastEvidenceFinalized } from './triggers/inkastStorageOnFinalize';
 
 export {
   calculateSmartAllocation,

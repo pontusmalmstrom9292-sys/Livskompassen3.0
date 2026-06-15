@@ -4,6 +4,7 @@ import {
   stripInjectedSourceModuleFromText,
 } from './inkastSourceModule';
 import { createGenAI } from './genaiClient';
+import { INKAST_CONFIDENCE_THRESHOLD } from './inkastConstants';
 
 export type InboxRouting = 'kunskap' | 'bevis' | 'barnen' | 'dagbok' | 'review' | 'planning';
 
@@ -40,18 +41,13 @@ function parseClassificationJson(raw: string): InboxClassification | null {
         ? Math.min(1, Math.max(0, parsed.confidence))
         : 0.5;
 
-    let resolvedRouting: InboxRouting = routing;
-    if (confidence < 0.55 && routing !== 'review') {
-      resolvedRouting = 'review';
-    }
-
     const childAlias =
       typeof parsed.childAlias === 'string' && parsed.childAlias.trim()
         ? parsed.childAlias.trim()
         : undefined;
 
     return {
-      routing: resolvedRouting,
+      routing,
       tags: Array.isArray(parsed.tags) ? parsed.tags.map(String).slice(0, 12) : [],
       category: typeof parsed.category === 'string' ? parsed.category.slice(0, 80) : 'okänd',
       confidence,
@@ -315,7 +311,7 @@ Returnera JSON enligt systeminstruktion.`;
 
     const raw = response.text ?? '';
     const parsed = parseClassificationJson(raw);
-    if (parsed) return parsed;
+    if (parsed) return applyInkastConfidenceGate(parsed);
 
     console.warn('[inboxClassifier] Kunde inte parsa JSON:', raw.slice(0, 200));
   } catch (err) {
@@ -331,6 +327,22 @@ Returnera JSON enligt systeminstruktion.`;
     traumaSensitive: false,
     rationale: 'Klassificering misslyckades — fail-closed till review.',
   };
+}
+
+/** Enhetlig G10-tröskel — Drive, Storage onFinalize och submitInkastLite. */
+export function applyInkastConfidenceGate(
+  classification: InboxClassification,
+): InboxClassification {
+  if (isManualInkastClassification(classification)) return classification;
+  if (classification.routing === 'review') return classification;
+  if (classification.confidence < INKAST_CONFIDENCE_THRESHOLD) {
+    return {
+      ...classification,
+      routing: 'review',
+      rationale: `${classification.rationale} confidence < ${INKAST_CONFIDENCE_THRESHOLD} → granskning.`,
+    };
+  }
+  return classification;
 }
 
 /** Trauma/LVU utan opt-in → alltid review-kö, aldrig auto-WORM. */

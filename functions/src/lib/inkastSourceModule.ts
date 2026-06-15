@@ -11,6 +11,8 @@ const ALLOWED_INKAST_SOURCE_MODULES = new Set([
   'barnen',
   'barnfokus',
   'mabra_inkast',
+  'ekonomi_inkast',
+  'voiceToVault',
   'smoke_inkast_lockdown',
 ]);
 

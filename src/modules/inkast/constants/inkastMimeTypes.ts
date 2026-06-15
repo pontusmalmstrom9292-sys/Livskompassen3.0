@@ -6,6 +6,14 @@ export const INKAST_TEXT_MIMES = new Set([
   'application/json',
 ]);
 
+export const INKAST_AUDIO_MIMES = new Set([
+  'audio/webm',
+  'audio/mpeg',
+  'audio/mp4',
+  'audio/x-m4a',
+  'audio/wav',
+]);
+
 export const INKAST_BINARY_MIMES = new Set([
   'application/pdf',
   'image/png',
@@ -22,7 +30,7 @@ export const INKAST_BINARY_MIMES = new Set([
 ]);
 
 export const INKAST_FILE_ACCEPT =
-  '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.md,.csv,.json,.png,.jpg,.jpeg,.webp,.gif';
+  '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.md,.csv,.json,.png,.jpg,.jpeg,.webp,.gif,.webm,.mp3,.m4a,.wav';
 
 const EXT_TO_MIME: Record<string, string> = {
   pdf: 'application/pdf',
@@ -41,6 +49,10 @@ const EXT_TO_MIME: Record<string, string> = {
   csv: 'text/csv',
   json: 'application/json',
   txt: 'text/plain',
+  webm: 'audio/webm',
+  mp3: 'audio/mpeg',
+  m4a: 'audio/mp4',
+  wav: 'audio/wav',
 };
 
 export function resolveInkastMime(file: File): string {
@@ -50,6 +62,12 @@ export function resolveInkastMime(file: File): string {
   }
   const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
   return EXT_TO_MIME[ext] ?? 'text/plain';
+}
+
+export function isInkastAudioFile(file: File): boolean {
+  const mime = resolveInkastMime(file);
+  if (INKAST_AUDIO_MIMES.has(mime) || mime.startsWith('audio/')) return true;
+  return /\.(webm|mp3|m4a|wav)$/i.test(file.name);
 }
 
 export function isInkastBinaryFile(file: File): boolean {
@@ -64,8 +82,8 @@ export function isInkastTextFile(file: File): boolean {
 }
 
 export function isInkastSupportedFile(file: File): boolean {
-  return isInkastBinaryFile(file) || isInkastTextFile(file);
+  return isInkastBinaryFile(file) || isInkastTextFile(file) || isInkastAudioFile(file);
 }
 
 export const INKAST_UNSUPPORTED_FORMAT_MSG =
-  'Stödda format: .pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .txt, .md, .csv, .json, .png, .jpg, .webp, .gif';
+  'Stödda format: .pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .txt, .md, .csv, .json, .png, .jpg, .webp, .gif, .webm, .mp3, .m4a, .wav';
