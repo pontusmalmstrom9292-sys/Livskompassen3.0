@@ -116,6 +116,8 @@ export function CaptureSuperModule({
         )}
         <CapturePanel
           sourceModule={SOURCE_MODULE[variant] ?? 'hem_capture'}
+          allowFiles
+          maxFiles={8}
           compact={
             compact ||
             variant === 'kompass' ||

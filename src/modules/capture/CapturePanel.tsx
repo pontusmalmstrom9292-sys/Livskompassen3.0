@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { PenLine } from 'lucide-react';
+import { FileUp, PenLine, X } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
+import { fileToBase64 } from '@/features/lifeJournal/evidence/kompis/api/ingestKnowledgeDocumentService';
 import {
   formatInkastResultMessage,
   inkastDestinationLink,
@@ -29,6 +30,15 @@ import {
   type InkastManualChoice,
   type InkastUiSilo,
 } from '../inkast/constants/inkastSiloOptions';
+import {
+  INKAST_FILE_ACCEPT,
+  INKAST_UNSUPPORTED_FORMAT_MSG,
+  isInkastAudioFile,
+  isInkastBinaryFile,
+  isInkastSupportedFile,
+  isInkastTextFile,
+  resolveInkastMime,
+} from '../inkast/constants/inkastMimeTypes';
 import { inkastSourceModuleHint } from './captureDomainCopy';
 
 type CapturePanelProps = {
@@ -39,9 +49,36 @@ type CapturePanelProps = {
   composeHint?: string | null;
   /** Fokusera textarea vid mount (t.ex. efter «Klistra text»). */
   focusOnCompose?: boolean;
+  /** Tillåt fil- och ljuduppladdning (G10 batch). */
+  allowFiles?: boolean;
+  maxFiles?: number;
 };
 
 type Phase = 'compose' | 'analyzing' | 'confirm' | 'edit' | 'done';
+
+const DEFAULT_MAX_FILES = 8;
+
+function isInkastBinaryUpload(file: File): boolean {
+  return isInkastBinaryFile(file) || isInkastAudioFile(file);
+}
+
+async function buildPreviewPayloadFromFiles(
+  files: File[],
+): Promise<{ text: string; fileName: string }> {
+  const textFiles = files.filter(isInkastTextFile);
+  if (textFiles.length > 0) {
+    const file = textFiles[0]!;
+    const content = (await file.text()).trim().slice(0, 6000);
+    return { text: content, fileName: file.name };
+  }
+  const fileName = files[0]?.name ?? 'inkast.bin';
+  const names = files.map((f) => f.name).join(', ');
+  const text = `Filuppladdning för granskning: ${names}`.slice(0, 6000);
+  return {
+    text: text.length >= 12 ? text : `${text} — inkast`,
+    fileName,
+  };
+}
 
 export function CapturePanel({
   sourceModule = 'hem_capture',
@@ -49,9 +86,13 @@ export function CapturePanel({
   onSaved,
   composeHint = null,
   focusOnCompose = false,
+  allowFiles = true,
+  maxFiles = DEFAULT_MAX_FILES,
 }: CapturePanelProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [text, setText] = useState('');
+  const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const [phase, setPhase] = useState<Phase>('compose');
   const [message, setMessage] = useState<string | null>(null);
   const [lastBatch, setLastBatch] = useState<SubmitInkastLiteResult | null>(null);
@@ -65,78 +106,192 @@ export function CapturePanel({
   const [showDagbokWeave, setShowDagbokWeave] = useState(true);
   const userId = useStore((s) => s.user?.uid);
 
+  const hasText = text.trim().length >= 12;
+  const hasFiles = pendingFiles.length > 0;
+  const canPreview = hasText || hasFiles;
+
   const resetFlow = useCallback(() => {
     setPhase('compose');
     setPreview(null);
     setError(null);
     setMessage(null);
     setLastBatch(null);
+    setPendingFiles([]);
     setManualTags([]);
     setManualComment('');
     setManualChildAlias('');
     setShowBarnenBridge(true);
     setShowDagbokWeave(true);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  }, []);
+
+  const applyPreviewClassification = useCallback((classification: InboxClassification) => {
+    setPreview(classification);
+    setManualSilo(routingToUiSilo(classification.routing));
+    setManualTags(tagsFromInkastClassification(classification));
+    setManualComment(classification.summary);
+    setManualChildAlias(classification.childAlias ?? '');
+    setPhase('confirm');
   }, []);
 
   const handlePreview = useCallback(async () => {
-    const trimmed = text.trim();
-    if (trimmed.length < 12) {
-      setError('Skriv minst några rader (minst 12 tecken).');
+    if (!canPreview) {
+      setError('Skriv minst 12 tecken eller välj minst en fil.');
       return;
     }
+    if (hasText && hasFiles) {
+      setError('Skicka antingen text eller filer — inte båda samtidigt.');
+      return;
+    }
+
     setPhase('analyzing');
     setError(null);
     setMessage(null);
 
     try {
+      if (hasText) {
+        const classification = await previewInboxClassification({
+          text: text.trim(),
+          fileName: 'capture.txt',
+          sourceModule,
+        });
+        applyPreviewClassification(classification);
+        return;
+      }
+
+      const unsupported = pendingFiles.filter((f) => !isInkastSupportedFile(f));
+      if (unsupported.length > 0) {
+        setError(INKAST_UNSUPPORTED_FORMAT_MSG);
+        setPhase('compose');
+        return;
+      }
+
+      const { text: previewText, fileName } = await buildPreviewPayloadFromFiles(pendingFiles);
+      if (previewText.length < 12) {
+        setError('Filinnehållet är för kort efter läsning.');
+        setPhase('compose');
+        return;
+      }
+
       const classification = await previewInboxClassification({
-        text: trimmed,
-        fileName: 'capture.txt',
+        text: previewText,
+        fileName,
         sourceModule,
       });
-      setPreview(classification);
-      setManualSilo(routingToUiSilo(classification.routing));
-      setManualTags(tagsFromInkastClassification(classification));
-      setManualComment(classification.summary);
-      setManualChildAlias(classification.childAlias ?? '');
-      setPhase('confirm');
+      applyPreviewClassification(classification);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Kunde inte analysera.');
       setPhase('compose');
     }
-  }, [text, sourceModule]);
+  }, [
+    applyPreviewClassification,
+    canPreview,
+    hasFiles,
+    hasText,
+    pendingFiles,
+    sourceModule,
+    text,
+  ]);
+
+  const submitFiles = useCallback(
+    async (manual?: InkastManualChoice) => {
+      const binaryFiles = pendingFiles.filter(isInkastBinaryUpload);
+      const textFiles = pendingFiles.filter(isInkastTextFile);
+      const manualFields = manual ? manualChoiceToSubmitFields(manual) : {};
+
+      if (binaryFiles.length > 0) {
+        const base64Files: string[] = [];
+        const mimeTypes: string[] = [];
+        const fileNames: string[] = [];
+        for (const file of binaryFiles) {
+          base64Files.push(await fileToBase64(file));
+          mimeTypes.push(resolveInkastMime(file));
+          fileNames.push(file.name);
+        }
+        const batch = await submitInkastLite({
+          base64Files,
+          mimeTypes,
+          fileNames,
+          sourceModule,
+          ...manualFields,
+        });
+
+        for (const file of textFiles) {
+          const content = (await file.text()).trim();
+          if (content.length < 12) continue;
+          await submitInkastLite({
+            text: content.slice(0, 12_000),
+            fileName: file.name,
+            sourceModule,
+            ...manualFields,
+          });
+        }
+        return batch;
+      }
+
+      if (textFiles.length === 0) {
+        throw new Error('Inga filer att skicka.');
+      }
+
+      let lastBatch: SubmitInkastLiteResult | null = null;
+      for (const file of textFiles) {
+        const content = (await file.text()).trim();
+        if (content.length < 12) {
+          throw new Error(`${file.name}: filen är tom eller för kort.`);
+        }
+        lastBatch = await submitInkastLite({
+          text: content.slice(0, 12_000),
+          fileName: file.name,
+          sourceModule,
+          ...manualFields,
+        });
+      }
+      return lastBatch!;
+    },
+    [pendingFiles, sourceModule],
+  );
 
   const persistInkast = useCallback(
     async (manual?: InkastManualChoice) => {
-      const trimmed = text.trim();
-      if (trimmed.length < 12) {
-        setError('Texten är för kort.');
-        return;
-      }
       setPhase('analyzing');
       setError(null);
 
       try {
-        const batch = await submitInkastLite({
-          text: trimmed,
-          fileName: 'capture.txt',
-          sourceModule,
-          ...(manual ? manualChoiceToSubmitFields(manual) : {}),
-        });
+        let batch: SubmitInkastLiteResult;
+
+        if (hasFiles) {
+          batch = await submitFiles(manual);
+        } else {
+          const trimmed = text.trim();
+          if (trimmed.length < 12) {
+            setError('Texten är för kort.');
+            setPhase(manual ? 'edit' : 'confirm');
+            return;
+          }
+          batch = await submitInkastLite({
+            text: trimmed,
+            fileName: 'capture.txt',
+            sourceModule,
+            ...(manual ? manualChoiceToSubmitFields(manual) : {}),
+          });
+        }
+
         setMessage(formatInkastResultMessage(batch));
         setLastBatch(batch);
         setText('');
+        setPendingFiles([]);
         setPreview(null);
         setShowBarnenBridge(true);
         setShowDagbokWeave(true);
         setPhase('done');
+        if (fileInputRef.current) fileInputRef.current.value = '';
         onSaved?.();
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Kunde inte spara.');
         setPhase(manual ? 'edit' : 'confirm');
       }
     },
-    [text, sourceModule, onSaved],
+    [hasFiles, onSaved, sourceModule, submitFiles, text],
   );
 
   const handleManualSave = useCallback(
@@ -146,7 +301,34 @@ export function CapturePanel({
     [persistInkast],
   );
 
-  const previewLabel = text.trim().slice(0, 80) || 'Inkast';
+  const handleFilePick = useCallback(
+    async (files: FileList | null) => {
+      if (!files?.length) return;
+      const picked = Array.from(files);
+      if (picked.length > maxFiles) {
+        setError(`Max ${maxFiles} filer per inkast.`);
+        return;
+      }
+      const unsupported = picked.filter((f) => !isInkastSupportedFile(f));
+      if (unsupported.length > 0) {
+        setError(INKAST_UNSUPPORTED_FORMAT_MSG);
+        return;
+      }
+      setError(null);
+      setText('');
+      setPendingFiles(picked);
+    },
+    [maxFiles],
+  );
+
+  const removePendingFile = (index: number) => {
+    setPendingFiles((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const previewLabel =
+    hasFiles
+      ? pendingFiles.map((f) => f.name).join(', ')
+      : text.trim().slice(0, 80) || 'Inkast';
   const domainHint = inkastSourceModuleHint(sourceModule);
   const primaryItem = lastBatch ? primaryInkastItem(lastBatch) : null;
   const destinationLink = primaryItem ? inkastDestinationLink(primaryItem) : null;
@@ -187,14 +369,65 @@ export function CapturePanel({
             className="input-glass min-h-[100px] w-full resize-y text-sm"
             placeholder="Observation, meddelande, minne…"
             value={text}
-            onChange={(e) => setText(e.target.value)}
-            disabled={phase !== 'compose'}
+            onChange={(e) => {
+              setText(e.target.value);
+              if (e.target.value.trim()) setPendingFiles([]);
+            }}
+            disabled={phase !== 'compose' || hasFiles}
           />
+
+          {allowFiles && (
+            <>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  className="btn-pill--ghost text-xs"
+                  disabled={phase !== 'compose'}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <span className="inline-flex items-center gap-1">
+                    <FileUp className="h-3 w-3" />
+                    En fil eller flera
+                  </span>
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  multiple
+                  className="sr-only"
+                  accept={INKAST_FILE_ACCEPT}
+                  onChange={(e) => void handleFilePick(e.target.files)}
+                />
+              </div>
+
+              {pendingFiles.length > 0 && (
+                <ul className="mt-3 space-y-1">
+                  {pendingFiles.map((file, index) => (
+                    <li
+                      key={`${file.name}-${index}`}
+                      className="flex items-center justify-between gap-2 rounded-xl border border-border/30 bg-surface-2/60 px-3 py-2 text-xs text-text-muted"
+                    >
+                      <span className="truncate">{file.name}</span>
+                      <button
+                        type="button"
+                        className="shrink-0 text-text-dim hover:text-accent"
+                        aria-label={`Ta bort ${file.name}`}
+                        onClick={() => removePendingFile(index)}
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
+          )}
+
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <button
               type="button"
               className="btn-pill--primary text-sm"
-              disabled={text.trim().length < 12}
+              disabled={!canPreview}
               onClick={() => void handlePreview()}
             >
               Förhandsgranska

@@ -1,3 +1,7 @@
+/**
+ * @deprecated Prefer CapturePanel (text + filer + AI-preview) via CaptureSuperModule.
+ * Behålls tills Valv/hem-inkast är migrerade och smoke PASS (UPLOAD-UNIFIED steg 2).
+ */
 import { useCallback, useRef, useState } from 'react';
 import { clsx } from 'clsx';
 import { FileUp, Inbox, Loader2 } from 'lucide-react';
