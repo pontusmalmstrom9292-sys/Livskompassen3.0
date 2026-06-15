@@ -60,7 +60,7 @@ export function ModuleShell({
       depth={depth}
       contentIsland={contentIsland}
       className={clsx(
-        'module-shell flex min-h-0 flex-1 flex-col',
+        'module-shell module-shell--obsidian-bento flex min-h-0 flex-1 flex-col',
         depth && 'module-shell--depth',
         className,
       )}
@@ -79,7 +79,9 @@ export function ModuleShell({
         ) : null}
 
         {toolbar ? (
-          <div className="module-shell__toolbar shrink-0 py-2">{toolbar}</div>
+          <div className="module-shell__toolbar module-shell__toolbar--bento shrink-0 py-2">
+            {toolbar}
+          </div>
         ) : null}
 
         <div

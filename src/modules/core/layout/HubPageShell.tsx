@@ -39,7 +39,7 @@ export function HubPageShell({
   return (
     <div
       className={clsx(
-        'hub-page-shell flex min-h-0 flex-col gap-4',
+        'hub-page-shell hub-page-shell--obsidian-bento flex min-h-0 flex-col gap-4',
         lockViewport && 'hub-view-lock',
         lockViewport && fitViewport && 'hub-view-lock--fit',
         className,
@@ -52,12 +52,19 @@ export function HubPageShell({
           headerAside && 'flex items-start justify-between gap-2',
         )}
       >
-        <div className="min-w-0">
+        <div
+          className={clsx(
+            'hub-page-shell__top-bar min-w-0 flex-1',
+            depth && 'hub-page-shell__top-bar--glass',
+          )}
+        >
           <p className={h.eyebrow}>{eyebrow}</p>
           <h1 className={h.title}>{title}</h1>
           {lead ? <p className={h.lead}>{lead}</p> : null}
         </div>
-        {headerAside}
+        {headerAside ? (
+          <div className="hub-page-shell__header-aside shrink-0">{headerAside}</div>
+        ) : null}
       </header>
 
       <div className="hub-page-shell__body flex min-h-0 flex-1 flex-col gap-4">
