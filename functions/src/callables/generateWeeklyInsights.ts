@@ -42,10 +42,10 @@ export const generateWeeklyInsights = onCall(
       const focusDocs = focusHistorySnap.docs.map(d => d.data());
 
       // 3. Fetch vault entries (last 7 days)
-      const vaultSnap = await db.collection('vault')
+      const vaultSnap = await db.collection('reality_vault')
         .where('ownerId', '==', uid)
-        .where('timestamp', '>=', timestamp)
-        .orderBy('timestamp', 'desc')
+        .where('createdAt', '>=', timestamp)
+        .orderBy('createdAt', 'desc')
         .get();
       const vaultDocs = vaultSnap.docs.map(d => d.data());
 
@@ -78,8 +78,8 @@ export const generateWeeklyInsights = onCall(
 
       const formatVault = (docs: admin.firestore.DocumentData[]) => {
         return docs.map(d => {
-          const date = (d.timestamp as admin.firestore.Timestamp)?.toDate().toISOString().slice(0, 10) || 'Okänt datum';
-          const text = d.content || '';
+          const date = (d.createdAt as admin.firestore.Timestamp)?.toDate().toISOString().slice(0, 10) || 'Okänt datum';
+          const text = (d.truth as string) || (d.myReality as string) || '';
           return `- [${date}] Valv-post: ${text}`;
         }).join('\n');
       };

@@ -2,13 +2,16 @@
 
 Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **Cursor-agenter:** [`AGENTS.md`](../AGENTS.md)
 
+**Aktuell fas (2026-06-15):** Fas 19 masterplan-v2 **levererad** · **Fas 20 nästa** (Tier-1 doc-synk, hex→tokens, arkiv-batch). Status: [`evaluations/SENASTE-SAMMANFATTNING.md`](evaluations/SENASTE-SAMMANFATTNING.md) · kanon: [`evaluations/2026-06-15-fas19-masterplan-v2.md`](evaluations/2026-06-15-fas19-masterplan-v2.md) · plan: [`SYSTEM_PLAN_v2.md`](SYSTEM_PLAN_v2.md)
+
 ---
 
 ## Tier 1 — Systemlagar (läs före kod)
 
 | Fil | Innehåll |
 |-----|----------|
-| [`.context/system-plan.md`](../.context/system-plan.md) | Aktiv fas, status, prioriteringar |
+| [`SYSTEM_PLAN_v2.md`](SYSTEM_PLAN_v2.md) | **Aktiv fas 9–20**, Fas 13–19 leverans |
+| [`.context/system-plan.md`](../.context/system-plan.md) | Historik Fas 1–7, arkitekturlagar |
 | [`.context/security.md`](../.context/security.md) | Layered Defense, Sacred Features, WORM, silos |
 | [`.context/arkiv-minne.md`](../.context/arkiv-minne.md) | Permanent minne, tre silor, Dossier |
 | [`.context/architecture.md`](../.context/architecture.md) | Multi-agent, A2A, Vertex |
@@ -23,7 +26,7 @@ Navigationsindex. **Kanon för systemlagar:** [`.context/`](../.context/) · **C
 |-----|----------|
 | [`SYSTEMKONTROLL.md`](SYSTEMKONTROLL.md) | Färdiga Cursor-prompter, Sacred-register, var sanning bor |
 | [`evaluations/SENASTE-SAMMANFATTNING.md`](evaluations/SENASTE-SAMMANFATTNING.md) | **Aktuell** status (läs denna först) |
-| [`evaluations/SESSION-INDEX.md`](evaluations/SESSION-INDEX.md) | Sessionsöversikt (S1–S7) |
+| [`evaluations/SESSION-INDEX.md`](evaluations/SESSION-INDEX.md) | Sessionsöversikt (S1–S12, Fas 13–19) |
 | [`MODUL-GAP-OVERSIKT.md`](MODUL-GAP-OVERSIKT.md) | Öppet per modul (1 sida) |
 | [`MODUL-FUNKTIONS-REGISTER.md`](MODUL-FUNKTIONS-REGISTER.md) | Modul · route · callable · smoke |
 | [`DOC-DRIFT-RAPPORT.md`](DOC-DRIFT-RAPPORT.md) | Doc vs kod (Del B) |

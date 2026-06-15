@@ -16,10 +16,10 @@ const CustomTooltip = ({ active, payload, label }: any) => {
       <div className="bg-gray-900/95 border border-white/10 p-4 rounded-xl shadow-2xl backdrop-blur-md max-w-[280px] sm:max-w-xs relative z-[100]">
         <p className="font-semibold text-gray-100 mb-2">{label}</p>
         <div className="space-y-1">
-          <p className="text-sm font-medium" style={{ color: '#4ade80' }}>
+          <p className="text-sm font-medium text-success">
             Kapacitet: {data.capacity}
           </p>
-          <p className="text-sm font-medium" style={{ color: '#f87171' }}>
+          <p className="text-sm font-medium text-danger">
             Stress: {data.stressLevel}
           </p>
           {(data.mabraSessionsCount ?? 0) > 0 ? (
@@ -72,8 +72,8 @@ const MabraDot = (props: any) => {
   if (payload?.mabraSessionsCount > 0) {
     return (
       <g>
-        <circle cx={cx} cy={cy} r={8} stroke="#4ade80" strokeWidth={2} fill="#020617" />
-        <circle cx={cx} cy={cy} r={4} fill="#4ade80" />
+        <circle cx={cx} cy={cy} r={8} stroke="currentColor" className="text-success" strokeWidth={2} fill="var(--surface)" />
+        <circle cx={cx} cy={cy} r={4} className="fill-success" />
       </g>
     );
   }

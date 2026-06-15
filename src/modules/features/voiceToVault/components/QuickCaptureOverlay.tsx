@@ -81,7 +81,7 @@ export function QuickCaptureOverlay() {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             onClick={open}
-            className="fixed bottom-24 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#12151f] text-[#d4af37] shadow-lg shadow-black/50 border border-[#d4af37]/30 hover:border-[#d4af37]/60 hover:bg-[#1a1f2e] transition-colors focus:outline-none focus:ring-2 focus:ring-[#d4af37]/50"
+            className="fixed bottom-24 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-surface-2 text-accent shadow-lg shadow-black/50 border border-accent/30 hover:border-accent/60 hover:bg-surface-3 transition-colors focus:outline-none focus:ring-2 focus:ring-accent/50"
             aria-label="Öppna Snabbinspelning"
           >
             <Mic className="h-6 w-6" />
@@ -96,16 +96,16 @@ export function QuickCaptureOverlay() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0a1614]/80 p-4 backdrop-blur-sm"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-surface/80 p-4 backdrop-blur-sm"
           >
             <motion.div
               initial={{ scale: 0.9, y: 20, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.9, y: 20, opacity: 0 }}
-              className="relative w-full max-w-md overflow-hidden rounded-2xl border border-[#d4af37]/30 bg-[#12151f] p-6 shadow-2xl"
+              className="relative w-full max-w-md overflow-hidden rounded-2xl border border-accent/30 bg-surface-2 p-6 shadow-2xl"
             >
               <div className="mb-6 flex items-center justify-between">
-                <h2 className="font-display-serif text-xl text-[#d4af37]">Voice-to-Vault</h2>
+                <h2 className="font-display-serif text-xl text-accent">Voice-to-Vault</h2>
                 <button
                   onClick={close}
                   className="rounded-full p-2 text-white/50 hover:bg-white/5 hover:text-white transition-colors"
@@ -120,7 +120,7 @@ export function QuickCaptureOverlay() {
                   value={transcript}
                   onChange={(e) => setTranscript(e.target.value)}
                   placeholder="Börja prata, eller skriv din anteckning här..."
-                  className="h-32 w-full resize-none rounded-xl border border-white/10 bg-black/20 p-4 text-white placeholder-white/30 focus:border-[#d4af37]/50 focus:outline-none focus:ring-1 focus:ring-[#d4af37]/50"
+                  className="h-32 w-full resize-none rounded-xl border border-border bg-surface/40 p-4 text-text placeholder:text-text-dim focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/50"
                 />
               </div>
 
@@ -130,7 +130,7 @@ export function QuickCaptureOverlay() {
                   className={`flex h-16 w-16 items-center justify-center rounded-full transition-all ${
                     isRecording
                       ? 'bg-red-500/20 text-red-400 border border-red-500/50 animate-pulse'
-                      : 'bg-[#d4af37]/10 text-[#d4af37] border border-[#d4af37]/30 hover:bg-[#d4af37]/20'
+                      : 'bg-accent/10 text-accent border border-accent/30 hover:bg-accent/20'
                   }`}
                   aria-label={isRecording ? 'Stoppa inspelning' : 'Starta inspelning'}
                 >
@@ -147,7 +147,7 @@ export function QuickCaptureOverlay() {
                   <button
                     onClick={handleSubmit}
                     disabled={!transcript.trim() || isSubmitting}
-                    className="flex items-center gap-2 rounded-xl bg-[#d4af37] px-6 py-3 font-medium text-[#12151f] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#ebd074] transition-colors"
+                    className="flex items-center gap-2 rounded-xl bg-accent px-6 py-3 font-medium text-surface disabled:opacity-50 disabled:cursor-not-allowed hover:bg-accent-light transition-colors"
                   >
                     {isSubmitting ? (
                       <Loader2 className="h-5 w-5 animate-spin" />
@@ -169,7 +169,7 @@ export function QuickCaptureOverlay() {
                 </p>
               )}
               {submitStatus === 'success' && feedbackMsg && (
-                <p className="mt-4 text-sm text-[#d4af37] text-center font-medium">
+                <p className="mt-4 text-sm text-accent text-center font-medium">
                   {feedbackMsg}
                 </p>
               )}

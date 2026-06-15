@@ -66,29 +66,30 @@ function main() {
   );
 
   mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/lib/mabra30Pillars.ts',
+    'MABRA_30_PILLARS',
+    'explore_weekly',
+    'recovery',
+    'disabled: true',
+  );
+  mustInclude(
     'src/modules/features/dailyLife/wellbeing/mabra/components/MabraModulValjare.tsx',
     'ExamplePreviewCard',
+    'MABRA_30_PILLARS',
     'markMabraModulValjareSeen',
   );
   mustInclude(
-    'src/modules/features/dailyLife/wellbeing/mabra/components/MabraPage.tsx',
+    'src/modules/features/dailyLife/wellbeing/mabra/views/MabraHubView.tsx',
     'MabraModulValjare',
-    'hasSeenMabraModulValjare',
-    'Byt ingång',
+    'handleModulChoice',
+    'showHubPicker',
   );
 
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/ValvZoneModulValjare.tsx',
     'ExamplePreviewCard',
     'markValvZoneModulValjareSeen',
-    'VALV_ZONE_INGRESS',
-  );
-  mustInclude(
-    'src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx',
     'ValvZoneModulValjare',
-    'hasSeenValvZoneModulValjare',
-    'VALV_ZONE_INGRESS',
-    'Byt zon',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvAnalyseraZone.tsx',

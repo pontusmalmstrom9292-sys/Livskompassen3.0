@@ -84,7 +84,7 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
       role="dialog"
       aria-modal="true"
       aria-label="Akut stöd — andning och jordning"
-      className="fixed inset-0 z-[60] flex flex-col bg-gradient-to-b from-[#020617] via-surface to-surface-2"
+      className="fixed inset-0 z-[60] flex flex-col bg-gradient-to-b from-bg via-surface to-surface-2"
     >
       <header className="flex shrink-0 items-center justify-between border-b-[0.5px] border-border px-4 py-3 sm:px-6">
         <p className="font-display-serif text-[10px] uppercase tracking-[0.22em] text-text-dim">

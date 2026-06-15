@@ -13,6 +13,7 @@
 | Vad | Var |
 |-----|-----|
 | Live moln (functions, vector, secrets) | [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md) |
+| **Fas 19 kredit-audit** | [`evaluations/2026-06-15-fas19-credits-audit.md`](./evaluations/2026-06-15-fas19-credits-audit.md) |
 | Kreditstrategi (~12 000 kr + test) | [`WORKFLOW_AND_AI_CREDITS.md`](./WORKFLOW_AND_AI_CREDITS.md) |
 | Firebase MCP-konfig | [`.cursor/mcp.json`](../.cursor/mcp.json) |
 | Fas & prioritering | [`.context/system-plan.md`](../.context/system-plan.md) |

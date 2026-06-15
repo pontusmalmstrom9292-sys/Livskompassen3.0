@@ -2,7 +2,7 @@
 
 **Syfte:** När det känns rörigt — ett ställe att starta, färdiga analysprompter, och var sanningen bor. Du behöver inte minnas hela projektet; kör en analys och spara resultatet.
 
-**Senast uppdaterad:** 2026-06-14
+**Senast uppdaterad:** 2026-06-15
 
 ---
 
@@ -25,10 +25,10 @@
 
 | Tier | Fil | Vad den säger |
 |------|-----|----------------|
-| **0 — Fas & prioritering** | [`SYSTEM_PLAN_v2.md`](./SYSTEM_PLAN_v2.md) · historik [`.context/system-plan.md`](../.context/system-plan.md) | Fas 9+ aktiv plan; Fas 1–7 historik |
+| **0 — Fas & prioritering** | [`SYSTEM_PLAN_v2.md`](./SYSTEM_PLAN_v2.md) · historik [`.context/system-plan.md`](../.context/system-plan.md) | Fas 9–19 levererat; **Fas 20** doc-synk nästa |
 | **0b — Git / merge** | [`GIT-LATHUND.md`](./GIT-LATHUND.md), [`MERGE-IMPACT-RAPPORT.md`](./MERGE-IMPACT-RAPPORT.md), [`BRANCH-KARTA.md`](./BRANCH-KARTA.md) | En `main`-trunk; PMIR före merge/stängning |
 | **0c — Moln & krediter** | [`MOLN-KREDITER-LATHUND.md`](./MOLN-KREDITER-LATHUND.md), [`WORKFLOW_AND_AI_CREDITS.md`](./WORKFLOW_AND_AI_CREDITS.md) | GCP vs Cursor vs gratis; rutiner; molncheck |
-| **1 — Säkerhet & Sacred** | [`.context/security.md`](../.context/security.md) | Layered Defense, WORM, silos, Kill Switch |
+| **1 — Säkerhet & Sacred** | [`.context/security.md`](../.context/security.md) | Layered Defense, WORM, silos, Device Clear |
 | **2 — Minne & silos** | [`.context/arkiv-minne.md`](../.context/arkiv-minne.md) | Permanent minne, tre kunskapsytor |
 | **3 — Live moln** | [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md) | Functions, indexes, secrets (ersätter arkiv) |
 | **4 — Implementation kö** | [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) | `kör [GAP]` — vad som är open/done |
@@ -37,7 +37,7 @@
 | **7 — Dokumentindex** | [`README.md`](./README.md) | Alla länkar tier 1–4 |
 | **7b — Innehåll fakta/lek** | [`INNEHALL-REGISTER.md`](./INNEHALL-REGISTER.md) | Dirigent + content-banker, ingen silo 4 RAG |
 
-**Röda tråden i en mening:** DCAP före LLM · tre silor (Kunskap / Valv / Barnen) · **U6** innehåll (FACT/REFLECTION/PLAY/EVIDENCE, Vit utan RAG) · WORM på bevis · Zero Footprint + Kill Switch · inga LLM-beslut om auth eller ägarskap · **domän covert/HCF:** [`.context/domän-covert-narcissism.md`](../.context/domän-covert-narcissism.md) + Kunskap våg 20 (`cn-*`, `bh-*`).
+**Röda tråden i en mening:** DCAP före LLM · tre silor (Kunskap / Valv / Barnen) · **U6** innehåll (FACT/REFLECTION/PLAY/EVIDENCE, Vit utan RAG) · WORM på bevis · Zero Footprint + Device Clear · inga LLM-beslut om auth eller ägarskap · **domän covert/HCF:** [`.context/domän-covert-narcissism.md`](../.context/domän-covert-narcissism.md) + Kunskap våg 20 (`cn-*`, `bh-*`).
 
 ---
 
@@ -53,7 +53,7 @@ Verifiera mot kod + [`SMOKE_CHECKLIST.md`](./SMOKE_CHECKLIST.md). Detaljer i [`.
 | Dossier-Generator | wizard + export | `generateDossier` → `dossier_snapshots` |
 | Speglings-Systemet | `/speglar` | `speglingsMirror`, Zero Footprint session |
 | Zero Footprint | blur / timeout / logout | `invalidateSession`, synapse clear |
-| Kill Switch | skaka ≥15 m/s² | → `/`, session rensad |
+| Device Clear | Inställningar → Rensa enheten | `clearDeviceSession`, lokal rensning |
 
 **Permanent minne (får inte raderas av retention):** `children_logs`, `reality_vault`, `journal`, `dossier_snapshots`.
 
@@ -142,7 +142,7 @@ Källor:
 - .context/security.md
 - firestore.rules
 - functions/src/index.ts (callables, auth)
-- src: Zero Footprint, Kill Switch, AuthGate, Verklighetsvalvet, Safe Harbor
+- src: Zero Footprint, Device Clear, AuthGate, Verklighetsvalvet, Safe Harbor
 - docs/SMOKE_CHECKLIST.md
 
 Rapport:
@@ -256,7 +256,7 @@ Kör när du vill dubbelkolla utan Cursor:
 | GCP Fas 4 | [`GCP-FAS4-RUNBOOK.md`](./GCP-FAS4-RUNBOOK.md) |
 | Produkt-MVP klar per modul | [`src/modules/README.md`](../src/modules/README.md) + respektive `*-SPEC.md` |
 
-**Aktuell huvudfas (2026-05-31):** Fas 4 — verifiering + polish. **Status:** [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md) · **Moduler:** [`MODUL-FUNKTIONS-REGISTER.md`](./MODUL-FUNKTIONS-REGISTER.md). **Smoke sanning:** [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) tabell **Current truth**. Öppet i app: #3 Valv, #4 Barnen, #2d bilaga. Klart: #1–2, #18 (2026-05-27), #19–20 static. G1–G16 **done** — `Arkiv-GAP-REGISTER.md`.
+**Aktuell huvudfas (2026-06-15):** Fas 19 masterplan-v2 **levererad**. **Nästa:** Fas 20 (doc-synk, hex→tokens, arkiv). **Status:** [`evaluations/2026-06-15-fas19-masterplan-v2.md`](./evaluations/2026-06-15-fas19-masterplan-v2.md) · **Smoke:** [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md). G1–G16 **done** — `Arkiv-GAP-REGISTER.md`.
 
 ---
 

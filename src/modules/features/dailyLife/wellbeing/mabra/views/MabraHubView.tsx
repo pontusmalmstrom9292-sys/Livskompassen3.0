@@ -200,6 +200,10 @@ export const MabraHubView = memo(function MabraHubView() {
 
   const handleModulChoice = useCallback((choice: MabraModulChoice) => {
     setShowHubPicker(false);
+    if (choice.kind === 'external_route') {
+      navigate(choice.path);
+      return;
+    }
     if (choice.kind === 'daglig_mix') {
       setHubOpenCategory('lekar');
       navigate('/mabra/verktyg/daglig_mix');

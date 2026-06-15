@@ -1,7 +1,7 @@
 # Livskompassen — System Plan v2 (Fas 9+)
 
-**Datum:** 2026-06-14 (gate 12A — superhub-kö AVSLUTAD)  
-**Kanon:** Aktiv styrning från Fas 9. Historik Fas 1–7 → [`.context/system-plan.md`](../.context/system-plan.md)  
+**Datum:** 2026-06-15 (Fas 19 masterplan-v2 **levererad** · Fas 20 doc-synk nästa)  
+**Kanon:** Aktiv styrning Fas 9–19. Historik Fas 1–7 → [`.context/system-plan.md`](../.context/system-plan.md) · **Fas 19:** [`evaluations/2026-06-15-fas19-masterplan-v2.md`](./evaluations/2026-06-15-fas19-masterplan-v2.md)  
 **Sanning:** GCP → [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md) · GAP → [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) · Smoke → [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md)  
 **Audit:** [`evaluations/2026-06-14-fas9-systemanalys.md`](./evaluations/2026-06-14-fas9-systemanalys.md)
 
@@ -151,7 +151,7 @@ Kanon förbättringsplan: [`evaluations/2026-06-11-FOEBATTRINGSPLAN-HELAPP.md`](
 
 ### Smoke & deploy (senast verifierat)
 
-**Current truth:** [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) · gate **12A** 2026-06-14
+**Current truth:** [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) · Fas 13–19 gate **2026-06-15**
 
 | Kategori | Status |
 |----------|--------|
@@ -173,9 +173,9 @@ Kanon förbättringsplan: [`evaluations/2026-06-11-FOEBATTRINGSPLAN-HELAPP.md`](
 | Zon | Route | Backend | Öppet |
 |-----|-------|---------|-------|
 | **Hjärtat** | `/hjartat` · `/hjartat/input` | journal WORM, Vävaren HITL, speglingsMirror | — (Superdagbok **done** §17) |
-| **Vardagen** | `/vardagen` · `/planering/input` · `/arbetsliv/input` | kompasser, ekonomi, mabraCoach | Adaptiv Hemkompass (12B) |
-| **Familjen** | `/familjen` | childrenLogsQuery, analyzeMessage | PDF export partial; push defer |
-| **Valv** | `/valvet` | valvChatQuery, generateDossier, EntityProfile | BBIC reportType |
+| **Vardagen** | `/vardagen` · `/planering/input` · `/arbetsliv/input` | kompasser, ekonomi, mabraCoach | Hex→tokens P0 (Fas 20) |
+| **Familjen** | `/familjen` | childrenLogsQuery, analyzeMessage | Push defer · PDF export partial |
+| **Valv** | `/valvet` | valvChatQuery, generateDossier, EntityProfile | Arkiv-batch 19.6 PMIR |
 | **Barnporten** | `/barnporten` | pairing callables | Push notifications defer |
 
 **SynapseBus:** Alla 4 handlers **live** (driveIngest, journalWoven, dcapAlert, paralysBrytaren).
@@ -202,6 +202,26 @@ Produkt-GAP: [`MODUL-GAP-OVERSIKT.md`](./MODUL-GAP-OVERSIKT.md)
 - Route-konsolidering `/oversikt` vs `/dashboard` (P2)
 - Vite chunk-split Valv/Familjen (P2)
 - `typecheck:core-strict` utökning (P2)
+
+---
+
+## Fas 13–19 (levererat) · Fas 20 (nästa)
+
+| Fas | Leverans | Status | Kanon |
+|-----|----------|--------|-------|
+| **13** | Vault-gate 12C · Dossier BBIC 12D · WORM medium | **done** 2026-06-15 | [`2026-06-15-fas13-leverans.md`](./evaluations/2026-06-15-fas13-leverans.md) · våg 0–6 `fas13-vag-*` |
+| **14** | Drawer IA · weekly/compass vault-gate · security 14B | **done** 2026-06-15 | [`2026-06-15-fas14-leverans.md`](./evaluations/2026-06-15-fas14-leverans.md) · `fas14-chat*` |
+| **15** | Inkast I1–I3 · chat0 baseline · parallel handoff | **done** 2026-06-15 | [`2026-06-15-fas15-inkast-i1-i3.md`](./evaluations/2026-06-15-fas15-inkast-i1-i3.md) · [`fas15-inkast-i2.md`](./evaluations/2026-06-15-fas15-inkast-i2.md) |
+| **16** | Kunskap våg 24 ingest · innehåll U6 | **done** 2026-06-15 | [`2026-06-15-fas16-wave24-ingest.md`](./evaluations/2026-06-15-fas16-wave24-ingest.md) |
+| **17** | Shared `typecheck:core-strict` expansion | **done** 2026-06-15 | [`2026-06-15-fas17-typecheck-shared.md`](./evaluations/2026-06-15-fas17-typecheck-shared.md) |
+| **18** | Android cap sync · App Check enforce (kod) | **done** 2026-06-15 | [`2026-06-15-fas18-android-cap-sync.md`](./evaluations/2026-06-15-fas18-android-cap-sync.md) · [`fas14b-appcheck-enforce.md`](./evaluations/2026-06-15-fas14b-appcheck-enforce.md) |
+| **19** | Masterplan-v2 · M3.0-B hybrid-8 · unlockVault P0 · doc-synk 19.1 | **done** 2026-06-15 | [`2026-06-15-fas19-masterplan-v2.md`](./evaluations/2026-06-15-fas19-masterplan-v2.md) · `fas19-*` eval-serie |
+| **19.5** | `evolution_ledger` dual-write | **defer** Fas 20+ | `infinite-evolution.mdc` |
+| **19.6** | Arkiv-batch PMIR | väntar Pontus OK | [`2026-06-15-fas19-archive-pmir.md`](./evaluations/2026-06-15-fas19-archive-pmir.md) |
+
+**Eval-serie Fas 13–19 (aktiv mapp):** [`evaluations/`](./evaluations/) — planerad arkiv: [`archive/evaluations-fas19-2026-06/`](./archive/evaluations-fas19-2026-06/) (efter 19.6 PMIR).
+
+**Fas 20 (nästa):** Tier-1 doc-synk · hex→tokens P0 · arkiv-batch · JOY-17 / evolution_ledger enligt masterplan defer-tabell.
 
 ---
 

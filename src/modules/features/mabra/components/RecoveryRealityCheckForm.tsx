@@ -286,7 +286,7 @@ export function RecoveryRealityCheckForm({ userId, onSaved, onComplete }: Props)
   return (
     <section
       aria-label="Verklighetskontroll"
-      className="rounded-2xl border-[0.5px] border-border bg-gradient-to-b from-[#020617] via-surface to-surface-2 p-4 sm:p-6"
+      className="rounded-2xl border-[0.5px] border-border bg-gradient-to-b from-bg via-surface to-surface-2 p-4 sm:p-6"
     >
       <CognitiveLoadStrip
         label="Ett steg i taget"

@@ -9,8 +9,13 @@ import {
   type VaultZoneId,
 } from '../auth/sessionService';
 import { authenticateVaultGateUniversal } from '../auth/webauthn';
+import {
+  applyVaultJwtClaim,
+} from './vaultWriteUnlock';
+import {
+  ensureVaultServerSessionFromGate,
+} from '../auth/vaultServerSession';
 import { useVaultZoneIdle } from './useVaultZoneIdle';
-import { applyVaultJwtClaim } from './vaultWriteUnlock';
 
 type Props = {
   zone: VaultZoneId;
@@ -76,6 +81,13 @@ export function VaultZoneGate({
     }
 
     try {
+      const session = await ensureVaultServerSessionFromGate();
+      if (session.ok === false) {
+        setError(session.message);
+        setWebAuthnPending(false);
+        return;
+      }
+
       const claim = await applyVaultJwtClaim();
       if (claim.ok === false) {
         setError(claim.message);

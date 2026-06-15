@@ -12,6 +12,12 @@
 | S6 Modul-batch | 2026-05-29 | `*-cursor-plan.md` (**closed**), [`pmir-modul-rollout-batch.md`](./2026-05-29-pmir-modul-rollout-batch.md) | Stängd i kod · öppet i [`MODUL-GAP-OVERSIKT`](../MODUL-GAP-OVERSIKT.md) |
 | S7 Content | 2026-05-29 | [`content-autorun-program.md`](./2026-05-29-content-autorun-program.md), [`content-autorun-vag-8-ingest.md`](./2026-05-29-content-autorun-vag-8-ingest.md) | Ingest öppen |
 | S8 Vävaren HITL | 2026-05-31 | [`2026-05-31-pmir-session-rniv.md`](./2026-05-31-pmir-session-rniv.md) | Mergad till `main` · functions live · rules/hosting vid behov |
+| S9 Fas 13 | 2026-06-15 | [`2026-06-15-fas13-leverans.md`](./2026-06-15-fas13-leverans.md), `fas13-vag-0`–`vag-6` | **done** (agent) · user-signoff valfritt |
+| S10 Fas 14–16 | 2026-06-15 | [`2026-06-15-fas14-leverans.md`](./2026-06-15-fas14-leverans.md), `fas15-*`, [`fas16-wave24-ingest.md`](./2026-06-15-fas16-wave24-ingest.md) | **done** |
+| S11 Fas 17–18 | 2026-06-15 | [`fas17-typecheck-shared.md`](./2026-06-15-fas17-typecheck-shared.md), [`fas18-android-cap-sync.md`](./2026-06-15-fas18-android-cap-sync.md) | **done** |
+| S12 Fas 19 | 2026-06-15 | [`2026-06-15-fas19-masterplan-v2.md`](./2026-06-15-fas19-masterplan-v2.md), `fas19-theme-lab-mabra`, `fas19-credits-audit`, `fas19-repo-inventory` | **done** · arkiv PMIR 19.6 öppen |
+
+**Fas 13–19 eval-batch (2026-06-15):** 31 filer i [`evaluations/`](./) med prefix `2026-06-15-fas1*`. Planerad arkiv: [`../archive/evaluations-fas19-2026-06/`](../archive/evaluations-fas19-2026-06/) efter godkänd 19.6 PMIR.
 
 **Orkester natt (24–28):** [`archive/evaluations-2026-05/ORKESTER-NATT-ROLLING.md`](../archive/evaluations-2026-05/ORKESTER-NATT-ROLLING.md) · **Senaste:** [`2026-05-29-orkester-natt.md`](./2026-05-29-orkester-natt.md)
 

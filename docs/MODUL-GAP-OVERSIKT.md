@@ -1,8 +1,8 @@
-# Modul-GAP — översikt (2026-06-06)
+# Modul-GAP — översikt (2026-06-15)
 
 **Syfte:** En sida — vad som är **klart i kod**, vad som är **öppet per modul**, och vad som körs **autonomt** vs **kräver dig**.
 
-**Senaste leverans:** Barnporten Våg A/B **deployad** (CB2–CB4 + QR) · Android Run **PASS** · 1h autonom pass Agent 4 · [`2026-06-06-1h-autonom-rapport.md`](./evaluations/2026-06-06-1h-autonom-rapport.md) · [`SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
+**Senaste leverans:** Fas 19 masterplan-v2 **levererad** · Fas 13–18 sprint **done** · [`2026-06-15-fas19-masterplan-v2.md`](./evaluations/2026-06-15-fas19-masterplan-v2.md) · [`SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
 
 **Arkiv (G1–G16):** [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) — alla **done**.  
 **Modulregister:** [`MODUL-FUNKTIONS-REGISTER.md`](./MODUL-FUNKTIONS-REGISTER.md) · **Cursor-plan mall:** [`evaluations/MALL-cursor-plan.md`](./evaluations/MALL-cursor-plan.md)  
@@ -43,20 +43,22 @@ Alla planfiler har `status: closed` överst. **Öppet arbete finns endast i tabe
 
 | Modul | Route | Gap / nästa | Kommando / vem |
 |-------|-------|-------------|----------------|
-| **dagbok** | `/hjartat` (reflektion) | Fas 1–4 **done** · `#2d` USER **PASS** 2026-06-06 | — |
-| **mabra** | `/mabra` | §5 guardrail + §3 Vit djup-länk + **IA Våg 3 kompakt UI** | **done** 2026-05-30 |
-| **planering** | `/planering?tab=handling` | Fas 2 **done** · **kalender P2 done** (`/planering/kalender` + ICS-export · `c2ce1dc0` · `1ef411e3`) | **done** |
-| **projekt** | `/projekt` | MaterialPack Fas 3 light **done** · **Våg A Familjen-mount done** (`22a2f056` under Barnfokus) · `project_rules` Firestore **done** 2026-06-01 | [`pmir-materialpack-editor`](./evaluations/2026-06-06-pmir-materialpack-editor.md) |
-| **kompis/kunskap** | Valv `/valvet` · `kunskapsbank` | Fas 1.5 **done** · våg 8 **partial** (53 FACT — omkör med seed-credentials) | [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) våg 8 |
-| **barnporten** | `/barnporten` | P1 + **Våg A done + deployad** (CB2–CB4) + **Våg B done + deployad** (QR callables + rules) + **polish done** · **USER #4 PASS** 2026-06-06 (Motorola QR) · Våg C push defer | [`2026-06-06-pmir-barnporten-cb2plus.md`](./evaluations/2026-06-06-pmir-barnporten-cb2plus.md) |
-| **valv** | `/valvet` | ValvSuper Fas 1+2 **done** · Vävaren HITL **done** | hosting deploy Fas 2 · [`supermodule-master-plan`](./evaluations/2026-06-06-supermodule-master-plan.md) |
-| **core** | `/` | Hemkompass polish **done** 2026-06-06 · **XSS export-säkerhet done** (`secureExport` merge) · `#2d` autorun PASS · `#3` USER **PASS** 2026-06-07 · `#4` USER **PASS** 2026-06-06 | [`2026-06-06-hemkompass-polish-done.md`](./evaluations/2026-06-06-hemkompass-polish-done.md) |
-| **inkast** | Hem · Valv Samla | CaptureSuper **v2 done** · canonical `InboxReviewQueue` | [`2026-06-06-upload-unified-cursor-plan.md`](./evaluations/2026-06-06-upload-unified-cursor-plan.md) |
-| **liv** | `/vardagen` launcher | **LivSuper + Drogfrihet→Familj done** 2026-06-06 | [`2026-06-06-liv-super-cursor-plan.md`](./evaluations/2026-06-06-liv-super-cursor-plan.md) |
-| **dossier** | `/dossier` | BBIC `reportType` **planned** | Spec §I.4 |
-| **ekonomi** | `/liv?tab=kompasser&vardagenTab=ekonomi` | Routing superhub **live** 2026-06-01 · sparmål UI **done** · lönespec vardag **done** | [`LOST-FEATURES-REGISTER.md`](./evaluations/LOST-FEATURES-REGISTER.md) |
-| **hamn** | `/hamn` | BIFF via `TryggHamnHub` | `smoke:design-modules` |
-| **auth/android** | app | **Run PASS 2026-06-06** (Motorola) · cap sync klar · SHA-1 OK | [`.context/android-capacitor.md`](../.context/android-capacitor.md) |
+| **dagbok** | `/hjartat` · `/hjartat/input` | Superdagbok §17 **done** Fas 11 · Fas 13 WORM medium **done** | — |
+| **mabra** | `/vardagen?tab=mabra` | M3.0-B hybrid-8 pelarkort **done** Fas 19.2 · hex→tokens P0 → Fas 20 | `smoke:mabra` |
+| **planering** | `/vardagen?tab=handling` · `/planering/input` | Superhub §15 **done** · kalender P2 **done** | — |
+| **arbetsliv** | `/vardagen?tab=arbetsliv` · `/arbetsliv/input` | Superhub §16 **done** Fas 10 | — |
+| **ekonomi** | `/vardagen?tab=ekonomi` | Superhub §14 **done** Fas 8 | — |
+| **projekt** | `/projekt` | MaterialPack + Familjen-mount **done** · `project_rules` **done** | — |
+| **kompis/kunskap** | Valv `kunskapsbank` | våg 24 ingest **done** Fas 16 · våg 8 **partial** (53 FACT) | [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) |
+| **barnporten** | `/barnporten` | CB2–CB4 + QR **done** · Våg C push **defer** | USER #4 valfritt re-verify |
+| **valv** | `/valvet` | Vault-gate 12C **done** Fas 13 · unlockVault P0 **done** Fas 19.1 | `smoke:valv-security` |
+| **core** | `/` | Hemkompass 12B **done** · Adaptiv broar live | — |
+| **inkast** | Hem · Valv Samla | Inkast I1–I3 **done** Fas 15 · `InboxReviewQueue` kanon | `smoke:inkast` |
+| **liv** | `/vardagen` | LivSuper launcher **done** | — |
+| **dossier** | Valv `dossier` | BBIC `reportType` **done** Fas 13 (12D) | [`fas13-vag-3-evidence-e2e`](./evaluations/2026-06-15-fas13-vag-3-evidence-e2e.md) |
+| **hamn** | `/familjen?tab=hamn` | BIFF via `TryggHamnHub` · Gräns-Arkitekten G14 **done** | `smoke:design-modules` |
+| **auth/android** | app | cap sync **done** Fas 18 · native Google USER-test öppen | [`.context/android-capacitor.md`](../.context/android-capacitor.md) |
+| **evolution** | hub | `evolution_ledger` dual-write | **defer** Fas 20+ (19.5) |
 
 **Låst UX:** Barnfokus, Valv Mönster/Orkester/Kunskapsbank, Planering P3, ikoner B1/D1/M2 — `npm run smoke:locked-ux` **PASS**.
 
@@ -78,11 +80,11 @@ npm run orkester:night
 
 ---
 
-## Ett steg i taget (Fas 5A — 2026-05-31)
+## Ett steg i taget (Fas 20 — 2026-06-15)
 
 | Prioritet | Gör |
 |-----------|-----|
-| 1 | **Du:** Vävaren HITL i prod — [`evaluations/2026-05-31-fas5a-user-checklist.md`](./evaluations/2026-05-31-fas5a-user-checklist.md) |
-| 2 | **Du:** Manuell smoke #3, #4, #2d, projektbild — uppdatera [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) |
-| 3 | Agent: `npm run smoke:locked-ux` + `smoke:orkester` (klart vid Fas 5A prep) |
-| 4 | Nästa kod: Fas 5B Valv/Hamn polish — **done** på `main` |
+| 1 | **Doc-synk:** Tier-1 hubbar (denna fil + `SYSTEM_PLAN_v2` + `SESSION-INDEX`) |
+| 2 | **Hex→tokens P0** enligt masterplan 19.3 → Fas 20 |
+| 3 | **Arkiv 19.6:** Läs PMIR — [`2026-06-15-fas19-archive-pmir.md`](./evaluations/2026-06-15-fas19-archive-pmir.md) |
+| 4 | **Valfritt USER:** Motorola #3 Valv · #4 Barnporten · native Google |

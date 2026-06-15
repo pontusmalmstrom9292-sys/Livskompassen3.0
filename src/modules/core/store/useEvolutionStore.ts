@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/firestore';
+import { syncEvolutionHubToLedger } from '../firebase/evolutionLedgerFirestore';
 import { FIRESTORE_COLLECTIONS, type EvolutionHubDoc } from '../types/firestore';
 
 export interface EvolutionState {
@@ -38,6 +39,8 @@ export const useEvolutionStore = create<EvolutionState>((set, get) => ({
   setHasSeenLevel2Animation: (seen) => set({ hasSeenLevel2Animation: seen }),
 
   setDoc: (docData) => {
+    const prevDoc = get().doc;
+
     if (!docData) {
       set({
         doc: null,
@@ -77,6 +80,13 @@ export const useEvolutionStore = create<EvolutionState>((set, get) => ({
       isInitialized: true,
       error: null,
     });
+
+    const userId = docData.userId || docData.ownerId;
+    if (userId && prevDoc) {
+      void syncEvolutionHubToLedger(userId, prevDoc, docData).catch((err) => {
+        console.warn('[EvolutionStore] evolution_ledger dual-write:', err);
+      });
+    }
   },
 
   setLoading: (isLoading) => set({ isLoading }),

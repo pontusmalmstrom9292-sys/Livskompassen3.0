@@ -4,8 +4,10 @@ import type {
   RegistrationResponseJSON,
 } from '@simplewebauthn/browser';
 import { functions } from '../firebase/init';
-import { getVaultWebAuthnContext } from './vaultWebAuthnClient';
+import { getVaultWebAuthnContext, isWebAuthnReliable, performVaultWebAuthnForSession } from './vaultWebAuthnClient';
 import { formatCallableError } from './callableErrorMessage';
+import { isCapacitorNative } from '../platform/capacitorPlatform';
+import { performNativeBiometric } from './nativeBiometricAuth';
 
 const TOKEN_KEY = 'livskompassen_vault_session_token';
 const EXPIRES_KEY = 'livskompassen_vault_session_expires';
@@ -126,5 +128,37 @@ export async function issueVaultSessionViaBiometric(
     console.warn('[vaultSession] issueVaultSessionViaBiometric misslyckades:', err);
     return { ok: false, message: formatCallableError(err) };
   }
+}
+
+/**
+ * Säkerställer server-Valv-session före JWT-claim (unlockVault).
+ * Återanvänder befintlig token eller utfärdar ny via WebAuthn/native biometri.
+ */
+export async function ensureVaultServerSessionFromGate(): Promise<VaultSessionIssueOutcome> {
+  if (getVaultSessionToken()) {
+    return { ok: true };
+  }
+
+  const webAuthnOk = await isWebAuthnReliable();
+  if (webAuthnOk) {
+    const webAuthn = await performVaultWebAuthnForSession();
+    if (webAuthn.ok === false) {
+      return { ok: false, message: 'WebAuthn verifiering misslyckades.' };
+    }
+    return issueVaultServerSession(webAuthn.response);
+  }
+
+  if (isCapacitorNative()) {
+    const bio = await performNativeBiometric();
+    if (bio.ok === false) {
+      return { ok: false, message: 'Biometrisk verifiering misslyckades.' };
+    }
+    return issueVaultSessionViaBiometric(bio.platform);
+  }
+
+  return {
+    ok: false,
+    message: 'Biometri stöds inte i denna miljö. Öppna Valvet via Fyren först.',
+  };
 }
 

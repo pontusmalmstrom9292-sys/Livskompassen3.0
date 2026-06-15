@@ -1,7 +1,10 @@
 import { getAuth } from 'firebase/auth';
 import { httpsCallable } from 'firebase/functions';
-import { authenticateVaultGateUniversal } from '../auth/webauthn';
 import { hasVaultGate, setVaultGate } from '../auth/sessionService';
+import {
+  ensureVaultServerSessionFromGate,
+  withVaultSessionPayload,
+} from '../auth/vaultServerSession';
 import { functions } from '../firebase/init';
 import { useStore } from '../store';
 import { syncVaultUnlockedFromGate } from './vaultSessionLifecycle';
@@ -28,7 +31,7 @@ async function isJwtVaultWriteAllowed(): Promise<boolean> {
 export async function applyVaultJwtClaim(): Promise<{ ok: true } | { ok: false; message: string }> {
   try {
     const unlockVault = httpsCallable(functions, 'unlockVault');
-    await unlockVault();
+    await unlockVault(withVaultSessionPayload({}));
     const auth = getAuth();
     if (!auth.currentUser) {
       return { ok: false, message: 'Ingen inloggad användare.' };
@@ -58,9 +61,9 @@ export async function ensureVaultWriteReady(): Promise<VaultWriteUnlockResult> {
     return { ok: true, refreshed: false };
   }
 
-  const bio = await authenticateVaultGateUniversal();
-  if (!bio.ok) {
-    return { ok: false, message: 'Biometrisk verifiering avbröts eller misslyckades.' };
+  const session = await ensureVaultServerSessionFromGate();
+  if (session.ok === false) {
+    return { ok: false, message: session.message };
   }
 
   const claim = await applyVaultJwtClaim();

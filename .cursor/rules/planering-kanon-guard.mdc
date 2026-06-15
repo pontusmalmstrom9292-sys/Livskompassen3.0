@@ -15,6 +15,8 @@ Innan agent eller användare **planerar nytt stort arbete**, **skapar ny SPEC**,
 4. [`docs/evaluations/`](../../docs/evaluations/) — senaste beslut (datum i filnamn)
 5. [`.context/locked-ux-features.md`](../../.context/locked-ux-features.md) — låsta flöden (Aktörskarta, Mönster, Barnfokus …)
 6. [`docs/INNEHALL-REGISTER.md`](../../docs/INNEHALL-REGISTER.md) — U6 innehåll/routing
+7. [`docs/SYSTEM_PLAN_v2.md`](../../docs/SYSTEM_PLAN_v2.md) — Fas 9–20 aktiv plan, superhub-gate
+8. [`docs/evaluations/2026-06-15-fas19-masterplan-v2.md`](../../docs/evaluations/2026-06-15-fas19-masterplan-v2.md) — **enda körplan** Fas 19+ (ersätter utkast)
 
 ## Agent MUST
 

@@ -101,7 +101,7 @@ export function MabraHistoryView() {
               <Zap className="w-4 h-4 fill-amber-400/20" />
               Energi: {data.energy} / 10
             </p>
-            <p className="text-sm font-medium flex items-center gap-1.5 text-[#10b981]">
+            <p className="text-sm font-medium flex items-center gap-1.5 text-success">
               <Smile className="w-4 h-4 fill-emerald-400/20" />
               Humör: {data.mood} / 10
             </p>
@@ -171,8 +171,8 @@ export function MabraHistoryView() {
                   <stop offset="95%" stopColor="#fbbf24" stopOpacity={0}/>
                 </linearGradient>
                 <linearGradient id="colorMood" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.1}/>
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="var(--success)" stopOpacity={0.1}/>
+                  <stop offset="95%" stopColor="var(--success)" stopOpacity={0}/>
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.05)" vertical={false} />
@@ -215,9 +215,9 @@ export function MabraHistoryView() {
                 type="monotone"
                 name="Humör"
                 dataKey="mood"
-                stroke="#10b981"
+                stroke="var(--success)"
                 strokeWidth={2}
-                dot={{ r: 3, strokeWidth: 1, stroke: '#10b981', fill: '#09111e' }}
+                dot={{ r: 3, strokeWidth: 1, stroke: 'var(--success)', fill: '#09111e' }}
                 activeDot={{ r: 5, strokeWidth: 0 }}
                 connectNulls
               />

@@ -181,16 +181,14 @@ export const weaveJournalEntry = onCall(
 export const approveWeaverMetadata = onCall(
   { region: 'europe-west1' },
   async (request) => {
-    if (!request.auth) {
-      throw new HttpsError('unauthenticated', 'Autentisering krävs.');
-    }
-    await assertVaultSession(request.auth.uid, request.data);
+    const uid = await guardSensitiveCallableV2(request, 'approveWeaverMetadata', 20);
+    await assertVaultSession(uid, request.data);
     const pendingId = typeof request.data?.pendingId === 'string' ? request.data.pendingId.trim() : '';
     if (!pendingId) {
       throw new HttpsError('invalid-argument', 'pendingId krävs.');
     }
     try {
-      return await approveWeaverPending(request.auth.uid, pendingId);
+      return await approveWeaverPending(uid, pendingId);
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Godkännande misslyckades.';
       throw new HttpsError('failed-precondition', msg);
@@ -201,16 +199,14 @@ export const approveWeaverMetadata = onCall(
 export const rejectWeaverMetadata = onCall(
   { region: 'europe-west1' },
   async (request) => {
-    if (!request.auth) {
-      throw new HttpsError('unauthenticated', 'Autentisering krävs.');
-    }
-    await assertVaultSession(request.auth.uid, request.data);
+    const uid = await guardSensitiveCallableV2(request, 'rejectWeaverMetadata', 20);
+    await assertVaultSession(uid, request.data);
     const pendingId = typeof request.data?.pendingId === 'string' ? request.data.pendingId.trim() : '';
     if (!pendingId) {
       throw new HttpsError('invalid-argument', 'pendingId krävs.');
     }
     try {
-      await rejectWeaverPending(request.auth.uid, pendingId);
+      await rejectWeaverPending(uid, pendingId);
       return { status: 'dismissed' };
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Avvisning misslyckades.';

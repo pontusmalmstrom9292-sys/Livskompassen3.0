@@ -69,3 +69,12 @@ Applikationen är strikt uppdelad i tre zoner. AI-modellen får ALDRIG skapa nya
 *   **Evolutionär arkitektur**: Alla anpassningar för Barnporten (ålderssegmentering) samt Ekonomi & Planering (kapacitetsstyrning) styrs dynamiskt via `evolution_hub` och loggas i `evolution_ledger`.
 *   **Oföränderlighet (WORM)**: Evolution_ledger är append-only. Det är absolut förbjudet att radera eller modifiera poster i evolution_ledger.
 *   **Referens**: Följ reglerna i `.cursor/rules/infinite-evolution.mdc` och se [INFINITE_EVOLUTION.md](file:///Users/Livskompassen/StudioProjects/Livskompassen3.0/docs/architecture/INFINITE_EVOLUTION.md) för specifikationen.
+
+---
+
+## 5. FAS 19 — MÄSTERPLAN-GATE (till Fas 19+ är klar)
+
+*   **Pre-flight först**: Ingen stor städ, ombyggnad eller mass-radering utan godkänd `docs/evaluations/*-fas19-masterplan-v2.md`. Kör pre-flight via [`docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md`](docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md) i **Planläge**.
+*   **Agenten tar svåra beslut**: för-/nackdel + rekommendation; Pontus godkänner eller justerar.
+*   **Per zon (parallellt)**: backend/integritet + frontend/design + domänexpert (WebSearch vid behov). Arkiv-först — radera inte utan PMIR.
+*   **Full regel**: [`.cursor/rules/fas19-masterplan-guard.mdc`](.cursor/rules/fas19-masterplan-guard.mdc) · utkastplan [`.cursor/plans/fas_19_life_os_015fe1f3.plan.md`](.cursor/plans/fas_19_life_os_015fe1f3.plan.md).

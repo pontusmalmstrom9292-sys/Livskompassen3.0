@@ -1,13 +1,12 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import * as admin from "firebase-admin";
+import { guardSensitiveCallableV2 } from "../lib/callableGuards";
+import { assertVaultSession } from "../lib/vaultSessionGate";
 
+/** Sätter JWT vaultUnlocked — kräver giltig Valv-session (WebAuthn/biometri via issueVaultSession). */
 export const unlockVault = onCall({ region: 'europe-west1' }, async (request) => {
-  // 1. Verifiera att anroparen är genuint inloggad
-  if (!request.auth) {
-    throw new HttpsError("unauthenticated", "Autentisering krävs för att låsa upp valvet.");
-  }
-
-  const uid = request.auth.uid;
+  const uid = await guardSensitiveCallableV2(request, 'unlockVault', 10);
+  await assertVaultSession(uid, request.data);
   
   // 2. Skapa tidsstämpel för förfallodatum (15 minuter framåt i millisekunder)
   const now = Date.now();

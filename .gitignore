@@ -1,5 +1,7 @@
 # Dependencies
 node_modules/
+node_modules.broken-*/
+.npm-cache-fas13/
 
 # Environment & secrets
 .env

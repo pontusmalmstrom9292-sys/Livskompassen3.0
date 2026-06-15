@@ -1,5 +1,6 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { geminiApiKey } from '../lib/geminiSecret';
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import { classifyInboxDocument, buildInboxClassifyBlob } from '../lib/inboxClassifier';
 import {
   confirmInboxQueueItem,
@@ -14,18 +15,14 @@ import {
 } from '../lib/inkastSourceModule';
 
 export const getInboxQueue = onCall({ region: 'europe-west1' }, async (request) => {
-  if (!request.auth) {
-    throw new HttpsError('unauthenticated', 'Autentisering krävs för inkorgen.');
-  }
+  const uid = await guardSensitiveCallableV2(request, 'getInboxQueue', 30);
 
-  const items = await listPendingInboxQueue(request.auth.uid);
+  const items = await listPendingInboxQueue(uid);
   return { items };
 });
 
 export const confirmInboxItem = onCall({ region: 'europe-west1' }, async (request) => {
-  if (!request.auth) {
-    throw new HttpsError('unauthenticated', 'Autentisering krävs.');
-  }
+  const uid = await guardSensitiveCallableV2(request, 'confirmInboxItem', 30);
 
   const queueId = request.data?.queueId;
   const routing = request.data?.routing;
@@ -59,12 +56,12 @@ export const confirmInboxItem = onCall({ region: 'europe-west1' }, async (reques
     : undefined;
 
   if (routing === 'bevis') {
-    await assertVaultSession(request.auth.uid, request.data);
+    await assertVaultSession(uid, request.data);
   }
 
   try {
     return await confirmInboxQueueItem({
-      uid: request.auth.uid,
+      uid,
       queueId,
       routing,
       childAlias,
@@ -78,9 +75,7 @@ export const confirmInboxItem = onCall({ region: 'europe-west1' }, async (reques
 });
 
 export const dismissInboxItem = onCall({ region: 'europe-west1' }, async (request) => {
-  if (!request.auth) {
-    throw new HttpsError('unauthenticated', 'Autentisering krävs.');
-  }
+  const uid = await guardSensitiveCallableV2(request, 'dismissInboxItem', 30);
 
   const queueId = request.data?.queueId;
   if (!queueId || typeof queueId !== 'string') {
@@ -88,7 +83,7 @@ export const dismissInboxItem = onCall({ region: 'europe-west1' }, async (reques
   }
 
   try {
-    await dismissInboxQueueItem(request.auth.uid, queueId);
+    await dismissInboxQueueItem(uid, queueId);
     return { success: true };
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Avvisning misslyckades.';
@@ -99,9 +94,7 @@ export const dismissInboxItem = onCall({ region: 'europe-west1' }, async (reques
 export const previewInboxClassification = onCall(
   { region: 'europe-west1', secrets: [geminiApiKey] },
   async (request) => {
-    if (!request.auth) {
-      throw new HttpsError('unauthenticated', 'Autentisering krävs.');
-    }
+    await guardSensitiveCallableV2(request, 'previewInboxClassification', 20);
 
     const text = request.data?.text;
     const fileName =
@@ -135,9 +128,7 @@ export const previewInboxClassification = onCall(
 export const submitInkastLite = onCall(
   { region: 'europe-west1', secrets: [geminiApiKey], memory: '1GiB', timeoutSeconds: 300 },
   async (request) => {
-    if (!request.auth) {
-      throw new HttpsError('unauthenticated', 'Autentisering krävs.');
-    }
+    const uid = await guardSensitiveCallableV2(request, 'submitInkastLite', 15);
 
     const text = typeof request.data?.text === 'string' ? request.data.text : undefined;
     const base64 = typeof request.data?.base64 === 'string' ? request.data.base64 : undefined;
@@ -190,18 +181,18 @@ export const submitInkastLite = onCall(
     let hasVaultSession = false;
     try {
       if (bevisVaultIntent || request.data?.vaultSessionToken) {
-        await assertVaultSession(request.auth.uid, request.data);
+        await assertVaultSession(uid, request.data);
         hasVaultSession = true;
       }
     } catch {
       hasVaultSession = false;
     }
     
-    const isVerified = request.auth.token?.email_verified === true;
+    const isVerified = request.auth?.token?.email_verified === true;
 
     try {
       return await submitInkastLiteForUser(
-        request.auth.uid,
+        uid,
         {
           text: sanitizedText,
           base64,
