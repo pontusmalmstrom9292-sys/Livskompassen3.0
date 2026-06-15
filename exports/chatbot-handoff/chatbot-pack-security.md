@@ -401,93 +401,6 @@ G7–G16 backend: **done** — [`Arkiv-GAP-REGISTER.md`](../docs/specs/modules/A
 6. Jämför functions-lista mot [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md)
 ````
 
-## File: docs/external-ai/LIFE-OS-BUILD-STATE.md
-````markdown
-# LIFE-OS-BUILD-STATE (levande sanning)
-
-Uppdateras vid varje CHECKPOINT. Register vinner över minne.
-
-**Senast uppdaterad:** 2026-06-15 (plan start)
-
-| Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
-|-----------|-------------|--------|-------|------------|
-| G10 Inkast (G10) | `inboxClassifier.ts`, `submitInkastLite.ts`, `src/modules/inkast/` | **LOCK** | PASS 2026-06-06 | pre-existing |
-| SynapseBus (4 triggers) | `synapseBus.ts`, `driveIngestSynapse.ts` | **LOCK** | orkester PASS | pre-existing |
-| WORM rules | `firestore.rules` reality_vault, children_logs, evolution_ledger | **LOCK** | vault-worm | pre-existing |
-| unlockVault + App Check (kod) | `unlockVault.ts`, `callableGuards.ts`, `appCheck.ts` | **OPEN** (Console Enforce kvar) | valv-security | — |
-| Upload unified | `CapturePanel`, `submitInkastLite`, Storage onFinalize | **OPEN** | — | — |
-| Audio MIME i Inkast | `inkastMimeTypes.ts` | **OPEN** | — | — |
-| inkastSourceModule allowlist | `inkastSourceModule.ts` | **OPEN** | — | — |
-| Valv modul (snapshot redo) | `src/modules/features/lifeJournal/evidence/vault/` | **WIP** | valv PASS | snapshot vid LOCK |
-| MåBra 19.2–19.5 | hybrid-8, evolution_ledger | **DEFER** | — | efter core lock |
-
-## Statusförklaring
-
-- **LOCK** — smoke PASS, får inte refaktoreras utan explicit OK + snapshot
-- **OPEN** — under aktiv utveckling
-- **WIP** — delvis klar, snapshot vid nästa CP om PASS
-- **DEFER** — medvetet senarelagt
-````
-
-## File: functions/src/adk/synapses/dcapAlertSynapse.ts
-````typescript
-import { hashPayload } from '../stateStore';
-⋮----
-export interface DcapAlertPayload {
-  ownerId: string;
-  riskScore: number;
-  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
-  inputHash: string;
-  detectionCount?: number;
-}
-⋮----
-export interface DcapAlertResult {
-  alertId: string;
-  hitlRequired: boolean;
-}
-⋮----
-export async function handleDcapAlert(payload: DcapAlertPayload): Promise<DcapAlertResult>
-````
-
-## File: functions/src/adk/synapses/driveIngestSynapse.ts
-````typescript
-import { analyzeDriveFile } from '../../agents/documentAgent';
-import { MonsterArkivarienCard } from '../../agents/cards';
-import type { A2AMessage } from '../../agents/types';
-import type { AdkOrchestrator } from '../orchestrator';
-import type { DriveIngestPayload } from '../types';
-import { classifyInboxDocument } from '../../lib/inboxClassifier';
-import { routeInboxToWorm } from '../../lib/inboxPersist';
-⋮----
-export async function handleDriveIngest(
-  orchestrator: AdkOrchestrator,
-  payload: DriveIngestPayload
-): Promise<
-⋮----
-function isHeavyResponse(text: string): boolean
-````
-
-## File: functions/src/adk/synapses/journalWovenSynapse.ts
-````typescript
-import { generateEmbeddingInternal } from '../../lib/generateEmbeddingInternal';
-import { upsertKampsparVector } from '../../lib/vectorSearchClient';
-⋮----
-export interface JournalWovenPayload {
-  ownerId: string;
-  journalEntryId: string;
-  mood: string;
-  text: string;
-  optIn: boolean;
-}
-⋮----
-export interface JournalWovenResult {
-  kampsparDocId: string;
-  embeddingDim: number | null;
-}
-⋮----
-export async function handleJournalWoven(payload: JournalWovenPayload): Promise<JournalWovenResult>
-````
-
 ## File: functions/src/adk/synapses/paralysBrytarenSynapse.ts
 ````typescript
 import { VertexAI } from '@google-cloud/vertexai';
@@ -876,6 +789,65 @@ npm run smoke:kunskap
 ```
 ````
 
+## File: functions/src/adk/synapses/dcapAlertSynapse.ts
+````typescript
+import { hashPayload } from '../stateStore';
+⋮----
+export interface DcapAlertPayload {
+  ownerId: string;
+  riskScore: number;
+  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
+  inputHash: string;
+  detectionCount?: number;
+}
+⋮----
+export interface DcapAlertResult {
+  alertId: string;
+  hitlRequired: boolean;
+}
+⋮----
+export async function handleDcapAlert(payload: DcapAlertPayload): Promise<DcapAlertResult>
+````
+
+## File: functions/src/adk/synapses/driveIngestSynapse.ts
+````typescript
+import { analyzeDriveFile } from '../../agents/documentAgent';
+import { MonsterArkivarienCard } from '../../agents/cards';
+import type { A2AMessage } from '../../agents/types';
+import type { AdkOrchestrator } from '../orchestrator';
+import type { DriveIngestPayload } from '../types';
+import { classifyInboxDocument, applyInkastConfidenceGate } from '../../lib/inboxClassifier';
+import { routeInboxToWorm } from '../../lib/inboxPersist';
+⋮----
+export async function handleDriveIngest(
+  orchestrator: AdkOrchestrator,
+  payload: DriveIngestPayload
+): Promise<
+⋮----
+function isHeavyResponse(text: string): boolean
+````
+
+## File: functions/src/adk/synapses/journalWovenSynapse.ts
+````typescript
+import { generateEmbeddingInternal } from '../../lib/generateEmbeddingInternal';
+import { upsertKampsparVector } from '../../lib/vectorSearchClient';
+⋮----
+export interface JournalWovenPayload {
+  ownerId: string;
+  journalEntryId: string;
+  mood: string;
+  text: string;
+  optIn: boolean;
+}
+⋮----
+export interface JournalWovenResult {
+  kampsparDocId: string;
+  embeddingDim: number | null;
+}
+⋮----
+export async function handleJournalWoven(payload: JournalWovenPayload): Promise<JournalWovenResult>
+````
+
 ## File: functions/src/agents/kompis-supervisor.ts
 ````typescript
 import {
@@ -913,7 +885,7 @@ public async invalidateUserSession(userId: string): Promise<void>
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 ⋮----
 import { guardSensitiveCallableV2 } from "../lib/callableGuards";
-import { assertVaultSession } from "../lib/vaultSessionGate";
+import { assertVaultSession, VAULT_SESSION_IDLE_MS } from "../lib/vaultSessionGate";
 ````
 
 ## File: functions/src/lib/vaultSessionGate.ts
@@ -973,6 +945,45 @@ async function isJwtVaultWriteAllowed(): Promise<boolean>
 export async function applyVaultJwtClaim(): Promise<
 ⋮----
 export async function ensureVaultWriteReady(): Promise<VaultWriteUnlockResult>
+````
+
+## File: docs/external-ai/LIFE-OS-BUILD-STATE.md
+````markdown
+# LIFE-OS-BUILD-STATE (levande sanning)
+
+Uppdateras vid varje CHECKPOINT. Register vinner över minne.
+
+**Senast uppdaterad:** 2026-06-15 (CHECKPOINT-6 LOCK — App Check Enforce klar)
+
+| Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
+|-----------|-------------|--------|-------|------------|
+| Security core (WORM + vault + guards) | `firestore.rules`, `unlockVault.ts`, `callableGuards.ts` | **LOCK** | valv-security PASS 2026-06-15 | **CP-1** |
+| Locked UX §11–17 | `.context/locked-ux-features.md` | **LOCK** | locked-ux PASS 2026-06-15 | **CP-1** |
+| G10 Inkast backend | `inboxClassifier.ts`, `submitInkastLite.ts`, `inkastStorageOnFinalize.ts` | **LOCK** | inkast + inbox PASS 2026-06-15 | **CP-3** |
+| G10 Inkast UI (CapturePanel + filer) | `CapturePanel.tsx`, `CaptureSuperModule.tsx` | **LOCK** | build + locked-ux + inkast PASS 2026-06-15 | **CP-4** |
+| Upload unified (Valv DirectPanel) | `InkastDirectPanel.tsx` | **WIP** | behålls tills steg 2 | CP-4 defer |
+| SynapseBus (4 triggers) | `synapseBus.ts`, `driveIngestSynapse.ts`, `dcapAlertSynapse.ts`, `journalWovenSynapse.ts` | **LOCK** | build + orkester PASS 2026-06-15 | **CP-5** |
+| App Check (kod + Console Enforce) | `appCheck.ts`, `callableGuards.ts`, Firebase Console | **LOCK** | inkast + valv-security PASS 2026-06-15 | **CP-6** |
+| Deploy wave docs | `DEPLOY-CHATBOT-WAVE.md` | **LOCK** | — | **CP-6** |
+| Upload unified SPEC | `UPLOAD-UNIFIED-SPEC.md` | **APPROVED** | CP-2 manuell | **CP-2** |
+| Audio MIME i Inkast | `inkastMimeTypes.ts` | **LOCK** | CP-3 backend | **CP-3** |
+| inkastSourceModule allowlist | `inkastSourceModule.ts` | **LOCK** | CP-3 | **CP-3** |
+| Storage onFinalize inkast | `onInkastEvidenceFinalized` | **LOCK** | build PASS | **CP-3** |
+| Valv modul | `src/modules/features/lifeJournal/evidence/vault/` | **WIP** | valv PASS | snapshot vid LOCK |
+| MåBra 19.2–19.5 | hybrid-8, evolution_ledger | **DEFER** | — | efter core lock |
+
+## Statusförklaring
+
+- **LOCK** — smoke PASS, får inte refaktoreras utan explicit OK + snapshot
+- **OPEN** — under aktiv utveckling eller väntar på manuellt steg (Console)
+- **WIP** — delvis klar, snapshot vid nästa CP om PASS
+- **DEFER** — medvetet senarelagt
+
+## Nästa manuella steg (Pontus)
+
+1. ~~Console Enforce~~ — **klar** 2026-06-15 (Pontus bekräftat)
+2. **Snapshot synapser** (finns `~/Livskompassen-snapshots/2026-06-15-synapser/` — kör om vid behov): `./scripts/snapshot_locked_module.sh synapser`
+3. ~~Deploy CP-3/4/5~~ — **klar** 2026-06-15
 ````
 
 ## File: .context/locked-ux-features.md
