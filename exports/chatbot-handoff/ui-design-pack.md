@@ -1123,123 +1123,6 @@ public/manifest.webmanifest → shortcuts[]
 Monteras i `MainLayout`. WH1 pipeline: se [`HOMESCREEN-WIDGETS-SPEC.md`](./HOMESCREEN-WIDGETS-SPEC.md).
 ````
 
-## File: docs/evaluations/2026-06-15-fas19-masterplan-v2.md
-````markdown
-# Fas 19 — Masterplan v2 (slutgiltig)
-
-**Datum:** 2026-06-15 · **Status:** Godkänd — implementation Fas 19.1–19.6  
-**Ersätter:** [`FAS19-UTKASTPLAN.md`](../archive/evaluations-fas19-2026-06/FAS19-UTKASTPLAN.md)  
-**Regel:** [`.cursor/rules/fas19-masterplan-guard.mdc`](../../.cursor/rules/fas19-masterplan-guard.mdc)
-
----
-
-## 1. Executive summary
-
-Livskompassen v2 har levererat Fas 13–18 (WORM, superhubbar, inkast, Kunskap våg 24, Android cap sync) med grön smoke-baseline. Fas 19 fokuserar på **tre parallella spår** utan att bryta Sacred eller locked UX: **(A)** MåBra hybrid-8 pelarnav + hex→tokens, **(B)** projekt-hjärna med arkiv-först doc-synk, **(C)** säkerhets-P0 (`unlockVault`, App Check coverage) före polish. Pontus val: hybrid-8, JOY-17→19.4, evolution_ledger dual-write→19.5.
-
----
-
-## 2. Vision + DONE/LÅST
-
-Se Cursor-plan och pre-flight syntes. G1–G16 **done** · Superhub §11–§17 **låst** · tre silos **PASS**.
-
----
-
-## 3. Implementation-vågor
-
-| Våg | Innehåll | Smoke |
-|-----|----------|-------|
-| **19.1** | Doc-synk + `unlockVault` P0 + App Check guards + LEG-VAULT read-fix | `smoke:valv-security`, `smoke:inkast`, `smoke:locked-ux` |
-| **19.2** | M3.0-B hybrid-8 pelarkort | `smoke:mabra`, `smoke:design-modules`, `smoke:modulvaljare` |
-| **19.3** | Hex→tokens P0 + typecheck expansion | `typecheck:core-strict`, `smoke:design-modules` |
-| **19.4** | JOY-17 + mabraCoach bank-synk | `smoke:innehall`, `smoke:mabra` |
-| **19.5** | evolution_ledger dual-write | `smoke:evolution-discovery` |
-| **19.6** | Arkiv-batch PMIR | `orkester:night` |
-
----
-
-## 4. Glömda funktioner
-
-| ID | Beslut | Våg |
-|----|--------|-----|
-| M3.0-B hybrid-8 | Implementera | 19.2 |
-| JOY-17 prod-wire | Implementera | 19.4 |
-| EVO-LEDGER dual-write | Implementera | 19.5 |
-| M3.0-C Fitness/Näring | Defer | 19.N+ |
-| LEG-VAULT | Behåll | — |
-| BP-PUSH | Defer | TBD |
-
----
-
-## 5. Kostnadsgate
-
-Scripts/orkester:night default · prod callable-smoke en silo i taget · PMIR före merge.
-
----
-
-*Fullständig pre-flight syntes: Cursor-plan `fas_19_masterplan_v2_48298370.plan.md` (intern).*
-````
-
-## File: docs/external-ai/DESIGN-KEEP-REGISTER.md
-````markdown
-# DESIGN-KEEP-REGISTER — vad som är aktivt
-
-Filer i `docs/design/` som **används nu** — rör ej vid städning.
-
-## Specs & policy (KEEP)
-
-- `docs/design/COLOR-POLICY.md`
-- `docs/design/CHROME-POLICY.md`
-- `docs/design/CHROME-EMBER-KANON.md`
-- `docs/design/TYPE-SCALE.md`
-- `docs/design/ICON-STYLE-GUIDE.md`
-- `docs/design/KOMPASS-MODUL-SPEC.md`
-- `docs/design/PLANERING-PROJEKT-HYBRID.md`
-- `docs/design/PLANERINGSSIDA-SPEC.md`
-- `docs/design/WIDGET-BAR-SPEC.md`
-- `docs/design/BARNPORTEN-SPEC.md`
-- `docs/design/VALV-HUBB-SPEC.md`
-- `docs/design/FAMILJEN-HUB-SPEC.md`
-- `docs/design/ANDROID-WIDGETS-SPEC.md`
-- `docs/design/HOMESCREEN-WIDGETS-SPEC.md`
-- `docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md`
-- `docs/design/planering/PLANERING-P3-KANBAN-SPEC.md`
-
-## References / kanon (KEEP)
-
-- `docs/design/references/MENU-DRAWER-KANON.md`
-- `docs/design/references/DOCK-KANON.md`
-- `docs/design/references/VALV-ICON-KANON.md`
-- `docs/design/references/KOMPASS-TRE-TIDPUNKTER.md`
-
-## Galleri — låst widget (KEEP)
-
-- `docs/design/galleri/widget/v2/` — W1–W4 (locked UX hybrid)
-- `docs/design/galleri/barnporten/` — barnporten-infografik
-- `docs/design/galleri/README.md`
-
-## Tema — aktivt (KEEP)
-
-- `src/styles/obsidian-calm-2.css` (kod — inte i design-mappen)
-- `docs/design/themes/phone-icon-variants/PREVIEW.md`
-- `docs/design/theme-lab/` (om aktiv Theme Lab-session)
-
-## Ikoner låsta (KEEP — kod)
-
-- `.context/locked-icons.md` — D1, M2, WH1, WH2
-
-## ARKIV-KANDIDATER (zon för zon)
-
-| Mapp | Antal (ca) | Destinationsförslag |
-|------|------------|---------------------|
-| `docs/design/icons-proposals/` | 200+ SVG | `docs/archive/design-2026-06/icons-proposals/` |
-| `docs/design/redesign-proposals/` | STYLE A/B/C | `docs/archive/design-2026-06/redesign-proposals/` |
-| `docs/design/themes/` (ej aktiv) | A-sacred, B-elevated, E-aurora, kognitiv-skold | `docs/archive/design-2026-06/themes/` |
-| `docs/design/compact/` | gamla modul-mockups | `docs/archive/design-2026-06/compact/` |
-
-**Regel:** Flytta, radera inte — förrän Pontus godkänt HYGIENE-LOG-rad.
-````
-
 ## File: src/modules/core/components/FyrenWidgetBar.tsx
 ````typescript
 import type { CSSProperties, ReactNode } from 'react';
@@ -1623,6 +1506,123 @@ Kapacitetsdata (`evolution_hub`, `useCapacityGate`) **styr Ekonomi och Barnporte
 ---
 
 *Osäkerhet som kräver runtime-smoke (ej körd här):* `npm run smoke:locked-ux`, `npm run smoke:orkester` för att verifiera att nav-redirects inte bryter Barnfokus/Valv-flikar.
+````
+
+## File: docs/evaluations/2026-06-15-fas19-masterplan-v2.md
+````markdown
+# Fas 19 — Masterplan v2 (slutgiltig)
+
+**Datum:** 2026-06-15 · **Status:** Godkänd — implementation Fas 19.1–19.6  
+**Ersätter:** [`FAS19-UTKASTPLAN.md`](../archive/evaluations-fas19-2026-06/FAS19-UTKASTPLAN.md)  
+**Regel:** [`.cursor/rules/fas19-masterplan-guard.mdc`](../../.cursor/rules/fas19-masterplan-guard.mdc)
+
+---
+
+## 1. Executive summary
+
+Livskompassen v2 har levererat Fas 13–18 (WORM, superhubbar, inkast, Kunskap våg 24, Android cap sync) med grön smoke-baseline. Fas 19 fokuserar på **tre parallella spår** utan att bryta Sacred eller locked UX: **(A)** MåBra hybrid-8 pelarnav + hex→tokens, **(B)** projekt-hjärna med arkiv-först doc-synk, **(C)** säkerhets-P0 (`unlockVault`, App Check coverage) före polish. Pontus val: hybrid-8, JOY-17→19.4, evolution_ledger dual-write→19.5.
+
+---
+
+## 2. Vision + DONE/LÅST
+
+Se Cursor-plan och pre-flight syntes. G1–G16 **done** · Superhub §11–§17 **låst** · tre silos **PASS**.
+
+---
+
+## 3. Implementation-vågor
+
+| Våg | Innehåll | Smoke |
+|-----|----------|-------|
+| **19.1** | Doc-synk + `unlockVault` P0 + App Check guards + LEG-VAULT read-fix | `smoke:valv-security`, `smoke:inkast`, `smoke:locked-ux` |
+| **19.2** | M3.0-B hybrid-8 pelarkort | `smoke:mabra`, `smoke:design-modules`, `smoke:modulvaljare` |
+| **19.3** | Hex→tokens P0 + typecheck expansion | `typecheck:core-strict`, `smoke:design-modules` |
+| **19.4** | JOY-17 + mabraCoach bank-synk | `smoke:innehall`, `smoke:mabra` |
+| **19.5** | evolution_ledger dual-write | `smoke:evolution-discovery` |
+| **19.6** | Arkiv-batch PMIR | `orkester:night` |
+
+---
+
+## 4. Glömda funktioner
+
+| ID | Beslut | Våg |
+|----|--------|-----|
+| M3.0-B hybrid-8 | Implementera | 19.2 |
+| JOY-17 prod-wire | Implementera | 19.4 |
+| EVO-LEDGER dual-write | Implementera | 19.5 |
+| M3.0-C Fitness/Näring | Defer | 19.N+ |
+| LEG-VAULT | Behåll | — |
+| BP-PUSH | Defer | TBD |
+
+---
+
+## 5. Kostnadsgate
+
+Scripts/orkester:night default · prod callable-smoke en silo i taget · PMIR före merge.
+
+---
+
+*Fullständig pre-flight syntes: Cursor-plan `fas_19_masterplan_v2_48298370.plan.md` (intern).*
+````
+
+## File: docs/external-ai/DESIGN-KEEP-REGISTER.md
+````markdown
+# DESIGN-KEEP-REGISTER — vad som är aktivt
+
+Filer i `docs/design/` som **används nu** — rör ej vid städning.
+
+## Specs & policy (KEEP)
+
+- `docs/design/COLOR-POLICY.md`
+- `docs/design/CHROME-POLICY.md`
+- `docs/design/CHROME-EMBER-KANON.md`
+- `docs/design/TYPE-SCALE.md`
+- `docs/design/ICON-STYLE-GUIDE.md`
+- `docs/design/KOMPASS-MODUL-SPEC.md`
+- `docs/design/PLANERING-PROJEKT-HYBRID.md`
+- `docs/design/PLANERINGSSIDA-SPEC.md`
+- `docs/design/WIDGET-BAR-SPEC.md`
+- `docs/design/BARNPORTEN-SPEC.md`
+- `docs/design/VALV-HUBB-SPEC.md`
+- `docs/design/FAMILJEN-HUB-SPEC.md`
+- `docs/design/ANDROID-WIDGETS-SPEC.md`
+- `docs/design/HOMESCREEN-WIDGETS-SPEC.md`
+- `docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md`
+- `docs/design/planering/PLANERING-P3-KANBAN-SPEC.md`
+
+## References / kanon (KEEP)
+
+- `docs/design/references/MENU-DRAWER-KANON.md`
+- `docs/design/references/DOCK-KANON.md`
+- `docs/design/references/VALV-ICON-KANON.md`
+- `docs/design/references/KOMPASS-TRE-TIDPUNKTER.md`
+
+## Galleri — låst widget (KEEP)
+
+- `docs/design/galleri/widget/v2/` — W1–W4 (locked UX hybrid)
+- `docs/design/galleri/barnporten/` — barnporten-infografik
+- `docs/design/galleri/README.md`
+
+## Tema — aktivt (KEEP)
+
+- `src/styles/obsidian-calm-2.css` (kod — inte i design-mappen)
+- `docs/design/themes/phone-icon-variants/PREVIEW.md`
+- `docs/design/theme-lab/` (om aktiv Theme Lab-session)
+
+## Ikoner låsta (KEEP — kod)
+
+- `.context/locked-icons.md` — D1, M2, WH1, WH2
+
+## ARKIV-KANDIDATER (zon för zon)
+
+| Mapp | Antal (ca) | Destinationsförslag |
+|------|------------|---------------------|
+| `docs/design/icons-proposals/` | 200+ SVG | `docs/archive/design-2026-06/icons-proposals/` |
+| `docs/design/redesign-proposals/` | STYLE A/B/C | `docs/archive/design-2026-06/redesign-proposals/` |
+| `docs/design/themes/` (ej aktiv) | A-sacred, B-elevated, E-aurora, kognitiv-skold | `docs/archive/design-2026-06/themes/` |
+| `docs/design/compact/` | gamla modul-mockups | `docs/archive/design-2026-06/compact/` |
+
+**Regel:** Flytta, radera inte — förrän Pontus godkänt HYGIENE-LOG-rad.
 ````
 
 ## File: docs/external-ai/UI-DESIGN-HANDOFF.md
@@ -2277,6 +2277,37 @@ export function getDrawerRoots(section: NavDrawerSection, vaultSessionOpen = fal
 export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, vaultSessionOpen = false): boolean
 ````
 
+## File: src/modules/features/admin/planning/components/PlaneringPage.tsx
+````typescript
+import { lazy, Suspense, useEffect, useMemo } from 'react';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { Calendar, LayoutGrid, PenLine } from 'lucide-react';
+import { clsx } from 'clsx';
+import { HubPageShell } from '@/core/layout/HubPageShell';
+import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { PLANERING_TAGLINE, PLANERING_MORE_TABS } from '../constants';
+import type { PlaneringTab } from '../types';
+import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
+import { PlanningKanbanBoard } from './PlanningKanbanBoard';
+import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
+import { LivBackLink } from '@/modules/shell/LivBackLink';
+import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
+import { PlaneringMoreTabsBar } from './PlaneringMoreTabsBar';
+import { PlaneringErrorBoundary } from './PlaneringErrorBoundary';
+import { PlaneringBentoShell } from './PlaneringBentoShell';
+import {
+  hasSeenGoraModulValjare,
+  markGoraModulValjareSeen,
+} from '../utils/goraModulValjareStorage';
+import {
+  isPlaneringInputMode,
+  type PlaneringInputMode,
+} from '../supermodule/planeringInputModes';
+⋮----
+function PlaneringPanelFallback()
+````
+
 ## File: .context/locked-ux-features.md
 ````markdown
 # Locked UX Features (låsta — får inte tas bort)
@@ -2730,37 +2761,6 @@ npm run smoke:obsidian-depth
 ```
 
 Vid refaktor av `VaultPage`, `FamiljenPage`, eller borttagning av specs ovan: kör smoke innan merge.
-````
-
-## File: src/modules/features/admin/planning/components/PlaneringPage.tsx
-````typescript
-import { lazy, Suspense, useEffect, useMemo } from 'react';
-import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { Calendar, LayoutGrid, PenLine } from 'lucide-react';
-import { clsx } from 'clsx';
-import { HubPageShell } from '@/core/layout/HubPageShell';
-import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { PLANERING_TAGLINE, PLANERING_MORE_TABS } from '../constants';
-import type { PlaneringTab } from '../types';
-import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
-import { PlanningKanbanBoard } from './PlanningKanbanBoard';
-import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
-import { LivBackLink } from '@/modules/shell/LivBackLink';
-import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
-import { PlaneringMoreTabsBar } from './PlaneringMoreTabsBar';
-import { PlaneringErrorBoundary } from './PlaneringErrorBoundary';
-import { PlaneringBentoShell } from './PlaneringBentoShell';
-import {
-  hasSeenGoraModulValjare,
-  markGoraModulValjareSeen,
-} from '../utils/goraModulValjareStorage';
-import {
-  isPlaneringInputMode,
-  type PlaneringInputMode,
-} from '../supermodule/planeringInputModes';
-⋮----
-function PlaneringPanelFallback()
 ````
 
 ## File: src/modules/core/routing/AppRoutes.tsx

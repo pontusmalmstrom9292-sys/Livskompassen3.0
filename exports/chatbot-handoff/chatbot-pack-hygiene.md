@@ -39,6 +39,103 @@ The content is organized as follows:
 
 # Files
 
+## File: docs/archive/design-2026-06/README.md
+````markdown
+# Arkiv — design-prototyper (Fas 19.6)
+
+**Status:** Reserverad mapp. Theme-prototyper (ej `DESIGN-PACK-*`) flyttas hit **zon för zon** efter Theme Lab-verifiering — ingen bulk-flytt i 19.6 (Pontus OK 2026-06-15).
+
+**Kanon kvar i repo:** `docs/design/themes/DESIGN-PACK-*`, `OBSIDIAN-DEPTH-SPEC.md`, `ICON-STYLE-GUIDE.md`, Theme Lab `/dev/theme-lab`.
+````
+
+## File: docs/archive/README.md
+````markdown
+# Archive
+
+Historiskt material — **läs-only**. Använd inte som aktiv sanning.
+
+## Innehåll
+
+| Mapp / fil | Beskrivning |
+|------------|-------------|
+| [`evaluations-fas19-2026-06/`](evaluations-fas19-2026-06/) | Hub-analyser + ombyggnad 2026-05-31 (Fas 19 prep) |
+| [`evaluations-fas19-6-2026-06/`](evaluations-fas19-6-2026-06/) | **Fas 19.6** arkiv-batch (2026-06-15) |
+| [`evaluations-fas20-2026-06/`](evaluations-fas20-2026-06/) | Maj–juni tidiga cursor-planer + 2026-06-06 byggpass |
+| [`evaluations-fas21-2026-06/`](evaluations-fas21-2026-06/) | Superhub deep + multitask juni 2026 |
+| [`design-2026-06/`](design-2026-06/) | Reserverad — theme-prototyper (defer) |
+| [`evaluations-2026-05/`](evaluations-2026-05/) | Grunder/Vision + **ORKESTER-NATT-ROLLING**, **CONTENT-AUTORUN-ROLLING**, Maj-2026 batch |
+| [`evaluations-2026-05-23/`](evaluations-2026-05-23/) | Systemkontroll A–E + modulrapporter 2026-05-23 |
+| [`evaluations-closed-2026-05-29/`](evaluations-closed-2026-05-29/) | Vertex dagbok-spec + superseded PMIR (batch) |
+| [`CONSOLIDATION-PLAN.md`](CONSOLIDATION-PLAN.md) | Repo-konsolidering (klart 2026-05-24) |
+| [`CHAT-ANALYS-2026-05-24.md`](CHAT-ANALYS-2026-05-24.md) | Copilot-snapshot (delvis föråldrad) |
+| [`WAVE4_DEFERRED.md`](WAVE4_DEFERRED.md) | Uppskjutet spår — G13 m.fl. nu done i GAP |
+| [`kladd/`](kladd/) | Konsoliderad notebook-scratch (PII-möjlig) |
+| [`repomix/`](repomix/) | Repomix-snapshots + låsta konsolideringsbeslut |
+| [`server-legacy/`](server-legacy/) | Arkiverad Express-backend |
+| [`OVERNIGHT_REPORT.md`](OVERNIGHT_REPORT.md) | Punkt-i-tid nattkörning 2026-05-22 |
+| [`GITHUB_SETUP.md`](GITHUB_SETUP.md) | Superseded — se [`docs/GITHUB_STANDALONE_SETUP.md`](../GITHUB_STANDALONE_SETUP.md) |
+| [`Kompis.md`](Kompis.md) | Tidigt konceptdokument |
+| [`GCP-INVENTORY-2026-05-21.md`](GCP-INVENTORY-2026-05-21.md) | Superseded — se [`docs/GCP-INVENTORY-LATEST.md`](../GCP-INVENTORY-LATEST.md) |
+| [`legacy-system-plan.md`](legacy-system-plan.md) | Superseded — se [`.context/system-plan.md`](../../.context/system-plan.md) |
+
+## Aktiva referenser (ej arkiv)
+
+- **Grunder slides:** [`docs/specs/modules/grunder-slides/`](../specs/modules/grunder-slides/) — se [`INVENTAR.md`](../specs/modules/grunder-slides/INVENTAR.md)
+- **Drive pipeline:** [`docs/DRIVE_AUTOMATION.md`](../DRIVE_AUTOMATION.md)
+
+## Säkerhet
+
+- `drive-backup/` är gitignored (kan innehålla familjedokument och PII).
+- Committa inte PII till publikt repo.
+````
+
+## File: docs/external-ai/REPO-HYGIENE.md
+````markdown
+# REPO-HYGIENE — kontinuerlig städning
+
+Städa **medan** vi bygger. **Arkiv-först** — aldrig massradering utan lista i `HYGIENE-LOG.md`.
+
+## Tre klasser
+
+| Klass | Åtgärd |
+|-------|--------|
+| **KEEP** | Behåll — registrera i `DESIGN-KEEP-REGISTER.md` |
+| **ARCHIVE** | Flytta till `docs/archive/YYYY-MM/` |
+| **DELETE** | Endast tomma/trasiga placeholders efter ARCHIVE eller uppenbart säkert |
+
+## Vid varje CHECKPOINT (steg 9)
+
+1. Lista nya/ändrade filer sedan förra CP
+2. Klassificera KEEP / ARCHIVE / DELETE (GPT-5.4 Mini eller Cursor)
+3. Skriv rad i `HYGIENE-LOG.md`
+4. Flytta ARCHIVE — radera inte design-historik direkt
+5. Uppdatera `DESIGN-KEEP-REGISTER.md`
+
+## Dedikerad design-audit
+
+- **CHECKPOINT-2** (mellan SPEC och kod) eller **CHECKPOINT-7** (final)
+- Modell: Opus 4.8 eller GPT-5.4 Mini
+- Uppdrag: *Lista filer i docs/design som inte refereras av KEEP-register eller kod — föreslå ARCHIVE.*
+
+## Mappar att städa löpande
+
+| Mapp | Åtgärd |
+|------|--------|
+| `docs/design/icons-proposals/` | ARCHIVE (ej valda SVG) |
+| `docs/design/redesign-proposals/` | ARCHIVE |
+| `docs/design/themes/` (utom aktiv) | ARCHIVE → `docs/archive/design-2026-06/` |
+| `docs/evaluations/` (duplicerade) | ARCHIVE om ersatta av fas19-masterplan-v2 |
+| `exports/` | OK rensa lokalt — regenereras med pack |
+
+## Förbjudet utan PMIR
+
+- Radera locked UX-specs
+- Radera `.cursor/rules` refererade specs
+- Mass-delete `docs/design/` utan KEEP-register
+
+Se [`DESIGN-KEEP-REGISTER.md`](./DESIGN-KEEP-REGISTER.md).
+````
+
 ## File: docs/DOC-INDEX.md
 ````markdown
 # DOC-INDEX — var hittar jag vad?
@@ -133,54 +230,47 @@ Bifoga-mapp: `docs/external-ai/bifoga/` — se [`bifoga/README.md`](external-ai/
 8. `docs/evaluations/2026-06-15-fas19-masterplan-v2.md`
 ````
 
-## File: docs/archive/design-2026-06/README.md
+## File: docs/evaluations/2026-06-15-fas19-archive-pmir.md
 ````markdown
-# Arkiv — design-prototyper (Fas 19.6)
+# Fas 19 — Arkiv-manifest (PMIR)
 
-**Status:** Reserverad mapp. Theme-prototyper (ej `DESIGN-PACK-*`) flyttas hit **zon för zon** efter Theme Lab-verifiering — ingen bulk-flytt i 19.6 (Pontus OK 2026-06-15).
+**Datum:** 2026-06-15  
+**Status:** **Utförd** 2026-06-15 (Pontus: «flytta»)  
+**Batch-logg:** [`../archive/evaluations-fas19-6-2026-06/README.md`](../archive/evaluations-fas19-6-2026-06/README.md)  
+**Princip:** Arkiv-först · **Radera-lista tom**
 
-**Kanon kvar i repo:** `docs/design/themes/DESIGN-PACK-*`, `OBSIDIAN-DEPTH-SPEC.md`, `ICON-STYLE-GUIDE.md`, Theme Lab `/dev/theme-lab`.
-````
+---
 
-## File: docs/archive/README.md
-````markdown
-# Archive
+## Behåll (aktiv kanon)
 
-Historiskt material — **läs-only**. Använd inte som aktiv sanning.
+Alla filer i skyddad lista: [`fas19-repo-inventory.md`](./2026-06-15-fas19-repo-inventory.md)
 
-## Innehåll
+---
 
-| Mapp / fil | Beskrivning |
-|------------|-------------|
-| [`evaluations-fas19-2026-06/`](evaluations-fas19-2026-06/) | Hub-analyser + ombyggnad 2026-05-31 (Fas 19 prep) |
-| [`evaluations-fas19-6-2026-06/`](evaluations-fas19-6-2026-06/) | **Fas 19.6** arkiv-batch (2026-06-15) |
-| [`evaluations-fas20-2026-06/`](evaluations-fas20-2026-06/) | Maj–juni tidiga cursor-planer + 2026-06-06 byggpass |
-| [`evaluations-fas21-2026-06/`](evaluations-fas21-2026-06/) | Superhub deep + multitask juni 2026 |
-| [`design-2026-06/`](design-2026-06/) | Reserverad — theme-prototyper (defer) |
-| [`evaluations-2026-05/`](evaluations-2026-05/) | Grunder/Vision + **ORKESTER-NATT-ROLLING**, **CONTENT-AUTORUN-ROLLING**, Maj-2026 batch |
-| [`evaluations-2026-05-23/`](evaluations-2026-05-23/) | Systemkontroll A–E + modulrapporter 2026-05-23 |
-| [`evaluations-closed-2026-05-29/`](evaluations-closed-2026-05-29/) | Vertex dagbok-spec + superseded PMIR (batch) |
-| [`CONSOLIDATION-PLAN.md`](CONSOLIDATION-PLAN.md) | Repo-konsolidering (klart 2026-05-24) |
-| [`CHAT-ANALYS-2026-05-24.md`](CHAT-ANALYS-2026-05-24.md) | Copilot-snapshot (delvis föråldrad) |
-| [`WAVE4_DEFERRED.md`](WAVE4_DEFERRED.md) | Uppskjutet spår — G13 m.fl. nu done i GAP |
-| [`kladd/`](kladd/) | Konsoliderad notebook-scratch (PII-möjlig) |
-| [`repomix/`](repomix/) | Repomix-snapshots + låsta konsolideringsbeslut |
-| [`server-legacy/`](server-legacy/) | Arkiverad Express-backend |
-| [`OVERNIGHT_REPORT.md`](OVERNIGHT_REPORT.md) | Punkt-i-tid nattkörning 2026-05-22 |
-| [`GITHUB_SETUP.md`](GITHUB_SETUP.md) | Superseded — se [`docs/GITHUB_STANDALONE_SETUP.md`](../GITHUB_STANDALONE_SETUP.md) |
-| [`Kompis.md`](Kompis.md) | Tidigt konceptdokument |
-| [`GCP-INVENTORY-2026-05-21.md`](GCP-INVENTORY-2026-05-21.md) | Superseded — se [`docs/GCP-INVENTORY-LATEST.md`](../GCP-INVENTORY-LATEST.md) |
-| [`legacy-system-plan.md`](legacy-system-plan.md) | Superseded — se [`.context/system-plan.md`](../../.context/system-plan.md) |
+## Flytta (Fas 19.3 — efter godkännande)
 
-## Aktiva referenser (ej arkiv)
+| Från | Till | Notering |
+|------|------|----------|
+| `docs/evaluations/2026-05-23-*` … äldre utan länk i README | `docs/archive/evaluations-2026-05/` | Behåll pekare i SESSION-INDEX |
+| Överflödiga theme-prototyper (ej DESIGN-PACK) | `docs/archive/design-2026-06/` | **Defer** — mapp reserverad; zon för zon efter Theme Lab |
 
-- **Grunder slides:** [`docs/specs/modules/grunder-slides/`](../specs/modules/grunder-slides/) — se [`INVENTAR.md`](../specs/modules/grunder-slides/INVENTAR.md)
-- **Drive pipeline:** [`docs/DRIVE_AUTOMATION.md`](../DRIVE_AUTOMATION.md)
+---
 
-## Säkerhet
+## Implementera (backlog i masterplan-v2)
 
-- `drive-backup/` är gitignored (kan innehålla familjedokument och PII).
-- Committa inte PII till publikt repo.
+M3.0-C Kat 2/3/6 grönt fält · DF-CLEAR · NAV-2.7 · evolution_ledger 19.5
+
+---
+
+## Defer
+
+JOY-17 · BP-PUSH · LEG-VAULT rules · Genkit V1
+
+---
+
+## Radera
+
+**Inga filer** i denna PMIR — tom lista.
 ````
 
 ## File: docs/external-ai/DESIGN-KEEP-REGISTER.md
@@ -241,96 +331,6 @@ Filer i `docs/design/` som **används nu** — rör ej vid städning.
 | `docs/design/compact/` | gamla modul-mockups | `docs/archive/design-2026-06/compact/` |
 
 **Regel:** Flytta, radera inte — förrän Pontus godkänt HYGIENE-LOG-rad.
-````
-
-## File: docs/external-ai/REPO-HYGIENE.md
-````markdown
-# REPO-HYGIENE — kontinuerlig städning
-
-Städa **medan** vi bygger. **Arkiv-först** — aldrig massradering utan lista i `HYGIENE-LOG.md`.
-
-## Tre klasser
-
-| Klass | Åtgärd |
-|-------|--------|
-| **KEEP** | Behåll — registrera i `DESIGN-KEEP-REGISTER.md` |
-| **ARCHIVE** | Flytta till `docs/archive/YYYY-MM/` |
-| **DELETE** | Endast tomma/trasiga placeholders efter ARCHIVE eller uppenbart säkert |
-
-## Vid varje CHECKPOINT (steg 9)
-
-1. Lista nya/ändrade filer sedan förra CP
-2. Klassificera KEEP / ARCHIVE / DELETE (GPT-5.4 Mini eller Cursor)
-3. Skriv rad i `HYGIENE-LOG.md`
-4. Flytta ARCHIVE — radera inte design-historik direkt
-5. Uppdatera `DESIGN-KEEP-REGISTER.md`
-
-## Dedikerad design-audit
-
-- **CHECKPOINT-2** (mellan SPEC och kod) eller **CHECKPOINT-7** (final)
-- Modell: Opus 4.8 eller GPT-5.4 Mini
-- Uppdrag: *Lista filer i docs/design som inte refereras av KEEP-register eller kod — föreslå ARCHIVE.*
-
-## Mappar att städa löpande
-
-| Mapp | Åtgärd |
-|------|--------|
-| `docs/design/icons-proposals/` | ARCHIVE (ej valda SVG) |
-| `docs/design/redesign-proposals/` | ARCHIVE |
-| `docs/design/themes/` (utom aktiv) | ARCHIVE → `docs/archive/design-2026-06/` |
-| `docs/evaluations/` (duplicerade) | ARCHIVE om ersatta av fas19-masterplan-v2 |
-| `exports/` | OK rensa lokalt — regenereras med pack |
-
-## Förbjudet utan PMIR
-
-- Radera locked UX-specs
-- Radera `.cursor/rules` refererade specs
-- Mass-delete `docs/design/` utan KEEP-register
-
-Se [`DESIGN-KEEP-REGISTER.md`](./DESIGN-KEEP-REGISTER.md).
-````
-
-## File: docs/evaluations/2026-06-15-fas19-archive-pmir.md
-````markdown
-# Fas 19 — Arkiv-manifest (PMIR)
-
-**Datum:** 2026-06-15  
-**Status:** **Utförd** 2026-06-15 (Pontus: «flytta»)  
-**Batch-logg:** [`../archive/evaluations-fas19-6-2026-06/README.md`](../archive/evaluations-fas19-6-2026-06/README.md)  
-**Princip:** Arkiv-först · **Radera-lista tom**
-
----
-
-## Behåll (aktiv kanon)
-
-Alla filer i skyddad lista: [`fas19-repo-inventory.md`](./2026-06-15-fas19-repo-inventory.md)
-
----
-
-## Flytta (Fas 19.3 — efter godkännande)
-
-| Från | Till | Notering |
-|------|------|----------|
-| `docs/evaluations/2026-05-23-*` … äldre utan länk i README | `docs/archive/evaluations-2026-05/` | Behåll pekare i SESSION-INDEX |
-| Överflödiga theme-prototyper (ej DESIGN-PACK) | `docs/archive/design-2026-06/` | **Defer** — mapp reserverad; zon för zon efter Theme Lab |
-
----
-
-## Implementera (backlog i masterplan-v2)
-
-M3.0-C Kat 2/3/6 grönt fält · DF-CLEAR · NAV-2.7 · evolution_ledger 19.5
-
----
-
-## Defer
-
-JOY-17 · BP-PUSH · LEG-VAULT rules · Genkit V1
-
----
-
-## Radera
-
-**Inga filer** i denna PMIR — tom lista.
 ````
 
 ## File: docs/external-ai/HYGIENE-LOG.md

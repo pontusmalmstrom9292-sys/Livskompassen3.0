@@ -39,304 +39,6 @@ The content is organized as follows:
 
 # Files
 
-## File: docs/external-ai/imports/deep-research-ide.md
-````markdown
-# Sammanfattning  
-För ett “mobile Life OS” med nordisk, minimalistisk estetik rekommenderas en stabil komponentbas (design tokens för färg/typografi/spacing) och en modulär arkitektur med tydliga supermoduler (Hjärtat, Vardagen, Familjen, Valvet, samt bakgrunds‑“Fyren”). En tvärplattformslösning ger snabbare utveckling och enhetligt UI, medan native tvåkodbas–lösningar innebär större underhållskostnad. Vi bygger först ett enkelt ramverk med kärnkomponenter och design tokens (färgpalett, typsnitt, enhetligt radavstånd) som garanterar kontrast och läsbarhet (WCAG-standard). Accessibility (skärmläsare, roller/etiketter) och prestanda budgetar definieras tidigt, och alla delar testas automatiskt (CI/CD med linting, enhetstester, e2e-tester). Utifrån våra tidigare visioner och teknisk insikt föreslås Flutter för hög UI-konsistens och animationsprestanda, men React Native kan övervägas om JS-expertis är prioriterad.
-
-## 1. Front-end-stack: iOS/Android native vs React Native vs Flutter  
-- **Natív (SwiftUI/Jetpack Compose)** – Bäst prestanda och direkt åtkomst till plattforms-API:er. Kräver dubbla kodbaser och mer utvecklingstid. Passar om man inte behöver code sharing mellan plattformar.  
-- **React Native** – JavaScript/TypeScript, stort ekosystem, snabb onboarding för webbutvecklare. Stora moduler och paket finns, och nyarkitekturen Fabric/Hermes har förbättrat prestandan. Risk för små inkonsekvenser i UI (eftersom native-komponenter återanvänds). Överbryggningslagret (JSI) ger låg latens.  
-- **Flutter** – Dart och eget renderingsteam (Impeller) ger pixelperfekt, konsekvent UI och sömlösa animationer. Mycket effektivt för grafikintensiva vyer och “design-led” appar. Större baspaket vid första install (8–12 MB) men ger identiskt utseende på iOS/Android. Dart är starkt typat med null-säkerhet.  
-
-**Rekommendation (i prioriterad ordning):** För Livskompassen, där UI-konsistens och animationskvalitet är centralt (”nordiskt ceremoniellt”), väger Flutter tungt tack vare sin enhetliga renderingsengine och förutsägbara frame rate. React Native är också moget och har snabbare ramp-up om teamet har JavaScript/React-kompetens. Native kan ge marginalfördelar i prestanda, men kostnaden för två kodbaser anses för hög.  
-
-## 2. Komponentbibliotek och design tokens  
-Komponenter och designbeslut modelleras med återanvändbara tokens (färg, typografi, avstånd). Dessa tokens (”primär färg”, ”sekundär knappradius”, ”h1-typografi” etc.) gör stilsystemet enhetligt och enkelt att uppdatera. Nedan skiss på viktiga komponenter och token-kategorier:  
-
-| Komponent        | Funktion/Beskrivning                         | Design Tokens & Stilar           | Accessibility (WCAG)      | Exempel-API (props)                   |
-|------------------|---------------------------------------------|----------------------------------|---------------------------|---------------------------------------|
-| **Button (Knapp)**    | Tryckbar knapp (primär/sekundär stil)         | Färg: `color-primary`, `color-on-primary`; Hörnradie: `radius-sm`; Textstorlek: `font-size-md`; Padding: `space-md` | `accessibilityRole="button"`, `enabled/disabled`-state, etikett  | `<Button label="Nästa steg" onPress={...} accessibilityLabel="Nästa steg"/>` |
-| **Card (Kort)**      | Grupperad behållare med skugga/bakgrund       | Bakgrund: `surface-color`; Skuggor: `shadow-sm`; Avstånd (padding): `space-lg`         | `accessible={true}`, `accessibilityRole="none"` (layout kompo.), kontrast <br> minst 4.5:1 mellan text och bakgrund | `<View style={{...cardStyle}}><Text>Uppgift</Text></View>` |
-| **Navbar / Tabbar** | Navigationsfält överst/underst (ikoner + text) | Height: `height-md`; Bakgrund: `surface-color`; Färger: `color-primary`, `color-text`   | `accessibilityRole="tab"`, `accessibilityLabel`, markerad state       | `<TabBar tabs={["Hemma","Familj"]} activeIndex={0} onChange={...}/>` |
-| **Kanban (Planering)** | Tre spalter (Göra, Pågående, Klart) med drag/drop  | Bakgrund kolumner: `surface-light`; Stödytor: `border-color`; Överföringsanimation: ease-in      | Drag&drop: fokusfångst på rader, `accessibilityHint` för instruktioner| `<KanbanBoard columns={cols} cards={cards} onMove={...}/>` |
-| **Valvet (Modal)**    | Låst vy bakom PIN-kod (sensitiv vy)          | Bakgrund: `surface-dark-translucent`; Kort/botton: `color-warning` för känslig åtg. | `accessibilityViewIsModal={true}`, `accessibilityLabel="Lås upp Valvet"`, secureTextEntry vid PIN | `<Modal visible locked PIN={<PINInput onSubmit={...}/>}>…</Modal>` |
-| **Fyren (Kapacitetsindikator)**| Visualisering av dagskapacitet (t.ex. cirkeldiagram eller stapel) | Färg: `color-accent` (kapacitet), `color-secondary` för tom del; Linjebredd: `stroke-md` | `accessibilityLabel="Kapacitetsindikator"`, `aria-valuenow`, etc.| `<CapacityIndicator value={50} max={100} label="Kapacitet idag"/>` |
-| **CTA Microsteg**     | Flytande knapp för att lägga till nästa liten åtgärd | Färg: `color-primary`; Ikon: +; Storlek: `size-lg`; Elevation/shadow för fokus| `accessibilityRole="button"`, `accessibilityLabel="Lägg till mikrosteg"` | `<FloatingActionButton icon="plus" onPress={addStep} />` |
-
-**Design Tokens:** Enhetligt system av tokens för färger, typografi och avstånd. Färgpaletten är monokromatisk/minimal enligt nordisk stil (mörk bas, ljus text, en accentfärg), exempel: *Primär: Mörk marinblå (#1A232B)*, *Sekundär grå (#676F7E)*, *Text: Vit/off-white*, *Highlight: Ljus guld (#CDAB4F)*. Typografi: Sans-serif, en fontfamilj men olika vikt (t.ex. 400, 600) och skalor (h1=24sp, body=16sp). Spacing skala: multipler av 4/8 sp. Tokens gör omdesign enkelt (t.ex. skift till mörkt läge).
-
-**Tillgänglighet:** Alla UI-element får `accessibilityRole` och `accessibilityLabel`, och kontrast följer WCAG AA (minst 4.5:1 för normal text). React Native stöder ARIA-liknande egenskaper: `accessible`, `accessibilityHint` etc. Exempel: tryckbar knapp med `accessibilityRole="button"` och lämplig `accessibilityLabel`. 
-
-## 3. Modul-arkitektur och datasilos  
-Vi delar in appen i *supermoduler* efter UX-konceptet (“Hjärtat”, “Vardagen”, “Familjen”, “Valvet”, plus systemmodulen “Fyren” som kör i bakgrunden). Varje modul kapslar sin vy, logik och data helt för sig (tre separata datasilos för Kunskap/Barn/Valv). Ingen direkt dataflöde eller API-samtal korsar dessa silo-gränser (”no cross-RAG” för barnloggar, kunskapsbank och Valvet) – detta motsvarar en strikt säkringsprincip, likt hur data silas i företag. Arkitekturen kan vara monorepo med underpaket eller fler repo, men med tydliga gränssnitt (t.ex. events eller REST-förfrågningar) mellan modulerna.
-
-   - **Hjärtat (Startskärm):** Central hub med dagens fokus och “nästa åtgärd”. Komponent för kapacitetsläge (Fyren-hämtar data via bakgrundstjänst). 
-   - **Vardagen (Planering):** Hanterar dagliga Kanban-flödet (P3-metoden). Här finns Kanban-komponent, dagslistor mm. Planering visas på `/planering?tab=handling` enligt krav.  
-   - **Familjen:** Inriktad på barn och familjerelationer. (Barnfokus-regler och logghantering gäller).  
-   - **Valvet:** Låst del för känslig data (spara bevis, dokument). Öppnas via PIN, följer WORM (append-only logg) – lagras krypterat i Keychain/Keystore.  
-   - **Fyren:** Bakgrundsmotor för dagskapacitet och användarens förutsättning (”dagsform”). Körs globalt (Context/Service) och matar indikatorer i Hjärtat/Vardagen.
-
-Dataflödet illustreras nedan (mermaid): användare interagerar med UI-komponenter i respektive moduler; modulerna kommunicerar endast när det är nödvändigt (t.ex. Hjärtat kan trigga fram nästa åtgärd i Vardagen), men Valvet-modulen delar ingen data med andra moduler för att följa silo-regeln. 
-
-```mermaid
-flowchart LR
-  U[Användare]
-  subgraph Hjärtat
-    H[Hjärta-skärm]
-  end
-  subgraph Vardagen
-    V[Vardag/Kanban]
-  end
-  subgraph Familjen
-    F[Familj-skärm]
-  end
-  subgraph Valvet
-    L[Valv-skärm (låst)]
-  end
-  Fyren((Fyren bakgrund))
-  U --> H & V & F & L
-  H -->|`nästa steg`| V
-  V --> H 
-  H --- Fyren
-  V --- Fyren
-  F -->|Barn-loggar| Fyren
-  L -.-> Fyren
-```
-
-## 4. Implementeringsplan (vågor A/B/C)  
-
-| Vågor | Åtgärder (toppprioritering)                | Påverkar låsta regler? | Cursor-integr.  | Upplevd före/efter (1 mening)                                         | Est. (T-shirt) | Risk |
-|-------|-------------------------------------------|------------------------|----------------|---------------------------------------------------------------------|---------------|------|
-| **Våg A (snabb vinst)** | 1. **Byt Hem (/) till Hjärtat:** / ersätts av Hjärtat-skärmen. (`F1`) **2. Flytta Planering till Vardagen:** `/planering?tab=handling` visas under Vardagen och ta bort egen flik. (`F2`) **3. Dölja/deaktivera fyren-punkt:** gör Fyren-data osynlig i UI (bakgrundsprocess) men ej synlig label. (`F4`) **4. Lås Valvet (bakgrund):** implementera PIN-skydd och show encryption skjul. (`F5`) | Nej | F1, F2, F4, F5 | **Före:** Hem-sida och planeringsnav tveksamma, osäkert nästa steg. **Efter:** Startat på Hjärtat med klar nästa åtgärd, enkel flytt av planering, Valvet skyddat. | M/L | Låg |
-| **Våg B (ar-konsolidering)** | 1. **Slå ihop routes:** förenkla rutt-lista, ta bort överflödiga (`PMIR`). 2. **Hub-struktur:** flytta gemensamma menyer/ikonryggar till nav (ex. undermeny Hjärtat ↔ Vardagen). 3. **Förfinad komponentstruktur:** utgående från hem-flight (F1/F2) skala upp komponenter (t.ex. Kanban, Card). | Kanske | F1, F2 (om justeringen behövs), ev. F3 | **Före:** Fragmenterat navigationsflöde, dubbletter. **Efter:** Minskat  antal klick, centraliserat nav – bättre orientering. | L/XL | Medel |
-| **Våg C (strategisk)** | 1. **Fyren som global motor:** Låta Fyren-modulen skala kapacitetsberäkning och ge notifieringar. 2. **UX-polish:** implementera fler micro-animeringar (se 6) och grafiska förbättringar utifrån moodboard. 3. **Supermodulsförstärkning:** Eventuellt separata pipelines för varje modul (monorepo), mer testisolering. | Nej (t.h.d) | (F1/F2 om ej klart) | **Före:** Fyrens effekter “på skaft” i bakgrunden, enstaka animationer. **Efter:** Konsekvent kapacitetsupplevelse, fylligare animationer, tydlig moduluppdelning. | XL/XXL | Hög |
-
-**För varje våg A-åtgärd:** användarupplevelse blir *tydligare*. Exempel: Att **ersätta hemskärmen med Hjärtat** ger direkt “dagsfokus” vid appstart (förbättrar måluppfyllelse). Detta bryter ingen regel (säger bara att Hem flyttar), involverar Cursor-F1 för route-ändring. Att **flytta Planering** in i Vardagen gör appen mer logisk, samma regel (P3-tab finns kvar) – här krävs Cursor-F2 för att justera frontend-slingan. Att **valvet låses** minskar synlig information, men är krävande för WORM (ingen regelbrytning – ej auto-lyfta barnlogg), kräver F5 i Cursor. “Dölja Fyren” handlar om att inte visa för front-end (håller plausible deniability) – ingen regelbrytning, kan göras utan Cursor-ändring (skrivning i state). Se ovan för detaljer om Cursor-F integrering.
-
-**Svar på frågorna:** 
-- **Planering som egen modul eller under Vardagen?** Den bör ligga *under* Vardagen-fliken (Planering är en del av vardagsläge, enligt BARNFOKUS_P3-regeln: `/planering?tab=handling` låst). Vi tar bort separat knapp, för att inte spränga kognitiv struktur.  
-- **Behålla Hem (`/`) eller ersätta med Hjärtat?** Vi ersätter Hem med Hjärtat som första skärm; / behåller tekniskt (kan redirectas) men ska inte vara synlig för användaren. (Därmed gör vi Fjärnalternativet till bakgrunds-sida.)  
-- **Visa Fyren publikt utan att avslöja allt?** Visa bara en diskret statusindikator (t.ex. färg/våg) för kapacitetsnivå utan siffror eller detaljer (göm låsta data). E.g. en tonad ikon eller ring vid Hjärtats rubrik, ingen extra text, för att bibehålla plausible deniability. Själva beräkningen körs i bakgrunden, men UI visar bara t.ex. *”kapacitet ok/varnar”* utan inblick i varför. Ingen regel bryts (Vi avslöjar inget, följer behörighet).
-
-## 5. Mockup-riktningar (färg/typografi/ikoner)  
-**Riktning A (Ljus minimalism):** Vit/ljusgrå bakgrund, mörkblå/grå typografi, ett varmt guldfärgat accent (inkast/nål för ceremoniell touch). Typografi: Sans-serif (t.ex. **Roboto** eller **Helvetica Neue**, läsbar och modern), monotona ikoner med fina linjer. Micro-interaktioner: mjuka in-/uttoningar för övergångar, knapptryck med kort feedback (t.ex. knappstuds). Animation: uppskattande animation vid avslutat mikrosteg (t.ex. checkmark som dyker upp).  
-
-**Riktning B (Mörk dramatisk):** Mörk bakgrund (#1A232B) med ljus text (#ECEFF1). Accentfärg: blekmintgrön eller pudrig guld för puls/ikoner för att ge ceremoniell värme. Typsnitt med mer personlighet, t.ex. **Neue Haas Grotesk** för rubriker, kombinerat med neutralt **Noto Sans** för brödtext (ensamt typsnitt helst). Animeringar: subtil highlight av aktiv tabb (ikonskift ljusstyrka), drag&drop-kort med skuggbelysning. Valvet-öppning: *“dörröppning”-animering med bakgrundsdimma* för dramatik (ändå återhållsamt).  
-
-**Riktning C (Organisk lutning):** Naturnära färger: djupgrön eller kallblå som huvud, med elfenbensfärg för bakgrund och vita inslag. Ikoner med rundare kanter (kan matcha *ceremoniellt* tema, typ blommönster abstrakt?). Typsnitt: **Montserrat** (varm rundhet) och **Lora** (för längre text), för ett nordiskt hantverk-känsla. Animeringar: flytande övergångar (lätt böljande rörelse vid sidbyte), feedback med lätt gungning (t.ex. lätt vobblande knapp vid tryck), och ha en “fyranimation” (t.ex. fyren blinkar kort när kapacitet sträcker gräns). Vi följer IKEA/Finn Juhl-stilkoncept (funktionalitet + stil).  
-
-*Illustrerade riktningar:* (schematiska, ej faktiska designer)  
-
-- *Hjärtat-startskärm:* Visar stora ”God morgon” hälsning, dagens fokus (mikrosteg) och nästa aktion som CTA, med diskret kapacitetsindikator vid rubriken.  
-- *Vardagen/Planering:* Tre kolumner med minimal header, flyttbara kort. P3-kanban-länkar på tabbar.  
-- *Valvet (låst):* Halvt genomskinlig panel över grå bakgrund, för inmatning av PIN. Låsikon i bakgrund, text “Valvet är låst”.  
-- *Familje-hub:* Knytetill medlemsikoner, barnens statuslistor. T.ex. cirklar med barnbilder (silhouetter) och färger som signalerar deras aktiviteter.  
-- *Fyren-indikator:* En liten rund ikon med färgton ändras (grön – bra kapacitet, röd – varning), utan siffra. Klickbar för kort förklaring (tooltip) men ingen detaljerad data.  
-
-**Mikrointeraktioner:** Knapptryck får kort “puff” eller färgskift. Dra kort i Kanban får lätt skugga & skalning (e.g. skalar upp lite). Fyllnads-animation i kapacitetsindikatorn visar progress (sekundär fyllnad). Vi undviker distraherande effekter – varje animation är *ändamålsenlig* (t.ex. “skräddarsydd” för feedback). 
-
-```mermaid
-gantt
-    dateFormat  YYYY-MM-DD
-    axisFormat  %b
-    title Tidplan (vågor)
-    section Våg A
-    Byte Hem→Hjärtat       :a1, 2026-07-01, 2w
-    Planering i Vardagen   :a2, after a1, 2w
-    Dölj Fyren UI          :a3, after a2, 1w
-    Lås Valvet (PIN+WORM)  :a4, after a3, 2w
-    section Våg B
-    Rutt- & nav-uppdatering: b1, 2026-07-22, 3w
-    Förenklade komponenter  :b2, after b1, 3w
-    section Våg C
-    Fyren-motor + notifier: c1, 2026-08-15, 3w
-    UX-polish & animationer  :c2, after c1, 4w
-```
-
-## 6. QA, prestanda och säkerhet  
-**QA-checklista:** Automatisk testsvit med enhetstester (Jest) och komponenttester. UI-tests med Detox (animeringsstöd, swipe etc). Säkerställ a11y (skärmläsartest, gränssnitt utan mus/tangentbord, kontrastmätningar). Funktionstester: kontrollera PIN-lås, WORM-logg (kan ej redigera), offline-läge. 
-**Prestandamål:** Snabb first screen (<2 s), 60fps-interaktion (UI animationer <16ms). Minimera minne/batteri: ge bleeder regler (avsluta nya objekt, caching). Utgå från React Natives riktlinjer (skript + plugin kan göras optimeringsbart). Mät med profiler (Dykt biljetter för fram- och bakgrundsprcesser).
-**Valvet/WORM-säkerhet:** All data i Valvet säkras i device Keychain/Keystore. WORM betyder *append-only*: ingen data kan ändras eller tas bort efter inmatning utan överträdelser spåras. Vi lägger till revisionslogg (tamper-evident timestamps) och retention-policy. PIN-koden (och biometriska data) behandlas som högt känsliga uppgifter (klassificeras enligt GDPR/HIPAA).  
-**Prestanda:** Sätt budgetar för APK-storlek (<25 MB vid release), snabba kallstarter. Lazy-load bilder (SVG-ikoner i stället för raster), återanvänd komponenter. 
-**Säkerhetskontroller:** Inga känsliga fält i klartext (kryptera lokalt). Inga hårdkodade hemligheter. Använd HTTPS för alla bakgrundskall. Valvet är isolerat: tillträde kräver PIN + enhetens autentisering (FaceID om tillgängligt). WORM-loggen göres oföränderlig (skriv-skydd, markera ändringsförsök).
-
-## 7. CI/CD, testning och release  
-**CI/CD-pipeline:** GitHub Actions (eller liknande) kör linting (ESLint/TS), enhetstester (Jest) och UI-tester (Detox) vid varje commit. Byggar automatiskt både iOS- och Android-paket. Efter testgrön, automatisera distribution till testkanaler (TestFlight, Firebase App Distribution). Fastlane kan hantera signering/spridning. Mätkod-coverage och rapportera fail/nästa steg via Slack eller issue tracker. Varje PR kräver godkännande *och* grön CI för att merges.  
-**Testmiljö:** Enhetstest (70 %) för logik/komponenter, integrationstest (20 %) för vyflöden, och e2e (10 %) för kritiska use cases. Automatisk regressionstest körs på emulatorer i pipeline.  
-**Release-gating:** Gated release när alla tester passerar; kodreview obligatorisk. Dessutom pre-release betatest med slumpade användare ger feedback. *Performance-budgetar* i pipelinen: t.ex. larm om app-uppstart > 3s på genomsnittstelefon. *Säkerhetsskanning*: kör SAST (ex. npm audit, MobSF) regelbundet och Snyk på beroenden.  
-
-**Källor:** Branschriktlinjer för komponentbaserade design tokens, React Native-dokumentation om tillgänglighet, samt jämförelser Flutter vs React Native har legat till grund för rekommendationerna. Resultatet är ett modulärt, testat system med lågt kognitivt golv och tydliga nästa steg för användaren.
-````
-
-## File: docs/external-ai/imports/gap-matrix-2026-06-16.md
-````markdown
-# Gap-matris — GPT Life OS vs Livskompassen3.0
-
-**Datum:** 2026-06-16 · **Källor:** GPT-mockup, `deep-research-ide.md`, repo-kanon  
-**Stack-beslut:** React + Vite + Capacitor KEEP — Flutter/RN REJECT
-
----
-
-## KEEP (redan rätt — lås)
-
-| Område | Repo |
-|--------|------|
-| 4 zoner + bakgrunds-Fyren | `navTruth.ts`, supermodule-ui-masterplan |
-| InputSuperModule (7 hubs + 6 routers) | `src/modules/**` |
-| Obsidian `#020617`–`#050b14` + guld `#d4af37` | `index.css`, COLOR-POLICY |
-| Cinzel hub-rubriker | `typeScale.ts` — inte Cormorant i prod |
-| P3 Kanban `/planering?tab=handling` | Locked UX §14 |
-| Valv B1 LOCK | `ValvInputSuperModule`, WORM |
-| Tre silos, no cross-RAG | grunder-kanon |
-| 4-zons dock + Fyren center-handle | `FloatingDock.tsx` |
-
----
-
-## BUILD (nästa — i ordning)
-
-| # | Vad | Gate |
-|---|-----|------|
-| 1 | Nav Våg 3 H1–H4 | PMIR |
-| 2 | Fas 19.3 hex→tokens | Efter Våg 3 smoke |
-| 3 | Fas 19.2 MåBra hybrid-8 | Efter tokens |
-| 4 | Upload unified steg 2 | Efter 19.2 |
-| 5 | UI wave-2 polish (GPT-mockup känsla) | ChatBox + AI Studio → Cursor |
-| 6 | Life OS-loop copy/routing | Efter polish |
-
----
-
-## DEFER
-
-- Hem `/` → Hjärtat merge (egen PMIR)
-- Fyren global kapacitetsmotor (Våg C)
-- M3.0-C Fitness/Näring
-- Design-arkiv ~400 filer (hygiene våg D, PMIR)
-- Detox e2e / Flutter CI
-
----
-
-## REJECT
-
-| Förslag | Skäl |
-|---------|------|
-| Flutter / React Native omskrivning | Stack + Capacitor investerat |
-| Teal `#2E6466` som aktiv chrome | COLOR-POLICY |
-| Ljus/nature-tema | Obsidian Calm lock |
-| GPT 5-tab nav (Home\|Plan\|Fyren\|Journal\|More) | Dock+drawer kanon |
-| Ta bort Handling-slot / P3 | Locked UX |
-| Cross-RAG / auto-promote barn→Valv | U1 + locked UX |
-| Streak/XP | Governance |
-
----
-
-## GPT-mockup → repo-mappning
-
-| Mockup | Repo idag | Åtgärd |
-|--------|-----------|--------|
-| Hem + dagens fokus | `/` Capture + Hjärtat | Polish; merge DEFER |
-| Planering 3 kolumner | P3 Kanban | Polish |
-| Dagbok | `/hjartat?tab=reflektion` | KEEP |
-| Familj | `/familjen` superhub | Wave-2 polish |
-| Ekonomi | `/vardagen?tab=ekonomi` | H1 redirect Våg 3 |
-| Valvet | `/valvet` B1 LOCK | Visuell förfining only |
-| Bottom nav 5 ikoner | Dock 4 + drawer | Mappa intent, ej 1:1 |
-````
-
-## File: docs/DOC-INDEX.md
-````markdown
-# DOC-INDEX — var hittar jag vad?
-
-**Senast uppdaterad:** 2026-06-16 (Fas 0 handoff)  
-**Regel:** Om två filer säger olika saker — **register vinner** (se tabell nedan).
-
----
-
-## 1. Vad gäller nu? (läs dessa först)
-
-| Fråga | Fil |
-|-------|-----|
-| Vad är LOCK / WIP / nästa steg? | [`docs/external-ai/LIFE-OS-BUILD-STATE.md`](external-ai/LIFE-OS-BUILD-STATE.md) |
-| UI-körplan (Körfält B) | [`docs/evaluations/2026-06-16-supermodule-ui-masterplan.md`](evaluations/2026-06-16-supermodule-ui-masterplan.md) |
-| Backend Fas 19–24 | [`docs/evaluations/2026-06-15-fas19-masterplan-v2.md`](evaluations/2026-06-15-fas19-masterplan-v2.md) |
-| 1-sides status | [`docs/evaluations/SENASTE-SAMMANFATTNING.md`](evaluations/SENASTE-SAMMANFATTNING.md) |
-| Routes + moduler | [`docs/MODUL-FUNKTIONS-REGISTER.md`](MODUL-FUNKTIONS-REGISTER.md) |
-| Låst UX (får inte tas bort) | [`.context/locked-ux-features.md`](../.context/locked-ux-features.md) |
-
-**Nästa arbetsgren:** Våg 3 Nav H1–H4 — **PMIR före kod**.
-
----
-
-## 2. Var lägger jag nya filer?
-
-| Typ | Mapp | Exempel |
-|-----|------|---------|
-| Beslut / eval | `docs/evaluations/` | `2026-06-16-nav-pmir.md` |
-| Modul-SPEC | `docs/specs/modules/` | `Mabra-INPUT-SUPERHUB-SPEC.md` |
-| Design (aktiv) | `docs/design/` | endast KEEP enligt register |
-| ChatBox-leverans | `docs/external-ai/leveranser/` | `2026-06-16-fas-09-vision.md` |
-| Extern import | `docs/external-ai/imports/` | deep-research, gap-matrix |
-| Handoff (genereras) | `exports/chatbot-handoff/` | `npm run chatbot:pack:handoff` |
-| Arkiv (historik) | `docs/archive/` | flyttade utkast — **inte** sanning |
-
----
-
-## 3. Vad är arkiv vs aktiv?
-
-| Mapp | Roll |
-|------|------|
-| `docs/archive/` | Historik — läs för kontext, bygg inte härifrån |
-| `docs/archive/design-2026-06/` | Reserverad för design-flytt (icons-proposals m.m.) |
-| `exports/` | **Regenereras** — bifoga till ChatBox, redigera inte manuellt |
-| `docs/external-ai/bifoga/` | Speglad kopia för upload — `npm run chatbot:sync:bifoga` |
-
----
-
-## 4. AI-verktyg — vilket för vad?
-
-| Verktyg | När | Pack / prompt |
-|---------|-----|----------------|
-| **Cursor** | Prod-kod, smoke, LOCK | — |
-| **ChatBox** | SPEC, PMIR, wireframes | `exports/chatbot-handoff/` + `bifoga/` |
-| **Google AI Studio** | Design-remix + mockup-bild | `npm run design:pack` + `docs/ai-studio/DESIGN-REMIX-PROMPT.md` |
-| **NotebookLM** | Research, motsägelser | `npm run google-ai-pro:pack` |
-
-Se [`docs/external-ai/MODEL-PICKER.md`](external-ai/MODEL-PICKER.md).
-
----
-
-## 5. Design — vad är aktivt?
-
-Kanon: [`docs/external-ai/DESIGN-KEEP-REGISTER.md`](external-ai/DESIGN-KEEP-REGISTER.md)
-
-**~570 filer** i `docs/design/` — de flesta är labb/utkast. Rör inte `icons-proposals/` utan hygiene-PMIR.
-
----
-
-## 6. Kommandon (handoff)
-
-```bash
-cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
-npm run chatbot:pack:handoff    # alla ChatBox-repomixar
-npm run chatbot:sync:bifoga     # speglar till bifoga/
-```
-
-Bifoga-mapp: `docs/external-ai/bifoga/` — se [`bifoga/README.md`](external-ai/bifoga/README.md).
-
----
-
-## 7. Kanon-tier (planering-kanon-guard)
-
-1. `.context/system-plan.md`
-2. `docs/specs/modules/Arkiv-GAP-REGISTER.md`
-3. `docs/BRANCH-KARTA.md`
-4. `docs/evaluations/` (senaste indexerade)
-5. `.context/locked-ux-features.md`
-6. `docs/INNEHALL-REGISTER.md`
-7. `docs/SYSTEM_PLAN_v2.md`
-8. `docs/evaluations/2026-06-15-fas19-masterplan-v2.md`
-````
-
 ## File: docs/MODUL-FUNKTIONS-REGISTER.md
 ````markdown
 # Modul- & funktionsregister — Livskompassen v2
@@ -789,160 +491,208 @@ När en Superhub-modul har **implementerats, testats och godkänts** av teknikle
 | **12D** | Dossier BBIC `reportType` | backlog |
 ````
 
-## File: docs/evaluations/2026-06-15-fas19-masterplan-v2.md
+## File: docs/external-ai/imports/deep-research-ide.md
 ````markdown
-# Fas 19 — Masterplan v2 (slutgiltig)
+# Sammanfattning  
+För ett “mobile Life OS” med nordisk, minimalistisk estetik rekommenderas en stabil komponentbas (design tokens för färg/typografi/spacing) och en modulär arkitektur med tydliga supermoduler (Hjärtat, Vardagen, Familjen, Valvet, samt bakgrunds‑“Fyren”). En tvärplattformslösning ger snabbare utveckling och enhetligt UI, medan native tvåkodbas–lösningar innebär större underhållskostnad. Vi bygger först ett enkelt ramverk med kärnkomponenter och design tokens (färgpalett, typsnitt, enhetligt radavstånd) som garanterar kontrast och läsbarhet (WCAG-standard). Accessibility (skärmläsare, roller/etiketter) och prestanda budgetar definieras tidigt, och alla delar testas automatiskt (CI/CD med linting, enhetstester, e2e-tester). Utifrån våra tidigare visioner och teknisk insikt föreslås Flutter för hög UI-konsistens och animationsprestanda, men React Native kan övervägas om JS-expertis är prioriterad.
 
-**Datum:** 2026-06-15 · **Status:** Godkänd — implementation Fas 19.1–19.6  
-**Ersätter:** [`FAS19-UTKASTPLAN.md`](../archive/evaluations-fas19-2026-06/FAS19-UTKASTPLAN.md)  
-**Regel:** [`.cursor/rules/fas19-masterplan-guard.mdc`](../../.cursor/rules/fas19-masterplan-guard.mdc)
+## 1. Front-end-stack: iOS/Android native vs React Native vs Flutter  
+- **Natív (SwiftUI/Jetpack Compose)** – Bäst prestanda och direkt åtkomst till plattforms-API:er. Kräver dubbla kodbaser och mer utvecklingstid. Passar om man inte behöver code sharing mellan plattformar.  
+- **React Native** – JavaScript/TypeScript, stort ekosystem, snabb onboarding för webbutvecklare. Stora moduler och paket finns, och nyarkitekturen Fabric/Hermes har förbättrat prestandan. Risk för små inkonsekvenser i UI (eftersom native-komponenter återanvänds). Överbryggningslagret (JSI) ger låg latens.  
+- **Flutter** – Dart och eget renderingsteam (Impeller) ger pixelperfekt, konsekvent UI och sömlösa animationer. Mycket effektivt för grafikintensiva vyer och “design-led” appar. Större baspaket vid första install (8–12 MB) men ger identiskt utseende på iOS/Android. Dart är starkt typat med null-säkerhet.  
 
----
+**Rekommendation (i prioriterad ordning):** För Livskompassen, där UI-konsistens och animationskvalitet är centralt (”nordiskt ceremoniellt”), väger Flutter tungt tack vare sin enhetliga renderingsengine och förutsägbara frame rate. React Native är också moget och har snabbare ramp-up om teamet har JavaScript/React-kompetens. Native kan ge marginalfördelar i prestanda, men kostnaden för två kodbaser anses för hög.  
 
-## 1. Executive summary
+## 2. Komponentbibliotek och design tokens  
+Komponenter och designbeslut modelleras med återanvändbara tokens (färg, typografi, avstånd). Dessa tokens (”primär färg”, ”sekundär knappradius”, ”h1-typografi” etc.) gör stilsystemet enhetligt och enkelt att uppdatera. Nedan skiss på viktiga komponenter och token-kategorier:  
 
-Livskompassen v2 har levererat Fas 13–18 (WORM, superhubbar, inkast, Kunskap våg 24, Android cap sync) med grön smoke-baseline. Fas 19 fokuserar på **tre parallella spår** utan att bryta Sacred eller locked UX: **(A)** MåBra hybrid-8 pelarnav + hex→tokens, **(B)** projekt-hjärna med arkiv-först doc-synk, **(C)** säkerhets-P0 (`unlockVault`, App Check coverage) före polish. Pontus val: hybrid-8, JOY-17→19.4, evolution_ledger dual-write→19.5.
+| Komponent        | Funktion/Beskrivning                         | Design Tokens & Stilar           | Accessibility (WCAG)      | Exempel-API (props)                   |
+|------------------|---------------------------------------------|----------------------------------|---------------------------|---------------------------------------|
+| **Button (Knapp)**    | Tryckbar knapp (primär/sekundär stil)         | Färg: `color-primary`, `color-on-primary`; Hörnradie: `radius-sm`; Textstorlek: `font-size-md`; Padding: `space-md` | `accessibilityRole="button"`, `enabled/disabled`-state, etikett  | `<Button label="Nästa steg" onPress={...} accessibilityLabel="Nästa steg"/>` |
+| **Card (Kort)**      | Grupperad behållare med skugga/bakgrund       | Bakgrund: `surface-color`; Skuggor: `shadow-sm`; Avstånd (padding): `space-lg`         | `accessible={true}`, `accessibilityRole="none"` (layout kompo.), kontrast <br> minst 4.5:1 mellan text och bakgrund | `<View style={{...cardStyle}}><Text>Uppgift</Text></View>` |
+| **Navbar / Tabbar** | Navigationsfält överst/underst (ikoner + text) | Height: `height-md`; Bakgrund: `surface-color`; Färger: `color-primary`, `color-text`   | `accessibilityRole="tab"`, `accessibilityLabel`, markerad state       | `<TabBar tabs={["Hemma","Familj"]} activeIndex={0} onChange={...}/>` |
+| **Kanban (Planering)** | Tre spalter (Göra, Pågående, Klart) med drag/drop  | Bakgrund kolumner: `surface-light`; Stödytor: `border-color`; Överföringsanimation: ease-in      | Drag&drop: fokusfångst på rader, `accessibilityHint` för instruktioner| `<KanbanBoard columns={cols} cards={cards} onMove={...}/>` |
+| **Valvet (Modal)**    | Låst vy bakom PIN-kod (sensitiv vy)          | Bakgrund: `surface-dark-translucent`; Kort/botton: `color-warning` för känslig åtg. | `accessibilityViewIsModal={true}`, `accessibilityLabel="Lås upp Valvet"`, secureTextEntry vid PIN | `<Modal visible locked PIN={<PINInput onSubmit={...}/>}>…</Modal>` |
+| **Fyren (Kapacitetsindikator)**| Visualisering av dagskapacitet (t.ex. cirkeldiagram eller stapel) | Färg: `color-accent` (kapacitet), `color-secondary` för tom del; Linjebredd: `stroke-md` | `accessibilityLabel="Kapacitetsindikator"`, `aria-valuenow`, etc.| `<CapacityIndicator value={50} max={100} label="Kapacitet idag"/>` |
+| **CTA Microsteg**     | Flytande knapp för att lägga till nästa liten åtgärd | Färg: `color-primary`; Ikon: +; Storlek: `size-lg`; Elevation/shadow för fokus| `accessibilityRole="button"`, `accessibilityLabel="Lägg till mikrosteg"` | `<FloatingActionButton icon="plus" onPress={addStep} />` |
 
----
+**Design Tokens:** Enhetligt system av tokens för färger, typografi och avstånd. Färgpaletten är monokromatisk/minimal enligt nordisk stil (mörk bas, ljus text, en accentfärg), exempel: *Primär: Mörk marinblå (#1A232B)*, *Sekundär grå (#676F7E)*, *Text: Vit/off-white*, *Highlight: Ljus guld (#CDAB4F)*. Typografi: Sans-serif, en fontfamilj men olika vikt (t.ex. 400, 600) och skalor (h1=24sp, body=16sp). Spacing skala: multipler av 4/8 sp. Tokens gör omdesign enkelt (t.ex. skift till mörkt läge).
 
-## 2. Vision + DONE/LÅST
+**Tillgänglighet:** Alla UI-element får `accessibilityRole` och `accessibilityLabel`, och kontrast följer WCAG AA (minst 4.5:1 för normal text). React Native stöder ARIA-liknande egenskaper: `accessible`, `accessibilityHint` etc. Exempel: tryckbar knapp med `accessibilityRole="button"` och lämplig `accessibilityLabel`. 
 
-Se Cursor-plan och pre-flight syntes. G1–G16 **done** · Superhub §11–§17 **låst** · tre silos **PASS**.
+## 3. Modul-arkitektur och datasilos  
+Vi delar in appen i *supermoduler* efter UX-konceptet (“Hjärtat”, “Vardagen”, “Familjen”, “Valvet”, plus systemmodulen “Fyren” som kör i bakgrunden). Varje modul kapslar sin vy, logik och data helt för sig (tre separata datasilos för Kunskap/Barn/Valv). Ingen direkt dataflöde eller API-samtal korsar dessa silo-gränser (”no cross-RAG” för barnloggar, kunskapsbank och Valvet) – detta motsvarar en strikt säkringsprincip, likt hur data silas i företag. Arkitekturen kan vara monorepo med underpaket eller fler repo, men med tydliga gränssnitt (t.ex. events eller REST-förfrågningar) mellan modulerna.
 
----
+   - **Hjärtat (Startskärm):** Central hub med dagens fokus och “nästa åtgärd”. Komponent för kapacitetsläge (Fyren-hämtar data via bakgrundstjänst). 
+   - **Vardagen (Planering):** Hanterar dagliga Kanban-flödet (P3-metoden). Här finns Kanban-komponent, dagslistor mm. Planering visas på `/planering?tab=handling` enligt krav.  
+   - **Familjen:** Inriktad på barn och familjerelationer. (Barnfokus-regler och logghantering gäller).  
+   - **Valvet:** Låst del för känslig data (spara bevis, dokument). Öppnas via PIN, följer WORM (append-only logg) – lagras krypterat i Keychain/Keystore.  
+   - **Fyren:** Bakgrundsmotor för dagskapacitet och användarens förutsättning (”dagsform”). Körs globalt (Context/Service) och matar indikatorer i Hjärtat/Vardagen.
 
-## 3. Implementation-vågor
+Dataflödet illustreras nedan (mermaid): användare interagerar med UI-komponenter i respektive moduler; modulerna kommunicerar endast när det är nödvändigt (t.ex. Hjärtat kan trigga fram nästa åtgärd i Vardagen), men Valvet-modulen delar ingen data med andra moduler för att följa silo-regeln. 
 
-| Våg | Innehåll | Smoke |
-|-----|----------|-------|
-| **19.1** | Doc-synk + `unlockVault` P0 + App Check guards + LEG-VAULT read-fix | `smoke:valv-security`, `smoke:inkast`, `smoke:locked-ux` |
-| **19.2** | M3.0-B hybrid-8 pelarkort | `smoke:mabra`, `smoke:design-modules`, `smoke:modulvaljare` |
-| **19.3** | Hex→tokens P0 + typecheck expansion | `typecheck:core-strict`, `smoke:design-modules` |
-| **19.4** | JOY-17 + mabraCoach bank-synk | `smoke:innehall`, `smoke:mabra` |
-| **19.5** | evolution_ledger dual-write | `smoke:evolution-discovery` |
-| **19.6** | Arkiv-batch PMIR | `orkester:night` |
+```mermaid
+flowchart LR
+  U[Användare]
+  subgraph Hjärtat
+    H[Hjärta-skärm]
+  end
+  subgraph Vardagen
+    V[Vardag/Kanban]
+  end
+  subgraph Familjen
+    F[Familj-skärm]
+  end
+  subgraph Valvet
+    L[Valv-skärm (låst)]
+  end
+  Fyren((Fyren bakgrund))
+  U --> H & V & F & L
+  H -->|`nästa steg`| V
+  V --> H 
+  H --- Fyren
+  V --- Fyren
+  F -->|Barn-loggar| Fyren
+  L -.-> Fyren
+```
 
----
+## 4. Implementeringsplan (vågor A/B/C)  
 
-## 4. Glömda funktioner
+| Vågor | Åtgärder (toppprioritering)                | Påverkar låsta regler? | Cursor-integr.  | Upplevd före/efter (1 mening)                                         | Est. (T-shirt) | Risk |
+|-------|-------------------------------------------|------------------------|----------------|---------------------------------------------------------------------|---------------|------|
+| **Våg A (snabb vinst)** | 1. **Byt Hem (/) till Hjärtat:** / ersätts av Hjärtat-skärmen. (`F1`) **2. Flytta Planering till Vardagen:** `/planering?tab=handling` visas under Vardagen och ta bort egen flik. (`F2`) **3. Dölja/deaktivera fyren-punkt:** gör Fyren-data osynlig i UI (bakgrundsprocess) men ej synlig label. (`F4`) **4. Lås Valvet (bakgrund):** implementera PIN-skydd och show encryption skjul. (`F5`) | Nej | F1, F2, F4, F5 | **Före:** Hem-sida och planeringsnav tveksamma, osäkert nästa steg. **Efter:** Startat på Hjärtat med klar nästa åtgärd, enkel flytt av planering, Valvet skyddat. | M/L | Låg |
+| **Våg B (ar-konsolidering)** | 1. **Slå ihop routes:** förenkla rutt-lista, ta bort överflödiga (`PMIR`). 2. **Hub-struktur:** flytta gemensamma menyer/ikonryggar till nav (ex. undermeny Hjärtat ↔ Vardagen). 3. **Förfinad komponentstruktur:** utgående från hem-flight (F1/F2) skala upp komponenter (t.ex. Kanban, Card). | Kanske | F1, F2 (om justeringen behövs), ev. F3 | **Före:** Fragmenterat navigationsflöde, dubbletter. **Efter:** Minskat  antal klick, centraliserat nav – bättre orientering. | L/XL | Medel |
+| **Våg C (strategisk)** | 1. **Fyren som global motor:** Låta Fyren-modulen skala kapacitetsberäkning och ge notifieringar. 2. **UX-polish:** implementera fler micro-animeringar (se 6) och grafiska förbättringar utifrån moodboard. 3. **Supermodulsförstärkning:** Eventuellt separata pipelines för varje modul (monorepo), mer testisolering. | Nej (t.h.d) | (F1/F2 om ej klart) | **Före:** Fyrens effekter “på skaft” i bakgrunden, enstaka animationer. **Efter:** Konsekvent kapacitetsupplevelse, fylligare animationer, tydlig moduluppdelning. | XL/XXL | Hög |
 
-| ID | Beslut | Våg |
-|----|--------|-----|
-| M3.0-B hybrid-8 | Implementera | 19.2 |
-| JOY-17 prod-wire | Implementera | 19.4 |
-| EVO-LEDGER dual-write | Implementera | 19.5 |
-| M3.0-C Fitness/Näring | Defer | 19.N+ |
-| LEG-VAULT | Behåll | — |
-| BP-PUSH | Defer | TBD |
+**För varje våg A-åtgärd:** användarupplevelse blir *tydligare*. Exempel: Att **ersätta hemskärmen med Hjärtat** ger direkt “dagsfokus” vid appstart (förbättrar måluppfyllelse). Detta bryter ingen regel (säger bara att Hem flyttar), involverar Cursor-F1 för route-ändring. Att **flytta Planering** in i Vardagen gör appen mer logisk, samma regel (P3-tab finns kvar) – här krävs Cursor-F2 för att justera frontend-slingan. Att **valvet låses** minskar synlig information, men är krävande för WORM (ingen regelbrytning – ej auto-lyfta barnlogg), kräver F5 i Cursor. “Dölja Fyren” handlar om att inte visa för front-end (håller plausible deniability) – ingen regelbrytning, kan göras utan Cursor-ändring (skrivning i state). Se ovan för detaljer om Cursor-F integrering.
 
----
+**Svar på frågorna:** 
+- **Planering som egen modul eller under Vardagen?** Den bör ligga *under* Vardagen-fliken (Planering är en del av vardagsläge, enligt BARNFOKUS_P3-regeln: `/planering?tab=handling` låst). Vi tar bort separat knapp, för att inte spränga kognitiv struktur.  
+- **Behålla Hem (`/`) eller ersätta med Hjärtat?** Vi ersätter Hem med Hjärtat som första skärm; / behåller tekniskt (kan redirectas) men ska inte vara synlig för användaren. (Därmed gör vi Fjärnalternativet till bakgrunds-sida.)  
+- **Visa Fyren publikt utan att avslöja allt?** Visa bara en diskret statusindikator (t.ex. färg/våg) för kapacitetsnivå utan siffror eller detaljer (göm låsta data). E.g. en tonad ikon eller ring vid Hjärtats rubrik, ingen extra text, för att bibehålla plausible deniability. Själva beräkningen körs i bakgrunden, men UI visar bara t.ex. *”kapacitet ok/varnar”* utan inblick i varför. Ingen regel bryts (Vi avslöjar inget, följer behörighet).
 
-## 5. Kostnadsgate
+## 5. Mockup-riktningar (färg/typografi/ikoner)  
+**Riktning A (Ljus minimalism):** Vit/ljusgrå bakgrund, mörkblå/grå typografi, ett varmt guldfärgat accent (inkast/nål för ceremoniell touch). Typografi: Sans-serif (t.ex. **Roboto** eller **Helvetica Neue**, läsbar och modern), monotona ikoner med fina linjer. Micro-interaktioner: mjuka in-/uttoningar för övergångar, knapptryck med kort feedback (t.ex. knappstuds). Animation: uppskattande animation vid avslutat mikrosteg (t.ex. checkmark som dyker upp).  
 
-Scripts/orkester:night default · prod callable-smoke en silo i taget · PMIR före merge.
+**Riktning B (Mörk dramatisk):** Mörk bakgrund (#1A232B) med ljus text (#ECEFF1). Accentfärg: blekmintgrön eller pudrig guld för puls/ikoner för att ge ceremoniell värme. Typsnitt med mer personlighet, t.ex. **Neue Haas Grotesk** för rubriker, kombinerat med neutralt **Noto Sans** för brödtext (ensamt typsnitt helst). Animeringar: subtil highlight av aktiv tabb (ikonskift ljusstyrka), drag&drop-kort med skuggbelysning. Valvet-öppning: *“dörröppning”-animering med bakgrundsdimma* för dramatik (ändå återhållsamt).  
 
----
+**Riktning C (Organisk lutning):** Naturnära färger: djupgrön eller kallblå som huvud, med elfenbensfärg för bakgrund och vita inslag. Ikoner med rundare kanter (kan matcha *ceremoniellt* tema, typ blommönster abstrakt?). Typsnitt: **Montserrat** (varm rundhet) och **Lora** (för längre text), för ett nordiskt hantverk-känsla. Animeringar: flytande övergångar (lätt böljande rörelse vid sidbyte), feedback med lätt gungning (t.ex. lätt vobblande knapp vid tryck), och ha en “fyranimation” (t.ex. fyren blinkar kort när kapacitet sträcker gräns). Vi följer IKEA/Finn Juhl-stilkoncept (funktionalitet + stil).  
 
-*Fullständig pre-flight syntes: Cursor-plan `fas_19_masterplan_v2_48298370.plan.md` (intern).*
+*Illustrerade riktningar:* (schematiska, ej faktiska designer)  
+
+- *Hjärtat-startskärm:* Visar stora ”God morgon” hälsning, dagens fokus (mikrosteg) och nästa aktion som CTA, med diskret kapacitetsindikator vid rubriken.  
+- *Vardagen/Planering:* Tre kolumner med minimal header, flyttbara kort. P3-kanban-länkar på tabbar.  
+- *Valvet (låst):* Halvt genomskinlig panel över grå bakgrund, för inmatning av PIN. Låsikon i bakgrund, text “Valvet är låst”.  
+- *Familje-hub:* Knytetill medlemsikoner, barnens statuslistor. T.ex. cirklar med barnbilder (silhouetter) och färger som signalerar deras aktiviteter.  
+- *Fyren-indikator:* En liten rund ikon med färgton ändras (grön – bra kapacitet, röd – varning), utan siffra. Klickbar för kort förklaring (tooltip) men ingen detaljerad data.  
+
+**Mikrointeraktioner:** Knapptryck får kort “puff” eller färgskift. Dra kort i Kanban får lätt skugga & skalning (e.g. skalar upp lite). Fyllnads-animation i kapacitetsindikatorn visar progress (sekundär fyllnad). Vi undviker distraherande effekter – varje animation är *ändamålsenlig* (t.ex. “skräddarsydd” för feedback). 
+
+```mermaid
+gantt
+    dateFormat  YYYY-MM-DD
+    axisFormat  %b
+    title Tidplan (vågor)
+    section Våg A
+    Byte Hem→Hjärtat       :a1, 2026-07-01, 2w
+    Planering i Vardagen   :a2, after a1, 2w
+    Dölj Fyren UI          :a3, after a2, 1w
+    Lås Valvet (PIN+WORM)  :a4, after a3, 2w
+    section Våg B
+    Rutt- & nav-uppdatering: b1, 2026-07-22, 3w
+    Förenklade komponenter  :b2, after b1, 3w
+    section Våg C
+    Fyren-motor + notifier: c1, 2026-08-15, 3w
+    UX-polish & animationer  :c2, after c1, 4w
+```
+
+## 6. QA, prestanda och säkerhet  
+**QA-checklista:** Automatisk testsvit med enhetstester (Jest) och komponenttester. UI-tests med Detox (animeringsstöd, swipe etc). Säkerställ a11y (skärmläsartest, gränssnitt utan mus/tangentbord, kontrastmätningar). Funktionstester: kontrollera PIN-lås, WORM-logg (kan ej redigera), offline-läge. 
+**Prestandamål:** Snabb first screen (<2 s), 60fps-interaktion (UI animationer <16ms). Minimera minne/batteri: ge bleeder regler (avsluta nya objekt, caching). Utgå från React Natives riktlinjer (skript + plugin kan göras optimeringsbart). Mät med profiler (Dykt biljetter för fram- och bakgrundsprcesser).
+**Valvet/WORM-säkerhet:** All data i Valvet säkras i device Keychain/Keystore. WORM betyder *append-only*: ingen data kan ändras eller tas bort efter inmatning utan överträdelser spåras. Vi lägger till revisionslogg (tamper-evident timestamps) och retention-policy. PIN-koden (och biometriska data) behandlas som högt känsliga uppgifter (klassificeras enligt GDPR/HIPAA).  
+**Prestanda:** Sätt budgetar för APK-storlek (<25 MB vid release), snabba kallstarter. Lazy-load bilder (SVG-ikoner i stället för raster), återanvänd komponenter. 
+**Säkerhetskontroller:** Inga känsliga fält i klartext (kryptera lokalt). Inga hårdkodade hemligheter. Använd HTTPS för alla bakgrundskall. Valvet är isolerat: tillträde kräver PIN + enhetens autentisering (FaceID om tillgängligt). WORM-loggen göres oföränderlig (skriv-skydd, markera ändringsförsök).
+
+## 7. CI/CD, testning och release  
+**CI/CD-pipeline:** GitHub Actions (eller liknande) kör linting (ESLint/TS), enhetstester (Jest) och UI-tester (Detox) vid varje commit. Byggar automatiskt både iOS- och Android-paket. Efter testgrön, automatisera distribution till testkanaler (TestFlight, Firebase App Distribution). Fastlane kan hantera signering/spridning. Mätkod-coverage och rapportera fail/nästa steg via Slack eller issue tracker. Varje PR kräver godkännande *och* grön CI för att merges.  
+**Testmiljö:** Enhetstest (70 %) för logik/komponenter, integrationstest (20 %) för vyflöden, och e2e (10 %) för kritiska use cases. Automatisk regressionstest körs på emulatorer i pipeline.  
+**Release-gating:** Gated release när alla tester passerar; kodreview obligatorisk. Dessutom pre-release betatest med slumpade användare ger feedback. *Performance-budgetar* i pipelinen: t.ex. larm om app-uppstart > 3s på genomsnittstelefon. *Säkerhetsskanning*: kör SAST (ex. npm audit, MobSF) regelbundet och Snyk på beroenden.  
+
+**Källor:** Branschriktlinjer för komponentbaserade design tokens, React Native-dokumentation om tillgänglighet, samt jämförelser Flutter vs React Native har legat till grund för rekommendationerna. Resultatet är ett modulärt, testat system med lågt kognitivt golv och tydliga nästa steg för användaren.
 ````
 
-## File: docs/evaluations/2026-06-16-supermodule-ui-masterplan.md
+## File: docs/external-ai/imports/gap-matrix-2026-06-16.md
 ````markdown
-# Supermodule + UI Masterplan — Körfält B
+# Gap-matris — GPT Life OS vs Livskompassen3.0
 
-**Datum:** 2026-06-16 · **Status:** B1 LOCK · Våg 2 Nav micro **klar** 2026-06-16  
-**Kanon:** [`2026-06-15-fas19-masterplan-v2.md`](./2026-06-15-fas19-masterplan-v2.md) (backend/Fas 19–24 — peka dit, duplicera ej) · [`UI-WAVE-ROADMAP.md`](../external-ai/UI-WAVE-ROADMAP.md) · [`LIFE-OS-BUILD-STATE.md`](../external-ai/LIFE-OS-BUILD-STATE.md)
-
----
-
-## Vision
-
-Livskompassen är ett neuroanpassat Life OS — avancerat under huven (WORM, tre silos, ADK, kapacitetsdata) men **ett steg i taget** i gränssnittet via InputSuperModule-mönstret och Obsidian Calm 2.0. Fyren styr dagsform och kapacitet i bakgrunden; den är inte en femte «plats». Målbild: fyra zoner (Hjärtat, Familjen, Vardagen, Valvet) plus tyst Fyren — kortaste vägen från överbelastning till nästa mikrosteg.
+**Datum:** 2026-06-16 · **Källor:** GPT-mockup, `deep-research-ide.md`, repo-kanon  
+**Stack-beslut:** React + Vite + Capacitor KEEP — Flutter/RN REJECT
 
 ---
 
-## Redan DONE (rör ej)
+## KEEP (redan rätt — lås)
 
-| Område | Referens |
-|--------|----------|
-| Fas 13–24 baseline (WORM, smoke, deploy) | [`SENASTE-SAMMANFATTNING.md`](./SENASTE-SAMMANFATTNING.md) |
-| 6 supermodule-routers (jun 2026) | [`2026-06-06-supermodule-master-plan.md`](../archive/evaluations-fas20-2026-06/2026-06-06-supermodule-master-plan.md) — Capture, Speglar, ValvSuper, DagbokSuper, PlaneringSuper, BarnfokusSuper |
-| Körfält A LOCK (CP-1–CP-7) | [`LIFE-OS-BUILD-STATE.md`](../external-ai/LIFE-OS-BUILD-STATE.md) |
-| Nav Våg A F1/F2/F4/F5 | [`2026-06-15-arkitektur-nav-analys.md`](./2026-06-15-arkitektur-nav-analys.md) |
-| B2/B3/B4 wave-1 polish | [`2026-06-15-hjartat-ui-spec.md`](./2026-06-15-hjartat-ui-spec.md) · familj/vardagen-specs |
-| Valv B1 kod (Fas 1A–1E) | `ValvInputSuperModule`, `valvInputModes`, export i `vault/index.ts`, `ValvZoneModulValjare` inkl. forensik |
-
----
-
-## Konflikter — lösta beslut (chatt vs repo)
-
-| Konflikt | Vision (chatt) | Repo-sanning | **Beslut** |
-|----------|----------------|--------------|------------|
-| Hem `/` vs Hjärtat | `/` = Hjärtat | `HomePage` + CaptureSuperModule kvar på `/` | **DEFER** — PMIR (widgets, inkast). Efter B1 LOCK |
-| Planering i dock | Ej toppnivå-identitet | Handling-slot → `/planering?tab=handling` | **KEEP** — P3 lock + snabb Kanban. Mental modell: Vardagen-verktyg |
-| Launcher Handling | Bort | Våg A F1 done | **DONE** — rör ej |
-| Dock «Dagbok» vs Hjärtat | Hjärtat | Label via `navTruth` «dagbok» | **Våg 2** — copy-fix only |
-| B2–B4 mockups | Full redesign | Wave-1 polish i prod | **DONE** wave-1; ChatBox mockups parallellt, ej prod utan CHECKPOINT |
-| Supermoduler jun vs B1 | 5 done | `ValvInputSuperModule` = nytt UX-lager | **Båda** — router done 2026-06-06; B1 = navigation/lägesväljare |
-| Fyren plats vs motor | Bakgrund | Dock-handle + widget-genvägar | **DELVIS** — Våg A F4; full motor **DEFER** (Våg C) |
-| Körfält A | — | LOCK | **MUST NOT** ny backend/WORM/rules utan PMIR |
+| Område | Repo |
+|--------|------|
+| 4 zoner + bakgrunds-Fyren | `navTruth.ts`, supermodule-ui-masterplan |
+| InputSuperModule (7 hubs + 6 routers) | `src/modules/**` |
+| Obsidian `#020617`–`#050b14` + guld `#d4af37` | `index.css`, COLOR-POLICY |
+| Cinzel hub-rubriker | `typeScale.ts` — inte Cormorant i prod |
+| P3 Kanban `/planering?tab=handling` | Locked UX §14 |
+| Valv B1 LOCK | `ValvInputSuperModule`, WORM |
+| Tre silos, no cross-RAG | grunder-kanon |
+| 4-zons dock + Fyren center-handle | `FloatingDock.tsx` |
 
 ---
 
-## WIP / nästa 3 vågor
+## BUILD (nästa — i ordning)
 
-| Våg | Scope | Gate |
-|-----|-------|------|
-| **1 — B1 LOCK** | Manuell checklista §7 i [`2026-06-15-valv-supermodule-spec.md`](./2026-06-15-valv-supermodule-spec.md) + smoke + `snapshot_locked_module.sh valv` | CHECKPOINT PASS |
-| **2 — Nav micro** | F3: Familjen tab+inputMode dedupe · F2: dock-label «Hjärtat» · F4 rest: neutral Valv-copy i FyrenWidgetBar publikt | Frontend only |
-| **3 — Nav Våg B** | H1 `/ekonomi`→Vardagen · H2 MåBra-ingång · H3 `/arkiv` · H4 drogfrihet launcher | **DONE** 2026-06-16 — [`2026-06-16-nav-vag3-pmir.md`](./2026-06-16-nav-vag3-pmir.md) |
-
-**Defer:** Hem→Hjärtat redirect · global Fyren kapacitetsgrind (Våg C) · M3.0-C · Upload unified steg 2 (`InkastDirectPanel`).
-
----
-
-## Per zon — SuperModule + nästa steg
-
-| Zon | SuperModule(s) | Status | Nästa steg |
-|-----|----------------|--------|------------|
-| **Valv** | `ValvInputSuperModule` → `ValvSuperModule` | **LOCK** (B1 2026-06-16) | Våg 2 endast med explicit OK + snapshot |
-| **Hjärtat** | `DagbokInputSuperModule`, `SpeglarSuperModule` | B2 + **Våg 2 F2** done | — |
-| **Familjen** | `FamiljenInputSuperModule`, `BarnfokusSuperModule` | B3 + **Våg 2 F3** done | Våg 3 efter PMIR |
-| **Vardagen** | Mabra/Ekonomi/Planering/Arbetsliv InputSuperModules | B4 done | Våg 3 H1–H2 efter PMIR |
-| **Hem `/`** | `CaptureSuperModule` | Legacy | DEFER merge → Hjärtat |
-| **Fyren** | Widget + dock-handle | **Våg 2 F4** done | Våg C defer |
-
-ChatBox-leveranser (wireframes): [`docs/external-ai/leveranser/ui-design/`](../external-ai/leveranser/ui-design/) — B1–B4 2026-06-15.
+| # | Vad | Gate |
+|---|-----|------|
+| 1 | Nav Våg 3 H1–H4 | PMIR |
+| 2 | Fas 19.3 hex→tokens | Efter Våg 3 smoke |
+| 3 | Fas 19.2 MåBra hybrid-8 | Efter tokens |
+| 4 | Upload unified steg 2 | Efter 19.2 |
+| 5 | UI wave-2 polish (GPT-mockup känsla) | ChatBox + AI Studio → Cursor |
+| 6 | Life OS-loop copy/routing | Efter polish |
 
 ---
 
-## KEEP · DEFER · MUST NOT
+## DEFER
 
-**KEEP:** Locked UX §1–17 ([`.context/locked-ux-features.md`](../../.context/locked-ux-features.md)) · P3 Kanban `/planering` · dock Handling-slot · tre silos · `SaveAsEvidencePrompt` HITL · Mönster/Orkester/Kunskapsbank/Aktörskarta · WH1/WH2 ikoner.
-
-**DEFER:** Hem→Hjärtat · Nav H1–H4 utan PMIR · Fyren global kapacitetsmotor · M3.0-C · ChatBox full redesign → prod.
-
-**MUST NOT:** Cross-RAG · auto-promote barn→Valv · backend/callables/rules i Körfält B · ta bort supermodule-delegates · streak/XP · publikt Valv-terminologi i drawer/dock.
-
----
-
-## Smoke per våg
-
-| Våg | Kommandon |
-|-----|-----------|
-| **1 B1** | `npm run build` · `smoke:locked-ux` · `smoke:valv` · `smoke:entities` · `smoke:orkester` · `smoke:valv-mode` |
-| **2 Nav micro** | `smoke:locked-ux` · `smoke:children` · `npm run build` |
-| **3 Nav H** | `smoke:locked-ux` · `smoke:design-modules` · `smoke:mabra` · PMIR-godkänd merge-smoke |
+- Hem `/` → Hjärtat merge (egen PMIR)
+- Fyren global kapacitetsmotor (Våg C)
+- M3.0-C Fitness/Näring
+- Design-arkiv ~400 filer (hygiene våg D, PMIR)
+- Detox e2e / Flutter CI
 
 ---
 
-## Ett steg att godkänna nu
+## REJECT
 
-**Godkänn: Våg 3 PMIR** — routing H1 `/ekonomi`→Vardagen, H2 MåBra-ingång, H3 `/arkiv`, H4 drogfrihet launcher. Skriv PMIR enligt [`MERGE-IMPACT-RAPPORT.md`](../MERGE-IMPACT-RAPPORT.md) **före** kod.
+| Förslag | Skäl |
+|---------|------|
+| Flutter / React Native omskrivning | Stack + Capacitor investerat |
+| Teal `#2E6466` som aktiv chrome | COLOR-POLICY |
+| Ljus/nature-tema | Obsidian Calm lock |
+| GPT 5-tab nav (Home\|Plan\|Fyren\|Journal\|More) | Dock+drawer kanon |
+| Ta bort Handling-slot / P3 | Locked UX |
+| Cross-RAG / auto-promote barn→Valv | U1 + locked UX |
+| Streak/XP | Governance |
 
-Våg 2 **klar** 2026-06-16 — F2 header «Hjärtat», F3 Familjen kompakt nav på reflektion/livslogg, F4 neutral Kompis-copy publikt. Smoke: locked-ux + children + build PASS.
+---
 
-B1 **klar** — snapshot `~/Livskompassen-snapshots/2026-06-16-valv`.
+## GPT-mockup → repo-mappning
+
+| Mockup | Repo idag | Åtgärd |
+|--------|-----------|--------|
+| Hem + dagens fokus | `/` Capture + Hjärtat | Polish; merge DEFER |
+| Planering 3 kolumner | P3 Kanban | Polish |
+| Dagbok | `/hjartat?tab=reflektion` | KEEP |
+| Familj | `/familjen` superhub | Wave-2 polish |
+| Ekonomi | `/vardagen?tab=ekonomi` | H1 redirect Våg 3 |
+| Valvet | `/valvet` B1 LOCK | Visuell förfining only |
+| Bottom nav 5 ikoner | Dock 4 + drawer | Mappa intent, ej 1:1 |
 ````
 
 ## File: docs/external-ai/leveranser/ui-design/2026-06-15-b1-valv-spec.md
@@ -1109,6 +859,256 @@ Efter B1 smoke PASS → B2 Hjärtat enligt `UI-WAVE-ROADMAP.md`.
 - Familjen: Barnfokus, `FamiljenInputSuperModule`, `BARNFOKUS_QUESTIONS`
 - Planering: P3 Kanban på `/planering`
 - Barnporten: HITL → Valv via `SaveAsEvidencePrompt`
+````
+
+## File: docs/DOC-INDEX.md
+````markdown
+# DOC-INDEX — var hittar jag vad?
+
+**Senast uppdaterad:** 2026-06-16 (Fas 0 handoff)  
+**Regel:** Om två filer säger olika saker — **register vinner** (se tabell nedan).
+
+---
+
+## 1. Vad gäller nu? (läs dessa först)
+
+| Fråga | Fil |
+|-------|-----|
+| Vad är LOCK / WIP / nästa steg? | [`docs/external-ai/LIFE-OS-BUILD-STATE.md`](external-ai/LIFE-OS-BUILD-STATE.md) |
+| UI-körplan (Körfält B) | [`docs/evaluations/2026-06-16-supermodule-ui-masterplan.md`](evaluations/2026-06-16-supermodule-ui-masterplan.md) |
+| Backend Fas 19–24 | [`docs/evaluations/2026-06-15-fas19-masterplan-v2.md`](evaluations/2026-06-15-fas19-masterplan-v2.md) |
+| 1-sides status | [`docs/evaluations/SENASTE-SAMMANFATTNING.md`](evaluations/SENASTE-SAMMANFATTNING.md) |
+| Routes + moduler | [`docs/MODUL-FUNKTIONS-REGISTER.md`](MODUL-FUNKTIONS-REGISTER.md) |
+| Låst UX (får inte tas bort) | [`.context/locked-ux-features.md`](../.context/locked-ux-features.md) |
+
+**Nästa arbetsgren:** Våg 3 Nav H1–H4 — **PMIR före kod**.
+
+---
+
+## 2. Var lägger jag nya filer?
+
+| Typ | Mapp | Exempel |
+|-----|------|---------|
+| Beslut / eval | `docs/evaluations/` | `2026-06-16-nav-pmir.md` |
+| Modul-SPEC | `docs/specs/modules/` | `Mabra-INPUT-SUPERHUB-SPEC.md` |
+| Design (aktiv) | `docs/design/` | endast KEEP enligt register |
+| ChatBox-leverans | `docs/external-ai/leveranser/` | `2026-06-16-fas-09-vision.md` |
+| Extern import | `docs/external-ai/imports/` | deep-research, gap-matrix |
+| Handoff (genereras) | `exports/chatbot-handoff/` | `npm run chatbot:pack:handoff` |
+| Arkiv (historik) | `docs/archive/` | flyttade utkast — **inte** sanning |
+
+---
+
+## 3. Vad är arkiv vs aktiv?
+
+| Mapp | Roll |
+|------|------|
+| `docs/archive/` | Historik — läs för kontext, bygg inte härifrån |
+| `docs/archive/design-2026-06/` | Reserverad för design-flytt (icons-proposals m.m.) |
+| `exports/` | **Regenereras** — bifoga till ChatBox, redigera inte manuellt |
+| `docs/external-ai/bifoga/` | Speglad kopia för upload — `npm run chatbot:sync:bifoga` |
+
+---
+
+## 4. AI-verktyg — vilket för vad?
+
+| Verktyg | När | Pack / prompt |
+|---------|-----|----------------|
+| **Cursor** | Prod-kod, smoke, LOCK | — |
+| **ChatBox** | SPEC, PMIR, wireframes | `exports/chatbot-handoff/` + `bifoga/` |
+| **Google AI Studio** | Design-remix + mockup-bild | `npm run design:pack` + `docs/ai-studio/DESIGN-REMIX-PROMPT.md` |
+| **NotebookLM** | Research, motsägelser | `npm run google-ai-pro:pack` |
+
+Se [`docs/external-ai/MODEL-PICKER.md`](external-ai/MODEL-PICKER.md).
+
+---
+
+## 5. Design — vad är aktivt?
+
+Kanon: [`docs/external-ai/DESIGN-KEEP-REGISTER.md`](external-ai/DESIGN-KEEP-REGISTER.md)
+
+**~570 filer** i `docs/design/` — de flesta är labb/utkast. Rör inte `icons-proposals/` utan hygiene-PMIR.
+
+---
+
+## 6. Kommandon (handoff)
+
+```bash
+cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
+npm run chatbot:pack:handoff    # alla ChatBox-repomixar
+npm run chatbot:sync:bifoga     # speglar till bifoga/
+```
+
+Bifoga-mapp: `docs/external-ai/bifoga/` — se [`bifoga/README.md`](external-ai/bifoga/README.md).
+
+---
+
+## 7. Kanon-tier (planering-kanon-guard)
+
+1. `.context/system-plan.md`
+2. `docs/specs/modules/Arkiv-GAP-REGISTER.md`
+3. `docs/BRANCH-KARTA.md`
+4. `docs/evaluations/` (senaste indexerade)
+5. `.context/locked-ux-features.md`
+6. `docs/INNEHALL-REGISTER.md`
+7. `docs/SYSTEM_PLAN_v2.md`
+8. `docs/evaluations/2026-06-15-fas19-masterplan-v2.md`
+````
+
+## File: docs/evaluations/2026-06-15-fas19-masterplan-v2.md
+````markdown
+# Fas 19 — Masterplan v2 (slutgiltig)
+
+**Datum:** 2026-06-15 · **Status:** Godkänd — implementation Fas 19.1–19.6  
+**Ersätter:** [`FAS19-UTKASTPLAN.md`](../archive/evaluations-fas19-2026-06/FAS19-UTKASTPLAN.md)  
+**Regel:** [`.cursor/rules/fas19-masterplan-guard.mdc`](../../.cursor/rules/fas19-masterplan-guard.mdc)
+
+---
+
+## 1. Executive summary
+
+Livskompassen v2 har levererat Fas 13–18 (WORM, superhubbar, inkast, Kunskap våg 24, Android cap sync) med grön smoke-baseline. Fas 19 fokuserar på **tre parallella spår** utan att bryta Sacred eller locked UX: **(A)** MåBra hybrid-8 pelarnav + hex→tokens, **(B)** projekt-hjärna med arkiv-först doc-synk, **(C)** säkerhets-P0 (`unlockVault`, App Check coverage) före polish. Pontus val: hybrid-8, JOY-17→19.4, evolution_ledger dual-write→19.5.
+
+---
+
+## 2. Vision + DONE/LÅST
+
+Se Cursor-plan och pre-flight syntes. G1–G16 **done** · Superhub §11–§17 **låst** · tre silos **PASS**.
+
+---
+
+## 3. Implementation-vågor
+
+| Våg | Innehåll | Smoke |
+|-----|----------|-------|
+| **19.1** | Doc-synk + `unlockVault` P0 + App Check guards + LEG-VAULT read-fix | `smoke:valv-security`, `smoke:inkast`, `smoke:locked-ux` |
+| **19.2** | M3.0-B hybrid-8 pelarkort | `smoke:mabra`, `smoke:design-modules`, `smoke:modulvaljare` |
+| **19.3** | Hex→tokens P0 + typecheck expansion | `typecheck:core-strict`, `smoke:design-modules` |
+| **19.4** | JOY-17 + mabraCoach bank-synk | `smoke:innehall`, `smoke:mabra` |
+| **19.5** | evolution_ledger dual-write | `smoke:evolution-discovery` |
+| **19.6** | Arkiv-batch PMIR | `orkester:night` |
+
+---
+
+## 4. Glömda funktioner
+
+| ID | Beslut | Våg |
+|----|--------|-----|
+| M3.0-B hybrid-8 | Implementera | 19.2 |
+| JOY-17 prod-wire | Implementera | 19.4 |
+| EVO-LEDGER dual-write | Implementera | 19.5 |
+| M3.0-C Fitness/Näring | Defer | 19.N+ |
+| LEG-VAULT | Behåll | — |
+| BP-PUSH | Defer | TBD |
+
+---
+
+## 5. Kostnadsgate
+
+Scripts/orkester:night default · prod callable-smoke en silo i taget · PMIR före merge.
+
+---
+
+*Fullständig pre-flight syntes: Cursor-plan `fas_19_masterplan_v2_48298370.plan.md` (intern).*
+````
+
+## File: docs/evaluations/2026-06-16-supermodule-ui-masterplan.md
+````markdown
+# Supermodule + UI Masterplan — Körfält B
+
+**Datum:** 2026-06-16 · **Status:** B1 LOCK · Våg 2 Nav micro **klar** 2026-06-16  
+**Kanon:** [`2026-06-15-fas19-masterplan-v2.md`](./2026-06-15-fas19-masterplan-v2.md) (backend/Fas 19–24 — peka dit, duplicera ej) · [`UI-WAVE-ROADMAP.md`](../external-ai/UI-WAVE-ROADMAP.md) · [`LIFE-OS-BUILD-STATE.md`](../external-ai/LIFE-OS-BUILD-STATE.md)
+
+---
+
+## Vision
+
+Livskompassen är ett neuroanpassat Life OS — avancerat under huven (WORM, tre silos, ADK, kapacitetsdata) men **ett steg i taget** i gränssnittet via InputSuperModule-mönstret och Obsidian Calm 2.0. Fyren styr dagsform och kapacitet i bakgrunden; den är inte en femte «plats». Målbild: fyra zoner (Hjärtat, Familjen, Vardagen, Valvet) plus tyst Fyren — kortaste vägen från överbelastning till nästa mikrosteg.
+
+---
+
+## Redan DONE (rör ej)
+
+| Område | Referens |
+|--------|----------|
+| Fas 13–24 baseline (WORM, smoke, deploy) | [`SENASTE-SAMMANFATTNING.md`](./SENASTE-SAMMANFATTNING.md) |
+| 6 supermodule-routers (jun 2026) | [`2026-06-06-supermodule-master-plan.md`](../archive/evaluations-fas20-2026-06/2026-06-06-supermodule-master-plan.md) — Capture, Speglar, ValvSuper, DagbokSuper, PlaneringSuper, BarnfokusSuper |
+| Körfält A LOCK (CP-1–CP-7) | [`LIFE-OS-BUILD-STATE.md`](../external-ai/LIFE-OS-BUILD-STATE.md) |
+| Nav Våg A F1/F2/F4/F5 | [`2026-06-15-arkitektur-nav-analys.md`](./2026-06-15-arkitektur-nav-analys.md) |
+| B2/B3/B4 wave-1 polish | [`2026-06-15-hjartat-ui-spec.md`](./2026-06-15-hjartat-ui-spec.md) · familj/vardagen-specs |
+| Valv B1 kod (Fas 1A–1E) | `ValvInputSuperModule`, `valvInputModes`, export i `vault/index.ts`, `ValvZoneModulValjare` inkl. forensik |
+
+---
+
+## Konflikter — lösta beslut (chatt vs repo)
+
+| Konflikt | Vision (chatt) | Repo-sanning | **Beslut** |
+|----------|----------------|--------------|------------|
+| Hem `/` vs Hjärtat | `/` = Hjärtat | `HomePage` + CaptureSuperModule kvar på `/` | **DEFER** — PMIR (widgets, inkast). Efter B1 LOCK |
+| Planering i dock | Ej toppnivå-identitet | Handling-slot → `/planering?tab=handling` | **KEEP** — P3 lock + snabb Kanban. Mental modell: Vardagen-verktyg |
+| Launcher Handling | Bort | Våg A F1 done | **DONE** — rör ej |
+| Dock «Dagbok» vs Hjärtat | Hjärtat | Label via `navTruth` «dagbok» | **Våg 2** — copy-fix only |
+| B2–B4 mockups | Full redesign | Wave-1 polish i prod | **DONE** wave-1; ChatBox mockups parallellt, ej prod utan CHECKPOINT |
+| Supermoduler jun vs B1 | 5 done | `ValvInputSuperModule` = nytt UX-lager | **Båda** — router done 2026-06-06; B1 = navigation/lägesväljare |
+| Fyren plats vs motor | Bakgrund | Dock-handle + widget-genvägar | **DELVIS** — Våg A F4; full motor **DEFER** (Våg C) |
+| Körfält A | — | LOCK | **MUST NOT** ny backend/WORM/rules utan PMIR |
+
+---
+
+## WIP / nästa 3 vågor
+
+| Våg | Scope | Gate |
+|-----|-------|------|
+| **1 — B1 LOCK** | Manuell checklista §7 i [`2026-06-15-valv-supermodule-spec.md`](./2026-06-15-valv-supermodule-spec.md) + smoke + `snapshot_locked_module.sh valv` | CHECKPOINT PASS |
+| **2 — Nav micro** | F3: Familjen tab+inputMode dedupe · F2: dock-label «Hjärtat» · F4 rest: neutral Valv-copy i FyrenWidgetBar publikt | Frontend only |
+| **3 — Nav Våg B** | H1 `/ekonomi`→Vardagen · H2 MåBra-ingång · H3 `/arkiv` · H4 drogfrihet launcher | **DONE** 2026-06-16 — [`2026-06-16-nav-vag3-pmir.md`](./2026-06-16-nav-vag3-pmir.md) |
+
+**Defer:** Hem→Hjärtat redirect · global Fyren kapacitetsgrind (Våg C) · M3.0-C · Upload unified steg 2 (`InkastDirectPanel`).
+
+---
+
+## Per zon — SuperModule + nästa steg
+
+| Zon | SuperModule(s) | Status | Nästa steg |
+|-----|----------------|--------|------------|
+| **Valv** | `ValvInputSuperModule` → `ValvSuperModule` | **LOCK** (B1 2026-06-16) | Våg 2 endast med explicit OK + snapshot |
+| **Hjärtat** | `DagbokInputSuperModule`, `SpeglarSuperModule` | B2 + **Våg 2 F2** done | — |
+| **Familjen** | `FamiljenInputSuperModule`, `BarnfokusSuperModule` | B3 + **Våg 2 F3** done | Våg 3 efter PMIR |
+| **Vardagen** | Mabra/Ekonomi/Planering/Arbetsliv InputSuperModules | B4 done | Våg 3 H1–H2 efter PMIR |
+| **Hem `/`** | `CaptureSuperModule` | Legacy | DEFER merge → Hjärtat |
+| **Fyren** | Widget + dock-handle | **Våg 2 F4** done | Våg C defer |
+
+ChatBox-leveranser (wireframes): [`docs/external-ai/leveranser/ui-design/`](../external-ai/leveranser/ui-design/) — B1–B4 2026-06-15.
+
+---
+
+## KEEP · DEFER · MUST NOT
+
+**KEEP:** Locked UX §1–17 ([`.context/locked-ux-features.md`](../../.context/locked-ux-features.md)) · P3 Kanban `/planering` · dock Handling-slot · tre silos · `SaveAsEvidencePrompt` HITL · Mönster/Orkester/Kunskapsbank/Aktörskarta · WH1/WH2 ikoner.
+
+**DEFER:** Hem→Hjärtat · Nav H1–H4 utan PMIR · Fyren global kapacitetsmotor · M3.0-C · ChatBox full redesign → prod.
+
+**MUST NOT:** Cross-RAG · auto-promote barn→Valv · backend/callables/rules i Körfält B · ta bort supermodule-delegates · streak/XP · publikt Valv-terminologi i drawer/dock.
+
+---
+
+## Smoke per våg
+
+| Våg | Kommandon |
+|-----|-----------|
+| **1 B1** | `npm run build` · `smoke:locked-ux` · `smoke:valv` · `smoke:entities` · `smoke:orkester` · `smoke:valv-mode` |
+| **2 Nav micro** | `smoke:locked-ux` · `smoke:children` · `npm run build` |
+| **3 Nav H** | `smoke:locked-ux` · `smoke:design-modules` · `smoke:mabra` · PMIR-godkänd merge-smoke |
+
+---
+
+## Ett steg att godkänna nu
+
+**Godkänn: Våg 3 PMIR** — routing H1 `/ekonomi`→Vardagen, H2 MåBra-ingång, H3 `/arkiv`, H4 drogfrihet launcher. Skriv PMIR enligt [`MERGE-IMPACT-RAPPORT.md`](../MERGE-IMPACT-RAPPORT.md) **före** kod.
+
+Våg 2 **klar** 2026-06-16 — F2 header «Hjärtat», F3 Familjen kompakt nav på reflektion/livslogg, F4 neutral Kompis-copy publikt. Smoke: locked-ux + children + build PASS.
+
+B1 **klar** — snapshot `~/Livskompassen-snapshots/2026-06-16-valv`.
 ````
 
 ## File: docs/external-ai/leveranser/ui-design/README.md

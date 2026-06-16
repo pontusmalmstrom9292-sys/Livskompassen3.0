@@ -246,6 +246,11 @@ Använd `HubPageShell` eller `hubHeaderClasses()` — **inte** ad hoc `text-xl` 
 `design-master.md` §3 beskriver font-val; denna fil är **runtime-sanning** för storlekar.
 ```
 
+## File: tailwind.config.js
+```javascript
+function cssVar(name)
+```
+
 ## File: docs/external-ai/DESIGN-KEEP-REGISTER.md
 ```markdown
 # DESIGN-KEEP-REGISTER — vad som är aktivt
@@ -304,11 +309,6 @@ Filer i `docs/design/` som **används nu** — rör ej vid städning.
 | `docs/design/compact/` | gamla modul-mockups | `docs/archive/design-2026-06/compact/` |
 
 **Regel:** Flytta, radera inte — förrän Pontus godkänt HYGIENE-LOG-rad.
-```
-
-## File: tailwind.config.js
-```javascript
-function cssVar(name)
 ```
 
 ## File: src/modules/core/theme/themeRegistry.ts
