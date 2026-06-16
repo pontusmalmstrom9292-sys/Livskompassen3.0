@@ -40,12 +40,34 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 
 ## Cursor Subagents
 
-- Use `explore` for broad, read-only codebase mapping and architecture discovery.
-- Use `shell` for terminal-heavy workflows such as builds, Firebase CLI checks, and Git inspection.
-- Use `generalPurpose` for complex multi-step investigations when the right search path is unclear.
-- Use `ci-investigator` only when a specific PR check or CI failure needs diagnosis.
-- **Orkester nattpass:** `npm run orkester:night` (deterministisk) eller Conductor + specialister i `.cursor/agents/` — se [`docs/ORKESTER-AUTORUN.md`](docs/ORKESTER-AUTORUN.md).
-- **Innehåll (routing):** `specialist-innehall-dirigent` — klassar FACT/REFLECTION/PLAY/EVIDENCE → rätt kurator; kanon [`docs/INNEHALL-REGISTER.md`](docs/INNEHALL-REGISTER.md).
+Built-in: `explore`, `bash`, `browser` — use for research, shell, browser (do not duplicate).
+
+### Orkester (nattpass)
+
+`npm run orkester:night` eller Conductor — [`docs/ORKESTER-AUTORUN.md`](docs/ORKESTER-AUTORUN.md) · [`.cursor/agents/orkester-conductor.md`](.cursor/agents/orkester-conductor.md)
+
+| Fas | Agent | Trigger |
+|-----|-------|---------|
+| 1–4 | ux-guardian, adk-weaver, security-auditor, smoke-runner | orkester nattpass |
+| 5 | Zone-builders (Z1, Z3+6, Z5+2, Z4) | `/specialist-valv-builder` etc. |
+| 6 | `specialist-verifier` | `/specialist-verifier` |
+| 7 | Conductor rapport | — |
+
+### Slutbygge (zon)
+
+| Agent | Zon | Trigger |
+|-------|-----|---------|
+| `specialist-valv-builder` | Z1 Valv | `/specialist-valv-builder` |
+| `specialist-hjartat-inkast-builder` | Z3+6 Hjärtat+Inkast | `/specialist-hjartat-inkast-builder` |
+| `specialist-familjen-hamn-builder` | Z5+2 Familjen+Hamn | `/specialist-familjen-hamn-builder` |
+| `specialist-vardagen-builder` | Z4 Vardagen | `/specialist-vardagen-builder` |
+| `specialist-verifier` | Alla (efter build) | `/specialist-verifier` |
+
+Deploy efter PASS: skill [`.cursor/skills/livskompassen-deploy/SKILL.md`](.cursor/skills/livskompassen-deploy/SKILL.md) — inte subagent.
+
+### Innehåll (routing)
+
+- **`specialist-innehall-dirigent`** — klassar FACT/REFLECTION/PLAY/EVIDENCE; kanon [`docs/INNEHALL-REGISTER.md`](docs/INNEHALL-REGISTER.md)
 - **MåBra-innehåll:** `specialist-mabra-curator` — REFLECTION/PLAY → [`docs/specs/modules/Mabra-CONTENT-BANK.md`](docs/specs/modules/Mabra-CONTENT-BANK.md).
 - **Kunskap-fakta:** `specialist-kunskap-seed` — FACT → [`docs/specs/modules/Kunskap-CONTENT-SEED.md`](docs/specs/modules/Kunskap-CONTENT-SEED.md) (ingest separat).
 - Keep direct edits in the parent agent unless a separate isolated exploration is clearly useful.

@@ -22,9 +22,11 @@ Användaren säger **kör orkester**, **nattpass**, **autorun**, **master yolo**
 ## Conductor (`.cursor/agents/orkester-conductor.md`)
 
 1. Läs `.orkester/state.json` — fortsätt `nextPhase` om pågår.
-2. Delegera specialister i ordning: UX → ADK → Security → Smoke.
+2. Delegera specialister i ordning: UX → ADK → Security → Smoke → *(valfritt)* Zone-builder → Verifier.
 3. Uppdatera state efter varje fas.
 4. Skriv rapport i `docs/evaluations/YYYY-MM-DD-orkester-natt.md`.
+
+Zone Fas 5: `specialist-valv-builder` | `specialist-hjartat-inkast-builder` | `specialist-familjen-hamn-builder` | `specialist-vardagen-builder`. Fas 6: `specialist-verifier`.
 
 ## Terminal (utan Cursor)
 

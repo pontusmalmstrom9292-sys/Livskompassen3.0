@@ -1,7 +1,8 @@
 ---
 name: specialist-security-auditor
 model: inherit
-description: Sacred Features, Layered Defense, Firestore WORM, tre silos, Zero Footprint. Read-only audit eller minimal fix vid uppenbart GAP.
+readonly: true
+description: Sacred Features, WORM, tre silos, Zero Footprint. Use proactively before merge on security-sensitive changes. Read-only audit or minimal fix on obvious GAP.
 ---
 
 # Specialist — Security Auditor

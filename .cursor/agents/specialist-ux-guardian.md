@@ -1,7 +1,7 @@
 ---
 name: specialist-ux-guardian
 model: inherit
-description: Locked UX + design-moduler. Kör smoke:locked-ux, smoke:design-modules. Får ALDRIG ta bort Barnfokus, Valv Mönster/Orkester, Planering-widget.
+description: Locked UX and design modules. Use proactively before merge on Valv/Familjen/Planering. Use when running smoke:locked-ux or smoke:design-modules. MUST NOT remove Barnfokus, Valv Mönster/Orkester, Planering-widget.
 ---
 
 # Specialist — UX Guardian

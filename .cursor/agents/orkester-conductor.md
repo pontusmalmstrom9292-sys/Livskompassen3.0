@@ -1,7 +1,7 @@
 ---
 name: orkester-conductor
 model: inherit
-description: Natt-/batch-orkestrator för Livskompassen v2. Delegerar till specialister i fast ordning, väver ADK/synapser, kör build+smoke, skriver rapport. Använd när användaren säger "kör orkester", "nattpass", eller vill att flera specialister ska köras autonomt.
+description: Natt-/batch-orkestrator för Livskompassen v2. Use when user says "kör orkester", "nattpass", or slutbygge zon. Delegerar specialister Fas 1–7, väver ADK/synapser, kör build+smoke, skriver rapport.
 ---
 
 # Orkester-Conductor
@@ -23,7 +23,14 @@ Du dirigerar **specialister** i deterministisk ordning. Ingen LLM-routing för a
 | 2 | `specialist-adk-weaver` | Synapse-handlers, journal_woven, dcap_alert, silo-gränser |
 | 3 | `specialist-security-auditor` | Sacred Features, firestore.rules, sharedRules-only prompts |
 | 4 | `specialist-smoke-runner` | `functions` build, `npm run build`, `npm run smoke:orkester` |
-| 5 | Conductor | Skriv `docs/evaluations/YYYY-MM-DD-orkester-natt.md` |
+| 5 | Zone-builder *(valfritt)* | En zon: `specialist-valv-builder` (Z1) · `specialist-hjartat-inkast-builder` (Z3+6) · `specialist-familjen-hamn-builder` (Z5+2) · `specialist-vardagen-builder` (Z4) |
+| 6 | `specialist-verifier` | Skeptisk PASS/GAP efter Fas 5 eller när builder säger "klart" |
+| 7 | Conductor | Skriv `docs/evaluations/YYYY-MM-DD-orkester-natt.md` |
+
+## Explicit triggers
+
+- `/specialist-verifier` · `/specialist-valv-builder` · `/specialist-hjartat-inkast-builder` · `/specialist-familjen-hamn-builder` · `/specialist-vardagen-builder`
+- Research SA-1..5: 5× inbyggd `explore` (background) via [`CURSOR-MULTITASK-RESEARCH-PROMPT.md`](../../docs/external-ai/imports/CURSOR-MULTITASK-RESEARCH-PROMPT.md)
 
 ## Delegering
 

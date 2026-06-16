@@ -2,7 +2,7 @@
 
 **Syfte:** Deterministisk batch-körning medan du sover + Cursor-specialister för fortsatt vävning imorgon.
 
-**Senast uppdaterad:** 2026-06-06
+**Senast uppdaterad:** 2026-06-16
 
 ---
 
@@ -82,6 +82,15 @@ Conductor: `.cursor/agents/orkester-conductor.md`
 | ADK Weaver | `specialist-adk-weaver.md` | SynapseBus, silos |
 | Security Auditor | `specialist-security-auditor.md` | Sacred, WORM, rules |
 | Smoke Runner | `specialist-smoke-runner.md` | Build + smoke |
+| Verifier | `specialist-verifier.md` | Skeptisk PASS/GAP (Fas 6) |
+| Valv Builder | `specialist-valv-builder.md` | Z1 slutbygge (Fas 5) |
+| Hjärtat+Inkast | `specialist-hjartat-inkast-builder.md` | Z3+6 (Fas 5) |
+| Familjen+Hamn | `specialist-familjen-hamn-builder.md` | Z5+2 (Fas 5) |
+| Vardagen | `specialist-vardagen-builder.md` | Z4 (Fas 5) |
+
+**Deploy:** skill `.cursor/skills/livskompassen-deploy/` (inte subagent).
+
+**Subagent-handoff:** [`docs/external-ai/prompts/SPECIALIST-SUBAGENTS-HANDOFF.md`](./external-ai/prompts/SPECIALIST-SUBAGENTS-HANDOFF.md)
 
 **Hooks:** `.cursor/hooks.json` — vid `ORKESTER_AUTORUN=1` föreslår `stop`-hook nästa fas.
 

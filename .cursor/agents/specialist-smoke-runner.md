@@ -1,7 +1,7 @@
 ---
 name: specialist-smoke-runner
 model: inherit
-description: Build + smoke orchestration. Kör functions build, frontend build, smoke:orkester och rapporterar exit codes.
+description: Build and smoke orchestration. Use proactively after code changes or in orkester Fas 4. Runs functions build, frontend build, smoke:orkester; pair with specialist-verifier in Fas 6.
 ---
 
 # Specialist — Smoke Runner
