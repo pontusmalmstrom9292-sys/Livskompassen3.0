@@ -2,13 +2,32 @@ import { useState } from 'react';
 import { Loader2, RefreshCw, Sparkles } from 'lucide-react';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { useEvolutionStore } from '@/core/store/useEvolutionStore';
 import {
-  barnfokusQuestionForToday,
+  barnfokusQuestionsForBracket,
   BARNFOKUS_KIND_LABELS,
   type BarnfokusQuestion,
+  type BarnfokusBracket,
 } from '../../constants';
 import { coerceLogText, formatChildLogDate } from '../../utils/logFieldUtils';
 import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
+
+function pickQuestion(
+  pool: BarnfokusQuestion[],
+  seed: number,
+  excludeId?: string,
+): BarnfokusQuestion {
+  const filtered = pool.filter((q) => q.id !== excludeId);
+  const list = filtered.length > 0 ? filtered : pool;
+  return list[seed % list.length]!;
+}
+
+function daySeed(childAlias: string): number {
+  const start = new Date(new Date().getFullYear(), 0, 0);
+  const dayOfYear = Math.floor((Date.now() - start.getTime()) / 86_400_000);
+  const childBump = childAlias === 'Arvid' ? 1 : childAlias === 'Kasper' ? 2 : 0;
+  return dayOfYear + childBump;
+}
 
 const MEMORY_PREVIEW_MAX = 2;
 
@@ -22,11 +41,16 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
   const memoryRows = shell.barnfokusMemory ?? [];
   const onSave = shell.handleSaveBarnfokus;
 
+  // Bracket från evolution_hub — filtrerar barnfokus-pool per ålder (våg 29)
+  const getChildBracket = useEvolutionStore((s) => s.getChildBracket);
+  const bracket = getChildBracket(childAlias) as BarnfokusBracket | undefined;
+  const pool = barnfokusQuestionsForBracket(bracket);
+
   const [answer, setAnswer] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [question, setQuestion] = useState<BarnfokusQuestion>(() =>
-    barnfokusQuestionForToday(childAlias),
+    pickQuestion(pool, daySeed(childAlias)),
   );
 
   const kindLabel = BARNFOKUS_KIND_LABELS[question.kind];
@@ -55,7 +79,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
   };
 
   const anotherQuestion = () => {
-    setQuestion(barnfokusQuestionForToday(childAlias, new Date(), question.id));
+    setQuestion(pickQuestion(pool, daySeed(childAlias) + Math.floor(Math.random() * 97), question.id));
   };
 
   return (

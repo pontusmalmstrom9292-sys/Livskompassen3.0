@@ -1,4 +1,10 @@
-import { barnfokusCatalogEntryForLegacyId } from './content/barnfokusCatalog';
+import {
+  barnfokusCatalogEntryForLegacyId,
+  barnfokusCatalogForBracket,
+  type BarnfokusBracket,
+} from './content/barnfokusCatalog';
+
+export type { BarnfokusBracket };
 
 export const CHILD_ALIASES = ['Kasper', 'Arvid'] as const;
 export type ChildAlias = (typeof CHILD_ALIASES)[number];
@@ -41,6 +47,8 @@ export type BarnfokusQuestion = {
   source?: 'builtin' | 'valv_curated';
   /** KEEP-rad från Barnen-PLAY-BANK när wiread (BP-PLAY-06+). */
   bankId?: string;
+  /** Åldersbracketing (evolution_hub.currentBracket) — undefined = alla åldrar. */
+  bracket?: BarnfokusBracket;
 };
 
 export const BARNFOKUS_KIND_LABELS: Record<BarnfokusQuestionKind, string> = {
@@ -86,16 +94,55 @@ function wireBarnfokusQuestion(question: BarnfokusQuestion): BarnfokusQuestion {
   return {
     ...question,
     bankId: catalog.bankId,
-    kind: catalog.lens,
+    kind: catalog.lens as BarnfokusQuestionKind,
     text: catalog.text_sv,
     hint: catalog.hint_sv ?? question.hint,
     source: catalog.source ?? question.source,
+    bracket: catalog.bracket,
   };
 }
 
 /** Roterande barnfokus-frågor — lekfull ton, inga vuxenkonflikter. */
 export const BARNFOKUS_QUESTIONS: BarnfokusQuestion[] =
   BARNFOKUS_QUESTIONS_BUILTIN.map(wireBarnfokusQuestion);
+
+/**
+ * Bracket-filtrerad pool för evolution_hub.currentBracket.
+ * Inkluderar bracket-specifika frågor (BP-PLAY-25..29) + universella builtin.
+ * MUST NOT: ingen diagnos, ingen vuxenkonflikt, ingen cross-RAG.
+ */
+export function barnfokusQuestionsForBracket(
+  bracket: BarnfokusBracket | undefined,
+): BarnfokusQuestion[] {
+  // Catalog-rader för bracket (inkl. bracket=undefined = universella)
+  const catalogRows = barnfokusCatalogForBracket(bracket);
+  const catalogLegacyIds = new Set(catalogRows.map((r) => r.legacy_id));
+
+  // Builtin-pool: behåll rader utan bracket (universella), filtrera bort
+  // bracket-specifika rader som INTE matchar nuvarande bracket.
+  const builtinFiltered = BARNFOKUS_QUESTIONS_BUILTIN.filter((q) => {
+    const catalog = barnfokusCatalogEntryForLegacyId(q.id);
+    if (!catalog) return true; // ej i bank = universell
+    return catalog.bracket === undefined || catalog.bracket === bracket;
+  });
+
+  // Bracket-specifika catalog-rader som saknas i builtin
+  const bracketSpecific: BarnfokusQuestion[] = catalogRows
+    .filter((r) => r.bracket !== undefined && !BARNFOKUS_QUESTIONS_BUILTIN.some((q) => q.id === r.legacy_id))
+    .map((r) => ({
+      id: r.legacy_id,
+      kind: r.lens as BarnfokusQuestionKind,
+      text: r.text_sv,
+      hint: r.hint_sv,
+      source: r.source,
+      bankId: r.bankId,
+      bracket: r.bracket,
+    }));
+
+  void catalogLegacyIds; // referenced via barnfokusCatalogForBracket above
+
+  return [...builtinFiltered.map(wireBarnfokusQuestion), ...bracketSpecific];
+}
 
 const KIND_ROTATION: BarnfokusQuestionKind[] = [
   'gladje',

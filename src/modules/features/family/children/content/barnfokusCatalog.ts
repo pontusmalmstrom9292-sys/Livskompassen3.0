@@ -9,7 +9,20 @@ export type BarnfokusCatalogLens =
   | 'knas'
   | 'lara_kanna'
   | 'utveckling'
-  | 'valv_safe';
+  | 'valv_safe'
+  | 'kanslor'
+  | 'reflektion'
+  | 'lojalitet';
+
+/**
+ * Åldersbracketing per Infinite Evolution Engine (infinite-evolution.mdc).
+ * undefined = ingen bracket-begränsning (visas för alla åldrar).
+ */
+export type BarnfokusBracket =
+  | 'toddler_preschool'
+  | 'early_school'
+  | 'pre_teen'
+  | 'teen';
 
 export type BarnfokusCatalogEntry = {
   bankId: string;
@@ -21,6 +34,8 @@ export type BarnfokusCatalogEntry = {
   status: 'KEEP';
   text_sv: string;
   hint_sv?: string;
+  /** Bracket från evolution_hub.currentBracket — undefined = alla åldrar. */
+  bracket?: BarnfokusBracket;
   /** Kunskap FACT-bro (våg 20 barn_hcf) — deterministisk, ingen RAG i Barnen. */
   knowledgeFactId?: string;
   source?: 'builtin' | 'valv_curated';
@@ -281,6 +296,62 @@ export const BARNFOKUS_CATALOG_CHILD: readonly BarnfokusCatalogEntry[] = [
     text_sv: 'Vad är det finaste du sett i naturen?',
     source: 'valv_curated',
   },
+  // Våg 27 — bracket-specifika frågor (BP-PLAY-25..29)
+  {
+    bankId: 'BP-PLAY-25',
+    legacy_id: 'bp25',
+    audience: 'child',
+    lens: 'kanslor',
+    bracket: 'toddler_preschool',
+    content_class: 'PLAY',
+    source_tier: 'product_copy',
+    status: 'KEEP',
+    text_sv: 'Visa tre känsloikoner — peka vilken som passade mest idag. Inget rätt svar.',
+  },
+  {
+    bankId: 'BP-PLAY-26',
+    legacy_id: 'bp26',
+    audience: 'child',
+    lens: 'valv_safe',
+    bracket: 'early_school',
+    content_class: 'PLAY',
+    source_tier: 'product_copy',
+    status: 'KEEP',
+    text_sv: 'En trygg sak idag — rita eller skriv ett ord. Max en minut.',
+  },
+  {
+    bankId: 'BP-PLAY-27',
+    legacy_id: 'bp27',
+    audience: 'child',
+    lens: 'reflektion',
+    bracket: 'teen',
+    content_class: 'PLAY',
+    source_tier: 'product_copy',
+    status: 'KEEP',
+    text_sv: 'Skriv en rad till din förälder — något du vill att hen ska veta. Du behöver inte skicka det.',
+  },
+  {
+    bankId: 'BP-PLAY-28',
+    legacy_id: 'bp28',
+    audience: 'child',
+    lens: 'lojalitet',
+    bracket: 'pre_teen',
+    content_class: 'PLAY',
+    source_tier: 'product_copy',
+    status: 'KEEP',
+    text_sv: 'Om någon ber dig förmedla ett meddelande: "Det där är en vuxenfråga — prata med min andra förälder." Du behöver inte bära det.',
+  },
+  {
+    bankId: 'BP-PLAY-29',
+    legacy_id: 'bp29',
+    audience: 'child',
+    lens: 'valv_safe',
+    bracket: 'early_school',
+    content_class: 'PLAY',
+    source_tier: 'product_copy',
+    status: 'KEEP',
+    text_sv: 'Rita eller skriv en person du kan prata med utanför familjen — kurator, Bris eller annan trygg vuxen.',
+  },
 ] as const;
 
 const CATALOG_BY_LEGACY_ID = new Map(
@@ -291,6 +362,19 @@ export function barnfokusCatalogEntryForLegacyId(
   legacyId: string,
 ): BarnfokusCatalogEntry | undefined {
   return CATALOG_BY_LEGACY_ID.get(legacyId);
+}
+
+/**
+ * Returnerar child-catalog-rader för en given bracket.
+ * Rader utan bracket ingår alltid (universella frågor).
+ * Bracket-specifika rader ingår bara om bracket matchar.
+ */
+export function barnfokusCatalogForBracket(
+  bracket: BarnfokusBracket | undefined,
+): readonly BarnfokusCatalogEntry[] {
+  return BARNFOKUS_CATALOG_CHILD.filter(
+    (row) => row.bracket === undefined || row.bracket === bracket,
+  );
 }
 
 /** Roterande förälderprompt (bank-only UI — ej children_logs). */

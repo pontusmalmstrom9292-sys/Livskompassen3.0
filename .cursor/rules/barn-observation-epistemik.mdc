@@ -1,0 +1,44 @@
+---
+description: Epistemisk gate för barn-observationer — citat vs tolkning i children_logs (våg 29)
+globs:
+  - src/modules/features/family/children/**
+  - functions/src/**
+alwaysApply: false
+---
+# Barn-observation-epistemik (gate våg 29)
+
+Kanon: [`docs/specs/modules/Barnen-PLAY-BANK.md`](../../docs/specs/modules/Barnen-PLAY-BANK.md) · [`docs/design/BARNPORTEN-SPEC.md`](../../docs/design/BARNPORTEN-SPEC.md) · [`grunder-kanon.mdc`](grunder-kanon.mdc)
+
+## Syfte
+
+`children_logs` är WORM-bevis. Fältet `observation` måste skilja på **vad barnet SA/VISADE** (citat) och **förälderns tolkning** (analys). Blanda inte ihop dem — en domstol eller soc läser råtexten.
+
+## MUST (vid sparning till children_logs)
+
+1. **Citat-prefix**: Om förälderns text är ett ordagrant citat av barnet, prefixera med `"[citat]"` i `observation`.  
+   Exempel: `[citat] "Jag vill inte åka dit mer."`
+2. **Tolkning-prefix**: Om texten innehåller förälderns analys, prefixera med `"[tolkning]"`.  
+   Exempel: `[tolkning] Kasper verkade orolig efter överlämningen.`
+3. **Beteende + datum, aldrig diagnos**: Notera observerbart beteende och tidpunkt. Diagnos eller etiketter på motpart är förbjudna i `observation`.
+4. **Bracket-filtrerad pool**: `BarnfokusDelegate` och `barnfokusQuestionsForBracket()` MÅSTE använda `evolution_hub.currentBracket` (via `useEvolutionStore.getChildBracket`). Visa aldrig `teen`-frågor till toddler eller vice versa.
+5. **Ingen auto-promote**: Barnets privata svar (`audience: child`) får ALDRIG automatiskt kopieras till `reality_vault`. Kräver förälder HITL via `SaveAsEvidencePrompt`.
+
+## MUST NOT
+
+- Diagnos-etikett på motpart i `observation` eller `truth`-fält.
+- Cross-RAG: `children_logs` → Kunskap-RAG eller Hamn-RAG.
+- Streak/XP kopplat till barnfokus-besvaranden.
+- `BARNFOKUS_QUESTIONS`-arrayen i `constants.ts` får inte tas bort — den är locked UX §12. Bracket-wire sker via overlay (`barnfokusQuestionsForBracket`), inte ersättning.
+
+## Bracket-mapping (Infinite Evolution Engine)
+
+| Bracket | Ålder | Typiska frågor |
+|---------|-------|----------------|
+| `toddler_preschool` | 3–5 | Känsloikoner, peka — inga långa texter |
+| `early_school` | 6–9 | Rita/skriv ett ord, trygg person |
+| `pre_teen` | 10–13 | Lojalitetsfrihet, ett steg |
+| `teen` | 14+ | Reflektion, skriva rad till förälder |
+
+## Smoke
+
+`npm run smoke:children` · `npm run smoke:locked-ux` · ingår i `smoke:orkester`
