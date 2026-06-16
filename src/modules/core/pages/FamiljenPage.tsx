@@ -41,6 +41,48 @@ const FAMILJ_OPTIONS: DropdownItem<FamiljenTabId>[] = [
 
 const VALID_TABS = new Set<FamiljenTabId>(FAMILJEN_TAB_IDS);
 
+/** F3 — Barnfokus/Livslogg: supermodule-picker räcker; full HubDropdownNav på övriga flikar. */
+const FAMILJEN_INPUT_HUB_TABS: FamiljenTabId[] = ['reflektion', 'livslogg'];
+
+function FamiljenHubToolbar({
+  activeTab,
+  onTabChange,
+}: {
+  activeTab: FamiljenTabId;
+  onTabChange: (id: FamiljenTabId) => void;
+}) {
+  if (!FAMILJEN_INPUT_HUB_TABS.includes(activeTab)) {
+    return (
+      <HubDropdownNav<FamiljenTabId>
+        items={FAMILJ_OPTIONS}
+        activeId={activeTab}
+        onChange={onTabChange}
+        glowColor="blue"
+        ariaLabel="Välj vy i Familjen"
+      />
+    );
+  }
+
+  return (
+    <nav
+      aria-label="Fler vyer i Familjen"
+      className="flex flex-wrap items-center gap-1.5 sm:gap-2"
+    >
+      {FAMILJ_OPTIONS.filter((item) => item.id !== activeTab).map((item) => (
+        <button
+          key={item.id}
+          type="button"
+          className="btn-pill--ghost inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-text-muted hover:text-text"
+          onClick={() => onTabChange(item.id)}
+        >
+          {item.icon}
+          {item.label}
+        </button>
+      ))}
+    </nav>
+  );
+}
+
 function resolveTab(raw: string | null): FamiljenTabId {
   if (raw && VALID_TABS.has(raw as FamiljenTabId)) return raw as FamiljenTabId;
   return 'reflektion';
@@ -115,15 +157,7 @@ export function FamiljenPage() {
           label: 'Kognitiv sköld aktiv',
           hint: 'Allt brus är bortfiltrerat. Välj ditt fokus i menyn nedan.',
         }}
-        toolbar={
-          <HubDropdownNav<FamiljenTabId>
-            items={FAMILJ_OPTIONS}
-            activeId={activeTab}
-            onChange={handleTabChange}
-            glowColor="blue"
-            ariaLabel="Välj vy i Familjen"
-          />
-        }
+        toolbar={<FamiljenHubToolbar activeTab={activeTab} onTabChange={handleTabChange} />}
       >
         <FamiljenBentoShell className={clsx(!desktopHubLock && 'pb-2')}>
           {showChildPicker && (

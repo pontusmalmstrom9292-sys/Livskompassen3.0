@@ -1,14 +1,20 @@
-# 04-repomix — kod + säkerhet (stor fil)
+# 04-repomix — ChatBox handoff-paket
 
-Genereras — finns **inte** i git förrän du kör pack.
+Genereras med:
 
 ```bash
-npm run chatbot:pack:security
+npm run chatbot:pack:handoff
 npm run chatbot:sync:bifoga
 ```
 
-Efter sync: `chatbot-pack-security.md` hamnar här (~repomix av WORM, synapser, guards, appCheck).
+| Fil | Syfte |
+|-----|--------|
+| `chatbot-pack-security.md` | WORM, synapser, guards |
+| `ui-design-pack.md` | Nav, design-specs, dock |
+| `chatbot-pack-life-os-vision.md` | PHASE-09 Life OS gap |
+| `chatbot-pack-supermodules.md` | InputSuperModules |
+| `chatbot-pack-nav-wave3.md` | PHASE-10 Nav PMIR |
+| `chatbot-pack-design-tokens.md` | PHASE-11 tokens |
+| `chatbot-pack-hygiene.md` | PHASE-08 städ-audit |
 
-**Bifoga:** hela filen eller mappen till ChatBox PHASE-07.
-
-Källa: `exports/chatbot-handoff/chatbot-pack-security.md`
+Källa: `exports/chatbot-handoff/`

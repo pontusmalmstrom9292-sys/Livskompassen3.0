@@ -406,7 +406,7 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
-## 12. Google web-login (AUTH-G1)
+## 18. Google web-login (AUTH-G1)
 
 | | |
 |---|---|
@@ -420,7 +420,7 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
-## 13. Obsidian Depth — låst 3D-skalet (2026-06-14)
+## 19. Obsidian Depth — låst 3D-skalet (2026-06-14)
 
 | | |
 |---|---|

@@ -77,7 +77,7 @@ export function FamiljenInputSuperModule({
         flowWithIsland && 'familjen-input-hub--flow',
       )}
     >
-      <div className="familjen-input-hub__chrome shrink-0 border-b border-[rgba(212,175,55,0.12)] px-4 py-3 sm:px-5 sm:py-4">
+      <div className="supermodule-hub-chrome familjen-input-hub__chrome shrink-0 px-4 py-3 sm:px-5 sm:py-4">
         <header className="mb-3 space-y-1">
           <p className="od-depth__eyebrow">Universal Input</p>
           <h2 className="font-display-serif text-sm uppercase tracking-[0.18em] text-text sm:text-base">

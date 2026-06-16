@@ -7,8 +7,10 @@ Kanonen ligger kvar på originalplats (`docs/external-ai/*.md`) — denna mapp �
 
 ```bash
 cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
-npm run chatbot:pack:security    # uppdaterar repomix
-npm run chatbot:sync:bifoga        # kopierar register + leveranser hit
+npm run chatbot:pack:handoff   # alla ChatBox-repomixar (snabb)
+npm run chatbot:sync:bifoga    # kopierar register + leveranser hit
+# Full inkl. gemini/ai-studio:
+npm run chatbot:pack:all
 ```
 
 Senaste sync: se [`SYNC-STAMP.txt`](./SYNC-STAMP.txt).

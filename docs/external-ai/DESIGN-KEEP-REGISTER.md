@@ -5,6 +5,9 @@ Filer i `docs/design/` som **används nu** — rör ej vid städning.
 ## Specs & policy (KEEP)
 
 - `docs/design/COLOR-POLICY.md`
+- `docs/design/CHROME-POLICY.md`
+- `docs/design/CHROME-EMBER-KANON.md`
+- `docs/design/TYPE-SCALE.md`
 - `docs/design/ICON-STYLE-GUIDE.md`
 - `docs/design/KOMPASS-MODUL-SPEC.md`
 - `docs/design/PLANERING-PROJEKT-HYBRID.md`

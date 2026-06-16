@@ -17,7 +17,7 @@ UPPDRAG: Fas 19.0 PRE-FLIGHT — bygg den SLUTGILTIGA mästerplanen (masterplan-
 
 ## Kontext
 - Repo: /Users/Livskompassen/StudioProjects/Livskompassen3.0 · gren main @ origin
-- Utkastplan (läs hela): docs/evaluations/FAS19-UTKASTPLAN.md
+- Utkastplan (arkiv): docs/archive/evaluations-fas19-2026-06/FAS19-UTKASTPLAN.md
 - Denna prompt: docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md
 - Regel: .cursor/rules/fas19-masterplan-guard.mdc
 - Transkript vid behov: agent-transcripts/4ccedbb1-18e5-45e8-a97e-3db2e60f2922.jsonl

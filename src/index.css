@@ -50,6 +50,13 @@
 
   /* Nya konsoliderade tokens för refaktorering av hårdkodade färger */
   --color-accent-gold: #d4af37;
+  --color-obsidian-deep: var(--bg-teal-deep);
+  --color-obsidian-surface: var(--surface);
+  --color-obsidian-surface-2: var(--surface-2);
+  --color-obsidian-surface-3: var(--surface-3);
+  --color-indigo-secondary: var(--accent-secondary);
+  --color-indigo-ai: var(--accent-ai);
+  --color-emerald-success: var(--success);
   --color-glass-dark-50: rgba(0, 0, 0, 0.5);
   --color-glass-dark-45: rgba(0, 0, 0, 0.45);
   --color-glass-dark-35: rgba(0, 0, 0, 0.35);
@@ -61,13 +68,13 @@
   --home-hero-inset-highlight: rgba(255, 255, 255, 0.07);
 
   /* Obsidian Calm Bento — silo accent tokens (icon boxes + card borders) */
-  --bento-accent-gold: #d4af37;
+  --bento-accent-gold: var(--color-accent-gold);
   --bento-accent-gold-dim: rgba(212, 175, 55, 0.2);
   --bento-accent-gold-bg: linear-gradient(145deg, rgba(212, 175, 55, 0.14), rgba(20, 28, 43, 0.6));
-  --bento-accent-indigo: #818cf8;
+  --bento-accent-indigo: var(--color-indigo-ai);
   --bento-accent-indigo-dim: rgba(99, 102, 241, 0.22);
   --bento-accent-indigo-bg: linear-gradient(145deg, rgba(99, 102, 241, 0.16), rgba(20, 28, 43, 0.6));
-  --bento-accent-emerald: #10b981;
+  --bento-accent-emerald: var(--color-emerald-success);
   --bento-accent-emerald-dim: rgba(16, 185, 129, 0.22);
   --bento-accent-emerald-bg: linear-gradient(145deg, rgba(16, 185, 129, 0.14), rgba(20, 28, 43, 0.6));
   --obsidian-navy-gradient:

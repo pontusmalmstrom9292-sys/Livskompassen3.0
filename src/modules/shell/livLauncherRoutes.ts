@@ -2,7 +2,7 @@ import { vaultDrawerPath } from '@/core/navigation/navTruth';
 
 /** Launcher-mål — tunga moduler får egen route (ingen nested TabBar). */
 export const LIV_LAUNCHER_EXTERNAL: Record<string, string> = {
-  mabra: '/mabra',
+  mabra: '/vardagen?tab=mabra',
   handling: '/planering?tab=handling',
   inkorg: '/planering?tab=inkorg',
   projekt: '/projekt',

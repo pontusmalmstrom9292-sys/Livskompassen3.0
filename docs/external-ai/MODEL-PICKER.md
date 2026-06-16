@@ -16,6 +16,11 @@
 | Repo-hygien / design-städ | GPT-5.4 Mini | Opus 4.8 (stor audit) |
 | Valv UI SPEC + vision | Opus 4.8 + Sonnet 4.6 | [`PHASE-08-valv-ui.md`](./PHASE-08-valv-ui.md) |
 | Hjärtat/Familjen/Vardagen UI | Sonnet 4.6 | [`UI-WAVE-ROADMAP.md`](./UI-WAVE-ROADMAP.md) |
+| Life OS vision gap (PHASE-09) | Opus 4.8 | `exports/chatbot-handoff/prompts/PHASE-09-life-os-vision.md` |
+| Nav Våg 3 PMIR (PHASE-10) | Opus 4.8 | `PHASE-10-nav-wave3-pmir.md` |
+| Design tokens (PHASE-11) | Sonnet 4.6 | `PHASE-11-design-tokens.md` |
+| Hygiene audit (PHASE-08) | GPT-5.4 Mini | `PHASE-08-hygiene-audit.md` |
+| AI Studio design-remix | Gemini 3.1 Pro | [`docs/ai-studio/DESIGN-REMIX-PROMPT.md`](../ai-studio/DESIGN-REMIX-PROMPT.md) |
 | Checkpoint-sammanfattning | GPT-5.4 Mini | Sonnet 4.6 |
 
 ## Full matris
@@ -52,5 +57,10 @@
 | PHASE-05 Synapse | Grok 4.20 → GPT-5.5 |
 | PHASE-06 App Check | Sonar 2 → GPT-5.4 |
 | PHASE-07 Final lock | GPT-5.4 Mini |
+| PHASE-08 Hygiene audit | GPT-5.4 Mini |
+| PHASE-09 Life OS vision | Opus 4.8 |
+| PHASE-10 Nav Våg 3 PMIR | Opus 4.8 |
+| PHASE-11 Design tokens | Sonnet 4.6 |
+| PHASE-12 Supermodule polish | Sonnet 4.6 |
 | PHASE-08 Valv UI (B1) | Opus 4.8 → Sonnet 4.6 → Cursor |
 | UI-våg B2–B4 | Sonnet 4.6 → Cursor |

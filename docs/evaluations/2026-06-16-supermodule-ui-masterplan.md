@@ -1,6 +1,6 @@
 # Supermodule + UI Masterplan — Körfält B
 
-**Datum:** 2026-06-16 · **Status:** Godkänd syntes (read-only planering → detta dokument)  
+**Datum:** 2026-06-16 · **Status:** B1 LOCK · Våg 2 Nav micro **klar** 2026-06-16  
 **Kanon:** [`2026-06-15-fas19-masterplan-v2.md`](./2026-06-15-fas19-masterplan-v2.md) (backend/Fas 19–24 — peka dit, duplicera ej) · [`UI-WAVE-ROADMAP.md`](../external-ai/UI-WAVE-ROADMAP.md) · [`LIFE-OS-BUILD-STATE.md`](../external-ai/LIFE-OS-BUILD-STATE.md)
 
 ---
@@ -45,7 +45,7 @@ Livskompassen är ett neuroanpassat Life OS — avancerat under huven (WORM, tre
 |-----|-------|------|
 | **1 — B1 LOCK** | Manuell checklista §7 i [`2026-06-15-valv-supermodule-spec.md`](./2026-06-15-valv-supermodule-spec.md) + smoke + `snapshot_locked_module.sh valv` | CHECKPOINT PASS |
 | **2 — Nav micro** | F3: Familjen tab+inputMode dedupe · F2: dock-label «Hjärtat» · F4 rest: neutral Valv-copy i FyrenWidgetBar publikt | Frontend only |
-| **3 — Nav Våg B** | H1 `/ekonomi`→Vardagen · H2 MåBra-ingång · H3 `/arkiv` · H4 drogfrihet launcher | **PMIR** före kod |
+| **3 — Nav Våg B** | H1 `/ekonomi`→Vardagen · H2 MåBra-ingång · H3 `/arkiv` · H4 drogfrihet launcher | **DONE** 2026-06-16 — [`2026-06-16-nav-vag3-pmir.md`](./2026-06-16-nav-vag3-pmir.md) |
 
 **Defer:** Hem→Hjärtat redirect · global Fyren kapacitetsgrind (Våg C) · M3.0-C · Upload unified steg 2 (`InkastDirectPanel`).
 
@@ -55,12 +55,12 @@ Livskompassen är ett neuroanpassat Life OS — avancerat under huven (WORM, tre
 
 | Zon | SuperModule(s) | Status | Nästa steg |
 |-----|----------------|--------|------------|
-| **Valv** | `ValvInputSuperModule` → `ValvSuperModule` | **WIP** | CHECKPOINT B1 — manuell §7 + smoke |
-| **Hjärtat** | `DagbokInputSuperModule`, `SpeglarSuperModule` | B2 done | Ingen prod-kod; ev. ChatBox mockups parallellt |
-| **Familjen** | `FamiljenInputSuperModule`, `BarnfokusSuperModule` | B3 done | Våg 2 F3: göm redundant `HubDropdownNav` |
+| **Valv** | `ValvInputSuperModule` → `ValvSuperModule` | **LOCK** (B1 2026-06-16) | Våg 2 endast med explicit OK + snapshot |
+| **Hjärtat** | `DagbokInputSuperModule`, `SpeglarSuperModule` | B2 + **Våg 2 F2** done | — |
+| **Familjen** | `FamiljenInputSuperModule`, `BarnfokusSuperModule` | B3 + **Våg 2 F3** done | Våg 3 efter PMIR |
 | **Vardagen** | Mabra/Ekonomi/Planering/Arbetsliv InputSuperModules | B4 done | Våg 3 H1–H2 efter PMIR |
 | **Hem `/`** | `CaptureSuperModule` | Legacy | DEFER merge → Hjärtat |
-| **Fyren** | Widget + dock-handle | Delvis bakgrund | Våg 2: neutral publik Valv-copy |
+| **Fyren** | Widget + dock-handle | **Våg 2 F4** done | Våg C defer |
 
 ChatBox-leveranser (wireframes): [`docs/external-ai/leveranser/ui-design/`](../external-ai/leveranser/ui-design/) — B1–B4 2026-06-15.
 
@@ -80,7 +80,7 @@ ChatBox-leveranser (wireframes): [`docs/external-ai/leveranser/ui-design/`](../e
 
 | Våg | Kommandon |
 |-----|-----------|
-| **1 B1** | `npm run build` · `smoke:locked-ux` · `smoke:valv` · `smoke:entities` · `smoke:orkester` · `smoke:valv-mode-sync` |
+| **1 B1** | `npm run build` · `smoke:locked-ux` · `smoke:valv` · `smoke:entities` · `smoke:orkester` · `smoke:valv-mode` |
 | **2 Nav micro** | `smoke:locked-ux` · `smoke:children` · `npm run build` |
 | **3 Nav H** | `smoke:locked-ux` · `smoke:design-modules` · `smoke:mabra` · PMIR-godkänd merge-smoke |
 
@@ -88,10 +88,8 @@ ChatBox-leveranser (wireframes): [`docs/external-ai/leveranser/ui-design/`](../e
 
 ## Ett steg att godkänna nu
 
-**Godkänn: B1 Valv CHECKPOINT**
+**Godkänn: Våg 3 PMIR** — routing H1 `/ekonomi`→Vardagen, H2 MåBra-ingång, H3 `/arkiv`, H4 drogfrihet launcher. Skriv PMIR enligt [`MERGE-IMPACT-RAPPORT.md`](../MERGE-IMPACT-RAPPORT.md) **före** kod.
 
-1. Kör manuell checklista (6 punkter) i [`2026-06-15-valv-supermodule-spec.md`](./2026-06-15-valv-supermodule-spec.md).
-2. Kör smoke-raden för våg 1 ovan.
-3. Vid PASS: `./scripts/snapshot_locked_module.sh valv` och uppdatera Valv → **LOCK** i [`LIFE-OS-BUILD-STATE.md`](../external-ai/LIFE-OS-BUILD-STATE.md).
+Våg 2 **klar** 2026-06-16 — F2 header «Hjärtat», F3 Familjen kompakt nav på reflektion/livslogg, F4 neutral Kompis-copy publikt. Smoke: locked-ux + children + build PASS.
 
-B1 är enda zonen **WIP** i Körfält B. Kod för Fas 1A–1E finns redan; våg 2–3 startar inte förrän Valv är låst.
+B1 **klar** — snapshot `~/Livskompassen-snapshots/2026-06-16-valv`.

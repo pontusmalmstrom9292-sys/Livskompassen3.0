@@ -1,7 +1,7 @@
 # Fas 19 — Masterplan v2 (slutgiltig)
 
 **Datum:** 2026-06-15 · **Status:** Godkänd — implementation Fas 19.1–19.6  
-**Ersätter:** [`FAS19-UTKASTPLAN.md`](./FAS19-UTKASTPLAN.md)  
+**Ersätter:** [`FAS19-UTKASTPLAN.md`](../archive/evaluations-fas19-2026-06/FAS19-UTKASTPLAN.md)  
 **Regel:** [`.cursor/rules/fas19-masterplan-guard.mdc`](../../.cursor/rules/fas19-masterplan-guard.mdc)
 
 ---

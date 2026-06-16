@@ -12,7 +12,7 @@ export function getHeaderPageLabel(pathname: string, search = ''): string | null
   if (pathname.startsWith('/hjartat') || pathname.startsWith('/dagbok')) {
     const tab = new URLSearchParams(search.replace(/^\?/, '')).get('tab');
     if (tab === 'speglar') return 'Speglar';
-    return 'Dagbok';
+    return 'Hjärtat';
   }
   if (pathname.startsWith('/planering')) return 'Göra';
   if (pathname.startsWith('/projekt')) return 'Projekt';

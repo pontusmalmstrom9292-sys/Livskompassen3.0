@@ -13,6 +13,7 @@ const bifogaRoot = join(root, 'docs/external-ai/bifoga');
 /** @type {Record<string, string[]>} */
 const GROUPS = {
   '01-register': [
+    'docs/DOC-INDEX.md',
     'docs/external-ai/LIFE-OS-BUILD-STATE.md',
     'docs/external-ai/SECURITY-LOCK-MANIFEST.md',
     'docs/external-ai/SYNAPSE-LOCK-SPEC.md',
@@ -23,6 +24,7 @@ const GROUPS = {
     'docs/external-ai/CHECKPOINT-LOG.md',
     'docs/external-ai/HYGIENE-LOG.md',
     'docs/external-ai/LIFE-OS-CORE-LOCKED.md',
+    'docs/external-ai/imports/gap-matrix-2026-06-16.md',
   ],
   '02-leveranser': [
     'docs/external-ai/leveranser/2026-06-15-fas-01-security.md',
@@ -37,8 +39,23 @@ const GROUPS = {
     'docs/external-ai/PHASE-07-final-lock.md',
     'docs/external-ai/MODEL-PICKER.md',
     'docs/external-ai/CHATBOX-LATHUND.md',
+    'exports/chatbot-handoff/prompts/PHASE-08-hygiene-audit.md',
+    'exports/chatbot-handoff/prompts/PHASE-09-life-os-vision.md',
+    'exports/chatbot-handoff/prompts/PHASE-10-nav-wave3-pmir.md',
+    'exports/chatbot-handoff/prompts/PHASE-11-design-tokens.md',
+    'exports/chatbot-handoff/prompts/PHASE-12-supermodule-polish.md',
   ],
 };
+
+const REPOMIX_PACKS = [
+  'chatbot-pack-security.md',
+  'ui-design-pack.md',
+  'chatbot-pack-life-os-vision.md',
+  'chatbot-pack-supermodules.md',
+  'chatbot-pack-nav-wave3.md',
+  'chatbot-pack-design-tokens.md',
+  'chatbot-pack-hygiene.md',
+];
 
 function copyOne(relPath, destDir) {
   const src = join(root, relPath);
@@ -66,29 +83,36 @@ function main() {
     }
   }
 
-  // Repomix: kopiera senaste security-pack om det finns
   const repomixDir = join(bifogaRoot, '04-repomix');
   mkdirSync(repomixDir, { recursive: true });
-  const repomixSrc = join(root, 'exports/chatbot-handoff/chatbot-pack-security.md');
-  try {
-    statSync(repomixSrc);
-    copyFileSync(repomixSrc, join(repomixDir, 'chatbot-pack-security.md'));
-    synced.push({
-      src: 'exports/chatbot-handoff/chatbot-pack-security.md',
-      dest: 'docs/external-ai/bifoga/04-repomix/chatbot-pack-security.md',
-      bytes: statSync(join(repomixDir, 'chatbot-pack-security.md')).size,
-    });
-  } catch {
+  const handoffDir = join(root, 'exports/chatbot-handoff');
+
+  for (const name of REPOMIX_PACKS) {
+    const repomixSrc = join(handoffDir, name);
+    try {
+      statSync(repomixSrc);
+      copyFileSync(repomixSrc, join(repomixDir, name));
+      synced.push({
+        src: `exports/chatbot-handoff/${name}`,
+        dest: `docs/external-ai/bifoga/04-repomix/${name}`,
+        bytes: statSync(join(repomixDir, name)).size,
+      });
+    } catch {
+      missing.push(`exports/chatbot-handoff/${name}`);
+    }
+  }
+
+  if (missing.some((p) => p.startsWith('exports/chatbot-handoff/'))) {
     writeFileSync(
       join(repomixDir, 'README-SAKNAR-REPOMIX.md'),
-      '# Repomix saknas\n\nKör först:\n\n```bash\nnpm run chatbot:pack:security\nnpm run chatbot:sync:bifoga\n```\n'
+      '# Repomix saknas\n\nKör först:\n\n```bash\nnpm run chatbot:pack:handoff\nnpm run chatbot:sync:bifoga\n```\n',
     );
   }
 
   const stamp = new Date().toISOString();
   writeFileSync(
     join(bifogaRoot, 'SYNC-STAMP.txt'),
-    `Senast synkad: ${stamp}\nKommando: npm run chatbot:sync:bifoga\n`
+    `Senast synkad: ${stamp}\nKommando: npm run chatbot:sync:bifoga\n`,
   );
 
   console.log('[chatbot:sync:bifoga] Synkade', synced.length, 'filer till docs/external-ai/bifoga/');

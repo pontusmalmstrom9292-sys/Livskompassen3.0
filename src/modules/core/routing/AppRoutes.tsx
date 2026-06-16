@@ -7,7 +7,7 @@ import { ProtectedModule } from '../../../components/layout/ProtectedModule';
 const HomePage = lazy(() =>
   import('../pages/HomePage').then((m) => ({ default: m.HomePage }))
 );
-import { resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
+import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
 import {
   clusterTabNavigateTarget,
   valvetNavigateTarget,
@@ -114,18 +114,12 @@ const MemoryTestView = import.meta.env.DEV
 const DashboardHubPage = lazy(() =>
   import('@/features/dashboard').then((m) => ({ default: m.DashboardHub })),
 );
-const ArchiveHubPage = lazy(() =>
-  import('../../features/archive/components/ArchiveHub').then((m) => ({ default: m.ArchiveHub }))
-);
 const NewDashboardHubPage = lazy(() => import('../../dashboard/DashboardHub'));
 const MorningCompassPage = lazy(() =>
   import('../../morning/MorningCompass').then((m) => ({ default: m.MorningCompass })),
 );
 const ReflectionPage = lazy(() => import('../../reflection/ReflectionPage'));
 const OracleDashboardPage = lazy(() => import('../../oracle/OracleDashboard'));
-const EconomyDashboard = lazy(() =>
-  import('@/features/economy/EconomyDashboard')
-);
 
 function RouteFallback() {
   return <div className="p-6 text-center text-sm text-text-muted">Laddar…</div>;
@@ -242,6 +236,21 @@ function RedirectDrogfrihetToFamiljen() {
   );
 }
 
+/** Legacy `/ekonomi` → Vardagen ekonomi-flik (Våg 3 H1). */
+function RedirectEkonomiToVardagen() {
+  return <Navigate to={`${NAV_PATHS.VARDAGEN}?tab=ekonomi`} replace />;
+}
+
+/** Legacy `/arkiv` → Valv logga (Våg 3 H3). */
+function RedirectArkivToValvet() {
+  return <Navigate to={`${NAV_PATHS.VALVET}?vaultTab=logga`} replace />;
+}
+
+/** Legacy `/mabra` root → Vardagen MåBra-flik; under-rutter behålls via `/mabra/*`. */
+function RedirectMabraRootToVardagen() {
+  return <Navigate to={`${NAV_PATHS.VARDAGEN}?tab=mabra`} replace />;
+}
+
 /** Legacy `/liv` och `/liv?tab=…` → launcher eller fullsid-route. */
 function RedirectLivToVardagen() {
   const location = useLocation();
@@ -257,6 +266,9 @@ function RedirectLivToVardagen() {
   }
   if (tab === 'ekonomi') {
     return <Navigate to={`${NAV_PATHS.VARDAGEN}?tab=ekonomi`} replace />;
+  }
+  if (tab === 'drogfrihet') {
+    return <Navigate to={LIV_LAUNCHER_EXTERNAL.drogfrihet} replace />;
   }
   return <Navigate to={NAV_PATHS.VARDAGEN} replace />;
 }
@@ -300,6 +312,7 @@ export function AppRoutes() {
                   </ProtectedModule>
                 }
               />
+              <Route path="/mabra" element={<RedirectMabraRootToVardagen />} />
               <Route
                 path="/mabra/*"
                 element={
@@ -353,22 +366,8 @@ export function AppRoutes() {
 
               <Route path="/liv" element={<RedirectLivToVardagen />} />
               <Route path="/kompasser" element={<Navigate to={NAV_PATHS.VARDAGEN} replace />} />
-              <Route
-                path="/ekonomi"
-                element={
-                  <ProtectedModule>
-                    <EconomyDashboard />
-                  </ProtectedModule>
-                }
-              />
-              <Route
-                path="/ekonomi/avancerad"
-                element={
-                  <ProtectedModule>
-                    <EconomyDashboard />
-                  </ProtectedModule>
-                }
-              />
+              <Route path="/ekonomi" element={<RedirectEkonomiToVardagen />} />
+              <Route path="/ekonomi/*" element={<RedirectEkonomiToVardagen />} />
               <Route path="/stampla" element={<Navigate to="/arbetsliv/input?inputMode=stampla" replace />} />
               <Route path="/liv/arbetsliv" element={<Navigate to="/arbetsliv" replace />} />
               <Route path="/liv/arbetsliv/*" element={<Navigate to="/arbetsliv" replace />} />
@@ -409,15 +408,9 @@ export function AppRoutes() {
                 }
               />
 
-              {/* —— NYTT ARKIV (ArchiveHub) —— */}
-              <Route
-                path="/arkiv"
-                element={
-                  <ProtectedModule>
-                    <ArchiveHubPage />
-                  </ProtectedModule>
-                }
-              />
+              {/* —— ARKIV legacy → Valv logga (Våg 3 H3) —— */}
+              <Route path="/arkiv" element={<RedirectArkivToValvet />} />
+              <Route path="/arkiv/*" element={<RedirectArkivToValvet />} />
 
               <Route
                 path="/reflection"
