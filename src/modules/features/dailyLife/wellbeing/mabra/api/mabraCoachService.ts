@@ -83,3 +83,45 @@ export async function fetchVitChatCoach(
     redirectToSpeglar: result.data?.redirectToSpeglar === true,
   };
 }
+
+const nutritionCoachCallable = httpsCallable<
+  {
+    mode: 'nutrition_coach';
+    optionalNote?: string;
+  },
+  { coach: string; redirectToSpeglar?: boolean }
+>(functions, 'mabraCoach');
+
+export async function fetchNutritionCoach(optionalNote?: string): Promise<MabraCoachResult> {
+  const result = await nutritionCoachCallable({
+    mode: 'nutrition_coach',
+    optionalNote: optionalNote?.trim() || undefined,
+  });
+  const coach = result.data?.coach;
+  if (!coach?.trim()) throw new Error('Tomt nutrition-coach-svar.');
+  return {
+    coach: coach.trim(),
+    redirectToSpeglar: result.data?.redirectToSpeglar === true,
+  };
+}
+
+const movementCoachCallable = httpsCallable<
+  {
+    mode: 'movement_coach';
+    optionalNote?: string;
+  },
+  { coach: string; redirectToSpeglar?: boolean }
+>(functions, 'mabraCoach');
+
+export async function fetchMovementCoach(optionalNote?: string): Promise<MabraCoachResult> {
+  const result = await movementCoachCallable({
+    mode: 'movement_coach',
+    optionalNote: optionalNote?.trim() || undefined,
+  });
+  const coach = result.data?.coach;
+  if (!coach?.trim()) throw new Error('Tomt movement-coach-svar.');
+  return {
+    coach: coach.trim(),
+    redirectToSpeglar: result.data?.redirectToSpeglar === true,
+  };
+}

@@ -1,4 +1,5 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import * as admin from 'firebase-admin';
 // firebase-functions v1 behålls enbart för schedulers och onRequest (notifyNewFile, scheduledRetentionJob,
 // scheduledGeneratePayslip) — dessa är ej callables och v2-scheduler-API skiljer sig åt.
 import * as functions from 'firebase-functions';
@@ -408,6 +409,42 @@ export const mabraCoach = onCall(
         redirectToSpeglar: false,
         ...(resolvedVitBankId ? { bankId: resolvedVitBankId } : {}),
       };
+    }
+
+    if (mode === 'nutrition_coach') {
+      const { askMabraNutritionCoach } = await import('../agents/vertexAgent');
+      const coach = await askMabraNutritionCoach(optionalNote || 'Jag vill ha ett näringstillägg', process.env.GEMINI_API_KEY);
+      
+      await admin.firestore().collection('mabra_sessions').add({
+        ownerId: uid,
+        exerciseType: 'nutrition_coach',
+        durationSeconds: 0,
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        coachConversation: {
+          note: optionalNote || '',
+          coachReply: coach,
+        }
+      });
+
+      return { coach, redirectToSpeglar: false };
+    }
+
+    if (mode === 'movement_coach') {
+      const { askMabraMovementCoach } = await import('../agents/vertexAgent');
+      const coach = await askMabraMovementCoach(optionalNote || 'Jag vill röra på mig i 2 minuter', process.env.GEMINI_API_KEY);
+      
+      await admin.firestore().collection('mabra_sessions').add({
+        ownerId: uid,
+        exerciseType: 'movement_coach',
+        durationSeconds: 0,
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        coachConversation: {
+          note: optionalNote || '',
+          coachReply: coach,
+        }
+      });
+
+      return { coach, redirectToSpeglar: false };
     }
 
     const validHubs = ['panic_rsd', 'self_critical', 'find_self'];

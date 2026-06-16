@@ -7,6 +7,8 @@ import {
   SPEGLINGS_COACHEN_SYSTEM_PROMPT,
   UPPGIFTS_KROSSAREN_SYSTEM_PROMPT,
   VOICE_TO_VAULT_SYSTEM_PROMPT,
+  MABRA_NUTRITION_COACH_SYSTEM_PROMPT,
+  MABRA_MOVEMENT_COACH_SYSTEM_PROMPT,
 } from '../sharedRules';
 import { createGenAI } from '../lib/genaiClient';
 import {
@@ -145,6 +147,54 @@ export const askMabraCoach = async (
   } catch (error) {
     console.error('[Måbra-Coachen] Fel — degraded fallback:', error);
     return parafraseCoachFromBank(bankEntry, hubSymptom, exerciseType);
+  }
+};
+
+export const askMabraNutritionCoach = async (
+  message: string,
+  geminiApiKey?: string,
+): Promise<string> => {
+  try {
+    const ai = createGenAI(geminiApiKey);
+    const response = await ai.models.generateContent({
+      model: MABRA_COACH_MODEL,
+      contents: message.trim(),
+      config: {
+        systemInstruction: MABRA_NUTRITION_COACH_SYSTEM_PROMPT,
+        temperature: 0.2,
+      },
+    });
+
+    const text = response.text?.trim();
+    if (!text) throw new Error('Tomt nutrition-coach-svar.');
+    return text;
+  } catch (error) {
+    console.error('[Nutrition-Coachen] Fel — degraded fallback:', error);
+    return 'Lyssna på din kropp. Finns det något litet, näringsrikt du kan lägga till din nästa måltid utan stress?';
+  }
+};
+
+export const askMabraMovementCoach = async (
+  message: string,
+  geminiApiKey?: string,
+): Promise<string> => {
+  try {
+    const ai = createGenAI(geminiApiKey);
+    const response = await ai.models.generateContent({
+      model: MABRA_COACH_MODEL,
+      contents: message.trim(),
+      config: {
+        systemInstruction: MABRA_MOVEMENT_COACH_SYSTEM_PROMPT,
+        temperature: 0.2,
+      },
+    });
+
+    const text = response.text?.trim();
+    if (!text) throw new Error('Tomt movement-coach-svar.');
+    return text;
+  } catch (error) {
+    console.error('[Movement-Coachen] Fel — degraded fallback:', error);
+    return 'Ett mikrosteg är bättre än inget. Kanske en minuts stretch eller en kort bensträckare?';
   }
 };
 
