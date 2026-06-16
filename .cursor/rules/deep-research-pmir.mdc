@@ -1,0 +1,11 @@
+---
+description: Kräv djupanalys (Deep Research) och PMIR före nya byggen
+globs: *
+alwaysApply: true
+---
+# Deep Research & PMIR-rutin
+
+1. **Inga nya moduler eller komplexa funktioner** får kodas utan en inledande "Deep Research" (djupanalys).
+2. Agenterna ska söka av internet (och internt) för att samla in specialistkunskap och evidens för det specifika domänområdet. Denna fakta kan senare laddas in i Kunskapsvalvet som "FACT"-seed, så att appens AI slipper gissa.
+3. Denna djupanalys ska utmynna i en detaljerad *Pre-Merge Impact Report (PMIR)* eller en *Implementation Plan*.
+4. Implementationen (kodandet) startar *först* när användaren har läst, itererat och explicit godkänt analysen.
