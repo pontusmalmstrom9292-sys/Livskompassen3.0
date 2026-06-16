@@ -6,6 +6,8 @@
 
 **Modul-våg B1–B4 (Valv → Hjärtat → Familjen → Vardagen):** [`UI-WAVE-ROADMAP.md`](./UI-WAVE-ROADMAP.md) · [`PHASE-08-valv-ui.md`](./PHASE-08-valv-ui.md)
 
+**Cursor subagenter (Gemini → ChatBox före bygg):** [`prompts/PONTUS-RUN-GEMINI-CHATBOX.md`](./prompts/PONTUS-RUN-GEMINI-CHATBOX.md) · [`prompts/SPECIALIST-SUBAGENTS-HANDOFF.md`](./prompts/SPECIALIST-SUBAGENTS-HANDOFF.md)
+
 7-dagars trial-plan för tungt kodarbete utanför Cursor/Google-krediter.
 
 ## Snabbstart

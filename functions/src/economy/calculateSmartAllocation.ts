@@ -1,15 +1,12 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import { GCP_REGION } from '../config';
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 
 export const calculateSmartAllocation = onCall(
   { region: GCP_REGION },
   async (event) => {
-    if (!event.auth) {
-      throw new HttpsError('unauthenticated', 'User must be authenticated to calculate smart allocation.');
-    }
-
-    const uid = event.auth.uid;
+    const uid = await guardSensitiveCallableV2(event, 'calculateSmartAllocation', 10);
     const db = admin.firestore();
 
     try {

@@ -1,9 +1,8 @@
 /**
- * Master Integration Manifest — backend runtime mirror (inert until wired).
+ * Master Integration Manifest — backend runtime mirror.
  * Kanon: docs/architecture/MASTER-INTEGRATION-MANIFEST.md
  *
- * Mirrors frontend manifest policies for ADK/registry.ts integration.
- * Fas 1: standalone constants — not imported by orchestrator or registry yet.
+ * Wired into `registry.ts` (collection access) and `orchestrator.ts` (silo isolation).
  */
 
 /** U1 silo identifiers — no fourth RAG silo. */

@@ -1,17 +1,21 @@
-# Gemini Deep Research — klistra in svar här
+# Gemini-svar — klistra in här
+
+**Alternativ utan Gemini:** använd [`CURSOR-MULTITASK-RESEARCH-PROMPT.md`](./CURSOR-MULTITASK-RESEARCH-PROMPT.md) i ny Cursor-chatt (Multitask).
 
 **Datum:** ___________  
-**Chatt:** Master / SA-1 / SA-2 / SA-3 / SA-4 / SA-5 (stryk det som inte gäller)
+**Körning:** Kor med kanon (`GEMINI-KOR-KLISTRA-IN.md`) ELLER Cursor multitask
 
 ---
 
-<!-- Klistra in hela Geminis svar nedan denna rad -->
+<!-- Klistra in hela Geminis svar nedan -->
 
 
 
 ---
 
-## Efter inklistring
+## Sedan
 
-1. Spara filen (Cmd + S)
-2. Ny Cursor-chatt → klistra in prompten från `docs/external-ai/imports/CURSOR-EFTER-GEMINI-PROMPT.md`
+1. **Cmd + S** spara denna fil  
+2. Ny Cursor-chatt (`Cmd + L`) → klistra in från [`CURSOR-EFTER-GEMINI-PROMPT.md`](./CURSOR-EFTER-GEMINI-PROMPT.md)
+
+**Obs:** Repo har baseline i `research-2026-06-16-*.md` — ny Gemini-svar **jämförs och uppdaterar**, ersätter inte automatiskt utan granskning.

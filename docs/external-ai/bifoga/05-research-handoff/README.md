@@ -10,13 +10,10 @@
 | `INNEHALL-REGISTER.md` | content_class, banker, kuratorer |
 | `gap-matrix-2026-06-16.md` | KEEP / DEFER / REJECT |
 | `domän-covert-narcissism.md` | HCF-lins, upload-prior ~80% |
+| `KANON-PASTE.txt` | Kort kanon — läs först |
 
-## Prompter (syskonmapp)
+## Kor körning (om första försöket saknade kanon)
 
-`../03-prompter/GEMINI-DEEP-RESEARCH-MASTER.md` + SA1–SA5 + LATHUND
-
-## Efter research
-
-Spara till `docs/external-ai/imports/research-2026-06-16-*.md`
-
-Cursor har även genererat baseline-rapporter i samma mapp om du vill jämföra med egna Gemini-svar.
+1. Bifoga **denna mapp**
+2. Klistra in hela blocket från `docs/external-ai/imports/GEMINI-KOR-KLISTRA-IN.md`
+3. Spara svar → `docs/external-ai/imports/GEMINI-SVAR-KLISTRA-HAR.md`

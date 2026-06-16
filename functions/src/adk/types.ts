@@ -41,6 +41,8 @@ export interface DispatchOptions {
   ragContext?: string[];
   applyParalysBreak?: boolean;
   productAgentId?: string;
+  /** Collections the executor will read — enforced via BACKEND_MANIFEST. */
+  targetCollections?: string[];
 }
 
 export interface OrchestrationResult {

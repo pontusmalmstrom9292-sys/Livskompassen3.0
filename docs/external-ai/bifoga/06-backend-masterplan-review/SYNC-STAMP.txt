@@ -1,0 +1,2 @@
+Senast synkad: 2026-06-16T09:47:42.669Z
+Kommando: npm run chatbot:sync:backend-review

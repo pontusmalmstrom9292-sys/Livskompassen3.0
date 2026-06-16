@@ -1,9 +1,10 @@
 import type { A2AMessage } from '../agents/types';
 import { resolveExecutorId } from '../agents/cards';
 import { runExecutor } from './executors/runExecutor';
-import { validateIntent, getAgentCard } from './registry';
+import { validateIntent, getAgentCard, assertCollectionAccess } from './registry';
 import { appendMutation, createTrace, clearSynapseState } from './stateStore';
 import { applyParalysBreak, isHeavyResponse } from './synapses/paralysBrytarenSynapse';
+import { assertBackendSiloIsolation, type SiloId } from './manifest';
 import type { DispatchOptions, OrchestrationResult } from './types';
 
 /** Gatekeeper — enkel PII-rensning innan svar lämnar backend. */
@@ -37,6 +38,13 @@ export class AdkOrchestrator {
         productAgentId,
         `Intent "${message.intent}" är inte registrerad för ${productAgentId}/${executorId}.`
       );
+    }
+
+    try {
+      this.enforceManifestPolicy(executorId, message, options);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Manifest policy violation.';
+      return this.errorResult(contextId, productAgentId, msg);
     }
 
     const state = appendMutation(contextId, {
@@ -114,6 +122,25 @@ export class AdkOrchestrator {
 
   private intentAllowed(productAgentId: string, executorId: string, intent: string): boolean {
     return validateIntent(productAgentId, intent) || validateIntent(executorId, intent);
+  }
+
+  private enforceManifestPolicy(
+    executorId: string,
+    message: A2AMessage,
+    options: DispatchOptions,
+  ): void {
+    const payload = message.payload ?? {};
+    const sourceSilo = payload.sourceSilo as SiloId | undefined;
+    const targetSilo = payload.targetSilo as SiloId | undefined;
+    if (sourceSilo && targetSilo) {
+      assertBackendSiloIsolation(sourceSilo, targetSilo);
+    }
+
+    for (const collection of options.targetCollections ?? []) {
+      if (!assertCollectionAccess(executorId, collection)) {
+        throw new Error(`Manifest: executor ${executorId} får inte läsa ${collection}`);
+      }
+    }
   }
 
   initTrace(contextId: string) {

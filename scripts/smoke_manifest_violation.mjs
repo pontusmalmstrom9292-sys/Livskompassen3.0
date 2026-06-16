@@ -69,6 +69,8 @@ function runStaticWiringChecks() {
     'reality_vault',
     'children_logs',
   );
+  mustInclude('functions/src/adk/registry.ts', 'assertBackendCollectionAccess', 'assertBackendSiloIsolation');
+  mustInclude('functions/src/adk/orchestrator.ts', 'enforceManifestPolicy', 'assertBackendSiloIsolation');
 }
 
 function runManifestSiloIsolationSmoke(guards) {

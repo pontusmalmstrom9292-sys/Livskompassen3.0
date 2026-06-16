@@ -132,6 +132,16 @@ function smokeStaticStructure() {
     'CaptureSuperModule saknar mabra sourceModule (I1)',
   );
   assert(
+    readCanonical('src/modules/capture/CaptureSuperModule.tsx').includes("valv-compact"),
+    'CaptureSuperModule saknar valv-compact (UPLOAD-UNIFIED steg 2)',
+  );
+  assert(
+    readCanonical('src/modules/features/lifeJournal/evidence/vault/components/VaultInkastCompact.tsx').includes(
+      'valv-compact',
+    ),
+    'VaultInkastCompact ska delegera till CaptureSuperModule valv-compact',
+  );
+  assert(
     readCanonical('src/modules/features/family/children/supermodule/delegates/FamiljenInkastDelegate.tsx').includes(
       'variant="familjen"',
     ),

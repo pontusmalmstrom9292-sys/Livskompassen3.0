@@ -36,8 +36,11 @@ jobs:
       - name: Build functions
         run: cd functions && npm ci && npm run build
 
-      - name: Smoke locked UX + AUTH-G1
-        run: npm run smoke:locked-ux
+      - name: Smoke tier-1 (locked pillars)
+        run: npm run smoke:tier1
+
+      - name: Typecheck core strict
+        run: npm run typecheck:core-strict
 
       - name: Build frontend
         run: npm run build
@@ -58,4 +61,4 @@ jobs:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
       - name: Deploy to Firebase Hosting
-        run: npx firebase-tools@13.35.1 deploy --only hosting --project gen-lang-client-0481875058 --non-interactive
+        run: npx firebase-tools@13.35.1 deploy --only hosting,functions,firestore:rules,storage --project gen-lang-client-0481875058 --non-interactive

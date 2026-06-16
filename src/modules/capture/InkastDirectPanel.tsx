@@ -1,6 +1,5 @@
 /**
- * @deprecated Prefer CapturePanel (text + filer + AI-preview) via CaptureSuperModule.
- * Behålls tills Valv/hem-inkast är migrerade och smoke PASS (UPLOAD-UNIFIED steg 2).
+ * Internal panel for Valv direct-submit (UPLOAD-UNIFIED steg 2 — wired via CaptureSuperModule valv-compact).
  */
 import { useCallback, useRef, useState } from 'react';
 import { clsx } from 'clsx';
