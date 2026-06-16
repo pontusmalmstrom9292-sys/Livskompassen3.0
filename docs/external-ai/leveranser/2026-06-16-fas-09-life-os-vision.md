@@ -2,7 +2,8 @@
 
 **Datum:** 2026-06-16  
 **Källor:** `chatbot-pack-life-os-vision.md`, `gap-matrix-2026-06-16.md`, GPT-mockup PNG  
-**Modell:** Opus 4.8 (ChatBox) · syntetiserad i Cursor för CHECKPOINT
+**Modell:** Opus 4.8 (ChatBox) · syntetiserad i Cursor  
+**PHASE-09:** Klar — [steg1](./2026-06-16-fas-09-gap-steg1.md) · [steg2](./2026-06-16-fas-09-gap-steg2-wave2-polish.md) · [steg3](./2026-06-16-fas-09-gap-steg3-leverans.md)
 
 ---
 
@@ -26,7 +27,7 @@
 | # | Våg | Status 2026-06-16 |
 |---|-----|-------------------|
 | 1 | Nav H1–H4 | **Implementerad** — se [`2026-06-16-nav-vag3-pmir.md`](../../evaluations/2026-06-16-nav-vag3-pmir.md) |
-| 2 | Fas 19.3 hex→tokens | **Påbörjad** — `--color-obsidian-*` alias i `index.css` |
+| 2 | Fas 19.3 hex→tokens | **Våg 1 klar** — hub zon-tokens i `index.css` |
 | 3 | Supermodule wave-2 polish | **Påbörjad** — `.supermodule-hub-chrome` |
 | 4 | Upload unified steg 2 | WIP |
 | 5 | Life OS copy-loop (Start→Reflect) | SPEC defer |
@@ -76,6 +77,7 @@
 
 ## Nästa CHECKPOINT
 
-1. Smoke Våg 3 PASS  
-2. `LIFE-OS-BUILD-STATE` — Våg 3 LOCK  
-3. Theme Lab granskning av wave-2 CSS (ingen prod-deploy utan VARIANTS.md)
+1. Fas 19.3 hex→tokens (BUILD #2)  
+2. Supermodule wave-2b polish enligt [steg2](./2026-06-16-fas-09-gap-steg2-wave2-polish.md) — **ej** REJECT-rader (teal gradient, D1-rotation)  
+3. Theme Lab granskning (ingen prod-deploy utan VARIANTS.md)  
+4. `LIFE-OS-BUILD-STATE` uppdatera efter tokens PASS

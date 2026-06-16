@@ -9,10 +9,8 @@
   /* --- Bento shell (radial bg + kompassros) --- */
   .planering-bento-shell {
     @apply relative isolate min-h-0;
-    background-color: #050b14;
-    background-image:
-      radial-gradient(ellipse at top right, rgba(20, 40, 60, 0.6) 0%, transparent 60%),
-      radial-gradient(circle at bottom left, rgba(10, 20, 30, 0.9) 0%, transparent 60%);
+    background-color: var(--color-obsidian-surface);
+    background-image: var(--zone-gradient-planering);
   }
 
   .planering-bg-compass-rose {
@@ -34,8 +32,8 @@
 
   .planering-zone-pill {
     @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-accent;
-    border-color: rgba(212, 175, 55, 0.3);
-    background: rgba(0, 0, 0, 0.3);
+    border-color: var(--color-accent-gold-30);
+    background: var(--color-shell-scrim);
   }
 
   /* --- Bento cards (glass) --- */

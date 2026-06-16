@@ -4,8 +4,8 @@ import { getTheme, DEFAULT_THEME_ID } from '../theme/themeRegistry';
 const stone = getTheme(DEFAULT_THEME_ID).cssVars;
 
 export const DESIGN = {
-  bg: stone['--bg'] ?? '#0a0a0a',
-  surface: stone['--surface'] ?? '#111111',
+  obsidianDeep: stone['--bg'] ?? stone['--color-obsidian-deep'] ?? '#020617',
+  obsidianSurface: stone['--surface'] ?? stone['--color-obsidian-surface'] ?? '#050b14',
   surface2: stone['--surface-2'] ?? '#1a1a1a',
   surface3: stone['--surface-3'] ?? '#222222',
   text: stone['--text'] ?? '#f5f0e8',

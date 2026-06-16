@@ -5,11 +5,8 @@
 @layer components {
   .hjartat-bento-shell {
     @apply relative isolate min-h-0;
-    background-color: #050b14;
-    background-image:
-      radial-gradient(ellipse at top left, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-      radial-gradient(ellipse at bottom right, rgba(167, 139, 250, 0.08) 0%, transparent 55%),
-      radial-gradient(circle at center, rgba(10, 20, 30, 0.85) 0%, transparent 70%);
+    background-color: var(--color-obsidian-surface);
+    background-image: var(--zone-gradient-hjartat);
   }
 
   .hjartat-bg-watermark {
@@ -31,8 +28,8 @@
 
   .hjartat-zone-pill {
     @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-accent-light;
-    border-color: rgba(212, 175, 55, 0.35);
-    background: rgba(0, 0, 0, 0.3);
+    border-color: var(--color-accent-gold-35);
+    background: var(--color-shell-scrim);
   }
 
   .hjartat-tab-panel {
@@ -41,7 +38,7 @@
 
   .hjartat-reflektion-wizard {
     @apply rounded-2xl border p-3;
-    border-color: rgba(212, 175, 55, 0.18);
+    border-color: var(--color-accent-gold-18);
     background: linear-gradient(
       145deg,
       rgba(30, 25, 45, 0.5) 0%,

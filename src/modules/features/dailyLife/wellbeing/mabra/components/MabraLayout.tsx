@@ -6,6 +6,7 @@ import { HubPageShell } from '@/core/layout/HubPageShell';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { LivBackLink } from '@/modules/shell/LivBackLink';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { MabraBentoShell } from './MabraBentoShell';
 
 export const MabraLayout = memo(function MabraLayout() {
   const reset = useMabraStore(useShallow((state) => state.reset));
@@ -29,7 +30,9 @@ export const MabraLayout = memo(function MabraLayout() {
         lead="Snabbstart och zoner — tillbaka öppnar samma zon igen."
         headerAside={<LivBackLink />}
       >
-        <Outlet />
+        <MabraBentoShell>
+          <Outlet />
+        </MabraBentoShell>
       </HubPageShell>
     </HubErrorBoundary>
   );

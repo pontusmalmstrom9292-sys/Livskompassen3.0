@@ -127,7 +127,7 @@ export function KunskapsvalvFileIngest({
 
   const shellClass =
     variant === 'familjen'
-      ? 'familjen-upload rounded-2xl border border-emerald-500/20 bg-[#0a1628]/80 p-4'
+      ? 'familjen-upload rounded-2xl border border-emerald-500/20 bg-surface-2/80 p-4'
       : 'rounded-2xl border border-border-subtle bg-surface/40 p-4';
 
   if (!user) {

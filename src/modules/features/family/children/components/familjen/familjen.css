@@ -5,10 +5,8 @@
 @layer components {
   .familjen-bento-shell {
     @apply relative isolate min-h-0;
-    background-color: #050b14;
-    background-image:
-      radial-gradient(ellipse at top left, rgba(99, 102, 241, 0.12) 0%, transparent 55%),
-      radial-gradient(circle at bottom right, rgba(10, 20, 30, 0.9) 0%, transparent 60%);
+    background-color: var(--color-obsidian-surface);
+    background-image: var(--zone-gradient-familjen);
   }
 
   .familjen-bg-rose {
@@ -30,8 +28,8 @@
 
   .familjen-zone-pill {
     @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-accent-secondary;
-    border-color: rgba(99, 102, 241, 0.35);
-    background: rgba(0, 0, 0, 0.3);
+    border-color: var(--color-indigo-35);
+    background: var(--color-shell-scrim);
   }
 
   .familjen-tab-panel {

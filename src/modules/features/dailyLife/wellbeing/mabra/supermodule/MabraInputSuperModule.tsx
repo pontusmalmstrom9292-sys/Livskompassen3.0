@@ -78,7 +78,7 @@ export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSu
       className="calm-card glow-bottom-green overflow-hidden rounded-2xl border border-border bg-surface-2/70 p-4 sm:p-5"
       aria-label="MåBra inmatningshub"
     >
-      <header className="mb-4 space-y-1">
+      <header className="supermodule-hub-chrome mb-4 space-y-1 rounded-xl px-3 py-3 sm:px-4">
         <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
           Universal Input
         </p>

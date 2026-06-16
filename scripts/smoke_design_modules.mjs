@@ -392,6 +392,32 @@ function main() {
     'depth',
   );
 
+  console.log('[smoke:design-modules] Fas 19.3 zone hub tokens…');
+  mustNotInclude('src/modules/features/admin/planning/components/planering.css', '#050b14');
+  mustNotInclude('src/modules/features/family/children/components/familjen/familjen.css', '#050b14');
+  mustNotInclude('src/modules/features/lifeJournal/evidence/vault/components/valv.css', '#050b14');
+  mustNotInclude('src/modules/features/lifeJournal/diary/components/hjartat.css', '#050b14');
+  mustInclude('src/index.css', '--zone-gradient-planering', '--color-accent-gold-30', '--color-obsidian-surface');
+  mustInclude('src/modules/features/admin/planning/components/planering.css', 'var(--color-obsidian-surface)', 'var(--zone-gradient-planering)');
+  mustNotInclude('src/modules/features/dailyLife/wellbeing/mabra/components/mabra.css', '#050b14');
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/components/mabra.css',
+    'var(--color-obsidian-surface)',
+    'var(--zone-gradient-mabra)',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/components/MabraLayout.tsx',
+    'MabraBentoShell',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/supermodule/MabraInputSuperModule.tsx',
+    'supermodule-hub-chrome',
+  );
+  mustNotInclude(
+    'src/modules/features/lifeJournal/evidence/kompis/components/KunskapsvalvFileIngest.tsx',
+    'bg-[#',
+  );
+
   console.log('[smoke:design-modules] Fas 22 hex→tokens P0…');
   mustNotInclude('src/modules/features/dailyLife/wellbeing/mabra/components/MabraHistoryView.tsx', '#fbbf24', '#64748b', '#09111e');
   mustNotInclude('src/modules/features/archive/components/ArchiveHub.tsx', '#020617', '#050b14');
