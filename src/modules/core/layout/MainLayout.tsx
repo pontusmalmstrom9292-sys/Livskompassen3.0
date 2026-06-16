@@ -12,6 +12,7 @@ import { AmbientBackground } from './AmbientBackground';
 import { KompisHeaderVaultButton } from '../components/KompisHeaderVaultButton';
 import { AccountAuthMenu } from '../auth/AccountAuthMenu';
 import { NavigationDrawer } from './NavigationDrawer';
+import { BiffWidgetFAB } from '../components/BiffWidgetFAB';
 import { FirestoreNetworkChip } from '../components/FirestoreNetworkChip';
 import { SystemErrorBanner } from '../components/SystemErrorBanner';
 import { useDesignPack } from '../design/useDesignPack';
@@ -22,6 +23,7 @@ import { useTheme } from '../theme';
 import { getTheme } from '../theme/themeRegistry';
 import { isMockupTheme } from '../theme/mockupTheme';
 import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
+import { useCapacityScore } from '../store/useCapacityGate';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -37,6 +39,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   const barnportenChildShell = isBarnportenChildRoute(location.pathname);
   const [accountOpen, setAccountOpen] = useState(false);
   const slimHeaderChrome = designPackActive && isScenicHome;
+  const capacityScore = useCapacityScore();
+  const isLowCapacity = capacityScore > 0 && capacityScore < 50;
 
   useEffect(() => {
     if (!user) setMenuOpen(false);
@@ -48,6 +52,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       className={clsx(
         'app-shell relative min-h-screen text-text font-sans selection:bg-accent/30',
         mockupSkin && 'app-shell--mockup-skin',
+        isLowCapacity && 'capacity-low'
       )}
     >
       <AmbientBackground />
@@ -102,7 +107,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
       {!barnportenChildShell ? (
         <>
-
+          <BiffWidgetFAB />
           <FyrenWidgetBar />
           <FloatingDock />
         </>

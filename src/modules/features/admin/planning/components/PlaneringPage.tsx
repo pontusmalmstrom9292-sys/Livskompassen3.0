@@ -172,7 +172,7 @@ export function PlaneringPage() {
   return (
     <PlaneringErrorBoundary>
       <HubPageShell
-        eyebrow="Göra"
+        eyebrow="Vardagen"
         title={title}
         lead={lead}
         headerAside={

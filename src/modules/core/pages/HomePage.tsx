@@ -2,10 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { VALV_SAMLA_GRANSKA_LINK } from '@/modules/inkast/api/inkastService';
 import { clsx } from 'clsx';
-import { AdaptiveMemoryCards } from '../home/AdaptiveMemoryCards';
 import { HomeHeroKanon } from '../home/HomeHeroKanon';
-import { PlaneringHomePinCard } from '@/features/admin/planning/components/PlaneringHomePinCard';
-import { StampClockHomeSection, isStampOnHomeScreenEnabled } from '@/features/admin/stampla';
 import { CaptureSuperModule } from '../../capture';
 import { materialEnabled, useLifeHubPreset } from '../lifeOs';
 import { useStore } from '../store';
@@ -13,14 +10,6 @@ import { useTheme } from '../theme';
 import { getTheme } from '../theme';
 import { isMockupTheme } from '../theme/mockupTheme';
 import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
-import { HomeWidgetRenderer } from '@/features/widgets/components/HomeWidgetRenderer';
-import type { UserWidgetRow } from '../types/firestore';
-import {
-  subscribeUserWidgets,
-  updateUserWidgetConfig,
-  deleteUserWidget,
-  saveUserWidget,
-} from '../firebase/firestore';
 import { getBudgetSavings, setBudgetSaving } from '../firebase/economyFirestore';
 
 const demoSeedKey = (uid: string) => `lk_home_widgets_seeded_${uid}`;
@@ -127,29 +116,6 @@ export function HomePage() {
     >
       <HomeHeroKanon onCheckInSaved={() => setCardRefreshKey((k) => k + 1)} />
 
-      {isAuthenticated && widgets.length > 0 && (
-        <section className="home-page__section" aria-label="Mina startmoduler">
-          <header className="home-page__section-head">
-            <p className="font-display-serif text-[10px] uppercase tracking-[0.2em] text-text-dim">
-              Startmoduler
-            </p>
-          </header>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {widgets.map((widget) => (
-              <HomeWidgetRenderer
-                key={widget.id}
-                widget={widget}
-                userId={user?.uid ?? ''}
-                onUpdate={handleUpdateWidgetConfig}
-                onDelete={handleDeleteWidget}
-              />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {!mockupSkin && isAuthenticated && isStampOnHomeScreenEnabled() && <StampClockHomeSection />}
-
       {!mockupSkin &&
         materialEnabled(preset, 'home_inkast') &&
         !materialEnabled(preset, 'home_hero_checkin') &&
@@ -160,14 +126,6 @@ export function HomePage() {
           variant="hem-inkast"
           onQueued={() => navigate(VALV_SAMLA_GRANSKA_LINK)}
         />
-      )}
-
-      {!mockupSkin && <PlaneringHomePinCard />}
-
-      {!mockupSkin && materialEnabled(preset, 'home_adaptive_cards') && (
-        <section className="home-page__section">
-          <AdaptiveMemoryCards refreshKey={cardRefreshKey} presetId={presetId} />
-        </section>
       )}
     </div>
   );
