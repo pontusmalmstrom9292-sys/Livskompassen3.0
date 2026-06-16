@@ -41,7 +41,7 @@
 | MåBra | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) | **aktiv** | P1: `vit_entries` + `bankId` |
 | MåBra Daglig mix | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) § Daglig mix | **aktiv** | `dagligMixCatalog.ts` · DM-* · ingen streak/RAG |
 | Drogfrihet | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) § Drogfrihet + [`Drogfrihet-SPEC.md`](./specs/modules/Drogfrihet-SPEC.md) | **aktiv** | `drogfrihetCatalog.ts` · DF-REF-* · hub `/drogfrihet` |
-| Kunskap seed | [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) | **aktiv** | 117 FACT manifest · våg 26 ingest **PASS** 2026-06-16 · [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) |
+| Kunskap seed | [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) | **aktiv** | 140 FACT manifest · våg 27 ingest **PASS** 2026-06-16 · [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) |
 | Barnen lek | [`specs/modules/Barnen-PLAY-BANK.md`](./specs/modules/Barnen-PLAY-BANK.md) | **aktiv** | `barnfokusCatalog.ts` BP-PLAY-01..21 · ej Valv-promote |
 
 **Fält per KEEP-post (alla banker):** `id`, `status`, `content_class`, `source_tier`, `text_sv`, `why`.
@@ -155,6 +155,42 @@ Prompts: endast `functions/src/sharedRules.ts`.
 | kunskap-fact-cop-004 | FACT | P2 | **ingest** | medforaldraskap_logistik |
 | kunskap-fact-cop-005 | FACT | P1 | **ingest** | kommunikation_metod |
 | kunskap-fact-ep-008 | FACT | P2 | **ingest** | epistemik_produkt |
+
+### Våg 27 ingest (2026-06-16)
+
+| id | content_class | source_tier | status | category |
+|----|---------------|-------------|--------|----------|
+| kunskap-fact-gad-036 | FACT | P1 | **ingest** | gad_angest |
+| kunskap-fact-gad-037 | FACT | P1 | **ingest** | gad_angest |
+| kunskap-fact-gad-038 | FACT | P1 | **ingest** | kanslor_vagus |
+| kunskap-fact-gad-039 | FACT | P1 | **ingest** | gad_angest |
+| kunskap-fact-adhd-029 | FACT | P2 | **ingest** | adhd_vardag |
+| kunskap-fact-adhd-030 | FACT | P2 | **ingest** | adhd_vardag |
+| kunskap-fact-eko-001 | FACT | P2 | **ingest** | ekonomi_vardag |
+| kunskap-fact-eko-002 | FACT | P2 | **ingest** | ekonomi_vardag |
+| kunskap-fact-eko-003 | FACT | P2 | **ingest** | ekonomi_vardag |
+| kunskap-fact-eko-004 | FACT | P2 | **ingest** | ekonomi_vardag |
+| kunskap-fact-eko-005 | FACT | P2 | **ingest** | ekonomi_vardag |
+| kunskap-fact-eko-006 | FACT | P2 | **ingest** | ekonomi_vardag |
+| kunskap-fact-eko-007 | FACT | P2 | **ingest** | ekonomi_vardag |
+| kunskap-fact-eko-008 | FACT | P2 | **ingest** | ekonomi_vardag |
+| kunskap-fact-cop-006 | FACT | P2 | **ingest** | medforaldraskap |
+| kunskap-fact-cop-007 | FACT | P1 | **ingest** | medforaldraskap_logistik |
+| kunskap-fact-jur-009 | FACT | P2 | **ingest** | juridik_logistik |
+| kunskap-fact-bh-015 | FACT | P1 | **ingest** | barn_hcf |
+| kunskap-fact-bh-016 | FACT | P1 | **ingest** | barn_hcf |
+| kunskap-fact-bh-017 | FACT | P1 | **ingest** | barn_hcf |
+| kunskap-fact-bh-018 | FACT | P1 | **ingest** | barn_hcf |
+| kunskap-fact-bh-019 | FACT | P1 | **ingest** | barn_hcf |
+| kunskap-fact-bh-020 | FACT | P1 | **ingest** | barn_hcf |
+
+### MåBra våg 27 KEEP (2026-06-16)
+
+MB-REF-GAD-07, MB-REF-GAD-08, MB-REF-ADHD-05, MB-REF-ADHD-06, MB-REF-ADHD-07, MB-PLAY-GAD-02, MB-PLAY-GAD-03, MB-PLAY-GAD-04 — bank KEEP; prod-wire vid curriculum/daglig mix PMIR.
+
+### Barnen PLAY våg 27 KEEP (2026-06-16)
+
+BP-PLAY-25, BP-PLAY-26, BP-PLAY-27, BP-PLAY-28, BP-PLAY-29 — bank KEEP; catalog wire våg 29.
 
 ---
 

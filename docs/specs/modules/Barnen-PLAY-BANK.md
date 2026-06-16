@@ -113,16 +113,16 @@ export type BarnfokusCatalogEntry = {
 
 ---
 
-## Våg 27 — Deep Research 2026-06-16 (CANDIDATE)
+## Våg 27 — Deep Research 2026-06-16 (KEEP)
 
 **Källa:** [`research-cursor-2026-06-16-master-syntes.md`](../../external-ai/imports/research-cursor-2026-06-16-master-syntes.md) · SA-4 Cursor · **Ålder:** evolution_hub bracket
 
 | id | audience | lens | bracket | status | text_sv |
 |----|----------|------|---------|--------|---------|
-| BP-PLAY-25 | child | kanslor | toddler_preschool | CANDIDATE | Visa tre känsloikoner — peka vilken som passade mest idag. Inget rätt svar. |
-| BP-PLAY-26 | child | valv_safe | early_school | CANDIDATE | En trygg sak idag — rita eller skriv ett ord. Max en minut. |
-| BP-PLAY-27 | child | reflektion | teen | CANDIDATE | Skriv en rad till din förälder — något du vill att hen ska veta. Du behöver inte skicka det. |
-| BP-PLAY-28 | child | lojalitet | pre_teen | CANDIDATE | Om någon ber dig förmedla ett meddelande: "Det där är en vuxenfråga — prata med min andra förälder." Du behöver inte bära det. |
-| BP-PLAY-29 | child | valv_safe | early_school | CANDIDATE | Rita eller skriv en person du kan prata med utanför familjen — kurator, Bris eller annan trygg vuxen. |
+| BP-PLAY-25 | child | kanslor | toddler_preschool | KEEP | Visa tre känsloikoner — peka vilken som passade mest idag. Inget rätt svar. |
+| BP-PLAY-26 | child | valv_safe | early_school | KEEP | En trygg sak idag — rita eller skriv ett ord. Max en minut. |
+| BP-PLAY-27 | child | reflektion | teen | KEEP | Skriv en rad till din förälder — något du vill att hen ska veta. Du behöver inte skicka det. |
+| BP-PLAY-28 | child | lojalitet | pre_teen | KEEP | Om någon ber dig förmedla ett meddelande: "Det där är en vuxenfråga — prata med min andra förälder." Du behöver inte bära det. |
+| BP-PLAY-29 | child | valv_safe | early_school | KEEP | Rita eller skriv en person du kan prata med utanför familjen — kurator, Bris eller annan trygg vuxen. |
 
 **MUST NOT:** vuxenkonflikt, diagnos, auto-promote till Valv. **Locked UX:** ändra inte `BARNFOKUS_QUESTIONS` — wire via catalog overlay (våg 29).

@@ -430,23 +430,23 @@ Kurator-pass 2026-05-25 · linser: **identitet** (5) + **KBT light** (5). Ej dup
 
 ---
 
-## Våg 27 — Deep Research 2026-06-16 (CANDIDATE)
+## Våg 27 — Deep Research 2026-06-16 (KEEP)
 
 **Källa:** [`research-cursor-2026-06-16-master-syntes.md`](../../external-ai/imports/research-cursor-2026-06-16-master-syntes.md) · SA-1 Cursor
 
 | id | content_class | source_tier | status | lens | text_sv |
 |----|---------------|-------------|--------|------|---------|
-| MB-REF-GAD-07 | REFLECTION | psychoeducation_general | CANDIDATE | oro_tid | Om oron dyker upp nu — kan du skriva en rad och spara den till din oro-tid, i stället för att lösa allt direkt? |
-| MB-REF-GAD-08 | REFLECTION | psychoeducation_general | CANDIDATE | oro_tree | Den här oron — kan du göra något praktiskt om den just nu, eller är den hypotetisk och bättre sparad till din oro-tid? |
-| MB-REF-ADHD-05 | REFLECTION | psychoeducation_general | CANDIDATE | body_double | Vilken uppgift skjuter du upp mest — och vem eller vad skulle kunna sitta bredvid dig (utan att prata) i fem minuter? |
-| MB-REF-ADHD-06 | REFLECTION | psychoeducation_general | CANDIDATE | rsd_paus | När kroppen reagerar starkt på kritik eller tystnad — vad skulle hända om du pausade 60 sekunder innan du svarar eller agerar? |
-| MB-REF-ADHD-07 | REFLECTION | psychoeducation_general | CANDIDATE | rsd_tolkning | En neutral reaktion (t.ex. kort svar) — är det säkert avvisning, eller finns andra förklaringar du inte ser än? |
+| MB-REF-GAD-07 | REFLECTION | psychoeducation_general | KEEP | oro_tid | Om oron dyker upp nu — kan du skriva en rad och spara den till din oro-tid, i stället för att lösa allt direkt? |
+| MB-REF-GAD-08 | REFLECTION | psychoeducation_general | KEEP | oro_tree | Den här oron — kan du göra något praktiskt om den just nu, eller är den hypotetisk och bättre sparad till din oro-tid? |
+| MB-REF-ADHD-05 | REFLECTION | psychoeducation_general | KEEP | body_double | Vilken uppgift skjuter du upp mest — och vem eller vad skulle kunna sitta bredvid dig (utan att prata) i fem minuter? |
+| MB-REF-ADHD-06 | REFLECTION | psychoeducation_general | KEEP | rsd_paus | När kroppen reagerar starkt på kritik eller tystnad — vad skulle hända om du pausade 60 sekunder innan du svarar eller agerar? |
+| MB-REF-ADHD-07 | REFLECTION | psychoeducation_general | KEEP | rsd_tolkning | En neutral reaktion (t.ex. kort svar) — är det säkert avvisning, eller finns andra förklaringar du inte ser än? |
 
 | id | content_class | source_tier | status | title_sv | rule_sv |
 |----|---------------|-------------|--------|----------|---------|
-| MB-PLAY-GAD-02 | PLAY | product_copy | CANDIDATE | Oro-lapp 2 min | Sätt timer 2 min — skriv max tre orosord. Stopp. Lägg lappen åt sidan till kvällen. |
-| MB-PLAY-GAD-03 | PLAY | product_copy | CANDIDATE | Fysiologisk suck 3× | Tre andetag: in genom näsan, kort extra sip, lång utandning. Ingen räkning. Stopp efter tre. |
-| MB-PLAY-GAD-04 | PLAY | product_copy | CANDIDATE | Fötter mot golv 30s | Sitt stadigt. Känn fötterna mot underlaget i 30 sekunder — bara kontakt, ingen analys. |
+| MB-PLAY-GAD-02 | PLAY | product_copy | KEEP | Oro-lapp 2 min | Sätt timer 2 min — skriv max tre orosord. Stopp. Lägg lappen åt sidan till kvällen. |
+| MB-PLAY-GAD-03 | PLAY | product_copy | KEEP | Fysiologisk suck 3× | Tre andetag: in genom näsan, kort extra sip, lång utandning. Ingen räkning. Stopp efter tre. |
+| MB-PLAY-GAD-04 | PLAY | product_copy | KEEP | Fötter mot golv 30s | Sitt stadigt. Känn fötterna mot underlaget i 30 sekunder — bara kontakt, ingen analys. |
 
 **mabraCoachGuard:** MB-REF-ADHD-06/07 vid ex/konflikt → Hamn/Speglar, inte MåBra.
 

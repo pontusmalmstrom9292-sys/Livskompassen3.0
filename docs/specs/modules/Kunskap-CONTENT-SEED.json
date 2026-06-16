@@ -1,5 +1,5 @@
 {
-  "version": "2026-06-15",
+  "version": "2026-06-16",
   "source_policy": "kunskap_content_seed_keep_only",
   "default_source": "kunskap_content_seed",
   "entries": [
@@ -51,6 +51,16 @@
       "eventDate": null,
       "source": "kunskap_content_seed",
       "citation_hint": "cn-022 JADE-dokumentation; kunskap-fact-010 juridik 10%; ej BIFF-coaching",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-eko-001",
+      "title": "24-timmarsregel vid impulsköp",
+      "content": "Vid impulsivitet kan en paus på 24 timmar före icke-nödvändiga köp ge begäret tid att avta utan att kräva långvarig viljestyrka. Särskilt relevant vid ADHD och stress — kompletterar autogiro och fakturaflöde, ersätter inte skuldrådgivning.",
+      "category": "ekonomi_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Unburden ADHD budget; ADD Resource Center",
       "source_tier": "P2"
     },
     {
@@ -144,6 +154,16 @@
       "source_tier": "P2"
     },
     {
+      "id": "kunskap-fact-eko-002",
+      "title": "Tre hinkar — förenklad budget",
+      "content": "En förenklad budget med tre hinkar — essentials (boende, mat, fakturor), discretionary (nöje, spontanköp), spar/skuld — kräver mindre kognitiv uppföljning än många detaljkategorier och passar låg kapacitet.",
+      "category": "ekonomi_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "ADD Resource Center ADHD-friendly budget",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-ep-002",
       "title": "Bekräftelsebias och mönstersökning under stress",
       "content": "Vid hypervigilans och ADHD/GAD söker hjärnan mönster snabbare — ibland samband som inte finns (apopheni). Bekräftelsebias: man minns det som passar bilden. Det är kognitiv mekanism, inte tecken på att upplevelsen är fel. Skilj 'jag tror att…' från '2026-03-12 skrev hen…' (observerbar Valv-post).",
@@ -211,6 +231,16 @@
       "eventDate": null,
       "source": "kunskap_content_seed",
       "citation_hint": "kunskap-fact-015 förutsägbarhet; bh-013 barn vid konflikt — översikt",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-eko-003",
+      "title": "Digitala kuvert — max 4–5 kategorier",
+      "content": "Digitala kuvert med 4–5 breda kategorier ger visuell knapphet utan kontanthantering. Färre kategorier minskar beslutströtthet vid varje köp — viktigare än perfekt kategorisering.",
+      "category": "ekonomi_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Digital Dashboard Hub ADHD budget",
       "source_tier": "P2"
     },
     {
@@ -284,6 +314,16 @@
       "source_tier": "P2"
     },
     {
+      "id": "kunskap-fact-eko-004",
+      "title": "Veckobudget — ett synligt spend number",
+      "content": "Veckobudget med ett synligt 'spend number' är lättare att hålla i arbetsminnet än månadsbudget för personer med tidsblindhet. Veckovisa korta check-ins presterar bättre än sällsynta långa budgetsessioner.",
+      "category": "ekonomi_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Unburden; Psychiatry CY ADHD finances",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-ep-004",
       "title": "När Speglar, Valv eller Kunskap",
       "content": "Speglar: validera känsla, Zero Footprint. Valv: WORM-bevis och tidslinje. Kunskap: metod/referens — inte sms-coaching. Hamn: BIFF på konkret meddelande. Vid tvivel → Granska, fail-closed.",
@@ -354,6 +394,16 @@
       "source_tier": "P1"
     },
     {
+      "id": "kunskap-fact-eko-005",
+      "title": "Impulshink — månatligt tak",
+      "content": "Dedikerad impulshink med tydligt månatligt tak — när den är slut pausar du utan total förbudskänsla. Hållbarhet över perfektion; ingen streak eller poäng.",
+      "category": "ekonomi_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "ADD Resource Center — Impulse Fund",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-ep-005",
       "title": "Kognitiv avlastning — extern WORM",
       "content": "Hypervigilans håller arbetsminnet aktivt. Extern WORM med server-tidsstämpel minskar behovet att hålla kronologi i huvudet — samma princip som listor vid ADHD, för bevis. Ersätter inte terapi; frigör kapacitet för nuet.",
@@ -401,6 +451,26 @@
       "eventDate": null,
       "source": "kunskap_content_seed",
       "citation_hint": "Speglar-SPEC; Barnen neutral logg",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-cop-006",
+      "title": "Parallel parenting — AFCC-definition",
+      "content": "Parallel parenting innebär separata hushållsspår med minimal direkt kontakt mellan föräldrar; målet är förutsägbarhet och att barn hålls utanför vuxeninteraktion — inte gemensam problemlösning när samarbete eskalerar konflikt.",
+      "category": "medforaldraskap",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "AFCC Parent Coordination Task Force Report",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-eko-006",
+      "title": "Två-konto-system — safe-to-spend",
+      "content": "Två-konto-systemet — ett konto enbart för automatiserade räkningar, ett för daglig spending — ersätter mental matte: om saldot finns i spending-kontot är köpet tillåtet.",
+      "category": "ekonomi_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Waypoint — Budgeting with ADHD",
       "source_tier": "P2"
     },
     {
@@ -454,6 +524,26 @@
       "source_tier": "psychoeducation_general"
     },
     {
+      "id": "kunskap-fact-cop-007",
+      "title": "Skriftlig kommunikation som default vid HCF",
+      "content": "I parallel parenting begränsas kommunikation ofta till skrift (mejl, meddelandeapp) för att minska eskalering — särskilt när muntlig kontakt triggar konflikt. Metod, inte juridisk skyldighet.",
+      "category": "medforaldraskap_logistik",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Bris skilsmässa P1; Socialstyrelsen separation små barn; cop-002",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-eko-007",
+      "title": "Sparkonto annan bank — friktionsbarriär",
+      "content": "Sparkonto hos annan bank skapar 2–3 dagars överföringsfriktion — tillräckligt för att impulsiva uttag ska avta utan att spärra nödfall.",
+      "category": "ekonomi_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "ADD Resource Center — No-Budget System",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-ep-007",
       "title": "Myndighetsunderlag — citat och tolkning i separata lager",
       "content": "Ett robust myndighetsunderlag skiljer tre lager: (1) citat — barnets eller vuxens exakta ord med datum; (2) observation — vad en neutral part såg eller hörde; (3) tolkning — din hypotes, tydligt märkt. Skicka lager 1–2 till skola, soc eller BUP; spara lager 3 i journal eller Valv-hypotes — blanda inte dem i samma rad. Exempel observation: '2026-04-03 skolkurator noterade att barnet grät efter telefonsamtal.' Exempel tolkning (separat): 'Jag tror samtalet gällde överlämning.' Kunskap-RAG citerar FACT; WORM citerar docId — utan citation: inget sanning-påstående.",
@@ -504,6 +594,16 @@
       "source_tier": "psychoeducation_general"
     },
     {
+      "id": "kunskap-fact-eko-008",
+      "title": "Vecko-överskridning — rollover utan skuld",
+      "content": "Vid veckoöverskridning dras överskottet från nästa veckas spend number — utan skuldspiral eller 'börja om nästa månad'.",
+      "category": "ekonomi_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Unburden — ADHD-Friendly Budgeting",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-ep-008",
       "title": "Bevisbar logistik vs känsloargument — epistemik i medföräldraskap",
       "content": "I medföräldraskap kan samma händelse beskrivas som verifierbar logistik eller som känsloargument utan underlag. Logistik (epistemiskt starkare i tvist och dossier): '2026-04-12 hämtning 17:20, 35 min sen enligt sms 16:45.' Känsloargument (svagare utan citat): 'hen respekterar aldrig mig', 'barnet lider alltid hos hen'. Kunskap-RAG skiljer metod-FACT från personlig hypotes; Valv WORM lagrar lager 1–2 (citat, observation) separat från lager 3 (tolkning). jur-006 beskriver juridisk tyngd; denna post beskriver informationsklassning i vardagslogistik. Utan citation eller docId: inget sanning-påstående i prod. Livskompassen ger inte juridisk rådgivning.",
@@ -552,6 +652,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "SafeHarbor-SPEC; kunskap-fact-005/006",
       "source_tier": "P1"
+    },
+    {
+      "id": "kunskap-fact-jur-009",
+      "title": "Parenting coordination — översikt",
+      "content": "Parenting coordination är en barnfokuserad process där utsedd professionell hjälper högk konflikt-föräldrar implementera vårdnadsplan och lösa tvister utanför domstol — med screening för våld och maktklyftor. Svensk familjerätt har liknande stöd; detta är översikt, inte rådgivning.",
+      "category": "juridik_logistik",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "AFCC Guidelines 2019; AFCC PC neutral beslutsfattare (research-cursor-sa2-020)",
+      "source_tier": "P2"
     },
     {
       "id": "kunskap-fact-010",
@@ -714,6 +824,16 @@
       "source_tier": "P2"
     },
     {
+      "id": "kunskap-fact-bh-015",
+      "title": "Lojalitetskonflikt 10–14 — barns perspektiv",
+      "content": "Barn 10–14 i lojalitetskonflikt kan uppleva stress, skuld och kroppsliga symptom; de behöver inte välja sida för att vara trygga. Vuxna ska ta ansvar för konflikten — barnet ska inte bära budskap mellan föräldrar.",
+      "category": "barn_hcf",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Bris för vuxna; BVPRO lojalitetskonflikt 10–14",
+      "source_tier": "P1"
+    },
+    {
       "id": "kunskap-fact-cn-015",
       "title": "Soc och skola — fakta före tolkning",
       "content": "Vid kontakt med soc eller skola: barnets behov, observerbara beteenden och tidslinje — inte etiketter på förälder. BBIC-dimensioner som struktur.",
@@ -732,6 +852,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "NICE NG87 ADHD adults; psychoeducation time management",
       "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-bh-016",
+      "title": "Barn som budbärare — undvik",
+      "content": "Låt inte barn framföra budskap eller information mellan föräldrar; budbärarrollen skapar lojalitetsstress när barn vill vara lojala mot båda.",
+      "category": "barn_hcf",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Bris skilsmässa P1; cursor-sa4-002",
+      "source_tier": "P1"
     },
     {
       "id": "kunskap-fact-cn-016",
@@ -754,6 +884,16 @@
       "source_tier": "P2"
     },
     {
+      "id": "kunskap-fact-bh-017",
+      "title": "Skol- och fritidsaktiviteter — dela upp",
+      "content": "Många barn upplever stress när båda föräldrar är närvarande vid skol- eller fritidsaktiviteter; föräldrar kan dela upp dessa tillfällen så barnet slipper bära båda samtidigt.",
+      "category": "barn_hcf",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Bris — Så pratar du skilsmässa med ditt barn",
+      "source_tier": "P1"
+    },
+    {
       "id": "kunskap-fact-cn-017",
       "title": "Smear campaign — systematiskt narrativ",
       "content": "Smear campaign (förtalskampanj) innebär spridning av negativ bild om en person till tredje parter — familj, vänner, skola eller myndigheter — ofta före eskalering. Mönstret syftar till att underminera motpartens trovärdighet. Psychoeducation: beskriv vem som fick vilket budskap och när (observerbart) i Valv — inte etiketter som 'hon försöker förstöra mig' i Kunskap-RAG.",
@@ -772,6 +912,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "Cognitive offloading — ADHD psychoeducation general",
       "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-bh-018",
+      "title": "Barn ska inte välja sida",
+      "content": "Barn ska aldrig behöva ta ansvar för vuxnas beslut om vårdnad, boende eller umgänge, eller känna sig tvingade att välja sida.",
+      "category": "barn_hcf",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Barnombudet — Om det blir konflikt",
+      "source_tier": "P1"
     },
     {
       "id": "kunskap-fact-cn-018",
@@ -794,6 +944,16 @@
       "source_tier": "P2"
     },
     {
+      "id": "kunskap-fact-bh-019",
+      "title": "Tidigt föräldrastöd vid separation",
+      "content": "Svåra och långvariga konflikter mellan separerade föräldrar påverkar barnens hälsa negativt på kort och lång sikt; tidigt föräldrastöd förebygger eskalering.",
+      "category": "barn_hcf",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Myndigheten för familjerätt — separation",
+      "source_tier": "P1"
+    },
+    {
       "id": "kunskap-fact-cn-019",
       "title": "Trauma bonding — intermittent förstärkning",
       "content": "Traumatisk binding (trauma bonding) beskriver stark attachment trots skada, ofta via intermittent förstärkning: växling mellan värme/godkännande och tillbakadragenhet eller straff. Djupare cykel än love bombing (044): samma relation över tid, inte bara tidig intensitet. I medföräldraskap kan mönstret visa sig som plötslig vänlighet före krav eller efter konflikt — igenkänning är referens; dina sms är EVIDENCE i Valv.",
@@ -812,6 +972,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "Sleep hygiene psychoeducation; ADHD comorbidity sleep overview",
       "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-bh-020",
+      "title": "Parrelation åt sidan — föräldraskap kvar",
+      "content": "Vid separation behöver föräldrar lägga parrelationen åt sidan och fokusera på föräldraskapet; barnets utveckling, behov och önskemål ska vara i centrum.",
+      "category": "barn_hcf",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "mfof — parrelation vs föräldraskap",
+      "source_tier": "P1"
     },
     {
       "id": "kunskap-fact-cn-020",
@@ -934,6 +1104,16 @@
       "source_tier": "P2"
     },
     {
+      "id": "kunskap-fact-adhd-029",
+      "title": "Body doubling — externaliserad fokus",
+      "content": "Body doubling innebär att arbeta bredvid en annan person (fysiskt eller virtuellt) som också arbetar — för att underlätta start och fokus. Beskrivs som externaliserad exekutiv funktion, inte samarbete på samma uppgift. Anekdot och viss forskning; inte medicinsk behandling.",
+      "category": "adhd_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Cleveland Clinic; ADDA; ACM 2024 body doubling study (evidens i adhd-030)",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-030",
       "title": "Hypervigilans — kropp i beredskap",
       "content": "Hypervigilans är ett tillstånd där nervsystemet skannar hot — ofta efter lång stress. Det kan ge trötthet, startledighet och svårighet att varva ned. Det är en fysiologisk reaktion, inte ett karaktärsfel.",
@@ -942,6 +1122,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "Trauma-informed psychoeducation — hypervigilance overview",
       "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-adhd-030",
+      "title": "Body doubling — evidensprofil",
+      "content": "Body doubling har stark community-validering och tidig akademisk kartläggning, men saknar stora RCT — klassas som lågrisk komplement, inte ersättning för evidensbaserad ADHD-behandling.",
+      "category": "adhd_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "ACM 2024 — Body doubling with neurodivergent participants",
+      "source_tier": "P2"
     },
     {
       "id": "kunskap-fact-031",
@@ -1004,6 +1194,16 @@
       "source_tier": "psychoeducation_general"
     },
     {
+      "id": "kunskap-fact-gad-036",
+      "title": "Oro-tid — schemalagd oro (CBT)",
+      "content": "Worry time är en etablerad CBT-metod: 10–15 minuter dagligen för hypotetiska oros tankar. Under dagen skjuter du upp oro till den tiden i stället för att följa varje tanke. Det är självhjälpsmetod — inte ersättning för behandling vid svår ångest.",
+      "category": "gad_angest",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "NHS Every Mind Matters; RNOH NHS Postponing worries (timing)",
+      "source_tier": "P1"
+    },
+    {
       "id": "kunskap-fact-037",
       "title": "Vagusnerven — förenklad översikt",
       "content": "Vagusnerven är en del av det parasympatiska systemet som kan påverka puls och lugn. Långsam utandning, nynnande och kall stimulans används som självreglering — inte som medicin.",
@@ -1012,6 +1212,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "Vagus nerve psychoeducation overview",
       "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-gad-037",
+      "title": "Worry tree — praktisk vs hypotetisk oro",
+      "content": "Worry tree skiljer praktisk oro (du kan agera: vad, hur, när) från hypotetisk oro (utan kontroll). Vid hypotetisk oro — skjut upp till oro-tid eller släpp och återfokusera på nuet.",
+      "category": "gad_angest",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "NHS Every Mind Matters — Tackling your worries",
+      "source_tier": "P1"
     },
     {
       "id": "kunskap-fact-038",
@@ -1024,6 +1234,16 @@
       "source_tier": "psychoeducation_general"
     },
     {
+      "id": "kunskap-fact-gad-038",
+      "title": "Fysiologisk suck — vagus utan prestation",
+      "content": "Fysiologisk suck: djup inandning genom näsan, ett kort extra andetag, sedan lång långsam utandning — kan sänka arousal diskret utan prestationskrav. Självhjälp, inte medicinsk behandling.",
+      "category": "kanslor_vagus",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "SWLSTG NHS — Physiological sigh 2024",
+      "source_tier": "P1"
+    },
+    {
       "id": "kunskap-fact-039",
       "title": "KBT — tanke/känsla/beteende (kort)",
       "content": "Kognitiv beteendeterapi utgår från att tankar, känslor och beteenden påverkar varandra. Att identifiera automatiska tankar är ett steg — inte samma sak som att 'tänka positivt'.",
@@ -1032,6 +1252,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "CBT model psychoeducation",
       "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-gad-039",
+      "title": "Oro-tid timing — undvik läggdags",
+      "content": "Schemalagd oro-tid bör undvikas strax före sänggående; välj en fast tid på dagen och håll sessionen till cirka 15–20 minuter med avslutande aktivitet efteråt.",
+      "category": "gad_angest",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "RNOH NHS — Postponing worries",
+      "source_tier": "P1"
     },
     {
       "id": "kunskap-fact-040",

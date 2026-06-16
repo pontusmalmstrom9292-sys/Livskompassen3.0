@@ -1,6 +1,6 @@
 # Eval — Deep Research slutfas & content våg 27
 
-**Datum:** 2026-06-16 · **Status:** Godkänd för CANDIDATE-bank (Cursor-syntes) · **Ingest:** väntar KEEP  
+**Datum:** 2026-06-16 · **Status:** **KEEP godkänd 2026-06-16** · **Ingest:** **PASS** (Kunskap 23 FACT)  
 **Källor:** [`research-cursor-2026-06-16-master-syntes.md`](../external-ai/imports/research-cursor-2026-06-16-master-syntes.md) · SA-1..5 Cursor · baseline [`research-2026-06-16-master-syntes.md`](../external-ai/imports/research-2026-06-16-master-syntes.md)
 
 ---
@@ -9,10 +9,10 @@
 
 | Beslut | Motivering |
 |--------|------------|
-| **23 FACT CANDIDATE** i Kunskap | Baseline 11 + 12 Cursor-NEW (gad-037–039, adhd-030, eko-005–008, bh-017–020) |
-| **8 MåBra CANDIDATE** | Baseline 3 + 5 Cursor-NEW (MB-REF-GAD-08, MB-REF-ADHD-06/07, MB-PLAY-GAD-03/04) |
-| **5 Barnen PLAY CANDIDATE** | Baseline 3 + 2 Cursor-NEW (BP-PLAY-28/29) |
-| **Ingen ingest än** | `status: CANDIDATE` tills Pontus markerar KEEP |
+| **23 FACT KEEP + ingest** | Baseline 11 + 12 Cursor-NEW (gad-037–039, adhd-030, eko-005–008, bh-017–020) |
+| **8 MåBra KEEP** | Baseline 3 + 5 Cursor-NEW (MB-REF-GAD-08, MB-REF-ADHD-06/07, MB-PLAY-GAD-03/04) |
+| **5 Barnen PLAY KEEP** | Baseline 3 + 2 Cursor-NEW (BP-PLAY-28/29) |
+| **Ingest klar** | Pontus **"godkänn våg 27 KEEP"** 2026-06-16 → `export:kunskap-seed` + `seed:kunskap-facts` |
 | **2 cursor rules implementerade** | research-content-gate, capacity-ui-gate |
 | **6 regler eval only** | Hamn-written (våg 28), barn-epistemik (våg 29), worry-mabra, no-diagnosis, slutfas-stop, weekly-money |
 
@@ -70,7 +70,7 @@ MB-REF-GAD-07, MB-REF-GAD-08, MB-REF-ADHD-05, MB-REF-ADHD-06, MB-REF-ADHD-07, MB
 
 BP-PLAY-25 (toddler), BP-PLAY-26 (early_school), BP-PLAY-27 (teen), BP-PLAY-28 (pre_teen), BP-PLAY-29 (early_school)
 
-**Manifest efter KEEP:** 117 + 23 = **140 FACT** (vid ingest)
+**Manifest efter KEEP:** 117 + 23 = **140 FACT** (ingest PASS 2026-06-16)
 
 ---
 
@@ -112,12 +112,30 @@ Streak/XP · teal chrome · cross-RAG · auto-promote barn→Valv · diagnos i d
 
 ---
 
-## 7. Pontus — ett steg
+## 7. Pontus — KEEP (2026-06-16)
 
-Granska CANDIDATE i [`Kunskap-CONTENT-SEED.md`](../specs/modules/Kunskap-CONTENT-SEED.md) § våg 27. Svara **"godkänn våg 27 KEEP"** för ingest, eller markera enskilda rader REJECT.
+Pontus godkände **"godkänn våg 27 KEEP"** — 36 poster promoted (23 Kunskap FACT + 8 MåBra + 5 Barnen PLAY).
 
 ---
 
-## 8. Smoke (2026-06-16)
+## 8. Ingest & smoke (2026-06-16)
+
+```bash
+npm run export:kunskap-seed
+npm run seed:kunskap-facts
+npm run smoke:innehall
+npm run smoke:mabra
+```
+
+| Kommando | Status |
+|----------|--------|
+| `export:kunskap-seed` | PASS — 140 KEEP → manifest |
+| `seed:kunskap-facts` | PASS — ok 23, skip 117, fail 0 |
+| `npm run smoke:innehall` | PASS |
+| `npm run smoke:mabra` | PASS |
+
+---
+
+## 9. Smoke (2026-06-16 pre-KEEP)
 
 `npm run smoke:innehall` — CANDIDATE ska inte bryta smoke (endast KEEP räknas i prod-wire tills PMIR).
