@@ -7,6 +7,7 @@ import {
   type MovementProgram,
 } from '../content/movementPrograms';
 import { useMabra30Capacity } from '../lib/mabra30Capacity';
+import { MabraMovementCoachPanel } from './MabraMovementCoachPanel';
 
 const COPY = {
   eyebrow: 'Rörelse & kropp',
@@ -162,6 +163,12 @@ export function MabraMovementPanel({ uid, onComplete }: Props) {
       ) : null}
       {!uid ? (
         <p className="mt-3 text-xs text-text-dim">Logga in för att spara session i molnet.</p>
+      ) : null}
+
+      {capacityLevel >= 2 ? (
+        <div className="mt-6 border-t border-border pt-4">
+          <MabraMovementCoachPanel uid={uid} />
+        </div>
       ) : null}
     </BentoCard>
   );

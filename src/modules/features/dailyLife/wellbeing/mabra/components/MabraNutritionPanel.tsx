@@ -7,7 +7,9 @@ import {
   writeNutritionDay,
   type NutritionDayState,
 } from '../lib/mabraNutritionDayStorage';
+} from '../lib/mabraNutritionDayStorage';
 import { useMabra30Capacity } from '../lib/mabra30Capacity';
+import { MabraNutritionCoachPanel } from './MabraNutritionCoachPanel';
 
 const PREP_ITEMS = [
   'Koka ägg eller lägg fram kvarg',
@@ -143,6 +145,12 @@ export function MabraNutritionPanel({ uid }: Props) {
       ) : null}
 
       <p className="mt-4 text-xs text-text-dim">{COPY.savedLocal}</p>
+
+      {capacityLevel >= 2 ? (
+        <div className="mt-6 border-t border-border pt-4">
+          <MabraNutritionCoachPanel uid={uid} />
+        </div>
+      ) : null}
     </BentoCard>
   );
 }
