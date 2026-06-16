@@ -225,6 +225,7 @@ service cloud.firestore {
         && request.resource.data.exerciseType in [
           'breathing', 'grounding', 'reframing', 'daglig_mix', 'explore_done',
           'curriculum_complete', 'quiz_complete',
+          'movement_micro', 'walk_reset', 'stretch_478',
         ]
         && request.resource.data.durationSeconds is int
         && request.resource.data.durationSeconds >= 0
@@ -982,6 +983,69 @@ service cloud.firestore {
     match /inbox_queue/{docId} {
       allow read: if isOwner();
       allow create, update, delete: if false;
+    }
+
+    // G10 — Användarregler för inkast-klassificering (ej WORM-bevis)
+    match /inbox_rules/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.label is string
+        && request.resource.data.label.size() > 0
+        && request.resource.data.label.size() <= 80
+        && request.resource.data.matchType in ['contains', 'exact']
+        && request.resource.data.pattern is string
+        && request.resource.data.pattern.size() > 0
+        && request.resource.data.pattern.size() <= 200
+        && request.resource.data.targetTags is list
+        && request.resource.data.targetTags.size() <= 12
+        && request.resource.data.targetCategory is string
+        && request.resource.data.targetCategory.size() <= 48
+        && request.resource.data.targetRouting in [
+          '', 'kunskap', 'bevis', 'barnen', 'dagbok', 'review', 'planning',
+        ]
+        && request.resource.data.priority is int
+        && request.resource.data.priority >= 1
+        && request.resource.data.priority <= 100
+        && request.resource.data.enabled is bool;
+      allow update: if isOwner()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.label is string
+        && request.resource.data.label.size() > 0
+        && request.resource.data.label.size() <= 80
+        && request.resource.data.matchType in ['contains', 'exact']
+        && request.resource.data.pattern is string
+        && request.resource.data.pattern.size() > 0
+        && request.resource.data.pattern.size() <= 200
+        && request.resource.data.targetTags is list
+        && request.resource.data.targetTags.size() <= 12
+        && request.resource.data.targetCategory is string
+        && request.resource.data.targetCategory.size() <= 48
+        && request.resource.data.targetRouting in [
+          '', 'kunskap', 'bevis', 'barnen', 'dagbok', 'review', 'planning',
+        ]
+        && request.resource.data.priority is int
+        && request.resource.data.priority >= 1
+        && request.resource.data.priority <= 100
+        && request.resource.data.enabled is bool;
+      allow delete: if isOwner();
+    }
+
+    // Legacy Morgonkompass — `user_daily_focus` är kanon; mutable profil, ej WORM
+    match /daily_intentions/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.intention is string
+        && request.resource.data.intention.size() <= 5000
+        && request.resource.data.date.matches('^\\d{4}-\\d{2}-\\d{2}$');
+      allow update: if isOwner()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.intention is string
+        && request.resource.data.intention.size() <= 5000
+        && request.resource.data.date == resource.data.date
+        && request.resource.data.date.matches('^\\d{4}-\\d{2}-\\d{2}$');
+      allow delete: if false;
     }
 
     // G12 — Vertex Context Cache registry (ephemeral metadata, Admin SDK write)

@@ -326,6 +326,51 @@ className=
 export function getHeaderPageLabel(pathname: string, search = ''): string | null
 ````
 
+## File: src/modules/shell/LivLauncherGrid.tsx
+````typescript
+import type { LucideIcon } from 'lucide-react';
+import {
+  ChevronRight,
+  Clock,
+  FolderKanban,
+  Sparkles,
+  Sprout,
+  Wallet,
+} from 'lucide-react';
+import { clsx } from 'clsx';
+import type { CalmCardGlow } from '@/shared/ui/BentoCard';
+import {
+  LIV_LAUNCHER_EXTERNAL,
+  LIV_LAUNCHER_INLINE_TABS,
+} from './livLauncherRoutes';
+import { LIV_LAUNCHER_PREVIEWS } from './livLauncherPreviews';
+⋮----
+export type LivLauncherId =
+  | 'kompasser'
+  | 'ekonomi'
+  | 'mabra'
+  | 'projekt'
+  | 'arbetsliv';
+⋮----
+type LauncherCardDef = {
+  id: LivLauncherId;
+  label: string;
+  hint: string;
+  icon: LucideIcon;
+  glow: CalmCardGlow;
+  external?: boolean;
+};
+⋮----
+type LivLauncherGridProps = {
+  activeId: LivLauncherId;
+  onSelect: (id: LivLauncherId) => void;
+};
+⋮----
+export function LivLauncherGrid(
+⋮----
+className=
+````
+
 ## File: docs/evaluations/2026-06-15-arkitektur-nav-analys.md
 ````markdown
 # Arkitektur + navigation — READ-ONLY analys — 2026-06-15
@@ -807,51 +852,6 @@ const navigateDrawerPath = (path: string) =>
 const handleVardagRowClick = (item: (typeof DRAWER_VARDAG_ITEMS)[number]) =>
 ⋮----
 onTouchStart=
-````
-
-## File: src/modules/shell/LivLauncherGrid.tsx
-````typescript
-import type { LucideIcon } from 'lucide-react';
-import {
-  ChevronRight,
-  Clock,
-  FolderKanban,
-  Sparkles,
-  Sprout,
-  Wallet,
-} from 'lucide-react';
-import { clsx } from 'clsx';
-import type { CalmCardGlow } from '@/shared/ui/BentoCard';
-import {
-  LIV_LAUNCHER_EXTERNAL,
-  LIV_LAUNCHER_INLINE_TABS,
-} from './livLauncherRoutes';
-import { LIV_LAUNCHER_PREVIEWS } from './livLauncherPreviews';
-⋮----
-export type LivLauncherId =
-  | 'kompasser'
-  | 'ekonomi'
-  | 'mabra'
-  | 'projekt'
-  | 'arbetsliv';
-⋮----
-type LauncherCardDef = {
-  id: LivLauncherId;
-  label: string;
-  hint: string;
-  icon: LucideIcon;
-  glow: CalmCardGlow;
-  external?: boolean;
-};
-⋮----
-type LivLauncherGridProps = {
-  activeId: LivLauncherId;
-  onSelect: (id: LivLauncherId) => void;
-};
-⋮----
-export function LivLauncherGrid(
-⋮----
-className=
 ````
 
 ## File: src/modules/core/navigation/navTruth.ts

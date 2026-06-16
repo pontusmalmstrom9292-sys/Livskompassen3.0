@@ -1166,6 +1166,51 @@ onNavigate: ()
 className=
 ````
 
+## File: src/modules/shell/LivLauncherGrid.tsx
+````typescript
+import type { LucideIcon } from 'lucide-react';
+import {
+  ChevronRight,
+  Clock,
+  FolderKanban,
+  Sparkles,
+  Sprout,
+  Wallet,
+} from 'lucide-react';
+import { clsx } from 'clsx';
+import type { CalmCardGlow } from '@/shared/ui/BentoCard';
+import {
+  LIV_LAUNCHER_EXTERNAL,
+  LIV_LAUNCHER_INLINE_TABS,
+} from './livLauncherRoutes';
+import { LIV_LAUNCHER_PREVIEWS } from './livLauncherPreviews';
+⋮----
+export type LivLauncherId =
+  | 'kompasser'
+  | 'ekonomi'
+  | 'mabra'
+  | 'projekt'
+  | 'arbetsliv';
+⋮----
+type LauncherCardDef = {
+  id: LivLauncherId;
+  label: string;
+  hint: string;
+  icon: LucideIcon;
+  glow: CalmCardGlow;
+  external?: boolean;
+};
+⋮----
+type LivLauncherGridProps = {
+  activeId: LivLauncherId;
+  onSelect: (id: LivLauncherId) => void;
+};
+⋮----
+export function LivLauncherGrid(
+⋮----
+className=
+````
+
 ## File: src/modules/shell/livLauncherPreviews.tsx
 ````typescript
 import type { ReactNode } from 'react';
@@ -1989,51 +2034,6 @@ type DockZone = {
 active=
 ````
 
-## File: src/modules/shell/LivLauncherGrid.tsx
-````typescript
-import type { LucideIcon } from 'lucide-react';
-import {
-  ChevronRight,
-  Clock,
-  FolderKanban,
-  Sparkles,
-  Sprout,
-  Wallet,
-} from 'lucide-react';
-import { clsx } from 'clsx';
-import type { CalmCardGlow } from '@/shared/ui/BentoCard';
-import {
-  LIV_LAUNCHER_EXTERNAL,
-  LIV_LAUNCHER_INLINE_TABS,
-} from './livLauncherRoutes';
-import { LIV_LAUNCHER_PREVIEWS } from './livLauncherPreviews';
-⋮----
-export type LivLauncherId =
-  | 'kompasser'
-  | 'ekonomi'
-  | 'mabra'
-  | 'projekt'
-  | 'arbetsliv';
-⋮----
-type LauncherCardDef = {
-  id: LivLauncherId;
-  label: string;
-  hint: string;
-  icon: LucideIcon;
-  glow: CalmCardGlow;
-  external?: boolean;
-};
-⋮----
-type LivLauncherGridProps = {
-  activeId: LivLauncherId;
-  onSelect: (id: LivLauncherId) => void;
-};
-⋮----
-export function LivLauncherGrid(
-⋮----
-className=
-````
-
 ## File: docs/external-ai/CHATBOX-LATHUND.md
 ````markdown
 # ChatBox AI — Lathund (7 dagar)
@@ -2801,38 +2801,34 @@ function RedirectArkivToValvet()
 
 Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
-**Senast uppdaterad:** 2026-06-16 (Våg 3 Nav H1–H4 + handoff pack)
+**Senast uppdaterad:** 2026-06-16 (Backend masterplan FREEZE + extern GO)
 
 | Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
 |-----------|-------------|--------|-------|------------|
-| Security core (WORM + vault + guards) | `firestore.rules`, `unlockVault.ts`, `callableGuards.ts` | **LOCK** | valv-security PASS 2026-06-15 | **CP-1** |
-| Locked UX §11–17 | `.context/locked-ux-features.md` | **LOCK** | locked-ux PASS 2026-06-15 | **CP-1** |
-| G10 Inkast backend | `inboxClassifier.ts`, `submitInkastLite.ts`, `inkastStorageOnFinalize.ts` | **LOCK** | inkast + inbox PASS 2026-06-15 | **CP-3** |
-| G10 Inkast UI (CapturePanel + filer) | `CapturePanel.tsx`, `CaptureSuperModule.tsx` | **LOCK** | build + locked-ux + inkast PASS 2026-06-15 | **CP-4** |
-| Upload unified (Valv DirectPanel) | `InkastDirectPanel.tsx` | **WIP** | behålls tills steg 2 | CP-4 defer |
-| SynapseBus (4 triggers) | `synapseBus.ts`, `driveIngestSynapse.ts`, `dcapAlertSynapse.ts`, `journalWovenSynapse.ts` | **LOCK** | build + orkester PASS 2026-06-15 | **CP-5** |
-| App Check (kod + Console Enforce) | `appCheck.ts`, `callableGuards.ts`, Firebase Console | **LOCK** | inkast + valv-security PASS 2026-06-15 | **CP-6** |
-| Deploy wave docs | `DEPLOY-CHATBOT-WAVE.md` | **LOCK** | — | **CP-6** |
-| Upload unified SPEC | `UPLOAD-UNIFIED-SPEC.md` | **APPROVED** | CP-2 manuell | **CP-2** |
-| Audio MIME i Inkast | `inkastMimeTypes.ts` | **LOCK** | CP-3 backend | **CP-3** |
-| inkastSourceModule allowlist | `inkastSourceModule.ts` | **LOCK** | CP-3 | **CP-3** |
-| Storage onFinalize inkast | `onInkastEvidenceFinalized` | **LOCK** | build PASS | **CP-3** |
-| Valv modul | `src/modules/features/lifeJournal/evidence/vault/` | **LOCK** | build + locked-ux + valv + entities + orkester + valv-mode PASS 2026-06-16 | **B1** |
-| ChatBox bifoga + sync | `bifoga/`, `sync_chatbox_bifoga.mjs` | **LOCK** | — | **CP-7** |
-| LIFE-OS core lock doc | `LIFE-OS-CORE-LOCKED.md` | **LOCK** | — | **CP-7** |
-| MåBra 19.2–19.5 | hybrid-8, evolution_ledger | **DEFER** | — | efter core lock |
+| Security core (WORM + vault + guards) | `firestore.rules`, `unlockVault.ts`, `callableGuards.ts` | **LOCK** | tier1 + valv-gate 2026-06-16 | **CP-1** |
+| Locked UX §11–17 | `.context/locked-ux-features.md` | **LOCK** | locked-ux PASS 2026-06-16 | **CP-1** |
+| G10 Inkast backend | `inboxClassifier.ts`, `submitInkastLite.ts`, `inkastStorageOnFinalize.ts` | **LOCK** | inkast + inbox + inkast-upload 2026-06-16 | **CP-3** |
+| G10 Inkast UI (CapturePanel + filer) | `CapturePanel.tsx`, `CaptureSuperModule.tsx` | **LOCK** | inkast PASS 2026-06-16 | **CP-4** |
+| Upload unified (Valv DirectPanel) | `InkastDirectPanel.tsx`, `VaultInkastCompact.tsx` | **LOCK** | inkast-upload + valv-compact 2026-06-16 | **CP-4b** |
+| SynapseBus (4 triggers) | `synapseBus.ts`, synapse handlers | **LOCK** | synapse-triggers + orkester 2026-06-16 | **CP-5** |
+| ADK Manifest runtime | `adk/manifest.ts`, `registry.ts`, `orchestrator.ts` | **LOCK** | manifest + orkester 2026-06-16 | **CP-5b** |
+| Valv chat E2E | `valvChatAgent.ts`, `valvChatQuery` | **LOCK** | valv-chat-e2e 2026-06-16 | **CP-8** |
+| App Check (kod) | `appCheck.ts`, `callableGuards.ts` | **LOCK** | tier1 2026-06-16 | **CP-6** |
+| Valv modul | `evidence/vault/` | **LOCK** | B1 + valv-mode 2026-06-16 | **B1** |
+| CI deploy | `.github/workflows/firebase-hosting-main.yml` | **LOCK** | smoke:tier1 + functions deploy | **CP-9** |
+| MåBra 19.2–19.5 / wave-2 / M3.0-C | — | **DEFER** | — | efter FREEZE |
+| AI-assistent UI | — | **DEFER** | — | — |
 
 ## Statusförklaring
 
 - **LOCK** — smoke PASS, får inte refaktoreras utan explicit OK + snapshot
-- **OPEN** — under aktiv utveckling eller väntar på manuellt steg (Console)
-- **WIP** — delvis klar, snapshot vid nästa CP om PASS
+- **FREEZE** — backend-kärnan låst; endast bugfix + content ingest efter KEEP
 - **DEFER** — medvetet senarelagt
 
 ## Nästa steg (Pontus)
 
-1. ~~B1 Valv CHECKPOINT~~ — **klar** 2026-06-16
-2. ~~Våg 2 Nav micro (F2/F3/F4)~~ — **klar** 2026-06-16
-3. ~~Våg 3 Nav H1–H4~~ — **klar** 2026-06-16 (redirects + PMIR)
-4. **Nästa:** Fas 19.3 token expansion · Upload steg 2 · supermodule wave-2b
+1. **Använd:** Ladda skärmdump via Valv → Inkast → granska WORM → ställ fråga i Valv-chat
+2. ~~**Extern review:** Prompt G~~ — **GO** 2026-06-16 (Gemini + Opus, `imports/BACKEND-MASTERPLAN-REVIEW-SVAR.md`)
+3. **Inget nytt:** Wave-2 polish, M3.0-C, AI-assistent UI förblir DEFER
+4. **Post-FREEZE (valfritt):** smoke-luckor — Barnen guard, HITL metadata, Zero Footprint
 ````

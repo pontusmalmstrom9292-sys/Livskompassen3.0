@@ -401,151 +401,6 @@ G7–G16 backend: **done** — [`Arkiv-GAP-REGISTER.md`](../docs/specs/modules/A
 6. Jämför functions-lista mot [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md)
 ````
 
-## File: functions/src/adk/synapses/paralysBrytarenSynapse.ts
-````typescript
-import { VertexAI } from '@google-cloud/vertexai';
-import { GCP_PROJECT_ID, GCP_REGION } from '../../config';
-import { PARALYS_BRYTAREN_SYSTEM_PROMPT } from '../../sharedRules';
-import { MICRO_STEP_MAX_SECONDS, type MicroStep } from '../types';
-⋮----
-export function isHeavyResponse(text: string): boolean
-⋮----
-function clampSeconds(n: number): number
-⋮----
-export function breakIntoMicroStepsDeterministic(text: string): MicroStep[]
-⋮----
-function inferPhysicalAnchor(instruction: string): string
-⋮----
-export async function breakIntoMicroSteps(text: string): Promise<MicroStep[]>
-⋮----
-export async function applyParalysBreak(agentText: string): Promise<MicroStep[]>
-````
-
-## File: functions/src/adk/synapses/synapseBus.ts
-````typescript
-import type { SynapseEvent, SynapseTrigger } from '../types';
-import type { AdkOrchestrator } from '../orchestrator';
-import { handleDriveIngest } from './driveIngestSynapse';
-import { handleDcapAlert } from './dcapAlertSynapse';
-import { handleJournalWoven } from './journalWovenSynapse';
-import { applyParalysBreak } from './paralysBrytarenSynapse';
-import type { DriveIngestPayload, JournalWovenPayload, DcapAlertPayload } from '../types';
-⋮----
-type SynapseHandler = (
-  orchestrator: AdkOrchestrator,
-  event: SynapseEvent
-) => Promise<unknown>;
-⋮----
-export async function emitSynapse(
-  orchestrator: AdkOrchestrator,
-  event: SynapseEvent
-): Promise<unknown>
-````
-
-## File: functions/src/adk/orchestrator.ts
-````typescript
-import type { A2AMessage } from '../agents/types';
-import { resolveExecutorId } from '../agents/cards';
-import { runExecutor } from './executors/runExecutor';
-import { validateIntent, getAgentCard, assertCollectionAccess } from './registry';
-import { appendMutation, createTrace, clearSynapseState } from './stateStore';
-import { applyParalysBreak, isHeavyResponse } from './synapses/paralysBrytarenSynapse';
-import { assertBackendSiloIsolation, type SiloId } from './manifest';
-import type { DispatchOptions, OrchestrationResult } from './types';
-⋮----
-function gatekeeperSanitize(text: string): string
-⋮----
-export class AdkOrchestrator
-⋮----
-async dispatch(message: A2AMessage, options: DispatchOptions =
-⋮----
-async dispatchFromSupervisor(
-    route: { productAgentId: string; executorId: string; intent: string },
-    userInput: string,
-    userId: string,
-    ragContext: string[],
-    dcapPayload: Record<string, unknown>
-): Promise<OrchestrationResult>
-⋮----
-clearContext(contextId: string): void
-⋮----
-private intentAllowed(productAgentId: string, executorId: string, intent: string): boolean
-⋮----
-private enforceManifestPolicy(
-    executorId: string,
-    message: A2AMessage,
-    options: DispatchOptions,
-): void
-⋮----
-initTrace(contextId: string)
-⋮----
-private errorResult(contextId: string, agentId: string, error: string): OrchestrationResult
-````
-
-## File: functions/src/adk/stateStore.ts
-````typescript
-import crypto from 'crypto';
-import type { StateMutation, SynapseState } from './types';
-⋮----
-export function hashPayload(payload: Record<string, unknown>): string
-⋮----
-export function createTrace(contextId: string): SynapseState
-⋮----
-export function getTrace(contextId: string): SynapseState | undefined
-⋮----
-export function appendMutation(
-  contextId: string,
-  mutation: Omit<StateMutation, 'timestamp' | 'payloadHash'> & { payload: Record<string, unknown> }
-): SynapseState
-⋮----
-export function clearSynapseState(contextId: string): void
-````
-
-## File: functions/src/agents/cards/index.ts
-````typescript
-import { AgentCard } from '../types';
-⋮----
-export function resolveExecutorId(productAgentId: string): string
-⋮----
-export type SupervisorRoute = {
-  productAgentId: string;
-  executorId: string;
-  intent: string;
-};
-⋮----
-export function routeFromDcap(
-  riskScore: number,
-  recommendedAction: 'NONE' | 'COACHING' | 'ALERT'
-): SupervisorRoute
-````
-
-## File: functions/src/lib/callableGuards.ts
-````typescript
-import { HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
-⋮----
-import { assertRateLimit, RateLimitExceeded } from './rateLimit';
-⋮----
-export function isAppCheckEnforcementEnabled(): boolean
-⋮----
-export function assertAppCheckV2(request: Pick<CallableRequest, 'app'>): void
-⋮----
-export function assertAppCheckV1(context: functions.https.CallableContext): void
-⋮----
-function rethrowRateLimitV1(err: unknown): never
-⋮----
-export async function guardSensitiveCallableV2(
-  request: CallableRequest,
-  rateLimitKey: string,
-  maxPerMinute = 30,
-): Promise<string>
-⋮----
-export async function guardSensitiveCallableV1(
-  context: functions.https.CallableContext,
-  rateLimitKey: string,
-  maxPerMinute = 30,
-): Promise<string>
-````
-
 ## File: docs/specs/modules/Arkiv-GAP-REGISTER.md
 ````markdown
 # Arkiv-GAP-REGISTER — implementation efter låsning
@@ -739,6 +594,111 @@ npm run smoke:kunskap
 ```
 ````
 
+## File: functions/src/adk/synapses/paralysBrytarenSynapse.ts
+````typescript
+import { VertexAI } from '@google-cloud/vertexai';
+import { GCP_PROJECT_ID, GCP_REGION } from '../../config';
+import { PARALYS_BRYTAREN_SYSTEM_PROMPT } from '../../sharedRules';
+import { MICRO_STEP_MAX_SECONDS, type MicroStep } from '../types';
+⋮----
+export function isHeavyResponse(text: string): boolean
+⋮----
+function clampSeconds(n: number): number
+⋮----
+export function breakIntoMicroStepsDeterministic(text: string): MicroStep[]
+⋮----
+function inferPhysicalAnchor(instruction: string): string
+⋮----
+export async function breakIntoMicroSteps(text: string): Promise<MicroStep[]>
+⋮----
+export async function applyParalysBreak(agentText: string): Promise<MicroStep[]>
+````
+
+## File: functions/src/adk/synapses/synapseBus.ts
+````typescript
+import type { SynapseEvent, SynapseTrigger } from '../types';
+import type { AdkOrchestrator } from '../orchestrator';
+import { handleDriveIngest } from './driveIngestSynapse';
+import { handleDcapAlert } from './dcapAlertSynapse';
+import { handleJournalWoven } from './journalWovenSynapse';
+import { applyParalysBreak } from './paralysBrytarenSynapse';
+import type { DriveIngestPayload, JournalWovenPayload, DcapAlertPayload } from '../types';
+⋮----
+type SynapseHandler = (
+  orchestrator: AdkOrchestrator,
+  event: SynapseEvent
+) => Promise<unknown>;
+⋮----
+export async function emitSynapse(
+  orchestrator: AdkOrchestrator,
+  event: SynapseEvent
+): Promise<unknown>
+````
+
+## File: functions/src/adk/stateStore.ts
+````typescript
+import crypto from 'crypto';
+import type { StateMutation, SynapseState } from './types';
+⋮----
+export function hashPayload(payload: Record<string, unknown>): string
+⋮----
+export function createTrace(contextId: string): SynapseState
+⋮----
+export function getTrace(contextId: string): SynapseState | undefined
+⋮----
+export function appendMutation(
+  contextId: string,
+  mutation: Omit<StateMutation, 'timestamp' | 'payloadHash'> & { payload: Record<string, unknown> }
+): SynapseState
+⋮----
+export function clearSynapseState(contextId: string): void
+````
+
+## File: functions/src/agents/cards/index.ts
+````typescript
+import { AgentCard } from '../types';
+⋮----
+export function resolveExecutorId(productAgentId: string): string
+⋮----
+export type SupervisorRoute = {
+  productAgentId: string;
+  executorId: string;
+  intent: string;
+};
+⋮----
+export function routeFromDcap(
+  riskScore: number,
+  recommendedAction: 'NONE' | 'COACHING' | 'ALERT'
+): SupervisorRoute
+````
+
+## File: functions/src/lib/callableGuards.ts
+````typescript
+import { HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
+⋮----
+import { assertRateLimit, RateLimitExceeded } from './rateLimit';
+⋮----
+export function isAppCheckEnforcementEnabled(): boolean
+⋮----
+export function assertAppCheckV2(request: Pick<CallableRequest, 'app'>): void
+⋮----
+export function assertAppCheckV1(context: functions.https.CallableContext): void
+⋮----
+function rethrowRateLimitV1(err: unknown): never
+⋮----
+export async function guardSensitiveCallableV2(
+  request: CallableRequest,
+  rateLimitKey: string,
+  maxPerMinute = 30,
+): Promise<string>
+⋮----
+export async function guardSensitiveCallableV1(
+  context: functions.https.CallableContext,
+  rateLimitKey: string,
+  maxPerMinute = 30,
+): Promise<string>
+````
+
 ## File: functions/src/adk/synapses/dcapAlertSynapse.ts
 ````typescript
 import { hashPayload } from '../stateStore';
@@ -796,6 +756,46 @@ export interface JournalWovenResult {
 }
 ⋮----
 export async function handleJournalWoven(payload: JournalWovenPayload): Promise<JournalWovenResult>
+````
+
+## File: functions/src/adk/orchestrator.ts
+````typescript
+import type { A2AMessage } from '../agents/types';
+import { resolveExecutorId } from '../agents/cards';
+import { runExecutor } from './executors/runExecutor';
+import { validateIntent, getAgentCard, assertCollectionAccess } from './registry';
+import { appendMutation, createTrace, clearSynapseState } from './stateStore';
+import { applyParalysBreak, isHeavyResponse } from './synapses/paralysBrytarenSynapse';
+import { assertBackendSiloIsolation, type SiloId } from './manifest';
+import type { DispatchOptions, OrchestrationResult } from './types';
+⋮----
+function gatekeeperSanitize(text: string): string
+⋮----
+export class AdkOrchestrator
+⋮----
+async dispatch(message: A2AMessage, options: DispatchOptions =
+⋮----
+async dispatchFromSupervisor(
+    route: { productAgentId: string; executorId: string; intent: string },
+    userInput: string,
+    userId: string,
+    ragContext: string[],
+    dcapPayload: Record<string, unknown>
+): Promise<OrchestrationResult>
+⋮----
+clearContext(contextId: string): void
+⋮----
+private intentAllowed(productAgentId: string, executorId: string, intent: string): boolean
+⋮----
+private enforceManifestPolicy(
+    executorId: string,
+    message: A2AMessage,
+    options: DispatchOptions,
+): void
+⋮----
+initTrace(contextId: string)
+⋮----
+private errorResult(contextId: string, agentId: string, error: string): OrchestrationResult
 ````
 
 ## File: functions/src/agents/kompis-supervisor.ts
@@ -2554,7 +2554,7 @@ service cloud.firestore {
 
 Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
-**Senast uppdaterad:** 2026-06-16 (Backend masterplan FREEZE)
+**Senast uppdaterad:** 2026-06-16 (Backend masterplan FREEZE + extern GO)
 
 | Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
 |-----------|-------------|--------|-------|------------|
@@ -2581,6 +2581,7 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 ## Nästa steg (Pontus)
 
 1. **Använd:** Ladda skärmdump via Valv → Inkast → granska WORM → ställ fråga i Valv-chat
-2. **Extern review:** Kör Prompt G (Gemini + Opus) med bifogade register
+2. ~~**Extern review:** Prompt G~~ — **GO** 2026-06-16 (Gemini + Opus, `imports/BACKEND-MASTERPLAN-REVIEW-SVAR.md`)
 3. **Inget nytt:** Wave-2 polish, M3.0-C, AI-assistent UI förblir DEFER
+4. **Post-FREEZE (valfritt):** smoke-luckor — Barnen guard, HITL metadata, Zero Footprint
 ````

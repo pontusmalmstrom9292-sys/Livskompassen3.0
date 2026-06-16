@@ -621,80 +621,6 @@ gantt
 **Källor:** Branschriktlinjer för komponentbaserade design tokens, React Native-dokumentation om tillgänglighet, samt jämförelser Flutter vs React Native har legat till grund för rekommendationerna. Resultatet är ett modulärt, testat system med lågt kognitivt golv och tydliga nästa steg för användaren.
 ````
 
-## File: docs/external-ai/imports/gap-matrix-2026-06-16.md
-````markdown
-# Gap-matris — GPT Life OS vs Livskompassen3.0
-
-**Datum:** 2026-06-16 · **Källor:** GPT-mockup, `deep-research-ide.md`, repo-kanon  
-**Stack-beslut:** React + Vite + Capacitor KEEP — Flutter/RN REJECT
-
----
-
-## KEEP (redan rätt — lås)
-
-| Område | Repo |
-|--------|------|
-| 4 zoner + bakgrunds-Fyren | `navTruth.ts`, supermodule-ui-masterplan |
-| InputSuperModule (7 hubs + 6 routers) | `src/modules/**` |
-| Obsidian `#020617`–`#050b14` + guld `#d4af37` | `index.css`, COLOR-POLICY |
-| Cinzel hub-rubriker | `typeScale.ts` — inte Cormorant i prod |
-| P3 Kanban `/planering?tab=handling` | Locked UX §14 |
-| Valv B1 LOCK | `ValvInputSuperModule`, WORM |
-| Tre silos, no cross-RAG | grunder-kanon |
-| 4-zons dock + Fyren center-handle | `FloatingDock.tsx` |
-
----
-
-## BUILD (nästa — i ordning)
-
-| # | Vad | Gate |
-|---|-----|------|
-| 1 | Nav Våg 3 H1–H4 | PMIR |
-| 2 | Fas 19.3 hex→tokens | Efter Våg 3 smoke |
-| 3 | Fas 19.2 MåBra hybrid-8 | Efter tokens |
-| 4 | Upload unified steg 2 | Efter 19.2 |
-| 5 | UI wave-2 polish (GPT-mockup känsla) | ChatBox + AI Studio → Cursor |
-| 6 | Life OS-loop copy/routing | Efter polish |
-
----
-
-## DEFER
-
-- Hem `/` → Hjärtat merge (egen PMIR)
-- Fyren global kapacitetsmotor (Våg C)
-- M3.0-C Fitness/Näring
-- Design-arkiv ~400 filer (hygiene våg D, PMIR)
-- Detox e2e / Flutter CI
-
----
-
-## REJECT
-
-| Förslag | Skäl |
-|---------|------|
-| Flutter / React Native omskrivning | Stack + Capacitor investerat |
-| Teal `#2E6466` som aktiv chrome | COLOR-POLICY |
-| Ljus/nature-tema | Obsidian Calm lock |
-| GPT 5-tab nav (Home\|Plan\|Fyren\|Journal\|More) | Dock+drawer kanon |
-| Ta bort Handling-slot / P3 | Locked UX |
-| Cross-RAG / auto-promote barn→Valv | U1 + locked UX |
-| Streak/XP | Governance |
-
----
-
-## GPT-mockup → repo-mappning
-
-| Mockup | Repo idag | Åtgärd |
-|--------|-----------|--------|
-| Hem + dagens fokus | `/` Capture + Hjärtat | Polish; merge DEFER |
-| Planering 3 kolumner | P3 Kanban | Polish |
-| Dagbok | `/hjartat?tab=reflektion` | KEEP |
-| Familj | `/familjen` superhub | Wave-2 polish |
-| Ekonomi | `/vardagen?tab=ekonomi` | H1 redirect Våg 3 |
-| Valvet | `/valvet` B1 LOCK | Visuell förfining only |
-| Bottom nav 5 ikoner | Dock 4 + drawer | Mappa intent, ej 1:1 |
-````
-
 ## File: docs/external-ai/leveranser/ui-design/2026-06-15-b1-valv-spec.md
 ````markdown
 # Leverans B1-2 — Valv SuperModule SPEC (ChatBox-equivalent)
@@ -861,100 +787,6 @@ Efter B1 smoke PASS → B2 Hjärtat enligt `UI-WAVE-ROADMAP.md`.
 - Barnporten: HITL → Valv via `SaveAsEvidencePrompt`
 ````
 
-## File: docs/DOC-INDEX.md
-````markdown
-# DOC-INDEX — var hittar jag vad?
-
-**Senast uppdaterad:** 2026-06-16 (Fas 0 handoff)  
-**Regel:** Om två filer säger olika saker — **register vinner** (se tabell nedan).
-
----
-
-## 1. Vad gäller nu? (läs dessa först)
-
-| Fråga | Fil |
-|-------|-----|
-| Vad är LOCK / WIP / nästa steg? | [`docs/external-ai/LIFE-OS-BUILD-STATE.md`](external-ai/LIFE-OS-BUILD-STATE.md) |
-| UI-körplan (Körfält B) | [`docs/evaluations/2026-06-16-supermodule-ui-masterplan.md`](evaluations/2026-06-16-supermodule-ui-masterplan.md) |
-| Backend Fas 19–24 | [`docs/evaluations/2026-06-15-fas19-masterplan-v2.md`](evaluations/2026-06-15-fas19-masterplan-v2.md) |
-| 1-sides status | [`docs/evaluations/SENASTE-SAMMANFATTNING.md`](evaluations/SENASTE-SAMMANFATTNING.md) |
-| Routes + moduler | [`docs/MODUL-FUNKTIONS-REGISTER.md`](MODUL-FUNKTIONS-REGISTER.md) |
-| Låst UX (får inte tas bort) | [`.context/locked-ux-features.md`](../.context/locked-ux-features.md) |
-
-**Nästa arbetsgren:** Våg 3 Nav H1–H4 — **PMIR före kod**.
-
----
-
-## 2. Var lägger jag nya filer?
-
-| Typ | Mapp | Exempel |
-|-----|------|---------|
-| Beslut / eval | `docs/evaluations/` | `2026-06-16-nav-pmir.md` |
-| Modul-SPEC | `docs/specs/modules/` | `Mabra-INPUT-SUPERHUB-SPEC.md` |
-| Design (aktiv) | `docs/design/` | endast KEEP enligt register |
-| ChatBox-leverans | `docs/external-ai/leveranser/` | `2026-06-16-fas-09-vision.md` |
-| Extern import | `docs/external-ai/imports/` | deep-research, gap-matrix |
-| Handoff (genereras) | `exports/chatbot-handoff/` | `npm run chatbot:pack:handoff` |
-| Arkiv (historik) | `docs/archive/` | flyttade utkast — **inte** sanning |
-
----
-
-## 3. Vad är arkiv vs aktiv?
-
-| Mapp | Roll |
-|------|------|
-| `docs/archive/` | Historik — läs för kontext, bygg inte härifrån |
-| `docs/archive/design-2026-06/` | Reserverad för design-flytt (icons-proposals m.m.) |
-| `exports/` | **Regenereras** — bifoga till ChatBox, redigera inte manuellt |
-| `docs/external-ai/bifoga/` | Speglad kopia för upload — `npm run chatbot:sync:bifoga` |
-
----
-
-## 4. AI-verktyg — vilket för vad?
-
-| Verktyg | När | Pack / prompt |
-|---------|-----|----------------|
-| **Cursor** | Prod-kod, smoke, LOCK | — |
-| **ChatBox** | SPEC, PMIR, wireframes | `exports/chatbot-handoff/` + `bifoga/` |
-| **Google AI Studio** | Design-remix + mockup-bild | `npm run design:pack` + `docs/ai-studio/DESIGN-REMIX-PROMPT.md` |
-| **NotebookLM** | Research, motsägelser | `npm run google-ai-pro:pack` |
-
-Se [`docs/external-ai/MODEL-PICKER.md`](external-ai/MODEL-PICKER.md).
-
----
-
-## 5. Design — vad är aktivt?
-
-Kanon: [`docs/external-ai/DESIGN-KEEP-REGISTER.md`](external-ai/DESIGN-KEEP-REGISTER.md)
-
-**~570 filer** i `docs/design/` — de flesta är labb/utkast. Rör inte `icons-proposals/` utan hygiene-PMIR.
-
----
-
-## 6. Kommandon (handoff)
-
-```bash
-cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
-npm run chatbot:pack:handoff    # alla ChatBox-repomixar
-npm run chatbot:sync:bifoga     # speglar till bifoga/
-```
-
-Bifoga-mapp: `docs/external-ai/bifoga/` — se [`bifoga/README.md`](external-ai/bifoga/README.md).
-
----
-
-## 7. Kanon-tier (planering-kanon-guard)
-
-1. `.context/system-plan.md`
-2. `docs/specs/modules/Arkiv-GAP-REGISTER.md`
-3. `docs/BRANCH-KARTA.md`
-4. `docs/evaluations/` (senaste indexerade)
-5. `.context/locked-ux-features.md`
-6. `docs/INNEHALL-REGISTER.md`
-7. `docs/SYSTEM_PLAN_v2.md`
-8. `docs/evaluations/2026-06-15-fas19-masterplan-v2.md`
-````
-
 ## File: docs/evaluations/2026-06-15-fas19-masterplan-v2.md
 ````markdown
 # Fas 19 — Masterplan v2 (slutgiltig)
@@ -1111,6 +943,115 @@ Våg 2 **klar** 2026-06-16 — F2 header «Hjärtat», F3 Familjen kompakt nav p
 B1 **klar** — snapshot `~/Livskompassen-snapshots/2026-06-16-valv`.
 ````
 
+## File: docs/external-ai/imports/gap-matrix-2026-06-16.md
+````markdown
+# Gap-matris — GPT Life OS vs Livskompassen3.0
+
+**Datum:** 2026-06-16 · **Källor:** GPT-mockup, `deep-research-ide.md`, PHASE-09 steg 1–3  
+**Stack-beslut:** React + Vite + Capacitor KEEP — Flutter/RN REJECT  
+**Leveranser:** [`steg1`](../leveranser/2026-06-16-fas-09-gap-steg1.md) · [`steg2`](../leveranser/2026-06-16-fas-09-gap-steg2-wave2-polish.md) · [`steg3`](../leveranser/2026-06-16-fas-09-gap-steg3-leverans.md) · [`vision`](../leveranser/2026-06-16-fas-09-life-os-vision.md)
+
+---
+
+## KEEP (redan rätt — lås)
+
+| Område | Repo |
+|--------|------|
+| 4 zoner + bakgrunds-Fyren | `navTruth.ts`, supermodule-ui-masterplan |
+| InputSuperModule (7 hubs + 6 routers) | `src/modules/**` |
+| Obsidian `#020617`–`#050b14` + guld `#d4af37` | `index.css`, COLOR-POLICY |
+| Cinzel hub-rubriker (`font-display-serif`) | `typeScale.ts` — inte Cormorant i prod |
+| P3 Kanban `/planering?tab=handling` | Locked UX §14 |
+| Valv B1 LOCK | `ValvInputSuperModule`, WORM |
+| Tre silos, no cross-RAG | grunder-kanon |
+| 4-zons dock + Fyren center-handle | `FloatingDock.tsx` |
+| Privat single-user, anti-XP | Governance |
+| Aktiv flik-linje guld (ej fylld teal-knapp) | MENU-DRAWER-KANON |
+
+---
+
+## Gap per zon (PHASE-09 steg 1)
+
+| Zon | KEEP | DEFER | REJECT |
+|-----|------|-------|--------|
+| Idé | Silos, AI-prompt backend | AI-assistent UI | — |
+| UX-flöde | Barnfokus, P3 Kanban | Daglig linje, UX-diagram | — |
+| UI-design | Obsidian Calm, tokens | Wave-2 polish | Teal primär chrome, hårdkodade hex |
+| Wireframes | 4-tab nav, modulskärmar | States, hover | 5-tab nav, Hem→Hjärtat utan PMIR |
+| Designsystem | Struktur, låsta ikoner | States, mikrocopy | — |
+| Navigation | Kompass, max 4 flikar | — | Cross-RAG nav, Hem→Hjärtat merge |
+| Sammanfattning | Privat, fokus, anti-XP | — | — |
+
+---
+
+## BUILD (nästa — i ordning)
+
+| # | Vad | Gate | Status 2026-06-16 |
+|---|-----|------|-------------------|
+| 1 | Nav Våg 3 H1–H4 | PMIR | **Implementerad** — [`nav-vag3-pmir`](../../evaluations/2026-06-16-nav-vag3-pmir.md) |
+| 2 | Fas 19.3 hex→tokens | Efter Våg 3 smoke | **Våg 1 klar** — zon-shells + accent-alpha tokens |
+| 3 | Fas 19.2 MåBra hybrid-8 | Efter tokens | **Klar** — 8 pelarkort + zon-shell tokens |
+| 4 | Upload unified steg 2 | Efter 19.2 | WIP |
+| 5 | UI wave-2 polish | Efter tokens — se lista nedan | SPEC klar (steg 2) |
+| 6 | Life OS-loop copy/routing | Efter polish | DEFER |
+
+### BUILD #5 — wave-2 polish (DEFER, ej prod än)
+
+**Idé/moduler:** expanders per modul · status-ikonindikatorer · «Endast för mig»-badge  
+**UX-flöde:** flödespilar · guld/cream position-highlight · tooltips · «dagens röda tråd»-banner  
+**UI:** guldaccent aktiv/notis · dim gray microcopy/disabled  
+**Wireframes:** knappstates (pressed/focus) · bildinlägg-ram i dagbok · nav-skugga dark mode  
+**Komponenter:** sekundär glow hover · kort-ikonknappar · mikrocopy · guld loading-spinner  
+**Navigation:** notis-badge på Mer · utökad touch-yta  
+**Sammanfattning:** guld-checklista (utan wow-animation)
+
+**Zon-wireframes (repo):** se [`2026-06-16-fas-09-life-os-vision.md`](../leveranser/2026-06-16-fas-09-life-os-vision.md) § B1–B4.
+
+---
+
+## DEFER
+
+- Hem `/` → Hjärtat merge (egen PMIR)
+- AI-assistent UI (väntar `sharedRules.ts` prompt-policy)
+- Fyren global kapacitetsmotor (Våg C)
+- M3.0-C Fitness/Näring
+- Design-arkiv ~400 filer (hygiene våg D, PMIR)
+- Detox e2e / Flutter CI
+- Kanban flip cards (ny interaktionsmodell — P3 låst)
+- Wow-faktor-animationer (ADHD-säkerhet)
+- Liten kompassikon vid punktlista (D1 — kräver godkännande)
+
+---
+
+## REJECT
+
+| Förslag | Skäl |
+|---------|------|
+| Flutter / React Native omskrivning | Stack + Capacitor investerat |
+| Teal `#2E6466` / mid-teal som aktiv chrome eller gradient-bakgrund | COLOR-POLICY |
+| Ljus/nature-tema | Obsidian Calm lock |
+| GPT 5-tab nav (Home\|Plan\|Fyren\|Journal\|More) | Dock+drawer kanon |
+| Ta bort Handling-slot / P3 | Locked UX |
+| Cross-RAG / auto-promote barn→Valv | U1 + locked UX |
+| Streak/XP / gamification-ton | Governance |
+| Kompass-rotation vid appstart | D1 `LivskompassMark` låst |
+| Hem→Hjärtat merge utan PMIR | Superhub-beslut |
+
+---
+
+## GPT-mockup → repo-mappning
+
+| Mockup | Repo idag | Åtgärd |
+|--------|-----------|--------|
+| Hem + dagens fokus | `/` Capture + Hjärtat | Polish; merge DEFER |
+| Planering 3 kolumner | P3 Kanban | Polish only (ej flip cards) |
+| Dagbok | `/hjartat?tab=reflektion` | KEEP |
+| Familj | `/familjen` superhub | Wave-2 polish |
+| Ekonomi | `/vardagen?tab=ekonomi` | Våg 3 redirect |
+| Valvet | `/valvet` B1 LOCK | Visuell förfining only |
+| Bottom nav 5 ikoner | Dock 4 + drawer | Mappa intent, ej 1:1 |
+````
+
 ## File: docs/external-ai/leveranser/ui-design/README.md
 ````markdown
 # Leveranser — UI & Design (Körfält B)
@@ -1129,6 +1070,106 @@ Spara svar från design-/UI-agenten här.
 **Efter leverans:** Pontus godkänner → Cursor implementerar → `npm run smoke:locked-ux`
 
 Koordinering: [`../UI-DESIGN-HANDOFF.md`](../UI-DESIGN-HANDOFF.md)
+````
+
+## File: docs/DOC-INDEX.md
+````markdown
+# DOC-INDEX — var hittar jag vad?
+
+**Senast uppdaterad:** 2026-06-16 (Backend masterplan PMIR)  
+**Regel:** Om två filer säger olika saker — **register vinner** (se tabell nedan).
+
+---
+
+## 1. Vad gäller nu? (läs dessa först)
+
+| Fråga | Fil |
+|-------|-----|
+| Vad är LOCK / WIP / nästa steg? | [`docs/external-ai/LIFE-OS-BUILD-STATE.md`](external-ai/LIFE-OS-BUILD-STATE.md) |
+| Backend låsning + första analys | [`docs/evaluations/2026-06-16-backend-masterplan-exekvering.md`](evaluations/2026-06-16-backend-masterplan-exekvering.md) |
+| UI-körplan (Körfält B) | [`docs/evaluations/2026-06-16-supermodule-ui-masterplan.md`](evaluations/2026-06-16-supermodule-ui-masterplan.md) |
+| Backend Fas 19–24 | [`docs/evaluations/2026-06-15-fas19-masterplan-v2.md`](evaluations/2026-06-15-fas19-masterplan-v2.md) |
+| 1-sides status | [`docs/evaluations/SENASTE-SAMMANFATTNING.md`](evaluations/SENASTE-SAMMANFATTNING.md) |
+| Routes + moduler | [`docs/MODUL-FUNKTIONS-REGISTER.md`](MODUL-FUNKTIONS-REGISTER.md) |
+| Låst UX (får inte tas bort) | [`.context/locked-ux-features.md`](../.context/locked-ux-features.md) |
+
+**Nästa arbetsgren:** Backend FREEZE — första bevisanalys via Valv Inkast (ingen ny feature utan PMIR).
+
+---
+
+## 2. Var lägger jag nya filer?
+
+| Typ | Mapp | Exempel |
+|-----|------|---------|
+| Beslut / eval | `docs/evaluations/` | `2026-06-16-nav-pmir.md` |
+| Modul-SPEC | `docs/specs/modules/` | `Mabra-INPUT-SUPERHUB-SPEC.md` |
+| Design (aktiv) | `docs/design/` | endast KEEP enligt register |
+| ChatBox-leverans | `docs/external-ai/leveranser/` | `2026-06-16-fas-09-vision.md` |
+| Extern granskning (Prompt G) | [`docs/external-ai/bifoga/06-backend-masterplan-review/`](external-ai/bifoga/06-backend-masterplan-review/) — `npm run chatbot:sync:backend-review` |
+| Handoff (genereras) | `exports/chatbot-handoff/` | `npm run chatbot:pack:handoff` |
+| NotebookLM (genereras) | `exports/google-ai-pro/notebooklm/` | `npm run notebooklm:pack:all` |
+| Arkiv (historik) | `docs/archive/` | flyttade utkast — **inte** sanning |
+| Äldre Gemini-handoff | `docs/archive/gemini-handoff-2026-06/` | superseded av `external-ai/leveranser/` |
+
+---
+
+## 3. Vad är arkiv vs aktiv?
+
+| Mapp | Roll |
+|------|------|
+| `docs/archive/` | Historik — läs för kontext, bygg inte härifrån |
+| `docs/archive/design-2026-06/` | Reserverad för design-flytt (icons-proposals m.m.) |
+| `exports/` | **Regenereras** — bifoga till ChatBox, redigera inte manuellt |
+| `docs/external-ai/bifoga/` | Speglad kopia för ChatBox upload — `npm run chatbot:sync:bifoga` |
+| `exports/google-ai-pro/notebooklm/` | NotebookLM kärna-pack — `npm run notebooklm:sync` |
+
+---
+
+## 4. AI-verktyg — vilket för vad?
+
+| Verktyg | När | Pack / prompt |
+|---------|-----|----------------|
+| **Cursor** | Prod-kod, smoke, LOCK | — |
+| **ChatBox** | SPEC, PMIR, wireframes | `exports/chatbot-handoff/` + `bifoga/` |
+| **Google AI Studio** | Design-remix + mockup-bild | `npm run design:pack` + `docs/ai-studio/DESIGN-REMIX-PROMPT.md` |
+| **NotebookLM** | Research, motsägelser | `npm run notebooklm:pack:all` → `exports/google-ai-pro/notebooklm/` |
+
+Se [`docs/external-ai/MODEL-PICKER.md`](external-ai/MODEL-PICKER.md).
+
+---
+
+## 5. Design — vad är aktivt?
+
+Kanon: [`docs/external-ai/DESIGN-KEEP-REGISTER.md`](external-ai/DESIGN-KEEP-REGISTER.md)
+
+**~83 aktiva filer** i `docs/design/` (KEEP enligt [`DESIGN-KEEP-REGISTER.md`](external-ai/DESIGN-KEEP-REGISTER.md)). Lab/utkast ligger i `docs/archive/design-2026-06/` (~244 filer). Rör inte arkiverade icons-proposals utan hygiene-PMIR.
+
+---
+
+## 6. Kommandon (handoff)
+
+```bash
+cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
+npm run chatbot:pack:handoff    # alla ChatBox-repomixar
+npm run chatbot:sync:bifoga     # speglar till bifoga/
+npm run notebooklm:pack:all     # NotebookLM kärna (inkl. repomix + system_sync)
+```
+
+Bifoga-mapp: `docs/external-ai/bifoga/` — se [`bifoga/README.md`](external-ai/bifoga/README.md).  
+NotebookLM: [`NOTEBOOKLM-LATHUND.md`](external-ai/NOTEBOOKLM-LATHUND.md).
+
+---
+
+## 7. Kanon-tier (planering-kanon-guard)
+
+1. `.context/system-plan.md`
+2. `docs/specs/modules/Arkiv-GAP-REGISTER.md`
+3. `docs/BRANCH-KARTA.md`
+4. `docs/evaluations/` (senaste indexerade)
+5. `.context/locked-ux-features.md`
+6. `docs/INNEHALL-REGISTER.md`
+7. `docs/SYSTEM_PLAN_v2.md`
+8. `docs/evaluations/2026-06-15-fas19-masterplan-v2.md`
 ````
 
 ## File: docs/evaluations/SESSION-INDEX.md
@@ -1251,38 +1292,34 @@ Koordinering: [`../UI-DESIGN-HANDOFF.md`](../UI-DESIGN-HANDOFF.md)
 
 Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
-**Senast uppdaterad:** 2026-06-16 (Våg 3 Nav H1–H4 + handoff pack)
+**Senast uppdaterad:** 2026-06-16 (Backend masterplan FREEZE + extern GO)
 
 | Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
 |-----------|-------------|--------|-------|------------|
-| Security core (WORM + vault + guards) | `firestore.rules`, `unlockVault.ts`, `callableGuards.ts` | **LOCK** | valv-security PASS 2026-06-15 | **CP-1** |
-| Locked UX §11–17 | `.context/locked-ux-features.md` | **LOCK** | locked-ux PASS 2026-06-15 | **CP-1** |
-| G10 Inkast backend | `inboxClassifier.ts`, `submitInkastLite.ts`, `inkastStorageOnFinalize.ts` | **LOCK** | inkast + inbox PASS 2026-06-15 | **CP-3** |
-| G10 Inkast UI (CapturePanel + filer) | `CapturePanel.tsx`, `CaptureSuperModule.tsx` | **LOCK** | build + locked-ux + inkast PASS 2026-06-15 | **CP-4** |
-| Upload unified (Valv DirectPanel) | `InkastDirectPanel.tsx` | **WIP** | behålls tills steg 2 | CP-4 defer |
-| SynapseBus (4 triggers) | `synapseBus.ts`, `driveIngestSynapse.ts`, `dcapAlertSynapse.ts`, `journalWovenSynapse.ts` | **LOCK** | build + orkester PASS 2026-06-15 | **CP-5** |
-| App Check (kod + Console Enforce) | `appCheck.ts`, `callableGuards.ts`, Firebase Console | **LOCK** | inkast + valv-security PASS 2026-06-15 | **CP-6** |
-| Deploy wave docs | `DEPLOY-CHATBOT-WAVE.md` | **LOCK** | — | **CP-6** |
-| Upload unified SPEC | `UPLOAD-UNIFIED-SPEC.md` | **APPROVED** | CP-2 manuell | **CP-2** |
-| Audio MIME i Inkast | `inkastMimeTypes.ts` | **LOCK** | CP-3 backend | **CP-3** |
-| inkastSourceModule allowlist | `inkastSourceModule.ts` | **LOCK** | CP-3 | **CP-3** |
-| Storage onFinalize inkast | `onInkastEvidenceFinalized` | **LOCK** | build PASS | **CP-3** |
-| Valv modul | `src/modules/features/lifeJournal/evidence/vault/` | **LOCK** | build + locked-ux + valv + entities + orkester + valv-mode PASS 2026-06-16 | **B1** |
-| ChatBox bifoga + sync | `bifoga/`, `sync_chatbox_bifoga.mjs` | **LOCK** | — | **CP-7** |
-| LIFE-OS core lock doc | `LIFE-OS-CORE-LOCKED.md` | **LOCK** | — | **CP-7** |
-| MåBra 19.2–19.5 | hybrid-8, evolution_ledger | **DEFER** | — | efter core lock |
+| Security core (WORM + vault + guards) | `firestore.rules`, `unlockVault.ts`, `callableGuards.ts` | **LOCK** | tier1 + valv-gate 2026-06-16 | **CP-1** |
+| Locked UX §11–17 | `.context/locked-ux-features.md` | **LOCK** | locked-ux PASS 2026-06-16 | **CP-1** |
+| G10 Inkast backend | `inboxClassifier.ts`, `submitInkastLite.ts`, `inkastStorageOnFinalize.ts` | **LOCK** | inkast + inbox + inkast-upload 2026-06-16 | **CP-3** |
+| G10 Inkast UI (CapturePanel + filer) | `CapturePanel.tsx`, `CaptureSuperModule.tsx` | **LOCK** | inkast PASS 2026-06-16 | **CP-4** |
+| Upload unified (Valv DirectPanel) | `InkastDirectPanel.tsx`, `VaultInkastCompact.tsx` | **LOCK** | inkast-upload + valv-compact 2026-06-16 | **CP-4b** |
+| SynapseBus (4 triggers) | `synapseBus.ts`, synapse handlers | **LOCK** | synapse-triggers + orkester 2026-06-16 | **CP-5** |
+| ADK Manifest runtime | `adk/manifest.ts`, `registry.ts`, `orchestrator.ts` | **LOCK** | manifest + orkester 2026-06-16 | **CP-5b** |
+| Valv chat E2E | `valvChatAgent.ts`, `valvChatQuery` | **LOCK** | valv-chat-e2e 2026-06-16 | **CP-8** |
+| App Check (kod) | `appCheck.ts`, `callableGuards.ts` | **LOCK** | tier1 2026-06-16 | **CP-6** |
+| Valv modul | `evidence/vault/` | **LOCK** | B1 + valv-mode 2026-06-16 | **B1** |
+| CI deploy | `.github/workflows/firebase-hosting-main.yml` | **LOCK** | smoke:tier1 + functions deploy | **CP-9** |
+| MåBra 19.2–19.5 / wave-2 / M3.0-C | — | **DEFER** | — | efter FREEZE |
+| AI-assistent UI | — | **DEFER** | — | — |
 
 ## Statusförklaring
 
 - **LOCK** — smoke PASS, får inte refaktoreras utan explicit OK + snapshot
-- **OPEN** — under aktiv utveckling eller väntar på manuellt steg (Console)
-- **WIP** — delvis klar, snapshot vid nästa CP om PASS
+- **FREEZE** — backend-kärnan låst; endast bugfix + content ingest efter KEEP
 - **DEFER** — medvetet senarelagt
 
 ## Nästa steg (Pontus)
 
-1. ~~B1 Valv CHECKPOINT~~ — **klar** 2026-06-16
-2. ~~Våg 2 Nav micro (F2/F3/F4)~~ — **klar** 2026-06-16
-3. ~~Våg 3 Nav H1–H4~~ — **klar** 2026-06-16 (redirects + PMIR)
-4. **Nästa:** Fas 19.3 token expansion · Upload steg 2 · supermodule wave-2b
+1. **Använd:** Ladda skärmdump via Valv → Inkast → granska WORM → ställ fråga i Valv-chat
+2. ~~**Extern review:** Prompt G~~ — **GO** 2026-06-16 (Gemini + Opus, `imports/BACKEND-MASTERPLAN-REVIEW-SVAR.md`)
+3. **Inget nytt:** Wave-2 polish, M3.0-C, AI-assistent UI förblir DEFER
+4. **Post-FREEZE (valfritt):** smoke-luckor — Barnen guard, HITL metadata, Zero Footprint
 ````

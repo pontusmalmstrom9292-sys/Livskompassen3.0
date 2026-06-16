@@ -380,7 +380,7 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 | **Syfte** | Polymorf inmatningshub för Hjärtat — reflektion, snabb spegling, minneslista utan sidbyte |
 | **Kod** | `DagbokInputSuperModule.tsx` · `dagbokInputModes.ts` · `DagbokInputRoutes.tsx` · `supermodule/delegates/*` |
 | **Spec** | [`docs/specs/Superdagbok-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Superdagbok-INPUT-SUPERHUB-SPEC.md) |
-| **Eval** | [`docs/archive/evaluations-fas19-2026-06/2026-06-14-superdagbok-superhub-djupanalys.md`](../docs/archive/evaluations-fas19-2026-06/2026-06-14-superdagbok-superhub-djupanalys.md) |
+| **Eval** | [`docs/evaluations/2026-06-14-superdagbok-superhub-djupanalys.md`](../docs/evaluations/2026-06-14-superdagbok-superhub-djupanalys.md) |
 | **Fas** | 11A→11C **AVSLUTAD** · W5 integration **låst** 2026-06-14 |
 
 ### Input modes (låsta lägen)
@@ -406,7 +406,7 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
-## 12. Google web-login (AUTH-G1)
+## 18. Google web-login (AUTH-G1)
 
 | | |
 |---|---|
@@ -420,7 +420,7 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
-## 13. Obsidian Depth — låst 3D-skalet (2026-06-14)
+## 19. Obsidian Depth — låst 3D-skalet (2026-06-14)
 
 | | |
 |---|---|

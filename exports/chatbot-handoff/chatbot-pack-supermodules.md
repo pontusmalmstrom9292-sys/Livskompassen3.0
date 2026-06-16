@@ -69,6 +69,225 @@ export type PlaneringSuperModuleProps = {
 export function PlaneringSuperModule(
 ````
 
+## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/delegates/EkonomiImpulsDelegate.tsx
+````typescript
+import { AlertTriangle, Check, Clock, Loader2 } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCapacityScore } from '@/core/store/useCapacityGate';
+import { EKONOMI_IMPULS_LEAD } from '@/modules/features/dailyLife/wellbeing/economy/ekonomiCopy';
+import { useEconomyImpulsWrite } from '../hooks/useEconomyImpulsWrite';
+import { useEconomyTransactionWORM } from '../hooks/useEconomyTransactionWORM';
+⋮----
+export type EkonomiImpulsDelegateProps = {
+  userId: string;
+};
+⋮----
+function parseAmountSek(raw: string): number | null
+⋮----
+function isImpulseReady(remindAt: string, nowMs: number): boolean
+⋮----
+setDraft(event.target.value);
+clearErrors();
+````
+
+## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/delegates/EkonomiInkastDelegate.tsx
+````typescript
+import { CaptureSuperModule } from '@/modules/capture/CaptureSuperModule';
+⋮----
+export type EkonomiInkastDelegateProps = {
+  userId: string;
+};
+⋮----
+export function EkonomiInkastDelegate(
+````
+
+## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/delegates/EkonomiKuvertDelegate.tsx
+````typescript
+import { Check, Loader2, Trash2, Wallet } from 'lucide-react';
+import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { envelopeRemaining } from '@/modules/features/dailyLife/wellbeing/economy/rules/budgetTemplates';
+import { useEconomyKuvertWrite } from '../hooks/useEconomyKuvertWrite';
+import { useEconomyTransactionWORM } from '../hooks/useEconomyTransactionWORM';
+⋮----
+export type EkonomiKuvertDelegateProps = {
+  userId: string;
+};
+⋮----
+function parseAmountSek(raw: string): number | null
+⋮----
+function buildKuvertExpenseLabel(envelopeTitle: string, optionalLabel: string): string
+````
+
+## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/delegates/EkonomiMatprepDelegate.tsx
+````typescript
+import { Check, CheckCircle2, Loader2, Utensils } from 'lucide-react';
+import { clsx } from 'clsx';
+import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { useEconomyMatprepRead } from '../hooks/useEconomyMatprepRead';
+import { useEconomyTransactionWORM } from '../hooks/useEconomyTransactionWORM';
+⋮----
+export type EkonomiMatprepDelegateProps = {
+  userId: string;
+};
+⋮----
+function parseAmountSek(raw: string): number | null
+⋮----
+className=
+````
+
+## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/delegates/EkonomiProfilDelegate.tsx
+````typescript
+import { Check, Loader2 } from 'lucide-react';
+import { useEffect, type FormEvent } from 'react';
+import { useEconomyProfilWrite } from '../hooks/useEconomyProfilWrite';
+⋮----
+export type EkonomiProfilDelegateProps = {
+  userId: string;
+};
+⋮----
+const handleSubmit = async (event: FormEvent<HTMLFormElement>) =>
+````
+
+## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/delegates/EkonomiSaldoDelegate.tsx
+````typescript
+import { Check, Loader2 } from 'lucide-react';
+import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { MetricTile } from '@/core/ui/MetricTile';
+import { SaldoHero } from '@/core/ui/SaldoHero';
+import { useEconomySaldoRead } from '../hooks/useEconomySaldoRead';
+import { useEconomyTransactionWORM } from '../hooks/useEconomyTransactionWORM';
+⋮----
+export type EkonomiSaldoDelegateProps = {
+  userId: string;
+};
+⋮----
+function parseAmountSek(raw: string): number | null
+⋮----
+export function EkonomiSaldoDelegate(
+⋮----
+<form onSubmit=
+````
+
+## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/hooks/useEconomyImpulsWrite.ts
+````typescript
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { FirebaseError } from 'firebase/app';
+import {
+  deleteEconomyImpulse,
+  getEconomyImpulseQueue,
+  parkEconomyImpulse,
+  resolveEconomyImpulse,
+} from '@/core/firebase/economyFirestore';
+import {
+  isBrowserOffline,
+  OfflineWriteBlockedError,
+} from '@/core/firebase/offlineWritePolicy';
+import type { EconomyImpulseRow } from '@/core/types/firestore';
+⋮----
+function resolveSaveError(err: unknown): string
+⋮----
+export function useEconomyImpulsWrite(userId: string | undefined)
+````
+
+## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/hooks/useEconomyKuvertWrite.ts
+````typescript
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { FirebaseError } from 'firebase/app';
+import {
+  deleteBudgetEnvelope,
+  getBudgetEnvelopes,
+  setBudgetEnvelope,
+} from '@/core/firebase/economyFirestore';
+import {
+  isBrowserOffline,
+  OfflineWriteBlockedError,
+} from '@/core/firebase/offlineWritePolicy';
+import type { BudgetEnvelopeRow } from '@/core/types/firestore';
+⋮----
+function resolveSaveError(err: unknown): string
+⋮----
+export function useEconomyKuvertWrite(userId: string | undefined)
+````
+
+## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/hooks/useEconomyMatprepRead.ts
+````typescript
+import { useCallback, useEffect, useState } from 'react';
+import {
+  getEconomyMealPrep,
+  setEconomyMealPrep,
+} from '@/core/firebase/economyFirestore';
+import type { EconomyMealPrepItem } from '@/core/types/firestore';
+⋮----
+export function useEconomyMatprepRead(userId: string | undefined)
+````
+
+## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/hooks/useEconomyProfilWrite.ts
+````typescript
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { FirebaseError } from 'firebase/app';
+import { getEconomyProfile, setEconomyProfile } from '@/core/firebase/firestore';
+import {
+  isBrowserOffline,
+  OfflineWriteBlockedError,
+} from '@/core/firebase/offlineWritePolicy';
+⋮----
+function resolveSaveError(err: unknown): string
+⋮----
+function parseProfileAmount(raw: string, fallback: number): number
+⋮----
+export function useEconomyProfilWrite(userId: string | undefined)
+````
+
+## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/hooks/useEconomySaldoRead.ts
+````typescript
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  getEconomyProfile,
+  getEconomyTransactions,
+} from '@/core/firebase/firestore';
+import {
+  weeklyBudgetLeft,
+  weeklyProgressPercent,
+  weeklySpentSek,
+} from '@/features/dailyLife/wellbeing/economy/rules/budgetTemplates';
+⋮----
+export type EconomySaldoTransactionRow = {
+  id: string;
+  label: string;
+  amountSek: number;
+  category: string;
+  createdAt: string;
+};
+⋮----
+export function useEconomySaldoRead(userId: string | undefined)
+````
+
+## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/hooks/useEconomyTransactionWORM.ts
+````typescript
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { FirebaseError } from 'firebase/app';
+import { saveEconomyTransaction } from '@/core/firebase/firestore';
+import {
+  isBrowserOffline,
+  OfflineWriteBlockedError,
+} from '@/core/firebase/offlineWritePolicy';
+⋮----
+export type EconomyTransactionCategory = 'veckopeng' | 'matlada' | 'vinst' | 'ovrigt';
+⋮----
+export type SaveEconomyTransactionInput = {
+  label: string;
+  amountSek: number;
+  category: EconomyTransactionCategory;
+};
+⋮----
+function resolveSaveError(err: unknown): string
+⋮----
+export function useEconomyTransactionWORM(
+  userId: string | undefined,
+  onSaved?: () => void | Promise<void>,
+)
+````
+
 ## File: src/modules/features/dailyLife/wellbeing/mabra/supermodule/index.ts
 ````typescript
 
@@ -194,44 +413,6 @@ export function resolveProjectIdForMode(
 ): MabraProjectId | undefined
 ⋮----
 export function getMabraInputModeMeta(mode: MabraInputMode): MabraInputModeMeta
-````
-
-## File: src/modules/features/dailyLife/wellbeing/mabra/supermodule/MabraInputSuperModule.tsx
-````typescript
-import { useCallback, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { CaptureSuperModule } from '@/modules/capture/CaptureSuperModule';
-import { useStore } from '@/core/store';
-import { MabraCheckinModal } from '@/components/mabra/MabraCheckinModal';
-import { EmotionalMemoryView } from '../components/EmotionalMemoryView';
-import { VitCardFlowPanel } from '../components/VitCardFlowPanel';
-import { VitChatFlowPanel } from '../components/VitChatFlowPanel';
-import { VitMemoryFlowPanel } from '../components/VitMemoryFlowPanel';
-import { MABRA_PROJECTS, type MabraProjectId } from '../constants/mabraProjects';
-import { MabraDagbokBridgePanel } from './MabraDagbokBridgePanel';
-import { MabraExerciseNotePanel } from './MabraExerciseNotePanel';
-import { MabraReflectionSuperhubPanel } from './MabraReflectionSuperhubPanel';
-import {
-  DEFAULT_MABRA_INPUT_MODE,
-  MABRA_INPUT_MODES_FAS6D,
-  MABRA_INPUT_MODES_MORE,
-  MABRA_INPUT_MODES_MORE_ALL,
-  MABRA_INPUT_MODES_PRIMARY,
-  parseMabraInputMode,
-  resolveProjectIdForMode,
-  shouldUseEmotionalMemoryDelegate,
-  type MabraInputMode,
-} from './mabraInputModes';
-⋮----
-export type MabraInputSuperModuleProps = {
-  projectId?: MabraProjectId;
-};
-⋮----
-function parseProjectId(value: string | null): MabraProjectId | undefined
-⋮----
-onSwitchToDagbokBridge=
-⋮----
-return <MabraCheckinModal isOpen=
 ````
 
 ## File: src/modules/features/dailyLife/wellbeing/mabra/supermodule/MabraReflectionSuperhubPanel.tsx
@@ -769,55 +950,6 @@ export function ArbetslivValvBroDelegate()
 to=
 ````
 
-## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/delegates/EkonomiImpulsDelegate.tsx
-````typescript
-import { AlertTriangle, Check, Clock, Loader2 } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useCapacityScore } from '@/core/store/useCapacityGate';
-import { EKONOMI_IMPULS_LEAD } from '@/modules/features/dailyLife/wellbeing/economy/ekonomiCopy';
-import { useEconomyImpulsWrite } from '../hooks/useEconomyImpulsWrite';
-import { useEconomyTransactionWORM } from '../hooks/useEconomyTransactionWORM';
-⋮----
-export type EkonomiImpulsDelegateProps = {
-  userId: string;
-};
-⋮----
-function parseAmountSek(raw: string): number | null
-⋮----
-function isImpulseReady(remindAt: string, nowMs: number): boolean
-⋮----
-setDraft(event.target.value);
-clearErrors();
-````
-
-## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/delegates/EkonomiInkastDelegate.tsx
-````typescript
-import { CaptureSuperModule } from '@/modules/capture/CaptureSuperModule';
-⋮----
-export type EkonomiInkastDelegateProps = {
-  userId: string;
-};
-⋮----
-export function EkonomiInkastDelegate(
-````
-
-## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/delegates/EkonomiKuvertDelegate.tsx
-````typescript
-import { Check, Loader2, Trash2, Wallet } from 'lucide-react';
-import { useCallback, useEffect, useState, type FormEvent } from 'react';
-import { envelopeRemaining } from '@/modules/features/dailyLife/wellbeing/economy/rules/budgetTemplates';
-import { useEconomyKuvertWrite } from '../hooks/useEconomyKuvertWrite';
-import { useEconomyTransactionWORM } from '../hooks/useEconomyTransactionWORM';
-⋮----
-export type EkonomiKuvertDelegateProps = {
-  userId: string;
-};
-⋮----
-function parseAmountSek(raw: string): number | null
-⋮----
-function buildKuvertExpenseLabel(envelopeTitle: string, optionalLabel: string): string
-````
-
 ## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/delegates/EkonomiLoggDelegate.tsx
 ````typescript
 import { EconomyLogPanel } from '@/features/dailyLife/wellbeing/economy/components/EconomyLogPanel';
@@ -838,144 +970,19 @@ export type EkonomiMikrostegDelegateProps = {
 };
 ````
 
-## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/delegates/EkonomiSaldoDelegate.tsx
+## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/delegates/EkonomiSparDelegate.tsx
 ````typescript
-import { Check, Loader2 } from 'lucide-react';
+import { Check, Loader2, PiggyBank } from 'lucide-react';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
-import { MetricTile } from '@/core/ui/MetricTile';
-import { SaldoHero } from '@/core/ui/SaldoHero';
-import { useEconomySaldoRead } from '../hooks/useEconomySaldoRead';
 import { useEconomyTransactionWORM } from '../hooks/useEconomyTransactionWORM';
 ⋮----
-export type EkonomiSaldoDelegateProps = {
+export type EkonomiSparDelegateProps = {
   userId: string;
 };
 ⋮----
 function parseAmountSek(raw: string): number | null
 ⋮----
-export function EkonomiSaldoDelegate(
-⋮----
-<form onSubmit=
-````
-
-## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/hooks/useEconomyImpulsWrite.ts
-````typescript
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { FirebaseError } from 'firebase/app';
-import {
-  deleteEconomyImpulse,
-  getEconomyImpulseQueue,
-  parkEconomyImpulse,
-  resolveEconomyImpulse,
-} from '@/core/firebase/economyFirestore';
-import {
-  isBrowserOffline,
-  OfflineWriteBlockedError,
-} from '@/core/firebase/offlineWritePolicy';
-import type { EconomyImpulseRow } from '@/core/types/firestore';
-⋮----
-function resolveSaveError(err: unknown): string
-⋮----
-export function useEconomyImpulsWrite(userId: string | undefined)
-````
-
-## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/hooks/useEconomyKuvertWrite.ts
-````typescript
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { FirebaseError } from 'firebase/app';
-import {
-  deleteBudgetEnvelope,
-  getBudgetEnvelopes,
-  setBudgetEnvelope,
-} from '@/core/firebase/economyFirestore';
-import {
-  isBrowserOffline,
-  OfflineWriteBlockedError,
-} from '@/core/firebase/offlineWritePolicy';
-import type { BudgetEnvelopeRow } from '@/core/types/firestore';
-⋮----
-function resolveSaveError(err: unknown): string
-⋮----
-export function useEconomyKuvertWrite(userId: string | undefined)
-````
-
-## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/hooks/useEconomyMatprepRead.ts
-````typescript
-import { useCallback, useEffect, useState } from 'react';
-import {
-  getEconomyMealPrep,
-  setEconomyMealPrep,
-} from '@/core/firebase/economyFirestore';
-import type { EconomyMealPrepItem } from '@/core/types/firestore';
-⋮----
-export function useEconomyMatprepRead(userId: string | undefined)
-````
-
-## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/hooks/useEconomyProfilWrite.ts
-````typescript
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { FirebaseError } from 'firebase/app';
-import { getEconomyProfile, setEconomyProfile } from '@/core/firebase/firestore';
-import {
-  isBrowserOffline,
-  OfflineWriteBlockedError,
-} from '@/core/firebase/offlineWritePolicy';
-⋮----
-function resolveSaveError(err: unknown): string
-⋮----
-function parseProfileAmount(raw: string, fallback: number): number
-⋮----
-export function useEconomyProfilWrite(userId: string | undefined)
-````
-
-## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/hooks/useEconomySaldoRead.ts
-````typescript
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  getEconomyProfile,
-  getEconomyTransactions,
-} from '@/core/firebase/firestore';
-import {
-  weeklyBudgetLeft,
-  weeklyProgressPercent,
-  weeklySpentSek,
-} from '@/features/dailyLife/wellbeing/economy/rules/budgetTemplates';
-⋮----
-export type EconomySaldoTransactionRow = {
-  id: string;
-  label: string;
-  amountSek: number;
-  category: string;
-  createdAt: string;
-};
-⋮----
-export function useEconomySaldoRead(userId: string | undefined)
-````
-
-## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/hooks/useEconomyTransactionWORM.ts
-````typescript
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { FirebaseError } from 'firebase/app';
-import { saveEconomyTransaction } from '@/core/firebase/firestore';
-import {
-  isBrowserOffline,
-  OfflineWriteBlockedError,
-} from '@/core/firebase/offlineWritePolicy';
-⋮----
-export type EconomyTransactionCategory = 'veckopeng' | 'matlada' | 'vinst' | 'ovrigt';
-⋮----
-export type SaveEconomyTransactionInput = {
-  label: string;
-  amountSek: number;
-  category: EconomyTransactionCategory;
-};
-⋮----
-function resolveSaveError(err: unknown): string
-⋮----
-export function useEconomyTransactionWORM(
-  userId: string | undefined,
-  onSaved?: () => void | Promise<void>,
-)
+function buildSparandeLabel(optionalLabel: string): string
 ````
 
 ## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/ekonomiInputModes.ts
@@ -1041,6 +1048,44 @@ type Props = {
 const handleSaveToVit = async () =>
 ⋮----
 const handleBridgeToDagbok = () =>
+````
+
+## File: src/modules/features/dailyLife/wellbeing/mabra/supermodule/MabraInputSuperModule.tsx
+````typescript
+import { useCallback, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { CaptureSuperModule } from '@/modules/capture/CaptureSuperModule';
+import { useStore } from '@/core/store';
+import { MabraCheckinModal } from '@/components/mabra/MabraCheckinModal';
+import { EmotionalMemoryView } from '../components/EmotionalMemoryView';
+import { VitCardFlowPanel } from '../components/VitCardFlowPanel';
+import { VitChatFlowPanel } from '../components/VitChatFlowPanel';
+import { VitMemoryFlowPanel } from '../components/VitMemoryFlowPanel';
+import { MABRA_PROJECTS, type MabraProjectId } from '../constants/mabraProjects';
+import { MabraDagbokBridgePanel } from './MabraDagbokBridgePanel';
+import { MabraExerciseNotePanel } from './MabraExerciseNotePanel';
+import { MabraReflectionSuperhubPanel } from './MabraReflectionSuperhubPanel';
+import {
+  DEFAULT_MABRA_INPUT_MODE,
+  MABRA_INPUT_MODES_FAS6D,
+  MABRA_INPUT_MODES_MORE,
+  MABRA_INPUT_MODES_MORE_ALL,
+  MABRA_INPUT_MODES_PRIMARY,
+  parseMabraInputMode,
+  resolveProjectIdForMode,
+  shouldUseEmotionalMemoryDelegate,
+  type MabraInputMode,
+} from './mabraInputModes';
+⋮----
+export type MabraInputSuperModuleProps = {
+  projectId?: MabraProjectId;
+};
+⋮----
+function parseProjectId(value: string | null): MabraProjectId | undefined
+⋮----
+onSwitchToDagbokBridge=
+⋮----
+return <MabraCheckinModal isOpen=
 ````
 
 ## File: src/modules/features/diary/components/supermodule/components/InsightsView.tsx
@@ -1758,6 +1803,40 @@ Implementera Fas 1A i docs/specs/modules/VALVET_SUPERMODULE_PLAN.md: URL-synk va
 *Inventering genomförd 2026-06-14. Rotorsak inbox→hamn_analys dokumenterad i §3.*
 ````
 
+## File: src/modules/capture/CaptureSuperModule.tsx
+````typescript
+import { useEffect, useRef, useState } from 'react';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { useStore } from '@/core/store';
+import { CapturePanel } from './CapturePanel';
+import { HemCaptureModulValjare, type HemCaptureChoice } from './components/HemCaptureModulValjare';
+import { hasSeenHemCaptureModulValjare } from './utils/hemCaptureModulValjareStorage';
+import { InkastDirectPanel } from './InkastDirectPanel';
+import { ReviewQueuePipelinePanel } from './ReviewQueuePipelinePanel';
+⋮----
+export type CaptureSuperVariant =
+  | 'hem-capture'
+  | 'hem-inkast'
+  | 'valv-compact'
+  | 'planering'
+  | 'kompass'
+  | 'mabra'
+  | 'familjen'
+  | 'ekonomi';
+⋮----
+export type CaptureSuperModuleProps = {
+  variant: CaptureSuperVariant;
+  onQueued?: () => void;
+  onPersistedBevis?: (docId: string) => void;
+  compact?: boolean;
+  onSaved?: () => void;
+};
+⋮----
+const handleCaptureSaved = () =>
+⋮----
+const handleCaptureChoice = (choice: HemCaptureChoice) =>
+````
+
 ## File: src/modules/features/dailyLife/arbetsliv/supermodule/arbetslivInputModes.ts
 ````typescript
 export type ArbetslivInputMode = 'stampla' | 'inkomster' | 'tid';
@@ -1810,51 +1889,6 @@ function ArbetslivInputModeDelegate(
 
 ````
 
-## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/delegates/EkonomiMatprepDelegate.tsx
-````typescript
-import { Check, CheckCircle2, Loader2, Utensils } from 'lucide-react';
-import { clsx } from 'clsx';
-import { useCallback, useEffect, useState, type FormEvent } from 'react';
-import { useEconomyMatprepRead } from '../hooks/useEconomyMatprepRead';
-import { useEconomyTransactionWORM } from '../hooks/useEconomyTransactionWORM';
-⋮----
-export type EkonomiMatprepDelegateProps = {
-  userId: string;
-};
-⋮----
-function parseAmountSek(raw: string): number | null
-⋮----
-className=
-````
-
-## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/delegates/EkonomiProfilDelegate.tsx
-````typescript
-import { Check, Loader2 } from 'lucide-react';
-import { useEffect, type FormEvent } from 'react';
-import { useEconomyProfilWrite } from '../hooks/useEconomyProfilWrite';
-⋮----
-export type EkonomiProfilDelegateProps = {
-  userId: string;
-};
-⋮----
-const handleSubmit = async (event: FormEvent<HTMLFormElement>) =>
-````
-
-## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/delegates/EkonomiSparDelegate.tsx
-````typescript
-import { Check, Loader2, PiggyBank } from 'lucide-react';
-import { useCallback, useEffect, useState, type FormEvent } from 'react';
-import { useEconomyTransactionWORM } from '../hooks/useEconomyTransactionWORM';
-⋮----
-export type EkonomiSparDelegateProps = {
-  userId: string;
-};
-⋮----
-function parseAmountSek(raw: string): number | null
-⋮----
-function buildSparandeLabel(optionalLabel: string): string
-````
-
 ## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/capacityResolver.ts
 ````typescript
 import type { EkonomiInputMode } from './ekonomiInputModes';
@@ -1866,57 +1900,81 @@ export function getAllowedModesForLevel(level: EconomyCapacityLevel): EkonomiInp
 export function pickFallbackMode(allowedModes: EkonomiInputMode[]): EkonomiInputMode
 ````
 
+## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/index.ts
+````typescript
+
+````
+
+## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/EkonomiInputSuperModule.tsx
+````typescript
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
+import { EconomyCapacityLockedNotice } from '@/features/economy/components/EconomyCapacityLockedNotice';
+import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
+import {
+  getAllowedModesForLevel,
+  pickFallbackMode,
+} from './capacityResolver';
+import { EkonomiImpulsDelegate } from './delegates/EkonomiImpulsDelegate';
+import { EkonomiInkastDelegate } from './delegates/EkonomiInkastDelegate';
+import { EkonomiKuvertDelegate } from './delegates/EkonomiKuvertDelegate';
+import { EkonomiLoggDelegate } from './delegates/EkonomiLoggDelegate';
+import { EkonomiMatprepDelegate } from './delegates/EkonomiMatprepDelegate';
+import { EkonomiMikrostegDelegate } from './delegates/EkonomiMikrostegDelegate';
+import { EkonomiProfilDelegate } from './delegates/EkonomiProfilDelegate';
+import { EkonomiSaldoDelegate } from './delegates/EkonomiSaldoDelegate';
+import { EkonomiSparDelegate } from './delegates/EkonomiSparDelegate';
+import {
+  DEFAULT_EKONOMI_INPUT_MODE,
+  filterModesByAllowed,
+  getEkonomiInputModeMeta,
+  parseEkonomiInputMode,
+  type EkonomiInputMode,
+} from './ekonomiInputModes';
+⋮----
+export type EkonomiInputSuperModuleProps = {
+  userId: string;
+};
+⋮----
+function EkonomiModePlaceholder(
+⋮----
+function EkonomiInputModeDelegate({
+  mode,
+  userId,
+}: {
+  mode: EkonomiInputMode;
+  userId: string;
+})
+````
+
 ## File: src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx
 ````typescript
 import { useState } from 'react';
 import { Loader2, RefreshCw, Sparkles } from 'lucide-react';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { useEvolutionStore } from '@/core/store/useEvolutionStore';
 import {
-  barnfokusQuestionForToday,
+  barnfokusQuestionsForBracket,
   BARNFOKUS_KIND_LABELS,
   type BarnfokusQuestion,
+  type BarnfokusBracket,
 } from '../../constants';
 import { coerceLogText, formatChildLogDate } from '../../utils/logFieldUtils';
 import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
 ⋮----
+function pickQuestion(
+  pool: BarnfokusQuestion[],
+  seed: number,
+  excludeId?: string,
+): BarnfokusQuestion
+⋮----
+function daySeed(childAlias: string): number
+⋮----
 const handleSave = async () =>
 ⋮----
 const anotherQuestion = () =>
-````
-
-## File: src/modules/capture/CaptureSuperModule.tsx
-````typescript
-import { useEffect, useRef, useState } from 'react';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { useStore } from '@/core/store';
-import { CapturePanel } from './CapturePanel';
-import { HemCaptureModulValjare, type HemCaptureChoice } from './components/HemCaptureModulValjare';
-import { hasSeenHemCaptureModulValjare } from './utils/hemCaptureModulValjareStorage';
-import { InkastDirectPanel } from './InkastDirectPanel';
-import { ReviewQueuePipelinePanel } from './ReviewQueuePipelinePanel';
-⋮----
-export type CaptureSuperVariant =
-  | 'hem-capture'
-  | 'hem-inkast'
-  | 'valv-compact'
-  | 'planering'
-  | 'kompass'
-  | 'mabra'
-  | 'familjen'
-  | 'ekonomi';
-⋮----
-export type CaptureSuperModuleProps = {
-  variant: CaptureSuperVariant;
-  onQueued?: () => void;
-  onPersistedBevis?: (docId: string) => void;
-  compact?: boolean;
-  onSaved?: () => void;
-};
-⋮----
-const handleCaptureSaved = () =>
-⋮----
-const handleCaptureChoice = (choice: HemCaptureChoice) =>
 ````
 
 ## File: src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts
@@ -2040,54 +2098,6 @@ export function DagbokInputSuperModule({
   initialMode,
   onSaved,
 }: DagbokInputSuperModuleProps)
-````
-
-## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/EkonomiInputSuperModule.tsx
-````typescript
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import { EconomyCapacityLockedNotice } from '@/features/economy/components/EconomyCapacityLockedNotice';
-import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
-import {
-  getAllowedModesForLevel,
-  pickFallbackMode,
-} from './capacityResolver';
-import { EkonomiImpulsDelegate } from './delegates/EkonomiImpulsDelegate';
-import { EkonomiInkastDelegate } from './delegates/EkonomiInkastDelegate';
-import { EkonomiKuvertDelegate } from './delegates/EkonomiKuvertDelegate';
-import { EkonomiLoggDelegate } from './delegates/EkonomiLoggDelegate';
-import { EkonomiMatprepDelegate } from './delegates/EkonomiMatprepDelegate';
-import { EkonomiMikrostegDelegate } from './delegates/EkonomiMikrostegDelegate';
-import { EkonomiProfilDelegate } from './delegates/EkonomiProfilDelegate';
-import { EkonomiSaldoDelegate } from './delegates/EkonomiSaldoDelegate';
-import { EkonomiSparDelegate } from './delegates/EkonomiSparDelegate';
-import {
-  DEFAULT_EKONOMI_INPUT_MODE,
-  filterModesByAllowed,
-  getEkonomiInputModeMeta,
-  parseEkonomiInputMode,
-  type EkonomiInputMode,
-} from './ekonomiInputModes';
-⋮----
-export type EkonomiInputSuperModuleProps = {
-  userId: string;
-};
-⋮----
-function EkonomiModePlaceholder(
-⋮----
-function EkonomiInputModeDelegate({
-  mode,
-  userId,
-}: {
-  mode: EkonomiInputMode;
-  userId: string;
-})
-````
-
-## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/index.ts
-````typescript
-
 ````
 
 ## File: src/modules/features/family/children/supermodule/FamiljenInputSuperModule.tsx

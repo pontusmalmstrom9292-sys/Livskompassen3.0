@@ -1,0 +1,579 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2870
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 HelveticaNeue-Bold;\f2\fnil\fcharset0 HelveticaNeue;
+\f3\fnil\fcharset0 .AppleSystemUIFontMonospaced-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0\c84706\cname labelColor;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 x
+\f1\b\fs40 \cf2 Forskningsrapport: Livskompassen v2 \'96 Evidens, Neuroinkludering och Slutfasregler
+\f0\b0\fs24 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+
+\f1\b\fs36 \cf2 Systemarkitektonisk och Klinisk Konvergens: En \'d6versikt
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Utvecklingen och slutfasen av Livskompassen v2 \'96 ett privat "Life OS" byggt p\'e5 React och Firebase \'96 representerar ett paradigmskifte i hur mjukvara kan st\'f6dja individer med neuropsykiatriska funktionsneds\'e4ttningar (NPF) som befinner sig i medf\'f6r\'e4ldraskap med h\'f6gkonflikt. Det fundamentala uppdraget f\'f6r denna forskningssyntes \'e4r att fastst\'e4lla en strikt evidensbaserad informationsarkitektur som opererar i gr\'e4nslandet mellan kognitivt st\'f6d och juridisk bevishantering, utan att n\'e5gonsin korsa gr\'e4nsen till olicensierad terapi eller amat\'f6rm\'e4ssig psykiatrisk diagnostisering.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Den underliggande systemarkitekturen i Livskompassen v2 bygger p\'e5 en rigid separation av data f\'f6r att f\'f6rhindra korskontaminering, vilket i produktionsmilj\'f6 uppr\'e4tth\'e5lls genom tre RAG-silos (Retrieval-Augmented Generation) och en utvecklingszon. Denna Zero-Knowledge-inspirerade separation \'e4r inte enbart en teknisk detalj, utan en klinisk och juridisk n\'f6dv\'e4ndighet. Genom att kategorisera inneh\'e5ll i 
+\f3 FACT
+\f2 , 
+\f3 REFLECTION
+\f2 , 
+\f3 PLAY
+\f2  och 
+\f3 EVIDENCE
+\f2 , s\'e4kerst\'e4lls att AI-modeller (exempelvis 
+\f3 mabraCoach
+\f2  och Livs-Arkivarien) inte anv\'e4nder barnens loggar (
+\f3 children_logs
+\f2 ) f\'f6r att hallucinera fram psykologiska insikter, eller blandar evidens fr\'e5n h\'f6gkonfliktsdynamik (
+\f3 reality_vault
+\f2 ) med KBT-baserade reflektioner. Cross-RAG mellan dessa silor \'e4r absolut f\'f6rbjudet f\'f6r att bevara dataintegriteten och anv\'e4ndarens psykologiska s\'e4kerhet.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Denna rapport utv\'e4rderar systemets design och inneh\'e5ll genom fem parallella forskningsdom\'e4ner (SA-1 till SA-5). Varje dom\'e4n bryter ned etablerad praxis fr\'e5n medicinska riktlinjer, myndighetsf\'f6reskrifter och psykologisk forskning, \'f6vers\'e4tter dessa till deterministiska systemkrav och identifierar existerande inneh\'e5llsluckor.
+\f0\fs24 \cf0 \
+\
+
+\f1\b\fs36 \cf2 SA-1: Vardagen och M\'e5Bra \'96 \'c5ngesthantering, Kognitiv Kapacitet och RSD
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Den dagliga hanteringen av kognitiv kapacitet hos individer med ADHD kompliceras ofta av \'f6verlappande symtom p\'e5 generaliserat \'e5ngestsyndrom (GAD) och Rejection Sensitive Dysphoria (RSD). Systemets "M\'e5Bra"-zon \'e4r designad f\'f6r att erbjuda l\'e5gaffektivt st\'f6d genom KBT-light och Acceptance and Commitment Therapy (ACT), men m\'e5ste utformas med extrem f\'f6rsiktighet f\'f6r att inte ers\'e4tta professionell v\'e5rd.
+\f0\fs24 \cf0 \
+\
+
+\f1\b\fs32 \cf2 Icke-faciliterad Sj\'e4lvhj\'e4lp vid GAD
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Enligt National Institute for Health and Care Excellence (NICE) utg\'f6r icke-faciliterad sj\'e4lvhj\'e4lp, baserad p\'e5 principer fr\'e5n kognitiv beteendeterapi (KBT), en rekommenderad f\'f6rsta linjens l\'e5gintensiva intervention f\'f6r individer med k\'e4nda eller misst\'e4nkta symtom p\'e5 GAD. NICE-riktlinjerna po\'e4ngterar vikten av att s\'e5dant material har en l\'e4sbarhetsniv\'e5 som \'e4r anpassad f\'f6r individen. F\'f6r Livskompassen v2 inneb\'e4r detta att all text i 
+\f3 vit_entries
+\f2  och interaktioner med 
+\f3 mabraCoach
+\f2  m\'e5ste vara korta, avgr\'e4nsade och lexikalt okomplicerade f\'f6r att minimera kognitiv belastning. Detta legitimerar systemets nuvarande ansats att erbjuda strukturerade reflektionskort ist\'e4llet f\'f6r \'f6ppna, ostrukturerade AI-chattar som riskerar att leda till \'e4ltande (rumination). Farmakologiska kombinationsbehandlingar och mer komplexa psykologiska interventioner skall enligt evidensen f\'f6rbeh\'e5llas specialiserad psykiatrisk v\'e5rd , vilket inneb\'e4r att systemet deterministiskt m\'e5ste avst\'e5 fr\'e5n att ge n\'e5gra medicinska r\'e5d \'f6verhuvudtaget.
+\f0\fs24 \cf0 \
+\
+
+\f3 \cf2 [yaml]\
+id: "research-sa1-001"\
+content_class: FACT\
+target_zone: kunskap\
+target_module: "Kunskapsbank (PIN)"\
+route: "/vardagen?tab=mabra"\
+category: "gad_angest"\
+source_tier: P1\
+source_url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3230126/"\
+source_title: "NICE Guidelines: Further treatment of diagnosed generalised anxiety disorder"\
+claim_sv: "Icke-faciliterad sj\'e4lvhj\'e4lp baserad p\'e5 KBT-principer \'e4r en rekommenderad f\'f6rsta linjens intervention vid generaliserat \'e5ngestsyndrom."\
+why: "Detta validerar arkitekturen f\'f6r M\'e5Bra-hubben och bekr\'e4ftar att appen kan erbjuda KBT-light utan att fungera som en h\'e4lso- och sjukv\'e5rdsprodukt som kr\'e4ver terapeutisk facilitering."\
+existing_overlap: "kunskap-fact-gad_angest"\
+recommendation: KEEP\
+rule_impact: "M\'e5Bra-coachen f\'e5r ej erbjuda komplexa psykologiska analyser, utan skall strikt fungera som en parafraserande motor f\'f6r pre-skrivna KEEP-kort (`vit_entries`)."\
+
+\f0 \cf0 \
+\
+
+\f1\b\fs32 \cf2 Neurobiologin bakom Rejection Sensitive Dysphoria (RSD)
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Rejection Sensitive Dysphoria \'e4r en av de mest f\'f6rlamande, men minst formellt dokumenterade, aspekterna av ADHD i vuxen \'e5lder. Trots att RSD saknar en officiell DSM-5-diagnoskod, rapporterar upp till 70 % av vuxna med ADHD en extrem, ibland outh\'e4rdlig, emotionell sm\'e4rta i samband med verklig eller upplevd avvisning, kritik eller misslyckande. Forskning indikerar att denna intensiva emotionella respons inte \'e4r ett uttryck f\'f6r ett underliggande f\'f6rst\'e4mningssyndrom, utan h\'e4rr\'f6r fr\'e5n neurologiska skillnader i hur ADHD-hj\'e4rnan reglerar avvisningsrelaterade stimuli.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Sm\'e4rtan \'e4r ofta s\'e5 \'f6verv\'e4ldigande att den kan leda till explosiv vrede eller djupa skamspiraler, vilket imiterar st\'e4mningsrubbningar. I en h\'f6gkonfliktsituation med en ex-partner \'e4r risken f\'f6r RSD-triggande kommunikation maximal. Att systemet kan erbjuda omedelbar reframing genom att identifiera en reaktion som just RSD \'96 och d\'e4rmed externalisera den fr\'e5n anv\'e4ndarens sj\'e4lvbild \'96 \'e4r fundamentalt. Anv\'e4ndaren m\'e5ste f\'f6rst\'e5 att sm\'e4rtan \'e4r neurologiskt betingad och \'f6verg\'e5ende, inte ett bevis p\'e5 att motpartens attacker \'e4r sanna.
+\f0\fs24 \cf0 \
+\
+
+\f3 \cf2 [yaml]\
+id: "research-sa1-002"\
+content_class: REFLECTION\
+target_zone: mabra\
+target_module: "M\'e5Bra (vit_entries)"\
+route: "/hjartat?tab=mabra"\
+category: "adhd_vardag"\
+source_tier: P2\
+source_url: "https://my.clevelandclinic.org/health/diseases/24099-rejection-sensitive-dysphoria-rsd"\
+source_title: "Rejection Sensitive Dysphoria (RSD) - Cleveland Clinic"\
+claim_sv: "RSD inneb\'e4r en intensiv fysiologisk och emotionell sm\'e4rta utl\'f6st av upplevd kritik, kopplat till avvikelser i hj\'e4rnans k\'e4nsloreglering vid ADHD."\
+why: "Att erbjuda psykoedukation kring RSD neutraliserar skammen kring \'f6verreaktioner, vilket \'e4r vitalt n\'e4r anv\'e4ndaren tar emot fientliga SMS fr\'e5n en medf\'f6r\'e4lder."\
+existing_overlap: "Ingen specifik faktapacke existerar i Kunskap-bank, endast ytlig omn\'e4mning i M\'e5Bra."\
+recommendation: NEW\
+rule_impact: "Skapa nya `vit_entries` f\'f6r RSD-reframing. Systemet m\'e5ste flagga f\'f6r RSD n\'e4r anv\'e4ndaren uttrycker oproportionerlig hoppl\'f6shet efter ett specifikt meddelande."\
+
+\f0 \cf0 \
+\
+
+\f1\b\fs32 \cf2 Fysiologisk Grounding genom Vagusstimulering
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Vid akut kognitiv \'f6verbelastning eller emotionell dysreglering \'e4r kognitiva interventioner (som KBT) ofta ineffektiva eftersom den prefrontala cortexen \'e4r nedsatt. Fysiologiska interventioner ("bottom-up" snarare \'e4n "top-down") erbjuder en direkt v\'e4g till autonom reglering. Flertalet studier bekr\'e4ftar att l\'e5ngsam andning (Slow-Paced Breathing, SPB) aktiverar det parasympatiska nervsystemet via vagusnerven, vilket resulterar i \'f6kad hj\'e4rtfrekvensvariabilitet (HRV) och omedelbar stressreduktion.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Forskningen \'e4r sl\'e5ende specifik g\'e4llande parametrarna f\'f6r optimal vagusstimulering: en andningsfrekvens p\'e5 cirka 6 andetag per minut (0.1 Hz), f\'f6retr\'e4desvis med ett inandnings- till utandningsf\'f6rh\'e5llande p\'e5 1:1 eller en marginellt f\'f6rl\'e4ngd utandning, maximerar den fysiologiska effekten och s\'e4nker LF/HF-ration (vilket indikerar minskad sympatisk aktivitet). En fem minuter l\'e5ng session med djup, l\'e5ngsam andning har visat sig effektivt reducera \'e5ngest och \'f6ka vagal ton, s\'e4rskilt hos individer med h\'f6g initial distress. Livskompassens andningsmodul kan d\'e4rmed inte till\'e5tas vara en abstrakt eller estetisk funktion; den m\'e5ste vara en deterministisk medicinteknisk timer l\'e5st till exakt 6 andetag per minut f\'f6r att vara evidensbaserad.
+\f0\fs24 \cf0 \
+\
+
+\f3 \cf2 [yaml]\
+id: "research-sa1-003"\
+content_class: PLAY\
+target_zone: mabra\
+target_module: "M\'e5Bra Daglig mix"\
+route: "/hjartat?tab=mabra"\
+category: "andning"\
+source_tier: P1\
+source_url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC12341363/"\
+source_title: "Effects of slow-paced breathing on vagal tone"\
+claim_sv: "L\'e5ngsam andning kalibrerad till exakt 6 andetag per minut (0.1 Hz) optimerar stimuleringen av vagusnerven och maximerar hj\'e4rtfrekvensvariabiliteten."\
+why: "Denna precision definierar de tekniska kraven f\'f6r UI-timern. Det skiljer funktionell fysiologisk grounding fr\'e5n ineffektiva wellness-applikationer."\
+existing_overlap: "Funktionen finns men saknar hittills strikta Hz-krav."\
+recommendation: ST\'c4RK\
+rule_impact: "Andnings-timern i React M\'c5STE h\'e5rdkodas till en 10-sekunders cykel (5 sek in, 5 sek ut) utan m\'f6jlighet f\'f6r anv\'e4ndaren att st\'e4lla in ett f\'f6r snabbt tempo."\
+
+\f0 \cf0 \
+\
+
+\f1\b\fs36 \cf2 SA-2: Valv, Hamn och Speglar \'96 H\'f6gkonfliktsdynamik och Covert Manipulation
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Att utveckla ett system f\'f6r medf\'f6r\'e4ldraskap i h\'f6gkonflikt (HCF) med inslag av dold (covert) manipulation kr\'e4ver en informationsarkitektur som st\'e5r emot juridisk granskning. En felaktig implementering riskerar att f\'f6rse motparten med ammunition eller att systemet framst\'e5r som ett verktyg f\'f6r alienation.
+\f0\fs24 \cf0 \
+\
+
+\f1\b\fs32 \cf2 DARVO och F\'f6rsvaret mot Covert Manipulation
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 H\'f6gkonfliktpersonligheter och individer med covert narcissistiska drag anv\'e4nder systematiskt manipulativa taktiker f\'f6r att uppr\'e4tth\'e5lla en yttre fasad och kontrollera narrativet. Den framst\'e5ende forskaren Jennifer Freyd har konceptualiserat en av de vanligaste mekanismerna: DARVO (Deny, Attack, and Reverse Victim and Offender). N\'e4r en f\'f6r\'f6vare konfronteras, nekar de till beteendet, attackerar personen som konfronterar, och intar sj\'e4lva offerrollen. Denna taktik \'e4r utformad f\'f6r att f\'f6rst\'f6ra offrets trov\'e4rdighet, skapa f\'f6rvirring och framkalla "institutional betrayal", d\'e4r domstolar och socialtj\'e4nst misstror det sanna offret.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Evidensen visar dock att n\'e4r individer och institutioner i f\'f6rv\'e4g utbildas om DARVO, reduceras taktikens f\'f6rm\'e5ga att orsaka mental skada och p\'e5verka utomst\'e5ende avsev\'e4rt. I Livskompassens "Speglar"-zon m\'e5ste systemet kunna k\'e4nna igen m\'f6nstret i motpartens kommunikation. Det \'e4r dock en ovillkorlig regel att systemet \'96 i enlighet med 
+\f3 dom\'e4n-covert-narcissism.mdc
+\f2  \'96 aldrig f\'e5r diagnostisera motparten. Systemet skall objektivt identifiera och f\'f6rklara DARVO som ett beteendem\'f6nster, inte som en personlighetsst\'f6rning. Denna kliniska stringens skyddar anv\'e4ndarens integritet vid en potentiell v\'e5rdnadstvist, d\'e4r diagnostiserande spr\'e5k snabbt avf\'e4rdas av familjer\'e4tter.
+\f0\fs24 \cf0 \
+\
+
+\f3 \cf2 [yaml]\
+id: "research-sa2-001"\
+content_class: FACT\
+target_zone: kunskap\
+target_module: "Kunskapsbank (PIN)"\
+route: "/hjartat?tab=speglar"\
+category: "covert_taktik"\
+source_tier: P1\
+source_url: "https://www.tandfonline.com/doi/full/10.1080/10926771.2020.1774695"\
+source_title: "DARVO effectively reinforces the distrust of victims' narratives"\
+claim_sv: "DARVO \'e4r en v\'e4ldokumenterad beteendestrategi som systematiskt omv\'e4nder skuld och ifr\'e5gas\'e4tter offrets trov\'e4rdighet, vilket neutraliseras genom f\'f6rkunskap."\
+why: "Utbildning om DARVO validerar anv\'e4ndarens verklighetsuppfattning utan att anv\'e4nda patologiserande diagnostik mot ex-partnern."\
+existing_overlap: "kunskap-fact-043 (inneh\'e5ller DARVO, men kr\'e4ver starkare anknytning till f\'f6rsvarsstrategi)."\
+recommendation: KEEP\
+rule_impact: "Prompten i Speglar m\'e5ste identifiera DARVO i inklistrade SMS och returnera en neutral beteendeanalys, f\'f6rbjuden att n\'e4mna ordet 'narcissist'."\
+
+\f0 \cf0 \
+\
+
+\f1\b\fs32 \cf2 Parallellt F\'f6r\'e4ldraskap och BIFF-metoden
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 N\'e4r samarbete inte \'e4r m\'f6jligt p\'e5 grund av en h\'f6gkonfliktsdynamik, \'e4r traditionella r\'e5d om "samarbetssamtal" (som ofta rekommenderas av Socialstyrelsen) ibland kontraproduktiva och kan uts\'e4tta den skyddande f\'f6r\'e4ldern f\'f6r fortsatt psykologiskt v\'e5ld. Myndigheten f\'f6r familjer\'e4tt och f\'f6r\'e4ldraskapsst\'f6d (MFoF) betonar vikten av barnets s\'e4kerhet framf\'f6r till varje pris tvingat samarbete. Konceptet parallellt f\'f6r\'e4ldraskap blir d\'e4rmed n\'f6dv\'e4ndigt, d\'e4r f\'f6r\'e4ldrarna engagerar sig i barnets liv med minimal eller obefintlig interaktion med varandra.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 F\'f6r att hantera den oundvikliga skriftliga kommunikationen \'e4r Bill Eddys BIFF-metod (Brief, Informative, Friendly, Firm) det internationellt och vetenskapligt erk\'e4nda standardverktyget. Metoden motverkar den naturliga impulsen att f\'f6rsvara sig (JADE: Justify, Argue, Defend, Explain) n\'e4r man uts\'e4tts f\'f6r falska anklagelser. Genom att h\'e5lla meddelandet kort, enbart fokusera p\'e5 saklig information, uppr\'e4tth\'e5lla en l\'e5gaffektiv (v\'e4nlig/neutral) ton och s\'e4tta en tydlig gr\'e4ns (fast), eskaleras inte konflikten.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 I Livskompassens "Hamn"-modul integreras BIFF deterministiskt. Modulen fungerar som en asynkron buffert mellan inkommande toxicitet och utg\'e5ende svar. Crucialt \'e4r att BIFF-coachningen sker efem\'e4rt. Om meddelanden och AI-genererade BIFF-svar inte explicit sparas av anv\'e4ndaren genom en Human-in-the-loop (HITL) procedur, raderas de. Detta minimerar risken f\'f6r att systemet fungerar som en o\'e4ndlig loop av konflikt\'e4ltande, vilket \'e4r f\'f6r\'f6dande f\'f6r ADHD-hj\'e4rnans dopaminsystem.
+\f0\fs24 \cf0 \
+\
+
+\f3 \cf2 [yaml]\
+id: "research-sa2-002"\
+content_class: EVIDENCE\
+target_zone: hamn\
+target_module: "Hamn (BIFF)"\
+route: "/familjen?tab=hamn"\
+category: "kommunikation_metod"\
+source_tier: P1\
+source_url: "https://www.highconflicttraining.com/store"\
+source_title: "High Conflict Institute: BIFF Responses"\
+claim_sv: "BIFF-metoden begr\'e4nsar fientlighet genom asynkrona meddelanden som \'e4r korta, sakliga, neutrala och avslutande, och undviker f\'f6rsvar."\
+why: "Utg\'f6r den exklusiva och enda till\'e5tna LLM-instruktionen f\'f6r att generera svarsutkast i applikationen."\
+existing_overlap: "kunskap-fact-005, kunskap-fact-006"\
+recommendation: KEEP\
+rule_impact: "I `hamnTaktikWire.ts` m\'e5ste BIFF-parametrarna verifieras. Inget utkast f\'e5r inneh\'e5lla JADE (Justify, Argue, Defend, Explain)."\
+
+\f0 \cf0 \
+\
+
+\f1\b\fs32 \cf2 Bevishantering via WORM-protokollet
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 N\'e4r konflikter eskalerar till verkst\'e4llighetsm\'e5l eller v\'e5rdnadstvister blir kvalit\'e9n p\'e5 bevisningen avg\'f6rande. En domstol f\'f6rkastar svepande, k\'e4nslobaserade anklagelser. Systemets 
+\f3 reality_vault
+\f2  bygger d\'e4rf\'f6r p\'e5 ett WORM-protokoll (Write-Once, Read-Many) f\'f6r att s\'e4kra beviskedjan. All bevisning m\'e5ste struktureras enligt formatet: Objektivt Beteende + Datum + Exakt Citat. Det faktum att posterna inte kan redigeras efter att de sparats garanterar dokumentens juridiska validitet och f\'f6rhindrar att data manipuleras i efterhand, en kritisk funktion som \'e5tskiljer Livskompassen fr\'e5n vanliga anteckningsb\'f6cker.
+\f0\fs24 \cf0 \
+\
+\
+\
+
+\f1\b\fs36 \cf2 SA-3: Ekonomi, Kognitiv Belastning och Planering
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Sektionen "Vardagen" adresserar det kausala sambandet mellan kognitiv funktionsneds\'e4ttning, exekutiv dysfunktion och finansiell instabilitet. F\'f6r individer med ADHD resulterar nedsatt impulskontroll och sv\'e5righeter med tidsuppfattning ofta i obetalda r\'e4kningar, inkassokrav och en djup "pengaskam".
+\f0\fs24 \cf0 \
+\
+
+\f1\b\fs32 \cf2 ADHD-v\'e4nlig Ekonomi och Mikrobudgetering
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Konsumentverket och Kronofogden understryker att de komplexa konsumentmarknaderna missgynnar individer med ADHD. Sv\'e5righeter att bed\'f6ma risker vid kreditk\'f6p och of\'f6rm\'e5gan att prioritera l\'e5ngsiktigt sparande \'e4r inte moraliska brister, utan resultat av l\'e4gre ekonomisk och kognitiv kapacitet. R\'e5dgivning f\'f6r denna m\'e5lgrupp rekommenderas att b\'f6rja med det mest grundl\'e4ggande: att identifiera och s\'e4kerst\'e4lla betalning av fasta kostnader som hyra och el innan pengar frig\'f6rs f\'f6r annat.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Traditionella hush\'e5llsbudgetar, som bygger p\'e5 att f\'f6ruts\'e4ga en hel m\'e5nads konsumtion i detalj, kr\'e4ver f\'f6r mycket arbetsminne och framkallar \'e5ngest. Forskningen och etablerad praxis bland neurodivergenta individer pekar mot framg\'e5ngen hos Kuvertmetoden (Envelope Budgeting) och "YNAB"-filosofin (You Need A Budget). Genom att ge varje tillg\'e4nglig krona ett specifikt, omedelbart syfte elimineras os\'e4kerheten. Livskompassens ekonomi-modul under 
+\f3 /vardagen?tab=ekonomi
+\f2  m\'e5ste d\'e4rf\'f6r spegla denna struktur.
+\f0\fs24 \cf0 \
+\
+
+\f3 \cf2 [yaml]\
+id: "research-sa3-001"\
+content_class: FACT\
+target_zone: kunskap\
+target_module: "Vardagen Ekonomi"\
+route: "/vardagen?tab=ekonomi"\
+category: "ekonomi_vardag"\
+source_tier: P1\
+source_url: "https://www.vardochinsats.se/adhd/behandling-och-stoed/raadgivande-samtal-om-privatekonomi/"\
+source_title: "V\'e5rd och Insats: R\'e5dgivande samtal om privatekonomi vid ADHD"\
+claim_sv: "Adhd medf\'f6r l\'e4gre ekonomisk kompetens, sv\'e5righet att \'f6verblicka utgifter och \'f6kad efterfr\'e5gan p\'e5 krediter, vilket snabbt kan leda till kronofogden."\
+why: "Bekr\'e4ftar att systemet m\'e5ste fungera som kognitiv friktion mot impulsk\'f6p och prioritera absolut tydlighet kring fasta utgifter."\
+existing_overlap: "kunskap-fact-009"\
+recommendation: ST\'c4RK\
+rule_impact: "Applikationen m\'e5ste prioritera mikrobudgetering framf\'f6r historiska grafer och framtidsprojektioner f\'f6r att undvika \'f6verv\'e4ldigande."\
+
+\f0 \cf0 \
+\
+
+\f1\b\fs32 \cf2 Kapacitetsstyrd UI och "One Screen One Job"
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Nielsen Norman Group (NNG), auktoriteter inom UX-design, p\'e5pekar att os\'e4kerhet \'f6kar den kognitiva belastningen drastiskt. F\'f6r anv\'e4ndare med kognitiva utmaningar, d\'e4r arbetsminnet l\'e4tt blir \'f6verfullt, \'e4r transparens och f\'f6ruts\'e4gbarhet helt avg\'f6rande. Komplext gr\'e4nssnitt, tv\'e5dimensionella f\'e4lt med f\'f6r m\'e5nga val, eller appar som visar all information samtidigt leder till kognitiv paralys. Detta motiverar regeln om "One screen, one job" \'96 varje vy i appen f\'e5r endast syfta till en enda handling.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Evolution Gating (kapacitetsreglering via 
+\f3 evolution_ledger
+\f2 ) \'e4r systemets l\'f6sning. Vid "Niv\'e5 1" (l\'e5g kognitiv kostnad) d\'f6ljs avancerade funktioner. Planeringsverktyget, implementerat som P3 Kanban under 
+\f3 /planering?tab=handling
+\f2 , \'e4r medvetet L\'c5ST f\'f6r att undvika komplexitet. Det skall fungera som ett "t\'f6mma hj\'e4rnan"-fack f\'f6r impulser (att-g\'f6ra), snarare \'e4n ett komplext beroendestyrt projektverktyg. Flaggan 
+\f3 economy_advanced
+\f2  f\'e5r endast aktiveras n\'e4r anv\'e4ndarens kognitiva kapacitet medger det, helt utan inslag av gamification.
+\f0\fs24 \cf0 \
+\
+
+\f3 \cf2 [yaml]\
+id: "research-sa3-002"\
+content_class: REFLECTION\
+target_zone: rules\
+target_module: "UI Designsystem"\
+route: "/planering?tab=handling"\
+category: "produkt_arkitektur"\
+source_tier: P2\
+source_url: "https://www.nngroup.com/articles/4-principles-reduce-cognitive-load/"\
+source_title: "Nielsen Norman Group: Reduce Cognitive Load"\
+claim_sv: "Kognitiv tillg\'e4nglighet kr\'e4ver minimerat visuellt brus, linj\'e4r struktur och att gr\'e4nssnittet inte kr\'e4ver att anv\'e4ndaren lagrar information i arbetsminnet mellan steg."\
+why: "Motiverar beslutet att frysa P3 Kanban-funktionaliteten och f\'f6rkasta f\'f6rslag om mer komplexa planeringsfunktioner."\
+existing_overlap: "Finns dokumenterat i gap-matrix-2026-06-16.md."\
+recommendation: KEEP\
+rule_impact: "F\'f6rbjud implementation av sub-tasks, tidslinjer eller flip-cards i Kanban-vyn. Bibeh\'e5ll den extrema f\'f6renklingen."\
+
+\f0 \cf0 \
+\
+
+\f1\b\fs36 \cf2 SA-4: Familjen och Barnporten \'96 Skydd i H\'f6gkonflikt
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Barn som tvingas navigera mellan hush\'e5ll pr\'e4glade av h\'f6gkonflikt drabbas ofta av allvarlig psykisk p\'e5frestning. I situationer d\'e4r en f\'f6r\'e4lder till\'e4mpar covert manipulation eller uppvisar narcissistiska drag, blir barnet ofta utsatt f\'f6r emotionell invalidisering och tilldelas rollen som "budb\'e4rare" mellan f\'f6r\'e4ldrarna.
+\f0\fs24 \cf0 \
+\
+
+\f1\b\fs32 \cf2 Lojalitetskonflikter och Verkst\'e4llighet
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Rapporter fr\'e5n Barnombudsmannen och MFoF fastst\'e4ller att barn i v\'e5rdnadstvister regelbundet uts\'e4tts f\'f6r pressande lojalitetskonflikter, d\'e4r de k\'e4nner sig tvingade att v\'e4lja sida eller ta ansvar f\'f6r f\'f6r\'e4ldrarnas emotionella v\'e4lm\'e5ende. \'c4ven vid f\'f6rekomst av dokumenterat v\'e5ld beslutas s\'e4llan om inst\'e4llt umg\'e4nge, vilket tvingar barnet att hantera sp\'e4nningen kontinuerligt. F\'f6r\'e4ldrar i konflikt anv\'e4nder ibland barnets uttalanden f\'f6r att bygga juridiska m\'e5l, vilket ytterligare traumatiserar barnet.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Det prim\'e4ra m\'e5let f\'f6r den skyddande f\'f6r\'e4ldern (den "trygga hamnen") \'e4r att eliminera dessa krav och inte f\'f6rv\'e4nta sig att barnet skall leverera information om motparten. Inom Livskompassen \'e4r fliken "Barnfokus" (
+\f3 /familjen?tab=reflektion
+\f2 ) L\'c5ST f\'f6r f\'f6r\'e4ndring utan Program Manager Intervention (PMIR) f\'f6r att garantera att systemet inte uppmuntrar till f\'f6rh\'f6r. Barnets loggar (
+\f3 children_logs
+\f2 ) m\'e5ste f\'f6rbli objektiva, separerade fr\'e5n Valvet, och sakna alla former av tolkande eller diagnosticerande attribut. Att skriva "Barnet \'e4r alienerat" (Parental Alienation) \'e4r strikt f\'f6rbjudet d\'e5 det saknar objektivt bevisv\'e4rde och klassas som en sj\'e4lvdiagnostiserande subjektiv \'e5sikt. Loggningen skall endast dokumentera observerbara fakta: "Barnet uttryckte sm\'e4rta i magen f\'f6re \'f6verl\'e4mning" eller "Motparten fr\'e5gade barnet om min ekonomi".
+\f0\fs24 \cf0 \
+\
+
+\f3 \cf2 [yaml]\
+id: "research-sa4-001"\
+content_class: EVIDENCE\
+target_zone: barnen\
+target_module: "Barnfokus (Reflektion)"\
+route: "/familjen?tab=reflektion"\
+category: "barn_hcf"\
+source_tier: P1\
+source_url: "https://wwwallmannabarnh.cdn.triggerfish.cloud/uploads/2015/04/Barnens-r%C3%A4ttigheter-i-v%C3%A5rdnadstvister.pdf"\
+source_title: "Barnens r\'e4ttigheter i v\'e5rdnadstvister"\
+claim_sv: "Barn drabbas djupt av lojalitetskonflikter och f\'e5r inte ansvaret att agera informant eller domare mellan tv\'e5 f\'f6r\'e4ldrar i konflikt."\
+why: "Detta \'e4r grundvalen f\'f6r varf\'f6r systemet f\'f6rbjuder auto-diagnosticering av Parental Alienation och kr\'e4ver WORM-objektivitet vid barn-loggning."\
+existing_overlap: "bh-001 till bh-008"\
+recommendation: KEEP\
+rule_impact: "Ingen funktion f\'e5r n\'e5gonsin 'auto-promota' loggar fr\'e5n `children_logs` till domstolsbevis (`reality_vault`) utan explicit, granskande HITL-godk\'e4nnande av anv\'e4ndaren."\
+
+\f0 \cf0 \
+\
+
+\f1\b\fs32 \cf2 \'c5ldersanpassad Anknytning utan Prestation
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 F\'f6r att reparera och st\'e4rka anknytningen utan att inf\'f6ra prestationskrav, m\'e5ste systemets PLAY-moduler (mikroaktiviteter \uc0\u8804  2 minuter) vara noggrant \'e5lderskalibrerade. Forskningen betonar att barns kognitiva och emotionella behov varierar drastiskt under utvecklingen, speciellt i kris:
+\f0\fs24 \cf0 \
+\
+\
+\
+
+\f3 \cf2 [yaml]\
+id: "research-sa4-002"\
+content_class: PLAY\
+target_zone: barnen\
+target_module: "Barnen-PLAY-BANK"\
+route: "/barnporten"\
+category: "barn_neuro"\
+source_tier: P2\
+source_url: "https://www.barnombudsmannen.se/aktuellt/barnens-ratt-kranks-i-foraldrarnas-tvister/"\
+source_title: "Barnens r\'e4tt kr\'e4nks i f\'f6r\'e4ldrarnas tvister"\
+claim_sv: "\'c5ldersadekvat delaktighet kr\'e4ver verktyg som respekterar barnets mognadsgrad utan att introducera vuxnas terapispr\'e5k eller tyngd."\
+why: "Kr\'e4ver segmentering via `currentBracket` och motiverar varf\'f6r PLAY-banken \'e4r strikt avgr\'e4nsad till max 2 minuter per aktivitet."\
+existing_overlap: "PLAY-banken saknar f\'f6r n\'e4rvarande tillr\'e4cklig separation f\'f6r 14+."\
+recommendation: NEW\
+rule_impact: "L\'e4gg till upps\'e4ttning `BP-PLAY-18..21` specifikt f\'f6r ton\'e5ringar med fokus p\'e5 autonomi och gr\'e4nss\'e4ttning."\
+
+\f0 \cf0 \
+\
+
+\f1\b\fs36 \cf2 SA-5: Metaregler, Anti-Overwhelm och Prioritering
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Det avslutande forskningsomr\'e5det analyserar metastrukturerna f\'f6r systemdesign. Genomg\'e5ngen av popul\'e4ra self-care- och vana-appar s\'e5som Daylio, Finch och komplexa Notion-mallar avsl\'f6jar hur branschpraxis ofta krockar v\'e5ldsamt med behoven hos anv\'e4ndare med ADHD och trauma.
+\f0\fs24 \cf0 \
+\
+
+\f1\b\fs32 \cf2 Farorna med Gamification och Streaks
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 M\'e5nga kommersiella appar bygger engagemang genom spelmekanik (gamification), bel\'f6ningar, erfarenhetspo\'e4ng (XP) och obrutna kedjor ("streaks"). Anv\'e4ndaranalyser fr\'e5n neurodivergenta populationer pekar konsekvent p\'e5 att dessa mekanismer \'e4r skadliga p\'e5 l\'e5ng sikt. Medan en streak initialt kan motivera, blir misslyckandet oundvikligt p\'e5 grund av exekutiv dysfunktion eller en d\'e5lig dag. N\'e4r streaken bryts, nollst\'e4lls framstegen. I appar som Finch leder detta till negativa k\'e4nslor, d\'e4r appen ironiskt nog framkallar mer skuld ("guilt streaks") och trigger f\'f6r rejection sensitivity (RSD) \'e4n den ger lindring. Att dessutom inf\'f6ra "m\'f6rka m\'f6nster" (Dark Patterns), d\'e4r anv\'e4ndaren tvingas betala virtuell valuta f\'f6r att beh\'e5lla eller reparera en streak, utg\'f6r en direkt straffmekanism som fullst\'e4ndigt undergr\'e4ver ett system vars syfte \'e4r trygghet.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Livskompassen m\'e5ste v\'e4nda uppochned p\'e5 denna designfilosofi. Systemet skall vara asynkront och fritt fr\'e5n straff; det existerar enbart som ett st\'f6d. Designbeslutet att permanent REJECT:a XP, streaks och kalendermotivation \'e4r d\'e4rf\'f6r vetenskapligt f\'f6rankrat i skademinimering.
+\f0\fs24 \cf0 \
+\
+
+\f3 \cf2 [yaml]\
+id: "research-sa5-001"\
+content_class: REFLECTION\
+target_zone: rules\
+target_module: "Designsystem"\
+route: "Global"\
+category: "produkt_arkitektur"\
+source_tier: P2\
+source_url: "https://www.reddit.com/r/finch/comments/1f0fuke/does_anyone_find_that_the_self_care_streak_makes/"\
+source_title: "Does anyone find that the self care streak makes you feel worse? (Finch Community)"\
+claim_sv: "Konsekvenserna av brutna 'streaks' orsakar skam, minskad sj\'e4lvk\'e4nsla och slutligen avhopp f\'f6r anv\'e4ndare med ADHD och psykisk oh\'e4lsa."\
+why: "Bekr\'e4ftar att anti-gamification \'e4r ett n\'f6dv\'e4ndigt kliniskt beslut, inte en brist p\'e5 funktioner."\
+existing_overlap: "Tidigare REJECT i Gap-matris bekr\'e4ftas."\
+recommendation: KEEP\
+rule_impact: "F\'f6rbjud all kod som genererar kalender-kedjor, 'eldikoner' f\'f6r p\'e5 varandra f\'f6ljande dagar, eller virtuella straff f\'f6r inaktivitet."\
+
+\f0 \cf0 \
+\
+
+\f1\b\fs32 \cf2 Estetik och Kognitiv Vila
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 F\'e4rg och typografi \'e4r inte marginella kosmetiska val i ett verktyg f\'f6r kognitiv vila. Koncept och appar som anv\'e4nder h\'f6gkontrasterande ljusa teman eller skarpa "teal/cyan" paletter (som tidigare \'f6verv\'e4gts men f\'f6rkastats) skapar visuell stress. \'d6verstimulering av retina komplicerar informationsbearbetningen och f\'f6rv\'e4rrar mental utmattning.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Livskompassens beslut att l\'e5sa paletten till "Obsidian Dark" (mycket m\'f6rka nyanser av 
+\f3 #020617
+\f2  till 
+\f3 #050b14
+\f2 ) med enbart en d\'e4mpad guldaccent (
+\f3 #d4af37
+\f2 ), kombinerat med typografin Cinzel f\'f6r avgr\'e4nsade rubriker, reducerar det visuella bruset till ett absolut minimum. Systemets docka (4-tab navigation) uppfyller regeln om transparens, varf\'f6r f\'f6rslaget om en 5-tabslayout med dolda undermenyer r\'f6stades ned och ligger p\'e5 den permanenta f\'f6rbudslistan.
+\f0\fs24 \cf0 \
+\
+
+\f3 \cf2 [yaml]\
+id: "research-sa5-002"\
+content_class: FACT\
+target_zone: rules\
+target_module: "Systemarkitektur"\
+route: "Backend"\
+category: "produkt_sakerhet"\
+source_tier: P1\
+source_url: "uploaded:INNEHALL-REGISTER.md"\
+source_title: "INNEHALL-REGISTER - Core Directives"\
+claim_sv: "Den arkitektoniska segregeringen mellan Fakta, Reflektion, och Bevis (WORM) f\'f6rhindrar LLM-hallucinationer som kan ogiltigf\'f6rklara dokument i juridiska processer."\
+why: "Den viktigaste s\'e4kerhetsregeln. Bevis m\'e5ste skyddas fr\'e5n att smittas av terapi-spr\'e5k, och vice versa."\
+existing_overlap: "grunder-kanon.mdc"\
+recommendation: ST\'c4RK\
+rule_impact: ".cursor/rules/grunder-kanon.mdc m\'e5ste ha prio 1 och ovillkorligen avbryta all kod-generering som f\'f6rs\'f6ker bygga en gemensam s\'f6k-funktion (Cross-RAG) f\'f6r alla firestore-kollektioner."\
+
+\f0 \cf0 \
+\
+
+\f1\b\fs36 \cf2 Gap-Analys och Kunskapsinventering
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 En j\'e4mf\'f6rande analys av den existerande t\'e4ckningen i Kunskapsbanken (117 FACT-manifest, f\'f6rdelade \'f6ver v\'e5g 24\'9626) och resultaten fr\'e5n denna forskning indikerar en h\'f6g grad av initial mognad, s\'e4rskilt r\'f6rande juridik (
+\f3 jur-001\'96008
+\f2 ) och covert taktik (
+\f3 cn-001\'96022
+\f2 ). Dock har specifika luckor (LUCKA) identifierats som m\'e5ste \'e5tg\'e4rdas under de kommande ingest-v\'e5gorna (Wave 27\'9630).
+\f0\fs24 \cf0 \
+\
+\
+\
+
+\f1\b\fs36 \cf2 Prioriteringsregler f\'f6r Slutfasen
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 F\'f6r att styra Livskompassen v2 till en framg\'e5ngsrik "definition of done" och eliminera risker f\'f6r scope-creep eller f\'f6rs\'e4mrad s\'e4kerhetsarkitektur, fastst\'e4lls nedanst\'e5ende regler. Dessa direktiv oms\'e4tts till styrande 
+\f3 .cursor/rules/*.mdc
+\f2 -dokument.
+\f0\fs24 \cf0 \
+\
+
+\f1\b\fs32 \cf2 F\'f6rst\'e4rkta Regler (ST\'c4RK)
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 1. 
+\f1\b Datalokalisering och Cross-RAG (grunder-kanon.mdc):
+\f2\b0  Den absoluta barri\'e4ren mellan RAG-silorna \'e4r okr\'e4nkbar. Systemets 
+\f3 knowledgeVaultQuery
+\f2 , 
+\f3 valvChatQuery
+\f2  och 
+\f3 childrenLogsQuery
+\f2  skall anropas asynkront och isolerat. Ingen vektoriserad s\'f6kning f\'e5r ske \'f6ver gr\'e4nserna.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 2. 
+\f1\b Klinisk Neutralitet (dom\'e4n-covert-narcissism.mdc):
+\f2\b0  All output fr\'e5n systemet r\'f6rande medf\'f6r\'e4ldern skall f\'f6rbli observerbar och beteendebaserad. Ord som "narcissist", "psykopat" eller "alienation" bortfiltreras och ers\'e4tts med "covert manipulation" eller "invalidiserande beteende".
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 3. 
+\f1\b Kapacitetsstyrning (infinite-evolution.mdc):
+\f2\b0  Ekonomi- och planeringstabbar startar alltid p\'e5 kapabilitetsniv\'e5 1. Uppl\'e5sning av avancerade funktioner sker genom medvetet, icke-spelifierat anv\'e4ndarval, inte genom tid eller ackumulerade po\'e4ng.
+\f0\fs24 \cf0 \
+\
+
+\f1\b\fs32 \cf2 "Stop Doing" Lista (REJECT)
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Ett avg\'f6rande resultat av SA-5 \'e4r listan \'f6ver funktioner och arkitektoniska val som definitivt skall avvisas, eftersom de st\'e5r i strid med systemets kliniska och s\'e4kerhetsm\'e4ssiga m\'e5l :
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 \'95 
+\f1\b Inga Streaks eller XP:
+\f2\b0  Implementera inga kalendrar som loggar obrutna kedjor, bel\'f6ningar, eller virtuella bestraffningar.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 \'95 
+\f1\b Ingen Diagnosticerande UX:
+\f2\b0  Bygg inga funktioner vars syfte \'e4r att "kartl\'e4gga" eller "diagnostisera" motpartens personlighet.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 \'95 
+\f1\b Ingen Sammanslagning av Vyerna (Hem \cf0 \uc0\u8237 {{\NeXTGraphic Attachment.tiff \width280 \height145 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\cf2 \uc0\u8236  Hj\'e4rtat): F\'f6rkasta 
+\f2\b0 alla f\'f6rslag p\'e5 att sl\'e5 ihop startsidan med reflektionssidan utan f\'f6reg\'e5ende PMIR.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 \'95 
+\f1\b Ingen 5-Tab Navigation:
+\f2\b0  Sidof\'e4ltet / navigationsdockan \'e4r definitivt l\'e5st till maximalt fyra ikoner och en central kompass (Fyren) f\'f6r att reducera val-paralys.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 \'95 
+\f1\b Ingen Auto-Promote:
+\f2\b0  Det skall f\'f6rbli tekniskt om\'f6jligt att skicka barndata (
+\f3 children_logs
+\f2 ) direkt till den legala strukturen i Valvet utan manuell HITL-\'f6verf\'f6ring och redigering f\'f6r WORM-kompatibilitet.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 \'95 
+\f1\b Ingen Visuell Omsorgs-Creep:
+\f2\b0  Avvisa f\'f6rslag om ljusa teman, "Teal/Nature"-estetik eller distraherande motion-design (Wow-animationer) som utmattar kognitivt nedsatta anv\'e4ndare.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 \'95 
+\f1\b Ingen \'c4ndring i Stack:
+\f2\b0  React + Capacitor \'e4r l\'e5st. Alla f\'f6rslag om ombyggnad i Flutter eller React Native raderas omg\'e5ende.
+\f0\fs24 \cf0 \
+\
+
+\f1\b\fs36 \cf2 Slutsatser och Strategisk Implementering
+\f0\b0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Livskompassen v2 representerar en unikt anpassad teknologisk och psykologisk interventionsplattform f\'f6r en extremt s\'e5rbar population. Anv\'e4ndare som lider av kognitiv belastning fr\'e5n ADHD, f\'f6rv\'e4rrad av emotionell sm\'e4rta fr\'e5n RSD, och som samtidigt befinner sig i centrum f\'f6r juridiska och personliga konflikter drivna av covert manipulation, beh\'f6ver inte fler "sj\'e4lvhj\'e4lps-appar". De beh\'f6ver ett digitalt f\'f6rsvarsverk.
+\f0\fs24 \cf0 \
+\
+
+\f2\fs28 \cf2 Genom att systematiskt till\'e4mpa evidens \'96 6 bpm vagusstimulering f\'f6r fysiologisk grounding, identifiering av DARVO f\'f6r psykologiskt skydd, BIFF f\'f6r asynkron gr\'e4nss\'e4ttning, kuvertmetoden f\'f6r ekonomisk \'f6verlevnad, och WORM-loggning f\'f6r juridisk s\'e4kerhet \'96 omvandlas mjukvara till en skyddande sk\'f6ld. Avst\'e5endet fr\'e5n popul\'e4ra designm\'f6nster som gamification, streaks och \'f6verarbetad UI-design \'e4r inte en kompromiss, utan den mest centrala, evidensbaserade UX-strategin. Den arkitektoniska stringensen som f\'f6rhindrar Cross-RAG s\'e4kerst\'e4ller att systemet f\'f6rblir trov\'e4rdigt inf\'f6r myndigheter, och skadefritt f\'f6r anv\'e4ndaren. Den fastst\'e4llda planen f\'f6r slutfasen (Wave 27-30) \'e4r nu redo att exekveras inom dessa slutgiltigt fastst\'e4llda och l\'e5sta ramverk.
+\f0\fs24 \cf0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\sa160\pardirnatural\partightenfactor0
+\cf0 \
+\
+}
