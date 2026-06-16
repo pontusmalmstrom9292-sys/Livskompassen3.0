@@ -11,7 +11,7 @@ import {
 import type { BudgetEnvelopeRow } from '@/core/types/firestore';
 import { envelopeRemaining } from '../rules/budgetTemplates';
 
-export function EconomyEnvelopeSection() {
+export function EconomyEnvelopeSection({ disabled = false }: { disabled?: boolean } = {}) {
   const user = useStore((s) => s.user);
   const [envelopes, setEnvelopes] = useState<BudgetEnvelopeRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -122,7 +122,7 @@ export function EconomyEnvelopeSection() {
                   </div>
                   <button
                     type="button"
-                    disabled={busy}
+                    disabled={busy || disabled}
                     onClick={() => void handleDelete(env.id)}
                     className="btn-pill--ghost p-2 text-text-dim"
                     aria-label={`Ta bort ${env.title}`}
@@ -135,7 +135,7 @@ export function EconomyEnvelopeSection() {
                   <input
                     type="number"
                     defaultValue={env.spentSek}
-                    disabled={busy}
+                    disabled={busy || disabled}
                     onBlur={(e) =>
                       void handleUpdateSpent(env, Number(e.target.value) || 0)
                     }
@@ -157,6 +157,7 @@ export function EconomyEnvelopeSection() {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            disabled={busy || disabled}
             className="input-glass mt-1 w-full text-sm"
             placeholder="t.ex. Mat"
             required
@@ -168,11 +169,12 @@ export function EconomyEnvelopeSection() {
             type="number"
             value={allocatedSek}
             onChange={(e) => setAllocatedSek(Number(e.target.value) || 0)}
+            disabled={busy || disabled}
             className="input-glass mt-1 w-full text-sm"
             min={0}
           />
         </label>
-        <button type="submit" disabled={busy || !user} className="btn-pill--secondary w-full text-sm">
+        <button type="submit" disabled={busy || disabled || !user} className="btn-pill--secondary w-full text-sm">
           {busy ? 'Sparar…' : 'Skapa kuvert'}
         </button>
       </form>

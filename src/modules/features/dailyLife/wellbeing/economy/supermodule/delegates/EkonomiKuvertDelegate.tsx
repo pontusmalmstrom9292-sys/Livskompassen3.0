@@ -1,6 +1,7 @@
-import { Check, Loader2, Trash2, Wallet } from 'lucide-react';
+import { Check, Loader2, Wallet } from 'lucide-react';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
-import { envelopeRemaining } from '@/modules/features/dailyLife/wellbeing/economy/rules/budgetTemplates';
+import { useCapacityScore } from '@/core/store/useCapacityGate';
+import { EconomyEnvelopeSection } from '../../components/EconomyEnvelopeSection';
 import { useEconomyKuvertWrite } from '../hooks/useEconomyKuvertWrite';
 import { useEconomyTransactionWORM } from '../hooks/useEconomyTransactionWORM';
 
@@ -21,11 +22,16 @@ function buildKuvertExpenseLabel(envelopeTitle: string, optionalLabel: string): 
   return trimmed ? `Kuvert — ${envelopeTitle}: ${trimmed}` : `Kuvert — ${envelopeTitle}`;
 }
 
+/** Normaliserad kapacitet 0–1 — SPEC §4.3 / §4.5 */
+const STABILITY_THRESHOLD = 0.5;
+
 /**
  * Fas 8D — Kuvertbudget.
  * Mutable `budgets` via useEconomyKuvertWrite; utgifter → `transactions` via WORM hook.
  */
 export function EkonomiKuvertDelegate({ userId }: EkonomiKuvertDelegateProps) {
+  const capacityScore = useCapacityScore();
+  const isLowCapacity = capacityScore < STABILITY_THRESHOLD;
   const hasUser = Boolean(userId);
 
   const {
@@ -37,9 +43,7 @@ export function EkonomiKuvertDelegate({ userId }: EkonomiKuvertDelegateProps) {
     error: envelopeError,
     clearError: clearEnvelopeError,
     reload: reloadEnvelopes,
-    createEnvelope,
     recordEnvelopeSpend,
-    removeEnvelope,
   } = useEconomyKuvertWrite(hasUser ? userId : undefined);
 
   const {
@@ -51,16 +55,12 @@ export function EkonomiKuvertDelegate({ userId }: EkonomiKuvertDelegateProps) {
     clearError: clearTxError,
   } = useEconomyTransactionWORM(hasUser ? userId : undefined, reloadEnvelopes);
 
-  const [newTitle, setNewTitle] = useState('');
-  const [newAllocated, setNewAllocated] = useState('500');
   const [selectedEnvelopeId, setSelectedEnvelopeId] = useState('');
   const [expenseAmount, setExpenseAmount] = useState('');
   const [expenseLabel, setExpenseLabel] = useState('');
 
   useEffect(
     () => () => {
-      setNewTitle('');
-      setNewAllocated('500');
       setSelectedEnvelopeId('');
       setExpenseAmount('');
       setExpenseLabel('');
@@ -78,7 +78,7 @@ export function EkonomiKuvertDelegate({ userId }: EkonomiKuvertDelegateProps) {
     }
   }, [envelopes, selectedEnvelopeId]);
 
-  const inputsDisabled = loading || envelopeSaving || txSaving || !hasUser;
+  const inputsDisabled = loading || envelopeSaving || txSaving || !hasUser || isLowCapacity;
   const selectedEnvelope = envelopes.find((env) => env.id === selectedEnvelopeId);
   const displayError = txError ?? envelopeError;
   const savedFlash = txSavedFlash || envelopeSavedFlash;
@@ -89,27 +89,6 @@ export function EkonomiKuvertDelegate({ userId }: EkonomiKuvertDelegateProps) {
     clearEnvelopeError();
     clearTxError();
   }, [clearEnvelopeError, clearTxError]);
-
-  const handleCreateEnvelope = useCallback(
-    async (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      if (inputsDisabled || !newTitle.trim()) return;
-
-      const allocatedSek = parseAmountSek(newAllocated);
-      if (allocatedSek === null) {
-        clearErrors();
-        return;
-      }
-
-      clearErrors();
-      const ok = await createEnvelope(newTitle, allocatedSek);
-      if (ok) {
-        setNewTitle('');
-        setNewAllocated('500');
-      }
-    },
-    [clearErrors, createEnvelope, inputsDisabled, newAllocated, newTitle],
-  );
 
   const handleLogExpense = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
@@ -168,42 +147,8 @@ export function EkonomiKuvertDelegate({ userId }: EkonomiKuvertDelegateProps) {
         </p>
       ) : (
         <>
-          {envelopes.length === 0 ? (
-            <p className="rounded-xl border border-border/30 bg-surface-3/30 px-3 py-4 text-xs text-text-muted">
-              Inga kuvert ännu. Skapa ett nedan.
-            </p>
-          ) : (
-            <ul className="space-y-2.5" aria-label="Aktiva kuvert">
-              {envelopes.map((env) => {
-                const left = envelopeRemaining(env);
-                return (
-                  <li
-                    key={env.id}
-                    className="flex items-start justify-between gap-3 rounded-xl border border-border/30 bg-surface-3/30 px-3 py-3"
-                  >
-                    <div>
-                      <p className="text-sm text-text">{env.title}</p>
-                      <p className="text-xs text-text-dim">
-                        Kvar {left} kr av {env.allocatedSek} kr
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      disabled={inputsDisabled}
-                      onClick={() => void removeEnvelope(env.id)}
-                      className="btn-pill--ghost p-2 text-text-dim disabled:opacity-60"
-                      aria-label={`Ta bort ${env.title}`}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-
           <form
-            className="space-y-3 rounded-xl border border-border/30 bg-surface-3/20 p-3"
+            className="space-y-3 rounded-xl border border-accent/20 bg-accent/5 p-4 shadow-[0_0_15px_rgba(212,175,55,0.05)]"
             onSubmit={(event) => void handleLogExpense(event)}
             aria-label="Logga kuvertutgift"
           >
@@ -285,54 +230,9 @@ export function EkonomiKuvertDelegate({ userId }: EkonomiKuvertDelegateProps) {
             </button>
           </form>
 
-          <form
-            className="space-y-3 border-t border-border/30 pt-4"
-            onSubmit={(event) => void handleCreateEnvelope(event)}
-            aria-label="Skapa kuvert"
-          >
-            <p className="text-[10px] uppercase tracking-wider text-text-dim">Nytt kuvert</p>
-
-            <label className="flex flex-col gap-1">
-              <span className="text-[10px] text-text-dim">Namn</span>
-              <input
-                type="text"
-                value={newTitle}
-                disabled={inputsDisabled}
-                onChange={(event) => {
-                  setNewTitle(event.target.value);
-                  clearErrors();
-                }}
-                placeholder="T.ex. Mat"
-                className="input-glass w-full disabled:opacity-60"
-                aria-label="Kuvertnamn"
-                required
-              />
-            </label>
-
-            <label className="flex flex-col gap-1">
-              <span className="text-[10px] text-text-dim">Budget (kr)</span>
-              <input
-                type="text"
-                inputMode="decimal"
-                value={newAllocated}
-                disabled={inputsDisabled}
-                onChange={(event) => {
-                  setNewAllocated(event.target.value);
-                  clearErrors();
-                }}
-                className="input-glass w-full tabular-nums disabled:opacity-60"
-                aria-label="Allokerad budget i kronor"
-              />
-            </label>
-
-            <button
-              type="submit"
-              disabled={inputsDisabled || !newTitle.trim()}
-              className="btn-pill--secondary w-full text-sm disabled:opacity-60"
-            >
-              {envelopeSaving ? 'Sparar…' : 'Skapa kuvert'}
-            </button>
-          </form>
+          <div className="mt-6">
+            <EconomyEnvelopeSection disabled={isLowCapacity} />
+          </div>
         </>
       )}
 

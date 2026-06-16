@@ -16,6 +16,8 @@ type Props = {
   tagFilter?: 'family' | 'general';
   /** Hide create form when showing filtered family fund only */
   compact?: boolean;
+  /** Lås inputs när kapaciteten är låg */
+  disabled?: boolean;
 };
 
 export function EconomySavingsPanel({
@@ -23,6 +25,7 @@ export function EconomySavingsPanel({
   description = 'En siffra i taget — inga grafer eller streaks',
   tagFilter,
   compact = false,
+  disabled = false,
 }: Props) {
   const user = useStore((s) => s.user);
   const [goals, setGoals] = useState<BudgetSavingsRow[]>([]);
@@ -160,7 +163,7 @@ export function EconomySavingsPanel({
                       <input
                         type="number"
                         defaultValue={goal.currentSek}
-                        disabled={busy}
+                        disabled={busy || disabled}
                         onBlur={(e) =>
                           void handleUpdateCurrent(goal, Number(e.target.value) || 0)
                         }
@@ -169,7 +172,7 @@ export function EconomySavingsPanel({
                     </label>
                     <button
                       type="button"
-                      disabled={busy}
+                      disabled={busy || disabled}
                       onClick={() => void handleDelete(goal.id)}
                       className="btn-pill--ghost p-2 text-text-dim"
                       aria-label={`Ta bort ${goal.title}`}
@@ -199,6 +202,7 @@ export function EconomySavingsPanel({
             type="text"
             value={goalTitle}
             onChange={(e) => setGoalTitle(e.target.value)}
+            disabled={busy || disabled}
             className="input-glass mt-1 w-full text-sm"
             placeholder="t.ex. Buffert"
             required
@@ -211,6 +215,7 @@ export function EconomySavingsPanel({
               type="number"
               value={targetSek}
               onChange={(e) => setTargetSek(Number(e.target.value) || 0)}
+              disabled={busy || disabled}
               className="input-glass mt-1 w-full text-sm"
               min={0}
             />
@@ -221,12 +226,13 @@ export function EconomySavingsPanel({
               type="number"
               value={currentSek}
               onChange={(e) => setCurrentSek(Number(e.target.value) || 0)}
+              disabled={busy || disabled}
               className="input-glass mt-1 w-full text-sm"
               min={0}
             />
           </label>
         </div>
-        <button type="submit" disabled={busy || !user} className="btn-pill--secondary w-full text-sm">
+        <button type="submit" disabled={busy || disabled || !user} className="btn-pill--secondary w-full text-sm">
           {busy ? 'Sparar…' : 'Skapa sparmål'}
         </button>
       </form>

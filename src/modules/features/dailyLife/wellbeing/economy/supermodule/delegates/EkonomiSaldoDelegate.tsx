@@ -2,6 +2,7 @@ import { Check, Loader2 } from 'lucide-react';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { MetricTile } from '@/core/ui/MetricTile';
 import { SaldoHero } from '@/core/ui/SaldoHero';
+import { TimelineEntry } from '@/core/ui/TimelineEntry';
 import { useEconomySaldoRead } from '../hooks/useEconomySaldoRead';
 import { useEconomyTransactionWORM } from '../hooks/useEconomyTransactionWORM';
 
@@ -33,6 +34,7 @@ export function EkonomiSaldoDelegate({ userId }: EkonomiSaldoDelegateProps) {
     progressPercent,
     weeklyBudget,
     mealPreset,
+    transactions,
     reload,
   } = useEconomySaldoRead(hasUser ? userId : undefined);
 
@@ -216,6 +218,25 @@ export function EkonomiSaldoDelegate({ userId }: EkonomiSaldoDelegateProps) {
           Sparat.
         </p>
       ) : null}
+
+      <div className="mt-6 border-t border-border/30 pt-4">
+        <p className="mb-3 text-[10px] uppercase tracking-wider text-text-dim">
+          Senaste transaktioner
+        </p>
+        {transactions.length === 0 ? (
+          <p className="text-sm text-text-dim">Inga transaktioner ännu.</p>
+        ) : (
+          <div className="space-y-3">
+            {transactions.slice(0, 5).map((t) => (
+              <TimelineEntry
+                key={t.id}
+                meta={`${t.createdAt.slice(0, 10)} · ${t.category}`}
+                body={`${t.label} — ${t.amountSek >= 0 ? '+' : ''}${t.amountSek} kr`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

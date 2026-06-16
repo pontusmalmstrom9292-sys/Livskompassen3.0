@@ -90,6 +90,7 @@ export function useEconomySaldoRead(userId: string | undefined) {
     progressPercent,
     weeklyBudget,
     mealPreset,
+    transactions,
     reload,
   };
 }

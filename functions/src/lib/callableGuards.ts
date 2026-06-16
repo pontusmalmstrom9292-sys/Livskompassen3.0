@@ -43,6 +43,11 @@ export async function guardSensitiveCallableV2(
   if (!request.auth) {
     throw new HttpsError('unauthenticated', 'Autentisering krävs.');
   }
+  
+  if (process.env.REQUIRE_EMAIL_AUTH === 'true' && !request.auth.token.email_verified) {
+    throw new HttpsError('permission-denied', 'Verifierad e-post krävs för denna miljö.');
+  }
+
   await assertRateLimit(request.auth.uid, rateLimitKey, maxPerMinute);
   return request.auth.uid;
 }
@@ -57,6 +62,11 @@ export async function guardSensitiveCallableV1(
   if (!context.auth) {
     throw new functions.https.HttpsError('unauthenticated', 'Autentisering krävs.');
   }
+
+  if (process.env.REQUIRE_EMAIL_AUTH === 'true' && !context.auth.token.email_verified) {
+    throw new functions.https.HttpsError('permission-denied', 'Verifierad e-post krävs för denna miljö.');
+  }
+
   try {
     await assertRateLimit(context.auth.uid, rateLimitKey, maxPerMinute);
   } catch (err) {

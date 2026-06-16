@@ -143,21 +143,11 @@ export function FamiljenPage() {
     >
       <ModuleShell
         eyebrow="Familjen"
-        title="Familjehubben"
-        lead="Den trygga hamnen. Barnfokus, neutral livslogg och Grey Rock-gränser — ett steg i taget."
-        footerSlot={
-          activeTab === 'reflektion' ? (
-            <ParentReminderFooter childAlias={shell.activeChild} />
-          ) : undefined
-        }
+        title=""
+        lead="Relationell närvaro."
         lockViewport={desktopHubLock}
         fitViewport={desktopHubLock}
-        depth
-        cognitiveStrip={{
-          label: 'Kognitiv sköld aktiv',
-          hint: 'Allt brus är bortfiltrerat. Välj ditt fokus i menyn nedan.',
-        }}
-        toolbar={<FamiljenHubToolbar activeTab={activeTab} onTabChange={handleTabChange} />}
+        bare
       >
         <FamiljenBentoShell className={clsx(!desktopHubLock && 'pb-2')}>
           {showChildPicker && (
@@ -172,19 +162,16 @@ export function FamiljenPage() {
 
           {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
             <>
-              <FamiljenInputSuperModule shell={shell} flowWithIsland={desktopHubLock} />
-              <BentoCard
-                glow="blue"
-                bare
-                noHover
-                className="familjen-tab-panel !p-4 sm:!p-5"
-              >
+              <div className="pt-4 pb-2">
+                <FamiljenInputSuperModule shell={shell} flowWithIsland={desktopHubLock} />
+              </div>
+              <div className="familjen-tab-panel">
                 {activeTab === 'reflektion' ? (
                   <FamiljenReflektionTab shell={shell} />
                 ) : (
                   <FamiljenLivsloggTab shell={shell} />
                 )}
-              </BentoCard>
+              </div>
             </>
           )}
 
