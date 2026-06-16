@@ -1,7 +1,7 @@
 # Eval — Deep Research slutfas & content våg 27
 
-**Datum:** 2026-06-16 · **Status:** Godkänd för CANDIDATE-bank · **Ingest:** väntar KEEP  
-**Källor:** [`research-2026-06-16-master-syntes.md`](../external-ai/imports/research-2026-06-16-master-syntes.md) · SA-1..5 · dirigent-routing
+**Datum:** 2026-06-16 · **Status:** Godkänd för CANDIDATE-bank (Cursor-syntes) · **Ingest:** väntar KEEP  
+**Källor:** [`research-cursor-2026-06-16-master-syntes.md`](../external-ai/imports/research-cursor-2026-06-16-master-syntes.md) · SA-1..5 Cursor · baseline [`research-2026-06-16-master-syntes.md`](../external-ai/imports/research-2026-06-16-master-syntes.md)
 
 ---
 
@@ -9,46 +9,72 @@
 
 | Beslut | Motivering |
 |--------|------------|
-| **11 FACT CANDIDATE** i Kunskap | Luckor: worry time, body doubling, ekonomi kapacitet, HCF skriftlig, barn lojalitet |
-| **3 MåBra CANDIDATE** | REFLECTION/PLAY — ingen cross-RAG |
-| **3 Barnen PLAY CANDIDATE** | Ålderssegment toddler → teen |
+| **23 FACT CANDIDATE** i Kunskap | Baseline 11 + 12 Cursor-NEW (gad-037–039, adhd-030, eko-005–008, bh-017–020) |
+| **8 MåBra CANDIDATE** | Baseline 3 + 5 Cursor-NEW (MB-REF-GAD-08, MB-REF-ADHD-06/07, MB-PLAY-GAD-03/04) |
+| **5 Barnen PLAY CANDIDATE** | Baseline 3 + 2 Cursor-NEW (BP-PLAY-28/29) |
 | **Ingen ingest än** | `status: CANDIDATE` tills Pontus markerar KEEP |
-| **2 nya cursor rules** | research-content-gate, capacity-ui-gate (implementerade) |
-| **6 regler i eval only** | Hamn-written, barn-epistemik, worry-mabra, no-diagnosis, slutfas-stop, weekly-money |
+| **2 cursor rules implementerade** | research-content-gate, capacity-ui-gate |
+| **6 regler eval only** | Hamn-written (våg 28), barn-epistemik (våg 29), worry-mabra, no-diagnosis, slutfas-stop, weekly-money |
 
 ---
 
-## 2. Content våg 27 — poster
+## 2. Cursor-fynd (jämfört baseline)
 
-### Kunskap FACT (11)
+| SA | NEW | OVERLAP/KEEP | DEFER/REJECT |
+|----|-----|--------------|--------------|
+| SA-1 Psyk | 10 (FACT+REFLECTION+PLAY) | 8 | 1 DEFER (ADDA P3) |
+| SA-2 HCF | 3 FACT + 1 wire eval | 15 KEEP | 1 REJECT (diagnos-quiz) |
+| SA-3 Ekonomi | 10 FACT + 2 regel-eval | 4 KEEP (kod+seed) | progressive disclosure → regel |
+| SA-4 Barn | 5 FACT + 2 PLAY | 6 OVERLAP | epistemik → våg 29 |
+| SA-5 Meta | modul-matris, våg 27–30 ordning | 2 regler ✅ | 6 regler deferred |
 
-| bankId | category | source_tier |
-|--------|----------|-------------|
-| kunskap-fact-gad-036 | gad_angest | P1 |
-| kunskap-fact-adhd-029 | adhd_vardag | P2 |
-| kunskap-fact-eko-001 | ekonomi_vardag | P2 |
-| kunskap-fact-eko-002 | ekonomi_vardag | P2 |
-| kunskap-fact-eko-003 | ekonomi_vardag | P2 |
-| kunskap-fact-eko-004 | ekonomi_vardag | P2 |
-| kunskap-fact-cop-006 | medforaldraskap | P2 |
-| kunskap-fact-cop-007 | medforaldraskap_logistik | P2 |
-| kunskap-fact-jur-009 | juridik_logistik | P2 |
-| kunskap-fact-bh-015 | barn_hcf | P1 |
-| kunskap-fact-bh-016 | barn_hcf | P1 |
-
-### MåBra (3)
-
-MB-REF-GAD-07, MB-REF-ADHD-05, MB-PLAY-GAD-02
-
-### Barnen PLAY (3)
-
-BP-PLAY-25 (toddler), BP-PLAY-26 (early_school), BP-PLAY-27 (teen)
-
-**Manifest efter KEEP:** 117 + 11 = **128 FACT** (vid ingest)
+**Citation-uppgraderingar:** cop-007 → P1 Bris/Socialstyrelsen · gad-036 → RNOH timing · jur-009 → AFCC 2019 beslutsmandat · adhd-029 → ACM-referens via adhd-030.
 
 ---
 
-## 3. Regel-förslag (8)
+## 3. Content våg 27 — poster
+
+### Kunskap FACT (23 CANDIDATE)
+
+| bankId | category | source_tier | Ny? |
+|--------|----------|-------------|-----|
+| kunskap-fact-gad-036 | gad_angest | P1 | baseline |
+| kunskap-fact-gad-037 | gad_angest | P1 | **NEW** worry tree |
+| kunskap-fact-gad-038 | kanslor_vagus | P1 | **NEW** fysiologisk suck |
+| kunskap-fact-gad-039 | gad_angest | P1 | **NEW** oro-tid timing |
+| kunskap-fact-adhd-029 | adhd_vardag | P2 | baseline |
+| kunskap-fact-adhd-030 | adhd_vardag | P2 | **NEW** evidens-disclaimer |
+| kunskap-fact-eko-001 | ekonomi_vardag | P2 | baseline |
+| kunskap-fact-eko-002 | ekonomi_vardag | P2 | baseline |
+| kunskap-fact-eko-003 | ekonomi_vardag | P2 | baseline |
+| kunskap-fact-eko-004 | ekonomi_vardag | P2 | baseline |
+| kunskap-fact-eko-005 | ekonomi_vardag | P2 | **NEW** impulshink |
+| kunskap-fact-eko-006 | ekonomi_vardag | P2 | **NEW** två-konto |
+| kunskap-fact-eko-007 | ekonomi_vardag | P2 | **NEW** sparkonto friktion |
+| kunskap-fact-eko-008 | ekonomi_vardag | P2 | **NEW** vecko-rollover |
+| kunskap-fact-cop-006 | medforaldraskap | P2 | baseline |
+| kunskap-fact-cop-007 | medforaldraskap_logistik | P1 | baseline (citation ↑) |
+| kunskap-fact-jur-009 | juridik_logistik | P2 | baseline |
+| kunskap-fact-bh-015 | barn_hcf | P1 | baseline |
+| kunskap-fact-bh-016 | barn_hcf | P1 | baseline |
+| kunskap-fact-bh-017 | barn_hcf | P1 | **NEW** skol/fritid |
+| kunskap-fact-bh-018 | barn_hcf | P1 | **NEW** Barnombudet |
+| kunskap-fact-bh-019 | barn_hcf | P1 | **NEW** tidigt stöd |
+| kunskap-fact-bh-020 | barn_hcf | P1 | **NEW** parrelation åt sidan |
+
+### MåBra (8 CANDIDATE)
+
+MB-REF-GAD-07, MB-REF-GAD-08, MB-REF-ADHD-05, MB-REF-ADHD-06, MB-REF-ADHD-07, MB-PLAY-GAD-02, MB-PLAY-GAD-03, MB-PLAY-GAD-04
+
+### Barnen PLAY (5 CANDIDATE)
+
+BP-PLAY-25 (toddler), BP-PLAY-26 (early_school), BP-PLAY-27 (teen), BP-PLAY-28 (pre_teen), BP-PLAY-29 (early_school)
+
+**Manifest efter KEEP:** 117 + 23 = **140 FACT** (vid ingest)
+
+---
+
+## 4. Regel-förslag (8)
 
 ### Implementerade (`.cursor/rules/`)
 
@@ -57,16 +83,16 @@ BP-PLAY-25 (toddler), BP-PLAY-26 (early_school), BP-PLAY-27 (teen)
 
 ### Eval / nästa våg (ej .mdc än)
 
-3. **hamn-written-default** — HCF: föreslå skrift före telefon i Hamn  
-4. **barn-observation-epistemik** — children_logs citat vs tolkning  
-5. **worry-time-mabra-only** — Worry time FACT i Kunskap, övning i MåBra  
-6. **no-diagnosis-labels** — (förstärker domän-covert) inga diagnos-etiketter i WORM  
-7. **slutfas-stop-list** — streak, 5-tab, cross-RAG, Flutter  
-8. **weekly-money-checkin** — veckovis ekonomi som default Nivå 1
+3. **hamn-written-default** — våg 28; kopplar `written_only_escalation` (SA-2)  
+4. **barn-observation-epistemik** — våg 29; children_logs citat vs tolkning  
+5. **worry-time-mabra-only** — våg 27/28; FACT Kunskap, övning MåBra  
+6. **no-diagnosis-labels** — våg 28; förstärker domän-covert  
+7. **slutfas-stop-list** — våg 30; streak, 5-tab, cross-RAG, Flutter  
+8. **weekly-money-checkin** — våg 28; veckovis ekonomi Nivå 1 default
 
 ---
 
-## 4. Teknik vs content (slutfas-ordning)
+## 5. Teknik vs content (slutfas-ordning)
 
 | Ordning | Spår | Smoke |
 |---------|------|-------|
@@ -74,23 +100,24 @@ BP-PLAY-25 (toddler), BP-PLAY-26 (early_school), BP-PLAY-27 (teen)
 | 2 | Fas 19.4 JOY-17 mabraCoach | smoke:mabra, smoke:innehall |
 | 3 | **Våg 27 KEEP + ingest** | smoke:kunskap, seed:kunskap-facts |
 | 4 | Fas 19.5 evolution_ledger | smoke:evolution-discovery |
-| 5 | Hamn wire `written_only_escalation` | smoke:design-modules |
-| 6 | Fas 19.6 arkiv PMIR | orkester:night |
+| 5 | Våg 28 Hamn wire + regler 3, 5, 6, 8 | smoke:design-modules |
+| 6 | Våg 29 Barnporten + barn-epistemik | smoke:locked-ux, smoke:children |
+| 7 | Fas 19.6 arkiv PMIR | orkester:night |
 
 ---
 
-## 5. Stop doing (bekräftat av SA-5)
+## 6. Stop doing (bekräftat av SA-5)
 
 Streak/XP · teal chrome · cross-RAG · auto-promote barn→Valv · diagnos i dossier · Flutter · Hem→Hjärtat utan PMIR · wow-animationer · 30+ budgetkategorier default · LLM-FACT utan bank
 
 ---
 
-## 6. Pontus — ett steg
+## 7. Pontus — ett steg
 
 Granska CANDIDATE i [`Kunskap-CONTENT-SEED.md`](../specs/modules/Kunskap-CONTENT-SEED.md) § våg 27. Svara **"godkänn våg 27 KEEP"** för ingest, eller markera enskilda rader REJECT.
 
 ---
 
-## 7. Smoke (2026-06-16)
+## 8. Smoke (2026-06-16)
 
-Kör `npm run smoke:innehall` efter bank-append — CANDIDATE ska inte bryta smoke (endast KEEP räknas i prod-wire tills PMIR).
+`npm run smoke:innehall` — CANDIDATE ska inte bryta smoke (endast KEEP räknas i prod-wire tills PMIR).

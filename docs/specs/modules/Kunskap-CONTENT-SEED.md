@@ -1845,7 +1845,7 @@ why: "Våg 26 — epistemik för 10% logistik; kompletterar jur-006 utan overlap
 
 ## Våg 27 — Deep Research 2026-06-16 (CANDIDATE — ej ingest)
 
-**Källa:** [`research-2026-06-16-master-syntes.md`](../../external-ai/imports/research-2026-06-16-master-syntes.md) · **Dirigent:** `specialist-innehall-dirigent` · **Gate:** `status: CANDIDATE` tills Pontus → KEEP
+**Källa:** [`research-cursor-2026-06-16-master-syntes.md`](../../external-ai/imports/research-cursor-2026-06-16-master-syntes.md) · **Dirigent:** `specialist-innehall-dirigent` · **Gate:** `status: CANDIDATE` tills Pontus → KEEP
 
 ```yaml
 id: kunskap-fact-gad-036
@@ -1858,8 +1858,8 @@ category: gad_angest
 entryType: fakta
 tags: [gad, worry_time, cbt, sjalvhjalp]
 source_tier: P1
-citation_hint: "NHS Every Mind Matters; NHS inform anxiety guide"
-why: "SA-1 research-sa1-001 — GAP i gad_angest"
+citation_hint: "NHS Every Mind Matters; RNOH NHS Postponing worries (timing)"
+why: "SA-1 cursor-sa1-001 — GAP i gad_angest; timing-nuans cursor-sa1-002 i gad-039"
 ```
 
 ```yaml
@@ -1873,8 +1873,8 @@ category: adhd_vardag
 entryType: fakta
 tags: [adhd, body_doubling, exekutiv, fokus]
 source_tier: P2
-citation_hint: "Cleveland Clinic; ADDA"
-why: "SA-1 research-sa1-002"
+citation_hint: "Cleveland Clinic; ADDA; ACM 2024 body doubling study (evidens i adhd-030)"
+why: "SA-1 cursor-sa1-008 — body doubling; evidens-disclaimer separat adhd-030"
 ```
 
 ```yaml
@@ -1963,8 +1963,8 @@ category: medforaldraskap_logistik
 entryType: fakta
 tags: [skriftlig, hamn, parallel, eskalering]
 source_tier: P2
-citation_hint: "McSwain Rapp parallel parenting; cop-002"
-why: "SA-2 research-sa2-004"
+citation_hint: "Bris skilsmässa P1; Socialstyrelsen separation små barn; cop-002"
+why: "SA-2 research-cursor-sa2-004/012 — skrift-default P1 uppgraderad"
 ```
 
 ```yaml
@@ -1978,8 +1978,8 @@ category: juridik_logistik
 entryType: fakta
 tags: [parenting_coordinator, familjeratt, hcf]
 source_tier: P2
-citation_hint: "AFCC Guidelines for Parenting Coordination"
-why: "SA-2 research-sa2-003"
+citation_hint: "AFCC Guidelines 2019; AFCC PC neutral beslutsfattare (research-cursor-sa2-020)"
+why: "SA-2 research-cursor-sa2-003/020 — PC vs svensk samarbetssamtal"
 ```
 
 ```yaml
@@ -2008,8 +2008,188 @@ category: barn_hcf
 entryType: fakta
 tags: [budbarare, lojalitet, barn, medforaldraskap]
 source_tier: P1
-citation_hint: "Bris; Familjens Jurist TT skilsmässa"
-why: "SA-4 research-sa4-002"
+citation_hint: "Bris skilsmässa P1; cursor-sa4-002"
+why: "SA-4 cursor-sa4-002 — budbärare BRIS direkt"
+```
+
+```yaml
+id: kunskap-fact-gad-037
+bankId: kunskap-fact-gad-037
+status: CANDIDATE
+content_class: FACT
+title: "Worry tree — praktisk vs hypotetisk oro"
+content: "Worry tree skiljer praktisk oro (du kan agera: vad, hur, när) från hypotetisk oro (utan kontroll). Vid hypotetisk oro — skjut upp till oro-tid eller släpp och återfokusera på nuet."
+category: gad_angest
+entryType: fakta
+tags: [gad, worry_tree, cbt, beslut]
+source_tier: P1
+citation_hint: "NHS Every Mind Matters — Tackling your worries"
+why: "SA-1 cursor-sa1-003 — GAP utöver gad-036 worry time"
+```
+
+```yaml
+id: kunskap-fact-gad-038
+bankId: kunskap-fact-gad-038
+status: CANDIDATE
+content_class: FACT
+title: "Fysiologisk suck — vagus utan prestation"
+content: "Fysiologisk suck: djup inandning genom näsan, ett kort extra andetag, sedan lång långsam utandning — kan sänka arousal diskret utan prestationskrav. Självhjälp, inte medicinsk behandling."
+category: kanslor_vagus
+entryType: fakta
+tags: [vagus, andning, suck, hyperarousal]
+source_tier: P1
+citation_hint: "SWLSTG NHS — Physiological sigh 2024"
+why: "SA-1 cursor-sa1-006 — kompletterar kunskap-fact-037 utan ny metodnamn i UI"
+```
+
+```yaml
+id: kunskap-fact-gad-039
+bankId: kunskap-fact-gad-039
+status: CANDIDATE
+content_class: FACT
+title: "Oro-tid timing — undvik läggdags"
+content: "Schemalagd oro-tid bör undvikas strax före sänggående; välj en fast tid på dagen och håll sessionen till cirka 15–20 minuter med avslutande aktivitet efteråt."
+category: gad_angest
+entryType: fakta
+tags: [gad, worry_time, somn, timing]
+source_tier: P1
+citation_hint: "RNOH NHS — Postponing worries"
+why: "SA-1 cursor-sa1-002 — timing-nuans saknas i gad-036"
+```
+
+```yaml
+id: kunskap-fact-adhd-030
+bankId: kunskap-fact-adhd-030
+status: CANDIDATE
+content_class: FACT
+title: "Body doubling — evidensprofil"
+content: "Body doubling har stark community-validering och tidig akademisk kartläggning, men saknar stora RCT — klassas som lågrisk komplement, inte ersättning för evidensbaserad ADHD-behandling."
+category: adhd_vardag
+entryType: fakta
+tags: [adhd, body_doubling, evidens, disclaimer]
+source_tier: P2
+citation_hint: "ACM 2024 — Body doubling with neurodivergent participants"
+why: "SA-1 cursor-sa1-011 — anti-hallucination P2 för adhd-029 ingest"
+```
+
+```yaml
+id: kunskap-fact-eko-005
+bankId: kunskap-fact-eko-005
+status: CANDIDATE
+content_class: FACT
+title: "Impulshink — månatligt tak"
+content: "Dedikerad impulshink med tydligt månatligt tak — när den är slut pausar du utan total förbudskänsla. Hållbarhet över perfektion; ingen streak eller poäng."
+category: ekonomi_vardag
+entryType: fakta
+tags: [ekonomi, impuls, buffer, adhd]
+source_tier: P2
+citation_hint: "ADD Resource Center — Impulse Fund"
+why: "SA-3 research-cursor-sa3-018 — impulshink utöver 24h-regeln"
+```
+
+```yaml
+id: kunskap-fact-eko-006
+bankId: kunskap-fact-eko-006
+status: CANDIDATE
+content_class: FACT
+title: "Två-konto-system — safe-to-spend"
+content: "Två-konto-systemet — ett konto enbart för automatiserade räkningar, ett för daglig spending — ersätter mental matte: om saldot finns i spending-kontot är köpet tillåtet."
+category: ekonomi_vardag
+entryType: fakta
+tags: [ekonomi, konto, adhd, safe_to_spend]
+source_tier: P2
+citation_hint: "Waypoint — Budgeting with ADHD"
+why: "SA-3 research-cursor-sa3-002 — kompletterar kunskap-fact-009 autogiro"
+```
+
+```yaml
+id: kunskap-fact-eko-007
+bankId: kunskap-fact-eko-007
+status: CANDIDATE
+content_class: FACT
+title: "Sparkonto annan bank — friktionsbarriär"
+content: "Sparkonto hos annan bank skapar 2–3 dagars överföringsfriktion — tillräckligt för att impulsiva uttag ska avta utan att spärra nödfall."
+category: ekonomi_vardag
+entryType: fakta
+tags: [ekonomi, spar, friktion, impuls]
+source_tier: P2
+citation_hint: "ADD Resource Center — No-Budget System"
+why: "SA-3 research-cursor-sa3-004 — friktionsdesign, ej bankintegration"
+```
+
+```yaml
+id: kunskap-fact-eko-008
+bankId: kunskap-fact-eko-008
+status: CANDIDATE
+content_class: FACT
+title: "Vecko-överskridning — rollover utan skuld"
+content: "Vid veckoöverskridning dras överskottet från nästa veckas spend number — utan skuldspiral eller 'börja om nästa månad'."
+category: ekonomi_vardag
+entryType: fakta
+tags: [ekonomi, vecka, rollover, anti_shame]
+source_tier: P2
+citation_hint: "Unburden — ADHD-Friendly Budgeting"
+why: "SA-3 research-cursor-sa3-003 — RSD-säker ton; stärker eko-004"
+```
+
+```yaml
+id: kunskap-fact-bh-017
+bankId: kunskap-fact-bh-017
+status: CANDIDATE
+content_class: FACT
+title: "Skol- och fritidsaktiviteter — dela upp"
+content: "Många barn upplever stress när båda föräldrar är närvarande vid skol- eller fritidsaktiviteter; föräldrar kan dela upp dessa tillfällen så barnet slipper bära båda samtidigt."
+category: barn_hcf
+entryType: fakta
+tags: [barn, skola, fritid, hcf, logistik]
+source_tier: P1
+citation_hint: "Bris — Så pratar du skilsmässa med ditt barn"
+why: "SA-4 cursor-sa4-009 — praktisk HCF-logistik utan barn i mittpositionen"
+```
+
+```yaml
+id: kunskap-fact-bh-018
+bankId: kunskap-fact-bh-018
+status: CANDIDATE
+content_class: FACT
+title: "Barn ska inte välja sida"
+content: "Barn ska aldrig behöva ta ansvar för vuxnas beslut om vårdnad, boende eller umgänge, eller känna sig tvingade att välja sida."
+category: barn_hcf
+entryType: fakta
+tags: [barn, lojalitet, barnombudet, pre_teen]
+source_tier: P1
+citation_hint: "Barnombudet — Om det blir konflikt"
+why: "SA-4 cursor-sa4-010 — P1 myndighetskälla; kompletterar bh-015"
+```
+
+```yaml
+id: kunskap-fact-bh-019
+bankId: kunskap-fact-bh-019
+status: CANDIDATE
+content_class: FACT
+title: "Tidigt föräldrastöd vid separation"
+content: "Svåra och långvariga konflikter mellan separerade föräldrar påverkar barnens hälsa negativt på kort och lång sikt; tidigt föräldrastöd förebygger eskalering."
+category: barn_hcf
+entryType: fakta
+tags: [barn, separation, stod, forebyggande]
+source_tier: P1
+citation_hint: "Myndigheten för familjerätt — separation"
+why: "SA-4 cursor-sa4-011 — stärker bh-013 utan alienation-retorik"
+```
+
+```yaml
+id: kunskap-fact-bh-020
+bankId: kunskap-fact-bh-020
+status: CANDIDATE
+content_class: FACT
+title: "Parrelation åt sidan — föräldraskap kvar"
+content: "Vid separation behöver föräldrar lägga parrelationen åt sidan och fokusera på föräldraskapet; barnets utveckling, behov och önskemål ska vara i centrum."
+category: barn_hcf
+entryType: fakta
+tags: [barn, separation, foraldraskap, fokus]
+source_tier: P1
+citation_hint: "mfof — parrelation vs föräldraskap"
+why: "SA-4 cursor-sa4-013 — Familjen-lugnande copy utan motpartsanalys"
 ```
 
 ---
