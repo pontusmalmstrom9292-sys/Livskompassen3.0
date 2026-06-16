@@ -31,6 +31,7 @@
 | ChatBox-leverans | `docs/external-ai/leveranser/` | `2026-06-16-fas-09-vision.md` |
 | Extern granskning (Prompt G) | [`docs/external-ai/bifoga/06-backend-masterplan-review/`](external-ai/bifoga/06-backend-masterplan-review/) — `npm run chatbot:sync:backend-review` |
 | Handoff (genereras) | `exports/chatbot-handoff/` | `npm run chatbot:pack:handoff` |
+| NotebookLM (genereras) | `exports/google-ai-pro/notebooklm/` | `npm run notebooklm:pack:all` |
 | Arkiv (historik) | `docs/archive/` | flyttade utkast — **inte** sanning |
 | Äldre Gemini-handoff | `docs/archive/gemini-handoff-2026-06/` | superseded av `external-ai/leveranser/` |
 
@@ -43,7 +44,8 @@
 | `docs/archive/` | Historik — läs för kontext, bygg inte härifrån |
 | `docs/archive/design-2026-06/` | Reserverad för design-flytt (icons-proposals m.m.) |
 | `exports/` | **Regenereras** — bifoga till ChatBox, redigera inte manuellt |
-| `docs/external-ai/bifoga/` | Speglad kopia för upload — `npm run chatbot:sync:bifoga` |
+| `docs/external-ai/bifoga/` | Speglad kopia för ChatBox upload — `npm run chatbot:sync:bifoga` |
+| `exports/google-ai-pro/notebooklm/` | NotebookLM kärna-pack — `npm run notebooklm:sync` |
 
 ---
 
@@ -54,7 +56,7 @@
 | **Cursor** | Prod-kod, smoke, LOCK | — |
 | **ChatBox** | SPEC, PMIR, wireframes | `exports/chatbot-handoff/` + `bifoga/` |
 | **Google AI Studio** | Design-remix + mockup-bild | `npm run design:pack` + `docs/ai-studio/DESIGN-REMIX-PROMPT.md` |
-| **NotebookLM** | Research, motsägelser | `npm run google-ai-pro:pack` |
+| **NotebookLM** | Research, motsägelser | `npm run notebooklm:pack:all` → `exports/google-ai-pro/notebooklm/` |
 
 Se [`docs/external-ai/MODEL-PICKER.md`](external-ai/MODEL-PICKER.md).
 
@@ -74,9 +76,11 @@ Kanon: [`docs/external-ai/DESIGN-KEEP-REGISTER.md`](external-ai/DESIGN-KEEP-REGI
 cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
 npm run chatbot:pack:handoff    # alla ChatBox-repomixar
 npm run chatbot:sync:bifoga     # speglar till bifoga/
+npm run notebooklm:pack:all     # NotebookLM kärna (inkl. repomix + system_sync)
 ```
 
-Bifoga-mapp: `docs/external-ai/bifoga/` — se [`bifoga/README.md`](external-ai/bifoga/README.md).
+Bifoga-mapp: `docs/external-ai/bifoga/` — se [`bifoga/README.md`](external-ai/bifoga/README.md).  
+NotebookLM: [`NOTEBOOKLM-LATHUND.md`](external-ai/NOTEBOOKLM-LATHUND.md).
 
 ---
 

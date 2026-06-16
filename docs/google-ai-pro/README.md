@@ -1,24 +1,30 @@
 # Google AI Pro — Livskompassen (operativ guide)
 
-**Plan:** Cursor-plan `google_ai_pro_livskompassen` · **Pack:** `npm run gemini:pack:all`
+**Pack:** `npm run notebooklm:pack:all` · **Lathund:** [`docs/external-ai/NOTEBOOKLM-LATHUND.md`](../external-ai/NOTEBOOKLM-LATHUND.md)
 
-## Snabbstart
+## Snabbstart (NotebookLM kärna)
 
-1. `npm run gemini:pack:all` — NotebookLM + repomix (kompass/meny/valv)
-2. **NotebookLM:** ladda upp `exports/google-ai-pro/notebooklm/`
-3. **Gemini-app:** klistra **hela MASTER-PROMPT** från [`GEMINI-TECH-LEAD.md`](./GEMINI-TECH-LEAD.md) (+ ev. Handoff från förra sessionen)
-4. **Design-only (ingen kodrouting):** kort prompt i [`PROMPTS.md`](./PROMPTS.md)
-5. **Handoff i repo:** [`docs/gemini-handoff/`](../gemini-handoff/) (K1, K2, M1, V1, IN1)
-6. Gemini ger dig **en** Cursor-prompt i taget — klistra in här; skicka svar tillbaka till Gemini
+1. `npm run notebooklm:pack:all` — repomix + register + system_sync
+2. **NotebookLM:** ladda upp hela `exports/google-ai-pro/notebooklm/` (ersätt gamla källor)
+3. Klistra **NOTEBOOKLM-MASTER-PROMPT** från [`docs/external-ai/NOTEBOOKLM-MASTER-PROMPT.md`](../external-ai/NOTEBOOKLM-MASTER-PROMPT.md)
+4. Verifiera med 4 baseline-frågor — [`leveranser/2026-06-16-notebooklm-baseline-compare.md`](../external-ai/leveranser/2026-06-16-notebooklm-baseline-compare.md)
 
-## Repo-leverabler (implementerade)
+## Gemini-app (strategi / Tech Lead)
+
+1. `npm run gemini:pack:all` — inkluderar notebooklm-pack + gemini repomix
+2. Klistra **hela MASTER-PROMPT** från [`GEMINI-TECH-LEAD.md`](./GEMINI-TECH-LEAD.md)
+3. **Design-only (ingen kodrouting):** kort prompt i [`PROMPTS.md`](./PROMPTS.md)
+4. Handoff i repo: [`docs/external-ai/leveranser/`](../external-ai/leveranser/) (superseded `docs/archive/gemini-handoff-2026-06/`)
+5. Gemini ger dig **en** Cursor-prompt i taget — klistra in här
+
+## Repo-leverabler
 
 | Steg | Artefakt |
 |------|----------|
-| A | `exports/google-ai-pro/notebooklm/` + [`evaluations/2026-05-29-google-ai-pro-notebooklm.md`](../evaluations/2026-05-29-google-ai-pro-notebooklm.md) |
+| A | `exports/google-ai-pro/notebooklm/` + [`NOTEBOOKLM-LATHUND.md`](../external-ai/NOTEBOOKLM-LATHUND.md) |
 | B | [`Kunskap-CONTENT-SEED.md`](../specs/modules/Kunskap-CONTENT-SEED.md) batch 016–020 |
 | C | `journalQuickMirror` callable + Snabbläge UI |
-| D | `exports/google-ai-pro/drive-pack/Livskompassen/` |
+| D | ~~`exports/google-ai-pro/drive-pack/`~~ — **deprecated**; använd notebooklm-mappen |
 | E | [`evaluations/2026-05-29-google-ai-pro-gcp-credit.md`](../evaluations/2026-05-29-google-ai-pro-gcp-credit.md) |
 | F | [`design/theme-lab/VARIANTS.md`](../design/theme-lab/VARIANTS.md) § Google AI Pro F1 |
 

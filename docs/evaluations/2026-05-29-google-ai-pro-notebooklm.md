@@ -1,5 +1,7 @@
 # Google AI Pro — NotebookLM baseline (Prompt A1 + A2)
 
+> **Superseded (jun 2026):** Använd [`docs/external-ai/leveranser/2026-06-16-notebooklm-baseline-compare.md`](../external-ai/leveranser/2026-06-16-notebooklm-baseline-compare.md) + `npm run notebooklm:pack:all`. Denna fil behålls som historik (maj 2025).
+
 **Datum:** 2026-05-29  
 **Källor:** `repomix-dagbok.txt`, `ai-prompts-moduler-master.md`, `INNEHALL-REGISTER.md`, `arkiv-minne.md`, `dagbok-vertex-plan.md`  
 **Pack:** `npm run google-ai-pro:pack` → `exports/google-ai-pro/notebooklm/`

@@ -33,14 +33,16 @@ Jag bifogar projektkontext nedan.
 
 ---
 
-## NotebookLM — fasta frågor (efter `google-ai-pro:pack`)
+## NotebookLM — fasta frågor (efter `notebooklm:pack:all`)
 
-1. Vilka routes och collections tillhör silo Valv?
-2. Vad säger kompass-widget-planen om P1-filer?
-3. Lista Locked UX som får inte tas bort vid meny-refactor.
-4. Vad är skillnaden `/hamn` vs Valv `hamn_analys`?
+1. Vad är **LOCK** enligt `LIFE-OS-BUILD-STATE.md`?
+2. Vilken är **nästa kodvåg** efter Våg 3 Nav?
+3. Nämns **cross-RAG** eller fjärde silo någonstans som tillåtet?
+4. Var finns **Barnfokus** supermodule och vilken route?
 
-Baseline: [`docs/evaluations/2026-05-29-google-ai-pro-notebooklm.md`](../evaluations/2026-05-29-google-ai-pro-notebooklm.md)
+Baseline: [`docs/external-ai/leveranser/2026-06-16-notebooklm-baseline-compare.md`](../external-ai/leveranser/2026-06-16-notebooklm-baseline-compare.md)  
+Master-prompt: [`docs/external-ai/NOTEBOOKLM-MASTER-PROMPT.md`](../external-ai/NOTEBOOKLM-MASTER-PROMPT.md)  
+Historik (maj 2025): [`docs/evaluations/2026-05-29-google-ai-pro-notebooklm.md`](../evaluations/2026-05-29-google-ai-pro-notebooklm.md)
 
 ---
 
