@@ -1,0 +1,23 @@
+# Kapacitetsstyrd UI (evolution_hub)
+
+Kanon: [`.cursor/rules/infinite-evolution.mdc`](infinite-evolution.mdc) · [`docs/architecture/INFINITE_EVOLUTION.md`](../../docs/architecture/INFINITE_EVOLUTION.md) · research SA-3
+
+## Nivåer (feature flags)
+
+| Nivå | Ekonomi | Planering | UX-princip |
+|------|---------|-----------|------------|
+| **1** (låg kapacitet) | Veckosaldo + impulshink + veckocheck-in | Paralys mikrosteg; **dölj** Kanban | Ett jobb per skärm |
+| **2** | Tre hinkar / digitala kuvert (4–5 kat) | `planning_kanban` P3 på `/planering` | Locked UX §14 |
+| **3** | `economy_advanced` sparmål, export | Projekt hybrid | Full vardag |
+
+## MUST
+
+- Läs `evolution_hub` / kapacitet före nya ekonomi- eller planering-UI
+- Nivåbyte → append `evolution_ledger` (dual-write Fas 19.5)
+- Kunskap FACT `eko-001`–`004` stödjer copy — ingest efter KEEP
+
+## MUST NOT
+
+- Visa 30+ budgetkategorier som default
+- Låsa upp Kanban utan flag vid Nivå 1
+- Gamification (streak) som kapacitetsbelöning

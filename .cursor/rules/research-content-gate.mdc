@@ -1,0 +1,22 @@
+# Research content gate (våg 27+)
+
+Kanon: [`docs/evaluations/2026-06-16-research-slutfas.md`](../../docs/evaluations/2026-06-16-research-slutfas.md) · [`docs/INNEHALL-REGISTER.md`](../../docs/INNEHALL-REGISTER.md)
+
+## MUST
+
+- Extern research (Gemini Deep Research, NotebookLM, WebSearch) → append med `status: CANDIDATE` i rätt bank — **inte** `KEEP` direkt
+- Varje CANDIDATE FACT: `source_tier` (P1/P2/P3) + `citation_hint` eller URL
+- Dirigent klassar: FACT → `specialist-kunskap-seed` · REFLECTION/PLAY → mabra/barn kurator
+- Ingest `kampspar` endast efter Pontus **godkänn våg N KEEP** + `npm run seed:kunskap-facts`
+- Kör `npm run smoke:innehall` efter bank-ändring
+
+## MUST NOT
+
+- LLM skapar FACT i prod utan bank-post
+- Cross-RAG eller FACT i MåBra-bank utan Kunskap-ingest
+- `status: KEEP` från research utan manuell granskning
+
+## Research-handoff
+
+Prompter: `docs/external-ai/bifoga/03-prompter/GEMINI-DEEP-RESEARCH-*.md`  
+Leverans: `docs/external-ai/imports/research-*.md`

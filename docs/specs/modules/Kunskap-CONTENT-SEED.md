@@ -1843,6 +1843,177 @@ why: "Våg 26 — epistemik för 10% logistik; kompletterar jur-006 utan overlap
 
 ---
 
+## Våg 27 — Deep Research 2026-06-16 (CANDIDATE — ej ingest)
+
+**Källa:** [`research-2026-06-16-master-syntes.md`](../../external-ai/imports/research-2026-06-16-master-syntes.md) · **Dirigent:** `specialist-innehall-dirigent` · **Gate:** `status: CANDIDATE` tills Pontus → KEEP
+
+```yaml
+id: kunskap-fact-gad-036
+bankId: kunskap-fact-gad-036
+status: CANDIDATE
+content_class: FACT
+title: "Oro-tid — schemalagd oro (CBT)"
+content: "Worry time är en etablerad CBT-metod: 10–15 minuter dagligen för hypotetiska oros tankar. Under dagen skjuter du upp oro till den tiden i stället för att följa varje tanke. Det är självhjälpsmetod — inte ersättning för behandling vid svår ångest."
+category: gad_angest
+entryType: fakta
+tags: [gad, worry_time, cbt, sjalvhjalp]
+source_tier: P1
+citation_hint: "NHS Every Mind Matters; NHS inform anxiety guide"
+why: "SA-1 research-sa1-001 — GAP i gad_angest"
+```
+
+```yaml
+id: kunskap-fact-adhd-029
+bankId: kunskap-fact-adhd-029
+status: CANDIDATE
+content_class: FACT
+title: "Body doubling — externaliserad fokus"
+content: "Body doubling innebär att arbeta bredvid en annan person (fysiskt eller virtuellt) som också arbetar — för att underlätta start och fokus. Beskrivs som externaliserad exekutiv funktion, inte samarbete på samma uppgift. Anekdot och viss forskning; inte medicinsk behandling."
+category: adhd_vardag
+entryType: fakta
+tags: [adhd, body_doubling, exekutiv, fokus]
+source_tier: P2
+citation_hint: "Cleveland Clinic; ADDA"
+why: "SA-1 research-sa1-002"
+```
+
+```yaml
+id: kunskap-fact-eko-001
+bankId: kunskap-fact-eko-001
+status: CANDIDATE
+content_class: FACT
+title: "24-timmarsregel vid impulsköp"
+content: "Vid impulsivitet kan en paus på 24 timmar före icke-nödvändiga köp ge begäret tid att avta utan att kräva långvarig viljestyrka. Särskilt relevant vid ADHD och stress — kompletterar autogiro och fakturaflöde, ersätter inte skuldrådgivning."
+category: ekonomi_vardag
+entryType: fakta
+tags: [ekonomi, impuls, adhd, paus]
+source_tier: P2
+citation_hint: "Unburden ADHD budget; ADD Resource Center"
+why: "SA-1/3 research — bro ekonomi + neuro"
+```
+
+```yaml
+id: kunskap-fact-eko-002
+bankId: kunskap-fact-eko-002
+status: CANDIDATE
+content_class: FACT
+title: "Tre hinkar — förenklad budget"
+content: "En förenklad budget med tre hinkar — essentials (boende, mat, fakturor), discretionary (nöje, spontanköp), spar/skuld — kräver mindre kognitiv uppföljning än många detaljkategorier och passar låg kapacitet."
+category: ekonomi_vardag
+entryType: fakta
+tags: [ekonomi, budget, adhd, tre_hinkar]
+source_tier: P2
+citation_hint: "ADD Resource Center ADHD-friendly budget"
+why: "SA-3 research-sa3-001"
+```
+
+```yaml
+id: kunskap-fact-eko-003
+bankId: kunskap-fact-eko-003
+status: CANDIDATE
+content_class: FACT
+title: "Digitala kuvert — max 4–5 kategorier"
+content: "Digitala kuvert med 4–5 breda kategorier ger visuell knapphet utan kontanthantering. Färre kategorier minskar beslutströtthet vid varje köp — viktigare än perfekt kategorisering."
+category: ekonomi_vardag
+entryType: fakta
+tags: [ekonomi, kuvert, digital, adhd]
+source_tier: P2
+citation_hint: "Digital Dashboard Hub ADHD budget"
+why: "SA-3 research-sa3-002"
+```
+
+```yaml
+id: kunskap-fact-eko-004
+bankId: kunskap-fact-eko-004
+status: CANDIDATE
+content_class: FACT
+title: "Veckobudget — ett synligt spend number"
+content: "Veckobudget med ett synligt 'spend number' är lättare att hålla i arbetsminnet än månadsbudget för personer med tidsblindhet. Veckovisa korta check-ins presterar bättre än sällsynta långa budgetsessioner."
+category: ekonomi_vardag
+entryType: fakta
+tags: [ekonomi, vecka, tidsblindhet, checkin]
+source_tier: P2
+citation_hint: "Unburden; Psychiatry CY ADHD finances"
+why: "SA-3 research-sa3-003/005 — evolution Nivå 1"
+```
+
+```yaml
+id: kunskap-fact-cop-006
+bankId: kunskap-fact-cop-006
+status: CANDIDATE
+content_class: FACT
+title: "Parallel parenting — AFCC-definition"
+content: "Parallel parenting innebär separata hushållsspår med minimal direkt kontakt mellan föräldrar; målet är förutsägbarhet och att barn hålls utanför vuxeninteraktion — inte gemensam problemlösning när samarbete eskalerar konflikt."
+category: medforaldraskap
+entryType: fakta
+tags: [parallel_parenting, hcf, afcc, barn]
+source_tier: P2
+citation_hint: "AFCC Parent Coordination Task Force Report"
+why: "SA-2 research-sa2-001 — fördjupar cn-009"
+```
+
+```yaml
+id: kunskap-fact-cop-007
+bankId: kunskap-fact-cop-007
+status: CANDIDATE
+content_class: FACT
+title: "Skriftlig kommunikation som default vid HCF"
+content: "I parallel parenting begränsas kommunikation ofta till skrift (mejl, meddelandeapp) för att minska eskalering — särskilt när muntlig kontakt triggar konflikt. Metod, inte juridisk skyldighet."
+category: medforaldraskap_logistik
+entryType: fakta
+tags: [skriftlig, hamn, parallel, eskalering]
+source_tier: P2
+citation_hint: "McSwain Rapp parallel parenting; cop-002"
+why: "SA-2 research-sa2-004"
+```
+
+```yaml
+id: kunskap-fact-jur-009
+bankId: kunskap-fact-jur-009
+status: CANDIDATE
+content_class: FACT
+title: "Parenting coordination — översikt"
+content: "Parenting coordination är en barnfokuserad process där utsedd professionell hjälper högk konflikt-föräldrar implementera vårdnadsplan och lösa tvister utanför domstol — med screening för våld och maktklyftor. Svensk familjerätt har liknande stöd; detta är översikt, inte rådgivning."
+category: juridik_logistik
+entryType: fakta
+tags: [parenting_coordinator, familjeratt, hcf]
+source_tier: P2
+citation_hint: "AFCC Guidelines for Parenting Coordination"
+why: "SA-2 research-sa2-003"
+```
+
+```yaml
+id: kunskap-fact-bh-015
+bankId: kunskap-fact-bh-015
+status: CANDIDATE
+content_class: FACT
+title: "Lojalitetskonflikt 10–14 — barns perspektiv"
+content: "Barn 10–14 i lojalitetskonflikt kan uppleva stress, skuld och kroppsliga symptom; de behöver inte välja sida för att vara trygga. Vuxna ska ta ansvar för konflikten — barnet ska inte bära budskap mellan föräldrar."
+category: barn_hcf
+entryType: fakta
+tags: [lojalitet, pre_teen, bris, stress]
+source_tier: P1
+citation_hint: "Bris för vuxna; BVPRO lojalitetskonflikt 10–14"
+why: "SA-4 research-sa4-003 — evolution pre_teen"
+```
+
+```yaml
+id: kunskap-fact-bh-016
+bankId: kunskap-fact-bh-016
+status: CANDIDATE
+content_class: FACT
+title: "Barn som budbärare — undvik"
+content: "Låt inte barn framföra budskap eller information mellan föräldrar; budbärarrollen skapar lojalitetsstress när barn vill vara lojala mot båda."
+category: barn_hcf
+entryType: fakta
+tags: [budbarare, lojalitet, barn, medforaldraskap]
+source_tier: P1
+citation_hint: "Bris; Familjens Jurist TT skilsmässa"
+why: "SA-4 research-sa4-002"
+```
+
+---
+
 ## Koppling till befintlig seed
 
 | Manifest | Fil |

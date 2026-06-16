@@ -110,3 +110,17 @@ export type BarnfokusCatalogEntry = {
 ```
 
 **Wire (PMIR):** `constants.ts` importerar `BARNFOKUS_CATALOG_CHILD` (filter `audience: child`) · `BarnfokusQuestion` får `bankId?` + behåll `id` som `legacy_id` · `handleSaveBarnfokus` ev. `bankId` i logg-metadata (ej Valv).
+
+---
+
+## Våg 27 — Deep Research 2026-06-16 (CANDIDATE)
+
+**Källa:** [`research-2026-06-16-sa4-barn.md`](../../external-ai/imports/research-2026-06-16-sa4-barn.md) · **Ålder:** evolution_hub bracket
+
+| id | audience | lens | bracket | status | text_sv |
+|----|----------|------|---------|--------|---------|
+| BP-PLAY-25 | child | kanslor | toddler_preschool | CANDIDATE | Visa tre känsloikoner — peka vilken som passade mest idag. Inget rätt svar. |
+| BP-PLAY-26 | child | valv_safe | early_school | CANDIDATE | En trygg sak idag — rita eller skriv ett ord. Max en minut. |
+| BP-PLAY-27 | child | reflektion | teen | CANDIDATE | Skriv en rad till din förälder — något du vill att hen ska veta. Du behöver inte skicka det. |
+
+**MUST NOT:** vuxenkonflikt, diagnos, auto-promote till Valv. **Locked UX:** ändra inte `BARNFOKUS_QUESTIONS` — wire via catalog overlay.

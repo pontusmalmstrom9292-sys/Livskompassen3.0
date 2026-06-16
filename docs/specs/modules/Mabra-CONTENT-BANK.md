@@ -430,6 +430,21 @@ Kurator-pass 2026-05-25 · linser: **identitet** (5) + **KBT light** (5). Ej dup
 
 ---
 
+## Våg 27 — Deep Research 2026-06-16 (CANDIDATE)
+
+**Källa:** [`research-2026-06-16-sa1-psyk-halsa.md`](../../external-ai/imports/research-2026-06-16-sa1-psyk-halsa.md)
+
+| id | content_class | source_tier | status | lens | text_sv |
+|----|---------------|-------------|--------|------|---------|
+| MB-REF-GAD-07 | REFLECTION | psychoeducation_general | CANDIDATE | oro_tid | Om oron dyker upp nu — kan du skriva en rad och spara den till din oro-tid, i stället för att lösa allt direkt? |
+| MB-REF-ADHD-05 | REFLECTION | psychoeducation_general | CANDIDATE | body_double | Vilken uppgift skjuter du upp mest — och vem eller vad skulle kunna sitta bredvid dig (utan att prata) i fem minuter? |
+
+| id | content_class | source_tier | status | title_sv | rule_sv |
+|----|---------------|-------------|--------|----------|---------|
+| MB-PLAY-GAD-02 | PLAY | product_copy | CANDIDATE | Oro-lapp 2 min | Sätt timer 2 min — skriv max tre orosord. Stopp. Lägg lappen åt sidan till kvällen. |
+
+---
+
 ## Nästa implementation (P1)
 
 - Firestore `vit_hub` / `vit_entries` med `kind: card | memory | chat_turn` *(efter Daglig mix P0 — client-bank klar)*

@@ -30,7 +30,8 @@
 | 24 | Juridisk process / vårdnad FACT | jur-005..007, ep-006, cn-022, bh-013 | — | — | **done** 2026-06-15 — bank KEEP; **ingest klar** (105 FACT manifest) · [`2026-06-15-fas16-wave24-ingest.md`](../evaluations/2026-06-15-fas16-wave24-ingest.md) |
 | 25 | Soc/skola + neutral myndighetsdialog | soc-001, skol-001, bup-001, bh-014, ep-007, jur-008 | — | — | **done** 2026-06-16 — bank KEEP; **ingest klar** (111 FACT manifest) · [`2026-06-16-content-wave-25-plan.md`](../evaluations/2026-06-16-content-wave-25-plan.md) |
 | 26 | Medföräldraskap logistik (10% neutral) | cop-001–005, ep-008 | — | — | **done** 2026-06-16 — bank KEEP; **ingest klar** (117 FACT manifest) · [`2026-06-16-content-wave-26-plan.md`](../evaluations/2026-06-16-content-wave-26-plan.md) |
+| 27 | Deep Research slutfas (psyk, ekonomi, HCF, barn) | gad-036, adhd-029, eko-001–004, cop-006–007, jur-009, bh-015–016 | MB-REF-GAD-07, MB-REF-ADHD-05, MB-PLAY-GAD-02 | BP-PLAY-25..27 | **CANDIDATE** 2026-06-16 — [`research-slutfas`](../evaluations/2026-06-16-research-slutfas.md) |
 
-**Aktiv våg:** ingen — våg 26 **klar** 2026-06-16
+**Aktiv våg:** 27 — **CANDIDATE** (ej ingest förrän KEEP-godkännande)
 
 **Seed (Google-konto):** `SEED_FIREBASE_EMAIL` i `.env` + `gcloud auth application-default login` → `npm run seed:kunskap-facts`
