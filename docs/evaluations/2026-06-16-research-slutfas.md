@@ -13,8 +13,8 @@
 | **8 MåBra KEEP** | Baseline 3 + 5 Cursor-NEW (MB-REF-GAD-08, MB-REF-ADHD-06/07, MB-PLAY-GAD-03/04) |
 | **5 Barnen PLAY KEEP** | Baseline 3 + 2 Cursor-NEW (BP-PLAY-28/29) |
 | **Ingest klar** | Pontus **"godkänn våg 27 KEEP"** 2026-06-16 → `export:kunskap-seed` + `seed:kunskap-facts` |
-| **2 cursor rules implementerade** | research-content-gate, capacity-ui-gate |
-| **6 regler eval only** | Hamn-written (våg 28), barn-epistemik (våg 29), worry-mabra, no-diagnosis, slutfas-stop, weekly-money |
+| **3 cursor rules implementerade** | research-content-gate, capacity-ui-gate, **hamn-written-default** (våg 28) |
+| **5 regler eval only** | barn-epistemik (våg 29), worry-mabra, no-diagnosis, slutfas-stop, weekly-money |
 
 ---
 
@@ -83,7 +83,7 @@ BP-PLAY-25 (toddler), BP-PLAY-26 (early_school), BP-PLAY-27 (teen), BP-PLAY-28 (
 
 ### Eval / nästa våg (ej .mdc än)
 
-3. **hamn-written-default** — våg 28; kopplar `written_only_escalation` (SA-2)  
+3. **hamn-written-default** — **implementerad våg 28**; `written_only_escalation` live i `hamnTaktikWire.ts`  
 4. **barn-observation-epistemik** — våg 29; children_logs citat vs tolkning  
 5. **worry-time-mabra-only** — våg 27/28; FACT Kunskap, övning MåBra  
 6. **no-diagnosis-labels** — våg 28; förstärker domän-covert  
@@ -100,7 +100,7 @@ BP-PLAY-25 (toddler), BP-PLAY-26 (early_school), BP-PLAY-27 (teen), BP-PLAY-28 (
 | 2 | Fas 19.4 JOY-17 mabraCoach | smoke:mabra, smoke:innehall |
 | 3 | **Våg 27 KEEP + ingest** | smoke:kunskap, seed:kunskap-facts |
 | 4 | Fas 19.5 evolution_ledger | smoke:evolution-discovery |
-| 5 | Våg 28 Hamn wire + regler 3, 5, 6, 8 | smoke:design-modules |
+| 5 | **Våg 28 Hamn wire** + hamn-written-default | smoke:hamn, smoke:locked-ux |
 | 6 | Våg 29 Barnporten + barn-epistemik | smoke:locked-ux, smoke:children |
 | 7 | Fas 19.6 arkiv PMIR | orkester:night |
 
@@ -133,6 +133,28 @@ npm run smoke:mabra
 | `seed:kunskap-facts` | PASS — ok 23, skip 117, fail 0 |
 | `npm run smoke:innehall` | PASS |
 | `npm run smoke:mabra` | PASS |
+
+---
+
+## 10. Våg 28 — Hamn wire (2026-06-16)
+
+| Leverans | Status |
+|----------|--------|
+| `written_only_escalation` i `hamnTaktikWire.ts` | **live** |
+| `cn-written-001..003` i `tacticPatternLibrary.ts` | **live** (v 2026.06.2) |
+| `.cursor/rules/hamn-written-default.mdc` | **implementerad** |
+
+```bash
+npm run smoke:hamn
+npm run smoke:pattern-library
+npm run smoke:locked-ux
+```
+
+| Kommando | Status |
+|----------|--------|
+| `smoke:hamn` | PASS |
+| `smoke:pattern-library` | PASS |
+| `smoke:locked-ux` | PASS |
 
 ---
 

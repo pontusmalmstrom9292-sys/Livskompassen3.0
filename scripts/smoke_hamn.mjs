@@ -67,6 +67,8 @@ function main() {
   );
   mustInclude(
     'src/modules/features/family/safeHarbor/lib/hamnTaktikWire.ts',
+    'written_only_escalation',
+    'cop-007',
     'hoovering',
     'smear',
     'ekonomisk_kontroll',

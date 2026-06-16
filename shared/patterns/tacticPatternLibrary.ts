@@ -3,7 +3,7 @@
  * libraryVersion: bump vid nya mönster; gamla sidecar-poster förblir giltiga.
  */
 
-export const TACTIC_LIBRARY_VERSION = '2026.06.1';
+export const TACTIC_LIBRARY_VERSION = '2026.06.2';
 
 export type VaultTechnique =
   | 'DARVO'
@@ -17,9 +17,11 @@ export type VaultTechnique =
   | 'ECONOMIC_CONTROL'
   | 'MATERNAL_FACADE'
   | 'TRAUMA_BONDING'
-  | 'LEGAL_PRESSURE';
+  | 'LEGAL_PRESSURE'
+  | 'WRITTEN_ESCALATION';
 
 export type HamnTaktikSignalId =
+  | 'written_only_escalation'
   | 'hoovering'
   | 'smear'
   | 'ekonomisk_kontroll'
@@ -47,6 +49,9 @@ export const TACTIC_PATTERN_DEFS: readonly TacticPatternDef[] = [
   { id: 'cn-threat-001', technique: 'THREAT', pattern: '(annars|om inte).*konsekvens', flags: 'i', weight: 50 },
   { id: 'cn-threat-002', technique: 'THREAT', pattern: 'jag ska se till att', flags: 'i', weight: 45 },
   { id: 'cn-love-001', technique: 'LOVE_BOMBING', pattern: 'ingen (älskar|förstår|vet) dig som jag', flags: 'i', kunskapFactId: 'kunskap-fact-044', weight: 30 },
+  { id: 'cn-written-001', technique: 'WRITTEN_ESCALATION', pattern: 'ring\\s+(?:mig|nu|direkt)', flags: 'i', kunskapFactId: 'kunskap-fact-cop-007', hamnSignalId: 'written_only_escalation', weight: 35 },
+  { id: 'cn-written-002', technique: 'WRITTEN_ESCALATION', pattern: '(?:svara|ta)\\s+(?:i\\s+)?telefon', flags: 'i', kunskapFactId: 'kunskap-fact-cop-007', hamnSignalId: 'written_only_escalation', weight: 35 },
+  { id: 'cn-written-003', technique: 'WRITTEN_ESCALATION', pattern: 'vi\\s+måste\\s+prata(?:\\s+nu)?', flags: 'i', kunskapFactId: 'kunskap-fact-cop-007', hamnSignalId: 'written_only_escalation', weight: 30 },
   { id: 'cn-hoover-001', technique: 'HOOVERING', pattern: 'saknar\\s+dig', flags: 'i', kunskapFactId: 'kunskap-fact-cn-016', hamnSignalId: 'hoovering', weight: 25 },
   { id: 'cn-hoover-002', technique: 'HOOVERING', pattern: 'barnens\\s+skull', flags: 'i', kunskapFactId: 'kunskap-fact-cn-016', hamnSignalId: 'hoovering', weight: 25 },
   { id: 'cn-hoover-003', technique: 'HOOVERING', pattern: 'kan\\s+vi\\s+prata\\s+igen', flags: 'i', kunskapFactId: 'kunskap-fact-cn-016', hamnSignalId: 'hoovering', weight: 20 },

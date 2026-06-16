@@ -1,6 +1,7 @@
 /** Deterministisk taktik-signal i Hamn — ingen LLM, ingen cross-RAG. */
 
 export type HamnTaktikSignalId =
+  | 'written_only_escalation'
   | 'hoovering'
   | 'smear'
   | 'ekonomisk_kontroll'
@@ -20,6 +21,22 @@ const SIGNALS: ReadonlyArray<{
   hint: string;
   patterns: RegExp[];
 }> = [
+  {
+    id: 'written_only_escalation',
+    label: 'Skrift-eskalering',
+    hint:
+      'Telefon eller "vi måste prata" eskalerar ofta konflikt — svara skriftligt (BIFF). Referens cop-007 i Taktik-lexikon; inget JADE.',
+    patterns: [
+      /ring\s+(?:mig|nu|direkt)/i,
+      /(?:svara|ta)\s+(?:i\s+)?telefon/i,
+      /vi\s+måste\s+prata(?:\s+nu)?/i,
+      /(?:måste|behöver)\s+prata\s+(?:i\s+)?(?:telefon|muntligt)/i,
+      /hör\s+av\s+dig\s+(?:nu|direkt|i\s+telefon)/i,
+      /(?:kan|vill)\s+du\s+ringa/i,
+      /svara\s+när\s+jag\s+ringer/i,
+      /(?:träffas|ses)\s+(?:nu|idag|imorgon)\s+(?:och\s+)?prata/i,
+    ],
+  },
   {
     id: 'hoovering',
     label: 'Hoovering',

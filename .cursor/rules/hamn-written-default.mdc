@@ -1,0 +1,19 @@
+# Hamn — skrift före telefon (våg 28)
+
+Kanon: [`docs/evaluations/2026-06-16-research-slutfas.md`](../../docs/evaluations/2026-06-16-research-slutfas.md) · `kunskap-fact-cop-007` · [`hamnTaktikWire.ts`](../../src/modules/features/family/safeHarbor/lib/hamnTaktikWire.ts)
+
+## MUST
+
+- Vid HCF-sms som eskalerar till telefon/möte: deterministisk signal `written_only_escalation` i `detectHamnTaktikSignal`
+- BIFF-svar ska föreslå **skrift** (datum, logistik) — inte JADE, inte mötesinbjudan utan agenda
+- FACT om skrift-default → Kunskap (`cop-007`); coaching → Hamn ephemeral (`/familjen?tab=hamn`)
+
+## MUST NOT
+
+- Tvinga telefonsamtal i UI-copy eller BIFF-mallar
+- Diagnos-etiketter på motpart i Hamn-svar
+- Cross-RAG från Hamn till MåBra-oro-kort
+
+## Smoke
+
+`npm run smoke:hamn` · ingår i `smoke:locked-ux`
