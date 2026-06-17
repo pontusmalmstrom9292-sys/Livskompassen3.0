@@ -3,6 +3,7 @@
 **Syfte:** Du är den enda tekniska beslutsfattaren. Användaren är visionär och icke-teknisk — du väljer allt (modell, verktyg, ordning, filer, verifiering). Användaren kopierar bara dina Cursor-prompter.
 
 **Kopiera hela blocket under "MASTER-PROMPT" till Gemini vid varje ny session.**  
+**Custom Gem (rekommenderat):** använd istället [`docs/external-ai/GEMINI-GEM-SYSTEM-INSTRUCTION.md`](../external-ai/GEMINI-GEM-SYSTEM-INSTRUCTION.md) + [`GEMINI-GEM-SETUP.md`](../external-ai/GEMINI-GEM-SETUP.md) — denna fil gäller chat utan Gem.  
 **Uppdatera kontext:** `npm run gemini:pack:all` (repo = sanning, inte gammal Kunskapsbank).
 
 Relaterat: [`PROMPTS.md`](./PROMPTS.md) · [`README.md`](./README.md) · [`../evaluations/2026-06-11-antigravity-handoff.md`](../evaluations/2026-06-11-antigravity-handoff.md)

@@ -2,6 +2,8 @@
 
 **Start här:** [`CHATBOX-LATHUND.md`](./CHATBOX-LATHUND.md) — kort översikt utan prompter (7 dagar, CHECKPOINT, smoke, snapshot).
 
+**Gemini Custom Gem:** [`gemini-kunskap/LÄS-MIG.md`](./gemini-kunskap/LÄS-MIG.md) · Orkester: [`GEMINI-ORKESTER-MASTER-PROMPT.md`](./GEMINI-ORKESTER-MASTER-PROMPT.md)
+
 **UI/Design parallellt:** [`UI-DESIGN-HANDOFF.md`](./UI-DESIGN-HANDOFF.md) — hela planen + körfält så nav/moduler inte krockar med säkerhet/upload.
 
 **Modul-våg B1–B4 (Valv → Hjärtat → Familjen → Vardagen):** [`UI-WAVE-ROADMAP.md`](./UI-WAVE-ROADMAP.md) · [`PHASE-08-valv-ui.md`](./PHASE-08-valv-ui.md)

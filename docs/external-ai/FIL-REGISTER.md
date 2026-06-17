@@ -20,6 +20,16 @@
 | `HYGIENE-LOG.md` | ARCHIVE-kandidater |
 | `CURSOR-HANDOFF-OPEN.md` | Nästa Cursor-prompter |
 | `PMIR-CHATBOT-WAVE1.md` | Merge-utkast våg 1 |
+| `GEMINI-GEM-SYSTEM-INSTRUCTION.md` | Custom Gem — System Instructions (klistra in i Gemini) |
+| `GEMINI-GEM-SYSTEM-INSTRUCTION-KLISTRA-IN.txt` | Samma instruktion — ren text för TextEdit/Gem (öppna denna) |
+| `GEMINI-GEM-KNOWLEDGE.md` | Custom Gem — Knowledge File + Tier 1–3-lista |
+| `GEMINI-GEM-SETUP.md` | Steg-för-steg Custom Gem-setup |
+| `gemini-kunskap/` | **Alla knowledge-filer i en mapp** — `npm run gemini:sync:kunskap` |
+| `GEMINI-ORKESTER-MASTER-PROMPT.md` | Gemini orkester — ChatBox/Flow/Cursor routing |
+| `evaluations/2026-06-17-flow-pipeline-karta.md` | Flow P1/P2 Deep Research |
+| `evaluations/MALL-deep-research-modul.md` | Mall före varje bygg |
+| `gemini-kunskap/LÄS-MIG.md` | Upload-guide för Gem Knowledge |
+| `GEMINI-GEM-BASELINE-VERIFY.md` | Baseline-frågor + förväntade svar efter setup |
 
 ---
 

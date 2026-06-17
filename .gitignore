@@ -48,6 +48,14 @@ docs/external-ai/bifoga/03-prompter/*
 docs/external-ai/bifoga/04-repomix/*
 !docs/external-ai/bifoga/04-repomix/README.md
 
+# Gemini kunskap — synced copies (kanon: docs/external-ai/; kör npm run gemini:sync:kunskap)
+docs/external-ai/gemini-kunskap/SYNC-STAMP.txt
+docs/external-ai/gemini-kunskap/0*.md
+docs/external-ai/gemini-kunskap/0*.txt
+docs/external-ai/gemini-kunskap/tier-2-valfritt/*
+docs/external-ai/gemini-kunskap/tier-3-repomix/*
+!docs/external-ai/gemini-kunskap/LÄS-MIG.md
+
 # Generated GPT handoff repomix packs (npm run gpt-handoff:pack)
 exports/gpt-handoff/repomix/
 

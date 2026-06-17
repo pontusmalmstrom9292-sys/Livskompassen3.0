@@ -2,6 +2,27 @@
 
 **Plattform:** ChatBox AI · 7-dagars prov · alla modeller tillgängliga · inga hårda kvoter (undvik megatokens per chatt).
 
+## Gemini Custom Gem → verktyg (orkester)
+
+**Huvuddator:** Gemini Gem ([`GEMINI-ORKESTER-MASTER-PROMPT.md`](./GEMINI-ORKESTER-MASTER-PROMPT.md)) — Pontus godkänner Deep Research, Gemini routar.
+
+| Etikett | Verktyg | När Gem skickar dig hit |
+|---------|---------|-------------------------|
+| **CHATBOX** | ChatBox AI | SPEC, tung TS, backend-analys, säkerhetsaudit |
+| **FLOW** | Google Flow | Multi-step LLM, Brusfilter, Dossier v2 offload |
+| **ANDROID** | Android Studio | Native auth, Gradle, cap sync |
+| **CURSOR** | Cursor (denna IDE) | Prod-kod, smoke, deploy, LOCK |
+
+**Gate:** Ingen CHATBOX/FLOW/CURSOR-build före godkänd [`MALL-deep-research-modul.md`](../evaluations/MALL-deep-research-modul.md).
+
+| Uppgift | Förstahandsval | Etikett |
+|---------|----------------|---------|
+| Orkestrering / beslut | Gemini Gem | — |
+| Flow pipeline / Brusfilter design | Google Flow | FLOW |
+| Callable SPEC efter Flow | GPT-5.5 | CHATBOX |
+| Prod implementering | Cursor HEAVY/FAST | CURSOR |
+| Android APK | Android Studio | ANDROID |
+
 ## Snabbval
 
 | Uppgift | Förstahandsval | Alternativ |

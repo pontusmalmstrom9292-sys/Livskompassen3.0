@@ -1,6 +1,6 @@
 # DOC-INDEX — var hittar jag vad?
 
-**Senast uppdaterad:** 2026-06-16 (Backend masterplan PMIR)  
+**Senast uppdaterad:** 2026-06-17 (Gemini Custom Gem master instruction)  
 **Regel:** Om två filer säger olika saker — **register vinner** (se tabell nedan).
 
 ---
@@ -54,9 +54,12 @@
 | Verktyg | När | Pack / prompt |
 |---------|-----|----------------|
 | **Cursor** | Prod-kod, smoke, LOCK | — |
+| **Gemini Custom Gem** | CTO/arkitekt, orkester | [`GEMINI-ORKESTER-MASTER-PROMPT.md`](external-ai/GEMINI-ORKESTER-MASTER-PROMPT.md) + [`gemini-kunskap/`](external-ai/gemini-kunskap/) |
+| **Gemini chat (utan Gem)** | Tech Lead en session i taget | [`google-ai-pro/GEMINI-TECH-LEAD.md`](google-ai-pro/GEMINI-TECH-LEAD.md) |
 | **ChatBox** | SPEC, PMIR, wireframes | `exports/chatbot-handoff/` + `bifoga/` |
 | **Google AI Studio** | Design-remix + mockup-bild | `npm run design:pack` + `docs/ai-studio/DESIGN-REMIX-PROMPT.md` |
 | **NotebookLM** | Research, motsägelser | `npm run notebooklm:pack:all` → `exports/google-ai-pro/notebooklm/` |
+| **Google Flow** | AI-tunga pipelines (Dossier, Brusfilter) | Gem levererar nodgraf — se [`GEMINI-GEM-KNOWLEDGE.md`](external-ai/GEMINI-GEM-KNOWLEDGE.md) §4 |
 
 Se [`docs/external-ai/MODEL-PICKER.md`](external-ai/MODEL-PICKER.md).
 
@@ -77,6 +80,8 @@ cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
 npm run chatbot:pack:handoff    # alla ChatBox-repomixar
 npm run chatbot:sync:bifoga     # speglar till bifoga/
 npm run notebooklm:pack:all     # NotebookLM kärna (inkl. repomix + system_sync)
+npm run gemini:sync:kunskap     # Gemini kunskap-mapp (upload till Gem)
+npm run gemini:pack:all         # Gem + NotebookLM + kunskap-sync
 ```
 
 Bifoga-mapp: `docs/external-ai/bifoga/` — se [`bifoga/README.md`](external-ai/bifoga/README.md).  
