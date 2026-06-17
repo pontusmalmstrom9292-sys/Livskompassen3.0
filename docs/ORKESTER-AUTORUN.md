@@ -27,9 +27,23 @@ State: `.orkester/rollout-state.json` · Rapport: `docs/evaluations/YYYY-MM-DD-r
 
 ---
 
+## Fas 19 Sprint (aktiv — reglerad YOLO)
+
+För Fas 19.1–19.6 enligt godkänd masterplan: [`FAS19-SPRINT-AUTORUN.md`](./FAS19-SPRINT-AUTORUN.md)
+
+```bash
+export FAS19_AUTORUN=1 ORKESTER_AUTORUN=1
+npm run fas19:autorun
+npm run orkester:night
+```
+
+State: `.orkester/fas19-state.json` · Logg: `docs/evaluations/YYYY-MM-DD-fas19-vag-<id>.md`
+
+---
+
 ## Master YOLO (hela projektets öppna kö)
 
-För lång autonom körning (våg 0–18, commit/push/deploy): [`MASTER-YOLO-AUTORUN.md`](./MASTER-YOLO-AUTORUN.md)
+För lång autonom körning (våg 0–18, commit/push/deploy): [`MASTER-YOLO-AUTORUN.md`](./MASTER-YOLO-AUTORUN.md) — **historisk, done**
 
 ```bash
 export MASTER_AUTORUN=1 ORKESTER_AUTORUN=1

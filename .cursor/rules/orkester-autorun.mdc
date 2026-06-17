@@ -1,16 +1,24 @@
 ---
 description: Orkestrerad natt-/batch-autorun med specialister — Conductor delegerar i fast ordning
 alwaysApply: false
-globs: .cursor/agents/**,.orkester/**,scripts/orkester*.mjs,scripts/master_yolo_init.mjs,docs/ORKESTER-AUTORUN.md,docs/MASTER-YOLO-AUTORUN.md
+globs: .cursor/agents/**,.orkester/**,scripts/orkester*.mjs,scripts/master_yolo_init.mjs,scripts/fas19_autorun_init.mjs,docs/ORKESTER-AUTORUN.md,docs/MASTER-YOLO-AUTORUN.md,docs/FAS19-SPRINT-AUTORUN.md
 ---
 
 # Orkester Autorun
 
-Kanon: [`docs/ORKESTER-AUTORUN.md`](../../docs/ORKESTER-AUTORUN.md) · Master kö: [`docs/MASTER-YOLO-AUTORUN.md`](../../docs/MASTER-YOLO-AUTORUN.md)
+Kanon: [`docs/ORKESTER-AUTORUN.md`](../../docs/ORKESTER-AUTORUN.md) · Fas 19: [`docs/FAS19-SPRINT-AUTORUN.md`](../../docs/FAS19-SPRINT-AUTORUN.md) · Master kö: [`docs/MASTER-YOLO-AUTORUN.md`](../../docs/MASTER-YOLO-AUTORUN.md)
 
 ## När detta gäller
 
-Användaren säger **kör orkester**, **nattpass**, **autorun**, **master yolo**, eller `npm run orkester:night` / `npm run master:yolo`.
+Användaren säger **kör orkester**, **nattpass**, **autorun**, **fas 19**, **master yolo**, eller `npm run orkester:night` / `npm run fas19:autorun` / `npm run master:yolo`.
+
+## Fas 19 Sprint (aktiv)
+
+1. `export FAS19_AUTORUN=1 ORKESTER_AUTORUN=1`
+2. `npm run fas19:autorun` → `.orkester/fas19-state.json`
+3. Läs `nextWaveId` — våg för våg enligt FAS19-tabell (smoke → eval-logg → state).
+4. PMIR-stopp enligt FAS19 — SKIP + `blocker-fas19-*.md`.
+5. **En våg = en chatt** — handoff enligt FAS19 § Handoff.
 
 ## Master YOLO
 

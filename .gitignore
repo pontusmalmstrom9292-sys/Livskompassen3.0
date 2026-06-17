@@ -107,4 +107,5 @@ __pycache__/
 .orkester/master-state.json
 .orkester/fas13-state.json
 .orkester/fas14-state.json
+.orkester/fas19-state.json
 .orkester-backup-cursor-hooks/

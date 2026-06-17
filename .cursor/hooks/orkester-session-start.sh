@@ -1,6 +1,22 @@
 #!/usr/bin/env bash
-# Injects Master YOLO or orkester night-run context when env + state exist.
+# Injects Fas 19, Master YOLO, or orkester night-run context when env + state exist.
 set -euo pipefail
+
+if [[ "${FAS19_AUTORUN:-}" == "1" ]]; then
+  FAS19_STATE=".orkester/fas19-state.json"
+  if [[ -f "$FAS19_STATE" ]] && command -v jq >/dev/null 2>&1; then
+    WAVE=$(jq -r '.nextWaveId // "baseline"' "$FAS19_STATE" 2>/dev/null)
+    STATUS=$(jq -r '.status // "running"' "$FAS19_STATE" 2>/dev/null)
+    if [[ "$STATUS" != "done" && -n "$WAVE" && "$WAVE" != "null" ]]; then
+      cat <<EOF
+{
+  "additional_context": "Fas 19 Sprint autorun aktivt. status=${STATUS}, nextWaveId=${WAVE}. Läs docs/FAS19-SPRINT-AUTORUN.md och .orkester/fas19-state.json. Fortsätt aktuell våg: build → smoke → eval-logg → fas19-state. PMIR-stopp: SKIP + blocker-fas19-*.md. ORKESTER_AUTORUN=1 för stop-kedja."
+}
+EOF
+      exit 0
+    fi
+  fi
+fi
 
 if [[ "${MASTER_AUTORUN:-}" == "1" ]]; then
   MASTER_STATE=".orkester/master-state.json"

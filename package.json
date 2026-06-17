@@ -90,6 +90,7 @@
     "smoke:tier1": "npm run smoke:locked-ux && npm run smoke:design-modules && npm run smoke:manifest && npm run smoke:orkester && npm run smoke:innehall && npm run smoke:synapse-triggers && npm run smoke:inkast-upload && npm run smoke:weaver-hitl",
     "orkester:night": "node scripts/orkester_autorun.mjs",
     "master:yolo": "node scripts/master_yolo_init.mjs",
+    "fas19:autorun": "node scripts/fas19_autorun_init.mjs",
     "content:night": "node scripts/content_autorun.mjs",
     "export:kunskap-seed": "node scripts/export_kunskap_seed_manifest.mjs",
     "smoke:content-waves": "node scripts/smoke_content_waves.mjs",

@@ -1,9 +1,27 @@
 #!/usr/bin/env bash
-# Suggests next orkester phase or Master YOLO wave when ORKESTER_AUTORUN=1.
+# Suggests next orkester phase, Fas 19 wave, or Master YOLO wave when ORKESTER_AUTORUN=1.
 set -euo pipefail
 
 if [[ "${ORKESTER_AUTORUN:-}" != "1" ]]; then
   exit 0
+fi
+
+if [[ "${FAS19_AUTORUN:-}" == "1" ]]; then
+  FAS19_STATE=".orkester/fas19-state.json"
+  if [[ -f "$FAS19_STATE" ]] && command -v jq >/dev/null 2>&1; then
+    STATUS=$(jq -r '.status // empty' "$FAS19_STATE" 2>/dev/null)
+    WAVE=$(jq -r '.nextWaveId // empty' "$FAS19_STATE" 2>/dev/null)
+    if [[ "$STATUS" == "done" || -z "$WAVE" ]]; then
+      exit 0
+    fi
+    PROMPT="FAS 19 SPRINT — våg ${WAVE}. Läs docs/FAS19-SPRINT-AUTORUN.md och masterplan v2. Standard smoke + smoke-extra, vid PASS fas19-state + docs/evaluations/*-fas19-vag-${WAVE}.md."
+    cat <<EOF
+{
+  "followup_message": "${PROMPT} Jämför mot hela projektets kontext. Arbeta autonomt tills vågen PASS, SKIP (PMIR) eller 3 FAIL."
+}
+EOF
+    exit 0
+  fi
 fi
 
 if [[ "${MASTER_AUTORUN:-}" == "1" ]]; then

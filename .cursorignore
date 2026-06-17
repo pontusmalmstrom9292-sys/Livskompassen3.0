@@ -1,0 +1,10 @@
+# Livskompassen — Cursor @Codebase index tuning
+# Default: markdown/config text excluded from semantic index; un-ignore autorun kanon.
+
+*.md
+*.mdx
+!docs/FAS19-SPRINT-AUTORUN.md
+!docs/evaluations/2026-06-15-fas19-masterplan-v2.md
+!docs/ORKESTER-AUTORUN.md
+!docs/FAS13-SPRINT-AUTORUN.md
+!docs/MASTER-YOLO-AUTORUN.md
