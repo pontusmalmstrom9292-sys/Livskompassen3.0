@@ -41,7 +41,7 @@ Kartlägga var **Google Flow** (≈2000 krediter) ska användas utan att bryta b
 | Frontend | `VaultOrkesterPanel.tsx` + `processBrusfilterService.ts` | Flik **Meddelanden eller SMS-analys** (`vaultTab=orkester`) |
 | Deploy | `functions:processBrusfilter` + hosting 2026-06-17 | Prod verifierad av Pontus |
 
-**Kvar (v2, OPEN):** `previewInkastClean` + HITL i Inkast **före** `reality_vault` — se §8 fas 1 ursprunglig plan.
+**Kvar (v2, LOCK 2026-06-17):** Inkast HITL — `InkastBrusfilterPreview` i `CapturePanel`, knapp «Filtrera brus först», alias `previewInkastClean` = `processBrusfilter`.
 
 | Del | Plats | Roll |
 |-----|--------|------|
@@ -101,7 +101,7 @@ Kartlägga var **Google Flow** (≈2000 krediter) ska användas utan att bryta b
 | Pipeline | Beslut | Motivering |
 |----------|--------|------------|
 | **P1 Brusfilter v1** | **LOCK** (2026-06-17) | Orkester + `processBrusfilter` — prod-test OK |
-| **P1 Brusfilter v2** (Inkast HITL) | **OPEN** | Preview före WORM — nästa våg |
+| **P1 Brusfilter v2** (Inkast HITL) | **LOCK** (2026-06-17) | CapturePanel + brusfilter preview före spar |
 | **P2 Dossier v2** | **BUILD** fas 2 | Prod finns; Flow = LLM-offload för foreword/timeline |
 | P3–P4 | DEFER | Befintlig kod räcker till vidare |
 

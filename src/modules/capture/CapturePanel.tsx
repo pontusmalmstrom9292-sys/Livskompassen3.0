@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FileUp, PenLine, X } from 'lucide-react';
+import { FileUp, Filter, PenLine, X } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
+import { hasVaultGate } from '@/core/auth/sessionService';
 import { fileToBase64 } from '@/features/lifeJournal/evidence/kompis/api/ingestKnowledgeDocumentService';
 import {
   formatInkastResultMessage,
@@ -24,6 +25,10 @@ import {
 } from '../inkast/components/InkastDagbokWeaveBridge';
 import type { InboxClassification } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import { InkastConfirmPanel } from '../inkast/components/InkastConfirmPanel';
+import {
+  InkastBrusfilterPreview,
+  type InkastBrusfilterAcceptPayload,
+} from '../inkast/components/InkastBrusfilterPreview';
 import {
   manualChoiceToSubmitFields,
   routingToUiSilo,
@@ -54,7 +59,7 @@ type CapturePanelProps = {
   maxFiles?: number;
 };
 
-type Phase = 'compose' | 'analyzing' | 'confirm' | 'edit' | 'done';
+type Phase = 'compose' | 'brusfilter' | 'analyzing' | 'confirm' | 'edit' | 'done';
 
 const DEFAULT_MAX_FILES = 8;
 
@@ -104,7 +109,10 @@ export function CapturePanel({
   const [manualChildAlias, setManualChildAlias] = useState('');
   const [showBarnenBridge, setShowBarnenBridge] = useState(true);
   const [showDagbokWeave, setShowDagbokWeave] = useState(true);
+  const [brusfilterBiffDraft, setBrusfilterBiffDraft] = useState<string | null>(null);
   const userId = useStore((s) => s.user?.uid);
+  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
+  const canBrusfilter = hasVaultGate() || isVaultUnlocked;
 
   const hasText = text.trim().length >= 12;
   const hasFiles = pendingFiles.length > 0;
@@ -122,6 +130,7 @@ export function CapturePanel({
     setManualChildAlias('');
     setShowBarnenBridge(true);
     setShowDagbokWeave(true);
+    setBrusfilterBiffDraft(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
   }, []);
 
@@ -192,6 +201,36 @@ export function CapturePanel({
     sourceModule,
     text,
   ]);
+
+  const startBrusfilterStep = useCallback(() => {
+    if (!hasText || hasFiles) {
+      setError('Brusfilter kräver klistrad text (inga filer).');
+      return;
+    }
+    if (!canBrusfilter) {
+      setError('Lås upp Valvet via Fyren (3 sek) innan brusfilter.');
+      return;
+    }
+    setError(null);
+    setPhase('brusfilter');
+  }, [canBrusfilter, hasFiles, hasText]);
+
+  const handleBrusfilterAccept = useCallback(
+    (payload: InkastBrusfilterAcceptPayload) => {
+      setText(payload.cleanedText);
+      setBrusfilterBiffDraft(payload.biffDraft);
+      if (payload.logistics) {
+        setManualComment(payload.logistics);
+      }
+      void handlePreview();
+    },
+    [handlePreview],
+  );
+
+  const handleBrusfilterKeepOriginal = useCallback(() => {
+    setBrusfilterBiffDraft(null);
+    void handlePreview();
+  }, [handlePreview]);
 
   const submitFiles = useCallback(
     async (manual?: InkastManualChoice) => {
@@ -424,6 +463,16 @@ export function CapturePanel({
           )}
 
           <div className="mt-3 flex flex-wrap items-center gap-2">
+            {canBrusfilter && hasText && !hasFiles && (
+              <button
+                type="button"
+                className="btn-pill--secondary inline-flex items-center gap-1.5 text-sm"
+                onClick={startBrusfilterStep}
+              >
+                <Filter className="h-3.5 w-3.5" aria-hidden />
+                Filtrera brus först
+              </button>
+            )}
             <button
               type="button"
               className="btn-pill--primary text-sm"
@@ -441,12 +490,31 @@ export function CapturePanel({
         </>
       )}
 
+      {phase === 'brusfilter' && hasText && (
+        <InkastBrusfilterPreview
+          rawText={text.trim()}
+          onAccept={handleBrusfilterAccept}
+          onKeepOriginal={handleBrusfilterKeepOriginal}
+          onBack={() => {
+            setPhase('compose');
+            setError(null);
+          }}
+        />
+      )}
+
       {phase === 'analyzing' && (
         <p className="py-4 text-center text-sm text-accent">Sorterar…</p>
       )}
 
       {(phase === 'confirm' || phase === 'edit') && preview && (
-        <InkastConfirmPanel
+        <>
+          {brusfilterBiffDraft && manualSilo === 'valv' && (
+            <div className="mb-3 rounded-xl border border-border/30 bg-surface-2/60 px-3 py-2 text-xs text-text-muted">
+              <p className="font-medium text-text-dim">BIFF-utkast (kopiera separat — sparas inte i arkivet)</p>
+              <p className="mt-1 whitespace-pre-wrap text-sm text-text">{brusfilterBiffDraft}</p>
+            </div>
+          )}
+          <InkastConfirmPanel
           mode={phase === 'edit' ? 'edit' : 'confirm'}
           classification={preview}
           previewLabel={previewLabel}
@@ -467,6 +535,7 @@ export function CapturePanel({
           accentClass="text-accent"
           panelClass="bg-surface-3/50"
         />
+        </>
       )}
 
       {message && (

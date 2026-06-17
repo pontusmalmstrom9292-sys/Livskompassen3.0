@@ -120,8 +120,12 @@ function smokeStaticStructure() {
   assert(classifier.includes('valv_samla'), 'inboxClassifier saknar valv_samla-heuristik');
   assert(inkastService.includes('sourceModule?: string'), 'inkastService preview saknar sourceModule');
   assert(
-    readCanonical('src/modules/capture/CapturePanel.tsx').includes('sourceModule'),
-    'CapturePanel ska skicka sourceModule till preview',
+    readCanonical('src/modules/capture/CapturePanel.tsx').includes('InkastBrusfilterPreview'),
+    'CapturePanel ska erbjuda Inkast brusfilter HITL',
+  );
+  assert(
+    readCanonical('src/modules/capture/CapturePanel.tsx').includes('Filtrera brus först'),
+    'CapturePanel saknar brusfilter-knapp',
   );
   assert(
     readCanonical('src/modules/capture/CaptureSuperModule.tsx').includes("familjen: 'familjen'"),
