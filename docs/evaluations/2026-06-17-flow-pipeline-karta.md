@@ -1,7 +1,7 @@
 # Deep Research — Flow pipeline-karta (P1 Brusfilter, P2 Dossier v2)
 
 **Datum:** 2026-06-17 · **Subagent:** specialist-adk-weaver  
-**Status:** P1 v1 **LOCK** (Pontus godkänd + prod-test 2026-06-17) · P2 **OPEN**
+**Status:** P1 v1+v2 **LOCK** · P2 **LOCK** (2026-06-17)
 **Mall:** [`MALL-deep-research-modul.md`](./MALL-deep-research-modul.md)  
 **Orkester:** [`docs/external-ai/GEMINI-ORKESTER-MASTER-PROMPT.md`](../external-ai/GEMINI-ORKESTER-MASTER-PROMPT.md)
 
@@ -102,7 +102,7 @@ Kartlägga var **Google Flow** (≈2000 krediter) ska användas utan att bryta b
 |----------|--------|------------|
 | **P1 Brusfilter v1** | **LOCK** (2026-06-17) | Orkester + `processBrusfilter` — prod-test OK |
 | **P1 Brusfilter v2** (Inkast HITL) | **LOCK** (2026-06-17) | CapturePanel + brusfilter preview före spar |
-| **P2 Dossier v2** | **BUILD** fas 2 | Prod finns; Flow = LLM-offload för foreword/timeline |
+| **P2 Dossier v2** | **LOCK** (2026-06-17) | `dossierAiForeword` + PDF foreword/timeline via Gemini Flash |
 | P3–P4 | DEFER | Befintlig kod räcker till vidare |
 
 **Pontus:** ☑ godkänn v1 (2026-06-17) · ☐ avvisa · ☐ ändra X: _______________

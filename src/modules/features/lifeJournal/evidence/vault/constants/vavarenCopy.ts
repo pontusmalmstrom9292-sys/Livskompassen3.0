@@ -34,7 +34,7 @@ export const VAVAREN_VALVCHAT_HINT =
 export const VAVAREN_DOSSIER_CHECKBOX = 'Kort AI-inledning före rapporten';
 
 export const VAVAREN_DOSSIER_HINT =
-  'Bevisdelen är ordagrant från arkivet. Försättet är valfritt och märks som AI-förslag.';
+  'Bevisdelen är ordagrant från arkivet. Försättet och tidslinjen genereras av AI (Gemini) — påverkar inte WORM-hashen.';
 
 /** Dagbok «kom ihåg» — rad om taggar när Valv är öppet. */
 export const VAVAREN_DAGBOK_ARCHIVE_LINE =

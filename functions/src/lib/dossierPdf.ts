@@ -1,5 +1,6 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import type { CanonicalDossierEntry } from './dossierCanonicalHash';
+import type { DossierAiForewordResult } from './dossierAiForeword';
 
 const PAGE_WIDTH = 595;
 const PAGE_HEIGHT = 842;
@@ -46,6 +47,7 @@ type PdfBuildOptions = {
   dateFrom: string;
   dateTo: string;
   includeAiForeword: boolean;
+  aiForeword?: DossierAiForewordResult;
   entries: CanonicalDossierEntry[];
   tacticSummary?: { technique: string; count: number }[];
 };
@@ -87,12 +89,27 @@ export async function buildDossierPdf(options: PdfBuildOptions): Promise<Uint8Ar
   drawLine(`Dossier-ID: ${options.dossierId}`);
   drawLine(`SHA-256 (kanonisk payload): ${options.documentHash}`);
   drawLine('');
-  drawLine(
-    options.includeAiForeword
-      ? 'AI-försätt: beställt — bevisdelen nedan är ordagrant från WORM.'
-      : 'AI-försätt: ej inkluderat. Bevis = ordagrant WORM.',
-  );
-  drawLine('');
+
+  if (options.includeAiForeword && options.aiForeword) {
+    drawLine('— AI-försätt (sammanfattning — bevis nedan är ordagrant WORM) —', true);
+    drawBlock(options.aiForeword.foreword);
+    drawLine('');
+    if (options.aiForeword.timeline.length > 0) {
+      drawLine('— Tidslinje (AI-strukturerad) —', true);
+      for (const row of options.aiForeword.timeline) {
+        drawLine(`${row.date}: ${row.fact}`);
+      }
+      drawLine('');
+    }
+  } else {
+    drawLine(
+      options.includeAiForeword
+        ? 'AI-försätt: beställt men kunde inte genereras — bevisdelen nedan är ordagrant WORM.'
+        : 'AI-försätt: ej inkluderat. Bevis = ordagrant WORM.',
+    );
+    drawLine('');
+  }
+
   drawLine('— Bevis (kronologiskt) —', true);
 
   const sorted = [...options.entries].sort((a, b) => {

@@ -14,6 +14,7 @@ import {
   verifyVaultWebAuthnResponse,
 } from '../lib/vaultWebAuthn';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { geminiApiKey } from '../lib/geminiSecret';
 import type { EntityRole } from '../lib/entityProfileTypes';
 import type {
   AuthenticationResponseJSON,
@@ -197,13 +198,13 @@ export const writePatternScanMetadataCallable = onCall(
 );
 
 export const generateDossier = onCall(
-  { region: 'europe-west1' },
+  { region: 'europe-west1', secrets: [geminiApiKey] },
   async (request) => {
     const uid = await guardSensitiveCallableV2(request, 'generateDossier', 5);
     await assertVaultSession(uid, request.data);
 
     try {
-      return await generateDossierInternal(uid, request.data);
+      return await generateDossierInternal(uid, request.data, geminiApiKey.value());
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Generering misslyckades.';
       if (

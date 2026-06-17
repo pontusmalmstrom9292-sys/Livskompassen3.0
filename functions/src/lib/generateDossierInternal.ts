@@ -9,6 +9,7 @@ import {
   type DossierCollection,
 } from './dossierCanonicalHash';
 import { buildDossierPdf } from './dossierPdf';
+import { generateDossierAiForeword, type DossierAiForewordResult } from './dossierAiForeword';
 import {
   PATTERN_SCAN_METADATA_COLLECTION,
 } from './patternScanMetadata';
@@ -100,6 +101,7 @@ async function buildTacticSummaryForVaultIds(
 export async function generateDossierInternal(
   uid: string,
   raw: GenerateDossierInput,
+  geminiApiKey?: string,
 ): Promise<GenerateDossierResult> {
   const dateFrom = assertIsoDate(raw.dateFrom, 'dateFrom');
   const dateTo = assertIsoDate(raw.dateTo, 'dateTo');
@@ -149,6 +151,17 @@ export async function generateDossierInternal(
   const generatedAtIso = new Date().toISOString();
   const tacticSummary = await buildTacticSummaryForVaultIds(uid, includedDocIds.reality_vault);
 
+  let aiForeword: DossierAiForewordResult | undefined;
+  if (includeAiForeword) {
+    aiForeword = await generateDossierAiForeword(
+      entries,
+      dateFrom,
+      dateTo,
+      reportType,
+      geminiApiKey,
+    );
+  }
+
   const pdfBytes = await buildDossierPdf({
     dossierId,
     documentHash,
@@ -157,6 +170,7 @@ export async function generateDossierInternal(
     dateFrom,
     dateTo,
     includeAiForeword,
+    aiForeword,
     entries,
     tacticSummary: tacticSummary.length > 0 ? tacticSummary : undefined,
   });
@@ -207,6 +221,7 @@ export async function generateDossierInternal(
       sources: raw.sources ?? {},
       reportType,
       includeAiForeword,
+      aiForewordGenerated: Boolean(aiForeword),
       categoryFilter: raw.categoryFilter ?? [],
       techniqueFilter: raw.techniqueFilter ?? [],
     },

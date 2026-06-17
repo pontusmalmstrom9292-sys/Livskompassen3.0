@@ -19,7 +19,7 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 | **P1 Brusfilter v1 (Valv Orkester)** | `processBrusfilter.ts`, `VaultOrkesterPanel.tsx` | **LOCK** | orkester 2026-06-17 | **P1** |
 | **P1 Brusfilter v2 (Inkast HITL)** | `InkastBrusfilterPreview.tsx`, `CapturePanel.tsx` | **LOCK** | inkast 2026-06-17 | **P1b** |
 | CI deploy | `.github/workflows/firebase-hosting-main.yml` | **LOCK** | smoke:tier1 + functions deploy | **CP-9** |
-| P2 Dossier v2 (Flow foreword) | `generateDossierInternal.ts` | **OPEN** | dossier | efter P1 |
+| **P2 Dossier v2 (AI foreword)** | `dossierAiForeword.ts`, `generateDossierInternal.ts` | **LOCK** | dossier 2026-06-17 | **P2** |
 | MåBra 19.2–19.5 / wave-2 / M3.0-C | — | **DEFER** | — | efter FREEZE |
 | AI-assistent UI | — | **DEFER** | — | — |
 
@@ -33,5 +33,5 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
 1. **Använd:** Valv → **Inkast** → «Filtrera brus först» (kräver Fyren) → godkänn → spara
 2. **P1 v1+v2 LOCK** 2026-06-17
-3. **Nästa valfria våg:** P2 Dossier v2 — flow-karta §8 fas 2
+3. **Nästa:** använd Dossier med «Kort AI-inledning» — P2 LOCK 2026-06-17
 4. **Inget nytt:** Wave-2 polish, M3.0-C, AI-assistent UI förblir DEFER

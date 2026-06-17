@@ -59,6 +59,11 @@ function isoDateDaysAgo(days) {
 }
 
 async function main() {
+  mustInclude('functions/src/lib/dossierAiForeword.ts', 'generateDossierAiForeword', 'foreword');
+  mustInclude('functions/src/lib/generateDossierInternal.ts', 'generateDossierAiForeword', 'aiForewordGenerated');
+  mustInclude('functions/src/lib/dossierPdf.ts', 'AI-försätt', 'aiForeword');
+  mustInclude('functions/src/callables/valv.ts', 'geminiApiKey', 'generateDossier');
+
   const env = loadEnv();
   const apiKey = env.VITE_FIREBASE_API_KEY;
   const projectId = env.VITE_FIREBASE_PROJECT_ID;
