@@ -27,6 +27,7 @@ import {
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { FamiljenBentoShell } from '@/features/family/children/components/familjen/FamiljenBentoShell';
+import { ParentReminderFooter } from '@/features/family/children/components/ParentReminderFooter';
 import { useMinWidthSm } from '../hooks/useMinWidthSm';
 
 const FAMILJ_OPTIONS: DropdownItem<FamiljenTabId>[] = [
@@ -203,6 +204,10 @@ export function FamiljenPage() {
             <BentoCard glow="green" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
               <DrogfrihetHubPage embedded />
             </BentoCard>
+          )}
+
+          {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
+            <ParentReminderFooter childAlias={shell.activeChild} />
           )}
 
           <MaterialPackShortcuts preset={preset} hub="familjen" />

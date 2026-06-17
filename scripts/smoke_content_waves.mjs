@@ -128,8 +128,14 @@ function main() {
   mustInclude(
     'src/modules/features/dailyLife/wellbeing/mabra/components/VitChatFlowPanel.tsx',
     'fetchVitChatCoach',
+    'pick.card.bankId',
     "kind: 'chat_turn'",
     'MabraSpeglarGuardHint',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/api/mabraCoachService.ts',
+    'fetchVitChatCoach',
+    'bankId?: string',
   );
   mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/VitHubPreview.tsx', 'VitChatFlowPanel');
 

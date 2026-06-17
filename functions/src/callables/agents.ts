@@ -84,13 +84,11 @@ export const analyzeMessage = onCall(
 export const invalidateSession = onCall(
   { region: 'europe-west1' },
   async (request) => {
-    if (!request.auth) {
-      throw new HttpsError('unauthenticated', 'Autentisering krävs.');
-    }
+    const uid = await guardSensitiveCallableV2(request, 'invalidateSession', 30);
 
-    await supervisor.invalidateUserSession(request.auth.uid);
-    await revokeVaultSession(request.auth.uid);
-    console.log(`[invalidateSession] Session rensad för uid=${request.auth.uid}`);
+    await supervisor.invalidateUserSession(uid);
+    await revokeVaultSession(uid);
+    console.log(`[invalidateSession] Session rensad för uid=${uid}`);
     return { success: true };
   }
 );

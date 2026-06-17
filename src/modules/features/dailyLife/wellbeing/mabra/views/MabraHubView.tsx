@@ -15,6 +15,7 @@ import { MabraVitProjectsPanel } from '../components/MabraVitProjectsPanel';
 import { MabraHubCollapsible } from '../components/MabraHubCollapsible';
 import { readAllVitProjectLastSeen, writeVitProjectLastSeen } from '../lib/vitProjectLastSeen';
 import { MabraModulValjare, type MabraModulChoice } from '../components/MabraModulValjare';
+import { hasSeenMabraModulValjare } from '../lib/mabraModulValjareStorage';
 import { MabraRecoveryBanner } from '@/features/mabra/components/MabraRecoveryBanner';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { VALUES_COMPASS_COPY, exerciseTypeForHub } from '../constants';
@@ -82,7 +83,7 @@ export const MabraHubView = memo(function MabraHubView() {
 
   useEffect(() => {
     const onHubIndex = location.pathname === '/mabra' || location.pathname === '/mabra/';
-    if (onHubIndex) {
+    if (onHubIndex && !hasSeenMabraModulValjare()) {
       setShowHubPicker(true);
     }
   }, [location.pathname, setShowHubPicker]);

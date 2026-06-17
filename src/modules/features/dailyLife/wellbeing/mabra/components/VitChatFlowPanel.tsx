@@ -65,7 +65,12 @@ export function VitChatFlowPanel({ userId, projectId, onSaved }: Props) {
     setSaved(false);
 
     try {
-      const result = await fetchVitChatCoach(projectId, trimmed, pick.card.text_sv);
+      const result = await fetchVitChatCoach(
+        projectId,
+        trimmed,
+        pick.card.text_sv,
+        pick.card.bankId,
+      );
       if (result.redirectToSpeglar) {
         setShowGuard(true);
         setGuardDismissed(false);

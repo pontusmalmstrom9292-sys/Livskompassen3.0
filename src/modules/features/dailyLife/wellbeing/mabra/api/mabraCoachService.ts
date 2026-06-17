@@ -37,8 +37,9 @@ const vitChatCallable = httpsCallable<
     projectId: MabraProjectId;
     vitMessage: string;
     seedPrompt?: string;
+    bankId?: string;
   },
-  { coach: string; redirectToSpeglar?: boolean }
+  { coach: string; redirectToSpeglar?: boolean; bankId?: string }
 >(functions, 'mabraCoach');
 
 const goalAssistCallable = httpsCallable<
@@ -64,17 +65,19 @@ export async function fetchGoalAssistCoach(draftGoal?: string): Promise<MabraCoa
   };
 }
 
-/** P3 — Vit «Lär tillsammans» dialog (silo-guard, ingen RAG). */
+/** P3 — Vit «Lär tillsammans» / who_am_i dialog (silo-guard, bankId från pickVitProjectCard). */
 export async function fetchVitChatCoach(
   projectId: MabraProjectId,
   vitMessage: string,
   seedPrompt?: string,
+  bankId?: string,
 ): Promise<MabraCoachResult> {
   const result = await vitChatCallable({
     mode: 'vit_chat',
     projectId,
     vitMessage,
     seedPrompt,
+    bankId,
   });
   const coach = result.data?.coach;
   if (!coach?.trim()) throw new Error('Tomt vit-chat-svar.');
