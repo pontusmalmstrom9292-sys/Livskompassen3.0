@@ -7,7 +7,6 @@ import {
   writeNutritionDay,
   type NutritionDayState,
 } from '../lib/mabraNutritionDayStorage';
-} from '../lib/mabraNutritionDayStorage';
 import { useMabra30Capacity } from '../lib/mabra30Capacity';
 import { MabraNutritionCoachPanel } from './MabraNutritionCoachPanel';
 

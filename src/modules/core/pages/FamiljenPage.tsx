@@ -14,7 +14,6 @@ import { FamiljenChildPicker } from '@/features/family/children/components/famil
 import { FamiljenLivsloggTab } from '@/features/family/children/components/familjen/FamiljenLivsloggTab';
 import { FamiljenReflektionTab } from '@/features/family/children/components/familjen/FamiljenReflektionTab';
 import { FamiljenTillsammansTab } from '@/features/family/children/components/familjen/FamiljenTillsammansTab';
-import { ParentReminderFooter } from '@/features/family/children/components/ParentReminderFooter';
 import { SafeHarborPage } from '@/features/family/safeHarbor/components/SafeHarborPage';
 import { BarnportenInboxPanel } from '@/features/onboarding/barnporten/components/BarnportenInboxPanel';
 import { BarnportenOrkesterPanel } from '@/features/onboarding/barnporten/components/BarnportenOrkesterPanel';
@@ -147,7 +146,9 @@ export function FamiljenPage() {
         lead="Relationell närvaro."
         lockViewport={desktopHubLock}
         fitViewport={desktopHubLock}
-        bare
+        toolbar={
+          <FamiljenHubToolbar activeTab={activeTab} onTabChange={handleTabChange} />
+        }
       >
         <FamiljenBentoShell className={clsx(!desktopHubLock && 'pb-2')}>
           {showChildPicker && (

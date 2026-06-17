@@ -1,4 +1,3 @@
-import { clsx } from 'clsx';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useCapacityScore } from '../store/useCapacityGate';
 import { useStore } from '../store';
@@ -11,7 +10,8 @@ export function HjartatHero() {
   const [stepDone, setStepDone] = useState(false);
 
   const isLowCapacity = capacityScore > 0 && capacityScore < 50;
-  const userName = user?.displayName?.split(' ')[0] || 'Pontus';
+  const userName =
+    user?.email?.split('@')[0]?.split(/[._]/)[0]?.replace(/^./, (c) => c.toUpperCase()) || 'Pontus';
 
   const greeting = 'God morgon ' + userName;
   const capacityMessage = isLowCapacity

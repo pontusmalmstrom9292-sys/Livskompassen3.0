@@ -310,7 +310,7 @@ export const journalQuickMirror = onCall(
 export const mabraCoach = onCall(
   { region: 'europe-west1', secrets: ['GEMINI_API_KEY'] },
   async (request) => {
-    await guardSensitiveCallableV2(request, 'mabraCoach', 30);
+    const uid = await guardSensitiveCallableV2(request, 'mabraCoach', 30);
 
     const hubSymptom = request.data.hubSymptom;
     const exerciseType = request.data.exerciseType;
