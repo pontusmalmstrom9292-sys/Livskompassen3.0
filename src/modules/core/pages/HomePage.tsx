@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { VALV_SAMLA_GRANSKA_LINK } from '@/modules/inkast/api/inkastService';
 import { clsx } from 'clsx';
-import { HjartatHero } from '../home/HjartatHero';
+import { HomeHeroKanon } from '../home/HomeHeroKanon';
 import { CaptureSuperModule } from '../../capture';
 import { materialEnabled, useLifeHubPreset } from '../lifeOs';
 import { useStore } from '../store';
@@ -24,7 +24,7 @@ export function HomePage() {
         mockupSkin && 'home-page--mockup-skin',
       )}
     >
-      <HjartatHero />
+      <HomeHeroKanon />
 
       {!mockupSkin &&
         materialEnabled(preset, 'home_inkast') &&
