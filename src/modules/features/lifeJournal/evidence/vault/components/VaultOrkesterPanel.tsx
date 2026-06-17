@@ -1,6 +1,6 @@
 /** @locked-ux Valv Orkester — do not remove; see `.context/locked-ux-features.md` */
 import { useMemo, useState } from 'react';
-import { Loader2, Network } from 'lucide-react';
+import { Check, Copy, Filter, Loader2, Network, Shield } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   analyzeBiffMessage,
@@ -10,12 +10,48 @@ import type { VaultLog } from '@/core/types/firestore';
 import { PRODUCT_AGENTS } from '../constants/productAgents';
 import { OrkesterAgentTrio } from './OrkesterAgentTrio';
 import { scanTechniquesForLog } from '../utils/vaultPatternScan';
+import {
+  callProcessBrusfilter,
+  type ProcessBrusfilterResult,
+} from '../api/processBrusfilterService';
+
+const RAW_INPUT_MAX = 8000;
 
 type Props = {
   logs?: (VaultLog & { id: string })[];
 };
 
+function BrusfilterRiskBadge({
+  riskScore,
+  recommendedAction,
+}: {
+  riskScore: number;
+  recommendedAction: ProcessBrusfilterResult['dcap_analysis']['recommended_action'];
+}) {
+  const isWarning = recommendedAction === 'VARNING';
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] uppercase tracking-widest ${
+        isWarning
+          ? 'border-accent/35 bg-surface-3/60 text-accent/90'
+          : 'border-border/40 bg-surface-2/50 text-text-dim'
+      }`}
+      aria-label={`DCAP riskpoäng ${riskScore}`}
+    >
+      <Shield className="h-3 w-3 shrink-0 opacity-80" aria-hidden />
+      DCAP {riskScore}/100
+      {isWarning ? ' · Varning' : ''}
+    </span>
+  );
+}
+
 export function VaultOrkesterPanel({ logs = [] }: Props) {
+  const [rawInput, setRawInput] = useState('');
+  const [brusLoading, setBrusLoading] = useState(false);
+  const [brusError, setBrusError] = useState<string | null>(null);
+  const [brusResult, setBrusResult] = useState<ProcessBrusfilterResult | null>(null);
+  const [copiedReply, setCopiedReply] = useState(false);
+
   const [thread, setThread] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -34,6 +70,34 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
         .slice(0, 8),
     [logs],
   );
+
+  const handleBrusfilter = async () => {
+    const text = rawInput.trim();
+    if (!text) return;
+    setBrusLoading(true);
+    setBrusError(null);
+    setBrusResult(null);
+    setCopiedReply(false);
+    try {
+      const result = await callProcessBrusfilter(text);
+      setBrusResult(result);
+    } catch (err) {
+      setBrusError(err instanceof Error ? err.message : 'Brusfilter misslyckades.');
+    } finally {
+      setBrusLoading(false);
+    }
+  };
+
+  const handleCopyReply = async () => {
+    if (!brusResult?.biff_draft_reply) return;
+    try {
+      await navigator.clipboard.writeText(brusResult.biff_draft_reply);
+      setCopiedReply(true);
+      window.setTimeout(() => setCopiedReply(false), 2000);
+    } catch {
+      setBrusError('Kunde inte kopiera till urklipp.');
+    }
+  };
 
   const handleScan = async () => {
     if (!thread.trim()) return;
@@ -54,9 +118,117 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
     }
   };
 
+  const showBrusWarningBorder = brusResult?.dcap_analysis.recommended_action === 'VARNING';
+
   return (
     <div className="space-y-4">
       <OrkesterAgentTrio />
+
+      <BentoCard
+        title="P1 Brusfilter"
+        description="Rå inkommande meddelande — logistik och BIFF utan JADE"
+        icon={<Filter className="h-4 w-4" />}
+        glow="gold"
+      >
+        <p className="mb-3 text-sm text-text-muted">
+          Klistra in sms eller mejl. Brusfiltret extraherar ren logistik (~10 %) och föreslår ett kort
+          Grey Rock-svar. Inget sparas automatiskt.
+        </p>
+        <textarea
+          value={rawInput}
+          onChange={(e) => setRawInput(e.target.value.slice(0, RAW_INPUT_MAX))}
+          placeholder="Klistra in meddelande från motparten…"
+          maxLength={RAW_INPUT_MAX}
+          disabled={brusLoading}
+          className="input-glass min-h-[120px] w-full resize-y rounded-xl px-3 py-2 text-sm"
+          aria-label="Rå inkommande meddelande"
+        />
+        <div className="mt-1 flex items-center justify-between gap-2">
+          <p className="text-[10px] uppercase tracking-widest text-text-dim">
+            {rawInput.length}/{RAW_INPUT_MAX}
+          </p>
+          <button
+            type="button"
+            onClick={() => void handleBrusfilter()}
+            disabled={brusLoading || !rawInput.trim()}
+            className="btn-pill--accent inline-flex items-center gap-2 disabled:opacity-50"
+          >
+            {brusLoading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
+            Filtrera bort brus
+          </button>
+        </div>
+
+        {brusLoading && (
+          <p className="mt-3 flex items-center gap-2 text-sm text-text-dim" role="status">
+            <Loader2 className="h-4 w-4 animate-spin shrink-0" aria-hidden />
+            Bearbetar med Brusfilter…
+          </p>
+        )}
+
+        {brusError && (
+          <p className="mt-3 text-sm text-danger" role="alert">
+            {brusError}
+          </p>
+        )}
+
+        {brusResult && !brusLoading && (
+          <div
+            className={`mt-4 space-y-3 pt-4 ${
+              showBrusWarningBorder
+                ? 'rounded-xl border border-accent/20 bg-surface-2/30 p-3'
+                : 'border-t border-border/30'
+            }`}
+          >
+            <div className="flex flex-wrap items-center gap-2">
+              <BrusfilterRiskBadge
+                riskScore={brusResult.dcap_analysis.risk_score}
+                recommendedAction={brusResult.dcap_analysis.recommended_action}
+              />
+              {showBrusWarningBorder && (
+                <p className="text-[10px] uppercase tracking-widest text-text-dim">
+                  Eskaleringsrisk — svara kort, ingen JADE
+                </p>
+              )}
+            </div>
+
+            <div className="grid gap-3 md:grid-cols-2">
+              <BentoCard
+                title="Isolerad Logistik (10%)"
+                glow="gold"
+                className="!p-4"
+                noHover
+              >
+                <p className="whitespace-pre-wrap text-sm text-text-muted">
+                  {brusResult.isolated_logistics.trim() || 'Ingen ren logistik extraherad.'}
+                </p>
+              </BentoCard>
+
+              <BentoCard
+                title="Färdigt BIFF Svarsförslag"
+                glow="gold"
+                className="!p-4"
+                noHover
+              >
+                <p className="whitespace-pre-wrap text-sm text-text">
+                  {brusResult.biff_draft_reply}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => void handleCopyReply()}
+                  className="btn-pill--ghost mt-3 inline-flex items-center gap-1.5 text-xs"
+                >
+                  {copiedReply ? (
+                    <Check className="h-3 w-3 text-success" aria-hidden />
+                  ) : (
+                    <Copy className="h-3 w-3" aria-hidden />
+                  )}
+                  {copiedReply ? 'Kopierad' : 'Kopiera text'}
+                </button>
+              </BentoCard>
+            </div>
+          </div>
+        )}
+      </BentoCard>
 
       <BentoCard
         title="Assistentroller"

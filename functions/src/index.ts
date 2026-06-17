@@ -94,3 +94,7 @@ export {
 export {
   parseVoiceCommand,
 } from './callables/voiceCommand';
+
+export {
+  processBrusfilter,
+} from './callables/processBrusfilter';
