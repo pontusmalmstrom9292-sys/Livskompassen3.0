@@ -46,7 +46,9 @@ Full pack (inkl. repomix): `npm run gemini:pack:all`
 
 Uppdatera mappen först: `npm run gemini:sync:kunskap`
 
-I Finder: `Cmd + Shift + G` → klistra in sökvägen → markera **01**–**08** → dra till Gem **Knowledge**.
+I Finder: `Cmd + Shift + G` → klistra in sökvägen → markera **01**–**04**, **07**–**08** → dra till Gem **Knowledge**.
+
+**Om Gem vägrar ("kan inte uppfylla"):** ladda **inte** `05` (låst UX med känsliga ord) eller `tier-2-valfritt/10-doman-covert`. Lägg istället till `14`, `15`, `16`, `17` från tier-2. Uppdatera Instructions från `00-SYSTEM-INSTRUCTION-KLISTRA-IN.txt` (REFUSAL-SAFE-block). Prompter: [`GEMINI-FLOW-CHAT-PROMPTS.md`](./GEMINI-FLOW-CHAT-PROMPTS.md).
 
 | # | Fil i mappen |
 |---|--------------|

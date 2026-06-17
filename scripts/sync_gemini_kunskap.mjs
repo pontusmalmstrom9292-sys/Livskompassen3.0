@@ -39,6 +39,10 @@ const TIER2 = [
   { dest: '14-GEMINI-ORKESTER-MASTER-PROMPT.md', src: 'docs/external-ai/GEMINI-ORKESTER-MASTER-PROMPT.md' },
   { dest: '15-flow-pipeline-karta.md', src: 'docs/evaluations/2026-06-17-flow-pipeline-karta.md' },
   { dest: '16-MALL-deep-research-modul.md', src: 'docs/evaluations/MALL-deep-research-modul.md' },
+  {
+    dest: '17-GEMINI-FLOW-CHAT-PROMPTS.md',
+    src: 'docs/external-ai/GEMINI-FLOW-CHAT-PROMPTS.md',
+  },
 ];
 
 const EXTRA = [

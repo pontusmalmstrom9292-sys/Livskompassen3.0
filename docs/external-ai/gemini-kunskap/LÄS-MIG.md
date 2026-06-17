@@ -47,6 +47,7 @@ Mappen `tier-2-valfritt/` — inkl. orkester + Flow:
 | `14-GEMINI-ORKESTER-MASTER-PROMPT.md` | Huvuddator-kedja |
 | `15-flow-pipeline-karta.md` | P1 Brusfilter, P2 Dossier v2 |
 | `16-MALL-deep-research-modul.md` | Mall före varje bygg |
+| `17-GEMINI-FLOW-CHAT-PROMPTS.md` | **Klistra-in-prompter** Flow P1 · ChatBox Opus/Sonnet |
 
 ## Tier 3 — repomix per zon
 
