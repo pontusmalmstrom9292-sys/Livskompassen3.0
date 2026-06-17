@@ -2,28 +2,32 @@
 
 **Datum:** 2026-06-18  
 **Status:** **DONE**  
-**Kanon:** [`2026-06-15-fas19-masterplan-v2.md`](./2026-06-15-fas19-masterplan-v2.md)
+**Kanon:** [`2026-06-15-fas19-masterplan-v2.md`](./2026-06-15-fas19-masterplan-v2.md)  
+**State:** `.orkester/fas19-state.json` → `status: done`
 
 ---
 
 ## Vågar (alla PASS)
 
-| Våg | Innehåll | Deploy prod |
-|-----|----------|-------------|
+| Våg | Innehåll | Eval |
+|-----|----------|------|
 | baseline | orkester:night | — |
-| 19.1 | unlockVault P0, App Check guards, D14 ParentReminderFooter | `invalidateSession`, hosting |
-| 19.2 | M3.0-B hybrid-8 pelarkort | hosting (via 19.1) |
-| 19.3 | hex→tokens P0, typecheck:core-strict | hosting (via 19.1) |
-| 19.4 | JOY-17 bankId wire (VitChatFlowPanel) | hosting |
-| 19.5 | evolution_ledger dual-write trigger | `onEvolutionHubWrite` |
-| 19.6 | arkiv-batch PMIR + orkester:night | — |
+| 19.1 | unlockVault P0, App Check, LEG-VAULT, ParentReminderFooter | `2026-06-18-fas19-vag-19.1.md` |
+| 19.2 | M3.0-B hybrid-8 + hasSeen pelarväljare | `2026-06-18-fas19-vag-19.2.md` |
+| 19.3 | hex→tokens P0, typecheck:core-strict | `2026-06-18-fas19-vag-19.3.md` |
+| 19.4 | JOY-17 bankId wire (VitChatFlowPanel) | `2026-06-18-fas19-vag-19.4.md` |
+| 19.5 | evolution_ledger dual-write | `2026-06-18-fas19-vag-19.5.md` |
+| 19.6 | arkiv-batch PMIR + orkester:night | `2026-06-18-fas19-vag-19.6.md` |
 
 ---
 
-## Prod LOCK (parallellt)
+## Prod deploy (denna sprint)
 
-- P1 Brusfilter v1+v2
-- P2 Dossier v2 (AI foreword)
+| Resurs | Våg |
+|--------|-----|
+| `functions:unlockVault`, `functions:invalidateSession` | 19.1 |
+| `hosting` (flera vågor) | 19.1–19.4 |
+| `functions:onEvolutionHubWrite` | 19.5 |
 
 ---
 
@@ -33,18 +37,19 @@
 
 ---
 
-## Defer (efter Fas 19)
+## Defer (efter Fas 19 — kräver Pontus OK)
 
 - M3.0-C Fitness/Näring (full UI)
-- App Check Console Enforce (manuellt)
-- Gmail OAuth / Calendar
-- BP-PUSH
-- Arkiv-batch **utförande** (PMIR i 19.6 — väntar explicit OK)
+- App Check Console Enforce (manuellt i Firebase Console)
+- Gmail OAuth / Google Calendar
+- BP-PUSH (Barnporten push)
+- Arkiv-batch **utförande** (PMIR dokumenterad i 19.6 — ingen radering utförd)
+- Genkit V1 / Dotprompt
 
 ---
 
-## Nästa rekommenderade steg
+## Nästa steg (Pontus)
 
-1. **Commit + push** all unstaged Fas 19-diff (32 filer)
-2. Manuell Motorola-checklista om Android (`npm run build:web && npx cap sync android`)
-3. Valfritt: App Check Enforce i Firebase Console efter Pontus OK
+1. **Commit + push** unstaged Fas 19-diff till `main` (PMIR före merge enligt `docs/MERGE-IMPACT-RAPPORT.md`)
+2. Hard refresh webb efter deploy (`Cmd + Shift + R`)
+3. Valfritt Android: `npm run build:web && npx cap sync android`
