@@ -1,5 +1,8 @@
 # Första modul-gate — Brusfilter P1
 
+**Status:** P1 v1 **LOCK** 2026-06-17 (Orkester + `processBrusfilter` i prod).  
+**Nästa gate:** P1 v2 Inkast HITL · P2 Dossier v2 — se flow-karta §6.
+
 **Status:** Väntar på Pontus **godkänn** i [`2026-06-17-flow-pipeline-karta.md`](../evaluations/2026-06-17-flow-pipeline-karta.md) §6.
 
 ---

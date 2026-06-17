@@ -280,6 +280,8 @@ function main() {
     'Assistentroller',
     'Kör mönstersökning',
     'analyzeBiffMessage',
+    'callProcessBrusfilter',
+    'P1 Brusfilter',
     'glow="gold"',
   );
   mustInclude(

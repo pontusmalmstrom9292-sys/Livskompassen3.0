@@ -1,7 +1,7 @@
 # Deep Research — Flow pipeline-karta (P1 Brusfilter, P2 Dossier v2)
 
 **Datum:** 2026-06-17 · **Subagent:** specialist-adk-weaver  
-**Status:** VÄNTAR GODKÄNNANDE (Pontus)  
+**Status:** P1 v1 **LOCK** (Pontus godkänd + prod-test 2026-06-17) · P2 **OPEN**
 **Mall:** [`MALL-deep-research-modul.md`](./MALL-deep-research-modul.md)  
 **Orkester:** [`docs/external-ai/GEMINI-ORKESTER-MASTER-PROMPT.md`](../external-ai/GEMINI-ORKESTER-MASTER-PROMPT.md)
 
@@ -33,7 +33,15 @@ Kartlägga var **Google Flow** (≈2000 krediter) ska användas utan att bryta b
 
 **Slutsats:** Eventuell Flow/Dossier-bygge hos Pontus = **prototyp utanför repo**. Prod ska **inte** ersättas — Flow offloader endast tunga LLM-steg.
 
-### P1 Brusfilter — delvis i prod
+### P1 Brusfilter — v1 LOCK i prod (2026-06-17)
+
+| Del | Plats | Roll |
+|-----|--------|------|
+| Callable | `functions/src/callables/processBrusfilter.ts` | DCAP + logistik + BIFF-utkast, Valv-session, **ingen WORM** |
+| Frontend | `VaultOrkesterPanel.tsx` + `processBrusfilterService.ts` | Flik **Meddelanden eller SMS-analys** (`vaultTab=orkester`) |
+| Deploy | `functions:processBrusfilter` + hosting 2026-06-17 | Prod verifierad av Pontus |
+
+**Kvar (v2, OPEN):** `previewInkastClean` + HITL i Inkast **före** `reality_vault` — se §8 fas 1 ursprunglig plan.
 
 | Del | Plats | Roll |
 |-----|--------|------|
@@ -42,7 +50,7 @@ Kartlägga var **Google Flow** (≈2000 krediter) ska användas utan att bryta b
 | Inkast submit | `submitInkastLite.ts` | Klassificerar, routeInboxToWorm |
 | DCAP | `routeFromDcap`, `dcapAlertSynapse` | Risk före LLM |
 
-**Lucka:** Inget dedikerat steg som **före WORM-sparning** tar rå sms/mejl och producerar neutral tidslinje-fakta för `reality_vault` med förhandsgranskning. `classifyInboxDocument` routar; `askGransArkitekten` är Hamn-specifik och sparas inte automatiskt till Valv.
+**Lucka v2:** Dedikerat preview-steg i **Inkast** före WORM med `SaveAsEvidencePrompt` — ej byggt än.
 
 ### Backend FREEZE
 
@@ -92,11 +100,12 @@ Kartlägga var **Google Flow** (≈2000 krediter) ska användas utan att bryta b
 
 | Pipeline | Beslut | Motivering |
 |----------|--------|------------|
-| **P1 Brusfilter** | **BUILD** (väntar Pontus OK) | Störst nytta för HCF-uploads; lucka i prod |
+| **P1 Brusfilter v1** | **LOCK** (2026-06-17) | Orkester + `processBrusfilter` — prod-test OK |
+| **P1 Brusfilter v2** (Inkast HITL) | **OPEN** | Preview före WORM — nästa våg |
 | **P2 Dossier v2** | **BUILD** fas 2 | Prod finns; Flow = LLM-offload för foreword/timeline |
 | P3–P4 | DEFER | Befintlig kod räcker till vidare |
 
-**Pontus:** ☐ godkänn · ☐ avvisa · ☐ ändra X: _______________
+**Pontus:** ☑ godkänn v1 (2026-06-17) · ☐ avvisa · ☐ ändra X: _______________
 
 ---
 
@@ -268,4 +277,4 @@ Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta 
 
 ---
 
-*Ingen prod-kod i denna fil. Nästa steg: Pontus **godkänn** §6 → kör §9.1 i Google Flow.*
+*P1 v1 LOCK 2026-06-17. Nästa valfria steg: P1 v2 Inkast HITL eller P2 Dossier v2 (§8 fas 2).*

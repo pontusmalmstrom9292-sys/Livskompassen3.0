@@ -2,7 +2,7 @@
 
 Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
-**Senast uppdaterad:** 2026-06-16 (Backend masterplan FREEZE + extern GO)
+**Senast uppdaterad:** 2026-06-17 (P1 Brusfilter LOCK + Backend FREEZE oförändrad)
 
 | Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
 |-----------|-------------|--------|-------|------------|
@@ -16,7 +16,10 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 | Valv chat E2E | `valvChatAgent.ts`, `valvChatQuery` | **LOCK** | valv-chat-e2e 2026-06-16 | **CP-8** |
 | App Check (kod) | `appCheck.ts`, `callableGuards.ts` | **LOCK** | tier1 2026-06-16 | **CP-6** |
 | Valv modul | `evidence/vault/` | **LOCK** | B1 + valv-mode 2026-06-16 | **B1** |
+| **P1 Brusfilter (Valv Orkester)** | `processBrusfilter.ts`, `VaultOrkesterPanel.tsx`, `processBrusfilterService.ts` | **LOCK** | orkester + locked-ux 2026-06-17 · prod deploy | **P1** |
 | CI deploy | `.github/workflows/firebase-hosting-main.yml` | **LOCK** | smoke:tier1 + functions deploy | **CP-9** |
+| P1 Inkast HITL preview (`previewInkastClean`) | — | **OPEN** | — | efter P1 |
+| P2 Dossier v2 (Flow foreword) | `generateDossierInternal.ts` | **OPEN** | dossier | efter P1 |
 | MåBra 19.2–19.5 / wave-2 / M3.0-C | — | **DEFER** | — | efter FREEZE |
 | AI-assistent UI | — | **DEFER** | — | — |
 
@@ -28,7 +31,7 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
 ## Nästa steg (Pontus)
 
-1. **Använd:** Ladda skärmdump via Valv → Inkast → granska WORM → ställ fråga i Valv-chat
-2. ~~**Extern review:** Prompt G~~ — **GO** 2026-06-16 (Gemini + Opus, `imports/BACKEND-MASTERPLAN-REVIEW-SVAR.md`)
-3. **Inget nytt:** Wave-2 polish, M3.0-C, AI-assistent UI förblir DEFER
-4. **Post-FREEZE (valfritt):** smoke-luckor — Barnen guard, HITL metadata, Zero Footprint
+1. **Använd:** Valv → Analysera → **Meddelanden eller SMS-analys** → P1 Brusfilter (prod 2026-06-17)
+2. ~~**P1 Brusfilter v1**~~ — **LOCK** 2026-06-17 (Orkester, ingen auto-WORM)
+3. **Nästa valfria våg:** P1 Inkast HITL-preview · P2 Dossier v2 — se [`evaluations/2026-06-17-flow-pipeline-karta.md`](../evaluations/2026-06-17-flow-pipeline-karta.md)
+4. **Inget nytt:** Wave-2 polish, M3.0-C, AI-assistent UI förblir DEFER

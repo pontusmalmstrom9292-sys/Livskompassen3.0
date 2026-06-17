@@ -185,7 +185,11 @@ function main() {
     'src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx',
     'VaultOrkesterPanel',
     'OrkesterAgentTrio',
+    'callProcessBrusfilter',
+    'P1 Brusfilter',
   );
+  mustInclude('functions/src/callables/processBrusfilter.ts', 'processBrusfilter', 'guardSensitiveCallableV2');
+  mustInclude('functions/src/index.ts', 'processBrusfilter');
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvAnalyseraZone.tsx',
     "'orkester'",

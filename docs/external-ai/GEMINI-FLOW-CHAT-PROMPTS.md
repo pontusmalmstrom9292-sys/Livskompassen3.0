@@ -2,7 +2,7 @@
 
 **Syfte:** Fortsätt Brusfilter/Flow-planen utan Cursor-kvot. ChatBox har tunga modeller gratis (7-dagars prov).
 
-**Kanon:** [`2026-06-17-flow-pipeline-karta.md`](../evaluations/2026-06-17-flow-pipeline-karta.md) · **Status:** P1 BUILD — väntar ditt godkännande i §6.
+**Kanon:** [`2026-06-17-flow-pipeline-karta.md`](../evaluations/2026-06-17-flow-pipeline-karta.md) · **Status:** P1 v1 **LOCK** 2026-06-17 · P2 OPEN
 
 **Modellval (bekräftat i MODEL-PICKER):**
 
