@@ -12,6 +12,8 @@
 
 7-dagars trial-plan för tungt kodarbete utanför Cursor/Google-krediter.
 
+**Deep Research (2026-06-18):** `GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER` + SA1–SA10 parallellt → Cursor [`CURSOR-FLOW-CREDITS-SYNTHESIS.md`](./bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md) → `docs/evaluations/2026-06-18-system-gap-syntes.md`.
+
 ## Snabbstart
 
 1. Välj modell → [`MODEL-PICKER.md`](./MODEL-PICKER.md)

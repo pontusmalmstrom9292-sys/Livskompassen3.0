@@ -39,118 +39,6 @@ The content is organized as follows:
 
 # Files
 
-## File: docs/MODUL-FUNKTIONS-REGISTER.md
-````markdown
-# Modul- & funktionsregister — Livskompassen v2
-
-**Syfte:** En sammanställd sanning — modul, route, backend, spec, smoke.  
-**Uppdaterad:** 2026-06-01 (superhub återvinning + sparmål/lönespec vardag)  
-**Regel:** Status **kod** verifieras med grep/smoke; docs kan vara historiska — se [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md).
-
----
-
-## Tre silos (minne — U1)
-
-| Silo | Collection | Callable / pipeline | Cross-RAG |
-|------|------------|---------------------|-----------|
-| **Kunskap** | `kampspar`, `kb_docs` | `knowledgeVaultQuery`, `notifyNewFile` → `driveIngestSynapse` | **Aldrig** Valv/Barnen |
-| **Valv** | `reality_vault` | `valvChatQuery`, `analyzeMessage` | **Aldrig** Kunskap/Barnen |
-| **Barnen** | `children_logs` | `childrenLogsQuery` | **Aldrig** Kunskap/Valv |
-
-Kanon: [`.context/arkiv-minne.md`](../.context/arkiv-minne.md) · [`grunder-kanon.mdc`](../.cursor/rules/grunder-kanon.mdc)
-
----
-
-## SynapseBus (sammankopplat minne — händelsestyrt)
-
-| Trigger | Handler | Status | Effekt |
-|---------|---------|--------|--------|
-| `drive_file_ingested` | `driveIngestSynapse` | **live** | Drive → `kb_docs` (självsortering) |
-| `journal_woven` | `journalWovenSynapse` | **live** (opt-in) | `optIn===true` → `kampspar` |
-| `dcap_alert` | `dcapAlertSynapse` | **live** | Risk → `dcap_alerts` WORM |
-| `user_overwhelm` | `paralysBrytarenSynapse` | **live** | Ett mikrosteg |
-
-Koppling: `notifyNewFile` → `emitSynapse(drive_file_ingested)` — `functions/src/index.ts`
-
----
-
-## Frontend-moduler
-
-| Modul (mapp) | Kluster | Route(s) | Nyckelfunktioner | Spec | Smoke |
-|--------------|---------|----------|------------------|------|-------|
-| **core** | övrigt | `/`, `/dev/themes`, `/widget/*` | App-shell, Fyren, drawer (`navTruth`), Zero Footprint | `Core-SPEC.md` | `smoke:locked-ux`, `smoke:design-modules` |
-| **wellbeing/compasses** | vardag | `/liv?tab=kompasser`, legacy `/vardagen` → redirect | Morgon/dag/kväll, checkins, `vardagenTab=ekonomi` | `De-3-Kompasserna-SPEC.md` | `smoke:compass` |
-| **evidence/kompis** | valv | Valv `kunskapsbank` | Kunskapsvalv, Tidshjul, RAG | `Kunskap-SPEC.md` | `smoke:kunskap`, `smoke:tidshjul` |
-| **wellbeing/economy** | vardag | `/liv?tab=kompasser&vardagenTab=ekonomi`, `/ekonomi` → redirect | Veckopeng, matlåda, sparmål (`EconomySavingsPanel`) | `Ekonomi-SPEC.md` | manuell #18 · `smoke:arbetsliv` |
-| **diary/diary** | hjärtat | `/dagbok` | Hjärtat-hub, journal | `Dagbok-SPEC.md` | — |
-| **evidence/vault** | valv | `/dagbok?tab=bevis`, `/valv` | WORM, Mönster, Orkester, Vävaren HITL, PIN | `Verklighetsvalvet-SPEC.md` | `smoke:locked-ux`, `smoke:valv` |
-| **evidence/vaultChat** | valv | Bevis → Sök | Valv-Chat (egen silo) | `Valv-Chat-SPEC.md` | `smoke:valv` |
-| **diary/mirror** | hjärtat | `/dagbok?tab=speglar` | Speglar, Zero Footprint | `Speglar-SPEC.md` | `smoke:speglar` |
-| **family/safeHarbor** | hamn | `/hamn` | BIFF, Grey Rock, `TryggHamnHub` | `SafeHarbor-SPEC.md` | `smoke:design-modules` |
-| **family/children** | familj | `/familjen` | Barnfokus, livslogg | `Barnen-SPEC.md` | `smoke:locked-ux`, `smoke:children` |
-| **barnporten** | plan | (PWA `/barnporten`) | HITL promote — delvis | `BARNPORTEN-SPEC.md` | `smoke:locked-ux` |
-| **wellbeing/mabra** | vardag | `/liv?tab=mabra`, legacy `/mabra` → redirect | Daglig Mix, KBT, immersive tools | `Mabra-SPEC.md` | `smoke:mabra` |
-| **admin/planning** | livsos | `/planering` | P3 Kanban | `PLANERING-P3-KANBAN-SPEC.md` | `smoke:locked-ux` |
-| **admin/projects** | livsos | `/projekt` | Projekt + block | `PROJEKT-SPEC.md` | hybrid |
-| **evidence/vault/dossier** | valv | `/dossier` | Dossier-Generator | `Dossier-SPEC.md` | `smoke:dossier` |
-| **widgets** | övrigt | `/widget/*` | WH1 inspelning | `WIDGET-BAR-SPEC.md` | `smoke:locked-ux` |
-| **admin/stampla** | arbetsliv | `/arbetsliv?tab=stampla` | Stämpelklocka | `stampla/module_plan.md` | `smoke:stampla` |
-| **arbetsliv** | arbetsliv | `/arbetsliv`, `/liv?tab=arbetsliv&workTab=…` | Tid, logg, lönespec vardag, Valv-länkar | `arbetsliv/module_plan.md` | `smoke:arbetsliv` |
-| **drogfrihet** | livsstod | `/drogfrihet` | Idag, stöd, reflektion | `Drogfrihet-SPEC.md` | — |
-| **inkast** | hem | `/#inkast-lite` | Smart Inkast Lite (G10 · **låst** 2026-06-06) | [`2026-06-06-inkast-lockdown.md`](./evaluations/2026-06-06-inkast-lockdown.md) | `smoke:inkast` · `smoke:inbox` |
-
----
-
-## Backend callables (urval)
-
-| Callable | Silo / roll |
-|----------|-------------|
-| `knowledgeVaultQuery` | Kunskap RAG |
-| `valvChatQuery` | Valv RAG |
-| `childrenLogsQuery` | Barnen RAG |
-| `analyzeMessage` | BIFF / analys (Hamn, Valv Orkester) |
-| `notifyNewFile` | Drive webhook → synapse |
-| `ingestWidgetRecording` | WH1 → `reality_vault` |
-| `generateDossier` | Dossier snapshots |
-| `weaveJournalEntry` | Vävaren async → `weaver_pending` (HITL) |
-| `approveWeaverMetadata` / `rejectWeaverMetadata` | Vävaren godkänn/avvisa → `reality_vault` metadata |
-| `journalWovenToKampspar` | Dagbok → minne (opt-in) |
-| `speglingsMirror` | Speglar |
-| `mabraCoach` | MåBra |
-| `invalidateSession` | Zero Footprint |
-| `getInboxQueue` / `confirmInboxItem` | Självsorterande inkorg (G10) |
-| `getEntityProfileRegistry` | Entiteter (G9) |
-| `addEntityProfile` | Manuell aktör — append-only metadata (G9) |
-
-Full lista: `functions/src/index.ts` · live deploy: [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md)
-
----
-
-## Sacred Features (oförändrade)
-
-Verklighetsvalvet · Sanningens Sköld · Morgonkompassen · Dossier-Generator · Speglings-Systemet · Zero Footprint · Kill Switch — [`.context/security.md`](../.context/security.md)
-
----
-
-## Implementation kö
-
-| Register | Syfte |
-|----------|--------|
-| [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) | G1–G16 **done** (kod) |
-| [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md) | Live moln |
-
-**Öppet (produkt):** manuell smoke #3, #4, #2d — [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) **Current truth**; opt-in minne-ingest; Barnporten full PWA-route. **Modul-GAP-översikt:** [`MODUL-GAP-OVERSIKT.md`](./MODUL-GAP-OVERSIKT.md).
-
----
-
-## Parked (git — ej på main)
-
-| Branch | Innehåll |
-|--------|----------|
-| `feat/mabra-fragekort` | Frågekort — produktbeslut |
-| `feat/*` inkorg | Se [`BRANCH-KARTA.md`](./BRANCH-KARTA.md) |
-````
-
 ## File: .context/system-plan.md
 ````markdown
 # Livskompassen v2 - System Plan (Canonical)
@@ -489,6 +377,121 @@ När en Superhub-modul har **implementerats, testats och godkänts** av teknikle
 | **12B** | Adaptiv Hemkompass — superhub-broar från Hem | **done** 2026-06-14 |
 | **12C** | Säkerhet P2 — vault-gate `weeklySummary` / `compass` | backlog |
 | **12D** | Dossier BBIC `reportType` | backlog |
+````
+
+## File: docs/MODUL-FUNKTIONS-REGISTER.md
+````markdown
+# Modul- & funktionsregister — Livskompassen v2
+
+**Syfte:** En sammanställd sanning — modul, route, backend, spec, smoke.  
+**Uppdaterad:** 2026-06-18 (Fas 19 sprint · 3-zon routes · P1/P2 LOCK)  
+**Regel:** Status **kod** verifieras med grep/smoke; docs kan vara historiska — se [`evaluations/SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md).
+
+---
+
+## Tre silos (minne — U1)
+
+| Silo | Collection | Callable / pipeline | Cross-RAG |
+|------|------------|---------------------|-----------|
+| **Kunskap** | `kampspar`, `kb_docs` | `knowledgeVaultQuery`, `notifyNewFile` → `driveIngestSynapse` | **Aldrig** Valv/Barnen |
+| **Valv** | `reality_vault` | `valvChatQuery`, `analyzeMessage` | **Aldrig** Kunskap/Barnen |
+| **Barnen** | `children_logs` | `childrenLogsQuery` | **Aldrig** Kunskap/Valv |
+
+Kanon: [`.context/arkiv-minne.md`](../.context/arkiv-minne.md) · [`grunder-kanon.mdc`](../.cursor/rules/grunder-kanon.mdc)
+
+---
+
+## SynapseBus (sammankopplat minne — händelsestyrt)
+
+| Trigger | Handler | Status | Effekt |
+|---------|---------|--------|--------|
+| `drive_file_ingested` | `driveIngestSynapse` | **live** | Drive → `kb_docs` (självsortering) |
+| `journal_woven` | `journalWovenSynapse` | **live** (opt-in) | `optIn===true` → `kampspar` |
+| `dcap_alert` | `dcapAlertSynapse` | **live** | Risk → `dcap_alerts` WORM |
+| `user_overwhelm` | `paralysBrytarenSynapse` | **live** | Ett mikrosteg |
+
+Koppling: `notifyNewFile` → `emitSynapse(drive_file_ingested)` — `functions/src/index.ts`
+
+---
+
+## Frontend-moduler
+
+| Modul (mapp) | Kluster | Route(s) | Nyckelfunktioner | Spec | Smoke |
+|--------------|---------|----------|------------------|------|-------|
+| **core** | övrigt | `/`, `/dev/themes`, `/widget/*` | App-shell, Fyren, drawer (`navTruth`), Zero Footprint | `Core-SPEC.md` | `smoke:locked-ux`, `smoke:design-modules` |
+| **wellbeing/compasses** | vardag | `/vardagen?tab=kompasser`, legacy `/liv` → redirect | Morgon/dag/kväll, checkins, `vardagenTab=ekonomi` | `De-3-Kompasserna-SPEC.md` | `smoke:compass` |
+| **evidence/kompis** | valv | Valv `kunskapsbank` | Kunskapsvalv, Tidshjul, RAG | `Kunskap-SPEC.md` | `smoke:kunskap`, `smoke:tidshjul` |
+| **wellbeing/economy** | vardag | `/vardagen?tab=ekonomi`, legacy `/ekonomi` → redirect | Veckopeng, matlåda, sparmål (`EconomySavingsPanel`) | `Ekonomi-SPEC.md` | manuell #18 · `smoke:arbetsliv` |
+| **diary/diary** | hjärtat | `/hjartat`, legacy `/dagbok` → redirect | Hjärtat-hub, journal | `Dagbok-SPEC.md` | — |
+| **evidence/vault** | valv | `/valvet?vaultTab=…`, legacy `/valv` → redirect | WORM, Mönster, Orkester, Vävaren HITL, PIN | `Verklighetsvalvet-SPEC.md` | `smoke:locked-ux`, `smoke:valv` |
+| **evidence/vaultChat** | valv | Bevis → Sök | Valv-Chat (egen silo) | `Valv-Chat-SPEC.md` | `smoke:valv` |
+| **diary/mirror** | hjärtat | `/hjartat?tab=speglar` | Speglar, Zero Footprint | `Speglar-SPEC.md` | `smoke:speglar` |
+| **family/safeHarbor** | hamn | `/familjen?tab=hamn`, legacy `/hamn` → redirect | BIFF, Grey Rock, `TryggHamnHub` | `SafeHarbor-SPEC.md` | `smoke:design-modules` |
+| **family/children** | familj | `/familjen?tab=reflektion|livslogg|…` | Barnfokus, livslogg | `Barnen-SPEC.md` | `smoke:locked-ux`, `smoke:children` |
+| **barnporten** | plan | (PWA `/barnporten`) | HITL promote — delvis | `BARNPORTEN-SPEC.md` | `smoke:locked-ux` |
+| **wellbeing/mabra** | vardag | `/vardagen?tab=mabra`, legacy `/mabra` → redirect | Daglig Mix, KBT, immersive tools | `Mabra-SPEC.md` | `smoke:mabra` |
+| **admin/planning** | livsos | `/planering` | P3 Kanban | `PLANERING-P3-KANBAN-SPEC.md` | `smoke:locked-ux` |
+| **admin/projects** | livsos | `/projekt` | Projekt + block | `PROJEKT-SPEC.md` | hybrid |
+| **evidence/vault/dossier** | valv | `/dossier` | Dossier-Generator | `Dossier-SPEC.md` | `smoke:dossier` |
+| **widgets** | övrigt | `/widget/*` | WH1 inspelning | `WIDGET-BAR-SPEC.md` | `smoke:locked-ux` |
+| **admin/stampla** | arbetsliv | `/arbetsliv?tab=stampla` | Stämpelklocka | `stampla/module_plan.md` | `smoke:stampla` |
+| **arbetsliv** | arbetsliv | `/vardagen?tab=arbetsliv`, legacy `/arbetsliv` → redirect | Tid, logg, lönespec vardag, Valv-länkar | `arbetsliv/module_plan.md` | `smoke:arbetsliv` |
+| **drogfrihet** | livsstod | `/vardagen?tab=drogfrihet`, legacy `/drogfrihet` → redirect | Idag, stöd, reflektion | `Drogfrihet-SPEC.md` | — |
+| **inkast** | hem | `/#inkast-lite` | Smart Inkast Lite (G10 · **låst** 2026-06-06) | [`2026-06-06-inkast-lockdown.md`](./evaluations/2026-06-06-inkast-lockdown.md) | `smoke:inkast` · `smoke:inbox` |
+
+---
+
+## Backend callables (urval)
+
+| Callable | Silo / roll |
+|----------|-------------|
+| `knowledgeVaultQuery` | Kunskap RAG |
+| `valvChatQuery` | Valv RAG |
+| `childrenLogsQuery` | Barnen RAG |
+| `analyzeMessage` | BIFF / analys (Hamn, Valv Orkester) |
+| `notifyNewFile` | Drive webhook → synapse |
+| `ingestWidgetRecording` | WH1 → `reality_vault` |
+| `generateDossier` | Dossier snapshots |
+| `weaveJournalEntry` | Vävaren async → `weaver_pending` (HITL) |
+| `approveWeaverMetadata` / `rejectWeaverMetadata` | Vävaren godkänn/avvisa → `reality_vault` metadata |
+| `journalWovenToKampspar` | Dagbok → minne (opt-in) |
+| `speglingsMirror` | Speglar |
+| `mabraCoach` | MåBra |
+| `invalidateSession` | Zero Footprint |
+| `getInboxQueue` / `confirmInboxItem` | Självsorterande inkorg (G10) |
+| `getEntityProfileRegistry` | Entiteter (G9) |
+| `addEntityProfile` | Manuell aktör — append-only metadata (G9) |
+| `processBrusfilter` | P1 Brusfilter — Valv Orkester + Inkast HITL (**LOCK** 2026-06-17) |
+| `invalidateSession` | Zero Footprint session kill (**LOCK** F19.1) |
+
+
+Full lista: `functions/src/index.ts` · live deploy: [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md)
+
+---
+
+## Sacred Features (oförändrade)
+
+Verklighetsvalvet · Sanningens Sköld · Morgonkompassen · Dossier-Generator · Speglings-Systemet · Zero Footprint · Kill Switch — [`.context/security.md`](../.context/security.md)
+
+---
+
+## Implementation kö
+
+| Register | Syfte |
+|----------|--------|
+| [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) | G1–G16 **done** (kod) |
+| [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md) | Live moln |
+
+**Öppet (produkt):** manuell smoke #3, #4, #2d — [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md) **Current truth**; opt-in minne-ingest; Barnporten full PWA-route. **Modul-GAP-översikt:** [`MODUL-GAP-OVERSIKT.md`](./MODUL-GAP-OVERSIKT.md).
+
+---
+
+## Parked (git — ej på main)
+
+| Branch | Innehåll |
+|--------|----------|
+| `feat/mabra-fragekort` | Frågekort — produktbeslut |
+| `feat/*` inkorg | Se [`BRANCH-KARTA.md`](./BRANCH-KARTA.md) |
 ````
 
 ## File: docs/external-ai/imports/deep-research-ide.md
@@ -1072,11 +1075,45 @@ Spara svar från design-/UI-agenten här.
 Koordinering: [`../UI-DESIGN-HANDOFF.md`](../UI-DESIGN-HANDOFF.md)
 ````
 
+## File: docs/evaluations/SESSION-INDEX.md
+````markdown
+# Sessionsindex — evaluations
+
+**Aktuell status (1 sida):** [`SENASTE-SAMMANFATTNING.md`](./SENASTE-SAMMANFATTNING.md) · **Öppet per modul:** [`../MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md)
+
+| Session | Datum | Nyckelfiler | Status |
+|---------|-------|-------------|--------|
+| S1 Grunder | 2026-05-22 | [`archive/evaluations-2026-05/`](../archive/evaluations-2026-05/) | Stängd |
+| S2 Systemkontroll | 2026-05-23 | [`archive/evaluations-2026-05-23/`](../archive/evaluations-2026-05-23/) | Historik |
+| S3 Docs Del B | 2026-05-24 | [`DOC-DRIFT-RAPPORT.md`](../DOC-DRIFT-RAPPORT.md), [`archive/CONSOLIDATION-PLAN.md`](../archive/CONSOLIDATION-PLAN.md) | Stängd |
+| S4 Theme Pack J | 2026-05-26 | [`2026-05-26-session-landning.md`](./2026-05-26-session-landning.md) | Stängd |
+| S5 Android | 2026-05-27 | [`2026-05-27-android-landning.md`](./2026-05-27-android-landning.md) | Delvis (smoke) |
+| S6 Modul-batch | 2026-05-29 | `*-cursor-plan.md` (**closed**), [`pmir-modul-rollout-batch.md`](../archive/evaluations-fas20-2026-06/2026-05-29-pmir-modul-rollout-batch.md) | Stängd i kod · öppet i [`MODUL-GAP-OVERSIKT`](../MODUL-GAP-OVERSIKT.md) |
+| S7 Content | 2026-05-29 | [`content-autorun-program.md`](../archive/evaluations-fas20-2026-06/2026-05-29-content-autorun-program.md), [`content-autorun-vag-8-ingest.md`](./2026-05-29-content-autorun-vag-8-ingest.md) | Ingest öppen |
+| S8 Vävaren HITL | 2026-05-31 | [`2026-05-31-pmir-session-rniv.md`](./2026-05-31-pmir-session-rniv.md) | Mergad till `main` · functions live · rules/hosting vid behov |
+| S9 Fas 13 | 2026-06-15 | [`archive/evaluations-fas22-2026-06/`](../archive/evaluations-fas22-2026-06/) (`fas13-vag-*`, leverans) | **arkiverad** 2026-06-16 |
+| S10 Fas 14–16 | 2026-06-15 | [`archive/evaluations-fas22-2026-06/`](../archive/evaluations-fas22-2026-06/) (`fas14-*`) | **arkiverad** 2026-06-16 |
+| S11 Fas 17–18 | 2026-06-15 | [`fas17-typecheck-shared.md`](./2026-06-15-fas17-typecheck-shared.md), [`fas18-android-cap-sync.md`](./2026-06-15-fas18-android-cap-sync.md) | **done** |
+| S12 Fas 19 | 2026-06-15 | [`2026-06-15-fas19-masterplan-v2.md`](./2026-06-15-fas19-masterplan-v2.md), `fas19-theme-lab-mabra`, `fas19-credits-audit`, `fas19-repo-inventory` | **done** · arkiv 19.6 **done** 2026-06-15 |
+| S13 Backend djupanalys | 2026-06-15 | [`2026-06-15-backend-djupanalys.md`](./2026-06-15-backend-djupanalys.md) | Kartlagd · åtgärd #1–8 öppen |
+| S14 Arkitektur + nav | 2026-06-15 | [`2026-06-15-arkitektur-nav-analys.md`](./2026-06-15-arkitektur-nav-analys.md), [`gpt-handoff/03-GPT-FORTSATTNING-PROMPT.md`](../gpt-handoff/03-GPT-FORTSATTNING-PROMPT.md) | **open** · F1–F5 ej implementerat |
+
+**Fas 19.6 arkiv-batch:** [`../archive/evaluations-fas19-6-2026-06/README.md`](../archive/evaluations-fas19-6-2026-06/README.md) · manifest [`2026-06-15-fas19-archive-pmir.md`](./2026-06-15-fas19-archive-pmir.md)
+
+**Orkester natt (24–28):** [`archive/evaluations-2026-05/ORKESTER-NATT-ROLLING.md`](../archive/evaluations-2026-05/ORKESTER-NATT-ROLLING.md) · **Senaste:** [`../archive/evaluations-fas19-2026-06/2026-05-29-orkester-natt.md`](../archive/evaluations-fas19-2026-06/2026-05-29-orkester-natt.md)
+
+**Helhetsstatus A (2026-05-31):** [`2026-05-31-A-helhetsstatus.md`](./2026-05-31-A-helhetsstatus.md)
+
+**Stängda arkiv:** [`archive/evaluations-closed-2026-05-29/`](../archive/evaluations-closed-2026-05-29/) (vertex-spec, äldre PMIR)
+
+**Mall ny modul-plan:** [`MALL-cursor-plan.md`](./MALL-cursor-plan.md)
+````
+
 ## File: docs/DOC-INDEX.md
 ````markdown
 # DOC-INDEX — var hittar jag vad?
 
-**Senast uppdaterad:** 2026-06-16 (Backend masterplan PMIR)  
+**Senast uppdaterad:** 2026-06-17 (Gemini Custom Gem master instruction)  
 **Regel:** Om två filer säger olika saker — **register vinner** (se tabell nedan).
 
 ---
@@ -1130,9 +1167,12 @@ Koordinering: [`../UI-DESIGN-HANDOFF.md`](../UI-DESIGN-HANDOFF.md)
 | Verktyg | När | Pack / prompt |
 |---------|-----|----------------|
 | **Cursor** | Prod-kod, smoke, LOCK | — |
+| **Gemini Custom Gem** | CTO/arkitekt, orkester | [`GEMINI-ORKESTER-MASTER-PROMPT.md`](external-ai/GEMINI-ORKESTER-MASTER-PROMPT.md) + [`gemini-kunskap/`](external-ai/gemini-kunskap/) |
+| **Gemini chat (utan Gem)** | Tech Lead en session i taget | [`google-ai-pro/GEMINI-TECH-LEAD.md`](google-ai-pro/GEMINI-TECH-LEAD.md) |
 | **ChatBox** | SPEC, PMIR, wireframes | `exports/chatbot-handoff/` + `bifoga/` |
 | **Google AI Studio** | Design-remix + mockup-bild | `npm run design:pack` + `docs/ai-studio/DESIGN-REMIX-PROMPT.md` |
 | **NotebookLM** | Research, motsägelser | `npm run notebooklm:pack:all` → `exports/google-ai-pro/notebooklm/` |
+| **Google Flow** | AI-tunga pipelines (Dossier, Brusfilter) | Gem levererar nodgraf — se [`GEMINI-GEM-KNOWLEDGE.md`](external-ai/GEMINI-GEM-KNOWLEDGE.md) §4 |
 
 Se [`docs/external-ai/MODEL-PICKER.md`](external-ai/MODEL-PICKER.md).
 
@@ -1153,6 +1193,8 @@ cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
 npm run chatbot:pack:handoff    # alla ChatBox-repomixar
 npm run chatbot:sync:bifoga     # speglar till bifoga/
 npm run notebooklm:pack:all     # NotebookLM kärna (inkl. repomix + system_sync)
+npm run gemini:sync:kunskap     # Gemini kunskap-mapp (upload till Gem)
+npm run gemini:pack:all         # Gem + NotebookLM + kunskap-sync
 ```
 
 Bifoga-mapp: `docs/external-ai/bifoga/` — se [`bifoga/README.md`](external-ai/bifoga/README.md).  
@@ -1172,53 +1214,35 @@ NotebookLM: [`NOTEBOOKLM-LATHUND.md`](external-ai/NOTEBOOKLM-LATHUND.md).
 8. `docs/evaluations/2026-06-15-fas19-masterplan-v2.md`
 ````
 
-## File: docs/evaluations/SESSION-INDEX.md
-````markdown
-# Sessionsindex — evaluations
-
-**Aktuell status (1 sida):** [`SENASTE-SAMMANFATTNING.md`](./SENASTE-SAMMANFATTNING.md) · **Öppet per modul:** [`../MODUL-GAP-OVERSIKT.md`](../MODUL-GAP-OVERSIKT.md)
-
-| Session | Datum | Nyckelfiler | Status |
-|---------|-------|-------------|--------|
-| S1 Grunder | 2026-05-22 | [`archive/evaluations-2026-05/`](../archive/evaluations-2026-05/) | Stängd |
-| S2 Systemkontroll | 2026-05-23 | [`archive/evaluations-2026-05-23/`](../archive/evaluations-2026-05-23/) | Historik |
-| S3 Docs Del B | 2026-05-24 | [`DOC-DRIFT-RAPPORT.md`](../DOC-DRIFT-RAPPORT.md), [`archive/CONSOLIDATION-PLAN.md`](../archive/CONSOLIDATION-PLAN.md) | Stängd |
-| S4 Theme Pack J | 2026-05-26 | [`2026-05-26-session-landning.md`](./2026-05-26-session-landning.md) | Stängd |
-| S5 Android | 2026-05-27 | [`2026-05-27-android-landning.md`](./2026-05-27-android-landning.md) | Delvis (smoke) |
-| S6 Modul-batch | 2026-05-29 | `*-cursor-plan.md` (**closed**), [`pmir-modul-rollout-batch.md`](../archive/evaluations-fas20-2026-06/2026-05-29-pmir-modul-rollout-batch.md) | Stängd i kod · öppet i [`MODUL-GAP-OVERSIKT`](../MODUL-GAP-OVERSIKT.md) |
-| S7 Content | 2026-05-29 | [`content-autorun-program.md`](../archive/evaluations-fas20-2026-06/2026-05-29-content-autorun-program.md), [`content-autorun-vag-8-ingest.md`](./2026-05-29-content-autorun-vag-8-ingest.md) | Ingest öppen |
-| S8 Vävaren HITL | 2026-05-31 | [`2026-05-31-pmir-session-rniv.md`](./2026-05-31-pmir-session-rniv.md) | Mergad till `main` · functions live · rules/hosting vid behov |
-| S9 Fas 13 | 2026-06-15 | [`archive/evaluations-fas22-2026-06/`](../archive/evaluations-fas22-2026-06/) (`fas13-vag-*`, leverans) | **arkiverad** 2026-06-16 |
-| S10 Fas 14–16 | 2026-06-15 | [`archive/evaluations-fas22-2026-06/`](../archive/evaluations-fas22-2026-06/) (`fas14-*`) | **arkiverad** 2026-06-16 |
-| S11 Fas 17–18 | 2026-06-15 | [`fas17-typecheck-shared.md`](./2026-06-15-fas17-typecheck-shared.md), [`fas18-android-cap-sync.md`](./2026-06-15-fas18-android-cap-sync.md) | **done** |
-| S12 Fas 19 | 2026-06-15 | [`2026-06-15-fas19-masterplan-v2.md`](./2026-06-15-fas19-masterplan-v2.md), `fas19-theme-lab-mabra`, `fas19-credits-audit`, `fas19-repo-inventory` | **done** · arkiv 19.6 **done** 2026-06-15 |
-| S13 Backend djupanalys | 2026-06-15 | [`2026-06-15-backend-djupanalys.md`](./2026-06-15-backend-djupanalys.md) | Kartlagd · åtgärd #1–8 öppen |
-| S14 Arkitektur + nav | 2026-06-15 | [`2026-06-15-arkitektur-nav-analys.md`](./2026-06-15-arkitektur-nav-analys.md), [`gpt-handoff/03-GPT-FORTSATTNING-PROMPT.md`](../gpt-handoff/03-GPT-FORTSATTNING-PROMPT.md) | **open** · F1–F5 ej implementerat |
-
-**Fas 19.6 arkiv-batch:** [`../archive/evaluations-fas19-6-2026-06/README.md`](../archive/evaluations-fas19-6-2026-06/README.md) · manifest [`2026-06-15-fas19-archive-pmir.md`](./2026-06-15-fas19-archive-pmir.md)
-
-**Orkester natt (24–28):** [`archive/evaluations-2026-05/ORKESTER-NATT-ROLLING.md`](../archive/evaluations-2026-05/ORKESTER-NATT-ROLLING.md) · **Senaste:** [`../archive/evaluations-fas19-2026-06/2026-05-29-orkester-natt.md`](../archive/evaluations-fas19-2026-06/2026-05-29-orkester-natt.md)
-
-**Helhetsstatus A (2026-05-31):** [`2026-05-31-A-helhetsstatus.md`](./2026-05-31-A-helhetsstatus.md)
-
-**Stängda arkiv:** [`archive/evaluations-closed-2026-05-29/`](../archive/evaluations-closed-2026-05-29/) (vertex-spec, äldre PMIR)
-
-**Mall ny modul-plan:** [`MALL-cursor-plan.md`](./MALL-cursor-plan.md)
-````
-
 ## File: docs/evaluations/SENASTE-SAMMANFATTNING.md
 ````markdown
 # Senaste sammanfattning — systemstatus
 
-**Datum:** 2026-06-15 · **Gren:** `main` @ `ba2a1b3aa`+  
+**Datum:** 2026-06-18 · **Gren:** `main` @ `ba2a1b3aa`+  
 **Kanon:** [`2026-06-15-fas19-masterplan-v2.md`](./2026-06-15-fas19-masterplan-v2.md) · **Smoke:** [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md)
 
 ---
 
 ## Nuläge i en mening
 
-**Fas 19–24 levererad** — USER smoke #3/#4 **PASS** · Fas 19.6 arkiv **done** · **Hex P2 verifierad**. **Nästa:** M3.0-C (PMIR).
+**Fas 19 sprint DONE** (19.1–19.6) · P1/P2 Flow **LOCK** · MåBra 19.2–19.5 smoke PASS. **Nästa:** system-gap-syntes (Deep Research + Flow/krediter) · DEFER: M3.0-C Fitness/Näring, AI-assistent UI.
 
+
+
+---
+
+## Fas 19 sprint (2026-06-18)
+
+| Våg | Status | Eval |
+|-----|--------|------|
+| 19.1 security | **LOCK** | `2026-06-18-fas19-vag-19.1.md` |
+| 19.2 MåBra hybrid-8 | smoke PASS | `2026-06-18-fas19-vag-19.2.md` |
+| 19.3 hex→tokens | smoke PASS | `2026-06-18-fas19-vag-19.3.md` |
+| 19.4 JOY-17 bankId | smoke PASS | `2026-06-18-fas19-vag-19.4.md` |
+| 19.5 evolution_ledger | smoke PASS | `2026-06-18-fas19-vag-19.5.md` |
+| 19.6 arkiv-batch | **done** | `2026-06-18-fas19-leverans.md` |
+
+**Nästa research-våg:** `GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER` → `2026-06-18-system-gap-syntes.md`
 ---
 
 ## Levererat (Fas 13–23)
@@ -1292,11 +1316,11 @@ NotebookLM: [`NOTEBOOKLM-LATHUND.md`](external-ai/NOTEBOOKLM-LATHUND.md).
 
 Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
-**Senast uppdaterad:** 2026-06-16 (Backend masterplan FREEZE + extern GO)
+**Senast uppdaterad:** 2026-06-18 (Fas 19.1–19.6 DONE + P1/P2 LOCK)
 
 | Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
 |-----------|-------------|--------|-------|------------|
-| Security core (WORM + vault + guards) | `firestore.rules`, `unlockVault.ts`, `callableGuards.ts` | **LOCK** | tier1 + valv-gate 2026-06-16 | **CP-1** |
+| Security core (WORM + vault + guards) | `firestore.rules`, `unlockVault.ts`, `callableGuards.ts` | **LOCK** | valv-security + locked-ux 2026-06-18 | **CP-1** · **F19.1** |
 | Locked UX §11–17 | `.context/locked-ux-features.md` | **LOCK** | locked-ux PASS 2026-06-16 | **CP-1** |
 | G10 Inkast backend | `inboxClassifier.ts`, `submitInkastLite.ts`, `inkastStorageOnFinalize.ts` | **LOCK** | inkast + inbox + inkast-upload 2026-06-16 | **CP-3** |
 | G10 Inkast UI (CapturePanel + filer) | `CapturePanel.tsx`, `CaptureSuperModule.tsx` | **LOCK** | inkast PASS 2026-06-16 | **CP-4** |
@@ -1306,8 +1330,12 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 | Valv chat E2E | `valvChatAgent.ts`, `valvChatQuery` | **LOCK** | valv-chat-e2e 2026-06-16 | **CP-8** |
 | App Check (kod) | `appCheck.ts`, `callableGuards.ts` | **LOCK** | tier1 2026-06-16 | **CP-6** |
 | Valv modul | `evidence/vault/` | **LOCK** | B1 + valv-mode 2026-06-16 | **B1** |
+| **P1 Brusfilter v1 (Valv Orkester)** | `processBrusfilter.ts`, `VaultOrkesterPanel.tsx` | **LOCK** | orkester 2026-06-17 | **P1** |
+| **P1 Brusfilter v2 (Inkast HITL)** | `InkastBrusfilterPreview.tsx`, `CapturePanel.tsx` | **LOCK** | inkast 2026-06-17 | **P1b** |
 | CI deploy | `.github/workflows/firebase-hosting-main.yml` | **LOCK** | smoke:tier1 + functions deploy | **CP-9** |
-| MåBra 19.2–19.5 / wave-2 / M3.0-C | — | **DEFER** | — | efter FREEZE |
+| **P2 Dossier v2 (AI foreword)** | `dossierAiForeword.ts`, `generateDossierInternal.ts` | **LOCK** | dossier 2026-06-17 | **P2** |
+| Fas 19.1 security sprint | `invalidateSession` guard, D14 ParentReminderFooter | **LOCK** | valv-security 2026-06-18 | **F19.1** |
+| MåBra 19.2–19.5 / wave-2 / M3.0-C | hybrid-8, hex→tokens, JOY-17, evolution_ledger | **SMOKE PASS** (ej formellt stängd) | mabra + modulvaljare + evolution 2026-06-18 | **F19.2–19.5** |
 | AI-assistent UI | — | **DEFER** | — | — |
 
 ## Statusförklaring
@@ -1318,8 +1346,11 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
 ## Nästa steg (Pontus)
 
-1. **Använd:** Ladda skärmdump via Valv → Inkast → granska WORM → ställ fråga i Valv-chat
-2. ~~**Extern review:** Prompt G~~ — **GO** 2026-06-16 (Gemini + Opus, `imports/BACKEND-MASTERPLAN-REVIEW-SVAR.md`)
-3. **Inget nytt:** Wave-2 polish, M3.0-C, AI-assistent UI förblir DEFER
-4. **Post-FREEZE (valfritt):** smoke-luckor — Barnen guard, HITL metadata, Zero Footprint
+1. **Använd:** Valv → **Inkast** → «Filtrera brus först» (kräver Fyren) → godkänn → spara
+2. **P1 v1+v2 LOCK** 2026-06-17
+3. **Nästa:** använd Dossier med «Kort AI-inledning» — P2 LOCK 2026-06-17
+4. **Fas 19.1 PASS** — deploy `functions:invalidateSession` + hosting om diff ej redan live
+5. **Nästa sprint-våg:** 19.2 formell logg (hybrid-8 redan smoke PASS) eller 19.6 arkiv-batch PMIR
+6. **Fas 19 sprint DONE** — se `docs/evaluations/2026-06-18-fas19-leverans.md`
+7. **DEFER:** M3.0-C Fitness/Näring, AI-assistent UI, arkiv-batch utförande
 ````

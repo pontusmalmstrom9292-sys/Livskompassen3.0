@@ -31,7 +31,7 @@ Pontus case: medföräldraskap med **högkonflikt**, **covert** (dold) dynamik h
 | Juridik / LVU / vårdnad (svensk kontext) | `jur-001`–`004`, `ep-001`–`005` | **KEEP + ingest** (våg 21) |
 | Runtime DCAP | `DCAP.ts`, `mabraCoachGuard` | **live** |
 | Inkast-heuristik | `inboxClassifier.ts` | **live** |
-| Hamn taktik-signal (deterministisk) | `hamnTaktikWire.ts` → Taktik-lexikon | **live** (hoover, smear, ekonomisk_kontroll, maternal_fasad, trauma_bonding, juridik_hot) |
+| Hamn taktik-signal (deterministisk) | `hamnTaktikWire.ts` → Taktik-lexikon | **live** (written_only_escalation, hoover, smear, ekonomisk_kontroll, maternal_fasad, trauma_bonding, juridik_hot) |
 
 ---
 

@@ -28,7 +28,7 @@ flowchart TB
   Cursor --> Lock
 ```
 
-**Regel:** Ingen ChatBox/Flow/Cursor-build före Deep Research + Pontus **godkänn**.
+**Regel:** Ingen ChatBox/Flow/Cursor-build före Deep Research + Pontus **godkänn**. Efter research: kör syntes-subagent (CURSOR-FLOW-CREDITS-SYNTHESIS) → system-gap-rapport → en PMIR i taget.
 
 ---
 
@@ -37,7 +37,7 @@ flowchart TB
 ```text
 Du är Livskompassen CTO. Jag är oteknisk. Du dirigerar ALLT.
 
-KANON: gemini-kunskap/01–08 uppladdade. Backend FREEZE 2026-06-16. Inga nya Cloud Functions utom bugfix + tunn callable-brygga. WORM + tre silos okränkbara.
+KANON: gemini-kunskap/01–08 uppladdade. BACKEND-POLICY: LOCK-kärna orörd utan PMIR+smoke; research FÅR föreslå backend_impact:YES; implementation efter godkänd PMIR. WORM + tre silos okränkbara.
 
 MIN ARBETSKEDJA (följ alltid):
 1. MODUL-FÖRSTÅELSE — vilken zon? (Valv/Hjärtat/Vardagen/Familjen)
@@ -107,6 +107,6 @@ STARTKOMMANDON:
 
 ---
 
-## Första modul-gate (efter godkännande)
+## Nästa gate (efter P1/P2 LOCK)
 
-När Pontus säger **godkänn** på Flow-kartan → använd prompts i [`2026-06-17-flow-pipeline-karta.md`](../evaluations/2026-06-17-flow-pipeline-karta.md) §9 (P1 Brusfilter FLOW, sedan CURSOR).
+P1 v1+v2 och P2 Dossier är **LOCK** (2026-06-17/18). Nästa gate: **system-gap-syntes** — Deep Research MASTER + SA1–SA10 → [`CURSOR-FLOW-CREDITS-SYNTHESIS.md`](./bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md) → `docs/evaluations/2026-06-18-system-gap-syntes.md`.

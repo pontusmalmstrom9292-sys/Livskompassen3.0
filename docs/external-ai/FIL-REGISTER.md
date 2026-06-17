@@ -28,6 +28,14 @@
 | `GEMINI-ORKESTER-MASTER-PROMPT.md` | Gemini orkester — ChatBox/Flow/Cursor routing |
 | `evaluations/2026-06-17-flow-pipeline-karta.md` | Flow P1/P2 Deep Research |
 | `evaluations/MALL-deep-research-modul.md` | Mall före varje bygg |
+| `bifoga/03-prompter/GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER.md` | Deep Research — alla grundämnen (SA1–SA10) |
+| `bifoga/03-prompter/GEMINI-DEEP-RESEARCH-SA6.md` … `SA10.md` | Teknisk zon-audit |
+| `bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md` | Cursor subagent efter research |
+| `imports/README.md` | Namnkonvention research-2026-06-18-* |
+| `evaluations/2026-06-18-notebooklm-baseline.md` | NotebookLM baseline-frågor |
+| `evaluations/2026-06-18-system-gap-syntes.md` | Output från syntes-subagent (efter research) |
+| `imports/gap-matrix-2026-06-18.md` | KEEP/DEFER/REJECT + backend_impact |
+
 | `gemini-kunskap/LÄS-MIG.md` | Upload-guide för Gem Knowledge |
 | `GEMINI-GEM-BASELINE-VERIFY.md` | Baseline-frågor + förväntade svar efter setup |
 

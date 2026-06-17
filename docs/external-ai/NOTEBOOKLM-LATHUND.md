@@ -1,6 +1,6 @@
 # NotebookLM — lathund (Livskompassen kärna)
 
-**Syfte:** Research, motsägelser, strategi — **inte** prod-kod. Prod byggs i Cursor.
+**Syfte:** Research, motsägelser, strategi, system-gap — **inte** prod-kod. Prod byggs i Cursor efter PMIR.
 
 ---
 
@@ -13,7 +13,7 @@ npm run notebooklm:pack:all
 
 Detta kör: `chatbot:pack:handoff` → `sync:system` → `notebooklm:sync`.
 
-**Output:** `exports/google-ai-pro/notebooklm/` (~25 filer)
+**Output:** `exports/google-ai-pro/notebooklm/` (~40+ filer)
 
 ---
 
@@ -41,39 +41,49 @@ Klistra in hela kodblocket från [`NOTEBOOKLM-MASTER-PROMPT.md`](./NOTEBOOKLM-MA
 
 ## 4. Baseline — verifiera att pack fungerar
 
-Ställ dessa fyra frågor (förväntade svar i [`leveranser/2026-06-16-notebooklm-baseline-compare.md`](./leveranser/2026-06-16-notebooklm-baseline-compare.md)):
+Ställ dessa fyra frågor (förväntade svar i [`docs/evaluations/2026-06-18-notebooklm-baseline.md`](../evaluations/2026-06-18-notebooklm-baseline.md)):
 
 | # | Fråga | Förväntat svar (kort) |
 |---|-------|------------------------|
-| 1 | Vad är LOCK enligt LIFE-OS-BUILD-STATE? | WORM/Valv B1, locked UX, Inkast G10, SynapseBus, App Check |
-| 2 | Nästa kodvåg efter Våg 3 Nav? | Fas 19.3 tokens · Upload steg 2 · supermodule wave-2b |
+| 1 | Är P1b Inkast HITL LOCK? | **JA** — `InkastBrusfilterPreview` / `processBrusfilter` (2026-06-17) |
+| 2 | Vilken route har Barnfokus? | `/familjen?tab=reflektion` — `FamiljenBarnfokusDelegate` |
 | 3 | Är cross-RAG tillåtet? | **NEJ** — tre silos (U1) |
-| 4 | Var finns Barnfokus? | `FamiljenInputSuperModule` / `FamiljenBarnfokusDelegate` på `/familjen?tab=reflektion` |
+| 4 | Fas 19 sprint-status? | **DONE** 19.1–19.6 — se `2026-06-18-fas19-leverans.md` |
 
 | Resultat | Åtgärd |
 |----------|--------|
 | 4/4 rätt | Kärna räcker — använd NotebookLM för research |
-| 1–3 fel | Uppdatera `scripts/sync_notebooklm.mjs` → CHECKPOINT i Cursor |
-| Behöver zon-djup | Senare: separata notebooks (Valv/Familjen) — inte nu |
+| 1–3 fel | `npm run notebooklm:pack:all` → CHECKPOINT i Cursor |
+| Behöver zon-djup | Deep Research SA6–SA10 + system-audit |
 
 ---
 
-## 5. När ska du uppdatera?
+## 5. Deep Research (parallellt)
+
+1. `npm run research:sync:handoff`
+2. Bifoga `docs/external-ai/bifoga/05-research-handoff/` till Gemini Deep Research
+3. Kör [`GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER.md`](./bifoga/03-prompter/GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER.md) + SA1–SA10
+4. Spara till `docs/external-ai/imports/research-2026-06-18-*.md`
+5. Cursor-subagent: [`CURSOR-FLOW-CREDITS-SYNTHESIS.md`](./bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md)
+
+---
+
+## 6. När ska du uppdatera?
 
 - Efter CHECKPOINT som ändrar BUILD-STATE eller register
 - Efter ny eval i `docs/evaluations/`
-- Innan strategisession med Gemini (valfritt)
+- Innan strategisession med Gemini
 
 **Inte** efter varje liten kodändring — Cursor har live repo.
 
 ---
 
-## 6. Relaterat
+## 7. Relaterat
 
 | Verktyg | När |
 |---------|-----|
-| **Cursor** | Prod-kod, smoke, deploy |
+| **Cursor** | Prod-kod, smoke, deploy (efter PMIR) |
 | **ChatBox** | SPEC, PMIR, wireframes — [`CHATBOX-LATHUND.md`](./CHATBOX-LATHUND.md) |
-| **Gemini Tech Lead** | [`docs/google-ai-pro/GEMINI-TECH-LEAD.md`](../google-ai-pro/GEMINI-TECH-LEAD.md) |
+| **Gemini Gem** | Orkester — [`GEMINI-ORKESTER-MASTER-PROMPT.md`](./GEMINI-ORKESTER-MASTER-PROMPT.md) |
 
 Kanon-index: [`docs/DOC-INDEX.md`](../DOC-INDEX.md)

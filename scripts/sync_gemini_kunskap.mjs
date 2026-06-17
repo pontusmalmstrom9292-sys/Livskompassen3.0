@@ -43,6 +43,18 @@ const TIER2 = [
     dest: '17-GEMINI-FLOW-CHAT-PROMPTS.md',
     src: 'docs/external-ai/GEMINI-FLOW-CHAT-PROMPTS.md',
   },
+  {
+    dest: '18-fas19-leverans.md',
+    src: 'docs/evaluations/2026-06-18-fas19-leverans.md',
+  },
+  {
+    dest: '19-gap-matrix-2026-06-18.md',
+    src: 'docs/external-ai/imports/gap-matrix-2026-06-18.md',
+  },
+  {
+    dest: '20-SYSTEM-AUDIT-MASTER-PROMPT.md',
+    src: 'docs/external-ai/bifoga/03-prompter/GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER.md',
+  },
 ];
 
 const EXTRA = [

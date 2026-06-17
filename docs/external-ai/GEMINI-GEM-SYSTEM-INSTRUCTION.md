@@ -73,7 +73,14 @@ Alla externa AI-svar behandlas som "Ej verifierade förslag". Ingenting från ex
 | AI-tunga verktyg (Dossier, Brusfilter) | Flow-nodgraf + promptkedjor | Tunn callable-endpoint endast |
 | Design-mockup oklart | Antigravity-brief FÖRST | Prod-wire efter godkänd mock |
 
-Backend-status: FREEZE sedan 2026-06-16. Inga nya Cloud Functions utom bugfix + content ingest efter KEEP. Nya AI-flöden → Google Flow / Vertex AI.
+# BACKEND-POLICY (research vs implementation)
+
+- LOCK = verifierad kärna (WORM, tre silos, locked UX) — får inte brytas utan PMIR + smoke
+- Research och SPEC FÅR flagga backend_impact: YES och föreslå nya callables, rules, Flow-bryggor
+- Research FÅR INTE skriva prod-kod eller ändra firestore.rules direkt i chatten
+- Implementation av backend → egen PMIR-plan → smoke → ny rad i LIFE-OS-BUILD-STATE → ny LOCK
+- Nya AI-flöden → Google Flow / Vertex AI + tunn callable-brygga i Functions efter godkänd PMIR
+- Bugfix + content ingest efter KEEP = tillåtet utan ny arkitektur
 
 Du skriver INTE prod-kod för säkerhetskritiska delar (firestore.rules, WORM, RAG-silor, sharedRules.ts) direkt i chatten — leverera Cursor-prompt.
 

@@ -2034,280 +2034,6 @@ type DockZone = {
 active=
 ````
 
-## File: docs/external-ai/CHATBOX-LATHUND.md
-````markdown
-# ChatBox AI — Lathund (7 dagar)
-
-Kort översikt utan prompter. Detaljer och prompter: [`README.md`](./README.md) · [`CHECKPOINT-PROTOCOL.md`](./CHECKPOINT-PROTOCOL.md).
-
-**Syfte:** Spara Cursor/Google-krediter. Tung analys och kod i **ChatBox AI**. Cursor för granskning, smoke, låsning och deploy.
-
-**Parallellt UI/design:** [`UI-DESIGN-HANDOFF.md`](./UI-DESIGN-HANDOFF.md) — annat körfält, samma projektplan, inga filkrockar.
-
----
-
-## Innan du börjar
-
-| Vad | Var |
-|-----|-----|
-| Modellval | [`MODEL-PICKER.md`](./MODEL-PICKER.md) |
-| Status LOCK/OPEN | [`LIFE-OS-BUILD-STATE.md`](./LIFE-OS-BUILD-STATE.md) |
-| Repomix + bifoga-mappar | `npm run chatbot:pack:all` |
-| Bifoga-filer (register m.m.) | [`bifoga/`](./bifoga/) — `npm run chatbot:sync:bifoga` |
-| Lokal backup-mapp | `~/Livskompassen-snapshots/` |
-
-**Regel:** Max **2 parallella** ChatBox-chattar. Kod från två chattar på samma fil = nej.
-
----
-
-## Ritual efter varje ChatBox-chatt (CHECKPOINT)
-
-1. Spara svaret i `leveranser/`
-2. Granska i Cursor — applicera bara godkända ändringar
-3. Kör smoke (se tabell per dag nedan)
-4. Uppdatera `LIFE-OS-BUILD-STATE.md` (LOCK om PASS)
-5. Städa filer om det passar — [`REPO-HYGIENE.md`](./REPO-HYGIENE.md)
-6. Om LOCK → `./scripts/snapshot_locked_module.sh <modul>`
-7. Uppdatera `CHECKPOINT-LOG.md`
-8. Först då — nästa ChatBox-chatt
-
----
-
-## 7 dagar — vad, modell, leverans, smoke
-
-### Dag 1 — Säkerhetslås (audit, ingen ny kod)
-
-| | |
-|---|---|
-| **Modell** | Claude Opus 4.8 |
-| **Repomix** | `exports/chatbot-handoff/chatbot-pack-security.md` |
-| **Gör** | Inventera WORM, vault-gate, synapser, DCAP, locked UX |
-| **Leverans** | `SECURITY-LOCK-MANIFEST.md` |
-| **Smoke** | `smoke:valv-security` · `smoke:locked-ux` |
-| **Parallellt OK** | Sonar 2 — App Check-research (egen chatt, bara docs) |
-
----
-
-### Dag 2 — Upload SPEC (ingen kod än)
-
-| | |
-|---|---|
-| **Modell** | Claude Opus 4.8 |
-| **Repomix** | `exports/gemini-handoff/konsolidering-upload/` |
-| **Gör** | En canonical upload-väg frontend + backend; behåll 3 silos |
-| **Leverans** | `UPLOAD-UNIFIED-SPEC.md` |
-| **Smoke** | Ingen kod — du godkänner SPEC manuellt |
-| **Extra** | Design-audit kan köras här — [`PHASE-DESIGN-AUDIT.md`](./PHASE-DESIGN-AUDIT.md) |
-
----
-
-### Dag 3 — Backend upload
-
-| | |
-|---|---|
-| **Modell** | GPT-5.5 eller Gemini 3.1 Pro |
-| **Vänta** | Dag 2 godkänd |
-| **Gör** | `inkastSourceModule`, audio-MIME, Storage onFinalize, confidence 0.75 |
-| **Smoke** | `functions build` · `smoke:inkast` · `smoke:inbox` |
-
----
-
-### Dag 4 — Frontend upload
-
-| | |
-|---|---|
-| **Modell** | Claude Sonnet 4.6 |
-| **Helprompt** | [`PHASE-04-FULL-PROMPT.md`](./PHASE-04-FULL-PROMPT.md) |
-| **Vänta** | Dag 3 klar (CHECKPOINT-3 PASS) |
-| **Gör** | Filer i `CapturePanel` över alla Superhubs |
-| **Smoke** | `npm run build` · `smoke:locked-ux` |
-| **Snapshot** | `snapshot_locked_module.sh upload-unified` om LOCK |
-
----
-
-### Dag 5 — Synapse-lås
-
-| | |
-|---|---|
-| **Chatt 1** | Grok 4.20 — analys → `SYNAPSE-LOCK-SPEC.md` |
-| **Chatt 2** | GPT-5.5 — kod om luckor |
-| **Gör** | Idempotens, silo-routing, ingen fjärde RAG |
-| **Smoke** | `smoke:orkester` |
-| **Snapshot** | `snapshot_locked_module.sh synapser` om LOCK |
-
----
-
-### Dag 6 — App Check + deploy-förberedelse
-
-| | |
-|---|---|
-| **Chatt 1** | Sonar 2 — Firebase Console-steg |
-| **Chatt 2** | GPT-5.4 — deploy-checklista |
-| **Du manuellt** | App Check Enforce i Firebase Console |
-| **Leverans** | `DEPLOY-CHATBOT-WAVE.md` |
-
----
-
-### Dag 7 — Final lås
-
-| | |
-|---|---|
-| **Modell** | GPT-5.4 Mini |
-| **Bifoga** | [`bifoga/01-register/`](./bifoga/01-register/) + [`02-leveranser/`](./bifoga/02-leveranser/) + [`04-repomix/`](./bifoga/04-repomix/) · kör `npm run chatbot:sync:bifoga` först |
-| **Gör** | `LIFE-OS-CORE-LOCKED.md`, design-städlista, PMIR-utkast |
-| **Smoke** | `smoke:orkester` · `smoke:locked-ux` |
-| **Arkivera** | Sammanfattning → `docs/evaluations/` |
-
----
-
-## När en modul är LOCK
-
-1. Smoke PASS
-2. Rad i `LIFE-OS-BUILD-STATE.md` = LOCK
-3. Rad i `LIFE-OS-CORE-LOCKED.md`
-4. **Lokal kopia:** `./scripts/snapshot_locked_module.sh valv|inkast|synapser|upload-unified`
-5. Fråga Cursor om git commit + push (du godkänner)
-
-| Modul | Snapshot-kommando |
-|-------|-------------------|
-| Valv | `snapshot_locked_module.sh valv` |
-| Inkast (redan låst) | `snapshot_locked_module.sh inkast` |
-| Synapser | `snapshot_locked_module.sh synapser` |
-| Upload unified | `snapshot_locked_module.sh upload-unified` |
-
----
-
-## Städning (löpande)
-
-- **KEEP** — aktiv design/specs: [`DESIGN-KEEP-REGISTER.md`](./DESIGN-KEEP-REGISTER.md)
-- **ARCHIVE** — gamla mockups → `docs/archive/design-2026-06/` (flytta, radera inte direkt)
-- Logga i `HYGIENE-LOG.md`
-
-Största städ-kandidater: `docs/design/icons-proposals/`, `redesign-proposals/`, oanvända `themes/`.
-
----
-
-## Medvetet senare (spara krediter)
-
-MåBra hybrid-8 (Fas 19.2), hex-tokens, evolution_ledger, Projekt P2+ — **efter** upload + synapse är låsta.
-
----
-
-## Vad som redan är klart i projektet
-
-- G1–G16 done · G10 Inkast låst 2026-06-06
-- 4 synapser live
-- **Öppet:** upload inte enhetlig, audio-MIME, Storage trigger, App Check Console Enforce
-
----
-
-## Snabbstart Dag 1
-
-1. `npm run chatbot:pack:all`
-2. ChatBox → Opus 4.8 → ny chatt
-3. Öppna `PHASE-01-security-lock.md` (prompt där om du behöver)
-4. Efter svar → CHECKPOINT i Cursor
-
-*Prompter finns i `PHASE-0X-*.md` och `CHATBOT-MASTER-PROMPT.md` — denna lathund refererar bara till dem.*
-````
-
-## File: src/modules/core/navigation/navTruth.ts
-````typescript
-import { HIDE_BEVIS_TAB } from './navFlags';
-⋮----
-import {
-  FORENSIC_VAULT_TAB_IDS,
-  forensicVaultTabLabel,
-  LEGACY_INBOX_VAULT_TAB,
-  MAIN_VAULT_TAB_IDS,
-  parseVaultTab,
-} from '@/features/lifeJournal/evidence/vault/utils/vaultTabs';
-import {
-  resolveValvInputModeFromVaultTab,
-  vaultTabForValvInputMode,
-} from '@/features/lifeJournal/evidence/vault/supermodule/valvInputModes';
-import {
-  DAGBOK_BEVIS_DRAWER_LABEL,
-  VALV_DRAWER_HINTS,
-  VALV_KUNSKAP_DRAWER_LEAF,
-  VALV_ZONE_LABELS,
-  VAULT_MAIN_TAB_LABELS,
-} from '../copy/valvNavCopy';
-⋮----
-export type NavDrawerSection = 'vardag' | 'valv';
-⋮----
-export type NavTruthEntry = {
-  id: string;
-  label: string;
-  path: string;
-  section: NavDrawerSection;
-  inDrawer: boolean;
-  requiresVaultPin?: boolean;
-  parentId?: string;
-  isGroupHeader?: boolean;
-  drawerHint?: string;
-  omitWhenHideBevis?: boolean;
-  inDock?: boolean;
-  fyrenHomeQuick?: boolean;
-  themeId?: string;
-};
-⋮----
-export function vaultDrawerPath(vaultTab: string): string
-⋮----
-function valvLeaf(
-  id: string,
-  vaultTab: string,
-  parentId: string,
-  label?: string,
-  inDrawer = false,
-): NavTruthEntry
-⋮----
-export function isDrawerEntryVisible(entry: NavTruthEntry, vaultSessionOpen = false): boolean
-⋮----
-export function getVisibleDrawerTruth(section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[]
-⋮----
-export function getNavTruthById(id: string): NavTruthEntry | undefined
-⋮----
-export function getDrawerChildren(parentId: string, section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[]
-⋮----
-export function getNavChildren(parentId: string, section: NavDrawerSection): NavTruthEntry[]
-⋮----
-export function getDrawerRoots(section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[]
-⋮----
-export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, vaultSessionOpen = false): boolean
-````
-
-## File: src/modules/features/admin/planning/components/PlaneringPage.tsx
-````typescript
-import { lazy, Suspense, useEffect, useMemo } from 'react';
-import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { Calendar, LayoutGrid, PenLine } from 'lucide-react';
-import { clsx } from 'clsx';
-import { HubPageShell } from '@/core/layout/HubPageShell';
-import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { PLANERING_TAGLINE, PLANERING_MORE_TABS } from '../constants';
-import type { PlaneringTab } from '../types';
-import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
-import { PlanningKanbanBoard } from './PlanningKanbanBoard';
-import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
-import { LivBackLink } from '@/modules/shell/LivBackLink';
-import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
-import { PlaneringMoreTabsBar } from './PlaneringMoreTabsBar';
-import { PlaneringErrorBoundary } from './PlaneringErrorBoundary';
-import { PlaneringBentoShell } from './PlaneringBentoShell';
-import {
-  hasSeenGoraModulValjare,
-  markGoraModulValjareSeen,
-} from '../utils/goraModulValjareStorage';
-import {
-  isPlaneringInputMode,
-  type PlaneringInputMode,
-} from '../supermodule/planeringInputModes';
-⋮----
-function PlaneringPanelFallback()
-````
-
 ## File: .context/locked-ux-features.md
 ````markdown
 # Locked UX Features (låsta — får inte tas bort)
@@ -2340,6 +2066,7 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 | **Flikar** | **Arkiv** · **Granska inkommande** · **Mönster** · **Meddelanden eller SMS-analys** (`vaultTab=orkester`) · **Dossier** · **Kunskapsbank** · **Personer i ärendet** |
 | **Mönster** | `VaultMonsterPanel` + `buildVaultFrequencyReport` (deterministisk regex, ingen LLM-sanning) |
 | **Meddelanden / SMS-analys** | `VaultOrkesterPanel` + `PRODUCT_AGENTS` + SMS-tråd → `analyzeMessage` (flik-ID `orkester` oförändrat) |
+| **P1 Brusfilter (LOCK 2026-06-17)** | `processBrusfilter` callable + panel i `VaultOrkesterPanel` — DCAP + logistik + BIFF-utkast, **ingen auto-WORM** |
 | **Kunskapsbank** | `VaultKunskapsbankPanel` — `KunskapPage` + `FamiljenKunskapHubTab` (U1 silos) |
 | **Aktörskarta (G9)** | `VaultAktorskartaPanel` + `EntityAddForm` + `addEntityProfile` — manuella personer, append-only metadata för agenter (ej RAG, ej publik meny) |
 | **Smoke** | `npm run smoke:locked-ux` · `npm run smoke:entities` · manuell #20 i `docs/SMOKE_CHECKLIST.md` |
@@ -2763,6 +2490,249 @@ npm run smoke:obsidian-depth
 Vid refaktor av `VaultPage`, `FamiljenPage`, eller borttagning av specs ovan: kör smoke innan merge.
 ````
 
+## File: docs/external-ai/CHATBOX-LATHUND.md
+````markdown
+# ChatBox AI — Lathund (7 dagar)
+
+Kort översikt utan prompter. Detaljer och prompter: [`README.md`](./README.md) · [`CHECKPOINT-PROTOCOL.md`](./CHECKPOINT-PROTOCOL.md).
+
+**Syfte:** Spara Cursor/Google-krediter. Tung analys och kod i **ChatBox AI**. Cursor för granskning, smoke, låsning och deploy.
+
+**Parallellt UI/design:** [`UI-DESIGN-HANDOFF.md`](./UI-DESIGN-HANDOFF.md) — annat körfält, samma projektplan, inga filkrockar.
+
+---
+
+## Innan du börjar
+
+| Vad | Var |
+|-----|-----|
+| Modellval | [`MODEL-PICKER.md`](./MODEL-PICKER.md) |
+| Status LOCK/OPEN | [`LIFE-OS-BUILD-STATE.md`](./LIFE-OS-BUILD-STATE.md) |
+| Repomix + bifoga-mappar | `npm run chatbot:pack:all` |
+| Bifoga-filer (register m.m.) | [`bifoga/`](./bifoga/) — `npm run chatbot:sync:bifoga` |
+| Lokal backup-mapp | `~/Livskompassen-snapshots/` |
+
+**Regel:** Max **2 parallella** ChatBox-chattar. Kod från två chattar på samma fil = nej.
+
+---
+
+## Ritual efter varje ChatBox-chatt (CHECKPOINT)
+
+1. Spara svaret i `leveranser/`
+2. Granska i Cursor — applicera bara godkända ändringar
+3. Kör smoke (se tabell per dag nedan)
+4. Uppdatera `LIFE-OS-BUILD-STATE.md` (LOCK om PASS)
+5. Städa filer om det passar — [`REPO-HYGIENE.md`](./REPO-HYGIENE.md)
+6. Om LOCK → `./scripts/snapshot_locked_module.sh <modul>`
+7. Uppdatera `CHECKPOINT-LOG.md`
+8. Först då — nästa ChatBox-chatt
+
+---
+
+## 7 dagar — vad, modell, leverans, smoke
+
+### Dag 1 — Säkerhetslås (audit, ingen ny kod)
+
+| | |
+|---|---|
+| **Modell** | Claude Opus 4.8 |
+| **Repomix** | `exports/chatbot-handoff/chatbot-pack-security.md` |
+| **Gör** | Inventera WORM, vault-gate, synapser, DCAP, locked UX |
+| **Leverans** | `SECURITY-LOCK-MANIFEST.md` |
+| **Smoke** | `smoke:valv-security` · `smoke:locked-ux` |
+| **Parallellt OK** | Sonar 2 — App Check-research (egen chatt, bara docs) |
+
+---
+
+### Dag 2 — Upload SPEC (ingen kod än)
+
+| | |
+|---|---|
+| **Modell** | Claude Opus 4.8 |
+| **Repomix** | `exports/gemini-handoff/konsolidering-upload/` |
+| **Gör** | En canonical upload-väg frontend + backend; behåll 3 silos |
+| **Leverans** | `UPLOAD-UNIFIED-SPEC.md` |
+| **Smoke** | Ingen kod — du godkänner SPEC manuellt |
+| **Extra** | Design-audit kan köras här — [`PHASE-DESIGN-AUDIT.md`](./PHASE-DESIGN-AUDIT.md) |
+
+---
+
+### Dag 3 — Backend upload
+
+| | |
+|---|---|
+| **Modell** | GPT-5.5 eller Gemini 3.1 Pro |
+| **Vänta** | Dag 2 godkänd |
+| **Gör** | `inkastSourceModule`, audio-MIME, Storage onFinalize, confidence 0.75 |
+| **Smoke** | `functions build` · `smoke:inkast` · `smoke:inbox` |
+
+---
+
+### Dag 4 — Frontend upload
+
+| | |
+|---|---|
+| **Modell** | Claude Sonnet 4.6 |
+| **Helprompt** | [`PHASE-04-FULL-PROMPT.md`](./PHASE-04-FULL-PROMPT.md) |
+| **Vänta** | Dag 3 klar (CHECKPOINT-3 PASS) |
+| **Gör** | Filer i `CapturePanel` över alla Superhubs |
+| **Smoke** | `npm run build` · `smoke:locked-ux` |
+| **Snapshot** | `snapshot_locked_module.sh upload-unified` om LOCK |
+
+---
+
+### Dag 5 — Synapse-lås
+
+| | |
+|---|---|
+| **Chatt 1** | Grok 4.20 — analys → `SYNAPSE-LOCK-SPEC.md` |
+| **Chatt 2** | GPT-5.5 — kod om luckor |
+| **Gör** | Idempotens, silo-routing, ingen fjärde RAG |
+| **Smoke** | `smoke:orkester` |
+| **Snapshot** | `snapshot_locked_module.sh synapser` om LOCK |
+
+---
+
+### Dag 6 — App Check + deploy-förberedelse
+
+| | |
+|---|---|
+| **Chatt 1** | Sonar 2 — Firebase Console-steg |
+| **Chatt 2** | GPT-5.4 — deploy-checklista |
+| **Du manuellt** | App Check Enforce i Firebase Console |
+| **Leverans** | `DEPLOY-CHATBOT-WAVE.md` |
+
+---
+
+### Dag 7 — Final lås
+
+| | |
+|---|---|
+| **Modell** | GPT-5.4 Mini |
+| **Bifoga** | [`bifoga/01-register/`](./bifoga/01-register/) + [`02-leveranser/`](./bifoga/02-leveranser/) + [`04-repomix/`](./bifoga/04-repomix/) · kör `npm run chatbot:sync:bifoga` först |
+| **Gör** | `LIFE-OS-CORE-LOCKED.md`, design-städlista, PMIR-utkast |
+| **Smoke** | `smoke:orkester` · `smoke:locked-ux` |
+| **Arkivera** | Sammanfattning → `docs/evaluations/` |
+
+---
+
+## När en modul är LOCK
+
+1. Smoke PASS
+2. Rad i `LIFE-OS-BUILD-STATE.md` = LOCK
+3. Rad i `LIFE-OS-CORE-LOCKED.md`
+4. **Lokal kopia:** `./scripts/snapshot_locked_module.sh valv|inkast|synapser|upload-unified`
+5. Fråga Cursor om git commit + push (du godkänner)
+
+| Modul | Snapshot-kommando |
+|-------|-------------------|
+| Valv | `snapshot_locked_module.sh valv` |
+| Inkast (redan låst) | `snapshot_locked_module.sh inkast` |
+| Synapser | `snapshot_locked_module.sh synapser` |
+| Upload unified | `snapshot_locked_module.sh upload-unified` |
+
+---
+
+## Städning (löpande)
+
+- **KEEP** — aktiv design/specs: [`DESIGN-KEEP-REGISTER.md`](./DESIGN-KEEP-REGISTER.md)
+- **ARCHIVE** — gamla mockups → `docs/archive/design-2026-06/` (flytta, radera inte direkt)
+- Logga i `HYGIENE-LOG.md`
+
+Största städ-kandidater: `docs/design/icons-proposals/`, `redesign-proposals/`, oanvända `themes/`.
+
+---
+
+## Medvetet senare (spara krediter)
+
+MåBra hybrid-8 (Fas 19.2), hex-tokens, evolution_ledger, Projekt P2+ — **efter** upload + synapse är låsta.
+
+---
+
+## Vad som redan är klart i projektet
+
+- G1–G16 done · G10 Inkast låst 2026-06-06
+- 4 synapser live
+- **Öppet:** upload inte enhetlig, audio-MIME, Storage trigger, App Check Console Enforce
+
+---
+
+## Snabbstart Dag 1
+
+1. `npm run chatbot:pack:all`
+2. ChatBox → Opus 4.8 → ny chatt
+3. Öppna `PHASE-01-security-lock.md` (prompt där om du behöver)
+4. Efter svar → CHECKPOINT i Cursor
+
+*Prompter finns i `PHASE-0X-*.md` och `CHATBOT-MASTER-PROMPT.md` — denna lathund refererar bara till dem.*
+````
+
+## File: src/modules/core/navigation/navTruth.ts
+````typescript
+import { HIDE_BEVIS_TAB } from './navFlags';
+⋮----
+import {
+  FORENSIC_VAULT_TAB_IDS,
+  forensicVaultTabLabel,
+  LEGACY_INBOX_VAULT_TAB,
+  MAIN_VAULT_TAB_IDS,
+  parseVaultTab,
+} from '@/features/lifeJournal/evidence/vault/utils/vaultTabs';
+import {
+  resolveValvInputModeFromVaultTab,
+  vaultTabForValvInputMode,
+} from '@/features/lifeJournal/evidence/vault/supermodule/valvInputModes';
+import {
+  DAGBOK_BEVIS_DRAWER_LABEL,
+  VALV_DRAWER_HINTS,
+  VALV_KUNSKAP_DRAWER_LEAF,
+  VALV_ZONE_LABELS,
+  VAULT_MAIN_TAB_LABELS,
+} from '../copy/valvNavCopy';
+⋮----
+export type NavDrawerSection = 'vardag' | 'valv';
+⋮----
+export type NavTruthEntry = {
+  id: string;
+  label: string;
+  path: string;
+  section: NavDrawerSection;
+  inDrawer: boolean;
+  requiresVaultPin?: boolean;
+  parentId?: string;
+  isGroupHeader?: boolean;
+  drawerHint?: string;
+  omitWhenHideBevis?: boolean;
+  inDock?: boolean;
+  fyrenHomeQuick?: boolean;
+  themeId?: string;
+};
+⋮----
+export function vaultDrawerPath(vaultTab: string): string
+⋮----
+function valvLeaf(
+  id: string,
+  vaultTab: string,
+  parentId: string,
+  label?: string,
+  inDrawer = false,
+): NavTruthEntry
+⋮----
+export function isDrawerEntryVisible(entry: NavTruthEntry, vaultSessionOpen = false): boolean
+⋮----
+export function getVisibleDrawerTruth(section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[]
+⋮----
+export function getNavTruthById(id: string): NavTruthEntry | undefined
+⋮----
+export function getDrawerChildren(parentId: string, section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[]
+⋮----
+export function getNavChildren(parentId: string, section: NavDrawerSection): NavTruthEntry[]
+⋮----
+export function getDrawerRoots(section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[]
+⋮----
+export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, vaultSessionOpen = false): boolean
+````
+
 ## File: src/modules/core/routing/AppRoutes.tsx
 ````typescript
 import { lazy, Suspense } from 'react';
@@ -2795,17 +2765,48 @@ function RedirectToLifeJournalTab(
 function RedirectArkivToValvet()
 ````
 
+## File: src/modules/features/admin/planning/components/PlaneringPage.tsx
+````typescript
+import { lazy, Suspense, useEffect, useMemo } from 'react';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { Calendar, LayoutGrid, PenLine } from 'lucide-react';
+import { clsx } from 'clsx';
+import { HubPageShell } from '@/core/layout/HubPageShell';
+import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { PLANERING_TAGLINE, PLANERING_MORE_TABS } from '../constants';
+import type { PlaneringTab } from '../types';
+import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
+import { PlanningKanbanBoard } from './PlanningKanbanBoard';
+import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
+import { LivBackLink } from '@/modules/shell/LivBackLink';
+import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
+import { PlaneringMoreTabsBar } from './PlaneringMoreTabsBar';
+import { PlaneringErrorBoundary } from './PlaneringErrorBoundary';
+import { PlaneringBentoShell } from './PlaneringBentoShell';
+import {
+  hasSeenGoraModulValjare,
+  markGoraModulValjareSeen,
+} from '../utils/goraModulValjareStorage';
+import {
+  isPlaneringInputMode,
+  type PlaneringInputMode,
+} from '../supermodule/planeringInputModes';
+⋮----
+function PlaneringPanelFallback()
+````
+
 ## File: docs/external-ai/LIFE-OS-BUILD-STATE.md
 ````markdown
 # LIFE-OS-BUILD-STATE (levande sanning)
 
 Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
-**Senast uppdaterad:** 2026-06-16 (Backend masterplan FREEZE + extern GO)
+**Senast uppdaterad:** 2026-06-18 (Fas 19.1–19.6 DONE + P1/P2 LOCK)
 
 | Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
 |-----------|-------------|--------|-------|------------|
-| Security core (WORM + vault + guards) | `firestore.rules`, `unlockVault.ts`, `callableGuards.ts` | **LOCK** | tier1 + valv-gate 2026-06-16 | **CP-1** |
+| Security core (WORM + vault + guards) | `firestore.rules`, `unlockVault.ts`, `callableGuards.ts` | **LOCK** | valv-security + locked-ux 2026-06-18 | **CP-1** · **F19.1** |
 | Locked UX §11–17 | `.context/locked-ux-features.md` | **LOCK** | locked-ux PASS 2026-06-16 | **CP-1** |
 | G10 Inkast backend | `inboxClassifier.ts`, `submitInkastLite.ts`, `inkastStorageOnFinalize.ts` | **LOCK** | inkast + inbox + inkast-upload 2026-06-16 | **CP-3** |
 | G10 Inkast UI (CapturePanel + filer) | `CapturePanel.tsx`, `CaptureSuperModule.tsx` | **LOCK** | inkast PASS 2026-06-16 | **CP-4** |
@@ -2815,8 +2816,12 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 | Valv chat E2E | `valvChatAgent.ts`, `valvChatQuery` | **LOCK** | valv-chat-e2e 2026-06-16 | **CP-8** |
 | App Check (kod) | `appCheck.ts`, `callableGuards.ts` | **LOCK** | tier1 2026-06-16 | **CP-6** |
 | Valv modul | `evidence/vault/` | **LOCK** | B1 + valv-mode 2026-06-16 | **B1** |
+| **P1 Brusfilter v1 (Valv Orkester)** | `processBrusfilter.ts`, `VaultOrkesterPanel.tsx` | **LOCK** | orkester 2026-06-17 | **P1** |
+| **P1 Brusfilter v2 (Inkast HITL)** | `InkastBrusfilterPreview.tsx`, `CapturePanel.tsx` | **LOCK** | inkast 2026-06-17 | **P1b** |
 | CI deploy | `.github/workflows/firebase-hosting-main.yml` | **LOCK** | smoke:tier1 + functions deploy | **CP-9** |
-| MåBra 19.2–19.5 / wave-2 / M3.0-C | — | **DEFER** | — | efter FREEZE |
+| **P2 Dossier v2 (AI foreword)** | `dossierAiForeword.ts`, `generateDossierInternal.ts` | **LOCK** | dossier 2026-06-17 | **P2** |
+| Fas 19.1 security sprint | `invalidateSession` guard, D14 ParentReminderFooter | **LOCK** | valv-security 2026-06-18 | **F19.1** |
+| MåBra 19.2–19.5 / wave-2 / M3.0-C | hybrid-8, hex→tokens, JOY-17, evolution_ledger | **SMOKE PASS** (ej formellt stängd) | mabra + modulvaljare + evolution 2026-06-18 | **F19.2–19.5** |
 | AI-assistent UI | — | **DEFER** | — | — |
 
 ## Statusförklaring
@@ -2827,8 +2832,11 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
 ## Nästa steg (Pontus)
 
-1. **Använd:** Ladda skärmdump via Valv → Inkast → granska WORM → ställ fråga i Valv-chat
-2. ~~**Extern review:** Prompt G~~ — **GO** 2026-06-16 (Gemini + Opus, `imports/BACKEND-MASTERPLAN-REVIEW-SVAR.md`)
-3. **Inget nytt:** Wave-2 polish, M3.0-C, AI-assistent UI förblir DEFER
-4. **Post-FREEZE (valfritt):** smoke-luckor — Barnen guard, HITL metadata, Zero Footprint
+1. **Använd:** Valv → **Inkast** → «Filtrera brus först» (kräver Fyren) → godkänn → spara
+2. **P1 v1+v2 LOCK** 2026-06-17
+3. **Nästa:** använd Dossier med «Kort AI-inledning» — P2 LOCK 2026-06-17
+4. **Fas 19.1 PASS** — deploy `functions:invalidateSession` + hosting om diff ej redan live
+5. **Nästa sprint-våg:** 19.2 formell logg (hybrid-8 redan smoke PASS) eller 19.6 arkiv-batch PMIR
+6. **Fas 19 sprint DONE** — se `docs/evaluations/2026-06-18-fas19-leverans.md`
+7. **DEFER:** M3.0-C Fitness/Näring, AI-assistent UI, arkiv-batch utförande
 ````

@@ -18,6 +18,18 @@ Stack: React + TypeScript + Vite + Tailwind (Obsidian Calm) + Firebase Functions
 Svar till användaren: svenska, lågaffektiv, klinisk logik — inget JADE.
 All prod-kod du skriver: engelska identifierare, strikt TypeScript, matcha befintlig kodstil.
 
+## BACKEND-POLICY (research vs implementation)
+
+- LOCK = verifierad kärna (WORM, tre silos, locked UX) — får inte brytas utan PMIR + smoke
+- SPEC/research FÅR föreslå nya callables, rules, Flow-bryggor med backend_impact: YES
+- Om backend_impact: YES — leverera SPEC först; vänta på PMIR-godkännande före full prod-implementation
+- Efter godkänd PMIR: implementera → smoke → ny LOCK-rad i LIFE-OS-BUILD-STATE
+
+## REFUSAL-SAFE
+
+Du får ALDRIG vägra SPEC för arkitektur, callables, WORM/HITL, Flow-bryggor eller React UI.
+Vid osäkerhet: "EJ VERIFIERAT" + vilken fil som måste läsas — inte vägran.
+
 ## KANON (MUST — brott = REJECT)
 
 ### Tre silos (ALDRIG cross-RAG)
@@ -53,13 +65,15 @@ All prod-kod du skriver: engelska identifierare, strikt TypeScript, matcha befin
 1. Läs bifogad repomix — gissa INTE filinnehåll
 2. GAP-status: Arkiv-GAP-REGISTER.md vinner (G1–G16 = done)
 3. G10 Inkast = låst 2026-06-06 — utöka, radera inte
-4. Osäkerhet → skriv "EJ VERIFIERAT" + vilken fil som måste läsas
+4. LIFE-OS-BUILD-STATE.md vinner över äldre FREEZE-text i andra docs
+5. Osäkerhet → skriv "EJ VERIFIERAT" + vilken fil som måste läsas
 
 ## DITT UPPDRAG I DENNA CHATT
 
 Jag bifogar repomix + en fas-prompt (PHASE-0X).
 Leverera exakt det fas-prompten ber om.
 Om kod: fullständiga filer eller tydliga diff-block — redo att klistras i Cursor.
+Om backend_impact: YES utan godkänd PMIR — leverera endast SPEC + riskanalys.
 
 ## FÖRBJUDET
 
@@ -68,6 +82,7 @@ Om kod: fullständiga filer eller tydliga diff-block — redo att klistras i Cur
 - Cross-RAG mellan silos
 - Radera locked UX-komponenter
 - Säga "klart" utan smoke-kommandon listade
+- Implementera backend utan explicit PMIR-godkännande i denna chatt
 
 ## OBLIGATORISK SLUTRAD (inkludera alltid)
 

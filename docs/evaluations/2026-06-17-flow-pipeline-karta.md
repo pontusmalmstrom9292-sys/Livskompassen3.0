@@ -9,7 +9,7 @@
 
 ## 1. Syfte
 
-Kartlägga var **Google Flow** (≈2000 krediter) ska användas utan att bryta backend FREEZE, WORM eller tre silos — med fokus på:
+Kartlägga var **Google Flow** (≈2000 krediter) ska användas utan att bryta LOCK-kärna, WORM eller tre silos — med fokus på:
 
 - **P1 Brusfiltret** — rena fakta från ex-sms/mejl före WORM (≈80% HCF-uploads)
 - **P2 Dossier v2** — förbättra sammanfattning/tidslinje; prod har redan `generateDossier`
@@ -50,11 +50,11 @@ Kartlägga var **Google Flow** (≈2000 krediter) ska användas utan att bryta b
 | Inkast submit | `submitInkastLite.ts` | Klassificerar, routeInboxToWorm |
 | DCAP | `routeFromDcap`, `dcapAlertSynapse` | Risk före LLM |
 
-**Lucka v2:** Dedikerat preview-steg i **Inkast** före WORM med `SaveAsEvidencePrompt` — ej byggt än.
+**P1 v2 LOCK (2026-06-17):** `InkastBrusfilterPreview` i `CapturePanel` — «Filtrera brus först» före WORM via `SaveAsEvidencePrompt`.
 
-### Backend FREEZE
+### BACKEND-POLICY
 
-[`LIFE-OS-BUILD-STATE.md`](../external-ai/LIFE-OS-BUILD-STATE.md) — 2026-06-16. Nya monolitiska Functions **förbjudna**. Tillåtet: bugfix, content ingest, **tunn callable** som anropar Flow och skriver WORM efter DCAP + vault session.
+[`LIFE-OS-BUILD-STATE.md`](../external-ai/LIFE-OS-BUILD-STATE.md) — LOCK-kärna verifierad. Research får föreslå `backend_impact: YES`; implementation efter PMIR + smoke. Tillåtet utan ny PMIR: bugfix, content ingest. Nya callables: **tunn** brygga (Flow/Vertex) + DCAP + vault session + HITL.
 
 ---
 
@@ -63,7 +63,7 @@ Kartlägga var **Google Flow** (≈2000 krediter) ska användas utan att bryta b
 | Plan | Innehåll | Bedömning |
 |------|----------|-----------|
 | GEMINI-GEM-KNOWLEDGE §4 | Flow för Dossier, Brusfilter | **JA** — alignar med FREEZE |
-| Fas 19 masterplan | MåBra 19.2–19.5 | **DEFER** — Flow fokuserar Valv/Inkast först |
+| Fas 19 masterplan | MåBra 19.2–19.5 | **DELVIS DONE** (smoke PASS 2026-06-18) — nästa: system-gap-syntes |
 | Domän ~80% HCF | Bevis-routing Valv | **JA** — P1 Brusfilter högst ROI |
 
 ---
@@ -72,10 +72,13 @@ Kartlägga var **Google Flow** (≈2000 krediter) ska användas utan att bryta b
 
 | Prioritet | Verktyg | Flow-krediter | Drift | Rekommendation |
 |-----------|---------|---------------|-------|----------------|
-| **P1 Brusfilter** | Google Flow + tunn callable `cleanInkastForVault` | Medel (per upload) | Låg om on-demand | **BUILD** (efter godkännande) |
-| **P2 Dossier v2** | Flow för foreword/timeline LLM; behåll `generateDossier` | Medel (per export) | Låg | **BUILD** fas 2 efter P1 |
-| P3 Mönster-metadata | Flow assist | Låg | Låg | DEFER |
-| P4 Hamn BIFF | Befintlig `askGransArkitekten` | — | Functions redan | DEFER Flow |
+| **P1 Brusfilter** | `processBrusfilter` + Inkast HITL | — | Låg | **LOCK** 2026-06-17 |
+| **P2 Dossier v2** | `dossierAiForeword` + `generateDossier` | — | Låg | **LOCK** 2026-06-17 |
+| **P3 Mönster-metadata** | Flow assist på `vaultPatternScan` | Låg | Låg | **KANDIDAT** (system-audit) |
+| **P4 MåBra coach** | Flow parafras + `mabraCoach` bankId | Medel | Låg | **KANDIDAT** |
+| **P5 Theme mockups** | Antigravity / Flow bild | Låg | — | **KANDIDAT** |
+| **P6 Dossier timeline** | Flow strukturerad tidslinje | Medel | Låg | **KANDIDAT** |
+| **P7 Hamn BIFF** | Befintlig `askGransArkitekten` | — | Functions redan | DEFER Flow |
 | Cross-silo RAG | — | — | — | **REJECT** |
 
 **Gratis alternativ:** Utöka `includeAiForeword` prompt i `dossierPdf` via `sharedRules.ts` — billigare men mindre flexibelt än Flow.
@@ -103,7 +106,7 @@ Kartlägga var **Google Flow** (≈2000 krediter) ska användas utan att bryta b
 | **P1 Brusfilter v1** | **LOCK** (2026-06-17) | Orkester + `processBrusfilter` — prod-test OK |
 | **P1 Brusfilter v2** (Inkast HITL) | **LOCK** (2026-06-17) | CapturePanel + brusfilter preview före spar |
 | **P2 Dossier v2** | **LOCK** (2026-06-17) | `dossierAiForeword` + PDF foreword/timeline via Gemini Flash |
-| P3–P4 | DEFER | Befintlig kod räcker till vidare |
+| P3–P7 | **KANDIDAT** | Prioriteras i `2026-06-18-system-gap-syntes.md` efter Deep Research |
 
 **Pontus:** ☑ godkänn v1 (2026-06-17) · ☐ avvisa · ☐ ändra X: _______________
 
@@ -277,4 +280,16 @@ Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta 
 
 ---
 
-*P1 v1 LOCK 2026-06-17. Nästa valfria steg: P1 v2 Inkast HITL eller P2 Dossier v2 (§8 fas 2).*
+*P1+P2 LOCK 2026-06-17/18. Nästa gate: system-gap-syntes — Deep Research MASTER + SA1–SA10 → CURSOR-FLOW-CREDITS-SYNTHESIS (§11).*
+
+
+---
+
+## 11. Nästa gate — system-gap-syntes (2026-06-18)
+
+1. Kör `GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER` + SA1–SA10 (parallellt)
+2. Spara till `docs/external-ai/imports/research-2026-06-18-*.md`
+3. Cursor-subagent: [`CURSOR-FLOW-CREDITS-SYNTHESIS.md`](../external-ai/bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md)
+4. Output: `docs/evaluations/2026-06-18-system-gap-syntes.md` — Top 5 Flow-experiment (~2000 krediter) + backend-PMIR-kandidater
+
+**BACKEND-POLICY:** Research får föreslå nya callables; varje backend-ändring = egen PMIR → smoke → ny LOCK.

@@ -73,7 +73,20 @@ Kopiera denna fil till `docs/evaluations/YYYY-MM-DD-deep-research-[modul].md` oc
 - [ ] DCAP före LLM för routing/auth
 - [ ] Locked UX intakt (lista om berörd)
 - [ ] HITL — ingen auto-promote barn → Valv
-- [ ] Backend FREEZE — endast tunn callable om ny AI-brygga
+- [ ] backend_impact: YES|NO dokumenterat
+- [ ] Om backend_impact: YES — separat PMIR före implementation (LOCK-kärna orörd tills smoke PASS)
+
+### BACKEND-POLICY (research vs implementation)
+
+- **LOCK** = verifierad kärna (WORM, silos, locked UX) — får inte brytas utan PMIR + smoke
+- **Research FÅR** flagga `backend_impact: YES` och föreslå nya callables, rules, Flow-bryggor
+- **Research FÅR INTE** skriva prod-kod eller ändra `firestore.rules` direkt
+- **Implementation** av backend → egen PMIR-plan → smoke → ny rad i `LIFE-OS-BUILD-STATE` → **ny LOCK**
+
+### REFUSAL-SAFE
+
+Research om arkitektur, HCF-domän, BIFF/Valv-schema, Flow-nodgraf = tillåtet mjukvaruarbete.
+Vid osäkerhet: «EJ I PACK» + vilken fil som saknas — inte vägran.
 
 ---
 

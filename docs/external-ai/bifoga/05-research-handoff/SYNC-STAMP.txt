@@ -1,0 +1,2 @@
+Senast synkad: 2026-06-17T22:46:39.744Z
+Kommando: npm run research:sync:handoff

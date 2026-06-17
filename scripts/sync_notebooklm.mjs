@@ -41,13 +41,21 @@ const REGISTER_FILES = [
   'docs/external-ai/CHECKPOINT-LOG.md',
   'docs/external-ai/HYGIENE-LOG.md',
   'docs/external-ai/LIFE-OS-CORE-LOCKED.md',
-  'docs/external-ai/imports/gap-matrix-2026-06-16.md',
+  'docs/external-ai/imports/gap-matrix-2026-06-18.md',
 ];
 
 const EVAL_FILES = [
   'docs/evaluations/2026-06-15-fas19-masterplan-v2.md',
   'docs/evaluations/2026-06-16-supermodule-ui-masterplan.md',
   'docs/evaluations/SENASTE-SAMMANFATTNING.md',
+  'docs/evaluations/2026-06-18-fas19-leverans.md',
+  'docs/evaluations/2026-06-17-fas19-log.md',
+  'docs/evaluations/2026-06-18-fas19-vag-19.1.md',
+  'docs/evaluations/2026-06-18-fas19-vag-19.2.md',
+  'docs/evaluations/2026-06-18-fas19-vag-19.3.md',
+  'docs/evaluations/2026-06-18-fas19-vag-19.4.md',
+  'docs/evaluations/2026-06-18-fas19-vag-19.5.md',
+  'docs/evaluations/2026-06-18-notebooklm-baseline.md',
   'docs/external-ai/leveranser/2026-06-16-notebooklm-baseline-compare.md',
 ];
 
@@ -180,16 +188,16 @@ Klistra in text från \`NOTEBOOKLM-MASTER-PROMPT.md\` som första meddelande.
 3. Repomix-packs (\`chatbot-pack-*.md\`, \`ui-design-pack.md\`)
 4. Register (SECURITY-LOCK, SYNAPSE-LOCK, UPLOAD-UNIFIED, …)
 5. \`system_sync/*_CURRENT.*\` — rules + plan
-6. Eval (\`fas19-masterplan-v2\`, supermodule-ui-masterplan)
+6. Eval (\`fas19-leverans\`, \`fas19-vag-19.*\`, baseline 2026-06-18)
 
 ## Baseline-frågor (verifiera efter upload)
 
-Se \`2026-06-16-notebooklm-baseline-compare.md\`:
+Se \`2026-06-18-notebooklm-baseline.md\`:
 
-1. Vad är **LOCK** enligt LIFE-OS-BUILD-STATE?
-2. Vilken är **nästa kodvåg** efter Våg 3 Nav?
-3. Nämns **cross-RAG** eller fjärde silo som tillåtet?
-4. Var finns **Barnfokus** supermodule och vilken route?
+1. Är **P1b Inkast HITL** LOCK?
+2. Vilken **route** har Barnfokus?
+3. Nämns **cross-RAG** som tillåtet?
+4. **Fas 19 sprint**-status?
 
 **Avvikelse → CHECKPOINT i Cursor.** Uppdatera inte prod från NotebookLM direkt.
 

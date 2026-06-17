@@ -2,7 +2,7 @@
 
 **Syfte:** Fortsätt Brusfilter/Flow-planen utan Cursor-kvot. ChatBox har tunga modeller gratis (7-dagars prov).
 
-**Kanon:** [`2026-06-17-flow-pipeline-karta.md`](../evaluations/2026-06-17-flow-pipeline-karta.md) · **Status:** P1 v1 **LOCK** 2026-06-17 · P2 OPEN
+**Kanon:** [`2026-06-17-flow-pipeline-karta.md`](../evaluations/2026-06-17-flow-pipeline-karta.md) · **Status:** P1 v1+v2 **LOCK** · P2 **LOCK** 2026-06-17 · Nästa: P3–P7 via system-gap-syntes
 
 **Modellval (bekräftat i MODEL-PICKER):**
 
@@ -33,12 +33,12 @@
 ```text
 Du är teknisk projektledare för Livskompassen v2 (React + Firebase, evidens-dagbok).
 
-UPPDRAG: Fortsätt Flow-plan P1 — "faktanormalisering" före WORM-sparning i evidence vault.
+UPPDRAG: Prioritera Flow P3–P7 (~2000 krediter) efter system-gap-syntes. P1/P2 är LOCK i prod.
 
 FAKTA (inline, verifiera mot knowledge om uppladdad):
-- Backend FREEZE 2026-06-16 — endast tunna callables + bugfix
-- P1 lucka: classifyInboxDocument routar; saknas preview-steg före reality_vault
-- Mål: preview JSON + HITL-knapp, ingen auto-WORM
+- P1/P2 LOCK — processBrusfilter + dossierAiForeword i prod
+- BACKEND-POLICY: research får föreslå backend_impact:YES; PMIR före implementation
+- Nästa: P3 Mönster, P4 MåBra coach, P5 Theme, P6 Dossier timeline (se flow-karta §4)
 - Filer: submitInkastLite.ts, inboxClassifier.ts, callableGuards.ts, CapturePanel.tsx
 - Tre silos — ingen cross-RAG
 
@@ -184,3 +184,18 @@ Gemini ska **granska** ChatBox-svar: "APPROVED / APPROVED WITH CHANGES / REJECTE
 ---
 
 *Uppdaterad: 2026-06-17*
+
+
+---
+
+## F. Flow P3–P7 — kandidater (efter system-gap-syntes)
+
+| ID | Fokus | Flow-roll | backend_impact |
+|----|-------|-----------|----------------|
+| P3 | Mönster-metadata | Assist på pattern scan | Ofta NO (prompt i sharedRules) |
+| P4 | MåBra coach | Parafras bank + bankId | Tunn callable möjlig |
+| P5 | Theme mockups | Antigravity/Flow bild | NO |
+| P6 | Dossier timeline | Strukturerad tidslinje LLM | Tunn wire i generateDossierInternal |
+| P7 | Hamn BIFF | Befintlig askGransArkitekten | DEFER Flow |
+
+Kör [`CURSOR-FLOW-CREDITS-SYNTHESIS.md`](./bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md) efter Deep Research för prioriterad ordning och kreditbudget.

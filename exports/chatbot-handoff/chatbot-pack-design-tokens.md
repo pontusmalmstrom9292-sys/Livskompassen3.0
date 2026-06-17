@@ -555,6 +555,22 @@ a.btn-pill--ghost:active:not(:disabled),
 .supermodule-hub-chrome {
 ⋮----
 .supermodule-hub-chrome .od-depth__eyebrow,
+⋮----
+.capacity-low {
+⋮----
+.capacity-low .calm-card,
+⋮----
+.capacity-low .glow-bottom-gold,
+⋮----
+.capacity-low .glow-bottom-gold::after,
+⋮----
+.capacity-low .bento-icon-box {
+⋮----
+.fyren-ambient-indicator {
+⋮----
+.fyren-ambient-indicator--normal {
+⋮----
+.fyren-ambient-indicator--low {
 ```
 
 ## File: src/index.css

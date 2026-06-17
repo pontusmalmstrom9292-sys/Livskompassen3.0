@@ -1,14 +1,30 @@
 # Senaste sammanfattning — systemstatus
 
-**Datum:** 2026-06-15 · **Gren:** `main` @ `ba2a1b3aa`+  
+**Datum:** 2026-06-18 · **Gren:** `main` @ `ba2a1b3aa`+  
 **Kanon:** [`2026-06-15-fas19-masterplan-v2.md`](./2026-06-15-fas19-masterplan-v2.md) · **Smoke:** [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md)
 
 ---
 
 ## Nuläge i en mening
 
-**Fas 19–24 levererad** — USER smoke #3/#4 **PASS** · Fas 19.6 arkiv **done** · **Hex P2 verifierad**. **Nästa:** M3.0-C (PMIR).
+**Fas 19 sprint DONE** (19.1–19.6) · P1/P2 Flow **LOCK** · MåBra 19.2–19.5 smoke PASS. **Nästa:** system-gap-syntes (Deep Research + Flow/krediter) · DEFER: M3.0-C Fitness/Näring, AI-assistent UI.
 
+
+
+---
+
+## Fas 19 sprint (2026-06-18)
+
+| Våg | Status | Eval |
+|-----|--------|------|
+| 19.1 security | **LOCK** | `2026-06-18-fas19-vag-19.1.md` |
+| 19.2 MåBra hybrid-8 | smoke PASS | `2026-06-18-fas19-vag-19.2.md` |
+| 19.3 hex→tokens | smoke PASS | `2026-06-18-fas19-vag-19.3.md` |
+| 19.4 JOY-17 bankId | smoke PASS | `2026-06-18-fas19-vag-19.4.md` |
+| 19.5 evolution_ledger | smoke PASS | `2026-06-18-fas19-vag-19.5.md` |
+| 19.6 arkiv-batch | **done** | `2026-06-18-fas19-leverans.md` |
+
+**Nästa research-våg:** `GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER` → `2026-06-18-system-gap-syntes.md`
 ---
 
 ## Levererat (Fas 13–23)
