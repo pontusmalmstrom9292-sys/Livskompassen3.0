@@ -467,7 +467,7 @@ Kurator-pass 2026-05-25 · linser: **identitet** (5) + **KBT light** (5). Ej dup
 |----|---------------|-------------|--------|------|-----|---------|
 | MB-REF-rsd-04 | REFLECTION | product_copy | KEEP | rsd_copy | panic_rsd | När något går fel i appen: det är ett tekniskt avbrott — inte ett meddelande om dig som person. |
 
-**UI-notering:** `MB-PLAY-54321` kräver interaktiv wizard i `MabraExerciseView` (våg 28 UI, ej prod-wire än). **REJECT:** cross-RAG Valv→MåBra för akutväg.
+**UI-notering:** `MB-PLAY-54321` prod-wire wizard (våg 28.1). `MB-REF-rsd-04` prod-wire coach/reflection felcopy (våg 28).
 
 **mabraCoachGuard:** MB-REF-rsd-04 gäller produktcopy — inte ex/konflikt (→ Speglar/Hamn).
 
