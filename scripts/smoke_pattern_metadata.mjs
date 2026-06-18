@@ -36,7 +36,15 @@ function main() {
     'PATTERN_SCAN_METADATA_COLLECTION',
     'writePatternScanMetadata',
     'rescanAllVaultPatternMetadata',
+    'assistFlowPatternMetadataForSource',
     'patternIdsHash',
+    "'FLOW'",
+  );
+  mustInclude(
+    'functions/src/lib/patternMetadataAssist.ts',
+    'suggestPatternIdsViaLlm',
+    'dcapGatePatternAssist',
+    'PATTERN_ASSIST_SYSTEM',
   );
   mustInclude(
     'functions/src/triggers/patternScanOnVaultCreate.ts',
@@ -47,12 +55,16 @@ function main() {
   mustInclude(
     'functions/src/callables/valv.ts',
     'rescanPatternMetadata',
+    'assistPatternMetadata',
     'writePatternScanMetadataCallable',
+    'assertRateLimit',
+    'ASSIST_PATTERN_METADATA_WINDOW_MS',
   );
   mustInclude(
     'functions/src/index.ts',
     'onVaultCreatePatternScan',
     'rescanPatternMetadata',
+    'assistPatternMetadata',
     'writePatternScanMetadataCallable',
   );
   mustInclude(
@@ -62,7 +74,12 @@ function main() {
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultMonsterPanel.tsx',
     'Skanna om',
+    'Flow-assist',
     'usePatternScanMetadata',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/api/patternScanService.ts',
+    'assistPatternMetadata',
   );
 
   console.log('[smoke:pattern-metadata] PASS');

@@ -1,8 +1,8 @@
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { onCall, HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
 
 import { askValvChat } from '../agents/valvChatAgent';
 import { generateDossierInternal } from '../lib/generateDossierInternal';
-import { rescanAllVaultPatternMetadata, writePatternScanMetadata } from '../lib/patternScanMetadata';
+import { rescanAllVaultPatternMetadata, writePatternScanMetadata, assistAllVaultFlowPatternMetadata, assistFlowPatternMetadataForSource, TACTIC_LIBRARY_VERSION } from '../lib/patternScanMetadata';
 import { addUserEntityProfile, loadEntityProfileBundle } from '../lib/entityProfileStore';
 import {
   assertVaultSession,
@@ -13,13 +13,30 @@ import {
   beginVaultWebAuthnChallenge,
   verifyVaultWebAuthnResponse,
 } from '../lib/vaultWebAuthn';
-import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { assertAppCheckV2, guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { assertRateLimit } from '../lib/rateLimit';
 import { geminiApiKey } from '../lib/geminiSecret';
 import type { EntityRole } from '../lib/entityProfileTypes';
 import type {
   AuthenticationResponseJSON,
   RegistrationResponseJSON,
 } from '@simplewebauthn/server';
+
+const ASSIST_PATTERN_METADATA_WINDOW_MS = 60 * 60 * 1000;
+
+/** P3 Flow-assist — auth + 2 anrop/timme per UID (PMIR-A). */
+async function guardAssistPatternMetadata(request: CallableRequest): Promise<string> {
+  assertAppCheckV2(request);
+  if (!request.auth) {
+    throw new HttpsError('unauthenticated', 'Autentisering krävs.');
+  }
+  if (process.env.REQUIRE_EMAIL_AUTH === 'true' && !request.auth.token.email_verified) {
+    throw new HttpsError('permission-denied', 'Verifierad e-post krävs för denna miljö.');
+  }
+  const uid = request.auth.uid;
+  await assertRateLimit(uid, 'assistPatternMetadata', 2, ASSIST_PATTERN_METADATA_WINDOW_MS);
+  return uid;
+}
 
 function readWebAuthnResponse(data: unknown): RegistrationResponseJSON | AuthenticationResponseJSON {
   const response = (data as { webAuthnResponse?: unknown })?.webAuthnResponse;
@@ -174,8 +191,34 @@ export const rescanPatternMetadata = onCall({ region: 'europe-west1' }, async (r
   const uid = await guardSensitiveCallableV2(request, 'rescanPatternMetadata', 3);
   await assertVaultSession(uid, request.data);
   const written = await rescanAllVaultPatternMetadata(uid);
-  return { written, libraryVersion: '2026.06.1' };
+  return { written, libraryVersion: TACTIC_LIBRARY_VERSION };
 });
+
+/** P3 Flow-assist — kompletterande metadata (FLOW-lager), DCAP före LLM, ingen WORM-mutation. */
+export const assistPatternMetadata = onCall(
+  { region: 'europe-west1', secrets: [geminiApiKey] },
+  async (request) => {
+    const uid = await guardAssistPatternMetadata(request);
+    await assertVaultSession(uid, request.data);
+    const sourceRef = String((request.data as { sourceRef?: unknown })?.sourceRef ?? '').trim();
+
+    try {
+      if (sourceRef) {
+        const docId = await assistFlowPatternMetadataForSource(
+          uid,
+          sourceRef,
+          geminiApiKey.value(),
+        );
+        return { written: docId ? 1 : 0, libraryVersion: TACTIC_LIBRARY_VERSION, docId };
+      }
+      const written = await assistAllVaultFlowPatternMetadata(uid, geminiApiKey.value(), 25);
+      return { written, libraryVersion: TACTIC_LIBRARY_VERSION };
+    } catch (error) {
+      console.error('[assistPatternMetadata] Fel:', error);
+      throw new HttpsError('internal', 'Flow-assist misslyckades.');
+    }
+  },
+);
 
 export const writePatternScanMetadataCallable = onCall(
   { region: 'europe-west1' },

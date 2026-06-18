@@ -6,7 +6,7 @@ import { EmptyState } from '@/core/ui/EmptyState';
 import type { VaultLog } from '@/core/types/firestore';
 import { buildVaultFrequencyReport } from '../utils/vaultPatternScan';
 import { usePatternScanMetadata } from '../hooks/usePatternScanMetadata';
-import { rescanPatternMetadata } from '../api/patternScanService';
+import { rescanPatternMetadata, assistPatternMetadata } from '../api/patternScanService';
 
 type Props = {
   logs: (VaultLog & { id: string })[];
@@ -34,6 +34,7 @@ function BarRow({ label, count, max }: { label: string; count: number; max: numb
 export function VaultMonsterPanel({ logs, userId }: Props) {
   const { techniquesByLogId, libraryVersion, reload } = usePatternScanMetadata(userId);
   const [rescanning, setRescanning] = useState(false);
+  const [assisting, setAssisting] = useState(false);
   const [rescanMsg, setRescanMsg] = useState<string | null>(null);
 
   const report = useMemo(
@@ -44,7 +45,7 @@ export function VaultMonsterPanel({ logs, userId }: Props) {
   const maxMonth = Math.max(...report.monthlyCounts.map((m) => m.count), 1);
 
   const handleRescan = async () => {
-    if (!userId || rescanning) return;
+    if (!userId || rescanning || assisting) return;
     setRescanning(true);
     setRescanMsg(null);
     try {
@@ -55,6 +56,25 @@ export function VaultMonsterPanel({ logs, userId }: Props) {
       setRescanMsg('Skanna om misslyckades — kontrollera Valv-session.');
     } finally {
       setRescanning(false);
+    }
+  };
+
+  const handleFlowAssist = async () => {
+    if (!userId || rescanning || assisting) return;
+    setAssisting(true);
+    setRescanMsg(null);
+    try {
+      const { written } = await assistPatternMetadata();
+      await reload();
+      setRescanMsg(
+        written > 0
+          ? `Flow-assist: ${written} kompletterande sidecar-poster.`
+          : 'Flow-assist: inga nya mönster utöver regex.',
+      );
+    } catch {
+      setRescanMsg('Flow-assist misslyckades — kontrollera Valv-session.');
+    } finally {
+      setAssisting(false);
     }
   };
 
@@ -70,7 +90,7 @@ export function VaultMonsterPanel({ logs, userId }: Props) {
     <div className="space-y-4">
       <BentoCard
         title="Frekvensanalys"
-        description="Pansaret · regex-lager (ingen LLM som sanning)"
+        description="Pansaret · regex + valfri Flow-assist (metadata)"
         icon={<BarChart3 className="h-4 w-4" />}
         glow="gold"
       >
@@ -93,7 +113,7 @@ export function VaultMonsterPanel({ logs, userId }: Props) {
         <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-border/40 pt-3">
           <button
             type="button"
-            disabled={!userId || rescanning}
+            disabled={!userId || rescanning || assisting}
             onClick={() => void handleRescan()}
             className="inline-flex items-center gap-1.5 rounded-lg border border-accent/30 bg-accent/5 px-3 py-1.5 text-xs text-accent hover:bg-accent/10 disabled:opacity-40"
           >
@@ -103,6 +123,17 @@ export function VaultMonsterPanel({ logs, userId }: Props) {
               <RefreshCw className="h-3.5 w-3.5" aria-hidden />
             )}
             Skanna om (batch)
+          </button>
+          <button
+            type="button"
+            disabled={!userId || rescanning || assisting}
+            onClick={() => void handleFlowAssist()}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-surface-3/40 px-3 py-1.5 text-xs text-text-muted hover:border-accent/30 hover:text-accent disabled:opacity-40"
+          >
+            {assisting ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
+            ) : null}
+            Flow-assist (kompletterande)
           </button>
           <span className="text-[10px] text-text-dim">Bibliotek {libraryVersion}</span>
           {rescanMsg ? <span className="text-[10px] text-text-muted">{rescanMsg}</span> : null}

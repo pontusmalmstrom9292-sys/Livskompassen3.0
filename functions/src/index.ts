@@ -30,6 +30,7 @@ export {
   valvChatQuery,
   generateDossier,
   rescanPatternMetadata,
+  assistPatternMetadata,
   writePatternScanMetadataCallable,
 } from './callables/valv';
 

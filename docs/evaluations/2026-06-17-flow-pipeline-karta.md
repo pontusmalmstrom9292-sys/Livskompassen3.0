@@ -74,7 +74,7 @@ Kartlägga var **Google Flow** (≈2000 krediter) ska användas utan att bryta L
 |-----------|---------|---------------|-------|----------------|
 | **P1 Brusfilter** | `processBrusfilter` + Inkast HITL | — | Låg | **LOCK** 2026-06-17 |
 | **P2 Dossier v2** | `dossierAiForeword` + `generateDossier` | — | Låg | **LOCK** 2026-06-17 |
-| **P3 Mönster-metadata** | Flow assist på `vaultPatternScan` | Låg | Låg | **KANDIDAT** (system-audit) |
+| **P3 Mönster-metadata** | `assistPatternMetadata` FLOW sidecar | Låg | Låg | **LOCK** (2026-06-18 PMIR-A) |
 | **P4 MåBra coach** | Flow parafras + `mabraCoach` bankId | Medel | Låg | **KANDIDAT** |
 | **P5 Theme mockups** | Antigravity / Flow bild | Låg | — | **KANDIDAT** |
 | **P6 Dossier timeline** | Flow strukturerad tidslinje | Medel | Låg | **KANDIDAT** |
@@ -285,11 +285,17 @@ Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta 
 
 ---
 
-## 11. Nästa gate — system-gap-syntes (2026-06-18)
+## 11. Gate — system-gap-syntes (2026-06-18) ✅
 
-1. Kör `GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER` + SA1–SA10 (parallellt)
-2. Spara till `docs/external-ai/imports/research-2026-06-18-*.md`
-3. Cursor-subagent: [`CURSOR-FLOW-CREDITS-SYNTHESIS.md`](../external-ai/bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md)
-4. Output: `docs/evaluations/2026-06-18-system-gap-syntes.md` — Top 5 Flow-experiment (~2000 krediter) + backend-PMIR-kandidater
+**Status:** Klar — [`2026-06-18-system-gap-syntes.md`](./2026-06-18-system-gap-syntes.md) · **våg 28 innehåll KEEP** (5 poster, `smoke:innehall` PASS).
+
+| Steg | Status |
+|------|--------|
+| MASTER + SA1–SA10 → `imports/research-2026-06-18-*.md` | Done |
+| Dirigent → `imports/research-2026-06-18-content-master.md` | Done |
+| Cursor [`CURSOR-FLOW-CREDITS-SYNTHESIS.md`](../external-ai/bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md) | Done |
+| PMIR-A P3 vald (Mönster) — Worker A äger eval | Pågår |
+
+**Nästa gate:** PMIR-B (P4 MåBra) eller PMIR-C (P6 Dossier) — en i taget efter P3 smoke/deploy.
 
 **BACKEND-POLICY:** Research får föreslå nya callables; varje backend-ändring = egen PMIR → smoke → ny LOCK.
