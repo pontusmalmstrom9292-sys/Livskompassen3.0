@@ -4737,57 +4737,6 @@
     @apply max-w-full truncate text-center text-[9px] leading-tight tracking-wide text-text-dim;
   }
 
-  /* BIFF + Röst — vingar på sidorna av Fyren-handtaget */
-  .fyren-dock-wing-row {
-    @apply pointer-events-auto z-[55] mb-0.5 flex flex-row items-end justify-center gap-1.5;
-  }
-
-  .fyren-dock-wing {
-    @apply flex min-h-[44px] min-w-[3.35rem] flex-col items-center justify-center gap-0.5 rounded-xl border px-2 py-1.5 text-text transition-colors;
-    border-color: color-mix(in srgb, var(--accent-light) 52%, transparent);
-    background: linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--surface-2) 96%, transparent) 0%,
-      color-mix(in srgb, var(--bg) 88%, transparent) 100%
-    );
-    backdrop-filter: blur(14px);
-    box-shadow:
-      0 4px 16px rgba(0, 0, 0, 0.42),
-      0 0 12px color-mix(in srgb, var(--accent) 10%, transparent),
-      inset 0 1px 0 rgba(255, 248, 220, 0.08);
-  }
-
-  .fyren-dock-wing--left {
-    margin-bottom: 0.12rem;
-  }
-
-  .fyren-dock-wing--right {
-    margin-bottom: 0.12rem;
-  }
-
-  .fyren-dock-wing:hover {
-    @apply text-accent;
-    border-color: color-mix(in srgb, var(--accent-light) 72%, transparent);
-    background: color-mix(in srgb, var(--surface-3) 96%, transparent);
-    box-shadow:
-      0 6px 20px rgba(0, 0, 0, 0.45),
-      0 0 18px color-mix(in srgb, var(--accent) 18%, transparent);
-  }
-
-  .fyren-dock-wing__glyph {
-    @apply h-[1.15rem] w-[1.15rem] shrink-0 text-accent-light;
-    filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.28));
-  }
-
-  .fyren-dock-wing__glyph--note {
-    height: 1.3rem;
-    width: 1.3rem;
-  }
-
-  .fyren-dock-wing__label {
-    @apply text-[9px] font-semibold uppercase tracking-[0.16em] text-accent-light;
-  }
-
   .fyren-widget-bar__action:hover .fyren-widget-bar__label {
     @apply text-accent;
   }

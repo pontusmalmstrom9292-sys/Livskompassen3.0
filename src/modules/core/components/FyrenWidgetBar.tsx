@@ -1,6 +1,7 @@
-import type { CSSProperties, ReactNode } from 'react';
+import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
+import { LayoutPanelLeft } from 'lucide-react';
 import { hasVaultGate } from '../auth/sessionService';
 import { NAV_PATHS } from '../navigation/navTruth';
 import { useStore } from '../store';
@@ -8,6 +9,7 @@ import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Ic
 import { FyrenProgressRing } from '../ui/FyrenProgressRing';
 import { FyrenShortcutMicIcon, FyrenShortcutNoteIcon } from '../ui/widget-icons';
 import { useFyrenWidget } from './fyrenWidgetContext';
+import { readFyrenSideQuickHidden, setFyrenSideQuickHidden } from './FyrenSideQuickDock';
 
 type WidgetIconKind = 'mic' | 'note';
 
@@ -100,6 +102,16 @@ export function FyrenWidgetBar() {
   const { open, setOpen } = useFyrenWidget();
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const vaultSessionOpen = isVaultUnlocked || hasVaultGate();
+  const [sideQuickHidden, setSideQuickHidden] = useState(readFyrenSideQuickHidden);
+
+  const syncSideQuickHidden = useCallback(() => {
+    setSideQuickHidden(readFyrenSideQuickHidden());
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('fyren-side-quick-visibility', syncSideQuickHidden);
+    return () => window.removeEventListener('fyren-side-quick-visibility', syncSideQuickHidden);
+  }, [syncSideQuickHidden]);
 
   if (location.pathname.startsWith('/widget')) return null;
 
@@ -137,6 +149,23 @@ export function FyrenWidgetBar() {
               />
             );
           })}
+          {sideQuickHidden ? (
+            <button
+              type="button"
+              className="fyren-widget-bar__action"
+              aria-label="Visa sidofält"
+              tabIndex={open ? 0 : -1}
+              onClick={() => {
+                setFyrenSideQuickHidden(false);
+                setOpen(false);
+              }}
+            >
+              <span className="fyren-widget-bar__icon-shell dock-nav-btn__icon-shell dock-nav-btn__icon-shell--calm">
+                <LayoutPanelLeft className="fyren-widget-bar__drawer-l2" strokeWidth={1.75} aria-hidden />
+              </span>
+              <span className="fyren-widget-bar__label">Sidofält</span>
+            </button>
+          ) : null}
         </div>
       </div>
     </>
