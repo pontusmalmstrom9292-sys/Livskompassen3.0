@@ -38,6 +38,10 @@ globs: src/**/*.tsx, src/**/*.css
 
 7. **FÖRBJUDET:** Naturtema, regnbågsgradienter, streak/XP, turkos/indigo som **aktiv** chrome (se [`docs/design/COLOR-POLICY.md`](../../docs/design/COLOR-POLICY.md)), count-up på siffror, ljusa bakgrunder, `rounded` under `2xl` på centrala modulkort.
 
+## Undantag — Design Freeport (sandbox)
+
+Gäller **inte** `src/modules/sandbox/**`, `src/styles/design-freeport.css`, eller routes `/dev/design-freeport*`. Där gäller Tactile Mid-Depth med fria `--fp-*` tokens.
+
 ## Implementering (kod)
 
 - **CSS:** [`src/styles/obsidian-calm-2.css`](../../src/styles/obsidian-calm-2.css) — importeras sist i [`src/index.css`](../../src/index.css).

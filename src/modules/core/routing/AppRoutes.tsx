@@ -104,6 +104,16 @@ const ObsidianForgeLabPage = lazy(() =>
     default: m.ObsidianForgeLabPage,
   })),
 );
+const ObsidianDepthV2LabPage = lazy(() =>
+  import('../pages/ObsidianDepthV2LabPage').then((m) => ({
+    default: m.ObsidianDepthV2LabPage,
+  })),
+);
+const DesignFreeportPage = lazy(() =>
+  import('@/modules/sandbox/DesignFreeportPage').then((m) => ({
+    default: m.DesignFreeportPage,
+  })),
+);
 const DagensAnkareLabPage = lazy(() =>
   import('../pages/DagensAnkareLabPage').then((m) => ({
     default: m.DagensAnkareLabPage,
@@ -282,6 +292,14 @@ export function AppRoutes() {
   return (
     <Routes>
       <Route path="/widget/*" element={<WidgetRoutes />} />
+      <Route
+        path="/dev/design-freeport"
+        element={
+          <Suspense fallback={<RouteFallback />}>
+            <DesignFreeportPage />
+          </Suspense>
+        }
+      />
       <Route
         path="/*"
         element={
@@ -523,6 +541,7 @@ export function AppRoutes() {
               <Route path="/dev/hub-lab" element={<HubLabPage />} />
               <Route path="/dev/obsidian-depth" element={<ObsidianDepthMockupPage />} />
               <Route path="/dev/obsidian-forge" element={<ObsidianForgeLabPage />} />
+              <Route path="/dev/obsidian-depth-v2" element={<ObsidianDepthV2LabPage />} />
               <Route path="/dev/dagens-ankare" element={<DagensAnkareLabPage />} />
               {MemoryTestView ? (
                 <Route path="/dev/memory-test" element={<MemoryTestView />} />

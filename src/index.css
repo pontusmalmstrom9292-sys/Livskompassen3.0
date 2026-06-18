@@ -4,6 +4,7 @@
 @import './styles/obsidian-forge-lab.css';
 @import './styles/redesign-a-nordic-precision.css';
 @import './styles/brushed-brass-neu.css';
+@import './styles/design-freeport.css';
 
 @tailwind base;
 @tailwind components;

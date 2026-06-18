@@ -106,6 +106,9 @@ export function ObsidianDepthMockupPage() {
           <Link to="/dev/theme-lab" className="btn-pill--ghost text-xs">
             Theme Lab
           </Link>
+          <Link to="/dev/obsidian-depth-v2" className="btn-pill--accent text-xs">
+            Depth v2 (Hem v3)
+          </Link>
           <Link to="/" className="btn-pill--ghost text-xs">
             Hem (prod)
           </Link>
