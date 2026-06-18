@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pack D — Arctic Paper · 28 skärmar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="tokens.css" />
+  <style>
+    :root { --phone-frame: linear-gradient(155deg, #cbd5e1, #94a3b8); }
+    
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--font); color: var(--text); background: var(--bg-page); }
+.page-head { padding: 1.5rem 1rem; text-align: center; border-bottom: 1px solid var(--border); }
+.page-head a { color: var(--accent); font-size: 0.85rem; }
+.page-head h1 { margin: 0.4rem 0; font-family: var(--serif); color: var(--accent-2); }
+.page-head p, .mood-board { color: var(--muted); font-size: 0.85rem; max-width: 36rem; margin: 0.5rem auto; line-height: 1.5; }
+.mood-swatches { display: flex; gap: 0.5rem; justify-content: center; margin: 1rem 0; }
+.swatch { width: 48px; height: 48px; border-radius: 8px; border: 1px solid var(--border); }
+.gallery { display: flex; flex-wrap: wrap; gap: 1.75rem; justify-content: center; padding: 2rem 1rem 3rem; }
+.screen-wrap { text-align: center; max-width: 320px; }
+.screen-wrap h2 { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.6rem; }
+.phone { width: 300px; height: 700px; border-radius: 28px; padding: 10px; background: var(--phone-frame, #333); box-shadow: var(--shadow); }
+.phone-inner { width: 100%; height: 100%; border-radius: 20px; overflow: hidden; background: var(--bg); display: flex; flex-direction: column; position: relative; }
+.status { height: 22px; font-size: 0.65rem; color: var(--muted); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.app-header { display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 0.55rem; border-bottom: 1px solid var(--border); background: var(--surface); flex-shrink: 0; }
+.app-header--greeting { padding: 0.5rem 0.45rem; }
+.chip { width: 32px; height: 32px; border-radius: 9px; background: var(--surface-2); display: grid; place-items: center; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--border); }
+.hdr-center { flex: 1; text-align: center; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+.greeting-block { flex: 1; min-width: 0; text-align: center; }
+.greeting { font-family: var(--serif); font-size: 1.05rem; margin: 0; line-height: 1.12; font-weight: 500; }
+.greeting-sub { font-size: 0.54rem; color: var(--accent); margin: 0.2rem 0 0; opacity: 0.85; }
+.zone-brand { text-align: center; padding: 0.35rem; font-size: 0.55rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); flex-shrink: 0; border-bottom: 1px solid var(--border); }
+.supermod { display: flex; justify-content: space-around; padding: 0.35rem; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.sm { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; font-size: 0.75rem; background: var(--surface-2); border: 1px solid var(--border); color: var(--muted); }
+.sm.on { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 25%, transparent); }
+.tabs { display: flex; gap: 0.25rem; padding: 0.4rem 0.5rem; overflow-x: auto; flex-shrink: 0; border-bottom: 1px solid var(--border); }
+.tab { flex-shrink: 0; padding: 0.3rem 0.5rem; border-radius: 999px; font-size: 0.58rem; color: var(--muted); border: 1px solid transparent; }
+.tab.on { color: var(--accent); border-color: var(--border); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.content { flex: 1; min-height: 0; overflow-y: auto; padding: 0.5rem; display: flex; flex-direction: column; gap: 0.45rem; }
+.card { background: var(--surface); border-radius: var(--radius); padding: 0.65rem 0.7rem; border: 1px solid var(--border); text-align: left; }
+.card h3 { margin: 0 0 0.35rem; font-family: var(--serif); font-size: 0.85rem; color: var(--text); }
+.card .sub { margin: 0 0 0.35rem; font-size: 0.52rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; }
+.card .body, .card .body-inset { margin: 0; font-size: 0.62rem; line-height: 1.45; color: var(--muted); }
+.body-inset { background: var(--surface-2); padding: 0.45rem; border-radius: 8px; margin-top: 0.35rem !important; }
+.btn { display: block; width: 100%; margin-top: 0.5rem; padding: 0.45rem; border: none; border-radius: 8px; background: var(--accent); color: var(--bg-page); font-size: 0.58rem; font-weight: 600; cursor: default; }
+.btn-wide { max-width: 220px; margin: 1rem auto 0; }
+.muted { color: var(--muted); font-size: 0.58rem; }
+.lbl { font-size: 0.52rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 0 0 0.35rem; }
+.zones { display: flex; gap: 0.25rem; margin-top: 0.45rem; }
+.z { flex: 1; text-align: center; padding: 0.28rem; border-radius: 999px; font-size: 0.48rem; background: var(--surface-2); color: var(--muted); }
+.z.on { color: var(--accent); border: 1px solid var(--border); }
+.grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.25rem; margin-top: 0.35rem; }
+.mini { padding: 0.35rem 0.2rem; border-radius: 8px; font-size: 0.48rem; background: var(--surface-2); color: var(--muted); text-align: center; }
+.mini.on { border: 1px solid var(--accent); color: var(--accent); }
+.drawer-layout { flex: 1; position: relative; display: flex; flex-direction: column; min-height: 0; }
+.dim { position: absolute; inset: 0; background: rgba(0,0,0,0.4); z-index: 2; }
+.drawer { position: absolute; top: 0; left: 0; bottom: 0; width: 72%; z-index: 3; background: var(--surface); padding: 0.75rem; border-right: 1px solid var(--border); text-align: left; }
+.drawer-sec { font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin: 0.5rem 0 0.25rem; }
+.drawer-row { font-size: 0.62rem; padding: 0.35rem 0; color: var(--muted); border-bottom: 1px solid var(--border); }
+.drawer-row.on { color: var(--accent); font-weight: 600; }
+.fyren-bar { display: flex; justify-content: space-around; margin-top: 0.5rem; font-size: 0.55rem; color: var(--muted); }
+.fyren-bar .on { color: var(--accent); font-size: 0.85rem; }
+.login-screen { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; }
+.login-mark { font-size: 2rem; color: var(--accent); }
+.login-title { font-family: var(--serif); font-size: 1.2rem; margin: 0.5rem 0 0.25rem; }
+.login-lead { font-size: 0.65rem; color: var(--muted); margin-bottom: 1rem; }
+.check { font-size: 0.62rem; margin: 0.2rem 0; }
+.kanban { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.35rem; font-size: 0.55rem; }
+.col-lbl { display: block; font-size: 0.48rem; color: var(--accent); margin-bottom: 0.25rem; text-transform: uppercase; }
+.stat { font-family: var(--serif); font-size: 1.1rem; margin: 0; }
+.sms { font-size: 0.58rem; font-style: italic; color: var(--muted); margin: 0 0 0.35rem; }
+.stamp { font-size: 0.48rem; color: var(--accent); margin: 0 0 0.35rem; }
+.pin-card { text-align: center; }
+.pin-dots { font-size: 1rem; letter-spacing: 0.35rem; margin: 0.5rem 0; color: var(--accent); }
+.mood { display: flex; gap: 0.5rem; justify-content: center; font-size: 1.2rem; margin-top: 0.5rem; }
+.zone-nav { flex-shrink: 0; display: flex; justify-content: space-around; padding: 0.35rem 0.25rem 0.5rem; border-top: 1px solid var(--border); background: var(--surface); }
+.zone-nav-item { font-size: 0.42rem; color: var(--muted); text-align: center; flex: 1; }
+.zone-nav-item.on { color: var(--accent); }
+.zone-nav-icon { display: block; width: 28px; height: 28px; margin: 0 auto 0.08rem; border-radius: 8px; background: var(--surface-2); line-height: 28px; font-size: 0.65rem; border: 1px solid transparent; }
+.zone-nav-item.on .zone-nav-icon { border-color: var(--border); }
+
+  </style>
+</head>
+<body>
+  <div class="page-head">
+    <a href="index.html">← Mood board</a> · <a href="../COMPARISON.html">Jämför alla</a>
+    <h1>Pack D — Arctic Paper</h1>
+    <p>Ljus · Luft · Teal · 28 skärmar · samma innehåll (UI-CONTENT-MATRIX)</p>
+  </div>
+  <div class="gallery"><div class="screen-wrap"><h2>Hem hub</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header app-header--greeting">
+  <span class="chip">☰</span>
+  <div class="greeting-block"><p class="greeting">God morgon, Pontus</p><p class="greeting-sub">Onsdag · ett steg i taget</p></div>
+  <span class="chip">K</span></div><p class="zone-brand">Livskompassen — Hem</p>
+        <div class="supermod"><span class="sm">☑</span><span class="sm">+</span><span class="sm on">📖</span><span class="sm">◉</span></div>
+        <div class="content"><div class="card"><h3>Lugnt samtal med barnen efter skolan</h3><p class="sub">18 juni</p><p class="body-inset">Imorse: lite trött men lugn. Barnen verkade trygga.</p><button class="btn">Spara rad</button><div class="zones"><span class="z on">Utveckling</span><span class="z">Minne</span><span class="z">Quiz</span></div></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Hem · kort öppet</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header app-header--greeting">
+  <span class="chip">☰</span>
+  <div class="greeting-block"><p class="greeting">God morgon, Pontus</p><p class="greeting-sub">Onsdag · ett steg i taget</p></div>
+  <span class="chip">K</span></div><p class="zone-brand">Livskompassen — Hem</p>
+        <div class="content"><div class="card"><h3>Lugnt samtal med barnen efter skolan</h3><p class="body-inset">Imorse: lite trött men lugn. Barnen verkade trygga.</p></div>
+        <div class="card"><p class="lbl">Utvecklingskort</p><div class="grid3"><span class="mini">Själv</span><span class="mini on">Trygg</span><span class="mini">Närvaro</span><span class="mini">Gränser</span><span class="mini">RSD</span><span class="mini">Vila</span></div></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Drawer Vardag</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Meny</span><span class="chip">K</span></div><div class="drawer-layout"><div class="content"><div class="dim"></div><div class="drawer"><p class="drawer-sec">Vardag</p><p class="drawer-row on">✦ Hem</p><p class="drawer-row">▣ Vardagen</p><p class="drawer-row">♥ Hjärtat</p><p class="drawer-row">👥 Familjen</p></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Drawer Valv</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Meny</span><span class="chip">K</span></div><div class="drawer-layout"><div class="content"><div class="dim"></div><div class="drawer"><p class="drawer-sec">Valv</p><p class="drawer-row on">⌁ Logga</p><p class="drawer-row">◈ Mönster</p><p class="drawer-row">◎ Orkester</p><p class="drawer-row">▤ Kunskap</p></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item on"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Fyren widget</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Planering</span><span class="chip">K</span></div><div class="content"><div class="card"><h3>Fyren</h3><p class="muted">Inspelning · Anteckning · Check-in · Röst</p><div class="fyren-bar"><span>W1</span><span>W2</span><span class="on">✦</span><span>W4</span></div></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item on"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Login</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="login-screen"><p class="login-mark">✦</p><h2 class="login-title">Livskompassen</h2><p class="login-lead">Livskompassen · privat och krypterat</p><button class="btn btn-wide">Fortsätt med Google</button></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Dagbok</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Hjärtat</span><span class="chip">K</span></div><div class="tabs"><span class="tab on">Dagbok</span><span class="tab">Speglar</span></div><div class="content"><div class="card"><h3>Dagbok</h3><p class="body">Imorse: lite trött men lugn. Barnen verkade trygga.</p><button class="btn">Spara</button></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item on"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Speglar</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Hjärtat</span><span class="chip">K</span></div><div class="tabs"><span class="tab">Dagbok</span><span class="tab on">Speglar</span></div><div class="content"><div class="card"><h3>Speglar</h3><p class="muted">Vad känns i kroppen just nu — utan att fixa?</p><p class="body-inset">Jag känner mig…</p></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item on"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Kompass</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Vardagen</span><span class="chip">K</span></div><div class="tabs"><span class="tab on">Kompass</span><span class="tab">MåBra</span><span class="tab">Planering</span></div><div class="content"><div class="card"><h3>Morgonkompass</h3><p class="check">✓ Vatten + medicin</p><p class="check">✓ 3 min mindfulness</p><p class="muted">Lugn · Nivå 2</p></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item on"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>MåBra</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Vardagen</span><span class="chip">K</span></div><div class="tabs"><span class="tab">Kompass</span><span class="tab on">MåBra</span><span class="tab">Planering</span></div><div class="content"><div class="card"><h3>MåBra</h3><p class="body">Andning 4–6 · ett varv räcker</p><button class="btn">Starta</button></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item on"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Planering</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Vardagen</span><span class="chip">K</span></div><div class="tabs"><span class="tab">Kompass</span><span class="tab">MåBra</span><span class="tab on">Planering</span></div><div class="content"><div class="card"><h3>Kanban P3</h3><div class="kanban"><div><span class="col-lbl">Todo</span><p>Ring skola</p></div><div><span class="col-lbl">Väntar</span><p>Svar från advokat</p></div><div><span class="col-lbl">Klar</span><p>Simma</p></div></div></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item on"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Arbetsliv</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Vardagen</span><span class="chip">K</span></div><div class="tabs"><span class="tab">Kompass</span><span class="tab on">Arbetsliv</span><span class="tab">Ekonomi</span></div><div class="content"><div class="card"><h3>Stämpelklocka</h3><p class="body">08:02 — Pågående pass</p><button class="btn">Stämpla ut</button></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item on"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Ekonomi</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Vardagen</span><span class="chip">K</span></div><div class="tabs"><span class="tab">Planering</span><span class="tab on">Ekonomi</span><span class="tab">Drogfrihet</span></div><div class="content"><div class="card"><h3>Saldo</h3><p class="stat">12 450 kr</p><p class="muted">Mat · −420 kr igår</p></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item on"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Drogfrihet</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Vardagen</span><span class="chip">K</span></div><div class="tabs"><span class="tab">Ekonomi</span><span class="tab on">Drogfrihet</span></div><div class="content"><div class="card"><h3>Nykterhet</h3><p class="stat">47 dagar</p><p class="muted">En dag i taget</p></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item on"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Barnfokus</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Familjen</span><span class="chip">K</span></div><div class="tabs"><span class="tab on">Barnfokus</span><span class="tab">Hamn</span></div><div class="content"><div class="card"><h3>Barnfokus</h3><p class="body">Vad gjorde dig glad idag, Kasper?</p><button class="btn">Spara till Kaspers logg</button></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item on"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Livslogg</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Familjen</span><span class="chip">K</span></div><div class="tabs"><span class="tab">Barnfokus</span><span class="tab on">Livslogg</span><span class="tab">Tillsammans</span></div><div class="content"><div class="card"><h3>Livslogg</h3><p class="body">Arvid verkade trött efter skolan.</p></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item on"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Tillsammans</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Familjen</span><span class="chip">K</span></div><div class="tabs"><span class="tab">Livslogg</span><span class="tab on">Tillsammans</span></div><div class="content"><div class="card"><h3>Frekvens</h3><p class="muted">Vecka med barnen · stabil rytm</p></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item on"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Trygg Hamn</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Familjen</span><span class="chip">K</span></div><div class="tabs"><span class="tab">Barnfokus</span><span class="tab on">Hamn</span></div><div class="content"><div class="card"><h3>BIFF</h3><p class="sms">«Du svarar aldrig i tid. Barnen lider.»</p><p class="body-inset">Noterat. Hämtning 17:00 enligt schema. /Pontus</p><p class="muted">Grey Rock · ingen JADE</p></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item on"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Barnporten förälder</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Barnporten</span><span class="chip">K</span></div><div class="content"><div class="card"><h3>Senaste inkast</h3><p class="body">Hej pappa, jag saknar dig · igår 19:22</p><button class="btn">Granska · HITL</button></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item on"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Valv PIN</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Valv</span><span class="chip">K</span></div><div class="content"><div class="card pin-card"><p class="lbl">Ange PIN</p><div class="pin-dots">● ● ● ○</div><p class="muted">WebAuthn tillgängligt</p></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item on"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Valv Logga</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Valv</span><span class="chip">K</span></div><div class="tabs"><span class="tab on">Logga</span><span class="tab">Mönster</span><span class="tab">Orkester</span></div><div class="content"><div class="card"><h3>Bevis</h3><p class="stamp">SERVER-TIDSSTÄMPEL · 2026-06-17T21:04:12Z</p><p class="body">Sms tråd · schema 12 jun</p></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item on"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Mönster</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Valv</span><span class="chip">K</span></div><div class="tabs"><span class="tab">Logga</span><span class="tab on">Mönster</span><span class="tab">Orkester</span></div><div class="content"><div class="card"><h3>Mönster</h3><p class="body">DARVO · 3 träffar sen 90 d</p></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item on"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Orkester</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Valv</span><span class="chip">K</span></div><div class="tabs"><span class="tab">Mönster</span><span class="tab on">Orkester</span><span class="tab">Dossier</span></div><div class="content"><div class="card"><h3>Orkester</h3><p class="body">Brusfiltret · Sannings-Analytikern · Mönster-Arkivarien</p></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item on"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Kunskapsbank</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Valv</span><span class="chip">K</span></div><div class="tabs"><span class="tab">Orkester</span><span class="tab on">Kunskap</span><span class="tab">Aktörer</span></div><div class="content"><div class="card"><h3>Kunskapsbank</h3><p class="body">covert_taktik · DARVO · gaslighting</p></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item on"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Aktörskarta</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Valv</span><span class="chip">K</span></div><div class="tabs"><span class="tab">Kunskap</span><span class="tab on">Aktörskarta</span></div><div class="content"><div class="card"><h3>Taktiker A</h3><p class="muted">Manuell metadata · append-only</p><button class="btn">Lägg till aktör</button></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item on"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Dossier</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Valv</span><span class="chip">K</span></div><div class="tabs"><span class="tab">Orkester</span><span class="tab on">Dossier</span></div><div class="content"><div class="card"><h3>Dossier</h3><p class="muted">Immutable snapshot · WORM</p><button class="btn">Generera utkast</button></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item on"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Inställningar</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Inställningar</span><span class="chip">K</span></div><div class="content"><div class="card"><h3>Konto</h3><p class="body">Pontus · Google</p><p class="muted">Device Clear · Zero Footprint</p></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div>
+<div class="screen-wrap"><h2>Barnporten PWA</h2><div class="phone"><div class="phone-inner">
+  <div class="status">9:41</div>
+  <div class="app-header"><span class="chip">☰</span><span class="hdr-center">Hej Kasper!</span><span class="chip">K</span></div><div class="content"><div class="card"><h3>Barnporten</h3><p class="body">Hur känns det just nu?</p><div class="mood">🙂 😐 😢</div></div></div>
+  <nav class="zone-nav"><span class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</span><span class="zone-nav-item"><span class="zone-nav-icon">✓</span>Vardagen</span><span class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</span><span class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</span></nav>
+</div></div></div></div>
+</body>
+</html>

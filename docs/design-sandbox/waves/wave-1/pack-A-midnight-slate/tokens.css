@@ -1,0 +1,15 @@
+:root {
+  --bg: #0c1219;
+  --bg-page: #060a10;
+  --surface: #141c26;
+  --surface-2: #1a2430;
+  --text: #e8edf2;
+  --muted: #8b9cb0;
+  --accent: #7eb8da;
+  --accent-2: #a8d4ef;
+  --border: rgba(126,184,218,0.22);
+  --radius: 14px;
+  --font: 'DM Sans', system-ui, sans-serif;
+  --serif: 'Fraunces', Georgia, serif;
+  --shadow: 0 12px 32px rgba(0,0,0,0.45);
+}

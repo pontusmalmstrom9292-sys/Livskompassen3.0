@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wave 1 — Jämför 5 stilar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, system-ui; background: #080c12; color: #e2e8f0; }
+    header { text-align: center; padding: 2rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    header h1 { margin: 0.5rem 0; font-size: 1.4rem; color: #d4af37; }
+    header p { color: #94a3b8; max-width: 40rem; margin: 0 auto; line-height: 1.55; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; max-width: 1200px; margin: 0 auto; padding: 2rem 1rem 3rem; }
+    .pack-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 1rem; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.65rem; }
+    .pack-id { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pack-accent); }
+    .pack-card h2 { margin: 0.25rem 0 0; font-size: 1.15rem; }
+    .mood { font-size: 0.82rem; color: #94a3b8; margin: 0; }
+    .swatches { display: flex; gap: 0.35rem; }
+    .swatches span { width: 28px; height: 28px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); }
+    .thumb-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.35rem; }
+    .thumb { height: 64px; border-radius: 8px; border: 1px solid; display: grid; place-items: center; font-size: 0.65rem; color: rgba(255,255,255,0.7); }
+    .pack-card a { font-size: 0.82rem; color: #94a3b8; }
+    .pack-card a.primary { color: #0a0e14; background: var(--pack-accent); padding: 0.5rem 0.75rem; border-radius: 8px; text-align: center; text-decoration: none; font-weight: 600; margin-top: 0.25rem; }
+    footer { text-align: center; padding: 1.5rem; font-size: 0.8rem; color: #64748b; }
+    footer a { color: #d4af37; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>UI Wave 1 — välj stil</h1>
+    <p>5 nya estetiska riktningar · 28 skärmar vardera · samma innehåll. Bläddra gallerierna och skriv ditt val i <a href="../../UI-VAL-LOG.md">UI-VAL-LOG.md</a>.</p>
+  </header>
+  <div class="grid">
+    <article class="pack-card" style="--pack-accent:#7eb8da">
+      <header><span class="pack-id">Pack A</span><h2>Midnight Slate</h2></header>
+      <p class="mood">Kylig · Precis · Natt</p>
+      <div class="swatches">
+        <span style="background:#0c1219"></span><span style="background:#7eb8da"></span><span style="background:#e8edf2"></span>
+      </div>
+      <div class="thumb-grid">
+        <div class="thumb" style="background:#0c1219;border-color:rgba(126,184,218,0.22)"><small>Hem</small></div>
+        <div class="thumb" style="background:#141c26;border-color:#7eb8da"><small>Valv</small></div>
+        <div class="thumb" style="background:#1a2430;border-color:rgba(126,184,218,0.22)"><small>Familj</small></div>
+      </div>
+      <a href="pack-A-midnight-slate/index.html">Mood board</a>
+      <a href="pack-A-midnight-slate/gallery.html" class="primary">28 skärmar →</a>
+    </article>
+    <article class="pack-card" style="--pack-accent:#7cba92">
+      <header><span class="pack-id">Pack B</span><h2>Forest Recovery</h2></header>
+      <p class="mood">Organisk · Lugn · Moss</p>
+      <div class="swatches">
+        <span style="background:#0f1a14"></span><span style="background:#7cba92"></span><span style="background:#e8dcc8"></span>
+      </div>
+      <div class="thumb-grid">
+        <div class="thumb" style="background:#0f1a14;border-color:rgba(124,186,146,0.28)"><small>Hem</small></div>
+        <div class="thumb" style="background:#152019;border-color:#7cba92"><small>Valv</small></div>
+        <div class="thumb" style="background:#1c2a22;border-color:rgba(124,186,146,0.28)"><small>Familj</small></div>
+      </div>
+      <a href="pack-B-forest-recovery/index.html">Mood board</a>
+      <a href="pack-B-forest-recovery/gallery.html" class="primary">28 skärmar →</a>
+    </article>
+    <article class="pack-card" style="--pack-accent:#c87941">
+      <header><span class="pack-id">Pack C</span><h2>Copper Forge</h2></header>
+      <p class="mood">Värme · Hantverk · Glöd</p>
+      <div class="swatches">
+        <span style="background:#1a1410"></span><span style="background:#c87941"></span><span style="background:#f5e6d3"></span>
+      </div>
+      <div class="thumb-grid">
+        <div class="thumb" style="background:#1a1410;border-color:rgba(200,121,65,0.32)"><small>Hem</small></div>
+        <div class="thumb" style="background:#241c16;border-color:#c87941"><small>Valv</small></div>
+        <div class="thumb" style="background:#2e241c;border-color:rgba(200,121,65,0.32)"><small>Familj</small></div>
+      </div>
+      <a href="pack-C-copper-forge/index.html">Mood board</a>
+      <a href="pack-C-copper-forge/gallery.html" class="primary">28 skärmar →</a>
+    </article>
+    <article class="pack-card" style="--pack-accent:#0d9488">
+      <header><span class="pack-id">Pack D</span><h2>Arctic Paper</h2></header>
+      <p class="mood">Ljus · Luft · Teal</p>
+      <div class="swatches">
+        <span style="background:#f4f6f8"></span><span style="background:#0d9488"></span><span style="background:#1e293b"></span>
+      </div>
+      <div class="thumb-grid">
+        <div class="thumb" style="background:#f4f6f8;border-color:rgba(13,148,136,0.25)"><small>Hem</small></div>
+        <div class="thumb" style="background:#ffffff;border-color:#0d9488"><small>Valv</small></div>
+        <div class="thumb" style="background:#eef2f5;border-color:rgba(13,148,136,0.25)"><small>Familj</small></div>
+      </div>
+      <a href="pack-D-arctic-paper/index.html">Mood board</a>
+      <a href="pack-D-arctic-paper/gallery.html" class="primary">28 skärmar →</a>
+    </article>
+    <article class="pack-card" style="--pack-accent:#a78bfa">
+      <header><span class="pack-id">Pack E</span><h2>Ink Lavender</h2></header>
+      <p class="mood">Drömsk · Kontrast · Nattviolett</p>
+      <div class="swatches">
+        <span style="background:#120e18"></span><span style="background:#a78bfa"></span><span style="background:#e9e0ff"></span>
+      </div>
+      <div class="thumb-grid">
+        <div class="thumb" style="background:#120e18;border-color:rgba(167,139,250,0.28)"><small>Hem</small></div>
+        <div class="thumb" style="background:#1a1524;border-color:#a78bfa"><small>Valv</small></div>
+        <div class="thumb" style="background:#221c30;border-color:rgba(167,139,250,0.28)"><small>Familj</small></div>
+      </div>
+      <a href="pack-E-ink-lavender/index.html">Mood board</a>
+      <a href="pack-E-ink-lavender/gallery.html" class="primary">28 skärmar →</a>
+    </article></div>
+  <footer><a href="../../mockups/index.html">← Design sandbox mockups</a></footer>
+</body>
+</html>

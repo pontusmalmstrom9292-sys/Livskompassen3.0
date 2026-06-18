@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>★ Hem v3 + Compass Life OS — merge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="hem-v3-styles.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: var(--font); color: var(--text); background: #060a12; }
+    .note {
+      max-width: 560px; margin: 0.65rem auto 0; padding: 0.5rem 0.7rem; border-radius: 10px;
+      font-size: 0.68rem; color: var(--muted); text-align: left; line-height: 1.45;
+      background: rgba(46,196,182,0.05); border: 1px solid rgba(46,196,182,0.18);
+    }
+  </style>
+</head>
+<body>
+  <div class="page-head">
+    <a href="gallery.html">← Galleri</a> · <a href="/dev/dagens-ankare">Dagens Ankare (React)</a> · <a href="../../../mockups/01-home-compass-module.html">Original Hem v3</a>
+    <h1>★ Merge — ref C + Hem v3 grund</h1>
+    <p>Hälsning i original-header · kompass + zoner · supermoduler · fyllig hub · 12-korts-rail.</p>
+    <div class="note">
+      Det vi byggde innan wave 1 (Hem v3) + din ref-estetik. Wave 1-wireframes ingår <strong>inte</strong>.
+    </div>
+    <span class="lock-badge">Interaktiv · supermod · rail · zoner</span>
+  </div>
+
+  <div class="gallery-row">
+    <!-- MERGE: ref compass + hem v3 full -->
+    <div class="screen-wrap">
+      <h2>★ Merge · kompass + hub</h2>
+      <div class="phone"><div class="phone-inner phone-alive" id="phone-merge">
+        <div class="app-header">
+          <button type="button" class="chip" aria-label="Meny">☰</button>
+          <div class="greeting-block">
+            <p class="greeting">God morgon, Pontus</p>
+            <p class="greeting-sub">Onsdag · ett steg i taget</p>
+          </div>
+          <button type="button" class="chip" aria-label="Profil">K</button>
+        </div>
+        <div class="compass-hero compass-hero--slim">
+          <div class="compass-star">✦</div>
+          <div class="zone-orbit" aria-label="Zoner">
+            <button type="button" class="orbit-btn on" data-zone="hjartat"><span class="orbit-icon">♥</span><span class="orbit-lbl">Hjärtat</span></button>
+            <button type="button" class="orbit-btn" data-zone="vardagen"><span class="orbit-icon">▦</span><span class="orbit-lbl">Vardagen</span></button>
+            <button type="button" class="orbit-btn" data-zone="familjen"><span class="orbit-icon">👥</span><span class="orbit-lbl">Familjen</span></button>
+            <button type="button" class="orbit-btn" data-zone="valv"><span class="orbit-icon">🔒</span><span class="orbit-lbl">Valvet</span></button>
+          </div>
+        </div>
+        <p class="zone-brand">Livskompassen — Hem</p>
+        <div class="supermod-strip" aria-label="Supermoduler">
+          <button type="button" class="supermod-btn" data-mod="Kompass"><span class="supermod-icon">☑</span><span class="supermod-label">Kompass</span></button>
+          <button type="button" class="supermod-btn" data-mod="Anteckning"><span class="supermod-icon">+</span><span class="supermod-label">Inkast</span></button>
+          <button type="button" class="supermod-btn on" data-mod="Dagbok"><span class="supermod-icon">📖</span><span class="supermod-label">Dagbok</span></button>
+          <button type="button" class="supermod-btn" data-mod="Check-in"><span class="supermod-icon">◉</span><span class="supermod-label">Check-in</span></button>
+        </div>
+        <div class="home-scroll">
+          <div class="brass-glass hub-module">
+            <div class="hub-module__head">
+              <div class="hub-focus-wrap">
+                <p class="hub-focus" id="hub-focus-m">Lugnt samtal med barnen efter skolan</p>
+                <span class="hub-focus-sub" id="hub-focus-sub-m">18 juni</span>
+              </div>
+            </div>
+            <div class="hub-module__body">
+              <div class="hub-meta">
+                <span class="hub-chip">Ons 18 jun</span>
+                <span class="hub-chip hub-chip--teal">Kapacitet · Lugn</span>
+                <span class="hub-meta-right">Senast 08:12</span>
+              </div>
+              <textarea class="hub-inset" id="hub-inset-m" rows="3" placeholder="En rad räcker …" readonly>Imorse: lite trött men lugn. Barnen verkade trygga.</textarea>
+              <div class="hub-actions">
+                <button type="button" class="hub-btn hub-btn--primary">Spara rad</button>
+                <button type="button" class="hub-btn hub-btn--icon">🎤</button>
+                <button type="button" class="hub-btn hub-btn--icon">✦</button>
+              </div>
+              <div class="hub-zones" id="hub-zones-m">
+                <span class="hub-zone on" data-zone="utveckling">Utveckling</span>
+                <span class="hub-zone" data-zone="minne">Minne</span>
+                <span class="hub-zone" data-zone="quiz">Quiz</span>
+              </div>
+              <div class="hub-last">
+                <p class="lbl-muted">Senaste sparade</p>
+                <p>«Kvällen blev lugnare än jag trodde — ett steg räckte.»</p>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="rail-toggle" id="rail-toggle-m" aria-expanded="false">
+            <span>Utvecklingskort</span><span class="chev">⌄</span>
+          </button>
+          <div class="card-rail" id="card-rail-m">
+            <div class="dev-card" data-title="Självkänsla" data-body="Skriv en sak du gjorde bra idag — utan att rättfärdiga."><p class="cat">Självkänsla</p><p class="hint">Mikrosteg</p></div>
+            <div class="dev-card" data-title="Trygghet" data-body="Nämn en plats eller person som känns trygg just nu."><p class="cat">Trygghet</p><p class="hint">Reflektion</p></div>
+            <div class="dev-card" data-title="Närvaro" data-body="Andas 4–6 tre gånger innan nästa val."><p class="cat">Närvaro</p><p class="hint">Kropp</p></div>
+            <div class="dev-card" data-title="Gränser" data-body="Ett Grey Rock-svar du kan återanvända idag."><p class="cat">Gränser</p><p class="hint">BIFF</p></div>
+            <div class="dev-card" data-title="RSD" data-body="Neutral alternativ tolkning av det som kändes hårt?"><p class="cat">RSD</p><p class="hint">Speglar</p></div>
+            <div class="dev-card" data-title="Vila" data-body="20 min utan skärm — kapacitet, inte belöning."><p class="cat">Vila</p><p class="hint">Plan</p></div>
+            <div class="dev-card" data-title="Lär dig" data-body="Allostatic load minskar med regelbunden sömn."><p class="cat">Lär dig</p><p class="hint">Fakta</p></div>
+            <div class="dev-card" data-title="Quiz" data-body="Trygghet eller kontroll bakom reaktionen?"><p class="cat">Quiz</p><p class="hint">Fråga</p></div>
+            <div class="dev-card" data-title="Prova nytt" data-body="Ny promenadrutt 10 min — ingen prestation."><p class="cat">Prova nytt</p><p class="hint">Lek</p></div>
+            <div class="dev-card" data-title="Kropp" data-body="Drick ett glas vatten."><p class="cat">Kropp</p><p class="hint">Mikrosteg</p></div>
+            <div class="dev-card" data-title="Relation" data-body="Ett kort meddelande till någon trygg."><p class="cat">Relation</p><p class="hint">Socialt</p></div>
+            <div class="dev-card" data-title="Logistik" data-body="Välj ett ärende — bara nästa atomära del."><p class="cat">Logistik</p><p class="hint">Planering</p></div>
+          </div>
+          <div class="card-detail" id="card-detail-m">
+            <p id="card-detail-body-m"></p>
+            <p class="src" id="card-detail-src-m">Tryck ett kort ↑</p>
+          </div>
+          <div class="mini-grid">
+            <div class="brass-glass">
+              <p class="lbl-muted">Dagens steg</p>
+              <div class="check-line done"><span class="check-dot"></span><span class="body-sm">Ring skola</span></div>
+              <div class="check-line"><span class="check-dot"></span><span class="body-sm">Simma 20 min</span></div>
+            </div>
+            <div class="brass-glass spark-card">
+              <p class="lbl-muted">Veckans lugn</p>
+              <div class="brass-sparkline"><svg viewBox="0 0 120 24" preserveAspectRatio="none"><polyline fill="none" stroke="#d4af37" stroke-width="1.5" points="0,18 25,14 50,16 75,8 100,10 120,6"/></svg></div>
+              <p class="trend">↑ stabilare sen fredag</p>
+            </div>
+          </div>
+          <div class="brass-glass feed-card">
+            <p class="lbl-muted">Senaste inkast</p>
+            <div class="feed-row"><span class="feed-icon">▦</span><div><span class="feed-title">Inkast igår 21:04</span><span class="feed-sub">Valv · 2 filer</span></div></div>
+            <div class="feed-row"><span class="feed-icon feed-icon--gold">✎</span><div><span class="feed-title">Dagbok igår 07:40</span><span class="feed-sub">«Sov bättre efter simning»</span></div></div>
+          </div>
+        </div>
+        <nav class="zone-nav">
+          <button type="button" class="zone-nav-item on"><span class="zone-nav-icon">⌂</span>Hem</button>
+          <button type="button" class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</button>
+          <button type="button" class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</button>
+          <button type="button" class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</button>
+        </nav>
+      </div></div>
+    </div>
+
+    <!-- ORIGINAL Hem v3 (det vi byggde förut) -->
+    <div class="screen-wrap">
+      <h2>Hem v3 · original (låst grund)</h2>
+      <div class="phone"><div class="phone-inner phone-alive" id="phone-v3">
+        <div class="app-header">
+          <button type="button" class="chip">☰</button>
+          <div style="flex:1;text-align:center">
+            <p class="greeting">God morgon, Pontus</p>
+            <p class="greeting-sub">Onsdag · ett steg i taget</p>
+          </div>
+          <button type="button" class="chip">K</button>
+        </div>
+        <p class="hdr-title" style="padding:0.32rem;border-bottom:1px solid rgba(255,255,255,0.05);background:rgba(12,18,32,0.6)">Livskompassen — Hem</p>
+        <div class="supermod-strip">
+          <button type="button" class="supermod-btn" data-mod-v3="Kompass"><span class="supermod-icon">☑</span><span class="supermod-label">Kompass</span></button>
+          <button type="button" class="supermod-btn" data-mod-v3="Anteckning"><span class="supermod-icon">+</span><span class="supermod-label">Inkast</span></button>
+          <button type="button" class="supermod-btn on" data-mod-v3="Dagbok"><span class="supermod-icon">📖</span><span class="supermod-label">Dagbok</span></button>
+          <button type="button" class="supermod-btn" data-mod-v3="Check-in"><span class="supermod-icon">◉</span><span class="supermod-label">Check-in</span></button>
+        </div>
+        <div class="home-scroll">
+          <div class="brass-glass hub-module">
+            <div class="hub-module__head">
+              <div><p class="hub-focus" id="hub-focus-v3">Lugnt samtal med barnen efter skolan</p><span class="hub-focus-sub" id="hub-focus-sub-v3">18 juni</span></div>
+            </div>
+            <div class="hub-module__body">
+              <div class="hub-meta"><span class="hub-chip">Ons 18 jun</span><span class="hub-chip hub-chip--teal">Kapacitet · Lugn</span></div>
+              <textarea class="hub-inset" id="hub-inset-v3" rows="2" readonly>Imorse: lite trött men lugn. Barnen verkade trygga.</textarea>
+              <div class="hub-actions"><button type="button" class="hub-btn hub-btn--primary">Spara rad</button></div>
+            </div>
+          </div>
+          <button type="button" class="rail-toggle" id="rail-toggle-v3" aria-expanded="false"><span>Utvecklingskort</span><span class="chev">⌄</span></button>
+          <div class="card-rail" id="card-rail-v3">
+            <div class="dev-card"><p class="cat">Självkänsla</p><p class="hint">Mikrosteg</p></div>
+            <div class="dev-card"><p class="cat">Trygghet</p><p class="hint">Reflektion</p></div>
+            <div class="dev-card"><p class="cat">Gränser</p><p class="hint">BIFF</p></div>
+          </div>
+        </div>
+        <nav class="zone-nav">
+          <button type="button" class="zone-nav-item"><span class="zone-nav-icon">♥</span>Hjärtat</button>
+          <button type="button" class="zone-nav-item on"><span class="zone-nav-icon">✓</span>Vardagen</button>
+          <button type="button" class="zone-nav-item"><span class="zone-nav-icon">👥</span>Familjen</button>
+          <button type="button" class="zone-nav-item"><span class="zone-nav-icon">🔒</span>Valv</button>
+        </nav>
+      </div></div>
+    </div>
+  </div>
+
+  <script>
+    function wireHemV3(prefix) {
+      const railToggle = document.getElementById('rail-toggle-' + prefix);
+      const cardRail = document.getElementById('card-rail-' + prefix);
+      if (railToggle && cardRail) {
+        railToggle.addEventListener('click', () => {
+          const open = cardRail.classList.toggle('open');
+          railToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+      }
+      const detail = document.getElementById('card-detail-' + prefix);
+      const detailBody = document.getElementById('card-detail-body-' + prefix);
+      const detailSrc = document.getElementById('card-detail-src-' + prefix);
+      if (detail) {
+        document.querySelectorAll('#card-rail-' + prefix + ' .dev-card').forEach((card) => {
+          card.addEventListener('click', () => {
+            document.querySelectorAll('#card-rail-' + prefix + ' .dev-card').forEach((c) => c.classList.remove('sel'));
+            card.classList.add('sel');
+            detail.classList.add('open');
+            if (detailBody) detailBody.textContent = card.dataset.body || card.querySelector('.cat')?.textContent;
+            if (detailSrc) detailSrc.textContent = (card.dataset.title || card.querySelector('.cat')?.textContent) + ' · ' + (card.querySelector('.hint')?.textContent || '');
+            if (!cardRail.classList.contains('open')) {
+              cardRail.classList.add('open');
+              railToggle.setAttribute('aria-expanded', 'true');
+            }
+          });
+        });
+      }
+      const hubFocus = document.getElementById('hub-focus-' + prefix);
+      const hubFocusSub = document.getElementById('hub-focus-sub-' + prefix);
+      const hubInset = document.getElementById('hub-inset-' + prefix);
+      const focuses = { Dagbok: 'Lugnt samtal med barnen efter skolan', Anteckning: 'Fånga en tanke — redigera senare', Kompass: 'Vatten, medicin och tre minuters närvaro', 'Check-in': 'Hur känns kapaciteten just nu?' };
+      const focusSubs = { Dagbok: '18 juni', Anteckning: 'Snabb-inkast', Kompass: 'Morgonrutin', 'Check-in': 'Kapacitet' };
+      const samples = { Dagbok: 'Imorse: lite trött men lugn. Barnen verkade trygga.', Kompass: 'Vatten ✓ · Medicin ✓ · 3 min andning.', 'Check-in': 'Kapacitet: lugn · sömn ok.' };
+      document.querySelectorAll('#phone-' + (prefix === 'm' ? 'merge' : 'v3') + ' .supermod-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const mod = btn.dataset.mod || btn.dataset.modV3;
+          document.querySelectorAll('#phone-' + (prefix === 'm' ? 'merge' : 'v3') + ' .supermod-btn').forEach((b) => b.classList.toggle('on', (b.dataset.mod || b.dataset.modV3) === mod));
+          if (hubFocus) hubFocus.textContent = focuses[mod] || focuses.Dagbok;
+          if (hubFocusSub) hubFocusSub.textContent = focusSubs[mod] || focusSubs.Dagbok;
+          if (hubInset) hubInset.value = samples[mod] || '';
+        });
+      });
+      document.querySelectorAll('#hub-zones-' + prefix + ' .hub-zone').forEach((zone) => {
+        zone.addEventListener('click', () => {
+          zone.parentElement.querySelectorAll('.hub-zone').forEach((z) => z.classList.remove('on'));
+          zone.classList.add('on');
+          if (zone.dataset.zone === 'utveckling' && cardRail && !cardRail.classList.contains('open')) {
+            cardRail.classList.add('open');
+            railToggle.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+    }
+    wireHemV3('m');
+    wireHemV3('v3');
+  </script>
+</body>
+</html>

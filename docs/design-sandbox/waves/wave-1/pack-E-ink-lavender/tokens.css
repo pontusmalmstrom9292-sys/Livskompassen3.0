@@ -1,0 +1,15 @@
+:root {
+  --bg: #120e18;
+  --bg-page: #0a0810;
+  --surface: #1a1524;
+  --surface-2: #221c30;
+  --text: #e9e0ff;
+  --muted: #9d8fc4;
+  --accent: #a78bfa;
+  --accent-2: #c4b5fd;
+  --border: rgba(167,139,250,0.28);
+  --radius: 18px;
+  --font: 'Outfit', system-ui, sans-serif;
+  --serif: 'Playfair Display', Georgia, serif;
+  --shadow: 0 12px 32px rgba(0,0,0,0.45);
+}
