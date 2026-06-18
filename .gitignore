@@ -7,6 +7,7 @@ node_modules.broken-*/
 .env
 .env.*
 !.env.example
+.drive-setup.json
 vertex-sa.json
 **/serviceAccount*.json
 server/.env
