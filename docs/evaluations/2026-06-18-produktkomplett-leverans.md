@@ -10,16 +10,14 @@
 | V3 | M3.0-C kapacitetsgate (befintlig `useMabra30Capacity`) + Projekt bild-upload (befintlig) | `smoke:modulvaljare`, `smoke:projekt-regler` |
 | V4 | `BarnportenParentHubPanel` på `/familjen?tab=barnporten` + `/barnporten` PWA | `smoke:locked-ux` |
 | V5 | Flow P3/P4/P6 **redan live** (`assistPatternMetadata`, `mabraCoach` bank, `dossierAiForeword` timeline) | `smoke:pattern-metadata`, `smoke:dossier` |
-| V6 | PMIR docs — arkiv/App Check/BP-PUSH (ingen prod-ändring utan OK) | se nedan |
+| V6 | Arkiv PMIR + handoff sync + ops docs | `orkester:night` · `2026-06-18-v6-leverans.md` |
 
-## V6 — kvar med Pontus OK
+## V6 — kvar (manuellt)
 
-| ID | Åtgärd | Varför stopp |
-|----|--------|--------------|
-| ARKIV | Arkiv-batch utförande | PMIR + explicit godkännande före mass-flytt |
-| APP-CHECK | Console Enforce | Manuell Firebase Console |
-| BP-PUSH | FCM/notiser | Ny infra + kostnad — eval only |
-| DEPLOY | invalidateSession + hosting | Named deploy efter OK |
+| ID | Åtgärd | Status |
+|----|--------|--------|
+| APP-CHECK | Console Enforce | Pontus — Firebase Console |
+| DEPLOY | hosting (epistemik + barnporten-paus) | Efter OK |
 
 ## Gate
 

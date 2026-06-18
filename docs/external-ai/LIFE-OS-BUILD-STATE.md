@@ -2,7 +2,7 @@
 
 Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
-**Senast uppdaterad:** 2026-06-18 (Fas 19.1–19.6 DONE + P1/P2 LOCK)
+**Senast uppdaterad:** 2026-06-18 (Produktkomplett V0–V6 + Fas 19 DONE)
 
 | Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
 |-----------|-------------|--------|-------|------------|
@@ -22,6 +22,11 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 | **P2 Dossier v2 (AI foreword)** | `dossierAiForeword.ts`, `generateDossierInternal.ts` | **LOCK** | dossier 2026-06-17 | **P2** |
 | Fas 19.1 security sprint | `invalidateSession` guard, D14 ParentReminderFooter | **LOCK** | valv-security 2026-06-18 | **F19.1** |
 | MåBra 19.2–19.5 / wave-2 / M3.0-C | hybrid-8, hex→tokens, JOY-17, evolution_ledger | **SMOKE PASS** (ej formellt stängd) | mabra + modulvaljare + evolution 2026-06-18 | **F19.2–19.5** |
+| Wave 29.1 barn-epistemik | `childObservationEpistemics.ts`, `saveChildrenLog` | **LOCK** | smoke:barn-epistemik 2026-06-18 | **V1** |
+| MB-PLAY-54321 | `MabraGrounding54321Wizard.tsx`, `grounding54321Play.ts` | **LOCK** | smoke:mabra 2026-06-18 | **V2** |
+| Barnporten barn-PWA | `barnportenRollout.ts`, `BarnportenPausedPanel.tsx` | **PAUSED** (`BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false`) | locked-ux 2026-06-18 | **V4** |
+| App Check Console Enforce | Firebase Console → Enforce | **DEFER** (manuell) | tier1 kod PASS | **V6** |
+| BP-PUSH (FCM barn) | — | **DEFER** | — | **V6** |
 | AI-assistent UI | — | **DEFER** | — | — |
 
 ## Statusförklaring
@@ -32,10 +37,8 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
 ## Nästa steg (Pontus)
 
-1. **Använd:** Valv → **Inkast** → «Filtrera brus först» (kräver Fyren) → godkänn → spara
-2. **P1 v1+v2 LOCK** 2026-06-17
-3. **Nästa:** använd Dossier med «Kort AI-inledning» — P2 LOCK 2026-06-17
-4. **Fas 19.1 PASS** — deploy `functions:invalidateSession` + hosting om diff ej redan live
-5. **Nästa sprint-våg:** 19.2 formell logg (hybrid-8 redan smoke PASS) eller 19.6 arkiv-batch PMIR
-6. **Fas 19 sprint DONE** — se `docs/evaluations/2026-06-18-fas19-leverans.md`
-7. **DEFER:** M3.0-C Fitness/Näring, AI-assistent UI, arkiv-batch utförande
+1. **Deploy hosting** om epistemik + Barnporten-paus ej live (`c0590b4cd` på main)
+2. **App Check Enforce** — Firebase Console (se `docs/evaluations/2026-06-15-fas14b-appcheck-enforce.md`)
+3. **Använd:** Familjen livslogg med citat/tolkning; MåBra 5-4-3-2-1-lek
+4. **DEFER:** BP-PUSH, barn-PWA rollout, M3.0-C Fitness/Näring, AI-assistent UI
+5. **Leverans:** `docs/evaluations/2026-06-18-produktkomplett-leverans.md` · V6 `docs/evaluations/2026-06-18-v6-leverans.md`

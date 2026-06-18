@@ -1,14 +1,14 @@
-VIKTIGT — LIVSKOMPASSEN-KANON:
+VIKTIGT — LIVSKOMPASSEN-KANON (läs först):
 - Jämför mot bifogade register (MODUL, INNEHALL, gap-matrix, domän-covert).
 - Tre silos: Kunskap / Valv / Barnen — ingen cross-RAG.
 - content_class: FACT | REFLECTION | PLAY | EVIDENCE — aldrig blanda.
 - WORM = beteende + datum + citat — aldrig diagnos på motpart.
 - Ex/gaslighting → Hamn/Speglar, inte MåBra.
 - Ingen streak/XP. Källor: 1177, BRIS, NHS, AFCC, Konsumentverket — undvik clickbait.
-- Varje fynd: full YAML med existing_overlap, recommendation, source_url.
-- Leverans: executive summary + våg 27-plan (15–25 poster) + 8 regel-förslag.
+- Varje fynd: full YAML med existing_overlap, recommendation, source_url, backend_impact.
+- Research FÅR föreslå backend_impact:YES — implementation kräver PMIR + smoke.
 
 SCOPE-BEGRÄNSNING:
 - Max 25 NEW-fynd totalt (rankade). Resten: OVERLAP eller DEFER.
 
-Full MASTER-prompt: ../imports/GEMINI-KOR-KLISTRA-IN.md
+Prompt: docs/external-ai/bifoga/03-prompter/GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER.md
