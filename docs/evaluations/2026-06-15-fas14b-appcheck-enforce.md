@@ -1,6 +1,6 @@
 # Fas 14B.1b — App Check enforce (fail-closed prod) — 2026-06-15
 
-**Status:** PASS (agent) — Console enforcement toggle kvar hos Pontus  
+**Status:** PASS — Console Enforce aktiv (Pontus 2026-06-17)  
 **Förutsättning:** Explicit Pontus OK till fail-closed prod (chat 2026-06-15)  
 **Fortsätter:** [`2026-06-15-fas14-chat2-security-14b.md`](./2026-06-15-fas14-chat2-security-14b.md)
 
@@ -38,7 +38,7 @@ Fail-closed beteende: saknad App Check-token → `failed-precondition` *"App Che
 
 ---
 
-## Kvar — Pontus (Console, ~2 min)
+## Console Enforce — klart (2026-06-17)
 
 1. Öppna [Firebase Console → App Check](https://console.firebase.google.com/project/gen-lang-client-0481875058/appcheck).
 2. Välj **Cloud Functions** (eller APIs → Cloud Functions).

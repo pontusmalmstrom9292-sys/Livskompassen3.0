@@ -25,7 +25,7 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 | Wave 29.1 barn-epistemik | `childObservationEpistemics.ts`, `saveChildrenLog` | **LOCK** | smoke:barn-epistemik 2026-06-18 | **V1** |
 | MB-PLAY-54321 | `MabraGrounding54321Wizard.tsx`, `grounding54321Play.ts` | **LOCK** | smoke:mabra 2026-06-18 | **V2** |
 | Barnporten barn-PWA | `barnportenRollout.ts`, `BarnportenPausedPanel.tsx` | **PAUSED** (`BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false`) | locked-ux 2026-06-18 | **V4** |
-| App Check Console Enforce | Firebase Console → Enforce | **DEFER** (manuell) | tier1 kod PASS | **V6** |
+| App Check Console Enforce | Firebase Console → Enforce | **LOCK** | Pontus Console 2026-06-17 | **V6** |
 | BP-PUSH (FCM barn) | — | **DEFER** | — | **V6** |
 | AI-assistent UI | — | **DEFER** | — | — |
 
@@ -37,8 +37,6 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
 ## Nästa steg (Pontus)
 
-1. **Deploy hosting** om epistemik + Barnporten-paus ej live (`c0590b4cd` på main)
-2. **App Check Enforce** — Firebase Console (se `docs/evaluations/2026-06-15-fas14b-appcheck-enforce.md`)
-3. **Använd:** Familjen livslogg med citat/tolkning; MåBra 5-4-3-2-1-lek
-4. **DEFER:** BP-PUSH, barn-PWA rollout, M3.0-C Fitness/Näring, AI-assistent UI
-5. **Leverans:** `docs/evaluations/2026-06-18-produktkomplett-leverans.md` · V6 `docs/evaluations/2026-06-18-v6-leverans.md`
+1. **Använd:** Familjen livslogg med citat/tolkning; MåBra 5-4-3-2-1-lek
+2. **DEFER:** BP-PUSH, barn-PWA rollout, M3.0-C Fitness/Näring, AI-assistent UI
+3. **Leverans:** `docs/evaluations/2026-06-18-produktkomplett-leverans.md`

@@ -12,12 +12,12 @@
 | V5 | Flow P3/P4/P6 **redan live** (`assistPatternMetadata`, `mabraCoach` bank, `dossierAiForeword` timeline) | `smoke:pattern-metadata`, `smoke:dossier` |
 | V6 | Arkiv PMIR + handoff sync + ops docs | `orkester:night` · `2026-06-18-v6-leverans.md` |
 
-## V6 — kvar (manuellt)
+## V6 — ops klart
 
 | ID | Åtgärd | Status |
 |----|--------|--------|
-| APP-CHECK | Console Enforce | Pontus — Firebase Console |
-| DEPLOY | hosting (epistemik + barnporten-paus) | Efter OK |
+| APP-CHECK | Console Enforce | **LOCK** 2026-06-17 |
+| DEPLOY | hosting | **DONE** 2026-06-18 |
 
 ## Gate
 
