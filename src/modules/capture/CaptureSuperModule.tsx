@@ -1,3 +1,4 @@
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { useEffect, useRef, useState } from 'react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
@@ -103,6 +104,9 @@ export function CaptureSuperModule({
 
     return (
       <>
+        <div className="mb-2 flex items-center justify-end">
+          <ModuleHelpFromRegistry moduleId="capture" mode={variant} />
+        </div>
         {variant === 'hem-capture' && (
           <div className="mb-2 flex justify-end">
             <button
@@ -148,13 +152,18 @@ export function CaptureSuperModule({
 
   if (variant === 'valv-compact') {
     return (
-      <InkastDirectPanel
+      <div className="space-y-2">
+        <div className="flex justify-end">
+          <ModuleHelpFromRegistry moduleId="capture" mode="valv-compact" />
+        </div>
+        <InkastDirectPanel
         tone="valv"
         sourceModule={SOURCE_MODULE['valv-compact']}
         onQueued={onQueued}
         onPersistedBevis={onPersistedBevis}
         queueHintAsButton
       />
+      </div>
     );
   }
 
@@ -173,6 +182,9 @@ export function CaptureSuperModule({
 
   return (
     <section id="inkast-lite" ref={sectionRef} className="scroll-mt-28">
+      <div className="mb-2 flex justify-end">
+        <ModuleHelpFromRegistry moduleId="capture" mode="hem-inkast" />
+      </div>
       <InkastDirectPanel
         tone="hem"
         onQueued={onQueued}

@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import '../components/valv.css';
 import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
@@ -59,11 +60,14 @@ export function ValvInputSuperModule({
       bare
       className="overflow-hidden !p-4 sm:!p-5"
     >
-      <header className="valv-forensic-header">
-        <p className="valv-forensic-eyebrow">Sanningsarkiv</p>
-        <h2 className="valv-forensic-title">{activeDef.label}</h2>
-        <p className="valv-forensic-lead">{activeDef.description}</p>
-      </header>
+      <div className="mb-4 flex items-start justify-between gap-3">
+        <header className="valv-forensic-header min-w-0 flex-1">
+          <p className="valv-forensic-eyebrow">Sanningsarkiv</p>
+          <h2 className="valv-forensic-title">{activeDef.label}</h2>
+          <p className="valv-forensic-lead">{activeDef.description}</p>
+        </header>
+        <ModuleHelpFromRegistry moduleId="valv" mode={activeMode} />
+      </div>
 
       <ValvInputModePicker activeMode={activeMode} onChange={setMode} />
 

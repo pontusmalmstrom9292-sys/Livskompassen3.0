@@ -9,7 +9,6 @@ export {
   type LifeHubPreset,
   type LifeHubPresetId,
 } from './lifeHubPresets';
-export { LifeHubHubHint } from './LifeHubHubHint';
 export { getMaterialShortcuts, getDefaultMaterialShortcuts, materialPackHubsForPreset, type MaterialPackHub, type MaterialShortcut } from './materialPacks';
 export {
   clearMaterialPackOverride,

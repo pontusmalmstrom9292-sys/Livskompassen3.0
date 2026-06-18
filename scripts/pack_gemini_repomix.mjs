@@ -79,7 +79,7 @@ const PACKS = [
   {
     name: 'inkast',
     include:
-      'src/modules/inkast/**,src/modules/capture/**,src/modules/shared/components/TaggSelector.tsx,src/modules/shared/components/TaggHelpPanel.tsx,src/modules/shared/tags/**,docs/evaluations/2026-06-06-inkast-lockdown.md,docs/archive/evaluations-fas21-2026-06/2026-06-01-superhub-hem-capture-deep.md,docs/evaluations/2026-06-01-superhub-domän-covert-narcissism.md,functions/src/lib/submitInkastLite.ts,functions/src/lib/analyzeUploadForKnowledge.ts,functions/src/lib/uploadInkastEvidence.ts,functions/src/lib/inboxClassifier.ts,functions/src/lib/inboxPersist.ts',
+      'src/modules/inkast/**,src/modules/capture/**,src/modules/shared/components/TaggSelector.tsx,src/modules/core/help/moduleHelpRegistry.ts,src/modules/shared/tags/**,docs/evaluations/2026-06-06-inkast-lockdown.md,docs/archive/evaluations-fas21-2026-06/2026-06-01-superhub-hem-capture-deep.md,docs/evaluations/2026-06-01-superhub-domän-covert-narcissism.md,functions/src/lib/submitInkastLite.ts,functions/src/lib/analyzeUploadForKnowledge.ts,functions/src/lib/uploadInkastEvidence.ts,functions/src/lib/inboxClassifier.ts,functions/src/lib/inboxPersist.ts',
   },
   {
     name: 'konsolidering',

@@ -1,20 +1,12 @@
-import { NAV_PATHS } from '@/core/navigation/navTruth';
-import { ModuleHelpHint } from '@/core/ui/ModuleHelpHint';
-import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
-import { DAGBOK_REMEMBER_LINES } from '../constants/dagbokReminders';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
+import type { DagbokInputMode } from '@/features/lifeJournal/diary/supermodule/dagbokInputModes';
 
 type Props = {
   className?: string;
+  mode?: DagbokInputMode;
 };
 
-/** IHÅG-kompass: Dagbok (privat) vs Reality Vault (bevis) — ?-widget, dold som standard. */
-export function DagbokRememberCard({ className }: Props) {
-  return (
-    <ModuleHelpHint
-      className={className}
-      title={`Dagbok vs ${VAULT_UI_NAME.toLowerCase()}`}
-      lines={DAGBOK_REMEMBER_LINES}
-      action={{ label: `Gå till ${VAULT_UI_NAME}`, to: NAV_PATHS.VALVET }}
-    />
-  );
+/** IHÅG-kompass: Dagbok (privat) vs Valv (bevis) — ?-widget, dold som standard. */
+export function DagbokRememberCard({ className, mode }: Props) {
+  return <ModuleHelpFromRegistry moduleId="dagbok" mode={mode} className={className} />;
 }

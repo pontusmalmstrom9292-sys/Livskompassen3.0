@@ -90,7 +90,7 @@ export function DagbokInputSuperModule({
           <h2 className="valv-forensic-title">{activeMeta.label}</h2>
           <p className="valv-forensic-lead">{activeMeta.description}</p>
         </div>
-        <DagbokRememberCard />
+        <DagbokRememberCard mode={activeMode} />
       </div>
 
       <div className="mb-4 flex flex-wrap items-center gap-2">

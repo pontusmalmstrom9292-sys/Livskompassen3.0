@@ -8,6 +8,7 @@ import { MabraVitHub } from '../components/MabraVitHub';
 import { DagligMixPanel } from '../components/DagligMixPanel';
 import { VitCurriculumPanel } from '../components/VitCurriculumPanel';
 import { MaterialPackShortcuts, useLifeHubPreset } from '@/core/lifeOs';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { pickDailyReflectionCard } from '../lib/pickDagligMix';
 import { MabraLowEnergyToggle } from '../components/MabraLowEnergyToggle';
 import { CURRICULUMS } from '../content/curriculumCatalog';
@@ -332,7 +333,12 @@ export const MabraHubView = memo(function MabraHubView() {
             onSelectItem={handleSelectHubItem}
             focusToken={hubFocusToken}
             lowEnergyMode={lowEnergyMode}
-            profileSlot={<MaterialPackShortcuts preset={preset} hub="mabra" />}
+            profileSlot={
+              <div className="flex flex-col items-end gap-2">
+                <ModuleHelpFromRegistry moduleId="hub_mabra" preset={preset} />
+                <MaterialPackShortcuts preset={preset} hub="mabra" />
+              </div>
+            }
           />
           <div className="mt-6">
             <HubErrorBoundary

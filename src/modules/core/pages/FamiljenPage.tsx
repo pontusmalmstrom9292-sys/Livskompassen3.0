@@ -7,6 +7,7 @@ import { DrogfrihetHubPage } from '@/features/dailyLife/drogfrihet';
 import { ModuleShell } from '../layout/ModuleShell';
 import { HubDropdownNav, type DropdownItem } from '../ui/HubDropdownNav';
 import { MaterialPackShortcuts, useLifeHubPreset } from '@/core/lifeOs';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
 import { vaultRedirectSearch } from '../navigation/vaultLegacyRedirect';
 import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
@@ -150,6 +151,7 @@ export function FamiljenPage() {
         eyebrow="Familjen"
         title=""
         lead="Relationell närvaro."
+        headerAside={<ModuleHelpFromRegistry moduleId="hub_familjen" preset={preset} />}
         lockViewport={desktopHubLock}
         fitViewport={desktopHubLock}
         toolbar={

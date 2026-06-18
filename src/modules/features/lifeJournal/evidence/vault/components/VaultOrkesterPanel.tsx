@@ -1,6 +1,7 @@
 /** @locked-ux Valv Orkester — do not remove; see `.context/locked-ux-features.md` */
 import { useMemo, useState } from 'react';
 import { Check, Copy, Filter, Loader2, Network, Shield } from 'lucide-react';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   analyzeBiffMessage,
@@ -122,6 +123,9 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
 
   return (
     <div className="space-y-4">
+      <div className="flex justify-end">
+        <ModuleHelpFromRegistry moduleId="valv_orkester" />
+      </div>
       <OrkesterAgentTrio />
 
       <BentoCard

@@ -1,6 +1,7 @@
 /** @locked-ux Valv Mönster — do not remove; see `.context/locked-ux-features.md` */
 import { useMemo, useState } from 'react';
 import { BarChart3, Loader2, RefreshCw } from 'lucide-react';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
 import type { VaultLog } from '@/core/types/firestore';
@@ -88,6 +89,9 @@ export function VaultMonsterPanel({ logs, userId }: Props) {
 
   return (
     <div className="space-y-4">
+      <div className="flex justify-end">
+        <ModuleHelpFromRegistry moduleId="valv_monster" />
+      </div>
       <BentoCard
         title="Frekvensanalys"
         description="Pansaret · regex + valfri Flow-assist (metadata)"

@@ -1,3 +1,4 @@
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { useCallback, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { CaptureSuperModule } from '@/modules/capture/CaptureSuperModule';
@@ -78,21 +79,24 @@ export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSu
       className="calm-card glow-bottom-green overflow-hidden rounded-2xl border border-border bg-surface-2/70 p-4 sm:p-5"
       aria-label="MåBra inmatningshub"
     >
-      <header className="supermodule-hub-chrome mb-4 space-y-1 rounded-xl px-3 py-3 sm:px-4">
-        <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
-          Universal Input
-        </p>
-        <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">
-          Ett läge i taget
-        </h2>
-        <p className="text-xs text-text-dim">
-          Byt läge utan att lämna sidan — molnet sparas endast när du trycker explicit.
-        </p>
-        {projectId ? (
-          <p className="text-[10px] uppercase tracking-wider text-text-dim">
-            Projektkontext: {MABRA_PROJECTS.find((p) => p.id === projectId)?.title ?? projectId}
+      <header className="supermodule-hub-chrome mb-4 flex items-start justify-between gap-3 rounded-xl px-3 py-3 sm:px-4">
+        <div className="min-w-0 flex-1 space-y-1">
+          <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
+            Universal Input
           </p>
-        ) : null}
+          <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">
+            Ett läge i taget
+          </h2>
+          <p className="text-xs text-text-dim">
+            Byt läge utan att lämna sidan — molnet sparas endast när du trycker explicit.
+          </p>
+          {projectId ? (
+            <p className="text-[10px] uppercase tracking-wider text-text-dim">
+              Projektkontext: {MABRA_PROJECTS.find((p) => p.id === projectId)?.title ?? projectId}
+            </p>
+          ) : null}
+        </div>
+        <ModuleHelpFromRegistry moduleId="mabra" mode={activeMode} />
       </header>
 
       <nav

@@ -7,6 +7,7 @@ import { BiffPublicPanel } from './BiffPublicPanel';
 import { hjartatTabHref } from '@/core/navigation/appNavigation';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { MaterialPackShortcuts, useLifeHubPreset } from '@/core/lifeOs';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { HamnModuleStack } from './HamnModuleStack';
 import { markHamnSessionOpen } from '@/core/home/homeProactiveTriggers';
 import {
@@ -76,6 +77,9 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
   if (embedded) {
     return (
       <div className="calm-scroll-island space-y-4">
+        <div className="flex justify-end">
+          <ModuleHelpFromRegistry moduleId="hamn" />
+        </div>
         <BentoCard glow="indigo" className="!px-4 !py-3">
           <p className="text-[10px] uppercase tracking-[0.2em] text-accent/80">Trygg hamn · BIFF</p>
           <p className="mt-1 text-xs text-text-dim">{HAMN_EMBEDDED_LEAD}</p>
@@ -101,7 +105,16 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
 
   return (
     <div className="space-y-4">
-      {!embedded && <MaterialPackShortcuts preset={preset} hub="hamn" />}
+      {!embedded ? (
+        <div className="flex items-start justify-between gap-2">
+          <MaterialPackShortcuts preset={preset} hub="hamn" />
+          <ModuleHelpFromRegistry moduleId="hub_hamn" preset={preset} />
+        </div>
+      ) : (
+        <div className="flex justify-end">
+          <ModuleHelpFromRegistry moduleId="hamn" />
+        </div>
+      )}
       <TabBar tabs={[...HAMN_SUB_TABS]} active={subTab} onChange={onSubTabChange} />
 
       {subTab === 'oversikt' && (

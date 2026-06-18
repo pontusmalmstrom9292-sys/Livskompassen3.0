@@ -17,7 +17,7 @@ const envPath = resolve(root, '.env');
 const CANONICAL = {
   inkastManualEditForm: 'src/modules/inkast/components/InkastManualEditForm.tsx',
   taggSelector: 'src/modules/shared/components/TaggSelector.tsx',
-  taggHelpPanel: 'src/modules/shared/components/TaggHelpPanel.tsx',
+  moduleHelpRegistry: 'src/modules/core/help/moduleHelpRegistry.ts',
   inkastService: 'src/modules/inkast/api/inkastService.ts',
   inboxPersist: 'functions/src/lib/inboxPersist.ts',
   inboxClassifier: 'functions/src/lib/inboxClassifier.ts',
@@ -63,7 +63,7 @@ function smokeStaticStructure() {
   }
 
   const taggSelector = readCanonical(CANONICAL.taggSelector);
-  const taggHelp = readCanonical(CANONICAL.taggHelpPanel);
+  const moduleHelp = readCanonical(CANONICAL.moduleHelpRegistry);
   const manualForm = readCanonical(CANONICAL.inkastManualEditForm);
   const inkastService = readCanonical(CANONICAL.inkastService);
   const inboxPersist = readCanonical(CANONICAL.inboxPersist);
@@ -71,14 +71,15 @@ function smokeStaticStructure() {
   assert(taggSelector.includes('value: string[]'), 'TaggSelector ska stödja flerval (string[])');
   assert(taggSelector.includes('toggleInkastTag'), 'TaggSelector ska använda toggleInkastTag');
   assert(manualForm.includes('TaggSelector'), 'InkastManualEditForm ska montera TaggSelector');
-  assert(manualForm.includes('TaggHelpPanel'), 'InkastManualEditForm ska montera TaggHelpPanel');
+  assert(manualForm.includes('ModuleHelpFromRegistry'), 'InkastManualEditForm ska montera ModuleHelpFromRegistry');
+  assert(moduleHelp.includes('inkast_tags'), 'moduleHelpRegistry ska ha inkast_tags');
 
   const confirmPanel = readCanonical('src/modules/inkast/components/InkastConfirmPanel.tsx');
   assert(confirmPanel.includes('onAbort'), 'InkastConfirmPanel ska exponera Avbryt uppladdning');
 
   for (const marker of OBSIDIAN_MARKERS) {
     assert(
-      taggSelector.includes(marker) || taggHelp.includes(marker) || manualForm.includes(marker),
+      taggSelector.includes(marker) || moduleHelp.includes(marker) || manualForm.includes(marker),
       `Obsidian Calm-markör saknas i UI: ${marker}`,
     );
   }

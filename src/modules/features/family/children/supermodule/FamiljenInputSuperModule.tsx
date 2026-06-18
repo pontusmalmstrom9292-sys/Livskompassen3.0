@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { clsx } from 'clsx';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import {
@@ -78,13 +79,16 @@ export function FamiljenInputSuperModule({
       )}
     >
       <div className="supermodule-hub-chrome familjen-input-hub__chrome shrink-0 px-4 py-3 sm:px-5 sm:py-4">
-        <header className="mb-3 space-y-1">
-          <p className="od-depth__eyebrow">Universal Input</p>
-          <h2 className="font-display-serif text-sm uppercase tracking-[0.18em] text-text sm:text-base">
-            {activeMeta.label}
-          </h2>
-          <p className="text-xs text-text-dim">{activeMeta.description}</p>
-        </header>
+        <div className="mb-3 flex items-start justify-between gap-3">
+          <header className="min-w-0 flex-1 space-y-1">
+            <p className="od-depth__eyebrow">Universal Input</p>
+            <h2 className="font-display-serif text-sm uppercase tracking-[0.18em] text-text sm:text-base">
+              {activeMeta.label}
+            </h2>
+            <p className="text-xs text-text-dim">{activeMeta.description}</p>
+          </header>
+          <ModuleHelpFromRegistry moduleId="familjen" mode={activeMode} />
+        </div>
 
         <FamiljenInputModePicker activeMode={activeMode} onChange={setActiveMode} />
       </div>

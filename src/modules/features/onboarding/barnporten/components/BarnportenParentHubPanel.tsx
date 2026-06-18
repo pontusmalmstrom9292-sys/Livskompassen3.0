@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ExternalLink, Smartphone } from 'lucide-react';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { BarnportenQrPanel } from './BarnportenQrPanel';
 import { BarnportenInboxPanel } from './BarnportenInboxPanel';
@@ -16,6 +17,9 @@ type Props = {
 export function BarnportenParentHubPanel({ activeChild }: Props) {
   return (
     <div className="space-y-4">
+      <div className="flex justify-end">
+        <ModuleHelpFromRegistry moduleId="barnporten" />
+      </div>
       <BentoCard glow="blue" className="!p-4">
         <div className="flex items-start gap-3">
           <Smartphone className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />

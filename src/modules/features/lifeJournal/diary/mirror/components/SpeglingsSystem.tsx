@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Brain, Anchor, Lock } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { getAllVaultLogs } from '@/core/firebase/firestore';
 import { hasVaultGate } from '@/core/auth/sessionService';
 import { readJournalBridgeContext } from '@/core/types/journalBridge';
@@ -82,6 +83,9 @@ export function SpeglingsSystem({ embedded: _embedded = false }: SpeglingsSystem
         noHover
         className="hjartat-tab-panel"
       >
+        <div className="mb-3 flex justify-end">
+          <ModuleHelpFromRegistry moduleId="speglar" mode="dagbok" />
+        </div>
         <p className="mb-4 text-sm text-text-muted">
           Känslan först. Fakta sen. Sparas lokalt tills du trycker Rensa eller Rensa enheten i Inställningar.
         </p>
@@ -207,6 +211,9 @@ export function SpeglingsForensicPanel({ userId, initialFeeling = '' }: Forensic
     bare
     className="hjartat-tab-panel space-y-4 !p-4 sm:!p-5"
   >
+      <div className="flex justify-end">
+        <ModuleHelpFromRegistry moduleId="speglar" mode="forensic" />
+      </div>
       <VivirQuickEntry onStart={() => setPhase('vivir')} />
       <SvartPaVittForm />
 

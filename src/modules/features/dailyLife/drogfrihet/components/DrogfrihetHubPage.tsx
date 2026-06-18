@@ -2,6 +2,7 @@ import { BookOpen, Brain, HeartHandshake, Shield, Sparkles, X } from 'lucide-rea
 import { useCallback, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { HubPageShell } from '@/core/layout/HubPageShell';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar, type TabBarItem } from '@/core/ui/TabBar';
 import { useStore } from '@/core/store';
@@ -70,6 +71,9 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
 
   const body = (
     <>
+      <div className="flex justify-end">
+        <ModuleHelpFromRegistry moduleId="drogfrihet" mode={tab} />
+      </div>
       <TabBar<DrogfrihetTab>
         tabs={tabs}
         active={tab}

@@ -40,6 +40,8 @@ Minne/Kunskap (`/kunskap`, `knowledgeVaultQuery`) är **skild** modul — se [`.
 | Valv | dock Shield 3s long-press + PIN |
 | Speglar | HomePage bento, länk på Dagbok SavedStep (*copy delvis*) |
 
+**Hjälp i UI:** ?-widget (`ModuleHelpHint`) i modulheader — se [`docs/design/MODULE-HELP-HINT-SPEC.md`](../design/MODULE-HELP-HINT-SPEC.md).
+
 Variant B (planerad): long-press Dagbok → `/valv`; Shield bort från dock.
 
 ## Säkerhet

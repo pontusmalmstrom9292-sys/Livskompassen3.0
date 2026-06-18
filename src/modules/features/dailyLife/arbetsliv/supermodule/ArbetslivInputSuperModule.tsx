@@ -1,3 +1,4 @@
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { useCallback, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
@@ -63,16 +64,19 @@ export function ArbetslivInputSuperModule({ initialMode }: ArbetslivInputSuperMo
       aria-label="Arbetsliv inmatningshub"
     >
       <header className="mb-4 space-y-2">
-        <div className="space-y-1">
-          <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent-secondary">
-            Arbetsliv
-          </p>
-          <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">
-            Inkomst & tid
-          </h2>
-          <p className="text-xs text-text-dim">
-            Stämpel, registrerade inkomster och veckoflex — ett läge i taget.
-          </p>
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0 flex-1 space-y-1">
+            <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent-secondary">
+              Arbetsliv
+            </p>
+            <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">
+              Inkomst & tid
+            </h2>
+            <p className="text-xs text-text-dim">
+              Stämpel, registrerade inkomster och veckoflex — ett läge i taget.
+            </p>
+          </div>
+          <ModuleHelpFromRegistry moduleId="arbetsliv" mode={activeMode} />
         </div>
         <ArbetslivValvBroDelegate />
       </header>

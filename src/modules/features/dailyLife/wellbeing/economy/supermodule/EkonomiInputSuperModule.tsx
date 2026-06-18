@@ -1,3 +1,4 @@
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
@@ -122,19 +123,22 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
       className="calm-card glow-bottom-gold overflow-hidden rounded-2xl border border-border/30 bg-surface-2/70 p-4 sm:p-5"
       aria-label="Ekonomi inmatningshub"
     >
-      <header className="mb-4 space-y-1">
-        <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
-          Universal Input
-        </p>
-        <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">
-          Ett läge i taget
-        </h2>
-        <p className="text-xs text-text-dim">
-          Vardagsekonomi utan sidbyte — kapacitetsstyrd progressive disclosure.
-        </p>
-        {circuitBreakerActive ? (
-          <p className="text-xs text-text-muted">Kognitiv paus — endast saldo just nu.</p>
-        ) : null}
+      <header className="mb-4 flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1 space-y-1">
+          <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
+            Universal Input
+          </p>
+          <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">
+            Ett läge i taget
+          </h2>
+          <p className="text-xs text-text-dim">
+            Vardagsekonomi utan sidbyte — kapacitetsstyrd progressive disclosure.
+          </p>
+          {circuitBreakerActive ? (
+            <p className="text-xs text-text-muted">Kognitiv paus — endast saldo just nu.</p>
+          ) : null}
+        </div>
+        <ModuleHelpFromRegistry moduleId="ekonomi" mode={activeMode} />
       </header>
 
       {!circuitBreakerActive && level === 1 ? (

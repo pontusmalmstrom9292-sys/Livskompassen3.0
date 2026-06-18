@@ -369,6 +369,41 @@ function main() {
     'HEM_V3_LOW_CAPACITY_CARD_IDS',
   );
 
+  console.log('[smoke:design-modules] Module help (?-widget)…');
+  mustInclude(
+    'src/modules/core/help/moduleHelpRegistry.ts',
+    'getModuleHelp',
+    'MODULE_HELP_REGISTRY_KEYS',
+    'hub_familjen',
+    'valv_monster',
+  );
+  mustInclude('src/modules/core/help/ModuleHelpFromRegistry.tsx', 'ModuleHelpFromRegistry');
+  mustInclude('src/modules/core/ui/ModuleHelpHint.tsx', 'ModuleHelpHint');
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx',
+    'ModuleHelpFromRegistry',
+    'moduleId="valv"',
+  );
+  mustInclude(
+    'src/modules/features/family/children/supermodule/FamiljenInputSuperModule.tsx',
+    'ModuleHelpFromRegistry',
+    'moduleId="familjen"',
+  );
+  mustInclude(
+    'src/modules/capture/CaptureSuperModule.tsx',
+    'ModuleHelpFromRegistry',
+    'moduleId="capture"',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultMonsterPanel.tsx',
+    'moduleId="valv_monster"',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx',
+    'moduleId="valv_orkester"',
+  );
+  mustNotInclude('src/modules/core/lifeOs/index.ts', 'LifeHubHubHint');
+
   console.log('[smoke:design-modules] Shared module shell…');
   mustInclude(
     'src/modules/core/layout/ModuleShell.tsx',

@@ -2,8 +2,8 @@ import { Loader2 } from 'lucide-react';
 import { HubDropdownNav } from '@/core/ui/HubDropdownNav';
 import { useStore } from '@/core/store';
 import { normalizeInkastTagSelection } from '../api/inkastService';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { TaggSelector } from '@/shared/components/TaggSelector';
-import { TaggHelpPanel } from '@/shared/components/TaggHelpPanel';
 import {
   INKAST_SILO_DESCRIPTIONS,
   INKAST_SILO_ITEMS,
@@ -75,7 +75,7 @@ export function InkastManualEditForm({
           <p className="text-[10px] font-bold uppercase tracking-widest text-text-dim">
             Analys-tagg
           </p>
-          <TaggHelpPanel />
+          <ModuleHelpFromRegistry moduleId="inkast_tags" />
         </div>
         <TaggSelector
           value={tags}
