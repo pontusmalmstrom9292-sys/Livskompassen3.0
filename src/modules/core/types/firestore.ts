@@ -439,6 +439,7 @@ export const FIRESTORE_COLLECTIONS = {
   mabra_sessions: 'mabra_sessions',
   mabra_progress: 'mabra_progress',
   mabra_explore_queue: 'mabra_explore_queue',
+  mabra_nutrition_log: 'mabra_nutrition_log',
   recovery_profile: 'recovery_profile',
   vit_hub: 'vit_hub',
   vit_entries: 'vit_entries',

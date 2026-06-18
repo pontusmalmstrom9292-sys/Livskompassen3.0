@@ -23,13 +23,26 @@ function main() {
   for (const id of [
     'MB-REF-ADHD-01',
     'MB-REF-ADHD-02',
+    'MB-REF-ADHD-05',
+    'MB-REF-ADHD-06',
+    'MB-REF-ADHD-07',
     'MB-REF-GAD-01',
     'MB-REF-GAD-02',
+    'MB-REF-GAD-07',
+    'MB-REF-GAD-08',
     'MB-REF-ACT-01',
   ]) {
     assert(reflection.includes(id), `mabraReflectionCards saknar ${id}`);
   }
-  for (const id of ['MB-PLAY-05', 'MB-PLAY-06', 'MB-PLAY-GAD-01', 'MB-PLAY-08']) {
+  for (const id of [
+    'MB-PLAY-05',
+    'MB-PLAY-06',
+    'MB-PLAY-GAD-01',
+    'MB-PLAY-GAD-02',
+    'MB-PLAY-GAD-03',
+    'MB-PLAY-GAD-04',
+    'MB-PLAY-08',
+  ]) {
     assert(plays.includes(id), `mabraExtendedPlays saknar ${id}`);
   }
   assert(!reflection.includes('knowledgeVaultQuery'), 'MåBra får inte RAG');

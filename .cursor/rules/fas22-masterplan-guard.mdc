@@ -1,0 +1,38 @@
+---
+description: Fas 22 masterplan gate — parallell research done, YOLO sprint active
+globs:
+alwaysApply: false
+---
+
+# Fas 22 — mästerplan-gate
+
+Kanon: [`docs/evaluations/2026-06-18-fas22-masterplan-v2.md`](../../docs/evaluations/2026-06-18-fas22-masterplan-v2.md) · Sprint: [`docs/FAS22-SPRINT-AUTORUN.md`](../../docs/FAS22-SPRINT-AUTORUN.md)
+
+## Gate (MUST)
+
+1. **Ingen stor städ utan godkänd masterplan v2 + PMIR** där det krävs.
+2. **En våg = en chatt** — handoff via `.orkester/fas22-state.json`.
+3. **Trippel-smoke** Tier 0–3 före PASS (se FAS22-SPRINT-AUTORUN).
+4. **Master YOLO:** commit + push + named deploy efter PASS — ingen force-push.
+5. **22.3 BLOCKERAD** utan godkänd `docs/evaluations/2026-06-18-mabra-3.0-c-phase2-pmir.md`.
+
+## PMIR-stopp (SKIP + blocker-fas22-*.md)
+
+- `firestore.rules` / `storage.rules` (utan 22.2 PMIR + Pontus OK)
+- Barnporten kanon-UI
+- Gmail OAuth / Google Calendar
+- Genkit V1
+- Mass-radering utan arkiv-först + Pontus OK
+- Sacred / Locked UX borttagning
+- Hem→Hjärtat full merge (genväg polish only i 22.8)
+- `APP_CHECK_ENFORCE` / Console Enforce (Pontus manuellt)
+
+## När detta gäller
+
+`fas 22`, `fas22:autorun`, `FAS22_AUTORUN`, Master YOLO med Fas 22 scope.
+
+## MUST
+
+- `npm run smoke:locked-ux` före merge som rör Valv/Familjen/MåBra
+- `specialist-verifier` på våg 22.3 (M3.0-C rules) och 22.10 (security)
+- Manuella gates: [`docs/evaluations/2026-06-18-fas20-manual-pontus-gates.md`](../../docs/evaluations/2026-06-18-fas20-manual-pontus-gates.md)

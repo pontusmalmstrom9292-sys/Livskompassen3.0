@@ -38,6 +38,9 @@ function main() {
     'CUR-ADHD-01',
     'CUR-GAD-01',
     'CUR-TAKTIK-01',
+    'CUR-MYNDIGHET-01',
+    'kunskap-fact-jur-008',
+    'kunskap-fact-soc-001',
     'CUR-SOBRIETY-01',
   );
 

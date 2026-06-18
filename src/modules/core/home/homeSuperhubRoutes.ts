@@ -7,6 +7,7 @@ export const HOME_SUPERHUB_ROUTES = {
   hjartatReflektion: '/hjartat/input?inputMode=reflektion',
   hjartatQuickMirror: '/hjartat/input?inputMode=quick_mirror',
   hjartatArkiv: '/hjartat/input?inputMode=arkiv',
+  hemInkast: '/#inkast-lite',
   planeringTask: '/planering/input?inputMode=task_quick',
   planeringInkast: '/planering/input?inputMode=inkast',
   planeringList: '/planering/input?inputMode=quick_list',

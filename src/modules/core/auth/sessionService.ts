@@ -1,5 +1,5 @@
 import { httpsCallable } from 'firebase/functions';
-import { functions } from '../firebase/init';
+import { functions, auth } from '../firebase/init';
 import { clearVaultServerSession } from './vaultServerSession';
 import type { VaultZoneId } from '../security/vaultZones';
 import { vaultZoneStorageKey, ALL_VAULT_ZONE_IDS } from '../security/vaultZones';
@@ -13,6 +13,9 @@ export const VAULT_SESSION_IDLE_MS = 60 * 60 * 1000;
 export async function invalidateServerSession(): Promise<void> {
   try {
     await invalidateSessionCallable();
+    if (auth.currentUser) {
+      await auth.currentUser.getIdToken(true);
+    }
   } catch (err) {
     console.warn('[ZeroFootprint] invalidateSession misslyckades:', err);
   }

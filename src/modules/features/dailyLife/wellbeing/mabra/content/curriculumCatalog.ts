@@ -315,6 +315,42 @@ export const CURRICULUMS: readonly VitCurriculum[] = [
     ],
     broLinks: [{ label: 'Drogfrihet-hub', route: '/drogfrihet' }],
   },
+  {
+    id: 'CUR-MYNDIGHET-01',
+    title: 'Myndighet & skola — neutral dialog',
+    wave: 30,
+    theme: 'soc_skola_juridik',
+    chapters: [
+      {
+        title: 'Socialtjänst',
+        kunskapFactId: 'kunskap-fact-soc-001',
+        factTitleSv: 'Socialtjänst — handläggning',
+        factSummarySv: 'Neutral processinfo — beteende och datum i dokumentation, inte diagnos på motpart.',
+        citationHint: 'BBIC processöversikt',
+        exercises: [],
+      },
+      {
+        title: 'Skola & BUP',
+        kunskapFactId: 'kunskap-fact-skol-001',
+        factTitleSv: 'Skolrapport och kartläggning',
+        factSummarySv: 'Observerbart beteende och datum — separera citat från tolkning.',
+        citationHint: 'Skolverket dokumentation',
+        exercises: [],
+      },
+      {
+        title: 'Juridik & sekretess',
+        kunskapFactId: 'kunskap-fact-jur-008',
+        factTitleSv: 'Sekretess soc/skola',
+        factSummarySv: 'Vilken information får delas mellan aktörer — logistik, inte känsloargument.',
+        citationHint: 'Offentlighets- och sekretesslag',
+        exercises: [],
+      },
+    ],
+    broLinks: [
+      { label: 'Hamn — BIFF', route: '/familjen?tab=hamn' },
+      { label: 'Valv — dokumentera', route: '/valvet' },
+    ],
+  },
 ] as const;
 
 export function getCurriculum(id: string): VitCurriculum | undefined {

@@ -133,6 +133,13 @@ function main() {
   const signOutBody = authSvc.match(/export async function signOutUser\(\)[^{]*\{([\s\S]*?)^\}/m);
   assert(signOutBody?.[1]?.includes('await endVaultSession()'), 'signOutUser måste anropa endVaultSession');
   mustInclude('src/modules/core/auth/authService.ts', 'clearSpeglarSession');
+  mustInclude('src/modules/core/auth/sessionService.ts', 'getIdToken(true)');
+  mustInclude('functions/src/callables/agents.ts', 'clearVaultJwtClaims', 'vaultUnlocked', 'adkOrchestrator.clearContext');
+  mustInclude('functions/src/callables/processBrusfilter.ts', "trigger: 'dcap_alert'", 'emitSynapse');
+  mustInclude('functions/src/economy/mabraEconomySync.ts', 'handleDcapAlert');
+  mustInclude('firestore.rules', 'unlockedFeatureFlags');
+  mustInclude('functions/src/index.ts', 'biffRewriteDraft', 'generateKompassrad', 'journalSilentReflection');
+  mustInclude('src/modules/core/ui/ChameleonInputShell.tsx', 'useChameleonMorph', 'chameleon-input-shell');
 
   console.log('[smoke:valv-security] PASS — Valv WORM-session hardening.');
 }

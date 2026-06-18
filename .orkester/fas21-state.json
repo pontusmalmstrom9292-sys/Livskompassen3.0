@@ -1,0 +1,158 @@
+{
+  "version": 1,
+  "sprint": "fas21-masterplan-v2",
+  "startedAt": "2026-06-18T11:06:59.082Z",
+  "updatedAt": "2026-06-18T11:15:30.000Z",
+  "status": "done",
+  "nextWaveId": null,
+  "completedWaves": [
+    "baseline",
+    "21.1",
+    "21.2",
+    "21.3",
+    "21.4",
+    "21.5",
+    "21.6",
+    "21.7",
+    "21.8",
+    "21.9",
+    "21.10",
+    "21.11",
+    "slutrapport"
+  ],
+  "skippedWaves": [],
+  "failures": [],
+  "waves": [
+    "baseline",
+    "21.1",
+    "21.2",
+    "21.3",
+    "21.4",
+    "21.5",
+    "21.6",
+    "21.7",
+    "21.8",
+    "21.9",
+    "21.10",
+    "21.11",
+    "slutrapport"
+  ],
+  "waveDetails": [
+    {
+      "id": "baseline",
+      "plan": "npm run orkester:night",
+      "deploy": "none",
+      "agent": false,
+      "completedAt": "2026-06-18T11:15:30.000Z"
+    },
+    {
+      "id": "21.1",
+      "plan": "Fas20 post-leverans doc-synk + arkiv-batch 4a",
+      "deploy": "none",
+      "agent": true,
+      "completedAt": "2026-06-18T11:15:30.000Z"
+    },
+    {
+      "id": "21.2",
+      "plan": "M3.0-C PMIR eval doc",
+      "deploy": "none",
+      "agent": true,
+      "completedAt": "2026-06-18T11:15:30.000Z"
+    },
+    {
+      "id": "21.3",
+      "plan": "M3.0-C Phase 1 UI wire (ingen ny collection)",
+      "deploy": "hosting",
+      "agent": true,
+      "completedAt": "2026-06-18T11:15:30.000Z"
+    },
+    {
+      "id": "21.4",
+      "plan": "MåBra v27 bank-wire (5 ref + 3 play)",
+      "deploy": "hosting,functions:mabraCoach",
+      "agent": true,
+      "completedAt": "2026-06-18T11:15:30.000Z"
+    },
+    {
+      "id": "21.5",
+      "plan": "Content våg 30 CUR-MYNDIGHET-01 curriculum",
+      "deploy": "hosting",
+      "agent": true,
+      "completedAt": "2026-06-18T11:15:30.000Z"
+    },
+    {
+      "id": "21.6",
+      "plan": "Arkiv-batch 4b + sub-lazy Valv/Familjen",
+      "deploy": "hosting",
+      "agent": true,
+      "completedAt": "2026-06-18T11:15:30.000Z"
+    },
+    {
+      "id": "21.7",
+      "plan": "Adaptiv Hemkompass wire (Forge morgon + Paralys dag)",
+      "deploy": "hosting",
+      "agent": true,
+      "completedAt": "2026-06-18T11:15:30.000Z"
+    },
+    {
+      "id": "21.8",
+      "plan": "Smart Inkast Hem→Hjärtat genväg + toast",
+      "deploy": "hosting",
+      "agent": true,
+      "completedAt": "2026-06-18T11:15:30.000Z"
+    },
+    {
+      "id": "21.9",
+      "plan": "Familjen/Hamn polish + brusfilter-wizard PMIR",
+      "deploy": "none",
+      "agent": true,
+      "completedAt": "2026-06-18T11:15:30.000Z"
+    },
+    {
+      "id": "21.10",
+      "plan": "App Check guard audit + JWT refresh + runbook",
+      "deploy": "functions:invalidateSession,hosting",
+      "agent": true,
+      "completedAt": "2026-06-18T11:15:30.000Z"
+    },
+    {
+      "id": "21.11",
+      "plan": "Android doc-synk + Play Integrity runbook",
+      "deploy": "none",
+      "agent": true,
+      "completedAt": "2026-06-18T11:15:30.000Z"
+    },
+    {
+      "id": "slutrapport",
+      "plan": "fas21-leverans + smoke:tier1 + orkester:night",
+      "deploy": "none",
+      "agent": true,
+      "completedAt": "2026-06-18T11:15:30.000Z"
+    }
+  ],
+  "git": {
+    "branch": "main",
+    "sha": "e70e4d643",
+    "dirty": true
+  },
+  "policy": {
+    "smokePerWave": true,
+    "commitPushDeploy": "on_pass",
+    "masterYolo": true,
+    "firebaseProject": "gen-lang-client-0481875058",
+    "pmirStops": [
+      "firestore.rules",
+      "storage.rules",
+      "barnporten-kanon-ui",
+      "gmail-oauth",
+      "genkit-v1",
+      "mass-delete"
+    ]
+  },
+  "smokeSummary": {
+    "tier0": "PASS",
+    "tier1": "PASS",
+    "orkesterNight": "PASS",
+    "notes": "21.9 wizard impl deferred per PMIR; App Check Enforce + Play Integrity Console = Pontus manuellt"
+  }
+}

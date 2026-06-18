@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, lazy, Suspense, type ReactNode } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { clsx } from 'clsx';
@@ -11,12 +11,35 @@ import {
 } from './familjenInputModes';
 import { FamiljenInputModePicker } from './FamiljenInputModePicker';
 import type { FamiljenShell } from '../hooks/useFamiljenShell';
-import { FamiljenBarnfokusDelegate } from './delegates/FamiljenBarnfokusDelegate';
-import { FamiljenLivsloggStundDelegate } from './delegates/FamiljenLivsloggStundDelegate';
-import { FamiljenFysiologiDelegate } from './delegates/FamiljenFysiologiDelegate';
-import { FamiljenLivsloggObservationDelegate } from './delegates/FamiljenLivsloggObservationDelegate';
-import { FamiljenVardagsstrukturDelegate } from './delegates/FamiljenVardagsstrukturDelegate';
-import { FamiljenInkastDelegate } from './delegates/FamiljenInkastDelegate';
+
+const FamiljenBarnfokusDelegate = lazy(() =>
+  import('./delegates/FamiljenBarnfokusDelegate').then((m) => ({ default: m.FamiljenBarnfokusDelegate })),
+);
+const FamiljenLivsloggStundDelegate = lazy(() =>
+  import('./delegates/FamiljenLivsloggStundDelegate').then((m) => ({
+    default: m.FamiljenLivsloggStundDelegate,
+  })),
+);
+const FamiljenFysiologiDelegate = lazy(() =>
+  import('./delegates/FamiljenFysiologiDelegate').then((m) => ({ default: m.FamiljenFysiologiDelegate })),
+);
+const FamiljenLivsloggObservationDelegate = lazy(() =>
+  import('./delegates/FamiljenLivsloggObservationDelegate').then((m) => ({
+    default: m.FamiljenLivsloggObservationDelegate,
+  })),
+);
+const FamiljenVardagsstrukturDelegate = lazy(() =>
+  import('./delegates/FamiljenVardagsstrukturDelegate').then((m) => ({
+    default: m.FamiljenVardagsstrukturDelegate,
+  })),
+);
+const FamiljenInkastDelegate = lazy(() =>
+  import('./delegates/FamiljenInkastDelegate').then((m) => ({ default: m.FamiljenInkastDelegate })),
+);
+
+function FamiljenDelegateFallback() {
+  return <p className="py-4 text-center text-xs text-text-dim">Laddar…</p>;
+}
 
 export type FamiljenInputSuperModuleProps = {
   /** Obligatorisk — all state och writes från parent (FamiljenPage). */
@@ -116,20 +139,28 @@ type DelegateProps = {
 };
 
 function FamiljenInputModeDelegate({ mode, shell, onSaved }: DelegateProps) {
+  let content: ReactNode = null;
   switch (mode) {
     case 'barnfokus':
-      return <FamiljenBarnfokusDelegate shell={shell} onSaved={onSaved} />;
+      content = <FamiljenBarnfokusDelegate shell={shell} onSaved={onSaved} />;
+      break;
     case 'livslogg_stund':
-      return <FamiljenLivsloggStundDelegate shell={shell} onSaved={onSaved} />;
+      content = <FamiljenLivsloggStundDelegate shell={shell} onSaved={onSaved} />;
+      break;
     case 'fysiologi':
-      return <FamiljenFysiologiDelegate shell={shell} onSaved={onSaved} />;
+      content = <FamiljenFysiologiDelegate shell={shell} onSaved={onSaved} />;
+      break;
     case 'livslogg_observation':
-      return <FamiljenLivsloggObservationDelegate shell={shell} onSaved={onSaved} />;
+      content = <FamiljenLivsloggObservationDelegate shell={shell} onSaved={onSaved} />;
+      break;
     case 'vardagsstruktur':
-      return <FamiljenVardagsstrukturDelegate shell={shell} onSaved={onSaved} />;
+      content = <FamiljenVardagsstrukturDelegate shell={shell} onSaved={onSaved} />;
+      break;
     case 'inkast':
-      return <FamiljenInkastDelegate shell={shell} onSaved={onSaved} />;
+      content = <FamiljenInkastDelegate shell={shell} onSaved={onSaved} />;
+      break;
     default:
       return null;
   }
+  return <Suspense fallback={<FamiljenDelegateFallback />}>{content}</Suspense>;
 }

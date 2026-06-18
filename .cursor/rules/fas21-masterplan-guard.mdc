@@ -1,0 +1,36 @@
+---
+description: Fas 21 masterplan gate — parallell research done, YOLO sprint active
+globs:
+alwaysApply: false
+---
+
+# Fas 21 — mästerplan-gate
+
+Kanon: [`docs/evaluations/2026-06-18-fas21-masterplan-v2.md`](../../docs/evaluations/2026-06-18-fas21-masterplan-v2.md) · Sprint: [`docs/FAS21-SPRINT-AUTORUN.md`](../../docs/FAS21-SPRINT-AUTORUN.md)
+
+## Gate (MUST)
+
+1. **Ingen stor städ utan godkänd masterplan v2 + PMIR** där det krävs.
+2. **En våg = en chatt** — handoff via `.orkester/fas21-state.json`.
+3. **Trippel-smoke** Tier 0–3 före PASS (se FAS21-SPRINT-AUTORUN).
+4. **Master YOLO:** commit + push + named deploy efter PASS — ingen force-push.
+
+## PMIR-stopp (SKIP + blocker-fas21-*.md)
+
+- `firestore.rules` / `storage.rules`
+- Barnporten kanon-UI
+- Gmail OAuth / Google Calendar
+- Genkit V1
+- Mass-radering utan arkiv-först + Pontus OK
+- Sacred / Locked UX borttagning
+- Hem→Hjärtat full merge (genväg only i 21.8)
+
+## När detta gäller
+
+`fas 21`, `fas21:autorun`, `FAS21_AUTORUN`, Master YOLO med Fas 21 scope.
+
+## MUST
+
+- `npm run smoke:locked-ux` före merge som rör Valv/Familjen/MåBra
+- `specialist-verifier` på våg 21.3 (M3.0-C) och 21.10 (security)
+- Manuella gates: [`docs/evaluations/2026-06-18-fas20-manual-pontus-gates.md`](../../docs/evaluations/2026-06-18-fas20-manual-pontus-gates.md)

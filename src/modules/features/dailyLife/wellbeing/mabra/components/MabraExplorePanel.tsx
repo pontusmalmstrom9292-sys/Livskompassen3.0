@@ -80,16 +80,22 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
   };
 
   const loadQueue = useCallback(async () => {
-    if (!uid) {
-      setLoading(false);
-      return;
-    }
     setLoading(true);
     setSaveError(null);
+    const anonKey = uid ?? 'anon';
     try {
-      const row = await getMabraExploreQueue(uid);
-      const skips = readExploreSkipCount(uid, weekKey);
+      const skips = readExploreSkipCount(anonKey, weekKey);
       setSkipCount(skips);
+
+      if (!uid) {
+        const generated = buildWeeklyAvailableTasks({ uid: anonKey, weekKey, filters });
+        setAvailableTasks(generated);
+        setCompletedTasks([]);
+        setLoading(false);
+        return;
+      }
+
+      const row = await getMabraExploreQueue(uid);
 
       const mustRegenerate =
         !row || needsWeeklyRegeneration(row.lastGenerated) || row.availableTasks.length === 0;
@@ -134,15 +140,21 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
   );
 
   const handleSkip = () => {
-    if (!uid || !currentTask) return;
+    if (!currentTask) return;
     if (skipCount >= EXPLORE_MAX_SKIPS) return;
+    const anonKey = uid ?? 'anon';
     const next = skipCount + 1;
-    writeExploreSkipCount(uid, weekKey, next);
+    writeExploreSkipCount(anonKey, weekKey, next);
     setSkipCount(next);
   };
 
   const handleComplete = async () => {
-    if (!uid || !currentTask) return;
+    if (!currentTask) return;
+    if (!uid) {
+      setDone(true);
+      onComplete?.(currentTask.id);
+      return;
+    }
     setSaving(true);
     setSaveError(null);
     try {
@@ -165,21 +177,22 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
   };
 
   const handleRegenerate = async () => {
-    if (!uid || filters.length === 0) return;
+    if (filters.length === 0) return;
     setSaving(true);
     setSaveError(null);
+    const anonKey = uid ?? 'anon';
     try {
       const generated = buildWeeklyAvailableTasks({
-        uid,
+        uid: anonKey,
         weekKey,
         filters,
         excludeIds: completedTasks,
       });
       setAvailableTasks(generated);
-      clearExploreSkipCount(uid, weekKey);
+      clearExploreSkipCount(anonKey, weekKey);
       setSkipCount(0);
       setDone(false);
-      if (generated.length > 0) {
+      if (generated.length > 0 && uid) {
         await saveMabraExploreQueue(uid, {
           availableTasks: generated,
           completedTasks,
@@ -265,7 +278,7 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
           <p className="text-sm text-text-muted">{COPY.empty}</p>
           <button
             type="button"
-            disabled={saving || !uid}
+            disabled={saving}
             onClick={() => void handleRegenerate()}
             className="btn-pill--secondary w-full"
           >

@@ -671,6 +671,40 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    function isValidMabraNutritionDayWrite() {
+      return request.resource.data.keys().hasOnly([
+          'userId', 'ownerId', 'dateKey', 'waterGlasses', 'proteinMarked',
+          'omega3Marked', 'mealMarked', 'updatedAt',
+        ])
+        && request.resource.data.dateKey is string
+        && request.resource.data.dateKey.size() == 10
+        && request.resource.data.waterGlasses is int
+        && request.resource.data.waterGlasses >= 0
+        && request.resource.data.waterGlasses <= 12
+        && request.resource.data.proteinMarked is bool
+        && request.resource.data.omega3Marked is bool
+        && request.resource.data.mealMarked is bool
+        && request.resource.data.updatedAt is timestamp;
+    }
+
+    // Kat 2 P6-B — Näring & vätska (mutable profil, ej WORM / ej Valv).
+    match /mabra_nutrition_log/{uid}/days/{dateKey} {
+      allow read: if isAuthenticated() && request.auth.uid == uid;
+      allow create: if isAuthenticated()
+        && uid == request.auth.uid
+        && isOwnerCreate()
+        && isValidMabraNutritionDayWrite()
+        && request.resource.data.dateKey == dateKey;
+      allow update: if isAuthenticated()
+        && uid == request.auth.uid
+        && isOwner()
+        && isValidMabraNutritionDayWrite()
+        && request.resource.data.dateKey == resource.data.dateKey
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId;
+      allow delete: if false;
+    }
+
     // Kat 6 P6-A — Utforskningskö. Mutable profil; completedTasks append-only.
     // FÖRBJUDET: sourceRef, truth, evidenceUrl, vault-fält, children_logs-koppling.
     match /mabra_explore_queue/{uid} {

@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "sprint": "fas20-masterplan-v2",
+  "startedAt": "2026-06-18T10:31:49.056Z",
+  "updatedAt": "2026-06-18T10:32:02.093873Z",
+  "status": "done",
+  "nextWaveId": null,
+  "completedWaves": [
+    "baseline",
+    "20.1",
+    "20.2",
+    "20.3",
+    "20.4",
+    "20.5",
+    "20.6",
+    "20.7",
+    "20.9",
+    "slutrapport"
+  ],
+  "skippedWaves": [],
+  "failures": [],
+  "waves": [
+    "baseline",
+    "20.1",
+    "20.2",
+    "20.3",
+    "20.4",
+    "20.5",
+    "20.6",
+    "20.7",
+    "20.9",
+    "slutrapport"
+  ],
+  "waveDetails": [
+    {
+      "id": "baseline",
+      "plan": "npm run orkester:night",
+      "deploy": "none",
+      "agent": false
+    },
+    {
+      "id": "20.1",
+      "plan": "doc-synk post-Fas19 + zone memos + archive PMIR",
+      "deploy": "none",
+      "agent": true
+    },
+    {
+      "id": "20.2",
+      "plan": "Valv JWT lock on invalidateSession (Zero Footprint)",
+      "deploy": "functions:invalidateSession",
+      "agent": true
+    },
+    {
+      "id": "20.3",
+      "plan": "hex\u2192tokens P2 planering.css",
+      "deploy": "hosting",
+      "agent": true
+    },
+    {
+      "id": "20.4",
+      "plan": "Hj\u00e4rtat + Inkast polish (toast copy)",
+      "deploy": "hosting",
+      "agent": true
+    },
+    {
+      "id": "20.5",
+      "plan": "content v30 prep + content:night",
+      "deploy": "none",
+      "agent": true
+    },
+    {
+      "id": "20.6",
+      "plan": "tri-gate economy_advanced \u2192 evolution_hub + capability",
+      "deploy": "functions:mabraEconomySync",
+      "agent": true
+    },
+    {
+      "id": "20.7",
+      "plan": "/oversikt redirect \u2192 /dashboard",
+      "deploy": "hosting",
+      "agent": true
+    },
+    {
+      "id": "20.9",
+      "plan": "Android doc-synk + smoke:android-platform",
+      "deploy": "none",
+      "agent": true
+    },
+    {
+      "id": "slutrapport",
+      "plan": "fas20-leverans + smoke:tier1 + orkester:night",
+      "deploy": "none",
+      "agent": true
+    }
+  ],
+  "git": {
+    "branch": "main",
+    "sha": "258a14a6a",
+    "dirty": 54
+  },
+  "policy": {
+    "smokePerWave": true,
+    "commitPushDeploy": "on_pass",
+    "masterYolo": true,
+    "firebaseProject": "gen-lang-client-0481875058",
+    "pmirStops": [
+      "firestore.rules",
+      "storage.rules",
+      "barnporten-kanon-ui",
+      "gmail-oauth",
+      "genkit-v1",
+      "mass-delete"
+    ]
+  }
+}

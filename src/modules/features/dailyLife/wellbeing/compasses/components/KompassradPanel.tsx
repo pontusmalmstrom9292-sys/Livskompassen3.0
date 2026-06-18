@@ -1,5 +1,7 @@
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { useEffect, useState } from 'react';
 import { getCompassAdvice, getCompassFlowMeta } from '../utils/compassAdvice';
+import { fetchKompassrad } from '../api/kompassradService';
 
 const TAGS = [
   { id: 'biff', label: 'BIFF' },
@@ -7,10 +9,23 @@ const TAGS = [
   { id: 'parallel', label: 'Parallellt föräldraskap' },
 ] as const;
 
-/** D3 — dagens kompassråd + taggar (Hamn/Hem). */
+/** D3 — dagens kompassråd + taggar (Hem/Hamn). LLM med statisk fallback. */
 export function KompassradPanel() {
   const meta = getCompassFlowMeta();
-  const advice = getCompassAdvice(meta.flow);
+  const staticAdvice = getCompassAdvice(meta.flow);
+  const [advice, setAdvice] = useState(staticAdvice);
+
+  useEffect(() => {
+    let cancelled = false;
+    void fetchKompassrad(meta.flow).then((result) => {
+      if (!cancelled && result?.advice) {
+        setAdvice(result.advice);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [meta.flow]);
 
   return (
     <BentoCard

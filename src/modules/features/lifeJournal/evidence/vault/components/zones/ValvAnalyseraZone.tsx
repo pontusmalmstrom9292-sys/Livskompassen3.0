@@ -1,11 +1,21 @@
+import { lazy, Suspense } from 'react';
 import { TabBar } from '@/core/ui/TabBar';
 import { getAnalyseraVaultTabBarItems } from '@/core/navigation/tabRegistry';
 import { useVaultStore } from '@/core/store/useVaultStore';
 import { useStore } from '@/core/store';
 import { PansaretHeader } from '../PansaretHeader';
-import { VaultMonsterPanel } from '../VaultMonsterPanel';
-import { VaultOrkesterPanel } from '../VaultOrkesterPanel';
 import type { AnalyseraVaultTab } from '../../utils/vaultTabs';
+
+const VaultMonsterPanel = lazy(() =>
+  import('../VaultMonsterPanel').then((m) => ({ default: m.VaultMonsterPanel })),
+);
+const VaultOrkesterPanel = lazy(() =>
+  import('../VaultOrkesterPanel').then((m) => ({ default: m.VaultOrkesterPanel })),
+);
+
+function ValvPanelFallback() {
+  return <p className="py-6 text-center text-xs text-text-dim">Laddar analys…</p>;
+}
 
 export type ValvAnalyseraZoneProps = {
   tab: AnalyseraVaultTab;
@@ -16,7 +26,7 @@ export type ValvAnalyseraZoneProps = {
 export function ValvAnalyseraZone({ tab, onTabChange }: ValvAnalyseraZoneProps) {
   const { logs } = useVaultStore();
   const userId = useStore((s) => s.user?.uid);
-  
+
   return (
     <>
       <div className="mb-3">
@@ -27,14 +37,16 @@ export function ValvAnalyseraZone({ tab, onTabChange }: ValvAnalyseraZoneProps) 
           onChange={onTabChange}
         />
       </div>
-      {tab === 'orkester' ? (
-        <VaultOrkesterPanel logs={logs} />
-      ) : (
-        <>
-          <PansaretHeader />
-          <VaultMonsterPanel logs={logs} userId={userId} />
-        </>
-      )}
+      <Suspense fallback={<ValvPanelFallback />}>
+        {tab === 'orkester' ? (
+          <VaultOrkesterPanel logs={logs} />
+        ) : (
+          <>
+            <PansaretHeader />
+            <VaultMonsterPanel logs={logs} userId={userId} />
+          </>
+        )}
+      </Suspense>
     </>
   );
 }

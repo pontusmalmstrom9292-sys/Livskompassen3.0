@@ -1,6 +1,7 @@
 import { onDocumentWritten } from 'firebase-functions/v2/firestore';
 import * as admin from 'firebase-admin';
 import { GCP_REGION } from '../config';
+import { handleDcapAlert } from '../adk/synapses/dcapAlertSynapse';
 
 export const mabraEconomySync = onDocumentWritten(
   {
@@ -69,22 +70,12 @@ export const mabraEconomySync = onDocumentWritten(
     if (count48h > 0 && averageScore48h < SAFETY_THRESHOLD) {
       economyAdvanced = false;
 
-      // Log DCAP alert (WORM-compliance)
-      await db.collection('dcap_alerts').add({
+      await handleDcapAlert({
         ownerId: uid,
-        userId: uid,
-        riskScore: 80, // High cognitive load / fatigue signal
+        riskScore: 80,
         recommendedAction: 'ALERT',
         inputHash: 'mabra_economy_circuit_breaker',
-        payloadHash: 'mabra_economy_circuit_breaker',
-        status: 'pending_human_review',
-        source: 'dcap_alert',
-        createdAt: admin.firestore.FieldValue.serverTimestamp(),
-        metadata: {
-          reason: 'Circuit Breaker: 48h MåBra trend below safety threshold',
-          averageScore48h,
-          averageScore7d,
-        }
+        detectionCount: 1,
       });
       console.log(`[CircuitBreaker] Tripped for user ${uid}. Logged dcap_alert.`);
     }

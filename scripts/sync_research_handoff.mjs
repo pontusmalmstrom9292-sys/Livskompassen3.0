@@ -48,11 +48,11 @@ const COPY_FILES = [
 ];
 
 const VAG_SOURCES = [
-  'docs/evaluations/2026-06-18-fas19-vag-19.1.md',
-  'docs/evaluations/2026-06-18-fas19-vag-19.2.md',
-  'docs/evaluations/2026-06-18-fas19-vag-19.3.md',
-  'docs/evaluations/2026-06-18-fas19-vag-19.4.md',
-  'docs/evaluations/2026-06-18-fas19-vag-19.5.md',
+  'docs/archive/evaluations-fas19-sprint-2026-06/2026-06-18-fas19-vag-19.1.md',
+  'docs/archive/evaluations-fas19-sprint-2026-06/2026-06-18-fas19-vag-19.2.md',
+  'docs/archive/evaluations-fas19-sprint-2026-06/2026-06-18-fas19-vag-19.3.md',
+  'docs/archive/evaluations-fas19-sprint-2026-06/2026-06-18-fas19-vag-19.4.md',
+  'docs/archive/evaluations-fas19-sprint-2026-06/2026-06-18-fas19-vag-19.5.md',
 ];
 
 const README = `# Research handoff — exakt 10 filer (Gemini-gräns)

@@ -65,6 +65,15 @@ async function main() {
   assert(agentsSrc.includes('capacityBand'), 'agents saknar capacityBand');
   console.log('[smoke] P4 bank_parafras + capacity static guards OK');
 
+  const nutritionService = readFileSync(
+    resolve(root, 'src/modules/features/dailyLife/wellbeing/mabra/api/mabraNutritionLogService.ts'),
+    'utf8',
+  );
+  const rulesSrc = readFileSync(resolve(root, 'firestore.rules'), 'utf8');
+  assert(nutritionService.includes('mabra_nutrition_log'), 'nutrition service saknar collection');
+  assert(rulesSrc.includes('match /mabra_nutrition_log/{uid}/days/{dateKey}'), 'rules saknar mabra_nutrition_log');
+  console.log('[smoke] M3.0-C Phase 2 nutrition static guards OK');
+
   const env = loadEnv();
   const app = initializeApp({
     apiKey: env.VITE_FIREBASE_API_KEY,

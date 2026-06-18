@@ -3,6 +3,9 @@ import { createGenAI } from '../lib/genaiClient';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import { assertVaultSession } from '../lib/vaultSessionGate';
 import { geminiApiKey } from '../lib/geminiSecret';
+import { adkOrchestrator } from '../adk';
+import { emitSynapse } from '../adk/synapses/synapseBus';
+import { hashPayload } from '../adk/stateStore';
 
 const BRUSFILTER_MODEL = 'gemini-2.5-flash';
 
@@ -180,6 +183,23 @@ export const processBrusfilter = onCall(
       console.log(
         `[processBrusfilter] uid=${uid} risk=${result.dcap_analysis.risk_score} action=${result.dcap_analysis.recommended_action}`,
       );
+
+      if (
+        result.dcap_analysis.recommended_action === 'VARNING' ||
+        result.dcap_analysis.risk_score >= 70
+      ) {
+        const inputHash = hashPayload({ text });
+        await emitSynapse(adkOrchestrator, {
+          trigger: 'dcap_alert',
+          payload: {
+            ownerId: uid,
+            riskScore: result.dcap_analysis.risk_score,
+            recommendedAction: 'ALERT',
+            inputHash,
+          },
+        });
+      }
+
       return result;
     } catch (error) {
       if (error instanceof HttpsError) throw error;

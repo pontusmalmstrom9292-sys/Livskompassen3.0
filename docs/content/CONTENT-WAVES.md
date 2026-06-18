@@ -34,6 +34,8 @@
 | 28 | Content master + Hamn wire | eko-009, cop-006↑, cn-048 | MB-PLAY-54321, MB-REF-rsd-04 | — | **done** 2026-06-18 — KEEP + ingest; wire 2026-06-16 · [`content-master`](../external-ai/imports/research-2026-06-18-content-master.md) |
 | 29 | Barnfokus bracket + epistemik | — | — | BP-PLAY-25..29 | **done** 2026-06-18 — [`vag-29.3`](../evaluations/2026-06-18-vag-29.3-leverans.md) |
 
-**Aktiv våg:** — (29 stängd 2026-06-18; nästa innehåll TBD)
+**Aktiv våg:** 31 (planerad Fas 22 — LVU/myndighet fördjupning)
 
 **Seed (Google-konto):** `SEED_FIREBASE_EMAIL` i `.env` + `gcloud auth application-default login` → `npm run seed:kunskap-facts`
+| 30 | Soc/skola/juridik curriculum wire | soc-001, skol-001, jur-008 | — | — | **done** 2026-06-18 — CUR-MYNDIGHET-01 wire fas21 · ingest verify fas22 våg 22.5 |
+| 31 | LVU/vårdnad + myndighetsdialog (plan) | jur-010..012, soc-002, bh-021 | MB-REF-REST-01 | — | **plan** 2026-06-18 — seed Fas22 W6; ingest efter PMIR |

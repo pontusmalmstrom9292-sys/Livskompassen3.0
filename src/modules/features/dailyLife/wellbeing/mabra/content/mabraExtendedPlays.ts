@@ -124,6 +124,30 @@ export const MABRA_EXTENDED_PLAYS: readonly DagligMixPlay[] = [
     title_sv: 'Egotrip-minut',
     rule_sv: 'Sätt en timer på 1 minut. Skriv ner 3 saker du gjort bra denna vecka. Sluta när timern ringer.',
   },
+  {
+    bankId: 'MB-PLAY-GAD-02',
+    content_class: 'PLAY',
+    source_tier: 'P1',
+    status: 'KEEP',
+    title_sv: 'Oro-lapp 2 min',
+    rule_sv: 'Sätt timer 2 min — skriv max tre orosord. Stopp. Lägg lappen åt sidan till kvällen.',
+  },
+  {
+    bankId: 'MB-PLAY-GAD-03',
+    content_class: 'PLAY',
+    source_tier: 'P1',
+    status: 'KEEP',
+    title_sv: 'Fysiologisk suck 3×',
+    rule_sv: 'Tre andetag: in genom näsan, kort extra sip, lång utandning. Ingen räkning. Stopp efter tre.',
+  },
+  {
+    bankId: 'MB-PLAY-GAD-04',
+    content_class: 'PLAY',
+    source_tier: 'P1',
+    status: 'KEEP',
+    title_sv: 'Fötter mot golv 30s',
+    rule_sv: 'Sitt stadigt. Känn fötterna mot underlaget i 30 sekunder — bara kontakt, ingen analys.',
+  },
 ] as const;
 
 export function getMabraPlay(bankId: string): DagligMixPlay | undefined {

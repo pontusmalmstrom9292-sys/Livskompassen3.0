@@ -1,18 +1,35 @@
 ---
 description: Orkestrerad natt-/batch-autorun med specialister — Conductor delegerar i fast ordning
 alwaysApply: false
-globs: .cursor/agents/**,.orkester/**,scripts/orkester*.mjs,scripts/master_yolo_init.mjs,scripts/fas19_autorun_init.mjs,scripts/fas20_autorun_init.mjs,docs/ORKESTER-AUTORUN.md,docs/MASTER-YOLO-AUTORUN.md,docs/FAS19-SPRINT-AUTORUN.md,docs/FAS20-SPRINT-AUTORUN.md
+globs: .cursor/agents/**,.orkester/**,scripts/orkester*.mjs,scripts/master_yolo_init.mjs,scripts/fas19_autorun_init.mjs,scripts/fas20_autorun_init.mjs,scripts/fas21_autorun_init.mjs,scripts/fas22_autorun_init.mjs,docs/ORKESTER-AUTORUN.md,docs/MASTER-YOLO-AUTORUN.md,docs/FAS19-SPRINT-AUTORUN.md,docs/FAS20-SPRINT-AUTORUN.md,docs/FAS21-SPRINT-AUTORUN.md,docs/FAS22-SPRINT-AUTORUN.md
 ---
 
 # Orkester Autorun
 
-Kanon: [`docs/ORKESTER-AUTORUN.md`](../../docs/ORKESTER-AUTORUN.md) · Fas 20: [`docs/FAS20-SPRINT-AUTORUN.md`](../../docs/FAS20-SPRINT-AUTORUN.md) · Fas 19: [`docs/FAS19-SPRINT-AUTORUN.md`](../../docs/FAS19-SPRINT-AUTORUN.md) · Master kö: [`docs/MASTER-YOLO-AUTORUN.md`](../../docs/MASTER-YOLO-AUTORUN.md)
+Kanon: [`docs/ORKESTER-AUTORUN.md`](../../docs/ORKESTER-AUTORUN.md) · Fas 22: [`docs/FAS22-SPRINT-AUTORUN.md`](../../docs/FAS22-SPRINT-AUTORUN.md) · Fas 21: [`docs/FAS21-SPRINT-AUTORUN.md`](../../docs/FAS21-SPRINT-AUTORUN.md) · Fas 20: [`docs/FAS20-SPRINT-AUTORUN.md`](../../docs/FAS20-SPRINT-AUTORUN.md) · Fas 19: [`docs/FAS19-SPRINT-AUTORUN.md`](../../docs/FAS19-SPRINT-AUTORUN.md) · Master kö: [`docs/MASTER-YOLO-AUTORUN.md`](../../docs/MASTER-YOLO-AUTORUN.md)
 
 ## När detta gäller
 
-Användaren säger **kör orkester**, **nattpass**, **autorun**, **fas 20**, **fas 19**, **master yolo**, eller `npm run orkester:night` / `npm run fas20:autorun` / `npm run fas19:autorun` / `npm run master:yolo`.
+Användaren säger **kör orkester**, **nattpass**, **autorun**, **fas 22**, **fas 21**, **fas 20**, **fas 19**, **master yolo**, eller `npm run orkester:night` / `npm run fas22:autorun` / `npm run fas21:autorun` / `npm run fas20:autorun` / `npm run fas19:autorun` / `npm run master:yolo`.
 
-## Fas 20 Sprint (aktiv — Master YOLO)
+## Fas 22 Sprint (aktiv — Master YOLO)
+
+1. `export FAS22_AUTORUN=1 ORKESTER_AUTORUN=1 MASTER_AUTORUN=1`
+2. `npm run fas22:autorun` → `.orkester/fas22-state.json`
+3. Läs `nextWaveId` — trippel-smoke Tier 0–3 per våg (FAS22-SPRINT-AUTORUN).
+4. PMIR-stopp enligt FAS22 — SKIP + `blocker-fas22-*.md`.
+5. **22.3 BLOCKERAD** utan godkänd 22.2 PMIR.
+6. **En våg = en chatt** — handoff enligt FAS22 § Handoff.
+
+## Fas 21 Sprint (done)
+
+1. `export FAS21_AUTORUN=1 ORKESTER_AUTORUN=1 MASTER_AUTORUN=1`
+2. `npm run fas21:autorun` → `.orkester/fas21-state.json`
+3. Läs `nextWaveId` — trippel-smoke Tier 0–3 per våg (FAS21-SPRINT-AUTORUN).
+4. PMIR-stopp enligt FAS21 — SKIP + `blocker-fas21-*.md`.
+5. **En våg = en chatt** — handoff enligt FAS21 § Handoff.
+
+## Fas 20 Sprint (done)
 
 1. `export FAS20_AUTORUN=1 ORKESTER_AUTORUN=1 MASTER_AUTORUN=1`
 2. `npm run fas20:autorun` → `.orkester/fas20-state.json`

@@ -108,7 +108,8 @@ export const invalidateSession = onCall(
     await supervisor.invalidateUserSession(uid);
     await revokeVaultSession(uid);
     await clearVaultJwtClaims(uid);
-    console.log(`[invalidateSession] Session + vault JWT rensad för uid=${uid}`);
+    adkOrchestrator.clearContext(uid);
+    console.log(`[invalidateSession] Session + vault JWT + ADK context rensad för uid=${uid}`);
     return { success: true };
   }
 );
@@ -512,9 +513,9 @@ export const mabraCoach = onCall(
         durationSeconds: 0,
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
         coachConversation: {
-          note: optionalNote || '',
-          coachReply: coach,
-        }
+          note: String(optionalNote || '').slice(0, 2000),
+          coachReply: String(coach || '').slice(0, 8000),
+        },
       });
 
       return { coach, redirectToSpeglar: false };
@@ -530,9 +531,9 @@ export const mabraCoach = onCall(
         durationSeconds: 0,
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
         coachConversation: {
-          note: optionalNote || '',
-          coachReply: coach,
-        }
+          note: String(optionalNote || '').slice(0, 2000),
+          coachReply: String(coach || '').slice(0, 8000),
+        },
       });
 
       return { coach, redirectToSpeglar: false };

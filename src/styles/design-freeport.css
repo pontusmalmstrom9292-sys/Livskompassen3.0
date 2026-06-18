@@ -2310,6 +2310,749 @@ html.design-freeport-root body {
   border-color: rgba(212, 175, 55, 0.18) !important;
 }
 
+/* ── Hem v3 — ihopfällbar 12-korts rail (låst) ── */
+.design-freeport__exec-rail-toggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  margin-top: 8px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  background: linear-gradient(165deg, #1a1a1a 0%, #0a0a0a 100%);
+  color: var(--fp-text-muted);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.design-freeport__exec-dev-rail-lead {
+  margin: 0 0 4px;
+  font-size: 0.75rem;
+  color: var(--fp-text-dim);
+}
+
+.design-freeport__exec-dev-rail {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.design-freeport__exec-dev-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 52px;
+  padding: 10px 8px;
+  text-align: left;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  background: linear-gradient(165deg, #222 0%, #101010 100%);
+  color: var(--fp-text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition:
+    border-color var(--fp-morph-ms) ease,
+    box-shadow var(--fp-morph-ms) ease;
+}
+
+.design-freeport__exec-dev-card--on {
+  border-color: rgba(253, 230, 138, 0.5);
+  box-shadow:
+    0 0 16px rgba(212, 175, 55, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.design-freeport__exec-dev-cat {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fp-text-muted);
+}
+
+.design-freeport__exec-dev-hint {
+  font-size: 0.5625rem;
+  color: var(--fp-text-dim);
+}
+
+.design-freeport__exec-dev-detail {
+  margin-top: 12px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+.design-freeport__exec-dev-detail-body {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--fp-text-muted);
+}
+
+.design-freeport__exec-dev-detail-meta {
+  margin: 10px 0 0;
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fp-text-dim);
+}
+
+/* Svävande dock under Dagens ankare */
+.design-freeport__exec-dev-float {
+  position: relative;
+  z-index: 3;
+  margin: -14px 10px 16px;
+  padding: 10px 12px 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(212, 175, 55, 0.32);
+  background: linear-gradient(
+    165deg,
+    rgba(38, 38, 38, 0.94) 0%,
+    rgba(14, 14, 14, 0.92) 55%,
+    rgba(8, 8, 8, 0.9) 100%
+  );
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.58),
+    0 6px 18px rgba(212, 175, 55, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.design-freeport__phone--chrome-v3 .design-freeport__exec-dev-float::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 42%
+  );
+  pointer-events: none;
+}
+
+.design-freeport__dev-rail--float {
+  margin: 0;
+}
+
+.design-freeport__exec-dev-float-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.design-freeport__exec-dev-float-bar--open {
+  margin-bottom: 4px;
+}
+
+.design-freeport__exec-dev-menu {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 6px 12px 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(212, 175, 55, 0.38);
+  background: linear-gradient(165deg, #2a2412 0%, #12100a 45%, #0a0a0a 100%);
+  color: var(--fp-accent-light);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition:
+    border-color var(--fp-morph-ms) ease,
+    box-shadow var(--fp-morph-ms) ease,
+    transform var(--fp-morph-ms) ease;
+}
+
+.design-freeport__exec-dev-menu--open {
+  border-color: rgba(253, 230, 138, 0.55);
+  box-shadow:
+    0 10px 24px rgba(212, 175, 55, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.design-freeport__exec-dev-menu-label {
+  color: var(--fp-text-muted);
+}
+
+.design-freeport__exec-dev-menu-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.18);
+  color: var(--fp-accent-light);
+  font-size: 0.5625rem;
+  font-weight: 700;
+}
+
+.design-freeport__exec-dev-menu-chevron {
+  width: 14px;
+  height: 14px;
+  color: var(--fp-accent);
+  transition: transform var(--fp-morph-ms) ease;
+}
+
+.design-freeport__exec-dev-menu-chevron--open {
+  transform: rotate(180deg);
+}
+
+.design-freeport__exec-dev-float-picked {
+  font-size: 0.6875rem;
+  color: var(--fp-text-dim);
+  letter-spacing: 0.04em;
+}
+
+.design-freeport__exec-dev-float-panel {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(212, 175, 55, 0.14);
+}
+
+.design-freeport__exec-dev-float .design-freeport__exec-dev-rail {
+  gap: 6px;
+}
+
+.design-freeport__exec-dev-float .design-freeport__exec-dev-card {
+  min-height: 48px;
+  background: linear-gradient(165deg, rgba(34, 34, 34, 0.95) 0%, rgba(12, 12, 12, 0.98) 100%);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.design-freeport__exec-dev-float .design-freeport__exec-dev-detail {
+  margin-top: 10px;
+  background: rgba(0, 0, 0, 0.28);
+}
+
+/* Kompassmodul — Utforska kopplad till kompass (prod-mönster) */
+.design-freeport__exec-compass-module {
+  margin-bottom: 14px;
+}
+
+.design-freeport__exec-compass-center {
+  display: block;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 14px;
+  filter: drop-shadow(0 4px 14px rgba(212, 175, 55, 0.32));
+}
+
+.design-freeport__dev-rail--kompass {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(212, 175, 55, 0.14);
+}
+
+.design-freeport__exec-kompass-explore-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.design-freeport__exec-kompass-explore {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 40px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 2px solid rgba(212, 175, 55, 0.22);
+  background: linear-gradient(165deg, rgba(34, 34, 34, 0.9) 0%, rgba(12, 12, 12, 0.95) 100%);
+  color: var(--fp-text-muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition:
+    border-color var(--fp-morph-ms) ease,
+    color var(--fp-morph-ms) ease,
+    box-shadow var(--fp-morph-ms) ease;
+}
+
+.design-freeport__exec-kompass-explore--open {
+  border-color: rgba(253, 230, 138, 0.45);
+  color: var(--fp-accent-light);
+  box-shadow:
+    0 8px 22px rgba(212, 175, 55, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.design-freeport__exec-kompass-explore-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.14);
+  color: var(--fp-accent);
+  font-size: 0.625rem;
+  font-weight: 700;
+}
+
+.design-freeport__exec-kompass-explore-chevron {
+  width: 14px;
+  height: 14px;
+  color: var(--fp-accent);
+  transition: transform var(--fp-morph-ms) ease;
+}
+
+.design-freeport__exec-kompass-explore-chevron--open {
+  transform: rotate(180deg);
+}
+
+.design-freeport__exec-kompass-deck {
+  margin-top: 12px;
+}
+
+.design-freeport__exec-compass-module .design-freeport__exec-dev-rail {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* FP-TI ref — sekundär mock-grupp */
+.design-freeport__fpti-ref {
+  margin-top: 0.5rem;
+}
+
+.design-freeport__fpti-ref-banner {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  background: rgba(0, 0, 0, 0.25);
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--fp-text-dim);
+}
+
+.design-freeport__fpti-ref-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.design-freeport__fpti-ref-tab {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: linear-gradient(165deg, #1a1a1a 0%, #0a0a0a 100%);
+  color: var(--fp-text-muted);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.design-freeport__fpti-ref-tab--on {
+  border-color: rgba(253, 230, 138, 0.45);
+  color: var(--fp-accent-light);
+}
+
+/* Snabbstart — ihopfällbar dock-widget ovanför bottom nav */
+.design-freeport__exec-snabb-dock {
+  position: absolute;
+  right: 0;
+  bottom: 4.75rem;
+  left: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 12px 6px;
+  pointer-events: none;
+}
+
+.design-freeport__exec-snabb-dock-toggle,
+.design-freeport__exec-snabb-dock-strip {
+  pointer-events: auto;
+}
+
+.design-freeport__exec-snabb-dock-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  background: linear-gradient(165deg, rgba(30, 28, 18, 0.96) 0%, rgba(8, 8, 8, 0.98) 100%);
+  color: var(--fp-text-muted);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.design-freeport__exec-snabb-dock--open .design-freeport__exec-snabb-dock-toggle {
+  border-color: rgba(253, 230, 138, 0.45);
+  color: var(--fp-accent-light);
+}
+
+.design-freeport__exec-snabb-dock-chevron {
+  width: 14px;
+  height: 14px;
+  color: var(--fp-accent);
+  transition: transform var(--fp-morph-ms) ease;
+}
+
+.design-freeport__exec-snabb-dock-chevron--open {
+  transform: rotate(180deg);
+}
+
+.design-freeport__exec-snabb-dock-strip {
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  margin-bottom: 0;
+  padding: 0 4px;
+  border-radius: 14px;
+  border: 0 solid rgba(212, 175, 55, 0.2);
+  background: linear-gradient(180deg, rgba(18, 18, 18, 0.95) 0%, rgba(6, 6, 6, 0.98) 100%);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.45);
+  transition:
+    max-height var(--fp-morph-ms) ease,
+    opacity var(--fp-morph-ms) ease,
+    margin-bottom var(--fp-morph-ms) ease,
+    padding var(--fp-morph-ms) ease,
+    border-width var(--fp-morph-ms) ease;
+}
+
+.design-freeport__exec-snabb-dock-strip--open {
+  max-height: 5.5rem;
+  opacity: 1;
+  margin-bottom: 8px;
+  padding: 10px 10px 8px;
+  border-width: 1px;
+}
+
+.design-freeport__exec-snabb-dock-label {
+  margin: 0 0 6px;
+  font-size: 0.5rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fp-text-dim);
+}
+
+.design-freeport__exec-snabb-dock-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.design-freeport__exec-snabb-dock-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.design-freeport__exec-snabb-dock-chip {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  background: linear-gradient(165deg, #222 0%, #101010 100%);
+  color: var(--fp-text-muted);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    border-color var(--fp-morph-ms) ease,
+    color var(--fp-morph-ms) ease,
+    box-shadow var(--fp-morph-ms) ease;
+}
+
+.design-freeport__exec-snabb-dock-chip--on {
+  border-color: rgba(253, 230, 138, 0.5);
+  color: var(--fp-accent-light);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.18);
+}
+
+/* Modell A — zon-dock + Fyren-lik snabbstart (4×N rutnät, ingen sid-scroll) */
+.design-freeport__phone--modell-a {
+  position: relative;
+}
+
+.design-freeport__modell-a-dock {
+  z-index: 6;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--fp-surface) 88%, transparent) 22%,
+    var(--fp-bg) 100%
+  );
+  box-shadow:
+    0 -10px 32px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* D1 — mörk platta + synlig LivskompassMark (ej solid guldring) */
+.design-freeport__phone--modell-a .design-freeport__modell-a-dock-fab {
+  position: relative;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-top: -1.35rem;
+  overflow: visible;
+  border: 2.5px solid color-mix(in srgb, var(--fp-accent) 72%, transparent);
+  background: linear-gradient(
+    165deg,
+    #111b2d 0%,
+    #09111e 48%,
+    #050b14 100%
+  );
+  color: var(--fp-accent);
+  box-shadow:
+    0 1px 0 rgba(255, 243, 210, 0.14) inset,
+    0 -4px 12px rgba(0, 0, 0, 0.42) inset,
+    0 8px 22px rgba(0, 0, 0, 0.52),
+    0 0 20px rgba(212, 175, 55, 0.22);
+}
+
+.design-freeport__phone--modell-a .design-freeport__modell-a-dock-fab::before {
+  content: '';
+  position: absolute;
+  inset: -0.65rem;
+  z-index: -1;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.3) 0%,
+    rgba(212, 175, 55, 0.1) 42%,
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
+.design-freeport__phone--modell-a .design-freeport__bottom-nav-fab-mark {
+  width: 2.35rem;
+  height: 2.35rem;
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.38));
+}
+
+.design-freeport__modell-a-dock-fab--open {
+  border-color: var(--fp-accent-light);
+  box-shadow:
+    0 1px 0 rgba(255, 248, 220, 0.18) inset,
+    0 -4px 12px rgba(0, 0, 0, 0.42) inset,
+    0 12px 32px rgba(212, 175, 55, 0.32),
+    0 0 0 4px rgba(253, 230, 138, 0.14),
+    0 0 24px rgba(212, 175, 55, 0.42);
+}
+
+.design-freeport__snabb-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border: 0;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(1px);
+}
+
+.design-freeport__snabb-panel {
+  position: absolute;
+  right: 12px;
+  left: 12px;
+  bottom: 4.85rem;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--fp-surface-2) 94%, transparent) 0%,
+    color-mix(in srgb, var(--fp-bg) 96%, transparent) 100%
+  );
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.52),
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transform-origin: bottom center;
+  transform: translateY(10px) scale(0.94);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.18s ease;
+}
+
+.design-freeport__snabb-panel--open {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.design-freeport__snabb-panel-head {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 6px;
+}
+
+.design-freeport__snabb-panel-title {
+  margin: 0;
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fp-text-dim);
+}
+
+.design-freeport__snabb-panel-settings,
+.design-freeport__snabb-panel-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  background: color-mix(in srgb, var(--fp-bg) 80%, transparent);
+  color: var(--fp-text-muted);
+}
+
+.design-freeport__snabb-panel-settings--on {
+  border-color: rgba(253, 230, 138, 0.45);
+  color: var(--fp-accent-light);
+}
+
+.design-freeport__snabb-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.design-freeport__snabb-tile {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 4px;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  background: linear-gradient(165deg, rgba(34, 34, 34, 0.9) 0%, rgba(12, 12, 12, 0.95) 100%);
+  color: var(--fp-text-muted);
+  font-size: 0.5625rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  transition:
+    border-color var(--fp-morph-ms) ease,
+    color var(--fp-morph-ms) ease,
+    box-shadow var(--fp-morph-ms) ease;
+}
+
+.design-freeport__snabb-tile:hover {
+  border-color: rgba(253, 230, 138, 0.38);
+  color: var(--fp-accent-light);
+}
+
+.design-freeport__snabb-tile--on {
+  border-color: rgba(253, 230, 138, 0.5);
+  color: var(--fp-accent-light);
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.16);
+}
+
+.design-freeport__snabb-tile-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  background: color-mix(in srgb, var(--fp-bg) 82%, transparent);
+  box-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  color: var(--fp-accent);
+}
+
+.design-freeport__snabb-tile-label {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.design-freeport__snabb-edit-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 14rem;
+  overflow-y: auto;
+}
+
+.design-freeport__snabb-edit-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--fp-text-muted);
+  font-size: 0.75rem;
+  text-align: left;
+}
+
+.design-freeport__snabb-edit-row--on {
+  border-color: rgba(212, 175, 55, 0.28);
+  background: rgba(212, 175, 55, 0.06);
+  color: var(--fp-accent-light);
+}
+
+.design-freeport__snabb-edit-label {
+  min-width: 0;
+}
+
+.design-freeport__snabb-edit-check {
+  width: 1rem;
+  text-align: center;
+  color: var(--fp-accent);
+  font-size: 0.75rem;
+}
+
 /* S1 — fokus + reduced motion */
 .design-freeport :is(button, a, [role='tab']):focus-visible {
   outline: 2px solid var(--fp-accent-dim);

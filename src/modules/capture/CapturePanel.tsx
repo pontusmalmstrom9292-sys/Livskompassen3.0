@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FileUp, Filter, PenLine, X } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
+import { toast } from '@/modules/core/store/toastStore';
 import { hasVaultGate } from '@/core/auth/sessionService';
 import { fileToBase64 } from '@/features/lifeJournal/evidence/kompis/api/ingestKnowledgeDocumentService';
 import {
@@ -316,6 +317,12 @@ export function CapturePanel({
         }
 
         setMessage(formatInkastResultMessage(batch));
+        const primary = primaryInkastItem(batch);
+        if (primary?.action === 'queued') {
+          toast.info('Sparat i granskningskö — du godkänner innan arkiv.');
+        } else if (primary?.action === 'persisted') {
+          toast.success('Sparat — granska i Valv om det hamnade i kö.');
+        }
         setLastBatch(batch);
         setText('');
         setPendingFiles([]);

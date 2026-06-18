@@ -1,6 +1,7 @@
 import { Loader2 } from 'lucide-react';
 import { HubDropdownNav } from '@/core/ui/HubDropdownNav';
 import { useStore } from '@/core/store';
+import { BiffRewriteButton } from '@/shared/ui/BiffRewriteButton';
 import { normalizeInkastTagSelection } from '../api/inkastService';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { TaggSelector } from '@/shared/components/TaggSelector';
@@ -115,6 +116,14 @@ export function InkastManualEditForm({
           disabled={busy}
           className="input-glass w-full resize-none rounded-xl px-3 py-2 text-sm"
         />
+        <div className="mt-2">
+          <BiffRewriteButton
+            text={comment}
+            context="inkast"
+            disabled={busy}
+            onRewrite={onCommentChange}
+          />
+        </div>
       </label>
 
       <div className="flex flex-wrap gap-2">

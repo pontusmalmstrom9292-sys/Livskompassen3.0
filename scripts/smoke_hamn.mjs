@@ -40,7 +40,9 @@ function main() {
   mustInclude(
     'src/modules/features/family/safeHarbor/components/BiffPublicPanel.tsx',
     'BiffTriagePanel',
-    'gransAnalysis',
+    'useHamnBiffWizard',
+    'Visa Grey Rock-svar',
+    'triageReady',
     'handleKlar',
     'sourceModule: \'hamn_biff\'',
     'detectHamnTaktikSignal',

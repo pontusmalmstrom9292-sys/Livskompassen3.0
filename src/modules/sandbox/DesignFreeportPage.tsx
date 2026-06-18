@@ -4,57 +4,41 @@ import { loadFreeportTheme, saveFreeportTheme, type FreeportThemeId } from './fr
 import { FreeportChromeShell } from './components/FreeportChromeShell';
 import { FreeportThemeSwitcher } from './components/FreeportThemeSwitcher';
 import { FreeportHemV3Lab } from './components/FreeportHemV3Lab';
-import { FreeportEkonomiLab } from './components/FreeportEkonomiLab';
-import { FreeportResurserLab } from './components/FreeportResurserLab';
-import { FreeportDagbokLab } from './components/FreeportDagbokLab';
-import { FreeportInstallningarLab } from './components/FreeportInstallningarLab';
-import { FreeportChameleonLive } from './components/FreeportChameleonLive';
+import { FreeportFptiRefLab } from './components/FreeportFptiRefLab';
 import { FreeportSuperhubPlayground } from './components/FreeportSuperhubPlayground';
 import { FreeportPlaneringHub } from './components/FreeportPlaneringHub';
 import { FreeportHjartatHub } from './components/FreeportHjartatHub';
 import { FreeportMabraHub } from './components/FreeportMabraHub';
 import { FreeportFamiljenHub } from './components/FreeportFamiljenHub';
-import { getDefaultTarget, type FreeportChameleonTarget } from './freeportChameleonBridge';
 
 type PanelId =
   | 'hem'
-  | 'ekonomi'
-  | 'resurser'
-  | 'dagbok'
-  | 'installningar'
-  | 'chameleon'
-  | 'live'
-  | 'planering'
   | 'hjartat'
   | 'mabra'
-  | 'familjen';
+  | 'familjen'
+  | 'planering'
+  | 'live'
+  | 'fpti-ref';
 
 const PANELS: { id: PanelId; label: string }[] = [
-  { id: 'hem', label: 'HEM (exakt)' },
-  { id: 'ekonomi', label: 'EKONOMI (exakt)' },
-  { id: 'resurser', label: 'RESURSER (exakt)' },
-  { id: 'dagbok', label: 'DAGBOK (exakt)' },
-  { id: 'installningar', label: 'INSTÄLLNINGAR (exakt)' },
-  { id: 'chameleon', label: 'Chameleon live' },
+  { id: 'hem', label: 'Hem (Modell A)' },
   { id: 'hjartat', label: 'Hjärtat hub' },
   { id: 'mabra', label: 'MåBra hub' },
   { id: 'familjen', label: 'Familjen hub' },
-  { id: 'live', label: 'Supermoduler (full)' },
   { id: 'planering', label: 'Planering hub' },
+  { id: 'live', label: 'Supermoduler (full)' },
+  { id: 'fpti-ref', label: 'FP-TI ref (mock)' },
 ];
 
 /**
- * Design Freeport — Chameleon Supermodule + Tactile Mid-Depth sandbox.
+ * Design Freeport — Modell A kanon + Chameleon delegates + tactile skin.
  * Prod orörd. Research: docs/evaluations/2026-06-18-design-freeport-research.md
  */
 export function DesignFreeportPage() {
   const [themeId, setThemeId] = useState<FreeportThemeId>(() => loadFreeportTheme());
   const [panel, setPanel] = useState<PanelId>('hem');
   const [lowCapacity, setLowCapacity] = useState(false);
-  const [status, setStatus] = useState('Välj zon → kort → chameleon byter delegate in-place.');
-  const [chameleonTarget, setChameleonTarget] = useState<FreeportChameleonTarget>(() =>
-    getDefaultTarget('hjartat'),
-  );
+  const [status, setStatus] = useState('Modell A: kompass → utforska → chameleon morph in-place.');
 
   const handleTheme = useCallback((id: FreeportThemeId) => {
     setThemeId(id);
@@ -67,12 +51,12 @@ export function DesignFreeportPage() {
         <header className="design-freeport__header">
           <h1 className="design-freeport__title">Design Freeport</h1>
           <p className="design-freeport__hint">
-            Tactile Mid-Depth · Chameleon delegates · Modell A. Prod på{' '}
+            <strong>Hem (Modell A)</strong> är kanon — live Chameleon + kompassmodul.{' '}
+            <strong>FP-TI ref</strong> är statiska pixel-mockar. Prod på{' '}
             <Link to="/" className="design-freeport__link">
               /
             </Link>{' '}
-            är orörd. Flow P1–P7: inga bulk-verktyg — se{' '}
-            <code className="text-[10px] opacity-80">docs/evaluations/2026-06-18-flow-verktyg-beslut.md</code>
+            är orörd.
           </p>
 
           <FreeportThemeSwitcher activeId={themeId} onChange={handleTheme} />
@@ -124,17 +108,6 @@ export function DesignFreeportPage() {
         {panel === 'hem' ? (
           <FreeportHemV3Lab lowCapacity={lowCapacity} onStatus={setStatus} />
         ) : null}
-        {panel === 'ekonomi' ? <FreeportEkonomiLab onStatus={setStatus} /> : null}
-        {panel === 'resurser' ? <FreeportResurserLab onStatus={setStatus} /> : null}
-        {panel === 'dagbok' ? <FreeportDagbokLab onStatus={setStatus} /> : null}
-        {panel === 'installningar' ? <FreeportInstallningarLab onStatus={setStatus} /> : null}
-        {panel === 'chameleon' ? (
-          <FreeportChameleonLive
-            target={chameleonTarget}
-            onTargetChange={setChameleonTarget}
-            onStatus={setStatus}
-          />
-        ) : null}
         {panel === 'hjartat' ? (
           <FreeportHjartatHub lowCapacity={lowCapacity} onStatus={setStatus} />
         ) : null}
@@ -142,8 +115,9 @@ export function DesignFreeportPage() {
           <FreeportMabraHub lowCapacity={lowCapacity} onStatus={setStatus} />
         ) : null}
         {panel === 'familjen' ? <FreeportFamiljenHub onStatus={setStatus} /> : null}
-        {panel === 'live' ? <FreeportSuperhubPlayground /> : null}
         {panel === 'planering' ? <FreeportPlaneringHub /> : null}
+        {panel === 'live' ? <FreeportSuperhubPlayground /> : null}
+        {panel === 'fpti-ref' ? <FreeportFptiRefLab onStatus={setStatus} /> : null}
       </div>
     </FreeportChromeShell>
   );

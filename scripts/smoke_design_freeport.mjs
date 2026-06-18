@@ -51,7 +51,7 @@ function main() {
     'src/modules/sandbox/DesignFreeportPage.tsx',
     'DesignFreeportPage',
     'FreeportHemV3Lab',
-    'FreeportChameleonLive',
+    'FreeportFptiRefLab',
     'FreeportSuperhubPlayground',
     'FreeportPlaneringHub',
     'FreeportHjartatHub',
@@ -59,14 +59,41 @@ function main() {
     'FreeportFamiljenHub',
     'FreeportChromeShell',
     'loadFreeportTheme',
+    'Hem (Modell A)',
+    'fpti-ref',
   );
   mustInclude('src/modules/sandbox/freeportThemes.ts', 'tactile-slate', 'tactile-obsidian', 'Skiffer sammet');
   mustInclude(
     'src/modules/sandbox/components/FreeportHemV3Lab.tsx',
-    'HEM_V3_SUPERMODS',
-    'ExecutivePhoneShell',
+    'FreeportModellAPhoneShell',
     'executiveSkin',
-    'wedge 1',
+    'compassLinked',
+    'Hem Modell A',
+    'exec-compass-module',
+    'FreeportModellADock',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/FreeportModellADock.tsx',
+    'FreeportModellADock',
+    'LivskompassMark',
+    'modell-a-dock',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/FreeportSnabbstartPanel.tsx',
+    'FreeportSnabbstartPanel',
+    'snabb-grid',
+  );
+  mustInclude(
+    'src/modules/sandbox/freeportSnabbstartConfig.ts',
+    'SNABBSTART_CATALOG',
+    'lk:freeport:snabbstart:v1',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/FreeportFptiRefLab.tsx',
+    'FreeportFptiRefLab',
+    'FreeportEkonomiLab',
+    'FreeportDagbokLab',
+    'FP-TI-referenser',
   );
   mustInclude(
     'src/modules/sandbox/components/FreeportChameleonLive.tsx',
@@ -114,6 +141,10 @@ function main() {
     'exec-media-frame',
     'delegate-viewport--exec',
     'exec-chameleon-shell',
+    'exec-kompass-explore',
+    'fpti-ref',
+    'snabb-panel',
+    'modell-a-dock',
   );
   mustInclude(
     'src/modules/sandbox/freeportZones.ts',
@@ -202,8 +233,13 @@ function main() {
   );
 
   const page = read('src/modules/sandbox/DesignFreeportPage.tsx');
-  for (const tab of ['hjartat', 'mabra', 'familjen', 'ekonomi', 'resurser', 'dagbok', 'installningar']) {
+  for (const tab of ['hem', 'hjartat', 'mabra', 'familjen', 'planering', 'live', 'fpti-ref']) {
     assert(page.includes(tab), `DesignFreeportPage saknar flik: ${tab}`);
+  }
+
+  const fptiRef = read('src/modules/sandbox/components/FreeportFptiRefLab.tsx');
+  for (const screen of ['ekonomi', 'resurser', 'dagbok', 'installningar']) {
+    assert(fptiRef.includes(screen), `FreeportFptiRefLab saknar mock-skärm: ${screen}`);
   }
 
   const routes = read('src/modules/core/routing/AppRoutes.tsx');
@@ -213,7 +249,7 @@ function main() {
     'design-freeport ska ligga utanför MainLayout',
   );
 
-  console.log('[smoke:design-freeport] PASS — exact-match 5 screens + hubs + chameleon.');
+  console.log('[smoke:design-freeport] PASS — Modell A kanon + FP-TI ref + hubs + chameleon.');
 }
 
 try {

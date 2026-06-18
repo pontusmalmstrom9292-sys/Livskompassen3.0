@@ -50,4 +50,9 @@ export const MABRA_REFLECTION_CARDS: readonly MabraReflectionCard[] = [
   { bankId: 'MB-REF-MIRROR-04', lens: 'spegling', text_sv: 'Vilken känsla bär jag på som är fullt logisk och begriplig utifrån min situation?' },
   { bankId: 'MB-REF-GEN-01', lens: 'allmant', text_sv: 'Vad är något jag gör idag som mitt yngre jag skulle tycka om?' },
   { bankId: 'MB-REF-GEN-02', lens: 'allmant', text_sv: 'Om jag fick ge mig själv ett frikort från en förväntning idag — vilken skulle det vara?' },
+  { bankId: 'MB-REF-GAD-07', lens: 'oro_tid', text_sv: 'Om oron dyker upp nu — kan du skriva en rad och spara den till din oro-tid, i stället för att lösa allt direkt?' },
+  { bankId: 'MB-REF-GAD-08', lens: 'oro_tree', text_sv: 'Den här oron — kan du göra något praktiskt om den just nu, eller är den hypotetisk och bättre sparad till din oro-tid?' },
+  { bankId: 'MB-REF-ADHD-05', lens: 'body_double', text_sv: 'Vilken uppgift skjuter du upp mest — och vem eller vad skulle kunna sitta bredvid dig (utan att prata) i fem minuter?' },
+  { bankId: 'MB-REF-ADHD-06', lens: 'rsd_paus', text_sv: 'När kroppen reagerar starkt på kritik eller tystnad — vad skulle hända om du pausade 60 sekunder innan du svarar eller agerar?' },
+  { bankId: 'MB-REF-ADHD-07', lens: 'rsd_tolkning', text_sv: 'En neutral reaktion (t.ex. kort svar) — är det säkert avvisning, eller finns andra förklaringar du inte ser än?' },
 ] as const;

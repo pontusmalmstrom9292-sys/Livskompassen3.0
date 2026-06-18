@@ -1,33 +1,21 @@
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  BookOpen,
-  Check,
-  Droplets,
-  Mic,
-  PenLine,
-  Sparkles,
-} from 'lucide-react';
-import {
   HEM_V3_SUPERMOD_COPY,
-  HEM_V3_SUPERMODS,
   type HemV3DevCard,
   type HemV3SuperModId,
 } from '@/core/home/hemV3DevelopmentCards';
 import { FreeportChameleonLive } from './FreeportChameleonLive';
 import { FreeportDiscoveryCards } from './FreeportDiscoveryCards';
-import {
-  ExecutiveDecorCompass,
-  ExecutiveMediaFrame,
-  ExecutivePhoneShell,
-  type ExecutiveNavId,
-} from './exec';
+import { FreeportModellAPhoneShell } from './FreeportModellAPhoneShell';
+import type { ModellADockId } from './FreeportModellADock';
+import { ExecutiveDecorCompass, ExecutiveMediaFrame } from './exec';
 import {
   getDefaultTarget,
   resolveCardToChameleon,
-  resolveSuperModToChameleon,
   type FreeportChameleonTarget,
 } from '../freeportChameleonBridge';
+import type { SnabbstartItemId } from '../freeportSnabbstartConfig';
 import type { FreeportZoneId } from '../freeportZones';
 
 type Props = {
@@ -35,28 +23,12 @@ type Props = {
   onStatus?: (msg: string) => void;
 };
 
-const DAILY_STEPS = [
-  { id: 'vatten', title: 'Vatten', sub: 'Morgonrutin', done: true, icon: Droplets },
-  { id: 'medicin', title: 'Medicin', sub: 'Daglig dos', done: true, icon: Check },
-  { id: 'andning', title: '3 min andning', sub: 'Närvaro', done: false, icon: Sparkles },
-] as const;
-
-const QUICK_START: {
-  id: HemV3SuperModId;
-  label: string;
-  icon: typeof BookOpen;
-}[] = [
-  { id: 'Anteckning', label: 'Anteckning', icon: PenLine },
-  { id: 'Check-in', label: 'Inspelning', icon: Mic },
-  { id: 'Kompass', label: 'Inkorg', icon: Sparkles },
-  { id: 'Dagbok', label: 'Dagbok', icon: BookOpen },
-];
-
-const STATUS_STRIP = [
-  { id: 'narvaro', label: 'Närvaro', value: '7/10 Stabilt' },
-  { id: 'ritual', label: 'Ritual', value: 'Morgon' },
-  { id: 'rad', label: 'Kompis-råd', value: 'Andas 3 min' },
-] as const;
+const SNABB_TO_SUPERMOD: Partial<Record<SnabbstartItemId, HemV3SuperModId>> = {
+  anteckning: 'Anteckning',
+  inspelning: 'Check-in',
+  dagbok: 'Dagbok',
+  kompass: 'Kompass',
+};
 
 function getGreeting(): string {
   const h = new Date().getHours();
@@ -65,58 +37,76 @@ function getGreeting(): string {
   return 'God kväll';
 }
 
-/**
- * HEM — Modell A: executive chrome + live Chameleon (wedge 1).
- * Supermodul alltid synlig — inte mock bakom dev-toggle.
- */
+/** Hem (Modell A) — kompassmodul + Utforska + live Chameleon + zon-dock + Fyren-snabbstart. */
 export function FreeportHemV3Lab({ lowCapacity = false, onStatus }: Props) {
-  const [zone, setZone] = useState<FreeportZoneId>('hjartat');
   const [target, setTarget] = useState<FreeportChameleonTarget>(() => getDefaultTarget('hjartat'));
   const [activeMod, setActiveMod] = useState<HemV3SuperModId>('Dagbok');
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
-  const [navActive, setNavActive] = useState<ExecutiveNavId>('hem');
+  const [dockActive, setDockActive] = useState<ModellADockId>('hem');
+  const [snabbstartOpen, setSnabbstartOpen] = useState(false);
+  const [snabbActiveId, setSnabbActiveId] = useState<SnabbstartItemId | undefined>();
 
   const modCopy = HEM_V3_SUPERMOD_COPY[activeMod];
-
-  const handleSuperMod = useCallback(
-    (modId: HemV3SuperModId) => {
-      setActiveMod(modId);
-      const t = resolveSuperModToChameleon(modId);
-      if (t) {
-        setZone(t.zone);
-        setTarget(t);
-      }
-      onStatus?.(`Supermodul: ${modId}`);
-    },
-    [onStatus],
-  );
 
   const handleCard = useCallback(
     (card: HemV3DevCard) => {
       setSelectedCardId(card.id);
       const t = resolveCardToChameleon(card);
-      setZone(t.zone);
       setTarget(t);
+      setDockActive(t.zone);
       onStatus?.(`Kort «${card.title}»`);
     },
     [onStatus],
   );
 
-  const handleTarget = useCallback(
-    (next: FreeportChameleonTarget) => {
-      setTarget(next);
-      setZone(next.zone);
+  const handleTarget = useCallback((next: FreeportChameleonTarget) => {
+    setTarget(next);
+    setDockActive(next.zone);
+  }, []);
+
+  const handleDockSelect = useCallback(
+    (id: ModellADockId) => {
+      if (id === 'fab') return;
+      setDockActive(id);
+      if (id === 'hem') {
+        onStatus?.('Nav: hem');
+        return;
+      }
+      const zone = id as FreeportZoneId;
+      setTarget(getDefaultTarget(zone));
+      onStatus?.(`Zon: ${zone}`);
     },
-    [],
+    [onStatus],
+  );
+
+  const handleFabPress = useCallback(() => {
+    setSnabbstartOpen((open) => {
+      onStatus?.(open ? 'Stäng snabbstart' : 'Öppna snabbstart');
+      return !open;
+    });
+  }, [onStatus]);
+
+  const handleSnabbstartSelect = useCallback(
+    (id: SnabbstartItemId, morph: FreeportChameleonTarget) => {
+      setSnabbActiveId(id);
+      setTarget(morph);
+      setDockActive(morph.zone);
+      const superMod = SNABB_TO_SUPERMOD[id];
+      if (superMod) setActiveMod(superMod);
+      onStatus?.(`Snabbstart: ${id}`);
+    },
+    [onStatus],
   );
 
   return (
-    <ExecutivePhoneShell
-      navActive={navActive}
-      onNav={(id) => {
-        setNavActive(id);
-        onStatus?.(`Nav: ${id}`);
-      }}
+    <FreeportModellAPhoneShell
+      dockActive={dockActive}
+      snabbstartOpen={snabbstartOpen}
+      snabbstartActiveId={snabbActiveId}
+      onDockSelect={handleDockSelect}
+      onFabPress={handleFabPress}
+      onSnabbstartSelect={handleSnabbstartSelect}
+      onSnabbstartClose={() => setSnabbstartOpen(false)}
     >
       <header className="design-freeport__exec-header design-freeport__exec-header--hero">
         <div>
@@ -125,10 +115,10 @@ export function FreeportHemV3Lab({ lowCapacity = false, onStatus }: Props) {
             {getGreeting()}, <span className="design-freeport__exec-greeting-name">Pontus</span>
           </p>
         </div>
-        <ExecutiveDecorCompass className="design-freeport__exec-header-compass design-freeport__exec-header-compass--lg" />
       </header>
 
-      <article className="design-freeport__exec-card design-freeport__exec-card--anchor design-freeport__exec-card--chrome design-freeport__exec-card--compact">
+      <article className="design-freeport__exec-card design-freeport__exec-card--chrome design-freeport__exec-compass-module">
+        <ExecutiveDecorCompass className="design-freeport__exec-compass-center" />
         <p className="design-freeport__exec-label">Dagens ankare</p>
         <ExecutiveMediaFrame
           label="Lägg till stämningsbild"
@@ -138,34 +128,16 @@ export function FreeportHemV3Lab({ lowCapacity = false, onStatus }: Props) {
         <div className="design-freeport__exec-inset">
           <p className="design-freeport__exec-focus-line">{modCopy.focus}</p>
         </div>
+        <FreeportDiscoveryCards
+          selectedCardId={selectedCardId}
+          lowCapacity={lowCapacity}
+          collapsible
+          fullRail
+          executiveSkin
+          compassLinked
+          onSelectCard={handleCard}
+        />
       </article>
-
-      <section className="design-freeport__exec-card design-freeport__exec-card--chrome design-freeport__exec-card--compact">
-        <p className="design-freeport__exec-label">Snabbstart</p>
-        <div className="design-freeport__exec-quick-grid design-freeport__exec-quick-grid--3">
-          {QUICK_START.map((item) => {
-            const Icon = item.icon;
-            return (
-              <button
-                key={item.id}
-                type="button"
-                className={[
-                  'design-freeport__exec-quick-tile',
-                  activeMod === item.id ? 'design-freeport__exec-quick-tile--on' : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-                onClick={() => handleSuperMod(item.id)}
-              >
-                <span className="design-freeport__exec-quick-icon">
-                  <Icon className="h-5 w-5" />
-                </span>
-                <span className="design-freeport__exec-quick-label">{item.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </section>
 
       <FreeportChameleonLive
         compact
@@ -175,81 +147,13 @@ export function FreeportHemV3Lab({ lowCapacity = false, onStatus }: Props) {
         onStatus={onStatus}
       />
 
-      <section className="design-freeport__exec-card design-freeport__exec-card--chrome">
-        <p className="design-freeport__exec-label">Utvecklingskort</p>
-        <FreeportDiscoveryCards
-          zone={zone}
-          selectedCardId={selectedCardId}
-          lowCapacity={lowCapacity}
-          onSelectCard={handleCard}
-        />
-      </section>
-
-      <section className="design-freeport__exec-card design-freeport__exec-card--chrome design-freeport__exec-card--compact">
-        <p className="design-freeport__exec-label">Dagens steg</p>
-        <ul className="design-freeport__exec-step-list design-freeport__exec-step-list--inset">
-          {DAILY_STEPS.map((row) => {
-            const Icon = row.icon;
-            return (
-              <li key={row.id}>
-                <button type="button" className="design-freeport__exec-step-row">
-                  <span
-                    className={[
-                      'design-freeport__exec-step-icon',
-                      row.done ? 'design-freeport__exec-step-icon--done' : '',
-                    ]
-                      .filter(Boolean)
-                      .join(' ')}
-                  >
-                    <Icon className="h-4 w-4" />
-                  </span>
-                  <span className="design-freeport__exec-step-text">
-                    <span className="design-freeport__exec-step-title">{row.title}</span>
-                    <span className="design-freeport__exec-step-sub">{row.sub}</span>
-                  </span>
-                  <span className="design-freeport__exec-step-meta">{row.done ? '✓' : '→'}</span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
-
-      <div className="design-freeport__exec-status-strip" aria-label="Status">
-        {STATUS_STRIP.map((box) => (
-          <div key={box.id} className="design-freeport__exec-status-box">
-            <span className="design-freeport__exec-status-label">{box.label}</span>
-            <span className="design-freeport__exec-status-value">{box.value}</span>
-          </div>
-        ))}
-      </div>
-
-      <section className="design-freeport__exec-card design-freeport__exec-card--flat design-freeport__exec-card--chrome">
-        <p className="design-freeport__exec-label">Veckoplan</p>
-        <ul className="design-freeport__exec-list">
-          {HEM_V3_SUPERMODS.slice(0, 2).map((mod) => (
-            <li key={mod.id}>
-              <button
-                type="button"
-                className="design-freeport__exec-list-row"
-                onClick={() => handleSuperMod(mod.id)}
-              >
-                <span className="design-freeport__exec-list-icon">{mod.icon}</span>
-                <span className="design-freeport__exec-list-title">{mod.label}</span>
-                <span className="design-freeport__exec-list-chevron">›</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </section>
-
       <p className="design-freeport__sandbox-note">
         <Link to="/" className="design-freeport__link">
           ← Prod
         </Link>
         {' · '}
-        HEM wedge 1 — chrome + live supermodul
+        Hem Modell A — zon-dock · snabbstart · chameleon
       </p>
-    </ExecutivePhoneShell>
+    </FreeportModellAPhoneShell>
   );
 }

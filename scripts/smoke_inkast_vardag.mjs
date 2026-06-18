@@ -75,6 +75,24 @@ function main() {
 
   mustInclude('src/modules/core/lifeOs/lifeHubPresets.ts', 'home_inkast: true', 'home_hero_checkin: true');
 
+  mustInclude(
+    'src/modules/core/home/HomeAdaptiveCompass.tsx',
+    'Öppna full reflektion i Hjärtat',
+    'HOME_SUPERHUB_ROUTES.hjartatReflektion',
+  );
+  mustInclude('src/modules/core/home/homeSuperhubRoutes.ts', 'hemInkast');
+  mustInclude('src/modules/capture/CapturePanel.tsx', 'toast.success', 'toast.info');
+  mustInclude(
+    'src/modules/features/lifeJournal/diary/diary/components/ReflectionEditor.tsx',
+    'BiffRewriteButton',
+  );
+  mustInclude('functions/src/index.ts', 'biffRewriteDraft');
+  mustInclude(
+    'src/modules/inkast/api/inkastService.ts',
+    '/hjartat/input',
+    'inputMode=reflektion',
+  );
+
   console.log('[smoke:inkast-vardag] PASS — Hem Smart Inkast + kö + deep links.');
 }
 

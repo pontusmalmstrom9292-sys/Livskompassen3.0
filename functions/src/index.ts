@@ -102,3 +102,5 @@ export {
 } from './callables/processBrusfilter';
 
 export { biffRewriteDraft } from './callables/biffRewriteDraft';
+export { generateKompassrad } from './callables/generateKompassrad';
+export { journalSilentReflection } from './callables/journalSilentReflection';

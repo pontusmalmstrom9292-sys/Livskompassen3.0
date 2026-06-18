@@ -560,8 +560,8 @@ export function inkastDestinationLink(
       };
     case 'journal':
       return {
-        pathname: NAV_PATHS.HJARTAT,
-        search: '?tab=reflektion',
+        pathname: '/hjartat/input',
+        search: '?inputMode=reflektion',
         label: 'Öppna Dagbok',
       };
     case 'planning_tasks':

@@ -1,8 +1,9 @@
-import { useEffect, useRef, useCallback } from 'react';
-import { Mic, MicOff } from 'lucide-react';
+import { useEffect, useRef, useCallback, useState } from 'react';
+import { Mic, MicOff, Sparkles } from 'lucide-react';
 import { useDiaryStore } from '../store/diaryStore';
 import { useSpeechToText } from '../hooks/useSpeechToText';
 import { BiffRewriteButton } from '@/shared/ui/BiffRewriteButton';
+import { fetchJournalSilentReflection } from '../api/journalSilentReflectionService';
 
 interface ReflectionEditorProps {
   text: string;
@@ -17,6 +18,8 @@ export function ReflectionEditor({
 }: ReflectionEditorProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const setDiaryDraft = useDiaryStore((s) => s.setDiaryDraft);
+  const [silentLoading, setSilentLoading] = useState(false);
+  const [silentPrompt, setSilentPrompt] = useState<string | null>(null);
 
   const handleFinalTranscript = useCallback((finalText: string) => {
     onChange(text ? `${text} ${finalText}` : finalText);
@@ -49,8 +52,24 @@ export function ReflectionEditor({
     return () => clearTimeout(handler);
   }, [text, setDiaryDraft]);
 
+  const handleSilentReflection = useCallback(async () => {
+    setSilentLoading(true);
+    try {
+      const prompt = await fetchJournalSilentReflection(text.slice(0, 80));
+      if (prompt) {
+        setSilentPrompt(prompt);
+        if (!text.trim()) onChange(prompt);
+      }
+    } finally {
+      setSilentLoading(false);
+    }
+  }, [text, onChange]);
+
   return (
     <div className="relative mt-2">
+      {silentPrompt && (
+        <p className="mb-2 text-xs text-text-muted italic">{silentPrompt}</p>
+      )}
       <textarea
         ref={textareaRef}
         value={text}
@@ -62,6 +81,16 @@ export function ReflectionEditor({
       <div className="absolute bottom-3 right-3 flex items-center gap-2">
         {error && <span className="text-xs text-destructive/80">{error}</span>}
         <BiffRewriteButton text={text} onRewrite={onChange} context="dagbok" />
+        <button
+          type="button"
+          onClick={() => void handleSilentReflection()}
+          disabled={silentLoading}
+          className="flex h-8 items-center gap-1 rounded-full bg-surface/50 px-2 text-[10px] uppercase tracking-wider text-text-muted hover:text-accent"
+          title="Tyst reflektion — ephemeral, sparas inte"
+        >
+          {silentLoading ? <MicOff className="h-3 w-3 animate-pulse" /> : <Sparkles className="h-3 w-3" />}
+          Tyst
+        </button>
         {isSupported && (
           <button
             type="button"

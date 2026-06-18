@@ -7,14 +7,21 @@ import {
 export type DagbokInputModePickerProps = {
   activeMode: DagbokInputMode;
   onChange: (mode: DagbokInputMode) => void;
+  /** Dölj modes vid låg kapacitet (Chameleon regel 5). */
+  hiddenModes?: DagbokInputMode[];
 };
 
 /** Primära dagbokslägen som pills (samma mönster som Valv/Familjen). */
-export function DagbokInputModePicker({ activeMode, onChange }: DagbokInputModePickerProps) {
+export function DagbokInputModePicker({
+  activeMode,
+  onChange,
+  hiddenModes,
+}: DagbokInputModePickerProps) {
+  const modes = DAGBOK_INPUT_MODES_PRIMARY.filter((m) => !hiddenModes?.includes(m.id));
   return (
     <div className="familjen-mode-picker" aria-label="Dagbokslägen">
       <div className="familjen-mode-picker__pills" role="tablist">
-        {DAGBOK_INPUT_MODES_PRIMARY.map((mode) => {
+        {modes.map((mode) => {
           const isActive = activeMode === mode.id;
           return (
             <button

@@ -1,6 +1,6 @@
 import { HOME_SUPERHUB_ROUTES } from './homeSuperhubRoutes';
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { ChevronDown, Moon, Sparkles, Sun, Sunrise } from 'lucide-react';
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
@@ -305,7 +305,15 @@ export function HomeAdaptiveCompass({
                         >
                           Öppna Dagbok
                         </button>
-                      ) : null}
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => navigate(HOME_SUPERHUB_ROUTES.hjartatReflektion)}
+                          className="btn-pill--ghost mx-auto block text-xs"
+                        >
+                          Öppna full reflektion i Hjärtat
+                        </button>
+                      )}
                     </>
                   )}
                 </div>
@@ -327,11 +335,19 @@ export function HomeAdaptiveCompass({
                   inkastOpen && 'home-adaptive-compass__inkast--open',
                 )}
               >
-                <div className="home-adaptive-compass__inkast-head">
-                  <Sparkles className="h-3.5 w-3.5 text-accent" aria-hidden />
-                  <span className="font-display-serif text-[10px] font-semibold uppercase tracking-[0.2em] text-text-dim">
-                    Smart Inkast
-                  </span>
+                <div className="home-adaptive-compass__inkast-head flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-3.5 w-3.5 text-accent" aria-hidden />
+                    <span className="font-display-serif text-[10px] font-semibold uppercase tracking-[0.2em] text-text-dim">
+                      Smart Inkast
+                    </span>
+                  </div>
+                  <Link
+                    to={HOME_SUPERHUB_ROUTES.hjartatReflektion}
+                    className="text-[10px] uppercase tracking-wider text-accent/80 hover:text-accent"
+                  >
+                    Öppna full reflektion i Hjärtat
+                  </Link>
                 </div>
                 <button
                   type="button"

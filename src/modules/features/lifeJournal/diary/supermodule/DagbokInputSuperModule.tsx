@@ -1,6 +1,10 @@
 import { useCallback, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { ChameleonInputShell } from '@/core/ui/ChameleonInputShell';
+import { useCapacityScore } from '@/core/store/useCapacityGate';
+import { useEvolutionStore } from '@/core/store/useEvolutionStore';
+import { isLowHomeCapacity } from '@/core/home/homeCapacityGate';
 import { DagbokRememberCard } from '@/features/lifeJournal/diary/diary/components/DagbokRememberCard';
 import { DagbokQuickMirrorDelegate } from './delegates/DagbokQuickMirrorDelegate';
 import {
@@ -14,6 +18,8 @@ import {
   type DagbokInputMode,
 } from './dagbokInputModes';
 import { DagbokInputModePicker } from './DagbokInputModePicker';
+
+const LOW_CAPACITY_MODES: DagbokInputMode[] = ['reflektion', 'quick_mirror'];
 
 export type DagbokInputSuperModuleProps = {
   /** Override URL-parsing (t.ex. Storybook). */
@@ -49,13 +55,22 @@ export function DagbokInputSuperModule({
   onSaved,
 }: DagbokInputSuperModuleProps) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const evolutionDoc = useEvolutionStore((s) => s.doc);
+  const capacityScore = useCapacityScore();
+  const lowCapacity = isLowHomeCapacity(evolutionDoc, capacityScore);
 
   const activeMode = useMemo(
     () => initialMode ?? parseDagbokInputMode(searchParams.get('inputMode')),
     [initialMode, searchParams],
   );
 
-  const activeMeta = useMemo(() => getDagbokInputModeMeta(activeMode), [activeMode]);
+  const visibleMode = useMemo(() => {
+    if (!lowCapacity) return activeMode;
+    if (LOW_CAPACITY_MODES.includes(activeMode)) return activeMode;
+    return DEFAULT_DAGBOK_INPUT_MODE;
+  }, [activeMode, lowCapacity]);
+
+  const activeMeta = useMemo(() => getDagbokInputModeMeta(visibleMode), [visibleMode]);
 
   const setActiveMode = useCallback(
     (mode: DagbokInputMode) => {
@@ -73,8 +88,8 @@ export function DagbokInputSuperModule({
   );
 
   const handleDelegateSaved = useCallback(() => {
-    onSaved?.(activeMode);
-  }, [activeMode, onSaved]);
+    onSaved?.(visibleMode);
+  }, [visibleMode, onSaved]);
 
   return (
     <BentoCard
@@ -94,7 +109,11 @@ export function DagbokInputSuperModule({
       </div>
 
       <div className="mb-4 flex flex-wrap items-center gap-2">
-        <DagbokInputModePicker activeMode={activeMode} onChange={setActiveMode} />
+        <DagbokInputModePicker
+          activeMode={visibleMode}
+          onChange={setActiveMode}
+          hiddenModes={lowCapacity ? ['arkiv'] : undefined}
+        />
         <Link
           to="/hjartat?tab=speglar"
           className="btn-pill--secondary text-xs shadow-sm transition-transform hover:scale-105"
@@ -104,9 +123,14 @@ export function DagbokInputSuperModule({
         </Link>
       </div>
 
-      <div className="calm-scroll-island max-h-[min(75vh,720px)] overflow-y-auto pr-1">
-        <DagbokInputModeDelegate mode={activeMode} onSaved={handleDelegateSaved} />
-      </div>
+      <ChameleonInputShell
+        mode={visibleMode}
+        viewportClassName="max-h-[min(75vh,720px)] overflow-y-auto pr-1"
+      >
+        {(mode) => (
+          <DagbokInputModeDelegate mode={mode} onSaved={handleDelegateSaved} />
+        )}
+      </ChameleonInputShell>
     </BentoCard>
   );
 }

@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "sprint": "fas22-masterplan-v2",
+  "startedAt": "2026-06-18T11:59:32.509Z",
+  "updatedAt": "2026-06-18T11:59:32.510Z",
+  "status": "running",
+  "nextWaveId": "baseline",
+  "completedWaves": [],
+  "skippedWaves": [],
+  "failures": [],
+  "waves": [
+    "baseline",
+    "22.1",
+    "22.2",
+    "22.3",
+    "22.4",
+    "22.5",
+    "22.6",
+    "22.7",
+    "22.8",
+    "22.9",
+    "22.10",
+    "slutrapport"
+  ],
+  "waveDetails": [
+    {
+      "id": "baseline",
+      "plan": "npm run orkester:night",
+      "deploy": "none",
+      "agent": false
+    },
+    {
+      "id": "22.1",
+      "plan": "Fas21→22 doc-synk + sprint-infra",
+      "deploy": "none",
+      "agent": true
+    },
+    {
+      "id": "22.2",
+      "plan": "M3.0-C Phase 2 PMIR (rules-eval ONLY)",
+      "deploy": "none",
+      "agent": true
+    },
+    {
+      "id": "22.3",
+      "plan": "M3.0-C Phase 2 Firestore wire",
+      "deploy": "firestore:rules,hosting",
+      "agent": true
+    },
+    {
+      "id": "22.4",
+      "plan": "Hamn brusfilter-wizard Alt A",
+      "deploy": "hosting",
+      "agent": true
+    },
+    {
+      "id": "22.5",
+      "plan": "Content våg 30 FACT ingest",
+      "deploy": "none",
+      "agent": true
+    },
+    {
+      "id": "22.6",
+      "plan": "biffRewriteDraft deploy + Hjärtat polish",
+      "deploy": "functions:biffRewriteDraft,hosting",
+      "agent": true
+    },
+    {
+      "id": "22.7",
+      "plan": "Valv coach WORM hygiene",
+      "deploy": "functions:mabraCoach",
+      "agent": true
+    },
+    {
+      "id": "22.8",
+      "plan": "Hem→Hjärtat genväg polish",
+      "deploy": "hosting",
+      "agent": true
+    },
+    {
+      "id": "22.9",
+      "plan": "Android gate-checklist",
+      "deploy": "none",
+      "agent": true
+    },
+    {
+      "id": "22.10",
+      "plan": "App Check enforce-readiness",
+      "deploy": "none",
+      "agent": true
+    },
+    {
+      "id": "slutrapport",
+      "plan": "fas22-leverans + smoke:tier1 + orkester:night",
+      "deploy": "none",
+      "agent": true
+    }
+  ],
+  "git": {
+    "branch": "main",
+    "sha": "76729634b",
+    "dirty": 90
+  },
+  "policy": {
+    "smokePerWave": true,
+    "commitPushDeploy": "on_pass",
+    "masterYolo": true,
+    "firebaseProject": "gen-lang-client-0481875058",
+    "pmirStops": [
+      "firestore.rules",
+      "storage.rules",
+      "barnporten-kanon-ui",
+      "gmail-oauth",
+      "genkit-v1",
+      "mass-delete"
+    ]
+  }
+}

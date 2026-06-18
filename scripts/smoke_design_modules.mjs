@@ -82,6 +82,11 @@ function main() {
   mustInclude('src/modules/core/pages/DagbokPage.tsx', 'SpeglarSuperModule', "variant=\"dagbok\"");
   mustInclude('src/modules/core/pages/DagbokPage.tsx', 'DagbokInputSuperModule', 'HjartatReflektionPanel');
   mustInclude(
+    'src/modules/features/lifeJournal/diary/supermodule/DagbokInputSuperModule.tsx',
+    'ChameleonInputShell',
+    'isLowHomeCapacity',
+  );
+  mustInclude(
     'src/modules/features/lifeJournal/diary/diary/components/DagbokSuperModule.tsx',
     'DagbokSuperModule',
     "'reflektion'",
