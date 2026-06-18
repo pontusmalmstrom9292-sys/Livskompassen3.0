@@ -354,6 +354,15 @@ export const BARNFOKUS_CATALOG_CHILD: readonly BarnfokusCatalogEntry[] = [
   },
 ] as const;
 
+/** Våg 29.3 — bracket-wire till `barnfokusQuestionsForBracket`. */
+export const BARNFOKUS_BRACKET_BANK_IDS = [
+  'BP-PLAY-25',
+  'BP-PLAY-26',
+  'BP-PLAY-27',
+  'BP-PLAY-28',
+  'BP-PLAY-29',
+] as const;
+
 const CATALOG_BY_LEGACY_ID = new Map(
   BARNFOKUS_CATALOG_CHILD.map((row) => [row.legacy_id, row]),
 );

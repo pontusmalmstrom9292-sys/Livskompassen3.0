@@ -41,7 +41,7 @@
 | MåBra | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) | **aktiv** | P1: `vit_entries` + `bankId` |
 | MåBra Daglig mix | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) § Daglig mix | **aktiv** | `dagligMixCatalog.ts` · DM-* · ingen streak/RAG |
 | Drogfrihet | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) § Drogfrihet + [`Drogfrihet-SPEC.md`](./specs/modules/Drogfrihet-SPEC.md) | **aktiv** | `drogfrihetCatalog.ts` · DF-REF-* · hub `/drogfrihet` |
-| Kunskap seed | [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) | **aktiv** | 140 FACT manifest · våg 27 ingest **PASS** 2026-06-16 · [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) |
+| Kunskap seed | [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) | **aktiv** | 142 FACT manifest · våg 27 ingest **PASS** 2026-06-16 · [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) |
 | Barnen lek | [`specs/modules/Barnen-PLAY-BANK.md`](./specs/modules/Barnen-PLAY-BANK.md) | **aktiv** | `barnfokusCatalog.ts` BP-PLAY-01..21 · ej Valv-promote |
 
 **Fält per KEEP-post (alla banker):** `id`, `status`, `content_class`, `source_tier`, `text_sv`, `why`.
@@ -188,9 +188,22 @@ Prompts: endast `functions/src/sharedRules.ts`.
 
 MB-REF-GAD-07, MB-REF-GAD-08, MB-REF-ADHD-05, MB-REF-ADHD-06, MB-REF-ADHD-07, MB-PLAY-GAD-02, MB-PLAY-GAD-03, MB-PLAY-GAD-04 — bank KEEP; prod-wire vid curriculum/daglig mix PMIR.
 
+
+### Kunskap våg 28 KEEP (2026-06-18)
+
+| bankId | content_class | source_tier | status | category |
+|--------|---------------|-------------|--------|----------|
+| kunskap-fact-eko-009 | FACT | P1 | **ingest** | ekonomi_vardag |
+| kunskap-fact-cop-006 | FACT | P1 | **ingest** (STRENGTHEN) | medforaldraskap |
+| kunskap-fact-cn-048 | FACT | P2 | **ingest** | covert_taktik |
+
+### MåBra våg 28 KEEP (2026-06-18)
+
+MB-PLAY-54321, MB-REF-rsd-04 — bank KEEP; prod-wire wizard/UI PMIR separat.
+
 ### Barnen PLAY våg 27 KEEP (2026-06-16)
 
-BP-PLAY-25, BP-PLAY-26, BP-PLAY-27, BP-PLAY-28, BP-PLAY-29 — bank KEEP; catalog wire våg 29.
+BP-PLAY-25..29 — bank KEEP; **catalog wire done** våg 29.3 (`barnfokusCatalog` + `barnfokusQuestionsForBracket`).
 
 ---
 

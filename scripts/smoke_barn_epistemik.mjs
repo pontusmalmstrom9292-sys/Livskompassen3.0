@@ -42,6 +42,16 @@ assert(barnporten.includes('toddler_preschool'), 'BarnportenBracketPanel saknar 
 const grounding = read('src/modules/features/dailyLife/wellbeing/mabra/views/MabraExerciseView.tsx');
 assert(grounding.includes('MB_PLAY_54321_BANK_ID'), 'grounding saknar MB-PLAY-54321 wire');
 
+const constants = read('src/modules/features/family/children/constants.ts');
+assert(constants.includes('barnfokusQuestionsForBracket'), 'constants saknar bracket-pool');
+assert(constants.includes("kanslor: 'Känslor'"), 'saknar kanslor-label (våg 29.3)');
+
+const catalog = read('src/modules/features/family/children/content/barnfokusCatalog.ts');
+for (const id of ['BP-PLAY-25', 'BP-PLAY-26', 'BP-PLAY-27', 'BP-PLAY-28', 'BP-PLAY-29']) {
+  assert(catalog.includes(`bankId: '${id}'`), `barnfokusCatalog saknar ${id}`);
+}
+assert(catalog.includes('BARNFOKUS_BRACKET_BANK_IDS'), 'saknar bracket bank-id export');
+
 const rollout = read('src/modules/features/onboarding/barnporten/constants/barnportenRollout.ts');
 assert(rollout.includes('BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED'), 'saknar rollout-flagga');
 assert(rollout.includes('BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED = false'), 'barn-PWA ska vara pausad');
@@ -52,4 +62,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log('[smoke:barn-epistemik] PASS — våg 29 epistemik + 28.1 grounding wire');
+console.log('[smoke:barn-epistemik] PASS — våg 29 epistemik + 29.3 bracket catalog + 28.1 grounding');

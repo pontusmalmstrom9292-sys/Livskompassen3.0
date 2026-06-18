@@ -31,8 +31,9 @@
 | 25 | Soc/skola + neutral myndighetsdialog | soc-001, skol-001, bup-001, bh-014, ep-007, jur-008 | — | — | **done** 2026-06-16 — bank KEEP; **ingest klar** (111 FACT manifest) · [`2026-06-16-content-wave-25-plan.md`](../evaluations/2026-06-16-content-wave-25-plan.md) |
 | 26 | Medföräldraskap logistik (10% neutral) | cop-001–005, ep-008 | — | — | **done** 2026-06-16 — bank KEEP; **ingest klar** (117 FACT manifest) · [`2026-06-16-content-wave-26-plan.md`](../evaluations/2026-06-16-content-wave-26-plan.md) |
 | 27 | Deep Research slutfas (psyk, ekonomi, HCF, barn) | gad-036..039, adhd-029/030, eko-001–008, cop-006–007, jur-009, bh-015–020 | MB-REF-GAD-07/08, MB-REF-ADHD-05..07, MB-PLAY-GAD-02..04 | BP-PLAY-25..29 | **done** 2026-06-16 — [`research-slutfas`](../evaluations/2026-06-16-research-slutfas.md) |
-| 28 | Hamn skrift-eskalering wire | cop-007 (ingest våg 27) | — | — | **done** 2026-06-16 — `written_only_escalation` + `hamn-written-default.mdc` |
+| 28 | Content master + Hamn wire | eko-009, cop-006↑, cn-048 | MB-PLAY-54321, MB-REF-rsd-04 | — | **done** 2026-06-18 — KEEP + ingest; wire 2026-06-16 · [`content-master`](../external-ai/imports/research-2026-06-18-content-master.md) |
+| 29 | Barnfokus bracket + epistemik | — | — | BP-PLAY-25..29 | **done** 2026-06-18 — [`vag-29.3`](../evaluations/2026-06-18-vag-29.3-leverans.md) |
 
-**Aktiv våg:** 29 — Barnporten bracket-wire + barn-observation-epistemik (eval)
+**Aktiv våg:** — (29 stängd 2026-06-18; nästa innehåll TBD)
 
 **Seed (Google-konto):** `SEED_FIREBASE_EMAIL` i `.env` + `gcloud auth application-default login` → `npm run seed:kunskap-facts`

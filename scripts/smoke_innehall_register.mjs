@@ -46,7 +46,14 @@ function main() {
   mustInclude(
     'src/modules/features/family/children/content/barnfokusCatalog.ts',
     'BP-PLAY-06',
+    'BP-PLAY-25',
+    'BARNFOKUS_BRACKET_BANK_IDS',
     'BARNFOKUS_CATALOG_CHILD',
+  );
+  mustInclude(
+    'src/modules/features/family/children/constants.ts',
+    'barnfokusQuestionsForBracket',
+    'kanslor',
   );
 
   mustInclude('docs/specs/modules/Mabra-CONTENT-BANK.md', 'DM-CARD-01', 'daglig_mix');

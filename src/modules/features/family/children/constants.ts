@@ -2,6 +2,7 @@ import {
   barnfokusCatalogEntryForLegacyId,
   barnfokusCatalogForBracket,
   type BarnfokusBracket,
+  type BarnfokusCatalogLens,
 } from './content/barnfokusCatalog';
 
 export type { BarnfokusBracket };
@@ -30,13 +31,8 @@ export const LIVSLOGG_CATEGORIES = [
   { value: 'positivt', label: 'Positiv stund' },
 ] as const;
 
-export type BarnfokusQuestionKind =
-  | 'gladje'
-  | 'kunskap'
-  | 'knas'
-  | 'lara_kanna'
-  | 'utveckling'
-  | 'valv_safe';
+/** Barnfokus-lins — samma som `BarnfokusCatalogLens` (våg 29.3: kanslor/reflektion/lojalitet). */
+export type BarnfokusQuestionKind = BarnfokusCatalogLens;
 
 export type BarnfokusQuestion = {
   /** Rotation key — motsvarar `legacy_id` i Barnen-PLAY-BANK. */
@@ -58,6 +54,9 @@ export const BARNFOKUS_KIND_LABELS: Record<BarnfokusQuestionKind, string> = {
   lara_kanna: 'Lär känna',
   utveckling: 'Utveckling',
   valv_safe: 'Från din bank',
+  kanslor: 'Känslor',
+  reflektion: 'Reflektion',
+  lojalitet: 'Trygg gräns',
 };
 
 const BARNFOKUS_QUESTIONS_BUILTIN: BarnfokusQuestion[] = [
@@ -94,7 +93,7 @@ function wireBarnfokusQuestion(question: BarnfokusQuestion): BarnfokusQuestion {
   return {
     ...question,
     bankId: catalog.bankId,
-    kind: catalog.lens as BarnfokusQuestionKind,
+    kind: catalog.lens,
     text: catalog.text_sv,
     hint: catalog.hint_sv ?? question.hint,
     source: catalog.source ?? question.source,
@@ -131,7 +130,7 @@ export function barnfokusQuestionsForBracket(
     .filter((r) => r.bracket !== undefined && !BARNFOKUS_QUESTIONS_BUILTIN.some((q) => q.id === r.legacy_id))
     .map((r) => ({
       id: r.legacy_id,
-      kind: r.lens as BarnfokusQuestionKind,
+      kind: r.lens,
       text: r.text_sv,
       hint: r.hint_sv,
       source: r.source,
