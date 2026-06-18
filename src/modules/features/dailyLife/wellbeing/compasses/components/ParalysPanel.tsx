@@ -11,9 +11,11 @@ type Props = {
   onDone: () => void;
   /** Inbäddad i HomeAdaptiveCompass — utan yttre BentoCard. */
   embedded?: boolean;
+  /** Låg kapacitet — inget LLM-anrop, manuellt mikrosteg. */
+  simplified?: boolean;
 };
 
-export function ParalysPanel({ onDone, embedded = false }: Props) {
+export function ParalysPanel({ onDone, embedded = false, simplified = false }: Props) {
   const [taskText, setTaskText] = useState('');
   const [steps, setSteps] = useState<MicroStep[]>([]);
   const [cursor, setCursor] = useState(0);
@@ -48,7 +50,28 @@ export function ParalysPanel({ onDone, embedded = false }: Props) {
   };
 
   if (steps.length === 0) {
-    const form = (
+    const form = simplified ? (
+      <>
+        <p className="mb-3 text-xs leading-relaxed text-text-muted">
+          Kapaciteten är låg — skriv ett enda mikrosteg. Ingen AI behövs just nu.
+        </p>
+        <input
+          type="text"
+          value={taskText}
+          onChange={(e) => setTaskText(e.target.value)}
+          placeholder="Nästa minsta steg …"
+          className="input-glass w-full text-sm"
+        />
+        <button
+          type="button"
+          disabled={taskText.trim().length < 2}
+          onClick={onDone}
+          className="btn-pill--accent mt-3 w-full text-xs disabled:opacity-40"
+        >
+          Klart för nu
+        </button>
+      </>
+    ) : (
       <>
         <p className="mb-3 text-xs leading-relaxed text-text-muted">
           Ett mikrosteg i taget. Ingen auto-start — du väljer när.

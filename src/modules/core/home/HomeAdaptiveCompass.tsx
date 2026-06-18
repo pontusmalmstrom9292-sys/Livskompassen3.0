@@ -1,7 +1,7 @@
 import { HOME_SUPERHUB_ROUTES } from './homeSuperhubRoutes';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronDown, Loader2, Moon, Sparkles, Sun, Sunrise } from 'lucide-react';
+import { ChevronDown, Moon, Sparkles, Sun, Sunrise } from 'lucide-react';
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 import { CaptureSuperModule } from '@/modules/capture/CaptureSuperModule';
@@ -28,7 +28,12 @@ import { getHomeQuickNavForPreset, quickNavGridClass } from './homeQuickNav';
 import { HomeSuperhubShortcuts } from './HomeSuperhubShortcuts';
 import { HomeForgeKompassBridge } from './HomeForgeKompassBridge';
 import { HomeKompassDiscoverySection } from './HomeKompassDiscoverySection';
+import { SanningensAnkarePreview } from './SanningensAnkarePreview';
+import { isLowHomeCapacity } from './homeCapacityGate';
+import { AnchorVariantForge } from '@/core/ui/ankare';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { useEvolutionStore } from '@/core/store/useEvolutionStore';
+import { useCapacityScore, useListenToCapacityState } from '@/core/store/useCapacityGate';
 
 function phaseToCompassFlow(phase: HomeCompassPhase): CompassFlow {
   if (phase === 'morgon') return 'morning';
@@ -62,15 +67,32 @@ export function HomeAdaptiveCompass({
 }: Props) {
   const navigate = useNavigate();
   const user = useStore((s) => s.user);
+  const evolutionDoc = useEvolutionStore((s) => s.doc);
+  const listenToEvolutionHub = useEvolutionStore((s) => s.listenToEvolutionHub);
+  const capacityScore = useCapacityScore();
+  const listenToCapacityState = useListenToCapacityState();
   const { themeId } = useTheme();
   const forgeActive = isOdForgeBridgeActive(themeId);
   const [discoveryFlowActive, setDiscoveryFlowActive] = useState(false);
+
+  const lowCapacity = isLowHomeCapacity(evolutionDoc, capacityScore);
+
+  useEffect(() => {
+    if (!user?.uid) return;
+    const unsubEvolution = listenToEvolutionHub(user.uid);
+    const unsubCapacity = listenToCapacityState(user.uid);
+    return () => {
+      unsubEvolution();
+      unsubCapacity();
+    };
+  }, [user?.uid, listenToEvolutionHub, listenToCapacityState]);
 
   const [timePhase, setTimePhase] = useState<HomeCompassPhase>(() => getHomeCompassPhase());
   const [manualPhase, setManualPhase] = useState<HomeCompassPhase | null>(null);
   const activePhase = forcedPhase ?? manualPhase ?? timePhase;
 
   const [morningIntention, setMorningIntention] = useState('');
+  const [morningGrounded, setMorningGrounded] = useState(false);
   const [morningSaving, setMorningSaving] = useState(false);
   const [morningSaved, setMorningSaved] = useState(false);
   const [morningError, setMorningError] = useState<string | null>(null);
@@ -88,7 +110,8 @@ export function HomeAdaptiveCompass({
   const showCheckIn = materialEnabled(preset, 'home_hero_checkin');
   const showInkast = materialEnabled(preset, 'home_inkast') && showCheckIn;
   const showQuickNav = materialEnabled(preset, 'home_snabbval');
-  const quickNav = showQuickNav ? getHomeQuickNavForPreset(presetId) : [];
+  const quickNavAll = showQuickNav ? getHomeQuickNavForPreset(presetId) : [];
+  const quickNav = lowCapacity ? quickNavAll.slice(0, 2) : quickNavAll;
 
   useEffect(() => {
     if (!showInkast) return;
@@ -108,7 +131,7 @@ export function HomeAdaptiveCompass({
       await saveCheckIn(user.uid, {
         questionId: 'compass_morning',
         questionText: 'Morgon — enda prioritet',
-        optionSelected: 'intention',
+        optionSelected: morningGrounded ? 'forge_grounded' : 'intention',
         taskCategory: 'morning',
         taskNote: morningIntention.trim(),
       });
@@ -229,49 +252,37 @@ export function HomeAdaptiveCompass({
             {!discoveryFlowActive ? (
               <div className="flex min-h-[140px] flex-col justify-center p-6">
               {activePhase === 'morgon' && (
-                <div className="animate-fade-in space-y-3">
-                  {morningSaved ? (
-                    <p className="text-center text-xs text-success">Morgonankare sparat.</p>
-                  ) : (
-                    <>
-                      <p className="mx-auto max-w-sm text-center text-xs leading-relaxed text-text-muted">
-                        Allt yttre brus stannar utanför. Vad är din enda riktiga prioritet idag?
-                      </p>
-                      <input
-                        type="text"
-                        value={morningIntention}
-                        onChange={(e) => setMorningIntention(e.target.value)}
-                        placeholder="T.ex. hämta barnen i lugn takt"
-                        className="input-glass w-full text-sm"
-                      />
-                      {morningError ? (
-                        <p className="text-center text-xs text-danger">{morningError}</p>
-                      ) : null}
-                      <button
-                        type="button"
-                        onClick={() => void handleMorningSave()}
-                        disabled={morningSaving || !user}
-                        className="btn-pill--accent w-full text-xs disabled:opacity-40"
-                      >
-                        {morningSaving ? (
-                          <Loader2 className="mx-auto h-4 w-4 animate-spin" />
-                        ) : (
-                          'Spara morgonankare'
-                        )}
-                      </button>
-                    </>
-                  )}
+                <div className="animate-fade-in space-y-4">
+                  <AnchorVariantForge
+                    focus="Vad är din enda prioritet idag?"
+                    quote="Inte hela dagen — bara det viktigaste nu."
+                    intention={morningIntention}
+                    onIntentionChange={setMorningIntention}
+                    onGroundingChange={setMorningGrounded}
+                    onSave={() => void handleMorningSave()}
+                    saving={morningSaving}
+                    saved={morningSaved}
+                    error={morningError}
+                    disabled={!user}
+                  />
+                  <SanningensAnkarePreview />
                 </div>
               )}
 
               {activePhase === 'dag' && (
                 <div className="animate-fade-in">
-                  <ParalysPanel key={paralysKey} embedded onDone={resetParalys} />
+                  <ParalysPanel
+                    key={paralysKey}
+                    embedded
+                    simplified={lowCapacity}
+                    onDone={resetParalys}
+                  />
                 </div>
               )}
 
               {activePhase === 'kvall' && (
                 <div className="animate-fade-in space-y-3">
+                  <SanningensAnkarePreview />
                   {user ? (
                     <KasamEvening
                       userId={user.uid}

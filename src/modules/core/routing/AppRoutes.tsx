@@ -104,6 +104,11 @@ const ObsidianForgeLabPage = lazy(() =>
     default: m.ObsidianForgeLabPage,
   })),
 );
+const DagensAnkareLabPage = lazy(() =>
+  import('../pages/DagensAnkareLabPage').then((m) => ({
+    default: m.DagensAnkareLabPage,
+  })),
+);
 const MemoryTestView = import.meta.env.DEV
   ? lazy(() =>
       import('@/features/emotional-memory/MemoryTestView').then((m) => ({
@@ -518,6 +523,7 @@ export function AppRoutes() {
               <Route path="/dev/hub-lab" element={<HubLabPage />} />
               <Route path="/dev/obsidian-depth" element={<ObsidianDepthMockupPage />} />
               <Route path="/dev/obsidian-forge" element={<ObsidianForgeLabPage />} />
+              <Route path="/dev/dagens-ankare" element={<DagensAnkareLabPage />} />
               {MemoryTestView ? (
                 <Route path="/dev/memory-test" element={<MemoryTestView />} />
               ) : null}

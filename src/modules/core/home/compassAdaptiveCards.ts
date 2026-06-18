@@ -42,6 +42,8 @@ function latestForFlow(checkins: CheckInSnapshot[], flow: CompassFlow): CheckInS
       (c) =>
         c.taskCategory === flow ||
         c.questionId === `compass_${flow}` ||
+        (flow === 'morning' &&
+          (c.questionId === 'compass_morning' || c.questionId === 'home_brass_anchor')) ||
         (flow === 'evening' && c.optionSelected === 'kasam')
     ) ?? null
   );
@@ -117,6 +119,29 @@ function cardsFromMorning(option: string): AdaptiveMemoryCard[] {
           actionLabel: 'Dagbok',
           to: HOME_SUPERHUB_ROUTES.hjartatReflektion,
           tone: 'gold',
+        },
+      ];
+    case 'intention':
+    case 'forge_grounded':
+      return [
+        {
+          id: 'morning-intention-breath',
+          title: 'Morgon — ankare',
+          prompt:
+            option === 'forge_grounded'
+              ? 'Du landade med andning. Vill du köra 4-7-8 en gång till om pulsen är hög?'
+              : 'Du satte dagens prioritet. Ett kort andningssteg kan sänka bruset innan dagen tar fart.',
+          actionLabel: 'Måbra',
+          to: HOME_SUPERHUB_ROUTES.mabraInput,
+          tone: 'lavender',
+        },
+        {
+          id: 'morning-intention-step',
+          title: 'Morgon — ett steg',
+          prompt: 'Bryt ner prioriteten till ett enda mikrosteg i Kompasser.',
+          actionLabel: MICRO_STEP_ACTION_LABEL,
+          to: '/vardagen',
+          tone: 'emerald',
         },
       ];
     default:
