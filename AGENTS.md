@@ -72,6 +72,19 @@ Deploy efter PASS: skill [`.cursor/skills/livskompassen-deploy/SKILL.md`](.curso
 - **Kunskap-fakta:** `specialist-kunskap-seed` — FACT → [`docs/specs/modules/Kunskap-CONTENT-SEED.md`](docs/specs/modules/Kunskap-CONTENT-SEED.md) (ingest separat).
 - Keep direct edits in the parent agent unless a separate isolated exploration is clearly useful.
 
+### CTO Custom Modes (2026-06 audit)
+
+Pontus-godkända dagliga bollplank — regler i `.cursor/rules/backend-ingest-logic.mdc`, `chameleon-ui-modularity.mdc`, `ai-cognitive-companion.mdc`.
+
+| Agent | Slash-kommando (syns i `/`-menyn) | Subagent | Fokus |
+|-------|-----------------------------------|----------|-------|
+| YOLO-vakt | `/yolo-vakt` | `.cursor/agents/yolo-vakt.md` | Read-only säkerhetsaudit |
+| Minnes-Arkitekten | `/minnes-arkitekten` | `.cursor/agents/minnes-arkitekten.md` | Auto kunskaps-ingest |
+| Design-Labbet | `/design-labbet` | `.cursor/agents/design-labbet.md` | Chameleon UI |
+| Android-Kompis | `/android-kompis` | `.cursor/agents/android-kompis.md` | G85, cap sync, deploy |
+
+**Viktigt:** `/`-menyn läser **`.cursor/commands/*.md`**. `.cursor/agents/` är subagents (Task-delegation). Båda pekar på samma roll — använd slash-kommandot i chatten.
+
 ## Skills & rules (uppgift → vägledning)
 
 | Uppgift | Skill | Cursor rule |

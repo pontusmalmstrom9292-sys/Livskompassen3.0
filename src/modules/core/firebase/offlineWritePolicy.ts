@@ -31,6 +31,7 @@ export const OFFLINE_WRITE_ALLOWLIST = new Set<string>([
   C.vit_hub,
   C.vit_entries,
   C.evolution_ledger,
+  C.adaptation_ledger,
   C.emotional_memory,
   C.economy_profiles,
   C.transactions,

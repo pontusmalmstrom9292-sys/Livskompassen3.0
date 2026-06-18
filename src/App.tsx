@@ -2,6 +2,8 @@
 import { AppUnlockGate, AuthProvider, useZeroFootprint } from './modules/core/auth';
 import { useMaterialPackSync } from './modules/core/lifeOs/useMaterialPackSync';
 import { useEvolutionSync } from './modules/core/hooks/useEvolutionSync';
+import { useAdaptationSync } from './modules/core/hooks/useAdaptationSync';
+import { useAdaptationSignalRouter } from './modules/core/hooks/useAdaptationSignalRouter';
 import { AppRoutes } from './modules/core/routing/AppRoutes';
 import { ThemeProvider } from './modules/core/theme';
 import { WidgetDeepLinkBridge } from '@/features/widgets/WidgetDeepLinkBridge';
@@ -15,6 +17,8 @@ function AppShell() {
   useZeroFootprint();
   useMaterialPackSync();
   useEvolutionSync();
+  useAdaptationSync();
+  useAdaptationSignalRouter();
   useBarnportenWebManifest();
   return (
     <AppUnlockGate>

@@ -2,10 +2,77 @@
   "version": 1,
   "sprint": "fas22-masterplan-v2",
   "startedAt": "2026-06-18T11:59:32.509Z",
-  "updatedAt": "2026-06-18T11:59:32.510Z",
+  "updatedAt": "2026-06-18T23:36:20.440Z",
   "status": "running",
-  "nextWaveId": "baseline",
-  "completedWaves": [],
+  "nextWaveId": "slutrapport",
+  "completedWaves": [
+    {
+      "id": "22.6",
+      "completedAt": "2026-06-18T21:59:38.139Z",
+      "deploy": "functions:biffRewriteDraft,hosting",
+      "smokes": [
+        "smoke:biff-rewrite",
+        "smoke:locked-ux"
+      ],
+      "branch": "cursor/adaptation-layer-2a-689f",
+      "sha": "8db3c35e8"
+    },
+    {
+      "id": "22.7",
+      "completedAt": "2026-06-18T22:22:58.480Z",
+      "deploy": "functions:mabraCoach",
+      "smokes": [
+        "smoke:valv-security",
+        "smoke:valv-gate",
+        "smoke:pattern-metadata",
+        "smoke:locked-ux",
+        "smoke:cache",
+        "smoke:mabra"
+      ],
+      "branch": "cursor/adaptation-layer-2a-689f",
+      "sha": "8db3c35e8",
+      "note": "WORM hygiene — mabraCoach guardrails, bank_parafras, vit_chat; no firestore.rules"
+    },
+    {
+      "id": "22.8",
+      "completedAt": "2026-06-18T22:46:28.340Z",
+      "deploy": "hosting",
+      "smokes": [
+        "smoke:compass",
+        "smoke:inkast-vardag",
+        "smoke:locked-ux"
+      ],
+      "branch": "cursor/adaptation-layer-2a-689f",
+      "sha": "2db419727",
+      "note": "Hem→Hjärtat genväg — Smart Inkast + deep links live"
+    },
+    {
+      "id": "22.9",
+      "completedAt": "2026-06-18T23:34:00.988Z",
+      "deploy": "none",
+      "smokes": [
+        "smoke:android-platform",
+        "smoke:auth-login"
+      ],
+      "capSync": "PASS",
+      "branch": "cursor/adaptation-layer-2a-689f",
+      "sha": "6045791ce",
+      "note": "Android gate-checklist — cap sync OK; Play Integrity = Pontus manuellt"
+    },
+    {
+      "id": "22.10",
+      "completedAt": "2026-06-18T23:36:20.440Z",
+      "deploy": "none",
+      "smokes": [
+        "smoke:valv-security",
+        "smoke:auth-login",
+        "smoke:cache"
+      ],
+      "branch": "cursor/adaptation-layer-2a-689f",
+      "sha": "6045791ce",
+      "note": "App Check enforce-readiness — runbook OK; Console Enforce = Pontus manuellt (ej aktiverad)"
+    }
+  ],
   "skippedWaves": [],
   "failures": [],
   "waves": [
@@ -97,9 +164,9 @@
     }
   ],
   "git": {
-    "branch": "main",
-    "sha": "76729634b",
-    "dirty": 90
+    "branch": "cursor/adaptation-layer-2a-689f",
+    "sha": "6045791ce",
+    "dirty": 63
   },
   "policy": {
     "smokePerWave": true,

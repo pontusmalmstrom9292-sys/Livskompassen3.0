@@ -32,7 +32,8 @@ export function AdaptiveMemoryCards({
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(false);
 
-  const visibleCards = expanded ? cards : cards.slice(0, 2);
+  const initialVisibleCount = cards.length > 3 ? 1 : 2;
+  const visibleCards = expanded ? cards : cards.slice(0, initialVisibleCount);
 
   const load = useCallback(async () => {
     if (!user) {
@@ -106,13 +107,13 @@ export function AdaptiveMemoryCards({
               </article>
             ))}
           </div>
-          {cards.length > 2 && !expanded ? (
+          {cards.length > initialVisibleCount ? (
             <button
               type="button"
-              onClick={() => setExpanded(true)}
+              onClick={() => setExpanded((v) => !v)}
               className="btn-pill--ghost text-xs"
             >
-              Visa mer ({cards.length - 2})
+              {expanded ? 'Visa färre' : `Visa mer (${cards.length - initialVisibleCount})`}
             </button>
           ) : null}
         </>

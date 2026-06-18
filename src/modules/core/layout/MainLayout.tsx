@@ -12,7 +12,6 @@ import { AmbientBackground } from './AmbientBackground';
 import { KompisHeaderVaultButton } from '../components/KompisHeaderVaultButton';
 import { AccountAuthMenu } from '../auth/AccountAuthMenu';
 import { NavigationDrawer } from './NavigationDrawer';
-import { BiffWidgetFAB } from '../components/BiffWidgetFAB';
 import { FirestoreNetworkChip } from '../components/FirestoreNetworkChip';
 import { SystemErrorBanner } from '../components/SystemErrorBanner';
 import { useDesignPack } from '../design/useDesignPack';
@@ -107,7 +106,6 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
       {!barnportenChildShell ? (
         <>
-          <BiffWidgetFAB />
           <FyrenWidgetBar />
           <FloatingDock />
         </>

@@ -171,7 +171,7 @@ function VaultPageInner({
 
   if (!gateOk) {
     return (
-      <ValvBentoShell>
+      <ValvBentoShell showZonePill={false}>
         <BentoCard
           title={embedded ? 'Valv · Baksida' : VAULT_UI_NAME}
           description="Skyddad zon — biometri krävs"
@@ -188,7 +188,7 @@ function VaultPageInner({
 
   if (!user) {
     return (
-      <ValvBentoShell>
+      <ValvBentoShell showZonePill={false}>
         <BentoCard
           title={VAULT_UI_NAME}
           icon={<Lock className="h-4 w-4" />}
@@ -203,7 +203,7 @@ function VaultPageInner({
   }
 
   return (
-    <ValvBentoShell>
+    <ValvBentoShell showZonePill={false}>
       <div className="space-y-4">
       <div className="flex items-start justify-between gap-2 px-1">
         <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />

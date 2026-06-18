@@ -152,7 +152,7 @@ export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePane
 
           if (node.type === 'folder') {
             return (
-              <li key={node.id} className="animate-fade-in">
+              <li key={node.id}>
                 <button
                   type="button"
                   onClick={() => toggleFolder(node.id)}
@@ -191,7 +191,7 @@ export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePane
           }
 
           return (
-            <li key={node.id} className="animate-fade-in">
+            <li key={node.id}>
               <button
                 type="button"
                 className="group flex w-full items-start gap-2 rounded-lg p-2 text-left transition-colors hover:bg-surface-3/50"

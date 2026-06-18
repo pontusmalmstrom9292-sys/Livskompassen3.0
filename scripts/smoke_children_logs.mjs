@@ -109,6 +109,23 @@ async function main() {
   });
   console.log('[smoke] children_logs docId:', docRef.id);
 
+  const privateObservation = `Smoke private ${stamp}: Barnporten hemlig rad som inte får synas i RAG.`;
+  console.log('[smoke] Seed private_child (ska filtreras bort)…');
+  const privateRef = await addDoc(collection(db, 'children_logs'), {
+    ownerId: uid,
+    userId: uid,
+    childAlias: 'Kasper',
+    action: 'livslogg',
+    observation: privateObservation,
+    truth: privateObservation,
+    category: 'vardag',
+    visibility: 'private_child',
+    authorRole: 'child',
+    channel: 'barnporten',
+    createdAt: serverTimestamp(),
+  });
+  console.log('[smoke] private_child docId:', privateRef.id);
+
   const query = httpsCallable(functions, 'childrenLogsQuery');
   console.log('[smoke] childrenLogsQuery…');
   const result = await query({
@@ -121,7 +138,9 @@ async function main() {
   assert(Array.isArray(data?.citations), 'saknar citations');
 
   const hit = data.citations.some((c) => c.docId === docRef.id);
-  console.log('[smoke] citations:', data.citations.length, 'match seed:', hit ? 'YES' : 'NO');
+  const privateLeak = data.citations.some((c) => c.docId === privateRef.id);
+  assert(!privateLeak, 'private_child läckte in i childrenLogsQuery citations');
+  console.log('[smoke] citations:', data.citations.length, 'match seed:', hit ? 'YES' : 'NO', 'private leak:', privateLeak ? 'YES' : 'NO');
   console.log('[smoke] answer excerpt:', data.answer.slice(0, 120));
 
   console.log('\n[smoke] PASS — childrenLogsQuery svarar.');

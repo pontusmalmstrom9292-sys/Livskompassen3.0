@@ -21,6 +21,8 @@ type WidgetAction = {
 
 const WIDGET_ACTIONS: WidgetAction[] = [
   { id: 'inkast', label: 'Inkast', to: '/#inkast-lite', hubId: 'dagbok' },
+  { id: 'brusfiltret', label: 'Brusfiltret', to: '/widget/hamn', hubId: 'hamn' },
+  { id: 'voice-vault', label: 'Voice-to-Vault', to: '/widget/voice-vault', widgetIcon: 'note' },
   { id: 'snabbval', label: 'Snabbval', to: '/widget/snabbval', hubId: 'mabra' },
   {
     id: 'record',

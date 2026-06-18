@@ -281,9 +281,9 @@ export function KunskapPage({
                         if (e.key === 'Enter' || e.key === ' ') setSelectedEntry(entry);
                       }}
                       className={`cursor-pointer rounded-xl transition-shadow ${
-                        isHighlighted && highlightPulse
-                          ? 'ring-2 ring-accent shadow-accent-glow animate-pulse'
-                          : isHighlighted || isSelected
+                        isHighlighted
+                          ? 'ring-2 ring-accent/70 shadow-[0_0_12px_-2px_rgba(212,175,55,0.35)]'
+                          : isSelected
                             ? 'ring-2 ring-accent/50'
                             : ''
                       }`}
