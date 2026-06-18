@@ -1,4 +1,6 @@
+import { THEME_APPLIED_EVENT } from './themeEvents';
 import { THEME_LAB_DRAFTS } from './themeLabVariants';
+import { OBSIDIAN_DEPTH_THEME_ID } from './themePackObsidianDepth';
 import { REDESIGN_A_THEME_ID } from './themePackRedesignA';
 import { getTheme, DEFAULT_THEME_ID, resolveThemeId } from './themeRegistry';
 import type { ThemePack } from './types';
@@ -41,7 +43,7 @@ export function applyTheme(themeId: string): void {
     delete root.dataset.designPack;
   }
 
-  if (pack.id === REDESIGN_A_THEME_ID) {
+  if (pack.id === REDESIGN_A_THEME_ID || pack.id === OBSIDIAN_DEPTH_THEME_ID) {
     root.dataset.panelStyle = 'obsidian';
   } else {
     delete root.dataset.panelStyle;
@@ -53,6 +55,12 @@ export function applyTheme(themeId: string): void {
 
   root.style.setProperty('--bg-teal-deep', pack.cssVars['--bg'] ?? '#0a0a0a');
   root.style.setProperty('--text-gold', pack.cssVars['--accent'] ?? '#d4af37');
+
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(
+      new CustomEvent(THEME_APPLIED_EVENT, { detail: { themeId: pack.id } }),
+    );
+  }
 }
 
 export function applyDefaultTheme(): void {

@@ -16,7 +16,7 @@ export function DagensAnkareLabPage() {
           Dagens Ankare
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-text-muted">
-          Forge (andning) + Taktisk (mikrosteg). Testa interaktion — ingen prod-deploy.
+          Forge (andning: box / 4-7-8 / 4-2-6) + Taktisk (mikrosteg). Testa på Hem → Morgon-flik.
         </p>
         <div className="mt-4 flex flex-wrap justify-center gap-2">
           <Link to="/" className="btn-pill--ghost text-xs">

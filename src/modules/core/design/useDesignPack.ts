@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useTheme } from '../theme';
+import { OBSIDIAN_DEPTH_THEME_ID } from '../theme/themePackObsidianDepth';
 import { getTheme } from '../theme/themeRegistry';
 import {
   DESIGN_PACK_CHROME,
@@ -17,6 +18,9 @@ export function useDesignPack(): {
 } {
   const { themeId } = useTheme();
   return useMemo(() => {
+    if (themeId === OBSIDIAN_DEPTH_THEME_ID) {
+      return { active: false, packId: null, chrome: null, centerTitle: 'LIVSKOMPASSEN' };
+    }
     const packId =
       getTheme(themeId).designPackId ?? getDesignPackIdFromTheme(themeId);
     if (!packId) {

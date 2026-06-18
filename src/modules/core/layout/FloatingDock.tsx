@@ -4,7 +4,7 @@ import { getNavTruthById, NAV_PATHS } from '../navigation/navTruth';
 import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
 import { FyrenDockHandle } from '../components/FyrenWidgetBar';
 import { DockNavButton } from './DockNavButton';
-import { resolveHeaderPanelStyle } from './headerPanelStyle';
+import { useHeaderPanelStyle } from './headerPanelStyle';
 
 type DockZone = {
   id: string;
@@ -60,7 +60,7 @@ export function FloatingDock() {
   const location = useLocation();
   const navigate = useNavigate();
   const { pathname, search } = location;
-  const panelStyle = resolveHeaderPanelStyle();
+  const panelStyle = useHeaderPanelStyle();
 
   return (
     <div className="dock-shell dock-shell--fyren">

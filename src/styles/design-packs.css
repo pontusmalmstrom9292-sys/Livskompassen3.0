@@ -67,12 +67,12 @@ html[data-design-pack] .ambient-blob {
   border-color: color-mix(in srgb, var(--accent) 38%, transparent);
   background: linear-gradient(
     168deg,
-    rgba(52, 44, 30, 0.96) 0%,
-    rgba(22, 18, 14, 0.94) 48%,
-    rgba(8, 10, 16, 0.92) 100%
+    var(--chrome-plate-a) 0%,
+    var(--chrome-plate-b) 48%,
+    var(--chrome-plate-c) 100%
   );
   box-shadow:
-    0 1px 0 rgba(255, 243, 210, 0.1) inset,
+    0 1px 0 var(--chrome-highlight) inset,
     0 4px 12px rgba(0, 0, 0, 0.38),
     0 0 10px rgba(212, 175, 55, 0.1);
   transform: none;
@@ -131,12 +131,12 @@ html[data-design-pack] .design-pack-header__actions .header-glass-btn--kanon {
   border-color: color-mix(in srgb, var(--accent) 38%, transparent);
   background: linear-gradient(
     168deg,
-    rgba(52, 44, 30, 0.96) 0%,
-    rgba(22, 18, 14, 0.94) 48%,
-    rgba(8, 10, 16, 0.92) 100%
+    var(--chrome-plate-a) 0%,
+    var(--chrome-plate-b) 48%,
+    var(--chrome-plate-c) 100%
   );
   box-shadow:
-    0 1px 0 rgba(255, 243, 210, 0.1) inset,
+    0 1px 0 var(--chrome-highlight) inset,
     0 4px 12px rgba(0, 0, 0, 0.38),
     0 0 10px rgba(212, 175, 55, 0.1);
   transform: none;

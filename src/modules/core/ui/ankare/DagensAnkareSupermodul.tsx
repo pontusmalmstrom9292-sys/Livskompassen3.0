@@ -7,8 +7,14 @@ import {
   Loader2,
   Shield,
   Sparkles,
-  Wind,
 } from 'lucide-react';
+import { clsx } from 'clsx';
+import {
+  BREATHING_EXERCISES,
+  DEFAULT_BREATHING_EXERCISE_ID,
+  getBreathingExercise,
+} from './breathingExercises';
+import { useBreathingCycle } from './useBreathingCycle';
 
 const DEFAULT_FOCUS = 'Lugnt samtal med barnen efter skolan.';
 const DEFAULT_QUOTE = 'Inte hela dagen — bara det viktigaste nu.';
@@ -34,7 +40,7 @@ export type MorningAnchorForgeProps = {
   onGroundingChange?: (active: boolean) => void;
 };
 
-/** Spår 1: Obsidian Forge — estetisk, andnings-CTA (prod + lab). */
+/** Spår 1: Obsidian Forge — andningsövningar + intention (prod + lab). */
 export function AnchorVariantForge({
   focus = DEFAULT_FOCUS,
   quote = DEFAULT_QUOTE,
@@ -48,6 +54,9 @@ export function AnchorVariantForge({
   onGroundingChange,
 }: MorningAnchorForgeProps) {
   const [isBreathing, setIsBreathing] = useState(false);
+  const [selectedExerciseId, setSelectedExerciseId] = useState(DEFAULT_BREATHING_EXERCISE_ID);
+  const exercise = getBreathingExercise(selectedExerciseId);
+  const { activeDuration, activeText, visual } = useBreathingCycle(exercise, isBreathing);
 
   const toggleBreathing = () => {
     setIsBreathing((v) => {
@@ -66,7 +75,10 @@ export function AnchorVariantForge({
   return (
     <div className="relative overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-surface-3 to-surface shadow-[0_12px_36px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.06)]">
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-accent/10 to-transparent"
+        className={clsx(
+          'pointer-events-none absolute top-1/2 left-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/20 blur-[80px] transition-all',
+          isBreathing ? 'scale-150 opacity-40 duration-[4000ms]' : 'scale-100 opacity-20 duration-1000',
+        )}
         aria-hidden
       />
       <div
@@ -76,7 +88,7 @@ export function AnchorVariantForge({
       />
 
       <div className="relative z-10 p-6">
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full border border-accent/30 bg-gradient-to-br from-accent/20 to-transparent shadow-[inset_0_1px_2px_rgba(255,255,255,0.1)]">
               <Anchor size={16} className="text-accent" strokeWidth={1.75} />
@@ -91,25 +103,103 @@ export function AnchorVariantForge({
           <Sparkles size={16} className="text-accent opacity-60" strokeWidth={1.75} />
         </div>
 
-        <div className="mb-6">
-          <h3 className="mb-3 font-display-serif text-2xl leading-snug text-text">{focus}</h3>
-          <p className="border-l-2 border-accent/30 pl-3 text-sm italic text-text-muted">
+        <div className="mb-5 text-center">
+          <h3 className="mb-2 font-display-serif text-2xl leading-snug text-text">{focus}</h3>
+          <p className="mx-auto max-w-xs border-l-2 border-accent/30 pl-3 text-left text-sm italic text-text-muted">
             &ldquo;{quote}&rdquo;
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={toggleBreathing}
-          className={`mb-4 flex w-full items-center justify-center gap-2 rounded-xl px-4 py-4 text-sm font-semibold tracking-wide shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] transition-all duration-500 ${
-            isBreathing
-              ? 'border border-success/30 bg-surface-3 text-success shadow-[0_0_15px_rgba(16,185,129,0.2)]'
-              : 'border border-accent/30 bg-gradient-to-b from-surface-3 to-surface text-accent hover:border-accent/60 hover:shadow-[0_0_20px_rgba(212,175,55,0.15)]'
-          }`}
+        <div className="mb-4 flex h-14 items-center justify-center">
+          {!isBreathing ? (
+            <div
+              className="flex flex-wrap justify-center gap-2"
+              role="group"
+              aria-label="Välj andningsövning"
+            >
+              {BREATHING_EXERCISES.map((ex) => (
+                <button
+                  key={ex.id}
+                  type="button"
+                  aria-pressed={selectedExerciseId === ex.id}
+                  onClick={() => setSelectedExerciseId(ex.id)}
+                  className={clsx(
+                    'rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+                    selectedExerciseId === ex.id
+                      ? 'border-accent/30 bg-accent/20 text-accent shadow-[0_0_10px_rgba(212,175,55,0.1)]'
+                      : 'border-transparent bg-white/5 text-text-dim hover:bg-white/10 hover:text-text-muted',
+                  )}
+                >
+                  {ex.label}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-accent">
+                {exercise.name}
+              </span>
+              <span className="mt-1 text-xs text-text-muted">{exercise.description}</span>
+            </div>
+          )}
+        </div>
+
+        <div className="relative mx-auto mb-4 flex h-[7.5rem] w-[7.5rem] items-center justify-center">
+          <div
+            className="pointer-events-none absolute inset-0 origin-center rounded-full border-2 border-accent ease-in-out"
+            style={{
+              transform: `scale(${visual.ringScale})`,
+              opacity: visual.ringOpacity,
+              transitionProperty: 'all',
+              transitionDuration: `${activeDuration}ms`,
+            }}
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute inset-0 origin-center rounded-full bg-accent ease-in-out"
+            style={{
+              transform: `scale(${visual.bgScale})`,
+              opacity: visual.bgOpacity,
+              transitionProperty: 'all',
+              transitionDuration: `${activeDuration}ms`,
+            }}
+            aria-hidden
+          />
+          <button
+            type="button"
+            aria-pressed={isBreathing}
+            aria-label={isBreathing ? 'Stoppa andningsövning' : 'Starta andningsövning'}
+            onClick={toggleBreathing}
+            className={clsx(
+              'relative z-10 flex h-28 w-28 items-center justify-center rounded-full border border-accent/30 bg-gradient-to-b from-surface-3 to-surface shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_0_20px_rgba(212,175,55,0.1)] transition-all duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+              !isBreathing &&
+                'hover:scale-105 hover:border-accent/60 hover:shadow-[0_0_30px_rgba(212,175,55,0.2)]',
+            )}
+          >
+            <Anchor
+              size={36}
+              strokeWidth={1.5}
+              className={clsx(
+                'text-accent transition-all duration-1000',
+                isBreathing ? 'scale-90 opacity-40' : 'opacity-100',
+              )}
+            />
+          </button>
+        </div>
+
+        <div
+          className="mb-5 flex h-8 items-center justify-center"
+          aria-live="polite"
+          aria-atomic="true"
         >
-          <Wind size={18} className={isBreathing ? 'animate-pulse' : ''} strokeWidth={1.75} />
-          {isBreathing ? 'Andas in… (4 sekunder)' : 'HITTA NÄRVARO INFÖR DETTA'}
-        </button>
+          <p className="text-sm font-medium transition-opacity duration-300">
+            {!isBreathing ? (
+              <span className="text-text-muted">Tryck på ankaret för att landa</span>
+            ) : (
+              <span className="font-semibold tracking-wide text-accent">{activeText}</span>
+            )}
+          </p>
+        </div>
 
         <label className="sr-only" htmlFor="morning-anchor-intention">
           Dagens enda prioritet
@@ -257,7 +347,7 @@ export function DagensAnkareLabShell() {
     <div className="space-y-8">
       <section>
         <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-text-dim">
-          Spår 1: Obsidian Forge (estetisk &amp; grundande)
+          Spår 1: Obsidian Forge (andning + intention)
         </h2>
         <AnchorVariantForge
           intention={intention}

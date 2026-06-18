@@ -23,6 +23,13 @@ const obsidianDepthVars = {
   '--compass-disk': '#0a1019',
   '--od-graphite': '#0a1019',
   '--od-slate': '#141c2b',
+  '--chrome-plate-a': 'rgba(20, 28, 43, 0.98)',
+  '--chrome-plate-b': 'rgba(10, 16, 25, 0.96)',
+  '--chrome-plate-c': 'rgba(2, 6, 23, 0.94)',
+  '--chrome-rail-a': 'rgba(14, 22, 36, 0.97)',
+  '--chrome-rail-b': 'rgba(9, 17, 30, 0.95)',
+  '--chrome-rail-c': 'rgba(2, 6, 23, 0.93)',
+  '--chrome-highlight': 'rgba(226, 232, 240, 0.1)',
 } as const;
 
 export const THEME_PACK_OBSIDIAN_DEPTH: ThemePack[] = [

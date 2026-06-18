@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { HeaderMenuGlyph } from '../ui/HeaderChromeGlyphs';
-import { resolveHeaderPanelStyle } from '../layout/headerPanelStyle';
+import { useHeaderPanelStyle } from '../layout/headerPanelStyle';
 import { DesignPackCenterHeader } from '../design/DesignPackCenterHeader';
 import { useDesignPack } from '../design/useDesignPack';
 import { AppHeaderBrand } from './AppHeaderBrand';
@@ -15,7 +15,7 @@ type Props = {
 
 export function AppHeaderBar({ menuExpanded, onMenuClick, actions }: Props) {
   const { active, chrome } = useDesignPack();
-  const panelStyle = resolveHeaderPanelStyle();
+  const panelStyle = useHeaderPanelStyle();
 
   if (active && chrome?.header === 'center-ornament') {
     return (
