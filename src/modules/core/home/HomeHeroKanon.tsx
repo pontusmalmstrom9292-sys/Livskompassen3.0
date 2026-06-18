@@ -9,6 +9,8 @@ import { useLifeHubPreset } from '../lifeOs/useLifeHubPreset';
 import { HomeGreeting } from './HomeGreeting';
 import { HomeStreakChip } from './HomeStreakChip';
 import { HomeAdaptiveCompass } from './HomeAdaptiveCompass';
+import { HomeBrassLayoutA } from './HomeBrassLayoutA';
+import { BRUSHED_BRASS_THEME_ID } from '../theme/themePackBrushedBrass';
 
 type Props = {
   onCheckInSaved?: () => void;
@@ -21,6 +23,7 @@ type Props = {
 export function HomeHeroKanon({ onCheckInSaved }: Props) {
   const { themeId } = useTheme();
   const mockup = isMockupTheme(themeId) || themeUsesDesignPackChrome(getTheme(themeId));
+  const brassHome = themeId === BRUSHED_BRASS_THEME_ID;
   const { active: designPackActive } = useDesignPack();
   const { preset, presetId } = useLifeHubPreset();
 
@@ -46,6 +49,14 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
       </BentoCard>
     </div>
   );
+
+  if (brassHome) {
+    return (
+      <div className="home-hero-kanon home-hero-kanon--brass-a">
+        <HomeBrassLayoutA onCheckInSaved={onCheckInSaved} />
+      </div>
+    );
+  }
 
   return (
     <div className={clsx('home-hero-kanon space-y-4', mockup && 'home-hero-kanon--mockup')}>

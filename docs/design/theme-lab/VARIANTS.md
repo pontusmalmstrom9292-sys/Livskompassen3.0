@@ -80,3 +80,13 @@ Spec: [`../themes/K-PACK-EIGHT-VARIANTS.md`](../themes/K-PACK-EIGHT-VARIANTS.md)
 
 - **GODKÄND: `J-planering-fyren`** — Planering + Projekt (`moduleThemeMap.ts` rad 19–20). Övriga hubbar oförändrade.
 - Nästa val: skriv **GODKÄND: &lt;id&gt;** för global bas eller fler J-hubbar.
+
+---
+
+## 2026-06-18 — Design sandbox mockups
+
+**VINNARE: SB-brushed-brass-neu** (mockup 01 — Brushed Brass Neumorf)
+
+- Prod default: `themeRegistry.ts` → `DEFAULT_THEME_ID`
+- Spec: `docs/design-sandbox/BRUSHED-BRASS-KANON.md`
+- Mockup: `docs/design-sandbox/mockups/01-brushed-brass-neu.html`

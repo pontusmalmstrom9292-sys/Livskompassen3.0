@@ -1,0 +1,340 @@
+/**
+ * Brushed Brass Neumorf v2 — SB-brushed-brass-neu
+ * Mockup: docs/design-sandbox/mockups/01-brushed-brass-neu.html
+ * Ref: docs/design-sandbox/references/
+ */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap');
+
+html[data-theme='SB-brushed-brass-neu'] {
+  --neu-out: 6px 6px 14px rgba(0, 0, 0, 0.45), -4px -4px 12px rgba(255, 255, 255, 0.03);
+  --neu-in: inset 4px 4px 10px rgba(0, 0, 0, 0.5), inset -2px -2px 8px rgba(255, 255, 255, 0.04);
+  --brass-radius: 14px;
+}
+
+/* Serif rubriker (LIFE OS / Kanon-ref) — bröd fortsatt Inter */
+html[data-theme='SB-brushed-brass-neu'] .font-display-serif {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+html[data-theme='SB-brushed-brass-neu'] .calm-card,
+html[data-theme='SB-brushed-brass-neu'] .glass-card {
+  border-radius: var(--brass-radius);
+  box-shadow: var(--neu-out);
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+}
+
+/* Primär CTA — teal (ref LIFE OS) */
+html[data-theme='SB-brushed-brass-neu'] .btn-pill--accent,
+html[data-theme='SB-brushed-brass-neu'] .btn-pill--success {
+  background: linear-gradient(145deg, #2ec4b6, #1fa89c);
+  color: #051220;
+  box-shadow: var(--neu-out);
+  border: 1px solid rgba(46, 196, 182, 0.35);
+}
+
+/* Sekundär — guld ghost */
+html[data-theme='SB-brushed-brass-neu'] .btn-pill--ghost {
+  border-color: var(--border-strong);
+  color: var(--accent);
+  background: transparent;
+}
+
+html[data-theme='SB-brushed-brass-neu'] .btn-pill--secondary {
+  background: transparent;
+  border: 1px solid rgba(46, 196, 182, 0.4);
+  color: var(--accent-secondary);
+}
+
+html[data-theme='SB-brushed-brass-neu'] input,
+html[data-theme='SB-brushed-brass-neu'] textarea,
+html[data-theme='SB-brushed-brass-neu'] .neu-inset {
+  box-shadow: var(--neu-in);
+  border-radius: 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+/* Dock — Fyren-centrum guld */
+html[data-theme='SB-brushed-brass-neu'] .floating-dock,
+html[data-theme='SB-brushed-brass-neu'] [class*='FloatingDock'] {
+  border-top-color: var(--border);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .text-accent {
+  color: var(--accent);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .hub-tab-bar .tab-active,
+html[data-theme='SB-brushed-brass-neu'] [data-active='true'] {
+  border-color: var(--border-strong);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.12);
+  color: var(--accent);
+}
+
+/* Valv lås — danger (ref) */
+html[data-theme='SB-brushed-brass-neu'] .btn-pill--danger,
+html[data-theme='SB-brushed-brass-neu'] [data-vault-lock] {
+  background: color-mix(in srgb, var(--danger) 18%, var(--surface));
+  border: 1px solid rgba(233, 76, 76, 0.45);
+  color: #fca5a5;
+}
+
+/* Hem layout A — vinnare (mockup 01-home-variants) */
+html[data-theme='SB-brushed-brass-neu'] {
+  --neu-deep:
+    12px 16px 32px rgba(0, 0, 0, 0.65), -6px -6px 18px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --glow-gold: 0 0 28px rgba(212, 175, 55, 0.18);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__intro .home-greeting__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.35rem;
+  letter-spacing: 0.02em;
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__sub {
+  margin: 0.15rem 0 0;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__label {
+  margin: 0 0 0.35rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  padding: 1rem 0.95rem 0.9rem;
+  border: 1px solid var(--border-strong);
+  background: linear-gradient(145deg, var(--surface-2) 0%, var(--surface) 55%, #0e1628 100%);
+  box-shadow: var(--neu-deep), var(--glow-gold);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__hero::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -18%;
+  width: 55%;
+  height: 80%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__hero::after {
+  content: '✦';
+  position: absolute;
+  right: 0.65rem;
+  bottom: 0.45rem;
+  font-size: 2.4rem;
+  color: rgba(212, 175, 55, 0.08);
+  pointer-events: none;
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__hero-title {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__hero-lead {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 0.5rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__hero-inset {
+  position: relative;
+  z-index: 1;
+  border-radius: 12px;
+  min-height: 2.5rem;
+  font-size: 0.8rem;
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-rows: auto auto;
+  gap: 0.55rem;
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__tile--tall {
+  grid-row: span 2;
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__tile {
+  border-radius: 14px;
+  padding: 0.65rem 0.7rem;
+  border: 1px solid var(--border);
+  background: linear-gradient(160deg, var(--surface-2), var(--surface));
+  box-shadow: var(--neu-out);
+  text-align: left;
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__tile--icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  min-height: 58px;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__tile--icon:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--neu-out), var(--glow-gold);
+  color: var(--accent);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__tile-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  color: var(--accent-secondary);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__steps {
+  margin: 0.35rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__step {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+  font-size: 0.72rem;
+  color: var(--text);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__step-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__step-btn:hover .home-brass-a__check {
+  border-color: var(--accent-secondary);
+  box-shadow: var(--neu-in), 0 0 8px rgba(46, 196, 182, 0.15);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__step-btn:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__check--wait {
+  border-style: dashed;
+  border-color: var(--text-dim);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__check {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  box-shadow: var(--neu-in);
+  display: grid;
+  place-items: center;
+  font-size: 0.55rem;
+  color: var(--accent);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__check--on {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__link {
+  display: inline-block;
+  margin-top: 0.55rem;
+  font-size: 0.65rem;
+  color: var(--accent-secondary);
+  text-decoration: none;
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__link:hover {
+  color: var(--accent);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__strip {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.55rem;
+  border-radius: 14px;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--border);
+  background: linear-gradient(90deg, var(--surface-2), var(--surface));
+  box-shadow: var(--neu-out);
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__strip:hover {
+  border-color: var(--border-strong);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__strip-ico {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--bg);
+  box-shadow: var(--neu-in);
+  display: grid;
+  place-items: center;
+  font-size: 0.75rem;
+  color: var(--accent-secondary);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__strip-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__strip-text strong {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-brass-a__strip-text span {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+}
+
+html[data-theme='SB-brushed-brass-neu'] .home-page--scenic.home-page--kanon {
+  background-image: radial-gradient(ellipse 90% 45% at 50% -5%, rgba(212, 175, 55, 0.06), transparent 55%);
+}
+

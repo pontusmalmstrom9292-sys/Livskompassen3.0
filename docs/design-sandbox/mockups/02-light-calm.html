@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>02 Ljus lugn — Livskompassen mockup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f7fa; --surface: #ffffff; --surface2: #eef2f6; --accent: #0d9488; --accent-dim: #0f766e;
+      --text: #1e293b; --muted: #64748b; --border: rgba(15,118,110,0.15); --border-strong: rgba(13,148,136,0.45);
+      --shadow: 0 4px 18px rgba(15,23,42,0.06); --shadow-sm: 0 1px 4px rgba(15,23,42,0.04);
+      --radius: 16px; --font: Inter, system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: var(--font); background: #e8edf2; color: var(--text); }
+    .page-head { padding: 1.5rem; text-align: center; border-bottom: 1px solid var(--border); background: var(--surface); }
+    .page-head a { color: var(--accent); font-size: 0.8rem; text-decoration: none; }
+    .page-head h1 { margin: 0.5rem 0 0.25rem; font-size: 1.1rem; letter-spacing: 0.08em; color: var(--accent); font-weight: 600; }
+    .page-head p { margin: 0; font-size: 0.8rem; color: var(--muted); }
+    .gallery { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; padding: 2rem 1rem 3rem; }
+    .screen-wrap { text-align: center; }
+    .screen-wrap h2 { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.75rem; font-weight: 600; }
+    .phone { width: 280px; height: 580px; border-radius: 28px; padding: 10px; background: #fff; box-shadow: var(--shadow), 0 0 0 1px rgba(15,23,42,0.06); }
+    .phone-inner { width: 100%; height: 100%; border-radius: 20px; overflow: hidden; background: var(--bg); display: flex; flex-direction: column; position: relative; }
+    .status { height: 22px; font-size: 0.55rem; color: var(--muted); display: flex; align-items: center; justify-content: center; }
+    .app-header { display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 0.65rem; border-bottom: 1px solid var(--border); background: var(--surface); }
+    .app-header .menu, .app-header .avatar { width: 28px; height: 28px; border-radius: 8px; background: var(--surface2); display: grid; place-items: center; font-size: 0.65rem; color: var(--accent); }
+    .app-header .title { font-size: 0.65rem; color: var(--text); font-weight: 600; }
+    .tabs { display: flex; gap: 0.25rem; padding: 0.45rem 0.5rem; overflow-x: auto; background: var(--surface); }
+    .tab { flex-shrink: 0; padding: 0.3rem 0.55rem; border-radius: 999px; font-size: 0.58rem; color: var(--muted); }
+    .tab.on { color: #fff; background: var(--accent); }
+    .content { flex: 1; padding: 0.55rem; overflow: hidden; display: flex; flex-direction: column; gap: 0.45rem; }
+    .card { background: var(--surface); border-radius: var(--radius); padding: 0.65rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
+    .card h3 { margin: 0 0 0.35rem; font-size: 0.68rem; color: var(--text); font-weight: 600; }
+    .card p { margin: 0; font-size: 0.58rem; color: var(--muted); line-height: 1.45; }
+    .check { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.35rem; font-size: 0.58rem; }
+    .check-box { width: 14px; height: 14px; border-radius: 4px; border: 2px solid var(--accent); display: grid; place-items: center; font-size: 0.5rem; color: var(--accent); background: #ecfdf5; }
+    .btn { margin-top: 0.5rem; padding: 0.45rem; border-radius: 10px; background: var(--accent); color: #fff; font-size: 0.6rem; font-weight: 600; text-align: center; }
+    .compass { width: 88px; height: 88px; margin: 0.5rem auto; border-radius: 50%; background: var(--surface); box-shadow: var(--shadow); border: 2px solid var(--border-strong); display: grid; place-items: center; font-size: 1.4rem; color: var(--accent); }
+    .dock { display: flex; justify-content: space-around; padding: 0.5rem 0.75rem 0.65rem; background: var(--surface); border-top: 1px solid var(--border); }
+    .dock-item { text-align: center; font-size: 0.48rem; color: var(--muted); }
+    .dock-item.on { color: var(--accent); font-weight: 600; }
+    .dock-icon { width: 32px; height: 32px; margin: 0 auto 0.15rem; border-radius: 10px; background: var(--surface2); display: grid; place-items: center; font-size: 0.75rem; }
+    .dock-item.on .dock-icon { background: #ccfbf1; color: var(--accent); }
+    .drawer-overlay { position: absolute; inset: 0; background: rgba(15,23,42,0.2); z-index: 2; }
+    .drawer { position: absolute; top: 0; left: 0; bottom: 0; width: 72%; background: var(--surface); z-index: 3; padding: 0.75rem 0.5rem; box-shadow: var(--shadow); }
+    .drawer-section { font-size: 0.5rem; letter-spacing: 0.12em; color: var(--muted); margin: 0.6rem 0 0.35rem; text-transform: uppercase; font-weight: 600; }
+    .drawer-row { display: flex; align-items: center; gap: 0.45rem; padding: 0.4rem 0.35rem; border-radius: 8px; font-size: 0.58rem; }
+    .drawer-row.on { background: #ecfdf5; color: var(--accent-dim); font-weight: 600; }
+    .drawer-icon { width: 22px; height: 22px; border-radius: 6px; background: var(--surface2); display: grid; place-items: center; font-size: 0.55rem; }
+    .kanban { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.3rem; margin-top: 0.35rem; }
+    .col { background: var(--surface2); border-radius: 8px; padding: 0.35rem; min-height: 48px; }
+    .col span { font-size: 0.5rem; color: var(--accent); font-weight: 600; display: block; margin-bottom: 0.25rem; }
+    .pill { display: inline-block; padding: 0.2rem 0.4rem; border-radius: 6px; background: var(--surface); font-size: 0.48rem; border: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+  <div class="page-head"><a href="index.html">← Alla stilar</a><h1>02 Ljus lugn</h1><p>Off-white · teal · låg visuell stress</p></div>
+  <div class="gallery">
+    <div class="screen-wrap"><h2>Hem</h2><div class="phone"><div class="phone-inner"><div class="status">9:41</div><div class="app-header"><span class="menu">☰</span><span class="title">Livskompassen</span><span class="avatar">K</span></div><div class="content" style="align-items:center;"><div class="compass">✦</div><p style="font-size:0.58rem;color:var(--muted);text-align:center;">Dagens riktning</p><div class="card" style="width:100%;"><h3>Morgonrutin</h3><div class="check"><span class="check-box">✓</span>Vatten</div><div class="check"><span class="check-box"></span>Andning</div><div class="btn">Fortsätt</div></div></div><div class="dock"><div class="dock-item"><div class="dock-icon">👥</div>Familjen</div><div class="dock-item on"><div class="dock-icon">✦</div>Hem</div><div class="dock-item"><div class="dock-icon">⌁</div>Valv</div></div></div></div></div>
+    <div class="screen-wrap"><h2>Hjärtat</h2><div class="phone"><div class="phone-inner"><div class="status">9:41</div><div class="app-header"><span class="menu">☰</span><span class="title">Hjärtat</span><span class="avatar">K</span></div><div class="tabs"><span class="tab on">Dagbok</span><span class="tab">Speglar</span></div><div class="content"><div class="card"><h3>Dagbok · idag</h3><p>En lugn morgon. Barnen hämtade.</p></div><div class="card"><h3>Speglar</h3><p>Validering utan spar.</p></div></div><div class="dock"><div class="dock-item"><div class="dock-icon">👥</div></div><div class="dock-item"><div class="dock-icon">✦</div></div><div class="dock-item on"><div class="dock-icon">⌁</div></div></div></div></div></div>
+    <div class="screen-wrap"><h2>Vardagen</h2><div class="phone"><div class="phone-inner"><div class="status">9:41</div><div class="app-header"><span class="menu">☰</span><span class="title">Vardagen</span><span class="avatar">K</span></div><div class="tabs"><span class="tab">Kompass</span><span class="tab">MåBra</span><span class="tab on">Planering</span><span class="tab">Ekonomi</span></div><div class="content"><div class="card"><h3>P3 Kanban</h3><div class="kanban"><div class="col"><span>Todo</span><div class="pill">Ring skola</div></div><div class="col"><span>Väntar</span></div><div class="col"><span>Klar</span></div></div></div></div><div class="dock"><div class="dock-item on"><div class="dock-icon">▣</div></div><div class="dock-item"><div class="dock-icon">✦</div></div><div class="dock-item"><div class="dock-icon">⌁</div></div></div></div></div></div>
+    <div class="screen-wrap"><h2>Familjen</h2><div class="phone"><div class="phone-inner"><div class="status">9:41</div><div class="app-header"><span class="menu">☰</span><span class="title">Familjen</span><span class="avatar">K</span></div><div class="tabs"><span class="tab on">Barnfokus</span><span class="tab">Livslogg</span><span class="tab">Hamn</span></div><div class="content"><div class="card"><h3>Barnfokus</h3><p>Vad gjorde dig glad idag?</p><div class="btn">Spara till logg</div></div></div><div class="dock"><div class="dock-item on"><div class="dock-icon">👥</div></div><div class="dock-item"><div class="dock-icon">✦</div></div><div class="dock-item"><div class="dock-icon">⌁</div></div></div></div></div></div>
+    <div class="screen-wrap"><h2>Drawer</h2><div class="phone"><div class="phone-inner"><div class="status">9:41</div><div class="app-header"><span class="menu">☰</span><span class="title">Livskompassen</span><span class="avatar">K</span></div><div class="content" style="opacity:0.4;"><div class="compass" style="transform:scale(0.7);">✦</div></div><div class="drawer-overlay"></div><div class="drawer"><div class="drawer-section">Vardag</div><div class="drawer-row on"><span class="drawer-icon">✦</span>Hem</div><div class="drawer-row"><span class="drawer-icon">▣</span>Vardagen</div><div class="drawer-row"><span class="drawer-icon">♡</span>Hjärtat</div><div class="drawer-row"><span class="drawer-icon">👥</span>Familjen</div><div class="drawer-section">Valv</div><div class="drawer-row"><span class="drawer-icon">⌁</span>Mönster · Logga</div></div><div class="dock"><div class="dock-item"><div class="dock-icon">👥</div></div><div class="dock-item on"><div class="dock-icon">✦</div></div><div class="dock-item"><div class="dock-icon">⌁</div></div></div></div></div></div>
+    <div class="screen-wrap"><h2>Dock + Fyren</h2><div class="phone"><div class="phone-inner"><div class="status">9:41</div><div class="app-header"><span class="menu">☰</span><span class="title">Chrome</span><span class="avatar">K</span></div><div class="content"><div class="card"><h3>Fyren</h3><div style="display:flex;gap:0.35rem;margin-top:0.35rem;"><div class="dock-icon">🎙</div><div class="dock-icon">📝</div><div class="dock-icon">▦</div></div></div><div class="card"><h3>Dock</h3><p>Teal active — mjuk skugga.</p></div></div><div class="dock"><div class="dock-item"><div class="dock-icon">👥</div></div><div class="dock-item on"><div class="dock-icon">✦</div></div><div class="dock-item"><div class="dock-icon">⌁</div></div></div></div></div></div>
+  </div>
+</body>
+</html>

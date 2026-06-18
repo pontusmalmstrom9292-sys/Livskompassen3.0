@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>03 Soft glass — Livskompassen mockup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f0a1a; --surface: rgba(255,255,255,0.07); --surface2: rgba(255,255,255,0.12);
+      --accent: #818cf8; --accent2: #a78bfa; --text: #e9e5ff; --muted: #a5b4fc;
+      --border: rgba(129,140,248,0.25); --border-strong: rgba(167,139,250,0.55);
+      --glass: blur(12px); --radius: 18px; --font: Inter, system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: var(--font); background: radial-gradient(ellipse at 20% 0%, #2e1064 0%, #0f0a1a 45%, #050308 100%); color: var(--text); min-height: 100vh; }
+    .page-head { padding: 1.5rem; text-align: center; border-bottom: 1px solid var(--border); background: rgba(15,10,26,0.6); backdrop-filter: blur(8px); }
+    .page-head a { color: var(--accent); font-size: 0.8rem; text-decoration: none; }
+    .page-head h1 { margin: 0.5rem 0 0.25rem; font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent2); }
+    .page-head p { margin: 0; font-size: 0.8rem; color: var(--muted); }
+    .gallery { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; padding: 2rem 1rem 3rem; }
+    .screen-wrap { text-align: center; }
+    .screen-wrap h2 { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.75rem; }
+    .phone { width: 280px; height: 580px; border-radius: 28px; padding: 10px; background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.03)); box-shadow: 0 0 40px rgba(129,140,248,0.25); }
+    .phone-inner { width: 100%; height: 100%; border-radius: 20px; overflow: hidden; background: linear-gradient(180deg, #1a1030 0%, var(--bg) 100%); display: flex; flex-direction: column; position: relative; }
+    .phone-inner::before { content: ''; position: absolute; top: -20%; right: -30%; width: 70%; height: 50%; background: radial-gradient(circle, rgba(129,140,248,0.35), transparent 70%); pointer-events: none; }
+    .status { height: 22px; font-size: 0.55rem; color: var(--muted); display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+    .app-header { display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 0.65rem; border-bottom: 1px solid var(--border); background: var(--surface); backdrop-filter: var(--glass); position: relative; z-index: 1; }
+    .app-header .menu, .app-header .avatar { width: 28px; height: 28px; border-radius: 10px; background: var(--surface2); backdrop-filter: var(--glass); display: grid; place-items: center; font-size: 0.65rem; color: var(--accent); border: 1px solid var(--border); }
+    .app-header .title { font-size: 0.62rem; letter-spacing: 0.16em; color: var(--accent2); }
+    .tabs { display: flex; gap: 0.25rem; padding: 0.45rem 0.5rem; overflow-x: auto; position: relative; z-index: 1; }
+    .tab { flex-shrink: 0; padding: 0.3rem 0.55rem; border-radius: 999px; font-size: 0.58rem; color: var(--muted); border: 1px solid transparent; }
+    .tab.on { color: #fff; border-color: var(--border-strong); background: rgba(129,140,248,0.25); box-shadow: 0 0 16px rgba(129,140,248,0.3); }
+    .content { flex: 1; padding: 0.55rem; overflow: hidden; display: flex; flex-direction: column; gap: 0.45rem; position: relative; z-index: 1; }
+    .card { background: var(--surface); backdrop-filter: var(--glass); border-radius: var(--radius); padding: 0.65rem; border: 1px solid var(--border); box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
+    .card h3 { margin: 0 0 0.35rem; font-size: 0.68rem; color: var(--accent2); }
+    .card p { margin: 0; font-size: 0.58rem; color: var(--muted); line-height: 1.45; }
+    .btn { margin-top: 0.5rem; padding: 0.45rem; border-radius: 12px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; font-size: 0.6rem; font-weight: 600; text-align: center; box-shadow: 0 0 20px rgba(129,140,248,0.4); }
+    .compass { width: 88px; height: 88px; margin: 0.5rem auto; border-radius: 50%; background: var(--surface2); backdrop-filter: var(--glass); border: 1px solid var(--border-strong); display: grid; place-items: center; font-size: 1.4rem; color: var(--accent); box-shadow: 0 0 30px rgba(129,140,248,0.35); }
+    .dock { display: flex; justify-content: space-around; padding: 0.5rem 0.75rem 0.65rem; background: var(--surface); backdrop-filter: var(--glass); border-top: 1px solid var(--border); position: relative; z-index: 1; }
+    .dock-item { text-align: center; font-size: 0.48rem; color: var(--muted); }
+    .dock-item.on { color: var(--accent2); }
+    .dock-icon { width: 32px; height: 32px; margin: 0 auto 0.15rem; border-radius: 12px; background: var(--surface2); backdrop-filter: var(--glass); display: grid; place-items: center; font-size: 0.75rem; border: 1px solid var(--border); }
+    .dock-item.on .dock-icon { box-shadow: 0 0 14px rgba(129,140,248,0.5); border-color: var(--border-strong); }
+    .drawer-overlay { position: absolute; inset: 0; background: rgba(5,3,8,0.65); z-index: 2; }
+    .drawer { position: absolute; top: 0; left: 0; bottom: 0; width: 72%; background: rgba(26,16,48,0.92); backdrop-filter: blur(16px); border-right: 1px solid var(--border-strong); z-index: 3; padding: 0.75rem 0.5rem; }
+    .drawer-section { font-size: 0.5rem; letter-spacing: 0.14em; color: var(--accent); margin: 0.6rem 0 0.35rem; text-transform: uppercase; }
+    .drawer-row { display: flex; align-items: center; gap: 0.45rem; padding: 0.4rem 0.35rem; border-radius: 10px; font-size: 0.58rem; }
+    .drawer-row.on { background: rgba(129,140,248,0.2); color: var(--accent2); border: 1px solid var(--border); }
+    .drawer-icon { width: 22px; height: 22px; border-radius: 8px; background: var(--surface2); display: grid; place-items: center; font-size: 0.55rem; }
+    .kanban { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.3rem; margin-top: 0.35rem; }
+    .col { background: rgba(255,255,255,0.05); border-radius: 10px; padding: 0.35rem; min-height: 48px; border: 1px solid var(--border); }
+    .col span { font-size: 0.5rem; color: var(--accent); display: block; margin-bottom: 0.25rem; }
+    .pill { display: inline-block; padding: 0.2rem 0.4rem; border-radius: 8px; background: rgba(129,140,248,0.15); font-size: 0.48rem; border: 1px solid var(--border); }
+    .check { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.35rem; font-size: 0.58rem; }
+    .check-box { width: 14px; height: 14px; border-radius: 4px; border: 1px solid var(--accent); display: grid; place-items: center; font-size: 0.5rem; color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="page-head"><a href="index.html">← Alla stilar</a><h1>03 Soft glass / norrsken</h1><p>Frosted glas · indigo glow · natt</p></div>
+  <div class="gallery">
+    <div class="screen-wrap"><h2>Hem</h2><div class="phone"><div class="phone-inner"><div class="status">9:41</div><div class="app-header"><span class="menu">☰</span><span class="title">Livskompassen</span><span class="avatar">K</span></div><div class="content" style="align-items:center;"><div class="compass">✦</div><div class="card" style="width:100%;"><h3>Morgonrutin</h3><div class="check"><span class="check-box">✓</span>Vatten</div><div class="btn">Fortsätt</div></div></div><div class="dock"><div class="dock-item"><div class="dock-icon">👥</div></div><div class="dock-item on"><div class="dock-icon">✦</div></div><div class="dock-item"><div class="dock-icon">⌁</div></div></div></div></div></div>
+    <div class="screen-wrap"><h2>Hjärtat</h2><div class="phone"><div class="phone-inner"><div class="status">9:41</div><div class="app-header"><span class="menu">☰</span><span class="title">Hjärtat</span><span class="avatar">K</span></div><div class="tabs"><span class="tab on">Dagbok</span><span class="tab">Speglar</span></div><div class="content"><div class="card"><h3>Dagbok</h3><p>Lugn morgon vid sjön.</p></div></div><div class="dock"><div class="dock-item"><div class="dock-icon">👥</div></div><div class="dock-item"><div class="dock-icon">✦</div></div><div class="dock-item on"><div class="dock-icon">⌁</div></div></div></div></div></div>
+    <div class="screen-wrap"><h2>Vardagen</h2><div class="phone"><div class="phone-inner"><div class="status">9:41</div><div class="app-header"><span class="menu">☰</span><span class="title">Vardagen</span><span class="avatar">K</span></div><div class="tabs"><span class="tab">Kompass</span><span class="tab on">Planering</span><span class="tab">MåBra</span></div><div class="content"><div class="card"><h3>Kanban</h3><div class="kanban"><div class="col"><span>Todo</span><div class="pill">Simma</div></div><div class="col"><span>Väntar</span></div><div class="col"><span>Klar</span></div></div></div></div><div class="dock"><div class="dock-item on"><div class="dock-icon">▣</div></div><div class="dock-item"><div class="dock-icon">✦</div></div><div class="dock-item"><div class="dock-icon">⌁</div></div></div></div></div></div>
+    <div class="screen-wrap"><h2>Familjen</h2><div class="phone"><div class="phone-inner"><div class="status">9:41</div><div class="app-header"><span class="menu">☰</span><span class="title">Familjen</span><span class="avatar">K</span></div><div class="tabs"><span class="tab on">Barnfokus</span><span class="tab">Hamn</span></div><div class="content"><div class="card"><h3>Barnfokus</h3><p>Vad gjorde dig glad?</p><div class="btn">Spara logg</div></div></div><div class="dock"><div class="dock-item on"><div class="dock-icon">👥</div></div><div class="dock-item"><div class="dock-icon">✦</div></div><div class="dock-item"><div class="dock-icon">⌁</div></div></div></div></div></div>
+    <div class="screen-wrap"><h2>Drawer</h2><div class="phone"><div class="phone-inner"><div class="status">9:41</div><div class="app-header"><span class="menu">☰</span><span class="title">Meny</span><span class="avatar">K</span></div><div class="content" style="opacity:0.3;"><div class="compass" style="transform:scale(0.6);">✦</div></div><div class="drawer-overlay"></div><div class="drawer"><div class="drawer-section">Vardag</div><div class="drawer-row on"><span class="drawer-icon">✦</span>Hem</div><div class="drawer-row"><span class="drawer-icon">▣</span>Vardagen</div><div class="drawer-row"><span class="drawer-icon">♡</span>Hjärtat</div><div class="drawer-row"><span class="drawer-icon">👥</span>Familjen</div><div class="drawer-section">Valv</div><div class="drawer-row"><span class="drawer-icon">⌁</span>Mönster</div></div><div class="dock"><div class="dock-item on"><div class="dock-icon">✦</div></div></div></div></div></div>
+    <div class="screen-wrap"><h2>Dock + Fyren</h2><div class="phone"><div class="phone-inner"><div class="status">9:41</div><div class="app-header"><span class="menu">☰</span><span class="title">Chrome</span><span class="avatar">K</span></div><div class="content"><div class="card"><h3>Fyren glow</h3><div style="display:flex;gap:0.35rem;margin-top:0.35rem;"><div class="dock-icon">🎙</div><div class="dock-icon">📝</div></div></div></div><div class="dock"><div class="dock-item"><div class="dock-icon">👥</div></div><div class="dock-item on"><div class="dock-icon">✦</div></div><div class="dock-item"><div class="dock-icon">⌁</div></div></div></div></div></div>
+  </div>
+</body>
+</html>

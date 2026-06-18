@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hem OS — 3 layoutvarianter · Brushed Brass</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #051220;
+      --surface: #121b2e;
+      --surface2: #1a2438;
+      --surface3: #243049;
+      --accent: #d4af37;
+      --accent-dim: #9a7b2f;
+      --teal: #2ec4b6;
+      --text: #eaeaea;
+      --muted: #94a3b8;
+      --border: rgba(212,175,55,0.14);
+      --border-strong: rgba(212,175,55,0.42);
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --font: Inter, system-ui, sans-serif;
+      --neu-out: 8px 10px 22px rgba(0,0,0,0.55), -5px -5px 14px rgba(255,255,255,0.04);
+      --neu-deep: 12px 16px 32px rgba(0,0,0,0.65), -6px -6px 18px rgba(255,255,255,0.05), inset 0 1px 0 rgba(255,255,255,0.06);
+      --neu-in: inset 5px 5px 14px rgba(0,0,0,0.55), inset -3px -3px 10px rgba(255,255,255,0.04);
+      --glow-gold: 0 0 28px rgba(212,175,55,0.18);
+      --glow-teal: 0 0 20px rgba(46,196,182,0.12);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: var(--font); background: #080c10; color: var(--text); }
+    .page-head { padding: 1.5rem 1rem; text-align: center; border-bottom: 1px solid var(--border); }
+    .page-head a { color: var(--accent); font-size: 0.78rem; text-decoration: none; }
+    .page-head h1 { margin: 0.5rem 0 0.25rem; font-family: var(--serif); font-size: 1.35rem; letter-spacing: 0.08em; color: var(--accent); }
+    .page-head p { margin: 0 auto; max-width: 34rem; font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+    .gallery { display: flex; flex-wrap: wrap; gap: 2.5rem; justify-content: center; padding: 2rem 1rem 3rem; }
+    .screen-wrap { text-align: center; max-width: 300px; }
+    .screen-wrap h2 { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.35rem; }
+    .screen-wrap .tagline { font-size: 0.65rem; color: var(--muted); margin: 0 0 0.85rem; line-height: 1.4; min-height: 2.2rem; }
+    .phone { width: 280px; height: 600px; border-radius: 32px; padding: 11px; background: linear-gradient(155deg, #3a4250 0%, #141820 45%, #0a0e14 100%); box-shadow: 0 28px 60px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,255,255,0.08); }
+    .phone-inner { width: 100%; height: 100%; border-radius: 22px; overflow: hidden; background: var(--bg); display: flex; flex-direction: column; position: relative; }
+    .phone-inner::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 40% at 50% -10%, rgba(212,175,55,0.07), transparent 55%); pointer-events: none; z-index: 0; }
+    .status { height: 20px; font-size: 0.52rem; color: var(--muted); display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+    .app-header { display: flex; align-items: center; justify-content: space-between; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--border); background: linear-gradient(180deg, var(--surface) 0%, rgba(18,27,46,0.92) 100%); position: relative; z-index: 1; }
+    .app-header .chip { width: 28px; height: 28px; border-radius: 9px; background: var(--surface2); box-shadow: var(--neu-out); display: grid; place-items: center; font-size: 0.62rem; color: var(--accent); }
+    .app-header .title { font-size: 0.58rem; letter-spacing: 0.2em; color: var(--accent); font-weight: 600; }
+    .home-scroll { flex: 1; padding: 0.5rem 0.55rem 0.35rem; overflow: hidden; display: flex; flex-direction: column; gap: 0.5rem; position: relative; z-index: 1; }
+    .greeting { font-family: var(--serif); font-size: 1.05rem; color: var(--text); margin: 0; line-height: 1.15; letter-spacing: 0.02em; }
+    .greeting-sub { font-size: 0.52rem; color: var(--muted); margin: 0.15rem 0 0; }
+
+    /* —— Stor hero-modul (3D) —— */
+    .hero-module {
+      position: relative;
+      border-radius: 20px;
+      padding: 0.75rem 0.7rem 0.7rem;
+      background: linear-gradient(145deg, var(--surface2) 0%, var(--surface) 55%, #0e1628 100%);
+      box-shadow: var(--neu-deep), var(--glow-gold);
+      border: 1px solid var(--border-strong);
+      overflow: hidden;
+    }
+    .hero-module::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -20%;
+      width: 55%;
+      height: 80%;
+      background: radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-module::after {
+      content: '✦';
+      position: absolute;
+      bottom: 0.35rem;
+      right: 0.5rem;
+      font-size: 2.2rem;
+      color: rgba(212,175,55,0.08);
+      pointer-events: none;
+    }
+    .hero-module .label { font-size: 0.48rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.3rem; }
+    .hero-module .hero-title { font-family: var(--serif); font-size: 0.92rem; color: var(--text); margin: 0 0 0.35rem; line-height: 1.25; }
+    .hero-module .hero-body { font-size: 0.55rem; color: var(--muted); margin: 0; line-height: 1.45; }
+    .hero-inset {
+      margin-top: 0.45rem;
+      padding: 0.45rem 0.5rem;
+      border-radius: 12px;
+      background: var(--bg);
+      box-shadow: var(--neu-in);
+      border: 1px solid rgba(212,175,55,0.08);
+      font-size: 0.54rem;
+      color: rgba(234,234,234,0.75);
+      min-height: 1.65rem;
+    }
+    .hero-module.tall { min-height: 148px; }
+    .hero-module.xtall { min-height: 168px; }
+
+    /* —— Små moduler under —— */
+    .tile-grid { display: grid; gap: 0.38rem; }
+    .tile-grid.g2 { grid-template-columns: 1fr 1fr; }
+    .tile-grid.g3 { grid-template-columns: 1fr 1fr 1fr; }
+    .tile-grid.asym { grid-template-columns: 1.15fr 0.85fr; grid-template-rows: auto auto; }
+    .tile-grid.asym .tile-sm:first-child { grid-row: span 2; }
+
+    .tile-sm {
+      border-radius: 14px;
+      padding: 0.45rem 0.5rem;
+      background: linear-gradient(160deg, var(--surface2), var(--surface));
+      box-shadow: var(--neu-out);
+      border: 1px solid var(--border);
+      text-align: left;
+      position: relative;
+    }
+    .tile-sm .t-label { font-size: 0.46rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.2rem; }
+    .tile-sm .t-body { font-size: 0.52rem; color: var(--muted); margin: 0; line-height: 1.35; }
+    .tile-sm .t-val { font-family: var(--serif); font-size: 0.78rem; color: var(--teal); margin: 0.15rem 0 0; }
+    .tile-sm.icon-tile { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 58px; padding: 0.4rem 0.3rem; }
+    .tile-sm.icon-tile .ico { font-size: 1rem; margin-bottom: 0.15rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)); }
+
+    .tile-strip {
+      display: flex; align-items: center; gap: 0.45rem;
+      border-radius: 14px;
+      padding: 0.42rem 0.5rem;
+      background: linear-gradient(90deg, var(--surface2), var(--surface));
+      box-shadow: var(--neu-out);
+      border: 1px solid var(--border);
+    }
+    .tile-strip .strip-ico {
+      width: 30px; height: 30px; border-radius: 10px; flex-shrink: 0;
+      background: var(--bg); box-shadow: var(--neu-in);
+      display: grid; place-items: center; font-size: 0.75rem; color: var(--teal);
+    }
+    .tile-strip .strip-text { flex: 1; min-width: 0; }
+    .tile-strip .strip-text strong { display: block; font-size: 0.54rem; color: var(--text); font-weight: 500; }
+    .tile-strip .strip-text span { font-size: 0.48rem; color: var(--muted); }
+
+    .tile-pill-row { display: flex; gap: 0.35rem; overflow: hidden; }
+    .tile-pill {
+      flex: 1; min-width: 0;
+      border-radius: 999px;
+      padding: 0.38rem 0.45rem;
+      background: var(--surface2);
+      box-shadow: var(--neu-out), inset 0 1px 0 rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      font-size: 0.46rem; color: var(--muted);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .tile-pill.on { color: var(--accent); border-color: var(--border-strong); box-shadow: var(--neu-out), var(--glow-gold); }
+
+    .check-line { display: flex; align-items: center; gap: 0.35rem; margin-top: 0.25rem; font-size: 0.52rem; color: var(--text); }
+    .check-dot { width: 13px; height: 13px; border-radius: 50%; border: 1px solid var(--accent); box-shadow: var(--neu-in); flex-shrink: 0; display: grid; place-items: center; font-size: 0.45rem; color: var(--accent); }
+
+    .dock5 { display: flex; justify-content: space-between; align-items: flex-end; padding: 0.32rem 0.45rem 0.5rem; background: linear-gradient(0deg, var(--surface), rgba(18,27,46,0.95)); border-top: 1px solid var(--border); position: relative; z-index: 1; }
+    .dock5-item { text-align: center; font-size: 0.4rem; color: var(--muted); flex: 1; }
+    .dock5-item.on { color: var(--accent); }
+    .dock5-item.hero { flex: 0 0 auto; margin-top: -12px; }
+    .dock-icon { width: 30px; height: 30px; margin: 0 auto 0.12rem; border-radius: 10px; background: var(--surface2); box-shadow: var(--neu-out); display: grid; place-items: center; font-size: 0.72rem; }
+    .dock5-item.hero .dock-icon { width: 42px; height: 42px; font-size: 1rem; border: 2px solid var(--border-strong); box-shadow: var(--neu-deep), var(--glow-gold); }
+    .dock5-item.on .dock-icon { border: 1px solid var(--border-strong); color: var(--accent); }
+
+    .variant-note { margin-top: 0.75rem; padding: 0.5rem 0.65rem; border-radius: 10px; background: rgba(46,196,182,0.06); border: 1px solid rgba(46,196,182,0.2); font-size: 0.62rem; color: var(--muted); text-align: left; line-height: 1.45; }
+    .variant-note strong { color: var(--teal); font-weight: 500; }
+  </style>
+</head>
+<body>
+  <div class="page-head">
+    <a href="01-brushed-brass-neu.html">← Brushed Brass galleri</a> · <a href="index.html">Alla stilar</a>
+    <h1>Hem OS — 3 layouter</h1>
+    <p>Stor modul högst upp (ankare/fokus) · mindre moduler under · mer 3D-djup. Inte lika många lika stora fyrkanter.</p>
+  </div>
+
+  <div class="gallery">
+
+    <!-- A: Hero + 2×2 asymmetrisk — ★ VINNARE -->
+    <div class="screen-wrap">
+      <h2>A · Ankare + rutnät ★</h2>
+      <p class="tagline">Stor hero · 2×2 tiles · ett högre kort till vänster</p>
+      <div class="phone"><div class="phone-inner">
+        <div class="status">9:41</div>
+        <div class="app-header"><span class="chip">☰</span><span class="title">Hem</span><span class="chip">K</span></div>
+        <div class="home-scroll">
+          <div>
+            <p class="greeting">God morgon, Pontus</p>
+            <p class="greeting-sub">Onsdag · ett steg i taget</p>
+          </div>
+          <div class="hero-module tall">
+            <p class="label">Dagens ankare</p>
+            <p class="hero-title">Lugnt samtal med barnen efter skolan</p>
+            <p class="hero-body">Inte hela dagen — bara det viktigaste nu.</p>
+            <div class="hero-inset">Tryck för att ändra ankare …</div>
+          </div>
+          <div class="tile-grid asym">
+            <div class="tile-sm">
+              <p class="t-label">Dagens steg</p>
+              <div class="check-line"><span class="check-dot">✓</span>Ring skola</div>
+              <div class="check-line"><span class="check-dot"></span>Simma 20 min</div>
+              <div class="check-line"><span class="check-dot"></span>Lunch ute</div>
+            </div>
+            <div class="tile-sm icon-tile"><span class="ico">📝</span><span class="t-body">Anteckning</span></div>
+            <div class="tile-sm icon-tile"><span class="ico">🎙</span><span class="t-body">Röst</span></div>
+          </div>
+          <div class="tile-strip">
+            <span class="strip-ico">▦</span>
+            <div class="strip-text"><strong>Senaste · Inkast</strong><span>Valv-uppladdning igår 21:04</span></div>
+          </div>
+        </div>
+        <div class="dock5">
+          <div class="dock5-item on"><div class="dock-icon">⌂</div>Hem</div>
+          <div class="dock5-item"><div class="dock-icon">▣</div>Planera</div>
+          <div class="dock5-item hero"><div class="dock-icon">✦</div>Fyren</div>
+          <div class="dock5-item"><div class="dock-icon">📖</div>Dagbok</div>
+          <div class="dock5-item"><div class="dock-icon">☰</div>Mer</div>
+        </div>
+      </div></div>
+      <div class="variant-note" style="border-color:rgba(212,175,55,0.35);background:rgba(212,175,55,0.08);"><strong style="color:var(--accent);">★ Vinnare</strong> — kopplad till prod Hem (<code>HomeBrassLayoutA</code>).</div>
+    </div>
+
+    <!-- B: Hero + horisontella pills + strip -->
+    <div class="screen-wrap">
+      <h2>B · Ankare + remsor</h2>
+      <p class="tagline">Stor hero · pill-snabbstart · inga fyrkanter i rad</p>
+      <div class="phone"><div class="phone-inner">
+        <div class="status">9:41</div>
+        <div class="app-header"><span class="chip">☰</span><span class="title">Hem</span><span class="chip">K</span></div>
+        <div class="home-scroll">
+          <div>
+            <p class="greeting">God morgon, Pontus</p>
+            <p class="greeting-sub">Kapacitet · lugn nivå</p>
+          </div>
+          <div class="hero-module xtall">
+            <p class="label">Dagens fokus</p>
+            <p class="hero-title">Var närvarande — inte perfekt</p>
+            <p class="hero-body">Mikrosteg räcker. Fyren påminner dig senare.</p>
+            <div class="hero-inset" style="border-color:rgba(46,196,182,0.15);box-shadow:var(--neu-in),var(--glow-teal);">✦ Ett steg · Simma eller vila</div>
+          </div>
+          <p class="t-label" style="font-size:0.46rem;letter-spacing:0.12em;color:var(--accent);margin:0;">Snabbstart</p>
+          <div class="tile-pill-row">
+            <div class="tile-pill on">📝 Anteckning</div>
+            <div class="tile-pill">🎙 Röst</div>
+            <div class="tile-pill">▦ Inkast</div>
+          </div>
+          <div class="tile-strip">
+            <span class="strip-ico" style="color:var(--accent);">✓</span>
+            <div class="strip-text"><strong>Dagens steg · 1/3</strong><span>Ring skola · väntar simma</span></div>
+          </div>
+          <div class="tile-strip" style="opacity:0.85;">
+            <span class="strip-ico">◷</span>
+            <div class="strip-text"><strong>Senaste aktivitet</strong><span>Planering · igår kväll</span></div>
+          </div>
+        </div>
+        <div class="dock5">
+          <div class="dock5-item on"><div class="dock-icon">⌂</div>Hem</div>
+          <div class="dock5-item"><div class="dock-icon">▣</div>Planera</div>
+          <div class="dock5-item hero"><div class="dock-icon">✦</div>Fyren</div>
+          <div class="dock5-item"><div class="dock-icon">📖</div>Dagbok</div>
+          <div class="dock5-item"><div class="dock-icon">☰</div>Mer</div>
+        </div>
+      </div></div>
+      <div class="variant-note"><strong>Pro:</strong> luftigare, mindre “rutigt”. <strong>Con:</strong> remsor kan bli monotona om allt är listor.</div>
+    </div>
+
+    <!-- C: Extra stor hero + 3 små kapslar -->
+    <div class="screen-wrap">
+      <h2>C · Monolit + kapslar</h2>
+      <p class="tagline">Dominant hero · tre små “floating” kapslar under</p>
+      <div class="phone"><div class="phone-inner">
+        <div class="status">9:41</div>
+        <div class="app-header"><span class="chip">☰</span><span class="title">Hem</span><span class="chip">K</span></div>
+        <div class="home-scroll">
+          <div>
+            <p class="greeting">God morgon, Pontus</p>
+          </div>
+          <div class="hero-module xtall" style="min-height:195px;padding-bottom:0.85rem;">
+            <p class="label">Life OS · idag</p>
+            <p class="hero-title" style="font-size:1.05rem;">Ankare:<br/>Trygg hamn för pojkarna</p>
+            <p class="hero-body" style="margin-top:0.35rem;">Allt annat väntar. Detta är tillräckligt.</p>
+            <div style="display:flex;gap:0.35rem;margin-top:0.5rem;">
+              <div style="flex:1;padding:0.35rem;border-radius:10px;background:rgba(5,18,32,0.6);box-shadow:var(--neu-in);text-align:center;">
+                <span style="font-size:0.42rem;color:var(--muted);display:block;">Närvaro</span>
+                <span style="font-family:var(--serif);font-size:0.85rem;color:var(--accent);">3</span>
+              </div>
+              <div style="flex:1;padding:0.35rem;border-radius:10px;background:rgba(5,18,32,0.6);box-shadow:var(--neu-in);text-align:center;">
+                <span style="font-size:0.42rem;color:var(--muted);display:block;">Steg kvar</span>
+                <span style="font-family:var(--serif);font-size:0.85rem;color:var(--teal);">2</span>
+              </div>
+            </div>
+          </div>
+          <div class="tile-grid g3">
+            <div class="tile-sm icon-tile" style="border-radius:18px;min-height:52px;">
+              <span class="ico">📝</span>
+              <span class="t-body">Skriv</span>
+            </div>
+            <div class="tile-sm icon-tile" style="border-radius:18px;min-height:52px;">
+              <span class="ico">🎙</span>
+              <span class="t-body">Spela in</span>
+            </div>
+            <div class="tile-sm icon-tile" style="border-radius:18px;min-height:52px;">
+              <span class="ico">▦</span>
+              <span class="t-body">Inkast</span>
+            </div>
+          </div>
+          <div class="tile-sm" style="border-radius:16px;padding:0.5rem;">
+            <p class="t-label">Kommande</p>
+            <p class="t-body">Simma · 17:30 · <span style="color:var(--teal);">nästa mikrosteg</span></p>
+          </div>
+        </div>
+        <div class="dock5">
+          <div class="dock5-item on"><div class="dock-icon">⌂</div>Hem</div>
+          <div class="dock5-item"><div class="dock-icon">▣</div>Planera</div>
+          <div class="dock5-item hero"><div class="dock-icon">✦</div>Fyren</div>
+          <div class="dock5-item"><div class="dock-icon">📖</div>Dagbok</div>
+          <div class="dock5-item"><div class="dock-icon">☰</div>Mer</div>
+        </div>
+      </div></div>
+      <div class="variant-note"><strong>Pro:</strong> stark känsla, editorial. <strong>Con:</strong> hero tar mycket plats på små skärmar.</div>
+    </div>
+
+  </div>
+</body>
+</html>

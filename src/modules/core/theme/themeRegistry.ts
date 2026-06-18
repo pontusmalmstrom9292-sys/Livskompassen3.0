@@ -7,6 +7,7 @@ import { THEME_PACK_K } from './themePackK';
 import { THEME_PACK_REDESIGN_A } from './themePackRedesignA';
 import { THEME_PACK_OBSIDIAN_DEPTH } from './themePackObsidianDepth';
 import { THEME_PACK_REMIX_E_HAMN } from './themePackRemix';
+import { THEME_BRUSHED_BRASS_NEU } from './themePackBrushedBrass';
 
 const shared = THEME_SHARED_VARS;
 
@@ -374,11 +375,13 @@ export const THEME_REGISTRY: ThemePack[] = [
   ...THEME_PACK_REDESIGN_A,
   // Remix B — Tema E + D1 chrome (prod default 2026-06-15)
   THEME_PACK_REMIX_E_HAMN,
+  // Design sandbox vinnare — Brushed Brass Neumorf (2026-06)
+  THEME_BRUSHED_BRASS_NEU,
   // Obsidian Depth — låst 3D shell (2026-06-14)
   ...THEME_PACK_OBSIDIAN_DEPTH,
 ];
 
-export const DEFAULT_THEME_ID = 'R-E-hamn-remix';
+export const DEFAULT_THEME_ID = 'SB-brushed-brass-neu';
 
 /** Legacy Theme Lab ids → canonical pack id. */
 export const THEME_ID_ALIASES: Record<string, string> = {

@@ -1,10 +1,15 @@
 import type { ThemePack } from './types';
 import { THEME_BY_ID } from './themeRegistry';
+import { THEME_BRUSHED_BRASS_NEU } from './themePackBrushedBrass';
 
 const stone = THEME_BY_ID['I-stone'];
 
 /** Utkast — visas endast i /dev/theme-lab tills godkända. */
 export const THEME_LAB_DRAFTS: ThemePack[] = [
+  {
+    ...THEME_BRUSHED_BRASS_NEU,
+    description: 'VINNARE design sandbox — deep navy + brushed brass neumorf (prod default).',
+  },
   {
     ...stone,
     id: 'I-stone-draft-photo',

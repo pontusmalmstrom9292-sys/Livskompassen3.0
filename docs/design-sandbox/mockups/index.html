@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Livskompassen — Design Sandbox Mockups</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root { --bg: #0a0e14; --gold: #c5a059; --muted: #94a3b8; --cream: #e2e8f0; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--cream); }
+    header { padding: 2.5rem 1.5rem 1.5rem; text-align: center; border-bottom: 1px solid rgba(197,160,89,0.2); }
+    header h1 { margin: 0 0 0.5rem; font-size: 1.5rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+    header p { margin: 0 auto; max-width: 36rem; color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+    .badge { display: inline-block; margin-bottom: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 4px; background: rgba(197,160,89,0.15); color: var(--gold); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; }
+    main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 3rem; display: grid; gap: 1.25rem; }
+    .card { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center; padding: 1.25rem 1.5rem; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03); text-decoration: none; color: inherit; transition: border-color 0.2s, transform 0.2s; }
+    .card:hover { border-color: rgba(197,160,89,0.4); transform: translateY(-2px); }
+    .card h2 { margin: 0 0 0.35rem; font-size: 1.05rem; }
+    .card p { margin: 0; font-size: 0.82rem; color: var(--muted); line-height: 1.5; max-width: 32rem; }
+    .swatch { width: 4.5rem; height: 4.5rem; border-radius: 0.75rem; border: 1px solid rgba(255,255,255,0.1); }
+    .s1 { background: linear-gradient(145deg, #1a1f26, #121820); box-shadow: inset 0 2px 8px rgba(0,0,0,0.5), 0 0 0 1px rgba(197,160,89,0.35); }
+    .s2 { background: linear-gradient(180deg, #ffffff, #eef2f6); box-shadow: 0 4px 20px rgba(13,148,136,0.15); }
+    .s3 { background: linear-gradient(160deg, #1e1035, #0f0a1a); box-shadow: 0 0 24px rgba(129,140,248,0.35); }
+    .s4 { background: linear-gradient(180deg, #faf8f5, #f0ebe3); box-shadow: inset 0 0 0 1px rgba(26,26,26,0.12); }
+    footer { text-align: center; padding: 1.5rem; font-size: 0.75rem; color: var(--muted); border-top: 1px solid rgba(255,255,255,0.06); }
+    footer a { color: var(--gold); }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="badge">Design sandbox · statisk HTML</span>
+    <h1>4 mockup-stilar</h1>
+    <p>Jämför hur samma zoner och flikar kan se ut — Hem, Hjärtat, Vardagen, Familjen, drawer och dock. Öppna en stil, scrolla mellan telefoner. Ingen app eller Theme Lab krävs.</p>
+  </header>
+  <main>
+    <a class="card" href="01-brushed-brass-neu.html" style="border-color: rgba(197,160,89,0.45);">
+      <div>
+        <h2>01 — Brushed Brass Neumorf ★ VINNARE</h2>
+        <p>Deep navy, metalliskt guld, 3D-djup. <strong>Prod default SB-brushed-brass-neu.</strong> · <a href="01-home-variants.html" style="color:#2ec4b6;">Hem OS — 3 layouter</a></p>
+      </div>
+      <div class="swatch s1" aria-hidden="true"></div>
+    </a>
+    <a class="card" href="02-light-calm.html">
+      <div>
+        <h2>02 — Ljus lugn</h2>
+        <p>Off-white bas, mjuk typografi, teal-bekräftelse. Låg visuell stress (ADHD-vänlig).</p>
+      </div>
+      <div class="swatch s2" aria-hidden="true"></div>
+    </a>
+    <a class="card" href="03-soft-glass.html">
+      <div>
+        <h2>03 — Soft glass / norrsken</h2>
+        <p>Frosted glas, indigo-lila glow, rundade paneler. Modern natt-UI med djup.</p>
+      </div>
+      <div class="swatch s3" aria-hidden="true"></div>
+    </a>
+    <a class="card" href="04-editorial-minimal.html">
+      <div>
+        <h2>04 — Editorial minimal</h2>
+        <p>Cream-papper, serif rubriker, terracotta accent. Tidningskänsla — luft och hierarki.</p>
+      </div>
+      <div class="swatch s4" aria-hidden="true"></div>
+    </a>
+  </main>
+  <footer>
+    Kanon: <code>docs/design-sandbox/mockups/</code> · Äldre galleri: <a href="../../design/galleri/index.html">design/galleri</a>
+  </footer>
+</body>
+</html>
