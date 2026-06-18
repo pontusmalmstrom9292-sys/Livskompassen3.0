@@ -1,4 +1,6 @@
 import { getMabraPlay } from '../../content/mabraExtendedPlays';
+import { MB_PLAY_54321_BANK_ID } from '../../content/grounding54321Play';
+import { MabraGrounding54321Wizard } from './MabraGrounding54321Wizard';
 import { MabraToolShell } from './MabraToolShell';
 
 type Props = {
@@ -7,6 +9,10 @@ type Props = {
 };
 
 export function MabraMicroPlayTool({ bankId, onBack }: Props) {
+  if (bankId === MB_PLAY_54321_BANK_ID) {
+    return <MabraGrounding54321Wizard onBack={onBack} />;
+  }
+
   const play = getMabraPlay(bankId);
 
   if (!play) {

@@ -118,6 +118,15 @@ const CORE_ITEMS: MabraHubItem[] = [
     action: { type: 'grounding' },
   },
   {
+    id: 'play-54321-wizard',
+    title: '5-4-3-2-1 wizard',
+    lead: 'MB-PLAY-54321 — steg för steg',
+    emoji: '🌿',
+    category: 'lekar',
+    quick: true,
+    action: { type: 'tool', tool: 'micro_play', playBankId: 'MB-PLAY-54321' },
+  },
+  {
     id: 'reframe-direct',
     title: 'Omtolvning',
     lead: 'Fyra steg — inre kritiker',

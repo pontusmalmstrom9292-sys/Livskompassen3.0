@@ -51,6 +51,11 @@ import {
   normalizeStringArray,
   normalizeVaultLogFields,
 } from '@/features/lifeJournal/evidence/vault/utils/normalizeVaultLog';
+import {
+  formatChildObservation,
+  inferEpistemicKind,
+  type EpistemicKind,
+} from '@/features/family/children/utils/childObservationEpistemics';
 
 /** IndexedDB persistence via Firebase v12 local cache (ersätter enableIndexedDbPersistence). */
 function initFirestoreDb() {
@@ -328,6 +333,8 @@ export async function saveChildrenLog(
     mediaUrl?: string;
     /** Barnen-PLAY-BANK (BP-PLAY-*) — metadata, ej Valv. */
     bankId?: string;
+    /** Våg 29 — tvinga citat/tolkning-prefix (default infereras). */
+    epistemicKind?: EpistemicKind;
   }
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.children_logs);
@@ -349,8 +356,16 @@ export async function saveChildrenLog(
     payload.signals = log.signals;
     payload.observation = log.observation || undefined;
   } else {
-    payload.observation = log.observation;
-    payload.truth = log.observation;
+    const epistemicKind =
+      log.epistemicKind ??
+      inferEpistemicKind({
+        authorRole: log.authorRole,
+        category: log.category,
+        channel: log.channel,
+      });
+    const normalized = formatChildObservation(log.observation, epistemicKind);
+    payload.observation = normalized;
+    payload.truth = normalized;
   }
 
   assertWormPayload(payload, 'children_logs');

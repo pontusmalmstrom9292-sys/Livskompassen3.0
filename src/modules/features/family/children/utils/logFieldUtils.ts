@@ -29,9 +29,11 @@ export function formatChildLogDate(createdAt: unknown, emptyFallback = ''): stri
   return s.length >= 10 ? s.slice(0, 10) : s || emptyFallback;
 }
 
-/** Strip `[kind]` prefix from barnfokus-stored observation. */
+import { stripEpistemicPrefixes } from './childObservationEpistemics';
+
+/** Strip epistemik + `[kind]` prefix from barnfokus-stored observation. */
 export function barnfokusDisplayText(observation: unknown, maxLen?: number): string {
-  const raw = coerceLogText(observation).replace(/^\[[\w_]+\]\s*/, '');
+  const raw = stripEpistemicPrefixes(coerceLogText(observation));
   if (maxLen == null || raw.length <= maxLen) return raw;
   return `${raw.slice(0, maxLen).trimEnd()}…`;
 }

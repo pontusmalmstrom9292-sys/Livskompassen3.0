@@ -4,6 +4,10 @@ import { getChildrenLogs, saveChildrenLog } from '@/core/firebase/firestore';
 import { CHILD_ALIASES, type BarnfokusQuestion, type ChildAlias } from '../constants';
 import type { ChildrenLogEntry, PhysiologicalSignals } from '../types';
 import { computeBalansIndex } from '../utils/balansIndex';
+import {
+  formatBarnfokusObservation,
+  type EpistemicKind,
+} from '../utils/childObservationEpistemics';
 
 const defaultSignals: PhysiologicalSignals = { somn: 3, angest: 3, aptit: 3 };
 
@@ -121,6 +125,7 @@ export function useFamiljenShell() {
     observation: string;
     category: string;
     childrenImpact?: string;
+    epistemicKind?: EpistemicKind;
   }) => {
     if (!user) throw new Error('Ej inloggad');
     setError(null);
@@ -128,14 +133,19 @@ export function useFamiljenShell() {
       childAlias: activeChild,
       ...data,
       action: 'livslogg',
+      epistemicKind: data.epistemicKind ?? 'tolkning',
     });
     await refreshLogs();
     return id;
   };
 
-  const handleSaveBarnfokus = async (observation: string, question: BarnfokusQuestion) => {
+  const handleSaveBarnfokus = async (
+    observation: string,
+    question: BarnfokusQuestion,
+    epistemicKind: EpistemicKind = 'citat',
+  ) => {
     if (!user) throw new Error('Ej inloggad');
-    const stored = `[${question.kind}] ${observation}`;
+    const stored = formatBarnfokusObservation(observation, epistemicKind, question.kind);
     const optimisticId = `pending-${Date.now()}`;
     const optimistic: ChildrenLogEntry = {
       id: optimisticId,
@@ -154,6 +164,7 @@ export function useFamiljenShell() {
         observation: stored,
         category: 'barnfokus',
         action: 'livslogg',
+        epistemicKind,
         ...(question.bankId ? { bankId: question.bankId } : {}),
       });
       setLogs((prev) =>

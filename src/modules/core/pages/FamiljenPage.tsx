@@ -15,15 +15,14 @@ import { FamiljenLivsloggTab } from '@/features/family/children/components/famil
 import { FamiljenReflektionTab } from '@/features/family/children/components/familjen/FamiljenReflektionTab';
 import { FamiljenTillsammansTab } from '@/features/family/children/components/familjen/FamiljenTillsammansTab';
 import { SafeHarborPage } from '@/features/family/safeHarbor/components/SafeHarborPage';
-import { BarnportenInboxPanel } from '@/features/onboarding/barnporten/components/BarnportenInboxPanel';
-import { BarnportenOrkesterPanel } from '@/features/onboarding/barnporten/components/BarnportenOrkesterPanel';
-import { BarnportenQrPanel } from '@/features/onboarding/barnporten/components/BarnportenQrPanel';
+import { BarnportenParentHubPanel } from '@/features/onboarding/barnporten/components/BarnportenParentHubPanel';
 import { FamiljenInputSuperModule } from '@/features/family/children/supermodule/FamiljenInputSuperModule';
 import {
   FAMILJEN_TAB_IDS,
   isFamiljenTabId,
   type FamiljenTabId,
 } from '@/features/family/children/constants/familjenTabs';
+import { isBarnportenChildPwaRolloutEnabled } from '@/features/onboarding/barnporten/constants/barnportenRollout';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { FamiljenBentoShell } from '@/features/family/children/components/familjen/FamiljenBentoShell';
@@ -34,7 +33,9 @@ const FAMILJ_OPTIONS: DropdownItem<FamiljenTabId>[] = [
   { id: 'reflektion', label: 'Dagens Barnfokus', icon: <Sparkles className="h-4 w-4" /> },
   { id: 'livslogg', label: 'Livslogg', icon: <BookHeart className="h-4 w-4" /> },
   { id: 'tillsammans', label: 'Tillsammans', icon: <Users className="h-4 w-4" /> },
-  { id: 'barnporten', label: 'Barnporten', icon: <Heart className="h-4 w-4" /> },
+  ...(isBarnportenChildPwaRolloutEnabled()
+    ? [{ id: 'barnporten' as const, label: 'Barnporten', icon: <Heart className="h-4 w-4" /> }]
+    : []),
   { id: 'hamn', label: 'Trygg Hamn (BIFF)', icon: <Anchor className="h-4 w-4" /> },
   { id: 'drogfrihet', label: 'Drogfrihet', icon: <HeartHandshake className="h-4 w-4" /> },
 ];
@@ -126,6 +127,10 @@ export function FamiljenPage() {
     return <Navigate to="/familjen?tab=reflektion" replace />;
   }
 
+  if (rawTab === 'barnporten' && !isBarnportenChildPwaRolloutEnabled()) {
+    return <Navigate to="/familjen?tab=reflektion" replace />;
+  }
+
   if (!shell.user) {
     return <p className="text-sm text-text-muted">Logga in för att öppna Familjen.</p>;
   }
@@ -184,13 +189,8 @@ export function FamiljenPage() {
           )}
 
           {activeTab === 'barnporten' && (
-            <BentoCard glow="blue" bare noHover className="familjen-tab-panel space-y-4 !p-4 sm:!p-5">
-              <BarnportenQrPanel />
-              <BarnportenInboxPanel />
-              <BarnportenOrkesterPanel />
-              <a href="/barnporten" className="btn-pill--ghost text-sm">
-                Öppna Barnporten (barn-PWA)
-              </a>
+            <BentoCard glow="blue" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
+              <BarnportenParentHubPanel activeChild={shell.activeChild} />
             </BentoCard>
           )}
 

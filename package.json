@@ -42,6 +42,7 @@
     "smoke:valv-security": "node scripts/smoke_valv_security.mjs",
     "smoke:plausible-deniability": "node scripts/smoke_plausible_deniability.mjs",
     "smoke:children": "node scripts/smoke_children_logs.mjs",
+    "smoke:barn-epistemik": "node scripts/smoke_barn_epistemik.mjs",
     "smoke:child-moment": "node scripts/smoke_child_moment.mjs",
     "smoke:entities": "node scripts/smoke_entity_profiles.mjs",
     "smoke:inbox": "node scripts/smoke_inbox_sort.mjs",

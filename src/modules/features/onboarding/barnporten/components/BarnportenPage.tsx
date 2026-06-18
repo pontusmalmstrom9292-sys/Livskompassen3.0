@@ -10,9 +10,12 @@ import { useBarnportenPairClaim } from '../hooks/useBarnportenPairClaim';
 import { BARNPORTEN_AGENTS } from '../constants/barnportenAgents';
 import { resolveBarnportenChildAlias, isBarnportenDeviceLinked } from '../constants/barnportenDeviceId';
 import { BarnportenWidget } from './BarnportenWidget';
+import { BarnportenBracketPanel } from './BarnportenBracketPanel';
 import { EvolutionDevPanel } from './EvolutionDevPanel';
 import { SchoolAgeModule } from './SchoolAgeModule';
 import { ForalderTryggCard } from './ForalderTryggCard';
+import { BarnportenPausedPanel } from './BarnportenPausedPanel';
+import { isBarnportenChildPwaRolloutEnabled } from '../constants/barnportenRollout';
 
 const BarnportenLevelTwoStage = lazy(() =>
   import('./BarnportenLevelTwoStage').then((m) => ({ default: m.BarnportenLevelTwoStage }))
@@ -29,6 +32,7 @@ export function BarnportenPage() {
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [breathCount, setBreathCount] = useState(0);
 
   useEffect(() => {
     if (pairState.phase === 'done') setActiveChild(pairState.childAlias);
@@ -36,10 +40,18 @@ export function BarnportenPage() {
 
   useBarnportenOfflineFlush(user?.uid);
 
+  if (!isBarnportenChildPwaRolloutEnabled()) {
+    return (
+      <div className="barnporten-page px-4 py-8 text-text">
+        <BarnportenPausedPanel />
+      </div>
+    );
+  }
+
   const postLog = async (
     kind: 'message' | 'mood' | 'private',
     observation: string,
-    label: string,
+    _label: string,
     urgent = false,
   ) => {
     if (!user) {
@@ -51,7 +63,7 @@ export function BarnportenPage() {
     try {
       const result = await saveBarnportenLog(user.uid, {
         childAlias: activeChild,
-        observation: `[Barnporten · ${label}] ${observation}`,
+        observation,
         kind,
         contentType: kind === 'mood' ? 'mood' : 'text',
         urgent,
@@ -100,6 +112,24 @@ export function BarnportenPage() {
       {pairState.phase === 'error' ? (
         <p className="mb-4 text-center text-sm text-danger">{pairState.message}</p>
       ) : null}
+
+      <BarnportenBracketPanel
+        bracket={childBracket}
+        childAlias={activeChild}
+        disabled={saving}
+        onMood={(obs) => void postLog('mood', obs, 'humor')}
+        onBreathing={() => {
+          const next = breathCount + 1;
+          setBreathCount(next);
+          if (next >= 3) {
+            setBreathCount(0);
+            void postLog('mood', 'Andningspaus klar (3 andetag)', 'andning');
+            setStatus('Bra jobbat — tre lugna andetag.');
+          } else {
+            setStatus(`Andetag ${next} av 3 — ta ett till.`);
+          }
+        }}
+      />
 
       <div className="grid grid-cols-2 gap-3">
         {childBracket !== 'toddler_preschool' && (

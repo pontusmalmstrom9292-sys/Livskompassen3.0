@@ -4,6 +4,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { useStore } from '@/core/store';
 import { useMabraStore } from '../store/mabraStore';
 import { saveMabraSession } from '@/core/firebase/firestore';
+import { MB_PLAY_54321_BANK_ID } from '../content/grounding54321Play';
 
 import { BreathingExercise } from '../components/BreathingExercise';
 import { GroundingExercise } from '../components/GroundingExercise';
@@ -44,7 +45,7 @@ export const MabraExerciseView = memo(function MabraExerciseView() {
   }, [navigate, setHubOpenCategory, setHubFocusToken]);
 
   const handleExerciseComplete = useCallback(
-    async (exerciseType: MabraExerciseType, elapsedSeconds: number) => {
+    async (exerciseType: MabraExerciseType, elapsedSeconds: number, playBankId?: string) => {
       setCompletedExerciseType(exerciseType);
       setAddonBreathing(false);
       
@@ -59,6 +60,7 @@ export const MabraExerciseView = memo(function MabraExerciseView() {
           exerciseType,
           durationSeconds: elapsedSeconds,
           hubSymptom: hub ?? undefined,
+          ...(playBankId ? { playBankId } : {}),
         });
       } catch {
         setSaveError('Kunde inte spara sessionen — övningen är klar ändå.');
@@ -82,9 +84,9 @@ export const MabraExerciseView = memo(function MabraExerciseView() {
 
   const handleGroundingComplete = useCallback(
     (elapsedSeconds: number) => {
-      void handleExerciseComplete('grounding', elapsedSeconds);
+      void handleExerciseComplete('grounding', elapsedSeconds, MB_PLAY_54321_BANK_ID);
     },
-    [handleExerciseComplete]
+    [handleExerciseComplete],
   );
 
   const handleReframingComplete = useCallback(() => {

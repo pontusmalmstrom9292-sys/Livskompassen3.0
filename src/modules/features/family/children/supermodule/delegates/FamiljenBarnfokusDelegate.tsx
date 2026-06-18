@@ -9,7 +9,10 @@ import {
   type BarnfokusQuestion,
   type BarnfokusBracket,
 } from '../../constants';
-import { coerceLogText, formatChildLogDate } from '../../utils/logFieldUtils';
+import {
+  type EpistemicKind,
+} from '../../utils/childObservationEpistemics';
+import { barnfokusDisplayText, formatChildLogDate } from '../../utils/logFieldUtils';
 import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
 
 function pickQuestion(
@@ -47,6 +50,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
   const pool = barnfokusQuestionsForBracket(bracket);
 
   const [answer, setAnswer] = useState('');
+  const [epistemicKind, setEpistemicKind] = useState<EpistemicKind>('citat');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [question, setQuestion] = useState<BarnfokusQuestion>(() =>
@@ -63,7 +67,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
     setLoading(true);
     setError(null);
     try {
-      const logId = await onSave(text, question);
+      const logId = await onSave(text, question, epistemicKind);
       setAnswer('');
       onSaved?.(logId);
     } catch (e: unknown) {
@@ -117,6 +121,23 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
         ) : null}
       </div>
 
+      <div className="flex flex-wrap gap-2">
+        {(['citat', 'tolkning'] as const).map((kind) => (
+          <button
+            key={kind}
+            type="button"
+            onClick={() => setEpistemicKind(kind)}
+            className={
+              epistemicKind === kind
+                ? 'rounded-lg border border-accent/50 bg-surface-3 px-2.5 py-1 text-[10px] uppercase tracking-wider text-accent'
+                : 'rounded-lg border border-border px-2.5 py-1 text-[10px] uppercase tracking-wider text-text-dim hover:border-accent/30'
+            }
+          >
+            {kind === 'citat' ? 'Barnets ord' : 'Min tolkning'}
+          </button>
+        ))}
+      </div>
+
       <textarea
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
@@ -153,7 +174,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
                 <li key={row.id || `barnfokus-mem-${index}`}>
                   <TimelineEntry
                     as="div"
-                    body={coerceLogText(row.observation ?? row.truth)}
+                    body={barnfokusDisplayText(row.observation ?? row.truth)}
                     meta={`barnfokus · ${formatChildLogDate(row.createdAt, 'nyss')}`}
                   />
                 </li>

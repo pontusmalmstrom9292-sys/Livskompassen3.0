@@ -77,6 +77,14 @@ export const MABRA_EXTENDED_PLAYS: readonly DagligMixPlay[] = [
     rule_sv: '5 saker du ser, 4 du hör, 3 du känner mot kroppen, 1 lång utandning. Ingen poäng.',
   },
   {
+    bankId: 'MB-PLAY-54321',
+    content_class: 'PLAY',
+    source_tier: 'P1',
+    status: 'KEEP',
+    title_sv: '5-4-3-2-1 grounding',
+    rule_sv: 'Steg-för-steg wizard — se, känna, höra, lukta, smaka. Ingen poäng.',
+  },
+  {
     bankId: 'MB-PLAY-08',
     content_class: 'PLAY',
     source_tier: 'P1',

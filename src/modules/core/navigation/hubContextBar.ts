@@ -3,6 +3,7 @@
  * Uppdaterad 2026-06-06: Liv-launcher — tunga moduler på egna routes.
  */
 import { NAV_PATHS } from './navTruth';
+import { isBarnportenChildPwaRolloutEnabled } from '@/features/onboarding/barnporten/constants/barnportenRollout';
 export type HubContextIconId =
   | 'list'
   | 'calendar'
@@ -108,12 +109,16 @@ function vardagenSlots(pathname: string, search: string): HubContextSlot[] {
 
 function familjenSlots(tab: string | null): HubContextSlot[] {
   const t = tab || 'reflektion';
-  return [
+  const slots: HubContextSlot[] = [
     { id: 'reflektion', label: 'Reflektion', to: '/familjen?tab=reflektion', icon: 'sparkles', active: t === 'reflektion' },
     { id: 'livslogg', label: 'Livslogg', to: '/familjen?tab=livslogg', icon: 'bookheart', active: t === 'livslogg' },
     { id: 'barnporten', label: 'Barnporten', to: '/familjen?tab=barnporten', icon: 'users', active: t === 'barnporten' },
     { id: 'hamn', label: 'Trygg hamn', to: '/familjen?tab=hamn', icon: 'anchor', active: t === 'hamn' },
   ];
+  if (!isBarnportenChildPwaRolloutEnabled()) {
+    return slots.filter((slot) => slot.id !== 'barnporten');
+  }
+  return slots;
 }
 
 function dagbokSlots(tab: string | null): HubContextSlot[] {

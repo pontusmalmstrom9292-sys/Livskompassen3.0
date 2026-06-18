@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Plus, Loader2, Check } from 'lucide-react';
 import { LIVSLOGG_CATEGORIES, type LivsloggCategory } from '../../constants';
 import { SaveAsEvidencePrompt } from '../../components/SaveAsEvidencePrompt';
+import type { EpistemicKind } from '../../utils/childObservationEpistemics';
 import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
 
 export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: FamiljenDelegateBaseProps) {
@@ -13,6 +14,7 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
   const [observation, setObservation] = useState('');
   const [childrenImpact, setChildrenImpact] = useState('');
   const [category, setCategory] = useState<LivsloggCategory>('vardag');
+  const [epistemicKind, setEpistemicKind] = useState<EpistemicKind>('tolkning');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [savedLogId, setSavedLogId] = useState<string | null>(null);
@@ -51,6 +53,7 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
         observation: observation.trim(),
         category: category,
         childrenImpact: childrenImpact.trim() || undefined,
+        epistemicKind,
       });
       setSavedLogId(id);
       setStep('saved');
@@ -108,6 +111,23 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
           </option>
         ))}
       </select>
+
+      <div className="flex flex-wrap gap-2">
+        {(['tolkning', 'citat'] as const).map((kind) => (
+          <button
+            key={kind}
+            type="button"
+            onClick={() => setEpistemicKind(kind)}
+            className={
+              epistemicKind === kind
+                ? 'rounded-lg border border-accent/50 bg-surface-3 px-2.5 py-1 text-[10px] uppercase tracking-wider text-accent'
+                : 'rounded-lg border border-border px-2.5 py-1 text-[10px] uppercase tracking-wider text-text-dim hover:border-accent/30'
+            }
+          >
+            {kind === 'citat' ? 'Barnets ord (citat)' : 'Min observation (tolkning)'}
+          </button>
+        ))}
+      </div>
 
       <textarea
         value={observation}
