@@ -72,6 +72,17 @@ Deploy efter PASS: skill [`.cursor/skills/livskompassen-deploy/SKILL.md`](.curso
 - **Kunskap-fakta:** `specialist-kunskap-seed` — FACT → [`docs/specs/modules/Kunskap-CONTENT-SEED.md`](docs/specs/modules/Kunskap-CONTENT-SEED.md) (ingest separat).
 - Keep direct edits in the parent agent unless a separate isolated exploration is clearly useful.
 
+### CTO Custom Modes (2026-06 audit)
+
+Pontus-godkända dagliga bollplank — regler i `.cursor/rules/backend-ingest-logic.mdc`, `chameleon-ui-modularity.mdc`, `ai-cognitive-companion.mdc`.
+
+| Agent | Trigger | Fokus |
+|-------|---------|-------|
+| `minnes-arkitekten` | `/minnes-arkitekten` | Auto kunskaps-ingest, SynapseBus, silos — **ingen UI** |
+| `design-labbet` | `/design-labbet` | Chameleon UI, tokens, Theme Lab — **ingen backend** |
+| `yolo-vakt` | `/yolo-vakt` | Read-only säkerhetsaudit före merge/deploy |
+| `android-kompis` | `/android-kompis` | G85, cap sync, auth, deploy |
+
 ## Skills & rules (uppgift → vägledning)
 
 | Uppgift | Skill | Cursor rule |
