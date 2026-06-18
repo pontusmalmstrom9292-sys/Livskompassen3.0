@@ -1,5 +1,7 @@
-# FP-TI-S6 · MåBra-kurator
+# FP-TI-S6 · Reflektion utan gamification
 
-**Tag:** FP-TI-S6 · **Datum:** 2026-06-18 · **Scope:** sandbox
+**Tag:** FP-TI-S6 · **Datum:** 2026-06-18
 
-Endast mabraInputModes + bank. REJECT GPT wellness (FP-014). Capacity mock från mabraCapacityParafras.
+- Fyllda kort, inga streak/XP/stjärnor
+- Kapacitetsband i exec-status-stil (mock)
+- FreeportMabraHub behåller innehållsregler U6

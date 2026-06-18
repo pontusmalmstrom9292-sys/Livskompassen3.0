@@ -1,15 +1,12 @@
-# FP-TI-S5 · Familjen + Hamn
+# FP-TI-S5 · RESURSER + Familjen
 
-**Tag:** FP-TI-S5 · **Datum:** 2026-06-18 · **Scope:** sandbox
+**Tag:** FP-TI-S5 · **Datum:** 2026-06-18
 
-## Layouter
+## RESURSER
+- Fullskärms lista, guld ikon-cirklar, sökfält botten
+- Dev-etikett: Livskompassen zon per rad (S2)
 
-barnfokus-fokus · livslogg-grid · hamn-kompakt
+## Familjen
+- Samma exec-card språk i FreeportFamiljenHub (befintlig)
 
-## Regler
-
-Barnfokus låst · dold Valv via «Fler funktioner» · ingen auto-promote.
-
-## Backlog
-
-- FP-TI-S5-001: FreeportFamiljenHub — SANDBOX
+## Sandbox: FreeportResurserLab.tsx

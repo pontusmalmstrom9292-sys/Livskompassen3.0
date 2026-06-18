@@ -71,8 +71,39 @@ function main() {
   mustInclude(
     'src/modules/sandbox/components/FreeportHemV3Lab.tsx',
     'HEM_V3_SUPERMODS',
-    'FreeportChameleonLive',
-    'Modell A',
+    'ExecutivePhoneShell',
+    'Pixel-gate HEM',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/FreeportEkonomiLab.tsx',
+    'FreeportEkonomiLab',
+    'Månadsöversikt',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/FreeportResurserLab.tsx',
+    'FreeportResurserLab',
+    'Resurser',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/FreeportDagbokLab.tsx',
+    'FreeportDagbokLab',
+    'Daglig reflektion',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/FreeportInstallningarLab.tsx',
+    'FreeportInstallningarLab',
+    'Logga ut',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/exec/ExecutiveExactBottomNav.tsx',
+    'LivskompassMark',
+    'ExecutiveExactBottomNav',
+  );
+  mustInclude(
+    'src/styles/design-freeport.css',
+    'design-freeport__exec-card',
+    'design-freeport__exec-bottom-nav',
+    'design-freeport__exec-status-strip',
   );
   mustInclude(
     'src/modules/sandbox/freeportZones.ts',
@@ -150,10 +181,18 @@ function main() {
     'Fler funktioner',
   );
   mustInclude('docs/evaluations/2026-06-18-freeport-vag-c-gate.md', 'Gate-checklista');
-  mustInclude('docs/evaluations/2026-06-18-pmir-b-p4-capacity-coach.md', 'mabraCapacityParafras');
+  mustInclude('docs/evaluations/2026-06-18-fp-ti-exact-match-spec.md', 'HEM', 'EKONOMI');
+  mustInclude('docs/evaluations/2026-06-18-fp-ti-exact-match-research.md', 'Exact Match');
+  mustInclude('docs/evaluations/FP-TI-EXACT-MATCH-BACKLOG.md', 'GAP-HEM');
+  mustInclude('docs/design/EXEC-TACTILE-DESIGN-SYSTEM.md', 'exec-card');
+  mustInclude('docs/evaluations/2026-06-18-fp-ti-pmir-underlag.md', 'PMIR');
+  mustInclude(
+    'docs/evaluations/research-raw/tactile-inspiration/S11-pixel-forensics.md',
+    'FP-TI-S11',
+  );
 
   const page = read('src/modules/sandbox/DesignFreeportPage.tsx');
-  for (const tab of ['hjartat', 'mabra', 'familjen']) {
+  for (const tab of ['hjartat', 'mabra', 'familjen', 'ekonomi', 'resurser', 'dagbok', 'installningar']) {
     assert(page.includes(tab), `DesignFreeportPage saknar flik: ${tab}`);
   }
 
@@ -164,7 +203,7 @@ function main() {
     'design-freeport ska ligga utanför MainLayout',
   );
 
-  console.log('[smoke:design-freeport] PASS — Våg C hubs + gate + chameleon.');
+  console.log('[smoke:design-freeport] PASS — exact-match 5 screens + hubs + chameleon.');
 }
 
 try {

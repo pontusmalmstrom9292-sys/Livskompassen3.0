@@ -1,5 +1,7 @@
-# FP-TI-S7 · Security gate
+# FP-TI-S7 · Säkerhet i executive chrome
 
 **Tag:** FP-TI-S7 · **Datum:** 2026-06-18
 
-Ingen cross-delegate · ingen Valv i discovery · DCAP på inkast · sandbox utan MainLayout.
+- Inställningar: «Säkerhet» inte «Valv» i publikt läge
+- Logout röd gradient — ingen valv-exponering
+- Valv endast efter PIN i prod

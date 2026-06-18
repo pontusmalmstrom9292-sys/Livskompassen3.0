@@ -1,21 +1,14 @@
-# FP-TI-S4 · Vardagen — Planering-mall till taktil hub
+# FP-TI-S4 · EKONOMI-skärm
 
-**Tag:** FP-TI-S4 · **Datum:** 2026-06-18 · **Specialist:** specialist-vardagen-builder · **Scope:** sandbox
+**Tag:** FP-TI-S4 · **Datum:** 2026-06-18 · **Specialist:** specialist-vardagen-builder
 
-## 1. MåBra hub-layouter (3–4)
+## Komponenter
+- ExecutiveGraphCard: SVG area chart 100px, gold line 2px
+- Account rows: saldo höger, 52px radhöjd
+- Transactions: grön #10b981 inkomst
 
-| Layout | Arketyp | Modes | Lead |
-|--------|---------|-------|------|
-| checkin-fokus | fokus | checkin | Ett mikrosteg |
-| kort-grid | grid | vit_card, reflection_tool | Frågekort i rutnät |
-| reflektion-lista | lista | reflection_tool, exercise_note | Vertikal, låg arousal |
-| paralys-panel | fokus | checkin | Kapacitet 1 — P4 mock |
+## Sandbox
+- FreeportEkonomiLab.tsx — mockdata, ej Firestore
 
-## 2. Vardagen-chameleon utan kategori-blandning
-
-Planering- och MåBra-delegates delar zon men aldrig samma delegate-import.
-
-## 3. Backlog
-
-- FP-TI-S4-001: mabraHubLayouts + FreeportMabraHub — SANDBOX
-- FP-TI-S4-002: Kapacitetsmock — SANDBOX
+## Prod mapping
+- /vardagen?tab=ekonomi efter PMIR

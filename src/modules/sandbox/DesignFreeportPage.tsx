@@ -4,6 +4,10 @@ import { loadFreeportTheme, saveFreeportTheme, type FreeportThemeId } from './fr
 import { FreeportChromeShell } from './components/FreeportChromeShell';
 import { FreeportThemeSwitcher } from './components/FreeportThemeSwitcher';
 import { FreeportHemV3Lab } from './components/FreeportHemV3Lab';
+import { FreeportEkonomiLab } from './components/FreeportEkonomiLab';
+import { FreeportResurserLab } from './components/FreeportResurserLab';
+import { FreeportDagbokLab } from './components/FreeportDagbokLab';
+import { FreeportInstallningarLab } from './components/FreeportInstallningarLab';
 import { FreeportChameleonLive } from './components/FreeportChameleonLive';
 import { FreeportSuperhubPlayground } from './components/FreeportSuperhubPlayground';
 import { FreeportPlaneringHub } from './components/FreeportPlaneringHub';
@@ -12,10 +16,25 @@ import { FreeportMabraHub } from './components/FreeportMabraHub';
 import { FreeportFamiljenHub } from './components/FreeportFamiljenHub';
 import { getDefaultTarget, type FreeportChameleonTarget } from './freeportChameleonBridge';
 
-type PanelId = 'hem' | 'chameleon' | 'live' | 'planering' | 'hjartat' | 'mabra' | 'familjen';
+type PanelId =
+  | 'hem'
+  | 'ekonomi'
+  | 'resurser'
+  | 'dagbok'
+  | 'installningar'
+  | 'chameleon'
+  | 'live'
+  | 'planering'
+  | 'hjartat'
+  | 'mabra'
+  | 'familjen';
 
 const PANELS: { id: PanelId; label: string }[] = [
-  { id: 'hem', label: 'Hem v3 (Modell A)' },
+  { id: 'hem', label: 'HEM (exakt)' },
+  { id: 'ekonomi', label: 'EKONOMI (exakt)' },
+  { id: 'resurser', label: 'RESURSER (exakt)' },
+  { id: 'dagbok', label: 'DAGBOK (exakt)' },
+  { id: 'installningar', label: 'INSTÄLLNINGAR (exakt)' },
   { id: 'chameleon', label: 'Chameleon live' },
   { id: 'hjartat', label: 'Hjärtat hub' },
   { id: 'mabra', label: 'MåBra hub' },
@@ -105,6 +124,10 @@ export function DesignFreeportPage() {
         {panel === 'hem' ? (
           <FreeportHemV3Lab lowCapacity={lowCapacity} onStatus={setStatus} />
         ) : null}
+        {panel === 'ekonomi' ? <FreeportEkonomiLab onStatus={setStatus} /> : null}
+        {panel === 'resurser' ? <FreeportResurserLab onStatus={setStatus} /> : null}
+        {panel === 'dagbok' ? <FreeportDagbokLab onStatus={setStatus} /> : null}
+        {panel === 'installningar' ? <FreeportInstallningarLab onStatus={setStatus} /> : null}
         {panel === 'chameleon' ? (
           <FreeportChameleonLive
             target={chameleonTarget}
