@@ -5,6 +5,7 @@
 import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { spawnSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -128,6 +129,11 @@ function main() {
     'specialist-innehall-dirigent.md',
     'specialist-mabra-curator.md',
     'specialist-kunskap-seed.md',
+    'specialist-hcf-domän.md',
+    'specialist-utveckling-kurator.md',
+    'specialist-aterhamtning-hälsa.md',
+    'specialist-myndighet-seed.md',
+    'specialist-neuro-psyk-seed.md',
   ]) {
     assert(existsSync(resolve(root, '.cursor/agents', agent)), `saknar .cursor/agents/${agent}`);
     mustInclude(`.cursor/agents/${agent}`, 'INNEHALL-REGISTER', 'MUST NOT');
@@ -141,7 +147,7 @@ function main() {
     'Ingen RAG',
   );
   mustInclude('functions/src/lib/mabraCoachGuard.ts', 'shouldRedirectMabraCoachToSpeglar');
-  mustInclude('functions/src/lib/mabraContentBank.ts', 'resolveCoachBankId', 'MB-REF-03', 'MB-REF-JOY-01', 'MB-REF-MIRROR-02');
+  mustInclude('functions/src/lib/mabraContentBank.ts', 'resolveCoachBankId', 'MB-REF-03', 'MB-REF-JOY-01', 'MB-REF-MIRROR-02', 'MB-REF-REST-01');
 
   console.log('[smoke:innehall] Mabra no Kunskap RAG (spec)...');
   mustInclude(
@@ -149,6 +155,15 @@ function main() {
     'knowledgeVaultQuery',
     'Ingen RAG-export',
   );
+
+  console.log('[smoke:innehall] Domän-specialister (5 agenter)...');
+  const dom = spawnSync('node', ['scripts/smoke_domän_specialister.mjs'], {
+    cwd: root,
+    encoding: 'utf8',
+  });
+  if (dom.status !== 0) {
+    throw new Error(dom.stderr || dom.stdout || 'smoke:domän-specialister FAIL');
+  }
 
   console.log('[smoke:innehall] PASS');
 }

@@ -309,6 +309,36 @@ export const MABRA_COACH_BANK: readonly MabraCoachBankEntry[] = [
     text_sv:
       'En neutral reaktion (t.ex. kort svar) — är det säkert avvisning, eller finns andra förklaringar du inte ser än?',
   },
+  {
+    bankId: 'MB-REF-REST-01',
+    content_class: 'REFLECTION',
+    source_tier: 'psychoeducation_general',
+    status: 'KEEP',
+    hub: 'panic_rsd',
+    lens: 'aterhamtning',
+    text_sv:
+      'Ett andetag innan du svarar myndighet eller skola — vad är ett sakligt nästa steg, inte hela lösningen?',
+  },
+  {
+    bankId: 'MB-REF-REST-02',
+    content_class: 'REFLECTION',
+    source_tier: 'psychoeducation_general',
+    status: 'KEEP',
+    hub: 'find_self',
+    lens: 'aterhamtning',
+    text_sv:
+      'Kroppen har burit mycket länge. Vad skulle vara den minsta återhämtande handlingen de närmaste tio minuterna?',
+  },
+  {
+    bankId: 'MB-REF-REST-03',
+    content_class: 'REFLECTION',
+    source_tier: 'psychoeducation_general',
+    status: 'KEEP',
+    hub: 'panic_rsd',
+    lens: 'aterhamtning',
+    text_sv:
+      'Hypervigilans är en normal reaktion på långvarig stress — inte ett personlighetsfel. Vad signalerar kroppen just nu?',
+  },
 ] as const;
 
 const BANK_BY_ID = new Map(MABRA_COACH_BANK.map((row) => [row.bankId, row]));

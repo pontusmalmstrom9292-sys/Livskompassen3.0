@@ -3,7 +3,7 @@
  * libraryVersion: bump vid nya mönster; gamla sidecar-poster förblir giltiga.
  */
 
-export const TACTIC_LIBRARY_VERSION = '2026.06.2';
+export const TACTIC_LIBRARY_VERSION = '2026.06.3';
 
 export type VaultTechnique =
   | 'DARVO'
@@ -40,7 +40,7 @@ export type TacticPatternDef = {
 };
 
 export const TACTIC_PATTERN_DEFS: readonly TacticPatternDef[] = [
-  { id: 'cn-darvo-001', technique: 'DARVO', pattern: 'du är alltid så (känslig|dramatisk|överdriftig)', flags: 'i', kunskapFactId: 'kunskap-fact-cn-004', weight: 30 },
+  { id: 'cn-darvo-001', technique: 'DARVO', pattern: 'du är alltid så (känslig|dramatisk|överdriftig)', flags: 'i', kunskapFactId: 'kunskap-fact-cn-008', weight: 30 },
   { id: 'cn-gaslight-001', technique: 'GASLIGHTING', pattern: 'du hittar på', flags: 'i', kunskapFactId: 'kunskap-fact-cn-002', weight: 35 },
   { id: 'cn-gaslight-002', technique: 'GASLIGHTING', pattern: 'det har aldrig (hänt|sagts|gjorts)', flags: 'i', kunskapFactId: 'kunskap-fact-cn-002', weight: 35 },
   { id: 'cn-gaslight-003', technique: 'GASLIGHTING', pattern: 'du är (galen|psykisk|instabil)', flags: 'i', kunskapFactId: 'kunskap-fact-cn-002', weight: 40 },
@@ -67,6 +67,10 @@ export const TACTIC_PATTERN_DEFS: readonly TacticPatternDef[] = [
   { id: 'cn-juridik-001', technique: 'LEGAL_PRESSURE', pattern: 'orosanmälan', flags: 'i', kunskapFactId: 'kunskap-fact-jur-004', hamnSignalId: 'juridik_hot', weight: 40 },
   { id: 'cn-juridik-002', technique: 'LEGAL_PRESSURE', pattern: 'tingsrätten', flags: 'i', kunskapFactId: 'kunskap-fact-jur-004', hamnSignalId: 'juridik_hot', weight: 40 },
   { id: 'cn-juridik-003', technique: 'LEGAL_PRESSURE', pattern: 'ensam\\s+vårdnad', flags: 'i', kunskapFactId: 'kunskap-fact-jur-004', hamnSignalId: 'juridik_hot', weight: 45 },
+  { id: 'cn-silent-001', technique: 'SILENT_TREATMENT', pattern: 'tyst\\s+straff', flags: 'i', kunskapFactId: 'kunskap-fact-cn-051', weight: 30 },
+  { id: 'cn-silent-002', technique: 'SILENT_TREATMENT', pattern: 'svarar\\s+inte', flags: 'i', kunskapFactId: 'kunskap-fact-cn-051', weight: 25 },
+  { id: 'cn-proj-001', technique: 'THREAT', pattern: 'du\\s+är\\s+(självisk|manipulativ|kontroll)', flags: 'i', kunskapFactId: 'kunskap-fact-cn-049', weight: 30 },
+  { id: 'cn-goal-001', technique: 'JADE_BAIT', pattern: 'ändrade\\s+(reglerna|kraven)', flags: 'i', kunskapFactId: 'kunskap-fact-cn-050', weight: 25 },
 ];
 
 export type TacticMatch = {

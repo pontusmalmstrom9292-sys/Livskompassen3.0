@@ -2,11 +2,23 @@
   "version": 1,
   "sprint": "fas22-masterplan-v2",
   "startedAt": "2026-06-18T11:59:32.509Z",
-  "updatedAt": "2026-06-18T11:59:32.510Z",
+  "updatedAt": "2026-06-18T21:50:35.327Z",
   "status": "running",
-  "nextWaveId": "baseline",
-  "completedWaves": [],
-  "skippedWaves": [],
+  "nextWaveId": "22.6",
+  "completedWaves": [
+    "baseline",
+    "22.1",
+    "22.2",
+    "22.4",
+    "22.5",
+    "22.7"
+  ],
+  "skippedWaves": [
+    {
+      "id": "22.3",
+      "reason": "BLOCKERAD utan 22.2 PMIR + Pontus OK — fas23 domain sprint"
+    }
+  ],
   "failures": [],
   "waves": [
     "baseline",
@@ -98,8 +110,8 @@
   ],
   "git": {
     "branch": "main",
-    "sha": "76729634b",
-    "dirty": 90
+    "sha": "3f5aa0c8f",
+    "dirty": 26
   },
   "policy": {
     "smokePerWave": true,
@@ -114,5 +126,6 @@
       "genkit-v1",
       "mass-delete"
     ]
-  }
+  },
+  "notes": "PMIR godkänd 2026-06-18. våg31 ingest 12 OK. mabraCoach+hosting deployad."
 }

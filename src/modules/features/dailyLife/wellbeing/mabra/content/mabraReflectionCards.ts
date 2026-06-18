@@ -55,4 +55,7 @@ export const MABRA_REFLECTION_CARDS: readonly MabraReflectionCard[] = [
   { bankId: 'MB-REF-ADHD-05', lens: 'body_double', text_sv: 'Vilken uppgift skjuter du upp mest — och vem eller vad skulle kunna sitta bredvid dig (utan att prata) i fem minuter?' },
   { bankId: 'MB-REF-ADHD-06', lens: 'rsd_paus', text_sv: 'När kroppen reagerar starkt på kritik eller tystnad — vad skulle hända om du pausade 60 sekunder innan du svarar eller agerar?' },
   { bankId: 'MB-REF-ADHD-07', lens: 'rsd_tolkning', text_sv: 'En neutral reaktion (t.ex. kort svar) — är det säkert avvisning, eller finns andra förklaringar du inte ser än?' },
+  { bankId: 'MB-REF-REST-01', lens: 'aterhamtning', text_sv: 'Ett andetag innan du svarar myndighet eller skola — vad är ett sakligt nästa steg, inte hela lösningen?' },
+  { bankId: 'MB-REF-REST-02', lens: 'aterhamtning', text_sv: 'Kroppen har burit mycket länge. Vad skulle vara den minsta återhämtande handlingen de närmaste tio minuterna?' },
+  { bankId: 'MB-REF-REST-03', lens: 'aterhamtning', text_sv: 'Hypervigilans är en normal reaktion på långvarig stress — inte ett personlighetsfel. Vad signalerar kroppen just nu?' },
 ] as const;

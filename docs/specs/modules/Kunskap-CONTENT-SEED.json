@@ -84,6 +84,16 @@
       "source_tier": "P2"
     },
     {
+      "id": "kunskap-fact-pu-001",
+      "title": "ACT värderingar — kompassfråga",
+      "content": "I ACT handlar värderingar om riktning i livet, inte prestation. En kompassfråga: vad vill jag stå för i den här situationen — ett litet steg räcker. Värderingar är inte samma sak som mål med deadline.",
+      "category": "personlig_utveckling",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Hayes ACT (översikt); kunskap-fact-038",
+      "source_tier": "P1"
+    },
+    {
       "id": "kunskap-fact-skol-001",
       "title": "Skolrapport och kartläggning — observerbart utan vuxenkonflikt",
       "content": "Skola och elevhälsa dokumenterar ofta närvaro, prestation, social situation och stödinsatser i kartläggning, åtgärdsprogram eller utredning inför särskilt stöd. Neutral skolrapport fokuserar på observerbart: datum, lektion/miljö, vad barnet gjorde eller sa (citat), vilka anpassningar som provats och effekt. Undvik att skolan används som forum för vuxenkonflikt — föräldrar ska inte behöva försvara sin personlighet i skolunderlag. Vid separerade föräldrar kan båda ha rätt till viss information enligt skollagen och sekretessregler; skolan samordnar ofta med vårdnadshavare enligt beslut. Be om skriftlig sammanfattning efter möten. Livskompassen ger inte juridisk rådgivning; konkret sms-svar → Hamn, bevis → Valv.",
@@ -184,6 +194,26 @@
       "source_tier": "P2"
     },
     {
+      "id": "kunskap-fact-pu-002",
+      "title": "Kognitiv defusion — tanken är inte fakta",
+      "content": "Defusion innebär att se tanken som en tanke: jag har tanken att jag misslyckas — inte jag är ett misslyckande. Ett mikrosteg är att säga meningen högt och lägga till: jag märker att jag har den tanken.",
+      "category": "personlig_utveckling",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "ACT defusion (översikt); kunskap-fact-039",
+      "source_tier": "P1"
+    },
+    {
+      "id": "kunskap-fact-soc-002",
+      "title": "Samverkansmöte soc och skola — förberedelse",
+      "content": "Vid samverkansmöte: förbered agenda med datum och observerbara händelser. Skilj citat från tolkning. Ta med en skriftlig punktlista — ett steg i taget. Soc och skola har olika roller; håll tonen affärsmässig. Livskompassen ger inte juridisk rådgivning.",
+      "category": "myndighet_soc",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "BBIC samverkan; soc-001; ep-007",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-vf-002",
       "title": "Mönster över tid vs enstaka händelse",
       "content": "En sms-rad kan trigga DCAP — signal, inte domslut. Mönster kräver upprepning med datum i WORM. Tolka aldrig en händelse som bevisat mönster utan tidslinje.",
@@ -262,6 +292,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "LVU (1990:52) översikt; Socialstyrelsen handläggning barn — ej rådgivning",
       "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-pu-003",
+      "title": "Allostatisk belastning — långvarig stress och utmattning",
+      "content": "Allostatisk belastning beskriver hur kroppen anpassar sig under långvarig stress. Trötthet, hypervigilans och kognitiv dimma kan vara fysiologiska svar — inte karaktärsfel. Återhämtning kräver ofta vila och strukturerad paus, inte bara viljestyrka.",
+      "category": "personlig_utveckling",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "McEwen allostatic load (översikt); adhd-027, gad-030",
+      "source_tier": "P1"
     },
     {
       "id": "kunskap-fact-vf-003",
@@ -704,6 +744,16 @@
       "source_tier": "P1"
     },
     {
+      "id": "kunskap-fact-jur-010",
+      "title": "Föräldrarätt i LVU-utredning — information och yttrande",
+      "content": "I LVU-utredning har vårdnadshavare rätt till information om utredningen och möjlighet att yttra sig. Partsgenomgång innebär att du får ta del av underlag som ligger till grund för bedömning — omfattning regleras av lag och sekretess. Dokumentera datum för möten, kallelser och vad som sagts. Livskompassen ger inte juridisk rådgivning.",
+      "category": "juridik_overview",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Socialstyrelsen LVU-handläggning (översikt); jur-003, jur-005",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-011",
       "title": "Grey Rock — neutral kommunikation vid konflikt",
       "content": "Grey Rock innebär korta, sakliga svar utan känslomässigt bränsle: bekräfta mottagande, svara på logistik, undvik att försvara eller förklara (JADE). Metoden används för att minska manipulation och eskalation i högkonfliktssituationer, inte som straff mot barnet.",
@@ -731,6 +781,16 @@
       "eventDate": null,
       "source": "kunskap_content_seed",
       "citation_hint": "High-conflict coparenting literature",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-jur-011",
+      "title": "Förvaltningsrätt och domstol — neutral stegöversikt",
+      "content": "Tvister om vårdnad eller umgänge kan gå via familjerätt och domstol. Typiska steg: ansökan, svaromål, bevisning, förhandling, dom. Håll kommunikation saklig; spara datum och handlingar. Detta är processöversikt, inte strategiråd. Livskompassen ger inte juridisk rådgivning.",
+      "category": "juridik_overview",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Domstolsverket familjerätt (översikt); jur-006",
       "source_tier": "P2"
     },
     {
@@ -762,6 +822,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "livskompassen-governance; Hamn",
       "source_tier": "P1"
+    },
+    {
+      "id": "kunskap-fact-jur-012",
+      "title": "Orosanmälan — vad soc utreder",
+      "content": "En orosanmälan innebär att socialtjänsten bedömer om barnet far illa och om insats behövs. Utredning fokuserar på barnets situation — inte på att bevisa förälders skuld. Du kan begära information om ärendet enligt gällande regler. Dokumentera datum och kanal. Livskompassen ger inte juridisk rådgivning.",
+      "category": "juridik_overview",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Socialstyrelsen orosanmälan; jur-004",
+      "source_tier": "P2"
     },
     {
       "id": "kunskap-fact-013",
@@ -1012,6 +1082,16 @@
       "source": "kunskap_content_seed",
       "citation_hint": "ADHD RSD psychoeducation (general); ej ICD-11 separat diagnos",
       "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-bh-021",
+      "title": "Barn i myndighetsutredning — intervju och lojalitet",
+      "content": "Barn kan känna lojalitetskonflikt när vuxna är i konflikt. Professionella intervjuar barn separat; förälder ska inte pressa barn att välja sida. Dokumentera barnets egna ord med citat-prefix — aldrig diagnos på motpart.",
+      "category": "barn_hcf",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "bh-001, bh-014; Barnombudet",
+      "source_tier": "P1"
     },
     {
       "id": "kunskap-fact-cn-021",
@@ -1284,6 +1364,16 @@
       "source_tier": "psychoeducation_general"
     },
     {
+      "id": "kunskap-fact-gad-040",
+      "title": "Panikattack vs GAD — skillnad i varaktighet",
+      "content": "Panikattacker är intensiva men ofta kortvariga (minuter). Generaliserad ångest är mer uthållig oro över flera områden. Båda kan samexistera. Kroppen reagerar liknande — andning och markering i tid hjälper att särskilja mönster. Detta är psykoedukation, inte diagnos.",
+      "category": "gad_angest",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "1177 ångest; NICE GAD (översikt)",
+      "source_tier": "P1"
+    },
+    {
       "id": "kunskap-fact-041",
       "title": "Trygg bas — förälder som ankare",
       "content": "Barn mår ofta bättre av en förälder som är förutsägbar och lugn, inte perfekt. 'Trygg bas' betyder att barnet vet att den vuxne kommer tillbaka efter separation — inte att allt alltid är harmoniskt.",
@@ -1362,6 +1452,36 @@
       "source": "kunskap_content_seed",
       "citation_hint": "HCR intermittent contact; kompletterar cn-016 Hoovering",
       "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-cn-049",
+      "title": "Projektion — attributera egna känslor till andra",
+      "content": "Projektion innebär att en person beskriver dig med egenskaper eller avsikter som passar deras eget känsloläge. Dokumentera beteende och datum — inte diagnos. Vid sms: svara kort på logistik i Hamn.",
+      "category": "covert_taktik",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "kunskap-fact-047; tacticPatternLibrary",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-cn-050",
+      "title": "Moving goalposts — flyttande krav",
+      "content": "Moving goalposts: krav eller regler ändras efter att du uppfyllt dem, så du aldrig kan vinna. Dokumentera vad som sagts och när. Svara inte med långa förklaringar — BIFF i Hamn.",
+      "category": "covert_taktik",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "kunskap-fact-046",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-cn-051",
+      "title": "Tyst straff — tystnad som kontroll",
+      "content": "Tyst straff: kommunikation stängs av som påföljd. Det är ett beteendemönster att dokumentera med datum — inte något du måste rätta till med JADE. Grey Rock på logistik vid behov.",
+      "category": "covert_taktik",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "cn-002; SILENT_TREATMENT",
+      "source_tier": "P2"
     },
     {
       "id": "kunskap-fact-df-001",

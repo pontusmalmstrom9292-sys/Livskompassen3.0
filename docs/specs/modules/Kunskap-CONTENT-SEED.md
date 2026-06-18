@@ -2244,3 +2244,149 @@ why: "Våg 28 post 3 — STRENGTHEN cn-016; indirekt återkontakt"
 Nya KEEP-rader här kan senare exporteras till JSON-manifest — **deterministisk** ingest, ingen LLM i prod som skapar FACT.
 
 **Smoke:** `npm run smoke:kunskap`
+
+## Våg 31 — myndighet + HCF + neuro (2026-06-18, PMIR godkänd)
+
+```yaml
+id: kunskap-fact-jur-010
+status: KEEP
+content_class: FACT
+topic: lvu_process
+title: Föräldrarätt i LVU-utredning — information och yttrande
+content: "I LVU-utredning har vårdnadshavare rätt till information om utredningen och möjlighet att yttra sig. Partsgenomgång innebär att du får ta del av underlag som ligger till grund för bedömning — omfattning regleras av lag och sekretess. Dokumentera datum för möten, kallelser och vad som sagts. Livskompassen ger inte juridisk rådgivning."
+category: juridik_overview
+citation_hint: "Socialstyrelsen LVU-handläggning (översikt); jur-003, jur-005"
+source_tier: P2
+```
+
+```yaml
+id: kunskap-fact-jur-011
+status: KEEP
+content_class: FACT
+topic: forvaltningsratt
+title: Förvaltningsrätt och domstol — neutral stegöversikt
+content: "Tvister om vårdnad eller umgänge kan gå via familjerätt och domstol. Typiska steg: ansökan, svaromål, bevisning, förhandling, dom. Håll kommunikation saklig; spara datum och handlingar. Detta är processöversikt, inte strategiråd. Livskompassen ger inte juridisk rådgivning."
+category: juridik_overview
+citation_hint: "Domstolsverket familjerätt (översikt); jur-006"
+source_tier: P2
+```
+
+```yaml
+id: kunskap-fact-jur-012
+status: KEEP
+content_class: FACT
+topic: orosanmalan
+title: Orosanmälan — vad soc utreder
+content: "En orosanmälan innebär att socialtjänsten bedömer om barnet far illa och om insats behövs. Utredning fokuserar på barnets situation — inte på att bevisa förälders skuld. Du kan begära information om ärendet enligt gällande regler. Dokumentera datum och kanal. Livskompassen ger inte juridisk rådgivning."
+category: juridik_overview
+citation_hint: "Socialstyrelsen orosanmälan; jur-004"
+source_tier: P2
+```
+
+```yaml
+id: kunskap-fact-soc-002
+status: KEEP
+content_class: FACT
+topic: samverkansmote
+title: Samverkansmöte soc och skola — förberedelse
+content: "Vid samverkansmöte: förbered agenda med datum och observerbara händelser. Skilj citat från tolkning. Ta med en skriftlig punktlista — ett steg i taget. Soc och skola har olika roller; håll tonen affärsmässig. Livskompassen ger inte juridisk rådgivning."
+category: myndighet_soc
+citation_hint: "BBIC samverkan; soc-001; ep-007"
+source_tier: P2
+```
+
+```yaml
+id: kunskap-fact-bh-021
+status: KEEP
+content_class: FACT
+topic: barn_myndighet
+title: Barn i myndighetsutredning — intervju och lojalitet
+content: "Barn kan känna lojalitetskonflikt när vuxna är i konflikt. Professionella intervjuar barn separat; förälder ska inte pressa barn att välja sida. Dokumentera barnets egna ord med citat-prefix — aldrig diagnos på motpart."
+category: barn_hcf
+citation_hint: "bh-001, bh-014; Barnombudet"
+source_tier: P1
+```
+
+```yaml
+id: kunskap-fact-gad-040
+status: KEEP
+content_class: FACT
+topic: panik_gad
+title: Panikattack vs GAD — skillnad i varaktighet
+content: "Panikattacker är intensiva men ofta kortvariga (minuter). Generaliserad ångest är mer uthållig oro över flera områden. Båda kan samexistera. Kroppen reagerar liknande — andning och markering i tid hjälper att särskilja mönster. Detta är psykoedukation, inte diagnos."
+category: gad_angest
+citation_hint: "1177 ångest; NICE GAD (översikt)"
+source_tier: P1
+```
+
+```yaml
+id: kunskap-fact-pu-001
+status: KEEP
+content_class: FACT
+topic: act_varderingar
+title: ACT värderingar — kompassfråga
+content: "I ACT handlar värderingar om riktning i livet, inte prestation. En kompassfråga: vad vill jag stå för i den här situationen — ett litet steg räcker. Värderingar är inte samma sak som mål med deadline."
+category: personlig_utveckling
+citation_hint: "Hayes ACT (översikt); kunskap-fact-038"
+source_tier: P1
+```
+
+```yaml
+id: kunskap-fact-pu-002
+status: KEEP
+content_class: FACT
+topic: kognitiv_defusion
+title: Kognitiv defusion — tanken är inte fakta
+content: "Defusion innebär att se tanken som en tanke: jag har tanken att jag misslyckas — inte jag är ett misslyckande. Ett mikrosteg är att säga meningen högt och lägga till: jag märker att jag har den tanken."
+category: personlig_utveckling
+citation_hint: "ACT defusion (översikt); kunskap-fact-039"
+source_tier: P1
+```
+
+```yaml
+id: kunskap-fact-pu-003
+status: KEEP
+content_class: FACT
+topic: allostatic_load
+title: Allostatisk belastning — långvarig stress och utmattning
+content: "Allostatisk belastning beskriver hur kroppen anpassar sig under långvarig stress. Trötthet, hypervigilans och kognitiv dimma kan vara fysiologiska svar — inte karaktärsfel. Återhämtning kräver ofta vila och strukturerad paus, inte bara viljestyrka."
+category: personlig_utveckling
+citation_hint: "McEwen allostatic load (översikt); adhd-027, gad-030"
+source_tier: P1
+```
+
+```yaml
+id: kunskap-fact-cn-049
+status: KEEP
+content_class: FACT
+topic: projektion
+title: Projektion — attributera egna känslor till andra
+content: "Projektion innebär att en person beskriver dig med egenskaper eller avsikter som passar deras eget känsloläge. Dokumentera beteende och datum — inte diagnos. Vid sms: svara kort på logistik i Hamn."
+category: covert_taktik
+citation_hint: "kunskap-fact-047; tacticPatternLibrary"
+source_tier: P2
+```
+
+```yaml
+id: kunskap-fact-cn-050
+status: KEEP
+content_class: FACT
+topic: moving_goalposts
+title: Moving goalposts — flyttande krav
+content: "Moving goalposts: krav eller regler ändras efter att du uppfyllt dem, så du aldrig kan vinna. Dokumentera vad som sagts och när. Svara inte med långa förklaringar — BIFF i Hamn."
+category: covert_taktik
+citation_hint: "kunskap-fact-046"
+source_tier: P2
+```
+
+```yaml
+id: kunskap-fact-cn-051
+status: KEEP
+content_class: FACT
+topic: tyst_straff
+title: Tyst straff — tystnad som kontroll
+content: "Tyst straff: kommunikation stängs av som påföljd. Det är ett beteendemönster att dokumentera med datum — inte något du måste rätta till med JADE. Grey Rock på logistik vid behov."
+category: covert_taktik
+citation_hint: "cn-002; SILENT_TREATMENT"
+source_tier: P2
+```

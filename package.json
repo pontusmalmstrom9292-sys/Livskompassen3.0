@@ -100,6 +100,8 @@
     "fas20:autorun": "node scripts/fas20_autorun_init.mjs",
     "fas21:autorun": "node scripts/fas21_autorun_init.mjs",
     "fas22:autorun": "node scripts/fas22_autorun_init.mjs",
+    "fas23:domain-autorun": "node scripts/fas23_domain_autorun_init.mjs",
+    "smoke:domän-specialister": "node scripts/smoke_domän_specialister.mjs",
     "smoke:android-platform": "node scripts/smoke_android_platform.mjs",
     "content:night": "node scripts/content_autorun.mjs",
     "export:kunskap-seed": "node scripts/export_kunskap_seed_manifest.mjs",
