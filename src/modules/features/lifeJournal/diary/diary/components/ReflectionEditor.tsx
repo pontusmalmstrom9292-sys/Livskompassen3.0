@@ -2,6 +2,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import { Mic, MicOff } from 'lucide-react';
 import { useDiaryStore } from '../store/diaryStore';
 import { useSpeechToText } from '../hooks/useSpeechToText';
+import { BiffRewriteButton } from '@/shared/ui/BiffRewriteButton';
 
 interface ReflectionEditorProps {
   text: string;
@@ -57,16 +58,17 @@ export function ReflectionEditor({
         placeholder={placeholder}
         className="input-glass w-full resize-none overflow-hidden reflektion-textarea min-h-[120px] pb-12"
       />
-      
-      {isSupported && (
-        <div className="absolute bottom-3 right-3 flex items-center gap-2">
-          {error && <span className="text-xs text-destructive/80">{error}</span>}
+
+      <div className="absolute bottom-3 right-3 flex items-center gap-2">
+        {error && <span className="text-xs text-destructive/80">{error}</span>}
+        <BiffRewriteButton text={text} onRewrite={onChange} context="dagbok" />
+        {isSupported && (
           <button
             type="button"
             onClick={toggleListening}
             className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
-              isListening 
-                ? 'bg-accent/20 text-accent animate-pulse' 
+              isListening
+                ? 'bg-accent/20 text-accent animate-pulse'
                 : 'bg-surface/50 text-text-muted hover:bg-surface hover:text-accent'
             }`}
             title={isListening ? 'Sluta lyssna' : 'Starta röstinmatning'}
@@ -74,8 +76,8 @@ export function ReflectionEditor({
           >
             {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
           </button>
-        </div>
-      )}
+        )}
+      </div>
 
       {interimText && (
         <div className="mt-2 text-sm text-text-muted italic px-2">

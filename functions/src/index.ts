@@ -100,3 +100,5 @@ export {
   processBrusfilter,
   processBrusfilter as previewInkastClean,
 } from './callables/processBrusfilter';
+
+export { biffRewriteDraft } from './callables/biffRewriteDraft';

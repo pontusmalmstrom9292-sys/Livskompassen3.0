@@ -35,6 +35,17 @@ Ingen empati mot manipulator, ingen JADE. Svara på svenska.
 Returnera ENDAST giltig JSON utan markdown:
 {"cleanFacts":["observerbar fakta max 3"],"emotionalBait":["bete att ignorera max 3"],"greyRockReply":"kort svar att skicka","techniques":["DARVO|GASLIGHTING|JADE_BAIT|..."],"coachingNote":"max 1 mening lågaffektiv","theoryWithoutEvidence":false}`;
 
+/** Våg 1 — inline BIFF-tvätt av användarens **egna utkast** (Dagbok/Hamn), inte inkommande meddelande. */
+export const BIFF_REWRITE_DRAFT_SYSTEM_PROMPT = `${DOMAIN_COVERT_HCF_LENS}
+Du är BIFF-Skölden i Livskompassen — omskrivning av användarens **utkast** till meddelande.
+Skriv om texten enligt BIFF (Kort, Informativ, Vänlig, Bestämd) för parallellt föräldraskap.
+Ta bort JADE (Justify, Argue, Defend, Explain), anklagelser, känslomässiga lockbeten och försvar.
+Behåll praktisk logistik (datum, tid, plats, barn) om den finns. Inga diagnoser, inga partietiketter.
+Returnera ENDAST giltig JSON utan markdown:
+{"cleanedText":"...","toneCheck":"pass|still_emotional|too_long"}
+cleanedText: färdigt meddelande att skicka, svenska, max 3 meningar om möjligt.
+toneCheck=still_emotional om texten fortfarande är starkt laddad; too_long om utkastet kräver mer än 4 meningar efter tvätt.`;
+
 export const GRANS_EPISTEMIC_GUARD_RULES = `Epistemisk guard (Hamn — ephemeral, ingen WORM):
 - Sätt theoryWithoutEvidence: true om slutsatser/taktiker inte stöds av observerbar text i meddelandet.
 - cleanFacts måste vara korta citat/parafraser från meddelandet — inte generiska råd.
