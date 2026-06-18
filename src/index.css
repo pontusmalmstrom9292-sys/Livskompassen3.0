@@ -607,7 +607,7 @@
 
   .dock-shell--fyren {
     @apply flex-col items-center gap-0;
-    --dock-stack-height: 7.65rem;
+    --dock-stack-height: 7.35rem;
   }
 
   .dock-shell {
@@ -2867,6 +2867,7 @@
   /* Block underliggande widget/dock när menyn är öppen */
   body.nav-drawer-open .fyren-smart-bar,
   body.nav-drawer-open .fyren-home-rail,
+  body.nav-drawer-open .fyren-side-quick,
   body.nav-drawer-open .fyren-header-strip,
   body.nav-drawer-open .dock-nav--hub,
   body.nav-drawer-open .dock-classic {
@@ -2924,6 +2925,109 @@
 
   .fyren-home-rail__label {
     @apply max-w-[4.5rem] text-[9px] font-medium leading-tight text-accent/90;
+  }
+
+  /* Höger sidodock — kompass-pebble + vertikal panel (I-stone mockup) */
+  .fyren-side-quick {
+    @apply pointer-events-none fixed right-0 z-[46] flex flex-row items-center;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-right: max(0px, env(safe-area-inset-right, 0px));
+  }
+
+  .fyren-side-quick__drawer {
+    @apply pointer-events-none flex max-w-0 flex-col overflow-hidden opacity-0;
+    border-radius: 1.35rem 0 0 1.35rem;
+    border: 1px solid transparent;
+    border-right: none;
+    background: color-mix(in srgb, var(--surface-2) 88%, transparent);
+    backdrop-filter: blur(16px);
+    box-shadow: -10px 0 28px rgba(0, 0, 0, 0.38);
+    transition:
+      max-width 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.18s ease,
+      border-color 0.18s ease;
+  }
+
+  .fyren-side-quick--open .fyren-side-quick__drawer {
+    @apply pointer-events-auto max-w-[5.75rem] opacity-100;
+    border-color: color-mix(in srgb, var(--accent) 34%, transparent);
+  }
+
+  .fyren-side-quick__stack {
+    @apply flex flex-col gap-1 px-2 pb-1 pt-2.5;
+  }
+
+  .fyren-side-quick__row {
+    @apply flex flex-col items-center gap-1 rounded-xl px-1 py-2 text-center transition-colors;
+    color: var(--text);
+    touch-action: manipulation;
+  }
+
+  .fyren-side-quick__row:hover {
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .fyren-side-quick__icon-shell {
+    @apply flex h-11 w-11 items-center justify-center rounded-full;
+    border: 1.5px solid color-mix(in srgb, var(--accent-light) 48%, transparent);
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    box-shadow:
+      0 0 14px color-mix(in srgb, var(--accent) 12%, transparent),
+      inset 0 1px 0 rgba(255, 248, 220, 0.06);
+  }
+
+  .fyren-side-quick__glyph {
+    @apply h-[1.35rem] w-[1.35rem] text-accent-light;
+  }
+
+  .fyren-side-quick__row-label {
+    @apply max-w-[4.75rem] text-[8px] font-semibold uppercase leading-tight tracking-[0.12em] text-accent-light;
+  }
+
+  .fyren-side-quick__hide {
+    @apply mx-auto mb-2 mt-0.5 flex flex-col items-center gap-1 border-0 bg-transparent px-2 py-1 text-[8px] uppercase tracking-[0.14em] text-text-dim transition-colors;
+  }
+
+  .fyren-side-quick__hide:hover {
+    @apply text-accent;
+  }
+
+  .fyren-side-quick__hide-icon {
+    @apply h-3 w-3 text-accent/70;
+  }
+
+  .fyren-side-quick__toggle {
+    @apply pointer-events-auto relative flex h-[3.15rem] w-[3.15rem] shrink-0 items-center justify-center rounded-full border transition-transform;
+    margin-right: -0.35rem;
+    border-color: color-mix(in srgb, var(--accent-light) 55%, transparent);
+    background: radial-gradient(
+      circle at 35% 30%,
+      color-mix(in srgb, var(--surface-3) 92%, transparent),
+      color-mix(in srgb, var(--bg) 94%, transparent)
+    );
+    box-shadow:
+      0 0 18px color-mix(in srgb, var(--accent) 22%, transparent),
+      0 6px 18px rgba(0, 0, 0, 0.42),
+      inset 0 1px 0 rgba(255, 248, 220, 0.1);
+    touch-action: manipulation;
+  }
+
+  .fyren-side-quick__toggle:hover {
+    transform: translateX(-2px);
+    border-color: color-mix(in srgb, var(--accent-light) 72%, transparent);
+  }
+
+  .fyren-side-quick--open .fyren-side-quick__toggle {
+    margin-right: 0;
+    box-shadow:
+      0 0 22px color-mix(in srgb, var(--accent) 28%, transparent),
+      0 8px 20px rgba(0, 0, 0, 0.45);
+  }
+
+  .fyren-side-quick__toggle-mark {
+    @apply h-[1.85rem] w-[1.85rem];
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.35));
   }
 
   .home-hero-kanon__bridge {
