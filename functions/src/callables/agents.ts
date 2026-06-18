@@ -35,8 +35,10 @@ import { supervisor, trimSpeglingsMirror } from './shared';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import {
   getMabraCoachBankEntry,
+  parafraseCoachFromBank,
   parafraseGoalAssist,
   parafraseRsdErrorFromBank,
+  resolveBankParafrasBankId,
   resolveCoachBankId,
   resolveGoalAssistBankId,
   resolveRsdErrorBankId,
@@ -335,6 +337,49 @@ export const mabraCoach = onCall(
       return { coach, redirectToSpeglar: false, bankId };
     }
 
+    if (mode === 'bank_parafras') {
+      const requestedBankId =
+        typeof request.data.bankId === 'string' ? request.data.bankId.trim() : '';
+      if (!requestedBankId) {
+        throw new HttpsError('invalid-argument', 'Fältet "bankId" krävs för bank_parafras.');
+      }
+      let bankId: string;
+      try {
+        bankId = resolveBankParafrasBankId(requestedBankId);
+      } catch {
+        throw invalidBankIdError('Ogiltig bankId för bank_parafras.');
+      }
+      const bankNote =
+        typeof request.data.optionalNote === 'string' ? request.data.optionalNote : undefined;
+      if (bankNote && bankNote.length > 500) {
+        throw new HttpsError('invalid-argument', 'optionalNote max 500 tecken.');
+      }
+      if (shouldRedirectMabraCoachToSpeglar(bankNote)) {
+        return {
+          coach: MABRA_SPEGLAR_REDIRECT_MESSAGE,
+          redirectToSpeglar: true,
+        };
+      }
+      const bankEntry = getMabraCoachBankEntry(bankId);
+      if (!bankEntry) {
+        throw invalidBankIdError('Bankrad saknas för bank_parafras.');
+      }
+      const validHubs = ['panic_rsd', 'self_critical', 'find_self'] as const;
+      const validExercises = ['breathing', 'grounding', 'reframing'] as const;
+      const hubRaw = request.data.hubSymptom;
+      const exerciseRaw = request.data.exerciseType;
+      const hubCtx =
+        typeof hubRaw === 'string' && (validHubs as readonly string[]).includes(hubRaw)
+          ? (hubRaw as MabraCoachHub)
+          : undefined;
+      const exerciseCtx =
+        typeof exerciseRaw === 'string' && (validExercises as readonly string[]).includes(exerciseRaw)
+          ? (exerciseRaw as MabraCoachExercise)
+          : undefined;
+      const coach = parafraseCoachFromBank(bankEntry, hubCtx, exerciseCtx);
+      return { coach, redirectToSpeglar: false, bankId };
+    }
+
     if (mode === 'transformator') {
       if (!thought || thought.length > 500) {
         throw new HttpsError(
@@ -509,13 +554,21 @@ export const mabraCoach = onCall(
       throw invalidBankIdError('Bankrad saknas för coach-läge.');
     }
 
-    const coach = await askMabraCoach(
-      hubSymptom as MabraCoachHub,
-      exerciseType as MabraCoachExercise,
-      bankEntry,
-      optionalNote,
-      process.env.GEMINI_API_KEY,
-    );
+    const parafrasTier = request.data.parafrasTier === 'deterministic' ? 'deterministic' : 'llm';
+    const coach =
+      parafrasTier === 'deterministic'
+        ? parafraseCoachFromBank(
+            bankEntry,
+            hubSymptom as MabraCoachHub,
+            exerciseType as MabraCoachExercise,
+          )
+        : await askMabraCoach(
+            hubSymptom as MabraCoachHub,
+            exerciseType as MabraCoachExercise,
+            bankEntry,
+            optionalNote,
+            process.env.GEMINI_API_KEY,
+          );
     return { coach, redirectToSpeglar: false, bankId };
   }
 );

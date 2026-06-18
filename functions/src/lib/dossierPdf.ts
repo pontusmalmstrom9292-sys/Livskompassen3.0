@@ -97,7 +97,8 @@ export async function buildDossierPdf(options: PdfBuildOptions): Promise<Uint8Ar
     if (options.aiForeword.timeline.length > 0) {
       drawLine('— Tidslinje (AI-strukturerad) —', true);
       for (const row of options.aiForeword.timeline) {
-        drawLine(`${row.date}: ${row.fact}`);
+        const refSuffix = row.sourceRef ? ` [ref: ${row.sourceRef}]` : '';
+        drawLine(`${row.date}: ${row.fact}${refSuffix}`);
       }
       drawLine('');
     }

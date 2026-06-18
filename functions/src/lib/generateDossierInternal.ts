@@ -44,6 +44,8 @@ export type GenerateDossierResult = {
   pdfBase64?: string;
   status: 'ready' | 'pending';
   jobId?: string;
+  /** P6 — AI-försätt + tidslinje (utanför documentHash). */
+  aiForeword?: DossierAiForewordResult;
 };
 
 function assertIsoDate(value: unknown, field: string): string {
@@ -72,30 +74,45 @@ async function fetchOwnedDoc(
   return toCanonicalEntry(collection, snap.id, data);
 }
 
-async function buildTacticSummaryForVaultIds(
+async function fetchVaultPatternContext(
   uid: string,
   vaultIds: string[],
-): Promise<{ technique: string; count: number }[]> {
-  if (vaultIds.length === 0) return [];
+): Promise<{
+  techniquesByDocId: Map<string, string[]>;
+  tacticSummary: { technique: string; count: number }[];
+}> {
+  const techniquesByDocId = new Map<string, string[]>();
   const counts = new Map<string, number>();
+  if (vaultIds.length === 0) {
+    return { techniquesByDocId, tacticSummary: [] };
+  }
+
   for (const sourceRef of vaultIds) {
     const snap = await admin
       .firestore()
       .collection(PATTERN_SCAN_METADATA_COLLECTION)
       .where('sourceRef', '==', sourceRef)
       .get();
+    const techniques = new Set<string>();
     for (const doc of snap.docs) {
       const data = doc.data();
       if (String(data.userId ?? data.ownerId ?? '') !== uid) continue;
       for (const t of data.techniques ?? []) {
         const key = String(t);
+        techniques.add(key);
         counts.set(key, (counts.get(key) ?? 0) + 1);
       }
     }
+    if (techniques.size > 0) {
+      techniquesByDocId.set(sourceRef, [...techniques]);
+    }
   }
-  return [...counts.entries()]
+
+  const tacticSummary = [...counts.entries()]
     .sort(([, a], [, b]) => b - a)
     .map(([technique, count]) => ({ technique, count }));
+
+  return { techniquesByDocId, tacticSummary };
 }
 
 export async function generateDossierInternal(
@@ -149,7 +166,10 @@ export async function generateDossierInternal(
   const documentHash = computeDocumentHash(entries);
   const dossierId = randomUUID();
   const generatedAtIso = new Date().toISOString();
-  const tacticSummary = await buildTacticSummaryForVaultIds(uid, includedDocIds.reality_vault);
+  const { techniquesByDocId, tacticSummary } = await fetchVaultPatternContext(
+    uid,
+    includedDocIds.reality_vault,
+  );
 
   let aiForeword: DossierAiForewordResult | undefined;
   if (includeAiForeword) {
@@ -159,6 +179,10 @@ export async function generateDossierInternal(
       dateTo,
       reportType,
       geminiApiKey,
+      {
+        techniquesByDocId,
+        tacticSummary: tacticSummary.length > 0 ? tacticSummary : undefined,
+      },
     );
   }
 
@@ -222,6 +246,7 @@ export async function generateDossierInternal(
       reportType,
       includeAiForeword,
       aiForewordGenerated: Boolean(aiForeword),
+      timelineRowCount: aiForeword?.timeline.length ?? 0,
       categoryFilter: raw.categoryFilter ?? [],
       techniqueFilter: raw.techniqueFilter ?? [],
     },
@@ -244,5 +269,6 @@ export async function generateDossierInternal(
     downloadUrl,
     pdfBase64,
     status: 'ready',
+    ...(aiForeword ? { aiForeword } : {}),
   };
 }

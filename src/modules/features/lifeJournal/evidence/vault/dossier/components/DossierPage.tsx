@@ -86,6 +86,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
   );
   const [reportType, setReportType] = useState<DossierReportType>('LEGAL');
   const [includeAiForeword, setIncludeAiForeword] = useState(false);
+  const [showTimelinePreview, setShowTimelinePreview] = useState(true);
   const [includedIds, setIncludedIds] = useState<Set<string>>(() => new Set());
   const [allCandidates, setAllCandidates] = useState<DossierCandidateDoc[]>([]);
   const [loadingDocs, setLoadingDocs] = useState(false);
@@ -105,6 +106,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
     setTechniquesByVaultId(new Map());
     setReportType(fresh.reportType);
     setIncludeAiForeword(fresh.includeAiForeword);
+    setShowTimelinePreview(true);
     setIncludedIds(fresh.includedIds);
     setAllCandidates(fresh.candidates);
     setLoadingDocs(fresh.loadingDocs);
@@ -530,7 +532,10 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               <input
                 type="checkbox"
                 checked={includeAiForeword}
-                onChange={(e) => setIncludeAiForeword(e.target.checked)}
+                onChange={(e) => {
+                  setIncludeAiForeword(e.target.checked);
+                  if (!e.target.checked) setShowTimelinePreview(false);
+                }}
                 className="mt-0.5 rounded border-white/20 accent-accent"
               />
               <span>
@@ -538,6 +543,23 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                 <span className="mt-1 block text-xs text-text-muted">{VAVAREN_DOSSIER_HINT}</span>
               </span>
             </label>
+
+            {includeAiForeword && (
+              <label className="flex cursor-pointer items-start gap-2 text-sm text-text-dim pl-1">
+                <input
+                  type="checkbox"
+                  checked={showTimelinePreview}
+                  onChange={(e) => setShowTimelinePreview(e.target.checked)}
+                  className="mt-0.5 rounded border-white/20 accent-accent"
+                />
+                <span>
+                  Visa AI-tidslinje i förhandsgranskning
+                  <span className="mt-1 block text-xs text-text-muted">
+                    Efter export — sammanfattning utanför WORM-hash.
+                  </span>
+                </span>
+              </label>
+            )}
 
             <select
               value={reportType}
@@ -683,6 +705,39 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                 </p>
               </div>
             </div>
+
+            {includeAiForeword &&
+              showTimelinePreview &&
+              result.aiForeword &&
+              result.aiForeword.timeline.length > 0 && (
+                <div className="rounded-xl border border-indigo-500/25 bg-indigo-500/5 p-4 space-y-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-indigo-200/90">
+                    AI-tidslinje (förhandsgranskning)
+                  </p>
+                  <p className="text-xs text-text-muted leading-relaxed line-clamp-6">
+                    {result.aiForeword.foreword}
+                  </p>
+                  <ul className="max-h-48 space-y-2 overflow-y-auto pr-1">
+                    {result.aiForeword.timeline.map((row, idx) => (
+                      <li
+                        key={`${row.date}-${idx}`}
+                        className="rounded-lg border border-white/5 bg-surface-2/80 px-3 py-2 text-xs"
+                      >
+                        <span className="font-mono text-accent">{row.date}</span>
+                        <span className="mt-0.5 block text-text-muted">{row.fact}</span>
+                        {row.sourceRef && (
+                          <span className="mt-1 block font-mono text-[10px] text-text-dim">
+                            ref: {row.sourceRef}
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-[10px] text-text-dim">
+                    Sammanfattning — bevisdelen i PDF är ordagrant WORM.
+                  </p>
+                </div>
+              )}
 
             <div className="flex gap-2 pt-2">
               <button

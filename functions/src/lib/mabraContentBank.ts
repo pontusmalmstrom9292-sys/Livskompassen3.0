@@ -379,6 +379,19 @@ export function resolveRsdErrorBankId(requestedBankId?: string): string {
   return MB_REF_RSD_04_BANK_ID;
 }
 
+/** P4 — validera bankId för deterministisk bank_parafras (ingen LLM). */
+export function resolveBankParafrasBankId(bankId: string): string {
+  const trimmed = bankId.trim();
+  if (!trimmed) {
+    throw new Error('bankId saknas');
+  }
+  const entry = getMabraCoachBankEntry(trimmed);
+  if (!entry) {
+    throw new Error(`Okänd bankId: ${trimmed}`);
+  }
+  return entry.bankId;
+}
+
 /** Deterministisk parafras utan LLM — endast banktext + övningskontext. */
 export function parafraseCoachFromBank(
   entry: MabraCoachBankEntry,

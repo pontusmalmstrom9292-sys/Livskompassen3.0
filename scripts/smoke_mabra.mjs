@@ -49,6 +49,14 @@ async function main() {
   assert(playBank.includes('sense: \'Känna\'') && playBank.includes('count: 3'), '54321 bank stegordning fel (3=känna)');
   console.log('[smoke] MB-PLAY-54321 wiring OK');
 
+  const agentsSrc = readFileSync(resolve(root, 'functions/src/callables/agents.ts'), 'utf8');
+  const bankSrc = readFileSync(resolve(root, 'functions/src/lib/mabraContentBank.ts'), 'utf8');
+  assert(agentsSrc.includes("mode === 'bank_parafras'"), 'agents saknar bank_parafras');
+  assert(agentsSrc.includes('parafraseCoachFromBank'), 'agents saknar parafraseCoachFromBank');
+  assert(agentsSrc.includes("parafrasTier === 'deterministic'"), 'agents saknar parafrasTier');
+  assert(bankSrc.includes('resolveBankParafrasBankId'), 'mabraContentBank saknar resolveBankParafrasBankId');
+  console.log('[smoke] P4 bank_parafras static guards OK');
+
   const env = loadEnv();
   const app = initializeApp({
     apiKey: env.VITE_FIREBASE_API_KEY,
@@ -154,6 +162,28 @@ async function main() {
   assert(result.data?.bankId === 'MB-REF-03', `coach bankId ska vara MB-REF-03, fick ${result.data?.bankId}`);
   console.log('[smoke] coach bankId OK —', result.data.bankId);
   console.log('[smoke] coach excerpt:', coach.slice(0, 180));
+
+  console.log('[smoke] mabraCoach bank_parafras (P4)…');
+  const parafrasResult = await coachFn({
+    mode: 'bank_parafras',
+    bankId: 'MB-REF-03',
+  });
+  assert(parafrasResult.data?.bankId === 'MB-REF-03', 'bank_parafras bankId fel');
+  assert(
+    typeof parafrasResult.data?.coach === 'string' && parafrasResult.data.coach.trim().length > 0,
+    'bank_parafras saknar coach',
+  );
+  assert(parafrasResult.data?.redirectToSpeglar !== true, 'bank_parafras ska inte redirecta neutral');
+  console.log('[smoke] bank_parafras OK —', parafrasResult.data.coach.slice(0, 100));
+
+  console.log('[smoke] mabraCoach bank_parafras guard…');
+  const parafrasGuard = await coachFn({
+    mode: 'bank_parafras',
+    bankId: 'MB-REF-03',
+    optionalNote: 'Fick sms från ex om vårdnad och konflikt',
+  });
+  assert(parafrasGuard.data?.redirectToSpeglar === true, 'bank_parafras guard ska redirecta');
+  console.log('[smoke] bank_parafras guard OK');
 
   console.log('[smoke] mabraCoach transformator…');
   const transformResult = await coachFn({

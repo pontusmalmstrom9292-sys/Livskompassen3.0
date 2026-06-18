@@ -75,9 +75,9 @@ Kartlägga var **Google Flow** (≈2000 krediter) ska användas utan att bryta L
 | **P1 Brusfilter** | `processBrusfilter` + Inkast HITL | — | Låg | **LOCK** 2026-06-17 |
 | **P2 Dossier v2** | `dossierAiForeword` + `generateDossier` | — | Låg | **LOCK** 2026-06-17 |
 | **P3 Mönster-metadata** | `assistPatternMetadata` FLOW sidecar | Låg | Låg | **LOCK** (2026-06-18 PMIR-A) |
-| **P4 MåBra coach** | Flow parafras + `mabraCoach` bankId | Medel | Låg | **KANDIDAT** |
+| **P4 MåBra coach** | Flow parafras + `mabraCoach` bankId | Medel | Låg | **PMIR-B** (utkast) |
 | **P5 Theme mockups** | Antigravity / Flow bild | Låg | — | **KANDIDAT** |
-| **P6 Dossier timeline** | Flow strukturerad tidslinje | Medel | Låg | **KANDIDAT** |
+| **P6 Dossier timeline** | Flow strukturerad tidslinje | Medel | Låg | **PMIR-C** (utkast) |
 | **P7 Hamn BIFF** | Befintlig `askGransArkitekten` | — | Functions redan | DEFER Flow |
 | Cross-silo RAG | — | — | — | **REJECT** |
 
@@ -294,8 +294,8 @@ Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta 
 | MASTER + SA1–SA10 → `imports/research-2026-06-18-*.md` | Done |
 | Dirigent → `imports/research-2026-06-18-content-master.md` | Done |
 | Cursor [`CURSOR-FLOW-CREDITS-SYNTHESIS.md`](../external-ai/bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md) | Done |
-| PMIR-A P3 vald (Mönster) — Worker A äger eval | Pågår |
+| PMIR-A P3 (Mönster) — Worker A | **LOCK** 2026-06-18 |
 
-**Nästa gate:** PMIR-B (P4 MåBra) eller PMIR-C (P6 Dossier) — en i taget efter P3 smoke/deploy.
+**Nästa gate:** PMIR-B + PMIR-C **parallellt** (Worker B/C) — eval utkast 2026-06-18; implementation efter Pontus OK.
 
 **BACKEND-POLICY:** Research får föreslå nya callables; varje backend-ändring = egen PMIR → smoke → ny LOCK.

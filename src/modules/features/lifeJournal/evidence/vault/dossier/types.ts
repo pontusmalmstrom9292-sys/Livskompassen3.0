@@ -33,6 +33,17 @@ export interface GenerateDossierInput {
   };
 }
 
+export interface DossierTimelineRow {
+  date: string;
+  fact: string;
+  sourceRef?: string;
+}
+
+export interface DossierAiForewordPreview {
+  foreword: string;
+  timeline: DossierTimelineRow[];
+}
+
 export interface GenerateDossierResult {
   dossierId: string;
   documentHash: string;
@@ -40,4 +51,6 @@ export interface GenerateDossierResult {
   pdfBase64?: string;
   jobId?: string;
   status: 'ready' | 'pending';
+  /** P6 — AI-försätt + tidslinje (utanför documentHash). */
+  aiForeword?: DossierAiForewordPreview;
 }

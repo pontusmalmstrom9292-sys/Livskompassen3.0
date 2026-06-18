@@ -8,6 +8,8 @@ import { vitHubFilteredLink } from '../lib/vitHubLinks';
 import { pickVitProjectCard } from '../lib/pickVitProjectCard';
 import { writeVitProjectLastSeen } from '../lib/vitProjectLastSeen';
 import { getMabraRsdErrorCopy } from '../lib/mabraRsdErrorCopy';
+import { fetchBankParafrasCoach } from '../api/mabraCoachService';
+import { vitBankParafrasFallback } from '../lib/vitBankParafrasFallback';
 
 type Props = {
   userId: string | undefined;
@@ -40,6 +42,7 @@ export function VitMemoryFlowPanel({ userId, projectId, onSaved }: Props) {
   const [feeling, setFeeling] = useState('');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [coachLine, setCoachLine] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleSave = async () => {
@@ -65,6 +68,13 @@ export function VitMemoryFlowPanel({ userId, projectId, onSaved }: Props) {
       });
       writeVitProjectLastSeen(projectId);
       setSaved(true);
+      const memoryNote = formatMemoryText(idTrim, feelTrim);
+      try {
+        const parafras = await fetchBankParafrasCoach(pick.card.bankId, memoryNote);
+        setCoachLine(parafras.redirectToSpeglar ? null : parafras.coach);
+      } catch {
+        setCoachLine(vitBankParafrasFallback(pick.card.text_sv));
+      }
       onSaved?.();
     } catch {
       setError(getMabraRsdErrorCopy());
@@ -88,6 +98,7 @@ export function VitMemoryFlowPanel({ userId, projectId, onSaved }: Props) {
           onChange={(e) => {
             setIdentity(e.target.value);
             setSaved(false);
+            setCoachLine(null);
             setError(null);
           }}
           className="input-glass mt-2 w-full text-sm"
@@ -103,6 +114,7 @@ export function VitMemoryFlowPanel({ userId, projectId, onSaved }: Props) {
           onChange={(e) => {
             setFeeling(e.target.value);
             setSaved(false);
+            setCoachLine(null);
             setError(null);
           }}
           rows={3}
@@ -146,6 +158,9 @@ export function VitMemoryFlowPanel({ userId, projectId, onSaved }: Props) {
             {VIT_HUB_VAULT_LINK}
           </Link>
         </p>
+      ) : null}
+      {coachLine ? (
+        <p className="text-xs leading-relaxed text-text-muted">{coachLine}</p>
       ) : null}
       {error ? <p className="text-xs text-danger">{error}</p> : null}
     </div>

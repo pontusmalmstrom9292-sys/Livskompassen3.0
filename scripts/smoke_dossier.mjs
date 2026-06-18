@@ -59,9 +59,9 @@ function isoDateDaysAgo(days) {
 }
 
 async function main() {
-  mustInclude('functions/src/lib/dossierAiForeword.ts', 'generateDossierAiForeword', 'foreword');
-  mustInclude('functions/src/lib/generateDossierInternal.ts', 'generateDossierAiForeword', 'aiForewordGenerated');
-  mustInclude('functions/src/lib/dossierPdf.ts', 'AI-försätt', 'aiForeword');
+  mustInclude('functions/src/lib/dossierAiForeword.ts', 'generateDossierAiForeword', 'foreword', 'sourceRef', 'timeline');
+  mustInclude('functions/src/lib/generateDossierInternal.ts', 'generateDossierAiForeword', 'aiForewordGenerated', 'timelineRowCount');
+  mustInclude('functions/src/lib/dossierPdf.ts', 'AI-försätt', 'aiForeword', '[ref:');
   mustInclude('functions/src/callables/valv.ts', 'geminiApiKey', 'generateDossier');
 
   const env = loadEnv();
@@ -78,7 +78,11 @@ async function main() {
     appId: env.VITE_FIREBASE_APP_ID,
   });
 
-  initSmokeAppCheck(app, env);
+  if (initSmokeAppCheck(app, env)) {
+    console.log('[smoke] App Check (debug token) initierad');
+  } else {
+    console.warn('[smoke] App Check ej initierad — Firestore client-write kan nekas');
+  }
 
   const auth = getAuth(app);
   const db = getFirestore(app);
@@ -94,6 +98,15 @@ async function main() {
   }
   const uid = cred.user.uid;
   console.log('[smoke] uid:', uid);
+
+  try {
+    const { seedSmokeVaultClaims } = await import('./lib/firebaseAdmin.mjs');
+    await seedSmokeVaultClaims(uid, projectId);
+    await cred.user.getIdToken(true);
+    console.log('[smoke] vaultUnlocked claims seeded (Admin SDK)');
+  } catch (claimErr) {
+    console.warn('[smoke] vault claims seed skipped:', claimErr?.message ?? claimErr);
+  }
 
   const stamp = new Date().toISOString().slice(0, 19);
   console.log('[smoke] Skapar reality_vault smoke-post…');
@@ -225,7 +238,41 @@ async function main() {
   assert(bbicSnap.data()?.parameters?.reportType === 'BBIC', 'BBIC snapshot parameters.reportType matchar inte');
   console.log('[smoke] BBIC OK — dossierId:', bbicData.dossierId);
 
-  console.log('\n[smoke] PASS — Dossier end-to-end (LEGAL + BBIC).');
+  console.log('[smoke] generateDossier med includeAiForeword: true (P6 tidslinje)…');
+  await new Promise((r) => setTimeout(r, 5000));
+  try {
+    const aiResult = await generateDossier({
+      ...dossierPayload,
+      includeAiForeword: true,
+      vaultSessionToken,
+    });
+    const aiData = aiResult.data;
+    assert(aiData?.dossierId, 'AI foreword saknar dossierId');
+    assert(aiData?.status === 'ready', `AI foreword status förväntad ready, fick ${aiData?.status}`);
+    const aiSnap = await getDoc(doc(db, 'dossier_snapshots', aiData.dossierId));
+    assert(aiSnap.exists(), 'AI foreword dossier_snapshots saknar dokument');
+    const aiParams = aiSnap.data()?.parameters ?? {};
+    assert(aiParams.includeAiForeword === true, 'snapshot includeAiForeword ska vara true');
+    assert(typeof aiParams.timelineRowCount === 'number', 'snapshot saknar timelineRowCount');
+    if (aiData.aiForeword?.timeline?.length) {
+      console.log('[smoke] AI timeline rader:', aiData.aiForeword.timeline.length);
+      const first = aiData.aiForeword.timeline[0];
+      assert(typeof first.date === 'string', 'timeline[0].date ska vara sträng');
+      assert(typeof first.fact === 'string' && first.fact.length > 0, 'timeline[0].fact saknas');
+    } else {
+      console.warn('[smoke] NOTE: aiForeword.timeline tom — LLM fallback eller deploy gammal.');
+    }
+    console.log('[smoke] includeAiForeword OK — dossierId:', aiData.dossierId);
+  } catch (err) {
+    const msg = String(err?.message ?? '');
+    if (msg.includes('för många') || msg.includes('resource-exhausted')) {
+      console.warn('[smoke] includeAiForeword rate-limited — statiska P6-guards redan PASS.');
+    } else {
+      throw err;
+    }
+  }
+
+  console.log('\n[smoke] PASS — Dossier end-to-end (LEGAL + BBIC + P6 guards).');
   process.exit(0);
 }
 

@@ -15,6 +15,7 @@ const DOSSIER_AI_SCHEMA = {
         properties: {
           date: { type: 'string' },
           fact: { type: 'string' },
+          sourceRef: { type: 'string' },
         },
         required: ['date', 'fact'],
       },
@@ -30,12 +31,14 @@ REGLER:
 - Endast observerbara fakta från underlaget — inga diagnoser, inga partietiketter
 - foreword: max 4 korta stycken, sammanfattar omfattning och period (inte juridisk rådgivning)
 - timeline: max 12 rader, kronologisk, datum YYYY-MM-DD eller "okänt"
+- sourceRef (valfritt): collection/docId för källpost när fakta kan kopplas till en post (max 80 tecken)
 - Hänvisa inte till känslor som sanning — citera beteenden och logistik
 - Om underlaget är tunt: säg det explicit`;
 
 export type DossierTimelineRow = {
   date: string;
   fact: string;
+  sourceRef?: string;
 };
 
 export type DossierAiForewordResult = {
@@ -51,7 +54,10 @@ function extractJsonObject(raw: string): string {
   return cleaned;
 }
 
-function summarizeEntriesForLlm(entries: CanonicalDossierEntry[]): string {
+function summarizeEntriesForLlm(
+  entries: CanonicalDossierEntry[],
+  techniquesByDocId?: Map<string, string[]>,
+): string {
   const sorted = [...entries].sort((a, b) => a.createdAt.localeCompare(b.createdAt));
   return sorted
     .slice(0, 80)
@@ -63,7 +69,12 @@ function summarizeEntriesForLlm(entries: CanonicalDossierEntry[]): string {
         entry.payload.action ??
         '';
       const snippet = body.replace(/\s+/g, ' ').trim().slice(0, 220);
-      return `- ${entry.createdAt.slice(0, 10)} | ${entry.collection} | ${snippet || '(tom)'}`;
+      const ref = `${entry.collection}/${entry.docId}`;
+      const techniques =
+        entry.collection === 'reality_vault' ? techniquesByDocId?.get(entry.docId) : undefined;
+      const tacticPart =
+        techniques && techniques.length > 0 ? ` | taktik: ${techniques.join(', ')}` : '';
+      return `- ${entry.createdAt.slice(0, 10)} | ${ref}${tacticPart} | ${snippet || '(tom)'}`;
     })
     .join('\n');
 }
@@ -85,6 +96,7 @@ function buildFallbackForeword(
       fact:
         (e.payload.truth ?? e.payload.observation ?? e.payload.text ?? e.payload.action ?? 'Post')
           .slice(0, 120) || 'Post',
+      sourceRef: `${e.collection}/${e.docId}`,
     }));
 
   return {
@@ -104,8 +116,14 @@ function parseAiForeword(raw: string, fallback: DossierAiForewordResult): Dossie
         const r = row as Record<string, unknown>;
         const fact = typeof r.fact === 'string' ? r.fact.trim() : '';
         const date = typeof r.date === 'string' ? r.date.trim() : 'okänt';
+        const sourceRefRaw = typeof r.sourceRef === 'string' ? r.sourceRef.trim() : '';
+        const sourceRef = sourceRefRaw ? sourceRefRaw.slice(0, 80) : undefined;
         if (!fact) return null;
-        return { date: date || 'okänt', fact: fact.slice(0, 280) };
+        return {
+          date: date || 'okänt',
+          fact: fact.slice(0, 280),
+          ...(sourceRef ? { sourceRef } : {}),
+        };
       })
       .filter((r): r is DossierTimelineRow => r !== null)
       .slice(0, 12);
@@ -117,24 +135,38 @@ function parseAiForeword(raw: string, fallback: DossierAiForewordResult): Dossie
   }
 }
 
-/** P2 Dossier v2 — LLM foreword + tidslinje (påverkar inte kanonisk documentHash). */
+export type DossierAiForewordOptions = {
+  techniquesByDocId?: Map<string, string[]>;
+  tacticSummary?: { technique: string; count: number }[];
+};
+
+/** P2/P6 Dossier — LLM foreword + tidslinje (påverkar inte kanonisk documentHash). */
 export async function generateDossierAiForeword(
   entries: CanonicalDossierEntry[],
   dateFrom: string,
   dateTo: string,
   reportType: string,
   geminiApiKey?: string,
+  options?: DossierAiForewordOptions,
 ): Promise<DossierAiForewordResult> {
   const fallback = buildFallbackForeword(entries, dateFrom, dateTo, reportType);
   if (entries.length === 0) return fallback;
 
-  const summary = summarizeEntriesForLlm(entries);
+  const summary = summarizeEntriesForLlm(entries, options?.techniquesByDocId);
+  const tacticBlock =
+    options?.tacticSummary && options.tacticSummary.length > 0
+      ? `\n\nTaktik-sammanfattning (P3 sidecar, regex-assisterad — inte diagnos):\n${options.tacticSummary
+          .slice(0, 12)
+          .map((row) => `- ${row.technique}: ${row.count} valv-poster`)
+          .join('\n')}`
+      : '';
+
   const prompt = `Rapporttyp: ${reportType}
 Period: ${dateFrom} — ${dateTo}
 Antal poster: ${entries.length}
 
 Underlag (kronologiskt urval):
-${summary}
+${summary}${tacticBlock}
 
 Returnera JSON enligt schema.`;
 

@@ -145,3 +145,37 @@ export async function fetchRsdErrorCoach(bankId?: string): Promise<MabraCoachRes
     bankId: result.data?.bankId,
   };
 }
+
+const bankParafrasCallable = httpsCallable<
+  {
+    mode: 'bank_parafras';
+    bankId: string;
+    hubSymptom?: MabraSymptomHub;
+    exerciseType?: MabraExerciseType;
+    optionalNote?: string;
+  },
+  { coach: string; redirectToSpeglar?: boolean; bankId?: string }
+>(functions, 'mabraCoach');
+
+/** P4 — deterministisk bank-parafras (ingen LLM). */
+export async function fetchBankParafrasCoach(
+  bankId: string,
+  optionalNote?: string,
+  hubSymptom?: MabraSymptomHub,
+  exerciseType?: MabraExerciseType,
+): Promise<MabraCoachResult & { bankId?: string }> {
+  const result = await bankParafrasCallable({
+    mode: 'bank_parafras',
+    bankId,
+    optionalNote: optionalNote?.trim() || undefined,
+    hubSymptom,
+    exerciseType,
+  });
+  const coach = result.data?.coach;
+  if (!coach?.trim()) throw new Error('Tomt bank_parafras-svar.');
+  return {
+    coach: coach.trim(),
+    redirectToSpeglar: result.data?.redirectToSpeglar === true,
+    bankId: result.data?.bankId,
+  };
+}

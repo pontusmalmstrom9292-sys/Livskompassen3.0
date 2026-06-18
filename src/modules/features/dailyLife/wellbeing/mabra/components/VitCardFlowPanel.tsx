@@ -8,6 +8,8 @@ import { writeVitProjectLastSeen } from '../lib/vitProjectLastSeen';
 import type { MabraProjectId } from '../constants/mabraProjects';
 import { pickVitProjectCard } from '../lib/pickVitProjectCard';
 import { getMabraRsdErrorCopy } from '../lib/mabraRsdErrorCopy';
+import { fetchBankParafrasCoach } from '../api/mabraCoachService';
+import { vitBankParafrasFallback } from '../lib/vitBankParafrasFallback';
 import { MabraVitEvidencePrompt } from './MabraVitEvidencePrompt';
 
 type Props = {
@@ -32,6 +34,7 @@ export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
   const [saved, setSaved] = useState(false);
   const [savedEntryId, setSavedEntryId] = useState<string | null>(null);
   const [showEvidencePrompt, setShowEvidencePrompt] = useState(false);
+  const [coachLine, setCoachLine] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleSave = async () => {
@@ -51,6 +54,17 @@ export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
       writeVitProjectLastSeen(projectId);
       setSaved(true);
       setSavedEntryId(entryId);
+      try {
+        const parafras = await fetchBankParafrasCoach(
+          pick.card.bankId,
+          response.trim() || undefined,
+        );
+        setCoachLine(
+          parafras.redirectToSpeglar ? null : parafras.coach,
+        );
+      } catch {
+        setCoachLine(vitBankParafrasFallback(pick.card.text_sv));
+      }
       if (projectId === 'learn_together') {
         setShowEvidencePrompt(true);
       }
@@ -79,6 +93,7 @@ export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
           onChange={(e) => {
             setResponse(e.target.value);
             setSaved(false);
+            setCoachLine(null);
           }}
           rows={3}
           className="input-glass mt-2 w-full text-sm"
@@ -118,6 +133,9 @@ export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
             {VIT_HUB_VAULT_LINK}
           </Link>
         </p>
+      ) : null}
+      {coachLine ? (
+        <p className="text-xs leading-relaxed text-text-muted">{coachLine}</p>
       ) : null}
       {showEvidencePrompt && savedEntryId && userId ? (
         <MabraVitEvidencePrompt

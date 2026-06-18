@@ -154,7 +154,7 @@ Uppdatera `LIFE-OS-BUILD-STATE.md` med ny LOCK-rad + datum.
 | **3** | Godkänn **PMIR-A (P3 Mönster)** eller välj B/C istället | Cursor | **DU** |
 | 4 | Flow-prototyp P3 i Google Flow (låg kredit) | Flow | Validera output |
 | 5 | Tunn callable + smoke → LOCK P3 | Cursor + deploy | Godkänn deploy |
-| 6 | PMIR-B (P4 MåBra) → PMIR-C (P6 Dossier) | Flow → Cursor | En i taget |
+| 6 | **PMIR-B + PMIR-C parallellt** (Worker B/C, disjunkta filset) | Flow → Cursor | Se eval nedan |
 | 7 | **PMIR-D Arbetsliv** budget→lön (BACKLOG) | Cursor | Efter våg 28 KEEP |
 | 8 | P5 Theme mockups (valfritt) | Antigravity | När energi finns |
 | 9 | Formell F19.2–19.5 LOCK i BUILD-STATE | Cursor | Parallellt OK |
@@ -185,3 +185,17 @@ Eval: [`2026-06-18-pmir-a-p3-monster-flow.md`](./2026-06-18-pmir-a-p3-monster-fl
 - Gemini master: [`docs/external-ai/imports/research-2026-06-18-master-syntes.md`](../external-ai/imports/research-2026-06-18-master-syntes.md)
 - Flow-karta: [`2026-06-17-flow-pipeline-karta.md`](./2026-06-17-flow-pipeline-karta.md)
 - Gap-matris: [`docs/external-ai/imports/gap-matrix-2026-06-18.md`](../external-ai/imports/gap-matrix-2026-06-18.md)
+
+---
+
+## PMIR-B/C parallellt (2026-06-18)
+
+**Status:** UTKAST — väntar Pontus godkännande.
+
+| PMIR | Pipeline | Eval | Worker |
+|------|----------|------|--------|
+| **B** | P4 MåBra Flow-parafras | [`2026-06-18-pmir-b-p4-mabra-flow-parafras.md`](./2026-06-18-pmir-b-p4-mabra-flow-parafras.md) | B — `mabra*` |
+| **C** | P6 Dossier Flow-tidslinje | [`2026-06-18-pmir-c-p6-dossier-timeline.md`](./2026-06-18-pmir-c-p6-dossier-timeline.md) | C — `dossier*` |
+
+**Conductor:** max 2 workers parallellt · disjunkta filset · en kombinerad deploy efter båda smoke PASS · ingen merge utan Pontus OK.
+
