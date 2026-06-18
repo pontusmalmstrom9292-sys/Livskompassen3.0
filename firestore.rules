@@ -146,6 +146,15 @@ service cloud.firestore {
         && request.resource.data.metadata is map;
     }
 
+    function isValidPipelineRunCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'createdAt', 'toolId', 'status', 'schemaVersion', 'smokeTier', 'commitSha', 'errorCode',
+        ])
+        && request.resource.data.toolId is string
+        && request.resource.data.status in ['spawned', 'PASS', 'FAIL', 'validated', 'exported']
+        && request.resource.data.schemaVersion is string;
+    }
+
     function isValidAdaptationLedgerCreate() {
       return wormKeysOnly([
           'userId', 'ownerId', 'createdAt', 'type', 'source', 'silo', 'rationale', 'metadata',
@@ -1174,6 +1183,12 @@ service cloud.firestore {
     match /evolution_ledger/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreateSensitive() && isValidEvolutionLedgerCreate();
+      allow update, delete: if false;
+    }
+
+    match /pipeline_runs/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreateSensitive() && isValidPipelineRunCreate();
       allow update, delete: if false;
     }
 

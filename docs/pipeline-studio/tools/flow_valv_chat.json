@@ -1,0 +1,15 @@
+{
+  "toolId": "flow_valv_chat",
+  "version": "1.0.0",
+  "title": "Valv-Chat RAG",
+  "silo": "valv",
+  "callable": "valvChatQuery",
+  "model": "gemini-2.5-flash",
+  "schemaModule": "functions/src/schemas/valvChat.ts",
+  "responseSchemaExport": "VALV_CHAT_READ_TOOLS",
+  "nodeGraph": ["trigger:user_question", "rag:fetchVaultEvidenceForQuery", "tools:refine_vault_search_readonly", "callable:valvChatQuery", "response:json"],
+  "smoke": ["npm run smoke:orkester"],
+  "pmirStatus": "approved",
+  "lockedUx": ["Valv kunskapsbank chat"],
+  "costNote": "Max 1 refine_vault_search tool round"
+}

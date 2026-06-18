@@ -9,22 +9,7 @@ import { hashPayload } from '../adk/stateStore';
 
 const BRUSFILTER_MODEL = 'gemini-2.5-flash';
 
-const BRUSFILTER_JSON_SCHEMA = {
-  type: 'object',
-  properties: {
-    dcap_analysis: {
-      type: 'object',
-      properties: {
-        risk_score: { type: 'number' },
-        recommended_action: { type: 'string', enum: ['INGEN', 'VARNING'] },
-      },
-      required: ['risk_score', 'recommended_action'],
-    },
-    isolated_logistics: { type: 'string' },
-    biff_draft_reply: { type: 'string' },
-  },
-  required: ['dcap_analysis', 'isolated_logistics', 'biff_draft_reply'],
-} as const;
+import { BRUSFILTER_RESPONSE_SCHEMA } from '../schemas/brusfilter';
 
 const BRUSFILTER_SYSTEM_INSTRUCTION = `Du är P1 Brusfilter — lågaffektiv textnormalisering före evidensarkiv.
 
@@ -169,7 +154,7 @@ export const processBrusfilter = onCall(
           temperature: 0.1,
           maxOutputTokens: 1024,
           responseMimeType: 'application/json',
-          responseSchema: BRUSFILTER_JSON_SCHEMA,
+          responseSchema: BRUSFILTER_RESPONSE_SCHEMA,
         },
       });
 

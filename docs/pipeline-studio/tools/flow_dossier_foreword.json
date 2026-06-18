@@ -1,0 +1,15 @@
+{
+  "toolId": "flow_dossier_foreword",
+  "version": "1.0.0",
+  "title": "Dossier AI-försätt + tidslinje",
+  "silo": "valv",
+  "callable": "generateDossier",
+  "model": "gemini-2.5-flash",
+  "schemaModule": "functions/src/schemas/dossierForeword.ts",
+  "responseSchemaExport": "DOSSIER_FOREWORD_RESPONSE_SCHEMA",
+  "nodeGraph": ["trigger:dossier_wizard", "dcap:vault_session", "callable:generateDossier", "response:json"],
+  "smoke": ["npm run smoke:orkester"],
+  "pmirStatus": "approved",
+  "lockedUx": ["Dossier generator"],
+  "costNote": "Flash; max 80 entries summarized"
+}

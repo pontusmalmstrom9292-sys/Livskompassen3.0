@@ -110,3 +110,5 @@ export {
   getAdaptationProfile,
   recordAdaptationSignal,
 } from './callables/adaptation';
+
+export { recordPipelineRun } from './callables/pipelineStudio';

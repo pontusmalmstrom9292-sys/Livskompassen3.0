@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Cloud, Inbox } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { TimelineEntry } from '@/core/ui/TimelineEntry';
 import { useStore } from '@/core/store';
 import { fetchInboxQueue, type InboxQueueItem } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import {
@@ -152,18 +153,21 @@ export function ReviewQueuePipelinePanel({
                   Öppna Handling (Kanban)
                 </Link>
               )}
-              <ul className="space-y-2 text-sm">
+              <ul className="relative space-y-0 border-l border-border/40 pl-4">
                 {cloudPreview.map((item) => {
                   const displayStatus = inboxQueueDisplayStatus(item);
                   return (
-                    <li
-                      key={item.id}
-                      className="rounded-lg border border-border/50 bg-surface/40 px-3 py-2"
-                    >
-                      <p className="font-medium text-text">{item.fileName}</p>
-                      <span className={`mt-1 inline-block ${inboxQueueStatusBadgeClass(displayStatus)}`}>
-                        {inboxQueueStatusLabel(item)}
-                      </span>
+                    <li key={item.id} className="relative pb-3 last:pb-0">
+                      <span
+                        className="absolute -left-[9px] top-3 h-2 w-2 rounded-full bg-accent/70"
+                        aria-hidden
+                      />
+                      <TimelineEntry
+                        as="div"
+                        meta={`${inboxQueueStatusLabel(item)} · ${displayStatus}`}
+                        body={item.fileName}
+                        truncateAt={120}
+                      />
                     </li>
                   );
                 })}
