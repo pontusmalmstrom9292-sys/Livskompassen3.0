@@ -76,12 +76,14 @@ Deploy efter PASS: skill [`.cursor/skills/livskompassen-deploy/SKILL.md`](.curso
 
 Pontus-godkända dagliga bollplank — regler i `.cursor/rules/backend-ingest-logic.mdc`, `chameleon-ui-modularity.mdc`, `ai-cognitive-companion.mdc`.
 
-| Agent | Trigger | Fokus |
-|-------|---------|-------|
-| `minnes-arkitekten` | `/minnes-arkitekten` | Auto kunskaps-ingest, SynapseBus, silos — **ingen UI** |
-| `design-labbet` | `/design-labbet` | Chameleon UI, tokens, Theme Lab — **ingen backend** |
-| `yolo-vakt` | `/yolo-vakt` | Read-only säkerhetsaudit före merge/deploy |
-| `android-kompis` | `/android-kompis` | G85, cap sync, auth, deploy |
+| Agent | Slash-kommando (syns i `/`-menyn) | Subagent | Fokus |
+|-------|-----------------------------------|----------|-------|
+| YOLO-vakt | `/yolo-vakt` | `.cursor/agents/yolo-vakt.md` | Read-only säkerhetsaudit |
+| Minnes-Arkitekten | `/minnes-arkitekten` | `.cursor/agents/minnes-arkitekten.md` | Auto kunskaps-ingest |
+| Design-Labbet | `/design-labbet` | `.cursor/agents/design-labbet.md` | Chameleon UI |
+| Android-Kompis | `/android-kompis` | `.cursor/agents/android-kompis.md` | G85, cap sync, deploy |
+
+**Viktigt:** `/`-menyn läser **`.cursor/commands/*.md`**. `.cursor/agents/` är subagents (Task-delegation). Båda pekar på samma roll — använd slash-kommandot i chatten.
 
 ## Skills & rules (uppgift → vägledning)
 
