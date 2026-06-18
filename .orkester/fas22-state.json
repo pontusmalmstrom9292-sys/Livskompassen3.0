@@ -2,9 +2,9 @@
   "version": 1,
   "sprint": "fas22-masterplan-v2",
   "startedAt": "2026-06-18T11:59:32.509Z",
-  "updatedAt": "2026-06-18T23:36:20.440Z",
-  "status": "running",
-  "nextWaveId": "slutrapport",
+  "updatedAt": "2026-06-18T23:38:55.784Z",
+  "status": "done",
+  "nextWaveId": null,
   "completedWaves": [
     {
       "id": "22.6",
@@ -71,9 +71,26 @@
       "branch": "cursor/adaptation-layer-2a-689f",
       "sha": "6045791ce",
       "note": "App Check enforce-readiness — runbook OK; Console Enforce = Pontus manuellt (ej aktiverad)"
+    },
+    {
+      "id": "slutrapport",
+      "completedAt": "2026-06-18T23:38:55.784Z",
+      "deploy": "none",
+      "smokes": [
+        "smoke:tier1",
+        "orkester:night"
+      ],
+      "branch": "cursor/adaptation-layer-2a-689f",
+      "sha": "c3d01f67a",
+      "note": "Tier1 + orkester:night PASS; Cursor rollout + ESLint SKIP_FAIL (icke-blockerande)"
     }
   ],
-  "skippedWaves": [],
+  "skippedWaves": [
+    {
+      "id": "22.3",
+      "reason": "M3.0-C Firestore rules — BLOCKER utan PMIR + Pontus OK"
+    }
+  ],
   "failures": [],
   "waves": [
     "baseline",
@@ -165,8 +182,8 @@
   ],
   "git": {
     "branch": "cursor/adaptation-layer-2a-689f",
-    "sha": "6045791ce",
-    "dirty": 63
+    "sha": "c3d01f67a",
+    "dirty": 2
   },
   "policy": {
     "smokePerWave": true,
@@ -181,5 +198,6 @@
       "genkit-v1",
       "mass-delete"
     ]
-  }
+  },
+  "completedAt": "2026-06-18T23:38:55.784Z"
 }

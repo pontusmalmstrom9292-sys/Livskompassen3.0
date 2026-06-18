@@ -5,6 +5,7 @@ import { clsx } from 'clsx';
 import { LifeBuoy } from 'lucide-react';
 import { FloatingDock } from './FloatingDock';
 import { FyrenWidgetBar } from '../components/FyrenWidgetBar';
+import { FyrenSideQuickDock } from '../components/FyrenSideQuickDock';
 import { FyrenWidgetProvider } from '../components/fyrenWidgetContext';
 
 import { AppHeaderBar } from '../components/AppHeaderBar';
@@ -106,6 +107,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
       {!barnportenChildShell ? (
         <>
+          <FyrenSideQuickDock />
           <FyrenWidgetBar />
           <FloatingDock />
         </>
