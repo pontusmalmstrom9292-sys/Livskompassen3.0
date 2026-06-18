@@ -34,8 +34,12 @@ import { assertVaultSession } from '../lib/vaultSessionGate';
 import { supervisor, trimSpeglingsMirror } from './shared';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import {
+  fetchUserCapacityScore,
+  parafraseCoachFromBankWithCapacity,
+  toCapacityBand,
+} from '../lib/mabraCapacityParafras';
+import {
   getMabraCoachBankEntry,
-  parafraseCoachFromBank,
   parafraseGoalAssist,
   parafraseRsdErrorFromBank,
   resolveBankParafrasBankId,
@@ -376,8 +380,21 @@ export const mabraCoach = onCall(
         typeof exerciseRaw === 'string' && (validExercises as readonly string[]).includes(exerciseRaw)
           ? (exerciseRaw as MabraCoachExercise)
           : undefined;
-      const coach = parafraseCoachFromBank(bankEntry, hubCtx, exerciseCtx);
-      return { coach, redirectToSpeglar: false, bankId };
+      const capacityScore = await fetchUserCapacityScore(uid);
+      const capacityBand = toCapacityBand(capacityScore);
+      const capacityCoach = parafraseCoachFromBankWithCapacity(
+        bankEntry,
+        capacityBand,
+        hubCtx,
+        exerciseCtx,
+      );
+      return {
+        coach: capacityCoach.coach,
+        redirectToSpeglar: false,
+        bankId,
+        capacityBand: capacityCoach.capacityBand,
+        ...(capacityCoach.microSteps ? { microSteps: capacityCoach.microSteps } : {}),
+      };
     }
 
     if (mode === 'transformator') {
@@ -555,20 +572,31 @@ export const mabraCoach = onCall(
     }
 
     const parafrasTier = request.data.parafrasTier === 'deterministic' ? 'deterministic' : 'llm';
-    const coach =
-      parafrasTier === 'deterministic'
-        ? parafraseCoachFromBank(
-            bankEntry,
-            hubSymptom as MabraCoachHub,
-            exerciseType as MabraCoachExercise,
-          )
-        : await askMabraCoach(
-            hubSymptom as MabraCoachHub,
-            exerciseType as MabraCoachExercise,
-            bankEntry,
-            optionalNote,
-            process.env.GEMINI_API_KEY,
-          );
+    if (parafrasTier === 'deterministic') {
+      const capacityScore = await fetchUserCapacityScore(uid);
+      const capacityBand = toCapacityBand(capacityScore);
+      const capacityCoach = parafraseCoachFromBankWithCapacity(
+        bankEntry,
+        capacityBand,
+        hubSymptom as MabraCoachHub,
+        exerciseType as MabraCoachExercise,
+      );
+      return {
+        coach: capacityCoach.coach,
+        redirectToSpeglar: false,
+        bankId,
+        capacityBand: capacityCoach.capacityBand,
+        ...(capacityCoach.microSteps ? { microSteps: capacityCoach.microSteps } : {}),
+      };
+    }
+
+    const coach = await askMabraCoach(
+      hubSymptom as MabraCoachHub,
+      exerciseType as MabraCoachExercise,
+      bankEntry,
+      optionalNote,
+      process.env.GEMINI_API_KEY,
+    );
     return { coach, redirectToSpeglar: false, bankId };
   }
 );

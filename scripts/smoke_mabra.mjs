@@ -55,7 +55,15 @@ async function main() {
   assert(agentsSrc.includes('parafraseCoachFromBank'), 'agents saknar parafraseCoachFromBank');
   assert(agentsSrc.includes("parafrasTier === 'deterministic'"), 'agents saknar parafrasTier');
   assert(bankSrc.includes('resolveBankParafrasBankId'), 'mabraContentBank saknar resolveBankParafrasBankId');
-  console.log('[smoke] P4 bank_parafras static guards OK');
+  assert(
+    readFileSync(resolve(root, 'functions/src/lib/mabraCapacityParafras.ts'), 'utf8').includes(
+      'parafraseCoachFromBankWithCapacity',
+    ),
+    'mabraCapacityParafras saknar parafraseCoachFromBankWithCapacity',
+  );
+  assert(agentsSrc.includes('fetchUserCapacityScore'), 'agents saknar fetchUserCapacityScore');
+  assert(agentsSrc.includes('capacityBand'), 'agents saknar capacityBand');
+  console.log('[smoke] P4 bank_parafras + capacity static guards OK');
 
   const env = loadEnv();
   const app = initializeApp({
