@@ -1,0 +1,67 @@
+---
+description: Chameleon + modulär UI — logik isolerad från design (Tailwind/tokens bytbara)
+alwaysApply: false
+globs: src/modules/**/*.tsx, src/modules/**/*.ts, src/styles/**
+---
+
+# Chameleon UI & modulär frontend
+
+Kanon: `ChameleonInputShell` · `useChameleonMorph` · `*InputSuperModule` · `docs/design/COLOR-POLICY.md`
+
+## Heligt (Pontus)
+
+**Chameleon-principen:** Ett skal, många lägen — UI morphar (fade ~350 ms) istället för nya sidor/menyer.
+Användare ska välja *vad de vill göra*; gränssnittet anpassar verktyg och utseende — inte tvärtom.
+
+## MUST — separation (logik ≠ design)
+
+### 1. Tre lager per feature
+
+| Lager | Plats | Innehåll |
+|-------|-------|----------|
+| **Logic** | `hooks/`, `store/`, `*Service.ts`, `submit*.ts` | State, Firestore, callables, validering |
+| **Shell** | `*SuperModule.tsx`, `ChameleonInputShell` | Mode-växlare, morph, delegate-routing |
+| **Skin** | `*.styles.ts`, `designPackMeta`, CSS tokens | Tailwind, färger, glow, spacing |
+
+Agent får **inte** blanda Firestore/callable-logik direkt i stora JSX-träd med hårdkodade hex-färger.
+
+### 2. Chameleon-mönster (obligatoriskt för ny input)
+
+```tsx
+// Shell: byter delegate in-place
+<ChameleonInputShell mode={mode}>
+  {(displayed) => <Delegate mode={displayed} />}
+</ChameleonInputShell>
+```
+
+- Nya zoner med flera inmatningslägen → `*InputSuperModule` + delegates — **inte** nya toppmenyrader.
+- Mode-lista max **4–6** synliga val; resten via progressive disclosure (drawer/steg 2).
+
+### 3. Design bytbar utan logik-röra
+
+- **Tokens:** `var(--surface)`, `text-accent`, `border-border` — **inte** `#d4af37` i `features/`.
+- **Theme packs:** `useDesignPack()`, `themeRegistry` — experiment i `/dev/theme-lab`, inte prod-routes.
+- **Silo-glow:** `glow-bottom-gold|blue|green` via prop/klass — se `design-calm.mdc`.
+- **Sandbox:** Fri styling endast i `src/modules/sandbox/**` och `/dev/design-freeport*`.
+
+### 4. Mobil-first (Motorola G85)
+
+- Touch targets min 44px; inga hover-only kritiska flöden.
+- `hub-view-lock` + `calm-scroll-island` på hubbar — se `design-calm.mdc`.
+- Efter web-ändring som ska till telefon: `npm run build:web && npx cap sync android`.
+
+## MUST NOT
+
+- Nya parallella routes per micro-feature (mockup-spridning).
+- Långa statiska menyer när Chameleon-delegate räcker.
+- Hårdkodade hex i `src/modules/features/**` (P0 tech debt).
+- Backend/callable-anrop från `sandbox/` till prod utan feature-flag.
+- Ta bort `ChameleonInputShell` / Superhub-mönster utan PMIR + Pontus OK.
+
+## Design-experiment workflow
+
+1. Prototyp i Theme Lab / Design Freeport.
+2. Extrahera tokens → `src/styles/` eller design pack.
+3. Koppla skin till befintlig hook/delegate — **ändra inte** dataflöde.
+
+Smoke: `npm run smoke:locked-ux` · `npm run smoke:design-freeport` (sandbox).

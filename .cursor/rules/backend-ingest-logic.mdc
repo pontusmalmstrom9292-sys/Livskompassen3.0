@@ -1,0 +1,53 @@
+---
+description: Backend typsäkerhet, ingest-pipeline och silo-säkra dataflöden (prioritet auto kunskaps-ingest)
+alwaysApply: false
+globs: functions/src/**, firestore.rules, src/modules/capture/**, src/modules/core/firebase/**
+---
+
+# Backend & Ingest-logik
+
+Kanon: `.context/arkiv-minne.md` · `synapser-adk.mdc` · `memory-silo.mdc` · `docs/GCP-INVENTORY-LATEST.md`
+
+## North star (Pontus prioritet)
+
+**Automatisk kunskaps-ingest** — fler källor ska sorteras in deterministiskt utan manuell copy-paste.
+Målflöde: Inkast / Drive / journal / widget → **klassificera (DCAP/kod)** → rätt silo → ingest + vector (Kunskap) eller WORM (Valv/Barnen).
+
+## MUST — struktur
+
+1. **Typsäkerhet:** Strikt TypeScript. Inga `any` i callables, ingest eller RAG. Delade typer i `functions/src/lib/*Types.ts` eller `@/core/types`.
+2. **Entry point:** Nya callables exporteras via `functions/src/index.ts` → `./callables/*` — inte monolit i en fil.
+3. **Prompts:** Endast `functions/src/sharedRules.ts` — aldrig hårdkodade agent-prompter i handlers.
+4. **Determinism före LLM:** Routing (`routeFromDcap`, `classifyInboxDocument`, `resolveExecutorId`) i kod — LLM klassificerar aldrig auth, silo eller WORM-beslut.
+5. **Server timestamps** på bevis och WORM-poster (`FieldValue.serverTimestamp()`).
+6. **Ingest kedja:** Nya källor ska kopplas till `SynapseBus` eller befintlig callable — dokumentera trigger i synapse-tabellen (`synapser-adk.mdc`).
+
+## MUST — kunskaps-ingest (Kunskap-silo)
+
+| Källa | Befintlig väg | Tillåten destination |
+|-------|---------------|----------------------|
+| Google Drive | `notifyNewFile` → `driveIngestSynapse` | `kb_docs` + vector (FACT) |
+| Dagbok (opt-in) | `journalWovenToKampspar` / `journal_woven` | `kampspar` + vector |
+| Manuell seed | `ingestKampsparEntry` | `kampspar` |
+| Inkast | `submitInkastLite` → klassificering | silo enligt DCAP |
+
+- **HITL:** Trauma, osäker klassificering, LVU/review → `inbox_queue` / `weaver_pending` — aldrig auto-promote.
+- **U6:** FACT kräver godkänd content-bank (`INNEHALL-REGISTER`) — ingen LLM-fakta utan seed.
+
+## MUST NOT
+
+- Cross-RAG mellan silor (se `memory-silo.mdc`).
+- Bevis (`reality_vault`) → `kampspar` eller `kb_docs` utan explicit användar-HITL.
+- Barnlogg → Valv auto-promote.
+- Mock-WORM eller klient-side-only ingest som "klart".
+- Nya tunga externa OAuth-integrationer (Kalender/Gmail) — manuell synk via Inkast.
+
+## Före merge (ingest/backend)
+
+```bash
+cd functions && npm run build
+npm run smoke:innehall   # om content_class rörs
+npm run smoke:orkester    # om synapser/agents rörs
+```
+
+Deploy: se `deploy-paminnelser.mdc`.
