@@ -16,6 +16,7 @@
     "src",
     "../shared/economy/**/*.ts",
     "../shared/patterns/**/*.ts",
-    "../shared/evolution/**/*.ts"
+    "../shared/evolution/**/*.ts",
+    "../shared/adaptation/**/*.ts"
   ]
 }

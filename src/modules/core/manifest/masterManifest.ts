@@ -143,8 +143,8 @@ const CORE_DOMAIN = {
   id: 'C',
   label: 'Core / Evolution-ryggrad',
   silo: 'core',
-  wormCollections: ['evolution_ledger'],
-  mutableCollections: ['evolution_hub'],
+  wormCollections: ['evolution_ledger', 'adaptation_ledger'],
+  mutableCollections: ['evolution_hub', 'adaptation_prefs'],
   adminOnlyCollections: [
     '_rate_limits',
     'access_tokens_economy',
@@ -166,7 +166,7 @@ const CORE_DOMAIN = {
     'dcap_alert',
     'user_overwhelm',
   ],
-  callables: [],
+  callables: ['getAdaptationProfile', 'recordAdaptationSignal'],
   productAgentIds: [],
 } as const satisfies DomainContract;
 
