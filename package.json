@@ -95,6 +95,8 @@
     "orkester:night": "node scripts/orkester_autorun.mjs",
     "master:yolo": "node scripts/master_yolo_init.mjs",
     "fas19:autorun": "node scripts/fas19_autorun_init.mjs",
+    "fas20:autorun": "node scripts/fas20_autorun_init.mjs",
+    "smoke:android-platform": "node scripts/smoke_android_platform.mjs",
     "content:night": "node scripts/content_autorun.mjs",
     "export:kunskap-seed": "node scripts/export_kunskap_seed_manifest.mjs",
     "smoke:content-waves": "node scripts/smoke_content_waves.mjs",

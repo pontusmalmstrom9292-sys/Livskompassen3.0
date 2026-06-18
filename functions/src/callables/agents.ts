@@ -89,6 +89,17 @@ export const analyzeMessage = onCall(
   }
 );
 
+/** Zero Footprint: rensa JWT vault-claims så cachad ID-token inte läser reality_vault efter logout/idle. */
+async function clearVaultJwtClaims(uid: string): Promise<void> {
+  const userRecord = await admin.auth().getUser(uid);
+  const currentClaims = userRecord.customClaims ?? {};
+  await admin.auth().setCustomUserClaims(uid, {
+    ...currentClaims,
+    vaultUnlocked: false,
+    vaultExpiresAt: 0,
+  });
+}
+
 export const invalidateSession = onCall(
   { region: 'europe-west1' },
   async (request) => {
@@ -96,7 +107,8 @@ export const invalidateSession = onCall(
 
     await supervisor.invalidateUserSession(uid);
     await revokeVaultSession(uid);
-    console.log(`[invalidateSession] Session rensad för uid=${uid}`);
+    await clearVaultJwtClaims(uid);
+    console.log(`[invalidateSession] Session + vault JWT rensad för uid=${uid}`);
     return { success: true };
   }
 );

@@ -1,0 +1,35 @@
+---
+description: Fas 20 masterplan gate — parallell research done, YOLO sprint active
+globs:
+alwaysApply: false
+---
+
+# Fas 20 — mästerplan-gate
+
+Kanon: [`docs/evaluations/2026-06-18-fas20-masterplan-v2.md`](../../docs/evaluations/2026-06-18-fas20-masterplan-v2.md) · Sprint: [`docs/FAS20-SPRINT-AUTORUN.md`](../../docs/FAS20-SPRINT-AUTORUN.md)
+
+## Gate (MUST)
+
+1. **Ingen stor städ utan godkänd masterplan v2 + PMIR** där det krävs.
+2. **En våg = en chatt** — handoff via `.orkester/fas20-state.json`.
+3. **Trippel-smoke** Tier 0–3 före PASS (se FAS20-SPRINT-AUTORUN).
+4. **Master YOLO:** commit + push + named deploy efter PASS — ingen force-push.
+
+## PMIR-stopp (SKIP + blocker-fas20-*.md)
+
+- `firestore.rules` / `storage.rules`
+- Barnporten kanon-UI
+- Gmail OAuth / Google Calendar
+- Genkit V1
+- Mass-radering utan arkiv-först + Pontus OK
+- Sacred / Locked UX borttagning
+
+## När detta gäller
+
+`fas 20`, `fas20:autorun`, `FAS20_AUTORUN`, Master YOLO med Fas 20 scope.
+
+## MUST
+
+- `npm run smoke:locked-ux` före merge som rör Valv/Familjen/MåBra
+- `specialist-verifier` på backend/security-vågar
+- Manuella gates: [`docs/evaluations/2026-06-18-fas20-manual-pontus-gates.md`](../../docs/evaluations/2026-06-18-fas20-manual-pontus-gates.md)

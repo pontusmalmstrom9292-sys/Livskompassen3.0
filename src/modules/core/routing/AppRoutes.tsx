@@ -126,9 +126,6 @@ const MemoryTestView = import.meta.env.DEV
       })),
     )
   : null;
-const DashboardHubPage = lazy(() =>
-  import('@/features/dashboard').then((m) => ({ default: m.DashboardHub })),
-);
 const NewDashboardHubPage = lazy(() => import('../../dashboard/DashboardHub'));
 const MorningCompassPage = lazy(() =>
   import('../../morning/MorningCompass').then((m) => ({ default: m.MorningCompass })),
@@ -307,14 +304,7 @@ export function AppRoutes() {
             <Suspense fallback={<RouteFallback />}>
             <Routes>
               <Route path={NAV_PATHS.HOME} element={<HomePage />} />
-              <Route
-                path="/oversikt"
-                element={
-                  <ProtectedModule>
-                    <DashboardHubPage />
-                  </ProtectedModule>
-                }
-              />
+              <Route path="/oversikt" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<NewDashboardHubPage />} />
               <Route
                 path="/kompis"

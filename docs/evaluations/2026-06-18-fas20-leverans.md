@@ -1,33 +1,25 @@
-# Fas 20 — Leveransrapport
+# Fas 20 — Leverans
 
-**Datum:** 2026-06-18 · **Status:** PASS (lokal smoke)
+**Datum:** 2026-06-18 · **Status:** DONE
 
 ## Levererat
 
-| Spår | Innehåll | Filer |
-|------|----------|-------|
-| 20.0 | PMIR + research-beslut | `docs/evaluations/2026-06-18-fas20-hemkompass-pmir.md` |
-| 20.1 | AdaptiveMemoryCards på Hem + schema `intention`/`forge_grounded` | `HomePage.tsx`, `compassAdaptiveCards.ts` |
-| 20.2 | Forge morgon prod-wire | `HomeAdaptiveCompass.tsx`, `DagensAnkareSupermodul.tsx` |
-| 20.3 | Kapacitetsgate (Paralys simplified, snabbnav slice) | `homeCapacityGate.ts`, `ParalysPanel.tsx` |
-| 20.4 | Sanningens Ankare preview (Valv-session only) | `SanningensAnkarePreview.tsx` |
+- 7 zon-memos (preflight research)
+- Masterplan v2 + FAS20-SPRINT-AUTORUN + fas20_autorun_init
+- **20.2** JWT vault lock on invalidateSession
+- **20.3** hex P2 planering.css tokens
+- **20.4** Dagbok toast copy fix
+- **20.6** tri-gate economy_advanced → evolution_hub + user_capability_state
+- **20.7** /oversikt → /dashboard redirect
+- **20.9** smoke:android-platform
+- content:night PASS · orkester:night PASS · smoke:tier1 PASS
 
-## Smoke
+## Defer (Pontus manuellt)
 
-- `npm run build` — PASS
-- `smoke:locked-ux` — PASS
-- `smoke:compass` — PASS
-- `smoke:design-modules` — PASS
-- `smoke:evolution-discovery` — PASS
-- `smoke:valv-security` — PASS
-- `smoke:orkester` — se körning
+Se `docs/evaluations/2026-06-18-fas20-manual-pontus-gates.md`
 
-## Deploy
+## Deploy (efter godkännande)
 
-Frontend only: `firebase deploy --only hosting` efter godkännande.
-
-## Defer
-
-- Hem v3 12-korts rail (Spår E)
-- Taktisk checklista WORM-persist
-- checkins → kampspar ingest
+```bash
+firebase deploy --only functions:invalidateSession,functions:mabraEconomySync,hosting
+```

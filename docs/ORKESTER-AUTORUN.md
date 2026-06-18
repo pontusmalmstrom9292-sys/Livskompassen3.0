@@ -27,17 +27,23 @@ State: `.orkester/rollout-state.json` · Rapport: `docs/evaluations/YYYY-MM-DD-r
 
 ---
 
-## Fas 19 Sprint (aktiv — reglerad YOLO)
+## Fas 19 Sprint (done 2026-06-18)
 
-För Fas 19.1–19.6 enligt godkänd masterplan: [`FAS19-SPRINT-AUTORUN.md`](./FAS19-SPRINT-AUTORUN.md)
+Historisk: [`FAS19-SPRINT-AUTORUN.md`](./FAS19-SPRINT-AUTORUN.md) · state `.orkester/fas19-state.json`
+
+---
+
+## Fas 20 Sprint (aktiv — Master YOLO)
+
+För Fas 20.1–slutrapport enligt godkänd masterplan: [`FAS20-SPRINT-AUTORUN.md`](./FAS20-SPRINT-AUTORUN.md)
 
 ```bash
-export FAS19_AUTORUN=1 ORKESTER_AUTORUN=1
-npm run fas19:autorun
+export FAS20_AUTORUN=1 ORKESTER_AUTORUN=1 MASTER_AUTORUN=1
+npm run fas20:autorun
 npm run orkester:night
 ```
 
-State: `.orkester/fas19-state.json` · Logg: `docs/evaluations/YYYY-MM-DD-fas19-vag-<id>.md`
+State: `.orkester/fas20-state.json` · Logg: `docs/evaluations/YYYY-MM-DD-fas20-vag-<id>.md`
 
 ---
 

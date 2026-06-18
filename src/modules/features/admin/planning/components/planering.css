@@ -402,11 +402,11 @@
   }
 
   .planering-tool-card--amber {
-    border-color: color-mix(in srgb, #f59e0b 28%, transparent);
+    border-color: color-mix(in srgb, var(--warning) 28%, transparent);
   }
 
   .planering-tool-card--rose {
-    border-color: color-mix(in srgb, #f43f5e 28%, transparent);
+    border-color: color-mix(in srgb, var(--danger) 28%, transparent);
   }
 
   .planering-tool-card {
@@ -654,11 +654,11 @@
   }
 
   .planering-hub-shell--emerald .planering-hub__hint {
-    color: color-mix(in srgb, #6b8f71 70%, var(--text-muted));
+    color: color-mix(in srgb, var(--success) 70%, var(--text-muted));
   }
 
   .planering-hub-shell--rose .planering-tool-card {
-    border-color: color-mix(in srgb, #c9a87c 28%, transparent);
+    border-color: color-mix(in srgb, var(--accent-dim) 28%, transparent);
   }
 
   .planering-layout-picker {

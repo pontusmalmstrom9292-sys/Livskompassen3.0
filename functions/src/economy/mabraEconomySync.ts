@@ -99,5 +99,35 @@ export const mabraEconomySync = onDocumentWritten(
       },
       { merge: true }
     );
+
+    // Tri-gate: synka evolution_hub.unlockedFeatureFlags + user_capability_state.economy_advanced
+    const hubRef = db.collection('evolution_hub').doc(uid);
+    const hubSnap = await hubRef.get();
+    const prevFlags = (hubSnap.data()?.unlockedFeatureFlags as string[] | undefined) ?? [];
+    const nextFlags = new Set(prevFlags);
+    if (economyAdvanced) {
+      nextFlags.add('economy_advanced');
+    } else {
+      nextFlags.delete('economy_advanced');
+    }
+    await hubRef.set(
+      {
+        userId: uid,
+        ownerId: uid,
+        unlockedFeatureFlags: Array.from(nextFlags),
+        updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      },
+      { merge: true }
+    );
+
+    await db.collection('user_capability_state').doc(uid).set(
+      {
+        userId: uid,
+        ownerId: uid,
+        economy_advanced: economyAdvanced,
+        lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
+      },
+      { merge: true }
+    );
   }
 );
