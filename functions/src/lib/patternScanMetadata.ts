@@ -59,7 +59,7 @@ async function duplicateExists(
 async function loadVaultScanContext(
   userId: string,
   sourceRef: string,
-  text: string,
+  _text: string,
 ): Promise<{ scanText: string } | null> {
   const vaultSnap = await admin.firestore().collection('reality_vault').doc(sourceRef).get();
   if (!vaultSnap.exists) {
@@ -75,7 +75,9 @@ async function loadVaultScanContext(
   if (vaultData.category === 'vävaren_metadata') {
     return null;
   }
-  const scanText = text.trim() || vaultLogSearchableText(vaultData);
+  // MUST NOT lita på klient-supplied text — skanna alltid WORM-kroppen.
+  const scanText = vaultLogSearchableText(vaultData);
+  if (!scanText.trim()) return null;
   return { scanText };
 }
 

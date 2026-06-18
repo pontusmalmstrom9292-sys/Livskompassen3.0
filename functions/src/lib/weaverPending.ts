@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin';
 import type { WeaverResult } from '../agents/weaverAgent';
+import { assertServerWormPayload, REALITY_VAULT_ALLOWED_KEYS } from './wormPayload';
 
 export const WEAVER_PENDING_COLLECTION = 'weaver_pending';
 
@@ -63,7 +64,7 @@ export async function approveWeaverPending(
 ): Promise<{ vaultMetadataId: string }> {
   const { ref, data } = await assertPendingOwner(uid, pendingId);
 
-  const vaultRef = await admin.firestore().collection('reality_vault').add({
+  const vaultPayload: Record<string, unknown> = {
     userId: uid,
     ownerId: uid,
     category: 'vävaren_metadata',
@@ -73,6 +74,12 @@ export async function approveWeaverPending(
     sourceMood: data.sourceMood,
     weaverTags: data.weaverTags,
     isLocked: true,
+  };
+
+  assertServerWormPayload(vaultPayload, 'weaverPending.approve', REALITY_VAULT_ALLOWED_KEYS);
+
+  const vaultRef = await admin.firestore().collection('reality_vault').add({
+    ...vaultPayload,
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
   });
 

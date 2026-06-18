@@ -26,6 +26,9 @@ export const REALITY_VAULT_ALLOWED_KEYS = new Set([
   'shieldFeeling',
   'shieldBoundary',
   'pinned',
+  'journalEntryId',
+  'sourceMood',
+  'weaverTags',
   'createdAt',
 ]);
 

@@ -61,10 +61,18 @@ function assertIdList(value: unknown): string[] {
   return value.filter((id): id is string => typeof id === 'string' && id.length > 0);
 }
 
+function docDayInRange(createdAtIso: string, dateFrom: string, dateTo: string): boolean {
+  const day = createdAtIso.slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return false;
+  return day >= dateFrom && day <= dateTo;
+}
+
 async function fetchOwnedDoc(
   uid: string,
   collection: DossierCollection,
   docId: string,
+  dateFrom?: string,
+  dateTo?: string,
 ): Promise<CanonicalDossierEntry | null> {
   const snap = await admin.firestore().collection(collection).doc(docId).get();
   if (!snap.exists) return null;
@@ -72,7 +80,13 @@ async function fetchOwnedDoc(
   const ownerId = String(data.ownerId ?? data.userId ?? '');
   if (ownerId !== uid) return null;
   if (collection === 'children_logs' && !isParentVisibleChildLog(data)) return null;
-  return toCanonicalEntry(collection, snap.id, data);
+  const entry = toCanonicalEntry(collection, snap.id, data);
+  if (dateFrom && dateTo && !docDayInRange(entry.createdAt, dateFrom, dateTo)) {
+    throw new Error(
+      `Dokument utanför valt datumintervall: ${collection}/${docId} (${entry.createdAt.slice(0, 10)} ∉ ${dateFrom}–${dateTo}).`,
+    );
+  }
+  return entry;
 }
 
 async function fetchVaultPatternContext(
@@ -152,7 +166,7 @@ export async function generateDossierInternal(
 
   const loadBatch = async (collection: DossierCollection, ids: string[]) => {
     for (const docId of ids) {
-      const entry = await fetchOwnedDoc(uid, collection, docId);
+      const entry = await fetchOwnedDoc(uid, collection, docId, dateFrom, dateTo);
       if (!entry) {
         throw new Error(`Dokument saknas eller tillhör inte dig: ${collection}/${docId}`);
       }
