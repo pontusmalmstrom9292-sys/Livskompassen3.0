@@ -33,12 +33,14 @@ export function FreeportEkonomiLab({ onStatus }: Props) {
     >
       <header className="design-freeport__exec-header">
         <h2 className="design-freeport__exec-screen-title">Ekonomi</h2>
-        <ExecutiveDecorCompass className="design-freeport__exec-header-compass" />
+        <ExecutiveDecorCompass className="design-freeport__exec-header-compass design-freeport__exec-header-compass--lg" />
       </header>
 
-      <article className="design-freeport__exec-card">
+      <article className="design-freeport__exec-card design-freeport__exec-card--chrome design-freeport__exec-card--balance">
         <p className="design-freeport__exec-label">Månadsöversikt</p>
-        <div className="design-freeport__exec-graph" aria-hidden>
+        <p className="design-freeport__exec-balance">45 100 kr</p>
+        <p className="design-freeport__exec-balance-sub">Tillgängligt denna månad</p>
+        <div className="design-freeport__exec-graph design-freeport__exec-graph--glow" aria-hidden>
           <svg viewBox="0 0 280 100" className="design-freeport__exec-graph-svg" preserveAspectRatio="none">
             <defs>
               <linearGradient id="execChartFill" x1="0" y1="0" x2="0" y2="1">
@@ -64,9 +66,9 @@ export function FreeportEkonomiLab({ onStatus }: Props) {
         </div>
       </article>
 
-      <section className="design-freeport__exec-card">
+      <section className="design-freeport__exec-card design-freeport__exec-card--chrome">
         <p className="design-freeport__exec-label">Konton</p>
-        <ul className="design-freeport__exec-list">
+        <ul className="design-freeport__exec-list design-freeport__exec-list--plates">
           {ACCOUNTS.map((a) => (
             <li key={a.id}>
               <div className="design-freeport__exec-list-row design-freeport__exec-list-row--static">

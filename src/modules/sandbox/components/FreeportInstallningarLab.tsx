@@ -43,7 +43,7 @@ export function FreeportInstallningarLab({ onStatus }: Props) {
       </header>
 
       {GROUPS.map((group) => (
-        <section key={group.id} className="design-freeport__exec-settings-group">
+        <section key={group.id} className="design-freeport__exec-settings-group design-freeport__exec-card--chrome">
           <p className="design-freeport__exec-label">{group.title}</p>
           <ul className="design-freeport__exec-list">
             {group.rows.map((row) => {

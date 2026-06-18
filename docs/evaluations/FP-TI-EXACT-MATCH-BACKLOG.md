@@ -12,3 +12,6 @@
 | GATE-ALL | Alla | Pontus pixel OK | P0 | VÄNTAR |
 
 Status: SANDBOX → PONTUS_OK → PMIR → DONE
+
+## S16 jury — uppföljning (2026-06-18)
+S16 P0 (exec CSS, 5-slot nav, EKONOMI/RESURSER paneler) är **implementerat i sandbox** efter jury-körningen. Kvar: **Pontus pixel-gate** per skärm (GATE-ALL).

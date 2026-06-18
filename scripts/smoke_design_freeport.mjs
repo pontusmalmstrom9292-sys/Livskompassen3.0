@@ -62,17 +62,20 @@ function main() {
   );
   mustInclude('src/modules/sandbox/freeportThemes.ts', 'tactile-slate', 'tactile-obsidian', 'Skiffer sammet');
   mustInclude(
+    'src/modules/sandbox/components/FreeportHemV3Lab.tsx',
+    'HEM_V3_SUPERMODS',
+    'ExecutivePhoneShell',
+    'executiveSkin',
+    'wedge 1',
+  );
+  mustInclude(
     'src/modules/sandbox/components/FreeportChameleonLive.tsx',
     'DagbokReflektionDelegate',
     'PlaneringTaskQuickDelegate',
     'FamiljenBarnfokusDelegate',
     'design-freeport__delegate-viewport',
-  );
-  mustInclude(
-    'src/modules/sandbox/components/FreeportHemV3Lab.tsx',
-    'HEM_V3_SUPERMODS',
-    'ExecutivePhoneShell',
-    'Pixel-gate HEM',
+    'executiveSkin',
+    'design-freeport__delegate-viewport--exec',
   );
   mustInclude(
     'src/modules/sandbox/components/FreeportEkonomiLab.tsx',
@@ -100,10 +103,17 @@ function main() {
     'ExecutiveExactBottomNav',
   );
   mustInclude(
+    'src/modules/sandbox/components/exec/ExecutiveMediaFrame.tsx',
+    'ExecutiveMediaFrame',
+    'Lägg till bild',
+  );
+  mustInclude(
     'src/styles/design-freeport.css',
-    'design-freeport__exec-card',
-    'design-freeport__exec-bottom-nav',
-    'design-freeport__exec-status-strip',
+    'phone--chrome-v3',
+    'exec-menu-pill',
+    'exec-media-frame',
+    'delegate-viewport--exec',
+    'exec-chameleon-shell',
   );
   mustInclude(
     'src/modules/sandbox/freeportZones.ts',

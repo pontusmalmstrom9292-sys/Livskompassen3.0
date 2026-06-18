@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus } from 'lucide-react';
-import { ExecutiveDecorCompass, ExecutivePhoneShell, type ExecutiveNavId } from './exec';
+import { ExecutiveDecorCompass, ExecutiveMediaFrame, ExecutivePhoneShell, type ExecutiveNavId } from './exec';
 
 const DAYS = Array.from({ length: 7 }, (_, i) => {
   const d = 18 + i;
@@ -58,13 +58,20 @@ export function FreeportDagbokLab({ onStatus }: Props) {
         ))}
       </div>
 
-      <article className="design-freeport__exec-card design-freeport__exec-card--photo">
+      <article className="design-freeport__exec-card design-freeport__exec-card--photo design-freeport__exec-card--chrome">
         <p className="design-freeport__exec-label">Daglig reflektion</p>
-        <div className="design-freeport__exec-photo" role="img" aria-label="Solnedgång över hav" />
-        <p className="design-freeport__exec-body">
-          Idag kändes lugnt efter skolan. Barnen verkade trygga. Jag andades innan jag svarade på
-          meddelanden.
-        </p>
+        <ExecutiveMediaFrame
+          label="Lägg till bild"
+          defaultSrc="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80"
+          alt="Solnedgång över hav"
+          onPick={() => onStatus?.('Dagboksbild uppdaterad')}
+        />
+        <div className="design-freeport__exec-inset">
+          <p className="design-freeport__exec-body">
+            Idag kändes lugnt efter skolan. Barnen verkade trygga. Jag andades innan jag svarade på
+            meddelanden.
+          </p>
+        </div>
       </article>
 
       <section className="design-freeport__exec-card">

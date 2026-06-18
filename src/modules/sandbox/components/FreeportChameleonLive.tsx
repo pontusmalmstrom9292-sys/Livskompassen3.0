@@ -72,6 +72,8 @@ type Props = {
   onTargetChange?: (target: FreeportChameleonTarget) => void;
   onStatus?: (msg: string) => void;
   compact?: boolean;
+  /** Executive chrome v3 — skin only, delegates oförändrade */
+  executiveSkin?: boolean;
 };
 
 function DelegateFallback() {
@@ -180,6 +182,7 @@ export function FreeportChameleonLive({
   onTargetChange,
   onStatus,
   compact = false,
+  executiveSkin = false,
 }: Props) {
   const zoneDef = getFreeportZone(target.zone);
   const { displayed, fading, morphTo } = useFreeportMorph(target);
@@ -209,11 +212,21 @@ export function FreeportChameleonLive({
 
   return (
     <div
-      className={clsx('design-freeport__chameleon', compact && 'design-freeport__chameleon--compact')}
+      className={clsx(
+        'design-freeport__chameleon',
+        compact && 'design-freeport__chameleon--compact',
+        executiveSkin && 'design-freeport__chameleon--executive',
+      )}
       aria-label="Chameleon Supermodule"
     >
-      {!compact ? (
-        <div className="design-freeport__zone-nav design-freeport__zone-nav--inline">
+      {executiveSkin || !compact ? (
+        <div
+          className={clsx(
+            'design-freeport__zone-nav',
+            'design-freeport__zone-nav--inline',
+            executiveSkin && 'design-freeport__zone-nav--exec',
+          )}
+        >
           {(['hjartat', 'vardagen', 'familjen'] as const).map((zoneId) => {
             const z = getFreeportZone(zoneId);
             return (
@@ -222,6 +235,7 @@ export function FreeportChameleonLive({
                 type="button"
                 className={clsx(
                   'design-freeport__zone-btn design-freeport__zone-btn--compact',
+                  executiveSkin && 'design-freeport__zone-btn--exec',
                   target.zone === zoneId && 'design-freeport__zone-btn--on',
                 )}
                 onClick={() => setZone(zoneId)}
@@ -233,13 +247,30 @@ export function FreeportChameleonLive({
         </div>
       ) : null}
 
-      <div className="design-freeport__shell">
-        <p className="design-freeport__section-title">{zoneDef.label} — chameleon</p>
-        <p className="design-freeport__hint mt-1">
-          Riktiga delegates · morph 350ms · samma Firebase som prod
+      <div
+        className={clsx(
+          executiveSkin
+            ? 'design-freeport__exec-card design-freeport__exec-card--chrome design-freeport__exec-chameleon-shell'
+            : 'design-freeport__shell',
+        )}
+      >
+        <p className={executiveSkin ? 'design-freeport__exec-label' : 'design-freeport__section-title'}>
+          {executiveSkin ? 'Supermodul' : `${zoneDef.label} — chameleon`}
         </p>
+        {!executiveSkin ? (
+          <p className="design-freeport__hint mt-1">
+            Riktiga delegates · morph 350ms · samma Firebase som prod
+          </p>
+        ) : (
+          <p className="design-freeport__exec-chameleon-lead">
+            {zoneDef.label} · morph 350ms · live delegate
+          </p>
+        )}
 
-        <div className="design-freeport__mode-row" role="tablist">
+        <div
+          className={clsx('design-freeport__mode-row', executiveSkin && 'design-freeport__mode-row--exec')}
+          role="tablist"
+        >
           {zoneDef.modes.map((mode) => (
             <button
               key={mode.id}
@@ -247,8 +278,11 @@ export function FreeportChameleonLive({
               role="tab"
               aria-selected={displayed.mode === mode.id}
               className={clsx(
-                'design-freeport__mode-btn',
-                displayed.mode === mode.id && 'design-freeport__mode-btn--on',
+                executiveSkin ? 'design-freeport__exec-mode-pill' : 'design-freeport__mode-btn',
+                displayed.mode === mode.id &&
+                  (executiveSkin
+                    ? 'design-freeport__exec-mode-pill--on'
+                    : 'design-freeport__mode-btn--on'),
               )}
               onClick={() => setMode(mode.id)}
             >
@@ -260,6 +294,7 @@ export function FreeportChameleonLive({
         <div
           className={clsx(
             'design-freeport__delegate-viewport calm-scroll-island',
+            executiveSkin && 'design-freeport__delegate-viewport--exec',
             fading && 'design-freeport__delegate-viewport--morph',
           )}
         >

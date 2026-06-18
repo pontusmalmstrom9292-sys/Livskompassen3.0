@@ -9,9 +9,6 @@ import {
   Sparkles,
 } from 'lucide-react';
 import {
-  filterDevelopmentCardsForPreset,
-  HEM_V3_DEVELOPMENT_CARDS,
-  HEM_V3_LOW_CAPACITY_CARD_IDS,
   HEM_V3_SUPERMOD_COPY,
   HEM_V3_SUPERMODS,
   type HemV3DevCard,
@@ -21,6 +18,7 @@ import { FreeportChameleonLive } from './FreeportChameleonLive';
 import { FreeportDiscoveryCards } from './FreeportDiscoveryCards';
 import {
   ExecutiveDecorCompass,
+  ExecutiveMediaFrame,
   ExecutivePhoneShell,
   type ExecutiveNavId,
 } from './exec';
@@ -67,12 +65,14 @@ function getGreeting(): string {
   return 'God kväll';
 }
 
-/** HEM — pixel-match mot FP-TI-REF-executive-5screen-canonical (skärm 1). */
+/**
+ * HEM — Modell A: executive chrome + live Chameleon (wedge 1).
+ * Supermodul alltid synlig — inte mock bakom dev-toggle.
+ */
 export function FreeportHemV3Lab({ lowCapacity = false, onStatus }: Props) {
   const [zone, setZone] = useState<FreeportZoneId>('hjartat');
   const [target, setTarget] = useState<FreeportChameleonTarget>(() => getDefaultTarget('hjartat'));
   const [activeMod, setActiveMod] = useState<HemV3SuperModId>('Dagbok');
-  const [devOpen, setDevOpen] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   const [navActive, setNavActive] = useState<ExecutiveNavId>('hem');
 
@@ -102,12 +102,13 @@ export function FreeportHemV3Lab({ lowCapacity = false, onStatus }: Props) {
     [onStatus],
   );
 
-  const visibleCards = filterDevelopmentCardsForPreset(HEM_V3_DEVELOPMENT_CARDS, 'foralder_trygg');
-  const cardCount = lowCapacity
-    ? visibleCards.filter((c) =>
-        (HEM_V3_LOW_CAPACITY_CARD_IDS as readonly string[]).includes(c.id),
-      ).length || 4
-    : Math.min(8, visibleCards.length);
+  const handleTarget = useCallback(
+    (next: FreeportChameleonTarget) => {
+      setTarget(next);
+      setZone(next.zone);
+    },
+    [],
+  );
 
   return (
     <ExecutivePhoneShell
@@ -117,24 +118,76 @@ export function FreeportHemV3Lab({ lowCapacity = false, onStatus }: Props) {
         onStatus?.(`Nav: ${id}`);
       }}
     >
-      <header className="design-freeport__exec-header">
-        <h2 className="design-freeport__exec-screen-title">Hem</h2>
-        <ExecutiveDecorCompass className="design-freeport__exec-header-compass" />
+      <header className="design-freeport__exec-header design-freeport__exec-header--hero">
+        <div>
+          <h2 className="design-freeport__exec-screen-title">Hem</h2>
+          <p className="design-freeport__exec-greeting design-freeport__exec-greeting--inline">
+            {getGreeting()}, <span className="design-freeport__exec-greeting-name">Pontus</span>
+          </p>
+        </div>
+        <ExecutiveDecorCompass className="design-freeport__exec-header-compass design-freeport__exec-header-compass--lg" />
       </header>
 
-      <p className="design-freeport__exec-greeting">
-        {getGreeting()}, <span className="design-freeport__exec-greeting-name">Pontus</span>
-      </p>
-
-      <article className="design-freeport__exec-card design-freeport__exec-card--anchor">
+      <article className="design-freeport__exec-card design-freeport__exec-card--anchor design-freeport__exec-card--chrome design-freeport__exec-card--compact">
         <p className="design-freeport__exec-label">Dagens ankare</p>
-        <p className="design-freeport__exec-focus-line">{modCopy.focus}</p>
-        <p className="design-freeport__exec-body">{modCopy.sample || modCopy.placeholder}</p>
+        <ExecutiveMediaFrame
+          label="Lägg till stämningsbild"
+          alt="Dagens stämning"
+          onPick={() => onStatus?.('Stämningsbild vald')}
+        />
+        <div className="design-freeport__exec-inset">
+          <p className="design-freeport__exec-focus-line">{modCopy.focus}</p>
+        </div>
       </article>
 
-      <section className="design-freeport__exec-card">
+      <section className="design-freeport__exec-card design-freeport__exec-card--chrome design-freeport__exec-card--compact">
+        <p className="design-freeport__exec-label">Snabbstart</p>
+        <div className="design-freeport__exec-quick-grid design-freeport__exec-quick-grid--3">
+          {QUICK_START.map((item) => {
+            const Icon = item.icon;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                className={[
+                  'design-freeport__exec-quick-tile',
+                  activeMod === item.id ? 'design-freeport__exec-quick-tile--on' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+                onClick={() => handleSuperMod(item.id)}
+              >
+                <span className="design-freeport__exec-quick-icon">
+                  <Icon className="h-5 w-5" />
+                </span>
+                <span className="design-freeport__exec-quick-label">{item.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <FreeportChameleonLive
+        compact
+        executiveSkin
+        target={target}
+        onTargetChange={handleTarget}
+        onStatus={onStatus}
+      />
+
+      <section className="design-freeport__exec-card design-freeport__exec-card--chrome">
+        <p className="design-freeport__exec-label">Utvecklingskort</p>
+        <FreeportDiscoveryCards
+          zone={zone}
+          selectedCardId={selectedCardId}
+          lowCapacity={lowCapacity}
+          onSelectCard={handleCard}
+        />
+      </section>
+
+      <section className="design-freeport__exec-card design-freeport__exec-card--chrome design-freeport__exec-card--compact">
         <p className="design-freeport__exec-label">Dagens steg</p>
-        <ul className="design-freeport__exec-step-list">
+        <ul className="design-freeport__exec-step-list design-freeport__exec-step-list--inset">
           {DAILY_STEPS.map((row) => {
             const Icon = row.icon;
             return (
@@ -162,33 +215,6 @@ export function FreeportHemV3Lab({ lowCapacity = false, onStatus }: Props) {
         </ul>
       </section>
 
-      <section className="design-freeport__exec-card">
-        <p className="design-freeport__exec-label">Snabbstart</p>
-        <div className="design-freeport__exec-quick-grid">
-          {QUICK_START.map((item) => {
-            const Icon = item.icon;
-            return (
-              <button
-                key={item.id}
-                type="button"
-                className={[
-                  'design-freeport__exec-quick-tile',
-                  activeMod === item.id ? 'design-freeport__exec-quick-tile--on' : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-                onClick={() => handleSuperMod(item.id)}
-              >
-                <span className="design-freeport__exec-quick-icon">
-                  <Icon className="h-5 w-5" />
-                </span>
-                <span className="design-freeport__exec-quick-label">{item.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </section>
-
       <div className="design-freeport__exec-status-strip" aria-label="Status">
         {STATUS_STRIP.map((box) => (
           <div key={box.id} className="design-freeport__exec-status-box">
@@ -198,7 +224,7 @@ export function FreeportHemV3Lab({ lowCapacity = false, onStatus }: Props) {
         ))}
       </div>
 
-      <section className="design-freeport__exec-card design-freeport__exec-card--flat">
+      <section className="design-freeport__exec-card design-freeport__exec-card--flat design-freeport__exec-card--chrome">
         <p className="design-freeport__exec-label">Veckoplan</p>
         <ul className="design-freeport__exec-list">
           {HEM_V3_SUPERMODS.slice(0, 2).map((mod) => (
@@ -217,33 +243,12 @@ export function FreeportHemV3Lab({ lowCapacity = false, onStatus }: Props) {
         </ul>
       </section>
 
-      <button
-        type="button"
-        className="design-freeport__exec-dev-toggle"
-        aria-expanded={devOpen}
-        onClick={() => setDevOpen((v) => !v)}
-      >
-        Dev: utvecklingskort ({cardCount}) + chameleon
-      </button>
-
-      {devOpen ? (
-        <>
-          <FreeportDiscoveryCards
-            zone={zone}
-            selectedCardId={selectedCardId}
-            lowCapacity={lowCapacity}
-            onSelectCard={handleCard}
-          />
-          <FreeportChameleonLive compact target={target} onTargetChange={setTarget} onStatus={onStatus} />
-        </>
-      ) : null}
-
       <p className="design-freeport__sandbox-note">
         <Link to="/" className="design-freeport__link">
           ← Prod
         </Link>
         {' · '}
-        Pixel-gate HEM · ref 5-skärm
+        HEM wedge 1 — chrome + live supermodul
       </p>
     </ExecutivePhoneShell>
   );
