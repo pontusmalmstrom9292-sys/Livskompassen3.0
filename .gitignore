@@ -7,6 +7,7 @@ node_modules.broken-*/
 .env
 .env.*
 !.env.example
+.drive-setup.json
 vertex-sa.json
 **/serviceAccount*.json
 server/.env
@@ -61,6 +62,15 @@ exports/gpt-handoff/repomix/
 
 # Generated AI Studio repomix (npm run ai-studio:pack)
 exports/ai-studio/
+
+# Pipeline Studio exports (npm run pipeline:export)
+exports/pipeline-studio/
+
+# Pipeline worktrees (npm run pipeline:worktree)
+worktrees/
+
+# Pipeline run state (local + smoke JSON)
+.orkester/pipeline-runs/
 
 # Generated Valv repomix (npm run repomix:valv-komplett)
 exports/repomix-valv/

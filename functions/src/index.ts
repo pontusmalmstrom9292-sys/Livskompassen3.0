@@ -63,6 +63,7 @@ export {
 export { onVaultCreatePatternScan } from './triggers/patternScanOnVaultCreate';
 export { onInkastEvidenceFinalized } from './triggers/inkastStorageOnFinalize';
 export { onEvolutionHubWrite } from './triggers/onEvolutionHubWrite';
+export { onAdaptationPrefsWrite } from './triggers/onAdaptationPrefsWrite';
 
 export {
   calculateSmartAllocation,
@@ -104,3 +105,10 @@ export {
 export { biffRewriteDraft } from './callables/biffRewriteDraft';
 export { generateKompassrad } from './callables/generateKompassrad';
 export { journalSilentReflection } from './callables/journalSilentReflection';
+
+export {
+  getAdaptationProfile,
+  recordAdaptationSignal,
+} from './callables/adaptation';
+
+export { recordPipelineRun } from './callables/pipelineStudio';

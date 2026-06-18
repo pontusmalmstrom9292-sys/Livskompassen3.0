@@ -33,6 +33,7 @@ const MOCKUP_LINKS = [
   { label: 'I-stone expanded', href: '/design/themes/I-architect-vault/00-smart-widget-expanded.png' },
   { label: 'Sidomeny kanon', href: '/docs/design/references/MENU-DRAWER-KANON.png' },
   { label: 'Scenic bakgrund', href: '/design/home-hero-scenic.png' },
+  { label: 'Brusfiltret SuperModule B', href: '/dev/theme-lab/brusfiltret-supermodule' },
 ] as const;
 
 function PreviewStrip({ pack }: { pack: ThemePack }) {
@@ -169,6 +170,26 @@ export function ThemeLabPage() {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section className="glass-card p-4">
+        <h2 className="text-xs uppercase tracking-widest text-text-dim">SuperModule — Brusfiltret</h2>
+        <p className="mt-2 text-sm text-text-muted">
+          Variant B (indigo + flikar) — interaktiv prototyp jämförd mot kanon-referens.
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Link to="/dev/theme-lab/brusfiltret-supermodule" className="btn-pill--accent text-xs">
+            Öppna Brusfiltret SuperModule lab
+          </Link>
+          <a
+            href="/docs/design/references/BRUSFILTRET-MODUL-KANON.md"
+            target="_blank"
+            rel="noreferrer"
+            className="btn-pill--ghost text-xs"
+          >
+            Layoutkanon ↗
+          </a>
+        </div>
       </section>
 
       <ThemeLabPackSection

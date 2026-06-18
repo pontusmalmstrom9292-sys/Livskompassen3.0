@@ -1,0 +1,44 @@
+---
+description: Pipeline Studio — FTD lifecycle, schema registry, AI Studio ↔ Cursor export
+globs:
+  - docs/pipeline-studio/**
+  - functions/src/schemas/**
+  - scripts/pipeline-studio/**
+  - functions/src/callables/pipelineStudio.ts
+alwaysApply: false
+---
+
+# Pipeline Studio
+
+Kanon: [`docs/pipeline-studio/ARCHITECTURE.md`](../../docs/pipeline-studio/ARCHITECTURE.md) · PMIR: [`docs/evaluations/2026-06-19-pipeline-studio-pmir.md`](../../docs/evaluations/2026-06-19-pipeline-studio-pmir.md)
+
+## MUST
+
+- Varje Flow Tool Definition (FTD) har `toolId`, `silo`, `callable`, `schemaModule`, smoke commands
+- Kör `npm run pipeline:validate` före merge som rör FTD eller `functions/src/schemas/`
+- Scheman lever i `functions/src/schemas/` — callables importerar därifrån
+- Extern AI Studio-paste → klassificera APPROVED / REJECTED innan implementation
+- `pipeline_runs` append-only — metadata only, no PII
+- Deploy: named function `recordPipelineRun` om callable ändras
+
+## MUST NOT
+
+- Genkit V1 runtime utan upphävd PMIR-stopp
+- LLM Gemini tools som skriver WORM
+- Cross-RAG i Flow-nodgraf (U1)
+- Bypass `smoke:locked-ux` för Valv/Familjen UI-ändringar
+- Hardkoda prompts utanför `sharedRules.ts` (befintlig backend-agents regel)
+
+## CLI
+
+```bash
+npm run pipeline:validate [-- toolId]
+npm run pipeline:export -- <toolId>
+npm run pipeline:cursor-pack -- <toolId>
+npm run pipeline:worktree -- <toolId>
+npm run pipeline:run-smoke -- <toolId>
+```
+
+## P1 tool IDs
+
+flow_brusfilter, flow_biff_rewrite, flow_dossier_foreword, flow_pattern_assist, flow_inkast_classify, flow_valv_chat

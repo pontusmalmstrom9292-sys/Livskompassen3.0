@@ -49,6 +49,21 @@ Deterministiska regex/DCAP — **inte** LLM per tangenttryckning.
 
 ---
 
+## Kunskapsbank — layoutreferens (**godkänd 2026-06-19**)
+
+Pontus: upplägget i Kunskapsbank-fliken är **snugg, proffsigt och på god väg** — använd som mall för framtida Valv-zoner.
+
+| Aspekt | Kanon |
+|--------|-------|
+| Route | `/valvet?vaultTab=kunskapsbank` |
+| Header | Kompakt `HubPageShell` + `KunskapsbankHeader compact` — **ingen** triple-banner |
+| Scroll | En sidscroll — **ingen** nästad `calm-scroll-island` |
+| Innehåll | `BentoCard` + `CalmCollapsible` för arkiv/upload |
+
+Full spec + skärmbild: [`references/KUNSKAPSBANK-VALV-KANON.md`](./references/KUNSKAPSBANK-VALV-KANON.md) · [`kunskapsbank-valv-kanon-ref.png`](./references/kunskapsbank-valv-kanon-ref.png)
+
+---
+
 ## Smoke
 
 `npm run smoke:locked-ux` · `npm run smoke:orkester`

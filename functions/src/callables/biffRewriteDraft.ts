@@ -11,14 +11,7 @@ import {
 
 const BIFF_REWRITE_MODEL = 'gemini-2.5-flash';
 
-const BIFF_REWRITE_JSON_SCHEMA = {
-  type: 'object',
-  properties: {
-    cleanedText: { type: 'string' },
-    toneCheck: { type: 'string', enum: ['pass', 'still_emotional', 'too_long'] },
-  },
-  required: ['cleanedText', 'toneCheck'],
-} as const;
+import { BIFF_REWRITE_RESPONSE_SCHEMA } from '../schemas/biffRewrite';
 
 export type BiffRewriteContext = 'dagbok' | 'hamn' | 'inkast';
 
@@ -62,7 +55,7 @@ export const biffRewriteDraft = onCall(
           temperature: 0.15,
           maxOutputTokens: 512,
           responseMimeType: 'application/json',
-          responseSchema: BIFF_REWRITE_JSON_SCHEMA,
+          responseSchema: BIFF_REWRITE_RESPONSE_SCHEMA,
         },
       });
 

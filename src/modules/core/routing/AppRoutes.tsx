@@ -109,6 +109,11 @@ const ObsidianDepthV2LabPage = lazy(() =>
     default: m.ObsidianDepthV2LabPage,
   })),
 );
+const BrusfiltretSupermoduleLabPage = lazy(() =>
+  import('../pages/BrusfiltretSupermoduleLabPage').then((m) => ({
+    default: m.BrusfiltretSupermoduleLabPage,
+  })),
+);
 const DesignFreeportPage = lazy(() =>
   import('@/modules/sandbox/DesignFreeportPage').then((m) => ({
     default: m.DesignFreeportPage,
@@ -528,6 +533,10 @@ export function AppRoutes() {
               />
               <Route path="/dev/themes" element={<ThemePreviewPage />} />
               <Route path="/dev/theme-lab" element={<ThemeLabPage />} />
+              <Route
+                path="/dev/theme-lab/brusfiltret-supermodule"
+                element={<BrusfiltretSupermoduleLabPage />}
+              />
               <Route path="/dev/hub-lab" element={<HubLabPage />} />
               <Route path="/dev/obsidian-depth" element={<ObsidianDepthMockupPage />} />
               <Route path="/dev/obsidian-forge" element={<ObsidianForgeLabPage />} />

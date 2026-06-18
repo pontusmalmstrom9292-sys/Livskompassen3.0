@@ -51,7 +51,7 @@ export function HemCaptureModulValjare({ onSelect, onSkip }: Props) {
       <p className="text-sm text-text-muted">
         Så här fångar du något — välj ett spår. Resten väntar.
       </p>
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid touch-manipulation gap-3 sm:grid-cols-3">
         <ExamplePreviewCard
           title="Klistra text"
           lead="Sms, mejl eller minne — granska innan spar."
@@ -78,7 +78,11 @@ export function HemCaptureModulValjare({ onSelect, onSkip }: Props) {
         />
       </div>
       {onSkip ? (
-        <button type="button" onClick={skip} className="text-xs text-text-dim hover:text-text-muted">
+        <button
+          type="button"
+          onClick={skip}
+          className="min-h-[44px] touch-manipulation px-2 text-xs text-text-dim hover:text-text-muted active:scale-[0.98]"
+        >
           Gå direkt till skrivyta
         </button>
       ) : null}

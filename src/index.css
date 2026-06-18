@@ -4,7 +4,7 @@
 @import './styles/obsidian-forge-lab.css';
 @import './styles/redesign-a-nordic-precision.css';
 @import './styles/brushed-brass-neu.css';
-@import './styles/design-freeport.css';
+@import './styles/theme-lab-brusfiltret-supermodule.css';
 
 @tailwind base;
 @tailwind components;
@@ -2867,6 +2867,7 @@
   /* Block underliggande widget/dock när menyn är öppen */
   body.nav-drawer-open .fyren-smart-bar,
   body.nav-drawer-open .fyren-home-rail,
+  body.nav-drawer-open .fyren-side-quick,
   body.nav-drawer-open .fyren-header-strip,
   body.nav-drawer-open .dock-nav--hub,
   body.nav-drawer-open .dock-classic {
@@ -2924,6 +2925,109 @@
 
   .fyren-home-rail__label {
     @apply max-w-[4.5rem] text-[9px] font-medium leading-tight text-accent/90;
+  }
+
+  /* Höger sidodock — kompass-pebble + vertikal panel (I-stone mockup) */
+  .fyren-side-quick {
+    @apply pointer-events-none fixed right-0 z-[46] flex flex-row items-center;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-right: max(0px, env(safe-area-inset-right, 0px));
+  }
+
+  .fyren-side-quick__drawer {
+    @apply pointer-events-none flex max-w-0 flex-col overflow-hidden opacity-0;
+    border-radius: 1.35rem 0 0 1.35rem;
+    border: 1px solid transparent;
+    border-right: none;
+    background: color-mix(in srgb, var(--surface-2) 88%, transparent);
+    backdrop-filter: blur(16px);
+    box-shadow: -10px 0 28px rgba(0, 0, 0, 0.38);
+    transition:
+      max-width 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.18s ease,
+      border-color 0.18s ease;
+  }
+
+  .fyren-side-quick--open .fyren-side-quick__drawer {
+    @apply pointer-events-auto max-w-[5.75rem] opacity-100;
+    border-color: color-mix(in srgb, var(--accent) 34%, transparent);
+  }
+
+  .fyren-side-quick__stack {
+    @apply flex flex-col gap-1 px-2 pb-1 pt-2.5;
+  }
+
+  .fyren-side-quick__row {
+    @apply flex flex-col items-center gap-1 rounded-xl px-1 py-2 text-center transition-colors;
+    color: var(--text);
+    touch-action: manipulation;
+  }
+
+  .fyren-side-quick__row:hover {
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .fyren-side-quick__icon-shell {
+    @apply flex h-11 w-11 items-center justify-center rounded-full;
+    border: 1.5px solid color-mix(in srgb, var(--accent-light) 48%, transparent);
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    box-shadow:
+      0 0 14px color-mix(in srgb, var(--accent) 12%, transparent),
+      inset 0 1px 0 rgba(255, 248, 220, 0.06);
+  }
+
+  .fyren-side-quick__glyph {
+    @apply h-[1.35rem] w-[1.35rem] text-accent-light;
+  }
+
+  .fyren-side-quick__row-label {
+    @apply max-w-[4.75rem] text-[8px] font-semibold uppercase leading-tight tracking-[0.12em] text-accent-light;
+  }
+
+  .fyren-side-quick__hide {
+    @apply mx-auto mb-2 mt-0.5 flex flex-col items-center gap-1 border-0 bg-transparent px-2 py-1 text-[8px] uppercase tracking-[0.14em] text-text-dim transition-colors;
+  }
+
+  .fyren-side-quick__hide:hover {
+    @apply text-accent;
+  }
+
+  .fyren-side-quick__hide-icon {
+    @apply h-3 w-3 text-accent/70;
+  }
+
+  .fyren-side-quick__toggle {
+    @apply pointer-events-auto relative flex h-[3.15rem] w-[3.15rem] shrink-0 items-center justify-center rounded-full border transition-transform;
+    margin-right: -0.35rem;
+    border-color: color-mix(in srgb, var(--accent-light) 55%, transparent);
+    background: radial-gradient(
+      circle at 35% 30%,
+      color-mix(in srgb, var(--surface-3) 92%, transparent),
+      color-mix(in srgb, var(--bg) 94%, transparent)
+    );
+    box-shadow:
+      0 0 18px color-mix(in srgb, var(--accent) 22%, transparent),
+      0 6px 18px rgba(0, 0, 0, 0.42),
+      inset 0 1px 0 rgba(255, 248, 220, 0.1);
+    touch-action: manipulation;
+  }
+
+  .fyren-side-quick__toggle:hover {
+    transform: translateX(-2px);
+    border-color: color-mix(in srgb, var(--accent-light) 72%, transparent);
+  }
+
+  .fyren-side-quick--open .fyren-side-quick__toggle {
+    margin-right: 0;
+    box-shadow:
+      0 0 22px color-mix(in srgb, var(--accent) 28%, transparent),
+      0 8px 20px rgba(0, 0, 0, 0.45);
+  }
+
+  .fyren-side-quick__toggle-mark {
+    @apply h-[1.85rem] w-[1.85rem];
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.35));
   }
 
   .home-hero-kanon__bridge {
@@ -4582,12 +4686,12 @@
   }
 
   .fyren-widget-bar__strip {
-    @apply pointer-events-auto grid w-full grid-cols-4 gap-2 rounded-2xl border border-[0.5px] border-border p-3;
-    background: color-mix(in srgb, var(--surface-2) 94%, transparent);
-    backdrop-filter: blur(16px);
+    @apply pointer-events-auto grid w-full grid-cols-4 gap-1.5 rounded-2xl border border-[0.5px] border-border/50 p-2;
+    background: color-mix(in srgb, var(--surface-2) 68%, transparent);
+    backdrop-filter: blur(20px);
     box-shadow:
-      0 12px 36px rgba(0, 0, 0, 0.48),
-      0 0 0 1px rgba(255, 255, 255, 0.04);
+      0 8px 28px rgba(0, 0, 0, 0.32),
+      0 0 0 1px rgba(255, 255, 255, 0.03);
     transform-origin: bottom center;
     transition:
       transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
@@ -4603,16 +4707,16 @@
   }
 
   .fyren-widget-bar__action {
-    @apply flex min-w-0 flex-col items-center gap-1.5 rounded-xl px-1 py-1.5 text-text-muted transition-colors hover:bg-surface-3/70 hover:text-accent;
+    @apply flex min-w-0 flex-col items-center gap-1 rounded-lg px-0.5 py-1 text-text-muted transition-colors hover:bg-surface-3/50 hover:text-accent;
   }
 
   .fyren-widget-bar__icon-shell {
-    @apply relative flex h-[3.35rem] w-[3.35rem] shrink-0 items-center justify-center rounded-xl;
-    border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
-    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    @apply relative flex h-[2.85rem] w-[2.85rem] shrink-0 items-center justify-center rounded-xl;
+    border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+    background: color-mix(in srgb, var(--bg) 55%, transparent);
     box-shadow:
-      0 2px 10px rgba(0, 0, 0, 0.38),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      0 1px 6px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
   }
 
   .fyren-widget-bar__action:hover .fyren-widget-bar__icon-shell {
@@ -4623,14 +4727,14 @@
   }
 
   .fyren-widget-bar__drawer-l2 {
-    height: 2rem;
-    width: 2rem;
-    opacity: 0.96;
-    filter: drop-shadow(0 1px 3px var(--color-glass-dark-35));
+    height: 1.65rem;
+    width: 1.65rem;
+    opacity: 0.92;
+    filter: drop-shadow(0 1px 2px var(--color-glass-dark-35));
   }
 
   .fyren-widget-bar__label {
-    @apply max-w-full truncate text-center text-[9.5px] leading-tight tracking-wide text-text-dim;
+    @apply max-w-full truncate text-center text-[9px] leading-tight tracking-wide text-text-dim;
   }
 
   .fyren-widget-bar__action:hover .fyren-widget-bar__label {
@@ -4639,20 +4743,20 @@
 
   @media (min-width: 480px) {
     .fyren-widget-bar__strip {
-      @apply gap-2.5 p-3.5;
+      @apply gap-2 p-2.5;
     }
 
     .fyren-widget-bar__icon-shell {
-      @apply h-[3.55rem] w-[3.55rem];
+      @apply h-[3rem] w-[3rem];
     }
 
     .fyren-widget-bar__drawer-l2 {
-      height: 2.15rem;
-      width: 2.15rem;
+      height: 1.85rem;
+      width: 1.85rem;
     }
 
     .fyren-widget-bar__label {
-      @apply text-[10px];
+      @apply text-[9px];
     }
   }
 
@@ -5817,31 +5921,38 @@
     @apply text-rose-300/90;
   }
 
-  .mabra-hub-collapsible {
+  .mabra-hub-collapsible,
+  .calm-collapsible {
     @apply mb-3 rounded-xl border border-border-strong/70 bg-bg/20;
   }
 
-  .mabra-hub-collapsible__trigger {
+  .mabra-hub-collapsible__trigger,
+  .calm-collapsible__trigger {
     @apply flex w-full items-center gap-2 px-3 py-2.5 text-left text-xs transition-colors hover:text-text;
   }
 
-  .mabra-hub-collapsible__title {
+  .mabra-hub-collapsible__title,
+  .calm-collapsible__title {
     @apply flex-1 font-medium text-accent/85;
   }
 
-  .mabra-hub-collapsible__meta {
+  .mabra-hub-collapsible__meta,
+  .calm-collapsible__meta {
     @apply text-[10px] tabular-nums text-text-dim;
   }
 
-  .mabra-hub-collapsible__chevron {
+  .mabra-hub-collapsible__chevron,
+  .calm-collapsible__chevron {
     @apply h-3.5 w-3.5 shrink-0 text-text-dim transition-transform duration-200;
   }
 
-  .mabra-hub-collapsible--open .mabra-hub-collapsible__chevron {
+  .mabra-hub-collapsible--open .mabra-hub-collapsible__chevron,
+  .calm-collapsible--open .calm-collapsible__chevron {
     transform: rotate(180deg);
   }
 
-  .mabra-hub-collapsible__body {
+  .mabra-hub-collapsible__body,
+  .calm-collapsible__body {
     @apply border-t border-border-strong/60 px-3 pb-3 pt-2;
   }
 

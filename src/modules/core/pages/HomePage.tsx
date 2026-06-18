@@ -35,7 +35,8 @@ export function HomePage() {
       <HomeHeroKanon onCheckInSaved={() => setAdaptiveRefreshKey((k) => k + 1)} />
 
       {showAdaptiveCards || showDevelopmentRail ? (
-        <div className="mx-auto w-full max-w-2xl space-y-6 px-1">
+        <div className="mx-auto w-full max-w-2xl space-y-4 px-1">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-text-dim">Mer för dig</p>
           {showAdaptiveCards ? (
             <AdaptiveMemoryCards refreshKey={adaptiveRefreshKey} presetId={presetId} />
           ) : null}

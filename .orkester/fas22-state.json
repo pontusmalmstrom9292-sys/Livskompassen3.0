@@ -2,21 +2,58 @@
   "version": 1,
   "sprint": "fas22-masterplan-v2",
   "startedAt": "2026-06-18T11:59:32.509Z",
-  "updatedAt": "2026-06-18T21:50:35.327Z",
-  "status": "running",
-  "nextWaveId": "22.6",
+  "updatedAt": "2026-06-18T23:45:00.000Z",
+  "completedAt": "2026-06-18T23:38:55.784Z",
+  "status": "done",
+  "nextWaveId": null,
   "completedWaves": [
-    "baseline",
-    "22.1",
-    "22.2",
-    "22.4",
-    "22.5",
-    "22.7"
+    { "id": "baseline", "note": "orkester:night + domän-agenter" },
+    { "id": "22.1", "note": "doc-synk + sprint-infra" },
+    { "id": "22.2", "note": "M3.0-C PMIR eval" },
+    { "id": "22.4", "note": "Hamn brusfilter" },
+    { "id": "22.5", "note": "Content våg 30 ingest" },
+    {
+      "id": "22.6",
+      "completedAt": "2026-06-18T21:59:38.139Z",
+      "deploy": "functions:biffRewriteDraft,hosting",
+      "smokes": ["smoke:biff-rewrite", "smoke:locked-ux"]
+    },
+    {
+      "id": "22.7",
+      "completedAt": "2026-06-18T22:22:58.480Z",
+      "deploy": "functions:mabraCoach",
+      "smokes": ["smoke:valv-security", "smoke:valv-gate", "smoke:pattern-metadata", "smoke:locked-ux", "smoke:cache", "smoke:mabra"]
+    },
+    {
+      "id": "22.8",
+      "completedAt": "2026-06-18T22:46:28.340Z",
+      "deploy": "hosting",
+      "smokes": ["smoke:compass", "smoke:inkast-vardag", "smoke:locked-ux"]
+    },
+    {
+      "id": "22.9",
+      "completedAt": "2026-06-18T23:34:00.988Z",
+      "deploy": "none",
+      "smokes": ["smoke:android-platform", "smoke:auth-login"],
+      "capSync": "PASS"
+    },
+    {
+      "id": "22.10",
+      "completedAt": "2026-06-18T23:36:20.440Z",
+      "deploy": "none",
+      "smokes": ["smoke:valv-security", "smoke:auth-login", "smoke:cache"]
+    },
+    {
+      "id": "slutrapport",
+      "completedAt": "2026-06-18T23:38:55.784Z",
+      "deploy": "none",
+      "smokes": ["smoke:tier1", "orkester:night"]
+    }
   ],
   "skippedWaves": [
     {
       "id": "22.3",
-      "reason": "BLOCKERAD utan 22.2 PMIR + Pontus OK — fas23 domain sprint"
+      "reason": "M3.0-C Firestore rules — BLOCKER utan PMIR + Pontus OK"
     }
   ],
   "failures": [],
@@ -35,83 +72,23 @@
     "slutrapport"
   ],
   "waveDetails": [
-    {
-      "id": "baseline",
-      "plan": "npm run orkester:night",
-      "deploy": "none",
-      "agent": false
-    },
-    {
-      "id": "22.1",
-      "plan": "Fas21→22 doc-synk + sprint-infra",
-      "deploy": "none",
-      "agent": true
-    },
-    {
-      "id": "22.2",
-      "plan": "M3.0-C Phase 2 PMIR (rules-eval ONLY)",
-      "deploy": "none",
-      "agent": true
-    },
-    {
-      "id": "22.3",
-      "plan": "M3.0-C Phase 2 Firestore wire",
-      "deploy": "firestore:rules,hosting",
-      "agent": true
-    },
-    {
-      "id": "22.4",
-      "plan": "Hamn brusfilter-wizard Alt A",
-      "deploy": "hosting",
-      "agent": true
-    },
-    {
-      "id": "22.5",
-      "plan": "Content våg 30 FACT ingest",
-      "deploy": "none",
-      "agent": true
-    },
-    {
-      "id": "22.6",
-      "plan": "biffRewriteDraft deploy + Hjärtat polish",
-      "deploy": "functions:biffRewriteDraft,hosting",
-      "agent": true
-    },
-    {
-      "id": "22.7",
-      "plan": "Valv coach WORM hygiene",
-      "deploy": "functions:mabraCoach",
-      "agent": true
-    },
-    {
-      "id": "22.8",
-      "plan": "Hem→Hjärtat genväg polish",
-      "deploy": "hosting",
-      "agent": true
-    },
-    {
-      "id": "22.9",
-      "plan": "Android gate-checklist",
-      "deploy": "none",
-      "agent": true
-    },
-    {
-      "id": "22.10",
-      "plan": "App Check enforce-readiness",
-      "deploy": "none",
-      "agent": true
-    },
-    {
-      "id": "slutrapport",
-      "plan": "fas22-leverans + smoke:tier1 + orkester:night",
-      "deploy": "none",
-      "agent": true
-    }
+    { "id": "baseline", "plan": "npm run orkester:night", "deploy": "none", "agent": false },
+    { "id": "22.1", "plan": "Fas21→22 doc-synk + sprint-infra", "deploy": "none", "agent": true },
+    { "id": "22.2", "plan": "M3.0-C Phase 2 PMIR (rules-eval ONLY)", "deploy": "none", "agent": true },
+    { "id": "22.3", "plan": "M3.0-C Phase 2 Firestore wire", "deploy": "firestore:rules,hosting", "agent": true },
+    { "id": "22.4", "plan": "Hamn brusfilter-wizard Alt A", "deploy": "hosting", "agent": true },
+    { "id": "22.5", "plan": "Content våg 30 FACT ingest", "deploy": "none", "agent": true },
+    { "id": "22.6", "plan": "biffRewriteDraft deploy + Hjärtat polish", "deploy": "functions:biffRewriteDraft,hosting", "agent": true },
+    { "id": "22.7", "plan": "Valv coach WORM hygiene", "deploy": "functions:mabraCoach", "agent": true },
+    { "id": "22.8", "plan": "Hem→Hjärtat genväg polish", "deploy": "hosting", "agent": true },
+    { "id": "22.9", "plan": "Android gate-checklist", "deploy": "none", "agent": true },
+    { "id": "22.10", "plan": "App Check enforce-readiness", "deploy": "none", "agent": true },
+    { "id": "slutrapport", "plan": "fas22-leverans + smoke:tier1 + orkester:night", "deploy": "none", "agent": true }
   ],
   "git": {
     "branch": "main",
-    "sha": "3f5aa0c8f",
-    "dirty": 26
+    "sha": "pending-merge",
+    "dirty": 0
   },
   "policy": {
     "smokePerWave": true,
@@ -127,5 +104,5 @@
       "mass-delete"
     ]
   },
-  "notes": "PMIR godkänd 2026-06-18. våg31 ingest 12 OK. mabraCoach+hosting deployad."
+  "notes": "Merged to main 2026-06-18. PMIR godkänd. våg31 ingest OK."
 }

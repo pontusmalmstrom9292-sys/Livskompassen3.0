@@ -5,6 +5,7 @@ import { clsx } from 'clsx';
 import { LifeBuoy } from 'lucide-react';
 import { FloatingDock } from './FloatingDock';
 import { FyrenWidgetBar } from '../components/FyrenWidgetBar';
+import { FyrenSideQuickDock } from '../components/FyrenSideQuickDock';
 import { FyrenWidgetProvider } from '../components/fyrenWidgetContext';
 
 import { AppHeaderBar } from '../components/AppHeaderBar';
@@ -12,7 +13,6 @@ import { AmbientBackground } from './AmbientBackground';
 import { KompisHeaderVaultButton } from '../components/KompisHeaderVaultButton';
 import { AccountAuthMenu } from '../auth/AccountAuthMenu';
 import { NavigationDrawer } from './NavigationDrawer';
-import { BiffWidgetFAB } from '../components/BiffWidgetFAB';
 import { FirestoreNetworkChip } from '../components/FirestoreNetworkChip';
 import { SystemErrorBanner } from '../components/SystemErrorBanner';
 import { useDesignPack } from '../design/useDesignPack';
@@ -107,7 +107,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
       {!barnportenChildShell ? (
         <>
-          <BiffWidgetFAB />
+          <FyrenSideQuickDock />
           <FyrenWidgetBar />
           <FloatingDock />
         </>

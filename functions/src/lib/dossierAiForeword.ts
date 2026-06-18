@@ -4,25 +4,7 @@ import type { CanonicalDossierEntry } from './dossierCanonicalHash';
 
 const DOSSIER_AI_MODEL = 'gemini-2.5-flash';
 
-const DOSSIER_AI_SCHEMA = {
-  type: 'object',
-  properties: {
-    foreword: { type: 'string' },
-    timeline: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          date: { type: 'string' },
-          fact: { type: 'string' },
-          sourceRef: { type: 'string' },
-        },
-        required: ['date', 'fact'],
-      },
-    },
-  },
-  required: ['foreword', 'timeline'],
-} as const;
+import { DOSSIER_FOREWORD_RESPONSE_SCHEMA } from '../schemas/dossierForeword';
 
 const DOSSIER_AI_SYSTEM = `Du skriver ett neutralt AI-försätt och en faktabaserad tidslinje till en dossier-export från Livskompassen.
 
@@ -180,7 +162,7 @@ Returnera JSON enligt schema.`;
         temperature: 0.12,
         maxOutputTokens: 1800,
         responseMimeType: 'application/json',
-        responseSchema: DOSSIER_AI_SCHEMA,
+        responseSchema: DOSSIER_FOREWORD_RESPONSE_SCHEMA,
       },
     });
 

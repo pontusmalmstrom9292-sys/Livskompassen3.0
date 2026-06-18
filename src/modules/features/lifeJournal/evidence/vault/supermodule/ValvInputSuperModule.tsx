@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import '../components/valv.css';
@@ -8,7 +8,6 @@ import { ValvInputModePicker } from './ValvInputModePicker';
 import {
   DEFAULT_VALV_INPUT_MODE,
   valvInputModeDef,
-  VALV_INPUT_MODES_PRIMARY,
   type ValvInputMode,
 } from './valvInputModes';
 import { writeValvLastInputMode } from './valvLastModeStorage';
@@ -41,9 +40,6 @@ export function ValvInputSuperModule({
   onCitationClick,
   onVaultTabChange,
 }: ValvInputSuperModuleProps) {
-  const activeDef = useMemo(() => valvInputModeDef(activeMode), [activeMode]);
-  void VALV_INPUT_MODES_PRIMARY;
-
   const setMode = useCallback(
     (mode: ValvInputMode) => {
       writeValvLastInputMode(mode);
@@ -58,20 +54,14 @@ export function ValvInputSuperModule({
       depth
       noHover
       bare
-      className="overflow-hidden !p-4 sm:!p-5"
+      className="!p-4 sm:!p-5"
     >
-      <div className="mb-4 flex items-start justify-between gap-3">
-        <header className="valv-forensic-header min-w-0 flex-1">
-          <p className="valv-forensic-eyebrow">Sanningsarkiv</p>
-          <h2 className="valv-forensic-title">{activeDef.label}</h2>
-          <p className="valv-forensic-lead">{activeDef.description}</p>
-        </header>
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <ValvInputModePicker activeMode={activeMode} onChange={setMode} />
         <ModuleHelpFromRegistry moduleId="valv" mode={activeMode} />
       </div>
 
-      <ValvInputModePicker activeMode={activeMode} onChange={setMode} />
-
-      <div className="calm-scroll-island mt-4 max-h-[min(75vh,720px)] overflow-y-auto pr-1">
+      <div className="mt-2 pr-1">
         {activeMode === 'granska' ? (
           <InboxReviewQueue
             prioritizeBevis
@@ -83,7 +73,7 @@ export function ValvInputSuperModule({
           />
         ) : (
           <ValvSuperModule
-            variant={activeDef.zone}
+            variant={valvInputModeDef(activeMode).zone}
             vaultTab={vaultTab}
             userId={userId}
             gateOk={gateOk}

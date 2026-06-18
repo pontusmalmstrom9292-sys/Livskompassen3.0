@@ -28,6 +28,8 @@ export const WORM_COLLECTIONS_NEVER_PURGE = [
   'transactions',
   'evolution_ledger',
   'evolution_hub',
+  'adaptation_ledger',
+  'adaptation_prefs',
   'recovery_profile',
 ] as const;
 
