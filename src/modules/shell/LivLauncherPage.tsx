@@ -8,6 +8,7 @@ import { DashboardPage as CompassDashboard } from '@/features/dailyLife/wellbein
 import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 import { EconomyOverviewPanel } from '@/features/dailyLife/wellbeing/economy/components/EconomyOverviewPanel';
 import { EkonomiInputSuperModule } from '@/features/dailyLife/wellbeing/economy/supermodule';
+import { MabraHubView } from '@/features/dailyLife/wellbeing/mabra/views/MabraHubView';
 import { LivLauncherGrid, type LivLauncherId } from './LivLauncherGrid';
 import {
   LIV_LAUNCHER_EXTERNAL,
@@ -18,7 +19,7 @@ import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 
-type LivInlineTab = 'kompasser' | 'ekonomi';
+type LivInlineTab = 'kompasser' | 'ekonomi' | 'mabra';
 
 /** Superhub deep links från launcher (W3). */
 const LIV_LAUNCHER_SUPERHUB_TARGETS: Partial<Record<LivLauncherId, string>> = {
@@ -27,6 +28,7 @@ const LIV_LAUNCHER_SUPERHUB_TARGETS: Partial<Record<LivLauncherId, string>> = {
 
 function resolveInlineTab(raw: string | null): LivInlineTab {
   if (raw === 'ekonomi') return 'ekonomi';
+  if (raw === 'mabra') return 'mabra';
   return 'kompasser';
 }
 
@@ -118,6 +120,12 @@ export function LivLauncherPage() {
                   <EkonomiInputSuperModule userId={user?.uid ?? ''} />
                 )}
               </div>
+            </BentoCard>
+          )}
+
+          {activeTab === 'mabra' && (
+            <BentoCard glow="green" depth noHover bare className="!p-4 sm:!p-5">
+              <MabraHubView />
             </BentoCard>
           )}
         </main>

@@ -2,7 +2,6 @@ import { vaultDrawerPath } from '@/core/navigation/navTruth';
 
 /** Launcher-mål — tunga moduler får egen route (ingen nested TabBar). */
 export const LIV_LAUNCHER_EXTERNAL: Record<string, string> = {
-  mabra: '/vardagen?tab=mabra',
   handling: '/planering?tab=handling',
   inkorg: '/planering?tab=inkorg',
   projekt: '/projekt',
@@ -11,7 +10,8 @@ export const LIV_LAUNCHER_EXTERNAL: Record<string, string> = {
   tidrapportering: '/arbetsliv',
 };
 
-export const LIV_LAUNCHER_INLINE_TABS = new Set(['kompasser', 'ekonomi']);
+/** MåBra hybrid-8 (M3.0-B) visas inline med pelarkort — djup-länkar via `/mabra/*`. */
+export const LIV_LAUNCHER_INLINE_TABS = new Set(['kompasser', 'ekonomi', 'mabra']);
 
 export function resolveLivLegacyTabRedirect(tab: string | null): string | null {
   if (!tab) return null;

@@ -197,7 +197,7 @@ function main() {
   );
   const appRoutes = read('src/modules/core/routing/AppRoutes.tsx');
   assert(!appRoutes.includes('VardagenShellPage'), 'AppRoutes.tsx', 'får inte mounta VardagenShellPage');
-  mustInclude('src/modules/shell/LivLauncherPage.tsx', 'LivLauncherPage', 'LIV_LAUNCHER_EXTERNAL', 'LivLauncherGrid');
+  mustInclude('src/modules/shell/LivLauncherPage.tsx', 'LivLauncherPage', 'LIV_LAUNCHER_EXTERNAL', 'LivLauncherGrid', 'MabraHubView');
   mustInclude('src/modules/shell/LivLauncherGrid.tsx', 'liv-launcher-card', 'LIV_LAUNCHER_CARDS');
   mustInclude('src/styles/obsidian-calm-2.css', '.liv-launcher-grid', '.liv-launcher-card');
   mustInclude('src/modules/shell/LivBackLink.tsx', 'Liv och göra', 'NAV_PATHS.VARDAGEN');

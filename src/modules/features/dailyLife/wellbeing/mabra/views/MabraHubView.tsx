@@ -25,6 +25,7 @@ import type { MabraHubAction, MabraHubItem } from '../mabraHubRegistry';
 import type { MabraSymptomHub } from '../types';
 import type { MabraProjectId } from '../constants/mabraProjects';
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
 
 const MabraGoalPanelLazy = lazy(() =>
   import('../components/MabraGoalPanel').then((m) => ({ default: m.MabraGoalPanel })),
@@ -85,11 +86,14 @@ export const MabraHubView = memo(function MabraHubView() {
   const breathingOnlyRef = useRef(false);
 
   useEffect(() => {
-    const onHubIndex = location.pathname === '/mabra' || location.pathname === '/mabra/';
-    if (onHubIndex && !hasSeenMabraModulValjare()) {
+    const onMabraHubIndex =
+      location.pathname === '/mabra' ||
+      location.pathname === '/mabra/' ||
+      (location.pathname === NAV_PATHS.VARDAGEN && searchParams.get('tab') === 'mabra');
+    if (onMabraHubIndex && !hasSeenMabraModulValjare()) {
       setShowHubPicker(true);
     }
-  }, [location.pathname, setShowHubPicker]);
+  }, [location.pathname, searchParams, setShowHubPicker]);
 
   useEffect(() => {
     if (searchParams.get('project')) {

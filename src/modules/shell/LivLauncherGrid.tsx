@@ -59,7 +59,6 @@ export const LIV_LAUNCHER_CARDS: readonly LauncherCardDef[] = [
     hint: 'KBT, självmedkänsla, vanor',
     icon: Sparkles,
     glow: 'green',
-    external: true,
   },
   {
     id: 'projekt',

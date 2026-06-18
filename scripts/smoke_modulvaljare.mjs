@@ -84,6 +84,18 @@ function main() {
     'MabraModulValjare',
     'handleModulChoice',
     'showHubPicker',
+    'NAV_PATHS.VARDAGEN',
+  );
+
+  mustInclude(
+    'src/modules/shell/LivLauncherPage.tsx',
+    'MabraHubView',
+    "activeTab === 'mabra'",
+  );
+  mustInclude(
+    'src/modules/shell/livLauncherRoutes.ts',
+    'LIV_LAUNCHER_INLINE_TABS',
+    "'mabra'",
   );
 
   mustInclude(

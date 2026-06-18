@@ -122,14 +122,16 @@ function main() {
   mustInclude(
     'src/modules/core/routing/AppRoutes.tsx',
     'path="/mabra"',
-    'MabraPage',
+    'RedirectMabraRootToVardagen',
+    'MabraRoutes',
     'path="/planering"',
     'PlaneringPage',
   );
 
   mustInclude(
     'src/modules/shell/livLauncherRoutes.ts',
-    "mabra: '/mabra'",
+    "'mabra'",
+    'LIV_LAUNCHER_INLINE_TABS',
     "handling: '/planering?tab=handling'",
     'resolveLivLegacyTabRedirect',
   );
@@ -143,9 +145,14 @@ function main() {
   console.log('[smoke:superhub] Shell-sidor monteras…');
   mustInclude('src/modules/shell/LivLauncherPage.tsx', 'LivLauncherGrid', 'LIV_LAUNCHER_EXTERNAL');
   mustInclude(
+    'src/modules/shell/LivLauncherPage.tsx',
+    'MabraHubView',
+    "activeTab === 'mabra'",
+  );
+  mustInclude(
     'src/modules/core/pages/FamiljenPage.tsx',
     'FamiljenInputSuperModule',
-    'HubPageShell',
+    'ModuleShell',
     "return 'reflektion'",
   );
   mustInclude(
