@@ -2802,10 +2802,22 @@ html.design-freeport-root body {
 /* Modell A — zon-dock + Fyren-lik snabbstart (4×N rutnät, ingen sid-scroll) */
 .design-freeport__phone--modell-a {
   position: relative;
+  overflow: visible;
+  margin-bottom: 1.25rem;
 }
 
 .design-freeport__modell-a-dock {
+  --fp-dock-fab-size: 6.75rem;
+  --fp-dock-rail-h: 2.5rem;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 6;
+  overflow: visible;
+  min-height: var(--fp-dock-rail-h);
+  padding: 0 0.75rem 0.625rem;
+  border-top: var(--fp-border-bevel-strong);
   background: linear-gradient(
     180deg,
     transparent 0%,
@@ -2817,47 +2829,103 @@ html.design-freeport-root body {
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-/* D1 — mörk platta + synlig LivskompassMark (ej solid guldring) */
-.design-freeport__phone--modell-a .design-freeport__modell-a-dock-fab {
-  position: relative;
-  width: 3.5rem;
-  height: 3.5rem;
-  margin-top: -1.35rem;
+.design-freeport__modell-a-dock-rail {
+  display: grid;
+  grid-template-columns: 1fr 1fr var(--fp-dock-fab-size) 1fr 1fr;
+  align-items: end;
+  gap: 0.25rem;
+  min-height: var(--fp-dock-rail-h);
+}
+
+.design-freeport__modell-a-dock-fab-gap {
+  width: var(--fp-dock-fab-size);
+  height: 0;
+  pointer-events: none;
+}
+
+.design-freeport__modell-a-dock-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.25rem;
+  border: none;
+  background: transparent;
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fp-text-dim);
+}
+
+.design-freeport__modell-a-dock-item--on {
+  color: var(--fp-accent);
+}
+
+.design-freeport__modell-a-dock-dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.35;
+}
+
+.design-freeport__modell-a-dock-item--on .design-freeport__modell-a-dock-dot {
+  opacity: 1;
+  background: var(--fp-accent);
+  box-shadow: 0 0 8px var(--fp-accent-glow);
+}
+
+.design-freeport__phone--modell-a .design-freeport__phone-scroll {
+  padding-bottom: calc(var(--fp-dock-fab-size) * 0.55 + 1.5rem);
+}
+
+/* D1 — absolut centrum på hela docken (symmetrisk ovan/under) */
+.design-freeport__modell-a-dock-fab {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--fp-dock-fab-size);
+  height: var(--fp-dock-fab-size);
+  margin: 0;
+  padding: 0;
   overflow: visible;
   border: 2.5px solid color-mix(in srgb, var(--fp-accent) 72%, transparent);
-  background: linear-gradient(
-    165deg,
-    #111b2d 0%,
-    #09111e 48%,
-    #050b14 100%
-  );
+  border-radius: 999px;
+  background: linear-gradient(165deg, #111b2d 0%, #09111e 48%, #050b14 100%);
   color: var(--fp-accent);
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
   box-shadow:
     0 1px 0 rgba(255, 243, 210, 0.14) inset,
     0 -4px 12px rgba(0, 0, 0, 0.42) inset,
-    0 8px 22px rgba(0, 0, 0, 0.52),
-    0 0 20px rgba(212, 175, 55, 0.22);
+    0 10px 28px rgba(0, 0, 0, 0.55),
+    0 0 24px rgba(212, 175, 55, 0.24);
 }
 
-.design-freeport__phone--modell-a .design-freeport__modell-a-dock-fab::before {
+.design-freeport__modell-a-dock-fab::before {
   content: '';
   position: absolute;
-  inset: -0.65rem;
+  inset: -0.85rem;
   z-index: -1;
   border-radius: 999px;
   background: radial-gradient(
     circle,
-    rgba(212, 175, 55, 0.3) 0%,
-    rgba(212, 175, 55, 0.1) 42%,
+    rgba(212, 175, 55, 0.32) 0%,
+    rgba(212, 175, 55, 0.12) 42%,
     transparent 72%
   );
   pointer-events: none;
 }
 
-.design-freeport__phone--modell-a .design-freeport__bottom-nav-fab-mark {
-  width: 2.35rem;
-  height: 2.35rem;
-  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.38));
+.design-freeport__modell-a-dock-fab-mark {
+  width: 3.65rem;
+  height: 3.65rem;
+  filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.42));
 }
 
 .design-freeport__modell-a-dock-fab--open {
@@ -2878,6 +2946,10 @@ html.design-freeport-root body {
   padding: 0;
   background: rgba(0, 0, 0, 0.28);
   backdrop-filter: blur(1px);
+}
+
+.design-freeport__phone--modell-a .design-freeport__snabb-panel {
+  bottom: calc(var(--fp-dock-fab-size) * 0.52 + 0.75rem);
 }
 
 .design-freeport__snabb-panel {
