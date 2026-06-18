@@ -253,38 +253,8 @@ export const VALUES_COMPASS_COPY = {
   savedHint: 'Sparat. Du kan ändra när som helst.',
 } as const;
 
-export const GROUNDING_STEPS = [
-  {
-    sense: 'Se',
-    count: 5,
-    prompt: 'Hitta 5 saker du kan se runt dig.',
-    detail: 'Färger, former, ljus — vad som helst.',
-  },
-  {
-    sense: 'Hör',
-    count: 4,
-    prompt: 'Lyssna efter 4 ljud.',
-    detail: 'Nära eller långt borta. Inget behöver namnges högt.',
-  },
-  {
-    sense: 'Känna',
-    count: 3,
-    prompt: 'Märk 3 saker kroppen känner.',
-    detail: 'Fötter mot golvet, kläder, temperaturen.',
-  },
-  {
-    sense: 'Lukta',
-    count: 2,
-    prompt: 'Finns 2 dofter du kan märka?',
-    detail: 'Om inget kommer — det är okej. Hoppa vidare.',
-  },
-  {
-    sense: 'Smaka',
-    count: 1,
-    prompt: 'En smak — eller bara munnen som den är.',
-    detail: 'Du är här. Det räcker.',
-  },
-] as const;
+/** @deprecated import MB_PLAY_54321_STEPS — single bank source */
+export { MB_PLAY_54321_STEPS as GROUNDING_STEPS } from './content/grounding54321Play';
 
 export const BREATH_PHASE_SECONDS = {
   inhale: 4,

@@ -73,7 +73,7 @@ export function HomeBrassLayoutA({ onCheckInSaved }: Props) {
         </p>
       </div>
 
-      <section className="home-brass-a__hero" aria-label="Dagens ankare">
+      <section className="home-brass-a__hero brass-glass brass-glass--hero" aria-label="Dagens ankare">
         <p className="home-brass-a__label">Dagens ankare</p>
         <h2 className="home-brass-a__hero-title font-display-serif">
           {anchor.trim() || 'Vad är viktigast idag?'}
@@ -84,7 +84,7 @@ export function HomeBrassLayoutA({ onCheckInSaved }: Props) {
         </label>
         <textarea
           id="home-brass-anchor"
-          className="home-brass-a__hero-inset neu-inset w-full resize-none border border-border/40 bg-bg px-3 py-2 text-sm text-text"
+          className="home-brass-a__hero-inset brass-inset neu-inset w-full resize-none border-0 bg-transparent px-3 py-2 text-sm text-text"
           rows={2}
           placeholder="T.ex. lugnt samtal med barnen efter skolan …"
           value={anchor}
@@ -115,7 +115,7 @@ export function HomeBrassLayoutA({ onCheckInSaved }: Props) {
             <button
               key={item.id}
               type="button"
-              className="home-brass-a__tile home-brass-a__tile--icon"
+              className="home-brass-a__tile home-brass-a__tile--icon brass-glass"
               onClick={() => navigate(item.to)}
             >
               <Icon className="home-brass-a__tile-icon" aria-hidden />
@@ -127,7 +127,7 @@ export function HomeBrassLayoutA({ onCheckInSaved }: Props) {
 
       <button
         type="button"
-        className="home-brass-a__strip"
+        className="home-brass-a__strip brass-glass"
         onClick={() => navigate(QUICK_CAPTURE[2].to)}
       >
         <span className="home-brass-a__strip-ico" aria-hidden>

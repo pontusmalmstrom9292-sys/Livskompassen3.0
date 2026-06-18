@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { GROUNDING_STEPS } from '../constants';
+import { MB_PLAY_54321_STEPS } from '../content/grounding54321Play';
 
 type Props = {
   onComplete: (elapsedSeconds: number) => void;
@@ -15,8 +15,8 @@ export function GroundingExercise({ onComplete, onExit }: Props) {
     onCompleteRef.current = onComplete;
   }, [onComplete]);
 
-  const step = GROUNDING_STEPS[stepIndex];
-  const isLast = stepIndex === GROUNDING_STEPS.length - 1;
+  const step = MB_PLAY_54321_STEPS[stepIndex];
+  const isLast = stepIndex === MB_PLAY_54321_STEPS.length - 1;
 
   const finish = useCallback(() => {
     const elapsedSeconds = Math.round((Date.now() - startedAt.current) / 1000);
@@ -41,7 +41,7 @@ export function GroundingExercise({ onComplete, onExit }: Props) {
         <p className="mt-2 text-sm text-text-muted">{step.detail}</p>
       </div>
       <p className="text-sm text-text-dim">
-        Steg {stepIndex + 1} av {GROUNDING_STEPS.length}
+        Steg {stepIndex + 1} av {MB_PLAY_54321_STEPS.length}
       </p>
       <div className="flex w-full max-w-sm flex-col gap-2">
         <button type="button" onClick={handleNext} className="btn-pill--secondary">

@@ -33,6 +33,22 @@ function assert(condition, message) {
 }
 
 async function main() {
+  console.log('[smoke] MB-PLAY-54321 wizard wiring…');
+  const hubRegistry = readFileSync(resolve(root, 'src/modules/features/dailyLife/wellbeing/mabra/mabraHubRegistry.ts'), 'utf8');
+  const microPlay = readFileSync(
+    resolve(root, 'src/modules/features/dailyLife/wellbeing/mabra/components/tools/MabraMicroPlayTool.tsx'),
+    'utf8',
+  );
+  const playBank = readFileSync(
+    resolve(root, 'src/modules/features/dailyLife/wellbeing/mabra/content/grounding54321Play.ts'),
+    'utf8',
+  );
+  assert(hubRegistry.includes("playBankId: 'MB-PLAY-54321'"), 'hub registry saknar play-54321-wizard');
+  assert(microPlay.includes('MabraGrounding54321Wizard'), 'micro_play saknar 54321 wizard route');
+  assert(playBank.includes('sense: \'Höra\'') && playBank.includes('count: 4'), '54321 bank stegordning fel (4=höra)');
+  assert(playBank.includes('sense: \'Känna\'') && playBank.includes('count: 3'), '54321 bank stegordning fel (3=känna)');
+  console.log('[smoke] MB-PLAY-54321 wiring OK');
+
   const env = loadEnv();
   const app = initializeApp({
     apiKey: env.VITE_FIREBASE_API_KEY,

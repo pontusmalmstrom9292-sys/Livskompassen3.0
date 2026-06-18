@@ -1,0 +1,222 @@
+/**
+ * Brushed Brass — djup & glas (subtil v2)
+ * Samma guld-stil, dämpad glow · lätt frostglas
+ */
+:root {
+  --bg: #051220;
+  --surface: #121b2e;
+  --surface2: #1a2438;
+  --surface3: #243049;
+  --accent: #d4af37;
+  --accent-light: #e8dcc0;
+  --accent-dim: #9a7b2f;
+  --teal: #2ec4b6;
+  --text: #eaeaea;
+  --muted: #94a3b8;
+  --border: rgba(212, 175, 55, 0.1);
+  --border-strong: rgba(212, 175, 55, 0.28);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --font: Inter, system-ui, sans-serif;
+
+  --neu-out:
+    0 8px 22px rgba(0, 0, 0, 0.5),
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    -3px -3px 10px rgba(255, 255, 255, 0.03);
+  --neu-deep:
+    0 12px 36px rgba(0, 0, 0, 0.58),
+    0 4px 12px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  --neu-in:
+    inset 5px 5px 14px rgba(0, 0, 0, 0.5),
+    inset -2px -2px 8px rgba(255, 255, 255, 0.03);
+  /* Dämpad — samma guld, nästan ingen halo */
+  --glow-gold: 0 0 14px rgba(212, 175, 55, 0.05);
+  --glow-teal: 0 0 12px rgba(46, 196, 182, 0.08);
+  --text-glow-gold: none;
+}
+
+/* Glas + diskret mässingkant */
+.brass-glass {
+  position: relative;
+  isolation: isolate;
+  border-radius: 16px;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 0%, rgba(255, 255, 255, 0.04), transparent 52%),
+    linear-gradient(158deg, rgba(24, 34, 54, 0.72) 0%, rgba(14, 22, 38, 0.58) 100%);
+  backdrop-filter: blur(10px) saturate(1.05);
+  -webkit-backdrop-filter: blur(10px) saturate(1.05);
+  box-shadow: var(--neu-deep);
+}
+
+.brass-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    148deg,
+    rgba(230, 220, 200, 0.22) 0%,
+    rgba(212, 175, 55, 0.14) 38%,
+    rgba(120, 100, 70, 0.2) 72%,
+    rgba(180, 190, 210, 0.08) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.brass-glass::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: calc(16px - 2px);
+  background: radial-gradient(ellipse 70% 45% at 50% 0%, rgba(255, 255, 255, 0.035), transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.brass-glass > * {
+  position: relative;
+  z-index: 1;
+}
+
+.brass-glass--hero {
+  border-radius: 20px;
+  box-shadow: var(--neu-deep), var(--glow-gold);
+}
+
+.brass-glass--hero::after {
+  border-radius: calc(20px - 2px);
+  background:
+    radial-gradient(ellipse 55% 40% at 92% 8%, rgba(212, 175, 55, 0.04), transparent 50%),
+    radial-gradient(ellipse 70% 45% at 50% 0%, rgba(255, 255, 255, 0.04), transparent 55%);
+}
+
+.brass-section-label {
+  margin: 0 0 0.45rem;
+  font-size: 0.48rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  opacity: 0.92;
+}
+
+.brass-inset {
+  border-radius: 12px;
+  padding: 0.45rem 0.5rem;
+  background: rgba(4, 14, 26, 0.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    var(--neu-in);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.brass-sparkline {
+  height: 36px;
+  margin: 0.35rem 0;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.18);
+  position: relative;
+  overflow: hidden;
+}
+
+.brass-sparkline svg {
+  position: absolute;
+  inset: 4px 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 8px);
+  filter: drop-shadow(0 0 3px rgba(212, 175, 55, 0.12));
+}
+
+.brass-stat {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--accent-light);
+  letter-spacing: 0.02em;
+}
+
+.brass-trend {
+  font-size: 0.48rem;
+  color: var(--teal);
+  opacity: 0.9;
+}
+
+.brass-paper {
+  border-radius: 10px;
+  padding: 0.4rem 0.45rem;
+  min-height: 2.2rem;
+  font-size: 0.48rem;
+  color: rgba(234, 234, 234, 0.75);
+  box-shadow: var(--neu-in);
+}
+
+.brass-paper--parchment {
+  background: linear-gradient(160deg, rgba(240, 220, 170, 0.08), rgba(180, 150, 90, 0.04));
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.brass-paper--grid {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    rgba(255, 255, 255, 0.02);
+  background-size: 8px 8px, 8px 8px, auto;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.brass-gantt-bar {
+  height: 6px;
+  border-radius: 999px;
+  margin: 0.28rem 0;
+  background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+  opacity: 0.85;
+}
+
+.brass-gantt-bar--dim {
+  background: linear-gradient(90deg, rgba(148, 163, 184, 0.28), rgba(148, 163, 184, 0.12));
+  opacity: 1;
+}
+
+/* Levande bakgrund — nästan stilla, ingen färgexplosion */
+.phone-alive {
+  position: relative;
+  background: var(--bg);
+}
+.phone-alive::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 85% 45% at 50% -8%, rgba(212, 175, 55, 0.045), transparent 58%),
+    radial-gradient(ellipse 50% 35% at 100% 100%, rgba(99, 102, 241, 0.025), transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-module.brass-glass,
+.tile-sm.brass-glass,
+.tile-strip.brass-glass {
+  border: none;
+}
+
+.hero-module.brass-glass {
+  padding: 0.75rem 0.7rem 0.7rem;
+}
+
+.tile-sm.brass-glass {
+  padding: 0.45rem 0.5rem;
+  text-align: left;
+}
+
+.tile-strip.brass-glass {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.5rem;
+}

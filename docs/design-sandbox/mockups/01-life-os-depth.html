@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LIFE OS djup — desktop ref → mobil en skärm</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="brass-depth-tokens.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(ellipse 70% 50% at 50% -15%, rgba(212, 175, 55, 0.04), transparent 55%),
+        #080c10;
+    }
+    .page-head {
+      padding: 1.25rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-head a { color: var(--accent); font-size: 0.78rem; text-decoration: none; }
+    .page-head h1 { margin: 0.45rem 0 0.25rem; font-family: var(--serif); font-size: 1.25rem; color: var(--accent); letter-spacing: 0.06em; }
+    .page-head p { margin: 0 auto; max-width: 38rem; font-size: 0.8rem; color: var(--muted); line-height: 1.55; }
+    .note {
+      max-width: 720px;
+      margin: 1rem auto 0;
+      padding: 0.65rem 0.85rem;
+      border-radius: 12px;
+      background: rgba(46, 196, 182, 0.06);
+      border: 1px solid rgba(46, 196, 182, 0.22);
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.5;
+      text-align: left;
+    }
+    .note strong { color: var(--teal); }
+
+    .desktop-wrap {
+      max-width: 960px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+    }
+    .desktop-wrap h2 {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 0.75rem;
+      text-align: center;
+    }
+    .action-dashboard {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.65rem;
+      padding: 0.75rem;
+      border-radius: 20px;
+      background: var(--bg);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7);
+      border: 1px solid var(--border);
+    }
+    .action-dashboard .col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .action-dashboard .brass-glass {
+      padding: 0.55rem 0.6rem;
+      flex: 1;
+    }
+    .action-dashboard .brass-glass p { margin: 0; font-size: 0.52rem; color: var(--muted); line-height: 1.4; }
+    .action-dashboard .row-list { margin-top: 0.35rem; }
+    .action-dashboard .row-list div {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.48rem;
+      color: var(--text);
+      margin-top: 0.22rem;
+    }
+    .action-dashboard .dot {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, var(--accent-light), var(--accent-dim));
+      box-shadow: 0 0 4px rgba(212, 175, 55, 0.15);
+      flex-shrink: 0;
+    }
+    .action-dashboard .capture-row {
+      display: flex;
+      gap: 0.35rem;
+      margin-top: 0.35rem;
+    }
+    .action-dashboard input {
+      flex: 1;
+      border: none;
+      border-radius: 10px;
+      padding: 0.35rem 0.45rem;
+      font-size: 0.48rem;
+      background: rgba(5, 18, 32, 0.7);
+      box-shadow: var(--neu-in);
+      color: var(--text);
+    }
+    .action-dashboard .btn-cap {
+      border-radius: 10px;
+      padding: 0.35rem 0.5rem;
+      font-size: 0.46rem;
+      font-weight: 600;
+      background: linear-gradient(145deg, var(--teal), #1fa89c);
+      color: #051220;
+      border: 1px solid rgba(46, 196, 182, 0.4);
+      box-shadow: var(--neu-out);
+      white-space: nowrap;
+    }
+    .action-dashboard .paper-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; margin-top: 0.35rem; }
+
+    .gallery { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; padding: 2rem 1rem 3rem; }
+    .screen-wrap { text-align: center; max-width: 320px; }
+    .screen-wrap h2 { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.35rem; }
+    .screen-wrap .tag { font-size: 0.62rem; color: var(--muted); margin: 0 0 0.75rem; line-height: 1.45; min-height: 2.5rem; }
+    .phone {
+      width: 280px; height: 600px; border-radius: 32px; padding: 11px;
+      background: linear-gradient(155deg, #3a4250, #0a0e14);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.75);
+    }
+    .phone-inner {
+      width: 100%; height: 100%; border-radius: 22px; overflow: hidden;
+      background: var(--bg);
+      display: flex; flex-direction: column;
+      position: relative;
+    }
+    .phone-inner.phone-alive::before { z-index: 0; }
+    .app-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.4rem 0.55rem;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(18, 27, 46, 0.95), rgba(18, 27, 46, 0.75));
+      backdrop-filter: blur(8px);
+      position: relative; z-index: 2;
+    }
+    .app-header .chip {
+      width: 28px; height: 28px; border-radius: 9px;
+      background: rgba(26, 36, 56, 0.8);
+      box-shadow: var(--neu-out);
+      display: grid; place-items: center;
+      font-size: 0.62rem; color: var(--accent);
+    }
+    .app-header .title { font-size: 0.55rem; letter-spacing: 0.2em; color: var(--accent); font-weight: 600; opacity: 0.9; }
+    .home-scroll {
+      flex: 1; padding: 0.45rem 0.5rem 0.35rem;
+      overflow: hidden;
+      display: flex; flex-direction: column; gap: 0.42rem;
+      position: relative; z-index: 1;
+    }
+    .greeting { font-family: var(--serif); font-size: 0.95rem; margin: 0; text-shadow: 0 0 16px rgba(255,255,255,0.06); }
+    .greeting-sub { font-size: 0.5rem; color: var(--muted); margin: 0.12rem 0 0; }
+    .mobile-stack .brass-glass { padding: 0.45rem 0.5rem; }
+    .mobile-stack .brass-glass--hero { padding: 0.55rem 0.55rem 0.5rem; }
+    .mobile-hero-title { font-family: var(--serif); font-size: 0.82rem; margin: 0.15rem 0 0.25rem; line-height: 1.25; }
+    .mobile-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; }
+    .mobile-mini-grid .brass-glass { padding: 0.38rem 0.42rem; }
+    .check-line { display: flex; align-items: center; gap: 0.3rem; font-size: 0.48rem; margin-top: 0.18rem; color: var(--text); }
+    .check-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      border: 1px solid var(--accent);
+      box-shadow: var(--neu-in), 0 0 6px rgba(212, 175, 55, 0.2);
+      flex-shrink: 0;
+    }
+    .dock5 {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      padding: 0.32rem 0.45rem 0.5rem;
+      background: linear-gradient(0deg, rgba(18, 27, 46, 0.98), rgba(18, 27, 46, 0.85));
+      border-top: 1px solid var(--border);
+      position: relative; z-index: 2;
+    }
+    .dock5-item { text-align: center; font-size: 0.38rem; color: var(--muted); flex: 1; }
+    .dock5-item.on { color: var(--accent); }
+    .dock5-item.hero { flex: 0 0 auto; margin-top: -12px; }
+    .dock-icon {
+      width: 30px; height: 30px; margin: 0 auto 0.1rem; border-radius: 10px;
+      background: rgba(26, 36, 56, 0.9);
+      box-shadow: var(--neu-out);
+      display: grid; place-items: center; font-size: 0.7rem;
+    }
+    .dock5-item.hero .dock-icon {
+      width: 42px; height: 42px; font-size: 1rem;
+      border: 1px solid var(--border-strong);
+      box-shadow: var(--neu-deep);
+    }
+    .dock5-item.on .dock-icon { border: 1px solid var(--border-strong); color: var(--accent); }
+
+    @media (max-width: 820px) {
+      .action-dashboard { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-head">
+    <a href="01-home-variants.html">← Hem A</a> · <a href="01-typography-explore.html">Typografi</a> · <a href="index.html">Index</a>
+    <h1>LIFE OS djup — referens → en mobilskärm</h1>
+    <p>Referensbilden är <strong>tre kolumner på desktop</strong>. På telefon blir samma moduler <strong>staplade på en skärm</strong> — samma glas, mässingkant och glow.</p>
+    <div class="note">
+      <strong>Subtil v2 (låst):</strong> dämpad glow + frostglas. Ingen hörnram.
+    </div>
+  </div>
+
+  <div class="desktop-wrap">
+    <h2>Referens · ACTION DASHBOARD (3 kolumner)</h2>
+    <div class="action-dashboard" aria-label="Desktop referens">
+      <div class="col">
+        <div class="brass-glass brass-glass--hero">
+          <p class="brass-section-label">Finance module</p>
+          <p class="brass-stat">1 245 780 kr</p>
+          <p class="brass-trend">+1,2% · SECURE</p>
+        </div>
+        <div class="brass-glass">
+          <p class="brass-section-label">Accounts</p>
+          <div class="brass-sparkline">
+            <svg viewBox="0 0 120 24" preserveAspectRatio="none"><polyline fill="none" stroke="#d4af37" stroke-width="1.5" points="0,20 20,16 40,18 55,10 70,12 90,6 120,8"/></svg>
+          </div>
+        </div>
+        <div class="brass-glass">
+          <p class="brass-section-label">Recent activity</p>
+          <div class="row-list">
+            <div><span class="dot"></span>Mat · −420 kr</div>
+            <div><span class="dot"></span>Lön · +42 000</div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="brass-glass">
+          <p class="brass-section-label">Quick capture</p>
+          <div class="capture-row">
+            <input type="text" placeholder="New idea intake…" readonly />
+            <span class="btn-cap">Capture +</span>
+          </div>
+        </div>
+        <div class="brass-glass">
+          <p class="brass-section-label">Priority tasks</p>
+          <div class="check-line"><span class="check-dot"></span>Ring skola</div>
+          <div class="check-line"><span class="check-dot"></span>Simma 20 min</div>
+        </div>
+        <div class="brass-glass">
+          <p class="brass-section-label">Notes</p>
+          <div class="paper-row">
+            <div class="brass-paper brass-paper--parchment">Pergament …</div>
+            <div class="brass-paper brass-paper--grid">Rutat …</div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="brass-glass">
+          <p class="brass-section-label">Project status</p>
+          <div class="brass-gantt-bar" style="width:85%"></div>
+          <div class="brass-gantt-bar brass-gantt-bar--dim" style="width:60%"></div>
+          <div class="brass-gantt-bar" style="width:40%"></div>
+        </div>
+        <div class="brass-glass">
+          <p class="brass-section-label">Goals</p>
+          <div class="row-list">
+            <div><span class="dot"></span>Q1 · Barn &amp; lugn</div>
+            <div><span class="dot"></span>Q2 · Ekonomi</div>
+          </div>
+        </div>
+        <div class="brass-glass" style="display:flex;align-items:center;justify-content:center;min-height:2.5rem;">
+          <span style="font-size:0.48rem;letter-spacing:0.12em;color:var(--accent);">Communications →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery">
+    <div class="screen-wrap">
+      <h2>Mobil · en skärm ★</h2>
+      <p class="tag">Samma moduler staplade — Hem layout A + djup-tokens</p>
+      <div class="phone"><div class="phone-inner phone-alive">
+        <div class="app-header">
+          <span class="chip">☰</span>
+          <span class="title">Hem · Life OS</span>
+          <span class="chip">K</span>
+        </div>
+        <div class="home-scroll mobile-stack">
+          <div>
+            <p class="greeting">God morgon, Pontus</p>
+            <p class="greeting-sub">Onsdag · ett steg i taget</p>
+          </div>
+
+          <div class="brass-glass brass-glass--hero">
+            <p class="brass-section-label">Dagens ankare</p>
+            <p class="mobile-hero-title">Lugnt samtal med barnen efter skolan</p>
+            <div class="brass-inset">Inte hela dagen — bara det viktigaste nu.</div>
+          </div>
+
+          <div class="mobile-mini-grid">
+            <div class="brass-glass">
+              <p class="brass-section-label">Dagens steg</p>
+              <div class="check-line"><span class="check-dot"></span>Ring skola</div>
+              <div class="check-line"><span class="check-dot"></span>Simma</div>
+            </div>
+            <div class="brass-glass">
+              <p class="brass-section-label">Kapacitet</p>
+              <p class="brass-stat" style="font-size:0.85rem;">Lugn</p>
+              <p class="brass-trend">Nivå 2</p>
+            </div>
+          </div>
+
+          <div class="brass-glass">
+            <p class="brass-section-label">Senaste · sparkline</p>
+            <div class="brass-sparkline" style="height:28px;">
+              <svg viewBox="0 0 120 24" preserveAspectRatio="none"><polyline fill="none" stroke="#d4af37" stroke-width="1.5" points="0,18 25,14 50,16 75,8 100,10 120,6"/></svg>
+            </div>
+          </div>
+
+          <div class="brass-glass" style="padding:0.38rem 0.45rem;">
+            <div style="display:flex;align-items:center;gap:0.4rem;">
+              <span style="width:26px;height:26px;border-radius:8px;background:rgba(5,18,32,0.7);box-shadow:var(--neu-in);display:grid;place-items:center;font-size:0.65rem;color:var(--teal);">▦</span>
+              <div style="text-align:left;">
+                <strong style="font-size:0.5rem;display:block;color:var(--text);">Inkast igår 21:04</strong>
+                <span style="font-size:0.45rem;color:var(--muted);">Valv-uppladdning</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dock5">
+          <div class="dock5-item on"><div class="dock-icon">⌂</div>Hem</div>
+          <div class="dock5-item"><div class="dock-icon">▣</div>Planera</div>
+          <div class="dock5-item hero"><div class="dock-icon">✦</div>Fyren</div>
+          <div class="dock5-item"><div class="dock-icon">📖</div>Dagbok</div>
+          <div class="dock5-item"><div class="dock-icon">☰</div>Mer</div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</body>
+</html>

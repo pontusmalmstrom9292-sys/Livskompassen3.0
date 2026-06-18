@@ -18,6 +18,7 @@ import { MabraModulValjare, type MabraModulChoice } from '../components/MabraMod
 import { hasSeenMabraModulValjare } from '../lib/mabraModulValjareStorage';
 import { MabraRecoveryBanner } from '@/features/mabra/components/MabraRecoveryBanner';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { getMabraRsdErrorCopy } from '../lib/mabraRsdErrorCopy';
 import { VALUES_COMPASS_COPY, exerciseTypeForHub } from '../constants';
 import type { MabraHubAction, MabraHubItem } from '../mabraHubRegistry';
 import type { MabraSymptomHub } from '../types';
@@ -308,6 +309,7 @@ export const MabraHubView = memo(function MabraHubView() {
               <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
               <HubErrorBoundary
                 title="Målsättning kunde inte laddas"
+                errorBody={getMabraRsdErrorCopy()}
                 logTag="MabraGoalPanel"
                 glow="green"
               >
@@ -335,6 +337,7 @@ export const MabraHubView = memo(function MabraHubView() {
           <div className="mt-6">
             <HubErrorBoundary
               title="Historik kunde inte laddas"
+              errorBody={getMabraRsdErrorCopy()}
               logTag="MabraHistoryView"
               glow="green"
             >

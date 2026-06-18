@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Typografi — 3 stilar · Brushed Brass</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="brass-depth-tokens.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: var(--font); color: var(--text); background: #060a12; }
+    .page-head {
+      padding: 1.2rem 1rem; text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-head a { color: var(--accent); font-size: 0.76rem; text-decoration: none; opacity: 0.85; }
+    .page-head h1 { margin: 0.4rem 0 0.2rem; font-family: var(--serif); font-size: 1.15rem; color: var(--accent-light); }
+    .page-head p { margin: 0 auto; max-width: 40rem; font-size: 0.76rem; color: var(--muted); line-height: 1.55; }
+
+    .legend {
+      max-width: 900px; margin: 1rem auto 0; padding: 0 1rem;
+      display: grid; gap: 0.35rem;
+      font-size: 0.62rem; color: var(--muted); text-align: left;
+    }
+    .legend code { color: var(--accent-light); font-size: 0.58rem; }
+
+    .gallery { display: flex; flex-wrap: wrap; gap: 1.75rem; justify-content: center; padding: 1.75rem 0.75rem 2.5rem; }
+    .screen-wrap { text-align: center; max-width: 290px; }
+    .screen-wrap > h2 { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 0.2rem; color: var(--accent-light); }
+    .screen-wrap .tag { font-size: 0.56rem; color: var(--muted); margin: 0 0 0.6rem; line-height: 1.45; min-height: 2.6rem; }
+    .pick { display: inline-block; margin-top: 0.45rem; padding: 0.18rem 0.45rem; border-radius: 6px; font-size: 0.52rem; border: 1px solid rgba(212,175,55,0.25); color: var(--accent); background: rgba(212,175,55,0.06); }
+
+    .phone {
+      width: 268px; height: 580px; border-radius: 30px; padding: 10px;
+      background: linear-gradient(155deg, #3a4250, #0a0e14);
+      box-shadow: 0 24px 52px rgba(0,0,0,0.72);
+    }
+    .phone-inner {
+      width: 100%; height: 100%; border-radius: 20px; overflow: hidden;
+      display: flex; flex-direction: column; position: relative;
+    }
+    .app-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.36rem 0.48rem; z-index: 2; position: relative;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: rgba(18,27,46,0.72); backdrop-filter: blur(8px);
+    }
+    .app-header .chip {
+      width: 26px; height: 26px; border-radius: 8px;
+      background: rgba(0,0,0,0.28); box-shadow: var(--neu-in);
+      display: grid; place-items: center; font-size: 0.58rem; color: var(--accent);
+    }
+    .home-scroll {
+      flex: 1; padding: 0.4rem 0.46rem 0.28rem;
+      display: flex; flex-direction: column; gap: 0.36rem;
+      position: relative; z-index: 1; overflow: hidden;
+    }
+    .mobile-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.32rem; }
+    .mobile-mini-grid .brass-glass { padding: 0.36rem 0.4rem; }
+    .check-line { display: flex; align-items: center; gap: 0.28rem; margin-top: 0.14rem; }
+    .check-dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--accent); box-shadow: var(--neu-in); flex-shrink: 0; }
+    .dock5 {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      padding: 0.26rem 0.38rem 0.42rem; z-index: 2; position: relative;
+      background: rgba(12,18,32,0.88); border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .dock5-item { flex: 1; text-align: center; font-size: 0.34rem; color: var(--muted); }
+    .dock5-item.on { color: var(--accent); }
+    .dock5-item.hero { flex: 0 0 auto; margin-top: -9px; }
+    .dock-icon { width: 26px; height: 26px; margin: 0 auto 0.06rem; border-radius: 8px; background: rgba(0,0,0,0.28); box-shadow: var(--neu-in); display: grid; place-items: center; font-size: 0.62rem; }
+    .dock5-item.hero .dock-icon { width: 36px; height: 36px; font-size: 0.85rem; border: 1px solid var(--border-strong); }
+
+    /* —— A · Nuvarande (referens) —— */
+    .type-a .hdr-title { font-size: 0.5rem; letter-spacing: 0.2em; color: var(--accent); font-weight: 600; text-transform: uppercase; }
+    .type-a .greeting { font-family: var(--serif); font-size: 0.92rem; margin: 0; color: var(--text); line-height: 1.15; }
+    .type-a .greeting-sub { font-size: 0.46rem; color: var(--muted); margin: 0.1rem 0 0; }
+    .type-a .brass-section-label { font-size: 0.44rem; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 0.28rem; }
+    .type-a .hero-title { font-family: var(--serif); font-size: 0.78rem; margin: 0 0 0.22rem; line-height: 1.28; color: var(--text); }
+    .type-a .inset-text { font-size: 0.46rem; color: rgba(234,234,234,0.72); line-height: 1.4; }
+    .type-a .body-sm { font-size: 0.44rem; color: var(--text); }
+    .type-a .stat { font-family: var(--serif); font-size: 0.82rem; color: var(--accent-light); margin: 0.08rem 0 0; }
+    .type-a .trend { font-size: 0.42rem; color: var(--teal); margin: 0; }
+    .type-a .meta-strong { font-size: 0.46rem; color: var(--text); font-weight: 500; display: block; }
+    .type-a .meta-dim { font-size: 0.4rem; color: var(--muted); }
+
+    /* —— B · Luftsam & läsbar ★ —— */
+    .type-b .hdr-title { font-size: 0.48rem; letter-spacing: 0.14em; color: var(--muted); font-weight: 500; text-transform: uppercase; }
+    .type-b .greeting-block { margin-bottom: 0.05rem; }
+    .type-b .greeting { font-family: var(--serif); font-size: 1rem; margin: 0; color: #f0f0f0; line-height: 1.12; font-weight: 500; }
+    .type-b .greeting-sub { font-size: 0.48rem; color: rgba(184, 160, 106, 0.75); margin: 0.14rem 0 0; letter-spacing: 0.04em; }
+    .type-b .brass-section-label { font-size: 0.4rem; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; font-weight: 600; margin-bottom: 0.24rem; }
+    .type-b .brass-glass--hero .brass-section-label { color: rgba(212,175,55,0.78); }
+    .type-b .hero-title { font-family: var(--serif); font-size: 0.86rem; margin: 0 0 0.28rem; line-height: 1.32; color: #f2f2f2; font-weight: 500; }
+    .type-b .inset-text { font-family: var(--font); font-size: 0.5rem; color: rgba(148,163,184,0.95); line-height: 1.45; }
+    .type-b .body-sm { font-size: 0.48rem; color: rgba(234,234,234,0.9); line-height: 1.35; }
+    .type-b .tile-cap { text-align: center; }
+    .type-b .tile-cap .brass-section-label { margin-bottom: 0.12rem; }
+    .type-b .stat { font-family: var(--serif); font-size: 0.88rem; color: var(--text); margin: 0; font-weight: 500; }
+    .type-b .trend { font-size: 0.44rem; color: var(--teal); margin: 0.1rem 0 0; opacity: 0.9; }
+    .type-b .meta-strong { font-size: 0.48rem; color: var(--text); font-weight: 500; display: block; line-height: 1.3; }
+    .type-b .meta-dim { font-size: 0.42rem; color: var(--muted); margin-top: 0.06rem; display: block; }
+
+    /* —— C · Etikett vänster · värde höger —— */
+    .type-c .hdr-title { font-size: 0.48rem; letter-spacing: 0.18em; color: var(--accent-dim); font-weight: 600; }
+    .type-c .greeting-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.35rem; }
+    .type-c .greeting { font-family: var(--serif); font-size: 0.82rem; margin: 0; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .type-c .greeting-sub { font-size: 0.4rem; color: var(--muted); margin: 0; flex-shrink: 0; text-align: right; line-height: 1.3; }
+    .type-c .brass-section-label { font-size: 0.38rem; letter-spacing: 0.1em; color: var(--muted); margin: 0; text-transform: uppercase; font-weight: 600; }
+    .type-c .row-head { display: flex; align-items: center; justify-content: space-between; gap: 0.3rem; margin-bottom: 0.2rem; }
+    .type-c .row-head .brass-section-label { color: rgba(212,175,55,0.65); }
+    .type-c .row-head .hint { font-size: 0.36rem; color: var(--teal); opacity: 0.85; }
+    .type-c .hero-title { font-family: var(--serif); font-size: 0.8rem; margin: 0 0 0.2rem; line-height: 1.25; color: var(--accent-light); }
+    .type-c .inset-text { font-size: 0.44rem; color: var(--muted); line-height: 1.35; }
+    .type-c .split-line { display: flex; align-items: center; justify-content: space-between; gap: 0.25rem; margin-top: 0.12rem; }
+    .type-c .split-line .lbl { font-size: 0.42rem; color: var(--muted); }
+    .type-c .split-line .val { font-size: 0.44rem; color: var(--text); text-align: right; }
+    .type-c .stat-row { display: flex; align-items: baseline; justify-content: space-between; }
+    .type-c .stat { font-family: var(--serif); font-size: 0.76rem; color: var(--text); margin: 0; }
+    .type-c .trend { font-size: 0.38rem; color: var(--teal); margin: 0; }
+    .type-c .meta-row { display: flex; align-items: center; gap: 0.35rem; width: 100%; }
+    .type-c .meta-ico { width: 24px; height: 24px; border-radius: 7px; background: rgba(5,18,32,0.65); box-shadow: var(--neu-in); display: grid; place-items: center; font-size: 0.58rem; color: var(--teal); flex-shrink: 0; }
+    .type-c .meta-text { flex: 1; min-width: 0; text-align: left; }
+    .type-c .meta-strong { font-size: 0.44rem; color: var(--text); font-weight: 500; display: block; }
+    .type-c .meta-dim { font-size: 0.38rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="page-head">
+    <a href="01-life-os-depth.html">← Djup-mockup</a> · <a href="01-home-variants.html">Hem A</a> · <a href="index.html">Index</a>
+    <h1>Typografi — 3 stilar</h1>
+    <p>Samma glas &amp; glow (låst). Jämför rubriker, etiketter, färger och placering på Hem-skärmen.</p>
+    <div class="legend">
+      <div><strong>A</strong> — mycket guld i etiketter (nuvarande mockup-skala)</div>
+      <div><strong>B ★</strong> — guld bara på hero-etikett · större brödtext · slate-etiketter · centrerad kapacitet</div>
+      <div><strong>C</strong> — kompakt rad-layout · etikett vänster / värde höger · enradig hälsning</div>
+    </div>
+  </div>
+
+  <div class="gallery">
+
+    <!-- A -->
+    <div class="screen-wrap type-a">
+      <h2>A · Editorial guld</h2>
+      <p class="tag">Serif hälsning · guld CAPS på alla moduler · teal på status</p>
+      <div class="phone"><div class="phone-inner phone-alive">
+        <div class="app-header">
+          <span class="chip">☰</span>
+          <span class="hdr-title">Hem · Life OS</span>
+          <span class="chip">K</span>
+        </div>
+        <div class="home-scroll">
+          <div>
+            <p class="greeting">God morgon, Pontus</p>
+            <p class="greeting-sub">Onsdag · ett steg i taget</p>
+          </div>
+          <div class="brass-glass brass-glass--hero" style="padding:0.48rem 0.5rem;">
+            <p class="brass-section-label">Dagens ankare</p>
+            <p class="hero-title">Lugnt samtal med barnen efter skolan</p>
+            <div class="brass-inset"><span class="inset-text">Inte hela dagen — bara det viktigaste nu.</span></div>
+          </div>
+          <div class="mobile-mini-grid">
+            <div class="brass-glass">
+              <p class="brass-section-label">Dagens steg</p>
+              <div class="check-line"><span class="check-dot"></span><span class="body-sm">Ring skola</span></div>
+              <div class="check-line"><span class="check-dot"></span><span class="body-sm">Simma</span></div>
+            </div>
+            <div class="brass-glass">
+              <p class="brass-section-label">Kapacitet</p>
+              <p class="stat">Lugn</p>
+              <p class="trend">Nivå 2</p>
+            </div>
+          </div>
+          <div class="brass-glass" style="padding:0.36rem 0.42rem;">
+            <div style="display:flex;align-items:center;gap:0.35rem;">
+              <span style="width:24px;height:24px;border-radius:7px;background:rgba(5,18,32,0.65);box-shadow:var(--neu-in);display:grid;place-items:center;font-size:0.58rem;color:var(--teal);">▦</span>
+              <div style="text-align:left;">
+                <span class="meta-strong">Inkast igår 21:04</span>
+                <span class="meta-dim">Valv-uppladdning</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dock5">
+          <div class="dock5-item on"><div class="dock-icon">⌂</div>Hem</div>
+          <div class="dock5-item"><div class="dock-icon">▣</div></div>
+          <div class="dock5-item hero"><div class="dock-icon">✦</div></div>
+          <div class="dock5-item"><div class="dock-icon">📖</div></div>
+          <div class="dock5-item"><div class="dock-icon">☰</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- B -->
+    <div class="screen-wrap type-b">
+      <h2>B · Luftsam ★</h2>
+      <p class="tag">Mindre guld-brus · större läsbar text · hero får fokus</p>
+      <div class="phone"><div class="phone-inner phone-alive">
+        <div class="app-header">
+          <span class="chip">☰</span>
+          <span class="hdr-title">Hem</span>
+          <span class="chip">K</span>
+        </div>
+        <div class="home-scroll">
+          <div class="greeting-block">
+            <p class="greeting">God morgon, Pontus</p>
+            <p class="greeting-sub">Onsdag · ett steg i taget</p>
+          </div>
+          <div class="brass-glass brass-glass--hero" style="padding:0.5rem 0.52rem;">
+            <p class="brass-section-label">Dagens ankare</p>
+            <p class="hero-title">Lugnt samtal med barnen efter skolan</p>
+            <div class="brass-inset"><span class="inset-text">Inte hela dagen — bara det viktigaste nu.</span></div>
+          </div>
+          <div class="mobile-mini-grid">
+            <div class="brass-glass">
+              <p class="brass-section-label">Dagens steg</p>
+              <div class="check-line"><span class="check-dot"></span><span class="body-sm">Ring skola</span></div>
+              <div class="check-line"><span class="check-dot"></span><span class="body-sm">Simma</span></div>
+            </div>
+            <div class="brass-glass tile-cap">
+              <p class="brass-section-label">Kapacitet</p>
+              <p class="stat">Lugn</p>
+              <p class="trend">Nivå 2</p>
+            </div>
+          </div>
+          <div class="brass-glass" style="padding:0.38rem 0.44rem;">
+            <div style="display:flex;align-items:center;gap:0.35rem;text-align:left;">
+              <span style="width:24px;height:24px;border-radius:7px;background:rgba(5,18,32,0.65);box-shadow:var(--neu-in);display:grid;place-items:center;font-size:0.58rem;color:var(--teal);">▦</span>
+              <div>
+                <span class="meta-strong">Inkast igår 21:04</span>
+                <span class="meta-dim">Valv-uppladdning</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dock5">
+          <div class="dock5-item on"><div class="dock-icon">⌂</div>Hem</div>
+          <div class="dock5-item"><div class="dock-icon">▣</div></div>
+          <div class="dock5-item hero"><div class="dock-icon">✦</div></div>
+          <div class="dock5-item"><div class="dock-icon">📖</div></div>
+          <div class="dock5-item"><div class="dock-icon">☰</div></div>
+        </div>
+      </div></div>
+      <span class="pick">★ Rekommenderad för läsbarhet</span>
+    </div>
+
+    <!-- C -->
+    <div class="screen-wrap type-c">
+      <h2>C · Rad &amp; data</h2>
+      <p class="tag">Kompakt · etikett/värde på samma rad · mindre serif</p>
+      <div class="phone"><div class="phone-inner phone-alive">
+        <div class="app-header">
+          <span class="chip">☰</span>
+          <span class="hdr-title">HEM</span>
+          <span class="chip">K</span>
+        </div>
+        <div class="home-scroll">
+          <div class="greeting-row">
+            <p class="greeting">God morgon, Pontus</p>
+            <p class="greeting-sub">Ons<br/>1 steg</p>
+          </div>
+          <div class="brass-glass brass-glass--hero" style="padding:0.44rem 0.48rem;">
+            <div class="row-head">
+              <p class="brass-section-label">Dagens ankare</p>
+              <span class="hint">idag</span>
+            </div>
+            <p class="hero-title">Lugnt samtal med barnen</p>
+            <div class="brass-inset"><span class="inset-text">Bara det viktigaste nu.</span></div>
+          </div>
+          <div class="mobile-mini-grid">
+            <div class="brass-glass">
+              <p class="brass-section-label">Steg</p>
+              <div class="split-line"><span class="lbl">1</span><span class="val">Ring skola</span></div>
+              <div class="split-line"><span class="lbl">2</span><span class="val">Simma</span></div>
+            </div>
+            <div class="brass-glass">
+              <div class="stat-row">
+                <p class="brass-section-label">Kapacitet</p>
+                <p class="trend">Nivå 2</p>
+              </div>
+              <p class="stat">Lugn</p>
+            </div>
+          </div>
+          <div class="brass-glass" style="padding:0.34rem 0.4rem;">
+            <div class="meta-row">
+              <span class="meta-ico">▦</span>
+              <div class="meta-text">
+                <span class="meta-strong">Inkast · igår 21:04</span>
+                <span class="meta-dim">Valv-uppladdning</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dock5">
+          <div class="dock5-item on"><div class="dock-icon">⌂</div>Hem</div>
+          <div class="dock5-item"><div class="dock-icon">▣</div></div>
+          <div class="dock5-item hero"><div class="dock-icon">✦</div></div>
+          <div class="dock5-item"><div class="dock-icon">📖</div></div>
+          <div class="dock5-item"><div class="dock-icon">☰</div></div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</body>
+</html>

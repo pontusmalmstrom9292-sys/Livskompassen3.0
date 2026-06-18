@@ -29,7 +29,7 @@ export function HomeBrassDaySteps() {
   };
 
   return (
-    <div className="home-brass-a__tile home-brass-a__tile--tall">
+    <div className="home-brass-a__tile home-brass-a__tile--tall brass-glass">
       <p className="home-brass-a__label">Dagens steg</p>
 
       {loading ? (
