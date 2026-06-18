@@ -8,6 +8,7 @@ import { fetchVitChatCoach } from '../api/mabraCoachService';
 import type { MabraProjectId } from '../constants/mabraProjects';
 import { pickVitProjectCard } from '../lib/pickVitProjectCard';
 import { shouldRedirectMabraCoachToSpeglar } from '../lib/mabraCoachGuard';
+import { getMabraRsdErrorCopy } from '../lib/mabraRsdErrorCopy';
 import { writeVitProjectLastSeen } from '../lib/vitProjectLastSeen';
 import { MabraSpeglarGuardHint } from './MabraSpeglarGuardHint';
 
@@ -92,7 +93,7 @@ export function VitChatFlowPanel({ userId, projectId, onSaved }: Props) {
       setSaved(true);
       onSaved?.();
     } catch {
-      setError(COPY.error);
+      setError(getMabraRsdErrorCopy());
     } finally {
       setSending(false);
     }

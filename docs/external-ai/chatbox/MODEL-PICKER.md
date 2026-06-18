@@ -4,7 +4,7 @@
 
 ## Gemini Custom Gem → verktyg (orkester)
 
-**Huvuddator:** Gemini Gem ([`GEMINI-ORKESTER-MASTER-PROMPT.md`](./GEMINI-ORKESTER-MASTER-PROMPT.md)) — Pontus godkänner Deep Research, Gemini routar.
+**Huvuddator:** Gemini Gem ([`GEMINI-ORKESTER-MASTER-PROMPT.md`](../gemini/GEMINI-ORKESTER-MASTER-PROMPT.md)) — Pontus godkänner Deep Research, Gemini routar.
 
 | Etikett | Verktyg | När Gem skickar dig hit |
 |---------|---------|-------------------------|
@@ -35,8 +35,8 @@
 | GCP/Firebase research | Sonar 2 | — |
 | Enfil-debug | Copilot | GPT-5.4 |
 | Repo-hygien / design-städ | GPT-5.4 Mini | Opus 4.8 (stor audit) |
-| Valv UI SPEC + vision | Opus 4.8 + Sonnet 4.6 | [`PHASE-08-valv-ui.md`](./PHASE-08-valv-ui.md) |
-| Hjärtat/Familjen/Vardagen UI | Sonnet 4.6 | [`UI-WAVE-ROADMAP.md`](./UI-WAVE-ROADMAP.md) |
+| Valv UI SPEC + vision | Opus 4.8 + Sonnet 4.6 | [`PHASE-08-valv-ui.md`](./phases/PHASE-08-valv-ui.md) |
+| Hjärtat/Familjen/Vardagen UI | Sonnet 4.6 | [`UI-WAVE-ROADMAP.md`](../design/UI-WAVE-ROADMAP.md) |
 | Life OS vision gap (PHASE-09) | Opus 4.8 | `exports/chatbot-handoff/prompts/PHASE-09-life-os-vision.md` |
 | Nav Våg 3 PMIR (PHASE-10) | Opus 4.8 | `PHASE-10-nav-wave3-pmir.md` |
 | Design tokens (PHASE-11) | Sonnet 4.6 | `PHASE-11-design-tokens.md` |

@@ -5,6 +5,7 @@ import { NAV_PATHS } from '../navigation/navTruth';
 import { dagbokLegacyModeToInputMode } from '@/features/lifeJournal/diary/supermodule/dagbokInputModes';
 import { SpeglarSuperModule } from '@/features/lifeJournal/diary/mirror';
 import { HjartatBentoShell } from '@/features/lifeJournal/diary/components/HjartatBentoShell';
+import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
 
 const DagbokInputSuperModule = lazy(() =>
   import('@/features/lifeJournal/diary/supermodule/DagbokInputSuperModule').then((m) => ({
@@ -86,6 +87,7 @@ export function DagbokPage() {
     >
       <HjartatBentoShell>
         <HjartatReflektionPanel />
+        <PinnedPlaneringModuleSlot targetId="hjartat.dagbok" className="mt-4" />
       </HjartatBentoShell>
     </ModuleShell>
   );

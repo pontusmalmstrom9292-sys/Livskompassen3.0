@@ -11,7 +11,7 @@
 |------|-----|-------------------|
 | 1 | Gemini Deep Research | `GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER.md` + SA1–SA10 |
 | 2 | Spara | `docs/external-ai/imports/research-2026-06-18-*.md` |
-| 3 | Cursor subagent | [`CURSOR-FLOW-CREDITS-SYNTHESIS.md`](./bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md) |
+| 3 | Cursor subagent | [`CURSOR-FLOW-CREDITS-SYNTHESIS.md`](../bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md) |
 | 4 | Leverans | `docs/evaluations/2026-06-18-system-gap-syntes.md` |
 | 5 | Pontus | Godkänn **en** PMIR i taget från syntes-rapporten |
 | 6 | Cursor + verifier | Implement → smoke → ny LOCK i BUILD-STATE |
@@ -21,7 +21,7 @@
 ## Ett kommando till Gemini nu
 
 ```
-Starta system-audit: bifoga 05-research-handoff/ och kör GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER. Spara syntes till imports/.
+Starta system-audit: bifoga 05-research-handoff/ filerna 00–09 (10 st) och kör GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER. Spara syntes till imports/.
 ```
 
 ---

@@ -7,6 +7,7 @@ import { EconomyMealPrepPanel } from './EconomyMealPrepPanel';
 import { EconomyImpulsePanel } from './EconomyImpulsePanel';
 import { EconomySavingsPanel } from './EconomySavingsPanel';
 import { EconomyLogPanel } from './EconomyLogPanel';
+import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
 import {
   EkonomiModulValjare,
   type EkonomiModuleChoice,
@@ -107,6 +108,10 @@ export function EconomyOverviewPanel({ userId }: Props) {
             <Sparkles className="h-4 w-4 text-accent" />
           </Link>
         )}
+      </div>
+
+      <div className="px-4 pb-2">
+        <PinnedPlaneringModuleSlot targetId="vardagen.ekonomi" />
       </div>
 
       <div className="animate-fade-in min-h-[260px] p-4 sm:p-5">

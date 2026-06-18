@@ -26,7 +26,7 @@ const TIER1 = [
     src: 'docs/evaluations/2026-06-15-fas19-masterplan-v2.md',
   },
   { dest: '07-DOC-INDEX.md', src: 'docs/DOC-INDEX.md' },
-  { dest: '08-GEMINI-GEM-KNOWLEDGE.md', src: 'docs/external-ai/GEMINI-GEM-KNOWLEDGE.md' },
+  { dest: '08-GEMINI-GEM-KNOWLEDGE.md', src: 'docs/external-ai/gemini/GEMINI-GEM-KNOWLEDGE.md' },
 ];
 
 /** @type {{ dest: string; src: string }[]} */
@@ -36,12 +36,15 @@ const TIER2 = [
   { dest: '11-Arkiv-GAP-REGISTER.md', src: 'docs/specs/modules/Arkiv-GAP-REGISTER.md' },
   { dest: '12-INNEHALL-REGISTER.md', src: 'docs/INNEHALL-REGISTER.md' },
   { dest: '13-GCP-INVENTORY-LATEST.md', src: 'docs/GCP-INVENTORY-LATEST.md' },
-  { dest: '14-GEMINI-ORKESTER-MASTER-PROMPT.md', src: 'docs/external-ai/GEMINI-ORKESTER-MASTER-PROMPT.md' },
+  {
+    dest: '14-GEMINI-ORKESTER-MASTER-PROMPT.md',
+    src: 'docs/external-ai/gemini/GEMINI-ORKESTER-MASTER-PROMPT.md',
+  },
   { dest: '15-flow-pipeline-karta.md', src: 'docs/evaluations/2026-06-17-flow-pipeline-karta.md' },
   { dest: '16-MALL-deep-research-modul.md', src: 'docs/evaluations/MALL-deep-research-modul.md' },
   {
     dest: '17-GEMINI-FLOW-CHAT-PROMPTS.md',
-    src: 'docs/external-ai/GEMINI-FLOW-CHAT-PROMPTS.md',
+    src: 'docs/external-ai/gemini/GEMINI-FLOW-CHAT-PROMPTS.md',
   },
   {
     dest: '18-fas19-leverans.md',
@@ -60,7 +63,7 @@ const TIER2 = [
 const EXTRA = [
   {
     dest: '00-SYSTEM-INSTRUCTION-KLISTRA-IN.txt',
-    src: 'docs/external-ai/GEMINI-GEM-SYSTEM-INSTRUCTION-KLISTRA-IN.txt',
+    src: 'docs/external-ai/gemini/GEMINI-GEM-SYSTEM-INSTRUCTION-KLISTRA-IN.txt',
   },
 ];
 

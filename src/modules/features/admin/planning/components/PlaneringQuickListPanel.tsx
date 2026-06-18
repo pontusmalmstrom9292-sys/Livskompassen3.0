@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Check, Home, Loader2, Plus, Trash2, X } from 'lucide-react';
+import { Check, Loader2, Plus, Trash2, X } from 'lucide-react';
 import { useStore } from '@/core/store';
 import { createProject } from '../../projects/api/projectsApi';
 import { createProjectBlock } from '../../projects/api/projectBlocksApi';
-import { setPlaneringHomePin, clearPlaneringHomePin, getPlaneringHomePin } from '../planeringHomePin';
+import { PlaneringModulePinPanel } from './PlaneringModulePinPanel';
 import {
   addQuickListItem,
   clearDoneQuickListItems,
@@ -26,10 +26,6 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
   const [draft, setDraft] = useState('');
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const [pinned, setPinned] = useState(() => {
-    const pin = getPlaneringHomePin();
-    return pin?.listId === listId;
-  });
 
   const refresh = useCallback(() => {
     setList(getQuickList(listId));
@@ -42,26 +38,13 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
     setDraft('');
   };
 
-  const togglePin = () => {
-    if (pinned) {
-      clearPlaneringHomePin();
-      setPinned(false);
-      setMessage('Borttagen från Hem.');
-    } else {
-      setPlaneringHomePin({ listId, title: list.title });
-      setPinned(true);
-      setMessage('Visas på Hem — scrolla upp på startsidan.');
-    }
-    onHomePinChange?.();
-  };
-
   const saveAsProject = async () => {
     if (!user) {
       setMessage('Logga in för att spara som projekt.');
       return;
     }
-    const open = list.items.filter((i) => !i.done);
-    if (open.length === 0) {
+    const openItems = list.items.filter((i) => !i.done);
+    if (openItems.length === 0) {
       setMessage('Lägg till minst en punkt först.');
       return;
     }
@@ -77,7 +60,7 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
         primaryBlockType: 'list',
       });
       await Promise.all(
-        open.map((item, order) =>
+        openItems.map((item, order) =>
           createProjectBlock(user.uid, {
             projectId,
             type: 'list',
@@ -182,22 +165,23 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
       <div className="planering-quicklist__actions">
         <button
           type="button"
-          className="btn-pill--secondary flex-1"
+          className="btn-pill--secondary w-full"
           disabled={saving}
           onClick={() => void saveAsProject()}
         >
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           Spara som projekt
         </button>
-        <button
-          type="button"
-          className={`btn-pill--ghost flex-1 ${pinned ? 'text-accent' : ''}`}
-          onClick={togglePin}
-        >
-          <Home className="h-4 w-4" />
-          {pinned ? 'Ta bort från Hem' : 'Fäst på Hem'}
-        </button>
       </div>
+
+      <PlaneringModulePinPanel
+        title={list.title}
+        content={{ kind: 'list', listId }}
+        onPinned={() => {
+          onHomePinChange?.();
+          refresh();
+        }}
+      />
 
       {message && <p className="text-center text-xs text-accent">{message}</p>}
 

@@ -1,44 +1,63 @@
-# CURSOR-HANDOFF-OPEN — efter ChatBox våg 1
+# CURSOR-HANDOFF-OPEN — efter Fas 19 + produktkomplett (2026-06-18)
 
-Engelska prompts för återstående **OPEN / WIP / DEFER** i [`LIFE-OS-BUILD-STATE.md`](./LIFE-OS-BUILD-STATE.md).
+Engelska prompts för återstående **OPEN / PAUSED / DEFER** i [`LIFE-OS-BUILD-STATE.md`](../LIFE-OS-BUILD-STATE.md).
+
+**Senast synkad:** 2026-06-18 (`npm run research:sync:handoff`)
 
 ---
 
-## WIP — Upload unified Valv DirectPanel
+## Stängt sedan 2026-06-18 (LOCK — starta inte utan snapshot + Pontus OK)
+
+| Komponent | CHECKPOINT | Notis |
+|-----------|------------|-------|
+| Upload unified Valv DirectPanel | CP-4b | `InkastDirectPanel.tsx`, `VaultInkastCompact.tsx` |
+| Valv supermodule UI (PHASE-08 / B1) | B1 | Mönster, Orkester, Kunskapsbank, Aktörskarta |
+| G10 Inkast backend + UI | CP-3 / CP-4 | CapturePanel, CaptureSuperModule |
+| P1 Brusfilter v1/v2 | P1 / P1b | Valv Orkester + Inkast HITL |
+| P2 Dossier v2 | P2 | AI foreword |
+| Fas 19.1 security sprint | F19.1 | invalidateSession guard, D14 |
+
+---
+
+## WATCH — SMOKE PASS, ej formellt stängd
+
+**MåBra 19.2–19.5** (hybrid-8, hex→tokens, JOY-17, evolution_ledger) — smoke PASS 2026-06-18. Vänta Pontus formell stängning innan ny scope.
 
 ```
-Implement InkastDirectPanel step 2 per UPLOAD-UNIFIED-SPEC.md.
-Reuse CapturePanel + routeInboxToWorm — no fourth silo, no auto kb_docs for evidence.
-Smoke: npm run smoke:inkast, npm run smoke:locked-ux.
+Do not expand scope until Pontus marks F19.2–19.5 LOCK in BUILD-STATE.
+Read docs/evaluations/2026-06-15-fas19-masterplan-v2.md before any follow-up.
+Smoke: npm run smoke:mabra, npm run smoke:orkester.
+```
+
+---
+
+## PAUSED — Barnporten barn-PWA (V4)
+
+Flagga: `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false`. UI: `BarnportenPausedPanel.tsx`.
+
+```
+Do not enable rollout flag without Pontus OK + PMIR.
+Smoke after enable: npm run smoke:locked-ux, npm run smoke:barnporten.
 Compare changes against full project context. Work autonomously until smoke PASS.
 ```
 
 ---
 
-## WIP — Valv supermodule UI (PHASE-08 / UI wave B1)
+## DEFER — medvetet senarelagt
+
+| Komponent | CHECKPOINT | Notis |
+|-----------|------------|-------|
+| BP-PUSH (FCM barn) | V6 | Ingen implementation utan PMIR |
+| AI-assistent UI | — | Efter kärnprodukt stabil |
+| M3.0-C Fitness/Näring | — | evolution_hub — se masterplan |
 
 ```
-Read docs/external-ai/PHASE-08-valv-ui.md and docs/external-ai/UI-WAVE-ROADMAP.md.
-Implement Valv zone picker + ValvInputSuperModule per locked UX (Mönster, Orkester, Kunskapsbank, Aktörskarta).
-MUST NOT remove VaultMonsterPanel, VaultOrkesterPanel, or vault tabs.
-Smoke: npm run smoke:locked-ux, npm run smoke:orkester.
-Compare changes against full project context. Work autonomously until smoke PASS.
-```
-
----
-
-## DEFER — MåBra 19.2–19.5 (hybrid-8, evolution_ledger, JOY-17)
-
-**Do not start** until core lock wave is snapshot-complete and Pontus approves Fas 19 scope.
-
-```
-Deferred: MåBra hybrid-8 capacity UI, evolution_ledger client paths, JOY-17 gamification guard.
-Read docs/evaluations/2026-06-15-fas19-masterplan-v2.md before any work.
+Deferred per BUILD-STATE. No prod wiring without PMIR + smoke plan.
 ```
 
 ---
 
-## Optional — Design hygiene (after Pontus OK on HYGIENE-LOG)
+## Optional — Design hygiene (efter Pontus OK på HYGIENE-LOG)
 
 ```
 Archive-only move per HYGIENE-LOG.md CP-7 rows — no DELETE.
@@ -46,3 +65,11 @@ Move docs/design/icons-proposals/ → docs/archive/design-2026-06/icons-proposal
 Update DESIGN-KEEP-REGISTER if paths change.
 No firestore.rules changes. PMIR if touching locked UX paths.
 ```
+
+---
+
+## Nästa användarsteg (Pontus)
+
+1. **Använd:** Familjen livslogg (citrat/tolkning); MåBra 5-4-3-2-1-lek
+2. **Research:** `bifoga/05-research-handoff/` 00–09 → Deep Research vid behov
+3. **Leverans:** `docs/evaluations/2026-06-18-produktkomplett-leverans.md`

@@ -9,6 +9,7 @@ import { ChildMomentTabs } from './ChildMomentTabs';
 import { ChildMomentStunderPanel } from './ChildMomentStunderPanel';
 import { ChildMomentOmPanel } from './ChildMomentOmPanel';
 import { ChildMomentFavoriterPanel } from './ChildMomentFavoriterPanel';
+import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
 
 type Props = {
   shell: FamiljenShell;
@@ -40,6 +41,8 @@ export function FamiljenLivsloggTab({ shell }: Props) {
       )}
 
       <ChildMomentTabs active={view} childAlias={activeChild} onChange={setView} />
+
+      <PinnedPlaneringModuleSlot targetId="familjen.livslogg" />
 
       <div role="tabpanel">
         {view === 'stunder' && <ChildMomentStunderPanel shell={shell} />}

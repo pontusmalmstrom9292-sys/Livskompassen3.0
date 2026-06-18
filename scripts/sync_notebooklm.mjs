@@ -73,11 +73,11 @@ const SYSTEM_SYNC_FILES = [
 
 const EXTRA_COPIES = [
   {
-    from: 'docs/external-ai/NOTEBOOKLM-MASTER-PROMPT.md',
+    from: 'docs/external-ai/notebooklm/NOTEBOOKLM-MASTER-PROMPT.md',
     to: 'NOTEBOOKLM-MASTER-PROMPT.md',
   },
   {
-    from: 'docs/external-ai/NOTEBOOKLM-LATHUND.md',
+    from: 'docs/external-ai/notebooklm/NOTEBOOKLM-LATHUND.md',
     to: 'NOTEBOOKLM-LATHUND.md',
   },
 ];
@@ -207,7 +207,7 @@ ${synced.map((r) => `- \`${r.dest.split('/').pop()}\``).join('\n')}
 
 ---
 
-Kanon: [\`docs/external-ai/NOTEBOOKLM-LATHUND.md\`](../../docs/external-ai/NOTEBOOKLM-LATHUND.md)
+Kanon: [\`docs/external-ai/notebooklm/NOTEBOOKLM-LATHUND.md\`](../../docs/external-ai/notebooklm/NOTEBOOKLM-LATHUND.md)
 `;
 
   writeFileSync(join(outDir, '00-LAS-MIG-FORST.md'), manifest, 'utf8');

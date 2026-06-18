@@ -1,10 +1,10 @@
 # ChatBox AI — Lathund (7 dagar)
 
-Kort översikt utan prompter. Detaljer och prompter: [`README.md`](./README.md) · [`CHECKPOINT-PROTOCOL.md`](./CHECKPOINT-PROTOCOL.md).
+Kort översikt utan prompter. Detaljer och prompter: [`README.md`](../README.md) · [`CHECKPOINT-PROTOCOL.md`](../CHECKPOINT-PROTOCOL.md).
 
 **Syfte:** Spara Cursor/Google-krediter. Tung analys och kod i **ChatBox AI**. Cursor för granskning, smoke, låsning och deploy.
 
-**Parallellt UI/design:** [`UI-DESIGN-HANDOFF.md`](./UI-DESIGN-HANDOFF.md) — annat körfält, samma projektplan, inga filkrockar.
+**Parallellt UI/design:** [`UI-DESIGN-HANDOFF.md`](../design/UI-DESIGN-HANDOFF.md) — annat körfält, samma projektplan, inga filkrockar.
 
 ---
 
@@ -13,9 +13,9 @@ Kort översikt utan prompter. Detaljer och prompter: [`README.md`](./README.md) 
 | Vad | Var |
 |-----|-----|
 | Modellval | [`MODEL-PICKER.md`](./MODEL-PICKER.md) |
-| Status LOCK/OPEN | [`LIFE-OS-BUILD-STATE.md`](./LIFE-OS-BUILD-STATE.md) |
+| Status LOCK/OPEN | [`LIFE-OS-BUILD-STATE.md`](../LIFE-OS-BUILD-STATE.md) |
 | Repomix + bifoga-mappar | `npm run chatbot:pack:all` |
-| Bifoga-filer (register m.m.) | [`bifoga/`](./bifoga/) — `npm run chatbot:sync:bifoga` |
+| Bifoga-filer (register m.m.) | [`bifoga/`](../bifoga/) — `npm run chatbot:sync:bifoga` |
 | Lokal backup-mapp | `~/Livskompassen-snapshots/` |
 
 **Regel:** Max **2 parallella** ChatBox-chattar. Kod från två chattar på samma fil = nej.
@@ -28,7 +28,7 @@ Kort översikt utan prompter. Detaljer och prompter: [`README.md`](./README.md) 
 2. Granska i Cursor — applicera bara godkända ändringar
 3. Kör smoke (se tabell per dag nedan)
 4. Uppdatera `LIFE-OS-BUILD-STATE.md` (LOCK om PASS)
-5. Städa filer om det passar — [`REPO-HYGIENE.md`](./REPO-HYGIENE.md)
+5. Städa filer om det passar — [`REPO-HYGIENE.md`](../REPO-HYGIENE.md)
 6. Om LOCK → `./scripts/snapshot_locked_module.sh <modul>`
 7. Uppdatera `CHECKPOINT-LOG.md`
 8. Först då — nästa ChatBox-chatt
@@ -59,7 +59,7 @@ Kort översikt utan prompter. Detaljer och prompter: [`README.md`](./README.md) 
 | **Gör** | En canonical upload-väg frontend + backend; behåll 3 silos |
 | **Leverans** | `UPLOAD-UNIFIED-SPEC.md` |
 | **Smoke** | Ingen kod — du godkänner SPEC manuellt |
-| **Extra** | Design-audit kan köras här — [`PHASE-DESIGN-AUDIT.md`](./PHASE-DESIGN-AUDIT.md) |
+| **Extra** | Design-audit kan köras här — [`PHASE-DESIGN-AUDIT.md`](./phases/PHASE-DESIGN-AUDIT.md) |
 
 ---
 
@@ -79,7 +79,7 @@ Kort översikt utan prompter. Detaljer och prompter: [`README.md`](./README.md) 
 | | |
 |---|---|
 | **Modell** | Claude Sonnet 4.6 |
-| **Helprompt** | [`PHASE-04-FULL-PROMPT.md`](./PHASE-04-FULL-PROMPT.md) |
+| **Helprompt** | [`PHASE-04-FULL-PROMPT.md`](./phases/PHASE-04-FULL-PROMPT.md) |
 | **Vänta** | Dag 3 klar (CHECKPOINT-3 PASS) |
 | **Gör** | Filer i `CapturePanel` över alla Superhubs |
 | **Smoke** | `npm run build` · `smoke:locked-ux` |
@@ -115,7 +115,7 @@ Kort översikt utan prompter. Detaljer och prompter: [`README.md`](./README.md) 
 | | |
 |---|---|
 | **Modell** | GPT-5.4 Mini |
-| **Bifoga** | [`bifoga/01-register/`](./bifoga/01-register/) + [`02-leveranser/`](./bifoga/02-leveranser/) + [`04-repomix/`](./bifoga/04-repomix/) · kör `npm run chatbot:sync:bifoga` först |
+| **Bifoga** | [`bifoga/01-register/`](.../bifoga/01-register/) + [`02-leveranser/`](.../bifoga/02-leveranser/) + [`04-repomix/`](.../bifoga/04-repomix/) · kör `npm run chatbot:sync:bifoga` först |
 | **Gör** | `LIFE-OS-CORE-LOCKED.md`, design-städlista, PMIR-utkast |
 | **Smoke** | `smoke:orkester` · `smoke:locked-ux` |
 | **Arkivera** | Sammanfattning → `docs/evaluations/` |
@@ -141,7 +141,7 @@ Kort översikt utan prompter. Detaljer och prompter: [`README.md`](./README.md) 
 
 ## Städning (löpande)
 
-- **KEEP** — aktiv design/specs: [`DESIGN-KEEP-REGISTER.md`](./DESIGN-KEEP-REGISTER.md)
+- **KEEP** — aktiv design/specs: [`DESIGN-KEEP-REGISTER.md`](../DESIGN-KEEP-REGISTER.md)
 - **ARCHIVE** — gamla mockups → `docs/archive/design-2026-06/` (flytta, radera inte direkt)
 - Logga i `HYGIENE-LOG.md`
 

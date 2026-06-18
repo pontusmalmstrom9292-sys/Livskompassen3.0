@@ -14,9 +14,9 @@ const output = join(outDir, 'ui-design-pack.md');
 
 const include = [
   // Koordinering + plan
-  'docs/external-ai/UI-DESIGN-HANDOFF.md',
+  'docs/external-ai/design/UI-DESIGN-HANDOFF.md',
   'docs/external-ai/LIFE-OS-BUILD-STATE.md',
-  'docs/external-ai/CHATBOX-LATHUND.md',
+  'docs/external-ai/chatbox/CHATBOX-LATHUND.md',
   'docs/external-ai/DESIGN-KEEP-REGISTER.md',
   'docs/evaluations/2026-06-15-arkitektur-nav-analys.md',
   'docs/evaluations/2026-06-15-fas19-masterplan-v2.md',

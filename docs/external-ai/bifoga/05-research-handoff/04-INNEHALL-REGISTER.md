@@ -203,7 +203,7 @@ MB-PLAY-54321, MB-REF-rsd-04 — bank KEEP; prod-wire wizard/UI PMIR separat.
 
 ### Barnen PLAY våg 27 KEEP (2026-06-16)
 
-BP-PLAY-25, BP-PLAY-26, BP-PLAY-27, BP-PLAY-28, BP-PLAY-29 — bank KEEP; catalog wire våg 29.
+BP-PLAY-25..29 — bank KEEP; **catalog wire done** våg 29.3 (`barnfokusCatalog` + `barnfokusQuestionsForBracket`).
 
 ---
 

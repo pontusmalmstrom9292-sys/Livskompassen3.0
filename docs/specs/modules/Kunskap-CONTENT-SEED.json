@@ -1,5 +1,5 @@
 {
-  "version": "2026-06-16",
+  "version": "2026-06-18",
   "source_policy": "kunskap_content_seed_keep_only",
   "default_source": "kunskap_content_seed",
   "entries": [
@@ -455,13 +455,13 @@
     },
     {
       "id": "kunskap-fact-cop-006",
-      "title": "Parallel parenting — AFCC-definition",
-      "content": "Parallel parenting innebär separata hushållsspår med minimal direkt kontakt mellan föräldrar; målet är förutsägbarhet och att barn hålls utanför vuxeninteraktion — inte gemensam problemlösning när samarbete eskalerar konflikt.",
+      "title": "Parallel parenting — skriftligt only vid eskalering",
+      "content": "Parallel parenting innebär separata hushållsspår med minimal direkt kontakt mellan föräldrar; målet är förutsägbarhet och att barn hålls utanför vuxeninteraktion. Vid högkonflikt: logistik och känsliga beslut i skrift när muntlig kontakt eskalerar — kopplar till cop-007 och Hamn written_only_escalation. Metod, inte juridisk skyldighet.",
       "category": "medforaldraskap",
       "eventDate": null,
       "source": "kunskap_content_seed",
-      "citation_hint": "AFCC Parent Coordination Task Force Report",
-      "source_tier": "P2"
+      "citation_hint": "AFCC Parent Coordination; Bris skilsmässa; Socialstyrelsen separation små barn",
+      "source_tier": "P1"
     },
     {
       "id": "kunskap-fact-eko-006",
@@ -651,6 +651,16 @@
       "eventDate": null,
       "source": "kunskap_content_seed",
       "citation_hint": "SafeHarbor-SPEC; kunskap-fact-005/006",
+      "source_tier": "P1"
+    },
+    {
+      "id": "kunskap-fact-eko-009",
+      "title": "Existensminimum — hyra, el, mat först",
+      "content": "Vid låg kapacitet eller ekonomisk stress: säkerställ först hyra, el och mat innan diskretionär konsumtion. Existensminimum är inte samma sak som lyxkonsumtion — vid evolution Nivå 1 räcker synlig veckobudget (eko-004) utan månadsdjupbudget.",
+      "category": "ekonomi_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Konsumentverket — budget och skuldrådgivning; 1177 — ekonomiskt stöd vid kris",
       "source_tier": "P1"
     },
     {
@@ -1341,6 +1351,16 @@
       "eventDate": null,
       "source": "kunskap_content_seed",
       "citation_hint": "Psychoeducation — projection as concept",
+      "source_tier": "psychoeducation_general"
+    },
+    {
+      "id": "kunskap-fact-cn-048",
+      "title": "Hoovering via barn eller medlare",
+      "content": "Hoovering kan ske indirekt: barn som budbärare, föräldramöten utan agenda, eller 'vi måste prata för barnens skull' efter gräns. Håll logistik kort (BIFF/Grey Rock); dokumentera datum och kanal i Valv om du sparar bevis — här är begreppet referens, inte din specifika händelse.",
+      "category": "covert_taktik",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "HCR intermittent contact; kompletterar cn-016 Hoovering",
       "source_tier": "psychoeducation_general"
     },
     {

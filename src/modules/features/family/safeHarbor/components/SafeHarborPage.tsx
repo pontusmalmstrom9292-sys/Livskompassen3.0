@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { TryggHamnHub } from './TryggHamnHub';
+import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
 
 type Props = {
   /** Inbäddad i Familjehubben — utan egen sidrubrik. */
@@ -29,6 +30,7 @@ export function SafeHarborPage({ embedded = false }: Props) {
         </header>
       )}
       <TryggHamnHub initialMessage={prefilledMessage} embedded={embedded} />
+      <PinnedPlaneringModuleSlot targetId="familjen.hamn" />
     </div>
   );
 }

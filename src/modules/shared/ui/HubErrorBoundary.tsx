@@ -11,6 +11,7 @@ type Props = {
   backTo?: string;
   backLabel?: string;
   logTag: string;
+  errorBody?: string;
 };
 
 type State = { error: Error | null };
@@ -40,7 +41,8 @@ export class HubErrorBoundary extends Component<Props, State> {
         <div className={`calm-card ${glow} space-y-3 rounded-2xl border border-border/30 p-4`}>
           <p className="text-sm font-medium text-text">{this.props.title}</p>
           <p className="text-xs text-text-muted">
-            Ett tekniskt fel stoppade vyn. Prova igen — dina sparade data påverkas inte.
+            {this.props.errorBody ??
+              'Ett tekniskt fel stoppade vyn. Prova igen — dina sparade data påverkas inte.'}
           </p>
           <div className="flex flex-wrap gap-2">
             <button

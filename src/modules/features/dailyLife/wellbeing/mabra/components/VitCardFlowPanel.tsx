@@ -7,6 +7,7 @@ import { vitHubFilteredLink } from '../lib/vitHubLinks';
 import { writeVitProjectLastSeen } from '../lib/vitProjectLastSeen';
 import type { MabraProjectId } from '../constants/mabraProjects';
 import { pickVitProjectCard } from '../lib/pickVitProjectCard';
+import { getMabraRsdErrorCopy } from '../lib/mabraRsdErrorCopy';
 import { MabraVitEvidencePrompt } from './MabraVitEvidencePrompt';
 
 type Props = {
@@ -55,7 +56,7 @@ export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
       }
       onSaved?.();
     } catch {
-      setError(COPY.error);
+      setError(getMabraRsdErrorCopy());
     } finally {
       setSaving(false);
     }

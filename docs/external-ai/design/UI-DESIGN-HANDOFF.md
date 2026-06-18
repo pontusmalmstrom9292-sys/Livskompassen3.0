@@ -4,7 +4,7 @@
 
 **Start här:** [`UI-DESIGN-MASTER-PROMPT.md`](./UI-DESIGN-MASTER-PROMPT.md) · Repomix: `npm run chatbot:pack:ui-design` → `exports/chatbot-handoff/ui-design-pack.md`
 
-**Aktiv modul-våg (B1–B4):** [`UI-WAVE-ROADMAP.md`](./UI-WAVE-ROADMAP.md) · Valv-fas-prompt: [`PHASE-08-valv-ui.md`](./PHASE-08-valv-ui.md)
+**Aktiv modul-våg (B1–B4):** [`UI-WAVE-ROADMAP.md`](./UI-WAVE-ROADMAP.md) · Valv-fas-prompt: [`PHASE-08-valv-ui.md`](../chatbox/phases/PHASE-08-valv-ui.md)
 
 ---
 
@@ -39,7 +39,7 @@ flowchart LR
 
 | Körfält | Var | Agent | Output |
 |---------|-----|-------|--------|
-| **A** | [`CHATBOX-LATHUND.md`](./CHATBOX-LATHUND.md) | ChatBox (Opus/GPT/Grok…) | Kod + audit → `leveranser/` |
+| **A** | [`CHATBOX-LATHUND.md`](../chatbox/CHATBOX-LATHUND.md) | ChatBox (Opus/GPT/Grok…) | Kod + audit → `leveranser/` |
 | **B** | **Denna fil** | ChatBox / GPT / Cursor Theme Lab | SPEC + wireframes → `leveranser/ui-design/` |
 
 **Regel:** Körfält A **äger** backend, WORM, upload-logik, synapser. Körfält B **äger** navigation, layout, copy, Obsidian Calm — men **implementerar inte** utan Cursor CHECKPOINT.
@@ -54,7 +54,7 @@ flowchart LR
 - Obsidian Calm 2.0 — tokens, spacing, hierarki
 - Wireframes / beslutsmemo för zoner (Hjärtat, Vardagen, Familjen, Valvet)
 - Plausible deniability i **publikt chrome** (Fyren-label, Kompis-knapp)
-- Design-hygien: KEEP vs ARCHIVE enligt [`DESIGN-KEEP-REGISTER.md`](./DESIGN-KEEP-REGISTER.md)
+- Design-hygien: KEEP vs ARCHIVE enligt [`DESIGN-KEEP-REGISTER.md`](../DESIGN-KEEP-REGISTER.md)
 - Prioritera **Våg A** från [`2026-06-15-arkitektur-nav-analys.md`](../evaluations/2026-06-15-arkitektur-nav-analys.md)
 
 ### Får INTE (utan PMIR + Pontus OK)
@@ -82,7 +82,7 @@ flowchart LR
 | Valv-paneler (Mönster, Orkester…) | **Låst** | Endast copy/layout inuti — ingen borttagning |
 | `docs/design/**` | Körfält B | Ja — specs + arkivförslag |
 
-Uppdatera [`LIFE-OS-BUILD-STATE.md`](./LIFE-OS-BUILD-STATE.md) när något blir LOCK.
+Uppdatera [`LIFE-OS-BUILD-STATE.md`](../LIFE-OS-BUILD-STATE.md) när något blir LOCK.
 
 ---
 
@@ -100,7 +100,7 @@ Design-agenten ska **känna till** denna plan men **inte duplicera** arbetet.
 | 6 | App Check deploy | **Blockera** `appCheck.ts` |
 | 7 | Final lock + hygien | Koordinera design-städlista |
 
-Detaljer: [`CHATBOX-LATHUND.md`](./CHATBOX-LATHUND.md)
+Detaljer: [`CHATBOX-LATHUND.md`](../chatbox/CHATBOX-LATHUND.md)
 
 ---
 

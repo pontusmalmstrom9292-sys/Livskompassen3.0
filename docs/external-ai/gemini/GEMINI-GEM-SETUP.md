@@ -11,7 +11,7 @@ cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
 npm run gemini:sync:kunskap
 ```
 
-Detta fyller mappen [`gemini-kunskap/`](./gemini-kunskap/) med alla knowledge-filer.  
+Detta fyller mappen [`gemini-kunskap/`](../gemini-kunskap/) med alla knowledge-filer.  
 Full pack (inkl. repomix): `npm run gemini:pack:all`
 
 ---
@@ -26,7 +26,7 @@ Full pack (inkl. repomix): `npm run gemini:pack:all`
 
 ## 3. System Instructions
 
-1. Öppna [`gemini-kunskap/00-SYSTEM-INSTRUCTION-KLISTRA-IN.txt`](./gemini-kunskap/00-SYSTEM-INSTRUCTION-KLISTRA-IN.txt)  
+1. Öppna [`gemini-kunskap/00-SYSTEM-INSTRUCTION-KLISTRA-IN.txt`](../gemini-kunskap/00-SYSTEM-INSTRUCTION-KLISTRA-IN.txt)  
    (synkas dit av `gemini:sync:kunskap`; källa: [`GEMINI-GEM-SYSTEM-INSTRUCTION-KLISTRA-IN.txt`](./GEMINI-GEM-SYSTEM-INSTRUCTION-KLISTRA-IN.txt))
 2. `Cmd + A` → `Cmd + C`
 3. Klistra in under **System Instructions** i Gem
@@ -64,7 +64,7 @@ I Finder: `Cmd + Shift + G` → klistra in sökvägen → markera **01**–**04*
 **Tier 2 (valfritt):** `gemini-kunskap/tier-2-valfritt/`  
 **Tier 3 (per zon):** `gemini-kunskap/tier-3-repomix/` (efter `npm run gemini:pack`)
 
-Detaljer: [`gemini-kunskap/LÄS-MIG.md`](./gemini-kunskap/LÄS-MIG.md)
+Detaljer: [`gemini-kunskap/LÄS-MIG.md`](../gemini-kunskap/LÄS-MIG.md)
 
 ---
 
@@ -82,4 +82,4 @@ Kör baseline enligt [`GEMINI-GEM-BASELINE-VERIFY.md`](./GEMINI-GEM-BASELINE-VER
 | Ny zon i fokus | Byt fil i `tier-3-repomix/` |
 | Ny fas / arkitekturbeslut | Uppdatera System Instructions om Gem-beteende ändrats |
 
-Kanon: [`FIL-REGISTER.md`](./FIL-REGISTER.md) · [`DOC-INDEX.md`](../DOC-INDEX.md)
+Kanon: [`FIL-REGISTER.md`](../FIL-REGISTER.md) · [`DOC-INDEX.md`](../../DOC-INDEX.md)

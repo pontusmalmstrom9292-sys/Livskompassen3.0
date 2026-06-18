@@ -97,6 +97,16 @@ export const MABRA_COACH_BANK: readonly MabraCoachBankEntry[] = [
     text_sv: 'En mening till dig: "Det här är en reaktion, inte hela jag."',
   },
   {
+    bankId: 'MB-REF-rsd-04',
+    content_class: 'REFLECTION',
+    source_tier: 'product_copy',
+    status: 'KEEP',
+    hub: 'panic_rsd',
+    lens: 'rsd_copy',
+    text_sv:
+      'När något går fel i appen: det är ett tekniskt avbrott — inte ett meddelande om dig som person.',
+  },
+  {
     bankId: 'C-kbt-03',
     content_class: 'REFLECTION',
     source_tier: 'P1',
@@ -349,6 +359,24 @@ export function parafraseGoalAssist(
     ? `Du formulerade: «${trimmed.slice(0, 120)}». `
     : '';
   return `${prefix}${entry.text_sv} Bekräfta bara om det känns rätt — inget mål sparas automatiskt.`;
+}
+
+export const MB_REF_RSD_04_BANK_ID = 'MB-REF-rsd-04';
+
+/** Våg 28 — RSD-säker produktcopy vid tekniska avbrott (ingen LLM). */
+export function parafraseRsdErrorFromBank(entry: MabraCoachBankEntry): string {
+  return entry.text_sv;
+}
+
+export function resolveRsdErrorBankId(requestedBankId?: string): string {
+  if (requestedBankId) {
+    const entry = getMabraCoachBankEntry(requestedBankId);
+    if (!entry || entry.bankId !== MB_REF_RSD_04_BANK_ID) {
+      throw new Error(`Okänd bankId: ${requestedBankId}`);
+    }
+    return entry.bankId;
+  }
+  return MB_REF_RSD_04_BANK_ID;
 }
 
 /** Deterministisk parafras utan LLM — endast banktext + övningskontext. */

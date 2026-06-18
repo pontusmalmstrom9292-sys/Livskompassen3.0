@@ -452,6 +452,26 @@ Kurator-pass 2026-05-25 · linser: **identitet** (5) + **KBT light** (5). Ej dup
 
 ---
 
+
+---
+
+## Våg 28 — Deep Research 2026-06-18 (KEEP)
+
+**Källa:** [`research-2026-06-18-content-master.md`](../../external-ai/imports/research-2026-06-18-content-master.md) · **Kurator:** `specialist-mabra-curator`
+
+| id | content_class | source_tier | status | title_sv | rule_sv | lens | hub |
+|----|---------------|-------------|--------|----------|---------|------|-----|
+| MB-PLAY-54321 | PLAY | product_copy | KEEP | 5-4-3-2-1 steg för steg | Ett steg i taget: 5 saker du ser → 4 du hör → 3 du känner → 2 du luktar → 1 du smakar. Max 2 min. Stopp när kroppen känns lite lugnare. | grounding | find_self |
+
+| id | content_class | source_tier | status | lens | hub | text_sv |
+|----|---------------|-------------|--------|------|-----|---------|
+| MB-REF-rsd-04 | REFLECTION | product_copy | KEEP | rsd_copy | panic_rsd | När något går fel i appen: det är ett tekniskt avbrott — inte ett meddelande om dig som person. |
+
+**UI-notering:** `MB-PLAY-54321` kräver interaktiv wizard i `MabraExerciseView` (våg 28 UI, ej prod-wire än). **REJECT:** cross-RAG Valv→MåBra för akutväg.
+
+**mabraCoachGuard:** MB-REF-rsd-04 gäller produktcopy — inte ex/konflikt (→ Speglar/Hamn).
+
+
 ## Nästa implementation (P1)
 
 - Firestore `vit_hub` / `vit_entries` med `kind: card | memory | chat_turn` *(efter Daglig mix P0 — client-bank klar)*

@@ -7,4 +7,4 @@ All infrastruktur är på plats (2026-06-15).
 - Repomix: `exports/chatbot-handoff/chatbot-pack-security.md`
 - Första snapshot: `~/Livskompassen-snapshots/2026-06-15-inkast/`
 
-**Nästa steg:** [`CHATBOX-LATHUND.md`](./CHATBOX-LATHUND.md) → Dag 1 i ChatBox AI.
+**Nästa steg:** [`CHATBOX-LATHUND.md`](../chatbox/CHATBOX-LATHUND.md) → Dag 1 i ChatBox AI.

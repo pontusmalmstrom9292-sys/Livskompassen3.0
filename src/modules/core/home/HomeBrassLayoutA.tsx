@@ -5,6 +5,7 @@ import { saveCheckIn } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
 import { HomeGreeting } from './HomeGreeting';
 import { HomeBrassDaySteps } from './HomeBrassDaySteps';
+import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
 import { HOME_SUPERHUB_ROUTES } from './homeSuperhubRoutes';
 import { getHomeCompassPhase, phaseLead } from './homeCompassPhase';
 
@@ -137,6 +138,8 @@ export function HomeBrassLayoutA({ onCheckInSaved }: Props) {
           <span>Tryck för att fånga något nytt</span>
         </span>
       </button>
+
+      <PinnedPlaneringModuleSlot targetId="hem.brass.below-grid" />
     </div>
   );
 }

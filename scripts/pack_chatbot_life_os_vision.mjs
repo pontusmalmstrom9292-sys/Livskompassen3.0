@@ -17,7 +17,7 @@ runRepomixPack({
     'docs/evaluations/2026-06-15-fas19-masterplan-v2.md',
     'docs/evaluations/SENASTE-SAMMANFATTNING.md',
     'docs/evaluations/SESSION-INDEX.md',
-    'docs/external-ai/UI-WAVE-ROADMAP.md',
+    'docs/external-ai/design/UI-WAVE-ROADMAP.md',
     'docs/external-ai/LIFE-OS-BUILD-STATE.md',
     'docs/MODUL-FUNKTIONS-REGISTER.md',
     '.context/system-plan.md',

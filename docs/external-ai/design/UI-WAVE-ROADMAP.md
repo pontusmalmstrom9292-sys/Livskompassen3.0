@@ -2,7 +2,7 @@
 
 **Status:** Aktiv från 2026-06-15  
 **Körfält A:** LOCK (CP-1–CP-6) — rör ej backend/WORM utan PMIR  
-**Kanon:** [`UI-DESIGN-HANDOFF.md`](./UI-DESIGN-HANDOFF.md) · [`CHECKPOINT-PROTOCOL.md`](./CHECKPOINT-PROTOCOL.md)
+**Kanon:** [`UI-DESIGN-HANDOFF.md`](./UI-DESIGN-HANDOFF.md) · [`CHECKPOINT-PROTOCOL.md`](../CHECKPOINT-PROTOCOL.md)
 
 ---
 

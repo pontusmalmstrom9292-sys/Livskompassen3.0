@@ -14,6 +14,7 @@ import {
 } from '../../utils/childObservationEpistemics';
 import { barnfokusDisplayText, formatChildLogDate } from '../../utils/logFieldUtils';
 import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
+import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
 
 function pickQuestion(
   pool: BarnfokusQuestion[],
@@ -188,6 +189,12 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
           </>
         )}
       </div>
+
+      <PinnedPlaneringModuleSlot
+        targetId="familjen.barnfokus"
+        contextKey={childAlias}
+        className="mt-2"
+      />
     </BentoCard>
   );
 }

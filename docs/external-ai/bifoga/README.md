@@ -24,7 +24,7 @@ Senaste sync: se [`SYNC-STAMP.txt`](./SYNC-STAMP.txt).
 | [`01-register/`](./01-register/) | BUILD-STATE, SECURITY-LOCK, SYNAPSE-LOCK, UPLOAD-UNIFIED, DEPLOY-WAVE, APPCHECK, DESIGN-KEEP, CHECKPOINT-LOG | **Alltid** vid PHASE-07 |
 | [`02-leveranser/`](./02-leveranser/) | ChatBox-svar fas 01–05 | PHASE-07 final |
 | [`03-prompter/`](./03-prompter/) | Master-prompt, PHASE-07, MODEL-PICKER, lathund | **Först** i chatten |
-| [`05-research-handoff/`](./05-research-handoff/) | Register för Gemini Deep Research | Research-chattar |
+| [`05-research-handoff/`](./05-research-handoff/) | **Exakt 10 filer** (00–09) för Gemini Deep Research | Research-chattar |
 | [`06-backend-masterplan-review/`](./06-backend-masterplan-review/) | **Prompt G** — 2 omgångar (register + kod) | Gemini Pro + Opus |
 | [`04-repomix/`](./04-repomix/) | `chatbot-pack-security.md` | Efter `npm run chatbot:pack:security` |
 

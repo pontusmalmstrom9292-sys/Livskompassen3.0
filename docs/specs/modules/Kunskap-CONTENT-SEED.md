@@ -1942,14 +1942,14 @@ id: kunskap-fact-cop-006
 bankId: kunskap-fact-cop-006
 status: KEEP
 content_class: FACT
-title: "Parallel parenting — AFCC-definition"
-content: "Parallel parenting innebär separata hushållsspår med minimal direkt kontakt mellan föräldrar; målet är förutsägbarhet och att barn hålls utanför vuxeninteraktion — inte gemensam problemlösning när samarbete eskalerar konflikt."
+title: "Parallel parenting — skriftligt only vid eskalering"
+content: "Parallel parenting innebär separata hushållsspår med minimal direkt kontakt mellan föräldrar; målet är förutsägbarhet och att barn hålls utanför vuxeninteraktion. Vid högkonflikt: logistik och känsliga beslut i skrift när muntlig kontakt eskalerar — kopplar till cop-007 och Hamn written_only_escalation. Metod, inte juridisk skyldighet."
 category: medforaldraskap
 entryType: fakta
-tags: [parallel_parenting, hcf, afcc, barn]
-source_tier: P2
-citation_hint: "AFCC Parent Coordination Task Force Report"
-why: "SA-2 research-sa2-001 — fördjupar cn-009"
+tags: [parallel_parenting, skriftlig, hcf, afcc, barn, hamn]
+source_tier: P1
+citation_hint: "AFCC Parent Coordination; Bris skilsmässa; Socialstyrelsen separation små barn"
+why: "SA-2 research-sa2-001 + våg 28 STRENGTHEN skrift-default"
 ```
 
 ```yaml
@@ -2193,6 +2193,46 @@ why: "SA-4 cursor-sa4-013 — Familjen-lugnande copy utan motpartsanalys"
 ```
 
 ---
+
+
+---
+
+## Våg 28 — Deep Research 2026-06-18 (KEEP — ingest 2026-06-18)
+
+**Källa:** [`research-2026-06-18-content-master.md`](../../external-ai/imports/research-2026-06-18-content-master.md) · **Dirigent:** `specialist-innehall-dirigent` · **Gate:** Pontus KEEP 2026-06-18
+
+```yaml
+id: kunskap-fact-eko-009
+bankId: kunskap-fact-eko-009
+status: KEEP
+content_class: FACT
+title: "Existensminimum — hyra, el, mat först"
+content: "Vid låg kapacitet eller ekonomisk stress: säkerställ först hyra, el och mat innan diskretionär konsumtion. Existensminimum är inte samma sak som lyxkonsumtion — vid evolution Nivå 1 räcker synlig veckobudget (eko-004) utan månadsdjupbudget."
+category: ekonomi_vardag
+entryType: fakta
+tags: [ekonomi, existensminimum, hyra, mat, niva_1]
+source_tier: P1
+citation_hint: "Konsumentverket — budget och skuldrådgivning; 1177 — ekonomiskt stöd vid kris"
+why: "Våg 28 post 1 — SA-3; ny ID eko-009 (eko-005 = impulshink KEEP v27)"
+```
+
+**Post 2:** `kunskap-fact-cop-006` STRENGTHEN — innehåll mergat i befintlig KEEP-rad ovan.
+
+```yaml
+id: kunskap-fact-cn-048
+bankId: kunskap-fact-cn-048
+status: KEEP
+content_class: FACT
+title: "Hoovering via barn eller medlare"
+content: "Hoovering kan ske indirekt: barn som budbärare, föräldramöten utan agenda, eller 'vi måste prata för barnens skull' efter gräns. Håll logistik kort (BIFF/Grey Rock); dokumentera datum och kanal i Valv om du sparar bevis — här är begreppet referens, inte din specifika händelse."
+category: covert_taktik
+entryType: fakta
+tags: [covert, hoovering, barn, medlare, hamn]
+source_tier: psychoeducation_general
+citation_hint: "HCR intermittent contact; kompletterar cn-016 Hoovering"
+why: "Våg 28 post 3 — STRENGTHEN cn-016; indirekt återkontakt"
+```
+
 
 ## Koppling till befintlig seed
 

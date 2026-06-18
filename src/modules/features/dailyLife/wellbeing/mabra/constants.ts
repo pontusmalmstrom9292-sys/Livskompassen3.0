@@ -1,5 +1,6 @@
 import type { MabraDurationMinutes, MabraExerciseType, MabraSymptomHub } from './types';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
+import { MB_REF_RSD_04_TEXT_SV } from './content/rsdErrorCopy';
 
 export const MABRA_DURATION_OPTIONS: MabraDurationMinutes[] = [1, 3, 5];
 
@@ -217,7 +218,7 @@ export const MABRA_COACH_COPY = {
   speglarLinkLabel: 'Öppna Speglar',
   offlineFallback:
     'Övningen är gjord. Du behöver inte prestera mer just nu — det du tog hand om räcker som steg.',
-  offlineHint: 'AI otillgänglig — kort lokalt meddelande visas.',
+  offlineHint: MB_REF_RSD_04_TEXT_SV,
 } as const;
 
 export const MABRA_SPEGLAR_REDIRECT_MESSAGE =

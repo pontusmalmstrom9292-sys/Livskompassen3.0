@@ -4,7 +4,7 @@
 
 ---
 
-## Kanon (redigera här)
+## Kanon (redigera här — rot)
 
 | Fil | Roll |
 |-----|------|
@@ -18,26 +18,40 @@
 | `APPCHECK-ENFORCE-GUIDE.md` | Console Enforce |
 | `DESIGN-KEEP-REGISTER.md` | Design KEEP vs arkiv |
 | `HYGIENE-LOG.md` | ARCHIVE-kandidater |
-| `CURSOR-HANDOFF-OPEN.md` | Nästa Cursor-prompter |
-| `PMIR-CHATBOT-WAVE1.md` | Merge-utkast våg 1 |
-| `GEMINI-GEM-SYSTEM-INSTRUCTION.md` | Custom Gem — System Instructions (klistra in i Gemini) |
-| `GEMINI-GEM-SYSTEM-INSTRUCTION-KLISTRA-IN.txt` | Samma instruktion — ren text för TextEdit/Gem (öppna denna) |
-| `GEMINI-GEM-KNOWLEDGE.md` | Custom Gem — Knowledge File + Tier 1–3-lista |
-| `GEMINI-GEM-SETUP.md` | Steg-för-steg Custom Gem-setup |
+| `meta/CURSOR-HANDOFF-OPEN.md` | Nästa Cursor-prompter |
+| `chatbox/PMIR-CHATBOT-WAVE1.md` | Merge-utkast våg 1 |
+| `gemini/GEMINI-GEM-SYSTEM-INSTRUCTION.md` | Custom Gem — System Instructions (klistra in i Gemini) |
+| `gemini/GEMINI-GEM-SYSTEM-INSTRUCTION-KLISTRA-IN.txt` | Samma instruktion — ren text för TextEdit/Gem (öppna denna) |
+| `gemini/GEMINI-GEM-KNOWLEDGE.md` | Custom Gem — Knowledge File + Tier 1–3-lista |
+| `gemini/GEMINI-GEM-SETUP.md` | Steg-för-steg Custom Gem-setup |
 | `gemini-kunskap/` | **Alla knowledge-filer i en mapp** — `npm run gemini:sync:kunskap` |
-| `GEMINI-ORKESTER-MASTER-PROMPT.md` | Gemini orkester — ChatBox/Flow/Cursor routing |
-| `evaluations/2026-06-17-flow-pipeline-karta.md` | Flow P1/P2 Deep Research |
-| `evaluations/MALL-deep-research-modul.md` | Mall före varje bygg |
+| `gemini/GEMINI-ORKESTER-MASTER-PROMPT.md` | Gemini orkester — ChatBox/Flow/Cursor routing |
+| `gemini/GEMINI-GEM-BASELINE-VERIFY.md` | Baseline-frågor + förväntade svar efter setup |
+| `gemini-kunskap/LÄS-MIG.md` | Upload-guide för Gem Knowledge |
+| `imports/README.md` | Namnkonvention `research-2026-06-18-*` (`.md` only) |
+| `imports/research-2026-06-18-master-syntes.md` | Deep Research SYSTEM-AUDIT svar |
+| `imports/research-2026-06-18-content-master.md` | Dirigent våg 28 — 5 KEEP-poster |
+| `imports/gap-matrix-2026-06-18.md` | KEEP/DEFER/REJECT + backend_impact |
+| `bifoga/05-research-handoff/` | Exakt 10 filer — `npm run research:sync:handoff` |
+| `../evaluations/2026-06-17-flow-pipeline-karta.md` | Flow P1/P2 + gate §11 |
+| `../evaluations/2026-06-18-system-gap-syntes.md` | Syntes + våg 28 KEEP + PMIR A/B/C |
+| `../evaluations/MALL-deep-research-modul.md` | Mall före varje bygg |
 | `bifoga/03-prompter/GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER.md` | Deep Research — alla grundämnen (SA1–SA10) |
 | `bifoga/03-prompter/GEMINI-DEEP-RESEARCH-SA6.md` … `SA10.md` | Teknisk zon-audit |
 | `bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md` | Cursor subagent efter research |
-| `imports/README.md` | Namnkonvention research-2026-06-18-* |
-| `evaluations/2026-06-18-notebooklm-baseline.md` | NotebookLM baseline-frågor |
-| `evaluations/2026-06-18-system-gap-syntes.md` | Output från syntes-subagent (efter research) |
-| `imports/gap-matrix-2026-06-18.md` | KEEP/DEFER/REJECT + backend_impact |
 
-| `gemini-kunskap/LÄS-MIG.md` | Upload-guide för Gem Knowledge |
-| `GEMINI-GEM-BASELINE-VERIFY.md` | Baseline-frågor + förväntade svar efter setup |
+## Undermappar (städad 2026-06-18)
+
+| Mapp | Filer |
+|------|-------|
+| `notebooklm/` | `README.md`, `NOTEBOOKLM-MASTER-PROMPT.md`, `NOTEBOOKLM-LATHUND.md` |
+| `chatbox/` | `README.md`, `CHATBOT-MASTER-PROMPT.md`, `CHATBOX-LATHUND.md`, `MODEL-PICKER.md`, `PMIR-CHATBOT-WAVE1.md` |
+| `chatbox/phases/` | `README.md`, `PHASE-01` … `PHASE-08`, `PHASE-DESIGN-AUDIT` |
+| `gemini/` | `README.md`, `GEMINI-GEM-*`, `GEMINI-ORKESTER-*`, `GEMINI-FLOW-*`, `GEMINI-FIRST-MODULE-GATE.md` |
+| `design/` | `README.md`, `UI-DESIGN-HANDOFF.md`, `UI-DESIGN-MASTER-PROMPT.md`, `UI-WAVE-ROADMAP.md` |
+| `meta/` | `README.md`, `CURSOR-HANDOFF-OPEN.md`, `SETUP-REMAINING.md`, `MODULE-SNAPSHOT-MANIFESTS.md` |
+| `imports/` | `README.md`, `research-2026-06-18-*.md`, `gap-matrix-*.md` |
+| `bifoga/` | `README.md`, `01-register/` … `06-backend-masterplan-review/` |
 
 ---
 
@@ -67,7 +81,7 @@
 
 ## Fas-prompter (återanvänd)
 
-`PHASE-01-security-lock.md` … `PHASE-08-valv-ui.md` · `CHATBOT-MASTER-PROMPT.md`
+`chatbox/phases/PHASE-01-security-lock.md` … `PHASE-08-valv-ui.md` · `chatbox/CHATBOT-MASTER-PROMPT.md`
 
 ---
 

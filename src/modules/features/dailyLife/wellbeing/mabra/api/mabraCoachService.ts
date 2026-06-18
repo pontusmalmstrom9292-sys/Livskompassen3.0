@@ -128,3 +128,20 @@ export async function fetchMovementCoach(optionalNote?: string): Promise<MabraCo
     redirectToSpeglar: result.data?.redirectToSpeglar === true,
   };
 }
+
+const rsdErrorCallable = httpsCallable<
+  { mode: 'rsd_error'; bankId?: string },
+  { coach: string; redirectToSpeglar?: boolean; bankId?: string }
+>(functions, 'mabraCoach');
+
+/** Våg 28 — MB-REF-rsd-04 deterministisk felcopy via mabraCoach (ingen LLM). */
+export async function fetchRsdErrorCoach(bankId?: string): Promise<MabraCoachResult & { bankId?: string }> {
+  const result = await rsdErrorCallable({ mode: 'rsd_error', bankId });
+  const coach = result.data?.coach;
+  if (!coach?.trim()) throw new Error('Tomt rsd_error-svar.');
+  return {
+    coach: coach.trim(),
+    redirectToSpeglar: result.data?.redirectToSpeglar === true,
+    bankId: result.data?.bankId,
+  };
+}

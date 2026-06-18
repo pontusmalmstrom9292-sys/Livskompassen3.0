@@ -2,8 +2,8 @@
 
 Ladda upp detta dokument (och Tier 1-filerna nedan) som **Knowledge Files** i din Custom Gem.
 
-**Alla filer i en mapp:** [`gemini-kunskap/`](./gemini-kunskap/) — kör `npm run gemini:sync:kunskap` före upload.  
-**System Instructions:** [`00-SYSTEM-INSTRUCTION-KLISTRA-IN.txt`](./gemini-kunskap/00-SYSTEM-INSTRUCTION-KLISTRA-IN.txt) (samma mapp, men klistras under Instructions — inte Knowledge).
+**Alla filer i en mapp:** [`gemini-kunskap/`](../gemini-kunskap/) — kör `npm run gemini:sync:kunskap` före upload.  
+**System Instructions:** [`00-SYSTEM-INSTRUCTION-KLISTRA-IN.txt`](../gemini-kunskap/00-SYSTEM-INSTRUCTION-KLISTRA-IN.txt) (samma mapp, men klistras under Instructions — inte Knowledge).
 
 ---
 

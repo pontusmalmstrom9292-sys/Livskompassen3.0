@@ -49,6 +49,9 @@ const PlaneringHubLayoutPicker = lazy(() =>
 const PlaneringQuickListPanel = lazy(() =>
   import('./PlaneringQuickListPanel').then((m) => ({ default: m.PlaneringQuickListPanel })),
 );
+const PlaneringNotePinPanel = lazy(() =>
+  import('./PlaneringNotePinPanel').then((m) => ({ default: m.PlaneringNotePinPanel })),
+);
 const PlaneringEmailRulesPanel = lazy(() =>
   import('./PlaneringEmailRulesPanel').then((m) => ({ default: m.PlaneringEmailRulesPanel })),
 );
@@ -116,7 +119,10 @@ export function PlaneringPage() {
       case 'inkop':
         return (
           <Suspense fallback={<PlaneringPanelFallback />}>
-            <PlaneringQuickListPanel />
+            <div className="space-y-4">
+              <PlaneringQuickListPanel />
+              <PlaneringNotePinPanel />
+            </div>
           </Suspense>
         );
       case 'handling':

@@ -61,10 +61,10 @@ Ställ dessa fyra frågor (förväntade svar i [`docs/evaluations/2026-06-18-not
 ## 5. Deep Research (parallellt)
 
 1. `npm run research:sync:handoff`
-2. Bifoga `docs/external-ai/bifoga/05-research-handoff/` till Gemini Deep Research
-3. Kör [`GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER.md`](./bifoga/03-prompter/GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER.md) + SA1–SA10
+2. Bifoga `docs/external-ai/bifoga/05-research-handoff/` filerna **00–09** (10 st) till Gemini Deep Research
+3. Kör [`GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER.md`](../bifoga/03-prompter/GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER.md) + SA1–SA10
 4. Spara till `docs/external-ai/imports/research-2026-06-18-*.md`
-5. Cursor-subagent: [`CURSOR-FLOW-CREDITS-SYNTHESIS.md`](./bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md)
+5. Cursor-subagent: [`CURSOR-FLOW-CREDITS-SYNTHESIS.md`](../bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md)
 
 ---
 
@@ -83,7 +83,7 @@ Ställ dessa fyra frågor (förväntade svar i [`docs/evaluations/2026-06-18-not
 | Verktyg | När |
 |---------|-----|
 | **Cursor** | Prod-kod, smoke, deploy (efter PMIR) |
-| **ChatBox** | SPEC, PMIR, wireframes — [`CHATBOX-LATHUND.md`](./CHATBOX-LATHUND.md) |
-| **Gemini Gem** | Orkester — [`GEMINI-ORKESTER-MASTER-PROMPT.md`](./GEMINI-ORKESTER-MASTER-PROMPT.md) |
+| **ChatBox** | SPEC, PMIR, wireframes — [`CHATBOX-LATHUND.md`](../chatbox/CHATBOX-LATHUND.md) |
+| **Gemini Gem** | Orkester — [`GEMINI-ORKESTER-MASTER-PROMPT.md`](../gemini/GEMINI-ORKESTER-MASTER-PROMPT.md) |
 
 Kanon-index: [`docs/DOC-INDEX.md`](../DOC-INDEX.md)

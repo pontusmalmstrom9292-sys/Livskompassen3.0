@@ -6,6 +6,7 @@ import { HubPageShell } from '@/core/layout/HubPageShell';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { LivBackLink } from '@/modules/shell/LivBackLink';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { getMabraRsdErrorCopy } from '../lib/mabraRsdErrorCopy';
 import { MabraBentoShell } from './MabraBentoShell';
 
 export const MabraLayout = memo(function MabraLayout() {
@@ -19,6 +20,7 @@ export const MabraLayout = memo(function MabraLayout() {
   return (
     <HubErrorBoundary
       title="MåBra kunde inte laddas"
+      errorBody={getMabraRsdErrorCopy()}
       glow="green"
       backTo={NAV_PATHS.VARDAGEN}
       backLabel="Till Liv och göra"

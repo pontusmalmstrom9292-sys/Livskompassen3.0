@@ -7,6 +7,7 @@ import { VIT_HUB_LANDED, VIT_HUB_VAULT_LINK } from '../lib/vitHubCopy';
 import { vitHubFilteredLink } from '../lib/vitHubLinks';
 import { pickVitProjectCard } from '../lib/pickVitProjectCard';
 import { writeVitProjectLastSeen } from '../lib/vitProjectLastSeen';
+import { getMabraRsdErrorCopy } from '../lib/mabraRsdErrorCopy';
 
 type Props = {
   userId: string | undefined;
@@ -66,7 +67,7 @@ export function VitMemoryFlowPanel({ userId, projectId, onSaved }: Props) {
       setSaved(true);
       onSaved?.();
     } catch {
-      setError(COPY.error);
+      setError(getMabraRsdErrorCopy());
     } finally {
       setSaving(false);
     }

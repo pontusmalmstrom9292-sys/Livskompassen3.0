@@ -120,7 +120,7 @@ Vid FAIL: uppdatera knowledge (`npm run gemini:pack:all`), kontrollera System In
 
 Förväntade svar ovan verifierade mot levande kanon:
 
-- [`LIFE-OS-BUILD-STATE.md`](./LIFE-OS-BUILD-STATE.md) — 11× LOCK, FREEZE 2026-06-16, DEFER wave-2/M3.0-C
+- [`LIFE-OS-BUILD-STATE.md`](../LIFE-OS-BUILD-STATE.md) — 11× LOCK, FREEZE 2026-06-16, DEFER wave-2/M3.0-C
 - [`GEMINI-GEM-SYSTEM-INSTRUCTION.md`](./GEMINI-GEM-SYSTEM-INSTRUCTION.md) — WORM-lista, silos, 150 SEK, Flow-routing
 - `npm run gemini:pack:all` — PASS (repomix + notebooklm genererade)
 

@@ -36,8 +36,10 @@ import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import {
   getMabraCoachBankEntry,
   parafraseGoalAssist,
+  parafraseRsdErrorFromBank,
   resolveCoachBankId,
   resolveGoalAssistBankId,
+  resolveRsdErrorBankId,
   resolveVitChatBankId,
   type MabraCoachExercise,
   type MabraCoachHub,
@@ -315,6 +317,23 @@ export const mabraCoach = onCall(
     const optionalNote = typeof request.data.optionalNote === 'string' ? request.data.optionalNote : undefined;
     const mode = typeof request.data.mode === 'string' ? request.data.mode : 'coach';
     const thought = typeof request.data.thought === 'string' ? request.data.thought.trim() : '';
+
+    if (mode === 'rsd_error') {
+      const requestedBankId =
+        typeof request.data.bankId === 'string' ? request.data.bankId.trim() : undefined;
+      let bankId: string;
+      try {
+        bankId = resolveRsdErrorBankId(requestedBankId);
+      } catch {
+        throw invalidBankIdError('Ogiltig bankId för rsd_error.');
+      }
+      const bankEntry = getMabraCoachBankEntry(bankId);
+      if (!bankEntry) {
+        throw invalidBankIdError('Bankrad saknas för rsd_error.');
+      }
+      const coach = parafraseRsdErrorFromBank(bankEntry);
+      return { coach, redirectToSpeglar: false, bankId };
+    }
 
     if (mode === 'transformator') {
       if (!thought || thought.length > 500) {

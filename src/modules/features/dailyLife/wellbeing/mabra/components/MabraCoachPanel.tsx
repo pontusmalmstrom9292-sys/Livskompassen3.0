@@ -1,8 +1,9 @@
 import { useCallback, useRef, useState } from 'react';
 import { Loader2, Mic, MicOff } from 'lucide-react';
 import { useSpeechToText } from '@/core/hooks/useSpeechToText';
-import { fetchMabraCoach } from '../api/mabraCoachService';
+import { fetchMabraCoach, fetchRsdErrorCoach } from '../api/mabraCoachService';
 import { MABRA_COACH_COPY } from '../constants';
+import { getMabraRsdErrorCopy } from '../lib/mabraRsdErrorCopy';
 import { shouldRedirectMabraCoachToSpeglar } from '../lib/mabraCoachGuard';
 import type { MabraExerciseType, MabraSymptomHub } from '../types';
 import { MabraSpeglarGuardHint } from './MabraSpeglarGuardHint';
@@ -84,7 +85,12 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
     } catch {
       setCoachText(MABRA_COACH_COPY.offlineFallback);
       setUsedAi(false);
-      setError(MABRA_COACH_COPY.offlineHint);
+      try {
+        const rsd = await fetchRsdErrorCoach();
+        setError(rsd.coach);
+      } catch {
+        setError(getMabraRsdErrorCopy());
+      }
     } finally {
       setLoading(false);
     }

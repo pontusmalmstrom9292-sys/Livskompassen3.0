@@ -198,4 +198,4 @@ Gemini ska **granska** ChatBox-svar: "APPROVED / APPROVED WITH CHANGES / REJECTE
 | P6 | Dossier timeline | Strukturerad tidslinje LLM | Tunn wire i generateDossierInternal |
 | P7 | Hamn BIFF | Befintlig askGransArkitekten | DEFER Flow |
 
-Kör [`CURSOR-FLOW-CREDITS-SYNTHESIS.md`](./bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md) efter Deep Research för prioriterad ordning och kreditbudget.
+Kör [`CURSOR-FLOW-CREDITS-SYNTHESIS.md`](../bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md) efter Deep Research för prioriterad ordning och kreditbudget.

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import type { CheckInRow } from '@/core/firebase/firestore';
 import { getMabraHistory } from '@/core/firebase/mabraHistory';
+import { getMabraRsdErrorCopy } from '../lib/mabraRsdErrorCopy';
 
 export interface MabraHistoryState {
   history: CheckInRow[];
@@ -20,9 +21,8 @@ export const useMabraHistoryStore = create<MabraHistoryState>()((set) => ({
     try {
       const history = await getMabraHistory(userId, limitCount);
       set({ history, isLoading: false });
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Misslyckades att hämta måbra-historik.';
-      set({ error: msg, isLoading: false });
+    } catch {
+      set({ error: getMabraRsdErrorCopy(), isLoading: false });
     }
   },
 

@@ -14,7 +14,7 @@
 
 ## Steg 1 — Master-prompt
 
-Klistra hela blocket från [`CHATBOT-MASTER-PROMPT.md`](./CHATBOT-MASTER-PROMPT.md) **plus** [`UI-DESIGN-MASTER-PROMPT.md`](./UI-DESIGN-MASTER-PROMPT.md) (Körfält B-regler).
+Klistra hela blocket från [`CHATBOT-MASTER-PROMPT.md`](../CHATBOT-MASTER-PROMPT.md) **plus** [`UI-DESIGN-MASTER-PROMPT.md`](../../design/UI-DESIGN-MASTER-PROMPT.md) (Körfält B-regler).
 
 ---
 
@@ -91,4 +91,4 @@ npm run smoke:orkester
 
 ## Nästa våg
 
-Efter B1 LOCK → [`UI-WAVE-ROADMAP.md`](./UI-WAVE-ROADMAP.md) B2 Hjärtat.
+Efter B1 LOCK → [`UI-WAVE-ROADMAP.md`](../../design/UI-WAVE-ROADMAP.md) B2 Hjärtat.

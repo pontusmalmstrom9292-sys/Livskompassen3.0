@@ -29,7 +29,7 @@ The content is organized as follows:
 ## Notes
 - Some files may have been excluded based on .gitignore rules and Repomix's configuration
 - Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
-- Only files matching these patterns are included: docs/external-ai/UI-DESIGN-HANDOFF.md, docs/external-ai/LIFE-OS-BUILD-STATE.md, docs/external-ai/CHATBOX-LATHUND.md, docs/external-ai/DESIGN-KEEP-REGISTER.md, docs/evaluations/2026-06-15-arkitektur-nav-analys.md, docs/evaluations/2026-06-15-fas19-masterplan-v2.md, .context/locked-ux-features.md, .context/design-language.md, .context/locked-icons.md, docs/design/COLOR-POLICY.md, docs/design/ICON-STYLE-GUIDE.md, docs/design/PLANERING-PROJEKT-HYBRID.md, docs/design/PLANERINGSSIDA-SPEC.md, docs/design/WIDGET-BAR-SPEC.md, docs/design/BARNPORTEN-SPEC.md, docs/design/VALV-HUBB-SPEC.md, docs/design/FAMILJEN-HUB-SPEC.md, docs/design/references/MENU-DRAWER-KANON.md, docs/design/references/DOCK-KANON.md, docs/design/references/KOMPASS-TRE-TIDPUNKTER.md, docs/gpt-handoff/README.md, src/modules/core/navigation/navTruth.ts, src/modules/core/layout/FloatingDock.tsx, src/modules/core/components/FyrenWidgetBar.tsx, src/modules/shell/LivLauncherGrid.tsx, src/modules/shell/livLauncherPreviews.tsx, src/modules/core/routing/AppRoutes.tsx, src/modules/features/admin/planning/components/PlaneringPage.tsx
+- Only files matching these patterns are included: docs/external-ai/design/UI-DESIGN-HANDOFF.md, docs/external-ai/LIFE-OS-BUILD-STATE.md, docs/external-ai/chatbox/CHATBOX-LATHUND.md, docs/external-ai/DESIGN-KEEP-REGISTER.md, docs/evaluations/2026-06-15-arkitektur-nav-analys.md, docs/evaluations/2026-06-15-fas19-masterplan-v2.md, .context/locked-ux-features.md, .context/design-language.md, .context/locked-icons.md, docs/design/COLOR-POLICY.md, docs/design/ICON-STYLE-GUIDE.md, docs/design/PLANERING-PROJEKT-HYBRID.md, docs/design/PLANERINGSSIDA-SPEC.md, docs/design/WIDGET-BAR-SPEC.md, docs/design/BARNPORTEN-SPEC.md, docs/design/VALV-HUBB-SPEC.md, docs/design/FAMILJEN-HUB-SPEC.md, docs/design/references/MENU-DRAWER-KANON.md, docs/design/references/DOCK-KANON.md, docs/design/references/KOMPASS-TRE-TIDPUNKTER.md, docs/gpt-handoff/README.md, src/modules/core/navigation/navTruth.ts, src/modules/core/layout/FloatingDock.tsx, src/modules/core/components/FyrenWidgetBar.tsx, src/modules/shell/LivLauncherGrid.tsx, src/modules/shell/livLauncherPreviews.tsx, src/modules/core/routing/AppRoutes.tsx, src/modules/features/admin/planning/components/PlaneringPage.tsx
 - Files matching patterns in .gitignore are excluded
 - Files matching default ignore patterns are excluded
 - Code comments have been removed from supported file types
@@ -1123,554 +1123,184 @@ public/manifest.webmanifest → shortcuts[]
 Monteras i `MainLayout`. WH1 pipeline: se [`HOMESCREEN-WIDGETS-SPEC.md`](./HOMESCREEN-WIDGETS-SPEC.md).
 ````
 
-## File: src/modules/core/components/FyrenWidgetBar.tsx
-````typescript
-import type { CSSProperties, ReactNode } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { clsx } from 'clsx';
-import { hasVaultGate } from '../auth/sessionService';
-import { NAV_PATHS } from '../navigation/navTruth';
-import { useStore } from '../store';
-import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
-import { FyrenProgressRing } from '../ui/FyrenProgressRing';
-import { FyrenShortcutMicIcon, FyrenShortcutNoteIcon } from '../ui/widget-icons';
-import { useFyrenWidget } from './fyrenWidgetContext';
-⋮----
-type WidgetIconKind = 'mic' | 'note';
-⋮----
-type WidgetAction = {
-  id: string;
-  label: string;
-  to: string;
-  hubId?: DrawerL2HubId;
-  widgetIcon?: WidgetIconKind;
-};
-⋮----
-function resolveWidgetActionLabel(action: WidgetAction, vaultSessionOpen: boolean): string
-⋮----
-function WidgetIcon(
-⋮----
-function ActionTile({
-  label,
-  to,
-  icon,
-  tabIndex,
-  onNavigate,
-}: {
-  label: string;
-  to: string;
-  icon: ReactNode;
-  tabIndex: number;
-onNavigate: ()
-⋮----
-className=
-````
-
-## File: src/modules/shell/LivLauncherGrid.tsx
-````typescript
-import type { LucideIcon } from 'lucide-react';
-import {
-  ChevronRight,
-  Clock,
-  FolderKanban,
-  Sparkles,
-  Sprout,
-  Wallet,
-} from 'lucide-react';
-import { clsx } from 'clsx';
-import type { CalmCardGlow } from '@/shared/ui/BentoCard';
-import {
-  LIV_LAUNCHER_EXTERNAL,
-  LIV_LAUNCHER_INLINE_TABS,
-} from './livLauncherRoutes';
-import { LIV_LAUNCHER_PREVIEWS } from './livLauncherPreviews';
-⋮----
-export type LivLauncherId =
-  | 'kompasser'
-  | 'ekonomi'
-  | 'mabra'
-  | 'projekt'
-  | 'arbetsliv';
-⋮----
-type LauncherCardDef = {
-  id: LivLauncherId;
-  label: string;
-  hint: string;
-  icon: LucideIcon;
-  glow: CalmCardGlow;
-  external?: boolean;
-};
-⋮----
-type LivLauncherGridProps = {
-  activeId: LivLauncherId;
-  onSelect: (id: LivLauncherId) => void;
-};
-⋮----
-export function LivLauncherGrid(
-⋮----
-className=
-````
-
-## File: src/modules/shell/livLauncherPreviews.tsx
-````typescript
-import type { ReactNode } from 'react';
-⋮----
-type LivLauncherId =
-  | 'kompasser'
-  | 'ekonomi'
-  | 'mabra'
-  | 'projekt'
-  | 'arbetsliv';
-````
-
-## File: docs/evaluations/2026-06-15-arkitektur-nav-analys.md
+## File: docs/external-ai/chatbox/CHATBOX-LATHUND.md
 ````markdown
-# Arkitektur + navigation — READ-ONLY analys — 2026-06-15
+# ChatBox AI — Lathund (7 dagar)
 
-**Status:** Våg A implementerad + deployad 2026-06-15 (F1–F5, smoke PASS, hosting live)  
-**Källa:** Cursor-analys mot `gpt-pack-01-arkitektur.md` + levande kod  
-**Relaterat:** [`docs/gpt-handoff/README.md`](../gpt-handoff/README.md) Pack 01 · GPT målbild 4 platser + Fyren i bakgrunden  
-**Transkript:** Cursor agent `39bf9ea8-d5a0-466d-af02-a629d4644ff0`
+Kort översikt utan prompter. Detaljer och prompter: [`README.md`](../README.md) · [`CHECKPOINT-PROTOCOL.md`](../CHECKPOINT-PROTOCOL.md).
 
-## Sammanfattning (3 rader)
+**Syfte:** Spara Cursor/Google-krediter. Tung analys och kod i **ChatBox AI**. Cursor för granskning, smoke, låsning och deploy.
 
-- Säkerhet OK: WORM, tre RAG-silos, supermodule-mönster.
-- Problem: 12–18 upplevda hubbar vs målbild 4 + bakgrunds-Fyren.
-- **Våg A godkänd:** F1 (launcher Handling bort), F2 (dock Hjärtat), F4 (neutral Fyren-label), F5 (snabbare Kanban).
-
-## Låsta regler (rör ej utan PMIR)
-
-Barnfokus · P3 Kanban · Valv Mönster/Orkester · Valv HITL · plausible deniability i drawer.
-
-## Nästa steg
-
-1. ~~Pontus: godkänn Våg A~~ **Klart 2026-06-15**
-2. ~~Cursor Agent: implementera F1→F2→F4→F5 + `npm run smoke:locked-ux`~~ **Klart 2026-06-15** (commit `f11d2c946`, hosting deploy)
-3. Våg B: PMIR innan routing-sammanslagningar (H1–H4)
-4. Våg C: strategiska Fyren-beslut (B1–B3) — defer
+**Parallellt UI/design:** [`UI-DESIGN-HANDOFF.md`](../design/UI-DESIGN-HANDOFF.md) — annat körfält, samma projektplan, inga filkrockar.
 
 ---
 
-# Livskompassen 3.0 — Arkitekturanalys (READ-ONLY)
+## Innan du börjar
 
-Analysen bygger på levande kod i repot (primärt `AppRoutes.tsx`, `navTruth.ts`, supermoduler, `firestore.rules`, callable-lager). Ingen kod har ändrats.
+| Vad | Var |
+|-----|-----|
+| Modellval | [`MODEL-PICKER.md`](./MODEL-PICKER.md) |
+| Status LOCK/OPEN | [`LIFE-OS-BUILD-STATE.md`](../LIFE-OS-BUILD-STATE.md) |
+| Repomix + bifoga-mappar | `npm run chatbot:pack:all` |
+| Bifoga-filer (register m.m.) | [`bifoga/`](../bifoga/) — `npm run chatbot:sync:bifoga` |
+| Lokal backup-mapp | `~/Livskompassen-snapshots/` |
 
----
-
-## 1. Zon- och router-karta
-
-### Kanoniska zoner (produkt)
-
-| Zon | Route | Understruktur |
-|-----|-------|---------------|
-| **Hem** | `/` | `HomePage` + `CaptureSuperModule` |
-| **Hjärtat** | `/hjartat` | `?tab=reflektion` (dagbok) · `?tab=speglar` |
-| **Vardagen** | `/vardagen` | Launcher + inline `kompasser` / `ekonomi` |
-| **Familjen** | `/familjen` | 6 hub-tabs (`reflektion`, `livslogg`, …) |
-| **Valvet** | `/valvet` | `vaultTab` + `valvMode` (PIN-gate i `VaultPage`) |
-
-Legacy-redirects håller gamla paths (`/dagbok`, `/liv`, `/valv`, `/hamn`) utanför parallella världar — se ```146:168:src/modules/core/routing/AppRoutes.tsx``` och ```194:205:src/modules/core/routing/AppRoutes.tsx```.
-
-### Alla separata "platser" idag (utöver kanon)
-
-Utöver de fyra zonerna + Hem finns **minst 20 egna routes** som användaren kan nå:
-
-| Kategori | Routes |
-|----------|--------|
-| Vardagsmoduler (egna sidor) | `/mabra/*`, `/planering`, `/planering/kalender`, `/planering/input`, `/projekt` (+ under), `/arbetsliv/input`, `/ekonomi`, `/morgon` |
-| AI / meta | `/kompis`, `/orakel`, `/reflection` |
-| Arkiv / legacy | `/arkiv`, `/oversikt`, `/dashboard` |
-| Barn | `/barnporten`, `/barnporten/foralder-trygg` |
-| System | `/installningar`, `/widget/*`, `/dev/*` |
-
-Full lista i ```274:532:src/modules/core/routing/AppRoutes.tsx```.
-
-### Komponenthierarki
-
-```mermaid
-flowchart TD
-  BR[BrowserRouter main.tsx:20]
-  APP[App App.tsx:29]
-  SHELL[AppShell — ZeroFootprint + EvolutionSync]
-  ROUTES[AppRoutes]
-  ML[MainLayout — header + drawer + Fyren + dock]
-  PAGE[Zone Page]
-  HUB[HubPageShell / ModuleShell]
-  BENTO[Zone BentoShell — FamiljenBentoShell, ValvBentoShell, …]
-  SM[InputSuperModule / TabPanel]
-  DEL[Delegate / Panel]
-
-  BR --> APP --> SHELL --> ROUTES --> ML --> PAGE
-  PAGE --> HUB --> BENTO --> SM --> DEL
-```
-
-**Exempel kedjor:**
-
-- **Familjen → Barnfokus:** `FamiljenPage` → `ModuleShell` → `FamiljenBentoShell` → `FamiljenInputSuperModule` → `FamiljenBarnfokusDelegate` (```139:141:src/modules/core/pages/FamiljenPage.tsx```)
-- **Valv → Inkast:** `ValvetRoutePage` → `HubPageShell` → `VaultPage` → `ValvInputSuperModule` → `ValvSuperModule` (```93:112:src/modules/core/pages/ValvetRoutePage.tsx```, ```235:245:src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx```)
-- **Hjärtat → Reflektion:** `DagbokPage` → `ModuleShell` → `DagbokInputSuperModule` → `DagbokReflektionDelegate` (```47:50:src/modules/core/pages/DagbokPage.tsx```)
+**Regel:** Max **2 parallella** ChatBox-chattar. Kod från två chattar på samma fil = nej.
 
 ---
 
-## 2. Hub-räkning
+## Ritual efter varje ChatBox-chatt (CHECKPOINT)
 
-### Navigationsskikt (vad användaren *ser*)
-
-| Skikt | Antal distinkta val | Källa |
-|-------|---------------------|-------|
-| **FloatingDock** | **4** zoner | Vardagen · Familjen · Dagbok · Handling (```17:57:src/modules/core/layout/FloatingDock.tsx```) |
-| **Drawer — Vardag** | **4** rader | Hem · Liv och göra · Familj · Inställningar (```88:225:src/modules/core/navigation/navTruth.ts```) |
-| **Drawer — Valv** | **6** rader (endast vid unlock) | Samla · Analysera · Kunskap · Vit · Exportera · Forensik (```258:313:src/modules/core/navigation/navTruth.ts```, ```186:233:src/modules/core/layout/NavigationDrawer.tsx```) |
-| **LivLauncher** | **6** kort | Kompasser · Ekonomi · MåBra · Handling · Projekt · Arbetsliv (```43:80:src/modules/shell/LivLauncherGrid.tsx```) |
-| **FyrenWidgetBar** | **8** genvägar | Inkast · Snabbval · Inspelning · Anteckning · Lista · Planering · **Valv** · Projekt (```20:39:src/modules/core/components/FyrenWidgetBar.tsx```) |
-| **Familjen hub-tabs** | **6** | Barnfokus · Livslogg · Tillsammans · Barnporten · Hamn · Drogfrihet (```33:40:src/modules/core/pages/FamiljenPage.tsx```) |
-| **Valv input modes** | **7** | spara · granska · analysera · kunskap · vit · rapporter · mer (```13:94:src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts```) |
-
-### Jämförelse med målbild
-
-| Målbild | Nuläge |
-|---------|--------|
-| 4 platser + Fyren i bakgrunden | **4 i dock** — men **6 launcher-kort**, **8 Fyren-genvägar**, **6 Familjen-tabs**, **6–7 Valv-lägen**, plus **egna routes** för MåBra/Planering/Projekt/Arbetsliv/Ekonomi/Kompis/Morgon/Barnporten |
-| Fyren = kapacitetsgrind, inte plats | Fyren är **synlig primärnav** (dock-handle + widget-panel med "Valv", "Planering", "Projekt") — ```66:68:src/modules/core/layout/FloatingDock.tsx```, ```37:37:src/modules/core/components/FyrenWidgetBar.tsx``` |
-
-**Slutsats:** Arkitekturen *säger* 3-zon + Valv, men användaren upplever **12–18 mentala "världar"** beroende på skikt (dock → launcher → hub-tab → inputMode → Valv-zone).
+1. Spara svaret i `leveranser/`
+2. Granska i Cursor — applicera bara godkända ändringar
+3. Kör smoke (se tabell per dag nedan)
+4. Uppdatera `LIFE-OS-BUILD-STATE.md` (LOCK om PASS)
+5. Städa filer om det passar — [`REPO-HYGIENE.md`](../REPO-HYGIENE.md)
+6. Om LOCK → `./scripts/snapshot_locked_module.sh <modul>`
+7. Uppdatera `CHECKPOINT-LOG.md`
+8. Först då — nästa ChatBox-chatt
 
 ---
 
-## 3. Supermoduler
+## 7 dagar — vad, modell, leverans, smoke
 
-### InputSuperModule-karta
+### Dag 1 — Säkerhetslås (audit, ingen ny kod)
 
-| SuperModule | Zon / Route | Delegates / lägen | Klick dock → första handling* |
-|-------------|-------------|-------------------|-------------------------------|
-| `FamiljenInputSuperModule` | `/familjen?tab=reflektion\|livslogg` | 6 modes: barnfokus, livslogg_stund, fysiologi, livslogg_observation, vardagsstruktur, inkast (```24:78:src/modules/features/family/children/supermodule/familjenInputModes.ts```) | **2** (dock Familjen → skriv i Barnfokus) |
-| `DagbokInputSuperModule` | `/hjartat` (embedded) · `/hjartat/input` | reflektion, quick_mirror, arkiv (```20:48:src/modules/features/lifeJournal/diary/supermodule/dagbokInputModes.ts```) | **2** |
-| `EkonomiInputSuperModule` | `/vardagen?tab=ekonomi` | 9 modes, kapacitetsfiltrerade (saldo, mikrosteg, kuvert, impuls, …) (```28:58:src/modules/features/dailyLife/wellbeing/economy/supermodule/ekonomiInputModes.ts```) | **3** (dock Vardagen → kort Ekonomi → formulär) |
-| `MabraInputSuperModule` | `/mabra/input` | 9 modes (checkin + vit_* + mer…) (```24:89:src/modules/features/dailyLife/wellbeing/mabra/supermodule/mabraInputModes.ts```) | **3–4** (dock Vardagen → MåBra-kort → hub → ev. input) |
-| `PlaneringInputSuperModule` | `/planering/input` · embedded i `/planering?tab=handling` | task_quick, inkast, quick_list (```18:46:src/modules/features/admin/planning/supermodule/planeringInputModes.ts```) | **2–4** (dock Handling direkt; första gången `GoraModulValjare` +1 — ```79:83:src/modules/features/admin/planning/components/PlaneringPage.tsx```) |
-| `ArbetslivInputSuperModule` | `/arbetsliv/input` | stampla, inkomster, tid (```18:43:src/modules/features/dailyLife/arbetsliv/supermodule/arbetslivInputModes.ts```) | **3** (Vardagen → Arbetsliv-kort → stämpel) |
-| `ValvInputSuperModule` | `/valvet` (efter PIN) | 7 valvModes → `ValvSuperModule` per zon (```37:94:src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts```) | **2+** (Fyren 3s-håll / widget Valv → biometri → spara) |
-| `CaptureSuperModule` | `/` (Hem) | hem-capture, planering, … | **1** (redan på Hem) |
-
-\*Klick = navigationssteg, inte inmatning/spar.
-
-### InputRoutes (skugg-rutter)
-
-| Fil | Mount | Path |
-|-----|-------|------|
-| `DagbokInputRoutes` | `/hjartat/*` | `/hjartat/input` (```16:28:src/modules/features/lifeJournal/diary/routing/DagbokInputRoutes.tsx```) |
-| `PlaneringInputRoutes` | `/planering/*` | `/planering/input` (```14:26:src/modules/features/admin/planning/routing/PlaneringInputRoutes.tsx```) |
-| `ArbetslivInputRoutes` | `/arbetsliv/*` | `/arbetsliv/input` |
-| `MabraRoutes` | `/mabra/*` | `/mabra/input` + 10+ under-vyer (```22:39:src/modules/features/dailyLife/wellbeing/mabra/routing/MabraRoutes.tsx```) |
-
-**Observation:** Universal Input är implementerat konsekvent (thin router + delegates), men **monteras på olika djup** — ibland inline i hub (`Familjen`, `Hjärtat`), ibland egen route (`/mabra`, `/planering/input`), ibland launcher-steg emellan.
+| | |
+|---|---|
+| **Modell** | Claude Opus 4.8 |
+| **Repomix** | `exports/chatbot-handoff/chatbot-pack-security.md` |
+| **Gör** | Inventera WORM, vault-gate, synapser, DCAP, locked UX |
+| **Leverans** | `SECURITY-LOCK-MANIFEST.md` |
+| **Smoke** | `smoke:valv-security` · `smoke:locked-ux` |
+| **Parallellt OK** | Sonar 2 — App Check-research (egen chatt, bara docs) |
 
 ---
 
-## 4. Navigation & kognitiv belastning
+### Dag 2 — Upload SPEC (ingen kod än)
 
-### Dubbel/trippel navigation
-
-| Problem | Var |
-|---------|-----|
-| **Dock + Launcher** | Dock "Vardagen" → 6 kort till *samma* moduler som egna dock-zoner (Handling finns både i dock **och** launcher) |
-| **Dock "Dagbok" vs produkt "Hjärtat"** | Label "Dagbok" i dock (```36:38:src/modules/core/layout/FloatingDock.tsx```) men zon heter Hjärtat i `NAV_PATHS` |
-| **Drawer vs Dock** | 4 drawer-rader överlappar delvis dock; drawer har dessutom Inställningar som dock saknar |
-| **Hub-tabs + InputMode-picker** | Familjen: `HubDropdownNav` (6 tabs) **+** `FamiljenInputModePicker` (6 modes) på samma vy (```118:141:src/modules/core/pages/FamiljenPage.tsx```) |
-| **Planering: tab-bar + modulväljare + Kanban** | `GoraHubTabBar` + `GoraModulValjare` + P3 Kanban (```69:83:src/modules/features/admin/planning/components/PlaneringPage.tsx```) |
-| **Fyren som fjärde nav-lager** | Widget-panel ovanför dock med 8 genvägar — inkl. duplicerade Planering/Projekt/Valv (```103:108:src/modules/core/layout/MainLayout.tsx```) |
-
-### evolution_hub / useCapacityGate / CognitiveLoadStrip — styr de UI?
-
-| Mekanism | Vad den gör | Styr navigation? |
-|----------|-------------|------------------|
-| `useCapacityGate` | Lyssnar `user_capability_state` (kapacitet + `economy_advanced`) (```21:48:src/modules/core/store/useCapacityGate.ts```) | **Delvis** — främst Ekonomi (`useEconomyLevel`, `EkonomiInputSuperModule` filtrerar modes) |
-| `useEvolutionStore` | Lyssnar `evolution_hub` — feature flags, barnporten-nivå, ålderssegment (```107:124:src/modules/core/store/useEvolutionStore.ts```) | **Delvis** — Barnporten-segmentering, `economy_advanced`, hem-kort (`AdaptiveMemoryCards`) |
-| `CognitiveLoadStrip` | Statisk copy "Ett steg i taget" (```9:24:src/modules/core/ui/CognitiveLoadStrip.tsx```) | **Nej** — informativ, ingen kapacitetslogik |
-| Planering Kanban | P3 låst på `/planering` | **Ej verifierat** att `planning_kanban`-flagga döljer Kanban — ingen grep-träff i frontend utöver ekonomi |
-
-**Slutsats:** Kapacitetsmotorerna finns och fungerar för **Ekonomi + Barnporten**, men **styr inte globalt** vilken hub användaren ser. Den största kognitiva kostnaden (för många nav-skikt) är **ostyrd**.
+| | |
+|---|---|
+| **Modell** | Claude Opus 4.8 |
+| **Repomix** | `exports/gemini-handoff/konsolidering-upload/` |
+| **Gör** | En canonical upload-väg frontend + backend; behåll 3 silos |
+| **Leverans** | `UPLOAD-UNIFIED-SPEC.md` |
+| **Smoke** | Ingen kod — du godkänner SPEC manuellt |
+| **Extra** | Design-audit kan köras här — [`PHASE-DESIGN-AUDIT.md`](./phases/PHASE-DESIGN-AUDIT.md) |
 
 ---
 
-## 5. Siloisolering (U1)
+### Dag 3 — Backend upload
 
-### Callable → agent → RAG-lib
-
-| Callable | Agent | RAG-lib | Collections |
-|----------|-------|---------|-------------|
-| `knowledgeVaultQuery` | `knowledgeVaultAgent` | `kampsparQueryRag` | `kampspar`, `kb_docs` (```63:67:functions/src/callables/knowledge.ts```, ```4:4:functions/src/agents/knowledgeVaultAgent.ts```) |
-| `valvChatQuery` | `valvChatAgent` | `vaultRag` | `reality_vault` (```155:169:functions/src/callables/valv.ts```, ```3:3:functions/src/agents/valvChatAgent.ts```) |
-| `childrenLogsQuery` | `childrenLogsAgent` | `childrenLogsQueryRag` | `children_logs` (```72:75:functions/src/callables/knowledge.ts```, ```3:3:functions/src/agents/childrenLogsAgent.ts```) |
-
-### Guards
-
-| Guard | Roll |
-|-------|------|
-| `barnenModuleRouteGuard` | `knowledgeVaultQuery` redirectar barn-intent → Familjen (```54:60:functions/src/callables/knowledge.ts```) |
-| `mabraCoachGuard` | Ex/konflikt → Speglar, inte MåBra-coach (```29:41:functions/src/lib/mabraCoachGuard.ts```, klient-speglad i `src/.../mabra/lib/mabraCoachGuard.ts`) |
-| `assertVaultSession` | `valvChatQuery`, dossier, mönster-rescan kräver vault-session (```155:157:functions/src/callables/valv.ts```) |
-
-### Cross-read-risker (markerade)
-
-| Risk | Status | Detalj |
-|------|--------|--------|
-| User-RAG silo-blandning | **Låg** | Separata RAG-libs med collection-scope |
-| **Vävaren** (`kampsparRag.ts`) | **Medveten** | Läser `journal` + `reality_vault` för metadata-tagging — ej användar-chat (```12:23:functions/src/lib/kampsparRag.ts```) |
-| **Dossier** | **Medveten** | Användarvalda källor kan korsa silos (`dossier/types.ts`) |
-| **Vit → Kunskap** | **Guarderad** | MåBra-coach redirectar konflikt till Speglar; U6 förbjuder Vit→kampspar auto-ingest |
-| **entityProfileBundle** | **Låg** | Metadata delas i alla tre agenter — append-only aktörskarta, ej RAG-cross |
+| | |
+|---|---|
+| **Modell** | GPT-5.5 eller Gemini 3.1 Pro |
+| **Vänta** | Dag 2 godkänd |
+| **Gör** | `inkastSourceModule`, audio-MIME, Storage onFinalize, confidence 0.75 |
+| **Smoke** | `functions build` · `smoke:inkast` · `smoke:inbox` |
 
 ---
 
-## 6. WORM (U3)
+### Dag 4 — Frontend upload
 
-### Firestore rules
-
-```268:271:firestore.rules
-    match /reality_vault/{docId} {
-      allow read: if isOwnerVault();
-      allow create: if isOwnerCreateVault() && isValidRealityVaultCreate();
-      allow update, delete: if false;
-```
-
-```293:296:firestore.rules
-    match /children_logs/{docId} {
-      allow read: if isOwnerSensitive() && isParentVisibleChildLog();
-      allow create: if isOwnerCreateSensitive() && isValidChildrenVisibility() && isValidChildrenLogCreate();
-      allow update, delete: if false;
-```
-
-`wormKeysOnly` begränsar fält vid create (```82:95:firestore.rules```, ```110:125:firestore.rules```).
-
-### Klient
-
-- `saveVaultLog` / `saveChildrenLog` → endast `guardedAddDoc` (```297:311:src/modules/core/firebase/firestore.ts```, ```333:359:src/modules/core/firebase/firestore.ts```)
-- **Ingen** `updateDoc`/`deleteDoc` mot dessa collections i `src/` (grep: 0 träffar)
-- Offline-skriv blockeras för Valv + barnloggar (```68:68:src/modules/core/firebase/offlineWritePolicy.ts```)
-
-**Append-only:** Ja, i rules + klient. Server-side Admin SDK kan fortfarande skriva (t.ex. synapser) — ej verifierat i denna analys utan functions-audit.
+| | |
+|---|---|
+| **Modell** | Claude Sonnet 4.6 |
+| **Helprompt** | [`PHASE-04-FULL-PROMPT.md`](./phases/PHASE-04-FULL-PROMPT.md) |
+| **Vänta** | Dag 3 klar (CHECKPOINT-3 PASS) |
+| **Gör** | Filer i `CapturePanel` över alla Superhubs |
+| **Smoke** | `npm run build` · `smoke:locked-ux` |
+| **Snapshot** | `snapshot_locked_module.sh upload-unified` om LOCK |
 
 ---
 
-## 7. Valv säkerhetsmodell
+### Dag 5 — Synapse-lås
 
-### Upplåsning
-
-| Steg | Mekanism |
-|------|----------|
-| 1 | WebAuthn (web) eller native biometri (Capacitor) via `openValvViaFyren` (```43:76:src/modules/core/auth/valvFyrenGate.ts```) |
-| 2 | `setVaultGate()` → `sessionStorage` (```24:34:src/modules/core/auth/sessionService.ts```) |
-| 3 | Server: `issueVaultSession` → `assertVaultSession` på känsliga callables (```155:157:functions/src/callables/valv.ts```) |
-| 4 | `VaultPage`: `hasVaultGate()` → annars `VaultLockedGate` (```171:185:src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx```) |
-
-### Plausible deniability
-
-| Krav | Status |
-|------|--------|
-| Drawer Valv-sektion endast vid unlock | **Ja** — `vaultOpen ? DRAWER_VALV_ITEMS` (```186:233:src/modules/core/layout/NavigationDrawer.tsx```) |
-| Ingen `?tab=bevis` på Hjärtat | **Ja** — redirect till `/valvet` (```172:191:src/modules/core/routing/AppRoutes.tsx```) |
-| `HIDE_BEVIS_TAB` default true | **Ja** (```1:2:src/modules/core/navigation/navFlags.ts```) |
-
-### Publikt läge — exponeras valv/bevis/arkiv?
-
-| UI-element | Exponerar? |
-|------------|------------|
-| FloatingDock | **Nej** — ingen Valv-knapp |
-| NavigationDrawer (låst) | **Nej** Valv-sektion |
-| **FyrenWidgetBar** | **Ja** — action `label: 'Valv'` (```37:37:src/modules/core/components/FyrenWidgetBar.tsx```) |
-| **KompisHeaderVaultButton** | **Ja** — aria "Kunskapsbank **i Valv**" (```48:49:src/modules/core/components/KompisHeaderVaultButton.tsx```) |
-| Hem inkast → granska | Länkar `/valvet?valvMode=granska` (```519:522:src/modules/inkast/api/inkastService.ts```) — når PIN-gate, men ordet "granska/bevis" syns i capture-flöden |
-| ValvetRoutePage rubrik | "Sanningsarkivet" / "Arkiv" (```95:97:src/modules/core/pages/ValvetRoutePage.tsx```) — endast efter route-hit |
-
-**Slutsats:** Drawer håller plausible deniability. **Fyren-chrome bryter delvis** genom synlig "Valv"-label och Kompis-knapp som nämner Valv — även innan unlock.
+| | |
+|---|---|
+| **Chatt 1** | Grok 4.20 — analys → `SYNAPSE-LOCK-SPEC.md` |
+| **Chatt 2** | GPT-5.5 — kod om luckor |
+| **Gör** | Idempotens, silo-routing, ingen fjärde RAG |
+| **Smoke** | `smoke:orkester` |
+| **Snapshot** | `snapshot_locked_module.sh synapser` om LOCK |
 
 ---
 
-## 8. Rekommendationer (arkitektur only)
+### Dag 6 — App Check + deploy-förberedelse
 
-Prioriterat efter att **minska mentala lager** — inte polish.
-
-### Behåll (fungerar, låst UX)
-
-| Element | Varför | Locked UX-risk |
-|---------|--------|----------------|
-| 3-zon + separat `/valvet` | Korrekt silo + PIN | — |
-| `InputSuperModule`-mönster | Ett läge i taget, tunna delegates | Barnfokus-delegate intakt |
-| P3 Kanban på `/planering?tab=handling` | Design lock | **Rör ej** |
-| Valv Mönster/Orkester + HITL-bro | Locked § | **Rör ej** |
-| WORM rules + `guardedAddDoc` | Säkerhetsfundament | — |
-| Tre separata RAG-callables | U1-efterlevnad | — |
-
-### Förenkla navigation (hög prioritet)
-
-| # | Åtgärd | Mentala lager ↓ | Locked UX |
-|---|--------|-----------------|-----------|
-| **F1** | **Ta bort Handling från launcher** — dock har redan dedikerad Handling-slot | −1 dubbelväg till samma Kanban | P3 oförändrad (dock → `/planering`) |
-| **F2** | **Döp om dock "Dagbok" → "Hjärtat"** — matcha zon-språk | −1 begreppsglidning | Speglar/Dagbok oförändrat |
-| **F3** | **Slå ihop Familjen tab + inputMode** på reflektion/livslogg — visa bara supermodule-picker, göm redundant `HubDropdownNav` när supermodule räcker | −1 skikt | **Barnfokus** kvar som default mode |
-| **F4** | **Fyren widget: dölj "Valv"-label i publikt läge** — visa neutral "Lås upp" / ikon utan ord | Plausible deniability ↑ | PIN-flöde oförändrat |
-| **F5** | **Planering: hoppa över `GoraModulValjare` efter första besök** (redan delvis: `picked=1`) — gör dock-Handling → Kanban direkt default | −1–2 klick | P3 Kanban kvar |
-
-### Slå ihop hubbar (medel prioritet — kräver PMIR)
-
-| # | Åtgärd | Effekt | Locked UX |
-|---|--------|--------|-----------|
-| **H1** | **Routing: `/ekonomi` → `/vardagen?tab=ekonomi`** (legacy `/ekonomi` finns parallellt idag) | −1 "värld" | Ekonomi supermodule oförändrad |
-| **H2** | **Routing: `/mabra` → under `/vardagen?module=mabra`** eller behåll route men ta bort från launcher (endast Vardagen-ingång) | −1 mental hub | MåBra-innehåll oförändrat |
-| **H3** | **Arkiv `/arkiv` → Valv-zone eller deprecate** | −1 legacy hub | Valv-flikar oförändrade |
-| **H4** | **Drogfrihet: Familjen-tab OK** — men överväg att inte ha egen launcher-redirect (`livLauncherRoutes` har `drogfrihet → familjen`) | Redan delvis | — |
-
-### Flytta Fyren till bakgrund (strategiskt — målbild)
-
-| # | Åtgärd | Effekt | Locked UX |
-|---|--------|--------|-----------|
-| **B1** | **Fyren = kapacitetsring + mikrosteg-förslag** (data från `evolution_hub` + `user_capability_state`) — inte 8-nav-panel | Fyren slutar konkurrera med dock | WH1/WH2 ikoner låsta |
-| **B2** | **Global kapacitetsgrind:** vid låg kapacitet, visa endast Hem + ett mikrosteg-kort (Paralys-Brytaren) — dölj launcher-grid | Direkt väg överbelastad → handling | Kräver designbeslut + smoke |
-| **B3** | **Kompis-knapp:** kort tryck → Speglar/Hem, inte Kunskapsbank — Kunskap endast i Valv-drawer efter unlock | −1 publik Valv-hint | Kunskapsbank-panel oförändrat bakom PIN |
-
-### Defer
-
-| # | Varför vänta |
-|---|-------------|
-| **D1** | Slå ihop `/kompis`, `/orakel`, `/reflection` — oklart produktvärde vs risk |
-| **D2** | Ta bort `/oversikt` + `/dashboard` — behöver inventering av användning |
-| **D3** | En enda `inputMode`-URL över alla zoner — stor refactor, liten UX-vinst vs F1–F5 |
-| **D4** | Vector Search silo-audit — ej blockerande för nav-förenkling |
+| | |
+|---|---|
+| **Chatt 1** | Sonar 2 — Firebase Console-steg |
+| **Chatt 2** | GPT-5.4 — deploy-checklista |
+| **Du manuellt** | App Check Enforce i Firebase Console |
+| **Leverans** | `DEPLOY-CHATBOT-WAVE.md` |
 
 ---
 
-## Sammanfattning
+### Dag 7 — Final lås
 
-Livskompassen har **korrekt djup arkitektur** (zoner, WORM, tre RAG-silos, supermodule-delegates) men **för många navigeringslager** mellan känsla av överbelastning och första mikrosteg. Dock visar 4 zoner — bra — men launcher (6), Fyren (8), hub-tabs (6+) och separata fullsid-routes (MåBra, Planering, Projekt, …) skapar **12–18 upplevda hubbar** mot målbildens **4 + bakgrunds-Fyren**.
-
-Kapacitetsdata (`evolution_hub`, `useCapacityGate`) **styr Ekonomi och Barnporten** men **inte** vilken navigation som visas — `CognitiveLoadStrip` är copy, inte grind.
-
-**Snabbaste arkitekturvinst utan locked UX-risk:** F1 + F2 + F4 + F5 (minska dubbelnav, neutralisera publik Valv-text, kortare väg till Kanban).
+| | |
+|---|---|
+| **Modell** | GPT-5.4 Mini |
+| **Bifoga** | [`bifoga/01-register/`](.../bifoga/01-register/) + [`02-leveranser/`](.../bifoga/02-leveranser/) + [`04-repomix/`](.../bifoga/04-repomix/) · kör `npm run chatbot:sync:bifoga` först |
+| **Gör** | `LIFE-OS-CORE-LOCKED.md`, design-städlista, PMIR-utkast |
+| **Smoke** | `smoke:orkester` · `smoke:locked-ux` |
+| **Arkivera** | Sammanfattning → `docs/evaluations/` |
 
 ---
 
-*Osäkerhet som kräver runtime-smoke (ej körd här):* `npm run smoke:locked-ux`, `npm run smoke:orkester` för att verifiera att nav-redirects inte bryter Barnfokus/Valv-flikar.
+## När en modul är LOCK
+
+1. Smoke PASS
+2. Rad i `LIFE-OS-BUILD-STATE.md` = LOCK
+3. Rad i `LIFE-OS-CORE-LOCKED.md`
+4. **Lokal kopia:** `./scripts/snapshot_locked_module.sh valv|inkast|synapser|upload-unified`
+5. Fråga Cursor om git commit + push (du godkänner)
+
+| Modul | Snapshot-kommando |
+|-------|-------------------|
+| Valv | `snapshot_locked_module.sh valv` |
+| Inkast (redan låst) | `snapshot_locked_module.sh inkast` |
+| Synapser | `snapshot_locked_module.sh synapser` |
+| Upload unified | `snapshot_locked_module.sh upload-unified` |
+
+---
+
+## Städning (löpande)
+
+- **KEEP** — aktiv design/specs: [`DESIGN-KEEP-REGISTER.md`](../DESIGN-KEEP-REGISTER.md)
+- **ARCHIVE** — gamla mockups → `docs/archive/design-2026-06/` (flytta, radera inte direkt)
+- Logga i `HYGIENE-LOG.md`
+
+Största städ-kandidater: `docs/design/icons-proposals/`, `redesign-proposals/`, oanvända `themes/`.
+
+---
+
+## Medvetet senare (spara krediter)
+
+MåBra hybrid-8 (Fas 19.2), hex-tokens, evolution_ledger, Projekt P2+ — **efter** upload + synapse är låsta.
+
+---
+
+## Vad som redan är klart i projektet
+
+- G1–G16 done · G10 Inkast låst 2026-06-06
+- 4 synapser live
+- **Öppet:** upload inte enhetlig, audio-MIME, Storage trigger, App Check Console Enforce
+
+---
+
+## Snabbstart Dag 1
+
+1. `npm run chatbot:pack:all`
+2. ChatBox → Opus 4.8 → ny chatt
+3. Öppna `PHASE-01-security-lock.md` (prompt där om du behöver)
+4. Efter svar → CHECKPOINT i Cursor
+
+*Prompter finns i `PHASE-0X-*.md` och `CHATBOT-MASTER-PROMPT.md` — denna lathund refererar bara till dem.*
 ````
 
-## File: docs/evaluations/2026-06-15-fas19-masterplan-v2.md
-````markdown
-# Fas 19 — Masterplan v2 (slutgiltig)
-
-**Datum:** 2026-06-15 · **Status:** Godkänd — implementation Fas 19.1–19.6  
-**Ersätter:** [`FAS19-UTKASTPLAN.md`](../archive/evaluations-fas19-2026-06/FAS19-UTKASTPLAN.md)  
-**Regel:** [`.cursor/rules/fas19-masterplan-guard.mdc`](../../.cursor/rules/fas19-masterplan-guard.mdc)
-
----
-
-## 1. Executive summary
-
-Livskompassen v2 har levererat Fas 13–18 (WORM, superhubbar, inkast, Kunskap våg 24, Android cap sync) med grön smoke-baseline. Fas 19 fokuserar på **tre parallella spår** utan att bryta Sacred eller locked UX: **(A)** MåBra hybrid-8 pelarnav + hex→tokens, **(B)** projekt-hjärna med arkiv-först doc-synk, **(C)** säkerhets-P0 (`unlockVault`, App Check coverage) före polish. Pontus val: hybrid-8, JOY-17→19.4, evolution_ledger dual-write→19.5.
-
----
-
-## 2. Vision + DONE/LÅST
-
-Se Cursor-plan och pre-flight syntes. G1–G16 **done** · Superhub §11–§17 **låst** · tre silos **PASS**.
-
----
-
-## 3. Implementation-vågor
-
-| Våg | Innehåll | Smoke |
-|-----|----------|-------|
-| **19.1** | Doc-synk + `unlockVault` P0 + App Check guards + LEG-VAULT read-fix | `smoke:valv-security`, `smoke:inkast`, `smoke:locked-ux` |
-| **19.2** | M3.0-B hybrid-8 pelarkort | `smoke:mabra`, `smoke:design-modules`, `smoke:modulvaljare` |
-| **19.3** | Hex→tokens P0 + typecheck expansion | `typecheck:core-strict`, `smoke:design-modules` |
-| **19.4** | JOY-17 + mabraCoach bank-synk | `smoke:innehall`, `smoke:mabra` |
-| **19.5** | evolution_ledger dual-write | `smoke:evolution-discovery` |
-| **19.6** | Arkiv-batch PMIR | `orkester:night` |
-
----
-
-## 4. Glömda funktioner
-
-| ID | Beslut | Våg |
-|----|--------|-----|
-| M3.0-B hybrid-8 | Implementera | 19.2 |
-| JOY-17 prod-wire | Implementera | 19.4 |
-| EVO-LEDGER dual-write | Implementera | 19.5 |
-| M3.0-C Fitness/Näring | Defer | 19.N+ |
-| LEG-VAULT | Behåll | — |
-| BP-PUSH | Defer | TBD |
-
----
-
-## 5. Kostnadsgate
-
-Scripts/orkester:night default · prod callable-smoke en silo i taget · PMIR före merge.
-
----
-
-*Fullständig pre-flight syntes: Cursor-plan `fas_19_masterplan_v2_48298370.plan.md` (intern).*
-````
-
-## File: docs/external-ai/DESIGN-KEEP-REGISTER.md
-````markdown
-# DESIGN-KEEP-REGISTER — vad som är aktivt
-
-Filer i `docs/design/` som **används nu** — rör ej vid städning.
-
-## Specs & policy (KEEP)
-
-- `docs/design/COLOR-POLICY.md`
-- `docs/design/CHROME-POLICY.md`
-- `docs/design/CHROME-EMBER-KANON.md`
-- `docs/design/TYPE-SCALE.md`
-- `docs/design/ICON-STYLE-GUIDE.md`
-- `docs/design/KOMPASS-MODUL-SPEC.md`
-- `docs/design/PLANERING-PROJEKT-HYBRID.md`
-- `docs/design/PLANERINGSSIDA-SPEC.md`
-- `docs/design/WIDGET-BAR-SPEC.md`
-- `docs/design/BARNPORTEN-SPEC.md`
-- `docs/design/VALV-HUBB-SPEC.md`
-- `docs/design/FAMILJEN-HUB-SPEC.md`
-- `docs/design/ANDROID-WIDGETS-SPEC.md`
-- `docs/design/HOMESCREEN-WIDGETS-SPEC.md`
-- `docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md`
-- `docs/design/planering/PLANERING-P3-KANBAN-SPEC.md`
-
-## References / kanon (KEEP)
-
-- `docs/design/references/MENU-DRAWER-KANON.md`
-- `docs/design/references/DOCK-KANON.md`
-- `docs/design/references/VALV-ICON-KANON.md`
-- `docs/design/references/KOMPASS-TRE-TIDPUNKTER.md`
-
-## Galleri — låst widget (KEEP)
-
-- `docs/design/galleri/widget/v2/` — W1–W4 (locked UX hybrid)
-- `docs/design/galleri/barnporten/` — barnporten-infografik
-- `docs/design/galleri/README.md`
-
-## Tema — aktivt (KEEP)
-
-- `src/styles/obsidian-calm-2.css` (kod — inte i design-mappen)
-- `docs/design/themes/phone-icon-variants/PREVIEW.md`
-- `docs/design/theme-lab/` (om aktiv Theme Lab-session)
-
-## Ikoner låsta (KEEP — kod)
-
-- `.context/locked-icons.md` — D1, M2, WH1, WH2
-
-## ARKIV-KANDIDATER (zon för zon)
-
-| Mapp | Antal (ca) | Destinationsförslag |
-|------|------------|---------------------|
-| `docs/design/icons-proposals/` | 200+ SVG | `docs/archive/design-2026-06/icons-proposals/` |
-| `docs/design/redesign-proposals/` | STYLE A/B/C | `docs/archive/design-2026-06/redesign-proposals/` |
-| `docs/design/themes/` (ej aktiv) | A-sacred, B-elevated, E-aurora, kognitiv-skold | `docs/archive/design-2026-06/themes/` |
-| `docs/design/compact/` | gamla modul-mockups | `docs/archive/design-2026-06/compact/` |
-
-**Regel:** Flytta, radera inte — förrän Pontus godkänt HYGIENE-LOG-rad.
-````
-
-## File: docs/external-ai/UI-DESIGN-HANDOFF.md
+## File: docs/external-ai/design/UI-DESIGN-HANDOFF.md
 ````markdown
 # UI & Design — handoff till extern agent
 
@@ -1678,7 +1308,7 @@ Filer i `docs/design/` som **används nu** — rör ej vid städning.
 
 **Start här:** [`UI-DESIGN-MASTER-PROMPT.md`](./UI-DESIGN-MASTER-PROMPT.md) · Repomix: `npm run chatbot:pack:ui-design` → `exports/chatbot-handoff/ui-design-pack.md`
 
-**Aktiv modul-våg (B1–B4):** [`UI-WAVE-ROADMAP.md`](./UI-WAVE-ROADMAP.md) · Valv-fas-prompt: [`PHASE-08-valv-ui.md`](./PHASE-08-valv-ui.md)
+**Aktiv modul-våg (B1–B4):** [`UI-WAVE-ROADMAP.md`](./UI-WAVE-ROADMAP.md) · Valv-fas-prompt: [`PHASE-08-valv-ui.md`](../chatbox/phases/PHASE-08-valv-ui.md)
 
 ---
 
@@ -1713,7 +1343,7 @@ flowchart LR
 
 | Körfält | Var | Agent | Output |
 |---------|-----|-------|--------|
-| **A** | [`CHATBOX-LATHUND.md`](./CHATBOX-LATHUND.md) | ChatBox (Opus/GPT/Grok…) | Kod + audit → `leveranser/` |
+| **A** | [`CHATBOX-LATHUND.md`](../chatbox/CHATBOX-LATHUND.md) | ChatBox (Opus/GPT/Grok…) | Kod + audit → `leveranser/` |
 | **B** | **Denna fil** | ChatBox / GPT / Cursor Theme Lab | SPEC + wireframes → `leveranser/ui-design/` |
 
 **Regel:** Körfält A **äger** backend, WORM, upload-logik, synapser. Körfält B **äger** navigation, layout, copy, Obsidian Calm — men **implementerar inte** utan Cursor CHECKPOINT.
@@ -1728,7 +1358,7 @@ flowchart LR
 - Obsidian Calm 2.0 — tokens, spacing, hierarki
 - Wireframes / beslutsmemo för zoner (Hjärtat, Vardagen, Familjen, Valvet)
 - Plausible deniability i **publikt chrome** (Fyren-label, Kompis-knapp)
-- Design-hygien: KEEP vs ARCHIVE enligt [`DESIGN-KEEP-REGISTER.md`](./DESIGN-KEEP-REGISTER.md)
+- Design-hygien: KEEP vs ARCHIVE enligt [`DESIGN-KEEP-REGISTER.md`](../DESIGN-KEEP-REGISTER.md)
 - Prioritera **Våg A** från [`2026-06-15-arkitektur-nav-analys.md`](../evaluations/2026-06-15-arkitektur-nav-analys.md)
 
 ### Får INTE (utan PMIR + Pontus OK)
@@ -1756,7 +1386,7 @@ flowchart LR
 | Valv-paneler (Mönster, Orkester…) | **Låst** | Endast copy/layout inuti — ingen borttagning |
 | `docs/design/**` | Körfält B | Ja — specs + arkivförslag |
 
-Uppdatera [`LIFE-OS-BUILD-STATE.md`](./LIFE-OS-BUILD-STATE.md) när något blir LOCK.
+Uppdatera [`LIFE-OS-BUILD-STATE.md`](../LIFE-OS-BUILD-STATE.md) när något blir LOCK.
 
 ---
 
@@ -1774,7 +1404,7 @@ Design-agenten ska **känna till** denna plan men **inte duplicera** arbetet.
 | 6 | App Check deploy | **Blockera** `appCheck.ts` |
 | 7 | Final lock + hygien | Koordinera design-städlista |
 
-Detaljer: [`CHATBOX-LATHUND.md`](./CHATBOX-LATHUND.md)
+Detaljer: [`CHATBOX-LATHUND.md`](../chatbox/CHATBOX-LATHUND.md)
 
 ---
 
@@ -1859,159 +1489,47 @@ npm run chatbot:pack:ui-design
 5. Be om **`NAV-VAG-A-SPEC.md`** som första leverans
 ````
 
-## File: docs/gpt-handoff/README.md
-````markdown
-# GPT-handoff — RepoMix-paket för extern arkitekturgranskning
-
-Fem kuraterade RepoMix-exportfiler för GPT (eller annan extern granskare). Fokus: **arkitektur, navigation, silos och AI-koppling** — inte dekorativa UI-komponenter.
-
-**Senast uppdaterad:** 2026-06-15  
-**Levande status:** [`docs/external-ai/LIFE-OS-BUILD-STATE.md`](../external-ai/LIFE-OS-BUILD-STATE.md) · CHECKPOINT CP-1–CP-4 PASS  
-**Körplan:** [`docs/evaluations/2026-06-15-fas19-masterplan-v2.md`](../evaluations/2026-06-15-fas19-masterplan-v2.md)  
-**Nav-analys (Våg A klar):** [`docs/evaluations/2026-06-15-arkitektur-nav-analys.md`](../evaluations/2026-06-15-arkitektur-nav-analys.md)
-
----
-
-## Nuläge (kort)
-
-| Område | Status 2026-06-15 |
-|--------|-------------------|
-| WORM + Valv-säkerhet | **LOCK** (CP-1, `smoke:valv-security`) |
-| Locked UX §11–17 | **LOCK** (`smoke:locked-ux`) |
-| G10 Inkast backend + UI | **LOCK** (CP-3, CP-4) |
-| Nav Våg A (F1, F2, F4, F5) | **Implementerad + deployad** |
-| Nav Våg B (H1–H4) | **Öppen** — kräver PMIR |
-| Upload unified (Valv DirectPanel) | **WIP** — defer till steg 2 |
-| Fas 19.2–19.6 (MåBra hybrid-8, hex→tokens, …) | **Planerad** — se masterplan |
-
----
-
-## Läsordning
-
-| Steg | Pack | Fil | När |
-|------|------|-----|-----|
-| 1 | Arkitektur | `exports/gpt-handoff/repomix/gpt-pack-01-arkitektur.md` | **Börja här** |
-| 2 | Valvet | `gpt-pack-02-valvet.md` | Efter pack 1 |
-| 3 | Planering | `gpt-pack-03-planering.md` | Efter pack 2 |
-| 4 | Hjärtat | `gpt-pack-04-hjartat.md` | Senare |
-| 5 | Familjen | `gpt-pack-05-familjen.md` | Senare |
-
-Efter pack 01: använd [03-GPT-FORTSATTNING-PROMPT.md](./03-GPT-FORTSATTNING-PROMPT.md) för **Våg B**-beslut (PMIR).
-
----
-
-## Generera packs
-
-```bash
-cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
-
-# Endast arkitektur (rekommenderat först)
-npm run gpt-handoff:pack:01
-
-# Valvet eller planering
-npm run gpt-handoff:pack:02
-npm run gpt-handoff:pack:03
-
-# Alla fem
-npm run gpt-handoff:pack:all
-```
-
-Genererade filer hamnar i `exports/gpt-handoff/repomix/` (gitignored). Kör `pack:all` efter större arkitekturändringar så token-storlek i tabellen nedan stämmer.
-
-Pack 01 inkluderar sedan 2026-06-15 även: `capture/`, `inkast/`, Fas-19-eval, arkitektur-nav-analys och `LIFE-OS-BUILD-STATE`.
-
-### Ungefärlig storlek (tokens)
-
-| Pack | Tokens (ca) | Filer (ca) | Notering |
-|------|-------------|------------|----------|
-| 01 Arkitektur | ~170k | 129 | + inkast/capture + eval-docs |
-| 02 Valvet | ~133k | 110 | + inkast callables + upload SPEC |
-| 03 Planering | ~71k | 83 | oförändrad kärna |
-| 04 Hjärtat | ~21k | 74 | komprimerad |
-| 05 Familjen | ~33k | 99 | komprimerad |
-
----
-
-## Kartläggning: GPT-termer → Livskompassen
-
-| GPT förväntar | Faktiskt i repo |
-|---|---|
-| `BottomNav` | `FloatingDock.tsx` + `DockNavButton.tsx` |
-| `AppShell` | Inline i `App.tsx` |
-| `Router` | `AppRoutes.tsx` |
-| `/features/vault` | `src/modules/features/lifeJournal/evidence/vault/` |
-| `/planering` | `src/modules/features/admin/planning/` |
-| Zon-paths | `navTruth.ts` → `/hjartat`, `/vardagen`, `/familjen`, `/valvet` |
-| Inkast / Smart capture | `src/modules/capture/` + `src/modules/inkast/` + `submitInkastLite` |
-
-### Dock (efter Våg A 2026-06-15)
-
-| Slot | Label | Route |
-|------|-------|-------|
-| 1 | Liv och göra | `/vardagen` |
-| 2 | Familjen | `/familjen` |
-| 3 | **Hjärtat** (tidigare "Dagbok") | `/hjartat` |
-| 4 | Handling | `/planering?tab=handling&picked=1` |
-
-Launcher (`LivLauncherGrid`): **5 kort** — Handling borttagen (F1); Kanban nås via dock.
-
----
-
-## Vad GPT ska verifiera (översikt)
-
-### Pack 1 — Arkitektur
-- Tre produktzoner + Valv-silo (`NAV_PATHS`, `AppRoutes`)
-- Plausible deniability: Valv i drawer endast när `vaultSessionOpen`; Fyren visar **"Lås upp"** i publikt läge (F4)
-- Tre silos: `knowledgeVaultQuery`, `valvChatQuery`, `childrenLogsQuery`
-- WORM-signaler i types + `firestore.rules`
-- Ingen cross-RAG: separata RAG-libs + route guards
-- G10 Inkast: `CapturePanel` → `submitInkastLite` → DCAP-routing (ej auto-promote till Valv)
-
-### Pack 2 — Valvet
-- PIN + WebAuthn + server session (`unlockVault` P0 — CP-1)
-- WORM `reality_vault` — append-only
-- HITL: `SaveAsEvidencePrompt` + `InkastBarnenValvBridge` — aldrig auto-promote barn→valv
-- Låsta paneler: Mönster, Orkester, Aktörskarta, Kunskapsbank
-
-### Pack 3 — Planering
-- P3 Kanban fast på `/planering?tab=handling`
-- Kognitiv grind via `evolution_hub` + `useCapacityGate`
-- Paralys-panel vid låg kapacitet
-- `picked=1` hoppar över modulväljare (F5)
-
-### Pack 4 — Hjärtat
-- Hub `/hjartat` — reflektion + speglar (legacy `/dagbok` redirect)
-- Zero Footprint för speglar
-
-### Pack 5 — Familjen
-- Barnfokus låst (`BARNFOKUS_QUESTIONS`)
-- Barnporten inkorg → Valv HITL
-- `children_logs` WORM
-
----
-
-## Klistra-in-prompter
-
-| Pack | Prompt-fil |
-|------|------------|
-| 01 | [01-ARKITEKTUR-PROMPT.md](./01-ARKITEKTUR-PROMPT.md) |
-| 02 | [02-VALVET-PROMPT.md](./02-VALVET-PROMPT.md) |
-| 03 | [03-PLANERING-PROMPT.md](./03-PLANERING-PROMPT.md) |
-| 04 | [04-HJARTAT-PROMPT.md](./04-HJARTAT-PROMPT.md) |
-| 05 | [05-FAMILJEN-PROMPT.md](./05-FAMILJEN-PROMPT.md) |
-| Våg B (efter 01) | [03-GPT-FORTSATTNING-PROMPT.md](./03-GPT-FORTSATTNING-PROMPT.md) |
-
----
-
-## Relation till andra handoffs
-
-| Pipeline | Syfte | Kommando |
-|----------|-------|----------|
-| **gpt-handoff** (denna) | Arkitektur, nav, silos, säkerhet | `npm run gpt-handoff:pack:all` |
-| **gemini-handoff** | Modulvis design/innehåll | `npm run gemini:pack` |
-| **chatbot-handoff** | UI-design + Obsidian Calm | `npm run chatbot:pack` |
-
-Gemini påverkas inte av GPT-handoff. Delad kanon: `.context/locked-ux-features.md`, `docs/design/references/MENU-DRAWER-KANON.md`.
+## File: src/modules/core/components/FyrenWidgetBar.tsx
+````typescript
+import type { CSSProperties, ReactNode } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { clsx } from 'clsx';
+import { hasVaultGate } from '../auth/sessionService';
+import { NAV_PATHS } from '../navigation/navTruth';
+import { useStore } from '../store';
+import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
+import { FyrenShortcutMicIcon, FyrenShortcutNoteIcon } from '../ui/widget-icons';
+import { useFyrenWidget } from './fyrenWidgetContext';
+⋮----
+type WidgetIconKind = 'mic' | 'note';
+⋮----
+type WidgetAction = {
+  id: string;
+  label: string;
+  to: string;
+  hubId?: DrawerL2HubId;
+  widgetIcon?: WidgetIconKind;
+};
+⋮----
+function resolveWidgetActionLabel(action: WidgetAction, vaultSessionOpen: boolean): string
+⋮----
+function WidgetIcon(
+⋮----
+function ActionTile({
+  label,
+  to,
+  icon,
+  tabIndex,
+  onNavigate,
+}: {
+  label: string;
+  to: string;
+  icon: ReactNode;
+  tabIndex: number;
+onNavigate: ()
+⋮----
+className=
 ````
 
 ## File: src/modules/core/layout/FloatingDock.tsx
@@ -2032,6 +1550,95 @@ type DockZone = {
 };
 ⋮----
 active=
+````
+
+## File: src/modules/core/routing/AppRoutes.tsx
+````typescript
+import { lazy, Suspense } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { MainLayout } from '../layout/MainLayout';
+import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
+import { ProtectedModule } from '../../../components/layout/ProtectedModule';
+⋮----
+import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
+import {
+  clusterTabNavigateTarget,
+  valvetNavigateTarget,
+  type LifeJournalTabKey,
+} from '../navigation/navigationRegistry';
+import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
+import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
+⋮----
+function RouteFallback()
+⋮----
+function RedirectToLifeJournalTab(
+⋮----
+/** Blockera `?tab=bevis` på Hjärtat — skicka till Valvet. */
+⋮----
+/** Legacy `/valv` och `/kunskap` → Valvet (separat silo). */
+⋮----
+/** Legacy `/hamn` → Familjen; `?tab=analys` → Valv forensic (hamn_analys). */
+⋮----
+<Navigate to=
+⋮----
+function RedirectArkivToValvet()
+````
+
+## File: src/modules/shell/LivLauncherGrid.tsx
+````typescript
+import type { LucideIcon } from 'lucide-react';
+import {
+  ChevronRight,
+  Clock,
+  FolderKanban,
+  Sparkles,
+  Sprout,
+  Wallet,
+} from 'lucide-react';
+import { clsx } from 'clsx';
+import type { CalmCardGlow } from '@/shared/ui/BentoCard';
+import {
+  LIV_LAUNCHER_EXTERNAL,
+  LIV_LAUNCHER_INLINE_TABS,
+} from './livLauncherRoutes';
+import { LIV_LAUNCHER_PREVIEWS } from './livLauncherPreviews';
+⋮----
+export type LivLauncherId =
+  | 'kompasser'
+  | 'ekonomi'
+  | 'mabra'
+  | 'projekt'
+  | 'arbetsliv';
+⋮----
+type LauncherCardDef = {
+  id: LivLauncherId;
+  label: string;
+  hint: string;
+  icon: LucideIcon;
+  glow: CalmCardGlow;
+  external?: boolean;
+};
+⋮----
+type LivLauncherGridProps = {
+  activeId: LivLauncherId;
+  onSelect: (id: LivLauncherId) => void;
+};
+⋮----
+export function LivLauncherGrid(
+⋮----
+className=
+````
+
+## File: src/modules/shell/livLauncherPreviews.tsx
+````typescript
+import type { ReactNode } from 'react';
+⋮----
+type LivLauncherId =
+  | 'kompasser'
+  | 'ekonomi'
+  | 'mabra'
+  | 'projekt'
+  | 'arbetsliv';
 ````
 
 ## File: .context/locked-ux-features.md
@@ -2490,181 +2097,606 @@ npm run smoke:obsidian-depth
 Vid refaktor av `VaultPage`, `FamiljenPage`, eller borttagning av specs ovan: kör smoke innan merge.
 ````
 
-## File: docs/external-ai/CHATBOX-LATHUND.md
+## File: docs/evaluations/2026-06-15-arkitektur-nav-analys.md
 ````markdown
-# ChatBox AI — Lathund (7 dagar)
+# Arkitektur + navigation — READ-ONLY analys — 2026-06-15
 
-Kort översikt utan prompter. Detaljer och prompter: [`README.md`](./README.md) · [`CHECKPOINT-PROTOCOL.md`](./CHECKPOINT-PROTOCOL.md).
+**Status:** Våg A implementerad + deployad 2026-06-15 (F1–F5, smoke PASS, hosting live)  
+**Källa:** Cursor-analys mot `gpt-pack-01-arkitektur.md` + levande kod  
+**Relaterat:** [`docs/gpt-handoff/README.md`](../gpt-handoff/README.md) Pack 01 · GPT målbild 4 platser + Fyren i bakgrunden  
+**Transkript:** Cursor agent `39bf9ea8-d5a0-466d-af02-a629d4644ff0`
 
-**Syfte:** Spara Cursor/Google-krediter. Tung analys och kod i **ChatBox AI**. Cursor för granskning, smoke, låsning och deploy.
+## Sammanfattning (3 rader)
 
-**Parallellt UI/design:** [`UI-DESIGN-HANDOFF.md`](./UI-DESIGN-HANDOFF.md) — annat körfält, samma projektplan, inga filkrockar.
+- Säkerhet OK: WORM, tre RAG-silos, supermodule-mönster.
+- Problem: 12–18 upplevda hubbar vs målbild 4 + bakgrunds-Fyren.
+- **Våg A godkänd:** F1 (launcher Handling bort), F2 (dock Hjärtat), F4 (neutral Fyren-label), F5 (snabbare Kanban).
 
----
+## Låsta regler (rör ej utan PMIR)
 
-## Innan du börjar
+Barnfokus · P3 Kanban · Valv Mönster/Orkester · Valv HITL · plausible deniability i drawer.
 
-| Vad | Var |
-|-----|-----|
-| Modellval | [`MODEL-PICKER.md`](./MODEL-PICKER.md) |
-| Status LOCK/OPEN | [`LIFE-OS-BUILD-STATE.md`](./LIFE-OS-BUILD-STATE.md) |
-| Repomix + bifoga-mappar | `npm run chatbot:pack:all` |
-| Bifoga-filer (register m.m.) | [`bifoga/`](./bifoga/) — `npm run chatbot:sync:bifoga` |
-| Lokal backup-mapp | `~/Livskompassen-snapshots/` |
+## Nästa steg
 
-**Regel:** Max **2 parallella** ChatBox-chattar. Kod från två chattar på samma fil = nej.
-
----
-
-## Ritual efter varje ChatBox-chatt (CHECKPOINT)
-
-1. Spara svaret i `leveranser/`
-2. Granska i Cursor — applicera bara godkända ändringar
-3. Kör smoke (se tabell per dag nedan)
-4. Uppdatera `LIFE-OS-BUILD-STATE.md` (LOCK om PASS)
-5. Städa filer om det passar — [`REPO-HYGIENE.md`](./REPO-HYGIENE.md)
-6. Om LOCK → `./scripts/snapshot_locked_module.sh <modul>`
-7. Uppdatera `CHECKPOINT-LOG.md`
-8. Först då — nästa ChatBox-chatt
+1. ~~Pontus: godkänn Våg A~~ **Klart 2026-06-15**
+2. ~~Cursor Agent: implementera F1→F2→F4→F5 + `npm run smoke:locked-ux`~~ **Klart 2026-06-15** (commit `f11d2c946`, hosting deploy)
+3. Våg B: PMIR innan routing-sammanslagningar (H1–H4)
+4. Våg C: strategiska Fyren-beslut (B1–B3) — defer
 
 ---
 
-## 7 dagar — vad, modell, leverans, smoke
+# Livskompassen 3.0 — Arkitekturanalys (READ-ONLY)
 
-### Dag 1 — Säkerhetslås (audit, ingen ny kod)
+Analysen bygger på levande kod i repot (primärt `AppRoutes.tsx`, `navTruth.ts`, supermoduler, `firestore.rules`, callable-lager). Ingen kod har ändrats.
 
-| | |
+---
+
+## 1. Zon- och router-karta
+
+### Kanoniska zoner (produkt)
+
+| Zon | Route | Understruktur |
+|-----|-------|---------------|
+| **Hem** | `/` | `HomePage` + `CaptureSuperModule` |
+| **Hjärtat** | `/hjartat` | `?tab=reflektion` (dagbok) · `?tab=speglar` |
+| **Vardagen** | `/vardagen` | Launcher + inline `kompasser` / `ekonomi` |
+| **Familjen** | `/familjen` | 6 hub-tabs (`reflektion`, `livslogg`, …) |
+| **Valvet** | `/valvet` | `vaultTab` + `valvMode` (PIN-gate i `VaultPage`) |
+
+Legacy-redirects håller gamla paths (`/dagbok`, `/liv`, `/valv`, `/hamn`) utanför parallella världar — se ```146:168:src/modules/core/routing/AppRoutes.tsx``` och ```194:205:src/modules/core/routing/AppRoutes.tsx```.
+
+### Alla separata "platser" idag (utöver kanon)
+
+Utöver de fyra zonerna + Hem finns **minst 20 egna routes** som användaren kan nå:
+
+| Kategori | Routes |
+|----------|--------|
+| Vardagsmoduler (egna sidor) | `/mabra/*`, `/planering`, `/planering/kalender`, `/planering/input`, `/projekt` (+ under), `/arbetsliv/input`, `/ekonomi`, `/morgon` |
+| AI / meta | `/kompis`, `/orakel`, `/reflection` |
+| Arkiv / legacy | `/arkiv`, `/oversikt`, `/dashboard` |
+| Barn | `/barnporten`, `/barnporten/foralder-trygg` |
+| System | `/installningar`, `/widget/*`, `/dev/*` |
+
+Full lista i ```274:532:src/modules/core/routing/AppRoutes.tsx```.
+
+### Komponenthierarki
+
+```mermaid
+flowchart TD
+  BR[BrowserRouter main.tsx:20]
+  APP[App App.tsx:29]
+  SHELL[AppShell — ZeroFootprint + EvolutionSync]
+  ROUTES[AppRoutes]
+  ML[MainLayout — header + drawer + Fyren + dock]
+  PAGE[Zone Page]
+  HUB[HubPageShell / ModuleShell]
+  BENTO[Zone BentoShell — FamiljenBentoShell, ValvBentoShell, …]
+  SM[InputSuperModule / TabPanel]
+  DEL[Delegate / Panel]
+
+  BR --> APP --> SHELL --> ROUTES --> ML --> PAGE
+  PAGE --> HUB --> BENTO --> SM --> DEL
+```
+
+**Exempel kedjor:**
+
+- **Familjen → Barnfokus:** `FamiljenPage` → `ModuleShell` → `FamiljenBentoShell` → `FamiljenInputSuperModule` → `FamiljenBarnfokusDelegate` (```139:141:src/modules/core/pages/FamiljenPage.tsx```)
+- **Valv → Inkast:** `ValvetRoutePage` → `HubPageShell` → `VaultPage` → `ValvInputSuperModule` → `ValvSuperModule` (```93:112:src/modules/core/pages/ValvetRoutePage.tsx```, ```235:245:src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx```)
+- **Hjärtat → Reflektion:** `DagbokPage` → `ModuleShell` → `DagbokInputSuperModule` → `DagbokReflektionDelegate` (```47:50:src/modules/core/pages/DagbokPage.tsx```)
+
+---
+
+## 2. Hub-räkning
+
+### Navigationsskikt (vad användaren *ser*)
+
+| Skikt | Antal distinkta val | Källa |
+|-------|---------------------|-------|
+| **FloatingDock** | **4** zoner | Vardagen · Familjen · Dagbok · Handling (```17:57:src/modules/core/layout/FloatingDock.tsx```) |
+| **Drawer — Vardag** | **4** rader | Hem · Liv och göra · Familj · Inställningar (```88:225:src/modules/core/navigation/navTruth.ts```) |
+| **Drawer — Valv** | **6** rader (endast vid unlock) | Samla · Analysera · Kunskap · Vit · Exportera · Forensik (```258:313:src/modules/core/navigation/navTruth.ts```, ```186:233:src/modules/core/layout/NavigationDrawer.tsx```) |
+| **LivLauncher** | **6** kort | Kompasser · Ekonomi · MåBra · Handling · Projekt · Arbetsliv (```43:80:src/modules/shell/LivLauncherGrid.tsx```) |
+| **FyrenWidgetBar** | **8** genvägar | Inkast · Snabbval · Inspelning · Anteckning · Lista · Planering · **Valv** · Projekt (```20:39:src/modules/core/components/FyrenWidgetBar.tsx```) |
+| **Familjen hub-tabs** | **6** | Barnfokus · Livslogg · Tillsammans · Barnporten · Hamn · Drogfrihet (```33:40:src/modules/core/pages/FamiljenPage.tsx```) |
+| **Valv input modes** | **7** | spara · granska · analysera · kunskap · vit · rapporter · mer (```13:94:src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts```) |
+
+### Jämförelse med målbild
+
+| Målbild | Nuläge |
+|---------|--------|
+| 4 platser + Fyren i bakgrunden | **4 i dock** — men **6 launcher-kort**, **8 Fyren-genvägar**, **6 Familjen-tabs**, **6–7 Valv-lägen**, plus **egna routes** för MåBra/Planering/Projekt/Arbetsliv/Ekonomi/Kompis/Morgon/Barnporten |
+| Fyren = kapacitetsgrind, inte plats | Fyren är **synlig primärnav** (dock-handle + widget-panel med "Valv", "Planering", "Projekt") — ```66:68:src/modules/core/layout/FloatingDock.tsx```, ```37:37:src/modules/core/components/FyrenWidgetBar.tsx``` |
+
+**Slutsats:** Arkitekturen *säger* 3-zon + Valv, men användaren upplever **12–18 mentala "världar"** beroende på skikt (dock → launcher → hub-tab → inputMode → Valv-zone).
+
+---
+
+## 3. Supermoduler
+
+### InputSuperModule-karta
+
+| SuperModule | Zon / Route | Delegates / lägen | Klick dock → första handling* |
+|-------------|-------------|-------------------|-------------------------------|
+| `FamiljenInputSuperModule` | `/familjen?tab=reflektion\|livslogg` | 6 modes: barnfokus, livslogg_stund, fysiologi, livslogg_observation, vardagsstruktur, inkast (```24:78:src/modules/features/family/children/supermodule/familjenInputModes.ts```) | **2** (dock Familjen → skriv i Barnfokus) |
+| `DagbokInputSuperModule` | `/hjartat` (embedded) · `/hjartat/input` | reflektion, quick_mirror, arkiv (```20:48:src/modules/features/lifeJournal/diary/supermodule/dagbokInputModes.ts```) | **2** |
+| `EkonomiInputSuperModule` | `/vardagen?tab=ekonomi` | 9 modes, kapacitetsfiltrerade (saldo, mikrosteg, kuvert, impuls, …) (```28:58:src/modules/features/dailyLife/wellbeing/economy/supermodule/ekonomiInputModes.ts```) | **3** (dock Vardagen → kort Ekonomi → formulär) |
+| `MabraInputSuperModule` | `/mabra/input` | 9 modes (checkin + vit_* + mer…) (```24:89:src/modules/features/dailyLife/wellbeing/mabra/supermodule/mabraInputModes.ts```) | **3–4** (dock Vardagen → MåBra-kort → hub → ev. input) |
+| `PlaneringInputSuperModule` | `/planering/input` · embedded i `/planering?tab=handling` | task_quick, inkast, quick_list (```18:46:src/modules/features/admin/planning/supermodule/planeringInputModes.ts```) | **2–4** (dock Handling direkt; första gången `GoraModulValjare` +1 — ```79:83:src/modules/features/admin/planning/components/PlaneringPage.tsx```) |
+| `ArbetslivInputSuperModule` | `/arbetsliv/input` | stampla, inkomster, tid (```18:43:src/modules/features/dailyLife/arbetsliv/supermodule/arbetslivInputModes.ts```) | **3** (Vardagen → Arbetsliv-kort → stämpel) |
+| `ValvInputSuperModule` | `/valvet` (efter PIN) | 7 valvModes → `ValvSuperModule` per zon (```37:94:src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts```) | **2+** (Fyren 3s-håll / widget Valv → biometri → spara) |
+| `CaptureSuperModule` | `/` (Hem) | hem-capture, planering, … | **1** (redan på Hem) |
+
+\*Klick = navigationssteg, inte inmatning/spar.
+
+### InputRoutes (skugg-rutter)
+
+| Fil | Mount | Path |
+|-----|-------|------|
+| `DagbokInputRoutes` | `/hjartat/*` | `/hjartat/input` (```16:28:src/modules/features/lifeJournal/diary/routing/DagbokInputRoutes.tsx```) |
+| `PlaneringInputRoutes` | `/planering/*` | `/planering/input` (```14:26:src/modules/features/admin/planning/routing/PlaneringInputRoutes.tsx```) |
+| `ArbetslivInputRoutes` | `/arbetsliv/*` | `/arbetsliv/input` |
+| `MabraRoutes` | `/mabra/*` | `/mabra/input` + 10+ under-vyer (```22:39:src/modules/features/dailyLife/wellbeing/mabra/routing/MabraRoutes.tsx```) |
+
+**Observation:** Universal Input är implementerat konsekvent (thin router + delegates), men **monteras på olika djup** — ibland inline i hub (`Familjen`, `Hjärtat`), ibland egen route (`/mabra`, `/planering/input`), ibland launcher-steg emellan.
+
+---
+
+## 4. Navigation & kognitiv belastning
+
+### Dubbel/trippel navigation
+
+| Problem | Var |
+|---------|-----|
+| **Dock + Launcher** | Dock "Vardagen" → 6 kort till *samma* moduler som egna dock-zoner (Handling finns både i dock **och** launcher) |
+| **Dock "Dagbok" vs produkt "Hjärtat"** | Label "Dagbok" i dock (```36:38:src/modules/core/layout/FloatingDock.tsx```) men zon heter Hjärtat i `NAV_PATHS` |
+| **Drawer vs Dock** | 4 drawer-rader överlappar delvis dock; drawer har dessutom Inställningar som dock saknar |
+| **Hub-tabs + InputMode-picker** | Familjen: `HubDropdownNav` (6 tabs) **+** `FamiljenInputModePicker` (6 modes) på samma vy (```118:141:src/modules/core/pages/FamiljenPage.tsx```) |
+| **Planering: tab-bar + modulväljare + Kanban** | `GoraHubTabBar` + `GoraModulValjare` + P3 Kanban (```69:83:src/modules/features/admin/planning/components/PlaneringPage.tsx```) |
+| **Fyren som fjärde nav-lager** | Widget-panel ovanför dock med 8 genvägar — inkl. duplicerade Planering/Projekt/Valv (```103:108:src/modules/core/layout/MainLayout.tsx```) |
+
+### evolution_hub / useCapacityGate / CognitiveLoadStrip — styr de UI?
+
+| Mekanism | Vad den gör | Styr navigation? |
+|----------|-------------|------------------|
+| `useCapacityGate` | Lyssnar `user_capability_state` (kapacitet + `economy_advanced`) (```21:48:src/modules/core/store/useCapacityGate.ts```) | **Delvis** — främst Ekonomi (`useEconomyLevel`, `EkonomiInputSuperModule` filtrerar modes) |
+| `useEvolutionStore` | Lyssnar `evolution_hub` — feature flags, barnporten-nivå, ålderssegment (```107:124:src/modules/core/store/useEvolutionStore.ts```) | **Delvis** — Barnporten-segmentering, `economy_advanced`, hem-kort (`AdaptiveMemoryCards`) |
+| `CognitiveLoadStrip` | Statisk copy "Ett steg i taget" (```9:24:src/modules/core/ui/CognitiveLoadStrip.tsx```) | **Nej** — informativ, ingen kapacitetslogik |
+| Planering Kanban | P3 låst på `/planering` | **Ej verifierat** att `planning_kanban`-flagga döljer Kanban — ingen grep-träff i frontend utöver ekonomi |
+
+**Slutsats:** Kapacitetsmotorerna finns och fungerar för **Ekonomi + Barnporten**, men **styr inte globalt** vilken hub användaren ser. Den största kognitiva kostnaden (för många nav-skikt) är **ostyrd**.
+
+---
+
+## 5. Siloisolering (U1)
+
+### Callable → agent → RAG-lib
+
+| Callable | Agent | RAG-lib | Collections |
+|----------|-------|---------|-------------|
+| `knowledgeVaultQuery` | `knowledgeVaultAgent` | `kampsparQueryRag` | `kampspar`, `kb_docs` (```63:67:functions/src/callables/knowledge.ts```, ```4:4:functions/src/agents/knowledgeVaultAgent.ts```) |
+| `valvChatQuery` | `valvChatAgent` | `vaultRag` | `reality_vault` (```155:169:functions/src/callables/valv.ts```, ```3:3:functions/src/agents/valvChatAgent.ts```) |
+| `childrenLogsQuery` | `childrenLogsAgent` | `childrenLogsQueryRag` | `children_logs` (```72:75:functions/src/callables/knowledge.ts```, ```3:3:functions/src/agents/childrenLogsAgent.ts```) |
+
+### Guards
+
+| Guard | Roll |
+|-------|------|
+| `barnenModuleRouteGuard` | `knowledgeVaultQuery` redirectar barn-intent → Familjen (```54:60:functions/src/callables/knowledge.ts```) |
+| `mabraCoachGuard` | Ex/konflikt → Speglar, inte MåBra-coach (```29:41:functions/src/lib/mabraCoachGuard.ts```, klient-speglad i `src/.../mabra/lib/mabraCoachGuard.ts`) |
+| `assertVaultSession` | `valvChatQuery`, dossier, mönster-rescan kräver vault-session (```155:157:functions/src/callables/valv.ts```) |
+
+### Cross-read-risker (markerade)
+
+| Risk | Status | Detalj |
+|------|--------|--------|
+| User-RAG silo-blandning | **Låg** | Separata RAG-libs med collection-scope |
+| **Vävaren** (`kampsparRag.ts`) | **Medveten** | Läser `journal` + `reality_vault` för metadata-tagging — ej användar-chat (```12:23:functions/src/lib/kampsparRag.ts```) |
+| **Dossier** | **Medveten** | Användarvalda källor kan korsa silos (`dossier/types.ts`) |
+| **Vit → Kunskap** | **Guarderad** | MåBra-coach redirectar konflikt till Speglar; U6 förbjuder Vit→kampspar auto-ingest |
+| **entityProfileBundle** | **Låg** | Metadata delas i alla tre agenter — append-only aktörskarta, ej RAG-cross |
+
+---
+
+## 6. WORM (U3)
+
+### Firestore rules
+
+```268:271:firestore.rules
+    match /reality_vault/{docId} {
+      allow read: if isOwnerVault();
+      allow create: if isOwnerCreateVault() && isValidRealityVaultCreate();
+      allow update, delete: if false;
+```
+
+```293:296:firestore.rules
+    match /children_logs/{docId} {
+      allow read: if isOwnerSensitive() && isParentVisibleChildLog();
+      allow create: if isOwnerCreateSensitive() && isValidChildrenVisibility() && isValidChildrenLogCreate();
+      allow update, delete: if false;
+```
+
+`wormKeysOnly` begränsar fält vid create (```82:95:firestore.rules```, ```110:125:firestore.rules```).
+
+### Klient
+
+- `saveVaultLog` / `saveChildrenLog` → endast `guardedAddDoc` (```297:311:src/modules/core/firebase/firestore.ts```, ```333:359:src/modules/core/firebase/firestore.ts```)
+- **Ingen** `updateDoc`/`deleteDoc` mot dessa collections i `src/` (grep: 0 träffar)
+- Offline-skriv blockeras för Valv + barnloggar (```68:68:src/modules/core/firebase/offlineWritePolicy.ts```)
+
+**Append-only:** Ja, i rules + klient. Server-side Admin SDK kan fortfarande skriva (t.ex. synapser) — ej verifierat i denna analys utan functions-audit.
+
+---
+
+## 7. Valv säkerhetsmodell
+
+### Upplåsning
+
+| Steg | Mekanism |
+|------|----------|
+| 1 | WebAuthn (web) eller native biometri (Capacitor) via `openValvViaFyren` (```43:76:src/modules/core/auth/valvFyrenGate.ts```) |
+| 2 | `setVaultGate()` → `sessionStorage` (```24:34:src/modules/core/auth/sessionService.ts```) |
+| 3 | Server: `issueVaultSession` → `assertVaultSession` på känsliga callables (```155:157:functions/src/callables/valv.ts```) |
+| 4 | `VaultPage`: `hasVaultGate()` → annars `VaultLockedGate` (```171:185:src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx```) |
+
+### Plausible deniability
+
+| Krav | Status |
+|------|--------|
+| Drawer Valv-sektion endast vid unlock | **Ja** — `vaultOpen ? DRAWER_VALV_ITEMS` (```186:233:src/modules/core/layout/NavigationDrawer.tsx```) |
+| Ingen `?tab=bevis` på Hjärtat | **Ja** — redirect till `/valvet` (```172:191:src/modules/core/routing/AppRoutes.tsx```) |
+| `HIDE_BEVIS_TAB` default true | **Ja** (```1:2:src/modules/core/navigation/navFlags.ts```) |
+
+### Publikt läge — exponeras valv/bevis/arkiv?
+
+| UI-element | Exponerar? |
+|------------|------------|
+| FloatingDock | **Nej** — ingen Valv-knapp |
+| NavigationDrawer (låst) | **Nej** Valv-sektion |
+| **FyrenWidgetBar** | **Ja** — action `label: 'Valv'` (```37:37:src/modules/core/components/FyrenWidgetBar.tsx```) |
+| **KompisHeaderVaultButton** | **Ja** — aria "Kunskapsbank **i Valv**" (```48:49:src/modules/core/components/KompisHeaderVaultButton.tsx```) |
+| Hem inkast → granska | Länkar `/valvet?valvMode=granska` (```519:522:src/modules/inkast/api/inkastService.ts```) — når PIN-gate, men ordet "granska/bevis" syns i capture-flöden |
+| ValvetRoutePage rubrik | "Sanningsarkivet" / "Arkiv" (```95:97:src/modules/core/pages/ValvetRoutePage.tsx```) — endast efter route-hit |
+
+**Slutsats:** Drawer håller plausible deniability. **Fyren-chrome bryter delvis** genom synlig "Valv"-label och Kompis-knapp som nämner Valv — även innan unlock.
+
+---
+
+## 8. Rekommendationer (arkitektur only)
+
+Prioriterat efter att **minska mentala lager** — inte polish.
+
+### Behåll (fungerar, låst UX)
+
+| Element | Varför | Locked UX-risk |
+|---------|--------|----------------|
+| 3-zon + separat `/valvet` | Korrekt silo + PIN | — |
+| `InputSuperModule`-mönster | Ett läge i taget, tunna delegates | Barnfokus-delegate intakt |
+| P3 Kanban på `/planering?tab=handling` | Design lock | **Rör ej** |
+| Valv Mönster/Orkester + HITL-bro | Locked § | **Rör ej** |
+| WORM rules + `guardedAddDoc` | Säkerhetsfundament | — |
+| Tre separata RAG-callables | U1-efterlevnad | — |
+
+### Förenkla navigation (hög prioritet)
+
+| # | Åtgärd | Mentala lager ↓ | Locked UX |
+|---|--------|-----------------|-----------|
+| **F1** | **Ta bort Handling från launcher** — dock har redan dedikerad Handling-slot | −1 dubbelväg till samma Kanban | P3 oförändrad (dock → `/planering`) |
+| **F2** | **Döp om dock "Dagbok" → "Hjärtat"** — matcha zon-språk | −1 begreppsglidning | Speglar/Dagbok oförändrat |
+| **F3** | **Slå ihop Familjen tab + inputMode** på reflektion/livslogg — visa bara supermodule-picker, göm redundant `HubDropdownNav` när supermodule räcker | −1 skikt | **Barnfokus** kvar som default mode |
+| **F4** | **Fyren widget: dölj "Valv"-label i publikt läge** — visa neutral "Lås upp" / ikon utan ord | Plausible deniability ↑ | PIN-flöde oförändrat |
+| **F5** | **Planering: hoppa över `GoraModulValjare` efter första besök** (redan delvis: `picked=1`) — gör dock-Handling → Kanban direkt default | −1–2 klick | P3 Kanban kvar |
+
+### Slå ihop hubbar (medel prioritet — kräver PMIR)
+
+| # | Åtgärd | Effekt | Locked UX |
+|---|--------|--------|-----------|
+| **H1** | **Routing: `/ekonomi` → `/vardagen?tab=ekonomi`** (legacy `/ekonomi` finns parallellt idag) | −1 "värld" | Ekonomi supermodule oförändrad |
+| **H2** | **Routing: `/mabra` → under `/vardagen?module=mabra`** eller behåll route men ta bort från launcher (endast Vardagen-ingång) | −1 mental hub | MåBra-innehåll oförändrat |
+| **H3** | **Arkiv `/arkiv` → Valv-zone eller deprecate** | −1 legacy hub | Valv-flikar oförändrade |
+| **H4** | **Drogfrihet: Familjen-tab OK** — men överväg att inte ha egen launcher-redirect (`livLauncherRoutes` har `drogfrihet → familjen`) | Redan delvis | — |
+
+### Flytta Fyren till bakgrund (strategiskt — målbild)
+
+| # | Åtgärd | Effekt | Locked UX |
+|---|--------|--------|-----------|
+| **B1** | **Fyren = kapacitetsring + mikrosteg-förslag** (data från `evolution_hub` + `user_capability_state`) — inte 8-nav-panel | Fyren slutar konkurrera med dock | WH1/WH2 ikoner låsta |
+| **B2** | **Global kapacitetsgrind:** vid låg kapacitet, visa endast Hem + ett mikrosteg-kort (Paralys-Brytaren) — dölj launcher-grid | Direkt väg överbelastad → handling | Kräver designbeslut + smoke |
+| **B3** | **Kompis-knapp:** kort tryck → Speglar/Hem, inte Kunskapsbank — Kunskap endast i Valv-drawer efter unlock | −1 publik Valv-hint | Kunskapsbank-panel oförändrat bakom PIN |
+
+### Defer
+
+| # | Varför vänta |
+|---|-------------|
+| **D1** | Slå ihop `/kompis`, `/orakel`, `/reflection` — oklart produktvärde vs risk |
+| **D2** | Ta bort `/oversikt` + `/dashboard` — behöver inventering av användning |
+| **D3** | En enda `inputMode`-URL över alla zoner — stor refactor, liten UX-vinst vs F1–F5 |
+| **D4** | Vector Search silo-audit — ej blockerande för nav-förenkling |
+
+---
+
+## Sammanfattning
+
+Livskompassen har **korrekt djup arkitektur** (zoner, WORM, tre RAG-silos, supermodule-delegates) men **för många navigeringslager** mellan känsla av överbelastning och första mikrosteg. Dock visar 4 zoner — bra — men launcher (6), Fyren (8), hub-tabs (6+) och separata fullsid-routes (MåBra, Planering, Projekt, …) skapar **12–18 upplevda hubbar** mot målbildens **4 + bakgrunds-Fyren**.
+
+Kapacitetsdata (`evolution_hub`, `useCapacityGate`) **styr Ekonomi och Barnporten** men **inte** vilken navigation som visas — `CognitiveLoadStrip` är copy, inte grind.
+
+**Snabbaste arkitekturvinst utan locked UX-risk:** F1 + F2 + F4 + F5 (minska dubbelnav, neutralisera publik Valv-text, kortare väg till Kanban).
+
+---
+
+*Osäkerhet som kräver runtime-smoke (ej körd här):* `npm run smoke:locked-ux`, `npm run smoke:orkester` för att verifiera att nav-redirects inte bryter Barnfokus/Valv-flikar.
+````
+
+## File: docs/evaluations/2026-06-15-fas19-masterplan-v2.md
+````markdown
+# Fas 19 — Masterplan v2 (slutgiltig)
+
+**Datum:** 2026-06-15 · **Status:** Godkänd — implementation Fas 19.1–19.6  
+**Ersätter:** [`FAS19-UTKASTPLAN.md`](../archive/evaluations-fas19-2026-06/FAS19-UTKASTPLAN.md)  
+**Regel:** [`.cursor/rules/fas19-masterplan-guard.mdc`](../../.cursor/rules/fas19-masterplan-guard.mdc)
+
+---
+
+## 1. Executive summary
+
+Livskompassen v2 har levererat Fas 13–18 (WORM, superhubbar, inkast, Kunskap våg 24, Android cap sync) med grön smoke-baseline. Fas 19 fokuserar på **tre parallella spår** utan att bryta Sacred eller locked UX: **(A)** MåBra hybrid-8 pelarnav + hex→tokens, **(B)** projekt-hjärna med arkiv-först doc-synk, **(C)** säkerhets-P0 (`unlockVault`, App Check coverage) före polish. Pontus val: hybrid-8, JOY-17→19.4, evolution_ledger dual-write→19.5.
+
+---
+
+## 2. Vision + DONE/LÅST
+
+Se Cursor-plan och pre-flight syntes. G1–G16 **done** · Superhub §11–§17 **låst** · tre silos **PASS**.
+
+---
+
+## 3. Implementation-vågor
+
+| Våg | Innehåll | Smoke |
+|-----|----------|-------|
+| **19.1** | Doc-synk + `unlockVault` P0 + App Check guards + LEG-VAULT read-fix | `smoke:valv-security`, `smoke:inkast`, `smoke:locked-ux` |
+| **19.2** | M3.0-B hybrid-8 pelarkort | `smoke:mabra`, `smoke:design-modules`, `smoke:modulvaljare` |
+| **19.3** | Hex→tokens P0 + typecheck expansion | `typecheck:core-strict`, `smoke:design-modules` |
+| **19.4** | JOY-17 + mabraCoach bank-synk | `smoke:innehall`, `smoke:mabra` |
+| **19.5** | evolution_ledger dual-write | `smoke:evolution-discovery` |
+| **19.6** | Arkiv-batch PMIR | `orkester:night` |
+
+---
+
+## 4. Glömda funktioner
+
+| ID | Beslut | Våg |
+|----|--------|-----|
+| M3.0-B hybrid-8 | Implementera | 19.2 |
+| JOY-17 prod-wire | Implementera | 19.4 |
+| EVO-LEDGER dual-write | Implementera | 19.5 |
+| M3.0-C Fitness/Näring | Defer | 19.N+ |
+| LEG-VAULT | Behåll | — |
+| BP-PUSH | Defer | TBD |
+
+---
+
+## 5. Kostnadsgate
+
+Scripts/orkester:night default · prod callable-smoke en silo i taget · PMIR före merge.
+
+---
+
+*Fullständig pre-flight syntes: Cursor-plan `fas_19_masterplan_v2_48298370.plan.md` (intern).*
+````
+
+## File: docs/external-ai/DESIGN-KEEP-REGISTER.md
+````markdown
+# DESIGN-KEEP-REGISTER — vad som är aktivt
+
+Filer i `docs/design/` som **används nu** — rör ej vid städning.
+
+## Specs & policy (KEEP)
+
+- `docs/design/COLOR-POLICY.md`
+- `docs/design/CHROME-POLICY.md`
+- `docs/design/CHROME-EMBER-KANON.md`
+- `docs/design/TYPE-SCALE.md`
+- `docs/design/ICON-STYLE-GUIDE.md`
+- `docs/design/KOMPASS-MODUL-SPEC.md`
+- `docs/design/PLANERING-PROJEKT-HYBRID.md`
+- `docs/design/PLANERINGSSIDA-SPEC.md`
+- `docs/design/WIDGET-BAR-SPEC.md`
+- `docs/design/BARNPORTEN-SPEC.md`
+- `docs/design/VALV-HUBB-SPEC.md`
+- `docs/design/FAMILJEN-HUB-SPEC.md`
+- `docs/design/ANDROID-WIDGETS-SPEC.md`
+- `docs/design/HOMESCREEN-WIDGETS-SPEC.md`
+- `docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md`
+- `docs/design/planering/PLANERING-P3-KANBAN-SPEC.md`
+
+## References / kanon (KEEP)
+
+- `docs/design/references/MENU-DRAWER-KANON.md`
+- `docs/design/references/DOCK-KANON.md`
+- `docs/design/references/VALV-ICON-KANON.md`
+- `docs/design/references/KOMPASS-TRE-TIDPUNKTER.md`
+
+## Galleri — låst widget (KEEP)
+
+- `docs/design/galleri/widget/v2/` — W1–W4 (locked UX hybrid)
+- `docs/design/galleri/barnporten/` — barnporten-infografik
+- `docs/design/galleri/README.md`
+
+## Tema — aktivt (KEEP)
+
+- `src/styles/obsidian-calm-2.css` (kod — inte i design-mappen)
+- `docs/design/themes/phone-icon-variants/PREVIEW.md`
+- `docs/design/theme-lab/` (om aktiv Theme Lab-session)
+
+## Ikoner låsta (KEEP — kod)
+
+- `.context/locked-icons.md` — D1, M2, WH1, WH2
+
+## ARKIV-KANDIDATER (zon för zon)
+
+| Mapp | Antal (ca) | Destinationsförslag |
+|------|------------|---------------------|
+| `docs/design/icons-proposals/` | 200+ SVG | `docs/archive/design-2026-06/icons-proposals/` |
+| `docs/design/redesign-proposals/` | STYLE A/B/C | `docs/archive/design-2026-06/redesign-proposals/` |
+| `docs/design/themes/` (ej aktiv) | A-sacred, B-elevated, E-aurora, kognitiv-skold | `docs/archive/design-2026-06/themes/` |
+| `docs/design/compact/` | gamla modul-mockups | `docs/archive/design-2026-06/compact/` |
+
+**Regel:** Flytta, radera inte — förrän Pontus godkänt HYGIENE-LOG-rad.
+````
+
+## File: docs/gpt-handoff/README.md
+````markdown
+# GPT-handoff — RepoMix-paket för extern arkitekturgranskning
+
+Fem kuraterade RepoMix-exportfiler för GPT (eller annan extern granskare). Fokus: **arkitektur, navigation, silos och AI-koppling** — inte dekorativa UI-komponenter.
+
+**Senast uppdaterad:** 2026-06-15  
+**Levande status:** [`docs/external-ai/LIFE-OS-BUILD-STATE.md`](../external-ai/LIFE-OS-BUILD-STATE.md) · CHECKPOINT CP-1–CP-4 PASS  
+**Körplan:** [`docs/evaluations/2026-06-15-fas19-masterplan-v2.md`](../evaluations/2026-06-15-fas19-masterplan-v2.md)  
+**Nav-analys (Våg A klar):** [`docs/evaluations/2026-06-15-arkitektur-nav-analys.md`](../evaluations/2026-06-15-arkitektur-nav-analys.md)
+
+---
+
+## Nuläge (kort)
+
+| Område | Status 2026-06-15 |
+|--------|-------------------|
+| WORM + Valv-säkerhet | **LOCK** (CP-1, `smoke:valv-security`) |
+| Locked UX §11–17 | **LOCK** (`smoke:locked-ux`) |
+| G10 Inkast backend + UI | **LOCK** (CP-3, CP-4) |
+| Nav Våg A (F1, F2, F4, F5) | **Implementerad + deployad** |
+| Nav Våg B (H1–H4) | **Öppen** — kräver PMIR |
+| Upload unified (Valv DirectPanel) | **WIP** — defer till steg 2 |
+| Fas 19.2–19.6 (MåBra hybrid-8, hex→tokens, …) | **Planerad** — se masterplan |
+
+---
+
+## Läsordning
+
+| Steg | Pack | Fil | När |
+|------|------|-----|-----|
+| 1 | Arkitektur | `exports/gpt-handoff/repomix/gpt-pack-01-arkitektur.md` | **Börja här** |
+| 2 | Valvet | `gpt-pack-02-valvet.md` | Efter pack 1 |
+| 3 | Planering | `gpt-pack-03-planering.md` | Efter pack 2 |
+| 4 | Hjärtat | `gpt-pack-04-hjartat.md` | Senare |
+| 5 | Familjen | `gpt-pack-05-familjen.md` | Senare |
+
+Efter pack 01: använd [03-GPT-FORTSATTNING-PROMPT.md](./03-GPT-FORTSATTNING-PROMPT.md) för **Våg B**-beslut (PMIR).
+
+---
+
+## Generera packs
+
+```bash
+cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
+
+# Endast arkitektur (rekommenderat först)
+npm run gpt-handoff:pack:01
+
+# Valvet eller planering
+npm run gpt-handoff:pack:02
+npm run gpt-handoff:pack:03
+
+# Alla fem
+npm run gpt-handoff:pack:all
+```
+
+Genererade filer hamnar i `exports/gpt-handoff/repomix/` (gitignored). Kör `pack:all` efter större arkitekturändringar så token-storlek i tabellen nedan stämmer.
+
+Pack 01 inkluderar sedan 2026-06-15 även: `capture/`, `inkast/`, Fas-19-eval, arkitektur-nav-analys och `LIFE-OS-BUILD-STATE`.
+
+### Ungefärlig storlek (tokens)
+
+| Pack | Tokens (ca) | Filer (ca) | Notering |
+|------|-------------|------------|----------|
+| 01 Arkitektur | ~170k | 129 | + inkast/capture + eval-docs |
+| 02 Valvet | ~133k | 110 | + inkast callables + upload SPEC |
+| 03 Planering | ~71k | 83 | oförändrad kärna |
+| 04 Hjärtat | ~21k | 74 | komprimerad |
+| 05 Familjen | ~33k | 99 | komprimerad |
+
+---
+
+## Kartläggning: GPT-termer → Livskompassen
+
+| GPT förväntar | Faktiskt i repo |
 |---|---|
-| **Modell** | Claude Opus 4.8 |
-| **Repomix** | `exports/chatbot-handoff/chatbot-pack-security.md` |
-| **Gör** | Inventera WORM, vault-gate, synapser, DCAP, locked UX |
-| **Leverans** | `SECURITY-LOCK-MANIFEST.md` |
-| **Smoke** | `smoke:valv-security` · `smoke:locked-ux` |
-| **Parallellt OK** | Sonar 2 — App Check-research (egen chatt, bara docs) |
+| `BottomNav` | `FloatingDock.tsx` + `DockNavButton.tsx` |
+| `AppShell` | Inline i `App.tsx` |
+| `Router` | `AppRoutes.tsx` |
+| `/features/vault` | `src/modules/features/lifeJournal/evidence/vault/` |
+| `/planering` | `src/modules/features/admin/planning/` |
+| Zon-paths | `navTruth.ts` → `/hjartat`, `/vardagen`, `/familjen`, `/valvet` |
+| Inkast / Smart capture | `src/modules/capture/` + `src/modules/inkast/` + `submitInkastLite` |
+
+### Dock (efter Våg A 2026-06-15)
+
+| Slot | Label | Route |
+|------|-------|-------|
+| 1 | Liv och göra | `/vardagen` |
+| 2 | Familjen | `/familjen` |
+| 3 | **Hjärtat** (tidigare "Dagbok") | `/hjartat` |
+| 4 | Handling | `/planering?tab=handling&picked=1` |
+
+Launcher (`LivLauncherGrid`): **5 kort** — Handling borttagen (F1); Kanban nås via dock.
 
 ---
 
-### Dag 2 — Upload SPEC (ingen kod än)
+## Vad GPT ska verifiera (översikt)
 
-| | |
-|---|---|
-| **Modell** | Claude Opus 4.8 |
-| **Repomix** | `exports/gemini-handoff/konsolidering-upload/` |
-| **Gör** | En canonical upload-väg frontend + backend; behåll 3 silos |
-| **Leverans** | `UPLOAD-UNIFIED-SPEC.md` |
-| **Smoke** | Ingen kod — du godkänner SPEC manuellt |
-| **Extra** | Design-audit kan köras här — [`PHASE-DESIGN-AUDIT.md`](./PHASE-DESIGN-AUDIT.md) |
+### Pack 1 — Arkitektur
+- Tre produktzoner + Valv-silo (`NAV_PATHS`, `AppRoutes`)
+- Plausible deniability: Valv i drawer endast när `vaultSessionOpen`; Fyren visar **"Lås upp"** i publikt läge (F4)
+- Tre silos: `knowledgeVaultQuery`, `valvChatQuery`, `childrenLogsQuery`
+- WORM-signaler i types + `firestore.rules`
+- Ingen cross-RAG: separata RAG-libs + route guards
+- G10 Inkast: `CapturePanel` → `submitInkastLite` → DCAP-routing (ej auto-promote till Valv)
 
----
+### Pack 2 — Valvet
+- PIN + WebAuthn + server session (`unlockVault` P0 — CP-1)
+- WORM `reality_vault` — append-only
+- HITL: `SaveAsEvidencePrompt` + `InkastBarnenValvBridge` — aldrig auto-promote barn→valv
+- Låsta paneler: Mönster, Orkester, Aktörskarta, Kunskapsbank
 
-### Dag 3 — Backend upload
+### Pack 3 — Planering
+- P3 Kanban fast på `/planering?tab=handling`
+- Kognitiv grind via `evolution_hub` + `useCapacityGate`
+- Paralys-panel vid låg kapacitet
+- `picked=1` hoppar över modulväljare (F5)
 
-| | |
-|---|---|
-| **Modell** | GPT-5.5 eller Gemini 3.1 Pro |
-| **Vänta** | Dag 2 godkänd |
-| **Gör** | `inkastSourceModule`, audio-MIME, Storage onFinalize, confidence 0.75 |
-| **Smoke** | `functions build` · `smoke:inkast` · `smoke:inbox` |
+### Pack 4 — Hjärtat
+- Hub `/hjartat` — reflektion + speglar (legacy `/dagbok` redirect)
+- Zero Footprint för speglar
 
----
-
-### Dag 4 — Frontend upload
-
-| | |
-|---|---|
-| **Modell** | Claude Sonnet 4.6 |
-| **Helprompt** | [`PHASE-04-FULL-PROMPT.md`](./PHASE-04-FULL-PROMPT.md) |
-| **Vänta** | Dag 3 klar (CHECKPOINT-3 PASS) |
-| **Gör** | Filer i `CapturePanel` över alla Superhubs |
-| **Smoke** | `npm run build` · `smoke:locked-ux` |
-| **Snapshot** | `snapshot_locked_module.sh upload-unified` om LOCK |
+### Pack 5 — Familjen
+- Barnfokus låst (`BARNFOKUS_QUESTIONS`)
+- Barnporten inkorg → Valv HITL
+- `children_logs` WORM
 
 ---
 
-### Dag 5 — Synapse-lås
+## Klistra-in-prompter
 
-| | |
-|---|---|
-| **Chatt 1** | Grok 4.20 — analys → `SYNAPSE-LOCK-SPEC.md` |
-| **Chatt 2** | GPT-5.5 — kod om luckor |
-| **Gör** | Idempotens, silo-routing, ingen fjärde RAG |
-| **Smoke** | `smoke:orkester` |
-| **Snapshot** | `snapshot_locked_module.sh synapser` om LOCK |
-
----
-
-### Dag 6 — App Check + deploy-förberedelse
-
-| | |
-|---|---|
-| **Chatt 1** | Sonar 2 — Firebase Console-steg |
-| **Chatt 2** | GPT-5.4 — deploy-checklista |
-| **Du manuellt** | App Check Enforce i Firebase Console |
-| **Leverans** | `DEPLOY-CHATBOT-WAVE.md` |
+| Pack | Prompt-fil |
+|------|------------|
+| 01 | [01-ARKITEKTUR-PROMPT.md](./01-ARKITEKTUR-PROMPT.md) |
+| 02 | [02-VALVET-PROMPT.md](./02-VALVET-PROMPT.md) |
+| 03 | [03-PLANERING-PROMPT.md](./03-PLANERING-PROMPT.md) |
+| 04 | [04-HJARTAT-PROMPT.md](./04-HJARTAT-PROMPT.md) |
+| 05 | [05-FAMILJEN-PROMPT.md](./05-FAMILJEN-PROMPT.md) |
+| Våg B (efter 01) | [03-GPT-FORTSATTNING-PROMPT.md](./03-GPT-FORTSATTNING-PROMPT.md) |
 
 ---
 
-### Dag 7 — Final lås
+## Relation till andra handoffs
 
-| | |
-|---|---|
-| **Modell** | GPT-5.4 Mini |
-| **Bifoga** | [`bifoga/01-register/`](./bifoga/01-register/) + [`02-leveranser/`](./bifoga/02-leveranser/) + [`04-repomix/`](./bifoga/04-repomix/) · kör `npm run chatbot:sync:bifoga` först |
-| **Gör** | `LIFE-OS-CORE-LOCKED.md`, design-städlista, PMIR-utkast |
-| **Smoke** | `smoke:orkester` · `smoke:locked-ux` |
-| **Arkivera** | Sammanfattning → `docs/evaluations/` |
+| Pipeline | Syfte | Kommando |
+|----------|-------|----------|
+| **gpt-handoff** (denna) | Arkitektur, nav, silos, säkerhet | `npm run gpt-handoff:pack:all` |
+| **gemini-handoff** | Modulvis design/innehåll | `npm run gemini:pack` |
+| **chatbot-handoff** | UI-design + Obsidian Calm | `npm run chatbot:pack` |
 
----
-
-## När en modul är LOCK
-
-1. Smoke PASS
-2. Rad i `LIFE-OS-BUILD-STATE.md` = LOCK
-3. Rad i `LIFE-OS-CORE-LOCKED.md`
-4. **Lokal kopia:** `./scripts/snapshot_locked_module.sh valv|inkast|synapser|upload-unified`
-5. Fråga Cursor om git commit + push (du godkänner)
-
-| Modul | Snapshot-kommando |
-|-------|-------------------|
-| Valv | `snapshot_locked_module.sh valv` |
-| Inkast (redan låst) | `snapshot_locked_module.sh inkast` |
-| Synapser | `snapshot_locked_module.sh synapser` |
-| Upload unified | `snapshot_locked_module.sh upload-unified` |
-
----
-
-## Städning (löpande)
-
-- **KEEP** — aktiv design/specs: [`DESIGN-KEEP-REGISTER.md`](./DESIGN-KEEP-REGISTER.md)
-- **ARCHIVE** — gamla mockups → `docs/archive/design-2026-06/` (flytta, radera inte direkt)
-- Logga i `HYGIENE-LOG.md`
-
-Största städ-kandidater: `docs/design/icons-proposals/`, `redesign-proposals/`, oanvända `themes/`.
-
----
-
-## Medvetet senare (spara krediter)
-
-MåBra hybrid-8 (Fas 19.2), hex-tokens, evolution_ledger, Projekt P2+ — **efter** upload + synapse är låsta.
-
----
-
-## Vad som redan är klart i projektet
-
-- G1–G16 done · G10 Inkast låst 2026-06-06
-- 4 synapser live
-- **Öppet:** upload inte enhetlig, audio-MIME, Storage trigger, App Check Console Enforce
-
----
-
-## Snabbstart Dag 1
-
-1. `npm run chatbot:pack:all`
-2. ChatBox → Opus 4.8 → ny chatt
-3. Öppna `PHASE-01-security-lock.md` (prompt där om du behöver)
-4. Efter svar → CHECKPOINT i Cursor
-
-*Prompter finns i `PHASE-0X-*.md` och `CHATBOT-MASTER-PROMPT.md` — denna lathund refererar bara till dem.*
+Gemini påverkas inte av GPT-handoff. Delad kanon: `.context/locked-ux-features.md`, `docs/design/references/MENU-DRAWER-KANON.md`.
 ````
 
 ## File: src/modules/core/navigation/navTruth.ts
@@ -2733,38 +2765,6 @@ export function getDrawerRoots(section: NavDrawerSection, vaultSessionOpen = fal
 export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, vaultSessionOpen = false): boolean
 ````
 
-## File: src/modules/core/routing/AppRoutes.tsx
-````typescript
-import { lazy, Suspense } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { MainLayout } from '../layout/MainLayout';
-import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
-import { ProtectedModule } from '../../../components/layout/ProtectedModule';
-⋮----
-import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
-import {
-  clusterTabNavigateTarget,
-  valvetNavigateTarget,
-  type LifeJournalTabKey,
-} from '../navigation/navigationRegistry';
-import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
-import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
-⋮----
-function RouteFallback()
-⋮----
-function RedirectToLifeJournalTab(
-⋮----
-/** Blockera `?tab=bevis` på Hjärtat — skicka till Valvet. */
-⋮----
-/** Legacy `/valv` och `/kunskap` → Valvet (separat silo). */
-⋮----
-/** Legacy `/hamn` → Familjen; `?tab=analys` → Valv forensic (hamn_analys). */
-⋮----
-<Navigate to=
-⋮----
-function RedirectArkivToValvet()
-````
-
 ## File: src/modules/features/admin/planning/components/PlaneringPage.tsx
 ````typescript
 import { lazy, Suspense, useEffect, useMemo } from 'react';
@@ -2802,7 +2802,7 @@ function PlaneringPanelFallback()
 
 Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
-**Senast uppdaterad:** 2026-06-18 (Fas 19.1–19.6 DONE + P1/P2 LOCK)
+**Senast uppdaterad:** 2026-06-18 (Produktkomplett V0–V6 + Fas 19 DONE)
 
 | Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
 |-----------|-------------|--------|-------|------------|
@@ -2822,6 +2822,11 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 | **P2 Dossier v2 (AI foreword)** | `dossierAiForeword.ts`, `generateDossierInternal.ts` | **LOCK** | dossier 2026-06-17 | **P2** |
 | Fas 19.1 security sprint | `invalidateSession` guard, D14 ParentReminderFooter | **LOCK** | valv-security 2026-06-18 | **F19.1** |
 | MåBra 19.2–19.5 / wave-2 / M3.0-C | hybrid-8, hex→tokens, JOY-17, evolution_ledger | **SMOKE PASS** (ej formellt stängd) | mabra + modulvaljare + evolution 2026-06-18 | **F19.2–19.5** |
+| Wave 29.1 barn-epistemik | `childObservationEpistemics.ts`, `saveChildrenLog` | **LOCK** | smoke:barn-epistemik 2026-06-18 | **V1** |
+| MB-PLAY-54321 | `MabraGrounding54321Wizard.tsx`, `grounding54321Play.ts` | **LOCK** | smoke:mabra 2026-06-18 | **V2** |
+| Barnporten barn-PWA | `barnportenRollout.ts`, `BarnportenPausedPanel.tsx` | **PAUSED** (`BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false`) | locked-ux 2026-06-18 | **V4** |
+| App Check Console Enforce | Firebase Console → Enforce | **LOCK** | Pontus Console 2026-06-17 | **V6** |
+| BP-PUSH (FCM barn) | — | **DEFER** | — | **V6** |
 | AI-assistent UI | — | **DEFER** | — | — |
 
 ## Statusförklaring
@@ -2832,11 +2837,7 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
 ## Nästa steg (Pontus)
 
-1. **Använd:** Valv → **Inkast** → «Filtrera brus först» (kräver Fyren) → godkänn → spara
-2. **P1 v1+v2 LOCK** 2026-06-17
-3. **Nästa:** använd Dossier med «Kort AI-inledning» — P2 LOCK 2026-06-17
-4. **Fas 19.1 PASS** — deploy `functions:invalidateSession` + hosting om diff ej redan live
-5. **Nästa sprint-våg:** 19.2 formell logg (hybrid-8 redan smoke PASS) eller 19.6 arkiv-batch PMIR
-6. **Fas 19 sprint DONE** — se `docs/evaluations/2026-06-18-fas19-leverans.md`
-7. **DEFER:** M3.0-C Fitness/Näring, AI-assistent UI, arkiv-batch utförande
+1. **Använd:** Familjen livslogg med citat/tolkning; MåBra 5-4-3-2-1-lek
+2. **DEFER:** BP-PUSH, barn-PWA rollout, M3.0-C Fitness/Näring, AI-assistent UI
+3. **Leverans:** `docs/evaluations/2026-06-18-produktkomplett-leverans.md`
 ````

@@ -5,6 +5,7 @@ import { useGoalDetection } from '../hooks/useGoalDetection';
 import { usePrimaryGoal } from '../hooks/usePrimaryGoal';
 import { fetchGoalAssistCoach } from '../api/mabraCoachService';
 import { shouldRedirectMabraCoachToSpeglar } from '../lib/mabraCoachGuard';
+import { getMabraRsdErrorCopy } from '../lib/mabraRsdErrorCopy';
 import type { GoalCandidate } from '../lib/goalDetection';
 
 const COPY = {
@@ -92,7 +93,7 @@ export function MabraGoalPanel() {
       setIsEditing(true);
       setSelected(null);
     } catch {
-      setAssistError(COPY.assistError);
+      setAssistError(getMabraRsdErrorCopy());
     } finally {
       setAssistLoading(false);
     }
@@ -137,7 +138,7 @@ export function MabraGoalPanel() {
   if (panelError && !result && !primaryGoal) {
     return (
       <BentoCard glow="gold" className="p-5">
-        <p className="text-sm text-text-dim">{COPY.error}</p>
+        <p className="text-sm text-text-dim">{getMabraRsdErrorCopy()}</p>
       </BentoCard>
     );
   }

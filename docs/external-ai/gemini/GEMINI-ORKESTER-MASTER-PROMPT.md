@@ -1,7 +1,7 @@
 # Gemini Orkester — MASTER-PROMPT
 
 **Syfte:** Gemini Custom Gem som huvuddator — dirigerar ChatBox, Google Flow, Android Studio och Cursor via 5 zon-subagenter.  
-**Kanon:** [`GEMINI-GEM-SYSTEM-INSTRUCTION-KLISTRA-IN.txt`](./gemini-kunskap/00-SYSTEM-INSTRUCTION-KLISTRA-IN.txt) · [`gemini-kunskap/`](./gemini-kunskap/)  
+**Kanon:** [`GEMINI-GEM-SYSTEM-INSTRUCTION-KLISTRA-IN.txt`](../gemini-kunskap/00-SYSTEM-INSTRUCTION-KLISTRA-IN.txt) · [`gemini-kunskap/`](../gemini-kunskap/)  
 **Deep Research mall:** [`docs/evaluations/MALL-deep-research-modul.md`](../evaluations/MALL-deep-research-modul.md)  
 **Flow-karta:** [`docs/evaluations/2026-06-17-flow-pipeline-karta.md`](../evaluations/2026-06-17-flow-pipeline-karta.md)
 
@@ -100,7 +100,7 @@ STARTKOMMANDON:
 | Behov | Verktyg | Doc |
 |-------|---------|-----|
 | Strategi + beslut | Gemini Gem | denna fil |
-| Tung SPEC/kodutkast | ChatBox | [`MODEL-PICKER.md`](./MODEL-PICKER.md) |
+| Tung SPEC/kodutkast | ChatBox | [`MODEL-PICKER.md`](../chatbox/MODEL-PICKER.md) |
 | AI-pipelines | Google Flow | [`2026-06-17-flow-pipeline-karta.md`](../evaluations/2026-06-17-flow-pipeline-karta.md) |
 | Prod i repo | Cursor | [`GEMINI-TECH-LEAD.md`](../google-ai-pro/GEMINI-TECH-LEAD.md) |
 | Android | Android Studio | [`android-capacitor.md`](../../.context/android-capacitor.md) |
@@ -109,4 +109,4 @@ STARTKOMMANDON:
 
 ## Nästa gate (efter P1/P2 LOCK)
 
-P1 v1+v2 och P2 Dossier är **LOCK** (2026-06-17/18). Nästa gate: **system-gap-syntes** — Deep Research MASTER + SA1–SA10 → [`CURSOR-FLOW-CREDITS-SYNTHESIS.md`](./bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md) → `docs/evaluations/2026-06-18-system-gap-syntes.md`.
+P1 v1+v2 och P2 Dossier är **LOCK** (2026-06-17/18). Nästa gate: **system-gap-syntes** — Deep Research MASTER + SA1–SA10 → [`CURSOR-FLOW-CREDITS-SYNTHESIS.md`](../bifoga/03-prompter/CURSOR-FLOW-CREDITS-SYNTHESIS.md) → `docs/evaluations/2026-06-18-system-gap-syntes.md`.

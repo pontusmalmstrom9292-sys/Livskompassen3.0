@@ -14,6 +14,7 @@ import { VaultErrorBoundary } from './VaultErrorBoundary';
 import { VaultLockedGate } from '@/core/components/VaultLockedGate';
 import { ValvBentoShell } from './ValvBentoShell';
 import { ValvInputSuperModule } from '../supermodule/ValvInputSuperModule';
+import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
 import {
   type ValvInputMode,
   canonicalValvRoute,
@@ -230,6 +231,13 @@ function VaultPageInner({
         <p className="rounded-xl border border-accent/30 bg-surface-2/80 px-3 py-2 text-xs text-text-muted">
           {sessionSyncError}
         </p>
+      ) : null}
+
+      {vaultTab === 'logga' ? (
+        <PinnedPlaneringModuleSlot targetId="valv.logga" />
+      ) : null}
+      {vaultTab === 'kunskapsbank' ? (
+        <PinnedPlaneringModuleSlot targetId="valv.kunskapsbank" />
       ) : null}
 
       <ValvInputSuperModule

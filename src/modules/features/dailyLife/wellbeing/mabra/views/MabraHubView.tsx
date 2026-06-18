@@ -22,6 +22,7 @@ import { VALUES_COMPASS_COPY, exerciseTypeForHub } from '../constants';
 import type { MabraHubAction, MabraHubItem } from '../mabraHubRegistry';
 import type { MabraSymptomHub } from '../types';
 import type { MabraProjectId } from '../constants/mabraProjects';
+import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
 
 const MabraGoalPanelLazy = lazy(() =>
   import('../components/MabraGoalPanel').then((m) => ({ default: m.MabraGoalPanel })),
@@ -284,6 +285,8 @@ export const MabraHubView = memo(function MabraHubView() {
           />
         </div>
       )}
+
+      <PinnedPlaneringModuleSlot targetId="mabra.hub" className="mt-2" />
 
       {!showHubPicker && (
         <div className="flex justify-end">
