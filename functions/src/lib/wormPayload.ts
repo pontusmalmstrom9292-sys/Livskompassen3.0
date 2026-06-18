@@ -46,6 +46,7 @@ export const CHILDREN_LOG_ALLOWED_KEYS = new Set([
   'signals',
   'bankId',
   'mediaUrl',
+  'sourceRef',
   'createdAt',
 ]);
 

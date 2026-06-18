@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin';
 import { randomUUID } from 'crypto';
+import { isParentVisibleChildLog } from './childObservationEpistemics';
 import {
   buildCanonicalString,
   computeDocumentHash,
@@ -70,7 +71,7 @@ async function fetchOwnedDoc(
   const data = snap.data()!;
   const ownerId = String(data.ownerId ?? data.userId ?? '');
   if (ownerId !== uid) return null;
-  if (collection === 'children_logs' && data.visibility === 'private_child') return null;
+  if (collection === 'children_logs' && !isParentVisibleChildLog(data)) return null;
   return toCanonicalEntry(collection, snap.id, data);
 }
 

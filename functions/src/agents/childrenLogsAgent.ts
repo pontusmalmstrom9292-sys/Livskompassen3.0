@@ -1,5 +1,5 @@
 import { MONSTER_ARKIVARIEN_BARNEN_SYSTEM_PROMPT } from '../sharedRules';
-import { loadEntityProfileBundle } from '../lib/entityProfileStore';
+import { loadBarnenEntityBundle } from '../lib/entityProfileStore';
 import { fetchChildrenLogsForQuery } from '../lib/childrenLogsQueryRag';
 import { createGenAI } from '../lib/genaiClient';
 
@@ -88,7 +88,7 @@ export async function askChildrenLogsQuery(
 ): Promise<ChildrenLogsQueryResult> {
   const [chunks, entityBundle] = await Promise.all([
     fetchChildrenLogsForQuery(uid, question, childAlias),
-    loadEntityProfileBundle(uid),
+    loadBarnenEntityBundle(uid),
   ]);
   const allowed = new Map<string, ChildrenLogCitation>();
   for (const c of chunks) {

@@ -17,6 +17,14 @@
       ]
     },
     {
+      "collectionGroup": "children_logs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "ownerId", "order": "ASCENDING" },
+        { "fieldPath": "sourceRef", "order": "ASCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "journal",
       "queryScope": "COLLECTION",
       "fields": [

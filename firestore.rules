@@ -75,8 +75,14 @@ service cloud.firestore {
         || (request.resource.data.signals is map
           && request.resource.data.signals.keys().hasOnly(['somn', 'angest', 'aptit'])
           && request.resource.data.signals.somn is int
+          && request.resource.data.signals.somn >= 1
+          && request.resource.data.signals.somn <= 5
           && request.resource.data.signals.angest is int
-          && request.resource.data.signals.aptit is int);
+          && request.resource.data.signals.angest >= 1
+          && request.resource.data.signals.angest <= 5
+          && request.resource.data.signals.aptit is int
+          && request.resource.data.signals.aptit >= 1
+          && request.resource.data.signals.aptit <= 5);
     }
 
     function isValidRealityVaultCreate() {
@@ -111,7 +117,7 @@ service cloud.firestore {
       return wormKeysOnly([
           'userId', 'ownerId', 'childAlias', 'observation', 'truth', 'action', 'category',
           'childrenImpact', 'authorRole', 'channel', 'visibility', 'contentType', 'signals',
-          'bankId', 'mediaUrl', 'createdAt',
+          'bankId', 'mediaUrl', 'sourceRef', 'createdAt',
         ])
         && request.resource.data.childAlias is string
         && request.resource.data.childAlias.size() > 0
@@ -121,9 +127,15 @@ service cloud.firestore {
         && request.resource.data.action.size() <= 64
         && isValidChildSignals()
         && (!('observation' in request.resource.data)
-          || request.resource.data.observation is string)
+          || (request.resource.data.observation is string
+            && request.resource.data.observation.size() <= 50000))
         && (!('truth' in request.resource.data)
-          || request.resource.data.truth is string)
+          || (request.resource.data.truth is string
+            && request.resource.data.truth.size() <= 50000))
+        && (!('sourceRef' in request.resource.data)
+          || (request.resource.data.sourceRef is string
+            && request.resource.data.sourceRef.size() > 0
+            && request.resource.data.sourceRef.size() <= 256))
         && (!('bankId' in request.resource.data)
           || (request.resource.data.bankId is string
             && request.resource.data.bankId.size() > 0
@@ -298,12 +310,12 @@ service cloud.firestore {
 
     // Barnporten QR — skrivs endast via Cloud Functions (Admin SDK)
     match /barnporten_pairings/{tokenId} {
-      allow read: if isOwner();
+      allow read: if isOwnerSensitive();
       allow create, update, delete: if false;
     }
 
     match /barnporten_devices/{docId} {
-      allow read: if isOwner();
+      allow read: if isOwnerSensitive();
       allow create, update, delete: if false;
     }
 
