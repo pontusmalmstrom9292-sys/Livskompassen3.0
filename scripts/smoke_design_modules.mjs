@@ -351,6 +351,23 @@ function main() {
     'src/modules/core/home/AdaptiveMemoryCards.tsx',
     'Visa mer',
   );
+  mustInclude(
+    'src/modules/core/home/HemV3DevelopmentRail.tsx',
+    'HemV3DevelopmentRail',
+    'HEM_V3_DEVELOPMENT_CARDS',
+    'filterDevelopmentCardsForPreset',
+    'isLowHomeCapacity',
+  );
+  mustInclude(
+    'src/modules/core/pages/HomePage.tsx',
+    'HemV3DevelopmentRail',
+    'home_development_rail',
+  );
+  mustInclude(
+    'src/modules/core/home/hemV3DevelopmentCards.ts',
+    'HEM_V3_DEVELOPMENT_CARDS',
+    'HEM_V3_LOW_CAPACITY_CARD_IDS',
+  );
 
   console.log('[smoke:design-modules] Shared module shell…');
   mustInclude(

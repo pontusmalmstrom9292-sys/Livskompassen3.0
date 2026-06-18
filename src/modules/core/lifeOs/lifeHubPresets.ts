@@ -13,6 +13,7 @@ export type LifeHubMaterialKey =
   | 'home_inkast'
   | 'home_stamp'
   | 'home_adaptive_cards'
+  | 'home_development_rail'
   | 'home_snabbval'
   | 'home_hero_checkin'
   | 'planering_routines'
@@ -31,6 +32,7 @@ const ALL_TRUE: Record<LifeHubMaterialKey, boolean> = {
   home_inkast: true,
   home_stamp: false,
   home_adaptive_cards: true,
+  home_development_rail: true,
   home_snabbval: true,
   home_hero_checkin: true,
   planering_routines: true,
@@ -57,6 +59,7 @@ export const LIFE_HUB_PRESETS: LifeHubPreset[] = [
       home_inkast: false,
       home_stamp: false,
       home_adaptive_cards: true,
+      home_development_rail: true,
       home_snabbval: true,
       home_hero_checkin: true,
       planering_routines: false,
@@ -73,6 +76,7 @@ export const LIFE_HUB_PRESETS: LifeHubPreset[] = [
       home_inkast: true,
       home_stamp: false,
       home_adaptive_cards: false,
+      home_development_rail: false,
       home_snabbval: true,
       home_hero_checkin: true,
       planering_routines: true,
@@ -89,6 +93,7 @@ export const LIFE_HUB_PRESETS: LifeHubPreset[] = [
       home_inkast: false,
       home_stamp: false,
       home_adaptive_cards: false,
+      home_development_rail: false,
       home_snabbval: true,
       home_hero_checkin: true,
       planering_routines: false,

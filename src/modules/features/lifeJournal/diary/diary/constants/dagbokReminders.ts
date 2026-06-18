@@ -19,5 +19,3 @@ export const DAGBOK_REMEMBER_LINES = [
     text: VAVAREN_DAGBOK_ARCHIVE_LINE,
   },
 ] as const;
-
-export const DAGBOK_REMEMBER_STORAGE_KEY = 'livskompassen.dagbokRememberOpen';

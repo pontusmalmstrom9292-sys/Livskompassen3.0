@@ -133,18 +133,18 @@ export function DagbokPage({
 
         <div className="flex flex-wrap items-center justify-between gap-4">
           <DagbokModeNav mode={mode} onModeChange={setMode} />
-          
-          {/* NY KOD: Genväg till Känslospegeln */}
-          <Link 
-            to="/hjartat?tab=speglar"
-            className="btn-pill--secondary text-xs shadow-sm hover:scale-105 transition-transform"
-            title="Låt AI validera och spegla dina senaste tankar"
-          >
-            🔮 Känslospegeln
-          </Link>
-        </div>
 
-        <DagbokRememberCard />
+          <div className="flex flex-wrap items-center gap-2">
+            <DagbokRememberCard />
+            <Link
+              to="/hjartat?tab=speglar"
+              className="btn-pill--secondary text-xs shadow-sm transition-transform hover:scale-105"
+              title="Låt AI validera och spegla dina senaste tankar"
+            >
+              🔮 Känslospegeln
+            </Link>
+          </div>
+        </div>
 
         {mode === 'snabb' && (
           <>

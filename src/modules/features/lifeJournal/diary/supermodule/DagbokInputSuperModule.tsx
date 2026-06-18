@@ -84,11 +84,14 @@ export function DagbokInputSuperModule({
       bare
       className="hjartat-tab-panel overflow-hidden !p-4 sm:!p-5"
     >
-      <header className="valv-forensic-header">
-        <p className="valv-forensic-eyebrow">Hjärtat</p>
-        <h2 className="valv-forensic-title">{activeMeta.label}</h2>
-        <p className="valv-forensic-lead">{activeMeta.description}</p>
-      </header>
+      <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+        <div className="valv-forensic-header min-w-0 flex-1">
+          <p className="valv-forensic-eyebrow">Hjärtat</p>
+          <h2 className="valv-forensic-title">{activeMeta.label}</h2>
+          <p className="valv-forensic-lead">{activeMeta.description}</p>
+        </div>
+        <DagbokRememberCard />
+      </div>
 
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <DagbokInputModePicker activeMode={activeMode} onChange={setActiveMode} />
@@ -101,9 +104,7 @@ export function DagbokInputSuperModule({
         </Link>
       </div>
 
-      <DagbokRememberCard />
-
-      <div className="calm-scroll-island mt-4 max-h-[min(75vh,720px)] overflow-y-auto pr-1">
+      <div className="calm-scroll-island max-h-[min(75vh,720px)] overflow-y-auto pr-1">
         <DagbokInputModeDelegate mode={activeMode} onSaved={handleDelegateSaved} />
       </div>
     </BentoCard>

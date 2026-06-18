@@ -4,6 +4,7 @@ import { VALV_SAMLA_GRANSKA_LINK } from '@/modules/inkast/api/inkastService';
 import { clsx } from 'clsx';
 import { HomeHeroKanon } from '../home/HomeHeroKanon';
 import { AdaptiveMemoryCards } from '../home/AdaptiveMemoryCards';
+import { HemV3DevelopmentRail } from '../home/HemV3DevelopmentRail';
 import { CaptureSuperModule } from '../../capture';
 import { materialEnabled, useLifeHubPreset } from '../lifeOs';
 import { useStore } from '../store';
@@ -21,6 +22,8 @@ export function HomePage() {
   const [adaptiveRefreshKey, setAdaptiveRefreshKey] = useState(0);
   const showAdaptiveCards =
     !mockupSkin && isAuthenticated && materialEnabled(preset, 'home_adaptive_cards');
+  const showDevelopmentRail =
+    !mockupSkin && isAuthenticated && materialEnabled(preset, 'home_development_rail');
 
   return (
     <div
@@ -31,9 +34,14 @@ export function HomePage() {
     >
       <HomeHeroKanon onCheckInSaved={() => setAdaptiveRefreshKey((k) => k + 1)} />
 
-      {showAdaptiveCards ? (
-        <div className="mx-auto w-full max-w-2xl px-1">
-          <AdaptiveMemoryCards refreshKey={adaptiveRefreshKey} presetId={presetId} />
+      {showAdaptiveCards || showDevelopmentRail ? (
+        <div className="mx-auto w-full max-w-2xl space-y-6 px-1">
+          {showAdaptiveCards ? (
+            <AdaptiveMemoryCards refreshKey={adaptiveRefreshKey} presetId={presetId} />
+          ) : null}
+          {showDevelopmentRail ? (
+            <HemV3DevelopmentRail refreshKey={adaptiveRefreshKey} />
+          ) : null}
         </div>
       ) : null}
 
