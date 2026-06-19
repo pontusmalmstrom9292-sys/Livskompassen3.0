@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Loader2, RefreshCw, Sparkles } from 'lucide-react';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useEvolutionStore } from '@/core/store/useEvolutionStore';
 import {
@@ -33,8 +34,6 @@ function daySeed(childAlias: string): number {
   return dayOfYear + childBump;
 }
 
-const MEMORY_PREVIEW_MAX = 2;
-
 /**
  * Barnfokus PLAY delegate — låst §12.
  * Shell: FamiljenInputSuperModule BentoCard glow="blue" (Familjen-silo).
@@ -59,8 +58,8 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
   );
 
   const kindLabel = BARNFOKUS_KIND_LABELS[question.kind];
-  const previewRows = memoryRows.slice(0, MEMORY_PREVIEW_MAX);
-  const hiddenCount = Math.max(0, memoryRows.length - MEMORY_PREVIEW_MAX);
+  const memoryMeta =
+    memoryRows.length > 0 ? `${memoryRows.length} sparade` : 'Tom ännu';
 
   const handleSave = async () => {
     const text = answer.trim();
@@ -162,39 +161,29 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
 
       {error ? <p className="text-sm text-danger">{error}</p> : null}
 
-      <div className="od-depth__memory-panel shrink-0">
-        <p className="od-depth__bento-label mb-2">Minneslista</p>
+      <CalmCollapsible title="Minneslista" meta={memoryMeta} defaultOpen={false} glow="green">
         {memoryRows.length === 0 ? (
           <p className="text-xs text-text-dim">
-            Inga sparade svar ännu. Ett svar dyker upp här direkt.
+            Inga sparade svar ännu. Ett svar dyker upp här direkt efter du sparar.
           </p>
         ) : (
-          <>
-            <ul className="space-y-2">
-              {previewRows.map((row, index) => (
-                <li key={row.id || `barnfokus-mem-${index}`}>
-                  <TimelineEntry
-                    as="div"
-                    body={barnfokusDisplayText(row.observation ?? row.truth)}
-                    meta={`barnfokus · ${formatChildLogDate(row.createdAt, 'nyss')}`}
-                  />
-                </li>
-              ))}
-            </ul>
-            {hiddenCount > 0 ? (
-              <p className="mt-2 text-[10px] uppercase tracking-wider text-text-dim">
-                +{hiddenCount} till i loggen
-              </p>
-            ) : null}
-          </>
+          <ul className="space-y-2">
+            {memoryRows.map((row, index) => (
+              <li key={row.id || `barnfokus-mem-${index}`}>
+                <TimelineEntry
+                  as="div"
+                  body={barnfokusDisplayText(row.observation ?? row.truth)}
+                  meta={`barnfokus · ${formatChildLogDate(row.createdAt, 'nyss')}`}
+                />
+              </li>
+            ))}
+          </ul>
         )}
-      </div>
+      </CalmCollapsible>
 
-      <PinnedPlaneringModuleSlot
-        targetId="familjen.barnfokus"
-        contextKey={childAlias}
-        className="mt-2"
-      />
+      <CalmCollapsible title="Planering" meta="Valfritt" defaultOpen={false} glow="green">
+        <PinnedPlaneringModuleSlot targetId="familjen.barnfokus" contextKey={childAlias} />
+      </CalmCollapsible>
     </BentoCard>
   );
 }
