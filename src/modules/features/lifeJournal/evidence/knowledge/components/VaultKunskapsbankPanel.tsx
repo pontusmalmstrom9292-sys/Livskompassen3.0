@@ -40,7 +40,7 @@ export function VaultKunskapsbankPanel() {
 
   return (
     <div className="space-y-4">
-      <KunskapsbankHeader compact />
+      <KunskapsbankHeader />
 
       {showNetworkError && (
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3">
@@ -81,7 +81,7 @@ export function VaultKunskapsbankPanel() {
         </BentoCard>
       )}
 
-      <BentoCard glow="blue" bare noHover className="!p-0">
+      <BentoCard glow="blue" bare noHover className="!p-0 overflow-hidden">
         <div className="p-4 sm:p-5">
           <KunskapPage
             embedded
