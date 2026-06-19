@@ -20,6 +20,38 @@ Det går däremot att:
 
 ---
 
+## 1b. Fråga dig vs agenten väljer själv
+
+| Du behöver ingripa | Agenten sköter själv |
+|--------------------|----------------------|
+| PMIR, deploy, merge, `firestore.rules` | Trivial UI/copy |
+| Stor refaktor om huvudchatten kör lätt modell | Subagent med rätt `model` i Task |
+| Kostnadspreferens (billigare modell) | Backend via `gpt-5.5-high` subagent |
+| Osäkerhet — agenten presenterar **ett** rekommenderat val | Flerstegs-loop efter *"kör själv"* / *"bygg till perfektion"* |
+
+**Praktiskt:** Du behöver inte byta modell för varje delsteg. Säg *"kör själv med subagents"* — då delegerar agenten tunga delar till rätt modell medan du kan sitta kvar i en snabbare huvudmodell.
+
+---
+
+## 1c. Flerstegs perfektionsloop (tung kod)
+
+När funktionen är **stor, säkerhetskritisk eller många filer** — be agenten (eller låt den själv) köra:
+
+1. **Utforska** — kartlägg kod och risker (`explore`)
+2. **Planera** — REASONS / PMIR vid behov
+3. **Bygg** — implementation med `gpt-5.5-high` (backend) eller Sonnet (UI)
+4. **Granska** — `bugbot` + ev. `security-review` (readonly)
+5. **Verifiera** — `specialist-smoke-runner` + rätt smoke-tier
+6. **Fixa** — upprepa tills PASS (max ~5 varv, sedan ett eskalationssteg till dig)
+
+**Ett kommando att klistra in:**
+
+```
+Kör flerstegs perfektionsloop enligt @model-routing: utforska → planera → bygg → granska → smoke → fixa tills PASS. Välj själv lämplig subagent-modell per fas. Jämför mot hela projektet. Sluta inte förrän smoke PASS eller PMIR-stopp.
+```
+
+---
+
 ## 1. Projektregel: `model-routing.mdc`
 
 Fil: [`.cursor/rules/model-routing.mdc`](../.cursor/rules/model-routing.mdc)
@@ -128,16 +160,21 @@ Globala regler i Cursor Settings → Rules for AI: använd sparsamt för **betee
 
 ---
 
-## 6. Subagents och modell
+## 6. Subagents och modell (agent väljer proaktivt)
 
-I Cursor Task kan subagents få explicit `model` (t.ex. `claude-opus-4-8-thinking-high` för security-auditor). Det påverkar **inte** huvudchattens modell — bara den delegerade uppgiften.
+I Cursor Task kan subagents få explicit `model` (t.ex. `claude-opus-4-8-thinking-high` för security-auditor). Det påverkar **inte** huvudchattens modell — bara den delegerade uppgiften. **Agenten ska välja modell utan att du byter manuellt**, såvida inte PMIR/deploy kräver ditt OK.
 
 | Subagent | Roll | Modell |
 |----------|------|--------|
+| `explore` | Kartlägg kod | inherit |
 | `yolo-vakt` | Read-only GO/NO-GO | inherit |
 | `specialist-security-auditor` | WORM/silo audit | Opus 4.8 Thinking |
+| `specialist-adk-weaver` | SynapseBus, ADK | GPT-5.5 High |
 | `specialist-smoke-runner` | Kör smoke | GPT-5.4 High |
+| `bugbot` | Diff-granskning | inherit |
 | `orkester-conductor` | Nattpass-delegation | GPT-5.5 High |
+
+**Dina triggers:** *"kör själv"*, *"använd bästa modell"*, *"bygg till perfektion"* → agenten startar flerstegs-loop enligt §1c.
 
 ---
 
@@ -150,6 +187,7 @@ I Cursor Task kan subagents få explicit `model` (t.ex. `claude-opus-4-8-thinkin
 | Deploy | `/yolo-vakt` → Tier C PASS → Pontus OK → named deploy |
 | Full kontext i chatt | Ny chatt + handoff från `master-state.json` |
 | Osäker på modell | `@model-routing` + fråga agenten |
+| Tung funktion / perfektion | *"Kör flerstegs-loop enligt @model-routing"* (§1c) |
 
 ---
 
