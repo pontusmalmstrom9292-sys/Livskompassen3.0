@@ -1,0 +1,39 @@
+{
+  "version": "2026-06-19",
+  "registry": "saker-ai-prompts",
+  "purpose": "Governance prompt templates for Cursor agents and manual classification — not runtime callables.",
+  "crossReferences": [
+    ".cursor/rules/anti-hallucination.mdc",
+    ".cursor/rules/grunder-kanon.mdc",
+    ".cursor/rules/locked-ux-features.mdc",
+    ".cursor/rules/domän-covert-narcissism.mdc",
+    "functions/src/sharedRules.ts"
+  ],
+  "usageNote": "docs/prompts/SAKER-AI-PROMPTS.md",
+  "uncertaintyPhrase": "Ej tillräckligt data",
+  "uncertaintyPhraseExtended": "Ej tillräckligt data för bedömning.",
+  "templates": [
+    {
+      "id": "ai-agent-sakerhetsinstruktion",
+      "name": "AI Agent Säkerhetsinstruktion",
+      "type": "system",
+      "scope": "cursor-agent-governance",
+      "placeholders": [],
+      "template": "Svara endast med fakta från projektets verifierade datakällor. Undvik gissningar. Vid osäkerhet svara: 'Ej tillräckligt data'. Följ strikt regler om WORM, silo och låsta flöden."
+    },
+    {
+      "id": "saker-klassificering",
+      "name": "Säker Klassificering",
+      "type": "user",
+      "scope": "document-silo-classification",
+      "placeholders": [
+        {
+          "key": "documentText",
+          "description": "Raw document or inbox text to classify into Kunskap, Valv, or Barnen.",
+          "required": true
+        }
+      ],
+      "template": "Klassificera dokumenttext exklusivt baserat på givna dokument- och kodkällor. Text: \"{{documentText}}\". Välj en silo (Kunskap, Valv, Barnen). Motivera endast utifrån tillgänglig bevis. Säg 'Ej tillräckligt data' om saknad information."
+    }
+  ]
+}
