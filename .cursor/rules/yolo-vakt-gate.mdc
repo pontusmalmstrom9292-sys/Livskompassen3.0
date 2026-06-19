@@ -1,6 +1,7 @@
 ---
 description: YOLO-vakt stående deploy-gate — audit + smoke:yolo PASS före firebase deploy
 alwaysApply: false
+globs: firebase.json,docs/YOLO-VAKT-GATE.md,docs/evaluations/*yolo*,scripts/smoke*.mjs,package.json
 ---
 
 # YOLO-vakt deploy-gate (MUST)

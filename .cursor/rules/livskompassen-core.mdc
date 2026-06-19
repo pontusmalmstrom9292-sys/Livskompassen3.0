@@ -1,6 +1,7 @@
 ---
 description: Core Livskompassen context, Sacred Features, assistant persona, REASONS planning
 alwaysApply: false
+globs: .context/**,AGENTS.md,docs/SYSTEM_PLAN*.md
 ---
 
 # Livskompassen Core

@@ -1,6 +1,7 @@
 ---
 description: Main trunk, PMIR före merge, regelanalys system/design/säkerhet, hjälp merge efter godkännande
 alwaysApply: false
+globs: docs/GIT-LATHUND.md,docs/MERGE-IMPACT-RAPPORT.md,docs/BRANCH-KARTA.md,.cursor/rules/git-main-trunk.mdc
 ---
 
 # Git main trunk & merge hygiene (CANON)

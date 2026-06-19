@@ -1,6 +1,7 @@
 ---
 description: Deploy-påminnelser — var, när och vad som måste ut innan prod fungerar
 alwaysApply: false
+globs: firebase.json,functions/**,docs/DEPLOY.md,docs/SMOKE_CHECKLIST.md,.github/workflows/**
 ---
 
 # Deploy-påminnelser (MUST)
