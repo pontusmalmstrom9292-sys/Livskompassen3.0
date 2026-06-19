@@ -14,6 +14,7 @@ import { MabraLowEnergyToggle } from '../components/MabraLowEnergyToggle';
 import { CURRICULUMS } from '../content/curriculumCatalog';
 import { MabraVitProjectsPanel } from '../components/MabraVitProjectsPanel';
 import { MabraHubCollapsible } from '../components/MabraHubCollapsible';
+import { MabraNutritionHubPrimary } from '../components/MabraNutritionHubPrimary';
 import { readAllVitProjectLastSeen, writeVitProjectLastSeen } from '../lib/vitProjectLastSeen';
 import { MabraModulValjare, type MabraModulChoice } from '../components/MabraModulValjare';
 import { hasSeenMabraModulValjare } from '../lib/mabraModulValjareStorage';
@@ -310,34 +311,7 @@ export const MabraHubView = memo(function MabraHubView() {
       {!showHubPicker && (
         <>
           <MabraLowEnergyToggle enabled={lowEnergyMode} onChange={setLowEnergyMode} />
-          {!lowEnergyMode && (
-            <>
-              <MabraHubCollapsible title="Daglig mix" meta="Ett kort + lek" defaultOpen={false}>
-                <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
-              </MabraHubCollapsible>
-              <MabraHubCollapsible title="Mål och fokus" defaultOpen={false}>
-                <HubErrorBoundary
-                  title="Målsättning kunde inte laddas"
-                  errorBody={getMabraRsdErrorCopy()}
-                  logTag="MabraGoalPanel"
-                  glow="green"
-                >
-                  <Suspense fallback={<HubPanelSkeleton label="Laddar mål…" lines={3} />}>
-                    <MabraGoalPanelLazy />
-                  </Suspense>
-                </HubErrorBoundary>
-              </MabraHubCollapsible>
-              <MabraHubCollapsible title="Dina kurser" meta={`${CURRICULUMS.length} kurser`} defaultOpen={false}>
-                <VitCurriculumPanel
-                  onOpenReflection={openCurriculumReflection}
-                  onOpenPlay={openCurriculumPlay}
-                />
-              </MabraHubCollapsible>
-              <MabraHubCollapsible title="Utvecklingsprojekt" meta="Vit-zon" defaultOpen={false}>
-                <MabraVitProjectsPanel lastSeen={vitLastSeen} onOpenProject={openVitProject} />
-              </MabraHubCollapsible>
-            </>
-          )}
+
           <MabraVitHub
             openCategory={hubOpenCategory}
             onOpenCategoryChange={setHubOpenCategory}
@@ -351,20 +325,71 @@ export const MabraHubView = memo(function MabraHubView() {
               </div>
             }
           />
-          <div className="mt-4">
-            <MabraHubCollapsible title="Historik" meta="Senaste sessioner" defaultOpen={false}>
-              <HubErrorBoundary
-                title="Historik kunde inte laddas"
-                errorBody={getMabraRsdErrorCopy()}
-                logTag="MabraHistoryView"
-                glow="green"
-              >
-                <Suspense fallback={<HubPanelSkeleton label="Laddar historik…" lines={3} />}>
-                  <MabraHistoryViewLazy />
-                </Suspense>
-              </HubErrorBoundary>
+
+          {!lowEnergyMode && (
+            <MabraNutritionHubPrimary uid={userId} />
+          )}
+
+          {!lowEnergyMode && (
+            <MabraHubCollapsible title="Mer på hubben" meta="Mix · Mål · Kurser · Historik" defaultOpen={false}>
+              <div className="space-y-4">
+                <MabraHubCollapsible title="Daglig mix" meta="Ett kort + lek" defaultOpen={false}>
+                  <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
+                </MabraHubCollapsible>
+                <MabraHubCollapsible title="Mål och fokus" defaultOpen={false}>
+                  <HubErrorBoundary
+                    title="Målsättning kunde inte laddas"
+                    errorBody={getMabraRsdErrorCopy()}
+                    logTag="MabraGoalPanel"
+                    glow="green"
+                  >
+                    <Suspense fallback={<HubPanelSkeleton label="Laddar mål…" lines={3} />}>
+                      <MabraGoalPanelLazy />
+                    </Suspense>
+                  </HubErrorBoundary>
+                </MabraHubCollapsible>
+                <MabraHubCollapsible title="Dina kurser" meta={`${CURRICULUMS.length} kurser`} defaultOpen={false}>
+                  <VitCurriculumPanel
+                    onOpenReflection={openCurriculumReflection}
+                    onOpenPlay={openCurriculumPlay}
+                  />
+                </MabraHubCollapsible>
+                <MabraHubCollapsible title="Utvecklingsprojekt" meta="Vit-zon" defaultOpen={false}>
+                  <MabraVitProjectsPanel lastSeen={vitLastSeen} onOpenProject={openVitProject} />
+                </MabraHubCollapsible>
+                <MabraHubCollapsible title="Historik" meta="Senaste sessioner" defaultOpen={false}>
+                  <HubErrorBoundary
+                    title="Historik kunde inte laddas"
+                    errorBody={getMabraRsdErrorCopy()}
+                    logTag="MabraHistoryView"
+                    glow="green"
+                  >
+                    <Suspense fallback={<HubPanelSkeleton label="Laddar historik…" lines={3} />}>
+                      <MabraHistoryViewLazy />
+                    </Suspense>
+                  </HubErrorBoundary>
+                </MabraHubCollapsible>
+              </div>
             </MabraHubCollapsible>
-          </div>
+          )}
+
+          {lowEnergyMode && (
+            <div className="mt-4">
+              <MabraHubCollapsible title="Historik" meta="Senaste sessioner" defaultOpen={false}>
+                <HubErrorBoundary
+                  title="Historik kunde inte laddas"
+                  errorBody={getMabraRsdErrorCopy()}
+                  logTag="MabraHistoryView"
+                  glow="green"
+                >
+                  <Suspense fallback={<HubPanelSkeleton label="Laddar historik…" lines={3} />}>
+                    <MabraHistoryViewLazy />
+                  </Suspense>
+                </HubErrorBoundary>
+              </MabraHubCollapsible>
+            </div>
+          )}
+
           {valuesSavedHint && (
             <p className="text-center text-sm text-text-muted">{VALUES_COMPASS_COPY.savedHint}</p>
           )}
