@@ -2,7 +2,7 @@
   "version": 1,
   "sprint": "fas22-masterplan-v2",
   "startedAt": "2026-06-18T11:59:32.509Z",
-  "updatedAt": "2026-06-19T15:30:00.000Z",
+  "updatedAt": "2026-06-19T16:00:00.000Z",
   "completedAt": "2026-06-18T23:38:55.784Z",
   "status": "done",
   "nextWaveId": null,
@@ -35,7 +35,19 @@
       "note": "M3.0-C mabra_nutrition_log rules live i prod"
     },
     {
-      "id": "22.12",
+      "id": "22.13",
+      "completedAt": "2026-06-19T16:00:00.000Z",
+      "deploy": "hosting",
+      "merge": "cursor/yolo-build-vidare-7746",
+      "sha": "32595dc83",
+      "smokes": [
+        "smoke:design-modules",
+        "smoke:locked-ux",
+        "typecheck:core-strict"
+      ],
+      "audit": "docs/evaluations/2026-06-19-yolo-audit-build-vidare.md",
+      "note": "P2 widget /widget/projekt + hex Vit + zone-valv chunk"
+    },
       "completedAt": "2026-06-19T15:30:00.000Z",
       "deploy": "functions:beginVaultBiometricChallenge,functions:issueVaultSessionViaBiometric",
       "jobId": "1781873123994",
@@ -146,6 +158,7 @@
     "22.10",
     "22.11",
     "22.12",
+    "22.13",
     "slutrapport"
   ],
   "waveDetails": [
@@ -241,5 +254,5 @@
       "mass-delete"
     ]
   },
-  "notes": "22.3 firestore:rules M3.0-C + 22.12 biometri functions deploy 2026-06-19. Hosting 22.11 live. Android: npm run build:web && npx cap sync android."
+  "notes": "22.13 hosting P2 widget + hex deploy. Nästa: masterplan A2.1 Valv Samla eller USER-test Fyren→Projekt."
 }
