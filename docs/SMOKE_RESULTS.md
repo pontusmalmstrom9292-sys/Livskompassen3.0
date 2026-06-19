@@ -1,5 +1,17 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Rules + biometri deploy (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| SHA | `189a9f1b2` |
+| Deploy | `firestore:rules` — **success** (job `1781873104091`) |
+| Deploy | `functions:beginVaultBiometricChallenge,issueVaultSessionViaBiometric` — **success** (job `1781873123994`) |
+| Gate | `smoke:valv-security` + `smoke:yolo` — **PASS** (mabra live SKIP — saknar `.env`) |
+| USER | `/vardagen?tab=mabra` → Näring & vätska; Valv biometri på Android efter cap sync |
+
+---
+
 ## Hosting deploy (2026-06-19 — PR #25 Brusfiltret lab)
 
 | Fält | Värde |
@@ -9,8 +21,6 @@
 | Gate | `YOLO_SKIP_BUILD=1 npm run smoke:yolo` — **PASS** |
 | Audit | [`evaluations/2026-06-19-yolo-audit-hosting-pr25.md`](./evaluations/2026-06-19-yolo-audit-hosting-pr25.md) |
 | USER | Hard refresh webb (`Cmd+Shift+R`); Brusfiltret lab polish |
-
-**Öppet:** `firestore:rules` M3.0-C · `functions` biometri v1 — ej denna deploy.
 
 ---
 
