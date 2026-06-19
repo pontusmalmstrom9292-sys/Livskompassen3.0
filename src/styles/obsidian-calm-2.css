@@ -689,7 +689,33 @@
 
   .home-layout-a--calm .home-layout-a__hero-inset:focus {
     outline: none;
-    border-color: rgba(99, 102, 241, 0.35);
+    border-color: rgba(212, 175, 55, 0.35);
+  }
+
+  .home-layout-a--calm .home-layout-a__snabbval-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 9999px;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .home-layout-a--calm .home-layout-a__snabbval-chip:hover {
+    border-color: rgba(212, 175, 55, 0.35);
+    color: var(--text);
+  }
+
+  @media (max-width: 520px) {
+    .home-layout-a--calm .home-layout-a__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .home-layout-a--calm .home-layout-a__tile--tall {
+      grid-row: span 1;
+    }
   }
 
   .home-layout-a--calm .home-layout-a__grid {

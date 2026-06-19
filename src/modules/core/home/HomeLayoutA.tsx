@@ -4,12 +4,14 @@ import { Inbox, Mic, PenLine } from 'lucide-react';
 import { clsx } from 'clsx';
 import { saveCheckIn } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
+import { CalmCollapsible } from '../ui/CalmCollapsible';
 import { HomeGreeting } from './HomeGreeting';
 import { HomeBrassDaySteps } from './HomeBrassDaySteps';
 import { HomeStreakChip } from './HomeStreakChip';
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
-import { HOME_SUPERHUB_ROUTES } from './homeSuperhubRoutes';
+import { HOME_SUPERHUB_ROUTES, getHomeSuperhubShortcutsForPreset } from './homeSuperhubRoutes';
 import { getHomeCompassPhase, phaseLead } from './homeCompassPhase';
+import { materialEnabled, useLifeHubPreset } from '../lifeOs';
 
 type Props = {
   onCheckInSaved?: () => void;
@@ -35,12 +37,18 @@ function surfaceClass(variant: 'brass' | 'calm', extra?: string) {
   return clsx('calm-card glow-bottom-gold', extra);
 }
 
-/** Hem layout A — ankare + asymmetriskt rutnät (HEM-LAYOUT-A-KANON). */
+/** Hem layout A — ankare + asymmetriskt rutnät (HEM-LAYOUT-A-KANON). Wave A2 polish. */
 export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: Props) {
   const navigate = useNavigate();
   const user = useStore((s) => s.user);
+  const { preset, presetId } = useLifeHubPreset();
   const now = useMemo(() => new Date(), []);
   const phase = getHomeCompassPhase(now);
+  const showSnabbval = materialEnabled(preset, 'home_snabbval');
+  const snabbvalShortcuts = useMemo(
+    () => getHomeSuperhubShortcutsForPreset(presetId),
+    [presetId],
+  );
 
   const [anchor, setAnchor] = useState('');
   const [saving, setSaving] = useState(false);
@@ -87,25 +95,41 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
       ? 'home-layout-a__hero-inset brass-inset neu-inset w-full resize-none border-0 bg-transparent px-3 py-2 text-sm text-text'
       : 'home-layout-a__hero-inset w-full resize-none rounded-xl border border-border/40 bg-surface-2/80 px-3 py-2 text-sm text-text';
 
+  const heroSurface = surfaceClass(
+    variant,
+    clsx('home-layout-a__hero-card', variant === 'brass' && 'brass-glass--hero'),
+  );
+
   return (
     <div className={rootClass}>
       <div className="home-layout-a__intro">
         <HomeGreeting hideEyebrow={variant === 'calm'} />
-        <div className="home-layout-a__intro-meta">
-          <p className="home-layout-a__sub">
-            {weekdayLabel(now)} · {phaseLead(phase).toLowerCase()}
-          </p>
-          {presetLabel ? (
-            <p className="home-greeting-module__profile text-[10px] text-text-dim" aria-label={`Hemprofil: ${presetLabel}`}>
-              {presetLabel}
+        <CalmCollapsible
+          title="Profil & fas"
+          meta={weekdayLabel(now)}
+          defaultOpen={false}
+          glow="gold"
+        >
+          <div className="home-layout-a__intro-meta space-y-1">
+            <p className="home-layout-a__sub">
+              {weekdayLabel(now)} · {phaseLead(phase).toLowerCase()}
             </p>
-          ) : null}
-          <HomeStreakChip />
-        </div>
+            {(presetLabel ?? preset.label) ? (
+              <p
+                className="home-greeting-module__profile text-[10px] text-text-dim"
+                aria-label={`Hemprofil: ${presetLabel ?? preset.label}`}
+              >
+                {presetLabel ?? preset.label}
+              </p>
+            ) : null}
+            <p className="text-xs text-text-dim">{preset.lead}</p>
+            <HomeStreakChip />
+          </div>
+        </CalmCollapsible>
       </div>
 
       <section
-        className={clsx('home-layout-a__hero', surfaceClass(variant, 'home-layout-a__hero-card'))}
+        className={clsx('home-layout-a__hero', heroSurface)}
         aria-label="Dagens ankare"
       >
         <p className="home-layout-a__label">Dagens ankare</p>
@@ -139,6 +163,26 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
           {error ? <p className="text-xs text-danger">{error}</p> : null}
         </div>
       </section>
+
+      {showSnabbval && snabbvalShortcuts.length > 0 ? (
+        <div className="home-layout-a__snabbval flex flex-wrap gap-2" aria-label="Snabbval från hemprofil">
+          {snabbvalShortcuts.map((item) => {
+            const Icon = item.icon;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                className={clsx('home-layout-a__snabbval-chip', surfaceClass(variant))}
+                onClick={() => navigate(item.to)}
+                title={item.lead}
+              >
+                <Icon className="h-3.5 w-3.5 text-accent" aria-hidden />
+                <span>{item.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      ) : null}
 
       <div className="home-layout-a__grid" aria-label="Steg och snabbstart">
         <HomeBrassDaySteps variant={variant} />

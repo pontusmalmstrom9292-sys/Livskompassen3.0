@@ -287,6 +287,20 @@ function main() {
     'ValvChatExtendedHints',
   );
   mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/dossier/components/DossierPage.tsx',
+    'Dossier-Generator',
+    'CalmCollapsible',
+    'Valfria filter',
+    'AI-förord & tidslinje',
+    'generateDossier',
+  );
+  mustInclude(
+    'src/modules/core/home/HomeLayoutA.tsx',
+    'CalmCollapsible',
+    'getHomeSuperhubShortcutsForPreset',
+    'home-layout-a__snabbval',
+  );
+  mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx',
     'Assistentroller',
     'Kör mönstersökning',
