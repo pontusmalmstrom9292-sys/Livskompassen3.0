@@ -8,7 +8,7 @@
 | Leverans | `/widget/projekt`, zone-valv chunk, hex P2 Vit, våg 31 done |
 | Gate | `smoke:design-modules` + `smoke:locked-ux` + `typecheck:core-strict` — **PASS** |
 | Audit | [`evaluations/2026-06-19-yolo-audit-build-vidare.md`](./evaluations/2026-06-19-yolo-audit-build-vidare.md) |
-| Deploy | `hosting` — pending efter merge |
+| Deploy | `hosting` — **success** (job `1781875844249`, sha `32595dc83`) |
 | USER | Fyren → Projekt → bottom sheet (inte `/projekt/ny` direkt) |
 
 ---
