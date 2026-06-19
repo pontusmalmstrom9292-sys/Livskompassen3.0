@@ -1,12 +1,14 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ChevronDown, Wrench } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import type { PlaneringTab } from '../types';
 import { PlaneringHub } from './PlaneringHub';
+import { PlaneringHubCollapsible } from './PlaneringHubCollapsible';
 import { RoutinesPanel } from './RoutinesPanel';
 
 type VerktygDrawerProps = {
   activeTab?: PlaneringTab;
+  /** Inuti yttre CalmCollapsible (t.ex. B4 handling) — ingen egen fold. */
+  embedded?: boolean;
 };
 
 const EXTRA_TOOLS: { id: PlaneringTab; label: string; lead: string; to: string }[] = [
@@ -24,67 +26,68 @@ const EXTRA_TOOLS: { id: PlaneringTab; label: string; lead: string; to: string }
   },
 ];
 
-/** Fler verktyg — Inköpslista, Rutiner, Hub. Fokus/Framsteg/Regler = PlaneringMoreTabsBar. */
-export function VerktygDrawer({ activeTab }: VerktygDrawerProps) {
-  const [open, setOpen] = useState(false);
+function PlaneringExtraTools({ activeTab }: { activeTab?: PlaneringTab }) {
+  const location = useLocation();
   const [showHub, setShowHub] = useState(false);
-  const [showRutiner, setShowRutiner] = useState(false);
+  const [showRutiner, setShowRutiner] = useState(location.hash === '#planering-rutiner');
+
+  useEffect(() => {
+    if (location.hash === '#planering-rutiner') {
+      setShowRutiner(true);
+    }
+  }, [location.hash]);
 
   return (
     <div className="space-y-2">
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        className="btn-pill--ghost flex w-full items-center justify-between gap-2 text-xs uppercase tracking-widest text-text-dim"
-        aria-expanded={open}
+      {EXTRA_TOOLS.map((tool) => (
+        <Link
+          key={tool.id}
+          to={tool.to}
+          className={`block rounded-xl border px-3 py-2 text-left transition ${
+            activeTab === tool.id
+              ? 'border-accent/40 bg-accent/10'
+              : 'border-border/30 hover:border-accent/25'
+          }`}
+        >
+          <span className="text-sm text-text">{tool.label}</span>
+          <span className="mt-0.5 block text-xs text-text-dim">{tool.lead}</span>
+        </Link>
+      ))}
+
+      <PlaneringHubCollapsible
+        title="Rutiner / veckomeny"
+        meta="Materialpaket"
+        defaultOpen={showRutiner}
+        open={showRutiner}
+        onOpenChange={setShowRutiner}
       >
-        <span className="flex items-center gap-2">
-          <Wrench className="h-3.5 w-3.5" aria-hidden />
-          Fler verktyg
-        </span>
-        <ChevronDown className={`h-4 w-4 transition ${open ? 'rotate-180' : ''}`} aria-hidden />
-      </button>
-
-      {open && (
-        <div className="calm-card glow-bottom-gold space-y-2 rounded-2xl border border-border/30 p-3">
-          {EXTRA_TOOLS.map((tool) => (
-            <Link
-              key={tool.id}
-              to={tool.to}
-              className={`block rounded-xl border px-3 py-2 text-left transition ${
-                activeTab === tool.id
-                  ? 'border-accent/40 bg-accent/10'
-                  : 'border-border/30 hover:border-accent/25'
-              }`}
-            >
-              <span className="text-sm text-text">{tool.label}</span>
-              <span className="mt-0.5 block text-xs text-text-dim">{tool.lead}</span>
-            </Link>
-          ))}
-
-          <button
-            type="button"
-            onClick={() => setShowRutiner((v) => !v)}
-            className="w-full rounded-xl border border-border/30 px-3 py-2 text-left text-sm text-text-muted hover:border-accent/25"
-          >
-            Rutiner / veckomeny
-          </button>
-          {showRutiner && (
-            <div id="planering-rutiner-drawer">
-              <RoutinesPanel />
-            </div>
-          )}
-
-          <button
-            type="button"
-            onClick={() => setShowHub((v) => !v)}
-            className="w-full rounded-xl border border-border/30 px-3 py-2 text-left text-sm text-text-muted hover:border-accent/25"
-          >
-            {showHub ? 'Dölj hub-layout' : 'Visa hub-layout (avancerat)'}
-          </button>
-          {showHub && <PlaneringHub />}
+        <div id="planering-rutiner-drawer">
+          <RoutinesPanel defaultOpen />
         </div>
-      )}
+      </PlaneringHubCollapsible>
+
+      <PlaneringHubCollapsible
+        title="Hub-layout"
+        meta="15 verktyg · 8 layouter"
+        defaultOpen={showHub}
+        open={showHub}
+        onOpenChange={setShowHub}
+      >
+        <PlaneringHub />
+      </PlaneringHubCollapsible>
     </div>
+  );
+}
+
+/** Fler verktyg — Inköpslista, Rutiner, Hub. Fokus/Framsteg/Regler = PlaneringMoreTabsBar. */
+export function VerktygDrawer({ activeTab, embedded = false }: VerktygDrawerProps) {
+  if (embedded) {
+    return <PlaneringExtraTools activeTab={activeTab} />;
+  }
+
+  return (
+    <PlaneringHubCollapsible title="Fler verktyg" meta="Inköp · Rutiner · Hub" defaultOpen={false}>
+      <PlaneringExtraTools activeTab={activeTab} />
+    </PlaneringHubCollapsible>
   );
 }
