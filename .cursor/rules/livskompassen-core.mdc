@@ -1,6 +1,7 @@
 ---
 description: Core Livskompassen context, planning flow, and assistant persona
-alwaysApply: true
+alwaysApply: false
+globs: .context/**,AGENTS.md,docs/SYSTEM_PLAN*.md
 ---
 
 # Livskompassen Core

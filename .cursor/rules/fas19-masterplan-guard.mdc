@@ -1,6 +1,7 @@
 ---
 description: Fas 19 gate — pre-flight, expertmodell, beslut åt Pontus, arkiv-först
-alwaysApply: true
+alwaysApply: false
+globs: docs/evaluations/*fas19*,docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md,.cursor/plans/**
 ---
 
 # Fas 19 — mästerplan-gate (till Fas 19+ är klar)

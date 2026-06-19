@@ -1,6 +1,7 @@
 ---
 description: Locked product icons D1 M2 — B1 app icon unlocked
-alwaysApply: true
+alwaysApply: false
+globs: **/LivskompassMark.tsx,**/LivskompassBrandLockup.tsx,**/KompisMark.tsx,**/FyrenShortcut*.tsx,public/**/*.svg,.context/locked-icons.md
 ---
 
 # Locked icons (MUST NOT replace)

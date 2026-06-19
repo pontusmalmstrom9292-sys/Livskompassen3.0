@@ -1,3 +1,9 @@
+---
+description: Hamn — skrift före telefon (våg 28), BIFF default written_only_escalation
+alwaysApply: false
+globs: src/modules/features/family/safeHarbor/**,**/hamnTaktikWire.ts,docs/evaluations/*research-slutfas*
+---
+
 # Hamn — skrift före telefon (våg 28)
 
 Kanon: [`docs/evaluations/2026-06-16-research-slutfas.md`](../../docs/evaluations/2026-06-16-research-slutfas.md) · `kunskap-fact-cop-007` · [`hamnTaktikWire.ts`](../../src/modules/features/family/safeHarbor/lib/hamnTaktikWire.ts)

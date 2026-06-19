@@ -1,6 +1,7 @@
 ---
 description: Stoppa dubbelplanering — påminn om befintlig kanon innan ny plan
-alwaysApply: true
+alwaysApply: false
+globs: docs/SYSTEM_PLAN*.md,docs/specs/**,docs/evaluations/**,docs/BRANCH-KARTA.md,.cursor/plans/**,**/module_plan.md
 ---
 
 # Planering-kanon (anti-dubblett)
