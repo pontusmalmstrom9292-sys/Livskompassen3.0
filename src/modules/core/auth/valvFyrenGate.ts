@@ -2,11 +2,10 @@ import type { NavigateFunction } from 'react-router-dom';
 import { NAV_PATHS } from '../navigation/navTruth';
 import { setVaultGate, clearVaultGate } from './sessionService';
 import { isWebAuthnReliable, performVaultWebAuthnForSession } from './vaultWebAuthnClient';
-import { issueVaultServerSession, issueVaultSessionViaBiometric } from './vaultServerSession';
+import { issueVaultServerSession, issueVaultSessionAfterNativeBiometric } from './vaultServerSession';
 import { applyVaultJwtClaim } from '../security/vaultWriteUnlock';
 import { isEmailAuthRequired } from './requireEmailAuth';
 import { isCapacitorNative } from '../platform/capacitorPlatform';
-import { performNativeBiometric } from './nativeBiometricAuth';
 import { useStore } from '../store';
 
 type OpenValvViaFyrenOptions = {
@@ -77,16 +76,10 @@ export async function openValvViaFyren(
 
   // ── GREN 2: Native Biometric (Capacitor Android / iOS — fallback) ──────────
   if (isCapacitorNative()) {
-    const bio = await performNativeBiometric();
-    if (bio.ok === false) {
-      options?.onDenied?.('Biometrisk verifiering misslyckades.');
-      return false;
-    }
-
     setVaultGate();
     useStore.getState().setVaultUnlocked(true);
 
-    const issued = await issueVaultSessionViaBiometric(bio.platform);
+    const issued = await issueVaultSessionAfterNativeBiometric();
     if (issued.ok === false) {
       clearVaultGate();
       useStore.getState().setVaultUnlocked(false);

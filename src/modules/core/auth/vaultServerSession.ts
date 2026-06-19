@@ -96,27 +96,55 @@ export async function issueVaultServerSession(
   }
 }
 
-type BiometricSessionPayload = { platform: 'android' | 'ios' };
+type BiometricSessionPayload = {
+  platform: 'android' | 'ios';
+  challengeId: string;
+  challengeProof: string;
+};
+
+type BiometricChallengeResult = {
+  challengeId: string;
+  challengeProof: string;
+  expiresAt: string;
+};
 
 /**
- * Skapar en Valv-session via native biometri (Android TEE / iOS Secure Enclave).
- * Används som fallback när WebAuthn inte är tillgängligt i Capacitor WebView.
- *
- * Autentiseringsgarantin ges av:
- *  1. Firebase ID-token (verifieras server-side automatiskt av Cloud Functions)
- *  2. Android TEE-verifierad biometri (utförd av OS innan detta anrop görs)
- *
- * Same Zero Footprint: session är 1h idle, invalidateSession fungerar som vanligt.
+ * Native biometri → Valv-session (Capacitor Android/iOS).
+ * Kedja: server-utmaning → OS-biometri → issue med engångsbevis.
  */
-export async function issueVaultSessionViaBiometric(
-  platform: 'android' | 'ios',
-): Promise<VaultSessionIssueOutcome> {
+export async function issueVaultSessionAfterNativeBiometric(): Promise<VaultSessionIssueOutcome> {
+  if (!isCapacitorNative()) {
+    return {
+      ok: false,
+      message: 'Native biometri krävs i Capacitor-appen.',
+    };
+  }
+
   try {
+    const begin = httpsCallable<Record<string, never>, BiometricChallengeResult>(
+      functions,
+      'beginVaultBiometricChallenge',
+    );
+    const challengeResult = await begin({});
+    const challenge = challengeResult.data;
+    if (!challenge?.challengeId || !challenge?.challengeProof) {
+      return { ok: false, message: 'Biometri-utmaning svarade utan token.' };
+    }
+
+    const bio = await performNativeBiometric();
+    if (bio.ok === false) {
+      return { ok: false, message: bio.message };
+    }
+
     const issue = httpsCallable<BiometricSessionPayload, VaultSessionIssueResult>(
       functions,
       'issueVaultSessionViaBiometric',
     );
-    const result = await issue({ platform });
+    const result = await issue({
+      platform: bio.platform,
+      challengeId: challenge.challengeId,
+      challengeProof: challenge.challengeProof,
+    });
     const data = result.data;
     if (!data?.vaultSessionToken || !data?.expiresAt) {
       return { ok: false, message: 'Valv-session (biometri) svarade utan token.' };
@@ -125,9 +153,16 @@ export async function issueVaultSessionViaBiometric(
     sessionStorage.setItem(EXPIRES_KEY, data.expiresAt);
     return { ok: true };
   } catch (err) {
-    console.warn('[vaultSession] issueVaultSessionViaBiometric misslyckades:', err);
+    console.warn('[vaultSession] issueVaultSessionAfterNativeBiometric misslyckades:', err);
     return { ok: false, message: formatCallableError(err) };
   }
+}
+
+/** @deprecated Använd issueVaultSessionAfterNativeBiometric — kräver challenge-kedja. */
+export async function issueVaultSessionViaBiometric(
+  _platform: 'android' | 'ios',
+): Promise<VaultSessionIssueOutcome> {
+  return issueVaultSessionAfterNativeBiometric();
 }
 
 /**
@@ -149,11 +184,7 @@ export async function ensureVaultServerSessionFromGate(): Promise<VaultSessionIs
   }
 
   if (isCapacitorNative()) {
-    const bio = await performNativeBiometric();
-    if (bio.ok === false) {
-      return { ok: false, message: 'Biometrisk verifiering misslyckades.' };
-    }
-    return issueVaultSessionViaBiometric(bio.platform);
+    return issueVaultSessionAfterNativeBiometric();
   }
 
   return {

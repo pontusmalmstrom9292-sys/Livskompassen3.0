@@ -30,6 +30,7 @@ export { scheduledBarnportenAgeEval } from './jobs/barnportenAgeEvalJob';
 
 export {
   beginVaultWebAuthnChallengeCallable as beginVaultWebAuthnChallenge,
+  beginVaultBiometricChallengeCallable as beginVaultBiometricChallenge,
   issueVaultSession,
   issueVaultSessionViaBiometric,
   getEntityProfileRegistry,
