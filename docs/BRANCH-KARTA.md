@@ -2,9 +2,11 @@
 
 **Syfte:** En aktiv utvecklingsgren (`main`). Inget förstört — historik finns i git.
 
-**Senast:** 2026-06-01 (lokal städning: `feat/superhub-v2` bort; endast `main` + `origin`)
+**Senast:** 2026-06-19 (merge: `cursor/frontend-polish-valv-hem-mabra-3876` → `main`, PR #15)
 
-**Senast merge:** 2026-06-01 (`feat/superhub-v2` → `main` — supersidor, capture, Draft Layer; PMIR [`archive/evaluations-fas21-2026-06/2026-06-01-superhub-PMIR.md`](./archive/evaluations-fas21-2026-06/2026-06-01-superhub-PMIR.md))
+**Senast merge:** 2026-06-19 (`cursor/frontend-polish-valv-hem-mabra-3876` → `main` — progressive disclosure Kunskapsbank/Hem/MåBra; PMIR [`evaluations/2026-06-19-pmir-frontend-polish-valv-hem-mabra.md`](./evaluations/2026-06-19-pmir-frontend-polish-valv-hem-mabra.md))
+
+**Senast merge (äldre):** 2026-06-01 (`feat/superhub-v2` → `main` — supersidor, capture, Draft Layer; PMIR [`archive/evaluations-fas21-2026-06/2026-06-01-superhub-PMIR.md`](./archive/evaluations-fas21-2026-06/2026-06-01-superhub-PMIR.md))
 
 **Autonom kö (borta):** [`MASTER-YOLO-AUTORUN.md`](./MASTER-YOLO-AUTORUN.md) — `npm run master:yolo` + `orkester:night` + Agent startprompt.
 
