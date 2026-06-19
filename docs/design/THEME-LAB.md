@@ -44,10 +44,11 @@ Konfigurerat i `.cursor/mcp.json`:
 2. `node scripts/figma-batch-open.mjs <capture-id>` — 26 rutter
 3. Autentisera Figma MCP i Cursor Settings → MCP
 
-**Browser E2E (render-gate):**
+**Browser E2E (render-gate, ingår i `smoke:predeploy`):**
 
 ```bash
-npx playwright install chromium
+npm run smoke:e2e-locked-ux
+# eller snabbare utan chromium-install:
 npm run test:e2e:locked-ux
 ```
 

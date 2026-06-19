@@ -58,7 +58,7 @@ Use when Pontus or agents work on **visual variants** without breaking locked UX
 npm run build
 npm run smoke:locked-icons   # if icons touched
 npm run smoke:design-modules
-npm run test:e2e:locked-ux   # browser render gate (optional)
+npm run smoke:e2e-locked-ux   # browser render gate (ingår i smoke:predeploy)
 ```
 
 ## Agent delegate
