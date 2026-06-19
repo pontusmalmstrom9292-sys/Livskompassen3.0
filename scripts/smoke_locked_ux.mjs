@@ -233,6 +233,9 @@ function main() {
     'EntityAddForm',
     'fetchEntityProfileRegistry',
     'VaultAktorskartaPanel',
+    'CalmCollapsible',
+    'Nyckelentiteter (seed)',
+    'Dina tillagda personer',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/kompis/components/EntityAddForm.tsx',

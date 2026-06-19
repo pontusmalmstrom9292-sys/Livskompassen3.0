@@ -1,5 +1,16 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Valv Aktörskarta A2.6 (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| Leverans | Lista + lägg till primär; seed i `CalmCollapsible` |
+| Gate | `smoke:locked-ux` — **PASS** |
+| PMIR | [`evaluations/2026-06-19-pmir-valv-a2-6.md`](./evaluations/2026-06-19-pmir-valv-a2-6.md) |
+| USER | Valv → Aktörskarta — egna personer + formulär synligt |
+
+---
+
 ## Dossier A2.5 + Hem A2 (2026-06-19)
 
 | Fält | Värde |

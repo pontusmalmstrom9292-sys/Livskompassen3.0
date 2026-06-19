@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Users } from 'lucide-react';
-import { BentoCard } from '@/shared/ui/BentoCard';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { useStore } from '@/core/store';
@@ -14,7 +14,7 @@ import {
 import { VAULT_MAIN_TAB_LABELS, VALV_KUNSKAP_DRAWER_LEAF } from '@/core/copy/valvNavCopy';
 import { ENTITY_ROLE_LABELS } from '../../kompis/constants/entityRegistryLabels';
 
-/** Valv PIN — manuell aktörskarta (G9). Agenter minns via EntityProfile, ej RAG. */
+/** A2.6 — primär: lista + lägg till. Sekundär: seed-lista (CalmCollapsible). G9 anti-hallucination. */
 export function VaultAktorskartaPanel() {
   const isAuthenticated = useStore((s) => s.isAuthenticated);
   const [profiles, setProfiles] = useState<EntityProfileSummary[]>([]);
@@ -47,16 +47,19 @@ export function VaultAktorskartaPanel() {
 
   return (
     <div className="space-y-4">
-      <BentoCard
-        title={VAULT_MAIN_TAB_LABELS.aktorskarta}
-        description={`${VALV_KUNSKAP_DRAWER_LEAF.aktorskarta} · anti-hallucination (G9)`}
-        icon={<Users className="h-4 w-4 text-accent" />}
-        glow="blue"
-      >
-        <p className="mb-4 text-sm text-text-muted">
-          Personregister för assistenter — inte bevis. Nya personer läggs till här och minns av
-          Kunskapsvalv, Valv-triage och Barnen-chat.
-        </p>
+      <section className="calm-card glow-bottom-blue rounded-2xl border border-border p-4">
+        <div className="mb-3 flex items-start gap-3">
+          <div className="rounded-xl border border-accent/25 bg-accent/10 p-2">
+            <Users className="h-4 w-4 text-accent" aria-hidden />
+          </div>
+          <div className="min-w-0 flex-1">
+            <h2 className="font-display text-base text-text">{VAULT_MAIN_TAB_LABELS.aktorskarta}</h2>
+            <p className="mt-0.5 text-xs text-text-dim">
+              {VALV_KUNSKAP_DRAWER_LEAF.aktorskarta} · personregister för assistenter (ej bevis)
+            </p>
+          </div>
+        </div>
+
         <Link
           to={vaultDrawerPath('kunskapsbank')}
           className="btn-pill--ghost mb-4 inline-flex items-center gap-2 text-xs"
@@ -77,40 +80,48 @@ export function VaultAktorskartaPanel() {
           />
         )}
 
-        {!loading && !error && profiles.length === 0 && (
-          <EmptyState message="Inga personer registrerade ännu. Lägg till nedan — append-only för agenter." />
+        {!loading && !error && userProfiles.length === 0 && (
+          <EmptyState message="Inga egna personer ännu. Lägg till nedan — append-only för agenter." />
         )}
 
-        {!loading && !error && profiles.length > 0 && (
-          <div className="space-y-4">
-            {userProfiles.length > 0 && (
-              <section>
-                <h3 className="mb-2 text-xs uppercase tracking-widest text-text-dim">
-                  Dina tillagda personer
-                </h3>
-                <EntityProfileList profiles={userProfiles} />
-              </section>
-            )}
-            <section>
-              <h3 className="mb-2 text-xs uppercase tracking-widest text-text-dim">
-                Nyckelentiteter (seed)
-              </h3>
-              <EntityProfileList profiles={seedProfiles} />
-            </section>
-          </div>
+        {!loading && !error && userProfiles.length > 0 && (
+          <section aria-label="Dina tillagda personer">
+            <h3 className="mb-2 text-xs uppercase tracking-widest text-text-dim">Dina tillagda personer</h3>
+            <EntityProfileList profiles={userProfiles} />
+          </section>
         )}
-      </BentoCard>
+      </section>
 
-      <BentoCard title="Lägg till person" description="Append-only — sparas permanent för agenter" glow="blue">
+      <section className="calm-card glow-bottom-blue rounded-2xl border border-border p-4" aria-label="Lägg till person">
+        <h3 className="mb-1 text-xs uppercase tracking-widest text-accent">Lägg till person</h3>
+        <p className="mb-3 text-xs text-text-dim">Append-only — sparas permanent för agenter.</p>
         <EntityAddForm onSaved={load} />
-      </BentoCard>
+      </section>
+
+      <CalmCollapsible
+        title="Nyckelentiteter (seed)"
+        meta={seedProfiles.length > 0 ? `${seedProfiles.length} poster` : 'Fördefinierade'}
+        defaultOpen={false}
+        glow="blue"
+      >
+        <p className="mb-3 text-xs text-text-dim">
+          Fördefinierade aktörer från seed — inte dina manuella tillägg.
+        </p>
+        <EntityProfileList profiles={seedProfiles} emptyLabel="Inga seed-poster laddade." />
+      </CalmCollapsible>
     </div>
   );
 }
 
-function EntityProfileList({ profiles }: { profiles: EntityProfileSummary[] }) {
+function EntityProfileList({
+  profiles,
+  emptyLabel = 'Inga personer i denna lista ännu.',
+}: {
+  profiles: EntityProfileSummary[];
+  emptyLabel?: string;
+}) {
   if (profiles.length === 0) {
-    return <p className="text-sm text-text-muted">Inga personer i denna lista ännu.</p>;
+    return <p className="text-sm text-text-muted">{emptyLabel}</p>;
   }
 
   return (
