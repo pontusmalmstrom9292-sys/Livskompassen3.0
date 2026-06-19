@@ -336,3 +336,18 @@ export const DOSSIER_PRINT_STYLES = `
     tr { page-break-inside: avoid; }
   }
 `;
+
+/**
+ * MåBra/Vit hub export — disclaimer-ruta (Obsidian Calm print, slate tokens).
+ */
+export const VIT_HUB_PRINT_STYLES = `
+  .disclaimer-box {
+    font-size: 11px;
+    color: #64748b;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 12px;
+    margin: 16px 0;
+  }
+`;
