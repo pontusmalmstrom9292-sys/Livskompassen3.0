@@ -12,6 +12,7 @@ export type SpeglarSuperModuleProps = {
 
 /**
  * Canonical router för Speglar-ytor.
+ * B3 — progressive disclosure via SpeglingsSystem (CalmCollapsible).
  * - dagbok: publikt ACT + valv-gated forensic (Hjärtat)
  * - forensic: endast VIVIR/bevis (Valv speglar_fordjupat)
  */

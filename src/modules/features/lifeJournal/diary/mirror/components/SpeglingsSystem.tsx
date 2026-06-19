@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Brain, Anchor, Lock } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { useStore } from '@/core/store';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { getAllVaultLogs } from '@/core/firebase/firestore';
@@ -31,7 +32,7 @@ type SpeglingsSystemProps = {
   embedded?: boolean;
 };
 
-/** Publikt: ACT-kalibrering. Forensic: VIVIR, Svart på vitt, bevisjämförelse. */
+/** Publikt: ACT-kalibrering. Forensic: VIVIR, Svart på vitt, bevisjämförelse. B3 — primär: spegling. */
 export function SpeglingsSystem({ embedded: _embedded = false }: SpeglingsSystemProps) {
   const location = useLocation();
   const { bridgeMood, bridgeText } = useMemo(() => {
@@ -83,32 +84,44 @@ export function SpeglingsSystem({ embedded: _embedded = false }: SpeglingsSystem
         noHover
         className="hjartat-tab-panel"
       >
-        <div className="mb-3 flex justify-end">
-          <ModuleHelpFromRegistry moduleId="speglar" mode="dagbok" />
-        </div>
-        <p className="mb-4 text-sm text-text-muted">
-          Känslan först. Fakta sen. Sparas lokalt tills du trycker Rensa eller Rensa enheten i Inställningar.
-        </p>
-        <div className="mb-3 flex justify-end">
-          <button
-            type="button"
-            className="text-xs text-text-dim underline-offset-2 hover:text-text-muted hover:underline"
-            onClick={handleClearSession}
-          >
-            Rensa speglar-session
-          </button>
-        </div>
         <ActCalibrationView
           feeling={typeof feeling === 'string' ? feeling : ''}
           journalMood={typeof journalMood === 'string' ? journalMood : ''}
           onFeelingChange={setFeeling}
           onContinue={() => setShowForensic(true)}
         />
-        {!showForensic && (
-          <p className="mt-3 text-xs text-text-dim">
-            Skriv känsla → Spegla → «Fortsätt till VIVIR». Bevisjämförelse kräver upplåst Valv (Fyren 3 s).
-          </p>
-        )}
+
+        <CalmCollapsible
+          title="Tips & Zero Footprint"
+          meta="Speglar"
+          defaultOpen={false}
+          glow="gold"
+        >
+          <div className="space-y-3">
+            <div className="flex justify-end">
+              <ModuleHelpFromRegistry moduleId="speglar" mode="dagbok" />
+            </div>
+            <p className="text-sm text-text-muted">
+              Känslan först. Fakta sen. Sparas lokalt tills du trycker Rensa eller Rensa enheten i
+              Inställningar.
+            </p>
+            {!showForensic && (
+              <p className="text-xs text-text-dim">
+                Skriv känsla → Spegla → «Fortsätt till VIVIR». Bevisjämförelse kräver upplåst Valv
+                (Fyren 3 s).
+              </p>
+            )}
+            <div className="flex justify-end">
+              <button
+                type="button"
+                className="text-xs text-text-dim underline-offset-2 hover:text-text-muted hover:underline"
+                onClick={handleClearSession}
+              >
+                Rensa speglar-session
+              </button>
+            </div>
+          </div>
+        </CalmCollapsible>
       </BentoCard>
 
       {showForensic && vaultSessionOpen && (
@@ -211,19 +224,42 @@ export function SpeglingsForensicPanel({ userId, initialFeeling = '' }: Forensic
     bare
     className="hjartat-tab-panel space-y-4 !p-4 sm:!p-5"
   >
-      <div className="flex justify-end">
-        <ModuleHelpFromRegistry moduleId="speglar" mode="forensic" />
-      </div>
-      <VivirQuickEntry onStart={() => setPhase('vivir')} />
-      <SvartPaVittForm />
+      {phase === 'vivir' && (
+        <VivirStepView
+          answers={vivirAnswers}
+          onChange={setVivirAnswers}
+          onComplete={() => setPhase('compare')}
+        />
+      )}
+
+      {phase === 'compare' && (
+        <EvidenceCompareView
+          feeling={feeling}
+          vivirSummary={vivirSummary}
+          matches={matches}
+          vaultLocked={vaultLocked}
+          sessionAttachments={attachments}
+          sessionSavedEvidence={sessionSavedEvidence}
+        />
+      )}
+
+      <CalmCollapsible
+        title="Snabbstart & Svart på vitt"
+        meta="VIVIR"
+        defaultOpen={false}
+        glow="blue"
+      >
+        <div className="space-y-3">
+          <div className="flex justify-end">
+            <ModuleHelpFromRegistry moduleId="speglar" mode="forensic" />
+          </div>
+          <VivirQuickEntry onStart={() => setPhase('vivir')} />
+          <SvartPaVittForm />
+        </div>
+      </CalmCollapsible>
 
       {phase === 'vivir' && (
-        <>
-          <VivirStepView
-            answers={vivirAnswers}
-            onChange={setVivirAnswers}
-            onComplete={() => setPhase('compare')}
-          />
+        <CalmCollapsible title="Bifoga bevis" meta="Valv WORM" defaultOpen={false} glow="blue">
           <SpeglarEvidencePanel
             userId={userId}
             feeling={feeling}
@@ -233,35 +269,29 @@ export function SpeglingsForensicPanel({ userId, initialFeeling = '' }: Forensic
             onRemove={removeAttachment}
             onSaved={handleEvidenceSaved}
           />
-        </>
+        </CalmCollapsible>
       )}
 
       {phase === 'compare' && (
-        <>
-          <EvidenceCompareView
-            feeling={feeling}
-            vivirSummary={vivirSummary}
-            matches={matches}
-            vaultLocked={vaultLocked}
-            sessionAttachments={attachments}
-            sessionSavedEvidence={sessionSavedEvidence}
-          />
-          <Link
-            to="/familjen?tab=hamn"
-            state={{ prefilledMessage: feeling }}
-            className="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-accent hover:text-accent-light"
-          >
-            <Anchor className="h-3 w-3" />
-            Formulera BIFF-svar i Hamn
-          </Link>
-          <button
-            type="button"
-            onClick={resetSession}
-            className="mt-4 text-xs uppercase tracking-widest text-text-dim hover:text-accent"
-          >
-            Ny kalibrering
-          </button>
-        </>
+        <CalmCollapsible title="Nästa steg" meta="Hamn · ny kalibrering" defaultOpen={false} glow="blue">
+          <div className="space-y-3">
+            <Link
+              to="/familjen?tab=hamn"
+              state={{ prefilledMessage: feeling }}
+              className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-accent hover:text-accent-light"
+            >
+              <Anchor className="h-3 w-3" />
+              Formulera BIFF-svar i Hamn
+            </Link>
+            <button
+              type="button"
+              onClick={resetSession}
+              className="block text-xs uppercase tracking-widest text-text-dim hover:text-accent"
+            >
+              Ny kalibrering
+            </button>
+          </div>
+        </CalmCollapsible>
       )}
   </BentoCard>
   );
