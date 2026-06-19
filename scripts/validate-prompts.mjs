@@ -14,6 +14,7 @@ const PROMPT_PATHS = [
   'prompts/safeClassificationPrompt.json',
   'prompts/guardedAgentInstruction.json',
   'docs/prompts/SAKER-AI-PROMPTS.json',
+  'docs/prompts/EXPERT-AGENT-DIRECTIVES.json',
 ];
 
 const GOVERNANCE_PATHS = [

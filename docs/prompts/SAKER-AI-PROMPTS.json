@@ -44,7 +44,8 @@
     "governance": [
       "prompts/safeClassificationPrompt.json",
       "prompts/guardedAgentInstruction.json",
-      "docs/prompts/SAKER-AI-PROMPTS.json"
+      "docs/prompts/SAKER-AI-PROMPTS.json",
+      "docs/prompts/EXPERT-AGENT-DIRECTIVES.json"
     ],
     "runtimePmirRequired": [
       "functions/src/sharedRules.ts",
