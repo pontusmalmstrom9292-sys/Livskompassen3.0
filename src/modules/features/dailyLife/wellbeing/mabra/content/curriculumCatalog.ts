@@ -153,6 +153,53 @@ export const CURRICULUMS: readonly VitCurriculum[] = [
     ],
   },
   {
+    id: 'CUR-FEEL-02',
+    title: 'Känslor och nervsystem — kurs 2',
+    wave: 32,
+    theme: 'kanslor_vagus',
+    chapters: [
+      {
+        title: 'Namnge känslor',
+        kunskapFactId: 'kunskap-fact-kan-004',
+        factTitleSv: 'Emotionell granularitet — finare känsloord',
+        factSummarySv: 'Exakta ord kan mildra intensitet — inte prestation.',
+        citationHint: 'Barrett emotional granularity',
+        exercises: [
+          { bankId: 'C-feel-04', kind: 'reflection' },
+          { bankId: 'C-feel-05', kind: 'reflection' },
+        ],
+      },
+      {
+        title: 'Fönster för tolerans',
+        kunskapFactId: 'kunskap-fact-kan-005',
+        factTitleSv: 'Fönster för tolerans',
+        factSummarySv: 'Mittzon, hyperaktivering eller avstängning — observation, inte diagnos.',
+        citationHint: 'Siegel window of tolerance',
+        exercises: [{ bankId: 'MB-PLAY-08', kind: 'play' }],
+      },
+      {
+        title: 'Stressresponser',
+        kunskapFactId: 'kunskap-fact-kan-006',
+        factTitleSv: 'Fight, flight, freeze och fawn',
+        factSummarySv: 'Automatiska strategier — inte karaktärsfel.',
+        citationHint: 'Polyvagal-informed psychoeducation',
+        exercises: [{ bankId: 'MB-REF-GAD-07', kind: 'reflection' }],
+      },
+      {
+        title: 'Skam och skuld',
+        kunskapFactId: 'kunskap-fact-kan-012',
+        factTitleSv: 'Skam vs skuld',
+        factSummarySv: 'Handling vs identitet — referens, inte personlig dom.',
+        citationHint: 'Brown shame vs guilt',
+        exercises: [{ bankId: 'MB-REF-ACT-01', kind: 'reflection' }],
+      },
+    ],
+    broLinks: [
+      { label: 'Kunskapsbank', route: '/valvet?vaultTab=kunskapsbank' },
+      { label: 'MåBra känslor', route: '/vardagen?tab=mabra' },
+    ],
+  },
+  {
     id: 'CUR-ACT-01',
     title: 'ACT — värderingar i praktiken',
     wave: 3,

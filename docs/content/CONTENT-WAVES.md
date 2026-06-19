@@ -34,7 +34,9 @@
 | 28 | Content master + Hamn wire | eko-009, cop-006↑, cn-048 | MB-PLAY-54321, MB-REF-rsd-04 | — | **done** 2026-06-18 — KEEP + ingest; wire 2026-06-16 · [`content-master`](../external-ai/imports/research-2026-06-18-content-master.md) |
 | 29 | Barnfokus bracket + epistemik | — | — | BP-PLAY-25..29 | **done** 2026-06-18 — [`vag-29.3`](../evaluations/2026-06-18-vag-29.3-leverans.md) |
 
-**Aktiv våg:** — (våg 31 bank **done** 2026-06-19 · nästa kurering via `content:night`)
+| 32 | Känslor + människopsykologi FACT | kan-001..020, psy-001..015 | — | CUR-FEEL-02 | **done** 2026-06-19 — bank KEEP · ingest via `seed:kunskap-facts` |
+
+**Aktiv våg:** — (våg 32 bank **done** 2026-06-19 · nästa kurering via `content:night`)
 
 **Seed (Google-konto):** `SEED_FIREBASE_EMAIL` i `.env` + `gcloud auth application-default login` → `npm run seed:kunskap-facts`
 | 30 | Soc/skola/juridik curriculum wire | soc-001, skol-001, jur-008 | — | — | **done** 2026-06-18 — CUR-MYNDIGHET-01 wire fas21 · ingest verify fas22 våg 22.5 |

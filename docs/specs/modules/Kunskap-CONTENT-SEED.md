@@ -2390,3 +2390,498 @@ category: covert_taktik
 citation_hint: "cn-002; SILENT_TREATMENT"
 source_tier: P2
 ```
+
+## Batch 2026-06-19 — Våg 32 Känslor + människopsykologi (kan-001..020, psy-001..015)
+
+**Kurator:** `specialist-kunskap-seed` · **Silo:** Kunskap only · **Ingest:** `npm run export:kunskap-seed` → `npm run seed:kunskap-facts`
+
+```yaml
+id: kunskap-fact-kan-001
+status: KEEP
+content_class: FACT
+title: "Grundkänslor — modell, inte sanning om dig"
+content: "Forskare beskriver ofta grundkänslor som universella signaler: glädje, sorg, rädsla, ilska, avsmak och förvåning. Modellen hjälper att namnge upplevelser — den säger inte att du 'borde' känna på ett visst sätt. Känslor är information, inte identitet."
+category: kanslor_vagus
+entryType: fakta
+tags: [kanslor, grundkanslor, emotion]
+source_tier: P2
+citation_hint: "Ekman basic emotions model (psychoeducation overview); 1177 känslor"
+why: "FACT — namngivning utan terapi eller diagnos"
+```
+
+```yaml
+id: kunskap-fact-kan-002
+status: KEEP
+content_class: FACT
+title: "Sekundära känslor — vad som ofta ligger under"
+content: "Sekundära känslor (t.ex. skam, skuld, avund) bygger ofta på grundkänslor plus tolkning. Att fråga 'vad ligger under?' kan avlasta — men det är en reflektionsmetod i MåBra, inte en sanning RAG ska dra om dig utan kontext."
+category: kanslor_vagus
+entryType: fakta
+tags: [kanslor, sekundar, tolkning]
+source_tier: psychoeducation_general
+citation_hint: "Emotion-focused therapy psychoeducation (Greenberg overview)"
+why: "Fakta om känslolager — övningar i Vit/MåBra separat"
+```
+
+```yaml
+id: kunskap-fact-kan-003
+status: KEEP
+content_class: FACT
+title: "Känslans tre delar — kropp, tanke, handling"
+content: "En känsloupplevelse kan delas i: kroppsliga signaler (puls, spänning), tankar/etiketter ('jag är rädd') och impuls till handling (fly, attackera, frysa). KBT och ACT arbetar med alla tre — inte bara 'tänk positivt'."
+category: kanslor_vagus
+entryType: fakta
+tags: [kanslor, kbt, kropp, tanke]
+source_tier: P2
+citation_hint: "CBT emotion model; Gross process model of emotion (översikt)"
+why: "Stöd kunskap-fact-039 — ej personlig coaching här"
+```
+
+```yaml
+id: kunskap-fact-kan-004
+status: KEEP
+content_class: FACT
+title: "Emotionell granularitet — finare känsloord"
+content: "Emotionell granularitet innebär att skilja närliggande känslor (orolig vs rädd vs överväldigad). Forskning kopplar högre granularitet till bättre reglering — inte till att 'alltid må bra'. Att namnge exakt minskar ofta intensiteten lite."
+category: kanslor_vagus
+entryType: fakta
+tags: [kanslor, granularitet, namngivning]
+source_tier: P2
+citation_hint: "Barrett emotional granularity research (översikt)"
+why: "FACT för RAG — C-feel kort i MåBra separat"
+```
+
+```yaml
+id: kunskap-fact-kan-005
+status: KEEP
+content_class: FACT
+title: "Fönster för tolerans — lugn, aktivering, överväldigande"
+content: "Fönster för tolerans (window of tolerance) beskriver när nervsystemet kan tänka och samarbeta (mittzon), kontra hyperaktivering (panik/ilska) eller avstängning (dimma, overksamhet). Det är en modell för självobservation — inte en diagnos."
+category: kanslor_vagus
+entryType: fakta
+tags: [tolerans, nervsystem, trauma_informerad]
+source_tier: P2
+citation_hint: "Siegel window of tolerance; trauma-informed psychoeducation"
+why: "Stöd GAD/trauma-litterat utan terapi"
+```
+
+```yaml
+id: kunskap-fact-kan-006
+status: KEEP
+content_class: FACT
+title: "Fight, flight, freeze och fawn — stressresponser"
+content: "Vid upplevt hot kan kroppen aktivera kamp (fight), flykt (flight), frysning (freeze) eller anpassning för att lugna andra (fawn). Dessa är automatiska överlevnadsstrategier — inte karaktärsfel. Efteråt kan kroppen behöva tid att återgå till lugn."
+category: kanslor_vagus
+entryType: fakta
+tags: [stress, fight_flight, freeze, fawn]
+source_tier: P2
+citation_hint: "Polyvagal-informed psychoeducation; Walker fawn response (översikt)"
+why: "FACT — hypervigilans-kontext utan att diagnostisera användaren"
+```
+
+```yaml
+id: kunskap-fact-kan-007
+status: KEEP
+content_class: FACT
+title: "Polyvagal teori — förenklad översikt"
+content: "Polyvagal teori (Porges) beskriver hur autonoma nervsystemet växlar mellan trygg anslutning, mobilisering och avstängning. Det förklarar varför lugn närvaro, rytm och trygg relation kan påverka reglering — utan att ersätta medicinsk vård."
+category: kanslor_vagus
+entryType: fakta
+tags: [polyvagal, nervsystem, reglering]
+source_tier: psychoeducation_general
+citation_hint: "Porges polyvagal theory (popular science overview)"
+why: "Kompletterar kunskap-fact-037 vagus — ej medicinskt råd"
+```
+
+```yaml
+id: kunskap-fact-kan-008
+status: KEEP
+content_class: FACT
+title: "Amygdala och hot — snabb larmcentral"
+content: "Amygdala är en hjärnstruktur som snabbt flaggar potentiella hot. Den kan reagera före medveten analys — vilket ger 'kroppen före hjärnan'-känsla vid ångest eller hypervigilans. Träning och säkerhet kan gradvis kalibrera larmet; det är inte 'svaghet'."
+category: neuro_psyk
+entryType: fakta
+tags: [amygdala, angest, hot, hjarna]
+source_tier: P2
+citation_hint: "LeDoux fear circuit (översikt); 1177 ångest"
+why: "Neuro-fakta för GAD/PTSD-litterat — ej diagnos"
+```
+
+```yaml
+id: kunskap-fact-kan-009
+status: KEEP
+content_class: FACT
+title: "Rädsla vs ångest — tidsperspektiv"
+content: "Rädsla riktas ofta mot ett konkret, nära hot här och nu. Ångest är mer uthållig oro inför hot som känns osäkra eller framtida. Kroppen kan reagera likadant i båda. Att märka skillnaden hjälper ibland — ersätter inte behandling."
+category: gad_angest
+entryType: fakta
+tags: [radsla, angest, gad]
+source_tier: P2
+citation_hint: "1177 rädsla och ångest; NICE anxiety (översikt)"
+why: "Kompletterar gad-040 — psykoedukation"
+```
+
+```yaml
+id: kunskap-fact-kan-010
+status: KEEP
+content_class: FACT
+title: "Ilska som signal — gräns eller hot"
+content: "Ilska signalerar ofta att en gräns är överträdd eller att något viktigt känns hotat. Den kan skydda — eller eskalera om den inte regleras. Ilska är inte samma sak som våld; våld är beteende, ilska är affekt."
+category: kanslor_vagus
+entryType: fakta
+tags: [ilska, granser, affekt]
+source_tier: psychoeducation_general
+citation_hint: "Anger psychoeducation (general); Gottman anger (översikt)"
+why: "FACT — Hamn/BIFF för konkret sms separat"
+```
+
+```yaml
+id: kunskap-fact-kan-011
+status: KEEP
+content_class: FACT
+title: "Sorg — process, inte brist"
+content: "Sorg är en naturlig reaktion på förlust eller förändring. Den kommer i vågor och varierar i tid — det finns inget 'rätt' tempo. Sorg kan samexistera med vardagsfunktion. Vid djup eller långvarig sorg kan professionellt stöd vara lämpligt."
+category: kanslor_vagus
+entryType: fakta
+tags: [sorg, forlust, process]
+source_tier: P2
+citation_hint: "Kübler-Ross populariserad modell (kritisk översikt); 1177 sorg"
+why: "Neutral sorgfakta — ej terapi"
+```
+
+```yaml
+id: kunskap-fact-kan-012
+status: KEEP
+content_class: FACT
+title: "Skam vs skuld — identitet vs handling"
+content: "Skuld: 'jag gjorde något dåligt' — kan motivera reparation. Skam: 'jag är dålig' — drar ofta ned motivation och kopplas till döljande. Att skilja dem är grund i mycket terapi — här som referensfakta, inte personlig bedömning."
+category: kanslor_vagus
+entryType: fakta
+tags: [skam, skuld, affekt]
+source_tier: P2
+citation_hint: "Brown shame vs guilt (psychoeducation); Tangney research (översikt)"
+why: "FACT — självkänsla-övningar i MåBra separat"
+```
+
+```yaml
+id: kunskap-fact-kan-013
+status: KEEP
+content_class: FACT
+title: "Avund och svartsjuka — olika fokus"
+content: "Avund: önskan om det någon annan har. Svartsjuka: rädsla att förlora relation till någon. Båda är vanliga mänskliga känslor — inte tecken på 'dålig karaktär'. Att namnge dem minskar ofta deras makt."
+category: kanslor_vagus
+entryType: fakta
+tags: [avund, svartsjuka, relation]
+source_tier: psychoeducation_general
+citation_hint: "Parrott envy/jealousy distinction (psychoeducation)"
+why: "Referens — ej relationsterapi i Kunskap"
+```
+
+```yaml
+id: kunskap-fact-kan-014
+status: KEEP
+content_class: FACT
+title: "Avsmak — skydd mot det skadliga"
+content: "Avsmak (disgust) hjälper kroppen undvika förorening eller överträdelser av normer. Den kan också riktas mot människor i konflikt — vilket förstärker avstånd. Att märka avsmak som signal, inte sanning om personen, kan minska eskalering."
+category: kanslor_vagus
+entryType: fakta
+tags: [avsmak, disgust, signal]
+source_tier: psychoeducation_general
+citation_hint: "Rozin disgust psychology (översikt)"
+why: "FACT — konflikt utan etikett på motpart"
+```
+
+```yaml
+id: kunskap-fact-kan-015
+status: KEEP
+content_class: FACT
+title: "Glädje och tillit — ankare i reglering"
+content: "Glädje och tillit signalerar ofta trygghet och anslutning. De är inte 'belöning för prestation' — de stödjer återhämtning och lärande. Små moment av glädje (JOY) kan vara återhämtande utan att kräva stor prestation."
+category: kanslor_vagus
+entryType: fakta
+tags: [gladje, tillit, aterhamtning]
+source_tier: psychoeducation_general
+citation_hint: "Fredrickson broaden-and-build (översikt); MB-REF-JOY bank"
+why: "Stöd JOY-bank — FACT separat från övning"
+```
+
+```yaml
+id: kunskap-fact-kan-016
+status: KEEP
+content_class: FACT
+title: "Känslomässig flooding — när systemet översvämmas"
+content: "Emotionell flooding innebär att affekt blir så stark att tanke och kommunikation stängs av tillfälligt. Det är fysiologiskt — inte 'dramatiskt'. Pauser, andning och att skjuta upp svåra samtal kan vara lämpligt tills lugn återkommer."
+category: kanslor_vagus
+entryType: fakta
+tags: [flooding, overvaldigande, reglering]
+source_tier: P2
+citation_hint: "Gottman flooding; trauma-informed psychoeducation"
+why: "Stöd konflikt/medföräldraskap utan JADE-coaching"
+```
+
+```yaml
+id: kunskap-fact-kan-017
+status: KEEP
+content_class: FACT
+title: "Nedreglering och uppreglering — två riktningar"
+content: "Nedreglering: känslor dämpas eller avstängs (kan ge dimma, overksamhet). Uppreglering: känslor förstärks snabbt (panik, ilska). Båda är strategier nervsystemet använt — målet i terapi är ofta flexibilitet, inte konstant lugn."
+category: kanslor_vagus
+entryType: fakta
+tags: [reglering, dimpning, aktivering]
+source_tier: psychoeducation_general
+citation_hint: "Linehan emotion regulation (DBT overview); Siegel"
+why: "FACT — DBT-övningar i MåBra om ROUTE_MABRA"
+```
+
+```yaml
+id: kunskap-fact-kan-018
+status: KEEP
+content_class: FACT
+title: "Emotionell invalidation — när känslor avfärdas"
+content: "Emotionell invalidation är när någons känsla möts med 'det var inget', 'du överdriver' eller tystnad som straff. Det lär ofta att dölja affekt. I föräldraskap kan validering ('jag tror dig') skiljas från att hålla med om allt beteende."
+category: kanslor_vagus
+entryType: fakta
+tags: [validering, invalidation, barn]
+source_tier: P2
+citation_hint: "Linehan invalidating environment; bh-013 emotionell invalidation"
+why: "Kompletterar bh-013 — generell fakta"
+```
+
+```yaml
+id: kunskap-fact-kan-019
+status: KEEP
+content_class: FACT
+title: "Empati vs sympati — förenklad skillnad"
+content: "Empati: förstå eller känna med någons perspektiv. Sympati: medkänsla på distans ('stackars dig'). Empati utan gränser kan leda till utmattning; sympati kan ibland kännas nedlåtande. Båda begrepp används olika i forskning — här som kommunikationsfakta."
+category: psykologi_grund
+entryType: fakta
+tags: [empati, sympati, kommunikation]
+source_tier: psychoeducation_general
+citation_hint: "Brown empathy vs sympathy; Decety empathy research (översikt)"
+why: "FACT — Speglar gör validering runtime"
+```
+
+```yaml
+id: kunskap-fact-kan-020
+status: KEEP
+content_class: FACT
+title: "Alexitymi — svårt att namnge känslor"
+content: "Alexitymi beskriver svårighet att identifiera och beskriva egna känslor. Det förekommer hos vissa vid trauma, autism eller långvarig stress — och är inte 'kall person'. Känsloordlista och kropps-scan kan hjälpa som övning, inte som diagnos här."
+category: neuro_psyk
+entryType: fakta
+tags: [alexitymi, namngivning, interoception]
+source_tier: P2
+citation_hint: "Bagby alexithymia scale (översikt); interoception link"
+why: "Stöd kan-004 — kopplar till interoception 036"
+```
+
+```yaml
+id: kunskap-fact-psy-001
+status: KEEP
+content_class: FACT
+title: "Big Five — fem breda personlighetsdrag"
+content: "Big Five (OCEAN) beskriver fem breda drag: öppenhet, samvetsgrannhet, extraversion, tillmötesgående och neuroticism. De är statistiska dimensioner — inte etiketter som 'bra' eller 'dålig'. Personlighet är relativt stabil men kan påverkas av kontext och ålder."
+category: psykologi_grund
+entryType: fakta
+tags: [personlighet, big_five, ocean]
+source_tier: P2
+citation_hint: "Costa & McCrae Big Five; 1177 personlighet (översikt)"
+why: "Neutral personlighetsfakta — ej diagnos på användare"
+```
+
+```yaml
+id: kunskap-fact-psy-002
+status: KEEP
+content_class: FACT
+title: "Anknytning — trygg bas som barn"
+content: "Anknytningsteori (Bowlby/Ainsworth) beskriver hur barn söker trygghet hos vårdnadshavare. Trygg anknytning innebär att barnet vågar utforska när basen känns säker — inte perfekta föräldrar. Mönster kan påverka vuxna relationer men är inte ödesbestämda."
+category: psykologi_grund
+entryType: fakta
+tags: [anknytning, barn, relation]
+source_tier: P2
+citation_hint: "Bowlby attachment theory (psychoeducation overview)"
+why: "FACT — barn_hcf separat; ej terapi"
+```
+
+```yaml
+id: kunskap-fact-psy-003
+status: KEEP
+content_class: FACT
+title: "Anknytningsstilar — förenklad översikt"
+content: "Forskning beskriver ofta trygg, ängslig, undvikande och desorganiserad anknytning som mönster — inte diagnoser. De beskriver tendenser i närhet/avstånd under stress. Kunskap om mönster kan öka självförståelse utan att etikettera andra."
+category: psykologi_grund
+entryType: fakta
+tags: [anknytning, stilar, relation]
+source_tier: P2
+citation_hint: "Main attachment styles (översikt); Bartholomew four-category"
+why: "Referens — ROUTE_VALV om ex-analys"
+```
+
+```yaml
+id: kunskap-fact-psy-004
+status: KEEP
+content_class: FACT
+title: "Theory of mind — förstå andras perspektiv"
+content: "Theory of mind är förmågan att förstå att andra har egna tankar, avsikter och känslor. Den utvecklas gradvis hos barn och kan vara nedsatt vid vissa tillstånd — utan att betyda 'ond'. I konflikt hjälper ibland att skilja avsikt från beteende."
+category: psykologi_grund
+entryType: fakta
+tags: [theory_of_mind, perspektiv, social]
+source_tier: P2
+citation_hint: "Premack & Woodruff theory of mind; Baron-Cohen (översikt)"
+why: "Social kognition — ej barn-diagnos här"
+```
+
+```yaml
+id: kunskap-fact-psy-005
+status: KEEP
+content_class: FACT
+title: "Kognitiva bias — hjärnans genvägar"
+content: "Kognitiva bias är systematiska avvikelser i hur vi bedömer information — t.ex. att minnas det som bekräftar det vi redan tror. De är universella, inte tecken på dumhet. Att känna igen bias minskar inte alltid den — men kan motivera paus."
+category: psykologi_grund
+entryType: fakta
+tags: [bias, kognition, beslut]
+source_tier: P2
+citation_hint: "Kahneman Thinking Fast and Slow (översikt); confirmation bias"
+why: "Epistemik-stöd — kopplar ep-001"
+```
+
+```yaml
+id: kunskap-fact-psy-006
+status: KEEP
+content_class: FACT
+title: "Confirmation bias — söka det som bekräftar"
+content: "Confirmation bias: vi lägger ofta märke till det som stödjer vår bild och filtrerar bort motstridigt. I konflikt kan två parter ha 'bevis' för motsatta sanningar. Dokumentation med datum och beteende (inte etikett) motverkar minnesfilter."
+category: psykologi_grund
+entryType: fakta
+tags: [confirmation_bias, epistemik, konflikt]
+source_tier: P2
+citation_hint: "Nickerson confirmation bias review; ep-001 epistemik"
+why: "Stöd Valv bevis — ej sms-coaching"
+```
+
+```yaml
+id: kunskap-fact-psy-007
+status: KEEP
+content_class: FACT
+title: "Halo-effekten — en egenskap färgar hela bilden"
+content: "Halo-effekten: en positiv (eller negativ) egenskap hos en person färgar hur vi bedömer allt annat om dem. I myndighets- eller skolkontakter kan fasad utåt påverka bedömning — därför neutral logg med datum."
+category: psykologi_grund
+entryType: fakta
+tags: [halo, bedomning, fasad]
+source_tier: P2
+citation_hint: "Thorndike halo effect; social perception (översikt)"
+why: "Stöd cn-001 fasad — beteende+dokumentation"
+```
+
+```yaml
+id: kunskap-fact-psy-008
+status: KEEP
+content_class: FACT
+title: "Ingrupp och utgrupp — vi och dom"
+content: "Människor kategoriserar snabbt i 'vi' och 'dom', vilket kan öka tillit inåt och misstro utåt. I familjekonflikt kan professionella bara se en sida. Neutral dokumentation fokuserar på observerbart — inte lagtribalism."
+category: psykologi_grund
+entryType: fakta
+tags: [ingrupp, utgrupp, social_psykologi]
+source_tier: P2
+citation_hint: "Tajfel social identity theory (översikt)"
+why: "FACT — myndighet/soc neutral dialog"
+```
+
+```yaml
+id: kunskap-fact-psy-009
+status: KEEP
+content_class: FACT
+title: "Sociala normer — osynliga regler"
+content: "Sociala normer är delade förväntningar på beteende i en grupp. De varierar mellan familjer, kulturer och kontexter. Att bryta en norm kan ge skam eller ilska hos andra — utan att beteendet objektivt är 'fel'."
+category: psykologi_grund
+entryType: fakta
+tags: [normer, social, kultur]
+source_tier: psychoeducation_general
+citation_hint: "Cialdini social norms (översikt)"
+why: "Referens — ej moralpredikan"
+```
+
+```yaml
+id: kunskap-fact-psy-010
+status: KEEP
+content_class: FACT
+title: "Assertiv kommunikation — förenklad modell"
+content: "Assertiv kommunikation: uttryck behov och gräns tydligt utan att attackera eller underkasta sig. Passivt undviker konflikt; aggressivt kränker andras gräns. BIFF och Grey Rock är produkt-specifika varianter för högkonflikt — se kunskap-fact-005/006."
+category: psykologi_grund
+entryType: fakta
+tags: [assertiv, kommunikation, granser]
+source_tier: P1
+citation_hint: "Alberti & Emmons assertiveness (översikt); BIFF 005"
+why: "Fakta — konkret sms → Hamn"
+```
+
+```yaml
+id: kunskap-fact-psy-011
+status: KEEP
+content_class: FACT
+title: "Aktivt lyssnande — vad det innebär"
+content: "Aktivt lyssnande innebär att bekräfta att du hört (parafrasera), ställa öppna frågor och undvika omedelbar lösning eller dom. Det ökar trygghet i samtal — det innebär inte att du håller med om allt som sägs."
+category: psykologi_grund
+entryType: fakta
+tags: [lyssnande, kommunikation, relation]
+source_tier: psychoeducation_general
+citation_hint: "Rogers reflective listening (översikt); MI psychoeducation"
+why: "FACT — Speglar runtime separat"
+```
+
+```yaml
+id: kunskap-fact-psy-012
+status: KEEP
+content_class: FACT
+title: "Burnout — utmattning som process"
+content: "Burnout (utmattningssyndrom) beskriver långvarig arbetsrelaterad stress med trötthet, cynism och minskad effektivitet. Det är erkänt som diagnos i vissa system — inte 'lata'. Återhämtning kräver ofta förändring av belastning, inte bara vilja."
+category: neuro_psyk
+entryType: fakta
+tags: [burnout, utmattning, stress]
+source_tier: P2
+citation_hint: "WHO ICD-11 burnout; 1177 utmattning"
+why: "Stöd pu-003 allostatisk belastning"
+```
+
+```yaml
+id: kunskap-fact-psy-013
+status: KEEP
+content_class: FACT
+title: "Resiliens — återhämtning efter motgång"
+content: "Resiliens är förmågan att återhämta sig efter stress eller trauma — inte att aldrig påverkas. Faktorer: trygga relationer, förutsägbarhet, sömn, mening och små rutiner. Resiliens byggs gradvis; den är inte en personlighetsfråga om 'styrka'."
+category: psykologi_grund
+entryType: fakta
+tags: [resiliens, aterhamtning, stress]
+source_tier: P2
+citation_hint: "Masten resilience research (översikt); 1177 stress"
+why: "FACT — ej toxic positivity"
+```
+
+```yaml
+id: kunskap-fact-psy-014
+status: KEEP
+content_class: FACT
+title: "Mänskliga grundbehov — översikt"
+content: "Forskning beskriver grundläggande behov: trygghet, tillhörighet, autonomi och mening (modeller varierar — Maslow, SDT m.fl.). Obuppfyllda behov ökar stress. Det förklarar inte allt beteende — men kan vägleda prioritering av vila och struktur."
+category: psykologi_grund
+entryType: fakta
+tags: [behov, maslow, sdt, trygghet]
+source_tier: psychoeducation_general
+citation_hint: "Deci & Ryan self-determination theory; Maslow (kritisk översikt)"
+why: "Referens — ej livscoaching"
+```
+
+```yaml
+id: kunskap-fact-psy-015
+status: KEEP
+content_class: FACT
+title: "Social hjärna — samarbete och konflikt"
+content: "Den sociala hjärnan utvecklades för samarbete i grupp — vilket också gör oss känsliga för uteslutning och skam. Social smärta aktiverar överlappande nätverk med fysisk smärta. Det förklarar varför relationella hot kan kännas kroppsligt intensiva."
+category: neuro_psyk
+entryType: fakta
+tags: [social_hjarna, smarta, uteslutning]
+source_tier: P2
+citation_hint: "Eisenberger social pain; Lieberman social brain (översikt)"
+why: "Stöd RSD-litterat utan att diagnostisera"
+```
+
