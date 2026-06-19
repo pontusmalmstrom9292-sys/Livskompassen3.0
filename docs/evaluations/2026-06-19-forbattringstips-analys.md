@@ -1,16 +1,16 @@
 # Strategisk plan — förbättringstips (inbox batch 01–11)
 
 **Datum:** 2026-06-19  
-**Status:** Godkänd våg 1 (docs-only)  
+**Status:** Våg 1–2 done (docs + capture) · tips-implementering stängd för T19/T28  
 **Källa:** [`docs/inbox/forbattringstips/`](../inbox/forbattringstips/) · 11 batcher  
 **Superprompt:** [`STRATEGIC-PLAN-MASTER-SUPERPROMPT.md`](../prompts/STRATEGIC-PLAN-MASTER-SUPERPROMPT.md)  
-**YOLO:** `npm run smoke:predeploy` PASS 2026-06-19 · merge/deploy NO-GO (dirty tree + divergerad main)
+**YOLO:** våg 2 `3bf15945f` · `smoke:predeploy:build` PASS · hosting deploy 2026-06-19
 
 ---
 
 ## Sammanfattning
 
-Externa tips (batch 01–11) innehåller mycket som **redan finns** i prod (Smart Inkast, ChameleonInputShell, Zustand, WORM, DCAP/inboxClassifier, smoke-gated CI) och flera förslag som **strider mot kanon** (cross-RAG, gamification, Gmail/Kalender, wholesale RBAC-rules, self-healing utan HITL). Batch 04 ger värdefull intern korrektion (anti-gamification, HITL, visuell stabilitet). Bästa värdet ligger i selectiva **DEFER/PMIR**-idéer: offline-kö, andnings-feedback, PII-scanner, Local Vault, hash chain — efter Fas 22-gate.
+Externa tips (batch 01–11) innehåller mycket som **redan finns** i prod (Smart Inkast, ChameleonInputShell, Zustand, WORM, DCAP/inboxClassifier, smoke-gated CI) och flera förslag som **strider mot kanon** (cross-RAG, gamification, Gmail/Kalender, wholesale RBAC-rules, self-healing utan HITL). Batch 04 ger värdefull intern korrektion (anti-gamification, HITL, visuell stabilitet). Offline-kö (T19) och andnings-feedback (T28) **shippade** i våg 2. Kvarvarande **DEFER/PMIR**: PII-scanner, Local Vault, hash chain — efter Fas 22-gate.
 
 ---
 
@@ -36,7 +36,7 @@ Externa tips (batch 01–11) innehåller mycket som **redan finns** i prod (Smar
 | T16 | Staging / canary deploy | **DEFER** | Tips-YAML felaktig · endast main deploy idag |
 | T17 | Pre-commit Husky | **DEFER** | TIPS-GAP-MATRIX #8 |
 | T18 | Playwright e2e | **DEFER** | Smoke-scripts är kanon |
-| T19 | IndexedDB + Workbox offline | **PARTIAL** | workbox deps · offline-kö ofullständig |
+| T19 | IndexedDB capture offline-kö | **DONE** | `3bf15945f` · `captureDraftSync.ts` · `useCaptureOfflineFlush.ts` · PWA Workbox precache separat |
 | T20 | TensorFlow.js edge DCAP | **DEFER** | Zero Footprint-idé |
 | T21 | Local Vault (krypterad IndexedDB) | **PMIR** | batch 04 |
 | T22 | WORM hash chaining | **PMIR** | batch 04 |
@@ -45,7 +45,7 @@ Externa tips (batch 01–11) innehåller mycket som **redan finns** i prod (Smar
 | T25 | Affekt-Termometer (prediktiv) | **DEFER** | Valv Mönster-koppling |
 | T26 | Projektions-Inverteraren | **REJECT** | WORM-epistemik · domän |
 | T27 | PII leakage scanner CI | **DEFER** | smoke:barn-epistemik delvis |
-| T28 | Andnings-spinner vid upload | **KEEP** (princip) | Obsidian Calm |
+| T28 | Andnings-spinner vid upload | **DONE** | `3bf15945f` · `CalmBreathingCircle.tsx` · Obsidian Calm |
 | T29 | `src/modules/supermodules/` path | **PARTIAL** | Prod: `features/*/supermodule/` |
 | T30 | Prompt JSON mallar | **PARTIAL** | governance JSON · runtime sharedRules |
 | T31 | PlantUML arkitektur | **KEEP** (dok) | Alignad med prod + HITL |
@@ -76,7 +76,7 @@ Fullständig batch-lista: [`docs/inbox/forbattringstips/README.md`](../inbox/for
 | Våg | Status | Mål |
 |-----|--------|-----|
 | **1** | **DONE (docs)** | Evaluation + TIPS-GAP-MATRIX + inbox ANALYSERAD |
-| 2 | Väntar OK | Offline-kö + andnings-feedback i befintlig Capture/Inkast |
+| **2** | **DONE (prod)** | Offline-kö + andnings-feedback · commit `3bf15945f` · hosting deploy |
 | 3 | Väntar OK | CI PR-trigger smoke:predeploy · ev. preview channel |
 
 ---
@@ -95,11 +95,11 @@ Fullständig batch-lista: [`docs/inbox/forbattringstips/README.md`](../inbox/for
 
 ## YOLO-preliminärt
 
-- **Prod-kod + smoke:predeploy:** GO
-- **Merge/deploy:** NO-GO (dirty tree, main ahead 5 / behind 4)
+- **Våg 2 prod + hosting:** GO (`3bf15945f`)
+- **Orelaterad dirty tree:** exports/system_sync — städa separat
 
 ---
 
 ## Nästa steg
 
-Våg 2 kräver separat Pontus-OK: förbättra offline-kö i `src/modules/capture/` utan ny parallell UploadText-modul.
+Tips-matris stängd för T19/T28. Nästa valfria spår: **våg 3 CI** eller **Fas 22.2 PMIR** (se [`TIPS-GAP-MATRIX.md`](../governance/TIPS-GAP-MATRIX.md)).

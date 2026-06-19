@@ -1,6 +1,6 @@
 # Tips-gap-matris — externa råd vs Livskompassen
 
-**Version:** 2026-06-19 (våg 1 analys)  
+**Version:** 2026-06-19 (våg 1 analys · våg 2 T19/T28 done)  
 **Syfte:** Jämför tips från extern planeringschatt mot faktisk implementation i repo.  
 **Kanon:** [`GUARD-REGLERBOK.md`](GUARD-REGLERBOK.md) · [`.cursor/rules/projectGuard.mdc`](../../.cursor/rules/projectGuard.mdc)
 
@@ -47,6 +47,7 @@ Uppdatera efter strategisk Plan-session: [`STRATEGIC-PLAN-MASTER-SUPERPROMPT.md`
 | `fabc864` | Kanoniska säkra AI-prompter + `smoke:prompts` |
 | `e001040a9` | Governance-regler + GUARD-REGLERBOK |
 | `2e878ea6f` | `smoke_yolo_gate.mjs` — `runNpm('smoke:prompts')` i YOLO gate |
+| `3bf15945f` | Våg 2 capture — offline-kö (T19) + andnings-loading (T28) · hosting deploy 2026-06-19 |
 
 ---
 
@@ -70,12 +71,14 @@ Källa: extern planeringschatt → [`docs/inbox/forbattringstips/`](../inbox/for
 | WORM evolution_ledger | **KEEP** | firestore.rules |
 | Fristående UploadText / Joyride / supermodules-path | **DEFER** | Annan prod-struktur |
 | CI Jest/Cypress/Snyk · staging/canary | **DEFER** | Prod: smoke:predeploy i GH Actions |
-| IndexedDB/Workbox offline-kö | **PARTIAL** | workbox deps · våg 2 kandidat |
-| Andnings-feedback vid upload | **KEEP** (princip) | våg 2 UX |
+| T19 · IndexedDB offline-kö (capture) | **DONE** | `3bf15945f` · [`captureDraftSync.ts`](../../src/modules/capture/captureDraftSync.ts) · [`useCaptureOfflineFlush.ts`](../../src/modules/capture/hooks/useCaptureOfflineFlush.ts) · `draftQueue` · PWA Workbox precache separat |
+| T28 · Andnings-feedback vid upload | **DONE** | `3bf15945f` · [`CalmBreathingCircle.tsx`](../../src/modules/capture/components/CalmBreathingCircle.tsx) · `smoke:inkast-upload` |
 | Local Vault · hash chain · stealth exit · Dead Man's Switch | **PMIR** | batch 04 |
 | RBAC hasRole rules · cross-RAG · gamification · Gmail · self-healing · projektions-profil | **REJECT** | U1/U6 · batch 04 |
 
-**YOLO 2026-06-19:** smoke:predeploy PASS · merge NO-GO (dirty tree).
+**Tips-spår status:** våg 1–2 **DONE** · våg 3 (CI PR-trigger) **DEFER** · PMIR-idéer oförändrade.
+
+**YOLO 2026-06-19:** våg 2 `3bf15945f` på `origin/main` · hosting deploy PASS · orelaterad dirty tree (exports/system_sync) kvar lokalt.
 
 
 ---

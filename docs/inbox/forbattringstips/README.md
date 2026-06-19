@@ -1,6 +1,6 @@
 # Förbättringstips — inkorg
 
-**Status:** `ANALYSERAD` (våg 1 docs-only, 2026-06-19)
+**Status:** `ANALYSERAD` · våg 1 docs · våg 2 T19/T28 **DONE** (`3bf15945f`, hosting deploy 2026-06-19)
 
 Rå material från Pontus. Klassificering i [`docs/evaluations/2026-06-19-forbattringstips-analys.md`](../../evaluations/2026-06-19-forbattringstips-analys.md) · [`docs/governance/TIPS-GAP-MATRIX.md`](../../governance/TIPS-GAP-MATRIX.md).
 
