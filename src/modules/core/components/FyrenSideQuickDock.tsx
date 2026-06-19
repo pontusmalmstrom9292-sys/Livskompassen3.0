@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
   type ReactNode,
+  type Ref,
   type RefObject,
 } from 'react';
 import { createPortal } from 'react-dom';
@@ -321,14 +322,14 @@ export function FyrenHeaderQuickToggle() {
 
   return (
     <div
-      ref={toggleWrapRef}
+      ref={toggleWrapRef as Ref<HTMLDivElement>}
       className={clsx(
         'fyren-header-quick__toggle-wrap',
         open && 'fyren-header-quick__toggle-wrap--open',
       )}
     >
       <button
-        ref={toggleBtnRef}
+        ref={toggleBtnRef as Ref<HTMLButtonElement>}
         type="button"
         className={clsx(
           'header-chrome-btn header-chrome-btn--round fyren-header-quick__toggle',
