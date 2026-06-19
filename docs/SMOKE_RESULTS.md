@@ -1,5 +1,16 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Valv Samla A2.1 (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| Leverans | Inkast + granska primär; Manuell post + Drive i `CalmCollapsible` |
+| Gate | `smoke:locked-ux` + `smoke:valv-mode` — **PASS** |
+| Audit | [`evaluations/2026-06-19-yolo-audit-valv-a2-1.md`](./evaluations/2026-06-19-yolo-audit-valv-a2-1.md) |
+| USER | Valv → Samla → Inkast synlig; fold för manuell/Drive |
+
+---
+
 ## Build vidare — P2 widget + hex (2026-06-19)
 
 | Fält | Värde |
