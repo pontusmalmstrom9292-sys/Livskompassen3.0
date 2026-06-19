@@ -1,5 +1,18 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Frontend polish B1–B4 (2026-06-19)
+
+| Våg | Leverans | Gate |
+|-----|----------|------|
+| **B1** MåBra | VitHub primär + Näring snabb logg; Mer-fold | locked-ux + design-modules **PASS** |
+| **B2** Familjen | Barnfokus primär; Hamn BIFF primär, brus/kompass i fold | locked-ux **PASS** |
+| **B3** Hjärtat | Dagbok/Speglar primär; tips/evidence i fold | locked-ux **PASS** |
+| **B4** Vardagen | P3 Kanban primär; Fler verktyg fold | locked-ux + design-modules **PASS** |
+
+PMIR: `pmir-mabra-b1`, `pmir-familjen-b2`, `pmir-hjartat-b3`, `pmir-vardagen-b4`
+
+---
+
 ## Valv Kanon docs A2.7 (2026-06-19)
 
 | Fält | Värde |
