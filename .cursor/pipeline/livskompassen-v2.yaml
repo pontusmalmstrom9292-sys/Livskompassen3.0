@@ -1,0 +1,88 @@
+# =============================================================================
+# Livskompassen v2 — Cursor Pipeline (lokal autorun)
+# =============================================================================
+# Kör: npm run cursor:pipeline
+# Autorun-loop: export CURSOR_PIPELINE_AUTORUN=1 && npm run cursor:pipeline
+#
+# Lägg till nytt paket: duplicera en rad under packages + skapa prompt i
+# docs/cursor-pipeline/prompts/<id>.md
+# =============================================================================
+
+version: 1
+name: livskompassen-v2-pipeline
+
+# --- PAKET: repomix + prompt per zon (parallel: true = packas samtidigt) ---
+packages:
+  - id: backend
+    label: Backend + systemplan
+    packCommand: npm run repomix:karnkod-systemplan
+    output: exports/repomix/karnkod-systemplan.md
+    promptTemplate: docs/cursor-pipeline/prompts/backend.md
+    model: composer-2.5-fast
+    scope: backend-only
+    parallel: true
+
+  - id: ui-design
+    label: UI / Obsidian Calm
+    packCommand: npm run design:pack
+    output: exports/ai-studio/repomix-design-full.md
+    promptTemplate: docs/cursor-pipeline/prompts/ui-design.md
+    model: composer-2.5-fast
+    scope: frontend-only
+    parallel: true
+    lockedUx:
+      - Barnfokus
+      - Valv Mönster/Orkester
+      - drawer plausible deniability
+
+  - id: security
+    label: Säkerhet + WORM + silos
+    packCommand: npm run chatbot:pack:security
+    output: exports/chatbot-handoff/chatbot-pack-security.md
+    promptTemplate: docs/cursor-pipeline/prompts/security.md
+    model: claude-4.6-sonnet-medium-thinking
+    scope: security-audit
+    parallel: true
+
+  - id: ai-agents
+    label: ADK + SynapseBus + agent cards
+    packCommand: npm run cursor:pipeline:pack:agents
+    output: exports/cursor-pipeline/agents-pack.md
+    promptTemplate: docs/cursor-pipeline/prompts/ai-agents.md
+    model: composer-2.5-fast
+    scope: backend-only
+    parallel: true
+
+# --- BUILD: sekventiella faser efter agent-jobb ---
+build:
+  phases:
+    - id: functions-build
+      label: Functions TypeScript build
+      cmd: npm run build
+      cwd: functions
+    - id: frontend-build
+      label: Frontend Vite build
+      cmd: npm run build
+
+# --- SMOKE / SECURITY: körs efter build ---
+smoke:
+  afterBuild:
+    - npm run smoke:predeploy
+  optional:
+    - npm run smoke:prompts
+  # Orchestrator stoppar auto-fix om diff rör dessa (PMIR-stopp)
+  pmirHardStop:
+    - firestore.rules
+    - storage.rules
+
+# --- ITERATION: stop-hook fortsätter agent vid FAIL ---
+iteration:
+  maxAttempts: 5
+  stopHook: .cursor/hooks/cursor-pipeline-stop-chain.sh
+  envFlag: CURSOR_PIPELINE_AUTORUN
+
+# --- RAPPORT ---
+report:
+  dir: docs/evaluations
+  template: docs/cursor-pipeline/report-template.md
+  stateDir: .cursor/pipeline/runs
