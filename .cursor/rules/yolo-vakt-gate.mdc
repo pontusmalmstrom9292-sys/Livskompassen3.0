@@ -5,7 +5,7 @@ alwaysApply: false
 
 # YOLO-vakt deploy-gate (MUST)
 
-Kanon: [`docs/YOLO-VAKT-GATE.md`](../../docs/YOLO-VAKT-GATE.md) · Agent: [`.cursor/agents/yolo-vakt.md`](../../.cursor/agents/yolo-vakt.md)
+Kanon: [`docs/YOLO-VAKT-GATE.md`](../../docs/YOLO-VAKT-GATE.md) · Modell/YOLO: [`model-routing.mdc`](model-routing.mdc) · Agent: [`.cursor/agents/yolo-vakt.md`](../../.cursor/agents/yolo-vakt.md)
 
 ## MUST före deploy
 
