@@ -19,7 +19,8 @@ import { routeInboxToWorm } from '../../lib/inboxPersist';
  *   - bevis → reality_vault only, NEVER kb_docs.
  *   - barnen → inbox_queue (no auto-persist without explicit allowBarnenAutoPersist).
  *   - trauma/LVU or confidence < threshold → inbox_queue.
- *   - kunskap → kb_docs (FACT, no PII).
+ *   - kunskap → current live path persists to kampspar + vector via routeInboxToWorm.
+ *     NOTE: kb_docs helper exists elsewhere, but is not wired by this synapse path.
  */
 export async function handleDriveIngest(
   orchestrator: AdkOrchestrator,
