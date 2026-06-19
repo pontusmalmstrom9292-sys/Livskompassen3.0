@@ -295,11 +295,11 @@ function main() {
     'FyrenDockHandle',
     'DOCK_ZONES',
     'data-panel-style={panelStyle}',
+    'LivskompassMark',
+    'Håll tre sekunder för Valv',
+    'floating-dock__center',
   );
-  assert(
-    !read('src/modules/core/layout/FloatingDock.tsx').includes('LivskompassMark'),
-    'FloatingDock: ingen kompass-snabbknapp i dock (hem-kompass + Fyren räcker)',
-  );
+  mustInclude('docs/design/references/HEM-LAYOUT-A-KANON.md', 'Layout A');
   mustInclude(
     'src/modules/core/components/FyrenWidgetBar.tsx',
     'Håll tre sekunder för Valv',

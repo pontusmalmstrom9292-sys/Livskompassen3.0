@@ -118,7 +118,7 @@ export const BACKEND_MANIFEST: Readonly<Record<DomainId, BackendDomainContract>>
     id: 'C',
     silo: 'core',
     wormCollections: ['evolution_ledger', 'adaptation_ledger'],
-    mutableCollections: ['evolution_hub', 'adaptation_prefs'],
+    mutableCollections: ['evolution_hub', 'adaptation_prefs', 'adaptation_semantic_profile'],
     adminOnlyCollections: [
       '_rate_limits',
       'access_tokens_economy',
