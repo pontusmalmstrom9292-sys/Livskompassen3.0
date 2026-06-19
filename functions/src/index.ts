@@ -111,4 +111,9 @@ export {
   recordAdaptationSignal,
 } from './callables/adaptation';
 
+export {
+  getAdaptationSemanticProfile,
+  rebuildAdaptationSemanticProfile,
+} from './callables/adaptationSemantic';
+
 export { recordPipelineRun } from './callables/pipelineStudio';

@@ -26,6 +26,8 @@ type Props = {
 export function AdaptationPrefsPanel({ userId }: Props) {
   const prefs = useAdaptationStore((s) => s.prefs);
   const layerEnabled = useAdaptationStore((s) => s.layerEnabled);
+  const semanticSummary = useAdaptationStore((s) => s.semanticSummary);
+  const semanticEnabled = useAdaptationStore((s) => s.semanticEnabled);
   const error = useAdaptationStore((s) => s.error);
   const [saving, setSaving] = useState(false);
   const [savedFlash, setSavedFlash] = useState(false);
@@ -117,6 +119,15 @@ export function AdaptationPrefsPanel({ userId }: Props) {
           </label>
         ))}
       </fieldset>
+
+      {semanticEnabled && semanticSummary ? (
+        <div className="mt-4 rounded-xl border border-border/40 bg-surface/20 px-3 py-3">
+          <p className="text-xs font-medium uppercase tracking-wider text-text-dim">
+            Coach-kontext (read-only)
+          </p>
+          <p className="mt-1 text-sm leading-relaxed text-text-muted">{semanticSummary}</p>
+        </div>
+      ) : null}
 
       {showParalysTip ? (
         <div className="mt-4 rounded-xl border border-accent/20 bg-surface-2/60 px-3 py-3">

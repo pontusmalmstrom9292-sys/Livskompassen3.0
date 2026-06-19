@@ -429,6 +429,7 @@ export const FIRESTORE_COLLECTIONS = {
   evolution_hub: 'evolution_hub',
   adaptation_prefs: 'adaptation_prefs',
   adaptation_ledger: 'adaptation_ledger',
+  adaptation_semantic_profile: 'adaptation_semantic_profile',
   vault: 'vault',
   checkins: 'checkins',
   kb_docs: 'kb_docs',

@@ -3,6 +3,9 @@ import * as admin from 'firebase-admin';
 import { GCP_REGION } from '../config';
 import { syncAdaptationPrefsToLedgerServer } from '../lib/adaptationPrefsLedgerServer';
 import { normalizeAdaptationPrefs } from '../lib/adaptationPrefsStore';
+import { isAdaptationSemanticEnabled } from '../lib/adaptationSemanticGate';
+import { rebuildAdaptationSemanticProfileForUser } from '../lib/adaptationSemanticRebuild';
+import { prefsLedgerFingerprint } from '../../../shared/adaptation/adaptationLedgerSync';
 import type { AdaptationPrefsDoc } from '../../../shared/adaptation/adaptationTypes';
 
 export const onAdaptationPrefsWrite = onDocumentWritten(
@@ -25,5 +28,17 @@ export const onAdaptationPrefsWrite = onDocumentWritten(
       userId: afterData.userId || uid,
       ownerId: afterData.ownerId || uid,
     } satisfies AdaptationPrefsDoc);
+
+    if (await isAdaptationSemanticEnabled(uid)) {
+      const fpBefore = beforeData ? prefsLedgerFingerprint(beforeData) : null;
+      const fpAfter = prefsLedgerFingerprint(afterData);
+      if (fpBefore !== fpAfter) {
+        try {
+          await rebuildAdaptationSemanticProfileForUser(uid);
+        } catch (err) {
+          console.warn('[onAdaptationPrefsWrite] semantic rebuild:', err);
+        }
+      }
+    }
   },
 );

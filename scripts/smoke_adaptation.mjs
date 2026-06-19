@@ -1,5 +1,5 @@
 /**
- * Smoke: Adaptation Core Lager 1 + client store (Steg 2a/2b).
+ * Smoke: Adaptation Core Lager 1–2 wiring.
  * Usage: npm run smoke:adaptation
  */
 import { existsSync, readFileSync } from 'fs';
@@ -49,6 +49,31 @@ function main() {
     'functions/src/triggers/onAdaptationPrefsWrite.ts',
     'onAdaptationPrefsWrite',
     'adaptation_prefs/{uid}',
+    'rebuildAdaptationSemanticProfileForUser',
+    'isAdaptationSemanticEnabled',
+  );
+  mustInclude(
+    'functions/src/lib/adaptationSemanticContext.ts',
+    'loadAdaptationSemanticContext',
+    'appendAdaptationSemanticContext',
+  );
+  mustInclude(
+    'functions/src/callables/generateKompassrad.ts',
+    'loadAdaptationSemanticContext',
+    'appendAdaptationSemanticContext',
+  );
+  mustInclude(
+    'functions/src/agents/vertexAgent.ts',
+    'appendAdaptationSemanticContext',
+  );
+  mustInclude(
+    'src/modules/core/hooks/useAdaptationSync.ts',
+    'adaptation_semantic_profile',
+    'ADAPTATION_SEMANTIC_FLAG',
+  );
+  mustInclude(
+    'src/modules/core/adaptation/AdaptationPrefsPanel.tsx',
+    'semanticSummary',
   );
   mustInclude(
     'functions/src/index.ts',
@@ -115,19 +140,45 @@ function main() {
     'firestore.rules',
     'match /adaptation_prefs/{uid}',
     'match /adaptation_ledger/{docId}',
+    'match /adaptation_semantic_profile/{uid}',
     'allow update, delete: if false',
+  );
+  mustInclude(
+    'shared/adaptation/adaptationSemanticTypes.ts',
+    'ADAPTATION_SEMANTIC_FLAG',
+    'adaptation_semantic_v1',
+    'buildSemanticProfileFromPrefs',
+  );
+  mustInclude(
+    'functions/src/callables/adaptationSemantic.ts',
+    'getAdaptationSemanticProfile',
+    'rebuildAdaptationSemanticProfile',
+    'isAdaptationSemanticEnabled',
+  );
+  mustInclude(
+    'functions/src/lib/adaptationSemanticRebuild.ts',
+    'rebuildAdaptationSemanticProfileForUser',
+    'semantic_indexed',
+  );
+  mustInclude(
+    'functions/src/index.ts',
+    'getAdaptationSemanticProfile',
+    'rebuildAdaptationSemanticProfile',
   );
   mustInclude(
     'src/modules/core/manifest/masterManifest.ts',
     'adaptation_ledger',
     'adaptation_prefs',
+    'adaptation_semantic_profile',
+    'rebuildAdaptationSemanticProfile',
   );
+
   mustInclude(
     'src/modules/core/firebase/offlineWritePolicy.ts',
     'adaptation_ledger',
   );
 
-  console.log('[smoke:adaptation] PASS — Adaptation Core wiring (2a + 2b + 2c + 2d).');
+  console.log('[smoke:adaptation] PASS — Adaptation Core wiring (L1 + L2a–c).');
 }
 
 main();

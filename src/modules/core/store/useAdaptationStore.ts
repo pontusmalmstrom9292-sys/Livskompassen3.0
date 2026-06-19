@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import {
   ADAPTATION_LAYER_FLAG,
+  ADAPTATION_SEMANTIC_FLAG,
   DEFAULT_ADAPTATION_PREFS,
   type AdaptationPrefsDoc,
   type CoachTone,
@@ -12,12 +13,16 @@ import type { RecordAdaptationSignalPayload } from '../adaptation/adaptationServ
 export interface AdaptationState {
   prefs: AdaptationPrefsDoc | null;
   layerEnabled: boolean;
+  semanticEnabled: boolean;
+  semanticSummary: string | null;
   isLoading: boolean;
   isInitialized: boolean;
   error: string | null;
 
   setPrefs: (prefs: AdaptationPrefsDoc | null) => void;
   setLayerEnabled: (enabled: boolean) => void;
+  setSemanticEnabled: (enabled: boolean) => void;
+  setSemanticSummary: (summary: string | null) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   reset: () => void;
@@ -30,17 +35,25 @@ export interface AdaptationState {
   recordSignal: (payload: RecordAdaptationSignalPayload) => Promise<void>;
 }
 
-export { ADAPTATION_LAYER_FLAG };
+export { ADAPTATION_LAYER_FLAG, ADAPTATION_SEMANTIC_FLAG };
 
 const INITIAL_STATE = {
   prefs: null,
   layerEnabled: false,
+  semanticEnabled: false,
+  semanticSummary: null,
   isLoading: false,
   isInitialized: false,
   error: null,
 } satisfies Pick<
   AdaptationState,
-  'prefs' | 'layerEnabled' | 'isLoading' | 'isInitialized' | 'error'
+  | 'prefs'
+  | 'layerEnabled'
+  | 'semanticEnabled'
+  | 'semanticSummary'
+  | 'isLoading'
+  | 'isInitialized'
+  | 'error'
 >;
 
 export const useAdaptationStore = create<AdaptationState>((set, get) => ({
@@ -62,6 +75,16 @@ export const useAdaptationStore = create<AdaptationState>((set, get) => ({
     }
     set({ layerEnabled });
   },
+
+  setSemanticEnabled: (semanticEnabled) => {
+    if (!semanticEnabled) {
+      set({ semanticEnabled: false, semanticSummary: null });
+      return;
+    }
+    set({ semanticEnabled });
+  },
+
+  setSemanticSummary: (semanticSummary) => set({ semanticSummary }),
 
   setLoading: (isLoading) => set({ isLoading }),
   setError: (error) => set({ error, isLoading: false }),

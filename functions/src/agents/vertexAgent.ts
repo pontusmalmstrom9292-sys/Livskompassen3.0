@@ -11,6 +11,7 @@ import {
   MABRA_MOVEMENT_COACH_SYSTEM_PROMPT,
 } from '../sharedRules';
 import { createGenAI } from '../lib/genaiClient';
+import { appendAdaptationSemanticContext } from '../lib/adaptationSemanticContext';
 import {
   journalQuickMirrorFallback,
   parseJournalQuickMirrorJson,
@@ -119,6 +120,7 @@ export const askMabraCoach = async (
   bankEntry: MabraCoachBankEntry,
   optionalNote?: string,
   geminiApiKey?: string,
+  adaptationContext?: string | null,
 ): Promise<string> => {
   const context = [
     `Symptom-hub: ${hubSymptom}`,
@@ -136,7 +138,10 @@ export const askMabraCoach = async (
       model: MABRA_COACH_MODEL,
       contents: context,
       config: {
-        systemInstruction: MABRA_COACHEN_SYSTEM_PROMPT,
+        systemInstruction: appendAdaptationSemanticContext(
+          MABRA_COACHEN_SYSTEM_PROMPT,
+          adaptationContext,
+        ),
         temperature: 0.2,
       },
     });

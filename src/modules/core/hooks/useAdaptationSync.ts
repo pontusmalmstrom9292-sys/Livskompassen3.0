@@ -5,6 +5,7 @@ import { useStore } from '../store';
 import { useEvolutionStore } from '../store/useEvolutionStore';
 import {
   ADAPTATION_LAYER_FLAG,
+  ADAPTATION_SEMANTIC_FLAG,
   useAdaptationStore,
 } from '../store/useAdaptationStore';
 import { syncAdaptationPrefsToLedger } from '../firebase/adaptationLedgerFirestore';
@@ -49,7 +50,10 @@ function normalizeAdaptationPrefs(uid: string, data: Record<string, unknown>): A
 export function useAdaptationSync(): void {
   const user = useStore((s) => s.user);
   const layerEnabled = useEvolutionStore((s) => s.hasFeature(ADAPTATION_LAYER_FLAG));
+  const semanticEnabled = useEvolutionStore((s) => s.hasFeature(ADAPTATION_SEMANTIC_FLAG));
   const setLayerEnabled = useAdaptationStore((s) => s.setLayerEnabled);
+  const setSemanticEnabled = useAdaptationStore((s) => s.setSemanticEnabled);
+  const setSemanticSummary = useAdaptationStore((s) => s.setSemanticSummary);
   const setPrefs = useAdaptationStore((s) => s.setPrefs);
   const setLoading = useAdaptationStore((s) => s.setLoading);
   const setError = useAdaptationStore((s) => s.setError);
@@ -58,6 +62,10 @@ export function useAdaptationSync(): void {
   useEffect(() => {
     setLayerEnabled(layerEnabled);
   }, [layerEnabled, setLayerEnabled]);
+
+  useEffect(() => {
+    setSemanticEnabled(semanticEnabled);
+  }, [semanticEnabled, setSemanticEnabled]);
 
   useEffect(() => {
     if (!user?.uid || !layerEnabled) {
@@ -96,4 +104,31 @@ export function useAdaptationSync(): void {
 
     return () => unsub();
   }, [user?.uid, layerEnabled, setPrefs, setLoading, setError, reset]);
+
+  useEffect(() => {
+    if (!user?.uid || !layerEnabled || !semanticEnabled) {
+      setSemanticSummary(null);
+      return;
+    }
+
+    const ref = doc(db, FIRESTORE_COLLECTIONS.adaptation_semantic_profile, user.uid);
+
+    const unsub = onSnapshot(
+      ref,
+      (snap) => {
+        if (!snap.exists()) {
+          setSemanticSummary(null);
+          return;
+        }
+        const summary = (snap.data() as { summaryText?: unknown }).summaryText;
+        setSemanticSummary(typeof summary === 'string' && summary.trim() ? summary.trim() : null);
+      },
+      (error) => {
+        console.warn('[AdaptationSync] semantic profile:', error);
+        setSemanticSummary(null);
+      },
+    );
+
+    return () => unsub();
+  }, [user?.uid, layerEnabled, semanticEnabled, setSemanticSummary]);
 }

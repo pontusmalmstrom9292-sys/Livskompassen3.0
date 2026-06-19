@@ -33,6 +33,7 @@ import {
 import { assertVaultSession } from '../lib/vaultSessionGate';
 import { supervisor, trimSpeglingsMirror } from './shared';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { loadAdaptationSemanticContext } from '../lib/adaptationSemanticContext';
 import {
   fetchUserCapacityScore,
   parafraseCoachFromBankWithCapacity,
@@ -609,6 +610,7 @@ export const mabraCoach = onCall(
       bankEntry,
       optionalNote,
       process.env.GEMINI_API_KEY,
+      await loadAdaptationSemanticContext(uid),
     );
     return { coach, redirectToSpeglar: false, bankId };
   }
