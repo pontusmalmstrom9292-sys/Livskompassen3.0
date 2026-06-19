@@ -1,60 +1,14 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Loader2, Network, RefreshCw } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
-import { fetchAgentRegistry } from '@/shared/agents/api/agentRegistryService';
 import { AgentRegistryCard } from '@/shared/agents/components/AgentRegistryCard';
-import type { AgentRegistryCard as AgentCardData } from '@/shared/agents/types/agentRegistry';
-import { PRODUCT_AGENTS } from '@/features/lifeJournal/evidence/vault/constants/productAgents';
+import { useAgentRegistry } from '@/shared/agents/hooks/useAgentRegistry';
 
-function fallbackAgentsFromProductList(): AgentCardData[] {
-  return PRODUCT_AGENTS.map((agent) => ({
-    metadata: {
-      id: agent.id,
-      name: agent.name,
-      description: `${agent.role} — ${agent.focus}`,
-      version: '—',
-    },
-    capabilities: [],
-    dataAccessPolicy: { canAccessPII: false, allowedCollections: [] },
-  }));
-}
-
-/** Live ADK AgentCard-registret — ersätter statisk PRODUCT_AGENTS-lista. */
+/** Live ADK AgentCard-registret — delad fetch via AgentRegistryProvider. */
 export function AdkAgentRegistryPanel() {
-  const [agents, setAgents] = useState<AgentCardData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [usedFallback, setUsedFallback] = useState(false);
+  const { agents, loading, error, usedFallback, reload, agentNameById } = useAgentRegistry();
 
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await fetchAgentRegistry();
-      setAgents(data.agents);
-      setUsedFallback(false);
-    } catch (err) {
-      setAgents(fallbackAgentsFromProductList());
-      setUsedFallback(true);
-      setError(err instanceof Error ? err.message : 'Kunde inte ladda registret.');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    void load();
-  }, [load]);
-
-  const agentNameById = useMemo(
-    () => new Map(agents.map((a) => [a.metadata.id, a.metadata.name])),
-    [agents],
-  );
-
-  const sortedAgents = useMemo(
-    () =>
-      [...agents].sort((a, b) => a.metadata.name.localeCompare(b.metadata.name, 'sv')),
-    [agents],
+  const sortedAgents = [...agents].sort((a, b) =>
+    a.metadata.name.localeCompare(b.metadata.name, 'sv'),
   );
 
   return (
@@ -72,7 +26,7 @@ export function AdkAgentRegistryPanel() {
         </p>
         <button
           type="button"
-          onClick={() => void load()}
+          onClick={() => void reload()}
           disabled={loading}
           className="btn-pill--ghost inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest disabled:opacity-50"
           aria-label="Uppdatera agentregistret"

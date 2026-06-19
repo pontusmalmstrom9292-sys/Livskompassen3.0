@@ -1,3 +1,5 @@
+import { formatAgentRoutingLabel } from '../utils/routingBadgeText';
+
 type Props = {
   /** Produktroll som användaren möter (t.ex. BIFF-Skölden). */
   productAgentName?: string | null;
@@ -15,12 +17,12 @@ export function AgentRoutingBadge({
   agentName,
   className = '',
 }: Props) {
+  const label = formatAgentRoutingLabel({ productAgentName, executorName, agentName });
+  if (!label) return null;
+
   const product = productAgentName?.trim();
   const executor = executorName?.trim();
   const legacy = agentName?.trim();
-
-  if (!product && !executor && !legacy) return null;
-
   const showExecutor =
     Boolean(product && executor && product.toLowerCase() !== executor.toLowerCase()) ||
     Boolean(!product && legacy);

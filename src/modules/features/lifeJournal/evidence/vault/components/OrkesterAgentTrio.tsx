@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Loader2 } from 'lucide-react';
-import { fetchAgentRegistry } from '@/shared/agents/api/agentRegistryService';
 import { AgentRegistryCard } from '@/shared/agents/components/AgentRegistryCard';
 import type { AgentRegistryCard as AgentCardData } from '@/shared/agents/types/agentRegistry';
-import { PRODUCT_AGENTS } from '../constants/productAgents';
+import { useAgentRegistry } from '@/shared/agents/hooks/useAgentRegistry';
+import { fallbackTrioAgents } from '@/shared/agents/utils/agentRegistryFallback';
 
 const TRIO_IDS = ['agent_brusfiltret', 'agent_biff_skolden', 'agent_sannings_analytikern'] as const;
 
@@ -17,64 +16,17 @@ type Props = {
   onAgentAction?: (agentId: string) => void;
 };
 
-function fallbackTrio(): AgentCardData[] {
-  return PRODUCT_AGENTS.filter((a) =>
-    TRIO_IDS.includes(a.id as (typeof TRIO_IDS)[number]),
-  ).map((agent) => ({
-    metadata: {
-      id: agent.id,
-      name: agent.name,
-      description: agent.focus,
-      version: '—',
-    },
-    capabilities: [],
-    dataAccessPolicy: { canAccessPII: false, allowedCollections: [] },
-  }));
-}
-
 /** D17 — tre primära agenter; klickbara när onAgentAction ges. */
 export function OrkesterAgentTrio({ onAgentAction }: Props) {
-  const [agents, setAgents] = useState<AgentCardData[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { agents, loading, agentNameById } = useAgentRegistry();
 
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const data = await fetchAgentRegistry();
-        if (cancelled) return;
-        const trio = data.agents.filter((a) =>
-          TRIO_IDS.includes(a.metadata.id as (typeof TRIO_IDS)[number]),
-        );
-        setAgents(trio.length >= 3 ? trio : fallbackTrio());
-      } catch {
-        if (!cancelled) setAgents(fallbackTrio());
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const agentNameById = useMemo(
-    () => new Map(agents.map((a) => [a.metadata.id, a.metadata.name])),
-    [agents],
+  const trioFromRegistry = agents.filter((a) =>
+    TRIO_IDS.includes(a.metadata.id as (typeof TRIO_IDS)[number]),
   );
+  const source = trioFromRegistry.length >= 3 ? trioFromRegistry : fallbackTrioAgents();
 
-  const display =
-    agents.length >= 3
-      ? TRIO_IDS.map((id) => agents.find((a) => a.metadata.id === id)).filter(
-          (a): a is AgentCardData => Boolean(a),
-        )
-      : agents;
-
-  const handleAction = useCallback(
-    (agentId: string) => {
-      onAgentAction?.(agentId);
-    },
-    [onAgentAction],
+  const display = TRIO_IDS.map((id) => source.find((a) => a.metadata.id === id)).filter(
+    (a): a is AgentCardData => Boolean(a),
   );
 
   if (loading && display.length === 0) {
@@ -96,7 +48,7 @@ export function OrkesterAgentTrio({ onAgentAction }: Props) {
             agent={agent}
             agentNameById={agentNameById}
             compact
-            onAction={onAgentAction && actionLabel ? handleAction : undefined}
+            onAction={onAgentAction && actionLabel ? onAgentAction : undefined}
             actionLabel={onAgentAction ? actionLabel : undefined}
           />
         );

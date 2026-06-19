@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Brain, Loader2, Search, Send, Sparkles, User, X, FileText, ExternalLink } from 'lucide-react';
+import { Brain, Loader2, Send, Sparkles, User, X, FileText, ExternalLink } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { VAVAREN_VALVCHAT_HINT } from '../../vault/constants/vavarenCopy';
 import type { ValvChatCitation } from '../api/valvChatService';
@@ -8,6 +8,8 @@ import type { VaultLog } from '@/core/types/firestore';
 import { RAGErrorBoundary } from '@/shared/ui/RAGErrorBoundary';
 import { TheoryWithoutEvidenceBadge } from '@/shared/ui/TheoryWithoutEvidenceBadge';
 import { EmptyState } from '@/core/ui/EmptyState';
+import { SanningsAnalytikernHeader } from './SanningsAnalytikernHeader';
+import { AgentResponseFooter } from '@/shared/agents/components/AgentResponseFooter';
 
 type ValvChatPanelProps = {
   active: boolean;
@@ -73,6 +75,12 @@ function ChatBubble({
         >
           <div className="whitespace-pre-wrap text-sm leading-relaxed">{msg.text}</div>
           {msg.role === 'assistant' && msg.theoryWithoutEvidence && <TheoryWithoutEvidenceBadge />}
+          {msg.role === 'assistant' && (
+            <AgentResponseFooter
+              productAgentName="Sannings-Analytikern"
+              executorName="Gräns-Arkitekten"
+            />
+          )}
           {msg.role === 'assistant' && msg.citations && (
             <CitationList citations={msg.citations} onCitationClick={onCitationClick} />
           )}
@@ -116,17 +124,7 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
   return (
     <RAGErrorBoundary fallbackTitle="Nätverksfel i Valv-Chat">
       <div className="valv-chat-panel space-y-4">
-        <div className="calm-card flex items-center gap-3 rounded-2xl border border-border p-4">
-          <div className="rounded-2xl border border-accent-secondary/25 bg-accent-secondary/15 p-3">
-            <Search className="h-5 w-5 text-accent-secondary" />
-          </div>
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-accent-secondary/90">
-              Forensisk sökning
-            </p>
-            <h2 className="font-display text-lg text-text">Sök i Valvet</h2>
-          </div>
-        </div>
+        <SanningsAnalytikernHeader />
 
         <BentoCard title="Chatt mot arkiv" description="Källor länkas till Logga" glow="blue">
           <p className="mb-3 text-xs text-text-dim">{VAVAREN_VALVCHAT_HINT}</p>

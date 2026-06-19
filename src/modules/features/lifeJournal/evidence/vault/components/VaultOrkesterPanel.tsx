@@ -5,6 +5,7 @@ import { Check, Copy, Filter, Loader2, Shield } from 'lucide-react';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { AgentRoutingBadge } from '@/shared/agents/components/AgentRoutingBadge';
+import { AgentRegistryProvider } from '@/shared/agents/hooks/useAgentRegistry';
 import {
   analyzeBiffMessage,
   type GransAnalysis,
@@ -140,6 +141,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
   );
 
   return (
+    <AgentRegistryProvider>
     <div className="space-y-4">
       <div className="flex justify-end">
         <ModuleHelpFromRegistry moduleId="valv_orkester" />
@@ -369,5 +371,6 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
       </BentoCard>
       </div>
     </div>
+    </AgentRegistryProvider>
   );
 }
