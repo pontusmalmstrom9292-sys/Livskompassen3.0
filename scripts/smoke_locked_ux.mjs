@@ -723,6 +723,23 @@ function main() {
   mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/ValuesCompass.tsx', '<select');
   mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/MabraVitHub.tsx', 'Snabbstart');
   mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/components/MabraNutritionQuickLog.tsx',
+    'MabraNutritionQuickLog',
+    'appendNutritionEntry',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/lib/mabraNutritionNudges.ts',
+    'computeNutritionNudges',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/naring/components/NutritionSettingsPanel.tsx',
+    'NutritionSettingsPanel',
+    '/mabra/verktyg/nutrition',
+  );
+  mustInclude('src/modules/core/navigation/navTruth.ts', '/installningar?tab=naring');
+  mustInclude('.context/locked-ux-features.md', '## 20. Diskret näringsintag');
+  mustInclude('docs/specs/modules/NARING-INTAG-SPEC.md', 'LÅST UX');
+  mustInclude(
     'src/modules/features/admin/planning/components/PlaneringPage.tsx',
     'HubPageShell',
     'PlanningKanbanBoard',

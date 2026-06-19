@@ -6,6 +6,7 @@ import {
   Brain,
   Clock,
   Compass,
+  Droplets,
   Heart,
   Sparkles,
   Sprout,
@@ -82,6 +83,7 @@ const HUB_TAB_ICONS: Partial<Record<string, LucideIcon>> = {
   drogfrihet_reflektion: Heart,
   drogfrihet_kunskap: BookOpen,
   installningar_allmant: BookOpen,
+  installningar_naring: Droplets,
   installningar_drogfrihet: Heart,
 };
 
