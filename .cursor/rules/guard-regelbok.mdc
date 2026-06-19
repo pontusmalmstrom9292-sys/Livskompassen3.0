@@ -1,6 +1,6 @@
 ---
-description: Operativ Guard- och Regelbok för subagenter — WORM, silos, Zero Footprint, PMIR-stopp
-alwaysApply: true
+description: Operativ Guard- och Regelbok — WORM, silos, Zero Footprint, PMIR-stopp för subagenter
+alwaysApply: false
 ---
 
 # Guard- och Regelbok (operativ)

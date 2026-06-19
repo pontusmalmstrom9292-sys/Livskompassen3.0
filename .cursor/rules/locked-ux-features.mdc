@@ -1,6 +1,7 @@
 ---
-description: Låsta UX-flöden — Middagsfrågan och Valv Mönster/Orkester får inte tas bort
-alwaysApply: true
+description: Låsta UX-flöden — Barnfokus, Valv Mönster/Orkester, Barnporten HITL, Planering hybrid
+alwaysApply: false
+globs: src/modules/**/Vault*.tsx,src/modules/**/Familjen*.tsx,src/modules/features/family/**,src/modules/features/vault/**,src/modules/barnporten/**,src/modules/planering/**
 ---
 
 # Locked UX Features (MUST NOT REMOVE)

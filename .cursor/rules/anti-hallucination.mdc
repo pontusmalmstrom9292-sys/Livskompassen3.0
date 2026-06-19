@@ -1,6 +1,6 @@
 ---
 description: Anti-hallucination — verifiera mot kod/moln innan påståenden; inga gissningar om deploy eller GAP-status
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Anti-hallucination

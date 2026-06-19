@@ -1,6 +1,6 @@
 ---
 description: Main trunk, PMIR före merge, regelanalys system/design/säkerhet, hjälp merge efter godkännande
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Git main trunk & merge hygiene (CANON)

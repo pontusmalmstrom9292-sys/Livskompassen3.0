@@ -1,6 +1,7 @@
 ---
-description: Rule to enforce Lagen om Evig Tillväxt (The Infinite Evolution Engine) in Livskompassen. Controls evolution tracking, WORM ledger, child age adaptivity, and capacity-based unlocking.
-alwaysApply: true
+description: Lagen om Evig Tillväxt — evolution_ledger WORM, Barnporten ålderssegment, kapacitetsstyrd UI
+alwaysApply: false
+globs: functions/src/triggers/onEvolutionHubWrite.ts,src/modules/barnporten/**,src/modules/**/evolution*,src/modules/**/economy*,src/modules/**/planering*
 ---
 
 # Infinite Evolution Engine (Lagen om Evig Tillväxt)

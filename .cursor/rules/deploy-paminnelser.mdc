@@ -1,6 +1,6 @@
 ---
 description: Deploy-påminnelser — var, när och vad som måste ut innan prod fungerar
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Deploy-påminnelser (MUST)
