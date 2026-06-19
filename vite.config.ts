@@ -52,6 +52,8 @@ export default defineConfig({
           if (id.includes('node_modules/date-fns')) return 'vendor-dates';
           if (id.includes('node_modules/zustand')) return 'vendor-state';
           if (id.includes('node_modules/@radix-ui')) return 'vendor-radix';
+          // P2 — Valv-chunk (tung, PIN-gated). Familjen: React.lazy räcker (undvik cykel med valv-imports).
+          if (id.includes('/modules/features/lifeJournal/evidence/vault/')) return 'zone-valv';
         },
       },
     },
