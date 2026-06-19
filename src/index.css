@@ -2966,7 +2966,7 @@
   }
 
   .fyren-header-quick__backdrop {
-    @apply fixed inset-0 z-[54] border-0 bg-black/12;
+    @apply fixed inset-0 z-[54] border-0 bg-black/10;
     pointer-events: auto;
     touch-action: manipulation;
   }
