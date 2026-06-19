@@ -2,10 +2,12 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
-import { LifeBuoy } from 'lucide-react';
 import { FloatingDock } from './FloatingDock';
 import { FyrenWidgetBar } from '../components/FyrenWidgetBar';
-import { FyrenSideQuickDock } from '../components/FyrenSideQuickDock';
+import {
+  FyrenHeaderQuickProvider,
+  FyrenHeaderQuickToggle,
+} from '../components/FyrenSideQuickDock';
 import { FyrenWidgetProvider } from '../components/fyrenWidgetContext';
 
 import { AppHeaderBar } from '../components/AppHeaderBar';
@@ -18,7 +20,6 @@ import { SystemErrorBanner } from '../components/SystemErrorBanner';
 import { useDesignPack } from '../design/useDesignPack';
 import { isBarnportenChildRoute } from '@/features/onboarding/barnporten/constants/barnportenRoutes';
 import { useStore } from '../store';
-import { useSOSStore } from '../store/sosStore';
 import { useTheme } from '../theme';
 import { getTheme } from '../theme/themeRegistry';
 import { isMockupTheme } from '../theme/mockupTheme';
@@ -32,7 +33,6 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   const kompisAuraActive = useStore((s) => s.system.kompisAuraActive);
   const isMenuOpen = useStore((s) => s.ui.isMenuOpen);
   const setMenuOpen = useStore((s) => s.setMenuOpen);
-  const activateSOS = useSOSStore((s) => s.activateSOS);
   const { themeId } = useTheme();
   const { active: designPackActive } = useDesignPack();
   const mockupSkin = isMockupTheme(themeId) || themeUsesDesignPackChrome(getTheme(themeId));
@@ -48,6 +48,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <FyrenWidgetProvider>
+    <FyrenHeaderQuickProvider>
     <div
       className={clsx(
         'app-shell relative min-h-screen text-text font-sans selection:bg-accent/30',
@@ -64,17 +65,13 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
             onMenuClick={() => setMenuOpen(true)}
             actions={
               slimHeaderChrome ? (
-                <KompisHeaderVaultButton kompisAuraActive={kompisAuraActive} />
+                <>
+                  <FyrenHeaderQuickToggle />
+                  <KompisHeaderVaultButton kompisAuraActive={kompisAuraActive} />
+                </>
               ) : (
                 <>
-                  <button
-                    type="button"
-                    onClick={activateSOS}
-                    className="header-chrome-btn header-chrome-btn--round mr-1"
-                    aria-label="Aktivera SOS-läge"
-                  >
-                    <LifeBuoy className="header-chrome-btn__glyph h-6 w-6 text-accent/75 transition-colors hover:text-accent-light" />
-                  </button>
+                  <FyrenHeaderQuickToggle />
                   <AccountAuthMenu
                     open={accountOpen}
                     onOpenChange={setAccountOpen}
@@ -107,12 +104,12 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
       {!barnportenChildShell ? (
         <>
-          <FyrenSideQuickDock />
           <FyrenWidgetBar />
           <FloatingDock />
         </>
       ) : null}
     </div>
+    </FyrenHeaderQuickProvider>
     </FyrenWidgetProvider>
   );
 }
