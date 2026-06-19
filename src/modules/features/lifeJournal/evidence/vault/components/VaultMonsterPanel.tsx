@@ -22,7 +22,7 @@ function BarRow({ label, count, max }: { label: string; count: number; max: numb
         <span>{label}</span>
         <span>{count}</span>
       </div>
-      <div className="h-2 overflow-hidden rounded-full bg-surface-3/50">
+      <div className="h-2 overflow-hidden rounded-full bg-white/5">
         <div
           className="h-full rounded-full bg-accent/70 transition-all"
           style={{ width: `${width}%` }}

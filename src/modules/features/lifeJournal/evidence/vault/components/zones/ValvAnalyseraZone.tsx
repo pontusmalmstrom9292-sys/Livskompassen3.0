@@ -1,7 +1,5 @@
 import { lazy, Suspense } from 'react';
 import { TabBar } from '@/core/ui/TabBar';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { getAnalyseraVaultTabBarItems } from '@/core/navigation/tabRegistry';
 import { useVaultStore } from '@/core/store/useVaultStore';
 import { useStore } from '@/core/store';
@@ -16,7 +14,7 @@ const VaultOrkesterPanel = lazy(() =>
 );
 
 function ValvPanelFallback() {
-  return <HubPanelSkeleton label="Laddar analys…" lines={5} />;
+  return <p className="py-6 text-center text-xs text-text-dim">Laddar analys…</p>;
 }
 
 export type ValvAnalyseraZoneProps = {
@@ -30,11 +28,7 @@ export function ValvAnalyseraZone({ tab, onTabChange }: ValvAnalyseraZoneProps) 
   const userId = useStore((s) => s.user?.uid);
 
   return (
-    <HubErrorBoundary
-      title="Analys kunde inte laddas"
-      glow="blue"
-      logTag="ValvAnalyseraZone"
-    >
+    <>
       <div className="mb-3">
         <TabBar
           size="compact"
@@ -53,6 +47,6 @@ export function ValvAnalyseraZone({ tab, onTabChange }: ValvAnalyseraZoneProps) 
           </>
         )}
       </Suspense>
-    </HubErrorBoundary>
+    </>
   );
 }

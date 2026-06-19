@@ -1,5 +1,4 @@
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
@@ -25,7 +24,6 @@ import {
   parseEkonomiInputMode,
   type EkonomiInputMode,
 } from './ekonomiInputModes';
-import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 
 export type EkonomiInputSuperModuleProps = {
   userId: string;
@@ -121,7 +119,6 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
   const isMoreModeActive = visibleMore.some((mode) => mode.id === activeMode);
 
   return (
-    <HubErrorBoundary title="Ekonomi kunde inte laddas" glow="gold" logTag="EkonomiInputSuperModule">
     <section
       className="calm-card glow-bottom-gold overflow-hidden rounded-2xl border border-border/30 bg-surface-2/70 p-4 sm:p-5"
       aria-label="Ekonomi inmatningshub"
@@ -213,11 +210,7 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
       </nav>
 
       <div className="calm-scroll-island max-h-[min(70vh,640px)] overflow-y-auto pr-1">
-        {isLoading ? (
-          <HubPanelSkeleton label="Laddar ekonomiläge…" lines={4} />
-        ) : (
-          <EkonomiInputModeDelegate mode={activeMode} userId={userId} />
-        )}
+        <EkonomiInputModeDelegate mode={activeMode} userId={userId} />
       </div>
 
       <footer className="mt-4 border-t border-border/30 pt-3">
@@ -230,6 +223,5 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
         </Link>
       </footer>
     </section>
-    </HubErrorBoundary>
   );
 }

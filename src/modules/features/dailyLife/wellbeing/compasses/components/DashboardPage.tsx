@@ -2,7 +2,6 @@ import { HomeAdaptiveCompass } from '@/core/home/HomeAdaptiveCompass';
 import { compassFlowToPhase } from '@/core/home/homeCompassPhase';
 import { useLifeHubPreset } from '@/core/lifeOs/useLifeHubPreset';
 import { BentoCard } from '@/shared/ui/BentoCard';
-import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 
 type DashboardPageProps = {
   embedded?: boolean;
@@ -24,7 +23,6 @@ export function DashboardPage({
   const isModule = variant === 'module';
 
   return (
-    <HubErrorBoundary title="Kompasser kunde inte laddas" glow="gold" logTag="DashboardPage">
     <div
       className={isModule ? 'home-adaptive-compass home-adaptive-compass--module' : 'home-adaptive-compass home-adaptive-compass--hub'}
     >
@@ -46,6 +44,5 @@ export function DashboardPage({
         forcedPhase={forcedPhase}
       />
     </div>
-    </HubErrorBoundary>
   );
 }
