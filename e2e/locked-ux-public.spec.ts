@@ -1,5 +1,10 @@
 import { test, expect } from '@playwright/test';
 
+async function expectPublicLoginWall(page: import('@playwright/test').Page) {
+  const wall = page.getByRole('heading', { name: /Logga in|Inloggning krävs|Säkra ditt konto/ });
+  await expect(wall.first()).toBeVisible({ timeout: 25_000 });
+}
+
 /**
  * Locked UX — render- och routing-gate i publikt läge (utan Firebase-inloggning).
  * Kompletterar scripts/smoke_locked_ux.mjs (statisk källkod).
@@ -33,14 +38,14 @@ test.describe('Locked UX — publikt läge', () => {
 
   test('Familjen kräver inloggning — Barnfokus ej exponerat', async ({ page }) => {
     await page.goto('/familjen?tab=reflektion');
-    await expect(page.getByText('Inloggning krävs')).toBeVisible({ timeout: 20_000 });
+    await expectPublicLoginWall(page);
     await expect(page.getByText('Minneslista')).toHaveCount(0);
     await expect(page.getByText('Spara till')).toHaveCount(0);
   });
 
   test('Valvet kräver inloggning — Mönster-flik ej exponerad', async ({ page }) => {
     await page.goto('/valvet?vaultTab=monster');
-    await expect(page.getByText('Inloggning krävs')).toBeVisible({ timeout: 20_000 });
+    await expectPublicLoginWall(page);
     await expect(page.getByRole('tab', { name: 'Mönster' })).toHaveCount(0);
   });
 

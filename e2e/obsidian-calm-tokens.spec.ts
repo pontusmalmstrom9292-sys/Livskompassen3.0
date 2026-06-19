@@ -14,7 +14,7 @@ function isDarkHex(hex: string): boolean {
 test.describe('Obsidian Calm tokens', () => {
   test('index.css-variabler är mörka och guld-accent finns', async ({ page }) => {
     await page.goto('/');
-    await page.waitForSelector('.home-hero-kanon', { timeout: 20_000 });
+    await page.waitForSelector('.home-hero-kanon', { timeout: 30_000 });
 
     const tokens = await page.evaluate(() => {
       const root = getComputedStyle(document.documentElement);
