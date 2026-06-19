@@ -254,5 +254,5 @@
       "mass-delete"
     ]
   },
-  "notes": "A2.7 Valv docs-flik (kanon markdown) — smoke PASS, hosting deploy nästa."
+  "notes": "B1–B4 mergat + 5-agent audit (YOLO GO, arkiv PASS, minnes-ingest doc, Android runbook). smoke:predeploy PASS inkl E2E."
 }
