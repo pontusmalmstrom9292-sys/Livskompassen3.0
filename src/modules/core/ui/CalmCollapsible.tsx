@@ -6,6 +6,8 @@ type CalmCollapsibleProps = {
   title: string;
   meta?: string;
   defaultOpen?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
   glow?: 'gold' | 'blue' | 'green';
   children: ReactNode;
 };
@@ -15,10 +17,20 @@ export function CalmCollapsible({
   title,
   meta,
   defaultOpen = false,
+  open: controlledOpen,
+  onOpenChange,
   glow,
   children,
 }: CalmCollapsibleProps) {
-  const [open, setOpen] = useState(defaultOpen);
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : internalOpen;
+
+  const toggle = () => {
+    const next = !open;
+    if (!isControlled) setInternalOpen(next);
+    onOpenChange?.(next);
+  };
 
   return (
     <section
@@ -34,7 +46,7 @@ export function CalmCollapsible({
         type="button"
         className="calm-collapsible__trigger"
         aria-expanded={open}
-        onClick={() => setOpen((v) => !v)}
+        onClick={toggle}
       >
         <span className="calm-collapsible__title">{title}</span>
         {meta ? <span className="calm-collapsible__meta">{meta}</span> : null}

@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 import { Inbox, Loader2 } from 'lucide-react';
 import './valv.css';
-import { BentoCard } from '@/shared/ui/BentoCard';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { fetchInboxQueue } from '../../kompis/api/inboxService';
 import { listDraftsByStatus } from '@/modules/capture/draftQueue';
 import { useVaultStore } from '@/core/store/useVaultStore';
@@ -14,12 +14,17 @@ type Props = {
   onBevisConfirmed: (docId: string) => void;
   /** Canonical väg till granskningskö (ValvInputSuperModule). */
   onOpenGranska?: () => void;
+  manualEntryOpen?: boolean;
+  onManualEntryOpenChange?: (open: boolean) => void;
 };
 
+/** A2.1 — primär: Inkast + granska. Sekundär: manuell post + Drive (CalmCollapsible). */
 export const VaultSamlaHub = memo(function VaultSamlaHub({
   userId,
   onBevisConfirmed,
   onOpenGranska,
+  manualEntryOpen,
+  onManualEntryOpenChange,
 }: Props) {
   const [pendingInbox, setPendingInbox] = useState<number | null>(null);
   const [localPending, setLocalPending] = useState(0);
@@ -62,15 +67,7 @@ export const VaultSamlaHub = memo(function VaultSamlaHub({
   const pendingTotal = (pendingInbox ?? 0) + localPending;
 
   return (
-    <BentoCard
-      title="Samla bevis"
-      description="Inkast, granskning och manuell post"
-      glow="blue"
-      depth
-      noHover
-      className="valv-samla-panel"
-    >
-      <div className="space-y-4">
+    <div className="valv-samla-panel space-y-4">
       <VaultInkastCompact
         onQueued={openReview}
         onPersistedBevis={handleBevisConfirmed}
@@ -86,30 +83,44 @@ export const VaultSamlaHub = memo(function VaultSamlaHub({
       {onOpenGranska && pendingTotal > 0 ? (
         <button
           type="button"
-          className="flex w-full items-center justify-between gap-2 rounded-xl border border-border bg-surface-2/80 px-3 py-2 text-left text-xs text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3"
+          className="flex w-full items-center justify-between gap-2 rounded-xl border border-border bg-surface-2/80 px-3 py-2.5 text-left text-sm text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3"
           onClick={openReview}
         >
           <span className="inline-flex items-center gap-2">
-            <Inbox className="h-3.5 w-3.5 text-accent" aria-hidden />
-            Väntar granskning
+            <Inbox className="h-4 w-4 text-accent" aria-hidden />
+            Granska väntande
           </span>
           <span className="font-medium text-accent">{pendingTotal}</span>
         </button>
       ) : null}
 
-      <VaultSamlaDriveHint pendingCount={pendingInbox ?? undefined} onOpenQueue={openReview} />
-
-      <details className="rounded-xl border border-border bg-surface-2/60">
-        <summary className="cursor-pointer px-3 py-2 text-xs font-medium uppercase tracking-wider text-text-muted">
-          Manuell post
-        </summary>
-        <div id="vault-samla-entry" className="border-t border-border px-3 py-3">
-          <p className="mb-3 text-xs text-text-dim">Append-only bevis — tvåspalt eller enkel text.</p>
+      <CalmCollapsible
+        title="Manuell post"
+        meta="Append-only"
+        defaultOpen={false}
+        open={manualEntryOpen}
+        onOpenChange={onManualEntryOpenChange}
+        glow="blue"
+      >
+        <div id="vault-samla-entry" className="space-y-3">
+          <p className="text-xs text-text-dim">Tvåspalt eller enkel text — sparas oföränderligt i arkivet.</p>
           <VaultEntryForm userId={userId} saving={saving} onSave={(input) => saveLog(userId, input)} />
-          {saveError ? <p className="mt-2 text-sm text-danger">{saveError}</p> : null}
+          {saveError ? <p className="text-sm text-danger">{saveError}</p> : null}
         </div>
-      </details>
-      </div>
-    </BentoCard>
+      </CalmCollapsible>
+
+      <CalmCollapsible
+        title="Drive & oklara filer"
+        meta={pendingInbox != null && pendingInbox > 0 ? `${pendingInbox} i kö` : 'Manuellt godkännande'}
+        defaultOpen={false}
+        glow="blue"
+      >
+        <VaultSamlaDriveHint
+          embedded
+          pendingCount={pendingInbox ?? undefined}
+          onOpenQueue={openReview}
+        />
+      </CalmCollapsible>
+    </div>
   );
 });

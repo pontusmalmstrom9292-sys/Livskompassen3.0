@@ -165,6 +165,7 @@ function main() {
     'getSamlaVaultTabBarItems',
     'VaultSamlaHub',
     'WeaverPendingVaultBanner',
+    'Arkivlista',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvAnalyseraZone.tsx',
@@ -210,6 +211,8 @@ function main() {
     'VaultInkastCompact',
     'Manuell post',
     'onOpenGranska',
+    'CalmCollapsible',
+    'Drive & oklara filer',
   );
   assert(
     !read('src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx').includes(

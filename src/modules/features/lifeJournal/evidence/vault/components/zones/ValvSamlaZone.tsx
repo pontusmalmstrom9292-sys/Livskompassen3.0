@@ -32,6 +32,7 @@ export function ValvSamlaZone({
   onOpenGranska,
 }: ValvSamlaZoneProps) {
   const [anchorsOnly, setAnchorsOnly] = useState(false);
+  const [manualEntryOpen, setManualEntryOpen] = useState(false);
   const { logs, loadFirstLogsPage } = useVaultStore();
   const { techniquesByLogId } = usePatternScanMetadata(userId);
 
@@ -62,8 +63,11 @@ export function ValvSamlaZone({
             userId={userId}
             onBevisConfirmed={(docId) => void onBevisConfirmed(docId)}
             onOpenGranska={onOpenGranska}
+            manualEntryOpen={manualEntryOpen}
+            onManualEntryOpenChange={setManualEntryOpen}
           />
-          <div className="flex justify-end">
+          <div className="flex items-center justify-between gap-2 px-0.5">
+            <p className="text-xs font-medium uppercase tracking-wider text-text-dim">Arkivlista</p>
             <button
               type="button"
               onClick={() => setAnchorsOnly((v) => !v)}
@@ -77,9 +81,12 @@ export function ValvSamlaZone({
             highlightLogId={highlightLogId}
             anchorsOnly={anchorsOnly}
             persistedTechniquesByLogId={techniquesByLogId}
-            onLogFirstBevis={() =>
-              document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-            }
+            onLogFirstBevis={() => {
+              setManualEntryOpen(true);
+              requestAnimationFrame(() => {
+                document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              });
+            }}
           />
         </>
       )}
