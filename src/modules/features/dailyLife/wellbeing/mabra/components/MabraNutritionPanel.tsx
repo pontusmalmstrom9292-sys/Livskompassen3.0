@@ -1,5 +1,5 @@
-import { Droplets, Utensils } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Droplets, Utensils, X } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   nutritionDateKey,
@@ -11,8 +11,18 @@ import {
   getMabraNutritionDay,
   saveMabraNutritionDay,
 } from '../api/mabraNutritionLogService';
+import { readNutritionEntries } from '../lib/mabraNutritionIntakeStorage';
+import { readNutritionPrefs } from '../lib/mabraNutritionPrefs';
+import {
+  computeNutritionNudges,
+  dismissNutritionNudge,
+} from '../lib/mabraNutritionNudges';
 import { useMabra30Capacity } from '../lib/mabra30Capacity';
 import { MabraNutritionCoachPanel } from './MabraNutritionCoachPanel';
+import { MabraNutritionQuickLog } from './MabraNutritionQuickLog';
+import { MabraNutritionTrendPanel } from './MabraNutritionTrendPanel';
+import { MabraNutritionRhythmPanel, MabraNutritionTodayList } from './MabraNutritionRhythmPanel';
+import { MabraNutritionMacroStub } from './MabraNutritionMacroStub';
 
 const PREP_ITEMS = [
   'Koka ägg eller lägg fram kvarg',
@@ -49,7 +59,20 @@ export function MabraNutritionPanel({ uid }: Props) {
   const [prepDone, setPrepDone] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(useCloud);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [intakeVersion, setIntakeVersion] = useState(0);
   const pendingRef = useRef<NutritionDayState | null>(null);
+
+  const prefs = useMemo(() => readNutritionPrefs(storageUid), [storageUid, intakeVersion]);
+  const nudges = useMemo(
+    () =>
+      computeNutritionNudges(
+        storageUid,
+        readNutritionEntries(storageUid),
+        state,
+        prefs,
+      ),
+    [storageUid, state, prefs, intakeVersion],
+  );
 
   useEffect(() => {
     if (!uid) {
@@ -110,11 +133,42 @@ export function MabraNutritionPanel({ uid }: Props) {
     <BentoCard title={COPY.eyebrow} icon={<Droplets className="h-4 w-4" />} glow="green">
       <p className="mb-4 text-sm text-text-muted">{COPY.lead}</p>
 
+      {nudges.length > 0 ? (
+        <ul className="mb-4 space-y-2">
+          {nudges.map((nudge) => (
+            <li
+              key={nudge.id}
+              className="flex items-start gap-2 rounded-xl border border-border bg-surface-2/60 px-3 py-2"
+            >
+              <p className="flex-1 text-sm leading-relaxed text-text-muted">{nudge.message}</p>
+              <button
+                type="button"
+                aria-label="Stäng påminnelse"
+                className="btn-pill--ghost h-8 w-8 shrink-0 rounded-lg p-0"
+                onClick={() => {
+                  dismissNutritionNudge(storageUid, nudge.id);
+                  setIntakeVersion((v) => v + 1);
+                }}
+              >
+                <X className="h-3.5 w-3.5" aria-hidden />
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+
+      <MabraNutritionQuickLog
+        storageUid={storageUid}
+        onLogged={() => setIntakeVersion((v) => v + 1)}
+      />
+
+      <MabraNutritionTodayList storageUid={storageUid} refreshKey={intakeVersion} />
+
       {loading ? (
-        <p className="text-sm text-text-dim">Laddar dagens notering…</p>
+        <p className="mt-4 text-sm text-text-dim">Laddar dagens notering…</p>
       ) : (
         <>
-          <div className="rounded-xl border border-border bg-surface-2/80 px-4 py-3">
+          <div className="mt-4 rounded-xl border border-border bg-surface-2/80 px-4 py-3">
             <p className="text-xs font-medium uppercase tracking-wider text-text-dim">{COPY.water}</p>
             <div className="mt-3 flex items-center justify-between gap-3">
               <button
@@ -195,8 +249,16 @@ export function MabraNutritionPanel({ uid }: Props) {
         </>
       )}
 
+      {prefs.trendView ? <MabraNutritionTrendPanel storageUid={storageUid} /> : null}
+
+      {prefs.detailedAnalysis ? <MabraNutritionRhythmPanel storageUid={storageUid} /> : null}
+
+      {prefs.macroTracking ? <MabraNutritionMacroStub /> : null}
+
       {saveError ? <p className="mt-2 text-xs text-text-dim">{saveError}</p> : null}
-      <p className="mt-4 text-xs text-text-dim">{useCloud ? COPY.savedCloud : COPY.savedLocal}</p>
+      <p className="mt-4 text-xs text-text-dim">
+        Intagslogg sparas lokalt. {useCloud ? COPY.savedCloud : COPY.savedLocal}
+      </p>
 
       {capacityLevel >= 2 ? (
         <div className="mt-6 border-t border-border pt-4">

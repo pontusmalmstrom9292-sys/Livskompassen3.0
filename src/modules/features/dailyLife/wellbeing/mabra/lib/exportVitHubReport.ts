@@ -10,6 +10,7 @@ import {
   createSafeTableRow,
   createSafeTableHeader,
   DEFAULT_PRINT_STYLES,
+  VIT_HUB_PRINT_STYLES,
 } from '@/shared/utils/secureExport';
 
 export type VitHubExportReport = {
@@ -115,17 +116,7 @@ function createVitHubReportHtml(report: VitHubExportReport): string {
     'Innehål',
   ]);
 
-  const customStyles = DEFAULT_PRINT_STYLES + `
-  .disclaimer-box {
-    font-size: 11px;
-    color: #475569;
-    background-color: #fef2f2;
-    border: 1px solid #fecaca;
-    border-radius: 4px;
-    padding: 12px;
-    margin: 16px 0;
-  }
-  `;
+  const customStyles = DEFAULT_PRINT_STYLES + VIT_HUB_PRINT_STYLES;
 
   const content = `
 <h1>${escapeHtml(report.title)}</h1>

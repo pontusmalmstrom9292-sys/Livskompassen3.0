@@ -436,6 +436,21 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
+## 20. Diskret näringsintag (MåBra M3.0-C+)
+
+| | |
+|---|---|
+| **Route** | `/mabra/verktyg/nutrition` · inställningar `/installningar?tab=naring` |
+| **Syfte** | Snabb logg mat/dryck, mjuka nudges, valfri trend/rytm — utan kaloriräkning eller Valv-export |
+| **Spec** | [`docs/specs/modules/NARING-INTAG-SPEC.md`](../docs/specs/modules/NARING-INTAG-SPEC.md) |
+| **Kod** | `MabraNutritionPanel`, `MabraNutritionQuickLog`, `mabraNutritionNudges`, `NutritionSettingsPanel` |
+| **Krav** | Kärnläge från start; trend/analys/makron endast via inställningar; lokal intagslogg |
+| **Smoke** | `npm run smoke:mabra` · `npm run smoke:locked-ux` |
+
+**Får inte:** kaloriräkning som standard; auto-export till Valv; streak/XP; ta bort snabb logg utan PMIR.
+
+---
+
 ## Verifiering
 
 ```bash

@@ -233,6 +233,10 @@ function main() {
   );
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/projekt/ny"', 'path="/projekt/regler"');
   mustInclude('src/modules/features/admin/planning/components/PlaneringHub.tsx', 'ProjektPickerSheet');
+  mustInclude('src/modules/features/widgets/pages/WidgetProjektPage.tsx', 'ProjektPickerSheet', '/projekt');
+  mustInclude('src/modules/features/widgets/routing/WidgetRoutes.tsx', 'path="projekt"', 'WidgetProjektPage');
+  mustInclude('src/modules/core/components/FyrenWidgetBar.tsx', '/widget/projekt');
+  mustInclude('src/modules/features/admin/projects/components/ProjektTomStatePanel.tsx', 'Video', 'go(\'video\')');
   mustInclude('src/modules/core/firebase/storage.ts', 'uploadProjectImage');
   mustInclude('src/modules/features/admin/planning/components/PlaneringPage.tsx', 'PlanningKanbanBoard', 'PLANERING_TAGLINE');
   mustInclude('firestore.rules', 'planning_tasks');
@@ -522,6 +526,16 @@ function main() {
     'DOSSIER_PRINT_STYLES',
     'printDossierFallback',
   );
+  mustInclude('src/modules/shared/utils/secureExport.ts', 'VIT_HUB_PRINT_STYLES');
+  mustNotInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/lib/exportVitHubReport.ts',
+    '#475569',
+    '#fef2f2',
+    '#fecaca',
+  );
+  mustNotInclude('src/modules/core/pages/DagensAnkareLabPage.tsx', 'bg-[#', 'from-[#');
+  mustInclude('vite.config.ts', 'zone-valv');
+  mustInclude('tsconfig.core-strict.json', 'features/admin/projects');
 
   console.log('smoke:design-modules PASS');
 }

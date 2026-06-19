@@ -82,6 +82,29 @@ async function main() {
   const rulesSrc = readFileSync(resolve(root, 'firestore.rules'), 'utf8');
   assert(nutritionService.includes('mabra_nutrition_log'), 'nutrition service saknar collection');
   assert(rulesSrc.includes('match /mabra_nutrition_log/{uid}/days/{dateKey}'), 'rules saknar mabra_nutrition_log');
+
+  const quickLog = readFileSync(
+    resolve(root, 'src/modules/features/dailyLife/wellbeing/mabra/components/MabraNutritionQuickLog.tsx'),
+    'utf8',
+  );
+  const nudges = readFileSync(
+    resolve(root, 'src/modules/features/dailyLife/wellbeing/mabra/lib/mabraNutritionNudges.ts'),
+    'utf8',
+  );
+  const nutritionSpec = readFileSync(
+    resolve(root, 'docs/specs/modules/NARING-INTAG-SPEC.md'),
+    'utf8',
+  );
+  assert(quickLog.includes('MabraNutritionQuickLog'), 'quick log komponent saknas');
+  assert(quickLog.includes('appendNutritionEntry'), 'quick log saknar append');
+  assert(nudges.includes('computeNutritionNudges'), 'nudges saknar compute');
+  assert(nutritionSpec.includes('LÅST UX'), 'NARING-INTAG-SPEC saknar lås');
+  const rhythm = readFileSync(
+    resolve(root, 'src/modules/features/dailyLife/wellbeing/mabra/lib/mabraNutritionRhythmAnalysis.ts'),
+    'utf8',
+  );
+  assert(rhythm.includes('computeNutritionRhythmInsights'), 'rhythm analysis saknas');
+  console.log('[smoke] M3.0-C+ diskret näringsintag static guards OK');
   console.log('[smoke] M3.0-C Phase 2 nutrition static guards OK');
 
   const env = loadEnv();

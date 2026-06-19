@@ -232,6 +232,14 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     parentId: 'installningar',
   },
   {
+    id: 'installningar_naring',
+    label: 'Näring',
+    path: '/installningar?tab=naring',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'installningar',
+  },
+  {
     id: 'installningar_drogfrihet',
     label: 'Drogfrihet',
     path: '/installningar?tab=drogfrihet',
