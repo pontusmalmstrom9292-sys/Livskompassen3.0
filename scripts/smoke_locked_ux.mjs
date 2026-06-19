@@ -277,6 +277,14 @@ function main() {
     'Frekvensanalys',
     'buildVaultFrequencyReport',
     'glow="gold"',
+    'CalmCollapsible',
+    'Poster per månad',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vaultChat/components/ValvChatPanel.tsx',
+    'CalmCollapsible',
+    'Tips & exempelfrågor',
+    'ValvChatExtendedHints',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx',
@@ -288,6 +296,8 @@ function main() {
     'OrkesterAgentTrio',
     "vaultTab=sok",
     'glow="blue"',
+    'CalmCollapsible',
+    'orkester-brusfilter',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/utils/vaultPatternScan.ts',

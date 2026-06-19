@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Check, Copy, Filter, Loader2, Shield } from 'lucide-react';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { AgentRoutingBadge } from '@/shared/agents/components/AgentRoutingBadge';
 import { AgentRegistryProvider } from '@/shared/agents/hooks/useAgentRegistry';
 import {
@@ -276,15 +277,22 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
       </BentoCard>
       </div>
 
-      <section aria-labelledby="vault-orkester-assistentroller">
-        <h3 id="vault-orkester-assistentroller" className="sr-only">
-          Assistentroller
-        </h3>
-        <AdkAgentRegistryPanel />
-      </section>
+      <CalmCollapsible title="ADK & assistentroller" meta="Registry" defaultOpen={false} glow="blue">
+        <section aria-labelledby="vault-orkester-assistentroller">
+          <h3 id="vault-orkester-assistentroller" className="sr-only">
+            Assistentroller
+          </h3>
+          <AdkAgentRegistryPanel />
+        </section>
+      </CalmCollapsible>
 
       {registeredDocs.length > 0 && (
-        <BentoCard title="Registrerade dokument" description="SMS, mejl, myndighet" glow="blue">
+        <CalmCollapsible
+          title="Registrerade dokument"
+          meta={`${registeredDocs.length} poster`}
+          defaultOpen={false}
+          glow="blue"
+        >
           <ul className="space-y-2">
             {registeredDocs.map((log) => {
               const tags = scanTechniquesForLog(log);
@@ -312,15 +320,11 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
               );
             })}
           </ul>
-        </BentoCard>
+        </CalmCollapsible>
       )}
 
+      <CalmCollapsible title="Mönstersökning i SMS-tråd" meta="BIFF + DCAP" defaultOpen={false} glow="blue">
       <div id="orkester-monstersokning">
-      <BentoCard
-        title="Mönstersökning i SMS-tråd"
-        description="Klistra in hela tråden — Brusfiltret + DCAP"
-        glow="blue"
-      >
         <p className="mb-3 text-sm text-text-muted">
           Exportera gärna hela tråden som text/PDF först (iMazing/Decipher). Kör sedan sökning
           här — resultatet är vägledning, inte dom.
@@ -384,8 +388,8 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
             ) : null}
           </div>
         )}
-      </BentoCard>
       </div>
+      </CalmCollapsible>
     </div>
     </AgentRegistryProvider>
   );

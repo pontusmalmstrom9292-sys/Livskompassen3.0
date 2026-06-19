@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { BarChart3, Loader2, RefreshCw } from 'lucide-react';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { EmptyState } from '@/core/ui/EmptyState';
 import type { VaultLog } from '@/core/types/firestore';
 import { buildVaultFrequencyReport } from '../utils/vaultPatternScan';
@@ -144,15 +145,15 @@ export function VaultMonsterPanel({ logs, userId }: Props) {
         </div>
       </BentoCard>
 
-      <BentoCard title="Poster per månad" description="Systematisk tidsfrekvens" glow="gold">
+      <CalmCollapsible title="Poster per månad" meta="Tidsfrekvens" defaultOpen={false} glow="gold">
         <div className="space-y-3">
           {report.monthlyCounts.map(({ month, count }) => (
             <BarRow key={month} label={month} count={count} max={maxMonth} />
           ))}
         </div>
-      </BentoCard>
+      </CalmCollapsible>
 
-      <BentoCard title="Kategorier i valvet" description="Fördelning" glow="gold">
+      <CalmCollapsible title="Kategorier i valvet" meta="Fördelning" defaultOpen={false} glow="gold">
         <div className="space-y-2 text-sm text-text-muted">
           {Object.entries(report.categoryCounts).map(([cat, count]) => (
             <p key={cat}>
@@ -160,7 +161,7 @@ export function VaultMonsterPanel({ logs, userId }: Props) {
             </p>
           ))}
         </div>
-      </BentoCard>
+      </CalmCollapsible>
     </div>
   );
 }
