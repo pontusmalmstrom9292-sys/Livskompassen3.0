@@ -861,6 +861,13 @@ function runAuthLoginSmoke() {
 
 try {
   main();
+  const chrome = spawnSync('node', ['scripts/smoke_chrome_header.mjs'], {
+    cwd: root,
+    stdio: 'inherit',
+  });
+  if (chrome.status !== 0) {
+    throw new Error('smoke:chrome-header misslyckades');
+  }
   runAuthLoginSmoke();
 } catch (err) {
   console.error('[smoke:locked-ux] FAIL —', err.message || err);

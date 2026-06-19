@@ -8,7 +8,7 @@ Regeln: **lägg till, radera inte.** Flera chrome-lösningar får coexist — ol
 |----|------|------------|--------|
 | **H1** | Hem Layout A — Ankare + rutnät | `HomeBrassLayoutA` (Brushed Brass hem) | [HEM-LAYOUT-A-KANON.md](./HEM-LAYOUT-A-KANON.md) |
 | **C1** | FloatingDock — mittkompass D1 | `FloatingDock.tsx` | [DOCK-KANON.md](./DOCK-KANON.md) · `.dock-hub-band__center` |
-| **C2** | Fyren header-snabbpanel (kompass i header) |  `FyrenHeaderQuickProvider`, `FyrenHeaderQuickToggle` i `FyrenSideQuickDock.tsx`  | Nedfällbar panel under header · andning + 4 genvägar · *Snabbåtkomst dold* · ersätter sidodock + SOS-knapp (2026-06-19) |
+| **C2** | Fyren header-snabbpanel (kompass i header) |  `FyrenHeaderQuickProvider`, `FyrenHeaderQuickToggle` i `FyrenSideQuickDock.tsx`  | Ikonbredd under kompass · Chameleon-glas · chrome-rail parity header/dock · andning + 4 genvägar · *Snabbåtkomst dold* · ersätter sidodock + SOS-knapp (2026-06-19) |
 | **C3** | Fyren panel + handtag | `FyrenWidgetBar`, `FyrenDockHandle` | [WIDGET-BAR-SPEC.md](../WIDGET-BAR-SPEC.md) |
 | **B1** | Brusfiltret supermodul (Variant B lab) | `/dev/theme-lab/brusfiltret-supermodule` | [BRUSFILTRET-MODUL-KANON.md](./BRUSFILTRET-MODUL-KANON.md) |
 

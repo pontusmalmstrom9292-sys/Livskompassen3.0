@@ -3,13 +3,18 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
   type ReactNode,
+  type RefObject,
 } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { ChevronDown, Filter, Lock, Shield, Wind, Zap } from 'lucide-react';
 import { hasVaultGate } from '../auth/sessionService';
+import { useFyrenHeaderQuickAnchor } from '../hooks/useFyrenHeaderQuickAnchor';
+import { useHeaderPanelStyle } from '../layout/headerPanelStyle';
 import { NAV_PATHS } from '../navigation/navTruth';
 import { useStore } from '../store';
 import { LivskompassMark } from '../ui/LivskompassMark';
@@ -22,6 +27,25 @@ import { useBreathingCycle } from '../ui/ankare/useBreathingCycle';
 
 const HIDDEN_STORAGE_KEY = 'livskompassen.fyren-side-quick.hidden';
 const VISIBILITY_EVENT = 'fyren-side-quick-visibility';
+
+const CAMO_SURFACE_SELECTOR =
+  '[data-surface], .home-action-hub__glass, .rounded-2xl.border, .bento-tile, main .rounded-2xl';
+
+function rectsOverlap(a: DOMRect, b: DOMRect): boolean {
+  return !(a.bottom < b.top || a.top > b.bottom || a.right < b.left || a.left > b.right);
+}
+
+function detectOverContent(panel: HTMLElement): boolean {
+  const panelRect = panel.getBoundingClientRect();
+  if (panelRect.height < 8) return false;
+
+  const surfaces = document.querySelectorAll(CAMO_SURFACE_SELECTOR);
+  for (const el of Array.from(surfaces)) {
+    if (!(el instanceof HTMLElement) || el.contains(panel)) continue;
+    if (rectsOverlap(panelRect, el.getBoundingClientRect())) return true;
+  }
+  return false;
+}
 
 type QuickAction = {
   id: string;
@@ -44,6 +68,7 @@ type FyrenHeaderQuickContextValue = {
   hideDock: () => void;
   breathingActive: boolean;
   setBreathingActive: (value: boolean) => void;
+  toggleBtnRef: RefObject<HTMLButtonElement | null>;
 };
 
 const FyrenHeaderQuickContext = createContext<FyrenHeaderQuickContextValue | null>(null);
@@ -124,27 +149,74 @@ function FyrenHeaderQuickPanel() {
   const location = useLocation();
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const vaultSessionOpen = isVaultUnlocked || hasVaultGate();
-  const { open, setOpen, hideDock, breathingActive, setBreathingActive } = useFyrenHeaderQuick();
+  const { open, setOpen, hideDock, breathingActive, setBreathingActive, toggleBtnRef } =
+    useFyrenHeaderQuick();
+  const panelRef = useRef<HTMLDivElement>(null);
+  const anchor = useFyrenHeaderQuickAnchor(toggleBtnRef, panelRef, open);
+  const panelStyle = useHeaderPanelStyle();
+  const [overContent, setOverContent] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  if (location.pathname.startsWith('/widget')) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  return (
+  useEffect(() => {
+    if (!open || !panelRef.current) {
+      setOverContent(false);
+      return;
+    }
+
+    const panel = panelRef.current;
+    const sync = () => setOverContent(detectOverContent(panel));
+
+    sync();
+    const id = requestAnimationFrame(sync);
+    window.addEventListener('resize', sync, { passive: true });
+    window.addEventListener('scroll', sync, { passive: true, capture: true });
+
+    return () => {
+      cancelAnimationFrame(id);
+      window.removeEventListener('resize', sync);
+      window.removeEventListener('scroll', sync, true);
+    };
+  }, [open, location.pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open, setOpen]);
+
+  if (location.pathname.startsWith('/widget') || !mounted) return null;
+
+  const portal = (
     <>
       {open ? (
         <button
           type="button"
-          className="fyren-header-quick__backdrop"
+          className="fyren-header-quick__dismiss"
           aria-label="Stäng snabbåtkomst"
           onClick={() => setOpen(false)}
         />
       ) : null}
 
       <div
-        className={clsx('fyren-header-quick', open && 'fyren-header-quick--open')}
+        ref={panelRef}
+        className={clsx(
+          'fyren-header-quick',
+          `fyren-header-quick--${panelStyle}`,
+          open && 'fyren-header-quick--open',
+          overContent && 'fyren-header-quick--over-content',
+        )}
+        style={anchor.style}
         aria-label="Snabbåtkomst"
         aria-hidden={!open}
       >
-        <div className="fyren-header-quick__panel">
+        <div className="fyren-header-quick__panel fyren-header-quick__panel--camo">
           <nav className="fyren-header-quick__stack">
             <FyrenQuickBreathingRow
               active={breathingActive}
@@ -186,11 +258,14 @@ function FyrenHeaderQuickPanel() {
       </div>
     </>
   );
+
+  return createPortal(portal, document.body);
 }
 
 /** Header-kompass + nedfällbar snabbpanel (ersätter sidodock + SOS-knapp). */
 export function FyrenHeaderQuickProvider({ children }: { children: ReactNode }) {
   const location = useLocation();
+  const toggleBtnRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(readFyrenSideQuickHidden);
   const [breathingActive, setBreathingActive] = useState(false);
@@ -214,6 +289,11 @@ export function FyrenHeaderQuickProvider({ children }: { children: ReactNode }) 
     setBreathingActive(false);
   }, [location.pathname]);
 
+  useEffect(() => {
+    document.body.classList.toggle('fyren-header-quick-open', open);
+    return () => document.body.classList.remove('fyren-header-quick-open');
+  }, [open]);
+
   const value: FyrenHeaderQuickContextValue = {
     open,
     setOpen,
@@ -221,6 +301,7 @@ export function FyrenHeaderQuickProvider({ children }: { children: ReactNode }) 
     hideDock,
     breathingActive,
     setBreathingActive,
+    toggleBtnRef,
   };
 
   return (
@@ -234,7 +315,7 @@ export function FyrenHeaderQuickProvider({ children }: { children: ReactNode }) 
 /** Kompassknapp i header — samma plats som tidigare SOS. */
 export function FyrenHeaderQuickToggle() {
   const location = useLocation();
-  const { open, setOpen, hidden } = useFyrenHeaderQuick();
+  const { open, setOpen, hidden, toggleBtnRef } = useFyrenHeaderQuick();
 
   if (hidden || location.pathname.startsWith('/widget')) return null;
 
@@ -246,6 +327,7 @@ export function FyrenHeaderQuickToggle() {
       )}
     >
       <button
+        ref={toggleBtnRef}
         type="button"
         className={clsx(
           'header-chrome-btn header-chrome-btn--round fyren-header-quick__toggle',
@@ -257,11 +339,7 @@ export function FyrenHeaderQuickToggle() {
       >
         <LivskompassMark className="fyren-header-quick__toggle-mark" />
       </button>
-      <ChevronDown
-        className="fyren-header-quick__chevron"
-        strokeWidth={2.25}
-        aria-hidden
-      />
+      <ChevronDown className="fyren-header-quick__chevron" strokeWidth={2.25} aria-hidden />
     </div>
   );
 }
