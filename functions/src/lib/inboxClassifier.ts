@@ -25,7 +25,10 @@ function parseClassificationJson(raw: string): InboxClassification | null {
   try {
     const cleaned = raw.replace(/```json\n?|\n?```/g, '').trim();
     const parsed = JSON.parse(cleaned) as InboxClassification;
-    const routing = parsed.routing;
+    // Normalise Swedish alias 'planering' → canonical 'planning' (prompt alignment guard).
+    const rawRouting = parsed.routing as string;
+    const routing: InboxRouting =
+      rawRouting === 'planering' ? 'planning' : (rawRouting as InboxRouting);
     if (
       routing !== 'kunskap' &&
       routing !== 'bevis' &&
