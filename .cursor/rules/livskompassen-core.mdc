@@ -1,6 +1,6 @@
 ---
-description: Core Livskompassen context, planning flow, and assistant persona
-alwaysApply: true
+description: Core Livskompassen context, Sacred Features, assistant persona, REASONS planning
+alwaysApply: false
 ---
 
 # Livskompassen Core

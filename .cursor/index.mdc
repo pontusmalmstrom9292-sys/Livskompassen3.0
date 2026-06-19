@@ -1,0 +1,36 @@
+---
+description: Livskompassen kärn-invariants — WORM, tre silos, DCAP, Zero Footprint (always-on)
+alwaysApply: true
+---
+
+# Livskompassen Kärn
+
+Läs dynamisk status före stor kod: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md), [`.context/system-plan.md`](../.context/system-plan.md).
+
+## Gör alltid
+
+- **WORM:** Append-only för `reality_vault`, `children_logs`, `journal`, `evolution_ledger` — server-tidsstämpel, beteende + datum (aldrig diagnos på motpart).
+- **Tre silos:** Håll sökningar strikt separerade — `knowledgeVaultQuery` → `kampspar`/`kb_docs` · `valvChatQuery` → `reality_vault` · `childrenLogsQuery` → `children_logs`. Använd `kampsparQueryRag.ts` för fakta, `vaultRag.ts` för bevis; integrera aldrig resultat mellan silor.
+- **DCAP före LLM:** Routing i kod (`routeFromDcap`, `classifyInboxDocument`, `resolveExecutorId`) — LLM beslutar inte auth, silo eller WORM.
+- **Zero Footprint:** Rensa session och synapse-state vid logout, blur och panic (`clearSynapseState`).
+- **Verifiera:** Läs kod/docs före påstående. Osäkerhet → *"Ej tillräckligt data för bedömning."*
+
+## PMIR-stopp (vänta explicit Pontus-OK)
+
+`firestore.rules` · `storage.rules` · locked UX · runtime-prompter (`sharedRules.ts`) · mass-radering · Sacred Features.
+
+## Regelindex (läs vid behov — duplicera inte)
+
+| Ämne | Regel |
+|------|-------|
+| Silos & RAG | [`memory-silo.mdc`](rules/memory-silo.mdc) |
+| ADK & synapser | [`synapser-adk.mdc`](rules/synapser-adk.mdc) |
+| Säkerhet & DCAP | [`security-firestore.mdc`](rules/security-firestore.mdc) |
+| Locked UX | [`locked-ux-features.mdc`](rules/locked-ux-features.mdc) |
+| Design Obsidian Calm | [`design-calm.mdc`](rules/design-calm.mdc) |
+| Deploy & YOLO | [`yolo-vakt-gate.mdc`](rules/yolo-vakt-gate.mdc) · [`deploy-paminnelser.mdc`](rules/deploy-paminnelser.mdc) |
+| Merge & PMIR | [`git-main-trunk.mdc`](rules/git-main-trunk.mdc) · [`deep-research-pmir.mdc`](rules/deep-research-pmir.mdc) |
+| Domän HCF | [`domän-covert-narcissism.mdc`](rules/domän-covert-narcissism.mdc) |
+| Assistent-ton | [`ai-cognitive-companion.mdc`](rules/ai-cognitive-companion.mdc) |
+
+Full governance: [`projectGuard.mdc`](rules/projectGuard.mdc) · [`docs/governance/GUARD-REGLERBOK.md`](../docs/governance/GUARD-REGLERBOK.md).

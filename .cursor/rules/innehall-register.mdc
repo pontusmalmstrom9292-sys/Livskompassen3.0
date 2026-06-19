@@ -1,6 +1,7 @@
 ---
 description: Innehållskanon U6 — FACT/REFLECTION/PLAY/EVIDENCE, dirigent, content-banker, ingen silo-4-RAG
-alwaysApply: true
+alwaysApply: false
+globs: docs/content/**,docs/INNEHALL-REGISTER.md,functions/src/agents/mabra*,**/*CONTENT*BANK*,**/*CONTENT-SEED*
 ---
 
 # Innehållsregister (låst med Grunder)

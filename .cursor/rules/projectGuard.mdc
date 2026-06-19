@@ -1,6 +1,6 @@
 ---
 description: AI governance index — verified sources, PMIR-stopp, prompt-smoke; pekar på Guard-regelbok
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Project Guard — AI governance index

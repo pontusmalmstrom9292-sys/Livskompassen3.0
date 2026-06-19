@@ -1,80 +1,30 @@
-# ==============================================================================
-# LIVSKOMPASSEN — CURSOR ARCHITECT RULES: "OBSIDIAN CALM"
-# ==============================================================================
-# Det här är de absoluta och stenhårda reglerna för design, kodstruktur och arkitektur.
-# AI-modellen SKALL följa dessa instruktioner utan att argumentera, föreslå alternativ
-# eller frångå det definierade formspråket.
-# ==============================================================================
+# Livskompassen — Cursor Rules
 
-## 1. VISUELL IDENTITET: "OBSIDIAN CALM"
-Applikationen använder ett färgtema optimerat för "låg visuell arousal" — det skall kännas terapeutiskt, strukturerat, stabilt och dämpat.
+Kanon ligger i **`.cursor/rules/`** (MDC). Kärn-invariants: **`.cursor/index.mdc`** (always-on, ~300 tokens).
 
-### 1.1 Färgpalett (Konsekventa CSS-variabler)
-*   **Mörk Bas (Obsidian)**: `#020617` till `#050b14` (inte rent svart, utan extremt djup rymdblå/skiffer).
-*   **Ytor (Surfaces)**:
-    *   `var(--surface)` / `bg-surface`: `#050b14` (Väldigt mörk skifferblå)
-    *   `var(--surface-2)` / `bg-surface-2`: `#09111e` (Mörkt skiffergrå för kort och paneler)
-    *   `var(--surface-3)` / `bg-surface-3`: `#111b2d` (För hover, aktiva knappar och markerade val)
-*   **Guld (Accenter & Fokus)**: 
-    *   `var(--accent)` / `text-accent`: `#d4af37` (Mjukt, dämpat guld)
-    *   `var(--accent-light)`: `#fde68a` (Ljust guld för ikoner och höjdpunkter)
-    *   `var(--accent-dim)`: `#9a7b2f` (Brons/brunguld för inaktiva guldlinjer)
-*   **Dämpad Indigo & Norrsken**:
-    *   `var(--accent-secondary)`: `#6366f1` (Indigo-500 för sekundära knappar och ikoner)
-    *   `var(--accent-ai)`: `#818cf8` (Dämpad neon-indigo för AI-relaterat gränssnitt)
-    *   `var(--success)`: `#10b981` (Dämpad smaragd/teal för bekräftelser)
+## Snabbindex
 
-### 1.2 Geometrisk balans och skarpa linjer
-*   **Borders & Avdelare**: 
-    *   Använd alltid extremt tunna linjer: `border-[0.5px]` eller `border-[1px]`.
-    *   Färg: `var(--border)` (`rgba(212, 175, 55, 0.12)`) för guldaccenter, eller `var(--border-strong)` (`rgba(99, 102, 241, 0.22)`) för dämpad indigo.
-*   **Hörnradie**: Kort och knappar skall använda `rounded-xl` eller `rounded-2xl` för geometrisk stringens. Undvik extremt runda bubblor (använd inte `rounded-3xl` om det inte uttryckligen krävs för runda ikonskal).
-*   **Bakgrunder**: Använd diskreta mörka bakgrundstoner med gradienter (`bg-gradient-to-b from-[#020617] to-[#050b14]`). 
+| Zon | Auto-attached regel | Globs |
+|-----|---------------------|-------|
+| UI / Obsidian Calm | `design-calm.mdc`, `ui-design.mdc` | `src/**/*.tsx`, `src/**/*.css` |
+| ADK & synapser | `synapser-adk.mdc` | `functions/src/adk/**`, `functions/src/triggers/**` |
+| RAG & silos | `memory-silo.mdc` | `functions/src/lib/*Rag*.ts` |
+| Säkerhet & WORM | `security-firestore.mdc` | `firestore.rules`, `functions/**`, `sharedRules.ts`, `DCAP.ts` |
+| Locked UX | `locked-ux-features.mdc` | Valv, Familjen, Barnporten, Planering |
+| Android | `android-capacitor.mdc` | `android/**`, Capacitor-auth |
 
-### 1.3 Typografi (Kanonisk hierarki)
-*   **Rubriker (Zoner & Headers)**: `font-display-serif` (`Cinzel`, elegant serif) med `tracking-[0.2em]` eller `tracking-[0.26em]`, alltid i uppercase för en formell, balanserad ton.
-*   **Brödtext & Data**: `font-sans` (`Inter` eller `Outfit`) i dämpade slate-toner (`text-text-muted` / `text-text-dim`).
+## 3-zonsystem (routing)
 
----
+- **Hjärtat** `/hjartat` — Dagbok, Speglar; Valv via `/valvet` (PIN, plausible deniability)
+- **Vardagen** `/vardagen` — MåBra, Planering, Ekonomi, Arbetsliv
+- **Familjen** `/familjen` — Barnfokus, Livslogg, Barnporten, Trygg Hamn
 
-## 2. ARKITEKTONISKA REGLER (3-ZONSYSTEMET)
-Applikationen är strikt uppdelad i tre zoner. AI-modellen får ALDRIG skapa nya rutter utanför detta system.
+Legacy-rutter (`/dagbok`, `/valv`, `/mabra`, `/planering` …) omdirigeras — skapa inga nya utanför 3-zonsystemet.
 
-### 2.1 Hjärtat (`/hjartat`, legacy `/dagbok` redirect)
-*   Underflikar: `?tab=reflektion` (Dagbok), `?tab=speglar` (Speglar).
-*   **Valv** (`/valvet`, legacy `/valv`): `?vaultTab=…` — PIN/WebAuthn via Fyren; **inte** publik `?tab=bevis` på Hjärtat.
-*   **Säkerhet (Plausible Deniability)**: Valv-länkar dyker ENDAST upp reaktivt i DOM-trädet om valvet har låsts upp biometriskt under den aktiva sessionen (`vaultSessionOpen`). Annars skall inga ord som "bevis", "valv" eller "arkiv" exponeras i publikt läge.
+## Vid stor ändring
 
-### 2.2 Vardagen (`/vardagen`)
-*   Underflikar: `?tab=kompasser` (Dygnsrytm), `?tab=mabra` (KBT/ACT), `?tab=handling` (Planering/Kanban), `?tab=arbetsliv` (Stämpelklocka), `?tab=ekonomi` (Budget), `?tab=drogfrihet` (Nykterhet).
-*   Alla gamla rutter (`/liv`, `/mabra`, `/planering`, `/ekonomi`, `/arbetsliv`, `/stampla`) är avskrivna och SKALL omdirigeras hit.
+1. Läs [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](docs/specs/modules/Arkiv-GAP-REGISTER.md)
+2. Fas 19+ körplan: [`docs/evaluations/2026-06-15-fas19-masterplan-v2.md`](docs/evaluations/2026-06-15-fas19-masterplan-v2.md)
+3. Deploy: `npm run smoke:predeploy` → YOLO GO → Pontus OK
 
-### 2.3 Familjen (`/familjen`)
-*   Underflikar: `?tab=reflektion` (Barnfokus), `?tab=livslogg` (Fysiologi/Mående), `?tab=tillsammans` (Frekvens), `?tab=barnporten` (Barn-PWA), `?tab=hamn` (Trygg Hamn/BIFF).
-
----
-
-## 3. KODSTRUKTUR & BÄSTA PRAXIS
-*   **TypeScript**: Skriv alltid strikt typad TypeScript. Undvik `any`. Använd starka gränssnitt från `@/core/types/firestore.ts`.
-*   **Firebase / Firestore**:
-    *   WORM-princip (Write Once, Read Many) gäller för `reality_vault` och `children_logs`. Inga `updatedAt` eller `deletedAt` på dessa dokument.
-    *   När en observation sparas i livsloggarna, erbjud alltid användaren ett manuellt val att spara en kopia till Valvet via `SaveAsEvidencePrompt` med en explicit referens (`sourceRef`). Gör det aldrig automatiskt.
-*   **Tailwind CSS**:
-    *   Använd de definierade semantiska klasserna (`bg-surface-2`, `text-accent`, `border-border`) istället för hårdkodade hex-färger i klassnamn.
-    *   Se till att alla element som har hover-stilar använder de dämpade färgerna (`hover:bg-surface-3` / `hover:border-accent/40`).
-
----
-
-## 4. LAGEN OM EVIG TILLVÄXT (THE INFINITE EVOLUTION ENGINE)
-*   **Evolutionär arkitektur**: Alla anpassningar för Barnporten (ålderssegmentering) samt Ekonomi & Planering (kapacitetsstyrning) styrs dynamiskt via `evolution_hub` och loggas i `evolution_ledger`.
-*   **Oföränderlighet (WORM)**: Evolution_ledger är append-only. Det är absolut förbjudet att radera eller modifiera poster i evolution_ledger.
-*   **Referens**: Följ reglerna i `.cursor/rules/infinite-evolution.mdc` och se [INFINITE_EVOLUTION.md](file:///Users/Livskompassen/StudioProjects/Livskompassen3.0/docs/architecture/INFINITE_EVOLUTION.md) för specifikationen.
-
----
-
-## 5. FAS 19 — MÄSTERPLAN-GATE (till Fas 19+ är klar)
-
-*   **Pre-flight först**: Ingen stor städ, ombyggnad eller mass-radering utan godkänd `docs/evaluations/*-fas19-masterplan-v2.md`. Kör pre-flight via [`docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md`](docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md) i **Planläge**.
-*   **Agenten tar svåra beslut**: för-/nackdel + rekommendation; Pontus godkänner eller justerar.
-*   **Per zon (parallellt)**: backend/integritet + frontend/design + domänexpert (WebSearch vid behov). Arkiv-först — radera inte utan PMIR.
-*   **Full regel**: [`.cursor/rules/fas19-masterplan-guard.mdc`](.cursor/rules/fas19-masterplan-guard.mdc) · utkastplan [`.cursor/plans/fas_19_life_os_015fe1f3.plan.md`](.cursor/plans/fas_19_life_os_015fe1f3.plan.md).
+Design-detaljer (färger, typografi, Tailwind): se `design-calm.mdc` — **inte** duplicerade här.
