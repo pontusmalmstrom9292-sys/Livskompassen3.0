@@ -2,9 +2,9 @@
 
 **Syfte:** En aktiv utvecklingsgren (`main`). Inget förstört — historik finns i git.
 
-**Senast:** 2026-06-19 (merge: `cursor/frontend-polish-valv-hem-mabra-3876` → `main`, PR #15)
+**Senast:** 2026-06-19 (merge: `cursor/valv-a2-7-docs-7746` → `main`, PR #31)
 
-**Senast merge:** 2026-06-19 (`cursor/frontend-polish-valv-hem-mabra-3876` → `main` — progressive disclosure Kunskapsbank/Hem/MåBra; PMIR [`evaluations/2026-06-19-pmir-frontend-polish-valv-hem-mabra.md`](./evaluations/2026-06-19-pmir-frontend-polish-valv-hem-mabra.md))
+**Senast merge:** 2026-06-19 (`cursor/valv-a2-7-docs-7746` → `main` — Valv A2.7 Kanon docs-flik; PMIR [`evaluations/2026-06-19-pmir-valv-a2-7.md`](./evaluations/2026-06-19-pmir-valv-a2-7.md))
 
 **Senast merge (äldre):** 2026-06-01 (`feat/superhub-v2` → `main` — supersidor, capture, Draft Layer; PMIR [`archive/evaluations-fas21-2026-06/2026-06-01-superhub-PMIR.md`](./archive/evaluations-fas21-2026-06/2026-06-01-superhub-PMIR.md))
 
