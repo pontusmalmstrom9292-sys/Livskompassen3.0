@@ -25,12 +25,22 @@ import {
   shouldRedirectMabraCoachToSpeglar,
 } from '../lib/mabraCoachGuard';
 import { analyzeWidgetRecording } from '../lib/widgetRecordingAnalyze';
-import { revokeVaultSession } from '../lib/vaultSessionGate';
+import {
+  blockWidgetKunskapRouting,
+  buildWidgetVaultTruth,
+  type WidgetRecordingMetadata,
+} from '../lib/widgetRecordingCommit';
+import {
+  buildInboxClassifyBlob,
+  classifyInboxDocument,
+  applyInkastConfidenceGate,
+} from '../lib/inboxClassifier';
+import { routeInboxToWorm } from '../lib/inboxPersist';
+import { revokeVaultSession, readVaultSessionToken, assertVaultSession } from '../lib/vaultSessionGate';
 import {
   claimBarnportenPairingForUser,
   createBarnportenPairingForUser,
 } from '../lib/barnportenPairing';
-import { assertVaultSession } from '../lib/vaultSessionGate';
 import { supervisor, trimSpeglingsMirror } from './shared';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import { resolveCoachToneForUser } from '../lib/adaptationCoachTone';
@@ -644,25 +654,117 @@ export const mabraCoach = onCall(
 export const ingestWidgetRecording = onCall(
   { region: 'europe-west1', secrets: ['GEMINI_API_KEY'] },
   async (request) => {
-    await guardSensitiveCallableV2(request, 'ingestWidgetRecording', 20);
+    const uid = await guardSensitiveCallableV2(request, 'ingestWidgetRecording', 20);
+
+    const commit = request.data?.commit === true;
+
+    if (!commit) {
+      const transcript = typeof request.data.transcript === 'string' ? request.data.transcript : '';
+      const recordedAt =
+        typeof request.data.recordedAt === 'string' ? request.data.recordedAt : new Date().toISOString();
+      const durationSeconds =
+        typeof request.data.durationSeconds === 'number' ? request.data.durationSeconds : undefined;
+
+      if (transcript.length > 12000) {
+        throw new HttpsError('invalid-argument', 'Transkript max 12000 tecken.');
+      }
+
+      const analysis = await analyzeWidgetRecording(
+        transcript,
+        recordedAt,
+        durationSeconds,
+        process.env.GEMINI_API_KEY,
+      );
+      return analysis;
+    }
 
     const transcript = typeof request.data.transcript === 'string' ? request.data.transcript : '';
     const recordedAt =
       typeof request.data.recordedAt === 'string' ? request.data.recordedAt : new Date().toISOString();
     const durationSeconds =
       typeof request.data.durationSeconds === 'number' ? request.data.durationSeconds : undefined;
+    const evidenceUrl =
+      typeof request.data.evidenceUrl === 'string' ? request.data.evidenceUrl.trim() : '';
+    const sourceRef = typeof request.data.sourceRef === 'string' ? request.data.sourceRef.trim() : '';
+    const storagePath =
+      typeof request.data.storagePath === 'string' ? request.data.storagePath.trim() : '';
 
+    if (!evidenceUrl || !sourceRef) {
+      throw new HttpsError('invalid-argument', 'evidenceUrl och sourceRef krävs vid commit.');
+    }
     if (transcript.length > 12000) {
       throw new HttpsError('invalid-argument', 'Transkript max 12000 tecken.');
     }
 
-    const analysis = await analyzeWidgetRecording(
+    const rawAnalysis = request.data.analysis as Record<string, unknown> | undefined;
+    const title = typeof rawAnalysis?.title === 'string' ? rawAnalysis.title.trim() : '';
+    const summary = typeof rawAnalysis?.summary === 'string' ? rawAnalysis.summary.trim() : '';
+    if (!title || !summary) {
+      throw new HttpsError('invalid-argument', 'analysis.title och analysis.summary krävs vid commit.');
+    }
+    const analysis = {
+      title: title.slice(0, 120),
+      summary: summary.slice(0, 4000),
+      category: 'tyst_inspelning',
+    };
+
+    const rawMeta = request.data.metadata as Record<string, unknown> | undefined;
+    const metadata: WidgetRecordingMetadata = {
+      vem: typeof rawMeta?.vem === 'string' ? rawMeta.vem : '',
+      vad: typeof rawMeta?.vad === 'string' ? rawMeta.vad : '',
+      varfor: typeof rawMeta?.varfor === 'string' ? rawMeta.varfor : '',
+    };
+
+    let hasVaultSession = false;
+    if (readVaultSessionToken(request.data)) {
+      await assertVaultSession(uid, request.data);
+      hasVaultSession = true;
+    }
+
+    const analysisText = buildWidgetVaultTruth({
+      analysis,
       transcript,
-      recordedAt,
+      recordedAtIso: recordedAt,
+      evidenceUrl,
       durationSeconds,
+      metadata,
+    });
+
+    const classifyBlob = buildInboxClassifyBlob(analysisText, 'widget_recording');
+    const rawClassification = await classifyInboxDocument(
+      classifyBlob,
+      'widget_recording.webm',
       process.env.GEMINI_API_KEY,
     );
-    return analysis;
+    const gated = applyInkastConfidenceGate(rawClassification);
+    const classification = blockWidgetKunskapRouting(gated);
+
+    const fileId = storagePath || sourceRef.replace(/^storage:/, 'widget_');
+    const routeResult = await routeInboxToWorm({
+      ownerId: uid,
+      fileId: fileId.slice(0, 120),
+      fileName: `${analysis.title.slice(0, 80)}.webm`,
+      mimeType: 'audio/webm',
+      classification,
+      analysisText,
+      evidenceUrl,
+      hasVaultSession,
+      isVerified: true,
+      allowBarnenAutoPersist: false,
+      sourceRef,
+      vaultAction: `widget_inspelning: ${analysis.title.slice(0, 80)}`,
+      vaultCategory: 'tyst_inspelning',
+      truthOverride: analysisText,
+    });
+
+    return {
+      ...analysis,
+      classification,
+      action: routeResult.action,
+      collection: routeResult.collection,
+      docId: routeResult.docId,
+      queueId: routeResult.queueId,
+    };
   }
 );
 

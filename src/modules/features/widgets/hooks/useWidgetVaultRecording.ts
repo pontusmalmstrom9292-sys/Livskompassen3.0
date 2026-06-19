@@ -17,6 +17,7 @@ export function useWidgetVaultRecording(userId: string | undefined) {
     title: string;
     summary: string;
     vaultId: string;
+    queued?: boolean;
   } | null>(null);
   const [prepared, setPrepared] = useState<PreparedWidgetRecording | null>(null);
   const transcriptParts = useRef<string[]>([]);
@@ -93,11 +94,12 @@ export function useWidgetVaultRecording(userId: string | undefined) {
       setPhase('processing');
       setError(null);
       try {
-        const vaultId = await lockWidgetRecordingToVault(userId, prepared, metadata);
+        const lockResult = await lockWidgetRecordingToVault(userId, prepared, metadata);
         setResult({
-          title: prepared.analysis.title,
-          summary: prepared.analysis.summary,
-          vaultId,
+          title: lockResult.title,
+          summary: lockResult.summary,
+          vaultId: lockResult.vaultId ?? lockResult.docId ?? lockResult.queueId ?? '',
+          queued: lockResult.action === 'queued',
         });
         setPrepared(null);
         setPhase('done');

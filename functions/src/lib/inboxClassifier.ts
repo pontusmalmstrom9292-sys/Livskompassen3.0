@@ -164,6 +164,41 @@ export function heuristicInboxClassify(
   }
 
   if (
+    /\[sourcemodule:widget_recording\]/i.test(blob) ||
+    /sourcemodule:widget_recording/i.test(blob)
+  ) {
+    const childAlias = /\barvid\b/.test(blob)
+      ? 'Arvid'
+      : /\bkasper\b/.test(blob)
+        ? 'Kasper'
+        : undefined;
+    if (
+      childAlias &&
+      /\b(sov|skola|ångest|beteende|observation|känsla|mår)\b/.test(blob)
+    ) {
+      return {
+        routing: 'barnen',
+        tags: ['barn', 'widget'],
+        category: 'barn',
+        confidence: 0.87,
+        summary: 'Barnobservation via widget-inspelning.',
+        traumaSensitive: false,
+        childAlias,
+        rationale: 'Heuristisk match: widget_recording barnsignal → children_logs.',
+      };
+    }
+    return {
+      routing: 'bevis',
+      tags: ['widget', 'inspelning'],
+      category: 'tyst_inspelning',
+      confidence: 0.9,
+      summary: 'Widget-inspelning → bevis (WH1 default).',
+      traumaSensitive: false,
+      rationale: 'Heuristisk match: sourceModule widget_recording → reality_vault.',
+    };
+  }
+
+  if (
     /\[sourcemodule:(familjen|barnen|barnfokus)\]/i.test(blob) ||
     (/sourcemodule:/i.test(blob) && /\b(barnfokus|livslogg|barnporten)\b/.test(blob))
   ) {
@@ -192,6 +227,29 @@ export function heuristicInboxClassify(
       summary: 'Kommunikationslogg / bevismaterial.',
       traumaSensitive: false,
       rationale: 'Heuristisk match: kommunikation → reality_vault.',
+    };
+  }
+
+  /** Domän-prior ~80%: HCF/covert-bevis före generisk kunskap-keywords (ingest våg 2b). */
+  const covertHcfSignal =
+    /\b(darvo|gaslight|triangul|projektion|invalidation|tyst straff|covert|offerroll|biff|grey rock|moving goalpost)\b/.test(
+      blob,
+    ) ||
+    (/\b(motpart|ex|barnens mor|isabelle)\b/.test(blob) &&
+      /\b(sms|mejl|sa|skrev|hände|bevis|mönster|teori|logg)\b/.test(blob));
+
+  if (
+    covertHcfSignal &&
+    !/\bsourcemodule:(hem_|mabra_|planering_)/i.test(blob)
+  ) {
+    return {
+      routing: 'bevis',
+      tags: ['covert_taktik', 'hcf', 'bevis'],
+      category: 'covert_hcf',
+      confidence: 0.78,
+      summary: 'HCF/covert — bevis eller teori (domän-prior).',
+      traumaSensitive: false,
+      rationale: 'Heuristisk match: domän-prior ~80% → reality_vault.',
     };
   }
 
@@ -247,29 +305,6 @@ export function heuristicInboxClassify(
       traumaSensitive: false,
       childAlias: 'Arvid',
       rationale: 'Heuristisk match: barnobservation.',
-    };
-  }
-
-  /** Domän-prior ~80%: HCF/covert-bevis eller teori utan explicit hem/måbra-källa. */
-  const covertHcfSignal =
-    /\b(darvo|gaslight|triangul|projektion|invalidation|tyst straff|covert|offerroll|biff|grey rock|moving goalpost)\b/.test(
-      blob,
-    ) ||
-    (/\b(motpart|ex|barnens mor|isabelle)\b/.test(blob) &&
-      /\b(sms|mejl|sa|skrev|hände|bevis|mönster|teori|logg)\b/.test(blob));
-
-  if (
-    covertHcfSignal &&
-    !/\bsourcemodule:(hem_|mabra_|planering_)/i.test(blob)
-  ) {
-    return {
-      routing: 'bevis',
-      tags: ['covert_taktik', 'hcf', 'bevis'],
-      category: 'covert_hcf',
-      confidence: 0.78,
-      summary: 'HCF/covert — bevis eller teori (domän-prior).',
-      traumaSensitive: false,
-      rationale: 'Heuristisk match: domän-prior ~80% → reality_vault.',
     };
   }
 
