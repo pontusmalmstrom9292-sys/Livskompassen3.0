@@ -2,10 +2,34 @@
 
 **Mac (kanonisk mapp):** `~/StudioProjects/Livskompassen3.0` — öppna **bara den** i Cursor.  
 **Repo:** [Livskompassen3.0](https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0)  
-**Trigger:** endast `push` till grenen **`main`** (inte andra grenar).  
-**Effekt:** bygger SPA och deployar till https://gen-lang-client-0481875058.web.app
+**Trigger (prod):** `push` till **`main`** → deploy.  
+**Trigger (PR):** `pull_request` mot **`main`** → quality gate only (ingen deploy).  
+**Effekt (main):** bygger SPA och deployar till https://gen-lang-client-0481875058.web.app
 
-Workflow: [`.github/workflows/firebase-hosting-main.yml`](../.github/workflows/firebase-hosting-main.yml)
+| Workflow | Fil |
+|----------|-----|
+| Deploy (main) | [`.github/workflows/firebase-hosting-main.yml`](../.github/workflows/firebase-hosting-main.yml) |
+| Quality gate (PR) | [`.github/workflows/firebase-hosting-pr.yml`](../.github/workflows/firebase-hosting-pr.yml) |
+
+---
+
+## PR quality gate (våg 3)
+
+Körs vid **pull request** mot `main` och via **workflow_dispatch** (Actions-fliken).
+
+**Steg:** `functions` build → `npm run smoke:predeploy` → `typecheck:core-strict` → `npm run build`.
+
+**Deploy sker inte** — ingen GCP-auth, ingen `firebase deploy`, ingen preview channel.
+
+| Krav | Detalj |
+|------|--------|
+| Secrets | Samma `VITE_FIREBASE_*` + `VITE_APP_CHECK_RECAPTCHA_SITE_KEY` som main-deploy |
+| AUTH-G1 | Lägg **aldrig** `VITE_GOOGLE_SIGNIN_REDIRECT` i CI |
+| Fork-PR | Externa forks får inte repo-secrets — förväntat |
+
+**Valfritt (GitHub UI):** Settings → Branches → branch protection på `main` → require status check **Quality gate (PR)**.
+
+**Manuell körning:** Actions → **Quality gate (PR)** → Run workflow.
 
 ---
 

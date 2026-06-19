@@ -77,7 +77,7 @@ Fullständig batch-lista: [`docs/inbox/forbattringstips/README.md`](../inbox/for
 |-----|--------|-----|
 | **1** | **DONE (docs)** | Evaluation + TIPS-GAP-MATRIX + inbox ANALYSERAD |
 | **2** | **DONE (prod)** | Offline-kö + andnings-feedback · commit `3bf15945f` · hosting deploy |
-| 3 | Väntar OK | CI PR-trigger smoke:predeploy · ev. preview channel |
+| **3** | **DONE (PR gate)** | [`firebase-hosting-pr.yml`](../.github/workflows/firebase-hosting-pr.yml) · smoke + build · ingen deploy · preview PMIR |
 
 ---
 
@@ -102,4 +102,4 @@ Fullständig batch-lista: [`docs/inbox/forbattringstips/README.md`](../inbox/for
 
 ## Nästa steg
 
-Tips-matris stängd för T19/T28. Nästa valfria spår: **våg 3 CI** eller **Fas 22.2 PMIR** (se [`TIPS-GAP-MATRIX.md`](../governance/TIPS-GAP-MATRIX.md)).
+Tips-spår våg 1–3 stängt. Nästa valfria spår: **Fas 22.2 PMIR** (se [`TIPS-GAP-MATRIX.md`](../governance/TIPS-GAP-MATRIX.md)).
