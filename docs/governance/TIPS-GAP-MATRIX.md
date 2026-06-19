@@ -1,8 +1,10 @@
 # Tips-gap-matris — externa råd vs Livskompassen
 
-**Version:** 2026-06-19  
+**Version:** 2026-06-19 (våg 1 analys)  
 **Syfte:** Jämför tips från extern planeringschatt mot faktisk implementation i repo.  
 **Kanon:** [`GUARD-REGLERBOK.md`](GUARD-REGLERBOK.md) · [`.cursor/rules/projectGuard.mdc`](../../.cursor/rules/projectGuard.mdc)
+
+**Strategisk analys (batch 01–11):** [`2026-06-19-forbattringstips-analys.md`](../evaluations/2026-06-19-forbattringstips-analys.md) · inbox [`docs/inbox/forbattringstips/`](../inbox/forbattringstips/)
 
 Uppdatera efter strategisk Plan-session: [`STRATEGIC-PLAN-MASTER-SUPERPROMPT.md`](../prompts/STRATEGIC-PLAN-MASTER-SUPERPROMPT.md).
 
@@ -53,6 +55,28 @@ Uppdatera efter strategisk Plan-session: [`STRATEGIC-PLAN-MASTER-SUPERPROMPT.md`
 | GAP | Rekommendation |
 |-----|----------------|
 | Pre-commit hook | **DEFER** — PMIR om Pontus vill `.husky/pre-commit` med `smoke:guard` vid prompt/rule-ändring |
+
+---
+
+## Inbox batch 01–11 (2026-06-19)
+
+Källa: extern planeringschatt → [`docs/inbox/forbattringstips/`](../inbox/forbattringstips/). Full klassificering: [`2026-06-19-forbattringstips-analys.md`](../evaluations/2026-06-19-forbattringstips-analys.md).
+
+| Tema | Klass | Anteckning |
+|------|-------|------------|
+| Smart Inkast + submitInkastLite + DCAP | **KEEP** | G10 done · inboxClassifier live |
+| ChameleonInputShell + SuperModule | **KEEP** | `ChameleonInputShell.tsx` · smoke:superhub |
+| Zustand state | **KEEP** | package.json |
+| WORM evolution_ledger | **KEEP** | firestore.rules |
+| Fristående UploadText / Joyride / supermodules-path | **DEFER** | Annan prod-struktur |
+| CI Jest/Cypress/Snyk · staging/canary | **DEFER** | Prod: smoke:predeploy i GH Actions |
+| IndexedDB/Workbox offline-kö | **PARTIAL** | workbox deps · våg 2 kandidat |
+| Andnings-feedback vid upload | **KEEP** (princip) | våg 2 UX |
+| Local Vault · hash chain · stealth exit · Dead Man's Switch | **PMIR** | batch 04 |
+| RBAC hasRole rules · cross-RAG · gamification · Gmail · self-healing · projektions-profil | **REJECT** | U1/U6 · batch 04 |
+
+**YOLO 2026-06-19:** smoke:predeploy PASS · merge NO-GO (dirty tree).
+
 
 ---
 
