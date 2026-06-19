@@ -9,6 +9,17 @@
 | **B3** Hjärtat | Dagbok/Speglar primär; tips/evidence i fold | locked-ux **PASS** |
 | **B4** Vardagen | P3 Kanban primär; Fler verktyg fold | locked-ux + design-modules **PASS** |
 
+| Fält | Värde |
+|------|-------|
+| Branch | `main` (post-merge B1–B4) |
+| `npm run build` | **PASS** |
+| `functions` build | **PASS** |
+| `smoke:predeploy` | **PASS** (tier1 + valv-security + plausible-deniability + locked-icons + barn-epistemik + epistemic-guard + dcap-routing + e2e-locked-ux) |
+| `smoke:mabra` | static guards **PASS** · live callable/Firestore **SKIP** (saknar `.env` i CI) |
+| `smoke:content-mabra-static` | **PASS** |
+| `smoke:valv-security` | **PASS** |
+| Overall gate | **GO** |
+
 PMIR: `pmir-mabra-b1`, `pmir-familjen-b2`, `pmir-hjartat-b3`, `pmir-vardagen-b4`
 
 ---
