@@ -1,5 +1,6 @@
 import { Droplets, Info } from 'lucide-react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { patchNutritionPrefs, readNutritionPrefs } from '../../mabra/lib/mabraNutritionPrefs';
 import type { NutritionPrefs } from '../../mabra/lib/mabraNutritionIntakeTypes';
@@ -67,6 +68,12 @@ export function NutritionSettingsPanel({ uid }: Props) {
         <p className="mt-2 text-xs text-text-dim">
           Öppna via Vardagen → MåBra → Näring & vätska.
         </p>
+        <Link
+          to="/mabra/verktyg/nutrition"
+          className="btn-pill--secondary mt-3 inline-flex w-full justify-center text-sm"
+        >
+          Öppna snabb logg
+        </Link>
       </BentoCard>
 
       <BentoCard title="Grundläggande">
@@ -115,8 +122,7 @@ export function NutritionSettingsPanel({ uid }: Props) {
         </ul>
         {prefs.macroTracking ? (
           <p className="mt-3 rounded-xl border border-border bg-surface-2/60 px-3 py-2 text-xs text-text-dim">
-            Makron och våg är aktiverat i inställningar men UI kommer i nästa våg (Fas 22.3+). Du
-            kan redan logga fritt i snabb logg.
+            Portionsguide visas i MåBra. Full makro- och våglogg kommer i nästa våg.
           </p>
         ) : null}
       </BentoCard>

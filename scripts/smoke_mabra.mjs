@@ -99,6 +99,11 @@ async function main() {
   assert(quickLog.includes('appendNutritionEntry'), 'quick log saknar append');
   assert(nudges.includes('computeNutritionNudges'), 'nudges saknar compute');
   assert(nutritionSpec.includes('LÅST UX'), 'NARING-INTAG-SPEC saknar lås');
+  const rhythm = readFileSync(
+    resolve(root, 'src/modules/features/dailyLife/wellbeing/mabra/lib/mabraNutritionRhythmAnalysis.ts'),
+    'utf8',
+  );
+  assert(rhythm.includes('computeNutritionRhythmInsights'), 'rhythm analysis saknas');
   console.log('[smoke] M3.0-C+ diskret näringsintag static guards OK');
   console.log('[smoke] M3.0-C Phase 2 nutrition static guards OK');
 

@@ -21,6 +21,8 @@ import { useMabra30Capacity } from '../lib/mabra30Capacity';
 import { MabraNutritionCoachPanel } from './MabraNutritionCoachPanel';
 import { MabraNutritionQuickLog } from './MabraNutritionQuickLog';
 import { MabraNutritionTrendPanel } from './MabraNutritionTrendPanel';
+import { MabraNutritionRhythmPanel, MabraNutritionTodayList } from './MabraNutritionRhythmPanel';
+import { MabraNutritionMacroStub } from './MabraNutritionMacroStub';
 
 const PREP_ITEMS = [
   'Koka ägg eller lägg fram kvarg',
@@ -160,6 +162,8 @@ export function MabraNutritionPanel({ uid }: Props) {
         onLogged={() => setIntakeVersion((v) => v + 1)}
       />
 
+      <MabraNutritionTodayList storageUid={storageUid} refreshKey={intakeVersion} />
+
       {loading ? (
         <p className="mt-4 text-sm text-text-dim">Laddar dagens notering…</p>
       ) : (
@@ -247,11 +251,9 @@ export function MabraNutritionPanel({ uid }: Props) {
 
       {prefs.trendView ? <MabraNutritionTrendPanel storageUid={storageUid} /> : null}
 
-      {prefs.detailedAnalysis ? (
-        <p className="mt-3 rounded-xl border border-border bg-surface-2/40 px-3 py-2 text-xs text-text-dim">
-          Djupare analys (måltidsrytm) kommer i nästa våg. Veckoöversikt visas ovan när trend är på.
-        </p>
-      ) : null}
+      {prefs.detailedAnalysis ? <MabraNutritionRhythmPanel storageUid={storageUid} /> : null}
+
+      {prefs.macroTracking ? <MabraNutritionMacroStub /> : null}
 
       {saveError ? <p className="mt-2 text-xs text-text-dim">{saveError}</p> : null}
       <p className="mt-4 text-xs text-text-dim">

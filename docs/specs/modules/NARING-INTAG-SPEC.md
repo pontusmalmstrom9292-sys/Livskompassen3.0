@@ -29,7 +29,8 @@ Diskret loggning av mat och dryck för mönster över tid — **utan kaloriräkn
 |-----|------|
 | `mabra/components/MabraNutritionPanel.tsx` | Huvudvy |
 | `mabra/components/MabraNutritionQuickLog.tsx` | Snabb logg |
-| `mabra/components/MabraNutritionTrendPanel.tsx` | 7-dagars trend (opt-in) |
+| `mabra/components/MabraNutritionRhythmPanel.tsx` | Måltidsrytm (opt-in) |
+| `mabra/components/MabraNutritionMacroStub.tsx` | Portionsguide (opt-in) |
 | `naring/components/NutritionSettingsPanel.tsx` | Inställningar |
 | `mabra/lib/mabraNutritionIntakeStorage.ts` | Lokal lagring |
 | `mabra/lib/mabraNutritionPrefs.ts` | Feature-prefs |
@@ -44,8 +45,8 @@ Diskret loggning av mat och dryck för mönster över tid — **utan kaloriräkn
 | `gentleNudges` | `true` | Mjuka påminnelser i panelen |
 | `mealReminders` | `true` | "Har du ätit?" efter kl 14 |
 | `trendView` | `false` | 7-dagars översikt |
-| `detailedAnalysis` | `false` | Måltidsrytm / mönster |
-| `macroTracking` | `false` | Makron, våg, diet (stub tills PMIR) |
+| `detailedAnalysis` | `false` | Måltidsrytm och enkla mönster |
+| `macroTracking` | `false` | Portionsguide (stub); full makron/våg i nästa våg |
 
 ---
 
