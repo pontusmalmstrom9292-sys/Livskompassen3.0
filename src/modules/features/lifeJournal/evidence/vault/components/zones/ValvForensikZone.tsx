@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { TabBar } from '@/core/ui/TabBar';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { getForensicVaultTabBarItems } from '@/core/navigation/tabRegistry';
 import { VaultForensicPanel } from '../VaultForensicPanel';
 import type { ForensicVaultTab } from '../../utils/vaultTabs';
@@ -16,7 +17,11 @@ export function ValvForensikZone({ tab, onTabChange }: ValvForensikZoneProps) {
   const visibleTabs = showAllTabs ? allTabs : allTabs.filter((t) => t.id === tab);
 
   return (
-    <>
+    <HubErrorBoundary
+      title="Forensik kunde inte laddas"
+      glow="blue"
+      logTag="ValvForensikZone"
+    >
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <TabBar
           size="compact"
@@ -43,6 +48,6 @@ export function ValvForensikZone({ tab, onTabChange }: ValvForensikZoneProps) {
         )}
       </div>
       <VaultForensicPanel tab={tab} />
-    </>
+    </HubErrorBoundary>
   );
 }

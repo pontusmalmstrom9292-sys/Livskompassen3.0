@@ -1,102 +1,44 @@
-# CI — Hosting vid push till `main`
+# CI & deploy — manuell gate (GitHub Actions avstängt)
 
-**Mac (kanonisk mapp):** `~/StudioProjects/Livskompassen3.0` — öppna **bara den** i Cursor.  
-**Repo:** [Livskompassen3.0](https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0)  
-**Trigger (prod):** `push` till **`main`** → deploy.  
-**Trigger (PR):** `pull_request` mot **`main`** → quality gate only (ingen deploy).  
-**Effekt (main):** bygger SPA och deployar till https://gen-lang-client-0481875058.web.app
+**Status 2026-06-19:** GitHub Actions **arkiverade** (billing). Ingen auto-deploy vid push.  
+**Arkiv:** [`docs/archive/github-actions-2026-06-19/`](archive/github-actions-2026-06-19/)  
+**Kanon:** [`docs/DEPLOY.md`](DEPLOY.md) · [`docs/YOLO-VAKT-GATE.md`](YOLO-VAKT-GATE.md)
 
-| Workflow | Fil |
-|----------|-----|
-| Deploy (main) | [`.github/workflows/firebase-hosting-main.yml`](../.github/workflows/firebase-hosting-main.yml) |
-| Quality gate (PR) | [`.github/workflows/firebase-hosting-pr.yml`](../.github/workflows/firebase-hosting-pr.yml) |
+**Mac (kanonisk mapp):** `~/StudioProjects/Livskompassen3.0`  
+**Prod-URL:** https://gen-lang-client-0481875058.web.app
 
 ---
 
-## PR quality gate (våg 3)
-
-Körs vid **pull request** mot `main` och via **workflow_dispatch** (Actions-fliken).
-
-**Steg:** `functions` build → `npm run smoke:predeploy` → `typecheck:core-strict` → `npm run build`.
-
-**Deploy sker inte** — ingen GCP-auth, ingen `firebase deploy`, ingen preview channel.
-
-| Krav | Detalj |
-|------|--------|
-| Secrets | Samma `VITE_FIREBASE_*` + `VITE_APP_CHECK_RECAPTCHA_SITE_KEY` som main-deploy |
-| AUTH-G1 | Lägg **aldrig** `VITE_GOOGLE_SIGNIN_REDIRECT` i CI |
-| Fork-PR | Externa forks får inte repo-secrets — förväntat |
-
-**Valfritt (GitHub UI):** Settings → Branches → branch protection på `main` → require status check **Quality gate (PR)**.
-
-**Manuell körning:** Actions → **Quality gate (PR)** → Run workflow.
-
----
-
-## Förutsättningar
-
-1. Du jobbar i **`Livskompassen3.0`** (inte stub-mappen `Livskompassen2.0` på disken).
-2. Workflow-filen finns på **`main`** på GitHub (mergea PR eller pusha direkt till `main`).
-3. GitHub **Secrets** är ifyllda (nedan).
-4. Lokal `.env` committas **aldrig** — samma värden som `VITE_FIREBASE_*` kopieras till Secrets.
-
----
-
-## Steg 1 — Service account (engång)
-
-1. Öppna [Google Cloud IAM](https://console.cloud.google.com/iam-admin/serviceaccounts?project=gen-lang-client-0481875058).
-2. **Create service account** — namn t.ex. `github-hosting-deploy`.
-3. Roll: **Firebase Hosting Admin** (`roles/firebasehosting.admin`).
-4. **Keys → Add key → JSON** — ladda ner filen (spara säkert, dela inte).
-5. GitHub → repo **Livskompassen3.0** → **Settings → Secrets and variables → Actions → New repository secret**:
-   - Name: `FIREBASE_SERVICE_ACCOUNT`
-   - Value: **hela** JSON-innehållet från nyckelfilen.
-
----
-
-## Steg 2 — Vite-build (engång)
-
-**Automatiskt (rekommenderat)** — från **`~/StudioProjects/Livskompassen3.0`**, med `gh` inloggat och `.env` ifylld:
+## Rutin före deploy
 
 ```bash
-brew install gh   # om saknas
-gh auth login
-./scripts/set_github_hosting_secrets.sh
-# + service account JSON (steg 1):
-./scripts/set_github_hosting_secrets.sh ~/Downloads/din-sa-nyckel.json
+cd ~/StudioProjects/Livskompassen3.0
+npm run smoke:predeploy:build
+npm run build
+firebase deploy --only hosting
 ```
 
-**Manuellt** — samma värden som i din lokala `.env` (endast Firebase Web SDK):
-
-| Secret name | Motsvarar `.env` |
-|-------------|------------------|
-| `VITE_FIREBASE_API_KEY` | `VITE_FIREBASE_API_KEY` |
-| `VITE_FIREBASE_AUTH_DOMAIN` | `VITE_FIREBASE_AUTH_DOMAIN` — **AUTH-G1:** `gen-lang-client-0481875058.firebaseapp.com` |
-| `VITE_FIREBASE_PROJECT_ID` | `VITE_FIREBASE_PROJECT_ID` |
-| `VITE_FIREBASE_STORAGE_BUCKET` | `VITE_FIREBASE_STORAGE_BUCKET` |
-| `VITE_FIREBASE_MESSAGING_SENDER_ID` | `VITE_FIREBASE_MESSAGING_SENDER_ID` |
-| `VITE_FIREBASE_APP_ID` | `VITE_FIREBASE_APP_ID` |
-
-**Lägg inte** `GEMINI_API_KEY`, `VITE_GEMINI_API_KEY`, `VITE_GOOGLE_SIGNIN_REDIRECT` eller Drive-secrets här — hosting-bygget behöver dem inte. Se [`.context/locked-auth-google.md`](../.context/locked-auth-google.md).
+Functions/rules/storage: se [`DEPLOY.md`](DEPLOY.md) — **inte** auto vid push.
 
 ---
 
-## Steg 3 — Verifiera
+## GitHub Actions (inaktivt)
 
-1. Mergea workflow till `main` och pusha (eller `workflow_dispatch` i Actions-fliken).
-2. GitHub → **Actions** → **Deploy Hosting (main)** → grön bock.
-3. Öppna på telefon: https://gen-lang-client-0481875058.web.app (ev. hård refresh / rensa PWA-cache om du testat tidigare).
+Tidigare workflows (hosting deploy, PR gate, Android distribution, sacred backup) ligger i arkiv.  
+**Valfritt:** GitHub → repo **Settings → Actions → Disable actions** (slipper billing helt).
+
+Secrets (`VITE_FIREBASE_*`, `FIREBASE_SERVICE_ACCOUNT`) behövs **inte** för lokal deploy om `.env` finns.
 
 ---
 
-## Vad som *inte* deployas automatiskt
+## Android (Capacitor)
 
-| Del | Deploy |
-|-----|--------|
-| Hosting (SPA) | Ja, vid push till `main` |
-| Cloud Functions | Nej — fortfarande `firebase deploy --only functions:...` lokalt ([`DEPLOY.md`](./DEPLOY.md)) |
-| Firestore rules | Nej |
-| Feature-grenar | Nej — bara `main` |
+| Vad | Uppdateras |
+|-----|------------|
+| Webb + PWA | `firebase deploy --only hosting` |
+| Native APK-innehåll | `npm run cap:sync:prod` + Android Studio Run |
+
+Se [`android/README.md`](../android/README.md) · [`INSTALL-CHECKLIST.md`](INSTALL-CHECKLIST.md).
 
 ---
 
@@ -104,31 +46,14 @@ gh auth login
 
 | Symptom | Åtgärd |
 |---------|--------|
-| Action körs inte | Push måste gå till **`main`**; workflow måste finnas på `main`. |
-| Build fail — `YOUR_API_KEY` i app | Saknade `VITE_FIREBASE_*` secrets. |
-| Deploy permission denied | SA saknar `Firebase Hosting Admin`. |
-| App oförändrad på telefon | PWA-cache — öppna i privat flik eller rensa webbplatsdata. |
-| Android Studio: `Could not read script …cordova.variables.gradle` | Kör `npm run cap:sync:prod` i repo-root → Android Studio **Sync Project with Gradle Files**. |
+| Deploy fail lokalt | Kör `npm run smoke:predeploy:build` — fixa FAIL först |
+| App oförändrad på telefon | Hard refresh / rensa PWA-cache |
+| Vill ha CI igen | Fixa billing → flytta YAML från arkiv → enable Actions |
 
 ---
 
-## Android (Capacitor) — UI från Hosting
+## Historik (arkiverad auto-CI)
 
-| Vad | Uppdateras vid push till `main`? |
-|-----|----------------------------------|
-| Webb + surfplatta (PWA) | Ja (Hosting CI) |
-| Motorola **innehåll** (React) med prod-APK | Ja — om APK byggts med `cap:sync:prod` |
-| Native widgets (WH1–WH4) | Nej — ny APK vid ändring i `android/.../widgets/` |
-
-**Engång efter kodändring:**
-
-```bash
-npm run cap:sync:prod
-npm run android:open   # Android Studio → Run (USB)
-```
-
-`cap:sync:prod` sätter `CAPACITOR_SERVER_URL=https://gen-lang-client-0481875058.web.app` så WebView laddar live UI. Lokalt dev: `npm run cap:sync` (bundlad `dist/`).
-
-**JSON-nyckel:** lägg i `~/Downloads/` eller `~/Livskompassen-secrets/` — **inte** i repo. Se [`android/README.md`](../android/README.md).
-
-**Install-checklista (du):** [`INSTALL-CHECKLIST.md`](./INSTALL-CHECKLIST.md) · valfri APK-CI: [`CI-ANDROID-DISTRIBUTION.md`](./CI-ANDROID-DISTRIBUTION.md)
+Auto-deploy via `.github/workflows/firebase-hosting-main.yml` pausad 2026-06-19.  
+PR quality gate (våg 3) implementerad men ej körd i molnet p.g.a. billing.  
+Setup-secrets: [`scripts/set_github_hosting_secrets.sh`](../scripts/set_github_hosting_secrets.sh) (vid återaktivering).

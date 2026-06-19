@@ -70,14 +70,14 @@ Källa: extern planeringschatt → [`docs/inbox/forbattringstips/`](../inbox/for
 | Zustand state | **KEEP** | package.json |
 | WORM evolution_ledger | **KEEP** | firestore.rules |
 | Fristående UploadText / Joyride / supermodules-path | **DEFER** | Annan prod-struktur |
-| CI PR quality gate (smoke + build) | **DONE** | [`firebase-hosting-pr.yml`](../../.github/workflows/firebase-hosting-pr.yml) · våg 3 2026-06-19 |
+| CI PR quality gate (smoke + build) | **ARCHIVED** | YAML i [`github-actions-2026-06-19`](../../docs/archive/github-actions-2026-06-19/) · manuell gate aktiv |
 | CI Jest/Cypress/Snyk · staging/canary | **DEFER** | Prod: smoke:predeploy i GH Actions · ingen Snyk/Jest |
 | T19 · IndexedDB offline-kö (capture) | **DONE** | `3bf15945f` · [`captureDraftSync.ts`](../../src/modules/capture/captureDraftSync.ts) · [`useCaptureOfflineFlush.ts`](../../src/modules/capture/hooks/useCaptureOfflineFlush.ts) · `draftQueue` · PWA Workbox precache separat |
 | T28 · Andnings-feedback vid upload | **DONE** | `3bf15945f` · [`CalmBreathingCircle.tsx`](../../src/modules/capture/components/CalmBreathingCircle.tsx) · `smoke:inkast-upload` |
 | Local Vault · hash chain · stealth exit · Dead Man's Switch | **PMIR** | batch 04 |
 | RBAC hasRole rules · cross-RAG · gamification · Gmail · self-healing · projektions-profil | **REJECT** | U1/U6 · batch 04 |
 
-**Tips-spår status:** våg 1–3 **DONE** (PR quality gate) · Jest/Cypress/Snyk **DEFER** · preview channel **PMIR**.
+**Tips-spår status:** våg 1–3 kod/docs **DONE** · GitHub Actions **ARKIVERAD** 2026-06-19 (billing) · manuell `smoke:predeploy:build` · preview **PMIR**.
 
 **YOLO 2026-06-19:** våg 2 `3bf15945f` på `origin/main` · hosting deploy PASS · orelaterad dirty tree (exports/system_sync) kvar lokalt.
 

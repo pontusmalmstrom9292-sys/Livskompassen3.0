@@ -3,6 +3,7 @@ export { NeuroNutritionHub } from './NeuroNutritionHub';
 export { AlertBanner } from './AlertBanner';
 export { BentoCard } from './BentoCard';
 export { EmptyState } from './EmptyState';
+export { HubPanelSkeleton } from './HubPanelSkeleton';
 export { MetricTile } from './MetricTile';
 export { SaldoHero } from './SaldoHero';
 export { StatusBadge } from './StatusBadge';

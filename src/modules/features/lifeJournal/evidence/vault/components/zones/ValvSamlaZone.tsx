@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { TabBar } from '@/core/ui/TabBar';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { getSamlaVaultTabBarItems } from '@/core/navigation/tabRegistry';
 import { useVaultStore } from '@/core/store/useVaultStore';
 import { ValvChatPanel } from '@/features/lifeJournal/evidence/vaultChat';
@@ -35,7 +36,11 @@ export function ValvSamlaZone({
   const { techniquesByLogId } = usePatternScanMetadata(userId);
 
   return (
-    <>
+    <HubErrorBoundary
+      title="Samla kunde inte laddas"
+      glow="blue"
+      logTag="ValvSamlaZone"
+    >
       <div className="mb-3">
         <TabBar
           size="compact"
@@ -62,7 +67,7 @@ export function ValvSamlaZone({
             <button
               type="button"
               onClick={() => setAnchorsOnly((v) => !v)}
-              className={`btn-pill--ghost text-xs ${anchorsOnly ? 'text-gold' : ''}`}
+              className={`btn-pill--ghost text-xs ${anchorsOnly ? 'text-accent' : ''}`}
               aria-pressed={anchorsOnly}
             >
               {anchorsOnly ? 'Visa alla bevis' : 'Endast ankare'}
@@ -78,6 +83,6 @@ export function ValvSamlaZone({
           />
         </>
       )}
-    </>
+    </HubErrorBoundary>
   );
 }
