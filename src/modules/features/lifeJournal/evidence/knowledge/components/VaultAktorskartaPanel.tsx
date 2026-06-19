@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Users } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { useStore } from '@/core/store';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { EntityAddForm } from '../../kompis/components/EntityAddForm';
@@ -49,6 +51,7 @@ export function VaultAktorskartaPanel() {
         title={VAULT_MAIN_TAB_LABELS.aktorskarta}
         description={`${VALV_KUNSKAP_DRAWER_LEAF.aktorskarta} · anti-hallucination (G9)`}
         icon={<Users className="h-4 w-4 text-accent" />}
+        glow="blue"
       >
         <p className="mb-4 text-sm text-text-muted">
           Personregister för assistenter — inte bevis. Nya personer läggs till här och minns av
@@ -62,8 +65,21 @@ export function VaultAktorskartaPanel() {
           Till Kunskapsbank
         </Link>
 
-        {loading && <p className="text-sm text-text-muted">Laddar aktörskarta…</p>}
-        {error && <p className="text-sm text-amber-400/90">{error}</p>}
+        {loading && <HubPanelSkeleton label="Laddar aktörskarta…" lines={3} />}
+        {error && (
+          <EmptyState
+            message={error}
+            action={
+              <button type="button" onClick={() => void load()} className="btn-pill--secondary text-xs">
+                Försök igen
+              </button>
+            }
+          />
+        )}
+
+        {!loading && !error && profiles.length === 0 && (
+          <EmptyState message="Inga personer registrerade ännu. Lägg till nedan — append-only för agenter." />
+        )}
 
         {!loading && !error && profiles.length > 0 && (
           <div className="space-y-4">
@@ -85,7 +101,7 @@ export function VaultAktorskartaPanel() {
         )}
       </BentoCard>
 
-      <BentoCard title="Lägg till person" description="Append-only — sparas permanent för agenter">
+      <BentoCard title="Lägg till person" description="Append-only — sparas permanent för agenter" glow="blue">
         <EntityAddForm onSaved={load} />
       </BentoCard>
     </div>
