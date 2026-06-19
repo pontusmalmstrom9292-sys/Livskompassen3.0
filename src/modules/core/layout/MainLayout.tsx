@@ -25,6 +25,7 @@ import { getTheme } from '../theme/themeRegistry';
 import { isMockupTheme } from '../theme/mockupTheme';
 import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
 import { useCapacityScore } from '../store/useCapacityGate';
+import { SosMainTrigger } from '@/modules/features/sos/components/SosMainTrigger';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -63,15 +64,12 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           <AppHeaderBar
             menuExpanded={isMenuOpen}
             onMenuClick={() => setMenuOpen(true)}
+            headerQuickToggle={<FyrenHeaderQuickToggle />}
             actions={
               slimHeaderChrome ? (
-                <>
-                  <FyrenHeaderQuickToggle />
-                  <KompisHeaderVaultButton kompisAuraActive={kompisAuraActive} />
-                </>
+                <KompisHeaderVaultButton kompisAuraActive={kompisAuraActive} />
               ) : (
                 <>
-                  <FyrenHeaderQuickToggle />
                   <AccountAuthMenu
                     open={accountOpen}
                     onOpenChange={setAccountOpen}
@@ -99,6 +97,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           barnportenChildShell && 'pb-16',
         )}
       >
+        <SosMainTrigger />
         {children}
       </main>
 

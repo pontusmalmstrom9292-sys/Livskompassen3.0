@@ -7,10 +7,16 @@ type Props = {
   menuExpanded: boolean;
   onMenuClick: () => void;
   actions: ReactNode;
+  headerQuickToggle?: ReactNode;
 };
 
 /** Mockup-header — symmetrisk 3-kolumns layout, centrerad titel. */
-export function DesignPackCenterHeader({ menuExpanded, onMenuClick, actions }: Props) {
+export function DesignPackCenterHeader({
+  menuExpanded,
+  onMenuClick,
+  actions,
+  headerQuickToggle,
+}: Props) {
   const { pathname } = useLocation();
   const title = useDesignPackCenterTitle(pathname) ?? 'LIVSKOMPASSEN';
 
@@ -39,6 +45,7 @@ export function DesignPackCenterHeader({ menuExpanded, onMenuClick, actions }: P
 
       <div className="design-pack-header__side design-pack-header__side--right">
         <div className="design-pack-header__actions">{actions}</div>
+        {headerQuickToggle}
       </div>
     </header>
   );

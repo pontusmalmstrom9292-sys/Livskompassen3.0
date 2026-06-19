@@ -8,7 +8,7 @@ import {
 } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
-import { Filter, Lock, Shield, Wind, Zap } from 'lucide-react';
+import { ChevronDown, Filter, Lock, Shield, Wind, Zap } from 'lucide-react';
 import { hasVaultGate } from '../auth/sessionService';
 import { NAV_PATHS } from '../navigation/navTruth';
 import { useStore } from '../store';
@@ -79,7 +79,7 @@ function QuickActionIcon({ kind }: { kind: QuickAction['icon'] }) {
   return <Shield className={shell} strokeWidth={1.75} aria-hidden />;
 }
 
-function FyrenQuickBreathingStrip({
+function FyrenQuickBreathingRow({
   active,
   onActiveChange,
 }: {
@@ -88,10 +88,22 @@ function FyrenQuickBreathingStrip({
 }) {
   const exercise = getBreathingExercise(DEFAULT_BREATHING_EXERCISE_ID);
   const { activeDuration, activeText, visual } = useBreathingCycle(exercise, active);
+  const label = active ? activeText.split(' (')[0] || 'Andas…' : 'Andning';
 
   return (
-    <section className="fyren-header-quick__breathing" aria-label="Andningsövning">
-      <div className="fyren-header-quick__breathing-stage">
+    <button
+      type="button"
+      className="fyren-header-quick__row"
+      aria-pressed={active}
+      aria-label={active ? 'Stoppa andningsövning' : 'Starta andningsövning'}
+      onClick={() => onActiveChange(!active)}
+    >
+      <span
+        className={clsx(
+          'fyren-header-quick__icon-shell fyren-header-quick__icon-shell--breathing',
+          active && 'fyren-header-quick__icon-shell--breathing-active',
+        )}
+      >
         <div
           className="fyren-header-quick__breathing-ring"
           style={{
@@ -101,37 +113,10 @@ function FyrenQuickBreathingStrip({
           }}
           aria-hidden
         />
-        <div
-          className="fyren-header-quick__breathing-glow"
-          style={{
-            transform: `scale(${visual.bgScale})`,
-            opacity: visual.bgOpacity,
-            transitionDuration: `${activeDuration}ms`,
-          }}
-          aria-hidden
-        />
-        <button
-          type="button"
-          className={clsx(
-            'fyren-header-quick__breathing-btn',
-            active && 'fyren-header-quick__breathing-btn--active',
-          )}
-          aria-pressed={active}
-          aria-label={active ? 'Stoppa andningsövning' : 'Starta andningsövning'}
-          onClick={() => onActiveChange(!active)}
-        >
-          <Wind className="fyren-header-quick__breathing-icon" strokeWidth={1.75} aria-hidden />
-        </button>
-      </div>
-      <div className="fyren-header-quick__breathing-copy">
-        <p className="fyren-header-quick__breathing-title">
-          {active ? activeText || 'Andas…' : 'Andning'}
-        </p>
-        <p className="fyren-header-quick__breathing-hint">
-          {active ? 'Följ rytmen. Du är trygg.' : 'Box breathing — ett tryckt steg i taget.'}
-        </p>
-      </div>
-    </section>
+        <Wind className="fyren-header-quick__glyph" strokeWidth={1.75} aria-hidden />
+      </span>
+      <span className="fyren-header-quick__row-label">{label}</span>
+    </button>
   );
 }
 
@@ -160,9 +145,11 @@ function FyrenHeaderQuickPanel() {
         aria-hidden={!open}
       >
         <div className="fyren-header-quick__panel">
-          <FyrenQuickBreathingStrip active={breathingActive} onActiveChange={setBreathingActive} />
-
-          <nav className="fyren-header-quick__grid">
+          <nav className="fyren-header-quick__stack">
+            <FyrenQuickBreathingRow
+              active={breathingActive}
+              onActiveChange={setBreathingActive}
+            />
             {QUICK_ACTIONS.map((action) => {
               const label =
                 action.id === 'valv' && !vaultSessionOpen ? 'Lås upp' : action.label;
@@ -170,14 +157,14 @@ function FyrenHeaderQuickPanel() {
                 <Link
                   key={action.id}
                   to={action.to}
-                  className="fyren-header-quick__cell"
+                  className="fyren-header-quick__row"
                   aria-label={label}
                   onClick={() => setOpen(false)}
                 >
                   <span className="fyren-header-quick__icon-shell">
                     <QuickActionIcon kind={action.icon} />
                   </span>
-                  <span className="fyren-header-quick__cell-label">{label}</span>
+                  <span className="fyren-header-quick__row-label">{label}</span>
                 </Link>
               );
             })}
@@ -252,18 +239,30 @@ export function FyrenHeaderQuickToggle() {
   if (hidden || location.pathname.startsWith('/widget')) return null;
 
   return (
-    <button
-      type="button"
+    <div
       className={clsx(
-        'header-chrome-btn header-chrome-btn--round mr-1 fyren-header-quick__toggle',
-        open && 'fyren-header-quick__toggle--open',
+        'fyren-header-quick__toggle-wrap',
+        open && 'fyren-header-quick__toggle-wrap--open',
       )}
-      aria-expanded={open}
-      aria-label={open ? 'Stäng snabbåtkomst' : 'Öppna snabbåtkomst'}
-      onClick={() => setOpen((value) => !value)}
     >
-      <LivskompassMark className="fyren-header-quick__toggle-mark" />
-    </button>
+      <button
+        type="button"
+        className={clsx(
+          'header-chrome-btn header-chrome-btn--round fyren-header-quick__toggle',
+          open && 'fyren-header-quick__toggle--open',
+        )}
+        aria-expanded={open}
+        aria-label={open ? 'Stäng snabbåtkomst' : 'Öppna snabbåtkomst'}
+        onClick={() => setOpen((value) => !value)}
+      >
+        <LivskompassMark className="fyren-header-quick__toggle-mark" />
+      </button>
+      <ChevronDown
+        className="fyren-header-quick__chevron"
+        strokeWidth={2.25}
+        aria-hidden
+      />
+    </div>
   );
 }
 
