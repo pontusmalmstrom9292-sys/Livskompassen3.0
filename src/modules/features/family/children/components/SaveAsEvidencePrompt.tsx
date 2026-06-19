@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Loader2, Shield } from 'lucide-react';
+import { Shield } from 'lucide-react';
 import { saveVaultLog } from '@/core/firebase/firestore';
 import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
+import { WormSaveConfirmSheet } from '@/core/security/WormSaveConfirmSheet';
 import { buildVaultPayloadFromChildLog } from '../utils/childLogEvidence';
 import type { ChildAlias } from '../constants';
 
@@ -28,6 +29,7 @@ export function SaveAsEvidencePrompt({
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const handleSave = async () => {
     setSaving(true);
@@ -44,6 +46,7 @@ export function SaveAsEvidencePrompt({
         }),
       );
       setSaved(true);
+      setConfirmOpen(false);
     } catch {
       setError(`Kunde inte spara i ${VAULT_UI_NAME.toLowerCase()}et. Kontrollera inloggning och regler.`);
     } finally {
@@ -74,20 +77,29 @@ export function SaveAsEvidencePrompt({
       <p className="text-xs text-text-dim">
         Inget sparas automatiskt. Du väljer explicit — neutral formulering rekommenderas.
       </p>
-      {error && <p className="text-sm text-danger">{error}</p>}
-      <div className="flex flex-col gap-2 sm:flex-row">
-        <button
-          type="button"
-          disabled={saving}
-          onClick={handleSave}
-          className="btn-pill--secondary text-sm"
-        >
-          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Spara som bevis'}
-        </button>
-        <button type="button" onClick={onDone} className="btn-pill--ghost text-sm">
-          Nej, bara livslogg
-        </button>
-      </div>
+      {confirmOpen ? (
+        <WormSaveConfirmSheet
+          contextLabel={`Observation från ${childAlias}s logg`}
+          busy={saving}
+          onConfirm={() => void handleSave()}
+          onCancel={() => setConfirmOpen(false)}
+        />
+      ) : (
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <button
+            type="button"
+            disabled={saving}
+            onClick={() => setConfirmOpen(true)}
+            className="btn-pill--secondary text-sm"
+          >
+            Spara som bevis
+          </button>
+          <button type="button" onClick={onDone} className="btn-pill--ghost text-sm">
+            Nej, bara livslogg
+          </button>
+        </div>
+      )}
+      {error && !confirmOpen && <p className="text-sm text-danger">{error}</p>}
     </div>
   );
 }

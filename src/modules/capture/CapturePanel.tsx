@@ -1,21 +1,23 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { FileUp, Filter, PenLine, X } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
 import { toast } from '@/modules/core/store/toastStore';
 import { hasVaultGate } from '@/core/auth/sessionService';
+import { WormSaveConfirmSheet } from '@/core/security/WormSaveConfirmSheet';
 import { fileToBase64 } from '@/features/lifeJournal/evidence/kompis/api/ingestKnowledgeDocumentService';
 import {
-  formatInkastResultMessage,
-  inkastDestinationLink,
   previewInboxClassification,
   primaryInkastItem,
   submitInkastLite,
   tagsFromInkastClassification,
-  VALV_SAMLA_GRANSKA_LINK,
   type SubmitInkastLiteResult,
 } from '../inkast/api/inkastService';
+import {
+  InkastPostSubmitPanel,
+  toastMessageForInkastResult,
+} from '../inkast/components/InkastPostSubmitPanel';
+import { inkastTargetsWorm } from '../inkast/lib/inkastOutcome';
 import {
   InkastBarnenValvBridge,
   inkastBarnenBridgeProps,
@@ -101,8 +103,9 @@ export function CapturePanel({
   const [text, setText] = useState('');
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const [phase, setPhase] = useState<Phase>('compose');
-  const [message, setMessage] = useState<string | null>(null);
   const [lastBatch, setLastBatch] = useState<SubmitInkastLiteResult | null>(null);
+  const [wormConfirmOpen, setWormConfirmOpen] = useState(false);
+  const [pendingManual, setPendingManual] = useState<InkastManualChoice | undefined>(undefined);
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState<InboxClassification | null>(null);
   const [manualSilo, setManualSilo] = useState<InkastUiSilo>('dagbok');
@@ -124,8 +127,9 @@ export function CapturePanel({
     setPhase('compose');
     setPreview(null);
     setError(null);
-    setMessage(null);
     setLastBatch(null);
+    setWormConfirmOpen(false);
+    setPendingManual(undefined);
     setPendingFiles([]);
     setManualTags([]);
     setManualComment('');
@@ -157,8 +161,6 @@ export function CapturePanel({
 
     setPhase('analyzing');
     setError(null);
-    setMessage(null);
-
     try {
       if (hasText) {
         const classification = await previewInboxClassification({
@@ -317,13 +319,10 @@ export function CapturePanel({
           });
         }
 
-        setMessage(formatInkastResultMessage(batch));
-        const primary = primaryInkastItem(batch);
-        if (primary?.action === 'queued') {
-          toast.info('Sparat i granskningskö — du godkänner innan arkiv.');
-        } else if (primary?.action === 'persisted') {
-          toast.success('Sparat — granska i Valv om det hamnade i kö.');
-        }
+        const toastMsg = toastMessageForInkastResult(batch);
+        if (toastMsg.level === 'info') toast.info(toastMsg.text);
+        else if (toastMsg.level === 'error') toast.error(toastMsg.text);
+        else toast.success(toastMsg.text);
         setLastBatch(batch);
         setText('');
         setPendingFiles([]);
@@ -341,11 +340,23 @@ export function CapturePanel({
     [hasFiles, onSaved, sourceModule, submitFiles, text],
   );
 
+  const requestPersistInkast = useCallback(
+    (manual?: InkastManualChoice) => {
+      if (preview && inkastTargetsWorm(preview, manual?.silo)) {
+        setPendingManual(manual);
+        setWormConfirmOpen(true);
+        return;
+      }
+      void persistInkast(manual);
+    },
+    [persistInkast, preview],
+  );
+
   const handleManualSave = useCallback(
     (choice: InkastManualChoice) => {
-      void persistInkast(choice);
+      requestPersistInkast(choice);
     },
-    [persistInkast],
+    [requestPersistInkast],
   );
 
   const handleFilePick = useCallback(
@@ -378,7 +389,6 @@ export function CapturePanel({
       : text.trim().slice(0, 80) || 'Inkast';
   const domainHint = inkastSourceModuleHint(sourceModule);
   const primaryItem = lastBatch ? primaryInkastItem(lastBatch) : null;
-  const destinationLink = primaryItem ? inkastDestinationLink(primaryItem) : null;
   const barnenBridge =
     showBarnenBridge && primaryItem && userId ? inkastBarnenBridgeProps(primaryItem) : null;
   const dagbokWeave =
@@ -517,7 +527,23 @@ export function CapturePanel({
         </div>
       )}
 
-      {(phase === 'confirm' || phase === 'edit') && preview && (
+      {wormConfirmOpen && preview && (
+        <WormSaveConfirmSheet
+          contextLabel={previewLabel}
+          busy={phase === 'analyzing'}
+          onConfirm={() => {
+            setWormConfirmOpen(false);
+            void persistInkast(pendingManual);
+            setPendingManual(undefined);
+          }}
+          onCancel={() => {
+            setWormConfirmOpen(false);
+            setPendingManual(undefined);
+          }}
+        />
+      )}
+
+      {(phase === 'confirm' || phase === 'edit') && preview && !wormConfirmOpen && (
         <>
           {brusfilterBiffDraft && manualSilo === 'valv' && (
             <div className="mb-3 rounded-xl border border-border/30 bg-surface-2/60 px-3 py-2 text-xs text-text-muted">
@@ -534,7 +560,7 @@ export function CapturePanel({
           tags={manualTags}
           comment={manualComment}
           childAlias={manualChildAlias}
-          onConfirm={() => void persistInkast()}
+          onConfirm={() => requestPersistInkast()}
           onStartEdit={() => setPhase('edit')}
           onAbort={resetFlow}
           onSiloChange={setManualSilo}
@@ -549,54 +575,35 @@ export function CapturePanel({
         </>
       )}
 
-      {message && (
-        <p className="mt-3 text-sm text-emerald-300/90" role="status">
-          {message}
-        </p>
-      )}
       {error && (
         <p className="mt-3 text-sm text-rose-300/90" role="alert">
           {error}
         </p>
       )}
-      {message?.includes('granskning') && (
-        <>
-          <Link
-            to={VALV_SAMLA_GRANSKA_LINK}
-            className="mt-2 inline-block text-xs text-gold underline-offset-2 hover:underline"
-          >
-            Öppna granskningskö i Arkiv
-          </Link>
-          {sourceModule === 'planering_inkorg' && (
+      {phase === 'done' && lastBatch && (
+        <InkastPostSubmitPanel result={lastBatch} tone="hem">
+          {barnenBridge && userId && (
+            <InkastBarnenValvBridge
+              userId={userId}
+              {...barnenBridge}
+              onDone={() => setShowBarnenBridge(false)}
+            />
+          )}
+          {dagbokWeave && (
+            <InkastDagbokWeaveBridge
+              {...dagbokWeave}
+              onDone={() => setShowDagbokWeave(false)}
+            />
+          )}
+          {sourceModule === 'planering_inkorg' && lastBatch.queued > 0 && (
             <a
               href="#planering-inkast-ko"
-              className="mt-2 ml-3 inline-block text-xs text-accent underline-offset-2 hover:underline"
+              className="inline-block text-xs text-accent underline-offset-2 hover:underline"
             >
               Se kö nedan
             </a>
           )}
-        </>
-      )}
-      {destinationLink && (
-        <Link
-          to={{ pathname: destinationLink.pathname, search: destinationLink.search }}
-          className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
-        >
-          {destinationLink.label}
-        </Link>
-      )}
-      {barnenBridge && userId && (
-        <InkastBarnenValvBridge
-          userId={userId}
-          {...barnenBridge}
-          onDone={() => setShowBarnenBridge(false)}
-        />
-      )}
-      {dagbokWeave && (
-        <InkastDagbokWeaveBridge
-          {...dagbokWeave}
-          onDone={() => setShowDagbokWeave(false)}
-        />
+        </InkastPostSubmitPanel>
       )}
     </BentoCard>
   );

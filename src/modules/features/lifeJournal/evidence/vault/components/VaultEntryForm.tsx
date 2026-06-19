@@ -9,6 +9,7 @@ import type { VaultEntryType, VaultLogInput } from '../types/vaultEntry';
 import { HandoffBox } from '@/features/lifeJournal/diary/diary/components/HandoffBox';
 import { shouldShowValvHandoff } from '@/core/triggers/valvHandoff';
 import { OfflineWriteBlockedError } from '@/core/firebase/offlineWritePolicy';
+import { WormSaveConfirmSheet } from '@/core/security/WormSaveConfirmSheet';
 import { VaultPatternHandoff } from './VaultPatternHandoff';
 import { parseSmsThreadToTwoColumn } from '../utils/smsThreadParse';
 
@@ -36,6 +37,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
   const [pinned, setPinned] = useState(false);
   const [smsThreadPaste, setSmsThreadPaste] = useState('');
   const [smsThreadSplitNotice, setSmsThreadSplitNotice] = useState(false);
+  const [wormConfirmOpen, setWormConfirmOpen] = useState(false);
 
   useEffect(() => {
     const handoff = (location.state as { vaultHandoffText?: string } | null)?.vaultHandoffText;
@@ -158,6 +160,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
       if (!payload) return;
       await onSave(payload);
       resetForm();
+      setWormConfirmOpen(false);
     } catch (err) {
       if (err instanceof Error && err.message === 'vault-save-failed') {
         setAttachError('Kunde inte spara till valvet. Försök igen.');
@@ -169,6 +172,11 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
     } finally {
       setUploading(false);
     }
+  };
+
+  const requestSave = () => {
+    if (!canSave) return;
+    setWormConfirmOpen(true);
   };
 
   const canSaveSimple = truth.trim().length > 0 || Boolean(pendingFile);
@@ -431,19 +439,27 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
         Sanningens Ankare — fäst post (read-only i Morgonkompassen)
       </label>
 
-      <button
-        type="button"
-        onClick={handleSubmit}
-        disabled={busy || !canSave}
-        className="btn-pill--success disabled:opacity-50"
-      >
-        <span className="inline-flex items-center gap-2">
-          <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden>
-            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+      {wormConfirmOpen ? (
+        <WormSaveConfirmSheet
+          busy={busy || uploading}
+          onConfirm={() => void handleSubmit()}
+          onCancel={() => setWormConfirmOpen(false)}
+        />
+      ) : (
+        <button
+          type="button"
+          onClick={requestSave}
+          disabled={busy || !canSave}
+          className="btn-pill--success disabled:opacity-50"
+        >
+          <span className="inline-flex items-center gap-2">
+            <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden>
+              {busy || uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+            </span>
+            <span>Spara bevis</span>
           </span>
-          <span>Spara bevis</span>
-        </span>
-      </button>
+        </button>
+      )}
     </div>
   );
 }

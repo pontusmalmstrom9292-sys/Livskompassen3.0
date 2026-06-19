@@ -351,7 +351,12 @@ function main() {
   mustInclude(
     'src/modules/capture/InkastDirectPanel.tsx',
     'submitInkastLite',
+    'InkastPostSubmitPanel',
+  );
+  mustInclude(
+    'src/modules/inkast/components/InkastPostSubmitPanel.tsx',
     'formatInkastResultMessage',
+    'VALV_SAMLA_GRANSKA_LINK',
   );
   mustInclude('src/modules/inkast/api/inkastService.ts', 'parseSubmitInkastLiteResult');
   mustInclude('src/modules/core/pages/HomePage.tsx', 'CaptureSuperModule');

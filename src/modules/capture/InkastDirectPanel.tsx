@@ -4,18 +4,15 @@
 import { useCallback, useRef, useState } from 'react';
 import { clsx } from 'clsx';
 import { FileUp, Inbox } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
 import { fileToBase64 } from '@/features/lifeJournal/evidence/kompis/api/ingestKnowledgeDocumentService';
 import {
-  formatInkastResultMessage,
-  inkastDestinationLink,
   primaryInkastItem,
   submitInkastLite,
-  VALV_SAMLA_GRANSKA_LINK,
   type SubmitInkastLiteResult,
 } from '@/modules/inkast/api/inkastService';
+import { InkastPostSubmitPanel } from '@/modules/inkast/components/InkastPostSubmitPanel';
 import {
   InkastBarnenValvBridge,
   inkastBarnenBridgeProps,
@@ -56,7 +53,6 @@ export function InkastDirectPanel({
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [lastResult, setLastResult] = useState<SubmitInkastLiteResult | null>(null);
   const [showBarnenBridge, setShowBarnenBridge] = useState(true);
   const [showDagbokWeave, setShowDagbokWeave] = useState(true);
@@ -69,7 +65,6 @@ export function InkastDirectPanel({
     async (payload: Parameters<typeof submitInkastLite>[0]) => {
       setLoading(true);
       setError(null);
-      setSuccessMessage(null);
       setLastResult(null);
       setShowBarnenBridge(true);
       setShowDagbokWeave(true);
@@ -79,7 +74,6 @@ export function InkastDirectPanel({
           ...(sourceModule ? { sourceModule } : {}),
         });
         setLastResult(result);
-        setSuccessMessage(formatInkastResultMessage(result));
         setShowBarnenBridge(true);
         setShowDagbokWeave(true);
 
@@ -158,7 +152,6 @@ export function InkastDirectPanel({
   };
 
   const primary = lastResult ? primaryInkastItem(lastResult) : null;
-  const destinationLink = primary ? inkastDestinationLink(primary) : null;
   const barnenBridge =
     showBarnenBridge && primary && userId ? inkastBarnenBridgeProps(primary) : null;
   const dagbokWeave = showDagbokWeave && primary ? inkastDagbokWeaveProps(primary) : null;
@@ -237,36 +230,13 @@ export function InkastDirectPanel({
         <p className={clsx('text-amber-400/90', isValv ? 'mt-2 text-xs' : 'mt-3 text-sm')}>{error}</p>
       )}
 
-      {successMessage && lastResult && (
-        <div
-          className={
-            isValv
-              ? 'mt-2 space-y-2'
-              : 'mt-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-3 py-2 text-sm text-text-muted'
-          }
+      {lastResult && (
+        <InkastPostSubmitPanel
+          result={lastResult}
+          tone={isValv ? 'valv' : 'hem'}
+          onOpenReviewQueue={onQueued}
+          queueHintAsButton={queueHintAsButton && showQueueHint}
         >
-          <p className={isValv ? 'text-xs text-success' : undefined}>{successMessage}</p>
-          {primary?.action === 'queued' &&
-            (queueHintAsButton && onQueued && showQueueHint ? (
-              <button type="button" className="btn-pill--secondary text-xs" onClick={() => onQueued()}>
-                Öppna granskningskö
-              </button>
-            ) : (
-              <Link
-                to={VALV_SAMLA_GRANSKA_LINK}
-                className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
-              >
-                Öppna granskningskö (Valv)
-              </Link>
-            ))}
-          {destinationLink && primary?.action === 'persisted' && (
-            <Link
-              to={{ pathname: destinationLink.pathname, search: destinationLink.search }}
-              className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
-            >
-              {destinationLink.label}
-            </Link>
-          )}
           {barnenBridge && userId && (
             <InkastBarnenValvBridge
               userId={userId}
@@ -280,7 +250,7 @@ export function InkastDirectPanel({
               onDone={() => setShowDagbokWeave(false)}
             />
           )}
-        </div>
+        </InkastPostSubmitPanel>
       )}
     </BentoCard>
   );

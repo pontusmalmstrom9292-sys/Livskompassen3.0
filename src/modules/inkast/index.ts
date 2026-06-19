@@ -1,4 +1,5 @@
 export { InkastConfirmPanel } from './components/InkastConfirmPanel';
+export { InkastPostSubmitPanel, toastMessageForInkastResult } from './components/InkastPostSubmitPanel';
 export { InkastManualEditForm } from './components/InkastManualEditForm';
 export { InboxReviewQueue } from './components/InboxReviewQueue';
 export { InboxReviewQueueLink } from './components/InboxReviewQueueLink';
