@@ -411,6 +411,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     'valv_grp_kunskap',
     VALV_KUNSKAP_DRAWER_LEAF.aktorskarta,
   ),
+  valvLeaf('valv_docs', 'docs', 'valv_grp_kunskap', VALV_KUNSKAP_DRAWER_LEAF.docs),
   {
     id: 'valv_grp_forensik',
     label: VALV_ZONE_LABELS.forensik,

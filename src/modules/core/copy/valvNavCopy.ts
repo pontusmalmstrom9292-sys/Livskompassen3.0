@@ -11,6 +11,7 @@ export const VAULT_MAIN_TAB_LABELS = {
   dossier: 'Dossier',
   kunskapsbank: 'Kunskapsbank',
   aktorskarta: 'Personer i ärendet',
+  docs: 'Kanon & routing',
 } as const;
 
 export type VaultMainTabLabelId = keyof typeof VAULT_MAIN_TAB_LABELS;
@@ -29,7 +30,7 @@ export type ValvZoneLabelId = keyof typeof VALV_ZONE_LABELS;
 export const VALV_ZONE_INGRESS: Record<ValvZoneLabelId, string> = {
   samla: 'Samla in bevis och sök i loggen.',
   analysera: 'Mönster och meddelanden — över tid, inte i stunden.',
-  kunskap: 'Fakta bakom PIN: Kunskapsbank och personer i ärendet.',
+  kunskap: 'Fakta bakom PIN: Kunskapsbank, personer och kanon.',
   vit: 'Dina reflektioner och frågekort — inte bevis mot ex.',
   exportera: 'Dossier för export och översikt.',
   forensik: 'Hamn och fördjupad analys — ett steg i taget.',
@@ -70,6 +71,7 @@ export const FORENSIC_TAB_INGRESS: Record<ForensicVaultTabLabelId, string> = {
 export const VALV_KUNSKAP_DRAWER_LEAF = {
   kunskapsbank: 'Fråga & tidslinje',
   aktorskarta: 'Personer i ärendet',
+  docs: 'Metod & routing',
 } as const;
 
 /** Vardag → Dagbok → Valv-länk */

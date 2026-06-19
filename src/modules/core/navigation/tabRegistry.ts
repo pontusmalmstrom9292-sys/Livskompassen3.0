@@ -167,6 +167,7 @@ const VAULT_MAIN_ICONS: Partial<Record<MainVaultTab, ReactNode>> = {
   dossier: icon(ScrollText),
   kunskapsbank: icon(BookOpen),
   aktorskarta: icon(Users),
+  docs: icon(ScrollText),
 };
 
 export function vaultMainTabLabel(id: MainVaultTab): string {

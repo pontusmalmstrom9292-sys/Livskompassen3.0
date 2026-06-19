@@ -102,6 +102,7 @@ function main() {
     'monster: \'Mönster\'',
     'Kunskapsbank',
     'aktorskarta: \'Personer i ärendet\'',
+    'docs: \'Kanon & routing\'',
   );
   mustInclude(
     'src/modules/core/navigation/tabRegistry.ts',
@@ -139,6 +140,8 @@ function main() {
     "'orkester'",
     "'kunskapsbank'",
     "'aktorskarta'",
+    "'docs'",
+    'DOCS_VAULT_TAB',
     'SAMLA_VAULT_TAB_IDS',
     'ANALYSERA_VAULT_TAB_IDS',
     'KUNSKAP_VAULT_TAB_IDS',
@@ -178,6 +181,8 @@ function main() {
     'getKunskapVaultTabBarItems',
     'VaultKunskapsbankPanel',
     'VaultAktorskartaPanel',
+    'VaultKanonDocsPanel',
+    'DOCS_VAULT_TAB',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvForensikZone.tsx',
@@ -229,6 +234,13 @@ function main() {
     'inga Mönster/Orkester-länkar (Fas 1B)',
   );
   mustInclude(
+    'src/modules/features/lifeJournal/evidence/knowledge/components/VaultKanonDocsPanel.tsx',
+    'VaultKanonDocsPanel',
+    'CalmCollapsible',
+    'VALV_KANON_ROUTING_MD',
+    'ScrollText',
+  );
+  mustInclude(
     'src/modules/features/lifeJournal/evidence/knowledge/components/VaultAktorskartaPanel.tsx',
     'EntityAddForm',
     'fetchEntityProfileRegistry',
@@ -261,6 +273,7 @@ function main() {
     'VALV_ZONE_LABELS.kunskap',
     'VALV_KUNSKAP_DRAWER_LEAF',
     'valv_aktorskarta',
+    'valv_docs',
     'valv_granska',
     'DAGBOK_BEVIS_DRAWER_LABEL',
   );
@@ -268,6 +281,7 @@ function main() {
     'src/modules/core/copy/valvNavCopy.ts',
     'Fråga & tidslinje',
     'Personer i ärendet',
+    'Metod & routing',
   );
   mustInclude(
     'src/modules/core/navigation/tabRegistry.ts',
