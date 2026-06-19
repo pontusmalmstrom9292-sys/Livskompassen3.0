@@ -1,0 +1,70 @@
+{
+  "startedAt": "2026-06-19T13:27:58.269Z",
+  "git": {
+    "branch": "main",
+    "sha": "b70098ad6",
+    "dirtyCount": 23,
+    "changedFiles": [
+      "ataconnect/.dataconnect/schema/prelude.gql",
+      "docs/architecture/INFINITE_EVOLUTION.md",
+      "exports/chatbot-handoff/chatbot-pack-security.md",
+      "functions/src/economy/mabraEconomySync.ts",
+      "src/modules/core/home/homeCapacityGate.ts",
+      "src/modules/features/admin/planning/hooks/usePlanningKanbanGate.ts",
+      "src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx",
+      "src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaDriveHint.tsx",
+      "src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx",
+      "src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx",
+      ".cursor/pipeline/MASTER-PROMPT.md",
+      ".cursor/pipeline/fix-brief.md",
+      ".cursor/pipeline/jobs/",
+      ".cursor/pipeline/runs/",
+      ".cursor/pipeline/state.json",
+      ".npm-cache-local/",
+      "docs/evaluations/2026-06-19-cursor-pipeline.md",
+      "docs/evaluations/2026-06-19-fas-a21-valv-samla.md",
+      "exports/cursor-pipeline/",
+      "exports/repomix/",
+      "google-cloud-cli-darwin-arm.tar.gz",
+      "\"narcissistisk f\\303\\266r\\303\\244lder/\"",
+      "shared/evolution/capacityScore.ts"
+    ]
+  },
+  "pack": [],
+  "build": [
+    {
+      "label": "Functions TypeScript build",
+      "cmd": "npm run build",
+      "status": "PASS",
+      "durationMs": 10050
+    },
+    {
+      "label": "Frontend Vite build",
+      "cmd": "npm run build",
+      "status": "PASS",
+      "durationMs": 31325
+    }
+  ],
+  "smoke": [
+    {
+      "label": "npm run smoke:predeploy",
+      "cmd": "npm run smoke:predeploy",
+      "status": "PASS",
+      "durationMs": 77108
+    }
+  ],
+  "state": {
+    "phase": "done",
+    "attempt": 1,
+    "maxAttempts": 5,
+    "packages": [
+      "backend",
+      "ui-design",
+      "security",
+      "ai-agents"
+    ],
+    "failures": [],
+    "nextAction": "idle",
+    "pmirHits": []
+  }
+}

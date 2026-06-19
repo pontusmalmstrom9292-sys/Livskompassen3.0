@@ -1,0 +1,14 @@
+{
+  "phase": "done",
+  "attempt": 1,
+  "maxAttempts": 5,
+  "packages": [
+    "backend",
+    "ui-design",
+    "security",
+    "ai-agents"
+  ],
+  "failures": [],
+  "nextAction": "idle",
+  "pmirHits": []
+}
