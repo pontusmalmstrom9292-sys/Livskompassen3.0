@@ -233,7 +233,7 @@ Produkt-GAP: [`MODUL-GAP-OVERSIKT.md`](./MODUL-GAP-OVERSIKT.md)
 
 **Fas 23 (levererad 2026-06-15):** Familjen scroll (23.1) · Valv biometri + App Check CI (23.2) · USER #3/#4 PASS + doc-synk (23.3).
 
-**Nästa våg:** M3.0-C (PMIR) · App Check Console (USER).
+**Nästa våg:** App Check Console (USER) · content våg 31 verify.
 
 ---
 

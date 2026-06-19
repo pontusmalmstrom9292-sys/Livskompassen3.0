@@ -2,7 +2,7 @@
   "version": 1,
   "sprint": "fas22-masterplan-v2",
   "startedAt": "2026-06-18T11:59:32.509Z",
-  "updatedAt": "2026-06-18T23:45:00.000Z",
+  "updatedAt": "2026-06-19T06:25:00.000Z",
   "completedAt": "2026-06-18T23:38:55.784Z",
   "status": "done",
   "nextWaveId": null,
@@ -18,6 +18,17 @@
     {
       "id": "22.2",
       "note": "M3.0-C PMIR eval"
+    },
+    {
+      "id": "22.3",
+      "completedAt": "2026-06-19T06:25:00.000Z",
+      "deploy": "firestore:rules",
+      "smokes": [
+        "smoke:mabra",
+        "smoke:modulvaljare",
+        "smoke:innehall"
+      ],
+      "note": "Pontus godkände M3.0-C deploy 2026-06-19 — rules deploy pending terminal"
     },
     {
       "id": "22.4",
@@ -89,12 +100,7 @@
       ]
     }
   ],
-  "skippedWaves": [
-    {
-      "id": "22.3",
-      "reason": "M3.0-C Firestore rules — BLOCKER utan PMIR + Pontus OK"
-    }
-  ],
+  "skippedWaves": [],
   "failures": [],
   "waves": [
     "baseline",
@@ -203,5 +209,5 @@
       "mass-delete"
     ]
   },
-  "notes": "Merged to main 2026-06-18. PMIR godkänd. våg31 ingest OK."
+  "notes": "Merged to main 2026-06-18. PMIR godkänd. våg31 ingest OK. 22.3 godkänd Pontus 2026-06-19 — firestore:rules deploy väntar terminal."
 }

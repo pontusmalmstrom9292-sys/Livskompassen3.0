@@ -44,7 +44,7 @@ Alla planfiler har `status: closed` överst. **Öppet arbete finns endast i tabe
 | Modul | Route | Gap / nästa | Kommando / vem |
 |-------|-------|-------------|----------------|
 | **dagbok** | `/hjartat` · `/hjartat/input` | Superdagbok §17 **done** Fas 11 · Fas 13 WORM medium **done** | — |
-| **mabra** | `/vardagen?tab=mabra` | M3.0-B hybrid-8 **done** Fas 19.2 · hex→tokens P0 **done** Fas 22 | `smoke:mabra` |
+| **mabra** | `/vardagen?tab=mabra` | M3.0-B hybrid-8 **done** Fas 19.2 · M3.0-C näring **done** kod+rules (deploy rules USER 2026-06-19) · hex→tokens P0 **done** Fas 22 | `smoke:mabra` |
 | **planering** | `/vardagen?tab=handling` · `/planering/input` | Superhub §15 **done** · kalender P2 **done** | — |
 | **arbetsliv** | `/vardagen?tab=arbetsliv` · `/arbetsliv/input` | Superhub §16 **done** Fas 10 | — |
 | **ekonomi** | `/vardagen?tab=ekonomi` | Superhub §14 **done** Fas 8 | — |
