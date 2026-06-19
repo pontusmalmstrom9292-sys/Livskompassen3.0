@@ -1,5 +1,18 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Build vidare — P2 widget + hex (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| Branch | `cursor/yolo-build-vidare-7746` (rebaserad på main) |
+| Leverans | `/widget/projekt`, zone-valv chunk, hex P2 Vit, våg 31 done |
+| Gate | `smoke:design-modules` + `smoke:locked-ux` + `typecheck:core-strict` — **PASS** |
+| Audit | [`evaluations/2026-06-19-yolo-audit-build-vidare.md`](./evaluations/2026-06-19-yolo-audit-build-vidare.md) |
+| Deploy | `hosting` — pending efter merge |
+| USER | Fyren → Projekt → bottom sheet (inte `/projekt/ny` direkt) |
+
+---
+
 ## Rules + biometri deploy (2026-06-19)
 
 | Fält | Värde |
