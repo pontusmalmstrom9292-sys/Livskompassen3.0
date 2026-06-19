@@ -10,12 +10,12 @@ Kanon: [`docs/YOLO-VAKT-GATE.md`](../../docs/YOLO-VAKT-GATE.md) · Agent: [`.cur
 ## MUST före deploy
 
 1. **`/yolo-vakt`** eller motsvarande read-only audit → **GO / NO-GO**
-2. **`npm run smoke:yolo` PASS** (eller Tier 1+2 manuellt med samma täckning)
+2. **`npm run smoke:predeploy` PASS** (eller `smoke:predeploy:build` lokalt)
 3. **Pontus OK** vid PMIR-stopp (rules, Barnporten kanon-UI, Sacred UX, mass-radering)
 
 ## Agent MUST
 
-- Fråga *"Ska jag köra deploy?"* endast **efter** smoke:yolo PASS och YOLO GO
+- Fråga *"Ska jag köra deploy?"* endast **efter** smoke:predeploy PASS och YOLO GO
 - Vid NO-GO: **ett** fixsteg — ingen deploy
 - Spara audit i `docs/evaluations/YYYY-MM-DD-yolo-audit.md` vid prod-deploy
 - Dirty tree med oreviewad diff → **NO-GO** tills committat eller revertat
@@ -30,13 +30,18 @@ Kanon: [`docs/YOLO-VAKT-GATE.md`](../../docs/YOLO-VAKT-GATE.md) · Agent: [`.cur
 ## Smoke-gate minimum
 
 ```bash
-npm run smoke:yolo
+npm run smoke:predeploy
 ```
+
+Full lokal gate (build + static): `npm run smoke:predeploy:build`  
+Efter deploy (kräver `.env`): `npm run smoke:predeploy:live`
+
+Legacy alias: `npm run smoke:yolo` (om definierad) — annars använd `smoke:predeploy`.
 
 Tier 2 domän-extra enligt diff-matris i YOLO-VAKT-GATE.md.
 
 ## MUST NOT
 
-- `firebase deploy` utan smoke:yolo PASS
+- `firebase deploy` utan smoke:predeploy PASS
 - Godkänna merge/deploy med GAP i WORM, tre silos eller Locked UX
 - Bypassa PMIR-stopp via agent-beslut

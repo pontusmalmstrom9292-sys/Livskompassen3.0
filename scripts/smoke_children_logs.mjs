@@ -140,6 +140,10 @@ async function main() {
   const hit = data.citations.some((c) => c.docId === docRef.id);
   const privateLeak = data.citations.some((c) => c.docId === privateRef.id);
   assert(!privateLeak, 'private_child läckte in i childrenLogsQuery citations');
+  assert(
+    !data.answer.includes('Barnporten hemlig rad'),
+    'private_child läckte in i childrenLogsQuery answer',
+  );
   console.log('[smoke] citations:', data.citations.length, 'match seed:', hit ? 'YES' : 'NO', 'private leak:', privateLeak ? 'YES' : 'NO');
   console.log('[smoke] answer excerpt:', data.answer.slice(0, 120));
 

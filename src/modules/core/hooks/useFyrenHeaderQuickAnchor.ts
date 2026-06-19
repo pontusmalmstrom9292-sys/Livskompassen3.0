@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState, type CSSProperties, type RefObject } from 'react';
 
 const DEFAULT_PANEL_WIDTH_PX = 46;
-const ANCHOR_GAP_PX = 4;
 const VIEWPORT_PAD_PX = 8;
 
 export type FyrenHeaderQuickAnchor = {
@@ -35,12 +34,12 @@ function measureAnchor(
 ): FyrenHeaderQuickAnchor {
   if (!toggleBtnEl) return INITIAL_ANCHOR;
 
-  const rect = toggleBtnEl.getBoundingClientRect();
-  const width = Math.max(Math.round(rect.width), 40);
-  const top = rect.bottom + ANCHOR_GAP_PX;
-  const left = rect.left + rect.width / 2;
+  const btnRect = toggleBtnEl.getBoundingClientRect();
+  const width = Math.max(Math.round(btnRect.width), 40);
+  const left = btnRect.left + btnRect.width / 2;
+  const top = btnRect.bottom;
 
-  let naturalHeight = 360;
+  let naturalHeight = 320;
   if (panelEl) {
     const inner = panelEl.querySelector('.fyren-header-quick__panel');
     if (inner instanceof HTMLElement) {
@@ -54,7 +53,7 @@ function measureAnchor(
   let maxHeight = naturalHeight;
   if (open) {
     const viewportBudget = window.innerHeight - top - VIEWPORT_PAD_PX;
-    maxHeight = Math.max(120, Math.min(naturalHeight, viewportBudget));
+    maxHeight = Math.max(100, Math.min(naturalHeight, viewportBudget));
   }
 
   return {

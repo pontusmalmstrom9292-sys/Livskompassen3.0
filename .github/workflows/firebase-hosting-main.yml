@@ -36,8 +36,8 @@ jobs:
       - name: Build functions
         run: cd functions && npm ci && npm run build
 
-      - name: Smoke tier-1 (locked pillars)
-        run: npm run smoke:tier1
+      - name: Smoke pre-deploy gate (YOLO static)
+        run: npm run smoke:predeploy
 
       - name: Typecheck core strict
         run: npm run typecheck:core-strict

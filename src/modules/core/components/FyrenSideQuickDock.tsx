@@ -14,7 +14,6 @@ import { clsx } from 'clsx';
 import { ChevronDown, Filter, Lock, Shield, Wind, Zap } from 'lucide-react';
 import { hasVaultGate } from '../auth/sessionService';
 import { useFyrenHeaderQuickAnchor } from '../hooks/useFyrenHeaderQuickAnchor';
-import { useHeaderPanelStyle } from '../layout/headerPanelStyle';
 import { NAV_PATHS } from '../navigation/navTruth';
 import { useStore } from '../store';
 import { LivskompassMark } from '../ui/LivskompassMark';
@@ -69,6 +68,7 @@ type FyrenHeaderQuickContextValue = {
   breathingActive: boolean;
   setBreathingActive: (value: boolean) => void;
   toggleBtnRef: RefObject<HTMLButtonElement | null>;
+  toggleWrapRef: RefObject<HTMLDivElement | null>;
 };
 
 const FyrenHeaderQuickContext = createContext<FyrenHeaderQuickContextValue | null>(null);
@@ -140,7 +140,7 @@ function FyrenQuickBreathingRow({
         />
         <Wind className="fyren-header-quick__glyph" strokeWidth={1.75} aria-hidden />
       </span>
-      <span className="fyren-header-quick__row-label">{label}</span>
+      <span className="fyren-header-quick__row-label sr-only">{label}</span>
     </button>
   );
 }
@@ -153,7 +153,6 @@ function FyrenHeaderQuickPanel() {
     useFyrenHeaderQuick();
   const panelRef = useRef<HTMLDivElement>(null);
   const anchor = useFyrenHeaderQuickAnchor(toggleBtnRef, panelRef, open);
-  const panelStyle = useHeaderPanelStyle();
   const [overContent, setOverContent] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -208,7 +207,6 @@ function FyrenHeaderQuickPanel() {
         ref={panelRef}
         className={clsx(
           'fyren-header-quick',
-          `fyren-header-quick--${panelStyle}`,
           open && 'fyren-header-quick--open',
           overContent && 'fyren-header-quick--over-content',
         )}
@@ -236,7 +234,7 @@ function FyrenHeaderQuickPanel() {
                   <span className="fyren-header-quick__icon-shell">
                     <QuickActionIcon kind={action.icon} />
                   </span>
-                  <span className="fyren-header-quick__row-label">{label}</span>
+                  <span className="fyren-header-quick__row-label sr-only">{label}</span>
                 </Link>
               );
             })}
@@ -252,7 +250,7 @@ function FyrenHeaderQuickPanel() {
             }}
           >
             <Lock className="fyren-header-quick__hide-icon" strokeWidth={1.75} aria-hidden />
-            <span>Snabbåtkomst dold</span>
+            <span className="sr-only">Dölj snabbåtkomst</span>
           </button>
         </div>
       </div>
@@ -266,6 +264,7 @@ function FyrenHeaderQuickPanel() {
 export function FyrenHeaderQuickProvider({ children }: { children: ReactNode }) {
   const location = useLocation();
   const toggleBtnRef = useRef<HTMLButtonElement>(null);
+  const toggleWrapRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(readFyrenSideQuickHidden);
   const [breathingActive, setBreathingActive] = useState(false);
@@ -302,6 +301,7 @@ export function FyrenHeaderQuickProvider({ children }: { children: ReactNode }) 
     breathingActive,
     setBreathingActive,
     toggleBtnRef,
+    toggleWrapRef,
   };
 
   return (
@@ -315,12 +315,13 @@ export function FyrenHeaderQuickProvider({ children }: { children: ReactNode }) 
 /** Kompassknapp i header — samma plats som tidigare SOS. */
 export function FyrenHeaderQuickToggle() {
   const location = useLocation();
-  const { open, setOpen, hidden, toggleBtnRef } = useFyrenHeaderQuick();
+  const { open, setOpen, hidden, toggleBtnRef, toggleWrapRef } = useFyrenHeaderQuick();
 
   if (hidden || location.pathname.startsWith('/widget')) return null;
 
   return (
     <div
+      ref={toggleWrapRef}
       className={clsx(
         'fyren-header-quick__toggle-wrap',
         open && 'fyren-header-quick__toggle-wrap--open',
