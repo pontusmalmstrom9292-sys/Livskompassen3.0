@@ -36,6 +36,10 @@ export function draftFailedStatusLabel(): string {
   return 'Status: avvisad';
 }
 
+export function draftPendingStatusLabel(): string {
+  return 'Status: väntar synk';
+}
+
 /** Valv Samla: bevis och osäkra poster först. */
 export function sortInboxForValvSamla(items: InboxQueueItem[]): InboxQueueItem[] {
   const score = (item: InboxQueueItem) => {

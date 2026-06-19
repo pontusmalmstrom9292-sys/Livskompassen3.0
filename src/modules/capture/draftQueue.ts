@@ -100,6 +100,10 @@ export async function listDraftsByStatus(status: DraftStatus): Promise<CaptureDr
   return all.filter((d) => d.status === status);
 }
 
+export async function getDraft(id: string): Promise<CaptureDraft | undefined> {
+  return (await runTransaction('readonly', (store) => store.get(id))) as CaptureDraft | undefined;
+}
+
 export async function updateDraftStatus(
   id: string,
   patch: Partial<Pick<CaptureDraft, 'status' | 'syncResult' | 'errorMessage'>>,

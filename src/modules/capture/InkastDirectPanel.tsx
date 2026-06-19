@@ -3,7 +3,7 @@
  */
 import { useCallback, useRef, useState } from 'react';
 import { clsx } from 'clsx';
-import { FileUp, Inbox, Loader2 } from 'lucide-react';
+import { FileUp, Inbox } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
@@ -32,6 +32,7 @@ import {
   isInkastTextFile,
   resolveInkastMime,
 } from '@/modules/inkast/constants/inkastMimeTypes';
+import { CalmBreathingCircle } from './components/CalmBreathingCircle';
 
 export type InkastDirectPanelTone = 'hem' | 'valv';
 
@@ -201,8 +202,8 @@ export function InkastDirectPanel({
           onClick={handlePasteSubmit}
         >
           {loading ? (
-            <span className="inline-flex items-center gap-1">
-              <Loader2 className="h-3 w-3 shrink-0 animate-spin" aria-hidden />
+            <span className="inline-flex items-center gap-1.5">
+              <CalmBreathingCircle size="sm" />
               <span>Sorterar…</span>
             </span>
           ) : isValv ? (

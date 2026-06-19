@@ -46,6 +46,7 @@ import {
   resolveInkastMime,
 } from '../inkast/constants/inkastMimeTypes';
 import { inkastSourceModuleHint } from './captureDomainCopy';
+import { CalmBreathingCircle } from './components/CalmBreathingCircle';
 
 type CapturePanelProps = {
   sourceModule?: string;
@@ -510,7 +511,10 @@ export function CapturePanel({
       )}
 
       {phase === 'analyzing' && (
-        <p className="py-4 text-center text-sm text-accent">Sorterar…</p>
+        <div className="flex flex-col items-center gap-3 py-6">
+          <CalmBreathingCircle size="md" />
+          <p className="text-sm text-text-dim">Sorterar…</p>
+        </div>
       )}
 
       {(phase === 'confirm' || phase === 'edit') && preview && (

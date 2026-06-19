@@ -1,10 +1,11 @@
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
 import { CapturePanel } from './CapturePanel';
 import { HemCaptureModulValjare, type HemCaptureChoice } from './components/HemCaptureModulValjare';
 import { hasSeenHemCaptureModulValjare } from './utils/hemCaptureModulValjareStorage';
+import { useCaptureOfflineFlush } from './hooks/useCaptureOfflineFlush';
 import { InkastDirectPanel } from './InkastDirectPanel';
 import { ReviewQueuePipelinePanel } from './ReviewQueuePipelinePanel';
 
@@ -58,6 +59,7 @@ export function CaptureSuperModule({
   onSaved,
 }: CaptureSuperModuleProps) {
   const isAuthenticated = useStore((s) => s.isAuthenticated);
+  const userId = useStore((s) => s.user?.uid);
   const sectionRef = useRef<HTMLElement>(null);
   const [showCapturePicker, setShowCapturePicker] = useState(
     () => variant === 'hem-capture' && !hasSeenHemCaptureModulValjare(),
@@ -65,6 +67,12 @@ export function CaptureSuperModule({
   const [composeHint, setComposeHint] = useState<string | null>(null);
   const [focusOnCompose, setFocusOnCompose] = useState(false);
   const [queueRefresh, setQueueRefresh] = useState(0);
+
+  const handleQueueFlushed = useCallback((count: number) => {
+    if (count > 0) setQueueRefresh((k) => k + 1);
+  }, []);
+
+  useCaptureOfflineFlush(userId, { onFlushed: handleQueueFlushed });
 
   const handleCaptureSaved = () => {
     onSaved?.();

@@ -5627,6 +5627,31 @@
     }
   }
 
+  /* Capture / inkast — box-andning 4-4-4-4 (16 s), Obsidian Calm */
+  @keyframes calm-breath-box {
+    0%,
+    100% {
+      transform: scale(0.88);
+      opacity: 0.55;
+    }
+    25% {
+      transform: scale(1.12);
+      opacity: 0.85;
+    }
+    50% {
+      transform: scale(1.12);
+      opacity: 0.85;
+    }
+    75% {
+      transform: scale(0.88);
+      opacity: 0.55;
+    }
+  }
+
+  .calm-breath-circle {
+    animation: calm-breath-box 16s ease-in-out infinite;
+  }
+
   .journal-handoff__header {
     @apply mb-2 flex items-center gap-2;
   }
