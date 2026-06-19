@@ -51,6 +51,7 @@
     "smoke:child-moment": "node scripts/smoke_child_moment.mjs",
     "smoke:entities": "node scripts/smoke_entity_profiles.mjs",
     "smoke:inbox": "node scripts/smoke_inbox_sort.mjs",
+    "smoke:widget-ingest": "node scripts/smoke_widget_ingest.mjs",
     "smoke:inkast": "node scripts/smoke_inkast_lockdown.mjs",
     "smoke:inkast-vardag": "node scripts/smoke_inkast_vardag.mjs",
     "smoke:inkast-fas2": "node scripts/smoke_inkast_fas2.mjs",

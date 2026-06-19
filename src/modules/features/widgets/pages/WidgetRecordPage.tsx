@@ -105,7 +105,7 @@ function WidgetRecordInner() {
             <div className="elongated-module elongated-module--gold p-4">
               <p className="flex items-center gap-2 text-sm font-medium text-success">
                 <Lock className="h-4 w-4" />
-                Låst i Valvet
+                {rec.result.queued ? 'I granskningskö' : 'Låst i Valvet'}
               </p>
               <p className="mt-2 font-display text-base text-accent">{rec.result.title}</p>
               <p className="mt-2 text-sm text-text-muted">{rec.result.summary}</p>

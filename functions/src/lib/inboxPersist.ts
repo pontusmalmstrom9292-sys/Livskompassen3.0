@@ -84,9 +84,13 @@ export async function persistVaultFromInbox(input: {
   classification: InboxClassification;
   analysisText: string;
   evidenceUrl?: string;
+  sourceRef?: string;
+  action?: string;
+  category?: string;
+  truthOverride?: string;
 }): Promise<{ docId: string; created: boolean }> {
   const db = admin.firestore();
-  const sourceRef = driveInboxSourceRef(input.driveFileId);
+  const sourceRef = input.sourceRef ?? driveInboxSourceRef(input.driveFileId);
   const existing = await db
     .collection('reality_vault')
     .where('ownerId', '==', input.ownerId)
@@ -98,20 +102,22 @@ export async function persistVaultFromInbox(input: {
     return { docId: existing.docs[0].id, created: false };
   }
 
-  const truth = [
-    input.classification.summary,
-    input.fileName ? `[${input.fileName}]` : '',
-    '',
-    input.analysisText.slice(0, 8000),
-  ]
-    .join('\n')
-    .trim();
+  const truth =
+    input.truthOverride?.trim() ||
+    [
+      input.classification.summary,
+      input.fileName ? `[${input.fileName}]` : '',
+      '',
+      input.analysisText.slice(0, 8000),
+    ]
+      .join('\n')
+      .trim();
 
   const vaultPayload: Record<string, unknown> = {
     userId: input.ownerId,
     ownerId: input.ownerId,
-    category: input.classification.category,
-    action: 'inbox_ingest',
+    category: input.category ?? input.classification.category,
+    action: input.action ?? 'inbox_ingest',
     truth,
     sourceRef,
     isLocked: true,
@@ -134,12 +140,13 @@ export async function persistChildrenLogFromInbox(input: {
   fileName: string;
   classification: InboxClassification;
   analysisText: string;
+  sourceRef?: string;
 }): Promise<{ docId: string; created: boolean } | null> {
   const childAlias = input.classification.childAlias;
   if (!childAlias) return null;
 
   const db = admin.firestore();
-  const sourceRef = driveInboxSourceRef(input.driveFileId);
+  const sourceRef = input.sourceRef ?? driveInboxSourceRef(input.driveFileId);
 
   const existingLog = await db
     .collection('children_logs')
@@ -291,6 +298,11 @@ export async function routeInboxToWorm(input: {
   isVerified: boolean;
   /** Explicit HITL eller manuellt barnen-val — annars köas barnen-routing. */
   allowBarnenAutoPersist?: boolean;
+  /** Icke-Drive provenance (widget, inkast_lite, …). */
+  sourceRef?: string;
+  vaultAction?: string;
+  vaultCategory?: string;
+  truthOverride?: string;
 }): Promise<{
   action: 'queued' | 'persisted';
   collection?: string;
@@ -335,6 +347,10 @@ export async function routeInboxToWorm(input: {
       classification,
       analysisText,
       evidenceUrl,
+      sourceRef: input.sourceRef,
+      action: input.vaultAction,
+      category: input.vaultCategory,
+      truthOverride: input.truthOverride,
     });
     return { action: 'persisted', collection: 'reality_vault', docId: v.docId };
   }
@@ -368,6 +384,7 @@ export async function routeInboxToWorm(input: {
       fileName,
       classification,
       analysisText,
+      sourceRef: input.sourceRef,
     });
     if (child) {
       return { action: 'persisted', collection: 'children_logs', docId: child.docId };
