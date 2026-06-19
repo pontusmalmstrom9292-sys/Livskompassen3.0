@@ -224,7 +224,7 @@ export const VaultLogList = memo(function VaultLogList({
           message={
             anchorsOnly
               ? 'Inga ankare markerade ännu. Kryssa i «Sanningens Ankare» när du loggar bevis.'
-              : 'Inga poster i arkivet ännu. Tryck «Logga bevis» ovan i panelen — formuläret ligger precis ovanför.'
+              : 'Inga poster i arkivet ännu. Öppna «Manuell post» ovan eller tryck «Logga bevis».'
           }
         />
       ) : (
