@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "sprint": "fas23-domain",
+  "startedAt": "2026-06-18T20:38:16.610Z",
+  "updatedAt": "2026-06-18T20:40:22.554Z",
+  "status": "done",
+  "nextWaveId": "done",
+  "completedWaves": [
+    "23.D1",
+    "23.D2",
+    "23.D3",
+    "23.D4",
+    "23.D5",
+    "23.D6",
+    "23.D7",
+    "23.D8"
+  ],
+  "waves": [
+    "23.D1",
+    "23.D2",
+    "23.D3",
+    "23.D4",
+    "23.D5",
+    "23.D6",
+    "23.D7",
+    "23.D8"
+  ],
+  "waveDetails": [
+    {
+      "id": "23.D1",
+      "plan": "5 domän-agenter + dirigent + ORKESTER doc",
+      "deploy": "none",
+      "agent": true
+    },
+    {
+      "id": "23.D2",
+      "plan": "MB-REF-REST-01..03 i bank",
+      "deploy": "none",
+      "agent": true
+    },
+    {
+      "id": "23.D3",
+      "plan": "Kunskap våg 31 FACT (jur/soc/bh)",
+      "deploy": "none",
+      "agent": true
+    },
+    {
+      "id": "23.D4",
+      "plan": "Neuro-psyk FACT (gad/pu)",
+      "deploy": "none",
+      "agent": true
+    },
+    {
+      "id": "23.D5",
+      "plan": "HCF cn-049..051 + tactic patterns",
+      "deploy": "none",
+      "agent": true
+    },
+    {
+      "id": "23.D6",
+      "plan": "smoke:domän-specialister + innehall",
+      "deploy": "none",
+      "agent": false
+    },
+    {
+      "id": "23.D7",
+      "plan": "JWT session sync PMIR (read-only defer)",
+      "deploy": "none",
+      "agent": true
+    },
+    {
+      "id": "23.D8",
+      "plan": "slutrapport + orkester:night",
+      "deploy": "none",
+      "agent": true
+    }
+  ],
+  "git": {
+    "branch": "main",
+    "sha": "3f5aa0c8f",
+    "dirty": 24
+  },
+  "policy": {
+    "smokePerWave": true,
+    "pmirStops": [
+      "firestore.rules",
+      "barnporten-kanon-ui",
+      "parent-fysio-ui",
+      "mass-delete"
+    ]
+  }
+}

@@ -224,6 +224,22 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     inDrawer: true,
   },
   {
+    id: 'installningar_allmant',
+    label: 'Allmänt',
+    path: '/installningar?tab=allmant',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'installningar',
+  },
+  {
+    id: 'installningar_drogfrihet',
+    label: 'Drogfrihet',
+    path: '/installningar?tab=drogfrihet',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'installningar',
+  },
+  {
     id: 'arbetsliv',
     label: 'Arbetsliv',
     path: '/arbetsliv/input',

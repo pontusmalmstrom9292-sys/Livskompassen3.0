@@ -11,6 +11,7 @@ import {
   MABRA_MOVEMENT_COACH_SYSTEM_PROMPT,
 } from '../sharedRules';
 import { createGenAI } from '../lib/genaiClient';
+import { appendAdaptationSemanticContext } from '../lib/adaptationSemanticContext';
 import {
   journalQuickMirrorFallback,
   parseJournalQuickMirrorJson,
@@ -27,6 +28,7 @@ import {
   type MabraCoachHub,
   parafraseCoachFromBank,
 } from '../lib/mabraContentBank';
+import type { CoachTone } from '../../../shared/adaptation/adaptationTypes';
 
 const SPEGLINGS_MODEL = 'gemini-2.5-flash';
 const MABRA_COACH_MODEL = 'gemini-2.5-flash';
@@ -119,6 +121,8 @@ export const askMabraCoach = async (
   bankEntry: MabraCoachBankEntry,
   optionalNote?: string,
   geminiApiKey?: string,
+  adaptationContext?: string | null,
+  coachTone: CoachTone = 'standard',
 ): Promise<string> => {
   const context = [
     `Symptom-hub: ${hubSymptom}`,
@@ -136,7 +140,10 @@ export const askMabraCoach = async (
       model: MABRA_COACH_MODEL,
       contents: context,
       config: {
-        systemInstruction: MABRA_COACHEN_SYSTEM_PROMPT,
+        systemInstruction: appendAdaptationSemanticContext(
+          MABRA_COACHEN_SYSTEM_PROMPT,
+          adaptationContext,
+        ),
         temperature: 0.2,
       },
     });
@@ -146,7 +153,7 @@ export const askMabraCoach = async (
     return text;
   } catch (error) {
     console.error('[Måbra-Coachen] Fel — degraded fallback:', error);
-    return parafraseCoachFromBank(bankEntry, hubSymptom, exerciseType);
+    return parafraseCoachFromBank(bankEntry, hubSymptom, exerciseType, coachTone);
   }
 };
 

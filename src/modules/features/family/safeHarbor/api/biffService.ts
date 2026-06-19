@@ -1,5 +1,6 @@
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '@/core/firebase/init';
+import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
 
 const analyzeMessageCallable = httpsCallable(functions, 'analyzeMessage');
 
@@ -43,6 +44,26 @@ export async function analyzeBiffMessage(message: string): Promise<BiffAnalysisR
     console.error('Fel vid analyzeMessage:', error);
     throw new Error(
       'Analysen svarar inte just nu. Kontrollera att du är inloggad och försök igen om en stund.',
+    );
+  }
+}
+
+/** Valv Orkester — kräver aktiv Valv-session (PIN/Fyren). */
+export async function analyzeBiffMessageInVault(message: string): Promise<BiffAnalysisResult> {
+  try {
+    const result = await analyzeMessageCallable(
+      withVaultSessionPayload({
+        message,
+        ragContext: [],
+        module: 'valv_orkester',
+        preferGransArkitekten: true,
+      }),
+    );
+    return result.data as BiffAnalysisResult;
+  } catch (error) {
+    console.error('Fel vid analyzeMessage (Valv Orkester):', error);
+    throw new Error(
+      'Mönstersökning kräver upplåst Valv. Håll Fyren tre sekunder och försök igen.',
     );
   }
 }

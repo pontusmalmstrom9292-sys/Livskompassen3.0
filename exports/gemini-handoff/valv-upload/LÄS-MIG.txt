@@ -8,4 +8,4 @@ Valv → Gemini (Livskompassen v2)
 5. Spara Geminis svar i docs/gemini-handoff/ som V1-valv-svar.md (eller klistra tillbaka i Cursor).
 
 Mapp: /Users/Livskompassen/StudioProjects/Livskompassen3.0/exports/gemini-handoff/valv-upload
-Genererad: 2026-06-17T22:46:12.907Z
+Genererad: 2026-06-19T02:55:36.966Z

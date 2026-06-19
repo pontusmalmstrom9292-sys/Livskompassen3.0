@@ -1,4 +1,5 @@
 import { useStore } from '@/core/store';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { SpeglingsForensicPanel, SpeglingsSystem } from './SpeglingsSystem';
 
 export type SpeglarSuperVariant = 'dagbok' | 'forensic';
@@ -20,9 +21,17 @@ export function SpeglarSuperModule({
 }: SpeglarSuperModuleProps) {
   const userId = useStore((s) => s.user?.uid);
 
-  if (variant === 'forensic') {
-    return <SpeglingsForensicPanel userId={userId} initialFeeling={initialFeeling} />;
-  }
-
-  return <SpeglingsSystem embedded />;
+  return (
+    <HubErrorBoundary
+      title="Speglar kunde inte laddas"
+      glow="gold"
+      logTag="SpeglarSuperModule"
+    >
+      {variant === 'forensic' ? (
+        <SpeglingsForensicPanel userId={userId} initialFeeling={initialFeeling} />
+      ) : (
+        <SpeglingsSystem embedded />
+      )}
+    </HubErrorBoundary>
+  );
 }

@@ -1,5 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Navigate, useSearchParams } from 'react-router-dom';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { ModuleShell } from '../layout/ModuleShell';
 import { NAV_PATHS } from '../navigation/navTruth';
 import { dagbokLegacyModeToInputMode } from '@/features/lifeJournal/diary/supermodule/dagbokInputModes';
@@ -20,7 +22,7 @@ function resolveLayerTab(raw: string | null): HjartatLayerTab {
 }
 
 function DagbokInputFallback() {
-  return <p className="text-sm text-text-dim">Laddar dagbok…</p>;
+  return <HubPanelSkeleton label="Laddar dagbok…" lines={4} />;
 }
 
 /** Reflektion-flik — legacy `?mode=` → `?inputMode=` + embedded superhub. */
@@ -57,39 +59,45 @@ export function DagbokPage() {
   const [searchParams] = useSearchParams();
   const layerTab = resolveLayerTab(searchParams.get('tab'));
 
-  if (layerTab === 'speglar') {
-    return (
-      <ModuleShell
-        eyebrow="Hjärtat"
-        title="Speglar"
-        lead="Validering utan fix — känsla och fakta hålls isär."
-        lockViewport
-        fitViewport
-        depth
-        cognitiveStrip={false}
-      >
-        <HjartatBentoShell>
-          <SpeglarSuperModule variant="dagbok" />
-        </HjartatBentoShell>
-      </ModuleShell>
-    );
-  }
-
   return (
-    <ModuleShell
-      eyebrow="Hjärtat"
-      title="Dagbok"
-      lead="Reflektion och daglig logg — utanför Valvet."
-      lockViewport
-      fitViewport
-      depth
-      cognitiveStrip={false}
+    <HubErrorBoundary
+      title="Hjärtat kunde inte laddas"
+      glow="gold"
+      backTo={NAV_PATHS.HOME}
+      backLabel="Till Hem"
+      logTag="HjartatPage"
     >
-      <HjartatBentoShell>
-        <HjartatReflektionPanel />
-        <PinnedPlaneringModuleSlot targetId="hjartat.dagbok" className="mt-4" />
-      </HjartatBentoShell>
-    </ModuleShell>
+      {layerTab === 'speglar' ? (
+        <ModuleShell
+          eyebrow="Hjärtat"
+          title="Speglar"
+          lead="Validering utan fix — känsla och fakta hålls isär."
+          lockViewport
+          fitViewport
+          depth
+          cognitiveStrip={false}
+        >
+          <HjartatBentoShell>
+            <SpeglarSuperModule variant="dagbok" />
+          </HjartatBentoShell>
+        </ModuleShell>
+      ) : (
+        <ModuleShell
+          eyebrow="Hjärtat"
+          title="Dagbok"
+          lead="Reflektion och daglig logg — utanför Valvet."
+          lockViewport
+          fitViewport
+          depth
+          cognitiveStrip={false}
+        >
+          <HjartatBentoShell>
+            <HjartatReflektionPanel />
+            <PinnedPlaneringModuleSlot targetId="hjartat.dagbok" className="mt-4" />
+          </HjartatBentoShell>
+        </ModuleShell>
+      )}
+    </HubErrorBoundary>
   );
 }
 

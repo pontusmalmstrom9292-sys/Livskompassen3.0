@@ -1,6 +1,8 @@
+import { clearSpeglarSession } from '@/features/lifeJournal/diary/mirror/utils/speglarSessionStorage';
 import { clearAllVaultZones, hasVaultGate, invalidateServerSession } from '../auth/sessionService';
 import { ensureVaultServerSession } from '../auth/vaultServerSession';
 import { useStore } from '../store';
+import { useVaultStore } from '../store/useVaultStore';
 
 type EndVaultSessionOptions = {
   /** Default true — rensar Vertex-cache + Firestore vault_session. */
@@ -13,6 +15,8 @@ type EndVaultSessionOptions = {
 export async function endVaultSession(options?: EndVaultSessionOptions): Promise<void> {
   const { invalidateServer = true, closeDrawer = true } = options ?? {};
   clearAllVaultZones();
+  useVaultStore.getState().clearClientCache();
+  clearSpeglarSession();
   useStore.getState().setVaultUnlocked(false);
   if (closeDrawer) {
     useStore.getState().setActiveDrawer(null);

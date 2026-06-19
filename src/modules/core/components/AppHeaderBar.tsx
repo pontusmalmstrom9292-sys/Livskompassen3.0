@@ -11,9 +11,16 @@ type Props = {
   menuExpanded: boolean;
   onMenuClick: () => void;
   actions: ReactNode;
+  /** Kompass-toggle — direkt barn i glass-header-bar (index 2). */
+  headerQuickToggle?: ReactNode;
 };
 
-export function AppHeaderBar({ menuExpanded, onMenuClick, actions }: Props) {
+export function AppHeaderBar({
+  menuExpanded,
+  onMenuClick,
+  actions,
+  headerQuickToggle,
+}: Props) {
   const { active, chrome } = useDesignPack();
   const panelStyle = useHeaderPanelStyle();
 
@@ -23,6 +30,7 @@ export function AppHeaderBar({ menuExpanded, onMenuClick, actions }: Props) {
         menuExpanded={menuExpanded}
         onMenuClick={onMenuClick}
         actions={actions}
+        headerQuickToggle={headerQuickToggle}
       />
     );
   }
@@ -46,6 +54,7 @@ export function AppHeaderBar({ menuExpanded, onMenuClick, actions }: Props) {
       </div>
 
       <div className="app-header__actions app-header__actions--kanon">{actions}</div>
+      {headerQuickToggle}
     </div>
   );
 }

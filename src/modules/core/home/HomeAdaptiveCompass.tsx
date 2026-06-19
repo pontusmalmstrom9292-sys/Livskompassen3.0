@@ -33,6 +33,8 @@ import { isLowHomeCapacity } from './homeCapacityGate';
 import { AnchorVariantForge } from '@/core/ui/ankare';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useEvolutionStore } from '@/core/store/useEvolutionStore';
+import { useAdaptationStore } from '@/core/store/useAdaptationStore';
+import { useAdaptationClickSignal } from '@/core/adaptation/useAdaptationClickSignal';
 import { useCapacityScore, useListenToCapacityState } from '@/core/store/useCapacityGate';
 
 function phaseToCompassFlow(phase: HomeCompassPhase): CompassFlow {
@@ -69,13 +71,19 @@ export function HomeAdaptiveCompass({
   const user = useStore((s) => s.user);
   const evolutionDoc = useEvolutionStore((s) => s.doc);
   const listenToEvolutionHub = useEvolutionStore((s) => s.listenToEvolutionHub);
+  const adaptationLayerEnabled = useAdaptationStore((s) => s.layerEnabled);
+  const adaptationPrefs = useAdaptationStore((s) => s.prefs);
+  const fireAdaptationClick = useAdaptationClickSignal();
   const capacityScore = useCapacityScore();
   const listenToCapacityState = useListenToCapacityState();
   const { themeId } = useTheme();
   const forgeActive = isOdForgeBridgeActive(themeId);
   const [discoveryFlowActive, setDiscoveryFlowActive] = useState(false);
 
-  const lowCapacity = isLowHomeCapacity(evolutionDoc, capacityScore);
+  const lowCapacity = isLowHomeCapacity(evolutionDoc, capacityScore, {
+    layerEnabled: adaptationLayerEnabled,
+    prefs: adaptationPrefs,
+  });
 
   useEffect(() => {
     if (!user?.uid) return;
@@ -98,6 +106,11 @@ export function HomeAdaptiveCompass({
   const [morningError, setMorningError] = useState<string | null>(null);
   const [paralysKey, setParalysKey] = useState(0);
   const [inkastOpen, setInkastOpen] = useState(false);
+
+  useEffect(() => {
+    if (!inkastOpen) return;
+    fireAdaptationClick('inkast_open_home', 'core');
+  }, [inkastOpen, fireAdaptationClick]);
   const inkastSectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {

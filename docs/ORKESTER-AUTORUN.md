@@ -107,6 +107,14 @@ Conductor: `.cursor/agents/orkester-conductor.md`
 | Hjärtat+Inkast | `specialist-hjartat-inkast-builder.md` | Z3+6 (Fas 5) |
 | Familjen+Hamn | `specialist-familjen-hamn-builder.md` | Z5+2 (Fas 5) |
 | Vardagen | `specialist-vardagen-builder.md` | Z4 (Fas 5) |
+| HCF Domän | `specialist-hcf-domän.md` | Covert/HCF research |
+| Utveckling | `specialist-utveckling-kurator.md` | ACT/KBT/RSD/JOY |
+| Återhämtning | `specialist-aterhamtning-hälsa.md` | REST, parent fysio PMIR |
+| Myndighet | `specialist-myndighet-seed.md` | LVU/soc FACT |
+| Neuro-Psyk | `specialist-neuro-psyk-seed.md` | GAD/ADHD/pu FACT |
+| Innehåll Dirigent | `specialist-innehall-dirigent.md` | U6 routing |
+| Kunskap Seed | `specialist-kunskap-seed.md` | FACT ingest |
+| MåBra Curator | `specialist-mabra-curator.md` | REFLECTION/PLAY |
 
 **Deploy:** skill `.cursor/skills/livskompassen-deploy/` (inte subagent).
 
@@ -135,6 +143,7 @@ export ORKESTER_AUTORUN=1
 
 ```bash
 npm run smoke:innehall   # U6 innehållskanon (ingår även i orkester)
+npm run smoke:domän-specialister  # 5 domän-agenter + våg 31 seed
 npm run smoke:orkester
 ```
 

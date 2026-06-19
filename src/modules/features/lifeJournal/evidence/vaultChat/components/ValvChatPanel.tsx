@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Brain, Loader2, Search, Send, Sparkles, User, X, FileText, ExternalLink } from 'lucide-react';
+import { Brain, Loader2, Send, Sparkles, User, X, FileText, ExternalLink } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { VAVAREN_VALVCHAT_HINT } from '../../vault/constants/vavarenCopy';
 import type { ValvChatCitation } from '../api/valvChatService';
@@ -7,6 +7,9 @@ import { useValvChatSession, type ValvChatMessage } from '../hooks/useValvChatSe
 import type { VaultLog } from '@/core/types/firestore';
 import { RAGErrorBoundary } from '@/shared/ui/RAGErrorBoundary';
 import { TheoryWithoutEvidenceBadge } from '@/shared/ui/TheoryWithoutEvidenceBadge';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { SanningsAnalytikernHeader } from './SanningsAnalytikernHeader';
+import { AgentResponseFooter } from '@/shared/agents/components/AgentResponseFooter';
 
 type ValvChatPanelProps = {
   active: boolean;
@@ -23,7 +26,7 @@ function CitationList({
 }) {
   if (!citations.length) return null;
   return (
-    <div className="mt-3 space-y-2 border-t border-white/10 pt-3">
+    <div className="mt-3 space-y-2 border-t border-border pt-3">
       <p className="text-[10px] uppercase tracking-widest text-success">Källor (låsta poster)</p>
       <ul className="space-y-2">
         {citations.map((c) => (
@@ -58,20 +61,26 @@ function ChatBubble({
       <div className={`flex max-w-[88%] gap-2 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
         <div
           className={`mt-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-full border ${
-            isUser ? 'border-white/10 bg-surface/80' : 'border-indigo-400/30 bg-indigo-500/15'
+            isUser ? 'border-border bg-surface/80' : 'border-accent-secondary/30 bg-accent-secondary/15'
           }`}
         >
-          {isUser ? <User className="h-4 w-4 text-text-dim" /> : <Sparkles className="h-4 w-4 text-indigo-300" />}
+          {isUser ? <User className="h-4 w-4 text-text-dim" /> : <Sparkles className="h-4 w-4 text-accent-secondary" />}
         </div>
         <div
           className={`rounded-[1.25rem] px-4 py-3 ${
             isUser
               ? 'rounded-br-sm bg-surface/90 text-text'
-              : 'rounded-bl-sm glass-card border border-indigo-400/15 text-text-muted'
+              : 'rounded-bl-sm calm-card border border-border text-text-muted'
           }`}
         >
           <div className="whitespace-pre-wrap text-sm leading-relaxed">{msg.text}</div>
           {msg.role === 'assistant' && msg.theoryWithoutEvidence && <TheoryWithoutEvidenceBadge />}
+          {msg.role === 'assistant' && (
+            <AgentResponseFooter
+              productAgentName="Sannings-Analytikern"
+              executorName="Gräns-Arkitekten"
+            />
+          )}
           {msg.role === 'assistant' && msg.citations && (
             <CitationList citations={msg.citations} onCitationClick={onCitationClick} />
           )}
@@ -115,27 +124,15 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
   return (
     <RAGErrorBoundary fallbackTitle="Nätverksfel i Valv-Chat">
       <div className="valv-chat-panel space-y-4">
-        <div className="glass-card flex items-center gap-3 rounded-[2rem] border border-indigo-400/15 p-4">
-          <div className="rounded-2xl border border-indigo-400/25 bg-indigo-500/15 p-3">
-            <Search className="h-5 w-5 text-indigo-300" />
-          </div>
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-indigo-300/90">
-              Forensisk sökning
-            </p>
-            <h2 className="font-display text-lg text-text">Sök i Valvet</h2>
-          </div>
-        </div>
+        <SanningsAnalytikernHeader />
 
-        <BentoCard title="Chatt mot arkiv" description="Källor länkas till Logga">
+        <BentoCard title="Chatt mot arkiv" description="Källor länkas till Logga" glow="blue">
           <p className="mb-3 text-xs text-text-dim">{VAVAREN_VALVCHAT_HINT}</p>
-          <div className="flex max-h-[min(52vh,28rem)] min-h-[12rem] flex-col overflow-y-auto rounded-2xl border border-white/5 bg-obsidian/40 p-3">
+          <div className="flex max-h-[min(52vh,28rem)] min-h-[12rem] flex-col overflow-y-auto rounded-2xl border border-border bg-surface/40 p-3">
             {messages.length === 0 && !loading && (
-              <div className="flex flex-1 flex-col items-center justify-center gap-3 py-8 text-center opacity-70">
-                <Brain className="h-10 w-10 text-indigo-300/80" />
-                <p className="max-w-[220px] text-sm text-text-muted">
-                  Ställ en fråga mot dina säkrade poster — inget sparas efter stäng.
-                </p>
+              <div className="flex flex-1 flex-col items-center justify-center py-6 text-center">
+                <Brain className="mb-3 h-8 w-8 text-accent-secondary/60" aria-hidden />
+                <EmptyState message="Ställ en fråga mot dina säkrade poster — inget sparas efter stäng." />
               </div>
             )}
             <div className="space-y-4">
@@ -143,8 +140,8 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
                 <ChatBubble key={msg.id} msg={msg} onCitationClick={handleSourceClick} />
               ))}
               {loading && (
-                <div className="glass-card flex items-center gap-2 rounded-2xl px-4 py-3 text-sm text-text-dim">
-                  <Loader2 className="h-4 w-4 animate-spin text-indigo-300" /> Söker i arkivet…
+                <div className="calm-card flex items-center gap-2 rounded-2xl px-4 py-3 text-sm text-text-dim">
+                  <Loader2 className="h-4 w-4 animate-spin text-accent-secondary" /> Söker i arkivet…
                 </div>
               )}
               <div ref={messagesEndRef} />

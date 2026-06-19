@@ -97,6 +97,11 @@ export function InkastConfirmPanel({
           {classification.summary && (
             <p className="mt-2 text-xs text-text-dim">{classification.summary}</p>
           )}
+          {uiSilo === 'valv' && (
+            <p className="mt-2 rounded-lg border border-accent/20 bg-surface-2/50 px-2 py-1.5 text-[11px] leading-relaxed text-text-dim">
+              Arkiv = oföränderlig post. Beteende och datum — kan inte raderas efter godkännande.
+            </p>
+          )}
         </div>
         <span className="max-w-[140px] truncate text-right text-xs text-text">{previewLabel}</span>
       </div>

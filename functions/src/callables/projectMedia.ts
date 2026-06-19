@@ -2,10 +2,7 @@ import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import { createGenAI } from '../lib/genaiClient';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-
-const OCR_PROMPT = `Du är en OCR-motor. Läs all text som finns i denna bild och returnera den exakt som den står. 
-Gör inga sammanfattningar, ingen JADE, och inga konversationer. 
-Om det inte finns någon text i bilden, svara med "Ingen text upptäckt."`;
+import { OCR_PROMPT } from '../sharedRules';
 
 export const analyzeProjectImage = onCall(
   { region: 'europe-west1' },

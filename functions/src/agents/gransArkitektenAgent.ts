@@ -14,7 +14,7 @@ export interface GransArkitektenResult {
   theoryWithoutEvidence?: boolean;
 }
 
-function parseGransJson(raw: string, dcap: DcapResult): GransArkitektenResult {
+export function parseGransJson(raw: string, dcap: DcapResult): GransArkitektenResult {
   try {
     const cleaned = raw.replace(/```json\n?|\n?```/g, '').trim();
     const parsed = JSON.parse(cleaned) as GransArkitektenResult & { theoryWithoutEvidence?: boolean };

@@ -1,0 +1,15 @@
+{
+  "toolId": "flow_pattern_assist",
+  "version": "1.0.0",
+  "title": "Mönster metadata-assist",
+  "silo": "valv",
+  "callable": "assistPatternMetadata",
+  "model": "gemini-2.5-flash",
+  "schemaModule": "functions/src/schemas/patternAssist.ts",
+  "responseSchemaExport": "PATTERN_ASSIST_RESPONSE_SCHEMA",
+  "nodeGraph": ["trigger:pattern_scan", "dcap:gatePatternAssist", "callable:assistPatternMetadata", "response:json"],
+  "smoke": ["npm run smoke:orkester"],
+  "pmirStatus": "approved",
+  "lockedUx": ["VaultMonsterPanel"],
+  "costNote": "Closed catalog only — no free-form labels"
+}

@@ -1,0 +1,15 @@
+{
+  "toolId": "flow_biff_rewrite",
+  "version": "1.0.0",
+  "title": "BIFF inline-tvätt",
+  "silo": "hamn",
+  "callable": "biffRewriteDraft",
+  "model": "gemini-2.5-flash",
+  "schemaModule": "functions/src/schemas/biffRewrite.ts",
+  "responseSchemaExport": "BIFF_REWRITE_RESPONSE_SCHEMA",
+  "nodeGraph": ["trigger:user_draft", "callable:biffRewriteDraft", "response:json"],
+  "smoke": ["npm run smoke:locked-ux"],
+  "pmirStatus": "approved",
+  "lockedUx": ["Trygg Hamn BIFF panel"],
+  "costNote": "Ephemeral — ingen WORM"
+}

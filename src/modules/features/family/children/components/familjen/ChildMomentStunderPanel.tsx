@@ -76,7 +76,7 @@ export function ChildMomentStunderPanel({ shell }: Props) {
               >
                 <div className="flex items-start gap-3">
                   <span
-                    className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-accent"
+                    className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border bg-surface-3/40 text-accent"
                     aria-hidden
                   >
                     <Icon className="h-4 w-4" />

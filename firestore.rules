@@ -75,8 +75,14 @@ service cloud.firestore {
         || (request.resource.data.signals is map
           && request.resource.data.signals.keys().hasOnly(['somn', 'angest', 'aptit'])
           && request.resource.data.signals.somn is int
+          && request.resource.data.signals.somn >= 1
+          && request.resource.data.signals.somn <= 5
           && request.resource.data.signals.angest is int
-          && request.resource.data.signals.aptit is int);
+          && request.resource.data.signals.angest >= 1
+          && request.resource.data.signals.angest <= 5
+          && request.resource.data.signals.aptit is int
+          && request.resource.data.signals.aptit >= 1
+          && request.resource.data.signals.aptit <= 5);
     }
 
     function isValidRealityVaultCreate() {
@@ -84,14 +90,27 @@ service cloud.firestore {
           'userId', 'ownerId', 'action', 'truth', 'category', 'sourceRef',
           'childrenImpact', 'evidenceUrl', 'biffUsed', 'isLocked', 'entryType',
           'theirVersion', 'myReality', 'bodySignals', 'shieldWhat', 'shieldFeeling',
-          'shieldBoundary', 'pinned', 'createdAt',
+          'shieldBoundary', 'pinned', 'journalEntryId', 'sourceMood', 'weaverTags',
+          'createdAt',
         ])
         && request.resource.data.action is string
         && request.resource.data.action.size() > 0
         && request.resource.data.action.size() <= 200
         && request.resource.data.truth is string
         && request.resource.data.truth.size() > 0
-        && request.resource.data.truth.size() <= 50000;
+        && request.resource.data.truth.size() <= 50000
+        && (!('journalEntryId' in request.resource.data)
+          || (request.resource.data.category == 'vävaren_metadata'
+            && request.resource.data.journalEntryId is string
+            && request.resource.data.journalEntryId.size() > 0
+            && request.resource.data.journalEntryId.size() <= 128))
+        && (!('sourceMood' in request.resource.data)
+          || (request.resource.data.category == 'vävaren_metadata'
+            && request.resource.data.sourceMood is string
+            && request.resource.data.sourceMood.size() <= 80))
+        && (!('weaverTags' in request.resource.data)
+          || (request.resource.data.category == 'vävaren_metadata'
+            && request.resource.data.weaverTags is map));
     }
 
     function isValidJournalCreate() {
@@ -111,7 +130,7 @@ service cloud.firestore {
       return wormKeysOnly([
           'userId', 'ownerId', 'childAlias', 'observation', 'truth', 'action', 'category',
           'childrenImpact', 'authorRole', 'channel', 'visibility', 'contentType', 'signals',
-          'bankId', 'mediaUrl', 'createdAt',
+          'bankId', 'mediaUrl', 'sourceRef', 'createdAt',
         ])
         && request.resource.data.childAlias is string
         && request.resource.data.childAlias.size() > 0
@@ -121,9 +140,15 @@ service cloud.firestore {
         && request.resource.data.action.size() <= 64
         && isValidChildSignals()
         && (!('observation' in request.resource.data)
-          || request.resource.data.observation is string)
+          || (request.resource.data.observation is string
+            && request.resource.data.observation.size() <= 50000))
         && (!('truth' in request.resource.data)
-          || request.resource.data.truth is string)
+          || (request.resource.data.truth is string
+            && request.resource.data.truth.size() <= 50000))
+        && (!('sourceRef' in request.resource.data)
+          || (request.resource.data.sourceRef is string
+            && request.resource.data.sourceRef.size() > 0
+            && request.resource.data.sourceRef.size() <= 256))
         && (!('bankId' in request.resource.data)
           || (request.resource.data.bankId is string
             && request.resource.data.bankId.size() > 0
@@ -144,6 +169,60 @@ service cloud.firestore {
         && request.resource.data.levelAfter is int
         && request.resource.data.rationale is string
         && request.resource.data.metadata is map;
+    }
+
+    function isValidPipelineRunCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'createdAt', 'toolId', 'status', 'schemaVersion', 'smokeTier', 'commitSha', 'errorCode',
+        ])
+        && request.resource.data.toolId is string
+        && request.resource.data.status in ['spawned', 'PASS', 'FAIL', 'validated', 'exported']
+        && request.resource.data.schemaVersion is string;
+    }
+
+    function isValidAdaptationLedgerCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'createdAt', 'type', 'source', 'silo', 'rationale', 'metadata',
+        ])
+        && request.resource.data.type in [
+          'pref_updated', 'signal_recorded', 'semantic_indexed', 'feature_flagged',
+        ]
+        && request.resource.data.source in ['user', 'system', 'callable']
+        && request.resource.data.silo in ['kunskap', 'valv', 'barnen', 'vardag', 'core']
+        && request.resource.data.rationale is string
+        && request.resource.data.rationale.size() > 0
+        && request.resource.data.rationale.size() <= 500
+        && request.resource.data.metadata is map;
+    }
+
+    function isValidAdaptationPrefsBase() {
+      return request.resource.data.coachTone in ['minimal', 'standard', 'detailed']
+        && request.resource.data.uiDensity in ['paralys', 'normal', 'full']
+        && request.resource.data.routingDefaults is map
+        && request.resource.data.routingDefaults.size() <= 24
+        && request.resource.data.dismissedHints is list
+        && request.resource.data.dismissedHints.size() <= 64
+        && request.resource.data.inferredSignals is map
+        && request.resource.data.inferredSignals.size() <= 48;
+    }
+
+    function isValidAdaptationPrefsCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'coachTone', 'uiDensity', 'routingDefaults',
+          'dismissedHints', 'inferredSignals', 'updatedAt',
+        ])
+        && isValidAdaptationPrefsBase();
+    }
+
+    function isValidAdaptationPrefsUpdate() {
+      return request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly([
+            'coachTone', 'uiDensity', 'routingDefaults', 'dismissedHints',
+            'inferredSignals', 'updatedAt',
+          ])
+        && isValidAdaptationPrefsBase()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId;
     }
 
     function isValidEmotionalMemoryCreate() {
@@ -298,12 +377,12 @@ service cloud.firestore {
 
     // Barnporten QR — skrivs endast via Cloud Functions (Admin SDK)
     match /barnporten_pairings/{tokenId} {
-      allow read: if isOwner();
+      allow read: if isOwnerSensitive();
       allow create, update, delete: if false;
     }
 
     match /barnporten_devices/{docId} {
-      allow read: if isOwner();
+      allow read: if isOwnerSensitive();
       allow create, update, delete: if false;
     }
 
@@ -333,6 +412,12 @@ service cloud.firestore {
 
     // DCAP HITL-eskalering — WORM (skrivs endast av Cloud Functions Admin SDK)
     match /dcap_alerts/{docId} {
+      allow read: if isOwner();
+      allow create, update, delete: if false;
+    }
+
+    // DCAP HITL-granskning — append-only via resolveDcapAlert callable
+    match /dcap_alert_reviews/{docId} {
       allow read: if isOwner();
       allow create, update, delete: if false;
     }
@@ -983,7 +1068,7 @@ service cloud.firestore {
 
     // Dossier snapshots — WORM kvitto (skrivs endast av Cloud Functions Admin SDK)
     match /dossier_snapshots/{docId} {
-      allow read: if isOwnerSensitive();
+      allow read: if isOwnerVault();
       allow create, update, delete: if false;
     }
 
@@ -1128,7 +1213,14 @@ service cloud.firestore {
 
     match /evolution_ledger/{docId} {
       allow read: if isOwner();
-      allow create: if isOwnerCreateSensitive() && isValidEvolutionLedgerCreate();
+      // Admin SDK only — onEvolutionHubWrite + recordDiscoveryMilestone callable (P0.1)
+      allow create: if false;
+      allow update, delete: if false;
+    }
+
+    match /pipeline_runs/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreateSensitive() && isValidPipelineRunCreate();
       allow update, delete: if false;
     }
 
@@ -1144,6 +1236,30 @@ service cloud.firestore {
         && request.resource.data.userId == request.auth.uid
         && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['unlockedFeatureFlags']);
       allow delete: if false;
+    }
+
+    match /adaptation_prefs/{uid} {
+      allow read: if isAuthenticated() && request.auth.uid == uid && isSensitiveAuth();
+      allow create: if isAuthenticated()
+        && uid == request.auth.uid
+        && isOwnerCreateSensitive()
+        && isValidAdaptationPrefsCreate();
+      allow update: if isAuthenticated()
+        && uid == request.auth.uid
+        && isOwnerSensitive()
+        && isValidAdaptationPrefsUpdate();
+      allow delete: if false;
+    }
+
+    match /adaptation_ledger/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreateSensitive() && isValidAdaptationLedgerCreate();
+      allow update, delete: if false;
+    }
+
+    match /adaptation_semantic_profile/{uid} {
+      allow read: if isAuthenticated() && request.auth.uid == uid && isSensitiveAuth();
+      allow create, update, delete: if false;
     }
 
     match /user_economy_status/{uid} {

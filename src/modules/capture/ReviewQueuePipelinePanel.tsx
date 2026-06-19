@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Cloud, Inbox } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { TimelineEntry } from '@/core/ui/TimelineEntry';
 import { useStore } from '@/core/store';
 import { fetchInboxQueue, type InboxQueueItem } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import {
@@ -11,9 +12,12 @@ import {
   VALV_SAMLA_GRANSKA_LINK,
 } from '@/modules/inkast/api/inkastService';
 import { isPlaneringInboxItem, sortInboxForPlaneringInkorg } from '@/modules/inkast/planeringInboxItem';
+import { retryCaptureDraft } from './captureDraftSync';
+import { CalmBreathingCircle } from './components/CalmBreathingCircle';
 import { listDraftsByStatus, type CaptureDraft } from './draftQueue';
 import {
   draftFailedStatusLabel,
+  draftPendingStatusLabel,
   draftRoutingLabel,
   inboxQueueDisplayStatus,
   inboxQueueStatusBadgeClass,
@@ -52,16 +56,20 @@ export function ReviewQueuePipelinePanel({
 }: Props) {
   const isAuthenticated = useStore((s) => s.isAuthenticated);
   const [cloudItems, setCloudItems] = useState<InboxQueueItem[]>([]);
+  const [pendingDrafts, setPendingDrafts] = useState<CaptureDraft[]>([]);
   const [reviewDrafts, setReviewDrafts] = useState<CaptureDraft[]>([]);
   const [failedDrafts, setFailedDrafts] = useState<CaptureDraft[]>([]);
   const [loadingCloud, setLoadingCloud] = useState(false);
   const [cloudError, setCloudError] = useState<string | null>(null);
+  const [retryingId, setRetryingId] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
-    const [review, failed] = await Promise.all([
+    const [pending, review, failed] = await Promise.all([
+      listDraftsByStatus('pending'),
       listDraftsByStatus('review'),
       listDraftsByStatus('failed'),
     ]);
+    setPendingDrafts(pending);
     setReviewDrafts(review);
     setFailedDrafts(failed);
 
@@ -83,7 +91,20 @@ export function ReviewQueuePipelinePanel({
     void refresh();
   }, [refresh, refreshToken]);
 
-  const localTotal = reviewDrafts.length + failedDrafts.length;
+  const handleRetry = useCallback(
+    async (draftId: string) => {
+      setRetryingId(draftId);
+      try {
+        await retryCaptureDraft(draftId);
+        await refresh();
+      } finally {
+        setRetryingId(null);
+      }
+    },
+    [refresh],
+  );
+
+  const localTotal = pendingDrafts.length + reviewDrafts.length + failedDrafts.length;
   const cloudTotal = cloudItems.length;
   const grandTotal = localTotal + (mode === 'summary' ? cloudTotal : 0);
   const sortedCloudItems = prioritizePlanering
@@ -152,18 +173,21 @@ export function ReviewQueuePipelinePanel({
                   Öppna Handling (Kanban)
                 </Link>
               )}
-              <ul className="space-y-2 text-sm">
+              <ul className="relative space-y-0 border-l border-border/40 pl-4">
                 {cloudPreview.map((item) => {
                   const displayStatus = inboxQueueDisplayStatus(item);
                   return (
-                    <li
-                      key={item.id}
-                      className="rounded-lg border border-border/50 bg-surface/40 px-3 py-2"
-                    >
-                      <p className="font-medium text-text">{item.fileName}</p>
-                      <span className={`mt-1 inline-block ${inboxQueueStatusBadgeClass(displayStatus)}`}>
-                        {inboxQueueStatusLabel(item)}
-                      </span>
+                    <li key={item.id} className="relative pb-3 last:pb-0">
+                      <span
+                        className="absolute -left-[9px] top-3 h-2 w-2 rounded-full bg-accent/70"
+                        aria-hidden
+                      />
+                      <TimelineEntry
+                        as="div"
+                        meta={`${inboxQueueStatusLabel(item)} · ${displayStatus}`}
+                        body={item.fileName}
+                        truncateAt={120}
+                      />
                     </li>
                   );
                 })}
@@ -185,6 +209,29 @@ export function ReviewQueuePipelinePanel({
         <section className="rounded-xl border border-border/40 bg-surface/30 px-3 py-3">
           <p className="mb-2 text-xs uppercase tracking-wider text-text-dim">Lokalt på enheten</p>
           <ul className="space-y-2 text-sm">
+            {pendingDrafts.map((d) => (
+              <li key={d.id} className="rounded-xl border border-accent/20 bg-surface/40 px-3 py-2">
+                <span className={inboxQueueStatusBadgeClass('review')}>{draftPendingStatusLabel()}</span>
+                <p className="mt-1 text-text-muted">{draftSummary(d)}</p>
+                {d.errorMessage && (
+                  <p className="mt-1 text-xs text-amber-400/90">{d.errorMessage}</p>
+                )}
+                {retryingId === d.id ? (
+                  <span className="mt-2 inline-flex items-center gap-1.5 text-xs text-text-dim">
+                    <CalmBreathingCircle size="sm" label="Synkar" />
+                    Synkar…
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn-pill--ghost mt-2 text-xs"
+                    onClick={() => void handleRetry(d.id)}
+                  >
+                    Försök igen
+                  </button>
+                )}
+              </li>
+            ))}
             {reviewDrafts.map((d) => {
               const primary = d.syncResult ? primaryInkastItem(d.syncResult) : null;
               const destinationLink = primary ? inkastDestinationLink(primary) : null;
@@ -211,6 +258,20 @@ export function ReviewQueuePipelinePanel({
               <li key={d.id} className="rounded-xl border border-rose-500/30 bg-surface/40 px-3 py-2">
                 <span className={inboxQueueStatusBadgeClass('rejected')}>{draftFailedStatusLabel()}</span>
                 <p className="mt-1 text-text-muted">{d.errorMessage ?? draftSummary(d)}</p>
+                {retryingId === d.id ? (
+                  <span className="mt-2 inline-flex items-center gap-1.5 text-xs text-text-dim">
+                    <CalmBreathingCircle size="sm" label="Synkar" />
+                    Synkar…
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn-pill--ghost mt-2 text-xs"
+                    onClick={() => void handleRetry(d.id)}
+                  >
+                    Försök igen
+                  </button>
+                )}
               </li>
             ))}
           </ul>

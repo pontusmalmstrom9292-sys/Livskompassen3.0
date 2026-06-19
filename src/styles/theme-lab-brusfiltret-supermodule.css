@@ -1,0 +1,106 @@
+/**
+ * Theme Lab — Brusfiltret SuperModule variant B (indigo + tabs)
+ * Route: /dev/theme-lab/brusfiltret-supermodule
+ * Kanon: docs/design/references/BRUSFILTRET-MODUL-KANON.md
+ */
+
+.bf-supermodule-lab {
+  @apply mx-auto flex w-full max-w-lg flex-col gap-6;
+}
+
+.bf-supermodule {
+  @apply relative overflow-hidden rounded-2xl border border-indigo-500/25 bg-surface-2/90 p-5 shadow-xl backdrop-blur-xl;
+  box-shadow:
+    0 4px 24px -4px rgba(99, 102, 241, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.bf-supermodule::after {
+  content: '';
+  @apply pointer-events-none absolute inset-x-0 bottom-0 h-1 rounded-b-2xl;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.65), transparent);
+}
+
+.bf-supermodule__header {
+  @apply mb-4 flex items-center justify-between gap-3;
+}
+
+.bf-supermodule__title-row {
+  @apply flex items-center gap-2;
+}
+
+.bf-supermodule__title {
+  @apply text-sm font-semibold text-text;
+}
+
+.bf-supermodule__close {
+  @apply rounded-full p-1.5 text-text-muted transition-colors hover:bg-surface-3 hover:text-text;
+}
+
+.bf-supermodule__tabs {
+  @apply mb-4 flex flex-wrap gap-1.5;
+}
+
+.bf-supermodule__tab {
+  @apply min-h-[2.75rem] rounded-full border border-border/40 px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-text-muted transition-colors;
+}
+
+.bf-supermodule__tab:hover {
+  @apply border-indigo-500/30 bg-surface-3/80 text-text;
+}
+
+.bf-supermodule__tab--active {
+  @apply border-indigo-500/50 bg-indigo-500/15 text-indigo-300;
+}
+
+.bf-supermodule__body {
+  @apply space-y-4;
+}
+
+.bf-supermodule__textarea {
+  @apply min-h-[7.5rem] w-full resize-none rounded-xl border border-border/50 bg-surface/50 p-4 text-sm text-text placeholder:text-text-dim focus:border-indigo-500/45 focus:outline-none focus:ring-1 focus:ring-indigo-500/35;
+}
+
+.bf-supermodule__cta {
+  @apply flex min-h-[2.75rem] w-full items-center justify-center rounded-full border border-indigo-400/35 bg-indigo-600/85 px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-45;
+}
+
+.bf-supermodule__help {
+  @apply text-xs leading-relaxed text-text-dim;
+}
+
+.bf-supermodule__help a {
+  @apply text-accent underline-offset-2 hover:underline;
+}
+
+.bf-supermodule__footer {
+  @apply mt-4 space-y-3 rounded-xl border border-border/35 bg-surface/40 p-4;
+}
+
+.bf-supermodule__footer-text {
+  @apply text-xs leading-relaxed text-text-muted;
+}
+
+.bf-supermodule__footer-btn {
+  @apply flex min-h-[2.75rem] w-full items-center justify-center gap-2 rounded-full border border-accent/35 bg-transparent px-3 text-[11px] font-semibold uppercase tracking-wider text-accent transition-colors hover:border-accent/55 hover:bg-accent/5;
+}
+
+.bf-supermodule__panel-empty {
+  @apply rounded-xl border border-dashed border-border/40 bg-surface/30 p-6 text-center text-sm text-text-dim;
+}
+
+.bf-supermodule__jade {
+  @apply space-y-2 rounded-xl border border-danger/25 bg-danger/5 p-3.5;
+}
+
+.bf-supermodule__reply {
+  @apply whitespace-pre-wrap rounded-xl border border-indigo-500/25 bg-indigo-500/5 p-4 text-sm text-text-muted;
+}
+
+.bf-supermodule-lab__compare {
+  @apply grid gap-4 lg:grid-cols-2;
+}
+
+.bf-supermodule-lab__ref img {
+  @apply w-full rounded-xl border border-border/40 object-cover;
+}

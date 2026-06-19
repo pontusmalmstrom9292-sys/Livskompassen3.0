@@ -78,7 +78,7 @@ export function ValvSuperModule({
       return <ValvExporteraZone />;
     case 'forensik': {
       const tab: ForensicVaultTab = isForensicVaultTab(vaultTab) ? vaultTab : 'hamn_analys';
-      return <ValvForensikZone tab={tab} onTabChange={onVaultTabChange} />;
+      return <ValvForensikZone tab={tab} onTabChange={onVaultTabChange} gateOk={gateOk} />;
     }
     default:
       return null;

@@ -1,17 +1,7 @@
-import { addDoc, collection, doc, getDocs, query, serverTimestamp, setDoc, where } from 'firebase/firestore';
-import { db } from './firestore';
-import { assertOfflineWriteAllowed } from './offlineWritePolicy';
-import { FIRESTORE_COLLECTIONS } from '../types/firestore';
+import { getFunctions, httpsCallable } from 'firebase/functions';
+import { app } from './init';
 import type { DiscoveryCategoryId } from '@/features/dailyLife/wellbeing/compasses/content/discoveryBentoCatalog';
-import type { EvolutionHubDoc, EvolutionPillar } from '../types/firestore';
-import {
-  collectLedgerEntriesFromHubDiff,
-  ledgerEntryDedupKey,
-  ledgerEntryDedupKeyFromStored,
-  type EvolutionLedgerType,
-} from '../../../../shared/evolution/evolutionHubLedgerSync';
-
-export type { EvolutionLedgerType };
+import type { EvolutionHubDoc } from '../types/firestore';
 
 const MILESTONE_CACHE_PREFIX = 'lk:discovery_milestone:';
 
@@ -29,24 +19,7 @@ function writeMilestoneCache(userId: string, categoryId: DiscoveryCategoryId): v
   localStorage.setItem(milestoneCacheKey(userId, categoryId), '1');
 }
 
-async function hasDiscoveryMilestoneInLedger(
-  userId: string,
-  categoryId: DiscoveryCategoryId,
-): Promise<boolean> {
-  const ref = collection(db, FIRESTORE_COLLECTIONS.evolution_ledger);
-  const snap = await getDocs(query(ref, where('ownerId', '==', userId)));
-  return snap.docs.some((docSnap) => {
-    const data = docSnap.data();
-    const meta = data.metadata;
-    if (!meta || typeof meta !== 'object') return false;
-    return (
-      meta.source === 'kompass_discovery' &&
-      meta.categoryId === categoryId
-    );
-  });
-}
-
-/** Append-only milestone — första spar per deck-kategori. Ingen streak/XP. */
+/** Append-only milestone — server-only via recordDiscoveryMilestone callable (P0.1). */
 export async function recordDiscoveryMilestoneIfNew(
   userId: string,
   categoryId: DiscoveryCategoryId,
@@ -54,69 +27,27 @@ export async function recordDiscoveryMilestoneIfNew(
 ): Promise<boolean> {
   if (readMilestoneCache(userId, categoryId)) return false;
 
-  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.evolution_ledger);
+  const fn = httpsCallable<
+    { categoryId: string; firstBankId: string },
+    { recorded: boolean }
+  >(getFunctions(app, 'europe-west1'), 'recordDiscoveryMilestone');
 
-  const exists = await hasDiscoveryMilestoneInLedger(userId, categoryId);
-  if (exists) {
+  const result = await fn({ categoryId, firstBankId });
+  if (result.data.recorded) {
     writeMilestoneCache(userId, categoryId);
-    return false;
   }
-
-  const ref = collection(db, FIRESTORE_COLLECTIONS.evolution_ledger);
-  await addDoc(ref, {
-    userId,
-    ownerId: userId,
-    createdAt: serverTimestamp(),
-    type: 'milestone_unlocked' satisfies EvolutionLedgerType,
-    pillar: 'kognitiv' satisfies EvolutionPillar,
-    levelBefore: 0,
-    levelAfter: 1,
-    rationale: 'Första sparade reflektion i kompass-deck',
-    metadata: {
-      source: 'kompass_discovery',
-      categoryId,
-      firstBankId,
-    },
-  });
-
-  writeMilestoneCache(userId, categoryId);
-  return true;
+  return result.data.recorded;
 }
 
-async function loadExistingDedupKeys(userId: string): Promise<Set<string>> {
-  const ref = collection(db, FIRESTORE_COLLECTIONS.evolution_ledger);
-  const snap = await getDocs(query(ref, where('ownerId', '==', userId)));
-  const keys = new Set<string>();
-  snap.docs.forEach((docSnap) => {
-    keys.add(ledgerEntryDedupKeyFromStored(docSnap.data() as Record<string, unknown>));
-  });
-  return keys;
-}
-
-async function appendEvolutionLedgerEntry(
-  input: Parameters<typeof ledgerEntryDedupKey>[0] & { userId: string; rationale: string },
-  existingKeys: Set<string>,
+/** Server-only — client dual-write borttagen (P2.4). */
+export async function syncEvolutionHubToLedger(
+  _userId: string,
+  _prev: EvolutionHubDoc | null,
+  _next: EvolutionHubDoc,
 ): Promise<void> {
-  const key = ledgerEntryDedupKey(input);
-  if (existingKeys.has(key)) return;
-
-  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.evolution_ledger);
-  const ref = collection(db, FIRESTORE_COLLECTIONS.evolution_ledger);
-  await addDoc(ref, {
-    userId: input.userId,
-    ownerId: input.userId,
-    createdAt: serverTimestamp(),
-    type: input.type,
-    pillar: input.pillar,
-    levelBefore: input.levelBefore,
-    levelAfter: input.levelAfter,
-    rationale: input.rationale,
-    metadata: input.metadata,
-  });
-  existingKeys.add(key);
+  /* no-op: onEvolutionHubWrite + Admin SDK */
 }
 
-/** Dual-write när evolution_hub pillar-nivå ökar. */
 export async function recordPillarCapacityIncreases(
   userId: string,
   prev: EvolutionHubDoc | null,
@@ -125,7 +56,6 @@ export async function recordPillarCapacityIncreases(
   await syncEvolutionHubToLedger(userId, prev, next);
 }
 
-/** Dual-write när ny feature-flag låses upp i evolution_hub. */
 export async function recordFeatureUnlocks(
   userId: string,
   prev: EvolutionHubDoc | null,
@@ -134,7 +64,6 @@ export async function recordFeatureUnlocks(
   await syncEvolutionHubToLedger(userId, prev, next);
 }
 
-/** Dual-write vid barnets ålderssegment-byte. */
 export async function recordChildAgeMilestones(
   userId: string,
   prev: EvolutionHubDoc | null,
@@ -143,7 +72,6 @@ export async function recordChildAgeMilestones(
   await syncEvolutionHubToLedger(userId, prev, next);
 }
 
-/** Dual-write när barnportenLevel (root) ökar. */
 export async function recordBarnportenLevelIncrease(
   userId: string,
   prev: EvolutionHubDoc | null,
@@ -152,7 +80,6 @@ export async function recordBarnportenLevelIncrease(
   await syncEvolutionHubToLedger(userId, prev, next);
 }
 
-/** Dual-write när nytt material-pack låses upp. */
 export async function recordUnlockedPackChanges(
   userId: string,
   prev: EvolutionHubDoc | null,
@@ -161,30 +88,14 @@ export async function recordUnlockedPackChanges(
   await syncEvolutionHubToLedger(userId, prev, next);
 }
 
-/** Jämför prev/next evolution_hub och append-only logga förändringar. */
-export async function syncEvolutionHubToLedger(
-  userId: string,
-  prev: EvolutionHubDoc | null,
-  next: EvolutionHubDoc,
-): Promise<void> {
-  if (!prev) return;
-  const entries = collectLedgerEntriesFromHubDiff(userId, prev, next);
-  if (entries.length === 0) return;
-
-  const existingKeys = await loadExistingDedupKeys(userId);
-  for (const entry of entries) {
-    await appendEvolutionLedgerEntry(entry, existingKeys);
-  }
-}
-
-/**
- * Kanonisk merge-skrivning till evolution_hub.
- * Dual-write: client (useEvolutionSync) + server (`onEvolutionHubWrite`) med dedup.
- */
+/** Kanonisk merge-skrivning till evolution_hub (ledger via server trigger). */
 export async function mergeEvolutionHub(
   userId: string,
   patch: Record<string, unknown>,
 ): Promise<void> {
+  const { doc, setDoc } = await import('firebase/firestore');
+  const { db } = await import('./firestore');
+  const { FIRESTORE_COLLECTIONS } = await import('../types/firestore');
   const hubRef = doc(db, FIRESTORE_COLLECTIONS.evolution_hub, userId);
   await setDoc(
     hubRef,

@@ -167,6 +167,32 @@ export async function loadEntityProfileBundle(uid: string): Promise<EntityProfil
   };
 }
 
+const BARNEN_ENTITY_ROLES: EntityRole[] = ['BARN', 'SKOLA'];
+const BARNEN_SYNAPSE_CATEGORIES: SystemSynapseDoc['category'][] = ['INTEGRITY', 'GROWTH'];
+
+/**
+ * Barnen-silo grounding — BARN/SKOLA-profiler + neutrala synapser.
+ * MUST NOT injicera MOTPART/Grey Rock-kontext i childrenLogsQuery.
+ */
+export async function loadBarnenEntityBundle(uid: string): Promise<EntityProfileBundle> {
+  const full = await loadEntityProfileBundle(uid);
+
+  const profiles = full.profiles.filter((p) => BARNEN_ENTITY_ROLES.includes(p.role));
+  const barnKeys = new Set(profiles.map((p) => p.entityKey));
+
+  const synapses = full.synapses.filter((s) => {
+    if (BARNEN_SYNAPSE_CATEGORIES.includes(s.category)) return true;
+    if (s.relatedEntityKeys?.some((key) => barnKeys.has(key))) return true;
+    return false;
+  });
+
+  return {
+    profiles,
+    synapses,
+    contextBlock: buildEntityGroundingContextBlock(profiles, synapses),
+  };
+}
+
 const USER_ADDABLE_ROLES: EntityRole[] = ['MOTPART', 'BARN', 'NATVERK', 'MYNDIGHET', 'SKOLA'];
 
 export interface AddEntityProfileInput {

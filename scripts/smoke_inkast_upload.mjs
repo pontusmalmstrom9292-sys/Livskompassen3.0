@@ -45,6 +45,21 @@ function main() {
   mustInclude('src/modules/capture/InkastDirectPanel.tsx', 'submitInkastLite', 'base64Files');
   mustInclude('functions/src/lib/submitInkastLite.ts', 'routeInboxToWorm');
 
+  mustInclude(
+    'src/modules/capture/CaptureSuperModule.tsx',
+    'useCaptureOfflineFlush',
+  );
+  mustInclude('src/modules/capture/captureDraftSync.ts', 'flushCaptureDraftQueue', 'retryCaptureDraft');
+  mustInclude('src/modules/capture/components/CalmBreathingCircle.tsx', 'calm-breath-circle');
+  mustInclude(
+    'src/modules/capture/ReviewQueuePipelinePanel.tsx',
+    "listDraftsByStatus('pending')",
+    'retryCaptureDraft',
+    'CalmBreathingCircle',
+  );
+  mustInclude('src/modules/capture/InkastDirectPanel.tsx', 'CalmBreathingCircle');
+  mustInclude('src/index.css', 'calm-breath-box');
+
   console.log('\n[smoke:inkast-upload] PASS');
 }
 

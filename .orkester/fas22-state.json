@@ -2,11 +2,99 @@
   "version": 1,
   "sprint": "fas22-masterplan-v2",
   "startedAt": "2026-06-18T11:59:32.509Z",
-  "updatedAt": "2026-06-18T11:59:32.510Z",
-  "status": "running",
-  "nextWaveId": "baseline",
-  "completedWaves": [],
-  "skippedWaves": [],
+  "updatedAt": "2026-06-18T23:45:00.000Z",
+  "completedAt": "2026-06-18T23:38:55.784Z",
+  "status": "done",
+  "nextWaveId": null,
+  "completedWaves": [
+    {
+      "id": "baseline",
+      "note": "orkester:night + domän-agenter"
+    },
+    {
+      "id": "22.1",
+      "note": "doc-synk + sprint-infra"
+    },
+    {
+      "id": "22.2",
+      "note": "M3.0-C PMIR eval"
+    },
+    {
+      "id": "22.4",
+      "note": "Hamn brusfilter"
+    },
+    {
+      "id": "22.5",
+      "note": "Content våg 30 ingest"
+    },
+    {
+      "id": "22.6",
+      "completedAt": "2026-06-18T21:59:38.139Z",
+      "deploy": "functions:biffRewriteDraft,hosting",
+      "smokes": [
+        "smoke:biff-rewrite",
+        "smoke:locked-ux"
+      ]
+    },
+    {
+      "id": "22.7",
+      "completedAt": "2026-06-18T22:22:58.480Z",
+      "deploy": "functions:mabraCoach",
+      "smokes": [
+        "smoke:valv-security",
+        "smoke:valv-gate",
+        "smoke:pattern-metadata",
+        "smoke:locked-ux",
+        "smoke:cache",
+        "smoke:mabra"
+      ]
+    },
+    {
+      "id": "22.8",
+      "completedAt": "2026-06-18T22:46:28.340Z",
+      "deploy": "hosting",
+      "smokes": [
+        "smoke:compass",
+        "smoke:inkast-vardag",
+        "smoke:locked-ux"
+      ]
+    },
+    {
+      "id": "22.9",
+      "completedAt": "2026-06-18T23:34:00.988Z",
+      "deploy": "none",
+      "smokes": [
+        "smoke:android-platform",
+        "smoke:auth-login"
+      ],
+      "capSync": "PASS"
+    },
+    {
+      "id": "22.10",
+      "completedAt": "2026-06-18T23:36:20.440Z",
+      "deploy": "none",
+      "smokes": [
+        "smoke:valv-security",
+        "smoke:auth-login",
+        "smoke:cache"
+      ]
+    },
+    {
+      "id": "slutrapport",
+      "completedAt": "2026-06-18T23:38:55.784Z",
+      "deploy": "none",
+      "smokes": [
+        "smoke:tier1",
+        "orkester:night"
+      ]
+    }
+  ],
+  "skippedWaves": [
+    {
+      "id": "22.3",
+      "reason": "M3.0-C Firestore rules — BLOCKER utan PMIR + Pontus OK"
+    }
+  ],
   "failures": [],
   "waves": [
     "baseline",
@@ -98,8 +186,8 @@
   ],
   "git": {
     "branch": "main",
-    "sha": "76729634b",
-    "dirty": 90
+    "sha": "e28480557",
+    "dirty": 0
   },
   "policy": {
     "smokePerWave": true,
@@ -114,5 +202,6 @@
       "genkit-v1",
       "mass-delete"
     ]
-  }
+  },
+  "notes": "Merged to main 2026-06-18. PMIR godkänd. våg31 ingest OK."
 }

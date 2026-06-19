@@ -6,6 +6,8 @@
 |-----|-----|
 | **★ 18 exempelbilder (NY)** | [galleri/index.html](./galleri/index.html) — widget, planering, skärmar, ikoner |
 | **★ Sidomeny (LÅST)** | [references/MENU-DRAWER-KANON.png](./references/MENU-DRAWER-KANON.png) · [MENU-DRAWER-KANON.md](./references/MENU-DRAWER-KANON.md) |
+| **★ Kunskapsbank i Valv (god väg)** | [references/KUNSKAPSBANK-VALV-KANON.md](./references/KUNSKAPSBANK-VALV-KANON.md) · [kunskapsbank-valv-kanon-ref.png](./references/kunskapsbank-valv-kanon-ref.png) |
+| **★ Brusfiltret-modul (layoutmall)** | [references/BRUSFILTRET-MODUL-KANON.md](./references/BRUSFILTRET-MODUL-KANON.md) |
 | **★ Kompakt tema (modul för modul)** | [compact/index.html](./compact/index.html) · ref [LIVSKOMPASSEN-hem-kompakt-ref.png](./references/LIVSKOMPASSEN-hem-kompakt-ref.png) |
 | **★ Tre kompasser (tid)** | [references/kompass-tid/index.html](./references/kompass-tid/index.html) · [KOMPASS-TRE-TIDPUNKTER.md](./references/KOMPASS-TRE-TIDPUNKTER.md) |
 | **★ Hem-kanon (LÅST kompass)** | [galleri/KOMPASS-LOCKED-kanon.png](./galleri/KOMPASS-LOCKED-kanon.png) |

@@ -22,8 +22,12 @@ Du **dirigerar** — du **skriver inte** frågekort, fakta eller bevis. Du klass
 
 1. Nämner **ex, SMS-konflikt, gaslighting, BIFF, vårdnad**? → **ROUTE:** Speglar/Hamn — **inte** kurator-bank.
 2. **Bevis, dossier, WORM, juridik**? → **ROUTE:** Valv / ingest — **inte** content-bank.
-3. **Verifierbar referens, lag, metod, “lägg i Kunskap”**? → **`specialist-kunskap-seed`** · `content_class: FACT`.
-4. **Frågekort, självkänsla, lek, KBT light, andning, inåtvänd**? → **`specialist-mabra-curator`** · `REFLECTION` / `PLAY`.
+3. **Verifierbar referens, lag, metod, myndighet/soc/LVU**? → **`specialist-myndighet-seed`** eller **`specialist-kunskap-seed`** · `content_class: FACT`.
+3b. **GAD/ADHD/vagus/interoception (ej HCF taktik)**? → **`specialist-neuro-psyk-seed`** · `content_class: FACT`.
+3c. **Covert/HCF research, taktik-gap**? → **`specialist-hcf-domän`** (research only) → dirigent → kunskap-seed.
+4. **Frågekort, självkänsla, lek, KBT light, andning, inåtvänd**? → **`specialist-mabra-curator`** eller **`specialist-utveckling-kurator`** · `REFLECTION` / `PLAY`.
+4b. **Återhämtning, REST, parent fysio**? → **`specialist-aterhamtning-hälsa`** (PMIR före prod-wire).
+
 5. **Barnfråga, lek med barn, Familjen**? → **`specialist-barn-lek`** *(planerad)* eller befintlig `BARNFOKUS_QUESTIONS` — **PLAY**, ej Valv auto.
 6. **Osäkert / blandat**? → Dela upp i **två** uppgifter med separat klass — **aldrig** en post med både FACT och PLAY.
 

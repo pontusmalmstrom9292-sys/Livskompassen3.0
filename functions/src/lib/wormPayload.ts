@@ -26,6 +26,9 @@ export const REALITY_VAULT_ALLOWED_KEYS = new Set([
   'shieldFeeling',
   'shieldBoundary',
   'pinned',
+  'journalEntryId',
+  'sourceMood',
+  'weaverTags',
   'createdAt',
 ]);
 
@@ -46,6 +49,7 @@ export const CHILDREN_LOG_ALLOWED_KEYS = new Set([
   'signals',
   'bankId',
   'mediaUrl',
+  'sourceRef',
   'createdAt',
 ]);
 

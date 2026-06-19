@@ -56,6 +56,20 @@ const rollout = read('src/modules/features/onboarding/barnporten/constants/barnp
 assert(rollout.includes('BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED'), 'saknar rollout-flagga');
 assert(rollout.includes('BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED = false'), 'barn-PWA ska vara pausad');
 
+const serverEpistemik = read('functions/src/lib/childObservationEpistemics.ts');
+assert(serverEpistemik.includes('formatChildObservation'), 'server saknar formatChildObservation');
+assert(serverEpistemik.includes('isParentVisibleChildLog'), 'server saknar isParentVisibleChildLog');
+
+const rag = read('functions/src/lib/childrenLogsQueryRag.ts');
+assert(rag.includes('isParentVisibleChildLog'), 'RAG saknar private_child-filter');
+
+const entityStore = read('functions/src/lib/entityProfileStore.ts');
+assert(entityStore.includes('loadBarnenEntityBundle'), 'saknar loadBarnenEntityBundle');
+
+const inboxPersist = read('functions/src/lib/inboxPersist.ts');
+assert(inboxPersist.includes('allowBarnenAutoPersist'), 'inbox saknar barnen HITL-gate');
+assert(inboxPersist.includes('formatChildObservation'), 'inbox ingest saknar epistemik');
+
 if (errors.length) {
   console.error('[smoke:barn-epistemik] FAIL');
   for (const e of errors) console.error(' -', e);

@@ -1,0 +1,38 @@
+---
+description: Adaptation Core (L1–L3) — Core-silo, deterministisk ton, smoke-gate
+globs:
+  - shared/adaptation/**
+  - functions/src/**/adaptation*
+  - functions/src/triggers/onAdaptationPrefsWrite.ts
+  - src/modules/core/adaptation/**
+  - src/modules/core/store/useAdaptationStore.ts
+  - src/modules/core/hooks/useAdaptationSync.ts
+  - src/modules/core/firebase/adaptationLedgerFirestore.ts
+alwaysApply: false
+---
+
+# Adaptation Core — kanon (L1–L3)
+
+Kanon: [`shared/adaptation/adaptationTypes.ts`](../../shared/adaptation/adaptationTypes.ts) · [`shared/adaptation/adaptationSemanticTypes.ts`](../../shared/adaptation/adaptationSemanticTypes.ts)
+
+## MUST
+
+- **Core-silo only** — `adaptation_prefs`, `adaptation_ledger`, `adaptation_semantic_profile` byggs aldrig från Valv/Kunskap/Barnen
+- **Deterministisk kod före LLM** för ton (`coachTone`), täthet (`uiDensity`) och signal-merge
+- **Server-gated flags:** `adaptation_layer_v1`, `adaptation_semantic_v1` via `evolution_hub.unlockedFeatureFlags` (Admin SDK only)
+- **L3a tone** = bank-transform only (`MABRA_COACH_BANK.text_sv` + `lens`) — U6 P1 parafras
+- **Ledger audit** server-only via `onAdaptationPrefsWrite` (`source: system`)
+- **Logout cleanup:** `resetAdaptationSignalThrottle()` + `useAdaptationStore.reset()` i `signOutUser`
+- **Smoke:** `npm run smoke:adaptation` + `npm run smoke:adaptation-l3a` vid adaptation/MåBra-ton-ändringar
+
+## MUST NOT
+
+- Fjärde RAG-silo eller cross-RAG från adaptation till Valv/Kunskap/Barnen
+- LLM skriver `adaptation_prefs` eller `adaptation_ledger`
+- Client styr `coachTone` via callable input — server läser `adaptation_prefs/{uid}`
+- User note / optionalNote i deterministic coach text
+- Client dual-write till `adaptation_ledger` (server trigger är enda writer)
+
+## Deploy-gate
+
+YOLO-vakt GO + `npm run smoke:locked-ux` + `npm run smoke:adaptation` före deploy av adaptation/MåBra functions.

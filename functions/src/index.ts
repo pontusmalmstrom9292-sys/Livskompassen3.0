@@ -19,7 +19,14 @@ export {
   dismissInboxItem,
   previewInboxClassification,
   submitInkastLite,
+  reprocessVaultInboxQueue,
 } from './callables/inbox';
+
+export { recordDiscoveryMilestone } from './callables/evolutionLedger';
+
+export { resolveDcapAlert } from './callables/dcapAlert';
+
+export { scheduledBarnportenAgeEval } from './jobs/barnportenAgeEvalJob';
 
 export {
   beginVaultWebAuthnChallengeCallable as beginVaultWebAuthnChallenge,
@@ -63,6 +70,7 @@ export {
 export { onVaultCreatePatternScan } from './triggers/patternScanOnVaultCreate';
 export { onInkastEvidenceFinalized } from './triggers/inkastStorageOnFinalize';
 export { onEvolutionHubWrite } from './triggers/onEvolutionHubWrite';
+export { onAdaptationPrefsWrite } from './triggers/onAdaptationPrefsWrite';
 
 export {
   calculateSmartAllocation,
@@ -104,3 +112,15 @@ export {
 export { biffRewriteDraft } from './callables/biffRewriteDraft';
 export { generateKompassrad } from './callables/generateKompassrad';
 export { journalSilentReflection } from './callables/journalSilentReflection';
+
+export {
+  getAdaptationProfile,
+  recordAdaptationSignal,
+} from './callables/adaptation';
+
+export {
+  getAdaptationSemanticProfile,
+  rebuildAdaptationSemanticProfile,
+} from './callables/adaptationSemantic';
+
+export { recordPipelineRun } from './callables/pipelineStudio';

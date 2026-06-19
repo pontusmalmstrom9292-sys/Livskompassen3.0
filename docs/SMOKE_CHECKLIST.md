@@ -35,6 +35,20 @@
 | 21 | WH1 inspelning (låst) | `/widget/inspelning` | `reality_vault` tyst inspelning |
 | 22 | WH5 Familjen widget | `/widget/familjen` | `children_logs` widget_snabb |
 
+
+## YOLO pre-deploy (stående gate)
+
+**Kanon:** [`YOLO-VAKT-GATE.md`](./YOLO-VAKT-GATE.md)
+
+| Steg | Kommando | Krav |
+|------|----------|------|
+| Audit | `/yolo-vakt` | GO |
+| Smoke gate | `npm run smoke:yolo` | Exit 0 |
+| Tier 2 (vid behov) | Se diff-matris i YOLO-VAKT-GATE | PASS |
+| Efter deploy | Hard refresh + rad i `SMOKE_RESULTS.md` | USER |
+
+**Ingår i smoke:yolo:** manifest, chrome-header, locked-ux, orkester, plausible-deniability, valv-security, innehall (+ build).
+
 **Automatisk kod-guard:** `npm run smoke:locked-ux` — före merge som rör Barnen/Valv.
 
 **Automatisk batch:** `npm run smoke:all` — locked-ux + modul-smokes + valv-security + orkester + innehall.

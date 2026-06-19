@@ -47,3 +47,9 @@ Smoke: `npm run smoke:entities` · `npm run smoke:locked-ux`
 
 1. Hard refresh webb (Cmd+Shift+R) eller avinstallera Android APK vid auth-strul.
 2. Relevant smoke enligt [`docs/SMOKE_CHECKLIST.md`](../../docs/SMOKE_CHECKLIST.md).
+
+## Pre-deploy (YOLO gate)
+
+- **Lokal (full):** `npm run smoke:predeploy:build`
+- **Static gate (CI + efter functions build):** `npm run smoke:predeploy`
+- **Efter deploy (kräver `.env`):** `npm run smoke:predeploy:live`

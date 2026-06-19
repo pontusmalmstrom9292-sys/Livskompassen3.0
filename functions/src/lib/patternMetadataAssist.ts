@@ -10,27 +10,8 @@ const PATTERN_ASSIST_MODEL = 'gemini-2.5-flash';
 
 const ALLOWED_PATTERN_IDS = new Set(TACTIC_PATTERN_DEFS.map((d) => d.id));
 
-const PATTERN_ASSIST_SCHEMA = {
-  type: 'object',
-  properties: {
-    pattern_ids: {
-      type: 'array',
-      items: { type: 'string' },
-    },
-  },
-  required: ['pattern_ids'],
-} as const;
-
-const PATTERN_ASSIST_SYSTEM = `Du är P3 Mönster-metadata-assistent för Livskompassen Valv.
-
-Returnera ENDAST giltig JSON: { "pattern_ids": string[] }
-
-Regler:
-- Välj ENDAST pattern_ids från den tillhandahållna katalogen — inga egna etiketter
-- Max 5 pattern_ids per text
-- Beteende och kommunikationsmönster — INGA diagnoser, INGA partietiketter ("narcissist" etc.)
-- Om inget matchar: pattern_ids = []
-- HCF/covert-fokus: DARVO, gaslighting, hoovering, tyst straff, juridik-hot, skrift-eskalering`;
+import { PATTERN_ASSIST_RESPONSE_SCHEMA, validatePatternAssistResponse } from '../schemas/patternAssist';
+import { PATTERN_ASSIST_SYSTEM } from '../sharedRules';
 
 function extractJsonObject(raw: string): string {
   const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
@@ -81,12 +62,9 @@ function matchesFromPatternIds(text: string, patternIds: string[]): TacticMatch[
 
 function parsePatternIds(raw: string): string[] {
   try {
-    const parsed = JSON.parse(extractJsonObject(raw)) as Record<string, unknown>;
-    const ids = Array.isArray(parsed.pattern_ids) ? parsed.pattern_ids : [];
-    return ids
-      .map((id) => String(id ?? '').trim())
-      .filter((id) => ALLOWED_PATTERN_IDS.has(id))
-      .slice(0, 5);
+    const parsed = JSON.parse(extractJsonObject(raw));
+    const validated = validatePatternAssistResponse(parsed, ALLOWED_PATTERN_IDS);
+    return validated?.pattern_ids ?? [];
   } catch {
     return [];
   }
@@ -120,7 +98,7 @@ Returnera JSON med pattern_ids.`;
         temperature: 0.1,
         maxOutputTokens: 400,
         responseMimeType: 'application/json',
-        responseSchema: PATTERN_ASSIST_SCHEMA,
+        responseSchema: PATTERN_ASSIST_RESPONSE_SCHEMA,
       },
     });
 

@@ -16,6 +16,8 @@ export interface VaultState {
   loadFirstLogsPage: (userId: string) => Promise<void>;
   loadMoreLogs: (userId: string) => Promise<void>;
   saveLog: (userId: string, input: VaultLogInput) => Promise<void>;
+  /** Zero Footprint — rensa RAM-cache vid vault lock. */
+  clearClientCache: () => void;
 }
 
 export const useVaultStore = create<VaultState>((set, get) => ({
@@ -78,5 +80,17 @@ export const useVaultStore = create<VaultState>((set, get) => ({
       set({ error: errorMessage, saving: false });
       throw new Error('vault-save-failed');
     }
-  }
+  },
+
+  clearClientCache: () => {
+    set({
+      logs: [],
+      loading: false,
+      loadingMore: false,
+      hasMore: false,
+      nextCursor: null,
+      error: null,
+      saving: false,
+    });
+  },
 }));

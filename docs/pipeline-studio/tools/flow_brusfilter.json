@@ -1,0 +1,15 @@
+{
+  "toolId": "flow_brusfilter",
+  "version": "1.0.0",
+  "title": "Brusfilter — textnormalisering före Valv",
+  "silo": "valv",
+  "callable": "processBrusfilter",
+  "model": "gemini-2.5-flash",
+  "schemaModule": "functions/src/schemas/brusfilter.ts",
+  "responseSchemaExport": "BRUSFILTER_RESPONSE_SCHEMA",
+  "nodeGraph": ["trigger:inkast_text", "dcap:implicit", "callable:processBrusfilter", "response:json"],
+  "smoke": ["npm run smoke:orkester"],
+  "pmirStatus": "approved",
+  "lockedUx": [],
+  "costNote": "~1 Flash call per preview; vault session required"
+}

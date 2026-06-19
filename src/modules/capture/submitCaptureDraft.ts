@@ -1,14 +1,6 @@
-import {
-  formatInkastResultMessage,
-  primaryInkastItem,
-  submitInkastLite,
-  type SubmitInkastLiteResult,
-} from '../inkast/api/inkastService';
-import {
-  addPendingDraft,
-  updateDraftStatus,
-  type DraftStatus,
-} from './draftQueue';
+import type { SubmitInkastLiteResult } from '../inkast/api/inkastService';
+import { syncCaptureDraftRecord } from './captureDraftSync';
+import { addPendingDraft, getDraft } from './draftQueue';
 
 export type SubmitCaptureDraftInput = {
   text: string;
@@ -37,28 +29,16 @@ export async function submitCaptureDraft(
     sourceModule: input.sourceModule,
   });
 
-  try {
-    const batch = await submitInkastLite({
-      text: trimmed,
-      fileName: input.fileName ?? 'capture.txt',
-      sourceModule: input.sourceModule,
-      optInTrauma: input.optInTrauma,
-    });
-    const result = primaryInkastItem(batch);
-    const status: DraftStatus =
-      result.action === 'queued' || result.classification.routing === 'review'
-        ? 'review'
-        : 'synced';
-    await updateDraftStatus(draft.id, { status, syncResult: batch });
-    return {
-      result: batch,
-      message: formatInkastResultMessage(batch),
-    };
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : 'Sortering misslyckades.';
-    await updateDraftStatus(draft.id, { status: 'failed', errorMessage: msg });
-    throw new Error(msg);
+  if (typeof navigator !== 'undefined' && !navigator.onLine) {
+    throw new Error('Offline — sparat lokalt. Synkas när nätet är tillbaka.');
   }
+
+  const synced = await syncCaptureDraftRecord(draft, { optInTrauma: input.optInTrauma });
+  if (synced) return synced;
+
+  const refreshed = await getDraft(draft.id);
+  const msg = refreshed?.errorMessage ?? 'Sortering misslyckades.';
+  throw new Error(msg);
 }
 
 /** Heuristik: mejl/sms med konflikt/brus → parallell arkiv-kopia via capture. */

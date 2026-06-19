@@ -111,6 +111,23 @@ function main() {
   // Prod env example must not enable redirect by default
   mustNotInclude('.env.example', 'VITE_GOOGLE_SIGNIN_REDIRECT=true');
 
+  // Capacitor/Android — native Google, not web redirect (minimal; full wiring: smoke:android-platform)
+  mustInclude(
+    'src/modules/core/auth/googleAuthProvider.ts',
+    'isCapacitorNative()',
+    'if (isCapacitorNative()) return false',
+  );
+  mustInclude(
+    'src/modules/core/auth/authService.ts',
+    'capacitorGoogleSignIn',
+    'if (isCapacitorNative())',
+  );
+  mustInclude(
+    'src/modules/core/auth/nativeGoogleAuth.ts',
+    'FirebaseAuthentication',
+    'skipNativeAuth: true',
+  );
+
   console.log('[smoke:auth-login] PASS — AUTH-G1 Google web login låst (popup, firebaseapp.com, boot redirect).');
 }
 

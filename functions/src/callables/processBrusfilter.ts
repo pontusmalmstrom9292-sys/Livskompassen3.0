@@ -7,39 +7,10 @@ import { adkOrchestrator } from '../adk';
 import { emitSynapse } from '../adk/synapses/synapseBus';
 import { hashPayload } from '../adk/stateStore';
 
+import { BRUSFILTER_RESPONSE_SCHEMA } from '../schemas/brusfilter';
+import { BRUSFILTER_SYSTEM_INSTRUCTION } from '../sharedRules';
+
 const BRUSFILTER_MODEL = 'gemini-2.5-flash';
-
-const BRUSFILTER_JSON_SCHEMA = {
-  type: 'object',
-  properties: {
-    dcap_analysis: {
-      type: 'object',
-      properties: {
-        risk_score: { type: 'number' },
-        recommended_action: { type: 'string', enum: ['INGEN', 'VARNING'] },
-      },
-      required: ['risk_score', 'recommended_action'],
-    },
-    isolated_logistics: { type: 'string' },
-    biff_draft_reply: { type: 'string' },
-  },
-  required: ['dcap_analysis', 'isolated_logistics', 'biff_draft_reply'],
-} as const;
-
-const BRUSFILTER_SYSTEM_INSTRUCTION = `Du är P1 Brusfilter — lågaffektiv textnormalisering före evidensarkiv.
-
-Returnera ENDAST giltig JSON (inga markdown-block) enligt schema:
-{
-  "dcap_analysis": { "risk_score": 0-100, "recommended_action": "INGEN" | "VARNING" },
-  "isolated_logistics": "string — ren logistik/datum/plats, eller tom sträng om ingen finns",
-  "biff_draft_reply": "string — kort BIFF/Grey Rock på svenska, 1-3 meningar, ingen JADE"
-}
-
-Regler:
-- risk_score >= 70 → recommended_action "VARNING"
-- Strippa anklagelser, gaslighting, känslomässiga lockbeten
-- Om meddelandet saknar logistik: isolated_logistics = "" och biff_draft_reply = neutral bekräftelse utan försvar
-- Inga diagnoser, inga partietiketter`;
 
 export type BrusfilterRecommendedAction = 'INGEN' | 'VARNING';
 
@@ -169,7 +140,7 @@ export const processBrusfilter = onCall(
           temperature: 0.1,
           maxOutputTokens: 1024,
           responseMimeType: 'application/json',
-          responseSchema: BRUSFILTER_JSON_SCHEMA,
+          responseSchema: BRUSFILTER_RESPONSE_SCHEMA,
         },
       });
 

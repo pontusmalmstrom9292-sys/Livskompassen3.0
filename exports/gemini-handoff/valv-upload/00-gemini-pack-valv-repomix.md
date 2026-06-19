@@ -376,63 +376,6 @@ Se [`DOCK-KANON.md`](./DOCK-KANON.md).
 [`dock-flat-valv-arch.png`](./dock-flat-valv-arch.png) — Familjen · kompass · Valv (båge-ikon), **utan** upphöjd båge.
 </file>
 
-<file path="docs/design/VALV-HUBB-SPEC.md">
-# Valv hubb — Konflikt & bevis (IA våg 1)
-
-**Datum:** 2026-05-29  
-**Status:** Implementerad i kod (`vaultTabs.ts`, `VaultPage.tsx`)  
-**Låst UX:** Mönster, Orkester, Kunskapsbank, Aktörskarta — **får inte tas bort** ([`.context/locked-ux-features.md`](../../.context/locked-ux-features.md))
-
----
-
-## Princip
-
-Samma `vaultTab`-IDs och callables som tidigare. Endast **zon-navigation** (färre val åt gången) och drawer-grupper ändras.
-
-| Zon (UI) | Flikar (`vaultTab`) | Användning |
-|----------|---------------------|------------|
-| **Samla** | `logga`, `sok` | Bevis, sms, triage, Valv-Chat |
-| **Analysera** | `monster`, `orkester` | Mönster, agent-orkester |
-| **Kunskap** | `kunskapsbank`, `aktorskarta` | RAG fakta, nyckelpersoner (G9) |
-| **Exportera** | `dossier` | Dossier-generator (+ `/dossier` i drawer) |
-| **Forensik** | `hamn_analys`, `speglar_fordjupat`, … | Djup analys Hamn/Speglar/Arbetsliv |
-
-## Produktbeslut — Hamn vs Valv (**godkänt 2026-05-29**)
-
-| Lager | Route | Roll |
-|-------|-------|------|
-| **Snabb ingång** | `/hamn` (Vardag-drawer) | Grey Rock/BIFF-svar, Speglar-bro, låg friktion — **ingen** riskpanel eller auto-bevis |
-| **Djup + bevis** | Valv → zon **Forensik** · `hamn_analys` | Full BIFF Triage, DCAP, *Spara som bevis*, Orkester, Mönster, Dossier |
-
-**MUST NOT:** flytta publik BIFF till Valv-only eller kräva PIN för första Grey Rock-svar.  
-**MUST:** `?tab=analys` på `/hamn` redirectar till Valv `hamn_analys` (redan i `TryggHamnHub.tsx`).  
-**Handoff:** `valvHandoff` i Hamn-text → mjuk länk till Valv (ingen auto-WORM).
-
----
-
-## Triggers (våg 2)
-
-| Källa | Trigger | Effekt |
-|-------|---------|--------|
-| Dagbok | `shouldShowValvHandoff` | `HandoffBox` → `/dagbok?tab=bevis` |
-| Hamn BIFF | samma | HandoffBox efter klistra-in |
-| Valv logga | samma + `shouldSuggestVaultPatternScan` | Handoff + länk till Mönster |
-
-Ingen auto-WORM från Lager 1.
-
----
-
-## Budget
-
-Deterministiska regex/DCAP — **inte** LLM per tangenttryckning.
-
----
-
-## Smoke
-
-`npm run smoke:locked-ux` · `npm run smoke:orkester`
-</file>
-
 <file path="docs/gemini-handoff/valv/V1-PROMPT.md">
 # V1 — Klistra in i Gemini (efter master-prompt + repomix)
 
@@ -801,111 +744,50 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 **Flöde:** [`docs/specs/hjartat-flode.md`](../hjartat-flode.md)
 </file>
 
-<file path="src/modules/features/lifeJournal/evidence/knowledge/components/VaultKunskapsbankPanel.tsx">
-import { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { KunskapPage, type KunskapEntriesMeta } from '../../kompis/components/KunskapPage';
-import { AutonomousArchivePanel } from '../../kompis/components/AutonomousArchivePanel';
-import { FamiljenKunskapHubTab } from '@/features/family/children/components/familjen/FamiljenKunskapHubTab';
-import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { EmptyState } from '@/core/ui/EmptyState';
-import { KunskapsbankHeader } from '../../vault/components/KunskapsbankHeader';
-import { vaultDrawerPath } from '@/core/navigation/navTruth';
-import { BookOpen, RefreshCw, Users } from 'lucide-react';
+<file path="src/modules/features/lifeJournal/evidence/vault/api/patternScanMetadataApi.ts">
+import { collection, getDocs, limit, query, where } from 'firebase/firestore';
+import { db } from '@/core/firebase/firestore';
+import { FIRESTORE_COLLECTIONS } from '@/core/types/firestore';
 
-type TabRequest = 'chat' | 'tidshjul';
+export type PatternScanMetadataRow = {
+  id: string;
+  sourceRef: string;
+  techniques: string[];
+  patternIds: string[];
+  libraryVersion: string;
+  scanLayer: 'REGEX' | 'DCAP';
+};
 
-/** Samlad Kunskapsbank bakom Valv-PIN — Kunskapsvalv + Familjen-upload (U1 silos oförändrade). */
-export function VaultKunskapsbankPanel() {
-  const shell = useFamiljenShell();
-  const [focusKampsparId, setFocusKampsparId] = useState<string | null>(null);
-  const [requestTab, setRequestTab] = useState<TabRequest | null>(null);
-  const [entriesMeta, setEntriesMeta] = useState<KunskapEntriesMeta | null>(null);
+export function buildTechniquesByLogId(
+  rows: readonly PatternScanMetadataRow[],
+): Map<string, string[]> {
+  const map = new Map<string, Set<string>>();
+  for (const row of rows) {
+    const set = map.get(row.sourceRef) ?? new Set<string>();
+    for (const t of row.techniques) set.add(t);
+    map.set(row.sourceRef, set);
+  }
+  const out = new Map<string, string[]>();
+  for (const [ref, set] of map) {
+    out.set(ref, [...set].sort((a, b) => a.localeCompare(b, 'sv')));
+  }
+  return out;
+}
 
-  const handleEntriesMeta = useCallback((meta: KunskapEntriesMeta) => {
-    setEntriesMeta(meta);
-  }, []);
-
-  const showEmptyState =
-    entriesMeta &&
-    !entriesMeta.loading &&
-    !entriesMeta.error &&
-    entriesMeta.count === 0;
-
-  const showNetworkError = Boolean(entriesMeta?.error);
-
-  return (
-    <div className="space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <KunskapsbankHeader compact />
-        <Link
-          to={vaultDrawerPath('aktorskarta')}
-          className="btn-pill--secondary inline-flex items-center gap-2 text-xs"
-        >
-          <Users className="h-3 w-3" />
-          Aktörskarta
-        </Link>
-      </div>
-
-      {showNetworkError && (
-        <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3">
-          <div className="flex flex-wrap items-center gap-3">
-            <p className="text-sm text-amber-200/90">{entriesMeta?.error}</p>
-            <button
-              type="button"
-              onClick={() => entriesMeta?.reload()}
-              disabled={entriesMeta?.loading}
-              className="btn-pill--secondary inline-flex items-center gap-1.5 text-xs"
-            >
-              <RefreshCw className="h-3 w-3" aria-hidden />
-              Försök igen
-            </button>
-          </div>
-        </div>
-      )}
-
-      <AutonomousArchivePanel sharedKampspar={entriesMeta?.entries} />
-
-      {showEmptyState && (
-        <BentoCard
-          title="Ditt minne är tomt"
-          description="Sök i dina sparade anteckningar — börja med en post"
-          icon={<BookOpen className="h-4 w-4" />}
-        >
-          <EmptyState
-            message="Lägg till rutiner, milstolpar eller fakta under Tidshjulet. Därefter kan du ställa frågor i Kunskapsvalv-fliken."
-            action={
-              <button
-                type="button"
-                onClick={() => setRequestTab('tidshjul')}
-                className="btn-pill--secondary text-sm"
-              >
-                Öppna Tidshjulet
-              </button>
-            }
-          />
-        </BentoCard>
-      )}
-
-      <KunskapPage
-        embedded
-        focusKampsparId={focusKampsparId}
-        onFocusKampsparConsumed={() => setFocusKampsparId(null)}
-        requestTab={requestTab}
-        onRequestTabConsumed={() => setRequestTab(null)}
-        onEntriesMeta={handleEntriesMeta}
-      />
-
-      {shell.user ? (
-        <BentoCard title="Familjen — kunskap och uppladdning" description="Sökning per barn">
-          <FamiljenKunskapHubTab
-            activeChild={shell.activeChild}
-          />
-        </BentoCard>
-      ) : null}
-    </div>
-  );
+export async function fetchPatternScanMetadata(uid: string): Promise<PatternScanMetadataRow[]> {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.pattern_scan_metadata);
+  const snap = await getDocs(query(ref, where('userId', '==', uid), limit(500)));
+  return snap.docs.map((doc) => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      sourceRef: String(data.sourceRef ?? ''),
+      techniques: Array.isArray(data.techniques) ? data.techniques.map(String) : [],
+      patternIds: Array.isArray(data.patternIds) ? data.patternIds.map(String) : [],
+      libraryVersion: String(data.libraryVersion ?? ''),
+      scanLayer: data.scanLayer === 'DCAP' ? 'DCAP' : 'REGEX',
+    };
+  });
 }
 </file>
 
@@ -969,6 +851,21 @@ export function ValvForensikZone({ tab, onTabChange }: ValvForensikZoneProps) {
 }
 </file>
 
+<file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvInboxZone.tsx">
+import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
+
+/**
+ * @deprecated Fas 1B — granska sker via ValvInputSuperModule + InboxReviewQueue.
+ */
+export function ValvInboxZone({ onBevisConfirmed }: { onBevisConfirmed?: (docId: string) => void }) {
+  return (
+    <div className="space-y-4 animate-fade-in">
+      <InboxReviewQueue compact={false} prioritizeBevis onBevisConfirmed={onBevisConfirmed} />
+    </div>
+  );
+}
+</file>
+
 <file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvKunskapZone.tsx">
 import { TabBar } from '@/core/ui/TabBar';
 import { getKunskapVaultTabBarItems } from '@/core/navigation/tabRegistry';
@@ -1003,6 +900,92 @@ export function ValvKunskapZone({ tab, onTabChange }: ValvKunskapZoneProps) {
 }
 </file>
 
+<file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx">
+import { useState } from 'react';
+import { TabBar } from '@/core/ui/TabBar';
+import { getSamlaVaultTabBarItems } from '@/core/navigation/tabRegistry';
+import { useVaultStore } from '@/core/store/useVaultStore';
+import { ValvChatPanel } from '@/features/lifeJournal/evidence/vaultChat';
+import { VaultLogList } from '../VaultLogList';
+import { VaultSamlaHub } from '../VaultSamlaHub';
+import { WeaverPendingVaultBanner } from '../WeaverPendingVaultBanner';
+import { usePatternScanMetadata } from '../../hooks/usePatternScanMetadata';
+import type { SamlaVaultTab } from '../../utils/vaultTabs';
+
+export type ValvSamlaZoneProps = {
+  tab: SamlaVaultTab;
+  onTabChange: (tab: SamlaVaultTab) => void;
+  userId: string;
+  gateOk: boolean;
+  highlightLogId: string | null;
+  onBevisConfirmed: (docId: string) => void | Promise<void>;
+  onCitationClick: (docId: string) => void;
+  onOpenGranska?: () => void;
+};
+
+export function ValvSamlaZone({
+  tab,
+  onTabChange,
+  userId,
+  gateOk,
+  highlightLogId,
+  onBevisConfirmed,
+  onCitationClick,
+  onOpenGranska,
+}: ValvSamlaZoneProps) {
+  const [anchorsOnly, setAnchorsOnly] = useState(false);
+  const { logs, loadFirstLogsPage } = useVaultStore();
+  const { techniquesByLogId } = usePatternScanMetadata(userId);
+
+  return (
+    <>
+      <div className="mb-3">
+        <TabBar
+          size="compact"
+          tabs={getSamlaVaultTabBarItems()}
+          active={tab}
+          onChange={onTabChange}
+        />
+      </div>
+      {tab === 'sok' ? (
+        <ValvChatPanel
+          active={gateOk}
+          onCitationClick={onCitationClick}
+          logs={logs}
+        />
+      ) : (
+        <>
+          <WeaverPendingVaultBanner userId={userId} onApproved={() => loadFirstLogsPage(userId)} />
+          <VaultSamlaHub
+            userId={userId}
+            onBevisConfirmed={(docId) => void onBevisConfirmed(docId)}
+            onOpenGranska={onOpenGranska}
+          />
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={() => setAnchorsOnly((v) => !v)}
+              className={`btn-pill--ghost text-xs ${anchorsOnly ? 'text-gold' : ''}`}
+              aria-pressed={anchorsOnly}
+            >
+              {anchorsOnly ? 'Visa alla bevis' : 'Endast ankare'}
+            </button>
+          </div>
+          <VaultLogList
+            highlightLogId={highlightLogId}
+            anchorsOnly={anchorsOnly}
+            persistedTechniquesByLogId={techniquesByLogId}
+            onLogFirstBevis={() =>
+              document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+          />
+        </>
+      )}
+    </>
+  );
+}
+</file>
+
 <file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvVitZone.tsx">
 import { VaultVitHubPanel } from '../VaultVitHubPanel';
 
@@ -1013,39 +996,6 @@ export type ValvVitZoneProps = {
 /** P2 — Mitt Vit (personlig silo, ej bevis-WORM). */
 export function ValvVitZone({ userId }: ValvVitZoneProps) {
   return <VaultVitHubPanel userId={userId} />;
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/KunskapsbankHeader.tsx">
-import { BookOpen } from 'lucide-react';
-
-type KunskapsbankHeaderProps = {
-  compact?: boolean;
-};
-
-/** Kunskapsbank-zon — egen del av Valv (U1 Kunskap-silo, PIN). */
-export function KunskapsbankHeader({ compact = false }: KunskapsbankHeaderProps) {
-  if (compact) {
-    return (
-      <div className="flex items-center gap-2 px-1">
-        <BookOpen className="h-4 w-4 shrink-0 text-accent" aria-hidden />
-        <p className="font-display text-sm text-accent">Kunskapsbanken</p>
-        <span className="text-[10px] text-text-dim">· Minne · U1 silo</span>
-      </div>
-    );
-  }
-
-  return (
-    <div className="elongated-module elongated-module--gold mb-4 flex items-start gap-3 p-4">
-      <BookOpen className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />
-      <div>
-        <p className="font-display text-base text-accent">Kunskapsbanken</p>
-        <p className="mt-1 text-xs text-text-muted">
-          Tidshjul, RAG och uppladdning — separat från Pansaret. Ingen cross-RAG till bevisvalvet.
-        </p>
-      </div>
-    </div>
-  );
 }
 </file>
 
@@ -1085,6 +1035,44 @@ export function PansaretHeader() {
         <p className="mt-1 text-xs text-text-muted">
           Frekvens och mönster från dina låsta poster — deterministiskt, inte gissning.
         </p>
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/ValvBentoShell.tsx">
+import type { ReactNode } from 'react';
+import { Shield } from 'lucide-react';
+import { clsx } from 'clsx';
+import './valv.css';
+
+type Props = {
+  children: ReactNode;
+  className?: string;
+  /** Visa zon-pill "VALV" under hub-header */
+  showZonePill?: boolean;
+};
+
+/**
+ * Obsidian Calm Bento — visuellt skal för Valv (indigo/gold forensic silo).
+ * Bakgrund: radiell gradient + svag sköld-ikon (ingen logik).
+ */
+export function ValvBentoShell({
+  children,
+  className,
+  showZonePill = true,
+}: Props) {
+  return (
+    <div className={clsx('valv-bento-shell', className)}>
+      <Shield className="valv-bg-watermark" strokeWidth={0.75} aria-hidden />
+      <div className="valv-bento-shell__content">
+        {showZonePill ? (
+          <div className="valv-zone-strip" aria-hidden>
+            <span className="valv-zone-pill">Valv</span>
+          </div>
+        ) : null}
+        {children}
       </div>
     </div>
   );
@@ -1177,6 +1165,83 @@ export function ValvSuperModule({
     default:
       return null;
   }
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/ValvZoneModulValjare.tsx">
+import { ExamplePreviewCard } from '@/shared/ui/ExamplePreviewCard';
+import { VALV_ZONE_INGRESS, VALV_ZONE_LABELS } from '@/core/copy/valvNavCopy';
+import type { ValvZone } from '../utils/vaultTabs';
+import { markValvZoneModulValjareSeen } from '../utils/valvZoneModulValjareStorage';
+
+const PICKER_ZONES = [
+  'samla',
+  'analysera',
+  'kunskap',
+  'vit',
+  'exportera',
+  'forensik',
+] as const satisfies readonly ValvZone[];
+
+type PickerZone = (typeof PICKER_ZONES)[number];
+
+const ZONE_TONE: Record<PickerZone, 'gold' | 'emerald' | 'indigo' | 'lavender'> = {
+  samla: 'gold',
+  analysera: 'indigo',
+  kunskap: 'gold',
+  vit: 'lavender',
+  exportera: 'emerald',
+  forensik: 'indigo',
+};
+
+function ZoneIngressPreview({ zone }: { zone: ValvZone }) {
+  return (
+    <p className="text-[10px] leading-relaxed text-text-muted">{VALV_ZONE_INGRESS[zone]}</p>
+  );
+}
+
+type Props = {
+  onSelect: (zone: ValvZone) => void;
+  onSkip?: () => void;
+};
+
+/** Första PIN-session — välj zon innan TabBar. */
+export function ValvZoneModulValjare({ onSelect, onSkip }: Props) {
+  const go = (zone: ValvZone) => {
+    markValvZoneModulValjareSeen();
+    onSelect(zone);
+  };
+
+  const skip = () => {
+    markValvZoneModulValjareSeen();
+    onSkip?.();
+  };
+
+  return (
+    <div className="space-y-4">
+      <p className="text-sm text-text-muted">
+        Valvet har zoner — välj var du vill börja. Flikar och Mönster/Orkester finns kvar efter valet.
+      </p>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {PICKER_ZONES.map((zone) => (
+          <ExamplePreviewCard
+            key={zone}
+            title={VALV_ZONE_LABELS[zone]}
+            lead={VALV_ZONE_INGRESS[zone]}
+            preview={<ZoneIngressPreview zone={zone} />}
+            ctaLabel={`Öppna ${VALV_ZONE_LABELS[zone]}`}
+            tone={ZONE_TONE[zone]}
+            onStart={() => go(zone)}
+          />
+        ))}
+      </div>
+      {onSkip ? (
+        <button type="button" onClick={skip} className="text-xs text-text-dim hover:text-text-muted">
+          Visa alla zoner direkt (Samla)
+        </button>
+      ) : null}
+    </div>
+  );
 }
 </file>
 
@@ -1802,6 +1867,355 @@ export function VaultInkastCompact({ onQueued, onPersistedBevis }: Props) {
 }
 </file>
 
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx">
+import { memo, useEffect, useRef, type RefObject } from 'react';
+import { FileDown, Loader2, Lock } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import './valv.css';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { useVaultStore } from '@/core/store/useVaultStore';
+import type { VaultLog, WeaverTags } from '@/core/types/firestore';
+import {
+  VAVAREN_LOG_CATEGORY_LABEL,
+  VAVAREN_LOG_DISCLAIMER,
+} from '../constants/vavarenCopy';
+import { exportVaultRecordAsPdf } from '../utils/exportVaultRecord';
+import { normalizeStringArray } from '../utils/normalizeVaultLog';
+import { scanTechniquesForLog } from '../utils/vaultPatternScan';
+
+type VaultLogRow = VaultLog & { id: string; weaverTags?: WeaverTags };
+
+function resolveLogTechniques(
+  log: VaultLogRow,
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>,
+): string[] {
+  const persisted = persistedTechniquesByLogId?.get(log.id);
+  if (persisted && persisted.length > 0) return [...persisted];
+  return scanTechniquesForLog(log);
+}
+
+function isVavarenMetadata(log: VaultLog): boolean {
+  return log.category === 'vävaren_metadata';
+}
+
+type VaultLogListProps = {
+  highlightLogId?: string | null;
+  /** Tom lista — scroll till Samla-formuläret ovan. */
+  onLogFirstBevis?: () => void;
+  /** V2 — visa endast Sanningens Ankare (`pinned`). */
+  anchorsOnly?: boolean;
+  /** Sidecar-taktik från pattern_scan_metadata (prioriteras framför live-regex). */
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
+};
+
+function asText(value: unknown): string {
+  if (value == null) return '';
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+  return String(value);
+}
+
+function formatLogBody(log: VaultLog): string {
+  if (log.entryType === 'two_column' && (log.theirVersion || log.myReality)) {
+    return `Hens: ${asText(log.theirVersion) || '—'}\nMin: ${asText(log.myReality) || '—'}`;
+  }
+  if (log.entryType === 'three_shield') {
+    return [log.shieldWhat, log.shieldFeeling, log.shieldBoundary]
+      .map(asText)
+      .filter(Boolean)
+      .join(' · ');
+  }
+  if (log.entryType === 'body_signal') {
+    const signals = normalizeStringArray(log.bodySignals);
+    if (signals.length > 0) {
+      const truth = asText(log.truth);
+      return `${signals.join(', ')}${truth ? ` — ${truth}` : ''}`;
+    }
+  }
+  return asText(log.truth);
+}
+
+function formatLogDate(createdAt: VaultLog['createdAt'] | undefined): string {
+  if (typeof createdAt === 'string') return createdAt.slice(0, 10);
+  if (createdAt == null) return '—';
+  return String(createdAt).slice(0, 10);
+}
+
+function formatServerTimestamp(createdAt: VaultLog['createdAt'] | undefined): string {
+  if (typeof createdAt === 'string') return createdAt;
+  if (createdAt == null) return '—';
+  return String(createdAt);
+}
+
+const LogRow = memo(function LogRow({
+  log,
+  highlightLogId,
+  highlightRef,
+  persistedTechniquesByLogId,
+}: {
+  log: VaultLogRow;
+  highlightLogId?: string | null;
+  highlightRef: RefObject<HTMLLIElement>;
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
+}) {
+  const vavaren = isVavarenMetadata(log);
+  const weaverTags = (log as VaultLogRow).weaverTags;
+  const tags = vavaren ? [] : resolveLogTechniques(log, persistedTechniquesByLogId);
+  
+  return (
+    <li
+      key={log.id}
+      ref={log.id === highlightLogId ? highlightRef : undefined}
+      className={`valv-log-row ${
+        log.pinned ? 'valv-log-row--anchor' : ''
+      } ${log.id === highlightLogId ? 'valv-log-row--highlight' : ''} ${
+        vavaren ? 'valv-log-row--vavaren' : ''
+      }`}
+    >
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <div className="valv-log-stamp mb-1">
+            <Lock className="text-indigo-400/60" size={12} />
+            <p>SERVER-TIDSSTÄMPEL · {formatServerTimestamp(log.createdAt)}</p>
+          </div>
+          <p className="valv-log-meta font-mono">ID · {log.id.slice(0, 12)}…</p>
+          <p className="valv-log-meta mt-1">
+            {log.pinned ? 'Ankare · ' : ''}
+            {vavaren ? VAVAREN_LOG_CATEGORY_LABEL : (log.category ?? 'allmänt')}
+            {!vavaren && log.entryType ? ` · ${log.entryType}` : ''} · {formatLogDate(log.createdAt)}
+          </p>
+          {vavaren && (
+            <p className="mt-1 text-[10px] text-indigo-200/80">{VAVAREN_LOG_DISCLAIMER}</p>
+          )}
+        </div>
+        <button
+          type="button"
+          onClick={() => exportVaultRecordAsPdf(log)}
+          className="btn-pill--ghost shrink-0 py-1 px-2"
+          title="Exportera som PDF (utskrift)"
+        >
+          <FileDown className="h-3 w-3" /> PDF
+        </button>
+      </div>
+      <p className={`mt-2 whitespace-pre-wrap ${vavaren ? 'text-indigo-100/90' : 'text-text-muted'}`}>
+        {formatLogBody(log)}
+      </p>
+      {vavaren && weaverTags && (
+        <div className="mt-3 flex flex-wrap gap-1">
+          {normalizeStringArray(weaverTags.emotions).map((e) => (
+            <span
+              key={`e-${e}`}
+              className="rounded-full border border-indigo-400/25 px-2 py-0.5 text-[10px] text-indigo-200/90"
+            >
+              {e}
+            </span>
+          ))}
+          {normalizeStringArray(weaverTags.actors).map((a) => (
+            <span
+              key={`a-${a}`}
+              className="rounded-full border border-white/10 px-2 py-0.5 text-[10px] text-text-muted"
+            >
+              {a}
+            </span>
+          ))}
+          {weaverTags.threatLevel && weaverTags.threatLevel !== 'none' && (
+            <span className="rounded-full border border-amber-500/30 px-2 py-0.5 text-[10px] text-amber-200/90">
+              hot: {weaverTags.threatLevel}
+            </span>
+          )}
+        </div>
+      )}
+      {tags.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-1">
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full border border-accent/20 px-2 py-0.5 text-[10px] text-accent/80"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+      {log.evidenceUrl && (
+        <a
+          href={log.evidenceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 inline-block text-xs text-accent-secondary hover:underline"
+        >
+          Visa bifogat bevis
+        </a>
+      )}
+    </li>
+  );
+});
+
+export const VaultLogList = memo(function VaultLogList({
+  highlightLogId,
+  onLogFirstBevis,
+  anchorsOnly = false,
+  persistedTechniquesByLogId,
+}: VaultLogListProps) {
+  const { logs, loading, hasMore, loadingMore, loadMoreLogs } = useVaultStore();
+  const highlightRef = useRef<HTMLLIElement>(null);
+  const visible = anchorsOnly ? logs.filter((l) => l.pinned) : logs;
+  const pinned = visible.filter((l) => l.pinned);
+  const rest = anchorsOnly ? [] : visible.filter((l) => !l.pinned);
+
+  useEffect(() => {
+    if (!highlightLogId) return;
+    const timer = window.setTimeout(() => {
+      highlightRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 120);
+    return () => window.clearTimeout(timer);
+  }, [highlightLogId, logs.length]);
+
+  return (
+    <BentoCard
+      title="Bevisarkiv"
+      glow="blue"
+      depth
+      noHover
+      className="mt-4"
+    >
+      {onLogFirstBevis && (
+        <div className="mb-3 flex justify-end">
+          <button type="button" onClick={onLogFirstBevis} className="btn-pill--secondary text-sm">
+            Logga bevis
+          </button>
+        </div>
+      )}
+      {loading && visible.length === 0 ? (
+        <p className="text-sm text-text-dim flex items-center gap-2">
+          <Loader2 className="h-4 w-4 animate-spin" /> Laddar...
+        </p>
+      ) : visible.length === 0 ? (
+        <EmptyState
+          message={
+            anchorsOnly
+              ? 'Inga ankare markerade ännu. Kryssa i «Sanningens Ankare» när du loggar bevis.'
+              : 'Inga poster i arkivet ännu. Tryck «Logga bevis» ovan i panelen — formuläret ligger precis ovanför.'
+          }
+        />
+      ) : (
+        <div className="space-y-4">
+          {pinned.length > 0 && (
+            <div>
+              <p className="mb-2 flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-gold/80">
+                <Lock size={10} className="text-gold/60" /> Sanningens Ankare
+              </p>
+              <ul className="valv-log-list">
+                {pinned.map((log) => (
+                  <LogRow
+                    key={log.id}
+                    log={log}
+                    highlightLogId={highlightLogId}
+                    highlightRef={highlightRef}
+                    persistedTechniquesByLogId={persistedTechniquesByLogId}
+                  />
+                ))}
+              </ul>
+            </div>
+          )}
+          <ul className="valv-log-list">
+          {rest.map((log) => (
+            <LogRow
+              key={log.id}
+              log={log}
+              highlightLogId={highlightLogId}
+              highlightRef={highlightRef}
+              persistedTechniquesByLogId={persistedTechniquesByLogId}
+            />
+          ))}
+        </ul>
+          {hasMore && (
+            <div className="mt-4 flex justify-center">
+              <button
+                type="button"
+                onClick={() => {
+                  const uid = logs[0]?.ownerId;
+                  if (uid) {
+                    void loadMoreLogs(uid);
+                  }
+                }}
+                disabled={loadingMore}
+                className="btn-pill--ghost text-sm"
+              >
+                {loadingMore ? (
+                  <>
+                    <Loader2 className="mr-1 inline h-3 w-3 animate-spin" />
+                    Laddar fler…
+                  </>
+                ) : (
+                  'Visa fler'
+                )}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </BentoCard>
+  );
+});
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultOverviewPanel.tsx">
+import { useEffect, useState } from 'react';
+import { Archive, Clock, Inbox } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { listDraftsByStatus } from '@/modules/capture/draftQueue';
+
+type Props = {
+  pendingInbox: number | null;
+  onOpenReview: () => void;
+};
+
+/** Kompakt granskningsstatus — inga zon-länkar (Fas 1B; navigera via lägesväxlare / drawer). */
+export function VaultOverviewPanel({ pendingInbox, onOpenReview }: Props) {
+  const [localPending, setLocalPending] = useState(0);
+
+  useEffect(() => {
+    void (async () => {
+      try {
+        const [pending, review, failed] = await Promise.all([
+          listDraftsByStatus('pending'),
+          listDraftsByStatus('review'),
+          listDraftsByStatus('failed'),
+        ]);
+        setLocalPending(pending.length + review.length + failed.length);
+      } catch {
+        setLocalPending(0);
+      }
+    })();
+  }, [pendingInbox]);
+
+  return (
+    <BentoCard title="Arkiv-översikt" icon={<Archive className="h-4 w-4" />}>
+      <ul className="space-y-2 text-sm text-text-muted">
+        <li className="flex items-center gap-2">
+          <Inbox className="h-3.5 w-3.5 text-gold" aria-hidden />
+          Granskning i molnet
+          {pendingInbox != null && pendingInbox > 0 ? (
+            <button type="button" className="text-gold underline-offset-2 hover:underline" onClick={onOpenReview}>
+              {pendingInbox} väntar
+            </button>
+          ) : (
+            <span className="text-text-dim">— inget väntar</span>
+          )}
+        </li>
+        {localPending > 0 && (
+          <li className="flex items-center gap-2">
+            <Clock className="h-3.5 w-3.5 text-gold" aria-hidden />
+            Lokala utkast: {localPending}
+          </li>
+        )}
+      </ul>
+    </BentoCard>
+  );
+};
+</file>
+
 <file path="src/modules/features/lifeJournal/evidence/vault/components/VaultPatternHandoff.tsx">
 import { Link } from 'react-router-dom';
 import { BarChart3 } from 'lucide-react';
@@ -1859,6 +2273,107 @@ export function VaultSamlaDriveHint({ pendingCount, onOpenQueue }: Props) {
     </BentoCard>
   );
 }
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx">
+import { memo, useCallback, useEffect, useState } from 'react';
+import { Inbox } from 'lucide-react';
+import './valv.css';
+import { fetchInboxQueue } from '../../kompis/api/inboxService';
+import { listDraftsByStatus } from '@/modules/capture/draftQueue';
+import { useVaultStore } from '@/core/store/useVaultStore';
+import { VaultEntryForm } from './VaultEntryForm';
+import { VaultInkastCompact } from './VaultInkastCompact';
+import { VaultSamlaDriveHint } from './VaultSamlaDriveHint';
+
+type Props = {
+  userId: string;
+  onBevisConfirmed: (docId: string) => void;
+  /** Canonical väg till granskningskö (ValvInputSuperModule). */
+  onOpenGranska?: () => void;
+};
+
+export const VaultSamlaHub = memo(function VaultSamlaHub({
+  userId,
+  onBevisConfirmed,
+  onOpenGranska,
+}: Props) {
+  const [pendingInbox, setPendingInbox] = useState<number | null>(null);
+  const [localPending, setLocalPending] = useState(0);
+  const { saving, error: saveError, saveLog } = useVaultStore();
+
+  const refreshPendingCount = useCallback(async () => {
+    try {
+      const items = await fetchInboxQueue();
+      setPendingInbox(items.length);
+    } catch {
+      setPendingInbox(null);
+    }
+  }, []);
+
+  useEffect(() => {
+    void refreshPendingCount();
+    void (async () => {
+      try {
+        const [pending, review, failed] = await Promise.all([
+          listDraftsByStatus('pending'),
+          listDraftsByStatus('review'),
+          listDraftsByStatus('failed'),
+        ]);
+        setLocalPending(pending.length + review.length + failed.length);
+      } catch {
+        setLocalPending(0);
+      }
+    })();
+  }, [refreshPendingCount]);
+
+  const handleBevisConfirmed = (docId: string) => {
+    onBevisConfirmed(docId);
+    void refreshPendingCount();
+  };
+
+  const openReview = () => {
+    onOpenGranska?.();
+  };
+
+  const pendingTotal = (pendingInbox ?? 0) + localPending;
+
+  return (
+    <div className="valv-samla-panel space-y-4">
+      <VaultInkastCompact
+        onQueued={openReview}
+        onPersistedBevis={handleBevisConfirmed}
+      />
+
+      {onOpenGranska && pendingTotal > 0 ? (
+        <button
+          type="button"
+          className="flex w-full items-center justify-between gap-2 rounded-xl border border-border bg-surface-2/80 px-3 py-2 text-left text-xs text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3"
+          onClick={openReview}
+        >
+          <span className="inline-flex items-center gap-2">
+            <Inbox className="h-3.5 w-3.5 text-accent" aria-hidden />
+            Väntar granskning
+          </span>
+          <span className="font-medium text-accent">{pendingTotal}</span>
+        </button>
+      ) : null}
+
+      <VaultSamlaDriveHint pendingCount={pendingInbox ?? undefined} onOpenQueue={openReview} />
+
+      <details className="rounded-xl border border-border bg-surface-2/60">
+        <summary className="cursor-pointer px-3 py-2 text-xs font-medium uppercase tracking-wider text-text-muted">
+          Manuell post
+        </summary>
+        <div id="vault-samla-entry" className="border-t border-border px-3 py-3">
+          <p className="mb-3 text-xs text-text-dim">Append-only bevis — tvåspalt eller enkel text.</p>
+          <VaultEntryForm userId={userId} saving={saving} onSave={(input) => saveLog(userId, input)} />
+          {saveError ? <p className="mt-2 text-sm text-danger">{saveError}</p> : null}
+        </div>
+      </details>
+    </div>
+  );
+});
 </file>
 
 <file path="src/modules/features/lifeJournal/evidence/vault/components/VaultSettingsPage.tsx">
@@ -1934,1947 +2449,6 @@ export function VaultValvBreadcrumb({ zone, vaultTab }: VaultValvBreadcrumbProps
     </p>
   );
 }
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VitDevelopmentPanel.tsx">
-import type { VitEntryKind } from '@/core/types/firestore';
-import {
-  VIT_HUB_DEVELOPMENT_HINT,
-  VIT_HUB_STAT_DAYS_HINT,
-} from '@/features/dailyLife/wellbeing/mabra/lib/vitHubCopy';
-import type { VitHubStats } from '@/features/dailyLife/wellbeing/mabra/lib/vitHubStats';
-
-const KIND_LABELS: Record<VitEntryKind, string> = {
-  card: 'Frågekort',
-  memory: 'Känslominne',
-  chat_turn: 'Dialog',
-};
-
-type Props = {
-  stats: VitHubStats;
-};
-
-/** P5 — deterministisk veckoaktivitet + typ-fördelning, ingen streak/LLM. */
-export function VitDevelopmentPanel({ stats }: Props) {
-  const maxWeekCount = Math.max(1, ...stats.weeklyActivity.map((w) => w.count));
-  const hasKindData = Object.values(stats.kindCounts).some((n) => n > 0);
-
-  if (stats.totalEntries === 0 && stats.sessionCount === 0) {
-    return null;
-  }
-
-  return (
-    <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="Utveckling">
-      <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">Utveckling</h2>
-      <p className="mt-1 text-[10px] text-text-dim">{VIT_HUB_DEVELOPMENT_HINT}</p>
-
-      {stats.weeklyActivity.length > 0 ? (
-        <div className="mt-4" role="img" aria-label="Aktivitet senaste fyra veckorna">
-          <ul className="flex items-end justify-between gap-2">
-            {stats.weeklyActivity.map((week) => {
-              const heightPct = week.count > 0 ? Math.max(12, (week.count / maxWeekCount) * 100) : 4;
-              return (
-                <li key={week.weekKey} className="flex min-w-0 flex-1 flex-col items-center gap-1">
-                  <span className="text-[10px] tabular-nums text-text-dim">{week.count || '—'}</span>
-                  <div
-                    className="w-full max-w-[2.5rem] rounded-t-md border border-border-strong/40 bg-accent/20 transition-[height]"
-                    style={{ height: `${heightPct}px` }}
-                    aria-hidden
-                  />
-                  <span className="truncate text-[9px] uppercase tracking-wide text-text-dim">
-                    {week.label}
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-          <p className="mt-2 text-[10px] text-text-dim">{VIT_HUB_STAT_DAYS_HINT}</p>
-        </div>
-      ) : null}
-
-      {hasKindData ? (
-        <ul className="mt-4 flex flex-wrap gap-2" aria-label="Fördelning per typ">
-          {(Object.entries(stats.kindCounts) as [VitEntryKind, number][])
-            .filter(([, count]) => count > 0)
-            .map(([kind, count]) => (
-              <li
-                key={kind}
-                className="rounded-full border border-border-strong px-3 py-1 text-xs text-text-muted"
-              >
-                {KIND_LABELS[kind]}: {count}
-              </li>
-            ))}
-        </ul>
-      ) : null}
-    </section>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VitEntryList.tsx">
-import type { VitEntryRow } from '@/core/types/firestore';
-import { vitProjectTitle } from '@/features/dailyLife/wellbeing/mabra/lib/vitHubStats';
-
-const KIND_LABELS = {
-  card: 'Frågekort',
-  memory: 'Känslominne',
-  chat_turn: 'Dialog',
-} as const;
-
-function formatEntryDate(entry: VitEntryRow): string {
-  return entry.cardDateKey ?? entry.createdAt?.slice(0, 10) ?? '—';
-}
-
-type Props = {
-  entries: VitEntryRow[];
-  emptyMessage: string;
-  maxHeightClass?: string;
-};
-
-export function VitEntryList({ entries, emptyMessage, maxHeightClass = 'max-h-80' }: Props) {
-  if (entries.length === 0) {
-    return <p className="mt-2 text-sm text-text-dim">{emptyMessage}</p>;
-  }
-
-  return (
-    <ul className={`calm-scroll-island mt-3 space-y-2 overflow-y-auto pr-1 ${maxHeightClass}`}>
-      {entries.map((entry) => (
-        <li
-          key={entry.id}
-          className="rounded-lg border border-border-strong/60 bg-surface-2/40 px-3 py-2 text-sm"
-        >
-          <p className="text-[10px] uppercase tracking-wide text-text-dim">
-            {vitProjectTitle(entry.projectId)} · {KIND_LABELS[entry.kind]} · {entry.bankId} ·{' '}
-            {formatEntryDate(entry)}
-          </p>
-          <p className="mt-1 whitespace-pre-wrap text-text-muted">
-            {entry.responseText?.trim() || '— (inget skrivet svar)'}
-          </p>
-        </li>
-      ))}
-    </ul>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VitMabraPassPanel.tsx">
-import { VIT_HUB_MOOD_HINT } from '@/features/dailyLife/wellbeing/mabra/lib/vitHubCopy';
-import type { VitHubStats } from '@/features/dailyLife/wellbeing/mabra/lib/vitHubStats';
-
-const SYMPTOM_LABELS: Record<string, string> = {
-  panic_rsd: 'Panik / RSD',
-  self_critical: 'Självkritik',
-  find_self: 'Hitta mig',
-  ovrigt: 'Övrigt',
-};
-
-type Props = {
-  stats: VitHubStats;
-};
-
-/** P5 — MåBra-pass per symptom (senaste 30), deterministisk — inte humör-skala. */
-export function VitMabraPassPanel({ stats }: Props) {
-  if (stats.sessionCount === 0) return null;
-
-  const entries = Object.entries(stats.symptomCounts).sort(([, a], [, b]) => b - a);
-  const maxCount = Math.max(1, ...entries.map(([, c]) => c));
-
-  return (
-    <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="MåBra-pass">
-      <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">
-        MåBra-pass (symptom)
-      </h2>
-      <p className="mt-1 text-[10px] text-text-dim">{VIT_HUB_MOOD_HINT}</p>
-      <ul className="mt-3 space-y-2">
-        {entries.map(([key, count]) => {
-          const widthPct = Math.max(8, (count / maxCount) * 100);
-          return (
-            <li key={key}>
-              <div className="flex items-center justify-between gap-2 text-xs text-text-muted">
-                <span>{SYMPTOM_LABELS[key] ?? key}</span>
-                <span className="tabular-nums text-text-dim">{count}</span>
-              </div>
-              <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-surface-2">
-                <div
-                  className="h-full rounded-full bg-accent/40"
-                  style={{ width: `${widthPct}%` }}
-                  aria-hidden
-                />
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-    </section>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/WeaverPendingVaultBanner.tsx">
-import { useEffect, useState } from 'react';
-import type { WeaverPendingRow } from '@/features/lifeJournal/diary/diary/api/weaverApprovalService';
-import {
-  approveWeaverMetadata,
-  rejectWeaverMetadata,
-  subscribeWeaverPendingForUser,
-} from '@/features/lifeJournal/diary/diary/api/weaverApprovalService';
-import { normalizeStringArray } from '../utils/normalizeVaultLog';
-import {
-  VAVAREN_APPROVAL_HINT,
-  VAVAREN_APPROVAL_TITLE,
-  VAVAREN_PENDING_VAULT_INTRO,
-} from '../constants/vavarenCopy';
-
-type Props = {
-  userId: string;
-  onApproved?: () => void;
-};
-
-export function WeaverPendingVaultBanner({ userId, onApproved }: Props) {
-  const [rows, setRows] = useState<WeaverPendingRow[]>([]);
-  const [busyId, setBusyId] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!userId) return;
-    return subscribeWeaverPendingForUser(userId, setRows);
-  }, [userId]);
-
-  if (rows.length === 0) return null;
-
-  const handleApprove = async (pendingId: string) => {
-    setBusyId(pendingId);
-    try {
-      await approveWeaverMetadata(pendingId);
-      onApproved?.();
-    } finally {
-      setBusyId(null);
-    }
-  };
-
-  const handleDismiss = async (pendingId: string) => {
-    setBusyId(pendingId);
-    try {
-      await rejectWeaverMetadata(pendingId);
-    } finally {
-      setBusyId(null);
-    }
-  };
-
-  return (
-    <div className="space-y-2">
-      <p className="text-xs text-text-dim">{VAVAREN_PENDING_VAULT_INTRO}</p>
-      {rows.map((row) => (
-        <div
-          key={row.id}
-          className="rounded-xl border border-gold/25 bg-gold/5 px-3 py-3 text-sm"
-        >
-          <p className="text-text-muted">{VAVAREN_APPROVAL_TITLE}</p>
-          <p className="mt-1 text-xs text-text-dim">{VAVAREN_APPROVAL_HINT}</p>
-          <div className="mt-2 flex flex-wrap gap-1">
-            {normalizeStringArray(row.weaverTags?.emotions).map((e) => (
-              <span
-                key={`${row.id}-e-${e}`}
-                className="rounded-full border border-indigo-400/25 px-2 py-0.5 text-[10px] text-indigo-200/90"
-              >
-                {e}
-              </span>
-            ))}
-          </div>
-          <div className="mt-2 flex flex-wrap gap-2">
-            <button
-              type="button"
-              disabled={busyId === row.id}
-              onClick={() => void handleApprove(row.id)}
-              className="btn-pill--accent text-xs disabled:opacity-50"
-            >
-              Godkänn
-            </button>
-            <button
-              type="button"
-              disabled={busyId === row.id}
-              onClick={() => void handleDismiss(row.id)}
-              className="btn-pill--ghost text-xs disabled:opacity-50"
-            >
-              Hoppa över
-            </button>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/constants/vaultEntry.ts">
-import type { VaultEntryType } from '../types/vaultEntry';
-
-export const BODY_SIGNALS = [
-  'Tung över axlarna',
-  'Klump i magen',
-  'Svårt att andas',
-] as const;
-
-export const VAULT_ENTRY_MODES: { id: VaultEntryType; label: string }[] = [
-  { id: 'simple', label: 'Enkel' },
-  { id: 'two_column', label: 'Tvåspalt' },
-  { id: 'three_shield', label: 'Tresteg' },
-  { id: 'body_signal', label: 'Magkänsel' },
-];
-
-export const SHIELD_STEPS = [
-  { key: 'what', label: 'Vad händer?', placeholder: 'Objektivt, utan tolkning...' },
-  { key: 'feeling', label: 'Vad känner jag?', placeholder: 'Kroppsligt eller emotionellt...' },
-  { key: 'boundary', label: 'Hur vill jag att det ska vara?', placeholder: 'Gräns eller önskat tillstånd...' },
-] as const;
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/dossier/api/dossierService.ts">
-import { httpsCallable, type FunctionsError } from 'firebase/functions';
-import { functions } from '@/core/firebase/init';
-import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
-import type { GenerateDossierInput, GenerateDossierResult } from '../types';
-
-const generateDossierCallable = httpsCallable<GenerateDossierInput, GenerateDossierResult>(
-  functions,
-  'generateDossier',
-);
-
-export async function generateDossier(
-  input: GenerateDossierInput,
-): Promise<GenerateDossierResult> {
-  try {
-    const result = await generateDossierCallable(
-      withVaultSessionPayload<GenerateDossierInput>(input),
-    );
-    return result.data;
-  } catch (error) {
-    const fnError = error as FunctionsError;
-    if (fnError.code === 'functions/not-found' || fnError.code === 'functions/unimplemented') {
-      throw new Error(
-        'Backend generateDossier är inte deployad än. Wizard och urval är klara — nästa steg är Cloud Function + dossier_snapshots.',
-      );
-    }
-    if (fnError.code === 'functions/unauthenticated') {
-      throw new Error('Autentisering krävs för att generera dossier.');
-    }
-    throw new Error(fnError.message || 'Kunde inte generera dossier.');
-  }
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/dossier/index.ts">
-export { DossierPage } from './components/DossierPage';
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/dossier/module_plan.md">
-# dossier — module plan
-
-## Overview
-
-Dossier-Generator — Sacred Feature. Samlad WORM-export till PDF med hash + `dossier_snapshots`.
-
-**Route:** `/dossier` (AuthGate + Fyren A) · **Canonical:** [`docs/specs/modules/Dossier-SPEC.md`](../../../docs/specs/modules/Dossier-SPEC.md), `.context/modules/evidence/vault/dossier.md`
-
-## Låsta beslut (#1–#4)
-
-Se Dossier-SPEC tabell. Fyren A, backend PDF, snapshot WORM evigt, hela dokument i granskning.
-
-## Status
-
-| Area | Kladd 2026-05-21 | Kod | Status |
-|------|------------------|-----|--------|
-| Wizard + period/källor | Ombud/soc export | Ja | **done** |
-| `generateDossier` + hash | Sacred Feature | Ja | **done** |
-| `dossier_snapshots` WORM | Evigt snapshot | Ja | **done** |
-| BBIC `reportType` | §I.4 öppen | Nej | **planned** |
-| Flik Dossier i Valv | Logga/Sök/Dossier | Ja | **done** |
-| Bro från Barnen | Kladd | Nej | **planned** |
-| Vävaren försätt opt-in | AI endast försätt | Nej | **planned** |
-| Async `dossier_jobs` | Lång kö | Nej | **planned** |
-
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
-
-## Files
-
-| Path | Role | Status |
-|------|------|--------|
-| `components/DossierPage.tsx` | Wizard: period → källor → granskning → generera | **done** (UI) |
-| `types.ts` | Input/result types | **done** |
-| `utils/dossierCandidates.ts` | Filter, kandidatlista | **done** |
-| `api/dossierService.ts` | `generateDossier` callable | **done** |
-| `functions/src/lib/generateDossierInternal.ts` | Hash, PDF, snapshot, signed URL / pdfBase64 | **done** |
-| `scripts/smoke_dossier.mjs` | E2E smoke | **done** |
-
-## Relaterad kod (snabbexport)
-
-| Path | Roll |
-|------|------|
-| `verklighetsvalvet/utils/exportVaultRecord.ts` | Per-post print-PDF |
-| `barnens_livsloggar/utils/exportBalansReport.ts` | JSON Balans |
-
-## Deploy
-
-```bash
-firebase deploy --only firestore:rules,storage,functions:generateDossier
-```
-
-## Smoke
-
-```bash
-npm run smoke:dossier
-```
-
-Se [`docs/SMOKE_RESULTS.md`](../../../docs/SMOKE_RESULTS.md) § Dossier smoke.
-
-## Nästa fas
-
-1. Bro *Skapa Dossier* i Barnen (Valv-flik klar)
-2. GCP: `signBlob` för signed URL (valfritt — base64 fungerar)
-3. Async `dossier_jobs` om PDF > ~10 s
-3. Vävaren opt-in försätt (AI)
-4. BBIC `reportType`
-
-## Security
-
-Fyren A, explicit trigger, Zero Footprint on unmount/Klar, ingen auto-delning.
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/dossier/README.md">
-# dossier
-
-> Sacred Feature — Dossier-Generator. Formell WORM-sammanställning (PDF) för ombud/myndighet.
-
-## Syfte
-
-Aggregerar valv + barnen (+ valfritt journal) utan manuell omskrivning. Kanonisk hash, snapshot WORM, PDF Storage TTL ~24 h.
-
-## Route och ingång
-
-| | |
-|---|---|
-| **Route** | `/dossier` |
-| **AuthGate** | ja + Fyren A |
-| **Dock** | ingen ikon |
-
-## Viktiga filer
-
-| Fil | Roll |
-|-----|------|
-| `components/DossierPage.tsx` | Wizard: period → källor → granska → generera |
-| `api/dossierService.ts` | `generateDossier` callable |
-| `utils/dossierCandidates.ts` | Kandidatfiltrering |
-
-**Relaterad export (andra moduler):**
-
-- `verklighetsvalvet/utils/exportVaultRecord.ts` — PDF per valv-post
-- `barnens_livsloggar/utils/exportBalansReport.ts` — JSON Balans
-
-## Data
-
-| | |
-|---|---|
-| **Läser** | `reality_vault`, `children_logs`, opt-in `journal` |
-| **Skriver** | `dossier_snapshots` (WORM), PDF i Storage (kortlivad) |
-
-## Beror på
-
-- `core` — auth, Fyren, layout
-- `functions/` — pdf-lib PDF-generering
-
-## Kopplingar
-
-- **verklighetsvalvet** — primär beviskälla
-- **barnens_livsloggar** — valfri källa
-- **dagbok** — opt-in med varning i UI
-
-## Minne / AI
-
-| | |
-|---|---|
-| **Permanent lagring** | `dossier_snapshots` — WORM export-metadata |
-| **RAG / chatt** | Nej — aggregerar valda källor |
-| **PDF / samlad export** | **Ja** — närmast "hela arkivet + PDF" idag |
-| **Planerat** | BBIC-mall, Kunskapskällor opt-in |
-
-## Mer läsning
-
-- [module_plan.md](./module_plan.md)
-- [Kontext (.context)](../../../.context/modules/evidence/vault/dossier.md)
-- [Dossier-SPEC](../../../docs/specs/modules/Dossier-SPEC.md)
-- [p2-flode](../../../docs/specs/p2-flode.md)
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/supermodule/valvLastModeStorage.ts">
-import type { ValvInputMode } from './valvInputModes';
-
-const STORAGE_KEY = 'livskompassen_valv_last_input_mode_v1';
-
-export function readValvLastInputMode(): ValvInputMode | null {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw as ValvInputMode | null;
-  } catch {
-    return null;
-  }
-}
-
-export function writeValvLastInputMode(mode: ValvInputMode): void {
-  try {
-    localStorage.setItem(STORAGE_KEY, mode);
-  } catch {
-    /* best-effort */
-  }
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/types/vaultEntry.ts">
-export type VaultEntryType = 'simple' | 'two_column' | 'three_shield' | 'body_signal';
-
-export type VaultLogInput = {
-  action: string;
-  category?: string;
-  truth: string;
-  entryType?: VaultEntryType;
-  theirVersion?: string;
-  myReality?: string;
-  bodySignals?: string[];
-  shieldWhat?: string;
-  shieldFeeling?: string;
-  shieldBoundary?: string;
-  evidenceUrl?: string;
-  pinned?: boolean;
-};
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/utils/exportVaultRecord.ts">
-import type { VaultLog } from '@/core/types/firestore';
-import {
-  escapeHtml,
-  createSafeHtml,
-  printSecurely,
-  DEFAULT_PRINT_STYLES,
-} from '@/shared/utils/secureExport';
-
-/**
- * Formats a vault log record into plain text
- * No HTML characters are used here - escaping happens during print
- */
-function formatRecord(log: VaultLog & { id: string }): string {
-  const lines = [
-    'LIVSKOMPASSEN — ARKIV (LÅST POST)',
-    `Datum: ${(log.createdAt ?? '').slice(0, 19)}`,
-    `Kategori: ${log.category ?? 'bevis'}`,
-    `Typ: ${log.entryType ?? 'simple'}`,
-    '',
-    log.truth ?? '',
-  ];
-
-  if (log.theirVersion || log.myReality) {
-    lines.push(
-      '',
-      '--- Tvåspalt ---',
-      `Hens version: ${log.theirVersion ?? '—'}`,
-      `Min verklighet: ${log.myReality ?? '—'}`
-    );
-  }
-
-  if (log.evidenceUrl) {
-    lines.push('', `Media: ${log.evidenceUrl}`);
-  }
-
-  return lines.join('\n');
-}
-
-/**
- * Creates safe HTML for displaying the vault record
- * All user-provided content is properly escaped to prevent XSS attacks
- */
-function createVaultRecordHtml(log: VaultLog & { id: string }): string {
-  const plainText = formatRecord(log);
-
-  // Split lines and create proper HTML with escaping
-  const htmlLines = plainText.split('\n').map((line) => {
-    const escaped = escapeHtml(line);
-    if (line.startsWith('LIVSKOMPASSEN')) {
-      return `<h1>${escaped}</h1>`;
-    }
-    if (line.startsWith('---')) {
-      return `<hr><h2>${escaped}</h2>`;
-    }
-    if (line === '') {
-      return '';
-    }
-    return `<p>${escaped}</p>`;
-  });
-
-  const content = htmlLines.join('\n');
-
-  const html = createSafeHtml(
-    content,
-    `Valv-bevis - ${escapeHtml(log.category ?? 'bevis')}`,
-    DEFAULT_PRINT_STYLES
-  );
-
-  return html;
-}
-
-/**
- * Exports a vault record as a printable PDF
- * Opens a print dialog where user can save as PDF
- * All content is properly XSS-protected with HTML escaping
- */
-export function exportVaultRecordAsPdf(log: VaultLog & { id: string }): void {
-  try {
-    const html = createVaultRecordHtml(log);
-    printSecurely(
-      html,
-      `Valv-bevis-${(log.createdAt ?? '').slice(0, 10)}`
-    );
-  } catch (error) {
-    console.error('Failed to export vault record as PDF:', error);
-  }
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/utils/normalizeVaultLog.ts">
-import type { VaultLog, WeaverTags } from '@/core/types/firestore';
-
-export function normalizeStringArray(value: unknown): string[] {
-  if (Array.isArray(value)) {
-    return value.filter((v): v is string => typeof v === 'string' && v.length > 0);
-  }
-  if (typeof value === 'string' && value.trim()) {
-    return value
-      .split(/[,;|]/)
-      .map((s) => s.trim())
-      .filter(Boolean);
-  }
-  return [];
-}
-
-function normalizeWeaverTags(raw: unknown): WeaverTags | undefined {
-  if (!raw || typeof raw !== 'object') return undefined;
-  const wt = raw as Record<string, unknown>;
-  return {
-    emotions: normalizeStringArray(wt.emotions),
-    actors: normalizeStringArray(wt.actors),
-    threatLevel:
-      wt.threatLevel === 'low' ||
-      wt.threatLevel === 'medium' ||
-      wt.threatLevel === 'high' ||
-      wt.threatLevel === 'none'
-        ? wt.threatLevel
-        : 'none',
-    threatScore: typeof wt.threatScore === 'number' ? wt.threatScore : undefined,
-    ragAnchors: Array.isArray(wt.ragAnchors) ? (wt.ragAnchors as WeaverTags['ragAnchors']) : [],
-    model: 'gemini-1.5-pro',
-    journalEntryId: typeof wt.journalEntryId === 'string' ? wt.journalEntryId : '',
-  };
-}
-
-/** Säker normalisering — legacy Firestore-rader får inte krascha list-UI. */
-export function normalizeVaultLogFields(
-  log: VaultLog & { id: string; weaverTags?: unknown },
-): VaultLog & { id: string; weaverTags?: WeaverTags } {
-  const { weaverTags: _rawWeaver, bodySignals: _rawSignals, ...rest } = log;
-  const weaverTags = normalizeWeaverTags(_rawWeaver);
-  return {
-    ...rest,
-    truth: typeof log.truth === 'string' ? log.truth : String(log.truth ?? ''),
-    bodySignals: normalizeStringArray(_rawSignals ?? log.bodySignals),
-    ...(weaverTags ? { weaverTags } : {}),
-  };
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/utils/smsThreadParse.ts">
-/** Heuristisk uppdelning av inklistrad sms-tråd till tvåspalt (Hens / Min). */
-export function parseSmsThreadToTwoColumn(raw: string): {
-  theirVersion: string;
-  myReality: string;
-} | null {
-  const text = raw.trim();
-  if (text.length < 20) return null;
-
-  const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
-  if (lines.length < 2) return null;
-
-  const mineMarkers = /^(jag|mig|min|mitt|mina|me|i)\b/i;
-  const theirMarkers = /^(hen|de|du|dom)\b/i;
-
-  const mine: string[] = [];
-  const theirs: string[] = [];
-  let bucket: 'mine' | 'theirs' | 'unknown' = 'unknown';
-
-  for (const line of lines) {
-    const headerMatch = line.match(/^([^:]{1,40}):\s*(.+)$/);
-    if (headerMatch) {
-      const who = headerMatch[1]!.trim();
-      const body = headerMatch[2]!.trim();
-      if (mineMarkers.test(who) || /^jag$/i.test(who)) {
-        mine.push(body);
-        bucket = 'mine';
-      } else {
-        theirs.push(body);
-        bucket = 'theirs';
-      }
-      continue;
-    }
-
-    if (theirMarkers.test(line)) {
-      theirs.push(line);
-      bucket = 'theirs';
-    } else if (mineMarkers.test(line)) {
-      mine.push(line);
-      bucket = 'mine';
-    } else if (bucket === 'theirs') {
-      theirs.push(line);
-    } else if (bucket === 'mine') {
-      mine.push(line);
-    } else {
-      theirs.push(line);
-      bucket = 'theirs';
-    }
-  }
-
-  if (mine.length === 0 && theirs.length === 0) return null;
-
-  return {
-    theirVersion: theirs.join('\n') || text,
-    myReality: mine.join('\n') || '',
-  };
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/utils/valvZoneModulValjareStorage.ts">
-export const VALV_ZONE_MODULVALJARE_SEEN_KEY = 'lk_valv_zone_modulvaljare_seen_v1';
-
-export function hasSeenValvZoneModulValjare(): boolean {
-  try {
-    return localStorage.getItem(VALV_ZONE_MODULVALJARE_SEEN_KEY) === 'true';
-  } catch {
-    return false;
-  }
-}
-
-export function markValvZoneModulValjareSeen(): void {
-  try {
-    localStorage.setItem(VALV_ZONE_MODULVALJARE_SEEN_KEY, 'true');
-  } catch {
-    /* ignore */
-  }
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/utils/vaultTabs.ts">
-import { BookOpen, Users } from 'lucide-react';
-import { FORENSIC_VAULT_TAB_LABELS } from '@/core/copy/valvNavCopy';
-
-export { VALV_ZONE_INGRESS, FORENSIC_TAB_INGRESS } from '@/core/copy/valvNavCopy';
-
-/** Samla — arkiv + triage/chat. */
-export const SAMLA_VAULT_TAB_IDS = ['logga', 'sok'] as const;
-
-/** Analysera — mönster + orkester (locked UX). */
-export const ANALYSERA_VAULT_TAB_IDS = ['monster', 'orkester'] as const;
-
-/** Exportera — dossier. */
-export const EXPORTERA_VAULT_TAB_IDS = ['dossier'] as const;
-
-/** Legacy union — alla huvudflikar utom kunskap/forensik. */
-export const PANSARET_VAULT_TAB_IDS = [
-  ...SAMLA_VAULT_TAB_IDS,
-  ...ANALYSERA_VAULT_TAB_IDS,
-  ...EXPORTERA_VAULT_TAB_IDS,
-] as const;
-
-export type SamlaVaultTab = (typeof SAMLA_VAULT_TAB_IDS)[number];
-export type AnalyseraVaultTab = (typeof ANALYSERA_VAULT_TAB_IDS)[number];
-export type ExporteraVaultTab = (typeof EXPORTERA_VAULT_TAB_IDS)[number];
-
-export const KUNSKAP_VAULT_TAB = 'kunskapsbank' as const;
-export const AKTORSKARTA_VAULT_TAB = 'aktorskarta' as const;
-
-export const KUNSKAP_VAULT_TAB_IDS = [KUNSKAP_VAULT_TAB, AKTORSKARTA_VAULT_TAB] as const;
-export type KunskapVaultTab = (typeof KUNSKAP_VAULT_TAB_IDS)[number];
-
-/** Utvecklingszon (Vit) — separat från bevis-WORM. */
-export const VIT_VAULT_TAB = 'mitt_vit' as const;
-export const VIT_VAULT_TAB_IDS = [VIT_VAULT_TAB] as const;
-export type VitVaultTab = (typeof VIT_VAULT_TAB_IDS)[number];
-
-/** Synliga zoner i TabBar / ValvInputSuperModule (inbox borttagen — granska-läge i samla). */
-export const VALV_ZONE_VISIBLE_IDS = [
-  'samla',
-  'analysera',
-  'kunskap',
-  'vit',
-  'exportera',
-  'forensik',
-] as const;
-
-/** Legacy drawer/deep link — mappa till `valvMode=granska`, inte forensic tab. */
-export const LEGACY_INBOX_VAULT_TAB = 'inbox' as const;
-
-/** @deprecated inbox-zon — använd granska-läge i ValvInputSuperModule. */
-export const VALV_ZONE_IDS = [...VALV_ZONE_VISIBLE_IDS] as const;
-
-export type ValvZone = (typeof VALV_ZONE_VISIBLE_IDS)[number];
-
-export type PansaretVaultTab = (typeof PANSARET_VAULT_TAB_IDS)[number];
-
-export const MAIN_VAULT_TAB_IDS = [...PANSARET_VAULT_TAB_IDS, ...KUNSKAP_VAULT_TAB_IDS] as const;
-
-export const FORENSIC_VAULT_TAB_IDS = [
-  'hamn_analys',
-  'speglar_fordjupat',
-  'dagbok_arkiv',
-  'familjen_monster',
-  'arbetsliv_franvaro',
-  'arbetsliv_lon',
-] as const;
-
-export type MainVaultTab = (typeof MAIN_VAULT_TAB_IDS)[number];
-export type ForensicVaultTab = (typeof FORENSIC_VAULT_TAB_IDS)[number];
-export type VaultTab = MainVaultTab | ForensicVaultTab | VitVaultTab;
-
-export function resolveValvZone(tab: VaultTab): ValvZone {
-  if (isVitVaultTab(tab)) return 'vit';
-  if (isKunskapVaultTab(tab)) return 'kunskap';
-  if (isForensicVaultTab(tab)) return 'forensik';
-  if ((EXPORTERA_VAULT_TAB_IDS as readonly string[]).includes(tab)) return 'exportera';
-  if ((ANALYSERA_VAULT_TAB_IDS as readonly string[]).includes(tab)) return 'analysera';
-  return 'samla';
-}
-
-export function isSamlaVaultTab(tab: VaultTab): tab is SamlaVaultTab {
-  return (SAMLA_VAULT_TAB_IDS as readonly string[]).includes(tab);
-}
-
-export function isAnalyseraVaultTab(tab: VaultTab): tab is AnalyseraVaultTab {
-  return (ANALYSERA_VAULT_TAB_IDS as readonly string[]).includes(tab);
-}
-
-export function isExporteraVaultTab(tab: VaultTab): tab is ExporteraVaultTab {
-  return (EXPORTERA_VAULT_TAB_IDS as readonly string[]).includes(tab);
-}
-
-export function isKunskapVaultTab(tab: VaultTab): tab is KunskapVaultTab {
-  return (KUNSKAP_VAULT_TAB_IDS as readonly string[]).includes(tab);
-}
-
-export function isVitVaultTab(tab: VaultTab): tab is VitVaultTab {
-  return (VIT_VAULT_TAB_IDS as readonly string[]).includes(tab);
-}
-
-export function isPansaretVaultTab(tab: VaultTab): tab is PansaretVaultTab {
-  return (PANSARET_VAULT_TAB_IDS as readonly string[]).includes(tab);
-}
-
-const ALL_VAULT_TABS = new Set<string>([
-  ...MAIN_VAULT_TAB_IDS,
-  ...FORENSIC_VAULT_TAB_IDS,
-  ...VIT_VAULT_TAB_IDS,
-]);
-
-export function parseVaultTab(raw: string | null): VaultTab {
-  if (raw && ALL_VAULT_TABS.has(raw)) return raw as VaultTab;
-  return 'logga';
-}
-
-export function isForensicVaultTab(tab: VaultTab): tab is ForensicVaultTab {
-  return (FORENSIC_VAULT_TAB_IDS as readonly string[]).includes(tab);
-}
-
-export function forensicVaultTabLabel(tab: ForensicVaultTab): string {
-  return FORENSIC_VAULT_TAB_LABELS[tab];
-}
-
-export const VAULT_TAB_ICONS = {
-  kunskapsbank: BookOpen,
-  aktorskarta: Users,
-} as const;
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/module_plan.md">
-# verklighetsvalvet — module plan
-
-## Overview
-
-Sacred Feature: WORM evidence vault (Verklighetsvalvet / Sanningens Sköld). Route `/dagbok?tab=bevis`; redirect `/valv`. Dold ingång via Fyren (3s long-press BookOpen + WebAuthn + PIN).
-
-Canonical: `.context/modules/evidence/vault.md` · Spec: `docs/specs/modules/Verklighetsvalvet-SPEC.md`
-
-## Files
-
-| Path | Role |
-|------|------|
-| `components/VaultEntryForm.tsx` | Enkel/tvåspalt/tresteg/magkänsel + media + röst |
-| `components/VaultPage.tsx` | PIN gate, Logga/Sök/**Mönster/Orkester**/Dossier, Stäng → Reflektion |
-| `components/VaultMonsterPanel.tsx` | Låst UX — deterministisk frekvens (Pansaret) |
-| `components/VaultOrkesterPanel.tsx` | Låst UX — agentregister + SMS mönstersökning |
-| `components/VaultLogList.tsx` | Append-only lista + PDF-knapp per post |
-| `utils/exportVaultRecord.ts` | Per-post PDF via utskriftsdialog |
-| `constants/vaultEntry.ts` | BODY_SIGNALS, VAULT_ENTRY_MODES, SHIELD_STEPS |
-| `constants/vavarenCopy.ts` | Vävaren — användarcopy (Fas 1.5) |
-| `types/vaultEntry.ts` | VaultEntryType, VaultLogInput |
-| `../diary/diary/components/HjartatPage.tsx` | Bevis-flik, session lock vid flikbyte |
-| `../core/layout/FloatingDock.tsx` | Fyren — 3s progress + WebAuthn |
-| `../core/auth/webauthn.ts` | Passkey-gate (client MVP) |
-| `../core/security/clearDeviceSession.ts` | Device Clear — Inställningar (ersätter shake-to-kill) |
-| `../core/hooks/useSpeechToText.ts` | Röst → text i truth |
-| `../core/firebase/firestore.ts` | `assertWormPayload`, `saveVaultLog`, `getVaultLogs` |
-| `../core/firebase/storage.ts` | `uploadVaultEvidence` → `vault_evidence/{uid}/` |
-| `../evidence/vaultChat/` | ValvChatPanel, `useValvChatSession`, `valvChatQuery` |
-
-## Status
-
-| Area | Kladd 2026-05-21 | Kod | Status |
-|------|------------------|-----|--------|
-| Fyren 3s + WORM | Dold ingång, Sanningens Sköld | Ja | **done** |
-| Tvåspalt / tresteg / magkänsel | Hens version vs sanning | Ja | **done** |
-| Storage `evidenceUrl` | PDF/sms-export, ej Drive-auto | Ja | **done** |
-| Shake-to-Kill | Panik + iOS-test | Ja | **done** |
-| Orosanmälan + skolbevis | §D beviskandidater | Manuell | **use now** |
-| Vävaren godkännande | HITL före `vävaren_metadata` i Valv | **done** 2026-05-31 |
-| Vävaren copy / tydlighet (Fas 1.5) | Arkiv, Sök, dagbok, Dossier | `vavarenCopy.ts` | **done** 2026-05-29 |
-| Dölj Bevis-flik | Plausible deniability | Nej | **planned** |
-| BBIC-filter export | Soc/jurist | Nej | **planned** (Dossier fas 2) |
-| Sanningens Ankare landning | Notebook | Nej | **planned** |
-| Auto Storage-analys | Notebook vision | Nej | **rejected** |
-
-**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
-
-## Produktbeslut (låsta 2026-05)
-
-1. Drive → valv: manuellt godkännande (Drive-auto → kb_docs)
-2. PDF: klient per post; Dossier callable senare
-3. Valv-Chat: nollställ vid flikbyte
-4. WebAuthn + PIN; duress-PIN senare
-5. Dölj Bevis-flik när Fyren sitter i muskelminnet
-
-## Fas 1.5 — Vävaren UX polish (2026-05-29, lokal)
-
-| # | Leverans | Status |
-|---|----------|--------|
-| 1 | `constants/vavarenCopy.ts` — gemensam copy | **done** |
-| 2 | `VaultLogList` — tydlig etikett för `vävaren_metadata` + weaverTags | **done** |
-| 3 | `ValvChatPanel` — förklarar att Sök exkluderar AI-taggar | **done** |
-| 4 | Dagbok `SavedStep` / `ConfirmStep` — bakgrundstaggning förklarad | **done** |
-| 5 | `DossierPage` — tydligare AI-försätt-checkbox | **done** |
-
-**Ej i Fas 1.5:** godkännande-flöde, `firestore.rules`, borttag av Mönster/Orkester/Kunskapsbank.
-
-## Nästa fas (implementera när användaren säger kör)
-
-1. Dölj Bevis-flik + ClusterGrid-länk (Fyren only, feature flag)
-2. Klickbara citations i ValvChatPanel
-3. Drive-ingest med manuellt godkännande → `reality_vault`
-4. ~~Full Dossier-generator~~ → **done** (`DossierPage` + `generateDossier`; kvar: BBIC-mall, Vävaren försätt)
-5. Sanningens Ankare (`pinned`) + citation UX
-
-## Security notes
-
-- Fyren + WebAuthn + `issueVaultSession` (server gate för Valv-callables)
-- `vaultSessionLifecycle.ts` — `endVaultSession` vid Stäng/idle; `ensureVaultSessionReady` efter refresh
-- Demo PIN: borttagen — Valv via `issueVaultSession` (server gate)
-- Zero Footprint: vault unlock + chat rensas vid flikbyte/kill switch
-- Evidence: en fil per post (`evidenceUrl`); Storage uid-scoped
-- Valv-Chat: isolerad från `knowledgeVaultQuery`
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/README.md">
-# verklighetsvalvet
-
-> Sacred Feature — Sanningens Sköld. WORM-bevisbank (Lager 2) mot gaslighting.
-
-## Syfte
-
-Append-only, tidsstämplade sanningar. Skild från Dagbok (Lager 1). Plausible deniability via **Fyren** (dold ingång).
-
-## Route och ingång
-
-| | |
-|---|---|
-| **Route** | `/dagbok?tab=bevis` (redirect `/valv`) |
-| **AuthGate** | ja |
-| **Fyren** | 3s long-press BookOpen → WebAuthn → PIN → bevis |
-| **Flik Bevis** | Synlig idag; mål: endast Fyren |
-
-## Viktiga filer
-
-| Fil | Roll |
-|-----|------|
-| `components/VaultPage.tsx` | PIN, flikar Logga \| Sök |
-| `components/VaultEntryForm.tsx` | 4 inmatningslägen + media + röst |
-| `components/VaultLogList.tsx` | Append-only lista + PDF/post |
-| `utils/exportVaultRecord.ts` | Klient-PDF per post |
-| `types/vaultEntry.ts` | Entry-typer |
-
-**Valv-Chat:** `../evidence/vaultChat/` (Sök-flik)
-
-## Data
-
-| Collection | Innehåll |
-|------------|----------|
-| `reality_vault` | WORM-bevis (action, truth, category, media, …) |
-
-**Klient:** `saveVaultLog`, `uploadVaultEvidence`  
-**Callable:** `valvChatQuery` (via valv_chatt)
-
-## Beror på
-
-- `core` — PinGate, WebAuthn, EvidenceMediaAttach, firestore
-- `valv_chatt` — Sök-flik i VaultPage
-
-## Kopplingar
-
-- **Dagbok** — Hjärtat-kluster, Vävaren
-- **Speglings_system** — EvidenceCompare
-- **safe_harbor** — spara BIFF som bevis
-- **dossier** — aggregering till PDF
-
-## Minne / AI
-
-| | |
-|---|---|
-| **Permanent lagring** | `reality_vault` — WORM, glömmer inte |
-| **RAG / chatt** | Valv-Chat via `valvChatQuery` (**deploy saknas i prod**) |
-| **PDF / samlad export** | per post + Dossier |
-| **Planerat** | klickbara citations |
-
-## Mer läsning
-
-- [module_plan.md](./module_plan.md)
-- [Kontext (.context)](../../../.context/modules/evidence/vault.md)
-- [Verklighetsvalvet-SPEC](../../../docs/specs/modules/Verklighetsvalvet-SPEC.md)
-- [valv_chatt README](../evidence/vaultChat/README.md)
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/api/patternScanMetadataApi.ts">
-import { collection, getDocs, limit, query, where } from 'firebase/firestore';
-import { db } from '@/core/firebase/firestore';
-import { FIRESTORE_COLLECTIONS } from '@/core/types/firestore';
-
-export type PatternScanMetadataRow = {
-  id: string;
-  sourceRef: string;
-  techniques: string[];
-  patternIds: string[];
-  libraryVersion: string;
-  scanLayer: 'REGEX' | 'DCAP';
-};
-
-export function buildTechniquesByLogId(
-  rows: readonly PatternScanMetadataRow[],
-): Map<string, string[]> {
-  const map = new Map<string, Set<string>>();
-  for (const row of rows) {
-    const set = map.get(row.sourceRef) ?? new Set<string>();
-    for (const t of row.techniques) set.add(t);
-    map.set(row.sourceRef, set);
-  }
-  const out = new Map<string, string[]>();
-  for (const [ref, set] of map) {
-    out.set(ref, [...set].sort((a, b) => a.localeCompare(b, 'sv')));
-  }
-  return out;
-}
-
-export async function fetchPatternScanMetadata(uid: string): Promise<PatternScanMetadataRow[]> {
-  const ref = collection(db, FIRESTORE_COLLECTIONS.pattern_scan_metadata);
-  const snap = await getDocs(query(ref, where('userId', '==', uid), limit(500)));
-  return snap.docs.map((doc) => {
-    const data = doc.data();
-    return {
-      id: doc.id,
-      sourceRef: String(data.sourceRef ?? ''),
-      techniques: Array.isArray(data.techniques) ? data.techniques.map(String) : [],
-      patternIds: Array.isArray(data.patternIds) ? data.patternIds.map(String) : [],
-      libraryVersion: String(data.libraryVersion ?? ''),
-      scanLayer: data.scanLayer === 'DCAP' ? 'DCAP' : 'REGEX',
-    };
-  });
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/api/patternScanService.ts">
-import { httpsCallable } from 'firebase/functions';
-import { functions } from '@/core/firebase/init';
-import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
-
-type RescanResult = { written: number; libraryVersion: string };
-
-const rescanCallable = httpsCallable<Record<string, never>, RescanResult>(
-  functions,
-  'rescanPatternMetadata',
-);
-
-export async function rescanPatternMetadata(): Promise<RescanResult> {
-  const result = await rescanCallable(withVaultSessionPayload<Record<string, never>>({}));
-  return result.data;
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/api/processBrusfilterService.ts">
-import { httpsCallable, type FunctionsError } from 'firebase/functions';
-import { functions } from '@/core/firebase/init';
-import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
-
-export type BrusfilterRecommendedAction = 'INGEN' | 'VARNING';
-
-export interface ProcessBrusfilterResult {
-  dcap_analysis: {
-    risk_score: number;
-    recommended_action: BrusfilterRecommendedAction;
-  };
-  isolated_logistics: string;
-  biff_draft_reply: string;
-}
-
-type ProcessBrusfilterPayload = {
-  raw_input_text: string;
-  vaultSessionToken?: string;
-};
-
-const processBrusfilterCallable = httpsCallable<
-  ProcessBrusfilterPayload,
-  ProcessBrusfilterResult
->(functions, 'processBrusfilter');
-
-export async function callProcessBrusfilter(rawInputText: string): Promise<ProcessBrusfilterResult> {
-  try {
-    const result = await processBrusfilterCallable(
-      withVaultSessionPayload({ raw_input_text: rawInputText.trim() }),
-    );
-    return result.data;
-  } catch (error) {
-    console.error('Fel vid anrop till processBrusfilter:', error);
-    const fnError = error as FunctionsError;
-    if (fnError.code === 'functions/unauthenticated') {
-      throw new Error('Autentisering krävs för Brusfilter.');
-    }
-    if (fnError.code === 'functions/permission-denied') {
-      throw new Error('Lås upp Valvet via Fyren (3 sek) och biometri innan du filtrerar brus.');
-    }
-    if (fnError.code === 'functions/resource-exhausted') {
-      throw new Error('För många försök — vänta en minut och försök igen.');
-    }
-    throw new Error(fnError.message || 'Brusfilter misslyckades. Försök igen senare.');
-  }
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvAnalyseraZone.tsx">
-import { TabBar } from '@/core/ui/TabBar';
-import { getAnalyseraVaultTabBarItems } from '@/core/navigation/tabRegistry';
-import { useVaultStore } from '@/core/store/useVaultStore';
-import { useStore } from '@/core/store';
-import { PansaretHeader } from '../PansaretHeader';
-import { VaultMonsterPanel } from '../VaultMonsterPanel';
-import { VaultOrkesterPanel } from '../VaultOrkesterPanel';
-import type { AnalyseraVaultTab } from '../../utils/vaultTabs';
-
-export type ValvAnalyseraZoneProps = {
-  tab: AnalyseraVaultTab;
-  onTabChange: (tab: AnalyseraVaultTab) => void;
-};
-
-/** Locked UX — Mönster + Orkester (Pansaret). */
-export function ValvAnalyseraZone({ tab, onTabChange }: ValvAnalyseraZoneProps) {
-  const { logs } = useVaultStore();
-  const userId = useStore((s) => s.user?.uid);
-  
-  return (
-    <>
-      <div className="mb-3">
-        <TabBar
-          size="compact"
-          tabs={getAnalyseraVaultTabBarItems()}
-          active={tab}
-          onChange={onTabChange}
-        />
-      </div>
-      {tab === 'orkester' ? (
-        <VaultOrkesterPanel logs={logs} />
-      ) : (
-        <>
-          <PansaretHeader />
-          <VaultMonsterPanel logs={logs} userId={userId} />
-        </>
-      )}
-    </>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvInboxZone.tsx">
-import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
-
-/**
- * @deprecated Fas 1B — granska sker via ValvInputSuperModule + InboxReviewQueue.
- */
-export function ValvInboxZone({ onBevisConfirmed }: { onBevisConfirmed?: (docId: string) => void }) {
-  return (
-    <div className="space-y-4 animate-fade-in">
-      <InboxReviewQueue compact={false} prioritizeBevis onBevisConfirmed={onBevisConfirmed} />
-    </div>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx">
-import { useState } from 'react';
-import { TabBar } from '@/core/ui/TabBar';
-import { getSamlaVaultTabBarItems } from '@/core/navigation/tabRegistry';
-import { useVaultStore } from '@/core/store/useVaultStore';
-import { ValvChatPanel } from '@/features/lifeJournal/evidence/vaultChat';
-import { VaultLogList } from '../VaultLogList';
-import { VaultSamlaHub } from '../VaultSamlaHub';
-import { WeaverPendingVaultBanner } from '../WeaverPendingVaultBanner';
-import { usePatternScanMetadata } from '../../hooks/usePatternScanMetadata';
-import type { SamlaVaultTab } from '../../utils/vaultTabs';
-
-export type ValvSamlaZoneProps = {
-  tab: SamlaVaultTab;
-  onTabChange: (tab: SamlaVaultTab) => void;
-  userId: string;
-  gateOk: boolean;
-  highlightLogId: string | null;
-  onBevisConfirmed: (docId: string) => void | Promise<void>;
-  onCitationClick: (docId: string) => void;
-  onOpenGranska?: () => void;
-};
-
-export function ValvSamlaZone({
-  tab,
-  onTabChange,
-  userId,
-  gateOk,
-  highlightLogId,
-  onBevisConfirmed,
-  onCitationClick,
-  onOpenGranska,
-}: ValvSamlaZoneProps) {
-  const [anchorsOnly, setAnchorsOnly] = useState(false);
-  const { logs, loadFirstLogsPage } = useVaultStore();
-  const { techniquesByLogId } = usePatternScanMetadata(userId);
-
-  return (
-    <>
-      <div className="mb-3">
-        <TabBar
-          size="compact"
-          tabs={getSamlaVaultTabBarItems()}
-          active={tab}
-          onChange={onTabChange}
-        />
-      </div>
-      {tab === 'sok' ? (
-        <ValvChatPanel
-          active={gateOk}
-          onCitationClick={onCitationClick}
-          logs={logs}
-        />
-      ) : (
-        <>
-          <WeaverPendingVaultBanner userId={userId} onApproved={() => loadFirstLogsPage(userId)} />
-          <VaultSamlaHub
-            userId={userId}
-            onBevisConfirmed={(docId) => void onBevisConfirmed(docId)}
-            onOpenGranska={onOpenGranska}
-          />
-          <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={() => setAnchorsOnly((v) => !v)}
-              className={`btn-pill--ghost text-xs ${anchorsOnly ? 'text-gold' : ''}`}
-              aria-pressed={anchorsOnly}
-            >
-              {anchorsOnly ? 'Visa alla bevis' : 'Endast ankare'}
-            </button>
-          </div>
-          <VaultLogList
-            highlightLogId={highlightLogId}
-            anchorsOnly={anchorsOnly}
-            persistedTechniquesByLogId={techniquesByLogId}
-            onLogFirstBevis={() =>
-              document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-            }
-          />
-        </>
-      )}
-    </>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/ValvBentoShell.tsx">
-import type { ReactNode } from 'react';
-import { Shield } from 'lucide-react';
-import { clsx } from 'clsx';
-import './valv.css';
-
-type Props = {
-  children: ReactNode;
-  className?: string;
-  /** Visa zon-pill "VALV" under hub-header */
-  showZonePill?: boolean;
-};
-
-/**
- * Obsidian Calm Bento — visuellt skal för Valv (indigo/gold forensic silo).
- * Bakgrund: radiell gradient + svag sköld-ikon (ingen logik).
- */
-export function ValvBentoShell({
-  children,
-  className,
-  showZonePill = true,
-}: Props) {
-  return (
-    <div className={clsx('valv-bento-shell', className)}>
-      <Shield className="valv-bg-watermark" strokeWidth={0.75} aria-hidden />
-      <div className="valv-bento-shell__content">
-        {showZonePill ? (
-          <div className="valv-zone-strip" aria-hidden>
-            <span className="valv-zone-pill">Valv</span>
-          </div>
-        ) : null}
-        {children}
-      </div>
-    </div>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/ValvZoneModulValjare.tsx">
-import { ExamplePreviewCard } from '@/shared/ui/ExamplePreviewCard';
-import { VALV_ZONE_INGRESS, VALV_ZONE_LABELS } from '@/core/copy/valvNavCopy';
-import type { ValvZone } from '../utils/vaultTabs';
-import { markValvZoneModulValjareSeen } from '../utils/valvZoneModulValjareStorage';
-
-const PICKER_ZONES = [
-  'samla',
-  'analysera',
-  'kunskap',
-  'vit',
-  'exportera',
-  'forensik',
-] as const satisfies readonly ValvZone[];
-
-type PickerZone = (typeof PICKER_ZONES)[number];
-
-const ZONE_TONE: Record<PickerZone, 'gold' | 'emerald' | 'indigo' | 'lavender'> = {
-  samla: 'gold',
-  analysera: 'indigo',
-  kunskap: 'gold',
-  vit: 'lavender',
-  exportera: 'emerald',
-  forensik: 'indigo',
-};
-
-function ZoneIngressPreview({ zone }: { zone: ValvZone }) {
-  return (
-    <p className="text-[10px] leading-relaxed text-text-muted">{VALV_ZONE_INGRESS[zone]}</p>
-  );
-}
-
-type Props = {
-  onSelect: (zone: ValvZone) => void;
-  onSkip?: () => void;
-};
-
-/** Första PIN-session — välj zon innan TabBar. */
-export function ValvZoneModulValjare({ onSelect, onSkip }: Props) {
-  const go = (zone: ValvZone) => {
-    markValvZoneModulValjareSeen();
-    onSelect(zone);
-  };
-
-  const skip = () => {
-    markValvZoneModulValjareSeen();
-    onSkip?.();
-  };
-
-  return (
-    <div className="space-y-4">
-      <p className="text-sm text-text-muted">
-        Valvet har zoner — välj var du vill börja. Flikar och Mönster/Orkester finns kvar efter valet.
-      </p>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {PICKER_ZONES.map((zone) => (
-          <ExamplePreviewCard
-            key={zone}
-            title={VALV_ZONE_LABELS[zone]}
-            lead={VALV_ZONE_INGRESS[zone]}
-            preview={<ZoneIngressPreview zone={zone} />}
-            ctaLabel={`Öppna ${VALV_ZONE_LABELS[zone]}`}
-            tone={ZONE_TONE[zone]}
-            onStart={() => go(zone)}
-          />
-        ))}
-      </div>
-      {onSkip ? (
-        <button type="button" onClick={skip} className="text-xs text-text-dim hover:text-text-muted">
-          Visa alla zoner direkt (Samla)
-        </button>
-      ) : null}
-    </div>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultMonsterPanel.tsx">
-/** @locked-ux Valv Mönster — do not remove; see `.context/locked-ux-features.md` */
-import { useMemo, useState } from 'react';
-import { BarChart3, Loader2, RefreshCw } from 'lucide-react';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { EmptyState } from '@/core/ui/EmptyState';
-import type { VaultLog } from '@/core/types/firestore';
-import { buildVaultFrequencyReport } from '../utils/vaultPatternScan';
-import { usePatternScanMetadata } from '../hooks/usePatternScanMetadata';
-import { rescanPatternMetadata } from '../api/patternScanService';
-
-type Props = {
-  logs: (VaultLog & { id: string })[];
-  userId?: string;
-};
-
-function BarRow({ label, count, max }: { label: string; count: number; max: number }) {
-  const width = max > 0 ? Math.round((count / max) * 100) : 0;
-  return (
-    <div className="space-y-1">
-      <div className="flex justify-between text-xs text-text-dim">
-        <span>{label}</span>
-        <span>{count}</span>
-      </div>
-      <div className="h-2 overflow-hidden rounded-full bg-white/5">
-        <div
-          className="h-full rounded-full bg-accent/70 transition-all"
-          style={{ width: `${width}%` }}
-        />
-      </div>
-    </div>
-  );
-}
-
-export function VaultMonsterPanel({ logs, userId }: Props) {
-  const { techniquesByLogId, libraryVersion, reload } = usePatternScanMetadata(userId);
-  const [rescanning, setRescanning] = useState(false);
-  const [rescanMsg, setRescanMsg] = useState<string | null>(null);
-
-  const report = useMemo(
-    () => buildVaultFrequencyReport(logs, techniquesByLogId),
-    [logs, techniquesByLogId],
-  );
-  const maxTechnique = report.topTechniques[0]?.count ?? 0;
-  const maxMonth = Math.max(...report.monthlyCounts.map((m) => m.count), 1);
-
-  const handleRescan = async () => {
-    if (!userId || rescanning) return;
-    setRescanning(true);
-    setRescanMsg(null);
-    try {
-      const { written } = await rescanPatternMetadata();
-      await reload();
-      setRescanMsg(written > 0 ? `${written} nya sidecar-poster sparade.` : 'Inga nya träffar att spara.');
-    } catch {
-      setRescanMsg('Skanna om misslyckades — kontrollera Valv-session.');
-    } finally {
-      setRescanning(false);
-    }
-  };
-
-  if (logs.length === 0) {
-    return (
-      <BentoCard title="Mönster" description="Pansaret · deterministisk frekvens" icon={<BarChart3 className="h-4 w-4" />} glow="gold">
-        <EmptyState message="Inga valvposter ännu. Spara under Arkiv — frekvensen visas här." />
-      </BentoCard>
-    );
-  }
-
-  return (
-    <div className="space-y-4">
-      <BentoCard
-        title="Frekvensanalys"
-        description="Pansaret · regex-lager (ingen LLM som sanning)"
-        icon={<BarChart3 className="h-4 w-4" />}
-        glow="gold"
-      >
-        <p className="text-sm text-text-muted">
-          {report.totalPosts} poster · {report.smsLikePosts} kommunikationsrelaterade ·
-          deterministisk skanning av dina låsta texter i arkivet.
-        </p>
-        <div className="mt-4 space-y-3">
-          {report.topTechniques.length === 0 ? (
-            <p className="text-sm text-text-dim">
-              Inga kända manipulationstaktiker hittades i befintliga poster (bra tecken, eller
-              kortare texter).
-            </p>
-          ) : (
-            report.topTechniques.map(({ technique, count }) => (
-              <BarRow key={technique} label={technique} count={count} max={maxTechnique} />
-            ))
-          )}
-        </div>
-        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-border/40 pt-3">
-          <button
-            type="button"
-            disabled={!userId || rescanning}
-            onClick={() => void handleRescan()}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-accent/30 bg-accent/5 px-3 py-1.5 text-xs text-accent hover:bg-accent/10 disabled:opacity-40"
-          >
-            {rescanning ? (
-              <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
-            ) : (
-              <RefreshCw className="h-3.5 w-3.5" aria-hidden />
-            )}
-            Skanna om (batch)
-          </button>
-          <span className="text-[10px] text-text-dim">Bibliotek {libraryVersion}</span>
-          {rescanMsg ? <span className="text-[10px] text-text-muted">{rescanMsg}</span> : null}
-        </div>
-      </BentoCard>
-
-      <BentoCard title="Poster per månad" description="Systematisk tidsfrekvens" glow="gold">
-        <div className="space-y-3">
-          {report.monthlyCounts.map(({ month, count }) => (
-            <BarRow key={month} label={month} count={count} max={maxMonth} />
-          ))}
-        </div>
-      </BentoCard>
-
-      <BentoCard title="Kategorier i valvet" description="Fördelning" glow="gold">
-        <div className="space-y-2 text-sm text-text-muted">
-          {Object.entries(report.categoryCounts).map(([cat, count]) => (
-            <p key={cat}>
-              {cat}: <span className="text-accent">{count}</span>
-            </p>
-          ))}
-        </div>
-      </BentoCard>
-    </div>
-  );
-}
-
-export { buildVaultFrequencyReport };
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx">
-/** @locked-ux Valv Orkester — do not remove; see `.context/locked-ux-features.md` */
-import { useMemo, useState } from 'react';
-import { Check, Copy, Filter, Loader2, Network, Shield } from 'lucide-react';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import {
-  analyzeBiffMessage,
-  type GransAnalysis,
-} from '@/features/family/safeHarbor/api/biffService';
-import type { VaultLog } from '@/core/types/firestore';
-import { PRODUCT_AGENTS } from '../constants/productAgents';
-import { OrkesterAgentTrio } from './OrkesterAgentTrio';
-import { scanTechniquesForLog } from '../utils/vaultPatternScan';
-import {
-  callProcessBrusfilter,
-  type ProcessBrusfilterResult,
-} from '../api/processBrusfilterService';
-
-const RAW_INPUT_MAX = 8000;
-
-type Props = {
-  logs?: (VaultLog & { id: string })[];
-};
-
-function BrusfilterRiskBadge({
-  riskScore,
-  recommendedAction,
-}: {
-  riskScore: number;
-  recommendedAction: ProcessBrusfilterResult['dcap_analysis']['recommended_action'];
-}) {
-  const isWarning = recommendedAction === 'VARNING';
-  return (
-    <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] uppercase tracking-widest ${
-        isWarning
-          ? 'border-accent/35 bg-surface-3/60 text-accent/90'
-          : 'border-border/40 bg-surface-2/50 text-text-dim'
-      }`}
-      aria-label={`DCAP riskpoäng ${riskScore}`}
-    >
-      <Shield className="h-3 w-3 shrink-0 opacity-80" aria-hidden />
-      DCAP {riskScore}/100
-      {isWarning ? ' · Varning' : ''}
-    </span>
-  );
-}
-
-export function VaultOrkesterPanel({ logs = [] }: Props) {
-  const [rawInput, setRawInput] = useState('');
-  const [brusLoading, setBrusLoading] = useState(false);
-  const [brusError, setBrusError] = useState<string | null>(null);
-  const [brusResult, setBrusResult] = useState<ProcessBrusfilterResult | null>(null);
-  const [copiedReply, setCopiedReply] = useState(false);
-
-  const [thread, setThread] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [grans, setGrans] = useState<GransAnalysis | null>(null);
-  const [riskScore, setRiskScore] = useState<number | null>(null);
-  const [agentName, setAgentName] = useState<string | null>(null);
-
-  const registeredDocs = useMemo(
-    () =>
-      logs
-        .filter((log) =>
-          /sms|mejl|kommunikation|myndighet|dokument/i.test(
-            `${log.category ?? ''} ${log.action ?? ''}`,
-          ),
-        )
-        .slice(0, 8),
-    [logs],
-  );
-
-  const handleBrusfilter = async () => {
-    const text = rawInput.trim();
-    if (!text) return;
-    setBrusLoading(true);
-    setBrusError(null);
-    setBrusResult(null);
-    setCopiedReply(false);
-    try {
-      const result = await callProcessBrusfilter(text);
-      setBrusResult(result);
-    } catch (err) {
-      setBrusError(err instanceof Error ? err.message : 'Brusfilter misslyckades.');
-    } finally {
-      setBrusLoading(false);
-    }
-  };
-
-  const handleCopyReply = async () => {
-    if (!brusResult?.biff_draft_reply) return;
-    try {
-      await navigator.clipboard.writeText(brusResult.biff_draft_reply);
-      setCopiedReply(true);
-      window.setTimeout(() => setCopiedReply(false), 2000);
-    } catch {
-      setBrusError('Kunde inte kopiera till urklipp.');
-    }
-  };
-
-  const handleScan = async () => {
-    if (!thread.trim()) return;
-    setLoading(true);
-    setError(null);
-    setGrans(null);
-    setRiskScore(null);
-    setAgentName(null);
-    try {
-      const result = await analyzeBiffMessage(thread);
-      setGrans(result.data?.gransAnalysis ?? null);
-      setRiskScore(result.dcap?.riskScore ?? null);
-      setAgentName(result.data?.agentName ?? null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Mönstersökning misslyckades.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const showBrusWarningBorder = brusResult?.dcap_analysis.recommended_action === 'VARNING';
-
-  return (
-    <div className="space-y-4">
-      <OrkesterAgentTrio />
-
-      <BentoCard
-        title="P1 Brusfilter"
-        description="Rå inkommande meddelande — logistik och BIFF utan JADE"
-        icon={<Filter className="h-4 w-4" />}
-        glow="gold"
-      >
-        <p className="mb-3 text-sm text-text-muted">
-          Klistra in sms eller mejl. Brusfiltret extraherar ren logistik (~10 %) och föreslår ett kort
-          Grey Rock-svar. Inget sparas automatiskt.
-        </p>
-        <textarea
-          value={rawInput}
-          onChange={(e) => setRawInput(e.target.value.slice(0, RAW_INPUT_MAX))}
-          placeholder="Klistra in meddelande från motparten…"
-          maxLength={RAW_INPUT_MAX}
-          disabled={brusLoading}
-          className="input-glass min-h-[120px] w-full resize-y rounded-xl px-3 py-2 text-sm"
-          aria-label="Rå inkommande meddelande"
-        />
-        <div className="mt-1 flex items-center justify-between gap-2">
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">
-            {rawInput.length}/{RAW_INPUT_MAX}
-          </p>
-          <button
-            type="button"
-            onClick={() => void handleBrusfilter()}
-            disabled={brusLoading || !rawInput.trim()}
-            className="btn-pill--accent inline-flex items-center gap-2 disabled:opacity-50"
-          >
-            {brusLoading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
-            Filtrera bort brus
-          </button>
-        </div>
-
-        {brusLoading && (
-          <p className="mt-3 flex items-center gap-2 text-sm text-text-dim" role="status">
-            <Loader2 className="h-4 w-4 animate-spin shrink-0" aria-hidden />
-            Bearbetar med Brusfilter…
-          </p>
-        )}
-
-        {brusError && (
-          <p className="mt-3 text-sm text-danger" role="alert">
-            {brusError}
-          </p>
-        )}
-
-        {brusResult && !brusLoading && (
-          <div
-            className={`mt-4 space-y-3 pt-4 ${
-              showBrusWarningBorder
-                ? 'rounded-xl border border-accent/20 bg-surface-2/30 p-3'
-                : 'border-t border-border/30'
-            }`}
-          >
-            <div className="flex flex-wrap items-center gap-2">
-              <BrusfilterRiskBadge
-                riskScore={brusResult.dcap_analysis.risk_score}
-                recommendedAction={brusResult.dcap_analysis.recommended_action}
-              />
-              {showBrusWarningBorder && (
-                <p className="text-[10px] uppercase tracking-widest text-text-dim">
-                  Eskaleringsrisk — svara kort, ingen JADE
-                </p>
-              )}
-            </div>
-
-            <div className="grid gap-3 md:grid-cols-2">
-              <BentoCard
-                title="Isolerad Logistik (10%)"
-                glow="gold"
-                className="!p-4"
-                noHover
-              >
-                <p className="whitespace-pre-wrap text-sm text-text-muted">
-                  {brusResult.isolated_logistics.trim() || 'Ingen ren logistik extraherad.'}
-                </p>
-              </BentoCard>
-
-              <BentoCard
-                title="Färdigt BIFF Svarsförslag"
-                glow="gold"
-                className="!p-4"
-                noHover
-              >
-                <p className="whitespace-pre-wrap text-sm text-text">
-                  {brusResult.biff_draft_reply}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => void handleCopyReply()}
-                  className="btn-pill--ghost mt-3 inline-flex items-center gap-1.5 text-xs"
-                >
-                  {copiedReply ? (
-                    <Check className="h-3 w-3 text-success" aria-hidden />
-                  ) : (
-                    <Copy className="h-3 w-3" aria-hidden />
-                  )}
-                  {copiedReply ? 'Kopierad' : 'Kopiera text'}
-                </button>
-              </BentoCard>
-            </div>
-          </div>
-        )}
-      </BentoCard>
-
-      <BentoCard
-        title="Assistentroller"
-        description="Vilka hjälpare som finns"
-        icon={<Network className="h-4 w-4" />}
-        glow="gold"
-      >
-        <ul className="space-y-2">
-          {PRODUCT_AGENTS.map((agent) => (
-            <li key={agent.id} className="glass-card p-3 text-sm">
-              <p className="font-medium text-text">{agent.name}</p>
-              <p className="text-xs text-text-dim">
-                {agent.role} · {agent.focus}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </BentoCard>
-
-      {registeredDocs.length > 0 && (
-        <BentoCard title="Registrerade dokument" description="SMS, mejl, myndighet">
-          <ul className="space-y-2">
-            {registeredDocs.map((log) => {
-              const tags = scanTechniquesForLog(log);
-              return (
-                <li key={log.id} className="glass-card p-3 text-sm">
-                  <p className="text-[10px] uppercase tracking-widest text-text-dim">
-                    {log.category ?? 'dokument'} · {(log.createdAt ?? '').slice(0, 10)}
-                  </p>
-                  <p className="mt-1 line-clamp-2 text-text-muted">
-                    {(log.truth ?? '').slice(0, 120) || '—'}
-                  </p>
-                  {tags.length > 0 && (
-                    <div className="mt-2 flex flex-wrap gap-1">
-                      {tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full border border-accent/20 px-2 py-0.5 text-[10px] text-accent/80"
-                        >
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        </BentoCard>
-      )}
-
-      <BentoCard
-        title="Mönstersökning i SMS-tråd"
-        description="Klistra in hela tråden — Brusfiltret + DCAP"
-        glow="gold"
-      >
-        <p className="mb-3 text-sm text-text-muted">
-          Exportera gärna hela tråden som text/PDF först (iMazing/Decipher). Kör sedan sökning
-          här — resultatet är vägledning, inte dom.
-        </p>
-        <textarea
-          value={thread}
-          onChange={(e) => setThread(e.target.value)}
-          placeholder="Klistra in sms-tråden här…"
-          rows={8}
-          className="input-glass rounded-xl px-3 py-2"
-          disabled={loading}
-        />
-        <button
-          type="button"
-          onClick={handleScan}
-          disabled={loading || !thread.trim()}
-          className="btn-pill--accent mt-3 disabled:opacity-50"
-        >
-          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-          Kör mönstersökning
-        </button>
-        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
-
-        {(riskScore != null || grans) && (
-          <div className="mt-4 space-y-3 border-t border-border-strong pt-4 text-sm">
-            {agentName && (
-              <p className="text-text-dim">
-                Dirigerad av: <span className="text-accent">{agentName}</span>
-              </p>
-            )}
-            {riskScore != null && (
-              <p>
-                DCAP riskpoäng: <span className="text-accent">{riskScore}</span>/100
-              </p>
-            )}
-            {grans?.techniques?.length ? (
-              <div>
-                <p className="text-xs uppercase tracking-widest text-text-dim">Taktiker</p>
-                <ul className="mt-1 list-inside list-disc text-text-muted">
-                  {grans.techniques.map((t) => (
-                    <li key={t}>{t}</li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-            {grans?.cleanFacts?.length ? (
-              <div>
-                <p className="text-xs uppercase tracking-widest text-text-dim">Rena fakta</p>
-                <ul className="mt-1 list-inside list-disc text-text-muted">
-                  {grans.cleanFacts.map((f) => (
-                    <li key={f}>{f}</li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-            {grans?.emotionalBait?.length ? (
-              <div>
-                <p className="text-xs uppercase tracking-widest text-text-dim">Känslomässigt bete</p>
-                <ul className="mt-1 list-inside list-disc text-text-muted">
-                  {grans.emotionalBait.map((b) => (
-                    <li key={b}>{b}</li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-          </div>
-        )}
-      </BentoCard>
-    </div>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultOverviewPanel.tsx">
-import { useEffect, useState } from 'react';
-import { Archive, Clock, Inbox } from 'lucide-react';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { listDraftsByStatus } from '@/modules/capture/draftQueue';
-
-type Props = {
-  pendingInbox: number | null;
-  onOpenReview: () => void;
-};
-
-/** Kompakt granskningsstatus — inga zon-länkar (Fas 1B; navigera via lägesväxlare / drawer). */
-export function VaultOverviewPanel({ pendingInbox, onOpenReview }: Props) {
-  const [localPending, setLocalPending] = useState(0);
-
-  useEffect(() => {
-    void (async () => {
-      try {
-        const [pending, review, failed] = await Promise.all([
-          listDraftsByStatus('pending'),
-          listDraftsByStatus('review'),
-          listDraftsByStatus('failed'),
-        ]);
-        setLocalPending(pending.length + review.length + failed.length);
-      } catch {
-        setLocalPending(0);
-      }
-    })();
-  }, [pendingInbox]);
-
-  return (
-    <BentoCard title="Arkiv-översikt" icon={<Archive className="h-4 w-4" />}>
-      <ul className="space-y-2 text-sm text-text-muted">
-        <li className="flex items-center gap-2">
-          <Inbox className="h-3.5 w-3.5 text-gold" aria-hidden />
-          Granskning i molnet
-          {pendingInbox != null && pendingInbox > 0 ? (
-            <button type="button" className="text-gold underline-offset-2 hover:underline" onClick={onOpenReview}>
-              {pendingInbox} väntar
-            </button>
-          ) : (
-            <span className="text-text-dim">— inget väntar</span>
-          )}
-        </li>
-        {localPending > 0 && (
-          <li className="flex items-center gap-2">
-            <Clock className="h-3.5 w-3.5 text-gold" aria-hidden />
-            Lokala utkast: {localPending}
-          </li>
-        )}
-      </ul>
-    </BentoCard>
-  );
-};
 </file>
 
 <file path="src/modules/features/lifeJournal/evidence/vault/components/VaultVitHubPanel.tsx">
@@ -4188,6 +2762,81 @@ function StatTile({
 }
 </file>
 
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VitDevelopmentPanel.tsx">
+import type { VitEntryKind } from '@/core/types/firestore';
+import {
+  VIT_HUB_DEVELOPMENT_HINT,
+  VIT_HUB_STAT_DAYS_HINT,
+} from '@/features/dailyLife/wellbeing/mabra/lib/vitHubCopy';
+import type { VitHubStats } from '@/features/dailyLife/wellbeing/mabra/lib/vitHubStats';
+
+const KIND_LABELS: Record<VitEntryKind, string> = {
+  card: 'Frågekort',
+  memory: 'Känslominne',
+  chat_turn: 'Dialog',
+};
+
+type Props = {
+  stats: VitHubStats;
+};
+
+/** P5 — deterministisk veckoaktivitet + typ-fördelning, ingen streak/LLM. */
+export function VitDevelopmentPanel({ stats }: Props) {
+  const maxWeekCount = Math.max(1, ...stats.weeklyActivity.map((w) => w.count));
+  const hasKindData = Object.values(stats.kindCounts).some((n) => n > 0);
+
+  if (stats.totalEntries === 0 && stats.sessionCount === 0) {
+    return null;
+  }
+
+  return (
+    <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="Utveckling">
+      <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">Utveckling</h2>
+      <p className="mt-1 text-[10px] text-text-dim">{VIT_HUB_DEVELOPMENT_HINT}</p>
+
+      {stats.weeklyActivity.length > 0 ? (
+        <div className="mt-4" role="img" aria-label="Aktivitet senaste fyra veckorna">
+          <ul className="flex items-end justify-between gap-2">
+            {stats.weeklyActivity.map((week) => {
+              const heightPct = week.count > 0 ? Math.max(12, (week.count / maxWeekCount) * 100) : 4;
+              return (
+                <li key={week.weekKey} className="flex min-w-0 flex-1 flex-col items-center gap-1">
+                  <span className="text-[10px] tabular-nums text-text-dim">{week.count || '—'}</span>
+                  <div
+                    className="w-full max-w-[2.5rem] rounded-t-md border border-border-strong/40 bg-accent/20 transition-[height]"
+                    style={{ height: `${heightPct}px` }}
+                    aria-hidden
+                  />
+                  <span className="truncate text-[9px] uppercase tracking-wide text-text-dim">
+                    {week.label}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+          <p className="mt-2 text-[10px] text-text-dim">{VIT_HUB_STAT_DAYS_HINT}</p>
+        </div>
+      ) : null}
+
+      {hasKindData ? (
+        <ul className="mt-4 flex flex-wrap gap-2" aria-label="Fördelning per typ">
+          {(Object.entries(stats.kindCounts) as [VitEntryKind, number][])
+            .filter(([, count]) => count > 0)
+            .map(([kind, count]) => (
+              <li
+                key={kind}
+                className="rounded-full border border-border-strong px-3 py-1 text-xs text-text-muted"
+              >
+                {KIND_LABELS[kind]}: {count}
+              </li>
+            ))}
+        </ul>
+      ) : null}
+    </section>
+  );
+}
+</file>
+
 <file path="src/modules/features/lifeJournal/evidence/vault/components/VitEntryFilterBar.tsx">
 import { clsx } from 'clsx';
 import type { VitEntryKind } from '@/core/types/firestore';
@@ -4311,6 +2960,105 @@ export function VitEntryFilterBar({
 }
 </file>
 
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VitEntryList.tsx">
+import type { VitEntryRow } from '@/core/types/firestore';
+import { vitProjectTitle } from '@/features/dailyLife/wellbeing/mabra/lib/vitHubStats';
+
+const KIND_LABELS = {
+  card: 'Frågekort',
+  memory: 'Känslominne',
+  chat_turn: 'Dialog',
+} as const;
+
+function formatEntryDate(entry: VitEntryRow): string {
+  return entry.cardDateKey ?? entry.createdAt?.slice(0, 10) ?? '—';
+}
+
+type Props = {
+  entries: VitEntryRow[];
+  emptyMessage: string;
+  maxHeightClass?: string;
+};
+
+export function VitEntryList({ entries, emptyMessage, maxHeightClass = 'max-h-80' }: Props) {
+  if (entries.length === 0) {
+    return <p className="mt-2 text-sm text-text-dim">{emptyMessage}</p>;
+  }
+
+  return (
+    <ul className={`calm-scroll-island mt-3 space-y-2 overflow-y-auto pr-1 ${maxHeightClass}`}>
+      {entries.map((entry) => (
+        <li
+          key={entry.id}
+          className="rounded-lg border border-border-strong/60 bg-surface-2/40 px-3 py-2 text-sm"
+        >
+          <p className="text-[10px] uppercase tracking-wide text-text-dim">
+            {vitProjectTitle(entry.projectId)} · {KIND_LABELS[entry.kind]} · {entry.bankId} ·{' '}
+            {formatEntryDate(entry)}
+          </p>
+          <p className="mt-1 whitespace-pre-wrap text-text-muted">
+            {entry.responseText?.trim() || '— (inget skrivet svar)'}
+          </p>
+        </li>
+      ))}
+    </ul>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VitMabraPassPanel.tsx">
+import { VIT_HUB_MOOD_HINT } from '@/features/dailyLife/wellbeing/mabra/lib/vitHubCopy';
+import type { VitHubStats } from '@/features/dailyLife/wellbeing/mabra/lib/vitHubStats';
+
+const SYMPTOM_LABELS: Record<string, string> = {
+  panic_rsd: 'Panik / RSD',
+  self_critical: 'Självkritik',
+  find_self: 'Hitta mig',
+  ovrigt: 'Övrigt',
+};
+
+type Props = {
+  stats: VitHubStats;
+};
+
+/** P5 — MåBra-pass per symptom (senaste 30), deterministisk — inte humör-skala. */
+export function VitMabraPassPanel({ stats }: Props) {
+  if (stats.sessionCount === 0) return null;
+
+  const entries = Object.entries(stats.symptomCounts).sort(([, a], [, b]) => b - a);
+  const maxCount = Math.max(1, ...entries.map(([, c]) => c));
+
+  return (
+    <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="MåBra-pass">
+      <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">
+        MåBra-pass (symptom)
+      </h2>
+      <p className="mt-1 text-[10px] text-text-dim">{VIT_HUB_MOOD_HINT}</p>
+      <ul className="mt-3 space-y-2">
+        {entries.map(([key, count]) => {
+          const widthPct = Math.max(8, (count / maxCount) * 100);
+          return (
+            <li key={key}>
+              <div className="flex items-center justify-between gap-2 text-xs text-text-muted">
+                <span>{SYMPTOM_LABELS[key] ?? key}</span>
+                <span className="tabular-nums text-text-dim">{count}</span>
+              </div>
+              <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-surface-2">
+                <div
+                  className="h-full rounded-full bg-accent/40"
+                  style={{ width: `${widthPct}%` }}
+                  aria-hidden
+                />
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+</file>
+
 <file path="src/modules/features/lifeJournal/evidence/vault/components/VitRecentOverview.tsx">
 import type { VitEntryRow } from '@/core/types/firestore';
 import type { MabraProjectId } from '@/features/dailyLife/wellbeing/mabra/constants/mabraProjects';
@@ -4361,6 +3109,101 @@ export function VitRecentOverview({ entries, onOpenEntry }: Props) {
         ))}
       </ul>
     </section>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/WeaverPendingVaultBanner.tsx">
+import { useEffect, useState } from 'react';
+import type { WeaverPendingRow } from '@/features/lifeJournal/diary/diary/api/weaverApprovalService';
+import {
+  approveWeaverMetadata,
+  rejectWeaverMetadata,
+  subscribeWeaverPendingForUser,
+} from '@/features/lifeJournal/diary/diary/api/weaverApprovalService';
+import { normalizeStringArray } from '../utils/normalizeVaultLog';
+import {
+  VAVAREN_APPROVAL_HINT,
+  VAVAREN_APPROVAL_TITLE,
+  VAVAREN_PENDING_VAULT_INTRO,
+} from '../constants/vavarenCopy';
+
+type Props = {
+  userId: string;
+  onApproved?: () => void;
+};
+
+export function WeaverPendingVaultBanner({ userId, onApproved }: Props) {
+  const [rows, setRows] = useState<WeaverPendingRow[]>([]);
+  const [busyId, setBusyId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!userId) return;
+    return subscribeWeaverPendingForUser(userId, setRows);
+  }, [userId]);
+
+  if (rows.length === 0) return null;
+
+  const handleApprove = async (pendingId: string) => {
+    setBusyId(pendingId);
+    try {
+      await approveWeaverMetadata(pendingId);
+      onApproved?.();
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  const handleDismiss = async (pendingId: string) => {
+    setBusyId(pendingId);
+    try {
+      await rejectWeaverMetadata(pendingId);
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  return (
+    <div className="space-y-2">
+      <p className="text-xs text-text-dim">{VAVAREN_PENDING_VAULT_INTRO}</p>
+      {rows.map((row) => (
+        <div
+          key={row.id}
+          className="rounded-xl border border-gold/25 bg-gold/5 px-3 py-3 text-sm"
+        >
+          <p className="text-text-muted">{VAVAREN_APPROVAL_TITLE}</p>
+          <p className="mt-1 text-xs text-text-dim">{VAVAREN_APPROVAL_HINT}</p>
+          <div className="mt-2 flex flex-wrap gap-1">
+            {normalizeStringArray(row.weaverTags?.emotions).map((e) => (
+              <span
+                key={`${row.id}-e-${e}`}
+                className="rounded-full border border-indigo-400/25 px-2 py-0.5 text-[10px] text-indigo-200/90"
+              >
+                {e}
+              </span>
+            ))}
+          </div>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <button
+              type="button"
+              disabled={busyId === row.id}
+              onClick={() => void handleApprove(row.id)}
+              className="btn-pill--accent text-xs disabled:opacity-50"
+            >
+              Godkänn
+            </button>
+            <button
+              type="button"
+              disabled={busyId === row.id}
+              onClick={() => void handleDismiss(row.id)}
+              className="btn-pill--ghost text-xs disabled:opacity-50"
+            >
+              Hoppa över
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }
 </file>
@@ -4421,48 +3264,61 @@ export const PRODUCT_AGENTS = [
 ] as const;
 </file>
 
-<file path="src/modules/features/lifeJournal/evidence/vault/constants/vavarenCopy.ts">
-/**
- * User-facing copy for dagbok → pending → godkänd `vävaren_metadata` (NAMN-AUDIT 2026-05-31).
- */
-export const VAVAREN_SAVED_HINT =
-  'Sparad. Förslag på taggar nedan — inget i arkiv förrän du godkänner.';
+<file path="src/modules/features/lifeJournal/evidence/vault/constants/vaultEntry.ts">
+import type { VaultEntryType } from '../types/vaultEntry';
 
-/** Tom — valfri Minne-rad förklaras i ConfirmStep-checkbox. */
-export const VAVAREN_CONFIRM_HINT = '';
+export const BODY_SIGNALS = [
+  'Tung över axlarna',
+  'Klump i magen',
+  'Svårt att andas',
+] as const;
 
-export const VAVAREN_APPROVAL_TITLE = 'Förslag på taggar';
+export const VAULT_ENTRY_MODES: { id: VaultEntryType; label: string }[] = [
+  { id: 'simple', label: 'Enkel' },
+  { id: 'two_column', label: 'Tvåspalt' },
+  { id: 'three_shield', label: 'Tresteg' },
+  { id: 'body_signal', label: 'Magkänsel' },
+];
 
-export const VAVAREN_APPROVAL_HINT =
-  'AI-förslag — inte dina ord. Godkänn för att spara i arkiv.';
+export const SHIELD_STEPS = [
+  { key: 'what', label: 'Vad händer?', placeholder: 'Objektivt, utan tolkning...' },
+  { key: 'feeling', label: 'Vad känner jag?', placeholder: 'Kroppsligt eller emotionellt...' },
+  { key: 'boundary', label: 'Hur vill jag att det ska vara?', placeholder: 'Gräns eller önskat tillstånd...' },
+] as const;
+</file>
 
-export const VAVAREN_APPROVAL_LOADING = 'Analyserar…';
+<file path="src/modules/features/lifeJournal/evidence/vault/dossier/api/dossierService.ts">
+import { httpsCallable, type FunctionsError } from 'firebase/functions';
+import { functions } from '@/core/firebase/init';
+import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
+import type { GenerateDossierInput, GenerateDossierResult } from '../types';
 
-export const VAVAREN_APPROVAL_SAVED = 'Taggar sparade i arkiv.';
+const generateDossierCallable = httpsCallable<GenerateDossierInput, GenerateDossierResult>(
+  functions,
+  'generateDossier',
+);
 
-export const VAVAREN_APPROVAL_DISMISS = 'Förslaget avvisades — inget sparades i arkiv.';
-
-export const VAVAREN_APPROVAL_APPROVE_BUTTON = 'Spara taggar';
-
-export const VAVAREN_PENDING_VAULT_INTRO =
-  'Dagboksposter väntar på godkännande innan AI-taggar sparas i arkivet.';
-
-export const VAVAREN_LOG_CATEGORY_LABEL = 'Taggar från dagbok';
-
-export const VAVAREN_LOG_DISCLAIMER =
-  'AI-förslag — inte dina ord och inte beviskropp. Sparades efter ditt godkännande.';
-
-export const VAVAREN_VALVCHAT_HINT =
-  'Sök använder dina låsta poster. Taggar från dagboken ingår inte.';
-
-export const VAVAREN_DOSSIER_CHECKBOX = 'Kort AI-inledning före rapporten';
-
-export const VAVAREN_DOSSIER_HINT =
-  'Bevisdelen är ordagrant från arkivet. Försättet och tidslinjen genereras av AI (Gemini) — påverkar inte WORM-hashen.';
-
-/** Dagbok «kom ihåg» — rad om taggar när Valv är öppet. */
-export const VAVAREN_DAGBOK_ARCHIVE_LINE =
-  'Extra i arkiv (kräver upplåst Valv): taggar och valfri sparning i Minne.';
+export async function generateDossier(
+  input: GenerateDossierInput,
+): Promise<GenerateDossierResult> {
+  try {
+    const result = await generateDossierCallable(
+      withVaultSessionPayload<GenerateDossierInput>(input),
+    );
+    return result.data;
+  } catch (error) {
+    const fnError = error as FunctionsError;
+    if (fnError.code === 'functions/not-found' || fnError.code === 'functions/unimplemented') {
+      throw new Error(
+        'Backend generateDossier är inte deployad än. Wizard och urval är klara — nästa steg är Cloud Function + dossier_snapshots.',
+      );
+    }
+    if (fnError.code === 'functions/unauthenticated') {
+      throw new Error('Autentisering krävs för att generera dossier.');
+    }
+    throw new Error(fnError.message || 'Kunde inte generera dossier.');
+  }
+}
 </file>
 
 <file path="src/modules/features/lifeJournal/evidence/vault/dossier/utils/dossierCandidates.ts">
@@ -4760,50 +3616,146 @@ export async function printDossierFallback(input: DossierPrintInput): Promise<st
 }
 </file>
 
-<file path="src/modules/features/lifeJournal/evidence/vault/dossier/types.ts">
-export type DossierReportType = 'LEGAL' | 'BBIC';
+<file path="src/modules/features/lifeJournal/evidence/vault/dossier/index.ts">
+export { DossierPage } from './components/DossierPage';
+</file>
 
-export type DossierSourceKey = 'reality_vault' | 'children_logs' | 'journal';
+<file path="src/modules/features/lifeJournal/evidence/vault/dossier/module_plan.md">
+# dossier — module plan
 
-export type DossierSources = Record<DossierSourceKey, boolean>;
+## Overview
 
-export type DossierWizardStep = 'period' | 'sources' | 'review' | 'result';
+Dossier-Generator — Sacred Feature. Samlad WORM-export till PDF med hash + `dossier_snapshots`.
 
-export type DossierDocKind = DossierSourceKey;
+**Route:** `/dossier` (AuthGate + Fyren A) · **Canonical:** [`docs/specs/modules/Dossier-SPEC.md`](../../../docs/specs/modules/Dossier-SPEC.md), `.context/modules/evidence/vault/dossier.md`
 
-export interface DossierCandidateDoc {
-  id: string;
-  kind: DossierDocKind;
-  createdAt: string;
-  title: string;
-  preview: string;
-  category?: string;
-}
+## Låsta beslut (#1–#4)
 
-export interface GenerateDossierInput {
-  dateFrom: string;
-  dateTo: string;
-  sources: DossierSources;
-  reportType: DossierReportType;
-  includeAiForeword: boolean;
-  categoryFilter?: string[];
-  /** Filtrera reality_vault via pattern_scan_metadata sidecar (t.ex. DARVO). */
-  techniqueFilter?: string[];
-  includedDocIds: {
-    reality_vault: string[];
-    children_logs: string[];
-    journal: string[];
-  };
-}
+Se Dossier-SPEC tabell. Fyren A, backend PDF, snapshot WORM evigt, hela dokument i granskning.
 
-export interface GenerateDossierResult {
-  dossierId: string;
-  documentHash: string;
-  downloadUrl?: string;
-  pdfBase64?: string;
-  jobId?: string;
-  status: 'ready' | 'pending';
-}
+## Status
+
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| Wizard + period/källor | Ombud/soc export | Ja | **done** |
+| `generateDossier` + hash | Sacred Feature | Ja | **done** |
+| `dossier_snapshots` WORM | Evigt snapshot | Ja | **done** |
+| BBIC `reportType` | §I.4 öppen | Nej | **planned** |
+| Flik Dossier i Valv | Logga/Sök/Dossier | Ja | **done** |
+| Bro från Barnen | Kladd | Nej | **planned** |
+| Vävaren försätt opt-in | AI endast försätt | Nej | **planned** |
+| Async `dossier_jobs` | Lång kö | Nej | **planned** |
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
+
+## Files
+
+| Path | Role | Status |
+|------|------|--------|
+| `components/DossierPage.tsx` | Wizard: period → källor → granskning → generera | **done** (UI) |
+| `types.ts` | Input/result types | **done** |
+| `utils/dossierCandidates.ts` | Filter, kandidatlista | **done** |
+| `api/dossierService.ts` | `generateDossier` callable | **done** |
+| `functions/src/lib/generateDossierInternal.ts` | Hash, PDF, snapshot, signed URL / pdfBase64 | **done** |
+| `scripts/smoke_dossier.mjs` | E2E smoke | **done** |
+
+## Relaterad kod (snabbexport)
+
+| Path | Roll |
+|------|------|
+| `verklighetsvalvet/utils/exportVaultRecord.ts` | Per-post print-PDF |
+| `barnens_livsloggar/utils/exportBalansReport.ts` | JSON Balans |
+
+## Deploy
+
+```bash
+firebase deploy --only firestore:rules,storage,functions:generateDossier
+```
+
+## Smoke
+
+```bash
+npm run smoke:dossier
+```
+
+Se [`docs/SMOKE_RESULTS.md`](../../../docs/SMOKE_RESULTS.md) § Dossier smoke.
+
+## Nästa fas
+
+1. Bro *Skapa Dossier* i Barnen (Valv-flik klar)
+2. GCP: `signBlob` för signed URL (valfritt — base64 fungerar)
+3. Async `dossier_jobs` om PDF > ~10 s
+3. Vävaren opt-in försätt (AI)
+4. BBIC `reportType`
+
+## Security
+
+Fyren A, explicit trigger, Zero Footprint on unmount/Klar, ingen auto-delning.
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/dossier/README.md">
+# dossier
+
+> Sacred Feature — Dossier-Generator. Formell WORM-sammanställning (PDF) för ombud/myndighet.
+
+## Syfte
+
+Aggregerar valv + barnen (+ valfritt journal) utan manuell omskrivning. Kanonisk hash, snapshot WORM, PDF Storage TTL ~24 h.
+
+## Route och ingång
+
+| | |
+|---|---|
+| **Route** | `/dossier` |
+| **AuthGate** | ja + Fyren A |
+| **Dock** | ingen ikon |
+
+## Viktiga filer
+
+| Fil | Roll |
+|-----|------|
+| `components/DossierPage.tsx` | Wizard: period → källor → granska → generera |
+| `api/dossierService.ts` | `generateDossier` callable |
+| `utils/dossierCandidates.ts` | Kandidatfiltrering |
+
+**Relaterad export (andra moduler):**
+
+- `verklighetsvalvet/utils/exportVaultRecord.ts` — PDF per valv-post
+- `barnens_livsloggar/utils/exportBalansReport.ts` — JSON Balans
+
+## Data
+
+| | |
+|---|---|
+| **Läser** | `reality_vault`, `children_logs`, opt-in `journal` |
+| **Skriver** | `dossier_snapshots` (WORM), PDF i Storage (kortlivad) |
+
+## Beror på
+
+- `core` — auth, Fyren, layout
+- `functions/` — pdf-lib PDF-generering
+
+## Kopplingar
+
+- **verklighetsvalvet** — primär beviskälla
+- **barnens_livsloggar** — valfri källa
+- **dagbok** — opt-in med varning i UI
+
+## Minne / AI
+
+| | |
+|---|---|
+| **Permanent lagring** | `dossier_snapshots` — WORM export-metadata |
+| **RAG / chatt** | Nej — aggregerar valda källor |
+| **PDF / samlad export** | **Ja** — närmast "hela arkivet + PDF" idag |
+| **Planerat** | BBIC-mall, Kunskapskällor opt-in |
+
+## Mer läsning
+
+- [module_plan.md](./module_plan.md)
+- [Kontext (.context)](../../../.context/modules/evidence/vault/dossier.md)
+- [Dossier-SPEC](../../../docs/specs/modules/Dossier-SPEC.md)
+- [p2-flode](../../../docs/specs/p2-flode.md)
 </file>
 
 <file path="src/modules/features/lifeJournal/evidence/vault/hooks/usePatternScanMetadata.ts">
@@ -4910,883 +3862,6 @@ export function ValvInputModePicker({ activeMode, onChange }: ValvInputModePicke
     </div>
   );
 }
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/utils/vaultPatternScan.ts">
-import type { VaultLog } from '@/core/types/firestore';
-import {
-  scanTextForTactics,
-  type VaultTechnique,
-  TACTIC_LIBRARY_VERSION,
-} from '@/shared/patterns/tacticPatternLibrary';
-import { normalizeStringArray } from './normalizeVaultLog';
-
-export type { VaultTechnique };
-export { TACTIC_LIBRARY_VERSION };
-
-function logText(log: VaultLog): string {
-  return [
-    log.truth,
-    log.theirVersion,
-    log.myReality,
-    log.shieldWhat,
-    log.shieldFeeling,
-    log.shieldBoundary,
-    ...(normalizeStringArray(log.bodySignals)),
-  ]
-    .filter(Boolean)
-    .join('\n');
-}
-
-export type VaultFrequencyReport = {
-  totalPosts: number;
-  smsLikePosts: number;
-  techniqueCounts: Record<string, number>;
-  categoryCounts: Record<string, number>;
-  monthlyCounts: { month: string; count: number }[];
-  topTechniques: { technique: string; count: number }[];
-  libraryVersion: string;
-};
-
-export function buildVaultFrequencyReport(
-  logs: (VaultLog & { id: string })[],
-  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>,
-): VaultFrequencyReport {
-  const techniqueCounts: Record<string, number> = {};
-  const categoryCounts: Record<string, number> = {};
-  const monthMap = new Map<string, number>();
-  let smsLikePosts = 0;
-
-  for (const log of logs) {
-    const text = logText(log);
-    const category = log.category || 'okategoriserad';
-    categoryCounts[category] = (categoryCounts[category] ?? 0) + 1;
-
-    const month = (log.createdAt ?? '').slice(0, 7) || 'okänd';
-    monthMap.set(month, (monthMap.get(month) ?? 0) + 1);
-
-    if (/sms|mejl|meddelande|kommunikation/i.test(`${category} ${log.action}`)) {
-      smsLikePosts += 1;
-    }
-
-    const techniques = new Set<string>();
-    for (const m of scanTextForTactics(text)) {
-      techniques.add(m.technique);
-    }
-    const persisted = persistedTechniquesByLogId?.get(log.id);
-    if (persisted) {
-      for (const t of persisted) techniques.add(t);
-    }
-
-    for (const technique of techniques) {
-      techniqueCounts[technique] = (techniqueCounts[technique] ?? 0) + 1;
-    }
-  }
-
-  const monthlyCounts = [...monthMap.entries()]
-    .sort(([a], [b]) => a.localeCompare(b))
-    .slice(-6)
-    .map(([month, count]) => ({ month, count }));
-
-  const topTechniques = Object.entries(techniqueCounts)
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 8)
-    .map(([technique, count]) => ({ technique, count }));
-
-  return {
-    totalPosts: logs.length,
-    smsLikePosts,
-    techniqueCounts,
-    categoryCounts,
-    monthlyCounts,
-    topTechniques,
-    libraryVersion: TACTIC_LIBRARY_VERSION,
-  };
-}
-
-export function scanTechniquesForLog(log: VaultLog): VaultTechnique[] {
-  const matches = scanTextForTactics(logText(log));
-  return [...new Set(matches.map((m) => m.technique))];
-}
-
-export function scanTechniquesForText(text: string): VaultTechnique[] {
-  return [...new Set(scanTextForTactics(text).map((m) => m.technique))];
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/index.ts">
-export { VaultPage, parseVaultTab, type VaultTab } from './components/VaultPage';
-export { ValvSuperModule, type ValvSuperVariant } from './components/ValvSuperModule';
-export { ValvInputSuperModule } from './supermodule/ValvInputSuperModule';
-export {
-  buildValvSearchParams,
-  canonicalValvRoute,
-  parseValvInputMode,
-  parseValvInputModeFromSearch,
-  type ValvInputMode,
-} from './supermodule/valvInputModes';
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/valv.css">
-@tailwind components;
-
-/* Valv hub — Obsidian Calm Bento (indigo/gold forensic) */
-
-@layer components {
-  .valv-bento-shell {
-    @apply relative isolate min-h-0;
-    background-color: var(--color-obsidian-surface);
-    background-image: var(--zone-gradient-valv);
-  }
-
-  .valv-bg-watermark {
-    @apply pointer-events-none fixed left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 text-accent-secondary;
-    width: min(140vw, 1100px);
-    height: min(140vw, 1100px);
-    max-width: 1100px;
-    max-height: 1100px;
-    opacity: 0.04;
-  }
-
-  .valv-bento-shell__content {
-    @apply relative z-10 space-y-4;
-  }
-
-  .valv-zone-strip {
-    @apply mb-1 flex items-center justify-center;
-  }
-
-  .valv-zone-pill {
-    @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-accent-secondary;
-    border-color: var(--color-indigo-40);
-    background: var(--color-shell-scrim-35);
-  }
-
-  .valv-forensic-header {
-    @apply mb-3 space-y-1 border-b border-border-strong/60 pb-3;
-  }
-
-  .valv-forensic-eyebrow {
-    @apply font-display-serif text-[10px] uppercase tracking-[0.22em] text-accent-secondary;
-  }
-
-  .valv-forensic-title {
-    @apply font-display-serif text-base uppercase tracking-[0.2em] text-text;
-  }
-
-  .valv-forensic-lead {
-    @apply text-xs leading-relaxed text-text-dim;
-  }
-
-  .valv-log-list {
-    @apply space-y-2;
-  }
-
-  .valv-log-row {
-    @apply rounded-xl border p-3 text-sm transition-all duration-200;
-    border-color: rgba(99, 102, 241, 0.22);
-    background: linear-gradient(
-      165deg,
-      rgba(12, 18, 32, 0.85) 0%,
-      rgba(5, 11, 20, 0.75) 100%
-    );
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.04),
-      0 4px 14px -4px rgba(0, 0, 0, 0.45);
-  }
-
-  .valv-log-row:hover {
-    border-color: rgba(99, 102, 241, 0.38);
-  }
-
-  .valv-log-row--anchor {
-    border-color: rgba(212, 175, 55, 0.35);
-    background: linear-gradient(
-      165deg,
-      rgba(30, 25, 18, 0.7) 0%,
-      rgba(8, 12, 20, 0.8) 100%
-    );
-  }
-
-  .valv-log-row--highlight {
-    @apply ring-2 ring-accent/45;
-  }
-
-  .valv-log-row--vavaren {
-    border-color: rgba(129, 140, 248, 0.28);
-    background: linear-gradient(
-      165deg,
-      rgba(20, 24, 48, 0.75) 0%,
-      rgba(8, 12, 24, 0.85) 100%
-    );
-  }
-
-  .valv-log-stamp {
-    @apply flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-text-dim;
-  }
-
-  .valv-log-meta {
-    @apply text-[10px] uppercase tracking-widest text-text-dim;
-  }
-
-  .valv-samla-panel {
-    @apply rounded-2xl border p-3;
-    border-color: rgba(99, 102, 241, 0.2);
-    background: linear-gradient(
-      180deg,
-      rgba(15, 23, 42, 0.55) 0%,
-      rgba(8, 12, 22, 0.75) 100%
-    );
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-  }
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx">
-import { memo, useEffect, useRef, type RefObject } from 'react';
-import { FileDown, Loader2, Lock } from 'lucide-react';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import './valv.css';
-import { EmptyState } from '@/core/ui/EmptyState';
-import { useVaultStore } from '@/core/store/useVaultStore';
-import type { VaultLog, WeaverTags } from '@/core/types/firestore';
-import {
-  VAVAREN_LOG_CATEGORY_LABEL,
-  VAVAREN_LOG_DISCLAIMER,
-} from '../constants/vavarenCopy';
-import { exportVaultRecordAsPdf } from '../utils/exportVaultRecord';
-import { normalizeStringArray } from '../utils/normalizeVaultLog';
-import { scanTechniquesForLog } from '../utils/vaultPatternScan';
-
-type VaultLogRow = VaultLog & { id: string; weaverTags?: WeaverTags };
-
-function resolveLogTechniques(
-  log: VaultLogRow,
-  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>,
-): string[] {
-  const persisted = persistedTechniquesByLogId?.get(log.id);
-  if (persisted && persisted.length > 0) return [...persisted];
-  return scanTechniquesForLog(log);
-}
-
-function isVavarenMetadata(log: VaultLog): boolean {
-  return log.category === 'vävaren_metadata';
-}
-
-type VaultLogListProps = {
-  highlightLogId?: string | null;
-  /** Tom lista — scroll till Samla-formuläret ovan. */
-  onLogFirstBevis?: () => void;
-  /** V2 — visa endast Sanningens Ankare (`pinned`). */
-  anchorsOnly?: boolean;
-  /** Sidecar-taktik från pattern_scan_metadata (prioriteras framför live-regex). */
-  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
-};
-
-function asText(value: unknown): string {
-  if (value == null) return '';
-  if (typeof value === 'string') return value;
-  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
-  return String(value);
-}
-
-function formatLogBody(log: VaultLog): string {
-  if (log.entryType === 'two_column' && (log.theirVersion || log.myReality)) {
-    return `Hens: ${asText(log.theirVersion) || '—'}\nMin: ${asText(log.myReality) || '—'}`;
-  }
-  if (log.entryType === 'three_shield') {
-    return [log.shieldWhat, log.shieldFeeling, log.shieldBoundary]
-      .map(asText)
-      .filter(Boolean)
-      .join(' · ');
-  }
-  if (log.entryType === 'body_signal') {
-    const signals = normalizeStringArray(log.bodySignals);
-    if (signals.length > 0) {
-      const truth = asText(log.truth);
-      return `${signals.join(', ')}${truth ? ` — ${truth}` : ''}`;
-    }
-  }
-  return asText(log.truth);
-}
-
-function formatLogDate(createdAt: VaultLog['createdAt'] | undefined): string {
-  if (typeof createdAt === 'string') return createdAt.slice(0, 10);
-  if (createdAt == null) return '—';
-  return String(createdAt).slice(0, 10);
-}
-
-function formatServerTimestamp(createdAt: VaultLog['createdAt'] | undefined): string {
-  if (typeof createdAt === 'string') return createdAt;
-  if (createdAt == null) return '—';
-  return String(createdAt);
-}
-
-const LogRow = memo(function LogRow({
-  log,
-  highlightLogId,
-  highlightRef,
-  persistedTechniquesByLogId,
-}: {
-  log: VaultLogRow;
-  highlightLogId?: string | null;
-  highlightRef: RefObject<HTMLLIElement>;
-  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
-}) {
-  const vavaren = isVavarenMetadata(log);
-  const weaverTags = (log as VaultLogRow).weaverTags;
-  const tags = vavaren ? [] : resolveLogTechniques(log, persistedTechniquesByLogId);
-  
-  return (
-    <li
-      key={log.id}
-      ref={log.id === highlightLogId ? highlightRef : undefined}
-      className={`valv-log-row ${
-        log.pinned ? 'valv-log-row--anchor' : ''
-      } ${log.id === highlightLogId ? 'valv-log-row--highlight' : ''} ${
-        vavaren ? 'valv-log-row--vavaren' : ''
-      }`}
-    >
-      <div className="flex items-start justify-between gap-2">
-        <div>
-          <div className="valv-log-stamp mb-1">
-            <Lock className="text-indigo-400/60" size={12} />
-            <p>SERVER-TIDSSTÄMPEL · {formatServerTimestamp(log.createdAt)}</p>
-          </div>
-          <p className="valv-log-meta font-mono">ID · {log.id.slice(0, 12)}…</p>
-          <p className="valv-log-meta mt-1">
-            {log.pinned ? 'Ankare · ' : ''}
-            {vavaren ? VAVAREN_LOG_CATEGORY_LABEL : (log.category ?? 'allmänt')}
-            {!vavaren && log.entryType ? ` · ${log.entryType}` : ''} · {formatLogDate(log.createdAt)}
-          </p>
-          {vavaren && (
-            <p className="mt-1 text-[10px] text-indigo-200/80">{VAVAREN_LOG_DISCLAIMER}</p>
-          )}
-        </div>
-        <button
-          type="button"
-          onClick={() => exportVaultRecordAsPdf(log)}
-          className="btn-pill--ghost shrink-0 py-1 px-2"
-          title="Exportera som PDF (utskrift)"
-        >
-          <FileDown className="h-3 w-3" /> PDF
-        </button>
-      </div>
-      <p className={`mt-2 whitespace-pre-wrap ${vavaren ? 'text-indigo-100/90' : 'text-text-muted'}`}>
-        {formatLogBody(log)}
-      </p>
-      {vavaren && weaverTags && (
-        <div className="mt-3 flex flex-wrap gap-1">
-          {normalizeStringArray(weaverTags.emotions).map((e) => (
-            <span
-              key={`e-${e}`}
-              className="rounded-full border border-indigo-400/25 px-2 py-0.5 text-[10px] text-indigo-200/90"
-            >
-              {e}
-            </span>
-          ))}
-          {normalizeStringArray(weaverTags.actors).map((a) => (
-            <span
-              key={`a-${a}`}
-              className="rounded-full border border-white/10 px-2 py-0.5 text-[10px] text-text-muted"
-            >
-              {a}
-            </span>
-          ))}
-          {weaverTags.threatLevel && weaverTags.threatLevel !== 'none' && (
-            <span className="rounded-full border border-amber-500/30 px-2 py-0.5 text-[10px] text-amber-200/90">
-              hot: {weaverTags.threatLevel}
-            </span>
-          )}
-        </div>
-      )}
-      {tags.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-1">
-          {tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-accent/20 px-2 py-0.5 text-[10px] text-accent/80"
-            >
-              #{tag}
-            </span>
-          ))}
-        </div>
-      )}
-      {log.evidenceUrl && (
-        <a
-          href={log.evidenceUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-3 inline-block text-xs text-accent-secondary hover:underline"
-        >
-          Visa bifogat bevis
-        </a>
-      )}
-    </li>
-  );
-});
-
-export const VaultLogList = memo(function VaultLogList({
-  highlightLogId,
-  onLogFirstBevis,
-  anchorsOnly = false,
-  persistedTechniquesByLogId,
-}: VaultLogListProps) {
-  const { logs, loading, hasMore, loadingMore, loadMoreLogs } = useVaultStore();
-  const highlightRef = useRef<HTMLLIElement>(null);
-  const visible = anchorsOnly ? logs.filter((l) => l.pinned) : logs;
-  const pinned = visible.filter((l) => l.pinned);
-  const rest = anchorsOnly ? [] : visible.filter((l) => !l.pinned);
-
-  useEffect(() => {
-    if (!highlightLogId) return;
-    const timer = window.setTimeout(() => {
-      highlightRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 120);
-    return () => window.clearTimeout(timer);
-  }, [highlightLogId, logs.length]);
-
-  return (
-    <BentoCard
-      title="Bevisarkiv"
-      glow="blue"
-      depth
-      noHover
-      className="mt-4"
-    >
-      {onLogFirstBevis && (
-        <div className="mb-3 flex justify-end">
-          <button type="button" onClick={onLogFirstBevis} className="btn-pill--secondary text-sm">
-            Logga bevis
-          </button>
-        </div>
-      )}
-      {loading && visible.length === 0 ? (
-        <p className="text-sm text-text-dim flex items-center gap-2">
-          <Loader2 className="h-4 w-4 animate-spin" /> Laddar...
-        </p>
-      ) : visible.length === 0 ? (
-        <EmptyState
-          message={
-            anchorsOnly
-              ? 'Inga ankare markerade ännu. Kryssa i «Sanningens Ankare» när du loggar bevis.'
-              : 'Inga poster i arkivet ännu. Tryck «Logga bevis» ovan i panelen — formuläret ligger precis ovanför.'
-          }
-        />
-      ) : (
-        <div className="space-y-4">
-          {pinned.length > 0 && (
-            <div>
-              <p className="mb-2 flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-gold/80">
-                <Lock size={10} className="text-gold/60" /> Sanningens Ankare
-              </p>
-              <ul className="valv-log-list">
-                {pinned.map((log) => (
-                  <LogRow
-                    key={log.id}
-                    log={log}
-                    highlightLogId={highlightLogId}
-                    highlightRef={highlightRef}
-                    persistedTechniquesByLogId={persistedTechniquesByLogId}
-                  />
-                ))}
-              </ul>
-            </div>
-          )}
-          <ul className="valv-log-list">
-          {rest.map((log) => (
-            <LogRow
-              key={log.id}
-              log={log}
-              highlightLogId={highlightLogId}
-              highlightRef={highlightRef}
-              persistedTechniquesByLogId={persistedTechniquesByLogId}
-            />
-          ))}
-        </ul>
-          {hasMore && (
-            <div className="mt-4 flex justify-center">
-              <button
-                type="button"
-                onClick={() => {
-                  const uid = logs[0]?.ownerId;
-                  if (uid) {
-                    void loadMoreLogs(uid);
-                  }
-                }}
-                disabled={loadingMore}
-                className="btn-pill--ghost text-sm"
-              >
-                {loadingMore ? (
-                  <>
-                    <Loader2 className="mr-1 inline h-3 w-3 animate-spin" />
-                    Laddar fler…
-                  </>
-                ) : (
-                  'Visa fler'
-                )}
-              </button>
-            </div>
-          )}
-        </div>
-      )}
-    </BentoCard>
-  );
-});
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx">
-import { Lock, ShieldAlert, X, Settings } from 'lucide-react';
-import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { NAV_PATHS } from '@/core/navigation/navTruth';
-import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { useStore } from '@/core/store';
-import { useVaultStore } from '@/core/store/useVaultStore';
-import { hasVaultGate } from '@/core/auth/sessionService';
-import { ensureVaultSessionReady, endVaultSession } from '@/core/security/vaultSessionLifecycle';
-
-import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
-import { VaultErrorBoundary } from './VaultErrorBoundary';
-import { VaultLockedGate } from '@/core/components/VaultLockedGate';
-import { ValvBentoShell } from './ValvBentoShell';
-import { ValvInputSuperModule } from '../supermodule/ValvInputSuperModule';
-import {
-  type ValvInputMode,
-  canonicalValvRoute,
-  resolveValvInputModeFromVaultTab,
-  vaultTabForValvInputMode,
-} from '../supermodule/valvInputModes';
-import { resolveValvZone, type VaultTab } from '../utils/vaultTabs';
-
-export type { VaultTab, MainVaultTab, ValvZone } from '../utils/vaultTabs';
-export { parseVaultTab } from '../utils/vaultTabs';
-
-type VaultPageProps = {
-  embedded?: boolean;
-  onClose?: () => void;
-  initialVaultTab?: VaultTab;
-  initialValvMode?: ValvInputMode;
-  onVaultTabChange?: (tab: VaultTab) => void;
-  onValvModeChange?: (mode: ValvInputMode) => void;
-};
-
-export function VaultPage(props: VaultPageProps) {
-  return (
-    <VaultErrorBoundary>
-      <VaultPageInner {...props} />
-    </VaultErrorBoundary>
-  );
-}
-
-function VaultPageInner({
-  embedded = false,
-  onClose,
-  initialVaultTab = 'logga',
-  initialValvMode = 'spara',
-  onVaultTabChange,
-  onValvModeChange,
-}: VaultPageProps) {
-  const navigate = useNavigate();
-  const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
-  const user = useStore((s) => s.user);
-  const { loadFirstLogsPage, logs, hasMore: logsHasMore, loadingMore, loadMoreLogs } = useVaultStore();
-
-  const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
-  const [valvMode, setValvModeState] = useState<ValvInputMode>(initialValvMode);
-  const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
-  const [sessionSyncError, setSessionSyncError] = useState<string | null>(null);
-  const gateOk = hasVaultGate();
-  const valvZone = resolveValvZone(vaultTab);
-
-  const setVaultTab = useCallback(
-    (next: VaultTab) => {
-      setVaultTabState(next);
-      onVaultTabChange?.(next);
-      setValvModeState((currentMode) => {
-        if (currentMode === 'granska') return currentMode;
-        const derived = resolveValvInputModeFromVaultTab(next);
-        if (derived !== currentMode) {
-          onValvModeChange?.(derived);
-          return derived;
-        }
-        return currentMode;
-      });
-    },
-    [onVaultTabChange, onValvModeChange],
-  );
-
-  const setValvMode = useCallback(
-    (mode: ValvInputMode) => {
-      setValvModeState(mode);
-      onValvModeChange?.(mode);
-      const nextTab = vaultTabForValvInputMode(mode, vaultTab);
-      if (nextTab !== vaultTab) {
-        setVaultTabState(nextTab);
-        onVaultTabChange?.(nextTab);
-      }
-    },
-    [onValvModeChange, onVaultTabChange, vaultTab],
-  );
-
-  useEffect(() => {
-    const { vaultTab: syncedTab, valvMode: syncedMode } = canonicalValvRoute(
-      initialVaultTab,
-      initialValvMode,
-    );
-    setVaultTabState(syncedTab);
-    setValvModeState(syncedMode);
-    if (syncedMode !== initialValvMode) {
-      onValvModeChange?.(syncedMode);
-    }
-    if (syncedTab !== initialVaultTab) {
-      onVaultTabChange?.(syncedTab);
-    }
-  }, [initialVaultTab, initialValvMode, onValvModeChange, onVaultTabChange]);
-
-  const handleCitationClick = (docId: string) => {
-    setHighlightLogId(docId);
-    setValvMode('spara');
-    setVaultTab('logga');
-  };
-
-  const handleBevisConfirmed = async (docId: string) => {
-    setHighlightLogId(docId);
-    setValvMode('spara');
-    setVaultTab('logga');
-    if (user) {
-      try {
-        await loadFirstLogsPage(user.uid);
-      } catch {
-        /* best-effort refresh */
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (!gateOk) {
-      setVaultUnlocked(false);
-    }
-  }, [gateOk, setVaultUnlocked]);
-
-  useEffect(() => {
-    if (!gateOk || !user) return;
-    setVaultUnlocked(true);
-    setSessionSyncError(null);
-    void ensureVaultSessionReady().then((ok) => {
-      if (!ok) {
-        setSessionSyncError('Valv-session kunde inte synkas. Försök låsa upp igen via Fyren.');
-      }
-    });
-  }, [gateOk, user, setVaultUnlocked]);
-
-  useEffect(() => {
-    if (gateOk && user) {
-      void loadFirstLogsPage(user.uid);
-    }
-  }, [gateOk, user, loadFirstLogsPage]);
-
-  useEffect(() => {
-    if (!highlightLogId || logs.some((l) => l.id === highlightLogId)) return;
-    if (!logsHasMore || loadingMore) return;
-    if (user) {
-      void loadMoreLogs(user.uid);
-    }
-  }, [highlightLogId, logs, logsHasMore, loadingMore, loadMoreLogs, user]);
-
-  const handleCloseToLayer1 = () => {
-    setVaultTab('logga');
-    void endVaultSession().finally(() => {
-      if (embedded && onClose) {
-        onClose();
-      } else {
-        navigate(NAV_PATHS.HJARTAT);
-      }
-    });
-  };
-
-  if (!gateOk) {
-    return (
-      <ValvBentoShell>
-        <BentoCard
-          title={embedded ? 'Valv · Baksida' : VAULT_UI_NAME}
-          description="Skyddad zon — biometri krävs"
-          icon={<ShieldAlert className="h-4 w-4" />}
-          glow="blue"
-          depth
-          noHover
-        >
-          <VaultLockedGate variant="card" />
-        </BentoCard>
-      </ValvBentoShell>
-    );
-  }
-
-  if (!user) {
-    return (
-      <ValvBentoShell>
-        <BentoCard
-          title={VAULT_UI_NAME}
-          icon={<Lock className="h-4 w-4" />}
-          glow="blue"
-          depth
-          noHover
-        >
-          <p className="text-sm text-text-dim">Ansluter till valvet…</p>
-        </BentoCard>
-      </ValvBentoShell>
-    );
-  }
-
-  return (
-    <ValvBentoShell>
-      <div className="space-y-4">
-      <div className="flex items-start justify-between gap-2 px-1">
-        <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
-        <div className="flex shrink-0 items-center gap-1">
-          <button
-            type="button"
-            onClick={() => navigate('/valvet/installningar')}
-            className="btn-pill--ghost flex items-center gap-1"
-            title="Valv-inställningar"
-          >
-            <Settings className="h-3 w-3" /> Inställningar
-          </button>
-          <button
-            type="button"
-            onClick={handleCloseToLayer1}
-            className="btn-pill--ghost flex items-center gap-1"
-            title="Stäng valv — tillbaka till vardag"
-          >
-            <X className="h-3 w-3" /> Stäng
-          </button>
-        </div>
-      </div>
-
-      {sessionSyncError ? (
-        <p className="rounded-xl border border-accent/30 bg-surface-2/80 px-3 py-2 text-xs text-text-muted">
-          {sessionSyncError}
-        </p>
-      ) : null}
-
-      <ValvInputSuperModule
-        activeMode={valvMode}
-        onModeChange={setValvMode}
-        vaultTab={vaultTab}
-        userId={user.uid}
-        gateOk={gateOk}
-        highlightLogId={highlightLogId}
-        onBevisConfirmed={handleBevisConfirmed}
-        onCitationClick={handleCitationClick}
-        onVaultTabChange={setVaultTab}
-      />
-      </div>
-    </ValvBentoShell>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx">
-import { memo, useCallback, useEffect, useState } from 'react';
-import { Inbox } from 'lucide-react';
-import './valv.css';
-import { fetchInboxQueue } from '../../kompis/api/inboxService';
-import { listDraftsByStatus } from '@/modules/capture/draftQueue';
-import { useVaultStore } from '@/core/store/useVaultStore';
-import { VaultEntryForm } from './VaultEntryForm';
-import { VaultInkastCompact } from './VaultInkastCompact';
-import { VaultSamlaDriveHint } from './VaultSamlaDriveHint';
-
-type Props = {
-  userId: string;
-  onBevisConfirmed: (docId: string) => void;
-  /** Canonical väg till granskningskö (ValvInputSuperModule). */
-  onOpenGranska?: () => void;
-};
-
-export const VaultSamlaHub = memo(function VaultSamlaHub({
-  userId,
-  onBevisConfirmed,
-  onOpenGranska,
-}: Props) {
-  const [pendingInbox, setPendingInbox] = useState<number | null>(null);
-  const [localPending, setLocalPending] = useState(0);
-  const { saving, error: saveError, saveLog } = useVaultStore();
-
-  const refreshPendingCount = useCallback(async () => {
-    try {
-      const items = await fetchInboxQueue();
-      setPendingInbox(items.length);
-    } catch {
-      setPendingInbox(null);
-    }
-  }, []);
-
-  useEffect(() => {
-    void refreshPendingCount();
-    void (async () => {
-      try {
-        const [pending, review, failed] = await Promise.all([
-          listDraftsByStatus('pending'),
-          listDraftsByStatus('review'),
-          listDraftsByStatus('failed'),
-        ]);
-        setLocalPending(pending.length + review.length + failed.length);
-      } catch {
-        setLocalPending(0);
-      }
-    })();
-  }, [refreshPendingCount]);
-
-  const handleBevisConfirmed = (docId: string) => {
-    onBevisConfirmed(docId);
-    void refreshPendingCount();
-  };
-
-  const openReview = () => {
-    onOpenGranska?.();
-  };
-
-  const pendingTotal = (pendingInbox ?? 0) + localPending;
-
-  return (
-    <div className="valv-samla-panel space-y-4">
-      <VaultInkastCompact
-        onQueued={openReview}
-        onPersistedBevis={handleBevisConfirmed}
-      />
-
-      {onOpenGranska && pendingTotal > 0 ? (
-        <button
-          type="button"
-          className="flex w-full items-center justify-between gap-2 rounded-xl border border-border bg-surface-2/80 px-3 py-2 text-left text-xs text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3"
-          onClick={openReview}
-        >
-          <span className="inline-flex items-center gap-2">
-            <Inbox className="h-3.5 w-3.5 text-accent" aria-hidden />
-            Väntar granskning
-          </span>
-          <span className="font-medium text-accent">{pendingTotal}</span>
-        </button>
-      ) : null}
-
-      <VaultSamlaDriveHint pendingCount={pendingInbox ?? undefined} onOpenQueue={openReview} />
-
-      <details className="rounded-xl border border-border bg-surface-2/60">
-        <summary className="cursor-pointer px-3 py-2 text-xs font-medium uppercase tracking-wider text-text-muted">
-          Manuell post
-        </summary>
-        <div id="vault-samla-entry" className="border-t border-border px-3 py-3">
-          <p className="mb-3 text-xs text-text-dim">Append-only bevis — tvåspalt eller enkel text.</p>
-          <VaultEntryForm userId={userId} saving={saving} onSave={(input) => saveLog(userId, input)} />
-          {saveError ? <p className="mt-2 text-sm text-danger">{saveError}</p> : null}
-        </div>
-      </details>
-    </div>
-  );
-});
 </file>
 
 <file path="src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts">
@@ -5975,102 +4050,2477 @@ export function buildValvSearchParams(
 }
 </file>
 
-<file path="src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx">
-import { useCallback, useMemo } from 'react';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import '../components/valv.css';
-import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
-import { ValvSuperModule } from '../components/ValvSuperModule';
-import { ValvInputModePicker } from './ValvInputModePicker';
-import {
-  DEFAULT_VALV_INPUT_MODE,
-  valvInputModeDef,
-  VALV_INPUT_MODES_PRIMARY,
-  type ValvInputMode,
-} from './valvInputModes';
-import { writeValvLastInputMode } from './valvLastModeStorage';
-import type { VaultTab } from '../utils/vaultTabs';
+<file path="src/modules/features/lifeJournal/evidence/vault/supermodule/valvLastModeStorage.ts">
+import type { ValvInputMode } from './valvInputModes';
 
-export type ValvInputSuperModuleProps = {
-  activeMode: ValvInputMode;
-  onModeChange: (mode: ValvInputMode) => void;
-  vaultTab: VaultTab;
-  userId: string;
-  gateOk: boolean;
-  highlightLogId: string | null;
-  onBevisConfirmed: (docId: string) => void | Promise<void>;
-  onCitationClick: (docId: string) => void;
-  onVaultTabChange: (tab: VaultTab) => void;
+const STORAGE_KEY = 'livskompassen_valv_last_input_mode_v1';
+
+export function readValvLastInputMode(): ValvInputMode | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw as ValvInputMode | null;
+  } catch {
+    return null;
+  }
+}
+
+export function writeValvLastInputMode(mode: ValvInputMode): void {
+  try {
+    localStorage.setItem(STORAGE_KEY, mode);
+  } catch {
+    /* best-effort */
+  }
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/types/vaultEntry.ts">
+export type VaultEntryType = 'simple' | 'two_column' | 'three_shield' | 'body_signal';
+
+export type VaultLogInput = {
+  action: string;
+  category?: string;
+  truth: string;
+  entryType?: VaultEntryType;
+  theirVersion?: string;
+  myReality?: string;
+  bodySignals?: string[];
+  shieldWhat?: string;
+  shieldFeeling?: string;
+  shieldBoundary?: string;
+  evidenceUrl?: string;
+  pinned?: boolean;
 };
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/utils/exportVaultRecord.ts">
+import type { VaultLog } from '@/core/types/firestore';
+import {
+  escapeHtml,
+  createSafeHtml,
+  printSecurely,
+  DEFAULT_PRINT_STYLES,
+} from '@/shared/utils/secureExport';
 
 /**
- * Canonical Valv navigation — primära lägen + «Mer…» (Fas 1B).
- * Granska ersätter separat inbox-zon och `?samlaView=granska`.
+ * Formats a vault log record into plain text
+ * No HTML characters are used here - escaping happens during print
  */
-export function ValvInputSuperModule({
-  activeMode,
-  onModeChange,
-  vaultTab,
-  userId,
-  gateOk,
-  highlightLogId,
-  onBevisConfirmed,
-  onCitationClick,
-  onVaultTabChange,
-}: ValvInputSuperModuleProps) {
-  const activeDef = useMemo(() => valvInputModeDef(activeMode), [activeMode]);
-  void VALV_INPUT_MODES_PRIMARY;
+function formatRecord(log: VaultLog & { id: string }): string {
+  const lines = [
+    'LIVSKOMPASSEN — ARKIV (LÅST POST)',
+    `Datum: ${(log.createdAt ?? '').slice(0, 19)}`,
+    `Kategori: ${log.category ?? 'bevis'}`,
+    `Typ: ${log.entryType ?? 'simple'}`,
+    '',
+    log.truth ?? '',
+  ];
 
-  const setMode = useCallback(
-    (mode: ValvInputMode) => {
-      writeValvLastInputMode(mode);
-      onModeChange(mode);
-    },
-    [onModeChange],
+  if (log.theirVersion || log.myReality) {
+    lines.push(
+      '',
+      '--- Tvåspalt ---',
+      `Hens version: ${log.theirVersion ?? '—'}`,
+      `Min verklighet: ${log.myReality ?? '—'}`
+    );
+  }
+
+  if (log.evidenceUrl) {
+    lines.push('', `Media: ${log.evidenceUrl}`);
+  }
+
+  return lines.join('\n');
+}
+
+/**
+ * Creates safe HTML for displaying the vault record
+ * All user-provided content is properly escaped to prevent XSS attacks
+ */
+function createVaultRecordHtml(log: VaultLog & { id: string }): string {
+  const plainText = formatRecord(log);
+
+  // Split lines and create proper HTML with escaping
+  const htmlLines = plainText.split('\n').map((line) => {
+    const escaped = escapeHtml(line);
+    if (line.startsWith('LIVSKOMPASSEN')) {
+      return `<h1>${escaped}</h1>`;
+    }
+    if (line.startsWith('---')) {
+      return `<hr><h2>${escaped}</h2>`;
+    }
+    if (line === '') {
+      return '';
+    }
+    return `<p>${escaped}</p>`;
+  });
+
+  const content = htmlLines.join('\n');
+
+  const html = createSafeHtml(
+    content,
+    `Valv-bevis - ${escapeHtml(log.category ?? 'bevis')}`,
+    DEFAULT_PRINT_STYLES
   );
+
+  return html;
+}
+
+/**
+ * Exports a vault record as a printable PDF
+ * Opens a print dialog where user can save as PDF
+ * All content is properly XSS-protected with HTML escaping
+ */
+export function exportVaultRecordAsPdf(log: VaultLog & { id: string }): void {
+  try {
+    const html = createVaultRecordHtml(log);
+    printSecurely(
+      html,
+      `Valv-bevis-${(log.createdAt ?? '').slice(0, 10)}`
+    );
+  } catch (error) {
+    console.error('Failed to export vault record as PDF:', error);
+  }
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/utils/normalizeVaultLog.ts">
+import type { VaultLog, WeaverTags } from '@/core/types/firestore';
+
+export function normalizeStringArray(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.filter((v): v is string => typeof v === 'string' && v.length > 0);
+  }
+  if (typeof value === 'string' && value.trim()) {
+    return value
+      .split(/[,;|]/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
+function normalizeWeaverTags(raw: unknown): WeaverTags | undefined {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const wt = raw as Record<string, unknown>;
+  return {
+    emotions: normalizeStringArray(wt.emotions),
+    actors: normalizeStringArray(wt.actors),
+    threatLevel:
+      wt.threatLevel === 'low' ||
+      wt.threatLevel === 'medium' ||
+      wt.threatLevel === 'high' ||
+      wt.threatLevel === 'none'
+        ? wt.threatLevel
+        : 'none',
+    threatScore: typeof wt.threatScore === 'number' ? wt.threatScore : undefined,
+    ragAnchors: Array.isArray(wt.ragAnchors) ? (wt.ragAnchors as WeaverTags['ragAnchors']) : [],
+    model: 'gemini-1.5-pro',
+    journalEntryId: typeof wt.journalEntryId === 'string' ? wt.journalEntryId : '',
+  };
+}
+
+/** Säker normalisering — legacy Firestore-rader får inte krascha list-UI. */
+export function normalizeVaultLogFields(
+  log: VaultLog & { id: string; weaverTags?: unknown },
+): VaultLog & { id: string; weaverTags?: WeaverTags } {
+  const { weaverTags: _rawWeaver, bodySignals: _rawSignals, ...rest } = log;
+  const weaverTags = normalizeWeaverTags(_rawWeaver);
+  return {
+    ...rest,
+    truth: typeof log.truth === 'string' ? log.truth : String(log.truth ?? ''),
+    bodySignals: normalizeStringArray(_rawSignals ?? log.bodySignals),
+    ...(weaverTags ? { weaverTags } : {}),
+  };
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/utils/smsThreadParse.ts">
+/** Heuristisk uppdelning av inklistrad sms-tråd till tvåspalt (Hens / Min). */
+export function parseSmsThreadToTwoColumn(raw: string): {
+  theirVersion: string;
+  myReality: string;
+} | null {
+  const text = raw.trim();
+  if (text.length < 20) return null;
+
+  const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+  if (lines.length < 2) return null;
+
+  const mineMarkers = /^(jag|mig|min|mitt|mina|me|i)\b/i;
+  const theirMarkers = /^(hen|de|du|dom)\b/i;
+
+  const mine: string[] = [];
+  const theirs: string[] = [];
+  let bucket: 'mine' | 'theirs' | 'unknown' = 'unknown';
+
+  for (const line of lines) {
+    const headerMatch = line.match(/^([^:]{1,40}):\s*(.+)$/);
+    if (headerMatch) {
+      const who = headerMatch[1]!.trim();
+      const body = headerMatch[2]!.trim();
+      if (mineMarkers.test(who) || /^jag$/i.test(who)) {
+        mine.push(body);
+        bucket = 'mine';
+      } else {
+        theirs.push(body);
+        bucket = 'theirs';
+      }
+      continue;
+    }
+
+    if (theirMarkers.test(line)) {
+      theirs.push(line);
+      bucket = 'theirs';
+    } else if (mineMarkers.test(line)) {
+      mine.push(line);
+      bucket = 'mine';
+    } else if (bucket === 'theirs') {
+      theirs.push(line);
+    } else if (bucket === 'mine') {
+      mine.push(line);
+    } else {
+      theirs.push(line);
+      bucket = 'theirs';
+    }
+  }
+
+  if (mine.length === 0 && theirs.length === 0) return null;
+
+  return {
+    theirVersion: theirs.join('\n') || text,
+    myReality: mine.join('\n') || '',
+  };
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/utils/valvZoneModulValjareStorage.ts">
+export const VALV_ZONE_MODULVALJARE_SEEN_KEY = 'lk_valv_zone_modulvaljare_seen_v1';
+
+export function hasSeenValvZoneModulValjare(): boolean {
+  try {
+    return localStorage.getItem(VALV_ZONE_MODULVALJARE_SEEN_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
+
+export function markValvZoneModulValjareSeen(): void {
+  try {
+    localStorage.setItem(VALV_ZONE_MODULVALJARE_SEEN_KEY, 'true');
+  } catch {
+    /* ignore */
+  }
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/utils/vaultPatternScan.ts">
+import type { VaultLog } from '@/core/types/firestore';
+import {
+  scanTextForTactics,
+  type VaultTechnique,
+  TACTIC_LIBRARY_VERSION,
+} from '@/shared/patterns/tacticPatternLibrary';
+import { normalizeStringArray } from './normalizeVaultLog';
+
+export type { VaultTechnique };
+export { TACTIC_LIBRARY_VERSION };
+
+function logText(log: VaultLog): string {
+  return [
+    log.truth,
+    log.theirVersion,
+    log.myReality,
+    log.shieldWhat,
+    log.shieldFeeling,
+    log.shieldBoundary,
+    ...(normalizeStringArray(log.bodySignals)),
+  ]
+    .filter(Boolean)
+    .join('\n');
+}
+
+export type VaultFrequencyReport = {
+  totalPosts: number;
+  smsLikePosts: number;
+  techniqueCounts: Record<string, number>;
+  categoryCounts: Record<string, number>;
+  monthlyCounts: { month: string; count: number }[];
+  topTechniques: { technique: string; count: number }[];
+  libraryVersion: string;
+};
+
+export function buildVaultFrequencyReport(
+  logs: (VaultLog & { id: string })[],
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>,
+): VaultFrequencyReport {
+  const techniqueCounts: Record<string, number> = {};
+  const categoryCounts: Record<string, number> = {};
+  const monthMap = new Map<string, number>();
+  let smsLikePosts = 0;
+
+  for (const log of logs) {
+    const text = logText(log);
+    const category = log.category || 'okategoriserad';
+    categoryCounts[category] = (categoryCounts[category] ?? 0) + 1;
+
+    const month = (log.createdAt ?? '').slice(0, 7) || 'okänd';
+    monthMap.set(month, (monthMap.get(month) ?? 0) + 1);
+
+    if (/sms|mejl|meddelande|kommunikation/i.test(`${category} ${log.action}`)) {
+      smsLikePosts += 1;
+    }
+
+    const techniques = new Set<string>();
+    for (const m of scanTextForTactics(text)) {
+      techniques.add(m.technique);
+    }
+    const persisted = persistedTechniquesByLogId?.get(log.id);
+    if (persisted) {
+      for (const t of persisted) techniques.add(t);
+    }
+
+    for (const technique of techniques) {
+      techniqueCounts[technique] = (techniqueCounts[technique] ?? 0) + 1;
+    }
+  }
+
+  const monthlyCounts = [...monthMap.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .slice(-6)
+    .map(([month, count]) => ({ month, count }));
+
+  const topTechniques = Object.entries(techniqueCounts)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 8)
+    .map(([technique, count]) => ({ technique, count }));
+
+  return {
+    totalPosts: logs.length,
+    smsLikePosts,
+    techniqueCounts,
+    categoryCounts,
+    monthlyCounts,
+    topTechniques,
+    libraryVersion: TACTIC_LIBRARY_VERSION,
+  };
+}
+
+export function scanTechniquesForLog(log: VaultLog): VaultTechnique[] {
+  const matches = scanTextForTactics(logText(log));
+  return [...new Set(matches.map((m) => m.technique))];
+}
+
+export function scanTechniquesForText(text: string): VaultTechnique[] {
+  return [...new Set(scanTextForTactics(text).map((m) => m.technique))];
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/utils/vaultTabs.ts">
+import { BookOpen, Users } from 'lucide-react';
+import { FORENSIC_VAULT_TAB_LABELS } from '@/core/copy/valvNavCopy';
+
+export { VALV_ZONE_INGRESS, FORENSIC_TAB_INGRESS } from '@/core/copy/valvNavCopy';
+
+/** Samla — arkiv + triage/chat. */
+export const SAMLA_VAULT_TAB_IDS = ['logga', 'sok'] as const;
+
+/** Analysera — mönster + orkester (locked UX). */
+export const ANALYSERA_VAULT_TAB_IDS = ['monster', 'orkester'] as const;
+
+/** Exportera — dossier. */
+export const EXPORTERA_VAULT_TAB_IDS = ['dossier'] as const;
+
+/** Legacy union — alla huvudflikar utom kunskap/forensik. */
+export const PANSARET_VAULT_TAB_IDS = [
+  ...SAMLA_VAULT_TAB_IDS,
+  ...ANALYSERA_VAULT_TAB_IDS,
+  ...EXPORTERA_VAULT_TAB_IDS,
+] as const;
+
+export type SamlaVaultTab = (typeof SAMLA_VAULT_TAB_IDS)[number];
+export type AnalyseraVaultTab = (typeof ANALYSERA_VAULT_TAB_IDS)[number];
+export type ExporteraVaultTab = (typeof EXPORTERA_VAULT_TAB_IDS)[number];
+
+export const KUNSKAP_VAULT_TAB = 'kunskapsbank' as const;
+export const AKTORSKARTA_VAULT_TAB = 'aktorskarta' as const;
+
+export const KUNSKAP_VAULT_TAB_IDS = [KUNSKAP_VAULT_TAB, AKTORSKARTA_VAULT_TAB] as const;
+export type KunskapVaultTab = (typeof KUNSKAP_VAULT_TAB_IDS)[number];
+
+/** Utvecklingszon (Vit) — separat från bevis-WORM. */
+export const VIT_VAULT_TAB = 'mitt_vit' as const;
+export const VIT_VAULT_TAB_IDS = [VIT_VAULT_TAB] as const;
+export type VitVaultTab = (typeof VIT_VAULT_TAB_IDS)[number];
+
+/** Synliga zoner i TabBar / ValvInputSuperModule (inbox borttagen — granska-läge i samla). */
+export const VALV_ZONE_VISIBLE_IDS = [
+  'samla',
+  'analysera',
+  'kunskap',
+  'vit',
+  'exportera',
+  'forensik',
+] as const;
+
+/** Legacy drawer/deep link — mappa till `valvMode=granska`, inte forensic tab. */
+export const LEGACY_INBOX_VAULT_TAB = 'inbox' as const;
+
+/** @deprecated inbox-zon — använd granska-läge i ValvInputSuperModule. */
+export const VALV_ZONE_IDS = [...VALV_ZONE_VISIBLE_IDS] as const;
+
+export type ValvZone = (typeof VALV_ZONE_VISIBLE_IDS)[number];
+
+export type PansaretVaultTab = (typeof PANSARET_VAULT_TAB_IDS)[number];
+
+export const MAIN_VAULT_TAB_IDS = [...PANSARET_VAULT_TAB_IDS, ...KUNSKAP_VAULT_TAB_IDS] as const;
+
+export const FORENSIC_VAULT_TAB_IDS = [
+  'hamn_analys',
+  'speglar_fordjupat',
+  'dagbok_arkiv',
+  'familjen_monster',
+  'arbetsliv_franvaro',
+  'arbetsliv_lon',
+] as const;
+
+export type MainVaultTab = (typeof MAIN_VAULT_TAB_IDS)[number];
+export type ForensicVaultTab = (typeof FORENSIC_VAULT_TAB_IDS)[number];
+export type VaultTab = MainVaultTab | ForensicVaultTab | VitVaultTab;
+
+export function resolveValvZone(tab: VaultTab): ValvZone {
+  if (isVitVaultTab(tab)) return 'vit';
+  if (isKunskapVaultTab(tab)) return 'kunskap';
+  if (isForensicVaultTab(tab)) return 'forensik';
+  if ((EXPORTERA_VAULT_TAB_IDS as readonly string[]).includes(tab)) return 'exportera';
+  if ((ANALYSERA_VAULT_TAB_IDS as readonly string[]).includes(tab)) return 'analysera';
+  return 'samla';
+}
+
+export function isSamlaVaultTab(tab: VaultTab): tab is SamlaVaultTab {
+  return (SAMLA_VAULT_TAB_IDS as readonly string[]).includes(tab);
+}
+
+export function isAnalyseraVaultTab(tab: VaultTab): tab is AnalyseraVaultTab {
+  return (ANALYSERA_VAULT_TAB_IDS as readonly string[]).includes(tab);
+}
+
+export function isExporteraVaultTab(tab: VaultTab): tab is ExporteraVaultTab {
+  return (EXPORTERA_VAULT_TAB_IDS as readonly string[]).includes(tab);
+}
+
+export function isKunskapVaultTab(tab: VaultTab): tab is KunskapVaultTab {
+  return (KUNSKAP_VAULT_TAB_IDS as readonly string[]).includes(tab);
+}
+
+export function isVitVaultTab(tab: VaultTab): tab is VitVaultTab {
+  return (VIT_VAULT_TAB_IDS as readonly string[]).includes(tab);
+}
+
+export function isPansaretVaultTab(tab: VaultTab): tab is PansaretVaultTab {
+  return (PANSARET_VAULT_TAB_IDS as readonly string[]).includes(tab);
+}
+
+const ALL_VAULT_TABS = new Set<string>([
+  ...MAIN_VAULT_TAB_IDS,
+  ...FORENSIC_VAULT_TAB_IDS,
+  ...VIT_VAULT_TAB_IDS,
+]);
+
+export function parseVaultTab(raw: string | null): VaultTab {
+  if (raw && ALL_VAULT_TABS.has(raw)) return raw as VaultTab;
+  return 'logga';
+}
+
+export function isForensicVaultTab(tab: VaultTab): tab is ForensicVaultTab {
+  return (FORENSIC_VAULT_TAB_IDS as readonly string[]).includes(tab);
+}
+
+export function forensicVaultTabLabel(tab: ForensicVaultTab): string {
+  return FORENSIC_VAULT_TAB_LABELS[tab];
+}
+
+export const VAULT_TAB_ICONS = {
+  kunskapsbank: BookOpen,
+  aktorskarta: Users,
+} as const;
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/index.ts">
+export { VaultPage, parseVaultTab, type VaultTab } from './components/VaultPage';
+export { ValvSuperModule, type ValvSuperVariant } from './components/ValvSuperModule';
+export { ValvInputSuperModule } from './supermodule/ValvInputSuperModule';
+export {
+  buildValvSearchParams,
+  canonicalValvRoute,
+  parseValvInputMode,
+  parseValvInputModeFromSearch,
+  type ValvInputMode,
+} from './supermodule/valvInputModes';
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/module_plan.md">
+# verklighetsvalvet — module plan
+
+## Overview
+
+Sacred Feature: WORM evidence vault (Verklighetsvalvet / Sanningens Sköld). Route `/dagbok?tab=bevis`; redirect `/valv`. Dold ingång via Fyren (3s long-press BookOpen + WebAuthn + PIN).
+
+Canonical: `.context/modules/evidence/vault.md` · Spec: `docs/specs/modules/Verklighetsvalvet-SPEC.md`
+
+## Files
+
+| Path | Role |
+|------|------|
+| `components/VaultEntryForm.tsx` | Enkel/tvåspalt/tresteg/magkänsel + media + röst |
+| `components/VaultPage.tsx` | PIN gate, Logga/Sök/**Mönster/Orkester**/Dossier, Stäng → Reflektion |
+| `components/VaultMonsterPanel.tsx` | Låst UX — deterministisk frekvens (Pansaret) |
+| `components/VaultOrkesterPanel.tsx` | Låst UX — agentregister + SMS mönstersökning |
+| `components/VaultLogList.tsx` | Append-only lista + PDF-knapp per post |
+| `utils/exportVaultRecord.ts` | Per-post PDF via utskriftsdialog |
+| `constants/vaultEntry.ts` | BODY_SIGNALS, VAULT_ENTRY_MODES, SHIELD_STEPS |
+| `constants/vavarenCopy.ts` | Vävaren — användarcopy (Fas 1.5) |
+| `types/vaultEntry.ts` | VaultEntryType, VaultLogInput |
+| `../diary/diary/components/HjartatPage.tsx` | Bevis-flik, session lock vid flikbyte |
+| `../core/layout/FloatingDock.tsx` | Fyren — 3s progress + WebAuthn |
+| `../core/auth/webauthn.ts` | Passkey-gate (client MVP) |
+| `../core/security/clearDeviceSession.ts` | Device Clear — Inställningar (ersätter shake-to-kill) |
+| `../core/hooks/useSpeechToText.ts` | Röst → text i truth |
+| `../core/firebase/firestore.ts` | `assertWormPayload`, `saveVaultLog`, `getVaultLogs` |
+| `../core/firebase/storage.ts` | `uploadVaultEvidence` → `vault_evidence/{uid}/` |
+| `../evidence/vaultChat/` | ValvChatPanel, `useValvChatSession`, `valvChatQuery` |
+
+## Status
+
+| Area | Kladd 2026-05-21 | Kod | Status |
+|------|------------------|-----|--------|
+| Fyren 3s + WORM | Dold ingång, Sanningens Sköld | Ja | **done** |
+| Tvåspalt / tresteg / magkänsel | Hens version vs sanning | Ja | **done** |
+| Storage `evidenceUrl` | PDF/sms-export, ej Drive-auto | Ja | **done** |
+| Shake-to-Kill | Panik + iOS-test | Ja | **done** |
+| Orosanmälan + skolbevis | §D beviskandidater | Manuell | **use now** |
+| Vävaren godkännande | HITL före `vävaren_metadata` i Valv | **done** 2026-05-31 |
+| Vävaren copy / tydlighet (Fas 1.5) | Arkiv, Sök, dagbok, Dossier | `vavarenCopy.ts` | **done** 2026-05-29 |
+| Dölj Bevis-flik | Plausible deniability | Nej | **planned** |
+| BBIC-filter export | Soc/jurist | Nej | **planned** (Dossier fas 2) |
+| Sanningens Ankare landning | Notebook | Nej | **planned** |
+| Auto Storage-analys | Notebook vision | Nej | **rejected** |
+
+**Källa:** [`Kladd-2026-05-21-PERSONAL-MASTER.md`](../../docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
+
+## Produktbeslut (låsta 2026-05)
+
+1. Drive → valv: manuellt godkännande (Drive-auto → kb_docs)
+2. PDF: klient per post; Dossier callable senare
+3. Valv-Chat: nollställ vid flikbyte
+4. WebAuthn + PIN; duress-PIN senare
+5. Dölj Bevis-flik när Fyren sitter i muskelminnet
+
+## Fas 1.5 — Vävaren UX polish (2026-05-29, lokal)
+
+| # | Leverans | Status |
+|---|----------|--------|
+| 1 | `constants/vavarenCopy.ts` — gemensam copy | **done** |
+| 2 | `VaultLogList` — tydlig etikett för `vävaren_metadata` + weaverTags | **done** |
+| 3 | `ValvChatPanel` — förklarar att Sök exkluderar AI-taggar | **done** |
+| 4 | Dagbok `SavedStep` / `ConfirmStep` — bakgrundstaggning förklarad | **done** |
+| 5 | `DossierPage` — tydligare AI-försätt-checkbox | **done** |
+
+**Ej i Fas 1.5:** godkännande-flöde, `firestore.rules`, borttag av Mönster/Orkester/Kunskapsbank.
+
+## Nästa fas (implementera när användaren säger kör)
+
+1. Dölj Bevis-flik + ClusterGrid-länk (Fyren only, feature flag)
+2. Klickbara citations i ValvChatPanel
+3. Drive-ingest med manuellt godkännande → `reality_vault`
+4. ~~Full Dossier-generator~~ → **done** (`DossierPage` + `generateDossier`; kvar: BBIC-mall, Vävaren försätt)
+5. Sanningens Ankare (`pinned`) + citation UX
+
+## Security notes
+
+- Fyren + WebAuthn + `issueVaultSession` (server gate för Valv-callables)
+- `vaultSessionLifecycle.ts` — `endVaultSession` vid Stäng/idle; `ensureVaultSessionReady` efter refresh
+- Demo PIN: borttagen — Valv via `issueVaultSession` (server gate)
+- Zero Footprint: vault unlock + chat rensas vid flikbyte/kill switch
+- Evidence: en fil per post (`evidenceUrl`); Storage uid-scoped
+- Valv-Chat: isolerad från `knowledgeVaultQuery`
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/README.md">
+# verklighetsvalvet
+
+> Sacred Feature — Sanningens Sköld. WORM-bevisbank (Lager 2) mot gaslighting.
+
+## Syfte
+
+Append-only, tidsstämplade sanningar. Skild från Dagbok (Lager 1). Plausible deniability via **Fyren** (dold ingång).
+
+## Route och ingång
+
+| | |
+|---|---|
+| **Route** | `/dagbok?tab=bevis` (redirect `/valv`) |
+| **AuthGate** | ja |
+| **Fyren** | 3s long-press BookOpen → WebAuthn → PIN → bevis |
+| **Flik Bevis** | Synlig idag; mål: endast Fyren |
+
+## Viktiga filer
+
+| Fil | Roll |
+|-----|------|
+| `components/VaultPage.tsx` | PIN, flikar Logga \| Sök |
+| `components/VaultEntryForm.tsx` | 4 inmatningslägen + media + röst |
+| `components/VaultLogList.tsx` | Append-only lista + PDF/post |
+| `utils/exportVaultRecord.ts` | Klient-PDF per post |
+| `types/vaultEntry.ts` | Entry-typer |
+
+**Valv-Chat:** `../evidence/vaultChat/` (Sök-flik)
+
+## Data
+
+| Collection | Innehåll |
+|------------|----------|
+| `reality_vault` | WORM-bevis (action, truth, category, media, …) |
+
+**Klient:** `saveVaultLog`, `uploadVaultEvidence`  
+**Callable:** `valvChatQuery` (via valv_chatt)
+
+## Beror på
+
+- `core` — PinGate, WebAuthn, EvidenceMediaAttach, firestore
+- `valv_chatt` — Sök-flik i VaultPage
+
+## Kopplingar
+
+- **Dagbok** — Hjärtat-kluster, Vävaren
+- **Speglings_system** — EvidenceCompare
+- **safe_harbor** — spara BIFF som bevis
+- **dossier** — aggregering till PDF
+
+## Minne / AI
+
+| | |
+|---|---|
+| **Permanent lagring** | `reality_vault` — WORM, glömmer inte |
+| **RAG / chatt** | Valv-Chat via `valvChatQuery` (**deploy saknas i prod**) |
+| **PDF / samlad export** | per post + Dossier |
+| **Planerat** | klickbara citations |
+
+## Mer läsning
+
+- [module_plan.md](./module_plan.md)
+- [Kontext (.context)](../../../.context/modules/evidence/vault.md)
+- [Verklighetsvalvet-SPEC](../../../docs/specs/modules/Verklighetsvalvet-SPEC.md)
+- [valv_chatt README](../evidence/vaultChat/README.md)
+</file>
+
+<file path="docs/design/VALV-HUBB-SPEC.md">
+# Valv hubb — Konflikt & bevis (IA våg 1)
+
+**Datum:** 2026-05-29  
+**Status:** Implementerad i kod (`vaultTabs.ts`, `VaultPage.tsx`)  
+**Låst UX:** Mönster, Orkester, Kunskapsbank, Aktörskarta — **får inte tas bort** ([`.context/locked-ux-features.md`](../../.context/locked-ux-features.md))
+
+---
+
+## Princip
+
+Samma `vaultTab`-IDs och callables som tidigare. Endast **zon-navigation** (färre val åt gången) och drawer-grupper ändras.
+
+| Zon (UI) | Flikar (`vaultTab`) | Användning |
+|----------|---------------------|------------|
+| **Samla** | `logga`, `sok` | Bevis, sms, triage, Valv-Chat |
+| **Analysera** | `monster`, `orkester` | Mönster, agent-orkester |
+| **Kunskap** | `kunskapsbank`, `aktorskarta` | RAG fakta, nyckelpersoner (G9) |
+| **Exportera** | `dossier` | Dossier-generator (+ `/dossier` i drawer) |
+| **Forensik** | `hamn_analys`, `speglar_fordjupat`, … | Djup analys Hamn/Speglar/Arbetsliv |
+
+## Produktbeslut — Hamn vs Valv (**godkänt 2026-05-29**)
+
+| Lager | Route | Roll |
+|-------|-------|------|
+| **Snabb ingång** | `/hamn` (Vardag-drawer) | Grey Rock/BIFF-svar, Speglar-bro, låg friktion — **ingen** riskpanel eller auto-bevis |
+| **Djup + bevis** | Valv → zon **Forensik** · `hamn_analys` | Full BIFF Triage, DCAP, *Spara som bevis*, Orkester, Mönster, Dossier |
+
+**MUST NOT:** flytta publik BIFF till Valv-only eller kräva PIN för första Grey Rock-svar.  
+**MUST:** `?tab=analys` på `/hamn` redirectar till Valv `hamn_analys` (redan i `TryggHamnHub.tsx`).  
+**Handoff:** `valvHandoff` i Hamn-text → mjuk länk till Valv (ingen auto-WORM).
+
+---
+
+## Triggers (våg 2)
+
+| Källa | Trigger | Effekt |
+|-------|---------|--------|
+| Dagbok | `shouldShowValvHandoff` | `HandoffBox` → `/dagbok?tab=bevis` |
+| Hamn BIFF | samma | HandoffBox efter klistra-in |
+| Valv logga | samma + `shouldSuggestVaultPatternScan` | Handoff + länk till Mönster |
+
+Ingen auto-WORM från Lager 1.
+
+---
+
+## Budget
+
+Deterministiska regex/DCAP — **inte** LLM per tangenttryckning.
+
+---
+
+## Kunskapsbank — layoutreferens (**godkänd 2026-06-19**)
+
+Pontus: upplägget i Kunskapsbank-fliken är **snugg, proffsigt och på god väg** — använd som mall för framtida Valv-zoner.
+
+| Aspekt | Kanon |
+|--------|-------|
+| Route | `/valvet?vaultTab=kunskapsbank` |
+| Header | Kompakt `HubPageShell` + `KunskapsbankHeader compact` — **ingen** triple-banner |
+| Scroll | En sidscroll — **ingen** nästad `calm-scroll-island` |
+| Innehåll | `BentoCard` + `CalmCollapsible` för arkiv/upload |
+
+Full spec + skärmbild: [`references/KUNSKAPSBANK-VALV-KANON.md`](./references/KUNSKAPSBANK-VALV-KANON.md) · [`kunskapsbank-valv-kanon-ref.png`](./references/kunskapsbank-valv-kanon-ref.png)
+
+---
+
+## Smoke
+
+`npm run smoke:locked-ux` · `npm run smoke:orkester`
+</file>
+
+<file path="src/modules/core/navigation/navTruth.ts">
+/* PROTECTED CORE COMPONENT: DO NOT MODIFY, REFRACTOR, OR REMOVE UI ELEMENTS. THIS FILE IS LOCKED FOR ARCHITECTURAL STABILITY. */
+import { HIDE_BEVIS_TAB } from './navFlags';
+
+/** Kärn-sanning för routes — inga överlappande paths tillåtna. */
+export const NAV_PATHS = {
+  HOME: '/',
+  HJARTAT: '/hjartat',
+  VALVET: '/valvet',
+  VARDAGEN: '/vardagen',
+  FAMILJEN: '/familjen',
+  BARNEN: '/barnen',
+} as const;
+import {
+  FORENSIC_VAULT_TAB_IDS,
+  forensicVaultTabLabel,
+  LEGACY_INBOX_VAULT_TAB,
+  MAIN_VAULT_TAB_IDS,
+  parseVaultTab,
+} from '@/features/lifeJournal/evidence/vault/utils/vaultTabs';
+import {
+  resolveValvInputModeFromVaultTab,
+  vaultTabForValvInputMode,
+} from '@/features/lifeJournal/evidence/vault/supermodule/valvInputModes';
+import {
+  DAGBOK_BEVIS_DRAWER_LABEL,
+  VALV_DRAWER_HINTS,
+  VALV_KUNSKAP_DRAWER_LEAF,
+  VALV_ZONE_LABELS,
+  VAULT_MAIN_TAB_LABELS,
+} from '../copy/valvNavCopy';
+
+/** Bevis-etikett — endast Valv-drawer; Hjärtat har ingen bevis-flik. */
+export { DAGBOK_BEVIS_DRAWER_LABEL };
+
+export type NavDrawerSection = 'vardag' | 'valv';
+
+export type NavTruthEntry = {
+  id: string;
+  label: string;
+  path: string;
+  section: NavDrawerSection;
+  inDrawer: boolean;
+  requiresVaultPin?: boolean;
+  parentId?: string;
+  isGroupHeader?: boolean;
+  drawerHint?: string;
+  omitWhenHideBevis?: boolean;
+  inDock?: boolean;
+  fyrenHomeQuick?: boolean;
+  themeId?: string;
+};
+
+export function vaultDrawerPath(vaultTab: string): string {
+  if (vaultTab === LEGACY_INBOX_VAULT_TAB) {
+    return `${NAV_PATHS.VALVET}?valvMode=granska&vaultTab=logga`;
+  }
+  const tab = parseVaultTab(vaultTab);
+  const mode = resolveValvInputModeFromVaultTab(tab);
+  const canonicalTab = vaultTabForValvInputMode(mode, tab);
+  return `${NAV_PATHS.VALVET}?vaultTab=${canonicalTab}&valvMode=${mode}`;
+}
+
+const VAULT_MAIN_LABELS = { ...VAULT_MAIN_TAB_LABELS } as Record<
+  (typeof MAIN_VAULT_TAB_IDS)[number],
+  string
+>;
+
+function valvLeaf(
+  id: string,
+  vaultTab: string,
+  parentId: string,
+  label?: string,
+  inDrawer = false,
+): NavTruthEntry {
+  return {
+    id,
+    label: label ?? VAULT_MAIN_LABELS[vaultTab as keyof typeof VAULT_MAIN_LABELS] ?? vaultTab,
+    path: vaultDrawerPath(vaultTab),
+    section: 'valv',
+    inDrawer,
+    requiresVaultPin: true,
+    parentId,
+  };
+}
+
+export const NAV_TRUTH: NavTruthEntry[] = [
+  // —— Vardag ——
+  { id: 'hem', label: 'Hem — Skriv', path: '/', section: 'vardag', inDrawer: true, themeId: 'J-fyren-hem' },
+  {
+    id: 'vardagen',
+    label: 'Liv och göra',
+    path: '/liv',
+    section: 'vardag',
+    inDrawer: true,
+    themeId: 'J-vardagen-orbit',
+  },
+  {
+    id: 'vardagen_kompasser',
+    label: 'Kompasser',
+    path: '/vardagen?tab=kompasser',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'vardagen',
+  },
+  {
+    id: 'vardagen_mabra',
+    label: 'MåBra',
+    path: '/mabra',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'vardagen',
+  },
+  {
+    id: 'vardagen_handling',
+    label: 'Handling',
+    path: '/planering?tab=handling',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'vardagen',
+  },
+  {
+    id: 'vardagen_arbetsliv',
+    label: 'Arbetsliv',
+    path: '/arbetsliv/input',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'vardagen',
+  },
+  {
+    id: 'vardagen_ekonomi',
+    label: 'Plånbok',
+    path: '/vardagen?tab=ekonomi',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'vardagen',
+  },
+  {
+    id: 'familjen',
+    label: 'Familj och gränser',
+    path: '/familj',
+    section: 'vardag',
+    inDrawer: true,
+    inDock: true,
+    themeId: 'J-familjen-varm',
+  },
+  {
+    id: 'familjen_reflektion',
+    label: 'Barnfokus',
+    path: '/familjen?tab=reflektion',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'familjen',
+  },
+  {
+    id: 'familjen_livslogg',
+    label: 'Livslogg',
+    path: '/familjen?tab=livslogg',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'familjen',
+  },
+  {
+    id: 'familjen_tillsammans',
+    label: 'Tillsammans',
+    path: '/familjen?tab=tillsammans',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'familjen',
+  },
+  {
+    id: 'familjen_barnporten',
+    label: 'Barnporten',
+    path: '/familjen?tab=barnporten',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'familjen',
+  },
+  {
+    id: 'familjen_hamn',
+    label: 'Trygg hamn',
+    path: '/familjen?tab=hamn',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'familjen',
+  },
+  {
+    id: 'familjen_drogfrihet',
+    label: 'Drogfrihet',
+    path: '/familjen?tab=drogfrihet',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'familjen',
+  },
+  {
+    id: 'dagbok',
+    label: 'Hjärtat',
+    path: NAV_PATHS.HJARTAT,
+    section: 'vardag',
+    inDrawer: false,
+    fyrenHomeQuick: true,
+    themeId: 'J-valv-pansar',
+  },
+  {
+    id: 'dagbok_reflektion',
+    label: 'Reflektion',
+    path: `${NAV_PATHS.HJARTAT}?tab=reflektion`,
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'dagbok',
+  },
+  {
+    id: 'dagbok_speglar',
+    label: 'Speglar',
+    path: `${NAV_PATHS.HJARTAT}?tab=speglar`,
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'dagbok',
+  },
+  {
+    id: 'installningar',
+    label: 'Inställningar',
+    path: '/installningar',
+    section: 'vardag',
+    inDrawer: true,
+  },
+  {
+    id: 'installningar_allmant',
+    label: 'Allmänt',
+    path: '/installningar?tab=allmant',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'installningar',
+  },
+  {
+    id: 'installningar_drogfrihet',
+    label: 'Drogfrihet',
+    path: '/installningar?tab=drogfrihet',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'installningar',
+  },
+  {
+    id: 'arbetsliv',
+    label: 'Arbetsliv',
+    path: '/arbetsliv/input',
+    section: 'vardag',
+    inDrawer: false,
+  },
+  {
+    id: 'arbetsliv_stampla',
+    label: 'Stämpel',
+    path: '/arbetsliv/input',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'arbetsliv',
+  },
+  {
+    id: 'arbetsliv_tid',
+    label: 'Tid',
+    path: '/arbetsliv/input?inputMode=tid',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'arbetsliv',
+  },
+  {
+    id: 'arbetsliv_inkomster',
+    label: 'Inkomster',
+    path: '/arbetsliv/input?inputMode=inkomster',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'arbetsliv',
+  },
+
+  // —— Valv (PIN) ——
+  {
+    id: 'valv_samla',
+    label: VALV_ZONE_LABELS.samla,
+    path: vaultDrawerPath('logga'),
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    themeId: 'J-valv-pansar',
+    drawerHint: VALV_DRAWER_HINTS.samla,
+  },
+  {
+    id: 'valv_analysera',
+    label: VALV_ZONE_LABELS.analysera,
+    path: vaultDrawerPath('monster'),
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.analysera,
+  },
+  {
+    id: 'valv_kunskap_nav',
+    label: VALV_ZONE_LABELS.kunskap,
+    path: vaultDrawerPath('kunskapsbank'),
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.kunskap,
+  },
+  {
+    id: 'valv_vit',
+    label: VALV_ZONE_LABELS.vit,
+    path: vaultDrawerPath('mitt_vit'),
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.vit,
+  },
+  {
+    id: 'valv_exportera',
+    label: VALV_ZONE_LABELS.exportera,
+    path: vaultDrawerPath('dossier'),
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.exportera,
+  },
+  {
+    id: 'valv_forensik',
+    label: VALV_ZONE_LABELS.forensik,
+    path: vaultDrawerPath('hamn_analys'),
+    section: 'valv',
+    inDrawer: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.forensik,
+  },
+  {
+    id: 'valv_grp_samla',
+    label: VALV_ZONE_LABELS.samla,
+    path: '',
+    section: 'valv',
+    inDrawer: false,
+    isGroupHeader: true,
+    requiresVaultPin: true,
+    themeId: 'J-valv-pansar',
+    drawerHint: VALV_DRAWER_HINTS.samla,
+  },
+  valvLeaf('valv_arkiv', 'logga', 'valv_grp_samla'),
+  {
+    id: 'valv_granska',
+    label: 'Granska',
+    path: `${NAV_PATHS.VALVET}?valvMode=granska&vaultTab=logga`,
+    section: 'valv',
+    inDrawer: false,
+    requiresVaultPin: true,
+    parentId: 'valv_grp_samla',
+  },
+  valvLeaf('valv_triage', 'sok', 'valv_grp_samla'),
+  {
+    id: 'valv_grp_analysera',
+    label: VALV_ZONE_LABELS.analysera,
+    path: '',
+    section: 'valv',
+    inDrawer: false,
+    isGroupHeader: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.analysera,
+  },
+  valvLeaf('valv_monster', 'monster', 'valv_grp_analysera'),
+  valvLeaf('valv_orkester', 'orkester', 'valv_grp_analysera'),
+  {
+    id: 'valv_grp_exportera',
+    label: VALV_ZONE_LABELS.exportera,
+    path: '',
+    section: 'valv',
+    inDrawer: false,
+    isGroupHeader: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.exportera,
+  },
+  valvLeaf('valv_dossier', 'dossier', 'valv_grp_exportera'),
+  {
+    id: 'valv_dossier_export',
+    label: 'Dossier · full vy',
+    path: '/dossier',
+    section: 'valv',
+    inDrawer: false,
+    requiresVaultPin: true,
+    parentId: 'valv_grp_exportera',
+  },
+  {
+    id: 'valv_grp_kunskap',
+    label: VALV_ZONE_LABELS.kunskap,
+    path: '',
+    section: 'valv',
+    inDrawer: false,
+    isGroupHeader: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.kunskap,
+  },
+  valvLeaf(
+    'valv_kunskapsbank',
+    'kunskapsbank',
+    'valv_grp_kunskap',
+    VALV_KUNSKAP_DRAWER_LEAF.kunskapsbank,
+  ),
+  valvLeaf(
+    'valv_aktorskarta',
+    'aktorskarta',
+    'valv_grp_kunskap',
+    VALV_KUNSKAP_DRAWER_LEAF.aktorskarta,
+  ),
+  {
+    id: 'valv_grp_forensik',
+    label: VALV_ZONE_LABELS.forensik,
+    path: '',
+    section: 'valv',
+    isGroupHeader: true,
+    requiresVaultPin: true,
+    drawerHint: VALV_DRAWER_HINTS.forensik,
+    inDrawer: false,
+  },
+  ...FORENSIC_VAULT_TAB_IDS.map((tab) => ({
+    id: `valv_${tab}`,
+    label: forensicVaultTabLabel(tab),
+    path: vaultDrawerPath(tab),
+    section: 'valv' as const,
+    inDrawer: false,
+    requiresVaultPin: true,
+    parentId: 'valv_grp_forensik',
+  })),
+];
+
+export const DRAWER_NAV_TRUTH = NAV_TRUTH.filter((e) => e.inDrawer);
+
+export function isDrawerEntryVisible(entry: NavTruthEntry, vaultSessionOpen = false): boolean {
+  if (entry.omitWhenHideBevis && HIDE_BEVIS_TAB && !vaultSessionOpen) return false;
+  return true;
+}
+
+export function getVisibleDrawerTruth(section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[] {
+  return DRAWER_NAV_TRUTH.filter((e) => e.section === section && isDrawerEntryVisible(e, vaultSessionOpen));
+}
+
+export const DRAWER_VARDAG_ENTRIES = getVisibleDrawerTruth('vardag');
+export const DRAWER_VALV_ENTRIES = getVisibleDrawerTruth('valv');
+
+export const DRAWER_HUB_TRUTH = DRAWER_NAV_TRUTH.filter((e) => !e.parentId && isDrawerEntryVisible(e));
+
+export function getNavTruthById(id: string): NavTruthEntry | undefined {
+  return NAV_TRUTH.find((e) => e.id === id);
+}
+
+export function getDrawerChildren(parentId: string, section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[] {
+  return getVisibleDrawerTruth(section, vaultSessionOpen).filter((e) => e.parentId === parentId);
+}
+
+export function getNavChildren(parentId: string, section: NavDrawerSection): NavTruthEntry[] {
+  return NAV_TRUTH.filter((e) => e.section === section && e.parentId === parentId);
+}
+
+export function getDrawerRoots(section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[] {
+  const visible = getVisibleDrawerTruth(section, vaultSessionOpen);
+  if (section === 'valv') return visible.filter((e) => !e.parentId && !e.isGroupHeader);
+  return visible.filter((e) => !e.parentId);
+}
+
+export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, vaultSessionOpen = false): boolean {
+  return getDrawerChildren(hubId, section, vaultSessionOpen).length > 0;
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/knowledge/components/VaultKunskapsbankPanel.tsx">
+import { useCallback, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { KunskapPage, type KunskapEntriesMeta } from '../../kompis/components/KunskapPage';
+import { AutonomousArchivePanel } from '../../kompis/components/AutonomousArchivePanel';
+import { FamiljenKunskapHubTab } from '@/features/family/children/components/familjen/FamiljenKunskapHubTab';
+import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
+import { KunskapsbankHeader } from '../../vault/components/KunskapsbankHeader';
+import { vaultDrawerPath } from '@/core/navigation/navTruth';
+import { BookOpen, RefreshCw } from 'lucide-react';
+
+type TabRequest = 'chat' | 'tidshjul';
+
+/** Samlad Kunskapsbank bakom Valv-PIN — Kunskapsvalv + Familjen-upload (U1 silos oförändrade). */
+export function VaultKunskapsbankPanel() {
+  const shell = useFamiljenShell();
+  const [focusKampsparId, setFocusKampsparId] = useState<string | null>(null);
+  const [requestTab, setRequestTab] = useState<TabRequest | null>(null);
+  const [entriesMeta, setEntriesMeta] = useState<KunskapEntriesMeta | null>(null);
+
+  const handleEntriesMeta = useCallback((meta: KunskapEntriesMeta) => {
+    setEntriesMeta(meta);
+  }, []);
+
+  const showEmptyState =
+    entriesMeta &&
+    !entriesMeta.loading &&
+    !entriesMeta.error &&
+    entriesMeta.count === 0;
+
+  const showNetworkError = Boolean(entriesMeta?.error);
+  const archiveMeta =
+    entriesMeta && !entriesMeta.loading
+      ? `${entriesMeta.count} poster`
+      : entriesMeta?.loading
+        ? 'Laddar…'
+        : undefined;
 
   return (
-    <BentoCard
-      glow="blue"
-      depth
-      noHover
-      bare
-      className="overflow-hidden !p-4 sm:!p-5"
-    >
-      <header className="valv-forensic-header">
-        <p className="valv-forensic-eyebrow">Sanningsarkiv</p>
-        <h2 className="valv-forensic-title">{activeDef.label}</h2>
-        <p className="valv-forensic-lead">{activeDef.description}</p>
-      </header>
+    <div className="space-y-4">
+      <KunskapsbankHeader compact />
 
-      <ValvInputModePicker activeMode={activeMode} onChange={setMode} />
+      {showNetworkError && (
+        <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <p className="text-sm text-amber-200/90">{entriesMeta?.error}</p>
+            <button
+              type="button"
+              onClick={() => entriesMeta?.reload()}
+              disabled={entriesMeta?.loading}
+              className="btn-pill--secondary inline-flex items-center gap-1.5 text-xs"
+            >
+              <RefreshCw className="h-3 w-3" aria-hidden />
+              Försök igen
+            </button>
+          </div>
+        </div>
+      )}
 
-      <div className="calm-scroll-island mt-4 max-h-[min(75vh,720px)] overflow-y-auto pr-1">
-        {activeMode === 'granska' ? (
-          <InboxReviewQueue
-            prioritizeBevis
-            onBevisConfirmed={(docId) => {
-              void onBevisConfirmed(docId);
-              setMode(DEFAULT_VALV_INPUT_MODE);
-            }}
-            onBack={() => setMode('spara')}
+      {showEmptyState && (
+        <BentoCard
+          glow="blue"
+          title="Ditt minne är tomt"
+          description="Sök i dina sparade anteckningar — börja med en post"
+          icon={<BookOpen className="h-4 w-4" />}
+        >
+          <EmptyState
+            message="Lägg till rutiner, milstolpar eller fakta under Tidshjulet. Därefter kan du ställa frågor i Kunskapsvalv-fliken."
+            action={
+              <button
+                type="button"
+                onClick={() => setRequestTab('tidshjul')}
+                className="btn-pill--secondary text-sm"
+              >
+                Öppna Tidshjulet
+              </button>
+            }
           />
-        ) : (
-          <ValvSuperModule
-            variant={activeDef.zone}
-            vaultTab={vaultTab}
-            userId={userId}
-            gateOk={gateOk}
-            highlightLogId={highlightLogId}
-            onBevisConfirmed={onBevisConfirmed}
-            onCitationClick={onCitationClick}
-            onVaultTabChange={onVaultTabChange}
-            onOpenGranska={() => setMode('granska')}
+        </BentoCard>
+      )}
+
+      <BentoCard glow="blue" bare noHover className="!p-0">
+        <div className="p-4 sm:p-5">
+          <KunskapPage
+            embedded
+            focusKampsparId={focusKampsparId}
+            onFocusKampsparConsumed={() => setFocusKampsparId(null)}
+            requestTab={requestTab}
+            onRequestTabConsumed={() => setRequestTab(null)}
+            onEntriesMeta={handleEntriesMeta}
           />
-        )}
-      </div>
-    </BentoCard>
+        </div>
+      </BentoCard>
+
+      <CalmCollapsible title="Filarkiv" meta={archiveMeta} defaultOpen={false} glow="blue">
+        <AutonomousArchivePanel sharedKampspar={entriesMeta?.entries} />
+      </CalmCollapsible>
+
+      {shell.user ? (
+        <CalmCollapsible title="Familjen — kunskap och uppladdning" meta="Per barn" defaultOpen={false} glow="blue">
+          <FamiljenKunskapHubTab activeChild={shell.activeChild} />
+        </CalmCollapsible>
+      ) : null}
+
+      <p className="px-1 text-[10px] text-text-dim">
+        Personregister:{' '}
+        <Link to={vaultDrawerPath('aktorskarta')} className="text-accent/80 hover:text-accent">
+          Aktörskarta
+        </Link>
+      </p>
+    </div>
   );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/api/patternScanService.ts">
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '@/core/firebase/init';
+import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
+
+type RescanResult = { written: number; libraryVersion: string };
+
+type AssistResult = RescanResult & { docId?: string | null };
+
+const rescanCallable = httpsCallable<Record<string, never>, RescanResult>(
+  functions,
+  'rescanPatternMetadata',
+);
+
+const assistCallable = httpsCallable<{ sourceRef?: string }, AssistResult>(
+  functions,
+  'assistPatternMetadata',
+);
+
+export async function rescanPatternMetadata(): Promise<RescanResult> {
+  const result = await rescanCallable(withVaultSessionPayload<Record<string, never>>({}));
+  return result.data;
+}
+
+/** P3 Flow-assist — kompletterande FLOW-lager (metadata sidecar). */
+export async function assistPatternMetadata(sourceRef?: string): Promise<AssistResult> {
+  const result = await assistCallable(
+    withVaultSessionPayload<{ sourceRef?: string }>(sourceRef ? { sourceRef } : {}),
+  );
+  return result.data;
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/api/processBrusfilterService.ts">
+import { httpsCallable, type FunctionsError } from 'firebase/functions';
+import { functions } from '@/core/firebase/init';
+import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
+
+export type BrusfilterRecommendedAction = 'INGEN' | 'VARNING';
+
+export interface ProcessBrusfilterResult {
+  dcap_analysis: {
+    risk_score: number;
+    recommended_action: BrusfilterRecommendedAction;
+  };
+  isolated_logistics: string;
+  biff_draft_reply: string;
+}
+
+type ProcessBrusfilterPayload = {
+  raw_input_text: string;
+  vaultSessionToken?: string;
+};
+
+const processBrusfilterCallable = httpsCallable<
+  ProcessBrusfilterPayload,
+  ProcessBrusfilterResult
+>(functions, 'processBrusfilter');
+
+export async function callProcessBrusfilter(rawInputText: string): Promise<ProcessBrusfilterResult> {
+  try {
+    const result = await processBrusfilterCallable(
+      withVaultSessionPayload({ raw_input_text: rawInputText.trim() }),
+    );
+    return result.data;
+  } catch (error) {
+    console.error('Fel vid anrop till processBrusfilter:', error);
+    const fnError = error as FunctionsError;
+    if (fnError.code === 'functions/unauthenticated') {
+      throw new Error('Autentisering krävs för Brusfilter.');
+    }
+    if (fnError.code === 'functions/permission-denied') {
+      throw new Error('Lås upp Valvet via Fyren (3 sek) och biometri innan du filtrerar brus.');
+    }
+    if (fnError.code === 'functions/resource-exhausted') {
+      throw new Error('För många försök — vänta en minut och försök igen.');
+    }
+    throw new Error(fnError.message || 'Brusfilter misslyckades. Försök igen senare.');
+  }
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvAnalyseraZone.tsx">
+import { lazy, Suspense } from 'react';
+import { TabBar } from '@/core/ui/TabBar';
+import { getAnalyseraVaultTabBarItems } from '@/core/navigation/tabRegistry';
+import { useVaultStore } from '@/core/store/useVaultStore';
+import { useStore } from '@/core/store';
+import { PansaretHeader } from '../PansaretHeader';
+import type { AnalyseraVaultTab } from '../../utils/vaultTabs';
+
+const VaultMonsterPanel = lazy(() =>
+  import('../VaultMonsterPanel').then((m) => ({ default: m.VaultMonsterPanel })),
+);
+const VaultOrkesterPanel = lazy(() =>
+  import('../VaultOrkesterPanel').then((m) => ({ default: m.VaultOrkesterPanel })),
+);
+
+function ValvPanelFallback() {
+  return <p className="py-6 text-center text-xs text-text-dim">Laddar analys…</p>;
+}
+
+export type ValvAnalyseraZoneProps = {
+  tab: AnalyseraVaultTab;
+  onTabChange: (tab: AnalyseraVaultTab) => void;
+};
+
+/** Locked UX — Mönster + Orkester (Pansaret). */
+export function ValvAnalyseraZone({ tab, onTabChange }: ValvAnalyseraZoneProps) {
+  const { logs } = useVaultStore();
+  const userId = useStore((s) => s.user?.uid);
+
+  return (
+    <>
+      <div className="mb-3">
+        <TabBar
+          size="compact"
+          tabs={getAnalyseraVaultTabBarItems()}
+          active={tab}
+          onChange={onTabChange}
+        />
+      </div>
+      <Suspense fallback={<ValvPanelFallback />}>
+        {tab === 'orkester' ? (
+          <VaultOrkesterPanel logs={logs} />
+        ) : (
+          <>
+            <PansaretHeader />
+            <VaultMonsterPanel logs={logs} userId={userId} />
+          </>
+        )}
+      </Suspense>
+    </>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/KunskapsbankHeader.tsx">
+import { BookOpen } from 'lucide-react';
+
+type KunskapsbankHeaderProps = {
+  compact?: boolean;
+};
+
+/** Kunskapsbank-zon — egen del av Valv (U1 Kunskap-silo, PIN). */
+export function KunskapsbankHeader({ compact = false }: KunskapsbankHeaderProps) {
+  if (compact) {
+    return (
+      <div className="flex items-center gap-2 px-1">
+        <BookOpen className="h-4 w-4 shrink-0 text-accent" aria-hidden />
+        <p className="font-display text-sm text-accent">Kunskapsbanken</p>
+        <span className="text-[10px] text-text-dim">· Fakta och minne</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="elongated-module elongated-module--gold mb-1 flex items-start gap-3 p-4">
+      <BookOpen className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />
+      <div>
+        <p className="font-display text-base text-accent">Kunskapsbanken</p>
+        <p className="mt-1 text-xs text-text-muted">
+          Fakta och minne bakom PIN — separat från bevisvalvet. Ställ en fråga först; öppna
+          filarkiv eller Tidshjul vid behov.
+        </p>
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/valv.css">
+@tailwind components;
+
+/* Valv hub — Obsidian Calm Bento (indigo/gold forensic) */
+
+@layer components {
+  .valv-bento-shell {
+    @apply relative isolate min-h-0;
+    background-color: var(--color-obsidian-surface);
+    background-image: var(--zone-gradient-valv);
+  }
+
+  .valv-bg-watermark {
+    @apply pointer-events-none fixed left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 text-accent-secondary;
+    width: min(140vw, 1100px);
+    height: min(140vw, 1100px);
+    max-width: 1100px;
+    max-height: 1100px;
+    opacity: 0.04;
+  }
+
+  .valv-bento-shell__content {
+    @apply relative z-10 space-y-4;
+  }
+
+  .valv-zone-strip {
+    @apply mb-1 flex items-center justify-center;
+  }
+
+  .valv-zone-pill {
+    @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-accent-secondary;
+    border-color: var(--color-indigo-40);
+    background: var(--color-shell-scrim-35);
+  }
+
+  .valv-forensic-header {
+    @apply mb-3 space-y-1 border-b border-border-strong/60 pb-3;
+  }
+
+  .valv-forensic-eyebrow {
+    @apply font-display-serif text-[10px] uppercase tracking-[0.22em] text-accent-secondary;
+  }
+
+  .valv-forensic-title {
+    @apply font-display-serif text-base uppercase tracking-[0.2em] text-text;
+  }
+
+  .valv-forensic-lead {
+    @apply text-xs leading-relaxed text-text-dim;
+  }
+
+  .valv-log-list {
+    @apply space-y-2;
+  }
+
+  .valv-log-row {
+    @apply rounded-xl border p-3 text-sm transition-all duration-200;
+    border-color: rgba(99, 102, 241, 0.22);
+    background: linear-gradient(
+      165deg,
+      rgba(12, 18, 32, 0.85) 0%,
+      rgba(5, 11, 20, 0.75) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 4px 14px -4px rgba(0, 0, 0, 0.45);
+  }
+
+  .valv-log-row:hover {
+    border-color: rgba(99, 102, 241, 0.38);
+  }
+
+  .valv-log-row--anchor {
+    border-color: rgba(212, 175, 55, 0.35);
+    background: linear-gradient(
+      165deg,
+      rgba(30, 25, 18, 0.7) 0%,
+      rgba(8, 12, 20, 0.8) 100%
+    );
+  }
+
+  .valv-log-row--highlight {
+    @apply ring-2 ring-accent/45;
+  }
+
+  .valv-log-row--vavaren {
+    border-color: rgba(129, 140, 248, 0.28);
+    background: linear-gradient(
+      165deg,
+      rgba(20, 24, 48, 0.75) 0%,
+      rgba(8, 12, 24, 0.85) 100%
+    );
+  }
+
+  .valv-log-stamp {
+    @apply flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-text-dim;
+  }
+
+  .valv-log-meta {
+    @apply text-[10px] uppercase tracking-widest text-text-dim;
+  }
+
+  .valv-samla-panel {
+    @apply rounded-2xl border p-3;
+    border-color: rgba(99, 102, 241, 0.2);
+    background: linear-gradient(
+      180deg,
+      rgba(15, 23, 42, 0.55) 0%,
+      rgba(8, 12, 22, 0.75) 100%
+    );
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/constants/vavarenCopy.ts">
+/**
+ * User-facing copy for dagbok → pending → godkänd `vävaren_metadata` (NAMN-AUDIT 2026-05-31).
+ */
+export const VAVAREN_SAVED_HINT =
+  'Sparad. Förslag på taggar nedan — inget i arkiv förrän du godkänner.';
+
+/** Tom — valfri Minne-rad förklaras i ConfirmStep-checkbox. */
+export const VAVAREN_CONFIRM_HINT = '';
+
+export const VAVAREN_APPROVAL_TITLE = 'Förslag på taggar';
+
+export const VAVAREN_APPROVAL_HINT =
+  'AI-förslag — inte dina ord. Godkänn för att spara i arkiv.';
+
+export const VAVAREN_APPROVAL_LOADING = 'Analyserar…';
+
+export const VAVAREN_APPROVAL_SAVED = 'Taggar sparade i arkiv.';
+
+export const VAVAREN_APPROVAL_DISMISS = 'Förslaget avvisades — inget sparades i arkiv.';
+
+export const VAVAREN_APPROVAL_APPROVE_BUTTON = 'Spara taggar';
+
+export const VAVAREN_PENDING_VAULT_INTRO =
+  'Dagboksposter väntar på godkännande innan AI-taggar sparas i arkivet.';
+
+export const VAVAREN_LOG_CATEGORY_LABEL = 'Taggar från dagbok';
+
+export const VAVAREN_LOG_DISCLAIMER =
+  'AI-förslag — inte dina ord och inte beviskropp. Sparades efter ditt godkännande.';
+
+export const VAVAREN_VALVCHAT_HINT =
+  'Sök använder dina låsta poster. Taggar från dagboken ingår inte.';
+
+export const VAVAREN_DOSSIER_CHECKBOX = 'Kort AI-inledning före rapporten';
+
+export const VAVAREN_DOSSIER_HINT =
+  'Bevisdelen är ordagrant från arkivet. Försättet och tidslinjen genereras av AI (Gemini) — påverkar inte WORM-hashen.';
+
+/** Dagbok «kom ihåg» — rad om taggar när Valv är öppet. */
+export const VAVAREN_DAGBOK_ARCHIVE_LINE =
+  'Extra i arkiv (kräver upplåst Valv): taggar och valfri sparning i Minne.';
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/dossier/components/DossierPage.tsx">
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { FileText, Loader2, Lock, ShieldAlert } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { useStore } from '@/core/store';
+import { hasVaultGate } from '@/core/auth/sessionService';
+import {
+  getChildrenLogs,
+  getJournalEntries,
+  getAllVaultLogs,
+} from '@/core/firebase/firestore';
+import type {
+  DossierCandidateDoc,
+  DossierReportType,
+  DossierSources,
+  DossierWizardStep,
+  GenerateDossierResult,
+} from '../types';
+import {
+  childrenToCandidate,
+  collectCategoryTags,
+  collectTechniqueTags,
+  defaultDateRange,
+  filterCandidates,
+  groupIncludedIds,
+  journalToCandidate,
+  shiftMonths,
+  vaultToCandidate,
+} from '../utils/dossierCandidates';
+import { generateDossier } from '../api/dossierService';
+import {
+  buildTechniquesByLogId,
+  fetchPatternScanMetadata,
+} from '../../api/patternScanMetadataApi';
+import {
+  VAVAREN_DOSSIER_CHECKBOX,
+  VAVAREN_DOSSIER_HINT,
+} from '../../constants/vavarenCopy';
+import { printDossierFallback } from '../utils/exportDossierPrint';
+
+const INITIAL_SOURCES: DossierSources = {
+  reality_vault: true,
+  children_logs: true,
+  journal: false,
+};
+
+const JOURNAL_WARNING =
+  'Dagboken kan innehålla emotionella reflektioner. Inkludera endast om ditt ombud uttryckligen begärt det — annars riskerar det juridiska fokuset att tunnas ut.';
+
+function resetWizardState() {
+  return {
+    step: 'period' as DossierWizardStep,
+    dateFrom: defaultDateRange().dateFrom,
+    dateTo: defaultDateRange().dateTo,
+    sources: { ...INITIAL_SOURCES },
+    journalAck: false,
+    categoryFilter: [] as string[],
+    techniqueFilter: [] as string[],
+    reportType: 'LEGAL' as DossierReportType,
+    includeAiForeword: false,
+    includedIds: new Set<string>(),
+    candidates: [] as DossierCandidateDoc[],
+    loadingDocs: false,
+    generating: false,
+    error: null as string | null,
+    result: null as GenerateDossierResult | null,
+  };
+}
+
+export function DossierPage({ embedded = false }: { embedded?: boolean }) {
+  const [searchParams] = useSearchParams();
+  const user = useStore((s) => s.user);
+  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
+  const vaultOpen = embedded || isVaultUnlocked || hasVaultGate();
+
+  const [step, setStep] = useState<DossierWizardStep>('period');
+  const [dateFrom, setDateFrom] = useState(defaultDateRange().dateFrom);
+  const [dateTo, setDateTo] = useState(defaultDateRange().dateTo);
+  const [sources, setSources] = useState<DossierSources>({ ...INITIAL_SOURCES });
+  const [journalAck, setJournalAck] = useState(false);
+  const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
+  const [techniqueFilter, setTechniqueFilter] = useState<string[]>([]);
+  const [techniquesByVaultId, setTechniquesByVaultId] = useState<Map<string, string[]>>(
+    () => new Map(),
+  );
+  const [reportType, setReportType] = useState<DossierReportType>('LEGAL');
+  const [includeAiForeword, setIncludeAiForeword] = useState(false);
+  const [showTimelinePreview, setShowTimelinePreview] = useState(true);
+  const [includedIds, setIncludedIds] = useState<Set<string>>(() => new Set());
+  const [allCandidates, setAllCandidates] = useState<DossierCandidateDoc[]>([]);
+  const [loadingDocs, setLoadingDocs] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<GenerateDossierResult | null>(null);
+
+  const clearSession = useCallback(() => {
+    const fresh = resetWizardState();
+    setStep(fresh.step);
+    setDateFrom(fresh.dateFrom);
+    setDateTo(fresh.dateTo);
+    setSources(fresh.sources);
+    setJournalAck(fresh.journalAck);
+    setCategoryFilter(fresh.categoryFilter);
+    setTechniqueFilter(fresh.techniqueFilter);
+    setTechniquesByVaultId(new Map());
+    setReportType(fresh.reportType);
+    setIncludeAiForeword(fresh.includeAiForeword);
+    setShowTimelinePreview(true);
+    setIncludedIds(fresh.includedIds);
+    setAllCandidates(fresh.candidates);
+    setLoadingDocs(fresh.loadingDocs);
+    setGenerating(fresh.generating);
+    setError(fresh.error);
+    setResult(fresh.result);
+  }, []);
+
+  useEffect(() => () => clearSession(), [clearSession]);
+
+  const deepLinkChild = searchParams.get('child');
+  const deepLinkSources = searchParams.get('sources');
+
+  useEffect(() => {
+    if (!user || !vaultOpen) return;
+    void fetchPatternScanMetadata(user.uid).then((rows) => {
+      setTechniquesByVaultId(buildTechniquesByLogId(rows));
+    });
+  }, [user, vaultOpen]);
+
+  useEffect(() => {
+    if (deepLinkSources === 'children_logs') {
+      setSources({
+        reality_vault: false,
+        children_logs: true,
+        journal: false,
+      });
+    }
+  }, [deepLinkSources]);
+
+  const filteredDocs = useMemo(
+    () =>
+      filterCandidates(
+        allCandidates,
+        dateFrom,
+        dateTo,
+        sources,
+        categoryFilter,
+        techniqueFilter,
+        techniquesByVaultId,
+      ),
+    [allCandidates, dateFrom, dateTo, sources, categoryFilter, techniqueFilter, techniquesByVaultId],
+  );
+
+  const categoryTags = useMemo(() => collectCategoryTags(allCandidates), [allCandidates]);
+  const techniqueTags = useMemo(
+    () => collectTechniqueTags(techniquesByVaultId),
+    [techniquesByVaultId],
+  );
+
+  const loadCandidates = useCallback(async () => {
+    if (!user) return;
+    setLoadingDocs(true);
+    setError(null);
+    try {
+      const [vault, children, journal, patternRows] = await Promise.all([
+        getAllVaultLogs(user.uid),
+        getChildrenLogs(user.uid),
+        getJournalEntries(user.uid),
+        fetchPatternScanMetadata(user.uid),
+      ]);
+      setTechniquesByVaultId(buildTechniquesByLogId(patternRows));
+      const docs: DossierCandidateDoc[] = [
+        ...vault.map(vaultToCandidate),
+        ...children.map((row) =>
+          childrenToCandidate(row as Parameters<typeof childrenToCandidate>[0]),
+        ),
+        ...journal.map((row) =>
+          journalToCandidate(row as { id: string; mood?: string; text?: string; createdAt?: string }),
+        ),
+      ];
+      setAllCandidates(docs);
+      const visible = filterCandidates(
+        docs,
+        dateFrom,
+        dateTo,
+        sources,
+        categoryFilter,
+        techniqueFilter,
+        buildTechniquesByLogId(patternRows),
+      );
+      let ids = visible.map((d) => d.id);
+      if (deepLinkChild) {
+        const childDocs = visible.filter(
+          (d) => d.kind === 'children_logs' && d.title.startsWith(deepLinkChild),
+        );
+        if (childDocs.length > 0) ids = childDocs.map((d) => d.id);
+      }
+      setIncludedIds(new Set(ids));
+    } catch {
+      setError('Kunde inte läsa bevis från databasen.');
+    } finally {
+      setLoadingDocs(false);
+    }
+  }, [user, dateFrom, dateTo, sources, categoryFilter, techniqueFilter, deepLinkChild]);
+
+  useEffect(() => {
+    if (step !== 'review' || !user || !vaultOpen) return;
+    void loadCandidates();
+  }, [step, user, vaultOpen, loadCandidates]);
+
+  useEffect(() => {
+    if (step !== 'review') return;
+    const visible = filterCandidates(
+      allCandidates,
+      dateFrom,
+      dateTo,
+      sources,
+      categoryFilter,
+      techniqueFilter,
+      techniquesByVaultId,
+    );
+    setIncludedIds((prev) => {
+      const next = new Set<string>();
+      for (const doc of visible) {
+        if (prev.has(doc.id)) next.add(doc.id);
+      }
+      if (next.size === 0 && visible.length > 0) {
+        return new Set(visible.map((d) => d.id));
+      }
+      return next;
+    });
+  }, [step, allCandidates, dateFrom, dateTo, sources, categoryFilter, techniqueFilter, techniquesByVaultId]);
+
+  const toggleDoc = (id: string) => {
+    setIncludedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleTechnique = (tag: string) => {
+    setTechniqueFilter((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
+    );
+  };
+
+  const toggleCategory = (tag: string) => {
+    setCategoryFilter((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
+    );
+  };
+
+  const downloadFromResult = (gen: GenerateDossierResult) => {
+    if (gen.downloadUrl) {
+      window.open(gen.downloadUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    if (gen.pdfBase64) {
+      const win = window.open('', '_blank');
+      if (!win) throw new Error('Webbläsaren blockerade popup-fönstret.');
+      win.location.href = `data:application/pdf;base64,${gen.pdfBase64}`;
+      win.focus();
+    }
+  };
+
+  const handleGenerateDossier = async () => {
+    if (!user) return;
+    const selected = filteredDocs.filter((d) => includedIds.has(d.id));
+    if (selected.length === 0) {
+      setError('Välj minst en post att exportera.');
+      return;
+    }
+
+    setGenerating(true);
+    setError(null);
+
+    try {
+      const gen = await generateDossier({
+        dateFrom,
+        dateTo,
+        sources,
+        reportType,
+        includeAiForeword,
+        categoryFilter: categoryFilter.length > 0 ? categoryFilter : undefined,
+        techniqueFilter: techniqueFilter.length > 0 ? techniqueFilter : undefined,
+        includedDocIds: groupIncludedIds(selected, includedIds),
+      });
+      downloadFromResult(gen);
+      setResult(gen);
+      setStep('result');
+    } catch (backendErr) {
+      const message = backendErr instanceof Error ? backendErr.message : 'Generering misslyckades.';
+      if (!message.includes('inte deployad')) {
+        setError(message);
+        setGenerating(false);
+        return;
+      }
+      await handleLocalPrintFallback(selected);
+      return;
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  // —— Lokal utskrift (fallback när callable saknas) ——
+  const handleLocalPrintFallback = async (selected: DossierCandidateDoc[]) => {
+    setGenerating(true);
+    setError(null);
+
+    try {
+      const hash = await printDossierFallback({
+        selected,
+        reportType,
+        includeAiForeword,
+        childLabel: deepLinkChild || 'Hela familjen',
+      });
+
+      setResult({
+        dossierId: hash.slice(0, 12).toUpperCase(),
+        documentHash: hash,
+        status: 'ready',
+      });
+      setStep('result');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Kunde inte generera utskrift.');
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  if (!vaultOpen) {
+    return (
+      <div className={embedded ? 'space-y-4' : 'space-y-6'}>
+        <BentoCard title="Dossier-Generator" icon={<Lock className="h-4 w-4" />}>
+          <p className="mb-4 text-sm text-text-muted">
+            Dossier kräver upplåst Valv (Fyren). I bottenmenyn: tryck på <strong>Hjärtat</strong>{' '}
+            (bok-ikonen) och <strong>håll 3 sekunder</strong>, eller öppna Valvet och tryck <strong>Lås upp Valvet (biometri)</strong>.
+          </p>
+          <Link
+            to="/valvet"
+            className="inline-flex rounded-lg bg-indigo-500/20 px-4 py-2 text-sm font-medium text-indigo-200 hover:bg-indigo-500/30"
+          >
+            Öppna Arkiv
+          </Link>
+        </BentoCard>
+      </div>
+    );
+  }
+
+  return (
+    <div className={embedded ? 'space-y-4' : 'space-y-6'}>
+      <BentoCard
+        title={embedded ? 'Dossier' : 'Dossier-Generator'}
+        description={embedded ? 'Samlad arkiv-export' : undefined}
+        icon={<FileText className="h-4 w-4" />}
+      >
+        {!embedded && (
+          <p className="mb-4 text-sm text-text-muted">
+            Samlad arkiv-export. Inget skickas automatiskt; du laddar ner din PDF när du är redo.
+          </p>
+        )}
+        {embedded && (
+          <p className="mb-4 text-sm text-text-muted">
+            Inget skickas automatiskt. Du sparar eller skriver ut PDF lokalt på din enhet.
+          </p>
+        )}
+
+        {step === 'period' && (
+          <div className="space-y-4">
+            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
+              Steg 1 av 3 — Tidsperiod
+            </p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label className="block text-sm">
+                <span className="text-text-muted">Från</span>
+                <input
+                  type="date"
+                  value={dateFrom}
+                  onChange={(e) => setDateFrom(e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm"
+                />
+              </label>
+              <label className="block text-sm">
+                <span className="text-text-muted">Till</span>
+                <input
+                  type="date"
+                  value={dateTo}
+                  onChange={(e) => setDateTo(e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm"
+                />
+              </label>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setDateTo(defaultDateRange().dateTo);
+                  setDateFrom(shiftMonths(defaultDateRange().dateTo, -3));
+                }}
+                className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-indigo-200 cursor-pointer hover:bg-indigo-500/10"
+              >
+                Senaste 3 månaderna
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setDateTo(defaultDateRange().dateTo);
+                  setDateFrom(shiftMonths(defaultDateRange().dateTo, -6));
+                }}
+                className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-indigo-200 cursor-pointer hover:bg-indigo-500/10"
+              >
+                Senaste 6 månaderna
+              </button>
+            </div>
+            <button
+              type="button"
+              onClick={() => setStep('sources')}
+              className="w-full rounded-lg bg-indigo-500/25 py-2.5 text-sm font-medium text-indigo-100 cursor-pointer hover:bg-indigo-500/35"
+            >
+              Fortsätt
+            </button>
+          </div>
+        )}
+
+        {step === 'sources' && (
+          <div className="space-y-4">
+            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
+              Steg 2 av 3 — Källor & Filter
+            </p>
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={sources.reality_vault}
+                onChange={(e) =>
+                  setSources((s) => ({ ...s, reality_vault: e.target.checked }))
+                }
+                className="rounded border-white/20 accent-accent"
+              />
+              Arkiv (bevisloggar)
+            </label>
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={sources.children_logs}
+                onChange={(e) =>
+                  setSources((s) => ({ ...s, children_logs: e.target.checked }))
+                }
+                className="rounded border-white/20 accent-accent"
+              />
+              Barnens livsloggar
+            </label>
+            <label className="flex items-start gap-2 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={sources.journal}
+                onChange={(e) => {
+                  const on = e.target.checked;
+                  setSources((s) => ({ ...s, journal: on }));
+                  if (!on) setJournalAck(false);
+                }}
+                className="mt-1 rounded border-white/20 accent-accent"
+              />
+              <span>
+                Dagboken (privat journal)
+                <span className="mt-1 block text-xs text-danger/80">{JOURNAL_WARNING}</span>
+              </span>
+            </label>
+
+            {sources.journal && (
+              <label className="flex items-start gap-2 rounded-lg border border-danger/30 bg-danger/5 p-3 text-sm cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={journalAck}
+                  onChange={(e) => setJournalAck(e.target.checked)}
+                  className="mt-1 accent-danger"
+                />
+                <span className="text-text-muted leading-relaxed">
+                  Jag förstår risken och vill inkludera min privata dagbok i detta underlag.
+                </span>
+              </label>
+            )}
+
+            {techniqueTags.length > 0 && (
+              <div>
+                <p className="mb-2 text-xs text-text-dim">
+                  Valfritt — filtrera valv på taktik (sidecar-metadata)
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {techniqueTags.map((tag) => (
+                    <button
+                      key={tag}
+                      type="button"
+                      onClick={() => toggleTechnique(tag)}
+                      className={
+                        techniqueFilter.includes(tag)
+                          ? 'rounded-full bg-indigo-500/25 px-3 py-1 text-xs text-indigo-100 cursor-pointer border border-indigo-400/40'
+                          : 'rounded-full border border-white/10 px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-white/20'
+                      }
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {categoryTags.length > 0 && (
+              <div>
+                <p className="mb-2 text-xs text-text-dim">Valfritt — filtrera på kategori/tag</p>
+                <div className="flex flex-wrap gap-2">
+                  {categoryTags.map((tag) => (
+                    <button
+                      key={tag}
+                      type="button"
+                      onClick={() => toggleCategory(tag)}
+                      className={
+                        categoryFilter.includes(tag)
+                          ? 'rounded-full bg-amber-500/25 px-3 py-1 text-xs text-amber-100 cursor-pointer border border-accent/40'
+                          : 'rounded-full border border-white/10 px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-white/20'
+                      }
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <label className="flex cursor-pointer items-start gap-2 text-sm text-text-dim border-t border-border-strong/40 pt-3">
+              <input
+                type="checkbox"
+                checked={includeAiForeword}
+                onChange={(e) => {
+                  setIncludeAiForeword(e.target.checked);
+                  if (!e.target.checked) setShowTimelinePreview(false);
+                }}
+                className="mt-0.5 rounded border-white/20 accent-accent"
+              />
+              <span>
+                {VAVAREN_DOSSIER_CHECKBOX}
+                <span className="mt-1 block text-xs text-text-muted">{VAVAREN_DOSSIER_HINT}</span>
+              </span>
+            </label>
+
+            {includeAiForeword && (
+              <label className="flex cursor-pointer items-start gap-2 text-sm text-text-dim pl-1">
+                <input
+                  type="checkbox"
+                  checked={showTimelinePreview}
+                  onChange={(e) => setShowTimelinePreview(e.target.checked)}
+                  className="mt-0.5 rounded border-white/20 accent-accent"
+                />
+                <span>
+                  Visa AI-tidslinje i förhandsgranskning
+                  <span className="mt-1 block text-xs text-text-muted">
+                    Efter export — sammanfattning utanför WORM-hash.
+                  </span>
+                </span>
+              </label>
+            )}
+
+            <select
+              value={reportType}
+              onChange={(e) => setReportType(e.target.value as DossierReportType)}
+              className="w-full rounded-lg border border-white/10 bg-surface-3 px-3 py-2 text-sm"
+              aria-label="Rapporttyp"
+            >
+              <option value="LEGAL">Juridisk kronologi (Fakta & tidsstämplar)</option>
+              <option value="BBIC">BBIC-struktur (föräldraförmåga & hälsa)</option>
+            </select>
+
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setStep('period')}
+                className="flex-1 rounded-lg border border-white/10 py-2 text-sm cursor-pointer hover:bg-white/5"
+              >
+                Tillbaka
+              </button>
+              <button
+                type="button"
+                disabled={sources.journal && !journalAck}
+                onClick={() => setStep('review')}
+                className="flex-1 rounded-lg bg-indigo-500/25 py-2 text-sm font-medium text-indigo-100 disabled:opacity-40 cursor-pointer hover:bg-indigo-500/35"
+              >
+                Granska urval
+              </button>
+            </div>
+          </div>
+        )}
+
+        {step === 'review' && (
+          <div className="space-y-4">
+            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
+              Steg 3 av 3 — Bekräfta kronologiskt urval
+            </p>
+            {loadingDocs ? (
+              <div className="flex items-center justify-center gap-2 text-sm text-text-muted py-6">
+                <Loader2 className="h-4 w-4 animate-spin text-accent" />
+                Läser in dina loggade händelser…
+              </div>
+            ) : filteredDocs.length === 0 ? (
+              <EmptyState message="Inga poster hittades för den valda tidsperioden och källorna. Gå tillbaka och utöka ditt sökfönster." />
+            ) : (
+              <div className="space-y-2">
+                <p className="text-xs text-text-dim">
+                  Bocka av de rader du vill utesluta från exporten. Totalt {includedIds.size} av{' '}
+                  {filteredDocs.length} valda.
+                </p>
+                <ul className="max-h-80 space-y-2 overflow-y-auto pr-1 border border-border/60 rounded-xl p-2 bg-black/20">
+                  {filteredDocs.map((doc) => (
+                    <li
+                      key={`${doc.kind}-${doc.id}`}
+                      className="rounded-lg border border-white/5 bg-surface-2 p-3 transition-colors hover:border-accent/10"
+                    >
+                      <label className="flex cursor-pointer gap-3">
+                        <input
+                          type="checkbox"
+                          checked={includedIds.has(doc.id)}
+                          onChange={() => toggleDoc(doc.id)}
+                          className="mt-1 shrink-0 accent-accent"
+                        />
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-xs font-semibold text-accent">
+                            {doc.title}
+                          </span>
+                          <span className="text-[10px] text-text-dim">
+                            {doc.createdAt.slice(0, 10)} ·{' '}
+                            {doc.kind.toUpperCase().replace('_', ' ')}
+                          </span>
+                          <span className="mt-1 block text-xs text-text-muted leading-relaxed line-clamp-2">
+                            {doc.preview}
+                          </span>
+                        </span>
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            <p className="flex items-start gap-2 text-xs text-success-light">
+              <ShieldAlert className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" />
+              Säkerhetsprincip: PDF-genereringen sker krypterat i din webbläsare. Ingenting skickas
+              till motparten eller sociala myndigheter.
+            </p>
+            {error && <p className="text-sm text-danger text-center">{error}</p>}
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setStep('sources')}
+                className="flex-1 rounded-lg border border-white/10 py-2 text-sm cursor-pointer"
+              >
+                Tillbaka
+              </button>
+              <button
+                type="button"
+                disabled={generating || includedIds.size === 0}
+                onClick={() => {
+                  const isSure = window.confirm(
+                    "Är du helt säker på att du vill skapa och ladda ner denna känsliga Dossier?\n\nDetta skapar ett permanent och låst spår i valvet."
+                  );
+                  if (isSure) {
+                    void handleGenerateDossier();
+                  }
+                }}
+                className="flex-1 rounded-lg bg-emerald-500/25 py-2 text-sm font-semibold text-emerald-100 disabled:opacity-40 cursor-pointer"
+              >
+                {generating ? (
+                  <span className="inline-flex items-center justify-center gap-2">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Genererar PDF…
+                  </span>
+                ) : (
+                  'Lås & Skriv ut (PDF)'
+                )}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {step === 'result' && result && (
+          <div className="space-y-4 animate-fade-in">
+            <div className="rounded-xl border border-success/30 bg-success/5 p-4 text-center">
+              <p className="text-sm font-semibold text-success">Dossier skapad & verifierad!</p>
+              <p className="mt-1 text-xs text-text-muted">
+                Dokumentet öppnades i en ny flik och utskriftsdialogen har startat. Spara den som en
+                PDF lokalt på din enhet.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-border-strong bg-surface-2 p-4 space-y-2 text-xs tabular-nums">
+              <p className="text-text-dim uppercase tracking-wider text-[10px]">
+                Äkthetsverifiering (låst post)
+              </p>
+              <div className="flex justify-between">
+                <span className="text-text-muted">Dossier ID:</span>
+                <span className="font-mono text-text font-semibold">{result.dossierId}</span>
+              </div>
+              <div className="space-y-1">
+                <span className="text-text-muted">SHA-256 Hash:</span>
+                <p className="font-mono text-[9px] text-accent bg-black/30 p-2 rounded border border-border break-all">
+                  {result.documentHash}
+                </p>
+              </div>
+            </div>
+
+            {includeAiForeword &&
+              showTimelinePreview &&
+              result.aiForeword &&
+              result.aiForeword.timeline.length > 0 && (
+                <div className="rounded-xl border border-indigo-500/25 bg-indigo-500/5 p-4 space-y-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-indigo-200/90">
+                    AI-tidslinje (förhandsgranskning)
+                  </p>
+                  <p className="text-xs text-text-muted leading-relaxed line-clamp-6">
+                    {result.aiForeword.foreword}
+                  </p>
+                  <ul className="max-h-48 space-y-2 overflow-y-auto pr-1">
+                    {result.aiForeword.timeline.map((row, idx) => (
+                      <li
+                        key={`${row.date}-${idx}`}
+                        className="rounded-lg border border-white/5 bg-surface-2/80 px-3 py-2 text-xs"
+                      >
+                        <span className="font-mono text-accent">{row.date}</span>
+                        <span className="mt-0.5 block text-text-muted">{row.fact}</span>
+                        {row.sourceRef && (
+                          <span className="mt-1 block font-mono text-[10px] text-text-dim">
+                            ref: {row.sourceRef}
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-[10px] text-text-dim">
+                    Sammanfattning — bevisdelen i PDF är ordagrant WORM.
+                  </p>
+                </div>
+              )}
+
+            <div className="flex gap-2 pt-2">
+              <button
+                type="button"
+                className="btn-pill--accent flex-1 text-xs justify-center"
+                onClick={() => void handleGenerateDossier()}
+              >
+                Skriv ut / Spara igen
+              </button>
+              <button
+                type="button"
+                onClick={clearSession}
+                className="btn-pill--ghost flex-1 text-xs justify-center"
+              >
+                Klar — rensa från enheten
+              </button>
+            </div>
+          </div>
+        )}
+      </BentoCard>
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/dossier/types.ts">
+export type DossierReportType = 'LEGAL' | 'BBIC';
+
+export type DossierSourceKey = 'reality_vault' | 'children_logs' | 'journal';
+
+export type DossierSources = Record<DossierSourceKey, boolean>;
+
+export type DossierWizardStep = 'period' | 'sources' | 'review' | 'result';
+
+export type DossierDocKind = DossierSourceKey;
+
+export interface DossierCandidateDoc {
+  id: string;
+  kind: DossierDocKind;
+  createdAt: string;
+  title: string;
+  preview: string;
+  category?: string;
+}
+
+export interface GenerateDossierInput {
+  dateFrom: string;
+  dateTo: string;
+  sources: DossierSources;
+  reportType: DossierReportType;
+  includeAiForeword: boolean;
+  categoryFilter?: string[];
+  /** Filtrera reality_vault via pattern_scan_metadata sidecar (t.ex. DARVO). */
+  techniqueFilter?: string[];
+  includedDocIds: {
+    reality_vault: string[];
+    children_logs: string[];
+    journal: string[];
+  };
+}
+
+export interface DossierTimelineRow {
+  date: string;
+  fact: string;
+  sourceRef?: string;
+}
+
+export interface DossierAiForewordPreview {
+  foreword: string;
+  timeline: DossierTimelineRow[];
+}
+
+export interface GenerateDossierResult {
+  dossierId: string;
+  documentHash: string;
+  downloadUrl?: string;
+  pdfBase64?: string;
+  jobId?: string;
+  status: 'ready' | 'pending';
+  /** P6 — AI-försätt + tidslinje (utanför documentHash). */
+  aiForeword?: DossierAiForewordPreview;
 }
 </file>
 
@@ -6529,1163 +6979,891 @@ npm run smoke:obsidian-depth
 Vid refaktor av `VaultPage`, `FamiljenPage`, eller borttagning av specs ovan: kör smoke innan merge.
 </file>
 
-<file path="src/modules/core/navigation/navTruth.ts">
-/* PROTECTED CORE COMPONENT: DO NOT MODIFY, REFRACTOR, OR REMOVE UI ELEMENTS. THIS FILE IS LOCKED FOR ARCHITECTURAL STABILITY. */
-import { HIDE_BEVIS_TAB } from './navFlags';
-
-/** Kärn-sanning för routes — inga överlappande paths tillåtna. */
-export const NAV_PATHS = {
-  HOME: '/',
-  HJARTAT: '/hjartat',
-  VALVET: '/valvet',
-  VARDAGEN: '/vardagen',
-  FAMILJEN: '/familjen',
-  BARNEN: '/barnen',
-} as const;
-import {
-  FORENSIC_VAULT_TAB_IDS,
-  forensicVaultTabLabel,
-  LEGACY_INBOX_VAULT_TAB,
-  MAIN_VAULT_TAB_IDS,
-  parseVaultTab,
-} from '@/features/lifeJournal/evidence/vault/utils/vaultTabs';
-import {
-  resolveValvInputModeFromVaultTab,
-  vaultTabForValvInputMode,
-} from '@/features/lifeJournal/evidence/vault/supermodule/valvInputModes';
-import {
-  DAGBOK_BEVIS_DRAWER_LABEL,
-  VALV_DRAWER_HINTS,
-  VALV_KUNSKAP_DRAWER_LEAF,
-  VALV_ZONE_LABELS,
-  VAULT_MAIN_TAB_LABELS,
-} from '../copy/valvNavCopy';
-
-/** Bevis-etikett — endast Valv-drawer; Hjärtat har ingen bevis-flik. */
-export { DAGBOK_BEVIS_DRAWER_LABEL };
-
-export type NavDrawerSection = 'vardag' | 'valv';
-
-export type NavTruthEntry = {
-  id: string;
-  label: string;
-  path: string;
-  section: NavDrawerSection;
-  inDrawer: boolean;
-  requiresVaultPin?: boolean;
-  parentId?: string;
-  isGroupHeader?: boolean;
-  drawerHint?: string;
-  omitWhenHideBevis?: boolean;
-  inDock?: boolean;
-  fyrenHomeQuick?: boolean;
-  themeId?: string;
-};
-
-export function vaultDrawerPath(vaultTab: string): string {
-  if (vaultTab === LEGACY_INBOX_VAULT_TAB) {
-    return `${NAV_PATHS.VALVET}?valvMode=granska&vaultTab=logga`;
-  }
-  const tab = parseVaultTab(vaultTab);
-  const mode = resolveValvInputModeFromVaultTab(tab);
-  const canonicalTab = vaultTabForValvInputMode(mode, tab);
-  return `${NAV_PATHS.VALVET}?vaultTab=${canonicalTab}&valvMode=${mode}`;
-}
-
-const VAULT_MAIN_LABELS = { ...VAULT_MAIN_TAB_LABELS } as Record<
-  (typeof MAIN_VAULT_TAB_IDS)[number],
-  string
->;
-
-function valvLeaf(
-  id: string,
-  vaultTab: string,
-  parentId: string,
-  label?: string,
-  inDrawer = false,
-): NavTruthEntry {
-  return {
-    id,
-    label: label ?? VAULT_MAIN_LABELS[vaultTab as keyof typeof VAULT_MAIN_LABELS] ?? vaultTab,
-    path: vaultDrawerPath(vaultTab),
-    section: 'valv',
-    inDrawer,
-    requiresVaultPin: true,
-    parentId,
-  };
-}
-
-export const NAV_TRUTH: NavTruthEntry[] = [
-  // —— Vardag ——
-  { id: 'hem', label: 'Hem — Skriv', path: '/', section: 'vardag', inDrawer: true, themeId: 'J-fyren-hem' },
-  {
-    id: 'vardagen',
-    label: 'Liv och göra',
-    path: '/liv',
-    section: 'vardag',
-    inDrawer: true,
-    themeId: 'J-vardagen-orbit',
-  },
-  {
-    id: 'vardagen_kompasser',
-    label: 'Kompasser',
-    path: '/vardagen?tab=kompasser',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'vardagen',
-  },
-  {
-    id: 'vardagen_mabra',
-    label: 'MåBra',
-    path: '/mabra',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'vardagen',
-  },
-  {
-    id: 'vardagen_handling',
-    label: 'Handling',
-    path: '/planering?tab=handling',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'vardagen',
-  },
-  {
-    id: 'vardagen_arbetsliv',
-    label: 'Arbetsliv',
-    path: '/arbetsliv/input',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'vardagen',
-  },
-  {
-    id: 'vardagen_ekonomi',
-    label: 'Plånbok',
-    path: '/vardagen?tab=ekonomi',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'vardagen',
-  },
-  {
-    id: 'familjen',
-    label: 'Familj och gränser',
-    path: '/familj',
-    section: 'vardag',
-    inDrawer: true,
-    inDock: true,
-    themeId: 'J-familjen-varm',
-  },
-  {
-    id: 'familjen_reflektion',
-    label: 'Barnfokus',
-    path: '/familjen?tab=reflektion',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'familjen',
-  },
-  {
-    id: 'familjen_livslogg',
-    label: 'Livslogg',
-    path: '/familjen?tab=livslogg',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'familjen',
-  },
-  {
-    id: 'familjen_tillsammans',
-    label: 'Tillsammans',
-    path: '/familjen?tab=tillsammans',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'familjen',
-  },
-  {
-    id: 'familjen_barnporten',
-    label: 'Barnporten',
-    path: '/familjen?tab=barnporten',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'familjen',
-  },
-  {
-    id: 'familjen_hamn',
-    label: 'Trygg hamn',
-    path: '/familjen?tab=hamn',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'familjen',
-  },
-  {
-    id: 'familjen_drogfrihet',
-    label: 'Drogfrihet',
-    path: '/familjen?tab=drogfrihet',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'familjen',
-  },
-  {
-    id: 'dagbok',
-    label: 'Hjärtat',
-    path: NAV_PATHS.HJARTAT,
-    section: 'vardag',
-    inDrawer: false,
-    fyrenHomeQuick: true,
-    themeId: 'J-valv-pansar',
-  },
-  {
-    id: 'dagbok_reflektion',
-    label: 'Reflektion',
-    path: `${NAV_PATHS.HJARTAT}?tab=reflektion`,
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'dagbok',
-  },
-  {
-    id: 'dagbok_speglar',
-    label: 'Speglar',
-    path: `${NAV_PATHS.HJARTAT}?tab=speglar`,
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'dagbok',
-  },
-  {
-    id: 'installningar',
-    label: 'Inställningar',
-    path: '/installningar',
-    section: 'vardag',
-    inDrawer: true,
-  },
-  {
-    id: 'arbetsliv',
-    label: 'Arbetsliv',
-    path: '/arbetsliv/input',
-    section: 'vardag',
-    inDrawer: false,
-  },
-  {
-    id: 'arbetsliv_stampla',
-    label: 'Stämpel',
-    path: '/arbetsliv/input',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'arbetsliv',
-  },
-  {
-    id: 'arbetsliv_tid',
-    label: 'Tid',
-    path: '/arbetsliv/input?inputMode=tid',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'arbetsliv',
-  },
-  {
-    id: 'arbetsliv_inkomster',
-    label: 'Inkomster',
-    path: '/arbetsliv/input?inputMode=inkomster',
-    section: 'vardag',
-    inDrawer: false,
-    parentId: 'arbetsliv',
-  },
-
-  // —— Valv (PIN) ——
-  {
-    id: 'valv_samla',
-    label: VALV_ZONE_LABELS.samla,
-    path: vaultDrawerPath('logga'),
-    section: 'valv',
-    inDrawer: true,
-    requiresVaultPin: true,
-    themeId: 'J-valv-pansar',
-    drawerHint: VALV_DRAWER_HINTS.samla,
-  },
-  {
-    id: 'valv_analysera',
-    label: VALV_ZONE_LABELS.analysera,
-    path: vaultDrawerPath('monster'),
-    section: 'valv',
-    inDrawer: true,
-    requiresVaultPin: true,
-    drawerHint: VALV_DRAWER_HINTS.analysera,
-  },
-  {
-    id: 'valv_kunskap_nav',
-    label: VALV_ZONE_LABELS.kunskap,
-    path: vaultDrawerPath('kunskapsbank'),
-    section: 'valv',
-    inDrawer: true,
-    requiresVaultPin: true,
-    drawerHint: VALV_DRAWER_HINTS.kunskap,
-  },
-  {
-    id: 'valv_vit',
-    label: VALV_ZONE_LABELS.vit,
-    path: vaultDrawerPath('mitt_vit'),
-    section: 'valv',
-    inDrawer: true,
-    requiresVaultPin: true,
-    drawerHint: VALV_DRAWER_HINTS.vit,
-  },
-  {
-    id: 'valv_exportera',
-    label: VALV_ZONE_LABELS.exportera,
-    path: vaultDrawerPath('dossier'),
-    section: 'valv',
-    inDrawer: true,
-    requiresVaultPin: true,
-    drawerHint: VALV_DRAWER_HINTS.exportera,
-  },
-  {
-    id: 'valv_forensik',
-    label: VALV_ZONE_LABELS.forensik,
-    path: vaultDrawerPath('hamn_analys'),
-    section: 'valv',
-    inDrawer: true,
-    requiresVaultPin: true,
-    drawerHint: VALV_DRAWER_HINTS.forensik,
-  },
-  {
-    id: 'valv_grp_samla',
-    label: VALV_ZONE_LABELS.samla,
-    path: '',
-    section: 'valv',
-    inDrawer: false,
-    isGroupHeader: true,
-    requiresVaultPin: true,
-    themeId: 'J-valv-pansar',
-    drawerHint: VALV_DRAWER_HINTS.samla,
-  },
-  valvLeaf('valv_arkiv', 'logga', 'valv_grp_samla'),
-  {
-    id: 'valv_granska',
-    label: 'Granska',
-    path: `${NAV_PATHS.VALVET}?valvMode=granska&vaultTab=logga`,
-    section: 'valv',
-    inDrawer: false,
-    requiresVaultPin: true,
-    parentId: 'valv_grp_samla',
-  },
-  valvLeaf('valv_triage', 'sok', 'valv_grp_samla'),
-  {
-    id: 'valv_grp_analysera',
-    label: VALV_ZONE_LABELS.analysera,
-    path: '',
-    section: 'valv',
-    inDrawer: false,
-    isGroupHeader: true,
-    requiresVaultPin: true,
-    drawerHint: VALV_DRAWER_HINTS.analysera,
-  },
-  valvLeaf('valv_monster', 'monster', 'valv_grp_analysera'),
-  valvLeaf('valv_orkester', 'orkester', 'valv_grp_analysera'),
-  {
-    id: 'valv_grp_exportera',
-    label: VALV_ZONE_LABELS.exportera,
-    path: '',
-    section: 'valv',
-    inDrawer: false,
-    isGroupHeader: true,
-    requiresVaultPin: true,
-    drawerHint: VALV_DRAWER_HINTS.exportera,
-  },
-  valvLeaf('valv_dossier', 'dossier', 'valv_grp_exportera'),
-  {
-    id: 'valv_dossier_export',
-    label: 'Dossier · full vy',
-    path: '/dossier',
-    section: 'valv',
-    inDrawer: false,
-    requiresVaultPin: true,
-    parentId: 'valv_grp_exportera',
-  },
-  {
-    id: 'valv_grp_kunskap',
-    label: VALV_ZONE_LABELS.kunskap,
-    path: '',
-    section: 'valv',
-    inDrawer: false,
-    isGroupHeader: true,
-    requiresVaultPin: true,
-    drawerHint: VALV_DRAWER_HINTS.kunskap,
-  },
-  valvLeaf(
-    'valv_kunskapsbank',
-    'kunskapsbank',
-    'valv_grp_kunskap',
-    VALV_KUNSKAP_DRAWER_LEAF.kunskapsbank,
-  ),
-  valvLeaf(
-    'valv_aktorskarta',
-    'aktorskarta',
-    'valv_grp_kunskap',
-    VALV_KUNSKAP_DRAWER_LEAF.aktorskarta,
-  ),
-  {
-    id: 'valv_grp_forensik',
-    label: VALV_ZONE_LABELS.forensik,
-    path: '',
-    section: 'valv',
-    isGroupHeader: true,
-    requiresVaultPin: true,
-    drawerHint: VALV_DRAWER_HINTS.forensik,
-    inDrawer: false,
-  },
-  ...FORENSIC_VAULT_TAB_IDS.map((tab) => ({
-    id: `valv_${tab}`,
-    label: forensicVaultTabLabel(tab),
-    path: vaultDrawerPath(tab),
-    section: 'valv' as const,
-    inDrawer: false,
-    requiresVaultPin: true,
-    parentId: 'valv_grp_forensik',
-  })),
-];
-
-export const DRAWER_NAV_TRUTH = NAV_TRUTH.filter((e) => e.inDrawer);
-
-export function isDrawerEntryVisible(entry: NavTruthEntry, vaultSessionOpen = false): boolean {
-  if (entry.omitWhenHideBevis && HIDE_BEVIS_TAB && !vaultSessionOpen) return false;
-  return true;
-}
-
-export function getVisibleDrawerTruth(section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[] {
-  return DRAWER_NAV_TRUTH.filter((e) => e.section === section && isDrawerEntryVisible(e, vaultSessionOpen));
-}
-
-export const DRAWER_VARDAG_ENTRIES = getVisibleDrawerTruth('vardag');
-export const DRAWER_VALV_ENTRIES = getVisibleDrawerTruth('valv');
-
-export const DRAWER_HUB_TRUTH = DRAWER_NAV_TRUTH.filter((e) => !e.parentId && isDrawerEntryVisible(e));
-
-export function getNavTruthById(id: string): NavTruthEntry | undefined {
-  return NAV_TRUTH.find((e) => e.id === id);
-}
-
-export function getDrawerChildren(parentId: string, section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[] {
-  return getVisibleDrawerTruth(section, vaultSessionOpen).filter((e) => e.parentId === parentId);
-}
-
-export function getNavChildren(parentId: string, section: NavDrawerSection): NavTruthEntry[] {
-  return NAV_TRUTH.filter((e) => e.section === section && e.parentId === parentId);
-}
-
-export function getDrawerRoots(section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[] {
-  const visible = getVisibleDrawerTruth(section, vaultSessionOpen);
-  if (section === 'valv') return visible.filter((e) => !e.parentId && !e.isGroupHeader);
-  return visible.filter((e) => !e.parentId);
-}
-
-export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, vaultSessionOpen = false): boolean {
-  return getDrawerChildren(hubId, section, vaultSessionOpen).length > 0;
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/dossier/components/DossierPage.tsx">
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { FileText, Loader2, Lock, ShieldAlert } from 'lucide-react';
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultMonsterPanel.tsx">
+/** @locked-ux Valv Mönster — do not remove; see `.context/locked-ux-features.md` */
+import { useMemo, useState } from 'react';
+import { BarChart3, Loader2, RefreshCw } from 'lucide-react';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
-import { useStore } from '@/core/store';
-import { hasVaultGate } from '@/core/auth/sessionService';
-import {
-  getChildrenLogs,
-  getJournalEntries,
-  getAllVaultLogs,
-} from '@/core/firebase/firestore';
-import type {
-  DossierCandidateDoc,
-  DossierReportType,
-  DossierSources,
-  DossierWizardStep,
-  GenerateDossierResult,
-} from '../types';
-import {
-  childrenToCandidate,
-  collectCategoryTags,
-  collectTechniqueTags,
-  defaultDateRange,
-  filterCandidates,
-  groupIncludedIds,
-  journalToCandidate,
-  shiftMonths,
-  vaultToCandidate,
-} from '../utils/dossierCandidates';
-import { generateDossier } from '../api/dossierService';
-import {
-  buildTechniquesByLogId,
-  fetchPatternScanMetadata,
-} from '../../api/patternScanMetadataApi';
-import {
-  VAVAREN_DOSSIER_CHECKBOX,
-  VAVAREN_DOSSIER_HINT,
-} from '../../constants/vavarenCopy';
-import { printDossierFallback } from '../utils/exportDossierPrint';
+import type { VaultLog } from '@/core/types/firestore';
+import { buildVaultFrequencyReport } from '../utils/vaultPatternScan';
+import { usePatternScanMetadata } from '../hooks/usePatternScanMetadata';
+import { rescanPatternMetadata, assistPatternMetadata } from '../api/patternScanService';
 
-const INITIAL_SOURCES: DossierSources = {
-  reality_vault: true,
-  children_logs: true,
-  journal: false,
+type Props = {
+  logs: (VaultLog & { id: string })[];
+  userId?: string;
 };
 
-const JOURNAL_WARNING =
-  'Dagboken kan innehålla emotionella reflektioner. Inkludera endast om ditt ombud uttryckligen begärt det — annars riskerar det juridiska fokuset att tunnas ut.';
-
-function resetWizardState() {
-  return {
-    step: 'period' as DossierWizardStep,
-    dateFrom: defaultDateRange().dateFrom,
-    dateTo: defaultDateRange().dateTo,
-    sources: { ...INITIAL_SOURCES },
-    journalAck: false,
-    categoryFilter: [] as string[],
-    techniqueFilter: [] as string[],
-    reportType: 'LEGAL' as DossierReportType,
-    includeAiForeword: false,
-    includedIds: new Set<string>(),
-    candidates: [] as DossierCandidateDoc[],
-    loadingDocs: false,
-    generating: false,
-    error: null as string | null,
-    result: null as GenerateDossierResult | null,
-  };
+function BarRow({ label, count, max }: { label: string; count: number; max: number }) {
+  const width = max > 0 ? Math.round((count / max) * 100) : 0;
+  return (
+    <div className="space-y-1">
+      <div className="flex justify-between text-xs text-text-dim">
+        <span>{label}</span>
+        <span>{count}</span>
+      </div>
+      <div className="h-2 overflow-hidden rounded-full bg-white/5">
+        <div
+          className="h-full rounded-full bg-accent/70 transition-all"
+          style={{ width: `${width}%` }}
+        />
+      </div>
+    </div>
+  );
 }
 
-export function DossierPage({ embedded = false }: { embedded?: boolean }) {
-  const [searchParams] = useSearchParams();
-  const user = useStore((s) => s.user);
-  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
-  const vaultOpen = embedded || isVaultUnlocked || hasVaultGate();
+export function VaultMonsterPanel({ logs, userId }: Props) {
+  const { techniquesByLogId, libraryVersion, reload } = usePatternScanMetadata(userId);
+  const [rescanning, setRescanning] = useState(false);
+  const [assisting, setAssisting] = useState(false);
+  const [rescanMsg, setRescanMsg] = useState<string | null>(null);
 
-  const [step, setStep] = useState<DossierWizardStep>('period');
-  const [dateFrom, setDateFrom] = useState(defaultDateRange().dateFrom);
-  const [dateTo, setDateTo] = useState(defaultDateRange().dateTo);
-  const [sources, setSources] = useState<DossierSources>({ ...INITIAL_SOURCES });
-  const [journalAck, setJournalAck] = useState(false);
-  const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
-  const [techniqueFilter, setTechniqueFilter] = useState<string[]>([]);
-  const [techniquesByVaultId, setTechniquesByVaultId] = useState<Map<string, string[]>>(
-    () => new Map(),
+  const report = useMemo(
+    () => buildVaultFrequencyReport(logs, techniquesByLogId),
+    [logs, techniquesByLogId],
   );
-  const [reportType, setReportType] = useState<DossierReportType>('LEGAL');
-  const [includeAiForeword, setIncludeAiForeword] = useState(false);
-  const [includedIds, setIncludedIds] = useState<Set<string>>(() => new Set());
-  const [allCandidates, setAllCandidates] = useState<DossierCandidateDoc[]>([]);
-  const [loadingDocs, setLoadingDocs] = useState(false);
-  const [generating, setGenerating] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<GenerateDossierResult | null>(null);
+  const maxTechnique = report.topTechniques[0]?.count ?? 0;
+  const maxMonth = Math.max(...report.monthlyCounts.map((m) => m.count), 1);
 
-  const clearSession = useCallback(() => {
-    const fresh = resetWizardState();
-    setStep(fresh.step);
-    setDateFrom(fresh.dateFrom);
-    setDateTo(fresh.dateTo);
-    setSources(fresh.sources);
-    setJournalAck(fresh.journalAck);
-    setCategoryFilter(fresh.categoryFilter);
-    setTechniqueFilter(fresh.techniqueFilter);
-    setTechniquesByVaultId(new Map());
-    setReportType(fresh.reportType);
-    setIncludeAiForeword(fresh.includeAiForeword);
-    setIncludedIds(fresh.includedIds);
-    setAllCandidates(fresh.candidates);
-    setLoadingDocs(fresh.loadingDocs);
-    setGenerating(fresh.generating);
-    setError(fresh.error);
-    setResult(fresh.result);
-  }, []);
-
-  useEffect(() => () => clearSession(), [clearSession]);
-
-  const deepLinkChild = searchParams.get('child');
-  const deepLinkSources = searchParams.get('sources');
-
-  useEffect(() => {
-    if (!user || !vaultOpen) return;
-    void fetchPatternScanMetadata(user.uid).then((rows) => {
-      setTechniquesByVaultId(buildTechniquesByLogId(rows));
-    });
-  }, [user, vaultOpen]);
-
-  useEffect(() => {
-    if (deepLinkSources === 'children_logs') {
-      setSources({
-        reality_vault: false,
-        children_logs: true,
-        journal: false,
-      });
-    }
-  }, [deepLinkSources]);
-
-  const filteredDocs = useMemo(
-    () =>
-      filterCandidates(
-        allCandidates,
-        dateFrom,
-        dateTo,
-        sources,
-        categoryFilter,
-        techniqueFilter,
-        techniquesByVaultId,
-      ),
-    [allCandidates, dateFrom, dateTo, sources, categoryFilter, techniqueFilter, techniquesByVaultId],
-  );
-
-  const categoryTags = useMemo(() => collectCategoryTags(allCandidates), [allCandidates]);
-  const techniqueTags = useMemo(
-    () => collectTechniqueTags(techniquesByVaultId),
-    [techniquesByVaultId],
-  );
-
-  const loadCandidates = useCallback(async () => {
-    if (!user) return;
-    setLoadingDocs(true);
-    setError(null);
+  const handleRescan = async () => {
+    if (!userId || rescanning || assisting) return;
+    setRescanning(true);
+    setRescanMsg(null);
     try {
-      const [vault, children, journal, patternRows] = await Promise.all([
-        getAllVaultLogs(user.uid),
-        getChildrenLogs(user.uid),
-        getJournalEntries(user.uid),
-        fetchPatternScanMetadata(user.uid),
-      ]);
-      setTechniquesByVaultId(buildTechniquesByLogId(patternRows));
-      const docs: DossierCandidateDoc[] = [
-        ...vault.map(vaultToCandidate),
-        ...children.map((row) =>
-          childrenToCandidate(row as Parameters<typeof childrenToCandidate>[0]),
-        ),
-        ...journal.map((row) =>
-          journalToCandidate(row as { id: string; mood?: string; text?: string; createdAt?: string }),
-        ),
-      ];
-      setAllCandidates(docs);
-      const visible = filterCandidates(
-        docs,
-        dateFrom,
-        dateTo,
-        sources,
-        categoryFilter,
-        techniqueFilter,
-        buildTechniquesByLogId(patternRows),
-      );
-      let ids = visible.map((d) => d.id);
-      if (deepLinkChild) {
-        const childDocs = visible.filter(
-          (d) => d.kind === 'children_logs' && d.title.startsWith(deepLinkChild),
-        );
-        if (childDocs.length > 0) ids = childDocs.map((d) => d.id);
-      }
-      setIncludedIds(new Set(ids));
+      const { written } = await rescanPatternMetadata();
+      await reload();
+      setRescanMsg(written > 0 ? `${written} nya sidecar-poster sparade.` : 'Inga nya träffar att spara.');
     } catch {
-      setError('Kunde inte läsa bevis från databasen.');
+      setRescanMsg('Skanna om misslyckades — kontrollera Valv-session.');
     } finally {
-      setLoadingDocs(false);
-    }
-  }, [user, dateFrom, dateTo, sources, categoryFilter, techniqueFilter, deepLinkChild]);
-
-  useEffect(() => {
-    if (step !== 'review' || !user || !vaultOpen) return;
-    void loadCandidates();
-  }, [step, user, vaultOpen, loadCandidates]);
-
-  useEffect(() => {
-    if (step !== 'review') return;
-    const visible = filterCandidates(
-      allCandidates,
-      dateFrom,
-      dateTo,
-      sources,
-      categoryFilter,
-      techniqueFilter,
-      techniquesByVaultId,
-    );
-    setIncludedIds((prev) => {
-      const next = new Set<string>();
-      for (const doc of visible) {
-        if (prev.has(doc.id)) next.add(doc.id);
-      }
-      if (next.size === 0 && visible.length > 0) {
-        return new Set(visible.map((d) => d.id));
-      }
-      return next;
-    });
-  }, [step, allCandidates, dateFrom, dateTo, sources, categoryFilter, techniqueFilter, techniquesByVaultId]);
-
-  const toggleDoc = (id: string) => {
-    setIncludedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  };
-
-  const toggleTechnique = (tag: string) => {
-    setTechniqueFilter((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
-    );
-  };
-
-  const toggleCategory = (tag: string) => {
-    setCategoryFilter((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
-    );
-  };
-
-  const downloadFromResult = (gen: GenerateDossierResult) => {
-    if (gen.downloadUrl) {
-      window.open(gen.downloadUrl, '_blank', 'noopener,noreferrer');
-      return;
-    }
-    if (gen.pdfBase64) {
-      const win = window.open('', '_blank');
-      if (!win) throw new Error('Webbläsaren blockerade popup-fönstret.');
-      win.location.href = `data:application/pdf;base64,${gen.pdfBase64}`;
-      win.focus();
+      setRescanning(false);
     }
   };
 
-  const handleGenerateDossier = async () => {
-    if (!user) return;
-    const selected = filteredDocs.filter((d) => includedIds.has(d.id));
-    if (selected.length === 0) {
-      setError('Välj minst en post att exportera.');
-      return;
-    }
-
-    setGenerating(true);
-    setError(null);
-
+  const handleFlowAssist = async () => {
+    if (!userId || rescanning || assisting) return;
+    setAssisting(true);
+    setRescanMsg(null);
     try {
-      const gen = await generateDossier({
-        dateFrom,
-        dateTo,
-        sources,
-        reportType,
-        includeAiForeword,
-        categoryFilter: categoryFilter.length > 0 ? categoryFilter : undefined,
-        techniqueFilter: techniqueFilter.length > 0 ? techniqueFilter : undefined,
-        includedDocIds: groupIncludedIds(selected, includedIds),
-      });
-      downloadFromResult(gen);
-      setResult(gen);
-      setStep('result');
-    } catch (backendErr) {
-      const message = backendErr instanceof Error ? backendErr.message : 'Generering misslyckades.';
-      if (!message.includes('inte deployad')) {
-        setError(message);
-        setGenerating(false);
-        return;
-      }
-      await handleLocalPrintFallback(selected);
-      return;
+      const { written } = await assistPatternMetadata();
+      await reload();
+      setRescanMsg(
+        written > 0
+          ? `Flow-assist: ${written} kompletterande sidecar-poster.`
+          : 'Flow-assist: inga nya mönster utöver regex.',
+      );
+    } catch {
+      setRescanMsg('Flow-assist misslyckades — kontrollera Valv-session.');
     } finally {
-      setGenerating(false);
+      setAssisting(false);
     }
   };
 
-  // —— Lokal utskrift (fallback när callable saknas) ——
-  const handleLocalPrintFallback = async (selected: DossierCandidateDoc[]) => {
-    setGenerating(true);
-    setError(null);
-
-    try {
-      const hash = await printDossierFallback({
-        selected,
-        reportType,
-        includeAiForeword,
-        childLabel: deepLinkChild || 'Hela familjen',
-      });
-
-      setResult({
-        dossierId: hash.slice(0, 12).toUpperCase(),
-        documentHash: hash,
-        status: 'ready',
-      });
-      setStep('result');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kunde inte generera utskrift.');
-    } finally {
-      setGenerating(false);
-    }
-  };
-
-  if (!vaultOpen) {
+  if (logs.length === 0) {
     return (
-      <div className={embedded ? 'space-y-4' : 'space-y-6'}>
-        <BentoCard title="Dossier-Generator" icon={<Lock className="h-4 w-4" />}>
-          <p className="mb-4 text-sm text-text-muted">
-            Dossier kräver upplåst Valv (Fyren). I bottenmenyn: tryck på <strong>Hjärtat</strong>{' '}
-            (bok-ikonen) och <strong>håll 3 sekunder</strong>, eller öppna Valvet och tryck <strong>Lås upp Valvet (biometri)</strong>.
-          </p>
-          <Link
-            to="/valvet"
-            className="inline-flex rounded-lg bg-indigo-500/20 px-4 py-2 text-sm font-medium text-indigo-200 hover:bg-indigo-500/30"
-          >
-            Öppna Arkiv
-          </Link>
-        </BentoCard>
-      </div>
+      <BentoCard title="Mönster" description="Pansaret · deterministisk frekvens" icon={<BarChart3 className="h-4 w-4" />} glow="gold">
+        <EmptyState message="Inga valvposter ännu. Spara under Arkiv — frekvensen visas här." />
+      </BentoCard>
     );
   }
 
   return (
-    <div className={embedded ? 'space-y-4' : 'space-y-6'}>
+    <div className="space-y-4">
+      <div className="flex justify-end">
+        <ModuleHelpFromRegistry moduleId="valv_monster" />
+      </div>
       <BentoCard
-        title={embedded ? 'Dossier' : 'Dossier-Generator'}
-        description={embedded ? 'Samlad arkiv-export' : undefined}
-        icon={<FileText className="h-4 w-4" />}
+        title="Frekvensanalys"
+        description="Pansaret · regex + valfri Flow-assist (metadata)"
+        icon={<BarChart3 className="h-4 w-4" />}
+        glow="gold"
       >
-        {!embedded && (
-          <p className="mb-4 text-sm text-text-muted">
-            Samlad arkiv-export. Inget skickas automatiskt; du laddar ner din PDF när du är redo.
-          </p>
-        )}
-        {embedded && (
-          <p className="mb-4 text-sm text-text-muted">
-            Inget skickas automatiskt. Du sparar eller skriver ut PDF lokalt på din enhet.
-          </p>
-        )}
-
-        {step === 'period' && (
-          <div className="space-y-4">
-            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
-              Steg 1 av 3 — Tidsperiod
+        <p className="text-sm text-text-muted">
+          {report.totalPosts} poster · {report.smsLikePosts} kommunikationsrelaterade ·
+          deterministisk skanning av dina låsta texter i arkivet.
+        </p>
+        <div className="mt-4 space-y-3">
+          {report.topTechniques.length === 0 ? (
+            <p className="text-sm text-text-dim">
+              Inga kända manipulationstaktiker hittades i befintliga poster (bra tecken, eller
+              kortare texter).
             </p>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <label className="block text-sm">
-                <span className="text-text-muted">Från</span>
-                <input
-                  type="date"
-                  value={dateFrom}
-                  onChange={(e) => setDateFrom(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm"
-                />
-              </label>
-              <label className="block text-sm">
-                <span className="text-text-muted">Till</span>
-                <input
-                  type="date"
-                  value={dateTo}
-                  onChange={(e) => setDateTo(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm"
-                />
-              </label>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setDateTo(defaultDateRange().dateTo);
-                  setDateFrom(shiftMonths(defaultDateRange().dateTo, -3));
-                }}
-                className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-indigo-200 cursor-pointer hover:bg-indigo-500/10"
-              >
-                Senaste 3 månaderna
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setDateTo(defaultDateRange().dateTo);
-                  setDateFrom(shiftMonths(defaultDateRange().dateTo, -6));
-                }}
-                className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-indigo-200 cursor-pointer hover:bg-indigo-500/10"
-              >
-                Senaste 6 månaderna
-              </button>
-            </div>
-            <button
-              type="button"
-              onClick={() => setStep('sources')}
-              className="w-full rounded-lg bg-indigo-500/25 py-2.5 text-sm font-medium text-indigo-100 cursor-pointer hover:bg-indigo-500/35"
-            >
-              Fortsätt
-            </button>
-          </div>
-        )}
-
-        {step === 'sources' && (
-          <div className="space-y-4">
-            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
-              Steg 2 av 3 — Källor & Filter
-            </p>
-            <label className="flex items-center gap-2 text-sm cursor-pointer">
-              <input
-                type="checkbox"
-                checked={sources.reality_vault}
-                onChange={(e) =>
-                  setSources((s) => ({ ...s, reality_vault: e.target.checked }))
-                }
-                className="rounded border-white/20 accent-accent"
-              />
-              Arkiv (bevisloggar)
-            </label>
-            <label className="flex items-center gap-2 text-sm cursor-pointer">
-              <input
-                type="checkbox"
-                checked={sources.children_logs}
-                onChange={(e) =>
-                  setSources((s) => ({ ...s, children_logs: e.target.checked }))
-                }
-                className="rounded border-white/20 accent-accent"
-              />
-              Barnens livsloggar
-            </label>
-            <label className="flex items-start gap-2 text-sm cursor-pointer">
-              <input
-                type="checkbox"
-                checked={sources.journal}
-                onChange={(e) => {
-                  const on = e.target.checked;
-                  setSources((s) => ({ ...s, journal: on }));
-                  if (!on) setJournalAck(false);
-                }}
-                className="mt-1 rounded border-white/20 accent-accent"
-              />
-              <span>
-                Dagboken (privat journal)
-                <span className="mt-1 block text-xs text-danger/80">{JOURNAL_WARNING}</span>
-              </span>
-            </label>
-
-            {sources.journal && (
-              <label className="flex items-start gap-2 rounded-lg border border-danger/30 bg-danger/5 p-3 text-sm cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={journalAck}
-                  onChange={(e) => setJournalAck(e.target.checked)}
-                  className="mt-1 accent-danger"
-                />
-                <span className="text-text-muted leading-relaxed">
-                  Jag förstår risken och vill inkludera min privata dagbok i detta underlag.
-                </span>
-              </label>
-            )}
-
-            {techniqueTags.length > 0 && (
-              <div>
-                <p className="mb-2 text-xs text-text-dim">
-                  Valfritt — filtrera valv på taktik (sidecar-metadata)
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {techniqueTags.map((tag) => (
-                    <button
-                      key={tag}
-                      type="button"
-                      onClick={() => toggleTechnique(tag)}
-                      className={
-                        techniqueFilter.includes(tag)
-                          ? 'rounded-full bg-indigo-500/25 px-3 py-1 text-xs text-indigo-100 cursor-pointer border border-indigo-400/40'
-                          : 'rounded-full border border-white/10 px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-white/20'
-                      }
-                    >
-                      {tag}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {categoryTags.length > 0 && (
-              <div>
-                <p className="mb-2 text-xs text-text-dim">Valfritt — filtrera på kategori/tag</p>
-                <div className="flex flex-wrap gap-2">
-                  {categoryTags.map((tag) => (
-                    <button
-                      key={tag}
-                      type="button"
-                      onClick={() => toggleCategory(tag)}
-                      className={
-                        categoryFilter.includes(tag)
-                          ? 'rounded-full bg-amber-500/25 px-3 py-1 text-xs text-amber-100 cursor-pointer border border-accent/40'
-                          : 'rounded-full border border-white/10 px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-white/20'
-                      }
-                    >
-                      {tag}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <label className="flex cursor-pointer items-start gap-2 text-sm text-text-dim border-t border-border-strong/40 pt-3">
-              <input
-                type="checkbox"
-                checked={includeAiForeword}
-                onChange={(e) => setIncludeAiForeword(e.target.checked)}
-                className="mt-0.5 rounded border-white/20 accent-accent"
-              />
-              <span>
-                {VAVAREN_DOSSIER_CHECKBOX}
-                <span className="mt-1 block text-xs text-text-muted">{VAVAREN_DOSSIER_HINT}</span>
-              </span>
-            </label>
-
-            <select
-              value={reportType}
-              onChange={(e) => setReportType(e.target.value as DossierReportType)}
-              className="w-full rounded-lg border border-white/10 bg-surface-3 px-3 py-2 text-sm"
-              aria-label="Rapporttyp"
-            >
-              <option value="LEGAL">Juridisk kronologi (Fakta & tidsstämplar)</option>
-              <option value="BBIC">BBIC-struktur (föräldraförmåga & hälsa)</option>
-            </select>
-
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setStep('period')}
-                className="flex-1 rounded-lg border border-white/10 py-2 text-sm cursor-pointer hover:bg-white/5"
-              >
-                Tillbaka
-              </button>
-              <button
-                type="button"
-                disabled={sources.journal && !journalAck}
-                onClick={() => setStep('review')}
-                className="flex-1 rounded-lg bg-indigo-500/25 py-2 text-sm font-medium text-indigo-100 disabled:opacity-40 cursor-pointer hover:bg-indigo-500/35"
-              >
-                Granska urval
-              </button>
-            </div>
-          </div>
-        )}
-
-        {step === 'review' && (
-          <div className="space-y-4">
-            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
-              Steg 3 av 3 — Bekräfta kronologiskt urval
-            </p>
-            {loadingDocs ? (
-              <div className="flex items-center justify-center gap-2 text-sm text-text-muted py-6">
-                <Loader2 className="h-4 w-4 animate-spin text-accent" />
-                Läser in dina loggade händelser…
-              </div>
-            ) : filteredDocs.length === 0 ? (
-              <EmptyState message="Inga poster hittades för den valda tidsperioden och källorna. Gå tillbaka och utöka ditt sökfönster." />
+          ) : (
+            report.topTechniques.map(({ technique, count }) => (
+              <BarRow key={technique} label={technique} count={count} max={maxTechnique} />
+            ))
+          )}
+        </div>
+        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-border/40 pt-3">
+          <button
+            type="button"
+            disabled={!userId || rescanning || assisting}
+            onClick={() => void handleRescan()}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-accent/30 bg-accent/5 px-3 py-1.5 text-xs text-accent hover:bg-accent/10 disabled:opacity-40"
+          >
+            {rescanning ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
             ) : (
-              <div className="space-y-2">
-                <p className="text-xs text-text-dim">
-                  Bocka av de rader du vill utesluta från exporten. Totalt {includedIds.size} av{' '}
-                  {filteredDocs.length} valda.
-                </p>
-                <ul className="max-h-80 space-y-2 overflow-y-auto pr-1 border border-border/60 rounded-xl p-2 bg-black/20">
-                  {filteredDocs.map((doc) => (
-                    <li
-                      key={`${doc.kind}-${doc.id}`}
-                      className="rounded-lg border border-white/5 bg-surface-2 p-3 transition-colors hover:border-accent/10"
-                    >
-                      <label className="flex cursor-pointer gap-3">
-                        <input
-                          type="checkbox"
-                          checked={includedIds.has(doc.id)}
-                          onChange={() => toggleDoc(doc.id)}
-                          className="mt-1 shrink-0 accent-accent"
-                        />
-                        <span className="min-w-0 flex-1">
-                          <span className="block text-xs font-semibold text-accent">
-                            {doc.title}
-                          </span>
-                          <span className="text-[10px] text-text-dim">
-                            {doc.createdAt.slice(0, 10)} ·{' '}
-                            {doc.kind.toUpperCase().replace('_', ' ')}
-                          </span>
-                          <span className="mt-1 block text-xs text-text-muted leading-relaxed line-clamp-2">
-                            {doc.preview}
-                          </span>
-                        </span>
-                      </label>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <RefreshCw className="h-3.5 w-3.5" aria-hidden />
             )}
-            <p className="flex items-start gap-2 text-xs text-success-light">
-              <ShieldAlert className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" />
-              Säkerhetsprincip: PDF-genereringen sker krypterat i din webbläsare. Ingenting skickas
-              till motparten eller sociala myndigheter.
+            Skanna om (batch)
+          </button>
+          <button
+            type="button"
+            disabled={!userId || rescanning || assisting}
+            onClick={() => void handleFlowAssist()}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-surface-3/40 px-3 py-1.5 text-xs text-text-muted hover:border-accent/30 hover:text-accent disabled:opacity-40"
+          >
+            {assisting ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
+            ) : null}
+            Flow-assist (kompletterande)
+          </button>
+          <span className="text-[10px] text-text-dim">Bibliotek {libraryVersion}</span>
+          {rescanMsg ? <span className="text-[10px] text-text-muted">{rescanMsg}</span> : null}
+        </div>
+      </BentoCard>
+
+      <BentoCard title="Poster per månad" description="Systematisk tidsfrekvens" glow="gold">
+        <div className="space-y-3">
+          {report.monthlyCounts.map(({ month, count }) => (
+            <BarRow key={month} label={month} count={count} max={maxMonth} />
+          ))}
+        </div>
+      </BentoCard>
+
+      <BentoCard title="Kategorier i valvet" description="Fördelning" glow="gold">
+        <div className="space-y-2 text-sm text-text-muted">
+          {Object.entries(report.categoryCounts).map(([cat, count]) => (
+            <p key={cat}>
+              {cat}: <span className="text-accent">{count}</span>
             </p>
-            {error && <p className="text-sm text-danger text-center">{error}</p>}
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setStep('sources')}
-                className="flex-1 rounded-lg border border-white/10 py-2 text-sm cursor-pointer"
-              >
-                Tillbaka
-              </button>
-              <button
-                type="button"
-                disabled={generating || includedIds.size === 0}
-                onClick={() => {
-                  const isSure = window.confirm(
-                    "Är du helt säker på att du vill skapa och ladda ner denna känsliga Dossier?\n\nDetta skapar ett permanent och låst spår i valvet."
-                  );
-                  if (isSure) {
-                    void handleGenerateDossier();
-                  }
-                }}
-                className="flex-1 rounded-lg bg-emerald-500/25 py-2 text-sm font-semibold text-emerald-100 disabled:opacity-40 cursor-pointer"
-              >
-                {generating ? (
-                  <span className="inline-flex items-center justify-center gap-2">
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Genererar PDF…
-                  </span>
-                ) : (
-                  'Lås & Skriv ut (PDF)'
-                )}
-              </button>
-            </div>
-          </div>
+          ))}
+        </div>
+      </BentoCard>
+    </div>
+  );
+}
+
+export { buildVaultFrequencyReport };
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx">
+/** @locked-ux Valv Orkester — do not remove; see `.context/locked-ux-features.md` */
+import { useMemo, useState } from 'react';
+import { Check, Copy, Filter, Loader2, Network, Shield } from 'lucide-react';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import {
+  analyzeBiffMessage,
+  type GransAnalysis,
+} from '@/features/family/safeHarbor/api/biffService';
+import type { VaultLog } from '@/core/types/firestore';
+import { PRODUCT_AGENTS } from '../constants/productAgents';
+import { OrkesterAgentTrio } from './OrkesterAgentTrio';
+import { scanTechniquesForLog } from '../utils/vaultPatternScan';
+import {
+  callProcessBrusfilter,
+  type ProcessBrusfilterResult,
+} from '../api/processBrusfilterService';
+
+const RAW_INPUT_MAX = 8000;
+
+type Props = {
+  logs?: (VaultLog & { id: string })[];
+};
+
+function BrusfilterRiskBadge({
+  riskScore,
+  recommendedAction,
+}: {
+  riskScore: number;
+  recommendedAction: ProcessBrusfilterResult['dcap_analysis']['recommended_action'];
+}) {
+  const isWarning = recommendedAction === 'VARNING';
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] uppercase tracking-widest ${
+        isWarning
+          ? 'border-accent/35 bg-surface-3/60 text-accent/90'
+          : 'border-border/40 bg-surface-2/50 text-text-dim'
+      }`}
+      aria-label={`DCAP riskpoäng ${riskScore}`}
+    >
+      <Shield className="h-3 w-3 shrink-0 opacity-80" aria-hidden />
+      DCAP {riskScore}/100
+      {isWarning ? ' · Varning' : ''}
+    </span>
+  );
+}
+
+export function VaultOrkesterPanel({ logs = [] }: Props) {
+  const [rawInput, setRawInput] = useState('');
+  const [brusLoading, setBrusLoading] = useState(false);
+  const [brusError, setBrusError] = useState<string | null>(null);
+  const [brusResult, setBrusResult] = useState<ProcessBrusfilterResult | null>(null);
+  const [copiedReply, setCopiedReply] = useState(false);
+
+  const [thread, setThread] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [grans, setGrans] = useState<GransAnalysis | null>(null);
+  const [riskScore, setRiskScore] = useState<number | null>(null);
+  const [agentName, setAgentName] = useState<string | null>(null);
+
+  const registeredDocs = useMemo(
+    () =>
+      logs
+        .filter((log) =>
+          /sms|mejl|kommunikation|myndighet|dokument/i.test(
+            `${log.category ?? ''} ${log.action ?? ''}`,
+          ),
+        )
+        .slice(0, 8),
+    [logs],
+  );
+
+  const handleBrusfilter = async () => {
+    const text = rawInput.trim();
+    if (!text) return;
+    setBrusLoading(true);
+    setBrusError(null);
+    setBrusResult(null);
+    setCopiedReply(false);
+    try {
+      const result = await callProcessBrusfilter(text);
+      setBrusResult(result);
+    } catch (err) {
+      setBrusError(err instanceof Error ? err.message : 'Brusfilter misslyckades.');
+    } finally {
+      setBrusLoading(false);
+    }
+  };
+
+  const handleCopyReply = async () => {
+    if (!brusResult?.biff_draft_reply) return;
+    try {
+      await navigator.clipboard.writeText(brusResult.biff_draft_reply);
+      setCopiedReply(true);
+      window.setTimeout(() => setCopiedReply(false), 2000);
+    } catch {
+      setBrusError('Kunde inte kopiera till urklipp.');
+    }
+  };
+
+  const handleScan = async () => {
+    if (!thread.trim()) return;
+    setLoading(true);
+    setError(null);
+    setGrans(null);
+    setRiskScore(null);
+    setAgentName(null);
+    try {
+      const result = await analyzeBiffMessage(thread);
+      setGrans(result.data?.gransAnalysis ?? null);
+      setRiskScore(result.dcap?.riskScore ?? null);
+      setAgentName(result.data?.agentName ?? null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Mönstersökning misslyckades.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const showBrusWarningBorder = brusResult?.dcap_analysis.recommended_action === 'VARNING';
+
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-end">
+        <ModuleHelpFromRegistry moduleId="valv_orkester" />
+      </div>
+      <OrkesterAgentTrio />
+
+      <BentoCard
+        title="P1 Brusfilter"
+        description="Rå inkommande meddelande — logistik och BIFF utan JADE"
+        icon={<Filter className="h-4 w-4" />}
+        glow="gold"
+      >
+        <p className="mb-3 text-sm text-text-muted">
+          Klistra in sms eller mejl. Brusfiltret extraherar ren logistik (~10 %) och föreslår ett kort
+          Grey Rock-svar. Inget sparas automatiskt.
+        </p>
+        <textarea
+          value={rawInput}
+          onChange={(e) => setRawInput(e.target.value.slice(0, RAW_INPUT_MAX))}
+          placeholder="Klistra in meddelande från motparten…"
+          maxLength={RAW_INPUT_MAX}
+          disabled={brusLoading}
+          className="input-glass min-h-[120px] w-full resize-y rounded-xl px-3 py-2 text-sm"
+          aria-label="Rå inkommande meddelande"
+        />
+        <div className="mt-1 flex items-center justify-between gap-2">
+          <p className="text-[10px] uppercase tracking-widest text-text-dim">
+            {rawInput.length}/{RAW_INPUT_MAX}
+          </p>
+          <button
+            type="button"
+            onClick={() => void handleBrusfilter()}
+            disabled={brusLoading || !rawInput.trim()}
+            className="btn-pill--accent inline-flex items-center gap-2 disabled:opacity-50"
+          >
+            {brusLoading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
+            Filtrera bort brus
+          </button>
+        </div>
+
+        {brusLoading && (
+          <p className="mt-3 flex items-center gap-2 text-sm text-text-dim" role="status">
+            <Loader2 className="h-4 w-4 animate-spin shrink-0" aria-hidden />
+            Bearbetar med Brusfilter…
+          </p>
         )}
 
-        {step === 'result' && result && (
-          <div className="space-y-4 animate-fade-in">
-            <div className="rounded-xl border border-success/30 bg-success/5 p-4 text-center">
-              <p className="text-sm font-semibold text-success">Dossier skapad & verifierad!</p>
-              <p className="mt-1 text-xs text-text-muted">
-                Dokumentet öppnades i en ny flik och utskriftsdialogen har startat. Spara den som en
-                PDF lokalt på din enhet.
-              </p>
-            </div>
+        {brusError && (
+          <p className="mt-3 text-sm text-danger" role="alert">
+            {brusError}
+          </p>
+        )}
 
-            <div className="rounded-xl border border-border-strong bg-surface-2 p-4 space-y-2 text-xs tabular-nums">
-              <p className="text-text-dim uppercase tracking-wider text-[10px]">
-                Äkthetsverifiering (låst post)
-              </p>
-              <div className="flex justify-between">
-                <span className="text-text-muted">Dossier ID:</span>
-                <span className="font-mono text-text font-semibold">{result.dossierId}</span>
-              </div>
-              <div className="space-y-1">
-                <span className="text-text-muted">SHA-256 Hash:</span>
-                <p className="font-mono text-[9px] text-accent bg-black/30 p-2 rounded border border-border break-all">
-                  {result.documentHash}
+        {brusResult && !brusLoading && (
+          <div
+            className={`mt-4 space-y-3 pt-4 ${
+              showBrusWarningBorder
+                ? 'rounded-xl border border-accent/20 bg-surface-2/30 p-3'
+                : 'border-t border-border/30'
+            }`}
+          >
+            <div className="flex flex-wrap items-center gap-2">
+              <BrusfilterRiskBadge
+                riskScore={brusResult.dcap_analysis.risk_score}
+                recommendedAction={brusResult.dcap_analysis.recommended_action}
+              />
+              {showBrusWarningBorder && (
+                <p className="text-[10px] uppercase tracking-widest text-text-dim">
+                  Eskaleringsrisk — svara kort, ingen JADE
                 </p>
-              </div>
+              )}
             </div>
 
-            <div className="flex gap-2 pt-2">
-              <button
-                type="button"
-                className="btn-pill--accent flex-1 text-xs justify-center"
-                onClick={() => void handleGenerateDossier()}
+            <div className="grid gap-3 md:grid-cols-2">
+              <BentoCard
+                title="Isolerad Logistik (10%)"
+                glow="gold"
+                className="!p-4"
+                noHover
               >
-                Skriv ut / Spara igen
-              </button>
-              <button
-                type="button"
-                onClick={clearSession}
-                className="btn-pill--ghost flex-1 text-xs justify-center"
+                <p className="whitespace-pre-wrap text-sm text-text-muted">
+                  {brusResult.isolated_logistics.trim() || 'Ingen ren logistik extraherad.'}
+                </p>
+              </BentoCard>
+
+              <BentoCard
+                title="Färdigt BIFF Svarsförslag"
+                glow="gold"
+                className="!p-4"
+                noHover
               >
-                Klar — rensa från enheten
-              </button>
+                <p className="whitespace-pre-wrap text-sm text-text">
+                  {brusResult.biff_draft_reply}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => void handleCopyReply()}
+                  className="btn-pill--ghost mt-3 inline-flex items-center gap-1.5 text-xs"
+                >
+                  {copiedReply ? (
+                    <Check className="h-3 w-3 text-success" aria-hidden />
+                  ) : (
+                    <Copy className="h-3 w-3" aria-hidden />
+                  )}
+                  {copiedReply ? 'Kopierad' : 'Kopiera text'}
+                </button>
+              </BentoCard>
             </div>
           </div>
         )}
       </BentoCard>
+
+      <BentoCard
+        title="Assistentroller"
+        description="Vilka hjälpare som finns"
+        icon={<Network className="h-4 w-4" />}
+        glow="gold"
+      >
+        <ul className="space-y-2">
+          {PRODUCT_AGENTS.map((agent) => (
+            <li key={agent.id} className="glass-card p-3 text-sm">
+              <p className="font-medium text-text">{agent.name}</p>
+              <p className="text-xs text-text-dim">
+                {agent.role} · {agent.focus}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </BentoCard>
+
+      {registeredDocs.length > 0 && (
+        <BentoCard title="Registrerade dokument" description="SMS, mejl, myndighet">
+          <ul className="space-y-2">
+            {registeredDocs.map((log) => {
+              const tags = scanTechniquesForLog(log);
+              return (
+                <li key={log.id} className="glass-card p-3 text-sm">
+                  <p className="text-[10px] uppercase tracking-widest text-text-dim">
+                    {log.category ?? 'dokument'} · {(log.createdAt ?? '').slice(0, 10)}
+                  </p>
+                  <p className="mt-1 line-clamp-2 text-text-muted">
+                    {(log.truth ?? '').slice(0, 120) || '—'}
+                  </p>
+                  {tags.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full border border-accent/20 px-2 py-0.5 text-[10px] text-accent/80"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </BentoCard>
+      )}
+
+      <BentoCard
+        title="Mönstersökning i SMS-tråd"
+        description="Klistra in hela tråden — Brusfiltret + DCAP"
+        glow="gold"
+      >
+        <p className="mb-3 text-sm text-text-muted">
+          Exportera gärna hela tråden som text/PDF först (iMazing/Decipher). Kör sedan sökning
+          här — resultatet är vägledning, inte dom.
+        </p>
+        <textarea
+          value={thread}
+          onChange={(e) => setThread(e.target.value)}
+          placeholder="Klistra in sms-tråden här…"
+          rows={8}
+          className="input-glass rounded-xl px-3 py-2"
+          disabled={loading}
+        />
+        <button
+          type="button"
+          onClick={handleScan}
+          disabled={loading || !thread.trim()}
+          className="btn-pill--accent mt-3 disabled:opacity-50"
+        >
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+          Kör mönstersökning
+        </button>
+        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+
+        {(riskScore != null || grans) && (
+          <div className="mt-4 space-y-3 border-t border-border-strong pt-4 text-sm">
+            {agentName && (
+              <p className="text-text-dim">
+                Dirigerad av: <span className="text-accent">{agentName}</span>
+              </p>
+            )}
+            {riskScore != null && (
+              <p>
+                DCAP riskpoäng: <span className="text-accent">{riskScore}</span>/100
+              </p>
+            )}
+            {grans?.techniques?.length ? (
+              <div>
+                <p className="text-xs uppercase tracking-widest text-text-dim">Taktiker</p>
+                <ul className="mt-1 list-inside list-disc text-text-muted">
+                  {grans.techniques.map((t) => (
+                    <li key={t}>{t}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            {grans?.cleanFacts?.length ? (
+              <div>
+                <p className="text-xs uppercase tracking-widest text-text-dim">Rena fakta</p>
+                <ul className="mt-1 list-inside list-disc text-text-muted">
+                  {grans.cleanFacts.map((f) => (
+                    <li key={f}>{f}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            {grans?.emotionalBait?.length ? (
+              <div>
+                <p className="text-xs uppercase tracking-widest text-text-dim">Känslomässigt bete</p>
+                <ul className="mt-1 list-inside list-disc text-text-muted">
+                  {grans.emotionalBait.map((b) => (
+                    <li key={b}>{b}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
+        )}
+      </BentoCard>
     </div>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx">
+import { Lock, ShieldAlert, X, Settings } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
+import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { useStore } from '@/core/store';
+import { useVaultStore } from '@/core/store/useVaultStore';
+import { hasVaultGate } from '@/core/auth/sessionService';
+import { ensureVaultSessionReady, endVaultSession } from '@/core/security/vaultSessionLifecycle';
+
+import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
+import { VaultErrorBoundary } from './VaultErrorBoundary';
+import { VaultLockedGate } from '@/core/components/VaultLockedGate';
+import { ValvBentoShell } from './ValvBentoShell';
+import { ValvInputSuperModule } from '../supermodule/ValvInputSuperModule';
+import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
+import {
+  type ValvInputMode,
+  canonicalValvRoute,
+  resolveValvInputModeFromVaultTab,
+  vaultTabForValvInputMode,
+} from '../supermodule/valvInputModes';
+import { resolveValvZone, type VaultTab } from '../utils/vaultTabs';
+
+export type { VaultTab, MainVaultTab, ValvZone } from '../utils/vaultTabs';
+export { parseVaultTab } from '../utils/vaultTabs';
+
+type VaultPageProps = {
+  embedded?: boolean;
+  onClose?: () => void;
+  initialVaultTab?: VaultTab;
+  initialValvMode?: ValvInputMode;
+  onVaultTabChange?: (tab: VaultTab) => void;
+  onValvModeChange?: (mode: ValvInputMode) => void;
+};
+
+export function VaultPage(props: VaultPageProps) {
+  return (
+    <VaultErrorBoundary>
+      <VaultPageInner {...props} />
+    </VaultErrorBoundary>
+  );
+}
+
+function VaultPageInner({
+  embedded = false,
+  onClose,
+  initialVaultTab = 'logga',
+  initialValvMode = 'spara',
+  onVaultTabChange,
+  onValvModeChange,
+}: VaultPageProps) {
+  const navigate = useNavigate();
+  const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
+  const user = useStore((s) => s.user);
+  const { loadFirstLogsPage, logs, hasMore: logsHasMore, loadingMore, loadMoreLogs } = useVaultStore();
+
+  const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
+  const [valvMode, setValvModeState] = useState<ValvInputMode>(initialValvMode);
+  const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
+  const [sessionSyncError, setSessionSyncError] = useState<string | null>(null);
+  const gateOk = hasVaultGate();
+  const valvZone = resolveValvZone(vaultTab);
+
+  const setVaultTab = useCallback(
+    (next: VaultTab) => {
+      setVaultTabState(next);
+      onVaultTabChange?.(next);
+      setValvModeState((currentMode) => {
+        if (currentMode === 'granska') return currentMode;
+        const derived = resolveValvInputModeFromVaultTab(next);
+        if (derived !== currentMode) {
+          onValvModeChange?.(derived);
+          return derived;
+        }
+        return currentMode;
+      });
+    },
+    [onVaultTabChange, onValvModeChange],
+  );
+
+  const setValvMode = useCallback(
+    (mode: ValvInputMode) => {
+      setValvModeState(mode);
+      onValvModeChange?.(mode);
+      const nextTab = vaultTabForValvInputMode(mode, vaultTab);
+      if (nextTab !== vaultTab) {
+        setVaultTabState(nextTab);
+        onVaultTabChange?.(nextTab);
+      }
+    },
+    [onValvModeChange, onVaultTabChange, vaultTab],
+  );
+
+  useEffect(() => {
+    const { vaultTab: syncedTab, valvMode: syncedMode } = canonicalValvRoute(
+      initialVaultTab,
+      initialValvMode,
+    );
+    setVaultTabState(syncedTab);
+    setValvModeState(syncedMode);
+    if (syncedMode !== initialValvMode) {
+      onValvModeChange?.(syncedMode);
+    }
+    if (syncedTab !== initialVaultTab) {
+      onVaultTabChange?.(syncedTab);
+    }
+  }, [initialVaultTab, initialValvMode, onValvModeChange, onVaultTabChange]);
+
+  const handleCitationClick = (docId: string) => {
+    setHighlightLogId(docId);
+    setValvMode('spara');
+    setVaultTab('logga');
+  };
+
+  const handleBevisConfirmed = async (docId: string) => {
+    setHighlightLogId(docId);
+    setValvMode('spara');
+    setVaultTab('logga');
+    if (user) {
+      try {
+        await loadFirstLogsPage(user.uid);
+      } catch {
+        /* best-effort refresh */
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (!gateOk) {
+      setVaultUnlocked(false);
+    }
+  }, [gateOk, setVaultUnlocked]);
+
+  useEffect(() => {
+    if (!gateOk || !user) return;
+    setVaultUnlocked(true);
+    setSessionSyncError(null);
+    void ensureVaultSessionReady().then((ok) => {
+      if (!ok) {
+        setSessionSyncError('Valv-session kunde inte synkas. Försök låsa upp igen via Fyren.');
+      }
+    });
+  }, [gateOk, user, setVaultUnlocked]);
+
+  useEffect(() => {
+    if (gateOk && user) {
+      void loadFirstLogsPage(user.uid);
+    }
+  }, [gateOk, user, loadFirstLogsPage]);
+
+  useEffect(() => {
+    if (!highlightLogId || logs.some((l) => l.id === highlightLogId)) return;
+    if (!logsHasMore || loadingMore) return;
+    if (user) {
+      void loadMoreLogs(user.uid);
+    }
+  }, [highlightLogId, logs, logsHasMore, loadingMore, loadMoreLogs, user]);
+
+  const handleCloseToLayer1 = () => {
+    setVaultTab('logga');
+    void endVaultSession().finally(() => {
+      if (embedded && onClose) {
+        onClose();
+      } else {
+        navigate(NAV_PATHS.HJARTAT);
+      }
+    });
+  };
+
+  if (!gateOk) {
+    return (
+      <ValvBentoShell showZonePill={false}>
+        <BentoCard
+          title={embedded ? 'Valv · Baksida' : VAULT_UI_NAME}
+          description="Skyddad zon — biometri krävs"
+          icon={<ShieldAlert className="h-4 w-4" />}
+          glow="blue"
+          depth
+          noHover
+        >
+          <VaultLockedGate variant="card" />
+        </BentoCard>
+      </ValvBentoShell>
+    );
+  }
+
+  if (!user) {
+    return (
+      <ValvBentoShell showZonePill={false}>
+        <BentoCard
+          title={VAULT_UI_NAME}
+          icon={<Lock className="h-4 w-4" />}
+          glow="blue"
+          depth
+          noHover
+        >
+          <p className="text-sm text-text-dim">Ansluter till valvet…</p>
+        </BentoCard>
+      </ValvBentoShell>
+    );
+  }
+
+  return (
+    <ValvBentoShell showZonePill={false}>
+      <div className="space-y-4">
+      <div className="flex items-start justify-between gap-2 px-1">
+        <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
+        <div className="flex shrink-0 items-center gap-1">
+          <button
+            type="button"
+            onClick={() => navigate('/valvet/installningar')}
+            className="btn-pill--ghost flex items-center gap-1"
+            title="Valv-inställningar"
+          >
+            <Settings className="h-3 w-3" /> Inställningar
+          </button>
+          <button
+            type="button"
+            onClick={handleCloseToLayer1}
+            className="btn-pill--ghost flex items-center gap-1"
+            title="Stäng valv — tillbaka till vardag"
+          >
+            <X className="h-3 w-3" /> Stäng
+          </button>
+        </div>
+      </div>
+
+      {sessionSyncError ? (
+        <p className="rounded-xl border border-accent/30 bg-surface-2/80 px-3 py-2 text-xs text-text-muted">
+          {sessionSyncError}
+        </p>
+      ) : null}
+
+      {vaultTab === 'logga' ? (
+        <PinnedPlaneringModuleSlot targetId="valv.logga" />
+      ) : null}
+      {vaultTab === 'kunskapsbank' ? (
+        <PinnedPlaneringModuleSlot targetId="valv.kunskapsbank" />
+      ) : null}
+
+      <ValvInputSuperModule
+        activeMode={valvMode}
+        onModeChange={setValvMode}
+        vaultTab={vaultTab}
+        userId={user.uid}
+        gateOk={gateOk}
+        highlightLogId={highlightLogId}
+        onBevisConfirmed={handleBevisConfirmed}
+        onCitationClick={handleCitationClick}
+        onVaultTabChange={setVaultTab}
+      />
+      </div>
+    </ValvBentoShell>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx">
+import { useCallback } from 'react';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import '../components/valv.css';
+import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
+import { ValvSuperModule } from '../components/ValvSuperModule';
+import { ValvInputModePicker } from './ValvInputModePicker';
+import {
+  DEFAULT_VALV_INPUT_MODE,
+  valvInputModeDef,
+  type ValvInputMode,
+} from './valvInputModes';
+import { writeValvLastInputMode } from './valvLastModeStorage';
+import type { VaultTab } from '../utils/vaultTabs';
+
+export type ValvInputSuperModuleProps = {
+  activeMode: ValvInputMode;
+  onModeChange: (mode: ValvInputMode) => void;
+  vaultTab: VaultTab;
+  userId: string;
+  gateOk: boolean;
+  highlightLogId: string | null;
+  onBevisConfirmed: (docId: string) => void | Promise<void>;
+  onCitationClick: (docId: string) => void;
+  onVaultTabChange: (tab: VaultTab) => void;
+};
+
+/**
+ * Canonical Valv navigation — primära lägen + «Mer…» (Fas 1B).
+ * Granska ersätter separat inbox-zon och `?samlaView=granska`.
+ */
+export function ValvInputSuperModule({
+  activeMode,
+  onModeChange,
+  vaultTab,
+  userId,
+  gateOk,
+  highlightLogId,
+  onBevisConfirmed,
+  onCitationClick,
+  onVaultTabChange,
+}: ValvInputSuperModuleProps) {
+  const setMode = useCallback(
+    (mode: ValvInputMode) => {
+      writeValvLastInputMode(mode);
+      onModeChange(mode);
+    },
+    [onModeChange],
+  );
+
+  return (
+    <BentoCard
+      glow="blue"
+      depth
+      noHover
+      bare
+      className="!p-4 sm:!p-5"
+    >
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <ValvInputModePicker activeMode={activeMode} onChange={setMode} />
+        <ModuleHelpFromRegistry moduleId="valv" mode={activeMode} />
+      </div>
+
+      <div className="mt-2 pr-1">
+        {activeMode === 'granska' ? (
+          <InboxReviewQueue
+            prioritizeBevis
+            onBevisConfirmed={(docId) => {
+              void onBevisConfirmed(docId);
+              setMode(DEFAULT_VALV_INPUT_MODE);
+            }}
+            onBack={() => setMode('spara')}
+          />
+        ) : (
+          <ValvSuperModule
+            variant={valvInputModeDef(activeMode).zone}
+            vaultTab={vaultTab}
+            userId={userId}
+            gateOk={gateOk}
+            highlightLogId={highlightLogId}
+            onBevisConfirmed={onBevisConfirmed}
+            onCitationClick={onCitationClick}
+            onVaultTabChange={onVaultTabChange}
+            onOpenGranska={() => setMode('granska')}
+          />
+        )}
+      </div>
+    </BentoCard>
   );
 }
 </file>

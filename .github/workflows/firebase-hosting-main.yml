@@ -1,12 +1,13 @@
-# Deploy Firebase Hosting when code is pushed to main (Livskompassen3.0).
-# Setup once: docs/CI-HOSTING.md
+# Deploy Firebase Hosting (Livskompassen3.0).
+# PAUSAD: auto-deploy på push till main är av — kör manuellt via Actions → workflow_dispatch.
+# Återaktivera: avkommentera push-blocket nedan.
 
 name: Deploy Hosting (main)
 
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
   workflow_dispatch:
 
 concurrency:
@@ -36,8 +37,8 @@ jobs:
       - name: Build functions
         run: cd functions && npm ci && npm run build
 
-      - name: Smoke tier-1 (locked pillars)
-        run: npm run smoke:tier1
+      - name: Smoke pre-deploy gate (YOLO static)
+        run: npm run smoke:predeploy
 
       - name: Typecheck core strict
         run: npm run typecheck:core-strict

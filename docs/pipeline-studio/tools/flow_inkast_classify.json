@@ -1,0 +1,15 @@
+{
+  "toolId": "flow_inkast_classify",
+  "version": "1.0.0",
+  "title": "Inkast G10-klassificering",
+  "silo": "multi",
+  "callable": "previewInboxClassification",
+  "model": "gemini-2.5-flash",
+  "schemaModule": "functions/src/schemas/inkastClassify.ts",
+  "responseSchemaExport": "validateInkastClassifyResponse",
+  "nodeGraph": ["trigger:inkast_upload", "heuristic:heuristicInboxClassify", "llm:classifyInboxDocument", "route:silo", "hitl:inbox_queue"],
+  "smoke": ["npm run smoke:orkester"],
+  "pmirStatus": "approved",
+  "lockedUx": ["CaptureSuperModule", "Barnporten HITL"],
+  "costNote": "Heuristic fail-safe before LLM"
+}

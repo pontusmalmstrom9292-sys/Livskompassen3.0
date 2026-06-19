@@ -83,7 +83,7 @@ export function VisualCompassWidget() {
         </div>
         <h3 className="text-xl font-display-serif mb-2 relative z-10 text-text">Din resa börjar här</h3>
         <p className="text-sm text-text-muted mb-8 max-w-xs mx-auto relative z-10 leading-relaxed">
-          Skriv din första reflektion för att låsa upp kompassen och börja bygga din streak.
+          Skriv din första reflektion för att låsa upp kompassen — ett steg i taget, utan press.
         </p>
         <button
           onClick={() => navigate(`${NAV_PATHS.HJARTAT}?tab=reflektion`)}
@@ -219,7 +219,7 @@ export function VisualCompassWidget() {
         />
         <StatPill
           icon={<Flame size={16} />}
-          label="Streak"
+          label="Närvaro"
           value={`${streak}d`}
           loading={loading}
         />

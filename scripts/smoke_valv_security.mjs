@@ -53,7 +53,10 @@ function main() {
     'endVaultSession',
     'ensureVaultSessionReady',
     'clearAllVaultZones',
+    'clearClientCache',
+    'clearSpeglarSession',
   );
+  mustInclude('src/modules/core/store/useVaultStore.ts', 'clearClientCache');
   mustInclude(
     'src/modules/core/auth/vaultServerSession.ts',
     'ensureVaultServerSession',

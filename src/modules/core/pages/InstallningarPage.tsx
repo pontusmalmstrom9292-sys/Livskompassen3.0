@@ -12,16 +12,22 @@ import { useState } from 'react';
 import { LifeHubPresetPicker, useLifeHubPreset } from '../lifeOs';
 import { useHubTab } from '../navigation/hooks/useHubTab';
 import { ClearDevicePanel } from '../security/ClearDevicePanel';
+import { AdaptationPrefsPanel } from '../adaptation/AdaptationPrefsPanel';
+import { ADAPTATION_LAYER_FLAG, useAdaptationStore } from '../store/useAdaptationStore';
+import { useEvolutionStore } from '../store/useEvolutionStore';
 
 export type InstallningarTab = 'allmant' | 'drogfrihet';
 
 export function InstallningarPage() {
   const { tabs, activeTab, setTab } = useHubTab('installningar');
-  const tab = activeTab as InstallningarTab;
+  const tab = (activeTab || 'allmant') as InstallningarTab;
   const user = useStore((s) => s.user);
   const { presetId, setPresetId } = useLifeHubPreset();
   const [autoTheme, setAutoTheme] = useState(() => getAutoModuleThemesEnabled());
   const [stampOnHome, setStampOnHome] = useState(() => isStampOnHomeScreenEnabled());
+  const adaptationEnabled =
+    useEvolutionStore((s) => s.hasFeature(ADAPTATION_LAYER_FLAG)) ||
+    useAdaptationStore((s) => s.layerEnabled);
 
   return (
     <HubPageShell
@@ -76,6 +82,10 @@ export function InstallningarPage() {
           </label>
 
           <LifeHubPresetPicker activeId={presetId} onSelect={setPresetId} />
+
+          {adaptationEnabled && user?.uid ? (
+            <AdaptationPrefsPanel userId={user.uid} />
+          ) : null}
 
           <ClearDevicePanel />
         </div>

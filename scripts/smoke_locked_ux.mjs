@@ -279,10 +279,12 @@ function main() {
     'src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx',
     'Assistentroller',
     'Kör mönstersökning',
-    'analyzeBiffMessage',
+    'analyzeBiffMessageInVault',
     'callProcessBrusfilter',
     'P1 Brusfilter',
-    'glow="gold"',
+    'OrkesterAgentTrio',
+    "vaultTab=sok",
+    'glow="blue"',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/utils/vaultPatternScan.ts',
@@ -295,11 +297,11 @@ function main() {
     'FyrenDockHandle',
     'DOCK_ZONES',
     'data-panel-style={panelStyle}',
+    'LivskompassMark',
+    'Håll tre sekunder för Valv',
+    'floating-dock__center',
   );
-  assert(
-    !read('src/modules/core/layout/FloatingDock.tsx').includes('LivskompassMark'),
-    'FloatingDock: ingen kompass-snabbknapp i dock (hem-kompass + Fyren räcker)',
-  );
+  mustInclude('docs/design/references/HEM-LAYOUT-A-KANON.md', 'Layout A');
   mustInclude(
     'src/modules/core/components/FyrenWidgetBar.tsx',
     'Håll tre sekunder för Valv',
@@ -351,7 +353,12 @@ function main() {
   mustInclude(
     'src/modules/capture/InkastDirectPanel.tsx',
     'submitInkastLite',
+    'InkastPostSubmitPanel',
+  );
+  mustInclude(
+    'src/modules/inkast/components/InkastPostSubmitPanel.tsx',
     'formatInkastResultMessage',
+    'VALV_SAMLA_GRANSKA_LINK',
   );
   mustInclude('src/modules/inkast/api/inkastService.ts', 'parseSubmitInkastLiteResult');
   mustInclude('src/modules/core/pages/HomePage.tsx', 'CaptureSuperModule');
@@ -861,6 +868,13 @@ function runAuthLoginSmoke() {
 
 try {
   main();
+  const chrome = spawnSync('node', ['scripts/smoke_chrome_header.mjs'], {
+    cwd: root,
+    stdio: 'inherit',
+  });
+  if (chrome.status !== 0) {
+    throw new Error('smoke:chrome-header misslyckades');
+  }
   runAuthLoginSmoke();
 } catch (err) {
   console.error('[smoke:locked-ux] FAIL —', err.message || err);

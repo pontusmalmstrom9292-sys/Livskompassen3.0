@@ -1,6 +1,9 @@
 import * as admin from 'firebase-admin';
 import { requiresHumanReview, type InboxClassification } from './inboxClassifier';
+import { formatChildObservation, inferEpistemicKind } from './childObservationEpistemics';
 import { persistKbDocFromDrive, type PersistKbDocInput } from './persistKbDoc';
+import { ingestKampsparForUser } from './ingestKampsparInternal';
+import { isKunskapFactApproved } from './kunskapContentBankGate';
 import { assertServerWormPayload, CHILDREN_LOG_ALLOWED_KEYS, driveInboxSourceRef, REALITY_VAULT_ALLOWED_KEYS } from './wormPayload';
 
 const INBOX_QUEUE = 'inbox_queue';
@@ -137,6 +140,19 @@ export async function persistChildrenLogFromInbox(input: {
   if (!childAlias) return null;
 
   const db = admin.firestore();
+  const sourceRef = driveInboxSourceRef(input.driveFileId);
+
+  const existingLog = await db
+    .collection('children_logs')
+    .where('ownerId', '==', input.ownerId)
+    .where('sourceRef', '==', sourceRef)
+    .limit(1)
+    .get();
+
+  if (!existingLog.empty) {
+    return { docId: existingLog.docs[0].id, created: false };
+  }
+
   const existingQueue = await db
     .collection(INBOX_QUEUE)
     .where('ownerId', '==', input.ownerId)
@@ -152,7 +168,9 @@ export async function persistChildrenLogFromInbox(input: {
     }
   }
 
-  const observation = input.classification.summary || input.analysisText.slice(0, 2000);
+  const rawObservation = input.classification.summary || input.analysisText.slice(0, 2000);
+  const epistemicKind = inferEpistemicKind({ channel: 'inbox_ingest', category: input.classification.category });
+  const observation = formatChildObservation(rawObservation, epistemicKind);
   const childPayload: Record<string, unknown> = {
     userId: input.ownerId,
     ownerId: input.ownerId,
@@ -162,6 +180,7 @@ export async function persistChildrenLogFromInbox(input: {
     truth: observation,
     category: input.classification.category,
     channel: 'inbox_ingest',
+    sourceRef,
   };
 
   assertServerWormPayload(childPayload, 'inboxPersist.children_logs', CHILDREN_LOG_ALLOWED_KEYS);
@@ -271,6 +290,8 @@ export async function routeInboxToWorm(input: {
   evidenceUrl?: string;
   hasVaultSession: boolean;
   isVerified: boolean;
+  /** Explicit HITL eller manuellt barnen-val — annars köas barnen-routing. */
+  allowBarnenAutoPersist?: boolean;
 }): Promise<{
   action: 'queued' | 'persisted';
   collection?: string;
@@ -329,6 +350,19 @@ export async function routeInboxToWorm(input: {
   }
 
   if (classification.routing === 'barnen') {
+    if (!input.allowBarnenAutoPersist) {
+      const q = await persistInboxQueueItem({
+        ownerId,
+        driveFileId: fileId,
+        fileName,
+        mimeType,
+        classification,
+        analysisExcerpt: analysisText,
+        evidenceUrl,
+      });
+      return { action: 'queued', queueId: q.queueId };
+    }
+
     const child = await persistChildrenLogFromInbox({
       ownerId,
       driveFileId: fileId,
@@ -360,27 +394,48 @@ export async function routeInboxToWorm(input: {
     return { action: 'persisted', collection: 'journal', docId: journal.docId };
   }
 
-  let embeddingDim: number | undefined;
-  try {
-    const { generateEmbeddingInternal } = await import('./generateEmbeddingInternal');
-    const embedding = await generateEmbeddingInternal(analysisText.slice(0, 4000));
-    embeddingDim = embedding.length > 0 ? embedding.length : undefined;
-  } catch {
-    /* optional */
+  // Explicit kunskap guard — MUST NOT be reached by new routing values added later.
+  if (classification.routing !== 'kunskap') {
+    const q = await persistInboxQueueItem({
+      ownerId,
+      driveFileId: fileId,
+      fileName,
+      mimeType,
+      classification: { ...classification, routing: 'review' },
+      analysisExcerpt: analysisText,
+      evidenceUrl,
+    });
+    console.warn(
+      `[inboxPersist] Unhandled routing='${classification.routing}' → inbox_queue (fail-closed).`
+    );
+    return { action: 'queued', queueId: q.queueId };
   }
 
-  const k = await persistKunskapFromInbox(
-    {
+  // U6 content-bank gate — okänd FACT → HITL (P1.2)
+  if (!isKunskapFactApproved(classification)) {
+    const q = await persistInboxQueueItem({
       ownerId,
-      title: fileName,
-      content: analysisText,
       driveFileId: fileId,
+      fileName,
       mimeType,
-      embeddingDim,
-    },
-    classification
-  );
-  return { action: 'persisted', collection: 'kb_docs', docId: k.docId };
+      classification: { ...classification, routing: 'review' },
+      analysisExcerpt: analysisText,
+      evidenceUrl,
+    });
+    return { action: 'queued', queueId: q.queueId };
+  }
+
+  // P1.1 — route FACT to kampspar + vector (ANN parity)
+  const title = (classification.summary || fileName).slice(0, 200).trim() || fileName;
+  const kampspar = await ingestKampsparForUser(ownerId, {
+    title,
+    content: analysisText.slice(0, 48_000),
+    category: classification.category,
+    entryType: 'fact_ingest',
+    tags: classification.tags,
+    source: `inbox:${fileId}`,
+  });
+  return { action: 'persisted', collection: 'kampspar', docId: kampspar.docId };
 }
 
 export type InboxQueueItem = InboxQueueDoc & { id: string };
@@ -462,8 +517,9 @@ export async function confirmInboxQueueItem(input: {
     classification,
     analysisText,
     optInTrauma: true,
-    hasVaultSession: true, // Bekräftelse kräver VaultSession ifall routing === 'bevis' och har redan checkats i inbox.ts
-    isVerified: true, // Krävs redan e-postverifiering för inloggning vid detta steg i Livskompassen
+    hasVaultSession: true,
+    isVerified: true,
+    allowBarnenAutoPersist: true,
   });
 
   if (routeResult.action !== 'persisted' || !routeResult.collection || !routeResult.docId) {
@@ -481,6 +537,26 @@ export async function confirmInboxQueueItem(input: {
   });
 
   return { collection: routeResult.collection, docId: routeResult.docId };
+}
+
+export async function reprocessVaultInboxQueue(uid: string): Promise<{
+  processed: number;
+  results: Array<{ queueId: string; collection: string; docId: string }>;
+}> {
+  const pending = await listPendingInboxQueue(uid);
+  const bevisPending = pending.filter((item) => item.proposedRouting === 'bevis');
+  const results: Array<{ queueId: string; collection: string; docId: string }> = [];
+
+  for (const item of bevisPending) {
+    const persisted = await confirmInboxQueueItem({
+      uid,
+      queueId: item.id,
+      routing: 'bevis',
+    });
+    results.push({ queueId: item.id, ...persisted });
+  }
+
+  return { processed: results.length, results };
 }
 
 export async function dismissInboxQueueItem(uid: string, queueId: string): Promise<void> {

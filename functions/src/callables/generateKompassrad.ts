@@ -2,6 +2,10 @@ import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { createGenAI } from '../lib/genaiClient';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import { geminiApiKey } from '../lib/geminiSecret';
+import {
+  appendAdaptationSemanticContext,
+  loadAdaptationSemanticContext,
+} from '../lib/adaptationSemanticContext';
 import { KOMPASSRAD_SYSTEM_PROMPT } from '../sharedRules';
 
 const MODEL = 'gemini-2.5-flash';
@@ -40,9 +44,10 @@ export const generateKompassrad = onCall(
     secrets: [geminiApiKey],
   },
   async (request): Promise<GenerateKompassradResult> => {
-    await guardSensitiveCallableV2(request, 'generateKompassrad', 20);
+    const uid = await guardSensitiveCallableV2(request, 'generateKompassrad', 20);
 
     const flow = parseFlow((request.data as { flow?: unknown })?.flow);
+    const adaptationContext = await loadAdaptationSemanticContext(uid);
 
     try {
       const ai = createGenAI(geminiApiKey.value());
@@ -50,7 +55,10 @@ export const generateKompassrad = onCall(
         model: MODEL,
         contents: `Dygnsfas: ${flow}\nGe ett kompassråd.`,
         config: {
-          systemInstruction: KOMPASSRAD_SYSTEM_PROMPT,
+          systemInstruction: appendAdaptationSemanticContext(
+            KOMPASSRAD_SYSTEM_PROMPT,
+            adaptationContext,
+          ),
           temperature: 0.2,
           maxOutputTokens: 256,
           responseMimeType: 'application/json',

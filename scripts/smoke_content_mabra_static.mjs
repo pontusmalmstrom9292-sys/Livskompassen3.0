@@ -30,9 +30,16 @@ function main() {
     'MB-REF-GAD-02',
     'MB-REF-GAD-07',
     'MB-REF-GAD-08',
+    'MB-REF-REST-01',
+    'MB-REF-REST-02',
+    'MB-REF-REST-03',
     'MB-REF-ACT-01',
   ]) {
     assert(reflection.includes(id), `mabraReflectionCards saknar ${id}`);
+  }
+  const bank = read('functions/src/lib/mabraContentBank.ts');
+  for (const id of ['MB-REF-REST-01', 'MB-REF-REST-02', 'MB-REF-REST-03']) {
+    assert(bank.includes(id), `mabraContentBank saknar ${id}`);
   }
   for (const id of [
     'MB-PLAY-05',

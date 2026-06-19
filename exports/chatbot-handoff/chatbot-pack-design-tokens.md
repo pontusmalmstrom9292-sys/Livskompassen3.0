@@ -251,83 +251,6 @@ Använd `HubPageShell` eller `hubHeaderClasses()` — **inte** ad hoc `text-xl` 
 function cssVar(name)
 ```
 
-## File: docs/external-ai/DESIGN-KEEP-REGISTER.md
-```markdown
-# DESIGN-KEEP-REGISTER — vad som är aktivt
-
-Filer i `docs/design/` som **används nu** — rör ej vid städning.
-
-## Specs & policy (KEEP)
-
-- `docs/design/COLOR-POLICY.md`
-- `docs/design/CHROME-POLICY.md`
-- `docs/design/CHROME-EMBER-KANON.md`
-- `docs/design/TYPE-SCALE.md`
-- `docs/design/ICON-STYLE-GUIDE.md`
-- `docs/design/KOMPASS-MODUL-SPEC.md`
-- `docs/design/PLANERING-PROJEKT-HYBRID.md`
-- `docs/design/PLANERINGSSIDA-SPEC.md`
-- `docs/design/WIDGET-BAR-SPEC.md`
-- `docs/design/BARNPORTEN-SPEC.md`
-- `docs/design/VALV-HUBB-SPEC.md`
-- `docs/design/FAMILJEN-HUB-SPEC.md`
-- `docs/design/ANDROID-WIDGETS-SPEC.md`
-- `docs/design/HOMESCREEN-WIDGETS-SPEC.md`
-- `docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md`
-- `docs/design/planering/PLANERING-P3-KANBAN-SPEC.md`
-
-## References / kanon (KEEP)
-
-- `docs/design/references/MENU-DRAWER-KANON.md`
-- `docs/design/references/DOCK-KANON.md`
-- `docs/design/references/VALV-ICON-KANON.md`
-- `docs/design/references/KOMPASS-TRE-TIDPUNKTER.md`
-
-## Galleri — låst widget (KEEP)
-
-- `docs/design/galleri/widget/v2/` — W1–W4 (locked UX hybrid)
-- `docs/design/galleri/barnporten/` — barnporten-infografik
-- `docs/design/galleri/README.md`
-
-## Tema — aktivt (KEEP)
-
-- `src/styles/obsidian-calm-2.css` (kod — inte i design-mappen)
-- `docs/design/themes/phone-icon-variants/PREVIEW.md`
-- `docs/design/theme-lab/` (om aktiv Theme Lab-session)
-
-## Ikoner låsta (KEEP — kod)
-
-- `.context/locked-icons.md` — D1, M2, WH1, WH2
-
-## ARKIV-KANDIDATER (zon för zon)
-
-| Mapp | Antal (ca) | Destinationsförslag |
-|------|------------|---------------------|
-| `docs/design/icons-proposals/` | 200+ SVG | `docs/archive/design-2026-06/icons-proposals/` |
-| `docs/design/redesign-proposals/` | STYLE A/B/C | `docs/archive/design-2026-06/redesign-proposals/` |
-| `docs/design/themes/` (ej aktiv) | A-sacred, B-elevated, E-aurora, kognitiv-skold | `docs/archive/design-2026-06/themes/` |
-| `docs/design/compact/` | gamla modul-mockups | `docs/archive/design-2026-06/compact/` |
-
-**Regel:** Flytta, radera inte — förrän Pontus godkänt HYGIENE-LOG-rad.
-```
-
-## File: src/modules/core/theme/themeRegistry.ts
-```typescript
-import type { ThemePack } from './types';
-import { THEME_SHARED_VARS } from './themeShared';
-import { THEME_PACK_DESIGN } from './themePackDesign';
-import { THEME_PACK_E_PROD } from './themePackE';
-import { THEME_PACK_MOCKUP } from './themePackMockup';
-import { THEME_PACK_K } from './themePackK';
-import { THEME_PACK_REDESIGN_A } from './themePackRedesignA';
-import { THEME_PACK_OBSIDIAN_DEPTH } from './themePackObsidianDepth';
-import { THEME_PACK_REMIX_E_HAMN } from './themePackRemix';
-⋮----
-export function resolveThemeId(id: string): string
-⋮----
-export function getTheme(id: string): ThemePack
-```
-
 ## File: docs/design/theme-lab/VARIANTS.md
 ```markdown
 # Theme Lab — variantbeslut
@@ -412,6 +335,94 @@ Spec: [`../themes/K-PACK-EIGHT-VARIANTS.md`](../themes/K-PACK-EIGHT-VARIANTS.md)
 
 - **GODKÄND: `J-planering-fyren`** — Planering + Projekt (`moduleThemeMap.ts` rad 19–20). Övriga hubbar oförändrade.
 - Nästa val: skriv **GODKÄND: &lt;id&gt;** för global bas eller fler J-hubbar.
+
+---
+
+## 2026-06-18 — Design sandbox mockups
+
+**VINNARE: SB-brushed-brass-neu** (mockup 01 — Brushed Brass Neumorf)
+
+- Prod default: `themeRegistry.ts` → `DEFAULT_THEME_ID`
+- Spec: `docs/design-sandbox/BRUSHED-BRASS-KANON.md`
+- Mockup: `docs/design-sandbox/mockups/01-brushed-brass-neu.html`
+```
+
+## File: docs/external-ai/DESIGN-KEEP-REGISTER.md
+```markdown
+# DESIGN-KEEP-REGISTER — vad som är aktivt
+
+Filer i `docs/design/` som **används nu** — rör ej vid städning.
+
+## Specs & policy (KEEP)
+
+- `docs/design/COLOR-POLICY.md`
+- `docs/design/CHROME-POLICY.md`
+- `docs/design/CHROME-EMBER-KANON.md`
+- `docs/design/TYPE-SCALE.md`
+- `docs/design/ICON-STYLE-GUIDE.md`
+- `docs/design/KOMPASS-MODUL-SPEC.md`
+- `docs/design/PLANERING-PROJEKT-HYBRID.md`
+- `docs/design/PLANERINGSSIDA-SPEC.md`
+- `docs/design/WIDGET-BAR-SPEC.md`
+- `docs/design/BARNPORTEN-SPEC.md`
+- `docs/design/VALV-HUBB-SPEC.md`
+- `docs/design/FAMILJEN-HUB-SPEC.md`
+- `docs/design/ANDROID-WIDGETS-SPEC.md`
+- `docs/design/HOMESCREEN-WIDGETS-SPEC.md`
+- `docs/design/MABRA-PROJEKT-VIT-HUB-SPEC.md`
+- `docs/design/planering/PLANERING-P3-KANBAN-SPEC.md`
+
+## References / kanon (KEEP)
+
+- `docs/design/references/MENU-DRAWER-KANON.md`
+- `docs/design/references/DOCK-KANON.md`
+- `docs/design/references/VALV-ICON-KANON.md`
+- `docs/design/references/KOMPASS-TRE-TIDPUNKTER.md`
+
+## Galleri — låst widget (KEEP)
+
+- `docs/design/galleri/widget/v2/` — W1–W4 (locked UX hybrid)
+- `docs/design/galleri/barnporten/` — barnporten-infografik
+- `docs/design/galleri/README.md`
+
+## Tema — aktivt (KEEP)
+
+- `src/styles/obsidian-calm-2.css` (kod — inte i design-mappen)
+- `docs/design/themes/phone-icon-variants/PREVIEW.md`
+- `docs/design/theme-lab/` (om aktiv Theme Lab-session)
+
+## Ikoner låsta (KEEP — kod)
+
+- `.context/locked-icons.md` — D1, M2, WH1, WH2
+
+## ARKIV-KANDIDATER (zon för zon)
+
+| Mapp | Antal (ca) | Destinationsförslag |
+|------|------------|---------------------|
+| `docs/design/icons-proposals/` | 200+ SVG | `docs/archive/design-2026-06/icons-proposals/` |
+| `docs/design/redesign-proposals/` | STYLE A/B/C | `docs/archive/design-2026-06/redesign-proposals/` |
+| `docs/design/themes/` (ej aktiv) | A-sacred, B-elevated, E-aurora, kognitiv-skold | `docs/archive/design-2026-06/themes/` |
+| `docs/design/compact/` | gamla modul-mockups | `docs/archive/design-2026-06/compact/` |
+
+**Regel:** Flytta, radera inte — förrän Pontus godkänt HYGIENE-LOG-rad.
+```
+
+## File: src/modules/core/theme/themeRegistry.ts
+```typescript
+import type { ThemePack } from './types';
+import { THEME_SHARED_VARS } from './themeShared';
+import { THEME_PACK_DESIGN } from './themePackDesign';
+import { THEME_PACK_E_PROD } from './themePackE';
+import { THEME_PACK_MOCKUP } from './themePackMockup';
+import { THEME_PACK_K } from './themePackK';
+import { THEME_PACK_REDESIGN_A } from './themePackRedesignA';
+import { THEME_PACK_OBSIDIAN_DEPTH } from './themePackObsidianDepth';
+import { THEME_PACK_REMIX_E_HAMN } from './themePackRemix';
+import { THEME_BRUSHED_BRASS_NEU } from './themePackBrushedBrass';
+⋮----
+export function resolveThemeId(id: string): string
+⋮----
+export function getTheme(id: string): ThemePack
 ```
 
 ## File: src/styles/obsidian-calm-2.css
@@ -868,10 +879,18 @@ a.dock-nav-btn {
 ⋮----
 .dock-hub-band__mark {
 ⋮----
-/* FloatingDock — slimmad kapsel, kompass störst men inte klumpig */
+/* FloatingDock — slimmad kapsel; färg följer chrome-rail via data-panel-style */
 .floating-dock .dock-hub-band__rail {
 ⋮----
+.floating-dock .dock-hub-band__rail::after {
+⋮----
 .floating-dock .dock-hub-band__rail--zones {
+⋮----
+.floating-dock__side-group {
+⋮----
+.floating-dock__side-group--left,
+⋮----
+.floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center {
 ⋮----
 .floating-dock__side-btn {
 ⋮----
@@ -924,8 +943,6 @@ a.dock-nav-btn {
 .floating-dock .dock-hub-band__center--active .floating-dock__plate,
 ⋮----
 .floating-dock .dock-hub-band__rail::before {
-⋮----
-.floating-dock .dock-hub-band__rail::after {
 ⋮----
 .hub-preset-sheet__backdrop {
 ⋮----
@@ -1168,6 +1185,8 @@ body.hub-preset-sheet-open {
 ⋮----
 .glass-header-bar--kanon .app-header__page-badge {
 ⋮----
+.glass-header-bar--kanon > .fyren-header-quick__toggle-wrap {
+⋮----
 .livskompass-hero__panel--h1-full {
 ⋮----
 .livskompass-hero__panel--h1-alpha {
@@ -1188,31 +1207,31 @@ body.hub-preset-sheet-open {
 ⋮----
 .glass-header-bar--home-quick .app-header__tagline {
 ⋮----
-.glass-header-bar--kanon[data-panel-style='ember'] {
+.glass-header-bar--kanon[data-panel-style='ember'],
 ⋮----
-.glass-header-bar--kanon[data-panel-style='ember']::before {
+.glass-header-bar--kanon[data-panel-style='ember']::before,
+⋮----
+.glass-header-bar--kanon[data-panel-style='ember']::after,
 ⋮----
 .glass-header-bar--kanon[data-panel-style='ember']::after {
 ⋮----
-.glass-header-bar--kanon[data-panel-style='obsidian'] {
+.glass-header-bar--kanon[data-panel-style='obsidian'],
 ⋮----
-.glass-header-bar--kanon[data-panel-style='obsidian']::before {
+.glass-header-bar--kanon[data-panel-style='obsidian']::before,
+⋮----
+.glass-header-bar--kanon[data-panel-style='obsidian']::after,
 ⋮----
 .glass-header-bar--kanon[data-panel-style='obsidian']::after {
 ⋮----
-.glass-header-bar--kanon[data-panel-style='aurora'] {
+.glass-header-bar--kanon[data-panel-style='aurora'],
 ⋮----
-.glass-header-bar--kanon[data-panel-style='aurora']::before {
+.glass-header-bar--kanon[data-panel-style='aurora']::before,
+⋮----
+.glass-header-bar--kanon[data-panel-style='aurora']::after,
 ⋮----
 .glass-header-bar--kanon[data-panel-style='aurora']::after {
 ⋮----
-/* Dock rail — samma panelstil som header (CHROME-EMBER-KANON) */
-.dock-hub-band[data-panel-style='ember'] .dock-hub-band__rail {
-⋮----
-.dock-hub-band[data-panel-style='obsidian'] .dock-hub-band__rail {
-⋮----
-.dock-hub-band[data-panel-style='aurora'] .dock-hub-band__rail {
-⋮----
+/* Header chrome — Obsidian Depth: kall obsidianglas + guldfokus (ej ember/brunt) */
 .header-chrome-btn {
 ⋮----
 .header-chrome-btn::before {
@@ -1476,6 +1495,66 @@ body.nav-drawer-open .dock-hub-band {
 .fyren-home-rail__icon {
 ⋮----
 .fyren-home-rail__label {
+⋮----
+.fyren-header-quick {
+⋮----
+@apply pointer-events-none;
+⋮----
+.fyren-header-quick__dismiss {
+⋮----
+.fyren-header-quick__panel {
+⋮----
+.fyren-header-quick__panel--camo {
+⋮----
+.fyren-header-quick--over-content {
+⋮----
+.fyren-header-quick--over-content .fyren-header-quick__panel--camo {
+⋮----
+.fyren-header-quick--open {
+⋮----
+@apply pointer-events-auto;
+⋮----
+.fyren-header-quick--open .fyren-header-quick__panel {
+⋮----
+.fyren-header-quick__stack {
+⋮----
+.fyren-header-quick__stack::-webkit-scrollbar {
+⋮----
+.fyren-header-quick__toggle-wrap {
+⋮----
+.fyren-header-quick__toggle-wrap--open .fyren-header-quick__chevron {
+⋮----
+@apply opacity-0;
+⋮----
+.fyren-header-quick__toggle-wrap--open .fyren-header-quick__toggle {
+⋮----
+.fyren-header-quick__toggle-mark {
+⋮----
+.fyren-header-quick__chevron {
+⋮----
+.fyren-header-quick__toggle--open {
+⋮----
+.fyren-header-quick__row {
+⋮----
+.fyren-header-quick__row:hover {
+⋮----
+.fyren-header-quick__icon-shell {
+⋮----
+.fyren-header-quick__icon-shell--breathing-active {
+⋮----
+.fyren-header-quick__breathing-ring {
+⋮----
+.fyren-header-quick__glyph {
+⋮----
+.fyren-header-quick__row-label {
+⋮----
+@apply sr-only;
+⋮----
+.fyren-header-quick__hide {
+⋮----
+.fyren-header-quick__hide:hover {
+⋮----
+.fyren-header-quick__hide-icon {
 ⋮----
 .home-hero-kanon__bridge {
 ⋮----
@@ -2377,8 +2456,6 @@ html[data-theme^='I-stone'] .livskompass-hero--embedded .livskompass-hero__cente
 .journal-handoff__cta {
 ⋮----
 .journal-handoff__cta:hover {
-⋮----
-.dagbok-remember__toggle:focus-visible {
 ⋮----
 /* Dagbok — reflektion (lekfull, enkelt språk) */
 .reflektion-intro {

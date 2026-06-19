@@ -67,6 +67,12 @@ function main() {
   mustInclude('functions/src/callables/agents.ts', 'assertVaultSession', 'approveWeaverMetadata');
   mustInclude('functions/src/callables/inbox.ts', "routing === 'bevis'", 'assertVaultSession');
 
+  console.log('[smoke:plausible-deniability] Dossier kräver Valv-unlock…');
+  mustInclude('firestore.rules', 'match /dossier_snapshots/{docId}', 'isOwnerVault()');
+  mustInclude('storage.rules', 'dossier_exports', 'vaultUnlocked');
+  mustInclude('functions/src/lib/vaultSessionGate.ts', 'refreshVaultJwtClaims');
+  mustInclude('functions/src/lib/generateDossierInternal.ts', 'docDayInRange');
+
   console.log('[smoke:plausible-deniability] PASS');
 }
 

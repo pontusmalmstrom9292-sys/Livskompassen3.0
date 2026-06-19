@@ -29,6 +29,8 @@ import { flushBarnportenOfflineQueue } from '@/features/onboarding/barnporten/ap
 import { flushActionDashboardQueue } from '@/features/widgets/api/actionDashboardApi';
 import { clearAllPendingBarnportenLogs } from '@/features/onboarding/barnporten/api/barnportenOfflineQueue';
 import { clearPendingActionDashboardItemsForUser } from '@/features/widgets/api/actionDashboardOfflineQueue';
+import { resetAdaptationSignalThrottle } from '../adaptation/adaptationSignalThrottle';
+import { useAdaptationStore } from '../store/useAdaptationStore';
 
 export function mapAuthError(code: string): string {
   switch (code) {
@@ -188,6 +190,8 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
 
 export async function signOutUser(): Promise<void> {
   const uid = auth.currentUser?.uid;
+  resetAdaptationSignalThrottle();
+  useAdaptationStore.getState().reset();
   await endVaultSession();
   clearSpeglarSession();
   clearAppUnlockSession();

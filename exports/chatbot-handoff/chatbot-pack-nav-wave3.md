@@ -278,99 +278,6 @@ Mockup: [`galleri/widget/v2/W1-kompakt-projekt.png`](./galleri/widget/v2/W1-komp
 - `FyrenWidgetBar.tsx` — v2
 ````
 
-## File: src/modules/core/components/FyrenWidgetBar.tsx
-````typescript
-import type { CSSProperties, ReactNode } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { clsx } from 'clsx';
-import { hasVaultGate } from '../auth/sessionService';
-import { NAV_PATHS } from '../navigation/navTruth';
-import { useStore } from '../store';
-import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
-import { FyrenProgressRing } from '../ui/FyrenProgressRing';
-import { FyrenShortcutMicIcon, FyrenShortcutNoteIcon } from '../ui/widget-icons';
-import { useFyrenWidget } from './fyrenWidgetContext';
-⋮----
-type WidgetIconKind = 'mic' | 'note';
-⋮----
-type WidgetAction = {
-  id: string;
-  label: string;
-  to: string;
-  hubId?: DrawerL2HubId;
-  widgetIcon?: WidgetIconKind;
-};
-⋮----
-function resolveWidgetActionLabel(action: WidgetAction, vaultSessionOpen: boolean): string
-⋮----
-function WidgetIcon(
-⋮----
-function ActionTile({
-  label,
-  to,
-  icon,
-  tabIndex,
-  onNavigate,
-}: {
-  label: string;
-  to: string;
-  icon: ReactNode;
-  tabIndex: number;
-onNavigate: ()
-⋮----
-className=
-````
-
-## File: src/modules/core/navigation/headerPageLabel.ts
-````typescript
-export function getHeaderPageLabel(pathname: string, search = ''): string | null
-````
-
-## File: src/modules/shell/LivLauncherGrid.tsx
-````typescript
-import type { LucideIcon } from 'lucide-react';
-import {
-  ChevronRight,
-  Clock,
-  FolderKanban,
-  Sparkles,
-  Sprout,
-  Wallet,
-} from 'lucide-react';
-import { clsx } from 'clsx';
-import type { CalmCardGlow } from '@/shared/ui/BentoCard';
-import {
-  LIV_LAUNCHER_EXTERNAL,
-  LIV_LAUNCHER_INLINE_TABS,
-} from './livLauncherRoutes';
-import { LIV_LAUNCHER_PREVIEWS } from './livLauncherPreviews';
-⋮----
-export type LivLauncherId =
-  | 'kompasser'
-  | 'ekonomi'
-  | 'mabra'
-  | 'projekt'
-  | 'arbetsliv';
-⋮----
-type LauncherCardDef = {
-  id: LivLauncherId;
-  label: string;
-  hint: string;
-  icon: LucideIcon;
-  glow: CalmCardGlow;
-  external?: boolean;
-};
-⋮----
-type LivLauncherGridProps = {
-  activeId: LivLauncherId;
-  onSelect: (id: LivLauncherId) => void;
-};
-⋮----
-export function LivLauncherGrid(
-⋮----
-className=
-````
-
 ## File: docs/evaluations/2026-06-15-arkitektur-nav-analys.md
 ````markdown
 # Arkitektur + navigation — READ-ONLY analys — 2026-06-15
@@ -701,6 +608,156 @@ Kapacitetsdata (`evolution_hub`, `useCapacityGate`) **styr Ekonomi och Barnporte
 *Osäkerhet som kräver runtime-smoke (ej körd här):* `npm run smoke:locked-ux`, `npm run smoke:orkester` för att verifiera att nav-redirects inte bryter Barnfokus/Valv-flikar.
 ````
 
+## File: src/modules/core/layout/NavigationDrawer.tsx
+````typescript
+import { clsx } from 'clsx';
+import { memo, useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ChevronRight, Lock, X } from 'lucide-react';
+import { hasVaultGate } from '../auth/sessionService';
+import { endVaultSession } from '../security/vaultSessionLifecycle';
+import { useStore } from '../store';
+import { LivskompassMark } from '../ui/LivskompassMark';
+import { isDrawerLinkActive } from './DrawerHubAccordion';
+import { DrawerModeToggle } from './DrawerModeToggle';
+import { DRAWER_VARDAG_ITEMS, DRAWER_VALV_ITEMS } from '../navigation/drawerNav';
+import { useDrawerRecentNav } from '../navigation/hooks/useDrawerRecentNav';
+import { isVardagDrawerRowActive } from './drawerFromNavTruth';
+⋮----
+const onKey = (e: KeyboardEvent) =>
+⋮----
+const handleTouchStart = (clientX: number) =>
+⋮----
+const handleTouchEnd = (clientX: number) =>
+⋮----
+const handleBackToVardag = () =>
+⋮----
+const handleLockVaultImmediately = () =>
+⋮----
+const navigateDrawerPath = (path: string) =>
+⋮----
+const handleVardagRowClick = (item: (typeof DRAWER_VARDAG_ITEMS)[number]) =>
+⋮----
+onTouchStart=
+````
+
+## File: src/modules/core/navigation/headerPageLabel.ts
+````typescript
+export function getHeaderPageLabel(pathname: string, search = ''): string | null
+````
+
+## File: src/modules/core/navigation/navTruth.ts
+````typescript
+import { HIDE_BEVIS_TAB } from './navFlags';
+⋮----
+import {
+  FORENSIC_VAULT_TAB_IDS,
+  forensicVaultTabLabel,
+  LEGACY_INBOX_VAULT_TAB,
+  MAIN_VAULT_TAB_IDS,
+  parseVaultTab,
+} from '@/features/lifeJournal/evidence/vault/utils/vaultTabs';
+import {
+  resolveValvInputModeFromVaultTab,
+  vaultTabForValvInputMode,
+} from '@/features/lifeJournal/evidence/vault/supermodule/valvInputModes';
+import {
+  DAGBOK_BEVIS_DRAWER_LABEL,
+  VALV_DRAWER_HINTS,
+  VALV_KUNSKAP_DRAWER_LEAF,
+  VALV_ZONE_LABELS,
+  VAULT_MAIN_TAB_LABELS,
+} from '../copy/valvNavCopy';
+⋮----
+export type NavDrawerSection = 'vardag' | 'valv';
+⋮----
+export type NavTruthEntry = {
+  id: string;
+  label: string;
+  path: string;
+  section: NavDrawerSection;
+  inDrawer: boolean;
+  requiresVaultPin?: boolean;
+  parentId?: string;
+  isGroupHeader?: boolean;
+  drawerHint?: string;
+  omitWhenHideBevis?: boolean;
+  inDock?: boolean;
+  fyrenHomeQuick?: boolean;
+  themeId?: string;
+};
+⋮----
+export function vaultDrawerPath(vaultTab: string): string
+⋮----
+function valvLeaf(
+  id: string,
+  vaultTab: string,
+  parentId: string,
+  label?: string,
+  inDrawer = false,
+): NavTruthEntry
+⋮----
+export function isDrawerEntryVisible(entry: NavTruthEntry, vaultSessionOpen = false): boolean
+⋮----
+export function getVisibleDrawerTruth(section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[]
+⋮----
+export function getNavTruthById(id: string): NavTruthEntry | undefined
+⋮----
+export function getDrawerChildren(parentId: string, section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[]
+⋮----
+export function getNavChildren(parentId: string, section: NavDrawerSection): NavTruthEntry[]
+⋮----
+export function getDrawerRoots(section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[]
+⋮----
+export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, vaultSessionOpen = false): boolean
+````
+
+## File: src/modules/shell/LivLauncherGrid.tsx
+````typescript
+import type { LucideIcon } from 'lucide-react';
+import {
+  ChevronRight,
+  Clock,
+  FolderKanban,
+  Sparkles,
+  Sprout,
+  Wallet,
+} from 'lucide-react';
+import { clsx } from 'clsx';
+import type { CalmCardGlow } from '@/shared/ui/BentoCard';
+import {
+  LIV_LAUNCHER_EXTERNAL,
+  LIV_LAUNCHER_INLINE_TABS,
+} from './livLauncherRoutes';
+import { LIV_LAUNCHER_PREVIEWS } from './livLauncherPreviews';
+⋮----
+export type LivLauncherId =
+  | 'kompasser'
+  | 'ekonomi'
+  | 'mabra'
+  | 'projekt'
+  | 'arbetsliv';
+⋮----
+type LauncherCardDef = {
+  id: LivLauncherId;
+  label: string;
+  hint: string;
+  icon: LucideIcon;
+  glow: CalmCardGlow;
+  external?: boolean;
+};
+⋮----
+type LivLauncherGridProps = {
+  activeId: LivLauncherId;
+  onSelect: (id: LivLauncherId) => void;
+};
+⋮----
+export function LivLauncherGrid(
+⋮----
+className=
+````
+
 ## File: docs/evaluations/2026-06-16-supermodule-ui-masterplan.md
 ````markdown
 # Supermodule + UI Masterplan — Körfält B
@@ -800,14 +857,70 @@ Våg 2 **klar** 2026-06-16 — F2 header «Hjärtat», F3 Familjen kompakt nav p
 B1 **klar** — snapshot `~/Livskompassen-snapshots/2026-06-16-valv`.
 ````
 
+## File: src/modules/core/components/FyrenWidgetBar.tsx
+````typescript
+import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { clsx } from 'clsx';
+import { LayoutPanelLeft } from 'lucide-react';
+import { hasVaultGate } from '../auth/sessionService';
+import { NAV_PATHS } from '../navigation/navTruth';
+import { useStore } from '../store';
+import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
+import { FyrenShortcutMicIcon, FyrenShortcutNoteIcon } from '../ui/widget-icons';
+import { useFyrenWidget } from './fyrenWidgetContext';
+import { readFyrenSideQuickHidden, setFyrenSideQuickHidden } from './FyrenSideQuickDock';
+⋮----
+type WidgetIconKind = 'mic' | 'note';
+⋮----
+type WidgetAction = {
+  id: string;
+  label: string;
+  to: string;
+  hubId?: DrawerL2HubId;
+  widgetIcon?: WidgetIconKind;
+};
+⋮----
+function resolveWidgetActionLabel(action: WidgetAction, vaultSessionOpen: boolean): string
+⋮----
+function WidgetIcon(
+⋮----
+function ActionTile({
+  label,
+  to,
+  icon,
+  tabIndex,
+  onNavigate,
+}: {
+  label: string;
+  to: string;
+  icon: ReactNode;
+  tabIndex: number;
+onNavigate: ()
+⋮----
+className=
+⋮----
+setFyrenSideQuickHidden(false);
+setOpen(false);
+````
+
 ## File: src/modules/core/layout/FloatingDock.tsx
 ````typescript
+import { useCallback } from 'react';
+import type { CSSProperties } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { clsx } from 'clsx';
+import { openValvViaFyren } from '../auth/valvFyrenGate';
 import { getNavTruthById, NAV_PATHS } from '../navigation/navTruth';
+import { useLongPress } from '../hooks/useLongPress';
+import { useStore } from '../store';
 import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
+import { LivskompassMark } from '../ui/LivskompassMark';
 import { FyrenDockHandle } from '../components/FyrenWidgetBar';
 import { DockNavButton } from './DockNavButton';
-import { resolveHeaderPanelStyle } from './headerPanelStyle';
+import { useHeaderPanelStyle } from './headerPanelStyle';
 ⋮----
 type DockZone = {
   id: string;
@@ -818,106 +931,6 @@ type DockZone = {
 };
 ⋮----
 active=
-````
-
-## File: src/modules/core/layout/NavigationDrawer.tsx
-````typescript
-import { clsx } from 'clsx';
-import { memo, useEffect, useRef, useCallback } from 'react';
-import { createPortal } from 'react-dom';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { ChevronRight, Lock, X } from 'lucide-react';
-import { hasVaultGate } from '../auth/sessionService';
-import { endVaultSession } from '../security/vaultSessionLifecycle';
-import { useStore } from '../store';
-import { LivskompassMark } from '../ui/LivskompassMark';
-import { isDrawerLinkActive } from './DrawerHubAccordion';
-import { DrawerModeToggle } from './DrawerModeToggle';
-import { DRAWER_VARDAG_ITEMS, DRAWER_VALV_ITEMS } from '../navigation/drawerNav';
-import { useDrawerRecentNav } from '../navigation/hooks/useDrawerRecentNav';
-import { isVardagDrawerRowActive } from './drawerFromNavTruth';
-⋮----
-const onKey = (e: KeyboardEvent) =>
-⋮----
-const handleTouchStart = (clientX: number) =>
-⋮----
-const handleTouchEnd = (clientX: number) =>
-⋮----
-const handleBackToVardag = () =>
-⋮----
-const handleLockVaultImmediately = () =>
-⋮----
-const navigateDrawerPath = (path: string) =>
-⋮----
-const handleVardagRowClick = (item: (typeof DRAWER_VARDAG_ITEMS)[number]) =>
-⋮----
-onTouchStart=
-````
-
-## File: src/modules/core/navigation/navTruth.ts
-````typescript
-import { HIDE_BEVIS_TAB } from './navFlags';
-⋮----
-import {
-  FORENSIC_VAULT_TAB_IDS,
-  forensicVaultTabLabel,
-  LEGACY_INBOX_VAULT_TAB,
-  MAIN_VAULT_TAB_IDS,
-  parseVaultTab,
-} from '@/features/lifeJournal/evidence/vault/utils/vaultTabs';
-import {
-  resolveValvInputModeFromVaultTab,
-  vaultTabForValvInputMode,
-} from '@/features/lifeJournal/evidence/vault/supermodule/valvInputModes';
-import {
-  DAGBOK_BEVIS_DRAWER_LABEL,
-  VALV_DRAWER_HINTS,
-  VALV_KUNSKAP_DRAWER_LEAF,
-  VALV_ZONE_LABELS,
-  VAULT_MAIN_TAB_LABELS,
-} from '../copy/valvNavCopy';
-⋮----
-export type NavDrawerSection = 'vardag' | 'valv';
-⋮----
-export type NavTruthEntry = {
-  id: string;
-  label: string;
-  path: string;
-  section: NavDrawerSection;
-  inDrawer: boolean;
-  requiresVaultPin?: boolean;
-  parentId?: string;
-  isGroupHeader?: boolean;
-  drawerHint?: string;
-  omitWhenHideBevis?: boolean;
-  inDock?: boolean;
-  fyrenHomeQuick?: boolean;
-  themeId?: string;
-};
-⋮----
-export function vaultDrawerPath(vaultTab: string): string
-⋮----
-function valvLeaf(
-  id: string,
-  vaultTab: string,
-  parentId: string,
-  label?: string,
-  inDrawer = false,
-): NavTruthEntry
-⋮----
-export function isDrawerEntryVisible(entry: NavTruthEntry, vaultSessionOpen = false): boolean
-⋮----
-export function getVisibleDrawerTruth(section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[]
-⋮----
-export function getNavTruthById(id: string): NavTruthEntry | undefined
-⋮----
-export function getDrawerChildren(parentId: string, section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[]
-⋮----
-export function getNavChildren(parentId: string, section: NavDrawerSection): NavTruthEntry[]
-⋮----
-export function getDrawerRoots(section: NavDrawerSection, vaultSessionOpen = false): NavTruthEntry[]
-⋮----
-export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, vaultSessionOpen = false): boolean
 ````
 
 ## File: src/modules/core/routing/AppRoutes.tsx

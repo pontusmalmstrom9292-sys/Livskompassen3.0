@@ -69,6 +69,21 @@ function main() {
     'hashPayload',
   );
   mustInclude('firestore.rules', 'match /dcap_alerts/{docId}', 'allow create, update, delete: if false');
+  mustInclude(
+    'firestore.rules',
+    'match /dcap_alert_reviews/{docId}',
+    'allow create, update, delete: if false',
+  );
+  mustInclude(
+    'functions/src/lib/dcapAlertReview.ts',
+    "collection('dcap_alert_reviews')",
+    'resolveDcapAlertForUser',
+  );
+  mustInclude(
+    'functions/src/callables/dcapAlert.ts',
+    'resolveDcapAlert',
+    'assertVaultSession',
+  );
 
   console.log('[smoke:orkester] Supervisor → dcap_alert...');
   mustInclude('functions/src/agents/kompis-supervisor.ts', "trigger: 'dcap_alert'");
@@ -185,8 +200,18 @@ function main() {
     'src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx',
     'VaultOrkesterPanel',
     'OrkesterAgentTrio',
+    'AgentRegistryProvider',
+    'AdkAgentRegistryPanel',
+    'AgentRoutingBadge',
+    'analyzeBiffMessageInVault',
     'callProcessBrusfilter',
     'P1 Brusfilter',
+    'Assistentroller',
+  );
+  mustInclude(
+    'src/modules/shared/agents/api/agentRegistryService.ts',
+    'fetchAgentRegistry',
+    'getAgentRegistry',
   );
   mustInclude('functions/src/callables/processBrusfilter.ts', 'processBrusfilter', 'guardSensitiveCallableV2');
   mustInclude('functions/src/index.ts', 'processBrusfilter');

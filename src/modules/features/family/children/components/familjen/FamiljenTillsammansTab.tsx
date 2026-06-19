@@ -1,4 +1,5 @@
 import { Anchor, Heart, MessageCircle, Users } from 'lucide-react';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { FamiljenFeatureCard } from './FamiljenFeatureCard';
 import { CHILD_ALIASES } from '../../constants';
@@ -50,10 +51,7 @@ export function FamiljenTillsammansTab({ shell }: Props) {
         {anchorText ? (
           <p className="text-sm leading-relaxed text-text-muted">&ldquo;{anchorText}&rdquo;</p>
         ) : (
-          <p className="text-sm text-text-dim">
-            Inga ankare ännu. Spara ett barnfokus-svar under Reflektion — det blir familjens
-            minnesankare.
-          </p>
+          <EmptyState message="Inga ankare ännu. Spara ett barnfokus-svar under Reflektion — det blir familjens minnesankare." />
         )}
       </BentoCard>
 

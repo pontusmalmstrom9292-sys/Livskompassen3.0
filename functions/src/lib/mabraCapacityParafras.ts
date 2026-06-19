@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin';
+import type { CoachTone } from '../../../shared/adaptation/adaptationTypes';
 import {
   parafraseCoachFromBank,
   type MabraCoachBankEntry,
@@ -50,6 +51,7 @@ export type CapacityAwareCoachResult = {
   coach: string;
   capacityBand: CapacityBand;
   microSteps?: string[];
+  coachToneApplied?: CoachTone;
 };
 
 /**
@@ -61,19 +63,32 @@ export function parafraseCoachFromBankWithCapacity(
   band: CapacityBand,
   hubSymptom?: MabraCoachHub,
   exerciseType?: MabraCoachExercise,
+  coachTone: CoachTone = 'standard',
 ): CapacityAwareCoachResult {
+  const toneForBand: CoachTone =
+    band === 'low' && coachTone === 'detailed' ? 'standard' : coachTone;
+
   if (band !== 'low') {
     return {
-      coach: parafraseCoachFromBank(entry, hubSymptom, exerciseType),
+      coach: parafraseCoachFromBank(entry, hubSymptom, exerciseType, toneForBand),
       capacityBand: band,
+      ...(coachTone !== 'standard' ? { coachToneApplied: coachTone } : {}),
     };
   }
 
-  const full = parafraseCoachFromBank(entry, hubSymptom, exerciseType);
+  const full = parafraseCoachFromBank(entry, hubSymptom, exerciseType, toneForBand);
   const core = firstSentence(entry.text_sv);
   const ackLine = full.split('.')[0]?.trim() ?? 'Ett steg i taget.';
   const microSteps = [ackLine.endsWith('.') ? ackLine : `${ackLine}.`, core, 'Inget mer krävs nu.'];
-  const coach = `${ackLine} ${core} Inget mer krävs av dig just nu.`;
+  const coach =
+    toneForBand === 'minimal'
+      ? `${ackLine} ${core} Klart.`
+      : `${ackLine} ${core} Inget mer krävs av dig just nu.`;
 
-  return { coach, capacityBand: band, microSteps };
+  return {
+    coach,
+    capacityBand: band,
+    microSteps,
+    ...(coachTone !== 'standard' ? { coachToneApplied: coachTone } : {}),
+  };
 }

@@ -33,6 +33,8 @@ import {
 import { assertVaultSession } from '../lib/vaultSessionGate';
 import { supervisor, trimSpeglingsMirror } from './shared';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { resolveCoachToneForUser } from '../lib/adaptationCoachTone';
+import { loadAdaptationSemanticContext } from '../lib/adaptationSemanticContext';
 import {
   fetchUserCapacityScore,
   parafraseCoachFromBankWithCapacity,
@@ -72,7 +74,13 @@ export const analyzeMessage = onCall(
     }
 
     const preferGransArkitekten =
-      request.data.module === 'safe_harbor' || request.data.preferGransArkitekten === true;
+      request.data.module === 'safe_harbor' ||
+      request.data.module === 'valv_orkester' ||
+      request.data.preferGransArkitekten === true;
+
+    if (request.data.module === 'valv_orkester') {
+      await assertVaultSession(uid, request.data);
+    }
 
     try {
       const result = await supervisor.handleUserRequest(message, uid, ragContext, {
@@ -395,11 +403,13 @@ export const mabraCoach = onCall(
           : undefined;
       const capacityScore = await fetchUserCapacityScore(uid);
       const capacityBand = toCapacityBand(capacityScore);
+      const coachTone = await resolveCoachToneForUser(uid);
       const capacityCoach = parafraseCoachFromBankWithCapacity(
         bankEntry,
         capacityBand,
         hubCtx,
         exerciseCtx,
+        coachTone,
       );
       return {
         coach: capacityCoach.coach,
@@ -407,6 +417,9 @@ export const mabraCoach = onCall(
         bankId,
         capacityBand: capacityCoach.capacityBand,
         ...(capacityCoach.microSteps ? { microSteps: capacityCoach.microSteps } : {}),
+        ...(capacityCoach.coachToneApplied
+          ? { coachToneApplied: capacityCoach.coachToneApplied }
+          : {}),
       };
     }
 
@@ -588,11 +601,13 @@ export const mabraCoach = onCall(
     if (parafrasTier === 'deterministic') {
       const capacityScore = await fetchUserCapacityScore(uid);
       const capacityBand = toCapacityBand(capacityScore);
+      const coachTone = await resolveCoachToneForUser(uid);
       const capacityCoach = parafraseCoachFromBankWithCapacity(
         bankEntry,
         capacityBand,
         hubSymptom as MabraCoachHub,
         exerciseType as MabraCoachExercise,
+        coachTone,
       );
       return {
         coach: capacityCoach.coach,
@@ -600,15 +615,21 @@ export const mabraCoach = onCall(
         bankId,
         capacityBand: capacityCoach.capacityBand,
         ...(capacityCoach.microSteps ? { microSteps: capacityCoach.microSteps } : {}),
+        ...(capacityCoach.coachToneApplied
+          ? { coachToneApplied: capacityCoach.coachToneApplied }
+          : {}),
       };
     }
 
+    const coachTone = await resolveCoachToneForUser(uid);
     const coach = await askMabraCoach(
       hubSymptom as MabraCoachHub,
       exerciseType as MabraCoachExercise,
       bankEntry,
       optionalNote,
       process.env.GEMINI_API_KEY,
+      await loadAdaptationSemanticContext(uid),
+      coachTone,
     );
     return { coach, redirectToSpeglar: false, bankId };
   }

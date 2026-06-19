@@ -1,10 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { HubPageShell } from '../layout/HubPageShell';
-import { CognitiveLoadStrip } from '../ui/CognitiveLoadStrip';
 import { VaultPage } from '@/features/lifeJournal/evidence/vault';
-import { useStore } from '@/core/store';
-import { hasVaultGate } from '@/core/auth/sessionService';
 import {
   LEGACY_INBOX_VAULT_TAB,
   parseVaultTab,
@@ -21,9 +18,6 @@ import {
 /** Route-silo för `/valvet` — all säkerhetslogik sker i VaultPage. */
 export function ValvetRoutePage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
-  const gateOk = isVaultUnlocked || hasVaultGate();
-
   const vaultTabRaw = searchParams.get('vaultTab');
 
   const vaultTab: VaultTab = useMemo(() => {
@@ -96,18 +90,12 @@ export function ValvetRoutePage() {
 
   return (
     <HubPageShell
-      eyebrow="Arkiv"
-      title="Sanningsarkivet"
-      lead={gateOk ? "Här samlas fakta, mönster och bevis — strukturerat och låst." : "Säkerhetszon — valvet är låst."}
-      lockViewport
-      depth
+      eyebrow="Valv"
+      title="Sanningsarkiv"
+      depth={false}
     >
-      <div className="mx-auto max-w-5xl space-y-4 pb-12">
-        <CognitiveLoadStrip
-          label={gateOk ? "Valvet" : "Valvet Låst"}
-          hint={gateOk ? "Välj ett läge — Inkast, Granska, Analysera …" : "Biometri krävs för åtkomst."}
-        />
-        <main className="mt-2 animate-fade-in">
+      <div className="mx-auto max-w-5xl pb-12">
+        <main className="animate-fade-in">
           <VaultPage
             initialVaultTab={vaultTab}
             initialValvMode={valvMode}
