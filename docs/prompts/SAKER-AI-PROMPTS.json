@@ -1,8 +1,11 @@
 {
-  "version": "2026-06-19",
+  "version": "2026-06-19-governance-v2",
   "registry": "saker-ai-prompts",
   "purpose": "Governance prompt templates for Cursor agents and manual classification — not runtime callables.",
+  "governanceRef": "docs/governance/GUARD-REGLERBOK.md",
   "crossReferences": [
+    ".cursor/rules/projectGuard.mdc",
+    ".cursor/rules/guard-regelbok.mdc",
     ".cursor/rules/anti-hallucination.mdc",
     ".cursor/rules/grunder-kanon.mdc",
     ".cursor/rules/locked-ux-features.mdc",
@@ -12,6 +15,7 @@
   "usageNote": "docs/prompts/SAKER-AI-PROMPTS.md",
   "uncertaintyPhrase": "Ej tillräckligt data",
   "uncertaintyPhraseExtended": "Ej tillräckligt data för bedömning.",
+  "runtimeNote": "Prod callables use sharedRules.ts (INKORG_SORTERARE_SYSTEM_PROMPT etc.) — align via PMIR only.",
   "templates": [
     {
       "id": "ai-agent-sakerhetsinstruktion",
@@ -19,7 +23,7 @@
       "type": "system",
       "scope": "cursor-agent-governance",
       "placeholders": [],
-      "template": "Svara endast med fakta från projektets verifierade datakällor. Undvik gissningar. Vid osäkerhet svara: 'Ej tillräckligt data'. Följ strikt regler om WORM, silo och låsta flöden."
+      "template": "Svara endast med fakta från projektets verifierade datakällor (kod, docs, WORM, godkänd content-bank). Undvik gissningar — flagga osäkra antaganden. Vid osäkerhet svara: 'Ej tillräckligt data för bedömning.' Följ strikt WORM, tre silos (aldrig cross-RAG), Zero Footprint (Speglar/Hamn), Kill Switch/Device Clear och låsta flöden. Bryt aldrig locked UX eller firestore.rules utan PMIR."
     },
     {
       "id": "saker-klassificering",
@@ -33,7 +37,26 @@
           "required": true
         }
       ],
-      "template": "Klassificera dokumenttext exklusivt baserat på givna dokument- och kodkällor. Text: \"{{documentText}}\". Välj en silo (Kunskap, Valv, Barnen). Motivera endast utifrån tillgänglig bevis. Säg 'Ej tillräckligt data' om saknad information."
+      "template": "Klassificera dokumenttext exklusivt baserat på givna dokument- och kodkällor — gissa aldrig saknad kontext. Text: \"{{documentText}}\". Välj en silo (Kunskap, Valv, Barnen) eller review vid osäkerhet. Motivera endast utifrån tillgängligt bevis. WORM: beteende + datum, aldrig diagnos på motpart. Säg 'Ej tillräckligt data för bedömning.' om saknad information. Auto-promote barnen → Valv är förbjudet."
     }
-  ]
+  ],
+  "inventory": {
+    "governance": [
+      "prompts/safeClassificationPrompt.json",
+      "prompts/guardedAgentInstruction.json",
+      "docs/prompts/SAKER-AI-PROMPTS.json"
+    ],
+    "runtimePmirRequired": [
+      "functions/src/sharedRules.ts",
+      "functions/src/expertPrompts.ts"
+    ],
+    "pipelineStudio": [
+      "docs/pipeline-studio/tools/flow_inkast_classify.json",
+      "docs/pipeline-studio/tools/flow_biff_rewrite.json",
+      "docs/pipeline-studio/tools/flow_brusfilter.json",
+      "docs/pipeline-studio/tools/flow_valv_chat.json",
+      "docs/pipeline-studio/tools/flow_pattern_assist.json",
+      "docs/pipeline-studio/tools/flow_dossier_foreword.json"
+    ]
+  }
 }
