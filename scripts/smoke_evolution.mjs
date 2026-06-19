@@ -114,8 +114,6 @@ function assertRulesStatic() {
   console.log('[smoke] statiska firestore.rules: OK');
 }
 
-<<<<<<< Updated upstream
-=======
 function defaultHubPayload(uid, stamp) {
   return {
     ownerId: uid,
@@ -136,7 +134,6 @@ function defaultHubPayload(uid, stamp) {
   };
 }
 
->>>>>>> Stashed changes
 async function tryHubLiveTests(db, uid, stamp) {
   const hubDocRef = doc(db, 'evolution_hub', uid);
   let ledgerBeforeHub = 0;
@@ -194,29 +191,6 @@ async function tryHubLiveTests(db, uid, stamp) {
   }
 }
 
-<<<<<<< Updated upstream
-function defaultHubPayload(uid, stamp) {
-  return {
-    ownerId: uid,
-    userId: uid,
-    pillars: {
-      kognitiv: { level: 1, score: 40 },
-      emotionell: { level: 1, score: 30 },
-      vardag: { level: 1, score: 40 },
-      relationell: { level: 1, score: 50 },
-      valv: { level: 1, score: 20 },
-    },
-    childrenAgeState: {
-      kasper: { ageYears: 8, currentBracket: 'early_school', lastUpdated: stamp },
-      arvid: { ageYears: 5, currentBracket: 'toddler_preschool', lastUpdated: stamp },
-    },
-    unlockedFeatureFlags: [],
-    updatedAt: serverTimestamp(),
-  };
-}
-
-=======
->>>>>>> Stashed changes
 async function main() {
   const env = loadEnv();
   assert(env.VITE_FIREBASE_API_KEY && env.VITE_FIREBASE_PROJECT_ID, 'VITE_FIREBASE_* krävs');
@@ -248,10 +222,6 @@ async function main() {
 
   const stamp = new Date().toISOString();
 
-<<<<<<< Updated upstream
-  // === 1. evolution_ledger — client writes denied (WORM / Admin SDK only) ===
-=======
->>>>>>> Stashed changes
   console.log('\n--- Test 1: evolution_ledger WORM (client create/update/delete nekas) ---');
 
   await expectDenied('create evolution_ledger', () =>
@@ -311,30 +281,6 @@ async function main() {
     console.log('[smoke] read evolution_ledger: inga rader än (OK — skapas via trigger)');
   }
 
-<<<<<<< Updated upstream
-  // === 2. evolution_hub — mutable state, flags server-gated ===
-  console.log('\n--- Test 2: evolution_hub rules ---');
-  const hubLive = await tryHubLiveTests(db, uid, stamp);
-
-  // === 3. onEvolutionHubWrite → evolution_ledger append (live trigger) ===
-  if (hubLive.ran) {
-    console.log('\n--- Test 3: hub write → evolution_ledger (onEvolutionHubWrite) ---');
-
-    const ledgerAfter = await waitForLedgerGrowth(db, uid, hubLive.ledgerBeforeHub, TRIGGER_POLL_MS);
-    if (ledgerAfter > hubLive.ledgerBeforeHub) {
-      console.log(
-        `[smoke] ledger append via trigger: OK (${hubLive.ledgerBeforeHub} → ${ledgerAfter})`,
-      );
-    } else {
-      console.log(
-        `[smoke] ledger trigger: ingen ny rad inom ${TRIGGER_POLL_MS / 1000}s — dedup eller ej deployad trigger (regler OK)`,
-      );
-    }
-  } else {
-    console.log('\n--- Test 3: hub → ledger trigger — SKIPPED (hub live ej tillgänglig) ---');
-  }
-
-=======
   console.log('\n--- Test 2: evolution_hub rules ---');
   const hubLive = await tryHubLiveTests(db, uid, stamp);
 
@@ -354,7 +300,6 @@ async function main() {
     console.log('\n--- Test 3: hub → ledger trigger — SKIPPED (hub live ej tillgänglig) ---');
   }
 
->>>>>>> Stashed changes
   console.log('\n[smoke] ALL PASS — Evolution Engine rules + hub path verified.');
   process.exit(0);
 }
