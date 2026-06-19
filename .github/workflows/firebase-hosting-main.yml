@@ -1,0 +1,65 @@
+# Deploy Firebase Hosting (Livskompassen3.0).
+# PAUSAD: auto-deploy på push till main är av — kör manuellt via Actions → workflow_dispatch.
+# Återaktivera: avkommentera push-blocket nedan.
+
+name: Deploy Hosting (main)
+
+on:
+  # push:
+  #   branches:
+  #     - main
+  workflow_dispatch:
+
+concurrency:
+  group: firebase-hosting-main
+  cancel-in-progress: true
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build functions
+        run: cd functions && npm ci && npm run build
+
+      - name: Smoke pre-deploy gate (YOLO static)
+        run: npm run smoke:predeploy
+
+      - name: Typecheck core strict
+        run: npm run typecheck:core-strict
+
+      - name: Build frontend
+        run: npm run build
+        env:
+          # AUTH-G1: authDomain ska vara *.firebaseapp.com — lägg ALDRIG VITE_GOOGLE_SIGNIN_REDIRECT här.
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+          # Krävs när functions APP_CHECK_ENFORCE=true (Valv unlock, inkast, …)
+          VITE_APP_CHECK_RECAPTCHA_SITE_KEY: ${{ secrets.VITE_APP_CHECK_RECAPTCHA_SITE_KEY }}
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Deploy to Firebase Hosting
+        run: npx firebase-tools@13.35.1 deploy --only hosting,functions,firestore:rules,storage --project gen-lang-client-0481875058 --non-interactive

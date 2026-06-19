@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useStore } from '@/core/store';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { getPeriodEconomySummary, type PeriodEconomySummary } from '@/core/firebase/economyFirestore';
 import { HamnForensicPanel } from '@/features/family/safeHarbor/components/BiffPublicPanel';
 import { DagbokSuperModule } from '@/features/lifeJournal/diary/diary/components/DagbokSuperModule';
@@ -78,7 +79,9 @@ export function VaultForensicPanel({ tab }: Props) {
           {ingress}
           <FamiljenMonsterTab shell={shell} />
         </>
-      ) : null;
+      ) : (
+        <EmptyState message="Logga in för att visa familjemönster." />
+      );
     case 'arbetsliv_franvaro':
       return (
         <>

@@ -1,6 +1,7 @@
 import { memo, useCallback, useEffect, useState } from 'react';
-import { Inbox } from 'lucide-react';
+import { Inbox, Loader2 } from 'lucide-react';
 import './valv.css';
+import { BentoCard } from '@/shared/ui/BentoCard';
 import { fetchInboxQueue } from '../../kompis/api/inboxService';
 import { listDraftsByStatus } from '@/modules/capture/draftQueue';
 import { useVaultStore } from '@/core/store/useVaultStore';
@@ -61,11 +62,26 @@ export const VaultSamlaHub = memo(function VaultSamlaHub({
   const pendingTotal = (pendingInbox ?? 0) + localPending;
 
   return (
-    <div className="valv-samla-panel space-y-4">
+    <BentoCard
+      title="Samla bevis"
+      description="Inkast, granskning och manuell post"
+      glow="blue"
+      depth
+      noHover
+      className="valv-samla-panel"
+    >
+      <div className="space-y-4">
       <VaultInkastCompact
         onQueued={openReview}
         onPersistedBevis={handleBevisConfirmed}
       />
+
+      {onOpenGranska && pendingInbox === null ? (
+        <p className="flex items-center gap-2 text-xs text-text-dim">
+          <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
+          Räknar väntande poster…
+        </p>
+      ) : null}
 
       {onOpenGranska && pendingTotal > 0 ? (
         <button
@@ -93,6 +109,7 @@ export const VaultSamlaHub = memo(function VaultSamlaHub({
           {saveError ? <p className="mt-2 text-sm text-danger">{saveError}</p> : null}
         </div>
       </details>
-    </div>
+      </div>
+    </BentoCard>
   );
 });

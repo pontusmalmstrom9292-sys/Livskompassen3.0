@@ -13,6 +13,10 @@ type Props = {
 export function CompassQuickWidgetRail({ flow, compact = false, className }: Props) {
   const widgets = getCompassWidgets(flow);
 
+  if (widgets.length === 0) {
+    return null;
+  }
+
   return (
     <div
       className={['compass-quick-widget-rail', compact && 'compass-quick-widget-rail--compact', className]

@@ -2,6 +2,7 @@ import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { useCallback, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { ArbetslivFlexDelegate } from './delegates/ArbetslivFlexDelegate';
 import { ArbetslivInkomstDelegate } from './delegates/ArbetslivInkomstDelegate';
 import { ArbetslivStamplaDelegate } from './delegates/ArbetslivStamplaDelegate';
@@ -59,6 +60,7 @@ export function ArbetslivInputSuperModule({ initialMode }: ArbetslivInputSuperMo
   );
 
   return (
+    <HubErrorBoundary title="Arbetsliv kunde inte laddas" glow="blue" logTag="ArbetslivInputSuperModule">
     <section
       className="calm-card glow-bottom-blue overflow-hidden rounded-2xl border border-border/30 bg-surface-2/70 p-4 sm:p-5"
       aria-label="Arbetsliv inmatningshub"
@@ -120,5 +122,6 @@ export function ArbetslivInputSuperModule({ initialMode }: ArbetslivInputSuperMo
         </Link>
       </footer>
     </section>
+    </HubErrorBoundary>
   );
 }
