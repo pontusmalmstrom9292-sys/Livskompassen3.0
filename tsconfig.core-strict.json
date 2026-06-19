@@ -19,6 +19,8 @@
     "src/modules/features/lifeJournal/diary/**/*.ts",
     "src/modules/features/lifeJournal/diary/**/*.tsx",
     "src/modules/features/diary/**/*.ts",
-    "src/modules/features/diary/**/*.tsx"
+    "src/modules/features/diary/**/*.tsx",
+    "src/modules/features/admin/projects/**/*.ts",
+    "src/modules/features/admin/projects/**/*.tsx"
   ]
 }
