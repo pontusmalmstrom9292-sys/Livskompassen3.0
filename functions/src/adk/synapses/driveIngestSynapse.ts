@@ -8,8 +8,18 @@ import { routeInboxToWorm } from '../../lib/inboxPersist';
 
 /**
  * G10 — Självsorterande inkorg: Drive → klassificering → rätt silo.
- * MUST NOT spara bevis till kb_docs (bevis → reality_vault).
- * Trauma/LVU utan optIn → inbox_queue (HITL).
+ *
+ * Klassificeringsordning (DCAP-first, U2):
+ *   1. heuristicInboxClassify — deterministic keyword/sourceModule rules (no LLM).
+ *   2. Gemini LLM — only when heuristic returns null.
+ *   3. applyInkastConfidenceGate — downgrades low-confidence results to 'review'.
+ *   4. routeInboxToWorm — WORM persist or inbox_queue (HITL).
+ *
+ * Silo constraints (MUST NOT violate):
+ *   - bevis → reality_vault only, NEVER kb_docs.
+ *   - barnen → inbox_queue (no auto-persist without explicit allowBarnenAutoPersist).
+ *   - trauma/LVU or confidence < threshold → inbox_queue.
+ *   - kunskap → kb_docs (FACT, no PII).
  */
 export async function handleDriveIngest(
   orchestrator: AdkOrchestrator,
@@ -22,6 +32,7 @@ export async function handleDriveIngest(
   let routing: string | undefined;
 
   if (ownerId) {
+    // classifyInboxDocument runs heuristicInboxClassify first (DCAP-before-LLM, U2).
     const rawClassification = await classifyInboxDocument(analysisText, fileName);
     const classification = applyInkastConfidenceGate(rawClassification);
     const routeResult = await routeInboxToWorm({
@@ -32,8 +43,9 @@ export async function handleDriveIngest(
       classification,
       analysisText,
       optInTrauma,
-      hasVaultSession: false,
-      isVerified: true, // System background task
+      hasVaultSession: false,  // background task — no active Vault session
+      isVerified: true,
+      allowBarnenAutoPersist: false, // Drive ingest always queues barnen for HITL
     });
 
     routing = classification.routing;

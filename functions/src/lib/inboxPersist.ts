@@ -392,6 +392,25 @@ export async function routeInboxToWorm(input: {
     return { action: 'persisted', collection: 'journal', docId: journal.docId };
   }
 
+  // Explicit kunskap guard — MUST NOT be reached by new routing values added later.
+  // Bevis MUST NOT reach here (routed above). New InboxRouting values require a
+  // new explicit branch above before this point.
+  if (classification.routing !== 'kunskap') {
+    const q = await persistInboxQueueItem({
+      ownerId,
+      driveFileId: fileId,
+      fileName,
+      mimeType,
+      classification: { ...classification, routing: 'review' },
+      analysisExcerpt: analysisText,
+      evidenceUrl,
+    });
+    console.warn(
+      `[inboxPersist] Unhandled routing='${classification.routing}' → inbox_queue (fail-closed).`
+    );
+    return { action: 'queued', queueId: q.queueId };
+  }
+
   let embeddingDim: number | undefined;
   try {
     const { generateEmbeddingInternal } = await import('./generateEmbeddingInternal');
