@@ -310,6 +310,7 @@ async function processOneInkastFile(
     evidenceUrl,
     hasVaultSession,
     isVerified,
+    allowBarnenAutoPersist: manual?.routing === 'barnen',
   });
 
   return {
@@ -359,6 +360,7 @@ async function processTextInkast(
     optInTrauma: effectiveOptIn,
     hasVaultSession,
     isVerified,
+    allowBarnenAutoPersist: manual?.routing === 'barnen',
   });
 
   return {

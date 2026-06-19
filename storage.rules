@@ -32,7 +32,10 @@ service firebase.storage {
 
     // Dossier PDF — skrivs av generateDossier (Admin SDK); nedladdning via signed URL
     match /dossier_exports/{userId}/{fileName} {
-      allow read: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null
+        && request.auth.uid == userId
+        && request.auth.token.vaultUnlocked == true
+        && request.time.toMillis() < request.auth.token.vaultExpiresAt;
       allow write: if false;
     }
   }

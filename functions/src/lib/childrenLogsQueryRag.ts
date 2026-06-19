@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin';
+import { isParentVisibleChildLog } from './childObservationEpistemics';
 
 const STOPWORDS = new Set(['och', 'att', 'som', 'det', 'en', 'i', 'på', 'är', 'för', 'med', 'av', 'till']);
 
@@ -67,7 +68,9 @@ export async function fetchChildrenLogsForQuery(
     .limit(100)
     .get();
 
-  let docs = snap.docs.map((d) => ({ id: d.id, data: d.data() }));
+  let docs = snap.docs
+    .map((d) => ({ id: d.id, data: d.data() }))
+    .filter(({ data }) => isParentVisibleChildLog(data));
 
   if (childAlias && typeof childAlias === 'string') {
     const alias = childAlias.trim();

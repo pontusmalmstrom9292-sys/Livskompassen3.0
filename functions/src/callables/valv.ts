@@ -226,14 +226,13 @@ export const writePatternScanMetadataCallable = onCall(
     const uid = await guardSensitiveCallableV2(request, 'writePatternScanMetadata', 30);
     await assertVaultSession(uid, request.data);
     const sourceRef = String((request.data as { sourceRef?: unknown })?.sourceRef ?? '').trim();
-    const text = String((request.data as { text?: unknown })?.text ?? '').trim();
     if (!sourceRef) {
       throw new HttpsError('invalid-argument', 'sourceRef krävs.');
     }
     const docId = await writePatternScanMetadata({
       userId: uid,
       sourceRef,
-      text,
+      text: '',
       scanLayer: 'REGEX',
     });
     return { docId, created: Boolean(docId) };

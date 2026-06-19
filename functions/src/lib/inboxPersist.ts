@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin';
 import { requiresHumanReview, type InboxClassification } from './inboxClassifier';
+import { formatChildObservation, inferEpistemicKind } from './childObservationEpistemics';
 import { persistKbDocFromDrive, type PersistKbDocInput } from './persistKbDoc';
 import { assertServerWormPayload, CHILDREN_LOG_ALLOWED_KEYS, driveInboxSourceRef, REALITY_VAULT_ALLOWED_KEYS } from './wormPayload';
 
@@ -137,6 +138,19 @@ export async function persistChildrenLogFromInbox(input: {
   if (!childAlias) return null;
 
   const db = admin.firestore();
+  const sourceRef = driveInboxSourceRef(input.driveFileId);
+
+  const existingLog = await db
+    .collection('children_logs')
+    .where('ownerId', '==', input.ownerId)
+    .where('sourceRef', '==', sourceRef)
+    .limit(1)
+    .get();
+
+  if (!existingLog.empty) {
+    return { docId: existingLog.docs[0].id, created: false };
+  }
+
   const existingQueue = await db
     .collection(INBOX_QUEUE)
     .where('ownerId', '==', input.ownerId)
@@ -152,7 +166,9 @@ export async function persistChildrenLogFromInbox(input: {
     }
   }
 
-  const observation = input.classification.summary || input.analysisText.slice(0, 2000);
+  const rawObservation = input.classification.summary || input.analysisText.slice(0, 2000);
+  const epistemicKind = inferEpistemicKind({ channel: 'inbox_ingest', category: input.classification.category });
+  const observation = formatChildObservation(rawObservation, epistemicKind);
   const childPayload: Record<string, unknown> = {
     userId: input.ownerId,
     ownerId: input.ownerId,
@@ -162,6 +178,7 @@ export async function persistChildrenLogFromInbox(input: {
     truth: observation,
     category: input.classification.category,
     channel: 'inbox_ingest',
+    sourceRef,
   };
 
   assertServerWormPayload(childPayload, 'inboxPersist.children_logs', CHILDREN_LOG_ALLOWED_KEYS);
@@ -271,6 +288,8 @@ export async function routeInboxToWorm(input: {
   evidenceUrl?: string;
   hasVaultSession: boolean;
   isVerified: boolean;
+  /** Explicit HITL eller manuellt barnen-val — annars köas barnen-routing. */
+  allowBarnenAutoPersist?: boolean;
 }): Promise<{
   action: 'queued' | 'persisted';
   collection?: string;
@@ -329,6 +348,19 @@ export async function routeInboxToWorm(input: {
   }
 
   if (classification.routing === 'barnen') {
+    if (!input.allowBarnenAutoPersist) {
+      const q = await persistInboxQueueItem({
+        ownerId,
+        driveFileId: fileId,
+        fileName,
+        mimeType,
+        classification,
+        analysisExcerpt: analysisText,
+        evidenceUrl,
+      });
+      return { action: 'queued', queueId: q.queueId };
+    }
+
     const child = await persistChildrenLogFromInbox({
       ownerId,
       driveFileId: fileId,
@@ -462,8 +494,9 @@ export async function confirmInboxQueueItem(input: {
     classification,
     analysisText,
     optInTrauma: true,
-    hasVaultSession: true, // Bekräftelse kräver VaultSession ifall routing === 'bevis' och har redan checkats i inbox.ts
-    isVerified: true, // Krävs redan e-postverifiering för inloggning vid detta steg i Livskompassen
+    hasVaultSession: true,
+    isVerified: true,
+    allowBarnenAutoPersist: true,
   });
 
   if (routeResult.action !== 'persisted' || !routeResult.collection || !routeResult.docId) {

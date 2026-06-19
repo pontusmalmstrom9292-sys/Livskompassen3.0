@@ -75,8 +75,14 @@ service cloud.firestore {
         || (request.resource.data.signals is map
           && request.resource.data.signals.keys().hasOnly(['somn', 'angest', 'aptit'])
           && request.resource.data.signals.somn is int
+          && request.resource.data.signals.somn >= 1
+          && request.resource.data.signals.somn <= 5
           && request.resource.data.signals.angest is int
-          && request.resource.data.signals.aptit is int);
+          && request.resource.data.signals.angest >= 1
+          && request.resource.data.signals.angest <= 5
+          && request.resource.data.signals.aptit is int
+          && request.resource.data.signals.aptit >= 1
+          && request.resource.data.signals.aptit <= 5);
     }
 
     function isValidRealityVaultCreate() {
@@ -84,14 +90,27 @@ service cloud.firestore {
           'userId', 'ownerId', 'action', 'truth', 'category', 'sourceRef',
           'childrenImpact', 'evidenceUrl', 'biffUsed', 'isLocked', 'entryType',
           'theirVersion', 'myReality', 'bodySignals', 'shieldWhat', 'shieldFeeling',
-          'shieldBoundary', 'pinned', 'createdAt',
+          'shieldBoundary', 'pinned', 'journalEntryId', 'sourceMood', 'weaverTags',
+          'createdAt',
         ])
         && request.resource.data.action is string
         && request.resource.data.action.size() > 0
         && request.resource.data.action.size() <= 200
         && request.resource.data.truth is string
         && request.resource.data.truth.size() > 0
-        && request.resource.data.truth.size() <= 50000;
+        && request.resource.data.truth.size() <= 50000
+        && (!('journalEntryId' in request.resource.data)
+          || (request.resource.data.category == 'vävaren_metadata'
+            && request.resource.data.journalEntryId is string
+            && request.resource.data.journalEntryId.size() > 0
+            && request.resource.data.journalEntryId.size() <= 128))
+        && (!('sourceMood' in request.resource.data)
+          || (request.resource.data.category == 'vävaren_metadata'
+            && request.resource.data.sourceMood is string
+            && request.resource.data.sourceMood.size() <= 80))
+        && (!('weaverTags' in request.resource.data)
+          || (request.resource.data.category == 'vävaren_metadata'
+            && request.resource.data.weaverTags is map));
     }
 
     function isValidJournalCreate() {
@@ -111,7 +130,7 @@ service cloud.firestore {
       return wormKeysOnly([
           'userId', 'ownerId', 'childAlias', 'observation', 'truth', 'action', 'category',
           'childrenImpact', 'authorRole', 'channel', 'visibility', 'contentType', 'signals',
-          'bankId', 'mediaUrl', 'createdAt',
+          'bankId', 'mediaUrl', 'sourceRef', 'createdAt',
         ])
         && request.resource.data.childAlias is string
         && request.resource.data.childAlias.size() > 0
@@ -121,9 +140,15 @@ service cloud.firestore {
         && request.resource.data.action.size() <= 64
         && isValidChildSignals()
         && (!('observation' in request.resource.data)
-          || request.resource.data.observation is string)
+          || (request.resource.data.observation is string
+            && request.resource.data.observation.size() <= 50000))
         && (!('truth' in request.resource.data)
-          || request.resource.data.truth is string)
+          || (request.resource.data.truth is string
+            && request.resource.data.truth.size() <= 50000))
+        && (!('sourceRef' in request.resource.data)
+          || (request.resource.data.sourceRef is string
+            && request.resource.data.sourceRef.size() > 0
+            && request.resource.data.sourceRef.size() <= 256))
         && (!('bankId' in request.resource.data)
           || (request.resource.data.bankId is string
             && request.resource.data.bankId.size() > 0
@@ -352,12 +377,12 @@ service cloud.firestore {
 
     // Barnporten QR — skrivs endast via Cloud Functions (Admin SDK)
     match /barnporten_pairings/{tokenId} {
-      allow read: if isOwner();
+      allow read: if isOwnerSensitive();
       allow create, update, delete: if false;
     }
 
     match /barnporten_devices/{docId} {
-      allow read: if isOwner();
+      allow read: if isOwnerSensitive();
       allow create, update, delete: if false;
     }
 
@@ -1037,7 +1062,7 @@ service cloud.firestore {
 
     // Dossier snapshots — WORM kvitto (skrivs endast av Cloud Functions Admin SDK)
     match /dossier_snapshots/{docId} {
-      allow read: if isOwnerSensitive();
+      allow read: if isOwnerVault();
       allow create, update, delete: if false;
     }
 
