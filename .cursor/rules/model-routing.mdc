@@ -1,0 +1,99 @@
+---
+description: Modellval, token-optimering och YOLO-körning i Cursor — påminn, stoppa, anpassa (tvingar inte modellbyte)
+alwaysApply: false
+---
+
+# Modellrouting & YOLO-optimering (Livskompassen)
+
+Kanon: [`docs/CURSOR-YOLO-MODEL-GUIDE.md`](../../docs/CURSOR-YOLO-MODEL-GUIDE.md) · YOLO-gate: [`yolo-vakt-gate.mdc`](yolo-vakt-gate.mdc) · Extern ChatBox: [`docs/external-ai/chatbox/MODEL-PICKER.md`](../../docs/external-ai/chatbox/MODEL-PICKER.md)
+
+## Gräns (viktigt)
+
+Cursor tillåter **inte** hårdkodat modellbyte från `.mdc`, agenter eller hooks. Modellväljaren i gränssnittet styrs alltid av Pontus. Denna regel styr **beteende, påminnelser och smoke-val** — inte fysisk modellrouting.
+
+## Agent MUST vid osäker modell
+
+Om uppgiften är **säkerhetskritisk, PMIR, WORM, firestore.rules, stor refaktor eller Master YOLO-våg** och du inte kör en resonerande/heavy-modell — inled med:
+
+> **OBS:** Detta är en komplex uppgift. Växla till en resonerande modell (t.ex. Claude Opus 4.8 Thinking eller GPT-5.5 High) i modellväljaren innan vi fortsätter. Alternativt: kör `/yolo-vakt` read-only först.
+
+Ge därefter **ett** nästa steg (progressive disclosure).
+
+## Cursor-modeller → uppgift
+
+| Modell (Cursor) | Använd till | Smoke-minimum | Agent/subagent |
+|-----------------|-------------|---------------|----------------|
+| **Claude Opus 4.8 Thinking** (+ fast) | WORM-audit, `firestore.rules`, PMIR, arkitektur, Valv/Hamn domän | `smoke:predeploy:build` + Tier 2 | `/yolo-vakt`, `specialist-security-auditor` |
+| **Claude Sonnet 4.6 High Thinking** | React/Superhub, locked UX, Obsidian Calm | `YOLO_SKIP_BUILD=1 npm run smoke:yolo` eller `smoke:locked-ux` | `specialist-ux-guardian`, zon-builders UI |
+| **GPT-5.5 High** (+ fast) | Functions, synapser, ADK, callable-implementering | `smoke:predeploy` + domän-extra | `specialist-adk-weaver`, `specialist-smoke-runner` |
+| **GPT-5.4 High / Codex High** | Enfil-debug, types, scripts, smoke-fix | `smoke:yolo` eller mål-smoke | — |
+| **Composer 2.5** (+ fast) | Snabb CSS/copy, triviala komponenter, docs-städ | `smoke:locked-ux` vid UI-touch | — |
+
+**MUST NOT:** Två modeller/Agenter på samma fil parallellt. Max 2 chattar (audit ∥ implementation är OK).
+
+## YOLO-läget i Cursor (UI)
+
+YOLO i Cursor = agenten kör verktyg utan att fråga varje gång. Kombinera så här:
+
+| Scenario | Modell | YOLO UI | Terminal |
+|----------|--------|---------|----------|
+| Snabb UI-fix | Composer / Sonnet fast | På | `YOLO_SKIP_BUILD=1 npm run smoke:yolo` |
+| Backend-våg | GPT-5.5 High | På | `npm run smoke:predeploy:build` |
+| Pre-deploy | Opus / GPT-5.5 | Av (audit först) | `/yolo-vakt` → `smoke:predeploy:build` |
+| Nattpass | — (ingen LLM) | — | `npm run orkester:night` |
+| Master/Fas-autorun | GPT-5.5 eller Opus | På, **en våg = en chatt** | smoke enligt vågtabell |
+
+Handoff vid full kontext: [`docs/MASTER-YOLO-AUTORUN.md`](../../docs/MASTER-YOLO-AUTORUN.md) § Ny chatt.
+
+## Smoke-hierarki (välj rätt — sparar tid)
+
+| Tier | Kommando | När |
+|------|----------|-----|
+| **Snabb** | `YOLO_SKIP_BUILD=1 npm run smoke:yolo` | Iteration, UI, liten diff |
+| **Standard gate** | `npm run smoke:predeploy:build` | **Deploy, merge, YOLO GO** |
+| **Live (efter deploy)** | `npm run smoke:predeploy:live` | Kräver `.env` |
+| **Release** | `npm run smoke:super-yolo` | Stor release / nattpass efter kod |
+
+`smoke:yolo` ⊂ `smoke:predeploy` — **deploy kräver `smoke:predeploy:build` PASS**, inte bara `smoke:yolo`.
+
+Tier 2 domän-extra: tabell i [`docs/YOLO-VAKT-GATE.md`](../../docs/YOLO-VAKT-GATE.md).
+
+## Token-optimering via globs
+
+Ladda **inte** hela regelboken i varje prompt. Denna fil är `alwaysApply: false` — anropa `@model-routing` vid YOLO/Master/autorun.
+
+| Arbete | Läs / @ |
+|--------|---------|
+| UI-komponent | `design-calm.mdc`, `ui-design.mdc` |
+| RAG/silo | `memory-silo.mdc` |
+| Valv/WORM | `security-firestore.mdc`, `yolo-vakt-gate.mdc` |
+| Deploy | `deploy-paminnelser.mdc`, `@model-routing` |
+| Orkester/natt | `orkester-autorun.mdc` |
+
+## PMIR-stopp (hard — oavsett modell)
+
+`firestore.rules` · Barnporten kanon-UI · Sacred/Locked UX borttagning · mass-radering · App Check Enforce · Fas 22.3 nutrition utan 22.2 PMIR → **NO-GO**, ett fixsteg, ingen deploy.
+
+## Subagent-modell (Task)
+
+Subagents kan få explicit `model` i Task-anrop — endast slugs som Cursor exponerar (t.ex. `claude-opus-4-8-thinking-high`, `gpt-5.5-high`). Det påverkar **inte** huvudchattens modell.
+
+| Subagent | Rekommenderad modell |
+|----------|---------------------|
+| `yolo-vakt` | inherit (read-only audit) |
+| `specialist-security-auditor` | Opus 4.8 Thinking |
+| `specialist-valv-builder` | Sonnet 4.6 / Opus vid WORM |
+| `specialist-smoke-runner` | GPT-5.4 High |
+
+## MUST
+
+- `/yolo-vakt` eller motsvarande audit **före** prod-deploy.
+- Spara audit: `docs/evaluations/YYYY-MM-DD-yolo-audit.md`.
+- En våg = en chatt vid Master/Fas-autorun.
+- Verifiera mot kod — [`anti-hallucination.mdc`](anti-hallucination.mdc).
+
+## MUST NOT
+
+- Påstå att modellbyte skett automatiskt via regelfil.
+- `firebase deploy` utan `smoke:predeploy:build` PASS + YOLO GO + Pontus OK vid PMIR.
+- Köra `smoke:super-yolo` vid varje liten UI-ändring (token/tid-slöseri).
