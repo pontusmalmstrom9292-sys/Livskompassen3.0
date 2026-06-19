@@ -23,7 +23,35 @@ Säg i chatten:
 Kör specialist-theme-lab: skapa 2–3 nya I-stone-utkast, uppdatera VARIANTS.md, förbättra Theme Lab om det behövs. Jämför mot hela projektets kontext. Arbeta autonomt och sluta inte förrän build är felfri.
 ```
 
-Agent: `.cursor/agents/specialist-theme-lab.md`
+Agent: `.cursor/agents/specialist-theme-lab.md`  
+Skill: `.cursor/skills/livskompassen-theme-lab/SKILL.md`
+
+---
+
+## Cursor MCP (Figma + Playwright)
+
+Konfigurerat i `.cursor/mcp.json`:
+
+| MCP | Syfte |
+|-----|-------|
+| **figma** | Design↔kod, batch-capture av hubbar |
+| **playwright** | Browser-inspektion i Cursor (G85 viewport 390×844) |
+| **firebase** | Rules-validering (ej UI) |
+
+**Figma capture (befintligt):**
+
+1. `npm run dev`
+2. `node scripts/figma-batch-open.mjs <capture-id>` — 26 rutter
+3. Autentisera Figma MCP i Cursor Settings → MCP
+
+**Browser E2E (render-gate):**
+
+```bash
+npx playwright install chromium
+npm run test:e2e:locked-ux
+```
+
+Kompletterar statiska `smoke:locked-ux` — verifierar faktisk rendering utan inloggning.
 
 ---
 

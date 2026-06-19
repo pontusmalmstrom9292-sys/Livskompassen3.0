@@ -96,6 +96,10 @@
     "smoke:orkester": "node scripts/smoke_orkester_wiring.mjs",
     "smoke:agents-ui": "node scripts/smoke_agents_ui.mjs",
     "test:agents-ui": "npx vitest run src/modules/shared/agents/utils/resolveExecutorDisplay.test.ts src/modules/shared/agents/utils/routingBadgeText.test.ts",
+    "test:e2e": "playwright test",
+    "test:e2e:locked-ux": "playwright test e2e/locked-ux-public.spec.ts e2e/obsidian-calm-tokens.spec.ts",
+    "test:e2e:install": "playwright install chromium",
+    "smoke:e2e-locked-ux": "playwright test e2e/locked-ux-public.spec.ts e2e/obsidian-calm-tokens.spec.ts --reporter=line",
     "smoke:valv-chat-e2e": "node scripts/smoke_valv_chat_e2e.mjs",
     "smoke:inkast-upload": "node scripts/smoke_inkast_upload.mjs",
     "smoke:confirm-inbox": "node scripts/smoke_confirm_inbox.mjs",
@@ -199,6 +203,7 @@
   "devDependencies": {
     "@capacitor/cli": "^8.3.4",
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.61.0",
     "@types/qrcode": "^1.5.6",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
