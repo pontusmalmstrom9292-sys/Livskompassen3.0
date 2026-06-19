@@ -3,7 +3,7 @@
 **Användning**
 
 1. `Cmd + L` → ny chatt → **Planläge**
-2. @-mention: `STRATEGIC-PLAN-MASTER-SUPERPROMPT.md`, `GUARD-REGLERBOK.md`, `TIPS-GAP-MATRIX.md`, samt användarens **andra chatt-transkript** (tips/exempelkod)
+2. @-mention: `STRATEGIC-PLAN-MASTER-SUPERPROMPT.md`, `GUARD-REGLERBOK.md`, `EXPERT-AGENT-DIRECTIVES.json`, `TIPS-GAP-MATRIX.md`, samt användarens **andra chatt-transkript** (tips/exempelkod)
 3. Klistra in kodblocket nedan (utan markdown-rubriker runt blocket)
 
 **Syfte:** Analysera en *andra* Cursor-chatt (externa tips, exempelkod, idéer) mot befintlig Livskompassen-governance. **Read-only** — ingen prod-kod, ingen deploy.
@@ -93,6 +93,10 @@ Zon-arkitektur, ADK/synapser, gratis tier, stub vs live, REASONS
 Locked UX, Obsidian Calm, drawer plausible deniability, smoke:locked-ux
 
 ### specialist-verifier
+
+### specialist-smoke-runner
+Build + smoke-orkestrering, smoke:predeploy, PASS/FAIL-evidence
+
 GAP-register vs kod, smoke PASS-krav, påståenden VERIFIED/REJECTED
 
 ---
