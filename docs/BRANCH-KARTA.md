@@ -2,9 +2,9 @@
 
 **Syfte:** En aktiv utvecklingsgren (`main`). Inget förstört — historik finns i git.
 
-**Senast:** 2026-06-19 (merge: `cursor/valv-a2-7-docs-7746` → `main`, PR #31)
+**Senast:** 2026-06-19 (merge: B1–B4 frontend polish → `main`)
 
-**Senast merge:** 2026-06-19 (`cursor/valv-a2-7-docs-7746` → `main` — Valv A2.7 Kanon docs-flik; PMIR [`evaluations/2026-06-19-pmir-valv-a2-7.md`](./evaluations/2026-06-19-pmir-valv-a2-7.md))
+**Senast merge:** 2026-06-19 (B1 MåBra · B2 Familjen/Hamn · B3 Hjärtat · B4 Planering — progressive disclosure)
 
 **Senast merge (äldre):** 2026-06-01 (`feat/superhub-v2` → `main` — supersidor, capture, Draft Layer; PMIR [`archive/evaluations-fas21-2026-06/2026-06-01-superhub-PMIR.md`](./archive/evaluations-fas21-2026-06/2026-06-01-superhub-PMIR.md))
 
