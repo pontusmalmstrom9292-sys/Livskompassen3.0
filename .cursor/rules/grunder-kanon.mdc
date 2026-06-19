@@ -31,6 +31,8 @@ Session/synapse state rensas vid logout, blur, panic. Speglar utan persistent RA
 
 `AdkOrchestrator` + AgentCards + `emitSynapse`. Utöka executors utan att blanda silor.
 
+**Osäkerhet:** Vid saknad evidens — *"Ej tillräckligt data för bedömning."* Gissa aldrig WORM-innehåll eller silo-routing.
+
 ## U6 — Innehåll (fakta vs lek, låst)
 
 Utvecklingszon **Vit** (`mabra_*`, `vit_*`) — **ingen** cross-RAG till Kunskap. `content_class`: FACT | REFLECTION | PLAY | EVIDENCE.

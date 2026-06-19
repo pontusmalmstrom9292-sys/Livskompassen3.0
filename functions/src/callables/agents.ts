@@ -63,7 +63,13 @@ export const analyzeMessage = onCall(
     const uid = await guardSensitiveCallableV2(request, 'analyzeMessage', 30);
 
     const message = request.data.message;
-    const ragContext: string[] = request.data.ragContext ?? [];
+    // U1 — klient får aldrig injicera RAG-kontext (prompt injection / cross-silo).
+    if (Array.isArray(request.data.ragContext) && request.data.ragContext.length > 0) {
+      console.warn(
+        `[analyzeMessage] Ignorerar klient-supplied ragContext (${request.data.ragContext.length} poster) uid=${uid}`,
+      );
+    }
+    const ragContext: string[] = [];
 
     if (!message || typeof message !== 'string') {
       throw new HttpsError('invalid-argument', 'Fältet "message" (string) krävs.');
