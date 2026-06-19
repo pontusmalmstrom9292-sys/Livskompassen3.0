@@ -11,17 +11,7 @@ const PATTERN_ASSIST_MODEL = 'gemini-2.5-flash';
 const ALLOWED_PATTERN_IDS = new Set(TACTIC_PATTERN_DEFS.map((d) => d.id));
 
 import { PATTERN_ASSIST_RESPONSE_SCHEMA, validatePatternAssistResponse } from '../schemas/patternAssist';
-
-const PATTERN_ASSIST_SYSTEM = `Du är P3 Mönster-metadata-assistent för Livskompassen Valv.
-
-Returnera ENDAST giltig JSON: { "pattern_ids": string[] }
-
-Regler:
-- Välj ENDAST pattern_ids från den tillhandahållna katalogen — inga egna etiketter
-- Max 5 pattern_ids per text
-- Beteende och kommunikationsmönster — INGA diagnoser, INGA partietiketter ("narcissist" etc.)
-- Om inget matchar: pattern_ids = []
-- HCF/covert-fokus: DARVO, gaslighting, hoovering, tyst straff, juridik-hot, skrift-eskalering`;
+import { PATTERN_ASSIST_SYSTEM } from '../sharedRules';
 
 function extractJsonObject(raw: string): string {
   const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();

@@ -19,7 +19,12 @@ export {
   dismissInboxItem,
   previewInboxClassification,
   submitInkastLite,
+  reprocessVaultInboxQueue,
 } from './callables/inbox';
+
+export { recordDiscoveryMilestone } from './callables/evolutionLedger';
+
+export { scheduledBarnportenAgeEval } from './jobs/barnportenAgeEvalJob';
 
 export {
   beginVaultWebAuthnChallengeCallable as beginVaultWebAuthnChallenge,

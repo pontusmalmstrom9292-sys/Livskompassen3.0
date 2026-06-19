@@ -2,6 +2,8 @@ import * as admin from 'firebase-admin';
 import { requiresHumanReview, type InboxClassification } from './inboxClassifier';
 import { formatChildObservation, inferEpistemicKind } from './childObservationEpistemics';
 import { persistKbDocFromDrive, type PersistKbDocInput } from './persistKbDoc';
+import { ingestKampsparForUser } from './ingestKampsparInternal';
+import { isKunskapFactApproved } from './kunskapContentBankGate';
 import { assertServerWormPayload, CHILDREN_LOG_ALLOWED_KEYS, driveInboxSourceRef, REALITY_VAULT_ALLOWED_KEYS } from './wormPayload';
 
 const INBOX_QUEUE = 'inbox_queue';
@@ -393,8 +395,6 @@ export async function routeInboxToWorm(input: {
   }
 
   // Explicit kunskap guard — MUST NOT be reached by new routing values added later.
-  // Bevis MUST NOT reach here (routed above). New InboxRouting values require a
-  // new explicit branch above before this point.
   if (classification.routing !== 'kunskap') {
     const q = await persistInboxQueueItem({
       ownerId,
@@ -411,27 +411,31 @@ export async function routeInboxToWorm(input: {
     return { action: 'queued', queueId: q.queueId };
   }
 
-  let embeddingDim: number | undefined;
-  try {
-    const { generateEmbeddingInternal } = await import('./generateEmbeddingInternal');
-    const embedding = await generateEmbeddingInternal(analysisText.slice(0, 4000));
-    embeddingDim = embedding.length > 0 ? embedding.length : undefined;
-  } catch {
-    /* optional */
+  // U6 content-bank gate — okänd FACT → HITL (P1.2)
+  if (!isKunskapFactApproved(classification)) {
+    const q = await persistInboxQueueItem({
+      ownerId,
+      driveFileId: fileId,
+      fileName,
+      mimeType,
+      classification: { ...classification, routing: 'review' },
+      analysisExcerpt: analysisText,
+      evidenceUrl,
+    });
+    return { action: 'queued', queueId: q.queueId };
   }
 
-  const k = await persistKunskapFromInbox(
-    {
-      ownerId,
-      title: fileName,
-      content: analysisText,
-      driveFileId: fileId,
-      mimeType,
-      embeddingDim,
-    },
-    classification
-  );
-  return { action: 'persisted', collection: 'kb_docs', docId: k.docId };
+  // P1.1 — route FACT to kampspar + vector (ANN parity)
+  const title = (classification.summary || fileName).slice(0, 200).trim() || fileName;
+  const kampspar = await ingestKampsparForUser(ownerId, {
+    title,
+    content: analysisText.slice(0, 48_000),
+    category: classification.category,
+    entryType: 'fact_ingest',
+    tags: classification.tags,
+    source: `inbox:${fileId}`,
+  });
+  return { action: 'persisted', collection: 'kampspar', docId: kampspar.docId };
 }
 
 export type InboxQueueItem = InboxQueueDoc & { id: string };
@@ -533,6 +537,26 @@ export async function confirmInboxQueueItem(input: {
   });
 
   return { collection: routeResult.collection, docId: routeResult.docId };
+}
+
+export async function reprocessVaultInboxQueue(uid: string): Promise<{
+  processed: number;
+  results: Array<{ queueId: string; collection: string; docId: string }>;
+}> {
+  const pending = await listPendingInboxQueue(uid);
+  const bevisPending = pending.filter((item) => item.proposedRouting === 'bevis');
+  const results: Array<{ queueId: string; collection: string; docId: string }> = [];
+
+  for (const item of bevisPending) {
+    const persisted = await confirmInboxQueueItem({
+      uid,
+      queueId: item.id,
+      routing: 'bevis',
+    });
+    results.push({ queueId: item.id, ...persisted });
+  }
+
+  return { processed: results.length, results };
 }
 
 export async function dismissInboxQueueItem(uid: string, queueId: string): Promise<void> {

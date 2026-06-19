@@ -102,6 +102,36 @@ function validateGovernanceFiles() {
   );
 }
 
+function validateSharedRulesRuntime() {
+  const sharedRulesPath = resolve(root, 'functions/src/sharedRules.ts');
+  assert(existsSync(sharedRulesPath), 'saknar functions/src/sharedRules.ts');
+  const shared = readFileSync(sharedRulesPath, 'utf-8');
+  assert(
+    shared.includes('BRUSFILTER_SYSTEM_INSTRUCTION'),
+    'sharedRules.ts saknar BRUSFILTER_SYSTEM_INSTRUCTION',
+  );
+  assert(
+    shared.includes('getAgentSystemPrompt'),
+    'sharedRules.ts saknar getAgentSystemPrompt',
+  );
+
+  const strayFiles = [
+    'functions/src/callables/processBrusfilter.ts',
+    'functions/src/lib/patternMetadataAssist.ts',
+    'functions/src/callables/projectMedia.ts',
+    'functions/src/callables/voiceCommand.ts',
+  ];
+  for (const rel of strayFiles) {
+    const text = readFileSync(resolve(root, rel), 'utf-8');
+    assert(
+      !text.match(/const\s+(BRUSFILTER|PATTERN_ASSIST|OCR_PROMPT|SYSTEM_PROMPT)\s*=/),
+      `${rel} har fortfarande lokal runtime-prompt (P0.4)`,
+    );
+    assert(text.includes('sharedRules'), `${rel} importerar inte sharedRules`);
+  }
+  console.log('sharedRules.ts runtime prompt scan OK.');
+}
+
 function main() {
   console.log('[smoke:guard] Validerar governance + promptfiler…');
   validateGovernanceFiles();
@@ -109,6 +139,7 @@ function main() {
     validatePromptFile(relPath);
   }
   validateRegistryExtendedPhrase();
+  validateSharedRulesRuntime();
   console.log('[smoke:guard] PASS');
 }
 

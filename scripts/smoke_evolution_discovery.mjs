@@ -37,56 +37,35 @@ function main() {
   mustInclude(
     'src/modules/core/firebase/evolutionLedgerFirestore.ts',
     'recordDiscoveryMilestoneIfNew',
-    'syncEvolutionHubToLedger',
-    'recordPillarCapacityIncreases',
-    'recordFeatureUnlocks',
-    'recordChildAgeMilestones',
-    'recordBarnportenLevelIncrease',
-    'recordUnlockedPackChanges',
+    'recordDiscoveryMilestone',
     'mergeEvolutionHub',
-    'milestone_unlocked',
-    'kompass_discovery',
   );
   mustInclude(
     'src/modules/core/store/useEvolutionStore.ts',
-    'syncEvolutionHubToLedger',
-    'hubLedgerFingerprint',
+    'evolution_ledger: server-only',
   );
-  mustInclude(
-    'shared/evolution/evolutionHubLedgerSync.ts',
-    'hubLedgerFingerprint',
-    'collectLedgerEntriesFromHubDiff',
-    'ledgerEntryDedupKey',
+  mustNotInclude(
+    'src/modules/core/store/useEvolutionStore.ts',
+    'syncEvolutionHubToLedger',
   );
   mustInclude(
     'functions/src/triggers/onEvolutionHubWrite.ts',
     'onEvolutionHubWrite',
     'syncEvolutionHubToLedgerServer',
-    'evolution_hub/{uid}',
   );
   mustInclude(
-    'functions/src/index.ts',
-    'onEvolutionHubWrite',
-  );
-  mustInclude(
-    'src/modules/oracle/services/OracleService.ts',
-    'USER_DAILY_FOCUS_COLLECTION',
-    'daily_intentions',
-  );
-  mustInclude(
-    'src/modules/core/hooks/useEvolutionSync.ts',
-    'useEvolutionStore',
-    'userId: user.uid',
+    'functions/src/callables/evolutionLedger.ts',
+    'recordDiscoveryMilestone',
   );
   mustInclude(
     'firestore.rules',
     'match /evolution_ledger/{docId}',
-    'milestone_unlocked',
+    'allow create: if false',
     'allow update, delete: if false',
   );
-  mustInclude(
+  mustNotInclude(
     'src/modules/core/firebase/offlineWritePolicy.ts',
-    'evolution_ledger',
+    'C.evolution_ledger',
   );
   mustInclude(
     'src/modules/features/dailyLife/wellbeing/compasses/components/KompassDiscoveryCardFlow.tsx',

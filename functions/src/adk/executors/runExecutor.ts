@@ -22,7 +22,7 @@ export async function runExecutor(
   message: A2AMessage,
   ragContext: string[] = []
 ): Promise<string> {
-  const systemInstruction = getAgentSystemPrompt(executorId);
+  const systemInstruction = getAgentSystemPrompt(executorId, message.intent);
   const contextId = message.contextId ?? 'anonymous';
 
   if (ragContext.length > 0) {

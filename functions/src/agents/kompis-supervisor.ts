@@ -7,7 +7,7 @@ import {
 import type { AgentResponse } from './types';
 import { GCP_PROJECT_ID } from '../config';
 import { analyzeDcap, DcapResult } from './DCAP';
-import { askGransArkitekten } from './gransArkitektenAgent';
+import { askGransArkitekten, parseGransJson, type GransArkitektenResult } from './gransArkitektenAgent';
 import { resolveHamnTheoryWithoutEvidence } from '../lib/epistemicGuard';
 import { getOrCreateCache, invalidateCachesForUser } from '../lib/vertexCache';
 import { KOMPIS_SYSTEM_PROMPT } from '../sharedRules';
@@ -77,7 +77,24 @@ export class KompisSupervisor {
     );
 
     if (route.executorId === EXECUTOR_AGENT_IDS.gransArkitekten) {
-      const grans = await askGransArkitekten(userInput, dcapResult);
+      const orchestration = await adkOrchestrator.dispatchFromSupervisor(
+        route,
+        userInput,
+        userId,
+        ragContext,
+        {
+          dcapRiskScore: dcapResult.riskScore,
+          greyRockSuggestion: dcapResult.greyRockResponse,
+        },
+      );
+
+      let grans: GransArkitektenResult;
+      if (orchestration.response.status === 'SUCCESS' && orchestration.rawAgentText) {
+        grans = parseGransJson(orchestration.rawAgentText, dcapResult);
+      } else {
+        grans = await askGransArkitekten(userInput, dcapResult);
+      }
+
       const theoryWithoutEvidence = resolveHamnTheoryWithoutEvidence(
         userInput,
         grans,

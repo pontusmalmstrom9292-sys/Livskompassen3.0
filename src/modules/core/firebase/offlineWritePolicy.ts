@@ -30,7 +30,6 @@ export const OFFLINE_WRITE_ALLOWLIST = new Set<string>([
   C.mabra_nutrition_log,
   C.vit_hub,
   C.vit_entries,
-  C.evolution_ledger,
   C.adaptation_prefs,
   C.adaptation_ledger,
   C.emotional_memory,

@@ -1207,7 +1207,8 @@ service cloud.firestore {
 
     match /evolution_ledger/{docId} {
       allow read: if isOwner();
-      allow create: if isOwnerCreateSensitive() && isValidEvolutionLedgerCreate();
+      // Admin SDK only — onEvolutionHubWrite + recordDiscoveryMilestone callable (P0.1)
+      allow create: if false;
       allow update, delete: if false;
     }
 

@@ -10,6 +10,7 @@ import { PlanningKanbanColumn } from './PlanningKanbanColumn';
 import { PlanningTaskDetail } from './PlanningTaskDetail';
 
 import { CognitiveGuardView } from './CognitiveGuardView';
+import { usePlanningKanbanGate } from '../hooks/usePlanningKanbanGate';
 
 export function PlanningKanbanBoard() {
   const [searchParams] = useSearchParams();
@@ -30,6 +31,8 @@ export function PlanningKanbanBoard() {
     focusTask,
     isOverloaded,
   } = useCognitiveGuard(visibleTasks);
+
+  const { isAdvancedKanban, isLoading: kanbanGateLoading } = usePlanningKanbanGate();
 
   const [selected, setSelected] = useState<PlanningTask | null>(null);
   const [quickTitle, setQuickTitle] = useState('');
@@ -145,6 +148,13 @@ export function PlanningKanbanBoard() {
 
       {error && <p className="text-sm text-danger">{error}</p>}
 
+      {!kanbanGateLoading && !isAdvancedKanban && (
+        <p className="rounded-2xl border border-border/30 bg-surface-2/70 px-4 py-3 text-sm text-text-muted">
+          Förenklad planering — ett mikrosteg i taget. Avancerad Kanban låses upp när kognitiv
+          kapacitet ökar (evolution_hub).
+        </p>
+      )}
+
       {isOverloaded && cognitiveGuardEnabled && focusTask ? (
         <CognitiveGuardView
           focusTask={focusTask}
@@ -173,7 +183,8 @@ export function PlanningKanbanBoard() {
           </p>
 
           <div className="planering-kanban-bento__columns">
-            {KANBAN_COLUMNS.map((col) => (
+            {(isAdvancedKanban ? KANBAN_COLUMNS : KANBAN_COLUMNS.filter((c) => c.id === 'todo')).map(
+              (col) => (
               <PlanningKanbanColumn
                 key={col.id}
                 label={col.label}
@@ -185,7 +196,9 @@ export function PlanningKanbanBoard() {
             ))}
           </div>
 
-          <p className="planering-bento-footer">Att göra · Väntar · Klart</p>
+          <p className="planering-bento-footer">
+            {isAdvancedKanban ? 'Att göra · Väntar · Klart' : 'Att göra — förenklat läge'}
+          </p>
         </BentoCard>
       )}
 

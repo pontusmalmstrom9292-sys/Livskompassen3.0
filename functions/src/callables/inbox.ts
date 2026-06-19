@@ -6,6 +6,7 @@ import {
   confirmInboxQueueItem,
   dismissInboxQueueItem,
   listPendingInboxQueue,
+  reprocessVaultInboxQueue as reprocessVaultInboxQueueForUser,
 } from '../lib/inboxPersist';
 import { submitInkastLiteForUser } from '../lib/submitInkastLite';
 import { assertVaultSession } from '../lib/vaultSessionGate';
@@ -87,6 +88,19 @@ export const dismissInboxItem = onCall({ region: 'europe-west1' }, async (reques
     return { success: true };
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Avvisning misslyckades.';
+    throw new HttpsError('failed-precondition', message);
+  }
+});
+
+/** P1.3 — Reprocess pending bevis-kö efter vault unlock (HITL, fail-closed utan session). */
+export const reprocessVaultInboxQueue = onCall({ region: 'europe-west1' }, async (request) => {
+  const uid = await guardSensitiveCallableV2(request, 'reprocessVaultInboxQueue', 10);
+  await assertVaultSession(uid, request.data);
+
+  try {
+    return await reprocessVaultInboxQueueForUser(uid);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Reprocess misslyckades.';
     throw new HttpsError('failed-precondition', message);
   }
 });

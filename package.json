@@ -105,6 +105,7 @@
     "smoke:predeploy": "npm run smoke:tier1 && npm run smoke:valv-security && npm run smoke:plausible-deniability && npm run smoke:locked-icons && npm run smoke:barn-epistemik && npm run smoke:epistemic-guard",
     "smoke:predeploy:live": "npm run smoke:predeploy && npm run smoke:valv-gate && npm run smoke:children && npm run smoke:vault-worm && npm run smoke:inbox",
     "smoke:predeploy:build": "cd functions && npm run build && cd .. && npm run build && npm run smoke:predeploy",
+    "smoke:super-yolo": "npm run smoke:predeploy:build && npm run smoke:valv-chat-e2e && npm run smoke:confirm-inbox && npm run smoke:weaver-hitl && npm run smoke:entities && npm run smoke:evolution-discovery && npm run smoke:epistemic-guard && npm run smoke:barn-epistemik && npm run smoke:domän-specialister",
     "smoke:evolution": "node scripts/smoke_evolution.mjs",
     "smoke:tier2": "npm run smoke:tier1 && npm run smoke:valv-security && npm run smoke:android-platform && npm run smoke:auth-login && npm run smoke:inkast-vardag && npm run smoke:hamn && npm run smoke:grans && npm run smoke:compass && npm run smoke:content-mabra-static && npm run smoke:pattern-metadata && npm run smoke:confirm-inbox && npm run smoke:design-freeport",
     "orkester:night": "node scripts/orkester_autorun.mjs",
