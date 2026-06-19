@@ -38,10 +38,10 @@ const WIDGET_ACTIONS: WidgetAction[] = [
     to: '/widget/anteckning',
     widgetIcon: 'note',
   },
-  { id: 'list', label: 'Lista', to: '/projekt/ny', hubId: 'projekt' },
+  { id: 'list', label: 'Lista', to: '/widget/projekt', hubId: 'projekt' },
   { id: 'plan', label: 'Planering', to: '/planering?tab=handling&picked=1', hubId: 'planering' },
   { id: 'valv', label: 'Valv', to: NAV_PATHS.VALVET, hubId: 'dagbok' },
-  { id: 'projekt', label: 'Projekt', to: '/projekt/ny', hubId: 'projekt' },
+  { id: 'projekt', label: 'Projekt', to: '/widget/projekt', hubId: 'projekt' },
 ];
 
 const VALV_LOCKED_LABEL = 'Lås upp';
