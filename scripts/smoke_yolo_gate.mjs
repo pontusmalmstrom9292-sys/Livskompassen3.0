@@ -49,5 +49,6 @@ runNpm('smoke:orkester');
 runNpm('smoke:plausible-deniability');
 runNpm('smoke:valv-security');
 runNpm('smoke:innehall');
+runNpm('smoke:prompts');
 
 console.log('\n[yolo-gate] PASS — smoke:yolo klar. Kräver YOLO GO + named deploy.');
