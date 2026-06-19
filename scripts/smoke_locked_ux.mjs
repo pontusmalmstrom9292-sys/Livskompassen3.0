@@ -465,6 +465,9 @@ function main() {
   mustInclude('src/modules/features/widgets/pages/WidgetRecordPage.tsx', 'useWidgetVaultRecording');
   mustInclude('src/modules/features/widgets/pages/WidgetFamiljenPage.tsx', 'widget_snabb');
   mustInclude('src/modules/features/widgets/api/widgetVaultRecording.ts', 'SAMMANFATTNING');
+  mustInclude('src/modules/features/widgets/api/widgetVaultRecording.ts', 'sourceRef');
+  mustInclude('src/modules/features/widgets/api/widgetVaultRecording.ts', 'storageInboxSourceRef');
+  mustInclude('functions/src/lib/wormPayload.ts', 'buildInboxSourceRef');
   mustInclude('public/manifest.webmanifest', '/widget/inspelning', '/widget/familjen', '/widget/stampla');
   mustInclude(
     'src/modules/core/components/FyrenWidgetBar.tsx',

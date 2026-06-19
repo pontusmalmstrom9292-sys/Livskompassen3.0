@@ -1,6 +1,7 @@
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '@/core/firebase/init';
 import { saveVaultLog } from '@/core/firebase/firestore';
+import { storageInboxSourceRef } from '@/core/firebase/inboxSourceRef';
 import { uploadDiscreetRecording } from '@/core/firebase/storage';
 
 export type WidgetRecordingAnalysis = {
@@ -18,6 +19,8 @@ export type WidgetRecordingMetadata = {
 export type PreparedWidgetRecording = {
   analysis: WidgetRecordingAnalysis;
   evidenceUrl: string;
+  storagePath: string;
+  sourceRef: string;
   recordedAtIso: string;
   transcript: string;
   durationSeconds?: number;
@@ -103,11 +106,19 @@ export async function prepareWidgetRecording(
 ): Promise<PreparedWidgetRecording> {
   const recordedAtIso = recordedAt.toISOString();
   const analysis = await runAnalysis(transcript, recordedAt, durationSeconds);
-  const evidenceUrl = await uploadDiscreetRecording(userId, file, recordedAt, analysis.title);
+  const { storagePath, downloadUrl } = await uploadDiscreetRecording(
+    userId,
+    file,
+    recordedAt,
+    analysis.title,
+  );
+  const sourceRef = storageInboxSourceRef(storagePath);
 
   return {
     analysis,
-    evidenceUrl,
+    evidenceUrl: downloadUrl,
+    storagePath,
+    sourceRef,
     recordedAtIso,
     transcript,
     durationSeconds,
@@ -134,6 +145,7 @@ export async function lockWidgetRecordingToVault(
     category: 'tyst_inspelning',
     truth,
     evidenceUrl: prepared.evidenceUrl,
+    sourceRef: prepared.sourceRef,
     entryType: 'simple',
   });
 }
