@@ -1,14 +1,16 @@
 /** @locked-ux Valv Orkester — do not remove; see `.context/locked-ux-features.md` */
-import { useMemo, useState } from 'react';
-import { Check, Copy, Filter, Loader2, Network, Shield } from 'lucide-react';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Check, Copy, Filter, Loader2, Shield } from 'lucide-react';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { AgentRoutingBadge } from '@/shared/agents/components/AgentRoutingBadge';
 import {
   analyzeBiffMessage,
   type GransAnalysis,
 } from '@/features/family/safeHarbor/api/biffService';
 import type { VaultLog } from '@/core/types/firestore';
-import { PRODUCT_AGENTS } from '../constants/productAgents';
+import { AdkAgentRegistryPanel } from './AdkAgentRegistryPanel';
 import { OrkesterAgentTrio } from './OrkesterAgentTrio';
 import { scanTechniquesForLog } from '../utils/vaultPatternScan';
 import {
@@ -47,6 +49,9 @@ function BrusfilterRiskBadge({
 }
 
 export function VaultOrkesterPanel({ logs = [] }: Props) {
+  const navigate = useNavigate();
+  const brusfilterRef = useRef<HTMLDivElement>(null);
+
   const [rawInput, setRawInput] = useState('');
   const [brusLoading, setBrusLoading] = useState(false);
   const [brusError, setBrusError] = useState<string | null>(null);
@@ -121,13 +126,27 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
 
   const showBrusWarningBorder = brusResult?.dcap_analysis.recommended_action === 'VARNING';
 
+  const handleTrioAgentAction = useCallback(
+    (agentId: string) => {
+      if (agentId === 'agent_sannings_analytikern') {
+        navigate('/valvet?vaultTab=sok');
+        return;
+      }
+      if (agentId === 'agent_brusfiltret' || agentId === 'agent_biff_skolden') {
+        brusfilterRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    },
+    [navigate],
+  );
+
   return (
     <div className="space-y-4">
       <div className="flex justify-end">
         <ModuleHelpFromRegistry moduleId="valv_orkester" />
       </div>
-      <OrkesterAgentTrio />
+      <OrkesterAgentTrio onAgentAction={handleTrioAgentAction} />
 
+      <div ref={brusfilterRef} id="orkester-brusfilter">
       <BentoCard
         title="P1 Brusfilter"
         description="Rå inkommande meddelande — logistik och BIFF utan JADE"
@@ -188,6 +207,10 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
                 riskScore={brusResult.dcap_analysis.risk_score}
                 recommendedAction={brusResult.dcap_analysis.recommended_action}
               />
+              <AgentRoutingBadge
+                productAgentName="Brusfiltret"
+                executorName="Gräns-Arkitekten"
+              />
               {showBrusWarningBorder && (
                 <p className="text-[10px] uppercase tracking-widest text-text-dim">
                   Eskaleringsrisk — svara kort, ingen JADE
@@ -233,24 +256,14 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
           </div>
         )}
       </BentoCard>
+      </div>
 
-      <BentoCard
-        title="Assistentroller"
-        description="Vilka hjälpare som finns"
-        icon={<Network className="h-4 w-4" />}
-        glow="gold"
-      >
-        <ul className="space-y-2">
-          {PRODUCT_AGENTS.map((agent) => (
-            <li key={agent.id} className="glass-card p-3 text-sm">
-              <p className="font-medium text-text">{agent.name}</p>
-              <p className="text-xs text-text-dim">
-                {agent.role} · {agent.focus}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </BentoCard>
+      <section aria-labelledby="vault-orkester-assistentroller">
+        <h3 id="vault-orkester-assistentroller" className="sr-only">
+          Assistentroller
+        </h3>
+        <AdkAgentRegistryPanel />
+      </section>
 
       {registeredDocs.length > 0 && (
         <BentoCard title="Registrerade dokument" description="SMS, mejl, myndighet">
@@ -284,6 +297,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
         </BentoCard>
       )}
 
+      <div id="orkester-monstersokning">
       <BentoCard
         title="Mönstersökning i SMS-tråd"
         description="Klistra in hela tråden — Brusfiltret + DCAP"
@@ -314,11 +328,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
 
         {(riskScore != null || grans) && (
           <div className="mt-4 space-y-3 border-t border-border-strong pt-4 text-sm">
-            {agentName && (
-              <p className="text-text-dim">
-                Dirigerad av: <span className="text-accent">{agentName}</span>
-              </p>
-            )}
+            <AgentRoutingBadge agentName={agentName ?? 'Gräns-Arkitekten'} />
             {riskScore != null && (
               <p>
                 DCAP riskpoäng: <span className="text-accent">{riskScore}</span>/100
@@ -357,6 +367,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
           </div>
         )}
       </BentoCard>
+      </div>
     </div>
   );
 }
