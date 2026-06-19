@@ -45,6 +45,7 @@ if (!skipBuild) {
 runNpm('smoke:manifest');
 runNpm('smoke:chrome-header');
 runNpm('smoke:locked-ux');
+runNpm('smoke:e2e-locked-ux');
 runNpm('smoke:orkester');
 runNpm('smoke:plausible-deniability');
 runNpm('smoke:valv-security');
