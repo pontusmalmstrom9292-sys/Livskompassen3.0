@@ -26,7 +26,7 @@ export function AgentRegistryCard({
 
   return (
     <article
-      className={`calm-card glow-bottom-gold border border-border/30 bg-surface-2/50 p-3 ${
+      className={`calm-card glow-bottom-blue border border-border/30 bg-surface-2/50 p-3 ${
         compact ? 'text-center' : ''
       }`}
     >

@@ -1,5 +1,5 @@
 /** @locked-ux Valv Orkester — do not remove; see `.context/locked-ux-features.md` */
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Check, Copy, Filter, Loader2, Shield } from 'lucide-react';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
@@ -7,7 +7,7 @@ import { BentoCard } from '@/shared/ui/BentoCard';
 import { AgentRoutingBadge } from '@/shared/agents/components/AgentRoutingBadge';
 import { AgentRegistryProvider } from '@/shared/agents/hooks/useAgentRegistry';
 import {
-  analyzeBiffMessage,
+  analyzeBiffMessageInVault,
   type GransAnalysis,
 } from '@/features/family/safeHarbor/api/biffService';
 import type { VaultLog } from '@/core/types/firestore';
@@ -52,6 +52,7 @@ function BrusfilterRiskBadge({
 export function VaultOrkesterPanel({ logs = [] }: Props) {
   const navigate = useNavigate();
   const brusfilterRef = useRef<HTMLDivElement>(null);
+  const brusfilterInputRef = useRef<HTMLTextAreaElement>(null);
 
   const [rawInput, setRawInput] = useState('');
   const [brusLoading, setBrusLoading] = useState(false);
@@ -77,6 +78,19 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
         .slice(0, 8),
     [logs],
   );
+
+  useEffect(() => {
+    return () => {
+      setRawInput('');
+      setBrusResult(null);
+      setThread('');
+      setGrans(null);
+      setRiskScore(null);
+      setAgentName(null);
+      setBrusError(null);
+      setError(null);
+    };
+  }, []);
 
   const handleBrusfilter = async () => {
     const text = rawInput.trim();
@@ -114,7 +128,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
     setRiskScore(null);
     setAgentName(null);
     try {
-      const result = await analyzeBiffMessage(thread);
+      const result = await analyzeBiffMessageInVault(thread);
       setGrans(result.data?.gransAnalysis ?? null);
       setRiskScore(result.dcap?.riskScore ?? null);
       setAgentName(result.data?.agentName ?? null);
@@ -135,6 +149,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
       }
       if (agentId === 'agent_brusfiltret' || agentId === 'agent_biff_skolden') {
         brusfilterRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        window.setTimeout(() => brusfilterInputRef.current?.focus(), 350);
       }
     },
     [navigate],
@@ -153,13 +168,14 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
         title="P1 Brusfilter"
         description="Rå inkommande meddelande — logistik och BIFF utan JADE"
         icon={<Filter className="h-4 w-4" />}
-        glow="gold"
+        glow="blue"
       >
         <p className="mb-3 text-sm text-text-muted">
           Klistra in sms eller mejl. Brusfiltret extraherar ren logistik (~10 %) och föreslår ett kort
           Grey Rock-svar. Inget sparas automatiskt.
         </p>
         <textarea
+          ref={brusfilterInputRef}
           value={rawInput}
           onChange={(e) => setRawInput(e.target.value.slice(0, RAW_INPUT_MAX))}
           placeholder="Klistra in meddelande från motparten…"
@@ -223,7 +239,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
             <div className="grid gap-3 md:grid-cols-2">
               <BentoCard
                 title="Isolerad Logistik (10%)"
-                glow="gold"
+                glow="blue"
                 className="!p-4"
                 noHover
               >
@@ -234,7 +250,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
 
               <BentoCard
                 title="Färdigt BIFF Svarsförslag"
-                glow="gold"
+                glow="blue"
                 className="!p-4"
                 noHover
               >
@@ -268,12 +284,12 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
       </section>
 
       {registeredDocs.length > 0 && (
-        <BentoCard title="Registrerade dokument" description="SMS, mejl, myndighet">
+        <BentoCard title="Registrerade dokument" description="SMS, mejl, myndighet" glow="blue">
           <ul className="space-y-2">
             {registeredDocs.map((log) => {
               const tags = scanTechniquesForLog(log);
               return (
-                <li key={log.id} className="glass-card p-3 text-sm">
+                <li key={log.id} className="calm-card glow-bottom-blue border border-border/30 p-3 text-sm">
                   <p className="text-[10px] uppercase tracking-widest text-text-dim">
                     {log.category ?? 'dokument'} · {(log.createdAt ?? '').slice(0, 10)}
                   </p>
@@ -303,7 +319,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
       <BentoCard
         title="Mönstersökning i SMS-tråd"
         description="Klistra in hela tråden — Brusfiltret + DCAP"
-        glow="gold"
+        glow="blue"
       >
         <p className="mb-3 text-sm text-text-muted">
           Exportera gärna hela tråden som text/PDF först (iMazing/Decipher). Kör sedan sökning

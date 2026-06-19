@@ -188,6 +188,7 @@ function main() {
     'AgentRegistryProvider',
     'AdkAgentRegistryPanel',
     'AgentRoutingBadge',
+    'analyzeBiffMessageInVault',
     'callProcessBrusfilter',
     'P1 Brusfilter',
     'Assistentroller',

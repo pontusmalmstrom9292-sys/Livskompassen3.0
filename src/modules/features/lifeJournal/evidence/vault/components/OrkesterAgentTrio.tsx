@@ -8,7 +8,7 @@ const TRIO_IDS = ['agent_brusfiltret', 'agent_biff_skolden', 'agent_sannings_ana
 
 const TRIO_ACTION_LABELS: Record<(typeof TRIO_IDS)[number], string> = {
   agent_brusfiltret: 'Öppna Brusfilter',
-  agent_biff_skolden: 'Öppna Brusfilter',
+  agent_biff_skolden: 'Öppna BIFF-svar',
   agent_sannings_analytikern: 'Öppna Sannings-Analytikern',
 };
 

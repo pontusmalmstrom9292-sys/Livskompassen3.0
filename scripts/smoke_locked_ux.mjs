@@ -279,10 +279,12 @@ function main() {
     'src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx',
     'Assistentroller',
     'Kör mönstersökning',
-    'analyzeBiffMessage',
+    'analyzeBiffMessageInVault',
     'callProcessBrusfilter',
     'P1 Brusfilter',
-    'glow="gold"',
+    'OrkesterAgentTrio',
+    "vaultTab=sok",
+    'glow="blue"',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/utils/vaultPatternScan.ts',

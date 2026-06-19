@@ -40,8 +40,10 @@ mustInclude(
   'AgentRegistryProvider',
   'AdkAgentRegistryPanel',
   'AgentRoutingBadge',
+  'analyzeBiffMessageInVault',
   'Assistentroller',
   'vaultTab=sok',
+  'glow="blue"',
 );
 
 console.log('[smoke:agents-ui] Valv Sök P1...');
@@ -56,7 +58,7 @@ mustInclude(
 );
 
 console.log('[smoke:agents-ui] Backend callable...');
-mustInclude('functions/src/callables/agents.ts', 'getAgentRegistry', 'listAgentCards');
+mustInclude('functions/src/callables/agents.ts', 'getAgentRegistry', 'listAgentCards', 'valv_orkester', 'assertVaultSession');
 mustInclude('functions/src/index.ts', 'getAgentRegistry');
 
 console.log('[smoke:agents-ui] Unit tests...');

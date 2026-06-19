@@ -74,7 +74,13 @@ export const analyzeMessage = onCall(
     }
 
     const preferGransArkitekten =
-      request.data.module === 'safe_harbor' || request.data.preferGransArkitekten === true;
+      request.data.module === 'safe_harbor' ||
+      request.data.module === 'valv_orkester' ||
+      request.data.preferGransArkitekten === true;
+
+    if (request.data.module === 'valv_orkester') {
+      await assertVaultSession(uid, request.data);
+    }
 
     try {
       const result = await supervisor.handleUserRequest(message, uid, ragContext, {

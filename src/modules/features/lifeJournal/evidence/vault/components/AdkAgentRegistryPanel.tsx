@@ -16,7 +16,7 @@ export function AdkAgentRegistryPanel() {
       title="Assistentroller"
       description="Live ADK-registret — vilka agenter som finns och vad de gör"
       icon={<Network className="h-4 w-4" />}
-      glow="gold"
+      glow="blue"
     >
       <div className="mb-3 flex items-center justify-between gap-2">
         <p className="text-xs text-text-dim">
@@ -48,7 +48,7 @@ export function AdkAgentRegistryPanel() {
       )}
 
       {error && (
-        <p className="mb-3 text-xs text-amber-400/90" role="status">
+        <p className="mb-3 text-xs text-danger" role="status">
           {error}
         </p>
       )}
