@@ -1,5 +1,16 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Dossier A2.5 + Hem A2 (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| Leverans | Dossier wizard + filter/AI fold · Hem snabbval + intro fold + mobil stack |
+| Gate | `smoke:locked-ux` + `smoke:design-modules` — **PASS** |
+| PMIR | [`evaluations/2026-06-19-pmir-a2-5-dossier-hem-a2.md`](./evaluations/2026-06-19-pmir-a2-5-dossier-hem-a2.md) |
+| USER | `/` Hem snabbval · Valv Dossier steg 2 fold |
+
+---
+
 ## Valv A2.2–A2.4 (2026-06-19)
 
 | Fält | Värde |
