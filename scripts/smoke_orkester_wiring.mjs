@@ -185,8 +185,17 @@ function main() {
     'src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx',
     'VaultOrkesterPanel',
     'OrkesterAgentTrio',
+    'AgentRegistryProvider',
+    'AdkAgentRegistryPanel',
+    'AgentRoutingBadge',
     'callProcessBrusfilter',
     'P1 Brusfilter',
+    'Assistentroller',
+  );
+  mustInclude(
+    'src/modules/shared/agents/api/agentRegistryService.ts',
+    'fetchAgentRegistry',
+    'getAgentRegistry',
   );
   mustInclude('functions/src/callables/processBrusfilter.ts', 'processBrusfilter', 'guardSensitiveCallableV2');
   mustInclude('functions/src/index.ts', 'processBrusfilter');
