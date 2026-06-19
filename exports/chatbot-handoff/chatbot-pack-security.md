@@ -594,6 +594,65 @@ npm run smoke:kunskap
 ```
 ````
 
+## File: functions/src/adk/synapses/dcapAlertSynapse.ts
+````typescript
+import { hashPayload } from '../stateStore';
+⋮----
+export interface DcapAlertPayload {
+  ownerId: string;
+  riskScore: number;
+  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
+  inputHash: string;
+  detectionCount?: number;
+}
+⋮----
+export interface DcapAlertResult {
+  alertId: string;
+  hitlRequired: boolean;
+}
+⋮----
+export async function handleDcapAlert(payload: DcapAlertPayload): Promise<DcapAlertResult>
+````
+
+## File: functions/src/adk/synapses/driveIngestSynapse.ts
+````typescript
+import { analyzeDriveFile } from '../../agents/documentAgent';
+import { MonsterArkivarienCard } from '../../agents/cards';
+import type { A2AMessage } from '../../agents/types';
+import type { AdkOrchestrator } from '../orchestrator';
+import type { DriveIngestPayload } from '../types';
+import { classifyInboxDocument, applyInkastConfidenceGate } from '../../lib/inboxClassifier';
+import { routeInboxToWorm } from '../../lib/inboxPersist';
+⋮----
+export async function handleDriveIngest(
+  orchestrator: AdkOrchestrator,
+  payload: DriveIngestPayload
+): Promise<
+⋮----
+function isHeavyResponse(text: string): boolean
+````
+
+## File: functions/src/adk/synapses/journalWovenSynapse.ts
+````typescript
+import { generateEmbeddingInternal } from '../../lib/generateEmbeddingInternal';
+import { upsertKampsparVector } from '../../lib/vectorSearchClient';
+⋮----
+export interface JournalWovenPayload {
+  ownerId: string;
+  journalEntryId: string;
+  mood: string;
+  text: string;
+  optIn: boolean;
+}
+⋮----
+export interface JournalWovenResult {
+  kampsparDocId: string;
+  embeddingDim: number | null;
+}
+⋮----
+export async function handleJournalWoven(payload: JournalWovenPayload): Promise<JournalWovenResult>
+````
+
 ## File: functions/src/adk/synapses/paralysBrytarenSynapse.ts
 ````typescript
 import { VertexAI } from '@google-cloud/vertexai';
@@ -672,105 +731,6 @@ export function routeFromDcap(
 ): SupervisorRoute
 ````
 
-## File: functions/src/adk/synapses/dcapAlertSynapse.ts
-````typescript
-import { hashPayload } from '../stateStore';
-⋮----
-export interface DcapAlertPayload {
-  ownerId: string;
-  riskScore: number;
-  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
-  inputHash: string;
-  detectionCount?: number;
-}
-⋮----
-export interface DcapAlertResult {
-  alertId: string;
-  hitlRequired: boolean;
-}
-⋮----
-export async function handleDcapAlert(payload: DcapAlertPayload): Promise<DcapAlertResult>
-````
-
-## File: functions/src/adk/synapses/driveIngestSynapse.ts
-````typescript
-import { analyzeDriveFile } from '../../agents/documentAgent';
-import { MonsterArkivarienCard } from '../../agents/cards';
-import type { A2AMessage } from '../../agents/types';
-import type { AdkOrchestrator } from '../orchestrator';
-import type { DriveIngestPayload } from '../types';
-import { classifyInboxDocument, applyInkastConfidenceGate } from '../../lib/inboxClassifier';
-import { routeInboxToWorm } from '../../lib/inboxPersist';
-⋮----
-export async function handleDriveIngest(
-  orchestrator: AdkOrchestrator,
-  payload: DriveIngestPayload
-): Promise<
-⋮----
-function isHeavyResponse(text: string): boolean
-````
-
-## File: functions/src/adk/synapses/journalWovenSynapse.ts
-````typescript
-import { generateEmbeddingInternal } from '../../lib/generateEmbeddingInternal';
-import { upsertKampsparVector } from '../../lib/vectorSearchClient';
-⋮----
-export interface JournalWovenPayload {
-  ownerId: string;
-  journalEntryId: string;
-  mood: string;
-  text: string;
-  optIn: boolean;
-}
-⋮----
-export interface JournalWovenResult {
-  kampsparDocId: string;
-  embeddingDim: number | null;
-}
-⋮----
-export async function handleJournalWoven(payload: JournalWovenPayload): Promise<JournalWovenResult>
-````
-
-## File: functions/src/adk/orchestrator.ts
-````typescript
-import type { A2AMessage } from '../agents/types';
-import { resolveExecutorId } from '../agents/cards';
-import { runExecutor } from './executors/runExecutor';
-import { validateIntent, getAgentCard, assertCollectionAccess } from './registry';
-import { appendMutation, createTrace, clearSynapseState } from './stateStore';
-import { applyParalysBreak, isHeavyResponse } from './synapses/paralysBrytarenSynapse';
-import { assertBackendSiloIsolation, type SiloId } from './manifest';
-import type { DispatchOptions, OrchestrationResult } from './types';
-⋮----
-function gatekeeperSanitize(text: string): string
-⋮----
-export class AdkOrchestrator
-⋮----
-async dispatch(message: A2AMessage, options: DispatchOptions =
-⋮----
-async dispatchFromSupervisor(
-    route: { productAgentId: string; executorId: string; intent: string },
-    userInput: string,
-    userId: string,
-    ragContext: string[],
-    dcapPayload: Record<string, unknown>
-): Promise<OrchestrationResult>
-⋮----
-clearContext(contextId: string): void
-⋮----
-private intentAllowed(productAgentId: string, executorId: string, intent: string): boolean
-⋮----
-private enforceManifestPolicy(
-    executorId: string,
-    message: A2AMessage,
-    options: DispatchOptions,
-): void
-⋮----
-initTrace(contextId: string)
-⋮----
-private errorResult(contextId: string, agentId: string, error: string): OrchestrationResult
-````
-
 ## File: functions/src/agents/kompis-supervisor.ts
 ````typescript
 import {
@@ -803,31 +763,51 @@ public async handleUserRequest(
 public async invalidateUserSession(userId: string): Promise<void>
 ````
 
-## File: functions/src/lib/callableGuards.ts
+## File: functions/src/callables/unlockVault.ts
 ````typescript
-import { HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
+import { onCall, HttpsError } from "firebase-functions/v2/https";
 ⋮----
-import { assertRateLimit, RateLimitExceeded } from './rateLimit';
+import { guardSensitiveCallableV2 } from "../lib/callableGuards";
+import { assertVaultSession, VAULT_SESSION_IDLE_MS } from "../lib/vaultSessionGate";
+````
+
+## File: src/modules/core/firebase/appCheck.ts
+````typescript
+import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+import { Capacitor } from '@capacitor/core';
+import { initializeAppCheck, ReCaptchaV3Provider, CustomProvider } from 'firebase/app-check';
+import { app } from './init';
 ⋮----
-export function isAppCheckEnforcementEnabled(): boolean
+export function initAppCheck(): Promise<void>
 ⋮----
-export function assertAppCheckV2(request: Pick<CallableRequest, 'app'>): void
+async function doInitAppCheck(): Promise<void>
 ⋮----
-export function assertAppCheckV1(context: functions.https.CallableContext): void
+function debugTokenFromEnv(): string | undefined
+````
+
+## File: src/modules/core/security/vaultWriteUnlock.ts
+````typescript
+import { getAuth } from 'firebase/auth';
+import { httpsCallable } from 'firebase/functions';
+import { hasVaultGate, setVaultGate } from '../auth/sessionService';
+import {
+  ensureVaultServerSessionFromGate,
+  withVaultSessionPayload,
+} from '../auth/vaultServerSession';
+import { formatCallableError } from '../auth/callableErrorMessage';
+import { functions } from '../firebase/init';
+import { useStore } from '../store';
+import { syncVaultUnlockedFromGate } from './vaultSessionLifecycle';
 ⋮----
-function rethrowRateLimitV1(err: unknown): never
+export type VaultWriteUnlockResult =
+  | { ok: true; refreshed: boolean }
+  | { ok: false; message: string };
 ⋮----
-export async function guardSensitiveCallableV2(
-  request: CallableRequest,
-  rateLimitKey: string,
-  maxPerMinute = 30,
-): Promise<string>
+async function isJwtVaultWriteAllowed(): Promise<boolean>
 ⋮----
-export async function guardSensitiveCallableV1(
-  context: functions.https.CallableContext,
-  rateLimitKey: string,
-  maxPerMinute = 30,
-): Promise<string>
+export async function applyVaultJwtClaim(): Promise<
+⋮----
+export async function ensureVaultWriteReady(): Promise<VaultWriteUnlockResult>
 ````
 
 ## File: docs/evaluations/2026-06-15-fas19-masterplan-v2.md
@@ -885,6 +865,97 @@ Scripts/orkester:night default · prod callable-smoke en silo i taget · PMIR f�
 ---
 
 *Fullständig pre-flight syntes: Cursor-plan `fas_19_masterplan_v2_48298370.plan.md` (intern).*
+````
+
+## File: functions/src/adk/orchestrator.ts
+````typescript
+import type { A2AMessage } from '../agents/types';
+import { resolveExecutorId } from '../agents/cards';
+import { runExecutor } from './executors/runExecutor';
+import { validateIntent, getAgentCard, assertCollectionAccess } from './registry';
+import { appendMutation, createTrace, clearSynapseState } from './stateStore';
+import { applyParalysBreak, isHeavyResponse } from './synapses/paralysBrytarenSynapse';
+import { assertBackendSiloIsolation, type SiloId } from './manifest';
+import type { DispatchOptions, OrchestrationResult } from './types';
+⋮----
+function gatekeeperSanitize(text: string): string
+⋮----
+export class AdkOrchestrator
+⋮----
+async dispatch(message: A2AMessage, options: DispatchOptions =
+⋮----
+async dispatchFromSupervisor(
+    route: { productAgentId: string; executorId: string; intent: string },
+    userInput: string,
+    userId: string,
+    ragContext: string[],
+    dcapPayload: Record<string, unknown>
+): Promise<OrchestrationResult>
+⋮----
+clearContext(contextId: string): void
+⋮----
+private intentAllowed(productAgentId: string, executorId: string, intent: string): boolean
+⋮----
+private enforceManifestPolicy(
+    executorId: string,
+    message: A2AMessage,
+    options: DispatchOptions,
+): void
+⋮----
+initTrace(contextId: string)
+⋮----
+private errorResult(contextId: string, agentId: string, error: string): OrchestrationResult
+````
+
+## File: functions/src/lib/callableGuards.ts
+````typescript
+import { HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
+⋮----
+import { assertRateLimit, RateLimitExceeded } from './rateLimit';
+⋮----
+export function isAppCheckEnforcementEnabled(): boolean
+⋮----
+export function assertAppCheckV2(request: Pick<CallableRequest, 'app'>): void
+⋮----
+export function assertAppCheckV1(context: functions.https.CallableContext): void
+⋮----
+function rethrowRateLimitV1(err: unknown): never
+⋮----
+export async function guardSensitiveCallableV2(
+  request: CallableRequest,
+  rateLimitKey: string,
+  maxPerMinute = 30,
+): Promise<string>
+⋮----
+export async function guardSensitiveCallableV1(
+  context: functions.https.CallableContext,
+  rateLimitKey: string,
+  maxPerMinute = 30,
+): Promise<string>
+````
+
+## File: functions/src/lib/vaultSessionGate.ts
+````typescript
+import { randomBytes } from 'crypto';
+import { HttpsError } from 'firebase-functions/v2/https';
+⋮----
+function sessionRef(uid: string)
+⋮----
+export function readVaultSessionToken(data: unknown): string | null
+⋮----
+export async function issueVaultSession(
+  uid: string,
+): Promise<
+⋮----
+export async function revokeVaultSession(uid: string): Promise<void>
+⋮----
+async function clearVaultJwtClaims(uid: string): Promise<void>
+⋮----
+async function refreshVaultJwtClaims(uid: string, serverExpiresAt: string): Promise<void>
+⋮----
+export async function vaultSessionGrantsVaultRead(uid: string, data: unknown): Promise<boolean>
+⋮----
+export async function assertVaultSession(uid: string, data: unknown): Promise<void>
 ````
 
 ## File: .context/locked-ux-features.md
@@ -1343,73 +1414,6 @@ npm run smoke:obsidian-depth
 Vid refaktor av `VaultPage`, `FamiljenPage`, eller borttagning av specs ovan: kör smoke innan merge.
 ````
 
-## File: functions/src/callables/unlockVault.ts
-````typescript
-import { onCall, HttpsError } from "firebase-functions/v2/https";
-⋮----
-import { guardSensitiveCallableV2 } from "../lib/callableGuards";
-import { assertVaultSession, VAULT_SESSION_IDLE_MS } from "../lib/vaultSessionGate";
-````
-
-## File: functions/src/lib/vaultSessionGate.ts
-````typescript
-import { randomBytes } from 'crypto';
-import { HttpsError } from 'firebase-functions/v2/https';
-⋮----
-function sessionRef(uid: string)
-⋮----
-export function readVaultSessionToken(data: unknown): string | null
-⋮----
-export async function issueVaultSession(
-  uid: string,
-): Promise<
-⋮----
-export async function revokeVaultSession(uid: string): Promise<void>
-⋮----
-export async function vaultSessionGrantsVaultRead(uid: string, data: unknown): Promise<boolean>
-⋮----
-export async function assertVaultSession(uid: string, data: unknown): Promise<void>
-````
-
-## File: src/modules/core/firebase/appCheck.ts
-````typescript
-import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
-import { Capacitor } from '@capacitor/core';
-import { initializeAppCheck, ReCaptchaV3Provider, CustomProvider } from 'firebase/app-check';
-import { app } from './init';
-⋮----
-export function initAppCheck(): Promise<void>
-⋮----
-async function doInitAppCheck(): Promise<void>
-⋮----
-function debugTokenFromEnv(): string | undefined
-````
-
-## File: src/modules/core/security/vaultWriteUnlock.ts
-````typescript
-import { getAuth } from 'firebase/auth';
-import { httpsCallable } from 'firebase/functions';
-import { hasVaultGate, setVaultGate } from '../auth/sessionService';
-import {
-  ensureVaultServerSessionFromGate,
-  withVaultSessionPayload,
-} from '../auth/vaultServerSession';
-import { formatCallableError } from '../auth/callableErrorMessage';
-import { functions } from '../firebase/init';
-import { useStore } from '../store';
-import { syncVaultUnlockedFromGate } from './vaultSessionLifecycle';
-⋮----
-export type VaultWriteUnlockResult =
-  | { ok: true; refreshed: boolean }
-  | { ok: false; message: string };
-⋮----
-async function isJwtVaultWriteAllowed(): Promise<boolean>
-⋮----
-export async function applyVaultJwtClaim(): Promise<
-⋮----
-export async function ensureVaultWriteReady(): Promise<VaultWriteUnlockResult>
-````
-
 ## File: firestore.rules
 ````
 rules_version = '2';
@@ -1489,8 +1493,14 @@ service cloud.firestore {
         || (request.resource.data.signals is map
           && request.resource.data.signals.keys().hasOnly(['somn', 'angest', 'aptit'])
           && request.resource.data.signals.somn is int
+          && request.resource.data.signals.somn >= 1
+          && request.resource.data.signals.somn <= 5
           && request.resource.data.signals.angest is int
-          && request.resource.data.signals.aptit is int);
+          && request.resource.data.signals.angest >= 1
+          && request.resource.data.signals.angest <= 5
+          && request.resource.data.signals.aptit is int
+          && request.resource.data.signals.aptit >= 1
+          && request.resource.data.signals.aptit <= 5);
     }
 
     function isValidRealityVaultCreate() {
@@ -1498,14 +1508,27 @@ service cloud.firestore {
           'userId', 'ownerId', 'action', 'truth', 'category', 'sourceRef',
           'childrenImpact', 'evidenceUrl', 'biffUsed', 'isLocked', 'entryType',
           'theirVersion', 'myReality', 'bodySignals', 'shieldWhat', 'shieldFeeling',
-          'shieldBoundary', 'pinned', 'createdAt',
+          'shieldBoundary', 'pinned', 'journalEntryId', 'sourceMood', 'weaverTags',
+          'createdAt',
         ])
         && request.resource.data.action is string
         && request.resource.data.action.size() > 0
         && request.resource.data.action.size() <= 200
         && request.resource.data.truth is string
         && request.resource.data.truth.size() > 0
-        && request.resource.data.truth.size() <= 50000;
+        && request.resource.data.truth.size() <= 50000
+        && (!('journalEntryId' in request.resource.data)
+          || (request.resource.data.category == 'vävaren_metadata'
+            && request.resource.data.journalEntryId is string
+            && request.resource.data.journalEntryId.size() > 0
+            && request.resource.data.journalEntryId.size() <= 128))
+        && (!('sourceMood' in request.resource.data)
+          || (request.resource.data.category == 'vävaren_metadata'
+            && request.resource.data.sourceMood is string
+            && request.resource.data.sourceMood.size() <= 80))
+        && (!('weaverTags' in request.resource.data)
+          || (request.resource.data.category == 'vävaren_metadata'
+            && request.resource.data.weaverTags is map));
     }
 
     function isValidJournalCreate() {
@@ -1525,7 +1548,7 @@ service cloud.firestore {
       return wormKeysOnly([
           'userId', 'ownerId', 'childAlias', 'observation', 'truth', 'action', 'category',
           'childrenImpact', 'authorRole', 'channel', 'visibility', 'contentType', 'signals',
-          'bankId', 'mediaUrl', 'createdAt',
+          'bankId', 'mediaUrl', 'sourceRef', 'createdAt',
         ])
         && request.resource.data.childAlias is string
         && request.resource.data.childAlias.size() > 0
@@ -1535,9 +1558,15 @@ service cloud.firestore {
         && request.resource.data.action.size() <= 64
         && isValidChildSignals()
         && (!('observation' in request.resource.data)
-          || request.resource.data.observation is string)
+          || (request.resource.data.observation is string
+            && request.resource.data.observation.size() <= 50000))
         && (!('truth' in request.resource.data)
-          || request.resource.data.truth is string)
+          || (request.resource.data.truth is string
+            && request.resource.data.truth.size() <= 50000))
+        && (!('sourceRef' in request.resource.data)
+          || (request.resource.data.sourceRef is string
+            && request.resource.data.sourceRef.size() > 0
+            && request.resource.data.sourceRef.size() <= 256))
         && (!('bankId' in request.resource.data)
           || (request.resource.data.bankId is string
             && request.resource.data.bankId.size() > 0
@@ -1558,6 +1587,60 @@ service cloud.firestore {
         && request.resource.data.levelAfter is int
         && request.resource.data.rationale is string
         && request.resource.data.metadata is map;
+    }
+
+    function isValidPipelineRunCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'createdAt', 'toolId', 'status', 'schemaVersion', 'smokeTier', 'commitSha', 'errorCode',
+        ])
+        && request.resource.data.toolId is string
+        && request.resource.data.status in ['spawned', 'PASS', 'FAIL', 'validated', 'exported']
+        && request.resource.data.schemaVersion is string;
+    }
+
+    function isValidAdaptationLedgerCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'createdAt', 'type', 'source', 'silo', 'rationale', 'metadata',
+        ])
+        && request.resource.data.type in [
+          'pref_updated', 'signal_recorded', 'semantic_indexed', 'feature_flagged',
+        ]
+        && request.resource.data.source in ['user', 'system', 'callable']
+        && request.resource.data.silo in ['kunskap', 'valv', 'barnen', 'vardag', 'core']
+        && request.resource.data.rationale is string
+        && request.resource.data.rationale.size() > 0
+        && request.resource.data.rationale.size() <= 500
+        && request.resource.data.metadata is map;
+    }
+
+    function isValidAdaptationPrefsBase() {
+      return request.resource.data.coachTone in ['minimal', 'standard', 'detailed']
+        && request.resource.data.uiDensity in ['paralys', 'normal', 'full']
+        && request.resource.data.routingDefaults is map
+        && request.resource.data.routingDefaults.size() <= 24
+        && request.resource.data.dismissedHints is list
+        && request.resource.data.dismissedHints.size() <= 64
+        && request.resource.data.inferredSignals is map
+        && request.resource.data.inferredSignals.size() <= 48;
+    }
+
+    function isValidAdaptationPrefsCreate() {
+      return wormKeysOnly([
+          'userId', 'ownerId', 'coachTone', 'uiDensity', 'routingDefaults',
+          'dismissedHints', 'inferredSignals', 'updatedAt',
+        ])
+        && isValidAdaptationPrefsBase();
+    }
+
+    function isValidAdaptationPrefsUpdate() {
+      return request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly([
+            'coachTone', 'uiDensity', 'routingDefaults', 'dismissedHints',
+            'inferredSignals', 'updatedAt',
+          ])
+        && isValidAdaptationPrefsBase()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId;
     }
 
     function isValidEmotionalMemoryCreate() {
@@ -1712,12 +1795,12 @@ service cloud.firestore {
 
     // Barnporten QR — skrivs endast via Cloud Functions (Admin SDK)
     match /barnporten_pairings/{tokenId} {
-      allow read: if isOwner();
+      allow read: if isOwnerSensitive();
       allow create, update, delete: if false;
     }
 
     match /barnporten_devices/{docId} {
-      allow read: if isOwner();
+      allow read: if isOwnerSensitive();
       allow create, update, delete: if false;
     }
 
@@ -2085,6 +2168,40 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    function isValidMabraNutritionDayWrite() {
+      return request.resource.data.keys().hasOnly([
+          'userId', 'ownerId', 'dateKey', 'waterGlasses', 'proteinMarked',
+          'omega3Marked', 'mealMarked', 'updatedAt',
+        ])
+        && request.resource.data.dateKey is string
+        && request.resource.data.dateKey.size() == 10
+        && request.resource.data.waterGlasses is int
+        && request.resource.data.waterGlasses >= 0
+        && request.resource.data.waterGlasses <= 12
+        && request.resource.data.proteinMarked is bool
+        && request.resource.data.omega3Marked is bool
+        && request.resource.data.mealMarked is bool
+        && request.resource.data.updatedAt is timestamp;
+    }
+
+    // Kat 2 P6-B — Näring & vätska (mutable profil, ej WORM / ej Valv).
+    match /mabra_nutrition_log/{uid}/days/{dateKey} {
+      allow read: if isAuthenticated() && request.auth.uid == uid;
+      allow create: if isAuthenticated()
+        && uid == request.auth.uid
+        && isOwnerCreate()
+        && isValidMabraNutritionDayWrite()
+        && request.resource.data.dateKey == dateKey;
+      allow update: if isAuthenticated()
+        && uid == request.auth.uid
+        && isOwner()
+        && isValidMabraNutritionDayWrite()
+        && request.resource.data.dateKey == resource.data.dateKey
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId;
+      allow delete: if false;
+    }
+
     // Kat 6 P6-A — Utforskningskö. Mutable profil; completedTasks append-only.
     // FÖRBJUDET: sourceRef, truth, evidenceUrl, vault-fält, children_logs-koppling.
     match /mabra_explore_queue/{uid} {
@@ -2363,7 +2480,7 @@ service cloud.firestore {
 
     // Dossier snapshots — WORM kvitto (skrivs endast av Cloud Functions Admin SDK)
     match /dossier_snapshots/{docId} {
-      allow read: if isOwnerSensitive();
+      allow read: if isOwnerVault();
       allow create, update, delete: if false;
     }
 
@@ -2512,6 +2629,12 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    match /pipeline_runs/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreateSensitive() && isValidPipelineRunCreate();
+      allow update, delete: if false;
+    }
+
     match /evolution_hub/{uid} {
       allow read: if isAuthenticated() && request.auth.uid == uid;
       allow create: if isAuthenticated()
@@ -2521,8 +2644,33 @@ service cloud.firestore {
       allow update: if isAuthenticated()
         && uid == request.auth.uid
         && resource.data.ownerId == request.auth.uid
-        && request.resource.data.userId == request.auth.uid;
+        && request.resource.data.userId == request.auth.uid
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['unlockedFeatureFlags']);
       allow delete: if false;
+    }
+
+    match /adaptation_prefs/{uid} {
+      allow read: if isAuthenticated() && request.auth.uid == uid && isSensitiveAuth();
+      allow create: if isAuthenticated()
+        && uid == request.auth.uid
+        && isOwnerCreateSensitive()
+        && isValidAdaptationPrefsCreate();
+      allow update: if isAuthenticated()
+        && uid == request.auth.uid
+        && isOwnerSensitive()
+        && isValidAdaptationPrefsUpdate();
+      allow delete: if false;
+    }
+
+    match /adaptation_ledger/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreateSensitive() && isValidAdaptationLedgerCreate();
+      allow update, delete: if false;
+    }
+
+    match /adaptation_semantic_profile/{uid} {
+      allow read: if isAuthenticated() && request.auth.uid == uid && isSensitiveAuth();
+      allow create, update, delete: if false;
     }
 
     match /user_economy_status/{uid} {
@@ -2555,7 +2703,7 @@ service cloud.firestore {
 
 Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 
-**Senast uppdaterad:** 2026-06-18 (Fas 19.1–19.6 DONE + P1/P2 LOCK)
+**Senast uppdaterad:** 2026-06-18 (P4 + P6 LOCK efter smoke E2E)
 
 | Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
 |-----------|-------------|--------|-------|------------|
@@ -2573,23 +2721,32 @@ Uppdateras vid varje CHECKPOINT. Register vinner över minne.
 | **P1 Brusfilter v2 (Inkast HITL)** | `InkastBrusfilterPreview.tsx`, `CapturePanel.tsx` | **LOCK** | inkast 2026-06-17 | **P1b** |
 | CI deploy | `.github/workflows/firebase-hosting-main.yml` | **LOCK** | smoke:tier1 + functions deploy | **CP-9** |
 | **P2 Dossier v2 (AI foreword)** | `dossierAiForeword.ts`, `generateDossierInternal.ts` | **LOCK** | dossier 2026-06-17 | **P2** |
+| **P3 Flow-assist (Mönster metadata)** | `assistPatternMetadata`, `VaultMonsterPanel.tsx`, `patternScanService.ts` | **LOCK** | pattern-metadata + orkester 2026-06-18 | **P3** |
+| **P4 MåBra bank_parafras** | `mabraCoach` mode `bank_parafras`, `VitCardFlowPanel`, `VitMemoryFlowPanel` | **LOCK** | smoke:mabra E2E PASS 2026-06-18 | **P4** |
+| **P6 Dossier Flow-tidslinje** | `dossierAiForeword.ts`, `generateDossierInternal.ts`, `DossierPage.tsx` | **LOCK** | smoke:dossier E2E PASS 2026-06-18 | **P6** |
 | Fas 19.1 security sprint | `invalidateSession` guard, D14 ParentReminderFooter | **LOCK** | valv-security 2026-06-18 | **F19.1** |
-| MåBra 19.2–19.5 / wave-2 / M3.0-C | hybrid-8, hex→tokens, JOY-17, evolution_ledger | **SMOKE PASS** (ej formellt stängd) | mabra + modulvaljare + evolution 2026-06-18 | **F19.2–19.5** |
+| **Fas 19.2–19.5 (MåBra)** | hybrid-8, hex→tokens, JOY-17, evolution_ledger dual-write | **LOCK** | mabra + modulvaljare + evolution + innehall 2026-06-18 | **F19.2–19.5** |
+| Wave 29.1 barn-epistemik | `childObservationEpistemics.ts`, `saveChildrenLog` | **LOCK** | smoke:barn-epistemik 2026-06-18 | **V1** |
+| MB-PLAY-54321 | `MabraGrounding54321Wizard.tsx`, `grounding54321Play.ts` | **LOCK** | smoke:mabra 2026-06-18 | **V2** |
+| MB-REF-rsd-04 | `rsdErrorCopy.ts`, `mabraCoachService.ts`, `mabraContentBank.ts` | **LOCK** | smoke:mabra + innehall 2026-06-18 | **V3** |
+| Planering modulpinnar | `planningModulePinStorage.ts`, `PinnedPlaneringModuleSlot.tsx` | **LOCK** | locked-ux + planering 2026-06-18 | **PLAN-PIN** |
+| Barnporten barn-PWA | `barnportenRollout.ts`, `BarnportenPausedPanel.tsx` | **PAUSED** (`BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false`) | locked-ux 2026-06-18 | **V4** |
+| App Check Console Enforce | Firebase Console → Enforce | **LOCK** | Pontus Console 2026-06-17 | **V6** |
+| M3.0-C Fitness/Näring | evolution_hub | **DEFER** | — | **F19.N+** |
+| BP-PUSH (FCM barn) | — | **DEFER** | — | **V6** |
 | AI-assistent UI | — | **DEFER** | — | — |
 
 ## Statusförklaring
 
 - **LOCK** — smoke PASS, får inte refaktoreras utan explicit OK + snapshot
 - **FREEZE** — backend-kärnan låst; endast bugfix + content ingest efter KEEP
+- **PAUSED** — implementerat men avstängt via flagga; kräver Pontus OK + PMIR för enable
 - **DEFER** — medvetet senarelagt
 
 ## Nästa steg (Pontus)
 
-1. **Använd:** Valv → **Inkast** → «Filtrera brus först» (kräver Fyren) → godkänn → spara
-2. **P1 v1+v2 LOCK** 2026-06-17
-3. **Nästa:** använd Dossier med «Kort AI-inledning» — P2 LOCK 2026-06-17
-4. **Fas 19.1 PASS** — deploy `functions:invalidateSession` + hosting om diff ej redan live
-5. **Nästa sprint-våg:** 19.2 formell logg (hybrid-8 redan smoke PASS) eller 19.6 arkiv-batch PMIR
-6. **Fas 19 sprint DONE** — se `docs/evaluations/2026-06-18-fas19-leverans.md`
-7. **DEFER:** M3.0-C Fitness/Näring, AI-assistent UI, arkiv-batch utförande
+1. **Använd:** Familjen livslogg med citat/tolkning; MåBra 5-4-3-2-1-lek; Valv Mönster Flow-assist
+2. **Använd:** Dossier med AI-tidslinje (`includeAiForeword`) i Valv
+3. **DEFER:** BP-PUSH, barn-PWA rollout, M3.0-C Fitness/Näring, AI-assistent UI
+4. **Leverans:** `docs/evaluations/2026-06-18-produktkomplett-leverans.md`
 ````
