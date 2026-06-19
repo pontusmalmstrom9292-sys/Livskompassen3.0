@@ -4,8 +4,6 @@ import { useActiveProjects } from '../hooks/useProjects';
 import type { ProjectBlockType } from '../types';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { ProjektTomStatePanel } from './ProjektTomStatePanel';
 
 const BLOCK_ICONS: Record<ProjectBlockType, typeof List> = {
@@ -21,7 +19,6 @@ export function ProjektHubPage() {
   const { user, projects, loading } = useActiveProjects();
 
   return (
-    <HubErrorBoundary title="Projekt kunde inte laddas" glow="gold" logTag="ProjektHubPage">
     <HubPageShell
       eyebrow="Göra"
       title="Egna planeringar"
@@ -34,7 +31,7 @@ export function ProjektHubPage() {
         <p className="text-sm text-text-muted">Logga in för att spara projekt.</p>
       )}
 
-      {user && loading && <HubPanelSkeleton label="Laddar projekt…" lines={3} />}
+      {user && loading && <p className="text-sm text-text-dim">Laddar projekt…</p>}
 
       {user && !loading && projects.length === 0 && (
         <div className="calm-card glow-bottom-gold overflow-hidden rounded-2xl p-4 sm:p-5">
@@ -97,6 +94,5 @@ export function ProjektHubPage() {
       </div>
       </div>
     </HubPageShell>
-    </HubErrorBoundary>
   );
 }

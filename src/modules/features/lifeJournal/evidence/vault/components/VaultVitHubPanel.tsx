@@ -1,9 +1,6 @@
-import { Download, Printer, Sparkles } from 'lucide-react';
+import { Download, Loader2, Printer, Sparkles } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { EmptyState } from '@/core/ui/EmptyState';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { listMabraSessionsRecent } from '@/core/firebase/firestore';
 import { getVitHub, listVitEntries } from '@/core/firebase/vitHubFirestore';
 import type { VitEntryRow } from '@/core/types/firestore';
@@ -109,58 +106,54 @@ export function VaultVitHubPanel({ userId }: Props) {
     });
   }, [searchParams]);
 
-  const reload = useCallback(async () => {
+  useEffect(() => {
+    let cancelled = false;
     setLoading(true);
     setError(null);
-    try {
-      const [hub, loadedEntries, sessions] = await Promise.all([
-        getVitHub(userId),
-        listVitEntries(userId, { limit: 50 }),
-        listMabraSessionsRecent(userId, 30),
-      ]);
-      setEntries(loadedEntries);
-      setStats(
-        computeVitHubStats({
-          entries: loadedEntries,
-          activeProjectIds: hub?.activeProjectIds,
-          sessions,
-        }),
-      );
-    } catch {
-      setError('Kunde inte hämta Vit hub just nu.');
-      setStats(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [userId]);
 
-  useEffect(() => {
-    void reload();
-  }, [reload]);
+    void (async () => {
+      try {
+        const [hub, loadedEntries, sessions] = await Promise.all([
+          getVitHub(userId),
+          listVitEntries(userId, { limit: 50 }),
+          listMabraSessionsRecent(userId, 30),
+        ]);
+        if (cancelled) return;
+        setEntries(loadedEntries);
+        setStats(
+          computeVitHubStats({
+            entries: loadedEntries,
+            activeProjectIds: hub?.activeProjectIds,
+            sessions,
+          }),
+        );
+      } catch {
+        if (!cancelled) setError('Kunde inte hämta Vit hub just nu.');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [userId]);
 
   const filteredEntries = useMemo(() => filterVitEntries(entries, filter), [entries, filter]);
   const kindCounts = useMemo(() => countByKind(entries), [entries]);
   const activeFilterLabel = filterLabel(filter);
 
   if (loading) {
-    return <HubPanelSkeleton label="Hämtar din Vit hub…" lines={5} />;
+    return (
+      <p className="flex items-center gap-2 text-sm text-text-dim">
+        <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+        Hämtar din Vit hub…
+      </p>
+    );
   }
 
   if (error || !stats) {
-    return (
-      <EmptyState
-        message={error ?? 'Ingen data.'}
-        action={
-          <button
-            type="button"
-            onClick={() => void reload()}
-            className="btn-pill--secondary text-xs"
-          >
-            Försök igen
-          </button>
-        }
-      />
-    );
+    return <p className="text-sm text-danger">{error ?? 'Ingen data.'}</p>;
   }
 
   const mabraHref = '/mabra';
@@ -177,16 +170,14 @@ export function VaultVitHubPanel({ userId }: Props) {
 
   return (
     <div className="space-y-4">
-      <BentoCard glow="green" bare noHover className="!p-0">
-        <div className="rounded-xl border border-border-strong border-b-2 border-b-emerald-500/50 bg-surface-2/60 px-4 py-3 shadow-[0_4px_20px_-2px_rgba(16,185,129,0.15)]">
-          <p className="flex items-center gap-2 text-sm font-medium text-accent">
-            <Sparkles className="h-4 w-4" aria-hidden />
-            {VIT_VAULT_TAB_LABEL}
-          </p>
-          <p className="mt-1 text-xs text-text-dim">{VIT_HUB_TAGLINE}</p>
-          <p className="mt-1 text-[10px] text-text-dim">{VIT_HUB_KRAVLOST}</p>
-        </div>
-      </BentoCard>
+      <div className="rounded-xl border border-border-strong border-b-2 border-b-emerald-500/50 bg-surface-2/60 px-4 py-3 shadow-[0_4px_20px_-2px_rgba(16,185,129,0.15)]">
+        <p className="flex items-center gap-2 text-sm font-medium text-accent">
+          <Sparkles className="h-4 w-4" aria-hidden />
+          {VIT_VAULT_TAB_LABEL}
+        </p>
+        <p className="mt-1 text-xs text-text-dim">{VIT_HUB_TAGLINE}</p>
+        <p className="mt-1 text-[10px] text-text-dim">{VIT_HUB_KRAVLOST}</p>
+      </div>
 
       <section className="grid gap-3 sm:grid-cols-3" aria-label="Statistik">
         <StatTile label="Sparade svar" value={stats.totalEntries} />
@@ -198,7 +189,6 @@ export function VaultVitHubPanel({ userId }: Props) {
 
       <VitDevelopmentPanel stats={stats} />
 
-      <BentoCard title="Minneslista" glow="green" bare noHover className="!p-0">
       <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="Minneslista">
         <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">Minneslista</h2>
         <VitEntryFilterBar
@@ -215,14 +205,12 @@ export function VaultVitHubPanel({ userId }: Props) {
           onReset={() => applyFilter(DEFAULT_VIT_ENTRY_FILTER)}
         />
         {entries.length === 0 ? (
-          <EmptyState
-            message="Inga sparade svar ännu."
-            action={
-              <Link to={mabraHref} className="btn-pill--secondary text-xs">
-                Öppna MåBra
-              </Link>
-            }
-          />
+          <p className="mt-2 text-sm text-text-dim">
+            Inga sparade svar ännu.{' '}
+            <Link to={mabraHref} className="text-accent underline-offset-2 hover:underline">
+              Öppna MåBra
+            </Link>
+          </p>
         ) : (
           <VitEntryList
             entries={filteredEntries}
@@ -230,7 +218,6 @@ export function VaultVitHubPanel({ userId }: Props) {
           />
         )}
       </section>
-      </BentoCard>
 
       <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="Projekt">
         <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">Projekt</h2>

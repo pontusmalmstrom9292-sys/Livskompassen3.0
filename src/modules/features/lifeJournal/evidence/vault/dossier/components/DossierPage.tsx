@@ -3,8 +3,6 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { FileText, Loader2, Lock, ShieldAlert } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import { StepIndicator } from '@/core/ui/StepIndicator';
 import { useStore } from '@/core/store';
 import { hasVaultGate } from '@/core/auth/sessionService';
 import {
@@ -49,12 +47,6 @@ const INITIAL_SOURCES: DossierSources = {
 
 const JOURNAL_WARNING =
   'Dagboken kan innehålla emotionella reflektioner. Inkludera endast om ditt ombud uttryckligen begärt det — annars riskerar det juridiska fokuset att tunnas ut.';
-
-const DOSSIER_WIZARD_STEPS = [
-  { key: 'period', label: 'Period' },
-  { key: 'sources', label: 'Källor' },
-  { key: 'review', label: 'Granska' },
-] as const;
 
 function resetWizardState() {
   return {
@@ -348,7 +340,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
           </p>
           <Link
             to="/valvet"
-            className="btn-pill--secondary inline-flex text-sm"
+            className="inline-flex rounded-lg bg-indigo-500/20 px-4 py-2 text-sm font-medium text-indigo-200 hover:bg-indigo-500/30"
           >
             Öppna Arkiv
           </Link>
@@ -363,7 +355,6 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
         title={embedded ? 'Dossier' : 'Dossier-Generator'}
         description={embedded ? 'Samlad arkiv-export' : undefined}
         icon={<FileText className="h-4 w-4" />}
-        glow="blue"
       >
         {!embedded && (
           <p className="mb-4 text-sm text-text-muted">
@@ -375,10 +366,6 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
             Inget skickas automatiskt. Du sparar eller skriver ut PDF lokalt på din enhet.
           </p>
         )}
-
-        {step !== 'result' ? (
-          <StepIndicator steps={[...DOSSIER_WIZARD_STEPS]} currentKey={step} />
-        ) : null}
 
         {step === 'period' && (
           <div className="space-y-4">
@@ -392,7 +379,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                   type="date"
                   value={dateFrom}
                   onChange={(e) => setDateFrom(e.target.value)}
-                  className="input-glass mt-1 w-full rounded-lg px-3 py-2 text-sm"
+                  className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm"
                 />
               </label>
               <label className="block text-sm">
@@ -401,7 +388,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                   type="date"
                   value={dateTo}
                   onChange={(e) => setDateTo(e.target.value)}
-                  className="input-glass mt-1 w-full rounded-lg px-3 py-2 text-sm"
+                  className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm"
                 />
               </label>
             </div>
@@ -412,7 +399,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                   setDateTo(defaultDateRange().dateTo);
                   setDateFrom(shiftMonths(defaultDateRange().dateTo, -3));
                 }}
-                className="btn-pill--ghost text-xs"
+                className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-indigo-200 cursor-pointer hover:bg-indigo-500/10"
               >
                 Senaste 3 månaderna
               </button>
@@ -422,7 +409,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                   setDateTo(defaultDateRange().dateTo);
                   setDateFrom(shiftMonths(defaultDateRange().dateTo, -6));
                 }}
-                className="btn-pill--ghost text-xs"
+                className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-indigo-200 cursor-pointer hover:bg-indigo-500/10"
               >
                 Senaste 6 månaderna
               </button>
@@ -430,7 +417,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
             <button
               type="button"
               onClick={() => setStep('sources')}
-              className="btn-pill--accent w-full"
+              className="w-full rounded-lg bg-indigo-500/25 py-2.5 text-sm font-medium text-indigo-100 cursor-pointer hover:bg-indigo-500/35"
             >
               Fortsätt
             </button>
@@ -449,7 +436,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                 onChange={(e) =>
                   setSources((s) => ({ ...s, reality_vault: e.target.checked }))
                 }
-                className="rounded border-border accent-accent"
+                className="rounded border-white/20 accent-accent"
               />
               Arkiv (bevisloggar)
             </label>
@@ -460,7 +447,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                 onChange={(e) =>
                   setSources((s) => ({ ...s, children_logs: e.target.checked }))
                 }
-                className="rounded border-border accent-accent"
+                className="rounded border-white/20 accent-accent"
               />
               Barnens livsloggar
             </label>
@@ -473,7 +460,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                   setSources((s) => ({ ...s, journal: on }));
                   if (!on) setJournalAck(false);
                 }}
-                className="mt-1 rounded border-border accent-accent"
+                className="mt-1 rounded border-white/20 accent-accent"
               />
               <span>
                 Dagboken (privat journal)
@@ -508,8 +495,8 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                       onClick={() => toggleTechnique(tag)}
                       className={
                         techniqueFilter.includes(tag)
-                          ? 'rounded-full border border-accent/40 bg-accent/15 px-3 py-1 text-xs text-accent cursor-pointer'
-                          : 'rounded-full border border-border px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-accent/25'
+                          ? 'rounded-full bg-indigo-500/25 px-3 py-1 text-xs text-indigo-100 cursor-pointer border border-indigo-400/40'
+                          : 'rounded-full border border-white/10 px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-white/20'
                       }
                     >
                       {tag}
@@ -531,7 +518,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                       className={
                         categoryFilter.includes(tag)
                           ? 'rounded-full bg-amber-500/25 px-3 py-1 text-xs text-amber-100 cursor-pointer border border-accent/40'
-                          : 'rounded-full border border-border px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-accent/25'
+                          : 'rounded-full border border-white/10 px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-white/20'
                       }
                     >
                       {tag}
@@ -549,7 +536,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                   setIncludeAiForeword(e.target.checked);
                   if (!e.target.checked) setShowTimelinePreview(false);
                 }}
-                className="mt-0.5 rounded border-border accent-accent"
+                className="mt-0.5 rounded border-white/20 accent-accent"
               />
               <span>
                 {VAVAREN_DOSSIER_CHECKBOX}
@@ -563,7 +550,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                   type="checkbox"
                   checked={showTimelinePreview}
                   onChange={(e) => setShowTimelinePreview(e.target.checked)}
-                  className="mt-0.5 rounded border-border accent-accent"
+                  className="mt-0.5 rounded border-white/20 accent-accent"
                 />
                 <span>
                   Visa AI-tidslinje i förhandsgranskning
@@ -577,7 +564,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
             <select
               value={reportType}
               onChange={(e) => setReportType(e.target.value as DossierReportType)}
-              className="input-glass w-full rounded-lg px-3 py-2 text-sm"
+              className="w-full rounded-lg border border-white/10 bg-surface-3 px-3 py-2 text-sm"
               aria-label="Rapporttyp"
             >
               <option value="LEGAL">Juridisk kronologi (Fakta & tidsstämplar)</option>
@@ -588,7 +575,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               <button
                 type="button"
                 onClick={() => setStep('period')}
-                className="btn-pill--ghost flex-1 text-sm"
+                className="flex-1 rounded-lg border border-white/10 py-2 text-sm cursor-pointer hover:bg-white/5"
               >
                 Tillbaka
               </button>
@@ -596,7 +583,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                 type="button"
                 disabled={sources.journal && !journalAck}
                 onClick={() => setStep('review')}
-                className="btn-pill--accent flex-1 text-sm disabled:opacity-40"
+                className="flex-1 rounded-lg bg-indigo-500/25 py-2 text-sm font-medium text-indigo-100 disabled:opacity-40 cursor-pointer hover:bg-indigo-500/35"
               >
                 Granska urval
               </button>
@@ -610,7 +597,10 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               Steg 3 av 3 — Bekräfta kronologiskt urval
             </p>
             {loadingDocs ? (
-              <HubPanelSkeleton label="Läser in dina loggade händelser…" lines={5} />
+              <div className="flex items-center justify-center gap-2 text-sm text-text-muted py-6">
+                <Loader2 className="h-4 w-4 animate-spin text-accent" />
+                Läser in dina loggade händelser…
+              </div>
             ) : filteredDocs.length === 0 ? (
               <EmptyState message="Inga poster hittades för den valda tidsperioden och källorna. Gå tillbaka och utöka ditt sökfönster." />
             ) : (
@@ -623,7 +613,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                   {filteredDocs.map((doc) => (
                     <li
                       key={`${doc.kind}-${doc.id}`}
-                      className="rounded-lg border border-border bg-surface-2 p-3 transition-colors hover:border-accent/20"
+                      className="rounded-lg border border-white/5 bg-surface-2 p-3 transition-colors hover:border-accent/10"
                     >
                       <label className="flex cursor-pointer gap-3">
                         <input
@@ -660,7 +650,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               <button
                 type="button"
                 onClick={() => setStep('sources')}
-                className="btn-pill--ghost flex-1 text-sm"
+                className="flex-1 rounded-lg border border-white/10 py-2 text-sm cursor-pointer"
               >
                 Tillbaka
               </button>
@@ -720,8 +710,8 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               showTimelinePreview &&
               result.aiForeword &&
               result.aiForeword.timeline.length > 0 && (
-                <div className="rounded-xl border border-accent-secondary/25 bg-accent-secondary/5 p-4 space-y-3">
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-accent-secondary/90">
+                <div className="rounded-xl border border-indigo-500/25 bg-indigo-500/5 p-4 space-y-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-indigo-200/90">
                     AI-tidslinje (förhandsgranskning)
                   </p>
                   <p className="text-xs text-text-muted leading-relaxed line-clamp-6">
@@ -731,7 +721,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                     {result.aiForeword.timeline.map((row, idx) => (
                       <li
                         key={`${row.date}-${idx}`}
-                        className="rounded-lg border border-border bg-surface-2/80 px-3 py-2 text-xs"
+                        className="rounded-lg border border-white/5 bg-surface-2/80 px-3 py-2 text-xs"
                       >
                         <span className="font-mono text-accent">{row.date}</span>
                         <span className="mt-0.5 block text-text-muted">{row.fact}</span>

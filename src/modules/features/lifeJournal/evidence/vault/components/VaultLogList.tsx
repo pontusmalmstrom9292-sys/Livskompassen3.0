@@ -3,7 +3,6 @@ import { FileDown, Loader2, Lock } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import './valv.css';
 import { EmptyState } from '@/core/ui/EmptyState';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { useVaultStore } from '@/core/store/useVaultStore';
 import type { VaultLog, WeaverTags } from '@/core/types/firestore';
 import {
@@ -144,7 +143,7 @@ const LogRow = memo(function LogRow({
           {normalizeStringArray(weaverTags.actors).map((a) => (
             <span
               key={`a-${a}`}
-              className="rounded-full border border-border px-2 py-0.5 text-[10px] text-text-muted"
+              className="rounded-full border border-white/10 px-2 py-0.5 text-[10px] text-text-muted"
             >
               {a}
             </span>
@@ -218,7 +217,9 @@ export const VaultLogList = memo(function VaultLogList({
         </div>
       )}
       {loading && visible.length === 0 ? (
-        <HubPanelSkeleton label="Laddar bevisarkiv…" lines={4} />
+        <p className="text-sm text-text-dim flex items-center gap-2">
+          <Loader2 className="h-4 w-4 animate-spin" /> Laddar...
+        </p>
       ) : visible.length === 0 ? (
         <EmptyState
           message={
@@ -231,8 +232,8 @@ export const VaultLogList = memo(function VaultLogList({
         <div className="space-y-4">
           {pinned.length > 0 && (
             <div>
-              <p className="mb-2 flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-accent/80">
-                <Lock size={10} className="text-accent/60" /> Sanningens Ankare
+              <p className="mb-2 flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-gold/80">
+                <Lock size={10} className="text-gold/60" /> Sanningens Ankare
               </p>
               <ul className="valv-log-list">
                 {pinned.map((log) => (
