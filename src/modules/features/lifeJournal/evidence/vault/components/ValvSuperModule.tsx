@@ -31,6 +31,9 @@ export type ValvSuperModuleProps = {
   onVaultTabChange: (tab: VaultTab) => void;
   /** Öppna granskningskö (ValvInputSuperModule granska-läge). */
   onOpenGranska?: () => void;
+  techniqueFilter?: string | null;
+  onTechniqueSelect?: (technique: string) => void;
+  onClearTechniqueFilter?: () => void;
 };
 
 /**
@@ -47,6 +50,9 @@ export function ValvSuperModule({
   onCitationClick,
   onVaultTabChange,
   onOpenGranska,
+  techniqueFilter,
+  onTechniqueSelect,
+  onClearTechniqueFilter,
 }: ValvSuperModuleProps) {
   switch (variant) {
     case 'samla': {
@@ -61,12 +67,14 @@ export function ValvSuperModule({
           onBevisConfirmed={onBevisConfirmed}
           onCitationClick={onCitationClick}
           onOpenGranska={onOpenGranska}
+          techniqueFilter={techniqueFilter}
+          onClearTechniqueFilter={onClearTechniqueFilter}
         />
       );
     }
     case 'analysera': {
       const tab: AnalyseraVaultTab = isAnalyseraVaultTab(vaultTab) ? vaultTab : 'monster';
-      return <ValvAnalyseraZone tab={tab} onTabChange={onVaultTabChange} />;
+      return <ValvAnalyseraZone tab={tab} onTabChange={onVaultTabChange} onTechniqueSelect={onTechniqueSelect} />;
     }
     case 'kunskap': {
       const tab: KunskapVaultTab = isKunskapVaultTab(vaultTab) ? vaultTab : KUNSKAP_VAULT_TAB;
