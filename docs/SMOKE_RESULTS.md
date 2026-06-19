@@ -1,5 +1,19 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Hosting deploy (2026-06-19 — PR #25 Brusfiltret lab)
+
+| Fält | Värde |
+|------|-------|
+| SHA | `28a24de01` |
+| Deploy | `hosting` — **success** (job `1781872811578`) |
+| Gate | `YOLO_SKIP_BUILD=1 npm run smoke:yolo` — **PASS** |
+| Audit | [`evaluations/2026-06-19-yolo-audit-hosting-pr25.md`](./evaluations/2026-06-19-yolo-audit-hosting-pr25.md) |
+| USER | Hard refresh webb (`Cmd+Shift+R`); Brusfiltret lab polish |
+
+**Öppet:** `firestore:rules` M3.0-C · `functions` biometri v1 — ej denna deploy.
+
+---
+
 ## USER smoke Motorola/Mac (2026-06-15 — Pontus)
 
 **Källa:** [`evaluations/2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md)

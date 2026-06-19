@@ -180,3 +180,23 @@ Se [SMOKE_CHECKLIST.md](./SMOKE_CHECKLIST.md). Kräver inloggad app (Anonymous A
 | `NOTIFY_WEBHOOK_SECRET` 404 vid functions-deploy | Sätt secret (ovan) innan `notifyNewFile` |
 | `knowledgeVaultQuery(us-central1)` konflikt | Använd `--force` vid deploy av functions-listan ovan, eller radera gammal region manuellt |
 | API key-varning vid functions-build | Sätt Vertex/Gemini-credentials i GCP för prod; lokalt kan varningen ignoreras om deploy lyckas |
+
+## Cloud Agent (Cursor) — deploy + säkerhet
+
+När deploy körs från **Cursor cloud agent** (ej Mac-terminal):
+
+1. **Auth:** MCP `firebase_login` → Pontus öppnar `auth.firebase.tools` → klistrar **engångs** authorization code i chat. Koden sparas **aldrig** i repo.
+2. **Gate:** `npm run build` + `YOLO_SKIP_BUILD=1 npm run smoke:yolo` (eller full `smoke:yolo`).
+3. **Named deploy** — inte full `firebase deploy` utan scope.
+4. **Audit (MUST):** `docs/evaluations/YYYY-MM-DD-yolo-audit.md` + rad i `docs/SMOKE_RESULTS.md`.
+5. **Orkester:** uppdatera `.orkester/fas22-state.json` med `deploy`, `sha`, `jobId`.
+
+```bash
+firebase use gen-lang-client-0481875058
+firebase deploy --only hosting
+```
+
+**MUST NOT:** committa `.env`, service-account JSON, `FIREBASE_TOKEN`, eller Firebase auth codes.
+
+**Verifiering efter deploy:** hard refresh (`Cmd+Shift+R`) på https://gen-lang-client-0481875058.web.app
+
