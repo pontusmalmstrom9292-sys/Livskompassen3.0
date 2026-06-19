@@ -1,7 +1,7 @@
 ---
 description: Säkerhet & WORM — DCAP-riskklassning, firestore.rules, gatekeeperSanitize, append-only
 alwaysApply: false
-globs: firestore.rules,storage.rules,functions/src/sharedRules.ts,functions/src/agents/DCAP.ts,functions/src/adk/orchestrator.ts,functions/**,server/**,dataconnect/**
+globs: firestore.rules,storage.rules,functions/src/sharedRules.ts,functions/src/agents/DCAP.ts,functions/src/adk/orchestrator.ts,functions/src/lib/callableGuards.ts,server/**,dataconnect/**
 ---
 
 # Security And Data Invariants
