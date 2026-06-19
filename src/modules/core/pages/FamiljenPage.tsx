@@ -24,6 +24,7 @@ import {
   type FamiljenTabId,
 } from '@/features/family/children/constants/familjenTabs';
 import { isBarnportenChildPwaRolloutEnabled } from '@/features/onboarding/barnporten/constants/barnportenRollout';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { FamiljenBentoShell } from '@/features/family/children/components/familjen/FamiljenBentoShell';
@@ -133,7 +134,9 @@ export function FamiljenPage() {
   }
 
   if (!shell.user) {
-    return <p className="text-sm text-text-muted">Logga in för att öppna Familjen.</p>;
+    return (
+      <EmptyState message="Logga in för att öppna Familjen." />
+    );
   }
 
   const showChildPicker =
@@ -197,7 +200,7 @@ export function FamiljenPage() {
           )}
 
           {activeTab === 'hamn' && (
-            <BentoCard glow="indigo" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
+            <BentoCard glow="blue" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
               <SafeHarborPage embedded />
             </BentoCard>
           )}

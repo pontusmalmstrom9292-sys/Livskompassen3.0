@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Heart, Loader2, RefreshCw } from 'lucide-react';
+import { Heart, RefreshCw } from 'lucide-react';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { getChildrenLogs } from '@/core/firebase/firestore';
 import type { ChildrenLogEntry } from '../../types';
@@ -98,9 +99,7 @@ export function KanslotempletParentCard({ activeChild, userId }: Props) {
       icon={<Heart className="h-4 w-4 text-accent" />}
     >
       {loading ? (
-        <p className="flex items-center gap-2 text-xs text-text-dim py-4">
-          <Loader2 className="h-3.5 w-3.5 animate-spin text-accent" /> Läser känsloläge…
-        </p>
+        <HubPanelSkeleton label="Läser känsloläge…" lines={3} />
       ) : (
         <div className="space-y-3">
           <div className="flex items-center justify-between border-b border-border pb-2">
