@@ -174,6 +174,38 @@ const BARNEN_SYNAPSE_CATEGORIES: SystemSynapseDoc['category'][] = ['INTEGRITY', 
  * Barnen-silo grounding — BARN/SKOLA-profiler + neutrala synapser.
  * MUST NOT injicera MOTPART/Grey Rock-kontext i childrenLogsQuery.
  */
+const KUNSKAP_ENTITY_ROLES: EntityRole[] = ['MYNDIGHET', 'SKOLA', 'NATVERK', 'ANVANDARE'];
+const KUNSKAP_SYNAPSE_CATEGORIES: SystemSynapseDoc['category'][] = [
+  'INTEGRITY',
+  'COGNITIVE',
+  'BIOGRAPHY',
+  'GROWTH',
+];
+
+/**
+ * Kunskap-silo grounding — FACT-relevanta aktörer utan MOTPART/Grey Rock.
+ * MUST NOT injicera Valv-ton (PROTECTION, MOTPART) i knowledgeVaultQuery.
+ */
+export async function loadKunskapEntityBundle(uid: string): Promise<EntityProfileBundle> {
+  const full = await loadEntityProfileBundle(uid);
+
+  const profiles = full.profiles.filter((p) => KUNSKAP_ENTITY_ROLES.includes(p.role));
+  const kunskapKeys = new Set(profiles.map((p) => p.entityKey));
+
+  const synapses = full.synapses.filter((s) => {
+    if (s.category === 'PROTECTION' || s.category === 'SECURITY') return false;
+    if (KUNSKAP_SYNAPSE_CATEGORIES.includes(s.category)) return true;
+    if (s.relatedEntityKeys?.some((key) => kunskapKeys.has(key))) return true;
+    return false;
+  });
+
+  return {
+    profiles,
+    synapses,
+    contextBlock: buildEntityGroundingContextBlock(profiles, synapses),
+  };
+}
+
 export async function loadBarnenEntityBundle(uid: string): Promise<EntityProfileBundle> {
   const full = await loadEntityProfileBundle(uid);
 
