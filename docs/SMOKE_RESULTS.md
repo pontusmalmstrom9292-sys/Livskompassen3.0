@@ -1,5 +1,16 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Ingest våg 1 Kunskap (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| Leverans | G10 `kunskap` → `kb_docs` via `persistKunskapFromInbox` |
+| Gate | `smoke:orkester` + `smoke:synapse-triggers` — **PASS** |
+| Deploy | `functions:submitInkastLite,notifyNewFile` |
+| PMIR | [`evaluations/2026-06-19-pmir-ingest-vag-1.md`](./evaluations/2026-06-19-pmir-ingest-vag-1.md) |
+
+---
+
 ## Frontend polish B1–B4 (2026-06-19)
 
 | Våg | Leverans | Gate |

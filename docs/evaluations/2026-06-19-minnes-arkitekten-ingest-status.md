@@ -64,20 +64,15 @@ Result: **PASS** on 2026-06-19.
 
 `routeInboxToWorm()` branches to one destination and returns; it does not fan out across silos (`functions/src/lib/inboxPersist.ts:330-438`). Backend silo isolation is also enforced by `assertBackendSiloIsolation()` which throws on isolated-silo cross-reads (`functions/src/adk/manifest.ts:158-170`).
 
-### 4) Main live-vs-doc mismatch: `kunskap` is not going to `kb_docs`
+### 4) Kunskap-ingest normaliserad (ingest våg 1, 2026-06-19)
 
-The audited live path for `routing=kunskap` currently calls `ingestKampsparForUser()` and returns `collection: 'kampspar'` (`functions/src/lib/inboxPersist.ts:428-438`). A dedicated `kb_docs` persistence helper exists (`functions/src/lib/persistKbDoc.ts:16-47`), but it is not part of the audited Drive/Inkast live chain.
+`routeInboxToWorm` skriver nu approved `kunskap` till `kb_docs` via `persistKunskapFromInbox`. `kampspar` kvar via `journal_woven` / `ingestKampsparEntry`. Se `pmir-ingest-vag-1.md`.
 
-This means:
+## Implemented (våg 1)
 
-- `bevis -> reality_vault` is correct and enforced.
-- `kb_docs` is **not** the live sink for audited G10 `kunskap` ingest today.
-- The current mismatch is documentation/architecture drift, not a broken handler stub.
-
-## Safe small improvement implemented
-
-Updated the misleading comment in `functions/src/adk/synapses/driveIngestSynapse.ts` so the file now states the real live behavior: `kunskap` currently persists through the shared `kampspar` branch, while the `kb_docs` helper exists separately.
+- `inboxPersist.ts` — G10 kunskap → `kb_docs`
+- `driveIngestSynapse.ts` — kommentar synkad
 
 ## Recommended next ingest wave
 
-**One step only:** align the G10 `kunskap` destination in code with canon by routing audited Drive/Inkast `routing=kunskap` through `persistKunskapFromInbox()` / `persistKbDocFromDrive()` instead of the current `kampspar` branch.
+**One step:** widget-inspelningar → `inbox_queue` HITL (samma kedja som Inkast).
