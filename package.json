@@ -157,6 +157,9 @@
     "pipeline:cursor-pack": "node scripts/pipeline-studio/cursor_pack.mjs",
     "pipeline:worktree": "node scripts/pipeline-studio/worktree_spawn.mjs",
     "pipeline:run-smoke": "node scripts/pipeline-studio/run_smoke.mjs",
+    "cursor:pipeline": "node scripts/cursor_pipeline/orchestrator.mjs",
+    "cursor:pipeline:pack:agents": "node scripts/cursor_pipeline/pack_agents.mjs",
+    "cursor:pipeline:autorun": "CURSOR_PIPELINE_AUTORUN=1 node scripts/cursor_pipeline/orchestrator.mjs",
     "design:pack": "node scripts/pack_design_repomix.mjs",
     "antigravity:pack": "node scripts/pack_antigravity_repomix.mjs",
     "gpt-handoff:pack": "node scripts/pack_gpt_handoff_repomix.mjs",
@@ -212,6 +215,7 @@
     "vite": "^5.2.0",
     "vite-plugin-pwa": "^1.3.0",
     "workbox-core": "^7.4.1",
-    "workbox-window": "^7.4.1"
+    "workbox-window": "^7.4.1",
+    "yaml": "^2.9.0"
   }
 }
