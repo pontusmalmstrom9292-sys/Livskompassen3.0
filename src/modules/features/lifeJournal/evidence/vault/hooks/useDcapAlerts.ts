@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { collection, onSnapshot, query, where, limit } from 'firebase/firestore';
 import { db } from '@/core/firebase/firestore';
 
@@ -10,45 +10,97 @@ export type DcapAlertRow = {
   createdAt?: { toDate?: () => Date };
 };
 
-/** P1.4 — Valv PIN-gated DCAP HITL review list. */
-export function useDcapAlerts(userId: string | undefined) {
+type UseDcapAlertsOptions = {
+  /** Valv PIN-gated — ingen lyssning utan upplåst session. */
+  enabled?: boolean;
+};
+
+/** P1.4 — Valv PIN-gated DCAP HITL review list (exkluderar redan granskade). */
+export function useDcapAlerts(userId: string | undefined, options: UseDcapAlertsOptions = {}) {
+  const { enabled = true } = options;
   const [alerts, setAlerts] = useState<DcapAlertRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [reviewedAlertIds, setReviewedAlertIds] = useState<Set<string>>(() => new Set());
+
+  const recomputePending = useCallback(
+    (rawAlerts: DcapAlertRow[], reviewed: Set<string>) =>
+      rawAlerts.filter(
+        (row) => row.status === 'pending_human_review' && !reviewed.has(row.id),
+      ),
+    [],
+  );
 
   useEffect(() => {
-    if (!userId) {
+    if (!userId || !enabled) {
       setAlerts([]);
+      setReviewedAlertIds(new Set());
       setLoading(false);
       return;
     }
 
-    const ref = collection(db, 'dcap_alerts');
-    const q = query(ref, where('ownerId', '==', userId), limit(30));
+    setLoading(true);
+    let rawAlerts: DcapAlertRow[] = [];
+    let reviewed = new Set<string>();
 
-    const unsub = onSnapshot(
-      q,
-      (snap) => {
-        setAlerts(
-          snap.docs
-            .map((docSnap) => {
-              const data = docSnap.data();
-              return {
-                id: docSnap.id,
-                riskScore: typeof data.riskScore === 'number' ? data.riskScore : 0,
-                recommendedAction: String(data.recommendedAction ?? ''),
-                status: String(data.status ?? ''),
-                createdAt: data.createdAt,
-              };
-            })
-            .filter((row) => row.status === 'pending_human_review'),
-        );
-        setLoading(false);
-      },
-      () => setLoading(false),
+    const alertsQuery = query(
+      collection(db, 'dcap_alerts'),
+      where('ownerId', '==', userId),
+      limit(30),
+    );
+    const reviewsQuery = query(
+      collection(db, 'dcap_alert_reviews'),
+      where('ownerId', '==', userId),
+      limit(60),
     );
 
-    return () => unsub();
-  }, [userId]);
+    const sync = () => {
+      setAlerts(recomputePending(rawAlerts, reviewed));
+      setLoading(false);
+    };
 
-  return { alerts, loading };
+    const unsubAlerts = onSnapshot(
+      alertsQuery,
+      (snap) => {
+        rawAlerts = snap.docs.map((docSnap) => {
+          const data = docSnap.data();
+          return {
+            id: docSnap.id,
+            riskScore: typeof data.riskScore === 'number' ? data.riskScore : 0,
+            recommendedAction: String(data.recommendedAction ?? ''),
+            status: String(data.status ?? ''),
+            createdAt: data.createdAt,
+          };
+        });
+        sync();
+      },
+      () => {
+        rawAlerts = [];
+        sync();
+      },
+    );
+
+    const unsubReviews = onSnapshot(
+      reviewsQuery,
+      (snap) => {
+        reviewed = new Set(
+          snap.docs
+            .map((docSnap) => docSnap.data().alertId)
+            .filter((id): id is string => typeof id === 'string' && id.length > 0),
+        );
+        setReviewedAlertIds(reviewed);
+        sync();
+      },
+      () => {
+        reviewed = new Set();
+        sync();
+      },
+    );
+
+    return () => {
+      unsubAlerts();
+      unsubReviews();
+    };
+  }, [userId, enabled, recomputePending]);
+
+  return { alerts, loading, reviewedAlertIds };
 }

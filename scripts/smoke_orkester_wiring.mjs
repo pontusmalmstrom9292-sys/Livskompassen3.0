@@ -69,6 +69,21 @@ function main() {
     'hashPayload',
   );
   mustInclude('firestore.rules', 'match /dcap_alerts/{docId}', 'allow create, update, delete: if false');
+  mustInclude(
+    'firestore.rules',
+    'match /dcap_alert_reviews/{docId}',
+    'allow create, update, delete: if false',
+  );
+  mustInclude(
+    'functions/src/lib/dcapAlertReview.ts',
+    "collection('dcap_alert_reviews')",
+    'resolveDcapAlertForUser',
+  );
+  mustInclude(
+    'functions/src/callables/dcapAlert.ts',
+    'resolveDcapAlert',
+    'assertVaultSession',
+  );
 
   console.log('[smoke:orkester] Supervisor → dcap_alert...');
   mustInclude('functions/src/agents/kompis-supervisor.ts', "trigger: 'dcap_alert'");

@@ -416,6 +416,12 @@ service cloud.firestore {
       allow create, update, delete: if false;
     }
 
+    // DCAP HITL-granskning — append-only via resolveDcapAlert callable
+    match /dcap_alert_reviews/{docId} {
+      allow read: if isOwner();
+      allow create, update, delete: if false;
+    }
+
     match /mabra_sessions/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreate() && isValidMabraSessionCreate();

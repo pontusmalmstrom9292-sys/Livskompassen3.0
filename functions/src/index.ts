@@ -24,6 +24,8 @@ export {
 
 export { recordDiscoveryMilestone } from './callables/evolutionLedger';
 
+export { resolveDcapAlert } from './callables/dcapAlert';
+
 export { scheduledBarnportenAgeEval } from './jobs/barnportenAgeEvalJob';
 
 export {
