@@ -6,6 +6,7 @@ import {
   type BrusfiltretSupermoduleTab,
 } from '@/modules/sandbox/brusfiltret/BrusfiltretSupermoduleShell';
 import { BiffPublicPanel } from '@/features/family/safeHarbor/components/BiffPublicPanel';
+import brusfiltretKanonRef from '../../../../docs/design/references/brusfiltret-modul-kanon-ref.png';
 
 const MOCK_REPLY =
   'Noterat. Vi håller oss till gällande schema för onsdag 17:00. Hälsningar.';
@@ -26,7 +27,7 @@ export function BrusfiltretSupermoduleLabPage() {
   const [demoMessage, setDemoMessage] = useState('');
   const [demoLoading, setDemoLoading] = useState(false);
   const [demoReply, setDemoReply] = useState<string | null>(null);
-  const [livePanel, setLivePanel] = useState(true);
+  const [livePanel, setLivePanel] = useState(false);
 
   const showJade = useMemo(
     () =>
@@ -88,7 +89,7 @@ export function BrusfiltretSupermoduleLabPage() {
         <div className="bf-supermodule-lab__ref">
           <h2 className="text-xs uppercase tracking-widest text-text-dim">Referens (kanon)</h2>
           <img
-            src="/docs/design/references/brusfiltret-modul-kanon-ref.png"
+            src={brusfiltretKanonRef}
             alt="Brusfiltret modul referens"
             className="mt-2"
           />
