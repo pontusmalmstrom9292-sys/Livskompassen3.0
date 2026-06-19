@@ -35,7 +35,8 @@ function main() {
     'handleJournalWoven',
     'handleDcapAlert',
   );
-  mustInclude('functions/src/adk/synapses/driveIngestSynapse.ts', 'routeInboxToWorm');
+  mustInclude('functions/src/adk/synapses/driveIngestSynapse.ts', 'routeInboxToWorm', 'persistKunskapFromInbox');
+  mustInclude('functions/src/lib/inboxPersist.ts', 'persistKunskapFromInbox', "collection: 'kb_docs'");
   mustInclude('functions/src/adk/synapses/journalWovenSynapse.ts', "collection('kampspar')");
   mustInclude('functions/src/adk/synapses/dcapAlertSynapse.ts', "collection('dcap_alerts')");
   mustInclude('functions/src/adk/synapses/paralysBrytarenSynapse.ts', 'applyParalysBreak');

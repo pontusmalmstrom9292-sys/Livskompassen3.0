@@ -2,7 +2,6 @@ import * as admin from 'firebase-admin';
 import { requiresHumanReview, type InboxClassification } from './inboxClassifier';
 import { formatChildObservation, inferEpistemicKind } from './childObservationEpistemics';
 import { persistKbDocFromDrive, type PersistKbDocInput } from './persistKbDoc';
-import { ingestKampsparForUser } from './ingestKampsparInternal';
 import { isKunskapFactApproved } from './kunskapContentBankGate';
 import { assertServerWormPayload, CHILDREN_LOG_ALLOWED_KEYS, driveInboxSourceRef, REALITY_VAULT_ALLOWED_KEYS } from './wormPayload';
 
@@ -425,17 +424,19 @@ export async function routeInboxToWorm(input: {
     return { action: 'queued', queueId: q.queueId };
   }
 
-  // P1.1 — route FACT to kampspar + vector (ANN parity)
+  // Ingest våg 1 — G10 kunskap default → kb_docs (kanon: rå Drive/Inkast; kampspar via journal_woven / ingestKampsparEntry)
   const title = (classification.summary || fileName).slice(0, 200).trim() || fileName;
-  const kampspar = await ingestKampsparForUser(ownerId, {
-    title,
-    content: analysisText.slice(0, 48_000),
-    category: classification.category,
-    entryType: 'fact_ingest',
-    tags: classification.tags,
-    source: `inbox:${fileId}`,
-  });
-  return { action: 'persisted', collection: 'kampspar', docId: kampspar.docId };
+  const kb = await persistKunskapFromInbox(
+    {
+      ownerId,
+      title,
+      content: analysisText.slice(0, 12_000),
+      driveFileId: fileId,
+      mimeType,
+    },
+    classification,
+  );
+  return { action: 'persisted', collection: 'kb_docs', docId: kb.docId };
 }
 
 export type InboxQueueItem = InboxQueueDoc & { id: string };
