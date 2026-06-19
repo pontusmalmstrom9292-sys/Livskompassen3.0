@@ -1,5 +1,16 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Valv A2.2–A2.4 (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| Leverans | Sök chat-first · Mönster frekvens-first · Orkester brusfilter-first |
+| Gate | `smoke:locked-ux` + `smoke:valv-mode` + `smoke:orkester` — **PASS** |
+| Audit | [`evaluations/2026-06-19-yolo-audit-valv-a2-2-4.md`](./evaluations/2026-06-19-yolo-audit-valv-a2-2-4.md) |
+| USER | Valv → Sök/Mönster/Orkester — primär yta först, fold för extra |
+
+---
+
 ## Valv Samla A2.1 (2026-06-19)
 
 | Fält | Värde |
