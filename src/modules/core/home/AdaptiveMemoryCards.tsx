@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Loader2, Sparkles } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { useStore } from '../store';
 import { getRecentCheckIns, getJournalEntries } from '../firebase/firestore';
 import { filterAdaptiveCardsForPreset, type LifeHubPresetId } from '../lifeOs/lifeHubPresets';
@@ -70,15 +70,6 @@ export function AdaptiveMemoryCards({
 
   return (
     <section className="space-y-3" aria-label="Anpassade minneskort">
-      <div className="flex items-center gap-2">
-        <Sparkles className="h-3.5 w-3.5 text-accent" strokeWidth={1.5} aria-hidden />
-        <h3 className="font-display-serif text-[10px] font-semibold uppercase tracking-[0.2em] text-text-dim">
-          För dig just nu
-        </h3>
-      </div>
-      <p className="text-xs text-text-dim">
-        Små frågor och uppgifter — baserat på dina svar i Kompasser idag.
-      </p>
 
       {loading ? (
         <p className="flex items-center gap-2 text-sm text-text-muted">

@@ -634,4 +634,218 @@
     background-color: var(--warning, #f59e0b);
     box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
   }
+
+  /* Hem Layout A — Obsidian Calm (HEM-LAYOUT-A-KANON) */
+  .home-layout-a--calm .home-layout-a__intro .home-greeting__title {
+    font-family: 'Cinzel', 'Outfit', serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.04em;
+  }
+
+  .home-layout-a--calm .home-layout-a__intro-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.75rem;
+    margin-top: 0.15rem;
+  }
+
+  .home-layout-a--calm .home-layout-a__sub {
+    margin: 0;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  .home-layout-a--calm .home-layout-a__label {
+    margin: 0 0 0.35rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .home-layout-a--calm .home-layout-a__hero-card {
+    border-radius: 1rem;
+    padding: 1rem 0.95rem 0.9rem;
+  }
+
+  .home-layout-a--calm .home-layout-a__hero-title {
+    margin: 0 0 0.35rem;
+    font-size: 1.05rem;
+    line-height: 1.25;
+    color: var(--text);
+  }
+
+  .home-layout-a--calm .home-layout-a__hero-lead {
+    margin: 0 0 0.5rem;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  .home-layout-a--calm .home-layout-a__hero-inset {
+    min-height: 2.5rem;
+    font-size: 0.8rem;
+  }
+
+  .home-layout-a--calm .home-layout-a__hero-inset:focus {
+    outline: none;
+    border-color: rgba(99, 102, 241, 0.35);
+  }
+
+  .home-layout-a--calm .home-layout-a__grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    grid-template-rows: auto auto;
+    gap: 0.55rem;
+  }
+
+  .home-layout-a--calm .home-layout-a__tile--tall {
+    grid-row: span 2;
+  }
+
+  .home-layout-a--calm .home-layout-a__tile {
+    border-radius: 0.875rem;
+    padding: 0.65rem 0.7rem;
+    text-align: left;
+  }
+
+  .home-layout-a--calm .home-layout-a__tile--icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    min-height: 58px;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .home-layout-a--calm .home-layout-a__tile--icon:hover {
+    border-color: rgba(212, 175, 55, 0.35);
+    color: var(--accent);
+  }
+
+  .home-layout-a--calm .home-layout-a__tile-icon {
+    width: 1.15rem;
+    height: 1.15rem;
+    color: #10b981;
+  }
+
+  .home-layout-a--calm .home-layout-a__steps {
+    margin: 0.35rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .home-layout-a--calm .home-layout-a__step {
+    margin-top: 0.3rem;
+    font-size: 0.72rem;
+    color: var(--text);
+  }
+
+  .home-layout-a--calm .home-layout-a__step-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .home-layout-a--calm .home-layout-a__step-btn:hover .home-layout-a__check {
+    border-color: #10b981;
+  }
+
+  .home-layout-a--calm .home-layout-a__step-btn:disabled {
+    opacity: 0.65;
+    cursor: wait;
+  }
+
+  .home-layout-a--calm .home-layout-a__check {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    display: grid;
+    place-items: center;
+    font-size: 0.55rem;
+    color: var(--accent);
+  }
+
+  .home-layout-a--calm .home-layout-a__check--wait {
+    border-style: dashed;
+    border-color: var(--text-dim);
+  }
+
+  .home-layout-a--calm .home-layout-a__check--on {
+    background: rgba(212, 175, 55, 0.12);
+  }
+
+  .home-layout-a--calm .home-layout-a__link {
+    display: inline-block;
+    margin-top: 0.55rem;
+    font-size: 0.65rem;
+    color: var(--accent-secondary);
+    text-decoration: none;
+  }
+
+  .home-layout-a--calm .home-layout-a__link:hover {
+    color: var(--accent);
+  }
+
+  .home-layout-a--calm .home-layout-a__strip {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 0.55rem;
+    border-radius: 0.875rem;
+    padding: 0.55rem 0.65rem;
+    text-align: left;
+    cursor: pointer;
+    color: inherit;
+    border: none;
+  }
+
+  .home-layout-a--calm .home-layout-a__strip-ico {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    display: grid;
+    place-items: center;
+    font-size: 0.75rem;
+    color: #10b981;
+  }
+
+  .home-layout-a--calm .home-layout-a__strip-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+
+  .home-layout-a--calm .home-layout-a__strip-text strong {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .home-layout-a--calm .home-layout-a__strip-text span {
+    font-size: 0.62rem;
+    color: var(--text-muted);
+  }
+
+  .home-page--layout-a.home-page--scenic {
+    background-image: radial-gradient(ellipse 90% 45% at 50% -5%, rgba(212, 175, 55, 0.05), transparent 55%);
+  }
 }
