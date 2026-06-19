@@ -61,6 +61,16 @@ async function main() {
     ),
     'mabraCapacityParafras saknar parafraseCoachFromBankWithCapacity',
   );
+  assert(
+    readFileSync(resolve(root, 'functions/src/lib/mabraCapacityParafras.ts'), 'utf8').includes(
+      'coachTone: CoachTone',
+    ),
+    'mabraCapacityParafras saknar coachTone (L3a)',
+  );
+  assert(
+    agentsSrc.includes('resolveCoachToneForUser'),
+    'agents saknar resolveCoachToneForUser (L3a)',
+  );
   assert(agentsSrc.includes('fetchUserCapacityScore'), 'agents saknar fetchUserCapacityScore');
   assert(agentsSrc.includes('capacityBand'), 'agents saknar capacityBand');
   console.log('[smoke] P4 bank_parafras + capacity static guards OK');

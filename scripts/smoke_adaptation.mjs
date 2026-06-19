@@ -83,8 +83,17 @@ function main() {
   );
   mustInclude(
     'src/modules/core/firebase/adaptationLedgerFirestore.ts',
-    'syncAdaptationPrefsToLedger',
     'mergeAdaptationPrefs',
+    'onAdaptationPrefsWrite',
+  );
+  mustInclude(
+    'functions/src/lib/adaptationCoachTone.ts',
+    'resolveCoachToneForUser',
+  );
+  mustInclude(
+    'src/modules/core/auth/authService.ts',
+    'resetAdaptationSignalThrottle',
+    'useAdaptationStore.getState().reset()',
   );
   mustInclude(
     'src/modules/core/store/useAdaptationStore.ts',
@@ -178,7 +187,7 @@ function main() {
     'adaptation_ledger',
   );
 
-  console.log('[smoke:adaptation] PASS — Adaptation Core wiring (L1 + L2a–c).');
+  console.log('[smoke:adaptation] PASS — Adaptation Core wiring (L1 + L2a–c + L3a).');
 }
 
 main();

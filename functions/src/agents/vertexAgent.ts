@@ -28,6 +28,7 @@ import {
   type MabraCoachHub,
   parafraseCoachFromBank,
 } from '../lib/mabraContentBank';
+import type { CoachTone } from '../../../shared/adaptation/adaptationTypes';
 
 const SPEGLINGS_MODEL = 'gemini-2.5-flash';
 const MABRA_COACH_MODEL = 'gemini-2.5-flash';
@@ -121,6 +122,7 @@ export const askMabraCoach = async (
   optionalNote?: string,
   geminiApiKey?: string,
   adaptationContext?: string | null,
+  coachTone: CoachTone = 'standard',
 ): Promise<string> => {
   const context = [
     `Symptom-hub: ${hubSymptom}`,
@@ -151,7 +153,7 @@ export const askMabraCoach = async (
     return text;
   } catch (error) {
     console.error('[Måbra-Coachen] Fel — degraded fallback:', error);
-    return parafraseCoachFromBank(bankEntry, hubSymptom, exerciseType);
+    return parafraseCoachFromBank(bankEntry, hubSymptom, exerciseType, coachTone);
   }
 };
 

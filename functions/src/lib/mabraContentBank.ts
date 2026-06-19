@@ -3,6 +3,8 @@
  * Ingen Kunskap-RAG; REFLECTION/PLAY endast från denna lista.
  */
 
+import type { CoachTone } from '../../../shared/adaptation/adaptationTypes';
+
 export type MabraCoachHub = 'panic_rsd' | 'self_critical' | 'find_self';
 export type MabraCoachVitHub = MabraCoachHub | 'who_am_i' | 'emotional_memory' | 'learn_together';
 export type MabraCoachExercise = 'breathing' | 'grounding' | 'reframing';
@@ -412,6 +414,32 @@ const HUB_ACK: Record<MabraCoachHub, string> = {
   find_self: 'Du är här nu — det är ett steg i sig.',
 };
 
+const CLOSING_STANDARD = 'Inget mer krävs av dig just nu.';
+const CLOSING_MINIMAL = 'Klart.';
+
+function firstSentence(text: string): string {
+  const match = text.match(/^[^.!?]+[.!?]?/);
+  const sentence = match?.[0]?.trim() ?? text.trim();
+  return sentence.endsWith('.') || sentence.endsWith('!') || sentence.endsWith('?')
+    ? sentence
+    : `${sentence}.`;
+}
+
+function buildAck(
+  hubSymptom?: MabraCoachHub,
+  exerciseType?: MabraCoachExercise,
+  coachTone: CoachTone = 'standard',
+): string {
+  if (coachTone === 'minimal') {
+    if (exerciseType) return EXERCISE_ACK[exerciseType];
+    return 'Övningen är gjord.';
+  }
+  if (hubSymptom && exerciseType) {
+    return `${EXERCISE_ACK[exerciseType]} ${HUB_ACK[hubSymptom]}`;
+  }
+  return 'Övningen är gjord.';
+}
+
 const GOAL_ASSIST_BANK_IDS = ['C-goal-01', 'C-goal-02'] as const;
 
 export function resolveGoalAssistBankId(
@@ -472,15 +500,24 @@ export function resolveBankParafrasBankId(bankId: string): string {
   return entry.bankId;
 }
 
-/** Deterministisk parafras utan LLM — endast banktext + övningskontext. */
+/** Deterministisk parafras utan LLM — endast banktext + övningskontext (U6/L3a). */
 export function parafraseCoachFromBank(
   entry: MabraCoachBankEntry,
   hubSymptom?: MabraCoachHub,
   exerciseType?: MabraCoachExercise,
+  coachTone: CoachTone = 'standard',
 ): string {
-  const ack =
-    hubSymptom && exerciseType
-      ? `${EXERCISE_ACK[exerciseType]} ${HUB_ACK[hubSymptom]}`
-      : 'Övningen är gjord.';
-  return `${ack} ${entry.text_sv} Inget mer krävs av dig just nu.`;
+  const ack = buildAck(hubSymptom, exerciseType, coachTone);
+  const closing = coachTone === 'minimal' ? CLOSING_MINIMAL : CLOSING_STANDARD;
+
+  if (coachTone === 'minimal') {
+    return `${ack} ${firstSentence(entry.text_sv)} ${closing}`;
+  }
+
+  if (coachTone === 'detailed') {
+    const lensSuffix = entry.lens ? ` Perspektiv: ${entry.lens}.` : '';
+    return `${ack} ${entry.text_sv}${lensSuffix} ${closing}`;
+  }
+
+  return `${ack} ${entry.text_sv} ${closing}`;
 }

@@ -8,10 +8,8 @@ import {
   ADAPTATION_SEMANTIC_FLAG,
   useAdaptationStore,
 } from '../store/useAdaptationStore';
-import { syncAdaptationPrefsToLedger } from '../firebase/adaptationLedgerFirestore';
 import { FIRESTORE_COLLECTIONS } from '../types/firestore';
 import type { AdaptationPrefsDoc } from '../types/adaptation';
-import { prefsLedgerFingerprint } from '../../../../shared/adaptation/adaptationLedgerSync';
 
 function normalizeAdaptationPrefs(uid: string, data: Record<string, unknown>): AdaptationPrefsDoc {
   return {
@@ -81,17 +79,9 @@ export function useAdaptationSync(): void {
     const unsub = onSnapshot(
       ref,
       (snap) => {
-        const prev = useAdaptationStore.getState().prefs;
-
         if (snap.exists()) {
           const next = normalizeAdaptationPrefs(user.uid, snap.data() as Record<string, unknown>);
           setPrefs(next);
-
-          if (prev && prefsLedgerFingerprint(prev) !== prefsLedgerFingerprint(next)) {
-            void syncAdaptationPrefsToLedger(user.uid, prev, next).catch((err) => {
-              console.warn('[AdaptationSync] adaptation_ledger dual-write:', err);
-            });
-          }
         } else {
           setPrefs(null);
         }
