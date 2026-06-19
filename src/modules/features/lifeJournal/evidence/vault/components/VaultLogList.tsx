@@ -12,7 +12,7 @@ import {
 } from '../constants/vavarenCopy';
 import { exportVaultRecordAsPdf } from '../utils/exportVaultRecord';
 import { normalizeStringArray } from '../utils/normalizeVaultLog';
-import { scanTechniquesForLog } from '../utils/vaultPatternScan';
+import { scanTechniquesForLog, logHasTechnique } from '../utils/vaultPatternScan';
 
 type VaultLogRow = VaultLog & { id: string; weaverTags?: WeaverTags };
 
@@ -37,6 +37,8 @@ type VaultLogListProps = {
   anchorsOnly?: boolean;
   /** Sidecar-taktik från pattern_scan_metadata (prioriteras framför live-regex). */
   persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
+  /** Filtrera arkiv efter taktik (från Mönster drill-down). */
+  techniqueFilter?: string | null;
 };
 
 function asText(value: unknown): string {
@@ -187,10 +189,16 @@ export const VaultLogList = memo(function VaultLogList({
   onLogFirstBevis,
   anchorsOnly = false,
   persistedTechniquesByLogId,
+  techniqueFilter = null,
 }: VaultLogListProps) {
   const { logs, loading, hasMore, loadingMore, loadMoreLogs } = useVaultStore();
   const highlightRef = useRef<HTMLLIElement>(null);
-  const visible = anchorsOnly ? logs.filter((l) => l.pinned) : logs;
+  let visible = anchorsOnly ? logs.filter((l) => l.pinned) : logs;
+  if (techniqueFilter) {
+    visible = visible.filter((log) =>
+      logHasTechnique(log, techniqueFilter, persistedTechniquesByLogId),
+    );
+  }
   const pinned = visible.filter((l) => l.pinned);
   const rest = anchorsOnly ? [] : visible.filter((l) => !l.pinned);
 
@@ -222,9 +230,11 @@ export const VaultLogList = memo(function VaultLogList({
       ) : visible.length === 0 ? (
         <EmptyState
           message={
-            anchorsOnly
-              ? 'Inga ankare markerade ännu. Kryssa i «Sanningens Ankare» när du loggar bevis.'
-              : 'Inga poster i arkivet ännu. Öppna «Manuell post» ovan eller tryck «Logga bevis».'
+            techniqueFilter
+              ? `Inga poster med #${techniqueFilter} i arkivet.`
+              : anchorsOnly
+                ? 'Inga ankare markerade ännu. Kryssa i «Sanningens Ankare» när du loggar bevis.'
+                : 'Inga poster i arkivet ännu. Öppna «Manuell post» ovan eller tryck «Logga bevis».'
           }
         />
       ) : (

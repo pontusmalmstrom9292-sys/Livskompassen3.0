@@ -22,10 +22,11 @@ function ValvPanelFallback() {
 export type ValvAnalyseraZoneProps = {
   tab: AnalyseraVaultTab;
   onTabChange: (tab: AnalyseraVaultTab) => void;
+  onTechniqueSelect?: (technique: string) => void;
 };
 
 /** Locked UX — Mönster + Orkester (Pansaret). */
-export function ValvAnalyseraZone({ tab, onTabChange }: ValvAnalyseraZoneProps) {
+export function ValvAnalyseraZone({ tab, onTabChange, onTechniqueSelect }: ValvAnalyseraZoneProps) {
   const { logs } = useVaultStore();
   const userId = useStore((s) => s.user?.uid);
 
@@ -49,7 +50,11 @@ export function ValvAnalyseraZone({ tab, onTabChange }: ValvAnalyseraZoneProps) 
         ) : (
           <>
             <PansaretHeader />
-            <VaultMonsterPanel logs={logs} userId={userId} />
+            <VaultMonsterPanel
+              logs={logs}
+              userId={userId}
+              onTechniqueSelect={onTechniqueSelect}
+            />
           </>
         )}
       </Suspense>

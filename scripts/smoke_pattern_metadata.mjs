@@ -76,6 +76,11 @@ function main() {
     'Skanna om',
     'Flow-assist',
     'usePatternScanMetadata',
+    'onTechniqueSelect',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/utils/vaultPatternScan.ts',
+    'logHasTechnique',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/api/patternScanService.ts',
