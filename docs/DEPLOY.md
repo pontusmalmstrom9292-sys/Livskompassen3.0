@@ -12,6 +12,23 @@ Region (Functions): `europe-west1`
 3. Firebase CLI inloggad: `firebase login` och `firebase use gen-lang-client-0481875058`.
 4. **Authentication → Anonymous** aktiverad i Firebase Console.
 
+## YOLO-vakt (MUST före deploy)
+
+**Kanon:** [`YOLO-VAKT-GATE.md`](./YOLO-VAKT-GATE.md)
+
+1. Read-only audit: `/yolo-vakt` → **GO / NO-GO**
+2. Automatiserad gate: `npm run smoke:yolo` (PASS krävs)
+3. Pontus OK vid PMIR-stopp (rules, Barnporten kanon-UI, Sacred UX)
+
+```bash
+npm run smoke:yolo
+firebase deploy --only hosting   # eller named functions enligt tabell nedan
+```
+
+**Snabb dev:** `YOLO_SKIP_BUILD=1 npm run smoke:yolo`
+
+---
+
 ## Bygg (lokalt)
 
 ```bash
