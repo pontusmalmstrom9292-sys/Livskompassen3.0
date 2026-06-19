@@ -522,6 +522,14 @@ function main() {
     'DOSSIER_PRINT_STYLES',
     'printDossierFallback',
   );
+  mustInclude('src/modules/shared/utils/secureExport.ts', 'VIT_HUB_PRINT_STYLES');
+  mustNotInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/lib/exportVitHubReport.ts',
+    '#475569',
+    '#fef2f2',
+    '#fecaca',
+  );
+  mustNotInclude('src/modules/core/pages/DagensAnkareLabPage.tsx', 'bg-[#', 'from-[#');
 
   console.log('smoke:design-modules PASS');
 }
