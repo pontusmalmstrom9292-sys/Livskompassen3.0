@@ -1,5 +1,16 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Valv Kanon docs A2.7 (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| Leverans | `vaultTab=docs` — routing primär; silos/WORM/domän/U6 i CalmCollapsible |
+| Gate | `smoke:locked-ux` + `smoke:design-modules` + `smoke:orkester` — **PASS** |
+| PMIR | [`evaluations/2026-06-19-pmir-valv-a2-7.md`](./evaluations/2026-06-19-pmir-valv-a2-7.md) |
+| USER | Valv → Kunskap → Kanon & routing |
+
+---
+
 ## Valv Aktörskarta A2.6 (2026-06-19)
 
 | Fält | Värde |

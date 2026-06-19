@@ -109,6 +109,7 @@ const DRAWER_ICONS: Record<string, DrawerNavIcon> = {
   valv_dossier_export: ScrollText,
   valv_kunskapsbank: BookOpen,
   valv_aktorskarta: Users,
+  valv_docs: ScrollText,
   valv_hamn_analys: Shield,
   valv_speglar_fordjupat: Sparkles,
   valv_dagbok_arkiv: BookOpen,
