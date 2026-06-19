@@ -5,6 +5,11 @@ import { SaveAsEvidencePrompt } from '../../components/SaveAsEvidencePrompt';
 import type { EpistemicKind } from '../../utils/childObservationEpistemics';
 import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
 
+const OBSERVATION_PLACEHOLDER: Record<EpistemicKind, string> = {
+  citat: 'Ordagrant citat av barnet — t.ex. "Jag vill inte åka dit mer."',
+  tolkning: 'Vad du såg eller hörde — beteende och tid, ingen diagnos på motpart.',
+};
+
 export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: FamiljenDelegateBaseProps) {
   const childAlias = shell.activeChild;
   const userId = shell.user?.uid;
@@ -129,10 +134,16 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
         ))}
       </div>
 
+      <p className="text-xs text-text-dim leading-relaxed">
+        {epistemicKind === 'citat'
+          ? 'Citat sparas med [citat]-prefix — vad barnet sa eller visade, ordagrant.'
+          : 'Tolkning sparas med [tolkning]-prefix — din observation utan etikett på motpart.'}
+      </p>
+
       <textarea
         value={observation}
         onChange={(e) => setObservation(e.target.value)}
-        placeholder="Neutral, faktabaserad observation (vad hände — inte tolkning mot motpart)..."
+        placeholder={OBSERVATION_PLACEHOLDER[epistemicKind]}
         rows={3}
         className="input-glass w-full rounded-xl px-3 py-2"
         disabled={loading}

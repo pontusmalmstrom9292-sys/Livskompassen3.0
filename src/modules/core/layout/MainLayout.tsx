@@ -25,6 +25,7 @@ import { getTheme } from '../theme/themeRegistry';
 import { isMockupTheme } from '../theme/mockupTheme';
 import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
 import { useCapacityScore } from '../store/useCapacityGate';
+import { CAPACITY_LOW_HOME_THRESHOLD, normalizeStoredCapacityScore } from '../../../../shared/evolution/capacityScore';
 import { SosMainTrigger } from '@/modules/features/sos/components/SosMainTrigger';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
@@ -41,7 +42,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   const [accountOpen, setAccountOpen] = useState(false);
   const slimHeaderChrome = designPackActive && isScenicHome;
   const capacityScore = useCapacityScore();
-  const isLowCapacity = capacityScore > 0 && capacityScore < 50;
+  const normalized = normalizeStoredCapacityScore(capacityScore);
+  const isLowCapacity = normalized > 0 && normalized < CAPACITY_LOW_HOME_THRESHOLD;
 
   useEffect(() => {
     if (!user) setMenuOpen(false);

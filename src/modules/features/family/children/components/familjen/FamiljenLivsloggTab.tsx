@@ -3,12 +3,14 @@ import { Anchor } from 'lucide-react';
 import { useMemo } from 'react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import type { FamiljenShell } from '../../hooks/useFamiljenShell';
+import type { ChildAlias } from '../../constants';
 import { useChildMomentView } from '../../hooks/useChildMomentView';
 import { getFeaturedMoment, momentBody } from '../../utils/childMomentHelpers';
 import { ChildMomentTabs } from './ChildMomentTabs';
 import { ChildMomentStunderPanel } from './ChildMomentStunderPanel';
 import { ChildMomentOmPanel } from './ChildMomentOmPanel';
 import { ChildMomentFavoriterPanel } from './ChildMomentFavoriterPanel';
+import { ChildrenLogsChat } from '../ChildrenLogsChat';
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
 
 type Props = {
@@ -50,10 +52,14 @@ export function FamiljenLivsloggTab({ shell }: Props) {
         {view === 'favoriter' && <ChildMomentFavoriterPanel shell={shell} />}
       </div>
 
+      <ChildrenLogsChat activeChild={activeChild as ChildAlias} />
+
       <p className="text-center text-xs text-text-dim">
-        <Link to="/valvet" className="hover:text-accent">
-          Öppna arkiv för låsta poster och arkiv-chatt →
+        Bevis till Valv sker manuellt per stund —{' '}
+        <Link to="/valvet?vaultTab=logga" className="hover:text-accent">
+          öppna Valv
         </Link>
+        . Chatt ovan läser endast barnens livslogg (egen silo).
       </p>
     </div>
   );

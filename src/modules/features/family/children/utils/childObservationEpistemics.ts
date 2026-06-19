@@ -11,6 +11,17 @@ export function hasEpistemicPrefix(text: string): boolean {
   return EPISTEMIC_PREFIX_RE.test(text.trim());
 }
 
+export function parseEpistemicKindFromObservation(text: string): EpistemicKind | null {
+  const match = text.trim().match(EPISTEMIC_PREFIX_RE);
+  if (!match?.[1]) return null;
+  const kind = match[1].toLowerCase();
+  return kind === 'citat' || kind === 'tolkning' ? kind : null;
+}
+
+export function epistemicKindLabel(kind: EpistemicKind): string {
+  return kind === 'citat' ? 'Citat' : 'Tolkning';
+}
+
 /** Prefixera observation om den saknar [citat]/[tolkning]. */
 export function formatChildObservation(text: string, kind: EpistemicKind): string {
   const trimmed = text.trim();

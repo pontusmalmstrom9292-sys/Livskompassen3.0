@@ -2,6 +2,7 @@ import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import { GCP_REGION } from '../config';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { capacityScoreToScale10 } from '../../../shared/evolution/capacityScore';
 
 export const calculateSmartAllocation = onCall(
   { region: GCP_REGION },
@@ -12,13 +13,13 @@ export const calculateSmartAllocation = onCall(
     try {
       // 1. Fetch user's capacityScore from user_capability_state
       const capabilityDoc = await db.collection('user_capability_state').doc(uid).get();
-      let capacityScore = 5.0; // Default if no state exists
-      
+      let capacityScore = 5.0;
+
       if (capabilityDoc.exists) {
         const data = capabilityDoc.data();
-        if (data && typeof data.capacityScore === 'number') {
-          capacityScore = data.capacityScore;
-        }
+        capacityScore = capacityScoreToScale10(
+          typeof data?.capacityScore === 'number' ? data.capacityScore : undefined,
+        );
       }
 
       // 2. Fetch project_blocks activity for the last 7 days

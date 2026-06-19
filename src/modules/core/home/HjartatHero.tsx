@@ -1,5 +1,6 @@
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useCapacityScore } from '../store/useCapacityGate';
+import { CAPACITY_LOW_HOME_THRESHOLD } from '../../../../shared/evolution/capacityScore';
 import { useStore } from '../store';
 import { CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
@@ -9,7 +10,7 @@ export function HjartatHero() {
   const user = useStore((s) => s.user);
   const [stepDone, setStepDone] = useState(false);
 
-  const isLowCapacity = capacityScore > 0 && capacityScore < 50;
+  const isLowCapacity = capacityScore > 0 && capacityScore < CAPACITY_LOW_HOME_THRESHOLD;
   const userName =
     user?.email?.split('@')[0]?.split(/[._]/)[0]?.replace(/^./, (c) => c.toUpperCase()) || 'Pontus';
 

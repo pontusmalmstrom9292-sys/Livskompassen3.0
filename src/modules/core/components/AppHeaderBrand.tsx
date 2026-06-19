@@ -4,14 +4,20 @@ import { clsx } from 'clsx';
 import { LivskompassBrandLockup } from '../ui/LivskompassBrandLockup';
 import { getHeaderPageLabel } from '../navigation/headerPageLabel';
 import { useCapacityScore } from '../store/useCapacityGate';
+import {
+  CAPACITY_LOW_HOME_THRESHOLD,
+  CAPACITY_STABILITY_THRESHOLD,
+  normalizeStoredCapacityScore,
+} from '../../../../shared/evolution/capacityScore';
 
 export function AppHeaderBrand() {
   const location = useLocation();
   const pageLabel = getHeaderPageLabel(location.pathname, location.search);
   const showPageBadge = pageLabel && pageLabel !== 'Hem';
   const capacityScore = useCapacityScore();
-  const isLowCapacity = capacityScore > 0 && capacityScore < 50;
-  const isHighCapacity = capacityScore >= 50;
+  const normalized = normalizeStoredCapacityScore(capacityScore);
+  const isLowCapacity = normalized > 0 && normalized < CAPACITY_LOW_HOME_THRESHOLD;
+  const isHighCapacity = normalized >= CAPACITY_STABILITY_THRESHOLD;
 
   return (
     <Link

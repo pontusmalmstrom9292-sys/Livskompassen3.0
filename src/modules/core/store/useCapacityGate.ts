@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/firestore';
 import { FIRESTORE_COLLECTIONS, type UserCapabilityState } from '../types/firestore';
+import { normalizeStoredCapacityScore } from '../../../../shared/evolution/capacityScore';
 
 export interface CapacityGateState {
   isEconomyAdvancedUnlocked: boolean;
@@ -28,7 +29,9 @@ function startFirestoreListener(uid: string, set: (partial: Partial<CapacityGate
         const data = snapshot.data() as UserCapabilityState;
         set({
           isEconomyAdvancedUnlocked: data.economy_advanced === true,
-          capacityScore: typeof data.capacityScore === 'number' ? data.capacityScore : 0,
+          capacityScore: normalizeStoredCapacityScore(
+            typeof data.capacityScore === 'number' ? data.capacityScore : undefined,
+          ),
           isLoading: false,
           error: null,
         });
