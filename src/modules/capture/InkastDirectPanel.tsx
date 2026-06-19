@@ -6,13 +6,16 @@ import { clsx } from 'clsx';
 import { FileUp, Inbox } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
+import { WormSaveConfirmSheet } from '@/core/security/WormSaveConfirmSheet';
 import { fileToBase64 } from '@/features/lifeJournal/evidence/kompis/api/ingestKnowledgeDocumentService';
 import {
+  previewInboxClassification,
   primaryInkastItem,
   submitInkastLite,
   type SubmitInkastLiteResult,
 } from '@/modules/inkast/api/inkastService';
 import { InkastPostSubmitPanel } from '@/modules/inkast/components/InkastPostSubmitPanel';
+import { inkastTargetsWorm } from '@/modules/inkast/lib/inkastOutcome';
 import {
   InkastBarnenValvBridge,
   inkastBarnenBridgeProps,
@@ -42,6 +45,8 @@ export type InkastDirectPanelProps = {
   queueHintAsButton?: boolean;
 };
 
+type InkastSubmitPayload = Parameters<typeof submitInkastLite>[0];
+
 /** Delad direct-submit UI — paste + filer → submitInkastLite (ingen AI-preview). */
 export function InkastDirectPanel({
   tone = 'hem',
@@ -56,6 +61,9 @@ export function InkastDirectPanel({
   const [lastResult, setLastResult] = useState<SubmitInkastLiteResult | null>(null);
   const [showBarnenBridge, setShowBarnenBridge] = useState(true);
   const [showDagbokWeave, setShowDagbokWeave] = useState(true);
+  const [wormConfirmOpen, setWormConfirmOpen] = useState(false);
+  const [pendingPayload, setPendingPayload] = useState<InkastSubmitPayload | null>(null);
+  const [wormContextLabel, setWormContextLabel] = useState<string | undefined>(undefined);
   const inputRef = useRef<HTMLInputElement>(null);
   const userId = useStore((s) => s.user?.uid);
 
@@ -90,7 +98,7 @@ export function InkastDirectPanel({
           setError(result.errors.map((e) => `${e.fileName}: ${e.error}`).join(' · '));
         }
 
-        if (!payload.text) setText('');
+        if (payload.text) setText('');
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Inkast misslyckades.');
       } finally {
@@ -100,13 +108,78 @@ export function InkastDirectPanel({
     [onPersistedBevis, sourceModule],
   );
 
+  const openWormConfirm = useCallback((payload: InkastSubmitPayload, contextLabel?: string) => {
+    setPendingPayload(payload);
+    setWormContextLabel(contextLabel);
+    setWormConfirmOpen(true);
+  }, []);
+
+  const requestSubmit = useCallback(
+    async (payload: InkastSubmitPayload) => {
+      if (!isValv) {
+        void runSubmit(payload);
+        return;
+      }
+
+      setError(null);
+
+      if (payload.base64Files?.length) {
+        openWormConfirm(payload, payload.fileNames?.join(', ') ?? 'Filuppladdning');
+        return;
+      }
+
+      const trimmed = payload.text?.trim();
+      if (trimmed && trimmed.length >= 12) {
+        setLoading(true);
+        try {
+          const classification = await previewInboxClassification({
+            text: trimmed,
+            fileName: payload.fileName ?? 'inkast.txt',
+            sourceModule,
+          });
+          if (inkastTargetsWorm(classification)) {
+            openWormConfirm(
+              payload,
+              payload.fileName ?? trimmed.slice(0, 80),
+            );
+          } else {
+            await runSubmit(payload);
+          }
+        } catch (err) {
+          setError(err instanceof Error ? err.message : 'Kunde inte analysera.');
+        } finally {
+          setLoading(false);
+        }
+        return;
+      }
+
+      void runSubmit(payload);
+    },
+    [isValv, openWormConfirm, runSubmit, sourceModule],
+  );
+
+  const confirmWormSubmit = useCallback(() => {
+    if (!pendingPayload) return;
+    const payload = pendingPayload;
+    setWormConfirmOpen(false);
+    setPendingPayload(null);
+    setWormContextLabel(undefined);
+    void runSubmit(payload);
+  }, [pendingPayload, runSubmit]);
+
+  const cancelWormConfirm = useCallback(() => {
+    setWormConfirmOpen(false);
+    setPendingPayload(null);
+    setWormContextLabel(undefined);
+  }, []);
+
   const handlePasteSubmit = () => {
     const trimmed = text.trim();
     if (trimmed.length < 12) {
       setError('Skriv minst några rader (sms, mejl, anteckning).');
       return;
     }
-    void runSubmit({ text: trimmed, fileName: 'inkast-klistra.txt' });
+    void requestSubmit({ text: trimmed, fileName: 'inkast-klistra.txt' });
   };
 
   const handleFiles = async (files: FileList | null) => {
@@ -131,7 +204,7 @@ export function InkastDirectPanel({
           mimeTypes.push(resolveInkastMime(file));
           fileNames.push(file.name);
         }
-        await runSubmit({ base64Files, mimeTypes, fileNames });
+        void requestSubmit({ base64Files, mimeTypes, fileNames });
       }
       for (const file of textFiles) {
         const content = (await file.text()).trim();
@@ -139,7 +212,7 @@ export function InkastDirectPanel({
           setError(`${file.name}: filen är tom eller för kort.`);
           return;
         }
-        await runSubmit({
+        void requestSubmit({
           text: content.slice(0, 12_000),
           fileName: file.name,
         });
@@ -184,14 +257,25 @@ export function InkastDirectPanel({
         placeholder={isValv ? 'Klistra sms eller mejl…' : 'Klistra sms, mejl eller anteckning…'}
         rows={isValv ? 3 : 4}
         className={textareaClass}
-        disabled={loading}
+        disabled={loading || wormConfirmOpen}
       />
+
+      {wormConfirmOpen && (
+        <div className={isValv ? 'mt-2' : 'mt-3'}>
+          <WormSaveConfirmSheet
+            contextLabel={wormContextLabel}
+            busy={loading}
+            onConfirm={confirmWormSubmit}
+            onCancel={cancelWormConfirm}
+          />
+        </div>
+      )}
 
       <div className={clsx('flex flex-wrap gap-2', isValv ? 'mt-2' : 'mt-3')}>
         <button
           type="button"
           className={isValv ? 'btn-pill--secondary text-xs' : 'btn-pill--primary text-xs'}
-          disabled={loading || text.trim().length < 12}
+          disabled={loading || wormConfirmOpen || text.trim().length < 12}
           onClick={handlePasteSubmit}
         >
           {loading ? (
@@ -208,7 +292,7 @@ export function InkastDirectPanel({
         <button
           type="button"
           className="btn-pill--ghost text-xs"
-          disabled={loading}
+          disabled={loading || wormConfirmOpen}
           onClick={() => inputRef.current?.click()}
         >
           <span className="inline-flex items-center gap-1">
