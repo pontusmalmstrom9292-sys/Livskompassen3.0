@@ -30,6 +30,14 @@ function TaskPreviewMini() {
   );
 }
 
+function VideoPreviewMini() {
+  return (
+    <div className="rounded-lg border border-dashed border-accent-secondary/25 bg-surface/30 px-3 py-4 text-center text-[10px] text-text-dim">
+      Kort video + caption
+    </div>
+  );
+}
+
 const START_ROUTES: Record<ProjectBlockType, string> = {
   list: '/projekt/ny?type=list',
   note: '/projekt/ny?type=note',
@@ -74,6 +82,14 @@ export function ProjektTomStatePanel() {
           ctaLabel="Lägg till bild"
           tone="indigo"
           onStart={() => go('image')}
+        />
+        <ExamplePreviewCard
+          title="Video"
+          lead="Kort klipp — max 50 MB, sparas i Storage."
+          preview={<VideoPreviewMini />}
+          ctaLabel="Lägg till video"
+          tone="lavender"
+          onStart={() => go('video')}
         />
         <ExamplePreviewCard
           title="Uppgift"

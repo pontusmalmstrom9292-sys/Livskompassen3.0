@@ -233,6 +233,10 @@ function main() {
   );
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/projekt/ny"', 'path="/projekt/regler"');
   mustInclude('src/modules/features/admin/planning/components/PlaneringHub.tsx', 'ProjektPickerSheet');
+  mustInclude('src/modules/features/widgets/pages/WidgetProjektPage.tsx', 'ProjektPickerSheet', '/projekt');
+  mustInclude('src/modules/features/widgets/routing/WidgetRoutes.tsx', 'path="projekt"', 'WidgetProjektPage');
+  mustInclude('src/modules/core/components/FyrenWidgetBar.tsx', '/widget/projekt');
+  mustInclude('src/modules/features/admin/projects/components/ProjektTomStatePanel.tsx', 'Video', 'go(\'video\')');
   mustInclude('src/modules/core/firebase/storage.ts', 'uploadProjectImage');
   mustInclude('src/modules/features/admin/planning/components/PlaneringPage.tsx', 'PlanningKanbanBoard', 'PLANERING_TAGLINE');
   mustInclude('firestore.rules', 'planning_tasks');
