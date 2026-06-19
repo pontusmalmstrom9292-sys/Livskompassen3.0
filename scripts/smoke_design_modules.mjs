@@ -531,6 +531,7 @@ function main() {
   );
   mustNotInclude('src/modules/core/pages/DagensAnkareLabPage.tsx', 'bg-[#', 'from-[#');
   mustInclude('vite.config.ts', 'zone-valv');
+  mustInclude('tsconfig.core-strict.json', 'features/admin/projects');
 
   console.log('smoke:design-modules PASS');
 }
