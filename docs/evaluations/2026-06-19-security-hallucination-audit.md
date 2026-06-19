@@ -45,9 +45,9 @@ Nytt i denna branch:
 
 ### Native biometri utan server-attestation
 
-`issueVaultSessionViaBiometric` accepterar `platform: android|ios` utan att verifiera att native biometric kördes.
+**v1 åtgärdat 2026-06-19:** Challenge-kedja — se [`2026-06-19-pmir-biometric-challenge-v1.md`](./2026-06-19-pmir-biometric-challenge-v1.md).
 
-**Rekommendation:** Play Integrity / DeviceCheck + nonce, eller PMIR med dokumenterad threat model.
+**Fas 2 kvar:** Play Integrity / DeviceCheck via App Check enforce (Console, Pontus).
 
 ---
 
