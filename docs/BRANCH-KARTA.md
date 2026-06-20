@@ -2,9 +2,11 @@
 
 **Syfte:** En aktiv utvecklingsgren (`main`). Inget förstört — historik finns i git.
 
-**Senast:** 2026-06-19 (merge: B1–B4 frontend polish → `main`)
+**Senast:** 2026-06-20 (merge-våg: docs · rules-glob · ingest våg 3 · CI gate)
 
-**Senast merge:** 2026-06-19 (B1 MåBra · B2 Familjen/Hamn · B3 Hjärtat · B4 Planering — progressive disclosure)
+**Senast merge:** 2026-06-20 — PR #38–41 docs · PR #35 rules-glob · PR #27 CONTENT-WAVES · ingest våg 3 på main · `pr-smoke-gate.yml` + CODEOWNERS · stängt PR #19/#22
+
+**Tidigare merge:** 2026-06-19 (B1 MåBra · B2 Familjen/Hamn · B3 Hjärtat · B4 Planering — progressive disclosure)
 
 **Senast merge (äldre):** 2026-06-01 (`feat/superhub-v2` → `main` — supersidor, capture, Draft Layer; PMIR [`archive/evaluations-fas21-2026-06/2026-06-01-superhub-PMIR.md`](./archive/evaluations-fas21-2026-06/2026-06-01-superhub-PMIR.md))
 
