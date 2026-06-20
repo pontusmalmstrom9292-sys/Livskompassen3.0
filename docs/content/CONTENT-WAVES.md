@@ -12,7 +12,7 @@
 | 5 | Taktiker (referens) | 043–047 | — (Speglar/Valv bro) | CUR-TAKTIK-01 | **done** |
 | 6 | Medföräldraskap | 003–015 (befintlig) | — (Hamn bro) | CUR-COPARENT-01 | **done** |
 | 7 | Droger / nykterhet | df-001–006 | DF-REF-11/12 | CUR-SOBRIETY-01 | **done** |
-| 8 | Ingest RAG | manifest → kampspar | — | — | **done** 2026-06-06 — 53 poster → `fPIXyAxSnKPubEGBSAwUmxDRfiD3` (Admin SDK) |
+| 8 | Ingest RAG | manifest → kampspar | — | — | **partial→63** 2026-06-20 — 53 ingest 2026-06-06 + bank 048–057 KEEP · [`2026-06-20-yolo-d-kunskap-vag8.md`](../evaluations/2026-06-20-yolo-d-kunskap-vag8.md) |
 | 9 | Vit hub P1 | — | C-se-01..10, vit_hub/vit_entries | — | **done** 2026-06-06 — Firestore append-only, frågekort per projekt |
 | 10 | Valv Mitt Vit P2 | — | — | — | **done** 2026-06-06 — `vaultTab=mitt_vit`, dashboard + statistik |
 | 11 | Vit chat P3 | — | `vit_chat`, `chat_turn` | — | **done** 2026-06-06 — `mabraCoach` + silo-guard → `vit_entries` |

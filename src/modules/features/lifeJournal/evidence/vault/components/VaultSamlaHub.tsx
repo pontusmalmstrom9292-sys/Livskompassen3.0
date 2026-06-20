@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useState } from 'react';
-import { Inbox, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import './valv.css';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { fetchInboxQueue } from '../../kompis/api/inboxService';
@@ -8,6 +8,7 @@ import { useVaultStore } from '@/core/store/useVaultStore';
 import { VaultEntryForm } from './VaultEntryForm';
 import { VaultInkastCompact } from './VaultInkastCompact';
 import { VaultSamlaDriveHint } from './VaultSamlaDriveHint';
+import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
 
 type Props = {
   userId: string;
@@ -80,18 +81,12 @@ export const VaultSamlaHub = memo(function VaultSamlaHub({
         </p>
       ) : null}
 
-      {onOpenGranska && pendingTotal > 0 ? (
-        <button
-          type="button"
-          className="flex w-full items-center justify-between gap-2 rounded-xl border border-border bg-surface-2/80 px-3 py-2.5 text-left text-sm text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3"
-          onClick={openReview}
-        >
-          <span className="inline-flex items-center gap-2">
-            <Inbox className="h-4 w-4 text-accent" aria-hidden />
-            Granska väntande
-          </span>
-          <span className="font-medium text-accent">{pendingTotal}</span>
-        </button>
+      {pendingTotal > 0 ? (
+        <InboxReviewQueue
+          compact={false}
+          prioritizeBevis
+          onBevisConfirmed={handleBevisConfirmed}
+        />
       ) : null}
 
       <CalmCollapsible

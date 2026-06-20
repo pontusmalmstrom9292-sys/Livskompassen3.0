@@ -4,6 +4,7 @@ import { Calendar, Inbox, Mail } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
 import { ReviewQueuePipelinePanel } from '@/modules/capture/ReviewQueuePipelinePanel';
+import { InboxReviewQueueLink } from '@/modules/inkast/components/InboxReviewQueueLink';
 import { shouldDualWritePlaneringToCapture, submitCaptureDraft } from '@/modules/capture';
 import { useStore } from '@/core/store';
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
@@ -132,6 +133,7 @@ export function PlaneringInkorgPanel() {
           </p>
 
           <PlaneringSuperModule variant="capture" onSaved={handleCaptureSaved} />
+          <InboxReviewQueueLink />
 
           <div className="planering-inbox-connect-grid">
             <PlaneringInboxConnectionCard
