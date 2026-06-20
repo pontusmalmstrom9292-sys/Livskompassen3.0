@@ -1,5 +1,5 @@
 import { HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
-import * as functions from 'firebase-functions';
+import * as functions from 'firebase-functions/v1';
 import { assertRateLimit, RateLimitExceeded } from './rateLimit';
 
 /** Aktiveras i prod efter Firebase Console App Check + `APP_CHECK_ENFORCE=true`. */
