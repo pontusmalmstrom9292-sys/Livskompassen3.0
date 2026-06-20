@@ -1,3 +1,9 @@
+---
+description: Research content gate — CANDIDATE vs KEEP, dirigent, ingest efter Pontus-godkännande
+alwaysApply: false
+globs: docs/external-ai/**,docs/specs/modules/*CONTENT*,docs/content/**,**/*CONTENT*BANK*,**/*CONTENT-SEED*
+---
+
 # Research content gate (våg 27+)
 
 Kanon: [`docs/evaluations/2026-06-16-research-slutfas.md`](../../docs/evaluations/2026-06-16-research-slutfas.md) · [`docs/INNEHALL-REGISTER.md`](../../docs/INNEHALL-REGISTER.md)

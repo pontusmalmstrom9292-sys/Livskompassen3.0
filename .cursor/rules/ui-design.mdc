@@ -1,25 +1,11 @@
 ---
-description: Livskompassen frontend design language and interaction rules
+description: Pekare till Obsidian Calm 2.0 — full UI-kanon i design-calm.mdc
 alwaysApply: false
 globs: src/**/*.tsx,src/**/*.ts,src/**/*.css,tailwind.config.*
 ---
 
 # UI Design Language
 
-Use Obsidian Calm and Nordic Dusk. The UI must reduce cognitive load and avoid sensory noise.
+**Kanon flyttad till** [`design-calm.mdc`](design-calm.mdc) — Obsidian Calm 2.0, typografi, interaktion och färg-glow.
 
-Visual rules:
-- Base background: deep black or obsidian gradients from `#020617` to `#0f172a`.
-- **Active chrome (drawer, dock, tabs):** gold per [`docs/design/COLOR-POLICY.md`](../../docs/design/COLOR-POLICY.md) — not turquoise/indigo as primary active state.
-- Secondary accents: Emerald `#2DD4BF` (save/confirm), Indigo `#818CF8` (secondary actions only).
-- Prefer glass cards with subtle borders such as `border-white/5` and low-contrast surfaces.
-- Use soft rounded geometry: `rounded-[2rem]`, `rounded-5xl`, pills, sheets, and drawers.
-- Typography: Outfit for headings, Inter for body copy.
-- Nature themes are forbidden.
-
-Interaction rules:
-- Prioritize Clean Input and progressive disclosure.
-- Do not require text commands to start core workflows.
-- Use Tactical Macro-Dock actions for BIFF, vault upload, and emotion logging.
-- Kompass navigation should mutate local state immediately rather than reload or route when filtering is enough.
-- Preserve stress-free, deterministic feedback for every critical action.
+Läs `design-calm.mdc` vid alla UI-ändringar. Duplicera inte regler här.

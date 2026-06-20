@@ -1,5 +1,6 @@
 ---
 description: Lagar för Livskompassens Självbyggande Arkiv (Dumpa och glöm) och Kunskapsbank.
+alwaysApply: false
 globs: src/features/lifeJournal/evidence/kompis/components/AutonomousArchivePanel.tsx, functions/src/lib/inboxClassifier.ts, src/modules/core/firebase/firestore.ts
 ---
 # SÄKERHETS- OCH ARKITEKTURLAGAR FÖR ARKIVET (DUMPA OCH GLÖM)

@@ -1,37 +1,49 @@
 ---
-description: Grunder U1–U5 — Life OS, tre silos, permanent minne, DCAP före LLM
+description: Grunder U1–U6 — Life OS, tre silos, WORM, DCAP, Zero Footprint, PMIR-stopp (full kanon)
 alwaysApply: false
 ---
 
-# Grunder-kanon (U1–U5)
+# Grunder-kanon (U1–U6)
 
-Baseline: [`docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md`](../../docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md)
+Baseline: [`docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md`](../../docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md)  
+Mänsklig Guard-kanon: [`docs/governance/GUARD-REGLERBOK.md`](../../docs/governance/GUARD-REGLERBOK.md)
 
 ## U1 — Tre silos (aldrig cross-RAG)
 
-| Silo | Collections / route | Callable |
-|------|---------------------|----------|
-| Kunskap | `kampspar`, `kb_docs` | `knowledgeVaultQuery` |
-| Valv | `reality_vault` | `valvChatQuery`, `analyzeMessage` |
-| Barnen | `children_logs` | `childrenLogsQuery` |
+| Silo | Collections / route | Callable | RAG-modul |
+|------|---------------------|----------|-----------|
+| Kunskap | `kampspar`, `kb_docs` | `knowledgeVaultQuery` | `kampsparQueryRag.ts` |
+| Valv | `reality_vault` | `valvChatQuery`, `analyzeMessage` | `vaultRag.ts` |
+| Barnen | `children_logs` | `childrenLogsQuery` | barn-RAG i silo |
+| Utveckling (Vit) | `mabra_sessions`, `vit_hub` | **Ingen RAG** | `mabraCoach` parafras bank |
+
+**MUST NOT:** fjärde silo · cross-read för bekvämlighet · LLM som enda källa för silo/auth · "sök överallt" utan silo-val.
+
+**Tillåtna korsläsningar (ej användar-RAG):** Vävaren metadata · Dossier wizard · Speglar token-match (Zero Footprint).
+
+Skill vid RAG/query: `.cursor/skills/livskompassen-memory-silo-guard/SKILL.md`
 
 ## U2 — DCAP före LLM
 
-Riskklassning och routing i kod (`routeFromDcap`, `resolveExecutorId`). LLM får inte besluta auth eller WORM.
+Riskklassning och routing i kod (`routeFromDcap`, `classifyInboxDocument`, `resolveExecutorId`). LLM får inte besluta auth, silo eller WORM.
 
 ## U3 — Permanent minne (WORM)
 
-`children_logs`, `reality_vault`, `journal`, `dossier_snapshots` — append-only; retention får inte purga dessa.
+Append-only: `children_logs`, `reality_vault`, `journal`, `dossier_snapshots`, `evolution_ledger`, `dcap_alerts`.
+
+**MUST:** beteende + datum — aldrig diagnosetikett på motpart. Server-tidsstämpel på bevis.
+
+**MUST NOT:** `update`/`delete` på WORM-poster · mock-WORM · auto-promote barnlogg → Valv.
 
 ## U4 — Zero Footprint + Kill Switch
 
-Session/synapse state rensas vid logout, blur, panic. Speglar utan persistent RAG.
+Session/synapse state rensas vid logout, blur, panic (`clearSynapseState`). Speglar/Hamn utan persistent RAG.
+
+**MUST NOT:** Lagra känslig kontext i klient-RAM efter kill switch · bypass av vault lock.
 
 ## U5 — Orkestrering
 
-`AdkOrchestrator` + AgentCards + `emitSynapse`. Utöka executors utan att blanda silor.
-
-**Osäkerhet:** Vid saknad evidens — *"Ej tillräckligt data för bedömning."* Gissa aldrig WORM-innehåll eller silo-routing.
+`AdkOrchestrator` + AgentCards + `emitSynapse`. Utöka executors utan att blanda silor. Skill: `.cursor/skills/livskompassen-synapser-adk/SKILL.md`
 
 ## U6 — Innehåll (fakta vs lek, låst)
 
@@ -45,9 +57,38 @@ Utvecklingszon **Vit** (`mabra_*`, `vit_*`) — **ingen** cross-RAG till Kunskap
 
 **Dirigent:** `specialist-innehall-dirigent` · Register: [`docs/INNEHALL-REGISTER.md`](../../docs/INNEHALL-REGISTER.md) · [`.context/innehall-kanon.md`](../../.context/innehall-kanon.md)
 
-**MUST NOT:** fjärde RAG-silo · LLM-FACT utan seed-bank · frågekort i prod utan Mabra-CONTENT-BANK (P1 `bankId`).
+**MUST NOT:** LLM-FACT utan seed-bank · frågekort i prod utan Mabra-CONTENT-BANK (P1 `bankId`).
+
+## Locked UX (PMIR-stopp)
+
+Se [`locked-ux-features.mdc`](locked-ux-features.mdc) och `.context/locked-ux-features.md`.
+
+**MUST NOT:** Ta bort/dölj/byta namn på Barnfokus, Valv Mönster/Orkester, drawer plausible deniability, Barnporten HITL, Planering hybrid utan PMIR + uppdaterad locked-UX-register.
+
+## PMIR-gates (hard NO-GO)
+
+- `firestore.rules` / `storage.rules` (Fas 22.3 kräver godkänd 22.2 PMIR)
+- Barnporten kanon-UI · Sacred UX-borttagning
+- Mass-radering utan arkiv-först + Pontus OK
+- `functions/src/sharedRules.ts` / runtime-prompter utan PMIR ([`backend-agents.mdc`](backend-agents.mdc))
+- `APP_CHECK_ENFORCE` i Console (Pontus manuellt)
+
+Merge/deploy: [`git-main-trunk.mdc`](git-main-trunk.mdc) · YOLO: [`yolo-vakt-gate.mdc`](yolo-vakt-gate.mdc).
+
+## Hallucinationsskydd
+
+Verifiera mot kod/docs (fil:rad, register, smoke). Osäkerhet → *"Ej tillräckligt data för bedömning."* eller *"ej verifierat"* + exakt kommando. Se [`anti-hallucination.mdc`](anti-hallucination.mdc).
+
+## Governance-prompter (Cursor — ej runtime)
+
+- `prompts/safeClassificationPrompt.json`
+- `prompts/guardedAgentInstruction.json`
+- [`docs/prompts/SAKER-AI-PROMPTS.json`](../../docs/prompts/SAKER-AI-PROMPTS.json)
+
+Prod-runtime: endast `functions/src/sharedRules.ts` + `expertPrompts.ts` — dokumentera, skriv inte om utan PMIR.
 
 ## Vid implementation
 
 Läs `.context/arkiv-minne.md` och skill `livskompassen-memory-silo-guard` vid RAG/query-ändringar.  
-Nytt innehåll (kort, fakta, lek): [`innehall-register.mdc`](innehall-register.mdc) + dirigent/kurator.
+Säkerhet: `.context/security.md` · [`security-firestore.mdc`](security-firestore.mdc)  
+Nytt innehåll: [`innehall-register.mdc`](innehall-register.mdc) + dirigent/kurator.

@@ -1,3 +1,9 @@
+---
+description: Kapacitetsstyrd UI — evolution_hub nivåer, feature flags, progressive disclosure
+alwaysApply: false
+globs: src/modules/**/economy*,src/modules/**/planering*,src/modules/**/evolution*,shared/evolution/**
+---
+
 # Kapacitetsstyrd UI (evolution_hub)
 
 Kanon: [`.cursor/rules/infinite-evolution.mdc`](infinite-evolution.mdc) · [`docs/architecture/INFINITE_EVOLUTION.md`](../../docs/architecture/INFINITE_EVOLUTION.md) · research SA-3

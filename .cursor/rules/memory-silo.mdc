@@ -1,37 +1,26 @@
 ---
-description: RAG-arkitektur — tre silos (Kunskap, Valv, Barnen), strikt separation, ingen cross-RAG
+description: RAG tre silos — pekare till memory-silo-guard skill och grunder-kanon
 alwaysApply: false
 globs: functions/src/lib/*Rag*.ts,functions/src/agents/valv*.ts,functions/src/agents/knowledgeVault*.ts,functions/src/callables/valv.ts,functions/src/callables/knowledgeVault*.ts
 ---
 
 # Memory silos (tre kunskapsytor)
 
-Skills: `livskompassen-memory-silo-guard`, `livskompassen-rag-retrieval`, `livskompassen-arkiv-master`  
-Kanon: `.context/arkiv-minne.md`, `.context/arkitektur-beslut.md` §1.5
+**Läs skill (full kanon):** [`.cursor/skills/livskompassen-memory-silo-guard/SKILL.md`](../skills/livskompassen-memory-silo-guard/SKILL.md)  
+**U1/U6:** [`grunder-kanon.mdc`](grunder-kanon.mdc) · `.context/arkiv-minne.md`
 
-| Silo | Collections | Callable | RAG-modul |
-|------|-------------|----------|-----------|
-| Kunskap | `kampspar`, `kb_docs` | `knowledgeVaultQuery` | `kampsparQueryRag.ts` |
-| Valv | `reality_vault` | `valvChatQuery` | `vaultRag.ts` |
-| Barnen | `children_logs` | `childrenLogsQuery` | barn-RAG i silo |
-| Utveckling (Vit) | `mabra_sessions`, `vit_hub` | **Ingen RAG** | `mabraCoach` parafras bank |
+## Runtime-entry (grep här vid ändring)
 
-Kanon U6: [`docs/INNEHALL-REGISTER.md`](../../docs/INNEHALL-REGISTER.md)
+| Silo | RAG-modul | Callable |
+|------|-----------|----------|
+| Kunskap | `kampsparQueryRag.ts` | `knowledgeVaultQuery` |
+| Valv | `vaultRag.ts` | `valvChatQuery` |
+| Barnen | barn-RAG i silo | `childrenLogsQuery` |
 
-## Gör alltid
+## MUST (kort)
 
-- Håll silos strikt separerade vid sökningar: använd **enbart** `kampsparQueryRag.ts` för fakta och **enbart** `vaultRag.ts` för bevis — integrera aldrig resultat mellan dessa.
-- Låt `knowledgeVaultQuery` läsa endast `kampspar`/`kb_docs`; `valvChatQuery` endast `reality_vault`; `childrenLogsQuery` endast `children_logs`.
-- Etikettera all sök-UI med aktiv silo — ingen "sök överallt" utan silo-val.
-- Låt `mabra_*`/`vit_*` stanna i parafras-bank — routa inte till `knowledgeVaultQuery` eller Vector ingest (Mabra-SPEC §14).
-- Isolera vector-namespace per silo — blanda inte bevis och livsminne i samma index.
+- Enbart rätt RAG-modul per silo — integrera aldrig resultat mellan silor.
+- `mabra_*`/`vit_*` → parafras-bank, **ingen** Kunskap-ingest.
+- Vector-namespace isolerat per silo.
 
-## Tillåtna korsläsningar (ej användar-RAG)
-
-- **Vävaren** (`kampsparRag.ts`): metadata-tagging journal+valv+kampspar.
-- **Dossier**: användarens valda källor i wizard.
-- **Speglar**: klient token-match på valv — Zero Footprint.
-
-## Verifiering
-
-Efter deploy: [`docs/GCP-INVENTORY-LATEST.md`](../../docs/GCP-INVENTORY-LATEST.md) — G1/G8 status.
+Duplicera inte skill-tabeller här — följ skill + grunder-kanon.

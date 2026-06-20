@@ -6,7 +6,7 @@ Kanon ligger i **`.cursor/rules/`** (MDC). Kärn-invariants: **`.cursor/index.md
 
 | Zon | Auto-attached regel | Globs |
 |-----|---------------------|-------|
-| UI / Obsidian Calm | `design-calm.mdc`, `ui-design.mdc` | `src/**/*.tsx`, `src/**/*.css` |
+| UI / Obsidian Calm | `design-calm.mdc` (kanon), `ui-design.mdc` (pekare) | `src/**/*.tsx`, `src/**/*.css` |
 | ADK & synapser | `synapser-adk.mdc` | `functions/src/adk/**`, `functions/src/triggers/**` |
 | RAG & silos | `memory-silo.mdc` | `functions/src/lib/*Rag*.ts` |
 | Säkerhet & WORM | `security-firestore.mdc` | `firestore.rules`, `functions/**`, `sharedRules.ts`, `DCAP.ts` |

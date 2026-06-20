@@ -1,36 +1,32 @@
 ---
-description: Säkerhet & WORM — DCAP-riskklassning, firestore.rules, gatekeeperSanitize, append-only
+description: Säkerhet & WORM — pekare till security-kanon och Layered Defense
 alwaysApply: false
 globs: firestore.rules,storage.rules,functions/src/sharedRules.ts,functions/src/agents/DCAP.ts,functions/src/adk/orchestrator.ts,functions/src/lib/callableGuards.ts,server/**,dataconnect/**
 ---
 
 # Security And Data Invariants
 
-Security is Layered Defense. Implementera riktig säkerhet — inga mock-WORM eller stub-guards i prod.
+**Kanon:** [`.context/security.md`](../../.context/security.md) · **U1–U4:** [`grunder-kanon.mdc`](grunder-kanon.mdc)  
+**Arkiv/WORM-audit:** skill `livskompassen-arkiv-master` · subagent `specialist-security-auditor`
 
-Kanon: `.context/security.md` · DCAP: `functions/src/agents/DCAP.ts` · Gatekeeper: `gatekeeperSanitize` i `orchestrator.ts`
+Layered Defense — inga mock-WORM eller stub-guards i prod.
 
-## Gör alltid
+## Runtime-entry
 
-- Kör **DCAP-riskklassning i kod** (`analyzeDcap`, `routeFromDcap`) före LLM-svar — LLM beslutar inte auth, silo eller WORM.
-- Sanitera agent-output via `gatekeeperSanitize` innan det returneras till klient.
-- Skriv WORM-poster append-only (`reality_vault`, `children_logs`, `journal`, `dossier_snapshots`) med server-tidsstämpel.
-- Validera WORM-create med `keys().hasOnly([...])` — se `isValid*Create` i `firestore.rules`.
-- Bind varje användardokument till exakt ett `userId` — läs/skriv endast egen data.
-- Kräv verifierad e-post för WORM-läs (utom `anonymous` dev/smoke).
-- Skydda LLM-callables med App Check (`APP_CHECK_ENFORCE`) och per-UID rate limits (`callableGuards.ts`).
-- Rensa lokala caches vid logout, panic och vault lock (Zero Footprint).
+- DCAP: `functions/src/agents/DCAP.ts` (`analyzeDcap`, `routeFromDcap`)
+- Gatekeeper: `gatekeeperSanitize` i `orchestrator.ts`
+- Rules: `firestore.rules`, `storage.rules` — `isValid*Create`, per-UID bindning
+- Callables: `callableGuards.ts` — App Check, rate limits
 
-## Data-invariants
+## MUST (kort)
 
-- `VaultLog` och `CheckIn` är immutable efter skapande.
-- `NetworkMember` validerar category och importance.
-- `SystemSynapse` och `SystemScan` är owner-limited och critical.
+- DCAP i kod före LLM — LLM beslutar inte auth, silo eller WORM.
+- WORM append-only med server-tidsstämpel; beteende + datum, aldrig diagnos på motpart.
+- Zero Footprint vid logout, panic, vault lock.
+- Runtime-prompter: `sharedRules.ts` only — PMIR före omskrivning.
 
-## Blockera Dirty Dozen
+## Dirty Dozen (blockera)
 
-Identity Spoofing · Cross-User Leak · Unauthenticated Write · Bypassing Verification · Malicious ID Injection · Shadow Field Injection · Resource Poisoning · Vault Tampering · State Shortcut · System Synapse Hijack.
+Identity Spoofing · Cross-User Leak · Unauthenticated Write · Vault Tampering · System Synapse Hijack · m.fl. — se `.context/security.md`.
 
-## Runtime-prompter
-
-Kanon = `functions/src/sharedRules.ts` — dokumentera only; skriv om endast med PMIR + Pontus OK.
+Duplicera inte full säkerhetskanon här — följ `.context/security.md` + grunder-kanon.

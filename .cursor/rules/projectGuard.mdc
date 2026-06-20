@@ -5,45 +5,25 @@ alwaysApply: false
 
 # Project Guard — AI governance index
 
-**Syfte:** Tunn ingångspunkt för AI-styrning. Duplicera inte kanon — följ länkade regler.
+**Syfte:** Tunn ingångspunkt. Full kanon i [`grunder-kanon.mdc`](grunder-kanon.mdc) — duplicera inte.
 
-**Mänsklig kanon:** [`docs/governance/GUARD-REGLERBOK.md`](../../docs/governance/GUARD-REGLERBOK.md)  
-**Operativ subagent-regel:** [`guard-regelbok.mdc`](guard-regelbok.mdc)
-
-## Projektregler
-
-1. **Endast verifierade källor** — AI-output får bygga på: kodbasen, docs (`.md`, `.spec`, `system-plan`), samt tidigare granskade analyser. Se [`anti-hallucination.mdc`](anti-hallucination.mdc).
-2. **Spårbarhet** — inga fakta, åsikter eller beslut utan spårbar källa (fil:rad, register, smoke).
-3. **Osäkerhet** — använd exakt fras: *"Ej tillräckligt data för bedömning."* (eller *"ej verifierat"* + exakt kommando för bevis).
-4. **Locked UX** — inga ändringar i låsta flöden utan godkänd PMIR + explicit Pontus-OK. Se [`locked-ux-features.mdc`](locked-ux-features.mdc).
-5. **WORM** — aldrig undergräva append-only/WORM (`reality_vault`, `children_logs`, `evolution_ledger`, …). Se [`grunder-kanon.mdc`](grunder-kanon.mdc).
-
-## Hallucinationsskydd
-
-1. **Filtrera output** mot projekt-docs och kod innan påståenden (detaljer: [`anti-hallucination.mdc`](anti-hallucination.mdc)).
-2. **Flagga gissningar** som hallucination — gissa inte deploy, GAP, secrets eller stub vs live.
-3. **Prompt-validering** — promptmallar ska följa rulebook; vid ändring i `prompts/` eller `docs/prompts/`: kör `npm run smoke:prompts` (eller `npm run smoke:guard`) före "klart". Ingår i `smoke:tier1` / `smoke:predeploy` / `smoke:yolo`.
-
-## Kanon (läs vid behov — duplicera inte)
-
-| Ämne | Regel |
-|------|-------|
-| Tre silos, WORM, DCAP, Zero Footprint | [`grunder-kanon.mdc`](grunder-kanon.mdc) · [`guard-regelbok.mdc`](guard-regelbok.mdc) |
-| Locked UX (Barnfokus, Valv, drawer …) | [`locked-ux-features.mdc`](locked-ux-features.mdc) |
+| Ämne | Regel / doc |
+|------|-------------|
+| Full kanon U1–U6, WORM, PMIR | [`grunder-kanon.mdc`](grunder-kanon.mdc) |
+| Operativ subagent-checklista | [`guard-regelbok.mdc`](guard-regelbok.mdc) |
+| Mänsklig Guard-kanon | [`docs/governance/GUARD-REGLERBOK.md`](../../docs/governance/GUARD-REGLERBOK.md) |
+| Anti-hallucination | [`anti-hallucination.mdc`](anti-hallucination.mdc) |
+| Locked UX | [`locked-ux-features.mdc`](locked-ux-features.mdc) |
 | Deploy-gate | [`yolo-vakt-gate.mdc`](yolo-vakt-gate.mdc) |
-| Merge / trunk / PMIR | [`git-main-trunk.mdc`](git-main-trunk.mdc) |
 | Runtime-prompter (PMIR) | [`backend-agents.mdc`](backend-agents.mdc) |
 
-## Promptfiler (governance — ej runtime)
+## Prompt-smoke
 
-- `prompts/safeClassificationPrompt.json`
-- `prompts/guardedAgentInstruction.json`
-- [`docs/prompts/SAKER-AI-PROMPTS.json`](../../docs/prompts/SAKER-AI-PROMPTS.json)
+Vid ändring i `prompts/` eller `docs/prompts/`: `npm run smoke:prompts` (alias `smoke:guard`). Ingår i `smoke:tier1` / `smoke:predeploy`.
 
-Prod-runtime: `functions/src/sharedRules.ts` — dokumentera only utan PMIR.
+Osäkerhet → se [`grunder-kanon.mdc`](grunder-kanon.mdc): *Ej tillräckligt data för bedömning.*
 
 ## MUST NOT
 
 - Ändra `firestore.rules` / `storage.rules` utan PMIR + explicit order.
-- Ta bort, dölj eller byta namn på locked UX utan PMIR + uppdatering av `.context/locked-ux-features.md`.
-- Skriv om runtime-prompter utan PMIR.
+- Ta bort locked UX eller runtime-prompter utan PMIR.

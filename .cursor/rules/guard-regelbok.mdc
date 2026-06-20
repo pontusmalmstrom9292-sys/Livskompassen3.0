@@ -1,73 +1,27 @@
 ---
-description: Operativ Guard- och Regelbok — WORM, silos, Zero Footprint, PMIR-stopp för subagenter
+description: Operativ Guard- och Regelbok — pekare till grunder-kanon för subagenter
 alwaysApply: false
 globs: firestore.rules,storage.rules,functions/**,src/modules/core/firebase/**,.cursor/agents/**
 ---
 
 # Guard- och Regelbok (operativ)
 
-**Syfte:** Operativa MUST/MUST NOT för alla agenter och subagenter. Full mänsklig kanon: [`docs/governance/GUARD-REGLERBOK.md`](../../docs/governance/GUARD-REGLERBOK.md). Index: [`projectGuard.mdc`](projectGuard.mdc).
+**Syfte:** Subagent-ingång. **Full kanon:** [`grunder-kanon.mdc`](grunder-kanon.mdc) · Mänsklig: [`docs/governance/GUARD-REGLERBOK.md`](../../docs/governance/GUARD-REGLERBOK.md) · Index: [`projectGuard.mdc`](projectGuard.mdc).
 
-## Innan du agerar (subagent-checklista)
+## Innan du agerar
 
-1. Läs relevant kanon — duplicera inte hela [`grunder-kanon.mdc`](grunder-kanon.mdc).
+1. Läs [`grunder-kanon.mdc`](grunder-kanon.mdc) — duplicera inte U1–U6 här.
 2. Verifiera påståenden mot kod/docs (fil:rad, register, smoke).
 3. Osäkerhet → *"Ej tillräckligt data för bedömning."* eller *"ej verifierat"* + exakt kommando.
 4. Rör inte WORM, `firestore.rules`, locked UX eller runtime-prompter utan PMIR + Pontus OK.
-5. Efter prompt-ändring: `npm run smoke:prompts` (eller `npm run smoke:guard`).
+5. Efter prompt-ändring: `npm run smoke:prompts`.
 
-## Tre silos (U1 — aldrig cross-RAG)
+## Snabb-pekare
 
-| Silo | Collections / route | Callable |
-|------|---------------------|----------|
-| Kunskap | `kampspar`, `kb_docs` | `knowledgeVaultQuery` |
-| Valv | `reality_vault` | `valvChatQuery`, `analyzeMessage` |
-| Barnen | `children_logs` | `childrenLogsQuery` |
-
-**MUST NOT:** fjärde silo · cross-read för bekvämlighet · LLM som enda källa för silo/auth.
-
-## WORM (U3)
-
-Append-only: `reality_vault`, `children_logs`, `journal`, `dossier_snapshots`, `evolution_ledger`.
-
-**MUST:** beteende + datum i WORM — aldrig diagnosetikett på motpart. Server-tidsstämpel på bevis.
-
-**MUST NOT:** `update`/`delete` på WORM-poster · mock-WORM · auto-promote barnlogg → Valv.
-
-## Zero Footprint · Kill Switch · Device Clear (U4)
-
-**MUST:** Rensa session/synapse-state vid logout, blur, panic. Speglar/Hamn utan persistent RAG.
-
-**MUST NOT:** Lagra känslig kontext i klient-RAM efter kill switch · bypass av vault lock.
-
-## DCAP före LLM (U2)
-
-Routing i kod (`routeFromDcap`, `resolveExecutorId`). LLM klassificerar aldrig auth, silo eller WORM.
-
-## Locked UX (PMIR-stopp)
-
-Se [`locked-ux-features.mdc`](locked-ux-features.mdc) och `.context/locked-ux-features.md`.
-
-**MUST NOT:** Ta bort/dölj/byta namn på Barnfokus, Valv Mönster/Orkester, drawer plausible deniability, Barnporten HITL, Planering hybrid utan PMIR + uppdaterad locked-UX-register.
-
-## PMIR-gates (hard NO-GO)
-
-- `firestore.rules` / `storage.rules` (Fas 22.3 kräver godkänd 22.2 PMIR)
-- Barnporten kanon-UI · Sacred UX-borttagning
-- Mass-radering utan arkiv-först + Pontus OK
-- `functions/src/sharedRules.ts` / runtime-prompter utan PMIR ([`backend-agents.mdc`](backend-agents.mdc))
-- `APP_CHECK_ENFORCE` i Console (Pontus manuellt)
-
-Merge/deploy: [`git-main-trunk.mdc`](git-main-trunk.mdc) · YOLO: [`yolo-vakt-gate.mdc`](yolo-vakt-gate.mdc).
-
-## Hallucinationsskydd
-
-Se [`anti-hallucination.mdc`](anti-hallucination.mdc). Flagga gissningar explicit. GAP/deploy/secrets/stub-vs-live — läs register före påstående.
-
-## Governance-prompter (Cursor — ej runtime)
-
-- `prompts/safeClassificationPrompt.json`
-- `prompts/guardedAgentInstruction.json`
-- `docs/prompts/SAKER-AI-PROMPTS.json`
-
-Prod-runtime: endast `functions/src/sharedRules.ts` + `expertPrompts.ts` — dokumentera, skriv inte om utan PMIR.
+| Ämne | Källa |
+|------|-------|
+| Tre silos / RAG | [`memory-silo.mdc`](memory-silo.mdc) · skill `livskompassen-memory-silo-guard` |
+| ADK / synapser | [`synapser-adk.mdc`](synapser-adk.mdc) · skill `livskompassen-synapser-adk` |
+| Säkerhet / WORM | [`security-firestore.mdc`](security-firestore.mdc) · `.context/security.md` |
+| Locked UX | [`locked-ux-features.mdc`](locked-ux-features.mdc) |
+| Hallucination | [`anti-hallucination.mdc`](anti-hallucination.mdc) |

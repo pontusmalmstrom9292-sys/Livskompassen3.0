@@ -1,49 +1,77 @@
 ---
-description: Designlagar för Obsidian Calm 2.0 (Glassmorphism & Färg-Glow). Gäller alla UI-komponenter.
-globs: src/**/*.tsx, src/**/*.css
+description: Obsidian Calm 2.0 — designlagar, typografi, interaktion, färg-glow (sammanslagen UI-kanon)
+alwaysApply: false
+globs: src/**/*.tsx,src/**/*.ts,src/**/*.css,tailwind.config.*
 ---
 # UI-LAGAR: OBSIDIAN CALM 2.0
 
-1. **GRUNDTEMAT:** Alltid mörkt tema (Obsidian). Noll vertikal skrollning på huvudvyer (hub-zoner) — använd `hub-view-lock` på shell och `calm-scroll-island` för innehåll som måste scrolla.
+Obsidian Calm + Nordic Dusk. UI ska minska kognitiv belastning och undvika sensoriskt brus.
 
-2. **KORTAARKITEKTUR (Snygg-stilen):**
-   - Alla centrala moduler ska ligga i kort med klassen `calm-card` (legacy-alias: `glass-card`):
-   - **Bakgrund:** Semi-transparent mörk (`bg-surface-2/70`).
-   - **Effekt:** Kraftig bakgrundsoskärpa (`backdrop-blur-xl`).
-   - **Kantlinje:** Mycket subtil runt om (`border border-border/30`).
-   - **Hörn:** Mjuk rundning (`rounded-3xl`).
+## 1. GRUNDTEMAT
 
-3. **FÄRGKODAD BOTTEN-GLOW (Viktigast!):**
-   - Varje kort MÅSTE ha en subtil gradient-glow och en hårdare kantlinje enbart i BOTTEN, som matchar dess silo.
-   - **Hjälp-klasser (läggs på kortet):**
-     - `.glow-bottom-gold` (Ekonomi/Mål) → `border-b-2 border-accent/70 shadow-[0_4px_20px_-2px_rgba(212,175,55,0.3)]`
-     - `.glow-bottom-blue` (Familj/Valv) → `border-b-2 border-indigo-500/70 shadow-[0_4px_20px_-2px_rgba(99,102,241,0.3)]`
-     - `.glow-bottom-green` (MåBra/Energi) → `border-b-2 border-emerald-500/70 shadow-[0_4px_20px_-2px_rgba(16,185,129,0.3)]`
-   - Kombinera alltid med `calm-card` / `glass-card`. Glow sitter i botten — aldrig runt hela kortet.
+Alltid mörkt tema (Obsidian). Basbakgrund: `#020617` → `#0f172a`. Noll vertikal skrollning på hub-zoner — `hub-view-lock` på shell, `calm-scroll-island` för innehåll som måste scrolla.
 
-4. **TYPOGRAFI:** Minimalistisk. Etiketter: `text-text-muted`, `text-xs`, `uppercase`, `tracking-wider`. Brödtext: `text-text` med `font-sans`. Zonrubriker: `font-display-serif`, `tracking-[0.2em]`, uppercase — guld `text-accent` eller neutral `text-text`. Inga tunga fetstilar i hub-innehåll.
+## 2. KORTAARKITEKTUR (Snygg-stilen)
 
-5. **SILO → GLOW (obligatorisk mapping):**
+Centrala moduler i `calm-card` (legacy: `glass-card`):
 
-   | Glow | Klass | Zoner / moduler |
-   |------|--------|-----------------|
-   | Guld | `glow-bottom-gold` | Vardagen ekonomi & mål, planering, kompasser, budget, sparmål |
-   | Indigo | `glow-bottom-blue` | Familjen, Valv, Dagbok/bevis, Barnen, Trygg Hamn / BIFF |
-   | Smaragd | `glow-bottom-green` | MåBra, Drogfrihet, neuro-nutrition, energi, återhämtning |
+- **Bakgrund:** Semi-transparent mörk (`bg-surface-2/70`)
+- **Effekt:** `backdrop-blur-xl`
+- **Kantlinje:** `border border-border/30`
+- **Hörn:** `rounded-3xl` / `rounded-[2rem]` — aldrig under `2xl` på centrala modulkort
+- **Glass:** Subtila kanter t.ex. `border-white/5`, lågkontrast-ytor
 
-6. **HUVUDVY-LOCK:**
-   - `hub-view-lock` på `HubPageShell` eller motsvarande rot när vyn är en zon-hub.
-   - Endast barn till `.calm-scroll-island` får `overflow-y: auto`.
-   - Dock, header och TabBar ska vara `shrink-0`.
+## 3. FÄRGKODAD BOTTEN-GLOW
 
-7. **FÖRBJUDET:** Naturtema, regnbågsgradienter, streak/XP, turkos/indigo som **aktiv** chrome (se [`docs/design/COLOR-POLICY.md`](../../docs/design/COLOR-POLICY.md)), count-up på siffror, ljusa bakgrunder, `rounded` under `2xl` på centrala modulkort.
+Varje kort: subtil gradient-glow + hårdare kantlinje **enbart i botten**, matchar silo:
 
-## Undantag — Design Freeport (sandbox)
+| Glow | Klass | Zoner / moduler |
+|------|--------|-----------------|
+| Guld | `glow-bottom-gold` | Vardagen ekonomi & mål, planering, kompasser, budget, sparmål |
+| Indigo | `glow-bottom-blue` | Familjen, Valv, Dagbok/bevis, Barnen, Trygg Hamn / BIFF |
+| Smaragd | `glow-bottom-green` | MåBra, Drogfrihet, neuro-nutrition, energi, återhämtning |
 
-Gäller **inte** `src/modules/sandbox/**`, `src/styles/design-freeport.css`, eller routes `/dev/design-freeport*`. Där gäller Tactile Mid-Depth med fria `--fp-*` tokens.
+Hjälp-klasser (på kortet):
+
+- `.glow-bottom-gold` → `border-b-2 border-accent/70 shadow-[0_4px_20px_-2px_rgba(212,175,55,0.3)]`
+- `.glow-bottom-blue` → `border-b-2 border-indigo-500/70 shadow-[0_4px_20px_-2px_rgba(99,102,241,0.3)]`
+- `.glow-bottom-green` → `border-b-2 border-emerald-500/70 shadow-[0_4px_20px_-2px_rgba(16,185,129,0.3)]`
+
+Kombinera med `calm-card`. Glow i botten — aldrig runt hela kortet.
+
+**Aktiv chrome** (drawer, dock, tabs): guld enligt [`docs/design/COLOR-POLICY.md`](../../docs/design/COLOR-POLICY.md) — inte turkos/indigo som primär aktiv state. Sekundärt: Emerald `#2DD4BF` (spara), Indigo `#818CF8` (sekundära actions).
+
+## 4. TYPOGRAFI
+
+- **Rubriker:** Outfit (`font-display-serif`), `tracking-[0.2em]`, uppercase — guld `text-accent` eller neutral `text-text`
+- **Brödtext:** Inter (`font-sans`), `text-text`
+- **Etiketter:** `text-text-muted`, `text-xs`, `uppercase`, `tracking-wider`
+- Inga tunga fetstilar i hub-innehåll
+
+## 5. INTERAKTION
+
+- Progressive disclosure — ett steg i taget
+- Clean Input — inga textkommandon för kärnflöden
+- Tactical Macro-Dock: BIFF, vault upload, emotion logging
+- Kompass: mutera lokal state direkt — undvik onödig route/reload
+- Deterministisk feedback på kritiska actions
+
+## 6. HUVUDVY-LOCK
+
+- `hub-view-lock` på `HubPageShell` eller zon-hub-rot
+- Endast barn till `.calm-scroll-island` får `overflow-y: auto`
+- Dock, header, TabBar: `shrink-0`
+
+## 7. FÖRBJUDET
+
+Naturtema · regnbågsgradienter · streak/XP · turkos/indigo som aktiv chrome · count-up · ljusa bakgrunder · natur-tema
+
+## Undantag — Design Freeport
+
+Gäller **inte** `src/modules/sandbox/**`, `src/styles/design-freeport.css`, routes `/dev/design-freeport*`. Där: Tactile Mid-Depth med `--fp-*` tokens.
 
 ## Implementering (kod)
 
-- **CSS:** [`src/styles/obsidian-calm-2.css`](../../src/styles/obsidian-calm-2.css) — importeras sist i [`src/index.css`](../../src/index.css).
-- **React:** `BentoCard` prop `glow?: 'gold' | 'blue' | 'green'` mappar till glow-klasserna ovan.
-- **Referens:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md) (filosofi) — visuella detaljer i 2.0 vinner vid konflikt.
+- **CSS:** [`src/styles/obsidian-calm-2.css`](../../src/styles/obsidian-calm-2.css) — sist i [`src/index.css`](../../src/index.css)
+- **React:** `BentoCard` prop `glow?: 'gold' | 'blue' | 'green'`
+- **Referens:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md) — visuella 2.0-detaljer vinner vid konflikt
