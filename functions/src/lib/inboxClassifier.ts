@@ -230,9 +230,9 @@ export function heuristicInboxClassify(
     };
   }
 
-  /** Domän-prior ~80%: HCF/covert-bevis före generisk kunskap-keywords (ingest våg 2b). */
+  /** Domän-prior ~80%: HCF/covert-bevis före generisk kunskap-keywords (ingest våg 2a-prerequisite). */
   const covertHcfSignal =
-    /\b(darvo|gaslight|triangul|projektion|invalidation|tyst straff|covert|offerroll|biff|grey rock|moving goalpost)\b/.test(
+    /\b(darvo|gaslight(?:ing)?|triangul|projektion|invalidation|tyst straff|covert|offerroll|biff|grey rock|moving goalpost)\b/.test(
       blob,
     ) ||
     (/\b(motpart|ex|barnens mor|isabelle)\b/.test(blob) &&
@@ -268,7 +268,7 @@ export function heuristicInboxClassify(
   }
 
   if (
-    /\b(bbic|metod|artikel|tips|handbok|gaslighting)\b/.test(blob) &&
+    /\b(bbic|metod|artikel|tips|handbok)\b/.test(blob) &&
     !/\b(sms|mejl|whatsapp)\b/.test(blob)
   ) {
     return {
