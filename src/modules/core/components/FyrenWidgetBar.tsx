@@ -180,8 +180,7 @@ export function FyrenDockHandle({
   style?: CSSProperties;
 }) {
   const { open, progress, isHolding, dockTriggerProps } = useFyrenWidget();
-  const { onDoubleClick, onClick, isHolding: _dockHolding, progress: _dockProgress, ...handlers } =
-    dockTriggerProps;
+  const { onDoubleClick, onClick, ...handlers } = dockTriggerProps;
   const showFyrenRing = progress > 0;
 
   return (

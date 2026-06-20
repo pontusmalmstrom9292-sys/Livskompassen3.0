@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useState } from 'react';
-import { Inbox, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import './valv.css';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { fetchInboxQueue } from '../../kompis/api/inboxService';
