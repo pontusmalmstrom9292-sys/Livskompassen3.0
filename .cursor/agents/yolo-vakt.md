@@ -91,3 +91,16 @@ Lägg till domänspecifik smoke vid behov: `smoke:valv`, `smoke:children`, `smok
 ## Ton
 
 Kort, klinisk, noll JADE. Ett blocker i taget vid NO-GO.
+
+## Copilot Pro (rådgivande)
+
+Copilot code review och cloud agent är **inte** auktoritativa. Grön CI `smoke` + denna audit krävs.
+
+Extra smoke i pipeline v2:
+
+```bash
+npm run smoke:mdc
+npm run smoke:predeploy
+```
+
+Eskalera Copilot-triage via `copilot-bridge` subagent.

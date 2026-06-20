@@ -51,3 +51,7 @@ Skill: `.cursor/skills/livskompassen-synapser-adk/SKILL.md`
 Deploy: named functions only. YOLO GO före prod.
 
 Jämför mot hela projektet. Arbeta autonomt tills smoke PASS.
+
+## MCP (firebase)
+
+Före firebase MCP på functions/deploy: kör `mcp-guardian` — readonly default, prod-deploy endast efter Pontus OK.

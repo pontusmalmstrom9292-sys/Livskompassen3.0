@@ -37,7 +37,7 @@ if command -v jq >/dev/null 2>&1; then
   jq --argjson a "$NEXT_ATTEMPT" '.attempt = $a' "$STATE" > "$TMP" && mv "$TMP" "$STATE"
 fi
 
-PROMPT="Cursor Pipeline autorun — försök ${NEXT_ATTEMPT}/${MAX}. Läs ${FIX_BRIEF}. Fixa failande build/smoke med minsta diff. Kör: cd functions && npm run build && npm run build && npm run smoke:predeploy. Uppdatera .cursor/pipeline/state.json phase=done vid PASS."
+PROMPT="Cursor Pipeline autorun — försök ${NEXT_ATTEMPT}/${MAX}. Läs ${FIX_BRIEF}. Fixa failande build/smoke med minsta diff. Vid strukturellt FAIL: delegera parallel-orchestrator. Kör: cd functions && npm run build && npm run build && npm run smoke:predeploy. Uppdatera .cursor/pipeline/state.json phase=done vid PASS."
 
 cat <<EOF
 {
