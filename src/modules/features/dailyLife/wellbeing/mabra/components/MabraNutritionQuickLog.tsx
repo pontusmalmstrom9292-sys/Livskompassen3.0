@@ -12,9 +12,11 @@ import {
   type NutritionQuality,
 } from '../lib/mabraNutritionIntakeTypes';
 import { nutritionDateKey } from '../lib/mabraNutritionDayStorage';
+import { sanitizeMacroGrams } from '../lib/mabraNutritionMacroTotals';
 
 type Props = {
   storageUid: string;
+  macroTracking?: boolean;
   onLogged?: () => void;
 };
 
@@ -24,18 +26,37 @@ const QUALITY_OPTIONS: { value: NutritionQuality; label: string }[] = [
   { value: 'poor', label: NUTRITION_QUALITY_LABELS.poor },
 ];
 
-export function MabraNutritionQuickLog({ storageUid, onLogged }: Props) {
+export function MabraNutritionQuickLog({ storageUid, macroTracking = false, onLogged }: Props) {
   const [kind, setKind] = useState<NutritionIntakeKind>('food');
   const [note, setNote] = useState('');
   const [quality, setQuality] = useState<NutritionQuality>('ok');
+  const [proteinG, setProteinG] = useState('');
+  const [fatG, setFatG] = useState('');
+  const [carbsG, setCarbsG] = useState('');
   const [savedFlash, setSavedFlash] = useState(false);
+
+  const showMacroFields = macroTracking && kind === 'food';
 
   const todayCount = entriesForDate(readNutritionEntries(storageUid), nutritionDateKey()).length;
 
   const handleSave = () => {
-    appendNutritionEntry(storageUid, { kind, note, quality });
+    appendNutritionEntry(storageUid, {
+      kind,
+      note,
+      quality,
+      macros: showMacroFields
+        ? {
+            proteinG: sanitizeMacroGrams(proteinG),
+            fatG: sanitizeMacroGrams(fatG),
+            carbsG: sanitizeMacroGrams(carbsG),
+          }
+        : undefined,
+    });
     setNote('');
     setQuality('ok');
+    setProteinG('');
+    setFatG('');
+    setCarbsG('');
     setSavedFlash(true);
     onLogged?.();
     window.setTimeout(() => setSavedFlash(false), 1800);
@@ -100,6 +121,50 @@ export function MabraNutritionQuickLog({ storageUid, onLogged }: Props) {
           </button>
         ))}
       </div>
+
+      {showMacroFields ? (
+        <div className="mt-3 grid grid-cols-3 gap-2">
+          <label className="block text-xs text-text-dim">
+            P (g)
+            <input
+              type="number"
+              min={0}
+              max={500}
+              inputMode="numeric"
+              value={proteinG}
+              onChange={(e) => setProteinG(e.target.value.slice(0, 3))}
+              placeholder="—"
+              className="input-glass mt-1 text-sm tabular-nums"
+            />
+          </label>
+          <label className="block text-xs text-text-dim">
+            F (g)
+            <input
+              type="number"
+              min={0}
+              max={500}
+              inputMode="numeric"
+              value={fatG}
+              onChange={(e) => setFatG(e.target.value.slice(0, 3))}
+              placeholder="—"
+              className="input-glass mt-1 text-sm tabular-nums"
+            />
+          </label>
+          <label className="block text-xs text-text-dim">
+            K (g)
+            <input
+              type="number"
+              min={0}
+              max={500}
+              inputMode="numeric"
+              value={carbsG}
+              onChange={(e) => setCarbsG(e.target.value.slice(0, 3))}
+              placeholder="—"
+              className="input-glass mt-1 text-sm tabular-nums"
+            />
+          </label>
+        </div>
+      ) : null}
 
       <button
         type="button"

@@ -46,8 +46,12 @@ Skill: `.cursor/skills/livskompassen-synapser-adk/SKILL.md`
 1. Läs handler + `routeInboxToWorm` kedja
 2. Stub vs live (grep, inte bara docs)
 3. Minimal diff först
-4. `cd functions && npm run build && npm run smoke:synapse-triggers`
+4. `cd functions && npm run build && npm run smoke:synapse-triggers && npm run smoke:orkester && npm run smoke:dcap-routing`
 
 Deploy: named functions only. YOLO GO före prod.
 
 Jämför mot hela projektet. Arbeta autonomt tills smoke PASS.
+
+## MCP (firebase)
+
+Före firebase MCP på functions/deploy: kör `mcp-guardian` — readonly default, prod-deploy endast efter Pontus OK.

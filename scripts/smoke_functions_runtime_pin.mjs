@@ -1,0 +1,87 @@
+#!/usr/bin/env node
+/**
+ * Static smoke: firebase-functions runtime pin (v1 + v2 hybrid).
+ * Usage: npm run smoke:functions-pin
+ *
+ * Blocks accidental Dependabot merge of firebase-functions v7+ which breaks
+ * functions.region / CallableContext v1 callables in CI.
+ */
+import { readFileSync, existsSync } from 'fs';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const root = resolve(__dirname, '..');
+
+const PINNED_MAJOR = 5;
+const REQUIRED_V1_IMPORT = "import * as functions from 'firebase-functions/v1'";
+
+function assert(condition, message) {
+  if (!condition) throw new Error(message);
+}
+
+function read(relPath) {
+  const full = resolve(root, relPath);
+  assert(existsSync(full), `saknar fil: ${relPath}`);
+  return readFileSync(full, 'utf8');
+}
+
+function parseFirebaseFunctionsVersion(pkgJsonText) {
+  const pkg = JSON.parse(pkgJsonText);
+  const raw = pkg.dependencies?.['firebase-functions'];
+  assert(typeof raw === 'string', 'functions/package.json saknar firebase-functions dependency');
+  const cleaned = raw.replace(/^[\^~]/, '');
+  const major = Number.parseInt(cleaned.split('.')[0], 10);
+  assert(Number.isFinite(major), `ogiltig firebase-functions version: ${raw}`);
+  return { raw, major };
+}
+
+function main() {
+  console.log('[smoke:functions-pin] firebase-functions pin + v1 hybrid…');
+
+  const fnPkg = read('functions/package.json');
+  const { raw, major } = parseFirebaseFunctionsVersion(fnPkg);
+
+  assert(
+    major === PINNED_MAJOR,
+    `firebase-functions måste vara v${PINNED_MAJOR}.x (nu: ${raw}) — v7 kräver PMIR-migrering`,
+  );
+  assert(
+    !/^[\^~]/.test(raw),
+    `firebase-functions ska vara exakt pin utan ^/~ (nu: ${raw})`,
+  );
+
+  const lock = read('functions/package-lock.json');
+  assert(
+    lock.includes('"firebase-functions": "5.1.1"') ||
+      lock.includes('"version": "5.1.1"'),
+    'functions/package-lock.json saknar låst firebase-functions 5.1.1',
+  );
+
+  const dependabot = read('.github/dependabot.yml');
+  assert(
+    dependabot.includes('firebase-functions'),
+    '.github/dependabot.yml saknar ignore för firebase-functions',
+  );
+  assert(
+    /semver-major/.test(dependabot),
+    '.github/dependabot.yml ignorerar inte semver-major för firebase-functions',
+  );
+
+  for (const rel of ['functions/src/callables/agents.ts', 'functions/src/callables/knowledge.ts']) {
+    const text = read(rel);
+    assert(
+      text.includes(REQUIRED_V1_IMPORT),
+      `${rel} saknar ${REQUIRED_V1_IMPORT}`,
+    );
+  }
+
+  console.log(`[smoke:functions-pin] PASS — firebase-functions ${raw} (v${major}.x pin).`);
+}
+
+try {
+  main();
+} catch (err) {
+  console.error('[smoke:functions-pin] FAIL:', err.message);
+  process.exit(1);
+}

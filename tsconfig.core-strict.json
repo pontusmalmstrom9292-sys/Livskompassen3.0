@@ -3,6 +3,7 @@
   "compilerOptions": {
     "strict": true,
     "strictNullChecks": true,
+    "ignoreDeprecations": "6.0",
     "types": ["vite/client"]
   },
   "include": [

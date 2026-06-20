@@ -13,3 +13,8 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    # firebase-functions v7+ bryter v1 callables (functions.region, CallableContext).
+    # Uppgradera endast manuellt efter PMIR + smoke:functions-pin + functions build.
+    ignore:
+      - dependency-name: firebase-functions
+        update-types: [version-update:semver-major]

@@ -47,6 +47,7 @@ Verklighetsvalvet, Sanningens Sköld, Morgonkompassen, Dossier-Generator, Spegli
 | 9 | App Check + rate limits på LLM callables | `callableGuards.ts` |
 | 10 | Inga secrets i diff | `.env`, service-account JSON |
 | 11 | Chameleon/Superhub ej borttagen | `locked-ux-features.md` |
+| 13 | Extern AI via import-gate | `external-ai-import-gate` |
 | 12 | Ingest bevis → `reality_vault`, inte `kb_docs` | G10 / `driveIngestSynapse` |
 
 ## Smoke-gate (MUST PASS före "klart")
@@ -91,3 +92,16 @@ Lägg till domänspecifik smoke vid behov: `smoke:valv`, `smoke:children`, `smok
 ## Ton
 
 Kort, klinisk, noll JADE. Ett blocker i taget vid NO-GO.
+
+## Copilot Pro (rådgivande)
+
+Copilot code review och cloud agent är **inte** auktoritativa. Grön CI `smoke` + denna audit krävs.
+
+Extra smoke i pipeline v2:
+
+```bash
+npm run smoke:mdc
+npm run smoke:predeploy
+```
+
+Eskalera Copilot-triage via `copilot-bridge` subagent.

@@ -1,0 +1,11 @@
+---
+description: Multi-AI Integration Hub — Cursor + Gemini + Copilot + MCP.
+alwaysApply: false
+globs: .cursor/agents/integration-*.md,.cursor/agents/gemini-orkester-bridge.md,.cursor/agents/copilot-research-handoff.md,.cursor/agents/mcp-ops-runner.md,.cursor/agents/external-ai-import-gate.md,docs/external-ai/**,scripts/integration_*.mjs
+---
+
+# Integration Hub
+
+Kanon: [`docs/external-ai/INTEGRATION-SAFETY-MANIFEST.md`](../../docs/external-ai/INTEGRATION-SAFETY-MANIFEST.md)
+
+Cursor = enda kodskrivare. `external-ai-import-gate` före extern implementation. `yolo-vakt` före deploy.
