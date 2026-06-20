@@ -1,16 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Clock, Loader2, AlertTriangle } from 'lucide-react';
 import { useStore } from '@/core/store';
-import {
-  useCapacityScore,
-  useIsEconomyAdvancedUnlocked,
-} from '@/core/store/useCapacityGate';
-import { useEvolutionStore } from '@/core/store/useEvolutionStore';
+import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
 import { EconomyGateway } from '@/features/economy/economy_gateway';
 import type { EconomyImpulseRow } from '@/core/types/firestore';
 import { EKONOMI_IMPULS_LEAD } from '../ekonomiCopy';
 
-const STABILITY_THRESHOLD = 50;
 const READY_TICK_MS = 60_000;
 
 function buildRemindAt(parkedAt: Date): string {
@@ -27,11 +22,9 @@ function isImpulseReady(remindAt: string, nowMs: number): boolean {
 
 export function EconomyImpulsePanel() {
   const user = useStore((s) => s.user);
-  const capacityScore = useCapacityScore();
-  const isEconomyAdvancedUnlocked = useIsEconomyAdvancedUnlocked();
-  const hasAdvanced = useEvolutionStore((s) => s.hasFeature('economy_advanced'));
-  const isGatewayUnlocked = isEconomyAdvancedUnlocked || hasAdvanced;
-  const isLowCapacity = capacityScore < STABILITY_THRESHOLD;
+  const { level, circuitBreakerActive, isEconomyAdvancedUnlocked } = useEconomyLevel(user?.uid);
+  const isGatewayUnlocked = isEconomyAdvancedUnlocked;
+  const isLowCapacity = circuitBreakerActive || level !== 3;
 
   const gateway = useMemo(() => {
     if (!user?.uid) return null;

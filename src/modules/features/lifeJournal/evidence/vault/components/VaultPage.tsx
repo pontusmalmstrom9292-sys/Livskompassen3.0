@@ -59,6 +59,7 @@ function VaultPageInner({
   const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
   const [valvMode, setValvModeState] = useState<ValvInputMode>(initialValvMode);
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
+  const [techniqueFilter, setTechniqueFilter] = useState<string | null>(null);
   const [sessionSyncError, setSessionSyncError] = useState<string | null>(null);
   const gateOk = hasVaultGate();
   const valvZone = resolveValvZone(vaultTab);
@@ -126,6 +127,19 @@ function VaultPageInner({
       }
     }
   };
+
+  const handleTechniqueSelect = useCallback(
+    (technique: string) => {
+      setTechniqueFilter(technique);
+      setValvMode('spara');
+      setVaultTab('logga');
+    },
+    [setValvMode, setVaultTab],
+  );
+
+  const handleClearTechniqueFilter = useCallback(() => {
+    setTechniqueFilter(null);
+  }, []);
 
   useEffect(() => {
     if (!gateOk) {
@@ -250,6 +264,9 @@ function VaultPageInner({
         onBevisConfirmed={handleBevisConfirmed}
         onCitationClick={handleCitationClick}
         onVaultTabChange={setVaultTab}
+        techniqueFilter={techniqueFilter}
+        onTechniqueSelect={handleTechniqueSelect}
+        onClearTechniqueFilter={handleClearTechniqueFilter}
       />
       </div>
     </ValvBentoShell>

@@ -1,0 +1,144 @@
+---
+description: Modellval, token-optimering och YOLO-körning i Cursor — påminn, stoppa, anpassa (tvingar inte modellbyte)
+alwaysApply: false
+---
+
+# Modellrouting & YOLO-optimering (Livskompassen)
+
+Kanon: [`docs/CURSOR-YOLO-MODEL-GUIDE.md`](../../docs/CURSOR-YOLO-MODEL-GUIDE.md) · YOLO-gate: [`yolo-vakt-gate.mdc`](yolo-vakt-gate.mdc) · Extern ChatBox: [`docs/external-ai/chatbox/MODEL-PICKER.md`](../../docs/external-ai/chatbox/MODEL-PICKER.md)
+
+## Gräns (viktigt)
+
+Cursor tillåter **inte** hårdkodat modellbyte från `.mdc`, agenter eller hooks. Modellväljaren i gränssnittet styrs alltid av Pontus. Denna regel styr **beteende, påminnelser och smoke-val** — inte fysisk modellrouting.
+
+## Fråga Pontus vs välj modell själv
+
+| Situation | Agent gör | Varför |
+|-----------|-----------|--------|
+| Trivial fix (copy, CSS, enfil) | **Välj själv** — kör med nuvarande modell eller `composer-2.5-fast` via subagent | Låg risk, snabb iteration |
+| Backend/Functions, ADK, types | **Välj själv** — delegera med `gpt-5.5-high` i Task | Subagent-modell styrs av agenten |
+| WORM, `firestore.rules`, PMIR, deploy, merge | **Fråga Pontus** — be om modellbyte i huvudchatten + vänta OK | Kostnad + irreversibla beslut |
+| Stor refaktor, ny modul, arkitektur | **Fråga Pontus** om huvudchatten kör lätt modell; annars starta flerstegs-loop själv | Säkerställ rätt kapacitet |
+| Osäker på uppgiftens tyngd | **Fråga Pontus** med **ett** rekommenderat val (max 2 alternativ) | Progressive disclosure |
+| Parallell audit + implementation | **Välj själv** — tunga subagents parallellt, **aldrig samma fil** | Sparar tid utan kollision |
+
+**Regel:** Agenten **MÅSTE** själv välja lämplig `model` i Task/subagent-anrop när delegation sker. Det påverkar inte huvudchatten — men ger rätt kapacitet per deluppgift utan att Pontus behöver byta modell manuellt för varje steg.
+
+## Agent MUST vid osäker modell (huvudchatt)
+
+Om uppgiften är **säkerhetskritisk, PMIR, WORM, firestore.rules, stor refaktor eller Master YOLO-våg** och huvudchatten **inte** kör resonerande/heavy-modell — inled med:
+
+> **OBS:** Detta är en komplex uppgift. Växla till en resonerande modell (t.ex. Claude Opus 4.8 Thinking eller GPT-5.5 High) i modellväljaren — **eller** säg *"kör själv med subagents"* så delegerar jag i flera steg med rätt modell per fas.
+
+Ge därefter **ett** nästa steg (progressive disclosure).
+
+## Flerstegs perfektionsloop (tung kod/funktion)
+
+När uppgiften kräver **stark implementation, säkerhet eller arkitektur** — kör **sekventiella faser** med olika modeller/subagents. Iterera tills smoke PASS; ge inte upp efter första försök.
+
+```
+Fas 1 Utforska  → explore / Opus thinking     (kartlägg kod, risker, beroenden)
+Fas 2 Planera   → inherit + PMIR vid behov    (REASONS, minsta diff, stopp-lista)
+Fas 3 Bygg      → gpt-5.5-high / Sonnet       (implementation, en zon i taget)
+Fas 4 Granska   → bugbot / security-review     (readonly, branch changes)
+Fas 5 Verifiera → specialist-smoke-runner     (build + rätt smoke-tier)
+Fas 6 Fixa      → tillbaka till Fas 3–5        (tills PASS eller PMIR-stopp)
+```
+
+| Fas | Subagent / verktyg | Modell | Output |
+|-----|-------------------|--------|--------|
+| 1 | `explore` eller `generalPurpose` | inherit / Opus vid WORM | Risklista, filvägar |
+| 2 | inherit (huvudagent) | — | Plan eller PMIR-stopp |
+| 3 | zon-builder / `generalPurpose` | `gpt-5.5-high` backend · Sonnet UI | Kod + commit |
+| 4 | `bugbot` + ev. `security-review` | inherit | Findings → fixa eller NO-GO |
+| 5 | `specialist-smoke-runner` | `gpt-5.4-high` | PASS/FAIL + logg |
+| 6 | inherit | lämplig per fix | Ny iteration |
+
+**MUST:** Efter Fas 3 — commit + push före smoke. Vid FAIL: analysera logg, fixa, kör om (max 5 iterationer; därefter eskalera till Pontus med **ett** val).
+
+**MUST NOT:** Hoppa över Fas 4–5 vid touch av WORM, rules eller locked UX. Köra två implementerare parallellt på samma fil.
+
+## Cursor-modeller → uppgift
+
+| Modell (Cursor) | Använd till | Smoke-minimum | Agent/subagent |
+|-----------------|-------------|---------------|----------------|
+| **Claude Opus 4.8 Thinking** (+ fast) | WORM-audit, `firestore.rules`, PMIR, arkitektur, Valv/Hamn domän | `smoke:predeploy:build` + Tier 2 | `/yolo-vakt`, `specialist-security-auditor` |
+| **Claude Sonnet 4.6 High Thinking** | React/Superhub, locked UX, Obsidian Calm | `YOLO_SKIP_BUILD=1 npm run smoke:yolo` eller `smoke:locked-ux` | `specialist-ux-guardian`, zon-builders UI |
+| **GPT-5.5 High** (+ fast) | Functions, synapser, ADK, callable-implementering | `smoke:predeploy` + domän-extra | `specialist-adk-weaver`, `specialist-smoke-runner` |
+| **GPT-5.4 High / Codex High** | Enfil-debug, types, scripts, smoke-fix | `smoke:yolo` eller mål-smoke | — |
+| **Composer 2.5** (+ fast) | Snabb CSS/copy, triviala komponenter, docs-städ | `smoke:locked-ux` vid UI-touch | — |
+
+**MUST NOT:** Två modeller/Agenter på samma fil parallellt. Max 2 chattar (audit ∥ implementation är OK).
+
+## YOLO-läget i Cursor (UI)
+
+YOLO i Cursor = agenten kör verktyg utan att fråga varje gång. Kombinera så här:
+
+| Scenario | Modell | YOLO UI | Terminal |
+|----------|--------|---------|----------|
+| Snabb UI-fix | Composer / Sonnet fast | På | `YOLO_SKIP_BUILD=1 npm run smoke:yolo` |
+| Backend-våg | GPT-5.5 High | På | `npm run smoke:predeploy:build` |
+| Pre-deploy | Opus / GPT-5.5 | Av (audit först) | `/yolo-vakt` → `smoke:predeploy:build` |
+| Nattpass | — (ingen LLM) | — | `npm run orkester:night` |
+| Master/Fas-autorun | GPT-5.5 eller Opus | På, **en våg = en chatt** | smoke enligt vågtabell |
+
+Handoff vid full kontext: [`docs/MASTER-YOLO-AUTORUN.md`](../../docs/MASTER-YOLO-AUTORUN.md) § Ny chatt.
+
+## Smoke-hierarki (välj rätt — sparar tid)
+
+| Tier | Kommando | När |
+|------|----------|-----|
+| **Snabb** | `YOLO_SKIP_BUILD=1 npm run smoke:yolo` | Iteration, UI, liten diff |
+| **Standard gate** | `npm run smoke:predeploy:build` | **Deploy, merge, YOLO GO** |
+| **Live (efter deploy)** | `npm run smoke:predeploy:live` | Kräver `.env` |
+| **Release** | `npm run smoke:super-yolo` | Stor release / nattpass efter kod |
+
+`smoke:yolo` ⊂ `smoke:predeploy` — **deploy kräver `smoke:predeploy:build` PASS**, inte bara `smoke:yolo`.
+
+Tier 2 domän-extra: tabell i [`docs/YOLO-VAKT-GATE.md`](../../docs/YOLO-VAKT-GATE.md).
+
+## Token-optimering via globs
+
+Ladda **inte** hela regelboken i varje prompt. Denna fil är `alwaysApply: false` — anropa `@model-routing` vid YOLO/Master/autorun.
+
+| Arbete | Läs / @ |
+|--------|---------|
+| UI-komponent | `design-calm.mdc`, `ui-design.mdc` |
+| RAG/silo | `memory-silo.mdc` |
+| Valv/WORM | `security-firestore.mdc`, `yolo-vakt-gate.mdc` |
+| Deploy | `deploy-paminnelser.mdc`, `@model-routing` |
+| Orkester/natt | `orkester-autorun.mdc` |
+
+## PMIR-stopp (hard — oavsett modell)
+
+`firestore.rules` · Barnporten kanon-UI · Sacred/Locked UX borttagning · mass-radering · App Check Enforce · Fas 22.3 nutrition utan 22.2 PMIR → **NO-GO**, ett fixsteg, ingen deploy.
+
+## Subagent-modell (Task) — agent väljer själv
+
+Subagents kan få explicit `model` i Task-anrop — endast slugs som Cursor exponerar (t.ex. `claude-opus-4-8-thinking-high`, `gpt-5.5-high`). Det påverkar **inte** huvudchattens modell. **Agenten ska välja modell proaktivt** — vänta inte på att Pontus byter om subagent räcker.
+
+| Subagent | Rekommenderad modell | När |
+|----------|---------------------|-----|
+| `explore` | inherit | Kartläggning, snabb sökning |
+| `yolo-vakt` | inherit | Read-only GO/NO-GO |
+| `specialist-security-auditor` | `claude-opus-4-8-thinking-high` | WORM, silo, rules |
+| `specialist-valv-builder` | `claude-4.6-sonnet-high-thinking` · Opus vid WORM | Z1 UI + bevis |
+| `specialist-adk-weaver` | `gpt-5.5-high` | SynapseBus, triggers |
+| `specialist-smoke-runner` | `gpt-5.4-high` | Build + smoke |
+| `bugbot` | inherit | Diff-granskning före merge |
+| `generalPurpose` | `gpt-5.5-high` tunga · `composer-2.5-fast` trivialt | Ad hoc implementation |
+
+**Pontus-trigger:** Om användaren säger *"kör själv"*, *"använd bästa modell"* eller *"bygg till perfektion"* — starta flerstegs-loop utan att fråga om modellbyte i huvudchatten (fortfarande PMIR-stopp vid hard rules).
+
+## MUST
+
+- `/yolo-vakt` eller motsvarande audit **före** prod-deploy.
+- Spara audit: `docs/evaluations/YYYY-MM-DD-yolo-audit.md`.
+- En våg = en chatt vid Master/Fas-autorun.
+- Verifiera mot kod — [`anti-hallucination.mdc`](anti-hallucination.mdc).
+
+## MUST NOT
+
+- Påstå att modellbyte skett automatiskt via regelfil.
+- `firebase deploy` utan `smoke:predeploy:build` PASS + YOLO GO + Pontus OK vid PMIR.
+- Köra `smoke:super-yolo` vid varje liten UI-ändring (token/tid-slöseri).

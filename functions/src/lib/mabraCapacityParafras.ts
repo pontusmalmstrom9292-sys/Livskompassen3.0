@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin';
 import type { CoachTone } from '../../../shared/adaptation/adaptationTypes';
+import { capacityScoreToScale10 } from '../../../shared/evolution/capacityScore';
 import {
   parafraseCoachFromBank,
   type MabraCoachBankEntry,
@@ -11,11 +12,9 @@ export type CapacityBand = 'low' | 'mid' | 'high';
 
 const DEFAULT_CAPACITY_SCORE = 5;
 
-/** Normalisera till 0–10 (vissa klienter skriver 0–100). */
+/** Normalisera till 0–10 (0–1 kanon, legacy 0–10 eller 0–100). */
 export function normalizeCapacityScore(raw: number | undefined): number {
-  if (typeof raw !== 'number' || Number.isNaN(raw)) return DEFAULT_CAPACITY_SCORE;
-  if (raw > 10) return Math.min(10, raw / 10);
-  return Math.min(10, Math.max(0, raw));
+  return capacityScoreToScale10(raw);
 }
 
 export function toCapacityBand(score: number): CapacityBand {

@@ -1,5 +1,16 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Ingest våg 1 Kunskap (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| Leverans | G10 `kunskap` → `kb_docs` via `persistKunskapFromInbox` |
+| Gate | `smoke:orkester` + `smoke:synapse-triggers` — **PASS** |
+| Deploy | `functions:submitInkastLite,notifyNewFile` |
+| PMIR | [`evaluations/2026-06-19-pmir-ingest-vag-1.md`](./evaluations/2026-06-19-pmir-ingest-vag-1.md) |
+
+---
+
 ## Frontend polish B1–B4 (2026-06-19)
 
 | Våg | Leverans | Gate |
@@ -8,6 +19,17 @@
 | **B2** Familjen | Barnfokus primär; Hamn BIFF primär, brus/kompass i fold | locked-ux **PASS** |
 | **B3** Hjärtat | Dagbok/Speglar primär; tips/evidence i fold | locked-ux **PASS** |
 | **B4** Vardagen | P3 Kanban primär; Fler verktyg fold | locked-ux + design-modules **PASS** |
+
+| Fält | Värde |
+|------|-------|
+| Branch | `main` (post-merge B1–B4) |
+| `npm run build` | **PASS** |
+| `functions` build | **PASS** |
+| `smoke:predeploy` | **PASS** (tier1 + valv-security + plausible-deniability + locked-icons + barn-epistemik + epistemic-guard + dcap-routing + e2e-locked-ux) |
+| `smoke:mabra` | static guards **PASS** · live callable/Firestore **SKIP** (saknar `.env` i CI) |
+| `smoke:content-mabra-static` | **PASS** |
+| `smoke:valv-security` | **PASS** |
+| Overall gate | **GO** |
 
 PMIR: `pmir-mabra-b1`, `pmir-familjen-b2`, `pmir-hjartat-b3`, `pmir-vardagen-b4`
 

@@ -1,0 +1,56 @@
+---
+description: Fas masterplan-gate — läs aktiv fas i system-plan, pre-flight, PMIR, YOLO sprint
+alwaysApply: false
+---
+
+# Fas masterplan-gate
+
+**Läs först:** [`.context/system-plan.md`](../../.context/system-plan.md) — aktiv fas och scope.
+
+## Gemensam gate (alla faser)
+
+1. **Ingen stor städ, ombyggnad eller mass-radering** utan godkänd masterplan v2 + PMIR där det krävs.
+2. **Pre-flight = read-only** — ingen prod-kod, ingen filflytt, ingen deploy i pre-flight-chatt.
+3. Läs [`docs/MODUL-FUNKTIONS-REGISTER.md`](../../docs/MODUL-FUNKTIONS-REGISTER.md) före ny modul (`planering-kanon-guard.mdc`).
+4. **En våg i taget** · smoke PASS per våg · `npm run smoke:locked-ux` vid Valv/Familjen/MåBra.
+
+## Beslut — agenten driver
+
+- Svåra val: **2–3 alternativ**, för-/nackdel, **tydlig rekommendation**.
+- Pontus: **godkänn** / **ändra X** — inte tio tekniska val.
+- **Alltid till Pontus:** merge, radering, `firestore.rules`, Sacred, locked UX, prod deploy.
+
+## Fas-kanon (välj efter system-plan)
+
+| Fas | Masterplan | Sprint / autorun |
+|-----|------------|------------------|
+| 19 | [`2026-06-15-fas19-masterplan-v2.md`](../../docs/evaluations/2026-06-15-fas19-masterplan-v2.md) | [`FAS19-SPRINT-AUTORUN.md`](../../docs/FAS19-SPRINT-AUTORUN.md) |
+| 20 | [`2026-06-18-fas20-masterplan-v2.md`](../../docs/evaluations/2026-06-18-fas20-masterplan-v2.md) | [`FAS20-SPRINT-AUTORUN.md`](../../docs/FAS20-SPRINT-AUTORUN.md) |
+| 21 | [`2026-06-18-fas21-masterplan-v2.md`](../../docs/evaluations/2026-06-18-fas21-masterplan-v2.md) | [`FAS21-SPRINT-AUTORUN.md`](../../docs/FAS21-SPRINT-AUTORUN.md) |
+| 22 | [`2026-06-18-fas22-masterplan-v2.md`](../../docs/evaluations/2026-06-18-fas22-masterplan-v2.md) | [`FAS22-SPRINT-AUTORUN.md`](../../docs/FAS22-SPRINT-AUTORUN.md) |
+
+Pre-flight prompt: [`docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md`](../../docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md)
+
+## PMIR-stopp (hard NO-GO)
+
+- `firestore.rules` / `storage.rules` (Fas 22.3 kräver godkänd 22.2 PMIR)
+- Barnporten kanon-UI · Sacred / Locked UX borttagning
+- Mass-radering utan arkiv-först + Pontus OK
+- Gmail OAuth / Google Calendar · Genkit V1
+- `APP_CHECK_ENFORCE` i Console (Pontus manuellt)
+- Fas 22.3 BLOCKERAD utan [`mabra-3.0-c-phase2-pmir.md`](../../docs/evaluations/2026-06-18-mabra-3.0-c-phase2-pmir.md)
+
+## Expertmodell per zon (Fas 19+)
+
+| Roll | Agenter |
+|------|---------|
+| Backend & integritet | `specialist-security-auditor` + `livskompassen-master-architect` |
+| Frontend & design | `specialist-theme-lab` + `specialist-ux-guardian` |
+| Domän | `explore` / `generalPurpose` + WebSearch vid behov |
+
+Zoner: Valv · Hjärtat · Vardagen · Familjen · Barnporten · Kunskap · Repo/docs.
+
+## Städ & arkiv
+
+- **Arkiv-först** — flytta till `docs/archive/`, radera **inte** utan PMIR + explicit Pontus-OK.
+- Domän HCF: [`.context/domän-covert-narcissism.md`](../../.context/domän-covert-narcissism.md) · tre silos: `grunder-kanon.mdc`, `memory-silo.mdc`.

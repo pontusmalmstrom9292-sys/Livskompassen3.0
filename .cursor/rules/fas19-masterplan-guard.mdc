@@ -1,50 +1,11 @@
 ---
-description: Fas 19 gate — pre-flight, expertmodell, beslut åt Pontus, arkiv-först
+description: Fas 19 gate — pekare till fas-masterplan-guard (bakåtkompatibel)
 alwaysApply: false
 globs: docs/evaluations/*fas19*,docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md,.cursor/plans/**
 ---
 
-# Fas 19 — mästerplan-gate (till Fas 19+ är klar)
+# Fas 19 — mästerplan-gate
 
-Kanon: [`docs/evaluations/2026-06-15-fas19-masterplan-v2.md`](../../docs/evaluations/2026-06-15-fas19-masterplan-v2.md) · Pre-flight: [`docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md`](../../docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md)
+**Kanon flyttad till** [`fas-masterplan-guard.mdc`](fas-masterplan-guard.mdc).
 
-**`docs/evaluations/2026-06-15-fas19-masterplan-v2.md`** är enda körplan (godkänd 2026-06-15).
-
-## Gate (MUST)
-
-1. **Ingen stor städ, ombyggnad eller mass-radering** utan godkänd `fas19-masterplan-v2.md` + PMIR där det krävs.
-2. **Pre-flight = read-only** — ingen prod-kod, ingen filflytt, ingen deploy i pre-flight-chatt.
-3. Läs [`MODUL-FUNKTIONS-REGISTER.md`](../../docs/MODUL-FUNKTIONS-REGISTER.md) före ny modul — undvik dubbelbygge (`planering-kanon-guard.mdc`).
-
-## Beslut — agenten driver
-
-- Svåra val: **2–3 alternativ**, för-/nackdel, **tydlig rekommendation**.
-- Pontus: **godkänn** / **ändra X** — inte tio tekniska val.
-- **Alltid till Pontus:** merge, radering, `firestore.rules`, Sacred, locked UX, prod deploy.
-
-## Expertmodell per zon (städ / säkra / låsa / bygga om)
-
-Kör **parallellt** per zon:
-
-| Roll | Agenter |
-|------|---------|
-| Backend & integritet | `specialist-security-auditor` + `livskompassen-master-architect` |
-| Frontend & design | `specialist-theme-lab` + `specialist-ux-guardian` |
-| Domän | `explore` / `generalPurpose` + **WebSearch** vid behov (citera källa) |
-
-Zoner: Valv · Hjärtat · Vardagen (MåBra, Planering, Ekonomi, Arbetsliv, Hem) · Familjen · Barnporten · Kunskap/innehåll · Repo/docs.
-
-Per zon: inventering → **beslutsmemo** → behåll/arkiv/implementera/defer → smoke-lista.
-
-## Städ & arkiv
-
-- **Arkiv-först** — flytta till `docs/archive/`, radera **inte** utan PMIR + explicit Pontus-OK.
-- **MUST NOT** städa bort: `locked-ux-features.md` §1–17, Sacred, specs som `.cursor/rules/` refererar till, INNEHALL-REGISTER-banker.
-
-## Domän (oförändrad)
-
-Covert/HCF, bevis, barn: [`.context/domän-covert-narcissism.md`](../../.context/domän-covert-narcissism.md). Tre silos, WORM, ingen cross-RAG: `grunder-kanon.mdc`, `security.md`.
-
-## Implementation efter godkännande
-
-En våg i taget · smoke PASS per våg · `npm run smoke:locked-ux` vid Valv/Familjen/MåBra-lås.
+Läs aktiv fas i [`.context/system-plan.md`](../../.context/system-plan.md). Fas 19 eval: [`docs/evaluations/2026-06-15-fas19-masterplan-v2.md`](../../docs/evaluations/2026-06-15-fas19-masterplan-v2.md).

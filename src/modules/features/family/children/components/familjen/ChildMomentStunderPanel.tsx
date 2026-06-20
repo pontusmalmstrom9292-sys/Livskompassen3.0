@@ -11,6 +11,10 @@ import {
   isFavoriteMoment,
   momentBody,
 } from '../../utils/childMomentHelpers';
+import {
+  epistemicKindLabel,
+  parseEpistemicKindFromObservation,
+} from '../../utils/childObservationEpistemics';
 import { formatChildLogDate } from '../../utils/logFieldUtils';
 
 type Props = {
@@ -69,6 +73,9 @@ export function ChildMomentStunderPanel({ shell }: Props) {
           {stunder.map((log) => {
             const Icon = categoryIcon(log.category);
             const favorite = isFavoriteMoment(log);
+            const epistemicKind = parseEpistemicKindFromObservation(
+              String(log.observation ?? log.truth ?? ''),
+            );
             return (
               <li
                 key={log.id}
@@ -85,6 +92,11 @@ export function ChildMomentStunderPanel({ shell }: Props) {
                     <div className="flex items-start justify-between gap-2">
                       <p className="text-[10px] uppercase tracking-widest text-text-dim">
                         {categoryLabel(log.category)} · {formatChildLogDate(log.createdAt, '—')}
+                        {epistemicKind ? (
+                          <span className="ml-2 text-accent-secondary/90">
+                            · {epistemicKindLabel(epistemicKind)}
+                          </span>
+                        ) : null}
                       </p>
                       {favorite && (
                         <Heart

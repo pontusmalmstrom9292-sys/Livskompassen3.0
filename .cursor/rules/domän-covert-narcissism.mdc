@@ -1,7 +1,7 @@
 ---
 description: Domänlins — dold kvinnlig narcissism, HCF, barn, bevis (MUST read Valv/inkast)
 alwaysApply: false
-globs: src/modules/features/lifeJournal/**,src/modules/capture/**,src/modules/features/family/safeHarbor/**,functions/src/lib/vaultRag.ts,functions/src/**/analyzeMessage*.ts,.context/domän-covert-narcissism.md
+globs: src/modules/features/vault/**,src/modules/features/lifeJournal/**,src/modules/capture/**,src/modules/**/hamn/**,src/modules/**/speglar/**,src/modules/features/family/safeHarbor/**,functions/src/lib/vaultRag.ts,functions/src/lib/inboxClassifier.ts,functions/src/**/analyzeMessage*.ts,.context/domän-covert-narcissism.md
 ---
 
 # Domän — covert HCF (röd tråd)

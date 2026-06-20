@@ -53,8 +53,23 @@ export const CHILDREN_LOG_ALLOWED_KEYS = new Set([
   'createdAt',
 ]);
 
+export type InboxSourceKind = 'drive' | 'storage' | 'widget';
+
+export function buildInboxSourceRef(kind: InboxSourceKind | string, rawId: string): string {
+  const id = rawId.trim().slice(0, 200);
+  const k = kind.trim().slice(0, 32);
+  if (!id) {
+    throw new Error('buildInboxSourceRef: rawId required');
+  }
+  return `${k}:${id}`;
+}
+
 export function driveInboxSourceRef(driveFileId: string): string {
-  return `drive:${driveFileId.trim().slice(0, 120)}`;
+  return buildInboxSourceRef('drive', driveFileId.trim().slice(0, 120));
+}
+
+export function storageInboxSourceRef(storagePath: string): string {
+  return buildInboxSourceRef('storage', storagePath);
 }
 
 export function assertServerWormPayload(

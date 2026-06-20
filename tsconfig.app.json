@@ -33,5 +33,5 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src", "shared/economy", "shared/patterns", "shared/evolution", "shared/adaptation"],
-  "exclude": ["src/**/*.test.ts", "src/**/__fixtures__/**"]
+  "exclude": ["src/**/*.test.ts", "src/**/__fixtures__/**", "shared/**/*.test.ts"]
 }

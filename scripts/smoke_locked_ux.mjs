@@ -464,7 +464,12 @@ function main() {
   mustInclude('src/modules/core/layout/DrawerQuickActions.tsx', 'HUB_MORE_ACTIONS', 'Snabbval');
   mustInclude('src/modules/features/widgets/pages/WidgetRecordPage.tsx', 'useWidgetVaultRecording');
   mustInclude('src/modules/features/widgets/pages/WidgetFamiljenPage.tsx', 'widget_snabb');
-  mustInclude('src/modules/features/widgets/api/widgetVaultRecording.ts', 'SAMMANFATTNING');
+  mustInclude('src/modules/features/widgets/api/widgetVaultRecording.ts', 'withVaultSessionPayload');
+  mustInclude('src/modules/features/widgets/api/widgetVaultRecording.ts', 'sourceRef');
+  mustInclude('src/modules/features/widgets/api/widgetVaultRecording.ts', 'storageInboxSourceRef');
+  mustInclude('src/modules/features/widgets/api/widgetVaultRecording.ts', 'commit: true');
+  mustInclude('functions/src/lib/widgetRecordingCommit.ts', 'SAMMANFATTNING');
+  mustInclude('functions/src/lib/wormPayload.ts', 'buildInboxSourceRef');
   mustInclude('public/manifest.webmanifest', '/widget/inspelning', '/widget/familjen', '/widget/stampla');
   mustInclude(
     'src/modules/core/components/FyrenWidgetBar.tsx',

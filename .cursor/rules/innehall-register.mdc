@@ -1,7 +1,7 @@
 ---
 description: Innehållskanon U6 — FACT/REFLECTION/PLAY/EVIDENCE, dirigent, content-banker, ingen silo-4-RAG
 alwaysApply: false
-globs: docs/INNEHALL-REGISTER.md,docs/specs/modules/*CONTENT*,docs/content/**,functions/src/**/mabraCoach*.ts,prompts/**,docs/prompts/**
+globs: docs/INNEHALL-REGISTER.md,docs/specs/modules/*CONTENT*,docs/content/**,functions/src/**/mabraCoach*.ts,functions/src/agents/mabra*,prompts/**,docs/prompts/**,**/*CONTENT*BANK*,**/*CONTENT-SEED*
 ---
 
 # Innehållsregister (låst med Grunder)

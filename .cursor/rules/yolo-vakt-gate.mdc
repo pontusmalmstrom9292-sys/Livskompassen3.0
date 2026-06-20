@@ -1,11 +1,12 @@
 ---
 description: YOLO-vakt stående deploy-gate — audit + smoke:yolo PASS före firebase deploy
-alwaysApply: true
+alwaysApply: false
+globs: firebase.json,docs/YOLO-VAKT-GATE.md,docs/evaluations/*yolo*,scripts/smoke*.mjs,package.json
 ---
 
 # YOLO-vakt deploy-gate (MUST)
 
-Kanon: [`docs/YOLO-VAKT-GATE.md`](../../docs/YOLO-VAKT-GATE.md) · Agent: [`.cursor/agents/yolo-vakt.md`](../../.cursor/agents/yolo-vakt.md)
+Kanon: [`docs/YOLO-VAKT-GATE.md`](../../docs/YOLO-VAKT-GATE.md) · Modell/YOLO: [`model-routing.mdc`](model-routing.mdc) · Agent: [`.cursor/agents/yolo-vakt.md`](../../.cursor/agents/yolo-vakt.md)
 
 ## MUST före deploy
 

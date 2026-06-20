@@ -23,6 +23,9 @@ export type ValvInputSuperModuleProps = {
   onBevisConfirmed: (docId: string) => void | Promise<void>;
   onCitationClick: (docId: string) => void;
   onVaultTabChange: (tab: VaultTab) => void;
+  techniqueFilter?: string | null;
+  onTechniqueSelect?: (technique: string) => void;
+  onClearTechniqueFilter?: () => void;
 };
 
 /**
@@ -39,6 +42,9 @@ export function ValvInputSuperModule({
   onBevisConfirmed,
   onCitationClick,
   onVaultTabChange,
+  techniqueFilter,
+  onTechniqueSelect,
+  onClearTechniqueFilter,
 }: ValvInputSuperModuleProps) {
   const setMode = useCallback(
     (mode: ValvInputMode) => {
@@ -82,6 +88,9 @@ export function ValvInputSuperModule({
             onCitationClick={onCitationClick}
             onVaultTabChange={onVaultTabChange}
             onOpenGranska={() => setMode('granska')}
+            techniqueFilter={techniqueFilter}
+            onTechniqueSelect={onTechniqueSelect}
+            onClearTechniqueFilter={onClearTechniqueFilter}
           />
         )}
       </div>

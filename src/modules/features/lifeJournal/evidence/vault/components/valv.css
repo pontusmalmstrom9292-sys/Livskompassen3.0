@@ -110,4 +110,12 @@
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
   }
+
+  .valv-technique-filter-chip {
+    border-color: rgba(212, 175, 55, 0.35);
+  }
+
+  .valv-monster-bar {
+    cursor: pointer;
+  }
 }

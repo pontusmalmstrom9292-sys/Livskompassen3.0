@@ -121,7 +121,8 @@ function main() {
   );
 
   console.log('[smoke:innehall] Cursor rules + grunder U6...');
-  mustInclude('.cursor/rules/innehall-register.mdc', 'alwaysApply: true', 'U6');
+  mustInclude('.cursor/rules/innehall-register.mdc', 'U6', 'INNEHALL-REGISTER');
+  mustInclude('.cursor/index.mdc', 'alwaysApply: true', 'tre silos');
   mustInclude('.cursor/rules/grunder-kanon.mdc', 'U6', 'INNEHALL-REGISTER');
 
   console.log('[smoke:innehall] Kurator agents...');

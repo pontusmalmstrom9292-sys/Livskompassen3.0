@@ -1,6 +1,6 @@
 import { AlertTriangle, Check, Clock, Loader2 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useCapacityScore } from '@/core/store/useCapacityGate';
+import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
 import { EKONOMI_IMPULS_LEAD } from '@/modules/features/dailyLife/wellbeing/economy/ekonomiCopy';
 import { useEconomyImpulsWrite } from '../hooks/useEconomyImpulsWrite';
 import { useEconomyTransactionWORM } from '../hooks/useEconomyTransactionWORM';
@@ -9,8 +9,6 @@ export type EkonomiImpulsDelegateProps = {
   userId: string;
 };
 
-/** Normaliserad kapacitet 0–1 — SPEC §4.3 / §4.5 */
-const STABILITY_THRESHOLD = 0.5;
 const READY_TICK_MS = 60_000;
 
 function parseAmountSek(raw: string): number | null {
@@ -25,14 +23,11 @@ function isImpulseReady(remindAt: string, nowMs: number): boolean {
   return Date.parse(remindAt) <= nowMs;
 }
 
-/**
- * Fas 8E — Impulspaus (24h-regeln).
- * Kö → `economy_impulse_queue`; godkänt köp → WORM `transactions` (negativt belopp).
- */
+/** Fas 8E — Impulspaus (24h-regeln). */
 export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
   const hasUser = Boolean(userId);
-  const capacityScore = useCapacityScore();
-  const isLowCapacity = capacityScore < STABILITY_THRESHOLD;
+  const { level, circuitBreakerActive } = useEconomyLevel(userId);
+  const isLowCapacity = circuitBreakerActive || level !== 3;
 
   const {
     items,

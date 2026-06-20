@@ -1,19 +1,14 @@
-import { useCapacityScore } from '@/core/store/useCapacityGate';
+import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
 import { EconomySavingsPanel } from '../../components/EconomySavingsPanel';
 
 export type EkonomiSparDelegateProps = {
   userId: string;
 };
 
-const STABILITY_THRESHOLD = 0.5;
-
-/**
- * Fas 8D — Sparmålspanel delegate.
- * Visar Sparmål via EconomySavingsPanel.
- */
+/** Fas 8D — Sparmålspanel delegate. */
 export function EkonomiSparDelegate({ userId }: EkonomiSparDelegateProps) {
-  const capacityScore = useCapacityScore();
-  const isLowCapacity = capacityScore < STABILITY_THRESHOLD;
+  const { level, circuitBreakerActive } = useEconomyLevel(userId);
+  const isLowCapacity = circuitBreakerActive || level === 'critical' || level === 1;
   const hasUser = Boolean(userId);
 
   if (!hasUser) {

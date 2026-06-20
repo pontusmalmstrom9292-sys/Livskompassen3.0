@@ -18,5 +18,6 @@
     "../shared/patterns/**/*.ts",
     "../shared/evolution/**/*.ts",
     "../shared/adaptation/**/*.ts"
-  ]
+  ],
+  "exclude": ["../shared/**/*.test.ts"]
 }
