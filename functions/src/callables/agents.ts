@@ -2,7 +2,7 @@ import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 // firebase-functions v1 behålls enbart för schedulers och onRequest (notifyNewFile, scheduledRetentionJob,
 // scheduledGeneratePayslip) — dessa är ej callables och v2-scheduler-API skiljer sig åt.
-import * as functions from 'firebase-functions';
+import * as functions from 'firebase-functions/v1';
 import {
   askMabraCoach,
   askVitChatCoach,
