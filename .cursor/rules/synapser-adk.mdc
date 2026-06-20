@@ -17,8 +17,9 @@ Runtime: `functions/src/adk/synapses/synapseBus.ts`, `stateStore.ts`, `orchestra
 | `user_overwhelm` | `paralysBrytarenSynapse` | **live** | Ett mikrosteg, max 30s |
 | `journal_woven` | `journalWovenSynapse` | **live** (G7) | Opt-in `optIn===true` → `kampspar` + vector |
 | `dcap_alert` | `dcapAlertSynapse` | **live** | HITL → `dcap_alerts` WORM vid risk ≥70 |
+| `widget_recording_ingested` | `widgetRecordingIngestSynapse` | **live** (G10 våg 3) | WH1 commit → `classifyInboxDocument` → `routeInboxToWorm` (block kunskap) |
 
-Koppling: `notifyNewFile` → `emitSynapse(..., drive_file_ingested)`.
+Koppling: `notifyNewFile` → `emitSynapse(..., drive_file_ingested)` · `ingestWidgetRecording` → `emitSynapse(..., widget_recording_ingested)`.
 
 ## Gör alltid
 
