@@ -1,6 +1,30 @@
 #!/usr/bin/env bash
-# Injects Fas 19, Master YOLO, or orkester night-run context when env + state exist.
+# Injects autorun context, integration hub rules, stale pack warnings.
 set -euo pipefail
+
+ALWAYS_RULES="Always apply: livskompassen-core.mdc, grunder-kanon.mdc, anti-hallucination.mdc. Integration: docs/external-ai/INTEGRATION-SAFETY-MANIFEST.md"
+
+STALE_MSG=""
+if [[ -f "scripts/integration_stale_check.mjs" ]]; then
+  if ! node scripts/integration_stale_check.mjs 2>/dev/null; then
+    STALE_MSG=" Extern-AI packs stale (>24h) — kör npm run integration:sync:all."
+  fi
+fi
+
+DIRTY_MSG=""
+if command -v git >/dev/null 2>&1 && [[ -n "$(git status --porcelain 2>/dev/null)" ]]; then
+  if [[ "${ORKESTER_AUTORUN:-}" == "1" || "${MASTER_AUTORUN:-}" == "1" || "${CURSOR_PIPELINE_AUTORUN:-}" == "1" ]]; then
+    DIRTY_MSG=" VARNING: dirty git tree under autorun."
+  fi
+fi
+
+inject() {
+  cat <<EOF
+{
+  "additional_context": "${ALWAYS_RULES}${STALE_MSG}${DIRTY_MSG} $1"
+}
+EOF
+}
 
 if [[ "${FAS19_AUTORUN:-}" == "1" ]]; then
   FAS19_STATE=".orkester/fas19-state.json"
@@ -8,11 +32,7 @@ if [[ "${FAS19_AUTORUN:-}" == "1" ]]; then
     WAVE=$(jq -r '.nextWaveId // "baseline"' "$FAS19_STATE" 2>/dev/null)
     STATUS=$(jq -r '.status // "running"' "$FAS19_STATE" 2>/dev/null)
     if [[ "$STATUS" != "done" && -n "$WAVE" && "$WAVE" != "null" ]]; then
-      cat <<EOF
-{
-  "additional_context": "Fas 19 Sprint autorun aktivt. status=${STATUS}, nextWaveId=${WAVE}. Läs docs/FAS19-SPRINT-AUTORUN.md och .orkester/fas19-state.json. Fortsätt aktuell våg: build → smoke → eval-logg → fas19-state. PMIR-stopp: SKIP + blocker-fas19-*.md. ORKESTER_AUTORUN=1 för stop-kedja."
-}
-EOF
+      inject "Fas 19 autorun. nextWaveId=${WAVE}. Läs docs/FAS19-SPRINT-AUTORUN.md."
       exit 0
     fi
   fi
@@ -24,29 +44,21 @@ if [[ "${MASTER_AUTORUN:-}" == "1" ]]; then
     WAVE=$(jq -r '.nextWaveId // "doc-sync"' "$MASTER_STATE" 2>/dev/null)
     STATUS=$(jq -r '.status // "running"' "$MASTER_STATE" 2>/dev/null)
     if [[ "$STATUS" != "done" && -n "$WAVE" && "$WAVE" != "null" ]]; then
-      cat <<EOF
-{
-  "additional_context": "Master YOLO autorun aktivt. status=${STATUS}, nextWaveId=${WAVE}. Läs docs/MASTER-YOLO-AUTORUN.md och .orkester/master-state.json. Fortsätt aktuell våg: build → smoke → commit → push → deploy. PMIR-stopp: SKIP + blocker.md. ORKESTER_AUTORUN=1 för stop-kedja."
-}
-EOF
+      inject "Master YOLO autorun. nextWaveId=${WAVE}. Läs docs/MASTER-YOLO-AUTORUN.md."
       exit 0
     fi
   fi
 fi
 
 STATE=".orkester/state.json"
-if [[ ! -f "$STATE" ]]; then
-  exit 0
+if [[ -f "$STATE" ]] && command -v jq >/dev/null 2>&1; then
+  PHASE=$(jq -r '.nextPhase // "idle"' "$STATE" 2>/dev/null || echo "idle")
+  if [[ "$PHASE" != "idle" && "$PHASE" != "null" && -n "$PHASE" && "$PHASE" != "done" ]]; then
+    inject "Orkester nattpass. nextPhase=${PHASE}. Läs docs/ORKESTER-AUTORUN.md."
+    exit 0
+  fi
 fi
-if ! command -v jq >/dev/null 2>&1; then
-  exit 0
+
+if [[ -n "$STALE_MSG" || -n "$DIRTY_MSG" ]]; then
+  inject ""
 fi
-PHASE=$(jq -r '.nextPhase // "idle"' "$STATE" 2>/dev/null || echo "idle")
-if [[ "$PHASE" == "idle" || "$PHASE" == "null" || -z "$PHASE" || "$PHASE" == "done" ]]; then
-  exit 0
-fi
-cat <<EOF
-{
-  "additional_context": "Orkester nattpass aktivt. nextPhase=${PHASE}. Läs docs/ORKESTER-AUTORUN.md och .orkester/state.json. Fortsätt med orkester-conductor eller aktuell specialist."
-}
-EOF

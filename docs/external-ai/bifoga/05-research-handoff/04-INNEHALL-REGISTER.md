@@ -41,7 +41,7 @@
 | MåBra | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) | **aktiv** | P1: `vit_entries` + `bankId` |
 | MåBra Daglig mix | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) § Daglig mix | **aktiv** | `dagligMixCatalog.ts` · DM-* · ingen streak/RAG |
 | Drogfrihet | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) § Drogfrihet + [`Drogfrihet-SPEC.md`](./specs/modules/Drogfrihet-SPEC.md) | **aktiv** | `drogfrihetCatalog.ts` · DF-REF-* · hub `/drogfrihet` |
-| Kunskap seed | [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) | **aktiv** | 142 FACT manifest · våg 27 ingest **PASS** 2026-06-16 · [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) |
+| Kunskap seed | [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) | **aktiv** | 199 FACT manifest · våg 32 KEEP 2026-06-19 · våg 8 extension 048–057 KEEP 2026-06-20 · våg 27 ingest **PASS** 2026-06-16 · [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) |
 | Barnen lek | [`specs/modules/Barnen-PLAY-BANK.md`](./specs/modules/Barnen-PLAY-BANK.md) | **aktiv** | `barnfokusCatalog.ts` BP-PLAY-01..21 · ej Valv-promote |
 
 **Fält per KEEP-post (alla banker):** `id`, `status`, `content_class`, `source_tier`, `text_sv`, `why`.
@@ -218,4 +218,22 @@ BP-PLAY-25..29 — bank KEEP; **catalog wire done** våg 29.3 (`barnfokusCatalog
 7. ~~Harmonisera Vit-hub copy: ingen skuld-streak~~ — **done** våg 14 (2026-06-06)  
 8. ~~Vit översikt P4 — senaste 3 + MåBra→Valv bro~~ — **done** våg 15 (2026-06-06)
 
+
+### Kunskap våg 8 extension KEEP (2026-06-20)
+
+| id | content_class | source_tier | status | category |
+|----|---------------|-------------|--------|----------|
+| kunskap-fact-048 … 057 | FACT | P2/product_copy | **KEEP** | produkt_sakerhet, barn_neuro, juridik_logistik, adhd_vardag, gad_angest, produkt_arkitektur |
+
+**Ingest:** `npm run export:kunskap-seed` → mänsklig granskning → `npm run seed:kunskap-facts`
+
 **Utskrift:** lägg vid [`SKOGSPAKET-LATHUND.md`](./SKOGSPAKET-LATHUND.md) om du jobbar på distans.
+
+### Kunskap våg 32 KEEP (2026-06-19)
+
+| id | content_class | source_tier | status | category |
+|----|---------------|-------------|--------|----------|
+| kunskap-fact-kan-001 … kan-020 | FACT | P1/P2/psychoeducation | **KEEP** | kanslor_vagus, gad_angest, neuro_psyk, psykologi_grund |
+| kunskap-fact-psy-001 … psy-015 | FACT | P1/P2/psychoeducation | **KEEP** | psykologi_grund, neuro_psyk |
+
+**Curriculum:** CUR-FEEL-02 (kan-004, kan-005, kan-006, kan-012) · **Ingest:** `npm run export:kunskap-seed` → `npm run seed:kunskap-facts`

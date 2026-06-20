@@ -47,6 +47,7 @@ Verklighetsvalvet, Sanningens Sköld, Morgonkompassen, Dossier-Generator, Spegli
 | 9 | App Check + rate limits på LLM callables | `callableGuards.ts` |
 | 10 | Inga secrets i diff | `.env`, service-account JSON |
 | 11 | Chameleon/Superhub ej borttagen | `locked-ux-features.md` |
+| 13 | Extern AI via import-gate | `external-ai-import-gate` |
 | 12 | Ingest bevis → `reality_vault`, inte `kb_docs` | G10 / `driveIngestSynapse` |
 
 ## Smoke-gate (MUST PASS före "klart")

@@ -53,6 +53,15 @@ packages:
     scope: backend-only
     parallel: true
 
+  - id: external-ai-handoff
+    label: Extern AI kanon-sync
+    packCommand: npm run integration:sync:all
+    output: docs/external-ai/bifoga/05-research-handoff/SYNC-STAMP.txt
+    promptTemplate: docs/cursor-pipeline/prompts/external-ai-handoff.md
+    model: composer-2.5-fast
+    scope: import-gate-only
+    parallel: true
+
   - id: copilot-sync
     label: Copilot instructions sync
     packCommand: npm run cursor:pipeline:pack:copilot
