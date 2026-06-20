@@ -8,8 +8,10 @@
 | Våg | ID | Status |
 |-----|-----|--------|
 | A1 | figma-L0-tokens | klar |
-| B1 | figma-L1-drawer | nästa |
+| B1 | figma-L1-drawer | klar (kod sync 2026-06-20) |
 
 Se masterplan: `docs/evaluations/2026-06-19-figma-ui-masterplan.md`
 
 | B1 | figma-L1-drawer | klar | Vardag + Valv unlocked mocks på sida 01 |
+
+Leverans: `docs/evaluations/2026-06-20-figma-b1-drawer-sync.md`
