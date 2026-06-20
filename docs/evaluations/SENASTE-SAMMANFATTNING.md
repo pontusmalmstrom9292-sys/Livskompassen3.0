@@ -1,15 +1,29 @@
 # Senaste sammanfattning — systemstatus
 
-**Datum:** 2026-06-18 · **Gren:** `main` @ `ba2a1b3aa`+  
+**Datum:** 2026-06-19 · **Gren:** `main` @ `b952a9311`+  
 **Kanon:** [`2026-06-15-fas19-masterplan-v2.md`](./2026-06-15-fas19-masterplan-v2.md) · **Smoke:** [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md)
 
 ---
 
 ## Nuläge i en mening
 
-**Fas 19 sprint DONE** (19.1–19.6) · P1/P2 Flow **LOCK** · MåBra 19.2–19.5 smoke PASS. **Nästa:** system-gap-syntes (Deep Research + Flow/krediter) · DEFER: M3.0-C Fitness/Näring, AI-assistent UI.
+**B1–B4 zon-polish DONE** · **Valv A2.1–A2.7 DONE** · **Ingest våg 1** (kunskap → `kb_docs`) kod på `main`, **deploy väntar** · `smoke:predeploy` **PASS** 2026-06-19 · Modellrouting (`@model-routing`) aktiv.
 
+---
 
+## 2026-06-19 leveranser
+
+| Våg | Status | Eval |
+|-----|--------|------|
+| B1 MåBra | smoke PASS | [`2026-06-19-pmir-mabra-b1.md`](./2026-06-19-pmir-mabra-b1.md) |
+| B2 Familjen | smoke PASS | [`2026-06-19-pmir-familjen-b2.md`](./2026-06-19-pmir-familjen-b2.md) |
+| B3 Hjärtat | smoke PASS | [`2026-06-19-pmir-hjartat-b3.md`](./2026-06-19-pmir-hjartat-b3.md) |
+| B4 Vardagen | smoke PASS | [`2026-06-19-pmir-vardagen-b4.md`](./2026-06-19-pmir-vardagen-b4.md) |
+| Valv A2.1–A2.7 | smoke PASS | [`2026-06-19-pmir-valv-a2-7.md`](./2026-06-19-pmir-valv-a2-7.md) m.fl. |
+| Ingest våg 1 | kod merged · deploy pending | [`2026-06-19-pmir-ingest-vag-1.md`](./2026-06-19-pmir-ingest-vag-1.md) |
+| Modellrouting | docs merged | [`../CURSOR-YOLO-MODEL-GUIDE.md`](../CURSOR-YOLO-MODEL-GUIDE.md) |
+
+**Nästa deploy (kräver Pontus OK):** `functions:submitInkastLite,notifyNewFile` (ingest våg 1).
 
 ---
 
