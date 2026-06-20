@@ -19,8 +19,6 @@ type FyrenWidgetContextValue = {
   progress: number;
   isHolding: boolean;
   dockTriggerProps: {
-    progress: number;
-    isHolding: boolean;
     onClick: () => void;
     onDoubleClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
     onMouseDown: () => void;
@@ -74,8 +72,6 @@ export function FyrenWidgetProvider({ children }: { children: ReactNode }) {
       progress,
       isHolding,
       dockTriggerProps: {
-        progress,
-        isHolding,
         onClick: triggerClick,
         onDoubleClick: (event: React.MouseEvent) => {
           event.preventDefault();
