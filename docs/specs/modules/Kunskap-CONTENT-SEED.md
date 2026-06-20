@@ -28,6 +28,7 @@
 | kunskap-fact-001 … 020 | FACT | Se batchar nedan | Se yaml nedan | P1/P2 |
 | kunskap-fact-df-001 … 006 | FACT | Drogfrihet hub | § Drogfrihet | P1/P2 |
 | kunskap-fact-021 … 047 | FACT | Content autorun våg 1–5 | § batchar nedan | P1/P2 |
+| kunskap-fact-048 … 057 | FACT | Våg 8 extension 2026-06-20 | § batch nedan | P1/P2/product_copy |
 
 ---
 
@@ -824,6 +825,151 @@ why: "Referens — Speglar/Valv för personligt"
 ```
 
 ---
+
+## Batch 2026-06-20 — Våg 8 extension (048–057)
+
+**Kurator:** `specialist-kunskap-seed` · **YOLO Spår D** · **Silo:** Kunskap only · **Bank-only** (ingest separat).
+
+```yaml
+id: kunskap-fact-048
+status: KEEP
+content_class: FACT
+title: "WORM — oföränderlig beviskedja"
+content: "WORM (Write Once Read Many) innebär att sparade bevis i Valv och Barnen inte kan redigeras eller raderas av klienten efter skrivning — endast append med server-tidsstämpel. Syftet är trovärdig kronologi vid senare granskning, inte att automatiskt vinna tvist. Kunskap-FACT och WORM-bevis är separata silor; LLM blander dem inte i samma RAG-svar."
+category: produkt_sakerhet
+entryType: fakta
+tags: [worm, valv, bevis, u4]
+source_tier: product_copy
+citation_hint: "Verklighetsvalvet-SPEC; security.md U4"
+why: "Våg 8 extension — produktfakta som kompletterar kunskap-fact-013"
+```
+
+```yaml
+id: kunskap-fact-049
+status: KEEP
+content_class: FACT
+title: "BRIS 116 111 — barn i akut psykisk kris"
+content: "BRIS (Barnens rätt i samhället) erbjuder anonymt stöd via telefon 116 111 och chatt för barn och unga. Föräldrar kan informera barn om numret utan att barnet behöver välja sida i vuxenkonflikt. BRIS ersätter inte BUP, skolkurator eller akut 112 — det är stöd i stunden. Generisk navigering — ej juridisk rådgivning."
+category: barn_neuro
+entryType: fakta
+tags: [bris, barn, kris, stod]
+source_tier: P2
+citation_hint: "BRIS.se; Barnombudet krisstöd (översikt)"
+why: "Våg 8 extension — grundreferens före bh-serien; ej Barnfokus PLAY"
+```
+
+```yaml
+id: kunskap-fact-050
+status: KEEP
+content_class: FACT
+title: "1177 — vårdvägledning och rätt vårdnivå"
+content: "1177 Vårdguiden är den nationella ingången för sjukvårdsrådgivning i Sverige — dygnet runt. Den hjälper till att bedöma om situationen kräver vårdcentral, akutmottagning eller egenvård. Appen ersätter inte 1177 eller 112 vid akut fara. Psykoedukation i Livskompassen är inte medicinsk bedömning."
+category: juridik_logistik
+entryType: fakta
+tags: [1177, vard, navigering, akut]
+source_tier: P2
+citation_hint: "1177.se; Socialstyrelsen vårdvägledning"
+why: "Våg 8 extension — kompletterar kunskap-fact-010 navigering"
+```
+
+```yaml
+id: kunskap-fact-051
+status: KEEP
+content_class: FACT
+title: "Familjerätt — medling och föräldrarådgivning"
+content: "Familjerätten erbjuder medling och föräldrarådgivning kring vårdnad, boende och umgänge — ofta kostnadsfritt eller subventionerat. Syftet är att nå överenskommelser utan dom när möjligt. Medling kräver att båda parter deltar; ensidig kontakt ersätter inte jurist. Livskompassen dokumenterar inte automatiskt till familjerätten — det är användarens val."
+category: juridik_logistik
+entryType: fakta
+tags: [familjeratt, medling, vardnad, logistik]
+source_tier: P2
+citation_hint: "Domstolsverket familjerätt; Föräldrabalken 6 kap. (översikt)"
+why: "Våg 8 extension — fördjupar jur-001/jur-004 utan processdetalj från våg 24"
+```
+
+```yaml
+id: kunskap-fact-052
+status: KEEP
+content_class: FACT
+title: "Prokrastination och exekutiv funktion"
+content: "Prokrastination vid ADHD och GAD handlar ofta om starttröskel, rädsla för misslyckande eller överväldigande — inte om lathet eller bristande vilja. Att dela uppgiften, sänka första steget och acceptera ofullständigt resultat är vanliga strategier i arbetsterapi och ACT-inspirerad självhjälp. Det ersätter inte behandling."
+category: adhd_vardag
+entryType: fakta
+tags: [prokrastination, adhd, exekutiv_funktion, starttroskel]
+source_tier: P2
+citation_hint: "NICE NG87 ADHD; behavioral activation overview"
+why: "Våg 8 extension — kompletterar 002/017 utan duplicera mikrosteg-metod"
+```
+
+```yaml
+id: kunskap-fact-053
+status: KEEP
+content_class: FACT
+title: "Sensorisk paus — lugnande miljö"
+content: "Sensorisk paus innebär att tillfälligt minska intryck: mörkare rum, färre ljud, ingen skärm, enkel rörelse eller tyngd. Vid NPF och utmattning kan kroppen behöva flera minuter innan larmnivån sjunker — paus är inte undvikande av ansvar utan återställning. Anpassningar i skola och hem beskrivs ofta i åtgärdsprogram."
+category: barn_neuro
+entryType: fakta
+tags: [sensorik, paus, npf, aterhamtning]
+source_tier: P2
+citation_hint: "Skolverket NPF-anpassning; sensory overload psychoeducation"
+why: "Våg 8 extension — kompletterar kunskap-fact-007 sensorik"
+```
+
+```yaml
+id: kunskap-fact-054
+status: KEEP
+content_class: FACT
+title: "Co-regulation — vuxen lugn före barnets lugn"
+content: "Co-regulation innebär att ett lugnare vuxet nervsystem hjälper barnet att reglera känslor — genom närhet, lågaffektiv närvaro och förutsägbarhet, inte genom långa förklaringar i akut läge. Det ersätter inte professionellt stöd vid våld eller allvarlig omsorgsskada. I parallellt föräldraskap gäller samma princip i båda hem."
+category: barn_neuro
+entryType: fakta
+tags: [co_regulation, barn, kanslor, foraldraskap]
+source_tier: P2
+citation_hint: "Circle of Security (översikt); polyvagal psychoeducation"
+why: "Våg 8 extension — föräldraskap FACT; Barnfokus-frågor förblir PLAY"
+```
+
+```yaml
+id: kunskap-fact-055
+status: KEEP
+content_class: FACT
+title: "Långvarig stress — kroppen efter kris"
+content: "Efter månader eller år av hög stress kan kroppen fortsätta reagera som om hot kvarstår: trötthet, startle, koncentrationssvårigheter och sömnstörning. Det är vanliga fysiologiska mönster — inte tecken på att man "borde vara över det". Återhämtning tar tid och kräver ofta gradvis minskad belastning, inte bara positivt tänkande."
+category: gad_angest
+entryType: fakta
+tags: [langvarig_stress, aterhamtning, hypervigilans, utmattning]
+source_tier: P2
+citation_hint: "1177 stress och utmattning; McEwen allostatic load (översikt)"
+why: "Våg 8 extension — bro till pu-003/kan-serien utan duplicera"
+```
+
+```yaml
+id: kunskap-fact-056
+status: KEEP
+content_class: FACT
+title: "Kunskap RAG — citation JSON"
+content: "När Kunskapsvalvet svarar via RAG returneras svar med citation JSON som pekar på käll-id i kampspar — LLM skapar inte nya FACT i produktion. Användaren kan granska källan. Om frågan gäller personlig sms-analys eller bevis ska dirigenten peka till Hamn/Valv, inte Kunskap-coach."
+category: produkt_arkitektur
+entryType: fakta
+tags: [rag, citation, kunskap, epistemik]
+source_tier: product_copy
+citation_hint: "livskompassen-rag-retrieval SKILL; knowledgeVaultQuery"
+why: "Våg 8 extension — produktfakta för Kompis; kompletterar kunskap-fact-023"
+```
+
+```yaml
+id: kunskap-fact-057
+status: KEEP
+content_class: FACT
+title: "DCAP — dataclassificering i Livskompassen"
+content: "DCAP (Data Classification and Protection) beskriver hur data klassas efter känslighet och vilken silo den tillhör: Kunskap-FACT, Valv-EVIDENCE, Barnen-EVIDENCE/PLAY, Vit-REFLECTION. Fel klassning ökar risk för att LLM behandlar spekulation som sanning. Ingest till Vector Search sker deterministiskt — inte av coach-runtime."
+category: produkt_sakerhet
+entryType: fakta
+tags: [dcap, klassificering, silo, u3]
+source_tier: product_copy
+citation_hint: "DCAP.ts; INNEHALL-REGISTER U6"
+why: "Våg 8 extension — epistemik-produkt; kompletterar ep-001"
+```
+
 
 ## Batch 2026-06-14 — Våg 20 Covert taktik + barn HCF (cn-001–015, bh-001–008)
 

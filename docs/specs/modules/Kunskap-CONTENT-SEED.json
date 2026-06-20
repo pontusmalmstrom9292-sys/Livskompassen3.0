@@ -1,5 +1,5 @@
 {
-  "version": "2026-06-19",
+  "version": "2026-06-20",
   "source_policy": "kunskap_content_seed_keep_only",
   "default_source": "kunskap_content_seed",
   "entries": [
@@ -1794,6 +1794,16 @@
       "source_tier": "psychoeducation_general"
     },
     {
+      "id": "kunskap-fact-048",
+      "title": "WORM — oföränderlig beviskedja",
+      "content": "WORM (Write Once Read Many) innebär att sparade bevis i Valv och Barnen inte kan redigeras eller raderas av klienten efter skrivning — endast append med server-tidsstämpel. Syftet är trovärdig kronologi vid senare granskning, inte att automatiskt vinna tvist. Kunskap-FACT och WORM-bevis är separata silor; LLM blander dem inte i samma RAG-svar.",
+      "category": "produkt_sakerhet",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Verklighetsvalvet-SPEC; security.md U4",
+      "source_tier": "product_copy"
+    },
+    {
       "id": "kunskap-fact-cn-048",
       "title": "Hoovering via barn eller medlare",
       "content": "Hoovering kan ske indirekt: barn som budbärare, föräldramöten utan agenda, eller 'vi måste prata för barnens skull' efter gräns. Håll logistik kort (BIFF/Grey Rock); dokumentera datum och kanal i Valv om du sparar bevis — här är begreppet referens, inte din specifika händelse.",
@@ -1804,6 +1814,16 @@
       "source_tier": "psychoeducation_general"
     },
     {
+      "id": "kunskap-fact-049",
+      "title": "BRIS 116 111 — barn i akut psykisk kris",
+      "content": "BRIS (Barnens rätt i samhället) erbjuder anonymt stöd via telefon 116 111 och chatt för barn och unga. Föräldrar kan informera barn om numret utan att barnet behöver välja sida i vuxenkonflikt. BRIS ersätter inte BUP, skolkurator eller akut 112 — det är stöd i stunden. Generisk navigering — ej juridisk rådgivning.",
+      "category": "barn_neuro",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "BRIS.se; Barnombudet krisstöd (översikt)",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-cn-049",
       "title": "Projektion — attributera egna känslor till andra",
       "content": "Projektion innebär att en person beskriver dig med egenskaper eller avsikter som passar deras eget känsloläge. Dokumentera beteende och datum — inte diagnos. Vid sms: svara kort på logistik i Hamn.",
@@ -1811,6 +1831,16 @@
       "eventDate": null,
       "source": "kunskap_content_seed",
       "citation_hint": "kunskap-fact-047; tacticPatternLibrary",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-050",
+      "title": "1177 — vårdvägledning och rätt vårdnivå",
+      "content": "1177 Vårdguiden är den nationella ingången för sjukvårdsrådgivning i Sverige — dygnet runt. Den hjälper till att bedöma om situationen kräver vårdcentral, akutmottagning eller egenvård. Appen ersätter inte 1177 eller 112 vid akut fara. Psykoedukation i Livskompassen är inte medicinsk bedömning.",
+      "category": "juridik_logistik",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "1177.se; Socialstyrelsen vårdvägledning",
       "source_tier": "P2"
     },
     {
@@ -1824,6 +1854,16 @@
       "source_tier": "P2"
     },
     {
+      "id": "kunskap-fact-051",
+      "title": "Familjerätt — medling och föräldrarådgivning",
+      "content": "Familjerätten erbjuder medling och föräldrarådgivning kring vårdnad, boende och umgänge — ofta kostnadsfritt eller subventionerat. Syftet är att nå överenskommelser utan dom när möjligt. Medling kräver att båda parter deltar; ensidig kontakt ersätter inte jurist. Livskompassen dokumenterar inte automatiskt till familjerätten — det är användarens val.",
+      "category": "juridik_logistik",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Domstolsverket familjerätt; Föräldrabalken 6 kap. (översikt)",
+      "source_tier": "P2"
+    },
+    {
       "id": "kunskap-fact-cn-051",
       "title": "Tyst straff — tystnad som kontroll",
       "content": "Tyst straff: kommunikation stängs av som påföljd. Det är ett beteendemönster att dokumentera med datum — inte något du måste rätta till med JADE. Grey Rock på logistik vid behov.",
@@ -1832,6 +1872,66 @@
       "source": "kunskap_content_seed",
       "citation_hint": "cn-002; SILENT_TREATMENT",
       "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-052",
+      "title": "Prokrastination och exekutiv funktion",
+      "content": "Prokrastination vid ADHD och GAD handlar ofta om starttröskel, rädsla för misslyckande eller överväldigande — inte om lathet eller bristande vilja. Att dela uppgiften, sänka första steget och acceptera ofullständigt resultat är vanliga strategier i arbetsterapi och ACT-inspirerad självhjälp. Det ersätter inte behandling.",
+      "category": "adhd_vardag",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "NICE NG87 ADHD; behavioral activation overview",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-053",
+      "title": "Sensorisk paus — lugnande miljö",
+      "content": "Sensorisk paus innebär att tillfälligt minska intryck: mörkare rum, färre ljud, ingen skärm, enkel rörelse eller tyngd. Vid NPF och utmattning kan kroppen behöva flera minuter innan larmnivån sjunker — paus är inte undvikande av ansvar utan återställning. Anpassningar i skola och hem beskrivs ofta i åtgärdsprogram.",
+      "category": "barn_neuro",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Skolverket NPF-anpassning; sensory overload psychoeducation",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-054",
+      "title": "Co-regulation — vuxen lugn före barnets lugn",
+      "content": "Co-regulation innebär att ett lugnare vuxet nervsystem hjälper barnet att reglera känslor — genom närhet, lågaffektiv närvaro och förutsägbarhet, inte genom långa förklaringar i akut läge. Det ersätter inte professionellt stöd vid våld eller allvarlig omsorgsskada. I parallellt föräldraskap gäller samma princip i båda hem.",
+      "category": "barn_neuro",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "Circle of Security (översikt); polyvagal psychoeducation",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-055",
+      "title": "Långvarig stress — kroppen efter kris",
+      "content": "Efter månader eller år av hög stress kan kroppen fortsätta reagera som om hot kvarstår: trötthet, startle, koncentrationssvårigheter och sömnstörning. Det är vanliga fysiologiska mönster — inte tecken på att man \"borde vara över det\". Återhämtning tar tid och kräver ofta gradvis minskad belastning, inte bara positivt tänkande.",
+      "category": "gad_angest",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "1177 stress och utmattning; McEwen allostatic load (översikt)",
+      "source_tier": "P2"
+    },
+    {
+      "id": "kunskap-fact-056",
+      "title": "Kunskap RAG — citation JSON",
+      "content": "När Kunskapsvalvet svarar via RAG returneras svar med citation JSON som pekar på käll-id i kampspar — LLM skapar inte nya FACT i produktion. Användaren kan granska källan. Om frågan gäller personlig sms-analys eller bevis ska dirigenten peka till Hamn/Valv, inte Kunskap-coach.",
+      "category": "produkt_arkitektur",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "livskompassen-rag-retrieval SKILL; knowledgeVaultQuery",
+      "source_tier": "product_copy"
+    },
+    {
+      "id": "kunskap-fact-057",
+      "title": "DCAP — dataclassificering i Livskompassen",
+      "content": "DCAP (Data Classification and Protection) beskriver hur data klassas efter känslighet och vilken silo den tillhör: Kunskap-FACT, Valv-EVIDENCE, Barnen-EVIDENCE/PLAY, Vit-REFLECTION. Fel klassning ökar risk för att LLM behandlar spekulation som sanning. Ingest till Vector Search sker deterministiskt — inte av coach-runtime.",
+      "category": "produkt_sakerhet",
+      "eventDate": null,
+      "source": "kunskap_content_seed",
+      "citation_hint": "DCAP.ts; INNEHALL-REGISTER U6",
+      "source_tier": "product_copy"
     },
     {
       "id": "kunskap-fact-df-001",
