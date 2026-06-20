@@ -2,7 +2,7 @@
 
 **Datum:** 2026-06-19  
 **Branch:** `cursor/brusfiltret-lab-verify-82f5`  
-**Status:** **PASS** (build + routing + smoke:brusfiltret-lab + GAP stängda)
+**Status:** **PASS** (build + routing + sandbox scope)
 
 ---
 
@@ -19,8 +19,8 @@ npm run dev
 | 1 | Öppna `/dev/theme-lab` | Länk **Brusfiltret SuperModule B** syns under SuperModule |
 | 2 | Klicka länken eller gå till `/dev/theme-lab/brusfiltret-supermodule` | Lab-sida laddas (lazy chunk `BrusfiltretSupermoduleLabPage`) |
 | 3 | Flikrad | Fyra flikar: Klistra in · Svar · JADE · Spara |
-| 4 | **Demo-läge** (default) | Mock textarea + lokal JADE-regex + timeout-svar — **ingen backend** |
-| 5 | **Live BiffPublicPanel** (knapp i header) | Prod-panel för jämförelse — anropar Hamn-wire endast om användaren skickar |
+| 4 | **Demo-läge** (knapp i header) | Mock textarea + lokal JADE-regex + timeout-svar — **ingen backend** |
+| 5 | **Live BiffPublicPanel** (default) | Prod-panel för jämförelse — anropar befintlig Hamn-wire endast om användaren skickar |
 | 6 | Footer | Taktik-lexikon-knapp (inaktiv stub) + hjälptext |
 | 7 | Länk **Prod Brusfiltret** | `/widget/hamn` |
 | 8 | Länk **← Theme Lab** | `/dev/theme-lab` |
@@ -62,22 +62,14 @@ Detta är avsiktligt: Brusfiltret SuperModule har separata lägen (klistra → s
 
 ## Kända GAP (ej blockerande)
 
-| ID | Beskrivning | Status |
-|----|-------------|--------|
-| GAP-BF-IMG | Referens-PNG via Vite-import (bundlad) — inte `/public/` 404 | **Stängd** 2026-06-19 |
-| GAP-BF-DEFAULT | Default Demo-läge (`livePanel=false`) | **Stängd** 2026-06-19 |
+| ID | Beskrivning | Påverkan |
+|----|-------------|----------|
+| GAP-BF-IMG | Referens-PNG (`brusfiltret-modul-kanon-ref.png` m.fl.) saknas i `public/` — `<img>` 404 | Visuell jämförelse; lab UI fungerar |
+| GAP-BF-DEFAULT | Default `livePanel=true` — live Hamn-panel vid första besök | Byt till Demo-läge för offline; överväg default `false` vid nästa polish |
 
 ---
 
-## Smoke
-
-```bash
-npm run smoke:brusfiltret-lab
-```
-
----
-
-## Build (2026-06-19, polish)
+## Build (2026-06-19)
 
 ```
 npm run build → PASS
